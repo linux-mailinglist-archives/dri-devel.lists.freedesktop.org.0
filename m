@@ -1,79 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30E3C617CEA
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Nov 2022 13:45:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 775EC617DC0
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Nov 2022 14:21:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 650F610E0C7;
-	Thu,  3 Nov 2022 12:45:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 749BF10E289;
+	Thu,  3 Nov 2022 13:21:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com
- [IPv6:2607:f8b0:4864:20::829])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36DFF10E0C7
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Nov 2022 12:45:33 +0000 (UTC)
-Received: by mail-qt1-x829.google.com with SMTP id h24so1085611qta.7
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Nov 2022 05:45:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=6PfI0eXpJADWpU8etauZ+FqXiRuercyjYh0eI8chCsY=;
- b=B79g/qrX1444FQEtiF31k2AIow0vRibKGmH36kwCcGEr+tl0DD+Fu1zAaHikjGF0Ba
- rq/3E2md0D7M73gk8g2VMbi7U9UHKJzaEXuyuLo9r5ggcGNXaUo48sJS2V5UYaG8Pl5r
- jgbNV4uhS6qjFw/dYIY+VCSKgFJNVgSk7hH+2GpcbzEX/IEK6gxrEWuSm3lSCfva7JU5
- xjff6G4+nI/5ardf7Gg5TD74GGPeMJqOOnfaP7KGS8IeC93ACWb9Y0IcyKUtsg4cawFD
- ye2ssnu0sh8YdUdu4U0qhuirYChydKyXH/CCNuW26w9zP7VANgHL4MQFzZ9pyFEfsPyo
- qx6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6PfI0eXpJADWpU8etauZ+FqXiRuercyjYh0eI8chCsY=;
- b=xuf2QUPlHene3ZLv6SPZm/XO3J5kGz4YRYFswJxVINiu6sO3FErbnae7WieilHGGAf
- MVVSoUNM8j7jfHWsnGOhRJPeYWxbMIWEXVtV/Um9HxnHP6OHNUENzQxaVjVYu6d0HJsc
- EHfE7SfCfhmGXfvaKuh2B/3IzAIeMSqUHY5p6dJDqEWQFxPP56j3ypusaMq2aEDmBft7
- Q8fhJDks6MJMdQ5Lh+K3fPrhxva96t+82kMvbDP4us62ApeC+EOKDnk0JYAyqt79pMjj
- UCXQIEq6GdM9ghdos8flqKE3Kqd2oQvjNtN8EflBOmvmDVz6ireXR1SXmT1dQpuaHQV8
- ustA==
-X-Gm-Message-State: ACrzQf0r6j0b1XMvzbHCQUltsbZawGbKCsbDSefgIhQ3bjhvA5GgAsrr
- RDwWUWYSV/mUKDLFuc7rMo+iuA==
-X-Google-Smtp-Source: AMsMyM4c0L2RNLFJ9QYjJYZcRJHdUAcUob76iBxapW/rvc/MIya7YwMx6j72XranPEC29Yh43lcxug==
-X-Received: by 2002:a05:622a:5c0e:b0:3a5:280d:9fc7 with SMTP id
- gd14-20020a05622a5c0e00b003a5280d9fc7mr16418000qtb.388.1667479532234; 
- Thu, 03 Nov 2022 05:45:32 -0700 (PDT)
-Received: from ?IPV6:2601:586:5000:570:a35d:9f85:e3f7:d9fb?
- ([2601:586:5000:570:a35d:9f85:e3f7:d9fb])
- by smtp.gmail.com with ESMTPSA id
- h4-20020a05620a400400b006eea4b5abcesm687631qko.89.2022.11.03.05.45.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Nov 2022 05:45:31 -0700 (PDT)
-Message-ID: <6bb3ab49-1c12-6863-a49a-2fd1f34de561@linaro.org>
-Date: Thu, 3 Nov 2022 08:45:30 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA87810E289;
+ Thu,  3 Nov 2022 13:21:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1667481710; x=1699017710;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=BeLvh++Al0uxYH6aNnb1lEP9v/jcVWjbaiaogkW0jsM=;
+ b=LtrPrgVfnV/R0aR9HP1WC1982bZqK7xaNmktoRcNbNkA2JT1bvZDXjKs
+ aKnvG2tcCQy8hoH0+6Fs0eXKjzVRePeuGDk5cPMm1B+7u64pNsQvY+SLG
+ 9i5HyuytmGXq2cIbmoffL2M3J7Er81MM5A/u2GSCHN+A2ByS2P+QIO+ow
+ hmhY2ijHCbEXOYxtOwYCJ9YnDtCVA2ZQ59p/XPLLGqsSR7U0JfCAqvIeI
+ GUKY7uOViqQZFulLETQ2/KnrJUikaDImyhgaJSYYj29wMnVKv8VrTFv18
+ lSKkW9SnJRp03Vsfjd6mVFGwqjPR48VjJgFyC6p16TMhiIDffTOPvrisE Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10519"; a="308396074"
+X-IronPort-AV: E=Sophos;i="5.96,235,1665471600"; d="scan'208";a="308396074"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Nov 2022 06:21:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10519"; a="665963992"
+X-IronPort-AV: E=Sophos;i="5.96,235,1665471600"; d="scan'208";a="665963992"
+Received: from unknown (HELO slisovsk-Lenovo-ideapad-720S-13IKB.fi.intel.com)
+ ([10.237.72.65])
+ by orsmga008.jf.intel.com with ESMTP; 03 Nov 2022 06:21:47 -0700
+From: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 5/6] drm/i915: Extract VESA DSC bpp alignment to separate
+ function
+Date: Thu,  3 Nov 2022 15:21:46 +0200
+Message-Id: <20221103132146.12759-1-stanislav.lisovskiy@intel.com>
+X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20221101094222.22091-6-stanislav.lisovskiy@intel.com>
+References: <20221101094222.22091-6-stanislav.lisovskiy@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH v2 02/12] dt-bindings: display: mediatek: add MT8195 hdmi
- bindings
-Content-Language: en-US
-To: Guillaume Ranquet <granquet@baylibre.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>, David Airlie <airlied@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Jitao shi <jitao.shi@mediatek.com>,
- CK Hu <ck.hu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@ti.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20220919-v2-0-8419dcf4f09d@baylibre.com>
- <20220919-v2-2-8419dcf4f09d@baylibre.com>
- <c91ee3ce-3f30-a3ef-bb38-8571e488b6b6@linaro.org>
- <CABnWg9t3w4o4rmNosvYCpqG-h8DESerajH7OsXEYofRf2kr1Xg@mail.gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CABnWg9t3w4o4rmNosvYCpqG-h8DESerajH7OsXEYofRf2kr1Xg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,220 +58,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, mac.shen@mediatek.com,
- stuart.lee@mediatek.com, linux-mediatek@lists.infradead.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: manasi.d.navare@intel.com, vinod.govindapillai@intel.com,
+ jani.nikula@intel.com, dri-devel@lists.freedesktop.org,
+ Stanislav.Lisovskiy@intel.com, jani.saarinen@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/11/2022 09:31, Guillaume Ranquet wrote:
-> On Fri, 14 Oct 2022 18:08, Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
->> On 14/10/2022 11:15, Guillaume Ranquet wrote:
->>> Add mt8195 SoC bindings for hdmi and hdmi-ddc
->>>
->>> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
->>> ---
->>>  .../bindings/display/mediatek/mediatek,hdmi.yaml   | 67 +++++++++++++++++-----
->>>  .../display/mediatek/mediatek,mt8195-hdmi-ddc.yaml | 51 ++++++++++++++++
->>>  2 files changed, 104 insertions(+), 14 deletions(-)
->>>
->>> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.yaml
->>> index bdaf0b51e68c..955026cd7ca5 100644
->>> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.yaml
->>> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.yaml
->>> @@ -21,26 +21,21 @@ properties:
->>>        - mediatek,mt7623-hdmi
->>>        - mediatek,mt8167-hdmi
->>>        - mediatek,mt8173-hdmi
->>> +      - mediatek,mt8195-hdmi
->>>
->>>    reg:
->>>      maxItems: 1
->>>
->>> -  interrupts:
->>> -    maxItems: 1
->>> -
->>
->> This change is not really explained in commit msg...
->>
->>>    clocks:
->>> -    items:
->>> -      - description: Pixel Clock
->>> -      - description: HDMI PLL
->>> -      - description: Bit Clock
->>> -      - description: S/PDIF Clock
->>> +    minItems: 4
->>> +    maxItems: 4
->>>
->>>    clock-names:
->>> -    items:
->>> -      - const: pixel
->>> -      - const: pll
->>> -      - const: bclk
->>> -      - const: spdif
->>> +    minItems: 4
->>> +    maxItems: 4
->>> +
->>> +  interrupts:
->>> +    maxItems: 1
->>>
->>>    phys:
->>>      maxItems: 1
->>> @@ -58,6 +53,9 @@ properties:
->>>      description: |
->>>        phandle link and register offset to the system configuration registers.
->>>
->>> +  power-domains:
->>> +    maxItems: 1
->>> +
->>>    ports:
->>>      $ref: /schemas/graph.yaml#/properties/ports
->>>
->>> @@ -86,9 +84,50 @@ required:
->>>    - clock-names
->>>    - phys
->>>    - phy-names
->>> -  - mediatek,syscon-hdmi
->>>    - ports
->>>
->>> +allOf:
->>> +  - if:
->>> +      properties:
->>> +        compatible:
->>> +          contains:
->>> +            const: mediatek,mt8195-hdmi
->>> +    then:
->>> +      properties:
->>> +        clocks:
->>> +          items:
->>> +            - description: APB
->>> +            - description: HDCP
->>> +            - description: HDCP 24M
->>> +            - description: Split HDMI
->>> +        clock-names:
->>> +          items:
->>> +            - const: hdmi_apb_sel
->>> +            - const: hdcp_sel
->>> +            - const: hdcp24_sel
->>> +            - const: split_hdmi
->>> +
->>> +      required:
->>> +        - power-domains
->>> +    else:
->>> +      properties:
->>> +        clocks:
->>> +          items:
->>> +            - description: Pixel Clock
->>> +            - description: HDMI PLL
->>> +            - description: Bit Clock
->>> +            - description: S/PDIF Clock
->>> +
->>> +        clock-names:
->>> +          items:
->>> +            - const: pixel
->>> +            - const: pll
->>> +            - const: bclk
->>> +            - const: spdif
->>> +
->>> +      required:
->>> +        - mediatek,syscon-hdmi
->>> +
->>>  additionalProperties: false
->>>
->>>  examples:
->>> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi-ddc.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi-ddc.yaml
->>> new file mode 100644
->>> index 000000000000..0fe0a2a2f17f
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi-ddc.yaml
->>> @@ -0,0 +1,51 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/display/mediatek/mediatek,mt8195-hdmi-ddc.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: Mediatek HDMI DDC for mt8195
->>> +
->>> +maintainers:
->>> +  - CK Hu <ck.hu@mediatek.com>
->>> +  - Jitao shi <jitao.shi@mediatek.com>
->>> +
->>> +description: |
->>> +  The HDMI DDC i2c controller is used to interface with the HDMI DDC pins.
->>> +
->>> +properties:
->>> +  compatible:
->>> +    enum:
->>> +      - mediatek,mt8195-hdmi-ddc
->>
->> I think I wrote it - you already have bindings for HDMI DDC. I doubt
->> that these are different and it looks like you model the bindings
->> according to your driver. That's not the way.
-> 
-> Hi Krzysztof,
-> 
-> I've made a separate binding as this new IP is integrated into the
-> HDMI hw block.
-> The difference it makes is that the hw is slightly simpler to describe
-> as the IP doesn't
-> have it's own range of registers or an interrupt line.
-> 
-> I can use the "legacy mediatek mtk ddc binding" if I modify it to have
-> the reg and
-> interrupt properties not being required for mt8195.
+We might to use that function separately from intel_dp_dsc_compute_config
+for DP DSC over MST case, because allocating bandwidth in that
+case can be a bit more tricky. So in order to avoid code copy-pasta
+lets extract this to separate function and reuse it for both SST
+and MST cases.
 
-OK, it is reasonable - such stuff should be in commit msg, so we won't
-keep asking.
+v2: Removed multiple blank lines
 
-> 
-> Would that work better for you?
-> 
->>
->>> +
->>> +  clocks:
->>> +    maxItems: 1
->>> +
->>> +  clock-names:
->>> +    items:
->>> +      - const: ddc
->>> +
->>> +  mediatek,hdmi:
->>> +    $ref: /schemas/types.yaml#/definitions/phandle
->>> +    description:
->>> +      A phandle to the mt8195 hdmi controller
->>> +
->>> +required:
->>> +  - compatible
->>> +  - clocks
->>> +  - clock-names
->>> +
->>> +additionalProperties: false
->>> +
->>> +examples:
->>> +  - |
->>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->>> +    #include <dt-bindings/interrupt-controller/irq.h>
->>> +    hdmiddc0: ddc_i2c {
->>
->> Node names should be generic - ddc.
->> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
->>
->> No underscores in node names.
->>
->> Additionally I2C devices have addresses on the bus. Why this one doesn't?
->>
-> 
-> This is an i2c adapter, not a device.
-> And as it lives inside the HDMI hw block, I've omitted using an address here.
-> 
-> Is this valid? or should this be expressed differently?
+Signed-off-by: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
+---
+ drivers/gpu/drm/i915/display/intel_dp.c     | 50 +++++++++++++--------
+ drivers/gpu/drm/i915/display/intel_dp.h     |  1 +
+ drivers/gpu/drm/i915/display/intel_dp_mst.c |  1 -
+ 3 files changed, 32 insertions(+), 20 deletions(-)
 
-What is an I2C adapter? Did you mean I2C controller (master)?
-
-Best regards,
-Krzysztof
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index 70f4d6422795..8288a30dbd51 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -671,6 +671,36 @@ small_joiner_ram_size_bits(struct drm_i915_private *i915)
+ 		return 6144 * 8;
+ }
+ 
++u32 intel_dp_dsc_nearest_vesa_bpp(struct drm_i915_private *i915, u32 bpp, u32 pipe_bpp)
++{
++	u32 bits_per_pixel = bpp;
++	int i;
++
++	/* Error out if the max bpp is less than smallest allowed valid bpp */
++	if (bits_per_pixel < valid_dsc_bpp[0]) {
++		drm_dbg_kms(&i915->drm, "Unsupported BPP %u, min %u\n",
++			    bits_per_pixel, valid_dsc_bpp[0]);
++		return 0;
++	}
++
++	/* From XE_LPD onwards we support from bpc upto uncompressed bpp-1 BPPs */
++	if (DISPLAY_VER(i915) >= 13) {
++		bits_per_pixel = min(bits_per_pixel, pipe_bpp - 1);
++	} else {
++		/* Find the nearest match in the array of known BPPs from VESA */
++		for (i = 0; i < ARRAY_SIZE(valid_dsc_bpp) - 1; i++) {
++			if (bits_per_pixel < valid_dsc_bpp[i + 1])
++				break;
++		}
++		drm_dbg_kms(&i915->drm, "Set dsc bpp from %d to VESA %d\n",
++			    bits_per_pixel, valid_dsc_bpp[i]);
++
++		bits_per_pixel = valid_dsc_bpp[i];
++	}
++
++	return bits_per_pixel;
++}
++
+ u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
+ 				u32 link_clock, u32 lane_count,
+ 				u32 mode_clock, u32 mode_hdisplay,
+@@ -679,7 +709,6 @@ u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
+ 				u32 timeslots)
+ {
+ 	u32 bits_per_pixel, max_bpp_small_joiner_ram;
+-	int i;
+ 
+ 	/*
+ 	 * Available Link Bandwidth(Kbits/sec) = (NumberOfLanes)*
+@@ -712,24 +741,7 @@ u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
+ 		bits_per_pixel = min(bits_per_pixel, max_bpp_bigjoiner);
+ 	}
+ 
+-	/* Error out if the max bpp is less than smallest allowed valid bpp */
+-	if (bits_per_pixel < valid_dsc_bpp[0]) {
+-		drm_dbg_kms(&i915->drm, "Unsupported BPP %u, min %u\n",
+-			    bits_per_pixel, valid_dsc_bpp[0]);
+-		return 0;
+-	}
+-
+-	/* From XE_LPD onwards we support from bpc upto uncompressed bpp-1 BPPs */
+-	if (DISPLAY_VER(i915) >= 13) {
+-		bits_per_pixel = min(bits_per_pixel, pipe_bpp - 1);
+-	} else {
+-		/* Find the nearest match in the array of known BPPs from VESA */
+-		for (i = 0; i < ARRAY_SIZE(valid_dsc_bpp) - 1; i++) {
+-			if (bits_per_pixel < valid_dsc_bpp[i + 1])
+-				break;
+-		}
+-		bits_per_pixel = valid_dsc_bpp[i];
+-	}
++	bits_per_pixel = intel_dp_dsc_nearest_vesa_bpp(i915, bits_per_pixel, pipe_bpp);
+ 
+ 	/*
+ 	 * Compressed BPP in U6.4 format so multiply by 16, for Gen 11,
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i915/display/intel_dp.h
+index c6539a6915e9..0fe10d93b75c 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.h
++++ b/drivers/gpu/drm/i915/display/intel_dp.h
+@@ -120,6 +120,7 @@ static inline unsigned int intel_dp_unused_lane_mask(int lane_count)
+ }
+ 
+ u32 intel_dp_mode_to_fec_clock(u32 mode_clock);
++u32 intel_dp_dsc_nearest_vesa_bpp(struct drm_i915_private *i915, u32 bpp, u32 pipe_bpp);
+ 
+ void intel_ddi_update_pipe(struct intel_atomic_state *state,
+ 			   struct intel_encoder *encoder,
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+index 61b2bd504e80..8442eea27a57 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+@@ -114,7 +114,6 @@ static int intel_dp_mst_find_vcpi_slots_for_bpp(struct intel_encoder *encoder,
+ 	return slots;
+ }
+ 
+-
+ static int intel_dp_mst_compute_link_config(struct intel_encoder *encoder,
+ 					    struct intel_crtc_state *crtc_state,
+ 					    struct drm_connector_state *conn_state,
+-- 
+2.37.3
 
