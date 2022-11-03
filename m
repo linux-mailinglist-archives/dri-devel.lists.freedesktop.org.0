@@ -2,79 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26B3D617F44
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Nov 2022 15:19:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D00F5617F63
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Nov 2022 15:24:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDCB910E2B5;
-	Thu,  3 Nov 2022 14:19:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4407D10E3CA;
+	Thu,  3 Nov 2022 14:24:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21F6310E2B5
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Nov 2022 14:19:12 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id d6so3041269lfs.10
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Nov 2022 07:19:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:references:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=eQeJmfmldXG6hvj59+k+TbhmV1qXG3RlPlcNF3t/Ui4=;
- b=eIfFSn41vRIjqtDk+mjUsF7IHFNarF4VsRCOuE8POYhXnp6oyBT+6h9EQ1bjtm5BWh
- AZ+EbEpHlwSptAfm8e1snxWMK+7TlKekN7dEgqanRoSeyPN5aTtMofJ13dBGwQsr80Ez
- wBcE5Jn9tDj00EqMtqXabzEmRFMzQ0WOW9aavZ0tJ/f5n8H0HzJLt79JwtfTc76HeF36
- TKy1YClxtnIW6Dd/gNcrQBanCHacDuJsOzBzmTKY6dyC8+fNm1Zj1cWneI9kpuL25iyv
- PgnXfvXtdFp0Mbb5x//hk1sNCLRL4BpRs6BfgqjR3yNsSUQbyeYjSWa41lJ7Zjeq9GG/
- iakQ==
+Received: from mail-oo1-xc2f.google.com (mail-oo1-xc2f.google.com
+ [IPv6:2607:f8b0:4864:20::c2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DBEB10E2A9;
+ Thu,  3 Nov 2022 14:24:50 +0000 (UTC)
+Received: by mail-oo1-xc2f.google.com with SMTP id
+ r10-20020a4aa2ca000000b0049dd7ad4128so277184ool.13; 
+ Thu, 03 Nov 2022 07:24:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=u/xSN01Y9d0jDzJ8OY9Uml07yt5pXMZDHAA6O3LIwM4=;
+ b=NNfn/U3u6fGUpwAIsw3QI8vNRnfExdw5AISKpSm4hA6ez4yskkICLV8O8q13vBNKGy
+ LBoq/BR7pVxnBdmFGt3N2K+QjSb67MZKOkjy/6Cpcp6i0HveRrVB87dbnQpHrpRVp5CA
+ VGRXD5zRtwfjbHGuS01PUBwws170k6uz3M7FF45R1A2x3CYKOpYY9fQYmV4vyxg3cUFu
+ uMkh4HmUbnTHjukHQ5YYvKPAqXRMwLy6pw/asV0tJBah6yMnfKUGyvEjznb1A6P62YX9
+ 5s9pr6+zOe7WD8wmYtuovrLYL6CjXWg1i6hiFt0Yqovv681rh6t0OqM/LQXQElYc5sGI
+ FUlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=eQeJmfmldXG6hvj59+k+TbhmV1qXG3RlPlcNF3t/Ui4=;
- b=5KzyyGDPyGkWyRWUXwuMhX2nsRbaaGUMkvoJB2yhk8TdN+E2aVE7QrkGQJGCIwUk3R
- w4ofHbHu7jiguslvH2ZxM2aYqVfeJGkU5IQ0qvk9TLgcw6f/LR09lF2r2JG2f0d2SGyu
- 8V3cK9snFOLPShnWf4K1k8pyIy1IMthNFQyTLbdy6YsCtxri1qTU4u9o+++/WekX5iMQ
- 5OtQtSVVtWNH02HxrKBdPtU7S+z2JzJ5gDIvkdYbWEh5Ux6TI32r4PuBUoFdzTKJcKyD
- PYWE9Po8AXemrEcp3tNSJrIWYCzeygSRlgddGholCaI7sy/4FprPm0e7voAAlwTX651m
- Ya+g==
-X-Gm-Message-State: ACrzQf0mUSUgNtEB6vxCvYExw8NLhs3qnEuWzMWJ+RqmyLR8SL917CT/
- 1BBKuWL0rpMznxFkhHtdYzE/+Q==
-X-Google-Smtp-Source: AMsMyM65B2GojMWZBZ7SW9Nj3gk8ZeKbb0JxUBUaGHgAfQk1+agMmGU6PEhntoiaifEbaTv7V4bKUQ==
-X-Received: by 2002:ac2:4842:0:b0:4a0:53a0:51c with SMTP id
- 2-20020ac24842000000b004a053a0051cmr11288589lfy.202.1667485150143; 
- Thu, 03 Nov 2022 07:19:10 -0700 (PDT)
-Received: from [10.10.15.130] ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- b24-20020a056512061800b0049876c1bb24sm144454lfe.225.2022.11.03.07.19.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Nov 2022 07:19:09 -0700 (PDT)
-Message-ID: <b1aea0c6-1f62-57bd-3ea2-6e4334e1003e@linaro.org>
-Date: Thu, 3 Nov 2022 17:19:08 +0300
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=u/xSN01Y9d0jDzJ8OY9Uml07yt5pXMZDHAA6O3LIwM4=;
+ b=TgaaPsddbLvX+HR1/68itJFqFGtiXklh8qGcaO984aK4nfSqq7Fp9sy2sEHyASfCGz
+ pmhK/JCmgkuZcB9U7Vol5s3HNXwUoCetXHtbrOy/KlzFX5Q3dt/o+nhVgbErmFIi6xJI
+ qG+E6SkjOcnrWq4F7q6JPb8U8IdffurALDTQXXXn/mKb0iOULreepQwnZqdVv9WN6K1u
+ e41s15S9JIFcwLJuZI4TxFLhqK09FGhFsNNeCE6rjmtg+aIAUhv1F9tbSKmwPAnY2nWk
+ cuYeutBoSjKDTs1ea7T4qeb6hLN6wmUIBNO4XTDi20fEewZL7V8rveDNdOuDyfaAYZxN
+ F2TQ==
+X-Gm-Message-State: ACrzQf3v6+e+BG35L/FtkiTebDXKGU3qrcXghKK93dSfqaRSYMVy8wSZ
+ 33Nie+gwMRNkKlemUKddhpDhBCpNc04t/tUyIVQ=
+X-Google-Smtp-Source: AMsMyM6J5QRMxRp64kRAdhF5yjjfT9WHNQctflNk+E6Xp1u2gW/bCaFAXyDhIRKAHdTzy+3zP3AgCHbpg71s/ISYB+o=
+X-Received: by 2002:a4a:a68b:0:b0:496:2521:c81d with SMTP id
+ f11-20020a4aa68b000000b004962521c81dmr12952579oom.80.1667485489693; Thu, 03
+ Nov 2022 07:24:49 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH v1 9/9] arm64: dts: qcom: sm8350-hdk: Enable lt9611uxc
- dsi-hdmi bridge
-Content-Language: en-GB
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Robert Foss <robert.foss@linaro.org>, agross@kernel.org,
- bjorn.andersson@linaro.org, konrad.dybcio@somainline.org,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, robdclark@gmail.com,
- quic_abhinavk@quicinc.com, sean@poorly.run, airlied@linux.ie,
- daniel@ffwll.ch, quic_kalyant@quicinc.com, swboyd@chromium.org,
- angelogioacchino.delregno@somainline.org, loic.poulain@linaro.org,
- quic_vpolimer@quicinc.com, vkoul@kernel.org, dianders@chromium.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
- vinod.koul@linaro.org, quic_jesszhan@quicinc.com
-References: <20221028120812.339100-1-robert.foss@linaro.org>
- <20221028120812.339100-10-robert.foss@linaro.org>
- <bbce3d37-019b-a652-4f1d-18fb9493f7de@linaro.org>
-In-Reply-To: <bbce3d37-019b-a652-4f1d-18fb9493f7de@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20221101223319.165493-1-robdclark@gmail.com>
+ <20221101223319.165493-3-robdclark@gmail.com>
+ <bf5fb954-c71b-f02f-5300-4e030b10811a@linaro.org>
+In-Reply-To: <bf5fb954-c71b-f02f-5300-4e030b10811a@linaro.org>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 3 Nov 2022 07:25:07 -0700
+Message-ID: <CAF6AEGtzfoxKLi7FrHRgdp-ft32rFH1XzEeu11SeH3c0Lodj0w@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] drm/msm: Hangcheck progress detection
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,29 +67,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Rob Clark <robdclark@chromium.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>, Sean Paul <sean@poorly.run>,
+ freedreno@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/10/2022 16:56, Dmitry Baryshkov wrote:
-> On 28/10/2022 15:08, Robert Foss wrote:
->> The sm8350-hdk ships with the LT9611 UXC DSI/HDMI bridge chip.
->>
->> In order to toggle the board to enable the HDMI output,
->> switch #7 & #8 on the rightmost multi-switch package have
->> to be toggled to On.
-> 
-> Since this doesn't look like a default setup, it would probably make 
-> sense to move this to new sm8350-hdk-hdmi.dts with the comment regarding 
-> necessary switch changes at the top of the file.
-> 
+On Wed, Nov 2, 2022 at 4:26 PM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> On 02/11/2022 01:33, Rob Clark wrote:
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > If the hangcheck timer expires, check if the fw's position in the
+> > cmdstream has advanced (changed) since last timer expiration, and
+> > allow it up to three additional "extensions" to it's alotted time.
+> > The intention is to continue to catch "shader stuck in a loop" type
+> > hangs quickly, but allow more time for things that are actually
+> > making forward progress.
+>
+> Just out of curiosity: wouldn't position also change for a 'shader stuck
+> in a loop'?
 
-Please excuse me here. I checked the Lantronix site. It clearly names 
-'Optional Display/Expansion board mates to DSI connectors'. So, you were 
-correct, the HDMI should be in the base setup, while DSI panel should 
-come as the extending DT file.
+There is some pipelining, in that there can be a couple draws in
+flight at the same time, and SQE is running ahead of that, but with a
+shader stuck in a loop the associated draw will not complete, and that
+will halt forward progress through the cmdstream.  Basically what this
+is doing is detecting that forward progress through the cmdstream has
+stopped.
 
+BR,
+-R
 
--- 
-With best wishes
-Dmitry
-
+>
+> > Because we need to sample the CP state twice to detect if there has
+> > not been progress, this also cuts the the timer's duration in half.
+> >
+> > v2: Fix typo (REG_A6XX_CP_CSQ_IB2_STAT), add comment
+> >
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > Reviewed-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+>
+>
+>
+> --
+> With best wishes
+> Dmitry
+>
