@@ -1,49 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9264D6173C4
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Nov 2022 02:33:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 147796173DD
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Nov 2022 02:49:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 871A410E55E;
-	Thu,  3 Nov 2022 01:33:21 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7669B10E55A;
- Thu,  3 Nov 2022 01:33:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1667439196; x=1698975196;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=XJVUY0ypgogvw5FGeRhx5Q+ydRs2Px4kwblb6tXcbxk=;
- b=cCyucFIliEqjlgqOyZDRJADe04XKdbgKUM8pJa0gSWmhcj0eYwK1FY8p
- LpcWY4oegQVSsV2pziMz31kVUtT9UzQH4p9J4tERLdU5xKA9mago4RF1p
- URVdAbeUkil3CWChRSYkKQ4ehjT1piQAUK3fjG1g3NuFMZXz6fmXOHUl+
- sOw1nhnMfhDrIwyFFqpUp7IJttfxoz0nX3zgtpYfdLkD+m1bdhdrfERkB
- 4qgSENgETo0AfAahHbCS2DHyWvQaLI7sx4tqAgZMxBVBSQLh2OrwZ3SJl
- ZtzqU0d/Mj0Y6hK9j+hNKNNjjXUN8qJqyidOA8VSYUMBxgDIwRKJKGGO9 w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10519"; a="289272147"
-X-IronPort-AV: E=Sophos;i="5.95,235,1661842800"; d="scan'208";a="289272147"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2022 18:33:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10519"; a="777115116"
-X-IronPort-AV: E=Sophos;i="5.95,235,1661842800"; d="scan'208";a="777115116"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.154])
- by fmsmga001.fm.intel.com with ESMTP; 02 Nov 2022 18:33:15 -0700
-From: John.C.Harrison@Intel.com
-To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH] drm/i915: Don't wait forever in drop_caches
-Date: Wed,  2 Nov 2022 18:35:02 -0700
-Message-Id: <20221103013502.2804729-1-John.C.Harrison@Intel.com>
-X-Mailer: git-send-email 2.37.3
+	by gabe.freedesktop.org (Postfix) with ESMTP id 982AE10E215;
+	Thu,  3 Nov 2022 01:49:29 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E42010E215
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Nov 2022 01:49:24 +0000 (UTC)
+Received: from dggpeml500024.china.huawei.com (unknown [172.30.72.54])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4N2mnb090ZzJnR2;
+ Thu,  3 Nov 2022 09:46:27 +0800 (CST)
+Received: from huawei.com (10.175.112.208) by dggpeml500024.china.huawei.com
+ (7.185.36.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Thu, 3 Nov
+ 2022 09:49:21 +0800
+From: Yuan Can <yuancan@huawei.com>
+To: <linus.walleij@linaro.org>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/mcde: Fix missing platform_unregister_drivers() call in
+ mcde_drm_register()
+Date: Thu, 3 Nov 2022 01:46:49 +0000
+Message-ID: <20221103014649.109155-1-yuancan@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.112.208]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpeml500024.china.huawei.com (7.185.36.10)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,88 +45,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
+Cc: yuancan@huawei.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
+A problem about modprobe mcde_drm failed is triggered with the following
+log given:
 
-At the end of each test, IGT does a drop caches call via debugfs with
-special flags set. One of the possible paths waits for idle with an
-infinite timeout. That causes problems for debugging issues when CI
-catches a "can't go idle" test failure. Best case, the CI system times
-out (after 90s), attempts a bunch of state dump actions and then
-reboots the system to recover it. Worst case, the CI system can't do
-anything at all and then times out (after 1000s) and simply reboots.
-Sometimes a serial port log of dmesg might be available, sometimes not.
+ [ 2387.922993] Error: Driver 'mcde-dsi' is already registered, aborting...
+ [ 2387.924272] failed to register platform driver mcde_dsi_driver [mcde_drm]: -16
+ modprobe: ERROR: could not insert 'mcde_drm': Device or resource busy
 
-So rather than making life hard for ourselves, change the timeout to
-be 10s rather than infinite. Also, trigger the standard
-wedge/reset/recover sequence so that testing can continue with a
-working system (if possible).
+The reason is that mcde_drm_register() returns platform_driver_register()
+directly without checking its return value, if platform_driver_register()
+fails, it returns without unregistering mcde_dsi_driver, resulting the
+mcde_drm can never be installed later.
+A simple call graph is shown as below:
 
-v2: Rationalise timeout defines (review feedback from Jani & Tvrtko).
+ mcde_drm_register()
+   platform_register_drivers() # mcde_dsi_driver are registered
+   platform_driver_register()
+     driver_register()
+       bus_add_driver()
+         priv = kzalloc(...) # OOM happened
+   # return without unregister mcde_dsi_driver
 
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+Fixing this problem by checking the return value of
+platform_driver_register() and do platform_unregister_drivers() if
+error happened.
+
+Fixes: 5fc537bfd000 ("drm/mcde: Add new driver for ST-Ericsson MCDE")
+Signed-off-by: Yuan Can <yuancan@huawei.com>
 ---
- drivers/gpu/drm/i915/i915_debugfs.c | 10 ++++++++--
- drivers/gpu/drm/i915/i915_drv.h     |  2 --
- 2 files changed, 8 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/mcde/mcde_drv.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
-index ae987e92251dd..a224584ea4eb1 100644
---- a/drivers/gpu/drm/i915/i915_debugfs.c
-+++ b/drivers/gpu/drm/i915/i915_debugfs.c
-@@ -621,6 +621,9 @@ DEFINE_SIMPLE_ATTRIBUTE(i915_perf_noa_delay_fops,
- 			i915_perf_noa_delay_set,
- 			"%llu\n");
+diff --git a/drivers/gpu/drm/mcde/mcde_drv.c b/drivers/gpu/drm/mcde/mcde_drv.c
+index 1c4482ad507d..0391a62dc1b8 100644
+--- a/drivers/gpu/drm/mcde/mcde_drv.c
++++ b/drivers/gpu/drm/mcde/mcde_drv.c
+@@ -494,7 +494,12 @@ static int __init mcde_drm_register(void)
+ 	if (ret)
+ 		return ret;
  
-+#define DROPCACHE_IDLE_ENGINES_TIMEOUT_MS	200
-+#define DROPCACHE_IDLE_GT_TIMEOUT		(HZ * 10)
+-	return platform_driver_register(&mcde_driver);
++	ret = platform_driver_register(&mcde_driver);
++	if (ret)
++		platform_unregister_drivers(component_drivers,
++					    ARRAY_SIZE(component_drivers));
 +
- #define DROP_UNBOUND	BIT(0)
- #define DROP_BOUND	BIT(1)
- #define DROP_RETIRE	BIT(2)
-@@ -641,6 +644,7 @@ DEFINE_SIMPLE_ATTRIBUTE(i915_perf_noa_delay_fops,
- 		  DROP_RESET_ACTIVE | \
- 		  DROP_RESET_SEQNO | \
- 		  DROP_RCU)
-+
- static int
- i915_drop_caches_get(void *data, u64 *val)
- {
-@@ -654,14 +658,16 @@ gt_drop_caches(struct intel_gt *gt, u64 val)
- 	int ret;
++	return ret;
+ }
  
- 	if (val & DROP_RESET_ACTIVE &&
--	    wait_for(intel_engines_are_idle(gt), I915_IDLE_ENGINES_TIMEOUT))
-+	    wait_for(intel_engines_are_idle(gt), DROPCACHE_IDLE_ENGINES_TIMEOUT_MS))
- 		intel_gt_set_wedged(gt);
- 
- 	if (val & DROP_RETIRE)
- 		intel_gt_retire_requests(gt);
- 
- 	if (val & (DROP_IDLE | DROP_ACTIVE)) {
--		ret = intel_gt_wait_for_idle(gt, MAX_SCHEDULE_TIMEOUT);
-+		ret = intel_gt_wait_for_idle(gt, DROPCACHE_IDLE_GT_TIMEOUT);
-+		if (ret == -ETIME)
-+			intel_gt_set_wedged(gt);
- 		if (ret)
- 			return ret;
- 	}
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index 05b3300cc4edf..4c2adaad8e9ed 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -162,8 +162,6 @@ struct i915_gem_mm {
- 	u32 shrink_count;
- };
- 
--#define I915_IDLE_ENGINES_TIMEOUT (200) /* in ms */
--
- unsigned long i915_fence_context_timeout(const struct drm_i915_private *i915,
- 					 u64 context);
- 
+ static void __exit mcde_drm_unregister(void)
 -- 
-2.37.3
+2.17.1
 
