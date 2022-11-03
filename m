@@ -1,58 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CB21618BC1
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Nov 2022 23:43:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33D3F618BCE
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Nov 2022 23:47:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 900A410E667;
-	Thu,  3 Nov 2022 22:43:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B456110E660;
+	Thu,  3 Nov 2022 22:47:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
- [IPv6:2a00:1450:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D86D10E64E
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Nov 2022 22:43:39 +0000 (UTC)
-Received: by mail-ed1-x52a.google.com with SMTP id l11so5230174edb.4
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Nov 2022 15:43:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Jd+95pRwcxrkU7i1WeLZFk3609cHUQanlEr+O+q7AMU=;
- b=grrkGLHOekYBsmHndxCLb6hE0OliZNO5wAlD8xOsrsP1ncvaankQT1gTaCzYsYikIA
- OA8+Zq35gDDBq/O6YYSSHKScSoi7pg8FZnmVh+A4QlR47spxZU3E8MEWNlxMkGeFvs1i
- zXPUDoRRXv2WSFbKQYvMZk/SZujrw3ec910EczbL9HPeNTgNH4Mhc7wsJXf3GCbr7+Gr
- 0SedSc1JXD/unfbHC//mABUr4U5CMy/4Qu2LtsWuK6aOYtshSA+9S/XR0jX+M6h1XD40
- Isui5KHSnRmzoAeMH0bVtONoB1x5oLEUHBhiK6VF7CX1N0Z4d0WtS86rXan4hlM07ISD
- dAXQ==
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
+ [IPv6:2607:f8b0:4864:20::102b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F06410E64E
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Nov 2022 22:47:02 +0000 (UTC)
+Received: by mail-pj1-x102b.google.com with SMTP id o7so3021870pjj.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Nov 2022 15:47:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=r0/NL8UAcocVV5ehp/plcYGqKjt4DMIirOXHBCu5MlQ=;
+ b=G0/bQToU7tPN8mLGPnPkz6Ur7I2LMjiUMq0+UpOLlSN9bl0h2iIDUESYHeMy0nnW34
+ EHjKfNL7gK4yBvrAfnWRU6y2KunueO6e64i9Ukolxq8ez8e7FenMg4ZeDW7WyWZSj/Ym
+ pU3IT0XvDhmkWPll03bsxr5lEEdxcNgl7bxEUlv0p+c745ZfZ6gPjTLcGwWK9hag7TK6
+ Nx9OXjeTdNZ174FUQ8R5mtgPoJgWsBYdx0Vz3AEW0rMtPZNvUbtWC04q0LgpaqmS3zeI
+ ZcZDUyXax9BzfR7IuugEUkZ8Z75X13iSMOeCn+JGVop66UHhwaKRT54vI0l/ndW1NNdO
+ dgvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Jd+95pRwcxrkU7i1WeLZFk3609cHUQanlEr+O+q7AMU=;
- b=o4AugQGgktLoLjQ0v92nxVVBooXCLeBielZQ856e238mPnKhHcKXRKDvrD0ghrDKHn
- VKgVRYab0q5oPaHjW8LyuBkncMAiBDklLu7khjjcMUzMUSx0qjezxNMYD7GqcwQm8VrN
- d37+4We2kru4MFYEABZcbW3h34BQswguTzkQkHDuSt3iu8Ymy2MnqMuqn4gTGnliVQu4
- pUG8VwtvrLYV2z5UM9CkqmziY/aWvVusjn8B0HWBCr2KU4tPtA+jWyUcFXz0aLs6m45V
- P8d6ZakXgCXAj0YAcchCX6KbWsPb/1eOz7WChGtKPpxChjNiM98gZogDi5zr9JhbxZAm
- ffcQ==
-X-Gm-Message-State: ACrzQf2+RNx3FdEC4Ekz35C3pF1ovodKTwBFNfkws7Og1KGlpCenLeTd
- D/AEbRJRNYDYwMG65x5xh7PNLjIUd8VIP5GilRZ29FiVUg+cXQ==
-X-Google-Smtp-Source: AMsMyM4P5EPNGyKAV9BwY25QNww4Tk4zDnHIOI4H3gjcC4OyRqgzOFC6PQLtEE9yS06pIhe1CWXZj9L09CViGexYAWM=
-X-Received: by 2002:aa7:cfda:0:b0:461:9d22:3484 with SMTP id
- r26-20020aa7cfda000000b004619d223484mr33563202edy.142.1667515417834; Thu, 03
- Nov 2022 15:43:37 -0700 (PDT)
+ bh=r0/NL8UAcocVV5ehp/plcYGqKjt4DMIirOXHBCu5MlQ=;
+ b=hSgEc+tDQ4Ac40YETnJr3YT85Jr/MXaU3T7xogOoSREaPTjFM7uzk67QKv5fpAIltU
+ xw/ZMLIwQDV1kjgf0IzWDTte60rwMuM0W8B776JIV6FxdqS9xIU9fySVfjArC4B1nXSl
+ Tl/4P1mw53f0FYBB+rsPoHPw0idgu8e6NN+lvI3TkCZd2RcOTqWrA8sg9q7ks6dC24Nc
+ Gr0NwReL3/4oMA9eu5jgkpYadb8gYpwnB6bbx9TcCbb0v0aNNlch0OxAGsts33xKF7hZ
+ 8R1PkzW0+fHN8GJ+RUYQ+6eN7cSy8SPr4tfxr0JA1jCWELcnRuM0O7MR0MBAc8dbTGe0
+ ocww==
+X-Gm-Message-State: ACrzQf0UAs+no1r3nso1LUokCOwYk/YYrmM1MjQTWE0Tb8giO1gIqTTZ
+ wQ+Zbk844F4dUhCIPFeh2Wg=
+X-Google-Smtp-Source: AMsMyM4Oa4HbEfbZNjCJqoJpiijPlXGyFGhnNO0rP23WjhKll5VMKaNJJknY32yyG1fCc7i4wCm/aQ==
+X-Received: by 2002:a17:902:e54a:b0:186:a3ba:232a with SMTP id
+ n10-20020a170902e54a00b00186a3ba232amr32022870plf.77.1667515621647; 
+ Thu, 03 Nov 2022 15:47:01 -0700 (PDT)
+Received: from dtor-ws.mtv.corp.google.com
+ ([2620:15c:9d:2:a6ae:11ff:fe11:fcc3])
+ by smtp.gmail.com with ESMTPSA id
+ g13-20020aa796ad000000b0056be1d7d4a3sm1280421pfk.73.2022.11.03.15.47.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Nov 2022 15:47:00 -0700 (PDT)
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Helge Deller <deller@gmx.de>, Tony Lindgren <tony@atomide.com>,
+ Sebastian Reichel <sre@kernel.org>
+Subject: [PATCH 00/13] Convert omapfb drivers to gpiod API
+Date: Thu,  3 Nov 2022 15:46:35 -0700
+Message-Id: <20221103-omapfb-gpiod-v1-0-c3d53ca7988f@gmail.com>
+X-Mailer: git-send-email 2.38.1.431.g37b22c650d-goog
 MIME-Version: 1.0
-References: <20221103162302.4ba62d72@maurocar-mobl2>
-In-Reply-To: <20221103162302.4ba62d72@maurocar-mobl2>
-From: Daniel Latypov <dlatypov@google.com>
-Date: Thu, 3 Nov 2022 15:43:26 -0700
-Message-ID: <CAGS_qxr1=PLFzM8bGjdowZwdOXMEPiJEnffPUGQvwdhYVJJNvA@mail.gmail.com>
-Subject: Re: KUnit issues - Was: [igt-dev] [PATCH RFC v2 8/8] drm/i915: check
- if current->mm is not NULL
-To: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+X-Mailer: b4 0.11.0-dev-5166b
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,140 +73,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Gow <davidgow@google.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, igt-dev@lists.freedesktop.org,
- Brendan Higgins <brendan.higgins@linux.dev>, linux-kselftest@vger.kernel.org,
- Shuah Khan <skhan@linuxfoundation.org>, kunit-dev@googlegroups.com
+Cc: linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 3, 2022 at 8:23 AM Mauro Carvalho Chehab
-<mauro.chehab@linux.intel.com> wrote:
->
-> Hi,
->
-> I'm facing a couple of issues when testing KUnit with the i915 driver.
->
-> The DRM subsystem and the i915 driver has, for a long time, his own
-> way to do unit tests, which seems to be added before KUnit.
->
-> I'm now checking if it is worth start using KUnit at i915. So, I wrote
-> a RFC with some patches adding support for the tests we have to be
-> reported using Kernel TAP and KUnit.
->
-> There are basically 3 groups of tests there:
->
-> - mock tests - check i915 hardware-independent logic;
-> - live tests - run some hardware-specific tests;
-> - perf tests - check perf support - also hardware-dependent.
->
-> As they depend on i915 driver, they run only on x86, with PCI
-> stack enabled, but the mock tests run nicely via qemu.
->
-> The live and perf tests require a real hardware. As we run them
-> together with our CI, which, among other things, test module
-> unload/reload and test loading i915 driver with different
-> modprobe parameters, the KUnit tests should be able to run as
-> a module.
->
-> While testing KUnit, I noticed a couple of issues:
->
-> 1. kunit.py parser is currently broken when used with modules
->
-> the parser expects "TAP version xx" output, but this won't
-> happen when loading the kunit test driver.
->
-> Are there any plans or patches fixing this issue?
-
-Partially.
-Note: we need a header to look for so we can strip prefixes (like timestamps).
-
-But there is a patch in the works to add a TAP header for each
-subtest, hopefully in time for 6.2.
-This is to match the KTAP spec:
-https://kernel.org/doc/html/latest/dev-tools/ktap.html
-
-That should fix it so you can parse one suite's results at a time.
-I'm pretty sure it won't fix the case where there's multiple suites
-and/or you're trying to parse all test results at once via
-
-$ find /sys/kernel/debug/kunit/ -type f | xargs cat |
-./tools/testing/kunit/kunit.py parse
-
-I think that in-kernel code change + some more python changes could
-make the above command work, but no one has actively started looking
-at that just yet.
-Hopefully we can pick this up and also get it done for 6.2 (unless I'm
-underestimating how complicated this is).
-
->
-> 2. current->mm is not initialized
->
-> Some tests do mmap(). They need the mm user context to be initialized,
-> but this is not happening right now.
->
-> Are there a way to properly initialize it for KUnit?
-
-Right, this is a consequence of how early built-in KUnit tests are run
-after boot.
-I think for now, the answer is to make the test module-only.
-
-I know David had some ideas here, but I can't speak to them.
-
->
-> 3. there's no test filters for modules
->
-> In order to be able to do proper CI automation, it is needed to
-> be able to control what tests will run or not. That's specially
-> interesting at development time where some tests may not apply
-> or not run properly on new hardware.
->
-> Are there any plans to add support for it at kunit_test_suites()
-> when the driver is built as module? Ideally, the best would be to
-> export a per-module filter_glob parameter on such cases.
-
-I think this is a good idea and is doable. (I think I said as much on
-the other thread).
-
-The thinking before was that people would make group tests together in modules.
-But if you want to share a single module for many tests, this becomes
-more useful.
-
-This has some potential merge conflicts w/ other pending work.
-I was also prototyping the ability to tell KUnit "run tests #2 - #5",
-so that also touches the filtering code very heavily.
-(The goal there is to have kunit.py able to shard up tests and boot
-multiple kernels concurrently.)
-
->
-> 4. there are actually 3 levels of tests on i915:
->         - Level 1: mock, live, perf
->         - Level 2: test group (mmap, fences, ...)
->         - Level 3: unit tests
->
-> Currently, KUnit seems to have just two levels (test suite and tests).
-> Are there a way to add test groups there?
-
-Parameterized tests are the closest we have to a third-level of tests.
-But other than that, the answer is no.
-
-I'd need to get more familiar with the existing tests, but I'm pretty
-sure parameters won't work for you.
-
-And I don't know if this will get done.
-
-Note: the kunit_parser.py code should be able to handle arbitrary
-levels of tests in the output.
-This restriction is purely in the in-kernel code.
-
-I had brought up the idea of more layers of tests before.
-It would also be useful for
-a) sharing expensive setup between multiple tests
-b) allowing more granular scope for cleanups (kunit_kmalloc and others)
-c) more flexibility in dynamically generating subtests than
-parameterized testing
-
-There's some precedent in other unit testing frameworks, for example:
-https://pkg.go.dev/testing#T.Run
-
-Daniel
+This series converts various OMAPFB drivers to use the newer gpiod API=0D
+that respects line polarity specified in DTS.=0D
+=0D
+Unfortunately existing DTS files specify incorrect (active high) polarity=0D
+for reset lines. As discussed in [1] we will not try to correct existing=0D
+DTSes, but instead follow the path established by DRM drivers for the same=
+=0D
+components, and continue using inverted polarity in the FB drivers.=0D
+=0D
+[1] https://lore.kernel.org/all/20221004213503.848262-1-dmitry.torokhov@gma=
+il.com/=0D
+=0D
+To: Helge Deller <deller@gmx.de>=0D
+To: Tony Lindgren <tony@atomide.com>=0D
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>=0D
+To: Sebastian Reichel <sre@kernel.org>=0D
+Cc: linux-omap@vger.kernel.org=0D
+Cc: linux-fbdev@vger.kernel.org=0D
+Cc: dri-devel@lists.freedesktop.org=0D
+Cc: linux-kernel@vger.kernel.org=0D
+=0D
+---=0D
+Dmitry Torokhov (13):=0D
+      omapfb: connector-hdmi: switch to using gpiod API=0D
+      omapfb: panel-sony-acx565akm: remove support for platform data=0D
+      omapfb: panel-sony-acx565akm: switch to using gpiod API=0D
+      omapfb: encoder-tfp410: switch to using gpiod API=0D
+      omapfb: panel-dsi-cm: switch to using gpiod API=0D
+      omapfb: panel-tpo-td043mtea1: switch to using gpiod API=0D
+      omapfb: panel-nec-nl8048hl11: switch to using gpiod API=0D
+      omapfb: panel-dpi: remove support for platform data=0D
+      omapfb: connector-analog-tv: remove support for platform data=0D
+      omapfb: encoder-opa362: fix included headers=0D
+      omapfb: panel-lgphilips-lb035q02: remove backlight GPIO handling=0D
+      omapfb: panel-tpo-td028ttec1: stop including gpio.h=0D
+      omapfb: panel-sharp-ls037v7dw01: fix included headers=0D
+=0D
+ .../omap2/omapfb/displays/connector-analog-tv.c    |  60 ++---------=0D
+ .../fbdev/omap2/omapfb/displays/connector-hdmi.c   |  49 +++------=0D
+ .../fbdev/omap2/omapfb/displays/encoder-opa362.c   |   4 +-=0D
+ .../fbdev/omap2/omapfb/displays/encoder-tfp410.c   |  67 ++++--------=0D
+ .../video/fbdev/omap2/omapfb/displays/panel-dpi.c  |  83 ++-------------=0D
+ .../fbdev/omap2/omapfb/displays/panel-dsi-cm.c     | 116 ++++++++---------=
+----=0D
+ .../omapfb/displays/panel-lgphilips-lb035q02.c     |  21 +---=0D
+ .../omap2/omapfb/displays/panel-nec-nl8048hl11.c   |  72 ++++---------=0D
+ .../omapfb/displays/panel-sharp-ls037v7dw01.c      |   3 +-=0D
+ .../omap2/omapfb/displays/panel-sony-acx565akm.c   | 105 ++++++-----------=
+--=0D
+ .../omap2/omapfb/displays/panel-tpo-td028ttec1.c   |   1 -=0D
+ .../omap2/omapfb/displays/panel-tpo-td043mtea1.c   |  59 +++--------=0D
+ include/video/omap-panel-data.h                    |  71 -------------=0D
+ 13 files changed, 170 insertions(+), 541 deletions(-)=0D
+---=0D
+base-commit: 61c3426aca2c71052ddcd06c32e29d92304990fd=0D
+change-id: 20221103-omapfb-gpiod-87ca2550bd90=0D
+=0D
+-- =0D
+Dmitry=0D
+=0D
