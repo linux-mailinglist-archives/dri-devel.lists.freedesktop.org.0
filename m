@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E007618BEC
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Nov 2022 23:48:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80B12618BF2
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Nov 2022 23:48:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C71B10E696;
-	Thu,  3 Nov 2022 22:47:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6CB210E6AA;
+	Thu,  3 Nov 2022 22:48:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
- [IPv6:2607:f8b0:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6F4110E68B
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Nov 2022 22:47:44 +0000 (UTC)
-Received: by mail-pf1-x42d.google.com with SMTP id v28so2949226pfi.12
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Nov 2022 15:47:44 -0700 (PDT)
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
+ [IPv6:2607:f8b0:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31BD110E68D
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Nov 2022 22:47:47 +0000 (UTC)
+Received: by mail-pg1-x52d.google.com with SMTP id q1so2900890pgl.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Nov 2022 15:47:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
  bh=N8/+/JIqGhRdWPBU5DgQgVG5PddEig7kZCemfbVVSWk=;
- b=joKcDIo53uF/X/ri0TVqrbYd46qxLzHt1sPTdQ6F4of7rlMLUz2kVuQGx4lj/zZZN7
- MX1ZLFL1Y74ZoPB2U2fdocD/TOdGb4cbMLDmpjGAXiIOBUbsoAjMFPl5/LIT4H+dq2UB
- ft28wtBmK1+aBeXAwo5OwWwAfu9/8Pi10JBxoVgYMCYKQEpJa3Fx0sr2LA9nAMaIsR1H
- TqDwvyOGyqqm52IGJdXbp40JEGl3LEjOwgg4cFTHhfXDipKjbOu21p0xCEDN2CcxW0Bu
- e+oV//qLZBEUlkRyrTc69/4tj69Bh1Cv6hJyWfEHDH8esasjWyhX0e6Yu0QypHSb2FgC
- 65pg==
+ b=KMS2lx6NjqbbtJBHBQlzUb3ZBXATSCTMYfw1Cm4IXyIJmn0q6jTLJGsCSrmg20h9dG
+ 9RJdp+UokoXct9v4tp4rgJqDwUZF9llphbcpZ4REl9RjG1A8Yo+x4q26QJly44Q0ofmi
+ Ky1J/hC/o4SBr6qGI+bmAQr9EQJ0Dl8Q/QAlrCeT9rWFXaAD8mLoYXP84dCS2PFRXBKm
+ C8Y19S0GO0xjPlFOJMSraX8/0hcIHSZ9RzFHL3O1DH7/14hnQNC5ssVjpUqS7x+SeJJd
+ mDitZDIi4BQ/X1yXv96mKkTEqhbjAtZB2WRFdFqke2Wl/bM1ecOoqUMy1RnV3qqizemU
+ /RNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
  bh=N8/+/JIqGhRdWPBU5DgQgVG5PddEig7kZCemfbVVSWk=;
- b=ypK7kbhneBGDMPA6xEdrjpJNUGHT0ZLcTfLKhoXVW/KJSNkfRE5cIrC1lE7wEQtObE
- btrO3xQPIOmzel06gr8nlbyJq4sy5BEdnYKwk1wFMVtt+pBXYeK4vmqYDX9xCl8WWL/w
- 1A7rB1KX7Gjh2g/IhZTg/6Gj3FJhKWoc5pGkAHILWL1FG+cspSU8TymiL9sOWSC3j18J
- C5O+gYM7ZDUAUAfT54YvPtj1M8gtp3CP+TpScs6brhoTKxtZHMxt9Kzt2gnBfIym9GIn
- NzvsZSSU5ZI5bkjk5JsHXE9eTsKmVXAHzWiQM7tkp5EeHFxF75JU6GEFy+uz+IKoBkrH
- La9w==
-X-Gm-Message-State: ACrzQf2Q9+/yZ6P4GFHTMFdcZl6mZmxwVwiOgWjEcbBorBUJLd5ElAQN
- sco1pnkF8gqZcjRiUYgxmHM=
-X-Google-Smtp-Source: AMsMyM5xc8N/TFyejcgTPKHGTjifStmuqApnl4vzp4mPXdiI3ti0O1q8N0M7Fig9UrInNnvQ5tT5vQ==
-X-Received: by 2002:a65:6b81:0:b0:461:4049:7df7 with SMTP id
- d1-20020a656b81000000b0046140497df7mr28159542pgw.593.1667515664355; 
- Thu, 03 Nov 2022 15:47:44 -0700 (PDT)
+ b=satXdpKNKxrinVTS1N9I4yV0kMw3YReh9vjYhAwoxW0mCJxNZGYjWZ7iZWSOi9rVVS
+ Ogb4+2vPeyP3GvZYz9A3cvCWokTY8OzMB1NkiwwxH8AhacxhcZjU9sx5wWZGsdI34XDT
+ p2VZy472V3GjCHwSPr2WUC5d1B7+n6w4c3vFdd6oW/BkCB95TEHtWb3JxNX3Tz0LR6Ti
+ BxuTGbVgjGX1gb8LyfAIXM26cijFTyC6Aq1SGTyxwzphHWM222bqDwlQHG7bjB1Dy9Ds
+ cjREvvXkndKwzvFejf7pUf6PFvDH0XWNjFsLdw01mMahBVpDP5b0+y3xhcazcJbw57Fi
+ Qg8A==
+X-Gm-Message-State: ACrzQf2MzjX6LS1uKz3ynKoEv9ByR4Ibm5q5WUbBo/qPz4dijcSqLk14
+ XGWZUyLzH8hlltlMq/lXBKs=
+X-Google-Smtp-Source: AMsMyM7vRsjfLECFVoY28KW7UAqPNWwOlMPiT3cgcVY1cs86uQTDBkyLIsXU9h6wGlKH7Sk4Z3XLMA==
+X-Received: by 2002:a63:6909:0:b0:41c:9f4f:a63c with SMTP id
+ e9-20020a636909000000b0041c9f4fa63cmr29047251pgc.76.1667515666418; 
+ Thu, 03 Nov 2022 15:47:46 -0700 (PDT)
 Received: from dtor-ws.mtv.corp.google.com
  ([2620:15c:9d:2:a6ae:11ff:fe11:fcc3])
  by smtp.gmail.com with ESMTPSA id
- g13-20020aa796ad000000b0056be1d7d4a3sm1280421pfk.73.2022.11.03.15.47.42
+ g13-20020aa796ad000000b0056be1d7d4a3sm1280421pfk.73.2022.11.03.15.47.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Nov 2022 15:47:43 -0700 (PDT)
+ Thu, 03 Nov 2022 15:47:45 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Helge Deller <deller@gmx.de>, Tony Lindgren <tony@atomide.com>,
+ Tony Lindgren <tony@atomide.com>, Helge Deller <deller@gmx.de>,
  Sebastian Reichel <sre@kernel.org>
-Subject: [PATCH 13/13] omapfb: panel-sharp-ls037v7dw01: fix included headers
-Date: Thu,  3 Nov 2022 15:46:56 -0700
-Message-Id: <20221103-omapfb-gpiod-v1-13-c3d53ca7988f@gmail.com>
+Subject: [PATCH 13/13] omapfb: panel-sharp-ls037v7dw01: stop i
+Date: Thu,  3 Nov 2022 15:46:57 -0700
+Message-Id: <20221103-omapfb-gpiod-v1-13-8f92cc78ecfc@gmail.com>
 X-Mailer: git-send-email 2.38.1.431.g37b22c650d-goog
-In-Reply-To: <20221103-omapfb-gpiod-v1-0-c3d53ca7988f@gmail.com>
-References: <20221103-omapfb-gpiod-v1-0-c3d53ca7988f@gmail.com>
+In-Reply-To: <20221103-omapfb-gpiod-v1-0-8f92cc78ecfc@gmail.com>
+References: <20221103-omapfb-gpiod-v1-0-8f92cc78ecfc@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 X-Mailer: b4 0.11.0-dev-5166b
