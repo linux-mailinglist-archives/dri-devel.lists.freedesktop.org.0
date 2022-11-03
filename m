@@ -1,135 +1,139 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF29C61853F
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Nov 2022 17:50:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55AEC61854D
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Nov 2022 17:51:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BF5510E73B;
-	Thu,  3 Nov 2022 16:49:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6820510E713;
+	Thu,  3 Nov 2022 16:51:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 162B310E713;
- Thu,  3 Nov 2022 16:49:50 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A864210E713;
+ Thu,  3 Nov 2022 16:51:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1667494190; x=1699030190;
+ t=1667494296; x=1699030296;
  h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=Qv32NgkVAiNePnQefXtUxaoQmzpE0UFDRFggTaUovWM=;
- b=fIXFkb9/v0GXYgVkz0ib31pdfXEIWAGX2DNGmYDNWe/Cl/3bNw3SIGMz
- 28DRbaP6X0f1LpVhS2CZIx1hfhthGyQc5BNO7pRagEdySbMmjRxYR0aaw
- hUbMZ15wMbrh7k8AiiNTkdVchvR15mhEJnAkNQDmvBC09k66LxIa6wnc7
- 4yr3k6Yvhyr6CbjbLPgflOEKVR01DbVeqmP0gatgos3Z22NR9hliOzbQM
- EiWUcqvLjjgFvgcprcTzUtfHc26ceKegJfb799BM+Pwh+jbadse9lpHeI
- si/DrvIRL0PhMKg66aZvyk2WQNP9i/GTjrLmxPqkieYhXNcZg81yeBXr1 g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10520"; a="311473412"
-X-IronPort-AV: E=Sophos;i="5.96,134,1665471600"; d="scan'208";a="311473412"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Nov 2022 09:49:48 -0700
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=LcRHvyCgj8yDx3uTZiRA8/6UAE558PudbBYVx2V45uk=;
+ b=Hdy8kCFBD7Ssp0Cs1xEjnRx8sVWbV8fyc4Dx4nq8Ju09P6l33qFITk4T
+ m3TS6yj+a17OYhsyL47y00cyozfRx3lkpxCPcdxTO4kV2J4iCozt3uk4M
+ RahB1kzNjgJDWnT7YTiMFX9v6i+Okte32SXekgJNFH7g4wYG/vx2CCeM/
+ vQ8ZuSxk58kgQ2o7FqX6OFZuVp/8t9EnHS7EyIgYEQY5uZp7hQkBKZZro
+ aoj7pVU8WE7vueGZF8utuc3EV6eJJY0tMbYq3bzSQXY6pXtXnjM+1pttu
+ 3gI5DuP1QhU2DaNHND7uEEqyj1J/yQKa6u0vBn+QCwskr0KqjaxPCX7Cx Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10520"; a="309734244"
+X-IronPort-AV: E=Sophos;i="5.96,134,1665471600"; d="scan'208";a="309734244"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Nov 2022 09:51:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10520"; a="703743470"
-X-IronPort-AV: E=Sophos;i="5.96,134,1665471600"; d="scan'208";a="703743470"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by fmsmga004.fm.intel.com with ESMTP; 03 Nov 2022 09:49:47 -0700
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+X-IronPort-AV: E=McAfee;i="6500,9779,10520"; a="724015515"
+X-IronPort-AV: E=Sophos;i="5.96,134,1665471600"; d="scan'208";a="724015515"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by FMSMGA003.fm.intel.com with ESMTP; 03 Nov 2022 09:51:36 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 3 Nov 2022 09:49:46 -0700
+ 15.1.2375.31; Thu, 3 Nov 2022 09:51:35 -0700
 Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Thu, 3 Nov 2022 09:49:46 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.173)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ 15.1.2375.31 via Frontend Transport; Thu, 3 Nov 2022 09:51:35 -0700
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.44) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Thu, 3 Nov 2022 09:49:46 -0700
+ 15.1.2375.31; Thu, 3 Nov 2022 09:51:35 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YFGLYYJVmuu8yzMvqwdVr7a3aZEpauqWT8K2tyqSGLmRSb6gVtipFakvJh2/+aGvGiZDgcDUtoWaxkxZOk/y0gjIDKigiJjr9RLGbdSJWKcXOqAMzPwA8CdrQWuM+e7elYb4CxsoNUe1K4zZxwhR/cKdMA4sUhkUkEK9R1LUWYMzYiMvg1YwaEE/GKWgkVdLctLzLVL0DkA0ouGzISe89KSobFFCAkwEB/ehzeUdTgabG6hCFqE3sLWzIYw+WriZDYZOIfEG4VY4s6o9sMRDF5rq10KaMmfcH21c09QDdBcR0v70mctvsNjRoXp2VE7X6nPNkwpO1TMZIg+3eVgtkw==
+ b=CSpB3ja9NqiSdzkG2GTMd/71dt13sDKolaYNjIqarvkXXhnHFt41gYMdLaWgEEAQzk70R6V5lN1OQ0JjRB5MhWMpFJR2TpymPiURfVb+7JL2FdkiYngf8z2MkvWdOkNhx7g3QnOmrUssxi4ngKjZuV2LD7HE7Kh5PiIzD9c4nWJFbyoLjFE5/I7aA+WK4Ld5GjK4/oKbgYSVqt4z+nXyAZJt4T/R5fQfKRK3Qfsknrhd7tNyTMr7WnrypfXAb227IXt2wiQ49hwCUloHSMLsSw8gyeXq8CeF5bgE6joxtOd/0oBEis9BBWbv3rsxpNYfo6yqX9aZbtpCatmwNoAjNQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/gKbxe5xTNJxRMOFNks2zT1naw3XAjsOYriC38GZCk0=;
- b=Ik1SyN6MoXAjdvlwskYNS7lxBEhsejA3oGMOgba+UVoTAyzSD+93IIDWyVZnrosQQljFxIEpQ7AOsEhL8ohyU4y7AH31i9EAtso0HYx08mFo4Sv15vqEZ1c8VY0jEu6k3+GTFuAt6x4SW8i+dQX3Qcmpab+Q0s3eb1HaeLWOsbaYMgwE9np4r4q3wDgO7F+IbxSUkXz3w+8qrfkL0hagZ0zqjsuGSgmxPstd20E1mpCVCR7e/Sfy5y/GhB/VszhKFh0blV41zaDKLflgdUeIkHqlQxFhSu/ro8BXA2JoOTWC8KY7eQ6ZCUhCy0tYJV3LLTCskILjfVYC6rxajtghvw==
+ bh=ZXTgnya4TT5ZFp7s8wYY/rGs4oqL5V/mzogwUwiTHyE=;
+ b=PEPWNWItU2iruEj1st42OKylepqruQl7oktnYhVRgl33lkFYQp59zDMB5YGn1ttY9QIu06e0NlrSYin66HD05/pKxgTA2ALSXu/YARzaSvMWKxb8s3J7EUJTjMwRpZ7TouO3MUawofn9bb1IM5HN4/SJK5VJEfkUit526hbnNIaiukBxHwf3T8K3uEmjiYHx6h2DSRsmnkGnHnNd85mnrZpv7CpCtXLgbdv2KZJuCi6yxpYoAqXnq+XHNejanzcKft1X2uP3v+D1wPyrOVzIDTnTxxMrGOkznEB6FLRcXNRiVK9uOQpd88VL1hBUV4DUCqKwpnlCIPgPJvu5B8OlPQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
- by MW4PR11MB7150.namprd11.prod.outlook.com (2603:10b6:303:213::9)
+ by MN0PR11MB6232.namprd11.prod.outlook.com (2603:10b6:208:3c3::7)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.21; Thu, 3 Nov
- 2022 16:49:44 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5709.15; Thu, 3 Nov
+ 2022 16:51:28 +0000
 Received: from SA1PR11MB6733.namprd11.prod.outlook.com
  ([fe80::5236:c530:cc10:68f]) by SA1PR11MB6733.namprd11.prod.outlook.com
  ([fe80::5236:c530:cc10:68f%4]) with mapi id 15.20.5791.022; Thu, 3 Nov 2022
- 16:49:44 +0000
-Date: Thu, 3 Nov 2022 09:49:38 -0700
+ 16:51:28 +0000
+Date: Thu, 3 Nov 2022 09:51:23 -0700
 From: Ira Weiny <ira.weiny@intel.com>
-To: Zhao Liu <zhao1.liu@linux.intel.com>
-Subject: Re: [PATCH 3/9] drm/i915: Use kmap_local_page() in
- gem/i915_gem_shmem.c
-Message-ID: <Y2PxImhTMtLijeab@iweiny-desk3>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: Re: [PATCH 1/9] drm/i915: Use kmap_local_page() in
+ gem/i915_gem_object.c
+Message-ID: <Y2Pxi9FsdeULhHKI@iweiny-desk3>
 References: <20221017093726.2070674-1-zhao1.liu@linux.intel.com>
- <20221017093726.2070674-4-zhao1.liu@linux.intel.com>
-Content-Type: text/plain; charset="us-ascii"
+ <20221017093726.2070674-2-zhao1.liu@linux.intel.com>
+ <2541717.Lt9SDvczpP@suse>
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Disposition: inline
-In-Reply-To: <20221017093726.2070674-4-zhao1.liu@linux.intel.com>
-X-ClientProxiedBy: BYAPR02CA0049.namprd02.prod.outlook.com
- (2603:10b6:a03:54::26) To SA1PR11MB6733.namprd11.prod.outlook.com
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2541717.Lt9SDvczpP@suse>
+X-ClientProxiedBy: SJ0PR13CA0168.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c7::23) To SA1PR11MB6733.namprd11.prod.outlook.com
  (2603:10b6:806:25c::17)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|MW4PR11MB7150:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6e30eb40-7fe3-4c8e-72dc-08dabdbb68a8
+X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|MN0PR11MB6232:EE_
+X-MS-Office365-Filtering-Correlation-Id: 723167a9-a3ef-4a33-1381-08dabdbba6f6
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: B67s2AcNTRpSYcR03mwRu9IDkTi265S/N7rOPNP4BTtqDenYeERd3PrWBGDumJ8gwfLOGSTi/gVr8WYXrXAJPIUMp99UaR+AfpD5zFnWPujXCYDkbaB5SedeY6VlnxfNhXdaDpqzi0NXir+DbmJH8aAPxJLx4MJnkYM/5Is94pUIBoBCGmeiXcoXZThMxURfW+uGb3MHca4ueAKZf+1drlJ0OFTKb0iHkcVDuEetdeLhSXmPuOoByobAV1qBHxFKfHb5Yzx+Q6ncqhxydz0tADu7ywrlGS165mZ+s8ANLCzKbeKyOJH5KmO6vXdVBMf+Um5KWyeqkvKb0ej3HdSUYjaQcGIzZ7TCPwtWi5Q2YtVffyU9KC08yrbr7BuyVOtopeVunjuBnyaDOEVhWCz//GkoWfkpz7XuKzBwxBppKn3ixjAqEDYNyamDfCSZt4Wt8+QrufjNf5GyrM+msLXdjwLNougMKj2eMbNmNr39tVE1EYqPlLyvDhOIZbacI0wnKaElhdSVcpCTAyiXIaUBQuDNZy1o64eYcJx4ym+6Hm3VirJIMFSxOknNavv/1eegty86s6VM5pUuqnmygFvYQ9XTs1xNMf9FtMGbKPc2Bnz8bApd7ii73tBrwXM4NmzZP3BybUVLTAgJ//yjEtcbxBYcMPWjwAcaUy/Q0pcyRGZIk/gk3P0U92W4EVJMweDJphNE1S86VK+EYw4Byp9OvvATBhRANcX9nPvmBr+8ypQ=
+X-Microsoft-Antispam-Message-Info: HOloFvorANQquvDY/wIzGa3MdxX+2mJ9T26cR4PuusA3b1KQvww4mDOM/+I+mRnki2YPbxmkI4jBIHMG0odqtJav35VypYll4hXo6iiseOHqEZP2QfyWdTgxyeLw+BydcCzOZeLxJL335ELHiXybcmXAPDnpm2oXdTk2XTfROkKd+BteZBnNIZ1fBQFAAUBG0J1JJvcQ3SoO5Xml6EKmWFebqhiGQ1/kL7cACTEf0mzJjtb5r5DMBzD+P03m1JNTrWUAGRA5bMMGByPchoTpkgbHg/TwafLo4bURFfa3HJLxlcrl9zG0Iby6iY1sskyKWOwhwA5pjst1QXXtX7FxXHua9B4DvgLpGxGI58VwDe8DvYT5n6pjX51IKwxF6G8sVES6aAEDsgl3moCMQjYuAfGAcVwa5+95+Eh5PTAB1/4Cn8slSHfEwSVWtuGIUrD+551JheUvvl8ulel/b7AHsny1Ox1+F431TZnvZ1nrckvjIqSFOZb1590kfXjQNRMce1HSpEyJHpixjnREf34NrHtCm3TKC5381oU2B4t2IFKls8hPHBB56S0epkPD568wn/++OOruu5oxhb9rdL3B9i1dYOeZnn/QWOuhVrWip/x4fogLYzAPRq1pZj2u0Ta4+KaC8N61q9GZE4BL+zypN/IWnXvmcivFhuUexUVqht+foBX0UbhB5SpE6tNT/333dp1mrasNbH+VUJ9+gjKSxNb/ijoQ23K6Q8b15Q0zkQE=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SA1PR11MB6733.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(7916004)(346002)(366004)(136003)(376002)(396003)(39860400002)(451199015)(82960400001)(966005)(54906003)(66946007)(38100700002)(66556008)(8676002)(6916009)(4326008)(66476007)(33716001)(186003)(316002)(7416002)(5660300002)(83380400001)(2906002)(41300700001)(26005)(6486002)(478600001)(9686003)(8936002)(86362001)(44832011)(6666004)(6506007)(6512007);
+ SFS:(13230022)(7916004)(376002)(136003)(366004)(39860400002)(396003)(346002)(451199015)(38100700002)(82960400001)(86362001)(7416002)(5660300002)(186003)(9686003)(6512007)(8936002)(6506007)(26005)(44832011)(83380400001)(6666004)(66556008)(2906002)(33716001)(6486002)(8676002)(478600001)(54906003)(966005)(6916009)(41300700001)(316002)(66946007)(66476007)(4326008);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?V8BPV7LFzscsihnWiQnA2YfRDqcKya2rtbpwxyb0ltfuzVFZHI+yC/ewyQHG?=
- =?us-ascii?Q?j00pV7hI6PjuXGabHuLKUNfeYHJbTJ4tXxkyVMdVDbvtCg+u30/TYvDbhEM7?=
- =?us-ascii?Q?Ci9FifgH06j0IIwifKbul8BP8RrMhbtM3Uq9+U+tseh3ahHQpxb3web1Yu71?=
- =?us-ascii?Q?ajvqzqo0QsafIAinhW/sN6/OYwLnYBE5VTz/AhBWA8q7U/cAHeqG8m5ZFG6z?=
- =?us-ascii?Q?xur1xzn39pUMw+LVbfyvcLdvbR2orsNLeGjl5mSxlX6aANT0Rx8jYz/tNsoJ?=
- =?us-ascii?Q?qc22e2gK3cnhI4tuAFXgHfTkd0Yd/eGxWBdgkvSB5vmujSScqNU0HWpMrpl+?=
- =?us-ascii?Q?l2+CcY3Si0jk1clNoRb6mDi7WojAqAjxGWlBRrNLBAoId/RLTD1iDuR/hOui?=
- =?us-ascii?Q?aVE5CvY0QA8MhBoBc9kCSqOwxRGLE87ZxABjp3wOZ5Pn7poA+8fhNDI6WIcp?=
- =?us-ascii?Q?14nGISEgW2sR7ZSrhu3h1rHCPXgfKdsgs+IWQLrCppub3UvHCYaSjgXbZv2F?=
- =?us-ascii?Q?ZN1W3K86Wnobyo0Qlk5NINFqAWZHr3d1P2HH+S10VYgZjWIsztt1qZLZk1nc?=
- =?us-ascii?Q?xe7wZlMMxGLzJgVH2wq7sz6nPKHTLIYPFF76yeErNk3+1GsAYvv0vqhDiLEk?=
- =?us-ascii?Q?ubYpr0uFpnG9xSyOyfxZ8iTyFAQ6DXKMyCkBeqJCsDRatMrFVbDdlBfg1f6J?=
- =?us-ascii?Q?/7zgvORo14mhMkW1eIfezfSyhc5HxhOD9BjDki1cHy26zH8Er1lYg/tWREDF?=
- =?us-ascii?Q?1RMiMbvPLtUsrYt4R2hStsXnLcjY+zPpWNHtt1VjpYFIK6cE5Y4O5xdhcVan?=
- =?us-ascii?Q?hJyNXOwinUtyS+5633iJsyxWJcmPrXTbUIqZWxZ3In+QFevyrRh4j2rIs93J?=
- =?us-ascii?Q?9l4q7FIm9l/jvU7luwtj7OZ1kwixQGKX6nCu8jkZCTo5XSO9B7B5GKKWUeVQ?=
- =?us-ascii?Q?VMlnXa8udr+b1a584FQFfLElv0X6yriQ8eYvEVDiOK5UMmJXjTd/vf8CZyLC?=
- =?us-ascii?Q?g0UDQPKcr8fS0H8GVNzq6N9v2byiMFyyZ137VU7sJ5N1nYnATr6lHPR8ahiR?=
- =?us-ascii?Q?SSU2M7QAZjdoTOZB643Q/tz9nIBGUCu7eOALPDrRuMrciSV3izEVbUVORCF4?=
- =?us-ascii?Q?UmkVR15woOGI7IWc3A3bnvsc9XYoScWdHZxZA9QVZaET5yOq6SXXujY0Z+Xa?=
- =?us-ascii?Q?B8egsGCmOlAa0l2yGp7vX2Zf4ov061On9TCapz6FxrTpOJiS8HvMMyv1jr/o?=
- =?us-ascii?Q?fylqSXRaBkxd7SXPs0xr6LHzazcC0wMKuE7olH5qJPRFb/gWOo/skiFSP9WP?=
- =?us-ascii?Q?/0xlwDU6IyYbzDoQjHih60aLvjIw6+Wtmo5VXHuatN1wJqXUtdG0D/wjLQ2A?=
- =?us-ascii?Q?8Qb3nPvzUyf+vh8sWDuRAGzuWp0FcP5nxd8ZUJla5AQzehs3i4+gqOz9zsoJ?=
- =?us-ascii?Q?DFEhHKNq0VbnkqeDgMd4FXEmzMk1GULpGdI0tMJtcsmbLfSWycXCoq8mPF7d?=
- =?us-ascii?Q?vVMr01EOh0xF8XrmwAGFso+NoTPxAAr/VUOmKZRrcMVe4jfs1ODudgLHvXgi?=
- =?us-ascii?Q?W1zEiPIb38e8OdPKaIT0jqWeawWtTv+z15ssufBi?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6e30eb40-7fe3-4c8e-72dc-08dabdbb68a8
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?HrhMyXggiUoHTc5ZRlv1jn2Jwa4M40uiEBA7qFGqe7TYsRb2WJTK1o9zww?=
+ =?iso-8859-1?Q?Tg2WM/ueJ5I206SWSN7fMB86oaYyBaZORLod9gzSU8HXEG4u3bRHkpCCmb?=
+ =?iso-8859-1?Q?NwMQS6uPTypC8MOsKXsTBPd33lry3Rb1tASlF7Eh+lKivANhthPW6lc2Vz?=
+ =?iso-8859-1?Q?6NVqJYoCYoiSNsFANR0c0MYl/CjV10Xg4bMkoXLsXGBLyuEQFMJj0mtnud?=
+ =?iso-8859-1?Q?e2CamhQA/Cif1nQ2LDbWrqs0SXsNrnrVPHW3vu2uN8fauYnDa6V8VHQl0c?=
+ =?iso-8859-1?Q?HJHpTYg2xlwXfwKjoOY4x9BfDI7ZDr/kXhnUdpe5KRcapM/EuaDQXH5fqG?=
+ =?iso-8859-1?Q?X2rADvWezD7P8KxfsICnWqKnmluYdnUOTC0Gqp+74hKy2tN0KMOOQBIF9m?=
+ =?iso-8859-1?Q?Yz4iLUJVp+S1YKrEB9bAJyTtXIPZZzTODUO8TvNx6FnCROpgC+JylSZcTe?=
+ =?iso-8859-1?Q?eKMg3grq4RuwyL0yk58tH5SyRiWnUPv6X/pq486gNqmU7AY8Kzo8DwM81f?=
+ =?iso-8859-1?Q?xNTLl8ScRXGQt7rYX32VjvEhf0NoUmVyYUrJSP8Hre4RmMx5wsRDbPJ2jf?=
+ =?iso-8859-1?Q?HUCetYvfa4dmsZ9nvSDkp1mqXcAWYkcWfohilgnRGUDjbbdude3WhXBAUX?=
+ =?iso-8859-1?Q?tELwpQ1tuugzmbC1gNhH1stUFZO1iOi6NsBV4742YWFOrUX9KbaMeChiCQ?=
+ =?iso-8859-1?Q?qZPhRjxlIMiui5fB9RiqFqoAMiABMogzGQmhVey9xeq3eOHUHLn7t5h2oS?=
+ =?iso-8859-1?Q?n9/Gs4ns6mjT8m78arGy7begGqdeM7TQqwRDfX6CO9ITuhhZTH7ayKhNNt?=
+ =?iso-8859-1?Q?YJ6CwVOKmZAh1yTth0EbaFzhHs8A/N9T6cJ0RMroWmRu2ZFuLIoc3LWRdy?=
+ =?iso-8859-1?Q?i4Ltx/WbL6Py0C2AeDnefHGq4TXL304qZwWsZoJ15vYkBsziduezLUerI3?=
+ =?iso-8859-1?Q?qFSOIB3WNGz6OTK2M43GZB7vnTCcOJS7G7TiN0nUZJOs0jDyf92LC9WBxT?=
+ =?iso-8859-1?Q?VI5DauzniBMPXx8YGLAV2Ji2Jj2pGjLGb4f4Z5xqHdbd1LR1RXMQ/9Izfd?=
+ =?iso-8859-1?Q?iF7VMTORT73JodH7oSJQi9JhK7sVDSncF+NKDvU8V1ihFWLohczJzR62ps?=
+ =?iso-8859-1?Q?9wXyaIsDQGYTiAEXUCcPX4x1ZUDD6E+blKUdTHzyXmSwQXaQ0Q4BBjo6BO?=
+ =?iso-8859-1?Q?MDkyRwUtjXI1icra+eheSEcHLeXXCALam+FKqJEcKOdFYsoE7GI6DTvt4G?=
+ =?iso-8859-1?Q?ZanS61ybs1CYxX5f2AXjW77xvAbO1TSjoTKwoiT7/CIhvpX8zsEdbuJYin?=
+ =?iso-8859-1?Q?1f0euRrKaoBnqeP/3SJrT7Dreh93XeoepmZyYjf55J3jH+Ewuymb04fmAR?=
+ =?iso-8859-1?Q?xAviu3QYag/IqWxFXuz7KHyUEaW/V6DjBihbe0VisdIzJC8elW5+LSsCsu?=
+ =?iso-8859-1?Q?bR03xv1bjKDlo5nPNSmZN0KbD6rf1enEH9VuurfqMAK3n3XLH1R8g/RAwW?=
+ =?iso-8859-1?Q?c2g/iRzyd/cL+ajV8bdfslSsrksPUnaEXmEAUP3lk7d7EBV8c2u1JBi3ny?=
+ =?iso-8859-1?Q?ET82kUP75PbyUytiDnNcY0u0Q6C8PfjEl/fgPlhdHCJWieSTe8O7aHcdD6?=
+ =?iso-8859-1?Q?CsAfnTdbzv3x4Cb9a+DaYR/nNY/7gUZdBR?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 723167a9-a3ef-4a33-1381-08dabdbba6f6
 X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2022 16:49:44.0625 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2022 16:51:28.5744 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Az6nSjTcst9otVl99n0BOnqeMMw3zMSjV7sWzS/ygNfbWez1PIlDjg1faJtKhA9Tzplz2CTXevez/I4yid/PfQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB7150
+X-MS-Exchange-CrossTenant-UserPrincipalName: hK1R9/I/s4ZOo8j8JGCNsZmlle+kDWlU/W8+sMTeOBCiMQv8RpCZ1e2G4BIG3verG4AHmF6hjfPIS5xux1v1cQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6232
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -146,67 +150,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  dri-devel@lists.freedesktop.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
  Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- "Fabio M .
- De Francesco" <fmdefrancesco@gmail.com>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Chris Wilson <chris@chris-wilson.co.uk>,
- Matthew Auld <matthew.auld@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Chris Wilson <chris@chris-wilson.co.uk>, Dave Hansen <dave.hansen@intel.com>,
+ Zhao Liu <zhao1.liu@linux.intel.com>, Matthew Auld <matthew.auld@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
  Zhao Liu <zhao1.liu@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 17, 2022 at 05:37:19PM +0800, Zhao Liu wrote:
-> From: Zhao Liu <zhao1.liu@intel.com>
+On Sat, Oct 29, 2022 at 01:17:03PM +0200, Fabio M. De Francesco wrote:
+> On lunedì 17 ottobre 2022 11:37:17 CEST Zhao Liu wrote:
+> > From: Zhao Liu <zhao1.liu@intel.com>
+> > 
+> > The use of kmap_atomic() is being deprecated in favor of
+> > kmap_local_page()[1].
+> > 
+> > The main difference between atomic and local mappings is that local
+> > mappings doesn't disable page faults or preemption.
 > 
-> The use of kmap_atomic() is being deprecated in favor of
-> kmap_local_page()[1].
+> You are right about about page faults which are never disabled by 
+> kmap_local_page(). However kmap_atomic might not disable preemption. It 
+> depends on CONFIG_PREEMPT_RT.
 > 
-> The main difference between atomic and local mappings is that local
-> mappings doesn't disable page faults or preemption.
+> Please refer to how kmap_atomic_prot() works (this function is called by 
+> kmap_atomic() when kernels have HIGHMEM enabled).
 > 
-> In drm/i915/gem/i915_gem_shmem.c, the function shmem_pwrite() need to
-> disable pagefault to eliminate the potential recursion fault[2]. But
-> here __copy_from_user_inatomic() doesn't need to disable preemption and
-> local mapping is valid for sched in/out.
+> > 
+> > There're 2 reasons why i915_gem_object_read_from_page_kmap() doesn't
+> > need to disable pagefaults and preemption for mapping:
+> > 
+> > 1. The flush operation is safe for CPU hotplug when preemption is not
+> > disabled. 
 > 
-> So it can use kmap_local_page() / kunmap_local() with
-> pagefault_disable() / pagefault_enable() to replace atomic mapping.
-> 
-> [1]: https://lore.kernel.org/all/20220813220034.806698-1-ira.weiny@intel.com
-> [2]: https://patchwork.freedesktop.org/patch/295840/
-> 
-> Suggested-by: Ira Weiny <ira.weiny@intel.com>
+> I'm confused here. Why are you talking about CPU hotplug?
 
-Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+I agree with Fabio here.  I'm not making the connection between cpu hotplug and
+this code path.
 
-> Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
-> ---
-> Suggested by credits:
->   Ira: Referred to his suggestions about keeping pagefault_disable().
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_shmem.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+Ira
+
+> In any case, developers should never rely on implicit calls of 
+> preempt_disable() for the reasons said above. Therefore, flush operations 
+> should be allowed regardless that kmap_atomic() potential side effect.
 > 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> index f42ca1179f37..e279a3e30c02 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> @@ -472,11 +472,13 @@ shmem_pwrite(struct drm_i915_gem_object *obj,
->  		if (err < 0)
->  			return err;
+> > In drm/i915/gem/i915_gem_object.c, the function
+> > i915_gem_object_read_from_page_kmap() calls drm_clflush_virt_range()
+> 
+> If I recall correctly, drm_clflush_virt_range() can always be called with page 
+> faults and preemption enabled. If so, this is enough to say that the 
+> conversion is safe. 
+> 
+> Is this code explicitly related to flushing the cache lines before removing / 
+> adding CPUs? If I recall correctly, there are several other reasons behind the 
+> need to issue cache lines flushes. Am I wrong about this?
+> 
+> Can you please say more about what I'm missing here?
+> 
+> > to
+> > use CLFLUSHOPT or WBINVD to flush. Since CLFLUSHOPT is global on x86
+> > and WBINVD is called on each cpu in drm_clflush_virt_range(), the flush
+> > operation is global and any issue with cpu's being added or removed
+> > can be handled safely.
+> 
+> Again your main concern is about CPU hotplug.
+> 
+> Even if I'm missing something, do we really need all these details about the 
+> inner workings of drm_clflush_virt_range()? 
+> 
+> I'm not an expert, so may be that I'm wrong about all I wrote above.
+> 
+> Therefore, can you please elaborate a little more for readers with very little 
+> knowledge of these kinds of things (like me and perhaps others)?
 >  
-> -		vaddr = kmap_atomic(page);
-> +		vaddr = kmap_local_page(page);
-> +		pagefault_disable();
->  		unwritten = __copy_from_user_inatomic(vaddr + pg,
->  						      user_data,
->  						      len);
-> -		kunmap_atomic(vaddr);
-> +		pagefault_enable();
-> +		kunmap_local(vaddr);
->  
->  		err = aops->write_end(obj->base.filp, mapping, offset, len,
->  				      len - unwritten, page, data);
-> -- 
-> 2.34.1
+> > 2. Any context switch caused by preemption or sleep (pagefault may
+> > cause sleep) doesn't affect the validity of local mapping.
+> 
+> I'd replace "preemption or sleep" with "preemption and page faults" since 
+> yourself then added that page faults lead to tasks being put to sleep.  
+> 
+> > Therefore, i915_gem_object_read_from_page_kmap() is a function where
+> > the use of kmap_local_page() in place of kmap_atomic() is correctly
+> > suited.
+> > 
+> > Convert the calls of kmap_atomic() / kunmap_atomic() to
+> > kmap_local_page() / kunmap_local().
+> > 
+> > And remove the redundant variable that stores the address of the mapped
+> > page since kunmap_local() can accept any pointer within the page.
+> > 
+> > [1]: https://lore.kernel.org/all/20220813220034.806698-1-ira.weiny@intel.com
+> > 
+> > Suggested-by: Dave Hansen <dave.hansen@intel.com>
+> > Suggested-by: Ira Weiny <ira.weiny@intel.com>
+> > Suggested-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
+> > ---
+> > Suggested by credits:
+> >   Dave: Referred to his explanation about cache flush.
+> >   Ira: Referred to his task document, review comments and explanation about
+> >        cache flush.
+> >   Fabio: Referred to his boiler plate commit message.
+> > ---
+> >  drivers/gpu/drm/i915/gem/i915_gem_object.c | 8 +++-----
+> >  1 file changed, 3 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c
+> > b/drivers/gpu/drm/i915/gem/i915_gem_object.c index 
+> 369006c5317f..a0072abed75e 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+> > @@ -413,17 +413,15 @@ void __i915_gem_object_invalidate_frontbuffer(struct
+> > drm_i915_gem_object *obj, static void
+> >  i915_gem_object_read_from_page_kmap(struct drm_i915_gem_object *obj, u64 
+> offset, void
+> > *dst, int size) {
+> > -	void *src_map;
+> >  	void *src_ptr;
+> > 
+> > -	src_map = kmap_atomic(i915_gem_object_get_page(obj, offset >> 
+> PAGE_SHIFT));
+> > -
+> > -	src_ptr = src_map + offset_in_page(offset);
+> > +	src_ptr = kmap_local_page(i915_gem_object_get_page(obj, offset >> 
+> PAGE_SHIFT))
+> > +	          + offset_in_page(offset);
+> >  	if (!(obj->cache_coherent & I915_BO_CACHE_COHERENT_FOR_READ))
+> >  		drm_clflush_virt_range(src_ptr, size);
+> >  	memcpy(dst, src_ptr, size);
+> > 
+> > -	kunmap_atomic(src_map);
+> > +	kunmap_local(src_ptr);
+> >  }
+> > 
+> >  static void
+> 
+> The changes look good, but I'd like to better understand the commit message.
+> 
+> Thanks,
+> 
+> Fabio 
+> 
 > 
