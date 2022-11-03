@@ -2,56 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3D04617BC7
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Nov 2022 12:41:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 873A9617BF2
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Nov 2022 12:53:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97F1910E291;
-	Thu,  3 Nov 2022 11:41:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3C8810E5D8;
+	Thu,  3 Nov 2022 11:53:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EB4C10E291;
- Thu,  3 Nov 2022 11:41:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1667475669; x=1699011669;
- h=date:from:to:cc:subject:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=6eeapZWGVQKUdBkXtuCROwbCT3dd5H5Szsdjv3PlxbY=;
- b=Io0ma53tK7+AgSBx/yIuzqDLqZZc8y9r5D1UbVF+qk7+5Xs+i49Y+TEL
- lJKex3UVDp7u6susuxHAMfnd8KAXn4J/o0ewDwvsLuCUKfWQtS570xFCe
- +4HNgQRXrnEDMNWxdsutKltPM4fE3zIp+QWrE7Ja+/sa7HObb88BlTNmg
- PXApTqvQ/MOATV3T4Nx4LnUSsx3sLIv3aVZY6MCavbOtJ8NCTrn/D0ZsR
- +DPD9gZn2b0v5umzVAq078vo70/glLcNXuyisq2vwGQY1t/6a54FUUcfW
- H3NjPe/HKfjcgLUzzi5zhwX+6G0I20onayd7bVULyM/0rcCVRaz0IRxWa Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10519"; a="311388817"
-X-IronPort-AV: E=Sophos;i="5.95,235,1661842800"; d="scan'208";a="311388817"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Nov 2022 04:41:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10519"; a="879851249"
-X-IronPort-AV: E=Sophos;i="5.95,235,1661842800"; d="scan'208";a="879851249"
-Received: from linux.intel.com ([10.54.29.200])
- by fmsmga006.fm.intel.com with ESMTP; 03 Nov 2022 04:41:07 -0700
-Received: from maurocar-mobl2 (maurocar-mobl2.ger.corp.intel.com
- [10.252.30.171])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by linux.intel.com (Postfix) with ESMTPS id BE29A580C99;
- Thu,  3 Nov 2022 04:41:02 -0700 (PDT)
-Date: Thu, 3 Nov 2022 12:40:59 +0100
-From: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
-To: Isabella Basso <isabbasso@riseup.net>
-Subject: Re: [igt-dev] [PATCH i-g-t v2 3/4] lib/igt_kmod: add compatibility
- for KUnit
-Message-ID: <20221103124059.682e7adf@maurocar-mobl2>
-In-Reply-To: <20221103104840.7301df76@maurocar-mobl2>
-References: <20220829000920.38185-1-isabbasso@riseup.net>
- <20220829000920.38185-4-isabbasso@riseup.net>
- <20221103104840.7301df76@maurocar-mobl2>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1449110E5DD
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Nov 2022 11:53:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667476398;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=v84JZEMOTpneHRjU+4aahq00pj4cEi9BPmEyqyDwNuI=;
+ b=Tydubu4eDB+HzdnqYqKcKCVwi/yA2MdR/EyH3xnbdUcWgmCqi2Mm3KzSKJAe9iuAJLR+xY
+ 4XWB62lENQ/TYFo/XyBFn2piMOjMi1hlqvjzyRe37jIPIqHia6xeVEg7maJkCyO5X4EGD8
+ 9o5Jp3i8dG1/epLbOvNxYdo9NYx/qL0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-30-88zU1SztO_u_0Agds53AIQ-1; Thu, 03 Nov 2022 07:53:17 -0400
+X-MC-Unique: 88zU1SztO_u_0Agds53AIQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ r22-20020adfa156000000b0023660e969ddso403611wrr.19
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Nov 2022 04:53:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=v84JZEMOTpneHRjU+4aahq00pj4cEi9BPmEyqyDwNuI=;
+ b=wFSiDQC7H7NGYZs3r4f3rXFwkG/CUkd94mJHnQPtkLtT6eqhUl1rnh+1x5DbfvWxVB
+ IDxbT5o9e6KKSEN9gvCBC+F5HYVXNuayTQVOmkz+VQ8WIJ9XUmzkToGa1iG2jDLmAzt2
+ WgQ9Yl+c01EgwbpTvNLeYrpQnw2xTwII0HKDJXRId/wF2wPGsddHvM/yP3dL+spe8cjE
+ bYr2Uarjh01eUSPc/0b181mbtUB0bpdpNnnc6qPWsSaXWWL2wke19hp5qNKXubLZdT5l
+ lWom/13nkZFcs4Ugt0/HZkoK4jUo1HYmH7v1hucbwzEjC6Oo+dPVDedCPn/31OYczkRX
+ jQNg==
+X-Gm-Message-State: ACrzQf0WAHmWFMonQajvsA5racMFVhzNRgvDkABIjP7f2NjlhUVOpuCx
+ AIvLJpp7JQwkLCXhF96xAFIcVvNdsRoMT8M9RHvZ8dtwrtHJKU0Tn+YM3YGoUsZRhTud6d6iVec
+ WEWUcF7hbFqiHUgJZBuDd4nT91FkJ
+X-Received: by 2002:adf:e446:0:b0:236:773b:c6f0 with SMTP id
+ t6-20020adfe446000000b00236773bc6f0mr18747864wrm.55.1667476396417; 
+ Thu, 03 Nov 2022 04:53:16 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7tg9WlNqpEeBsorrVmfpoW8aMy3ZwDl4qGsf1OwV7SMXeHd0xrPDtiVhqzBhDK3nBqxF0o6A==
+X-Received: by 2002:adf:e446:0:b0:236:773b:c6f0 with SMTP id
+ t6-20020adfe446000000b00236773bc6f0mr18747848wrm.55.1667476396133; 
+ Thu, 03 Nov 2022 04:53:16 -0700 (PDT)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ bg41-20020a05600c3ca900b003a3170a7af9sm1167582wmb.4.2022.11.03.04.53.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Nov 2022 04:53:15 -0700 (PDT)
+Message-ID: <c9064cc6-2a9d-1094-53fb-cf56f9cbf191@redhat.com>
+Date: Thu, 3 Nov 2022 12:53:14 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH] drm: rcar_du: DRM_RCAR_DU optionally depends on
+ RCAR_MIPI_DSI
+To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+References: <20221018181828.19528-1-rdunlap@infradead.org>
+ <a68a24a0-eda3-8711-21c1-334289eca0d3@infradead.org>
+ <166747314442.3962897.9754510086268412956@Monstersaurus>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <166747314442.3962897.9754510086268412956@Monstersaurus>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,259 +89,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kselftest@vger.kernel.org, magalilemes00@gmail.com,
- maira.canal@usp.br, dlatypov@google.com, tales.aparecida@gmail.com,
- brendanhiggins@google.com, linux-kernel@vger.kernel.org,
- leandro.ribeiro@collabora.com, igt-dev@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, n@nfraprado.net, davidgow@google.com,
- skhan@linuxfoundation.org, andrealmeid@riseup.net, kunit-dev@googlegroups.com
+Cc: linux-renesas-soc@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ LUU HOAI <hoai.luu.ub@renesas.com>, dri-devel@lists.freedesktop.org,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 3 Nov 2022 10:48:40 +0100
-Mauro Carvalho Chehab <mauro.chehab@linux.intel.com> wrote:
+Hello Kieran,
 
-> On Sun, 28 Aug 2022 21:09:19 -0300
-> Isabella Basso <isabbasso@riseup.net> wrote:
+On 11/3/22 11:59, Kieran Bingham wrote:
+> Hi Randy,
 > 
-> > This adds functions for both executing the tests as well as parsing (K)TAP
-> > kmsg output, as per the KTAP spec [1].
-> > 
-> > [1] https://www.kernel.org/doc/html/latest/dev-tools/ktap.html
-> > 
-> > Signed-off-by: Isabella Basso <isabbasso@riseup.net>  
+> Quoting Randy Dunlap (2022-11-03 06:06:45)
+>> ping. I have verified (on linux-next-20221103) that this is still needed.
+>> Thanks.
+>>
+>> On 10/18/22 11:18, Randy Dunlap wrote:
+>>> When CONFIG_DRM_RCAR_DU=y and CONFIG_DRM_RCAR_MIPI_DSI=m, calls
+>>> from the builtin driver to the mipi driver fail due to linker
+>>> errors.
+>>> Since the RCAR_MIPI_DSI driver is not always required, fix the
+>>> build error by making DRM_RCAR_DU optionally depend on the
+>>> RCAR_MIPI_DSI Kconfig symbol. This prevents the problematic
+>>> kconfig combination without requiring that RCAR_MIPI_DSI always
+>>> be enabled.
+>>>
+>>> aarch64-linux-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_enable':
+>>> rcar_du_crtc.c:(.text+0x3a18): undefined reference to `rcar_mipi_dsi_pclk_enable'
+>>> aarch64-linux-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_disable':
+>>> rcar_du_crtc.c:(.text+0x47cc): undefined reference to `rcar_mipi_dsi_pclk_disable'
+>>>
+>>> Fixes: 957fe62d7d15 ("drm: rcar-du: Fix DSI enable & disable sequence")
+>>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+>>> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>>> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>>> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>>> Cc: LUU HOAI <hoai.luu.ub@renesas.com>
+>>> Cc: dri-devel@lists.freedesktop.org
+>>> Cc: linux-renesas-soc@vger.kernel.org
+>>> Cc: David Airlie <airlied@gmail.com>
+>>> Cc: Daniel Vetter <daniel@ffwll.ch>
+>>> ---
+>>>  drivers/gpu/drm/rcar-du/Kconfig |    1 +
+>>>  1 file changed, 1 insertion(+)
+>>>
+>>> diff -- a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
+>>> --- a/drivers/gpu/drm/rcar-du/Kconfig
+>>> +++ b/drivers/gpu/drm/rcar-du/Kconfig
+>>> @@ -4,6 +4,7 @@ config DRM_RCAR_DU
+>>>       depends on DRM && OF
+>>>       depends on ARM || ARM64
+>>>       depends on ARCH_RENESAS || COMPILE_TEST
+>>> +     depends on DRM_RCAR_MIPI_DSI || DRM_RCAR_MIPI_DSI=n
 > 
-> Hi Isabella,
+> Please forgive my ignorance, but I don't understand how this works.
+> Could you explain what this is doing please?
 > 
-> I'm doing some tests here with my i915 KUnit patch series.
+> I know you've explained above that it fixes it to optionally depend on
+> DRM_RCAR_MIPI_DSI ... but it's not making sense to me.
 > 
-> There's a problem with the way it is currently parsing the KTAP logs on
-> IGT. It sounds that it is parsing the data only at the end, and not as
-> they arrive. That's bad, as if something goes wrong, the previously
-> reported data is still useful.
+> To me - this is saying we depend on DRM_RCAR_MIPI_DSI being enabled, or
+> not being enabled ... ? Which is like saying if (0 || 1) ?
 > 
-> Also, when there's a crash, the IGT process is getting segmentation
-> fault. So, the end result is that nothing is actually reported.
-> 
-> 	$ sudo ./build/tests/i915_selftest
-> 	IGT-Version: 1.26-gbab20eb65 (x86_64) (Linux: 6.1.0-rc2-drm-990037e9984e+ x86_64)
-> 	Segmentation fault (core dumped)
+> I'm guessing I'm missing something obvious :-S
+>
 
-Another issue related to KTAP parsing: this is the output before
-the KUnit patch, which is used by IGT CI to check the test results, for
-i915 mock selftest:
+What this Kconfig expression is saying is that it depends on DRM_RCAR_MIPI_DSI=y
+if DRM_RCAR_DU=y and DRM_RCAR_MIPI_DSI=m if DRM_RCAR_DU=m. But that the it can
+also be satisfied if is not set DRM_RCAR_MIPI_DSI.
 
-<snip>
-IGT-Version: 1.26-gbab20eb65 (x86_64) (Linux: 6.1.0-rc2-drm-8dacd9299fcc+ x86_64)
-process 659 (alsactl) is using audio device. Should be terminated.
-Starting subtest: mock
-Starting dynamic subtest: sanitycheck
-Dynamic subtest sanitycheck: SUCCESS (0.648s)
-Starting dynamic subtest: shmem
-Dynamic subtest shmem: SUCCESS (0.557s)
-Starting dynamic subtest: fence
-Dynamic subtest fence: SUCCESS (8.078s)
-Starting dynamic subtest: scatterlist
-Dynamic subtest scatterlist: SUCCESS (1.531s)
-Starting dynamic subtest: syncmap
-Dynamic subtest syncmap: SUCCESS (2.875s)
-Starting dynamic subtest: uncore
-Dynamic subtest uncore: SUCCESS (0.525s)
-Starting dynamic subtest: ring
-Dynamic subtest ring: SUCCESS (0.529s)
-Starting dynamic subtest: engine
-Dynamic subtest engine: SUCCESS (0.527s)
-Starting dynamic subtest: timelines
-Dynamic subtest timelines: SUCCESS (4.177s)
-Starting dynamic subtest: requests
-Dynamic subtest requests: SUCCESS (3.561s)
-Starting dynamic subtest: objects
-Dynamic subtest objects: SUCCESS (0.596s)
-Starting dynamic subtest: phys
-Dynamic subtest phys: SUCCESS (0.602s)
-Starting dynamic subtest: dmabuf
-Dynamic subtest dmabuf: SUCCESS (0.605s)
-Starting dynamic subtest: vma
-Dynamic subtest vma: SUCCESS (9.724s)
-Starting dynamic subtest: evict
-Dynamic subtest evict: SUCCESS (1.660s)
-Starting dynamic subtest: gtt
-Dynamic subtest gtt: SUCCESS (3.309s)
-Starting dynamic subtest: hugepages
-Dynamic subtest hugepages: SUCCESS (1.665s)
-Starting dynamic subtest: memory_region
-Dynamic subtest memory_region: SUCCESS (2.789s)
-Subtest mock: SUCCESS (43.961s)
-</snip>
+This is usually used to make sure that you don't end with a configuration where
+DRM_RCAR_MIPI_DSI=y and DRM_RCAR_DU=m or DRM_RCAR_MIPI_DSI=m and DRM_RCAR_DU=y.
 
-This is the logs after your patch:
+Randy, I think that it's more idiomatic though to it express as following:
 
-<snip>
-Missing test version string
-Executing 18 tests in: i915 mock selftests
-kmsg> 1..18
-kmsg> i915: i915_mock_sanitycheck() - ok!
-kmsg> ok 1 - mock_sanitycheck
-kmsg> i915: Running shmem_utils_mock_selftests/igt_shmem_basic
-kmsg> ok 2 - mock_shmem
-kmsg> i915: Running i915_sw_fence_mock_selftests/test_self
-kmsg> i915: Running i915_sw_fence_mock_selftests/test_dag
-kmsg> i915: Running i915_sw_fence_mock_selftests/test_AB
-kmsg> i915: Running i915_sw_fence_mock_selftests/test_ABC
-kmsg> i915: Running i915_sw_fence_mock_selftests/test_AB_C
-kmsg> i915: Running i915_sw_fence_mock_selftests/test_C_AB
-kmsg> i915: Running i915_sw_fence_mock_selftests/test_chain
-kmsg> i915: Running i915_sw_fence_mock_selftests/test_ipc
-kmsg> i915: Running i915_sw_fence_mock_selftests/test_timer
-kmsg> i915: Running i915_sw_fence_mock_selftests/test_dma_fence
-kmsg> Asynchronous wait on fence mock:mock:0 timed out (hint:fence_notify [i915])
-kmsg> ok 3 - mock_fence
-kmsg> i915: Running scatterlist_mock_selftests/igt_sg_alloc
-kmsg> sg_alloc_table timed out
-kmsg> i915: Running scatterlist_mock_selftests/igt_sg_trim
-kmsg> i915_sg_trim timed out
-kmsg> ok 4 - mock_scatterlist
-kmsg> i915: Running i915_syncmap_mock_selftests/igt_syncmap_init
-kmsg> i915: Running i915_syncmap_mock_selftests/igt_syncmap_one
-kmsg> i915: Running i915_syncmap_mock_selftests/igt_syncmap_join_above
-kmsg> i915: Running i915_syncmap_mock_selftests/igt_syncmap_join_below
-kmsg> i915: Running i915_syncmap_mock_selftests/igt_syncmap_neighbours
-kmsg> i915: Running i915_syncmap_mock_selftests/igt_syncmap_compact
-kmsg> i915: Running i915_syncmap_mock_selftests/igt_syncmap_random
-kmsg> ok 5 - mock_syncmap
-kmsg> ok 6 - mock_uncore
-kmsg> i915: Running intel_ring_mock_selftests/igt_ring_direction
-kmsg> ok 7 - mock_ring
-kmsg> i915: Running intel_engine_cs_mock_selftests/intel_mmio_bases_check
-kmsg> ok 8 - mock_engine
-kmsg> i915: Running intel_timeline_mock_selftests/mock_hwsp_freelist
-kmsg> mock: [drm] Using Transparent Hugepages
-kmsg> mock: [drm] Incompatible option enable_guc=3 - GuC is not supported!
-kmsg> mock: [drm] Incompatible option enable_guc=3 - HuC is not supported!
-kmsg> mock: [drm] Incompatible option enable_guc=3 - GuC submission is N/A
-kmsg> i915: Running intel_timeline_mock_selftests/igt_sync
-kmsg> i915: Running intel_timeline_mock_selftests/bench_sync
-kmsg> bench_sync: 44045 random insertions, 2288ns/insert
-kmsg> bench_sync: 44045 random lookups, 80ns/lookup
-kmsg> bench_sync: 877617 in-order insertions, 114ns/insert
-kmsg> bench_sync: 877617 in-order lookups, 3ns/lookup
-kmsg> bench_sync: 6357870 repeated insert/lookups, 10ns/op
-kmsg> bench_sync: 19942183 cyclic/1 insert/lookups, 5ns/op
-kmsg> bench_sync: 19353937 cyclic/2 insert/lookups, 5ns/op
-kmsg> bench_sync: 16969941 cyclic/3 insert/lookups, 5ns/op
-kmsg> bench_sync: 14438533 cyclic/5 insert/lookups, 6ns/op
-kmsg> bench_sync: 13418112 cyclic/8 insert/lookups, 7ns/op
-kmsg> bench_sync: 9257200 cyclic/13 insert/lookups, 10ns/op
-kmsg> bench_sync: 53636 cyclic/21 insert/lookups, 1877ns/op
-kmsg> ok 9 - mock_timelines
-kmsg> mock: [drm] Using Transparent Hugepages
-kmsg> mock: [drm] Incompatible option enable_guc=3 - GuC is not supported!
-kmsg> mock: [drm] Incompatible option enable_guc=3 - HuC is not supported!
-kmsg> mock: [drm] Incompatible option enable_guc=3 - GuC submission is N/A
-kmsg> i915: Running i915_request_mock_selftests/igt_add_request
-kmsg> i915: Running i915_request_mock_selftests/igt_wait_request
-kmsg> i915: Running i915_request_mock_selftests/igt_fence_wait
-kmsg> i915: Running i915_request_mock_selftests/igt_request_rewind
-kmsg> i915: Running i915_request_mock_selftests/mock_breadcrumbs_smoketest
-kmsg> Completed 92 waits for 49042 fence across 8 cpus
-kmsg> ok 10 - mock_requests
-kmsg> mock: [drm] Using Transparent Hugepages
-kmsg> mock: [drm] Incompatible option enable_guc=3 - GuC is not supported!
-kmsg> mock: [drm] Incompatible option enable_guc=3 - HuC is not supported!
-kmsg> mock: [drm] Incompatible option enable_guc=3 - GuC submission is N/A
-kmsg> i915: Running i915_gem_object_mock_selftests/igt_gem_object
-kmsg> ok 11 - mock_objects
-kmsg> mock: [drm] Using Transparent Hugepages
-kmsg> mock: [drm] Incompatible option enable_guc=3 - GuC is not supported!
-kmsg> mock: [drm] Incompatible option enable_guc=3 - HuC is not supported!
-kmsg> mock: [drm] Incompatible option enable_guc=3 - GuC submission is N/A
-kmsg> i915: Running i915_gem_phys_mock_selftests/mock_phys_object
-kmsg> ok 12 - mock_phys
-kmsg> mock: [drm] Using Transparent Hugepages
-kmsg> mock: [drm] Incompatible option enable_guc=3 - GuC is not supported!
-kmsg> mock: [drm] Incompatible option enable_guc=3 - HuC is not supported!
-kmsg> mock: [drm] Incompatible option enable_guc=3 - GuC submission is N/A
-kmsg> i915: Running i915_gem_dmabuf_mock_selftests/igt_dmabuf_export
-kmsg> i915: Running i915_gem_dmabuf_mock_selftests/igt_dmabuf_import_self
-kmsg> i915: Running i915_gem_dmabuf_mock_selftests/igt_dmabuf_import
-kmsg> i915: Running i915_gem_dmabuf_mock_selftests/igt_dmabuf_import_ownership
-kmsg> i915: Running i915_gem_dmabuf_mock_selftests/igt_dmabuf_export_vmap
-kmsg> ok 13 - mock_dmabuf
-kmsg> mock: [drm] Using Transparent Hugepages
-kmsg> mock: [drm] Incompatible option enable_guc=3 - GuC is not supported!
-kmsg> mock: [drm] Incompatible option enable_guc=3 - HuC is not supported!
-kmsg> mock: [drm] Incompatible option enable_guc=3 - GuC submission is N/A
-kmsg> i915: Running i915_vma_mock_selftests/igt_vma_create
-kmsg> igt_vma_create timed out: after 31 objects in 23 contexts
-kmsg> i915: Running i915_vma_mock_selftests/igt_vma_pin1
-kmsg> i915: Running i915_vma_mock_selftests/igt_vma_rotate_remap
-kmsg> i915: Running i915_vma_mock_selftests/igt_vma_partial
-kmsg> ok 14 - mock_vma
-kmsg> mock: [drm] Using Transparent Hugepages
-kmsg> mock: [drm] Incompatible option enable_guc=3 - GuC is not supported!
-kmsg> mock: [drm] Incompatible option enable_guc=3 - HuC is not supported!
-kmsg> mock: [drm] Incompatible option enable_guc=3 - GuC submission is N/A
-kmsg> i915: Running i915_gem_evict_mock_selftests/igt_evict_something
-kmsg> i915: Running i915_gem_evict_mock_selftests/igt_evict_for_vma
-kmsg> i915: Running i915_gem_evict_mock_selftests/igt_evict_for_cache_color
-kmsg> i915: Running i915_gem_evict_mock_selftests/igt_evict_vm
-kmsg> i915: Running i915_gem_evict_mock_selftests/igt_overcommit
-kmsg> ok 15 - mock_evict
-kmsg> mock: [drm] Using Transparent Hugepages
-kmsg> mock: [drm] Incompatible option enable_guc=3 - GuC is not supported!
-kmsg> mock: [drm] Incompatible option enable_guc=3 - HuC is not supported!
-kmsg> mock: [drm] Incompatible option enable_guc=3 - GuC submission is N/A
-kmsg> i915: Running i915_gem_gtt_mock_selftests/igt_mock_drunk
-kmsg> drunk_hole timed out after 31635/524288
-kmsg> i915: Running i915_gem_gtt_mock_selftests/igt_mock_walk
-kmsg> walk_hole timed out at 812f000
-kmsg> i915: Running i915_gem_gtt_mock_selftests/igt_mock_pot
-kmsg> pot_hole timed out after 19/33
-kmsg> i915: Running i915_gem_gtt_mock_selftests/igt_mock_fill
-kmsg> fill_hole timed out (npages=1, prime=199)
-kmsg> i915: Running i915_gem_gtt_mock_selftests/igt_gtt_reserve
-kmsg> i915: Running i915_gem_gtt_mock_selftests/igt_gtt_insert
-kmsg> ok 16 - mock_gtt
-kmsg> mock: [drm] Using Transparent Hugepages
-kmsg> mock: [drm] Incompatible option enable_guc=3 - GuC is not supported!
-kmsg> mock: [drm] Incompatible option enable_guc=3 - HuC is not supported!
-kmsg> mock: [drm] Incompatible option enable_guc=3 - GuC submission is N/A
-kmsg> i915: Running i915_gem_huge_page_mock_selftests/igt_mock_exhaust_device_supported_pages
-kmsg> i915: Running i915_gem_huge_page_mock_selftests/igt_mock_memory_region_huge_pages
-kmsg> i915: Running i915_gem_huge_page_mock_selftests/igt_mock_ppgtt_misaligned_dma
-kmsg> i915: Running i915_gem_huge_page_mock_selftests/igt_mock_ppgtt_huge_fill
-kmsg> igt_mock_ppgtt_huge_fill timed out at size 43986944
-kmsg> i915: Running i915_gem_huge_page_mock_selftests/igt_mock_ppgtt_64K
-kmsg> ok 17 - mock_hugepages
-kmsg> mock: [drm] Using Transparent Hugepages
-kmsg> mock: [drm] Incompatible option enable_guc=3 - GuC is not supported!
-kmsg> mock: [drm] Incompatible option enable_guc=3 - HuC is not supported!
-kmsg> mock: [drm] Incompatible option enable_guc=3 - GuC submission is N/A
-kmsg> i915: Running intel_memory_region_mock_selftests/igt_mock_reserve
-kmsg> i915: Running intel_memory_region_mock_selftests/igt_mock_fill
-kmsg> i915: Running intel_memory_region_mock_selftests/igt_mock_contiguous
-kmsg> i915: Running intel_memory_region_mock_selftests/igt_mock_splintered_region
-kmsg> i915: Running intel_memory_region_mock_selftests/igt_mock_max_segment
-kmsg> i915: Running intel_memory_region_mock_selftests/igt_mock_io_size
-kmsg> igt_mock_io_size with ps=10000, io_size=10000000, total=cf110000
-kmsg> igt_mock_io_size mappable theft=(0MiB/256MiB), total=3313MiB
-kmsg> ok 18 - mock_memory_region
-kmsg> # i915 mock selftests: pass:18 fail:0 skip:0 total:18
-kmsg> # Totals: pass:18 fail:0 skip:0 total:18
-kmsg> ok 1 - i915 mock selftests
-SUCCESS (29.259s)
-</snip>
+depends on DRM_RCAR_MIPI_DSI || !DRM_RCAR_MIPI_DSI
 
-Basically, the current output will break CI reports presented at:
-	https://intel-gfx-ci.01.org/tree/drm-tip/bat-all.html?testfilter=selftest
+-- 
+Best regards,
 
-The IGT output after your change should be similar to what we had
-before, e. g. each test should output SUCCESS/FAIL/SKIP (plus the
-final result of all tests at the suite).
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
-any other non-KTAP messages from dmesg should be ignored, as, if
-needed, those can be obtained later, as IGT runs on bare metal,
-and not inside a VM.
-
-Regards,
-Mauro
