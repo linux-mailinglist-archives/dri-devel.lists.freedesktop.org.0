@@ -1,66 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86D70618EA9
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 04:17:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E56ED618EB3
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 04:17:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B656A10E048;
-	Fri,  4 Nov 2022 03:16:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5478510E058;
+	Fri,  4 Nov 2022 03:16:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
- [IPv6:2607:f8b0:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A53B410E048
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 03:16:47 +0000 (UTC)
-Received: by mail-pl1-x633.google.com with SMTP id l2so3708532pld.13
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Nov 2022 20:16:47 -0700 (PDT)
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
+ [IPv6:2607:f8b0:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D25C710E048
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 03:16:49 +0000 (UTC)
+Received: by mail-pf1-x433.google.com with SMTP id y203so3403155pfb.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Nov 2022 20:16:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ErMeJ3/N/lU6gG8CjwNQFs+A5aKgySMTRdfeG+Egqbs=;
- b=FEEJPlJPYUREMw1w2MxcaST1IyKa4MxHkgJeNeJjaWJYeeR6EjTODo7oAewdL0XeTB
- Uua2msSMqdLnBrfyRjTvNgXs0ypyw+ER2IsjAjzO2ToH4haL8BRiABXkWaQ9JscT2WiY
- LyIPycSrKkzkqTCiESZooUV9bA5jZi1UwScPN5li75jEEiX9JjGmvnfDnUAAjyhyfYh5
- 065dIWklhOj8YdJKq+f+4D2gumQnCgz/7i0IaOTvS/C9f66vNmcLmnOPl2pupQFEbGnN
- VgaDHIhuOrK+pHJVP0L4vgp18rIDr74fv2IrRbumn/ZLH5jk70OEf52YGFZmg2Zp9cVt
- NCYA==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kVkDO2KOif2frQeCzecIa3Ot4mR/23B4wTbE/ilmNLI=;
+ b=ISodEXugjsGq/3voQK8yKgdkqR315OB/AgxmhqVqPbmkoX6tYVJxq4Qe1LyWQeOTCL
+ pOXwJlIJrbTSTw52Tmg+tM6gVo9rCHjHV4bniO/FsZX1yHZo68/hRy8G3GP51UZ54w3p
+ YbgidRg7v11OIVoiBVF2BNhAbCSbrPqrSvxocMRm8usjN8IeI27KLtJKKTtcFCtKgrL7
+ cv8eVSOH+881aWk7/zvyHPjeR6tPC3Rf9YaUFcFEs25De4bia3On/TvBgtGWmvVYAecN
+ U/hJqDZ6J7Ql0/YllMRZczid+nCLjwuJkxJhWyAQP9cEXxaop0I1zTMAiDAxy8EB0iWd
+ ekoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ErMeJ3/N/lU6gG8CjwNQFs+A5aKgySMTRdfeG+Egqbs=;
- b=n6NJtu9V8u2IofbG4q4Eg5IR6zpdTDR6WT4IoNCuyQ6x/dGGMzNBjVd/hGQsRmCvPv
- pq4SZb3SHeBqCGBKRcwrkQU/DlwNJ3fjXYGncIWvjZ5c3iZRvRKJWdW+AKdNb1nFkmJ2
- BsRIGa748hmmYWRFLAXRWCaKaxa+OTb9t7H59yN4W7fLHoFxJKj7O/1pZjF7AICzLJ68
- rfacyX3VCefnRivD9CAbiTcDYAavRl01bN0HVTBfVTIiE1zL0Ue8CLWWaGPlPa6K4xJO
- XkXd2cKnsU2TR6iE43JAFTJpFf26Rgvns3QrL8C0vltc7fFYH3QdhwPhcOPrCaNkj9tl
- nNAQ==
-X-Gm-Message-State: ACrzQf15ddD9VgRxlUvu/tdaRQBlVCXpY8K4iDBG0AGH+WIpyD8T94uk
- y2q/7pqKUMXCWbJPplnTBpk=
-X-Google-Smtp-Source: AMsMyM7vh79PCyZMFQuT/KKZHGeAwlNjaPyLoj7VC+4pfmidI1y+REGGVZVpsmuRn0q/HdqDtozZWw==
-X-Received: by 2002:a17:902:d3cc:b0:186:9720:b19b with SMTP id
- w12-20020a170902d3cc00b001869720b19bmr33182884plb.3.1667531806883; 
- Thu, 03 Nov 2022 20:16:46 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=kVkDO2KOif2frQeCzecIa3Ot4mR/23B4wTbE/ilmNLI=;
+ b=pORZfrj1a6LYIeqULEJ86YnLTC9b2NZ1Cl6GGDj/TXuc/6FhQoi0R++UQ07yomE//z
+ +jWdVBMvBpMizuYIL00+wcC7VitZ/abhOBIaTZteY5EcYp+rKtYaCN+AdgNEuZ01nkvn
+ C+DZgzL9Il9g3YnyCdLnfILhoCRpl+TqLBMoEbW61fG1a0Kp7qCnNjpVxHvmMsrVaXpr
+ ZmyuLiR3QE45rPfTAZSaWDcCMLaFNeogqDAkTc4FOsAqIYXpGJeiuYGn//TFMespRp/Y
+ Us3NxVw+PKgcpNaaXbvr0dWWezvSvbIpdR+PqzIR83cM2cOnosPns/Xg51VddWUimA2n
+ eybQ==
+X-Gm-Message-State: ACrzQf0ESaXMNzAidcUFPUzCC09H/xRNt44/MM8hE+XicsmPQ02I/b4C
+ t/OtJrQg1rNBzYwmU6lT5nM=
+X-Google-Smtp-Source: AMsMyM4gv9FFTkU3yc/kdYQAO0x9NhjY7M4+LxVPeUm9AG5lgYFwiLS9RSw36HZtBQOwFasZ85l0LQ==
+X-Received: by 2002:a63:2215:0:b0:43b:e00f:7c7b with SMTP id
+ i21-20020a632215000000b0043be00f7c7bmr28818221pgi.511.1667531808949; 
+ Thu, 03 Nov 2022 20:16:48 -0700 (PDT)
 Received: from dtor-ws.mtv.corp.google.com
  ([2620:15c:9d:2:a6ae:11ff:fe11:fcc3])
  by smtp.gmail.com with ESMTPSA id
- s3-20020a63ff43000000b004702eca61fcsm1078655pgk.36.2022.11.03.20.16.45
+ s3-20020a63ff43000000b004702eca61fcsm1078655pgk.36.2022.11.03.20.16.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Nov 2022 20:16:46 -0700 (PDT)
+ Thu, 03 Nov 2022 20:16:48 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: Helge Deller <deller@gmx.de>, Tony Lindgren <tony@atomide.com>,
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Sebastian Reichel <sre@kernel.org>
-Subject: [PATCH RESEND 00/13] Convert omapfb drivers to gpiod API
-Date: Thu,  3 Nov 2022 20:16:29 -0700
-Message-Id: <20221103-omapfb-gpiod-v1-0-cba1fae5a77c@gmail.com>
+Subject: [PATCH RESEND 01/13] omapfb: connector-hdmi: switch to using gpiod API
+Date: Thu,  3 Nov 2022 20:16:30 -0700
+Message-Id: <20221103-omapfb-gpiod-v1-1-cba1fae5a77c@gmail.com>
 X-Mailer: git-send-email 2.38.1.431.g37b22c650d-goog
+In-Reply-To: <20221103-omapfb-gpiod-v1-0-cba1fae5a77c@gmail.com>
+References: <20221103-omapfb-gpiod-v1-0-cba1fae5a77c@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 X-Mailer: b4 0.11.0-dev-28747
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,62 +81,109 @@ Cc: linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series converts various OMAPFB drivers to use the newer gpiod API=0D
-that respects line polarity specified in DTS.=0D
-=0D
-Unfortunately existing DTS files specify incorrect (active high) polarity=0D
-for reset lines. As discussed in [1] we will not try to correct existing=0D
-DTSes, but instead follow the path established by DRM drivers for the same=
-=0D
-components, and continue using inverted polarity in the FB drivers.=0D
-=0D
-[1] https://lore.kernel.org/all/20221004213503.848262-1-dmitry.torokhov@gma=
-il.com/=0D
-=0D
-To: Helge Deller <deller@gmx.de>=0D
-To: Tony Lindgren <tony@atomide.com>=0D
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>=0D
-To: Sebastian Reichel <sre@kernel.org>=0D
-Cc: linux-omap@vger.kernel.org=0D
-Cc: linux-fbdev@vger.kernel.org=0D
-Cc: dri-devel@lists.freedesktop.org=0D
-Cc: linux-kernel@vger.kernel.org=0D
-=0D
----=0D
-Dmitry Torokhov (13):=0D
-      omapfb: connector-hdmi: switch to using gpiod API=0D
-      omapfb: panel-sony-acx565akm: remove support for platform data=0D
-      omapfb: panel-sony-acx565akm: switch to using gpiod API=0D
-      omapfb: encoder-tfp410: switch to using gpiod API=0D
-      omapfb: panel-dsi-cm: switch to using gpiod API=0D
-      omapfb: panel-tpo-td043mtea1: switch to using gpiod API=0D
-      omapfb: panel-nec-nl8048hl11: switch to using gpiod API=0D
-      omapfb: panel-dpi: remove support for platform data=0D
-      omapfb: connector-analog-tv: remove support for platform data=0D
-      omapfb: encoder-opa362: fix included headers=0D
-      omapfb: panel-lgphilips-lb035q02: remove backlight GPIO handling=0D
-      omapfb: panel-tpo-td028ttec1: stop including gpio.h=0D
-      omapfb: panel-sharp-ls037v7dw01: fix included headers=0D
-=0D
- .../omap2/omapfb/displays/connector-analog-tv.c    |  60 ++---------=0D
- .../fbdev/omap2/omapfb/displays/connector-hdmi.c   |  49 +++------=0D
- .../fbdev/omap2/omapfb/displays/encoder-opa362.c   |   4 +-=0D
- .../fbdev/omap2/omapfb/displays/encoder-tfp410.c   |  67 ++++--------=0D
- .../video/fbdev/omap2/omapfb/displays/panel-dpi.c  |  83 ++-------------=0D
- .../fbdev/omap2/omapfb/displays/panel-dsi-cm.c     | 116 ++++++++---------=
-----=0D
- .../omapfb/displays/panel-lgphilips-lb035q02.c     |  21 +---=0D
- .../omap2/omapfb/displays/panel-nec-nl8048hl11.c   |  72 ++++---------=0D
- .../omapfb/displays/panel-sharp-ls037v7dw01.c      |   3 +-=0D
- .../omap2/omapfb/displays/panel-sony-acx565akm.c   | 105 ++++++-----------=
---=0D
- .../omap2/omapfb/displays/panel-tpo-td028ttec1.c   |   1 -=0D
- .../omap2/omapfb/displays/panel-tpo-td043mtea1.c   |  59 +++--------=0D
- include/video/omap-panel-data.h                    |  71 -------------=0D
- 13 files changed, 170 insertions(+), 541 deletions(-)=0D
----=0D
-base-commit: 61c3426aca2c71052ddcd06c32e29d92304990fd=0D
-change-id: 20221103-omapfb-gpiod-87ca2550bd90=0D
-=0D
--- =0D
-Dmitry=0D
+Switch the driver from legacy gpio API that is deprecated to the newer
+gpiod API that respects line polarities described in ACPI/DT.
+
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ .../fbdev/omap2/omapfb/displays/connector-hdmi.c   | 49 +++++++---------------
+ 1 file changed, 14 insertions(+), 35 deletions(-)
+
+diff --git a/drivers/video/fbdev/omap2/omapfb/displays/connector-hdmi.c b/drivers/video/fbdev/omap2/omapfb/displays/connector-hdmi.c
+index 670b9c6eb5a9..8f9ff9fb4ca4 100644
+--- a/drivers/video/fbdev/omap2/omapfb/displays/connector-hdmi.c
++++ b/drivers/video/fbdev/omap2/omapfb/displays/connector-hdmi.c
+@@ -6,11 +6,12 @@
+  * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
+  */
+ 
++#include <linux/err.h>
++#include <linux/gpio/consumer.h>
+ #include <linux/slab.h>
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+-#include <linux/of_gpio.h>
+ 
+ #include <drm/drm_edid.h>
+ 
+@@ -41,7 +42,7 @@ struct panel_drv_data {
+ 
+ 	struct omap_video_timings timings;
+ 
+-	int hpd_gpio;
++	struct gpio_desc *hpd_gpio;
+ };
+ 
+ #define to_panel_data(x) container_of(x, struct panel_drv_data, dssdev)
+@@ -155,8 +156,8 @@ static bool hdmic_detect(struct omap_dss_device *dssdev)
+ 	struct panel_drv_data *ddata = to_panel_data(dssdev);
+ 	struct omap_dss_device *in = ddata->in;
+ 
+-	if (gpio_is_valid(ddata->hpd_gpio))
+-		return gpio_get_value_cansleep(ddata->hpd_gpio);
++	if (ddata->hpd_gpio)
++		return gpiod_get_value_cansleep(ddata->hpd_gpio);
+ 	else
+ 		return in->ops.hdmi->detect(in);
+ }
+@@ -197,31 +198,6 @@ static struct omap_dss_driver hdmic_driver = {
+ 	.set_hdmi_infoframe	= hdmic_set_infoframe,
+ };
+ 
+-static int hdmic_probe_of(struct platform_device *pdev)
+-{
+-	struct panel_drv_data *ddata = platform_get_drvdata(pdev);
+-	struct device_node *node = pdev->dev.of_node;
+-	struct omap_dss_device *in;
+-	int gpio;
+-
+-	/* HPD GPIO */
+-	gpio = of_get_named_gpio(node, "hpd-gpios", 0);
+-	if (gpio_is_valid(gpio))
+-		ddata->hpd_gpio = gpio;
+-	else
+-		ddata->hpd_gpio = -ENODEV;
+-
+-	in = omapdss_of_find_source_for_first_ep(node);
+-	if (IS_ERR(in)) {
+-		dev_err(&pdev->dev, "failed to find video source\n");
+-		return PTR_ERR(in);
+-	}
+-
+-	ddata->in = in;
+-
+-	return 0;
+-}
+-
+ static int hdmic_probe(struct platform_device *pdev)
+ {
+ 	struct panel_drv_data *ddata;
+@@ -238,15 +214,18 @@ static int hdmic_probe(struct platform_device *pdev)
+ 	platform_set_drvdata(pdev, ddata);
+ 	ddata->dev = &pdev->dev;
+ 
+-	r = hdmic_probe_of(pdev);
++	ddata->hpd_gpio = devm_gpiod_get_optional(&pdev->dev, "hpd", GPIOD_IN);
++	r = PTR_ERR_OR_ZERO(ddata->hpd_gpio);
+ 	if (r)
+ 		return r;
+ 
+-	if (gpio_is_valid(ddata->hpd_gpio)) {
+-		r = devm_gpio_request_one(&pdev->dev, ddata->hpd_gpio,
+-				GPIOF_DIR_IN, "hdmi_hpd");
+-		if (r)
+-			goto err_reg;
++	gpiod_set_consumer_name(ddata->hpd_gpio, "hdmi_hpd");
++
++	ddata->in = omapdss_of_find_source_for_first_ep(pdev->dev.of_node);
++	r = PTR_ERR_OR_ZERO(ddata->in);
++	if (r) {
++		dev_err(&pdev->dev, "failed to find video source\n");
++		return r;
+ 	}
+ 
+ 	ddata->timings = hdmic_default_timings;
+
+-- 
+b4 0.11.0-dev-28747
