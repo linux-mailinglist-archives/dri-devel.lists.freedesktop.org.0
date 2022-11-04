@@ -2,61 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ECFE619C27
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 16:52:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7E6E619C66
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 17:00:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F2D310E8B7;
-	Fri,  4 Nov 2022 15:52:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 767CA10E8C8;
+	Fri,  4 Nov 2022 16:00:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
- [IPv6:2607:f8b0:4864:20::1031])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AF1310E8B5;
- Fri,  4 Nov 2022 15:52:08 +0000 (UTC)
-Received: by mail-pj1-x1031.google.com with SMTP id
- d59-20020a17090a6f4100b00213202d77e1so8597134pjk.2; 
- Fri, 04 Nov 2022 08:52:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=h91PY4kE003Fzt7Dp6s2LtF8+Ku5gtgrJGFgjbiXW0Y=;
- b=fZfNmpLbARw2htsWecPLMgqjYPXVCha4yMS8ZDbD2ibFKN0J+n0z1donudEwT68czq
- a0Napturob7ia7xuzL1aB8P2BRUnsbBoS56zzlP4bsMwS3v0iD1ekMG6/YiSja5OdMBh
- ZCp/Zuw4eFXMl/9YJFXMK7h0CS5Ws0Jx7n+Kbc3sXjDM8Lu7Vg6FRDU0RqK/bDLQCZOi
- obao476g+hOwqCoByP4oL/i2QR58pWgfSbrhdrn5d0YF+Ifeqb2RFpTqn99sjrMwzQva
- xg2F99kYPErdBIQAkV2v+HdMxcyQ923U6Dvjb8E1W3FPlEvL4id57fFAJYKXEcJuUpNa
- SVZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=h91PY4kE003Fzt7Dp6s2LtF8+Ku5gtgrJGFgjbiXW0Y=;
- b=mqsJGN0P7OZbcCZypkvZBCqXHN1PrGNvY1zwUfaZr/rZwzCSoj0IlzXmzGDlzaOF5u
- 9tpbqxW17vVurU4jGuycBDlY2KnP2AqZ9TGkNTjoKx+Wt/uQCkX0INCtu1ymOTxFjH1w
- YnIMpsyK3Pehtp54a+EhpuhX2jMdrSlazK09ix0hyUCx/PYvYJpsztSGjw4ETJQwGIzw
- q59eL467nY0V/9RZ93VoKVZjGUpZkViSKiJMgZEKF9GCelt5ss76gMTomEOCBiB2mRJt
- gkySYJIJPFGBw7LDWKzEWOE9OKGdaRYrkv5qa6y+a1i1sf+yV2iH2pmXMs1JHUhZ5bqQ
- 7u0w==
-X-Gm-Message-State: ACrzQf0ptAccD70s7KLVNq/TQqZ7c6E3Gpn8xZuXqxz9HYs6LehCsr/E
- krhqpRcNYyQTVw3w3Ul5Y7xfiRaqfRo=
-X-Google-Smtp-Source: AMsMyM6zNFvjaDiCUgUsJtKWxaFpLMuqPLYgtr1mX1+M2ATzrBZKD/U5nCh1sXRpFzk8ueJiv0U/Yg==
-X-Received: by 2002:a17:90b:152:b0:213:dfd6:3e5e with SMTP id
- em18-20020a17090b015200b00213dfd63e5emr27484666pjb.229.1667577127429; 
- Fri, 04 Nov 2022 08:52:07 -0700 (PDT)
-Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
- by smtp.gmail.com with ESMTPSA id
- j4-20020a17090ac48400b002130c269b6fsm1868454pjt.1.2022.11.04.08.52.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Nov 2022 08:52:07 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [RFC] drm/msm: Boost on waits
-Date: Fri,  4 Nov 2022 08:52:29 -0700
-Message-Id: <20221104155229.528193-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.38.1
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93F2610E8CF
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 16:00:14 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 3396BB82ED8;
+ Fri,  4 Nov 2022 16:00:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 407C5C433C1;
+ Fri,  4 Nov 2022 15:59:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1667577610;
+ bh=RnKpU/hTdTSmTNhPFE1pRi4HN2+uJR5IYJ3mHMOQJ94=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=cT/Z80DQRnPv/70/29SwYeenhOJLyjbBPUFlgfpd/AZinAJl0ffseRleU9nuJBUko
+ sIKZREqhjpM5ixmbGPtno+npoo5AfZQueFrKX4MHj5HbO6032QcomMPEs11RxlCRCF
+ +npEC1nMjw2yzXE3+8fu/b6DX5Zyh1ekZsGoJSUiBNkV8rAVlWCjALi+TPQALz5yLf
+ 8JmAJZSyXbUsqNPG3SJPuUdwaXQ/YK17sNKIv6mAuSRsBddzrpVxhgHxOUN/vVDF21
+ VhZaoe2BNXMOANIoVRwbo95TtqPu/Q5GIO4aUt0cX2VGbao265lJ1lyL1fG/C3KEu+
+ lOiIL5YO6XPRw==
+Date: Fri, 4 Nov 2022 15:59:53 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH v2 43/65] ASoC: tlv320aic32x4: Add a determine_rate hook
+Message-ID: <Y2U2+ePwRieYkNjv@sirena.org.uk>
+References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
+ <20221018-clk-range-checks-fixes-v2-43-f6736dec138e@cerno.tech>
+ <Y2UzdYyjgahJsbHg@sirena.org.uk>
+ <20221104155123.qomguvthehnogkdd@houat>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="UFrR3s30/s3KKRzK"
+Content-Disposition: inline
+In-Reply-To: <20221104155123.qomguvthehnogkdd@houat>
+X-Cookie: Quack!
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,97 +56,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: Ulf Hansson <ulf.hansson@linaro.org>,
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Michael Turquette <mturquette@baylibre.com>, Sekhar Nori <nsekhar@ti.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
+ Paul Cercueil <paul@crapouillou.net>, Max Filippov <jcmvbkbc@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-phy@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, Abel Vesa <abelvesa@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Samuel Holland <samuel@sholland.org>, Chunyan Zhang <zhang.lyra@gmail.com>,
+ Takashi Iwai <tiwai@suse.com>, linux-tegra@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
+ NXP Linux Team <linux-imx@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
+ linux-mips@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ linux-rtc@vger.kernel.org, linux-clk@vger.kernel.org,
+ Charles Keepax <ckeepax@opensource.cirrus.com>, alsa-devel@alsa-project.org,
+ Manivannan Sadhasivam <mani@kernel.org>, linux-kernel@vger.kernel.org,
+ Sascha Hauer <s.hauer@pengutronix.de>, linux-actions@lists.infradead.org,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ linux-mediatek@lists.infradead.org,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Alessandro Zummo <a.zummo@towertech.it>, linux-sunxi@lists.linux.dev,
+ Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
+ Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+ linux-renesas-soc@vger.kernel.org, Dinh Nguyen <dinguyen@kernel.org>,
+ Vinod Koul <vkoul@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ David Lechner <david@lechnology.com>, Shawn Guo <shawnguo@kernel.org>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
 
-Minimize interactive latency by boosting frequency when userspace is
-waiting on the GPU to finish.
+--UFrR3s30/s3KKRzK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
-I did contemplate also boosting on dma_fence_wait(), but (a) that would
-require some extra plumbing thru gpu-sched, (b) that only captures a
-sub-set of wait-on-dma-fence patterns, and (c) waiting on a dma-fence
-doesn't always imply urgency (for ex, virglrenderer poll()ing on a dma-
-fence to know when to send a fence irq to VM guest).  But the driver
-WAIT_FENCE and CPU_PREP ioctls map to things like glFinish() where it
-is pretty clear that there is something wishing the GPU would finish
-sooner.
+On Fri, Nov 04, 2022 at 04:51:23PM +0100, Maxime Ripard wrote:
 
- drivers/gpu/drm/msm/msm_drv.c         | 7 +++++--
- drivers/gpu/drm/msm/msm_gem.c         | 6 ++++++
- drivers/gpu/drm/msm/msm_gpu_devfreq.c | 2 +-
- 3 files changed, 12 insertions(+), 3 deletions(-)
+> Just filling determine_rate if it's missing with
+> __clk_mux_determine_rate will possibly pick different parents, and I'm
+> fairly certain that this have never been tested on most platforms, and
+> will be completely broken. And I don't really want to play a game of
+> whack-a-mole adding that flag everywhere it turns out it's broken.
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index c3b77b44b2aa..017a512982a2 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -894,7 +894,7 @@ static int msm_ioctl_gem_info(struct drm_device *dev, void *data,
- }
- 
- static int wait_fence(struct msm_gpu_submitqueue *queue, uint32_t fence_id,
--		      ktime_t timeout)
-+		      ktime_t timeout, struct msm_gpu *gpu)
- {
- 	struct dma_fence *fence;
- 	int ret;
-@@ -924,6 +924,9 @@ static int wait_fence(struct msm_gpu_submitqueue *queue, uint32_t fence_id,
- 	if (!fence)
- 		return 0;
- 
-+	if (!dma_fence_is_signaled(fence))
-+		msm_devfreq_boost(gpu, 2);
-+
- 	ret = dma_fence_wait_timeout(fence, true, timeout_to_jiffies(&timeout));
- 	if (ret == 0) {
- 		ret = -ETIMEDOUT;
-@@ -956,7 +959,7 @@ static int msm_ioctl_wait_fence(struct drm_device *dev, void *data,
- 	if (!queue)
- 		return -ENOENT;
- 
--	ret = wait_fence(queue, args->fence, to_ktime(args->timeout));
-+	ret = wait_fence(queue, args->fence, to_ktime(args->timeout), priv->gpu);
- 
- 	msm_submitqueue_put(queue);
- 
-diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index 1dee0d18abbb..fbda0e3a94f8 100644
---- a/drivers/gpu/drm/msm/msm_gem.c
-+++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -846,6 +846,12 @@ int msm_gem_cpu_prep(struct drm_gem_object *obj, uint32_t op, ktime_t *timeout)
- 		op & MSM_PREP_NOSYNC ? 0 : timeout_to_jiffies(timeout);
- 	long ret;
- 
-+	if (!dma_resv_test_signaled(obj->resv, dma_resv_usage_rw(write))) {
-+		struct msm_drm_private *priv = obj->dev->dev_private;
-+
-+		msm_devfreq_boost(priv->gpu, 2);
-+	}
-+
- 	ret = dma_resv_wait_timeout(obj->resv, dma_resv_usage_rw(write),
- 				    true,  remain);
- 	if (ret == 0)
-diff --git a/drivers/gpu/drm/msm/msm_gpu_devfreq.c b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-index 85c443a37e4e..025940eb08d1 100644
---- a/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-+++ b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-@@ -305,7 +305,7 @@ void msm_devfreq_boost(struct msm_gpu *gpu, unsigned factor)
- 	struct msm_gpu_devfreq *df = &gpu->devfreq;
- 	uint64_t freq;
- 
--	if (!has_devfreq(gpu))
-+	if (!gpu || !has_devfreq(gpu))
- 		return;
- 
- 	freq = get_freq(gpu);
--- 
-2.38.1
+Well, hopefully everyone for whom it's an issue currently will be
+objecting to this version of the change anyway so we'll either know
+where to set the flag or we'll get the whack-a-mole with the series
+being merged?
 
+--UFrR3s30/s3KKRzK
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmNlNvgACgkQJNaLcl1U
+h9CDMAf+IBF/7wHY1CiObYqxme229wA2t2WnnYY98dUUNS5r9zuNUi7juhvrvn+E
+VFS2XsBkk6YvHvT2mQdVWxnTb3suMHPfHzr2euHUVwNVevnBNKDVYp8nlYmyRSUC
+orLXibEBBMbA69rPzQyaFqZHj17zEyWQvHSrWk44MnQJH2f7JFEmcLPXgug1dpsP
+mmWyfYnKKlRXMqDPkJ3ozY2AaABQkWdk64ke2unO7z9M7ySybhybPHBibISAn/WA
+8mQ7NgbHPzpVnTCfrRwSEd05eCvJaEacBYFByW87lEEEtfxwwJsXSZCJpmc9ZVPm
+WTCliiQC4/Pd0EJKpPQCXYinp/27fw==
+=2DXe
+-----END PGP SIGNATURE-----
+
+--UFrR3s30/s3KKRzK--
