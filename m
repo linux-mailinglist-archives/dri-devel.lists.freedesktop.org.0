@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3C90619792
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 14:19:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BE3A619796
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 14:19:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7268410E77E;
-	Fri,  4 Nov 2022 13:18:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AEFE10E788;
+	Fri,  4 Nov 2022 13:19:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
  [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BC9E10E774
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 13:18:38 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 93220580556;
- Fri,  4 Nov 2022 09:18:37 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E5CC10E77F
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 13:18:40 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id B9D1658046C;
+ Fri,  4 Nov 2022 09:18:39 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Fri, 04 Nov 2022 09:18:37 -0400
+ by compute4.internal (MEProxy); Fri, 04 Nov 2022 09:18:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1667567917; x=
- 1667575117; bh=g/tCYGEB7G/tpibSy/Nw5qee275ckprCb70mVjEL8Dw=; b=n
- uK84mbQtP1Gv0owSEWECFoSWPSRKPZRrLnP53mBmR1JXIrC9oBSbtfFRk93gDFw3
- DwQJgARuU0gEgD3BNNI6yWQBVbXqoCTTJuwcbTFW2PG9mX3ZrNLvN+xeoFrfoaDd
- enkShSkp+9wUTT8FBq4gwSfcTcFEocdCYqZKd8dh4G+zxB80VjnjbtLYMdJ/5NP2
- pnnM2PEjgcHC5x8XG4RTMhrL4/Xek7ENXFrGMno7el9POJBYZyNkWeBpGxGYPiRp
- dZk8RpAF6LoeRI7gkypVpTGu6xkL4e1RVZ2AOXxGHximqw38nMtsokKzNiCWh3D1
- x/jhvyg1YQhfDdUxauT9g==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1667567919; x=
+ 1667575119; bh=YPE8ExSs4d4LTvnXSYBVZkXRbapPJ6obpuAeld6klEU=; b=P
+ tmveYw5nLXiJ+/zabi31GiaQcHOpM7y1cK7cVDgxmbINAy4odu4apdyVIY0h9QrU
+ nHGp5w3KxZGu7BLLECSXCccBwpvZSPCBtCHJe8aKTkRa2/RXxvtTlsuDv/zLWeO2
+ bTE9yx8jgoKtSGxqyubIW67sP+raBQg2no0B2nf/ijORhIhwOsNhXKpfJvXb5/rH
+ U5HKs966WPLfjH1Fz3M564IMKA4aOHTCia6NSjORQauJ9KIj/cwzhEaUdi6JGx1h
+ LWqXk08w39Gn6nkeSdG2DlT8qttZjbHVNEARtBKJjIyp1Iv4OYUJWcCsmPkfzgs0
+ bcbsEwjeeDMujPdwjUBpw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1667567917; x=
- 1667575117; bh=g/tCYGEB7G/tpibSy/Nw5qee275ckprCb70mVjEL8Dw=; b=t
- SZBNPYfman7zBwm0Ls4+r79aIJA+y3tZDGCbDnQadnQxPG05IFt6+0cL60/NiKzf
- kTmPwyY/DlBMqt77YchRedr+9grtO+kkZ7Yil2LvznyOCw7/tVdp1IWP+SFt3vzM
- AZ/b8zkiATE2h56fmitY9CSm4RoxDHofXKs58DKPyQy99pWLP5lb3aXGsT4mra5I
- iO9son4wj05e/qjTZcYeRGaC1IzAcE+wsPjp+wAZF6uz7zSDD2ECuYLY60xm5+gw
- 8MUY7olA/7BlOwACvDDdrrjQN/G1d+IvgbQ/bFSOe3OZOgHT3NPgRYp5xRNEy3xV
- qgv+UgkaOhajfwQWjHuoQ==
-X-ME-Sender: <xms:LRFlY0L90WHQ_3DT7GjS3d_8YhA_hDZ8cPc7yQcKhwPv3HwRygSSpQ>
- <xme:LRFlY0I9wExxoq_iRR8RSBvfnuvcRFFsf368tS52qaymoeY5DhDW6KiYV83J8SeRu
- kHGmgCjyTD0OGLqvNs>
-X-ME-Received: <xmr:LRFlY0u5GxGUaGQpkugPEsyzWOecLexfZ0TBNV_l9WhFAMV9molU21jPLs0Tw0PBUgNcU_oDQe_f8zWwHF9mI4Hlg5Ex-kjlODvw1RnaDGKfxA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvddugdeglecutefuodetggdotefrodftvf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1667567919; x=
+ 1667575119; bh=YPE8ExSs4d4LTvnXSYBVZkXRbapPJ6obpuAeld6klEU=; b=s
+ tB2czEvX4BDMfxM9zlNk5k8xasvbCujl9jiJp6K3KnHPNgDJvw7PFnUzfnsPCfMH
+ onK11uy4ITiU6uLdq5K0KSC9QzuYLGYxmdEM4RagFMXUv4K0PAipQBIhep8vT4TS
+ XdtU+vXo00gVDf+uVGDeqaVLNWEiM56TbShVGNmCSoXj0TQZUd/LOfHGEzKl456G
+ ilwNzS+O3NuzGebEBmIXBzPlg9MFPR7X4RzkW31wxpH57FEzvcB36JVEmhk0AcU8
+ 0nX/RMYyB+7BBYF074CcwJ8KMHwu+vIyphC1kT8cs++MlzvVch5kYpMgD+GYLknp
+ VmqyApPJHL9oDGSTQXl5w==
+X-ME-Sender: <xms:LxFlY45lH0JOZ6byxFuUNybyFRoSeqJH_B3HWOLcmmR9TP_EuN3kMg>
+ <xme:LxFlY57teWcMTwA8Busgyw3vvsut41ipl31vK19ShjjNacNZ4qaF_XY8rFMCh7swh
+ fodtn5IZoZIkeAdqqc>
+X-ME-Received: <xmr:LxFlY3d4bqOExPWW2zKzX4jsW_a7CfQXL4_v5_pCDrXB_Xvs3LfNS7wnj6j7sWIkSmhzQKns5_7hwjJO3iZWAND8565x4fwsRcjYnDtOFnD2sw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvddugdegkecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhfffugggtgffkfhgjvfevofesthekredtredtjeenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeduudduhfevjeetfeegvdffvdevvdejudegudekjeehtdelhfffveethfej
- ledtveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ ledtveenucevlhhushhtvghrufhiiigvpeegnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:LRFlYxazTlFqVU1hEnzyIaGKsBSh11XDao82DA8Wd5YTKIf8tJ8gXg>
- <xmx:LRFlY7bI87s2bGunwCMXzFYLlWDodpMaYbdKEggu2uAAVbTgqmv7VA>
- <xmx:LRFlY9CVzmnAslHmwDcCfuG6DoHuiJDGKx1ljvMW4L6nzkQO6YmH_A>
- <xmx:LRFlY_ozReeG7tLRGLi-E9li4IxM_Be8Xk8uMp1I8-0Tdk9e13mc8Q>
+X-ME-Proxy: <xmx:LxFlY9Kg21rMeEyGzWLd_kPF9ILJQxqq5497ZWE8ddJaE7pekBy1PA>
+ <xmx:LxFlY8Lp25vNE2kFXvACZKTSh_9fn01R7LKTTEOwtRgKZGqxIyR-bA>
+ <xmx:LxFlY-xvZSzoQAwDnwdsAPqDPIBYXHEW1o1SBnh5nyY9IsHtOvT3ow>
+ <xmx:LxFlY3adOUeGZ3CPUdtW9Uh94ceHH6IGK42C0bAOX0G9GfF3lbT49w>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 4 Nov 2022 09:18:36 -0400 (EDT)
+ 4 Nov 2022 09:18:38 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Fri, 04 Nov 2022 14:17:40 +0100
-Subject: [PATCH v2 23/65] clk: imx: busy: Add a determine_rate hook
+Date: Fri, 04 Nov 2022 14:17:41 +0100
+Subject: [PATCH v2 24/65] clk: imx: fixup-mux: Add a determine_rate hook
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20221018-clk-range-checks-fixes-v2-23-f6736dec138e@cerno.tech>
+Message-Id: <20221018-clk-range-checks-fixes-v2-24-f6736dec138e@cerno.tech>
 References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
 In-Reply-To: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
 To: Stephen Boyd <sboyd@kernel.org>,
@@ -108,11 +108,11 @@ To: Stephen Boyd <sboyd@kernel.org>,
  Max Filippov <jcmvbkbc@gmail.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>
 X-Mailer: b4 0.11.0-dev-99e3a
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2355; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=LtN3afqB1IeTGDIUKVpccoxSm7ihgsjecZ9M4RPxq2g=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMmpAl8mXlmy4NrvfO5Xk5cF36uSirvU9ji1JPZF3xbLzWxm
- E9+c6ShlYRDjYpAVU2SJETZfEndq1utONr55MHNYmUCGMHBxCsBEDmsy/A847WgyPYxnl+63DX+mu/
- 30Cr3T/2mNG/tT/bbtmannjCsYGe5ryHx5mWUszfsq3jJcUEBGR+ZwT52lr7baUvnzKzrdmAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2379; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=Y1EX8G8pftDxQw1Ys52sH8o9+GAhW5bf3l3YFzowBDA=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMmpAl8Kz2/bolLusfHUS28mXpaWw6ePtX+OPm7LUjL3p6fc
+ WZagjlIWBjEuBlkxRZYYYfMlcadmve5k45sHM4eVCWQIAxenAExE7SQjw6R5H7qu8Ka9sXod0MMvcc
+ r/7OGs1zknzlTPbKpxkWXx8GX4ZxW4dMKRjSLZsmbFQfzGNfeMlGrvpRx4oHwz+01b28Fl3AA=
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -139,7 +139,7 @@ Cc: linux-rtc@vger.kernel.org, alsa-devel@alsa-project.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The iMX busy clock implements a mux with a set_parent hook, but
+The iMX fixup mux clock implements a mux with a set_parent hook, but
 doesn't provide a determine_rate implementation.
 
 This is a bit odd, since set_parent() is there to, as its name implies,
@@ -170,30 +170,30 @@ behavior now and it can be further refined down the line.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/clk/imx/clk-busy.c | 3 ++-
+ drivers/clk/imx/clk-fixup-mux.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/clk/imx/clk-busy.c b/drivers/clk/imx/clk-busy.c
-index 6f17311647f3..2df81862782a 100644
---- a/drivers/clk/imx/clk-busy.c
-+++ b/drivers/clk/imx/clk-busy.c
-@@ -148,6 +148,7 @@ static int clk_busy_mux_set_parent(struct clk_hw *hw, u8 index)
+diff --git a/drivers/clk/imx/clk-fixup-mux.c b/drivers/clk/imx/clk-fixup-mux.c
+index c82401570c84..e32c3b22ff05 100644
+--- a/drivers/clk/imx/clk-fixup-mux.c
++++ b/drivers/clk/imx/clk-fixup-mux.c
+@@ -60,6 +60,7 @@ static int clk_fixup_mux_set_parent(struct clk_hw *hw, u8 index)
  }
  
- static const struct clk_ops clk_busy_mux_ops = {
+ static const struct clk_ops clk_fixup_mux_ops = {
 +	.determine_rate = __clk_mux_determine_rate,
- 	.get_parent = clk_busy_mux_get_parent,
- 	.set_parent = clk_busy_mux_set_parent,
+ 	.get_parent = clk_fixup_mux_get_parent,
+ 	.set_parent = clk_fixup_mux_set_parent,
  };
-@@ -176,7 +177,7 @@ struct clk_hw *imx_clk_hw_busy_mux(const char *name, void __iomem *reg, u8 shift
- 
- 	init.name = name;
- 	init.ops = &clk_busy_mux_ops;
--	init.flags = CLK_IS_CRITICAL;
-+	init.flags = CLK_IS_CRITICAL | CLK_SET_RATE_NO_REPARENT;
- 	init.parent_names = parent_names;
+@@ -84,7 +85,7 @@ struct clk_hw *imx_clk_hw_fixup_mux(const char *name, void __iomem *reg,
+ 	init.ops = &clk_fixup_mux_ops;
+ 	init.parent_names = parents;
  	init.num_parents = num_parents;
+-	init.flags = 0;
++	init.flags = CLK_SET_RATE_NO_REPARENT;
  
+ 	fixup_mux->mux.reg = reg;
+ 	fixup_mux->mux.shift = shift;
 
 -- 
 b4 0.11.0-dev-99e3a
