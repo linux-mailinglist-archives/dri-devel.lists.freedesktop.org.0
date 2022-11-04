@@ -1,78 +1,151 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 863A0619356
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 10:20:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5C15619386
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 10:30:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CC5310E71A;
-	Fri,  4 Nov 2022 09:20:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C76810E710;
+	Fri,  4 Nov 2022 09:30:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E927410E71F
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 09:20:43 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 8B17F580511;
- Fri,  4 Nov 2022 05:20:41 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
- by compute3.internal (MEProxy); Fri, 04 Nov 2022 05:20:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1667553641; x=1667560841; bh=SJoBz4HEVE
- RiFUnQzb3ZIub9dT0AONhBbUZgzTI8xuQ=; b=jOAioEcqTCQaB6i99azVot5cAk
- gre11Ve+vBmc+Fs/vkDIrNjCSzfHPOUS4wzGCXwfIKJy9biOGQnW4iqxv75LAqbt
- RdYq92O8WI8weSFAZzxtnrW2XuUukmSBN8KcaYYLkhR8/jLD6oh6MJQ9cwWd7yl8
- mH21fZUTzBP3gaoYiV4qH0o52fq8RuYFTCOdHa7Soal92hUHyLnB5uIHP9R7ZXTY
- yrk8ucJVboxa6GlUfb8qItPWrs5N4B3xbNfDaXknJzA5ZsbLT0XMXiOZj0LDZKk8
- 6WHRFTqWjdbWEHnXA5Wxg4OS34kfyJ+czE32JS893SSJ8vebcjylW97lvLOw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1667553641; x=1667560841; bh=SJoBz4HEVERiFUnQzb3ZIub9dT0A
- ONhBbUZgzTI8xuQ=; b=BmHXv8dWgMDB3A30MW7r0ER+x2KPnCs67D5Tm4znOHms
- KOvE21G5Qhp1IrhrNpstSMDDbjbRSKKI+wikCsrQUA1D/bc3nhsP6Pfph0Q2sq/L
- w5xrS9CVegwYB6hNxnfcyAYSDOlMngVd/4QaY9exxV3aeJMS+7bUlXh8ZFR6fpSK
- gPa2Xr8LydLZo5vJzfOV1L/TUvE6+ISJhz2GoZweOm3SeuEKaa51K7Ium5W5K020
- eA1TNoxWdJRVK08gDXfqjSbR39bjBE0aJEu+l1hoD12ykpSVSlQ8ZDa9eXuaf1Sv
- VIUPNFOv24w/xRDpe00prXWHte2pkStlJDT70gy7rw==
-X-ME-Sender: <xms:Z9lkYzSrjU71xNBk6_zqZw7_YH6JI0yUseZ9KPinXiiMwa2ms5wZNA>
- <xme:Z9lkY0y5CO55EwHV9Y6MI53sDiK8VD6-UVJ3Kx8hhf4HE2ApNz1-y8IkyXw6-f9C2
- r627sGDwec4-VUhbl4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvddugddtudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
- ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
- gvrhhnpeevhfffledtgeehfeffhfdtgedvheejtdfgkeeuvefgudffteettdekkeeufeeh
- udenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:Z9lkY42FoeE9AWZWaTBjKK0WgCtTsBwtE9dvMmUqE911tjOLuc_EpQ>
- <xmx:Z9lkYzD3odg97j_NLZJAinYScUOubW4GrxI_Sg6mxaH40a00usXu3A>
- <xmx:Z9lkY8gjj31U7LlNshlCvQUZGUTi1_xePFBMFsKDj6YaX8-3AvZpfA>
- <xmx:adlkYxI9rlur3V1K3bRsxhvV5OL9Go-r-JYQNksdhAr5r8wa1PdT3g>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 17FD1B603ED; Fri,  4 Nov 2022 05:20:38 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1087-g968661d8e1-fm-20221021.001-g968661d8
-Mime-Version: 1.0
-Message-Id: <6b35d496-2313-4fd9-851b-2ba469bc9261@app.fastmail.com>
-In-Reply-To: <803778517.2279639.1667493436959.JavaMail.open-xchange@opme11oxm02aub.pom.fr.intraorange>
-References: <20221019161831.3864786-1-arnd@kernel.org>
- <m2r0z3h5yr.fsf@sopl295.home>
- <7d9eebc8-39b6-4dc1-9ffc-f17ec584bee2@app.fastmail.com>
- <803778517.2279639.1667493436959.JavaMail.open-xchange@opme11oxm02aub.pom.fr.intraorange>
-Date: Fri, 04 Nov 2022 10:20:20 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Robert Jarzmik" <jarzmik.robert@orange.fr>,
- "Arnd Bergmann" <arnd@kernel.org>, "Robert Jarzmik" <robert.jarzmik@free.fr>
-Subject: Re: [PATCH 00/30] ARM: pxa: remove all unused boards&drivers
-Content-Type: text/plain
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3361E10E710
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 09:30:18 +0000 (UTC)
+X-UUID: 1437655087dd4a7bb0c37852c02d2085-20221104
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
+ bh=r1Otmg/18wrVBWUt+BBzhT1N1MxnqoRha1M4ZFtzjiM=; 
+ b=a8CPFm3vv2YAMMsaSzSqDqMImYXzEQdB524/P+s7qbS2bG5oRmGmO0/35Xny384WIc5ybxC2JqZApE+4fh6l5P2aHiTDbcV44md1Tsh4ioYA8l2ASJZfFkVEjmKaCVSb2v38hc1tcp3xvtbayAXIXtkhxxDS/x6dM4SRf8f2rr4=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.12, REQID:5ddd34f1-23bd-4ac8-b504-45a8ed5f1e96, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:62cd327, CLOUDID:f11f72eb-84ac-4628-a416-bc50d5503da6,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 1437655087dd4a7bb0c37852c02d2085-20221104
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw02.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1096290544; Fri, 04 Nov 2022 17:30:01 +0800
+Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Fri, 4 Nov 2022 17:30:01 +0800
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (172.21.101.239)
+ by mtkmbs10n1.mediatek.com (172.21.101.34) with Microsoft SMTP
+ Server id
+ 15.2.792.15 via Frontend Transport; Fri, 4 Nov 2022 17:30:01 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=A6tRwE/kRxfN6r2HIhKgY+dB0+0dN+zHv5TJx6NjQVEHRWFX4qxxs/j5R7cJv8gB2kT+GqAq6+GraQIoB0082UFH5MTKAb3788pmjEcc6p9bxZB3zsFqdTd/70jP3O0JXX8n8RDhtvQ4XftCyrfsgLEioW0ZEFKri87fVQx70zZ1WkJCJnNSiLNLPEUCXiUwys6A780pDUDrGvRdxll1OH/0CYqWo3dNVqv6WxgVSd4oohtlfd9A6NObDDQN9FuQqDqgDB8rzWj+szySSC+jkDQux4f1kn0omjCC2o82ygPB1mrWk9u7C/d2LdG/Q+Rz04JgXlQYDcSijsysyonIRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ifAkFgayZ+HglADRXWl4b+GXWLqFUfaI6oTizHqzR3E=;
+ b=EcKAf26yvEDwkmQVctSEfJtRuEVCHuxB/+anthnDDZlML5cQbylll59wC8rs7hphEiBq4+gyEbWySPhhaevh5c/FReWgsTnUj9wKOQ7R75A+2G+NmyPGBLeQZzAQ+r+FOOj0dN9SYtox+CUgS7tDzf0pWDGp0EYmrW9Zfo6QbJ2LXldMmKTRTIGMZ0tqjmM3mNZd0I9SC6ftd3SH9IqKptfbaK2ikoqOk8FGATWmkAEBHZISiXWITOyyvCSqU0+VR+HCJ0Vu4bn5YqGagzN5u6etBKMRcNIQwayzExu/eHOJn8+bppQZSi6gfRoTESvFrNdIA9wb57f064c6Kd0cWg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ifAkFgayZ+HglADRXWl4b+GXWLqFUfaI6oTizHqzR3E=;
+ b=EA2Wi0JtJG9iYdPTS1LVDZqso6ft/34fA/2lUStw/ZSQmQ5Tp8kKcd156U4X3GOrZC4iBgSZ2ZM7mUNMqMSWoZumY5NTOSPynTF/8C/q75QKTgJgl2MlsT9VBf755qmWnrCEuZPxjBS4hvpc5hZXto5em6UOmsZZvS7gGTEvoLA=
+Received: from KL1PR03MB5175.apcprd03.prod.outlook.com (2603:1096:820:8::11)
+ by PUZPR03MB6966.apcprd03.prod.outlook.com (2603:1096:301:f9::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.9; Fri, 4 Nov
+ 2022 09:29:58 +0000
+Received: from KL1PR03MB5175.apcprd03.prod.outlook.com
+ ([fe80::8cda:5c09:3c2e:19]) by KL1PR03MB5175.apcprd03.prod.outlook.com
+ ([fe80::8cda:5c09:3c2e:19%7]) with mapi id 15.20.5791.020; Fri, 4 Nov 2022
+ 09:29:56 +0000
+From: =?utf-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>
+To: "nfraprado@collabora.com" <nfraprado@collabora.com>
+Subject: Re: [PATCH v27 05/11] soc: mediatek: refine code to use
+ mtk_mmsys_update_bits API
+Thread-Topic: [PATCH v27 05/11] soc: mediatek: refine code to use
+ mtk_mmsys_update_bits API
+Thread-Index: AQHY7zP8IB9OrEnPxka4DzE4Bd/13K4tqGsAgADZKwA=
+Date: Fri, 4 Nov 2022 09:29:55 +0000
+Message-ID: <d4a204f74810e2a6445fe12dbf3b71695aa9b755.camel@mediatek.com>
+References: <20221103032512.9144-1-nancy.lin@mediatek.com>
+ <20221103032512.9144-6-nancy.lin@mediatek.com>
+ <20221103203238.fryjwpgjtwccnjwu@notapiano>
+In-Reply-To: <20221103203238.fryjwpgjtwccnjwu@notapiano>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: KL1PR03MB5175:EE_|PUZPR03MB6966:EE_
+x-ms-office365-filtering-correlation-id: 068e749a-7316-4b13-e426-08dabe4722aa
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 7B6peN2c+hWIZa5fw+jrdDWLsFe7FWuYBSblymi9bqVsiyqHQibjeu2uqsLC1Gh/uRHMMTv8GZlfkJCP9Xr2rfqIFyXXUnhLgrjOHqIa+EpCPT5qhikwL7F/mIeR1y83bx4T+AYSkbVloTUD8X7Kkxa2AnV2VKXiKr+e+nsQ+3rQW2OzCrPjJTnaVCZ2QX6EGbj0OPKl74LXRALY2f1kq5nH+k6m1e/HnpIyvV/qFzDQK7GkaD1Tw9iuybw7bec1zDKFgwoo1VFoF5noqsltYYQ6ILVgfrtYto/ozLHoImXp7TLm0EUq9dHvdCKINQHYGP7xrJFNWlzY5Y0s5p3QqqcvctQDCZxhpJ9ve51GhWGjEUbjj2lt5ClRnLayPLKxVMy3wmX/0CbkRFfQHsFnD3OQQubF24aydt+r0VHrPgYJi9woNVjLGHEAwhZtL0AmYab88qrbg4LgZg3LsWyqaKcpRTqHfW/gvTbLe3Q72fHql4Vuu8Kq7SZ7/pTogr9cfunYA2B1ws3gvL7nBzf9e8I6Is9IwWkaTl07al1oIsOpJZfTotrL1VQIovbtGpJuPzS+tJ5SJ8MlKEOfVSoJikdiOYvDdrdNhhhLZ5QIu32Mi4xTlnsw6hkt6Pcq44UAZPYJ1vBi8HFzWw68ziodTcnikrk1OqLy6TD3r9ugYioSCCY8BNvHJmnASdAaE2/6pkds+La2/KEqymA7xYneYnQZlXQz2vhhfcYww+jdThBGji/EzQaT3CHa1XxdiO1Fr4zXPnFbfd/L4JjnEUlWKi989vpVrbCwHRBBZac71K9tTD5ofeFWfE6E4v+8GGrm
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:KL1PR03MB5175.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(346002)(376002)(136003)(39860400002)(396003)(366004)(451199015)(7416002)(4326008)(71200400001)(5660300002)(41300700001)(8676002)(38070700005)(66946007)(86362001)(66446008)(83380400001)(6486002)(66574015)(186003)(2616005)(122000001)(26005)(6512007)(91956017)(38100700002)(478600001)(64756008)(4744005)(76116006)(6916009)(316002)(66476007)(66556008)(54906003)(8936002)(2906002)(6506007)(85182001)(36756003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?c2VvMlZ5eUZFL1p3cDE1enNvem9RTlV2NVVlRVRZRVFDTDlUQkYzbWVjcktO?=
+ =?utf-8?B?M3dxQjEyR3RuOUVHNWFzYlJEVFNOdXlweXBsRzRXMmx1R0RpTWUzOHVIUEVQ?=
+ =?utf-8?B?TjQ1dVAxNjZ5a01VQWh2SzBXdTVwOWd3bDdzVUVlT0NscVdhTzhaaG9ZVEYr?=
+ =?utf-8?B?OFZYWUNRSE9zUlhONEJrcnFqMkJxNDRSU3NCcnJoWnZlWWdCOEhiVWNUQkZi?=
+ =?utf-8?B?dDllazdienMrNWlqL3BFSmNFalBOY3AzK3M2c3JGVEhZRVpnSk4rVlg0STdz?=
+ =?utf-8?B?dm94SG4wMmpKWVptZ29ScmNlNllrdGpTL1lRbnFybGV5T0Rkek05cVJLd0RH?=
+ =?utf-8?B?Q3B5Ym9NaG9LT0o1VGhsYnBZV1JzSENlQjZJT05SSndTUllDRjVtdERVRTZv?=
+ =?utf-8?B?L2ovK3JCZnJlZ281bFdlRzBaTmNqcjk2QlMzTlJuTzZmK3hPaUgxRFBQeExm?=
+ =?utf-8?B?b2F4dG9kTkkrc041d1FxbEZsRFZQRmtLaFNGUTlLWWpBaGFYeFhjbUlXUDUx?=
+ =?utf-8?B?UkNGYUxmWWlrYjVsVXo4cktpSXBhZWZHQkpMeGhQcUhEdDN2c0Y2dE9BL0Vq?=
+ =?utf-8?B?S2E5Q29MSTRUZGJzYWp4RnlEc3JvbTZiR2h2bkJoaytvZCtTZlZMNm44bzFy?=
+ =?utf-8?B?OHBGZ2dwNEVaNWwwTkxqZ2JNUExmZUM0cnRvNmlNRHJ0WEZLZVZUYU9GVkp4?=
+ =?utf-8?B?YjJIa1pTNVczUzJvNnl2OFd1MlkxbmVDQUpCR0s4eFpOcTJtdTJIUm9EZUhR?=
+ =?utf-8?B?UC9CaHRIT0xReEZrQWl1ellFNXcwcG14dm1FdGNmZEtGbHZKM21QSTI5OFRn?=
+ =?utf-8?B?aEtlU0RWMHZxQ0JITXh6S0trNWJWV1B2VHJMSDhpaHhSLzMrTlllU0RFNkNV?=
+ =?utf-8?B?cHJiak1SaERENVZtampVSjlhYVRHWXBPQm5adUhSanFCbWFaaVMvb1Nud3FD?=
+ =?utf-8?B?Tjg0bWxKSGY1WEQzRE5LL0FodmkreTF5V2VLYjlmZXhmWnRRdnowNitiblhv?=
+ =?utf-8?B?UDJZNGNldGQzTHl2MU1lKzRYQy90NitocFFVRlBlOURwZ3YvbWtUMjdobzdj?=
+ =?utf-8?B?MldCdjVWWDU1dHd5YWpmbXVIZGh2OVRuT1c0aFZua1ZlSUduM3FQbDQwTEx4?=
+ =?utf-8?B?bkxDZFhTeXltdXBRZ1RtVWZqN01Mbk9IQ2tGRFc2VFlyT1dlR2dqRjF2VWs0?=
+ =?utf-8?B?T2c0U3JWdUdhTFJxWUVvNmtPZlhlTzVWT1FzOUdzMklNS0RLVDJQN0RtTDB0?=
+ =?utf-8?B?YTJRM2lpU01CQ2RnOU5DTTdOS3NBZWttMzZZS1R4WSt1TnUybERldGpWeVhI?=
+ =?utf-8?B?OWZ3MmNlbWlKeE9lOE8xajJnWjlrNHg4QjZuOU1rTEE3R2RFajRUajEyK1lL?=
+ =?utf-8?B?cTBIMkI5RFBqYkhkejBlZitTQUgrQ3pUVWlCNUd1Y0RFMmUrWk9CTWFjbkh6?=
+ =?utf-8?B?OTVqNnR0TkZyWkc2aTFxb3ZCSDFKa1o2cWVWT0ZwRDhHMlVZRUlLbElyY2xs?=
+ =?utf-8?B?THlsajhEY05peUhidzcrMTNONVlmK3c5SE1mRlFBYm1Ka0lSa2VJcmRzUWdN?=
+ =?utf-8?B?MG1obHA3RVB3NDcxc2hYaUJSR3lqNnpmOHplaXRXSTYrWVZtdTFMN0dEZ3RS?=
+ =?utf-8?B?ZTJNT3YzdEV1eFY2YmxGYjF2clRSUTRtSjQ0UHF2TC9IYkFjK21CRG9sMFBi?=
+ =?utf-8?B?L2UrRmZUNFN6SlphYXFIUlB1MlNWNnRteDY1eC9UeUswSHhodnU4bzRyWEti?=
+ =?utf-8?B?RGNLbFA2MVJlQUlPSG9RRWVSK1RoVm5sRkV5MGd0dFR4OVJyTFQ0MU9iUWFZ?=
+ =?utf-8?B?Q3dHaGxBc25HU2huVWxRaXBEdkYwbEV0MHE5dVNMa2dFb0NIOUxqVVA5d1hu?=
+ =?utf-8?B?VFR5Ny8wN1JFV0NPaGRnNzZwb3kxWEJHWWlFa2xmM2lVNHJ1bHhSWVhlYjBI?=
+ =?utf-8?B?YlplUzAxZWpGdXNFWEEvdGpGbXQybFdBV00rRHE1enVmSWx6NXg5dUp2aDM0?=
+ =?utf-8?B?QUFNS3JPa0JzU3pPRitkc0Y2QVhwR0EvYm1zQ01JRjArbXQxQ2NNb0xrVEwy?=
+ =?utf-8?B?MjMxbW5HNFFCMjVlUTZxMnNXbWpRcm9TdVc2VHZ4MjRucUhIaFJySGs5RS9F?=
+ =?utf-8?B?Wjh2MnNKU2UvdllRRHNQcFJlTWhyWG43TXZqU2JVZElTUGhJMzd5YTJyN29y?=
+ =?utf-8?B?SHc9PQ==?=
+Content-ID: <BE24ADF31E211C43BB3130CC2DF340EA@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: KL1PR03MB5175.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 068e749a-7316-4b13-e426-08dabe4722aa
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Nov 2022 09:29:55.9614 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: eGkJvOiWzYKypcSPAShQJXHdldLC/ijsy4cD9NNoH6bkvp4vsgNLlXLO3j9x78B40ZpfF2Ck2HAIq2hUtFxscw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PUZPR03MB6966
+Content-Type: multipart/alternative;
+ boundary="__=_Part_Boundary_004_1742383449.426993168"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,112 +158,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Vignesh Raghavendra <vigneshr@ti.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, alsa-devel@alsa-project.org,
- dri-devel@lists.freedesktop.org, sre@kernel.org,
- Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-mtd@lists.infradead.org,
- philipp.zabel@gmail.com, Miquel Raynal <miquel.raynal@bootlin.com>,
- kernel@wantstofly.org, linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
- Bartosz Golaszewski <brgl@bgdev.pl>, Lee Jones <lee@kernel.org>,
- Russell King <linux@armlinux.org.uk>, marek.vasut@gmail.com,
- Alan Stern <stern@rowland.harvard.edu>, linux-input@vger.kernel.org,
- slapin@ossfans.org, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- lost.distance@yahoo.com, Haojian Zhuang <haojian.zhuang@gmail.com>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Mark Brown <broonie@kernel.org>,
- Dominik Brodowski <linux@dominikbrodowski.net>, linux-fbdev@vger.kernel.org,
- tiwai@suse.com, perex@perex.cz, linux-arm-kernel@lists.infradead.org,
- Felipe Balbi <balbi@kernel.org>, mkpetch@internode.on.net,
- Sergey Shtylyov <s.shtylyov@omp.ru>, linux-ide@vger.kernel.org,
- jingoohan1@gmail.com, linux-usb@vger.kernel.org,
- "linux-mmc @ vger . kernel . org" <linux-mmc@vger.kernel.org>,
- lgirdwood@gmail.com, Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Helge Deller <deller@gmx.de>, patches@opensource.cirrus.com,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Daniel Mack <daniel@zonque.org>
+Cc: "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
+ =?utf-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
+ "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
+ "ndesaulniers@google.com" <ndesaulniers@google.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "nathan@kernel.org" <nathan@kernel.org>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ =?utf-8?B?WW9uZ3FpYW5nIE5pdSAo54mb5rC45by6KQ==?= <yongqiang.niu@mediatek.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "wim@linux-watchdog.org" <wim@linux-watchdog.org>,
+ "linux@roeck-us.net" <linux@roeck-us.net>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 3, 2022, at 17:37, Jarzmik Robert wrote:
-> I'm sorry Arnd, my mailer messed up again, and instead of using my 
-> normal robert.jarzmik@free.fr, it used my ISP mail ...
->>
->
-> The reason you're not seeing the AC97_BUS_NEW used is because this 
-> becomes visible only in device-tree files, which were posted (for 
-> mioa701 for example) but never properly reviewed nor merged.
->
-> As from memory, at least mioa701, zylonite, em_x270 are DT ported, ie. 
-> there is a DT file which makes them boot. For the mioa701, the DT file 
-> offers the same functionnality, ie. all drivers in mioa701.c legacy 
-> file are working as well in a DT variant (not using mioa701.c 
-> obviously).
+--__=_Part_Boundary_004_1742383449.426993168
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Ok, I see. I need a little clarification here, so I can adapt
-my patch series to keep the necessary files in place:
+PHByZT4NCkRlYXImIzMyO05pY29sYXMsDQoNClRoYW5rcyYjMzI7Zm9yJiMzMjt0aGUmIzMyO3Jl
+dmlldy4NCg0KT24mIzMyO1RodSwmIzMyOzIwMjItMTEtMDMmIzMyO2F0JiMzMjsxNjozMiYjMzI7
+LTA0MDAsJiMzMjtOJiMyMzc7Y29sYXMmIzMyO0YuJiMzMjtSLiYjMzI7QS4mIzMyO1ByYWRvJiMz
+Mjt3cm90ZToNCiZndDsmIzMyO09uJiMzMjtUaHUsJiMzMjtOb3YmIzMyOzAzLCYjMzI7MjAyMiYj
+MzI7YXQmIzMyOzExOjI1OjA2QU0mIzMyOyswODAwLCYjMzI7TmFuY3kuTGluJiMzMjt3cm90ZToN
+CiZndDsmIzMyO1suLl0NCiZndDsmIzMyOyZndDsmIzMyOy0tLSYjMzI7YS9kcml2ZXJzL3NvYy9t
+ZWRpYXRlay9tdGstbW1zeXMuYw0KJmd0OyYjMzI7Jmd0OyYjMzI7KysrJiMzMjtiL2RyaXZlcnMv
+c29jL21lZGlhdGVrL210ay1tbXN5cy5jDQomZ3Q7JiMzMjsNCiZndDsmIzMyO1suLl0NCiZndDsm
+IzMyOyZndDsmIzMyOytzdGF0aWMmIzMyO3ZvaWQmIzMyO210a19tbXN5c191cGRhdGVfYml0cyhz
+dHJ1Y3QmIzMyO210a19tbXN5cyYjMzI7Km1tc3lzLCYjMzI7dTMyDQomZ3Q7JiMzMjsmZ3Q7JiMz
+MjtvZmZzZXQsJiMzMjt1MzImIzMyO21hc2ssJiMzMjt1MzImIzMyO3ZhbCkNCiZndDsmIzMyOyZn
+dDsmIzMyOyt7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsrdTMyJiMzMjt0bXA7DQomZ3Q7JiMzMjsmZ3Q7
+JiMzMjsrDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsrdG1wJiMzMjs9JiMzMjtyZWFkbF9yZWxheGVkKG1t
+c3lzLSZndDtyZWdzJiMzMjsrJiMzMjtvZmZzZXQpOw0KJmd0OyYjMzI7Jmd0OyYjMzI7K3RtcCYj
+MzI7PSYjMzI7KHRtcCYjMzI7JmFtcDsmIzMyOyYjMTI2O21hc2spJiMzMjt8JiMzMjt2YWw7DQom
+Z3Q7JiMzMjsNCiZndDsmIzMyO1lvdSYjMzI7c2hvdWxkJiMzMjttYXNrJiMzMjt0aGUmIzMyO3Zh
+bHVlJiMzMjtiZWZvcmUmIzMyO3dyaXRpbmcmIzMyO3RvJiMzMjtwcmV2ZW50JiMzMjtiYWQmIzMy
+O3ZhbHVlcyYjMzI7ZnJvbQ0KJmd0OyYjMzI7b3ZlcndyaXRpbmcNCiZndDsmIzMyO2JpdHMmIzMy
+O291dHNpZGUmIzMyO3RoZSYjMzI7bWFzay4NCiZndDsmIzMyOw0KJmd0OyYjMzI7dG1wJiMzMjs9
+JiMzMjsodG1wJiMzMjsmYW1wOyYjMzI7JiMxMjY7bWFzaykmIzMyO3wmIzMyOyh2YWwmIzMyOyZh
+bXA7JiMzMjttYXNrKTsNCiZndDsmIzMyOw0KJmd0OyYjMzI7V2l0aCYjMzI7dGhhdCwNCiZndDsm
+IzMyOw0KJmd0OyYjMzI7UmV2aWV3ZWQtYnk6JiMzMjtOJiMyMzc7Y29sYXMmIzMyO0YuJiMzMjtS
+LiYjMzI7QS4mIzMyO1ByYWRvJiMzMjsmbHQ7bmZyYXByYWRvQGNvbGxhYm9yYS5jb20mZ3Q7DQom
+Z3Q7JiMzMjsNCiZndDsmIzMyO1RoYW5rcywNCiZndDsmIzMyO04mIzIzNztjb2xhcw0KDQpPSywm
+IzMyO0kmIzMyO3dpbGwmIzMyO2ZpeCYjMzI7aXQmIzMyO2luJiMzMjt0aGUmIzMyO25leHQmIzMy
+O3JldmlzaW9uLg0KDQpUaGFua3MsDQpOYW5jeQ0KDQo8L3ByZT48IS0tdHlwZTp0ZXh0LS0+PCEt
+LXstLT48cHJlPioqKioqKioqKioqKiogTUVESUFURUsgQ29uZmlkZW50aWFsaXR5IE5vdGljZSAq
+KioqKioqKioqKioqKioqKioqKg0KVGhlIGluZm9ybWF0aW9uIGNvbnRhaW5lZCBpbiB0aGlzIGUt
+bWFpbCBtZXNzYWdlIChpbmNsdWRpbmcgYW55IA0KYXR0YWNobWVudHMpIG1heSBiZSBjb25maWRl
+bnRpYWwsIHByb3ByaWV0YXJ5LCBwcml2aWxlZ2VkLCBvciBvdGhlcndpc2UNCmV4ZW1wdCBmcm9t
+IGRpc2Nsb3N1cmUgdW5kZXIgYXBwbGljYWJsZSBsYXdzLiBJdCBpcyBpbnRlbmRlZCB0byBiZSAN
+CmNvbnZleWVkIG9ubHkgdG8gdGhlIGRlc2lnbmF0ZWQgcmVjaXBpZW50KHMpLiBBbnkgdXNlLCBk
+aXNzZW1pbmF0aW9uLCANCmRpc3RyaWJ1dGlvbiwgcHJpbnRpbmcsIHJldGFpbmluZyBvciBjb3B5
+aW5nIG9mIHRoaXMgZS1tYWlsIChpbmNsdWRpbmcgaXRzIA0KYXR0YWNobWVudHMpIGJ5IHVuaW50
+ZW5kZWQgcmVjaXBpZW50KHMpIGlzIHN0cmljdGx5IHByb2hpYml0ZWQgYW5kIG1heSANCmJlIHVu
+bGF3ZnVsLiBJZiB5b3UgYXJlIG5vdCBhbiBpbnRlbmRlZCByZWNpcGllbnQgb2YgdGhpcyBlLW1h
+aWwsIG9yIGJlbGlldmUgDQp0aGF0IHlvdSBoYXZlIHJlY2VpdmVkIHRoaXMgZS1tYWlsIGluIGVy
+cm9yLCBwbGVhc2Ugbm90aWZ5IHRoZSBzZW5kZXIgDQppbW1lZGlhdGVseSAoYnkgcmVwbHlpbmcg
+dG8gdGhpcyBlLW1haWwpLCBkZWxldGUgYW55IGFuZCBhbGwgY29waWVzIG9mIA0KdGhpcyBlLW1h
+aWwgKGluY2x1ZGluZyBhbnkgYXR0YWNobWVudHMpIGZyb20geW91ciBzeXN0ZW0sIGFuZCBkbyBu
+b3QNCmRpc2Nsb3NlIHRoZSBjb250ZW50IG9mIHRoaXMgZS1tYWlsIHRvIGFueSBvdGhlciBwZXJz
+b24uIFRoYW5rIHlvdSENCjwvcHJlPjwhLS19LS0+
 
-- Zylonite has both PXA300 and PXA320 variants. I removed the PXA320
-  code because nothing selected it any more and it is not hooked
-  up to the MACH_PXA3XX_DT Kconfig symbol. Should I undo this and
-  keep all three PXA3xx variant, removing only PXA930 but selecting
-  CPU_PXA310/320 from MACH_PXA3XX_DT?
+--__=_Part_Boundary_004_1742383449.426993168
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-- The em_x270 board file was already removed as part of 9d3239147d6d
-  ("ARM: pxa: remove Compulab pxa2xx boards"), which already removed
-  the associated drivers. Is it correct to assume that the DT support
-  for it has also become unusable at that point, or would you expect
-  it to still have some use? I now remove the related CM-X300 machine
-  as well, but it sounds like you did not have DT support for that,
-  right?
+RGVhciBOaWNvbGFzLA0KDQpUaGFua3MgZm9yIHRoZSByZXZpZXcuDQoNCk9uIFRodSwgMjAyMi0x
+MS0wMyBhdCAxNjozMiAtMDQwMCwgTsOtY29sYXMgRi4gUi4gQS4gUHJhZG8gd3JvdGU6DQo+IE9u
+IFRodSwgTm92IDAzLCAyMDIyIGF0IDExOjI1OjA2QU0gKzA4MDAsIE5hbmN5LkxpbiB3cm90ZToN
+Cj4gWy4uXQ0KPiA+IC0tLSBhL2RyaXZlcnMvc29jL21lZGlhdGVrL210ay1tbXN5cy5jDQo+ID4g
+KysrIGIvZHJpdmVycy9zb2MvbWVkaWF0ZWsvbXRrLW1tc3lzLmMNCj4gDQo+IFsuLl0NCj4gPiAr
+c3RhdGljIHZvaWQgbXRrX21tc3lzX3VwZGF0ZV9iaXRzKHN0cnVjdCBtdGtfbW1zeXMgKm1tc3lz
+LCB1MzINCj4gPiBvZmZzZXQsIHUzMiBtYXNrLCB1MzIgdmFsKQ0KPiA+ICt7DQo+ID4gKwl1MzIg
+dG1wOw0KPiA+ICsNCj4gPiArCXRtcCA9IHJlYWRsX3JlbGF4ZWQobW1zeXMtPnJlZ3MgKyBvZmZz
+ZXQpOw0KPiA+ICsJdG1wID0gKHRtcCAmIH5tYXNrKSB8IHZhbDsNCj4gDQo+IFlvdSBzaG91bGQg
+bWFzayB0aGUgdmFsdWUgYmVmb3JlIHdyaXRpbmcgdG8gcHJldmVudCBiYWQgdmFsdWVzIGZyb20N
+Cj4gb3ZlcndyaXRpbmcNCj4gYml0cyBvdXRzaWRlIHRoZSBtYXNrLg0KPiANCj4gCXRtcCA9ICh0
+bXAgJiB+bWFzaykgfCAodmFsICYgbWFzayk7DQo+IA0KPiBXaXRoIHRoYXQsDQo+IA0KPiBSZXZp
+ZXdlZC1ieTogTsOtY29sYXMgRi4gUi4gQS4gUHJhZG8gPG5mcmFwcmFkb0Bjb2xsYWJvcmEuY29t
+Pg0KPiANCj4gVGhhbmtzLA0KPiBOw61jb2xhcw0KDQpPSywgSSB3aWxsIGZpeCBpdCBpbiB0aGUg
+bmV4dCByZXZpc2lvbi4NCg0KVGhhbmtzLA0KTmFuY3kNCg==
 
-- I'm not sure how the probing of the ASoC drivers works in the
-  DT case. Do I only need to make SND_PXA2XX_SOC_AC97 user-visible
-  to let everything get probed automatically from DT, or do we
-  need to also keep SND_PXA2XX_SOC_MIOA701 and SND_SOC_ZYLONITE?
+--__=_Part_Boundary_004_1742383449.426993168--
 
->> Any idea where I went wrong here? Did I make a mistake in following the Kconfig dependencies, or are some parts of this
-> incorrectly annotated?
->
-> I don't think you did a mistake, I think I did. When I saw the patch of 
-> "deprecation" of mioa701 and all the other pxa files, I took it that 
-> the platform-device was deprecated, and was to be removed. This is the 
-> right thing to do in my opinion. I wouldn't mind if all board file go 
-> actually (expect the QEMU one), as this would leave only the boards 
-> with proper DT support, and would remove some clutter from the kernel.
-
-Right, this is the plan: the only board files I left in place are
-'gumstix' family that is supported by qemu and has the largest amount
-of RAM in there, and the 'spitz' family that is also supported by
-qemu and apparently had at least one user that was interested in
-working on DT (I can't find a record of who that was now). 
-
-> I also thought the drivers won't get touched by the purge, exception 
-> made of "platform similar ones", such as in the sound tree 
-> (sound/soc/pxa) where we have some of them, and maybe mfd tree.
-
-I made two lists of drivers here: the first list is for those that
-become invisible in Kconfig and can no longer even be compile tested.
-My reasoning here was that these are likely already dead and will
-only get worse without compile testing. If anyone ends up doing
-a new DT conversion of a removed board later on, these can obviously
-get resurrected. The current state of the patches is in [1],
-I'll go through them again based on your feedback, but let me know
-if you see anything else that I'm removing that you think should be
-kept.
-
-The second list of drivers is for those that have no DT support and
-are impossible to get used without anyone declaring a (platform, spi,
-i2c, ...) device in source code somewhere. The list is still
-incomplete because this is hard to check automatically. I have
-included a few patches to remove drivers that have been obviously
-unused for a long time, or never had an in-tree user at all, but
-I left the majority of these drivers for a later series.
-
-       Arnd
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git/log/?h=boardfile-remove&id=73c4b7cfbc2b2ef0
