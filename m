@@ -1,73 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE29E619795
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 14:19:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DE14619797
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 14:19:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48CEC10E784;
-	Fri,  4 Nov 2022 13:19:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB46410E78E;
+	Fri,  4 Nov 2022 13:19:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
  [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9885E10E780
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 13:18:57 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 04D49580562;
- Fri,  4 Nov 2022 09:18:57 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Fri, 04 Nov 2022 09:18:57 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 604C710E780
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 13:18:52 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id BD83F580559;
+ Fri,  4 Nov 2022 09:18:51 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Fri, 04 Nov 2022 09:18:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1667567937; x=
- 1667575137; bh=EM4fniunJodZCkTlf4r6iLT6zTeW+tqDl1NJl7aK34U=; b=t
- SwYiPPu+OA/c2nxlVNCm5WTc+N7Y/Cn9TYuHpaUlT+K63DsZ0rPGBhodqKgxgDfZ
- XIy2NLh85n2Tq+omcbXQ/VKcKcpAKSFBKJAWeTXCl1WqzdJGKNqmteA5NOfqVC4M
- snBAV4gNpM1iAsO1Dga1AfjZ87BBB9MhjgVJzH+3lha43nMqS1mgcjM9YvcbbhSV
- CeHswLxx7REHAXhyDD/YLbvZi9ytRnVVX6ryqh13UCBu84ogEn+f/H3Hxzy0BNDe
- JRdmir8rph3Vwcb89Hx4iewm4O0/hTyzAOw4ij3dFreRvOGmZ0W7630AWuxIv2CS
- c2DI4+rhNIM7koIP/zExg==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1667567931; x=
+ 1667575131; bh=x/RnpdCq8+l4EBCIw1+peBD+1x1bRnGWgIjtgh7TZMo=; b=h
+ X2tpSuUgsYz8JHnokK5gCBSla06jpKoxkkj6fjH9JIZwX+IZM5OJ3TE5o+wU8L8U
+ 1SC07858vt3iW3/1xK/5+CZvZ0bko5yAzjN6RhHMQAOvVZEC1l7AqjIXYQqSpHiS
+ 88IwCYd30Vp/m4a87X7S86R35utHVTwrFlhsOcw64CkcUsGDdX6MBQ+pu8oEYEqo
+ zHC+ChzMxXJi0UahYgSLGyWqAfifSm5A2O3QFwW6GlognSOIYB5h+i6fSb9DArLl
+ lgye938EblJpIS2GDNiktjCBdfjA3hHcuSKWydmgW5QIQ6dwyKqdOYYQKnIVGrrA
+ SyB4Vs9Soco3SgQx5knzg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1667567937; x=
- 1667575137; bh=EM4fniunJodZCkTlf4r6iLT6zTeW+tqDl1NJl7aK34U=; b=Z
- upueXuS2m1jh+ldAn8XMjTyfHLR//dPEUpWQNGoSPX0jjrYHoejVWyKL8tOjUVVz
- LO0RgnaIsZlHJtlLwr2uaSNn2DJC5rX5OTtqh3GLMPDPc1Lug/b77rV6AIl0neIC
- A9asE0U8lPC9U0uJUwhR1Eb5egJRvLuFnC7xLzYgI4oX/wGVrJRzu3c6zfi6fyPT
- 2OmdwVRZobBkrTSqgOTYsBAxlM3/b6J1mzaFBja8XFEhe5/ni9+BtfQwvJr09dhJ
- HjWJ9fo31CfRxtqcYqUh1azOv9bmOiyz/9RABeT2iiGPQHIxXCCJXI7+G9PgPBU+
- gpEsspX6KRghDaMkEaoXw==
-X-ME-Sender: <xms:QBFlY0Ivrb8E5bsC3H3p5k_OLqtghbcO_HBccvEWBISYO9Kb2gzeIg>
- <xme:QBFlY0KHAEp3xK4ZhmrutF6meUCJhhF9gyfZB97mo9Dx-RHXU8nJ8u7_CoLMqh4Z1
- hfIROl5-RzuqLEfs8U>
-X-ME-Received: <xmr:QBFlY0s799_kpzALviD0t4QqbpI0bcjhD0-9MEmLNfH-sUde1Gy9J0FVwKbKw9jKJiZYPNhVbfSMmowKrH-9KdgJoQiRHMOYv_R2wN48IGil1w>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1667567931; x=
+ 1667575131; bh=x/RnpdCq8+l4EBCIw1+peBD+1x1bRnGWgIjtgh7TZMo=; b=J
+ gP9Nyqw4uJNzPp1bH8YqEDeesONVVGHerTPniEFT9S7UHs08JZpB94wh03wTExsB
+ Cqg870pHDbkWZ6y7+7Tb16JcR0OttUdSqGZ1Ohzyow34ToXA17hB2nVqNCy3cWJp
+ X5piRIe40AofkW46w0rsPgDLwIN7V+Fe5cEaFPDzEyZMT6oPidaUQ3nBF9Pd41uy
+ zetM+3ClJ03fTlQ8fJii1uwoi4uv8CkMXSlnvBWTe7hU/WIhXQ7vJIfggniZk2ov
+ /DVviPFHuuJcb7UnC+Q0Xn7sF6DWOKVsXCuL35S8H2Q7Z7YGlaqYiAhMYea/ciN6
+ 3iDK9xY0lq76GRvE7T6bw==
+X-ME-Sender: <xms:OxFlY6XYIMtD2jnSdijwBzjzZ3t7dRgqesQ28dzTjeh8H9cPIYVfQg>
+ <xme:OxFlY2mYshUzCTi9_HIy0i1R9OSqF6BhzB7Sd-K3NCUg7TN9K1771BeisWWZ9l5z9
+ Pq7f6BUBvgq8IVKbB8>
+X-ME-Received: <xmr:OxFlY-aSJTie6I68h8Ak87a1yL1QZM5TRiBMk-xSyUzPuf0HDDF9nquGs-q8T4HWLfg2B9mvysY6u3eDS_0FXOrryI7Xz_hKyqjvGvEwGAV-7g>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvddugdegkecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhfffugggtgffkfhgjvfevofesthekredtredtjeenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeduudduhfevjeetfeegvdffvdevvdejudegudekjeehtdelhfffveethfej
- ledtveenucevlhhushhtvghrufhiiigvpeegnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ ledtveenucevlhhushhtvghrufhiiigvpeeinecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:QBFlYxYNkXM6U-y2cbrNi51F65fAREU2Q-xZ5hp42bDrPwr4sbpmmA>
- <xmx:QBFlY7YaEOflMc_-YMFUDBqE16WTy9QJcsGbFdOkkuqEEMRW4-NBRw>
- <xmx:QBFlY9B_ic4Q1mG4Z_rG5mtlsDA6ryGQcPeXBeBJPnPgPw6N7UYU-Q>
- <xmx:QRFlY_otncxAvSkHAzioJuYx0S1WZzjhFiE53Q45dDCfy5SMM3t_7g>
+X-ME-Proxy: <xmx:OxFlYxWc5c43Q4H2LlmTezidfkQs3Sp-o7_AQk3fuLD-EmMBLYPthg>
+ <xmx:OxFlY0kXnrdJREVFCkQsiLzkwcywlKBzC13TdrODJH061nvxfflLIg>
+ <xmx:OxFlY2ccbn0Z0fyGg1WDAQU0TZUJUy5UTocwYZNYWT_PBfMKHCfgJQ>
+ <xmx:OxFlY-lU2iW4NkDK6ci5CRNjcv2QkyRW4A2nQwGDqnpgSd6e7Allqg>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 4 Nov 2022 09:18:55 -0400 (EDT)
+ 4 Nov 2022 09:18:50 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Fri, 04 Nov 2022 14:17:44 +0100
-Subject: [PATCH v2 27/65] clk: pxa: Add a determine_rate hook
+Date: Fri, 04 Nov 2022 14:17:45 +0100
+Subject: [PATCH v2 28/65] clk: renesas: r9a06g032: Add a determine_rate hook
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20221018-clk-range-checks-fixes-v2-27-f6736dec138e@cerno.tech>
+Message-Id: <20221018-clk-range-checks-fixes-v2-28-f6736dec138e@cerno.tech>
 References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
 In-Reply-To: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
 To: Stephen Boyd <sboyd@kernel.org>,
@@ -108,11 +108,11 @@ To: Stephen Boyd <sboyd@kernel.org>,
  Max Filippov <jcmvbkbc@gmail.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>
 X-Mailer: b4 0.11.0-dev-99e3a
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2451; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=gkm/+o6ixqMj8B1WnYL7qpChrixnNV+DZWxwRDHCQVo=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMmpAl823gjtiSyuvCg27WGHTV+3p0fIjr8+s3btzDvoc9lM
- MLylo5SFQYyLQVZMkSVG2HxJ3KlZrzvZ+ObBzGFlAhnCwMUpABPJ9mFkWPnjw5/jq5fz/s7ZFtWxVb
- b/sbTug6a7odvns07d8/KX0x+G/1kqLpX8SbpZ5fV/8r76XpZYz3SdK1ZXOcct7+WOn5O12QA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2424; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=qtN8YmaUvPGpHcy8Dy+enw7ZsB7uxefygNx/9UP+R2Y=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMmpAl8YryTd5Eg5oODvGn3v6Q/XhmnHGms6tv7idpbgWb1k
+ ygn9jlIWBjEuBlkxRZYYYfMlcadmve5k45sHM4eVCWQIAxenAExkTRYjw83aXKOQbSeesfRYnS40/X
+ rv8I7MmQKXPRQTyjpM5hzIsGf477fh/Dzt9IdLl+lF6/866rTl76rP0/i/O+W9lP1txHuwmR0A
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -139,8 +139,8 @@ Cc: linux-rtc@vger.kernel.org, alsa-devel@alsa-project.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The PXA "CKEN" clock implements a mux with a set_parent hook, but
-doesn't provide a determine_rate implementation.
+The Renesas r9a06g032 bitselect clock implements a mux with a set_parent
+hook, but doesn't provide a determine_rate implementation.
 
 This is a bit odd, since set_parent() is there to, as its name implies,
 change the parent of a clock. However, the most likely candidate to
@@ -168,34 +168,32 @@ CLK_SET_RATE_NO_REPARENT is set.
 And if it was an oversight, then we are at least explicit about our
 behavior now and it can be further refined down the line.
 
-Since the set_parent implementation is a nop though, it seems unlikely.
-
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/clk/pxa/clk-pxa.c | 3 ++-
+ drivers/clk/renesas/r9a06g032-clocks.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/clk/pxa/clk-pxa.c b/drivers/clk/pxa/clk-pxa.c
-index 374098ebbf2b..47bc60c2854c 100644
---- a/drivers/clk/pxa/clk-pxa.c
-+++ b/drivers/clk/pxa/clk-pxa.c
-@@ -82,6 +82,7 @@ static u8 cken_get_parent(struct clk_hw *hw)
+diff --git a/drivers/clk/renesas/r9a06g032-clocks.c b/drivers/clk/renesas/r9a06g032-clocks.c
+index 983faa5707b9..70c37097ca6e 100644
+--- a/drivers/clk/renesas/r9a06g032-clocks.c
++++ b/drivers/clk/renesas/r9a06g032-clocks.c
+@@ -773,6 +773,7 @@ static int r9a06g032_clk_mux_set_parent(struct clk_hw *hw, u8 index)
  }
  
- static const struct clk_ops cken_mux_ops = {
+ static const struct clk_ops clk_bitselect_ops = {
 +	.determine_rate = __clk_mux_determine_rate,
- 	.get_parent = cken_get_parent,
- 	.set_parent = dummy_clk_set_parent,
+ 	.get_parent = r9a06g032_clk_mux_get_parent,
+ 	.set_parent = r9a06g032_clk_mux_set_parent,
  };
-@@ -117,7 +118,7 @@ int __init clk_pxa_cken_init(const struct desc_clk_cken *clks,
- 					     &pxa_clk->hw, &cken_mux_ops,
- 					     &pxa_clk->hw, &cken_rate_ops,
- 					     &pxa_clk->gate.hw, &clk_gate_ops,
--					     clks[i].flags);
-+					     clks[i].flags | CLK_SET_RATE_NO_REPARENT);
- 		clkdev_pxa_register(clks[i].ckid, clks[i].con_id,
- 				    clks[i].dev_id, clk);
- 	}
+@@ -797,7 +798,7 @@ r9a06g032_register_bitsel(struct r9a06g032_priv *clocks,
+ 
+ 	init.name = desc->name;
+ 	init.ops = &clk_bitselect_ops;
+-	init.flags = CLK_SET_RATE_PARENT;
++	init.flags = CLK_SET_RATE_PARENT | CLK_SET_RATE_NO_REPARENT;
+ 	init.parent_names = names;
+ 	init.num_parents = 2;
+ 
 
 -- 
 b4 0.11.0-dev-99e3a
