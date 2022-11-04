@@ -1,75 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99B9A619C09
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 16:48:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61B83619C22
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 16:51:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 130DC10E8A7;
-	Fri,  4 Nov 2022 15:48:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A748910E8B1;
+	Fri,  4 Nov 2022 15:51:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com
- [IPv6:2607:f8b0:4864:20::f2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F73010E8A7
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 15:48:23 +0000 (UTC)
-Received: by mail-qv1-xf2a.google.com with SMTP id h10so3445376qvq.7
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Nov 2022 08:48:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=/dX0qOxdXp7cLT23QrYhqGLe+jJ28qbVowgKPPL8RXA=;
- b=CK4Lrv5YGb05eowI2JEr+yVsJX/Zrxtf3FfjCmo5XKXaIja/4IlsG46r8SCl7uVulI
- sefu0j41mhINaDArZ7A/IKt4j9s+IBRkuVdnm1jh00QVfO4MUUrJYb37QERgMZE/gjme
- Xao7HiTyBaMUYbNQ2oYxAdC491K6LYdBznLgHBXkaZi9x1MEySDC3j/wNZXPm/NbeZIa
- HanPjOCZ+Pbxwh+AR0m/E89oaIpWUFjOHx0hFtRR0g0etqnFBspiK1uj58DY/qQYbZr+
- ux+Ao8hc06Kv+i8OkAltajxjKIkxngQ4OI2FgV2DIbzRszBwuPuH7HUeGbeCMhuG3dcR
- Ppug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/dX0qOxdXp7cLT23QrYhqGLe+jJ28qbVowgKPPL8RXA=;
- b=3+V2Sq6tOuOdLW1RMx36s32fmUz6na4QDvSMSmgzU4VwW8SmQtjvcu40gFXNIhJRpO
- q/HrC2yKh71MZAYMB5hP11vJnSHmfQCTCheO5ElTwqjQ9mhuGzuZhlBzEygqnZwyTL/S
- CuyD7RxYqcYMpawwwdeS4/u+O0ynu5h8P4yH7vYofopK/cVRxbm8+HGR0zcR6Kfr1Apx
- 4LZ4opvP1Hkgky4EsGSl1KcOar7Dlytzldk+JBYDDxMoVgkv3Ce1yncL+Zt2M8UIuBBp
- ExJVgpqWx3uHhCt04ZYnyNixtZd2QR7ryrNQRh2RyQJ/BLOsmJOyz6OdeixLOsHI873w
- +Low==
-X-Gm-Message-State: ACrzQf1uKvHHCL5MfbIWvi0W0rcfNCmG3Dwtfg+i/v2co20BrO2vHqVu
- HxzB6/8F/Av25FqH1aUcEj+koQ==
-X-Google-Smtp-Source: AMsMyM6cuSu/k90Bmo3Izk1r3J2Rq8GdzcYNFtdYhXEW1AFFmae+EICDVfB91Hh8ksmn9UUnNBRwvA==
-X-Received: by 2002:a05:6214:2b0b:b0:4bc:27a3:f43f with SMTP id
- jx11-20020a0562142b0b00b004bc27a3f43fmr12663301qvb.8.1667576902204; 
- Fri, 04 Nov 2022 08:48:22 -0700 (PDT)
-Received: from ?IPV6:2601:586:5000:570:aad6:acd8:4ed9:299b?
- ([2601:586:5000:570:aad6:acd8:4ed9:299b])
- by smtp.gmail.com with ESMTPSA id
- v5-20020a05620a0f0500b006bba46e5eeasm3127113qkl.37.2022.11.04.08.48.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Nov 2022 08:48:21 -0700 (PDT)
-Message-ID: <a72c0e60-732f-3486-722e-851f21ebe640@linaro.org>
-Date: Fri, 4 Nov 2022 11:48:20 -0400
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7199D10E8B1
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 15:51:32 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 2CF9E58022E;
+ Fri,  4 Nov 2022 11:51:29 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Fri, 04 Nov 2022 11:51:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1667577089; x=1667584289; bh=96a+nENK+p
+ wJv6heDljopZWYNAHZZlQcLYBgPBXjxIA=; b=c28hMZxPcLC5cKVn4RzGU23sOy
+ 5KEaQ9azswPKVog9NQ9wCBgjJ5zlJEN0cHdbBCKvIlrdT+ZQfG2rcIz/rQlXO2jw
+ k1UxgqmX2FagKHw4X9whxQYdXqwWm+7Stg0ICjSEvVtcBkwwWTvNMnDOyIgDZEfK
+ HtR1ckYbIzWCnRQVeUfpYNLCZ1i4rwsh+GH+8saO+PVq3hn4d5QWQBRwmhPFIulZ
+ ZlC0ds9S6hNtgM4W07ajJa0wYBoiJMHdyUGc3JQeTkMBHEKKxMPhA7p0I2haT2t2
+ 3KZ/N91fsmtAZg/vrWyo2Oe6uM7vziDS9Pnre6j6vnzrWB8ADGNFdEv/GhOg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1667577089; x=1667584289; bh=96a+nENK+pwJv6heDljopZWYNAHZ
+ ZlQcLYBgPBXjxIA=; b=lcjGNhjEpFG9UwlWNPlyqpI20z1c8nUuBQ9ZXwVXmg/b
+ ZeLdY5iT/PXtaTrCfBAbCRdLswoYCAlW/DJ8MOK3ly5WU0Ri4GsMvmbAiZM3YEV8
+ 7b7rziMvPjbfCHBYUwVNNrurjBuR3uM3+3L5lP3jdROGg/FnKT7sHSV3uPRkhQpZ
+ apKhPjgWLrgSbzFty/fXLc5fDY2SimZDf9xM4fPoFnfU9jFtTLnjSfErO1Csdvwy
+ Kk5IyWi+3oStGEXC27JrUOyDJxsp3DASuQw9cI88KNVcO6v5HFvkr0/dBK9GL+h7
+ ToiYgcEnWuz66mqkbQ5B1R6Mal/DSPHP4ae31UzZPw==
+X-ME-Sender: <xms:_jRlY7Ez8WsNCE5vgDv7giaGvtlg_-S_TRslJicSiPCdt5bJkUoEjA>
+ <xme:_jRlY4UkRheR3U5QmJmsOPh6-XGK5CQfNUGZeNQ_AbqAFRLcEDmyB2cLzouBqARTU
+ krI-Ojq4CzRnSVgVcQ>
+X-ME-Received: <xmr:_jRlY9JiqeUBTyn6bWYvKmWYMotpgbK8YnEgDbLILKZx9L6KVBu2EE7Q3xNYrmiF1AYxcraFfmECS4yiAk2-MsqHugGRG3CxMH-3YrxjsuZX1w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvddugdejkecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheehfffh
+ vedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:_jRlY5ErY3ILridCfPdMiI1BdUsTnsKgcTt_koj5Y7kuky5Mvy56uw>
+ <xmx:_jRlYxWXTfF1vqAblQrq-NPyvBsz17O77BeYEHZbjU-jpqVh11zyFw>
+ <xmx:_jRlY0POCHLJSycVzP16fIOwooAHD-iZGUX4A32zENNBZ9QYZ-oINg>
+ <xmx:ATVlY1cZWdXf4vVe3bWpJOEOfEyXbf56TJKG-VDoEj6QaLJERlKGuA>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 4 Nov 2022 11:51:24 -0400 (EDT)
+Date: Fri, 4 Nov 2022 16:51:23 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v2 43/65] ASoC: tlv320aic32x4: Add a determine_rate hook
+Message-ID: <20221104155123.qomguvthehnogkdd@houat>
+References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
+ <20221018-clk-range-checks-fixes-v2-43-f6736dec138e@cerno.tech>
+ <Y2UzdYyjgahJsbHg@sirena.org.uk>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v3 1/8] memory: tegra: Add API for retrieving carveout
- bounds
-Content-Language: en-US
-To: Jon Hunter <jonathanh@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>, Mikko Perttunen
- <cyndis@kapsi.fi>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20220920081203.3237744-1-cyndis@kapsi.fi>
- <20220920081203.3237744-2-cyndis@kapsi.fi> <Y1aP7kDi8cJUTcGN@orome>
- <ee3073ba-d621-8b02-c986-3cf44cfbba96@nvidia.com>
- <b9b20abc-d37f-f74a-a416-2e210bf944c4@linaro.org>
- <3a783b8d-4970-663f-816a-15aad5a66a48@nvidia.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <3a783b8d-4970-663f-816a-15aad5a66a48@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="mczzont5aeejoi22"
+Content-Disposition: inline
+In-Reply-To: <Y2UzdYyjgahJsbHg@sirena.org.uk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,69 +84,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Sameer Pujar <spujar@nvidia.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>,
- Rob Herring <robh+dt@kernel.org>, linux-tegra@vger.kernel.org,
- Ashish Mhetre <amhetre@nvidia.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>,
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Michael Turquette <mturquette@baylibre.com>, Sekhar Nori <nsekhar@ti.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
+ Paul Cercueil <paul@crapouillou.net>, Max Filippov <jcmvbkbc@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-phy@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, Abel Vesa <abelvesa@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Samuel Holland <samuel@sholland.org>, Chunyan Zhang <zhang.lyra@gmail.com>,
+ Takashi Iwai <tiwai@suse.com>, linux-tegra@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
+ NXP Linux Team <linux-imx@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
+ linux-mips@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ linux-rtc@vger.kernel.org, linux-clk@vger.kernel.org,
+ Charles Keepax <ckeepax@opensource.cirrus.com>, alsa-devel@alsa-project.org,
+ Manivannan Sadhasivam <mani@kernel.org>, linux-kernel@vger.kernel.org,
+ Sascha Hauer <s.hauer@pengutronix.de>, linux-actions@lists.infradead.org,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ linux-mediatek@lists.infradead.org,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Alessandro Zummo <a.zummo@towertech.it>, linux-sunxi@lists.linux.dev,
+ Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
+ Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
+ linux-renesas-soc@vger.kernel.org, Dinh Nguyen <dinguyen@kernel.org>,
+ Vinod Koul <vkoul@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ David Lechner <david@lechnology.com>, Shawn Guo <shawnguo@kernel.org>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/11/2022 11:46, Jon Hunter wrote:
-> 
-> On 04/11/2022 15:35, Krzysztof Kozlowski wrote:
->> On 04/11/2022 11:33, Jon Hunter wrote:
->>> Hi Thierry, Krzysztof,
->>>
->>> On 24/10/2022 14:15, Thierry Reding wrote:
->>>> On Tue, Sep 20, 2022 at 11:11:56AM +0300, Mikko Perttunen wrote:
->>>>> From: Mikko Perttunen <mperttunen@nvidia.com>
->>>>>
->>>>> On Tegra234 NVDEC firmware is loaded from a secure carveout, where it
->>>>> has been loaded by a bootloader. When booting NVDEC, we need to tell it
->>>>> the address of this firmware, which we can determine by checking the
->>>>> starting address of the carveout. As such, add an MC API to query the
->>>>> bounds of carveouts, and add related information on Tegra234.
->>>>>
->>>>> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
->>>>> ---
->>>>> v2:
->>>>> - Add check for 64-bit phys_addr_t. In practice phys_addr_t
->>>>>     is always 64 bits where this runs, but it avoids warnings in
->>>>>     compile test.
->>>>> ---
->>>>>    drivers/memory/tegra/mc.c       | 25 +++++++++++++++++++++++++
->>>>>    drivers/memory/tegra/tegra234.c |  5 +++++
->>>>>    include/soc/tegra/mc.h          | 11 +++++++++++
->>>>>    3 files changed, 41 insertions(+)
->>>>
->>>> Krzysztof,
->>>>
->>>> I've applied this to the same tree as the patch that uses it for now.
->>>> Let me know if you want me to put this on a separate stable branch for
->>>> you to pull in.
->>>
->>> Any update on this?
->>
->> What kind of update do you expect?
-> 
-> Ha! I guess I should be more explicit :-)
-> 
-> Well, I would like to see this change in -next and so I was hoping that 
-> you would respond to the above to indicate how you would like to pull 
-> this in.
 
-The change will be in next via Thierry. I do not have to pull this in.
+--mczzont5aeejoi22
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The maintainer which applies patches is responsible for:
-1. Having his tree in linux-next,
-2. Sending the patches to upstream maintainer (e.g. arm-soc, Linus)
-later in pull request.
+Hi Mark,
 
-There is no job for me here, if I agree with Thierry. There would be a
-job if I needed a separate stable branch, but that I did not decide
-yet... Do you think I need to pull it? If so, why?
+On Fri, Nov 04, 2022 at 03:44:53PM +0000, Mark Brown wrote:
+> On Fri, Nov 04, 2022 at 02:18:00PM +0100, Maxime Ripard wrote:
+>=20
+> > So, the set_parent hook is effectively unused, possibly because of an
+> > oversight. However, it could also be an explicit decision by the
+> > original author to avoid any reparenting but through an explicit call to
+> > clk_set_parent().
+>=20
+> > The latter case would be equivalent to setting the flag
+> > CLK_SET_RATE_NO_REPARENT, together with setting our determine_rate hook
+> > to __clk_mux_determine_rate(). Indeed, if no determine_rate
+> > implementation is provided, clk_round_rate() (through
+> > clk_core_round_rate_nolock()) will call itself on the parent if
+> > CLK_SET_RATE_PARENT is set, and will not change the clock rate
+> > otherwise. __clk_mux_determine_rate() has the exact same behavior when
+> > CLK_SET_RATE_NO_REPARENT is set.
+>=20
+> > And if it was an oversight, then we are at least explicit about our
+> > behavior now and it can be further refined down the line.
+>=20
+> Given that the current approach involves patching every single user to
+> set a default implementation it feels like it might be more
+> straightforward to just have the clock API use that implementation if
+> none is defined - as you say there's already a flag to indicate the
+> unusual case where there's a solid reason to prevent reparenting.  It
+> feels like the resulting API is more straightforward.
 
-Best regards,
-Krzysztof
+That would be another solution indeed. The thing is, most places where
+determine_rate is missing seems to be oversight, and the flag is missing
+as well.
 
+Just filling determine_rate if it's missing with
+__clk_mux_determine_rate will possibly pick different parents, and I'm
+fairly certain that this have never been tested on most platforms, and
+will be completely broken. And I don't really want to play a game of
+whack-a-mole adding that flag everywhere it turns out it's broken.
+
+Maxime
+
+--mczzont5aeejoi22
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY2U0+wAKCRDj7w1vZxhR
+xXdWAP9xOaAlwGZ6oTzlixCwOJjLcIji+k20bZRWJg3KwM8WjgD/XCMOLieTzsjF
+hAeOJdZFWunkoq+e4ZeBrrG36c3row8=
+=SvO6
+-----END PGP SIGNATURE-----
+
+--mczzont5aeejoi22--
