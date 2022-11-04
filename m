@@ -1,60 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C047C61A0C1
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 20:21:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B1F661A0C7
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 20:22:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1F3110E107;
-	Fri,  4 Nov 2022 19:20:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B72C210E108;
+	Fri,  4 Nov 2022 19:22:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59F0210E0CF
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 19:20:49 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id y14so15740840ejd.9
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Nov 2022 12:20:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Oh1KWYON5mjuQI+J8O7TTZWfdQmfVuD5Iq8KiixC6i8=;
- b=ltvb1UQyJl6pGWW2XNH5fo2PPAS3YXLxwSj/fm2FswI/J2BfkT/CK8YTBbVJMRj+P9
- TjTzaZKQ4wr6kBfgOtLw/TwlrLy6hnO6ZduizB6fD5LHFVUfbYsQSYn8clXV9LPa1Ehp
- x4VQ3UtkaPfNVqDUEhjmr2jyOZgsj1XdKKS037E2Xi1RSJME6pokkzaj/VM6fjACLOdb
- 63p+BmrgVnj+wTOpkzpyWsr5b2yMCGMg1n4pA2bITYtxV+USzqAA765354oCUJxgVdmr
- O/KJ82QhL/3dlNqT+s+sIUczprHXfR5N3b6mPM/BTtuDYTZhsfn0/mGCBh+mH2d96sZM
- ee+A==
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
+ [IPv6:2607:f8b0:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDE4D10E108;
+ Fri,  4 Nov 2022 19:22:35 +0000 (UTC)
+Received: by mail-oi1-x229.google.com with SMTP id r76so6124533oie.13;
+ Fri, 04 Nov 2022 12:22:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+ :reply-to; bh=+CrrtBZaWaBIBfDEz9a9BacRZtXiPhURWnCTyiBknKU=;
+ b=f7SabvhELt4tvu58wD/HGUQtx2q3c42bp4689l/poRMwjHONs2y+uJybLQ6btnBic8
+ iSYK/T680hWQ8YubanyiQ/jk4TxtOOSgyzZyzTjBStaumbjkRAc3PTfrEP9z1ET4ppjL
+ os0cjm+F8kyIi27l3gX1TCu+EYDnb6I6sC6rEheSVAEJvEJuF1rkSUHHVYhQ9PjtWNZC
+ /KoHUhscmHo/jN1PCMTUxC8NT4KR3QukfsWt+gbIkumzBVh1p3Sny9bKzJeet5110tpk
+ HzVFo5k5iKj3j88DvNf1ucVPdH/av+bU0vEDu76g9bGVlHfWhJDUhqHlYTifQBH3QuBi
+ oWFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Oh1KWYON5mjuQI+J8O7TTZWfdQmfVuD5Iq8KiixC6i8=;
- b=kpRIseUftSJ5gxEgpJqlgl9vLqTcBCUBUk8gCh+1FDbXD8LPuzJxyO+oKxcM4E91Ae
- qqz36Xk9pP8Ac3PUbtrptZEWQbSDNowSCX9Qb74hMPe1wm9KUaW7zDPtfpRfYJg9KokJ
- 6CIzeTn+RJxM+0JtQ9x7n6ABN0Yt9oPRgmHt717Z6zKN6HWt0sKnZu8QN2DlHiGDTQrN
- Mu42+I3XQUi8eUmgaMrP0skYe8M9ZwiYlyHFSrgCnfHD1c83uJc8wKLF2ZQRZc3l86FT
- b9LmRpVp3rknLFbQCf1w3ol01AhTsJO+X1BwvREQVm3LeJLsdpfuZ/QaeOj/lmPcrG2X
- O8Ng==
-X-Gm-Message-State: ACrzQf3xxB/cWsZepwP5JQYBMEDwbCcRbX3+OcQHUgSoYKSreINAfvvK
- 3lpTcrspqB3N20n/x2X7nRkiUVf9RLVUYRAp5Ko1cw==
-X-Google-Smtp-Source: AMsMyM4DrcCYYQKEDdArtGjulTTfS/ZrzcU7d3blYwfP0xOs9GkV6Pjm6sVQHlKD4m8iOcJgGtw4ixgzyK0xTxJ7Zs8=
-X-Received: by 2002:a17:906:1c52:b0:7ad:c6c5:eae8 with SMTP id
- l18-20020a1709061c5200b007adc6c5eae8mr30084404ejg.439.1667589647564; Fri, 04
- Nov 2022 12:20:47 -0700 (PDT)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=+CrrtBZaWaBIBfDEz9a9BacRZtXiPhURWnCTyiBknKU=;
+ b=CQYYSu4DgxCjmGeZPC8bo4NPy7sBOJK7p3Daffs+y6pbRdUg9BYjvG51OVEuONLlb3
+ ombWISgwDKaoSNdWqpOo769d7STZVL9BPivpC2YxSRTuSwiXKWNtTHIjrQ06GKX9wSYT
+ ZeWeCtZ0EGPVWVjfq/Ail2jU0PqmcCadcnNNhSeXMk9bjtX/0QQEBnrEAG8x0RXw8Fqt
+ pLZ0Tfb9xbJU6CQTphXdltx7EXnAgxRN2/nk+b45vO5ddo+CO7ptI7O3tSawjx1VQQwE
+ NBrGndheX6Pyas1Adt1ibqyF3CFcS+Tf6xvF4dq4MZJx8OuOUGcxwyeGoM0RlldaFN6k
+ zPBQ==
+X-Gm-Message-State: ACrzQf0T5Ac3xtY3tzOpjhWpOwR8BXCHqS7SUh/k354fQkCB6sMTaJvd
+ H/JEbRPLu5eZhnaWTYg7dy0=
+X-Google-Smtp-Source: AMsMyM5j57nGJ6ihP9Jnolnn5vAnBZp3njFzbqkVuO45h5Gs91zBtM7qMBV3ZTA/jEfxwCmFGOBzYQ==
+X-Received: by 2002:aca:2819:0:b0:359:f8a7:c88 with SMTP id
+ 25-20020aca2819000000b00359f8a70c88mr260428oix.278.1667589755023; 
+ Fri, 04 Nov 2022 12:22:35 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ n132-20020acabd8a000000b003547a3401e6sm1729901oif.43.2022.11.04.12.22.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Nov 2022 12:22:34 -0700 (PDT)
+Date: Fri, 4 Nov 2022 12:22:32 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [RFC][PATCH v3 00/33] timers: Use timer_shutdown*() before
+ freeing timers
+Message-ID: <20221104192232.GA2520396@roeck-us.net>
+References: <20221104054053.431922658@goodmis.org>
 MIME-Version: 1.0
-References: <20221103162302.4ba62d72@maurocar-mobl2>
- <CAGS_qxr1=PLFzM8bGjdowZwdOXMEPiJEnffPUGQvwdhYVJJNvA@mail.gmail.com>
- <20221104084955.4e6e1093@maurocar-mobl2>
-In-Reply-To: <20221104084955.4e6e1093@maurocar-mobl2>
-From: Daniel Latypov <dlatypov@google.com>
-Date: Fri, 4 Nov 2022 12:20:36 -0700
-Message-ID: <CAGS_qxp3mmhdxKY1PreGRzVW=+4LVQKBRAAJT3VH8APTFtKJxw@mail.gmail.com>
-Subject: Re: KUnit issues - Was: [igt-dev] [PATCH RFC v2 8/8] drm/i915: check
- if current->mm is not NULL
-To: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221104054053.431922658@goodmis.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,300 +71,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Gow <davidgow@google.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, igt-dev@lists.freedesktop.org,
- Brendan Higgins <brendan.higgins@linux.dev>, linux-kselftest@vger.kernel.org,
- Shuah Khan <skhan@linuxfoundation.org>, kunit-dev@googlegroups.com
+Cc: alsa-devel@alsa-project.org, linux-staging@lists.linux.dev,
+ linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Thomas Gleixner <tglx@linutronix.de>,
+ linux-leds@vger.kernel.org, drbd-dev@lists.linbit.com,
+ linux-s390@vger.kernel.org, linux-nilfs@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-atm-general@lists.sourceforge.net, linux-afs@lists.infradead.org,
+ lvs-devel@vger.kernel.org, linux-acpi@vger.kernel.org, coreteam@netfilter.org,
+ intel-wired-lan@lists.osuosl.org, linux-input@vger.kernel.org,
+ tipc-discussion@lists.sourceforge.net, linux-ext4@vger.kernel.org,
+ linux-media@vger.kernel.org, bridge@lists.linux-foundation.org,
+ linux-pm@vger.kernel.org, intel-gfx@lists.freedesktop.org, rcu@vger.kernel.org,
+ cgroups@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
+ Anna-Maria Gleixner <anna-maria@linutronix.de>, linux-edac@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-nfs@vger.kernel.org,
+ linux-parisc@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-bluetooth@vger.kernel.org, netfilter-devel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 4, 2022 at 12:50 AM Mauro Carvalho Chehab
-<mauro.chehab@linux.intel.com> wrote:
->
-> On Thu, 3 Nov 2022 15:43:26 -0700
-> Daniel Latypov <dlatypov@google.com> wrote:
->
-> > On Thu, Nov 3, 2022 at 8:23 AM Mauro Carvalho Chehab
-> > <mauro.chehab@linux.intel.com> wrote:
-> > >
-> > > Hi,
-> > >
-> > > I'm facing a couple of issues when testing KUnit with the i915 driver.
-> > >
-> > > The DRM subsystem and the i915 driver has, for a long time, his own
-> > > way to do unit tests, which seems to be added before KUnit.
-> > >
-> > > I'm now checking if it is worth start using KUnit at i915. So, I wrote
-> > > a RFC with some patches adding support for the tests we have to be
-> > > reported using Kernel TAP and KUnit.
-> > >
-> > > There are basically 3 groups of tests there:
-> > >
-> > > - mock tests - check i915 hardware-independent logic;
-> > > - live tests - run some hardware-specific tests;
-> > > - perf tests - check perf support - also hardware-dependent.
-> > >
-> > > As they depend on i915 driver, they run only on x86, with PCI
-> > > stack enabled, but the mock tests run nicely via qemu.
-> > >
-> > > The live and perf tests require a real hardware. As we run them
-> > > together with our CI, which, among other things, test module
-> > > unload/reload and test loading i915 driver with different
-> > > modprobe parameters, the KUnit tests should be able to run as
-> > > a module.
-> > >
-> > > While testing KUnit, I noticed a couple of issues:
-> > >
-> > > 1. kunit.py parser is currently broken when used with modules
-> > >
-> > > the parser expects "TAP version xx" output, but this won't
-> > > happen when loading the kunit test driver.
-> > >
-> > > Are there any plans or patches fixing this issue?
-> >
-> > Partially.
-> > Note: we need a header to look for so we can strip prefixes (like timestamps).
-> >
-> > But there is a patch in the works to add a TAP header for each
-> > subtest, hopefully in time for 6.2.
->
-> Good to know.
->
-> > This is to match the KTAP spec:
-> > https://kernel.org/doc/html/latest/dev-tools/ktap.html
->
-> I see.
->
-> > That should fix it so you can parse one suite's results at a time.
-> > I'm pretty sure it won't fix the case where there's multiple suites
-> > and/or you're trying to parse all test results at once via
-> >
-> > $ find /sys/kernel/debug/kunit/ -type f | xargs cat |
-> > ./tools/testing/kunit/kunit.py parse
->
-> Could you point me to the changeset? perhaps I can write a followup
-> patch addressing this case.
+On Fri, Nov 04, 2022 at 01:40:53AM -0400, Steven Rostedt wrote:
+> 
+> Back in April, I posted an RFC patch set to help mitigate a common issue
+> where a timer gets armed just before it is freed, and when the timer
+> goes off, it crashes in the timer code without any evidence of who the
+> culprit was. I got side tracked and never finished up on that patch set.
+> Since this type of crash is still our #1 crash we are seeing in the field,
+> it has become a priority again to finish it.
+> 
+> This is v3 of that patch set. Thomas Gleixner posted an untested version
+> that makes timer->function NULL as the flag that it is shutdown. I took that
+> code, tested it (fixed it up), added more comments, and changed the
+> name to timer_shutdown_sync(). I also converted it to use WARN_ON_ONCE()
+> instead of just WARN_ON() as Linus asked for.
+> 
 
-rmoar@google.com was working on them and should hopefully be able to
-send them out real soon.
-You should get CC'd on those.
+Unfortunately the renaming caused some symbol conflicts.
 
-I think the follow-up work is just crafting an example parser input
-file and iterating until
-  $ ./tools/testing/kunit/kunit.py parse < /tmp/example_input
-produces our desired results.
+Global definition: timer_shutdown
 
->
-> > I think that in-kernel code change + some more python changes could
-> > make the above command work, but no one has actively started looking
-> > at that just yet.
-> > Hopefully we can pick this up and also get it done for 6.2 (unless I'm
-> > underestimating how complicated this is).
-> >
-> > >
-> > > 2. current->mm is not initialized
-> > >
-> > > Some tests do mmap(). They need the mm user context to be initialized,
-> > > but this is not happening right now.
-> > >
-> > > Are there a way to properly initialize it for KUnit?
-> >
-> > Right, this is a consequence of how early built-in KUnit tests are run
-> > after boot.
-> > I think for now, the answer is to make the test module-only.
-> >
-> > I know David had some ideas here, but I can't speak to them.
->
-> This is happening when test-i915 is built as module as well.
+  File             Line
+0 time.c            93 static inline void timer_shutdown(struct clock_event_device *evt)
+1 arm_arch_timer.c 690 static __always_inline int timer_shutdown(const int access,
+2 timer-fttmr010.c 105 int (*timer_shutdown)(struct clock_event_device *evt);
+3 timer-sp804.c    158 static inline void timer_shutdown(struct clock_event_device *evt)
+4 timer.h          239 static inline int timer_shutdown(struct timer_list *timer)
 
-Oh, I didn't expect that at all.
-
->
-> I suspect that the function which initializes it is mm_alloc() inside
-> kernel/fork.c:
->
->         struct mm_struct *mm_alloc(void)
->         {
->                 struct mm_struct *mm;
->
->                 mm = allocate_mm();
->                 if (!mm)
->                         return NULL;
->
->                 memset(mm, 0, sizeof(*mm));
->                 return mm_init(mm, current, current_user_ns());
->         }
->
-> As modprobing a test won't fork until all tests run, this never runs.
->
-> It seems that the normal usage is at fs/exec.c:
->
->         fs/exec.c:      bprm->mm = mm = mm_alloc();
->
-> but other places also call it:
->
->         arch/arm/mach-rpc/ecard.c:      struct mm_struct * mm = mm_alloc();
->         drivers/dma-buf/dma-resv.c:     struct mm_struct *mm = mm_alloc();
->         include/linux/sched/mm.h:extern struct mm_struct *mm_alloc(void);
->         mm/debug_vm_pgtable.c:  args->mm = mm_alloc();
->
-> Probably the solution would be to call it inside kunit executor code,
-> adding support for modules to use it.
-
-I know basically nothing about the mm code.
-I think I vaguely recall there being issues with this on UML or
-something, but I could be totally wrong.
-
-I'll wait for David to chime in when he can.
-
->
-> > > 3. there's no test filters for modules
-> > >
-> > > In order to be able to do proper CI automation, it is needed to
-> > > be able to control what tests will run or not. That's specially
-> > > interesting at development time where some tests may not apply
-> > > or not run properly on new hardware.
-> > >
-> > > Are there any plans to add support for it at kunit_test_suites()
-> > > when the driver is built as module? Ideally, the best would be to
-> > > export a per-module filter_glob parameter on such cases.
-> >
-> > I think this is a good idea and is doable. (I think I said as much on
-> > the other thread).
-> >
-> > The thinking before was that people would make group tests together in modules.
-> > But if you want to share a single module for many tests, this becomes
-> > more useful.
->
-> At least for this RFC, I opted to place everything we have already on
-> a single module.
->
-> Perhaps I could create, instead, 3 separate modules. This way, I would gain
-> a "third level" and a poor man's way of filtering what test type
-> will run (mock, live or perf).
->
-> Yet, we will still need to be able to filter the unit tests, as this
-> is where all the fun happens.
->
-> > This has some potential merge conflicts w/ other pending work.
-> > I was also prototyping the ability to tell KUnit "run tests #2 - #5",
-> > so that also touches the filtering code very heavily.
->
-> Are you planning to allow this to support such feature also on modules?
-
-I was not expecting to.
-The main benefit would be for automation to try sharding up tests
-across multiple kernel boots. Human users would continue to use
-name-based selection.
-
-So this fits into how kunit.py works w/ UML invocations or QEMU VMs.
-I don't see how this would be useful for module-based testing, where
-it feels like you want to boot once and pick which modules to
-modprobe.
-
-Do you think it would be useful to have this for modules as well?
-
->
-> > (The goal there is to have kunit.py able to shard up tests and boot
-> > multiple kernels concurrently.)
-> >
-> > >
-> > > 4. there are actually 3 levels of tests on i915:
-> > >         - Level 1: mock, live, perf
-> > >         - Level 2: test group (mmap, fences, ...)
-> > >         - Level 3: unit tests
-> > >
-> > > Currently, KUnit seems to have just two levels (test suite and tests).
-> > > Are there a way to add test groups there?
-> >
-> > Parameterized tests are the closest we have to a third-level of tests.
-> > But other than that, the answer is no.
-> >
-> > I'd need to get more familiar with the existing tests, but I'm pretty
-> > sure parameters won't work for you.
->
-> Our current approach with selftests is that each test can be disabled.
-> You can see how it currently works by taking a look at the __run_selftests
-> logic (level 2 on the above hierarchy) inside
-> drivers/gpu/drm/i915/selftests/i915_selftest.c:
->
->
->         static int __run_selftests(const char *name,
->                                    struct selftest *st,
->                                    unsigned int count,
->                                    void *data)
->         {
-> ...
->                 /* Tests are listed in order in i915_*_selftests.h */
->                 for (; count--; st++) {
->                         if (!st->enabled)
->                                 continue;
-> ...
->                 pr_info(DRIVER_NAME ": Running %s\n", st->name);
->                 if (data)
->                         err = st->live(data);
->                 else
->                         err = st->mock();
->
-> The same also happens at subtests (level 3):
->
->         int __i915_subtests(const char *caller,
->                             int (*setup)(void *data),
->                             int (*teardown)(int err, void *data),
->                             const struct i915_subtest *st,
->                             unsigned int count,
->                             void *data)
->         {
-> ...
->                 if (!apply_subtest_filter(caller, st->name))
->                         continue;
-> ...
->                 pr_info(DRIVER_NAME ": Running %s/%s\n", caller, st->name);
->                 GEM_TRACE("Running %s/%s\n", caller, st->name);
->
->                 err = teardown(st->func(data), data);
-
-Had a brief look.
-
-Hmm, the idea of dynamically adding subtests wouldn't work well with
-this more structured approach.
-The filtering right now in KUnit is done directly on the suites/test
-case objects before we run them.
-We'd need to pass in this extra filter while running the tests, which
-would need some thought to do cleanly.
-
-Here's an idea of how you could roughly emulate this in KUnit right now:
-1) could have each KUNIT_CASE map to a test group
-2) could have some shared test code declare a module param 'subtest_filter'
-3) you could check if the subtest name matches 'subtest_filter', and
-use kunit_skip() otherwise
-
-You'd be able to plumb in the subtest filter via:
-$ kunit.py run --kernel_args 'subtest_filter=foo'
-
-This feels a bit gross, but not as gross as I thought it might.
-
-
-Daniel
-
->
-> > And I don't know if this will get done.
-> >
-> > Note: the kunit_parser.py code should be able to handle arbitrary
-> > levels of tests in the output.
-> > This restriction is purely in the in-kernel code.
-> >
-> > I had brought up the idea of more layers of tests before.
-> > It would also be useful for
-> > a) sharing expensive setup between multiple tests
-> > b) allowing more granular scope for cleanups (kunit_kmalloc and others)
-> > c) more flexibility in dynamically generating subtests than
-> > parameterized testing
->
-> Yes, it makes sense to me.
->
-> > There's some precedent in other unit testing frameworks, for example:
-> > https://pkg.go.dev/testing#T.Run
->
-> Regards,
-> Mauro
+Guenter
