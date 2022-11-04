@@ -1,65 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6373561A5D2
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Nov 2022 00:34:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7242161A62D
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Nov 2022 00:59:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1CFF10E8C0;
-	Fri,  4 Nov 2022 23:34:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A90810E8D9;
+	Fri,  4 Nov 2022 23:59:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com
- [IPv6:2001:4860:4864:20::32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDCE910E8C0;
- Fri,  4 Nov 2022 23:34:43 +0000 (UTC)
-Received: by mail-oa1-x32.google.com with SMTP id
- 586e51a60fabf-13c569e5ff5so7166123fac.6; 
- Fri, 04 Nov 2022 16:34:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
- :reply-to; bh=6hvd6urNEa2bZ2TTknP5YJ+H72Ja2eceUu/0SfBV1dc=;
- b=Jg8jucXtBJP8myrTJM3z0Wltiv65Ikg/KpM2vg9+TBoUW8c9U6W60sIjrbQ9g2FcCc
- 31LubanrKiS7Sxd3jWqCYjN51E7mjzHAKTsl2yG3a+PmWqITk6B5s+HGczlPeMYiJFrb
- vBZoQtVDG0kLRBI424jNNGG2b2bDrcM9K1WztoTH0rQVEK4L8GAlPvrCSGnj6IlV9xUa
- XQ46HitYNVXogafALOjhYHs25Hj1J/FbNvVDg+CD68rFnvYhDXkugu2K8l076C7M7TZq
- Qr6xjmcHk7Gk4pAipfE4FkxiMKzRcyJTcom7FrkAkJoEkKmmujHBgxhv3f/neLNWJFlx
- 4OcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6hvd6urNEa2bZ2TTknP5YJ+H72Ja2eceUu/0SfBV1dc=;
- b=C279CW0cgXerCZEkohCttsrRMPPfcw6zASmXmXIjcDFj4IKp5/7tnuP/zXes8R7LCs
- YwIMkJLzPTqIjsOzF0toPjX9GUW2ByfPS4wrd1mWMVqSbylfCFTVlp6AtRMPX7/m1XDO
- N2bIyKubxNKmuiptEctJO1kU62QZHRL0TRmosvHn1s97Sz5+690jDPZu5bsVOgs73eFt
- xm+3nYMs0xu0mbAVsMe5ndejeoJDfFUhW+V9vMTNekqwgvucUbYc4po4iOHaT50968px
- LJW3qGgY2Ba9/fgibDiZJdXupYzPbHjoSyApeb6qFrThs9uJmTn+tE8XyiQ+eH7CXRvy
- EWdA==
-X-Gm-Message-State: ACrzQf1sk2Z3EWmq4fWefEmy/UkZmd6hsHh/3ngKzZBv2DaFATt2jzzb
- +/dLGJ7gS9o0WVLYvTlH9/I=
-X-Google-Smtp-Source: AMsMyM7MF9Q/Pp9YnJEtGj4XwhLtYIPmz5/gJtrzdgqLYVrzm8NOvh6bI3lkPYE6537XupHrGdc+uQ==
-X-Received: by 2002:a05:6870:6717:b0:13d:8222:329e with SMTP id
- gb23-20020a056870671700b0013d8222329emr7986841oab.128.1667604883046; 
- Fri, 04 Nov 2022 16:34:43 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- w29-20020a056870339d00b0011e37fb5493sm183421oae.30.2022.11.04.16.34.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Nov 2022 16:34:41 -0700 (PDT)
-Date: Fri, 4 Nov 2022 16:34:40 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [RFC][PATCH v3 00/33] timers: Use timer_shutdown*() before
- freeing timers
-Message-ID: <20221104233440.GA2443898@roeck-us.net>
-References: <20221104054053.431922658@goodmis.org>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E28D710E8DB
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 23:59:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667606377;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4B7j5kjkApzpTebpt++iJ639JGpEbHBWgCXvka4SVtk=;
+ b=CDpWEEx6dlMA3tLye4dXhoYhL+fcGWyGHUxcM18USIKII8F0I31fzfzhQDNYpRL7o+GuNn
+ o7qON9Adq8z9Q3Tp+oHt8mSNT1vfGiR8w/+kCJwix+i/0gpXeeXFB5jIp1C6RHQdh5RBbY
+ zCQbFu7MFXWxzlBa5kHzMXOjyFQ0QJw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-580-uPYvNlNQPc6Z3c_S1eRTWg-1; Fri, 04 Nov 2022 19:59:34 -0400
+X-MC-Unique: uPYvNlNQPc6Z3c_S1eRTWg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0223285A583;
+ Fri,  4 Nov 2022 23:59:33 +0000 (UTC)
+Received: from emerald.lyude.net (unknown [10.22.11.87])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E262F1121325;
+ Fri,  4 Nov 2022 23:59:31 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: amd-gfx@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/amdgpu/mst: Stop ignoring error codes and deadlocking
+Date: Fri,  4 Nov 2022 19:59:25 -0400
+Message-Id: <20221104235926.302883-2-lyude@redhat.com>
+In-Reply-To: <20221104235926.302883-1-lyude@redhat.com>
+References: <20221104235926.302883-1-lyude@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221104054053.431922658@goodmis.org>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,176 +59,382 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, linux-staging@lists.linux.dev,
- linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Thomas Gleixner <tglx@linutronix.de>,
- linux-leds@vger.kernel.org, drbd-dev@lists.linbit.com,
- linux-s390@vger.kernel.org, linux-nilfs@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-atm-general@lists.sourceforge.net, linux-afs@lists.infradead.org,
- lvs-devel@vger.kernel.org, linux-acpi@vger.kernel.org, coreteam@netfilter.org,
- intel-wired-lan@lists.osuosl.org, linux-input@vger.kernel.org,
- tipc-discussion@lists.sourceforge.net, linux-ext4@vger.kernel.org,
- linux-media@vger.kernel.org, bridge@lists.linux-foundation.org,
- linux-pm@vger.kernel.org, intel-gfx@lists.freedesktop.org, rcu@vger.kernel.org,
- cgroups@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
- Anna-Maria Gleixner <anna-maria@linutronix.de>, linux-edac@vger.kernel.org,
- linux-block@vger.kernel.org, linux-nfs@vger.kernel.org,
- linux-parisc@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
- netdev@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-bluetooth@vger.kernel.org, netfilter-devel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Wenjing Liu <Wenjing.Liu@amd.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>, David Francis <David.Francis@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Fangzhi Zuo <Jerry.Zuo@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, hersen wu <hersenxs.wu@amd.com>,
+ Mikita Lipski <mikita.lipski@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Roman Li <roman.li@amd.com>, stable@vger.kernel.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Wayne Lin <Wayne.Lin@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 04, 2022 at 01:40:53AM -0400, Steven Rostedt wrote:
-> 
-> Back in April, I posted an RFC patch set to help mitigate a common issue
-> where a timer gets armed just before it is freed, and when the timer
-> goes off, it crashes in the timer code without any evidence of who the
-> culprit was. I got side tracked and never finished up on that patch set.
-> Since this type of crash is still our #1 crash we are seeing in the field,
-> it has become a priority again to finish it.
-> 
+It appears that amdgpu makes the mistake of completely ignoring the return
+values from the DP MST helpers, and instead just returns a simple
+true/false. In this case, it seems to have come back to bite us because as
+a result of simply returning false from
+compute_mst_dsc_configs_for_state(), amdgpu had no way of telling when a
+deadlock happened from these helpers. This could definitely result in some
+kernel splats.
 
-After applying the patches attached below, everything compiles for me,
-and there are no crashes. There are still various warnings, most in
-networking. I know I need to apply some patch(es) to fix the networking
-warnings, but I didn't entirely understand what exactly to apply, so
-I didn't try.
-
-Complete logs are at https://kerneltests.org/builders, on the bottom half
-of the page (qemu tests, in the 'testing' column).
-
-Guenter
-
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+Fixes: 8c20a1ed9b4f ("drm/amd/display: MST DSC compute fair share")
+Cc: Harry Wentland <harry.wentland@amd.com>
+Cc: <stable@vger.kernel.org> # v5.6+
 ---
-Warnings:
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  18 +--
+ .../display/amdgpu_dm/amdgpu_dm_mst_types.c   | 107 ++++++++++--------
+ .../display/amdgpu_dm/amdgpu_dm_mst_types.h   |  12 +-
+ 3 files changed, 73 insertions(+), 64 deletions(-)
 
-ODEBUG: free active (active state 0) object type: timer_list hint: tcp_write_timer+0x0/0x1d0
-	from tcp_close -> __sk_destruct -> tcp_write_timer
-
-ODEBUG: free active (active state 0) object type: timer_list hint: tcp_keepalive_timer+0x0/0x4c0
-	from tcp_close -> __sk_destruct -> tcp_keepalive_timer -> __del_timer_sync
-
-ODEBUG: free active (active state 0) object type: timer_list hint: blk_rq_timed_out_timer+0x0/0x40
-	blk_free_queue_rcu -> blk_free_queue_rcu -> blk_rq_timed_out_timer
-
----
-Changes applied on top of patch set to fix build errors:
-
-diff --git a/arch/arm/mach-spear/time.c b/arch/arm/mach-spear/time.c
-index e979e2197f8e..5371c824786d 100644
---- a/arch/arm/mach-spear/time.c
-+++ b/arch/arm/mach-spear/time.c
-@@ -90,7 +90,7 @@ static void __init spear_clocksource_init(void)
- 		200, 16, clocksource_mmio_readw_up);
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 0db2a88cd4d7b..6f76b2c84cdb5 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -6462,7 +6462,7 @@ static int dm_update_mst_vcpi_slots_for_dsc(struct drm_atomic_state *state,
+ 	struct drm_connector_state *new_con_state;
+ 	struct amdgpu_dm_connector *aconnector;
+ 	struct dm_connector_state *dm_conn_state;
+-	int i, j;
++	int i, j, ret;
+ 	int vcpi, pbn_div, pbn, slot_num = 0;
+ 
+ 	for_each_new_connector_in_state(state, connector, new_con_state, i) {
+@@ -6509,8 +6509,11 @@ static int dm_update_mst_vcpi_slots_for_dsc(struct drm_atomic_state *state,
+ 			dm_conn_state->pbn = pbn;
+ 			dm_conn_state->vcpi_slots = slot_num;
+ 
+-			drm_dp_mst_atomic_enable_dsc(state, aconnector->port, dm_conn_state->pbn,
+-						     false);
++			ret = drm_dp_mst_atomic_enable_dsc(state, aconnector->port,
++							   dm_conn_state->pbn, false);
++			if (ret != 0)
++				return ret;
++
+ 			continue;
+ 		}
+ 
+@@ -9523,10 +9526,9 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
+ 
+ #if defined(CONFIG_DRM_AMD_DC_DCN)
+ 	if (dc_resource_is_dsc_encoding_supported(dc)) {
+-		if (!pre_validate_dsc(state, &dm_state, vars)) {
+-			ret = -EINVAL;
++		ret = pre_validate_dsc(state, &dm_state, vars);
++		if (ret != 0)
+ 			goto fail;
+-		}
+ 	}
+ #endif
+ 
+@@ -9621,9 +9623,9 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
+ 		}
+ 
+ #if defined(CONFIG_DRM_AMD_DC_DCN)
+-		if (!compute_mst_dsc_configs_for_state(state, dm_state->context, vars)) {
++		ret = compute_mst_dsc_configs_for_state(state, dm_state->context, vars);
++		if (ret) {
+ 			DRM_DEBUG_DRIVER("compute_mst_dsc_configs_for_state() failed\n");
+-			ret = -EINVAL;
+ 			goto fail;
+ 		}
+ 
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+index 6ff96b4bdda5c..30bc2e5058b70 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+@@ -864,25 +864,25 @@ static bool try_disable_dsc(struct drm_atomic_state *state,
+ 	return true;
  }
  
--static inline void timer_shutdown(struct clock_event_device *evt)
-+static inline void spear_timer_shutdown(struct clock_event_device *evt)
+-static bool compute_mst_dsc_configs_for_link(struct drm_atomic_state *state,
+-					     struct dc_state *dc_state,
+-					     struct dc_link *dc_link,
+-					     struct dsc_mst_fairness_vars *vars,
+-					     struct drm_dp_mst_topology_mgr *mgr,
+-					     int *link_vars_start_index)
++static int compute_mst_dsc_configs_for_link(struct drm_atomic_state *state,
++					    struct dc_state *dc_state,
++					    struct dc_link *dc_link,
++					    struct dsc_mst_fairness_vars *vars,
++					    struct drm_dp_mst_topology_mgr *mgr,
++					    int *link_vars_start_index)
  {
- 	u16 val = readw(gpt_base + CR(CLKEVT));
+ 	struct dc_stream_state *stream;
+ 	struct dsc_mst_fairness_params params[MAX_PIPES];
+ 	struct amdgpu_dm_connector *aconnector;
+ 	struct drm_dp_mst_topology_state *mst_state = drm_atomic_get_mst_topology_state(state, mgr);
+ 	int count = 0;
+-	int i, k;
++	int i, k, ret;
+ 	bool debugfs_overwrite = false;
  
-@@ -101,7 +101,7 @@ static inline void timer_shutdown(struct clock_event_device *evt)
+ 	memset(params, 0, sizeof(params));
  
- static int spear_shutdown(struct clock_event_device *evt)
+ 	if (IS_ERR(mst_state))
+-		return false;
++		return PTR_ERR(mst_state);
+ 
+ 	mst_state->pbn_div = dm_mst_get_pbn_divider(dc_link);
+ #if defined(CONFIG_DRM_AMD_DC_DCN)
+@@ -933,7 +933,7 @@ static bool compute_mst_dsc_configs_for_link(struct drm_atomic_state *state,
+ 
+ 	if (count == 0) {
+ 		ASSERT(0);
+-		return true;
++		return 0;
+ 	}
+ 
+ 	/* k is start index of vars for current phy link used by mst hub */
+@@ -949,11 +949,14 @@ static bool compute_mst_dsc_configs_for_link(struct drm_atomic_state *state,
+ 		vars[i + k].bpp_x16 = 0;
+ 		if (drm_dp_atomic_find_time_slots(state, params[i].port->mgr, params[i].port,
+ 						  vars[i + k].pbn) < 0)
+-			return false;
++			return -EINVAL;
+ 	}
+-	if (!drm_dp_mst_atomic_check(state) && !debugfs_overwrite) {
++	ret = drm_dp_mst_atomic_check(state);
++	if (ret == 0 && !debugfs_overwrite) {
+ 		set_dsc_configs_from_fairness_vars(params, vars, count, k);
+-		return true;
++		return 0;
++	} else if (ret == -EDEADLK) {
++		return ret;
+ 	}
+ 
+ 	/* Try max compression */
+@@ -964,29 +967,30 @@ static bool compute_mst_dsc_configs_for_link(struct drm_atomic_state *state,
+ 			vars[i + k].bpp_x16 = params[i].bw_range.min_target_bpp_x16;
+ 			if (drm_dp_atomic_find_time_slots(state, params[i].port->mgr,
+ 							  params[i].port, vars[i + k].pbn) < 0)
+-				return false;
++				return -EINVAL;
+ 		} else {
+ 			vars[i + k].pbn = kbps_to_peak_pbn(params[i].bw_range.stream_kbps);
+ 			vars[i + k].dsc_enabled = false;
+ 			vars[i + k].bpp_x16 = 0;
+ 			if (drm_dp_atomic_find_time_slots(state, params[i].port->mgr,
+ 							  params[i].port, vars[i + k].pbn) < 0)
+-				return false;
++				return -EINVAL;
+ 		}
+ 	}
+-	if (drm_dp_mst_atomic_check(state))
+-		return false;
++	ret = drm_dp_mst_atomic_check(state);
++	if (ret != 0)
++		return ret;
+ 
+ 	/* Optimize degree of compression */
+ 	if (!increase_dsc_bpp(state, mst_state, dc_link, params, vars, count, k))
+-		return false;
++		return -ENOSPC;
+ 
+ 	if (!try_disable_dsc(state, dc_link, params, vars, count, k))
+-		return false;
++		return -ENOSPC;
+ 
+ 	set_dsc_configs_from_fairness_vars(params, vars, count, k);
+ 
+-	return true;
++	return 0;
+ }
+ 
+ static bool is_dsc_need_re_compute(
+@@ -1087,15 +1091,16 @@ static bool is_dsc_need_re_compute(
+ 	return is_dsc_need_re_compute;
+ }
+ 
+-bool compute_mst_dsc_configs_for_state(struct drm_atomic_state *state,
+-				       struct dc_state *dc_state,
+-				       struct dsc_mst_fairness_vars *vars)
++int compute_mst_dsc_configs_for_state(struct drm_atomic_state *state,
++				      struct dc_state *dc_state,
++				      struct dsc_mst_fairness_vars *vars)
  {
--	timer_shutdown(evt);
-+	spear_timer_shutdown(evt);
+ 	int i, j;
+ 	struct dc_stream_state *stream;
+ 	bool computed_streams[MAX_PIPES];
+ 	struct amdgpu_dm_connector *aconnector;
+ 	int link_vars_start_index = 0;
++	int ret = 0;
  
- 	return 0;
+ 	for (i = 0; i < dc_state->stream_count; i++)
+ 		computed_streams[i] = false;
+@@ -1118,17 +1123,19 @@ bool compute_mst_dsc_configs_for_state(struct drm_atomic_state *state,
+ 			continue;
+ 
+ 		if (dcn20_remove_stream_from_ctx(stream->ctx->dc, dc_state, stream) != DC_OK)
+-			return false;
++			return -EINVAL;
+ 
+ 		if (!is_dsc_need_re_compute(state, dc_state, stream->link))
+ 			continue;
+ 
+ 		mutex_lock(&aconnector->mst_mgr.lock);
+-		if (!compute_mst_dsc_configs_for_link(state, dc_state, stream->link, vars,
+-						      &aconnector->mst_mgr,
+-						      &link_vars_start_index)) {
++
++		ret = compute_mst_dsc_configs_for_link(state, dc_state, stream->link, vars,
++						       &aconnector->mst_mgr,
++						       &link_vars_start_index);
++		if (ret != 0) {
+ 			mutex_unlock(&aconnector->mst_mgr.lock);
+-			return false;
++			return ret;
+ 		}
+ 		mutex_unlock(&aconnector->mst_mgr.lock);
+ 
+@@ -1143,22 +1150,22 @@ bool compute_mst_dsc_configs_for_state(struct drm_atomic_state *state,
+ 
+ 		if (stream->timing.flags.DSC == 1)
+ 			if (dc_stream_add_dsc_to_resource(stream->ctx->dc, dc_state, stream) != DC_OK)
+-				return false;
++				return -EINVAL;
+ 	}
+ 
+-	return true;
++	return ret;
  }
-@@ -111,7 +111,7 @@ static int spear_set_oneshot(struct clock_event_device *evt)
- 	u16 val;
  
- 	/* stop the timer */
--	timer_shutdown(evt);
-+	spear_timer_shutdown(evt);
- 
- 	val = readw(gpt_base + CR(CLKEVT));
- 	val |= CTRL_ONE_SHOT;
-@@ -126,7 +126,7 @@ static int spear_set_periodic(struct clock_event_device *evt)
- 	u16 val;
- 
- 	/* stop the timer */
--	timer_shutdown(evt);
-+	spear_timer_shutdown(evt);
- 
- 	period = clk_get_rate(gpt_clk) / HZ;
- 	period >>= CTRL_PRESCALER16;
-diff --git a/drivers/clocksource/arm_arch_timer.c b/drivers/clocksource/arm_arch_timer.c
-index a7ff77550e17..9c3420a0d19d 100644
---- a/drivers/clocksource/arm_arch_timer.c
-+++ b/drivers/clocksource/arm_arch_timer.c
-@@ -687,8 +687,8 @@ static irqreturn_t arch_timer_handler_virt_mem(int irq, void *dev_id)
- 	return timer_handler(ARCH_TIMER_MEM_VIRT_ACCESS, evt);
- }
- 
--static __always_inline int timer_shutdown(const int access,
--					  struct clock_event_device *clk)
-+static __always_inline int arch_timer_shutdown(const int access,
-+					       struct clock_event_device *clk)
+-static bool
+-	pre_compute_mst_dsc_configs_for_state(struct drm_atomic_state *state,
+-					      struct dc_state *dc_state,
+-					      struct dsc_mst_fairness_vars *vars)
++static int pre_compute_mst_dsc_configs_for_state(struct drm_atomic_state *state,
++						 struct dc_state *dc_state,
++						 struct dsc_mst_fairness_vars *vars)
  {
- 	unsigned long ctrl;
+ 	int i, j;
+ 	struct dc_stream_state *stream;
+ 	bool computed_streams[MAX_PIPES];
+ 	struct amdgpu_dm_connector *aconnector;
+ 	int link_vars_start_index = 0;
++	int ret;
  
-@@ -701,22 +701,22 @@ static __always_inline int timer_shutdown(const int access,
+ 	for (i = 0; i < dc_state->stream_count; i++)
+ 		computed_streams[i] = false;
+@@ -1184,13 +1191,12 @@ static bool
+ 			continue;
  
- static int arch_timer_shutdown_virt(struct clock_event_device *clk)
+ 		mutex_lock(&aconnector->mst_mgr.lock);
+-		if (!compute_mst_dsc_configs_for_link(state, dc_state, stream->link, vars,
+-						      &aconnector->mst_mgr,
+-						      &link_vars_start_index)) {
+-			mutex_unlock(&aconnector->mst_mgr.lock);
+-			return false;
+-		}
++		ret = compute_mst_dsc_configs_for_link(state, dc_state, stream->link, vars,
++						       &aconnector->mst_mgr,
++						       &link_vars_start_index);
+ 		mutex_unlock(&aconnector->mst_mgr.lock);
++		if (ret != 0)
++			return ret;
+ 
+ 		for (j = 0; j < dc_state->stream_count; j++) {
+ 			if (dc_state->streams[j]->link == stream->link)
+@@ -1198,7 +1204,7 @@ static bool
+ 		}
+ 	}
+ 
+-	return true;
++	return ret;
+ }
+ 
+ static int find_crtc_index_in_state_by_stream(struct drm_atomic_state *state,
+@@ -1253,9 +1259,9 @@ static bool is_dsc_precompute_needed(struct drm_atomic_state *state)
+ 	return ret;
+ }
+ 
+-bool pre_validate_dsc(struct drm_atomic_state *state,
+-		      struct dm_atomic_state **dm_state_ptr,
+-		      struct dsc_mst_fairness_vars *vars)
++int pre_validate_dsc(struct drm_atomic_state *state,
++		     struct dm_atomic_state **dm_state_ptr,
++		     struct dsc_mst_fairness_vars *vars)
  {
--	return timer_shutdown(ARCH_TIMER_VIRT_ACCESS, clk);
-+	return arch_timer_shutdown(ARCH_TIMER_VIRT_ACCESS, clk);
+ 	int i;
+ 	struct dm_atomic_state *dm_state;
+@@ -1264,11 +1270,12 @@ bool pre_validate_dsc(struct drm_atomic_state *state,
+ 
+ 	if (!is_dsc_precompute_needed(state)) {
+ 		DRM_INFO_ONCE("DSC precompute is not needed.\n");
+-		return true;
++		return 0;
+ 	}
+-	if (dm_atomic_get_state(state, dm_state_ptr)) {
++	ret = dm_atomic_get_state(state, dm_state_ptr);
++	if (ret != 0) {
+ 		DRM_INFO_ONCE("dm_atomic_get_state() failed\n");
+-		return false;
++		return ret;
+ 	}
+ 	dm_state = *dm_state_ptr;
+ 
+@@ -1280,7 +1287,7 @@ bool pre_validate_dsc(struct drm_atomic_state *state,
+ 
+ 	local_dc_state = kmemdup(dm_state->context, sizeof(struct dc_state), GFP_KERNEL);
+ 	if (!local_dc_state)
+-		return false;
++		return -ENOMEM;
+ 
+ 	for (i = 0; i < local_dc_state->stream_count; i++) {
+ 		struct dc_stream_state *stream = dm_state->context->streams[i];
+@@ -1316,9 +1323,9 @@ bool pre_validate_dsc(struct drm_atomic_state *state,
+ 	if (ret != 0)
+ 		goto clean_exit;
+ 
+-	if (!pre_compute_mst_dsc_configs_for_state(state, local_dc_state, vars)) {
++	ret = pre_compute_mst_dsc_configs_for_state(state, local_dc_state, vars);
++	if (ret != 0) {
+ 		DRM_INFO_ONCE("pre_compute_mst_dsc_configs_for_state() failed\n");
+-		ret = -EINVAL;
+ 		goto clean_exit;
+ 	}
+ 
+@@ -1349,7 +1356,7 @@ bool pre_validate_dsc(struct drm_atomic_state *state,
+ 
+ 	kfree(local_dc_state);
+ 
+-	return (ret == 0);
++	return ret;
  }
  
- static int arch_timer_shutdown_phys(struct clock_event_device *clk)
- {
--	return timer_shutdown(ARCH_TIMER_PHYS_ACCESS, clk);
-+	return arch_timer_shutdown(ARCH_TIMER_PHYS_ACCESS, clk);
- }
+ static unsigned int kbps_from_pbn(unsigned int pbn)
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.h
+index b92a7c5671aa2..97fd70df531bf 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.h
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.h
+@@ -53,15 +53,15 @@ struct dsc_mst_fairness_vars {
+ 	struct amdgpu_dm_connector *aconnector;
+ };
  
- static int arch_timer_shutdown_virt_mem(struct clock_event_device *clk)
- {
--	return timer_shutdown(ARCH_TIMER_MEM_VIRT_ACCESS, clk);
-+	return arch_timer_shutdown(ARCH_TIMER_MEM_VIRT_ACCESS, clk);
- }
+-bool compute_mst_dsc_configs_for_state(struct drm_atomic_state *state,
+-				       struct dc_state *dc_state,
+-				       struct dsc_mst_fairness_vars *vars);
++int compute_mst_dsc_configs_for_state(struct drm_atomic_state *state,
++				      struct dc_state *dc_state,
++				      struct dsc_mst_fairness_vars *vars);
  
- static int arch_timer_shutdown_phys_mem(struct clock_event_device *clk)
- {
--	return timer_shutdown(ARCH_TIMER_MEM_PHYS_ACCESS, clk);
-+	return arch_timer_shutdown(ARCH_TIMER_MEM_PHYS_ACCESS, clk);
- }
+ bool needs_dsc_aux_workaround(struct dc_link *link);
  
- static __always_inline void set_next_event(const int access, unsigned long evt,
-diff --git a/drivers/clocksource/timer-sp804.c b/drivers/clocksource/timer-sp804.c
-index e6a87f4af2b5..a3c38e1343f0 100644
---- a/drivers/clocksource/timer-sp804.c
-+++ b/drivers/clocksource/timer-sp804.c
-@@ -155,14 +155,14 @@ static irqreturn_t sp804_timer_interrupt(int irq, void *dev_id)
- 	return IRQ_HANDLED;
- }
+-bool pre_validate_dsc(struct drm_atomic_state *state,
+-		      struct dm_atomic_state **dm_state_ptr,
+-		      struct dsc_mst_fairness_vars *vars);
++int pre_validate_dsc(struct drm_atomic_state *state,
++		     struct dm_atomic_state **dm_state_ptr,
++		     struct dsc_mst_fairness_vars *vars);
  
--static inline void timer_shutdown(struct clock_event_device *evt)
-+static inline void sp804_timer_shutdown(struct clock_event_device *evt)
- {
- 	writel(0, common_clkevt->ctrl);
- }
- 
- static int sp804_shutdown(struct clock_event_device *evt)
- {
--	timer_shutdown(evt);
-+	sp804_timer_shutdown(evt);
- 	return 0;
- }
- 
-@@ -171,7 +171,7 @@ static int sp804_set_periodic(struct clock_event_device *evt)
- 	unsigned long ctrl = TIMER_CTRL_32BIT | TIMER_CTRL_IE |
- 			     TIMER_CTRL_PERIODIC | TIMER_CTRL_ENABLE;
- 
--	timer_shutdown(evt);
-+	sp804_timer_shutdown(evt);
- 	writel(common_clkevt->reload, common_clkevt->load);
- 	writel(ctrl, common_clkevt->ctrl);
- 	return 0;
+ enum dc_status dm_dp_mst_is_port_support_mode(
+ 	struct amdgpu_dm_connector *aconnector,
+-- 
+2.37.3
 
