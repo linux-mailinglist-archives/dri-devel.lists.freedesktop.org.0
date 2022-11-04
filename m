@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB8B36197F5
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 14:33:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABBE76197F1
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 14:33:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB5C210E0FB;
-	Fri,  4 Nov 2022 13:33:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A10B10E11F;
+	Fri,  4 Nov 2022 13:33:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
  [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F10E910E0FB
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 13:32:54 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 5C485580260;
- Fri,  4 Nov 2022 09:32:54 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Fri, 04 Nov 2022 09:32:54 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E32D10E0FB
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 13:32:57 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 9FFAB58026B;
+ Fri,  4 Nov 2022 09:32:56 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Fri, 04 Nov 2022 09:32:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1667568774; x=
- 1667575974; bh=tGBydtCUDCk73jqHi1ms+PUwXaWw+MD85xxvyrgKLGo=; b=H
- zZSaVpusazNg/YVT2NLu/+9aFuPRyZqkFeM3Xvax2JTezgPb71HKKAmjNt9OL6LQ
- BRoCWn7bkdaceum4BsnyjBxsWjAOgX7hUuyXGFN7VnHNs7ea0D81T/uCym3Lkaic
- tS6dCr9stjiI+BvSE1W9cHogLQrZKAU6fydmTfrZ1I2IwgKv0uIjjdpcvBiREZNO
- RXLEvlYObHoq9AVZe7OJ3Z37GXxVQFAQyL5ER7T8OONYI4texbIxZfoMV6He0i8+
- ynhmvP+z72lzSAAL98VCo8V5qb/hvDwgieUxz2cUNQHYTDloXGthdUmfq0XB3+Gh
- 0j4WOPoUF+RVUm51g7JTg==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1667568776; x=
+ 1667575976; bh=JahQgmjhiDg/dtEsjzZBdwNyHKdprmfv0l41QTxopUI=; b=f
+ CffqvzExcaqkaPOwU1INp5n0Hnp3Sdly+hKW/geeljXPLf6Y85vhg5GmdGVOjgo4
+ zHKhr0mcGEbcISnaL8yfXyuJTQjf/HXnJEqTppFah/gzLo4m+8TteYAfbxn5FuZv
+ v4a99+i9g1pz0RCbWfsbabCTn/9dc2VChVlYCfSlPugjcwDAOOE0Qc5uKAyw7Hcw
+ 9R4hm6ylAM6IBsGbkokkG2ve2my9yKiPBcKD/37OwB6QZOXk6R6Pnq0U5Qn9cY2t
+ AXdITmtpHAUhmPNm+LNdSEv93MzJ6Xy/gnbSV7oW99kblmwo2LaSsa04yZsMvz4j
+ tQby7qez/LxIzBj9ARRnA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1667568774; x=
- 1667575974; bh=tGBydtCUDCk73jqHi1ms+PUwXaWw+MD85xxvyrgKLGo=; b=M
- 7Tf4/qXEEA34xah9HeEwuKKmhlpnc+11ekAUOmw3BuNFjlUhAFTCURkfMRHZVvDy
- o4DzyRL44cP0hsbvuG7EjtK6ucV1beBEkcKQuNR2nhUGTNfTi1P0NVe9l8SOlRqE
- 9i8zRRuFS9TQHU2fwX+Crtqexrn06Rc3G5I64bzwQrRGkRpotaOt1okiUiaTFcq/
- FLdsCWYVP+gzoASKY++2x5y/39Pq8A24vno/WVF9lxb94gsbxH9Rb/7jbkiXVmy+
- gynmUWLDlJAW321uqM6oPkwPEr32WWCAxLJXkWwC1RFivj5ubkkoQHTEQbOliAA9
- cn0fDNZcwl13jyoCkwDJQ==
-X-ME-Sender: <xms:hRRlY_OZfnizhcakOJ1XZ7QBPrFIq9RzsssMuuH3h5kGwdRC3w7a2g>
- <xme:hRRlY5_6MfqR2X2e2jeaMLjh1X_xAxxd7OjucKrof2_o_uhL0e030sT64fzgzcW75
- 3kYN3uuY-0twYStTeQ>
-X-ME-Received: <xmr:hRRlY-TnZlIeE1jwDmECykW-mwlh-qkbN-WvJSOcqPMcxttoYcsYivLwIJ2-NfVU7aZbTEyv7e7x67MiiRWa5QaXGfxS0G1xdw9E26SqgNrAVQ>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1667568776; x=
+ 1667575976; bh=JahQgmjhiDg/dtEsjzZBdwNyHKdprmfv0l41QTxopUI=; b=P
+ iu42wvKkMiPL14eg0JaYgR9GyCm0prjRlMVmt5D0LT5sHR9iTHVVa1VPUoALgPbI
+ z2ZdObMyhbSqy9wBoJCbkhj0SoO2/tGXO1PEnKObUn+fJBRaTRIzQZWHGtW3c/Cv
+ rPwtJG8jA7uvFkx2+6AFUUIkRRoha0/VZ0Si0/mezKWKcE9u+PhE6kW0TUJX/cyG
+ s+lMcon99ffZQUJO/1P2yff2wrdRTZdwC67GOtyPLD26jlG538iPSidJMsq4oaNJ
+ ONlIIOu706fopChL4ke4WoZSpfdcaJn7XvMhlH/kRdV6cmp5bhpm0+VZzODQbp+5
+ TQp5sicepd/k9iF7Z2+cQ==
+X-ME-Sender: <xms:iBRlY8LgK5kMGJktQ2B4VPIEHSozxefZrpgFEBsE93hFJULlXIRRUQ>
+ <xme:iBRlY8Iaa1oDkrI-WyxZhMIZp3p7_XpNCJqipHDa5Uc6TuSbefaqLC9tmHgvba0Sa
+ 9ejBoTBKsWcSch5kDE>
+X-ME-Received: <xmr:iBRlY8sI3Zf1YroVGgicEgBIIauwsNHtKpxNPi8TDvepoXjYlwjAptXG3Isn5N6zndson4sQx8JYUOrTClvdoSUzGMA5X4TQlWeNURo8WbxOZg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvddugdehudcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhfffugggtgffkfhgjvfevofesthekredtredtjeenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeduudduhfevjeetfeegvdffvdevvdejudegudekjeehtdelhfffveethfej
- ledtveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ ledtveenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:hRRlYzsAO02H6QsAdIkwLSRE7raY2NbewULGhtiKO2dXamxl2yzvcQ>
- <xmx:hRRlY3ff-4Ap0gE2XYGDgHUvXnbd4bHDXo8lakEk2stOqIpV3PZeaw>
- <xmx:hRRlY_2rnepJXx7KIvcAkw3-mA4Ze_Uewh4ObJc6ZqsugoqTU3D0Mg>
- <xmx:hhRlY28LI5ia1Z2nyukat4qEcg_hOtMGW92Mv9Po473ubbRrf57cvg>
+X-ME-Proxy: <xmx:iBRlY5aMCqnrPi0GCV5YbXTfA6zW35OG6-3HcZSfjNWJOaZNDiKRRQ>
+ <xmx:iBRlYzZkWF5RsT2Ppw3M-3oqZVSc9gtngEKNjAfG7KESuVXvhC2nNg>
+ <xmx:iBRlY1DLWUwZ_UDPUWDB9jdzq5nVNUF96l7OvV0dGL1u0vvPlRxREQ>
+ <xmx:iBRlY3qlgtmYYAtcJ9gAgbneFHfuFIrzlEiglW9ddgmizr7lPxDDKA>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 4 Nov 2022 09:32:53 -0400 (EDT)
+ 4 Nov 2022 09:32:55 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Fri, 04 Nov 2022 14:17:50 +0100
-Subject: [PATCH v2 33/65] clk: tegra: periph: Add a determine_rate hook
+Date: Fri, 04 Nov 2022 14:17:51 +0100
+Subject: [PATCH v2 34/65] clk: ux500: prcmu: Add a determine_rate hook
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20221018-clk-range-checks-fixes-v2-33-f6736dec138e@cerno.tech>
+Message-Id: <20221018-clk-range-checks-fixes-v2-34-f6736dec138e@cerno.tech>
 References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
 In-Reply-To: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
 To: Stephen Boyd <sboyd@kernel.org>,
@@ -108,11 +108,11 @@ To: Stephen Boyd <sboyd@kernel.org>,
  Max Filippov <jcmvbkbc@gmail.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>
 X-Mailer: b4 0.11.0-dev-99e3a
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2522; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=TVWzazISCOex614FUIKSWVgATQ2K3qNuwmBeNxoZHAM=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMmpAl9Wim3aHRGfvVZQ0iX9wS0dq3aNxKwnv58HPNecriXL
- t+d1RykLgxgXg6yYIkuMsPmSuFOzXney8c2DmcPKBDKEgYtTACbyYSojw6TIBX69GamNv7n3nJZjfj
- /7WX75c+aVkQ8MONsOJTi+lWD4K8MpteRrxtFfP8u2nry3X7fc/vGy7Ngb12ys1tT6TJkQygcA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2581; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=uxb5qeg43H3RnTF2Tkp9QnzMwccoi3/lBLvTmEuDxLQ=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMmpAl8UvmusUUp3X/9SdW/j6pm/p1irupXITGu/85evfBJT
+ /a+lHaUsDGJcDLJiiiwxwuZL4k7Net3JxjcPZg4rE8gQBi5OAZjIARNGhvWCWe3ir74anCy8d6iV43
+ xw1Lb2q/yKHo0LnDVEC3v45zH8s29+8uepzZWXLEwXhdZkcNtf+5dYvP9gYdP7sieCh7W42AE=
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -139,8 +139,8 @@ Cc: linux-rtc@vger.kernel.org, alsa-devel@alsa-project.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Tegra periph nodiv clock implements a mux with a set_parent hook, but
-doesn't provide a determine_rate implementation.
+The UX500 PRCMU "clkout" clock implements a mux with a set_parent hook,
+but doesn't provide a determine_rate implementation.
 
 This is a bit odd, since set_parent() is there to, as its name implies,
 change the parent of a clock. However, the most likely candidate to
@@ -170,30 +170,30 @@ behavior now and it can be further refined down the line.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/clk/tegra/clk-periph.c | 3 ++-
+ drivers/clk/ux500/clk-prcmu.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/clk/tegra/clk-periph.c b/drivers/clk/tegra/clk-periph.c
-index 79ca3aa072b7..367396c62259 100644
---- a/drivers/clk/tegra/clk-periph.c
-+++ b/drivers/clk/tegra/clk-periph.c
-@@ -140,6 +140,7 @@ const struct clk_ops tegra_clk_periph_ops = {
- };
- 
- static const struct clk_ops tegra_clk_periph_nodiv_ops = {
+diff --git a/drivers/clk/ux500/clk-prcmu.c b/drivers/clk/ux500/clk-prcmu.c
+index 4deb37f19a7c..7118991f3731 100644
+--- a/drivers/clk/ux500/clk-prcmu.c
++++ b/drivers/clk/ux500/clk-prcmu.c
+@@ -344,6 +344,7 @@ static const struct clk_ops clk_prcmu_clkout_ops = {
+ 	.prepare = clk_prcmu_clkout_prepare,
+ 	.unprepare = clk_prcmu_clkout_unprepare,
+ 	.recalc_rate = clk_prcmu_clkout_recalc_rate,
 +	.determine_rate = __clk_mux_determine_rate,
- 	.get_parent = clk_periph_get_parent,
- 	.set_parent = clk_periph_set_parent,
- 	.is_enabled = clk_periph_is_enabled,
-@@ -170,7 +171,7 @@ static struct clk *_tegra_clk_register_periph(const char *name,
- 	bool div = !(periph->gate.flags & TEGRA_PERIPH_NO_DIV);
+ 	.get_parent = clk_prcmu_clkout_get_parent,
+ 	.set_parent = clk_prcmu_clkout_set_parent,
+ };
+@@ -383,7 +384,7 @@ struct clk_hw *clk_reg_prcmu_clkout(const char *name,
  
- 	if (periph->gate.flags & TEGRA_PERIPH_NO_DIV) {
--		flags |= CLK_SET_RATE_PARENT;
-+		flags |= CLK_SET_RATE_PARENT | CLK_SET_RATE_NO_REPARENT;
- 		init.ops = &tegra_clk_periph_nodiv_ops;
- 	} else if (periph->gate.flags & TEGRA_PERIPH_NO_GATE)
- 		init.ops = &tegra_clk_periph_no_gate_ops;
+ 	clk_prcmu_clkout_init.name = name;
+ 	clk_prcmu_clkout_init.ops = &clk_prcmu_clkout_ops;
+-	clk_prcmu_clkout_init.flags = CLK_GET_RATE_NOCACHE;
++	clk_prcmu_clkout_init.flags = CLK_GET_RATE_NOCACHE | CLK_SET_RATE_NO_REPARENT;
+ 	clk_prcmu_clkout_init.parent_names = parent_names;
+ 	clk_prcmu_clkout_init.num_parents = num_parents;
+ 	clk->hw.init = &clk_prcmu_clkout_init;
 
 -- 
 b4 0.11.0-dev-99e3a
