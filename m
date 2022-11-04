@@ -2,153 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AB5E619F1D
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 18:46:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6197619F3E
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 18:52:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1F1C10E976;
-	Fri,  4 Nov 2022 17:46:10 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68ECF10E974;
- Fri,  4 Nov 2022 17:46:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 656D410E979;
+	Fri,  4 Nov 2022 17:52:14 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A87110E979;
+ Fri,  4 Nov 2022 17:52:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1667583965; x=1699119965;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=UNsom9Az1nUXARUsUlL5lijjn28pSG1cQG11wWlBqz4=;
- b=I84hJiWQSsrFMgYZjJ2DHRianxXHYmXHuwlVO38GArT1DqTTUmGHOs3S
- buKo1N5CUbD4jrlpmV+fj4mzYo+qsZpz+5r8GE1Eo2QkLAcNs+dWOdP9G
- x9uctFW/R9QDTqH9tZc1SLy2zij5TnlO+QDLWJyyXshjIx0dimxdy6k86
- ALIOHX3iH2F0l77BH6AvPeSmg5mqEiWXNGYdvMWHbC4LXplMC0TE0S32p
- xxwh3kuRH5hrlhpRKIqzGwYKH8qk4CV8S7ej9He615p6pQ40tHJzC077A
- O1RXg3hrshUjTlJU/1LxxNWk+TQQjtya/o1YQm4sUNtUlQAADWnKx/afz Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10521"; a="290416729"
-X-IronPort-AV: E=Sophos;i="5.96,138,1665471600"; d="scan'208";a="290416729"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2022 10:46:04 -0700
+ t=1667584332; x=1699120332;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=idCOXFgErugmxnI0R9B1GWVkJGcbmjy6zlkYgEzgty4=;
+ b=f4N5hT5mJSNEGMrdISgNj+33NCbOmm8fh/Jj8+Xbxvrtnbjpf9TgQJbM
+ 7w0Wv8Dv2QyL0IaKDe7n6Y5QbHK6/is1YjAh5o8Ix/Yv59T9Eey3XFkOq
+ xgG5+XEcaeU5ug6J0W9+BvjNX7kr+rlVmgrexYuKwq8MZzUUs/4+rkK54
+ 3pYwdErJ366k76TWgIIGuCYlI88Do0tYK06lGlCtTYfZOXYySlH0gmbiC
+ fz2tRExgGr7BQoi9IxxIP159N4MawuyaEvGx/N6YiF+cPFV4IkEmqObO5
+ ejqjQJdefKDke5bOWzITXwSNXnpavvgoGMRonKPCkAvEpj9kvwyAmlSb7 A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10521"; a="374268328"
+X-IronPort-AV: E=Sophos;i="5.96,138,1665471600"; d="scan'208";a="374268328"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Nov 2022 10:51:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10521"; a="629800930"
-X-IronPort-AV: E=Sophos;i="5.96,138,1665471600"; d="scan'208";a="629800930"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by orsmga007.jf.intel.com with ESMTP; 04 Nov 2022 10:46:04 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+X-IronPort-AV: E=McAfee;i="6500,9779,10521"; a="704168543"
+X-IronPort-AV: E=Sophos;i="5.96,138,1665471600"; d="scan'208";a="704168543"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by fmsmga004.fm.intel.com with ESMTP; 04 Nov 2022 10:51:52 -0700
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 4 Nov 2022 10:46:04 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ 15.1.2375.31; Fri, 4 Nov 2022 10:51:51 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Fri, 4 Nov 2022 10:46:04 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.109)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ 15.1.2375.31 via Frontend Transport; Fri, 4 Nov 2022 10:51:51 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.174)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Fri, 4 Nov 2022 10:46:03 -0700
+ 15.1.2375.31; Fri, 4 Nov 2022 10:51:50 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HrOmwMfAto7S7LIN7CPDGIdChxBCoQBu3VEvGu18VcdGYh9Cv4VJKXjpi3zY6Ogq7/v4vkcFBOgUPtRoao2UdLyHX8A0eGOcgLirsAj39Fth0ud2A4DHWrZ1qLX8VHd6Hzs7ZDdnhYSkl5wE4Ie3JgxF4mZElnpqkMFjo9zsVnuVEv7mEAQqw7NS/NRyHgixAEPXA31PpWC4Ax7CUtAbnoERlwi/2AJ9W+mB3emopSSnSf2U2T8PLy3ETm4cECXJbC4ALxIbPsBEZqSL/k7zhrhG5w0wtkVYQcU97jidUGexNt7WuziV0Xf7lmzCiWhGrDOs5Aq5zLMvja6VuRipoQ==
+ b=ofyawGQOsFW+eq/3+laHIuqH8wIGTGOUKDOUQ79L3tx2Oo4dRZOs/5VthYfATtQD6z2adi34e0oNs1r5w8Szf9UcfAfUcL1Pt9Mda29iVjaN/vGWyZc/mfcBP4FhsXiCYCPwKJrGeS+H4ipXDweOz2jXYoh22pmcbho7L8lWcg3+Rov3JcmOdAyr19dcagC1SO+TrxfwUGIzcc1LRYEUEHtZK2WlfijdENwK/o8bD6dkLK4JgrzJtnwuCNpjbYNK5b2ArVC2KBs8M3DPk10+zJt78nId/e6oUBGBRTv5y1wOvKvrkm4YvfZCW9tm/Uvz1ZZMDfE4R6crvdadzMsgVw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=U/fZXnHnZCR+79th7bIYJNsuemsxxKWL+INZnW4tL0g=;
- b=eRh/WE7KMh9+YYXrofYMIjfoM4ysOaAbaBf8ilbQlwmV/RrjNKUg9hJzq0V0tBis0z6mwQTKloNIxBniwwF1l2vfJGT2EaWtdpOv5cErmaLRYIynRfuRLKYztMKKXmDviNKJrflrQ67DKEGJH5YyPGYEKLY89aqi8CiBRYw+5QoiG4RiXkJ/48cS4VX0WU+q8STs+X5+/+3Rc5eYCeZJndPb+v+BRRBfYi6i4IvCvn3JXjyke5XXuRFWIEPl/w0b++zho96UnLxCp4pGGswK0jWOFjr5jyx/Z0pZ2nyFsLfGj+flnOprEExnsPQDtB+D5TYwm1hnH8kgxJenHc0yaw==
+ bh=1mEZNaqZIlVXg09kvCLqokhvJ+pgjHj2GBf8sl/wE8Q=;
+ b=bZ4BmMm1xI1alJowdmKe75plnEw6PFLBb8ZvjZSk8Bz3C+KzaocEaeFnCl0UELPsEUw68Tn7uYQRJbSHLQcJx4Vn8udgIFSCnO0MLvChszkY8UXPLXmyk4kf+6WxDqqVlPGe2Fbj8YdCAJUCOJlm4Y7BPEypis/2Ux+oXGpajAQQBQ/3iIvqCbP3lznCqUNQq2mjAbMkc6RlKwZHfIpcctlJPHvq77Db2lhi8vy0bnpCeV1MxdK3vdk/0GS4bNHFoGcnBXsCwbUEayNVy3N6HWuEf8Nl1+3qMz1P1LGNetOjQzEUE3qdfRCwZytAMkxPRs8TEO7MLXRpjjotjDxe/g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB3911.namprd11.prod.outlook.com (2603:10b6:a03:18d::29)
- by SA0PR11MB4653.namprd11.prod.outlook.com (2603:10b6:806:94::19)
+Received: from PH7PR11MB6053.namprd11.prod.outlook.com (2603:10b6:510:1d1::8)
+ by CO1PR11MB4801.namprd11.prod.outlook.com (2603:10b6:303:9c::14)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.23; Fri, 4 Nov
- 2022 17:46:02 +0000
-Received: from BY5PR11MB3911.namprd11.prod.outlook.com
- ([fe80::87a1:bf2f:7377:3036]) by BY5PR11MB3911.namprd11.prod.outlook.com
- ([fe80::87a1:bf2f:7377:3036%7]) with mapi id 15.20.5791.022; Fri, 4 Nov 2022
- 17:46:02 +0000
-Message-ID: <f3de3596-871a-2af3-e72b-f4c66d5e7211@intel.com>
-Date: Fri, 4 Nov 2022 10:45:59 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.4.1
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Don't wait forever in drop_caches
-Content-Language: en-GB
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Jani Nikula
- <jani.nikula@linux.intel.com>, <Intel-GFX@Lists.FreeDesktop.Org>
-References: <20221101235053.1650364-1-John.C.Harrison@Intel.com>
- <87k04d7dyn.fsf@intel.com>
- <c710a428-50f6-6181-3f93-4d7667a9ac3f@linux.intel.com>
- <5e22de43-d75c-fc21-9ae7-f27d116c5688@intel.com>
- <1855f0f2-8a1c-7bf4-76c0-76a4354ea8e8@linux.intel.com>
- <2b2eb780-08f7-c7df-0397-a7f732da272d@linux.intel.com>
- <5fad1ec1-8fea-9685-4cc9-2e3c2edf799f@intel.com>
- <448d710a-3af1-932d-c276-7c6fd6c02528@linux.intel.com>
-From: John Harrison <john.c.harrison@intel.com>
-In-Reply-To: <448d710a-3af1-932d-c276-7c6fd6c02528@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SJ0PR13CA0074.namprd13.prod.outlook.com
- (2603:10b6:a03:2c4::19) To BY5PR11MB3911.namprd11.prod.outlook.com
- (2603:10b6:a03:18d::29)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.22; Fri, 4 Nov
+ 2022 17:51:49 +0000
+Received: from PH7PR11MB6053.namprd11.prod.outlook.com
+ ([fe80::64f1:5ad2:be63:7272]) by PH7PR11MB6053.namprd11.prod.outlook.com
+ ([fe80::64f1:5ad2:be63:7272%2]) with mapi id 15.20.5791.020; Fri, 4 Nov 2022
+ 17:51:48 +0000
+Date: Fri, 4 Nov 2022 13:51:44 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Badal Nilawar <badal.nilawar@intel.com>
+Subject: Re: [PATCH v2] drm/i915/mtl: Add Wa_14017073508 for SAMedia
+Message-ID: <Y2VRMD+OZ7GQvP7C@intel.com>
+References: <20221103184559.2306481-1-badal.nilawar@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20221103184559.2306481-1-badal.nilawar@intel.com>
+X-ClientProxiedBy: SJ0PR13CA0177.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c7::32) To PH7PR11MB6053.namprd11.prod.outlook.com
+ (2603:10b6:510:1d1::8)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR11MB3911:EE_|SA0PR11MB4653:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7f96b0e8-f60f-4fce-605a-08dabe8c7070
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6053:EE_|CO1PR11MB4801:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8cb0d5f8-1944-4f80-92ed-08dabe8d3ed0
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZRp2S20iD6tWY7gT5zo4wBKO4i9UTMMnW/es1VYxJWb6HEsSxArCLUvKVT5ZMDtX4Dwdmwu3wdiM9hDhkkQo4Mlyg7iE6SyFk31Lo1P8N49XK9eut3PzD6G3G/iI3+GBZgCcf120+QnHp84aUcEt3XAO044Y+J24duoZ7nLWjdODow/gQa7RS89UmH3VeF5ads92pGzEt98wJWHEuc4VBYxkgCEBPUsnsfvDDeWbLZlq5Yte/RXyZJCNCxTm/k+Na7x6NsRYwr0oNaI2Qr37/bKIyO3cO353AbOiJLo8FI4B4zsR8yAqXWa4ujJrgWjyJ5BgE7/82tCfu3b0dAvPClwsiZgZdQiNhqZP14kmYaNEoNfeyeBzOEeE/UL0jayPnQhshLOZWcKpkSLDp9cYYIoFraQmK3XB51BmNSTy4hAE44oauTayQKWcpsF6hiQe1FBB1ira/Kla8+Rg8yJifLn9jk7ABPkIHPT9O+/PzQaFDsHNwT60Mjt95I6mUHD8khx5fVfxYY4kLNl1YcGJeydzerqWBjP6nreuPOgd68+3oFlZXJnWnvYTrRcDamIQFaKAos0pQp01H+fAXE5UVWjVytv8jkumgTYGLH4Wiwmu37/Fb0JjRiglJlIw9C7JTSGSuzSNBsjP7eLYtUbEkbHb8SDWM8gLbH9uiYWAz02u4ETGluZ7kSy2twdl0kQrS5vfx6BOxmNTU9BPBVHxr7zGgKYxqfULyVmKfvFNuA7iGEHf53VDH6Er9W46Ebx4S3GGqx0ejN0Si8qMC6EO/1FndAEr7+4XA3XLHML4V+U=
+X-Microsoft-Antispam-Message-Info: bDkQa/4RAwz1azWt86rtCBaVivbb3t1pVSitg0REJkn1V8LxOcFF+aB2TTRxaJ0soXK9/8vFT8vb3la9nsTE5aT+1E0u3UwykNVvj2QauHImSXLNZ+4b35U1CFB9WDUlEl1WbW9DWlKGIfORgbx0cYRjjRiIYSykvWZE0SJ2ZT02SPlC+BcvGR5zrr4mBN61qWPwjLh9fMryQ8/01tYUfQCKDw8RvuClCkuxe7zHU1L3Wr+sBZKt/isCN4n7Bmc7pBg6VeW/abROVonjZvoz30WWoHkRRSInD/OXB/dTy7OopFtLcNV1M3ZzOOP+htjCfQF/DITto1a0pi0alOouJJtP8W5TrYPJzzEybVk0Cim9XPFJi1x32BcRRxcmpO0qpJDvxD/obmZwPOU3RVhUqIScYEAN/UiA+1LSKIAh63GycIuqfu69XZbsH20jzQLfXJ2T9vPZFhmOKEA2WJKHqW6QT2y1YznPXdFNwwE/MlfL1Duw8E9+fP+NmKNL5b2Ercxz38/78+FIE4rTDHaiVvLjv5GgmOs3lMTxk3n/zhDfM2A4vhA4SYi0IplsbLM4+go9zoOGV8wtl+boYTFK8moPln8yteP5PlCkUoaxGFjJTwQ4M1JkV8U4WgDaIlX1VgggXN4sd5vmfZa0Nz8S1oqGFeKzHkCZmgnbY7tOP5aovDehxVLEJSRiOHG9obky8MFL+mEl3aBY3L5MXo2aMV+GHtgLSJdN5J1TIxOmnchzrEbCWqbo0dQLPIJDxtHRC3dKHAILZG68InlCfpzC6A==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB3911.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(376002)(136003)(396003)(39860400002)(366004)(346002)(451199015)(86362001)(31696002)(316002)(83380400001)(36756003)(8936002)(53546011)(66556008)(5660300002)(30864003)(2616005)(2906002)(66946007)(6506007)(66476007)(6512007)(26005)(8676002)(41300700001)(4326008)(186003)(31686004)(6486002)(478600001)(82960400001)(110136005)(38100700002)(6666004)(43740500002)(45980500001);
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6053.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(376002)(396003)(39860400002)(366004)(136003)(346002)(451199015)(2906002)(4326008)(66946007)(6506007)(41300700001)(26005)(44832011)(37006003)(66476007)(6862004)(316002)(8676002)(8936002)(6636002)(66556008)(36756003)(5660300002)(6486002)(6666004)(82960400001)(478600001)(38100700002)(6512007)(86362001)(450100002)(2616005)(83380400001)(186003)(67856001);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RjNrNUkzSW1jRW1sNUVJbVJPSkN4VU5RbWFKbG5NZ1JOdlFqb05DTnJQWmNz?=
- =?utf-8?B?c2JtZkkycE9QRit0L1RySUpoYWd1L29rT2xJdFZxdEJoNVlGODVtWWlJVGtC?=
- =?utf-8?B?NVVuWTVhdUhyR2NhODluR2YrQmNtYWNuTXlVKzR3bmY0S1l5YVhCN2JkNWhH?=
- =?utf-8?B?d0gxcFVuUU9PVTdEZzB6WnhYaFJjZFVDZkQzN3ZtcW0xdE1JMm1DMEJqSFoz?=
- =?utf-8?B?bHh5UWFQaDRHaXc3QkpNMHI0cThTTGdsL1VxWG5KY1laSTFsWjlQdEVpS3Y2?=
- =?utf-8?B?YWxHUXdEOVNlR1kyU243RytodmZKenl0NUZBUmIrYm9qTngyTE9EcE54ZU1v?=
- =?utf-8?B?em5jV1dkTURTWDViaW84Q3BGTjFRQmlmbW5aU1llblpPL3dCcmZXRmR1bnBR?=
- =?utf-8?B?TjRRVjQramZOWWpPdU1wRVErQU9NeHdkeFZIeTkxNVRsaVhEUkJtSlZNa2hx?=
- =?utf-8?B?MjVnMVlzWkozaEpGdTVMSThURnpyYkl6eS9HdHAzZzBqT0ZjdFg1SGVaZmVK?=
- =?utf-8?B?cERBVWs2NnFTelppNEhLVGxRNFBqaUN4VHZuc2xQa1Jkakpkbm9yTmR6bm82?=
- =?utf-8?B?My84TEJvYWlxekJGRDVwTnVkQzRQV0RtdkJSdFZETUpNZTRIMHFyMWNsaXFh?=
- =?utf-8?B?NkxqNVFES3Z0d3pwd1JvT2p0RFpoelZtUk5ONTJUSjFJTE0wUGZFV0lMcnRs?=
- =?utf-8?B?ZjZRRVU4M2dJUE8wWUdNS1UrZHZjNnVoSlZKUHZJWmFsSjZISTE1dWwwQzNZ?=
- =?utf-8?B?TXVwYXlyYWw1QkFHbi8zRjI1dGVqSEpQRUNhSU1HaVNJa1F4b1dETENoVDFV?=
- =?utf-8?B?UzMzQndGS2kwUkVuQWpuUVhCMk1mR0FjSWdUNmVTOCtzcGpCZHdycFhDazFp?=
- =?utf-8?B?REljMys5em1EZFpnemlaeWJKcjVLYWRvQ2IzMTlZeDROc0JYUUFUOXEwcW03?=
- =?utf-8?B?U1dqd2htbmZWY0F0d01Lbjl4ZTNNVGR1ODRBUzhZRGNvdFJuei9hOUI0aHJP?=
- =?utf-8?B?WjJIT00vdWpuUDN4ZXdmc0dsQ2JDZGU3b3hnMWhlelFQUFVTM3ZYeXExTWhI?=
- =?utf-8?B?UHhkNEJoUEhpTXJmVExjY3YwSjg0KzZ0eCtERWhKcjJ4VWtPQXpReEUyaW16?=
- =?utf-8?B?R0lVT2M1dzRMMUUxb0hzMUcwRDBodWswZ1B6RS9hK3lUMjh4Y0gremxETHNG?=
- =?utf-8?B?TC90ZmlZMUd6eXMybTFtTzNRdG9iUEY3aWltdFBsdDhqUXNzSHU4RnZ4NEhJ?=
- =?utf-8?B?Z0pwSHVPOXJkQkZndUxjZmhPM0V4YWRybnJ0Y0hwcXkyQ1JZNVkyNXYva0Y1?=
- =?utf-8?B?dUdITW5DNTBKWUlIZWloUTUxSDd5bFFFM2U3MmYwZm1leUNmNkFtTVNvYnlL?=
- =?utf-8?B?QmU5NHpTTXZyRFdzWllkdXZ0R3pqWjIzQ3I4VSsyTlFla0xVbUkvalQ1bHFm?=
- =?utf-8?B?T1RUZTMyeG1CdU1kVndteHp4QzN5MmNCTE1VMVVXaSt5eTJ2YTF1UlBicjdP?=
- =?utf-8?B?OVFPcDhteDR6eWNRRGF6MXFiQ1ZMZVF4RlJDM0l2MUYxZHF4Q2lEcWsvNnBP?=
- =?utf-8?B?TERYUGNpT1JVU2xsN0dWVGxvOFJkVmJvRFY3TmgrRjA1OUVNbS9SVWorOWd2?=
- =?utf-8?B?QmxNYTZLcGROM09CVEpNb0poNVFxNkZpK2Y3THJxT3FaZjNqY29xNEJrU1ht?=
- =?utf-8?B?Y3ZxcXZNUGJNSTgzZnA0MFdSS1NxMmsrTkEvY2UrdFRSbFFnMkx5elM4MFJV?=
- =?utf-8?B?MS80QU9oVjlwd1lyTWJDanB1amtMZVBTcWUwTXdmMDh2V0tvVm95THkxOGd1?=
- =?utf-8?B?NHBBN3NVZmg2NVR2SElUdThOQTJCNkVuYWZxNDFjMGx3QXBNc214VUQzRk4w?=
- =?utf-8?B?NCtYREtIdUllK1owWW9WTmkvUjFiNHJmaUlWOW8vZVdnU1A1c3dMMmlXNnhh?=
- =?utf-8?B?OU44dXk5dWdWN3FucFN5WDdNWUo4NkhaUm8yK09QckRMQ254bEpmUCtac0o0?=
- =?utf-8?B?byt6VmFEbXkwQjlxUHN6eE8wNXQwcHNlaUpJS0hFUXZMckFVMmhGNTIyZXVi?=
- =?utf-8?B?ZVIraVZXSStXbGpEYlNsN3hSMkJVZkRSS09TUlVOVVJmQlFPbVM3QzdWSkFw?=
- =?utf-8?B?dFdEUGhIaWEvbFlTZlMxYWVydGMvZHF1cFg5TVNzU3BFODhPMCtwMUYrWFlI?=
- =?utf-8?B?L2c9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7f96b0e8-f60f-4fce-605a-08dabe8c7070
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3911.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ZWaoZttGuTQLW72R7J7V05Au1CKqvDllzMaPvjPHEACK4q4zt+z6lJQrWeXe?=
+ =?us-ascii?Q?16UOa5vv2U0Flowmug/s18naFV7faPrc5MnAiD0sjKkV2ARShHCnP8cJ4gWq?=
+ =?us-ascii?Q?xnBXpH1TG9RoDdK/22NWnRFGpOdbJLm0XW1XSZEPAGjq8plcnylZxpHTdAEZ?=
+ =?us-ascii?Q?cuXrdlK6I/IYV4SCZ7SZzrFIVvLyw3s2WKLka3vHdmrummBF6MxQN4Izmb5b?=
+ =?us-ascii?Q?CAuEZK0/WNvZ2Ci0G/uVEz0AxDWif13Zc+dO7J9cbrn/zYWmhYC2qhHV5V7d?=
+ =?us-ascii?Q?o/Fw+07927jbeUt47kdGP8Sxq0fl4Xc2bYDPsB0KE0VkLvyKGgKVRzfXNzSy?=
+ =?us-ascii?Q?1fzsehNlAieIrnHIX7gViqLWEvtj4nf0qsFeO6PqvdoxPF3ORpdUc2fAhMF+?=
+ =?us-ascii?Q?DJ5ApugnK8LTsVNw05x+htcrrvuynEMwPGJshRDTDcIqod2EG0Dr5N1IOwi/?=
+ =?us-ascii?Q?p8hL6IzPKprKioPjZk0WaJFqnRTtmjEVGPaVRHmCVrpUL/3IpIgS3EVjVKTk?=
+ =?us-ascii?Q?9bm/KVpisM14XBt5aiP8DFuFy0SiVVPjOT+kn3kBwDO7hWO87GC6C+xl2dMP?=
+ =?us-ascii?Q?FSj4y5EGtwhRem+U1Uu3XwJD6iSbxxebIiK7a0wdBpQq8EyRP45t0X6h8UC9?=
+ =?us-ascii?Q?BLQXvxRkS+xKqRrjx2bH1COadxdhroiewZ49lj4tzezFr4+ZO4dE0vzam4gp?=
+ =?us-ascii?Q?H5ZtA2IYjwB1zZ18jLi0JtCe/AFxGGiAxyEy8y22v0zjGAoF9UnG1hBNMZu3?=
+ =?us-ascii?Q?+rRvI8oGC58JDRdTbpUmwFSvRyTLWOeVHgp89x0gTzf+NT17R2ASMQaFuvHO?=
+ =?us-ascii?Q?xzyJivzaVpIQydVNrAy3a38qyFllIMqJ79x+YWwYes7CpCNftA2QrsbVIaU3?=
+ =?us-ascii?Q?OfpZjTm9UoEtbWDFt0yhZnkhiaEO6Zq7f4O09GjPTM/p1LC6APU6z/BtzbdD?=
+ =?us-ascii?Q?of43cB8hFZ/llNaO+9lLV7TxwyAhY6UG7FAqRh8/Ke8WDtCQjMk4/eP/1z63?=
+ =?us-ascii?Q?82lWCvCSkajUf7446eJ+Maa+z5Ve5JA6+R6AWHd9lw7rgHVdbkr8X78uU6Pn?=
+ =?us-ascii?Q?m0clP9kUwqPyBn3L2lauNpbeNFQlJI66jJN0zO8wIA3TW2Mg74tj7Xns5PtH?=
+ =?us-ascii?Q?NnWgqIWVl48+rGcSHPf2IieoD6G4d5bBlC9sgr63eELwjVxBWNHwfftBlTaI?=
+ =?us-ascii?Q?2K76apEk6b08c710cPLw3/s8aFU8JzDN6ocUWnai7GPR/apLQbvk1pRGnx0H?=
+ =?us-ascii?Q?BRlWiD3xS6S+vbPEdHaOPqb8jUaNtHAt0+MSEZwGfFZUQxHqfrMVHAfHgCY7?=
+ =?us-ascii?Q?GNYXzMCa3cC5uMx6pIPAUL83j/ZBp3bsD2P4Amqil/85nOAK8yLg4R632gQ1?=
+ =?us-ascii?Q?o53u/VCfOrurRwSrhjD4eBOa5FDm8HmajWWA10ecGJ4wJOY0edBHeA4rzIde?=
+ =?us-ascii?Q?K8GUAUS9vNZJopGoTV5JVlOYhaxoNCMofkBEKIRHMIPR5u/eIVJSDujnG3wF?=
+ =?us-ascii?Q?dZxQ4Zxk/P6XE9KISeI5mUKxOnvJ6Tnwbu2dt0DkO4rZslwgn2qgmKTeRcKX?=
+ =?us-ascii?Q?Pag0ThSi5oMhwWLc9qdIR0RR11LXV+elZEWq+Bs9cKJmL2uQGMb89xVygPXe?=
+ =?us-ascii?Q?7w=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8cb0d5f8-1944-4f80-92ed-08dabe8d3ed0
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6053.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2022 17:46:02.0114 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2022 17:51:48.2056 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vDECA7io2UL7YSe/mEl+OT11qEdmxF+GL9YxbCRGFaKLwTPT1WCjy+YbuurXVwHVZhKfeQTaqfuUm64X5VePQonFJx7gqitKXuS/r0OBJR8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4653
+X-MS-Exchange-CrossTenant-UserPrincipalName: Mka2Dz3EpfC3Z796WQtKsrjOpascJ0IVukv+HgCEnOiBNspaldxbFP0xVtuAUrwGlwq3pQkWuiW1kTKnj0IUSw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4801
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -162,328 +142,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Ewins, Jon" <jon.ewins@intel.com>, DRI-Devel@Lists.FreeDesktop.Org
+Cc: radhakrishna.sripada@intel.com, anshuman.gupta@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ ashutosh.dixit@intel.com, jon.ewins@intel.com, daniele.ceraolospurio@intel.com,
+ vinay.belgaumkar@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/4/2022 03:01, Tvrtko Ursulin wrote:
-> On 03/11/2022 19:16, John Harrison wrote:
->> On 11/3/2022 02:38, Tvrtko Ursulin wrote:
->>> On 03/11/2022 09:18, Tvrtko Ursulin wrote:
->>>> On 03/11/2022 01:33, John Harrison wrote:
->>>>> On 11/2/2022 07:20, Tvrtko Ursulin wrote:
->>>>>> On 02/11/2022 12:12, Jani Nikula wrote:
->>>>>>> On Tue, 01 Nov 2022, John.C.Harrison@Intel.com wrote:
->>>>>>>> From: John Harrison <John.C.Harrison@Intel.com>
->>>>>>>>
->>>>>>>> At the end of each test, IGT does a drop caches call via sysfs 
->>>>>>>> with
->>>>>>>
->>>>>>> sysfs?
->>>>> Sorry, that was meant to say debugfs. I've also been working on 
->>>>> some sysfs IGT issues and evidently got my wires crossed!
->>>>>
->>>>>>>
->>>>>>>> special flags set. One of the possible paths waits for idle 
->>>>>>>> with an
->>>>>>>> infinite timeout. That causes problems for debugging issues 
->>>>>>>> when CI
->>>>>>>> catches a "can't go idle" test failure. Best case, the CI 
->>>>>>>> system times
->>>>>>>> out (after 90s), attempts a bunch of state dump actions and then
->>>>>>>> reboots the system to recover it. Worst case, the CI system 
->>>>>>>> can't do
->>>>>>>> anything at all and then times out (after 1000s) and simply 
->>>>>>>> reboots.
->>>>>>>> Sometimes a serial port log of dmesg might be available, 
->>>>>>>> sometimes not.
->>>>>>>>
->>>>>>>> So rather than making life hard for ourselves, change the 
->>>>>>>> timeout to
->>>>>>>> be 10s rather than infinite. Also, trigger the standard
->>>>>>>> wedge/reset/recover sequence so that testing can continue with a
->>>>>>>> working system (if possible).
->>>>>>>>
->>>>>>>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
->>>>>>>> ---
->>>>>>>>   drivers/gpu/drm/i915/i915_debugfs.c | 7 ++++++-
->>>>>>>>   1 file changed, 6 insertions(+), 1 deletion(-)
->>>>>>>>
->>>>>>>> diff --git a/drivers/gpu/drm/i915/i915_debugfs.c 
->>>>>>>> b/drivers/gpu/drm/i915/i915_debugfs.c
->>>>>>>> index ae987e92251dd..9d916fbbfc27c 100644
->>>>>>>> --- a/drivers/gpu/drm/i915/i915_debugfs.c
->>>>>>>> +++ b/drivers/gpu/drm/i915/i915_debugfs.c
->>>>>>>> @@ -641,6 +641,9 @@ 
->>>>>>>> DEFINE_SIMPLE_ATTRIBUTE(i915_perf_noa_delay_fops,
->>>>>>>>             DROP_RESET_ACTIVE | \
->>>>>>>>             DROP_RESET_SEQNO | \
->>>>>>>>             DROP_RCU)
->>>>>>>> +
->>>>>>>> +#define DROP_IDLE_TIMEOUT    (HZ * 10)
->>>>>>>
->>>>>>> I915_IDLE_ENGINES_TIMEOUT is defined in i915_drv.h. It's also 
->>>>>>> only used
->>>>>>> here.
->>>>>>
->>>>>> So move here, dropping i915 prefix, next to the newly proposed one?
->>>>> Sure, can do that.
->>>>>
->>>>>>
->>>>>>> I915_GEM_IDLE_TIMEOUT is defined in i915_gem.h. It's only used in
->>>>>>> gt/intel_gt.c.
->>>>>>
->>>>>> Move there and rename to GT_IDLE_TIMEOUT?
->>>>>>
->>>>>>> I915_GT_SUSPEND_IDLE_TIMEOUT is defined and used only in 
->>>>>>> intel_gt_pm.c.
->>>>>>
->>>>>> No action needed, maybe drop i915 prefix if wanted.
->>>>>>
->>>>> These two are totally unrelated and in code not being touched by 
->>>>> this change. I would rather not conflate changing random other 
->>>>> things with fixing this specific issue.
->>>>>
->>>>>>> I915_IDLE_ENGINES_TIMEOUT is in ms, the rest are in jiffies.
->>>>>>
->>>>>> Add _MS suffix if wanted.
->>>>>>
->>>>>>> My head spins.
->>>>>>
->>>>>> I follow and raise that the newly proposed DROP_IDLE_TIMEOUT 
->>>>>> applies to DROP_ACTIVE and not only DROP_IDLE.
->>>>> My original intention for the name was that is the 'drop caches 
->>>>> timeout for intel_gt_wait_for_idle'. Which is quite the mouthful 
->>>>> and hence abbreviated to DROP_IDLE_TIMEOUT. But yes, I realised 
->>>>> later that name can be conflated with the DROP_IDLE flag. Will 
->>>>> rename.
->>>>>
->>>>>
->>>>>>
->>>>>> Things get refactored, code moves around, bits get left behind, 
->>>>>> who knows. No reason to get too worked up. :) As long as people 
->>>>>> are taking a wider view when touching the code base, and are not 
->>>>>> afraid to send cleanups, things should be good.
->>>>> On the other hand, if every patch gets blocked in code review 
->>>>> because someone points out some completely unrelated piece of code 
->>>>> could be a bit better then nothing ever gets fixed. If you spot 
->>>>> something that you think should be improved, isn't the general 
->>>>> idea that you should post a patch yourself to improve it?
->>>>
->>>> There's two maintainers per branch and an order of magnitude or two 
->>>> more developers so it'd be nice if cleanups would just be incoming 
->>>> on self-initiative basis. ;)
->>>>
->>>>>> For the actual functional change at hand - it would be nice if 
->>>>>> code paths in question could handle SIGINT and then we could punt 
->>>>>> the decision on how long someone wants to wait purely to 
->>>>>> userspace. But it's probably hard and it's only debugfs so whatever.
->>>>>>
->>>>> The code paths in question will already abort on a signal won't 
->>>>> they? Both intel_gt_wait_for_idle() and 
->>>>> intel_guc_wait_for_pending_msg(), which is where the 
->>>>> uc_wait_for_idle eventually ends up, have an 'if(signal_pending) 
->>>>> return -EINTR;' check. Beyond that, it sounds like what you are 
->>>>> asking for is a change in the IGT libraries and/or CI framework to 
->>>>> start sending signals after some specific timeout. That seems like 
->>>>> a significantly more complex change (in terms of the number of 
->>>>> entities affected and number of groups involved) and unnecessary.
->>>>
->>>> If you say so, I haven't looked at them all. But if the code path 
->>>> in question already aborts on signals then I am not sure what is 
->>>> the patch fixing? I assumed you are trying to avoid the write stuck 
->>>> in D forever, which then prevents driver unload and everything, 
->>>> requiring the test runner to eventually reboot. If you say SIGINT 
->>>> works then you can already recover from userspace, no?
->>>>
->>>>>> Whether or not 10s is enough CI will hopefully tell us. I'd 
->>>>>> probably err on the side of safety and make it longer, but at 
->>>>>> most half from the test runner timeout.
->>>>> This is supposed to be test clean up. This is not about how long a 
->>>>> particular test takes to complete but about how long it takes to 
->>>>> declare the system broken after the test has already finished. I 
->>>>> would argue that even 10s is massively longer than required.
->>>>>
->>>>>>
->>>>>> I am not convinced that wedging is correct though. Conceptually 
->>>>>> could be just that the timeout is too short. What does wedging 
->>>>>> really give us, on top of limiting the wait, when latter AFAIU is 
->>>>>> the key factor which would prevent the need to reboot the machine?
->>>>>>
->>>>> It gives us a system that knows what state it is in. If we can't 
->>>>> idle the GT then something is very badly wrong. Wedging indicates 
->>>>> that. It also ensure that a full GT reset will be attempted before 
->>>>> the next test is run. Helping to prevent a failure on test X from 
->>>>> propagating into failures of unrelated tests X+1, X+2, ... And if 
->>>>> the GT reset does not work because the system is really that badly 
->>>>> broken then future tests will not run rather than report erroneous 
->>>>> failures.
->>>>>
->>>>> This is not about getting a more stable system for end users by 
->>>>> sweeping issues under the carpet and pretending all is well. End 
->>>>> users don't run IGTs or explicitly call dodgy debugfs entry 
->>>>> points. The sole motivation here is to get more accurate results 
->>>>> from CI. That is, correctly identifying which test has hit a 
->>>>> problem, getting valid debug analysis for that test (logs and 
->>>>> such) and allowing further testing to complete correctly in the 
->>>>> case where the system can be recovered.
->>>>
->>>> I don't really oppose shortening of the timeout in principle, just 
->>>> want a clear statement if this is something IGT / test runner could 
->>>> already do or not. It can apply a timeout, it can also send SIGINT, 
->>>> and it could even trigger a reset from outside. Sure it is debugfs 
->>>> hacks so general "kernel should not implement policy" need not be 
->>>> strictly followed, but lets have it clear what are the options.
->>>
->>> One conceptual problem with applying this policy is that the code is:
->>>
->>>     if (val & (DROP_IDLE | DROP_ACTIVE)) {
->>>         ret = intel_gt_wait_for_idle(gt, MAX_SCHEDULE_TIMEOUT);
->>>         if (ret)
->>>             return ret;
->>>     }
->>>
->>>     if (val & DROP_IDLE) {
->>>         ret = intel_gt_pm_wait_for_idle(gt);
->>>         if (ret)
->>>             return ret;
->>>     }
->>>
->>> So if someone passes in DROP_IDLE and then why would only the first 
->>> branch have a short timeout and wedge. Yeah some bug happens to be 
->>> there at the moment, but put a bug in a different place and you hang 
->>> on the second branch and then need another patch. Versus perhaps 
->>> making it all respect SIGINT and handle from outside.
->>>
->> The pm_wait_for_idle is can only called after gt_wait_for_idle has 
->> completed successfully. There is no route to skip the GT idle or to 
->> do the PM idle even if the GT idle fails. So the chances of the PM 
->> idle failing are greatly reduced. There would have to be something 
->> outside of a GT keeping the GPU awake and there isn't a whole lot of 
->> hardware left at that point!
->
-> Well "greatly reduced" is beside my point. Point is today bug is here 
-> and we add a timeout, tomorrow bug is there and then the same dance. 
-> It can be just a sw bug which forgets to release the pm ref in some 
-> circumstances, doesn't really matter.
->
-Huh?
 
-Greatly reduced is the whole point. Today there is a bug and it causes a 
-kernel hang which requires the CI framework to reboot the system in an 
-extremely unfriendly way which makes it very hard to work out what 
-happened. Logs are likely not available. We don't even necessarily know 
-which test was being run at the time. Etc. So we replace the infinite 
-timeout with a meaningful timeout. CI now correctly marks the single 
-test as failing, captures all the correct logs, creates a useful bug 
-report and continues on testing more stuff.
+On Fri, Nov 04, 2022 at 12:15:59AM +0530, Badal Nilawar wrote:
+> This workaround is added for Media tile of MTL A step. It is to help
+> pcode workaround which handles the hardware issue seen during package C2/C3
+> transitions due to RC6 entry/exit transitions on Media tile. As a part of
+> workaround pcode expect kmd to send mailbox message "media busy" when
+> components of Media tile are in use and "media idle" otherwise.
+> As per workaround description gucrc need to be disabled so enabled
+> host based RC for Media tile.
+> 
+> v2:
+>  - Correct workaround id (Matt)
+>  - Fix review comments (Rodrigo)
+> 
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
+> Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
 
-Sure, there is still the chance of hitting an infinite timeout. But that 
-one is significantly more complicated to remove. And the chances of 
-hitting that one are significantly smaller than the chances of hitting 
-the first one.
-
-So you are arguing that because I can't fix the last 0.1% of possible 
-failures, I am not allowed to fix the first 99.9% of the failures?
-
-
->> Regarding signals, the PM idle code ends up at 
->> wait_var_event_killable(). I assume that is interruptible via at 
->> least a KILL signal if not any signal. Although it's not entirely 
->> clear trying to follow through the implementation of this code. Also, 
->> I have no idea if there is a safe way to add a timeout to that code 
->> (or why it wasn't already written with a timeout included). Someone 
->> more familiar with the wakeref internals would need to comment.
->>
->> However, I strongly disagree that we should not fix the driver just 
->> because it is possible to workaround the issue by re-writing the CI 
->> framework. Feel free to bring a redesign plan to the IGT WG and 
->> whatever equivalent CI meetings in parallel. But we absolutely should 
->> not have infinite waits in the kernel if there is a trivial way to 
->> not have infinite waits.
->
-> I thought I was clear that I am not really opposed to the timeout.
->
-> The rest of the paragraph I don't really care - point is moot because 
-> it's debugfs so we can do whatever, as long as it is not burdensome to 
-> i915, which this isn't. If either wasn't the case then we certainly 
-> wouldn't be adding any workarounds in the kernel if it can be achieved 
-> in IGT.
->
->> Also, sending a signal does not result in the wedge happening. I 
->> specifically did not want to change that code path because I was 
->> assuming there was a valid reason for it. If you have been 
->> interrupted then you are in the territory of maybe it would have 
->> succeeded if you just left it for a moment longer. Whereas, hitting 
->> the timeout says that someone very deliberately said this is too long 
->> to wait and therefore the system must be broken.
->
-> I wanted to know specifically about wedging - why can't you 
-> wedge/reset from IGT if DROP_IDLE times out in quiescent or wherever, 
-> if that's what you say is the right thing? 
-Huh?
-
-DROP_IDLE has two waits. One that I am trying to change from infinite to 
-finite + wedge. One that would take considerable effort to change and 
-would be quite invasive to a lot more of the driver and which can only 
-be hit if the first timeout actually completed successfully and is 
-therefore of less importance anyway. Both of those time outs appear to 
-respect signal interrupts.
-
-> That's a policy decision so why would i915 wedge if an arbitrary 
-> timeout expired? I915 is not controlling how much work there is 
-> outstanding at the point the IGT decides to call DROP_IDLE.
-
-Because this is a debug test interface that is used solely by IGT after 
-it has finished its testing. This is not about wedging the device at 
-some random arbitrary point because an AI compute workload takes three 
-hours to complete. This is about a very specific test framework cleaning 
-up after testing is completed and making sure the test did not fry the 
-system.
-
-And even if an IGT test was calling DROP_IDLE in the middle of a test 
-for some reason, it should not be deliberately pushing 10+ seconds of 
-work through and then calling a debug only interface to flush it out. If 
-a test wants to verify that the system can cope with submitting a 
-minutes worth of rendering and then waiting for it to complete then the 
-test should be using official channels for that wait.
-
->
->> Plus, infinite wait is not a valid code path in the first place so 
->> any change in behaviour is not really a change in behaviour. Code 
->> can't be relying on a kernel call to never return for its correct 
->> operation!
->
-> Why infinite wait wouldn't be valid? Then you better change the other 
-> one as well. ;P
-In what universe is it ever valid to wait forever for a test to complete?
-
-See above, the PM code would require much more invasive changes. This 
-was low hanging fruit. It was supposed to be a two minute change to a 
-very self contained section of code that would provide significant 
-benefit to debugging a small class of very hard to debug problems.
-
-John.
-
-
->
-> Regards,
->
-> Tvrtko
->
->> And if you don't wedge then you don't recover. Each subsequent test 
->> would just hit the infinite timeout, get killed by the CI framework's 
->> shiny new kill signal and be marked as yet another unrelated bug that 
->> will be logged separately. Whereas, using a sensible timeout and then 
->> wedging will at least attempt to recover the situation. And if it can 
->> be recovered, future tests will pass. If it can't then future testing 
->> will be aborted.
->>
->> John.
->>
->>
->>> Regards,
->>>
->>> Tvrtko
->>
-
+Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/intel_gt_pm.c     | 27 +++++++++++++++++++++++
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c | 13 ++++++++++-
+>  drivers/gpu/drm/i915/i915_drv.h           |  4 ++++
+>  drivers/gpu/drm/i915/i915_reg.h           |  9 ++++++++
+>  4 files changed, 52 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+> index f553e2173bda..833b7682643f 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+> @@ -19,10 +19,31 @@
+>  #include "intel_rc6.h"
+>  #include "intel_rps.h"
+>  #include "intel_wakeref.h"
+> +#include "intel_pcode.h"
+>  #include "pxp/intel_pxp_pm.h"
+>  
+>  #define I915_GT_SUSPEND_IDLE_TIMEOUT (HZ / 2)
+>  
+> +static void mtl_media_busy(struct intel_gt *gt)
+> +{
+> +	/* Wa_14017073508: mtl */
+> +	if (IS_MTL_GRAPHICS_STEP(gt->i915, P, STEP_A0, STEP_B0) &&
+> +	    gt->type == GT_MEDIA)
+> +		snb_pcode_write_p(gt->uncore, PCODE_MBOX_GT_STATE,
+> +				  PCODE_MBOX_GT_STATE_MEDIA_BUSY,
+> +				  PCODE_MBOX_GT_STATE_DOMAIN_MEDIA, 0);
+> +}
+> +
+> +static void mtl_media_idle(struct intel_gt *gt)
+> +{
+> +	/* Wa_14017073508: mtl */
+> +	if (IS_MTL_GRAPHICS_STEP(gt->i915, P, STEP_A0, STEP_B0) &&
+> +	    gt->type == GT_MEDIA)
+> +		snb_pcode_write_p(gt->uncore, PCODE_MBOX_GT_STATE,
+> +				  PCODE_MBOX_GT_STATE_MEDIA_NOT_BUSY,
+> +				  PCODE_MBOX_GT_STATE_DOMAIN_MEDIA, 0);
+> +}
+> +
+>  static void user_forcewake(struct intel_gt *gt, bool suspend)
+>  {
+>  	int count = atomic_read(&gt->user_wakeref);
+> @@ -70,6 +91,9 @@ static int __gt_unpark(struct intel_wakeref *wf)
+>  
+>  	GT_TRACE(gt, "\n");
+>  
+> +	/* Wa_14017073508: mtl */
+> +	mtl_media_busy(gt);
+> +
+>  	/*
+>  	 * It seems that the DMC likes to transition between the DC states a lot
+>  	 * when there are no connected displays (no active power domains) during
+> @@ -119,6 +143,9 @@ static int __gt_park(struct intel_wakeref *wf)
+>  	GEM_BUG_ON(!wakeref);
+>  	intel_display_power_put_async(i915, POWER_DOMAIN_GT_IRQ, wakeref);
+>  
+> +	/* Wa_14017073508: mtl */
+> +	mtl_media_idle(gt);
+> +
+>  	return 0;
+>  }
+>  
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
+> index 8f8dd05835c5..b5855091cf6a 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
+> @@ -11,9 +11,20 @@
+>  
+>  static bool __guc_rc_supported(struct intel_guc *guc)
+>  {
+> +	struct intel_gt *gt = guc_to_gt(guc);
+> +
+> +	/*
+> +	 * Wa_14017073508: mtl
+> +	 * Do not enable gucrc to avoid additional interrupts which
+> +	 * may disrupt pcode wa.
+> +	 */
+> +	if (IS_MTL_GRAPHICS_STEP(gt->i915, P, STEP_A0, STEP_B0) &&
+> +	    gt->type == GT_MEDIA)
+> +		return false;
+> +
+>  	/* GuC RC is unavailable for pre-Gen12 */
+>  	return guc->submission_supported &&
+> -		GRAPHICS_VER(guc_to_gt(guc)->i915) >= 12;
+> +		GRAPHICS_VER(gt->i915) >= 12;
+>  }
+>  
+>  static bool __guc_rc_selected(struct intel_guc *guc)
+> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+> index 05b3300cc4ed..659b92382ff2 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.h
+> +++ b/drivers/gpu/drm/i915/i915_drv.h
+> @@ -740,6 +740,10 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
+>  #define IS_XEHPSDV_GRAPHICS_STEP(__i915, since, until) \
+>  	(IS_XEHPSDV(__i915) && IS_GRAPHICS_STEP(__i915, since, until))
+>  
+> +#define IS_MTL_GRAPHICS_STEP(__i915, variant, since, until) \
+> +	(IS_SUBPLATFORM(__i915, INTEL_METEORLAKE, INTEL_SUBPLATFORM_##variant) && \
+> +	 IS_GRAPHICS_STEP(__i915, since, until))
+> +
+>  /*
+>   * DG2 hardware steppings are a bit unusual.  The hardware design was forked to
+>   * create three variants (G10, G11, and G12) which each have distinct
+> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+> index 765a10e0de88..23d732413919 100644
+> --- a/drivers/gpu/drm/i915/i915_reg.h
+> +++ b/drivers/gpu/drm/i915/i915_reg.h
+> @@ -6679,6 +6679,15 @@
+>  /*   XEHP_PCODE_FREQUENCY_CONFIG param2 */
+>  #define     PCODE_MBOX_DOMAIN_NONE		0x0
+>  #define     PCODE_MBOX_DOMAIN_MEDIAFF		0x3
+> +
+> +/* Wa_14017210380: mtl */
+> +#define   PCODE_MBOX_GT_STATE			0x50
+> +/* sub-commands (param1) */
+> +#define     PCODE_MBOX_GT_STATE_MEDIA_BUSY	0x1
+> +#define     PCODE_MBOX_GT_STATE_MEDIA_NOT_BUSY	0x2
+> +/* param2 */
+> +#define     PCODE_MBOX_GT_STATE_DOMAIN_MEDIA	0x1
+> +
+>  #define GEN6_PCODE_DATA				_MMIO(0x138128)
+>  #define   GEN6_PCODE_FREQ_IA_RATIO_SHIFT	8
+>  #define   GEN6_PCODE_FREQ_RING_RATIO_SHIFT	16
+> -- 
+> 2.25.1
+> 
