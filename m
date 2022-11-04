@@ -1,67 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24F8661A293
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 21:43:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48C1761A2A7
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 21:48:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDB3E10E81F;
-	Fri,  4 Nov 2022 20:42:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D1A010E825;
+	Fri,  4 Nov 2022 20:48:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
- [IPv6:2607:f8b0:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CE6F10E81F;
- Fri,  4 Nov 2022 20:42:54 +0000 (UTC)
-Received: by mail-oi1-x231.google.com with SMTP id n83so6355060oif.11;
- Fri, 04 Nov 2022 13:42:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
- :reply-to; bh=jQ4gXr1turouEQ95+x3UakyDrVi4g3dT0y7NpfH0qPs=;
- b=lSF8e6DLqbKKv+/YhmRhAK/T1efgb2O636TOXNjLfcC0viXP62NhHdxomxLJWtIe7d
- 2JndYje5nsRNFlqIXElcBPkKCNEcFme9PlK3C7Q1VMpYaqUkgV/gQHQcIxtcw2fILMZW
- OKJ4E8wSXhLBL3J9S3NnNPs9rdwe6KKkDhBPqcY/XDJgpqSUigUMcqCvapDa55nrN05q
- GmtiLLrP+Y0lcIHCsefgW4EhiR9DSJnDXwmLBbW8A31Y89yswej4P9L3XtJNKO8bMaw7
- 4czQwKTd2lx34+qzGmcV/Exm8IIRhuHeavJKESaaJd5m9cQQb9K2fLTxromO6yhuwk2D
- Ci4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=jQ4gXr1turouEQ95+x3UakyDrVi4g3dT0y7NpfH0qPs=;
- b=PP1QDRgkdZWKqEZso4Y3ZPiqp1jKjMhorh64SRc+NZp7XA/lEqb++DbyPEhUqLYzfj
- anMdYu9YyUQ+MalHNWc3k7BArRGRstyXNnUkPzc+OHEegwzf5hsqb+q7gJmbvxASUueE
- QJTL4KIy2QAlxGXWE4CrJnvyCOutGoMOwVPgkRx4H0iZ1VxfIUmP+6MvpuwH3FOjztbU
- X0Vd9DPKYPijuFnddEWKnPBV8N1GYUssH/zRXgBDx58tRkZN/89lpqb5Bo4h0FO/h75c
- Ir7aG57LkT4FBeAh5Bq2kSCWXGmi+zHoq62KcdVZZ0uMzZGgrM13+Ks8HF7M9mOcQVWo
- wFfA==
-X-Gm-Message-State: ACrzQf3HsMkNkyWFQSM6DmDb0wnVpqq8mlCwI1tXMiXAVKfhaofe/5vX
- 6hpfr4eMVQ4xO4/qHKwvZyk=
-X-Google-Smtp-Source: AMsMyM6uhfbCXJb2q3AkwRuMO9Mjf9xHTKiSSXkljdTFDkgQ9gIWK1vZZlSecO9utfeB4MFPxnhffw==
-X-Received: by 2002:a54:4587:0:b0:359:c737:b2e8 with SMTP id
- z7-20020a544587000000b00359c737b2e8mr20212921oib.234.1667594573223; 
- Fri, 04 Nov 2022 13:42:53 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- f1-20020a056830204100b006619483182csm162608otp.18.2022.11.04.13.42.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Nov 2022 13:42:52 -0700 (PDT)
-Date: Fri, 4 Nov 2022 13:42:51 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [RFC][PATCH v3 00/33] timers: Use timer_shutdown*() before
- freeing timers
-Message-ID: <20221104204251.GB506794@roeck-us.net>
-References: <20221104054053.431922658@goodmis.org>
- <20221104192232.GA2520396@roeck-us.net>
- <20221104154209.21b26782@rorschach.local.home>
- <20221104154355.578ab689@rorschach.local.home>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D9A510E825
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 20:48:21 +0000 (UTC)
+Received: from [192.168.2.75] (109-252-117-140.nat.spd-mgts.ru
+ [109.252.117.140])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 3DDF76601FAA;
+ Fri,  4 Nov 2022 20:48:17 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1667594897;
+ bh=SI4a/uYFHsdE2ZXTBD2+UU7euVGlyvm3+1d3HHvY89Y=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Ufvu1o7uy3kKYr/kYm1RJDjkrEDt/4PxtWkPKVf4HdqxWvZikzBplPraT/ZimqIbk
+ 83fO3Hn21VMst/SB3nlTyJplLAtfAUlr/r1eZ9W3Z/98JyrRqRB/tNyPm5MdbiOA/8
+ W/AhK8Vf2MTf4uDImGxBzdNO1PCJsYUMGTZ3n3KziRWFa1AufC4ho2svBx/hV2/Tl8
+ /FAMdGKIqxisM4/QBT+6d/nCdJp+Uo30Ggcjbm1LTLUYO76Eg9rkkolS2IfSmXAV0M
+ OG8AK6EaGhr8kIzU4HwzcuxcpEjWtsdGRI8jwvU7LGVSiBVU3mvJmC0BXJmW2tv/b/
+ Bs/1ruiHTGdCg==
+Message-ID: <df8a6d56-823d-936a-1ce8-faed48c0e338@collabora.com>
+Date: Fri, 4 Nov 2022 23:48:14 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221104154355.578ab689@rorschach.local.home>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH] drm/panfrost: Update io-pgtable API
+Content-Language: en-US
+To: Robin Murphy <robin.murphy@arm.com>, robh@kernel.org,
+ tomeu.vizoso@collabora.com
+References: <daef7f8c134d989c55636a5790d8c0fcaca1bae3.1661205687.git.robin.murphy@arm.com>
+ <d2b1b693-7569-7f02-243f-570bf6790e4f@collabora.com>
+ <37f1afec-628b-927f-006e-7dc11c0afd35@arm.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <37f1afec-628b-927f-006e-7dc11c0afd35@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,47 +58,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, linux-staging@lists.linux.dev,
- linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Thomas Gleixner <tglx@linutronix.de>,
- linux-leds@vger.kernel.org, drbd-dev@lists.linbit.com,
- linux-s390@vger.kernel.org, linux-nilfs@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-atm-general@lists.sourceforge.net, linux-afs@lists.infradead.org,
- lvs-devel@vger.kernel.org, linux-acpi@vger.kernel.org, coreteam@netfilter.org,
- intel-wired-lan@lists.osuosl.org, linux-input@vger.kernel.org,
- tipc-discussion@lists.sourceforge.net, linux-ext4@vger.kernel.org,
- linux-media@vger.kernel.org, bridge@lists.linux-foundation.org,
- linux-pm@vger.kernel.org, intel-gfx@lists.freedesktop.org, rcu@vger.kernel.org,
- cgroups@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
- Anna-Maria Gleixner <anna-maria@linutronix.de>, linux-edac@vger.kernel.org,
- linux-block@vger.kernel.org, linux-nfs@vger.kernel.org,
- linux-parisc@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
- netdev@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-bluetooth@vger.kernel.org, netfilter-devel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Linus Torvalds <torvalds@linux-foundation.org>
+Cc: dri-devel@lists.freedesktop.org, alyssa.rosenzweig@collabora.com,
+ linux-arm-kernel@lists.infradead.org, steven.price@arm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 04, 2022 at 04:38:34PM -0400, Steven Rostedt wrote:
-> On Fri, 4 Nov 2022 15:42:09 -0400
-> Steven Rostedt <rostedt@goodmis.org> wrote:
+On 11/4/22 23:37, Robin Murphy wrote:
+> On 2022-11-04 20:11, Dmitry Osipenko wrote:
+>> On 8/23/22 01:01, Robin Murphy wrote:
+>>> Convert to io-pgtable's bulk {map,unmap}_pages() APIs, to help the old
+>>> single-page interfaces eventually go away. Unmapping heap BOs still
+>>> wants to be done a page at a time, but everything else can get the full
+>>> benefit of the more efficient interface.
+>>>
+>>> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+>>> ---
+>>>   drivers/gpu/drm/panfrost/panfrost_mmu.c | 40 +++++++++++++++----------
+>>>   1 file changed, 25 insertions(+), 15 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c
+>>> b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+>>> index b285a8001b1d..e246d914e7f6 100644
+>>> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
+>>> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+>>> @@ -248,11 +248,15 @@ void panfrost_mmu_reset(struct panfrost_device
+>>> *pfdev)
+>>>       mmu_write(pfdev, MMU_INT_MASK, ~0);
+>>>   }
+>>>   -static size_t get_pgsize(u64 addr, size_t size)
+>>> +static size_t get_pgsize(u64 addr, size_t size, size_t *count)
+>>>   {
+>>> -    if (addr & (SZ_2M - 1) || size < SZ_2M)
+>>> -        return SZ_4K;
+>>> +    size_t blk_offset = -addr % SZ_2M;
+>>>   +    if (blk_offset || size < SZ_2M) {
+>>> +        *count = min_not_zero(blk_offset, size) / SZ_4K;
+>>> +        return SZ_4K;
+>>> +    }
+>>> +    *count = size / SZ_2M;
+>>>       return SZ_2M;
+>>>   }
+>>>   @@ -287,12 +291,16 @@ static int mmu_map_sg(struct panfrost_device
+>>> *pfdev, struct panfrost_mmu *mmu,
+>>>           dev_dbg(pfdev->dev, "map: as=%d, iova=%llx, paddr=%lx,
+>>> len=%zx", mmu->as, iova, paddr, len);
+>>>             while (len) {
+>>> -            size_t pgsize = get_pgsize(iova | paddr, len);
+>>> +            size_t pgcount, mapped = 0;
+>>> +            size_t pgsize = get_pgsize(iova | paddr, len, &pgcount);
+>>>   -            ops->map(ops, iova, paddr, pgsize, prot, GFP_KERNEL);
+>>> -            iova += pgsize;
+>>> -            paddr += pgsize;
+>>> -            len -= pgsize;
+>>> +            ops->map_pages(ops, iova, paddr, pgsize, pgcount, prot,
+>>> +                       GFP_KERNEL, &mapped);
+>>> +            /* Don't get stuck if things have gone wrong */
+>>> +            mapped = max(mapped, pgsize);
+>>> +            iova += mapped;
+>>> +            paddr += mapped;
+>>> +            len -= mapped;
+>>>           }
+>>>       }
+>>>   @@ -344,15 +352,17 @@ void panfrost_mmu_unmap(struct
+>>> panfrost_gem_mapping *mapping)
+>>>           mapping->mmu->as, iova, len);
+>>>         while (unmapped_len < len) {
+>>> -        size_t unmapped_page;
+>>> -        size_t pgsize = get_pgsize(iova, len - unmapped_len);
+>>> +        size_t unmapped_page, pgcount;
+>>> +        size_t pgsize = get_pgsize(iova, len - unmapped_len, &pgcount);
+>>>   -        if (ops->iova_to_phys(ops, iova)) {
+>>> -            unmapped_page = ops->unmap(ops, iova, pgsize, NULL);
+>>> -            WARN_ON(unmapped_page != pgsize);
+>>> +        if (bo->is_heap)
+>>> +            pgcount = 1;
+>>> +        if (!bo->is_heap || ops->iova_to_phys(ops, iova)) {
+>>> +            unmapped_page = ops->unmap_pages(ops, iova, pgsize,
+>>> pgcount, NULL);
+>>> +            WARN_ON(unmapped_page != pgsize * pgcount);
+>>
+>> This patch causes this WARN_ON to trigger. It doesn't happen all the
+>> time, I see that the whole unmapped area is mapped. Initially, I thought
+>> that this happens because it tries to unmap a partially mapped range,
+>> but I checked that ops->iova_to_phys() returns address for all 4k chunks.
+>>
+>> For example the pgsize * pgcount = 0x8000000, while returned
+>> unmapped_page = 0x6000000.
+>>
+>> I don't see this problem with this patch reverted. This is using today's
+>> linux-next. Any ideas?
 > 
-[ ... ]
-> 
-> > drivers/clocksource/timer-fttmr010.c:   fttmr010->timer_shutdown(evt);
-> > drivers/clocksource/timer-fttmr010.c:   fttmr010->timer_shutdown(evt);
-> > drivers/clocksource/timer-fttmr010.c:   fttmr010->timer_shutdown(evt);
-> > drivers/clocksource/timer-fttmr010.c:           fttmr010->timer_shutdown = ast2600_timer_shutdown;
-> > drivers/clocksource/timer-fttmr010.c:           fttmr010->timer_shutdown = fttmr010_timer_shutdown;
-> > drivers/clocksource/timer-fttmr010.c:   fttmr010->clkevt.set_state_shutdown = fttmr010->timer_shutdown;
-> > drivers/clocksource/timer-fttmr010.c:   fttmr010->clkevt.tick_resume = fttmr010->timer_shutdown;
-> 
-> I won't touch structure fields though.
-> 
+> What's the base IOVA in such a case? I'm wondering if the truncated size
+> lines up to any interesting boundary. Presumably you're not seeing any
+> additional warnings from io-pgtable itself?
 
-Agreed, same here.
+No warnings from io-pgtable. It succeeds for 0x32000000 and fails for
+0x3a000000 using same size 0x8000000. It actually fails only for the
+0x3a000000 as far as I see from my logs. Perhaps it indeed has to do
+something with the boundary.
 
-Guenter
+-- 
+Best regards,
+Dmitry
+
