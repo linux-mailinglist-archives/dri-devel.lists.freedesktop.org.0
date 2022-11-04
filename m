@@ -2,51 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A319361A060
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 19:57:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1A1161A062
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 19:58:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0DBC10E0DB;
-	Fri,  4 Nov 2022 18:57:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A963210E867;
+	Fri,  4 Nov 2022 18:58:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B18D10E093;
- Fri,  4 Nov 2022 18:57:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1667588258; x=1699124258;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=HfJ4nv8wN6briqCaEwDbiyyy2GoyauuVwacO9HR6vKQ=;
- b=kjmZhArAuKFIKOVEaCUniP7Oi8hKyEcnOk9fcEUbd9PF2iDdgTY0vLuN
- h1WhmlP4Ppmv7rFFk4SW9wA2gjUwrtXXMy4yFoc/Jj//KHQMayfNYAiH9
- bo6cxlIzQFRhU88mX+rPAXkkN3n2A7ZqZ0GZkk9SXWwqCmoRXMOR7niWW
- Cny8cgon7HarXsLbf7jVdjwwOntJ/cvR7KNPWPC6ARg7e+1xuUg0EU7g9
- EWcMgdQ6hDEXFtrXLHQitVnxNWp8NjzVLCdIwF3l+cyqi3rv5oNMYR6KW
- Lz2TrvXDTxBIQ3ve3JQU5eFO01GvZygUWOaxZJm/PwY1ij1RX6VVTxNgv w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10521"; a="289772300"
-X-IronPort-AV: E=Sophos;i="5.96,138,1665471600"; d="scan'208";a="289772300"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2022 11:57:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10521"; a="777818230"
-X-IronPort-AV: E=Sophos;i="5.96,138,1665471600"; d="scan'208";a="777818230"
-Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
- by fmsmga001.fm.intel.com with ESMTP; 04 Nov 2022 11:57:36 -0700
-Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1or1sl-000HFA-0j;
- Fri, 04 Nov 2022 18:57:35 +0000
-Date: Sat, 05 Nov 2022 02:56:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master] BUILD SUCCESS WITH WARNING
- 0cdb3579f1ee4c1e55acf8dfb0697b660067b1f8
-Message-ID: <63656065.kcx4EopdcPjzWJhq%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC4D510E10C
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 18:58:08 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 6E787B82EFF;
+ Fri,  4 Nov 2022 18:58:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA292C433D6;
+ Fri,  4 Nov 2022 18:58:05 +0000 (UTC)
+Date: Fri, 4 Nov 2022 14:58:04 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Subject: Re: [RFC][PATCH v3 12/33] timers: dma-buf: Use
+ timer_shutdown_sync() before freeing timer
+Message-ID: <20221104145804.4ec8404e@rorschach.local.home>
+In-Reply-To: <d916e29d-d098-c3f3-940a-37be6772ecb5@amd.com>
+References: <20221104054053.431922658@goodmis.org>
+ <20221104054914.085569465@goodmis.org>
+ <20221104015444.57f73efb@rorschach.local.home>
+ <d916e29d-d098-c3f3-940a-37be6772ecb5@amd.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,151 +47,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Linux Memory Management List <linux-mm@kvack.org>
+Cc: Stephen Boyd <sboyd@kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ linaro-mm-sig@lists.linaro.org, Thomas Gleixner <tglx@linutronix.de>,
+ Anna-Maria Gleixner <anna-maria@linutronix.de>,
+ Andrew Morton <akpm@linux-foundation.org>, Guenter Roeck <linux@roeck-us.net>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: 0cdb3579f1ee4c1e55acf8dfb0697b660067b1f8  Add linux-next specific files for 20221104
+On Fri, 4 Nov 2022 08:15:53 +0100
+Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
 
-Warning reports:
+> > index fb6e0a6ae2c9..5d3e7b503501 100644
+> > --- a/drivers/dma-buf/st-dma-fence.c
+> > +++ b/drivers/dma-buf/st-dma-fence.c
+> > @@ -412,7 +412,7 @@ static int test_wait_timeout(void *arg)
+> >  =20
+> >   	err =3D 0;
+> >   err_free:
+> > -	del_timer_sync(&wt.timer);
+> > +	timer_shutdown_sync(&wt.timer); =20
+>=20
+> Mhm, what exactly is the benefit of renaming the function?
+>=20
+> Not that I'm against the change, but my thinking is more if there are=20
+> more functions which don't re-arm the time than those which do that then=
+=20
+> why not forbid it in general?
 
-https://lore.kernel.org/oe-kbuild-all/202211041320.coq8EELJ-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202211041654.zCUPre9o-lkp@intel.com
+Timers are more often re-armed then not. I had to look for the
+locations where del_timer*() was called just before freeing, and other
+locations where they are freed later.
 
-Warning: (recently discovered and may have been fixed)
+I didn't rename del_timer_sync() to timer_shutdown_sync(), this version
+renamed the new "del_timer_shutdown()" to "timer_shutdown_sync()".
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:4878: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dp.c:5044:24: warning: implicit conversion from 'enum <anonymous>' to 'enum dc_status' [-Wenum-conversion]
-drivers/gpu/drm/msm/hdmi/hdmi.c:244:1: warning: 'static' is not at beginning of declaration [-Wold-style-declaration]
-drivers/gpu/drm/msm/hdmi/hdmi.c:251:1: warning: 'static' is not at beginning of declaration [-Wold-style-declaration]
+Maybe I'm just confused at what you are asking.
 
-Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- alpha-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
-|   `-- drivers-gpu-drm-msm-hdmi-hdmi.c:warning:static-is-not-at-beginning-of-declaration
-|-- arc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
-|   `-- drivers-gpu-drm-msm-hdmi-hdmi.c:warning:static-is-not-at-beginning-of-declaration
-|-- arc-randconfig-r036-20221104
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
-|-- arc-randconfig-r043-20221104
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
-|-- arm-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
-|   `-- drivers-gpu-drm-msm-hdmi-hdmi.c:warning:static-is-not-at-beginning-of-declaration
-|-- arm-defconfig
-|   `-- drivers-gpu-drm-msm-hdmi-hdmi.c:warning:static-is-not-at-beginning-of-declaration
-|-- arm64-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
-|   `-- drivers-gpu-drm-msm-hdmi-hdmi.c:warning:static-is-not-at-beginning-of-declaration
-|-- i386-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
-|-- ia64-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
-|-- ia64-buildonly-randconfig-r006-20221104
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
-|-- m68k-allmodconfig
-|   `-- drivers-gpu-drm-msm-hdmi-hdmi.c:warning:static-is-not-at-beginning-of-declaration
-|-- m68k-allyesconfig
-|   `-- drivers-gpu-drm-msm-hdmi-hdmi.c:warning:static-is-not-at-beginning-of-declaration
-|-- mips-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
-|   `-- drivers-gpu-drm-msm-hdmi-hdmi.c:warning:static-is-not-at-beginning-of-declaration
-|-- powerpc-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
-|   `-- drivers-gpu-drm-msm-hdmi-hdmi.c:warning:static-is-not-at-beginning-of-declaration
-|-- riscv-randconfig-r042-20221104
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
-|-- s390-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
-clang_recent_errors
-`-- x86_64-randconfig-a016
-    `-- vmlinux.o:warning:objtool:handle_bug:call-to-kmsan_unpoison_entry_regs()-leaves-.noinstr.text-section
-
-elapsed time: 773m
-
-configs tested: 58
-configs skipped: 2
-
-gcc tested configs:
-um                             i386_defconfig
-um                           x86_64_defconfig
-i386                                defconfig
-riscv                randconfig-r042-20221104
-x86_64                              defconfig
-x86_64                        randconfig-a013
-arc                  randconfig-r043-20221104
-x86_64                        randconfig-a011
-arc                                 defconfig
-s390                 randconfig-r044-20221104
-s390                             allmodconfig
-x86_64                        randconfig-a015
-powerpc                           allnoconfig
-ia64                             allmodconfig
-x86_64                          rhel-8.3-func
-alpha                               defconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                        randconfig-a004
-x86_64                           rhel-8.3-kvm
-s390                             allyesconfig
-s390                                defconfig
-x86_64                         rhel-8.3-kunit
-x86_64                        randconfig-a002
-x86_64                               rhel-8.3
-x86_64                           rhel-8.3-syz
-i386                             allyesconfig
-sh                               allmodconfig
-arc                              allyesconfig
-mips                             allyesconfig
-x86_64                        randconfig-a006
-powerpc                          allmodconfig
-alpha                            allyesconfig
-arm                                 defconfig
-m68k                             allyesconfig
-i386                          randconfig-a001
-i386                          randconfig-a003
-i386                          randconfig-a014
-x86_64                           allyesconfig
-i386                          randconfig-a012
-i386                          randconfig-a005
-i386                          randconfig-a016
-arm                              allyesconfig
-arm64                            allyesconfig
-m68k                             allmodconfig
-
-clang tested configs:
-hexagon              randconfig-r041-20221104
-hexagon              randconfig-r045-20221104
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-x86_64                        randconfig-a005
-i386                          randconfig-a002
-i386                          randconfig-a004
-i386                          randconfig-a013
-i386                          randconfig-a006
-i386                          randconfig-a011
-i386                          randconfig-a015
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+-- Steve
