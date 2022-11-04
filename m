@@ -2,57 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B9F761A143
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 20:41:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAA7961A157
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 20:42:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FA0710E10B;
-	Fri,  4 Nov 2022 19:41:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 488BA10E0CF;
+	Fri,  4 Nov 2022 19:42:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
- [IPv6:2607:f8b0:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE26A10E10C
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 19:41:02 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id k7so5810931pll.6
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Nov 2022 12:41:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=content-disposition:mime-version:message-id:subject:cc:to:date:from
- :from:to:cc:subject:date:message-id:reply-to;
- bh=xTleQU4VJfAukQnxKaDYAnGqK2WphhJc8fFwPIDZB8o=;
- b=msmwpF6Ois8LGAEpwDgc+v1z3O9zPF/gToUCKqHVslP3hhHCt/dUr3MBgaajqYY8+r
- v8IHIH33Nb8tZyr5wzF1Z1u4/02bw3vX6jbPl/qjsYR+o3kurpTnt8kUpMPNspaplUPj
- EIS1wt0Z83toaM+v3HO8zDdOzYakLB7A3sIXY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-disposition:mime-version:message-id:subject:cc:to:date:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xTleQU4VJfAukQnxKaDYAnGqK2WphhJc8fFwPIDZB8o=;
- b=2tvD7AVLnM9zmz0R2knGYQ9aoNFSPgT6JZnZ+GeKVAlEX6u/4ErNnIozsledco3vFL
- JdwAubIrnGXaCAQSAwfbblop4vP3GBt59e5m0JhqCFSbdXNh0nMqNZnnCmBl7eBdJEty
- jbW12XIHgzBOjgV2nixlqqnfKuRx1EoSOGvxM0lZgUN0fZJ/cl39XLdCc0O9mA+uT5Ib
- hg36ODeueiMB3gcf5hgHnuZdsnhcqw9WPLWGv9fT4uBT4u/J0nh2S12XGBxOzuJe2rd3
- tDazvHPS9BhYIdw7jcCMjEWHBmjFvCPiSTdPYmOr+1dpgH+eqY20JcRokxnyBABC2a9j
- DpUQ==
-X-Gm-Message-State: ACrzQf1BS1yZ/57QbdIr73kpmZyzzwvKWeXF818kyjz4jKWsnvp4O9+0
- xPlV+yidbgWkYHuXb94DmMtrxw==
-X-Google-Smtp-Source: AMsMyM5lPZwJMkVoNQNtETbRNTdHQI/XbapUB0H45rWGJXujIBislKOpf8ovzPpaS4yP5yAJByf1Sw==
-X-Received: by 2002:a17:902:aa44:b0:186:7a6b:7bbd with SMTP id
- c4-20020a170902aa4400b001867a6b7bbdmr37459295plr.78.1667590862227; 
- Fri, 04 Nov 2022 12:41:02 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id
- ik12-20020a170902ab0c00b00187197c499asm128906plb.164.2022.11.04.12.41.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Nov 2022 12:41:01 -0700 (PDT)
-From: coverity-bot <keescook@chromium.org>
-X-Google-Original-From: coverity-bot <keescook+coverity-bot@chromium.org>
-Date: Fri, 4 Nov 2022 12:41:01 -0700
-To: Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>
-Subject: Coverity: kfd_parse_subtype_cache(): Memory - corruptions
-Message-ID: <202211041239.2B98F280@keescook>
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6520610E0CF;
+ Fri,  4 Nov 2022 19:42:15 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 02FAFB82DCA;
+ Fri,  4 Nov 2022 19:42:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32A74C433D6;
+ Fri,  4 Nov 2022 19:42:11 +0000 (UTC)
+Date: Fri, 4 Nov 2022 15:42:09 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [RFC][PATCH v3 00/33] timers: Use timer_shutdown*() before
+ freeing timers
+Message-ID: <20221104154209.21b26782@rorschach.local.home>
+In-Reply-To: <20221104192232.GA2520396@roeck-us.net>
+References: <20221104054053.431922658@goodmis.org>
+ <20221104192232.GA2520396@roeck-us.net>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,75 +45,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jay Cornwall <Jay.Cornwall@amd.com>,
- "Gustavo A. R. Silva" <gustavo@embeddedor.com>, Amber Lin <Amber.Lin@amd.com>,
- Ben Goz <ben.goz@amd.com>, Felix Kuehling <Felix.Kuehling@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, linux-next@vger.kernel.org,
- linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Kent Russell <kent.russell@amd.com>
+Cc: alsa-devel@alsa-project.org, linux-staging@lists.linux.dev,
+ linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Thomas Gleixner <tglx@linutronix.de>,
+ linux-leds@vger.kernel.org, drbd-dev@lists.linbit.com,
+ linux-s390@vger.kernel.org, linux-nilfs@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-atm-general@lists.sourceforge.net, linux-afs@lists.infradead.org,
+ lvs-devel@vger.kernel.org, linux-acpi@vger.kernel.org, coreteam@netfilter.org,
+ intel-wired-lan@lists.osuosl.org, linux-input@vger.kernel.org,
+ tipc-discussion@lists.sourceforge.net, linux-ext4@vger.kernel.org,
+ linux-media@vger.kernel.org, bridge@lists.linux-foundation.org,
+ linux-pm@vger.kernel.org, intel-gfx@lists.freedesktop.org, rcu@vger.kernel.org,
+ cgroups@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
+ Anna-Maria Gleixner <anna-maria@linutronix.de>, linux-edac@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-nfs@vger.kernel.org,
+ linux-parisc@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-bluetooth@vger.kernel.org, netfilter-devel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello!
+On Fri, 4 Nov 2022 12:22:32 -0700
+Guenter Roeck <linux@roeck-us.net> wrote:
 
-This is an experimental semi-automated report about issues detected by
-Coverity from a scan of next-20221104 as part of the linux-next scan project:
-https://scan.coverity.com/projects/linux-next-weekly-scan
+> Unfortunately the renaming caused some symbol conflicts.
+> 
+> Global definition: timer_shutdown
+> 
+>   File             Line
+> 0 time.c            93 static inline void timer_shutdown(struct clock_event_device *evt)
+> 1 arm_arch_timer.c 690 static __always_inline int timer_shutdown(const int access,
+> 2 timer-fttmr010.c 105 int (*timer_shutdown)(struct clock_event_device *evt);
+> 3 timer-sp804.c    158 static inline void timer_shutdown(struct clock_event_device *evt)
+> 4 timer.h          239 static inline int timer_shutdown(struct timer_list *timer)
 
-You're getting this email because you were associated with the identified
-lines of code (noted below) that were touched by commits:
+$ git grep '\btimer_shutdown'
+arch/arm/mach-spear/time.c:static inline void timer_shutdown(struct clock_event_device *evt)
+arch/arm/mach-spear/time.c:     timer_shutdown(evt);
+arch/arm/mach-spear/time.c:     timer_shutdown(evt);
+arch/arm/mach-spear/time.c:     timer_shutdown(evt);
+drivers/clocksource/arm_arch_timer.c:static __always_inline int timer_shutdown(const int access,
+drivers/clocksource/arm_arch_timer.c:   return timer_shutdown(ARCH_TIMER_VIRT_ACCESS, clk);
+drivers/clocksource/arm_arch_timer.c:   return timer_shutdown(ARCH_TIMER_PHYS_ACCESS, clk);
+drivers/clocksource/arm_arch_timer.c:   return timer_shutdown(ARCH_TIMER_MEM_VIRT_ACCESS, clk);
+drivers/clocksource/arm_arch_timer.c:   return timer_shutdown(ARCH_TIMER_MEM_PHYS_ACCESS, clk);
+drivers/clocksource/timer-fttmr010.c:   int (*timer_shutdown)(struct clock_event_device *evt);
+drivers/clocksource/timer-fttmr010.c:   fttmr010->timer_shutdown(evt);
+drivers/clocksource/timer-fttmr010.c:   fttmr010->timer_shutdown(evt);
+drivers/clocksource/timer-fttmr010.c:   fttmr010->timer_shutdown(evt);
+drivers/clocksource/timer-fttmr010.c:           fttmr010->timer_shutdown = ast2600_timer_shutdown;
+drivers/clocksource/timer-fttmr010.c:           fttmr010->timer_shutdown = fttmr010_timer_shutdown;
+drivers/clocksource/timer-fttmr010.c:   fttmr010->clkevt.set_state_shutdown = fttmr010->timer_shutdown;
+drivers/clocksource/timer-fttmr010.c:   fttmr010->clkevt.tick_resume = fttmr010->timer_shutdown;
+drivers/clocksource/timer-sp804.c:static inline void timer_shutdown(struct clock_event_device *evt)
+drivers/clocksource/timer-sp804.c:      timer_shutdown(evt);
+drivers/clocksource/timer-sp804.c:      timer_shutdown(evt);
 
-  Fri Dec 8 23:08:59 2017 -0500
-    3a87177eb141 ("drm/amdkfd: Add topology support for dGPUs")
+Honestly, I think these need to be renamed, as "timer_shutdown()"
+should be specific to the timer code, and not individual timers.
 
-Coverity reported the following:
+I'll start making a patch set that starts by renaming these timers,
+then adds the timer_shutdown() API, and finished with the trivial
+updates, and that will be a real "PATCH" (non RFC).
 
-*** CID 1527133:  Memory - corruptions  (OVERRUN)
-drivers/gpu/drm/amd/amdkfd/kfd_crat.c:1113 in kfd_parse_subtype_cache()
-1107     			props->cache_size = cache->cache_size;
-1108     			props->cacheline_size = cache->cache_line_size;
-1109     			props->cachelines_per_tag = cache->lines_per_tag;
-1110     			props->cache_assoc = cache->associativity;
-1111     			props->cache_latency = cache->cache_latency;
-1112
-vvv     CID 1527133:  Memory - corruptions  (OVERRUN)
-vvv     Overrunning array "cache->sibling_map" of 32 bytes by passing it to a function which accesses it at byte offset 63 using argument "64UL". [Note: The source code implementation of the function has been overridden by a builtin model.]
-1113     			memcpy(props->sibling_map, cache->sibling_map,
-1114     					sizeof(props->sibling_map));
-1115
-1116     			/* set the sibling_map_size as 32 for CRAT from ACPI */
-1117     			props->sibling_map_size = CRAT_SIBLINGMAP_SIZE;
-1118
+Linus, should I also add any patches that has already been acked by the
+respective maintainer?
 
-If this is a false positive, please let us know so we can mark it as
-such, or teach the Coverity rules to be smarter. If not, please make
-sure fixes get into linux-next. :) For patches fixing this, please
-include these lines (but double-check the "Fixes" first):
-
-Reported-by: coverity-bot <keescook+coverity-bot@chromium.org>
-Addresses-Coverity-ID: 1527133 ("Memory - corruptions")
-Fixes: 3a87177eb141 ("drm/amdkfd: Add topology support for dGPUs")
-
-I'm not sure why this suddenly appeared after 5 years, but the read
-over-run looks legit:
-
-struct crat_subtype_cache {
-        ...
-        uint8_t         sibling_map[CRAT_SIBLINGMAP_SIZE];
-
-#define CRAT_SIBLINGMAP_SIZE    32
-
-
-struct kfd_cache_properties {
-        ...
-        uint8_t                 sibling_map[CACHE_SIBLINGMAP_SIZE];
-
-#define CACHE_SIBLINGMAP_SIZE 64
-
-Thanks for your attention!
-
--- 
-Coverity-bot
+-- Steve
