@@ -1,73 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EDD5619820
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 14:34:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3735261981C
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 14:34:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFE3510E7B7;
-	Fri,  4 Nov 2022 13:34:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1004E10E7B6;
+	Fri,  4 Nov 2022 13:34:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
  [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF9E910E79E
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 13:33:45 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 1B151580587;
- Fri,  4 Nov 2022 09:33:45 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Fri, 04 Nov 2022 09:33:45 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 071A310E79E
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 13:33:48 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 66C2F58058D;
+ Fri,  4 Nov 2022 09:33:47 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Fri, 04 Nov 2022 09:33:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1667568825; x=
- 1667576025; bh=GYudzoyg7ll5SQ8pp0fhXNTbvCexyPHjho/+FEK6k10=; b=W
- KkG8XP+s+Jv+aqY4iePGn2aYw9GCccFkpg5PrCz2MMqTh8vaiRVffPRp7Jx78yzv
- N6W0uPJeyvuqyq8EbVYi3i3j9rSuhocHLjqVbwMh27lRvlcd1w0v1ByvPRBJ1LAR
- fO6d5mzyqh/rydIOLqXBrk/AoRaUBNaciASssI4iwTrxyPLs57snjYNerDAOj/C5
- MvW50JC8c/SpztdX8J31/dKS8TvJHY93kY8KM23F0Mot2jwM51Ji3o9HyTUuvwLX
- 9jKDaJdI95o6voQ1jdgKBAAU9+9zYO/snXdtBEbqmgXXCPvI9fTqcDvcaYB2Lx2w
- 34AZQpiH1KbWuzDAH1Swg==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1667568827; x=
+ 1667576027; bh=+rhKeJrs2s5Tbw0epy9S7OEOW4HBQEwW9Fe83Y4csGg=; b=Q
+ w0wQGCBxhQtQGlbixoAT+qMUoEcDsIy6LIps7XRmFMTWSVeMAPwmerqgfvyHejlr
+ H+Z7b9CGlFGG34AUunuVAgFe9ldDrBxVnVsT1gwmV8TBkfz83A8AhpCoNMggXdBt
+ F1kFxi0RFNocFCotjhk4SpJ43BRDT2hY7zxzMpvYEE83XqZ9js8diV47+CkVwAaO
+ ySx+TS/26sSG+e0znlSf7XbPujdlMhxr1zDz7cRHSGQj4XKHsNAGbsbgFFLB3/jW
+ 74PR6BaZ5bDmHXfDgffNZ8EK7y2GwVfJ4VvY8Jrj/A7F/kmeHQNGaMcQyRDr1RRd
+ 4zl0atU59MB4U39mqZ19g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1667568825; x=
- 1667576025; bh=GYudzoyg7ll5SQ8pp0fhXNTbvCexyPHjho/+FEK6k10=; b=X
- z/unGvE07EVaClbHmRvra+3+G9lcIyXrDjRtJ97xSkG2SSg9lk7lzlFqmLxjGdZu
- XHNPo6v6LxTIPL+M7076tW6nq4tpYlFk3TsOLymfqxKAtPkUL0D11gH4Tj2fVhWR
- LlEwm06hBrQ9cBuqr9wWc5w3Ds6thk3+poW86ksHtXivtpGREgTsJ6PhrV+oZPJR
- 7V8yzk6R8BoK4Q4Z0GUfVpVB/oP+XN0/61xqjvMZxpk/cjYm6uQ8rg9ErPQSsZRu
- bNmAAwiwZF4DRqmdShyXogVziD+brCgKNdzmlcK5FGV+peIOxOycmmHcw/tFP2fv
- xcljkDD1ZUBDtKf/imvAA==
-X-ME-Sender: <xms:uBRlY2O5sDKoSx3bWETAm5jfzy39FNg6P-F7GZet2ckCSO4of76hmA>
- <xme:uBRlY0_9B2X94xFW8jOiQvuTJo2N4iIbJcdTUNvy7bk-GmaTqSJkk7RH3s7FC3D4s
- Hc42dePmca3TqinVRM>
-X-ME-Received: <xmr:uBRlY9QsMDAWlxqPkulvI30JxGsplfcL9Mn5sk1QgWyR271GHVzsYy6Lspgd3KM79wDwg8kCywoPOF3UiacG2Qf6vgjuDF54XtazZbMxfEDHGQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvddugdehudcutefuodetggdotefrodftvf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1667568827; x=
+ 1667576027; bh=+rhKeJrs2s5Tbw0epy9S7OEOW4HBQEwW9Fe83Y4csGg=; b=R
+ ucYl3m2HwHg2BDYRjcPtc07kAiRB4XogMmHQxKgbUP7UpoExrL2KcOrl06XmGhIT
+ q2zlRB2WDpWumAfE3EdkrcCL0ajq4Cp58aXe8KWvmSva8rUP2XPVk9luTzW7TKnr
+ Ss9WorYuMk0ZgzqNSOaRjUjdJh9sLubDuC2hGRj0s48C6WnHA/oJw8ug+n2lTXpU
+ YcAbcXtsCKyX9j8/1Rn1U4vuUD7haUIKud6GSEINjfHHx8jsimgxrAd3TjtSXpt9
+ BsyRHGLucxDMwkzA6BIsM4HvkGYYKi4+2EsLBy0d2TY098MVdskwf7hQ4L2wRQMZ
+ oI8AACrw1jFg16bNj2kIg==
+X-ME-Sender: <xms:uxRlYx51gPV_TfdhkeLKbVbiT94vYjb4GP2ufOkGau7cMGSoVkmdDQ>
+ <xme:uxRlY-7tiDRolCxwU1PVIMLC2bzmj7HHWYyoPWFdRySMYURskNl4wr0uS8tEul80W
+ EJ1YoHHDjf_Ff3D59c>
+X-ME-Received: <xmr:uxRlY4d62RbRDjFC3nEmU_z-92zNDaAafANFAGSTRJFFu05VvcKDK34RzGaFXZ1Z7LsyUjdpsJGFSlEnkdcOSj9kA0ESYqtD4I1m7Y94XYQQ6w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvddugdehvdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhfffugggtgffkfhgjvfevofesthekredtredtjeenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeduudduhfevjeetfeegvdffvdevvdejudegudekjeehtdelhfffveethfej
- ledtveenucevlhhushhtvghrufhiiigvpeehnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ ledtveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:uBRlY2v6HD1Rbhou2Cp6bxDoYKC6OyTyQQR8lJB_jlYamsTOEABb2w>
- <xmx:uBRlY-eFOu_ZkTWTTx4wdDWDOwlGd1r1mLJXgwb5w-4JwvaZkkhZ8g>
- <xmx:uBRlY60pE7TTNfkCPARyQA0YSCQBoKQIak_Y1lcxnlJcmd3xnegiXQ>
- <xmx:uRRlY58opR07f0Ij29ZSaNHnbvZabgHX8LnTsox3Vr2fPpw6ISeVPQ>
+X-ME-Proxy: <xmx:uxRlY6LhBWpwQxaf2hf9hJkrlsqJuEF9xz7zVAo_HrgWjdYh2bIYfQ>
+ <xmx:uxRlY1Ji1CYFJgxkjUFLyehrFO0vKJNNI3eEco70q5YcVEr9vBiYfg>
+ <xmx:uxRlYzwlQpkAJ4zS_iTcbSiIphfMeXWOyswaDXT4p-1KnR98Dvej_Q>
+ <xmx:uxRlY0Zrzz2lPdAGUjJ-HuZMOUJDJHWqIyweSRJacXBx7GZP4g1bUg>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 4 Nov 2022 09:33:43 -0400 (EDT)
+ 4 Nov 2022 09:33:46 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Fri, 04 Nov 2022 14:18:12 +0100
-Subject: [PATCH v2 55/65] clk: imx: scu: Switch to determine_rate
+Date: Fri, 04 Nov 2022 14:18:13 +0100
+Subject: [PATCH v2 56/65] clk: ingenic: cgu: Switch to determine_rate
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20221018-clk-range-checks-fixes-v2-55-f6736dec138e@cerno.tech>
+Message-Id: <20221018-clk-range-checks-fixes-v2-56-f6736dec138e@cerno.tech>
 References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
 In-Reply-To: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
 To: Stephen Boyd <sboyd@kernel.org>,
@@ -108,11 +108,11 @@ To: Stephen Boyd <sboyd@kernel.org>,
  Max Filippov <jcmvbkbc@gmail.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>
 X-Mailer: b4 0.11.0-dev-99e3a
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2736; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=yds4KZyob0YLXbSMCzkvwutOEagEx8WboYbk+zh5xIo=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMmpAt9s+l9sPPA75/kO58KVkbfrTL74tS9X6pp14kbK0d6J
- mSoMHaUsDGJcDLJiiiwxwuZL4k7Net3JxjcPZg4rE8gQBi5OAZjIQXZGhvOb9rz4Fh+6cDP345TDZ1
- 984I47t25WEIvHsQlmNT4Pu+cxMtw4XMH5cscPL+V1P6a+vrhfbNOPHF3ne3ePP3TNy2wwOMMHAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3004; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=+/l/s0ydlizM56vbOYruDyw3Ne8uTB/GZrYOy/EaaeM=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMmpAt8uhoWy8hfPYBPIa/m5cU5FueThKfVBKfUfVv3itJkf
+ bavcUcrCIMbFICumyBIjbL4k7tSs151sfPNg5rAygQxh4OIUgIno6jAyHNqr91dgD3+Cm8SXP7ta/F
+ Y8efnG16Gps/uRt8Xvj0erOhkZzqxomnxtfUKd47rNn30PKSVGTl7gOLNk2y3HN4Z/pohacAEA
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -139,8 +139,8 @@ Cc: linux-rtc@vger.kernel.org, alsa-devel@alsa-project.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The iMX SCU clocks implements a mux with a set_parent hook, but doesn't
-provide a determine_rate implementation.
+The Ingenic CGU clocks implements a mux with a set_parent hook, but
+doesn't provide a determine_rate implementation.
 
 This is a bit odd, since set_parent() is there to, as its name implies,
 change the parent of a clock. However, the most likely candidate to
@@ -164,54 +164,57 @@ However, It's hard to tell whether it's been done on purpose or not.
 
 Since we'll start mandating a determine_rate() implementation, let's
 convert the round_rate() implementation to a determine_rate(), which
-will also make the current behavior explicit. The round_rate()
-implementation being shared with other clocks, it's not removed.
-
-And if it was an oversight, the clock behaviour can be adjusted later
-on.
+will also make the current behavior explicit. And if it was an
+oversight, the clock behaviour can be adjusted later on.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/clk/imx/clk-scu.c | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+ drivers/clk/ingenic/cgu.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/clk/imx/clk-scu.c b/drivers/clk/imx/clk-scu.c
-index 66e49fea5f8a..bbdc1b23f6f5 100644
---- a/drivers/clk/imx/clk-scu.c
-+++ b/drivers/clk/imx/clk-scu.c
-@@ -250,6 +250,23 @@ static unsigned long clk_scu_recalc_rate(struct clk_hw *hw,
- 	return le32_to_cpu(msg.data.resp.rate);
+diff --git a/drivers/clk/ingenic/cgu.c b/drivers/clk/ingenic/cgu.c
+index 1f7ba30f5a1b..0c9c8344ad11 100644
+--- a/drivers/clk/ingenic/cgu.c
++++ b/drivers/clk/ingenic/cgu.c
+@@ -491,22 +491,23 @@ ingenic_clk_calc_div(struct clk_hw *hw,
+ 	return div;
  }
  
-+/*
-+ * clk_scu_determine_rate - Returns the closest rate for a SCU clock
-+ * @hw: clock to round rate for
-+ * @req: clock rate request
-+ *
-+ * Returns 0 on success, a negative error on failure
-+ */
-+static int clk_scu_determine_rate(struct clk_hw *hw,
-+				  struct clk_rate_request *req)
-+{
-+	/*
-+	 * Assume we support all the requested rate and let the SCU firmware
-+	 * to handle the left work
-+	 */
-+	return 0;
-+}
-+
- /*
-  * clk_scu_round_rate - Round clock rate for a SCU clock
-  * @hw: clock to round rate for
-@@ -425,7 +442,7 @@ static void clk_scu_unprepare(struct clk_hw *hw)
+-static long
+-ingenic_clk_round_rate(struct clk_hw *hw, unsigned long req_rate,
+-		       unsigned long *parent_rate)
++static int ingenic_clk_determine_rate(struct clk_hw *hw,
++				      struct clk_rate_request *req)
+ {
+ 	struct ingenic_clk *ingenic_clk = to_ingenic_clk(hw);
+ 	const struct ingenic_cgu_clk_info *clk_info = to_clk_info(ingenic_clk);
+ 	unsigned int div = 1;
  
- static const struct clk_ops clk_scu_ops = {
- 	.recalc_rate = clk_scu_recalc_rate,
--	.round_rate = clk_scu_round_rate,
-+	.determine_rate = clk_scu_determine_rate,
- 	.set_rate = clk_scu_set_rate,
- 	.get_parent = clk_scu_get_parent,
- 	.set_parent = clk_scu_set_parent,
+ 	if (clk_info->type & CGU_CLK_DIV)
+-		div = ingenic_clk_calc_div(hw, clk_info, *parent_rate, req_rate);
++		div = ingenic_clk_calc_div(hw, clk_info, req->best_parent_rate,
++					   req->rate);
+ 	else if (clk_info->type & CGU_CLK_FIXDIV)
+ 		div = clk_info->fixdiv.div;
+ 	else if (clk_hw_can_set_rate_parent(hw))
+-		*parent_rate = req_rate;
++		req->best_parent_rate = req->rate;
+ 
+-	return DIV_ROUND_UP(*parent_rate, div);
++	req->rate = DIV_ROUND_UP(req->best_parent_rate, div);
++	return 0;
+ }
+ 
+ static inline int ingenic_clk_check_stable(struct ingenic_cgu *cgu,
+@@ -626,7 +627,7 @@ static const struct clk_ops ingenic_clk_ops = {
+ 	.set_parent = ingenic_clk_set_parent,
+ 
+ 	.recalc_rate = ingenic_clk_recalc_rate,
+-	.round_rate = ingenic_clk_round_rate,
++	.determine_rate = ingenic_clk_determine_rate,
+ 	.set_rate = ingenic_clk_set_rate,
+ 
+ 	.enable = ingenic_clk_enable,
 
 -- 
 b4 0.11.0-dev-99e3a
