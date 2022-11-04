@@ -2,41 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7805C619E30
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 18:11:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E91AF619E33
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 18:12:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36DB010E94E;
-	Fri,  4 Nov 2022 17:11:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 013A810E94F;
+	Fri,  4 Nov 2022 17:11:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1561 seconds by postgrey-1.36 at gabe;
- Fri, 04 Nov 2022 17:11:43 UTC
 Received: from vern.gendns.com (vern.gendns.com [98.142.107.122])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F11310E037
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 17:11:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E450410E94F
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 17:11:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=lechnology.com; s=default; h=Content-Transfer-Encoding:Content-Type:
  In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
  :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=4AvnEeQeniDWkQBvG292xKcyqRcJZJN4ObwNBkkj5tk=; b=WdhahLUmGJpQ95hVL+3u1VjMxb
- tUf7myaQndCk0qHzeKh1A+E2O/JcVf+aJ+IiQD/qFkAbTU535DJ2WAUD6UP1/EvQ/y4beijc5YALa
- Q3fcMmim22RAxWP0Rh4RhjXR+GqdPYPNBO9KnnRYGmufKc5r2oNWcdiYm05562NzkHszBUsTfAWO7
- JgFdZNqyyoguqSiEpMW173KJx1qkCjb5qv/86gVYx+OCVFDAJzuXuMvEgrqYPPENnQENv9FFS7mH/
- qsMwcba1c5ad5x6Y1xKSIlEvINxjtsa56wEJ+F6ehiPRzOvf9PnvY6QcDHcSY53EeaOn9zO5Boa6z
- wQg4vJPQ==;
-Received: from ip98-183-112-30.ok.ok.cox.net ([98.183.112.30]:58206
+ bh=zI7RcZiPaTDKMltPgs4ZCXXOEkuyhKs5pu9RAgGaQCM=; b=WDBX+cAnoxNFA2qROraJWPqwl6
+ sawOBGcwqy0cJOAIrVpjLZZ+Gx2IKKPpzlq32XA8dIyrUdyxFM7DDARo5oPRviL3HJfndmG8Y/6DX
+ JszwjA1qIBE963R9b+AbWyWXzot3CnWQfj8Q3yBrd7GtzWZM+7HpOT38Y0pygwUoqjt9E5drTi3PA
+ iwRZOCwQqQ0SXdmD9XyBdaTbR1R3prwAqmXw5Hw/1of8Akd3I0gnrXsFcDHUGIRQzdA3pfYYEcbWP
+ RGvTglAlnqK66tcDfALPc+yDGWDJk2SuAVwnrNdyQUQOE9Eu+PrDksdtVsbsh6ynJyaP/aeQMp/TT
+ YGTHedGw==;
+Received: from ip98-183-112-30.ok.ok.cox.net ([98.183.112.30]:45370
  helo=[192.168.0.134]) by vern.gendns.com with esmtpsa (TLS1.2) tls
  TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.95)
- (envelope-from <david@lechnology.com>) id 1oqzog-00Chgx-Is;
- Fri, 04 Nov 2022 12:45:28 -0400
-Message-ID: <187e61cd-7d02-2453-acf1-30180559d42f@lechnology.com>
-Date: Fri, 4 Nov 2022 11:45:17 -0500
+ (envelope-from <david@lechnology.com>) id 1oqzpN-00ChtK-Ip;
+ Fri, 04 Nov 2022 12:46:11 -0400
+Message-ID: <4a91a4cf-acac-387f-19a5-e2ce144f3496@lechnology.com>
+Date: Fri, 4 Nov 2022 11:46:02 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH v2 21/65] clk: davinci: da8xx-cfgchip: Add a
+Subject: Re: [PATCH v2 22/65] clk: davinci: da8xx-cfgchip: Add a
  determine_rate hook
 Content-Language: en-US
 To: Maxime Ripard <maxime@cerno.tech>, Stephen Boyd <sboyd@kernel.org>,
@@ -72,9 +70,9 @@ To: Maxime Ripard <maxime@cerno.tech>, Stephen Boyd <sboyd@kernel.org>,
  Max Filippov <jcmvbkbc@gmail.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>
 References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
- <20221018-clk-range-checks-fixes-v2-21-f6736dec138e@cerno.tech>
+ <20221018-clk-range-checks-fixes-v2-22-f6736dec138e@cerno.tech>
 From: David Lechner <david@lechnology.com>
-In-Reply-To: <20221018-clk-range-checks-fixes-v2-21-f6736dec138e@cerno.tech>
+In-Reply-To: <20221018-clk-range-checks-fixes-v2-22-f6736dec138e@cerno.tech>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-AntiAbuse: This header was added to track abuse,
@@ -114,8 +112,8 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 11/4/22 8:17 AM, Maxime Ripard wrote:
-> The Davinci DA8xxx cfgchip mux clock implements a mux with a set_parent
-> hook, but doesn't provide a determine_rate implementation.
+> The Davinci DA8xxx cfgchip "clk48" clock implements a mux with a
+> set_parent hook, but doesn't provide a determine_rate implementation.
 > 
 > This is a bit odd, since set_parent() is there to, as its name implies,
 > change the parent of a clock. However, the most likely candidate to
@@ -130,12 +128,6 @@ On 11/4/22 8:17 AM, Maxime Ripard wrote:
 > oversight. However, it could also be an explicit decision by the
 > original author to avoid any reparenting but through an explicit call to
 > clk_set_parent().
-
-
-The parent is defined in the device tree and is not expected to change
-at runtime, so if I am understanding the patch correctly, setting the
-CLK_SET_RATE_NO_REPARENT flag seems correct.
-
 > 
 > The latter case would be equivalent to setting the flag
 > CLK_SET_RATE_NO_REPARENT, together with setting our determine_rate hook
@@ -148,32 +140,36 @@ CLK_SET_RATE_NO_REPARENT flag seems correct.
 > 
 > And if it was an oversight, then we are at least explicit about our
 > behavior now and it can be further refined down the line.
+
+The parent is defined in the device tree and is not expected to change
+at runtime, so if I am understanding the patch correctly, setting the
+CLK_SET_RATE_NO_REPARENT flag seems correct.
+
 > 
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > ---
->   drivers/clk/davinci/da8xx-cfgchip.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>   drivers/clk/davinci/da8xx-cfgchip.c | 2 ++
+>   1 file changed, 2 insertions(+)
 > 
 > diff --git a/drivers/clk/davinci/da8xx-cfgchip.c b/drivers/clk/davinci/da8xx-cfgchip.c
-> index 4103d605e804..c04276bc4051 100644
+> index c04276bc4051..4c1cc59bba53 100644
 > --- a/drivers/clk/davinci/da8xx-cfgchip.c
 > +++ b/drivers/clk/davinci/da8xx-cfgchip.c
-> @@ -229,6 +229,7 @@ static u8 da8xx_cfgchip_mux_clk_get_parent(struct clk_hw *hw)
+> @@ -565,6 +565,7 @@ static u8 da8xx_usb1_clk48_get_parent(struct clk_hw *hw)
 >   }
 >   
->   static const struct clk_ops da8xx_cfgchip_mux_clk_ops = {
+>   static const struct clk_ops da8xx_usb1_clk48_ops = {
 > +	.determine_rate	= __clk_mux_determine_rate,
->   	.set_parent	= da8xx_cfgchip_mux_clk_set_parent,
->   	.get_parent	= da8xx_cfgchip_mux_clk_get_parent,
+>   	.set_parent	= da8xx_usb1_clk48_set_parent,
+>   	.get_parent	= da8xx_usb1_clk48_get_parent,
 >   };
-> @@ -251,7 +252,7 @@ da8xx_cfgchip_mux_clk_register(struct device *dev,
->   	init.ops = &da8xx_cfgchip_mux_clk_ops;
+> @@ -589,6 +590,7 @@ da8xx_cfgchip_register_usb1_clk48(struct device *dev,
+>   
+>   	init.name = "usb1_clk48";
+>   	init.ops = &da8xx_usb1_clk48_ops;
+> +	init.flags = CLK_SET_RATE_NO_REPARENT;
 >   	init.parent_names = parent_names;
 >   	init.num_parents = 2;
-> -	init.flags = 0;
-> +	init.flags = CLK_SET_RATE_NO_REPARENT;
 >   
->   	mux->hw.init = &init;
->   	mux->regmap = regmap;
 > 
 
