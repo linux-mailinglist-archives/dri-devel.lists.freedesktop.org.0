@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4995C61914B
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 07:47:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA87661914E
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 07:47:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 612C510E6C4;
-	Fri,  4 Nov 2022 06:47:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCF3B10E6C5;
+	Fri,  4 Nov 2022 06:47:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur05on2047.outbound.protection.outlook.com [40.107.21.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 717DF10E6C3
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 06:47:28 +0000 (UTC)
+ (mail-vi1eur05on2051.outbound.protection.outlook.com [40.107.21.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08D5E10E6C5
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 06:47:36 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=E1yTJ8//nf5CJo3t2VsIAAcS79aTdElhk15wWMGc0aG51NitdLBi8qL2TRRaf/Pk8jDD41QP/Fhc4YmVL31su3LdOaFnAraIeTqqNPjlwfNWsa8XNE/si0cS62TxLS0yzmJNZQhUPTCgULllluG+ql2bAFHFCeFJmfcIBGN3Lz34yMZ6ZDw9SiHKEMPEisZMgFXElRjIm4ikdbMU/elfyCnZAWYtKZQ1StuKaDPnYyLxq+kpF1ormcHHjHR2M1oWTVOfdPVIca/pt2o1U0tRVUa62cLVO8OQ9URwHLQ2vOyC+MvpR86QkicD/IIl64ghaHYfgNa5v0tMomSHaLAT8Q==
+ b=cCsoRoDVpnM0/Kahdt+00aD4vZRjtt/b+8tA6uDorWPA2J+q0aIpYbJsLAtMlkEkMmbfzBPz08kSYxw/L1EWtWk8bHxG8sNQ/hJ5dtyCkSVVKeHv0ILm/Q25ecg/PSK/aih7HXi5rmQtRoVE0WAOmDJCtnCAFOyZQfuagqXTh14O/BJ0Rs2/0wVd3hwees8g9usvTU1nwjdGU1Jnp3ksX6tTDphtmbdmsPNKy6HnNBx3xNXMnBT5N6KAZcDfLlmhd6gZj2vVSkNGfYULCte5xVvis8Nu1KhmnYaLpeHYrUCGZAWqJsVnAx7EQg1WOfM9R1gJRuy68Hj/fohPeHsLdA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HnD5Bm8F2xRhyp06cKg2xQtki948J1xHsDaYw24HADA=;
- b=iwgy7yoJsAktya1W34Ly0i7iK097o5OIOVcmwSedyG/RerF2829yia4cZnRFCT8WNT+deXPWPmxo3NSwJhzO0Xgh65Bf7BCE81TTqmtehdeRH9xd7MipsEW/qH1Qhs17nrDEq694HCfyyveOymDSihpWqTetUOcl39N+9Q3YD5RM0qSOhGU+XFIXCWKprCZ88E6mo55F7a5Qf+0Z5aD/aDNx6Sdi1M46nCU9UMvOH1Xi7K+/Q8z3NhqSD68XX0bRhr/Zewlhm7pz9Wd/fXEfbCyMdzKnRqCUPLsPSfxJqAEj1V3SxZhp5EwIPOdOd7CTblKp2fUA+c1rpdctBoGyAg==
+ bh=5CRpIgsQQkaH4obCqK4SnH8f9uaXFh2mJu+XXIdidw0=;
+ b=HUxZaanZWmUxsVhc4DIbAbQxPaCv6KC6oyIrO1k5il7S5RQh3kuBcDbjAwbC2QISu4HzLXw0gLksFnzsccX3vEH6HTkMrlUyMywMzjKwUyqukqHw4tgndJ+uVw2swkgcvm0y47c09iiiBcorTuWCW2LnTz8vXDLEggH50Y5ZMU9N7+bhd5vRBlwaOBWWr0JwvRX4btigoQvSQ/Y1DsspNrtBTVZPl00LdgYIF2cAHUYS2k55xj3GRc0pJjFzi8GXKIvX2olHmMs94ycfFBS3orfOuuOP5lSSAij0yNNaHHoQucPlnfBc2srieVHOv6Dm/XXZcP37oLYYXqJlsx25ZA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HnD5Bm8F2xRhyp06cKg2xQtki948J1xHsDaYw24HADA=;
- b=RMdPNPmfjEPlPZSc3J8RvjWuaV6Q+ivntraEOVtCiS4w2zl8BzSHXB/TOB9IX+iOFehHPAf7Y3pyFOG7py6lWngx3pci2UweO0RJs+K+mO/7QL8AtDDVc66iyhPisunx7pDbn+gmF9oIc/t2nHLnFJT1Wrg/6dIHY95ObjK3qkM=
+ bh=5CRpIgsQQkaH4obCqK4SnH8f9uaXFh2mJu+XXIdidw0=;
+ b=MEpXmb9UBGlh1/iiYKHbuMqpxu8G9LSIJNvufiE8dxGQasnMy1DDpxbqgtZlIqroLyZba5Fvqe6fNiuimUN6zFmuVG+GsGArc85o8aOdFH94M7JPqXdK6Fpj0ae4kzOKAz/8FcHqYXgGbWP9UIbodqyXzr1/r8WLx3ThG9bRCFw=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from PAXPR04MB9448.eurprd04.prod.outlook.com (2603:10a6:102:2b1::21)
  by AM9PR04MB8081.eurprd04.prod.outlook.com (2603:10a6:20b:3e2::5)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.20; Fri, 4 Nov
- 2022 06:47:26 +0000
+ 2022 06:47:34 +0000
 Received: from PAXPR04MB9448.eurprd04.prod.outlook.com
  ([fe80::88a0:57d8:2a57:3f4f]) by PAXPR04MB9448.eurprd04.prod.outlook.com
  ([fe80::88a0:57d8:2a57:3f4f%9]) with mapi id 15.20.5791.022; Fri, 4 Nov 2022
- 06:47:26 +0000
+ 06:47:34 +0000
 From: Sandor Yu <Sandor.yu@nxp.com>
 To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
@@ -45,66 +45,75 @@ To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  neil.armstrong@linaro.org, robert.foss@linaro.org,
  Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
  jernej.skrabec@gmail.com, kishon@ti.com, vkoul@kernel.org
-Subject: [v2 07/10] dts-bindings: phy: Add Cadence HDP-TX DP PHY bindings
-Date: Fri,  4 Nov 2022 14:44:57 +0800
-Message-Id: <bea6eb888717e1c0a3efc58761b0e75e4104f737.1667463263.git.Sandor.yu@nxp.com>
+Subject: [v2 08/10] phy: cadence: Add driver for HDP-TX DisplyPort PHY
+Date: Fri,  4 Nov 2022 14:44:58 +0800
+Message-Id: <57887610acc39330f1b15a1c6e20d9a82be52023.1667463263.git.Sandor.yu@nxp.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1667463263.git.Sandor.yu@nxp.com>
 References: <cover.1667463263.git.Sandor.yu@nxp.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-ClientProxiedBy: SG2PR06CA0194.apcprd06.prod.outlook.com (2603:1096:4:1::26)
  To PAXPR04MB9448.eurprd04.prod.outlook.com
  (2603:10a6:102:2b1::21)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PAXPR04MB9448:EE_|AM9PR04MB8081:EE_
-X-MS-Office365-Filtering-Correlation-Id: 308e741c-a486-4717-3905-08dabe306f0e
+X-MS-Office365-Filtering-Correlation-Id: f4b049d1-fc06-4013-57fc-08dabe3073db
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /5bkqY0PeMcoN9JxDtEMSAScRI90G1GFrbe0g3TsRXYK9ODIxrWyvZv0Isbb+Q3sSt8oiIp3ZrZCPdX1E2lEuabrpVv1/13DNC1YWnvULFIia1EE1gbw0DX4mYn3y6HT+aUSgi1ABse+IVAc2U8/DZpHMWeRZ7chnZThtaD+HD6e+nkx8zE9PXm05qz/IOxEb5Ak/oODH4GhqC372dH6q3W1OkjnbvOxEsT/yXkVCU6eI/J+PdxxE1Uy/pp7Ez5QC7HoqGVzl2dD7Xhg0mZod3zHHd34DaXA7+jRb3diPe3o9s0NuzXheWIJ5DsB69BDBm93FJOq2gCNPHtFfsvXKGK3LoYNYCALUIRBYzf52Vhq3k9j0thJkJb25f00CkVC3+4mtZnbq+i7O/2FXqI0xzJWVu+YHUays/qS+jXvF7JbbQ4EWKvAP8QP9NsWKYCJ6IiPsdzqQVNSfo0eWFaKzQp9qnAunJy6S2ELRFdshiUiom7cM1YiHA+nR/pu0fHA+m5HwpJ4+/ouLAlwiDinzxrKKYpcQp9UeNK3Pnr2husqNL7eiFZnlL9b0DzqEM/MMCgWGvSn7ScnUzVwEVLaE7223L9GT7vZoi+YU/j/Ge0Bt2/sojcwpD5WzYQSgNrQXSfNN1BgHdYptP+lnlH29RTwQ8/wMjkFrvMMJQ6OiBRvzR3Lnib3xFcyRY2VSAxGlrDPsKAZVWo8EB2jIh1Pgw7Q/42eEb2TeZYSS0JLucYnfN0CM9C3+ptY/ffAew54MULkJDjWVPJ7K6fUpg9gycBembECpLSJBVOFc7uJlt656h1qPuLv5bp2xf17PLW4VJR8GgeJTzQauV2D37hmWw==
+X-Microsoft-Antispam-Message-Info: DPlQu9EJAAreEI0JEnK5ZfnMR26+i3k9uKKrdvRS98qo+mFtsVXBOk1nMPm+evtNRI17Ykc25M57Ur4P2gacMni2c8+C5M07wQOEk11SVsVqmmFIyD6M/RQzJplZvDeGPIBIKlzVNhcGiRB6jfsRmLRsUvSx9pcSM/IzXuO59A6hO/aRpX4W+wE4iqbX08FOSMsYGBUcaPaquiLkr7Y9gkFbIuBDqmZlnXq8uddQEPxNzaWWQEqonaId/oMwtz+/xE5uThfOb0XSoSrrkCnSqDvQd2BAsHtGZfIjkzX6S5RkEzzdvBoy9ie9PZn6e+QsG7xaJhzOcmiqNAZ4QG+ai5d9Kb3ri4pviUEqXx7Cxpe0N9hHnIbw62rDA167TGZc1et/HVGASORzTeof0e5BKINcHNGbFkI6QLoW3jTsS98byBwAVabvWFjxlXy13eMg4vioWzNk1OipLdCNXW7vpFtG8fRBhOp+Xyy9lgLNJnrZsC7TsWceSJ0fdd/zR3s4W/h4lkuoYmnRLLqqcB0b0nJ7iavinRQpp+93tIIyHrfwf9rsoUb5KUqcl/ud9Jg0wOY0E/Shzd/FJYUodXrxe9wCj7dVXsYAf9/4iZhFhjsmO9KmfG8tDE6ywx1tW731Ngs71mMJUJrYQwVv/W+0QmbPifs+p2BcF968FCpmjQqoqKqHmTEfGKkwNBDC9Ps5gwxEb4rlvXeU/gZLWSK1k9Mj0k0sUhalXJ3svB074XOH7PDzwAgLQyyRB4yU3So94935vtNYetJVal02jbZPFQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PAXPR04MB9448.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(346002)(376002)(39860400002)(366004)(136003)(396003)(451199015)(316002)(8676002)(38350700002)(7416002)(5660300002)(66556008)(66476007)(38100700002)(4326008)(66946007)(36756003)(8936002)(41300700001)(83380400001)(6666004)(921005)(186003)(2616005)(86362001)(6486002)(26005)(478600001)(6512007)(52116002)(6506007)(2906002);
+ SFS:(13230022)(4636009)(346002)(376002)(39860400002)(366004)(136003)(396003)(451199015)(316002)(8676002)(38350700002)(30864003)(7416002)(5660300002)(66556008)(66476007)(38100700002)(4326008)(66946007)(36756003)(8936002)(41300700001)(83380400001)(6666004)(921005)(186003)(2616005)(86362001)(6486002)(26005)(478600001)(6512007)(52116002)(6506007)(2906002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?7JG0NUmGV0ZjYclPp0EBRSNKI5148YFa8mwNxRv43eX+EzHD3wO1CaugrHmv?=
- =?us-ascii?Q?P2g7lo5LYzjLjEbzrBNy8DxgKQ7fSRfegDLY4xrXnq23wXsZH9o2Low48G5y?=
- =?us-ascii?Q?kpOtUTgJGLmV/gcNH94LnNW186F+Pj68dZ889hgJvp5lw5Qp4KJXiWCW0AJi?=
- =?us-ascii?Q?hRxZuY1wnhjtpHKEQuEV93KRKcckG0IL+As9YRpK07sEXroOAujbj6ydJpD1?=
- =?us-ascii?Q?LScnOclcuA93llf5ZlX7YqpRq/AjY2GCHHv8hRGDcaOTk+apZa6rT4u4610u?=
- =?us-ascii?Q?AJUi67P3QmPfZwEDF8Q4hDHz4wl+WeTJzmm7qZpn8aBL4AVkgsV1fJmS5dFA?=
- =?us-ascii?Q?r3rFE+9Nem8ccyQoqOQrXc+oXPtV4ARF/9j3qCJaoIfNh4nHbW2xxn9alWRl?=
- =?us-ascii?Q?L0k4A8iNWkCVDOXZExV5hjwVUZPq7lCfrN7lFdxKu1pmzRsauJMQrbBI3Ma4?=
- =?us-ascii?Q?LhItnc+kSQwMPfe/froj+Cr21kkCvyHh1zHTGkzyNZukHYKuRciBmK8rnVj+?=
- =?us-ascii?Q?O7BL+xNa17qlPTMVfJnWDvOLP2VrTPIZTBpHEPZ1xaCwJ1ilkrnEUmtmhasx?=
- =?us-ascii?Q?cOHO4eZdyb1bptLD4LP35kTHXJ9i8/CJr3/oqgVD1Cgaj25BeVHsHInxnEiy?=
- =?us-ascii?Q?+UjH1c6vHHKiF3kw8PBTb5FeApf4X67xd0uJJcWu0VABgXV7eF5gVrywg88W?=
- =?us-ascii?Q?QiM/CAGUv26iqNpXGWmvruSAH32UlwXoydPbbY3Xx79qoKW6IAgKvGjLdTl9?=
- =?us-ascii?Q?N59BZLCcQ9szy1mvwy2lADSS7ig3CY6xXHkjRQnYlW2tsvzjH5muERaCo5vJ?=
- =?us-ascii?Q?TjXFtWeo+THkw9/GWNEphiX3CAceh4XXDLQk20WWbuxWarQiSSqlnWvQLoXV?=
- =?us-ascii?Q?+CsNPumyjgSsH/9fO68N6eYxOFPAQ3/PIikwCveQrAzWsc928G1DK/1JRF+P?=
- =?us-ascii?Q?h3xuI6eFu1SnuuqVvnth/1lkwzo6tpDaICIXEV3elYvGnHin/6W+zAPSHZ8Q?=
- =?us-ascii?Q?QGfXqELpbthrB1LL8nC9DH06aqM9ADrAxKrPq5+GvERolrxYjBitU+QZ+NAD?=
- =?us-ascii?Q?SY9ZE9kTDnDHN2mgueB6aqsuBMxDXhIsfM21MgPn6wdr1tgKfBdw5mtszE8O?=
- =?us-ascii?Q?EcS3sgkmzLwyduLtkzbnUnqqH5u/ksIrS1iSTmgwXr2KT/xP0/V4A95S20qM?=
- =?us-ascii?Q?nhMIzqQkMPhvPSxQpfhGtC3NUYdN0RyWuD80CJ3vYCZcgbQBct1/SMZm5GkL?=
- =?us-ascii?Q?5Jikw2VdS+tC8sdIJ6t5NrL85HQBYELxSIfg6ZtEWW0lTDr3EciMTIK7nVyd?=
- =?us-ascii?Q?S/C2EgdguxqkqNfF3tZEJqtaQZVGGCp/hbaUnNTqDb4rRESwX5yyRNTMeV08?=
- =?us-ascii?Q?DyIHDuDJZBtOnlBkJHve0BoktwNGO+lXTwvIdeIvkxhW2+nBeX+cs2EN9Ygz?=
- =?us-ascii?Q?MJnDUJUV1XxnE62O7BCfAsHoJMht9kzT1sMcxX0SBi+/nKY9Un9FmWNNuOwS?=
- =?us-ascii?Q?54TJ7v/Y/p1vtp7aRO2uWfvkOyuyiAPpOCeiAZ66CYIoFJ+XnAO6vgVMO0SB?=
- =?us-ascii?Q?F3o9fee/JGjP9m3CgIZWIm6ZkB3kJQr9F6SjfMyp?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QXdRV1J1VDVNUjVrTEpBYWJYd2lyc3Qzb0JueCtCL1djZEI4VlpTWnpxaVox?=
+ =?utf-8?B?cUd1YUpxVk5RWnBzZEdENVNtcXNJVmdLWXRkblNZTTRYODVPSm41NEp4YjBX?=
+ =?utf-8?B?RVhyRU1lOXp1NkJCZUVabTI2RkxzS1pFS0pqMlJaNXJYbG5HYmNKOStXT016?=
+ =?utf-8?B?RWlHR2MvK2tFUXE3NmVlNHhwbitJUktkbWNaUE1tTDVTYzRTdzE1M3Y1Vlhz?=
+ =?utf-8?B?MklUQ1hRNjcwWkhRYllEZnVZOGp4TzRZdGZxeDFhNGxVdVJadWlPUGdPaHhM?=
+ =?utf-8?B?dWcrblpQWG1vc0VGdjg3dHpUOHY2MkN6L29WRmdIQWlGNTlkemkrQnMwcEhv?=
+ =?utf-8?B?VGg3OStieEJXT05iemVzOUVMd3BqYWQ0b0crSjVFZndXUllPbXBsSlczQTZH?=
+ =?utf-8?B?VjhnWExqbVVqVFlsclM2UFNLRHVscWg4MjJqZmNtUFNyUktlWDBpWnBNN1lU?=
+ =?utf-8?B?YWJmZk5MSkdyWHFqZHMrV2xzT0ZaQkpuWnQyOUFwbjMwRS9GOERiajQrZEFI?=
+ =?utf-8?B?OWo0dWhJVm1tVnNhNUdTN3RpRkh0ZnN4QTJ4bE1EM1MybGd1V0JQVG43NWNo?=
+ =?utf-8?B?NS8yWWV1UWkxVXEzY1RjQWdvbUk4UVAyTG55QUo0L2R3M0hRSjdwK004dFdO?=
+ =?utf-8?B?Z1JWdU4zSHhZNGx3VW9UMFZDdkd1dXBOQ3RTK1U3NTg5bDB6ZEpRdUN2OWJp?=
+ =?utf-8?B?Tlorb2g2SEE5WGt4cDh4ZmJ6MFRPQ2N1TzBSY0RvNWc4U21XZlNJeXdVZzFw?=
+ =?utf-8?B?c3J2bXhMSFZPUVFIN09vaDg3U3Z6ZldYQUFCREI1dnJKZld3bVdvTFp3UGFs?=
+ =?utf-8?B?aHNuUlVVOW5Yb2l4NnJEMUEzdG5Td09RYVk0ZXpyRDZnaTQ0U0UrTFNKMjE3?=
+ =?utf-8?B?akdNZ240Y2twZHVpeWtpSG1HZHZjZjBlYTVuUDZJb0J0dUJQMTFOV1QzbFhh?=
+ =?utf-8?B?dEFEdE9TRXNRWkg5Q0tXeVFyd2M4UCtaR3dTbkVxK1VyU2pqeXd5WmFPM0s3?=
+ =?utf-8?B?OXJtWXZzb0c1Wi9tby90L01tWlRDZEdGV0RXRHM1UXZyYkR6d0pHcFBPSmZG?=
+ =?utf-8?B?K3VLRGFCVHBLK2wzOFc1all2TlRCNHBTSlRmQjJ0WXhWdHlPS1JmZHViKysz?=
+ =?utf-8?B?Skx5MHJuOUhsSVplTVNSL2VVV0RMNUl6NzU1R1RUN25pUGExTkVUbllPNFRT?=
+ =?utf-8?B?OWs0WDVqeWpzZHQ0V0ttbnh3R0pEWGtxYytaakMwTGN6KzJlblpyaVZabVRY?=
+ =?utf-8?B?SDhJZTdTY2J4eU5EOWx3TUF4SjM4OXhVUEFNMUNYaFhhQmg5TGk4STAvcGdI?=
+ =?utf-8?B?bHVYODI0TW9hN2N5U3ZnOWl5YjYwYnA3cWJwNEQxbWFIWE9NdExPR05yTCsw?=
+ =?utf-8?B?Z1VVdzNocHVtcGRTZFlWY24xcGRVemFNLzVTUnp2MnFQMUp5U090aWxKOHlk?=
+ =?utf-8?B?ZTFJVVhoYVRjd1FOeEtHR2UrVXB3c0tSUmlPNHkzS2dYeHJIV2RTeStlbEd4?=
+ =?utf-8?B?c1h5YTBWM3kvcVpMdjdlaU42d2o3cHpqNnJoemFUWktlMENTR2E4ZjdPRU5F?=
+ =?utf-8?B?Qy9iMHFxZ3dnUUJESXlOOSt2bTRqWUVZalU3Um44TmJTb1ZRTEJaMzBkYnlV?=
+ =?utf-8?B?Rk5VdDhhWWF6NGNwaHZBbzV5eWZ0Uk1UMDlpSlFmOFJzakxhTHB2c0tlbnF6?=
+ =?utf-8?B?M09QZGVwKzFaSzJkWVQ4L1Q1QmcrT3R0TkErWnMrY1FUZWRXWUZzVGZHckFJ?=
+ =?utf-8?B?SFZrQ0VqSTZvRWVtL3pMWEFyenRZZ0VwUHU1ZmdPZWx5MzBaVFBDTXAxUUdo?=
+ =?utf-8?B?cGdtS1IvR2E5YytjbU0zb3RxdHhsVU05VGQvN050TU4xUWovZXQ0Uk9KYWJU?=
+ =?utf-8?B?c1FiejNXeXFBUnBUWFVDLytvNmpsMzVVRGJpNGpkR1JLSmN3SEtPN3FmY1hy?=
+ =?utf-8?B?Sk95UUxVVXc2dnpFbllRTmVjSFBwbVRiVzNlTXo5dzVHSkluZGZZTHg0Lys0?=
+ =?utf-8?B?Nmp1VFltOXhGSThMZEw5SmIyanQ1ZHM5eU00cXN4ZXJLQ2NzTGxFd2dqT1N2?=
+ =?utf-8?B?VkV4czFEODF6bmFNcTFzcHJmVjJZa2pKK1k0TzlwWUpqWUg3NGhZWmQ3OGNk?=
+ =?utf-8?Q?MB8B9TPoogokMBGTq7tOvn3/4?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 308e741c-a486-4717-3905-08dabe306f0e
+X-MS-Exchange-CrossTenant-Network-Message-Id: f4b049d1-fc06-4013-57fc-08dabe3073db
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9448.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2022 06:47:25.8975 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2022 06:47:34.0936 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6HPqI/QPJQWgSU1QfuCb+gci0l/Ht/uka5QjP2S1GvWApLLzvIrsqzv4M9Z1kFEPGb6EpfALeoV3zQV1A/yN0g==
+X-MS-Exchange-CrossTenant-UserPrincipalName: vzwR/CENyBO9c4ktDoxUstBWt+lKs+1raojE54TWpj0jn1+V2Pdlm4VAYvnyPklkURrOvVq2u3V1sySUHPVWuQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8081
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -126,90 +135,825 @@ Cc: oliver.brown@nxp.com, krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add bindings for Cadence HDP-TX DisplayPort PHY.
+Add Cadence HDP-TX DisplayPort PHY driver.
+
+Cadence HDP-TX PHY could be put in either DP mode or
+HDMI mode base on the configuration chosen.
+DisplayPort PHY mode is configurated in the driver.
 
 Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
 ---
- .../bindings/phy/phy-cadence-hdptx-dp.yaml    | 70 +++++++++++++++++++
- 1 file changed, 70 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/phy/phy-cadence-hdptx-dp.yaml
+ drivers/phy/cadence/Kconfig                |   8 +
+ drivers/phy/cadence/Makefile               |   1 +
+ drivers/phy/cadence/phy-cadence-hdptx-dp.c | 774 +++++++++++++++++++++
+ 3 files changed, 783 insertions(+)
+ create mode 100644 drivers/phy/cadence/phy-cadence-hdptx-dp.c
 
-diff --git a/Documentation/devicetree/bindings/phy/phy-cadence-hdptx-dp.yaml b/Documentation/devicetree/bindings/phy/phy-cadence-hdptx-dp.yaml
+diff --git a/drivers/phy/cadence/Kconfig b/drivers/phy/cadence/Kconfig
+index 1adde2d99ae7..1e1914d3afdc 100644
+--- a/drivers/phy/cadence/Kconfig
++++ b/drivers/phy/cadence/Kconfig
+@@ -46,3 +46,11 @@ config PHY_CADENCE_SALVO
+ 	  Enable this to support the Cadence SALVO PHY driver,
+ 	  this PHY is a legacy PHY, and only are used for USB3
+ 	  and USB2.
++
++config PHY_CADENCE_HDPTX_DP
++	tristate "Cadence HDPTX DP PHY Driver"
++	depends on OF && HAS_IOMEM
++	depends on COMMON_CLK
++	select GENERIC_PHY
++	help
++	  Enable this to support the Cadence HDPTX DP PHY driver
+diff --git a/drivers/phy/cadence/Makefile b/drivers/phy/cadence/Makefile
+index e17f035ddece..fbdb0bc5ff11 100644
+--- a/drivers/phy/cadence/Makefile
++++ b/drivers/phy/cadence/Makefile
+@@ -4,3 +4,4 @@ obj-$(CONFIG_PHY_CADENCE_DPHY)	+= cdns-dphy.o
+ obj-$(CONFIG_PHY_CADENCE_DPHY_RX)	+= cdns-dphy-rx.o
+ obj-$(CONFIG_PHY_CADENCE_SIERRA)	+= phy-cadence-sierra.o
+ obj-$(CONFIG_PHY_CADENCE_SALVO)	+= phy-cadence-salvo.o
++obj-$(CONFIG_PHY_CADENCE_HDPTX_DP)	+= phy-cadence-hdptx-dp.o
+diff --git a/drivers/phy/cadence/phy-cadence-hdptx-dp.c b/drivers/phy/cadence/phy-cadence-hdptx-dp.c
 new file mode 100644
-index 000000000000..ab6f4e25c425
+index 000000000000..079d43772d1d
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/phy/phy-cadence-hdptx-dp.yaml
-@@ -0,0 +1,70 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: "http://devicetree.org/schemas/phy/phy-cadence-hdptx-dp.yaml#"
-+$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++++ b/drivers/phy/cadence/phy-cadence-hdptx-dp.c
+@@ -0,0 +1,774 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Cadence HDP-TX Display Port Interface (DP) PHY driver
++ *
++ * Copyright (C) 2022 NXP Semiconductor, Inc.
++ */
++#include <asm/unaligned.h>
++#include <linux/clk.h>
++#include <linux/kernel.h>
++#include <linux/phy/phy.h>
++#include <linux/platform_device.h>
++#include <linux/io.h>
++#include <linux/iopoll.h>
 +
-+title: Cadence HDP(HDMI/DisplayPort) TX PHY for DisplayPort protocol binding
++#include <drm/bridge/cdns-mhdp-mailbox.h>
 +
-+description:
-+  This binding describes the Cadence HDP-TX PHY for DispalyPort protocol.
++#define ADDR_PHY_AFE	0x80000
 +
-+maintainers:
-+  - Sandor Yu <sandor.yu@nxp.com>
++/* PHY registers */
++#define CMN_SSM_BIAS_TMR                0x0022
++#define CMN_PLLSM0_PLLEN_TMR            0x0029
++#define CMN_PLLSM0_PLLPRE_TMR           0x002A
++#define CMN_PLLSM0_PLLVREF_TMR          0x002B
++#define CMN_PLLSM0_PLLLOCK_TMR          0x002C
++#define CMN_PLLSM0_USER_DEF_CTRL        0x002F
++#define CMN_PSM_CLK_CTRL                0x0061
++#define CMN_CDIAG_REFCLK_CTRL           0x0062
++#define CMN_PLL0_VCOCAL_START           0x0081
++#define CMN_PLL0_VCOCAL_INIT_TMR        0x0084
++#define CMN_PLL0_VCOCAL_ITER_TMR        0x0085
++#define CMN_PLL0_INTDIV                 0x0094
++#define CMN_PLL0_FRACDIV                0x0095
++#define CMN_PLL0_HIGH_THR               0x0096
++#define CMN_PLL0_DSM_DIAG               0x0097
++#define CMN_PLL0_SS_CTRL1               0x0098
++#define CMN_PLL0_SS_CTRL2               0x0099
++#define CMN_ICAL_INIT_TMR               0x00C4
++#define CMN_ICAL_ITER_TMR               0x00C5
++#define CMN_RXCAL_INIT_TMR              0x00D4
++#define CMN_RXCAL_ITER_TMR              0x00D5
++#define CMN_TXPUCAL_CTRL                0x00E0
++#define CMN_TXPUCAL_INIT_TMR            0x00E4
++#define CMN_TXPUCAL_ITER_TMR            0x00E5
++#define CMN_TXPDCAL_CTRL                0x00F0
++#define CMN_TXPDCAL_INIT_TMR            0x00F4
++#define CMN_TXPDCAL_ITER_TMR            0x00F5
++#define CMN_ICAL_ADJ_INIT_TMR           0x0102
++#define CMN_ICAL_ADJ_ITER_TMR           0x0103
++#define CMN_RX_ADJ_INIT_TMR             0x0106
++#define CMN_RX_ADJ_ITER_TMR             0x0107
++#define CMN_TXPU_ADJ_CTRL               0x0108
++#define CMN_TXPU_ADJ_INIT_TMR           0x010A
++#define CMN_TXPU_ADJ_ITER_TMR           0x010B
++#define CMN_TXPD_ADJ_CTRL               0x010c
++#define CMN_TXPD_ADJ_INIT_TMR           0x010E
++#define CMN_TXPD_ADJ_ITER_TMR           0x010F
++#define CMN_DIAG_PLL0_FBH_OVRD          0x01C0
++#define CMN_DIAG_PLL0_FBL_OVRD          0x01C1
++#define CMN_DIAG_PLL0_OVRD              0x01C2
++#define CMN_DIAG_PLL0_TEST_MODE         0x01C4
++#define CMN_DIAG_PLL0_V2I_TUNE          0x01C5
++#define CMN_DIAG_PLL0_CP_TUNE           0x01C6
++#define CMN_DIAG_PLL0_LF_PROG           0x01C7
++#define CMN_DIAG_PLL0_PTATIS_TUNE1      0x01C8
++#define CMN_DIAG_PLL0_PTATIS_TUNE2      0x01C9
++#define CMN_DIAG_PLL0_INCLK_CTRL        0x01CA
++#define CMN_DIAG_PLL0_PXL_DIVH          0x01CB
++#define CMN_DIAG_PLL0_PXL_DIVL          0x01CC
++#define CMN_DIAG_HSCLK_SEL              0x01E0
++#define CMN_DIAG_PER_CAL_ADJ            0x01EC
++#define CMN_DIAG_CAL_CTRL               0x01ED
++#define CMN_DIAG_ACYA                   0x01FF
++#define XCVR_PSM_RCTRL                  0x4001
++#define XCVR_PSM_CAL_TMR                0x4002
++#define XCVR_PSM_A0IN_TMR               0x4003
++#define TX_TXCC_CAL_SCLR_MULT_0         0x4047
++#define TX_TXCC_CPOST_MULT_00_0         0x404C
++#define TX_TXCC_MGNFS_MULT_000_0        0x4050
++#define XCVR_DIAG_PLLDRC_CTRL           0x40E0
++#define XCVR_DIAG_PLLDRC_CTRL           0x40E0
++#define XCVR_DIAG_HSCLK_SEL             0x40E1
++#define XCVR_DIAG_BIDI_CTRL             0x40E8
++#define XCVR_DIAG_LANE_FCM_EN_MGN_TMR   0x40F2
++#define XCVR_DIAG_LANE_FCM_EN_MGN       0x40F2
++#define TX_PSC_A0                       0x4100
++#define TX_PSC_A1                       0x4101
++#define TX_PSC_A2                       0x4102
++#define TX_PSC_A3                       0x4103
++#define TX_RCVDET_CTRL                  0x4120
++#define TX_RCVDET_EN_TMR                0x4122
++#define TX_RCVDET_EN_TMR                0x4122
++#define TX_RCVDET_ST_TMR                0x4123
++#define TX_RCVDET_ST_TMR                0x4123
++#define TX_BIST_CTRL                    0x4140
++#define TX_BIST_UDDWR                   0x4141
++#define TX_DIAG_TX_CTRL                 0x41E0
++#define TX_DIAG_TX_DRV                  0x41E1
++#define TX_DIAG_BGREF_PREDRV_DELAY      0x41E7
++#define TX_DIAG_BGREF_PREDRV_DELAY      0x41E7
++#define XCVR_PSM_RCTRL_1                0x4201
++#define TX_TXCC_CAL_SCLR_MULT_1         0x4247
++#define TX_TXCC_CPOST_MULT_00_1         0x424C
++#define TX_TXCC_MGNFS_MULT_000_1        0x4250
++#define XCVR_DIAG_PLLDRC_CTRL_1         0x42E0
++#define XCVR_DIAG_HSCLK_SEL_1           0x42E1
++#define XCVR_DIAG_LANE_FCM_EN_MGN_TMR_1 0x42F2
++#define TX_RCVDET_EN_TMR_1              0x4322
++#define TX_RCVDET_ST_TMR_1              0x4323
++#define TX_DIAG_ACYA_0                  0x41FF
++#define TX_DIAG_ACYA_1                  0x43FF
++#define TX_DIAG_ACYA_2                  0x45FF
++#define TX_DIAG_ACYA_3                  0x47FF
++#define TX_ANA_CTRL_REG_1               0x5020
++#define TX_ANA_CTRL_REG_2               0x5021
++#define TXDA_COEFF_CALC                 0x5022
++#define TX_DIG_CTRL_REG_1               0x5023
++#define TX_DIG_CTRL_REG_2               0x5024
++#define TXDA_CYA_AUXDA_CYA              0x5025
++#define TX_ANA_CTRL_REG_3               0x5026
++#define TX_ANA_CTRL_REG_4               0x5027
++#define TX_ANA_CTRL_REG_5               0x5029
++#define RX_PSC_A0                       0x8000
++#define RX_PSC_CAL                      0x8006
++#define PMA_LANE_CFG                    0xC000
++#define PIPE_CMN_CTRL1                  0xC001
++#define PIPE_CMN_CTRL2                  0xC002
++#define PIPE_COM_LOCK_CFG1              0xC003
++#define PIPE_COM_LOCK_CFG2              0xC004
++#define PIPE_RCV_DET_INH                0xC005
++#define PHY_HDP_MODE_CTRL               0xC008
++#define PHY_HDP_CLK_CTL                 0xC009
++#define STS                             0xC00F
++#define PHY_ISO_CMN_CTRL                0xC010
++#define PHY_ISO_CMN_CTRL                0xC010
++#define PHY_HDP_TX_CTL_L0               0xC408
++#define PHY_DP_TX_CTL                   0xC408
++#define PHY_HDP_TX_CTL_L1               0xC448
++#define PHY_HDP_TX_CTL_L2               0xC488
++#define PHY_HDP_TX_CTL_L3               0xC4C8
++#define PHY_PMA_CMN_CTRL1               0xC800
++#define PMA_CMN_CTRL1                   0xC800
++#define PHY_PMA_ISO_CMN_CTRL            0xC810
++#define PHY_PMA_ISO_PLL_CTRL1           0xC812
++#define PHY_PMA_ISOLATION_CTRL          0xC81F
++#define PHY_ISOLATION_CTRL              0xC81F
++#define PHY_PMA_ISO_XCVR_CTRL           0xCC11
++#define PHY_PMA_ISO_LINK_MODE           0xCC12
++#define PHY_PMA_ISO_PWRST_CTRL          0xCC13
++#define PHY_PMA_ISO_TX_DATA_LO          0xCC14
++#define PHY_PMA_ISO_TX_DATA_HI          0xCC15
++#define PHY_PMA_ISO_RX_DATA_LO          0xCC16
++#define PHY_PMA_ISO_RX_DATA_HI          0xCC17
 +
-+properties:
-+  compatible:
-+    enum:
-+      - cdns,hdptx-dp-phy
++#define MAX_NUM_LANES		4
++#define DEFAULT_MAX_BIT_RATE	5400 /* in Mbps */
 +
-+  reg:
-+    description:
-+      Offset of Cadence HDPTX APB configuration registers.
++#define REF_CLK_27MHZ		27000000
 +
-+  clocks:
-+    items:
-+      description:
-+        PHY reference clock. Must contain an entry in clock-names.
++enum dp_link_rate {
++	RATE_1_6 = 162000,
++	RATE_2_1 = 216000,
++	RATE_2_4 = 243000,
++	RATE_2_7 = 270000,
++	RATE_3_2 = 324000,
++	RATE_4_3 = 432000,
++	RATE_5_4 = 540000,
++	RATE_8_1 = 810000,
++};
 +
-+  clock-names:
-+    items:
-+      - const: refclk
++struct phy_pll_reg {
++	u16 val[7];
++	u32 addr;
++};
 +
-+  "#phy-cells":
-+    const: 0
++static const struct phy_pll_reg phy_pll_27m_cfg[] = {
++	/*  1.62    2.16    2.43    2.7     3.24    4.32    5.4      register address */
++	{{ 0x010E, 0x010E, 0x010E, 0x010E, 0x010E, 0x010E, 0x010E }, CMN_PLL0_VCOCAL_INIT_TMR },
++	{{ 0x001B, 0x001B, 0x001B, 0x001B, 0x001B, 0x001B, 0x001B }, CMN_PLL0_VCOCAL_ITER_TMR },
++	{{ 0x30B9, 0x3087, 0x3096, 0x30B4, 0x30B9, 0x3087, 0x30B4 }, CMN_PLL0_VCOCAL_START },
++	{{ 0x0077, 0x009F, 0x00B3, 0x00C7, 0x0077, 0x009F, 0x00C7 }, CMN_PLL0_INTDIV },
++	{{ 0xF9DA, 0xF7CD, 0xF6C7, 0xF5C1, 0xF9DA, 0xF7CD, 0xF5C1 }, CMN_PLL0_FRACDIV },
++	{{ 0x001E, 0x0028, 0x002D, 0x0032, 0x001E, 0x0028, 0x0032 }, CMN_PLL0_HIGH_THR },
++	{{ 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020 }, CMN_PLL0_DSM_DIAG },
++	{{ 0x0000, 0x1000, 0x1000, 0x1000, 0x0000, 0x1000, 0x1000 }, CMN_PLLSM0_USER_DEF_CTRL },
++	{{ 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000 }, CMN_DIAG_PLL0_OVRD },
++	{{ 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000 }, CMN_DIAG_PLL0_FBH_OVRD },
++	{{ 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000 }, CMN_DIAG_PLL0_FBL_OVRD },
++	{{ 0x0006, 0x0007, 0x0007, 0x0007, 0x0006, 0x0007, 0x0007 }, CMN_DIAG_PLL0_V2I_TUNE },
++	{{ 0x0043, 0x0043, 0x0043, 0x0042, 0x0043, 0x0043, 0x0042 }, CMN_DIAG_PLL0_CP_TUNE },
++	{{ 0x0008, 0x0008, 0x0008, 0x0008, 0x0008, 0x0008, 0x0008 }, CMN_DIAG_PLL0_LF_PROG },
++	{{ 0x0100, 0x0001, 0x0001, 0x0001, 0x0100, 0x0001, 0x0001 }, CMN_DIAG_PLL0_PTATIS_TUNE1 },
++	{{ 0x0007, 0x0001, 0x0001, 0x0001, 0x0007, 0x0001, 0x0001 }, CMN_DIAG_PLL0_PTATIS_TUNE2 },
++	{{ 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020 }, CMN_DIAG_PLL0_TEST_MODE},
++	{{ 0x0016, 0x0016, 0x0016, 0x0016, 0x0016, 0x0016, 0x0016 }, CMN_PSM_CLK_CTRL }
++};
 +
-+  cdns,num-lanes:
-+    description:
-+      Number of lanes.
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [1, 2, 3, 4]
-+    default: 4
++struct cdns_hdptx_dp_phy {
++	void __iomem *regs;	/* DPTX registers base */
++	struct device *dev;
++	struct phy *phy;
++	struct mutex mbox_mutex; /* mutex to protect mailbox */
++	struct clk *ref_clk;
++	u32 ref_clk_rate;
++	u32 num_lanes;
++	u32 max_bit_rate; /* Maximum link bit rate to use (in Mbps) */
++	u32 link_rate;
++	bool power_up;
++};
 +
-+  cdns,max-bit-rate:
-+    description:
-+      Maximum DisplayPort link bit rate to use, in Mbps
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [2160, 2430, 2700, 3240, 4320, 5400]
-+    default: 5400
++static int cdns_phy_reg_write(struct cdns_hdptx_dp_phy *cdns_phy, u32 addr, u32 val)
++{
++	return cdns_mhdp_reg_write(cdns_phy, ADDR_PHY_AFE + (addr << 2), val);
++}
 +
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - "#phy-cells"
++static u32 cdns_phy_reg_read(struct cdns_hdptx_dp_phy *cdns_phy, u32 addr)
++{
++	u32 reg32;
 +
-+additionalProperties: false
++	cdns_mhdp_reg_read(cdns_phy, ADDR_PHY_AFE + (addr << 2), &reg32);
++	return reg32;
++}
 +
-+examples:
-+  - |
-+    #include <dt-bindings/phy/phy.h>
-+    dp_phy: dp_phy@32c00000 {
-+        compatible = "cdns,hdptx-dp-phy";
-+        reg = <0x32c00000 0x100000>;
-+        #phy-cells = <0>;
-+        clocks = <&hdmi_phy_27m>;
-+        clock-names = "refclk";
-+        cdns,num-lanes = <4>;
-+        cdns,max-bit-rate = <5400>;
-+    };
++static int link_rate_index(u32 rate)
++{
++	switch (rate) {
++	case RATE_1_6:
++		return 0;
++	case RATE_2_1:
++		return 1;
++	case RATE_2_4:
++		return 2;
++	case RATE_2_7:
++		return 3;
++	case RATE_3_2:
++		return 4;
++	case RATE_4_3:
++		return 5;
++	case RATE_5_4:
++		return 6;
++	default:
++		return -1;
++	}
++}
++
++static int hdptx_dp_ref_clk(struct cdns_hdptx_dp_phy *cdns_phy)
++{
++	struct device *dev = cdns_phy->dev;
++	u32 ref_clk_rate;
++	int ret;
++
++	cdns_phy->ref_clk = devm_clk_get(dev, "refclk");
++	if (IS_ERR(cdns_phy->ref_clk)) {
++		dev_err(dev, "phy ref clock not found\n");
++		return PTR_ERR(cdns_phy->ref_clk);
++	}
++
++	ret = clk_prepare_enable(cdns_phy->ref_clk);
++	if (ret) {
++		dev_err(cdns_phy->dev, "Failed to prepare ref clock\n");
++		return ret;
++	}
++
++	ref_clk_rate = clk_get_rate(cdns_phy->ref_clk);
++	if (!ref_clk_rate) {
++		dev_err(cdns_phy->dev, "Failed to get ref clock rate\n");
++		goto err_ref_clk;
++	}
++
++	if (ref_clk_rate == REF_CLK_27MHZ)
++		cdns_phy->ref_clk_rate = ref_clk_rate;
++	else {
++		dev_err(cdns_phy->dev, "Not support Ref Clock Rate(%dHz)\n", ref_clk_rate);
++		goto err_ref_clk;
++	}
++
++	return 0;
++
++err_ref_clk:
++	clk_disable_unprepare(cdns_phy->ref_clk);
++	return -EINVAL;
++}
++
++static void hdptx_dp_aux_cfg(struct cdns_hdptx_dp_phy *cdns_phy)
++{
++	/* Power up Aux */
++	cdns_phy_reg_write(cdns_phy, TXDA_CYA_AUXDA_CYA, 1);
++
++	cdns_phy_reg_write(cdns_phy, TX_DIG_CTRL_REG_1, 0x3);
++	ndelay(150);
++	cdns_phy_reg_write(cdns_phy, TX_DIG_CTRL_REG_2, 36);
++	ndelay(150);
++	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_2, 0x0100);
++	ndelay(150);
++	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_2, 0x0300);
++	ndelay(150);
++	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_3, 0x0000);
++	ndelay(150);
++	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_1, 0x2008);
++	ndelay(150);
++	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_1, 0x2018);
++	ndelay(150);
++	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_1, 0xA018);
++	ndelay(150);
++	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_2, 0x030C);
++	ndelay(150);
++	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_5, 0x0000);
++	ndelay(150);
++	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_4, 0x1001);
++	ndelay(150);
++	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_1, 0xA098);
++	ndelay(150);
++	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_1, 0xA198);
++	ndelay(150);
++	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_2, 0x030d);
++	ndelay(150);
++	cdns_phy_reg_write(cdns_phy, TX_ANA_CTRL_REG_2, 0x030f);
++}
++
++/* PMA common configuration for 27MHz */
++static void hdptx_dp_phy_pma_cmn_cfg_27mhz(struct cdns_hdptx_dp_phy *cdns_phy)
++{
++	u32 num_lanes = cdns_phy->num_lanes;
++	u16 val;
++	int k;
++
++	val = cdns_phy_reg_read(cdns_phy, PHY_PMA_CMN_CTRL1);
++	val &= 0xFFF7;
++	val |= 0x0008;
++	cdns_phy_reg_write(cdns_phy, PHY_PMA_CMN_CTRL1, val);
++
++	/* Startup state machine registers */
++	cdns_phy_reg_write(cdns_phy, CMN_SSM_BIAS_TMR, 0x0087);
++	cdns_phy_reg_write(cdns_phy, CMN_PLLSM0_PLLEN_TMR, 0x001B);
++	cdns_phy_reg_write(cdns_phy, CMN_PLLSM0_PLLPRE_TMR, 0x0036);
++	cdns_phy_reg_write(cdns_phy, CMN_PLLSM0_PLLVREF_TMR, 0x001B);
++	cdns_phy_reg_write(cdns_phy, CMN_PLLSM0_PLLLOCK_TMR, 0x006C);
++
++	/* Current calibration registers */
++	cdns_phy_reg_write(cdns_phy, CMN_ICAL_INIT_TMR, 0x0044);
++	cdns_phy_reg_write(cdns_phy, CMN_ICAL_ITER_TMR, 0x0006);
++	cdns_phy_reg_write(cdns_phy, CMN_ICAL_ADJ_INIT_TMR, 0x0022);
++	cdns_phy_reg_write(cdns_phy, CMN_ICAL_ADJ_ITER_TMR, 0x0006);
++
++	/* Resistor calibration registers */
++	cdns_phy_reg_write(cdns_phy, CMN_TXPUCAL_INIT_TMR, 0x0022);
++	cdns_phy_reg_write(cdns_phy, CMN_TXPUCAL_ITER_TMR, 0x0006);
++	cdns_phy_reg_write(cdns_phy, CMN_TXPU_ADJ_INIT_TMR, 0x0022);
++	cdns_phy_reg_write(cdns_phy, CMN_TXPU_ADJ_ITER_TMR, 0x0006);
++	cdns_phy_reg_write(cdns_phy, CMN_TXPDCAL_INIT_TMR, 0x0022);
++	cdns_phy_reg_write(cdns_phy, CMN_TXPDCAL_ITER_TMR, 0x0006);
++	cdns_phy_reg_write(cdns_phy, CMN_TXPD_ADJ_INIT_TMR, 0x0022);
++	cdns_phy_reg_write(cdns_phy, CMN_TXPD_ADJ_ITER_TMR, 0x0006);
++	cdns_phy_reg_write(cdns_phy, CMN_RXCAL_INIT_TMR, 0x0022);
++	cdns_phy_reg_write(cdns_phy, CMN_RXCAL_ITER_TMR, 0x0006);
++	cdns_phy_reg_write(cdns_phy, CMN_RX_ADJ_INIT_TMR, 0x0022);
++	cdns_phy_reg_write(cdns_phy, CMN_RX_ADJ_ITER_TMR, 0x0006);
++
++	for (k = 0; k < num_lanes; k = k + 1) {
++		/* Power state machine registers */
++		cdns_phy_reg_write(cdns_phy, XCVR_PSM_CAL_TMR  | (k << 9), 0x016D);
++		cdns_phy_reg_write(cdns_phy, XCVR_PSM_A0IN_TMR | (k << 9), 0x016D);
++		/* Transceiver control and diagnostic registers */
++		cdns_phy_reg_write(cdns_phy, XCVR_DIAG_LANE_FCM_EN_MGN_TMR | (k << 9), 0x00A2);
++		cdns_phy_reg_write(cdns_phy, TX_DIAG_BGREF_PREDRV_DELAY    | (k << 9), 0x0097);
++		/* Transmitter receiver detect registers */
++		cdns_phy_reg_write(cdns_phy, TX_RCVDET_EN_TMR | (k << 9), 0x0A8C);
++		cdns_phy_reg_write(cdns_phy, TX_RCVDET_ST_TMR | (k << 9), 0x0036);
++	}
++
++	cdns_phy_reg_write(cdns_phy, TX_DIAG_ACYA_0, 1);
++	cdns_phy_reg_write(cdns_phy, TX_DIAG_ACYA_1, 1);
++	cdns_phy_reg_write(cdns_phy, TX_DIAG_ACYA_2, 1);
++	cdns_phy_reg_write(cdns_phy, TX_DIAG_ACYA_3, 1);
++}
++
++static void hdptx_dp_phy_pma_cmn_pll0_27mhz(struct cdns_hdptx_dp_phy *cdns_phy)
++{
++	u32 num_lanes = cdns_phy->num_lanes;
++	u32 link_rate = cdns_phy->link_rate;
++	u16 val;
++	int index, i, k;
++
++	/* DP PLL data rate 0/1 clock divider value */
++	val = cdns_phy_reg_read(cdns_phy, PHY_HDP_CLK_CTL);
++	val &= 0x00FF;
++	if (link_rate <= RATE_2_7)
++		val |= 0x2400;
++	else
++		val |= 0x1200;
++	cdns_phy_reg_write(cdns_phy, PHY_HDP_CLK_CTL, val);
++
++	/* High speed clock 0/1 div */
++	val = cdns_phy_reg_read(cdns_phy, CMN_DIAG_HSCLK_SEL);
++	val &= 0xFFCC;
++	if (link_rate <= RATE_2_7)
++		val |= 0x0011;
++	cdns_phy_reg_write(cdns_phy, CMN_DIAG_HSCLK_SEL, val);
++
++	for (k = 0; k < num_lanes; k++) {
++		val = cdns_phy_reg_read(cdns_phy, (XCVR_DIAG_HSCLK_SEL | (k << 9)));
++		val = val & 0xCFFF;
++		if (link_rate <= RATE_2_7)
++			val |= 0x1000;
++		cdns_phy_reg_write(cdns_phy, (XCVR_DIAG_HSCLK_SEL | (k << 9)), val);
++	}
++
++	/* DP PHY PLL 27MHz configuration */
++	index = link_rate_index(link_rate);
++	for (i = 0; i < ARRAY_SIZE(phy_pll_27m_cfg); i++)
++		cdns_phy_reg_write(cdns_phy, phy_pll_27m_cfg[i].addr,
++				phy_pll_27m_cfg[i].val[index]);
++
++	/* Transceiver control and diagnostic registers */
++	for (k = 0; k < num_lanes; k++) {
++		val = cdns_phy_reg_read(cdns_phy, (XCVR_DIAG_PLLDRC_CTRL | (k << 9)));
++		val = val & 0x8FFF;
++		if (link_rate <= RATE_2_7)
++			val |= 0x2000;
++		else
++			val |= 0x1000;
++		cdns_phy_reg_write(cdns_phy, (XCVR_DIAG_PLLDRC_CTRL | (k << 9)), val);
++	}
++
++	for (k = 0; k < num_lanes; k = k + 1) {
++		/* Power state machine registers */
++		cdns_phy_reg_write(cdns_phy, (XCVR_PSM_RCTRL | (k << 9)),  0xBEFC);
++		cdns_phy_reg_write(cdns_phy, (TX_PSC_A0 | (k << 9)), 0x6799);
++		cdns_phy_reg_write(cdns_phy, (TX_PSC_A1 | (k << 9)), 0x6798);
++		cdns_phy_reg_write(cdns_phy, (TX_PSC_A2 | (k << 9)), 0x0098);
++		cdns_phy_reg_write(cdns_phy, (TX_PSC_A3 | (k << 9)), 0x0098);
++		/* Receiver calibration power state definition register */
++		val = cdns_phy_reg_read(cdns_phy, RX_PSC_CAL | (k << 9));
++		val &= 0xFFBB;
++		cdns_phy_reg_write(cdns_phy, (RX_PSC_CAL | (k << 9)), val);
++		val = cdns_phy_reg_read(cdns_phy, RX_PSC_A0  | (k << 9));
++		val &= 0xFFBB;
++		cdns_phy_reg_write(cdns_phy, (RX_PSC_A0  | (k << 9)), val);
++	}
++}
++
++static void hdptx_dp_phy_ref_clock_type(struct cdns_hdptx_dp_phy *cdns_phy)
++{
++	u32 val;
++
++	val = cdns_phy_reg_read(cdns_phy, PHY_PMA_CMN_CTRL1);
++	val &= 0xFF8F;
++	/*
++	 * single ended reference clock (val |= 0x0030);
++	 * differential clock  (val |= 0x0000);
++	 *
++	 * for differential clock on the refclk_p and
++	 * refclk_m off chip pins: CMN_DIAG_ACYA[8]=1'b1
++	 * cdns_phy_reg_write(cdns_phy, CMN_DIAG_ACYA, 0x0100);
++	 */
++	val |= 0x0030;
++	cdns_phy_reg_write(cdns_phy, PHY_PMA_CMN_CTRL1, val);
++}
++
++static int hdptx_dp_phy_power_up(struct cdns_hdptx_dp_phy *cdns_phy)
++{
++	u32 val, i;
++
++	/* Enable HDP PLL’s for high speed clocks */
++	val = cdns_phy_reg_read(cdns_phy, PHY_HDP_CLK_CTL);
++	val |= (1 << 0);
++	cdns_phy_reg_write(cdns_phy, PHY_HDP_CLK_CTL, val);
++	/* Wait for PLL ready ACK */
++	for (i = 0; i < 10; i++) {
++		val = cdns_phy_reg_read(cdns_phy, PHY_HDP_CLK_CTL);
++		if (val & (1 << 1))
++			break;
++		msleep(20);
++	}
++	if (i == 10) {
++		dev_err(cdns_phy->dev, "Wait PLL Ack failed\n");
++		return -1;
++	}
++
++	/* Enable HDP PLL’s data rate and full rate clocks out of PMA. */
++	val = cdns_phy_reg_read(cdns_phy, PHY_HDP_CLK_CTL);
++	val |= (1 << 2);
++	cdns_phy_reg_write(cdns_phy, PHY_HDP_CLK_CTL, val);
++	/* Wait for PLL clock enable ACK */
++	for (i = 0; i < 10; i++) {
++		val = cdns_phy_reg_read(cdns_phy, PHY_HDP_CLK_CTL);
++		if (val & (1 << 3))
++			break;
++		msleep(20);
++	}
++	if (i == 10) {
++		dev_err(cdns_phy->dev, "Wait PLL clock enable ACk failed\n");
++		return -1;
++	}
++
++	/* Configure PHY in A2 Mode */
++	cdns_phy_reg_write(cdns_phy, PHY_HDP_MODE_CTRL, 0x0004);
++	/* Wait for Power State A2 Ack */
++	for (i = 0; i < 10; i++) {
++		val = cdns_phy_reg_read(cdns_phy, PHY_HDP_MODE_CTRL);
++		if (val & (1 << 6))
++			break;
++		msleep(20);
++	}
++	if (i == 10) {
++		dev_err(cdns_phy->dev, "Wait A2 Ack failed\n");
++		return -1;
++	}
++
++	/* Configure PHY in A0 mode (PHY must be in the A0 power
++	 * state in order to transmit data)
++	 */
++	cdns_phy_reg_write(cdns_phy, PHY_HDP_MODE_CTRL, 0x0101);
++
++	/* Wait for Power State A0 Ack */
++	for (i = 0; i < 10; i++) {
++		val = cdns_phy_reg_read(cdns_phy, PHY_HDP_MODE_CTRL);
++		if (val & (1 << 4))
++			break;
++		msleep(20);
++	}
++	if (i == 10) {
++		dev_err(cdns_phy->dev, "Wait A0 Ack failed\n");
++		return -1;
++	}
++
++	cdns_phy->power_up = true;
++
++	return 0;
++}
++
++static void hdptx_dp_phy_power_down(struct cdns_hdptx_dp_phy *cdns_phy)
++{
++	u16 val;
++	int i;
++
++	if (!cdns_phy->power_up)
++		return;
++
++	/* Place the PHY lanes in the A3 power state. */
++	cdns_phy_reg_write(cdns_phy, PHY_HDP_MODE_CTRL, 0x8);
++	/* Wait for Power State A3 Ack */
++	for (i = 0; i < 10; i++) {
++		val = cdns_phy_reg_read(cdns_phy, PHY_HDP_MODE_CTRL);
++		if (val & (1 << 7))
++			break;
++		msleep(20);
++	}
++	if (i == 10) {
++		dev_err(cdns_phy->dev, "Wait A3 Ack failed\n");
++		return;
++	}
++
++	/* Disable HDP PLL’s data rate and full rate clocks out of PMA. */
++	val = cdns_phy_reg_read(cdns_phy, PHY_HDP_CLK_CTL);
++	val &= ~(1 << 2);
++	cdns_phy_reg_write(cdns_phy, PHY_HDP_CLK_CTL, val);
++	/* Wait for PLL clock gate ACK */
++	for (i = 0; i < 10; i++) {
++		val = cdns_phy_reg_read(cdns_phy, PHY_HDP_CLK_CTL);
++		if (!(val & (1 << 3)))
++			break;
++		msleep(20);
++	}
++	if (i == 10) {
++		dev_err(cdns_phy->dev, "Wait PLL clock gate Ack failed\n");
++		return;
++	}
++
++	/* Disable HDP PLL’s for high speed clocks */
++	val = cdns_phy_reg_read(cdns_phy, PHY_HDP_CLK_CTL);
++	val &= ~(1 << 0);
++	cdns_phy_reg_write(cdns_phy, PHY_HDP_CLK_CTL, val);
++	/* Wait for PLL disable ACK */
++	for (i = 0; i < 10; i++) {
++		val = cdns_phy_reg_read(cdns_phy, PHY_HDP_CLK_CTL);
++		if (!(val & (1 << 1)))
++			break;
++		msleep(20);
++	}
++	if (i == 10) {
++		dev_err(cdns_phy->dev, "Wait PLL disable Ack failed\n");
++		return;
++	}
++}
++
++static int cdns_hdptx_dp_phy_on(struct phy *phy)
++{
++	struct cdns_hdptx_dp_phy *cdns_phy = phy_get_drvdata(phy);
++
++	return hdptx_dp_phy_power_up(cdns_phy);
++}
++
++static int cdns_hdptx_dp_phy_off(struct phy *phy)
++{
++	struct cdns_hdptx_dp_phy *cdns_phy = phy_get_drvdata(phy);
++
++	hdptx_dp_phy_power_down(cdns_phy);
++
++	return 0;
++}
++
++static int cdns_hdptx_dp_phy_init(struct phy *phy)
++{
++	struct cdns_hdptx_dp_phy *cdns_phy = phy_get_drvdata(phy);
++	int ret;
++
++	hdptx_dp_phy_ref_clock_type(cdns_phy);
++
++	/* PHY power up */
++	ret = hdptx_dp_phy_power_up(cdns_phy);
++	if (ret < 0)
++		return ret;
++
++	hdptx_dp_aux_cfg(cdns_phy);
++
++	return ret;
++}
++
++static int cdns_hdptx_dp_configure(struct phy *phy,
++				     union phy_configure_opts *opts)
++{
++	struct cdns_hdptx_dp_phy *cdns_phy = phy_get_drvdata(phy);
++	int ret;
++
++	cdns_phy->link_rate = opts->dp.link_rate;
++
++	/* Disable phy clock if PHY in power up state */
++	hdptx_dp_phy_power_down(cdns_phy);
++
++	if (cdns_phy->ref_clk_rate == REF_CLK_27MHZ) {
++		hdptx_dp_phy_pma_cmn_cfg_27mhz(cdns_phy);
++		hdptx_dp_phy_pma_cmn_pll0_27mhz(cdns_phy);
++	} else
++		dev_err(cdns_phy->dev, "Not support ref clock rate\n");
++
++	/* PHY power up */
++	ret = hdptx_dp_phy_power_up(cdns_phy);
++
++	return ret;
++}
++
++static const struct phy_ops cdns_hdptx_dp_phy_ops = {
++	.init		= cdns_hdptx_dp_phy_init,
++	.configure	= cdns_hdptx_dp_configure,
++	.power_on	= cdns_hdptx_dp_phy_on,
++	.power_off	= cdns_hdptx_dp_phy_off,
++	.owner		= THIS_MODULE,
++};
++
++static int cdns_hdptx_dp_phy_probe(struct platform_device *pdev)
++{
++	struct cdns_hdptx_dp_phy *cdns_phy;
++	struct device *dev = &pdev->dev;
++	struct device_node *node = dev->of_node;
++	struct phy_provider *phy_provider;
++	struct resource *res;
++	struct phy *phy;
++	int ret;
++
++	cdns_phy = devm_kzalloc(dev, sizeof(*cdns_phy), GFP_KERNEL);
++	if (!cdns_phy)
++		return -ENOMEM;
++
++	dev_set_drvdata(dev, cdns_phy);
++	cdns_phy->dev = dev;
++	mutex_init(&cdns_phy->mbox_mutex);
++
++	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	if (!res)
++		return -ENODEV;
++	cdns_phy->regs = devm_ioremap(dev, res->start, resource_size(res));
++	if (IS_ERR(cdns_phy->regs))
++		return PTR_ERR(cdns_phy->regs);
++
++	if (of_property_read_u32(node, "cdns,num-lanes",
++				 &cdns_phy->num_lanes)) {
++		dev_err(dev, "%s: No \"cdns,num-lanes\"-property.\n",
++			node->full_name);
++		return -EINVAL;
++	}
++
++	phy = devm_phy_create(dev, node, &cdns_hdptx_dp_phy_ops);
++	if (IS_ERR(phy))
++		return PTR_ERR(phy);
++
++	cdns_phy->max_bit_rate = DEFAULT_MAX_BIT_RATE;
++	of_property_read_u32(node, "cdns,max-bit-rate",
++			     &cdns_phy->max_bit_rate);
++
++	switch (cdns_phy->max_bit_rate) {
++	/* valid bit rate */
++	case 1620:
++	case 2160:
++	case 2430:
++	case 2700:
++	case 3240:
++	case 4320:
++	case 5400:
++		break;
++	case 8100:
++	default:
++		dev_err(dev, "unsupported max bit rate: %dMbps\n",
++				cdns_phy->max_bit_rate);
++		return -EINVAL;
++	}
++
++	dev_dbg(dev, "DP max bit rate %d.%03d Gbps\n",
++		cdns_phy->max_bit_rate / 1000,
++		cdns_phy->max_bit_rate % 1000);
++
++	phy->attrs.bus_width = cdns_phy->num_lanes;
++	phy->attrs.max_link_rate = cdns_phy->max_bit_rate;
++	phy->attrs.mode = PHY_MODE_DP;
++
++	cdns_phy->phy = phy;
++	phy_set_drvdata(phy, cdns_phy);
++
++	if (cdns_phy->num_lanes > MAX_NUM_LANES) {
++		dev_err(dev, "Invalid lane configuration\n");
++		return -EINVAL;
++	}
++
++	ret = hdptx_dp_ref_clk(cdns_phy);
++	if (ret) {
++		dev_err(dev, "Init clk fail\n");
++		return -EINVAL;
++	}
++
++	phy_provider = devm_of_phy_provider_register(dev, of_phy_simple_xlate);
++	if (IS_ERR(phy_provider)) {
++		ret =  PTR_ERR(phy_provider);
++		goto clk_disable;
++	}
++
++	dev_dbg(dev, "link: (%d lanes)", cdns_phy->num_lanes);
++
++	return 0;
++
++clk_disable:
++	clk_disable_unprepare(cdns_phy->ref_clk);
++
++	return -EINVAL;
++}
++
++static int cdns_hdptx_dp_phy_remove(struct platform_device *pdev)
++{
++	struct cdns_hdptx_dp_phy *cdns_phy = platform_get_drvdata(pdev);
++
++	clk_disable_unprepare(cdns_phy->ref_clk);
++
++	return 0;
++}
++
++static const struct of_device_id cdns_hdptx_dp_phy_of_match[] = {
++	{
++		.compatible = "cdns,hdptx-dp-phy",
++	},
++	{}
++};
++MODULE_DEVICE_TABLE(of, cdns_hdptx_dp_phy_of_match);
++
++static struct platform_driver cdns_hdptx_dp_phy_driver = {
++	.probe	= cdns_hdptx_dp_phy_probe,
++	.remove = cdns_hdptx_dp_phy_remove,
++	.driver = {
++		.name	= "cdns-hdptx-dp-phy",
++		.of_match_table	= cdns_hdptx_dp_phy_of_match,
++	}
++};
++module_platform_driver(cdns_hdptx_dp_phy_driver);
++
++MODULE_AUTHOR("Sandor Yu <sandor.yu@nxp.com>");
++MODULE_DESCRIPTION("Cadence HDP-TX DisplayPort PHY driver");
++MODULE_LICENSE("GPL");
 -- 
 2.34.1
 
