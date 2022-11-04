@@ -2,49 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F422C619A96
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 15:53:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8AE9619AAD
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 15:58:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB23D10E850;
-	Fri,  4 Nov 2022 14:53:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF0FB10E855;
+	Fri,  4 Nov 2022 14:57:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6BA710E845
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 14:53:23 +0000 (UTC)
-Received: from notapiano (unknown
- [IPv6:2600:4041:5b1a:cd00:524d:e95d:1a9c:492a])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- (Authenticated sender: nfraprado)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id E30D9660296D;
- Fri,  4 Nov 2022 14:53:19 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1667573602;
- bh=nbrvVX+UhnvF5ENRV50WNSRNnwQj9Mpuw87bW7JfI+I=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=RmsC+Pbm32Z7NholMslPUTwJiR3ZxsKjJ9YqNeeVaHHcCt+yRHlyG4Gchb+G+9WTm
- SvtiVAgzvbRerlFy+XawTBAaqFM1Qz2tEtlV7DDFMK60UpO+7ohsviZcinoNuKfL9D
- TFSfF2zL37updpctWSqw15JtPXK5Fg/leqi6oRB56ZVo05pfVUmaSY8lHxN7c4UT+e
- uRg9CRgGSrxtHVmxkvdemaxG6XmTWsorAQVoYIcuWJPuJ2ssuaM/u4RgHTyXIYu5Ud
- ZLUDl6mpbb2UiA6b7zxyL4y0vTdl6T6wJYdtN11V78sI4sdue4rde7cUbQrOrSfQQh
- 1GvHl1Lg4r8NA==
-Date: Fri, 4 Nov 2022 10:53:15 -0400
-From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
-To: Nancy Lin =?utf-8?B?KOael+aso+ieoik=?= <Nancy.Lin@mediatek.com>
-Subject: Re: [PATCH v27 6/7] drm/mediatek: add drm ovl_adaptor sub driver for
- MT8195
-Message-ID: <20221104145315.hsff6kswyquyscx2@notapiano>
-References: <20221103032610.9217-1-nancy.lin@mediatek.com>
- <20221103032610.9217-7-nancy.lin@mediatek.com>
- <20221103212800.43nxlxpconqkasvc@notapiano>
- <82f99ec0d0150d7625e87fe6d5aba58382c8aec4.camel@mediatek.com>
+Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com
+ [IPv6:2001:4860:4864:20::30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8708710E855
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 14:57:55 +0000 (UTC)
+Received: by mail-oa1-x30.google.com with SMTP id
+ 586e51a60fabf-13bd19c3b68so5781741fac.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Nov 2022 07:57:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=K1gVxuAF8E1wt+B0yAv3PkO74sKGbKOwH5XfGox/81U=;
+ b=NfGTep0WZ282nqPfUCT1yPZnvr5+ho8fiJ/z0UpoCyVZzhrQdMNRii/8GOTt1jOwW1
+ d4UXaR4Hrk7qLw+Ivht92BPiQ7Tjj0o92VDDVGfLqf81zK5btnIlC7GAz0lLHJk8fiPc
+ 6t5wfU1ZcdJIqNF9JK3cjS/ttqBrNIeMFeXAjwpMO11T/q7EzoNa2qrAAQsnP3ZX3EWC
+ UQnxBwDeHStXRIuFSIWULamY3yMVfoFHNYt5huwSYpkkjD8MNiNzw8a6JKxgXXHMolhX
+ 7uqdGFCHN5rsSP7Rt2mTfjalzA/Ut7FN3KgDMSLox1NXn19GtLEgVS+t7DpzOSy8FA0e
+ NB0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=K1gVxuAF8E1wt+B0yAv3PkO74sKGbKOwH5XfGox/81U=;
+ b=LxRuARvuV7/T8ldTADev8YvDe8ntxY/+y882Vg/k6J8cKlvX2hR9gsrj0+kW+bUu6q
+ CA8IwHbYPrDWbaBdL3ncTxstskQ0B557hl7M7H+tJOtll+iPoe2bH/GONqU0enaZAowD
+ 1FS5hBdRsqLg3buPfTfSpEkY6+fYS0FE4hF1SkniVN1KQH+5jBTRFHFYuxdGS2bJ7vh8
+ 59CQ66+m/3TFTqkdTlP8ON7fMJk7bD5yIrdZpiBp55Hf1ZnLuueMUQPJS+M7VTuLDXyc
+ NYtVLF2ebgdrRzSTJgwSBMc4gc/K648m8W2w9KHJKiwjvhAzWYrhjx48ij9pVzm+K3S8
+ Xnaw==
+X-Gm-Message-State: ACrzQf34N+Bqm/Bk9gNMzmxJRrkkuJ6PLN/wrO23+rK9LCcFCVRVHS/j
+ OKgdGKgO9b34GpfbredoOnDNyLE9OfQ8MY9TwZ0JrNmi
+X-Google-Smtp-Source: AMsMyM5mz3AyGVGUjs64ztiZ8jLTD6vuWi8Q2ktVP7OaVqbvnBliCbxIy/fr43OWxh//b+OpIdMHQIq0HkRF1DOtzQQ=
+X-Received: by 2002:a05:6871:6a4:b0:13b:a056:f97f with SMTP id
+ l36-20020a05687106a400b0013ba056f97fmr21374670oao.38.1667573874523; Fri, 04
+ Nov 2022 07:57:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <82f99ec0d0150d7625e87fe6d5aba58382c8aec4.camel@mediatek.com>
+References: <20221020121316.3946-1-christian.koenig@amd.com>
+ <3d7353f3fa5905ce18e5b2d92f758f098189bc5a.camel@pengutronix.de>
+ <7f5eff36-6886-bb06-061a-dd4263b61605@gmail.com>
+ <f5de84cfe81fee828bbe0d47d379028d28ef6ca6.camel@pengutronix.de>
+ <e02cedc2-6741-8813-a7a5-f8769e301745@gmail.com>
+ <a53e5df51ec0f2f9d4c2d377c0cc5ba85f2e58ff.camel@ndufresne.ca>
+ <9d716641-55c6-1590-26c2-1c3b14a28226@gmail.com>
+ <CAPj87rMPkmimR_RJHhxYZokH__TVpPArk0h6drOUSx7Z9+oAHA@mail.gmail.com>
+ <11a6f97c-e45f-f24b-8a73-48d5a388a2cc@gmail.com>
+ <caf4d6b82843788db97555a58bc9e33915e5b50a.camel@ndufresne.ca>
+ <b422be59-4b4b-2d0d-8e8c-b19f27c6832e@gmail.com>
+ <4fa4e5d3b1f46e46139bad069cbf5e795e63afa8.camel@pengutronix.de>
+ <cc091a11-d012-d998-b7e2-8b3d616867a7@gmail.com>
+In-Reply-To: <cc091a11-d012-d998-b7e2-8b3d616867a7@gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 4 Nov 2022 07:58:12 -0700
+Message-ID: <CAF6AEGsA_AqMm2csMv_21Y8wFdbnCiYT36AEUszGK63zJM0hqw@mail.gmail.com>
+Subject: Re: Try to address the DMA-buf coherency problem
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,130 +79,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "airlied@linux.ie" <airlied@linux.ie>,
- Jason-JH Lin =?utf-8?B?KOael+edv+elpSk=?= <Jason-JH.Lin@mediatek.com>,
- Singo Chang =?utf-8?B?KOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
- "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
- "ndesaulniers@google.com" <ndesaulniers@google.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "nathan@kernel.org" <nathan@kernel.org>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- Yongqiang Niu =?utf-8?B?KOeJm+awuOW8uik=?= <yongqiang.niu@mediatek.com>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "wim@linux-watchdog.org" <wim@linux-watchdog.org>,
- "linux@roeck-us.net" <linux@roeck-us.net>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>
+Cc: Nicolas Dufresne <nicolas@ndufresne.ca>, linaro-mm-sig@lists.linaro.org,
+ ppaalanen@gmail.com, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, sumit.semwal@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 04, 2022 at 10:57:28AM +0000, Nancy Lin (林欣螢) wrote:
-> Dear Nicolas,
-> 
-> Thanks for the review.
-> 
-> On Thu, 2022-11-03 at 17:28 -0400, Nícolas F. R. A. Prado wrote:
-> > On Thu, Nov 03, 2022 at 11:26:09AM +0800, Nancy.Lin wrote:
-> > > Add drm ovl_adaptor sub driver. Bring up ovl_adaptor sub driver if
-> > > the component exists in the path.
-> > > 
-> > > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-> > > Reviewed-by: AngeloGioacchino Del Regno <
-> > > angelogioacchino.delregno@collabora.com>
-> > > Reviewed-by: CK Hu <ck.hu@mediatek.com>
-> > > Tested-by: AngeloGioacchino Del Regno <
-> > > angelogioacchino.delregno@collabora.com>
-> > > Tested-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-> > > Tested-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-> > > Change-Id: I0501f3c80e78ec8279366cba9c137a2edd7a852e
-> > > ---
-> > >  drivers/gpu/drm/mediatek/mtk_drm_crtc.c     |  61 ++++-----
-> > >  drivers/gpu/drm/mediatek/mtk_drm_crtc.h     |   2 +-
-> > >  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 129 ++++++++++++--
-> > > ------
-> > >  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |  50 +++++++-
-> > >  drivers/gpu/drm/mediatek/mtk_drm_drv.c      |  78 ++++++------
-> > >  drivers/gpu/drm/mediatek/mtk_drm_drv.h      |  12 +-
-> > >  6 files changed, 209 insertions(+), 123 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> > > b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> > > index 30dcb65d8a5a..ce5617ad04cb 100644
-> > > --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> > > +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> > 
-> > [..]
-> > >  int mtk_drm_crtc_create(struct drm_device *drm_dev,
-> > > -			const enum mtk_ddp_comp_id *path, unsigned int
-> > > path_len,
-> > > +			const unsigned int *path, unsigned int
-> > > path_len,
-> > 
-> > Hi Nancy,
-> > 
-> > why is 'enum mtk_ddp_comp_id' being changed to 'unsigned int'
-> > throughout this
-> > patch? Was this intentional?
-> > 
-> > I saw that this change happened between v16 [1] and v17 [2], but I
-> > didn't see
-> > any reply or mention about this in the commit message or cover
-> > letter.
-> > 
-> > Thanks,
-> > Nícolas
-> > 
-> > [1] 
-> > https://lore.kernel.org/all/20220318142009.2796-21-nancy.lin@mediatek.com/
-> > [2] 
-> > https://lore.kernel.org/all/20220416020749.29010-20-nancy.lin@mediatek.com/
-> 
-> 
-> The change is for the review in [1] to expose each mod instead of ovl
-> adaptor to mtk_mutex.
-> Ovl adaptor is an application that combine these mod to achieve ovl
-> function, and it's not a real component in mtk_mmsys/mtk_mutex.
-> 
-> For the above comment, I discussed the solution with MediaTek DRM
-> reviewer CK.Hu internally.
-> 1. remove the DDP_COMPONENT_OVL_ADAPTOR in enum mtk_ddp_comp_id{}  (ref
-> [2])
-> 2. add DRM driver component define "DDP_COMPONENT_DRM_OVL_ADAPTOR" in
-> mtk_drm_drv.h (ref[3])
-> 3. replace mmsys compoent DDP_COMPONENT_OVL_ADAPTOR with DRM driver
-> compoent DDP_COMPONENT_DRM_OVL_ADAPTOR in drm mt8195_mtk_ddp_ext[] path
-> array. (ref[3] - mtk_drm_drv.c)
->    
->     static const unsigned int mt8195_mtk_ddp_ext[] = {
-> 		DDP_COMPONENT_DRM_OVL_ADAPTOR,
-> 		DDP_COMPONENT_MERGE5,
-> 		DDP_COMPONENT_DP_INTF1,
->     };
-> Because the DDP_COMPONENT_DRM_OVL_ADAPTOR is not a real mmsys
-> component, change to use "unsigned int" instead of "enum
-> mtk_ddp_comp_id{}"
+On Wed, Nov 2, 2022 at 5:21 AM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+> Hi Lucas,
+>
+> Am 02.11.22 um 12:39 schrieb Lucas Stach:
+> > Hi Christian,
+> >
+> > going to reply in more detail when I have some more time, so just some
+> > quick thoughts for now.
+> >
+> > Am Mittwoch, dem 02.11.2022 um 12:18 +0100 schrieb Christian K=C3=B6nig=
+:
+> >> Am 01.11.22 um 22:09 schrieb Nicolas Dufresne:
+> >>> [SNIP]
+> >> As far as I can see it you guys just allocate a buffer from a V4L2
+> >> device, fill it with data and send it to Wayland for displaying.
+> >>
+> >> To be honest I'm really surprised that the Wayland guys hasn't pushed
+> >> back on this practice already.
+> >>
+> >> This only works because the Wayland as well as X display pipeline is
+> >> smart enough to insert an extra copy when it find that an imported
+> >> buffer can't be used as a framebuffer directly.
+> >>
+> > With bracketed access you could even make this case work, as the dGPU
+> > would be able to slurp a copy of the dma-buf into LMEM for scanout.
+>
+> Well, this copy is what we are trying to avoid here. The codec should
+> pump the data into LMEM in the first place.
+>
 
-Ah okay, that makes sense. Thank you for the clarification.
+For the dGPU VRAM case, shouldn't this be amdgpu re-importing it's own
+dmabuf, which more or less bypasses dma-buf to get back the backing
+GEM obj?
 
-Thanks,
-Nícolas
-
-> 
-> 
-> [1] 
-> https://patchwork.kernel.org/project/linux-mediatek/patch/20220318142009.2796-10-nancy.lin@mediatek.com/
-> [2] 
-> https://patchwork.kernel.org/project/linux-mediatek/patch/20220318142009.2796-5-nancy.lin@mediatek.com/
-> [3] 
-> https://patchwork.kernel.org/project/linux-mediatek/patch/20221103032610.9217-7-nancy.lin@mediatek.com/
-> 
-> Thanks,
-> Nancy
-> 
+BR,
+-R
