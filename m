@@ -1,42 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 077266190E0
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 07:21:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 036B4619128
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 07:37:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1C5410E047;
-	Fri,  4 Nov 2022 06:21:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCBDA10E081;
+	Fri,  4 Nov 2022 06:37:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C31F610E047
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 06:20:59 +0000 (UTC)
-Received: from dggpeml500024.china.huawei.com (unknown [172.30.72.57])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4N3Vqg6Kvrz15MJf;
- Fri,  4 Nov 2022 14:20:47 +0800 (CST)
-Received: from [10.174.178.41] (10.174.178.41) by
- dggpeml500024.china.huawei.com (7.185.36.10) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 4 Nov 2022 14:20:53 +0800
-Message-ID: <d9132431-76c4-fa04-84a8-7cf9fa67be07@huawei.com>
-Date: Fri, 4 Nov 2022 14:20:52 +0800
+Received: from out30-43.freemail.mail.aliyun.com
+ (out30-43.freemail.mail.aliyun.com [115.124.30.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80CD410E6BC
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 06:37:07 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R571e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046059;
+ MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=12; SR=0;
+ TI=SMTPD_---0VTvoKDj_1667543814; 
+Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
+ fp:SMTPD_---0VTvoKDj_1667543814) by smtp.aliyun-inc.com;
+ Fri, 04 Nov 2022 14:37:03 +0800
+From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To: andrzej.hajda@intel.com
+Subject: [PATCH] drm/bridge: sii9234: Remove the unused function
+ sii9234_mode_valid()
+Date: Fri,  4 Nov 2022 14:36:52 +0800
+Message-Id: <20221104063652.82789-1-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH] drm/ingenic: Fix missing platform_driver_unregister()
- call in ingenic_drm_init()
-To: Paul Cercueil <paul@crapouillou.net>
-References: <20221103140148.76385-1-yuancan@huawei.com>
- <5B1SKR.FZ7TSOMCSE4N2@crapouillou.net>
-From: Yuan Can <yuancan@huawei.com>
-In-Reply-To: <5B1SKR.FZ7TSOMCSE4N2@crapouillou.net>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.178.41]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpeml500024.china.huawei.com (7.185.36.10)
-X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,55 +41,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sam@ravnborg.org, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org
+Cc: neil.armstrong@linaro.org, jonas@kwiboo.se, robert.foss@linaro.org,
+ dri-devel@lists.freedesktop.org, Abaci Robot <abaci@linux.alibaba.com>,
+ linux-kernel@vger.kernel.org, jernej.skrabec@gmail.com,
+ Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+ Laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-在 2022/11/3 22:52, Paul Cercueil 写道:
-> Hi Yuan,
->
-> Le jeu. 3 nov. 2022 à 14:01:48 +0000, Yuan Can <yuancan@huawei.com> a 
-> écrit :
->> A problem about modprobe ingenic-drm failed is triggered with the 
->> following
->> log given:
->>
->>  [  303.561088] Error: Driver 'ingenic-ipu' is already registered, 
->> aborting...
->>  modprobe: ERROR: could not insert 'ingenic_drm': Device or resource 
->> busy
->>
->> The reason is that ingenic_drm_init() returns platform_driver_register()
->> directly without checking its return value, if 
->> platform_driver_register()
->> failed, it returns without unregistering ingenic_ipu_driver_ptr, 
->> resulting
->> the ingenic-drm can never be installed later.
->> A simple call graph is shown as below:
->>
->>  ingenic_drm_init()
->>    platform_driver_register() # ingenic_ipu_driver_ptr are registered
->>    platform_driver_register()
->>      driver_register()
->>        bus_add_driver()
->>          priv = kzalloc(...) # OOM happened
->>    # return without unregister ingenic_ipu_driver_ptr
->>
->> Fixing this problem by checking the return value of
->> platform_driver_register() and do platform_unregister_drivers() if
->> error happened.
->>
->> Fixes: fc1acf317b01 ("drm/ingenic: Add support for the IPU")
->> Signed-off-by: Yuan Can <yuancan@huawei.com>
->
-> Missing a Cc: to linux-stable, no?
->
-> Cheers,
-> -Paul
-Ok, I will cc to linux-stable in the v2 patch, thanks for the review.
+The function sii9234_mode_valid() is defined in the sii9234.c file, but
+not called elsewhere, so remove this unused function.
 
+drivers/gpu/drm/bridge/sii9234.c:870:31: warning: unused function 'bridge_to_sii9234'.
+
+Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=2735
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+---
+ drivers/gpu/drm/bridge/sii9234.c | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/sii9234.c b/drivers/gpu/drm/bridge/sii9234.c
+index 5b3061d4b5c3..62b6bc8ca7af 100644
+--- a/drivers/gpu/drm/bridge/sii9234.c
++++ b/drivers/gpu/drm/bridge/sii9234.c
+@@ -867,11 +867,6 @@ static int sii9234_init_resources(struct sii9234 *ctx,
+ 	return 0;
+ }
+ 
+-static inline struct sii9234 *bridge_to_sii9234(struct drm_bridge *bridge)
+-{
+-	return container_of(bridge, struct sii9234, bridge);
+-}
+-
+ static enum drm_mode_status sii9234_mode_valid(struct drm_bridge *bridge,
+ 					 const struct drm_display_info *info,
+ 					 const struct drm_display_mode *mode)
 -- 
-Best regards,
-Yuan Can
+2.20.1.7.g153144c
 
