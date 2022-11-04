@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 241E9619788
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 14:19:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16CD861978D
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 14:19:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29FE710E763;
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB91710E76A;
 	Fri,  4 Nov 2022 13:18:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
  [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BFDE10E763
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 13:18:25 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id B73D85804C5;
- Fri,  4 Nov 2022 09:18:24 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 885FC10E763
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 13:18:27 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id E62CC5804CA;
+ Fri,  4 Nov 2022 09:18:26 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Fri, 04 Nov 2022 09:18:24 -0400
+ by compute3.internal (MEProxy); Fri, 04 Nov 2022 09:18:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1667567904; x=
- 1667575104; bh=ZQiHGlhcCi/k+//rpfo4vhoISVvHuB3yO5HEIA4xQ/A=; b=j
- kjCQWX9xab52+XF4Z4xv6+Hy6ru0SOALA2TqaDZBZa8itukdy/3e0tVRuE7Xr9fN
- 7xnWTNcH2DCFNFhQFQP1mhnyN2KQFj9ug8I5/KOxEByRCFSvvqYjKAMESSVcRGnF
- oodTz3OeKFV0GrKO3zu9TxAcgRyBEiZ9gFZIXK/ztiUNRLZBlPw0p0eP97ZMK0DT
- iPaJr0iURFasa4CVqgLmCkHRGMiBXPlKQE3NhOWGLd391l82tjtn4wpi+MJ50FAT
- +a2VJqaI3s/VpMSOoEJtbbyQkToEnZL97jKftlsYqqvs9wGOCBIM4nwZEyBnrkWe
- eoRuceLKDWPI2+4rPt2Rw==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1667567906; x=
+ 1667575106; bh=5y94lcdciHGnxsIUF611rAjwiEbDzI+GRIM63DhjQ2I=; b=p
+ 7sG0etQ4w8VvMurS5E1x1s8e34HA6/ESjrqf2T8/oeYUUhUqvbDeYEilHTpDdrcl
+ eUEbHNH5PaABl7QXw9OsszdG8/qFDVeOeThYm1sy+8h5RbiqMZzSr/IXQ2bX5QLw
+ Gk9h1W7ipwKgyE/WsJyalfoZO4gvfSl41MIz92t68zpO6Z5B9GHoI/ys9xlavqTY
+ 1Vcydo0FgD1lpX3TX5Gb9n6okBBQosmJgpZZkkVI+MwP1J+4icDBAnbHl2Cybakr
+ yd7bSjW+akk7pTM9ZaaW3UJ0Q0eli7WksxVNduf4EyoQvdHGEpdwkcFS4uGHIwVp
+ 4+wonm7WOaSllsNgqILeg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1667567904; x=
- 1667575104; bh=ZQiHGlhcCi/k+//rpfo4vhoISVvHuB3yO5HEIA4xQ/A=; b=L
- 1cZChDsIlqnNhfr4CVP5rKXrSD5DW1LijYfMxZ9VXawJ8ziZx/4xFfU41e+31wuE
- hIgLPBjO57MfuIn/XSAiPfIbYZZTDTCRRk5pFiXP3PlNZkTQM58vjnbrE3J4sD1C
- OaJ3lsejqzHPNLP6dGcjefRUBNEfe1SflT7Z1zyVYXT+ENhedOINZQNFhwH6gMxM
- 2rub/yqEri8Tf298kiQPgIkHF/P9idZS3I2NajfOZQEFaDpYki8jvDQtWoOND+Fi
- pvhlzxI451q5XDFVj+TfhNfflSelKvSwJ85d3NPdJd/UHjP7o1NXE3QiyduHDdKb
- W8IO+r3QniIB6rgPrFOZA==
-X-ME-Sender: <xms:IBFlYwkvQgUez2_sICw6AwCW4Ms3RVd__Jox1ahZsPnXjikRgay7oQ>
- <xme:IBFlY_04siW77CaVG-d3clI-SOK9CneQrLDJGS85-fSTggus9ABORF7JOI6nsPgcs
- kCSJro3X2TJ7ia0b98>
-X-ME-Received: <xmr:IBFlY-rpsRJPOCC0_SLaidzGLBrUxQTvASuVKbJwjxxjRVgOUvZ3X_OaSkyqK-T9Q4G6e3qZQIBjLNFWbG_fWt6yg84PpZa33p76wBnOhBOwZg>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1667567906; x=
+ 1667575106; bh=5y94lcdciHGnxsIUF611rAjwiEbDzI+GRIM63DhjQ2I=; b=F
+ Sc+SC644Dsuq/yPQ860pRaogIUkMlcIWla5PN4pdESBgqRdWEMOf19tKAkS94O/9
+ r0eJsSALXG01dxVdBqMp6fsLA/2s0Mxo/zMRXUdW3IEh4F/Aldvb4BbETlDGYl/y
+ wlYs4idlaSh4/fHCWrtoObeycW9S32M6w4I+1BuwP00SvDHCohJ/eWk3gvB1052a
+ GkX8zvGMJw9UfCQsFB5JsJDceoOhs2/ff++dXGVwzpVVmHAf/bMsOHXSuj8wrRpj
+ 0fk94/SD1yg/ObTyngY+DzFk2kWmF6WDSGZBNBK/IEIcc7h0YiDuQbSkbBH46jF7
+ uUHBPYRAzbOu9QdbE3lFA==
+X-ME-Sender: <xms:IhFlYxecIbirF2dRG53YtsuSY2gvfrMPioY34rqtuv7Ro3qjJWLzuQ>
+ <xme:IhFlY_M7trfLS0oU8uqMtxBTikHQIQbMb41n4ZnwZerrkzzygcd84opJOevo41w2k
+ tbuMwwfGj12fFvAzo0>
+X-ME-Received: <xmr:IhFlY6gw2OeFZS_0MwWKgt_wIQDlBWSUY-_nyFAr0OyOJt8i8rfqr2lQx37AiVZtGJZCyijtuD0W84juuRb-_c5dwwnm-9btVUebKkE9nKlFbA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvddugdegkecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -54,20 +54,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvddugdegkecutefuodetggdote
  htthgvrhhnpeduudduhfevjeetfeegvdffvdevvdejudegudekjeehtdelhfffveethfej
  ledtveenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:IBFlY8lAhKIINJYzyl0MH2h2j-DqRrRfaLB3LsOwt3k3VLsQN2jfBQ>
- <xmx:IBFlY-3vE0hIJ3RhpUrEFoSiagXAxvQAiWkR9LNlPaoEnpwb7NPGyA>
- <xmx:IBFlYzuybs8oiDvmPTi_hPl0SuxOtyjjVMWDPX-9vJR71BtvxKmPAQ>
- <xmx:IBFlY90koTs-0bHZXZeXJk5lrMl3gY95OFXdjQq1mGfgVzdIENlJ8Q>
+X-ME-Proxy: <xmx:IhFlY68Th8I0IZg_f2-UAh3-fghqZMVSx8KGv8wzPLUY48Jl4rBtkw>
+ <xmx:IhFlY9tfylIoj1R32c70nXw4jTs4QVtuGnndMMEKj_JA3-tu9uoufg>
+ <xmx:IhFlY5EuFNtM2RK4ohZD8Rggury8j7LV1Uh6oZDGchKXVj2RzdkRFw>
+ <xmx:IhFlYyM2gN63BCfv8AtuXAdulgI7jyqCwLmtcojUwqEeXnyLxL54pQ>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 4 Nov 2022 09:18:23 -0400 (EDT)
+ 4 Nov 2022 09:18:25 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Fri, 04 Nov 2022 14:17:34 +0100
-Subject: [PATCH v2 17/65] clk: stm32f4: mux: Add a determine_rate hook
+Date: Fri, 04 Nov 2022 14:17:35 +0100
+Subject: [PATCH v2 18/65] clk: vc5: mux: Add a determine_rate hook
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20221018-clk-range-checks-fixes-v2-17-f6736dec138e@cerno.tech>
+Message-Id: <20221018-clk-range-checks-fixes-v2-18-f6736dec138e@cerno.tech>
 References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
 In-Reply-To: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
 To: Stephen Boyd <sboyd@kernel.org>,
@@ -108,11 +108,11 @@ To: Stephen Boyd <sboyd@kernel.org>,
  Max Filippov <jcmvbkbc@gmail.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>
 X-Mailer: b4 0.11.0-dev-99e3a
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2288; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=lgJkEvSNRDAnm37cdjNLF/t0qBUSxsL3dduicg+ovzY=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMmpAp8ZevqTgufkWbXs+uPr9ttBxXD6Dcv/D/okDKbUJR2b
- kZ7aUcrCIMbFICumyBIjbL4k7tSs151sfPNg5rAygQ3h4hSAicxlZGR4MU3xztwAM43PwhkiArm7tH
- wuLVK90l0tk97ttnlfiPJxRoaGo2EJBt+W3pjD8ONq/yv+k7bF+gF5XCWNLK/zd4rNXcYCAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2392; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=UHYzA/6Th38vKXuoTjYzk35rG9CoA3kN/ZZ7xjHnj08=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMmpAp9DBZ4qWZ1h2GCy9+jC9UcZFWRu/amQalW+8cMkxFVm
+ wjHBjlIWBjEuBlkxRZYYYfMlcadmve5k45sHM4eVCWQIAxenAEzkKx/D/9yGTQLmDDVFd4O2JO7f1y
+ 3en7P0/bwPBfbf9x96/nLRvOWMDM/uvkj8t3DN4hKGvKCzvVoCm8vXxDTdV7q/guX02V11OiwA
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -139,7 +139,7 @@ Cc: linux-rtc@vger.kernel.org, alsa-devel@alsa-project.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The STM32F4 mux clock implements a mux with a set_parent hook, but
+The Versaclock5 mux clock implements a mux with a set_parent hook, but
 doesn't provide a determine_rate implementation.
 
 This is a bit odd, since set_parent() is there to, as its name implies,
@@ -170,30 +170,30 @@ behavior now and it can be further refined down the line.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/clk/clk-stm32f4.c | 3 ++-
+ drivers/clk/clk-versaclock5.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/clk/clk-stm32f4.c b/drivers/clk/clk-stm32f4.c
-index 473dfe632cc5..01046437a48c 100644
---- a/drivers/clk/clk-stm32f4.c
-+++ b/drivers/clk/clk-stm32f4.c
-@@ -1045,6 +1045,7 @@ static int cclk_mux_set_parent(struct clk_hw *hw, u8 index)
+diff --git a/drivers/clk/clk-versaclock5.c b/drivers/clk/clk-versaclock5.c
+index 88689415aff9..e858066c2c3f 100644
+--- a/drivers/clk/clk-versaclock5.c
++++ b/drivers/clk/clk-versaclock5.c
+@@ -281,6 +281,7 @@ static int vc5_mux_set_parent(struct clk_hw *hw, u8 index)
  }
  
- static const struct clk_ops cclk_mux_ops = {
-+	.determine_rate = __clk_mux_determine_rate,
- 	.get_parent = cclk_mux_get_parent,
- 	.set_parent = cclk_mux_set_parent,
+ static const struct clk_ops vc5_mux_ops = {
++	.determine_rate	= __clk_mux_determine_rate,
+ 	.set_parent	= vc5_mux_set_parent,
+ 	.get_parent	= vc5_mux_get_parent,
  };
-@@ -1085,7 +1086,7 @@ static struct clk_hw *stm32_register_cclk(struct device *dev, const char *name,
- 			&mux->hw, &cclk_mux_ops,
- 			NULL, NULL,
- 			&gate->hw, &cclk_gate_ops,
--			flags);
-+			flags | CLK_SET_RATE_NO_REPARENT);
+@@ -1031,7 +1032,7 @@ static int vc5_probe(struct i2c_client *client)
  
- 	if (IS_ERR(hw)) {
- 		kfree(gate);
+ 	init.name = kasprintf(GFP_KERNEL, "%pOFn.mux", client->dev.of_node);
+ 	init.ops = &vc5_mux_ops;
+-	init.flags = 0;
++	init.flags = CLK_SET_RATE_NO_REPARENT;
+ 	init.parent_names = parent_names;
+ 	vc5->clk_mux.init = &init;
+ 	ret = devm_clk_hw_register(&client->dev, &vc5->clk_mux);
 
 -- 
 b4 0.11.0-dev-99e3a
