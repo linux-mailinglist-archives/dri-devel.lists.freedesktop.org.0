@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A30726196E3
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 14:03:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4798E6196E6
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 14:03:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7C7210E751;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C1B710E755;
 	Fri,  4 Nov 2022 13:03:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7579710E750
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 13:03:31 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id g12so7334008lfh.3
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Nov 2022 06:03:31 -0700 (PDT)
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D81D10E751
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 13:03:32 +0000 (UTC)
+Received: by mail-lj1-x231.google.com with SMTP id s24so6220077ljs.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Nov 2022 06:03:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QNrknjkwY6y7Nl2U9FfGOLqpO7+QERv2EXshAod3N+Q=;
- b=v0heW5S1Jn7iGCMqNDKVJf4qL/DJ0z8sJTh8IzmLrHaihk3vKDUNoB78z+Mgpv/GSI
- Ac7k/2QGz4IolW3GBdEogZxSURhotEJv1fazJHDzNpY29loarznugYLVjKNyW6v36oxC
- vquTkWKlonhinXx1gZlSAP2B5N3ckALJsMr76Jn0VrfKbLpQgzWCyfNZEniiOG6rvnPK
- m607J6LCHYRrQFcL7FXS3j7eGjdf2MgpN8PdbnEC9Xd43uRBvvy0tIv2dLy47NdWyXiJ
- DRUjiFyt8GJdN11lMXOrzaX+eg493NMWvdnNsDkJ7h5ADmju930sIZMDoOYy/FRzoYyN
- f0Ww==
+ bh=Eq+xrGXQkafyNxdD3bUOX4BO/00RbY/2YQOJ/yUkbp4=;
+ b=ZiAuXKe8Rzc52FzKCj1P6vLEukBXj5jyCz/b9mAAKh0BTHoyVAsE+eG77G3IjCP6/C
+ uf5M8d0DbcHOsA8nEm1G2+rgbkWmIwDYuDAfu8h2Bcto/uzfK+Uou1wzUnDNsixsxBRn
+ zGD1wzXUAfFppM5FiNoHnaVAi8tOAkcqHIkXJGMXLdzkn/EPaiDgXuU2zmQvENqU4dU+
+ dfzfVKvm8xgI7llaTDks/rkeLArgt6bW/08+cfLFElXOe+oUMT7LkSB0SljNstEE8tLX
+ v78biHFO4I2Q2LHBGwL2INNvRKIq763Cue0ATSMVKue4NusiX+lE4BV1A2yPQ9zlzx3U
+ PM0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QNrknjkwY6y7Nl2U9FfGOLqpO7+QERv2EXshAod3N+Q=;
- b=CWJRsBgn6WtgKkbSkZgsZTjtXx49VPM+43o9Wm5bnw5otTlEF2nFFRzxyw4e648I5P
- xdWvkKtt2+KsQC95cGB5GWkaU/e2DDvvRhBcx3+vRL+pTXBSMYx+hbVz3j3N5GWOxx2C
- jk+XnLt1mo5msFW2oGNnjX9t2js2FJ82eO0dcOmXmYMyCzsrwWrb4xervvrm0r+CvOBi
- smL087HrfJACAvSFubFl0tsnlrUB8PwZPdGpTJGKBZlz6aq4KyH/BDF5MlYnoB+FjPQh
- pE65/WVIlNa7NdFNoWa5Tm1UVBiDSr9awVp6DKaRTGploTIFXh4u1Mf3uEoCoBPnFspR
- 6DGA==
-X-Gm-Message-State: ACrzQf1e9MCNMbFbmyVxzDE3REHShtjsdayfH0RDhj49B3jtsw/y4GhW
- RgUlbhuJj2aoDa1pu7wszOSh2Q==
-X-Google-Smtp-Source: AMsMyM4OhY9/soUr3/Yu6/mBlVo1w6eYUp/ojteavHzsT/k8xoq6igsCEFJ2PP/9/dtHSu6sdgKLZA==
-X-Received: by 2002:ac2:4c0f:0:b0:4af:e7d3:e97d with SMTP id
- t15-20020ac24c0f000000b004afe7d3e97dmr12943317lfq.467.1667567009346; 
- Fri, 04 Nov 2022 06:03:29 -0700 (PDT)
+ bh=Eq+xrGXQkafyNxdD3bUOX4BO/00RbY/2YQOJ/yUkbp4=;
+ b=qeIps2POnGQ8/sVuSCwnGXNC971hWgNpbkQAA5ks0dllMDHA3paiCc4C8sSzYERsRO
+ dGfb3/i0jqjv/eXmIVJlOho6Udzd3B7lJrnbl4On6bmF4o9YZW4yDPIfc537LL6/Vo6/
+ 9R9zvN/KX3s53iX4BF8QbWNTZwxv8HHGqntaDGu3FO4J0QWGbKjx7oyg4UIaZdtbDYlu
+ 9AIX/ct0LRFN1aKv+wP1zhXGt6fVS3Iac0S+CzZ3IGrdYr69hlWWRdNrQHb0ibyRNm6n
+ ogofahE0nSimTayT7Q5UD0AV//QnySCLL1fSPhspkWgRxVO4sOP9IA8flJTw4G0R76xV
+ Nodw==
+X-Gm-Message-State: ACrzQf2NAcjfF3rsQztbSJlFtDIByzV5+s6rzCRqFQp9C2Z3C3eEAMt6
+ hRAlL6DT6IikDSGe2yiUoWpNcw==
+X-Google-Smtp-Source: AMsMyM5hN5nl5fyFXYAKV2CP6o7qjJSaNcDR/PFkXWZ8jUMBTE5L6jIxU05R9fdSkfnwDLw9Rst+xg==
+X-Received: by 2002:a2e:88d3:0:b0:275:ae74:c5ed with SMTP id
+ a19-20020a2e88d3000000b00275ae74c5edmr1901801ljk.13.1667567010388; 
+ Fri, 04 Nov 2022 06:03:30 -0700 (PDT)
 Received: from localhost.localdomain ([195.165.23.90])
  by smtp.gmail.com with ESMTPSA id
- s6-20020a2eb626000000b0026fe0a052c5sm419975ljn.129.2022.11.04.06.03.28
+ s6-20020a2eb626000000b0026fe0a052c5sm419975ljn.129.2022.11.04.06.03.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Nov 2022 06:03:29 -0700 (PDT)
+ Fri, 04 Nov 2022 06:03:30 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konrad.dybcio@somainline.org>,
@@ -56,10 +56,10 @@ To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH v3 1/8] dt-bindings: display/msm/dsi-controller-main: allow
- defining opp-table
-Date: Fri,  4 Nov 2022 16:03:17 +0300
-Message-Id: <20221104130324.1024242-2-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v3 2/8] dt-bindings: display/msm: add sm8350 and sm8450 DSI
+ PHYs
+Date: Fri,  4 Nov 2022 16:03:18 +0300
+Message-Id: <20221104130324.1024242-3-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221104130324.1024242-1-dmitry.baryshkov@linaro.org>
 References: <20221104130324.1024242-1-dmitry.baryshkov@linaro.org>
@@ -84,28 +84,28 @@ Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Allow defining DSI OPP table inside the DSI controller node.
+SM8350 and SM8450 platforms use the same driver and same bindings as the
+existing 7nm DSI PHYs. Add corresponding compatibility strings.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- .../devicetree/bindings/display/msm/dsi-controller-main.yaml   | 3 +++
- 1 file changed, 3 insertions(+)
+ Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-index 3b609c19e0bc..c37dd9503da0 100644
---- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-@@ -80,6 +80,9 @@ properties:
- 
-   operating-points-v2: true
- 
-+  opp-table:
-+    type: object
-+
-   ports:
-     $ref: "/schemas/graph.yaml#/properties/ports"
-     description: |
+diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
+index c851770bbdf2..bffd161fedfd 100644
+--- a/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
+@@ -15,6 +15,8 @@ allOf:
+ properties:
+   compatible:
+     enum:
++      - qcom,dsi-phy-5nm-8350
++      - qcom,dsi-phy-5nm-8450
+       - qcom,dsi-phy-7nm
+       - qcom,dsi-phy-7nm-8150
+       - qcom,sc7280-dsi-phy-7nm
 -- 
 2.35.1
 
