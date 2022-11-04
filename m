@@ -1,62 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E56ED618EB3
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 04:17:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6DFE618EAF
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Nov 2022 04:17:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5478510E058;
-	Fri,  4 Nov 2022 03:16:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DC5310E05C;
+	Fri,  4 Nov 2022 03:16:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
  [IPv6:2607:f8b0:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D25C710E048
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 03:16:49 +0000 (UTC)
-Received: by mail-pf1-x433.google.com with SMTP id y203so3403155pfb.4
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Nov 2022 20:16:49 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B31B10E048
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Nov 2022 03:16:51 +0000 (UTC)
+Received: by mail-pf1-x433.google.com with SMTP id y203so3403190pfb.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Nov 2022 20:16:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=kVkDO2KOif2frQeCzecIa3Ot4mR/23B4wTbE/ilmNLI=;
- b=ISodEXugjsGq/3voQK8yKgdkqR315OB/AgxmhqVqPbmkoX6tYVJxq4Qe1LyWQeOTCL
- pOXwJlIJrbTSTw52Tmg+tM6gVo9rCHjHV4bniO/FsZX1yHZo68/hRy8G3GP51UZ54w3p
- YbgidRg7v11OIVoiBVF2BNhAbCSbrPqrSvxocMRm8usjN8IeI27KLtJKKTtcFCtKgrL7
- cv8eVSOH+881aWk7/zvyHPjeR6tPC3Rf9YaUFcFEs25De4bia3On/TvBgtGWmvVYAecN
- U/hJqDZ6J7Ql0/YllMRZczid+nCLjwuJkxJhWyAQP9cEXxaop0I1zTMAiDAxy8EB0iWd
- ekoQ==
+ bh=3MRMByNf7k1ZHiaI3QTdRSrBekgD40L2iROgUZ5uSwA=;
+ b=kn5gvq2nrh87nFzuFuY6dVbazF8Hi8NdRiuOx4gRYg9AQWQQHCKmg+d0zVIAOTZV2A
+ K7AKz09rqNSqWIMCmU9oocVnb68WUSypRUQhJfemiQNjXhT00i8PQSXHoOnIJlo2uzYf
+ Ifn2y6n0eh+yAEanl9UptTp1Y9fSPPL0YAhl4LxY+93uCHhp3s6DJievO+da7EDk54KA
+ MUpqT5vgqe05BVh7cg5iKndCll1rguGwXw18OU6EW5xx16j5nkvSh+heZFd4oUpXz59Q
+ t96KnAs1iGJ8wn4UEyJEJQb0x1PQ5FSGCNP5LYLtvbn6g+tsaFkxaJD+qKPATtrtYCSB
+ NJNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=kVkDO2KOif2frQeCzecIa3Ot4mR/23B4wTbE/ilmNLI=;
- b=pORZfrj1a6LYIeqULEJ86YnLTC9b2NZ1Cl6GGDj/TXuc/6FhQoi0R++UQ07yomE//z
- +jWdVBMvBpMizuYIL00+wcC7VitZ/abhOBIaTZteY5EcYp+rKtYaCN+AdgNEuZ01nkvn
- C+DZgzL9Il9g3YnyCdLnfILhoCRpl+TqLBMoEbW61fG1a0Kp7qCnNjpVxHvmMsrVaXpr
- ZmyuLiR3QE45rPfTAZSaWDcCMLaFNeogqDAkTc4FOsAqIYXpGJeiuYGn//TFMespRp/Y
- Us3NxVw+PKgcpNaaXbvr0dWWezvSvbIpdR+PqzIR83cM2cOnosPns/Xg51VddWUimA2n
- eybQ==
-X-Gm-Message-State: ACrzQf0ESaXMNzAidcUFPUzCC09H/xRNt44/MM8hE+XicsmPQ02I/b4C
- t/OtJrQg1rNBzYwmU6lT5nM=
-X-Google-Smtp-Source: AMsMyM4gv9FFTkU3yc/kdYQAO0x9NhjY7M4+LxVPeUm9AG5lgYFwiLS9RSw36HZtBQOwFasZ85l0LQ==
-X-Received: by 2002:a63:2215:0:b0:43b:e00f:7c7b with SMTP id
- i21-20020a632215000000b0043be00f7c7bmr28818221pgi.511.1667531808949; 
- Thu, 03 Nov 2022 20:16:48 -0700 (PDT)
+ bh=3MRMByNf7k1ZHiaI3QTdRSrBekgD40L2iROgUZ5uSwA=;
+ b=c+edfrwPFcGh9oAxlXqNNRCIXAoLPqbCip2nzR+4Lb/8yZldd9GQmaTBxBlM5xtlMy
+ KQX5t+b54N8UaQWCXCvFxiKIqy7lomBizVKwQcubxUpxrzxS+fbkEvLvpA0RtWmyCp4H
+ sLmwdQQtDe0nPXZKcIUyhWysNo5bPliFcvN7rBhz8eKCh9trIANI5wzTQA6sKIH8jnBa
+ O5EtZ/FlqyghAkswhRJC0z6WMhttKFjVcjFTYBSWW/tGWTV44wlM0ItI1AI/WB5JMyBP
+ yOea+ftPeXWmj84pMHpKPzrappvDBSY6c5YC9i9+nCMQfgI1PG5FuTIGyKzfoc0I4PS4
+ wirA==
+X-Gm-Message-State: ACrzQf032N5tNPLyj/zqPSDkweIEBMozLFIhEC2iB3TXf5Rbub4ka7gA
+ lx+BciBMXbfuYKpGtLSf7to=
+X-Google-Smtp-Source: AMsMyM7IsmRWsIkspiRm/ltGOwN2ChryJ7mWpUG6msavi3or+BuI5Jqj9A8llaVwXjJZ7/vvZz65eA==
+X-Received: by 2002:a63:5b5c:0:b0:440:8531:d3f6 with SMTP id
+ l28-20020a635b5c000000b004408531d3f6mr29507088pgm.114.1667531810656; 
+ Thu, 03 Nov 2022 20:16:50 -0700 (PDT)
 Received: from dtor-ws.mtv.corp.google.com
  ([2620:15c:9d:2:a6ae:11ff:fe11:fcc3])
  by smtp.gmail.com with ESMTPSA id
- s3-20020a63ff43000000b004702eca61fcsm1078655pgk.36.2022.11.03.20.16.47
+ s3-20020a63ff43000000b004702eca61fcsm1078655pgk.36.2022.11.03.20.16.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Nov 2022 20:16:48 -0700 (PDT)
+ Thu, 03 Nov 2022 20:16:50 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: Helge Deller <deller@gmx.de>, Tony Lindgren <tony@atomide.com>,
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Sebastian Reichel <sre@kernel.org>
-Subject: [PATCH RESEND 01/13] omapfb: connector-hdmi: switch to using gpiod API
-Date: Thu,  3 Nov 2022 20:16:30 -0700
-Message-Id: <20221103-omapfb-gpiod-v1-1-cba1fae5a77c@gmail.com>
+Subject: [PATCH RESEND 02/13] omapfb: panel-sony-acx565akm: remove support for
+ platform data
+Date: Thu,  3 Nov 2022 20:16:31 -0700
+Message-Id: <20221103-omapfb-gpiod-v1-2-cba1fae5a77c@gmail.com>
 X-Mailer: git-send-email 2.38.1.431.g37b22c650d-goog
 In-Reply-To: <20221103-omapfb-gpiod-v1-0-cba1fae5a77c@gmail.com>
 References: <20221103-omapfb-gpiod-v1-0-cba1fae5a77c@gmail.com>
@@ -81,109 +82,117 @@ Cc: linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Switch the driver from legacy gpio API that is deprecated to the newer
-gpiod API that respects line polarities described in ACPI/DT.
+There are no users of panel_acx565akm_platform_data in the mainline
+kernel so support for it can be removed from the panel driver.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- .../fbdev/omap2/omapfb/displays/connector-hdmi.c   | 49 +++++++---------------
- 1 file changed, 14 insertions(+), 35 deletions(-)
+ .../omap2/omapfb/displays/panel-sony-acx565akm.c   | 45 +++-------------------
+ include/video/omap-panel-data.h                    | 16 --------
+ 2 files changed, 6 insertions(+), 55 deletions(-)
 
-diff --git a/drivers/video/fbdev/omap2/omapfb/displays/connector-hdmi.c b/drivers/video/fbdev/omap2/omapfb/displays/connector-hdmi.c
-index 670b9c6eb5a9..8f9ff9fb4ca4 100644
---- a/drivers/video/fbdev/omap2/omapfb/displays/connector-hdmi.c
-+++ b/drivers/video/fbdev/omap2/omapfb/displays/connector-hdmi.c
-@@ -6,11 +6,12 @@
-  * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
-  */
+diff --git a/drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c b/drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c
+index c0965bee12c5..0c81d3ff4197 100644
+--- a/drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c
++++ b/drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c
+@@ -23,7 +23,6 @@
+ #include <linux/of_gpio.h>
  
-+#include <linux/err.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/slab.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
- #include <linux/of.h>
--#include <linux/of_gpio.h>
+ #include <video/omapfb_dss.h>
+-#include <video/omap-panel-data.h>
  
- #include <drm/drm_edid.h>
- 
-@@ -41,7 +42,7 @@ struct panel_drv_data {
- 
- 	struct omap_video_timings timings;
- 
--	int hpd_gpio;
-+	struct gpio_desc *hpd_gpio;
+ #define MIPID_CMD_READ_DISP_ID		0x04
+ #define MIPID_CMD_READ_RED		0x06
+@@ -688,32 +687,6 @@ static struct omap_dss_driver acx565akm_ops = {
+ 	.get_resolution	= omapdss_default_get_resolution,
  };
  
- #define to_panel_data(x) container_of(x, struct panel_drv_data, dssdev)
-@@ -155,8 +156,8 @@ static bool hdmic_detect(struct omap_dss_device *dssdev)
- 	struct panel_drv_data *ddata = to_panel_data(dssdev);
- 	struct omap_dss_device *in = ddata->in;
- 
--	if (gpio_is_valid(ddata->hpd_gpio))
--		return gpio_get_value_cansleep(ddata->hpd_gpio);
-+	if (ddata->hpd_gpio)
-+		return gpiod_get_value_cansleep(ddata->hpd_gpio);
- 	else
- 		return in->ops.hdmi->detect(in);
- }
-@@ -197,31 +198,6 @@ static struct omap_dss_driver hdmic_driver = {
- 	.set_hdmi_infoframe	= hdmic_set_infoframe,
- };
- 
--static int hdmic_probe_of(struct platform_device *pdev)
+-static int acx565akm_probe_pdata(struct spi_device *spi)
 -{
--	struct panel_drv_data *ddata = platform_get_drvdata(pdev);
--	struct device_node *node = pdev->dev.of_node;
--	struct omap_dss_device *in;
--	int gpio;
+-	const struct panel_acx565akm_platform_data *pdata;
+-	struct panel_drv_data *ddata = dev_get_drvdata(&spi->dev);
+-	struct omap_dss_device *dssdev, *in;
 -
--	/* HPD GPIO */
--	gpio = of_get_named_gpio(node, "hpd-gpios", 0);
--	if (gpio_is_valid(gpio))
--		ddata->hpd_gpio = gpio;
--	else
--		ddata->hpd_gpio = -ENODEV;
+-	pdata = dev_get_platdata(&spi->dev);
 -
--	in = omapdss_of_find_source_for_first_ep(node);
--	if (IS_ERR(in)) {
--		dev_err(&pdev->dev, "failed to find video source\n");
--		return PTR_ERR(in);
+-	ddata->reset_gpio = pdata->reset_gpio;
+-
+-	in = omap_dss_find_output(pdata->source);
+-	if (in == NULL) {
+-		dev_err(&spi->dev, "failed to find video source '%s'\n",
+-				pdata->source);
+-		return -EPROBE_DEFER;
 -	}
--
 -	ddata->in = in;
+-
+-	ddata->datapairs = pdata->datapairs;
+-
+-	dssdev = &ddata->dssdev;
+-	dssdev->name = pdata->name;
 -
 -	return 0;
 -}
 -
- static int hdmic_probe(struct platform_device *pdev)
+ static int acx565akm_probe_of(struct spi_device *spi)
  {
- 	struct panel_drv_data *ddata;
-@@ -238,15 +214,18 @@ static int hdmic_probe(struct platform_device *pdev)
- 	platform_set_drvdata(pdev, ddata);
- 	ddata->dev = &pdev->dev;
+ 	struct panel_drv_data *ddata = dev_get_drvdata(&spi->dev);
+@@ -741,6 +714,9 @@ static int acx565akm_probe(struct spi_device *spi)
  
--	r = hdmic_probe_of(pdev);
-+	ddata->hpd_gpio = devm_gpiod_get_optional(&pdev->dev, "hpd", GPIOD_IN);
-+	r = PTR_ERR_OR_ZERO(ddata->hpd_gpio);
- 	if (r)
- 		return r;
+ 	dev_dbg(&spi->dev, "%s\n", __func__);
  
--	if (gpio_is_valid(ddata->hpd_gpio)) {
--		r = devm_gpio_request_one(&pdev->dev, ddata->hpd_gpio,
--				GPIOF_DIR_IN, "hdmi_hpd");
--		if (r)
--			goto err_reg;
-+	gpiod_set_consumer_name(ddata->hpd_gpio, "hdmi_hpd");
++	if (!spi->dev.of_node)
++		return -ENODEV;
 +
-+	ddata->in = omapdss_of_find_source_for_first_ep(pdev->dev.of_node);
-+	r = PTR_ERR_OR_ZERO(ddata->in);
-+	if (r) {
-+		dev_err(&pdev->dev, "failed to find video source\n");
-+		return r;
- 	}
+ 	spi->mode = SPI_MODE_3;
  
- 	ddata->timings = hdmic_default_timings;
+ 	ddata = devm_kzalloc(&spi->dev, sizeof(*ddata), GFP_KERNEL);
+@@ -753,18 +729,9 @@ static int acx565akm_probe(struct spi_device *spi)
+ 
+ 	mutex_init(&ddata->mutex);
+ 
+-	if (dev_get_platdata(&spi->dev)) {
+-		r = acx565akm_probe_pdata(spi);
+-		if (r)
+-			return r;
+-	} else if (spi->dev.of_node) {
+-		r = acx565akm_probe_of(spi);
+-		if (r)
+-			return r;
+-	} else {
+-		dev_err(&spi->dev, "platform data missing!\n");
+-		return -ENODEV;
+-	}
++	r = acx565akm_probe_of(spi);
++	if (r)
++		return r;
+ 
+ 	if (gpio_is_valid(ddata->reset_gpio)) {
+ 		r = devm_gpio_request_one(&spi->dev, ddata->reset_gpio,
+diff --git a/include/video/omap-panel-data.h b/include/video/omap-panel-data.h
+index 42b77249ee14..b7733150b55c 100644
+--- a/include/video/omap-panel-data.h
++++ b/include/video/omap-panel-data.h
+@@ -52,20 +52,4 @@ struct panel_dpi_platform_data {
+ 	int enable_gpio;
+ };
+ 
+-/**
+- * panel_acx565akm platform data
+- * @name: name for this display entity
+- * @source: name of the display entity used as a video source
+- * @reset_gpio: gpio to reset the panel (or -1)
+- * @datapairs: number of SDI datapairs
+- */
+-struct panel_acx565akm_platform_data {
+-	const char *name;
+-	const char *source;
+-
+-	int reset_gpio;
+-
+-	int datapairs;
+-};
+-
+ #endif /* __OMAP_PANEL_DATA_H */
 
 -- 
 b4 0.11.0-dev-28747
