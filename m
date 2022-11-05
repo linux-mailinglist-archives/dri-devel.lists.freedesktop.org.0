@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B474E61D7B1
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Nov 2022 07:01:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19C1961D7B0
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Nov 2022 07:01:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA1F610E0F8;
-	Sat,  5 Nov 2022 06:01:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC42A10E0DF;
+	Sat,  5 Nov 2022 06:01:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D8E110E0B5
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Nov 2022 06:01:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CEB110E0B6;
+ Sat,  5 Nov 2022 06:01:33 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7F85B60A47;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B10F860A55;
  Sat,  5 Nov 2022 06:01:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A5C2C43144;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AF33C43141;
  Sat,  5 Nov 2022 06:01:32 +0000 (UTC)
 Received: from rostedt by gandalf.local.home with local (Exim 4.96)
- (envelope-from <rostedt@goodmis.org>) id 1orCFk-007Ovl-1g;
+ (envelope-from <rostedt@goodmis.org>) id 1orCFk-007OwK-2G;
  Sat, 05 Nov 2022 02:02:00 -0400
-Message-ID: <20221105060200.357061890@goodmis.org>
+Message-ID: <20221105060200.540142479@goodmis.org>
 User-Agent: quilt/0.66
-Date: Sat, 05 Nov 2022 02:00:54 -0400
+Date: Sat, 05 Nov 2022 02:00:55 -0400
 From: Steven Rostedt <rostedt@goodmis.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v4a 30/38] timers: dma-buf: Use timer_shutdown_sync() for on
- stack timers
+Subject: [PATCH v4a 31/38] timers: drm: Use timer_shutdown_sync() for on stack
+ timers
 References: <20221105060024.598488967@goodmis.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -44,14 +44,15 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  Stephen Boyd <sboyd@kernel.org>,
  Linus Torvalds <torvalds@linux-foundation.org>,
- dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
- linaro-mm-sig@lists.linaro.org, Thomas Gleixner <tglx@linutronix.de>,
+ intel-gfx@lists.freedesktop.org,
+ =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
  Anna-Maria Gleixner <anna-maria@linutronix.de>,
- Andrew Morton <akpm@linux-foundation.org>, Guenter Roeck <linux@roeck-us.net>,
- linux-media@vger.kernel.org
+ Andrew Morton <akpm@linux-foundation.org>, Guenter Roeck <linux@roeck-us.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -61,28 +62,32 @@ Before a timer is released, timer_shutdown_sync() must be called.
 
 Link: https://lore.kernel.org/all/20221104054053.431922658@goodmis.org/
 
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org
+Cc: "Noralf Trønnes" <noralf@tronnes.org>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Cc: dri-devel@lists.freedesktop.org
-Cc: linaro-mm-sig@lists.linaro.org
+Cc: intel-gfx@lists.freedesktop.org
 Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 ---
- drivers/dma-buf/st-dma-fence.c | 2 +-
+ drivers/gpu/drm/gud/gud_pipe.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/dma-buf/st-dma-fence.c b/drivers/dma-buf/st-dma-fence.c
-index fb6e0a6ae2c9..5d3e7b503501 100644
---- a/drivers/dma-buf/st-dma-fence.c
-+++ b/drivers/dma-buf/st-dma-fence.c
-@@ -412,7 +412,7 @@ static int test_wait_timeout(void *arg)
+diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_pipe.c
+index 7c6dc2bcd14a..08429bdd57cf 100644
+--- a/drivers/gpu/drm/gud/gud_pipe.c
++++ b/drivers/gpu/drm/gud/gud_pipe.c
+@@ -272,7 +272,7 @@ static int gud_usb_bulk(struct gud_device *gdrm, size_t len)
  
- 	err = 0;
- err_free:
--	del_timer_sync(&wt.timer);
-+	timer_shutdown_sync(&wt.timer);
- 	destroy_timer_on_stack(&wt.timer);
- 	dma_fence_signal(wt.f);
- 	dma_fence_put(wt.f);
+ 	usb_sg_wait(&ctx.sgr);
+ 
+-	if (!del_timer_sync(&ctx.timer))
++	if (!timer_shutdown_sync(&ctx.timer))
+ 		ret = -ETIMEDOUT;
+ 	else if (ctx.sgr.status < 0)
+ 		ret = ctx.sgr.status;
 -- 
 2.35.1
