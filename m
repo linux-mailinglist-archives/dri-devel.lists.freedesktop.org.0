@@ -1,73 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46D5161D8A3
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Nov 2022 09:12:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D72E461D938
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Nov 2022 10:54:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 597EA10E106;
-	Sat,  5 Nov 2022 08:12:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9415610E136;
+	Sat,  5 Nov 2022 09:54:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A906B10E106
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Nov 2022 08:12:40 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id z18so10597429edb.9
- for <dri-devel@lists.freedesktop.org>; Sat, 05 Nov 2022 01:12:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=bsgs5v64dtrb9BK/zWIG40Cs+14Xzy/n1UZhAs2SA7Y=;
- b=Hpkuv3FuzjPSSr0s6F44u38vgcNHlm+qRMjeYeN7DIsx21Rsy9qLhJ5oEBuE8cQ/7f
- gOpz2Bj3B67JNdQamqt+Ozf3edx8hu0xz2RHktD9bpO+nylhjuNAMYwnNwIo6b8qnozZ
- fg+ig/rNBELojRZmBxz/AFPKmosHpIsdl3Ju11XgzLo3q5iaKErlZ2h+34ofKgjDmYMx
- u2/wfAHx5OKbtXlQlZ6UHEX9imLI/gmldPXHirM2E3tNxpKd9wKRRnpSDehfprqIsuRW
- iIw7B+dKVDa8x/owDtPwtAVGd1JZmZFj1TbtOAEO2j4z80eTYAYboWNN9dEvDbq0JYlh
- ivww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bsgs5v64dtrb9BK/zWIG40Cs+14Xzy/n1UZhAs2SA7Y=;
- b=TJDtEZcba45rTnObZb8rwE4gWpgfk6mHqyIUUtA+wDy8hc++zrfFu0oc60K2vm7QHI
- E0mHt4MECuAuIn+AhrxqQiHHLTG5UN7nCpNSokfXoXNd0utuk+GoG/v65/f8C0Fm5tWj
- 3GVz97T4bd+G6yAvG8uNWWF4Soes3jHf+b2/3nB2mf2KqOs43Wkv4l9JfZ6UW5dfqhy2
- sCDR5pJk/dcC3Aig3Oa6GiI+bTGYovTzRt1ZkSgP517PCYGUNcfZNmiWbAR9s4CzNTz3
- /tsLyyc10dNDcCUGuVVKaIGbio54MStcm9gT5IheUNTTnuXer3k3yNMZeiRximcH/mw3
- I4sQ==
-X-Gm-Message-State: ACrzQf2HJ7r/UueYMI1lzikmsRnnCKFbs4nnKCr24wyfF0XJdQz4Diin
- fkJYQi/pTLXcUymkaPITbBM=
-X-Google-Smtp-Source: AMsMyM7fGIPxzSTLIQa+n/MHhyw5CshqI5Un4z11aCmNOAlJoBCo/++l8HBiFLG3r6/zKNcOCfRZrQ==
-X-Received: by 2002:aa7:c956:0:b0:43b:206d:c283 with SMTP id
- h22-20020aa7c956000000b0043b206dc283mr39516948edt.381.1667635959118; 
- Sat, 05 Nov 2022 01:12:39 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1256:79a0:9819:17f5:ee0c:a9e6?
- ([2a02:908:1256:79a0:9819:17f5:ee0c:a9e6])
- by smtp.gmail.com with ESMTPSA id
- cm21-20020a0564020c9500b00461a6997c5dsm804192edb.83.2022.11.05.01.12.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 05 Nov 2022 01:12:38 -0700 (PDT)
-Message-ID: <d50ea531-c5cf-81d5-9cc5-0ab92b39232d@gmail.com>
-Date: Sat, 5 Nov 2022 09:12:37 +0100
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1A7C10E135;
+ Sat,  5 Nov 2022 09:54:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=QO/uh1tfrB1vZ/birVU9li3LJoDhOtqTeKkjmuQEcpU=; b=f8PZKPFaPnsa8knKT47i9fE0mj
+ aPMGaxO8zVXZyxJw7hhyjdY4uvNrXmbqRHSafTyZWk/g8BzjhCu914LSe3zgUxxIsg+6gYlyIIyO7
+ lDHZlOIyJGF9WsoQWnE4Cl/1UtZdjggV34hs38KfCrXqNmSrljZff2IkB7ocrp4Gy9K/dCuaeFeuj
+ DkWey3994d15MZEeU9o/P8W8QrYdwL7LQnJEIG6Z+t8EQgXAN2Ksnf9RirKKbjp92ni2CIiIrgqw4
+ WqLxmEJSQtVJTAm5xnBVPkhwwKPnnmMnofe+rOmye/FM633hokTlk13EMWHPa/1DhC6+Im2uTGbWs
+ QLgtsy7w==;
+Received: from [2a01:799:95a:cb00:749c:a195:60ac:1a6b] (port=61208)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1orFsN-0003Pc-4Z; Sat, 05 Nov 2022 10:54:07 +0100
+Message-ID: <4b97cc9b-4143-2a2f-f431-a7ea83a2e945@tronnes.org>
+Date: Sat, 5 Nov 2022 10:54:02 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [Linaro-mm-sig] Re: [RFC][PATCH v3 12/33] timers: dma-buf: Use
- timer_shutdown_sync() before freeing timer
-Content-Language: en-US
-To: Steven Rostedt <rostedt@goodmis.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20221104054053.431922658@goodmis.org>
- <20221104054914.085569465@goodmis.org>
- <20221104015444.57f73efb@rorschach.local.home>
- <d916e29d-d098-c3f3-940a-37be6772ecb5@amd.com>
- <20221104145804.4ec8404e@rorschach.local.home>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20221104145804.4ec8404e@rorschach.local.home>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v4a 31/38] timers: drm: Use timer_shutdown_sync() for on
+ stack timers
+To: Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org
+References: <20221105060024.598488967@goodmis.org>
+ <20221105060200.540142479@goodmis.org>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20221105060200.540142479@goodmis.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,56 +56,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Boyd <sboyd@kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
- linaro-mm-sig@lists.linaro.org, Thomas Gleixner <tglx@linutronix.de>,
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Stephen Boyd <sboyd@kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ intel-gfx@lists.freedesktop.org,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
  Anna-Maria Gleixner <anna-maria@linutronix.de>,
- Andrew Morton <akpm@linux-foundation.org>, Guenter Roeck <linux@roeck-us.net>,
- linux-media@vger.kernel.org
+ Andrew Morton <akpm@linux-foundation.org>, Guenter Roeck <linux@roeck-us.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 04.11.22 um 19:58 schrieb Steven Rostedt:
-> On Fri, 4 Nov 2022 08:15:53 +0100
-> Christian König <christian.koenig@amd.com> wrote:
->
->>> index fb6e0a6ae2c9..5d3e7b503501 100644
->>> --- a/drivers/dma-buf/st-dma-fence.c
->>> +++ b/drivers/dma-buf/st-dma-fence.c
->>> @@ -412,7 +412,7 @@ static int test_wait_timeout(void *arg)
->>>    
->>>    	err = 0;
->>>    err_free:
->>> -	del_timer_sync(&wt.timer);
->>> +	timer_shutdown_sync(&wt.timer);
->> Mhm, what exactly is the benefit of renaming the function?
->>
->> Not that I'm against the change, but my thinking is more if there are
->> more functions which don't re-arm the time than those which do that then
->> why not forbid it in general?
-> Timers are more often re-armed then not. I had to look for the
-> locations where del_timer*() was called just before freeing, and other
-> locations where they are freed later.
->
-> I didn't rename del_timer_sync() to timer_shutdown_sync(), this version
-> renamed the new "del_timer_shutdown()" to "timer_shutdown_sync()".
->
-> Maybe I'm just confused at what you are asking.
 
-No, that explains it a bit better. I was just wondering what exactly the 
-different to del_timer_sync() is.
 
-Maybe shorten the summary in the cover letter a bit. The history how 
-this change came to be is not as interesting as why we are changing 
-something.
+Den 05.11.2022 07.00, skrev Steven Rostedt:
+> From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+> 
+> Before a timer is released, timer_shutdown_sync() must be called.
+> 
+> Link: https://lore.kernel.org/all/20221104054053.431922658@goodmis.org/
+> 
+> Cc: "Noralf Trønnes" <noralf@tronnes.org>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: intel-gfx@lists.freedesktop.org
+> Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+> ---
 
-Regards,
-Christian.
+Acked-by: Noralf Trønnes <noralf@tronnes.org>
 
->
-> -- Steve
-> _______________________________________________
-> Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
-> To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
-
+>  drivers/gpu/drm/gud/gud_pipe.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_pipe.c
+> index 7c6dc2bcd14a..08429bdd57cf 100644
+> --- a/drivers/gpu/drm/gud/gud_pipe.c
+> +++ b/drivers/gpu/drm/gud/gud_pipe.c
+> @@ -272,7 +272,7 @@ static int gud_usb_bulk(struct gud_device *gdrm, size_t len)
+>  
+>  	usb_sg_wait(&ctx.sgr);
+>  
+> -	if (!del_timer_sync(&ctx.timer))
+> +	if (!timer_shutdown_sync(&ctx.timer))
+>  		ret = -ETIMEDOUT;
+>  	else if (ctx.sgr.status < 0)
+>  		ret = ctx.sgr.status;
