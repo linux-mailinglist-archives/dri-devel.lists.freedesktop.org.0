@@ -2,39 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1574061DEE6
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Nov 2022 22:48:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1540561DF09
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Nov 2022 23:21:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E219610E143;
-	Sat,  5 Nov 2022 21:48:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F25610E0F9;
+	Sat,  5 Nov 2022 22:21:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C877C10E129;
- Sat,  5 Nov 2022 21:48:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A921710E0F9
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Nov 2022 22:20:57 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 383BD60B9E;
- Sat,  5 Nov 2022 21:48:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37383C433D6;
- Sat,  5 Nov 2022 21:47:58 +0000 (UTC)
-Date: Sat, 5 Nov 2022 17:47:56 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH v4a 00/38] timers: Use timer_shutdown*() before freeing
- timers
-Message-ID: <20221105174756.38062fce@rorschach.local.home>
-In-Reply-To: <CAHk-=wjkkomrdcrAxxFijs-Lih6vHze+A2TgM+v7-Z7ZkXT+WA@mail.gmail.com>
-References: <20221105060024.598488967@goodmis.org>
- <CAHk-=wi95dGkg7DiuOZ27gGW+mxJipn9ykB6LHB-HrbbLG6OMQ@mail.gmail.com>
- <20221105123642.596371c7@rorschach.local.home>
- <Y2bPlllkHo5DUmLY@zx2c4.com>
- <CAHk-=wjkkomrdcrAxxFijs-Lih6vHze+A2TgM+v7-Z7ZkXT+WA@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0F7C060B58;
+ Sat,  5 Nov 2022 22:20:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEF3EC433D7;
+ Sat,  5 Nov 2022 22:20:54 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="NiluAsAW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1667686852;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=GokT8QcZOOF1Sj+w1E78zsAC5vdLp3dZxLPEamRZIQc=;
+ b=NiluAsAWGU9q2YBTgfIqH7nw2j4QXLI9zVeGdjIIsiTzIQF6J69JxnxlXhrGVgPJYsTlNf
+ m2iE8C353WC3NFDPhvgr3yf7e8dr5Up3F5jyaGu5chUUnWd3HCjhX+7PdW1ogHNlCnFFUk
+ +6XrN1/n8nwHh1xBkhJAboxHjNS2tOg=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 969eda74
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Sat, 5 Nov 2022 22:20:52 +0000 (UTC)
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: dri-devel@lists.freedesktop.org, linux-api@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/atomic: do not branch based on the value of
+ current->comm[0]
+Date: Sat,  5 Nov 2022 23:20:12 +0100
+Message-Id: <20221105222012.4226-1-Jason@zx2c4.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,48 +56,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, linux-staging@lists.linux.dev,
- linux-doc@vger.kernel.org, alsa-devel@alsa-project.org,
- dri-devel@lists.freedesktop.org, Thomas Gleixner <tglx@linutronix.de>,
- linux-leds@vger.kernel.org, drbd-dev@lists.linbit.com,
- linux-s390@vger.kernel.org, linux-nilfs@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-atm-general@lists.sourceforge.net, linux-afs@lists.infradead.org,
- lvs-devel@vger.kernel.org, linux-acpi@vger.kernel.org, coreteam@netfilter.org,
- intel-wired-lan@lists.osuosl.org, linux-input@vger.kernel.org,
- tipc-discussion@lists.sourceforge.net, linux-ext4@vger.kernel.org,
- Guenter Roeck <linux@roeck-us.net>, linux-media@vger.kernel.org,
- bridge@lists.linux-foundation.org, linux-pm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, rcu@vger.kernel.org, cgroups@vger.kernel.org,
- openipmi-developer@lists.sourceforge.net,
- Anna-Maria Gleixner <anna-maria@linutronix.de>, linux-edac@vger.kernel.org,
- linux-block@vger.kernel.org, linux-nfs@vger.kernel.org,
- linux-parisc@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
- netdev@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-bluetooth@vger.kernel.org, netfilter-devel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>, linaro-mm-sig@lists.linaro.org
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>,
+ Christian Brauner <brauner@kernel.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Sultan Alsawaf <sultan@kerneltoast.com>, Sean Paul <sean@poorly.run>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 5 Nov 2022 14:13:14 -0700
-Linus Torvalds <torvalds@linux-foundation.org> wrote:
+This reverts 26b1d3b527e7 ("drm/atomic: Take the atomic toys away from
+X"), a rootkit-like kludge that has no business being inside of a
+general purpose kernel. It's the type of debugging hack I'll use
+momentarily but never commit, or a sort of babbies-first-process-hider
+malware trick.
 
-> (Comparing output is also fun because the ordering of the patches is
-> random, so consecutive runs with the same rule will give different
-> patches. I assume that it's just because it's done in parallel, but it
-> doesn't help the "try to see what changes when you change the script"
-> ;)
+The backstory is that some userspace code -- xorg-server -- has a
+modesetting DDX that isn't really coded right. With nobody wanting to
+maintain X11 anymore, rather than fixing the buggy code, the kernel was
+adjusted to avoid having to touch X11. A bummer, but fair enough: if the
+kernel doesn't want to support some userspace API any more, the right
+thing to do is to arrange for a graceful fallback where userspace thinks
+it's not available in a manageable way.
 
-What I do to compare is:
+However, the *way* it goes about doing that is just to check
+`current->comm[0] == 'X'`, and disable it for only that case. So that
+means it's *not* simply a matter of the kernel not wanting to support a
+particular userspace API anymore, but rather it's the kernel not wanting
+to support xorg-server, in theory, but actually, it turns out, that's
+all processes that begin with 'X'.
 
- patch -p1 < cocci1.patch
- git commit -a
- git show | patch -p1 -R
- patch -p1 < cocci2.patch
- git diff
+Playing games with current->comm like this is obviously wrong, and it's
+pretty shocking that this ever got committed.
 
-Then I see how things changed. This is how I was able to show you the
-tweaks I made.
+Fortunately, since this was committed, somebody did actually disable
+the userspace side by default in X11:
+https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/180 and
+this was three years ago. So userspace is mostly fine now for ordinary
+default usage. And people who opt into this -- since it does actually
+work fine for many use cases on i915 -- ostensibly know what they're
+getting themselves into (my case).
 
--- Steve
+So let's just revert this `comm[0] == 'X'` business entirely, but still
+allow for `value == 2`, in case anybody actually started working on that
+part elsewhere.
+
+Fixes: 26b1d3b527e7 ("drm/atomic: Take the atomic toys away from X")
+Cc: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Ilia Mirkin <imirkin@alum.mit.edu>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: Michel Dänzer <michel@daenzer.net>
+Cc: Alex Deucher <alexdeucher@gmail.com>
+Cc: Adam Jackson <ajax@redhat.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Sean Paul <sean@poorly.run>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Sultan Alsawaf <sultan@kerneltoast.com>
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+---
+ drivers/gpu/drm/drm_ioctl.c | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+index ca2a6e6101dc..017f31e67179 100644
+--- a/drivers/gpu/drm/drm_ioctl.c
++++ b/drivers/gpu/drm/drm_ioctl.c
+@@ -336,11 +336,6 @@ drm_setclientcap(struct drm_device *dev, void *data, struct drm_file *file_priv)
+ 	case DRM_CLIENT_CAP_ATOMIC:
+ 		if (!drm_core_check_feature(dev, DRIVER_ATOMIC))
+ 			return -EOPNOTSUPP;
+-		/* The modesetting DDX has a totally broken idea of atomic. */
+-		if (current->comm[0] == 'X' && req->value == 1) {
+-			pr_info("broken atomic modeset userspace detected, disabling atomic\n");
+-			return -EOPNOTSUPP;
+-		}
+ 		if (req->value > 2)
+ 			return -EINVAL;
+ 		file_priv->atomic = req->value;
+-- 
+2.38.1
+
