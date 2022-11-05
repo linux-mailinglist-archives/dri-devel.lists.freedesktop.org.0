@@ -2,33 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D236261DFA8
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Nov 2022 00:29:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EEF361DFAA
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Nov 2022 00:29:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E1A310E17B;
-	Sat,  5 Nov 2022 23:29:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F36610E17D;
+	Sat,  5 Nov 2022 23:29:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6760210E17B
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Nov 2022 23:29:03 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E4DC10E17B
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Nov 2022 23:29:05 +0000 (UTC)
 Received: from dimapc.. (109-252-117-140.nat.spd-mgts.ru [109.252.117.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 95158660238B;
- Sat,  5 Nov 2022 23:28:59 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id BF0136602395;
+ Sat,  5 Nov 2022 23:29:01 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1667690941;
- bh=HY3jByZOhIouY34XB68EiSAMQWVk92uiCiyD+1rVWoc=;
- h=From:To:Cc:Subject:Date:From;
- b=Hlx8GuJfaALO5LgKJC9VAc76F84DLXDaUgW1ytwSU/0+3CCpiuJbzErfB/YfRCJph
- 5aEWQZweA2Z2h3c8s2Z1PMtDsotCXTYzyIjD0UQDuX8aBFzjjRsM/zVM5QcIMgg6nk
- ayzfiAtRJFl2dEyXxaRW2CS6REyU/0jp72qXH4tkx4sL7bhZUqVZ0P9bgzvx3EKKY9
- sBd+eapxhMt02ZIOlNDcrau14SGStR3qznRxBQgkfeBYXkJ1eY6vgZjSQBVrN+kMpM
- OQ4it0siEorvr0S5vvB5iA+xTbfpGRXn22v9Zvl0T5eYAHVPtPxV/7yXochXIwH35E
- xUDpObMozLH6Q==
+ s=mail; t=1667690943;
+ bh=QpvuclmtyteddLw86CWzFOH3pWu373K8JLLPGJRCCFw=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=iSp1UqcMQRoHEVxLfu5rAo3frnpCjtmDKAR6GfPVB2+9cuMoZ3w5YgGly4zBKJZ9u
+ 9E4AyuEcbNf2wQ6gtdxazl3GczA7ivB4fqbrQIs0g4UkMMep9ZL8xOsqNUnD2c+jvZ
+ HNctvKoX2X+PbjIqNQM4l8lV5k/QYFs3guwZLoD56lzJsc5ExicHkFIJ8pabd5z4Yz
+ 1PjQFvPXhjdv+lb58knEO2+RBB9wNecjUidWqjFgQHWHIsP8gJ0LwOEmGb5edzBFDu
+ qK/ikXHtbPULw27Lr5R+cDLVcmDiZ99vLADhMJ/vMi7B0nSmo+3dqH9HWe20vGWsN8
+ YKUyi29G/SWzA==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
@@ -47,11 +48,12 @@ To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Rob Herring <robh@kernel.org>, Sean Paul <sean@poorly.run>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v8 0/7] Add generic memory shrinker to VirtIO-GPU and Panfrost
- DRM drivers
-Date: Sun,  6 Nov 2022 02:27:12 +0300
-Message-Id: <20221105232719.302619-1-dmitry.osipenko@collabora.com>
+Subject: [PATCH v8 1/7] drm/msm/gem: Prevent blocking within shrinker loop
+Date: Sun,  6 Nov 2022 02:27:13 +0300
+Message-Id: <20221105232719.302619-2-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20221105232719.302619-1-dmitry.osipenko@collabora.com>
+References: <20221105232719.302619-1-dmitry.osipenko@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,69 +74,122 @@ Cc: Dmitry Osipenko <digetx@gmail.com>, kernel@collabora.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series:
+Consider this scenario:
 
-  1. Adds common drm-shmem memory shrinker
-  2. Enables shrinker for VirtIO-GPU driver
-  3. Switches Panfrost driver to the common shrinker
+1. APP1 continuously creates lots of small GEMs
+2. APP2 triggers `drop_caches`
+3. Shrinker starts to evict APP1 GEMs, while APP1 produces new purgeable
+   GEMs
+4. msm_gem_shrinker_scan() returns non-zero number of freed pages
+   and causes shrinker to try shrink more
+5. msm_gem_shrinker_scan() returns non-zero number of freed pages again,
+   goto 4
+6. The APP2 is blocked in `drop_caches` until APP1 stops producing
+   purgeable GEMs
 
-Related patches:
+To prevent this blocking scenario, check number of remaining pages
+that GPU shrinker couldn't release due to a GEM locking contention. If
+there are no remaining pages left to shrink, then there is no need to
+free up more pages and shrinker may break out from the loop.
 
-Mesa: https://gitlab.freedesktop.org/digetx/mesa/-/commits/virgl-madvise
-igt:  https://gitlab.freedesktop.org/digetx/igt-gpu-tools/-/commits/virtio-madvise
-      https://gitlab.freedesktop.org/digetx/igt-gpu-tools/-/commits/panfrost-madvise
+This problem was uncovered during shrinker/madvise IOCTL testing of
+virtio-gpu driver. The MSM driver is affected in the same way.
 
-I'll upstream Mesa and igt patches once kernel part will be merged.
+Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+---
+ drivers/gpu/drm/drm_gem.c              | 9 +++++++--
+ drivers/gpu/drm/msm/msm_gem_shrinker.c | 8 ++++++--
+ include/drm/drm_gem.h                  | 4 +++-
+ 3 files changed, 16 insertions(+), 5 deletions(-)
 
-Changelog:
-
-v8: - Rebased on top of recent linux-next that now has dma-buf locking
-      convention patches merged, which was blocking shmem shrinker before.
-
-    - Shmem shrinker now uses new drm_gem_lru helper.
-
-    - Dropped Steven Price t-b from the Panfrost patch because code
-      changed significantly since v6 and should be re-tested.
-
-v7: - dma-buf locking convention
-
-v6: https://lore.kernel.org/dri-devel/20220526235040.678984-1-dmitry.osipenko@collabora.com/
-
-Dmitry Osipenko (7):
-  drm/msm/gem: Prevent blocking within shrinker loop
-  drm/shmem-helper: Don't use vmap_use_count for dma-bufs
-  drm/shmem-helper: Switch to reservation lock
-  drm/shmem-helper: Add memory shrinker
-  drm/gem: Add drm_gem_pin_unlocked()
-  drm/virtio: Support memory shrinking
-  drm/panfrost: Switch to generic memory shrinker
-
- drivers/gpu/drm/drm_gem.c                     |  38 +-
- drivers/gpu/drm/drm_gem_shmem_helper.c        | 648 ++++++++++++++----
- drivers/gpu/drm/lima/lima_gem.c               |   8 +-
- drivers/gpu/drm/msm/msm_gem_shrinker.c        |   8 +-
- drivers/gpu/drm/panfrost/Makefile             |   1 -
- drivers/gpu/drm/panfrost/panfrost_device.h    |   4 -
- drivers/gpu/drm/panfrost/panfrost_drv.c       |  26 +-
- drivers/gpu/drm/panfrost/panfrost_gem.c       |  33 +-
- drivers/gpu/drm/panfrost/panfrost_gem.h       |   9 -
- .../gpu/drm/panfrost/panfrost_gem_shrinker.c  | 122 ----
- drivers/gpu/drm/panfrost/panfrost_job.c       |  18 +-
- drivers/gpu/drm/panfrost/panfrost_mmu.c       |  19 +-
- drivers/gpu/drm/virtio/virtgpu_drv.h          |  18 +-
- drivers/gpu/drm/virtio/virtgpu_gem.c          |  55 ++
- drivers/gpu/drm/virtio/virtgpu_ioctl.c        |  37 +
- drivers/gpu/drm/virtio/virtgpu_kms.c          |   9 +
- drivers/gpu/drm/virtio/virtgpu_object.c       | 138 +++-
- drivers/gpu/drm/virtio/virtgpu_plane.c        |  22 +-
- drivers/gpu/drm/virtio/virtgpu_vq.c           |  40 ++
- include/drm/drm_device.h                      |   4 +
- include/drm/drm_gem.h                         |   7 +-
- include/drm/drm_gem_shmem_helper.h            |  99 ++-
- include/uapi/drm/virtgpu_drm.h                |  14 +
- 23 files changed, 1003 insertions(+), 374 deletions(-)
- delete mode 100644 drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index b8db675e7fb5..299bca1390aa 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -1375,10 +1375,13 @@ EXPORT_SYMBOL(drm_gem_lru_move_tail);
+  *
+  * @lru: The LRU to scan
+  * @nr_to_scan: The number of pages to try to reclaim
++ * @remaining: The number of pages left to reclaim
+  * @shrink: Callback to try to shrink/reclaim the object.
+  */
+ unsigned long
+-drm_gem_lru_scan(struct drm_gem_lru *lru, unsigned nr_to_scan,
++drm_gem_lru_scan(struct drm_gem_lru *lru,
++		 unsigned int nr_to_scan,
++		 unsigned long *remaining,
+ 		 bool (*shrink)(struct drm_gem_object *obj))
+ {
+ 	struct drm_gem_lru still_in_lru;
+@@ -1417,8 +1420,10 @@ drm_gem_lru_scan(struct drm_gem_lru *lru, unsigned nr_to_scan,
+ 		 * hit shrinker in response to trying to get backing pages
+ 		 * for this obj (ie. while it's lock is already held)
+ 		 */
+-		if (!dma_resv_trylock(obj->resv))
++		if (!dma_resv_trylock(obj->resv)) {
++			*remaining += obj->size >> PAGE_SHIFT;
+ 			goto tail;
++		}
+ 
+ 		if (shrink(obj)) {
+ 			freed += obj->size >> PAGE_SHIFT;
+diff --git a/drivers/gpu/drm/msm/msm_gem_shrinker.c b/drivers/gpu/drm/msm/msm_gem_shrinker.c
+index 1de14e67f96b..4c8b0ab61ce4 100644
+--- a/drivers/gpu/drm/msm/msm_gem_shrinker.c
++++ b/drivers/gpu/drm/msm/msm_gem_shrinker.c
+@@ -116,12 +116,14 @@ msm_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
+ 	};
+ 	long nr = sc->nr_to_scan;
+ 	unsigned long freed = 0;
++	unsigned long remaining = 0;
+ 
+ 	for (unsigned i = 0; (nr > 0) && (i < ARRAY_SIZE(stages)); i++) {
+ 		if (!stages[i].cond)
+ 			continue;
+ 		stages[i].freed =
+-			drm_gem_lru_scan(stages[i].lru, nr, stages[i].shrink);
++			drm_gem_lru_scan(stages[i].lru, nr, &remaining,
++					 stages[i].shrink);
+ 		nr -= stages[i].freed;
+ 		freed += stages[i].freed;
+ 	}
+@@ -132,7 +134,7 @@ msm_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
+ 				     stages[3].freed);
+ 	}
+ 
+-	return (freed > 0) ? freed : SHRINK_STOP;
++	return (freed > 0 && remaining > 0) ? freed : SHRINK_STOP;
+ }
+ 
+ #ifdef CONFIG_DEBUG_FS
+@@ -182,10 +184,12 @@ msm_gem_shrinker_vmap(struct notifier_block *nb, unsigned long event, void *ptr)
+ 		NULL,
+ 	};
+ 	unsigned idx, unmapped = 0;
++	unsigned long remaining = 0;
+ 
+ 	for (idx = 0; lrus[idx] && unmapped < vmap_shrink_limit; idx++) {
+ 		unmapped += drm_gem_lru_scan(lrus[idx],
+ 					     vmap_shrink_limit - unmapped,
++					     &remaining,
+ 					     vmap_shrink);
+ 	}
+ 
+diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+index a17c2f903f81..b46ade812443 100644
+--- a/include/drm/drm_gem.h
++++ b/include/drm/drm_gem.h
+@@ -475,7 +475,9 @@ int drm_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
+ void drm_gem_lru_init(struct drm_gem_lru *lru, struct mutex *lock);
+ void drm_gem_lru_remove(struct drm_gem_object *obj);
+ void drm_gem_lru_move_tail(struct drm_gem_lru *lru, struct drm_gem_object *obj);
+-unsigned long drm_gem_lru_scan(struct drm_gem_lru *lru, unsigned nr_to_scan,
++unsigned long drm_gem_lru_scan(struct drm_gem_lru *lru,
++			       unsigned int nr_to_scan,
++			       unsigned long *remaining,
+ 			       bool (*shrink)(struct drm_gem_object *obj));
+ 
+ #endif /* __DRM_GEM_H__ */
 -- 
 2.37.3
 
