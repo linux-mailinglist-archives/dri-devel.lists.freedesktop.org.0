@@ -2,136 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C90761D763
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Nov 2022 06:18:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC0DA61D7AD
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Nov 2022 07:01:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8B9A10E0A6;
-	Sat,  5 Nov 2022 05:18:23 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E153E10E059;
- Sat,  5 Nov 2022 05:18:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1667625498; x=1699161498;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=+jiA9hUGkiK0JgGyxkcnhxmRsF4f2zeMy52xXSN1IDY=;
- b=hp9sR+swcTmRx8SfwvBLX4u9y2U4MjRRj6LAILVkIz1jRjsLWBsCB8v6
- 29u/xKNI8HADre4hDGhIhjmxHCi2eXd4wKGQALn9KWcSFMOJtOxXi/FK2
- LQjurN5OYvuGXchgBGXV0lwYb094pCo03tnNT4LVA9Vgtuk5fogSsffmc
- JQEG9NK0c2SEtH8YLXP68axPD76KmD0tqZcjWOC7JDU58dEvUk5/aUDSr
- Hrzf5UUyc2emjRO2O6G2LQpWuuCRpQpVDVtc6l2sUaQQkqT6qrSuY9KeK
- gXzPgv5jnvvJR5/LHkJMBIla3tqY+B/06Gxe5Sw3xLgpy5J/Y6B+oFk13 w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10521"; a="293464210"
-X-IronPort-AV: E=Sophos;i="5.96,139,1665471600"; d="scan'208";a="293464210"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2022 22:18:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10521"; a="777939577"
-X-IronPort-AV: E=Sophos;i="5.96,139,1665471600"; d="scan'208";a="777939577"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by fmsmga001.fm.intel.com with ESMTP; 04 Nov 2022 22:18:17 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 4 Nov 2022 22:18:16 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Fri, 4 Nov 2022 22:18:16 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.44) by
- edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Fri, 4 Nov 2022 22:18:16 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ciFwy+9EOn7D5jH3clALSnk7dIkZ86oQ4vFhY4+s4zRGTItmxbDvk/soSu2D4UIukUIgXhM+g0igx3NcSXeZhhvp1ag5DIHFFX+mpBRDhGPuN8e50aNc1ZbIk7NjHw2nVWfWcpLTeQn4IEIDTqoGTKlARgxH2vomXm2U3RBzrzvetXLvYW8aUQaQ6cxbEeUJ/9FNKDGerMCy2utn50JGDQLzdhErejHQj+d7bTqpfiREKhHtP7MZyuXyiC0uZeytnrCRH40Rp4pUuoc6cNTbPpZ7AUVbW4BkRuxJXSlD2LMEh35vme+WMqWcsqoM4iB5r0TmmzbgIB0+BRJCYX0Iaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AHjaOXnMpFNu69TPB6AFFBhj3Tfg3/eBDBuYmkrMGps=;
- b=FDbRbsCDNn86v7JCE7sIacpgx4IE99tPaDpYwp/WfapW042M/UHCL7hL+/sjHCH5FXlZ1ff66mT9eJWKUzL+XMagVM5VRY3aFw9H9FZzOgODAK0TOuUlQHWu8PJcoca3YTznKvp6zjEqpuBLlKJOP64f4lF0rEoRHTt8sgyCorPLgzMlv7FyO0P3TD1Nch3kAHRAF6Z69NgwMOy8IE0JX0Jimc0HNfRisolj2QbeaIaeknMbSYa50MOIPlm4VxXWMchzsUhz7x6J2R1Zsyh4l/QYjaSQhHo/t0dJ1rwqJSjsbLRZh+ifrv+9mvlVZ7hJvp1JeU0aGIz61nD9G77PWQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by SJ0PR11MB5661.namprd11.prod.outlook.com (2603:10b6:a03:3b9::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.24; Sat, 5 Nov
- 2022 05:18:10 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::22:fdef:cea5:e8f3]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::22:fdef:cea5:e8f3%3]) with mapi id 15.20.5791.022; Sat, 5 Nov 2022
- 05:18:10 +0000
-Date: Fri, 4 Nov 2022 22:18:07 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: <John.C.Harrison@intel.com>
-Subject: Re: [PATCH v2 1/2] drm/i915/guc: Properly initialise kernel contexts
-Message-ID: <20221105051807.sktnewxh7m5qjwbd@ldmartin-desk2.lan>
-X-Patchwork-Hint: comment
-References: <20221102192109.2492625-1-John.C.Harrison@Intel.com>
- <20221102192109.2492625-2-John.C.Harrison@Intel.com>
-Content-Type: text/plain; charset="us-ascii"; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20221102192109.2492625-2-John.C.Harrison@Intel.com>
-X-ClientProxiedBy: BYAPR04CA0034.namprd04.prod.outlook.com
- (2603:10b6:a03:40::47) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|SJ0PR11MB5661:EE_
-X-MS-Office365-Filtering-Correlation-Id: f6387268-2a9d-4104-b3dd-08dabeed2106
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1hCHB5GXOJjf3TAWXEmugMstx9+2K7p+LcrVZ9Tt1vY1Ni99MScw5EAK/Y9LIwNdJiJb5YTWijxXK6soKSmcBYg7dssnuRq9Uwe742XUsqRXSxol4M6Zdln1bZAW5r4GoWrybpSMr3QWTTx7VpJtEosD8qExVR5m83XaMoFoQIZLXAIwHNg2DaPIolUtTkZ/TKTXD+pNiY4a/UjbtHNCP2xneIECXPJoXFU08vOmCeQqD4YgNKkw7OYgoEmVcVC3QZ7dq4eJtlV+WV1F/LCyyF6Y8ZkNKtseowfYECXQEShgwHdFcc2dXVu653Zv2xDuD+CFzURCpkt9AqLqZEt6eP7ju7GfZ0//S+84ecutmC9k0H0Wcdb7Zu8UED10CiBZP0mzVgVu76bvDHEhr+GClIzEaYQWGH4AgyH57QNNKipyUzESMbCap2ltz9AQhSX9CExb+v76pdcaGHY+9G0bZ0wdeY1vz6f8N2uvHyDM9gCKAh6fTrdAYvcBdFz8xmBRwKP7NZ9d6H/mehxR+lEkOZCrMFf8ybQg2CsX8gS0VR0T6+hZsrPRgtIDMGLU1TOyHFWYPSR4dz0XwW7vE64XwGzp9GETdRQjH7wuYRgO+n7pUnhJ6V4TvDg/aHlW1AVUVtfAVgiFZN7LDhgv+VawT88n5WtUP2ByaGP2ft2GUHn2kRc5jMRpgKPw8PKr8uBJy1gsEwMnn9VsW1MPc4HzRw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(136003)(346002)(366004)(39860400002)(396003)(376002)(451199015)(8936002)(36756003)(186003)(1076003)(5660300002)(9686003)(6506007)(6512007)(450100002)(66946007)(26005)(66556008)(66476007)(8676002)(4326008)(34206002)(41300700001)(82960400001)(86362001)(38100700002)(83380400001)(2906002)(316002)(6486002)(478600001)(6666004)(6636002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?OuFd9puZHjFHdQtSLZ9NCpB/Kg17MUum/2jB2r4pDDIvQS31vATP1a42XjRr?=
- =?us-ascii?Q?dEz+h9Rc0p4ar9iOMNumV5WyljNXHUz3Gx+0MdsnDDdbkEp1Dmq6JAXGIDv+?=
- =?us-ascii?Q?GedQtUY536p4U2QnO15ZUKnh0cuoO63B/XcfYGlBqL5/Dsbywl+vhxGchkpf?=
- =?us-ascii?Q?p5UZYavL0cir5TKWKghaVm/s+nKRiGe1D4eZWxyjclmY3WM8W+eEHJ/TOjEh?=
- =?us-ascii?Q?rWQm0U41NeCRvJkEWLYU3xwvU1zIzotItWwJVCssZXU56HnMXwdj9tI9ol3S?=
- =?us-ascii?Q?sL+3EUyanyJFfvDcPi2Z+lwgG9qaPvq43QS3o7yis0s20xrLw7TKo2i0DCpN?=
- =?us-ascii?Q?RLiYd475zs+YW3hrH1ZfdlbkFemCAwGWCJvqL7cGp98L6rb/DaIhaFPBqDe2?=
- =?us-ascii?Q?4EsI0MAc6G8tHxxkOaMDG1/Sq8tPB1TFTjarlmNsKTVG9s7Br9dujyo0KmIw?=
- =?us-ascii?Q?o39RR40AlYnycTy0CP4HwdMTa5DK7n2icKbFJuYDOutUqMWN/5dZC78vIfuB?=
- =?us-ascii?Q?G+42an3X3/PLewrzs9bFvZuALlGTv9gMy/1G2ngW9vV3vzQq7+IkBEFVvYc/?=
- =?us-ascii?Q?34IYfyXOtcpN1V64pI3Ct9NLeP4jvmOWfaYzVkScfC0AE8TGy9JMj7YU3nR1?=
- =?us-ascii?Q?Db6eDlP3t3ktXSGpNTkzf9OyczSwyPPNlP12O39WgFIVAOuZ4eZu3aE3wTQU?=
- =?us-ascii?Q?oeoLRy/3EixNl4vfvYsDUT77jmTn+12K/afDCYAy1/DIZlrYi78fyb5z9iGz?=
- =?us-ascii?Q?LIoeWlrb12k57QDSCWg2UN8uGw3KsTMoGf7Azh5ok5AH4B9/+1Rp8yAJBbF/?=
- =?us-ascii?Q?MIDQOcuB0FZkan8LOx+YEYwlAMBk8T6T6N/pBvU26PfZ+UQljbGx1dvBDw64?=
- =?us-ascii?Q?OocG4Wn/lP0dkMy4GdX5a8RCMX1zFQjmoJmguwsxd3uCAOLits7GkYK8Y4FE?=
- =?us-ascii?Q?ZrOOOXwiJXqLMHyaUKTIR7oC3EJ4BEouMAOiMlTbf+djK4DVFB9f4ujQBQP4?=
- =?us-ascii?Q?2Bwzpw1DPss5t1FycFZeGp8+4wn7YWd0zrD+WS9CRFVAqD2niIu83hLe3K+m?=
- =?us-ascii?Q?O2CQg+ltP37UrGz7n/VX3iBQ0OZX6vnYFEnGhAGVFu/u7+JEddWuVoQq/2au?=
- =?us-ascii?Q?AarQnuLBdeYC+72AyjENCMwSLsrMOIG2tiaMFkppdcI5videge1zbYEWxLpE?=
- =?us-ascii?Q?8ROLbUl3SAXeA7IpIzYYyNv1AyKoOu29nqHA4LBNrIzZUnlrtmfJ1TCceRA1?=
- =?us-ascii?Q?w5sXhSo7q3rWgEDsL1rI8hPsL6v3Dox9iUB2iEfC8SazB+iXX9iXh07skIYy?=
- =?us-ascii?Q?GBOsnsWwebmiz775iN2aFZbgx8HKXKMLqLMG/R+EfKQkBfco8fEhsKyCFlZ/?=
- =?us-ascii?Q?ASNmxmiYe/GRuOSpN6taGVjoze0LCLDpHsLiPGW+bcb0CJFFG+6JDQXGxpoB?=
- =?us-ascii?Q?LRfZCDWidhWBVvZ1DWISj3i6cOpjpOVfBbQ7EfH8RsCyml9aVuwiEx9QlLo+?=
- =?us-ascii?Q?sNfb5ZiMrNpLXVQblU2fr0TWgiBdg8a5E11VSqaO7EHCjL2PJm9jLKuqJqUW?=
- =?us-ascii?Q?R+BkEutfUQKK96OUxKVZaaoibGrrdHp13ICC3M9HNNWIKdz/GAamdaKNbE/R?=
- =?us-ascii?Q?2w=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: f6387268-2a9d-4104-b3dd-08dabeed2106
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2022 05:18:09.8991 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JX9vprp4cxAdWuIg9l7V2t7nLvI1y1sHR+gakgj7hLexqRl44l7a2HbohFK3mkfcQrZT5v8D0SfBdUuOJGnyxeOnnWMW5XpNa0ufdqgoIBE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5661
-X-OriginatorOrg: intel.com
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A6C110E0DD;
+	Sat,  5 Nov 2022 06:01:34 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E9D210E05B;
+ Sat,  5 Nov 2022 06:01:30 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 6CB25B81CC0;
+ Sat,  5 Nov 2022 06:01:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08B27C433C1;
+ Sat,  5 Nov 2022 06:01:27 +0000 (UTC)
+Received: from rostedt by gandalf.local.home with local (Exim 4.96)
+ (envelope-from <rostedt@goodmis.org>) id 1orCFf-007Oer-03;
+ Sat, 05 Nov 2022 02:01:55 -0400
+Message-ID: <20221105060024.598488967@goodmis.org>
+User-Agent: quilt/0.66
+Date: Sat, 05 Nov 2022 02:00:24 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v4a 00/38] timers: Use timer_shutdown*() before freeing timers
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,46 +41,217 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel-GFX@lists.freedesktop.org, DRI-Devel@lists.freedesktop.org
+Cc: alsa-devel@alsa-project.org, linux-staging@lists.linux.dev,
+ linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Thomas Gleixner <tglx@linutronix.de>,
+ linux-leds@vger.kernel.org, drbd-dev@lists.linbit.com,
+ linux-s390@vger.kernel.org, linux-nilfs@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-atm-general@lists.sourceforge.net, linux-afs@lists.infradead.org,
+ lvs-devel@vger.kernel.org, linux-acpi@vger.kernel.org, coreteam@netfilter.org,
+ intel-wired-lan@lists.osuosl.org, linux-input@vger.kernel.org,
+ tipc-discussion@lists.sourceforge.net, linux-ext4@vger.kernel.org,
+ Guenter Roeck <linux@roeck-us.net>, linux-media@vger.kernel.org,
+ bridge@lists.linux-foundation.org, linux-pm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, rcu@vger.kernel.org, cgroups@vger.kernel.org,
+ openipmi-developer@lists.sourceforge.net,
+ Anna-Maria Gleixner <anna-maria@linutronix.de>, linux-edac@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-nfs@vger.kernel.org,
+ linux-parisc@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-bluetooth@vger.kernel.org, netfilter-devel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 02, 2022 at 12:21:08PM -0700, John.C.Harrison@Intel.com wrote:
->From: John Harrison <John.C.Harrison@Intel.com>
->
->If a context has already been registered prior to first submission
->then context init code was not being called. The noticeable effect of
->that was the scheduling priority was left at zero (meaning super high
->priority) instead of being set to normal. This would occur with
->kernel contexts at start of day as they are manually pinned up front
->rather than on first submission. So add a call to initialise those
->when they are pinned.
->
->Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+
+Back in April, I posted an RFC patch set to help mitigate a common issue
+where a timer gets armed just before it is freed, and when the timer
+goes off, it crashes in the timer code without any evidence of who the
+culprit was. I got side tracked and never finished up on that patch set.
+Since this type of crash is still our #1 crash we are seeing in the field,
+it has become a priority again to finish it.
+
+The last version of that patch set is here:
+
+  https://lore.kernel.org/all/20221104054053.431922658@goodmis.org/
+
+I'm calling this version 4a as it only has obvious changes were the timer that
+is being shutdown is in the same function where it will be freed or released,
+as this series should be "safe" for adding. I'll be calling the other patches
+4b for the next merge window.
+
+Patch 1 fixes an issue with sunrpc/xprt where it incorrectly uses
+del_singleshot_timer_sync() for something that is not a oneshot timer. As this
+will be converted to shutdown, this needs to be fixed first.
+
+Patches 2-4 changes existing timer_shutdown() functions used locally in ARM and
+some drivers to better namespace names.
+
+Patch 5 implements the new timer_shutdown() and timer_shutdown_sync() functions
+that disable re-arming the timer after they are called.
+
+Patches 6-28 change all the locations where there's a kfree(), kfree_rcu(),
+kmem_cache_free() and one call_rcu() call where the RCU function frees the
+timer (the workqueue patch) in the same function as the del_timer{,_sync}() is
+called on that timer, and there's no extra exit path between the del_timer and
+freeing of the timer.
+
+Patches 29-32 add timer_shutdown*() on on-stack timers that are about to be
+released at the end of the function.
+
+Patches 33-37 add timer_shutdown*() on module timers in the module exit code.
+
+Patch 38 simply converts an open coded "shutdown" code into timer_shutdown(),
+as a way timer_shutdown() disables the timer is by setting that timer function
+to NULL.
+
+Linus, I sorted the patches this way to let you see which you would think is
+safe to go into this -rc. I honestly believe that they are all safe, but that's
+just my own opinion.
+
+This series is here:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace.git
+timers-start
+
+Head SHA1: f58b516a65bac76f1bfa00126856d6c6c3d24a40
 
 
-Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
+Steven Rostedt (Google) (38):
+      SUNRPC/xprt: Use del_timer_sync() instead of del_singleshot_timer_sync()
+      ARM: spear: Do not use timer namespace for timer_shutdown() function
+      clocksource/drivers/arm_arch_timer: Do not use timer namespace for timer_shutdown() function
+      clocksource/drivers/sp804: Do not use timer namespace for timer_shutdown() function
+      timers: Add timer_shutdown_sync() and timer_shutdown() to be called before freeing timers
+      timers: sh: Use timer_shutdown_sync() before freeing timer
+      timers: block: Use timer_shutdown_sync() before freeing timer
+      timers: ACPI: Use timer_shutdown_sync() before freeing timer
+      timers: atm: Use timer_shutdown_sync() before freeing timer
+      timers: Bluetooth: Use timer_shutdown_sync() before freeing timer
+      timers: drm: Use timer_shutdown_sync() before freeing timer
+      timers: HID: Use timer_shutdown_sync() before freeing timer
+      timers: Input: Use timer_shutdown_sync() before freeing timer
+      timers: mISDN: Use timer_shutdown_sync() before freeing timer
+      timers: leds: Use timer_shutdown_sync() before freeing timer
+      timers: media: Use timer_shutdown_sync() before freeing timer
+      timers: net: Use timer_shutdown_sync() before freeing timer
+      timers: usb: Use timer_shutdown_sync() before freeing timer
+      timers: nfc: pn533: Use timer_shutdown_sync() before freeing timer
+      timers: pcmcia: Use timer_shutdown_sync() before freeing timer
+      timers: scsi: Use timer_shutdown_sync() and timer_shutdown() before freeing timer
+      timers: tty: Use timer_shutdown_sync() before freeing timer
+      timers: ext4: Use timer_shutdown_sync() before freeing timer
+      timers: fs/nilfs2: Use timer_shutdown_sync() before freeing timer
+      timers: ALSA: Use timer_shutdown_sync() before freeing timer
+      timers: jbd2: Use timer_shutdown() before freeing timer
+      timers: sched/psi: Use timer_shutdown_sync() before freeing timer
+      timers: workqueue: Use timer_shutdown_sync() before freeing timer
+      random: use timer_shutdown_sync() for on stack timers
+      timers: dma-buf: Use timer_shutdown_sync() for on stack timers
+      timers: drm: Use timer_shutdown_sync() for on stack timers
+      timers: media: Use timer_shutdown_sync() for on stack timers
+      timers: s390/cmm: Use timer_shutdown_sync() before a module is released
+      timers: atm: Use timer_shutdown_sync() before a module is released
+      timers: hangcheck: Use timer_shutdown_sync() before a module is released
+      timers: ipmi: Use timer_shutdown_sync() before a module is released
+      timers: Input: Use timer_shutdown_sync() before a module is released
+      timers: PM: Use timer_shutdown_sync()
 
-Lucas De Marchi <lucas.demarchi@intel.com>
-
->---
-> drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 3 +++
-> 1 file changed, 3 insertions(+)
->
->diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->index 4ccb29f9ac55c..941613be3b9dd 100644
->--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->@@ -4111,6 +4111,9 @@ static inline void guc_kernel_context_pin(struct intel_guc *guc,
-> 	if (context_guc_id_invalid(ce))
-> 		pin_guc_id(guc, ce);
->
->+	if (!test_bit(CONTEXT_GUC_INIT, &ce->flags))
->+		guc_context_init(ce);
->+
-> 	try_context_registration(ce, true);
-> }
->
->-- 
->2.37.3
->
+----
+ .../RCU/Design/Requirements/Requirements.rst       |  2 +-
+ Documentation/core-api/local_ops.rst               |  2 +-
+ Documentation/kernel-hacking/locking.rst           |  5 ++
+ arch/arm/mach-spear/time.c                         |  8 +--
+ arch/s390/mm/cmm.c                                 |  4 +-
+ arch/sh/drivers/push-switch.c                      |  2 +-
+ block/blk-iocost.c                                 |  2 +-
+ block/blk-iolatency.c                              |  2 +-
+ block/blk-throttle.c                               |  2 +-
+ block/kyber-iosched.c                              |  2 +-
+ drivers/acpi/apei/ghes.c                           |  2 +-
+ drivers/atm/idt77105.c                             |  4 +-
+ drivers/atm/idt77252.c                             |  4 +-
+ drivers/atm/iphase.c                               |  2 +-
+ drivers/base/power/wakeup.c                        |  7 +--
+ drivers/block/drbd/drbd_main.c                     |  2 +-
+ drivers/block/loop.c                               |  2 +-
+ drivers/block/sunvdc.c                             |  2 +-
+ drivers/bluetooth/hci_bcsp.c                       |  2 +-
+ drivers/bluetooth/hci_h5.c                         |  4 +-
+ drivers/bluetooth/hci_qca.c                        |  4 +-
+ drivers/char/hangcheck-timer.c                     |  4 +-
+ drivers/char/ipmi/ipmi_msghandler.c                |  2 +-
+ drivers/char/random.c                              |  2 +-
+ drivers/clocksource/arm_arch_timer.c               | 12 ++--
+ drivers/clocksource/timer-sp804.c                  |  6 +-
+ drivers/dma-buf/st-dma-fence.c                     |  2 +-
+ drivers/gpu/drm/gud/gud_pipe.c                     |  2 +-
+ drivers/gpu/drm/i915/i915_sw_fence.c               |  2 +-
+ drivers/hid/hid-wiimote-core.c                     |  2 +-
+ drivers/input/keyboard/locomokbd.c                 |  2 +-
+ drivers/input/keyboard/omap-keypad.c               |  2 +-
+ drivers/input/mouse/alps.c                         |  2 +-
+ drivers/input/serio/hil_mlc.c                      |  2 +-
+ drivers/isdn/hardware/mISDN/hfcmulti.c             |  5 +-
+ drivers/isdn/mISDN/l1oip_core.c                    |  4 +-
+ drivers/isdn/mISDN/timerdev.c                      |  4 +-
+ drivers/leds/trigger/ledtrig-pattern.c             |  2 +-
+ drivers/leds/trigger/ledtrig-transient.c           |  2 +-
+ drivers/media/pci/ivtv/ivtv-driver.c               |  2 +-
+ drivers/media/usb/pvrusb2/pvrusb2-hdw.c            | 18 +++---
+ drivers/media/usb/s2255/s2255drv.c                 |  4 +-
+ drivers/net/ethernet/intel/i40e/i40e_main.c        |  7 +--
+ drivers/net/ethernet/marvell/sky2.c                |  2 +-
+ drivers/net/ethernet/sun/sunvnet.c                 |  2 +-
+ drivers/net/usb/sierra_net.c                       |  2 +-
+ drivers/net/wireless/intel/iwlwifi/iwl-dbg-tlv.c   |  2 +-
+ drivers/net/wireless/intersil/hostap/hostap_ap.c   |  2 +-
+ drivers/net/wireless/marvell/mwifiex/main.c        |  2 +-
+ drivers/net/wireless/microchip/wilc1000/hif.c      |  6 +-
+ drivers/nfc/pn533/pn533.c                          |  2 +-
+ drivers/nfc/pn533/uart.c                           |  2 +-
+ drivers/pcmcia/bcm63xx_pcmcia.c                    |  2 +-
+ drivers/pcmcia/electra_cf.c                        |  2 +-
+ drivers/pcmcia/omap_cf.c                           |  2 +-
+ drivers/pcmcia/pd6729.c                            |  4 +-
+ drivers/pcmcia/yenta_socket.c                      |  4 +-
+ drivers/scsi/qla2xxx/qla_edif.c                    |  4 +-
+ drivers/staging/media/atomisp/i2c/atomisp-lm3554.c |  2 +-
+ drivers/tty/n_gsm.c                                |  2 +-
+ drivers/tty/sysrq.c                                |  2 +-
+ drivers/usb/gadget/udc/m66592-udc.c                |  2 +-
+ drivers/usb/serial/garmin_gps.c                    |  2 +-
+ drivers/usb/serial/mos7840.c                       |  2 +-
+ fs/ext4/super.c                                    |  2 +-
+ fs/jbd2/journal.c                                  |  2 +
+ fs/nilfs2/segment.c                                |  2 +-
+ include/linux/timer.h                              | 64 +++++++++++++++++++---
+ kernel/sched/psi.c                                 |  1 +
+ kernel/time/timer.c                                | 64 ++++++++++++----------
+ kernel/workqueue.c                                 |  4 +-
+ net/802/garp.c                                     |  2 +-
+ net/802/mrp.c                                      |  2 +-
+ net/bridge/br_multicast.c                          |  6 +-
+ net/bridge/br_multicast_eht.c                      |  4 +-
+ net/core/gen_estimator.c                           |  2 +-
+ net/core/neighbour.c                               |  2 +
+ net/ipv4/inet_timewait_sock.c                      |  1 +
+ net/ipv4/ipmr.c                                    |  2 +-
+ net/ipv6/ip6mr.c                                   |  2 +-
+ net/mac80211/mesh_pathtbl.c                        |  2 +-
+ net/netfilter/ipset/ip_set_list_set.c              |  2 +-
+ net/netfilter/ipvs/ip_vs_lblc.c                    |  2 +-
+ net/netfilter/ipvs/ip_vs_lblcr.c                   |  2 +-
+ net/netfilter/xt_LED.c                             |  2 +-
+ net/rxrpc/conn_object.c                            |  2 +-
+ net/sched/cls_flow.c                               |  2 +-
+ net/sunrpc/svc.c                                   |  2 +-
+ net/sunrpc/xprt.c                                  |  2 +-
+ net/tipc/discover.c                                |  2 +-
+ net/tipc/monitor.c                                 |  2 +-
+ sound/i2c/other/ak4117.c                           |  2 +-
+ sound/synth/emux/emux.c                            |  2 +-
+ 93 files changed, 227 insertions(+), 169 deletions(-)
