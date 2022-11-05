@@ -2,63 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5928A61DDD3
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Nov 2022 20:38:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7874961DE34
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Nov 2022 22:03:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A5FE10E105;
-	Sat,  5 Nov 2022 19:38:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0862210E0F2;
+	Sat,  5 Nov 2022 21:03:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4262910E105
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Nov 2022 19:38:45 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F063510E09A;
+ Sat,  5 Nov 2022 21:03:32 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 97F1A60B8C
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Nov 2022 19:38:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id EDCE2C433D7
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Nov 2022 19:38:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1667677124;
- bh=gYgDsQp6shEdnG+fzlleYnDvC+yn2zjAsg1fnif6e20=;
- h=From:To:Subject:Date:From;
- b=J50ZOMr7jKgL/grQgGR6aMYCfmLMDUeyzt0+pmDvwO6Nzz70AXCbUz/+sZZdoCpm/
- 9nt1/UgxwNWobWvBH0NaYe9Bxm+wQksPsK0zMLSQI7c4GDm3ouIkFRqJoPjhxvVkUx
- GLn+QagXoW3pwzTHT7UPiwLKJn+swRKu5ZeE0AwrKhJ8fcVaHlnPtOP7e63h2U2zNY
- MBsZNNB/0FGmhlxOinv+RbX9wjgoKUg57+mDtAKzLyph9WwltbA5ZfPyw++729ohT6
- ZIv6/AKHlKT9MqFmgb8qp0svZHJFuVMBBIeeudAnWqxcKB1/1U0WMmezE86sWJJLGZ
- +Kp5vW2cKvAgw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id D1F56C433E7; Sat,  5 Nov 2022 19:38:43 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216665] New: Synopsys Designware HDMI >= 2.10a seems not to
- insert PCUV bits into HDMI audio stream unless insert_pcuv bit is set
-Date: Sat, 05 Nov 2022 19:38:43 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: geraldogabriel@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-216665-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ by ams.source.kernel.org (Postfix) with ESMTPS id 5B12CB808C4;
+ Sat,  5 Nov 2022 21:03:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69FADC433D6;
+ Sat,  5 Nov 2022 21:03:26 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="Ek158U/I"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1667682204;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=eqdLYS8BDcnZ1CTVSLTL2V9mpBrsInljjeWX569KabI=;
+ b=Ek158U/IwAdzp/7JgxH8/niYIDD2c7iDpM/q00frrsf+kptgL3uCiSQ7Xlb7SIQ9YvTtg5
+ hlBVvQrg9GahoQxIsHXxgh/CGzM4sTACdo/WX2PYJwuZbLx0SZ+njeVN3snq9LgpG5MQMr
+ EBxmnADIwq+lyFhZU+rPI7l5k3bHDuo=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id f7ca4808
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Sat, 5 Nov 2022 21:03:23 +0000 (UTC)
+Date: Sat, 5 Nov 2022 22:03:18 +0100
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH v4a 00/38] timers: Use timer_shutdown*() before freeing
+ timers
+Message-ID: <Y2bPlllkHo5DUmLY@zx2c4.com>
+References: <20221105060024.598488967@goodmis.org>
+ <CAHk-=wi95dGkg7DiuOZ27gGW+mxJipn9ykB6LHB-HrbbLG6OMQ@mail.gmail.com>
+ <20221105123642.596371c7@rorschach.local.home>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221105123642.596371c7@rorschach.local.home>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,74 +60,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: alsa-devel@alsa-project.org, linux-staging@lists.linux.dev,
+ linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Thomas Gleixner <tglx@linutronix.de>,
+ linux-leds@vger.kernel.org, drbd-dev@lists.linbit.com,
+ linux-s390@vger.kernel.org, linux-nilfs@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-atm-general@lists.sourceforge.net, linux-afs@lists.infradead.org,
+ lvs-devel@vger.kernel.org, linux-acpi@vger.kernel.org, coreteam@netfilter.org,
+ intel-wired-lan@lists.osuosl.org, linux-input@vger.kernel.org,
+ tipc-discussion@lists.sourceforge.net, linux-ext4@vger.kernel.org,
+ Guenter Roeck <linux@roeck-us.net>, linux-media@vger.kernel.org,
+ bridge@lists.linux-foundation.org, linux-pm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, rcu@vger.kernel.org, cgroups@vger.kernel.org,
+ openipmi-developer@lists.sourceforge.net,
+ Anna-Maria Gleixner <anna-maria@linutronix.de>, linux-edac@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-nfs@vger.kernel.org,
+ linux-parisc@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-bluetooth@vger.kernel.org, netfilter-devel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216665
+On Sat, Nov 05, 2022 at 12:36:42PM -0400, Steven Rostedt wrote:
+> ----------------------8<------------------------
+> @@
+> identifier ptr, timer, rfield, slab;
+> @@
+> (
+> -	del_timer(&ptr->timer);
+> +	timer_shutdown(&ptr->timer);
+> |
+> -	del_timer_sync(&ptr->timer);
+> +	timer_shutdown_sync(&ptr->timer);
+> )
+>     ...
+> (
+> 	kfree_rcu(ptr, rfield);
+> |
+> 	kmem_cache_free(slab, ptr);
+> |
+> 	kfree(ptr);
+> )
+> ---------------------->8------------------------
 
-            Bug ID: 216665
-           Summary: Synopsys Designware HDMI >=3D 2.10a seems not to insert
-                    PCUV bits into HDMI audio stream unless insert_pcuv
-                    bit is set
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 6.0.7
-          Hardware: ARM
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: geraldogabriel@gmail.com
-        Regression: No
+Something that might help here is changing the `...` into
+`... when exists` or into `... when != ptr` or similar.
+See this section of the manual:
+https://coccinelle.gitlabpages.inria.fr/website/docs/main_grammar004.html
 
-Created attachment 303135
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D303135&action=3Dedit
-Patch to set insert_pcuv
-
-Enabling sound in the device tree for my Radxa Rock Pi N10 (RK3399Pro SoM)
-resulted in music sounding like white noise with my Philips 243V HDMI monit=
-or.
-
-I then found out I wasn't alone by reading the following LibreELEC thread:
-https://forum.libreelec.tv/thread/17600-rk3399-hdmi-audio-quality/
-
-Particularly, sigmaris on page 2 of that thread, experienced similar sympto=
-ms
-with his/her Samsung TV, like I did. Like him/her, I had to software mix the
-volume down to 33% at which point music would sound like music, not white
-noise.
-
-I was very puzzled by that, and after an exchange with Sugar Zhang from
-Rockchip I dumped all the HDMI registers with i2cdump and started checking =
-them
-one by one, comparing what was set by the Linux kernel driver with the Rock=
-chip
-Technical Reference Manual.
-
-This lead me to the missing insert_pcuv bit, which it seems to me, Synopsys
-introduced purposefully breaking compatibility with existing driver codebas=
-es.
-The attached patch fixes my problem (I have normal music with 100% of audio
-volume and no glitches) and was posted to relevant kernel lists:
-https://lore.kernel.org/dri-devel/Y2A48a5ff+SyxqLR@geday/T/
-
-I'd like to thank Mark Brown for pointing out the fix should be restricted =
-to
-Linear PCM only, and Neil Armstrong for further researching this. Unfortuna=
-tely
-it seems we're out of testers for the time being.
-
-I post this in the hope all this doesn't sink down the memory hole, and may=
-be
-Google will lead people experiencing the same problems towards here, and th=
-ey
-can test the proposed solution in the attachment.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Jason
