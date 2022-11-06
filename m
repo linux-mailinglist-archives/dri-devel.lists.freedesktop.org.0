@@ -2,32 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79ED861E685
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Nov 2022 22:26:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B62D761E6B2
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Nov 2022 22:51:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 587B910E1C3;
-	Sun,  6 Nov 2022 21:26:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4985710E0E2;
+	Sun,  6 Nov 2022 21:51:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 044D010E0E2;
- Sun,  6 Nov 2022 21:26:32 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F323410E0E2
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Nov 2022 21:50:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667771456;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=QSBz7ls6pvIRkPGuuPnjgOEhM6moagvV/H8ef1Cykvk=;
+ b=P3KDHwSBpfJPrUrz1Iha0hUfjJ+tvVLEdtoXWTGQ502CwzEpKUx0KY2sUvpzC9SKJM/xL/
+ Cps/5uGTiH1uL48T7BD2KHgjrobiQ13sQy0R4TKJyhmDLXwYEldRCJbJcrYYg//DbI0xO6
+ POPT+WDag0We1Ih3FtHq5ZGLloATaq0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-300-ol9Se_o8Nvq4q98r2rcllA-1; Sun, 06 Nov 2022 16:50:55 -0500
+X-MC-Unique: ol9Se_o8Nvq4q98r2rcllA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 11DF460DBE;
- Sun,  6 Nov 2022 21:26:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C35DC433C1;
- Sun,  6 Nov 2022 21:26:31 +0000 (UTC)
-Received: from rostedt by gandalf.local.home with local (Exim 4.96)
- (envelope-from <rostedt@goodmis.org>) id 1ornAT-008Cga-2Z;
- Sun, 06 Nov 2022 16:27:01 -0500
-Message-ID: <20221106212427.739928660@goodmis.org>
-User-Agent: quilt/0.66
-Date: Sun, 06 Nov 2022 16:24:27 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v6a 0/5] timers: Use timer_shutdown*() before freeing timers
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D21B7833A06;
+ Sun,  6 Nov 2022 21:50:54 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.192.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E048040C6EC4;
+ Sun,  6 Nov 2022 21:50:53 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH] drm: panel-orientation-quirks: Add quirk for Acer Switch V 10
+ (SW5-017)
+Date: Sun,  6 Nov 2022 22:50:52 +0100
+Message-Id: <20221106215052.66995-1-hdegoede@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,133 +61,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, linux-staging@lists.linux.dev,
- linux-sh@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-afs@lists.infradead.org, linux-leds@vger.kernel.org,
- drbd-dev@lists.linbit.com, linux-nilfs@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-atm-general@lists.sourceforge.net,
- lvs-devel@vger.kernel.org, linux-acpi@vger.kernel.org, coreteam@netfilter.org,
- intel-wired-lan@lists.osuosl.org, linux-input@vger.kernel.org,
- tipc-discussion@lists.sourceforge.net, linux-ext4@vger.kernel.org,
- Guenter Roeck <linux@roeck-us.net>, linux-media@vger.kernel.org,
- bridge@lists.linux-foundation.org, intel-gfx@lists.freedesktop.org,
- linux-block@vger.kernel.org, cgroups@vger.kernel.org,
- Thomas Gleixner <tglx@linutronix.de>,
- Anna-Maria Gleixner <anna-maria@linutronix.de>, linux-nfs@vger.kernel.org,
- Stephen Boyd <sboyd@kernel.org>, netdev@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
- linux-kernel@vger.kernel.org, Julia Lawall <Julia.Lawall@inria.fr>,
- linux-bluetooth@vger.kernel.org, netfilter-devel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Hans de Goede <hdegoede@redhat.com>, Rudolf Polzer <rpolzer@google.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-del_timer_sync() is often called before the object that owns the timer is
-freed. But sometimes there's a race that enables the timer again before it is
-freed and causes a use after free when that timer triggers. This patch set
-adds a new "shutdown" timer state, which is set on the new timer_shutdown()
-API. Once a timer is in this state, it can not be re-armed and if it is, it
-will warn.
+Like the Acer Switch One 10 S1003, for which there already is a quirk,
+the Acer Switch V 10 (SW5-017) has a 800x1280 portrait screen mounted
+in the tablet part of a landscape oriented 2-in-1. Add a quirk for this.
 
-The first three patches change existing timer_shutdown() functions used
-locally in ARM and some drivers to better namespace names.
+Cc: Rudolf Polzer <rpolzer@google.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-The fourth patch implements the new API.
+diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+index f0f6fa306521..52d8800a8ab8 100644
+--- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
++++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+@@ -134,6 +134,12 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "One S1003"),
+ 		},
+ 		.driver_data = (void *)&lcd800x1280_rightside_up,
++	}, {	/* Acer Switch V 10 (SW5-017) */
++		.matches = {
++		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Acer"),
++		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "SW5-017"),
++		},
++		.driver_data = (void *)&lcd800x1280_rightside_up,
+ 	}, {	/* Anbernic Win600 */
+ 		.matches = {
+ 		  DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "Anbernic"),
+-- 
+2.37.3
 
-The fifth patch is now a treewide patch that uses a coccinelle script to
-convert the trivial locations where a del_timer*() is called on a timer of an
-object that is freed immediately afterward (or at least in the same function).
-
-Changes since v5a: https://lore.kernel.org/all/20221106054535.709068702@goodmis.org/
-
- - Updated the script to make ptr and slab into expressions instead of
-   using identifiers (Julia Lawall and Linus Torvalds)
-
-Steven Rostedt (Google) (5):
-      ARM: spear: Do not use timer namespace for timer_shutdown() function
-      clocksource/drivers/arm_arch_timer: Do not use timer namespace for timer_shutdown() function
-      clocksource/drivers/sp804: Do not use timer namespace for timer_shutdown() function
-      timers: Add timer_shutdown_sync() and timer_shutdown() to be called before freeing timers
-      treewide: Convert del_timer*() to timer_shutdown*()
-
-----
- .../RCU/Design/Requirements/Requirements.rst       |  2 +-
- Documentation/core-api/local_ops.rst               |  2 +-
- Documentation/kernel-hacking/locking.rst           |  5 ++
- arch/arm/mach-spear/time.c                         |  8 +--
- arch/sh/drivers/push-switch.c                      |  2 +-
- block/blk-iocost.c                                 |  2 +-
- block/blk-iolatency.c                              |  2 +-
- block/kyber-iosched.c                              |  2 +-
- drivers/acpi/apei/ghes.c                           |  2 +-
- drivers/atm/idt77252.c                             |  6 +-
- drivers/block/drbd/drbd_main.c                     |  2 +-
- drivers/block/loop.c                               |  2 +-
- drivers/bluetooth/hci_bcsp.c                       |  2 +-
- drivers/bluetooth/hci_qca.c                        |  4 +-
- drivers/clocksource/arm_arch_timer.c               | 12 ++--
- drivers/clocksource/timer-sp804.c                  |  6 +-
- drivers/gpu/drm/i915/i915_sw_fence.c               |  2 +-
- drivers/hid/hid-wiimote-core.c                     |  2 +-
- drivers/input/keyboard/locomokbd.c                 |  2 +-
- drivers/input/keyboard/omap-keypad.c               |  2 +-
- drivers/input/mouse/alps.c                         |  2 +-
- drivers/isdn/mISDN/l1oip_core.c                    |  4 +-
- drivers/isdn/mISDN/timerdev.c                      |  4 +-
- drivers/leds/trigger/ledtrig-activity.c            |  2 +-
- drivers/leds/trigger/ledtrig-heartbeat.c           |  2 +-
- drivers/leds/trigger/ledtrig-pattern.c             |  2 +-
- drivers/leds/trigger/ledtrig-transient.c           |  2 +-
- drivers/media/pci/ivtv/ivtv-driver.c               |  2 +-
- drivers/media/usb/pvrusb2/pvrusb2-hdw.c            | 16 +++---
- drivers/media/usb/s2255/s2255drv.c                 |  4 +-
- drivers/net/ethernet/intel/i40e/i40e_main.c        |  6 +-
- drivers/net/ethernet/marvell/sky2.c                |  2 +-
- drivers/net/ethernet/sun/sunvnet.c                 |  2 +-
- drivers/net/usb/sierra_net.c                       |  2 +-
- .../wireless/broadcom/brcm80211/brcmfmac/btcoex.c  |  2 +-
- drivers/net/wireless/intel/iwlwifi/iwl-dbg-tlv.c   |  2 +-
- drivers/net/wireless/intel/iwlwifi/mvm/sta.c       |  2 +-
- drivers/net/wireless/intersil/hostap/hostap_ap.c   |  2 +-
- drivers/net/wireless/marvell/mwifiex/main.c        |  2 +-
- drivers/net/wireless/microchip/wilc1000/hif.c      |  6 +-
- drivers/nfc/pn533/pn533.c                          |  2 +-
- drivers/nfc/pn533/uart.c                           |  2 +-
- drivers/pcmcia/bcm63xx_pcmcia.c                    |  2 +-
- drivers/pcmcia/electra_cf.c                        |  2 +-
- drivers/pcmcia/omap_cf.c                           |  2 +-
- drivers/pcmcia/pd6729.c                            |  4 +-
- drivers/pcmcia/yenta_socket.c                      |  4 +-
- drivers/scsi/qla2xxx/qla_edif.c                    |  4 +-
- drivers/staging/media/atomisp/i2c/atomisp-lm3554.c |  2 +-
- drivers/tty/n_gsm.c                                |  2 +-
- drivers/tty/sysrq.c                                |  2 +-
- drivers/usb/gadget/udc/m66592-udc.c                |  2 +-
- drivers/usb/serial/garmin_gps.c                    |  2 +-
- drivers/usb/serial/mos7840.c                       |  4 +-
- fs/ext4/super.c                                    |  2 +-
- fs/nilfs2/segment.c                                |  2 +-
- include/linux/timer.h                              | 62 +++++++++++++++++++--
- kernel/time/timer.c                                | 64 ++++++++++++----------
- net/802/garp.c                                     |  2 +-
- net/802/mrp.c                                      |  4 +-
- net/bridge/br_multicast.c                          |  8 +--
- net/bridge/br_multicast_eht.c                      |  4 +-
- net/core/gen_estimator.c                           |  2 +-
- net/ipv4/ipmr.c                                    |  2 +-
- net/ipv6/ip6mr.c                                   |  2 +-
- net/mac80211/mesh_pathtbl.c                        |  2 +-
- net/netfilter/ipset/ip_set_list_set.c              |  2 +-
- net/netfilter/ipvs/ip_vs_lblc.c                    |  2 +-
- net/netfilter/ipvs/ip_vs_lblcr.c                   |  2 +-
- net/netfilter/xt_IDLETIMER.c                       |  4 +-
- net/netfilter/xt_LED.c                             |  2 +-
- net/rxrpc/conn_object.c                            |  2 +-
- net/sched/cls_flow.c                               |  2 +-
- net/sunrpc/svc.c                                   |  2 +-
- net/tipc/discover.c                                |  2 +-
- net/tipc/monitor.c                                 |  2 +-
- sound/i2c/other/ak4117.c                           |  2 +-
- sound/synth/emux/emux.c                            |  2 +-
- 78 files changed, 207 insertions(+), 148 deletions(-)
