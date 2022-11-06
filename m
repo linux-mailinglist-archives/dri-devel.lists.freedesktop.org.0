@@ -1,61 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68C5D61E394
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Nov 2022 17:59:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A84B61E3A4
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Nov 2022 18:04:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1019110E0A2;
-	Sun,  6 Nov 2022 16:59:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43C2B10E0BF;
+	Sun,  6 Nov 2022 17:03:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 804D310E076;
- Sun,  6 Nov 2022 16:59:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202112;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=1fHQEWgWob7nqgYb7pRzlsH6vNCFNYXfK+/x9/nB01M=; b=Yje8YQHhRml05gW1dej/dWiQQZ
- AqKj2i0OjO2RM1Qumjo7FoNfWRUdBC4/h2uQHli8coC+LKe7l3tUuPyfG7KqA8BEsiA+NVUYZGdcd
- RinbElpcQ3zEo0Ef+uc++uePxxY9puXszvLwKUx+P73tntoXkxilGwxDL1B3Co5nkaf1qLNefEJdU
- TbFTqkc2KcniVpob8iHII19/YNuRBUOwfVsA0XatDekK5sUsjYZNxCxDW65aky/cX6L9UkiWis18f
- 9uK/o/dLYZ0E8dKpnNEyK/urj4eNuLfnJnz0gFxc4QGDZbkz/3loUbjywm6lgaJZ1VZ7l87tNIpzo
- XoageSaA==;
-Received: from [2a01:799:95a:cb00:fd97:29ff:d72a:349e] (port=51993)
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1orizW-0005gi-Tq; Sun, 06 Nov 2022 17:59:26 +0100
-Message-ID: <eb485588-2e7a-8455-7ec4-6a9649d2bef8@tronnes.org>
-Date: Sun, 6 Nov 2022 17:59:23 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2858610E0BF;
+ Sun,  6 Nov 2022 17:03:50 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 734F760CE8;
+ Sun,  6 Nov 2022 17:03:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A151C433C1;
+ Sun,  6 Nov 2022 17:03:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1667754228;
+ bh=aBETzMf0OclZ0SaVEPr4il3hPRXeVDkWT00EYqZWNXQ=;
+ h=From:To:Cc:Subject:Date:From;
+ b=TPzKC7Mz5MCCkwQKeWtIvTNO2t34monjJW7W4WQ+kO2/kchlTWSjnmtLQeLVKoCJS
+ CA32IoDqYmv7LUGnj2hBVnVxa+HvRke2sBuo+u3AXU50yDLvJwMFI7/0p6f/dljrbG
+ E9m244vW//2NQm0+JWRkQKOxbmzlsN72qm36pyDTbblCrLyL6+Cvn36BTB4U200Hds
+ ZPSEBTlYdp7c2qgEt078ZLFB8kJKBv1zIWefdpNo2Q/uwH3aXsVKAAHr1flkYnA7mY
+ OwuN1wdYTQ6kDTWIgIC8gcy050ZA3IqaDVJVlD50nlqFo03BWlqfpooxZxQRCbSqZD
+ AOb5UXDJegE+w==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.0 01/30] drm/msm/gpu: Fix crash during system
+ suspend after unbind
+Date: Sun,  6 Nov 2022 12:03:13 -0500
+Message-Id: <20221106170345.1579893-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v6 16/23] drm/probe-helper: Provide a TV get_modes helper
-To: Mateusz Kwiatkowski <kfyatek@gmail.com>, maxime@cerno.tech,
- Karol Herbst <kherbst@redhat.com>, Emma Anholt <emma@anholt.net>,
- Ben Skeggs <bskeggs@redhat.com>, Chen-Yu Tsai <wens@csie.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@linux.ie>,
- Maxime Ripard <mripard@kernel.org>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Lyude Paul <lyude@redhat.com>
-References: <20220728-rpi-analog-tv-properties-v6-0-e7792734108f@cerno.tech>
- <20220728-rpi-analog-tv-properties-v6-16-e7792734108f@cerno.tech>
- <8d0eee22-50f5-5b0a-c1e6-c5f61dd5bbcd@gmail.com>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <8d0eee22-50f5-5b0a-c1e6-c5f61dd5bbcd@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,104 +53,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Phil Elwell <phil@raspberrypi.com>,
- Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
+Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, vladimir.lypak@gmail.com,
+ andersson@kernel.org, konrad.dybcio@somainline.org, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, nathan@kernel.org,
+ linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
+ freedreno@lists.freedesktop.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
 
+[ Upstream commit 76efc2453d0e8e5d6692ef69981b183ad674edea ]
 
-Den 27.10.2022 00.02, skrev Mateusz Kwiatkowski:
-> Hi Maxime,
-> 
-> First of all, nice idea with the helper function that can be reused by different
-> drivers. This is neat!
-> 
-> But looking at this function, it feels a bit overcomplicated. You're creating
-> the two modes, then checking which one is the default, then set the preferred
-> one and possibly reorder them. Maybe it can be simplified somehow?
-> 
-> Although when I tried to refactor it myself, I ended up with something that's
-> not better at all. Maybe it needs to be complicated, after all :(
-> 
+In adreno_unbind, we should clean up gpu device's drvdata to avoid
+accessing a stale pointer during system suspend. Also, check for NULL
+ptr in both system suspend/resume callbacks.
 
-I also thought that the function was complicated/difficult to read, in
-particular the index stuff at the end, but I also failed in finding a
-"better" solution, just a different one ;)
+Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Patchwork: https://patchwork.freedesktop.org/patch/505075/
+Link: https://lore.kernel.org/r/20220928124830.2.I5ee0ac073ccdeb81961e5ec0cce5f741a7207a71@changeid
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/msm/adreno/adreno_device.c | 10 +++++++++-
+ drivers/gpu/drm/msm/msm_gpu.c              |  2 ++
+ drivers/gpu/drm/msm/msm_gpu.h              |  4 ++++
+ 3 files changed, 15 insertions(+), 1 deletion(-)
 
-Noralf.
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+index 24b489b6129a..628806423f7d 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_device.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+@@ -679,6 +679,9 @@ static int adreno_system_suspend(struct device *dev)
+ 	struct msm_gpu *gpu = dev_to_gpu(dev);
+ 	int remaining, ret;
+ 
++	if (!gpu)
++		return 0;
++
+ 	suspend_scheduler(gpu);
+ 
+ 	remaining = wait_event_timeout(gpu->retire_event,
+@@ -700,7 +703,12 @@ static int adreno_system_suspend(struct device *dev)
+ 
+ static int adreno_system_resume(struct device *dev)
+ {
+-	resume_scheduler(dev_to_gpu(dev));
++	struct msm_gpu *gpu = dev_to_gpu(dev);
++
++	if (!gpu)
++		return 0;
++
++	resume_scheduler(gpu);
+ 	return pm_runtime_force_resume(dev);
+ }
+ 
+diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+index c2bfcf3f1f40..01aae792ffa9 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.c
++++ b/drivers/gpu/drm/msm/msm_gpu.c
+@@ -993,4 +993,6 @@ void msm_gpu_cleanup(struct msm_gpu *gpu)
+ 	}
+ 
+ 	msm_devfreq_cleanup(gpu);
++
++	platform_set_drvdata(gpu->pdev, NULL);
+ }
+diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+index 4d935fedd2ac..fd22cf4041af 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.h
++++ b/drivers/gpu/drm/msm/msm_gpu.h
+@@ -282,6 +282,10 @@ struct msm_gpu {
+ static inline struct msm_gpu *dev_to_gpu(struct device *dev)
+ {
+ 	struct adreno_smmu_priv *adreno_smmu = dev_get_drvdata(dev);
++
++	if (!adreno_smmu)
++		return NULL;
++
+ 	return container_of(adreno_smmu, struct msm_gpu, adreno_smmu);
+ }
+ 
+-- 
+2.35.1
 
-My version:
-
-int drm_connector_helper_tv_get_modes(struct drm_connector *connector)
-{
-	struct drm_device *dev = connector->dev;
-	struct drm_property *tv_mode_property = dev->mode_config.tv_mode_property;
-	struct drm_cmdline_mode *cmdline = &connector->cmdline_mode;
-	unsigned int ntsc_modes = BIT(DRM_MODE_TV_MODE_NTSC) |
-				  BIT(DRM_MODE_TV_MODE_NTSC_443) |
-				  BIT(DRM_MODE_TV_MODE_NTSC_J) |
-				  BIT(DRM_MODE_TV_MODE_PAL_M);
-	unsigned int pal_modes = BIT(DRM_MODE_TV_MODE_PAL) |
-				 BIT(DRM_MODE_TV_MODE_PAL_N) |
-				 BIT(DRM_MODE_TV_MODE_SECAM);
-	unsigned int tv_modes[2] = { UINT_MAX, UINT_MAX };
-	unsigned int i, supported_tv_modes = 0;
-
-	if (!tv_mode_property)
-		return 0;
-
-	for (i = 0; i < tv_mode_property->num_values; i++)
-		supported_tv_modes |= BIT(tv_mode_property->values[i]);
-
-	if ((supported_tv_modes & ntsc_modes) && (supported_tv_modes &
-pal_modes)) {
-		uint64_t default_mode;
-
-		if (drm_object_property_get_default_value(&connector->base,
-							  tv_mode_property,
-							  &default_mode))
-			return 0;
-
-		if (cmdline->tv_mode_specified)
-			default_mode = cmdline->tv_mode;
-
-		if (BIT(default_mode) & ntsc_modes) {
-			tv_modes[0] = DRM_MODE_TV_MODE_NTSC;
-			tv_modes[1] = DRM_MODE_TV_MODE_PAL;
-		} else {
-			tv_modes[0] = DRM_MODE_TV_MODE_PAL;
-			tv_modes[1] = DRM_MODE_TV_MODE_NTSC;
-		}
-	} else if (supported_tv_modes & ntsc_modes) {
-		tv_modes[0] = DRM_MODE_TV_MODE_NTSC;
-	} else if (supported_tv_modes & pal_modes) {
-		tv_modes[0] = DRM_MODE_TV_MODE_PAL;
-	} else {
-		return 0;
-	}
-	
-	for (i = 0; i < ARRAY_SIZE(tv_modes); i++) {
-		struct drm_display_mode *mode;
-
-		if (tv_modes[i] == DRM_MODE_TV_MODE_NTSC)
-			mode = drm_mode_analog_ntsc_480i(dev);
-		else if (tv_modes[i] == DRM_MODE_TV_MODE_PAL)
-			mode = drm_mode_analog_pal_576i(dev);
-		else
-			break;
-		if (!mode)
-			return i;
-		if (!i)
-			mode->type |= DRM_MODE_TYPE_PREFERRED;
-		drm_mode_probed_add(connector, mode);
-	}
-
-	return i;
-}
