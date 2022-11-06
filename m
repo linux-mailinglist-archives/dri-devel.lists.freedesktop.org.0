@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC8E561E1BF
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Nov 2022 11:52:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C37E061E1C2
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Nov 2022 11:54:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F94910E0AC;
-	Sun,  6 Nov 2022 10:52:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D94C510E0E3;
+	Sun,  6 Nov 2022 10:54:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B72B10E0AC
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Nov 2022 10:52:23 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C1658920E
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Nov 2022 10:54:35 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 37EEFB80B34
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Nov 2022 10:52:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40AF6C43145
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Nov 2022 10:52:19 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 01EE460C44
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Nov 2022 10:54:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8025C43470
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Nov 2022 10:54:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1667731939;
- bh=zZXlka8XT0jQaPkciMFldTLZtAMw7JFqIJd9Pf545QE=;
+ s=k20201202; t=1667732073;
+ bh=DGWITShguY2YvDwT2F/Zt1p4K6E4TZdBWjm0qvd7Y5c=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=Y2V4328ZVop5zSPYMbnVBTVFNfHfFl+chIXZhpO3/zXuc77NPWVLdHRiTycGuYLy3
- OQbUBXlQWlcy4fOP0D5fVyCaK1MmlrXGd3P62LZtmNp8qrmfzslkYWTadXKvypzQHj
- nuFIGYLJxI3Zmgn+fkji9quyQVjcuXEjHVglP9ZZrIcbNXZqQkY22tMRB3HZzpmk+N
- ntw6n7OWV/T1t8nbGFYfzJJ3knROgXviZLu8JCdIFdPcA5MKh+0t6OQ4hf2D7Kb7lK
- ThJPmyQF4mRQFCzb2I2zJMaTGOGFh3RH04hlAYqJAWJJQPry4/lRvLo/ygZ19/8VyQ
- Cq6axWmp+BdzQ==
-Received: by mail-yw1-f172.google.com with SMTP id
- 00721157ae682-367cd2807f2so80763597b3.1
- for <dri-devel@lists.freedesktop.org>; Sun, 06 Nov 2022 02:52:19 -0800 (PST)
-X-Gm-Message-State: ACrzQf2MpkLcPvLs53g89+rLJcvGW30tt3l1Xibnm0i8NeWQChGHZ0xj
- OB2Mzvn61gGC+3nAeWZlnHFLdJgniR08hTjJmiU=
-X-Google-Smtp-Source: AMsMyM7whTmcg306z1pjEJrFbNEeVSy7uMLjOJgY0HfUfOsFdMfzjOY9hDUp6Y+85iouOs3uQS7VnQILBs8heSGodHE=
-X-Received: by 2002:a81:9214:0:b0:36c:7b94:aa57 with SMTP id
- j20-20020a819214000000b0036c7b94aa57mr41538976ywg.221.1667731938334; Sun, 06
- Nov 2022 02:52:18 -0800 (PST)
+ b=jtg3YNva6eR97+CKcl2lU4MZakiRXGxBnD8cqRXo2jA3ubAsAokvwHJHoxI5Q6ckr
+ xxgWcqTnT2MSmSpKhhnM7EKt7eWZqlmB13PGa+bqTL9e4zpY7LhNdqJnH4/Dvztq3R
+ TeO+JbCAD6DB2mFqDuIOtIyngVklXLzX060KDMUSD3e+C44DBRwUpT4fWcl1duQTQY
+ p/G64KpiN/F4dB/+x4j6CO36Ktj7p1x+trI7fHQlmuJ8owjfoOOpQmPemOPIe6Q4Zy
+ MvqyIq95aIK9M+RIPI3yxaQEu1bRUJ+OS4usLPCA4imQctMwY9xe4Y+fzYU9HAZv6u
+ aRRddZEuTgt5A==
+Received: by mail-yb1-f174.google.com with SMTP id y186so5905486yby.10
+ for <dri-devel@lists.freedesktop.org>; Sun, 06 Nov 2022 02:54:33 -0800 (PST)
+X-Gm-Message-State: ACrzQf36ADieZKOo+sF1xrkJzfmB2D790U/zW78yJlMNhs3T//LDGS7f
+ WuOFRWtN0tkxdu/nbgNBgNratRHffcVPe3v0aV8=
+X-Google-Smtp-Source: AMsMyM4FcFut+LU4VdTnrVzBfv6cltrpShWVNbuucVGQUt4hr2pnnb6JqFc2yeeMG3KRDMdP48BI892EZF4vx48UqWM=
+X-Received: by 2002:a25:1e89:0:b0:6bf:9e55:5cb4 with SMTP id
+ e131-20020a251e89000000b006bf9e555cb4mr44196756ybe.642.1667732072872; Sun, 06
+ Nov 2022 02:54:32 -0800 (PST)
 MIME-Version: 1.0
 References: <20221102203405.1797491-1-ogabbay@kernel.org>
+ <CGME20221102203430epcas1p380845d7a6ebc38ab1f41acf8c48a4480@epcas1p3.samsung.com>
  <20221102203405.1797491-3-ogabbay@kernel.org>
- <7654d9c0-c181-ae6b-96ee-349f20f24b18@quicinc.com>
-In-Reply-To: <7654d9c0-c181-ae6b-96ee-349f20f24b18@quicinc.com>
+ <20221103142554.6310a60f0f6dad1a59fa7644@samsung.com>
+In-Reply-To: <20221103142554.6310a60f0f6dad1a59fa7644@samsung.com>
 From: Oded Gabbay <ogabbay@kernel.org>
-Date: Sun, 6 Nov 2022 12:51:51 +0200
-X-Gmail-Original-Message-ID: <CAFCwf10SLEd3dKXYEhyX0E95b66Qfok2Rou=6tOE_j2LCpOc6A@mail.gmail.com>
-Message-ID: <CAFCwf10SLEd3dKXYEhyX0E95b66Qfok2Rou=6tOE_j2LCpOc6A@mail.gmail.com>
+Date: Sun, 6 Nov 2022 12:54:06 +0200
+X-Gmail-Original-Message-ID: <CAFCwf124PAis_PJjswUdGbpRJ=SGsPpAOQbjuRzvfM7VZyS8Dg@mail.gmail.com>
+Message-ID: <CAFCwf124PAis_PJjswUdGbpRJ=SGsPpAOQbjuRzvfM7VZyS8Dg@mail.gmail.com>
 Subject: Re: [RFC PATCH v2 2/3] accel: add dedicated minor for accelerator
  devices
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
+To: Jiho Chu <jiho.chu@samsung.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,84 +65,30 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jiho Chu <jiho.chu@samsung.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, Jason Gunthorpe <jgg@nvidia.com>,
  Arnd Bergmann <arnd@arndb.de>, Thomas Zimmermann <tzimmermann@suse.de>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- John Hubbard <jhubbard@nvidia.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, John Hubbard <jhubbard@nvidia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
  Christoph Hellwig <hch@infradead.org>,
  Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
  Kevin Hilman <khilman@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 2, 2022 at 11:17 PM Jeffrey Hugo <quic_jhugo@quicinc.com> wrote:
+On Thu, Nov 3, 2022 at 7:26 AM Jiho Chu <jiho.chu@samsung.com> wrote:
 >
-> On 11/2/2022 2:34 PM, Oded Gabbay wrote:
-> > @@ -24,16 +33,6 @@ static char *accel_devnode(struct device *dev, umode_t *mode)
-> >
-> >   static CLASS_ATTR_STRING(accel_version, 0444, "accel 1.0.0 20221018");
-> >
-> > -/**
-> > - * accel_sysfs_init - initialize sysfs helpers
-> > - *
-> > - * This is used to create the ACCEL class, which is the implicit parent of any
-> > - * other top-level ACCEL sysfs objects.
-> > - *
-> > - * You must call accel_sysfs_destroy() to release the allocated resources.
-> > - *
-> > - * Return: 0 on success, negative error code on failure.
-> > - */
+> On Wed,  2 Nov 2022 22:34:04 +0200
+> Oded Gabbay <ogabbay@kernel.org> wrote:
 >
-> Why are we removing this?
-It should have been removed at the first patch, and will be fixed in v3.
-I'm removing it as it is a static function. We don't document every
-static function.
->
-> >   static int accel_sysfs_init(void)
-> >   {
-> >       int err;
-> > @@ -54,11 +53,6 @@ static int accel_sysfs_init(void)
-> >       return 0;
-> >   }
-> >
-> > -/**
-> > - * accel_sysfs_destroy - destroys ACCEL class
-> > - *
-> > - * Destroy the ACCEL device class.
-> > - */
->
-> Again, why remove this?  Adding it in one patch than immediately
-> removing it in the next patch seems wasteful.
-Correct, will be removed from the first patch in the next version.
->
-> >   static void accel_sysfs_destroy(void)
-> >   {
-> >       if (IS_ERR_OR_NULL(accel_class))
-> > @@ -68,11 +62,185 @@ static void accel_sysfs_destroy(void)
-> >       accel_class = NULL;
-> >   }
-> >
-> > +static void accel_minor_release(struct drm_minor *minor)
-> > +{
-> > +     drm_dev_put(minor->dev);
-> > +}
-> > +
 > > +/**
 > > + * accel_open - open method for ACCEL file
 > > + * @inode: device inode
 > > + * @filp: file pointer.
 > > + *
 > > + * This function must be used by drivers as their &file_operations.open method.
->
-> Feels like it would be helpful to have an accel version of
-> DEFINE_DRM_GEM_FOPS() which helps accel drivers to get this right
-Yeah, I also thought about it. I'll add it.
-thanks,
-oded
->
 > > + * It looks up the correct ACCEL device and instantiates all the per-file
 > > + * resources for it. It also calls the &drm_driver.open driver callback.
 > > + *
@@ -161,6 +108,15 @@ oded
 > > +
 > > +     atomic_fetch_inc(&dev->open_count);
 > > +
+>
+> Hi,
+> It needs to consider drm_global_mutex to access open_count.
+> please check doxy of open_count.
+Now that I'm changing the code back to be part of drm.ko, I can return
+all the code that is in drm_copy which I removed for this to compile.
+
+>
+>
 > > +     /* share address_space across all char-devs of a single device */
 > > +     filp->f_mapping = dev->anon_inode->i_mapping;
 > > +
@@ -176,3 +132,20 @@ oded
 > > +     return retcode;
 > > +}
 > > +EXPORT_SYMBOL_GPL(accel_open);
+> > +
+> >  static int accel_stub_open(struct inode *inode, struct file *filp)
+> >  {
+> > -     DRM_DEBUG("Operation not supported");
+> > +     const struct file_operations *new_fops;
+> > +     struct drm_minor *minor;
+> > +     int err;
+> > +
+> > +     DRM_DEBUG("\n");
+>
+> It seems useless.
+Correct, I removed it in v3.
+Thanks,
+Oded
+>
+> Thanks.
+> Jiho Chu
