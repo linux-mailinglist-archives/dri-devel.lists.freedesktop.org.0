@@ -2,41 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A84B61E3A4
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Nov 2022 18:04:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E08D161E3C5
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Nov 2022 18:04:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43C2B10E0BF;
-	Sun,  6 Nov 2022 17:03:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A803E10E1AE;
+	Sun,  6 Nov 2022 17:04:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2858610E0BF;
- Sun,  6 Nov 2022 17:03:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29C8910E1AD;
+ Sun,  6 Nov 2022 17:04:50 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 734F760CE8;
- Sun,  6 Nov 2022 17:03:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A151C433C1;
- Sun,  6 Nov 2022 17:03:46 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id A452660CE8;
+ Sun,  6 Nov 2022 17:04:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 157BAC433D6;
+ Sun,  6 Nov 2022 17:04:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1667754228;
- bh=aBETzMf0OclZ0SaVEPr4il3hPRXeVDkWT00EYqZWNXQ=;
- h=From:To:Cc:Subject:Date:From;
- b=TPzKC7Mz5MCCkwQKeWtIvTNO2t34monjJW7W4WQ+kO2/kchlTWSjnmtLQeLVKoCJS
- CA32IoDqYmv7LUGnj2hBVnVxa+HvRke2sBuo+u3AXU50yDLvJwMFI7/0p6f/dljrbG
- E9m244vW//2NQm0+JWRkQKOxbmzlsN72qm36pyDTbblCrLyL6+Cvn36BTB4U200Hds
- ZPSEBTlYdp7c2qgEt078ZLFB8kJKBv1zIWefdpNo2Q/uwH3aXsVKAAHr1flkYnA7mY
- OwuN1wdYTQ6kDTWIgIC8gcy050ZA3IqaDVJVlD50nlqFo03BWlqfpooxZxQRCbSqZD
- AOb5UXDJegE+w==
+ s=k20201202; t=1667754289;
+ bh=J9ji/8TZrXD4KZtfa1JT6SnAI6YRK9WSYwssv/EIJ9s=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=EmbYf9wbveCdvt20SYeQgR9V1glIwbOB0fulArkiyf45RQB2h7f7ZHYcTcOuSh/BZ
+ dJcWqxKRKuNn7m0+oVmWSohuob7lNobk187kgkbcjg3ekCPRgPAogHRQFbhdCmasiT
+ WWbbITAMlLPM25knHOGVxplrK1PNt01x3c1017+hAgpnPLIL+nA3GXCEpeNzgA/ZZ/
+ Q/y7SGGrMozL0Xt8zHMEpfwDUVJdYXXcqqf18CXE5GYmYtftBRykFJ0+IPweEUrCsA
+ ilN9zQIu1uLXqNfWsjgdi1MJ1Uu/Ouo0DxEWk8PoZuCed07jZVFlGDuhEMgSKzH104
+ CjUniAwDo16nA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.0 01/30] drm/msm/gpu: Fix crash during system
- suspend after unbind
-Date: Sun,  6 Nov 2022 12:03:13 -0500
-Message-Id: <20221106170345.1579893-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.0 24/30] drm/amdgpu: Adjust MES polling timeout for
+ sriov
+Date: Sun,  6 Nov 2022 12:03:36 -0500
+Message-Id: <20221106170345.1579893-24-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20221106170345.1579893-1-sashal@kernel.org>
+References: <20221106170345.1579893-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -53,88 +55,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, vladimir.lypak@gmail.com,
- andersson@kernel.org, konrad.dybcio@somainline.org, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, nathan@kernel.org,
- linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
- freedreno@lists.freedesktop.org, angelogioacchino.delregno@collabora.com
+Cc: Sasha Levin <sashal@kernel.org>, yifan1.zhang@amd.com, Jack.Xiao@amd.com,
+ Yiqing Yao <yiqing.yao@amd.com>, Xinhui.Pan@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
+ Graham.Sider@amd.com, Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+From: Yiqing Yao <yiqing.yao@amd.com>
 
-[ Upstream commit 76efc2453d0e8e5d6692ef69981b183ad674edea ]
+[ Upstream commit 226dcfad349f23f7744d02b24f8ec3bc4f6198ac ]
 
-In adreno_unbind, we should clean up gpu device's drvdata to avoid
-accessing a stale pointer during system suspend. Also, check for NULL
-ptr in both system suspend/resume callbacks.
+[why]
+MES response time in sriov may be longer than default value
+due to reset or init in other VF. A timeout value specific
+to sriov is needed.
 
-Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Patchwork: https://patchwork.freedesktop.org/patch/505075/
-Link: https://lore.kernel.org/r/20220928124830.2.I5ee0ac073ccdeb81961e5ec0cce5f741a7207a71@changeid
-Signed-off-by: Rob Clark <robdclark@chromium.org>
+[how]
+When in sriov, adjust the timeout value to calculated
+worst case scenario.
+
+Signed-off-by: Yiqing Yao <yiqing.yao@amd.com>
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/msm/adreno/adreno_device.c | 10 +++++++++-
- drivers/gpu/drm/msm/msm_gpu.c              |  2 ++
- drivers/gpu/drm/msm/msm_gpu.h              |  4 ++++
- 3 files changed, 15 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/mes_v11_0.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-index 24b489b6129a..628806423f7d 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-@@ -679,6 +679,9 @@ static int adreno_system_suspend(struct device *dev)
- 	struct msm_gpu *gpu = dev_to_gpu(dev);
- 	int remaining, ret;
+diff --git a/drivers/gpu/drm/amd/amdgpu/mes_v11_0.c b/drivers/gpu/drm/amd/amdgpu/mes_v11_0.c
+index f92744b8d79d..e758b4083874 100644
+--- a/drivers/gpu/drm/amd/amdgpu/mes_v11_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/mes_v11_0.c
+@@ -96,7 +96,14 @@ static int mes_v11_0_submit_pkt_and_poll_completion(struct amdgpu_mes *mes,
+ 	struct amdgpu_device *adev = mes->adev;
+ 	struct amdgpu_ring *ring = &mes->ring;
+ 	unsigned long flags;
++	signed long timeout = adev->usec_timeout;
  
-+	if (!gpu)
-+		return 0;
-+
- 	suspend_scheduler(gpu);
++	if (amdgpu_emu_mode) {
++		timeout *= 100;
++	} else if (amdgpu_sriov_vf(adev)) {
++		/* Worst case in sriov where all other 15 VF timeout, each VF needs about 600ms */
++		timeout = 15 * 600 * 1000;
++	}
+ 	BUG_ON(size % 4 != 0);
  
- 	remaining = wait_event_timeout(gpu->retire_event,
-@@ -700,7 +703,12 @@ static int adreno_system_suspend(struct device *dev)
+ 	spin_lock_irqsave(&mes->ring_lock, flags);
+@@ -116,7 +123,7 @@ static int mes_v11_0_submit_pkt_and_poll_completion(struct amdgpu_mes *mes,
+ 	DRM_DEBUG("MES msg=%d was emitted\n", x_pkt->header.opcode);
  
- static int adreno_system_resume(struct device *dev)
- {
--	resume_scheduler(dev_to_gpu(dev));
-+	struct msm_gpu *gpu = dev_to_gpu(dev);
-+
-+	if (!gpu)
-+		return 0;
-+
-+	resume_scheduler(gpu);
- 	return pm_runtime_force_resume(dev);
- }
- 
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index c2bfcf3f1f40..01aae792ffa9 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -993,4 +993,6 @@ void msm_gpu_cleanup(struct msm_gpu *gpu)
- 	}
- 
- 	msm_devfreq_cleanup(gpu);
-+
-+	platform_set_drvdata(gpu->pdev, NULL);
- }
-diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-index 4d935fedd2ac..fd22cf4041af 100644
---- a/drivers/gpu/drm/msm/msm_gpu.h
-+++ b/drivers/gpu/drm/msm/msm_gpu.h
-@@ -282,6 +282,10 @@ struct msm_gpu {
- static inline struct msm_gpu *dev_to_gpu(struct device *dev)
- {
- 	struct adreno_smmu_priv *adreno_smmu = dev_get_drvdata(dev);
-+
-+	if (!adreno_smmu)
-+		return NULL;
-+
- 	return container_of(adreno_smmu, struct msm_gpu, adreno_smmu);
- }
- 
+ 	r = amdgpu_fence_wait_polling(ring, ring->fence_drv.sync_seq,
+-		      adev->usec_timeout * (amdgpu_emu_mode ? 100 : 1));
++		      timeout);
+ 	if (r < 1) {
+ 		DRM_ERROR("MES failed to response msg=%d\n",
+ 			  x_pkt->header.opcode);
 -- 
 2.35.1
 
