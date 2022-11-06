@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B31461E287
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Nov 2022 15:16:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AFBF61E2C3
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Nov 2022 15:52:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F53810E083;
-	Sun,  6 Nov 2022 14:16:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCB3310E121;
+	Sun,  6 Nov 2022 14:52:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80C4910E083
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Nov 2022 14:16:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A8C710E121;
+ Sun,  6 Nov 2022 14:52:08 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 0E04360C84
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Nov 2022 14:16:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9F93C4314A
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Nov 2022 14:16:19 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9C1B460C02;
+ Sun,  6 Nov 2022 14:52:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09565C433D6;
+ Sun,  6 Nov 2022 14:52:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1667744179;
- bh=52sVKQiNtNqqCU+oQ35F2gbqQKJCpmOCxXRfhgc3Gi0=;
+ s=k20201202; t=1667746327;
+ bh=Ycv1TxqlDJ3PK7eO119N5f0GkPr0orUNrH7dQ8IQPdE=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=myhJUxumxIpn2bDXOY4V1wqgJP6Fv/U5QEfcSiBjUxPB89z4OMOmgWV6AceAta/g5
- l6r7Lu294t2HWnQSt/Etx6xolKAY7mzDzWhcvzYheWAVlO1Ml+pk9vdFzYiBHTHAbw
- JcgI2Of/OBU+MEAyWCke/aQGgDQojjoBQVZaXQMzF0Hj2CHRT7Tg3y/Dpj4F6YjgCC
- zTRTVS0gLycbakpcFPaqR4XVL+JrvA/hDW+hvqSfIfjjp9oPSE2IkoxoZDrkEKp3eU
- HEAC3Hhf+TTGUmiC/ZWiaHL8fMAIwKG0LWJAoR7qg7Ao2agC/whsyDD0nf8PxH5yK5
- 7PhrlI/jYNNxA==
-Received: by mail-yb1-f172.google.com with SMTP id y186so6212972yby.10
- for <dri-devel@lists.freedesktop.org>; Sun, 06 Nov 2022 06:16:19 -0800 (PST)
-X-Gm-Message-State: ACrzQf0QigTTH452B1ng7pJgm1JJgvdTfytyipnS2wCNtAtm0TM31xqh
- udBiUfpqUustAiXGfynmOBdhSieAPhzn6QV88PM=
-X-Google-Smtp-Source: AMsMyM7dg5kT7UwIwMp+gGsig+FJY4GQcWBgfw68k16Vp0qWye2guZKBRvpFM89BKscePZhS3HvH4Ds8IFIQ0ESwzw8=
-X-Received: by 2002:a25:1e89:0:b0:6bf:9e55:5cb4 with SMTP id
- e131-20020a251e89000000b006bf9e555cb4mr44872509ybe.642.1667744178636; Sun, 06
- Nov 2022 06:16:18 -0800 (PST)
+ b=fu3I/AcPITAehA5xO7w7LrjaeI07r9dQU0hYsX9eSlAL95iAt0S5BcMkDiT55oG2b
+ XoMuJMB59oIzPzp+Txhv/p1zbzUYKjQpemIB4ph6ouTRByEIJmHmBK5H+Fhf1lPMkF
+ tHuKnv9DXQE+4X8Qz5YxkT3Q4o/J8tQVSV+NoUA4bFTTyIe18cSYR0D+G5v1JuHcSU
+ OKMWlLawq1RjaBoqyUWWF3CIkHG5oknE+YFIYgbDB7ZsG5++PKyd5Pgh8rZviUFoXr
+ 00WEzdSfgW1plbx33ymsV/yT+9N1zMLds6r+3Lp1OzjebteK/VMTMj5So0qnQ53UrF
+ ygU19VQkPSu/g==
+Received: by mail-yb1-f170.google.com with SMTP id y186so6268999yby.10;
+ Sun, 06 Nov 2022 06:52:06 -0800 (PST)
+X-Gm-Message-State: ACrzQf2t2xRnN8Gg9sHdxvjHmg6Klb7UYySTkcgtaki9zZpDmWcYbr6a
+ 1KDk5EinDSe4rSAC1Lr9BWBXOoLsD4hSGN3Jmq4=
+X-Google-Smtp-Source: AMsMyM6TvlDttRINKFf1Xcnd0MX5uUAP1N9lvaQHPrt6uoT9ZyWzHOEh5zd8XsvoUYuAsAJ+Ic5VwHx+OwCliyzxs9U=
+X-Received: by 2002:a05:6902:152:b0:6ca:8fa:105b with SMTP id
+ p18-20020a056902015200b006ca08fa105bmr44476132ybh.550.1667746326046; Sun, 06
+ Nov 2022 06:52:06 -0800 (PST)
 MIME-Version: 1.0
-References: <20221102203405.1797491-1-ogabbay@kernel.org>
- <CGME20221102203430epcas1p380845d7a6ebc38ab1f41acf8c48a4480@epcas1p3.samsung.com>
- <20221102203405.1797491-3-ogabbay@kernel.org>
- <20221103142554.6310a60f0f6dad1a59fa7644@samsung.com>
- <CAFCwf124PAis_PJjswUdGbpRJ=SGsPpAOQbjuRzvfM7VZyS8Dg@mail.gmail.com>
-In-Reply-To: <CAFCwf124PAis_PJjswUdGbpRJ=SGsPpAOQbjuRzvfM7VZyS8Dg@mail.gmail.com>
+References: <20220911211443.581481-1-michal.winiarski@intel.com>
+ <20220911211443.581481-2-michal.winiarski@intel.com>
+ <CAFCwf11=hKGm93oF1A5PLhdvdo2ujYJWyt4qAqK-KQQqe6ngDA@mail.gmail.com>
+In-Reply-To: <CAFCwf11=hKGm93oF1A5PLhdvdo2ujYJWyt4qAqK-KQQqe6ngDA@mail.gmail.com>
 From: Oded Gabbay <ogabbay@kernel.org>
-Date: Sun, 6 Nov 2022 16:15:52 +0200
-X-Gmail-Original-Message-ID: <CAFCwf13qMN8QToOmGGd18k1BOCSHZ8ztcKgxY-LXDqoctSgxnw@mail.gmail.com>
-Message-ID: <CAFCwf13qMN8QToOmGGd18k1BOCSHZ8ztcKgxY-LXDqoctSgxnw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 2/3] accel: add dedicated minor for accelerator
- devices
-To: Jiho Chu <jiho.chu@samsung.com>
+Date: Sun, 6 Nov 2022 16:51:39 +0200
+X-Gmail-Original-Message-ID: <CAFCwf12+piEABvv=nxFJCzUU4XdZw5Pu=r=i3aKQGZrBeraFqw@mail.gmail.com>
+Message-ID: <CAFCwf12+piEABvv=nxFJCzUU4XdZw5Pu=r=i3aKQGZrBeraFqw@mail.gmail.com>
+Subject: Re: [PATCH v5 1/3] drm: Use XArray instead of IDR for minors
+To: =?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,101 +63,238 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Jeffrey Hugo <quic_jhugo@quicinc.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Arnd Bergmann <arnd@arndb.de>, Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
- Jagan Teki <jagan@amarulasolutions.com>, John Hubbard <jhubbard@nvidia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christoph Hellwig <hch@infradead.org>,
- Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
- Kevin Hilman <khilman@baylibre.com>
+Cc: Matthew Wilcox <willy@infradead.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Nov 6, 2022 at 12:54 PM Oded Gabbay <ogabbay@kernel.org> wrote:
+On Wed, Nov 2, 2022 at 4:23 PM Oded Gabbay <ogabbay@kernel.org> wrote:
 >
-> On Thu, Nov 3, 2022 at 7:26 AM Jiho Chu <jiho.chu@samsung.com> wrote:
+> On Mon, Sep 12, 2022 at 12:17 AM Micha=C5=82 Winiarski
+> <michal.winiarski@intel.com> wrote:
 > >
-> > On Wed,  2 Nov 2022 22:34:04 +0200
-> > Oded Gabbay <ogabbay@kernel.org> wrote:
+> > IDR is deprecated, and since XArray manages its own state with internal
+> > locking, it simplifies the locking on DRM side.
+> > Additionally, don't use the IRQ-safe variant, since operating on drm
+> > minor is not done in IRQ context.
 > >
-> > > +/**
-> > > + * accel_open - open method for ACCEL file
-> > > + * @inode: device inode
-> > > + * @filp: file pointer.
-> > > + *
-> > > + * This function must be used by drivers as their &file_operations.open method.
-> > > + * It looks up the correct ACCEL device and instantiates all the per-file
-> > > + * resources for it. It also calls the &drm_driver.open driver callback.
-> > > + *
-> > > + * Return: 0 on success or negative errno value on failure.
-> > > + */
-> > > +int accel_open(struct inode *inode, struct file *filp)
-> > > +{
-> > > +     struct drm_device *dev;
-> > > +     struct drm_minor *minor;
-> > > +     int retcode;
-> > > +
-> > > +     minor = accel_minor_acquire(iminor(inode));
-> > > +     if (IS_ERR(minor))
-> > > +             return PTR_ERR(minor);
-> > > +
-> > > +     dev = minor->dev;
-> > > +
-> > > +     atomic_fetch_inc(&dev->open_count);
-> > > +
+> > Signed-off-by: Micha=C5=82 Winiarski <michal.winiarski@intel.com>
+> > Suggested-by: Matthew Wilcox <willy@infradead.org>
+> > ---
+> >  drivers/gpu/drm/drm_drv.c | 51 ++++++++++++++-------------------------
+> >  1 file changed, 18 insertions(+), 33 deletions(-)
 > >
-> > Hi,
-> > It needs to consider drm_global_mutex to access open_count.
-> > please check doxy of open_count.
-> Now that I'm changing the code back to be part of drm.ko, I can return
-> all the code that is in drm_copy which I removed for this to compile.
-I take it back. All the code that I omitted was for legacy drivers.
-If you look inside drm_dev_needs_global_mutex(), you will see 3 cases
-where you need to take the global mutex, and all 3 are only relevant
-for legacy drivers and/or drivers that use deprecated features.
-So, I disagree with your original comment here.
-Moreover, open_count is atomic, so I don't need to take the mutex to
-increment it, and as you can see in drm_open(), the function
-increments it regardless of whether it takes
-drm_dev_needs_global_mutex.
+> > diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> > index 8214a0b1ab7f..61d24cdcd0f8 100644
+> > --- a/drivers/gpu/drm/drm_drv.c
+> > +++ b/drivers/gpu/drm/drm_drv.c
+> > @@ -34,6 +34,7 @@
+> >  #include <linux/pseudo_fs.h>
+> >  #include <linux/slab.h>
+> >  #include <linux/srcu.h>
+> > +#include <linux/xarray.h>
+> >
+> >  #include <drm/drm_cache.h>
+> >  #include <drm/drm_client.h>
+> > @@ -53,8 +54,7 @@ MODULE_AUTHOR("Gareth Hughes, Leif Delgass, Jos=C3=A9=
+ Fonseca, Jon Smirl");
+> >  MODULE_DESCRIPTION("DRM shared core routines");
+> >  MODULE_LICENSE("GPL and additional rights");
+> >
+> > -static DEFINE_SPINLOCK(drm_minor_lock);
+> > -static struct idr drm_minors_idr;
+> > +static DEFINE_XARRAY_ALLOC(drm_minors_xa);
+> >
+> >  /*
+> >   * If the drm core fails to init for whatever reason,
+> > @@ -98,21 +98,19 @@ static struct drm_minor **drm_minor_get_slot(struct=
+ drm_device *dev,
+> >  static void drm_minor_alloc_release(struct drm_device *dev, void *data=
+)
+> >  {
+> >         struct drm_minor *minor =3D data;
+> > -       unsigned long flags;
+> >
+> >         WARN_ON(dev !=3D minor->dev);
+> >
+> >         put_device(minor->kdev);
+> >
+> > -       spin_lock_irqsave(&drm_minor_lock, flags);
+> > -       idr_remove(&drm_minors_idr, minor->index);
+> > -       spin_unlock_irqrestore(&drm_minor_lock, flags);
+> > +       xa_erase(&drm_minors_xa, minor->index);
+> >  }
+> >
+> > +#define DRM_MINOR_LIMIT(t) ({ typeof(t) _t =3D (t); XA_LIMIT(64 * _t, =
+64 * _t + 63); })
+> > +
+> >  static int drm_minor_alloc(struct drm_device *dev, unsigned int type)
+> >  {
+> >         struct drm_minor *minor;
+> > -       unsigned long flags;
+> >         int r;
+> >
+> >         minor =3D drmm_kzalloc(dev, sizeof(*minor), GFP_KERNEL);
+> > @@ -122,21 +120,10 @@ static int drm_minor_alloc(struct drm_device *dev=
+, unsigned int type)
+> >         minor->type =3D type;
+> >         minor->dev =3D dev;
+> >
+> > -       idr_preload(GFP_KERNEL);
+> > -       spin_lock_irqsave(&drm_minor_lock, flags);
+> > -       r =3D idr_alloc(&drm_minors_idr,
+> > -                     NULL,
+> > -                     64 * type,
+> > -                     64 * (type + 1),
+> > -                     GFP_NOWAIT);
+> > -       spin_unlock_irqrestore(&drm_minor_lock, flags);
+> > -       idr_preload_end();
+> > -
+> > +       r =3D xa_alloc(&drm_minors_xa, &minor->index, NULL, DRM_MINOR_L=
+IMIT(type), GFP_KERNEL);
+This was GFP_NOWAIT in the original code.
+
+> >         if (r < 0)
+> >                 return r;
+> >
+> > -       minor->index =3D r;
+> > -
+> >         r =3D drmm_add_action_or_reset(dev, drm_minor_alloc_release, mi=
+nor);
+> >         if (r)
+> >                 return r;
+> > @@ -152,7 +139,7 @@ static int drm_minor_alloc(struct drm_device *dev, =
+unsigned int type)
+> >  static int drm_minor_register(struct drm_device *dev, unsigned int typ=
+e)
+> >  {
+> >         struct drm_minor *minor;
+> > -       unsigned long flags;
+> > +       void *entry;
+> >         int ret;
+> >
+> >         DRM_DEBUG("\n");
+> > @@ -172,9 +159,12 @@ static int drm_minor_register(struct drm_device *d=
+ev, unsigned int type)
+> >                 goto err_debugfs;
+> >
+> >         /* replace NULL with @minor so lookups will succeed from now on=
+ */
+> > -       spin_lock_irqsave(&drm_minor_lock, flags);
+> > -       idr_replace(&drm_minors_idr, minor, minor->index);
+> > -       spin_unlock_irqrestore(&drm_minor_lock, flags);
+> > +       entry =3D xa_cmpxchg(&drm_minors_xa, minor->index, NULL, &minor=
+, GFP_KERNEL);
+> I believe we should pass in "minor", without the &, as &minor will
+> give you the address of the local pointer.
+>
+> Oded
+>
+> > +       if (xa_is_err(entry)) {
+> > +               ret =3D xa_err(entry);
+> > +               goto err_debugfs;
+> > +       }
+> > +       WARN_ON(entry);
+> >
+> >         DRM_DEBUG("new minor registered %d\n", minor->index);
+> >         return 0;
+> > @@ -187,16 +177,13 @@ static int drm_minor_register(struct drm_device *=
+dev, unsigned int type)
+> >  static void drm_minor_unregister(struct drm_device *dev, unsigned int =
+type)
+> >  {
+> >         struct drm_minor *minor;
+> > -       unsigned long flags;
+> >
+> >         minor =3D *drm_minor_get_slot(dev, type);
+> >         if (!minor || !device_is_registered(minor->kdev))
+> >                 return;
+> >
+> >         /* replace @minor with NULL so lookups will fail from now on */
+> > -       spin_lock_irqsave(&drm_minor_lock, flags);
+> > -       idr_replace(&drm_minors_idr, NULL, minor->index);
+> > -       spin_unlock_irqrestore(&drm_minor_lock, flags);
+> > +       xa_store(&drm_minors_xa, minor->index, NULL, GFP_KERNEL);
+> >
+> >         device_del(minor->kdev);
+> >         dev_set_drvdata(minor->kdev, NULL); /* safety belt */
+> > @@ -215,13 +202,12 @@ static void drm_minor_unregister(struct drm_devic=
+e *dev, unsigned int type)
+> >  struct drm_minor *drm_minor_acquire(unsigned int minor_id)
+> >  {
+> >         struct drm_minor *minor;
+> > -       unsigned long flags;
+> >
+> > -       spin_lock_irqsave(&drm_minor_lock, flags);
+> > -       minor =3D idr_find(&drm_minors_idr, minor_id);
+> > +       xa_lock(&drm_minors_xa);
+> > +       minor =3D xa_load(&drm_minors_xa, minor_id);
+Did you check this part ? Because this always gives me NULL...
+
+I tried executing the following code in a dummy driver I wrote:
+
+static DEFINE_XARRAY_ALLOC(xa_dummy);
+void check_xa(void *pdev)
+{
+  void *entry;
+  int ret, index;
+
+  ret =3D xa_alloc(&xa_dummy, &index, NULL, XA_LIMIT(0, 63), GFP_NOWAIT);
+  if (ret < 0)
+      return ret;
+
+  entry =3D xa_cmpxchg(&xa_dummy, index, NULL, pdev, GFP_KERNEL);
+  if (xa_is_err(entry))
+       return;
+
+  xa_lock(&xa_dummy);
+  xa_dev =3D xa_load(&xa_dummy, index);
+  xa_unlock(&xa_dummy);
+}
+
+And to my surprise xa_dev is always NULL, when it should be pdev.
+I believe that because we first allocate the entry with NULL, it is
+considered a "zero" entry in the XA.
+And when we replace it, this attribute doesn't change so when we do
+xa_load, the xa code thinks the entry is a "zero" entry and returns
+NULL.
+If that's correct, you need to either fix xarray code or change the
+flow of allocating this in drm.
+
+If I send a real pointer (just a dummy object I allocated) instead of
+NULL in xa_alloc, and then do xa_cmpxchg with pdev, xa_load returns
+pdev successfully.
+That points to the NULL being problematic in allocating an entry.
+
 Oded
 
->
+
+> >         if (minor)
+> >                 drm_dev_get(minor->dev);
+> > -       spin_unlock_irqrestore(&drm_minor_lock, flags);
+> > +       xa_unlock(&drm_minors_xa);
 > >
+> >         if (!minor) {
+> >                 return ERR_PTR(-ENODEV);
+> > @@ -1037,7 +1023,7 @@ static void drm_core_exit(void)
+> >         unregister_chrdev(DRM_MAJOR, "drm");
+> >         debugfs_remove(drm_debugfs_root);
+> >         drm_sysfs_destroy();
+> > -       idr_destroy(&drm_minors_idr);
+> > +       WARN_ON(!xa_empty(&drm_minors_xa));
+> >         drm_connector_ida_destroy();
+> >  }
 > >
-> > > +     /* share address_space across all char-devs of a single device */
-> > > +     filp->f_mapping = dev->anon_inode->i_mapping;
-> > > +
-> > > +     retcode = drm_open_helper(filp, minor);
-> > > +     if (retcode)
-> > > +             goto err_undo;
-> > > +
-> > > +     return 0;
-> > > +
-> > > +err_undo:
-> > > +     atomic_dec(&dev->open_count);
-> > > +     accel_minor_release(minor);
-> > > +     return retcode;
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(accel_open);
-> > > +
-> > >  static int accel_stub_open(struct inode *inode, struct file *filp)
-> > >  {
-> > > -     DRM_DEBUG("Operation not supported");
-> > > +     const struct file_operations *new_fops;
-> > > +     struct drm_minor *minor;
-> > > +     int err;
-> > > +
-> > > +     DRM_DEBUG("\n");
+> > @@ -1046,7 +1032,6 @@ static int __init drm_core_init(void)
+> >         int ret;
 > >
-> > It seems useless.
-> Correct, I removed it in v3.
-> Thanks,
-> Oded
+> >         drm_connector_ida_init();
+> > -       idr_init(&drm_minors_idr);
+> >         drm_memcpy_init_early();
 > >
-> > Thanks.
-> > Jiho Chu
+> >         ret =3D drm_sysfs_init();
+> > --
+> > 2.37.3
+> >
