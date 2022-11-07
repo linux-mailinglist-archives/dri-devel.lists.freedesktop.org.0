@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 338E661ED99
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 09:53:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19C7461ED9A
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 09:54:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1BDC10E285;
-	Mon,  7 Nov 2022 08:52:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8463810E294;
+	Mon,  7 Nov 2022 08:52:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCB7010E251;
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEDDE10E260;
  Mon,  7 Nov 2022 08:52:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1667811146; x=1699347146;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=PbA46Lfllz6cOuyDhyMOkNXW8XBRutkU5oDqfiKs3JQ=;
- b=F41FMQLhjkIuAOia57Hiflu8arLYVFwpfLkAGTXN1oROwxXR1RpszbwJ
- HuLuZo6hCK5vdjTAH6f8bONk3yJHkokr7et2koVcOnTRD7/3EJMfDphmN
- djk+ZM4CUBITc7ZHJY/g+axQBo5Ifs7oGmO6MNLBMPxpMIhnc4HHUhrPz
- VNN8Ums0CZfAPaVPaG8C8Fxfcr4+ZF503FkUIeySTSOoORvMF4kGldFmo
- jKw9tstbmzthfwez0fJSwMTDjTZ2QEUMNJLbnVjwMuUJoJVnEwkIP5v+3
- lg+ARs5e881L1UkMFDEwy9c3lyZjZFy8+CBE+l+A5SDBNoio+XZBF21yU Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="312126172"
-X-IronPort-AV: E=Sophos;i="5.96,143,1665471600"; d="scan'208";a="312126172"
+ bh=Y2dIcNMz/UCjKAd7ERun9WtfqqMtLBaNFTDx6kl+9Rk=;
+ b=MNuBFE2DATeaLtpZIShcQ3pFXb66SlTkivEGWutqsmbz8iq+g0gsO/vm
+ fE+FZSGRcLsSZnN7ayJYqEGBw+biCvDUFp7upzlT/wlwTMXVuHV0riZlZ
+ u30Mg0ZfO8hv8oSstnp6NBxON2mXhD8NFuxcZZSY07EfPv88zSYeQZVLH
+ vkN+7l0vpWdpr/PzNzgPxMVMrDnE6D92bn+TZkXmhT/Leb4HbyTTVsclK
+ LP2458iqeIOaWBMhkV3WMOVUE7OtSsFA3giwvJsLjwp0naZme7cpWpW7i
+ 6zrPyiwOG3B03hm/T99uz6WHH4MuZ9CeNko7nhW+Q6SUGmlt6LUwMmN1u g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="374613945"
+X-IronPort-AV: E=Sophos;i="5.96,143,1665471600"; d="scan'208";a="374613945"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  07 Nov 2022 00:52:25 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="880984628"
-X-IronPort-AV: E=Sophos;i="5.96,143,1665471600"; d="scan'208";a="880984628"
+X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="880984631"
+X-IronPort-AV: E=Sophos;i="5.96,143,1665471600"; d="scan'208";a="880984631"
 Received: from nvishwa1-desk.sc.intel.com ([172.25.29.76])
  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  07 Nov 2022 00:52:25 -0800
 From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v6 07/20] drm/i915/vm_bind: Add support to handle object
- evictions
-Date: Mon,  7 Nov 2022 00:51:57 -0800
-Message-Id: <20221107085210.17221-8-niranjana.vishwanathapura@intel.com>
+Subject: [PATCH v6 08/20] drm/i915/vm_bind: Support persistent vma activeness
+ tracking
+Date: Mon,  7 Nov 2022 00:51:58 -0800
+Message-Id: <20221107085210.17221-9-niranjana.vishwanathapura@intel.com>
 X-Mailer: git-send-email 2.21.0.rc0.32.g243a4c7e27
 In-Reply-To: <20221107085210.17221-1-niranjana.vishwanathapura@intel.com>
 References: <20221107085210.17221-1-niranjana.vishwanathapura@intel.com>
@@ -65,189 +65,200 @@ Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Support eviction by maintaining a list of evicted persistent vmas
-for rebinding during next submission. Ensure the list do not
-include persistent vmas that are being purged.
+Do not use i915_vma activeness tracking for persistent vmas.
 
-v2: Remove unused I915_VMA_PURGED definition.
-v3: Properly handle __i915_vma_unbind_async() case.
+As persistent vmas are part of working set for each execbuf
+submission on that address space (VM), a persistent vma is
+active if the VM active. As vm->root_obj->base.resv will be
+updated for each submission on that VM, it correctly
+represent whether the VM is active or not.
 
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+Add i915_vm_is_active() and i915_vm_sync() functions based
+on vm->root_obj->base.resv with DMA_RESV_USAGE_BOOKKEEP
+usage. dma-resv fence list will be updated with this usage
+during each submission with this VM in the new execbuf3
+ioctl path.
+
+Update i915_vma_is_active(), i915_vma_sync() and the
+__i915_vma_unbind_async() functions to properly handle
+persistent vmas.
+
+v2: Ensure lvalue of dma_resv_wait_timeout() call is long.
+
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
 ---
- .../drm/i915/gem/i915_gem_vm_bind_object.c    |  6 ++++
- drivers/gpu/drm/i915/gt/intel_gtt.c           |  2 ++
- drivers/gpu/drm/i915/gt/intel_gtt.h           |  4 +++
- drivers/gpu/drm/i915/i915_vma.c               | 31 +++++++++++++++++--
- drivers/gpu/drm/i915/i915_vma.h               | 10 ++++++
- drivers/gpu/drm/i915/i915_vma_types.h         |  8 +++++
- 6 files changed, 59 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/i915_gem_gtt.c | 39 +++++++++++++++++++++++++++++
+ drivers/gpu/drm/i915/i915_gem_gtt.h |  3 +++
+ drivers/gpu/drm/i915/i915_vma.c     | 28 +++++++++++++++++++++
+ drivers/gpu/drm/i915/i915_vma.h     | 25 +++++++++---------
+ 4 files changed, 83 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
-index 19f29fa76c19..8cc78f954b97 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
-@@ -86,6 +86,12 @@ static void i915_gem_vm_bind_remove(struct i915_vma *vma, bool release_obj)
- {
- 	lockdep_assert_held(&vma->vm->vm_bind_lock);
+diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.c b/drivers/gpu/drm/i915/i915_gem_gtt.c
+index 7bd1861ddbdf..1d8506548d4a 100644
+--- a/drivers/gpu/drm/i915/i915_gem_gtt.c
++++ b/drivers/gpu/drm/i915/i915_gem_gtt.c
+@@ -25,6 +25,45 @@
+ #include "i915_trace.h"
+ #include "i915_vgpu.h"
  
-+	spin_lock(&vma->vm->vm_rebind_lock);
-+	if (!list_empty(&vma->vm_rebind_link))
-+		list_del_init(&vma->vm_rebind_link);
-+	i915_vma_set_purged(vma);
-+	spin_unlock(&vma->vm->vm_rebind_lock);
-+
- 	list_del_init(&vma->vm_bind_link);
- 	list_del_init(&vma->non_priv_vm_bind_link);
- 	i915_vm_bind_it_remove(vma, &vma->vm->va);
-diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
-index 74c3557e5bc4..ebf8fc3a4603 100644
---- a/drivers/gpu/drm/i915/gt/intel_gtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
-@@ -290,6 +290,8 @@ void i915_address_space_init(struct i915_address_space *vm, int subclass)
- 	INIT_LIST_HEAD(&vm->vm_bound_list);
- 	mutex_init(&vm->vm_bind_lock);
- 	INIT_LIST_HEAD(&vm->non_priv_vm_bind_list);
-+	INIT_LIST_HEAD(&vm->vm_rebind_list);
-+	spin_lock_init(&vm->vm_rebind_lock);
- }
- 
- void *__px_vaddr(struct drm_i915_gem_object *p)
-diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
-index 3d0a452567e4..b5a5b68adb32 100644
---- a/drivers/gpu/drm/i915/gt/intel_gtt.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
-@@ -266,6 +266,10 @@ struct i915_address_space {
- 	struct list_head vm_bind_list;
- 	/** @vm_bound_list: List of vm_binding completed */
- 	struct list_head vm_bound_list;
-+	/** @vm_rebind_list: list of vmas to be rebinded */
-+	struct list_head vm_rebind_list;
-+	/** @vm_rebind_lock: protects vm_rebound_list */
-+	spinlock_t vm_rebind_lock;
- 	/** @va: tree of persistent vmas */
- 	struct rb_root_cached va;
- 	/** @non_priv_vm_bind_list: list of non-private object mappings */
-diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-index 0ffa24bc0954..249697ae1186 100644
---- a/drivers/gpu/drm/i915/i915_vma.c
-+++ b/drivers/gpu/drm/i915/i915_vma.c
-@@ -241,6 +241,7 @@ vma_create(struct drm_i915_gem_object *obj,
- 
- 	INIT_LIST_HEAD(&vma->vm_bind_link);
- 	INIT_LIST_HEAD(&vma->non_priv_vm_bind_link);
-+	INIT_LIST_HEAD(&vma->vm_rebind_link);
- 	return vma;
- 
- err_unlock:
-@@ -1681,6 +1682,14 @@ static void force_unbind(struct i915_vma *vma)
- 	if (!drm_mm_node_allocated(&vma->node))
- 		return;
- 
-+	/*
-+	 * Persistent vma should have been purged by now.
-+	 * If not, issue a warning and purge it.
-+	 */
-+	if (GEM_WARN_ON(i915_vma_is_persistent(vma) &&
-+			!i915_vma_is_purged(vma)))
-+		i915_vma_set_purged(vma);
-+
- 	atomic_and(~I915_VMA_PIN_MASK, &vma->flags);
- 	WARN_ON(__i915_vma_unbind(vma));
- 	GEM_BUG_ON(drm_mm_node_allocated(&vma->node));
-@@ -2042,6 +2051,16 @@ int __i915_vma_unbind(struct i915_vma *vma)
- 	__i915_vma_evict(vma, false);
- 
- 	drm_mm_remove_node(&vma->node); /* pairs with i915_vma_release() */
-+
-+	if (i915_vma_is_persistent(vma)) {
-+		spin_lock(&vma->vm->vm_rebind_lock);
-+		if (list_empty(&vma->vm_rebind_link) &&
-+		    !i915_vma_is_purged(vma))
-+			list_add_tail(&vma->vm_rebind_link,
-+				      &vma->vm->vm_rebind_list);
-+		spin_unlock(&vma->vm->vm_rebind_lock);
-+	}
-+
- 	return 0;
- }
- 
-@@ -2054,8 +2073,7 @@ static struct dma_fence *__i915_vma_unbind_async(struct i915_vma *vma)
- 	if (!drm_mm_node_allocated(&vma->node))
- 		return NULL;
- 
--	if (i915_vma_is_pinned(vma) ||
--	    &vma->obj->mm.rsgt->table != vma->resource->bi.pages)
-+	if (i915_vma_is_pinned(vma))
- 		return ERR_PTR(-EAGAIN);
- 
- 	/*
-@@ -2077,6 +2095,15 @@ static struct dma_fence *__i915_vma_unbind_async(struct i915_vma *vma)
- 
- 	drm_mm_remove_node(&vma->node); /* pairs with i915_vma_release() */
- 
-+	if (i915_vma_is_persistent(vma)) {
-+		spin_lock(&vma->vm->vm_rebind_lock);
-+		if (list_empty(&vma->vm_rebind_link) &&
-+		    !i915_vma_is_purged(vma))
-+			list_add_tail(&vma->vm_rebind_link,
-+				      &vma->vm->vm_rebind_list);
-+		spin_unlock(&vma->vm->vm_rebind_lock);
-+	}
-+
- 	return fence;
- }
- 
-diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
-index c5378ec2f70a..9a4a7a8dfe5b 100644
---- a/drivers/gpu/drm/i915/i915_vma.h
-+++ b/drivers/gpu/drm/i915/i915_vma.h
-@@ -152,6 +152,16 @@ static inline void i915_vma_set_persistent(struct i915_vma *vma)
- 	set_bit(I915_VMA_PERSISTENT_BIT, __i915_vma_flags(vma));
- }
- 
-+static inline bool i915_vma_is_purged(const struct i915_vma *vma)
++/**
++ * i915_vm_sync() - Wait until address space is not in use
++ * @vm: address space
++ *
++ * Waits until all requests using the address space are complete.
++ *
++ * Returns: 0 if success, -ve err code upon failure
++ */
++int i915_vm_sync(struct i915_address_space *vm)
 +{
-+	return test_bit(I915_VMA_PURGED_BIT, __i915_vma_flags(vma));
++	long ret;
++
++	/* Wait for all requests under this vm to finish */
++	ret = dma_resv_wait_timeout(vm->root_obj->base.resv,
++				    DMA_RESV_USAGE_BOOKKEEP, false,
++				    MAX_SCHEDULE_TIMEOUT);
++	if (ret < 0)
++		return ret;
++	else if (ret > 0)
++		return 0;
++	else
++		return -ETIMEDOUT;
 +}
 +
-+static inline void i915_vma_set_purged(struct i915_vma *vma)
++/**
++ * i915_vm_is_active() - Check if address space is being used
++ * @vm: address space
++ *
++ * Check if any request using the specified address space is
++ * active.
++ *
++ * Returns: true if address space is active, false otherwise.
++ */
++bool i915_vm_is_active(const struct i915_address_space *vm)
 +{
-+	set_bit(I915_VMA_PURGED_BIT, __i915_vma_flags(vma));
++	return !dma_resv_test_signaled(vm->root_obj->base.resv,
++				       DMA_RESV_USAGE_BOOKKEEP);
++}
++
+ int i915_gem_gtt_prepare_pages(struct drm_i915_gem_object *obj,
+ 			       struct sg_table *pages)
+ {
+diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.h b/drivers/gpu/drm/i915/i915_gem_gtt.h
+index 8c2f57eb5dda..a5bbdc59d9df 100644
+--- a/drivers/gpu/drm/i915/i915_gem_gtt.h
++++ b/drivers/gpu/drm/i915/i915_gem_gtt.h
+@@ -51,4 +51,7 @@ int i915_gem_gtt_insert(struct i915_address_space *vm,
+ 
+ #define PIN_OFFSET_MASK		I915_GTT_PAGE_MASK
+ 
++int i915_vm_sync(struct i915_address_space *vm);
++bool i915_vm_is_active(const struct i915_address_space *vm);
++
+ #endif
+diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+index 249697ae1186..04abdb92c2b2 100644
+--- a/drivers/gpu/drm/i915/i915_vma.c
++++ b/drivers/gpu/drm/i915/i915_vma.c
+@@ -420,6 +420,24 @@ int i915_vma_wait_for_bind(struct i915_vma *vma)
+ 	return err;
+ }
+ 
++/**
++ * i915_vma_sync() - Wait for the vma to be idle
++ * @vma: vma to be tested
++ *
++ * Returns 0 on success and error code on failure
++ */
++int i915_vma_sync(struct i915_vma *vma)
++{
++	int ret;
++
++	/* Wait for the asynchronous bindings and pending GPU reads */
++	ret = i915_active_wait(&vma->active);
++	if (ret || !i915_vma_is_persistent(vma) || i915_vma_is_purged(vma))
++		return ret;
++
++	return i915_vm_sync(vma->vm);
++}
++
+ #if IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM)
+ static int i915_vma_verify_bind_complete(struct i915_vma *vma)
+ {
+@@ -1882,6 +1900,8 @@ int _i915_vma_move_to_active(struct i915_vma *vma,
+ 	int err;
+ 
+ 	assert_object_held(obj);
++	if (i915_vma_is_persistent(vma))
++		return -EINVAL;
+ 
+ 	GEM_BUG_ON(!vma->pages);
+ 
+@@ -2091,6 +2111,14 @@ static struct dma_fence *__i915_vma_unbind_async(struct i915_vma *vma)
+ 		return ERR_PTR(-EBUSY);
+ 	}
+ 
++	if (i915_vma_is_persistent(vma) &&
++	    __i915_sw_fence_await_reservation(&vma->resource->chain,
++					      vma->vm->root_obj->base.resv,
++					      DMA_RESV_USAGE_BOOKKEEP,
++					      i915_fence_timeout(vma->vm->i915),
++					      GFP_NOWAIT | __GFP_NOWARN) < 0)
++		return ERR_PTR(-EBUSY);
++
+ 	fence = __i915_vma_evict(vma, true);
+ 
+ 	drm_mm_remove_node(&vma->node); /* pairs with i915_vma_release() */
+diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
+index 9a4a7a8dfe5b..1cadbf8fdedf 100644
+--- a/drivers/gpu/drm/i915/i915_vma.h
++++ b/drivers/gpu/drm/i915/i915_vma.h
+@@ -51,12 +51,6 @@ i915_vma_create_persistent(struct drm_i915_gem_object *obj,
+ 
+ void i915_vma_unpin_and_release(struct i915_vma **p_vma, unsigned int flags);
+ #define I915_VMA_RELEASE_MAP BIT(0)
+-
+-static inline bool i915_vma_is_active(const struct i915_vma *vma)
+-{
+-	return !i915_active_is_idle(&vma->active);
+-}
+-
+ /* do not reserve memory to prevent deadlocks */
+ #define __EXEC_OBJECT_NO_RESERVE BIT(31)
+ 
+@@ -162,6 +156,18 @@ static inline void i915_vma_set_purged(struct i915_vma *vma)
+ 	set_bit(I915_VMA_PURGED_BIT, __i915_vma_flags(vma));
+ }
+ 
++static inline bool i915_vma_is_active(const struct i915_vma *vma)
++{
++	if (i915_vma_is_persistent(vma)) {
++		if (i915_vma_is_purged(vma))
++			return false;
++
++		return i915_vm_is_active(vma->vm);
++	}
++
++	return !i915_active_is_idle(&vma->active);
 +}
 +
  static inline struct i915_vma *i915_vma_get(struct i915_vma *vma)
  {
  	i915_gem_object_get(vma->obj);
-diff --git a/drivers/gpu/drm/i915/i915_vma_types.h b/drivers/gpu/drm/i915/i915_vma_types.h
-index 9cd055738997..61d0ec1a4e18 100644
---- a/drivers/gpu/drm/i915/i915_vma_types.h
-+++ b/drivers/gpu/drm/i915/i915_vma_types.h
-@@ -267,8 +267,14 @@ struct i915_vma {
+@@ -433,12 +439,7 @@ void i915_vma_make_shrinkable(struct i915_vma *vma);
+ void i915_vma_make_purgeable(struct i915_vma *vma);
+ 
+ int i915_vma_wait_for_bind(struct i915_vma *vma);
+-
+-static inline int i915_vma_sync(struct i915_vma *vma)
+-{
+-	/* Wait for the asynchronous bindings and pending GPU reads */
+-	return i915_active_wait(&vma->active);
+-}
++int i915_vma_sync(struct i915_vma *vma);
+ 
  /**
-  * I915_VMA_PERSISTENT_BIT:
-  * The vma is persistent (created with VM_BIND call).
-+ *
-+ * I915_VMA_PURGED_BIT:
-+ * The persistent vma is force unbound either due to VM_UNBIND call
-+ * from UMD or VM is released. Do not check/wait for VM activeness
-+ * in i915_vma_is_active() and i915_vma_sync() calls.
-  */
- #define I915_VMA_PERSISTENT_BIT	19
-+#define I915_VMA_PURGED_BIT	20
- 
- 	struct i915_active active;
- 
-@@ -299,6 +305,8 @@ struct i915_vma {
- 	struct list_head vm_bind_link;
- 	/** @non_priv_vm_bind_link: Link in non-private persistent VMA list */
- 	struct list_head non_priv_vm_bind_link;
-+	/** @vm_rebind_link: link to vm_rebind_list and protected by vm_rebind_lock */
-+	struct list_head vm_rebind_link; /* Link in vm_rebind_list */
- 
- 	/** Interval tree structures for persistent vma */
- 
+  * i915_vma_get_current_resource - Get the current resource of the vma
 -- 
 2.21.0.rc0.32.g243a4c7e27
 
