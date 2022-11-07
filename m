@@ -2,80 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBCFA61F793
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 16:26:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 030C761F7A9
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 16:30:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 573B810E3D6;
-	Mon,  7 Nov 2022 15:26:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F82710E3EA;
+	Mon,  7 Nov 2022 15:30:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
- [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBAC310E3D6
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 15:26:18 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.west.internal (Postfix) with ESMTP id DEA372B05E77;
- Mon,  7 Nov 2022 10:26:08 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Mon, 07 Nov 2022 10:26:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1667834768; x=1667841968; bh=IIy8QXUDWn
- lcncLyNQJNbxMRRWumgUmyAMyd+aDiO3o=; b=Yz8C45furNQhVL2oz7HXZgGnHH
- TvCIbx3oIXxLgbEPnABUHdZn1FjTlBXO/L1HUin7nlSwmgzBZEAHQXtqUueLWNNB
- OwfmyOlg36y4QZvHUbl/IFeKRrua5v3nbs+lI8yzO8mXx4IT19hD5T6x7SIXqH7E
- cc2GzTsHAmmLjTDm7nLKE9rJj7tzh9QXh/pmM/gmbKHm8u4yCEDXIt2H8iqZARt9
- QsECam1RG4/cnzrlWYrmdX95jbKBthE1SCw52xWcjKgvNrC/w9eFBvNcqPdoP0VC
- kgyueznhPVmNlxZMotlGuMS8QDMwTbcA/aTq9dkJ4NLHTQ8GcN7cr6b1QC9Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1667834768; x=1667841968; bh=IIy8QXUDWnlcncLyNQJNbxMRRWum
- gUmyAMyd+aDiO3o=; b=we3Y+H0VECymbGK0VaXTFHbsW346wsLVjErpCLgJ45+g
- scHpf9eiainU1JBqntlua0SrTwXrGABBVlunf276/GfhfNOd/1vGEf1lUcHwrvm5
- zbWxzN3W7Zenf9Aa8Y0lcDOZ0gM54P8lT8lwFBUPN/ByfauorTjW7d7RXbvSlkJT
- k7v9evp6jVencFixQzMQhtO2nt3yGpBePuWO6Pu5QWJ2wKtmD8tFnyhZw/c9eN/k
- XmLHoh4bXi0sW22vHo0bm88oijG5yx4MWoMqBaBgxLapeXxyjGYt3QLy+aQKy4Ug
- w/V1K5ZGWlq/bSa4sSDWF1/AjvqtR9hsVVTIILV+1w==
-X-ME-Sender: <xms:jiNpY8OMxnFFt5PbqqvqZSEoKfqq7taLlfkj3szUIQCjdWFIeQL24w>
- <xme:jiNpYy89u_mQTLvZGrbcNIjZbLYu9wV4EYfNRlktfKZUm38GG6xC_Qlt2hrpbO_df
- BSGxlyk5s8vknO0ZFg>
-X-ME-Received: <xmr:jiNpYzSfZa6atc_eqwJFct1WjeHK-hLh2fplSb5wr1nE_LAD9arud3e8hqAHxwKU5wiR6hkEVdXqGN4RgoEjwLXSB8uMLCObkZqNF9IY6V2NlA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvdekgdejhecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheehfffh
- vedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:jiNpY0vtIK-PZdgej79mMr_MApM6wLdfXscqntkFAEOkhGYrOU0MCQ>
- <xmx:jiNpY0cvni03g0uv0yl-yo399Y_hbctd4rNagD2H1NT2_Xs_g9EWBQ>
- <xmx:jiNpY42HLjMSaphod3lQyPY5KzbEAeoKRXRXEDPctlkn3XY9SKEjVg>
- <xmx:kCNpY4m1DCnGwZRgh_rsYFaEzCSCv9LG7n_fC4ovY1-GZspzYu6x7s6Mw5U>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Nov 2022 10:26:05 -0500 (EST)
-Date: Mon, 7 Nov 2022 16:26:03 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH v2 43/65] ASoC: tlv320aic32x4: Add a determine_rate hook
-Message-ID: <20221107152603.57qimyzkinhifx5p@houat>
-References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
- <20221018-clk-range-checks-fixes-v2-43-f6736dec138e@cerno.tech>
- <Y2UzdYyjgahJsbHg@sirena.org.uk>
- <20221104155123.qomguvthehnogkdd@houat>
- <Y2U2+ePwRieYkNjv@sirena.org.uk>
- <20221107084322.gk4j75r52zo5k7xk@houat>
- <Y2j0r0wX1XtQBvqO@sirena.org.uk>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0688110E3EB
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 15:30:48 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 9E5832249D;
+ Mon,  7 Nov 2022 15:30:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1667835046; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=RFvVWVoUuNWKBbLyJaNTclgMYrXQ56OHu2+pP7R135Y=;
+ b=umYCRr8kM4Bv5+O4GT7NlYVhCCd57jAhxqr5ksqGIkN5MQjDNHlXezKrAz9zrW/etXf8aU
+ /cKhzO2ayZ+zN4x5rPutYVydd6yOESzpmM8SQxDLS9IXtNUKSOdcoJ8hADXO9kqbXbl5Pa
+ NwfnxBJwauGvZy/HOpI6RPXoX3jpX50=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1667835046;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=RFvVWVoUuNWKBbLyJaNTclgMYrXQ56OHu2+pP7R135Y=;
+ b=Hsl3iUDzyfjvcsz0/KrhsU1sW4IWOke6XWoVr+15ypKag/4blLzksPOcLMn0N83iaXCgPZ
+ eMdPler+NGfqhFDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7716213494;
+ Mon,  7 Nov 2022 15:30:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id kA3gG6YkaWOwKAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 07 Nov 2022 15:30:46 +0000
+Message-ID: <6547fba2-a002-f339-2997-5b28df794095@suse.de>
+Date: Mon, 7 Nov 2022 16:30:46 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="6jvzxow5645ldbud"
-Content-Disposition: inline
-In-Reply-To: <Y2j0r0wX1XtQBvqO@sirena.org.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH 2/2] fbdev: Add support for the nomodeset kernel parameter
+Content-Language: en-US
+To: Helge Deller <deller@gmx.de>, daniel@ffwll.ch, javierm@redhat.com
+References: <20221107104916.18733-1-tzimmermann@suse.de>
+ <20221107104916.18733-3-tzimmermann@suse.de>
+ <2e2d23f3-9c2d-e75e-f390-4651a4da730f@gmx.de>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <2e2d23f3-9c2d-e75e-f390-4651a4da730f@gmx.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------uFHY0RRLZAxEbawAVao3bITA"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,104 +71,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
- Prashant Gaikwad <pgaikwad@nvidia.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Michael Turquette <mturquette@baylibre.com>, Sekhar Nori <nsekhar@ti.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
- Paul Cercueil <paul@crapouillou.net>, Max Filippov <jcmvbkbc@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-phy@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, Abel Vesa <abelvesa@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Samuel Holland <samuel@sholland.org>, Chunyan Zhang <zhang.lyra@gmail.com>,
- Takashi Iwai <tiwai@suse.com>, linux-tegra@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
- NXP Linux Team <linux-imx@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
- linux-mips@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- linux-rtc@vger.kernel.org, linux-clk@vger.kernel.org,
- Charles Keepax <ckeepax@opensource.cirrus.com>, alsa-devel@alsa-project.org,
- Manivannan Sadhasivam <mani@kernel.org>, linux-kernel@vger.kernel.org,
- Sascha Hauer <s.hauer@pengutronix.de>, linux-actions@lists.infradead.org,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- linux-mediatek@lists.infradead.org,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Alessandro Zummo <a.zummo@towertech.it>, linux-sunxi@lists.linux.dev,
- Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
- linux-renesas-soc@vger.kernel.org, Dinh Nguyen <dinguyen@kernel.org>,
- Vinod Koul <vkoul@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- David Lechner <david@lechnology.com>, Shawn Guo <shawnguo@kernel.org>,
- Claudiu Beznea <claudiu.beznea@microchip.com>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------uFHY0RRLZAxEbawAVao3bITA
+Content-Type: multipart/mixed; boundary="------------JLBeDWzj1CbxAZo0J0OLGQ6Y";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Helge Deller <deller@gmx.de>, daniel@ffwll.ch, javierm@redhat.com
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Message-ID: <6547fba2-a002-f339-2997-5b28df794095@suse.de>
+Subject: Re: [PATCH 2/2] fbdev: Add support for the nomodeset kernel parameter
+References: <20221107104916.18733-1-tzimmermann@suse.de>
+ <20221107104916.18733-3-tzimmermann@suse.de>
+ <2e2d23f3-9c2d-e75e-f390-4651a4da730f@gmx.de>
+In-Reply-To: <2e2d23f3-9c2d-e75e-f390-4651a4da730f@gmx.de>
 
---6jvzxow5645ldbud
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+--------------JLBeDWzj1CbxAZo0J0OLGQ6Y
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-On Mon, Nov 07, 2022 at 12:06:07PM +0000, Mark Brown wrote:
-> On Mon, Nov 07, 2022 at 09:43:22AM +0100, Maxime Ripard wrote:
-> > On Fri, Nov 04, 2022 at 03:59:53PM +0000, Mark Brown wrote:
->=20
-> > > Well, hopefully everyone for whom it's an issue currently will be
-> > > objecting to this version of the change anyway so we'll either know
-> > > where to set the flag or we'll get the whack-a-mole with the series
-> > > being merged?
->=20
-> > I'm sorry, I'm not sure what you mean here. The only issue to fix at the
-> > moment is that determine_rate and set_parent aren't coupled, and it led
-> > to issues due to oversight.
->=20
-> > I initially added a warning but Stephen wanted to fix all users in that
-> > case and make that an error instead.
->=20
-> My suggestion is that instead of doing either of these things it'd be
-> quicker and less error prone to just fix the core to provide the default
-> implementation if nothing more specific is provided.  Any issues that
-> causes would already be present with your current series.
->=20
-> > If I filled __clk_mux_determine_rate into clocks that weren't using it
-> > before, I would change their behavior. With that flag set, on all users
-> > I add __clk_mux_determine_rate to, the behavior is the same than what we
-> > previously had, so the risk of regressions is minimal, and everything
-> > should keep going like it was?
->=20
-> The series does fill in __clk_mux_determine_rate for everything though -
-> if it was just assumed by default the only thing that'd be needed would
-> be adding the flag.
+SGkNCg0KQW0gMDcuMTEuMjIgdW0gMTQ6NTcgc2NocmllYiBIZWxnZSBEZWxsZXI6DQo+IE9u
+IDExLzcvMjIgMTE6NDksIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gU3VwcG9ydCB0
+aGUga2VybmVsJ3Mgbm9tb2Rlc2V0IHBhcmFtZXRlciBmb3IgYWxsIFBDSS1iYXNlZCBmYmRl
+dg0KPj4gZHJpdmVycyB0aGF0IHVzZSBhcGVydHVyZSBoZWxwZXJzIHRvIHJlbW92ZSBvdGhl
+ciwgaGFyZHdhcmUtYWdub3N0aWMNCj4+IGdyYXBoaWNzIGRyaXZlcnMuDQo+Pg0KPj4gVGhl
+IHBhcmFtZXRlciBpcyBhIHNpbXBsZSB3YXkgb2YgdXNpbmcgdGhlIGZpcm13YXJlLXByb3Zp
+ZGVkIHNjYW5vdXQNCj4+IGJ1ZmZlciBpZiB0aGUgaGFyZHdhcmUncyBuYXRpdmUgZHJpdmVy
+IGlzIGJyb2tlbi4NCj4gDQo+IE5haC4uLiBpdCdzIHByb2JhYmx5IG5vdCBicm9rZW4sIGJ1
+dCB5b3Ugd2FudCBpdCBkaXNhYmxlZCBpbiBvcmRlcg0KPiB0byB1c2UgdGhlIERSTSBkcml2
+ZXIgaW5zdGVhZD8NCg0KTm8sIGl0J3MgcmVhbGx5IGZvciBicm9rZW4gbmF0aXZlIGRyaXZl
+cnMgb3IgYW55IGtpbmQgb2YgcHJvYmxlbWF0aWMgDQptb2Rlc2V0dGluZy4gTW9zdCBEUk0g
+ZHJpdmVycyBhbHJlYWR5IHJlc3BlY3QgdGhlIG5vbW9kZXNldCBvcHRpb24gYW5kIA0Kd29u
+J3QgbG9hZCB3aGVuIGdpdmVuLiBBbGwgeW91J2QgZ2V0IGFyZSB0aGUgZ2VuZXJpYyBkcml2
+ZXJzLCBzdWNoIGFzIA0Kc2ltcGxlZHJtLCBlZmlmYiBvciBzaW1wbGVmYi4NCg0KVGhlcmUg
+YXJlIGJldHRlciBvcHRpb25zIG9mIGNvbmZpZ3VyaW5nIHZpZGVvIG91dHB1dCBvbiB0aGUg
+a2VybmVsIA0KY29tbWFuZCBsaW5lLiAgQnV0IGFzIGdyYXBoaWNzIG91dHB1dCBpcyBzdWNo
+IGEgZnVuZGFtZW50YWwgZmVhdHVyZSB0byANCnVzaW5nIGEgY29tcHV0ZXIsIHdlIGZvdW5k
+IHRoYXQgYSBzaW1wbGUgYW5kIGVhc3kgb3B0aW9uIHRvIHdvcmthcm91bmQgDQplcnJvbmVv
+dXMgc3lzdGVtcyB3b3VsZCBiZW5lZml0IERSTSB1c2VyczsgaGVuY2UgdGhlIG5vbW9kZXNl
+dCBwYXJhbWV0ZXIuDQoNCkFzIGZiZGV2IGRyaXZlcnMgYWxzbyBkbyBtb2Rlc2V0dGluZywg
+c3VwcG9ydGluZyB0aGUgcGFyYW1ldGVyIHNpbXBseSANCnVuaWZpZXMgdGhlIGJlaGF2aW9y
+Lg0KDQo+IA0KPj4gVGhlIHNhbWUgZWZmZWN0DQo+PiBjb3VsZCBiZSBhY2hpZXZlZCB3aXRo
+IHBlci1kcml2ZXIgb3B0aW9ucywgYnV0IHRoZSBpbXBvcnRhbmNlIG9mIHRoZQ0KPj4gZ3Jh
+cGhpY3Mgb3V0cHV0IGZvciBtYW55IHVzZXJzIG1ha2VzIGEgc2luZ2xlLCB1bmlmaWVkIGFw
+cHJvYWNoDQo+PiB3b3J0aHdoaWxlLg0KPj4NCj4+IFdpdGggbm9tb2Rlc2V0IHNwZWNpZmll
+ZCwgdGhlIGZiZGV2IGRyaXZlciBtb2R1bGUgd2lsbCBub3QgbG9hZC4gVGhpcw0KPj4gdW5p
+ZmllcyBiZWhhdmlvciB3aXRoIHNpbWlsYXIgRFJNIGRyaXZlcnMuIEluIERSTSBoZWxwZXJz
+LCBtb2R1bGVzDQo+PiBmaXJzdCBjaGVjayB0aGUgbm9tb2Rlc2V0IHBhcmFtZXRlciBiZWZv
+cmUgcmVnaXN0ZXJpbmcgdGhlIFBDSQ0KPj4gZHJpdmVyLiBBcyBmYmRldiBoYXMgbm8gc3Vj
+aCBtb2R1bGUgaGVscGVycywgd2UgaGF2ZSB0byBtb2RpZnkgZWFjaA0KPj4gZHJpdmVyIGlu
+ZGl2aWR1YWxseS4NCj4gDQo+IE9rLg0KPiANCj4+IFRoZSBuYW1lICdub21vZGVzZXQnIGlz
+IHNsaWdodGx5IG1pc2xlYWRpbmcsIGJ1dCBoYXMgYmVlbiBjaG9zZW4gZm9yDQo+PiBoaXN0
+b3JpY2FsIHJlYXNvbnMuIFNldmVyYWwgZHJpdmVycyBpbXBsZW1lbnRlZCBpdCBiZWZvcmUg
+aXQgYmVjYW1lIGENCj4+IGdlbmVyYWwgb3B0aW9uIGZvciBEUk0uIFNvIGtlZXBpbmcgdGhl
+IGV4aXN0aW5nIG5hbWUgd2FzIHByZWZlcnJlZCBvdmVyDQo+PiBpbnRyb2R1Y2luZyBhIG5l
+dyBvbmUuDQo+IA0KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdmlkZW8vZmJkZXYvYXR5L2F0
+eTEyOGZiLmMgDQo+PiBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvYXR5L2F0eTEyOGZiLmMNCj4+
+IGluZGV4IDU3ZTM5OGZlN2E4MWMuLjFhMjZhYzI4NjVkNjUgMTAwNjQ0DQo+PiAtLS0gYS9k
+cml2ZXJzL3ZpZGVvL2ZiZGV2L2F0eS9hdHkxMjhmYi5jDQo+PiArKysgYi9kcml2ZXJzL3Zp
+ZGVvL2ZiZGV2L2F0eS9hdHkxMjhmYi5jDQo+PiBAQCAtMjUwMyw3ICsyNTA0LDEyIEBAIHN0
+YXRpYyBpbnQgYXR5MTI4ZmJfaW5pdCh2b2lkKQ0KPj4gwqAgew0KPj4gwqAgI2lmbmRlZiBN
+T0RVTEUNCj4+IMKgwqDCoMKgwqAgY2hhciAqb3B0aW9uID0gTlVMTDsNCj4+ICsjZW5kaWYN
+Cj4+ICsNCj4+ICvCoMKgwqAgaWYgKHZpZGVvX2Zpcm13YXJlX2RyaXZlcnNfb25seSgpKQ0K
+Pj4gK8KgwqDCoMKgwqDCoMKgIHJldHVybiAtRU5PREVWOw0KPiANCj4gSSB0aGluayBpdCBt
+YWtlcyBzZW5zZSB0byBnaXZlIGF0IGxlYXN0IHNvbWUgaW5mbywgd2h5IGEgc3BlY2lmaWMN
+Cj4gZHJpdmVyIHdhc24ndCBsb2FkZWQsIGUuZy4gc29tZXRoaW5nIGxpa2UgdGhpcyBrZXJu
+ZWwgbWVzc2FnZToNCj4gYXR5MTI4ZmI6IERyaXZlciBkaXNhYmxlZCBkdWUgdG8gIm5vbW9k
+ZXNldCIga2VybmVsIHBhcmFtZXRlci4NCj4gDQo+IElmIHlvdSBlLmcuIGNoYW5nZSB0aGUg
+ZnVuY3Rpb24gdmlkZW9fZmlybXdhcmVfZHJpdmVyc19vbmx5KCkNCj4gdG8gYmVjb21lIHZp
+ZGVvX2Zpcm13YXJlX2RyaXZlcnNfb25seShjb25zdCBjaGFyICpkcml2ZXJuYW1lKQ0KPiB0
+aGVuIHlvdSBjb3VsZCBwcmludCBzdWNoIGEgbWVzc2FnZSBpbiB2aWRlb19maXJtd2FyZV9k
+cml2ZXJzX29ubHkoKQ0KDQpXZWxsLCB3ZSBkbyBoYXZlIHN1Y2ggYSBtZXNzYWdlIGluIGRp
+c2FibGVfbW9kZXNldCgpIGFscmVhZHkuIFsxXQ0KDQpbMV0gDQpodHRwczovL2VsaXhpci5i
+b290bGluLmNvbS9saW51eC9sYXRlc3Qvc291cmNlL2RyaXZlcnMvZ3B1L2RybS9kcm1fbm9t
+b2Rlc2V0LmMjTDE4DQoNCj4gDQo+IEFuZCBJIGRvbid0IGxpa2UgdmVyeSBtdWNoIHRoZSBu
+YW1lIG9mIGZ1bmN0aW9uIA0KPiB2aWRlb19maXJtd2FyZV9kcml2ZXJzX29ubHkoKSwNCj4g
+YnV0IGRvbid0IGhhdmUgYW55IG90aGVyIGJldHRlciBpZGVhIHJpZ2h0IG5vdyBlaXRoZXIu
+Li4NCg0KSXQncyBwYXJ0IG9mIHRoZSAndmlkZW8nIG1vZHVsZSwgaGVuY2UgdGhlIHByZWZp
+eC4gVGhlICdub21vZGVzZXQnIA0Kb3B0aW9uIHVzZWQgdG8gYmUgaW1wbGVtZW50ZWQgaW4g
+c2V2ZXJhbCBEUk0gZHJpdmVycy4gSXQncyBhbiBhd2Z1bCANCm5hbWUsIGJ1dCB3ZSBkaWRu
+J3Qgd2FudCB0byByZW1vdmUgaXQgb3IgaW50cm9kdWNlIGEgbmV3IG9uZSBmb3IgdGhlIA0K
+c2FtZSBmZWF0dXJlLiBTbyB3ZSBrZXB0IG5vbW9kZXNldCBmb3IgYWxsIG9mIERSTS4gIFRo
+ZW4gd2Ugc3RhcnRlZCANCmJpa2VzaGVkZGluZyB0aGUgZnVuY3Rpb24gbmFtZSB0aGF0IHJl
+dHVybnMgdGhlIHNldHRpbmcuIEFuZCANCmZpcm13YXJlLWRyaXZlcnMtb25seSBpcyB0aGUg
+YmVzdCBkZXNjcmlwdGlvbiBvZiB3aGF0IGlzIGhhcHBlbmluZyBoZXJlLiANClNvIHRoYXQn
+cyBob3cgdGhlIG5hbWUgaGFwcGVuZC4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiAN
+Cj4gSGVsZ2UNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERl
+dmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxk
+c3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJu
+YmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
-The behavior assumed by default was equivalent to
-__clk_mux_determine_rate + CLK_SET_RATE_NO_REPARENT. We could indeed set
-both if determine_rate is missing in the core, but that's unprecedented
-in the clock framework so I think we'll want Stephen to comment here :)
+--------------JLBeDWzj1CbxAZo0J0OLGQ6Y--
 
-It's also replacing one implicit behavior by another. The point of this
-series was to raise awareness on that particular point, so I'm not sure
-it actually fixes things. We'll see what Stephen thinks about it.
-
-Maxime
-
---6jvzxow5645ldbud
-Content-Type: application/pgp-signature; name="signature.asc"
+--------------uFHY0RRLZAxEbawAVao3bITA
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY2kjiwAKCRDj7w1vZxhR
-xbC4AQCzinBg5fORSxUmh/ryaaQ1U50ULCO44lpcoTcfgR8NCQEArCtBTBrB8cDz
-ZaXsPn80Mh//XhAP83gNXiHtZW4aJwQ=
-=1n6i
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmNpJKYFAwAAAAAACgkQlh/E3EQov+AV
+lBAAiwXeeMTrh9fUzhtu6IqMjF/nEItFNQJJwM99X5TfbxcUIVIOAi6ubLdn8gmGRwOZ/q2plD9L
+DmdblyWP+cdcOBin3rSBxU7dh7PGOUgDwArc+k7rresfCzV2LnqmpBuFU+ujq7HYOqVzIQTY1Nie
+U02/qbEM4UPZJHFxCVyhwCGgElIBed6TLctyQmC2A6yg6U3LQ2Pjv+oG25/CJpsRxqUsZeLoGgb/
+tycN1NO95k1wc0IVx7cpA8s1Eaxo+3oFf7wL/PHYzNiSpR7bySD00kZo4QlugtjmObMqQ0K7HbKf
+e3sMEfSNOncq9kjFk7/IilJdHAU6i+BiSvmbhmEMvWCCRAj8pwoYH9Y9u+pbG5lUCQuwC1ruFkY5
+qiXlt02+RTCvvBpS2NRjro60bXUSVNZvB9ACrCARbWBsKVranFGENZ+QCxSVu9Ir6BF47GSDn3+8
+Fk864nJqwLgPktk34X3C086tVVNU2YvppGaL0CyBnTDwo9nJ7xfh5rhg6JUg6dFybrjZm0ZF0pIk
+rrLK4xTrPoQM/vHRYW33LCF+EypFTKXqVJBFURehp5MMyHrdfGYbxXTff0O8kXW3wlSg+WcYx/+Y
++oElrq8j8hqNjiI2usLanGlWv9XD/qR3QalATRh4/wCDjX6gDnWxhlZm0ERv9B/vh86OMIgy545m
+xmE=
+=hlXf
 -----END PGP SIGNATURE-----
 
---6jvzxow5645ldbud--
+--------------uFHY0RRLZAxEbawAVao3bITA--
