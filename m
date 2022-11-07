@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A5D162003D
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 22:05:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED9CC620054
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 22:06:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 432A910E4AF;
-	Mon,  7 Nov 2022 21:05:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E45310E4A9;
+	Mon,  7 Nov 2022 21:06:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CB9D10E4A9
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 21:05:13 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A3FF10E4A9
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 21:06:03 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 78C4CB816A0
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 21:05:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3578BC4347C
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 21:05:10 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 2B381B816A6
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 21:06:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA4A0C43144
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 21:06:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1667855110;
- bh=Zu50tGqg124bPyOMVvcoQdIculJ+KYQtsiSpZtdQVq4=;
+ s=k20201202; t=1667855161;
+ bh=FG+7gA3fo0nBgnUWGCQeGAlAZyW5OFNCbT+NPx+534Y=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=AabtWJNmq1Z8Xd62qXornOCd4ZK3WhKppXVm4YynDe4++xb8YguttfBdNQXXw9utL
- ErdH/vNsCDN8KIsmTq9VxUiAtXIeQ4Ym2zOTYTesPPe8oPEIjn8k+qudKhLVrJsiCQ
- rSnVdbr93iQONLOAfi4cgOnEf/svFjIQ6d+uVIiVa2gHuhdFwrTMU5NlhLcyZuFsOJ
- M+/SaZrHlzd31Ao7huJTDQendPxB+OQUJLL6GzEmsFpt4IoDClYFHnxLljwjlPIf2M
- 0bVUNEqbvngAnGlGkK4+fQ3I16nfHkCVST+31DDbyv++DM73sb/Cb8PceNxog9/lzY
- kTz3wiMBcWqfQ==
-Received: by mail-yb1-f178.google.com with SMTP id g127so15122907ybg.8
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Nov 2022 13:05:10 -0800 (PST)
-X-Gm-Message-State: ANoB5pkGGTgd36fwvLZ02mqXwt/KIdRdVBQNT+/R55VdySvjw0H7kDkr
- xeg99KOILfaCS3aggF2BH53HpWJspmi7BZPoekg=
-X-Google-Smtp-Source: AA0mqf4KjNwhvJXdZttzDTXzxLD0NEeHGqaOOG0YDar2hzM7Q2wpgsR23hYSEEYa6fKsS6NkPJtYHOUyqYwmtjLhNO0=
-X-Received: by 2002:a25:2389:0:b0:6d8:7f81:edaf with SMTP id
- j131-20020a252389000000b006d87f81edafmr3758306ybj.443.1667855109196; Mon, 07
- Nov 2022 13:05:09 -0800 (PST)
+ b=JpohgfVyAR1+t0eosNFa2GRGTW/ULZtWnPLB9HZ4ROca8k1vdcW+0N4uupbl8pN+P
+ 1KDlG8cXBHfnTDBO0UoenwooMLqZ2jDiV/NQ5KYFbDAHxhdxfpS8BPcQl051fNy9sr
+ Y7E9ROyXt/Pa4Vf7DzZf+7/T0MpN4JDqIIA3nuB689+ruPgF+fo+aQhxpLQNaYatFt
+ m18e4l6EK0EMaBjtjYPCi22HUvSR0t8tCagZEMNn9U9xckoKmZj/8JkUOmT9ShOZRp
+ aEGlH8ZuPpsgYlXzxoHgWRc2gSxgp7ivgguIFw8bayynJO6G5MG/WvnKvaCmhz+mwc
+ xhcVROd4Kua2g==
+Received: by mail-yw1-f178.google.com with SMTP id
+ 00721157ae682-3321c2a8d4cso116556107b3.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Nov 2022 13:06:01 -0800 (PST)
+X-Gm-Message-State: ACrzQf30B0ZEahNJsfWd2WxLHoW6Bq8SOsAD0WVOhdRVKppOMWMNIPnZ
+ 1ADRUiVa2lgE+8Hpayy5r+caXdQDyazjCDDjxKQ=
+X-Google-Smtp-Source: AMsMyM79s61mlOpK+aqg4QRkCgNPCYjUWTxYdxewoPhDlxrrkRVd1ChmX/dKJmqMS/UXAOUP9xQYEnEByOuJRijTw0k=
+X-Received: by 2002:a0d:f445:0:b0:345:89a2:9a8d with SMTP id
+ d66-20020a0df445000000b0034589a29a8dmr49016100ywf.107.1667855160878; Mon, 07
+ Nov 2022 13:06:00 -0800 (PST)
 MIME-Version: 1.0
 References: <20221106210225.2065371-1-ogabbay@kernel.org>
- <20221106210225.2065371-4-ogabbay@kernel.org>
- <2537e41d-f863-4819-57d2-09b9554f801b@quicinc.com>
-In-Reply-To: <2537e41d-f863-4819-57d2-09b9554f801b@quicinc.com>
+ <20221106210225.2065371-2-ogabbay@kernel.org>
+ <5fe8e8c0-d28b-3666-e437-10fa0c591ed8@quicinc.com>
+In-Reply-To: <5fe8e8c0-d28b-3666-e437-10fa0c591ed8@quicinc.com>
 From: Oded Gabbay <ogabbay@kernel.org>
-Date: Mon, 7 Nov 2022 23:04:42 +0200
-X-Gmail-Original-Message-ID: <CAFCwf12h2FH_CrPKszWfFVRCfnQeavYY+sXmjk9jChbT-+WBcQ@mail.gmail.com>
-Message-ID: <CAFCwf12h2FH_CrPKszWfFVRCfnQeavYY+sXmjk9jChbT-+WBcQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 3/3] drm: initialize accel framework
+Date: Mon, 7 Nov 2022 23:05:34 +0200
+X-Gmail-Original-Message-ID: <CAFCwf10iNhi7=O_c==0dzyiMVSL05R8bJQ1HPJJo04bwz86e=w@mail.gmail.com>
+Message-ID: <CAFCwf10iNhi7=O_c==0dzyiMVSL05R8bJQ1HPJJo04bwz86e=w@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 1/3] drivers/accel: define kconfig and register a
+ new major
 To: Jeffrey Hugo <quic_jhugo@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,19 +80,41 @@ Cc: dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 7, 2022 at 6:25 PM Jeffrey Hugo <quic_jhugo@quicinc.com> wrote:
+On Mon, Nov 7, 2022 at 6:12 PM Jeffrey Hugo <quic_jhugo@quicinc.com> wrote:
 >
 > On 11/6/2022 2:02 PM, Oded Gabbay wrote:
+> > +int __init accel_core_init(void)
+> > +{
+> > +     int ret;
+> > +
+> > +     ret = accel_sysfs_init();
+> > +     if (ret < 0) {
+> > +             DRM_ERROR("Cannot create ACCEL class: %d\n", ret);
+> > +             goto error;
+> > +     }
+> > +
+> > +     accel_debugfs_root = debugfs_create_dir("accel", NULL);
+> > +
+> > +     ret = register_chrdev(ACCEL_MAJOR, "accel", &accel_stub_fops);
+> > +     if (ret < 0)
+> > +             goto error;
 >
-> > @@ -603,6 +626,14 @@ static int drm_dev_init(struct drm_device *dev,
-> >       /* no per-device feature limits by default */
-> >       dev->driver_features = ~0u;
-> >
-> > +     if (drm_core_check_feature(dev, DRIVER_COMPUTE_ACCEL) &&
-> > +                             (drm_core_check_feature(dev, DRIVER_RENDER) ||
-> > +                             drm_core_check_feature(dev, DRIVER_MODESET))) {
+> We are not jumping over anything here.  Seems like this whole if block
+> could just be removed.
+correct, will be fixed.
 >
-> Shouldn't the indentation for the 2nd and 3rd line be such that the
-> start of the lines is aligned with the "(" on the first line?
-afaik there is no such rule. If there was, checkpatch should have reported that.
+> > +
+> > +error:
+> > +     /* Any cleanup will be done in drm_core_exit() that will call
+> > +      * to accel_core_exit()
+> > +      */
+>
+> This doesn't look like the standard multi-line comment style.  Are we
+> going to say that the accel subsystem follows net and differs from the
+> kernel standard?
+I'll change it to the kernel standard.
+Thx,
 Oded
+>
+> > +     return ret;
+> > +}
