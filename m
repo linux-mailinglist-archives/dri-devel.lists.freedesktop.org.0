@@ -2,69 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68FA261F65E
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 15:42:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83F2961F670
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 15:44:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 951C710E379;
-	Mon,  7 Nov 2022 14:42:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DC5110E37D;
+	Mon,  7 Nov 2022 14:44:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B65CE10E379
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 14:42:27 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id o12so17036451lfq.9
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Nov 2022 06:42:27 -0800 (PST)
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
+ [IPv6:2a00:1450:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94DB210E37E
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 14:44:00 +0000 (UTC)
+Received: by mail-lj1-x22c.google.com with SMTP id x21so16570809ljg.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Nov 2022 06:44:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20210112.gappssmtp.com; s=20210112;
  h=cc:to:subject:message-id:date:mime-version:in-reply-to:references
  :user-agent:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ZfXdjQhTZQkr1X94ZZoUwqUu1jkMou77X3rg8dG96a8=;
- b=YY/rIl083jijvHJKrVqGCLgKhx1v5KpSxBKiU1+0a9eewETgjWVakNpnGhGMKPrXgU
- cO1XJQO7ms2EabCorEz5LwdJjlGCPz21MpkLr+SLY5nglIWcT4dTmCAt7R2Wcv76yuWt
- p0Cgd/gsGoHIDF5So+E1NrRbe8cHiv3++mag11g+FaFv1hRcS8klQrwysIw0VTmqGBR6
- 9HdC0oO1CFvTxOOtKywSXSkN7S5iDbHc2GMV/2PX7V2ItPNgLhh04mFuO6sjt605vxAd
- yM8BKtaJs2AvTjF3tQC58gaQ2CzGVEVzIZBoIhmPeANGprFmO3fgZwoQKGDEXFdPdXyb
- Yhqg==
+ bh=i0O2rk5E0cL+fm306yvacQlome9MWqlkSl0PtbnJ/Fk=;
+ b=KGd9O5AMOGZXp+tE3f0j+hwAkW+8r8XE9RmQsXGMLtLEL+k0tlrOTlc9x3z6DY60pT
+ hoRXvYOeD/Og/ka1ZIfwjHVVwiYkMECBdxL+qr6sOmlcw2M4myVgfy3mUcsg34OUY9JJ
+ q2lBidE2ZbHrX8DY8H34jBlgMAfqbaTK5gWDjPBKRDyH0O/aQ5nkMbT7YyKZ1J3wKPKE
+ g2HXUzVU7qAK/Wi5p4uk8UO+C3/OrXQtIeJ+BKMBSvKfMctlvCZ9EjPETJgknfSh0Eme
+ qzAIsFJwkk2g1boA0NctS759r6L3DUzwJ6BMZO1g8SlxiYVglENC/U8KI+IphbjhOzQm
+ oWPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:mime-version:in-reply-to:references
  :user-agent:from:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ZfXdjQhTZQkr1X94ZZoUwqUu1jkMou77X3rg8dG96a8=;
- b=F67vzVNWhxQxYE8bCpM6x1qg1RYcQ8ysguBHdz/x9xj6E35KJ5rRIi9yzYVZh6a55u
- UzwFreoch9wbtpmEnOUiSH/0p1bRojouAw/tdl+PS0VMAJl/8gE99y38dW/Mo/0gywMP
- POroDDJczPOppeE0WE7PA7ekUbnEHsJWAbpBMW6y+msktPIlG4yd174RJxGv9qK5zwHJ
- Af/fin7cLkmGskBTqGNkeTNCm+0mMt1v+QrYgSZ0uKV5rL/aiclmtobG1IDjsi1FLXKO
- cLjq10MOmgu7d3OJHCh9c6EUeXpNUEZ+swR4J27zaUdofQq7yI4U6OgaAdR+Yv9W0eVb
- veaA==
-X-Gm-Message-State: ACrzQf1cAKW7BH221rOYn3CgT392TzpywP02vTLBHcQDsiOD2r3VMLRO
- xA5rTnnFNaS9TaKsXyUCa0lvLfTT5NYXwLiBiSWfmg==
-X-Google-Smtp-Source: AMsMyM4obaHSDFPifKElHvH7PBL0HAA5pZ3NjQn/6AtTpDJdt3UiOIE4TO8MH3JiH/CTme2Sfp3yxRp/Y7LOmjXfHcA=
-X-Received: by 2002:a19:8c57:0:b0:4ae:2436:818c with SMTP id
- i23-20020a198c57000000b004ae2436818cmr368888lfj.346.1667832145955; Mon, 07
- Nov 2022 06:42:25 -0800 (PST)
+ bh=i0O2rk5E0cL+fm306yvacQlome9MWqlkSl0PtbnJ/Fk=;
+ b=YTbQfrJaQ05PGz75gQf0QGAdN3c6QtcKnoFYvG5hVEs/LN8qMNJ3yETYDdAy5MYQ9s
+ 6SEAFbEM0HiNyEVMt9Af9p2KAbfKAHZS6zfS2SetuuSHyxjwE2mnZj/wUkqv+uxhW5Cr
+ ylJqdBZIo6XTeKQmtcGQhDBFCr2JrPvu2Nqu+ZtOsOdTORJH7X+h1ABDVyuOGYHTwFXy
+ w2YeWU/8AAI5Gqcr/1coh2dNftCeIKQ4ZdxaN+8h9nFbk3f8bsTzJf8GR26frC+JqB3N
+ Sal0E+TWB28zZBsLd+e3d6cq19ffXNCmU047vhXI6guTQnuAbFuRpYLjfHoBKIUYOL/i
+ sEkQ==
+X-Gm-Message-State: ACrzQf3n6IqQctC3OBPhBF8H/FSiOzmrZbqhVl+qJsrd7Ck+iB5wfNnE
+ rYjwWtQZQGKSmk53QyxoKJY78gJb/0gBrvdTwUCNeA==
+X-Google-Smtp-Source: AMsMyM6xHORFjhVs0PnFDG1Q5hbXYVz1Gde1fVXPnnjTrXUg8FmzxrTbBpDXilPPBRiYEYQWH0D3yvUDzcEPlfT2y8I=
+X-Received: by 2002:a2e:2e0c:0:b0:277:75bb:429e with SMTP id
+ u12-20020a2e2e0c000000b0027775bb429emr9673388lju.314.1667832238908; Mon, 07
+ Nov 2022 06:43:58 -0800 (PST)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 7 Nov 2022 14:42:25 +0000
+ HTTPREST; Mon, 7 Nov 2022 14:43:58 +0000
 From: Guillaume Ranquet <granquet@baylibre.com>
 User-Agent: meli 0.7.2
 References: <20220919-v3-0-a803f2660127@baylibre.com>
- <20220919-v3-2-a803f2660127@baylibre.com>
- <ab8528cc-fa5d-35da-0c6e-cdebc694f646@linaro.org>
-In-Reply-To: <ab8528cc-fa5d-35da-0c6e-cdebc694f646@linaro.org>
+ <20220919-v3-3-a803f2660127@baylibre.com>
+ <05183178-32cb-98c0-4fcb-d5e78874e6c4@collabora.com>
+In-Reply-To: <05183178-32cb-98c0-4fcb-d5e78874e6c4@collabora.com>
 MIME-Version: 1.0
-Date: Mon, 7 Nov 2022 14:42:25 +0000
-Message-ID: <CABnWg9vNWiz+2Ms6oJ2e3fp502m4o3Vx12PWZCk-FoV-Vw55+Q@mail.gmail.com>
-Subject: Re: [PATCH v3 02/12] dt-bindings: display: mediatek: add MT8195 hdmi
- bindings
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Kishon Vijay Abraham I <kishon@ti.com>, 
- Rob Herring <robh+dt@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Chunfeng Yun <chunfeng.yun@mediatek.com>, Jitao shi <jitao.shi@mediatek.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, Vinod Koul <vkoul@kernel.org>,
- CK Hu <ck.hu@mediatek.com>, 
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+Date: Mon, 7 Nov 2022 14:43:58 +0000
+Message-ID: <CABnWg9sZ29jnCbCjtJ-tLWn2s1JYjFVEEGkau72WJyukHWU9=Q@mail.gmail.com>
+Subject: Re: [PATCH v3 03/12] drm/mediatek: hdmi: use a regmap instead of iomem
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Kishon Vijay Abraham I <kishon@ti.com>, Rob Herring <robh+dt@kernel.org>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>, 
+ Jitao shi <jitao.shi@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ Vinod Koul <vkoul@kernel.org>, CK Hu <ck.hu@mediatek.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
  Philipp Zabel <p.zabel@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,172 +80,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, mac.shen@mediatek.com,
- stuart.lee@mediatek.com, linux-mediatek@lists.infradead.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+ stuart.lee@mediatek.com, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 07 Nov 2022 11:02, Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->On 04/11/2022 15:09, Guillaume Ranquet wrote:
->> Add mt8195 SoC bindings for hdmi and hdmi-ddc
->>
->> On mt8195 the ddc i2c controller is part of the hdmi IP block and thus has no
->> specific register range, power domain or interrupt, making it simpler
->> than its the legacy "mediatek,hdmi-ddc" binding.
+On Mon, 07 Nov 2022 12:20, AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
+>Il 04/11/22 15:09, Guillaume Ranquet ha scritto:
+>> To prepare support for newer chips that need to share their address
+>> range with a dedicated ddc driver, use a regmap.
 >>
 >> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
 >> ---
->>  .../bindings/display/mediatek/mediatek,hdmi.yaml   | 61 ++++++++++++++++++----
->>  .../display/mediatek/mediatek,mt8195-hdmi-ddc.yaml | 51 ++++++++++++++++++
->>  2 files changed, 101 insertions(+), 11 deletions(-)
+>>   drivers/gpu/drm/mediatek/mtk_hdmi.c | 43 +++++++++++--------------------------
+>>   1 file changed, 13 insertions(+), 30 deletions(-)
 >>
->> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.yaml
->> index bdaf0b51e68c..9710b7b6e9bf 100644
->> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.yaml
->> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.yaml
->> @@ -21,6 +21,7 @@ properties:
->>        - mediatek,mt7623-hdmi
->>        - mediatek,mt8167-hdmi
->>        - mediatek,mt8173-hdmi
->> +      - mediatek,mt8195-hdmi
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+>> index 4c80b6896dc3..9b02b30a193a 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
+>> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+>> @@ -171,7 +171,7 @@ struct mtk_hdmi {
+>>   	u32 ibias_up;
+>>   	struct regmap *sys_regmap;
+>>   	unsigned int sys_offset;
+>> -	void __iomem *regs;
+>> +	struct regmap *regs;
+>>   	enum hdmi_colorspace csp;
+>>   	struct hdmi_audio_param aud_param;
+>>   	bool audio_enable;
+>> @@ -187,44 +187,29 @@ static inline struct mtk_hdmi *hdmi_ctx_from_bridge(struct drm_bridge *b)
+>>   	return container_of(b, struct mtk_hdmi, bridge);
+>>   }
 >>
->>    reg:
->>      maxItems: 1
->> @@ -29,18 +30,12 @@ properties:
->>      maxItems: 1
+>> -static u32 mtk_hdmi_read(struct mtk_hdmi *hdmi, u32 offset)
+>> +static int mtk_hdmi_read(struct mtk_hdmi *hdmi, u32 offset, u32 *val)
+>>   {
+>> -	return readl(hdmi->regs + offset);
+>> +	return regmap_read(hdmi->regs, offset, val);
+>>   }
 >>
->>    clocks:
->> -    items:
->> -      - description: Pixel Clock
->> -      - description: HDMI PLL
->> -      - description: Bit Clock
->> -      - description: S/PDIF Clock
->> +    minItems: 4
+>>   static void mtk_hdmi_write(struct mtk_hdmi *hdmi, u32 offset, u32 val)
+>>   {
+>> -	writel(val, hdmi->regs + offset);
+>> +	regmap_write(hdmi->regs, offset, val);
+>>   }
+>>
+>>   static void mtk_hdmi_clear_bits(struct mtk_hdmi *hdmi, u32 offset, u32 bits)
 >
->Drop minItems, it's not needed when equal to maxItems.
+>You don't need these functions anymore, as these are now simply wrapping
+>regmap calls, hence these don't contain any "real" logic anymore.
 >
->> +    maxItems: 4
->>
->>    clock-names:
->> -    items:
->> -      - const: pixel
->> -      - const: pll
->> -      - const: bclk
->> -      - const: spdif
->> +    minItems: 4
+>Please remove them and use the regmap API directly.
 >
->Drop minItems, it's not needed when equal to maxItems.
->
->
->> +    maxItems: 4
->>
->>    phys:
->>      maxItems: 1
->> @@ -58,6 +53,9 @@ properties:
->>      description: |
->>        phandle link and register offset to the system configuration registers.
->>
->> +  power-domains:
->> +    maxItems: 1
->> +
->>    ports:
->>      $ref: /schemas/graph.yaml#/properties/ports
->>
->> @@ -86,9 +84,50 @@ required:
->>    - clock-names
->>    - phys
->>    - phy-names
->> -  - mediatek,syscon-hdmi
->>    - ports
->>
->> +allOf:
->> +  - if:
->> +      properties:
->> +        compatible:
->> +          contains:
->> +            const: mediatek,mt8195-hdmi
->> +    then:
->> +      properties:
->> +        clocks:
->> +          items:
->> +            - description: APB
->> +            - description: HDCP
->> +            - description: HDCP 24M
->> +            - description: Split HDMI
->> +        clock-names:
->> +          items:
->> +            - const: hdmi_apb_sel
->> +            - const: hdcp_sel
->> +            - const: hdcp24_sel
->> +            - const: split_hdmi
->> +
->> +      required:
->> +        - power-domains
->> +    else:
->> +      properties:
->> +        clocks:
->> +          items:
->> +            - description: Pixel Clock
->> +            - description: HDMI PLL
->> +            - description: Bit Clock
->> +            - description: S/PDIF Clock
->> +
->> +        clock-names:
->> +          items:
->> +            - const: pixel
->> +            - const: pll
->> +            - const: bclk
->> +            - const: spdif
->> +
->> +      required:
->> +        - mediatek,syscon-hdmi
->> +
->>  additionalProperties: false
->>
->>  examples:
->> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi-ddc.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi-ddc.yaml
->> new file mode 100644
->> index 000000000000..2dc273689584
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi-ddc.yaml
->> @@ -0,0 +1,51 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/display/mediatek/mediatek,mt8195-hdmi-ddc.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Mediatek HDMI DDC for mt8195
->> +
->> +maintainers:
->> +  - CK Hu <ck.hu@mediatek.com>
->> +  - Jitao shi <jitao.shi@mediatek.com>
->> +
->> +description: |
->> +  The HDMI DDC i2c controller is used to interface with the HDMI DDC pins.
->> +
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - mediatek,mt8195-hdmi-ddc
->> +
->> +  clocks:
->> +    maxItems: 1
->> +
->> +  clock-names:
->> +    items:
->> +      - const: ddc
->
->Unless you expect it to grow, I propose to drop clock-names. It's not
->useful when the name is the same as name of hardware.
->
->Best regards,
->Krzysztof
+>Thanks,
+>Angelo
 >
 
-Thx for your suggestions, I'll apply them in v4.
+Agree with that, my intent was to minimize the change size so that it
+would be easy to review.
+
+My mistake, I'll remove the wrappers.
 
 Thx,
 Guillaume.
