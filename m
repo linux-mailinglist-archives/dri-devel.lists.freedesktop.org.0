@@ -2,50 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F6E061F7DB
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 16:40:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D905B61F7E9
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 16:47:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93F5C10E3F5;
-	Mon,  7 Nov 2022 15:40:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 668F510E41C;
+	Mon,  7 Nov 2022 15:47:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BE1B10E3F5
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 15:40:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1667835644; x=1699371644;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=O1WMCw7z9oK5APN6bETV00yyQiB234s2mqfIGxbABoU=;
- b=WL5SkTsA7HrlbxK6dBbvd9SZy6leg9nS12M/1Qdv7wV7eC6RJztyuDco
- B8OYcCwAy7c5Ld2z/7XpezO6rdthNbQlsPNtJZiasmeGhmvxrhPtKBGWl
- JSOw+13V2JvRXJnM+yWK/x1S89coI8WTFP3N+7t9fiNnXRo4lEwQ0XGe+
- TBXCJgX4VzM9qQEVQSwKxAT0ZF2lMQDc0gX+l9eLlHEx9WzeVnwE48i1E
- Yi01ST3QGtS4ogHRZkT2QI3W3E3Ku8uO2qcTwX5JhruoT0LKO0hNlqguQ
- lj8/g7wNMd1mpWG6xz4ypp/l5vYq1auwZGI+TQcj7Fg2269IsCJKt2UnD g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="337162029"
-X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; d="scan'208";a="337162029"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Nov 2022 07:40:43 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="725180860"
-X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; d="scan'208";a="725180860"
-Received: from joe-255.igk.intel.com (HELO localhost) ([172.22.229.67])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Nov 2022 07:40:42 -0800
-Date: Mon, 7 Nov 2022 16:40:41 +0100
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH RESEND] drm: fix crash in drm_minor_alloc_release
-Message-ID: <20221107154041.GA3600973@linux.intel.com>
-References: <20221107144500.3692212-1-stanislaw.gruszka@linux.intel.com>
- <Y2kf+HLy/Kz5BclF@intel.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4EDBD10E408
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 15:47:08 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A00C61FB;
+ Mon,  7 Nov 2022 07:47:13 -0800 (PST)
+Received: from [10.57.3.218] (unknown [10.57.3.218])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 60F3E3F534;
+ Mon,  7 Nov 2022 07:47:06 -0800 (PST)
+Message-ID: <f2bbb902-8447-076a-f290-6a257abc48d9@arm.com>
+Date: Mon, 7 Nov 2022 15:47:07 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y2kf+HLy/Kz5BclF@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH] drm/panfrost: Remove type name from internal struct again
+To: Alyssa Rosenzweig <alyssa@collabora.com>
+References: <20221103114036.1581854-1-steven.price@arm.com>
+ <Y2kGqIAE7WPYUTKx@maud>
+Content-Language: en-GB
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <Y2kGqIAE7WPYUTKx@maud>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,43 +44,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 07, 2022 at 05:10:48PM +0200, Ville Syrjälä wrote:
-> On Mon, Nov 07, 2022 at 03:45:00PM +0100, Stanislaw Gruszka wrote:
-> > index 8214a0b1ab7f..e3a1243dd2ae 100644
-> > --- a/drivers/gpu/drm/drm_drv.c
-> > +++ b/drivers/gpu/drm/drm_drv.c
-> > @@ -102,7 +102,8 @@ static void drm_minor_alloc_release(struct drm_device *dev, void *data)
-> >  
-> >  	WARN_ON(dev != minor->dev);
-> >  
-> > -	put_device(minor->kdev);
-> > +	if (!IS_ERR(minor->kdev))
-> > +		put_device(minor->kdev);
-> 
-> Assigning error pointers into things is a terrible idea.
-> IMO the correct fix would be to not return some
-> half-constructed garbage from drm_minor_alloc().
-> So basically should at least partically revert
-> commit f96306f9892b ("drm: manage drm_minor cleanup with drmm_")
+On 07/11/2022 13:22, Alyssa Rosenzweig wrote:
+> Reviewed-by: Alyssa Rosenzweig <alyssa@collabora.com>
 
-I would prefer to not change any ordering or remove drmm_* stuff, since
-as pointed to above commit message, things are tricky there.
+Thanks, pushed to drm-misc-fixes:
 
-I think assigning NULL to minor->kdev should be fine:
+c4299907c09a drm/panfrost: Remove type name from internal struct again
 
-	if (IS_ERR(minor->kdev)) {
-		r = PTR_ERR(minor->kdev);
-		minor->kdev = NULL;
-		return r;
-	}
+Steve
 
-put_device() in drm_minor_alloc_release() will cope nicely with it.
-
-Regards
-Stanislaw
+> On Thu, Nov 03, 2022 at 11:40:36AM +0000, Steven Price wrote:
+>> Commit 72655fb942c1 ("drm/panfrost: replace endian-specific types with
+>> native ones") accidentally reverted part of the parent commit
+>> 7228d9d79248 ("drm/panfrost: Remove type name from internal structs")
+>> leading to the situation that the Panfrost UAPI header still doesn't
+>> compile correctly in C++.
+>>
+>> Revert the accidental revert and pass me a brown paper bag.
+>>
+>> Reported-by: Alyssa Rosenzweig <alyssa@collabora.com>
+>> Fixes: 72655fb942c1 ("drm/panfrost: replace endian-specific types with native ones")
+>> Signed-off-by: Steven Price <steven.price@arm.com>
+>> ---
+>>  include/uapi/drm/panfrost_drm.h | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
+>> index 6f93c915cc88..9f231d40a146 100644
+>> --- a/include/uapi/drm/panfrost_drm.h
+>> +++ b/include/uapi/drm/panfrost_drm.h
+>> @@ -254,7 +254,7 @@ struct panfrost_dump_object_header {
+>>  			__u64 nbos;
+>>  		} reghdr;
+>>  
+>> -		struct pan_bomap_hdr {
+>> +		struct {
+>>  			__u32 valid;
+>>  			__u64 iova;
+>>  			__u32 data[2];
+>> -- 
+>> 2.34.1
+>>
 
