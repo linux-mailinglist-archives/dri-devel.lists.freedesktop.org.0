@@ -2,52 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C8FE61F832
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 17:03:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7701761F86C
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 17:08:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E150F10E431;
-	Mon,  7 Nov 2022 16:02:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D399A10E436;
+	Mon,  7 Nov 2022 16:07:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8330A10E435
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 16:02:49 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 17F89CE1712;
- Mon,  7 Nov 2022 16:02:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54F88C433D6;
- Mon,  7 Nov 2022 16:02:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1667836963;
- bh=Q/9M3qSa1bFKeX3VjOKXXNeZQ8B6sH7ewCOsQSJl+z0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XOmgvny4UUp7BZnQahaV6KsWUNhmwIhMxpmcOq3tw9+9teYm6GP3wrPKa3hZGoLnw
- E8JjujtcqktG/KkrpbyyurTKPktTQdPK912YFUTtXWMPkM5Mc8ahGVOnmMw4Uhs9uI
- cTBlpsSY6QMvq4ve9Z36ouACRIQs64gqbTRuCpXHF7tFc/7x4f8H/Qv0fo1LJXDNr9
- JzeHD9nkKpifY1CmMZpd4sb8KMqk3fuEl3XqfTd7Ru1lKOsEk7X40/JP1ugM9/6yCX
- WursSOfQ18hBTkSv25XwIi5vVUTkBzpxlLxQrxg8iYZ3853WT5wCALjP37Nihp0/J3
- NEZKY1McJ+eyw==
-Date: Mon, 7 Nov 2022 16:02:28 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH v2 43/65] ASoC: tlv320aic32x4: Add a determine_rate hook
-Message-ID: <Y2ksFHGNIEVm1ldF@sirena.org.uk>
-References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
- <20221018-clk-range-checks-fixes-v2-43-f6736dec138e@cerno.tech>
- <Y2UzdYyjgahJsbHg@sirena.org.uk>
- <20221104155123.qomguvthehnogkdd@houat>
- <Y2U2+ePwRieYkNjv@sirena.org.uk>
- <20221107084322.gk4j75r52zo5k7xk@houat>
- <Y2j0r0wX1XtQBvqO@sirena.org.uk>
- <20221107152603.57qimyzkinhifx5p@houat>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42C9610E436
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 16:07:52 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2A7FP1aN004108; Mon, 7 Nov 2022 16:07:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=sGNP3t/VS5t8CiFaoNcaIFwb9G2LQ14GZqqeeXLbyTI=;
+ b=NfIdxftgqUoJyll44+omONY3NAZNh5StgXfbd2h6gXEZqgJ+FuFo+fFtg7g5sTYZVWrM
+ 6lGUzh7hDTm0lRIRlAs7iPHhJZqHRUEXF0QqLoH6jnMeS0G8eo4476MYKM75WQT/42/p
+ GLj6V1Edk0Yvbpe+T/FWOy97Un1AnQLfmZRyf9GJazEsFmynzQ/9Fm0jtnStLnGyx/AH
+ YIyCNosV91ljUjGVlWgmuFVxrjJaN9Vf1zrxUQlEINsVTaCuXsMui3GFZA84NvcyKxsa
+ 735rdXWuF/o7ibEK+pnTwWEDqomVdNjq9zCqwCimflb9CYFXypWFKSPydM2trg8Ka/Ht DA== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kppqj1v2f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 07 Nov 2022 16:07:32 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2A7G7U6u027262
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 7 Nov 2022 16:07:30 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Mon, 7 Nov 2022
+ 08:07:29 -0800
+Message-ID: <6f756dec-b386-a822-5f52-c121c00525b4@quicinc.com>
+Date: Mon, 7 Nov 2022 09:07:28 -0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="hTyRvcr/YAY3aApU"
-Content-Disposition: inline
-In-Reply-To: <20221107152603.57qimyzkinhifx5p@houat>
-X-Cookie: Minimum charge for booths.
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [RFC PATCH v3 0/3] new subsystem for compute accelerator devices
+Content-Language: en-US
+To: Oded Gabbay <ogabbay@kernel.org>, David Airlie <airlied@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>, Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>,
+ <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ Jason Gunthorpe <jgg@nvidia.com>, John Hubbard <jhubbard@nvidia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Matthew Wilcox <willy@infradead.org>
+References: <20221106210225.2065371-1-ogabbay@kernel.org>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20221106210225.2065371-1-ogabbay@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: ejok4OBQVTOa0uwWOCEAXGmLUF5m1pUV
+X-Proofpoint-ORIG-GUID: ejok4OBQVTOa0uwWOCEAXGmLUF5m1pUV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-07_08,2022-11-07_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ lowpriorityscore=0 suspectscore=0 mlxlogscore=999 phishscore=0 spamscore=0
+ malwarescore=0 clxscore=1011 adultscore=0 mlxscore=0 bulkscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211070129
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,88 +88,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
- Prashant Gaikwad <pgaikwad@nvidia.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Michael Turquette <mturquette@baylibre.com>, Sekhar Nori <nsekhar@ti.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
- Paul Cercueil <paul@crapouillou.net>, Max Filippov <jcmvbkbc@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-phy@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, Abel Vesa <abelvesa@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Samuel Holland <samuel@sholland.org>, Chunyan Zhang <zhang.lyra@gmail.com>,
- Takashi Iwai <tiwai@suse.com>, linux-tegra@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
- NXP Linux Team <linux-imx@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
- linux-mips@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- linux-rtc@vger.kernel.org, linux-clk@vger.kernel.org,
- Charles Keepax <ckeepax@opensource.cirrus.com>, alsa-devel@alsa-project.org,
- Manivannan Sadhasivam <mani@kernel.org>, linux-kernel@vger.kernel.org,
- Sascha Hauer <s.hauer@pengutronix.de>, linux-actions@lists.infradead.org,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- linux-mediatek@lists.infradead.org,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Alessandro Zummo <a.zummo@towertech.it>, linux-sunxi@lists.linux.dev,
- Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
- linux-renesas-soc@vger.kernel.org, Dinh Nguyen <dinguyen@kernel.org>,
- Vinod Koul <vkoul@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- David Lechner <david@lechnology.com>, Shawn Guo <shawnguo@kernel.org>,
- Claudiu Beznea <claudiu.beznea@microchip.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Jiho Chu <jiho.chu@samsung.com>, Randy Dunlap <rdunlap@infradead.org>,
+ Christoph Hellwig <hch@infradead.org>,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Kevin Hilman <khilman@baylibre.com>,
+ Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
+ Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 11/6/2022 2:02 PM, Oded Gabbay wrote:
+> This is the third version of the RFC following the comments given on the
+> second version, but more importantly, following testing done by the VPU
+> driver people and myself. We found out that there is a circular dependency
+> between DRM and accel. DRM calls accel exported symbols during init and when
+> accel devices are registering (all the minor handling), then accel calls DRM
+> exported symbols. Therefore, if the two components are compiled as modules,
+> there is a circular dependency.
+> 
+> To overcome this, I have decided to compile the accel core code as part of
+> the DRM kernel module (drm.ko). IMO, this is inline with the spirit of the
+> design choice to have accel reuse the DRM core code and avoid code
+> duplication.
+> 
+> Another important change is that I have reverted back to use IDR for minor
+> handling instead of xarray. This is because I have found that xarray doesn't
+> handle well the scenario where you allocate a NULL entry and then exchange it
+> with a real pointer. It appears xarray still considers that entry a "zero"
+> entry. This is unfortunate because DRM works that way (first allocates a NULL
+> entry and then replaces the entry with a real pointer).
+> 
+> I decided to revert to IDR because I don't want to hold up these patches,
+> as many people are blocked until the support for accel is merged. The xarray
+> issue should be fixed as a separate patch by either fixing the xarray code or
+> changing how DRM + ACCEL do minor id handling.
 
---hTyRvcr/YAY3aApU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This sounds sane to me.  However, this appears to be something that 
+Matthew Wilcox should be aware of (added for visibility).  Perhaps he 
+has a very quick solution.  If not, at-least he might have ideas on how 
+to best address in the future.
 
-On Mon, Nov 07, 2022 at 04:26:03PM +0100, Maxime Ripard wrote:
-> On Mon, Nov 07, 2022 at 12:06:07PM +0000, Mark Brown wrote:
-> > On Mon, Nov 07, 2022 at 09:43:22AM +0100, Maxime Ripard wrote:
+> The patches are in the following repo:
+> https://git.kernel.org/pub/scm/linux/kernel/git/ogabbay/accel.git/log/?h=accel_v3
+> 
+> As in v2, The HEAD of that branch is a commit adding a dummy driver that
+> registers an accel device using the new framework. This can be served
+> as a simple reference. I have checked inserting and removing the dummy driver,
+> and opening and closing /dev/accel/accel0 and nothing got broken :)
+> 
+> v1 cover letter:
+> https://lkml.org/lkml/2022/10/22/544
+> 
+> v2 cover letter:
+> https://lore.kernel.org/lkml/20221102203405.1797491-1-ogabbay@kernel.org/T/
+> 
+> Thanks,
+> Oded.
+> 
+> Oded Gabbay (3):
+>    drivers/accel: define kconfig and register a new major
+>    accel: add dedicated minor for accelerator devices
+>    drm: initialize accel framework
+> 
+>   Documentation/admin-guide/devices.txt |   5 +
+>   MAINTAINERS                           |   8 +
+>   drivers/Kconfig                       |   2 +
+>   drivers/accel/Kconfig                 |  24 ++
+>   drivers/accel/drm_accel.c             | 322 ++++++++++++++++++++++++++
+>   drivers/gpu/drm/Makefile              |   1 +
+>   drivers/gpu/drm/drm_drv.c             | 102 +++++---
+>   drivers/gpu/drm/drm_file.c            |   2 +-
+>   drivers/gpu/drm/drm_sysfs.c           |  24 +-
+>   include/drm/drm_accel.h               |  97 ++++++++
+>   include/drm/drm_device.h              |   3 +
+>   include/drm/drm_drv.h                 |   8 +
+>   include/drm/drm_file.h                |  21 +-
+>   13 files changed, 582 insertions(+), 37 deletions(-)
+>   create mode 100644 drivers/accel/Kconfig
+>   create mode 100644 drivers/accel/drm_accel.c
+>   create mode 100644 include/drm/drm_accel.h
+> 
+> --
+> 2.25.1
+> 
 
-> > The series does fill in __clk_mux_determine_rate for everything though -
-> > if it was just assumed by default the only thing that'd be needed would
-> > be adding the flag.
-
-> The behavior assumed by default was equivalent to
-> __clk_mux_determine_rate + CLK_SET_RATE_NO_REPARENT. We could indeed set
-> both if determine_rate is missing in the core, but that's unprecedented
-> in the clock framework so I think we'll want Stephen to comment here :)
-
-> It's also replacing one implicit behavior by another. The point of this
-> series was to raise awareness on that particular point, so I'm not sure
-> it actually fixes things. We'll see what Stephen thinks about it.
-
-We could also just set the operation and still require the flag to be
-specified.  I'm a little surprised to learn that it's something you
-might want to override, never mind that the API didn't have a default -
-it feels like a bit of a landmine that this is the case and is probably
-why there's so many cases to fix up.
-
---hTyRvcr/YAY3aApU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmNpLBMACgkQJNaLcl1U
-h9BS0gf/chIMp6chtu1p8LwUn+lniQOfOjVm2GoGAQ06qSr9+3KsWgvPO3J4pFNa
-l036gwiNNFPM5gXlEj19YU0NgiAQIt2hoh9q92PY1kN8vmSQutr8U6QVxq27pphZ
-5T2AVdZG2/L1Za5fy+qtwzx6ji1EENFmdLOF/NRrtc1zJPm/bT9E14uqwH7vmK0f
-Jh1uBONY+x2wM44EMNgt3p4HTS/37ARwT9njBao9UUdt1uFWnUx05o0lerkyk4Xg
-QlkvyC2hU+mXML3s6FVEbx0TQImsJItRx7Fk4E0Pij30qxWDtd0uybSJOzuWo16R
-emQv+2HsLgl0L3qkctPVJREpPwCQuQ==
-=mfv5
------END PGP SIGNATURE-----
-
---hTyRvcr/YAY3aApU--
