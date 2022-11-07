@@ -2,58 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 178F461FCFA
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 19:11:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27A2661FD99
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 19:32:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B2E810E8AB;
-	Mon,  7 Nov 2022 18:11:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 803BF10E1C8;
+	Mon,  7 Nov 2022 18:32:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 010F710E549;
- Mon,  7 Nov 2022 18:11:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202112;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=lL1tEZY5rfBShjfX6pL9OQv5DSS6YhPKdPmOr0dqeM0=; b=gfzZC605hL0pZnTv/R8X8B+fLM
- RdcVEVZ7GMsHWTrsYoi3BtBkZwY9B4Kkza9mrjlFGhfZxGBJxLLmqKaXfjxStznD1fNviFTP8nJDk
- tyNx/Bi+wJ9JEuakyocIKrBhNlzAHiuAFqRtxT9TtGOUG8LcMK23KNQytyBU0CiSVTl3BIymWe/Sm
- gt4rzZ9o8TI1tc1p7R/H2yJOKmZRfRO4uYXQevf0Pztms+3wZM3MutI3YAtWPbbzNNo6/pmhxm8Tj
- HwHPmFesDVSsWZi+F0zzjZ+wye1BXzaKeCnJ4huLOtDFZTIVl0I/qCOhfv0185YqcCOsrqDH1pjfX
- YXhTrfuQ==;
-Received: from [2a01:799:95a:cb00:cca0:57ac:c55d:a485] (port=64221)
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1os6ar-0004ho-9w; Mon, 07 Nov 2022 19:11:33 +0100
-Message-ID: <a9c0380a-f538-1a19-fd27-983eea42b1b2@tronnes.org>
-Date: Mon, 7 Nov 2022 19:11:27 +0100
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B366F10E1C8;
+ Mon,  7 Nov 2022 18:32:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1667845962; x=1699381962;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=qqBkyDZ2TljTJF8aXERJW3WjNIOR0P7zU+EMJiV6pWo=;
+ b=hw1qDdieR1UNi5dMgMTo2LI2roeOIMPJFhYc+DXRt+u41xP0758hOuUB
+ TLOZJMqAlIVzIu92QzitEyNRQuXbO2jIPguq69NapI9x2QRdFumWcCjAw
+ hIMbUJziujEeUYYmPo8mI44Ab+gvmAqTRZLL3+dwr3FoYlip8HF0+9g4d
+ 3k4zN3h43m9q/KLqnC+FiG6s9cPq+oYoMirJtgsohSiTqWyaVnMyGGj9Z
+ OpEDsXiQk7akMmczL6n86V82b6vyVOJxL3NOgIBeWKK8IxOn1uTr4LLx1
+ hyfE2MtwDOTV84+lhQAaWmL41hpP4JQrO9fcv8iV6JYS1c74kcJGPaZfB g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="372629246"
+X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; d="scan'208";a="372629246"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Nov 2022 10:32:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="778604116"
+X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; d="scan'208";a="778604116"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmsmga001.fm.intel.com with ESMTP; 07 Nov 2022 10:32:41 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 7 Nov 2022 10:32:41 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 7 Nov 2022 10:32:40 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Mon, 7 Nov 2022 10:32:40 -0800
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.173)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Mon, 7 Nov 2022 10:32:40 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QdOD4PQJ+Ck8YcRTpW9h9ND4EEQfk4l3B7AWTe1eezOaanlEeYnaSSEnFZIH2T1dvXC0PUkuH0POc1oD2k+9AJ9WOL/GPNf9MNqY4b7BB3FWagKr5vT+XL4meVGNnxDO+z9hDoRIL0C69nYJLdEe+DgkWQO2QCFwYV2dTNXQzM4x6+Y2ef/Hog16Xdtva1E28oc9ShwpRxnG4lKWHAxrNAWWIZBXg7th8XIHf+EyeOn+cLG0NzMRAsWcfSSw9pn66DC3xWAWWJT9sz+kqn8uAKMtcZzBbdLG/RWB+ViW396eZSj1GDzYYWU6wQCRg4BBg5ng3eHfidGbhCgkQVNPvg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Gmu3sAWZp1MbAEHY8iOva7fkCz9xHvT5fQUC1CtAcJE=;
+ b=OVAM+RryaLFjstfFlR+UXRHbZTAZr+LYrg4cDysX8HJjSL7SNWuN9qhvEk3LXXf6Z0S5u0llxaZZGKO6Ogp/kNxH2WQCrjQiqIzms5q5GG8q55VEBaTsuqyCN4AHo/crc/JXOrv8on0Wks8WUWzgpp9dmhkqWLr2VadIbUg1wYS47PFB/VXd39wsTwi+67czDdyDcAk2Qjkl8YgvcHoKqptw6DPLQ+r1JoYI0kB+63W86xHFJZKIMdSb6OY5RwgNKnryn/H0V/z8OyP/zVUYNfczkebjBA9gTDW+Np8xaKqZxCprhkIRVu/Ok6XoQl9vQF8k6oXIbnfR54tz7aoqsA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MWHPR11MB1632.namprd11.prod.outlook.com (2603:10b6:301:11::11)
+ by PH7PR11MB6905.namprd11.prod.outlook.com (2603:10b6:510:201::6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.26; Mon, 7 Nov
+ 2022 18:32:38 +0000
+Received: from MWHPR11MB1632.namprd11.prod.outlook.com
+ ([fe80::6dfc:c022:bd04:fe3e]) by MWHPR11MB1632.namprd11.prod.outlook.com
+ ([fe80::6dfc:c022:bd04:fe3e%7]) with mapi id 15.20.5791.026; Mon, 7 Nov 2022
+ 18:32:38 +0000
+Date: Mon, 7 Nov 2022 10:32:36 -0800
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Subject: Re: [PATCH v2 3/5] drm/i915/mtl: add GSC CS interrupt support
+Message-ID: <Y2lPROxrfk5e198t@mdroper-desk1.amr.corp.intel.com>
+References: <20221102171047.2787951-1-daniele.ceraolospurio@intel.com>
+ <20221102171047.2787951-4-daniele.ceraolospurio@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20221102171047.2787951-4-daniele.ceraolospurio@intel.com>
+X-ClientProxiedBy: SJ0PR13CA0076.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c4::21) To MWHPR11MB1632.namprd11.prod.outlook.com
+ (2603:10b6:301:11::11)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v7 16/23] drm/probe-helper: Provide a TV get_modes helper
-To: Maxime Ripard <maxime@cerno.tech>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Ben Skeggs <bskeggs@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Maxime Ripard <mripard@kernel.org>, Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>,
- Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>,
- Lyude Paul <lyude@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>
-References: <20220728-rpi-analog-tv-properties-v7-0-7072a478c6b3@cerno.tech>
- <20220728-rpi-analog-tv-properties-v7-16-7072a478c6b3@cerno.tech>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v7-16-7072a478c6b3@cerno.tech>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWHPR11MB1632:EE_|PH7PR11MB6905:EE_
+X-MS-Office365-Filtering-Correlation-Id: ce5530be-f35a-4ded-71ab-08dac0ee72c6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: toqm7TUnXaAv5bol3YWI05kT+UOimVIeCnN7aXNpxppAa1RdCaKKxVPYAqY2tM3iAvHWpPTLDKoB4v0/2g4jpK1zOnM/AOe63lIvrOLLnfY4/CPFgYen0N5OrmCkay8+BGBqF7apx39VDIG/akpkbgIpHLNy9T1hJnZtXdC0bMxx2EGqiOhmujDWlzakqsHFi4ElGXm8M0ufjvWCZPGE6QXQvSZ3mvUMyafALvfOb3P+68vpmLloJyT3t2LF345WLzq3cfp2qrLL+OuTuLvsxVil24dDFP8GVjBijsSvb7e2anjQTEUnaGQmUmb/dj8MO0n0wptqbEYpcx1J8MS8PoKPHThtQKbPGF5raFsha2uFeUrWsYvD2EDmA4SHBiNoZXoBGdWT3+LgVegv5LToDMwhoqUfrlIzDQt5lIdUdJHW7LJWxFP6UGsP+dHwDvFXbaR3noa6iFh8sXt0VRdRJFasqTrpBnSuEBY4VCxTIdliOOVDu6Eu/A6ejcsWSZpnCpQzFdykUesBdCzn1gmspjFRX6G3A3/iXBKdM6PNpkbfkJzHxgIfs0kJIWhQhRoEVI5+tlvgbKB2IjmzRDnKqpFRYEu0FgG3CQfzHb1s/o+A5Qv7m2PEd9cf59Mobjo+j8R5NAOmcz07aoJfFkCUWqTfJuLh+ovC30U+zGvGF4oh8SoivDivYs8ThkNegBgDxgk+94AW6Jb0C4w96xcICA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR11MB1632.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(366004)(39860400002)(136003)(376002)(396003)(346002)(451199015)(186003)(26005)(6512007)(6506007)(83380400001)(2906002)(66556008)(478600001)(6636002)(316002)(6486002)(5660300002)(38100700002)(41300700001)(6862004)(8936002)(4326008)(66946007)(66476007)(8676002)(86362001)(82960400001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?KPtH/XEr65Bnd0pJkTzS1jxUpTfxM4VWixiB5jSNtNG4/AppXWP5E4Atze3P?=
+ =?us-ascii?Q?cDi+Htb0j9VlwN80bbhJiQqRvrjkq7dA6uIl+9nnNDEolno0bfFQQQePiEEC?=
+ =?us-ascii?Q?hl09kLdaWZlqkqr7mXiqJMHEATlxJZe5DK8RJict6O5JCCLE5BiRdE5nWm5R?=
+ =?us-ascii?Q?94hEyE/9U0s9RW5tDfDRXpxsYs3+wgaK6Jr/5X0q1kdy8Fr8nv6JK5XvJX2O?=
+ =?us-ascii?Q?IU+nVJeNnUFz81NRVILGPQ42wTVSvuAQ6SQqUCLGZbzPLZXQtozNb24qqZWU?=
+ =?us-ascii?Q?54TZCVThr0QUEq5yTugmajp4YmdJDGlhf3ZwV7CHLB05EPU3u0rZFANcHb+U?=
+ =?us-ascii?Q?K/q9+BqviUQ6d8qqyJ8eI1aQtk7ZOPArPj7C9Qw8Z0zy3XUQ5V0FSj2KP5Fg?=
+ =?us-ascii?Q?gp7vhDdKOdRhHRPTOf2fTinghrn4yUcB0o4cuYCo60sCgU0ok80MjW3KC2wV?=
+ =?us-ascii?Q?IUUjEQnr9Dh8cnlJ4gye0Bhf48HJq5Dzdx80NdKswInvmkYXBzekzqWrj0Oo?=
+ =?us-ascii?Q?GcPvMyAuh0Fof3DrgufPV3omJGJYiA8VgLAPVVDnQWpajgVuttekEbK3NtDB?=
+ =?us-ascii?Q?txYgc2k1NKkwlY9iU2eMt8BlysgxLyS1hqxPVkev/H7Q71Z1BoXGEmHB2/ER?=
+ =?us-ascii?Q?QWoOQilhYpxOyzSoS1cujuUVDiotX/oay3kInWmbo9tADvPzSi9TPAZruCkP?=
+ =?us-ascii?Q?vsTZp3t39XaHGl1KKOd9zpRNX77Sv8bdV38detApY8/9CH4BPm3e1QCvpm71?=
+ =?us-ascii?Q?ZRck+yB7p7/6t5tUrflz8D4tJbOUgIEutUKdF5BJn+DCTYgRPcbRNZ2zgQoT?=
+ =?us-ascii?Q?hYVLPNSjCVWDjCHKgozSwcMfpv3KNP8AUOyqsZUa1JfqrsL6AmERhdeQf8rQ?=
+ =?us-ascii?Q?uMVuA0qQTo47rr67bjv9kTaqDW59T4ar3TYUMpKJ3BdrTwqhSgg+rh39iJ0J?=
+ =?us-ascii?Q?UQ3WlwXzBXP85kePGryQ+bQFS8GgLJCLXypz0RNHPOziRYhwoP7PKXqLWMxv?=
+ =?us-ascii?Q?QIuUS2IAiPSs1ahKJtpB077oo0GosKB0vBCpUPOThRZt+iULA6otBf5ys4UK?=
+ =?us-ascii?Q?Mw5EUbQDdSX/23rSeQGyY4iOVoEmJ9sM6XeWmffzETwG5z/hJz16RVLhuUT2?=
+ =?us-ascii?Q?zEdusGhV7VHMmDo5liQ+slCYWhlF4BfRBDyJAFFOPZGgQmO9FYoBvIHOGu0l?=
+ =?us-ascii?Q?/FTfKKXKPua2dvh0DtUq24SDOIhYxCs1jsPxYnF4oVafBPc4cYemSm774qmI?=
+ =?us-ascii?Q?hvmOop47SUSRz0bs4NwC3RufkJJewOR8l8VJV/BJPo7X83TwAwg5+bd6ekPU?=
+ =?us-ascii?Q?HQgpQkhpYChdJ42C3hPqIt8RqOZoSi/wOy4g+mCKolaxcAknqCAsz6KODKrg?=
+ =?us-ascii?Q?YgO54auUCIlXf7dp73g+97xF5vyROCUxyBuKXcn4UCjq1D/xmZCVpUZkQlzJ?=
+ =?us-ascii?Q?RPLm9oy1JnfdL1rx7FUyj3RJ76ltp20QoLv9qx10RTieoTESIShGXEShOvVG?=
+ =?us-ascii?Q?GBhoWOnSTQxWyeaA7abB68DRUcuDOjsoMgW08O6mTuuqM47TcjtBCtL0Ygn/?=
+ =?us-ascii?Q?Jeeit6SrG14zNLuCHtnZWpPIifH/hLQ5f4s1m+Dzd1GTGqm3g686qDIblF27?=
+ =?us-ascii?Q?8Q=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: ce5530be-f35a-4ded-71ab-08dac0ee72c6
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1632.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2022 18:32:38.8266 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZSykp14HE/uw31cPdsdsxD/1erwmw03rRar5lkC3z+zcB87Hoh9EWUjaTHtLK92rSgUxyVJ1O24+I/x3QgWChEV7sB34CwhufToz+NmPm8g=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6905
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,168 +147,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
- Hans de Goede <hdegoede@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Nov 02, 2022 at 10:10:45AM -0700, Daniele Ceraolo Spurio wrote:
+> The GSC CS re-uses the same interrupt bits that the GSC used in older
+> platforms. This means that we can now have an engine interrupt coming
+> out of OTHER_CLASS, so we need to handle that appropriately.
+> 
+> v2: clean up the if statement for the engine irq (Tvrtko)
+> 
+> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Cc: Matt Roper <matthew.d.roper@intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> Reviewed-by: Matt Roper <matthew.d.roper@intel.com> #v1
 
+Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
 
-Den 07.11.2022 15.16, skrev Maxime Ripard:
-> From: Noralf Trønnes <noralf@tronnes.org>
-> 
-> Most of the TV connectors will need a similar get_modes implementation
-> that will, depending on the drivers' capabilities, register the 480i and
-> 576i modes.
-> 
-> That implementation will also need to set the preferred flag and order
-> the modes based on the driver and users preferrence.
-> 
-> This is especially important to guarantee that a userspace stack such as
-> Xorg can start and pick up the preferred mode while maintaining a
-> working output.
-> 
-> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> 
+for v2 as well.
+
 > ---
-> Changes in v7:
-> - Used Noralf's implementation
+>  drivers/gpu/drm/i915/gt/intel_gt_irq.c | 75 ++++++++++++++------------
+>  1 file changed, 40 insertions(+), 35 deletions(-)
 > 
-> Changes in v6:
-> - New patch
-> ---
->  drivers/gpu/drm/drm_probe_helper.c | 97 ++++++++++++++++++++++++++++++++++++++
->  include/drm/drm_probe_helper.h     |  1 +
->  2 files changed, 98 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-> index 2fc21df709bc..edb2e4c4530a 100644
-> --- a/drivers/gpu/drm/drm_probe_helper.c
-> +++ b/drivers/gpu/drm/drm_probe_helper.c
-> @@ -1147,3 +1147,100 @@ int drm_connector_helper_get_modes(struct drm_connector *connector)
->  	return count;
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_irq.c b/drivers/gpu/drm/i915/gt/intel_gt_irq.c
+> index f26882fdc24c..b197f0e9794f 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_irq.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_irq.c
+> @@ -81,35 +81,27 @@ gen11_other_irq_handler(struct intel_gt *gt, const u8 instance,
+>  		  instance, iir);
 >  }
->  EXPORT_SYMBOL(drm_connector_helper_get_modes);
-> +
-> +static bool tv_mode_supported(struct drm_connector *connector,
-> +			      enum drm_connector_tv_mode mode)
-> +{
-> +	struct drm_device *dev = connector->dev;
-> +	struct drm_property *property = dev->mode_config.tv_mode_property;
-> +
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < property->num_values; i++)
-> +		if (property->values[i] == mode)
-> +			return true;
-> +
-> +	return false;
-> +}
-
-This function is not used in the new implementation.
-
-I hope you have tested this patch since I didn't even compile test my
-implementation (probably should have said so...)
-
-Noralf.
-
-> +
-> +/**
-> + * drm_connector_helper_tv_get_modes - Fills the modes availables to a TV connector
-> + * @connector: The connector
-> + *
-> + * Fills the available modes for a TV connector based on the supported
-> + * TV modes, and the default mode expressed by the kernel command line.
-> + *
-> + * This can be used as the default TV connector helper .get_modes() hook
-> + * if the driver does not need any special processing.
-> + *
-> + * Returns:
-> + * The number of modes added to the connector.
-> + */
-> +int drm_connector_helper_tv_get_modes(struct drm_connector *connector)
-> +{
-> +	struct drm_device *dev = connector->dev;
-> +	struct drm_property *tv_mode_property =
-> +		dev->mode_config.tv_mode_property;
-> +	struct drm_cmdline_mode *cmdline = &connector->cmdline_mode;
-> +	unsigned int ntsc_modes = BIT(DRM_MODE_TV_MODE_NTSC) |
-> +		BIT(DRM_MODE_TV_MODE_NTSC_443) |
-> +		BIT(DRM_MODE_TV_MODE_NTSC_J) |
-> +		BIT(DRM_MODE_TV_MODE_PAL_M);
-> +	unsigned int pal_modes = BIT(DRM_MODE_TV_MODE_PAL) |
-> +		BIT(DRM_MODE_TV_MODE_PAL_N) |
-> +		BIT(DRM_MODE_TV_MODE_SECAM);
-> +	unsigned int tv_modes[2] = { UINT_MAX, UINT_MAX };
-> +	unsigned int i, supported_tv_modes = 0;
-> +
-> +	if (!tv_mode_property)
-> +		return 0;
-> +
-> +	for (i = 0; i < tv_mode_property->num_values; i++)
-> +		supported_tv_modes |= BIT(tv_mode_property->values[i]);
-> +
-> +	if ((supported_tv_modes & ntsc_modes) &&
-> +	    (supported_tv_modes & pal_modes)) {
-> +		uint64_t default_mode;
-> +
-> +		if (drm_object_property_get_default_value(&connector->base,
-> +							  tv_mode_property,
-> +							  &default_mode))
-> +			return 0;
-> +
-> +		if (cmdline->tv_mode_specified)
-> +			default_mode = cmdline->tv_mode;
-> +
-> +		if (BIT(default_mode) & ntsc_modes) {
-> +			tv_modes[0] = DRM_MODE_TV_MODE_NTSC;
-> +			tv_modes[1] = DRM_MODE_TV_MODE_PAL;
-> +		} else {
-> +			tv_modes[0] = DRM_MODE_TV_MODE_PAL;
-> +			tv_modes[1] = DRM_MODE_TV_MODE_NTSC;
-> +		}
-> +	} else if (supported_tv_modes & ntsc_modes) {
-> +		tv_modes[0] = DRM_MODE_TV_MODE_NTSC;
-> +	} else if (supported_tv_modes & pal_modes) {
-> +		tv_modes[0] = DRM_MODE_TV_MODE_PAL;
-> +	} else {
-> +		return 0;
-> +	}
-> +
-> +	for (i = 0; i < ARRAY_SIZE(tv_modes); i++) {
-> +		struct drm_display_mode *mode;
-> +
-> +		if (tv_modes[i] == DRM_MODE_TV_MODE_NTSC)
-> +			mode = drm_mode_analog_ntsc_480i(dev);
-> +		else if (tv_modes[i] == DRM_MODE_TV_MODE_PAL)
-> +			mode = drm_mode_analog_pal_576i(dev);
-> +		else
-> +			break;
-> +		if (!mode)
-> +			return i;
-> +		if (!i)
-> +			mode->type |= DRM_MODE_TYPE_PREFERRED;
-> +		drm_mode_probed_add(connector, mode);
-> +	}
-> +
-> +	return i;
-> +}
-> +EXPORT_SYMBOL(drm_connector_helper_tv_get_modes);
-> diff --git a/include/drm/drm_probe_helper.h b/include/drm/drm_probe_helper.h
-> index 5880daa14624..4977e0ab72db 100644
-> --- a/include/drm/drm_probe_helper.h
-> +++ b/include/drm/drm_probe_helper.h
-> @@ -35,5 +35,6 @@ int drm_connector_helper_get_modes_from_ddc(struct drm_connector *connector);
->  int drm_connector_helper_get_modes_fixed(struct drm_connector *connector,
->  					 const struct drm_display_mode *fixed_mode);
->  int drm_connector_helper_get_modes(struct drm_connector *connector);
-> +int drm_connector_helper_tv_get_modes(struct drm_connector *connector);
 >  
->  #endif
+> -static void
+> -gen11_engine_irq_handler(struct intel_gt *gt, const u8 class,
+> -			 const u8 instance, const u16 iir)
+> +static struct intel_gt *pick_gt(struct intel_gt *gt, u8 class, u8 instance)
+>  {
+> -	struct intel_engine_cs *engine;
+> -
+> -	/*
+> -	 * Platforms with standalone media have their media engines in another
+> -	 * GT.
+> -	 */
+> -	if (MEDIA_VER(gt->i915) >= 13 &&
+> -	    (class == VIDEO_DECODE_CLASS || class == VIDEO_ENHANCEMENT_CLASS)) {
+> -		if (!gt->i915->media_gt)
+> -			goto err;
+> +	struct intel_gt *media_gt = gt->i915->media_gt;
+>  
+> -		gt = gt->i915->media_gt;
+> +	/* we expect the non-media gt to be passed in */
+> +	GEM_BUG_ON(gt == media_gt);
+> +
+> +	if (!media_gt)
+> +		return gt;
+> +
+> +	switch (class) {
+> +	case VIDEO_DECODE_CLASS:
+> +	case VIDEO_ENHANCEMENT_CLASS:
+> +		return media_gt;
+> +	case OTHER_CLASS:
+> +		if (instance == OTHER_GSC_INSTANCE && HAS_ENGINE(media_gt, GSC0))
+> +			return media_gt;
+> +		fallthrough;
+> +	default:
+> +		return gt;
+>  	}
+> -
+> -	if (instance <= MAX_ENGINE_INSTANCE)
+> -		engine = gt->engine_class[class][instance];
+> -	else
+> -		engine = NULL;
+> -
+> -	if (likely(engine))
+> -		return intel_engine_cs_irq(engine, iir);
+> -
+> -err:
+> -	WARN_ONCE(1, "unhandled engine interrupt class=0x%x, instance=0x%x\n",
+> -		  class, instance);
+>  }
+>  
+>  static void
+> @@ -122,8 +114,17 @@ gen11_gt_identity_handler(struct intel_gt *gt, const u32 identity)
+>  	if (unlikely(!intr))
+>  		return;
+>  
+> -	if (class <= COPY_ENGINE_CLASS || class == COMPUTE_CLASS)
+> -		return gen11_engine_irq_handler(gt, class, instance, intr);
+> +	/*
+> +	 * Platforms with standalone media have the media and GSC engines in
+> +	 * another GT.
+> +	 */
+> +	gt = pick_gt(gt, class, instance);
+> +
+> +	if (class <= MAX_ENGINE_CLASS && instance <= MAX_ENGINE_INSTANCE) {
+> +		struct intel_engine_cs *engine = gt->engine_class[class][instance];
+> +		if (engine)
+> +			return intel_engine_cs_irq(engine, intr);
+> +	}
+>  
+>  	if (class == OTHER_CLASS)
+>  		return gen11_other_irq_handler(gt, instance, intr);
+> @@ -206,7 +207,7 @@ void gen11_gt_irq_reset(struct intel_gt *gt)
+>  	intel_uncore_write(uncore, GEN11_VCS_VECS_INTR_ENABLE,	  0);
+>  	if (CCS_MASK(gt))
+>  		intel_uncore_write(uncore, GEN12_CCS_RSVD_INTR_ENABLE, 0);
+> -	if (HAS_HECI_GSC(gt->i915))
+> +	if (HAS_HECI_GSC(gt->i915) || HAS_ENGINE(gt, GSC0))
+>  		intel_uncore_write(uncore, GEN11_GUNIT_CSME_INTR_ENABLE, 0);
+>  
+>  	/* Restore masks irqs on RCS, BCS, VCS and VECS engines. */
+> @@ -233,7 +234,7 @@ void gen11_gt_irq_reset(struct intel_gt *gt)
+>  		intel_uncore_write(uncore, GEN12_CCS0_CCS1_INTR_MASK, ~0);
+>  	if (HAS_ENGINE(gt, CCS2) || HAS_ENGINE(gt, CCS3))
+>  		intel_uncore_write(uncore, GEN12_CCS2_CCS3_INTR_MASK, ~0);
+> -	if (HAS_HECI_GSC(gt->i915))
+> +	if (HAS_HECI_GSC(gt->i915) || HAS_ENGINE(gt, GSC0))
+>  		intel_uncore_write(uncore, GEN11_GUNIT_CSME_INTR_MASK, ~0);
+>  
+>  	intel_uncore_write(uncore, GEN11_GPM_WGBOXPERF_INTR_ENABLE, 0);
+> @@ -249,7 +250,7 @@ void gen11_gt_irq_postinstall(struct intel_gt *gt)
+>  {
+>  	struct intel_uncore *uncore = gt->uncore;
+>  	u32 irqs = GT_RENDER_USER_INTERRUPT;
+> -	const u32 gsc_mask = GSC_IRQ_INTF(0) | GSC_IRQ_INTF(1);
+> +	u32 gsc_mask = 0;
+>  	u32 dmask;
+>  	u32 smask;
+>  
+> @@ -261,6 +262,11 @@ void gen11_gt_irq_postinstall(struct intel_gt *gt)
+>  	dmask = irqs << 16 | irqs;
+>  	smask = irqs << 16;
+>  
+> +	if (HAS_ENGINE(gt, GSC0))
+> +		gsc_mask = irqs;
+> +	else if (HAS_HECI_GSC(gt->i915))
+> +		gsc_mask = GSC_IRQ_INTF(0) | GSC_IRQ_INTF(1);
+> +
+>  	BUILD_BUG_ON(irqs & 0xffff0000);
+>  
+>  	/* Enable RCS, BCS, VCS and VECS class interrupts. */
+> @@ -268,9 +274,8 @@ void gen11_gt_irq_postinstall(struct intel_gt *gt)
+>  	intel_uncore_write(uncore, GEN11_VCS_VECS_INTR_ENABLE, dmask);
+>  	if (CCS_MASK(gt))
+>  		intel_uncore_write(uncore, GEN12_CCS_RSVD_INTR_ENABLE, smask);
+> -	if (HAS_HECI_GSC(gt->i915))
+> -		intel_uncore_write(uncore, GEN11_GUNIT_CSME_INTR_ENABLE,
+> -				   gsc_mask);
+> +	if (gsc_mask)
+> +		intel_uncore_write(uncore, GEN11_GUNIT_CSME_INTR_ENABLE, gsc_mask);
+>  
+>  	/* Unmask irqs on RCS, BCS, VCS and VECS engines. */
+>  	intel_uncore_write(uncore, GEN11_RCS0_RSVD_INTR_MASK, ~smask);
+> @@ -296,7 +301,7 @@ void gen11_gt_irq_postinstall(struct intel_gt *gt)
+>  		intel_uncore_write(uncore, GEN12_CCS0_CCS1_INTR_MASK, ~dmask);
+>  	if (HAS_ENGINE(gt, CCS2) || HAS_ENGINE(gt, CCS3))
+>  		intel_uncore_write(uncore, GEN12_CCS2_CCS3_INTR_MASK, ~dmask);
+> -	if (HAS_HECI_GSC(gt->i915))
+> +	if (gsc_mask)
+>  		intel_uncore_write(uncore, GEN11_GUNIT_CSME_INTR_MASK, ~gsc_mask);
+>  
+>  	/*
+> -- 
+> 2.37.3
 > 
+
+-- 
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
