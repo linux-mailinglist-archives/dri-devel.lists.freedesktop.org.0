@@ -2,80 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E3AF61ED25
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 09:43:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6248D61ED7D
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 09:52:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAE7C10E1FC;
-	Mon,  7 Nov 2022 08:43:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF21810E273;
+	Mon,  7 Nov 2022 08:52:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64BC910E1FC
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 08:43:28 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.nyi.internal (Postfix) with ESMTP id DCF6C5809A3;
- Mon,  7 Nov 2022 03:43:26 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Mon, 07 Nov 2022 03:43:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1667810606; x=
- 1667817806; bh=Aq/rXhvOvHCvrLASPVtA3GhXPBKkD/XGjmzw/rPkVIM=; b=X
- Mzr/NIXE6ygs347sr9HjDgFFmGK0kq2KoXS6EvljdsT42q4HsSnbBFrXk17Pe+gZ
- dWbVuf6oW1+RlsFCQbTn544CssUriWkdV+D7FXCbxrEp8AxET1HdURrEBKJzUYip
- gVp212D/tSe6iCpYb8VYliJ6Hev5v0qHDCpkBoJUaujjvJGMUAqW8xJ0KWDbIhx2
- f5norJaeRYMtACTiES69qUrDVZarBnstpffE60GXGDd6KlKdXhD/p6mDfle1Oi4F
- tw8iedF5sTGvIEhGaml/Nc6ebkrPtqOu9NjXpE5BUxEsl1U9zmVbTM0yWe9Za4Cz
- JF3Za+gLAV5z5vYvIwltw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1667810606; x=
- 1667817806; bh=Aq/rXhvOvHCvrLASPVtA3GhXPBKkD/XGjmzw/rPkVIM=; b=l
- wO0TYr73LbJV0++Mo0Um+3yOostKt5yo2CyyIGo8HFTSTPAi2RrbvF/eRSp9o2o2
- +aEVg2asFpEDgNzFCjzsmWw/I+winn7en/mnpBxWoy/G9LDRZ5zDpfIzUw5/ExAf
- Y7SEm+UrAAGqRUJtHB7t0Xc50b9C6WaAjlDM4qjFcrD2PcYNYOE9QOiOy4F7vJjr
- fmjXTSUWCZhrxcaSeBX3LtrMMbHa4zhhWUrzwuBioKbLUhXVRM289XoLHGsg3xp2
- 6zbPAykMclfzZdWbQloPKRXZpM9u+s22KxEGCZhH8wEOlTH1HKC+Jt2c+4+482O8
- Z39ITGRaZngh6H60+S0aA==
-X-ME-Sender: <xms:LMVoYx7dsZ21l2kErXuCb57W6V-JAsoe4W4HyM-WpbOoXImjvs3hCg>
- <xme:LMVoY-41AhVywvyeK4JfUUsEXi7yGSMTiVKjjqjrhVi3Vf1Yt9cKCBrkudXStPFiS
- 80CbN6QU3FxaDKrquA>
-X-ME-Received: <xmr:LMVoY4ciLQGBbg4CzXUFW73ZhYqObOA6ViBEUq4OeCeWLiBj7LCQ0Jxh9VVQb2zHcTSkhAgpDRwjT3Ql7rjQtJFL6DUYyC-FaDJ1OEZlc5vEZQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvdejgdduvdefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgig
- ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
- grthhtvghrnheptefgleeggfegkeekgffgleduieduffejffegveevkeejudektdduueet
- feetfefgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:LMVoY6JplDgIhemcdbpXp5Yl8GMlUJ2C4lCcCvxIoPX9Qw0Zvdc0mQ>
- <xmx:LMVoY1JKtIdwUipzss4LM7NNIWStHUol6IdWpo5CiSQ2mvmoUJi-bA>
- <xmx:LMVoYzztB-PRe8uYYyegx0uiiyjfwD6LHztfsDpgQpUsGlbjTfSTUA>
- <xmx:LsVoY5TW4OQFLtlRuiANOQeiVNxH9XWmg3_g5ax-jjleBakAR9plvQ>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Nov 2022 03:43:23 -0500 (EST)
-Date: Mon, 7 Nov 2022 09:43:22 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH v2 43/65] ASoC: tlv320aic32x4: Add a determine_rate hook
-Message-ID: <20221107084322.gk4j75r52zo5k7xk@houat>
-References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
- <20221018-clk-range-checks-fixes-v2-43-f6736dec138e@cerno.tech>
- <Y2UzdYyjgahJsbHg@sirena.org.uk>
- <20221104155123.qomguvthehnogkdd@houat>
- <Y2U2+ePwRieYkNjv@sirena.org.uk>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D5B110E248;
+ Mon,  7 Nov 2022 08:52:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1667811145; x=1699347145;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=QWSVxiGjVqDw9v6KtC6VbUwE/c0V4spuSr1gQMAGuBE=;
+ b=Lf/jgBlIOYjXE8p2slZOkH9ZJNY0U7ByyyiTD0foVOfIE+jQedIkyU6t
+ YwTecYVR+SqTIdMFgiOEmhTPYlrXVtccWBIzM421im3bsD++IwCGmriK2
+ hZcYRFNuRL/l0FnDEKTqHGWgoJumOBQwwpEcwrZjNKi81F+qv7Qi/aU77
+ NHnJd7kNdsfbxrx7utE5uhY1PB+38bp7SmvSId5h1/WpPbLd6atqGNGRg
+ FmG0RKDpUmQDPRbcj/BCoL6wdyJiTjBgtcHEJtCAuyNVZ9ezuQXciGzvN
+ 6MXAnABf9IbwGR4IUC2gzhwCcSxcBR3QixeOSGkqXZx3k1PisgxOmzoGk g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="312126163"
+X-IronPort-AV: E=Sophos;i="5.96,143,1665471600"; d="scan'208";a="312126163"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Nov 2022 00:52:24 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="880984605"
+X-IronPort-AV: E=Sophos;i="5.96,143,1665471600"; d="scan'208";a="880984605"
+Received: from nvishwa1-desk.sc.intel.com ([172.25.29.76])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Nov 2022 00:52:24 -0800
+From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v6 00/20] drm/i915/vm_bind: Add VM_BIND functionality
+Date: Mon,  7 Nov 2022 00:51:50 -0800
+Message-Id: <20221107085210.17221-1-niranjana.vishwanathapura@intel.com>
+X-Mailer: git-send-email 2.21.0.rc0.32.g243a4c7e27
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <Y2U2+ePwRieYkNjv@sirena.org.uk>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,74 +55,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
- Prashant Gaikwad <pgaikwad@nvidia.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Michael Turquette <mturquette@baylibre.com>, Sekhar Nori <nsekhar@ti.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
- Paul Cercueil <paul@crapouillou.net>, Max Filippov <jcmvbkbc@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-phy@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, Abel Vesa <abelvesa@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Samuel Holland <samuel@sholland.org>, Chunyan Zhang <zhang.lyra@gmail.com>,
- Takashi Iwai <tiwai@suse.com>, linux-tegra@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
- NXP Linux Team <linux-imx@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
- linux-mips@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- linux-rtc@vger.kernel.org, linux-clk@vger.kernel.org,
- Charles Keepax <ckeepax@opensource.cirrus.com>, alsa-devel@alsa-project.org,
- Manivannan Sadhasivam <mani@kernel.org>, linux-kernel@vger.kernel.org,
- Sascha Hauer <s.hauer@pengutronix.de>, linux-actions@lists.infradead.org,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- linux-mediatek@lists.infradead.org,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Alessandro Zummo <a.zummo@towertech.it>, linux-sunxi@lists.linux.dev,
- Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
- linux-renesas-soc@vger.kernel.org, Dinh Nguyen <dinguyen@kernel.org>,
- Vinod Koul <vkoul@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- David Lechner <david@lechnology.com>, Shawn Guo <shawnguo@kernel.org>,
- Claudiu Beznea <claudiu.beznea@microchip.com>
+Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
+ jani.nikula@intel.com, lionel.g.landwerlin@intel.com,
+ thomas.hellstrom@intel.com, matthew.auld@intel.com, jason@jlekstrand.net,
+ andi.shyti@linux.intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mark,
+DRM_I915_GEM_VM_BIND/UNBIND ioctls allows UMD to bind/unbind GEM
+buffer objects (BOs) or sections of a BOs at specified GPU virtual
+addresses on a specified address space (VM). Multiple mappings can map
+to the same physical pages of an object (aliasing). These mappings (also
+referred to as persistent mappings) will be persistent across multiple
+GPU submissions (execbuf calls) issued by the UMD, without user having
+to provide a list of all required mappings during each submission (as
+required by older execbuf mode).
 
-On Fri, Nov 04, 2022 at 03:59:53PM +0000, Mark Brown wrote:
-> On Fri, Nov 04, 2022 at 04:51:23PM +0100, Maxime Ripard wrote:
->=20
-> > Just filling determine_rate if it's missing with
-> > __clk_mux_determine_rate will possibly pick different parents, and I'm
-> > fairly certain that this have never been tested on most platforms, and
-> > will be completely broken. And I don't really want to play a game of
-> > whack-a-mole adding that flag everywhere it turns out it's broken.
->=20
-> Well, hopefully everyone for whom it's an issue currently will be
-> objecting to this version of the change anyway so we'll either know
-> where to set the flag or we'll get the whack-a-mole with the series
-> being merged?
+This patch series support VM_BIND version 1, as described by the param
+I915_PARAM_VM_BIND_VERSION.
 
-I'm sorry, I'm not sure what you mean here. The only issue to fix at the
-moment is that determine_rate and set_parent aren't coupled, and it led
-to issues due to oversight.
+Add new execbuf3 ioctl (I915_GEM_EXECBUFFER3) which only works in
+vm_bind mode. The vm_bind mode only works with this new execbuf3 ioctl.
+The new execbuf3 ioctl will not have any execlist support and all the
+legacy support like relocations etc., are removed.
 
-I initially added a warning but Stephen wanted to fix all users in that
-case and make that an error instead.
+NOTEs:
+* It is based on below VM_BIND design+uapi rfc.
+  Documentation/gpu/rfc/i915_vm_bind.rst
 
-If I filled __clk_mux_determine_rate into clocks that weren't using it
-before, I would change their behavior. With that flag set, on all users
-I add __clk_mux_determine_rate to, the behavior is the same than what we
-previously had, so the risk of regressions is minimal, and everything
-should keep going like it was?
+* The IGT RFC series is posted as,
+  [PATCH i-g-t v5 0/12] vm_bind: Add VM_BIND validation support
 
-Maxime
+v2: Address various review comments
+v3: Address review comments and other fixes
+v4: Remove vm_unbind out fence uapi which is not supported yet,
+    replace vm->vm_bind_mode check with i915_gem_vm_is_vm_bind_mode()
+v5: Render kernel-doc, use PIN_NOEVICT, limit vm_bind support to
+    non-recoverable faults
+v6: Rebased, minor fixes, add reserved fields to drm_i915_gem_vm_bind,
+    add new patch for async vm_unbind support
+
+Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+
+Niranjana Vishwanathapura (20):
+  drm/i915/vm_bind: Expose vm lookup function
+  drm/i915/vm_bind: Add __i915_sw_fence_await_reservation()
+  drm/i915/vm_bind: Expose i915_gem_object_max_page_size()
+  drm/i915/vm_bind: Add support to create persistent vma
+  drm/i915/vm_bind: Implement bind and unbind of object
+  drm/i915/vm_bind: Support for VM private BOs
+  drm/i915/vm_bind: Add support to handle object evictions
+  drm/i915/vm_bind: Support persistent vma activeness tracking
+  drm/i915/vm_bind: Add out fence support
+  drm/i915/vm_bind: Abstract out common execbuf functions
+  drm/i915/vm_bind: Use common execbuf functions in execbuf path
+  drm/i915/vm_bind: Implement I915_GEM_EXECBUFFER3 ioctl
+  drm/i915/vm_bind: Update i915_vma_verify_bind_complete()
+  drm/i915/vm_bind: Expose i915_request_await_bind()
+  drm/i915/vm_bind: Handle persistent vmas in execbuf3
+  drm/i915/vm_bind: userptr dma-resv changes
+  drm/i915/vm_bind: Limit vm_bind mode to non-recoverable contexts
+  drm/i915/vm_bind: Add uapi for user to enable vm_bind_mode
+  drm/i915/vm_bind: Render VM_BIND documentation
+  drm/i915/vm_bind: Async vm_unbind support
+
+ Documentation/gpu/i915.rst                    |  78 +-
+ drivers/gpu/drm/i915/Makefile                 |   3 +
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   |  43 +-
+ drivers/gpu/drm/i915/gem/i915_gem_context.h   |  17 +
+ drivers/gpu/drm/i915/gem/i915_gem_create.c    |  72 +-
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |   6 +
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 516 +----------
+ .../gpu/drm/i915/gem/i915_gem_execbuffer3.c   | 871 ++++++++++++++++++
+ .../drm/i915/gem/i915_gem_execbuffer_common.c | 666 +++++++++++++
+ .../drm/i915/gem/i915_gem_execbuffer_common.h |  74 ++
+ drivers/gpu/drm/i915/gem/i915_gem_ioctls.h    |   2 +
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |   3 +
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |   2 +
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |   6 +
+ drivers/gpu/drm/i915/gem/i915_gem_userptr.c   |  19 +
+ drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h   |  30 +
+ .../drm/i915/gem/i915_gem_vm_bind_object.c    | 449 +++++++++
+ drivers/gpu/drm/i915/gt/intel_gtt.c           |  17 +
+ drivers/gpu/drm/i915/gt/intel_gtt.h           |  21 +
+ drivers/gpu/drm/i915/i915_driver.c            |   4 +
+ drivers/gpu/drm/i915/i915_drv.h               |   2 +
+ drivers/gpu/drm/i915/i915_gem_gtt.c           |  39 +
+ drivers/gpu/drm/i915/i915_gem_gtt.h           |   3 +
+ drivers/gpu/drm/i915/i915_getparam.c          |   3 +
+ drivers/gpu/drm/i915/i915_sw_fence.c          |  28 +-
+ drivers/gpu/drm/i915/i915_sw_fence.h          |  23 +-
+ drivers/gpu/drm/i915/i915_vma.c               | 186 +++-
+ drivers/gpu/drm/i915/i915_vma.h               |  68 +-
+ drivers/gpu/drm/i915/i915_vma_types.h         |  39 +
+ include/uapi/drm/i915_drm.h                   | 264 +++++-
+ 30 files changed, 3008 insertions(+), 546 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_execbuffer_common.c
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_execbuffer_common.h
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+
+-- 
+2.21.0.rc0.32.g243a4c7e27
+
