@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D54061F8EF
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 17:19:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 004D461F8F2
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 17:19:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77A0110E472;
-	Mon,  7 Nov 2022 16:19:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA09910E476;
+	Mon,  7 Nov 2022 16:19:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCF3710E46F
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 16:18:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5D9310E472
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 16:19:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667837933;
+ s=mimecast20190719; t=1667837943;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8LSm/ABK1dZuzbBLIy952PsCCtserHCfNmIiwyOpplI=;
- b=Nz/+/ROIT5/uxypnXtS3G9EQT1NL+JDKWzeVVPHeSOLBFfz5VcXWAMJ+YJi//tAmN8ufcz
- U9BVn/Yuv3jVCxJVQmN8yHyohfXhzyXwHSiAzUeRrwr9O4wAk5ZqnTy+zc01ti9qrGCV19
- DvWPGiFNwY4WPopelT06PMoMJy1z0DA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=AeUaEmlrMw4ArQRkwlp+ErKAfQOnAwux6TH3g3VKyx8=;
+ b=efXn79Wo80RreUcgDtRtVI1PTvEgWMq3TtNkBPXxH+UN52qPQDMlEXE3wDX2vS/DSCpv1g
+ Vloe04rJLYi0vFEuZvZdpoBbkzRqNgToAbndPmQWhGuxZU/aKOnLzx4uhHqcyiY3Bvo6nw
+ 6pL1FgngbwJv0JP3o6EXsNYtm5VPhmw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-491-BzZ6c9HQOyGIJKIwV5MVVA-1; Mon, 07 Nov 2022 11:18:47 -0500
-X-MC-Unique: BzZ6c9HQOyGIJKIwV5MVVA-1
+ us-mta-189-sW-YJI4aPeex8JowzFHqOQ-1; Mon, 07 Nov 2022 11:18:54 -0500
+X-MC-Unique: sW-YJI4aPeex8JowzFHqOQ-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5AA663C0F671;
- Mon,  7 Nov 2022 16:18:46 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 74EDC8027F5;
+ Mon,  7 Nov 2022 16:18:52 +0000 (UTC)
 Received: from t480s.redhat.com (unknown [10.39.195.106])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8D9544B4010;
- Mon,  7 Nov 2022 16:18:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BB8874B400F;
+ Mon,  7 Nov 2022 16:18:46 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH RFC 10/19] RDMA/umem: remove FOLL_FORCE usage
-Date: Mon,  7 Nov 2022 17:17:31 +0100
-Message-Id: <20221107161740.144456-11-david@redhat.com>
+Subject: [PATCH RFC 11/19] RDMA/usnic: remove FOLL_FORCE usage
+Date: Mon,  7 Nov 2022 17:17:32 +0100
+Message-Id: <20221107161740.144456-12-david@redhat.com>
 In-Reply-To: <20221107161740.144456-1-david@redhat.com>
 References: <20221107161740.144456-1-david@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>, dri-devel@lists.freedesktop.org,
+Cc: Nelson Escobar <neescoba@cisco.com>, David Hildenbrand <david@redhat.com>,
+ Christian Benvenuti <benve@cisco.com>, dri-devel@lists.freedesktop.org,
  linux-mm@kvack.org, Nadav Amit <namit@vmware.com>,
  linux-kselftest@vger.kernel.org, Andrea Arcangeli <aarcange@redhat.com>,
  linux-samsung-soc@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
@@ -86,46 +87,56 @@ Consequently, FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM is no longer required
 for reliable R/O long-term pinning: FOLL_LONGTERM is sufficient. So stop
 using FOLL_FORCE, which is really only for debugger access.
 
+Cc: Christian Benvenuti <benve@cisco.com>
+Cc: Nelson Escobar <neescoba@cisco.com>
 Cc: Jason Gunthorpe <jgg@ziepe.ca>
 Cc: Leon Romanovsky <leon@kernel.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- drivers/infiniband/core/umem.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/infiniband/hw/usnic/usnic_uiom.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/infiniband/core/umem.c b/drivers/infiniband/core/umem.c
-index 86d479772fbc..755a9c57db6f 100644
---- a/drivers/infiniband/core/umem.c
-+++ b/drivers/infiniband/core/umem.c
-@@ -156,7 +156,7 @@ struct ib_umem *ib_umem_get(struct ib_device *device, unsigned long addr,
- 	struct mm_struct *mm;
- 	unsigned long npages;
- 	int pinned, ret;
--	unsigned int gup_flags = FOLL_WRITE;
+diff --git a/drivers/infiniband/hw/usnic/usnic_uiom.c b/drivers/infiniband/hw/usnic/usnic_uiom.c
+index 67923ced6e2d..c301b3be9f30 100644
+--- a/drivers/infiniband/hw/usnic/usnic_uiom.c
++++ b/drivers/infiniband/hw/usnic/usnic_uiom.c
+@@ -85,6 +85,7 @@ static int usnic_uiom_get_pages(unsigned long addr, size_t size, int writable,
+ 				int dmasync, struct usnic_uiom_reg *uiomr)
+ {
+ 	struct list_head *chunk_list = &uiomr->chunk_list;
 +	unsigned int gup_flags = FOLL_LONGTERM;
+ 	struct page **page_list;
+ 	struct scatterlist *sg;
+ 	struct usnic_uiom_chunk *chunk;
+@@ -96,7 +97,6 @@ static int usnic_uiom_get_pages(unsigned long addr, size_t size, int writable,
+ 	int off;
+ 	int i;
+ 	dma_addr_t pa;
+-	unsigned int gup_flags;
+ 	struct mm_struct *mm;
  
  	/*
- 	 * If the combination of the addr and size requested for this memory
-@@ -210,8 +210,8 @@ struct ib_umem *ib_umem_get(struct ib_device *device, unsigned long addr,
+@@ -131,8 +131,8 @@ static int usnic_uiom_get_pages(unsigned long addr, size_t size, int writable,
+ 		goto out;
+ 	}
  
- 	cur_base = addr & PAGE_MASK;
- 
--	if (!umem->writable)
--		gup_flags |= FOLL_FORCE;
-+	if (umem->writable)
+-	gup_flags = FOLL_WRITE;
+-	gup_flags |= (writable) ? 0 : FOLL_FORCE;
++	if (writable)
 +		gup_flags |= FOLL_WRITE;
+ 	cur_base = addr & PAGE_MASK;
+ 	ret = 0;
  
- 	while (npages) {
- 		cond_resched();
-@@ -219,7 +219,7 @@ struct ib_umem *ib_umem_get(struct ib_device *device, unsigned long addr,
- 					  min_t(unsigned long, npages,
- 						PAGE_SIZE /
- 						sizeof(struct page *)),
--					  gup_flags | FOLL_LONGTERM, page_list);
-+					  gup_flags, page_list);
- 		if (pinned < 0) {
- 			ret = pinned;
- 			goto umem_release;
+@@ -140,8 +140,7 @@ static int usnic_uiom_get_pages(unsigned long addr, size_t size, int writable,
+ 		ret = pin_user_pages(cur_base,
+ 				     min_t(unsigned long, npages,
+ 				     PAGE_SIZE / sizeof(struct page *)),
+-				     gup_flags | FOLL_LONGTERM,
+-				     page_list, NULL);
++				     gup_flags, page_list, NULL);
+ 
+ 		if (ret < 0)
+ 			goto out;
 -- 
 2.38.1
 
