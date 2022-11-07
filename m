@@ -1,46 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF79F620291
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 23:48:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2D2262046E
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 01:03:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B079410E58C;
-	Mon,  7 Nov 2022 22:48:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0352610E053;
+	Tue,  8 Nov 2022 00:03:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3ACE910E58C
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 22:48:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=N58UJpNNAExktwhfZVLTshsZnQ2VVILEtn44kEC8lhE=; b=aBTAUl7EESx7XqVKDnD6YS7wbj
- 8/vNDRacf5mqYJTrbPEn+ZEhFXJmKIZAq537t3odJDE2x9hKTX4hzTkK7xoRewIxuTHz8ZvfINQrM
- 8trMpHc+FYEYh7MumOFYd1uACya663nsFCtK+imVa5c8s5MUnC/OMtBVwau/H2gHIgO72gc6C/R30
- 0TIQq5EfB2xhLe/DIl5cY16ASG6VjyDD6zFlb2o3GUfMdcSSLVuaQJdyZ72u60AfEzfC6UG12gsOq
- nRz7jSuoVzZvGAH3/X8FK7M3fX26tTWljUqPeUX93a5wrs4tpIao/81IOQvcYU8lPh9l+dowMw558
- AvVFSEzA==;
-Received: from [177.34.169.227] (helo=bowie..)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1osAuz-00E9qX-5g; Mon, 07 Nov 2022 23:48:37 +0100
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: Melissa Wen <mwen@igalia.com>, Emma Anholt <emma@anholt.net>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 2/2] drm/v3d: add missing mutex_destroy
-Date: Mon,  7 Nov 2022 19:46:56 -0300
-Message-Id: <20221107224656.278135-3-mcanal@igalia.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221107224656.278135-1-mcanal@igalia.com>
-References: <20221107224656.278135-1-mcanal@igalia.com>
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
+ [IPv6:2607:f8b0:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2283710E19F
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 14:00:30 +0000 (UTC)
+Received: by mail-oi1-x229.google.com with SMTP id n83so12181519oif.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Nov 2022 06:00:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=El1l3/URPygZ6uC5Cno67FMODlgxZihuIegCrdnoogE=;
+ b=FG6E6josrDOt8rJ5w+tMOa3p51G4lhAI5zSGWTkuig6e88TkJx2Yw4AzE45EBl+pco
+ l61DNOulJu/wtv/YuQBTN5syUVE6dJtBXnS4tRWxl5vQ2Th+UPfomReq5HDNL+ZaxM4o
+ 5s5wBz+sybAK4WzshMQiFpKdicTVjljNK68OWzAcmoU3CZtvoGulnZsJ4ax6/8AzR1Nm
+ DTD9Z2zMejFA3TWssBmLHB3ZDPPLTcaH4dohdjgo/pG/FEAJGYHHjr+fylb4Po3p6OXC
+ TDtKehjmJ/izndtEtN5FqUaHhqCnb5K7i2bqLioDu51IsT9m4kyZDeL8hsikBUsUXD3j
+ CLUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=El1l3/URPygZ6uC5Cno67FMODlgxZihuIegCrdnoogE=;
+ b=rHNNPhiEt7b+GgjsygWAQA8+ULfCU4/1e43AjsCO/V5k2BHow848YrfXm+Mpox/49o
+ igB9phgFDqIYIEfKGOy7tMdUQCPZulXySZbuyLUFThByOQgc72mrxDhBohctNUUH2sZn
+ zT6Iq6aGnSh62ay9vWQS5lkPxzb2Q4Y6C9lzNK2NaNcpXZ+Y9R9gkGunVdu9IPe15yrK
+ JaXKtAjWpY5YEWwUV59TI6atDaLXap1Tbz/lboMvqsiz5dZkjTMegYe5jwsBx/ey5gJ3
+ pKltX+6JZ2/u6YGLhRzOwIrQefY1SbQdJRBm4C+O9jnZLBWtR+rS5RJDQp7zYuYZTAqT
+ tprA==
+X-Gm-Message-State: ACrzQf0jsUEMOjDqFW8xZED4D17suvwoht51hPqbI8Y+CILCBIatG0S4
+ mFWgVMu3KWolNABmnw9o2NTnJh5BsJgoO2UA5SNQeU4j
+X-Google-Smtp-Source: AMsMyM68ZT9LtzBOQonbm2D0ZfRq7YxuMKs4ZVubEfr4d29POZbtR7n38Oa9cK5GaNZDIvOFsqjHhK5C71X/0icpx5s=
+X-Received: by 2002:a05:6808:2017:b0:359:ea7a:5983 with SMTP id
+ q23-20020a056808201700b00359ea7a5983mr26520900oiw.51.1667829629192; Mon, 07
+ Nov 2022 06:00:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Cc Carnaghi <carnaghicc@gmail.com>
+Date: Mon, 7 Nov 2022 08:00:00 -0600
+Message-ID: <CAHhA7CtqEFE40J0qteXbQG6Sn57Xxha0H7kUYxiH2DTK3-rhTg@mail.gmail.com>
+Subject: Re: [PATCH 4/8] pwm: atmel-hlcdc: fix struct clk pointer comparing
+To: dri-devel@lists.freedesktop.org
+Content-Type: multipart/alternative; boundary="000000000000980e9b05ece1d822"
+X-Mailman-Approved-At: Tue, 08 Nov 2022 00:03:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,48 +62,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Juan A . Suarez" <jasuarez@igalia.com>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-v3d_perfmon_open_file() instantiates a mutex for a particular file
-instance, but it never destroys it by calling mutex_destroy() in
-v3d_perfmon_close_file().
+--000000000000980e9b05ece1d822
+Content-Type: text/plain; charset="UTF-8"
 
-Similarly, v3d_perfmon_create_ioctl() instantiates a mutex for a
-particular perfmon, but it never destroys it by calling mutex_destroy()
-in v3d_perfmon_destroy_ioctl().
+Mr
 
-So, add the missing mutex_destroy on both cases.
+--000000000000980e9b05ece1d822
+Content-Type: text/html; charset="UTF-8"
 
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
----
- drivers/gpu/drm/v3d/v3d_perfmon.c | 2 ++
- 1 file changed, 2 insertions(+)
+<div dir="auto">Mr</div>
 
-diff --git a/drivers/gpu/drm/v3d/v3d_perfmon.c b/drivers/gpu/drm/v3d/v3d_perfmon.c
-index 48aaaa972c49..292c73544255 100644
---- a/drivers/gpu/drm/v3d/v3d_perfmon.c
-+++ b/drivers/gpu/drm/v3d/v3d_perfmon.c
-@@ -113,6 +113,7 @@ void v3d_perfmon_close_file(struct v3d_file_priv *v3d_priv)
- 	idr_for_each(&v3d_priv->perfmon.idr, v3d_perfmon_idr_del, NULL);
- 	idr_destroy(&v3d_priv->perfmon.idr);
- 	mutex_unlock(&v3d_priv->perfmon.lock);
-+	mutex_destroy(&v3d_priv->perfmon.lock);
- }
- 
- int v3d_perfmon_create_ioctl(struct drm_device *dev, void *data,
-@@ -177,6 +178,7 @@ int v3d_perfmon_destroy_ioctl(struct drm_device *dev, void *data,
- 	if (!perfmon)
- 		return -EINVAL;
- 
-+	mutex_destroy(&perfmon->lock);
- 	v3d_perfmon_put(perfmon);
- 
- 	return 0;
--- 
-2.38.1
-
+--000000000000980e9b05ece1d822--
