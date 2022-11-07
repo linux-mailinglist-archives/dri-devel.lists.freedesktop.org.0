@@ -1,115 +1,114 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADB8561FDD4
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 19:46:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DEA061FE2B
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 20:04:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EAC610E3B9;
-	Mon,  7 Nov 2022 18:46:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3C5F10E3A2;
+	Mon,  7 Nov 2022 19:03:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2055.outbound.protection.outlook.com [40.107.237.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E9AC10E38F;
- Mon,  7 Nov 2022 18:46:03 +0000 (UTC)
+Received: from DM6PR05CU003-vft-obe.outbound.protection.outlook.com
+ (mail-centralusazon11013004.outbound.protection.outlook.com [52.101.64.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B176310E053;
+ Mon,  7 Nov 2022 19:03:51 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=K6FMRCLqsk9BGwRDicCIe4d6rgz9HTdbSK3uGp1+qAmBNzjFNNr5gSN8UM/ZGXphpWCk6jF8RaHlwT6wavh1Cg/B+LH2TQzJCgFxUfwS41WgAYoK228OsY+FuL8nnBmy9N+y/l9XDq+CEKOws2zM8iBQsSlwU/jtOwvqS4hS+z6TrJ0m+XF44rRIeHGQHMqHW4Qxw0IoA9w2iBWGv/Za0XfVvT+mjtYJ+cUrQJ790eiRRDOJC4Xc4IhE5KlDA9GN8BkF8kzoBud3xGjDNrUn2bo/Ktf7JFDow+IKTPk7TtCcUjM6RoldUxbZeVnR4uyth9zo/e+5kzAW0Ay/Ng6cgw==
+ b=joxD3CxbdvtT9/U8n0cSDvZ16HlOtT5519Gs9qHTmYbodKBGmwf7+xq+KCWiiqm+l6NVJVXor3bK+13OBRfhBzg4jz8BPNW21SK6suKyctGqC9jgTqTMP+n5Kcz9MduAtGSbPSEeVoSDMdeG7r8Hel5uN7VJattnn+onEd+y2i4SehWfNkj9JVhrjMBDHoi6Yv/W86acSQm0yVe4G3TvZ/zH8uyY2dlfipepTJg4kDuTBHJl0jo8A+U7SzamzN/Y25hJZRXALggdxGKOHb7K2HXYKioXo0totlENAZiefRfrrBSz0WJVoX6FYHTYIRQFaa/1lPUlE60Cm8VTOVIl5g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yfDSnX4a8rAzHrRVgGZ73tSTfv/MuQE9rCLao9Qhh7c=;
- b=NJDPWL0LbBKs7v5vFpqnGIjsj2WrwL8raMOs4vQoW9DUAiapaipBhAkM+qwGCwjb0hXuLMp5BXS3BlHszNwxwi3t0FPCpbRvc+bDm3lunJNAB49XMcI4TWEOgO4yIy4J7dFjsroGBw5Hj141jRoW7pCz2G99kA73MiPUSLMtgldqVqNKm8Kp9wWJyEnJhQJyerrgwrdStAI8rtVCCmbeqKB7od0Yan7AfdkmO0jR8KYF7eko/iR9ABowxXonRRqIeh2TmYJVimSaCMEPWoak/sY0i3E9kJN3g0waZA/5feuhtKsI+O2d3t9b0MxlIgliWv9SZmnvcDvxsTBC1O8iww==
+ bh=MMm1F9kmDsUV3YAItctwDvww/eBkRcX8E/vAlxrs7Qs=;
+ b=HfI/6SATN3paV8BN8nmdBEsqqq2aqoluljRb4yKNB9u/AkgBfksalMKq2SuAUegbbj3B+1EYMujXIT44olNrO4faXy03/N60nWYYt1VW2aLUZUZDKbB2bfo3ayzS6KrOJxGf7nQasD7II8J5JMyvHJH4EkQkPEQ2g1RCh9NLUl/MN1Ahd6DlnNjG3XTTR8lmD86a34VUgEbBuRON7XZ3MqRtYhuwC21nWmBBo6URjwhYZuywG+qUTBZKcZoqYoegwMEfjSD4ZsOC6jkv/e0OcY6iim1VF1lPWdPYfIE+4qjFvhYc9WDuyn2E7enlVGqQpvooHAOkEXQjcKJjKoQNvg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
+ dkim=pass header.d=vmware.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yfDSnX4a8rAzHrRVgGZ73tSTfv/MuQE9rCLao9Qhh7c=;
- b=WjZSc9s3T/bOxCd6bZFnkhxFLEA3VAg+pJVEQZwPWEWrQKM9dAhJgNuU38SvxLFxXpJMNwTu2CuLB+tv/UTM35UI7ISh9yqVfbUvCf+WQor95X9fKHreJtbq81mJeesZ8lLmM5FN9h4SB1UtUMxjCAPDG7dcRT/5kBc8DUYcr7DDC23z8hzOs4D3wopYtrTkP8FanhI4gUA1hYeAah+md6xqgfyM/wDDnErRGtVdoutfo2W/t6dDLPUojgJFZJFG09Zy91l0/Yn12at9WL0OYgbLp/bMh07vBpouG1CsFqCwtkZYBBlxF0tlbKfild1PNa9hk/1G7MJtRvMX9ir7zg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by PH7PR12MB7354.namprd12.prod.outlook.com (2603:10b6:510:20d::13)
+ bh=MMm1F9kmDsUV3YAItctwDvww/eBkRcX8E/vAlxrs7Qs=;
+ b=nRS0d1aTB+odpfReEG9+bshqLvSaojXdlRynMOvwC0RceA0iqFegldKekhx3Fn6tQ49/kkluaTXuX7WQvIyATfwoMqGtjS+Y3+eesc9Z+Iv/5VBfdn76boc8S4kZyEmLkek1Kn4ERUM6qCHcOKZ1UwF9Tv589A7IeWv7FBQ1DmM=
+Received: from SA1PR05MB8534.namprd05.prod.outlook.com (2603:10b6:806:1dd::19)
+ by BY5PR05MB7190.namprd05.prod.outlook.com (2603:10b6:a03:1da::11)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.24; Mon, 7 Nov
- 2022 18:46:00 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::7a81:a4e4:bb9c:d1de]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::7a81:a4e4:bb9c:d1de%6]) with mapi id 15.20.5791.026; Mon, 7 Nov 2022
- 18:46:00 +0000
-Date: Mon, 7 Nov 2022 14:45:59 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH 04/10] vfio: Move storage of allow_unsafe_interrupts to
- vfio_main.c
-Message-ID: <Y2lSZwNT8f/RMoZf@nvidia.com>
-References: <0-v1-4991695894d8+211-vfio_iommufd_jgg@nvidia.com>
- <4-v1-4991695894d8+211-vfio_iommufd_jgg@nvidia.com>
- <20221026152442.4855c5de.alex.williamson@redhat.com>
- <Y1wiCc33Jh5QY+1f@nvidia.com>
- <20221031164526.0712e456.alex.williamson@redhat.com>
- <Y2kF75zVD581UeR2@nvidia.com>
- <20221107081853.18727337.alex.williamson@redhat.com>
- <Y2klGAUEUwpjWHw6@nvidia.com>
- <20221107110508.7f02abf4.alex.williamson@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221107110508.7f02abf4.alex.williamson@redhat.com>
-X-ClientProxiedBy: BL0PR05CA0003.namprd05.prod.outlook.com
- (2603:10b6:208:91::13) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|PH7PR12MB7354:EE_
-X-MS-Office365-Filtering-Correlation-Id: eb408cd4-7afc-40f6-28eb-08dac0f0509a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VvXaHvZA01YOedg4vgpMZLh18/qSIAgMnBmQ6JRfZkS65JTJGa0vWAHnUQlSm0hzHOX/cvMs58CINBrwMfCm9Ee2WfS52gChNd4ifX5auzcU1nroFEHDBSppBx6tNR/DQu4QVvpwho5GYS59XOW53QOckSpowx4t8SenB9qdeFlg59txDXFpQXtSC5Z+PKUvNhncsEsMon/m7j/baAk6pI2P30JzkZYXPzmxrpx1p3+z6bsILKDb80fiCUUdBzYb02JHWztyUTB28MGzUgz1oa+2AEw3FNkqxhtk4KER+U31KMJMebwQF/mSFLrDHeC7Ese1cfxuxMRUca1AXpz6dlSXikuxKc9gh17Hmg8XRVIDjWxxLB6aAx+ngFrhiUwXKgVF0TdQTGX2U0W8wuvjf6DMdedPQjAIcfksIINNhOBKQ1bPB6Zi+oENV6MerAeh5h0Oes6I03FkaMT3eJnvqAWItgfFWG1h4WaKvV3cxdUHVDJetQgi4S6BR2ToGGqkEXxXyPZHo1FGY3CmNtlGTJGHNphthtdaXcgxv7bDEi2XrJ0rVqhm0JP0+GN9xlre5FJ202+2b8whUBLU3BijXr6oYItCLI86DHLobtQ3TzdhEy/PAj9eExa3TClzQQeX8RKFaexSWim6HBJos5T9cRhNoF7wAFesGRFWGiDdL5J4jLyMnYL3TifI7QusfZzt0tkrllD6MT6Tf1RHS7Eb6Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(346002)(366004)(136003)(39860400002)(376002)(396003)(451199015)(5660300002)(8936002)(478600001)(7416002)(6486002)(7406005)(41300700001)(6916009)(66946007)(66556008)(66476007)(4326008)(54906003)(8676002)(83380400001)(2906002)(38100700002)(316002)(6506007)(86362001)(186003)(6512007)(2616005)(26005)(36756003);
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.9; Mon, 7 Nov
+ 2022 19:03:48 +0000
+Received: from SA1PR05MB8534.namprd05.prod.outlook.com
+ ([fe80::ca89:ffc2:7e20:16fd]) by SA1PR05MB8534.namprd05.prod.outlook.com
+ ([fe80::ca89:ffc2:7e20:16fd%5]) with mapi id 15.20.5791.027; Mon, 7 Nov 2022
+ 19:03:48 +0000
+From: Nadav Amit <namit@vmware.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH RFC 05/19] mm: add early FAULT_FLAG_WRITE consistency
+ checks
+Thread-Topic: [PATCH RFC 05/19] mm: add early FAULT_FLAG_WRITE consistency
+ checks
+Thread-Index: AQHY8sSPsuqGQZcSwkqSjFQS9Nwjx64z0cqA
+Date: Mon, 7 Nov 2022 19:03:48 +0000
+Message-ID: <E1E8C21A-EAEB-4FA3-A9B9-1DFF81FCDA70@vmware.com>
+References: <20221107161740.144456-1-david@redhat.com>
+ <20221107161740.144456-6-david@redhat.com>
+In-Reply-To: <20221107161740.144456-6-david@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3696.120.41.1.1)
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vmware.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA1PR05MB8534:EE_|BY5PR05MB7190:EE_
+x-ms-office365-filtering-correlation-id: 58691cf8-f0a5-4dc9-95e2-08dac0f2cd1e
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: V4ZgqZJ/nZo+t6bBykyeqlDysQg7OBj666BnOWgLCZqpArReQEDoOOTAkXgM9HkAOmw10Pdv1miyNP82OyEToEOKp6YGCtXrM0gDBVDCvRd3DcfIMsYqIQWFGzwUorYMa4C1dhap2x/A9AqWHHhtvPlVfgGgVFjCiZMEZ8cJoQH/iBO1svyWLEKoLdcoPyy1olH8E3vj4MBcnBGoOk8v6Be5ZFVDFMykrKtpuvUcD+tBrDmfBTCMDkjXGukxrsiiZKYB56A9AEV6yYkxnhanjqPrT0WYNoY/Ez/Zmn04S/dikfX+tcLj3UJQ/QXM4FEppfqc2uBlqX4CKnkPCqi6LK5S0wOliIOFjQZmGPGUo4srtHw/pCxCg1SIHYaymNkSZRXz10nkcUYlCzeSKX64O2q9YYUT9TTpHPq5bJ+sLQgTSWfunMgmV9B7PmeXwygk2fOIhSSfjsOPODKSsbK++U/BMhqk92MPyG5++K+YjJUJUHblYfJpwIb3kLLN497zVy0jp+Ouk5q0N/8EW5Kpo36qhe1YFKaTQOfQi+O2V0HMn+TYGNFkqqP3VME2lz7aerDow+O9lpPTLh1ZQbvrgQSdc9llzO24bix/XUYsO2sV6i/a/Ev+vtWuac/py7mKD2h1YDdOWcoUvImWH0W9DtLpOxr/4ew3EsVMdt2vD752nMTv5AAy2iVAFPlVXlXBnDIgCswPQcXqTmHQj7hgwgyK8qMuV/3GidPPAN3LIlMmAETZRZZKsoZ2bkxI3sTQmqt9ep7N8twQLWTjCJOIqJB46scaEqrY0K7Gs14bgvQ=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SA1PR05MB8534.namprd05.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(136003)(376002)(366004)(396003)(39860400002)(346002)(451199015)(36756003)(186003)(38100700002)(122000001)(2616005)(64756008)(86362001)(41300700001)(5660300002)(7416002)(2906002)(8936002)(4326008)(8676002)(33656002)(6486002)(6512007)(26005)(478600001)(6916009)(316002)(54906003)(71200400001)(6506007)(53546011)(38070700005)(91956017)(76116006)(66446008)(66476007)(66556008)(66946007)(45980500001);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?DMwNe4kK/SCaQrJQw1cdeScqlzhHvMi2end8aF6n89gX5U9fNm0vF4VYpNnG?=
- =?us-ascii?Q?brCNDQuQpOIkCgXD/V3Y9r2DS4kjfIhXaoScOoFTmw/jtpGJBcNHKB6oLyBR?=
- =?us-ascii?Q?c7/kKW+juCuw19FbjOLphZmiOUNqnRM+YpelC/IZHjXQQeicghtMu4wb3ftI?=
- =?us-ascii?Q?P62250TcKs0n4JexZutPYw06eu2pHbEUMX4Xm1Jsb9TBaJ5uKOh97LqwdD3A?=
- =?us-ascii?Q?AQwJs76QloGW80lj+oFu6gif3iYxDegaEPUMPzyHS2srD0e514V81inKRrkW?=
- =?us-ascii?Q?rdFggs1ljJRd1WkPt6LgFb7VTL4efp/RTIIxlLWYU598vwn7ZgEz/o9lMGva?=
- =?us-ascii?Q?YW1HSPKvjuNHvBo8oVuLttMGP3fyQ029XxO5r2/K7Ie1nz6QYm8eULsGo2E+?=
- =?us-ascii?Q?NKTwZVLxPjuB/9YR9+CCb56X3LekiLXvZPsk7syjpBYVFtk6wTri2MaWbwQ+?=
- =?us-ascii?Q?DjpvZvgd40x35ewR61ohLtC1tpTOWzevHGahBJ85jG02ln6ucPSIZZqYPPwN?=
- =?us-ascii?Q?CR8bzzBIocS3HHQoSOCFIWUPFxwVBthRw5FJvTKIbtW0pPHy0mSGHMm96sqw?=
- =?us-ascii?Q?zRcIfsk8D+GR8oMcgU5HSSj+0SFtAuEyVk6rozra1v/0J57pKsv1TiqiOgCQ?=
- =?us-ascii?Q?zvzgFUYJj9Reo3otqGcUINsyn/frKSeh6p6wW5bgj9OmEoaBZlaZbRMg45Fy?=
- =?us-ascii?Q?FtUiqudjk/tmJvfXs248ukI1ol/FMAvRdhXKBr/MwC3zmTXxHIlB2MTEelJl?=
- =?us-ascii?Q?3Uv6LYsMBPPEIpfruR82+7pFAsYsanqSd3xcMsFqUB4czSHKHSw9Cn6YGwGq?=
- =?us-ascii?Q?/xJVlDByUQcFSy3iGcqd5zzc0FUMPV49OefS2wXthIo86J6HXEG/GshVFqrX?=
- =?us-ascii?Q?Mhhn9GkkKpThxmwvvMmbVe3+jRWwWt43vpCW0NdiuRqPG9dbOfXiwphJSDz0?=
- =?us-ascii?Q?nfGZr2zu7Fy243o91cVio9hbXNRAum1I56ZsW3MV5EcZZ+5Xxy1drmCK1ghU?=
- =?us-ascii?Q?Cvn0H2EM5ot7iI8ygLXtnMqyTdKJsN27QD/AGjhbqzaH36W1nr4i9wPjnXfm?=
- =?us-ascii?Q?hDEwSWgV1Kr6x01f/+EJYuxSzMmEOEERh0uts1Jh0OViAiHM3kpvSX8RxOOa?=
- =?us-ascii?Q?cnvN/efaM4jftIxrRzeqM5i73y4gT3IWyjD3yaXMky+vIb+mRpfTdvvX/As5?=
- =?us-ascii?Q?eUO/6bd94fFLCPIZh8yPGX2QNtEuxC8GHLVPzgtz5d8gb3s1RN9qIzSqkrEI?=
- =?us-ascii?Q?fYDl4ZKTjjhKs/YfdfLk2deB+KLw/K9BrJJAWeY/bXSJhjiNbYtagxKwF/tP?=
- =?us-ascii?Q?7v8JhOJyx1JOvyZYMp8h0tywtEYG0MhWdxQWa547kIXlJlcMGPzaqgdvREj3?=
- =?us-ascii?Q?AgmGF042GsrqMSdpnif2dG63XlwM7xcns/5vkAVoYi/WfpUVPthDxu39Q24y?=
- =?us-ascii?Q?JbXu3EP/FjzAixcpVk5MbYL2L64vzGOHlwS9wyDGVL7lC8gy2D7NjlSUZInb?=
- =?us-ascii?Q?Zqy5omlbwPxkst42QtoqXHXlj2krecBTSJlyQlkAWKRju9x6jD1rVMfu0DA0?=
- =?us-ascii?Q?ZmNStEJ675jZ3AWsheU=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eb408cd4-7afc-40f6-28eb-08dac0f0509a
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Vvly9o6KLAbVhCRPuWL1UNYXFJkT5nQ9vNVn7m1WSzmr4vzk9DFzyOqPKiVg?=
+ =?us-ascii?Q?xNlyZrLWR874tpGRpmcGQcobhw3/UJfS0FEcv+QthTazB0aezS/oafSaPhgO?=
+ =?us-ascii?Q?y7HHRVlV+erEtN6/pjby4WX8JJkbdaCAFlQ9advIT0O+DX/SqytcAF3Ip03P?=
+ =?us-ascii?Q?x62COCXsB5SVlu11nxcPozTGf7kGGrlZ3kzV+Ifthwewu3gRU94PlgEl33UA?=
+ =?us-ascii?Q?qjQxJ8TDThJ0MjH3VvOaYwwj9iF66gcsM+/oZoyj4PVTRctKDfHqVgT68Q9f?=
+ =?us-ascii?Q?SvmMx2wMtWIIZBd97QyE57DWs+lrFjY79CQCWcgYEAx5NkSVJ4w5jW9MSe3b?=
+ =?us-ascii?Q?6Pujf9W8bMKeiYQVeFi/4TBamyWxqi3rzOrML/SwcClLEmfn1HW6DW93esR9?=
+ =?us-ascii?Q?xPdTsiZjrs47NRsSV9JthzHcPDVwpSqq4+E44Opk5W4HDTZrfxhlrGIavy93?=
+ =?us-ascii?Q?JX6MirHulSQ+umPEF4MZ/++ox+p9RcKi9PAwamENOnxjTvTdoeRk3UAxf6Ix?=
+ =?us-ascii?Q?/fHAWIa0HKQ/BBlghdp/27a46YJofz39jbxb1i46ZUu6SEUDTekh9FAPkQDK?=
+ =?us-ascii?Q?DOx95yKhQCkZqlAIzcynD08atClkFfZi2PvuzbdARe/5In3AP086Cdv/5uYR?=
+ =?us-ascii?Q?nzDHuh7U1z5q/0g3FdnGzYVeBp3JlvXd5ZPUDm+Rag3ZCqqhC/yH5HUwPPG+?=
+ =?us-ascii?Q?8GDHuKIZ5i0ptFhmT4d75Q6lDGCF48ANsp4HJszVVy7xtdAhsbvij+dZAtXk?=
+ =?us-ascii?Q?B8vegZTdl24uJl3+4PCyZfe1G3TED3wYYI8vsebc5PmjcXIBpZOq43Dw/j+s?=
+ =?us-ascii?Q?aDtle7uRCZdnhYUjn/CmtxlXFf1Z4WaN8Yzy3EV6Nb3A5uhdGK1laNz6zdOs?=
+ =?us-ascii?Q?S1qP3tjgZM5Uq0flU5JBvwv2K9Su87kyZGh5jyAOtzyyo8rxqGB7NRRMGnX+?=
+ =?us-ascii?Q?4tsUv9k4ifOA+K5W5WDB/AyLmqSi5jm2fBOLUvcWpo1bEJRHMqYCV27T89mz?=
+ =?us-ascii?Q?H81DuB3KBSZL9GoZTn81qTkTkAdWVOupwaJMrk9I2dr03cCwRxkERa0A4TDF?=
+ =?us-ascii?Q?RgE8YIiSGyNS8besmEHUpQWDMyJXrFKXCElcK8Z1R4+qZtEF7u4Nw9kAUjaD?=
+ =?us-ascii?Q?MKR4gFSnxEJdZ/yRH8f3pDGU4/2s+5dZSPzUg7oIkTIXa4kk8ljcPkEmcExa?=
+ =?us-ascii?Q?uZ+rY2PUa00lxia2gOXwrdhBO01X4VmLdS4uD0mCfqqF2x9K31i0JKJT29yJ?=
+ =?us-ascii?Q?TaEotixZ1CqIKm6cX4LiFz78ZM9zP22TTtrWdjdkDqyDYpJx+t/bPk3aByji?=
+ =?us-ascii?Q?NQOBmyuSzLcnAuC50Fvl7pvi+XodzLBSxhIFbH7FhmEKuQ720j+aLEnvU35I?=
+ =?us-ascii?Q?XRd5kU4SLEH80r3A6Z7k10NmR+shal8RREJAa5NBb5h5ga1+beS74gmt4ijy?=
+ =?us-ascii?Q?dtwwkeLkixHqWc4a5/i/S+cpHiQI4bXX4tws9nXyVymcsID4dG8N4beGKeHI?=
+ =?us-ascii?Q?IDQNQBkGN4pzpm0ruFZWVbk6r+M9rtLP5MnPDb5v3U79Gmw9G+XdyTKhSD5U?=
+ =?us-ascii?Q?6udjOHHxfJk8g8wI8KMQnJ42HQW/ANmAfBRr9YPi?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <936CE9F434A0C84C92D104C436CD7D04@namprd05.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: vmware.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2022 18:46:00.4716 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sZjqB6MDwrTmDB2WQEFtRBbGzMq4viKVyY7/Oa7flvd1MLqt1pgmRN4ck4tAIEFl
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7354
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR05MB8534.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 58691cf8-f0a5-4dc9-95e2-08dac0f2cd1e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Nov 2022 19:03:48.1830 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: KfSM0iTEhYfCVrJe4QTKrVUTq2AdsVnmQAy3rNSQzzpUbV1I6knQSA1bZfitlCjDq6rH6cbaztTwAKdz2I1oOQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR05MB7190
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,103 +121,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Rosato <mjrosato@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
- dri-devel@lists.freedesktop.org, Vineeth Vijayan <vneethv@linux.ibm.com>,
- Diana Craciun <diana.craciun@oss.nxp.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>, Will Deacon <will@kernel.org>,
- Longfang Liu <liulongfang@huawei.com>, linux-s390@vger.kernel.org,
- Yi Liu <yi.l.liu@intel.com>, kvm@vger.kernel.org,
- Joerg Roedel <joro@8bytes.org>, Halil Pasic <pasic@linux.ibm.com>,
- iommu@lists.linux.dev, Nicolin Chen <nicolinc@nvidia.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>, Zhi Wang <zhi.a.wang@intel.com>,
- Tony Krowiak <akrowiak@linux.ibm.com>, Kevin Tian <kevin.tian@intel.com>,
- Vasily Gorbik <gor@linux.ibm.com>, intel-gfx@lists.freedesktop.org,
- Eric Auger <eric.auger@redhat.com>,
- Harald Freudenberger <freude@linux.ibm.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
- Jason Herne <jjherne@linux.ibm.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
- Peter Oberparleiter <oberpar@linux.ibm.com>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- Sven Schnelle <svens@linux.ibm.com>, Robin Murphy <robin.murphy@arm.com>,
- Lu Baolu <baolu.lu@linux.intel.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Linux-MM <linux-mm@kvack.org>,
+ "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+ Andrea Arcangeli <aarcange@redhat.com>,
+ "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ Hugh Dickins <hughd@google.com>, Matthew Wilcox <willy@infradead.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, John Hubbard <jhubbard@nvidia.com>,
+ "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
+ Peter Xu <peterx@redhat.com>, Muchun Song <songmuchun@bytedance.com>,
+ Vlastimil Babka <vbabka@suse.cz>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Oded Gabbay <ogabbay@kernel.org>, kernel list <linux-kernel@vger.kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Mike Kravetz <mike.kravetz@oracle.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 07, 2022 at 11:05:08AM -0700, Alex Williamson wrote:
+On Nov 7, 2022, at 8:17 AM, David Hildenbrand <david@redhat.com> wrote:
 
-> After further consideration... I don't think the option on vfio-main
-> makes sense, basically for the same reason that the original option
-> existed on the IOMMU backend rather than vfio-core.  The option
-> describes a means to relax a specific aspect of IOMMU isolation, which
-> makes more sense to expose via the IOMMU provider, imo.  For example,
-> vfio-main cannot generate an equivalent error message as provided in
-> type1 today, it's too far removed from the IOMMU feature support.
+> !! External Email
+>=20
+> Let's catch abuse of FAULT_FLAG_WRITE early, such that we don't have to
+> care in all other handlers and might get "surprises" if we forget to do
+> so.
+>=20
+> Write faults without VM_MAYWRITE don't make any sense, and our
+> maybe_mkwrite() logic could have hidden such abuse for now.
+>=20
+> Write faults without VM_WRITE on something that is not a COW mapping is
+> similarly broken, and e.g., do_wp_page() could end up placing an
+> anonymous page into a shared mapping, which would be bad.
+>=20
+> This is a preparation for reliable R/O long-term pinning of pages in
+> private mappings, whereby we want to make sure that we will never break
+> COW in a read-only private mapping.
+>=20
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+> mm/memory.c | 8 ++++++++
+> 1 file changed, 8 insertions(+)
+>=20
+> diff --git a/mm/memory.c b/mm/memory.c
+> index fe131273217a..826353da7b23 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -5159,6 +5159,14 @@ static vm_fault_t sanitize_fault_flags(struct vm_a=
+rea_struct *vma,
+>                 */
+>                if (!is_cow_mapping(vma->vm_flags))
+>                        *flags &=3D ~FAULT_FLAG_UNSHARE;
+> +       } else if (*flags & FAULT_FLAG_WRITE) {
+> +               /* Write faults on read-only mappings are impossible ... =
+*/
+> +               if (WARN_ON_ONCE(!(vma->vm_flags & VM_MAYWRITE)))
+> +                       return VM_FAULT_SIGSEGV;
+> +               /* ... and FOLL_FORCE only applies to COW mappings. */
+> +               if (WARN_ON_ONCE(!(vma->vm_flags & VM_WRITE) &&
+> +                                !is_cow_mapping(vma->vm_flags)))
+> +                       return VM_FAULT_SIGSEGV;
 
-vfio-main can do it, we just have to be strict that the EPERM code is
-always going to be this case.
- 
-> > > If vdpa doesn't allow full device access such that it can guarantee
-> > > that a device cannot generate a DMA that can spoof MSI, then it
-> > > sounds like the flag we pass when attaching a device to iommfd
-> > > should to reflect this difference in usage.  
-> > 
-> > VDPA allows arbitary DMA just like VFIO. At most VDPA limits the MMIO
-> > touches.
->
-> So why exactly isn't this an issue for VDPA?  Are we just burying our
-> head in the sand that such platforms exists and can still be useful
-> given the appropriate risk vs reward trade-off?
+Not sure about the WARN_*(). Seems as if it might trigger in benign even if
+rare scenarios, e.g., mprotect() racing with page-fault.
 
-Simply that nobody has asked for it, and might never ask for it. This
-is all support for old platforms, and there just doesn't seem to be a
-"real" use case for very new (and actually rare) NIC hardware stuck
-into ancient platforms with this security problem.
-
-So I'd rather leave this in the past than carry forward a security
-exception as some ongoing 1st class thing.
-
-> > and IMHO we don't actually want to enable this more
-> > widely. So I don't want to see a global kernel wide flag at this point
-> > until we get reason to make more than just VFIO insecure.
-> 
-> But this brings into question the entire existence of the opt-in.  Do
-> we agree that there are valid use cases for such an option?
-
-I think it is something VFIO has historically allowed and I think we
-can continue to allow it, but I don't think we should encourage its
-use or encourage it to propogate to wider areas given that the
-legitimate use cases are focused on fairly old hardware at this point.
-
-So, I'd rather wait for someone to ask for it, and explain why they
-need to use a combination of stuff where we need to have a true global
-option.
-
-> Unlike things like ACS overrides, lack of interrupt isolation really
-> requires a malicious actor.  We're not going to inadvertently overlap
-> DMA to interrupt addresses like we might to a non-isolated MMIO ranges.
-> Therefore an admin can make a reasonable determination relative to the
-> extent to which the userspace is trusted.  This is not unlike opt-outs
-> to CPU vulnerability mitigation imo, there are use cases where the
-> performance or functionality is more important than the isolation.
-> Hand waving this away as a vfio-unique insecurity is a bad precedent
-> for iommufd.
-
-I agree with this, which is why I think it should come from the actual
-user facing subsystem not be a system wide flag. The "is userspace
-trusted" for VFIO may be quite different than from VDPA or whatever
-else comes next.
-
-I'd be much more comfortable with this as a system wide iommufd flag
-if we also tied it to do some demonstration of privilege - eg a
-requirement to open iommufd with CAP_SYS_RAWIO for instance.
-
-That is the usual protocol for these kinds of insecurities..
-
-I think right now we can leave this as-is and we can wait for some
-more information to decide how best to proceed.
-
-Thanks,
-Jason
