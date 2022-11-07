@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52F3261FC37
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 18:55:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F382B61FC3C
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 18:55:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF9BB10E89C;
-	Mon,  7 Nov 2022 17:55:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BE6610E89D;
+	Mon,  7 Nov 2022 17:55:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3767B10E898
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 17:55:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1253510E898
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 17:55:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1667843719; h=from:from:sender:reply-to:subject:subject:date:date:
+ s=mail; t=1667843720; h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=M43DylMDkl+szcXiL4W9UuJ9KmYsm/BsQcv0v6WVc2s=;
- b=gTIgV9YrTwg5pvDdLqvG6YRsDsAreiXemU7vjadC9DexHxpNqbgNzrw3knRBsW7zuc7m6u
- 95ifxjlYX000twB6DJSj4xrFHyGv8dAZN/cWwcUD2XM5ZLEEMUZ+On80sMT6zhW5is3/12
- JTpfOkAQoR6aZkcH5y97CvLVYXtWy9g=
+ bh=5mAEA/+FkdzN3Ma2ZqP/XBBMcVgHH0HAXQLxvGbSpU0=;
+ b=l3Lmt0YdceLN+zlv4/YzlXycceCpqax6TX+6l5d2OvDLFagqDeMLvmOEcLVvV1hoAdWqp+
+ PxEq1lJ0Zqcq7bDf9QPOjtIpEaqINpOHnw/Np/t2lhf1GrVgSvYo3as1TsOjWbn6voYE8Y
+ 4f5F8WKGAKoJYmaGP5KsQWrr+1OJUw4=
 From: Paul Cercueil <paul@crapouillou.net>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 25/26] drm: tidss: Remove #ifdef guards for PM related
+Subject: [PATCH 26/26] drm/i915/gt: Remove #ifdef guards for PM related
  functions
-Date: Mon,  7 Nov 2022 17:55:09 +0000
-Message-Id: <20221107175510.361051-2-paul@crapouillou.net>
+Date: Mon,  7 Nov 2022 17:55:10 +0000
+Message-Id: <20221107175510.361051-3-paul@crapouillou.net>
 In-Reply-To: <20221107175510.361051-1-paul@crapouillou.net>
 References: <20221107175106.360578-1-paul@crapouillou.net>
  <20221107175510.361051-1-paul@crapouillou.net>
@@ -47,126 +47,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Cercueil <paul@crapouillou.net>, Tomi Valkeinen <tomba@kernel.org>,
- Jyri Sarha <jyri.sarha@iki.fi>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Paul Cercueil <paul@crapouillou.net>, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the SYSTEM_SLEEP_PM_OPS() and RUNTIME_PM_OPS() macros to handle the
-PM callbacks.
-
-These macros allow the suspend and resume functions to be automatically
-dropped by the compiler when CONFIG_PM is disabled, without having
-to use #ifdef guards.
+Instead of defining two versions of intel_sysfs_rc6_init(), one for each
+value of CONFIG_PM, add a check on !IS_ENABLED(CONFIG_PM) early in the
+function. This will allow the compiler to automatically drop the dead
+code when CONFIG_PM is disabled, without having to use #ifdef guards.
 
 This has the advantage of always compiling these functions in,
 independently of any Kconfig option. Thanks to that, bugs and other
-regressions are subsequently easier to catch. It also allows to drop the
-__maybe_unused tags.
-
-Some #ifndef CONFIG_PM guards were protecting simple statements, and
-were also converted to "if (!IS_ENABLED(CONFIG_PM))".
+regressions are subsequently easier to catch.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
-Cc: Jyri Sarha <jyri.sarha@iki.fi>
-Cc: Tomi Valkeinen <tomba@kernel.org>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org
 ---
- drivers/gpu/drm/tidss/tidss_drv.c | 29 +++++++++++++----------------
- 1 file changed, 13 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
-index 15cd9b91b7e2..6957c86f9e85 100644
---- a/drivers/gpu/drm/tidss/tidss_drv.c
-+++ b/drivers/gpu/drm/tidss/tidss_drv.c
-@@ -48,7 +48,7 @@ void tidss_runtime_put(struct tidss_device *tidss)
- 	WARN_ON(r < 0);
- }
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+index 2b5f05b31187..decf892a4508 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+@@ -164,7 +164,6 @@ sysfs_gt_attribute_r_func(struct kobject *kobj, struct attribute *attr,
+ 								 NULL);			\
+ 	INTEL_GT_ATTR_RO(_name)
  
--static int __maybe_unused tidss_pm_runtime_suspend(struct device *dev)
-+static int tidss_pm_runtime_suspend(struct device *dev)
+-#ifdef CONFIG_PM
+ static u32 get_residency(struct intel_gt *gt, i915_reg_t reg)
  {
- 	struct tidss_device *tidss = dev_get_drvdata(dev);
- 
-@@ -57,7 +57,7 @@ static int __maybe_unused tidss_pm_runtime_suspend(struct device *dev)
- 	return dispc_runtime_suspend(tidss->dispc);
- }
- 
--static int __maybe_unused tidss_pm_runtime_resume(struct device *dev)
-+static int tidss_pm_runtime_resume(struct device *dev)
+ 	intel_wakeref_t wakeref;
+@@ -300,7 +299,7 @@ static void intel_sysfs_rc6_init(struct intel_gt *gt, struct kobject *kobj)
  {
- 	struct tidss_device *tidss = dev_get_drvdata(dev);
- 	int r;
-@@ -71,7 +71,7 @@ static int __maybe_unused tidss_pm_runtime_resume(struct device *dev)
- 	return 0;
- }
+ 	int ret;
  
--static int __maybe_unused tidss_suspend(struct device *dev)
-+static int tidss_suspend(struct device *dev)
+-	if (!HAS_RC6(gt->i915))
++	if (!IS_ENABLED(CONFIG_PM) || !HAS_RC6(gt->i915))
+ 		return;
+ 
+ 	ret = __intel_gt_sysfs_create_group(kobj, rc6_attr_group);
+@@ -329,11 +328,6 @@ static void intel_sysfs_rc6_init(struct intel_gt *gt, struct kobject *kobj)
+ 				 gt->info.id, ERR_PTR(ret));
+ 	}
+ }
+-#else
+-static void intel_sysfs_rc6_init(struct intel_gt *gt, struct kobject *kobj)
+-{
+-}
+-#endif /* CONFIG_PM */
+ 
+ static u32 __act_freq_mhz_show(struct intel_gt *gt)
  {
- 	struct tidss_device *tidss = dev_get_drvdata(dev);
- 
-@@ -80,7 +80,7 @@ static int __maybe_unused tidss_suspend(struct device *dev)
- 	return drm_mode_config_helper_suspend(&tidss->ddev);
- }
- 
--static int __maybe_unused tidss_resume(struct device *dev)
-+static int tidss_resume(struct device *dev)
- {
- 	struct tidss_device *tidss = dev_get_drvdata(dev);
- 
-@@ -89,9 +89,9 @@ static int __maybe_unused tidss_resume(struct device *dev)
- 	return drm_mode_config_helper_resume(&tidss->ddev);
- }
- 
--static __maybe_unused const struct dev_pm_ops tidss_pm_ops = {
--	SET_SYSTEM_SLEEP_PM_OPS(tidss_suspend, tidss_resume)
--	SET_RUNTIME_PM_OPS(tidss_pm_runtime_suspend, tidss_pm_runtime_resume, NULL)
-+static const struct dev_pm_ops tidss_pm_ops = {
-+	SYSTEM_SLEEP_PM_OPS(tidss_suspend, tidss_resume)
-+	RUNTIME_PM_OPS(tidss_pm_runtime_suspend, tidss_pm_runtime_resume, NULL)
- };
- 
- /* DRM device Information */
-@@ -145,10 +145,9 @@ static int tidss_probe(struct platform_device *pdev)
- 
- 	pm_runtime_enable(dev);
- 
--#ifndef CONFIG_PM
- 	/* If we don't have PM, we need to call resume manually */
--	dispc_runtime_resume(tidss->dispc);
--#endif
-+	if (!IS_ENABLED(CONFIG_PM))
-+		dispc_runtime_resume(tidss->dispc);
- 
- 	ret = tidss_modeset_init(tidss);
- 	if (ret < 0) {
-@@ -190,9 +189,8 @@ static int tidss_probe(struct platform_device *pdev)
- 	tidss_irq_uninstall(ddev);
- 
- err_runtime_suspend:
--#ifndef CONFIG_PM
--	dispc_runtime_suspend(tidss->dispc);
--#endif
-+	if (!IS_ENABLED(CONFIG_PM))
-+		dispc_runtime_suspend(tidss->dispc);
- 	pm_runtime_disable(dev);
- 
- 	return ret;
-@@ -212,10 +210,9 @@ static int tidss_remove(struct platform_device *pdev)
- 
- 	tidss_irq_uninstall(ddev);
- 
--#ifndef CONFIG_PM
- 	/* If we don't have PM, we need to call suspend manually */
--	dispc_runtime_suspend(tidss->dispc);
--#endif
-+	if (!IS_ENABLED(CONFIG_PM))
-+		dispc_runtime_suspend(tidss->dispc);
- 	pm_runtime_disable(dev);
- 
- 	/* devm allocated dispc goes away with the dev so mark it NULL */
 -- 
 2.35.1
 
