@@ -2,45 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FE7161FBB8
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 18:43:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC05361FBBB
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 18:43:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0160610E83B;
-	Mon,  7 Nov 2022 17:43:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 997E210E83F;
+	Mon,  7 Nov 2022 17:43:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15F8B10E837;
- Mon,  7 Nov 2022 17:42:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BBC410E828;
+ Mon,  7 Nov 2022 17:42:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1667842979; x=1699378979;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=XlCKGtfUOOsWZKAmOLbMdf7L0wmWwqYuF9wT5UroNEg=;
- b=JcOlRC0r0lh2EAEpV8f3y9QSTifChTLOjUMSzG7t65CfmPT2H9PFJVu3
- HIM4tD3PQJDNxANuEeRpPucl3kooxUrLausLImfval7FYcd7Nt4ZNPfIt
- VRcm9jn3rOteV9HxTXxm3L+XQVJdazb/4tDunWoMelz84dl4v/BNJ5Vsp
- ya6BX6SUVMRwh4wKMr/FBW0EJmTz6onog7gpe3I5EXvooequoa+IUEEh3
- SjB2IBz6brrSCzN0lCPvtoIomO4E+FnYbMaHM0E4XxLzFWRa2HOsmbnj0
- qguudaVPvuuenylvC/dB5OvgyHlrtw/AcZFDDadhktZ5uxLBJ8Kv/7BzO Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="374744375"
-X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; d="scan'208";a="374744375"
+ t=1667842978; x=1699378978;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=GHPk9xqpYWmnySxynr7NduvhEBCfEm3hDibv2rvryPc=;
+ b=ClpTIlCwtNBct2T1OAEDDkzk3f7LeY0LhvIdK9THiiDL+u/fexVupu+f
+ y8xUmPVmzBLQ6Ew0BKzLeV37o/BURX0qwlKsHj+7FLhC4C+F61mWWz11S
+ yLKgI/c45YpHP6spWwsShKj7ziS6gwESi79d9gryP5zztcwPuh/YZJuvy
+ ZZECFNahp09vTg6e6Tp5gisijerFI8071V19cazr34lYGWz2bqsKkgfyR
+ zBRsPYvxfse7RjvLSG4qjIh/TGe8Gg61APZ+NM3syOuGcdpi3yMX+vFMm
+ yLC/zEl9RjSqFVtiFRJjxQ//z017+RZebiv6Yn7N80e4UGew6x33FqSr4 w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="374744376"
+X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; d="scan'208";a="374744376"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  07 Nov 2022 09:32:58 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="630568315"
-X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; d="scan'208";a="630568315"
+X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="630568319"
+X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; d="scan'208";a="630568319"
 Received: from lucas-s2600cw.jf.intel.com ([10.165.21.143])
  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  07 Nov 2022 09:32:58 -0800
 From: Lucas De Marchi <lucas.demarchi@intel.com>
 To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  linux-doc@vger.kernel.org
-Subject: [PATCH 0/3] Documentation/gpu: reduce verbosity in toc
-Date: Mon,  7 Nov 2022 09:32:06 -0800
-Message-Id: <20221107173209.2219571-1-lucas.demarchi@intel.com>
+Subject: [PATCH 1/3] Documentation/gpu: Fix section in the wrong scope
+Date: Mon,  7 Nov 2022 09:32:07 -0800
+Message-Id: <20221107173209.2219571-2-lucas.demarchi@intel.com>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221107173209.2219571-1-lucas.demarchi@intel.com>
+References: <20221107173209.2219571-1-lucas.demarchi@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -61,22 +63,26 @@ Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Checking some issues I was having i915 doc made me look at the toc for
-Documentation/gpu. I think it's too hard to read when extending the toc
-all levels for each driver. Reduce it to maxdepth=2.
+That section should still be inside "DRM client usage stats" rather than
+as a sibling.
 
-Also fix the usage-stats section appearing in the wrong place.
-
-Lucas De Marchi (3):
-  Documentation/gpu: Fix section in the wrong scope
-  Documentation/gpu: Limit index to maxdepth=2
-  Documentation/gpu: Limit drivers index to maxdepth=2
-
- Documentation/gpu/drivers.rst         | 1 +
+Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+---
  Documentation/gpu/drm-usage-stats.rst | 1 -
- Documentation/gpu/index.rst           | 1 +
- 3 files changed, 2 insertions(+), 1 deletion(-)
+ 1 file changed, 1 deletion(-)
 
+diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
+index 92c5117368d7..b46327356e80 100644
+--- a/Documentation/gpu/drm-usage-stats.rst
++++ b/Documentation/gpu/drm-usage-stats.rst
+@@ -126,7 +126,6 @@ percentage utilization of the engine, whereas drm-engine-<str> only reflects
+ time active without considering what frequency the engine is operating as a
+ percentage of it's maximum frequency.
+ 
+-===============================
+ Driver specific implementations
+ ===============================
+ 
 -- 
 2.38.1
 
