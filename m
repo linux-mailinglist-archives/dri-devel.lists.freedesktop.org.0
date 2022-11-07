@@ -1,53 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD4B061F740
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 16:11:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9851E61F760
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 16:16:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0274910E3AC;
-	Mon,  7 Nov 2022 15:10:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 133D910E3C2;
+	Mon,  7 Nov 2022 15:16:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAAF210E3B0
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 15:10:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1667833853; x=1699369853;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=WpNLkWsma8OlnJ2HaCkn1bSw2kA9P5c0g5KKNekKSuU=;
- b=Grf7InQQCWU0L4Pjzs9AWa+vC8SmCNh5B4fT4BZ/ttR8+6Cxo5ZU/R1K
- lGeI0RsqsnmZnn47BuTrt6po6nHXfeQpRNSbVY1vPnmJ55LpC7U92xz0t
- zyGZzcCrwUEW1WRwKRC6SA7wHU1ibFvSMGJG37TsFHGLE2vrNteA2EsaJ
- QTK3RUqfkfWI2NpaFn1vQ3Zu2uqiUCEz1HB5noH8oLctR9xHoV4ygc9Lh
- 4F7syT5PhQpOUeiCK5R/4UUSnY0hmHT6JgDelHIFCBAPzvesaeFp78Rv/
- 9EVCkyT8iLEob7APKWIou4WOAflHlkrGczSTcASdGUOa0rpovyvR+3o2J w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="308056624"
-X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; d="scan'208";a="308056624"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Nov 2022 07:10:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="630514454"
-X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; d="scan'208";a="630514454"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
- by orsmga007.jf.intel.com with SMTP; 07 Nov 2022 07:10:49 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 07 Nov 2022 17:10:48 +0200
-Date: Mon, 7 Nov 2022 17:10:48 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-Subject: Re: [PATCH RESEND] drm: fix crash in drm_minor_alloc_release
-Message-ID: <Y2kf+HLy/Kz5BclF@intel.com>
-References: <20221107144500.3692212-1-stanislaw.gruszka@linux.intel.com>
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81FAC10E3C2
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 15:16:36 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id g12so16661675wrs.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Nov 2022 07:16:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Q908VuZ5cJytv2/gI78/GYL+1PN9gGzcS5yUknzV+T0=;
+ b=Wpu9rKvfoUbVgTy0zuO9ScrrxoN6dp/6O05Txoc99yp3KdpHUu2iomCgFM3yq0gdme
+ 19bjClFCaEYbac4o4yNLc3bzOgwXmmYtwyHSpnSKqgce7WGpliizIQLzwuOtJZwr10/B
+ MW9WFpAASjpSop6DF7zi7txivZ06BFKg1HqPjp8E5bK1IS/ppA043ESQIxyh1nZZuPD+
+ Fd4S9i9T3foDUZIenDxkW+DgMdNATDKJXEsrhyObQk5bAy0+ZcpicmGNsDL1IdVK+ejN
+ vPI3O0eEhMAydvRV0rVheFxvUcuXfFYXN5jQ1yG8qd41LTdGZbovaGl9XfS5qnhblMui
+ bUXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Q908VuZ5cJytv2/gI78/GYL+1PN9gGzcS5yUknzV+T0=;
+ b=VWW1revpDUzPNzCAQuwZaj79xtLr0Z+LpDGM1urRKU+rFE0aF0M0xMrISMy84aZOJU
+ 7zuakieFm1R0S70KDtgq+ItPaO95K3EiCfC0dGOXAs3/lOqRrpGu47sfn5oeV0uqfBQm
+ 70BHB2t9PRNnlpgOs6eOsYDQ9ltE4u3D4bT0IfoHE03erfxaMnkk+kh043ML3+gEUjih
+ V2Y3H8633+FZT98R12JvRydy10FjLQBMOK8xG2Pc8/70zcUKZH8fA9gaOsINGnGzDWTb
+ tf4lVJ/nQuApRAWw4bnD/oaART763B+R3VON4JjJ6Rxa9uvicCGIoaOLDUeQORJVSqEw
+ gtgA==
+X-Gm-Message-State: ACrzQf112fsIDCT7CuDzxgSpcn2tpaRwl9JL0MSJkQ8VfuMoqoak+jOc
+ +2ICCTltYn2GEjI2sHhbfbs=
+X-Google-Smtp-Source: AMsMyM6cPcZM0jL6k4OqPbT+5EwFiAHx1Ei9YgybnmxozUr4ENJVn0werjS597XLtu9Tw0++xRinBA==
+X-Received: by 2002:a5d:5292:0:b0:236:ccb9:673b with SMTP id
+ c18-20020a5d5292000000b00236ccb9673bmr27567091wrv.317.1667834194880; 
+ Mon, 07 Nov 2022 07:16:34 -0800 (PST)
+Received: from [192.168.2.181] (84-238-195-21.ip.btc-net.bg. [84.238.195.21])
+ by smtp.gmail.com with ESMTPSA id
+ n37-20020a05600c3ba500b003cfa3a12660sm13232566wms.1.2022.11.07.07.16.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Nov 2022 07:16:34 -0800 (PST)
+Message-ID: <a722801b-e8b1-ccce-41e3-5951958baa9f@gmail.com>
+Date: Mon, 7 Nov 2022 17:16:33 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v2] drm/vmwgfx: Protect pin_user_pages with mmap_lock
+To: Dawei Li <set_pte_at@outlook.com>, zackr@vmware.com, airlied@gmail.com,
+ daniel@ffwll.ch
+References: <TYCP286MB23235B138D18ECA0797A6D0FCA3D9@TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM>
+Content-Language: en-US
+From: "Martin Krastev (VMware)" <martinkrastev768@gmail.com>
+In-Reply-To: <TYCP286MB23235B138D18ECA0797A6D0FCA3D9@TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221107144500.3692212-1-stanislaw.gruszka@linux.intel.com>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,78 +75,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Cc: krastevm@vmware.com, linux-graphics-maintainer@vmware.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 07, 2022 at 03:45:00PM +0100, Stanislaw Gruszka wrote:
-> If drm_sysfs_minor_alloc() fail in drm_minor_alloc() we can end up
-> freeing invalid minor->kdev pointer and drm_minor_alloc_release()
-> will crash like below:
-> 
-> RIP: 0010:kobject_put+0x19/0x1c0
-> RSP: 0018:ffffbc7001637c38 EFLAGS: 00010282
-> RAX: ffffffffa8d6deb0 RBX: 00000000ffffffff RCX: ffff9cb5912d4540
-> RDX: ffffffffa9c45ec5 RSI: ffff9cb5902f2b68 RDI: fffffffffffffff4
-> RBP: fffffffffffffff4 R08: ffffffffa9c40dec R09: 0000000000000008
-> R10: ffffffffaa81f7d2 R11: 00000000aa81f7ca R12: ffff9cb5912d4540
-> R13: ffff9cb5912d4540 R14: dead000000000122 R15: dead000000000100
-> FS:  00007f56b06e6740(0000) GS:ffff9cb728b40000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 0000000000000030 CR3: 000000011285b004 CR4: 0000000000170ee0
-> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> DR3: 0000000000000000 DR6: 00000000ffff07f0 DR7: 0000000000000400
-> Call Trace:
->  <TASK>
->  drm_minor_alloc_release+0x19/0x50
->  drm_managed_release+0xab/0x150
->  drm_dev_init+0x21f/0x2f0
->  __devm_drm_dev_alloc+0x3c/0xa0
->  ivpu_probe+0x59/0x797 [intel_vpu 127058409b05eb2f99dcdecd3330bee28d6b3e76]
->  pci_device_probe+0xa4/0x160
->  really_probe+0x164/0x340
->  __driver_probe_device+0x10d/0x190
->  device_driver_attach+0x26/0x50
->  bind_store+0x9f/0x120
->  kernfs_fop_write_iter+0x12d/0x1c0
->  new_sync_write+0x106/0x180
->  vfs_write+0x216/0x2a0
->  ksys_write+0x65/0xe0
->  do_syscall_64+0x35/0x80
->  entry_SYSCALL_64_after_hwframe+0x44/0xae
-> 
-> Fix this crash by checking minor->kdev when freeing.
-> 
-> Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+From: Martin Krastev <krastevm@vmware.com>
+
+
+
+Thanks for the catch. LGTM, with the following remarks:
+
+
+1) Original design used erroneously pin_user_pages() in place of 
+pin_user_pages_fast(); you could just substitute pin_user_pages for 
+pin_user_pages_fast and call it a day, Please, consider that option 
+after reading (2) below.
+
+2) Re exception handling in vmw_mksstat_add_ioctl(), the 'incorrect 
+exception handling' would be incorrect in the context of the new 
+refactor, i.e. with a common entry point to all pin_user_pages() 
+exceptions; it was correct originally, with dedicated entry points, as 
+all nr_pinned_* were used only after being assigned.
+
+
+Basically, you could keep everything as it was and just do the 
+substitution suggested in (1) and the patch would be as good.
+
+
+Regards,
+
+Martin
+
+
+On 6.11.22 Ð³. 17:47 Ñ‡., Dawei Li wrote:
+> This patch includes changes below:
+> 1) pin_user_pages() is unsafe without protection of mmap_lock,
+>     fix it by calling mmap_read_lock() & mmap_read_unlock().
+> 2) fix & refactor the incorrect exception handling procedure in
+>     vmw_mksstat_add_ioctl().
+>
+> Fixes: 7a7a933edd6c ("drm/vmwgfx: Introduce VMware mks-guest-stats")
+> Signed-off-by: Dawei Li <set_pte_at@outlook.com>
 > ---
->  drivers/gpu/drm/drm_drv.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index 8214a0b1ab7f..e3a1243dd2ae 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -102,7 +102,8 @@ static void drm_minor_alloc_release(struct drm_device *dev, void *data)
->  
->  	WARN_ON(dev != minor->dev);
->  
-> -	put_device(minor->kdev);
-> +	if (!IS_ERR(minor->kdev))
-> +		put_device(minor->kdev);
-
-Assigning error pointers into things is a terrible idea.
-IMO the correct fix would be to not return some
-half-constructed garbage from drm_minor_alloc().
-So basically should at least partically revert
-commit f96306f9892b ("drm: manage drm_minor cleanup with drmm_")
-
->  
->  	spin_lock_irqsave(&drm_minor_lock, flags);
->  	idr_remove(&drm_minors_idr, minor->index);
-> -- 
-> 2.25.1
-
--- 
-Ville Syrjälä
-Intel
+> v1:
+> https://lore.kernel.org/all/TYCP286MB23235C9A9FCF85C045F95EA7CA4F9@TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM/
+>
+> v1->v2:
+> Rebased to latest vmwgfx/drm-misc-fixes
+> ---
+>   drivers/gpu/drm/vmwgfx/vmwgfx_msg.c | 23 ++++++++++++++---------
+>   1 file changed, 14 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
+> index 089046fa21be..ec40a3364e0a 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
+> @@ -1020,9 +1020,9 @@ int vmw_mksstat_add_ioctl(struct drm_device *dev, void *data,
+>   	const size_t num_pages_info = PFN_UP(arg->info_len);
+>   	const size_t num_pages_strs = PFN_UP(arg->strs_len);
+>   	long desc_len;
+> -	long nr_pinned_stat;
+> -	long nr_pinned_info;
+> -	long nr_pinned_strs;
+> +	long nr_pinned_stat = 0;
+> +	long nr_pinned_info = 0;
+> +	long nr_pinned_strs = 0;
+>   	struct page *pages_stat[ARRAY_SIZE(pdesc->statPPNs)];
+>   	struct page *pages_info[ARRAY_SIZE(pdesc->infoPPNs)];
+>   	struct page *pages_strs[ARRAY_SIZE(pdesc->strsPPNs)];
+> @@ -1084,28 +1084,33 @@ int vmw_mksstat_add_ioctl(struct drm_device *dev, void *data,
+>   	reset_ppn_array(pdesc->infoPPNs, ARRAY_SIZE(pdesc->infoPPNs));
+>   	reset_ppn_array(pdesc->strsPPNs, ARRAY_SIZE(pdesc->strsPPNs));
+>   
+> +	/* pin_user_pages() needs protection of mmap_lock */
+> +	mmap_read_lock(current->mm);
+> +
+>   	/* Pin mksGuestStat user pages and store those in the instance descriptor */
+>   	nr_pinned_stat = pin_user_pages(arg->stat, num_pages_stat, FOLL_LONGTERM, pages_stat, NULL);
+>   	if (num_pages_stat != nr_pinned_stat)
+> -		goto err_pin_stat;
+> +		goto __err_pin_pages;
+>   
+>   	for (i = 0; i < num_pages_stat; ++i)
+>   		pdesc->statPPNs[i] = page_to_pfn(pages_stat[i]);
+>   
+>   	nr_pinned_info = pin_user_pages(arg->info, num_pages_info, FOLL_LONGTERM, pages_info, NULL);
+>   	if (num_pages_info != nr_pinned_info)
+> -		goto err_pin_info;
+> +		goto __err_pin_pages;
+>   
+>   	for (i = 0; i < num_pages_info; ++i)
+>   		pdesc->infoPPNs[i] = page_to_pfn(pages_info[i]);
+>   
+>   	nr_pinned_strs = pin_user_pages(arg->strs, num_pages_strs, FOLL_LONGTERM, pages_strs, NULL);
+>   	if (num_pages_strs != nr_pinned_strs)
+> -		goto err_pin_strs;
+> +		goto __err_pin_pages;
+>   
+>   	for (i = 0; i < num_pages_strs; ++i)
+>   		pdesc->strsPPNs[i] = page_to_pfn(pages_strs[i]);
+>   
+> +	mmap_read_unlock(current->mm);
+> +
+>   	/* Send the descriptor to the host via a hypervisor call. The mksGuestStat
+>   	   pages will remain in use until the user requests a matching remove stats
+>   	   or a stats reset occurs. */
+> @@ -1120,15 +1125,15 @@ int vmw_mksstat_add_ioctl(struct drm_device *dev, void *data,
+>   
+>   	return 0;
+>   
+> -err_pin_strs:
+> +__err_pin_pages:
+> +	mmap_read_unlock(current->mm);
+> +
+>   	if (nr_pinned_strs > 0)
+>   		unpin_user_pages(pages_strs, nr_pinned_strs);
+>   
+> -err_pin_info:
+>   	if (nr_pinned_info > 0)
+>   		unpin_user_pages(pages_info, nr_pinned_info);
+>   
+> -err_pin_stat:
+>   	if (nr_pinned_stat > 0)
+>   		unpin_user_pages(pages_stat, nr_pinned_stat);
+>   
