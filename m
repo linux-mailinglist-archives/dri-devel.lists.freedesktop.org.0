@@ -1,46 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC6E261FCCB
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 19:07:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 178F461FCFA
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 19:11:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BCF010E8A5;
-	Mon,  7 Nov 2022 18:07:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B2E810E8AB;
+	Mon,  7 Nov 2022 18:11:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33F2410E8A5
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 18:07:52 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1os6X0-0005Ct-6o; Mon, 07 Nov 2022 19:07:34 +0100
-Message-ID: <d63e2214c464b029a15967d81968c27a5a4a88d4.camel@pengutronix.de>
-Subject: Re: [PATCH 12/26] drm: etnaviv: Remove #ifdef guards for PM related
- functions
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Paul Cercueil <paul@crapouillou.net>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 07 Nov 2022 19:07:32 +0100
-In-Reply-To: <20221107175256.360839-2-paul@crapouillou.net>
-References: <20221107175106.360578-1-paul@crapouillou.net>
- <20221107175256.360839-1-paul@crapouillou.net>
- <20221107175256.360839-2-paul@crapouillou.net>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 010F710E549;
+ Mon,  7 Nov 2022 18:11:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=lL1tEZY5rfBShjfX6pL9OQv5DSS6YhPKdPmOr0dqeM0=; b=gfzZC605hL0pZnTv/R8X8B+fLM
+ RdcVEVZ7GMsHWTrsYoi3BtBkZwY9B4Kkza9mrjlFGhfZxGBJxLLmqKaXfjxStznD1fNviFTP8nJDk
+ tyNx/Bi+wJ9JEuakyocIKrBhNlzAHiuAFqRtxT9TtGOUG8LcMK23KNQytyBU0CiSVTl3BIymWe/Sm
+ gt4rzZ9o8TI1tc1p7R/H2yJOKmZRfRO4uYXQevf0Pztms+3wZM3MutI3YAtWPbbzNNo6/pmhxm8Tj
+ HwHPmFesDVSsWZi+F0zzjZ+wye1BXzaKeCnJ4huLOtDFZTIVl0I/qCOhfv0185YqcCOsrqDH1pjfX
+ YXhTrfuQ==;
+Received: from [2a01:799:95a:cb00:cca0:57ac:c55d:a485] (port=64221)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1os6ar-0004ho-9w; Mon, 07 Nov 2022 19:11:33 +0100
+Message-ID: <a9c0380a-f538-1a19-fd27-983eea42b1b2@tronnes.org>
+Date: Mon, 7 Nov 2022 19:11:27 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v7 16/23] drm/probe-helper: Provide a TV get_modes helper
+To: Maxime Ripard <maxime@cerno.tech>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Ben Skeggs <bskeggs@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>,
+ Lyude Paul <lyude@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>
+References: <20220728-rpi-analog-tv-properties-v7-0-7072a478c6b3@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v7-16-7072a478c6b3@cerno.tech>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v7-16-7072a478c6b3@cerno.tech>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,138 +66,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: etnaviv@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
+ Hans de Goede <hdegoede@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Montag, dem 07.11.2022 um 17:52 +0000 schrieb Paul Cercueil:
-> Use the RUNTIME_PM_OPS() and pm_ptr() macros to handle the
-> .runtime_suspend/.runtime_resume callbacks.
-> 
-> These macros allow the suspend and resume functions to be automatically
-> dropped by the compiler when CONFIG_PM is disabled, without having
-> to use #ifdef guards.
-> 
-> This has the advantage of always compiling these functions in,
-> independently of any Kconfig option. Thanks to that, bugs and other
-> regressions are subsequently easier to catch.
-> 
-> Some #ifdef CONFIG_PM guards were protecting simple statements, and were
-> also converted to "if (IS_ENABLED(CONFIG_PM))".
-> 
-Reasoning and the change itself look good.
 
-> Note that this driver should probably use the
-> DEFINE_RUNTIME_DEV_PM_OPS() macro instead, which will provide
-> .suspend/.resume callbacks, pointing to pm_runtime_force_suspend() and
-> pm_runtime_force_resume() respectively; unless those callbacks really
-> aren't needed.
 
-This however isn't true, specifically this driver can _not_ use
-pm_runtime_force_suspend, as the GPU can't be forced into suspend by
-calling the rpm callback. A real suspend implementation would first
-need to make sure the GPU finished working on the current queued jobs,
-only then it would be able to power it down via the rpm suspend
-callback.
-
-Regards,
-Lucas
-
+Den 07.11.2022 15.16, skrev Maxime Ripard:
+> From: Noralf Trønnes <noralf@tronnes.org>
 > 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> Most of the TV connectors will need a similar get_modes implementation
+> that will, depending on the drivers' capabilities, register the 480i and
+> 576i modes.
+> 
+> That implementation will also need to set the preferred flag and order
+> the modes based on the driver and users preferrence.
+> 
+> This is especially important to guarantee that a userspace stack such as
+> Xorg can start and pick up the preferred mode while maintaining a
+> working output.
+> 
+> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> 
 > ---
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Russell King <linux+etnaviv@armlinux.org.uk>
-> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-> Cc: etnaviv@lists.freedesktop.org
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 30 +++++++++++----------------
->  1 file changed, 12 insertions(+), 18 deletions(-)
+> Changes in v7:
+> - Used Noralf's implementation
 > 
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> index 37018bc55810..e9a5444ec1c7 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -1605,7 +1605,6 @@ static int etnaviv_gpu_hw_suspend(struct etnaviv_gpu *gpu)
->  	return etnaviv_gpu_clk_disable(gpu);
+> Changes in v6:
+> - New patch
+> ---
+>  drivers/gpu/drm/drm_probe_helper.c | 97 ++++++++++++++++++++++++++++++++++++++
+>  include/drm/drm_probe_helper.h     |  1 +
+>  2 files changed, 98 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+> index 2fc21df709bc..edb2e4c4530a 100644
+> --- a/drivers/gpu/drm/drm_probe_helper.c
+> +++ b/drivers/gpu/drm/drm_probe_helper.c
+> @@ -1147,3 +1147,100 @@ int drm_connector_helper_get_modes(struct drm_connector *connector)
+>  	return count;
 >  }
->  
-> -#ifdef CONFIG_PM
->  static int etnaviv_gpu_hw_resume(struct etnaviv_gpu *gpu)
->  {
->  	int ret;
-> @@ -1621,7 +1620,6 @@ static int etnaviv_gpu_hw_resume(struct etnaviv_gpu *gpu)
->  
->  	return 0;
->  }
-> -#endif
->  
->  static int
->  etnaviv_gpu_cooling_get_max_state(struct thermal_cooling_device *cdev,
-> @@ -1689,11 +1687,10 @@ static int etnaviv_gpu_bind(struct device *dev, struct device *master,
->  	if (ret)
->  		goto out_workqueue;
->  
-> -#ifdef CONFIG_PM
-> -	ret = pm_runtime_get_sync(gpu->dev);
-> -#else
-> -	ret = etnaviv_gpu_clk_enable(gpu);
-> -#endif
-> +	if (IS_ENABLED(CONFIG_PM))
-> +		ret = pm_runtime_get_sync(gpu->dev);
-> +	else
-> +		ret = etnaviv_gpu_clk_enable(gpu);
->  	if (ret < 0)
->  		goto out_sched;
->  
-> @@ -1737,12 +1734,12 @@ static void etnaviv_gpu_unbind(struct device *dev, struct device *master,
->  
->  	etnaviv_sched_fini(gpu);
->  
-> -#ifdef CONFIG_PM
-> -	pm_runtime_get_sync(gpu->dev);
-> -	pm_runtime_put_sync_suspend(gpu->dev);
-> -#else
-> -	etnaviv_gpu_hw_suspend(gpu);
-> -#endif
-> +	if (IS_ENABLED(CONFIG_PM)) {
-> +		pm_runtime_get_sync(gpu->dev);
-> +		pm_runtime_put_sync_suspend(gpu->dev);
+>  EXPORT_SYMBOL(drm_connector_helper_get_modes);
+> +
+> +static bool tv_mode_supported(struct drm_connector *connector,
+> +			      enum drm_connector_tv_mode mode)
+> +{
+> +	struct drm_device *dev = connector->dev;
+> +	struct drm_property *property = dev->mode_config.tv_mode_property;
+> +
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < property->num_values; i++)
+> +		if (property->values[i] == mode)
+> +			return true;
+> +
+> +	return false;
+> +}
+
+This function is not used in the new implementation.
+
+I hope you have tested this patch since I didn't even compile test my
+implementation (probably should have said so...)
+
+Noralf.
+
+> +
+> +/**
+> + * drm_connector_helper_tv_get_modes - Fills the modes availables to a TV connector
+> + * @connector: The connector
+> + *
+> + * Fills the available modes for a TV connector based on the supported
+> + * TV modes, and the default mode expressed by the kernel command line.
+> + *
+> + * This can be used as the default TV connector helper .get_modes() hook
+> + * if the driver does not need any special processing.
+> + *
+> + * Returns:
+> + * The number of modes added to the connector.
+> + */
+> +int drm_connector_helper_tv_get_modes(struct drm_connector *connector)
+> +{
+> +	struct drm_device *dev = connector->dev;
+> +	struct drm_property *tv_mode_property =
+> +		dev->mode_config.tv_mode_property;
+> +	struct drm_cmdline_mode *cmdline = &connector->cmdline_mode;
+> +	unsigned int ntsc_modes = BIT(DRM_MODE_TV_MODE_NTSC) |
+> +		BIT(DRM_MODE_TV_MODE_NTSC_443) |
+> +		BIT(DRM_MODE_TV_MODE_NTSC_J) |
+> +		BIT(DRM_MODE_TV_MODE_PAL_M);
+> +	unsigned int pal_modes = BIT(DRM_MODE_TV_MODE_PAL) |
+> +		BIT(DRM_MODE_TV_MODE_PAL_N) |
+> +		BIT(DRM_MODE_TV_MODE_SECAM);
+> +	unsigned int tv_modes[2] = { UINT_MAX, UINT_MAX };
+> +	unsigned int i, supported_tv_modes = 0;
+> +
+> +	if (!tv_mode_property)
+> +		return 0;
+> +
+> +	for (i = 0; i < tv_mode_property->num_values; i++)
+> +		supported_tv_modes |= BIT(tv_mode_property->values[i]);
+> +
+> +	if ((supported_tv_modes & ntsc_modes) &&
+> +	    (supported_tv_modes & pal_modes)) {
+> +		uint64_t default_mode;
+> +
+> +		if (drm_object_property_get_default_value(&connector->base,
+> +							  tv_mode_property,
+> +							  &default_mode))
+> +			return 0;
+> +
+> +		if (cmdline->tv_mode_specified)
+> +			default_mode = cmdline->tv_mode;
+> +
+> +		if (BIT(default_mode) & ntsc_modes) {
+> +			tv_modes[0] = DRM_MODE_TV_MODE_NTSC;
+> +			tv_modes[1] = DRM_MODE_TV_MODE_PAL;
+> +		} else {
+> +			tv_modes[0] = DRM_MODE_TV_MODE_PAL;
+> +			tv_modes[1] = DRM_MODE_TV_MODE_NTSC;
+> +		}
+> +	} else if (supported_tv_modes & ntsc_modes) {
+> +		tv_modes[0] = DRM_MODE_TV_MODE_NTSC;
+> +	} else if (supported_tv_modes & pal_modes) {
+> +		tv_modes[0] = DRM_MODE_TV_MODE_PAL;
 > +	} else {
-> +		etnaviv_gpu_hw_suspend(gpu);
+> +		return 0;
 > +	}
+> +
+> +	for (i = 0; i < ARRAY_SIZE(tv_modes); i++) {
+> +		struct drm_display_mode *mode;
+> +
+> +		if (tv_modes[i] == DRM_MODE_TV_MODE_NTSC)
+> +			mode = drm_mode_analog_ntsc_480i(dev);
+> +		else if (tv_modes[i] == DRM_MODE_TV_MODE_PAL)
+> +			mode = drm_mode_analog_pal_576i(dev);
+> +		else
+> +			break;
+> +		if (!mode)
+> +			return i;
+> +		if (!i)
+> +			mode->type |= DRM_MODE_TYPE_PREFERRED;
+> +		drm_mode_probed_add(connector, mode);
+> +	}
+> +
+> +	return i;
+> +}
+> +EXPORT_SYMBOL(drm_connector_helper_tv_get_modes);
+> diff --git a/include/drm/drm_probe_helper.h b/include/drm/drm_probe_helper.h
+> index 5880daa14624..4977e0ab72db 100644
+> --- a/include/drm/drm_probe_helper.h
+> +++ b/include/drm/drm_probe_helper.h
+> @@ -35,5 +35,6 @@ int drm_connector_helper_get_modes_from_ddc(struct drm_connector *connector);
+>  int drm_connector_helper_get_modes_fixed(struct drm_connector *connector,
+>  					 const struct drm_display_mode *fixed_mode);
+>  int drm_connector_helper_get_modes(struct drm_connector *connector);
+> +int drm_connector_helper_tv_get_modes(struct drm_connector *connector);
 >  
->  	if (gpu->mmu_context)
->  		etnaviv_iommu_context_put(gpu->mmu_context);
-> @@ -1856,7 +1853,6 @@ static int etnaviv_gpu_platform_remove(struct platform_device *pdev)
->  	return 0;
->  }
->  
-> -#ifdef CONFIG_PM
->  static int etnaviv_gpu_rpm_suspend(struct device *dev)
->  {
->  	struct etnaviv_gpu *gpu = dev_get_drvdata(dev);
-> @@ -1899,18 +1895,16 @@ static int etnaviv_gpu_rpm_resume(struct device *dev)
->  
->  	return 0;
->  }
-> -#endif
->  
->  static const struct dev_pm_ops etnaviv_gpu_pm_ops = {
-> -	SET_RUNTIME_PM_OPS(etnaviv_gpu_rpm_suspend, etnaviv_gpu_rpm_resume,
-> -			   NULL)
-> +	RUNTIME_PM_OPS(etnaviv_gpu_rpm_suspend, etnaviv_gpu_rpm_resume, NULL)
->  };
->  
->  struct platform_driver etnaviv_gpu_driver = {
->  	.driver = {
->  		.name = "etnaviv-gpu",
->  		.owner = THIS_MODULE,
-> -		.pm = &etnaviv_gpu_pm_ops,
-> +		.pm = pm_ptr(&etnaviv_gpu_pm_ops),
->  		.of_match_table = etnaviv_gpu_match,
->  	},
->  	.probe = etnaviv_gpu_platform_probe,
-
-
+>  #endif
+> 
