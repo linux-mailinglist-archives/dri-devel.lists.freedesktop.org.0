@@ -2,57 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C580C61FBE0
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 18:50:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C16961FBE5
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 18:51:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65FAD10E862;
-	Mon,  7 Nov 2022 17:50:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8269610E865;
+	Mon,  7 Nov 2022 17:51:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7474D10E51E;
- Mon,  7 Nov 2022 17:50:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202112;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=fi5PW2vDddvrBe6sz0jdt+AvkH5pl+li/RlL0LlK+ag=; b=Dn6x3v5Phsq10rSGRGpGtKsfMo
- /IxjpO9DiAWvWeXH+t2Km3OVvBXsBXqztlIde5c+p/J02KS6HMnaXnuCJiA0iDoL6OPBGZneBYZtF
- dSU/71Kw9IElmYJkLisgYrMCCerxmsFJ+nh6IkFTnx+TzmlqSqyj8mh+XXcTmeniZLP7hBKJINceq
- iVEmUrMr5csy1qxFhMlNwU/cIsvL92fAg3iaizmR3o3zd0ts/EJn1MqINkizliL+N+mYUGnkHIuRA
- cjar2EHQTeKlgnukcSshSh+OUVb2DVAUzVM4Mq7HA+ax6zi0F0ktrxtKzSsvvKrY88XkkLUq6iQd2
- bqJr/LXw==;
-Received: from [2a01:799:95a:cb00:cca0:57ac:c55d:a485] (port=63636)
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1os6G6-0003ME-Ct; Mon, 07 Nov 2022 18:50:06 +0100
-Message-ID: <9e9a8a48-89f2-35d4-b26f-afa7cc44f2f6@tronnes.org>
-Date: Mon, 7 Nov 2022 18:49:57 +0100
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE93010E865
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 17:51:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1667843471; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:in-reply-to:
+ references; bh=hdEUekyaNWhEw4kzFyt4Bl/1PuD932ymmDA1Ih0y8+0=;
+ b=HRoelFvULKP+voKUXck7nbcDssqVqd7XyLiJ6fco6NItU5sy8amGPX6kLKHi8CmWPFDwj4
+ 0/v/WE24jJvPE627E5NYGU3YZ7AgkUnR6AwlOS7+G9Vm8+aSWo4BsdYEmf8O7LuQgFE8Le
+ 8n0sYARonZ32Joz5HqfV1fUIdjvy92I=
+From: Paul Cercueil <paul@crapouillou.net>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH 00/26] drm: Get rid of #ifdef CONFIG_PM* guards
+Date: Mon,  7 Nov 2022 17:50:40 +0000
+Message-Id: <20221107175106.360578-1-paul@crapouillou.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v7 14/23] drm/modes: Properly generate a drm_display_mode
- from a named mode
-To: Maxime Ripard <maxime@cerno.tech>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Ben Skeggs <bskeggs@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Maxime Ripard <mripard@kernel.org>, Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>,
- Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>,
- Lyude Paul <lyude@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>
-References: <20220728-rpi-analog-tv-properties-v7-0-7072a478c6b3@cerno.tech>
- <20220728-rpi-analog-tv-properties-v7-14-7072a478c6b3@cerno.tech>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v7-14-7072a478c6b3@cerno.tech>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,217 +44,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
- Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
+Cc: Paul Cercueil <paul@crapouillou.net>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
+This patchset updates the DRM drivers to use the new set of PM-related
+macros introduced recently.
 
-Den 07.11.2022 15.16, skrev Maxime Ripard:
-> The framework will get the drm_display_mode from the drm_cmdline_mode it
-> got by parsing the video command line argument by calling
-> drm_connector_pick_cmdline_mode().
-> 
-> The heavy lifting will then be done by the drm_mode_create_from_cmdline_mode()
-> function.
-> 
-> In the case of the named modes though, there's no real code to make that
-> translation and we rely on the drivers to guess which actual display mode
-> we meant.
-> 
-> Let's modify drm_mode_create_from_cmdline_mode() to properly generate the
-> drm_display_mode we mean when passing a named mode.
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> 
-> ---
-> Changes in v7:
-> - Use tv_mode_specified in drm_mode_parse_command_line_for_connector
-> 
-> Changes in v6:
-> - Fix get_modes to return 0 instead of an error code
-> - Rename the tests to follow the DRM test naming convention
-> 
-> Changes in v5:
-> - Switched to KUNIT_ASSERT_NOT_NULL
-> ---
->  drivers/gpu/drm/drm_modes.c                     | 34 ++++++++++-
->  drivers/gpu/drm/tests/drm_client_modeset_test.c | 77 ++++++++++++++++++++++++-
->  2 files changed, 109 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-> index dc037f7ceb37..49441cabdd9d 100644
-> --- a/drivers/gpu/drm/drm_modes.c
-> +++ b/drivers/gpu/drm/drm_modes.c
-> @@ -2497,6 +2497,36 @@ bool drm_mode_parse_command_line_for_connector(const char *mode_option,
->  }
->  EXPORT_SYMBOL(drm_mode_parse_command_line_for_connector);
->  
-> +static struct drm_display_mode *drm_named_mode(struct drm_device *dev,
-> +					       struct drm_cmdline_mode *cmd)
-> +{
-> +	struct drm_display_mode *mode;
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(drm_named_modes); i++) {
-> +		const struct drm_named_mode *named_mode = &drm_named_modes[i];
-> +
-> +		if (strcmp(cmd->name, named_mode->name))
-> +			continue;
-> +
-> +		if (!cmd->tv_mode_specified)
-> +			continue;
+The point of these macros is to allow the PM functions to be
+automatically dropped by the compiler when CONFIG_PM or CONFIG_SUSPEND
+is disabled, without having to use #ifdef guards.
 
-Only a named mode will set cmd->name, so is this check necessary?
+This has the advantages of always compiling these functions in,
+independently of any Kconfig option. Thanks to that, bugs and other
+regressions are subsequently easier to catch.
 
-> +
-> +		mode = drm_analog_tv_mode(dev,
-> +					  named_mode->tv_mode,
-> +					  named_mode->pixel_clock_khz * 1000,
-> +					  named_mode->xres,
-> +					  named_mode->yres,
-> +					  named_mode->flags & DRM_MODE_FLAG_INTERLACE);
-> +		if (!mode)
-> +			return NULL;
-> +
-> +		return mode;
+Note that some drivers (etnaviv, tegra, vc4) currently don't have any
+.suspend/.resume callbacks, but do provide
+.runtime_suspend/.runtime_resume callbacks. These drivers should most
+likely use DEFINE_RUNTIME_DEV_PM_OPS(), which provides .suspend/.resume
+callbacks as well (pm_runtime_force_suspend / pm_runtime_force_resume
+respectively). I did not do that, because that would be a functional
+change and the callbacks being missing may actually be on purpose.
 
-You can just return the result from drm_analog_tv_mode() directly.
+Checkpatch complains about patch [11/26], as I replaced a
+"#if defined(IS_NOT_BROKEN)" to a "if (IS_ENABLED(IS_NOT_BROKEN))".
+I don't really know how to make it better so I left it like that.
 
-With those considered:
+Compile-tested with allyesconfig, with the following cases:
+- CONFIG_PM=y CONFIG_PM_SLEEP=y
+- CONFIG_PM=y CONFIG_PM_SLEEP=n
+- CONFIG_PM=n
 
-Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
+Cheers,
+-Paul
 
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
->  /**
->   * drm_mode_create_from_cmdline_mode - convert a command line modeline into a DRM display mode
->   * @dev: DRM device to create the new mode for
-> @@ -2514,7 +2544,9 @@ drm_mode_create_from_cmdline_mode(struct drm_device *dev,
->  	if (cmd->xres == 0 || cmd->yres == 0)
->  		return NULL;
->  
-> -	if (cmd->cvt)
-> +	if (strlen(cmd->name))
-> +		mode = drm_named_mode(dev, cmd);
-> +	else if (cmd->cvt)
->  		mode = drm_cvt_mode(dev,
->  				    cmd->xres, cmd->yres,
->  				    cmd->refresh_specified ? cmd->refresh : 60,
-> diff --git a/drivers/gpu/drm/tests/drm_client_modeset_test.c b/drivers/gpu/drm/tests/drm_client_modeset_test.c
-> index 3aa1acfe75df..fdfe9e20702e 100644
-> --- a/drivers/gpu/drm/tests/drm_client_modeset_test.c
-> +++ b/drivers/gpu/drm/tests/drm_client_modeset_test.c
-> @@ -21,7 +21,26 @@ struct drm_client_modeset_test_priv {
->  
->  static int drm_client_modeset_connector_get_modes(struct drm_connector *connector)
->  {
-> -	return drm_add_modes_noedid(connector, 1920, 1200);
-> +	struct drm_display_mode *mode;
-> +	int count;
-> +
-> +	count = drm_add_modes_noedid(connector, 1920, 1200);
-> +
-> +	mode = drm_mode_analog_ntsc_480i(connector->dev);
-> +	if (!mode)
-> +		return count;
-> +
-> +	drm_mode_probed_add(connector, mode);
-> +	count += 1;
-> +
-> +	mode = drm_mode_analog_pal_576i(connector->dev);
-> +	if (!mode)
-> +		return count;
-> +
-> +	drm_mode_probed_add(connector, mode);
-> +	count += 1;
-> +
-> +	return count;
->  }
->  
->  static const struct drm_connector_helper_funcs drm_client_modeset_connector_helper_funcs = {
-> @@ -52,6 +71,9 @@ static int drm_client_modeset_test_init(struct kunit *test)
->  
->  	drm_connector_helper_add(&priv->connector, &drm_client_modeset_connector_helper_funcs);
->  
-> +	priv->connector.interlace_allowed = true;
-> +	priv->connector.doublescan_allowed = true;
-> +
->  	return 0;
->  
->  }
-> @@ -85,9 +107,62 @@ static void drm_test_pick_cmdline_res_1920_1080_60(struct kunit *test)
->  	KUNIT_EXPECT_TRUE(test, drm_mode_equal(expected_mode, mode));
->  }
->  
-> +static void drm_test_pick_cmdline_named_ntsc(struct kunit *test)
-> +{
-> +	struct drm_client_modeset_test_priv *priv = test->priv;
-> +	struct drm_device *drm = priv->drm;
-> +	struct drm_connector *connector = &priv->connector;
-> +	struct drm_cmdline_mode *cmdline_mode = &connector->cmdline_mode;
-> +	struct drm_display_mode *mode;
-> +	const char *cmdline = "NTSC";
-> +	int ret;
-> +
-> +	KUNIT_ASSERT_TRUE(test,
-> +			  drm_mode_parse_command_line_for_connector(cmdline,
-> +								    connector,
-> +								    cmdline_mode));
-> +
-> +	mutex_lock(&drm->mode_config.mutex);
-> +	ret = drm_helper_probe_single_connector_modes(connector, 1920, 1080);
-> +	mutex_unlock(&drm->mode_config.mutex);
-> +	KUNIT_ASSERT_GT(test, ret, 0);
-> +
-> +	mode = drm_connector_pick_cmdline_mode(connector);
-> +	KUNIT_ASSERT_NOT_NULL(test, mode);
-> +
-> +	KUNIT_EXPECT_TRUE(test, drm_mode_equal(drm_mode_analog_ntsc_480i(drm), mode));
-> +}
-> +
-> +static void drm_test_pick_cmdline_named_pal(struct kunit *test)
-> +{
-> +	struct drm_client_modeset_test_priv *priv = test->priv;
-> +	struct drm_device *drm = priv->drm;
-> +	struct drm_connector *connector = &priv->connector;
-> +	struct drm_cmdline_mode *cmdline_mode = &connector->cmdline_mode;
-> +	struct drm_display_mode *mode;
-> +	const char *cmdline = "PAL";
-> +	int ret;
-> +
-> +	KUNIT_ASSERT_TRUE(test,
-> +			  drm_mode_parse_command_line_for_connector(cmdline,
-> +								    connector,
-> +								    cmdline_mode));
-> +
-> +	mutex_lock(&drm->mode_config.mutex);
-> +	ret = drm_helper_probe_single_connector_modes(connector, 1920, 1080);
-> +	mutex_unlock(&drm->mode_config.mutex);
-> +	KUNIT_ASSERT_GT(test, ret, 0);
-> +
-> +	mode = drm_connector_pick_cmdline_mode(connector);
-> +	KUNIT_ASSERT_NOT_NULL(test, mode);
-> +
-> +	KUNIT_EXPECT_TRUE(test, drm_mode_equal(drm_mode_analog_pal_576i(drm), mode));
-> +}
->  
->  static struct kunit_case drm_test_pick_cmdline_tests[] = {
->  	KUNIT_CASE(drm_test_pick_cmdline_res_1920_1080_60),
-> +	KUNIT_CASE(drm_test_pick_cmdline_named_ntsc),
-> +	KUNIT_CASE(drm_test_pick_cmdline_named_pal),
->  	{}
->  };
->  
-> 
+Paul Cercueil (26):
+  drm: modeset-helper: Export dev_pm_ops for simple drivers
+  drm: bochs: Use the dev_pm_ops provided by modeset helper
+  drm: imx: Use the dev_pm_ops provided by modeset helper
+  drm: rockchip: Use the dev_pm_ops provided by modeset helper
+  drm: tegra: Use the dev_pm_ops provided by modeset helper
+  drm: sun4i: Use the dev_pm_ops provided by modeset helper
+  drm: msxfb: Use the dev_pm_ops provided by modeset helper
+  drm: atmel-hlcdc: Remove #ifdef guards for PM related functions
+  drm: exynos: Remove #ifdef guards for PM related functions
+  drm: imx/dcss: Remove #ifdef guards for PM related functions
+  drm: bridge/dw-hdmi: Remove #ifdef guards for PM related functions
+  drm: etnaviv: Remove #ifdef guards for PM related functions
+  drm: fsl-dcu: Remove #ifdef guards for PM related functions
+  drm: mediatek: Remove #ifdef guards for PM related functions
+  drm: omap: Remove #ifdef guards for PM related functions
+  drm: panfrost: Remove #ifdef guards for PM related functions
+  drm: rcar-du: Remove #ifdef guards for PM related functions
+  drm: rockchip: Remove #ifdef guards for PM related functions
+  drm: shmobile: Remove #ifdef guards for PM related functions
+  drm: tegra: Remove #ifdef guards for PM related functions
+  drm: tilcdc: Remove #ifdef guards for PM related functions
+  drm: vboxvideo: Remove #ifdef guards for PM related functions
+  drm: vc4: Remove #ifdef guards for PM related functions
+  drm: gm12u320: Remove #ifdef guards for PM related functions
+  drm: tidss: Remove #ifdef guards for PM related functions
+  drm/i915/gt: Remove #ifdef guards for PM related functions
+
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c  |  9 +++---
+ .../drm/bridge/synopsys/dw-hdmi-ahb-audio.c   | 17 ++++------
+ drivers/gpu/drm/drm_modeset_helper.c          | 32 +++++++++++++++++++
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c         | 30 +++++++----------
+ drivers/gpu/drm/exynos/exynos5433_drm_decon.c | 13 +++-----
+ drivers/gpu/drm/exynos/exynos7_drm_decon.c    | 12 ++-----
+ drivers/gpu/drm/exynos/exynos_dp.c            | 11 ++-----
+ drivers/gpu/drm/exynos/exynos_drm_fimc.c      | 11 ++-----
+ drivers/gpu/drm/exynos/exynos_drm_fimd.c      | 11 ++-----
+ drivers/gpu/drm/exynos/exynos_drm_g2d.c       | 10 ++----
+ drivers/gpu/drm/exynos/exynos_drm_mic.c       | 11 ++-----
+ drivers/gpu/drm/exynos/exynos_drm_rotator.c   | 12 ++-----
+ drivers/gpu/drm/exynos/exynos_drm_scaler.c    | 12 ++-----
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c     |  9 ++----
+ drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c   |  8 +----
+ drivers/gpu/drm/imx/dcss/dcss-dev.c           | 17 +++++-----
+ drivers/gpu/drm/imx/dcss/dcss-dev.h           |  7 ++--
+ drivers/gpu/drm/imx/dcss/dcss-drv.c           |  8 +----
+ drivers/gpu/drm/imx/imx-drm-core.c            | 21 ++----------
+ drivers/gpu/drm/mediatek/mtk_dp.c             |  6 ++--
+ drivers/gpu/drm/mediatek/mtk_hdmi.c           |  9 +++---
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c             | 22 +------------
+ drivers/gpu/drm/omapdrm/omap_dmm_tiler.c      |  6 ++--
+ drivers/gpu/drm/omapdrm/omap_drv.c            |  7 ++--
+ drivers/gpu/drm/omapdrm/omap_gem.c            |  5 +--
+ drivers/gpu/drm/omapdrm/omap_gem.h            |  2 --
+ drivers/gpu/drm/panfrost/panfrost_device.c    | 10 +++---
+ drivers/gpu/drm/panfrost/panfrost_device.h    |  4 +--
+ drivers/gpu/drm/panfrost/panfrost_drv.c       |  7 +---
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c         |  9 ++----
+ .../gpu/drm/rockchip/analogix_dp-rockchip.c   |  6 +---
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c   | 23 +------------
+ drivers/gpu/drm/shmobile/shmob_drm_drv.c      |  9 ++----
+ drivers/gpu/drm/sun4i/sun4i_drv.c             | 24 ++------------
+ drivers/gpu/drm/tegra/dpaux.c                 |  6 ++--
+ drivers/gpu/drm/tegra/drm.c                   | 21 +-----------
+ drivers/gpu/drm/tidss/tidss_drv.c             | 29 ++++++++---------
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c           |  9 ++----
+ drivers/gpu/drm/tiny/bochs.c                  | 27 ++--------------
+ drivers/gpu/drm/tiny/gm12u320.c               | 15 ++++-----
+ drivers/gpu/drm/vboxvideo/vbox_drv.c          |  6 +---
+ drivers/gpu/drm/vc4/vc4_v3d.c                 |  6 ++--
+ include/drm/drm_modeset_helper.h              |  4 +++
+ 43 files changed, 171 insertions(+), 362 deletions(-)
+
+-- 
+2.35.1
+
