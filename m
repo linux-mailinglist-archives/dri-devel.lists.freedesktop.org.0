@@ -2,54 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C20B061FF23
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 21:07:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE77961FF50
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 21:14:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D561F10E40A;
-	Mon,  7 Nov 2022 20:07:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 326DB10E40C;
+	Mon,  7 Nov 2022 20:14:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com
- [IPv6:2607:f8b0:4864:20::d32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3D4110E40A
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 20:07:06 +0000 (UTC)
-Received: by mail-io1-xd32.google.com with SMTP id q21so6931412iod.4
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Nov 2022 12:07:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=8hV5ZSh2seubDdRrNeUCchubOhAcqvi4PJAb4HdDdB0=;
- b=XFhq0Xs1jn9mlb/AMwxtrT0VkUmekAjemvzCWhPsc1Ud0+riFpyDUOqaiMwrJeA3Z6
- YwvXvpSGLpp5GbahQ7vv81j2ecpKUXWI0A0BSqH60uAjtpy68h6e/ejR+/LIKk93mcTa
- jO+VPdm7g7f7628BIvfrcFqI2yT5xKpz+qHCM=
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com
+ [209.85.160.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5F3410E40C
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 20:14:17 +0000 (UTC)
+Received: by mail-oa1-f53.google.com with SMTP id
+ 586e51a60fabf-13c569e5ff5so13989060fac.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Nov 2022 12:14:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8hV5ZSh2seubDdRrNeUCchubOhAcqvi4PJAb4HdDdB0=;
- b=MOvfFwHN5AF6TcAgxanRh2A0HqubVeRDhzPnIVi/FH+/P5J/Og/lQtmkjP7mzXCY/1
- 6tz0j26/RBbJ6MAuV5dmqD+tfkTYypi/OX0fuw1aNgDy7f0h9PR4zzBdxYHNIueRmOKd
- ft8H6o1ziM1RTcDUU0dFnNf4zgAnZ1jazWpRf8iSF5tzPoc7vVlnSBpU8qcz8fzuCk8+
- nTKXBg5/IHO3KpAfRhviqVuLL96AQ9QZtCEG8CaL20JRA8J+EQfna9+BWhRa3Fkl7/3N
- gRe8/uoILiho4QAQ6WGg4vI82mqBIPOGH2wq6Xpjn1vUxoBrPhjLyzs2ZnqHAjTgdxaQ
- Jbxg==
-X-Gm-Message-State: ACrzQf06GW5gutJtRiVS/q05Q11FBZlrDZUZZtH5VwktVmdPj4Grdr1v
- +2z03jxs7gUfSMiVrULF2Gw3KZAg3UjmlwYdp2D2cvobJUw=
-X-Google-Smtp-Source: AMsMyM766uk95+uCyh+ZkJmMUM61FCimR1/A3TW5Hx+jV3LnaGnqApC2gedZ+O3jgliaPdRUfL3HL1UMwKMghdeC55E=
-X-Received: by 2002:a05:6638:e8a:b0:374:f6c5:cff6 with SMTP id
- p10-20020a0566380e8a00b00374f6c5cff6mr31358868jas.187.1667851626098; Mon, 07
- Nov 2022 12:07:06 -0800 (PST)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UTyYkKmk0ZFg6NKvx4h4V1/U52aTfp/VeufT5wgxfcc=;
+ b=2orYMecd101HnAw2BleP0d4bHS1jeOYYfO2ZCRbXN5z7z33UF+0HbaYbzlgf3yxgEl
+ k1iVFjnP5iCt8j6dUhEOxnwHQyJNJ9hmuhYG1fwAym5EeRwwzyorUc+zWX3bSqoNf7mj
+ jxydhzuhwRdq05vqkSoWQExFxB1nhb1O7ICjg2FaPAWAqQ0TjinDNZbAcSHKDxZ3CNgX
+ ammt3JUSsFzWp6gzd7+wR8Y8T59xqgJ4STc+0k0NHQm0Jri7WgC97WQm6BQiE9eAQTOH
+ IGylGLoNLU7v3Xby8em25n6BBMzKR6TC5P7t24wWancF8FntACnBabbWfgNzIFa/9pX5
+ wmeQ==
+X-Gm-Message-State: ACrzQf2mQx99s8frl3Luh1df0M8oRwCv4+jkvqicQtz3TUZpPMb2RgBL
+ bHBPjYFovoTojYgDDkX0eA==
+X-Google-Smtp-Source: AMsMyM6l8LCWIiDxDxh5d5EhXJYIhBoM5GfAns5QmBWc/1EDDKO5IT5GRvoB+Q7S+gfwtSLmjmGiWA==
+X-Received: by 2002:a05:6870:590:b0:13d:755e:10df with SMTP id
+ m16-20020a056870059000b0013d755e10dfmr17202267oap.236.1667852056923; 
+ Mon, 07 Nov 2022 12:14:16 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ x10-20020a056830114a00b0066c45517c8fsm3296237otq.52.2022.11.07.12.14.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Nov 2022 12:14:16 -0800 (PST)
+Received: (nullmailer pid 1570941 invoked by uid 1000);
+ Mon, 07 Nov 2022 20:14:17 -0000
+Date: Mon, 7 Nov 2022 14:14:17 -0600
+From: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Sandor Yu <Sandor.yu@nxp.com>
+Subject: Re: [v2 02/10] dts-bingings: display: bridge: Add MHDP HDMI bindings
+ for i.MX8MQ
+Message-ID: <20221107201417.GA1568945-robh@kernel.org>
+References: <cover.1667463263.git.Sandor.yu@nxp.com>
+ <0e1f631c22207c6af41ea512be85213b3953b44f.1667463263.git.Sandor.yu@nxp.com>
+ <d5fb79bc-c05c-8de1-e8a4-9e19cc5c8e1a@linaro.org>
 MIME-Version: 1.0
-References: <20221027104406.549734-1-daniel.vetter@ffwll.ch>
- <87tu3n6cb2.fsf@meer.lwn.net>
-In-Reply-To: <87tu3n6cb2.fsf@meer.lwn.net>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Mon, 7 Nov 2022 21:06:54 +0100
-Message-ID: <CAKMK7uHXz7kteQ_sckTQx=E9cWSqGXS_Y0_pLjX2CRcApOvKRQ@mail.gmail.com>
-Subject: Re: [PATCH] docs/sphinx: More depth in the rtd sidebar toc
-To: Jonathan Corbet <corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d5fb79bc-c05c-8de1-e8a4-9e19cc5c8e1a@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,72 +67,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>, linux-doc@vger.kernel.org
+Cc: andrzej.hajda@intel.com, penguin-kernel@i-love.sakura.ne.jp,
+ dri-devel@lists.freedesktop.org, Laurent.pinchart@ideasonboard.com,
+ krzysztof.kozlowski+dt@linaro.org, linux-phy@lists.infradead.org,
+ sam@ravnborg.org, javierm@redhat.com, jernej.skrabec@gmail.com, kishon@ti.com,
+ linux-imx@nxp.com, devicetree@vger.kernel.org, kernel@pengutronix.de,
+ jonas@kwiboo.se, jani.nikula@intel.com, s.hauer@pengutronix.de,
+ maxime@cerno.tech, linux-arm-kernel@lists.infradead.org, oliver.brown@nxp.com,
+ neil.armstrong@linaro.org, linux-kernel@vger.kernel.org,
+ robert.foss@linaro.org, vkoul@kernel.org, tzimmermann@suse.de,
+ shawnguo@kernel.org, p.yadav@ti.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 28 Oct 2022 at 20:19, Jonathan Corbet <corbet@lwn.net> wrote:
->
-> Daniel Vetter <daniel.vetter@ffwll.ch> writes:
->
-> > We love to nest our documenation for good structure, but that means
-> > the table of contents needs to keep up or you can't navigate them.
-> >
-> > Realized this trying to find the drm property documentation, which
-> > with some shuffling around disappeared. Why I didn't realize we can do
-> > this earlier, no idea.
-> >
-> > Since the relevant parts of the toc are only loaded if you're in the
-> > right .html file there's no harm in going all the way to unlimited.
-> >
-> > Note that this has no impact on the classic theme (which doesn't have
-> > the sidebar) nor on the various :toctree: rendered inline in the
-> > output.
-> >
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Jonathan Corbet <corbet@lwn.net>
-> > Cc: linux-doc@vger.kernel.org
+On Fri, Nov 04, 2022 at 09:42:03AM -0400, Krzysztof Kozlowski wrote:
+> On 04/11/2022 02:44, Sandor Yu wrote:
+> > Add bindings for i.MX8MQ MHDP HDMI.
+> 
+> Typo in subject - bindings.
+
+And 'dts'. It's 'dt-bindings: display: ...' Same for the rest of the 
+series.
+
+> 
+> Also in the subject - drop redundant second word "bindings".
+> 
+> > 
+> > Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
 > > ---
-> >  Documentation/conf.py | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/Documentation/conf.py b/Documentation/conf.py
-> > index 934727e23e0e..5dc141c66726 100644
-> > --- a/Documentation/conf.py
-> > +++ b/Documentation/conf.py
-> > @@ -240,6 +240,10 @@ if html_theme == 'sphinx_rtd_theme' or html_theme == 'sphinx_rtd_dark_mode':
-> >                  # Add color-specific RTD normal mode
-> >                  html_css_files.append('theme_rtd_colors.css')
-> >
-> > +        html_theme_options = {
-> > +            'navigation_depth': -1,
-> > +        }
-> > +
-> >      except ImportError:
-> >          html_theme = 'classic'
->
-> So this patch isn't against docs-next, and applies to the RTD theme,
-> which is no longer the default.  I have no objection to it, but have you
-> looked at how your docs come out with the alabaster theme?
-
-[sorry took a bit longer to get back to this]
-
-Hm looks pretty, but more in a print style than using it dynamically,
-you can't really click through the sidebar toc at all to quickly find
-something, and if you're wrong, navigate up a few levels again. It's
-just the toc for exactly the local document, nothing else at all. rtd
-theme always gives you the full toc all the way up, and if you have
-epic patience could actually give you the full toc on every document
-(but that's probably not a good idea for the kernel). Do you need me
-to send the rebased version or can you smash this one in?
-
-btw on today's linux-next the sphinx.rst page isn't updated with the
-new default theme choice of alabaster. That seems to have been
-forgotten.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> >  .../display/bridge/cdns,mhdp-imx8mq-hdmi.yaml | 67 +++++++++++++++++++
+> >  1 file changed, 67 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/display/bridge/cdns,mhdp-imx8mq-hdmi.yaml
