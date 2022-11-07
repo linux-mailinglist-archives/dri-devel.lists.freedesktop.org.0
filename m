@@ -2,53 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC82661F12C
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 11:50:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96CDA61F12D
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 11:50:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 293AA10E2CA;
-	Mon,  7 Nov 2022 10:49:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2FF310E13E;
+	Mon,  7 Nov 2022 10:49:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAE7910E13E
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDB1910E2CA
  for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 10:49:40 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 86B881F383;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id AD9DD1F8A3;
  Mon,  7 Nov 2022 10:49:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1667818179; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=nnkhv+SYQZ+M1HDhgReYoOWAxqV7BM04VF8ZrUO1cvc=;
- b=oeeDb3DKvqdgfl9NLPGW0FVLyC1jIKi4XMEL0CqPtTrLCE4WLarYRwfZ3XBDqTfozkKMig
- vWKo9nFSzqs6UfuzufmL6EVo09aNpMyfbVPlKz0jW4oG5I04ekX2sG/naHy8GEnIO29v1U
- KNl+e3Hs+g5hq2gCNrig06REcCIdfOU=
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wM3/AFEFcKcF+B/LY2TMh5Q6GEobQrFepjDAE7pSm1s=;
+ b=BtDFtNj8DALi01doeUVqrLpe4HtbbOII+8H35Y0OWzJyMA7lnW+oWg7JW3nQEBJmSy/J5B
+ 8zevUrR5IxC9V9evtFZhu/FAaDQ0l9arFEdPrcQ1itcsYYr4EGp3IdiwGqZTGBiLv6NdNg
+ E5YoNOozKTDAUPGMVqRAPNsv+06yACI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1667818179;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=nnkhv+SYQZ+M1HDhgReYoOWAxqV7BM04VF8ZrUO1cvc=;
- b=eXj1lWs9XeeFHN+0so6kUbmrUTNco68FCVrp0aMEMZIm86PMVCAla7uotTL8rTV67/sUq2
- uNmOd5Ftx8hlqVCQ==
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wM3/AFEFcKcF+B/LY2TMh5Q6GEobQrFepjDAE7pSm1s=;
+ b=xKMVARbWxekrSNfxTtML1hj3A/DwnanpdrCksAYyKMJ0K13kTFNVzJd1ODhIWxlEKwomQQ
+ 6vw6nZX2aSbX7+CA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 66F8713494;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8A44213ADB;
  Mon,  7 Nov 2022 10:49:39 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id IrBPGMPiaGPkewAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id ILUOIcPiaGPkewAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Mon, 07 Nov 2022 10:49:39 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	daniel@ffwll.ch,
 	javierm@redhat.com
-Subject: [PATCH 0/2] video/fbdev: Support 'nomodeset' in PCI drivers 
-Date: Mon,  7 Nov 2022 11:49:14 +0100
-Message-Id: <20221107104916.18733-1-tzimmermann@suse.de>
+Subject: [PATCH 1/2] drm: Move nomodeset kernel parameter to drivers/video
+Date: Mon,  7 Nov 2022 11:49:15 +0100
+Message-Id: <20221107104916.18733-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.38.0
+In-Reply-To: <20221107104916.18733-1-tzimmermann@suse.de>
+References: <20221107104916.18733-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,83 +74,202 @@ Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the kernel's 'nomodeset' parameter to PCI-based
-fbdev drivers. The option prevents DRM drivers from loading if they
-could possibly displace a hardware-agnostic driver that runs on the
-firmware framebuffer. It is a fallback for systems on which the
-hardware's native driver does not work correctly.
+Move the nomodeset kernel parameter to drivers/video to make it
+available to non-DRM drivers. Adapt the interface, but keep the DRM
+interface drm_firmware_drivers_only() to avoid churn within DRM. The
+function should later be inlined into callers.
 
-After the work on the aperture helpers and their integration with
-fbdev, it can happen that an fbdev driver replaces a hardware-
-agnostic DRM driver. Supporting the nomodeset parameter unifies
-the behavior among the graphics drivers and subsystems. An fbdev
-driver will not replace any hardware-agnostic driver with nomodeset
-given.
+The parameter disables any DRM graphics driver that would replace a
+driver for firmware-provided scanout buffers. It is an option to easily
+fallback to basic graphics output if the hardware's native driver is
+broken. Moving it to a more prominent location wil make it available
+to fbdev as well.
 
-Thomas Zimmermann (2):
-  drm: Move nomodeset kernel parameter to drivers/video
-  fbdev: Add support for the nomodeset kernel parameter
-
- .../admin-guide/kernel-parameters.txt         |  2 +-
- MAINTAINERS                                   |  2 +
- drivers/gpu/drm/Kconfig                       |  7 +---
- drivers/gpu/drm/Makefile                      |  1 -
- drivers/staging/sm750fb/Kconfig               |  1 +
- drivers/staging/sm750fb/sm750.c               |  4 ++
- drivers/video/Kconfig                         |  4 ++
- drivers/video/Makefile                        |  1 +
- drivers/video/fbdev/Kconfig                   | 37 +++++++++++++++++++
- drivers/video/fbdev/arkfb.c                   |  6 +++
- drivers/video/fbdev/asiliantfb.c              |  5 +++
- drivers/video/fbdev/aty/aty128fb.c            |  6 +++
- drivers/video/fbdev/aty/atyfb_base.c          |  6 +++
- drivers/video/fbdev/aty/radeon_base.c         |  6 +++
- drivers/video/fbdev/carminefb.c               |  5 +++
- drivers/video/fbdev/chipsfb.c                 |  5 +++
- drivers/video/fbdev/cirrusfb.c                |  6 +++
- drivers/video/fbdev/cyber2000fb.c             |  6 +++
- drivers/video/fbdev/geode/Kconfig             |  3 ++
- drivers/video/fbdev/geode/gx1fb_core.c        |  7 ++++
- drivers/video/fbdev/geode/gxfb_core.c         |  7 ++++
- drivers/video/fbdev/geode/lxfb_core.c         |  7 ++++
- drivers/video/fbdev/gxt4500.c                 |  5 +++
- drivers/video/fbdev/hyperv_fb.c               |  5 +++
- drivers/video/fbdev/i740fb.c                  |  6 +++
- drivers/video/fbdev/i810/i810_main.c          |  8 ++++
- drivers/video/fbdev/imsttfb.c                 |  7 ++++
- drivers/video/fbdev/intelfb/intelfbdrv.c      |  5 +++
- drivers/video/fbdev/kyro/fbdev.c              |  6 +++
- drivers/video/fbdev/matrox/matroxfb_base.c    |  5 +++
- drivers/video/fbdev/mb862xx/mb862xxfbdrv.c    |  5 +++
- drivers/video/fbdev/neofb.c                   |  6 +++
- drivers/video/fbdev/nvidia/nvidia.c           |  7 ++++
- drivers/video/fbdev/pm2fb.c                   |  6 +++
- drivers/video/fbdev/pm3fb.c                   |  6 +++
- drivers/video/fbdev/pvr2fb.c                  |  7 ++++
- drivers/video/fbdev/riva/fbdev.c              |  7 ++++
- drivers/video/fbdev/s3fb.c                    |  6 +++
- drivers/video/fbdev/savage/savagefb_driver.c  |  5 +++
- drivers/video/fbdev/sis/sis_main.c            |  7 ++++
- drivers/video/fbdev/skeletonfb.c              |  7 ++++
- drivers/video/fbdev/sm712fb.c                 |  5 +++
- drivers/video/fbdev/sstfb.c                   |  4 ++
- drivers/video/fbdev/sunxvr2500.c              |  5 +++
- drivers/video/fbdev/sunxvr500.c               |  5 +++
- drivers/video/fbdev/tdfxfb.c                  |  6 +++
- drivers/video/fbdev/tgafb.c                   |  6 +++
- drivers/video/fbdev/tridentfb.c               |  6 +++
- drivers/video/fbdev/vermilion/vermilion.c     |  7 ++++
- drivers/video/fbdev/via/via-core.c            |  5 +++
- drivers/video/fbdev/vt8623fb.c                |  6 +++
- .../drm/drm_nomodeset.c => video/nomodeset.c} | 12 +++---
- include/drm/drm_drv.h                         |  8 +++-
- include/video/nomodeset.h                     |  8 ++++
- 54 files changed, 319 insertions(+), 14 deletions(-)
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ Documentation/admin-guide/kernel-parameters.txt      |  2 +-
+ MAINTAINERS                                          |  2 ++
+ drivers/gpu/drm/Kconfig                              |  7 +------
+ drivers/gpu/drm/Makefile                             |  1 -
+ drivers/video/Kconfig                                |  4 ++++
+ drivers/video/Makefile                               |  1 +
+ .../{gpu/drm/drm_nomodeset.c => video/nomodeset.c}   | 12 +++++++-----
+ include/drm/drm_drv.h                                |  8 +++++++-
+ include/video/nomodeset.h                            |  8 ++++++++
+ 9 files changed, 31 insertions(+), 14 deletions(-)
  rename drivers/{gpu/drm/drm_nomodeset.c => video/nomodeset.c} (63%)
  create mode 100644 include/video/nomodeset.h
 
-
-base-commit: 3aa97a74d622aa26fe79cf4bd819b6a4fd176e90
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index a465d5242774a..70178c5f53956 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3777,7 +3777,7 @@
+ 			shutdown the other cpus.  Instead use the REBOOT_VECTOR
+ 			irq.
+ 
+-	nomodeset	Disable kernel modesetting. DRM drivers will not perform
++	nomodeset	Disable kernel modesetting. Graphics drivers will not perform
+ 			display-mode changes or accelerated rendering. Only the
+ 			system framebuffer will be available for use if this was
+ 			set-up by the firmware or boot loader.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 0f624e3ef6235..84b008f5aacbc 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6698,8 +6698,10 @@ F:	drivers/gpu/drm/drm_aperture.c
+ F:	drivers/gpu/drm/tiny/ofdrm.c
+ F:	drivers/gpu/drm/tiny/simpledrm.c
+ F:	drivers/video/aperture.c
++F:	drivers/video/nomodeset.c
+ F:	include/drm/drm_aperture.h
+ F:	include/linux/aperture.h
++F:	include/video/nomodeset.h
+ 
+ DRM DRIVER FOR SIS VIDEO CARDS
+ S:	Orphan / Obsolete
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index f30f99166531f..6b11614aecc5b 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -8,7 +8,6 @@
+ menuconfig DRM
+ 	tristate "Direct Rendering Manager (XFree86 4.1.0 and higher DRI support)"
+ 	depends on (AGP || AGP=n) && !EMULATED_CMPXCHG && HAS_DMA
+-	select DRM_NOMODESET
+ 	select DRM_PANEL_ORIENTATION_QUIRKS
+ 	select HDMI
+ 	select FB_CMDLINE
+@@ -19,6 +18,7 @@ menuconfig DRM
+ # gallium uses SYS_kcmp for os_same_file_description() to de-duplicate
+ # device and dmabuf fd. Let's make sure that is available for our userspace.
+ 	select KCMP
++	select VIDEO_NOMODESET
+ 	help
+ 	  Kernel-level support for the Direct Rendering Infrastructure (DRI)
+ 	  introduced in XFree86 4.0. If you say Y here, you need to select
+@@ -515,11 +515,6 @@ config DRM_EXPORT_FOR_TESTS
+ config DRM_PANEL_ORIENTATION_QUIRKS
+ 	tristate
+ 
+-# Separate option because nomodeset parameter is global and expected built-in
+-config DRM_NOMODESET
+-	bool
+-	default n
+-
+ config DRM_LIB_RANDOM
+ 	bool
+ 	default n
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index c44a54cadb618..f92cd78927110 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -72,7 +72,6 @@ drm-$(CONFIG_DRM_PRIVACY_SCREEN) += \
+ 	drm_privacy_screen_x86.o
+ obj-$(CONFIG_DRM)	+= drm.o
+ 
+-obj-$(CONFIG_DRM_NOMODESET) += drm_nomodeset.o
+ obj-$(CONFIG_DRM_PANEL_ORIENTATION_QUIRKS) += drm_panel_orientation_quirks.o
+ 
+ #
+diff --git a/drivers/video/Kconfig b/drivers/video/Kconfig
+index 0587e21abad94..6d2fde6c5d11a 100644
+--- a/drivers/video/Kconfig
++++ b/drivers/video/Kconfig
+@@ -11,6 +11,10 @@ config APERTURE_HELPERS
+ 	  Support tracking and hand-over of aperture ownership. Required
+ 	  by graphics drivers for firmware-provided framebuffers.
+ 
++config VIDEO_NOMODESET
++	bool
++	default n
++
+ if HAS_IOMEM
+ 
+ config HAVE_FB_ATMEL
+diff --git a/drivers/video/Makefile b/drivers/video/Makefile
+index 5bb6b452cc83a..a50eb528ed3c3 100644
+--- a/drivers/video/Makefile
++++ b/drivers/video/Makefile
+@@ -2,6 +2,7 @@
+ 
+ obj-$(CONFIG_APERTURE_HELPERS)    += aperture.o
+ obj-$(CONFIG_VGASTATE)            += vgastate.o
++obj-$(CONFIG_VIDEO_NOMODESET)     += nomodeset.o
+ obj-$(CONFIG_HDMI)                += hdmi.o
+ 
+ obj-$(CONFIG_VT)		  += console/
+diff --git a/drivers/gpu/drm/drm_nomodeset.c b/drivers/video/nomodeset.c
+similarity index 63%
+rename from drivers/gpu/drm/drm_nomodeset.c
+rename to drivers/video/nomodeset.c
+index f3978d5bd3a1d..13cc8b7196978 100644
+--- a/drivers/gpu/drm/drm_nomodeset.c
++++ b/drivers/video/nomodeset.c
+@@ -3,17 +3,19 @@
+ #include <linux/module.h>
+ #include <linux/types.h>
+ 
+-static bool drm_nomodeset;
++#include <video/nomodeset.h>
+ 
+-bool drm_firmware_drivers_only(void)
++static bool video_nomodeset;
++
++bool video_firmware_drivers_only(void)
+ {
+-	return drm_nomodeset;
++	return video_nomodeset;
+ }
+-EXPORT_SYMBOL(drm_firmware_drivers_only);
++EXPORT_SYMBOL(video_firmware_drivers_only);
+ 
+ static int __init disable_modeset(char *str)
+ {
+-	drm_nomodeset = true;
++	video_nomodeset = true;
+ 
+ 	pr_warn("Booted with the nomodeset parameter. Only the system framebuffer will be available\n");
+ 
+diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+index f6159acb88569..700d3857e0881 100644
+--- a/include/drm/drm_drv.h
++++ b/include/drm/drm_drv.h
+@@ -30,6 +30,8 @@
+ #include <linux/list.h>
+ #include <linux/irqreturn.h>
+ 
++#include <video/nomodeset.h>
++
+ #include <drm/drm_device.h>
+ 
+ struct drm_file;
+@@ -602,6 +604,10 @@ static inline bool drm_drv_uses_atomic_modeset(struct drm_device *dev)
+ 
+ int drm_dev_set_unique(struct drm_device *dev, const char *name);
+ 
+-extern bool drm_firmware_drivers_only(void);
++/* TODO: Inline drm_firmware_drivers_only() in all its callers. */
++static inline bool drm_firmware_drivers_only(void)
++{
++	return video_firmware_drivers_only();
++}
+ 
+ #endif
+diff --git a/include/video/nomodeset.h b/include/video/nomodeset.h
+new file mode 100644
+index 0000000000000..8f8688b8beabe
+--- /dev/null
++++ b/include/video/nomodeset.h
+@@ -0,0 +1,8 @@
++/* SPDX-License-Identifier: MIT */
++
++#ifndef VIDEO_NOMODESET_H
++#define VIDEO_NOMODESET_H
++
++bool video_firmware_drivers_only(void);
++
++#endif
 -- 
 2.38.0
 
