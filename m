@@ -1,50 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD1FE61ED97
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 09:53:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C3F261EDB7
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 09:54:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEB9810E28D;
-	Mon,  7 Nov 2022 08:52:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1987810E281;
+	Mon,  7 Nov 2022 08:53:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 222E010E259;
- Mon,  7 Nov 2022 08:52:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1667811148; x=1699347148;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=YsDc97ujg96Uo2mrDm3TCgiGlaNpzslQpF2maW8nLlQ=;
- b=FXsMopCMMe7ampu/WWQwZQM5v7UhQ7LRsngyZsZfxj3NkPpI16BDUc7Z
- RkmedrSBammpgsFHgVUfscrWPghS1rtupGwV/8ZNBGdJ/WbX4ZrSNrBhW
- Gl+QPW0zPLSsfWq6mdnreDeMYMKtJSvEAS6QNU6ITcClo4VUbq3pTdobA
- ZP+kra8p/6kxfUvTkrKzxkKB/wBtUqc4EkpmgebraGx02rCAzuHEkjXva
- +s4JdcAQJr5+yA5hPVm5Vnic8dQmM3fXMmYi9j+uDg27xpJ2fErFFrqGD
- zqoJg4MRARVjrnubGXQDxXq0s+y5l9fqKrRUJqqnDj1VuxA76csHUKDTS w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="374613952"
-X-IronPort-AV: E=Sophos;i="5.96,143,1665471600"; d="scan'208";a="374613952"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Nov 2022 00:52:27 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="880984672"
-X-IronPort-AV: E=Sophos;i="5.96,143,1665471600"; d="scan'208";a="880984672"
-Received: from nvishwa1-desk.sc.intel.com ([172.25.29.76])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Nov 2022 00:52:27 -0800
-From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v6 20/20] drm/i915/vm_bind: Async vm_unbind support
-Date: Mon,  7 Nov 2022 00:52:10 -0800
-Message-Id: <20221107085210.17221-21-niranjana.vishwanathapura@intel.com>
-X-Mailer: git-send-email 2.21.0.rc0.32.g243a4c7e27
-In-Reply-To: <20221107085210.17221-1-niranjana.vishwanathapura@intel.com>
-References: <20221107085210.17221-1-niranjana.vishwanathapura@intel.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4EBD10E2A5
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 08:52:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1667811157; bh=iRI7W/QU1cJZbiWjVLUSX5kKamrVwlbhRdK3X5/OYJc=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=nlsygfpqZU/71gN7QJEp82YXz7fNG+Ipuq5rAqofcc5tYsGdwHTz9Z9CLPBg1QRa/
+ mbTP3VCMxbKWJ8pZhQKxkf86KQyLupdoC2wuh8H9q9JXViU8ot90e2HU6xRJIcsz4H
+ V3J870dLBLn22gYFqkuK9clBFV1v8vOu0bTdfjcs4dhysuDsrEdBiwbcbywo3CHxFK
+ gVjl7NLmcQpgZtWZiJCXjRVxobowLGR7CB7E+ti2wSY9QjeNEjRHbvhv3uzaUzgHM2
+ T8CePU4+OwqC5Vw9q53+lFT+Ig3ox6KXT4vpgwsXX8GrMiMqHph7dYj97/09vORK11
+ Eun2ScIMnnmFQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([92.116.191.140]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MhU9Z-1pWGQg08xf-00ehBl; Mon, 07
+ Nov 2022 09:52:37 +0100
+Message-ID: <5e52528f-e4a7-0aa5-b795-0cff80a153ce@gmx.de>
+Date: Mon, 7 Nov 2022 09:52:35 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH] video: fbdev: pxafb: Remove unnecessary print function
+ dev_err()
+Content-Language: en-US
+To: arnd@arndb.de, b.zolnierkie@samsung.com, robert.jarzmik@free.fr,
+ ulf.hansson@linaro.org, wangqing@vivo.com
+References: <278d64e0.bd.1844d4c7a95.Coremail.wangkailong@jari.cn>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <278d64e0.bd.1844d4c7a95.Coremail.wangkailong@jari.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:vgxJnNsimSpuwn3kVv4h30sgEDvxe1TqMkycvRhld3dN1CBbTNb
+ cirLau/yhh7HBclzqrqixPy8ktn1jtwQSDFrpF/raYzeRgwoRV1ydCSr/8n1fL1QEK+GaEQ
+ 4USchyiL5usUlQQdpEZEIY2RqExktJvP2Iw0YOVs+W2+FqV9NrtHrBUy88pRdpftPf7MzDg
+ KsIrej/SrMpGuuMpEO7Jw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Fi3ciiG9BaU=;3RmSQ8aQx9DarEbQVh70IdhJfSq
+ CWBBzmhO/iJ/X6e96gqICmiDIOalEwt6rElV3glUyo5giZm1OezYS2kitoqKaH/AlGd1HYTD5
+ Wo8Tr8LomMBiAq1ntaKaqpekRW04hvyyNFKtj+jW2YpKswkLh1xvpqGFjoQMykeQQ/DuuPf7A
+ cBRr+njKZMUKbhjy4pGgkN4H0LOoy4krXKpbBM2UcXhzRNJFCXDaGd5FQ7CZpglZ01qCRWxIs
+ +bSvdDYrgxBi2ssdBYl3nqokjbA7i81D+Y4iQhQLuirmQ5CfTphvNZvBlpklXKL6PMl4iZy2v
+ OVnxZpEQInncGLivqyNfsQ4/f1jvMc4LWMOSfRi7Svw3r0B6FxSGKr1gHpM5MDezAATVYYuuU
+ jGcCDhJkySG2TP9ANgL8iJL0rPE1BnT+C0t9NdoY+ii7sU8JxZcawOw+glTXF0nhEoo6fxm09
+ uV42c85SorKuh1n8LPEF9NXP7zh1NY0SaHjwBbao842rbi+ybimkO9gTbETqdholj8UvK4TC0
+ f1+mnomn7W1O7eX+pxMCPwW+DbQaseRDBml56Q1btmaAWNlO9ji8VPuS24HtqnUpkfFCy2bn+
+ CXbCcY7ymPekQ9u5WeQSgZki/iJVa/y6lPJ9KBBGHlCvFGM1dGKojenAMDEOGfi1CAHZIZAOl
+ pgfh1FmsNuyZbdbTuAz2XN8u2m+MSCbJmN0w7/iC1vv1zMxW9x97PZsw6H75ImgVq4fV44/hP
+ FK8COyhE00FLJd8/yr56vSUER/sM3668Km+i48JIWh4nqsT+gPjwBe3ZH/3egOs8N0uTL/jLz
+ B03qHXIjh6qVZ+P3GE0iGJuZteeLjtWxBmMz5kvijXH/WMPQ/eFyVaZ8TSwd0ozHSfNpWfWtj
+ +BkT2BF4VDA7MGwft50GbL7eeu3xnm5fRrx3KiNTlq7n+bSt//b4LQai0DA6IhF5HuXS1kGyN
+ kQJWeYCCVoXhbKdpjnDgVfeoNsc=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,129 +72,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
- jani.nikula@intel.com, lionel.g.landwerlin@intel.com,
- thomas.hellstrom@intel.com, matthew.auld@intel.com, jason@jlekstrand.net,
- andi.shyti@linux.intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Asynchronously unbind the vma upon vm_unbind call.
-Fall back to synchronous unbind if backend doesn't support
-async unbind or if async unbind fails.
+On 11/6/22 15:16, wangkailong@jari.cn wrote:
+> Eliminate the follow coccicheck warning:
+>
+> ./drivers/video/fbdev/pxafb.c:2330:2-9: line 2330 is redundant because
+> platform_get_irq() already prints an error
+>
+> Signed-off-by: KaiLong Wang <wangkailong@jari.cn>
 
-No need for vm_unbind out fence support as i915 will internally
-handle all sequencing and user need not try to sequence any
-operation with the unbind completion.
+applied.
+Thanks!
+Helge
 
-Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
----
- drivers/gpu/drm/i915/i915_vma.c | 51 ++++++++++++++++++++++++++++++---
- drivers/gpu/drm/i915/i915_vma.h |  1 +
- 2 files changed, 48 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-index 08218e3a2f12..03c966fad87b 100644
---- a/drivers/gpu/drm/i915/i915_vma.c
-+++ b/drivers/gpu/drm/i915/i915_vma.c
-@@ -42,6 +42,8 @@
- #include "i915_vma.h"
- #include "i915_vma_resource.h"
- 
-+static struct dma_fence *__i915_vma_unbind_async(struct i915_vma *vma);
-+
- static inline void assert_vma_held_evict(const struct i915_vma *vma)
- {
- 	/*
-@@ -1711,7 +1713,7 @@ void i915_vma_reopen(struct i915_vma *vma)
- 	spin_unlock_irq(&gt->closed_lock);
- }
- 
--static void force_unbind(struct i915_vma *vma)
-+static void force_unbind(struct i915_vma *vma, bool async)
- {
- 	if (!drm_mm_node_allocated(&vma->node))
- 		return;
-@@ -1725,7 +1727,21 @@ static void force_unbind(struct i915_vma *vma)
- 		i915_vma_set_purged(vma);
- 
- 	atomic_and(~I915_VMA_PIN_MASK, &vma->flags);
--	WARN_ON(__i915_vma_unbind(vma));
-+	if (async) {
-+		struct dma_fence *fence;
-+
-+		fence = __i915_vma_unbind_async(vma);
-+		if (IS_ERR_OR_NULL(fence)) {
-+			async = false;
-+		} else {
-+			dma_resv_add_fence(vma->obj->base.resv, fence,
-+					   DMA_RESV_USAGE_READ);
-+			dma_fence_put(fence);
-+		}
-+	}
-+
-+	if (!async)
-+		WARN_ON(__i915_vma_unbind(vma));
- 	GEM_BUG_ON(drm_mm_node_allocated(&vma->node));
- }
- 
-@@ -1785,7 +1801,7 @@ void i915_vma_destroy_locked(struct i915_vma *vma)
- {
- 	lockdep_assert_held(&vma->vm->mutex);
- 
--	force_unbind(vma);
-+	force_unbind(vma, false);
- 	list_del_init(&vma->vm_link);
- 	release_references(vma, vma->vm->gt, false);
- }
-@@ -1796,7 +1812,34 @@ void i915_vma_destroy(struct i915_vma *vma)
- 	bool vm_ddestroy;
- 
- 	mutex_lock(&vma->vm->mutex);
--	force_unbind(vma);
-+	force_unbind(vma, false);
-+	list_del_init(&vma->vm_link);
-+	vm_ddestroy = vma->vm_ddestroy;
-+	vma->vm_ddestroy = false;
-+
-+	/* vma->vm may be freed when releasing vma->vm->mutex. */
-+	gt = vma->vm->gt;
-+	mutex_unlock(&vma->vm->mutex);
-+	release_references(vma, gt, vm_ddestroy);
-+}
-+
-+void i915_vma_destroy_async(struct i915_vma *vma)
-+{
-+	bool vm_ddestroy, async = vma->obj->mm.rsgt;
-+	struct intel_gt *gt;
-+
-+	if (dma_resv_reserve_fences(vma->obj->base.resv, 1))
-+		async = false;
-+
-+	mutex_lock(&vma->vm->mutex);
-+	/*
-+	 * Ensure any asynchronous binding is complete while using
-+	 * async unbind as we will be releasing the vma here.
-+	 */
-+	if (async && i915_active_wait(&vma->active))
-+		async = false;
-+
-+	force_unbind(vma, async);
- 	list_del_init(&vma->vm_link);
- 	vm_ddestroy = vma->vm_ddestroy;
- 	vma->vm_ddestroy = false;
-diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
-index 737ef310d046..25f15965dab8 100644
---- a/drivers/gpu/drm/i915/i915_vma.h
-+++ b/drivers/gpu/drm/i915/i915_vma.h
-@@ -272,6 +272,7 @@ void i915_vma_reopen(struct i915_vma *vma);
- 
- void i915_vma_destroy_locked(struct i915_vma *vma);
- void i915_vma_destroy(struct i915_vma *vma);
-+void i915_vma_destroy_async(struct i915_vma *vma);
- 
- #define assert_vma_held(vma) dma_resv_assert_held((vma)->obj->base.resv)
- 
--- 
-2.21.0.rc0.32.g243a4c7e27
+> ---
+>   drivers/video/fbdev/pxafb.c | 1 -
+>   1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/video/fbdev/pxafb.c b/drivers/video/fbdev/pxafb.c
+> index 696ac5431180..c46ed78298ae 100644
+> --- a/drivers/video/fbdev/pxafb.c
+> +++ b/drivers/video/fbdev/pxafb.c
+> @@ -2327,7 +2327,6 @@ static int pxafb_probe(struct platform_device *dev=
+)
+>
+>   	irq =3D platform_get_irq(dev, 0);
+>   	if (irq < 0) {
+> -		dev_err(&dev->dev, "no IRQ defined\n");
+>   		ret =3D -ENODEV;
+>   		goto failed_free_mem;
+>   	}
 
