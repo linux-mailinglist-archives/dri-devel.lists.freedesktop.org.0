@@ -1,71 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9502361EAA5
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 06:46:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC50561EAA4
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 06:46:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD0BF10E1DF;
-	Mon,  7 Nov 2022 05:45:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C99B710E1E8;
+	Mon,  7 Nov 2022 05:45:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
  [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C89E10E1DF
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CB2710E1E8
  for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 05:45:53 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 3B67E5C00E9;
- Mon,  7 Nov 2022 00:35:56 -0500 (EST)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 76AA75C00E2;
+ Mon,  7 Nov 2022 00:35:57 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Mon, 07 Nov 2022 00:35:56 -0500
+ by compute5.internal (MEProxy); Mon, 07 Nov 2022 00:35:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
  cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1667799356; x=1667885756; bh=U/
- ywLtSrQavtT5ylYj1CEGcLt1CRHte7fNbDPyPxvAk=; b=kj9zvcWvXLzQX0KtSa
- JWQLIBtGCuKms9tsRopHUP9j6Y3ew0TqAZBnFMiTkpHWWx9IFviqpHTzo8US8wpW
- ivz/UIH76R1Fgq9280ALOQkIVyt+PKEHlFlhsy29+3RdBHnE9DiYl/JCZTa47SrG
- 3aAbedVTdqRs+xIjFCBHthcTZOmNARDe+5gCxD5IW0VipW4MYwLfHdpTeyD0mlo7
- Ek/6HnW+KD7//lnfXzWx0dVq3+nnfidqoPABI0qyWJ6EIvW16jvHZcFVoiMqg2O6
- 1wzTv+dXAWHuBGHUHl+AQHrkx0vGaz4/rDNsTLLnQsW+NNnAlzD4ut0aRvJVZIaJ
- EEZw==
+ :subject:subject:to:to; s=fm1; t=1667799357; x=1667885757; bh=XO
+ S3JN6XNHJjuLSX9mYtAFmUbNNKkKhsMQg7RXfIvl8=; b=lcQTpLQ2lKPVay2JKO
+ AA+dZXwjhdR1FAIPE4vfd4d9H5SkVJ5RG1sZjZ4hbIB/qbggMBT66yUs3g3h4aGD
+ uCIyTa5TQp15XO87DcuG1aQyZj9mtgZPAZPb5WjHE2Adkxx7oTLzri3i/bv1fPDm
+ 4w51JMvyDBhCTzwoaSz0S1K6S9AQoWBnpmVKXD16c3/Vss7/Mwri0en+wnyb45Zp
+ +Ox4xC+lOK3j0l3HtEjYrcBg2jcjFLFi1Fr4DgohYtZAsJxztVIg467KgcJa3k3s
+ xtK0eAvhhY9XKaTOWqtFFvgrO5a4DUHGkdADBQ9qRvhM38PRpXz99xkablY3jX5O
+ 7Byw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1667799356; x=1667885756; bh=U/ywLtSrQavtT
- 5ylYj1CEGcLt1CRHte7fNbDPyPxvAk=; b=MI/oacq5X9xPoxAcrHyX7aHAfbAgX
- ZdKRERY8+WbwjFpWaXAS0ZJ5z5SNR726lYEI7S7aK+ITJj1laohrLgKoiJTpUf1w
- XeJIYwvsoh7kloBrW134DLCv1tO0pNaRaSqedTFhMS9+5mwzXMn12SEupVQulu4j
- P54gHXBdNUAb7S6e7Q+UBEygmgnB4Gc6UwQfTiIxrGmEkUvvSVcH73UPs6/JhsaR
- 9Hl5OfMtSsY7Bqn8NH9BaDpTx8hXV6lpePG6gQ9cOn9u7MkMxBTigfjTyKfCzOOc
- deQYIMiMxsdabLELYwTTHjDvEcDI+RcNxPI72dIMq8z7ZDeHbsCfyAEew==
-X-ME-Sender: <xms:PJloY84Li1upK7MXXoogLbX9lQ5jAudyxv7gpBLQvB1nRZkcvxwwWQ>
- <xme:PJloY942rbQqJ9vQ0qw3YmoEsIoe9g9by7bmJJm3dQlalzorJdzdxa-E1rVQxJmMu
- HrOxksYigaZctJZ7w>
-X-ME-Received: <xmr:PJloY7coFJ3i5kBvBEbq6Jdjoyto76iwA0yeyvnJPsXeg9kIvqNJMrNRC7LMJlrW6OgY0b073GbabKJPxgTF8lxnBu9gwmZwVLyfteWrDbY-I7ic4OZNWtRYwDYGyE3dDWT2Jw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvdejgdekhecutefuodetggdotefrodftvf
+ :x-sasl-enc; s=fm3; t=1667799357; x=1667885757; bh=XOS3JN6XNHJju
+ LSX9mYtAFmUbNNKkKhsMQg7RXfIvl8=; b=dTaH4BYcqDFA+iJYWY4osHn0IA528
+ daRlsgfbclwP1n5+wDMzhNKMKkhieWDoEkn+RXUFDeBloKfuBLIltQ7iXfQOxTCx
+ ukx17uWmWfLSERGJBAo2SFnWdNp6LIIS8BuLBAztOESAafBxd/Zv9yDTvmPFxK/n
+ 5SfVTqXPdofDOZjtJ1Q4EKmrcpCZuF+DPoa7KtoQW9p+aWWj7LLcRuEcb0qdplIT
+ E14dXws7Wn+A5ZGEbL5qBlm8TRT3TWBpA5Pa8yCADwWwTXhym6JsiOIE/ZyZxwUo
+ PLpzGGKDv1iwVMlaQur+hanuyHV1A6h8tf/EHfXM6XbziPgzNdMGVjFug==
+X-ME-Sender: <xms:PZloY3DyUPFyhPKPzG7D5i2Xt94NbWgayL4eBfdH6el2yLi2wCF8vg>
+ <xme:PZloY9j1fWCIWdfwpLK-JHqBLE69WlxsoOMq2_4Jd0i6JN0HC9bPLrDIOYg7LLNvH
+ hxChemo6x5JPpL_iw>
+X-ME-Received: <xmr:PZloYykVAiteX8MT3iBI3A-JZPpv0ZUT2BGlfbsmbUTU5svoEbBIqnhvDzojMXgInrzdAwZef1xLmaZ0TcUBelCDTjJPGNwdxMoP_E1nObkofbBNj-BH_gpjCM29CEpnM6mvRw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvdejgdekgecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
  lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
  frrghtthgvrhhnpedukeetueduhedtleetvefguddvvdejhfefudelgfduveeggeehgfdu
- feeitdevteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+ feeitdevteenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhroh
  hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:PJloYxIswX2kqggjmAtsIOsJDbGpsAMl89IelxJzSGyGCdavls5bnA>
- <xmx:PJloYwK0s5Eg2-UA5M-YZI96UioCKGhuNplt6M8pmOVo1-jAqMVKrg>
- <xmx:PJloYywN_KttcXt_KPa6Q5szmGopgepfYHq1Homv9w7SadWHAtr5Zg>
- <xmx:PJloYzYLtRbWGWcUYBA1qH_inYA5bxFxUTm9svXJcoNQi6n-HlVaSg>
+X-ME-Proxy: <xmx:PZloY5xElYN5tR-4QRl4FZajZiGppq9UzEKLKoHHLNGAyiWlFkyk_Q>
+ <xmx:PZloY8QiRuZLj3OT-n2HOklAjVhXMoev8ZxpUJz9r5Fj2nxGl8mCPQ>
+ <xmx:PZloY8aBr5RwbcmZLti9zLJXRbiVmD6ZuBVlwpbJcTVg-QcenkUNgA>
+ <xmx:PZloY-AAihe3C2sf2O_BdzNB1KBroXT5NnvE2ZmuEK2pKu1GNEmPPg>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Nov 2022 00:35:55 -0500 (EST)
+ 7 Nov 2022 00:35:56 -0500 (EST)
 From: Samuel Holland <samuel@sholland.org>
 To: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH v2 1/4] dt-bindings: display: sun6i-dsi: Fix clock conditional
-Date: Sun,  6 Nov 2022 23:35:49 -0600
-Message-Id: <20221107053552.2330-2-samuel@sholland.org>
+Subject: [PATCH v2 2/4] dt-bindings: display: sun6i-dsi: Add the A100 variant
+Date: Sun,  6 Nov 2022 23:35:50 -0600
+Message-Id: <20221107053552.2330-3-samuel@sholland.org>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221107053552.2330-1-samuel@sholland.org>
 References: <20221107053552.2330-1-samuel@sholland.org>
@@ -92,43 +92,88 @@ Cc: devicetree@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The A64 case should have limited maxItems, instead of duplicating the
-minItems value from the main binding. While here, simplify the binding
-by making this an "else" case of the two-clock conditional block.
+The "40nm" MIPI DSI controller found in the A100 and D1 SoCs has the
+same register layout as previous SoC integrations. However, its module
+clock now comes from the TCON, which means it no longer runs at a fixed
+rate, so this needs to be distinguished in the driver.
 
-Fixes: fe5040f2843a ("dt-bindings: sun6i-dsi: Document A64 MIPI-DSI controller")
+The controller also now uses pins on Port D instead of dedicated pins,
+so it drops the separate power domain.
+
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
+Removal of the vcc-dsi-supply is maybe a bit questionable. Since there
+is no "VCC-DSI" pin anymore, it's not obvious which pin actually does
+power the DSI controller/PHY. Possibly power comes from VCC-PD or VCC-IO
+or VCC-LVDS. So far, all boards have all of these as always-on supplies,
+so it is hard to test.
 
 (no changes since v1)
 
- .../bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+ .../display/allwinner,sun6i-a31-mipi-dsi.yaml | 28 +++++++++++++++----
+ 1 file changed, 23 insertions(+), 5 deletions(-)
 
 diff --git a/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml b/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
-index 7910831fa4b8..bf9bfe8f88ae 100644
+index bf9bfe8f88ae..c731fbdc2fe0 100644
 --- a/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
 +++ b/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
-@@ -78,16 +78,10 @@ allOf:
-       required:
-         - clock-names
+@@ -12,9 +12,14 @@ maintainers:
  
--  - if:
--      properties:
--        compatible:
--          contains:
--            const: allwinner,sun50i-a64-mipi-dsi
--
--    then:
-+    else:
+ properties:
+   compatible:
+-    enum:
+-      - allwinner,sun6i-a31-mipi-dsi
+-      - allwinner,sun50i-a64-mipi-dsi
++    oneOf:
++      - enum:
++          - allwinner,sun6i-a31-mipi-dsi
++          - allwinner,sun50i-a64-mipi-dsi
++          - allwinner,sun50i-a100-mipi-dsi
++      - items:
++          - const: allwinner,sun20i-d1-mipi-dsi
++          - const: allwinner,sun50i-a100-mipi-dsi
+ 
+   reg:
+     maxItems: 1
+@@ -59,7 +64,6 @@ required:
+   - phys
+   - phy-names
+   - resets
+-  - vcc-dsi-supply
+   - port
+ 
+ allOf:
+@@ -68,7 +72,9 @@ allOf:
        properties:
-         clocks:
--          minItems: 1
-+          maxItems: 1
+         compatible:
+           contains:
+-            const: allwinner,sun6i-a31-mipi-dsi
++            enum:
++              - allwinner,sun6i-a31-mipi-dsi
++              - allwinner,sun50i-a100-mipi-dsi
  
+     then:
+       properties:
+@@ -83,6 +89,18 @@ allOf:
+         clocks:
+           maxItems: 1
+ 
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - allwinner,sun6i-a31-mipi-dsi
++              - allwinner,sun50i-a64-mipi-dsi
++
++    then:
++      required:
++        - vcc-dsi-supply
++
  unevaluatedProperties: false
  
+ examples:
 -- 
 2.37.3
 
