@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F45B61F6EC
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 15:57:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9287161F723
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 16:06:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5C0E10E39D;
-	Mon,  7 Nov 2022 14:57:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5D7B10E1D2;
+	Mon,  7 Nov 2022 15:06:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
  [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A18B010E39D
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 14:57:21 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id g7so17120473lfv.5
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Nov 2022 06:57:21 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EA5610E1D2
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 15:06:13 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id j4so17211666lfk.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Nov 2022 07:06:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20210112.gappssmtp.com; s=20210112;
  h=cc:to:subject:message-id:date:mime-version:in-reply-to:references
  :user-agent:from:from:to:cc:subject:date:message-id:reply-to;
- bh=AQlxwrQ9+SAIJlBHFz/WVtqfuSsX8479gf+InmNYkZs=;
- b=1eTJqEXUCN6TpV6RPCjctxazLVjc44ZvzsBItOrs8d80EmK/RTm5KYkB5ehzSFcSap
- 0Ia4QJxum/15AedJZzgTedYWblULvJ2HWn6NIOVO0kLVUGzxxNuXTNkUbSKEiihYW5uY
- eI9c/r5MpYt9th3ARFOLRYCWL8+OX7E7r5QjWjQT9gbVW+CjhHoH7P5pnYbE+s3Ht/BS
- ZpQxbAlG3a2Q6BXdz03VLJbB2BAE4WHiC0ArV3yEpnSEla0c1RJ8q72c1z9KjXtBDvuA
- r5eCbX117hzvliriCVcObFn6wp63MG/Om9IFx0pHFFyRetN5uD76XxvKlFE9BmmzVAs3
- XGsA==
+ bh=msJlygCwztcKRCpl1OXcVZ463IWdf/JAulr8vPXr8uc=;
+ b=kw/1CVr1CvRVBN7ppDzHuBwXNvTpjmdU+210GrNG3Nc4b7E6jprzvZIHSr8pmgM/I3
+ Ooumonhq2AA5Z/bDkgOMmb2uuM0HYdIO4QfNzuv00lDToNyHDOw36qPCZqLGXo4Ny3Rv
+ 8GkkhYRZVPrpYZIyCy0c/BpWEycFDPgrnqVXz0/oGqCFsBGaXEqVwjB2ectF8uoWJPDw
+ cqsZOPBXQ8MKkKJ4OYLi5exG/8EufN0ybQVFN2TtQD6A6dL7rQVdsIKxIZG1aTs5d6oI
+ 3O2K+mIJ1o8KaZwC8/MgU6kRcp+hsoW+as5mFzAkuL6pYASSSpWkf57h2MlRn8yzVn5+
+ jiqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:mime-version:in-reply-to:references
  :user-agent:from:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=AQlxwrQ9+SAIJlBHFz/WVtqfuSsX8479gf+InmNYkZs=;
- b=7ACQDmZIh1uQxVULtY/cCJomSbJBr1YS6p3tMb5rDEVQdPuYmItPpcH7DRyg49XHYp
- W/pth7EovrsgKNLvoOXGE8Z0Z2sgAODMLiJA1g4BnCa2Nkm+pBhI8rwpT4FMcmjvzsuo
- FF0eXVApHTPVwVmS2HczXOxa7xml2dAwtKBmW7H6WyNVsIG3rj0KwUK2yksQD2btNkWL
- xgno/7DZ7R/KvPJuEarD8diQwjh5vQTStp9H00oN6nGfHrJZS9TTOEnxvIpsDBztR7eG
- AItSgdJ29zMepIq4JijBokGVIMGCpXsvcRbkJokL8EzMpB2KLj2wCusCmK4rs3oS7UVk
- Bhfg==
-X-Gm-Message-State: ACrzQf2rk2K8ZoNA+LDvHFpqRNPOtgcpA3KHqvDAoW4SCplz+NkehKpf
- M62WQQjVx4+eMjSgmqiJXA1Ey3a3XvZXTQpT4ubIpQ==
-X-Google-Smtp-Source: AMsMyM5u67xgoVRbvAl2jo49umhno4Yx8nKrhd8saRcif/bR8rpMZwMhWdL1nVFsqasbfxpjnO2MfcuNIfWTUazhbyA=
+ bh=msJlygCwztcKRCpl1OXcVZ463IWdf/JAulr8vPXr8uc=;
+ b=oYobM3sQh+77NBr4znzlYeKWOJr6iyIchqaZ4ccKP/gFefkQagx3l5DCpqygMcrtNY
+ PLuG7i21gbiZF2hVLDj/e7m5aDv8X2aOTO9sfHn7JsGBnkdX0GNFLY+vNZLD+PC2z3fs
+ Q4nl8wOjHsimigEpYhdwl0He88vbCGlsd5QsPBQoK0K4cvAqTzmG9/jeU5Y/ZzU3Ttrb
+ vpntaxdYrVLSs9X8ow5wWKEAlv6ArSVPXOAoZKbPtnbo03srmksyVQHVRstRKwxTPvVJ
+ g/8c4yoYES2fFhduYcBw/PuAtuzMv7wdT7b5ckQ4W1mxuSuvQ50Au8Dem/4fgG0++KlR
+ SlSg==
+X-Gm-Message-State: ACrzQf0g5oaAhRBzFqhu4QxoqvGYYkEYffKCYFxznC2SvyGC6cDBQG/t
+ 8m+6M6Sc9FHzUW9N8Olvf3X1h+o2dLJxopToGHnyxQ==
+X-Google-Smtp-Source: AMsMyM4/hRdV6PUceQjYTAr5VlJwQq0PJWF/plhX/TikjJfOvo1/P9XLmwGDedaShVJ1ltmLlfA5kP20+nvh1Rr9HWY=
 X-Received: by 2002:a05:6512:a93:b0:4a2:a5b3:fbb4 with SMTP id
- m19-20020a0565120a9300b004a2a5b3fbb4mr17313440lfu.346.1667833039925; Mon, 07
- Nov 2022 06:57:19 -0800 (PST)
+ m19-20020a0565120a9300b004a2a5b3fbb4mr17334447lfu.346.1667833571328; Mon, 07
+ Nov 2022 07:06:11 -0800 (PST)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 7 Nov 2022 14:57:19 +0000
+ HTTPREST; Mon, 7 Nov 2022 15:06:10 +0000
 From: Guillaume Ranquet <granquet@baylibre.com>
 User-Agent: meli 0.7.2
 References: <20220919-v3-0-a803f2660127@baylibre.com>
- <20220919-v3-6-a803f2660127@baylibre.com>
- <a3472c42-ccac-7c98-a0b6-57556a348ac1@collabora.com>
-In-Reply-To: <a3472c42-ccac-7c98-a0b6-57556a348ac1@collabora.com>
+ <20220919-v3-12-a803f2660127@baylibre.com>
+ <988b0a7a-69bb-34e4-e777-1d9516221077@collabora.com>
+In-Reply-To: <988b0a7a-69bb-34e4-e777-1d9516221077@collabora.com>
 MIME-Version: 1.0
-Date: Mon, 7 Nov 2022 14:57:19 +0000
-Message-ID: <CABnWg9uPL0qCat4Sw2uqj6-KN-OxPqGOjw+SR1bBVvGrmCBTZQ@mail.gmail.com>
-Subject: Re: [PATCH v3 06/12] drm/mediatek: hdmi: add frame_colorimetry flag
+Date: Mon, 7 Nov 2022 15:06:10 +0000
+Message-ID: <CABnWg9t0KznQG1Mix=jSchk99Xj-h3Bf28WTaP9gc8AC6yLr7Q@mail.gmail.com>
+Subject: Re: [PATCH v3 12/12] drm/mediatek: dpi: Add mt8195 hdmi to DPI driver
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
  Kishon Vijay Abraham I <kishon@ti.com>, Rob Herring <robh+dt@kernel.org>, 
  Chun-Kuang Hu <chunkuang.hu@kernel.org>,
@@ -86,39 +86,75 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 07 Nov 2022 12:09, AngeloGioacchino Del Regno
+On Mon, 07 Nov 2022 12:20, AngeloGioacchino Del Regno
 <angelogioacchino.delregno@collabora.com> wrote:
 >Il 04/11/22 15:09, Guillaume Ranquet ha scritto:
->> Add a flag to indicate support for frame colorimetry.
+>> Add the DPI1 hdmi path support in mtk dpi driver
 >>
 >> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
 >> ---
->>   drivers/gpu/drm/mediatek/mtk_hdmi_common.c | 11 +++++++++++
->>   drivers/gpu/drm/mediatek/mtk_hdmi_common.h |  1 +
->>   2 files changed, 12 insertions(+)
+>>   drivers/gpu/drm/mediatek/mtk_dpi.c      | 143 ++++++++++++++++++++++++++++++--
+>>   drivers/gpu/drm/mediatek/mtk_dpi_regs.h |   5 ++
+>>   2 files changed, 141 insertions(+), 7 deletions(-)
 >>
->> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_common.c b/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
->> index 3635ca66817b..933c51b5f6d7 100644
->> --- a/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
->> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
->> @@ -120,6 +120,17 @@ int mtk_hdmi_setup_avi_infoframe(struct mtk_hdmi *hdmi, u8 *buffer, size_t bufsz
->>   		return err;
->>   	}
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
+>> index 508a6d994e83..8052b47042b8 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+>> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+>> @@ -14,7 +14,10 @@
+>>   #include <linux/of_graph.h>
+>>   #include <linux/pinctrl/consumer.h>
+>>   #include <linux/platform_device.h>
+>> +#include <linux/reset.h>
+>>   #include <linux/types.h>
+>> +#include <linux/regmap.h>
+>> +#include <linux/mfd/syscon.h>
 >>
->> +	if (hdmi->conf->has_frame_colorimetry) {
->> +		frame.colorimetry = hdmi->colorimtery;
+>>   #include <video/videomode.h>
+>>
+>> @@ -65,10 +68,14 @@ struct mtk_dpi {
+>>   	struct drm_bridge *next_bridge;
+>>   	struct drm_connector *connector;
+>>   	void __iomem *regs;
+>> +	struct reset_control *reset_ctl;
+>>   	struct device *dev;
+>>   	struct clk *engine_clk;
+>> +	struct clk *dpi_ck_cg;
+>>   	struct clk *pixel_clk;
+>> +	struct clk *dpi_sel_clk;
+>>   	struct clk *tvd_clk;
+>> +	struct clk *hdmi_cg;
 >
->Typo: s/colorimtery/colorimetry/g
+>I admit that I didn't really check these clocks, but judging by the names,
+>it is highly possible that one (or more) of them are supposed to be parents
+>of some others.
 >
->...also, I don't see this being really used? In hdmi-v2 you're setting this param
->to HDMI_COLORIMETRY_NONE and quantization ranges to always the same default value.
+>The first suspicious ones are dpi_ck_cg and dpi_sel_clk: please check.
 >
->I wonder if this is really needed at this point.
+>I'm also not sure about the hdmi_cg, shouldn't the DPI have a HDMI port in
+>the graph that you'd declare in devicetree?
+>
+>Besides... you're doing a lot of work to check if (is_internal_hdmi) for
+>power up/down paths, but seeing that you're introducing this change after
+>adding the HDMI driver makes me mostly sure that the internal hdmi that we're
+>talking about here is the one that is managed by the HDMIV2 driver... and
+>this means that you should really, really, really rely on connecting inputs
+>and outputs the right way in the devicetree, as that will most probably make
+>you able to write practically 0 code to manage power for the DPI... and may
+>also remove the need of adding the hdmi_cg clock here...
 >
 >Regards,
 >Angelo
+>
+>
 
-I'll see if I can make something work without this boolean.
+I don't have access to a clock tree documentation or anything that permits
+me to answer those questions with confidence. I'll ask mediatek for some input
+and I'll also check how those clocks are declared in the clock framework.
+
+You are right in assuming that the "is_internal_hdmi" is in fact the V2 IP.
+I like the idea of removing code, I'll try to make sense of your suggestion
+and see if there's anything I can do better for v4.
 
 Thx,
 Guillaume.
