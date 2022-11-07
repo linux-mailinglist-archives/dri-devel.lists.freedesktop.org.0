@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B62D761E6B2
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Nov 2022 22:51:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5295561E7D3
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 01:08:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4985710E0E2;
-	Sun,  6 Nov 2022 21:51:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3336110E1C7;
+	Mon,  7 Nov 2022 00:08:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F323410E0E2
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Nov 2022 21:50:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667771456;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=QSBz7ls6pvIRkPGuuPnjgOEhM6moagvV/H8ef1Cykvk=;
- b=P3KDHwSBpfJPrUrz1Iha0hUfjJ+tvVLEdtoXWTGQ502CwzEpKUx0KY2sUvpzC9SKJM/xL/
- Cps/5uGTiH1uL48T7BD2KHgjrobiQ13sQy0R4TKJyhmDLXwYEldRCJbJcrYYg//DbI0xO6
- POPT+WDag0We1Ih3FtHq5ZGLloATaq0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-300-ol9Se_o8Nvq4q98r2rcllA-1; Sun, 06 Nov 2022 16:50:55 -0500
-X-MC-Unique: ol9Se_o8Nvq4q98r2rcllA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D21B7833A06;
- Sun,  6 Nov 2022 21:50:54 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.192.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E048040C6EC4;
- Sun,  6 Nov 2022 21:50:53 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH] drm: panel-orientation-quirks: Add quirk for Acer Switch V 10
- (SW5-017)
-Date: Sun,  6 Nov 2022 22:50:52 +0100
-Message-Id: <20221106215052.66995-1-hdegoede@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2626110E111;
+ Mon,  7 Nov 2022 00:08:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1667779700; x=1699315700;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=9DOoUZdq46nHGydD6VuBdF2sql8gfDA2iF5/4kW1zkM=;
+ b=GJ+HkhqI3ZaRF+0sBSa7OL+bjRm4wwdSkMMHOTGfwUm4RBi9ziZfqVKk
+ XkUne5Ady9y74mrewSzLR4Px3dgTvsNwR5QkuV5VsjBmALC+xnyio2UAq
+ 8kGEJ0Uojx8MN+Pa0/eghMZg9bYNSoJZNhPhTeqtcVIiLlQ2MScu22YuK
+ niVdzuOtRP3AFB8AFyh2T74RbTP5b0ghoJ/AzDaQ25Vpp3r97LmADk/9W
+ bnqeY3OgWr8WfCgl8Eyl1HBR6CHMiFEe7qlVkOA5w/LlGd+/PECHLcpWf
+ VxZ49i9KRbrUSCH034B8b3wsn+vyOTW5/+yFmTxHD00wmaZdOZZ04nNMG Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="307917537"
+X-IronPort-AV: E=Sophos;i="5.96,143,1665471600"; d="scan'208";a="307917537"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Nov 2022 16:08:14 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="666984766"
+X-IronPort-AV: E=Sophos;i="5.96,143,1665471600"; d="scan'208";a="666984766"
+Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
+ ([10.212.176.133])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Nov 2022 16:08:13 -0800
+Date: Sun, 06 Nov 2022 16:08:12 -0800
+Message-ID: <87tu3blj83.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH v5 5/7] drm/i915/gt: Create per-tile RC6 sysfs
+ interface
+In-Reply-To: <YhSlXprNK2Wp5dlh@intel.intel>
+References: <20220217144158.21555-1-andi.shyti@linux.intel.com>	<20220217144158.21555-6-andi.shyti@linux.intel.com>	<12c2fcf8-ef3b-e59c-fe1e-23bc8f12cfe5@linux.intel.com>	<Yg5vlgoTEfJRWP9U@intel.intel>	<164518120389.6218.14670990912373168491@jlahtine-mobl.ger.corp.intel.com>	<02fe43a4-0cb5-54e3-cd2f-b4bc128e7161@linux.intel.com>	<YhSlXprNK2Wp5dlh@intel.intel>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/28.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-7
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,38 +61,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>, Rudolf Polzer <rpolzer@google.com>,
- dri-devel@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ DRI Devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>, lowren.h.lawson@intel.com,
+ Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Like the Acer Switch One 10 S1003, for which there already is a quirk,
-the Acer Switch V 10 (SW5-017) has a 800x1280 portrait screen mounted
-in the tablet part of a landscape oriented 2-in-1. Add a quirk for this.
+On Tue, 22 Feb 2022 00:57:02 -0800, Andi Shyti wrote:
+>
 
-Cc: Rudolf Polzer <rpolzer@google.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+Old thread, new comment below at the bottom. Please take a look. Thanks.
 
-diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index f0f6fa306521..52d8800a8ab8 100644
---- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-+++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -134,6 +134,12 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "One S1003"),
- 		},
- 		.driver_data = (void *)&lcd800x1280_rightside_up,
-+	}, {	/* Acer Switch V 10 (SW5-017) */
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Acer"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "SW5-017"),
-+		},
-+		.driver_data = (void *)&lcd800x1280_rightside_up,
- 	}, {	/* Anbernic Win600 */
- 		.matches = {
- 		  DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "Anbernic"),
--- 
-2.37.3
+> Hi Tvrtko and Joonas,
+>
+> > > > > > Now tiles have their own sysfs interfaces under the gt/
+> > > > > > directory. Because RC6 is a property that can be configured on a
+> > > > > > tile basis, then each tile should have its own interface
+> > > > > >
+> > > > > > The new sysfs structure will have a similar layout for the 4 ti=
+le
+> > > > > > case:
+> > > > > >
+> > > > > > /sys/.../card0
+> > > > > >            \u251c\u2500\u2500 gt
+> > > > > >            \u2502=A0=A0 \u251c\u2500\u2500 gt0
+> > > > > >            \u2502=A0=A0 \u2502=A0=A0 \u251c\u2500\u2500 id
+> > > > > >            \u2502=A0=A0 \u2502=A0=A0 \u251c\u2500\u2500 rc6_ena=
+ble
+> > > > > >            \u2502=A0=A0 \u2502=A0=A0 \u251c\u2500\u2500 rc6_res=
+idency_ms
+> > > > > >            .   .   .
+> > > > > >            .   .   .
+> > > > > >            .   .
+> > > > > >            \u2502=A0=A0 \u2514\u2500\u2500 gtN
+> > > > > >            \u2502=A0=A0     \u251c\u2500\u2500 id
+> > > > > >            \u2502=A0=A0     \u251c\u2500\u2500 rc6_enable
+> > > > > >            \u2502=A0=A0     \u251c\u2500\u2500 rc6_residency_ms
+> > > > > >            \u2502       .
+> > > > > >            \u2502       .
+> > > > > >            \u2502
+> > > > > >            \u2514\u2500\u2500 power/                -+
+> > > > > >                 \u251c\u2500\u2500 rc6_enable        |    Origi=
+nal interface
+> > > > > >                 \u251c\u2500\u2500 rc6_residency_ms  +->  kept =
+as existing ABI;
+> > > > > >                 .                     |    it multiplexes over
+> > > > > >                 .                     |    the GTs
+> > > > > >                                      -+
+> > > > > >
+> > > > > > The existing interfaces have been kept in their original locati=
+on
+> > > > > > to preserve the existing ABI. They act on all the GTs: when
+> > > > > > reading they provide the average value from all the GTs.
+> > > > >
+> > > > > Average feels very odd to me. I'd ask if we can get away providin=
+g an errno
+> > > > > instead? Or tile zero data?
+> > >
+> > > Tile zero data is always wrong, in my opinion. If we have round-robin
+> > > scaling workloads like some media cases, part of the system load might
+> > > just disappear when it goes to tile 1.
+> >
+> > I was thinking that in conjunction with deprecated log message it would=
+n't
+> > be wrong - I mean if the route take was to eventually retire the legacy
+> > files altogether.
+>
+> that's a good point... do we want to treat the legacy interfaces
+> as an error or do we want to make them a feature? As the
+> discussion is turning those interfaces are becoming a feature.
+> But what are we going to do with the coming interfaces?
+>
+> E.g. in the future we will have the rc6_enable/disable that can
+> be a command, so that we will add the "_store" interface per
+> tile. What are we going to do with the above interfaces? Are we
+> going to add a multiplexed command as well?
+>
+> > > When we have frequency readbacks without control, returning MAX() acr=
+oss
+> > > tiles would be the logical thing. The fact that parts of the hardware=
+ can
+> > > be clocked lower when one part is fully utilized is the "new feature".
+> > >
+> > > After that we're only really left with the rc6_residency_ms. And that=
+ is
+> > > the tough one. I'm inclined that MIN() across tiles would be the right
+> > > answer. If you are fully utilizing a single tile, you should be able =
+to
+> > > see it.
+>
+> >  So we have MIN, AVG or SUM, or errno, or remove the file (which is
+> > just a different kind of errno?) to choose from. :)
+>
+> in this case it would just be MIN and MAX. At the end we have
+> here only two types of interface: frequencies and residency_ms.
+> For the first type we would use 'max', for the second 'min'.
 
+We have the comment below from Lowren about this about showing MAX for
+freq. Could someone reply. Thanks.
+
+On Sun, 06 Nov 2022 08:54:04 -0800, Lawson, Lowren H wrote:
+
+Why show maximum?  Wouldn=A2t average be more accurate to the user
+experience?
+
+As a user, I expect the =A1card=A2 frequency to be relatively accurate to t=
+he
+entire card.  If I see 1.6GHz, but the card is behaving as if it=A2s
+running a 1.0 & 1.6GHz on the different compute tiles, I=A2m going to see a
+massive decrease in compute workload performance while at =A1maximum=A2
+frequency.
