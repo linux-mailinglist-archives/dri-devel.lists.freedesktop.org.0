@@ -2,50 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 997BA61EBC7
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 08:21:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DC0461EBCE
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 08:23:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B83910E1FF;
-	Mon,  7 Nov 2022 07:21:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4835010E212;
+	Mon,  7 Nov 2022 07:23:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8C2410E1FC;
- Mon,  7 Nov 2022 07:20:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1667805646; x=1699341646;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=8WWx59un+2xFogGvnmYb5DwVKMit8ZUwOeNDliHSKSQ=;
- b=PK53qIivQTo6DhMeFQ5m5RmmvuZpK43TS5Lac2bNX6m2wBNISdryB6tX
- uTF6KzXZbCKatV9X9CeF7iLFPdVUy0NpdyazDCmjNzbr6ZeEtizPR40xu
- QaHehgRFrX1Xjf9sJeVrdumqATLsJVlUGhV67dLtYlvX45Gs2GIDS+qBb
- lPs5RbJpdg1pIA4vK5z1uA/Wc8YYAjNJKBGcjRiwFrb14c3/wvYHexoyD
- Z1NcE+bgvV4cCXKU3PlbrKRQ8vwPtOO3ry7MzWbos5LDvrIdxqldHlvsH
- JsuNuf6PKyUIdMzMa2ygX0ig9iOw8BWfeA/AQj/h19wLBrjUEskPh0SzB A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="372463414"
-X-IronPort-AV: E=Sophos;i="5.96,143,1665471600"; d="scan'208";a="372463414"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Nov 2022 23:20:46 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="704767325"
-X-IronPort-AV: E=Sophos;i="5.96,143,1665471600"; d="scan'208";a="704767325"
-Received: from srr4-3-linux-103-aknautiy.iind.intel.com ([10.223.34.160])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Nov 2022 23:20:44 -0800
-From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-To: dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org
-Subject: [RFC 15/15] drm/i915/display/mtl: Add functions for FRL trainining
- state machine
-Date: Mon,  7 Nov 2022 12:50:45 +0530
-Message-Id: <20221107072045.628895-16-ankit.k.nautiyal@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221107072045.628895-1-ankit.k.nautiyal@intel.com>
-References: <20221107072045.628895-1-ankit.k.nautiyal@intel.com>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDE2510E200
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 07:22:54 +0000 (UTC)
+X-UUID: 6622691522f2460a8f08d291a564b22f-20221107
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=oweEFqigN+U719uGCWNCKXEWtGvCs9Y8Oq12/q4diEc=; 
+ b=jzSKNWhJH8tjajAi+2NaO7Qv2j4p6A4Q97Mvxbn5wASgydmMHu6YARE/ceAo5Mzgd0ZVxAQd2MlvF0fORenFzZmq7PvMcXpRde6QWaNUccViPP5P3/ccVJGWgq3BvME+ATv75zBK3Ag/g/KaZWFhIEEU3+2IH4PGjI2KXynhjy4=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.12, REQID:9fb094b9-ef03-4d80-9443-669453c0e94a, IP:0,
+ U
+ RL:0,TC:0,Content:-20,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+ N:release,TS:-20
+X-CID-META: VersionHash:62cd327, CLOUDID:8b69a4eb-84ac-4628-a416-bc50d5503da6,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:1,EDM:-3,IP:nil,U
+ RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 6622691522f2460a8f08d291a564b22f-20221107
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw01.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 2050227453; Mon, 07 Nov 2022 15:22:48 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Mon, 7 Nov 2022 15:22:46 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.15 via Frontend Transport; Mon, 7 Nov 2022 15:22:46 +0800
+From: Nancy.Lin <nancy.lin@mediatek.com>
+To: Rob Herring <robh+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, "Philipp
+ Zabel" <p.zabel@pengutronix.de>, <wim@linux-watchdog.org>, "AngeloGioacchino
+ Del Regno" <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>,
+ <nfraprado@collabora.com>
+Subject: [PATCH v28 00/11] Add MediaTek SoC(vdosys1) support for mt8195
+Date: Mon, 7 Nov 2022 15:22:32 +0800
+Message-ID: <20221107072243.15748-1-nancy.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,437 +65,208 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: vandita.kulkarni@intel.com, uma.shankar@intel.com, mika.kahola@intel.com,
- radhakrishna.sripada@intel.com
+Cc: devicetree@vger.kernel.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, David Airlie <airlied@linux.ie>,
+ "jason-jh . lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
+ llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Nathan
+ Chancellor <nathan@kernel.org>, "Nancy . Lin" <nancy.lin@mediatek.com>,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for FRL Link training state and transition
-to different states during FRL Link training.
+The hardware path of vdosys1 with DPTx output need to go through by several modules, such as, OVL_ADAPTOR and MERGE.
 
-Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
----
- drivers/gpu/drm/i915/display/intel_ddi.c  |   2 +
- drivers/gpu/drm/i915/display/intel_hdmi.c | 383 ++++++++++++++++++++++
- drivers/gpu/drm/i915/display/intel_hdmi.h |   2 +
- 3 files changed, 387 insertions(+)
+Add mmsys and mutex modules support by the patches below:
 
-diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
-index cb0d19b6ee56..4b1b8a18863e 100644
---- a/drivers/gpu/drm/i915/display/intel_ddi.c
-+++ b/drivers/gpu/drm/i915/display/intel_ddi.c
-@@ -2514,6 +2514,8 @@ static void intel_ddi_pre_enable_hdmi(struct intel_atomic_state *state,
- 
- 	intel_ddi_enable_pipe_clock(encoder, crtc_state);
- 
-+	intel_hdmi_start_frl(encoder, crtc_state);
-+
- 	dig_port->set_infoframes(encoder,
- 				 crtc_state->has_infoframe,
- 				 crtc_state, conn_state);
-diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
-index 9e8ee6d5bc5d..6553763306ff 100644
---- a/drivers/gpu/drm/i915/display/intel_hdmi.c
-+++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-@@ -3285,3 +3285,386 @@ intel_hdmi_dsc_get_bpp(int src_fractional_bpp, int slice_width, int num_slices,
- 
- 	return 0;
- }
-+
-+static
-+bool is_flt_ready(struct intel_encoder *encoder)
-+{
-+	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
-+	struct intel_hdmi *intel_hdmi = enc_to_intel_hdmi(encoder);
-+	struct i2c_adapter *adapter =
-+		intel_gmbus_get_adapter(dev_priv, intel_hdmi->ddc_bus);
-+
-+	return drm_scdc_read_status_flags(adapter) & SCDC_FLT_READY;
-+}
-+
-+static
-+bool intel_hdmi_frl_prepare_lts2(struct intel_encoder *encoder,
-+				 const struct intel_crtc_state *crtc_state,
-+				 int ffe_level)
-+{
-+#define TIMEOUT_FLT_READY_MS  250
-+	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
-+	struct intel_hdmi *intel_hdmi = enc_to_intel_hdmi(encoder);
-+	struct i2c_adapter *adapter =
-+		intel_gmbus_get_adapter(dev_priv, intel_hdmi->ddc_bus);
-+	bool flt_ready = false;
-+	int frl_rate;
-+	int frl_lanes;
-+
-+	frl_rate = crtc_state->frl.required_rate;
-+	frl_lanes = crtc_state->frl.required_lanes;
-+
-+	if (!frl_rate || !frl_lanes)
-+		return false;
-+
-+	/*
-+	 * POLL for FRL ready : READ SCDC 0x40 Bit 6 FLT ready
-+	 * #TODO Check if 250 msec is required
-+	 */
-+	wait_for(flt_ready = is_flt_ready(encoder) == true,
-+		 TIMEOUT_FLT_READY_MS);
-+
-+	if (!flt_ready) {
-+		drm_dbg_kms(&dev_priv->drm,
-+			    "HDMI sink not ready for FRL in %d\n",
-+			    TIMEOUT_FLT_READY_MS);
-+
-+		return false;
-+	}
-+
-+	/*
-+	 * #TODO As per spec, during prepare phase LTS2, the TXFFE to be
-+	 * programmed to be 0 for each lane in the PHY registers.
-+	 */
-+
-+	if (drm_scdc_config_frl(adapter, frl_rate, frl_lanes, ffe_level) < 0) {
-+		drm_dbg_kms(&dev_priv->drm,
-+			    "Failed to write SCDC config regs for FRL\n");
-+
-+		return false;
-+	}
-+
-+	return flt_ready;
-+}
-+
-+enum frl_lt_status {
-+	FRL_TRAINING_PASSED,
-+	FRL_CHANGE_RATE,
-+	FRL_TRAIN_CONTINUE,
-+	FRL_TRAIN_RETRAIN,
-+	FRL_TRAIN_STOP,
-+};
-+
-+static
-+u8 get_frl_update_flag(struct intel_encoder *encoder)
-+{
-+	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
-+	struct intel_hdmi *intel_hdmi = enc_to_intel_hdmi(encoder);
-+	struct i2c_adapter *adapter =
-+		intel_gmbus_get_adapter(dev_priv, intel_hdmi->ddc_bus);
-+
-+	return drm_scdc_read_update_flags(adapter);
-+}
-+
-+static
-+int get_link_training_patterns(struct intel_encoder *encoder,
-+			       enum drm_scdc_frl_ltp ltp[4])
-+{
-+	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
-+	struct intel_hdmi *intel_hdmi = enc_to_intel_hdmi(encoder);
-+	struct i2c_adapter *adapter =
-+		intel_gmbus_get_adapter(dev_priv, intel_hdmi->ddc_bus);
-+
-+	return drm_scdc_get_ltp(adapter, ltp);
-+}
-+
-+static enum frl_lt_status
-+intel_hdmi_train_lanes(struct intel_encoder *encoder,
-+		       const struct intel_crtc_state *crtc_state,
-+		       int ffe_level)
-+{
-+	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
-+	enum transcoder trans = crtc_state->cpu_transcoder;
-+	enum drm_scdc_frl_ltp ltp[4];
-+	int num_lanes = crtc_state->frl.required_lanes;
-+	int lane;
-+
-+	/*
-+	 * LTS3 Link Training in Progress.
-+	 * Section 6.4.2.3 Table 6-34.
-+	 *
-+	 * Transmit link training pattern as requested by the sink
-+	 * for a specific rate.
-+	 * Source keep on Polling on FLT update flag and keep
-+	 * repeating patterns till timeout or request for new rate,
-+	 * or training is successful.
-+	 */
-+	if (!(get_frl_update_flag(encoder) & SCDC_FLT_UPDATE))
-+		return FRL_TRAIN_CONTINUE;
-+
-+	if (get_link_training_patterns(encoder, ltp) < 0)
-+		return FRL_TRAIN_STOP;
-+
-+	if (ltp[0] == ltp[1] && ltp[1] == ltp[2]) {
-+		if (num_lanes == 3 || (num_lanes == 4 && ltp[2] == ltp[3])) {
-+			if (ltp[0] == SCDC_FRL_NO_LTP)
-+				return FRL_TRAINING_PASSED;
-+			if (ltp[0] == SCDC_FRL_CHNG_RATE)
-+				return FRL_CHANGE_RATE;
-+		}
-+	}
-+
-+	for (lane = 0; lane < num_lanes; lane++) {
-+		if (ltp[lane] >= SCDC_FRL_LTP1 && ltp[lane] <= SCDC_FRL_LTP8)
-+			/* write the LTP for the lane*/
-+			intel_de_write(dev_priv, TRANS_HDMI_FRL_TRAIN(trans),
-+				       TRANS_HDMI_FRL_LTP(ltp[lane], lane));
-+		else if (ltp[lane] == SCDC_FRL_CHNG_FFE) {
-+			/*
-+			 * #TODO Update TxFFE for the lane
-+			 *
-+			 * Read the existing TxFFE for the lane, from PHY regs.
-+			 * If TxFFE is already at FFE_level (i.e. max level)
-+			 * then Set TXFFE0 for the lane.
-+			 * Otherwise increment TxFFE for the lane.
-+			 */
-+		}
-+	}
-+
-+	return FRL_TRAIN_CONTINUE;
-+}
-+
-+static int
-+clear_scdc_update_flags(struct intel_encoder *encoder, u8 flags)
-+{
-+	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
-+	struct intel_hdmi *intel_hdmi = enc_to_intel_hdmi(encoder);
-+	struct i2c_adapter *adapter =
-+		intel_gmbus_get_adapter(dev_priv, intel_hdmi->ddc_bus);
-+
-+	return drm_scdc_clear_update_flags(adapter, flags);
-+}
-+
-+static enum frl_lt_status
-+frl_train_complete_ltsp(struct intel_encoder *encoder,
-+			const struct intel_crtc_state *crtc_state)
-+{
-+#define FLT_UPDATE_TIMEOUT_MS 200
-+	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
-+	enum transcoder trans = crtc_state->cpu_transcoder;
-+	u32 buf;
-+	u8 update_flag = 0;
-+
-+	/*
-+	 * Start FRL transmission with only Gap Characters, with Scrambing,
-+	 * Reed Solomon FEC, and Super block structure.
-+	 */
-+	buf = intel_de_read(dev_priv, TRANS_HDMI_FRL_CFG(trans));
-+	intel_de_write(dev_priv, TRANS_HDMI_FRL_CFG(trans),
-+		       buf | TRANS_HDMI_FRL_TRAINING_COMPLETE);
-+
-+	/* Clear SCDC FLT_UPDATE by writing 1 */
-+	if (clear_scdc_update_flags(encoder, SCDC_FLT_UPDATE) < 0)
-+		return FRL_TRAIN_STOP;
-+
-+	wait_for((update_flag = get_frl_update_flag(encoder)) &
-+		 (SCDC_FRL_START | SCDC_FLT_UPDATE), FLT_UPDATE_TIMEOUT_MS);
-+
-+	if (update_flag & SCDC_FRL_START)
-+		return FRL_TRAINING_PASSED;
-+
-+	if (update_flag & SCDC_FLT_UPDATE) {
-+		drm_dbg_kms(&dev_priv->drm,
-+			    "FRL update received for retraining the lanes\n");
-+		clear_scdc_update_flags(encoder, SCDC_FLT_UPDATE);
-+
-+		return FRL_TRAIN_RETRAIN;
-+	}
-+
-+	drm_err(&dev_priv->drm, "FRL TRAINING: FRL update timedout\n");
-+
-+	return FRL_TRAIN_STOP;
-+}
-+
-+static enum frl_lt_status
-+intel_hdmi_frl_train_lts3(struct intel_encoder *encoder,
-+			  const struct intel_crtc_state *crtc_state,
-+			  int ffe_level)
-+{
-+/*
-+ * Time interval specified for link training HDMI2.1 Spec:
-+ * Sec 6.4.2.1 Table 6-31
-+ */
-+#define FLT_TIMEOUT_MS 200
-+	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
-+	enum frl_lt_status status;
-+	enum transcoder trans = crtc_state->cpu_transcoder;
-+	u32 buf;
-+
-+	buf = intel_de_read(dev_priv, TRANS_HDMI_FRL_CFG(trans));
-+	intel_de_write(dev_priv, TRANS_HDMI_FRL_CFG(trans),
-+		       buf | TRANS_HDMI_FRL_ENABLE);
-+
-+#define done ((status = intel_hdmi_train_lanes(encoder, crtc_state, ffe_level)) != FRL_TRAIN_CONTINUE)
-+	wait_for(done, FLT_TIMEOUT_MS);
-+
-+	/* TIMEDOUT */
-+	if (status == FRL_TRAIN_CONTINUE) {
-+		drm_err(&dev_priv->drm, "FRL TRAINING: FLT TIMEDOUT\n");
-+
-+		return FRL_TRAIN_STOP;
-+	}
-+
-+	if (status != FRL_TRAINING_PASSED)
-+		return status;
-+
-+	return frl_train_complete_ltsp(encoder, crtc_state);
-+}
-+
-+static void intel_hdmi_frl_ltsl(struct intel_encoder *encoder,
-+				const struct intel_crtc_state *crtc_state)
-+{
-+	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
-+	struct intel_hdmi *intel_hdmi = enc_to_intel_hdmi(encoder);
-+	struct i2c_adapter *adapter =
-+		intel_gmbus_get_adapter(dev_priv, intel_hdmi->ddc_bus);
-+	int lanes = crtc_state->frl.required_lanes;
-+
-+	/* Clear flags */
-+	drm_scdc_config_frl(adapter, 0, lanes, 0);
-+	drm_scdc_clear_update_flags(adapter, SCDC_FLT_UPDATE);
-+}
-+
-+static bool get_next_frl_rate(int *curr_rate_gbps, int max_sink_rate)
-+{
-+	int valid_rate[] =  {48, 40, 32, 24, 18, 9};
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(valid_rate); i++) {
-+		if (max_sink_rate < valid_rate[i])
-+			continue;
-+
-+		if (*curr_rate_gbps < valid_rate[i]) {
-+			*curr_rate_gbps = valid_rate[i];
-+			return true;
-+		}
-+	}
-+
-+	return false;
-+}
-+
-+static int get_ffe_level(int rate_gbps)
-+{
-+	/*
-+	 * #TODO check for FFE_LEVEL to be programmed
-+	 *
-+	 * Should start with max ffe_levels supported by source. MAX can be 3.
-+	 * Currently setting ffe_level = 0.
-+	 */
-+	return 0;
-+}
-+
-+/*
-+ * intel_hdmi_start_frl - Start FRL training for HDMI2.1 sink
-+ *
-+ */
-+void intel_hdmi_start_frl(struct intel_encoder *encoder,
-+			  const struct intel_crtc_state *crtc_state)
-+{
-+	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
-+	struct intel_digital_port *dig_port = enc_to_dig_port(encoder);
-+	struct intel_hdmi *intel_hdmi = &dig_port->hdmi;
-+	struct intel_connector *intel_connector = intel_hdmi->attached_connector;
-+	struct drm_connector *connector = &intel_connector->base;
-+	int *rate;
-+	int max_rate = crtc_state->dsc.compression_enable ? intel_hdmi->max_dsc_frl_rate :
-+							intel_hdmi->max_frl_rate;
-+	int req_rate = crtc_state->frl.required_lanes * crtc_state->frl.required_rate;
-+	int ffe_level = get_ffe_level(req_rate);
-+	enum transcoder trans = crtc_state->cpu_transcoder;
-+	enum frl_lt_status status;
-+	u32 buf = 0;
-+
-+	if (DISPLAY_VER(dev_priv) < 14)
-+		return;
-+
-+	if (!crtc_state->frl.enable)
-+		goto ltsl_tmds_mode;
-+
-+	if (intel_hdmi->frl.trained &&
-+	    intel_hdmi->frl.rate_gbps >= req_rate &&
-+	    intel_hdmi->frl.ffe_level == ffe_level) {
-+		drm_dbg_kms(&dev_priv->drm,
-+			    "[CONNECTOR:%d:%s] FRL Already trained with rate=%d, ffe_level=%d\n",
-+			    connector->base.id, connector->name,
-+			    req_rate, ffe_level);
-+
-+		return;
-+	}
-+
-+	intel_hdmi_reset_frl_config(intel_hdmi);
-+
-+	if (!intel_hdmi_frl_prepare_lts2(encoder, crtc_state, ffe_level))
-+		status = FRL_TRAIN_STOP;
-+	else
-+		status = intel_hdmi_frl_train_lts3(encoder, crtc_state, ffe_level);
-+
-+	switch (status) {
-+	case FRL_TRAINING_PASSED:
-+		intel_hdmi->frl.trained = true;
-+		intel_hdmi->frl.rate_gbps = req_rate;
-+		intel_hdmi->frl.ffe_level = ffe_level;
-+		drm_dbg_kms(&dev_priv->drm,
-+			    "[CONNECTOR:%d:%s] FRL Training Passed with rate=%d, ffe_level=%d\n",
-+			    connector->base.id, connector->name,
-+			    req_rate, ffe_level);
-+
-+		return;
-+	case FRL_TRAIN_STOP:
-+		/*
-+		 * Cannot go with FRL transmission.
-+		 * Reset FRL rates so during next modeset TMDS mode will be
-+		 * selected.
-+		 */
-+		if (crtc_state->dsc.compression_enable)
-+			intel_hdmi->max_dsc_frl_rate = 0;
-+		else
-+			intel_hdmi->max_frl_rate = 0;
-+		break;
-+	case FRL_CHANGE_RATE:
-+		/*
-+		 * Sink request for change of FRL rate.
-+		 * Set FRL rates for the connector with lower rate.
-+		 */
-+		if (crtc_state->dsc.compression_enable)
-+			rate = &intel_hdmi->max_dsc_frl_rate;
-+		else
-+			rate = &intel_hdmi->max_frl_rate;
-+		if (!get_next_frl_rate(rate, max_rate))
-+			*rate = 0;
-+		break;
-+	case FRL_TRAIN_RETRAIN:
-+		/*
-+		 * For Retraining with same rate, we send a uevent to userspace.
-+		 * TODO Need to check how many times we can retry.
-+		 */
-+		fallthrough;
-+	default:
-+		break;
-+	}
-+
-+ltsl_tmds_mode:
-+	intel_hdmi_frl_ltsl(encoder, crtc_state);
-+	buf = intel_de_read(dev_priv, TRANS_HDMI_FRL_CFG(trans));
-+	intel_de_write(dev_priv, TRANS_HDMI_FRL_CFG(trans),
-+		       buf & ~(TRANS_HDMI_FRL_ENABLE | TRANS_HDMI_FRL_TRAINING_COMPLETE));
-+
-+	if (crtc_state->frl.enable && !intel_hdmi->frl.trained) {
-+		drm_err(&dev_priv->drm,
-+			"[CONNECTOR:%d:%s] FRL Training Failed with rate=%d, ffe_level=%d\n",
-+			connector->base.id, connector->name,
-+			req_rate, ffe_level);
-+		/* Send event to user space, to try with next rate or fall back to TMDS */
-+		schedule_work(&intel_connector->modeset_retry_work);
-+	}
-+}
-diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.h b/drivers/gpu/drm/i915/display/intel_hdmi.h
-index 774dda2376ed..a0a5c3159079 100644
---- a/drivers/gpu/drm/i915/display/intel_hdmi.h
-+++ b/drivers/gpu/drm/i915/display/intel_hdmi.h
-@@ -54,5 +54,7 @@ int intel_hdmi_dsc_get_num_slices(const struct intel_crtc_state *crtc_state,
- 				  int src_max_slices, int src_max_slice_width,
- 				  int hdmi_max_slices, int hdmi_throughput);
- int intel_hdmi_dsc_get_slice_height(int vactive);
-+void intel_hdmi_start_frl(struct intel_encoder *encoder,
-+			  const struct intel_crtc_state *crtc_state);
- 
- #endif /* __INTEL_HDMI_H__ */
+Changes in v28:
+- rebase to next-20221107
+- fix reviewer comment in v27
+  - remove change id
+  - fix mmsys config api typo
+
+Changes in v27:
+- rebase to next-20221102
+- change mmsys compatible for mt8195 vdosys1
+  - base on jason's series[ref 1]
+- fix reviewer comment
+  - only register mmsys reset controller if num_resets > 0
+
+Changes in v26:
+- fix reviewer comment
+  - set mmsys num_resets to 32 for 8192
+- rebase to next-20220819
+
+Changes in v25:
+- fix reviewer comment
+  - refine mtk_mmsys_reset_update func
+- rebase to next-20220708
+
+Changes in v24:
+- fix reviewer comment
+  - refine mtk_mmsys_reset_update func
+- rebase to next-20220622
+
+Changes in v23:
+- separate[7] mmsys/mutex and drm patches into two series
+
+Changes in v22:
+- rebase to next-20220525
+- rebase to vdosys0 series v22
+- separate dts to a new patch
+
+Changes in v21:
+- fix reviewer comment
+  - fix rdma and ethdr binding doc and dts
+
+Changes in v20:
+- fix reviewer comment
+  - update mmsys update bit api name
+  - add mtk_mmsys_update_bits error message if lose gce property
+  - list all mt8195 vdosys1 reset bits
+
+Changes in v19:
+- fix reviewer comment
+  - separate mt8195 mmsys component to a new patch
+  - separate mt8195 vdo0 and vdo1 routing table
+  - separate mmsys_write_reg api to a new patch and simplify write reg code
+  - separate mmsys 64 bit reset to a new patch
+  - separate mtk-mutex dp_intf1 component to a new patch
+
+Changes in v18:
+- fix reviewer comment
+  - fix rdma binding doc
+  - fix ethdr binding doc
+  - refine mmsys config cmdq support
+  - refine merge reset control flow, get reset control in probe function
+  - add ethdr reset control error handling and remove dbg log
+- rebase to vdosys0 series v20 (ref [5])
+
+Changes in v17:
+- fix reviewer comment in v16
+  - separate ovl adaptor comp in mtk-mmsys and mtk-mutex
+  - separate mmsys config API
+  - move mdp_rdma binding yaml
+- fix ovl adaptor pm runtime get sync timing issue
+- rebase to vdosys0 series v19 (ref [5])
+- rebase to [7] for modify vblank register change
+
+Changes in v16:
+- fix reviewer comment in v 15
+  - fix mtk_drm_ddp_comp.c alignment
+  - fix vdosys0 mmsys num before adding vdosys1 patch
+
+Changes in v15:
+- fix ethdr uppercase hex number in dts
+
+Changes in v14:
+- remove MTK_MMSYS 64 bit dependency
+- add ethdr.yaml back and fix dt_schema check fail
+
+Resend v13
+- add related maintainer in maillist
+
+Changes in v13:
+- fix reviewer comment in v12
+  - fix rdma dt-binding format
+  - fix dts node naming
+- fix 32 bit build error
+  - modify 64bit dependency for mtk-mmsys
+- rebase to vdosys0 series v16. (ref [5])
+
+Changes in v12:
+- fix reviewer comment in v11
+  - modify mbox index
+  - refine dma dev for ovl_adaptor sub driver
+
+Changes in v11:
+- remove ethdr vblank spin lock
+- refine ovl_adaptor print message
+
+Changes in v10:
+- refine ethdr reset control using devm_reset_control_array_get_optional_exclusive
+- fix ovl_adaptor mtk_ovl_adaptor_clk_enable error handle issue
+
+Changes in v9:
+- rebase on kernel-5.16-rc1
+- rebase on vdosys0 series v13. (ref [5])
+- fix ovl_adaptor sub driver is brought up unintentionally
+- fix clang build test fail- duplicate ethdr/mdp_rdma init_module/cleanup_module symbol issue 
+
+Changes in v8:
+- separate merge async reset to new patch.
+- separate drm ovl_adaptor sub driver to new patch.
+- fix reviewer comment in v7.
+
+Changes in v7:
+- rebase on vdosys0 series v12 (ref[5])
+- add dma description in ethdr binding document.
+- refine vdosys1 bit definition of mmsys routing table.
+- separate merge modification into 3 pathces.
+- separate mutex modification into 2 patches.
+- add plane color coding for mdp_rdma csc.
+- move mdp_rdma pm control to ovl_adaptor.
+- fix reviewer comment in v6.
+
+Changes in v6:
+- rebase on kernel-5.15-rc1.
+- change mbox label to gce0 for dts node of vdosys1.
+- modify mmsys reset num for mt8195.
+- rebase on vdosys0 series v10. (ref [5])
+- use drm to bring up ovl_adaptor driver.
+- move drm iommu/mutex check from kms init to drm bind.
+- modify rdma binding doc location. (Documentation/devicetree/bindings/arm/)
+- modify for reviewer's comment in v5.
+
+Changes in v5:
+- add mmsys reset controller reference.
+
+Changes in v4:
+- use merge common driver for merge1~4.
+- refine ovl_adaptor rdma driver.
+- use ovl_adaptor ddp_comp function instead of ethdr.
+- modify for reviewer's comment in v3.
+
+Changes in v3:
+- modify for reviewer's comment in v2.
+- add vdosys1 2 pixels align limit.
+- add mixer odd offset support.
+
+Changes in v2:
+- Merge PSEUDO_OVL and ETHDR into one DRM component.
+- Add mmsys config API for vdosys1 hardware setting.
+- Add mmsys reset control using linux reset framework.
+
+Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+
+This series are based on the following patch:
+[1] Change mmsys compatible for mt8195 mediatek-drm
+    20220927152704.12018-1-jason-jh.lin@mediatek.com
+
+Nancy.Lin (11):
+  dt-bindings: arm: mediatek: mmsys: add vdosys1 compatible for MT8195
+  dt-bindings: reset: mt8195: add vdosys1 reset control bit
+  soc: mediatek: add mtk-mmsys ethdr and mdp_rdma components
+  soc: mediatek: add mtk-mmsys support for mt8195 vdosys1
+  soc: mediatek: refine code to use mtk_mmsys_update_bits API
+  soc: mediatek: add mtk-mmsys config API for mt8195 vdosys1
+  soc: mediatek: add cmdq support of mtk-mmsys config API for mt8195
+    vdosys1
+  soc: mediatek: mmsys: add mmsys for support 64 reset bits
+  soc: mediatek: mmsys: add reset control for MT8195 vdosys1
+  soc: mediatek: add mtk-mutex component - dp_intf1
+  soc: mediatek: add mtk-mutex support for mt8195 vdosys1
+
+ .../bindings/arm/mediatek/mediatek,mmsys.yaml |   4 +-
+ drivers/soc/mediatek/mt8195-mmsys.h           | 146 ++++++++++++++++++
+ drivers/soc/mediatek/mtk-mmsys.c              | 145 ++++++++++++-----
+ drivers/soc/mediatek/mtk-mmsys.h              |   1 +
+ drivers/soc/mediatek/mtk-mutex.c              |  37 +++++
+ include/dt-bindings/reset/mt8195-resets.h     |  45 ++++++
+ include/linux/soc/mediatek/mtk-mmsys.h        |  25 +++
+ 7 files changed, 366 insertions(+), 37 deletions(-)
+
 -- 
-2.25.1
+2.18.0
 
