@@ -2,76 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6184561F036
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 11:21:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 275F261F098
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 11:27:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3A3C10E0AA;
-	Mon,  7 Nov 2022 10:21:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2481A10E2AD;
+	Mon,  7 Nov 2022 10:27:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
- [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E63AA10E0AA;
- Mon,  7 Nov 2022 10:21:34 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id 837442B066A3;
- Mon,  7 Nov 2022 05:21:29 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Mon, 07 Nov 2022 05:21:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1667816489; x=1667823689; bh=FPdyzqNkno
- LZUhP2W9zx3qRXwxsEZhxJnbsWmIM7q9s=; b=QVI4ViUBH4YxPOA9lWnWL9ptlQ
- GzRJxm3akv7pRgn4Lgu2Namq5G2UgGuhr9akyfG1ibYTg/mOYCBey2O27HwtXzvU
- orXMBjgj/epbf44fS+bnCzEzoezNxNm237lfNVF2mrHPo3p5iZxCeWGZpu6CISNw
- 0hM/f8jZGGBqq+z2C7wTsjzg6m+9zcOEDVjrZkBiRoExNrEonn4BM5UboOUBDITN
- 3t2QGTLrLJlhadHKF71aXvYVPLpw6Yc7snW6P0bTuwZ/IfMigaB0GbCD1iVAC2nt
- 9f3OJS0DpyCeKNxTdQtNTFBhj5x0VG63oNUSiZ+bVNajNeyh4wvO1KJElE9Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1667816489; x=1667823689; bh=FPdyzqNknoLZUhP2W9zx3qRXwxsE
- ZhxJnbsWmIM7q9s=; b=Ycq6u79xpleK9NLFkmSSE+vWJdz187ocPqXnvzaL4lVc
- hVjDHXA1VlnPmkCp2KrG1j7LWaA+zdKj/0IF6L11OEPNw3ikKa3Z4BOsroFgu/To
- s2hePi98JUu3mTp6S1DaLIOPStmWZwu/vzIQz1O+UB3WBkFq2PtbKlTjdZUZ6rBh
- rbnf4vyKD7O26USrGkwlN3aDb60xYab0yha0JWtiXJE8LdoaHqCWJrWDy/D1reM+
- rRbv0ZLLFbN6l351CyzLIyuNYb/0zwInMSEu+fyxhMUYW+9PEulNyPJVmYiYX5Nf
- RDcV4Ut9dVpzbC7Nec4nxUHeRG0MXCI77r3AGPRysw==
-X-ME-Sender: <xms:KNxoY-LOL3K8mIhCu1PvK_DUqG3Ox93ebaLYUBL_xhwGxxUwlDVC8g>
- <xme:KNxoY2I-iI5tTmWS4pywux6iVjFkwgFcLcjyqcHED2pPkD4b3IbYfzBaGalx7WHgC
- 3V0_QBTkUTFJaG-egs>
-X-ME-Received: <xmr:KNxoY-vzxo3ZS7ES3vZ5uAQkdqLgXnqsysG43KBuNd6WEJEKkeWimf1n9s4Qk4IjP-Y3PU_V-IlqhPHk7Fl-cUARYIJnLTssWYjKDEuSkK5TzQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvdekgddugecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepjeevfeehfeekieffgeevleevtefgffefkedtfeeuhfettdegjeehgfegudff
- ffdunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:KNxoYzZpYghNfsHMr75aKnd1oHUp-emFPZXtErk1JfBJe3AtS_2zqw>
- <xmx:KNxoY1YUeQqJ3jmeSCjWEiddeq-ZtB-gW-A-9ZqNX3TcF_-KR8Wlxg>
- <xmx:KNxoY_CIARJZUE2TpmxcTEUNn7HoZzBYZCx7G5wJf0t79CZH6ZXLqw>
- <xmx:KdxoY77WqKgMcr1Xk39cnQVxWIXUiu3X_6QVZjhd-1gl9P5w6Z0KF1uUmcg>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Nov 2022 05:21:27 -0500 (EST)
-Date: Mon, 7 Nov 2022 11:21:26 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
-Subject: Re: [PATCH v6 16/23] drm/probe-helper: Provide a TV get_modes helper
-Message-ID: <20221107102126.klxrvfe34e6uriyx@houat>
-References: <20220728-rpi-analog-tv-properties-v6-0-e7792734108f@cerno.tech>
- <20220728-rpi-analog-tv-properties-v6-16-e7792734108f@cerno.tech>
- <842076aa-8d7c-96d6-ba46-d0e66dacd2df@tronnes.org>
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com
+ [IPv6:2607:f8b0:4864:20::d30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5184D10E2AD
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 10:27:09 +0000 (UTC)
+Received: by mail-io1-xd30.google.com with SMTP id p184so8412161iof.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Nov 2022 02:27:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Oj27jMBYImcEgK1ti/jFGyMv4msqcOaJmd+TiHUll9U=;
+ b=jO5TaSfKzGIVJuX1MgLZDs5V0yCdjIRbQRBr7Ro6DqImhv8tGFDQ56w36Mdx3nBIcN
+ askVI4M213TD6ln+9lmoO64SbbTfJjrHpGJ3bZURGUha1e67Pxn81vbCFfxtlGwLV8im
+ 4ny93h2npR2Gkc50J5eyqDDlTzsXOTdlg6msc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Oj27jMBYImcEgK1ti/jFGyMv4msqcOaJmd+TiHUll9U=;
+ b=ySZg3dxkGn0awWCwfEw0+k7JRaxKfZ8cVfDbkzJteWskU29rK19GMXtwHLa44Xwa0e
+ HWZPxdUkGcgHphF6aHeVbOXavTfVEFCi0exEGuGX19tpaom1GINMG1V8qtwP0lSbBuxD
+ NEyTILVc2cEbR4Aj2wq8WES0LPGK4FRuvDn4SxbG4jV48rPHyX+42nYPcL46xtVxjMIz
+ ziARV1IA4z+HJFpCCmcAj777XiP/7rwk4FrRT3XmQlg/Eojse68DyuvXcKiRK1wIOP+l
+ mGTlNSyZUhSOPIj8OukkKGApY922rfg2j771vKonQ4yWbapASP1jze4GZIn+EvIXjbd8
+ uw/g==
+X-Gm-Message-State: ACrzQf18oigvLsdAIecGBUisyUwIeoZOPqPDJIUIAdodoO2S5DE8A0eP
+ s2Sw4EWsyys/hY1wlhHAKu8LErJLFyYq7cbPGaTMfg==
+X-Google-Smtp-Source: AMsMyM4OwacsZO+65wkB4qezwmRn7UvLD08VvEFQBTRVLREZ/Daevo9D9XVgFTZ//JE9lWzx13Ce000QYaQWd2ZS8Eg=
+X-Received: by 2002:a05:6638:e8a:b0:374:f6c5:cff6 with SMTP id
+ p10-20020a0566380e8a00b00374f6c5cff6mr29952404jas.187.1667816828536; Mon, 07
+ Nov 2022 02:27:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="t7sshpbvkpms7fjp"
-Content-Disposition: inline
-In-Reply-To: <842076aa-8d7c-96d6-ba46-d0e66dacd2df@tronnes.org>
+References: <20221024124323.tfyxcadyd4nz56jz@houat>
+ <f3341ef6-4634-39e4-9bbc-e49e0aa806ee@suse.de>
+ <20221107093057.5w7kdc3pjq77upng@houat>
+ <555dc349-4838-3c24-b35e-38aa8afd9f1d@suse.de>
+In-Reply-To: <555dc349-4838-3c24-b35e-38aa8afd9f1d@suse.de>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Mon, 7 Nov 2022 11:26:57 +0100
+Message-ID: <CAKMK7uFWv98_miqCAVWYVnZZ_V_fL0FSBc6uv0x48ZMrzLQhbA@mail.gmail.com>
+Subject: Re: [igt-dev] Must-Pass Test Suite for KMS drivers
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,69 +66,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Phil Elwell <phil@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
- Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
- linux-sunxi@lists.linux.dev, intel-gfx@lists.freedesktop.org,
- Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- linux-arm-kernel@lists.infradead.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Petri Latvala <petri.latvala@intel.com>,
+ Tim Gover <tim.gover@raspberrypi.com>, David Airlie <airlied@linux.ie>,
+ Martin Roukala <martin.roukala@mupuf.org>, dri-devel@lists.freedesktop.org,
+ igt-dev@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
+ Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>,
+ Dom Cobley <dom@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, 7 Nov 2022 at 10:43, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>
+> Hi
+>
+> Am 07.11.22 um 10:30 schrieb Maxime Ripard:
+> > Hi Thomas,
+> >
+> > On Fri, Oct 28, 2022 at 09:31:38AM +0200, Thomas Zimmermann wrote:
+> >> Am 24.10.22 um 14:43 schrieb maxime@cerno.tech:
+> >>> I've discussing the idea for the past year to add an IGT test suite t=
+hat
+> >>> all well-behaved KMS drivers must pass.
+> >>>
+> >>> The main idea behind it comes from v4l2-compliance and cec-compliance=
+,
+> >>> that are being used to validate that the drivers are sane.
+> >>>
+> >>> We should probably start building up the test list, and eventually
+> >>> mandate that all tests pass for all the new KMS drivers we would merg=
+e
+> >>> in the kernel, and be run by KCi or similar.
+> >>>
+> >>> I did a first pass to create a draft of such a test-suite, which woul=
+d
+> >>> contain:
+> >>>
+> >>> igt@core_auth@basic-auth
+> >>> igt@core_auth@getclient-master-drop
+> >>> igt@core_auth@getclient-simple
+> >>> igt@core_auth@many-magics
+> >>> igt@core_getclient
+> >>> igt@core_getstats
+> >>> igt@core_getversion
+> >>> igt@core_hotunplug@hotrebind-lateclose
+> >>> igt@core_hotunplug@hotunbind-rebind
+> >>> igt@core_hotunplug@unbind-rebind
+> >>> igt@core_setmaster
+> >>> igt@core_setmaster_vs_auth
+> >>> igt@device_reset@unbind-reset-rebind
+> >>> igt@drm_read
+> >>> igt@dumb_buffer
+> >>> igt@fbdev
+> >>
+> >> Maybe we make this test optional? At least sprd decided to not support=
+ fbdev
+> >> at all.
+> >
+> > I'm not sure we need to make that test optional, or at least, we should
+> > run it all the time, but skip it if there's no fbdev emulation, and not
+> > report it as a failure?
+>
+> Sure. I just meant that fbdev support shouldn't be a blocker. If there,
+> it should work of course.
 
---t7sshpbvkpms7fjp
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Not supporting fbdev looks more like an accident than intention here,
+and maybe a good reason to have these kind of must-past lists.
+Eventually, once the i915-ism is worked out of igt well enough for a
+set of tests at least. The drm/ci effort should help in building up
+that list (by essentially extracting the common set of tests that
+everyone passes and graduating that to the must-pass list for kms
+conformance or whatever we'll call it).
+-Daniel
 
-Hi Noralf,
+>
+> Best regards
+> Thomas
+>
+> >
+> > Maxime
+>
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+> (HRB 36809, AG N=C3=BCrnberg)
+> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
 
-I'll leave aside your comments on the code, since we'll use your implementa=
-tion.
 
-On Sun, Nov 06, 2022 at 05:33:48PM +0100, Noralf Tr=F8nnes wrote:
-> Den 26.10.2022 17.33, skrev maxime@cerno.tech:
-> > +
-> > +	if (cmdline->tv_mode_specified)
-> > +		default_mode =3D cmdline->tv_mode;
->=20
-> I realised that we don't verify tv_mode coming from the command line,
-> not here and not in the reset helper. Should we do that? A driver should
-> be programmed defensively to handle an illegal/unsupported value, but it
-> doesn't feel right to allow an illegal enum value coming through the
-> core/helpers.
 
-I don't think we can end up with an invalid value here if it's been
-specified.
-
-We parse the command line through drm_mode_parse_tv_mode() (introduced
-in patch 13 "drm/modes: Introduce the tv_mode property as a command-line
-option") that will pick the tv mode part of the command line, and call
-drm_get_tv_mode_from_name() using it.
-
-drm_get_tv_mode_from_name() will return a EINVAL if it's not a value we
-expect, and mode->tv_mode is only set on success. And AFAIK, there's no
-other path that will set tv_mode.
-
-Maxime
-
---t7sshpbvkpms7fjp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY2jcJgAKCRDj7w1vZxhR
-xTwHAQC3meOlTapYDR/63QvLmjaN9u6WScoxy8cWAwXD3hmNkgEAnvQ95bgKGP7Z
-6DzZToq4NJzBkDndagj4GbAu2CUSwAk=
-=3B0s
------END PGP SIGNATURE-----
-
---t7sshpbvkpms7fjp--
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
