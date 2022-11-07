@@ -1,51 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95F2561F1A8
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 12:17:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 886A861F1B2
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 12:20:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC6F410E2E7;
-	Mon,  7 Nov 2022 11:17:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA15410E2E3;
+	Mon,  7 Nov 2022 11:20:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AABFE10E2E7;
- Mon,  7 Nov 2022 11:17:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202112;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=FFI39mP8UtNKgOqsi2a6dT2sTXn4P75XgEouvE9p5L0=; b=TJlNny8m3SQR1E18mL8S98TVQJ
- 1oMLGAbLNfa7jW+weTU/RpdeaudZeLqRm6kCaVOsswVSTJsZMlSx94JwUMDbx/pWcLkW0LURu+GtA
- gTd1n8X4PGBurLIJWx3ORA1yBMkeDAjMX3TjIVnJEd0jOx0eb52UD7NXCpQIf6FVS/x+64KYMWffm
- Pm6rATU2FGOE2zwcjsh8BNCdbjEeRZJ1pAWhZE5f/MwMJmMIAJ9rhn5bphtAwzBDB4kn2MTJI4shh
- aBdvTtiL6xN2cOyVs4gfyQ/DFbibjsDqSXt8FdTAcR/3oJimZzlUC04dsdv9CmpIKnSWk1NTNwAYl
- AdffaDjQ==;
-Received: from [2a01:799:95a:cb00:fd97:29ff:d72a:349e] (port=49701)
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1os07v-0005Xf-CP; Mon, 07 Nov 2022 12:17:15 +0100
-Message-ID: <022d5c23-6387-55b5-615e-5c6aaa0dc86c@tronnes.org>
-Date: Mon, 7 Nov 2022 12:17:06 +0100
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A682D10E2E3
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 11:20:21 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 6863D660236A;
+ Mon,  7 Nov 2022 11:20:19 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1667820020;
+ bh=7z542Aj3CgGqKW5DeYxuUBU2RHuE8LKZ6Cy4e7BxEYA=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Dl74wRMaSBKxFLE4SD7wiQV6g95KV0/pfW+wGLhCf8nqePUEfscyhBuTG1xcefTYr
+ jBFnBGZ05LssJGphJq2pOX1JYUMtpHbTQ0yJYPIYtbW3JMOjOwcSzCqAXulqkL2iEk
+ sjMBpX4EU9p7hwvpM4Fl1NZmIfs+g+/MkUUujWn42Hx73WL6JF2VxjD5+iOGqoZeka
+ UpZoIk0zv9Ru/BQHdVRf73NLxu+/uq2u3o9eeb2cqsXu/Dru14nRNsW5/MO3XRw7wM
+ 0Kyc6rKQFZiEjvCMEB6rv/nlJrU4hUuHWuUHFiJ7BUSvenGKb9Eoa4QUJw+5P0XOtY
+ Ew95u+utNO9lw==
+Message-ID: <988b0a7a-69bb-34e4-e777-1d9516221077@collabora.com>
+Date: Mon, 7 Nov 2022 12:20:16 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v6 16/23] drm/probe-helper: Provide a TV get_modes helper
-To: Maxime Ripard <maxime@cerno.tech>
-References: <20220728-rpi-analog-tv-properties-v6-0-e7792734108f@cerno.tech>
- <20220728-rpi-analog-tv-properties-v6-16-e7792734108f@cerno.tech>
- <8d0eee22-50f5-5b0a-c1e6-c5f61dd5bbcd@gmail.com>
- <eb485588-2e7a-8455-7ec4-6a9649d2bef8@tronnes.org>
- <20221107100751.neijajfrazxloldp@houat>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20221107100751.neijajfrazxloldp@houat>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH v3 12/12] drm/mediatek: dpi: Add mt8195 hdmi to DPI driver
+Content-Language: en-US
+To: Guillaume Ranquet <granquet@baylibre.com>,
+ Rob Herring <robh+dt@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>, Jitao shi
+ <jitao.shi@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Vinod Koul <vkoul@kernel.org>, CK Hu <ck.hu@mediatek.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Kishon Vijay Abraham I <kishon@ti.com>
+References: <20220919-v3-0-a803f2660127@baylibre.com>
+ <20220919-v3-12-a803f2660127@baylibre.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220919-v3-12-a803f2660127@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,54 +64,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Phil Elwell <phil@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
- Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
- linux-sunxi@lists.linux.dev, Mateusz Kwiatkowski <kfyatek@gmail.com>,
- intel-gfx@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-arm-kernel@lists.infradead.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, mac.shen@mediatek.com,
+ stuart.lee@mediatek.com, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Il 04/11/22 15:09, Guillaume Ranquet ha scritto:
+> Add the DPI1 hdmi path support in mtk dpi driver
+> 
+> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> ---
+>   drivers/gpu/drm/mediatek/mtk_dpi.c      | 143 ++++++++++++++++++++++++++++++--
+>   drivers/gpu/drm/mediatek/mtk_dpi_regs.h |   5 ++
+>   2 files changed, 141 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> index 508a6d994e83..8052b47042b8 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> @@ -14,7 +14,10 @@
+>   #include <linux/of_graph.h>
+>   #include <linux/pinctrl/consumer.h>
+>   #include <linux/platform_device.h>
+> +#include <linux/reset.h>
+>   #include <linux/types.h>
+> +#include <linux/regmap.h>
+> +#include <linux/mfd/syscon.h>
+>   
+>   #include <video/videomode.h>
+>   
+> @@ -65,10 +68,14 @@ struct mtk_dpi {
+>   	struct drm_bridge *next_bridge;
+>   	struct drm_connector *connector;
+>   	void __iomem *regs;
+> +	struct reset_control *reset_ctl;
+>   	struct device *dev;
+>   	struct clk *engine_clk;
+> +	struct clk *dpi_ck_cg;
+>   	struct clk *pixel_clk;
+> +	struct clk *dpi_sel_clk;
+>   	struct clk *tvd_clk;
+> +	struct clk *hdmi_cg;
+
+I admit that I didn't really check these clocks, but judging by the names,
+it is highly possible that one (or more) of them are supposed to be parents
+of some others.
+
+The first suspicious ones are dpi_ck_cg and dpi_sel_clk: please check.
+
+I'm also not sure about the hdmi_cg, shouldn't the DPI have a HDMI port in
+the graph that you'd declare in devicetree?
+
+Besides... you're doing a lot of work to check if (is_internal_hdmi) for
+power up/down paths, but seeing that you're introducing this change after
+adding the HDMI driver makes me mostly sure that the internal hdmi that we're
+talking about here is the one that is managed by the HDMIV2 driver... and
+this means that you should really, really, really rely on connecting inputs
+and outputs the right way in the devicetree, as that will most probably make
+you able to write practically 0 code to manage power for the DPI... and may
+also remove the need of adding the hdmi_cg clock here...
+
+Regards,
+Angelo
 
 
-Den 07.11.2022 11.07, skrev Maxime Ripard:
-> Hi Noralf,
-> 
-> On Sun, Nov 06, 2022 at 05:59:23PM +0100, Noralf Trønnes wrote:
->>
->>
->> Den 27.10.2022 00.02, skrev Mateusz Kwiatkowski:
->>> Hi Maxime,
->>>
->>> First of all, nice idea with the helper function that can be reused by different
->>> drivers. This is neat!
->>>
->>> But looking at this function, it feels a bit overcomplicated. You're creating
->>> the two modes, then checking which one is the default, then set the preferred
->>> one and possibly reorder them. Maybe it can be simplified somehow?
->>>
->>> Although when I tried to refactor it myself, I ended up with something that's
->>> not better at all. Maybe it needs to be complicated, after all :(
->>>
->>
->> I also thought that the function was complicated/difficult to read, in
->> particular the index stuff at the end, but I also failed in finding a
->> "better" solution, just a different one ;)
-> 
-> I think I like yours better still :)
-> 
-> Can I bring it into my series, with your authorship and SoB?
-> 
-
-Sure, no problem.
-
-Noralf.
