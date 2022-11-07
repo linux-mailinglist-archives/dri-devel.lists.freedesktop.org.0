@@ -2,54 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7662961F80D
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 16:56:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C8FE61F832
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 17:03:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40D4910E432;
-	Mon,  7 Nov 2022 15:56:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E150F10E431;
+	Mon,  7 Nov 2022 16:02:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A136410E438
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 15:56:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1667836603; x=1699372603;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=p+x7JSU3SOxlwX4TBBBHg1OTJgpF1kYj6OZkGlbsb4A=;
- b=FKscAI8+tAf5oPrwf5dzpe4JrFbCvr41OmWWmOKF8E8B7vaOwlheaukl
- +7UlNax7tMJUt2/l9O7LHbrPPTfwctRafqlvhWUI0z19RDO9FUjmWD2EU
- Xh3QkwSc6VHzk6usym9mhOoCg0GIFt+Hqv29c8OGy8Sg7rE1JFO9OOKOg
- 9bnpmBcCw87i+NLFqUirwMx+pITsX1aVPFLDkeGAu5RGzF0OF2fnj17CJ
- 5bzMnMK/p2dUyBpoa+5IXyXbzjcczeBgCePM14QeGpvBDM+xUHvPRT0ey
- TGoJTGrfjssf7If3inYbdzvDL6q6DjrLml82dSgfJB1aW+nh/bo0BccyH w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="308067595"
-X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; d="scan'208";a="308067595"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Nov 2022 07:56:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="810881641"
-X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; d="scan'208";a="810881641"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
- by orsmga005.jf.intel.com with SMTP; 07 Nov 2022 07:56:37 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 07 Nov 2022 17:56:36 +0200
-Date: Mon, 7 Nov 2022 17:56:36 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-Subject: Re: [PATCH RESEND] drm: fix crash in drm_minor_alloc_release
-Message-ID: <Y2kqtJH2K7O8sTu+@intel.com>
-References: <20221107144500.3692212-1-stanislaw.gruszka@linux.intel.com>
- <Y2kf+HLy/Kz5BclF@intel.com>
- <20221107154041.GA3600973@linux.intel.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8330A10E435
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 16:02:49 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 17F89CE1712;
+ Mon,  7 Nov 2022 16:02:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54F88C433D6;
+ Mon,  7 Nov 2022 16:02:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1667836963;
+ bh=Q/9M3qSa1bFKeX3VjOKXXNeZQ8B6sH7ewCOsQSJl+z0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=XOmgvny4UUp7BZnQahaV6KsWUNhmwIhMxpmcOq3tw9+9teYm6GP3wrPKa3hZGoLnw
+ E8JjujtcqktG/KkrpbyyurTKPktTQdPK912YFUTtXWMPkM5Mc8ahGVOnmMw4Uhs9uI
+ cTBlpsSY6QMvq4ve9Z36ouACRIQs64gqbTRuCpXHF7tFc/7x4f8H/Qv0fo1LJXDNr9
+ JzeHD9nkKpifY1CmMZpd4sb8KMqk3fuEl3XqfTd7Ru1lKOsEk7X40/JP1ugM9/6yCX
+ WursSOfQ18hBTkSv25XwIi5vVUTkBzpxlLxQrxg8iYZ3853WT5wCALjP37Nihp0/J3
+ NEZKY1McJ+eyw==
+Date: Mon, 7 Nov 2022 16:02:28 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH v2 43/65] ASoC: tlv320aic32x4: Add a determine_rate hook
+Message-ID: <Y2ksFHGNIEVm1ldF@sirena.org.uk>
+References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
+ <20221018-clk-range-checks-fixes-v2-43-f6736dec138e@cerno.tech>
+ <Y2UzdYyjgahJsbHg@sirena.org.uk>
+ <20221104155123.qomguvthehnogkdd@houat>
+ <Y2U2+ePwRieYkNjv@sirena.org.uk>
+ <20221107084322.gk4j75r52zo5k7xk@houat>
+ <Y2j0r0wX1XtQBvqO@sirena.org.uk>
+ <20221107152603.57qimyzkinhifx5p@houat>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="hTyRvcr/YAY3aApU"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221107154041.GA3600973@linux.intel.com>
-X-Patchwork-Hint: comment
+In-Reply-To: <20221107152603.57qimyzkinhifx5p@houat>
+X-Cookie: Minimum charge for booths.
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,52 +60,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>,
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Michael Turquette <mturquette@baylibre.com>, Sekhar Nori <nsekhar@ti.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
+ Paul Cercueil <paul@crapouillou.net>, Max Filippov <jcmvbkbc@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-phy@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, Abel Vesa <abelvesa@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Samuel Holland <samuel@sholland.org>, Chunyan Zhang <zhang.lyra@gmail.com>,
+ Takashi Iwai <tiwai@suse.com>, linux-tegra@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
+ NXP Linux Team <linux-imx@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
+ linux-mips@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ linux-rtc@vger.kernel.org, linux-clk@vger.kernel.org,
+ Charles Keepax <ckeepax@opensource.cirrus.com>, alsa-devel@alsa-project.org,
+ Manivannan Sadhasivam <mani@kernel.org>, linux-kernel@vger.kernel.org,
+ Sascha Hauer <s.hauer@pengutronix.de>, linux-actions@lists.infradead.org,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ linux-mediatek@lists.infradead.org,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Alessandro Zummo <a.zummo@towertech.it>, linux-sunxi@lists.linux.dev,
+ Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
+ Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+ linux-renesas-soc@vger.kernel.org, Dinh Nguyen <dinguyen@kernel.org>,
+ Vinod Koul <vkoul@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ David Lechner <david@lechnology.com>, Shawn Guo <shawnguo@kernel.org>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 07, 2022 at 04:40:41PM +0100, Stanislaw Gruszka wrote:
-> On Mon, Nov 07, 2022 at 05:10:48PM +0200, Ville Syrjälä wrote:
-> > On Mon, Nov 07, 2022 at 03:45:00PM +0100, Stanislaw Gruszka wrote:
-> > > index 8214a0b1ab7f..e3a1243dd2ae 100644
-> > > --- a/drivers/gpu/drm/drm_drv.c
-> > > +++ b/drivers/gpu/drm/drm_drv.c
-> > > @@ -102,7 +102,8 @@ static void drm_minor_alloc_release(struct drm_device *dev, void *data)
-> > >  
-> > >  	WARN_ON(dev != minor->dev);
-> > >  
-> > > -	put_device(minor->kdev);
-> > > +	if (!IS_ERR(minor->kdev))
-> > > +		put_device(minor->kdev);
-> > 
-> > Assigning error pointers into things is a terrible idea.
-> > IMO the correct fix would be to not return some
-> > half-constructed garbage from drm_minor_alloc().
-> > So basically should at least partically revert
-> > commit f96306f9892b ("drm: manage drm_minor cleanup with drmm_")
-> 
-> I would prefer to not change any ordering or remove drmm_* stuff, since
-> as pointed to above commit message, things are tricky there.
 
-Looks to me that it's only tricky because of drmm. Without that it was
-totally clear what was happening. I think if the managed stuff is making
-stuff more tricky then it has failed its purpose.
+--hTyRvcr/YAY3aApU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> 
-> I think assigning NULL to minor->kdev should be fine:
-> 
-> 	if (IS_ERR(minor->kdev)) {
-> 		r = PTR_ERR(minor->kdev);
-> 		minor->kdev = NULL;
-> 		return r;
-> 	}
-> 
-> put_device() in drm_minor_alloc_release() will cope nicely with it.
-> 
-> Regards
-> Stanislaw
+On Mon, Nov 07, 2022 at 04:26:03PM +0100, Maxime Ripard wrote:
+> On Mon, Nov 07, 2022 at 12:06:07PM +0000, Mark Brown wrote:
+> > On Mon, Nov 07, 2022 at 09:43:22AM +0100, Maxime Ripard wrote:
 
--- 
-Ville Syrjälä
-Intel
+> > The series does fill in __clk_mux_determine_rate for everything though -
+> > if it was just assumed by default the only thing that'd be needed would
+> > be adding the flag.
+
+> The behavior assumed by default was equivalent to
+> __clk_mux_determine_rate + CLK_SET_RATE_NO_REPARENT. We could indeed set
+> both if determine_rate is missing in the core, but that's unprecedented
+> in the clock framework so I think we'll want Stephen to comment here :)
+
+> It's also replacing one implicit behavior by another. The point of this
+> series was to raise awareness on that particular point, so I'm not sure
+> it actually fixes things. We'll see what Stephen thinks about it.
+
+We could also just set the operation and still require the flag to be
+specified.  I'm a little surprised to learn that it's something you
+might want to override, never mind that the API didn't have a default -
+it feels like a bit of a landmine that this is the case and is probably
+why there's so many cases to fix up.
+
+--hTyRvcr/YAY3aApU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmNpLBMACgkQJNaLcl1U
+h9BS0gf/chIMp6chtu1p8LwUn+lniQOfOjVm2GoGAQ06qSr9+3KsWgvPO3J4pFNa
+l036gwiNNFPM5gXlEj19YU0NgiAQIt2hoh9q92PY1kN8vmSQutr8U6QVxq27pphZ
+5T2AVdZG2/L1Za5fy+qtwzx6ji1EENFmdLOF/NRrtc1zJPm/bT9E14uqwH7vmK0f
+Jh1uBONY+x2wM44EMNgt3p4HTS/37ARwT9njBao9UUdt1uFWnUx05o0lerkyk4Xg
+QlkvyC2hU+mXML3s6FVEbx0TQImsJItRx7Fk4E0Pij30qxWDtd0uybSJOzuWo16R
+emQv+2HsLgl0L3qkctPVJREpPwCQuQ==
+=mfv5
+-----END PGP SIGNATURE-----
+
+--hTyRvcr/YAY3aApU--
