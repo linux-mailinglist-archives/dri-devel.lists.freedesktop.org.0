@@ -1,68 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9851E61F760
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 16:16:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53CF561F770
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 16:19:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 133D910E3C2;
-	Mon,  7 Nov 2022 15:16:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46DBF10E3CE;
+	Mon,  7 Nov 2022 15:19:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81FAC10E3C2
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 15:16:36 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id g12so16661675wrs.10
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Nov 2022 07:16:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Q908VuZ5cJytv2/gI78/GYL+1PN9gGzcS5yUknzV+T0=;
- b=Wpu9rKvfoUbVgTy0zuO9ScrrxoN6dp/6O05Txoc99yp3KdpHUu2iomCgFM3yq0gdme
- 19bjClFCaEYbac4o4yNLc3bzOgwXmmYtwyHSpnSKqgce7WGpliizIQLzwuOtJZwr10/B
- MW9WFpAASjpSop6DF7zi7txivZ06BFKg1HqPjp8E5bK1IS/ppA043ESQIxyh1nZZuPD+
- Fd4S9i9T3foDUZIenDxkW+DgMdNATDKJXEsrhyObQk5bAy0+ZcpicmGNsDL1IdVK+ejN
- vPI3O0eEhMAydvRV0rVheFxvUcuXfFYXN5jQ1yG8qd41LTdGZbovaGl9XfS5qnhblMui
- bUXg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2391810E3CE
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 15:19:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667834346;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DPVWQ+YraXRChqzr4SQlG/qjPD1QpM0ZmFrgY+kvQEQ=;
+ b=BE7w+fCO1pQ3U6AUs03Mr+a69JJL4mKoRd3i4RipqqLrv5nRFrFXB+fPjBcECDSh1aMlMT
+ 5IdUerR+RleLE/5xQEYHnJRhjGcZTZ5/SXN3TikGSkNOHlwYm607F99vXhcNZU3qjXaUmI
+ eWOHKeE91tMWRPvhOWxDmD6pUEeiR/w=
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-572-cUtimMAHP7u16q7xHWCqcg-1; Mon, 07 Nov 2022 10:18:57 -0500
+X-MC-Unique: cUtimMAHP7u16q7xHWCqcg-1
+Received: by mail-il1-f197.google.com with SMTP id
+ g4-20020a92cda4000000b00301ff06da14so4979917ild.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Nov 2022 07:18:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Q908VuZ5cJytv2/gI78/GYL+1PN9gGzcS5yUknzV+T0=;
- b=VWW1revpDUzPNzCAQuwZaj79xtLr0Z+LpDGM1urRKU+rFE0aF0M0xMrISMy84aZOJU
- 7zuakieFm1R0S70KDtgq+ItPaO95K3EiCfC0dGOXAs3/lOqRrpGu47sfn5oeV0uqfBQm
- 70BHB2t9PRNnlpgOs6eOsYDQ9ltE4u3D4bT0IfoHE03erfxaMnkk+kh043ML3+gEUjih
- V2Y3H8633+FZT98R12JvRydy10FjLQBMOK8xG2Pc8/70zcUKZH8fA9gaOsINGnGzDWTb
- tf4lVJ/nQuApRAWw4bnD/oaART763B+R3VON4JjJ6Rxa9uvicCGIoaOLDUeQORJVSqEw
- gtgA==
-X-Gm-Message-State: ACrzQf112fsIDCT7CuDzxgSpcn2tpaRwl9JL0MSJkQ8VfuMoqoak+jOc
- +2ICCTltYn2GEjI2sHhbfbs=
-X-Google-Smtp-Source: AMsMyM6cPcZM0jL6k4OqPbT+5EwFiAHx1Ei9YgybnmxozUr4ENJVn0werjS597XLtu9Tw0++xRinBA==
-X-Received: by 2002:a5d:5292:0:b0:236:ccb9:673b with SMTP id
- c18-20020a5d5292000000b00236ccb9673bmr27567091wrv.317.1667834194880; 
- Mon, 07 Nov 2022 07:16:34 -0800 (PST)
-Received: from [192.168.2.181] (84-238-195-21.ip.btc-net.bg. [84.238.195.21])
- by smtp.gmail.com with ESMTPSA id
- n37-20020a05600c3ba500b003cfa3a12660sm13232566wms.1.2022.11.07.07.16.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Nov 2022 07:16:34 -0800 (PST)
-Message-ID: <a722801b-e8b1-ccce-41e3-5951958baa9f@gmail.com>
-Date: Mon, 7 Nov 2022 17:16:33 +0200
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=DPVWQ+YraXRChqzr4SQlG/qjPD1QpM0ZmFrgY+kvQEQ=;
+ b=UFFxfms0l8ghKU8x3AXH+wPvCsptmrlJgMuVNQ9jd9MvT4l/u7k1j8P6YUnaRkVhSK
+ TZ2rUH54tD5QF9BoU306h6rKE/0IzvY3+fRePboIjthoxdqjjByVU1Nrg8Igo/fgV7BL
+ q7OZJAyv6rHxDVknfW0CqcUh7YLgnlL8qq2Sqa8glmboZsGJoTBwZfs+8icZJbqvLzRO
+ FpoxO6Z6uG+aK8Hiys6KDuh7nf0GMwqWEsxeLA5cE+iYoptrout+ayib1jVpfdzE1Ny9
+ lCQf+Nhe2VFOfY7EaefXnp5OPLC1u/PEkMPUFGeHU5YVNwlkzdwuj4qqcLl+m7daxFYx
+ 1jcg==
+X-Gm-Message-State: ACrzQf1mjfjGb75XxxwJJFrjYxEtpwIQdCpxwkeGpTWZm52uIUu3EPzr
+ wtsl/ULBUYkzdciC9QAWgybGG1U+cTfvMdbVGpKibdOsQUhIAm4fYPpj0rAhjLLuvJ4KeQn7i8c
+ rTgIO9a8gv61TVlDZuLVLFqbyjOzS
+X-Received: by 2002:a92:d74f:0:b0:300:ad95:35c5 with SMTP id
+ e15-20020a92d74f000000b00300ad9535c5mr25950883ilq.137.1667834336874; 
+ Mon, 07 Nov 2022 07:18:56 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM4lWUzVNR72O39IQE6LeiepbZvM9WXMUgdmYx2bv2/TRXid0tlwA/a3n4EvaTSlM1yrwXs6uQ==
+X-Received: by 2002:a92:d74f:0:b0:300:ad95:35c5 with SMTP id
+ e15-20020a92d74f000000b00300ad9535c5mr25950861ilq.137.1667834336637; 
+ Mon, 07 Nov 2022 07:18:56 -0800 (PST)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ z101-20020a0293ee000000b0037556012c63sm2771396jah.132.2022.11.07.07.18.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Nov 2022 07:18:55 -0800 (PST)
+Date: Mon, 7 Nov 2022 08:18:53 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH 04/10] vfio: Move storage of allow_unsafe_interrupts to
+ vfio_main.c
+Message-ID: <20221107081853.18727337.alex.williamson@redhat.com>
+In-Reply-To: <Y2kF75zVD581UeR2@nvidia.com>
+References: <0-v1-4991695894d8+211-vfio_iommufd_jgg@nvidia.com>
+ <4-v1-4991695894d8+211-vfio_iommufd_jgg@nvidia.com>
+ <20221026152442.4855c5de.alex.williamson@redhat.com>
+ <Y1wiCc33Jh5QY+1f@nvidia.com>
+ <20221031164526.0712e456.alex.williamson@redhat.com>
+ <Y2kF75zVD581UeR2@nvidia.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2] drm/vmwgfx: Protect pin_user_pages with mmap_lock
-To: Dawei Li <set_pte_at@outlook.com>, zackr@vmware.com, airlied@gmail.com,
- daniel@ffwll.ch
-References: <TYCP286MB23235B138D18ECA0797A6D0FCA3D9@TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM>
-Content-Language: en-US
-From: "Martin Krastev (VMware)" <martinkrastev768@gmail.com>
-In-Reply-To: <TYCP286MB23235B138D18ECA0797A6D0FCA3D9@TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,128 +88,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: krastevm@vmware.com, linux-graphics-maintainer@vmware.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Matthew Rosato <mjrosato@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
+ dri-devel@lists.freedesktop.org, Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Diana Craciun <diana.craciun@oss.nxp.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>, Will Deacon <will@kernel.org>,
+ Longfang Liu <liulongfang@huawei.com>, linux-s390@vger.kernel.org,
+ Yi Liu <yi.l.liu@intel.com>, kvm@vger.kernel.org,
+ Joerg Roedel <joro@8bytes.org>, Halil Pasic <pasic@linux.ibm.com>,
+ iommu@lists.linux.dev, Nicolin Chen <nicolinc@nvidia.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Zhi Wang <zhi.a.wang@intel.com>,
+ Tony Krowiak <akrowiak@linux.ibm.com>, Kevin Tian <kevin.tian@intel.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, intel-gfx@lists.freedesktop.org,
+ Eric Auger <eric.auger@redhat.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
+ Jason Herne <jjherne@linux.ibm.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Robin Murphy <robin.murphy@arm.com>,
+ Lu Baolu <baolu.lu@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Martin Krastev <krastevm@vmware.com>
+On Mon, 7 Nov 2022 09:19:43 -0400
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-
-
-Thanks for the catch. LGTM, with the following remarks:
-
-
-1) Original design used erroneously pin_user_pages() in place of 
-pin_user_pages_fast(); you could just substitute pin_user_pages for 
-pin_user_pages_fast and call it a day, Please, consider that option 
-after reading (2) below.
-
-2) Re exception handling in vmw_mksstat_add_ioctl(), the 'incorrect 
-exception handling' would be incorrect in the context of the new 
-refactor, i.e. with a common entry point to all pin_user_pages() 
-exceptions; it was correct originally, with dedicated entry points, as 
-all nr_pinned_* were used only after being assigned.
-
-
-Basically, you could keep everything as it was and just do the 
-substitution suggested in (1) and the patch would be as good.
-
-
-Regards,
-
-Martin
-
-
-On 6.11.22 г. 17:47 ч., Dawei Li wrote:
-> This patch includes changes below:
-> 1) pin_user_pages() is unsafe without protection of mmap_lock,
->     fix it by calling mmap_read_lock() & mmap_read_unlock().
-> 2) fix & refactor the incorrect exception handling procedure in
->     vmw_mksstat_add_ioctl().
->
-> Fixes: 7a7a933edd6c ("drm/vmwgfx: Introduce VMware mks-guest-stats")
-> Signed-off-by: Dawei Li <set_pte_at@outlook.com>
-> ---
-> v1:
-> https://lore.kernel.org/all/TYCP286MB23235C9A9FCF85C045F95EA7CA4F9@TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM/
->
-> v1->v2:
-> Rebased to latest vmwgfx/drm-misc-fixes
-> ---
->   drivers/gpu/drm/vmwgfx/vmwgfx_msg.c | 23 ++++++++++++++---------
->   1 file changed, 14 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
-> index 089046fa21be..ec40a3364e0a 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
-> @@ -1020,9 +1020,9 @@ int vmw_mksstat_add_ioctl(struct drm_device *dev, void *data,
->   	const size_t num_pages_info = PFN_UP(arg->info_len);
->   	const size_t num_pages_strs = PFN_UP(arg->strs_len);
->   	long desc_len;
-> -	long nr_pinned_stat;
-> -	long nr_pinned_info;
-> -	long nr_pinned_strs;
-> +	long nr_pinned_stat = 0;
-> +	long nr_pinned_info = 0;
-> +	long nr_pinned_strs = 0;
->   	struct page *pages_stat[ARRAY_SIZE(pdesc->statPPNs)];
->   	struct page *pages_info[ARRAY_SIZE(pdesc->infoPPNs)];
->   	struct page *pages_strs[ARRAY_SIZE(pdesc->strsPPNs)];
-> @@ -1084,28 +1084,33 @@ int vmw_mksstat_add_ioctl(struct drm_device *dev, void *data,
->   	reset_ppn_array(pdesc->infoPPNs, ARRAY_SIZE(pdesc->infoPPNs));
->   	reset_ppn_array(pdesc->strsPPNs, ARRAY_SIZE(pdesc->strsPPNs));
->   
-> +	/* pin_user_pages() needs protection of mmap_lock */
-> +	mmap_read_lock(current->mm);
+> On Mon, Oct 31, 2022 at 04:45:26PM -0600, Alex Williamson wrote:
+> 
+> > > It is one idea, it depends how literal you want to be on "module
+> > > parameters are ABI". IMHO it is a weak form of ABI and the need of
+> > > this paramter in particular is not that common in modern times, AFAIK.
+> > > 
+> > > So perhaps we just also expose it through vfio.ko and expect people to
+> > > migrate. That would give a window were both options are available.  
+> > 
+> > That might be best.  Ultimately this is an opt-out of a feature that
+> > has security implications, so I'd rather error on the side of requiring
+> > the user to re-assert that opt-out.  It seems the potential good in
+> > eliminating stale or unnecessary options outweighs any weak claims of
+> > preserving an ABI for a module that's no longer in service.  
+> 
+> Ok, lets do this
+> 
+> --- a/drivers/vfio/vfio_main.c
+> +++ b/drivers/vfio/vfio_main.c
+> @@ -55,6 +55,11 @@ static struct vfio {
+>  bool vfio_allow_unsafe_interrupts;
+>  EXPORT_SYMBOL_GPL(vfio_allow_unsafe_interrupts);
+>  
+> +module_param_named(allow_unsafe_interrupts,
+> +                  vfio_allow_unsafe_interrupts, bool, S_IRUGO | S_IWUSR);
+> +MODULE_PARM_DESC(allow_unsafe_interrupts,
+> +                "Enable VFIO IOMMU support for on platforms without interrupt remapping support.");
 > +
->   	/* Pin mksGuestStat user pages and store those in the instance descriptor */
->   	nr_pinned_stat = pin_user_pages(arg->stat, num_pages_stat, FOLL_LONGTERM, pages_stat, NULL);
->   	if (num_pages_stat != nr_pinned_stat)
-> -		goto err_pin_stat;
-> +		goto __err_pin_pages;
->   
->   	for (i = 0; i < num_pages_stat; ++i)
->   		pdesc->statPPNs[i] = page_to_pfn(pages_stat[i]);
->   
->   	nr_pinned_info = pin_user_pages(arg->info, num_pages_info, FOLL_LONGTERM, pages_info, NULL);
->   	if (num_pages_info != nr_pinned_info)
-> -		goto err_pin_info;
-> +		goto __err_pin_pages;
->   
->   	for (i = 0; i < num_pages_info; ++i)
->   		pdesc->infoPPNs[i] = page_to_pfn(pages_info[i]);
->   
->   	nr_pinned_strs = pin_user_pages(arg->strs, num_pages_strs, FOLL_LONGTERM, pages_strs, NULL);
->   	if (num_pages_strs != nr_pinned_strs)
-> -		goto err_pin_strs;
-> +		goto __err_pin_pages;
->   
->   	for (i = 0; i < num_pages_strs; ++i)
->   		pdesc->strsPPNs[i] = page_to_pfn(pages_strs[i]);
->   
-> +	mmap_read_unlock(current->mm);
-> +
->   	/* Send the descriptor to the host via a hypervisor call. The mksGuestStat
->   	   pages will remain in use until the user requests a matching remove stats
->   	   or a stats reset occurs. */
-> @@ -1120,15 +1125,15 @@ int vmw_mksstat_add_ioctl(struct drm_device *dev, void *data,
->   
->   	return 0;
->   
-> -err_pin_strs:
-> +__err_pin_pages:
-> +	mmap_read_unlock(current->mm);
-> +
->   	if (nr_pinned_strs > 0)
->   		unpin_user_pages(pages_strs, nr_pinned_strs);
->   
-> -err_pin_info:
->   	if (nr_pinned_info > 0)
->   		unpin_user_pages(pages_info, nr_pinned_info);
->   
-> -err_pin_stat:
->   	if (nr_pinned_stat > 0)
->   		unpin_user_pages(pages_stat, nr_pinned_stat);
->   
+>  static DEFINE_XARRAY(vfio_device_set_xa);
+>  static const struct file_operations vfio_group_fops;
+> 
+> > However, I'd question whether vfio is the right place for that new
+> > module option.  As proposed, vfio is only passing it through to
+> > iommufd, where an error related to lack of the hardware feature is
+> > masked behind an -EPERM by the time it gets back to vfio, making any
+> > sort of advisory to the user about the module option convoluted.  It
+> > seems like iommufd should own the option to opt-out universally, not
+> > just through the vfio use case.  Thanks,  
+> 
+> My thinking is this option shouldn't exist at all in other iommufd
+> users. eg I don't see value in VDPA supporting it.
+
+I disagree, the IOMMU interface is responsible for isolating the
+device, this option doesn't make any sense to live in vfio-main, which
+is the reason it was always a type1 option.  If vdpa doesn't allow full
+device access such that it can guarantee that a device cannot generate
+a DMA that can spoof MSI, then it sounds like the flag we pass when
+attaching a device to iommfd should to reflect this difference in usage.
+The driver either requires full isolation, default, or can indicate a
+form of restricted DMA programming that prevents interrupt spoofing.
+The policy whether to permit unsafe configurations should exist in one
+place, iommufd.  Thanks,
+
+Alex
+
