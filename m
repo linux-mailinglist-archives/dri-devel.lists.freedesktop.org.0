@@ -2,53 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2D2262046E
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 01:03:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 567D562046C
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 01:03:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0352610E053;
-	Tue,  8 Nov 2022 00:03:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25C2810E35C;
+	Tue,  8 Nov 2022 00:03:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
- [IPv6:2607:f8b0:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2283710E19F
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 14:00:30 +0000 (UTC)
-Received: by mail-oi1-x229.google.com with SMTP id n83so12181519oif.11
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Nov 2022 06:00:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=El1l3/URPygZ6uC5Cno67FMODlgxZihuIegCrdnoogE=;
- b=FG6E6josrDOt8rJ5w+tMOa3p51G4lhAI5zSGWTkuig6e88TkJx2Yw4AzE45EBl+pco
- l61DNOulJu/wtv/YuQBTN5syUVE6dJtBXnS4tRWxl5vQ2Th+UPfomReq5HDNL+ZaxM4o
- 5s5wBz+sybAK4WzshMQiFpKdicTVjljNK68OWzAcmoU3CZtvoGulnZsJ4ax6/8AzR1Nm
- DTD9Z2zMejFA3TWssBmLHB3ZDPPLTcaH4dohdjgo/pG/FEAJGYHHjr+fylb4Po3p6OXC
- TDtKehjmJ/izndtEtN5FqUaHhqCnb5K7i2bqLioDu51IsT9m4kyZDeL8hsikBUsUXD3j
- CLUQ==
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
+ [IPv6:2607:f8b0:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AC8110E514
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 18:21:18 +0000 (UTC)
+Received: by mail-pf1-x42a.google.com with SMTP id k22so11408860pfd.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Nov 2022 10:21:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=FEQi0/+u8veZ/2x0qc40UHF2USFTrhR6G0DysBhXZXI=;
+ b=LP8/2nP0rU35VDrVzIm8r3aawUgEGEjeds1NWZ3MKIAXwKbnfYaL61xaLw5DJUjSbP
+ t35cImTYyrnWr+QQZzrsULG/iLZqJge9e6vvvQ2RWuTpoXfHUltTAwtQvUALvGiB6sK7
+ B6PJ1tc9KlAxIzjLum0d1WdI9VRanVblWEsW4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=El1l3/URPygZ6uC5Cno67FMODlgxZihuIegCrdnoogE=;
- b=rHNNPhiEt7b+GgjsygWAQA8+ULfCU4/1e43AjsCO/V5k2BHow848YrfXm+Mpox/49o
- igB9phgFDqIYIEfKGOy7tMdUQCPZulXySZbuyLUFThByOQgc72mrxDhBohctNUUH2sZn
- zT6Iq6aGnSh62ay9vWQS5lkPxzb2Q4Y6C9lzNK2NaNcpXZ+Y9R9gkGunVdu9IPe15yrK
- JaXKtAjWpY5YEWwUV59TI6atDaLXap1Tbz/lboMvqsiz5dZkjTMegYe5jwsBx/ey5gJ3
- pKltX+6JZ2/u6YGLhRzOwIrQefY1SbQdJRBm4C+O9jnZLBWtR+rS5RJDQp7zYuYZTAqT
- tprA==
-X-Gm-Message-State: ACrzQf0jsUEMOjDqFW8xZED4D17suvwoht51hPqbI8Y+CILCBIatG0S4
- mFWgVMu3KWolNABmnw9o2NTnJh5BsJgoO2UA5SNQeU4j
-X-Google-Smtp-Source: AMsMyM68ZT9LtzBOQonbm2D0ZfRq7YxuMKs4ZVubEfr4d29POZbtR7n38Oa9cK5GaNZDIvOFsqjHhK5C71X/0icpx5s=
-X-Received: by 2002:a05:6808:2017:b0:359:ea7a:5983 with SMTP id
- q23-20020a056808201700b00359ea7a5983mr26520900oiw.51.1667829629192; Mon, 07
- Nov 2022 06:00:29 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=FEQi0/+u8veZ/2x0qc40UHF2USFTrhR6G0DysBhXZXI=;
+ b=f3FzMWr//92fqxSpj08jr5m/xsk/OBDHShawTcazb076b6GVymAZW8el+c5w1dC2dq
+ kV8lWfH7hz5rfbp/7MxwhPjFkETI1CNlN8c4QR46a1vW5vbLXES0YWfyz4v4wwmU5QI3
+ RAOfw5pVOoDqLFT4ze2zPrBo6WjvgqVWYUE2pK2FputKsLwoN0fOsUgTD9cP1rndvTKu
+ ptzF5mjjofIdwtv5POe9Nv7739ZWGVrnG5gKBJzKBnKfW8/vhwLE11YXL+aNvn2C3CR3
+ h8n7w7KHfTAvSysbWFE6AdHxPiJydtD3xcN8PuT2dN7NBZitUQAu6QiQCLvDoeMn0ozh
+ L60Q==
+X-Gm-Message-State: ACrzQf0Rg37oEbwu+92Qb+q35DwigvLBddZ4fZ/qSjrGQdmBvtbwreNl
+ JnLkD9ltIHoZGaMbYOj5a/qLwg==
+X-Google-Smtp-Source: AMsMyM4Kx2Eg71jXuGHQSET20bNsEeHDP4AS5JSlnikAhQBj+uUCLRYCfKMosTwy3XPlQDDxtdB4ZA==
+X-Received: by 2002:a05:6a00:234d:b0:561:f0c3:cde1 with SMTP id
+ j13-20020a056a00234d00b00561f0c3cde1mr51847397pfj.34.1667845277663; 
+ Mon, 07 Nov 2022 10:21:17 -0800 (PST)
+Received: from ballway1.c.googlers.com.com
+ (97.173.125.34.bc.googleusercontent.com. [34.125.173.97])
+ by smtp.gmail.com with ESMTPSA id
+ y1-20020aa78f21000000b005613220346asm4749132pfr.205.2022.11.07.10.21.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Nov 2022 10:21:17 -0800 (PST)
+From: Allen Ballway <ballway@chromium.org>
+To: LKML <linux-kernel@vger.kernel.org>
+Subject: [PATCH] drm: Add orientation quirk for DynaBook K50
+Date: Mon,  7 Nov 2022 18:21:06 +0000
+Message-Id: <20221107182101.1.I8819de823145ea8234d19c526f933a7d16471835@changeid>
+X-Mailer: git-send-email 2.38.1.431.g37b22c650d-goog
 MIME-Version: 1.0
-From: Cc Carnaghi <carnaghicc@gmail.com>
-Date: Mon, 7 Nov 2022 08:00:00 -0600
-Message-ID: <CAHhA7CtqEFE40J0qteXbQG6Sn57Xxha0H7kUYxiH2DTK3-rhTg@mail.gmail.com>
-Subject: Re: [PATCH 4/8] pwm: atmel-hlcdc: fix struct clk pointer comparing
-To: dri-devel@lists.freedesktop.org
-Content-Type: multipart/alternative; boundary="000000000000980e9b05ece1d822"
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Tue, 08 Nov 2022 00:03:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,17 +67,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Allen Ballway <ballway@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000980e9b05ece1d822
-Content-Type: text/plain; charset="UTF-8"
+Panel is 800x1280 but mounted on a detachable form factor sidways.
 
-Mr
+Signed-off-by: Allen Ballway <ballway@chromium.org>
+---
 
---000000000000980e9b05ece1d822
-Content-Type: text/html; charset="UTF-8"
+ .../gpu/drm/drm_panel_orientation_quirks.c    | 20 ++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
-<div dir="auto">Mr</div>
+diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+index fc1728d46ac2a..8c4b007081730 100644
+--- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
++++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+@@ -30,12 +30,6 @@ struct drm_dmi_panel_orientation_data {
+ 	int orientation;
+ };
 
---000000000000980e9b05ece1d822--
+-static const struct drm_dmi_panel_orientation_data asus_t100ha = {
+-	.width = 800,
+-	.height = 1280,
+-	.orientation = DRM_MODE_PANEL_ORIENTATION_LEFT_UP,
+-};
+-
+ static const struct drm_dmi_panel_orientation_data gpd_micropc = {
+ 	.width = 720,
+ 	.height = 1280,
+@@ -115,6 +109,12 @@ static const struct drm_dmi_panel_orientation_data lcd1280x1920_rightside_up = {
+ 	.orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
+ };
+
++static const struct drm_dmi_panel_orientation_data lcd800x1280_leftside_up = {
++	.width = 800,
++	.height = 1280,
++	.orientation = DRM_MODE_PANEL_ORIENTATION_LEFT_UP,
++};
++
+ static const struct drm_dmi_panel_orientation_data lcd1600x2560_leftside_up = {
+ 	.width = 1600,
+ 	.height = 2560,
+@@ -133,7 +133,7 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+ 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T100HAN"),
+ 		},
+-		.driver_data = (void *)&asus_t100ha,
++		.driver_data = (void *)&lcd800x1280_leftside_up,
+ 	}, {	/* Asus T101HA */
+ 		.matches = {
+ 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+@@ -172,6 +172,12 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Hi10 pro tablet"),
+ 		},
+ 		.driver_data = (void *)&lcd1200x1920_rightside_up,
++	}, {	/* Dynabook K50 */
++		.matches = {
++		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Dynabook Inc."),
++		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "dynabook K50/FR"),
++		},
++		.driver_data = (void *)&lcd800x1280_leftside_up,
+ 	}, {	/* GPD MicroPC (generic strings, also match on bios date) */
+ 		.matches = {
+ 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Default string"),
+--
+2.38.1.431.g37b22c650d-goog
+
