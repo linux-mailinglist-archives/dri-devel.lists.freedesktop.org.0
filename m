@@ -1,71 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83F2961F670
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 15:44:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35F4361F685
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 15:48:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DC5110E37D;
-	Mon,  7 Nov 2022 14:44:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0157A10E38E;
+	Mon,  7 Nov 2022 14:48:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
- [IPv6:2a00:1450:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94DB210E37E
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 14:44:00 +0000 (UTC)
-Received: by mail-lj1-x22c.google.com with SMTP id x21so16570809ljg.10
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Nov 2022 06:44:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:mime-version:in-reply-to:references
- :user-agent:from:from:to:cc:subject:date:message-id:reply-to;
- bh=i0O2rk5E0cL+fm306yvacQlome9MWqlkSl0PtbnJ/Fk=;
- b=KGd9O5AMOGZXp+tE3f0j+hwAkW+8r8XE9RmQsXGMLtLEL+k0tlrOTlc9x3z6DY60pT
- hoRXvYOeD/Og/ka1ZIfwjHVVwiYkMECBdxL+qr6sOmlcw2M4myVgfy3mUcsg34OUY9JJ
- q2lBidE2ZbHrX8DY8H34jBlgMAfqbaTK5gWDjPBKRDyH0O/aQ5nkMbT7YyKZ1J3wKPKE
- g2HXUzVU7qAK/Wi5p4uk8UO+C3/OrXQtIeJ+BKMBSvKfMctlvCZ9EjPETJgknfSh0Eme
- qzAIsFJwkk2g1boA0NctS759r6L3DUzwJ6BMZO1g8SlxiYVglENC/U8KI+IphbjhOzQm
- oWPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:mime-version:in-reply-to:references
- :user-agent:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=i0O2rk5E0cL+fm306yvacQlome9MWqlkSl0PtbnJ/Fk=;
- b=YTbQfrJaQ05PGz75gQf0QGAdN3c6QtcKnoFYvG5hVEs/LN8qMNJ3yETYDdAy5MYQ9s
- 6SEAFbEM0HiNyEVMt9Af9p2KAbfKAHZS6zfS2SetuuSHyxjwE2mnZj/wUkqv+uxhW5Cr
- ylJqdBZIo6XTeKQmtcGQhDBFCr2JrPvu2Nqu+ZtOsOdTORJH7X+h1ABDVyuOGYHTwFXy
- w2YeWU/8AAI5Gqcr/1coh2dNftCeIKQ4ZdxaN+8h9nFbk3f8bsTzJf8GR26frC+JqB3N
- Sal0E+TWB28zZBsLd+e3d6cq19ffXNCmU047vhXI6guTQnuAbFuRpYLjfHoBKIUYOL/i
- sEkQ==
-X-Gm-Message-State: ACrzQf3n6IqQctC3OBPhBF8H/FSiOzmrZbqhVl+qJsrd7Ck+iB5wfNnE
- rYjwWtQZQGKSmk53QyxoKJY78gJb/0gBrvdTwUCNeA==
-X-Google-Smtp-Source: AMsMyM6xHORFjhVs0PnFDG1Q5hbXYVz1Gde1fVXPnnjTrXUg8FmzxrTbBpDXilPPBRiYEYQWH0D3yvUDzcEPlfT2y8I=
-X-Received: by 2002:a2e:2e0c:0:b0:277:75bb:429e with SMTP id
- u12-20020a2e2e0c000000b0027775bb429emr9673388lju.314.1667832238908; Mon, 07
- Nov 2022 06:43:58 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 7 Nov 2022 14:43:58 +0000
-From: Guillaume Ranquet <granquet@baylibre.com>
-User-Agent: meli 0.7.2
-References: <20220919-v3-0-a803f2660127@baylibre.com>
- <20220919-v3-3-a803f2660127@baylibre.com>
- <05183178-32cb-98c0-4fcb-d5e78874e6c4@collabora.com>
-In-Reply-To: <05183178-32cb-98c0-4fcb-d5e78874e6c4@collabora.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E06B810E38E
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 14:48:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1667832489; x=1699368489;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Bp1rGCIEaarCufhZcInB4PWfoJtElnC+2OKzXD+uY40=;
+ b=mmaxOAghXqsCPjUxW8U+7e+2avTemGUFVdIV/8mft6uK1lKFxJCNAIYd
+ TLHSNkyhbfNivA2xWVvTa0EMNEwjXQMy1QI7/HnJQThTDeMvIufi561Mq
+ GsYX8Q5ov4KA/2+P/KWIHIARsKiq9k7gl8BDDP4zd2ZHzrh+eq9zFeMo3
+ WEsP0ldFsWwfxOaBhBN6UM6uuFdlc74zi3XJgD0SBMnVBvRI09Mrh0jMR
+ B7lHlDqLmlWhgSXNHJrRbZFXvAyECb5qzSSSeuhTwi4IgxYJOUKj0CmRD
+ PRI/4TOXPIda7o02kcg4YwC6fLC/UrpgOeQ8LOJnoUIjqlXLgsVZHVEbC A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="310426749"
+X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; d="scan'208";a="310426749"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Nov 2022 06:46:36 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="613878847"
+X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; d="scan'208";a="613878847"
+Received: from joe-255.igk.intel.com (HELO localhost) ([172.22.229.67])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Nov 2022 06:46:34 -0800
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH RESEND] drm: fix crash in drm_minor_alloc_release
+Date: Mon,  7 Nov 2022 15:45:00 +0100
+Message-Id: <20221107144500.3692212-1-stanislaw.gruszka@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Date: Mon, 7 Nov 2022 14:43:58 +0000
-Message-ID: <CABnWg9sZ29jnCbCjtJ-tLWn2s1JYjFVEEGkau72WJyukHWU9=Q@mail.gmail.com>
-Subject: Re: [PATCH v3 03/12] drm/mediatek: hdmi: use a regmap instead of iomem
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Kishon Vijay Abraham I <kishon@ti.com>, Rob Herring <robh+dt@kernel.org>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>, 
- Jitao shi <jitao.shi@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
- Vinod Koul <vkoul@kernel.org>, CK Hu <ck.hu@mediatek.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,70 +54,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, mac.shen@mediatek.com,
- stuart.lee@mediatek.com, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 07 Nov 2022 12:20, AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
->Il 04/11/22 15:09, Guillaume Ranquet ha scritto:
->> To prepare support for newer chips that need to share their address
->> range with a dedicated ddc driver, use a regmap.
->>
->> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
->> ---
->>   drivers/gpu/drm/mediatek/mtk_hdmi.c | 43 +++++++++++--------------------------
->>   1 file changed, 13 insertions(+), 30 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
->> index 4c80b6896dc3..9b02b30a193a 100644
->> --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
->> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
->> @@ -171,7 +171,7 @@ struct mtk_hdmi {
->>   	u32 ibias_up;
->>   	struct regmap *sys_regmap;
->>   	unsigned int sys_offset;
->> -	void __iomem *regs;
->> +	struct regmap *regs;
->>   	enum hdmi_colorspace csp;
->>   	struct hdmi_audio_param aud_param;
->>   	bool audio_enable;
->> @@ -187,44 +187,29 @@ static inline struct mtk_hdmi *hdmi_ctx_from_bridge(struct drm_bridge *b)
->>   	return container_of(b, struct mtk_hdmi, bridge);
->>   }
->>
->> -static u32 mtk_hdmi_read(struct mtk_hdmi *hdmi, u32 offset)
->> +static int mtk_hdmi_read(struct mtk_hdmi *hdmi, u32 offset, u32 *val)
->>   {
->> -	return readl(hdmi->regs + offset);
->> +	return regmap_read(hdmi->regs, offset, val);
->>   }
->>
->>   static void mtk_hdmi_write(struct mtk_hdmi *hdmi, u32 offset, u32 val)
->>   {
->> -	writel(val, hdmi->regs + offset);
->> +	regmap_write(hdmi->regs, offset, val);
->>   }
->>
->>   static void mtk_hdmi_clear_bits(struct mtk_hdmi *hdmi, u32 offset, u32 bits)
->
->You don't need these functions anymore, as these are now simply wrapping
->regmap calls, hence these don't contain any "real" logic anymore.
->
->Please remove them and use the regmap API directly.
->
->Thanks,
->Angelo
->
+If drm_sysfs_minor_alloc() fail in drm_minor_alloc() we can end up
+freeing invalid minor->kdev pointer and drm_minor_alloc_release()
+will crash like below:
 
-Agree with that, my intent was to minimize the change size so that it
-would be easy to review.
+RIP: 0010:kobject_put+0x19/0x1c0
+RSP: 0018:ffffbc7001637c38 EFLAGS: 00010282
+RAX: ffffffffa8d6deb0 RBX: 00000000ffffffff RCX: ffff9cb5912d4540
+RDX: ffffffffa9c45ec5 RSI: ffff9cb5902f2b68 RDI: fffffffffffffff4
+RBP: fffffffffffffff4 R08: ffffffffa9c40dec R09: 0000000000000008
+R10: ffffffffaa81f7d2 R11: 00000000aa81f7ca R12: ffff9cb5912d4540
+R13: ffff9cb5912d4540 R14: dead000000000122 R15: dead000000000100
+FS:  00007f56b06e6740(0000) GS:ffff9cb728b40000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000030 CR3: 000000011285b004 CR4: 0000000000170ee0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff07f0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ drm_minor_alloc_release+0x19/0x50
+ drm_managed_release+0xab/0x150
+ drm_dev_init+0x21f/0x2f0
+ __devm_drm_dev_alloc+0x3c/0xa0
+ ivpu_probe+0x59/0x797 [intel_vpu 127058409b05eb2f99dcdecd3330bee28d6b3e76]
+ pci_device_probe+0xa4/0x160
+ really_probe+0x164/0x340
+ __driver_probe_device+0x10d/0x190
+ device_driver_attach+0x26/0x50
+ bind_store+0x9f/0x120
+ kernfs_fop_write_iter+0x12d/0x1c0
+ new_sync_write+0x106/0x180
+ vfs_write+0x216/0x2a0
+ ksys_write+0x65/0xe0
+ do_syscall_64+0x35/0x80
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
 
-My mistake, I'll remove the wrappers.
+Fix this crash by checking minor->kdev when freeing.
 
-Thx,
-Guillaume.
+Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+---
+ drivers/gpu/drm/drm_drv.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+index 8214a0b1ab7f..e3a1243dd2ae 100644
+--- a/drivers/gpu/drm/drm_drv.c
++++ b/drivers/gpu/drm/drm_drv.c
+@@ -102,7 +102,8 @@ static void drm_minor_alloc_release(struct drm_device *dev, void *data)
+ 
+ 	WARN_ON(dev != minor->dev);
+ 
+-	put_device(minor->kdev);
++	if (!IS_ERR(minor->kdev))
++		put_device(minor->kdev);
+ 
+ 	spin_lock_irqsave(&drm_minor_lock, flags);
+ 	idr_remove(&drm_minors_idr, minor->index);
+-- 
+2.25.1
+
