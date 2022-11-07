@@ -2,67 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB66561FF97
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 21:33:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F331561FFBD
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 21:46:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E4F210E495;
-	Mon,  7 Nov 2022 20:33:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74BDD10E48A;
+	Mon,  7 Nov 2022 20:46:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com
- [IPv6:2607:f8b0:4864:20::730])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15BA510E45F
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 20:33:36 +0000 (UTC)
-Received: by mail-qk1-x730.google.com with SMTP id s20so7931237qkg.5
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Nov 2022 12:33:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=tQ12e4GxkKyFcKEY5nkb37j7G30vKsrEMR9/r8hrDJ0=;
- b=qOA73a9Bu14wWQY9g3t4J1/QCrXaAC0kVgEP7vGn7s/hrSLZK1U5lSJdfg2csQ6fAK
- WwKqBdSf89jpNfxi2VzukRNviRsgtuVPSIMhup7OeZHHqpG5OSPrl0DXf4dSSli7uiim
- 1ggrG3Hq8LIxqvz5HH/ip0y8FBKwNlk3dMGK1cun8A4sMzX7BcASPDkxk6Hv40GJeJKZ
- DOcJVRMK545RBtSxA+LQdBLupe342yB1UI515gfRhUBaglQQy2nwZvBfUqR91ayy8M3G
- Tu5CcIwxmd643GZbxFCoCcwmyLvUtWsgpSCNRPmH9VR8qa7ZtAhGUPAO7GhyZU8nkYmk
- ctpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=tQ12e4GxkKyFcKEY5nkb37j7G30vKsrEMR9/r8hrDJ0=;
- b=dAL/vRIafzmtODYudhcV/DNNAD8tQiAr3M6ATjH3yTFjgcbfzhxSQxkYb1FIrl+zPP
- Y4Tmgp24/HhDT9H0yp5ZNQRGONeZkMUy5IR9w5QwwoNBSjSPOOCTp+VbGF9Nx58ao/tD
- C4XPsPaTfYKfCMgNPuIJEF2rhROnBJs8uKzIL7h+yU53jARuhX4YaQ0ab45ZgUcYh1mU
- McQ3wWrbpGqbJWricGWGjr8WRQ3t/IInmKjzL6n8E9MdYptCofoYTtbTiJQgQ6PMMJw7
- hVND830C2+pFwLk1mZTuLQyPL6bUsGGj74UL5gIvQ8TslM+N9scSmCsa2sGfzIsdCMW2
- WS8A==
-X-Gm-Message-State: ACrzQf0nlsPzKtk7XPTsB63BK71LPksatc++5RilhZ9phU4LPRztc6WB
- MgDd0Hf/ZFo1Oc5/fyBH+Oc6uQEYM+uqZ5GxItI=
-X-Google-Smtp-Source: AMsMyM6W0Bmt/046gPuBut+yT3A+X2p6Q2Q0RhxhI78tSZHtV+jn2n9Nhb0DbPX1ACdKiqOWowMD95Cq0zllpC3GhtI=
-X-Received: by 2002:a05:620a:1009:b0:6fa:1245:ce4 with SMTP id
- z9-20020a05620a100900b006fa12450ce4mr37596615qkj.483.1667853215067; Mon, 07
- Nov 2022 12:33:35 -0800 (PST)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D82710E48A
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 20:46:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1667854000; bh=VUOGtRW5QRcsoux1eIEKMXiDp1er4Kt2H8bnoQy1LKE=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=N7RisSlFhEn4jI2jJXrNfAbDlR9TZ0/4IALTvQZd+uUabVJZY7783gXOVuA6j7glk
+ LnefvdkbONd4C57CMmy0I8yOjU8wsZgEKmOOSKB0yWoKvnPasX8bZXtzXon5oaVVYQ
+ cMrL64JO6Wcxd6blB6B+bB5HE790kSAUDN8dyoG84js1iQkeqJzWzO2VheAYdzO0h6
+ AdoFFpGe4Hok9/2yeWXZbJm9kQdCi8V2SMZetJ7vECFo3KBMjDjg/A7ea0KHt3XKuy
+ oSZD+LFaQfMSuzzAkaMUWi3zzGsXL1XEhKMFGrBVqe2V1e4E6hBcWGaxo0hrKseYD0
+ F7WZULX9zeHtw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([92.116.191.140]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N3KTo-1p1WeQ08Je-010Mw6; Mon, 07
+ Nov 2022 21:46:40 +0100
+Message-ID: <d21a0a0d-22fb-99bf-0d29-75b1fe1db677@gmx.de>
+Date: Mon, 7 Nov 2022 21:46:38 +0100
 MIME-Version: 1.0
-References: <20221102203405.1797491-2-ogabbay@kernel.org>
- <Y2MMCIe5wND2XPqE@kroah.com>
- <CAFCwf13uLj=P6u6FAcY8M5qAXoaBdb+Ha-TYj0j2FAZnFAPFYg@mail.gmail.com>
- <CAFCwf12yRUG4593ozJMEwaaJBKyWqXTTCjef9O_fzWdQBxVrtw@mail.gmail.com>
- <Y2kAcCu4z2LUMN7u@nvidia.com>
- <CAFCwf10K-dTu455QfOK8i6thismY-FUN2Rws830EGiqOcGWFgA@mail.gmail.com>
- <Y2kDzPswkKyZyRpS@nvidia.com>
- <CAFCwf10A=-bj2nR8WasNxyQQ07D24Je04tzKxqv2X_XnA0BUSQ@mail.gmail.com>
- <Y2kRvyR8VrZrO/1H@nvidia.com>
- <CAFCwf12E4K7bpLcDvTtG1mKxoy1JnchXGCKDvcKAayCFvGWXXQ@mail.gmail.com>
- <Y2kyvswuCsO0x1/2@nvidia.com>
-In-Reply-To: <Y2kyvswuCsO0x1/2@nvidia.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Tue, 8 Nov 2022 06:33:23 +1000
-Message-ID: <CAPM=9twxu3v4voSukrkror1BrajShRLY9CFxYWpL2rwK7fMiKQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 1/3] drivers/accel: define kconfig and register a
- new major
-To: Jason Gunthorpe <jgg@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH 2/2] fbdev: Add support for the nomodeset kernel parameter
+Content-Language: en-US
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ javierm@redhat.com
+References: <20221107104916.18733-1-tzimmermann@suse.de>
+ <20221107104916.18733-3-tzimmermann@suse.de>
+ <2e2d23f3-9c2d-e75e-f390-4651a4da730f@gmx.de>
+ <6547fba2-a002-f339-2997-5b28df794095@suse.de>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <6547fba2-a002-f339-2997-5b28df794095@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:L8/XBgG1PIjL93oNfV/gXI0qXEMGIaLBiQQUACow6nK11QidiuL
+ 2GCywnNwdO0yrImxxuFKy+4T8kMRLfJCZuMtN/PtSoORoXONYSbrVYX19IbU27Af5xGvuiU
+ DtgrfF61+h+bWNPbuCgqAqdJfY6sJCWT0/5EEzev5qr/br/vOz68/xxRyXsFFdrZqJqNREj
+ VJmxpFXkr96N3Yu9/5Ehw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:+gWM8z4yrq8=;E7pJ1rO1R/NeDqKQejHtFMjrRea
+ UEyiJQfHCpgQ/fkDMWO1tFxSscmI+Ru69CaEMnzTxpbEmURyDx6HNTj+w7TVsMZ80jn5xK5gM
+ 35N9qzXQR/bDNVlso4Qnq4CnRDTYGj5FZZx8IT3z8c0jUAvAVr3Lc3qiO1YTgB55Vnh9/YDRv
+ dUoImcQpysglGGeE+BeZ976u0lw7ihBizuMVyD2rEaH5HwbG4/JKn9lsW8hcjWQpxH94jARqd
+ ILm+w+DRP6L7eRoghc7uCQSBGBKjqsVzbdSxV+E44tOK+LFtbKNnwXfLOxIbLEdRC5x/kiUB+
+ df0sgUrakR4QOob05YyvpXilsJHGfoh8SgEzVAe4xRhMsIf47EmAyBsHrI3wOoy06lwa6aQPU
+ uQVqLcX928A2jgbp8/0U/6GkENKtTLkswVJNCpoXRDtDlJTHpcAwdPIADcuuUioaCqt9vtTHA
+ oS7BiLDkX0P9XkHfQ3qEybI5VrYR/T4OST++1MLHdPlev0TGDjjeCUfM+DVr9hgBIqPahh4dT
+ VI4Gf0bVKAWecbJT7iKmFJiUGIjH24PX58jO7T0XHNj2sjDJxwSvzBAWgb2yJfViejlxrIavy
+ XqKNGQwJsC8jdD5g6wzb4ritnA8vRcK3jFjEVRMq1YiJnPMQYCTgZol6Y9w++FMPKQw/78LLC
+ poSxxLjqTLCUIj9SORb7d+TXVPonCk0PRXM3XQOWl5LRVCUFK8ce+SyO8C33deNidzklLM2I9
+ YqB/j0oyQBSaYgUDLOqfsQiEM89UGuSuYycl9gJ4mNjHnQEWO4ECl7mpz3fte600u3ZyrrOSI
+ 0lKqbuvzLQPxKBqUshAgxSfJIiuUkQpH1vg8f/Y/LZPhG/v68M4ecjph7K90ler9R3XJMw3q8
+ 1LjurwB5D3+1AQvgXU/3zqM86BLfOC3IeRSE8+DP7oLWT/VGTMUOBXHpW1zMDz0vN5eNGbVrr
+ +sOHKQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,68 +74,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
- Kevin Hilman <khilman@baylibre.com>, Christoph Hellwig <hch@infradead.org>,
- Jagan Teki <jagan@amarulasolutions.com>, John Hubbard <jhubbard@nvidia.com>,
- stanislaw.gruszka@intel.com, Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Arnd Bergmann <arnd@arndb.de>, Jiho Chu <jiho.chu@samsung.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Oded Gabbay <ogabbay@kernel.org>, linux-kernel@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > >
-> > > "drm_minor" is not necessary anymore. Strictly managing minor numbers
-> > > lost its value years ago when /dev/ was reorganized. Just use
-> > > dynamic minors fully.
-> > drm minor is not just about handling minor numbers. It contains the
-> > entire code to manage devices that register with drm framework (e.g.
-> > supply callbacks to file operations), manage their lifecycle,
-> > resources (e.g. automatic free of resources on release), sysfs,
-> > debugfs, etc.
+On 11/7/22 16:30, Thomas Zimmermann wrote:
+> Hi
 >
-> This is why you are having such troubles, this is already good library
-> code. You don't need DRM to wrapper debugfs APIs, for instance. We
-> have devm, though maybe it is not a good idea, etc
+> Am 07.11.22 um 14:57 schrieb Helge Deller:
+>> On 11/7/22 11:49, Thomas Zimmermann wrote:
+>>> Support the kernel's nomodeset parameter for all PCI-based fbdev
+>>> drivers that use aperture helpers to remove other, hardware-agnostic
+>>> graphics drivers.
+>>>
+>>> The parameter is a simple way of using the firmware-provided scanout
+>>> buffer if the hardware's native driver is broken.
+>>
+>> Nah... it's probably not broken, but you want it disabled in order
+>> to use the DRM driver instead?
 >
-> Greg already pointed out the sysfs was not being done correctly
-> anyhow.
+> No, it's really for broken native drivers or any kind of problematic
+> modesetting. Most DRM drivers already respect the nomodeset option
+> and won't load when given. All you'd get are the generic drivers,
+> such as simpledrm, efifb or simplefb.
 >
-> I don't think DRM is improving on these core kernel services. Just use
-> the normal stuff directly.
+> There are better options of configuring video output on the kernel
+> command line.  But as graphics output is such a fundamental feature
+> to using a computer, we found that a simple and easy option to
+> workaround erroneous systems would benefit DRM users; hence the
+> nomodeset parameter.
+>
+> As fbdev drivers also do modesetting, supporting the parameter simply
+> unifies the behavior.
 
-At plumbers we decided a direction, I think the direction is good, if
-there is refactoring to be done, I'd rather it was done in tree with a
-clear direction.
+Ok.
 
-Coming in now and saying we should go down a different path isn't
-really helpful. We need to get rolling on this, we have drivers that
-want to land somewhere now, which means we need to just get a
-framework in place, leveraging drm code is the way to do it.
+>>> The same effect
+>>> could be achieved with per-driver options, but the importance of the
+>>> graphics output for many users makes a single, unified approach
+>>> worthwhile.
+>>>
+>>> With nomodeset specified, the fbdev driver module will not load. This
+>>> unifies behavior with similar DRM drivers. In DRM helpers, modules
+>>> first check the nomodeset parameter before registering the PCI
+>>> driver. As fbdev has no such module helpers, we have to modify each
+>>> driver individually.
+>>
+>> Ok.
+>>
+>>> The name 'nomodeset' is slightly misleading, but has been chosen for
+>>> historical reasons. Several drivers implemented it before it became a
+>>> general option for DRM. So keeping the existing name was preferred ove=
+r
+>>> introducing a new one.
+>>
+>>> diff --git a/drivers/video/fbdev/aty/aty128fb.c b/drivers/video/fbdev/=
+aty/aty128fb.c
+>>> index 57e398fe7a81c..1a26ac2865d65 100644
+>>> --- a/drivers/video/fbdev/aty/aty128fb.c
+>>> +++ b/drivers/video/fbdev/aty/aty128fb.c
+>>> @@ -2503,7 +2504,12 @@ static int aty128fb_init(void)
+>>> =C2=A0 {
+>>> =C2=A0 #ifndef MODULE
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 char *option =3D NULL;
+>>> +#endif
+>>> +
+>>> +=C2=A0=C2=A0=C2=A0 if (video_firmware_drivers_only())
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -ENODEV;
+>>
+>> I think it makes sense to give at least some info, why a specific
+>> driver wasn't loaded, e.g. something like this kernel message:
+>> aty128fb: Driver disabled due to "nomodeset" kernel parameter.
+>>
+>> If you e.g. change the function video_firmware_drivers_only()
+>> to become video_firmware_drivers_only(const char *drivername)
+>> then you could print such a message in video_firmware_drivers_only()
+>
+> Well, we do have such a message in disable_modeset() already. [1]
+> [1] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_n=
+omodeset.c#L18
 
-There is no need to an "accel" module, what does that even buy you,
-the idea is to have an accel subsystem that allows drivers to use drm
-features, not an accel subsystem that refactors drm features, that
-would take years. There are already drivers for this subsystem wanting
-to use GEM, and I don't think holding them up for a year to refactor
-something that we don't have a clear reason or goal behind
-refactoring.
+Yes, I saw it, but that message quite generic.
+If for example my atyfb doesn't show up, I would grep dmesg for "aty" and
+not "nomodeset"...
 
-If there is a problem with the drm subsystem interactions with the
-kernel standard implementations then let's go fix that and accel will
-also get fixed, but there's no reason to start going down that road at
-the same time as introducing accel.
 
-Also with the idr/xarray stuff, this isn't the patchset to be
-introducing a bunch of new and divergent work, if this patchset
-identifies deficiencies then let's document them and work on them in
-parallel instead of blocking the initial landing in favour of some
-future refactors with no in-tree users.
+>> And I don't like very much the name of function video_firmware_drivers_=
+only(),
+>> but don't have any other better idea right now either...
+>
+> It's part of the 'video' module, hence the prefix. The 'nomodeset'
+> option used to be implemented in several DRM drivers. It's an awful
+> name, but we didn't want to remove it or introduce a new one for the
+> same feature. So we kept nomodeset for all of DRM.  Then we started
+> bikeshedding the function name that returns the setting. And
+> firmware-drivers-only is the best description of what is happening
+> here. So that's how the name happend.
 
-Dave.
+video_modesetting_disabled() ?
+(Just an idea)
+
+Helge
