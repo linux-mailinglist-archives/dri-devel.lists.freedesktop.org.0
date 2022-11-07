@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B16D561F184
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 12:09:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9929B61F185
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 12:09:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44BE610E2D9;
-	Mon,  7 Nov 2022 11:09:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 967B210E2DF;
+	Mon,  7 Nov 2022 11:09:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35A6D10E2D9
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 11:09:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CC3B10E2DA
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 11:09:36 +0000 (UTC)
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 7DBCB6601FAA;
- Mon,  7 Nov 2022 11:09:27 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 6A813660239F;
+ Mon,  7 Nov 2022 11:09:33 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1667819368;
- bh=3+hQs9VHQA+nTYY5byObobXjo39vdKrxEvf02IpmXUE=;
+ s=mail; t=1667819375;
+ bh=iUEjc9op+r+flRXGNk8tjNm3ukh2dbXz8V5WUA+PaYg=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=bxB5RRvKO4DSosZ9cHjzG7jHLzq5OAyxZQIfjtyCIb0A7ERl6SEoroCKpmDDyvyfb
- g5Kwegwvs1sq/qMY7l4ruYFPYHSkLVRjXGVPSCZfY3J27XBB9pCqWQA0ENttlQdKsp
- HfhnjHOftYpw7rG7dFoXrsqNIHitfFoh1aFW3WL9GjtbwFpjRaMumTewT5xoMEC42H
- wbIAEqK56Nb4h2vb2obmpQYN0fMnsv9zEN4LGBZlghpKFvR0hSvhnrhz9v1uekaAwu
- TKKIu7Axs6aD2WUE1YSu2hr9qPlA/XWQsIso9NPOOZjNrQ6PyeI4NFM6PKYcNZ9ibT
- wMRRcfioQgOKQ==
-Message-ID: <f8e05f55-635c-f63c-9624-f8ccadcd1add@collabora.com>
-Date: Mon, 7 Nov 2022 12:09:25 +0100
+ b=JpDWgh3pu8wCEG9/L3nMuHxrxopf2J5cOs42iavUQyHFNXQG5kwrItGxVMdbX5gTm
+ rVsuSNzjfpAWV1teDzDgdb29Lf57AqaTaROaUmUxiTuV37F1M9A4wF8mq/4NcPqRRM
+ dHm+IjDLKbZ3JUQZQDRgpaOfcEpJXWSbiXjPF547XW0WbPSOzfxUOthCPIXdjG1Llq
+ 12+nDipef2AVJv2lI9bC2pRxzim8TaocJYnDJuK/pszItnVnaWD7XwbTbOvx40NSD9
+ XxRgvfa5XHu12k1REWIqxG6Rp9bo/CdyZ7pJ+zc76IeS9S7r+XjtAj8rjKfzD5uFM1
+ PMI+QzOrRKU4Q==
+Message-ID: <a3472c42-ccac-7c98-a0b6-57556a348ac1@collabora.com>
+Date: Mon, 7 Nov 2022 12:09:30 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.3
-Subject: Re: [PATCH v3 04/12] drm/mediatek: extract common functions from the
- mtk hdmi driver
+Subject: Re: [PATCH v3 06/12] drm/mediatek: hdmi: add frame_colorimetry flag
 Content-Language: en-US
 To: Guillaume Ranquet <granquet@baylibre.com>,
  Rob Herring <robh+dt@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
@@ -48,11 +47,11 @@ To: Guillaume Ranquet <granquet@baylibre.com>,
  Philipp Zabel <p.zabel@pengutronix.de>,
  Kishon Vijay Abraham I <kishon@ti.com>
 References: <20220919-v3-0-a803f2660127@baylibre.com>
- <20220919-v3-4-a803f2660127@baylibre.com>
+ <20220919-v3-6-a803f2660127@baylibre.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220919-v3-4-a803f2660127@baylibre.com>
+In-Reply-To: <20220919-v3-6-a803f2660127@baylibre.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,37 +73,31 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Il 04/11/22 15:09, Guillaume Ranquet ha scritto:
-> Create a common "framework" that can be used to add support for
-> different hdmi IPs within the mediatek range of products.
+> Add a flag to indicate support for frame colorimetry.
 > 
 > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
 > ---
->   drivers/gpu/drm/mediatek/Makefile          |   3 +-
->   drivers/gpu/drm/mediatek/mtk_hdmi.c        | 620 ++---------------------------
->   drivers/gpu/drm/mediatek/mtk_hdmi.h        |  16 +
->   drivers/gpu/drm/mediatek/mtk_hdmi_common.c | 433 ++++++++++++++++++++
->   drivers/gpu/drm/mediatek/mtk_hdmi_common.h | 221 ++++++++++
->   5 files changed, 704 insertions(+), 589 deletions(-)
+>   drivers/gpu/drm/mediatek/mtk_hdmi_common.c | 11 +++++++++++
+>   drivers/gpu/drm/mediatek/mtk_hdmi_common.h |  1 +
+>   2 files changed, 12 insertions(+)
 > 
-
-..snip..
-
 > diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_common.c b/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
-> new file mode 100644
-> index 000000000000..3f08d37b1af0
-> --- /dev/null
+> index 3635ca66817b..933c51b5f6d7 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
 > +++ b/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
+> @@ -120,6 +120,17 @@ int mtk_hdmi_setup_avi_infoframe(struct mtk_hdmi *hdmi, u8 *buffer, size_t bufsz
+>   		return err;
+>   	}
+>   
+> +	if (hdmi->conf->has_frame_colorimetry) {
+> +		frame.colorimetry = hdmi->colorimtery;
 
-..snip..
+Typo: s/colorimtery/colorimetry/g
 
-> +
-> +int mtk_hdmi_setup_avi_infoframe(struct mtk_hdmi *hdmi, u8 *buffer, size_t bufsz,
-> +				 struct drm_display_mode *mode)
+...also, I don't see this being really used? In hdmi-v2 you're setting this param
+to HDMI_COLORIMETRY_NONE and quantization ranges to always the same default value.
 
-warning: no previous prototype for ‘mtk_hdmi_setup_avi_infoframe’ 
-[-Wmissing-prototypes]
+I wonder if this is really needed at this point.
 
-Please fix.
-
-Thanks,
+Regards,
 Angelo
