@@ -1,57 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A860B61F1B8
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 12:20:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E708061F1D9
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 12:29:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0A4510E2E5;
-	Mon,  7 Nov 2022 11:20:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A747789317;
+	Mon,  7 Nov 2022 11:29:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E64CC10E2E4
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 11:20:27 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 8D343660283A;
- Mon,  7 Nov 2022 11:20:25 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1667820026;
- bh=4GLK87T5vBSOqiSGloJWJSHYEYZ8q1Ph3WTRsU8DmKk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=b48ldE8vEdmB4cELPLhlq6/zg5UPab9Qz4/Xfxs+Vv2fyJEFUzO4H4B+cLiHeTSv7
- TRkgiPTGbxGoK4lOleFzzdyOq2O3guLGtKJlq2x3+VLRntrLNizVnYSOQbmWTZc0gB
- E3BRzEDA0+SSlB9e3nlag9iOGwyQWomlpdmfqp8Z5DFSX8vIAwzNFt8sGFLfS7mwhr
- JgEqp4K0BXNVqHzrI2BknmldG4vQ9yO1VSAwuoe6suqkozOBM5giMiGAnvNbqe9HwG
- aWr945ZoVmPM57JozrbJzg1sUkmNcOvP9n7fbCWwfKfrzlI6XW4Sk8G7t0YFuVDg/m
- k1nKr69ca5i1w==
-Message-ID: <96d0f2d2-24b9-0838-4538-7d70c01ddace@collabora.com>
-Date: Mon, 7 Nov 2022 12:20:23 +0100
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6FD910E2E8;
+ Mon,  7 Nov 2022 11:29:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=B8Qv3G6jlxbDnN0yOE9Mm49TEBfZzJWK2QWKJn/4g/E=; b=OKmL8xe/O0wgRO8t9gtcWKIjpC
+ GoG99sdMaZA0k6TOA6REEMTwdPKVlWt1B62cudm31jh9VIFRkc6bFKr8RL/6LadKyAyo9epZIbSVJ
+ X74Icm4ko/UdbJO6J0VCPf2CGRauort43+cnQpWKVPoy/FfLyxRxNcfmDyaK+mBICHhTgFieMVxGH
+ FUB6ae6NWocOierzkzediJ5Mu0m17KyWqWmlErqxUk2XL7thDcFc/YN8BWiIuJRr9TUaKUg/V8mQ9
+ wVtwKy2Axt5WAy6G+AiYRlrITea0Iou3CK83pwIBvZZErMEy2mNA4TgL5jIvIU5rvjExMOyO18bjK
+ o5Eq8GAg==;
+Received: from [2a01:799:95a:cb00:fd97:29ff:d72a:349e] (port=49995)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1os0Jp-0006SH-3V; Mon, 07 Nov 2022 12:29:33 +0100
+Message-ID: <813ebf68-a7f4-441f-d0d6-f63fd923a479@tronnes.org>
+Date: Mon, 7 Nov 2022 12:29:28 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH v3 01/12] dt-bindings: phy: mediatek: hdmi-phy: Add mt8195
- compatible
-Content-Language: en-US
-To: Guillaume Ranquet <granquet@baylibre.com>,
- Rob Herring <robh+dt@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>, Jitao shi
- <jitao.shi@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- Vinod Koul <vkoul@kernel.org>, CK Hu <ck.hu@mediatek.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Kishon Vijay Abraham I <kishon@ti.com>
-References: <20220919-v3-0-a803f2660127@baylibre.com>
- <20220919-v3-1-a803f2660127@baylibre.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220919-v3-1-a803f2660127@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v6 16/23] drm/probe-helper: Provide a TV get_modes helper
+To: Maxime Ripard <maxime@cerno.tech>
+References: <20220728-rpi-analog-tv-properties-v6-0-e7792734108f@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v6-16-e7792734108f@cerno.tech>
+ <842076aa-8d7c-96d6-ba46-d0e66dacd2df@tronnes.org>
+ <20221107102126.klxrvfe34e6uriyx@houat>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20221107102126.klxrvfe34e6uriyx@houat>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,25 +57,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, mac.shen@mediatek.com,
- stuart.lee@mediatek.com, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
+ linux-sunxi@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+ Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 04/11/22 15:09, Guillaume Ranquet ha scritto:
-> Add a compatible for the HDMI PHY on MT8195
+
+
+Den 07.11.2022 11.21, skrev Maxime Ripard:
+> Hi Noralf,
 > 
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> I'll leave aside your comments on the code, since we'll use your implementation.
+> 
+> On Sun, Nov 06, 2022 at 05:33:48PM +0100, Noralf Trønnes wrote:
+>> Den 26.10.2022 17.33, skrev maxime@cerno.tech:
+>>> +
+>>> +	if (cmdline->tv_mode_specified)
+>>> +		default_mode = cmdline->tv_mode;
+>>
+>> I realised that we don't verify tv_mode coming from the command line,
+>> not here and not in the reset helper. Should we do that? A driver should
+>> be programmed defensively to handle an illegal/unsupported value, but it
+>> doesn't feel right to allow an illegal enum value coming through the
+>> core/helpers.
+> 
+> I don't think we can end up with an invalid value here if it's been
+> specified.
+> 
+> We parse the command line through drm_mode_parse_tv_mode() (introduced
+> in patch 13 "drm/modes: Introduce the tv_mode property as a command-line
+> option") that will pick the tv mode part of the command line, and call
+> drm_get_tv_mode_from_name() using it.
+> 
+> drm_get_tv_mode_from_name() will return a EINVAL if it's not a value we
+> expect, and mode->tv_mode is only set on success. And AFAIK, there's no
+> other path that will set tv_mode.
+> 
 
-Ack and R-b tags go after your S-o-b.
+I see now that illegal was the wrong word, but if the driver only
+supports ntsc, the user can still set tv_mode=PAL right? And that's an
+unsupported value that the driver can't fulfill, so it errors out. But
+then again maybe that's just how it is, we can also set a display mode
+that the driver can't handle, so this is no different in that respect.
+Yeah, my argument lost some of its strength here :)
 
-Apart from that:
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
-
-
-
+Noralf.
