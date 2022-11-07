@@ -1,37 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D905B61F7E9
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 16:47:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD65761F7F4
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 16:48:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 668F510E41C;
-	Mon,  7 Nov 2022 15:47:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1E5110E1E1;
+	Mon,  7 Nov 2022 15:48:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4EDBD10E408
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 15:47:08 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A00C61FB;
- Mon,  7 Nov 2022 07:47:13 -0800 (PST)
-Received: from [10.57.3.218] (unknown [10.57.3.218])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 60F3E3F534;
- Mon,  7 Nov 2022 07:47:06 -0800 (PST)
-Message-ID: <f2bbb902-8447-076a-f290-6a257abc48d9@arm.com>
-Date: Mon, 7 Nov 2022 15:47:07 +0000
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAF0410E1E1
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 15:48:45 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id 21so18271814edv.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Nov 2022 07:48:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=BDYirpYZ5kfOHvkxSrtBuDWKGYWjPD6FnuUfORGWBTc=;
+ b=N61PlqxwjqQnwv3OvI+EWHIUjyufpc88GAYSXe2k3Qb2N3zrydxbk9C60OjQBXKRzr
+ 9cUZtxpKU+mWXjf8A8mzB0H8eYEt/HoELb9CriiBFUEFXcl4sII0rw9wMMUsdg3HorFm
+ qpbIyF0CJEkDKgyvbuJtLJV5s3DczZhbKPyEfZ+jH7ggc4K4hGucMma3Xiizhw5dv9N2
+ iZ1iMd+hBBpVe7NX44xYJQ/E/JvOhdKFPLv2beaa3dIR3yHohsR5hn2/VmwAf/T9TjyS
+ QI1cQ1p7Gko+33B/OnIfJj5GbxDRYufkrBUzD3nhgNdNbwS1sIMYFnVlIPQBlV/iHfjS
+ vk7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=BDYirpYZ5kfOHvkxSrtBuDWKGYWjPD6FnuUfORGWBTc=;
+ b=Gy3/ttRVVkRrJ1KvRGUi98vmMi/aL5w+cIzV11Bqg4Ln5ZZ1qRlWNy6mmztch4ebgY
+ Alt3luc8b/9C45QYdSBsL9CZUifZwYu/a1J7xqdihBJZjtzIqrYX+pKx9dcYy0BK9b8l
+ I1aQhjBqKw2RYe0JhXWZhTmBbAXklobEByUBGn35F2yBdW4Dplo0O7pdy7EXbTusISLc
+ iPNaZWv7yTim120JJsnU08lNtKPDlaHWWkKR59VFDcDcczVbrzVU1rDDjcZGhT62Dxsj
+ xk1qnDhNRoocMWUvhW/PoBeCnTD5qIsHQ64pqu/XW2/GoQQjzxmh5FjJzAGE2atmVPoW
+ SKmQ==
+X-Gm-Message-State: ACrzQf1l5QP/gGmQaveuh424JwUZ6wKra2Y+wxn82r3GEglS34v5x/GA
+ Gh9JPnayp6hs7iWl/IA0VzTxBITdBtWR7Y4aAABOKQ==
+X-Google-Smtp-Source: AMsMyM7zOBjN+DY54GaOFcaOAZYJ2+CY36CiwWfiLKrZNLYwlFnSiyAZculK/38l8emxDE0svopFaHLOams2uMneWEU=
+X-Received: by 2002:aa7:d7c1:0:b0:463:1dcc:5fbc with SMTP id
+ e1-20020aa7d7c1000000b004631dcc5fbcmr47586072eds.250.1667836124340; Mon, 07
+ Nov 2022 07:48:44 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH] drm/panfrost: Remove type name from internal struct again
-To: Alyssa Rosenzweig <alyssa@collabora.com>
-References: <20221103114036.1581854-1-steven.price@arm.com>
- <Y2kGqIAE7WPYUTKx@maud>
-Content-Language: en-GB
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <Y2kGqIAE7WPYUTKx@maud>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20221104063652.82789-1-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <20221104063652.82789-1-jiapeng.chong@linux.alibaba.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Mon, 7 Nov 2022 16:48:33 +0100
+Message-ID: <CAG3jFyus_GX=9N0bYQbjuDENdjPurBmy1S_+0eFRsHsnAbCYAg@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: sii9234: Remove the unused function
+ sii9234_mode_valid()
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,51 +65,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, linux-kernel@vger.kernel.org
+Cc: neil.armstrong@linaro.org, jonas@kwiboo.se, dri-devel@lists.freedesktop.org,
+ Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
+ jernej.skrabec@gmail.com, Laurent.pinchart@ideasonboard.com,
+ andrzej.hajda@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/11/2022 13:22, Alyssa Rosenzweig wrote:
-> Reviewed-by: Alyssa Rosenzweig <alyssa@collabora.com>
+On Fri, 4 Nov 2022 at 07:37, Jiapeng Chong
+<jiapeng.chong@linux.alibaba.com> wrote:
+>
+> The function sii9234_mode_valid() is defined in the sii9234.c file, but
+> not called elsewhere, so remove this unused function.
+>
+> drivers/gpu/drm/bridge/sii9234.c:870:31: warning: unused function 'bridge_to_sii9234'.
+>
+> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=2735
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+> ---
+>  drivers/gpu/drm/bridge/sii9234.c | 5 -----
+>  1 file changed, 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/sii9234.c b/drivers/gpu/drm/bridge/sii9234.c
+> index 5b3061d4b5c3..62b6bc8ca7af 100644
+> --- a/drivers/gpu/drm/bridge/sii9234.c
+> +++ b/drivers/gpu/drm/bridge/sii9234.c
+> @@ -867,11 +867,6 @@ static int sii9234_init_resources(struct sii9234 *ctx,
+>         return 0;
+>  }
+>
+> -static inline struct sii9234 *bridge_to_sii9234(struct drm_bridge *bridge)
+> -{
+> -       return container_of(bridge, struct sii9234, bridge);
+> -}
+> -
+>  static enum drm_mode_status sii9234_mode_valid(struct drm_bridge *bridge,
+>                                          const struct drm_display_info *info,
+>                                          const struct drm_display_mode *mode)
+> --
+> 2.20.1.7.g153144c
+>
 
-Thanks, pushed to drm-misc-fixes:
-
-c4299907c09a drm/panfrost: Remove type name from internal struct again
-
-Steve
-
-> On Thu, Nov 03, 2022 at 11:40:36AM +0000, Steven Price wrote:
->> Commit 72655fb942c1 ("drm/panfrost: replace endian-specific types with
->> native ones") accidentally reverted part of the parent commit
->> 7228d9d79248 ("drm/panfrost: Remove type name from internal structs")
->> leading to the situation that the Panfrost UAPI header still doesn't
->> compile correctly in C++.
->>
->> Revert the accidental revert and pass me a brown paper bag.
->>
->> Reported-by: Alyssa Rosenzweig <alyssa@collabora.com>
->> Fixes: 72655fb942c1 ("drm/panfrost: replace endian-specific types with native ones")
->> Signed-off-by: Steven Price <steven.price@arm.com>
->> ---
->>  include/uapi/drm/panfrost_drm.h | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
->> index 6f93c915cc88..9f231d40a146 100644
->> --- a/include/uapi/drm/panfrost_drm.h
->> +++ b/include/uapi/drm/panfrost_drm.h
->> @@ -254,7 +254,7 @@ struct panfrost_dump_object_header {
->>  			__u64 nbos;
->>  		} reghdr;
->>  
->> -		struct pan_bomap_hdr {
->> +		struct {
->>  			__u32 valid;
->>  			__u64 iova;
->>  			__u32 data[2];
->> -- 
->> 2.34.1
->>
-
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
