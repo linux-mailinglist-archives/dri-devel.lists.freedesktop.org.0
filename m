@@ -1,80 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7355261F0C3
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 11:34:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA01961F0E8
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 11:38:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3B7210E2BE;
-	Mon,  7 Nov 2022 10:34:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 611AC10E2CE;
+	Mon,  7 Nov 2022 10:37:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
- [64.147.123.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96F1610E2BE
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 10:34:20 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 89FC2320093C;
- Mon,  7 Nov 2022 05:34:17 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Mon, 07 Nov 2022 05:34:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1667817257; x=
- 1667903657; bh=IYxlHqoP9Bx/py7vlk3J000jbwGAbLCrg5awkhudSFY=; b=n
- 4dufC3wXaF+29uEfUf0zvL7zy2kh9ZqJ/4ZXI7Gl/SCI38AkAp09PJA3k5eD4Gj3
- SfhlfbUUg4mxwsHtevL0JGJIM1XHUenKfQONOgyF/NmTqGFLTvmEmy58SVqqwgLL
- avzy9Hr4I+iPPu3Mr5vy86NHhGh1vVbc08TPHibSg6in7dn7Yu9iAr9tbfPPo73F
- 3f2RT+LG6YQ9vH51knfcVzn+bnzNdSxJ7v96WimDDLhTWwZzHA1XGyUq/Rlef+dd
- hhpbfBEQNUxE1VHDfRhqOlFKtCqnrv9fDmWXC1iAbkpnqnO5DUKr+86b4jAp86ry
- j848c8QcS0XdeHPTVvmYw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:date:feedback-id:feedback-id:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm1; t=1667817257; x=1667903657; bh=I
- YxlHqoP9Bx/py7vlk3J000jbwGAbLCrg5awkhudSFY=; b=frd5ccb7hTH5sx5kX
- 44v69wTrmDo0/H7LeogKuacff1L5a5dNZtwVmpJ0dz84s7wOmo6SG3G3BUvmMhaw
- II2yO3hNOss2Ni3Bg0JhhXiUD+WEggb4nnfGyhCbCO3wNctOh34/2MaHTJfI5V30
- C4/u5/+1sLoZmcFO0zfOpRXpynLfZ1j8mK1+8BC1zORV3PrN/erX1NAVj9pBziAP
- +W0Ad7aaXAPA4qqfPEGWGYuSEk12GSVUhlYOv7hoQRm9rWIc4oxtHJF4XfsDp5Hk
- s/6k22n+PGb63AZG+Wg0pwq1Om7cIqpK6HlQaXin2JvXWuVG94Rv54QpN+bi+I5k
- 28y+g==
-X-ME-Sender: <xms:KN9oY6WAEUZrOWYEivOg_qHUU7SZ-s07VDxmXqF-oU3RqX9lxlQBaQ>
- <xme:KN9oY2kgGoVwacW_ifxYWACQjUS4UfvBlG5BqMIffzrKFdPUZyveyKK-JAWxRTBUx
- eITR9p9TJekE4qBk7A>
-X-ME-Received: <xmr:KN9oY-Z6agsk1mnA6xVK9bUQrF2LmBkXrjo6muV2Pq3F1NNH5YZDygUhCXrFQ5IHNbHWRZIj-w1iMS68ol4iUVE67ffi5iaUmM-Aqjqh-aiMHQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvdekgddujecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvfgjfhfukfffgggtgffosehtkeertdertdejnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnheptefhlefgheduiedtfefhjeejhfehlefgieduueegtefhtdehueejgfeiveej
- geelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:KN9oYxVkrItQd_VA0Lpgm9zxnIrugz3htWQKAX3kLCgRCOdeeJXVzg>
- <xmx:KN9oY0k_8Q_uCxQMRjXF_WErntvh4WvM5Co6NuWmnTijFpxqxXRzRA>
- <xmx:KN9oY2ckxq7HvjMO4568Ja9hvpRXz5X_d22MFQvxOlUaXdjCKPHW5Q>
- <xmx:Kd9oY_81YSG1qTvBWF1FqtkSYCg1t0KZCJXNEHFb-LEUXAh1HmB6gg>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Nov 2022 05:34:16 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: mripard@kernel.org, airlied@gmail.com, emma@anholt.net, daniel@ffwll.ch,
- eric@anholt.net, 
- Yuan Can <yuancan@huawei.com>, dri-devel@lists.freedesktop.org
-In-Reply-To: <20221103014705.109322-1-yuancan@huawei.com>
-References: <20221103014705.109322-1-yuancan@huawei.com>
-Subject: Re: (subset) [PATCH] drm/vc4: Fix missing
- platform_unregister_drivers() call in vc4_drm_register()
-Message-Id: <166781723834.2586907.11883659656401092903.b4-ty@cerno.tech>
-Date: Mon, 07 Nov 2022 11:33:58 +0100
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
+ [IPv6:2a00:1450:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C2C110E2C9
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 10:37:52 +0000 (UTC)
+Received: by mail-lj1-x234.google.com with SMTP id d3so15553207ljl.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Nov 2022 02:37:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=rZ789OFHN1lvkUIK4iYOi8r4E8Mj/5sPrWBtspHEEYc=;
+ b=SUU5GZV7PxILUP+Mvtd2gP7xXAx6ujr9uOXhF0uRH18a/r9aUS17lPy8XCXLXzrYcn
+ OpaiT/FZHxf4x/y8yR3DErFyw+neNuH72Y+DTt0CT0WLPTq/WJklySeLcUEg7gx5IRpe
+ 8y5BdR8D11K9jR2//LWrt7NHSkCT/LzI/hP+MN2nus/SNmy2YIzVgorK4g6UOwA17l8W
+ fRFqDujR2f+GmM7agUH4AJZD8QmrM8R7W149HIysl4HkUNvOnnRo6jICyGkwd5L5ulrb
+ j9lypNP+Fgjlb8+EMOa4YIPdPQ59nmfxuuMuIqNnwW9CuZiaOOEFUMWq2q17nX+ckBlC
+ mAxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=rZ789OFHN1lvkUIK4iYOi8r4E8Mj/5sPrWBtspHEEYc=;
+ b=srYeJE7kAh/GOS0U4l9+dDsGv/ZDyLMHmYUmFRSB3f+ojWnRkDDIE/z2jUdx2b8afR
+ dLxOHA6ivYBUx9TK4WPNKhSRdEDdI/Gr8Udzrw0RAuNkALQW8BmwOxSk86eWSYcT/2OG
+ lsV2Msk4czxCEjuLXhG6tEkdSR2M9auL5MuBWIfyVjr74vFAksaP21xpCQuR5V+rQmQz
+ QKDnun0q60Ngqr7Y7DX9yN+aWe05LeSl8qArA43GgANTduzPUolZ1foyR8mmYtgxOHVn
+ aaUttH768UIjMA465uGYvhKbgyHwOnqpyr6rzm5aqo8j3WE/wZnc4ka1x7pc9znhthL4
+ 8QPA==
+X-Gm-Message-State: ACrzQf1eDBh1kYjVe8MshRe9uXCrmVepsmUh3kkOS/oLe626TMemy2s1
+ 62+EoQhVz14IwLIE6ImWi41ZYg==
+X-Google-Smtp-Source: AMsMyM4YYYeo3vxWbYCQB8vu+0ohY5wwmclDKz+L3YLGxETCqfM+qAO9cHNmUNcZAtCYoM5dtUPOkg==
+X-Received: by 2002:a2e:9ca:0:b0:276:ac05:b821 with SMTP id
+ 193-20020a2e09ca000000b00276ac05b821mr5561542ljj.84.1667817470535; 
+ Mon, 07 Nov 2022 02:37:50 -0800 (PST)
+Received: from localhost.localdomain ([194.29.137.22])
+ by smtp.gmail.com with ESMTPSA id
+ a14-20020a056512200e00b004979ec19387sm1162599lfb.305.2022.11.07.02.37.48
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 07 Nov 2022 02:37:50 -0800 (PST)
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+To: linux-arm-msm@vger.kernel.org,
+	andersson@kernel.org,
+	agross@kernel.org
+Subject: [PATCH] drm/msm/dpu1: Remove INTF4 IRQ from SDM845 IRQ mask
+Date: Mon,  7 Nov 2022 11:37:36 +0100
+Message-Id: <20221107103739.8993-1-konrad.dybcio@linaro.org>
+X-Mailer: git-send-email 2.32.0 (Apple Git-132)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.10.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,20 +70,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Kalyan Thota <quic_kalyant@quicinc.com>, freedreno@lists.freedesktop.org,
+ Loic Poulain <loic.poulain@linaro.org>, patches@linaro.org,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 3 Nov 2022 01:47:05 +0000, Yuan Can wrote:
-> A problem about modprobe vc4 failed is triggered with the following log
-> given:
-> 
->  [  420.327987] Error: Driver 'vc4_hvs' is already registered, aborting...
->  [  420.333904] failed to register platform driver vc4_hvs_driver [vc4]: -16
->  modprobe: ERROR: could not insert 'vc4': Device or resource busy
-> 
-> [...]
+From: Konrad Dybcio <konrad.dybcio@somainline.org>
 
-Applied to drm/drm-misc (drm-misc-fixes).
+SDM845 only has INTF0-3 and has no business caring about the INTF4 irq.
 
-Thanks!
-Maxime
+Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index 27f029fdc682..06897a497eb7 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -86,7 +86,6 @@
+ 			 BIT(MDP_INTF1_INTR) | \
+ 			 BIT(MDP_INTF2_INTR) | \
+ 			 BIT(MDP_INTF3_INTR) | \
+-			 BIT(MDP_INTF4_INTR) | \
+ 			 BIT(MDP_AD4_0_INTR) | \
+ 			 BIT(MDP_AD4_1_INTR))
+ 
+-- 
+2.38.1
+
