@@ -1,116 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2355561FEE8
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 20:50:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FBAC61FEF7
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 20:58:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E64F10E3FB;
-	Mon,  7 Nov 2022 19:50:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B17210E3FE;
+	Mon,  7 Nov 2022 19:58:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from na01-obe.outbound.protection.outlook.com
- (mail-eastusazon11012010.outbound.protection.outlook.com [52.101.53.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDEB810E3F0;
- Mon,  7 Nov 2022 19:50:12 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hVoibnH0Pqnp5UTFVEDVCbhkVW2oTFPtd0RrNrOVDv/YeL5QF2IrZ2tTpbDX4RkgkTY3eiqTcRIbgNEq/FxME5HlDPjKqJYST4PDGXGZHknNI09QA+LkcEVJVJ8e1UqSFhJMN6LuJwPAh0oy6uk1VPq1p2ZgSUaTH2nosG9OlwtF12iE2rjhPJ9Etj/VCAZO4KIaicKdzNKSjk3lsXUb3kyzMYo49whWHcWn+ZPmK/RQI7kjXP/K8ArYxulQuBFo/jMrrsenS8++9B5j9p7rF91DHT1dUGofheAhB/F02vmTlN4KrZdK7L9MENsHjmeNviRVEFkBLLhaTex8iI8WAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EnNg2Il4RO9/ce79b2Zrey4obWiapbVIMkkdKBeuinA=;
- b=HpqGAVsYgcSKlFLKKJzKj585aX4/QVB0GyDwpD2pHFWpz0onvJ0JGCPPX5mYlzO4EkrYN2EQyzcK5KwKckGS29TghdseFVqak4VpG90SPRkvVNfqLkp00CqB1/I8IH9LcAVNG2tyh8DLLtwkcVN0njnRTWIQI+znJPhcGSQgjpS4LHZk4mnB0cVP0tD0rdoKJtfP8YSv91cORg7XPrYhpB9p1jrKbGnxu3IZNZZEIICwX/u1FH87pBqR/fLhV4e2fF7Dc5RVf2MEMIGQTEq9dypHQfuhww3iMTTPqvisx+0Poa0clNTeytBMPbapgfVqTfqKMDOH05bSrsAamll5Cg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
- dkim=pass header.d=vmware.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EnNg2Il4RO9/ce79b2Zrey4obWiapbVIMkkdKBeuinA=;
- b=KIucidNVirnKmQTz4cSVvz8zCvq0iNKh+RXJZbSpx/gChVfjT3N3NAbTcL9AYkkmr971OxgtFZpAkbS9amXvYRTdGEtqdMVzlgx+0JJYADxeGD7iUVPCT5fh8XXdNRnEoZd4brBXxzrRxNhpxRyGNzcqxH2ZqeRYkvUDhNlIG2g=
-Received: from SA1PR05MB8534.namprd05.prod.outlook.com (2603:10b6:806:1dd::19)
- by BYAPR05MB6344.namprd05.prod.outlook.com (2603:10b6:a03:e2::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.17; Mon, 7 Nov
- 2022 19:50:06 +0000
-Received: from SA1PR05MB8534.namprd05.prod.outlook.com
- ([fe80::ca89:ffc2:7e20:16fd]) by SA1PR05MB8534.namprd05.prod.outlook.com
- ([fe80::ca89:ffc2:7e20:16fd%5]) with mapi id 15.20.5791.027; Mon, 7 Nov 2022
- 19:50:06 +0000
-From: Nadav Amit <namit@vmware.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH RFC 05/19] mm: add early FAULT_FLAG_WRITE consistency
- checks
-Thread-Topic: [PATCH RFC 05/19] mm: add early FAULT_FLAG_WRITE consistency
- checks
-Thread-Index: AQHY8sSPsuqGQZcSwkqSjFQS9Nwjx64z0cqAgAAGhgCAAAZqgA==
-Date: Mon, 7 Nov 2022 19:50:05 +0000
-Message-ID: <6589BFC5-9DF4-4757-9B32-483294E03CAE@vmware.com>
-References: <20221107161740.144456-1-david@redhat.com>
- <20221107161740.144456-6-david@redhat.com>
- <E1E8C21A-EAEB-4FA3-A9B9-1DFF81FCDA70@vmware.com>
- <c58fe356-62b5-bdec-92a7-6153a27e19b7@redhat.com>
-In-Reply-To: <c58fe356-62b5-bdec-92a7-6153a27e19b7@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3696.120.41.1.1)
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vmware.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA1PR05MB8534:EE_|BYAPR05MB6344:EE_
-x-ms-office365-filtering-correlation-id: 18076b9a-bab2-4f3c-c81d-08dac0f944da
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: k94A2HZItKMXowC3irT5iUB2n/5eN59MnO2Dz72cm5eM1IAl+Rr5MDxyqqMDccLV42c7yshOWjmJ0SJ0YJ0LtzG9iGGNzHRpihXQj10+ZkjHNf2I4JOq8H7AHFvO7xhRFGeafkxjgM9T5q0hSWYo6zhq5q9OzGcfowbf40KaEF1g9FWmcOu7x05WLugeyF8WQr7tax0xOhZRHOgCATTHOdRCSGt06ij/y+AuXffyyzdcFM8AdRjajD0Tw4aRPCVRqFL/qrC0NmZSTFhw3VSmNdqlzLyMuBrjA4yezzUs1Blhgs+4rW3rKJOsKCp0kWstMOu+zy+1sh1MnnXcXlwevMED0YoSQNvqSzYsB2QL/pE30TAmI41DGxhY68u5GNuljYT718d60PB0te2IOzrwTzjTbubeeQNMSdYH81+OtkxDrU9wUWmsyyx/9UhukXl6FxcE/zdATdpdqydC2XNou2YoVRl/zaiv6Ea7zb7TxdDeqqFsQihUHBkLUBeToT7n0XRBOvTjQ3OGVQr071h6isn7FXtILG5cazKsezfbD8BI+CNplGn0mxXDo5rrS4+IolaH1uZ8Iftwwr0uGecInZmu+yQlNmM4Wm8BZsNW+r6P1t9GYOq86Y87Jw8wKqrwBKtTFXo1GqqEH1JCaVJYRIrUsj5xliMwH2xB3/j++tzj4lVnrInoxNQsziHYRnXqhU24cpXEygjGQgO5CwATw491dTwHWv7bUYZeWtHTFhAS4Qlvk/9SQaDznpeEODb77wp8TpSesPxL7zJKCNARWTcTz3CinTUZVhA99vwfe0FhytvUvZiDZxl2gQMnQoOxU5C+Xtpje23YIfc6KPT9A7bmYCL4+JeymmplmS7RTXw=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA1PR05MB8534.namprd05.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(39860400002)(366004)(396003)(346002)(136003)(376002)(451199015)(186003)(2906002)(66476007)(66556008)(33656002)(38070700005)(64756008)(8936002)(66446008)(71200400001)(4326008)(6916009)(478600001)(26005)(76116006)(41300700001)(54906003)(5660300002)(7416002)(316002)(83380400001)(2616005)(53546011)(6506007)(38100700002)(91956017)(8676002)(6486002)(6512007)(122000001)(86362001)(66946007)(36756003)(45980500001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?dsy9Su5N5SFQEkY27QaUmJWDTKzFrM0EsRgxovSoXA5J529RgpiI/Fk/06Ku?=
- =?us-ascii?Q?CAJoT3NrWebEFelOB1/stts/pYe8uv0D+A/QHKo5hzS+Zj2Vq0uRVDnmDEtx?=
- =?us-ascii?Q?5falIcGCJRd39Aoi9Stub/JBWgUYD9ra8Bm8wbRnMKEOe0kSmjVlAPa5AFxv?=
- =?us-ascii?Q?lSvtRgilWlE9rN0x1HidynXfsHWY/76AC6CQ2pF/662cONfwXoNnRQMrh+lp?=
- =?us-ascii?Q?FRbnoEpY2DmQ6YRB9MgIt5mrpT+yLH25bo7cwrjrZk1AgGNvGwURNGOHESba?=
- =?us-ascii?Q?pWZZUtMqApORFP+sg6oxRmUbPM3KX3ng2gPeVwAQR5Amf+vYDFaksQlpfPKT?=
- =?us-ascii?Q?apr7W7cwGuKwUZe8iL8GwjsjeTgS6KOFjYbIkST8uyAXm8T7f7rPJNakK4Sv?=
- =?us-ascii?Q?iOTLCiO7kGku0li7/rSiqLdU9C5YH1gE1RPtscPB8LFS2iuH4ExTnAN4zS3K?=
- =?us-ascii?Q?E4HHNBQRhxXjLGbSvwE23rEB+17iVUu2ZHttVHHkimzCbEBkdkExuVmRYvbH?=
- =?us-ascii?Q?Waa99s4r6GAtpPCOhdEYT60LEFEJ8Ca5ukDOhBdeHaxLPPKV7Gu05WrbeeeL?=
- =?us-ascii?Q?TNzncRT+2SEdaJoWmcBV3eipm6yU7cYVXigxAdiSREgZNvhJwe2WpM5t1jJ1?=
- =?us-ascii?Q?gt17Bsi1Fm4Gu7hj8T4AYTkbYM1K/MA4B0zhKG9yU4kk8nDo0osFQ82hmWQQ?=
- =?us-ascii?Q?M8kzSeDoqETqzZ3e299PFva3geV0pwYJXHx6xJrmS9lyUK7x86PxYn/l6Lcd?=
- =?us-ascii?Q?erMBlGr7QfLyTNXbrAdLrIluIjzhbh+vvN6eYEprU/aBOlIjy5YFVUldQAmQ?=
- =?us-ascii?Q?aNbKPn5WN1KFeyJ0pNT1519oFy1EkF2iMMm1vqfZvXnuYlzgnYkvvt9RCK+f?=
- =?us-ascii?Q?TQKnIV5ofcyuKRYfDbJroil+zKU9glwjLrtUWAJ9FWud1AB+xqOTDkPVAOLH?=
- =?us-ascii?Q?dSPK3vG/v+6vl2g3rjWF0g97uZU7uFG59TFpAexS3yF3c2EplRLSX1hBmR/M?=
- =?us-ascii?Q?jecqsBtT80IvL8Z1ctbDuzrzc0V+vvwKXjGDZK1HWL2kiUpvD9UmZOom+SSV?=
- =?us-ascii?Q?3cgkxN2HMyAZC+Mq3oTw3jE93c4Y+q2sPBZg3WmMt7hv4mXFthanoZ9WRxe+?=
- =?us-ascii?Q?Wq0p9yQzS8kJYu4o+9vShqTE1tCVA5pontwnoNIlgkPQWZP6vxMgzUclmEgw?=
- =?us-ascii?Q?9nQff2TdkJT2IbWhK6wxh9h4OyUN5CoUjBraWq4rZbq8wolj/e1DETSADx6g?=
- =?us-ascii?Q?a/kwREcpdqIMGA+wAvKBHVEz8kbUNeJtzYZmh1sEyYBpcWmE+Dc4ieBf/Hbu?=
- =?us-ascii?Q?8YMyjd6WmxgI4SCtiRHlqcFXJdjLWfifH2Zva30WzzU2HZI5OPGA/5VKWiEd?=
- =?us-ascii?Q?txsjYrBo0IhzXx4qr5IQ03STnJZaQ9d3WoiOIOuOUwN7gem7LWRVsgwIuNqH?=
- =?us-ascii?Q?xYwFcZ1ejtL6gELtigx+HiA8NT/ORUSObPv7gYZh4cmJ4M2nU5UqkAS+umqh?=
- =?us-ascii?Q?jSeSPX00PRPdButahjjG5l1PiRBzay4l6HSpa4TB0f3/PlG7C2dvI5Twu5q8?=
- =?us-ascii?Q?HHNBj9XwSWElSqSUrLrtdnrknImO2taodl/fusQt?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <B4F787E81DF28345BCCAE10419209411@namprd05.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F64710E3FE
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 19:58:12 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id kt23so33055315ejc.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Nov 2022 11:58:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=1P73afq4uEFGxRapIG09H+jBzHwMHJ5yJQQ9xlWoSAQ=;
+ b=FFpyQNKrmPSl1XkLLiVXx3l9fz9PcvUBX/jm8GfzSnl5BUBEld8auUfQ6MyluyeWij
+ fUFu/+FpLCPqolAy0l2BcP2kxGrcKU8ByRMXJejGpxqZD7uA0jE/AVyBBs6o2Ki3aHaO
+ h/jdL8OvXSmIlj6+2uu9KwCFwg8lXUDNWODlJ/YBVG1wIYmFFytSR2NTqRl1twtdcaeX
+ VeIDtCejHdsY2bKRB9yQaFD9gdv/Jctc4oUR+E3X9yWk02FQwh9f35rKkkRHEXxfjHUJ
+ 3jCnL+2EAIdUWsExM4eWcXdQdbLwQey1RpB0rniC/3Pdt95ONLyJPg2oC2ZdLPlTM4hS
+ aWvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1P73afq4uEFGxRapIG09H+jBzHwMHJ5yJQQ9xlWoSAQ=;
+ b=6nEsdegBtQbnv5woJ8PWpCRXczeOyY4a1IWiRIMo8U21IosHVDxZHn1vcnmTpfqhiV
+ s4ZgTIiGR6nIAd+gni49gPMAE/JH4Zu8X7dh1Fze29dUfhwhDwt/tN/vYAdFpWeWzhd6
+ 20Y5tEj1TGPRBxnVYh/+VaAzJZA2XFZmRabG7/tZ8LuruictDTAh55ygLeleMxsy1oo8
+ aTvWHDj1wNJa9jI32gPfjKpyg4/TxTU+j5ozvktSv8SB6flJnN0n2I+J64UJfxlNJDDL
+ Rh2zfdrvsAHaYfGzLVaR9gx6yJJvAbBkPGR31Gj4Z/vnxxr5HHq9Z6WaGlUmSmE5TcCw
+ GW5w==
+X-Gm-Message-State: ACrzQf0WAIh4rcvuCcj6y6e1dxUE+He1+xtWsbwSvtCOaDXsRul6gqiL
+ gQqFjGDock4we5+Y0s/tIFNJLNTvKu8=
+X-Google-Smtp-Source: AMsMyM4o6Q4o2SaT81W8Kpy3cFGf4OnH/nttq0nMnvdpQC1DRGWLw2+aH9MtDda1ylBKgpyEMQmtQg==
+X-Received: by 2002:a17:906:2a93:b0:78d:b87e:6aab with SMTP id
+ l19-20020a1709062a9300b0078db87e6aabmr50075816eje.157.1667851090699; 
+ Mon, 07 Nov 2022 11:58:10 -0800 (PST)
+Received: from able.fritz.box (p5b0ea229.dip0.t-ipconnect.de. [91.14.162.41])
+ by smtp.gmail.com with ESMTPSA id
+ q2-20020a17090676c200b0073cf6ec3276sm3413810ejn.207.2022.11.07.11.58.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Nov 2022 11:58:09 -0800 (PST)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: dri-devel@lists.freedesktop.org,
+	felix.kuehling@amd.com
+Subject: [PATCH] drm/ttm: optimize pool allocations a bit
+Date: Mon,  7 Nov 2022 20:58:08 +0100
+Message-Id: <20221107195808.1873-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-OriginatorOrg: vmware.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR05MB8534.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 18076b9a-bab2-4f3c-c81d-08dac0f944da
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Nov 2022 19:50:06.0143 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Lk2vhXp5y0Z8RPR/TrGVeOBXqG1eDKYFmzz3bgnXI8PlzaTBUi4eX8ivEHk9j1pGgXrWZGpl2grMQERyifZgpg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR05MB6344
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,86 +72,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Linux-MM <linux-mm@kvack.org>,
- "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
- Andrea Arcangeli <aarcange@redhat.com>,
- "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- Hugh Dickins <hughd@google.com>, Matthew Wilcox <willy@infradead.org>,
- Jason Gunthorpe <jgg@ziepe.ca>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, John Hubbard <jhubbard@nvidia.com>,
- "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
- Peter Xu <peterx@redhat.com>, Muchun Song <songmuchun@bytedance.com>,
- Vlastimil Babka <vbabka@suse.cz>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Oded Gabbay <ogabbay@kernel.org>, kernel list <linux-kernel@vger.kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Mike Kravetz <mike.kravetz@oracle.com>,
- Linus Torvalds <torvalds@linux-foundation.org>
+Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Nov 7, 2022, at 11:27 AM, David Hildenbrand <david@redhat.com> wrote:
+If we got a page pool use it as much as possible.
 
-> !! External Email
->=20
-> On 07.11.22 20:03, Nadav Amit wrote:
->> On Nov 7, 2022, at 8:17 AM, David Hildenbrand <david@redhat.com> wrote:
->>=20
->>> !! External Email
->>>=20
->>> Let's catch abuse of FAULT_FLAG_WRITE early, such that we don't have to
->>> care in all other handlers and might get "surprises" if we forget to do
->>> so.
->>>=20
->>> Write faults without VM_MAYWRITE don't make any sense, and our
->>> maybe_mkwrite() logic could have hidden such abuse for now.
->>>=20
->>> Write faults without VM_WRITE on something that is not a COW mapping is
->>> similarly broken, and e.g., do_wp_page() could end up placing an
->>> anonymous page into a shared mapping, which would be bad.
->>>=20
->>> This is a preparation for reliable R/O long-term pinning of pages in
->>> private mappings, whereby we want to make sure that we will never break
->>> COW in a read-only private mapping.
->>>=20
->>> Signed-off-by: David Hildenbrand <david@redhat.com>
->>> ---
->>> mm/memory.c | 8 ++++++++
->>> 1 file changed, 8 insertions(+)
->>>=20
->>> diff --git a/mm/memory.c b/mm/memory.c
->>> index fe131273217a..826353da7b23 100644
->>> --- a/mm/memory.c
->>> +++ b/mm/memory.c
->>> @@ -5159,6 +5159,14 @@ static vm_fault_t sanitize_fault_flags(struct vm=
-_area_struct *vma,
->>>                 */
->>>                if (!is_cow_mapping(vma->vm_flags))
->>>                        *flags &=3D ~FAULT_FLAG_UNSHARE;
->>> +       } else if (*flags & FAULT_FLAG_WRITE) {
->>> +               /* Write faults on read-only mappings are impossible ..=
-. */
->>> +               if (WARN_ON_ONCE(!(vma->vm_flags & VM_MAYWRITE)))
->>> +                       return VM_FAULT_SIGSEGV;
->>> +               /* ... and FOLL_FORCE only applies to COW mappings. */
->>> +               if (WARN_ON_ONCE(!(vma->vm_flags & VM_WRITE) &&
->>> +                                !is_cow_mapping(vma->vm_flags)))
->>> +                       return VM_FAULT_SIGSEGV;
->>=20
->> Not sure about the WARN_*(). Seems as if it might trigger in benign even=
- if
->> rare scenarios, e.g., mprotect() racing with page-fault.
->=20
-> We most certainly would want to catch any such broken/racy cases. There
-> are no benign cases I could possibly think of.
->=20
-> Page faults need the mmap lock in read. mprotect() / VMA changes need
-> the mmap lock in write. Whoever calls handle_mm_fault() is supposed to
-> properly check VMA permissions.
+If we can't get more pages from the pool allocate as much as possible.
 
-My bad. I now see it. Thanks for explaining.
+Only if that still doesn't work reduce the order and try again.
+
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/gpu/drm/ttm/ttm_pool.c | 81 ++++++++++++++++++++++++----------
+ 1 file changed, 57 insertions(+), 24 deletions(-)
+
+diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
+index 21b61631f73a..cf15874cf380 100644
+--- a/drivers/gpu/drm/ttm/ttm_pool.c
++++ b/drivers/gpu/drm/ttm/ttm_pool.c
+@@ -344,6 +344,27 @@ static unsigned int ttm_pool_page_order(struct ttm_pool *pool, struct page *p)
+ 	return p->private;
+ }
+ 
++/* Called when we got a page, either from a pool or newly allocated */
++int ttm_pool_page_allocated(struct ttm_pool *pool, unsigned int order,
++			    struct page *p, dma_addr_t **dma_addr,
++			    unsigned long *num_pages, struct page ***pages)
++{
++	unsigned int i;
++	int r;
++
++	if (*dma_addr) {
++		r = ttm_pool_map(pool, order, p, dma_addr);
++		if (r)
++			return r;
++	}
++
++	*num_pages -= 1 << order;
++	for (i = 1 << order; i; --i)
++		*((*pages)++) = p++;
++
++	return 0;
++}
++
+ /**
+  * ttm_pool_alloc - Fill a ttm_tt object
+  *
+@@ -385,45 +406,57 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+ 	for (order = min_t(unsigned int, MAX_ORDER - 1, __fls(num_pages));
+ 	     num_pages;
+ 	     order = min_t(unsigned int, order, __fls(num_pages))) {
+-		bool apply_caching = false;
+ 		struct ttm_pool_type *pt;
+ 
+ 		pt = ttm_pool_select_type(pool, tt->caching, order);
+ 		p = pt ? ttm_pool_type_take(pt) : NULL;
+ 		if (p) {
+-			apply_caching = true;
+-		} else {
+-			p = ttm_pool_alloc_page(pool, gfp_flags, order);
+-			if (p && PageHighMem(p))
+-				apply_caching = true;
+-		}
+-
+-		if (!p) {
+-			if (order) {
+-				--order;
+-				continue;
+-			}
+-			r = -ENOMEM;
+-			goto error_free_all;
+-		}
+-
+-		if (apply_caching) {
+ 			r = ttm_pool_apply_caching(caching, pages,
+ 						   tt->caching);
+ 			if (r)
+ 				goto error_free_page;
+-			caching = pages + (1 << order);
++
++			while (p) {
++				r = ttm_pool_page_allocated(pool, order, p,
++							    &dma_addr,
++							    &num_pages,
++							    &pages);
++				if (r)
++					goto error_free_page;
++
++				if (num_pages < (1 << order))
++					break;
++
++				p = ttm_pool_type_take(pt);
++			}
++			caching = pages;
+ 		}
+ 
+-		if (dma_addr) {
+-			r = ttm_pool_map(pool, order, p, &dma_addr);
++		while (num_pages >= (1 << order) &&
++		       (p = ttm_pool_alloc_page(pool, gfp_flags, order))) {
++
++			if (PageHighMem(p)) {
++				r = ttm_pool_apply_caching(caching, pages,
++							   tt->caching);
++				if (r)
++					goto error_free_page;
++			}
++			r = ttm_pool_page_allocated(pool, order, p, &dma_addr,
++						    &num_pages, &pages);
+ 			if (r)
+ 				goto error_free_page;
++			if (PageHighMem(p))
++				caching = pages;
+ 		}
+ 
+-		num_pages -= 1 << order;
+-		for (i = 1 << order; i; --i)
+-			*(pages++) = p++;
++		if (!p) {
++			if (order) {
++				--order;
++				continue;
++			}
++			r = -ENOMEM;
++			goto error_free_all;
++		}
+ 	}
+ 
+ 	r = ttm_pool_apply_caching(caching, pages, tt->caching);
+-- 
+2.34.1
 
