@@ -1,67 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F331561FFBD
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 21:46:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 550CF61FFF1
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 21:57:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74BDD10E48A;
-	Mon,  7 Nov 2022 20:46:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 004BA10E48E;
+	Mon,  7 Nov 2022 20:57:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D82710E48A
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 20:46:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1667854000; bh=VUOGtRW5QRcsoux1eIEKMXiDp1er4Kt2H8bnoQy1LKE=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=N7RisSlFhEn4jI2jJXrNfAbDlR9TZ0/4IALTvQZd+uUabVJZY7783gXOVuA6j7glk
- LnefvdkbONd4C57CMmy0I8yOjU8wsZgEKmOOSKB0yWoKvnPasX8bZXtzXon5oaVVYQ
- cMrL64JO6Wcxd6blB6B+bB5HE790kSAUDN8dyoG84js1iQkeqJzWzO2VheAYdzO0h6
- AdoFFpGe4Hok9/2yeWXZbJm9kQdCi8V2SMZetJ7vECFo3KBMjDjg/A7ea0KHt3XKuy
- oSZD+LFaQfMSuzzAkaMUWi3zzGsXL1XEhKMFGrBVqe2V1e4E6hBcWGaxo0hrKseYD0
- F7WZULX9zeHtw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([92.116.191.140]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N3KTo-1p1WeQ08Je-010Mw6; Mon, 07
- Nov 2022 21:46:40 +0100
-Message-ID: <d21a0a0d-22fb-99bf-0d29-75b1fe1db677@gmx.de>
-Date: Mon, 7 Nov 2022 21:46:38 +0100
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 279A410E4A0
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 20:57:22 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id z14so18033316wrn.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Nov 2022 12:57:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:in-reply-to
+ :subject:cc:to:from:references:from:to:cc:subject:date:message-id
+ :reply-to; bh=xNuIDh9+z0CfhmCPEaKB/O13kWB7hEyf2+U7jlAoSUM=;
+ b=PMUoELhE6AnXK+iNbgb6rPTOJPEKsFgBujXqxbWpgwA5fYf4gBdL2QEZ7s38On6Pdv
+ tEvNrpWkJH7345NtNVL6P6neZYoOwCet4Y628+aQE5juJnavU3qBi7KlO1rk5DAUAUOq
+ 438HwMs8JiemVJnEaCYxBD3fJBcnKF+Ec4ElTT2rACGgYIzmW6zjKAQjhVEt1OoUDQVI
+ vKeu2GP4yAVneediojKblkMb81j+Ywo5HajTIEQtgDumphUC4m8/Zrw4Q3MU5M1r0ziT
+ 8aiG4DnxTEwp4bvltkVyz/XtyJfkf0wefxRxSHxi02sFECEhyFppC6IqlBS76u0z4eLR
+ 9SRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:in-reply-to
+ :subject:cc:to:from:references:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=xNuIDh9+z0CfhmCPEaKB/O13kWB7hEyf2+U7jlAoSUM=;
+ b=RPfz89sd2jjZAr78aKDJ0f/FJnTYUEUrFsYG79UUcOAAxtZkPOmUfy9r0iUa5+OERX
+ 6pLKP2mcqdtjXLZxzfSmDdv51gWXK8YaKs8Q6tFFxR3dOywfwuZcyNv6uAvsXU+Hq5gk
+ tX2KM4fBLWVkR91IyBRsgoSQ3LSLife9IoKiZluA1w0vwxx+4FwjAZ1+magbBYPvAIQ2
+ BZZmQEgaLOf5s+Mof5c4FkRGC84BuYtH+d+eynWHHBQHP9gVtiwNEDEJiWZ5m4loFuS3
+ uHyDIo+66lMhrSMGaF1juiQCAU0cgEr0P/qGmsq64gk9JXEItYNntKiT3F96tYw5kykw
+ npLw==
+X-Gm-Message-State: ACrzQf1j5PUXua/kTsNvVYeGIouEEWf7sUg5o+Q9mcYKaOZ3e1TiGB3e
+ W7uXQ+sWp79OmHSGd2iLDeg=
+X-Google-Smtp-Source: AMsMyM68KhRfPQSDi8CFA78pakjxRAM3L6JCB7fc1yr/DnXKn9yQG4njsjQsXjAXYrNXUB9CMb72nw==
+X-Received: by 2002:a5d:4ec1:0:b0:22e:435c:1e0f with SMTP id
+ s1-20020a5d4ec1000000b0022e435c1e0fmr633954wrv.200.1667854640408; 
+ Mon, 07 Nov 2022 12:57:20 -0800 (PST)
+Received: from localhost (188.28.3.103.threembb.co.uk. [188.28.3.103])
+ by smtp.gmail.com with ESMTPSA id
+ m1-20020a7bca41000000b003c6c3fb3cf6sm9173176wml.18.2022.11.07.12.57.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Nov 2022 12:57:19 -0800 (PST)
+References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
+ <20221018-clk-range-checks-fixes-v2-56-f6736dec138e@cerno.tech>
+ <80VTKR.CE8RVN8M3ZYK3@crapouillou.net>
+ <20221104145946.orsyrhiqvypisl5j@houat>
+ <cp7Yh29ndlOOi1yW8KwCcpzoLPLxm1vR@localhost>
+ <20221107085417.xrsh6xy3ouwdkp4z@houat>
+From: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH v2 56/65] clk: ingenic: cgu: Switch to determine_rate
+In-reply-to: <20221107085417.xrsh6xy3ouwdkp4z@houat>
+Date: Mon, 07 Nov 2022 20:57:22 +0000
+Message-ID: <ucJ6KSBqdPTxfxUQqLUr9C9RGiQRnY1I@localhost>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH 2/2] fbdev: Add support for the nomodeset kernel parameter
-Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- javierm@redhat.com
-References: <20221107104916.18733-1-tzimmermann@suse.de>
- <20221107104916.18733-3-tzimmermann@suse.de>
- <2e2d23f3-9c2d-e75e-f390-4651a4da730f@gmx.de>
- <6547fba2-a002-f339-2997-5b28df794095@suse.de>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <6547fba2-a002-f339-2997-5b28df794095@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:L8/XBgG1PIjL93oNfV/gXI0qXEMGIaLBiQQUACow6nK11QidiuL
- 2GCywnNwdO0yrImxxuFKy+4T8kMRLfJCZuMtN/PtSoORoXONYSbrVYX19IbU27Af5xGvuiU
- DtgrfF61+h+bWNPbuCgqAqdJfY6sJCWT0/5EEzev5qr/br/vOz68/xxRyXsFFdrZqJqNREj
- VJmxpFXkr96N3Yu9/5Ehw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:+gWM8z4yrq8=;E7pJ1rO1R/NeDqKQejHtFMjrRea
- UEyiJQfHCpgQ/fkDMWO1tFxSscmI+Ru69CaEMnzTxpbEmURyDx6HNTj+w7TVsMZ80jn5xK5gM
- 35N9qzXQR/bDNVlso4Qnq4CnRDTYGj5FZZx8IT3z8c0jUAvAVr3Lc3qiO1YTgB55Vnh9/YDRv
- dUoImcQpysglGGeE+BeZ976u0lw7ihBizuMVyD2rEaH5HwbG4/JKn9lsW8hcjWQpxH94jARqd
- ILm+w+DRP6L7eRoghc7uCQSBGBKjqsVzbdSxV+E44tOK+LFtbKNnwXfLOxIbLEdRC5x/kiUB+
- df0sgUrakR4QOob05YyvpXilsJHGfoh8SgEzVAe4xRhMsIf47EmAyBsHrI3wOoy06lwa6aQPU
- uQVqLcX928A2jgbp8/0U/6GkENKtTLkswVJNCpoXRDtDlJTHpcAwdPIADcuuUioaCqt9vtTHA
- oS7BiLDkX0P9XkHfQ3qEybI5VrYR/T4OST++1MLHdPlev0TGDjjeCUfM+DVr9hgBIqPahh4dT
- VI4Gf0bVKAWecbJT7iKmFJiUGIjH24PX58jO7T0XHNj2sjDJxwSvzBAWgb2yJfViejlxrIavy
- XqKNGQwJsC8jdD5g6wzb4ritnA8vRcK3jFjEVRMq1YiJnPMQYCTgZol6Y9w++FMPKQw/78LLC
- poSxxLjqTLCUIj9SORb7d+TXVPonCk0PRXM3XQOWl5LRVCUFK8ce+SyO8C33deNidzklLM2I9
- YqB/j0oyQBSaYgUDLOqfsQiEM89UGuSuYycl9gJ4mNjHnQEWO4ECl7mpz3fte600u3ZyrrOSI
- 0lKqbuvzLQPxKBqUshAgxSfJIiuUkQpH1vg8f/Y/LZPhG/v68M4ecjph7K90ler9R3XJMw3q8
- 1LjurwB5D3+1AQvgXU/3zqM86BLfOC3IeRSE8+DP7oLWT/VGTMUOBXHpW1zMDz0vN5eNGbVrr
- +sOHKQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,104 +75,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Ulf Hansson <ulf.hansson@linaro.org>,
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Michael Turquette <mturquette@baylibre.com>, Sekhar Nori <nsekhar@ti.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
+ Paul Cercueil <paul@crapouillou.net>, Max Filippov <jcmvbkbc@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-phy@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, Abel Vesa <abelvesa@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Samuel Holland <samuel@sholland.org>, Chunyan Zhang <zhang.lyra@gmail.com>,
+ Takashi Iwai <tiwai@suse.com>, linux-tegra@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
+ NXP Linux Team <linux-imx@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
+ linux-mips@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ linux-rtc@vger.kernel.org, linux-clk@vger.kernel.org,
+ Charles Keepax <ckeepax@opensource.cirrus.com>, alsa-devel@alsa-project.org,
+ Manivannan Sadhasivam <mani@kernel.org>, linux-kernel@vger.kernel.org,
+ Sascha Hauer <s.hauer@pengutronix.de>, linux-actions@lists.infradead.org,
+ Richard Fitzgerald <rf@opensource.cirrus.com>, Mark Brown <broonie@kernel.org>,
+ linux-mediatek@lists.infradead.org,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Alessandro Zummo <a.zummo@towertech.it>, linux-sunxi@lists.linux.dev,
+ Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
+ Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
+ linux-renesas-soc@vger.kernel.org, Dinh Nguyen <dinguyen@kernel.org>,
+ Vinod Koul <vkoul@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ David Lechner <david@lechnology.com>, Shawn Guo <shawnguo@kernel.org>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/7/22 16:30, Thomas Zimmermann wrote:
-> Hi
+
+Maxime Ripard <maxime@cerno.tech> writes:
+
+> Hi,
 >
-> Am 07.11.22 um 14:57 schrieb Helge Deller:
->> On 11/7/22 11:49, Thomas Zimmermann wrote:
->>> Support the kernel's nomodeset parameter for all PCI-based fbdev
->>> drivers that use aperture helpers to remove other, hardware-agnostic
->>> graphics drivers.
->>>
->>> The parameter is a simple way of using the firmware-provided scanout
->>> buffer if the hardware's native driver is broken.
+> On Fri, Nov 04, 2022 at 05:35:29PM +0000, Aidan MacDonald wrote:
 >>
->> Nah... it's probably not broken, but you want it disabled in order
->> to use the DRM driver instead?
+>> Maxime Ripard <maxime@cerno.tech> writes:
+>>
+>> > Hi Paul,
+>> >
+>> > On Fri, Nov 04, 2022 at 02:31:20PM +0000, Paul Cercueil wrote:
+>> >> Le ven. 4 nov. 2022 =C3=A0 14:18:13 +0100, Maxime Ripard <maxime@cern=
+o.tech> a
+>> >> =C3=A9crit :
+>> >> > The Ingenic CGU clocks implements a mux with a set_parent hook, but
+>> >> > doesn't provide a determine_rate implementation.
+>> >> >
+>> >> > This is a bit odd, since set_parent() is there to, as its name impl=
+ies,
+>> >> > change the parent of a clock. However, the most likely candidate to
+>> >> > trigger that parent change is a call to clk_set_rate(), with
+>> >> > determine_rate() figuring out which parent is the best suited for a
+>> >> > given rate.
+>> >> >
+>> >> > The other trigger would be a call to clk_set_parent(), but it's far=
+ less
+>> >> > used, and it doesn't look like there's any obvious user for that cl=
+ock.
+>> >> >
+>> >> > So, the set_parent hook is effectively unused, possibly because of =
+an
+>> >> > oversight. However, it could also be an explicit decision by the
+>> >> > original author to avoid any reparenting but through an explicit ca=
+ll to
+>> >> > clk_set_parent().
+>> >> >
+>> >> > The driver does implement round_rate() though, which means that we =
+can
+>> >> > change the rate of the clock, but we will never get to change the
+>> >> > parent.
+>> >> >
+>> >> > However, It's hard to tell whether it's been done on purpose or not.
+>> >> >
+>> >> > Since we'll start mandating a determine_rate() implementation, let's
+>> >> > convert the round_rate() implementation to a determine_rate(), which
+>> >> > will also make the current behavior explicit. And if it was an
+>> >> > oversight, the clock behaviour can be adjusted later on.
+>> >>
+>> >> So it's partly on purpose, partly because I didn't know about
+>> >> .determine_rate.
+>> >>
+>> >> There's nothing odd about having a lonely .set_parent callback; in my=
+ case
+>> >> the clocks are parented from the device tree.
+>> >>
+>> >> Having the clocks driver trigger a parent change when requesting a ra=
+te
+>> >> change sounds very dangerous, IMHO. My MMC controller can be parented=
+ to the
+>> >> external 48 MHz oscillator, and if the card requests 50 MHz, it could=
+ switch
+>> >> to one of the PLLs. That works as long as the PLLs don't change rate,=
+ but if
+>> >> one is configured as driving the CPU clock, it becomes messy.
+>> >> The thing is, the clocks driver has no way to know whether or not it =
+is
+>> >> "safe" to use a designated parent.
+>> >>
+>> >> For that reason, in practice, I never actually want to have a clock
+>> >> re-parented - it's almost always a bad idea vs. sticking to the paren=
+t clock
+>> >> configured in the DTS.
+>> >
+>> > Yeah, and this is totally fine. But we need to be explicit about it. T=
+he
+>> > determine_rate implementation I did in all the patches is an exact
+>> > equivalent to the round_rate one if there was one. We will never ask to
+>> > change the parent.
+>> >
+>> > Given what you just said, I would suggest to set the
+>> > CLK_SET_RATE_NO_REPARENT flag as well.
+>>
+>> Ideally there should be a way for drivers and the device tree to
+>> say, "clock X must be driven by clock Y", but the clock framework
+>> would be allowed to re-parent clocks freely as long as it doesn't
+>> violate any DT or driver constraints.
 >
-> No, it's really for broken native drivers or any kind of problematic
-> modesetting. Most DRM drivers already respect the nomodeset option
-> and won't load when given. All you'd get are the generic drivers,
-> such as simpledrm, efifb or simplefb.
+> I'm not really sure what you mean there, sorry. Isn't it what
+> assigned-clock-parents/clk_set_parent() at probe, plus a determine_rate
+> implementation that would affect best_parent_hw would already provide?
+
+Assigning the parent clock in the DT works once, at boot, but going off
+what you wrote in the commit message, if the clock driver has a
+.determine_rate() implementation that *can* reparent clocks then it
+probably *will* reparent them, and the DT assignment will be lost.
+
+What I'm suggesting is a runtime constraint that the clock subsystem
+would enforce, and actively prevent drivers from changing the parent.
+Either explicitly with clk_set_parent() or due to .determine_rate().
+
+That way you could write a .determine_rate() implementation that *can*
+select a better parent, but if the DT applies a constraint to fix the
+clock to a particular parent, the clock subsystem will force that parent
+to be used so you can be sure the clock is never reparented by accident.
+
+>> That way allowing reparenting doesn't need to be an all-or-nothing
+>> thing, and it doesn't need to be decided at the clock driver level
+>> with special flags.
 >
-> There are better options of configuring video output on the kernel
-> command line.  But as graphics output is such a fundamental feature
-> to using a computer, we found that a simple and easy option to
-> workaround erroneous systems would benefit DRM users; hence the
-> nomodeset parameter.
+> Like I said, the default implementation is already working to what you
+> suggested if I understood properly. However, this has never been tested
+> for any of the drivers in that series so I don't want to introduce (and
+> debug ;)) regressions in all those drivers that were not setting any
+> constraint but never actually tested their reparenting code.
 >
-> As fbdev drivers also do modesetting, supporting the parameter simply
-> unifies the behavior.
-
-Ok.
-
->>> The same effect
->>> could be achieved with per-driver options, but the importance of the
->>> graphics output for many users makes a single, unified approach
->>> worthwhile.
->>>
->>> With nomodeset specified, the fbdev driver module will not load. This
->>> unifies behavior with similar DRM drivers. In DRM helpers, modules
->>> first check the nomodeset parameter before registering the PCI
->>> driver. As fbdev has no such module helpers, we have to modify each
->>> driver individually.
->>
->> Ok.
->>
->>> The name 'nomodeset' is slightly misleading, but has been chosen for
->>> historical reasons. Several drivers implemented it before it became a
->>> general option for DRM. So keeping the existing name was preferred ove=
-r
->>> introducing a new one.
->>
->>> diff --git a/drivers/video/fbdev/aty/aty128fb.c b/drivers/video/fbdev/=
-aty/aty128fb.c
->>> index 57e398fe7a81c..1a26ac2865d65 100644
->>> --- a/drivers/video/fbdev/aty/aty128fb.c
->>> +++ b/drivers/video/fbdev/aty/aty128fb.c
->>> @@ -2503,7 +2504,12 @@ static int aty128fb_init(void)
->>> =C2=A0 {
->>> =C2=A0 #ifndef MODULE
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 char *option =3D NULL;
->>> +#endif
->>> +
->>> +=C2=A0=C2=A0=C2=A0 if (video_firmware_drivers_only())
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -ENODEV;
->>
->> I think it makes sense to give at least some info, why a specific
->> driver wasn't loaded, e.g. something like this kernel message:
->> aty128fb: Driver disabled due to "nomodeset" kernel parameter.
->>
->> If you e.g. change the function video_firmware_drivers_only()
->> to become video_firmware_drivers_only(const char *drivername)
->> then you could print such a message in video_firmware_drivers_only()
+> So that series is strictly equivalent to what you had before, it's just
+> explicit now.
 >
-> Well, we do have such a message in disable_modeset() already. [1]
-> [1] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_n=
-omodeset.c#L18
-
-Yes, I saw it, but that message quite generic.
-If for example my atyfb doesn't show up, I would grep dmesg for "aty" and
-not "nomodeset"...
-
-
->> And I don't like very much the name of function video_firmware_drivers_=
-only(),
->> but don't have any other better idea right now either...
+> If you find that some other decision make sense for your driver in
+> particular cases, feel free to change it. I barely know most of these
+> platforms, so I won't be able to make that decision (and test it)
+> unfortunately.
 >
-> It's part of the 'video' module, hence the prefix. The 'nomodeset'
-> option used to be implemented in several DRM drivers. It's an awful
-> name, but we didn't want to remove it or introduce a new one for the
-> same feature. So we kept nomodeset for all of DRM.  Then we started
-> bikeshedding the function name that returns the setting. And
-> firmware-drivers-only is the best description of what is happening
-> here. So that's how the name happend.
+> Maxime
 
-video_modesetting_disabled() ?
-(Just an idea)
-
-Helge
+That's OK, I didn't review the patch, I'm just making a general
+suggestion. :)
