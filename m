@@ -1,45 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACAE661F436
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 14:23:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93CAE61F43E
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 14:25:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC98710E30D;
-	Mon,  7 Nov 2022 13:22:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2D7D10E310;
+	Mon,  7 Nov 2022 13:25:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A474D10E30D
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 13:22:56 +0000 (UTC)
-Received: from maud (unknown [184.175.40.153])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- (Authenticated sender: alyssa)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id D5DA7660283A;
- Mon,  7 Nov 2022 13:22:53 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1667827375;
- bh=ZnFOZyXL8uJEDuix8RxOgFRb6se3qayxtK1aRcf42S8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QboKrarDISQxl9/snAAVdfm/ScDLKgrDQlRmxy10aNYWW+ElLweUCVKFFQc8UY+ki
- 6r4GEgBYcaGiPYH3dn1GNnEMwuXG5RktG5Qyde+oRm315jvdEcqTe2h6agyfGzlV3x
- F6LRU8Ou+9cwQcPHUvbqanNWVD+QVvK/SAXe2iMXkrwQjLu7syKzOgWsln/L2Q/vpO
- JP7KeGA/TzD5dradJexgYYAuAEE8QbKAYtgruhrf7E8hsMynqo93TCBMylj7skKlQ5
- Ea2fPwpfaU1pMtnyJaa4FNul71WfPbf4wXxgjZPg0DnZ9KL8zp+yjRNshzWCSwPGj4
- 9AYyAoM0ma8Jg==
-Date: Mon, 7 Nov 2022 08:22:48 -0500
-From: Alyssa Rosenzweig <alyssa@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH] drm/panfrost: Remove type name from internal struct again
-Message-ID: <Y2kGqIAE7WPYUTKx@maud>
-References: <20221103114036.1581854-1-steven.price@arm.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73E4D10E30E
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 13:25:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1667827510; x=1699363510;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=hlL+DfWEWMRR8orTzyWzhpO4GGMnYRYRp0nALpNPto8=;
+ b=cp6hbDSmSO83haL5ffl0FtbZ+43YDxoK4hJCJaS7Zd6yTeQNYibspmt9
+ Uv5Vm08/OSOohMKc0aDdTHfhNMsgd9oFZjZzLBvIy+qYk2/x3U5lvU1if
+ o2ifI26yfcARX0xmC0d8pcS/1JN1PuZg0TVO//sTD50VEmgatRUr6pycG
+ 4jHxaWtueyFH8o5UhwbOfyi9ykqdULvAEvcVBzXRIcaVSptVyO8nMEY5p
+ pqwbWF+Asd7NXmIpk9WqQ4y6ePSNlJ0JOivmL6SeR8CuiYY1Xd42hyEwL
+ bXPzOHNRPMUyDWwuiNf5j0SisV+L5lUjaI8iI73+Y0JkaydllpEnMn/Ql g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="290129990"
+X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; d="scan'208";a="290129990"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Nov 2022 05:25:09 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="761093220"
+X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; d="scan'208";a="761093220"
+Received: from joe-255.igk.intel.com (HELO localhost) ([172.22.229.67])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Nov 2022 05:25:05 -0800
+Date: Mon, 7 Nov 2022 14:25:03 +0100
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [RFC PATCH v2 1/3] drivers/accel: define kconfig and register a
+ new major
+Message-ID: <20221107132503.GA3590860@linux.intel.com>
+References: <20221102203405.1797491-1-ogabbay@kernel.org>
+ <20221102203405.1797491-2-ogabbay@kernel.org>
+ <Y2MMCIe5wND2XPqE@kroah.com>
+ <CAFCwf13uLj=P6u6FAcY8M5qAXoaBdb+Ha-TYj0j2FAZnFAPFYg@mail.gmail.com>
+ <CAFCwf12yRUG4593ozJMEwaaJBKyWqXTTCjef9O_fzWdQBxVrtw@mail.gmail.com>
+ <Y2kAcCu4z2LUMN7u@nvidia.com>
+ <CAFCwf10K-dTu455QfOK8i6thismY-FUN2Rws830EGiqOcGWFgA@mail.gmail.com>
+ <Y2kDzPswkKyZyRpS@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221103114036.1581854-1-steven.price@arm.com>
+In-Reply-To: <Y2kDzPswkKyZyRpS@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,43 +64,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, linux-kernel@vger.kernel.org
+Cc: Christoph Hellwig <hch@infradead.org>, Jiho Chu <jiho.chu@samsung.com>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, Arnd Bergmann <arnd@arndb.de>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Kevin Hilman <khilman@baylibre.com>, Oded Gabbay <ogabbay@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, John Hubbard <jhubbard@nvidia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>, stanislaw.gruszka@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Alyssa Rosenzweig <alyssa@collabora.com>
+Hi
 
-On Thu, Nov 03, 2022 at 11:40:36AM +0000, Steven Price wrote:
-> Commit 72655fb942c1 ("drm/panfrost: replace endian-specific types with
-> native ones") accidentally reverted part of the parent commit
-> 7228d9d79248 ("drm/panfrost: Remove type name from internal structs")
-> leading to the situation that the Panfrost UAPI header still doesn't
-> compile correctly in C++.
+On Mon, Nov 07, 2022 at 09:10:36AM -0400, Jason Gunthorpe wrote:
+> On Mon, Nov 07, 2022 at 03:01:08PM +0200, Oded Gabbay wrote:
+> > I don't agree with your statement that it should be "a layer over top of DRM".
+> > Anything on top of DRM is a device driver.
+> > Accel is not a device driver, it is a new type of drm minor / drm driver.
 > 
-> Revert the accidental revert and pass me a brown paper bag.
+> Yeah, I still think this is not the right way, you are getting almost
+> nothing from DRM and making everything more complicated in the
+> process.
 > 
-> Reported-by: Alyssa Rosenzweig <alyssa@collabora.com>
-> Fixes: 72655fb942c1 ("drm/panfrost: replace endian-specific types with native ones")
-> Signed-off-by: Steven Price <steven.price@arm.com>
-> ---
->  include/uapi/drm/panfrost_drm.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> > The only alternative imo to that is to abandon the idea of reusing
+> > drm, and just make an independant accel core code.
 > 
-> diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
-> index 6f93c915cc88..9f231d40a146 100644
-> --- a/include/uapi/drm/panfrost_drm.h
-> +++ b/include/uapi/drm/panfrost_drm.h
-> @@ -254,7 +254,7 @@ struct panfrost_dump_object_header {
->  			__u64 nbos;
->  		} reghdr;
->  
-> -		struct pan_bomap_hdr {
-> +		struct {
->  			__u32 valid;
->  			__u64 iova;
->  			__u32 data[2];
-> -- 
-> 2.34.1
-> 
+> Not quite really, layer it properly and librarize parts of DRM into
+> things accel can re-use so they are not intimately tied to the DRM
+> struct device notion.
+
+What do you mean by "struct device notion" ? struct drm_devce ? 
+
+Regards
+Stanislaw
