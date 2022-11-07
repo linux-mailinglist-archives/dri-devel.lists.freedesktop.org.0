@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C73AD61EDBB
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 09:54:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD1FE61ED97
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 09:53:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2464310E2CC;
-	Mon,  7 Nov 2022 08:53:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEB9810E28D;
+	Mon,  7 Nov 2022 08:52:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85F0810E26D;
- Mon,  7 Nov 2022 08:52:27 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 222E010E259;
+ Mon,  7 Nov 2022 08:52:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1667811147; x=1699347147;
+ t=1667811148; x=1699347148;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=+WiFLM15B2P5mBeaJrZvv8dDthWW6YLmOeft0jwHsKk=;
- b=Z8asape0jpSBEa+G6JXvqQ9f16tDIymUhrQxYhhhtZG+x+RtzgMURGVo
- ccDQcS+LINT8PqJz1BSXfRZ73yaqpHhhh/js2xecW8yfPgEon2VSnwt/V
- xog3Cimpq3WhuylzQwOEZ2UdT5/j+Xq1IM5KuPFAnavmqb7/872BMyyv+
- qMIp1aIIKtMnJik3KAFUBCiIoaGC7OzU1heYTLPDOK1yJuY9exmPbeDV6
- x9G2CGjw5Z3f0OgNZQHAc571a3mqt7N3/vo5V0Or2d8xVHxrmlY5QTYFc
- gaaA/jbnQSNyrUSZyUtNipfCAGjN2IsQOADiQOFPLI9L87wK5E43vduL2 w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="312126186"
-X-IronPort-AV: E=Sophos;i="5.96,143,1665471600"; d="scan'208";a="312126186"
+ bh=YsDc97ujg96Uo2mrDm3TCgiGlaNpzslQpF2maW8nLlQ=;
+ b=FXsMopCMMe7ampu/WWQwZQM5v7UhQ7LRsngyZsZfxj3NkPpI16BDUc7Z
+ RkmedrSBammpgsFHgVUfscrWPghS1rtupGwV/8ZNBGdJ/WbX4ZrSNrBhW
+ Gl+QPW0zPLSsfWq6mdnreDeMYMKtJSvEAS6QNU6ITcClo4VUbq3pTdobA
+ ZP+kra8p/6kxfUvTkrKzxkKB/wBtUqc4EkpmgebraGx02rCAzuHEkjXva
+ +s4JdcAQJr5+yA5hPVm5Vnic8dQmM3fXMmYi9j+uDg27xpJ2fErFFrqGD
+ zqoJg4MRARVjrnubGXQDxXq0s+y5l9fqKrRUJqqnDj1VuxA76csHUKDTS w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="374613952"
+X-IronPort-AV: E=Sophos;i="5.96,143,1665471600"; d="scan'208";a="374613952"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  07 Nov 2022 00:52:27 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="880984668"
-X-IronPort-AV: E=Sophos;i="5.96,143,1665471600"; d="scan'208";a="880984668"
+X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="880984672"
+X-IronPort-AV: E=Sophos;i="5.96,143,1665471600"; d="scan'208";a="880984672"
 Received: from nvishwa1-desk.sc.intel.com ([172.25.29.76])
  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  07 Nov 2022 00:52:27 -0800
 From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v6 19/20] drm/i915/vm_bind: Render VM_BIND documentation
-Date: Mon,  7 Nov 2022 00:52:09 -0800
-Message-Id: <20221107085210.17221-20-niranjana.vishwanathapura@intel.com>
+Subject: [PATCH v6 20/20] drm/i915/vm_bind: Async vm_unbind support
+Date: Mon,  7 Nov 2022 00:52:10 -0800
+Message-Id: <20221107085210.17221-21-niranjana.vishwanathapura@intel.com>
 X-Mailer: git-send-email 2.21.0.rc0.32.g243a4c7e27
 In-Reply-To: <20221107085210.17221-1-niranjana.vishwanathapura@intel.com>
 References: <20221107085210.17221-1-niranjana.vishwanathapura@intel.com>
@@ -64,137 +64,122 @@ Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update i915 documentation to include VM_BIND changes
-and render all VM_BIND related documentation.
+Asynchronously unbind the vma upon vm_unbind call.
+Fall back to synchronous unbind if backend doesn't support
+async unbind or if async unbind fails.
 
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+No need for vm_unbind out fence support as i915 will internally
+handle all sequencing and user need not try to sequence any
+operation with the unbind completion.
+
 Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 ---
- Documentation/gpu/i915.rst | 78 ++++++++++++++++++++++++++++----------
- 1 file changed, 59 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/i915/i915_vma.c | 51 ++++++++++++++++++++++++++++++---
+ drivers/gpu/drm/i915/i915_vma.h |  1 +
+ 2 files changed, 48 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
-index 4e59db1cfb00..5c55cbc980b1 100644
---- a/Documentation/gpu/i915.rst
-+++ b/Documentation/gpu/i915.rst
-@@ -283,15 +283,18 @@ An Intel GPU has multiple engines. There are several engine types.
+diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+index 08218e3a2f12..03c966fad87b 100644
+--- a/drivers/gpu/drm/i915/i915_vma.c
++++ b/drivers/gpu/drm/i915/i915_vma.c
+@@ -42,6 +42,8 @@
+ #include "i915_vma.h"
+ #include "i915_vma_resource.h"
  
- The Intel GPU family is a family of integrated GPU's using Unified
- Memory Access. For having the GPU "do work", user space will feed the
--GPU batch buffers via one of the ioctls `DRM_IOCTL_I915_GEM_EXECBUFFER2`
--or `DRM_IOCTL_I915_GEM_EXECBUFFER2_WR`. Most such batchbuffers will
--instruct the GPU to perform work (for example rendering) and that work
--needs memory from which to read and memory to which to write. All memory
--is encapsulated within GEM buffer objects (usually created with the ioctl
--`DRM_IOCTL_I915_GEM_CREATE`). An ioctl providing a batchbuffer for the GPU
--to create will also list all GEM buffer objects that the batchbuffer reads
--and/or writes. For implementation details of memory management see
--`GEM BO Management Implementation Details`_.
-+GPU batch buffers via one of the ioctls `DRM_IOCTL_I915_GEM_EXECBUFFER2`,
-+`DRM_IOCTL_I915_GEM_EXECBUFFER2_WR` or `DRM_IOCTL_I915_GEM_EXECBUFFER3`.
-+Most such batchbuffers will instruct the GPU to perform work (for example
-+rendering) and that work needs memory from which to read and memory to
-+which to write. All memory is encapsulated within GEM buffer objects
-+(usually created with the ioctl `DRM_IOCTL_I915_GEM_CREATE`). In vm_bind mode
-+(see `VM_BIND mode`_), the batch buffer and all the GEM buffer objects that
-+it reads and/or writes should be bound with vm_bind ioctl before submitting
-+the batch buffer to GPU. In legacy (non-VM_BIND) mode, an ioctl providing a
-+batchbuffer for the GPU to create will also list all GEM buffer objects that
-+the batchbuffer reads and/or writes. For implementation details of memory
-+management see `GEM BO Management Implementation Details`_.
++static struct dma_fence *__i915_vma_unbind_async(struct i915_vma *vma);
++
+ static inline void assert_vma_held_evict(const struct i915_vma *vma)
+ {
+ 	/*
+@@ -1711,7 +1713,7 @@ void i915_vma_reopen(struct i915_vma *vma)
+ 	spin_unlock_irq(&gt->closed_lock);
+ }
  
- The i915 driver allows user space to create a context via the ioctl
- `DRM_IOCTL_I915_GEM_CONTEXT_CREATE` which is identified by a 32-bit
-@@ -309,8 +312,9 @@ In addition to the ordering guarantees, the kernel will restore GPU
- state via HW context when commands are issued to a context, this saves
- user space the need to restore (most of atleast) the GPU state at the
- start of each batchbuffer. The non-deprecated ioctls to submit batchbuffer
--work can pass that ID (in the lower bits of drm_i915_gem_execbuffer2::rsvd1)
--to identify what context to use with the command.
-+work can pass that ID (drm_i915_gem_execbuffer3::ctx_id, or in the lower
-+bits of drm_i915_gem_execbuffer2::rsvd1) to identify what context to use
-+with the command.
+-static void force_unbind(struct i915_vma *vma)
++static void force_unbind(struct i915_vma *vma, bool async)
+ {
+ 	if (!drm_mm_node_allocated(&vma->node))
+ 		return;
+@@ -1725,7 +1727,21 @@ static void force_unbind(struct i915_vma *vma)
+ 		i915_vma_set_purged(vma);
  
- The GPU has its own memory management and address space. The kernel
- driver maintains the memory translation table for the GPU. For older
-@@ -318,14 +322,14 @@ GPUs (i.e. those before Gen8), there is a single global such translation
- table, a global Graphics Translation Table (GTT). For newer generation
- GPUs each context has its own translation table, called Per-Process
- Graphics Translation Table (PPGTT). Of important note, is that although
--PPGTT is named per-process it is actually per context. When user space
--submits a batchbuffer, the kernel walks the list of GEM buffer objects
--used by the batchbuffer and guarantees that not only is the memory of
--each such GEM buffer object resident but it is also present in the
--(PP)GTT. If the GEM buffer object is not yet placed in the (PP)GTT,
--then it is given an address. Two consequences of this are: the kernel
--needs to edit the batchbuffer submitted to write the correct value of
--the GPU address when a GEM BO is assigned a GPU address and the kernel
-+PPGTT is named per-process it is actually per context. In legacy
-+(non-vm_bind) mode, when user space submits a batchbuffer, the kernel walks
-+the list of GEM buffer objects used by the batchbuffer and guarantees that
-+not only is the memory of each such GEM buffer object resident but it is
-+also present in the (PP)GTT. If the GEM buffer object is not yet placed in
-+the (PP)GTT, then it is given an address. Two consequences of this are: the
-+kernel needs to edit the batchbuffer submitted to write the correct value
-+of the GPU address when a GEM BO is assigned a GPU address and the kernel
- might evict a different GEM BO from the (PP)GTT to make address room
- for another GEM BO. Consequently, the ioctls submitting a batchbuffer
- for execution also include a list of all locations within buffers that
-@@ -407,6 +411,15 @@ objects, which has the goal to make space in gpu virtual address spaces.
- .. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-    :internal:
+ 	atomic_and(~I915_VMA_PIN_MASK, &vma->flags);
+-	WARN_ON(__i915_vma_unbind(vma));
++	if (async) {
++		struct dma_fence *fence;
++
++		fence = __i915_vma_unbind_async(vma);
++		if (IS_ERR_OR_NULL(fence)) {
++			async = false;
++		} else {
++			dma_resv_add_fence(vma->obj->base.resv, fence,
++					   DMA_RESV_USAGE_READ);
++			dma_fence_put(fence);
++		}
++	}
++
++	if (!async)
++		WARN_ON(__i915_vma_unbind(vma));
+ 	GEM_BUG_ON(drm_mm_node_allocated(&vma->node));
+ }
  
-+VM_BIND mode
-+------------
-+
-+.. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
-+   :doc: VM_BIND/UNBIND ioctls
-+
-+.. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
-+   :internal:
-+
- Batchbuffer Parsing
- -------------------
+@@ -1785,7 +1801,7 @@ void i915_vma_destroy_locked(struct i915_vma *vma)
+ {
+ 	lockdep_assert_held(&vma->vm->mutex);
  
-@@ -419,11 +432,38 @@ Batchbuffer Parsing
- User Batchbuffer Execution
- --------------------------
+-	force_unbind(vma);
++	force_unbind(vma, false);
+ 	list_del_init(&vma->vm_link);
+ 	release_references(vma, vma->vm->gt, false);
+ }
+@@ -1796,7 +1812,34 @@ void i915_vma_destroy(struct i915_vma *vma)
+ 	bool vm_ddestroy;
  
-+Client state
-+~~~~~~~~~~~~
+ 	mutex_lock(&vma->vm->mutex);
+-	force_unbind(vma);
++	force_unbind(vma, false);
++	list_del_init(&vma->vm_link);
++	vm_ddestroy = vma->vm_ddestroy;
++	vma->vm_ddestroy = false;
 +
- .. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_context_types.h
++	/* vma->vm may be freed when releasing vma->vm->mutex. */
++	gt = vma->vm->gt;
++	mutex_unlock(&vma->vm->mutex);
++	release_references(vma, gt, vm_ddestroy);
++}
++
++void i915_vma_destroy_async(struct i915_vma *vma)
++{
++	bool vm_ddestroy, async = vma->obj->mm.rsgt;
++	struct intel_gt *gt;
++
++	if (dma_resv_reserve_fences(vma->obj->base.resv, 1))
++		async = false;
++
++	mutex_lock(&vma->vm->mutex);
++	/*
++	 * Ensure any asynchronous binding is complete while using
++	 * async unbind as we will be releasing the vma here.
++	 */
++	if (async && i915_active_wait(&vma->active))
++		async = false;
++
++	force_unbind(vma, async);
+ 	list_del_init(&vma->vm_link);
+ 	vm_ddestroy = vma->vm_ddestroy;
+ 	vma->vm_ddestroy = false;
+diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
+index 737ef310d046..25f15965dab8 100644
+--- a/drivers/gpu/drm/i915/i915_vma.h
++++ b/drivers/gpu/drm/i915/i915_vma.h
+@@ -272,6 +272,7 @@ void i915_vma_reopen(struct i915_vma *vma);
  
-+User command execution
-+~~~~~~~~~~~~~~~~~~~~~~
-+
- .. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-    :doc: User command execution
+ void i915_vma_destroy_locked(struct i915_vma *vma);
+ void i915_vma_destroy(struct i915_vma *vma);
++void i915_vma_destroy_async(struct i915_vma *vma);
  
-+User command execution in vm_bind mode
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+.. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
-+   :doc: User command execution in vm_bind mode
-+
-+Common execbuff utilities
-+~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+.. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_execbuffer_common.h
-+   :internal:
-+
-+.. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_execbuffer_common.c
-+   :internal:
-+
-+Execbuf3 ioctl path
-+~~~~~~~~~~~~~~~~~~~
-+
-+.. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
-+   :internal:
-+
- Scheduling
- ----------
- .. kernel-doc:: drivers/gpu/drm/i915/i915_scheduler_types.h
+ #define assert_vma_held(vma) dma_resv_assert_held((vma)->obj->base.resv)
+ 
 -- 
 2.21.0.rc0.32.g243a4c7e27
 
