@@ -1,58 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66DD261FCAA
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 19:04:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B9A461FCB4
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 19:05:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01B4C10E511;
-	Mon,  7 Nov 2022 18:04:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A3AD10E513;
+	Mon,  7 Nov 2022 18:05:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BFF010E1C8;
- Mon,  7 Nov 2022 18:03:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202112;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=3Bf+KcHaW9GVk8+e0qwYG7pDVa7qGqnwKbjfeHC+JJg=; b=J/2pe6qYb5J7p2zVDvNn2y2J2z
- nOUYFLV3uh28gG/8jdajK+ENWZXy4cnCy5f8yIZZisUtv8a6oX6QYsy6dTBPVZsawqeDDyWnLC5LZ
- Lj71hcQnXQcJRwdxn2RTEdxJB7vHLhBzj1s97uAqUGTKNH5ch8GbJlqF7VaVAu5245EbIPRx6HQk2
- KKaLpA1YjAAaRnHSFn3F0iCK/29HrLGAYo17Yxytus4J5ulx5hRzLSEj1SVWyRe7kMnmhOqWFlLQf
- A/UNuLiiTnbVG+/ePVNcCCZ3GhyHPJ36YAT63jSmGknUWy3cwAIIq0WuJ2NESE+CSNhVwzSAfbtqp
- Un8MhtCA==;
-Received: from [2a01:799:95a:cb00:cca0:57ac:c55d:a485] (port=63947)
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1os6TP-0001Dd-AZ; Mon, 07 Nov 2022 19:03:51 +0100
-Message-ID: <262f0953-1e05-e68e-3e96-2ac2132a1e57@tronnes.org>
-Date: Mon, 7 Nov 2022 19:03:47 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E46310E513
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 18:05:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667844314;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bfWNmfGx0Se3BNvqmrQIw4qequKgdbo0qhO8fe0yzVg=;
+ b=GY5FShJGsyQv43dHyv0hTQG9xYIug13RoST4QwEzPXeolVFm1Qjwio5MZ74yzBP/d6d4EE
+ 5EiZhszmFf0Uf6GakOEU+5guFQpRJFVZlxK7bfv/PpTMNY9ZnjHvviYD1WjuBcbhcgpaRs
+ IozQSLkwEpYcN+GD3aB6uWcMuUlCAfY=
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
+ [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-493-ROcBuXSZM9uEQekKJKotkQ-1; Mon, 07 Nov 2022 13:05:13 -0500
+X-MC-Unique: ROcBuXSZM9uEQekKJKotkQ-1
+Received: by mail-il1-f200.google.com with SMTP id
+ d19-20020a056e020c1300b00300b5a12c44so9269027ile.15
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Nov 2022 10:05:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=bfWNmfGx0Se3BNvqmrQIw4qequKgdbo0qhO8fe0yzVg=;
+ b=ZQuy6B9cu/poy/kJOYMaLRw1G7bUSKxh6NnCVUVjaib91Hx8X+CuG00OCgufIywUA8
+ oJhUnhn2QeUoLu5Ld2GoH1h031K3iLmELnoW82R7IZ1SgJxr6XnESU6KHuEZ/Whm9fiC
+ fq4bsWHlHfKJti/7fa0p2E9GDF736ko0qi3nL7gwvbGXKMyrV66A64aTQTYOXjf+DYwY
+ KJAgm8w0XJIfSakWVILswVW1mwsGM+Up0WO4IF6GNvJZY3n4nAuGx1KHFIpADT1j+m7+
+ HZzB0PdcpMRmEnq+lyKU3rFtcJqPU7AjbdZ2oiJq+ZqT8wlzGPQA+3K/pFG+r4KgCbYP
+ nZiw==
+X-Gm-Message-State: ANoB5pmdSw1SaWJUdsGhHnpKa7otBZii2tAMueWbo18U2A1Aw2Zj+XVR
+ 4uRfIP/TYJ+xZp9lfrmPj9tu9qvhBjoftzxamRaDaRc+w3dBfdZjKnP6kEVxDtoH7H3q6UTR+Uo
+ 9NqYII8BMrK998U/uqK7OHji/jiGL
+X-Received: by 2002:a05:6638:3590:b0:375:c920:16c2 with SMTP id
+ v16-20020a056638359000b00375c92016c2mr2016485jal.72.1667844311339; 
+ Mon, 07 Nov 2022 10:05:11 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6UQp/k2xL9xkcSh0+31rabNkEHgXJoe54k/D6xhd/Fo7jMB2KvouVPSBE3IOX+71t7NIX5PA==
+X-Received: by 2002:a05:6638:3590:b0:375:c920:16c2 with SMTP id
+ v16-20020a056638359000b00375c92016c2mr2016445jal.72.1667844311051; 
+ Mon, 07 Nov 2022 10:05:11 -0800 (PST)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ g5-20020a05663810e500b00374d6db7566sm2912129jae.117.2022.11.07.10.05.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Nov 2022 10:05:10 -0800 (PST)
+Date: Mon, 7 Nov 2022 11:05:08 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH 04/10] vfio: Move storage of allow_unsafe_interrupts to
+ vfio_main.c
+Message-ID: <20221107110508.7f02abf4.alex.williamson@redhat.com>
+In-Reply-To: <Y2klGAUEUwpjWHw6@nvidia.com>
+References: <0-v1-4991695894d8+211-vfio_iommufd_jgg@nvidia.com>
+ <4-v1-4991695894d8+211-vfio_iommufd_jgg@nvidia.com>
+ <20221026152442.4855c5de.alex.williamson@redhat.com>
+ <Y1wiCc33Jh5QY+1f@nvidia.com>
+ <20221031164526.0712e456.alex.williamson@redhat.com>
+ <Y2kF75zVD581UeR2@nvidia.com>
+ <20221107081853.18727337.alex.williamson@redhat.com>
+ <Y2klGAUEUwpjWHw6@nvidia.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v7 15/23] drm/modes: Introduce more named modes
-To: Maxime Ripard <maxime@cerno.tech>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Ben Skeggs <bskeggs@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Maxime Ripard <mripard@kernel.org>, Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>,
- Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>,
- Lyude Paul <lyude@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>
-References: <20220728-rpi-analog-tv-properties-v7-0-7072a478c6b3@cerno.tech>
- <20220728-rpi-analog-tv-properties-v7-15-7072a478c6b3@cerno.tech>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v7-15-7072a478c6b3@cerno.tech>
-Content-Type: text/plain; charset=UTF-8
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,135 +90,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
- Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
+Cc: Matthew Rosato <mjrosato@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
+ dri-devel@lists.freedesktop.org, Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Diana Craciun <diana.craciun@oss.nxp.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>, Will Deacon <will@kernel.org>,
+ Longfang Liu <liulongfang@huawei.com>, linux-s390@vger.kernel.org,
+ Yi Liu <yi.l.liu@intel.com>, kvm@vger.kernel.org,
+ Joerg Roedel <joro@8bytes.org>, Halil Pasic <pasic@linux.ibm.com>,
+ iommu@lists.linux.dev, Nicolin Chen <nicolinc@nvidia.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Zhi Wang <zhi.a.wang@intel.com>,
+ Tony Krowiak <akrowiak@linux.ibm.com>, Kevin Tian <kevin.tian@intel.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, intel-gfx@lists.freedesktop.org,
+ Eric Auger <eric.auger@redhat.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
+ Jason Herne <jjherne@linux.ibm.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Robin Murphy <robin.murphy@arm.com>,
+ Lu Baolu <baolu.lu@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, 7 Nov 2022 11:32:40 -0400
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-
-Den 07.11.2022 15.16, skrev Maxime Ripard:
-> Now that we can easily extend the named modes list, let's add a few more
-> analog TV modes that were used in the wild, and some unit tests to make
-> sure it works as intended.
+> On Mon, Nov 07, 2022 at 08:18:53AM -0700, Alex Williamson wrote:
+> > On Mon, 7 Nov 2022 09:19:43 -0400
+> > Jason Gunthorpe <jgg@nvidia.com> wrote:
+> >   
+> > > On Mon, Oct 31, 2022 at 04:45:26PM -0600, Alex Williamson wrote:
+> > >   
+> > > > > It is one idea, it depends how literal you want to be on "module
+> > > > > parameters are ABI". IMHO it is a weak form of ABI and the need of
+> > > > > this paramter in particular is not that common in modern times, AFAIK.
+> > > > > 
+> > > > > So perhaps we just also expose it through vfio.ko and expect people to
+> > > > > migrate. That would give a window were both options are available.    
+> > > > 
+> > > > That might be best.  Ultimately this is an opt-out of a feature that
+> > > > has security implications, so I'd rather error on the side of requiring
+> > > > the user to re-assert that opt-out.  It seems the potential good in
+> > > > eliminating stale or unnecessary options outweighs any weak claims of
+> > > > preserving an ABI for a module that's no longer in service.    
+> > > 
+> > > Ok, lets do this
+> > > 
+> > > --- a/drivers/vfio/vfio_main.c
+> > > +++ b/drivers/vfio/vfio_main.c
+> > > @@ -55,6 +55,11 @@ static struct vfio {
+> > >  bool vfio_allow_unsafe_interrupts;
+> > >  EXPORT_SYMBOL_GPL(vfio_allow_unsafe_interrupts);
+> > >  
+> > > +module_param_named(allow_unsafe_interrupts,
+> > > +                  vfio_allow_unsafe_interrupts, bool, S_IRUGO | S_IWUSR);
+> > > +MODULE_PARM_DESC(allow_unsafe_interrupts,
+> > > +                "Enable VFIO IOMMU support for on platforms without interrupt remapping support.");
+> > > +
+> > >  static DEFINE_XARRAY(vfio_device_set_xa);
+> > >  static const struct file_operations vfio_group_fops;
+> > >   
+> > > > However, I'd question whether vfio is the right place for that new
+> > > > module option.  As proposed, vfio is only passing it through to
+> > > > iommufd, where an error related to lack of the hardware feature is
+> > > > masked behind an -EPERM by the time it gets back to vfio, making any
+> > > > sort of advisory to the user about the module option convoluted.  It
+> > > > seems like iommufd should own the option to opt-out universally, not
+> > > > just through the vfio use case.  Thanks,    
+> > > 
+> > > My thinking is this option shouldn't exist at all in other iommufd
+> > > users. eg I don't see value in VDPA supporting it.  
+> > 
+> > I disagree, the IOMMU interface is responsible for isolating the
+> > device, this option doesn't make any sense to live in vfio-main, which
+> > is the reason it was always a type1 option.    
 > 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> 
-> ---
-> Changes in v6:
-> - Renamed the tests to follow DRM test naming convention
-> 
-> Changes in v5:
-> - Switched to KUNIT_ASSERT_NOT_NULL
-> ---
->  drivers/gpu/drm/drm_modes.c                     |  2 +
->  drivers/gpu/drm/tests/drm_client_modeset_test.c | 54 +++++++++++++++++++++++++
->  2 files changed, 56 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-> index 49441cabdd9d..17c5b6108103 100644
-> --- a/drivers/gpu/drm/drm_modes.c
-> +++ b/drivers/gpu/drm/drm_modes.c
-> @@ -2272,7 +2272,9 @@ struct drm_named_mode {
->  
->  static const struct drm_named_mode drm_named_modes[] = {
->  	NAMED_MODE("NTSC", 13500, 720, 480, DRM_MODE_FLAG_INTERLACE, DRM_MODE_TV_MODE_NTSC),
-> +	NAMED_MODE("NTSC-J", 13500, 720, 480, DRM_MODE_FLAG_INTERLACE, DRM_MODE_TV_MODE_NTSC_J),
->  	NAMED_MODE("PAL", 13500, 720, 576, DRM_MODE_FLAG_INTERLACE, DRM_MODE_TV_MODE_PAL),
-> +	NAMED_MODE("PAL-M", 13500, 720, 480, DRM_MODE_FLAG_INTERLACE, DRM_MODE_TV_MODE_PAL_M),
->  };
+> You just agreed to this above?
 
-I'm now having second thoughts about the tv_mode commandline option. Can
-we just add all the variants to this table and drop the tv_mode option?
-IMO this will be more user friendly and less confusing.
+After further consideration... I don't think the option on vfio-main
+makes sense, basically for the same reason that the original option
+existed on the IOMMU backend rather than vfio-core.  The option
+describes a means to relax a specific aspect of IOMMU isolation, which
+makes more sense to expose via the IOMMU provider, imo.  For example,
+vfio-main cannot generate an equivalent error message as provided in
+type1 today, it's too far removed from the IOMMU feature support.
 
-The named modes needs to be documented in modedb.rst.
-
-Noralf.
-
->  
->  static int drm_mode_parse_cmdline_named_mode(const char *name,
-> diff --git a/drivers/gpu/drm/tests/drm_client_modeset_test.c b/drivers/gpu/drm/tests/drm_client_modeset_test.c
-> index fdfe9e20702e..b3820d25beca 100644
-> --- a/drivers/gpu/drm/tests/drm_client_modeset_test.c
-> +++ b/drivers/gpu/drm/tests/drm_client_modeset_test.c
-> @@ -133,6 +133,32 @@ static void drm_test_pick_cmdline_named_ntsc(struct kunit *test)
->  	KUNIT_EXPECT_TRUE(test, drm_mode_equal(drm_mode_analog_ntsc_480i(drm), mode));
->  }
->  
-> +static void drm_test_pick_cmdline_named_ntsc_j(struct kunit *test)
-> +{
-> +	struct drm_client_modeset_test_priv *priv = test->priv;
-> +	struct drm_device *drm = priv->drm;
-> +	struct drm_connector *connector = &priv->connector;
-> +	struct drm_cmdline_mode *cmdline_mode = &connector->cmdline_mode;
-> +	struct drm_display_mode *mode;
-> +	const char *cmdline = "NTSC-J";
-> +	int ret;
-> +
-> +	KUNIT_ASSERT_TRUE(test,
-> +			  drm_mode_parse_command_line_for_connector(cmdline,
-> +								    connector,
-> +								    cmdline_mode));
-> +
-> +	mutex_lock(&drm->mode_config.mutex);
-> +	ret = drm_helper_probe_single_connector_modes(connector, 1920, 1080);
-> +	mutex_unlock(&drm->mode_config.mutex);
-> +	KUNIT_ASSERT_GT(test, ret, 0);
-> +
-> +	mode = drm_connector_pick_cmdline_mode(connector);
-> +	KUNIT_ASSERT_NOT_NULL(test, mode);
-> +
-> +	KUNIT_EXPECT_TRUE(test, drm_mode_equal(drm_mode_analog_ntsc_480i(drm), mode));
-> +}
-> +
->  static void drm_test_pick_cmdline_named_pal(struct kunit *test)
->  {
->  	struct drm_client_modeset_test_priv *priv = test->priv;
-> @@ -159,10 +185,38 @@ static void drm_test_pick_cmdline_named_pal(struct kunit *test)
->  	KUNIT_EXPECT_TRUE(test, drm_mode_equal(drm_mode_analog_pal_576i(drm), mode));
->  }
->  
-> +static void drm_test_pick_cmdline_named_pal_m(struct kunit *test)
-> +{
-> +	struct drm_client_modeset_test_priv *priv = test->priv;
-> +	struct drm_device *drm = priv->drm;
-> +	struct drm_connector *connector = &priv->connector;
-> +	struct drm_cmdline_mode *cmdline_mode = &connector->cmdline_mode;
-> +	struct drm_display_mode *mode;
-> +	const char *cmdline = "PAL-M";
-> +	int ret;
-> +
-> +	KUNIT_ASSERT_TRUE(test,
-> +			  drm_mode_parse_command_line_for_connector(cmdline,
-> +								    connector,
-> +								    cmdline_mode));
-> +
-> +	mutex_lock(&drm->mode_config.mutex);
-> +	ret = drm_helper_probe_single_connector_modes(connector, 1920, 1080);
-> +	mutex_unlock(&drm->mode_config.mutex);
-> +	KUNIT_ASSERT_GT(test, ret, 0);
-> +
-> +	mode = drm_connector_pick_cmdline_mode(connector);
-> +	KUNIT_ASSERT_NOT_NULL(test, mode);
-> +
-> +	KUNIT_EXPECT_TRUE(test, drm_mode_equal(drm_mode_analog_ntsc_480i(drm), mode));
-> +}
-> +
->  static struct kunit_case drm_test_pick_cmdline_tests[] = {
->  	KUNIT_CASE(drm_test_pick_cmdline_res_1920_1080_60),
->  	KUNIT_CASE(drm_test_pick_cmdline_named_ntsc),
-> +	KUNIT_CASE(drm_test_pick_cmdline_named_ntsc_j),
->  	KUNIT_CASE(drm_test_pick_cmdline_named_pal),
-> +	KUNIT_CASE(drm_test_pick_cmdline_named_pal_m),
->  	{}
->  };
->  
+> > If vdpa doesn't allow full device access such that it can guarantee
+> > that a device cannot generate a DMA that can spoof MSI, then it
+> > sounds like the flag we pass when attaching a device to iommfd
+> > should to reflect this difference in usage.  
 > 
+> VDPA allows arbitary DMA just like VFIO. At most VDPA limits the MMIO
+> touches.
+
+So why exactly isn't this an issue for VDPA?  Are we just burying our
+head in the sand that such platforms exists and can still be useful
+given the appropriate risk vs reward trade-off?
+
+> > The driver either requires full isolation, default, or can indicate a
+> > form of restricted DMA programming that prevents interrupt spoofing.
+> > The policy whether to permit unsafe configurations should exist in one
+> > place, iommufd.  
+> 
+> iommufd doesn't know the level of unsafely the external driver is
+> creating,
+
+Thus the proposed flag.  But maybe we don't need it if VDPA has no
+inherent protection against MSI spoofing itself.
+
+> and IMHO we don't actually want to enable this more
+> widely. So I don't want to see a global kernel wide flag at this point
+> until we get reason to make more than just VFIO insecure.
+
+But this brings into question the entire existence of the opt-in.  Do
+we agree that there are valid use cases for such an option?
+
+Unlike things like ACS overrides, lack of interrupt isolation really
+requires a malicious actor.  We're not going to inadvertently overlap
+DMA to interrupt addresses like we might to a non-isolated MMIO ranges.
+Therefore an admin can make a reasonable determination relative to the
+extent to which the userspace is trusted.  This is not unlike opt-outs
+to CPU vulnerability mitigation imo, there are use cases where the
+performance or functionality is more important than the isolation.
+Hand waving this away as a vfio-unique insecurity is a bad precedent
+for iommufd.  Thanks,
+
+Alex
+
