@@ -1,60 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE77961FF50
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 21:14:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B40CE61FF71
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 21:18:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 326DB10E40C;
-	Mon,  7 Nov 2022 20:14:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 537BC10E441;
+	Mon,  7 Nov 2022 20:18:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com
- [209.85.160.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5F3410E40C
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 20:14:17 +0000 (UTC)
-Received: by mail-oa1-f53.google.com with SMTP id
- 586e51a60fabf-13c569e5ff5so13989060fac.6
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Nov 2022 12:14:17 -0800 (PST)
+Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com
+ [IPv6:2607:f8b0:4864:20::836])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A29D510E441
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 20:18:34 +0000 (UTC)
+Received: by mail-qt1-x836.google.com with SMTP id a27so7555339qtw.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Nov 2022 12:18:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=NhhjPI8PeKyeQTLHpd35qfaAH6UqB+dSFDo9Mc6Wxkw=;
+ b=mIXKOpX5fM3HKKeOe493jDQzWp5+uLEewv3FgLRoOMLOB0cb+gILRzKR4sNN7USvTY
+ CPmBTY8MZUUeZItAf24N+CY4tuvRP+cF2f2DdNuu1YaQBZ5RneyXJMXB7kIAmdQokGAn
+ 8uQ65uDwe2SALzNfqJNYiA1Qc4kJkzkZI2R4FqjijZIbBVKxc0gW9EpppldIQ1RGmqhQ
+ Fq2AQYevgCzTcsjZTs4AWCarga+hiCH/ek5Ad4sCkvoFckm9MIvqOGPz2LJac3zvs5MI
+ ntCF5cUIAFJGjXQ85bT/8GRpM+3tZoKQDg2BYFVVwOKPB3MNN2uCtOQTWGdX4XvQcU73
+ Mg8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UTyYkKmk0ZFg6NKvx4h4V1/U52aTfp/VeufT5wgxfcc=;
- b=2orYMecd101HnAw2BleP0d4bHS1jeOYYfO2ZCRbXN5z7z33UF+0HbaYbzlgf3yxgEl
- k1iVFjnP5iCt8j6dUhEOxnwHQyJNJ9hmuhYG1fwAym5EeRwwzyorUc+zWX3bSqoNf7mj
- jxydhzuhwRdq05vqkSoWQExFxB1nhb1O7ICjg2FaPAWAqQ0TjinDNZbAcSHKDxZ3CNgX
- ammt3JUSsFzWp6gzd7+wR8Y8T59xqgJ4STc+0k0NHQm0Jri7WgC97WQm6BQiE9eAQTOH
- IGylGLoNLU7v3Xby8em25n6BBMzKR6TC5P7t24wWancF8FntACnBabbWfgNzIFa/9pX5
- wmeQ==
-X-Gm-Message-State: ACrzQf2mQx99s8frl3Luh1df0M8oRwCv4+jkvqicQtz3TUZpPMb2RgBL
- bHBPjYFovoTojYgDDkX0eA==
-X-Google-Smtp-Source: AMsMyM6l8LCWIiDxDxh5d5EhXJYIhBoM5GfAns5QmBWc/1EDDKO5IT5GRvoB+Q7S+gfwtSLmjmGiWA==
-X-Received: by 2002:a05:6870:590:b0:13d:755e:10df with SMTP id
- m16-20020a056870059000b0013d755e10dfmr17202267oap.236.1667852056923; 
- Mon, 07 Nov 2022 12:14:16 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- x10-20020a056830114a00b0066c45517c8fsm3296237otq.52.2022.11.07.12.14.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Nov 2022 12:14:16 -0800 (PST)
-Received: (nullmailer pid 1570941 invoked by uid 1000);
- Mon, 07 Nov 2022 20:14:17 -0000
-Date: Mon, 7 Nov 2022 14:14:17 -0600
-From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Sandor Yu <Sandor.yu@nxp.com>
-Subject: Re: [v2 02/10] dts-bingings: display: bridge: Add MHDP HDMI bindings
- for i.MX8MQ
-Message-ID: <20221107201417.GA1568945-robh@kernel.org>
-References: <cover.1667463263.git.Sandor.yu@nxp.com>
- <0e1f631c22207c6af41ea512be85213b3953b44f.1667463263.git.Sandor.yu@nxp.com>
- <d5fb79bc-c05c-8de1-e8a4-9e19cc5c8e1a@linaro.org>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=NhhjPI8PeKyeQTLHpd35qfaAH6UqB+dSFDo9Mc6Wxkw=;
+ b=64qbnU1teaqIuFpBlWX10vfCY3PjuevXT/EZt6Az/ARiXyCvevELEx3dROHR81Uid5
+ vfu2PGXvV/FpLpsiO4GBiD8M9AlrUS9V+ZVnHV9BFdD8466iKF14j7dQ4s8Gnj64UgUY
+ +KGxbnx6hvWSC4w0cTCQD6ry7CoJkU4/pxM61sa4hMKcDP/3yAiUdD2YDqyshx3zaEvL
+ I8dIP3Tt3tfoJFAaJPlmLLyCLcyE2YrW/an6LAZlZ3dUFfMoKnVKR3w1DWM4bFih4Uzs
+ BBzpuZjtHFn90eDF8vpIcjfOYDNxxHZHiNjsRzWHJWjBHN0oZSftmQiLaa8NmeTsRrGJ
+ cf6w==
+X-Gm-Message-State: ANoB5pmawxJ2enBBuBOZIRlMCDm2IttwLvrYAxyTe7s0D3F/4EuiEnrD
+ 3vLCyLgY61HAFnrDJjgjvi9ty0NDPq/QJkbfr0U=
+X-Google-Smtp-Source: AA0mqf7jOU63BklyhiJ1pUeKEtHV4hBzufzAPnYS2tHwuQ4GGbGmAjvVk/B4zJOlJvMXb8FwUwvp2AUuo1DiMMpqHMs=
+X-Received: by 2002:a05:622a:1c1:b0:3a5:8416:690d with SMTP id
+ t1-20020a05622a01c100b003a58416690dmr6991039qtw.61.1667852313679; Mon, 07 Nov
+ 2022 12:18:33 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d5fb79bc-c05c-8de1-e8a4-9e19cc5c8e1a@linaro.org>
+References: <20221102203405.1797491-1-ogabbay@kernel.org>
+ <20221102203405.1797491-2-ogabbay@kernel.org>
+ <Y2MMCIe5wND2XPqE@kroah.com>
+ <CAFCwf13uLj=P6u6FAcY8M5qAXoaBdb+Ha-TYj0j2FAZnFAPFYg@mail.gmail.com>
+ <CAFCwf12yRUG4593ozJMEwaaJBKyWqXTTCjef9O_fzWdQBxVrtw@mail.gmail.com>
+ <Y2kAcCu4z2LUMN7u@nvidia.com>
+ <CAFCwf10K-dTu455QfOK8i6thismY-FUN2Rws830EGiqOcGWFgA@mail.gmail.com>
+ <Y2kDzPswkKyZyRpS@nvidia.com>
+In-Reply-To: <Y2kDzPswkKyZyRpS@nvidia.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Tue, 8 Nov 2022 06:18:21 +1000
+Message-ID: <CAPM=9tyP6mfEDzZ9wUdJc_0YTNk2HyvB62qF74ZkiYfdOx3opw@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 1/3] drivers/accel: define kconfig and register a
+ new major
+To: Jason Gunthorpe <jgg@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,34 +72,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrzej.hajda@intel.com, penguin-kernel@i-love.sakura.ne.jp,
- dri-devel@lists.freedesktop.org, Laurent.pinchart@ideasonboard.com,
- krzysztof.kozlowski+dt@linaro.org, linux-phy@lists.infradead.org,
- sam@ravnborg.org, javierm@redhat.com, jernej.skrabec@gmail.com, kishon@ti.com,
- linux-imx@nxp.com, devicetree@vger.kernel.org, kernel@pengutronix.de,
- jonas@kwiboo.se, jani.nikula@intel.com, s.hauer@pengutronix.de,
- maxime@cerno.tech, linux-arm-kernel@lists.infradead.org, oliver.brown@nxp.com,
- neil.armstrong@linaro.org, linux-kernel@vger.kernel.org,
- robert.foss@linaro.org, vkoul@kernel.org, tzimmermann@suse.de,
- shawnguo@kernel.org, p.yadav@ti.com
+Cc: dri-devel@lists.freedesktop.org,
+ Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
+ Kevin Hilman <khilman@baylibre.com>, Christoph Hellwig <hch@infradead.org>,
+ Jagan Teki <jagan@amarulasolutions.com>, John Hubbard <jhubbard@nvidia.com>,
+ stanislaw.gruszka@intel.com, Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ Arnd Bergmann <arnd@arndb.de>, Jiho Chu <jiho.chu@samsung.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Oded Gabbay <ogabbay@kernel.org>, linux-kernel@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 04, 2022 at 09:42:03AM -0400, Krzysztof Kozlowski wrote:
-> On 04/11/2022 02:44, Sandor Yu wrote:
-> > Add bindings for i.MX8MQ MHDP HDMI.
-> 
-> Typo in subject - bindings.
+On Mon, 7 Nov 2022 at 23:10, Jason Gunthorpe <jgg@nvidia.com> wrote:
+>
+> On Mon, Nov 07, 2022 at 03:01:08PM +0200, Oded Gabbay wrote:
+> > I don't agree with your statement that it should be "a layer over top of DRM".
+> > Anything on top of DRM is a device driver.
+> > Accel is not a device driver, it is a new type of drm minor / drm driver.
+>
+> Yeah, I still think this is not the right way, you are getting almost
+> nothing from DRM and making everything more complicated in the
+> process.
 
-And 'dts'. It's 'dt-bindings: display: ...' Same for the rest of the 
-series.
+You are looking at the small picture that is these patches, there are
+just infrastructure to start the process of merging drivers and
+reusing other parts of the drm code.
 
-> 
-> Also in the subject - drop redundant second word "bindings".
-> 
-> > 
-> > Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
-> > ---
-> >  .../display/bridge/cdns,mhdp-imx8mq-hdmi.yaml | 67 +++++++++++++++++++
-> >  1 file changed, 67 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/bridge/cdns,mhdp-imx8mq-hdmi.yaml
+We aren't going to ever get anywhere if we start splitting code out of
+drm just in case, we get this stuff rolling in the tree and if we have
+a pressing need to refactor it out into separate libraries later then
+we can address that from a more educated place, instead of just
+throwing huge refactors around before we have any code to even use
+them.
+>
+> IMHO this is much better, because accel has very little need of DRM to
+> manage a struct device/cdev in the first place.
+
+Right now it doesn't, but when drivers start leveraging the other code
+it will reuse a lot more code.
+
+I'm not going to spend too much time entertaining this, devm vs drmm
+memory etc are real problems drm has already identified if not
+completely solved.
+
+Dave.
