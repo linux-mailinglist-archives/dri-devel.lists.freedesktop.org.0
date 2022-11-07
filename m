@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1677A61FAB7
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 18:00:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D46A361FAC2
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 18:04:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5601B10E4C0;
-	Mon,  7 Nov 2022 17:00:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F263810E4D8;
+	Mon,  7 Nov 2022 17:04:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com
- [IPv6:2607:f8b0:4864:20::d33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 057FC10E4BA
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 17:00:42 +0000 (UTC)
-Received: by mail-io1-xd33.google.com with SMTP id p141so9372270iod.6
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Nov 2022 09:00:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Zi1AzIotPjgee1WjMW/2lCnRF/Zux4fjSan/PWGqHXA=;
- b=Xyo5lSyER8B3jdtAksNfx+B+WXHa0Vd92xoDyHv20BXD948TTavHtQ6gVlUn5975MT
- /X0K0Im48+7tuE3VoRDQwITfanwbDtN0x9Ka1qkNZV3BsOQluTZa0z0pnKnMt/m7dWFB
- TtCguRYCO40UKwcLjAgQGeEZjdUHmQRwcewq4=
+Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com
+ [IPv6:2607:f8b0:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CF1F10E4D8
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 17:04:33 +0000 (UTC)
+Received: by mail-il1-x12d.google.com with SMTP id q5so6149457ilt.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Nov 2022 09:04:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KvNR9QncnTRwk5plWxpGWu31yJoH55tttfWLUOkYATg=;
+ b=H9Fhy5zD0j2KCdhx8xUTGHQaA14nVCpxxGKLiHrQLovbXxulae/U5cIWRYYev3yNK0
+ bU6KXlWQqzHNZbrtsTfTlVLWb2M0GzGk0cagwI3uGDppHO1Q10nTlFAXs89Ci8Lmh4rw
+ 9SLAeeaw/XhmV3xpX2rhHrsGYmBemJrJtR0pA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Zi1AzIotPjgee1WjMW/2lCnRF/Zux4fjSan/PWGqHXA=;
- b=BjTY3/tPq5dulEFcD+Nh72wEj2Ge3TrfhMJ/hI4dCT5px6VR4SJFrSF+7Au0a94EUr
- aGSfgBmqRLZili5r4g20MpIH1vRfpj8aXNagfhofyUsxbBeKA/cMnnbbsizM8ST4vz2A
- Qzj9PA/aMXPBRTsby5fqZrL5q7Fdoiwf58wkdLzhDunkfYFXEwHGBl1PNMOlQ7u+661+
- y4yk1UbPuGgoYxEXPeOky2QDd9HWSCwZOXDTflTqoEZKxWfRz7u5DagQl5YRa76KrmhB
- J3NZPQk59Lk0uQjl3dcQoB3thm50IFeShC8sWjTmVQjkmSgqaBW/e/WyVd/kBjvM4WdJ
- ir9w==
-X-Gm-Message-State: ACrzQf0lSGhHcN9NC+LjFfn7Ep1WW1n2M5TspLGAiTLd/gaWA2Q0hEpI
- s3+96F962yj85ymKAN8yCQYXO0pvz0OwaClaqEbEXQ==
-X-Google-Smtp-Source: AMsMyM4HLKgn0Ui+fGxorZRefXlugK/s+o0o8HaeQEbFJ88dHtP+XquF7Q74DteCHkWU3Z573Mt+tw1NKgeel5+aJSA=
-X-Received: by 2002:a5e:9e0a:0:b0:6c0:dbd0:cfac with SMTP id
- i10-20020a5e9e0a000000b006c0dbd0cfacmr31120387ioq.106.1667840442185; Mon, 07
- Nov 2022 09:00:42 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KvNR9QncnTRwk5plWxpGWu31yJoH55tttfWLUOkYATg=;
+ b=5OyBWz13B2FR9mxS/4W1dRaW1MUEu89htIT9cV+YFixHJ+lBHZ2rGa+kV6FJ3xUp2/
+ xO50etJ3TPxUtmTY9AxqkPan2YgLrdMc0OIRnFENxl3uNV3z0BFtwwzhIsHE5D36ZUZu
+ T684bb1w1gnz0qixvofMC+Bz6rscHNq4Id8eR8y40XwBJTsnxWvqW1EWdCM3sWuMljPl
+ /H2/SvH7ByNFV4UyQGpLZs8jI7gOIb/Uyn+8PJQsAXv7omUbDrU3J78tjv/jgLnrV3Km
+ 96yBWLQAGYfB/znBUJgyEYrO9cfgKFsy75jOhDZxDTo5IMnmoAzrA7YerX9b6xVhKVY8
+ vlUQ==
+X-Gm-Message-State: ACrzQf22t3OYlbwJFS2F50gvYuVOMF5A1lV9HmPku7a7OBqJqtdp/jiB
+ TKae9rxUUz4ZT5quF+VlvAXlENMP3ebNeK7BMvOAsA==
+X-Google-Smtp-Source: AMsMyM5r2vRVENhxfInln9BvtxDfrbnr8vmI/k0kBPnXYCO+Q5gEl23Jq8yruwu2chMgk5b/s2JDJqpTYugw6bU6nd4=
+X-Received: by 2002:a92:d681:0:b0:2ff:573c:8d44 with SMTP id
+ p1-20020a92d681000000b002ff573c8d44mr29882588iln.203.1667840672574; Mon, 07
+ Nov 2022 09:04:32 -0800 (PST)
 MIME-Version: 1.0
-References: <20221005151309.7278-1-jagan@amarulasolutions.com>
- <20221005151309.7278-8-jagan@amarulasolutions.com>
- <d837f6e3-d869-6543-2361-a7843c00ed8a@denx.de>
- <CAMty3ZDQCsJF+EuG_gvZ-MbkePO55GHfX_yvmKdzqE1fdAR55g@mail.gmail.com>
- <9262c207-2b72-6638-0274-0ce1d0d830c9@denx.de>
- <CAMty3ZAzDMRYiWWRwKvA+QSaXRHYgadJ7d4JwKnJWHPqPBua7A@mail.gmail.com>
- <2f0c2dae-07c9-814b-a252-5fdd3e0d9dda@denx.de>
-In-Reply-To: <2f0c2dae-07c9-814b-a252-5fdd3e0d9dda@denx.de>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Mon, 7 Nov 2022 22:30:30 +0530
-Message-ID: <CAMty3ZAM+fetmBQWaSbfjME7-Up4h+Ln3BRHaPgg5tuSsObPdw@mail.gmail.com>
-Subject: Re: [PATCH v7 07/10] drm: bridge: samsung-dsim: Add
- atomic_get_input_bus_fmts
-To: Marek Vasut <marex@denx.de>
+References: <20221024124323.tfyxcadyd4nz56jz@houat>
+ <f3341ef6-4634-39e4-9bbc-e49e0aa806ee@suse.de>
+ <20221107093057.5w7kdc3pjq77upng@houat>
+ <555dc349-4838-3c24-b35e-38aa8afd9f1d@suse.de>
+ <CAKMK7uFWv98_miqCAVWYVnZZ_V_fL0FSBc6uv0x48ZMrzLQhbA@mail.gmail.com>
+ <a51ae3be-bcb2-9ae9-f7a7-31270d3b8979@suse.de>
+In-Reply-To: <a51ae3be-bcb2-9ae9-f7a7-31270d3b8979@suse.de>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Mon, 7 Nov 2022 18:04:21 +0100
+Message-ID: <CAKMK7uH3Xft8fEBCaeG3dvWXHb+xO1C45mPEKW+pasmjdPiU+g@mail.gmail.com>
+Subject: Re: [igt-dev] Must-Pass Test Suite for KMS drivers
+To: Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,152 +68,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, Neil Armstrong <narmstrong@linaro.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Matteo Lisi <matteo.lisi@engicam.com>, Robert Foss <robert.foss@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, NXP Linux Team <linux-imx@nxp.com>,
- Fancy Fang <chen.fang@nxp.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Petri Latvala <petri.latvala@intel.com>,
+ Tim Gover <tim.gover@raspberrypi.com>, David Airlie <airlied@linux.ie>,
+ Martin Roukala <martin.roukala@mupuf.org>, dri-devel@lists.freedesktop.org,
+ igt-dev@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
+ Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>,
+ Dom Cobley <dom@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
-
-On Fri, Nov 4, 2022 at 12:28 AM Marek Vasut <marex@denx.de> wrote:
+On Mon, 7 Nov 2022 at 11:53, Thomas Zimmermann <tzimmermann@suse.de> wrote:
 >
-> On 11/3/22 18:27, Jagan Teki wrote:
-> > On Thu, Nov 3, 2022 at 9:56 PM Marek Vasut <marex@denx.de> wrote:
+> Hi
+>
+> Am 07.11.22 um 11:26 schrieb Daniel Vetter:
+> > On Mon, 7 Nov 2022 at 10:43, Thomas Zimmermann <tzimmermann@suse.de> wr=
+ote:
 > >>
-> >> On 11/3/22 10:39, Jagan Teki wrote:
-> >>> On Sun, Oct 16, 2022 at 3:31 AM Marek Vasut <marex@denx.de> wrote:
-> >>>>
-> >>>> On 10/5/22 17:13, Jagan Teki wrote:
-> >>>>
-> >>>> [...]
-> >>>>
-> >>>>> @@ -1321,6 +1322,32 @@ static void samsung_dsim_atomic_post_disable(struct drm_bridge *bridge,
-> >>>>>         pm_runtime_put_sync(dsi->dev);
-> >>>>>     }
-> >>>>>
-> >>>>> +#define MAX_INPUT_SEL_FORMATS        1
-> >>>>> +
-> >>>>> +static u32 *
-> >>>>> +samsung_dsim_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-> >>>>> +                                    struct drm_bridge_state *bridge_state,
-> >>>>> +                                    struct drm_crtc_state *crtc_state,
-> >>>>> +                                    struct drm_connector_state *conn_state,
-> >>>>> +                                    u32 output_fmt,
-> >>>>> +                                    unsigned int *num_input_fmts)
-> >>>>> +{
-> >>>>> +     u32 *input_fmts;
-> >>>>> +
-> >>>>> +     *num_input_fmts = 0;
-> >>>>> +
-> >>>>> +     input_fmts = kcalloc(MAX_INPUT_SEL_FORMATS, sizeof(*input_fmts),
-> >>>>> +                          GFP_KERNEL);
-> >>>>> +     if (!input_fmts)
-> >>>>> +             return NULL;
-> >>>>> +
-> >>>>> +     /* This is the DSI-end bus format */
-> >>>>> +     input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
-> >>>>> +     *num_input_fmts = 1;
-> >>>>
-> >>>> Is this the only supported format ? NXP AN13573 lists the following:
-> >>>>
-> >>>> i.MX 8/RT MIPI DSI/CSI-2, Rev. 0, 21 March 2022
-> >>>> 3.7.4 Pixel formats
-> >>>> Table 14. DSI pixel packing formats
-> >>>>
-> >>>> Loosely Packed Pixel Stream, 20-bit YCbCr, 4:2:2
-> >>>> Packed Pixel Stream, 24-bit YCbCr, 4:2:2
-> >>>> Packed Pixel Stream, 16-bit YCbCr, 4:2:2
+> >> Hi
+> >>
+> >> Am 07.11.22 um 10:30 schrieb Maxime Ripard:
+> >>> Hi Thomas,
 > >>>
-> >>> Look like these are unsupported in media-bus-format.h list.
+> >>> On Fri, Oct 28, 2022 at 09:31:38AM +0200, Thomas Zimmermann wrote:
+> >>>> Am 24.10.22 um 14:43 schrieb maxime@cerno.tech:
+> >>>>> I've discussing the idea for the past year to add an IGT test suite=
+ that
+> >>>>> all well-behaved KMS drivers must pass.
+> >>>>>
+> >>>>> The main idea behind it comes from v4l2-compliance and cec-complian=
+ce,
+> >>>>> that are being used to validate that the drivers are sane.
+> >>>>>
+> >>>>> We should probably start building up the test list, and eventually
+> >>>>> mandate that all tests pass for all the new KMS drivers we would me=
+rge
+> >>>>> in the kernel, and be run by KCi or similar.
+> >>>>>
+> >>>>> I did a first pass to create a draft of such a test-suite, which wo=
+uld
+> >>>>> contain:
+> >>>>>
+> >>>>> igt@core_auth@basic-auth
+> >>>>> igt@core_auth@getclient-master-drop
+> >>>>> igt@core_auth@getclient-simple
+> >>>>> igt@core_auth@many-magics
+> >>>>> igt@core_getclient
+> >>>>> igt@core_getstats
+> >>>>> igt@core_getversion
+> >>>>> igt@core_hotunplug@hotrebind-lateclose
+> >>>>> igt@core_hotunplug@hotunbind-rebind
+> >>>>> igt@core_hotunplug@unbind-rebind
+> >>>>> igt@core_setmaster
+> >>>>> igt@core_setmaster_vs_auth
+> >>>>> igt@device_reset@unbind-reset-rebind
+> >>>>> igt@drm_read
+> >>>>> igt@dumb_buffer
+> >>>>> igt@fbdev
+> >>>>
+> >>>> Maybe we make this test optional? At least sprd decided to not suppo=
+rt fbdev
+> >>>> at all.
+> >>>
+> >>> I'm not sure we need to make that test optional, or at least, we shou=
+ld
+> >>> run it all the time, but skip it if there's no fbdev emulation, and n=
+ot
+> >>> report it as a failure?
 > >>
-> >> Aren't those:
+> >> Sure. I just meant that fbdev support shouldn't be a blocker. If there=
+,
+> >> it should work of course.
+> >
+> > Not supporting fbdev looks more like an accident than intention here,
+> > and maybe a good reason to have these kind of must-past lists.
+>
+> No. Back then, I specifically asked the developer, Kevin Tang IIRC,
+> about fbdev/console support and he replied that he has no intention of
+> adding it.
+>
+> It's the only driver without fbdev, but as we don't have such a
+> requirements AFAIK, I left it at that.
+
+It does hurt a bit the sales pitch that a drm-kms driver is the
+one-stop-shop for display driver needs, and so I'd only do this if
+there's some technical reasons why fbdev just wont work (like no hw
+support for formats fbdev supports or something), and not just because
+the vendor has no need for this right now. Otoh it's generally just
+one line to add if the driver works correctly, so ...
+
+*shrug*
+
+Cheers, Daniel
+
+>
+> Best regards
+> Thomas
+>
+> > Eventually, once the i915-ism is worked out of igt well enough for a
+> > set of tests at least. The drm/ci effort should help in building up
+> > that list (by essentially extracting the common set of tests that
+> > everyone passes and graduating that to the must-pass list for kms
+> > conformance or whatever we'll call it).
+> > -Daniel
+> >
 > >>
-> >> MEDIA_BUS_FMT_UYVY12_1X24
+> >> Best regards
+> >> Thomas
+> >>
+> >>>
+> >>> Maxime
+> >>
+> >> --
+> >> Thomas Zimmermann
+> >> Graphics Driver Developer
+> >> SUSE Software Solutions Germany GmbH
+> >> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+> >> (HRB 36809, AG N=C3=BCrnberg)
+> >> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
 > >
-> > Why is UYVY12 - YCbCr, 4:2:2 is 4+2+2 = 8 then it has UYVY8 ?
->
-> (someone please correct me if I'm totally wrong here)
->
-> The 12 is channel width (12 bit for each Y1/Y2/U/V channel sample).
-> The 4:2:2 is subsampling (where are the color components sampled
-> relative to brightness component).
->
-> Picture is here:
-> https://upload.wikimedia.org/wikipedia/commons/f/f2/Common_chroma_subsampling_ratios.svg
->
-> Each Y square of the left is 12bit sample.
-> Each U+V square is 12bit sample for U and 12bit sample for V.
->
-> In case of 4:4:4 subsampling, each luminance (brightness) component has
-> matching chrominance (color) components.
->
-> In case of the 4:2:2 subsampling, two neighboring luminance components
-> share two chrominance components. To transfer one pixel including color
-> information, you have to transfer two pixels, Y0+U as 2x12bit sample in
-> one cycle of 24bit bus, and then Y1+V as 2x12bit sample in another cycle
-> of 24bit bus (2 clock cycles total, 4 samples total). From that you can
-> reconstruct the two top-left squares (purple pixels) in the rightmost
-> YUV column of 4:2:2 row.
->
-> The entire trick is that because eye is less sensitive to color than it
-> is to light, you can transfer less color information and thus save
-> bandwidth without anyone noticing (much of it).
->
-> >> MEDIA_BUS_FMT_UYVY8_1X16
 > >
-> > If YCbCr is UYVY (I still don't get this notation, sorry) then Packed
-> > Pixel Stream, 24-bit YCbCr, 4:2:2 with 2 Pixels per packet from Table
-> > 14 can be
 > >
-> > MEDIA_BUS_FMT_UYVY8_2X24
-> > (YCbCr 4:2:2 is UYVY8)
-> >
-> >   " based on a reference example from media bus format doc
-> > 4.13.3.4.1.1.3. Packed YUV Formats, For instance, a format where
-> > pixels are encoded as 8-bit YUV values downsampled to 4:2:2 and
-> > transferred as 2 8-bit bus samples per pixel in the U, Y, V, Y order
-> > will be named MEDIA_BUS_FMT_UYVY8_2X8."
 >
-> The way I read the above is that the channel width of each channel is
-> 8-bit , so you start with two pixels Y0/U/Y1/V which add up to 32bit
-> total. That is transferred over 8-bit bus, in 4 bus cycles total. One
-> pixel therefore takes 2 cycles of the 8 bit bus to transfer, even if you
-> cannot transfer one pixel separately .
->
-> > https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/subdev-formats.html
-> >
-> > _2X24 here 2 Pixels per packet is the exact packets to consider or we
-> > can consider 1 Pixel per packet also. If later is true then _1X24 from
-> > your notation is correct.
->
-> Since the DSIM input bus is 32bit wide, to transfer one such 4:2:2
-> pixel, you need 1 bus cycle (2x12 bits per half of two pixels).
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+> (HRB 36809, AG N=C3=BCrnberg)
+> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
 
-Thanks for your explanation. I need some time to understand and it
-looks worth waiting for others to comment on this.
 
-Meanwhile, I'm planning to send subsequent version patches with
-possible supported formats like,
 
-MEDIA_BUS_FMT_UYVY8_1X16,
-MEDIA_BUS_FMT_RGB101010_1X30,
-MEDIA_BUS_FMT_RGB121212_1X36,
-MEDIA_BUS_FMT_RGB565_1X16,
-MEDIA_BUS_FMT_RGB666_1X18,
-MEDIA_BUS_FMT_RGB888_1X24,
-
-Let me know.
-
-Jagan.
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
