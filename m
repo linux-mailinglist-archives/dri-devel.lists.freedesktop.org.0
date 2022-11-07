@@ -2,70 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9287161F723
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 16:06:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD4B061F740
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 16:11:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5D7B10E1D2;
-	Mon,  7 Nov 2022 15:06:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0274910E3AC;
+	Mon,  7 Nov 2022 15:10:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EA5610E1D2
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 15:06:13 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id j4so17211666lfk.0
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Nov 2022 07:06:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:mime-version:in-reply-to:references
- :user-agent:from:from:to:cc:subject:date:message-id:reply-to;
- bh=msJlygCwztcKRCpl1OXcVZ463IWdf/JAulr8vPXr8uc=;
- b=kw/1CVr1CvRVBN7ppDzHuBwXNvTpjmdU+210GrNG3Nc4b7E6jprzvZIHSr8pmgM/I3
- Ooumonhq2AA5Z/bDkgOMmb2uuM0HYdIO4QfNzuv00lDToNyHDOw36qPCZqLGXo4Ny3Rv
- 8GkkhYRZVPrpYZIyCy0c/BpWEycFDPgrnqVXz0/oGqCFsBGaXEqVwjB2ectF8uoWJPDw
- cqsZOPBXQ8MKkKJ4OYLi5exG/8EufN0ybQVFN2TtQD6A6dL7rQVdsIKxIZG1aTs5d6oI
- 3O2K+mIJ1o8KaZwC8/MgU6kRcp+hsoW+as5mFzAkuL6pYASSSpWkf57h2MlRn8yzVn5+
- jiqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:mime-version:in-reply-to:references
- :user-agent:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=msJlygCwztcKRCpl1OXcVZ463IWdf/JAulr8vPXr8uc=;
- b=oYobM3sQh+77NBr4znzlYeKWOJr6iyIchqaZ4ccKP/gFefkQagx3l5DCpqygMcrtNY
- PLuG7i21gbiZF2hVLDj/e7m5aDv8X2aOTO9sfHn7JsGBnkdX0GNFLY+vNZLD+PC2z3fs
- Q4nl8wOjHsimigEpYhdwl0He88vbCGlsd5QsPBQoK0K4cvAqTzmG9/jeU5Y/ZzU3Ttrb
- vpntaxdYrVLSs9X8ow5wWKEAlv6ArSVPXOAoZKbPtnbo03srmksyVQHVRstRKwxTPvVJ
- g/8c4yoYES2fFhduYcBw/PuAtuzMv7wdT7b5ckQ4W1mxuSuvQ50Au8Dem/4fgG0++KlR
- SlSg==
-X-Gm-Message-State: ACrzQf0g5oaAhRBzFqhu4QxoqvGYYkEYffKCYFxznC2SvyGC6cDBQG/t
- 8m+6M6Sc9FHzUW9N8Olvf3X1h+o2dLJxopToGHnyxQ==
-X-Google-Smtp-Source: AMsMyM4/hRdV6PUceQjYTAr5VlJwQq0PJWF/plhX/TikjJfOvo1/P9XLmwGDedaShVJ1ltmLlfA5kP20+nvh1Rr9HWY=
-X-Received: by 2002:a05:6512:a93:b0:4a2:a5b3:fbb4 with SMTP id
- m19-20020a0565120a9300b004a2a5b3fbb4mr17334447lfu.346.1667833571328; Mon, 07
- Nov 2022 07:06:11 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 7 Nov 2022 15:06:10 +0000
-From: Guillaume Ranquet <granquet@baylibre.com>
-User-Agent: meli 0.7.2
-References: <20220919-v3-0-a803f2660127@baylibre.com>
- <20220919-v3-12-a803f2660127@baylibre.com>
- <988b0a7a-69bb-34e4-e777-1d9516221077@collabora.com>
-In-Reply-To: <988b0a7a-69bb-34e4-e777-1d9516221077@collabora.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAAF210E3B0
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 15:10:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1667833853; x=1699369853;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=WpNLkWsma8OlnJ2HaCkn1bSw2kA9P5c0g5KKNekKSuU=;
+ b=Grf7InQQCWU0L4Pjzs9AWa+vC8SmCNh5B4fT4BZ/ttR8+6Cxo5ZU/R1K
+ lGeI0RsqsnmZnn47BuTrt6po6nHXfeQpRNSbVY1vPnmJ55LpC7U92xz0t
+ zyGZzcCrwUEW1WRwKRC6SA7wHU1ibFvSMGJG37TsFHGLE2vrNteA2EsaJ
+ QTK3RUqfkfWI2NpaFn1vQ3Zu2uqiUCEz1HB5noH8oLctR9xHoV4ygc9Lh
+ 4F7syT5PhQpOUeiCK5R/4UUSnY0hmHT6JgDelHIFCBAPzvesaeFp78Rv/
+ 9EVCkyT8iLEob7APKWIou4WOAflHlkrGczSTcASdGUOa0rpovyvR+3o2J w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="308056624"
+X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; d="scan'208";a="308056624"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Nov 2022 07:10:52 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="630514454"
+X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; d="scan'208";a="630514454"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
+ by orsmga007.jf.intel.com with SMTP; 07 Nov 2022 07:10:49 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 07 Nov 2022 17:10:48 +0200
+Date: Mon, 7 Nov 2022 17:10:48 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Subject: Re: [PATCH RESEND] drm: fix crash in drm_minor_alloc_release
+Message-ID: <Y2kf+HLy/Kz5BclF@intel.com>
+References: <20221107144500.3692212-1-stanislaw.gruszka@linux.intel.com>
 MIME-Version: 1.0
-Date: Mon, 7 Nov 2022 15:06:10 +0000
-Message-ID: <CABnWg9t0KznQG1Mix=jSchk99Xj-h3Bf28WTaP9gc8AC6yLr7Q@mail.gmail.com>
-Subject: Re: [PATCH v3 12/12] drm/mediatek: dpi: Add mt8195 hdmi to DPI driver
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Kishon Vijay Abraham I <kishon@ti.com>, Rob Herring <robh+dt@kernel.org>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>, 
- Jitao shi <jitao.shi@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
- Vinod Koul <vkoul@kernel.org>, CK Hu <ck.hu@mediatek.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221107144500.3692212-1-stanislaw.gruszka@linux.intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,83 +60,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, mac.shen@mediatek.com,
- stuart.lee@mediatek.com, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 07 Nov 2022 12:20, AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
->Il 04/11/22 15:09, Guillaume Ranquet ha scritto:
->> Add the DPI1 hdmi path support in mtk dpi driver
->>
->> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
->> ---
->>   drivers/gpu/drm/mediatek/mtk_dpi.c      | 143 ++++++++++++++++++++++++++++++--
->>   drivers/gpu/drm/mediatek/mtk_dpi_regs.h |   5 ++
->>   2 files changed, 141 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
->> index 508a6d994e83..8052b47042b8 100644
->> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
->> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
->> @@ -14,7 +14,10 @@
->>   #include <linux/of_graph.h>
->>   #include <linux/pinctrl/consumer.h>
->>   #include <linux/platform_device.h>
->> +#include <linux/reset.h>
->>   #include <linux/types.h>
->> +#include <linux/regmap.h>
->> +#include <linux/mfd/syscon.h>
->>
->>   #include <video/videomode.h>
->>
->> @@ -65,10 +68,14 @@ struct mtk_dpi {
->>   	struct drm_bridge *next_bridge;
->>   	struct drm_connector *connector;
->>   	void __iomem *regs;
->> +	struct reset_control *reset_ctl;
->>   	struct device *dev;
->>   	struct clk *engine_clk;
->> +	struct clk *dpi_ck_cg;
->>   	struct clk *pixel_clk;
->> +	struct clk *dpi_sel_clk;
->>   	struct clk *tvd_clk;
->> +	struct clk *hdmi_cg;
->
->I admit that I didn't really check these clocks, but judging by the names,
->it is highly possible that one (or more) of them are supposed to be parents
->of some others.
->
->The first suspicious ones are dpi_ck_cg and dpi_sel_clk: please check.
->
->I'm also not sure about the hdmi_cg, shouldn't the DPI have a HDMI port in
->the graph that you'd declare in devicetree?
->
->Besides... you're doing a lot of work to check if (is_internal_hdmi) for
->power up/down paths, but seeing that you're introducing this change after
->adding the HDMI driver makes me mostly sure that the internal hdmi that we're
->talking about here is the one that is managed by the HDMIV2 driver... and
->this means that you should really, really, really rely on connecting inputs
->and outputs the right way in the devicetree, as that will most probably make
->you able to write practically 0 code to manage power for the DPI... and may
->also remove the need of adding the hdmi_cg clock here...
->
->Regards,
->Angelo
->
->
+On Mon, Nov 07, 2022 at 03:45:00PM +0100, Stanislaw Gruszka wrote:
+> If drm_sysfs_minor_alloc() fail in drm_minor_alloc() we can end up
+> freeing invalid minor->kdev pointer and drm_minor_alloc_release()
+> will crash like below:
+> 
+> RIP: 0010:kobject_put+0x19/0x1c0
+> RSP: 0018:ffffbc7001637c38 EFLAGS: 00010282
+> RAX: ffffffffa8d6deb0 RBX: 00000000ffffffff RCX: ffff9cb5912d4540
+> RDX: ffffffffa9c45ec5 RSI: ffff9cb5902f2b68 RDI: fffffffffffffff4
+> RBP: fffffffffffffff4 R08: ffffffffa9c40dec R09: 0000000000000008
+> R10: ffffffffaa81f7d2 R11: 00000000aa81f7ca R12: ffff9cb5912d4540
+> R13: ffff9cb5912d4540 R14: dead000000000122 R15: dead000000000100
+> FS:  00007f56b06e6740(0000) GS:ffff9cb728b40000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 0000000000000030 CR3: 000000011285b004 CR4: 0000000000170ee0
+> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> DR3: 0000000000000000 DR6: 00000000ffff07f0 DR7: 0000000000000400
+> Call Trace:
+>  <TASK>
+>  drm_minor_alloc_release+0x19/0x50
+>  drm_managed_release+0xab/0x150
+>  drm_dev_init+0x21f/0x2f0
+>  __devm_drm_dev_alloc+0x3c/0xa0
+>  ivpu_probe+0x59/0x797 [intel_vpu 127058409b05eb2f99dcdecd3330bee28d6b3e76]
+>  pci_device_probe+0xa4/0x160
+>  really_probe+0x164/0x340
+>  __driver_probe_device+0x10d/0x190
+>  device_driver_attach+0x26/0x50
+>  bind_store+0x9f/0x120
+>  kernfs_fop_write_iter+0x12d/0x1c0
+>  new_sync_write+0x106/0x180
+>  vfs_write+0x216/0x2a0
+>  ksys_write+0x65/0xe0
+>  do_syscall_64+0x35/0x80
+>  entry_SYSCALL_64_after_hwframe+0x44/0xae
+> 
+> Fix this crash by checking minor->kdev when freeing.
+> 
+> Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+> ---
+>  drivers/gpu/drm/drm_drv.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> index 8214a0b1ab7f..e3a1243dd2ae 100644
+> --- a/drivers/gpu/drm/drm_drv.c
+> +++ b/drivers/gpu/drm/drm_drv.c
+> @@ -102,7 +102,8 @@ static void drm_minor_alloc_release(struct drm_device *dev, void *data)
+>  
+>  	WARN_ON(dev != minor->dev);
+>  
+> -	put_device(minor->kdev);
+> +	if (!IS_ERR(minor->kdev))
+> +		put_device(minor->kdev);
 
-I don't have access to a clock tree documentation or anything that permits
-me to answer those questions with confidence. I'll ask mediatek for some input
-and I'll also check how those clocks are declared in the clock framework.
+Assigning error pointers into things is a terrible idea.
+IMO the correct fix would be to not return some
+half-constructed garbage from drm_minor_alloc().
+So basically should at least partically revert
+commit f96306f9892b ("drm: manage drm_minor cleanup with drmm_")
 
-You are right in assuming that the "is_internal_hdmi" is in fact the V2 IP.
-I like the idea of removing code, I'll try to make sense of your suggestion
-and see if there's anything I can do better for v4.
+>  
+>  	spin_lock_irqsave(&drm_minor_lock, flags);
+>  	idr_remove(&drm_minors_idr, minor->index);
+> -- 
+> 2.25.1
 
-Thx,
-Guillaume.
+-- 
+Ville Syrjälä
+Intel
