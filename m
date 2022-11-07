@@ -1,43 +1,94 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44E3061F52F
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 15:17:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DF3061F51B
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Nov 2022 15:16:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE0D410E323;
-	Mon,  7 Nov 2022 14:16:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B1F010E31A;
+	Mon,  7 Nov 2022 14:16:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 462F910E31A
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Nov 2022 14:16:42 +0000 (UTC)
-From: John Ogness <john.ogness@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1667830600;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=zf2Nnq9aaBhq9OyJBdbPoPZazbYrZ5ZYcguoDhN8w38=;
- b=2DMdV6P5I8sPplJufSLuueHeVl4bvVMKaOCMLHG/8T/fwK7DAOABqqdX7aJ+59oIKbSeI/
- jxIUQ7vmqJIWBg5uBPUnLwho/ozyVcK4cifb7E8MZWqNAgvSZcTQkooqi2XOBJKmdFoPe0
- S/wZC7FHNIjNqHF8aKh2I4aJghp93sxvUy5SQTr2sLIW2gINDw/7UBtkXqGJH9YxH5hhOO
- 0O67dTObUBp0/Va8bcvOAkYNduQYwv+rsV/BkAAXQ2emD/fAX8uWsiRgCCzSlHK71l+mxd
- DWhAO2yHDDwVwuy7tiy10mhyFAMcwaRZxpwSCRbmOIfW9QXr83hR7vV88Ebaiw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1667830600;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=zf2Nnq9aaBhq9OyJBdbPoPZazbYrZ5ZYcguoDhN8w38=;
- b=jYEgYMmbvDXYj7DRG/zDjOcuyxgqHf6CJ4sMHlEhQTQPnAhOStcpCmHEsG9VmODdbETAmt
- FuRjrih+zd0krvCw==
-To: Petr Mladek <pmladek@suse.com>
-Subject: [PATCH printk v3 00/40] reduce console_lock scope
-Date: Mon,  7 Nov 2022 15:21:58 +0106
-Message-Id: <20221107141638.3790965-1-john.ogness@linutronix.de>
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
+ [64.147.123.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C89EE10E31A;
+ Mon,  7 Nov 2022 14:16:39 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id 96C602B05E60;
+ Mon,  7 Nov 2022 09:16:36 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Mon, 07 Nov 2022 09:16:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to; s=fm2; t=1667830596; x=1667837796; bh=a5DhP4F/qG
+ 5HvF6cjResrf1Tj2WUnVOLuH+UMUtcpZ0=; b=Irs4WA5jwTUfnu0gSQwv4V94K8
+ 7MsbWUMZtxT4ZBm3wLguPArhA9rPqFeWNG4jZzjW7PTvVtiYqhug2QKap6/VrNJp
+ IqhnLu2t51lFXkwuEjN1RyI7BuVLWlZZSaecSRop6uNKFDBeFVR+2yeki7ilp7q0
+ EposIf7YnokBjisM4qwAlEYLDtkv1UkMD+Res4aswlXPi3+CVd9kUrsOVsH7M45v
+ jT9Ss/d/bMcyRF1avJGaEMpWrxy6L5LnVfc+36cNEGja/Wq1c8cFyFsyvEkgR0eO
+ d0KvKE0cFv+ulayfU5lmLHxgVuxi7L8Ge5qA3e9oNAbdlC5z7iJwtHv4np1g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; t=1667830596; x=1667837796; bh=a5DhP4F/qG5Hv
+ F6cjResrf1Tj2WUnVOLuH+UMUtcpZ0=; b=S0YT5h+vOIHnw+4zMGIqxxEhDtn2O
+ TJ53Fi2jc95i3IKUjEhOKItJqmsZe3UVso+09TZ6pV10MgGFdpevuRYc8lUif7lv
+ B9e5E9tpfUxbJHwmRpSjRiHEDfO6THGqMu01kUG9A5koNEIQiAuJU+ZWCeMDMzJi
+ nzozvmcJ1R/46aNub5WpjvLEYvCH+KWWORBXReirNiYtb9iZf/dKLkN29svG6nBj
+ UdC5SgOcBwqf8JcfLJDHcMH26CfbrYGMZHsW5ASkAXlId99hpK1X2r+lkXBxzpLb
+ Y9m8V5Badv3JZm1fUJHl4j/UNrJSiEKdWEvUms8VIrjfjm28f/Kz1p/SA==
+X-ME-Sender: <xms:QxNpY828-6Skp7hUvB4pHdluDLNDsa0kYx7XGFy9WLX6HI8I120MZQ>
+ <xme:QxNpY3GtwYVUQ1uOWgT8ZOKj1z6ISB8exVJgM-dl-Y4WNUH8YtoydBrdlhHpZYsYX
+ -J6Ny8AzyqhzxneChk>
+X-ME-Received: <xmr:QxNpY0631s5yLcmBuEzMVh_htsS6K18Bp022Bi8GNr2Z6tA-G73ysxHX8D8ssbDtIGIEiLCVHJInCU6RlTvyy9fqzkXV70t4DfE6BX1ptecBug>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvdekgdeitdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefugggtgffhfffkvfevofesthekredtredtjeenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeelueevteetffdvveelgfffleegudeufeelveefvddugeehkeefkeehjeeikeeg
+ udenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+ enucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:QxNpY12M5970vTwJFLVQnaRaaGmddwwtWKMhNGCfVdaixjTqXfBGSQ>
+ <xmx:QxNpY_EVsjjWf5NtZtGEznQdwdRzxoDplAiooRJjZoZa3RA2zKhsLQ>
+ <xmx:QxNpY-95nNzZuhnmPv8LBaYIRiKRNQqJxTsLztNqYGOERQEHs0hG6Q>
+ <xmx:RBNpY_R3GQXmDjD5dD-Xriieh4xUuyaM4FSwNSDsWwlUkUHz69EsJy0heMU>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 7 Nov 2022 09:16:34 -0500 (EST)
+Subject: [PATCH v7 00/23] drm: Analog TV Improvements
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-b4-tracking: H4sIADoTaWMC/43NTWrDMBAF4KsErTtFlmT9ZNV7hCxkaRQLimQkIyjBd++ku5KNV8NjeN97so4tY2
+ fXy5M1HLnnWiiYjwsLqy8PhBwpM8GF4EZYaFsGX/x3fcA+YGt1w7aTANxNKqaAqDRnVF98R1iaL2F9
+ AUbOqKYopQvx9V5z32v7+Rseks7txMYQwCEZKT3H6JLjXwFbqZ870sid1KHOSookzaO01shkrHiT5r
+ PSTFK0agpBq4RqeZP0WUmThMY4YaSauE3/pOM4fgGdfeforgEAAA==
+From: Maxime Ripard <maxime@cerno.tech>
+Date: Mon, 07 Nov 2022 15:16:26 +0100
+Message-Id: <20220728-rpi-analog-tv-properties-v7-0-7072a478c6b3@cerno.tech>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Ben Skeggs <bskeggs@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>,
+ Lyude Paul <lyude@redhat.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>
+X-Mailer: b4 0.11.0-dev-99e3a
+X-Developer-Signature: v=1; a=openpgp-sha256; l=10461; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=SlyfK6wHPDEhY295MhAjmc3d0LQIZizwrf3w51ZuICQ=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMmZwvZ5HP7Prs64rTFt6Yn1ifmty04t8T/QmBrjrlTycV7A
+ Mp91HaUsDGJcDLJiiiwxwuZL4k7Net3JxjcPZg4rE8gQBi5OAZjIgSUMv1l918xq5jLd1tDN9e3jwT
+ PbU04rzX0c/e2OnDn/plwPozyG/8FiOz8U9a+8dPLTF/mmoDPKT74Lyr022/YvXenQCoO62UwA
+X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,245 +101,232 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-efi@vger.kernel.org,
- Geert Uytterhoeven <geert+renesas@glider.be>, Tony Lindgren <tony@atomide.com>,
- kgdb-bugreport@lists.sourceforge.net, Lai Jiangshan <jiangshanlai@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
- Alim Akhtar <alim.akhtar@samsung.com>, Joel Fernandes <joel@joelfernandes.org>,
- Jiri Slaby <jirislaby@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- linux-samsung-soc@vger.kernel.org, Tom Rix <trix@redhat.com>,
- Richard Weinberger <richard@nod.at>, Helge Deller <deller@gmx.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Peter Zijlstra <peterz@infradead.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, linux-serial@vger.kernel.org,
- Aaron Tomlin <atomlin@redhat.com>, Miguel Ojeda <ojeda@kernel.org>,
- =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Paolo Abeni <pabeni@redhat.com>, Neeraj Upadhyay <quic_neeraju@quicinc.com>,
- Michal Simek <michal.simek@xilinx.com>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- Frederic Weisbecker <frederic@kernel.org>, linux-um@lists.infradead.org,
- Josh Triplett <josh@joshtriplett.org>, Steven Rostedt <rostedt@goodmis.org>,
- rcu@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Jakub Kicinski <kuba@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-arm-kernel@lists.infradead.org, Juergen Gross <jgross@suse.com>,
- Mathias Nyman <mathias.nyman@linux.intel.com>,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- Douglas Anderson <dianders@chromium.org>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jason Wessel <jason.wessel@windriver.com>, linux-fsdevel@vger.kernel.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- Johannes Berg <johannes@sipsolutions.net>, linuxppc-dev@lists.ozlabs.org,
- "David S. Miller" <davem@davemloft.net>
+Cc: Dom Cobley <dom@raspberrypi.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Phil Elwell <phil@raspberrypi.com>, Hans de Goede <hdegoede@redhat.com>, Noralf Trønnes <noralf@tronnes.org>, Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>, Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>, linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is v3 of a series to prepare for threaded/atomic
-printing. v2 is here [0]. This series focuses on reducing the
-scope of the BKL console_lock. It achieves this by switching to
-SRCU and a dedicated mutex for console list iteration and
-modification, respectively. The console_lock will no longer
-offer this protection and is completely removed from
-(un)register_console() and console_stop/start() code.
+Hi,
 
-Also, during the review of v2 it came to our attention that
-many console drivers are checking CON_ENABLED to see if they
-are registered. Because this flag can change without
-unregistering and because this flag does not represent an
-atomic point when an (un)registration process is complete,
-a new console_is_registered() function is introduced. This
-function uses the console_list_lock to synchronize with the
-(un)registration process to provide a reliable status.
+Here's a series aiming at improving the command line named modes support,
+and more importantly how we deal with all the analog TV variants.
 
-All users of the console_lock for list iteration have been
-modified. For the call sites where the console_lock is still
-needed (because of other reasons), comments are added to
-explain exactly why the console_lock was needed.
+The named modes support were initially introduced to allow to specify the
+analog TV mode to be used.
 
-All users of CON_ENABLED for registration status have been
-modified to use console_is_registered(). Note that there are
-still users of CON_ENABLED, but this is for legitimate purposes
-about a registered console being able to print.
+However, this was causing multiple issues:
 
-The base commit for this series is from Paul McKenney's RCU tree
-and provides an NMI-safe SRCU implementation [1]. Without the
-NMI-safe SRCU implementation, this series is not less safe than
-mainline. But we will need the NMI-safe SRCU implementation for
-atomic consoles anyway, so we might as well get it in
-now. Especially since it _does_ increase the reliability for
-mainline in the panic path.
+  * The mode name parsed on the command line was passed directly to the
+    driver, which had to figure out which mode it was suppose to match;
 
-Changes since v3:
+  * Figuring that out wasn't really easy, since the video= argument or what
+    the userspace might not even have a name in the first place, but
+    instead could have passed a mode with the same timings;
 
-general:
+  * The fallback to matching on the timings was mostly working as long as
+    we were supporting one 525 lines (most likely NSTC) and one 625 lines
+    (PAL), but couldn't differentiate between two modes with the same
+    timings (NTSC vs PAL-M vs NSTC-J for example);
 
-- introduce a synchronized console_is_registered() to query if
-  a console is registered, meant to replace CON_ENABLED
-  (mis)use for this purpose
+  * There was also some overlap with the tv mode property registered by
+    drm_mode_create_tv_properties(), but named modes weren't interacting
+    with that property at all.
 
-- directly read console->flags for registered consoles if it is
-  race-free (and document that it is so)
+  * Even though that property was generic, its possible values were
+    specific to each drivers, which made some generic support difficult.
 
-- replace uart_console_enabled() with a new
-  uart_console_registered() based on console_is_registered()
+Thus, I chose to tackle in multiple steps:
 
-- change comments about why console_lock is used to synchronize
-  console->device() by providing an example
+  * A new TV mode property was introduced, with generic values, each driver
+    reporting through a bitmask what standard it supports to the userspace;
 
-registration check fixups:
+  * This option was added to the command line parsing code to be able to
+    specify it on the kernel command line, and new atomic_check and reset
+    helpers were created to integrate properly into atomic KMS;
 
-- the following drivers were modified to use the new
-  console_is_registered() instead of CON_ENABLED checks
+  * The named mode parsing code is now creating a proper display mode for
+    the given named mode, and the TV standard will thus be part of the
+    connector state;
 
-   - arch/m68k/emu/nfcon.c
-   - drivers/firmware/efi/earlycon.c
-   - drivers/net/netconsole.c
-   - drivers/tty/hvc/hvc_console.c
-   - drivers/tty/serial/8250/8250_core.c
-   - drivers/tty/serial/earlycon.c
-   - drivers/tty/serial/pic32_uart.c
-   - drivers/tty/serial/samsung_tty.c
-   - drivers/tty/serial/serial_core.c
-   - drivers/tty/serial/xilinx_uartps.c
-   - drivers/usb/early/xhci-dbc.c
+  * Two drivers were converted and tested for now (vc4 and sun4i), with
+    some backward compatibility code to translate the old TV mode to the
+    new TV mode;
 
-um: kmsg_dumper:
+Unit tests were created along the way.
 
-- change stdout dump criteria to match original intention
+One can switch from NTSC to PAL now using (on vc4)
 
-kgdb/kdb:
+modetest -M vc4  -s 53:720x480i -w 53:'TV mode':1 # NTSC
+modetest -M vc4  -s 53:720x576i -w 53:'TV mode':4 # PAL
 
-- in configure_kgdboc(), take console_list_lock to synchronize
-  tty_find_polling_driver() against register_console()
+Let me know what you think,
+Maxime
 
-- add comments explaining why calling console->write() without
-  locking might work
+To: David Airlie <airlied@linux.ie>
+To: Daniel Vetter <daniel@ffwll.ch>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+To: Emma Anholt <emma@anholt.net>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Ben Skeggs <bskeggs@redhat.com>
+To: Karol Herbst <kherbst@redhat.com>
+To: Lyude Paul <lyude@redhat.com>
+To: Chen-Yu Tsai <wens@csie.org>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+Cc: "Noralf Trønnes" <noralf@tronnes.org>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Dom Cobley <dom@raspberrypi.com>
+Cc: Phil Elwell <phil@raspberrypi.com>
+Cc: <dri-devel@lists.freedesktop.org>
+Cc: linux-kernel@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-sunxi@lists.linux.dev
+Cc: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-tty: sh-sci:
+---
+Changes in v7:
+- Switch to another implementation of get_modes from Noralf
+- Made more checks in VEC's atomic_check
+- Fixed typo in a commit log
+- Checked for tv_mode_specified in drm_mode_parse_command_line_for_connector
+- Rebased on drm-misc-next-2022-11-03
+- Link to v6: https://lore.kernel.org/r/20220728-rpi-analog-tv-properties-v6-0-e7792734108f@cerno.tech
 
-- use a setup() callback to setup the early console
+Changes in v6:
+- Add and convert to a new get_modes helper to create the PAL and NTSC modes in
+  the proper order, with the right preferred mode flag, depending on the driver
+  capabilities and defaults.
+- Support PAL60
+- Renamed tests to be consistent with DRM tests naming convention
+- Simplified a bit the named mode parsing code
+- Add a tv_mode_specified field
+- Return 0 in get_modes implementations instead of error codes
+- Link to v5: https://lore.kernel.org/r/20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech
 
-fbdev: xen:
+Changes in v5:
+- Dropped TV Standard documentation removal
+- Switched the TV Mode documentation from CSV to actual documentation
+- Switched to kunit assertions where possible
+- Switched to KUNIT_ASSERT_NOT_NULL instead of KUNIT_ASSERT_PTR_NE(..., NULL)
+- Shuffled a bit the introduction of drm_client_modeset_connector_get_modes between patches
+- Renamed tv_mode_names to legacy_tv_mode_names
+- Removed the count variable in sun4i_tv_comp_get_modes
+- Rebased on top of current drm-misc-next
+- Link to v4: https://lore.kernel.org/r/20220728-rpi-analog-tv-properties-v4-0-60d38873f782@cerno.tech
 
-- implement a cleaner approach for
-  console_force_preferred_locked()
+Changes in v4:
+- Removed the unused TV Standard property documentation
+- Added the TV Mode property documentation to kms-properties.csv
+- Fixed the documentation of drm_mode_create_tv_properties()
+- Removed DRM_MODE_TV_MODE_NONE
+- Reworded the line length check comment in drm_mode_analog_tv tests
+- Switched to HZ_PER_KHZ in drm_mode_analog_tv tests
+- Reworked drm_mode_analog_tv to fill our mode using the previously computed
+  timings
+- Added the command-line option documentation to modedb.rst
+- Improved the Kunit helpers cleanup
+- Moved the subconnector documentation renaming to the proper patch
+- Added the various review tags
+- Removed the count variable in vc4_vec_connector_get_modes
+- Rebased on drm-misc-next-2022-09-23 and fixed a merge conflict
+- Folded all the named mode parsing improvements in a single patch
+- Link to v3: https://lore.kernel.org/r/20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech
 
-rcu:
+Changes in v3:
+- Applied some of the fixes to vc4 and sun4i
+- Renamed the old TV mode property to legacy_mode
+- Fixed a bunch of bisection errors
+- Removed most of the redundant TV modes
+- Added a new None TV mode to not fall back on NTSC by mistake
+- Fixed the mode generation function to match better what is expected
+- Added some logging to the mode generation function
+- Split the improvements to the named mode parsing logic into separate patches
+- Added more checks to the TV atomic_check helper
+- Link to v2: https://lore.kernel.org/dri-devel/20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech/
 
-- implement debug_lockdep_rcu_enabled() for
-  !CONFIG_DEBUG_LOCK_ALLOC
+Changes in v2:
+- Kept the older TV mode property as legacy so we can keep the old drivers functional
+- Renamed the tv_norm property to tv_mode
+- Added a function to create PAL and NTSC compatible display modes
+- Added some helpers to instantiate a mock DRM device in Kunit
+- More Kunit tests
+- Removed the HD analog TV modes
+- Renamed some of the tests
+- Renamed some of the named modes
+- Fixed typos in commit logs
+- Added the various tags
+- Link to v1: https://lore.kernel.org/dri-devel/20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech/
 
-printk:
+---
+Mateusz Kwiatkowski (2):
+      drm/vc4: vec: Check for VEC output constraints
+      drm/vc4: vec: Add support for more analog TV standards
 
-- check CONFIG_DEBUG_LOCK_ALLOC for srcu_read_lock_held()
-  availability
+Maxime Ripard (20):
+      drm/tests: Add Kunit Helpers
+      drm/connector: Rename legacy TV property
+      drm/connector: Only register TV mode property if present
+      drm/connector: Rename drm_mode_create_tv_properties
+      drm/connector: Add TV standard property
+      drm/modes: Add a function to generate analog display modes
+      drm/client: Add some tests for drm_connector_pick_cmdline_mode()
+      drm/modes: Move named modes parsing to a separate function
+      drm/modes: Switch to named mode descriptors
+      drm/modes: Fill drm_cmdline mode from named modes
+      drm/connector: Add pixel clock to cmdline mode
+      drm/connector: Add a function to lookup a TV mode by its name
+      drm/modes: Introduce the tv_mode property as a command-line option
+      drm/modes: Properly generate a drm_display_mode from a named mode
+      drm/modes: Introduce more named modes
+      drm/atomic-helper: Add a TV properties reset helper
+      drm/atomic-helper: Add an analog TV atomic_check implementation
+      drm/vc4: vec: Use TV Reset implementation
+      drm/vc4: vec: Convert to the new TV mode property
+      drm/sun4i: tv: Convert to the new TV mode property
 
-- for console_lock/_trylock/_unlock, replace "lock the console
-  system" language with "block the console subsystem from
-  printing"
+Noralf Trønnes (1):
+      drm/probe-helper: Provide a TV get_modes helper
 
-- use WRITE_ONCE() for updating console->flags of registered
-  consoles
+ Documentation/fb/modedb.rst                     |   2 +
+ Documentation/gpu/drm-kms.rst                   |   6 +
+ drivers/gpu/drm/drm_atomic_state_helper.c       | 124 +++++
+ drivers/gpu/drm/drm_atomic_uapi.c               |   4 +
+ drivers/gpu/drm/drm_client_modeset.c            |   4 +
+ drivers/gpu/drm/drm_connector.c                 | 173 ++++++-
+ drivers/gpu/drm/drm_modes.c                     | 639 +++++++++++++++++++++++-
+ drivers/gpu/drm/drm_probe_helper.c              |  97 ++++
+ drivers/gpu/drm/gud/gud_connector.c             |  10 +-
+ drivers/gpu/drm/i2c/ch7006_drv.c                |   6 +-
+ drivers/gpu/drm/i915/display/intel_tv.c         |   5 +-
+ drivers/gpu/drm/nouveau/dispnv04/tvnv17.c       |   6 +-
+ drivers/gpu/drm/sun4i/sun4i_tv.c                | 141 ++----
+ drivers/gpu/drm/tests/Makefile                  |   3 +
+ drivers/gpu/drm/tests/drm_client_modeset_test.c | 229 +++++++++
+ drivers/gpu/drm/tests/drm_cmdline_parser_test.c |  67 +++
+ drivers/gpu/drm/tests/drm_connector_test.c      |  90 ++++
+ drivers/gpu/drm/tests/drm_kunit_helpers.c       |  61 +++
+ drivers/gpu/drm/tests/drm_kunit_helpers.h       |   9 +
+ drivers/gpu/drm/tests/drm_modes_test.c          | 144 ++++++
+ drivers/gpu/drm/vc4/vc4_vec.c                   | 342 +++++++++++--
+ include/drm/drm_atomic_state_helper.h           |   4 +
+ include/drm/drm_connector.h                     |  89 +++-
+ include/drm/drm_mode_config.h                   |  12 +-
+ include/drm/drm_modes.h                         |  17 +
+ include/drm/drm_probe_helper.h                  |   1 +
+ 26 files changed, 2081 insertions(+), 204 deletions(-)
+---
+base-commit: 3b536e43463ed91b7bf9acec1eb4da0bc677dc43
+change-id: 20220728-rpi-analog-tv-properties-0914dfcee460
 
-- expand comments of synchronize_srcu() calls to explain why
-  they are needed, and also expand comments to explain when it
-  is not needed
-
-- change CON_BOOT consoles to always begin at earliest message
-
-- for non-BOOT/non-PRINTBUFFER consoles, initialize @seq to the
-  minimal @seq of any of the enabled boot consoles
-
-- add comments and lockdep assertion to
-  unregister_console_locked() because it is not clear from the
-  name which lock is implied
-
-- dropped patches that caused unnecessary churn in the series
-
-John Ogness
-
-[0] https://lore.kernel.org/lkml/20221019145600.1282823-1-john.ogness@linutronix.de
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git/log/?h=srcunmisafe.2022.10.21a
-
-John Ogness (38):
-  rcu: implement lockdep_rcu_enabled for !CONFIG_DEBUG_LOCK_ALLOC
-  printk: Prepare for SRCU console list protection
-  printk: fix setting first seq for consoles
-  um: kmsg_dump: only dump when no output console available
-  console: introduce console_is_enabled() wrapper
-  printk: use console_is_enabled()
-  um: kmsg_dump: use console_is_enabled()
-  kdb: kdb_io: use console_is_enabled()
-  um: kmsg_dumper: use srcu console list iterator
-  tty: serial: kgdboc: document console_lock usage
-  tty: tty_io: document console_lock usage
-  proc: consoles: document console_lock usage
-  kdb: use srcu console list iterator
-  printk: console_flush_all: use srcu console list iterator
-  printk: console_unblank: use srcu console list iterator
-  printk: console_flush_on_panic: use srcu console list iterator
-  printk: console_device: use srcu console list iterator
-  printk: __pr_flush: use srcu console list iterator
-  printk: introduce console_list_lock
-  console: introduce console_is_registered()
-  serial_core: replace uart_console_enabled() with
-    uart_console_registered()
-  tty: nfcon: use console_is_registered()
-  efi: earlycon: use console_is_registered()
-  tty: hvc: use console_is_registered()
-  tty: serial: earlycon: use console_is_registered()
-  tty: serial: pic32_uart: use console_is_registered()
-  tty: serial: samsung_tty: use console_is_registered()
-  tty: serial: xilinx_uartps: use console_is_registered()
-  usb: early: xhci-dbc: use console_is_registered()
-  netconsole: avoid CON_ENABLED misuse to track registration
-  printk, xen: fbfront: create/use safe function for forcing preferred
-  tty: tty_io: use console_list_lock for list synchronization
-  proc: consoles: use console_list_lock for list iteration
-  tty: serial: kgdboc: use console_list_lock for list traversal
-  tty: serial: kgdboc: synchronize tty_find_polling_driver() and
-    register_console()
-  tty: serial: kgdboc: use console_list_lock to trap exit
-  printk: relieve console_lock of list synchronization duties
-  tty: serial: sh-sci: use setup() callback for early console
-
-Thomas Gleixner (2):
-  serial: kgdboc: Lock console list in probe function
-  printk: Convert console_drivers list to hlist
-
- .clang-format                       |   1 +
- arch/m68k/emu/nfcon.c               |  10 +-
- arch/um/kernel/kmsg_dump.c          |  24 +-
- drivers/firmware/efi/earlycon.c     |   8 +-
- drivers/net/netconsole.c            |  21 +-
- drivers/tty/hvc/hvc_console.c       |   4 +-
- drivers/tty/serial/8250/8250_core.c |   2 +-
- drivers/tty/serial/earlycon.c       |   4 +-
- drivers/tty/serial/kgdboc.c         |  46 ++-
- drivers/tty/serial/pic32_uart.c     |   4 +-
- drivers/tty/serial/samsung_tty.c    |   2 +-
- drivers/tty/serial/serial_core.c    |  14 +-
- drivers/tty/serial/sh-sci.c         |  17 +-
- drivers/tty/serial/xilinx_uartps.c  |   2 +-
- drivers/tty/tty_io.c                |  18 +-
- drivers/usb/early/xhci-dbc.c        |   2 +-
- drivers/video/fbdev/xen-fbfront.c   |  12 +-
- fs/proc/consoles.c                  |  21 +-
- include/linux/console.h             | 111 +++++++-
- include/linux/rcupdate.h            |   5 +
- include/linux/serial_core.h         |  15 +-
- kernel/debug/kdb/kdb_io.c           |  14 +-
- kernel/printk/printk.c              | 424 +++++++++++++++++++++-------
- 23 files changed, 605 insertions(+), 176 deletions(-)
-
-
-base-commit: e29a4915db1480f96e0bc2e928699d086a71f43c
+Best regards,
 -- 
-2.30.2
-
+Maxime Ripard <maxime@cerno.tech>
