@@ -1,60 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D6A2621748
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 15:48:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25ACD621755
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 15:50:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BAEB10E29B;
-	Tue,  8 Nov 2022 14:48:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B92510E2A1;
+	Tue,  8 Nov 2022 14:50:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
- [IPv6:2a00:1450:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 167CE10E29B
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Nov 2022 14:48:08 +0000 (UTC)
-Received: by mail-ej1-x632.google.com with SMTP id m22so2005390eji.10
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Nov 2022 06:48:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=udlUQxbpymKCwohxFY8X9JBSfOjmetBU5zbQOm9wbdg=;
- b=flNVoZG0dQayUX3DheVklirArChf7wKr16/xVvQxkvag0tVM5K9IwITBbykd7tROsH
- fTL90PtV9yxmU3v0EDxiW4LmInWBtlAD2Gz1AeXSvyXwb/m1ScBQ1Kj4VPMrhsUtqCRp
- 8uGw1qzKnNqzT3B62BdTmwZwQm9ID5XDxOPhYGbJqz+P3frFIg/TSeCCq/KpfhDQFygO
- fUAvZgvalmOlTjuBhF6fenKHF5SyLjE2/EE1eyubAwxTyzxd4LhaltcuSBXswa8BDCqH
- 3w+rbdtmvtqlj4k+id3pCqyMTapYSycxr3ffl3bk2lKZMn08xhsV8uPWPZ2eeJss53up
- AQuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=udlUQxbpymKCwohxFY8X9JBSfOjmetBU5zbQOm9wbdg=;
- b=XP2rftDCOdhiu8khbnnm8rYjdxAKpOLd2kl+CxGRWS3EKbKGi/lPPxRPN3WO9OjMR1
- U9Jyg54UuH4y2CDHQvRR4c19eRcSbLi679hy1naXYLtdeIzZzUQB5+ZjI6kmfGl7QsUI
- oJ+EXNfKuLrRddIsX4NWi42K1BQPxCHiE0YJHlLHwshOc00UIH6yobI55sxZZwL7OrR9
- ZgumpyPqqa634ZJsj9em2q86q9l/4fsxbUNEpVsePIRjLTofgDzv31LmXuK7+dGtdIzr
- z2KGwTtwkzG7t1Pa+61OIgL87fT7NsGfc+eHgnbQKLUPLs2L6nXhKjdMCN2CmWYQxxS0
- ltmQ==
-X-Gm-Message-State: ACrzQf0ih5FC1tuljo2J6Zstu2rKUPRSr2u5Gzgr79JUKntzoHw9k5zj
- pG5m/oXns+EWhmQ522RY7fvr1ryobrMvhiHWmPvyMOpeGgY=
-X-Google-Smtp-Source: AMsMyM6wPLp+JJnawhuS9S6jZpX6mhnsHwb+BX87E31yK1EBAt+OPX86JS7UErDrFwQ1Vj7NhSGbHK0eVyErspJyIwA=
-X-Received: by 2002:a17:906:4c4b:b0:7ad:a197:b58e with SMTP id
- d11-20020a1709064c4b00b007ada197b58emr54380391ejw.203.1667918886588; Tue, 08
- Nov 2022 06:48:06 -0800 (PST)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2343010E2A1
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Nov 2022 14:50:00 +0000 (UTC)
+Received: from mercury (dyndsl-095-033-156-208.ewe-ip-backbone.de
+ [95.33.156.208])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: sre)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 715BB66015F1;
+ Tue,  8 Nov 2022 14:49:58 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1667918998;
+ bh=Bx7tg9i/ObW1QjsPTPA85xe4tUXAPb882JRgeJVTGek=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=EELZ/3HGSUfgEP1McxyGnPQiA6qZ5axT5+ch4oo/Ck5fzR/LLNBSankUTA9CcpAmt
+ Wky3jQUpP/XHM3OpAHksmFyHqjlfrfBAGoH09avpX6ZPxgfb3Zrqe2528+bJ7lnvwa
+ BoHK+drhROd3bGrDwBsB48TVguJkPE13J8kPrwDAgfdq/cD2dZpTVRDhqSRdGJZJQH
+ cwBDfxecswa5IlMxjoxdb8so04lyZq/Lvtn8q+J8gHdsEj6QNFgmPGC/XqgxUhqBeq
+ +9VcygA2SbJAsGdN804gcn5aXMhL0EHlgYAJo83t3jEJl5X7swH7NvRqGN3QMijAdH
+ 07evCG/At9Cow==
+Received: by mercury (Postfix, from userid 1000)
+ id 81AE41060EDB; Tue,  8 Nov 2022 15:49:55 +0100 (CET)
+Date: Tue, 8 Nov 2022 15:49:55 +0100
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Philipp Zabel <p.zabel@pengutronix.de>
+Subject: Re: [PATCH] drm/imx: ipuv3-plane: Fix overlay plane width
+Message-ID: <20221108144955.my4m5smwazsctsli@mercury.elektranox.org>
+References: <20221108141420.176696-1-p.zabel@pengutronix.de>
 MIME-Version: 1.0
-References: <20221103141155.1105961-1-jagan@edgeble.ai>
- <20221103141155.1105961-4-jagan@edgeble.ai>
- <CACRpkdYEW4z6EZ7UC9wT3NtRVnE=0L6AAHJDxtu5Jb-UrB+WSA@mail.gmail.com>
- <CA+VMnFxyx=NP2QUiJ6RnfapZ9c=S4-cj+0kQn8PYyaMTBP3i-g@mail.gmail.com>
-In-Reply-To: <CA+VMnFxyx=NP2QUiJ6RnfapZ9c=S4-cj+0kQn8PYyaMTBP3i-g@mail.gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 8 Nov 2022 15:47:54 +0100
-Message-ID: <CACRpkdaZnGgJ3egXEtoH0gTmR0m_-9Q+iGZr2eOx2JVHYgXCXA@mail.gmail.com>
-Subject: Re: [PATCH v3 4/4] drm: panel: Add Jadard JD9365DA-H3 DSI panel
-To: Jagan Teki <jagan@edgeble.ai>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="yvitrwamxp7d3fvw"
+Content-Disposition: inline
+In-Reply-To: <20221108141420.176696-1-p.zabel@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,52 +54,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Ian Ray <ian.ray@ge.com>, kernel@pengutronix.de,
+ dri-devel@lists.freedesktop.org, Huan 'Kitty' Wang <HuanWang@ge.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 8, 2022 at 3:12 PM Jagan Teki <jagan@edgeble.ai> wrote:
-> On Tue, 8 Nov 2022 at 19:31, Linus Walleij <linus.walleij@linaro.org> wrote:
-> >
-> > On Thu, Nov 3, 2022 at 3:12 PM Jagan Teki <jagan@edgeble.ai> wrote:
-> >
-> > > Jadard JD9365DA-H3 is WXGA MIPI DSI panel and it support TFT
-> > > dot matrix LCD with 800RGBx1280 dots at maximum.
-> > >
-> > > Add support for it.
-> > >
-> > > Cc: dri-devel@lists.freedesktop.org
-> > > Signed-off-by: Jagan Teki <jagan@edgeble.ai>
-> > > ---
-> > > Changes for v3:
-> > > - updatd to WXGA
-> > > - use JD9365DA_CMD_DCS and JD9365DA_CMD_DELAY
-> >
-> > My comments on v2 have not been addressed, for example I asked to
-> > remove the delay from sequences and just use an explicit delay and
-> > to then use the existing sequence sending macro.
->
-> True, I responded on the same day [1], since I didn't get the reply I
-> have posted by assuming my comment is valid. Would you please check
-> and respond?
->
-> [1] https://lore.kernel.org/all/CA+VMnFz0w-6O=wt3iuJo1BhQgPZ2XbpX6JdDz6vg_JW9nHTR2A@mail.gmail.com/
 
-OK I see, sorry for not reading close.
+--yvitrwamxp7d3fvw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The driver just supports one single variant.
+Hi,
 
-What you are doing is preparing the ground for more variants
-that may or may not exist. This creates the antipattern "big upfront design"
-i.e. abstractions added for things that do not yet exist.
+On Tue, Nov 08, 2022 at 03:14:20PM +0100, Philipp Zabel wrote:
+> ipu_src_rect_width() was introduced to support odd screen resolutions
+> such as 1366x768 by internally rounding up primary plane width to a
+> multiple of 8 and compensating with reduced horizontal blanking.
+> This also caused overlay plane width to be rounded up, which was not
+> intended. Fix overlay plane width by limiting the rounding up to the
+> primary plane.
+>=20
+> drm_rect_width(&new_state->src) >> 16 is the same value as
+> drm_rect_width(dst) because there is no plane scaling support.
+>=20
+> Fixes: 94dfec48fca7 ("drm/imx: Add 8 pixel alignment fix")
+> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+> ---
 
-I think it is better to strip it down to just open coding the delay after
-the init sequence. When the next variant appears, if ever, they can
-add abstraction. Maybe they need the same delay in the same
-place? Who knows...
+Looks sensible, but I no longer have access to the affected
+hardware. Maybe Ian or Kitty (both added to Cc) can give it
+a test on arch/arm/boot/dts/imx6dl-b155v2.dts
 
-Yours,
-Linus Walleij
+-- Sebastian
+
+>  drivers/gpu/drm/imx/ipuv3-plane.c | 14 ++++++++------
+>  1 file changed, 8 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/imx/ipuv3-plane.c b/drivers/gpu/drm/imx/ipuv=
+3-plane.c
+> index dba4f7d81d69..80142d9a4a55 100644
+> --- a/drivers/gpu/drm/imx/ipuv3-plane.c
+> +++ b/drivers/gpu/drm/imx/ipuv3-plane.c
+> @@ -614,6 +614,11 @@ static void ipu_plane_atomic_update(struct drm_plane=
+ *plane,
+>  		break;
+>  	}
+> =20
+> +	if (ipu_plane->dp_flow =3D=3D IPU_DP_FLOW_SYNC_BG)
+> +		width =3D ipu_src_rect_width(new_state);
+> +	else
+> +		width =3D drm_rect_width(&new_state->src) >> 16;
+> +
+>  	eba =3D drm_plane_state_to_eba(new_state, 0);
+> =20
+>  	/*
+> @@ -622,8 +627,7 @@ static void ipu_plane_atomic_update(struct drm_plane =
+*plane,
+>  	 */
+>  	if (ipu_state->use_pre) {
+>  		axi_id =3D ipu_chan_assign_axi_id(ipu_plane->dma);
+> -		ipu_prg_channel_configure(ipu_plane->ipu_ch, axi_id,
+> -					  ipu_src_rect_width(new_state),
+> +		ipu_prg_channel_configure(ipu_plane->ipu_ch, axi_id, width,
+>  					  drm_rect_height(&new_state->src) >> 16,
+>  					  fb->pitches[0], fb->format->format,
+>  					  fb->modifier, &eba);
+> @@ -678,9 +682,8 @@ static void ipu_plane_atomic_update(struct drm_plane =
+*plane,
+>  		break;
+>  	}
+> =20
+> -	ipu_dmfc_config_wait4eot(ipu_plane->dmfc, ALIGN(drm_rect_width(dst), 8)=
+);
+> +	ipu_dmfc_config_wait4eot(ipu_plane->dmfc, width);
+> =20
+> -	width =3D ipu_src_rect_width(new_state);
+>  	height =3D drm_rect_height(&new_state->src) >> 16;
+>  	info =3D drm_format_info(fb->format->format);
+>  	ipu_calculate_bursts(width, info->cpp[0], fb->pitches[0],
+> @@ -744,8 +747,7 @@ static void ipu_plane_atomic_update(struct drm_plane =
+*plane,
+>  		ipu_cpmem_set_burstsize(ipu_plane->ipu_ch, 16);
+> =20
+>  		ipu_cpmem_zero(ipu_plane->alpha_ch);
+> -		ipu_cpmem_set_resolution(ipu_plane->alpha_ch,
+> -					 ipu_src_rect_width(new_state),
+> +		ipu_cpmem_set_resolution(ipu_plane->alpha_ch, width,
+>  					 drm_rect_height(&new_state->src) >> 16);
+>  		ipu_cpmem_set_format_passthrough(ipu_plane->alpha_ch, 8);
+>  		ipu_cpmem_set_high_priority(ipu_plane->alpha_ch);
+>=20
+> base-commit: 9abf2313adc1ca1b6180c508c25f22f9395cc780
+> --=20
+> 2.30.2
+>=20
+
+--yvitrwamxp7d3fvw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmNqbIYACgkQ2O7X88g7
++ppDJA//XkZNO0X/kt3FN6EXFh5cA+mbS50ptgyj3T63aAcOCni42D3pfgPTetf7
+aGtXrJvcl5z6kxuwObUkz/f09N+eBeWQtejrbvT1e/C8h707OqhW5ybPOozJ6CRO
+BNgbIrz4ncRsMBwsI/d7tu25ce0Tw9E+safMpKxA1Tx6Eyiqu23VKddLRadi4t13
+R62iOOUPBDYi5H5f0g4nIY/EyX9wzszCg6MMpdJH4w8ZhDWH2RLV2LId9rmYoXrd
+HpgITf/0KXbsCkNEp3tJe5Wb8L7tpoylKcS6/CU1B1JPC/MLyeswIGWX+7yECmRw
++uF2nb6EKxnG+RBod0knNPM5kCMqxC+/CGqyTwxEFiorZEYBRdIOGUuFFPM+vR4f
+FUSvsWIQya8PDf3h+1gm1tNjaBnxCiy1YoD1qkgI9cDP52JF/Zfiu25wLEDtogj5
+6kRgGEVtMN5CbYw2mrDOz3CvP6FNvVy5FyxFQvb+iXOxwwAX/8P1gNw60mP7fshA
+9RWy0I1L9wnTrhlCcjjO+xYy7vnvAw3UBX+Ly4HJwjruqfG3GXur4CWR5OLFqcPZ
+nJfeMIOV1qbw6mwHqhreTBHKEbW/4jT2O0FWN0PJzpuL6KYcF31riUwlY+oetavQ
+bPl7BKufHPaHhZT8LT1Uy4Z9wUjCIR8sqPgoG6OjPURbOx47aSs=
+=8cBP
+-----END PGP SIGNATURE-----
+
+--yvitrwamxp7d3fvw--
