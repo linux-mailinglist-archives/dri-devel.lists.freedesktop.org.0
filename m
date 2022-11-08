@@ -1,58 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16B26620B87
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 09:52:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4794E620BA9
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 10:01:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0ED2010E389;
-	Tue,  8 Nov 2022 08:52:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF64D10E1AB;
+	Tue,  8 Nov 2022 09:01:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F70010E389;
- Tue,  8 Nov 2022 08:52:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0C7D10E1AB
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Nov 2022 09:01:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1667897555; x=1699433555;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=m06uxXNv8cEYktANfB+cYRiTnAeOFpHhpoG4N4jsqRA=;
- b=k0Zjr26V2l6CfY4DNLl6FQtJZcB/gh5/BPJJWz7XmoIkTzmRPOQtirHG
- jlCH7FoX0OuAGf6vhnZ67Bh238zACBQaSJSH9AL4atT7jjnDwBx+YGIYb
- DeFXDI65BhFOPQVbhOMR4n9Z+E3GeSN4eDaRe0ztNxIaRhjTES4PeEQ8Z
- 8F3ONXr5K/GqwdfeAe5am03UyC4D8aNeoo9FOILOE+JSNB3MCT5rcWtjq
- YW1QLd7RSH5G5k+9t5rrxQOtA4gzSVuy08p+bFv1e+ynGAgeI8RSpySF+
- xEve6QYmZJpHFh/OH76i4cXuF0GEb7+1tPkIcsX2HbAmGvcc0rmDCy7pA A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="312435150"
-X-IronPort-AV: E=Sophos;i="5.96,147,1665471600"; d="scan'208";a="312435150"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ t=1667898062; x=1699434062;
+ h=from:to:subject:in-reply-to:references:date:message-id:
+ mime-version; bh=dqUc1q8prxlKmVN2pBzwuH9UNa0QagrT3ecK4s6e0aY=;
+ b=Q1L8odTSvaW14BVzPtAYTUVIf07SsIHHquew2KPQjfpSRtMlPfm34LF9
+ IcfECL6Xom7GuHtRFFRHGcsi44+EdxV3ZPfVfsU7p53ky8GN8KRY4/c3L
+ GUoSIrMxMlV6xiXuwXYjKUfyirnrY9H9tBi2jHylPzBGyZV9H38/dx1RF
+ redzuRMWurLoskjoEPK56kteb3KaoPod4gRCVMBQqo29M4gQk+OCNqTMW
+ ywTsuedQc2JqQiRKaW08sgi51x/J4iO+mKv9kOr9omPo3k99+IUOzYvZM
+ UPbNHid/lYtp0my0yod3jf6p6pP70tlUoIL/ATi8WL9h1Dy5lixShrDwP g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="312436552"
+X-IronPort-AV: E=Sophos;i="5.96,147,1665471600"; d="scan'208";a="312436552"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Nov 2022 00:52:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="638717754"
-X-IronPort-AV: E=Sophos;i="5.96,147,1665471600"; d="scan'208";a="638717754"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
- by fmsmga007.fm.intel.com with SMTP; 08 Nov 2022 00:52:30 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 08 Nov 2022 10:52:29 +0200
-Date: Tue, 8 Nov 2022 10:52:29 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [Freedreno] [RFC PATCH 0/3] Support for Solid Fill Planes
-Message-ID: <Y2oYzdHKuSDKogkj@intel.com>
-References: <20221028225952.160-1-quic_jesszhan@quicinc.com>
- <Y2leZDfLj/5963wl@intel.com>
- <5a9167d5-f88d-ed6b-abff-8ae39117feb1@quicinc.com>
- <CAF6AEGtbwsvr5A+mX7BxP95u3RyRiUFzE6dfiZacS96WVBhuvw@mail.gmail.com>
- <c196f010-34e7-4c1c-4ca6-852a4c32b154@quicinc.com>
- <CAF6AEGtJcz6dK-vgnYuJsBqm2tDRUYB7Tg2jtQm1-KuTi+z8ZA@mail.gmail.com>
+ 08 Nov 2022 01:00:52 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="881445112"
+X-IronPort-AV: E=Sophos;i="5.96,147,1665471600"; d="scan'208";a="881445112"
+Received: from smoriord-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.16.110])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Nov 2022 01:00:47 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Won Chung <wonchung@google.com>, wonchung@google.com, bleung@google.com,
+ pmalani@chromium.org, heikki.krogerus@linux.intel.com,
+ imre.deak@intel.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@linux.ie,
+ airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] drm/sysfs: Link DRM connectors to corresponding
+ Type-C connectors
+In-Reply-To: <20221027212854.1083686-1-wonchung@google.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20221027212854.1083686-1-wonchung@google.com>
+Date: Tue, 08 Nov 2022 11:00:45 +0200
+Message-ID: <87k045akhu.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAF6AEGtJcz6dK-vgnYuJsBqm2tDRUYB7Tg2jtQm1-KuTi+z8ZA@mail.gmail.com>
-X-Patchwork-Hint: comment
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,102 +62,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
- laurent.pinchart@ideasonboard.com, linux-arm-msm@vger.kernel.org,
- dmitry.baryshkov@linaro.org, Jessica Zhang <quic_jesszhan@quicinc.com>,
- freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 07, 2022 at 07:34:43PM -0800, Rob Clark wrote:
-> On Mon, Nov 7, 2022 at 4:22 PM Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
-> >
-> >
-> >
-> > On 11/7/2022 2:09 PM, Rob Clark wrote:
-> > > On Mon, Nov 7, 2022 at 1:32 PM Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
-> > >>
-> > >>
-> > >>
-> > >> On 11/7/2022 11:37 AM, Ville Syrjälä wrote:
-> > >>> On Fri, Oct 28, 2022 at 03:59:49PM -0700, Jessica Zhang wrote:
-> > >>>> Introduce and add support for COLOR_FILL and COLOR_FILL_FORMAT
-> > >>>> properties. When the color fill value is set, and the framebuffer is set
-> > >>>> to NULL, memory fetch will be disabled.
-> > >>>
-> > >>> Thinking a bit more universally I wonder if there should be
-> > >>> some kind of enum property:
-> > >>>
-> > >>> enum plane_pixel_source {
-> > >>>        FB,
-> > >>>        COLOR,
-> > >>>        LIVE_FOO,
-> > >>>        LIVE_BAR,
-> > >>>        ...
-> > >>> }
-> > >>
-> > >> Hi Ville,
-> > >>
-> > >> Makes sense -- this way, we'd also lay some groundwork for cases where
-> > >> drivers want to use other non-FB sources.
-> > >>
-> > >>>
-> > >>>> In addition, loosen the NULL FB checks within the atomic commit callstack
-> > >>>> to allow a NULL FB when color_fill is nonzero and add FB checks in
-> > >>>> methods where the FB was previously assumed to be non-NULL.
-> > >>>>
-> > >>>> Finally, have the DPU driver use drm_plane_state.color_fill and
-> > >>>> drm_plane_state.color_fill_format instead of dpu_plane_state.color_fill,
-> > >>>> and add extra checks in the DPU atomic commit callstack to account for a
-> > >>>> NULL FB in cases where color_fill is set.
-> > >>>>
-> > >>>> Some drivers support hardware that have optimizations for solid fill
-> > >>>> planes. This series aims to expose these capabilities to userspace as
-> > >>>> some compositors have a solid fill flag (ex. SOLID_COLOR in the Android
-> > >>>> hardware composer HAL) that can be set by apps like the Android Gears
-> > >>>> app.
-> > >>>>
-> > >>>> Userspace can set the color_fill value by setting COLOR_FILL_FORMAT to a
-> > >>>> DRM format, setting COLOR_FILL to a color fill value, and setting the
-> > >>>> framebuffer to NULL.
-> > >>>
-> > >>> Is there some real reason for the format property? Ie. why not
-> > >>> just do what was the plan for the crttc background color and
-> > >>> specify the color in full 16bpc format and just pick as many
-> > >>> msbs from that as the hw can use?
-> > >>
-> > >> The format property was added because we can't assume that all hardware
-> > >> will support/use the same color format for solid fill planes. Even for
-> > >> just MSM devices, the hardware supports different variations of RGB
-> > >> formats [1].
-> > >
-> > > Sure, but the driver can convert the format into whatever the hw
-> > > wants.  A 1x1 color conversion is not going to be problematic ;-)
-> >
-> > Hi Rob,
-> >
-> > Hm... that's also a fair point. Just wondering, is there any advantage
-> > of having the driver convert the format, other than not having to
-> > implement an extra format property?
-> >
-> > (In case we end up wrapping everything into a prop blob or something)
-> >
-> 
-> It keeps the uabi simpler.. for obvious reasons you don't want the
-> driver to do cpu color conversion for an arbitrary size plane, which
-> is why we go to all the complexity to expose formats and modifiers for
-> "real" planes, but we are dealing with a single pixel value here,
-> let's not make the uabi more complex than we need to.  I'd propose
-> making it float32[4] if float weren't a pita for kernel/uabi, but
-> u16[4] or u32[4] should be fine, and drivers can translate that easily
-> into whatever weird formats their hw wants for solid-fill.
+On Thu, 27 Oct 2022, Won Chung <wonchung@google.com> wrote:
+> Create a symlink pointing to USB Type-C connector for DRM connectors
+> when they are created. The link will be created only if the firmware is
+> able to describe the connection beween the two connectors.
 
-u16[4] fits into a single u64 property value.
+The commit messages should explain the *why*.
 
-That was the plan for the background prop as well:
-https://lore.kernel.org/all/20190703125442.GW5942@intel.com/T/
+BR,
+Jani.
+
+
+>
+> Signed-off-by: Won Chung <wonchung@google.com>
+> Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> ---
+> Changes from v2:
+> - Resending the patch to dri-devel list
+>
+> Changes from v1:
+> - Fix multiple lines to single line
+>
+>
+>  drivers/gpu/drm/drm_sysfs.c | 40 +++++++++++++++++++++++++++++++++++++
+>  1 file changed, 40 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
+> index 430e00b16eec..6a9904fa9186 100644
+> --- a/drivers/gpu/drm/drm_sysfs.c
+> +++ b/drivers/gpu/drm/drm_sysfs.c
+> @@ -11,12 +11,14 @@
+>   */
+>  
+>  #include <linux/acpi.h>
+> +#include <linux/component.h>
+>  #include <linux/device.h>
+>  #include <linux/err.h>
+>  #include <linux/export.h>
+>  #include <linux/gfp.h>
+>  #include <linux/i2c.h>
+>  #include <linux/kdev_t.h>
+> +#include <linux/property.h>
+>  #include <linux/slab.h>
+>  
+>  #include <drm/drm_connector.h>
+> @@ -95,6 +97,34 @@ static char *drm_devnode(struct device *dev, umode_t *mode)
+>  	return kasprintf(GFP_KERNEL, "dri/%s", dev_name(dev));
+>  }
+>  
+> +static int typec_connector_bind(struct device *dev,
+> +	struct device *typec_connector, void *data)
+> +{
+> +	int ret;
+> +
+> +	ret = sysfs_create_link(&dev->kobj, &typec_connector->kobj, "typec_connector");
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = sysfs_create_link(&typec_connector->kobj, &dev->kobj, "drm_connector");
+> +	if (ret)
+> +		sysfs_remove_link(&dev->kobj, "typec_connector");
+> +
+> +	return ret;
+> +}
+> +
+> +static void typec_connector_unbind(struct device *dev,
+> +	struct device *typec_connector, void *data)
+> +{
+> +	sysfs_remove_link(&typec_connector->kobj, "drm_connector");
+> +	sysfs_remove_link(&dev->kobj, "typec_connector");
+> +}
+> +
+> +static const struct component_ops typec_connector_ops = {
+> +	.bind = typec_connector_bind,
+> +	.unbind = typec_connector_unbind,
+> +};
+> +
+>  static CLASS_ATTR_STRING(version, S_IRUGO, "drm 1.1.0 20060810");
+>  
+>  /**
+> @@ -355,6 +385,13 @@ int drm_sysfs_connector_add(struct drm_connector *connector)
+>  	if (connector->ddc)
+>  		return sysfs_create_link(&connector->kdev->kobj,
+>  				 &connector->ddc->dev.kobj, "ddc");
+> +
+> +	if (dev_fwnode(kdev)) {
+> +		r = component_add(kdev, &typec_connector_ops);
+> +		if (r)
+> +			drm_err(dev, "failed to add component\n");
+> +	}
+> +
+>  	return 0;
+>  
+>  err_free:
+> @@ -367,6 +404,9 @@ void drm_sysfs_connector_remove(struct drm_connector *connector)
+>  	if (!connector->kdev)
+>  		return;
+>  
+> +	if (dev_fwnode(connector->kdev))
+> +		component_del(connector->kdev, &typec_connector_ops);
+> +
+>  	if (connector->ddc)
+>  		sysfs_remove_link(&connector->kdev->kobj, "ddc");
 
 -- 
-Ville Syrjälä
-Intel
+Jani Nikula, Intel Open Source Graphics Center
