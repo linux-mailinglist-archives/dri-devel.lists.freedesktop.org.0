@@ -2,100 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C56462095F
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 07:11:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ACEE620993
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 07:29:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BD7210E20D;
-	Tue,  8 Nov 2022 06:11:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 536AE10E0EF;
+	Tue,  8 Nov 2022 06:28:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2061.outbound.protection.outlook.com [40.107.92.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52FC710E1FB;
- Tue,  8 Nov 2022 06:11:18 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mB77nHgcIwBe/gDrvOuxvZFGTq7XY2Yv2GdUWNBJfu50+beWoMKOW7CLGDuruZJi/zbCBr0yO+NmAhxVjoijWKfxlTOCQ1vYWjQaDQ7vr2j60BLPCNKD7gHOddlTPcVGBLtYRusR5s4sFw7cfAmOhoCqRtnmkz77+g6eTJAD5JzjebCq35yoshpuWj54Yy6nbadKkFPcx3etZFRTpX4LebgA09GdTmi/p68UrW5U4j6uumcLQt/UKbeJOQnXDFL+J+HifL6tBqSu75Vr7b8E8yNifoohjGXIjer2axue8OFudxlvrr+NNU+VvBzWjrM2//KEazAqAKPSCyEIQzGUNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WnoioEVcetE6Yu2IPySjPOqBNWEAAW/hHxIXxOXLPow=;
- b=biqu/XT3gOcXP05wI/rItoYuZ9eSUXjndP0OI1sbN/2YsAkOLI6aCXluX5Zmy0TSTUVZpkQAJMJ6S0mww8TPM/CiWihBc8Ywi1LIAyNF7Z+sstvoZwtnkDgEET6pXliLdJ5cLIhmjOIBWg3f3rGhDOB5uplYlv5JdsDPbPeyNwErdJuiuEgzSx++AdJz24vellj0zbRjO/Q50uhG6cDp2YBqtZTDfphbOl2LyH5+bxJgvSWwhwXPE7kGZ0H7wObAuG22DN8sYRhV6t+Ld6JebakwbsyXeHhMc5t8c1kIuCfwVgQqBdrIlbPDcdDDEj8cs2ZM0p8V0MYiBscp+PQyRg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=intel.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WnoioEVcetE6Yu2IPySjPOqBNWEAAW/hHxIXxOXLPow=;
- b=OQTdYViNzy2SXdnmQn79OYy2Wp1KHQjeWvzg+yRucidgTxeO5H3pS85ryTBxSNDTsFJ/9yIFpHLbCgRIMMGrARLqBeuXa80X0+0VdWhVDENlp0byB21off4IhyorIBPteX3RXAEY6yDavJno+GcWGO6iP33J3SonndIpbYq9rrO06cc++wivnHR68+feGoaoKo87RJCm8ii4wh6KrBPEkVBBpfB6sN0HIUn+cTcnfZ6DyU1vCn+ihC+g8BnP8F8dlD+cKaDqbk2PVt93k9Tu9teX7fG9m5yjC6GwetqTxEi1gGGAMDX4ql/MY0ULg4DZloba2O8jVsXgVEsU8gUgKA==
-Received: from BN9PR03CA0474.namprd03.prod.outlook.com (2603:10b6:408:139::29)
- by CY5PR12MB6623.namprd12.prod.outlook.com (2603:10b6:930:41::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.27; Tue, 8 Nov
- 2022 06:11:15 +0000
-Received: from BN8NAM11FT007.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:139:cafe::6b) by BN9PR03CA0474.outlook.office365.com
- (2603:10b6:408:139::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.26 via Frontend
- Transport; Tue, 8 Nov 2022 06:11:15 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com;
- dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- BN8NAM11FT007.mail.protection.outlook.com (10.13.177.109) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5791.20 via Frontend Transport; Tue, 8 Nov 2022 06:11:15 +0000
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26; Mon, 7 Nov 2022
- 22:11:03 -0800
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail204.nvidia.com
- (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Mon, 7 Nov 2022
- 22:11:03 -0800
-Received: from Asurada-Nvidia (10.127.8.13) by mail.nvidia.com (10.129.68.10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29 via Frontend
- Transport; Mon, 7 Nov 2022 22:11:00 -0800
-Date: Mon, 7 Nov 2022 22:10:59 -0800
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v2 07/11] vfio-iommufd: Support iommufd for physical VFIO
- devices
-Message-ID: <Y2ny84qOFQhtYVPF@Asurada-Nvidia>
-References: <0-v2-65016290f146+33e-vfio_iommufd_jgg@nvidia.com>
- <7-v2-65016290f146+33e-vfio_iommufd_jgg@nvidia.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AD2310E0EF
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Nov 2022 06:28:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667888931;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type;
+ bh=WI0hNKKZK36/N5TAFF+3b+IQYX6AXS5GLcmCkTM7N+o=;
+ b=G8VYSWNHpx1QKrUBNQObkwLtVJPxrDaL5St4g749tbXdQNUaqQdGwHxPs/rar5NQXB9LLE
+ InRJ1Y5qCU9h8rXxpn2kWoxg5A9v4Mj5USL1relW9JJdlovQ5HSHVTDIDiela4/7SpYKlz
+ dQovBH0D7xsqm4B6fZcxH+axOUy+I34=
+Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
+ [209.85.161.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-203-AQ6pABkaPsqMNWSEgC_PrQ-1; Tue, 08 Nov 2022 01:28:50 -0500
+X-MC-Unique: AQ6pABkaPsqMNWSEgC_PrQ-1
+Received: by mail-oo1-f72.google.com with SMTP id
+ x6-20020a4a2a46000000b0049ca27b1507so3378080oox.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Nov 2022 22:28:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=WI0hNKKZK36/N5TAFF+3b+IQYX6AXS5GLcmCkTM7N+o=;
+ b=AMYCyUl4G5SJ3cnboW9sHzQzS4EoXfNWwzwONK74cL+h0xS70IuJTzpr+NbbM1RSSj
+ cVsNJfLD4WF4Bp3fmzQ6TcIa3n+c0wunHAK7jx69MWVz72sCxISpUEdklGmFAlr2+3kQ
+ 7EKMTHnJwiXWwr0q3JQ1dce5r4BRHx+0yDt1C5aYUewNYSuwG8Qz0NTPa87lG1+3eFum
+ d+jJz+9Tep1l3MxPmRMR4XphgpN176Ymihm8wXF/Y3rPMdCfhn4ZSRhqzPJU2t/s8EKt
+ nNqWajvZYbwbflhNDTbtTnPD4KbgNYPAKwkT+j1wsX9u9LbgMgC7VMuJSNcsqxrTbQSJ
+ uRmA==
+X-Gm-Message-State: ACrzQf0aCffybOcEMDt1+64A4UFcZn5vW5f0I3zFPUyM1q7oPg55P/4X
+ 9ESGdTe+f6UyhD7EvhkTTbsXnPLaCkiS7JslXsSqjjljaMkCZWDC+A8o4qdGrzTXn+9MSaCqJuG
+ kNSmInSm6TCDQZag7BDGDGotu7N7cinB4zA4bb53LNQJf
+X-Received: by 2002:a05:6870:8911:b0:13b:69b2:86b2 with SMTP id
+ i17-20020a056870891100b0013b69b286b2mr33799278oao.253.1667888928658; 
+ Mon, 07 Nov 2022 22:28:48 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM60BrhQegWSrMrTi8nU0HNgYiFj4eFK4Qlm33SOHDMqygNYD1y+d4eMXt0sXCapzf4akUoGv6EUCCz4YfoMms8=
+X-Received: by 2002:a05:6870:8911:b0:13b:69b2:86b2 with SMTP id
+ i17-20020a056870891100b0013b69b286b2mr33799252oao.253.1667888927758; Mon, 07
+ Nov 2022 22:28:47 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <7-v2-65016290f146+33e-vfio_iommufd_jgg@nvidia.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT007:EE_|CY5PR12MB6623:EE_
-X-MS-Office365-Filtering-Correlation-Id: d97beff8-2244-4707-e96b-08dac1500b2a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: eX/DR9d+WdmomNfqfq9LukMvFhRrxvqoBdlIzG396PRBPZiFVwezyg9OhmdoftZtaMoEnNiDQIuJSs5SiX/cf27tnnuI1xnPyyJh0vlBntzHq5lCyzYk67CJFDY1bzOolIth5MwGvz5Q5fa2E/OJNWjwsH5so5v2kwF6ZbCIISM7P8t6BLUYPiR+vtasm8vZ0M5YoTmjnUwEckKXKk4S9NfUW/6kcWtAAjbdOWgPjmoXMUxsNdEvN/OZpJR+vDZ1t/0Vd+348CKnI66sSFqdQPaR+sePlCY1u/xhLL/VZkpT618hxx8WKQBCzknlWvMnItgEhfrr+C6ZIaj1B+InL5FfAm91ZKwH/ZFOgAMPx7QE87xQg5WqKpYoNMA+27/pt/IiW05vvgoJOGqnak3qEBJN8HiPkho2uOM6SldQi6dTyH1n/6FrwHsJWCcvDtuMjU4jkOCsm/Jg99Hm/5pDGtoRi+QqahA3jZneoC1f1p1oobq5hXTpz+lSqWcKDRXnYqdeffnuH07YpCMk/miwMne4VD+H7mEEBnchz1QXyJQVVgAPoQ9wAaYQ9emhQVrWiuzEDPjxzLqBCs90/Bkz/FTrp9fhheTVjDP2Tp9nMFT14vXroDuCP/QmY/Grn915oe7ZpCSrjIozoFSyR8ngEveTzUrgONUp5mEP3KD+La+6unZlM4ZShQ6jatdEOa4IY3HNsvzYNIAnli0GhzokeS0wRqCVhQAUd9EU6cFHk4ma0M9fcW20qU8m4fsf9fXR3s7T4bjRwpOhCEGvUUKm1A==
-X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
- SFS:(13230022)(4636009)(376002)(346002)(136003)(39860400002)(396003)(451199015)(36840700001)(46966006)(40470700004)(82310400005)(36860700001)(83380400001)(33716001)(86362001)(82740400003)(7636003)(356005)(55016003)(478600001)(40480700001)(6862004)(8936002)(5660300002)(7406005)(7416002)(70586007)(70206006)(8676002)(4326008)(316002)(54906003)(6636002)(41300700001)(26005)(9686003)(186003)(426003)(47076005)(40460700003)(336012)(2906002);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2022 06:11:15.3221 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d97beff8-2244-4707-e96b-08dac1500b2a
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT007.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6623
+From: Ben Skeggs <bskeggs@redhat.com>
+Date: Tue, 8 Nov 2022 16:28:36 +1000
+Message-ID: <CABDvA==s+nZD0n7CuRWLPE=Pj+02CN13r+ZQJxoHQ_EmR+o=XQ@mail.gmail.com>
+Subject: [PULL] nouveau-next
+To: dri-devel <dri-devel@lists.freedesktop.org>,
+ David Airlie <airlied@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,69 +72,671 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, Kevin Tian <kevin.tian@intel.com>,
- dri-devel@lists.freedesktop.org, Vineeth Vijayan <vneethv@linux.ibm.com>,
- Diana Craciun <diana.craciun@oss.nxp.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Longfang Liu <liulongfang@huawei.com>, linux-s390@vger.kernel.org, "Liu,
- Yi L" <yi.l.liu@intel.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
- Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>, Halil
- Pasic <pasic@linux.ibm.com>, iommu@lists.linux.dev,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- intel-gfx@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>, Jason
- Herne <jjherne@linux.ibm.com>, Eric
- Farman <farman@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>, Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Harald Freudenberger <freude@linux.ibm.com>, Rodrigo
- Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
- Tony Krowiak <akrowiak@linux.ibm.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
- Peter Oberparleiter <oberpar@linux.ibm.com>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- Sven Schnelle <svens@linux.ibm.com>, Robin Murphy <robin.murphy@arm.com>,
- Lu Baolu <baolu.lu@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 07, 2022 at 08:52:51PM -0400, Jason Gunthorpe wrote:
+Hey Dave,
 
-> @@ -795,6 +800,10 @@ static int vfio_device_first_open(struct vfio_device *device)
->  		ret = vfio_group_use_container(device->group);
->  		if (ret)
->  			goto err_module_put;
-> +	} else if (device->group->iommufd) {
-> +		ret = vfio_iommufd_bind(device, device->group->iommufd);
+This is the pull request for a whole bunch of fixes and prep-work that
+was done to support Ampere acceleration prior to GSP-RM being
+available.  It uses the ACR firmware released by NVIDIA in
+linux-firmware, as we do on earlier GPUs.  The work to support running
+on top of GSP-RM also heavily depends on various pieces of this
+series.
 
-Here we check device->group->iommufd...
+In addition to the new HW support, general stability of the driver
+should be improved, especially around recovering HW from bugs that can
+be generated by userspace driver components.
 
-> +		if (ret)
-> +			goto err_module_put;
->  	}
->  
->  	device->kvm = device->group->kvm;
-> @@ -812,6 +821,7 @@ static int vfio_device_first_open(struct vfio_device *device)
->  	device->kvm = NULL;
->  	if (device->group->container)
->  		vfio_group_unuse_container(device->group);
-> +	vfio_iommufd_unbind(device);
+Thanks,
+Ben.
 
-...yet, missing here, which could result in kernel oops.
+The following changes since commit 60ba8c5bd94e17ab4b024f5cecf8b48e2cf36412:
 
-Should probably add something similar:
-+	if (device->group->iommufd)
-+		vfio_iommufd_unbind(device);
+  Merge tag 'drm-intel-gt-next-2022-11-03' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-next (2022-11-04
+17:33:34 +1000)
 
-Or should check !vdev->iommufd_device inside the ->unbind.
+are available in the Git repository at:
 
->  err_module_put:
->  	mutex_unlock(&device->group->group_lock);
->  	module_put(device->dev->driver->owner);
-> @@ -830,6 +840,7 @@ static void vfio_device_last_close(struct vfio_device *device)
->  	device->kvm = NULL;
->  	if (device->group->container)
->  		vfio_group_unuse_container(device->group);
-> +	vfio_iommufd_unbind(device);
+  https://gitlab.freedesktop.org/skeggsb/nouveau.git 00.06-gr-ampere
 
-Ditto
+for you to fetch changes up to 6dd08133e9f705f6565e18f114cfeca3f3a6970a:
+
+  drm/nouveau/gr/ga102: initial support (2022-11-08 15:46:01 +1000)
+
+----------------------------------------------------------------
+Ben Skeggs (124):
+      drm/nouveau/disp: move and extend the role of outp acquire/release methods
+      drm/nouveau/disp: move LVDS protocol information into acquire
+      drm/nouveau/disp: move HDMI config into acquire + infoframe methods
+      drm/nouveau/disp: move HDA ELD method
+      drm/nouveau/disp: move DP link config into acquire
+      drm/nouveau/disp: add method to control DPAUX pad power
+      drm/nouveau/kms: switch hpd_lock from mutex to spinlock
+      drm/nouveau/kms: pass event mask to hpd handler
+      drm/nouveau/disp: add method to trigger DP link retrain
+      drm/nouveau/disp: move DP MST payload config method
+      drm/nouveau/disp: add head class
+      drm/nouveau/disp: move head scanoutpos method
+      drm/nouveau/nvkm: add a replacement for nvkm_notify
+      drm/nouveau/fault: switch non-replayable faults to nvkm_event_ntfy
+      drm/nouveau/fault: expose replayable fault buffer event class
+      drm/nouveau/disp: switch vblank semaphore release to nvkm_event_ntfy
+      drm/nouveau/disp: expose head event class
+      drm/nouveau/disp: expose conn event class
+      drm/nouveau/disp: expose page flip event class
+      drm/nouveau/fifo: expose non-stall intr in host channel event class
+      drm/nouveau/fifo: expose channel killed in host channel event class
+      drm/nouveau/nvkm: rip out old notify
+      drm/nouveau/kms: switch to drm fbdev helpers
+      drm/nouveau/nvkm: give each nvkm_event its own lockdep class
+      drm/nouveau/top: parse device topology right after devinit
+      drm/nouveau/intr: add shared interrupt plumbing between pci/tegra
+      drm/nouveau/intr: support multiple trees, and explicit interfaces
+      drm/nouveau/intr: add nvkm_subdev_intr() compatibility
+      drm/nouveau/vfn: add stub subdev for dev_func
+      drm/nouveau/vfn: move NV_USERMODE class from host
+      drm/nouveau/vfn/tu102-: support new-style interrupt tree
+      drm/nouveau/fault/tu102: switch to explicit intr handlers
+      drm/nouveau/fault/ga100: initial support
+      drm/nouveau/mc: implement intr handling on top of nvkm_intr
+      drm/nouveau/mc: move NV_PMC_ENABLE bashing to chipset-specific code
+      drm/nouveau/mc/ga100: switch to using NV_PMC_DEVICE_ENABLE
+      drm/nouveau/nvkm: add locking to subdev/engine init paths
+      drm/nouveau/flcn: show falcon user in debug output
+      drm/nouveau/imem: allow bar2 mapping of user allocations
+      drm/nouveau/fifo: add chid_nr()
+      drm/nouveau/fifo: unify handling of channel classes
+      drm/nouveau/fifo: pre-move some blocks of code around
+      drm/nouveau/fifo: merge gk104_fifo_func into nvkm_host_func
+      drm/nouveau/fifo: add chid allocator
+      drm/nouveau/fifo: add runq
+      drm/nouveau/fifo: add common runlist/engine topology
+      drm/nouveau/fifo: expose runlist topology info on all chipsets
+      drm/nouveau/fifo: expose per-runlist CHID information
+      drm/nouveau/fifo: add cgrp, have all channels be part of one
+      drm/nouveau/fifo: use runlist engine info to lookup engine classes
+      drm/nouveau/fifo: use explicit intr interfaces
+      drm/nouveau/fifo: tidy up non-stall intr handling
+      drm/nouveau/fifo: tidy global PBDMA init
+      drm/nouveau/fifo: program NV_PFIFO_FB_TIMEOUT on init
+      drm/nouveau/fifo: move PBDMA init to runq
+      drm/nouveau/fifo: move PBDMA intr to runq
+      drm/nouveau/fifo: merge mmu fault handlers together
+      drm/nouveau/fifo: add new channel lookup interfaces
+      drm/nouveau/fifo: add new engine context tracking
+      drm/nouveau/fifo: add runlist wait()
+      drm/nouveau/fifo: add runlist block()/allow()
+      drm/nouveau/fifo: add chan bind()/unbind()
+      drm/nouveau/fifo: add chan start()/stop()
+      drm/nouveau/fifo: add chan/cgrp preempt()
+      drm/nouveau/fifo: kill channel on a selection of PBDMA errors
+      drm/nouveau/fifo: kill channel on NV_PPBDMA_INTR_1_CTXNOTVALID
+      drm/nouveau/fifo: add common channel recovery
+      drm/nouveau/fifo: add common runlist control
+      drm/nouveau/fifo: add RAMIN info to nvkm_chan_func
+      drm/nouveau/fifo: add USERD info to nvkm_chan_func
+      drm/nouveau/fifo: add RAMFC info to nvkm_chan_func
+      drm/nouveau/fifo: add new engine context handling
+      drm/nouveau/fifo: add new engine object handling
+      drm/nouveau/fifo: add new channel classes
+      drm/nouveau/ce/ga100-: initial support
+      drm/nouveau/fifo/ga100-: initial support
+      drm/nouveau/gsp: add funcs
+      drm/nouveau/pmu: move preinit() falcon reset to devinit
+      drm/nouveau/pmu: move init() falcon reset to non-nvfw code
+      drm/nouveau/pmu/gm20b,gp10b: boot RTOS from PMU init
+      drm/nouveau/sec2: unload RTOS before tearing down WPR
+      drm/nouveau/sec2: switch to newer style interrupt handler
+      drm/nouveau/flcn: rework falcon reset
+      drm/nouveau/flcn: new code to load+boot simple HS FWs (VPR scrubber)
+      drm/nouveau/fb: handle sysmem flush page from common code
+      drm/nouveau/fb/gp102-: unlock VPR right after devinit
+      drm/nouveau/acr: use common falcon HS FW code for ACR FWs
+      drm/nouveau/sec2: dump tracepc info on halt
+      drm/nouveau/engine: add HAL for engine-specific rc reset procedure
+      drm/nouveau/ltc: split color vs depth/stencil zbc counts
+      drm/nouveau/fifo: expose function to read engine ctxsw status
+      drm/nouveau/gr/gf100-: move some code around to make next commits nicer
+      drm/nouveau/gr/gf100-: generate golden context during first object alloc
+      drm/nouveau/gr/gf100-: make global pagepool actually global
+      drm/nouveau/gr/gf100-: make global bundle_cb actually global
+      drm/nouveau/gr/gf100-: move misc context patching out of attrib_cb funcs
+      drm/nouveau/gr/gf100-: make global attrib_cb actually global
+      drm/nouveau/gr/gf100-: stop using NV_PGRAPH_FECS_CTXSW_MAILBOX_CLEAR
+      drm/nouveau/gr/gf100-: call FECS WFI_GOLDEN_SAVE method
+      drm/nouveau/gr/gf100-: call FECS HALT_PIPE method before RC reset
+      drm/nouveau/gr/gf100-: wait for FE_PWR_MODE_AUTO
+      drm/nouveau/gr/gf100-: gpfifo_ctl zero before init
+      drm/nouveau/gr/gf100-: wfi after register-bashing golden init
+      drm/nouveau/gr/gf100-: move reset during golden ctx init to fecs_reset()
+      drm/nouveau/gr/gf100-: move some init to init_rop_exceptions()
+      drm/nouveau/gr/gf100-: move some init to init_exception2()
+      drm/nouveau/gr/gf100-: switch to newer style interrupt handler
+      drm/nouveau/gr/gf117-: make ppc_nr[gpc] accurate
+      drm/nouveau/gr/gp100-: fix number of zcull tile regs
+      drm/nouveau/gr/gk20a,gm20b,gp10b: split out netlist parsing from
+fw loading
+      drm/nouveau/gr/gp100-: modify init_fecs_exceptions
+      drm/nouveau/gr/gv100-: port smid mapping code from nvgpu
+      drm/nouveau/gr/gv100-: fix number of tile map registers
+      drm/nouveau/gr/gv100-: add NV_PGRAPH_PRI_PD_AB_DIST_CONFIG_1 to patch list
+      drm/nouveau/gr/gv100-: move init_419bd8() after sw_ctx load
+      drm/nouveau/gr/gv100-: drop a write from init_shader_exceptions()
+      drm/nouveau/gr/tu102-: use sw_veid_bundle_init from firmware
+      drm/nouveau/gr/tu102-: fix support for sw_bundle64_init
+      drm/nouveau/gr/tu102: add gv100_gr_init_4188a4
+      drm/nouveau/gr/tu102: remove gv100_grctx_unkn88c
+      drm/nouveau/fb/ga102: load and boot VPR scrubber FW
+      drm/nouveau/acr/ga102: initial support
+      drm/nouveau/ltc/ga102: initial support
+      drm/nouveau/gr/ga102: initial support
+
+ drivers/gpu/drm/nouveau/Kbuild                                  |    4 -
+ drivers/gpu/drm/nouveau/dispnv04/crtc.c                         |   43 +-
+ drivers/gpu/drm/nouveau/dispnv04/disp.c                         |   15 +-
+ drivers/gpu/drm/nouveau/dispnv04/disp.h                         |    7 +-
+ drivers/gpu/drm/nouveau/dispnv50/crc.c                          |    2 +-
+ drivers/gpu/drm/nouveau/dispnv50/disp.c                         |  406 +++----
+ drivers/gpu/drm/nouveau/dispnv50/head.c                         |   25 +-
+ drivers/gpu/drm/nouveau/include/nvfw/acr.h                      |   85 ++
+ drivers/gpu/drm/nouveau/include/nvfw/hs.h                       |   28 +
+ drivers/gpu/drm/nouveau/include/nvfw/ls.h                       |   51 +
+ drivers/gpu/drm/nouveau/include/nvfw/sec2.h                     |   45 +
+ drivers/gpu/drm/nouveau/include/nvif/cl0046.h                   |   23 -
+ drivers/gpu/drm/nouveau/include/nvif/cl006b.h                   |   12 -
+ drivers/gpu/drm/nouveau/include/nvif/cl0080.h                   |    4 +-
+ drivers/gpu/drm/nouveau/include/nvif/cl506e.h                   |   13 -
+ drivers/gpu/drm/nouveau/include/nvif/cl506f.h                   |   14 -
+ drivers/gpu/drm/nouveau/include/nvif/cl5070.h                   |   92 --
+ drivers/gpu/drm/nouveau/include/nvif/cl826e.h                   |   15 -
+ drivers/gpu/drm/nouveau/include/nvif/cl826f.h                   |   16 -
+ drivers/gpu/drm/nouveau/include/nvif/cl906f.h                   |   16 -
+ drivers/gpu/drm/nouveau/include/nvif/cla06f.h                   |   18 -
+ drivers/gpu/drm/nouveau/include/nvif/class.h                    |   45 +-
+ drivers/gpu/drm/nouveau/include/nvif/clb069.h                   |    5 +-
+ drivers/gpu/drm/nouveau/include/nvif/clc36f.h                   |   19 -
+ drivers/gpu/drm/nouveau/include/nvif/conn.h                     |   10 +
+ drivers/gpu/drm/nouveau/include/nvif/disp.h                     |    1 +
+ drivers/gpu/drm/nouveau/include/nvif/event.h                    |   91 +-
+ drivers/gpu/drm/nouveau/include/nvif/head.h                     |   23 +
+ drivers/gpu/drm/nouveau/include/nvif/if0004.h                   |    5 +-
+ drivers/gpu/drm/nouveau/include/nvif/if000e.h                   |   26 +
+ drivers/gpu/drm/nouveau/include/nvif/if0010.h                   |    1 +
+ drivers/gpu/drm/nouveau/include/nvif/if0011.h                   |   11 +
+ drivers/gpu/drm/nouveau/include/nvif/if0012.h                   |   98 ++
+ drivers/gpu/drm/nouveau/include/nvif/if0013.h                   |   35 +
+ drivers/gpu/drm/nouveau/include/nvif/if0020.h                   |   45 +
+ drivers/gpu/drm/nouveau/include/nvif/if0021.h                   |   16 +
+ drivers/gpu/drm/nouveau/include/nvif/ioctl.h                    |   51 +-
+ drivers/gpu/drm/nouveau/include/nvif/notify.h                   |   35 -
+ drivers/gpu/drm/nouveau/include/nvif/outp.h                     |   19 +
+ drivers/gpu/drm/nouveau/include/nvkm/core/client.h              |   15 +-
+ drivers/gpu/drm/nouveau/include/nvkm/core/device.h              |   12 +
+ drivers/gpu/drm/nouveau/include/nvkm/core/engine.h              |    8 +-
+ drivers/gpu/drm/nouveau/include/nvkm/core/event.h               |   64 +-
+ drivers/gpu/drm/nouveau/include/nvkm/core/falcon.h              |  167 ++-
+ drivers/gpu/drm/nouveau/include/nvkm/core/firmware.h            |   25 +
+ drivers/gpu/drm/nouveau/include/nvkm/core/intr.h                |   73 ++
+ drivers/gpu/drm/nouveau/include/nvkm/core/layout.h              |    5 +-
+ drivers/gpu/drm/nouveau/include/nvkm/core/memory.h              |    2 +
+ drivers/gpu/drm/nouveau/include/nvkm/core/notify.h              |   39 -
+ drivers/gpu/drm/nouveau/include/nvkm/core/object.h              |    2 +
+ drivers/gpu/drm/nouveau/include/nvkm/core/os.h                  |   20 +
+ drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h              |   42 +-
+ drivers/gpu/drm/nouveau/include/nvkm/core/tegra.h               |    1 -
+ drivers/gpu/drm/nouveau/include/nvkm/engine/ce.h                |    2 +
+ drivers/gpu/drm/nouveau/include/nvkm/engine/disp.h              |    9 +-
+ drivers/gpu/drm/nouveau/include/nvkm/engine/falcon.h            |   66 +-
+ drivers/gpu/drm/nouveau/include/nvkm/engine/fifo.h              |   86 +-
+ drivers/gpu/drm/nouveau/include/nvkm/engine/gr.h                |    1 +
+ drivers/gpu/drm/nouveau/include/nvkm/engine/nvdec.h             |    1 +
+ drivers/gpu/drm/nouveau/include/nvkm/engine/sec2.h              |    5 +-
+ drivers/gpu/drm/nouveau/include/nvkm/subdev/acr.h               |   29 +-
+ drivers/gpu/drm/nouveau/include/nvkm/subdev/fault.h             |    7 +-
+ drivers/gpu/drm/nouveau/include/nvkm/subdev/fb.h                |    7 +
+ drivers/gpu/drm/nouveau/include/nvkm/subdev/gpio.h              |    6 +-
+ drivers/gpu/drm/nouveau/include/nvkm/subdev/gsp.h               |    3 +
+ drivers/gpu/drm/nouveau/include/nvkm/subdev/i2c.h               |   19 +-
+ drivers/gpu/drm/nouveau/include/nvkm/subdev/instmem.h           |    2 +-
+ drivers/gpu/drm/nouveau/include/nvkm/subdev/ltc.h               |   16 +-
+ drivers/gpu/drm/nouveau/include/nvkm/subdev/mc.h                |    6 +-
+ drivers/gpu/drm/nouveau/include/nvkm/subdev/pci.h               |    2 +-
+ drivers/gpu/drm/nouveau/include/nvkm/subdev/top.h               |    1 +
+ drivers/gpu/drm/nouveau/include/nvkm/subdev/vfn.h               |   23 +
+ drivers/gpu/drm/nouveau/nouveau_abi16.c                         |   27 +-
+ drivers/gpu/drm/nouveau/nouveau_bo.c                            |    3 +
+ drivers/gpu/drm/nouveau/nouveau_chan.c                          |  306 ++---
+ drivers/gpu/drm/nouveau/nouveau_chan.h                          |   14 +-
+ drivers/gpu/drm/nouveau/nouveau_connector.c                     |   81 +-
+ drivers/gpu/drm/nouveau/nouveau_connector.h                     |    9 +-
+ drivers/gpu/drm/nouveau/nouveau_crtc.h                          |    7 +-
+ drivers/gpu/drm/nouveau/nouveau_display.c                       |   82 +-
+ drivers/gpu/drm/nouveau/nouveau_dma.c                           |    8 +-
+ drivers/gpu/drm/nouveau/nouveau_dp.c                            |   40 +-
+ drivers/gpu/drm/nouveau/nouveau_drm.c                           |   56 +-
+ drivers/gpu/drm/nouveau/nouveau_drv.h                           |   18 +-
+ drivers/gpu/drm/nouveau/nouveau_encoder.h                       |    5 +-
+ drivers/gpu/drm/nouveau/nouveau_fbcon.c                         |
+614 -----------
+ drivers/gpu/drm/nouveau/nouveau_fbcon.h                         |   82 --
+ drivers/gpu/drm/nouveau/nouveau_fence.c                         |   53 +-
+ drivers/gpu/drm/nouveau/nouveau_fence.h                         |    4 +-
+ drivers/gpu/drm/nouveau/nouveau_nvif.c                          |   17 +-
+ drivers/gpu/drm/nouveau/nouveau_svm.c                           |   50 +-
+ drivers/gpu/drm/nouveau/nouveau_usif.c                          |    6 -
+ drivers/gpu/drm/nouveau/nouveau_vga.c                           |    1 -
+ drivers/gpu/drm/nouveau/nv04_fbcon.c                            |  259 -----
+ drivers/gpu/drm/nouveau/nv50_fbcon.c                            |  299 -----
+ drivers/gpu/drm/nouveau/nv84_fence.c                            |   24 +-
+ drivers/gpu/drm/nouveau/nvc0_fbcon.c                            |  297 -----
+ drivers/gpu/drm/nouveau/nvif/Kbuild                             |    3 +-
+ drivers/gpu/drm/nouveau/nvif/conn.c                             |   19 +
+ drivers/gpu/drm/nouveau/nvif/disp.c                             |    5 +-
+ drivers/gpu/drm/nouveau/nvif/event.c                            |   81 ++
+ drivers/gpu/drm/nouveau/nvif/head.c                             |   58 +
+ drivers/gpu/drm/nouveau/nvif/notify.c                           |  210 ----
+ drivers/gpu/drm/nouveau/nvif/outp.c                             |  178 ++-
+ drivers/gpu/drm/nouveau/nvif/user.c                             |    4 +-
+ drivers/gpu/drm/nouveau/nvkm/core/Kbuild                        |    3 +-
+ drivers/gpu/drm/nouveau/nvkm/core/client.c                      |  130 +--
+ drivers/gpu/drm/nouveau/nvkm/core/engine.c                      |   85 +-
+ drivers/gpu/drm/nouveau/nvkm/core/event.c                       |  158 ++-
+ drivers/gpu/drm/nouveau/nvkm/core/firmware.c                    |  122 ++
+ drivers/gpu/drm/nouveau/nvkm/core/intr.c                        |  442 ++++++++
+ drivers/gpu/drm/nouveau/nvkm/core/ioctl.c                       |  115 +-
+ drivers/gpu/drm/nouveau/nvkm/core/notify.c                      |  163 ---
+ drivers/gpu/drm/nouveau/nvkm/core/oproxy.c                      |   20 +-
+ drivers/gpu/drm/nouveau/nvkm/core/subdev.c                      |  117 +-
+ drivers/gpu/drm/nouveau/nvkm/core/uevent.c                      |  157 +++
+ drivers/gpu/drm/nouveau/nvkm/engine/ce/Kbuild                   |    2 +
+ drivers/gpu/drm/nouveau/nvkm/engine/ce/ga100.c                  |   82 ++
+ .../drm/nouveau/nvkm/engine/{fifo/usertu102.c => ce/ga102.c}    |   35 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/ce/gt215.c                  |    6 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/ce/priv.h                   |    4 +
+ drivers/gpu/drm/nouveau/nvkm/engine/cipher/g84.c                |   11 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/device/base.c               |  104 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/device/pci.c                |    7 +
+ drivers/gpu/drm/nouveau/nvkm/engine/device/priv.h               |    1 +
+ drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c              |   40 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/device/user.c               |    2 +
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/Kbuild                 |    4 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/base.c                 |   93 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/conn.c                 |   39 -
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/conn.h                 |    3 -
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c                   |  283 +++--
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.h                   |    1 +
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/g84.c                  |   91 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/ga102.c                |    5 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/gf119.c                |   93 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/gk104.c                |   85 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/gm107.c                |    4 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/gm200.c                |   13 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/gp100.c                |    5 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/gt215.c                |   89 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/gv100.c                |   95 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/head.c                 |   38 -
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/head.h                 |    5 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/ior.h                  |   23 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/mcp77.c                |    4 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/mcp89.c                |    4 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/nv50.c                 |   12 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/outp.h                 |   16 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/priv.h                 |    5 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/rootnv50.c             |  250 -----
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/tu102.c                |    5 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/uconn.c                |   75 ++
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/udisp.c                |   25 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/uhead.c                |  127 +++
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c                |  249 +++++
+ drivers/gpu/drm/nouveau/nvkm/engine/falcon.c                    |    6 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/Kbuild                 |   30 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/base.c                 |  448 ++++----
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/cgrp.c                 |  252 +++++
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/cgrp.h                 |   76 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/chan.c                 |
+633 ++++++-----
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/chan.h                 |   99 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/chang84.c              |  263 -----
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/changf100.h            |   29 -
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/changk104.h            |   52 -
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/channv04.h             |   29 -
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/channv50.c             |  276 -----
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/channv50.h             |   53 -
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/chid.c                 |  111 ++
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/chid.h                 |   25 +
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/dmanv04.c              |  226 ----
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/dmanv10.c              |   97 --
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/dmanv17.c              |   98 --
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/dmanv40.c              |  254 -----
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/g84.c                  |  253 +++--
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/g98.c                  |   70 ++
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga100.c                |
+550 +++++++++
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga102.c                |  292 +----
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c                |
+942 ++++++++++------
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.h                |   38 -
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/gk104.c                |
+1592 ++++++++++-----------------
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/gk104.h                |  168 ---
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/gk110.c                |  105 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/gk208.c                |   59 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/gk20a.c                |   33 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/gm107.c                |  109 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/gm200.c                |   49 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/gm20b.c                |   45 -
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/gp100.c                |   99 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/gp10b.c                |   46 -
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/gpfifog84.c            |   95 --
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/gpfifogf100.c          |  308 ------
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/gpfifogk104.c          |  361 ------
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/gpfifogv100.c          |  241 ----
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/gpfifonv50.c           |   93 --
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/gpfifotu102.c          |   81 --
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/gv100.c                |  252 ++++-
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/nv04.c                 |  344 ++++--
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/nv04.h                 |   23 -
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/nv10.c                 |   94 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/nv17.c                 |  103 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/nv40.c                 |  198 +++-
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/nv50.c                 |  381 +++++--
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/nv50.h                 |   20 -
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/priv.h                 |  223 +++-
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c                 |  430 ++++++++
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.h                 |  125 +++
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/runq.c                 |   45 +
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/runq.h                 |   31 +
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/tu102.c                |  471 +++-----
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/ucgrp.c                |  125 +++
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/uchan.c                |  409 +++++++
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/user.h                 |    8 -
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/Kbuild                   |    2 +
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/base.c                   |   12 +
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxga102.c               |   77 ++
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxgf100.c               |  224 ++--
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxgf100.h               |   77 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxgf104.c               |    2 +
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxgf108.c               |   21 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxgf110.c               |    2 +
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxgf117.c               |   24 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxgf119.c               |    2 +
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxgk104.c               |   40 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxgk110.c               |    2 +
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxgk110b.c              |    2 +
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxgk208.c               |    2 +
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxgk20a.c               |   12 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxgm107.c               |   71 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxgm200.c               |    4 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxgm20b.c               |   12 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxgp100.c               |   80 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxgp102.c               |   60 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxgp104.c               |    2 +
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxgp107.c               |    2 +
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxgv100.c               |   62 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxtu102.c               |   35 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/ga102.c                  |  347 ++++++
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c                  |  488 +++++---
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.h                  |   80 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gf104.c                  |    3 +
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gf108.c                  |    3 +
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gf110.c                  |    3 +
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gf117.c                  |    7 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gf119.c                  |    3 +
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gk104.c                  |    5 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gk110.c                  |    3 +
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gk110b.c                 |    3 +
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gk208.c                  |    3 +
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gk20a.c                  |  119 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gm107.c                  |    3 +
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gm200.c                  |    7 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gm20b.c                  |    1 +
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gp100.c                  |    5 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gp102.c                  |    9 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gp104.c                  |    3 +
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gp107.c                  |    3 +
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gp108.c                  |    4 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gp10b.c                  |    3 +
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gv100.c                  |  203 +++-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/nv04.c                   |    2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/nv10.c                   |    2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/nv20.c                   |   10 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/nv25.c                   |    2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/nv2a.c                   |    2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/nv30.c                   |    2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/nv34.c                   |    2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/nv35.c                   |    2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/nv40.c                   |    4 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/nv50.c                   |   10 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/priv.h                   |    1 +
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c                  |   47 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/mpeg/nv31.c                 |    4 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/mpeg/nv44.c                 |    4 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/nvdec/Kbuild                |    1 +
+ drivers/gpu/drm/nouveau/nvkm/engine/nvdec/base.c                |    4 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/nvdec/ga102.c               |   61 +
+ drivers/gpu/drm/nouveau/nvkm/engine/nvdec/gm107.c               |   19 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/nvdec/priv.h                |    2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/nvenc/gm107.c               |   11 -
+ drivers/gpu/drm/nouveau/nvkm/engine/sec/g98.c                   |    6 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/sec2/Kbuild                 |    1 +
+ drivers/gpu/drm/nouveau/nvkm/engine/sec2/base.c                 |   98 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/sec2/ga102.c                |  197 ++++
+ drivers/gpu/drm/nouveau/nvkm/engine/sec2/gp102.c                |  116 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/sec2/priv.h                 |    9 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/sec2/tu102.c                |   26 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/sw/base.c                   |    2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/sw/chan.c                   |   24 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/sw/chan.h                   |    1 +
+ drivers/gpu/drm/nouveau/nvkm/engine/sw/gf100.c                  |   20 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/sw/nv50.c                   |   24 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/sw/nv50.h                   |    4 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/sw/nvsw.c                   |   35 +-
+ drivers/gpu/drm/nouveau/nvkm/falcon/Kbuild                      |    6 +
+ drivers/gpu/drm/nouveau/nvkm/falcon/base.c                      |  245 +++--
+ drivers/gpu/drm/nouveau/nvkm/falcon/cmdq.c                      |    2 +-
+ drivers/gpu/drm/nouveau/nvkm/falcon/fw.c                        |  354 ++++++
+ drivers/gpu/drm/nouveau/nvkm/falcon/ga100.c                     |   62 ++
+ drivers/gpu/drm/nouveau/nvkm/falcon/ga102.c                     |  148 +++
+ drivers/gpu/drm/nouveau/nvkm/falcon/gm200.c                     |  345 ++++++
+ drivers/gpu/drm/nouveau/nvkm/falcon/gp102.c                     |   82 ++
+ drivers/gpu/drm/nouveau/nvkm/falcon/msgq.c                      |   10 +-
+ drivers/gpu/drm/nouveau/nvkm/falcon/priv.h                      |    8 +
+ drivers/gpu/drm/nouveau/nvkm/falcon/qmgr.h                      |    9 +-
+ drivers/gpu/drm/nouveau/nvkm/falcon/v1.c                        |  210 ----
+ drivers/gpu/drm/nouveau/nvkm/nvfw/acr.c                         |   41 +
+ drivers/gpu/drm/nouveau/nvkm/nvfw/hs.c                          |   39 +
+ drivers/gpu/drm/nouveau/nvkm/nvfw/ls.c                          |   72 ++
+ drivers/gpu/drm/nouveau/nvkm/subdev/Kbuild                      |    1 +
+ drivers/gpu/drm/nouveau/nvkm/subdev/acr/Kbuild                  |    4 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/acr/base.c                  |  152 +--
+ drivers/gpu/drm/nouveau/nvkm/subdev/acr/ga100.c                 |   49 +
+ drivers/gpu/drm/nouveau/nvkm/subdev/acr/ga102.c                 |  326 ++++++
+ drivers/gpu/drm/nouveau/nvkm/subdev/acr/gm200.c                 |  199 +---
+ drivers/gpu/drm/nouveau/nvkm/subdev/acr/gm20b.c                 |   44 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/acr/gp102.c                 |   31 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/acr/gp108.c                 |   55 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/acr/gp10b.c                 |    2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/acr/gv100.c                 |   67 ++
+ drivers/gpu/drm/nouveau/nvkm/subdev/acr/hsfw.c                  |  177 ---
+ drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c                  |  145 +++
+ drivers/gpu/drm/nouveau/nvkm/subdev/acr/priv.h                  |  106 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/acr/tu102.c                 |   38 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gm200.c             |    8 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/fault/base.c                |   21 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/fault/gp100.c               |    2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/fault/gv100.c               |   41 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/fault/priv.h                |    3 +
+ drivers/gpu/drm/nouveau/nvkm/subdev/fault/tu102.c               |  120 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/fault/user.c                |   30 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/base.c                   |   61 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/ga100.c                  |    3 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/ga102.c                  |   35 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/gf100.c                  |   25 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/gf100.h                  |    4 -
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/gm200.c                  |    4 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/gm20b.c                  |    1 +
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/gp100.c                  |   18 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/gp102.c                  |   66 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/gp10b.c                  |    1 +
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/gv100.c                  |    3 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/nv50.c                   |   49 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/nv50.h                   |    2 -
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/priv.h                   |    9 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/ram.c                    |    8 +
+ drivers/gpu/drm/nouveau/nvkm/subdev/gpio/base.c                 |   27 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/gsp/Kbuild                  |    1 +
+ drivers/gpu/drm/nouveau/nvkm/subdev/gsp/base.c                  |    4 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/gsp/ga102.c                 |   59 +
+ drivers/gpu/drm/nouveau/nvkm/subdev/gsp/gv100.c                 |   31 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/gsp/priv.h                  |    6 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/i2c/base.c                  |   27 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/instmem/base.c              |   12 +
+ drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c              |   27 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/instmem/priv.h              |    1 +
+ drivers/gpu/drm/nouveau/nvkm/subdev/ltc/Kbuild                  |    1 +
+ drivers/gpu/drm/nouveau/nvkm/subdev/ltc/base.c                  |   10 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/ltc/ga102.c                 |   57 +
+ drivers/gpu/drm/nouveau/nvkm/subdev/ltc/gf100.c                 |    3 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/ltc/gk104.c                 |    3 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/ltc/gm107.c                 |    3 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/ltc/gm200.c                 |    3 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/ltc/gp100.c                 |    3 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/ltc/gp102.c                 |    3 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/ltc/gp10b.c                 |    3 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/ltc/priv.h                  |    3 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/mc/Kbuild                   |    1 -
+ drivers/gpu/drm/nouveau/nvkm/subdev/mc/base.c                   |  130 +--
+ drivers/gpu/drm/nouveau/nvkm/subdev/mc/g84.c                    |   35 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/mc/g98.c                    |   35 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/mc/ga100.c                  |   50 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/mc/gf100.c                  |   82 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/mc/gk104.c                  |   38 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/mc/gk20a.c                  |    9 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/mc/gp100.c                  |  126 +--
+ drivers/gpu/drm/nouveau/nvkm/subdev/mc/gp10b.c                  |   11 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/mc/gt215.c                  |   63 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/mc/nv04.c                   |   93 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/mc/nv11.c                   |   21 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/mc/nv17.c                   |   23 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/mc/nv44.c                   |    7 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/mc/nv50.c                   |   29 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/mc/priv.h                   |   50 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/mc/tu102.c                  |  136 ---
+ drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c                  |    2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/pci/base.c                  |   44 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/pmu/base.c                  |   50 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gk20a.c                 |    1 -
+ drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gm200.c                 |   40 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gm20b.c                 |   56 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp102.c                 |   32 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp10b.c                 |   15 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gt215.c                 |   33 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/pmu/priv.h                  |    5 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/top/base.c                  |   13 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/top/ga100.c                 |    4 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/top/gk104.c                 |    4 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/top/priv.h                  |    2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/vfn/Kbuild                  |    6 +
+ .../nouveau/nvkm/{engine/disp/rootnv04.c => subdev/vfn/base.c}  |   58 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/vfn/ga100.c                 |   47 +
+ .../nvkm/{engine/fifo/usergv100.c => subdev/vfn/gv100.c}        |   27 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/vfn/priv.h                  |   25 +
+ drivers/gpu/drm/nouveau/nvkm/subdev/vfn/tu102.c                 |  108 ++
+ drivers/gpu/drm/nouveau/nvkm/subdev/vfn/uvfn.c                  |   67 ++
+ 407 files changed, 15735 insertions(+), 13236 deletions(-)
+ delete mode 100644 drivers/gpu/drm/nouveau/include/nvif/cl006b.h
+ delete mode 100644 drivers/gpu/drm/nouveau/include/nvif/cl506e.h
+ delete mode 100644 drivers/gpu/drm/nouveau/include/nvif/cl506f.h
+ delete mode 100644 drivers/gpu/drm/nouveau/include/nvif/cl5070.h
+ delete mode 100644 drivers/gpu/drm/nouveau/include/nvif/cl826e.h
+ delete mode 100644 drivers/gpu/drm/nouveau/include/nvif/cl826f.h
+ delete mode 100644 drivers/gpu/drm/nouveau/include/nvif/cl906f.h
+ delete mode 100644 drivers/gpu/drm/nouveau/include/nvif/cla06f.h
+ delete mode 100644 drivers/gpu/drm/nouveau/include/nvif/clc36f.h
+ create mode 100644 drivers/gpu/drm/nouveau/include/nvif/head.h
+ create mode 100644 drivers/gpu/drm/nouveau/include/nvif/if000e.h
+ create mode 100644 drivers/gpu/drm/nouveau/include/nvif/if0013.h
+ create mode 100644 drivers/gpu/drm/nouveau/include/nvif/if0020.h
+ create mode 100644 drivers/gpu/drm/nouveau/include/nvif/if0021.h
+ delete mode 100644 drivers/gpu/drm/nouveau/include/nvif/notify.h
+ create mode 100644 drivers/gpu/drm/nouveau/include/nvkm/core/intr.h
+ delete mode 100644 drivers/gpu/drm/nouveau/include/nvkm/core/notify.h
+ create mode 100644 drivers/gpu/drm/nouveau/include/nvkm/subdev/vfn.h
+ delete mode 100644 drivers/gpu/drm/nouveau/nouveau_fbcon.c
+ delete mode 100644 drivers/gpu/drm/nouveau/nouveau_fbcon.h
+ delete mode 100644 drivers/gpu/drm/nouveau/nv04_fbcon.c
+ delete mode 100644 drivers/gpu/drm/nouveau/nv50_fbcon.c
+ delete mode 100644 drivers/gpu/drm/nouveau/nvc0_fbcon.c
+ create mode 100644 drivers/gpu/drm/nouveau/nvif/event.c
+ create mode 100644 drivers/gpu/drm/nouveau/nvif/head.c
+ delete mode 100644 drivers/gpu/drm/nouveau/nvif/notify.c
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/core/intr.c
+ delete mode 100644 drivers/gpu/drm/nouveau/nvkm/core/notify.c
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/core/uevent.c
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/ce/ga100.c
+ rename drivers/gpu/drm/nouveau/nvkm/engine/{fifo/usertu102.c =>
+ce/ga102.c} (63%)
+ delete mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/disp/rootnv50.c
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/disp/uhead.c
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/cgrp.c
+ delete mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/chang84.c
+ delete mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/changf100.h
+ delete mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/changk104.h
+ delete mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/channv04.h
+ delete mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/channv50.c
+ delete mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/channv50.h
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/chid.c
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/chid.h
+ delete mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/dmanv04.c
+ delete mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/dmanv10.c
+ delete mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/dmanv17.c
+ delete mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/dmanv40.c
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/g98.c
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga100.c
+ delete mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.h
+ delete mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gk104.h
+ delete mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gm20b.c
+ delete mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gp10b.c
+ delete mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gpfifog84.c
+ delete mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gpfifogf100.c
+ delete mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gpfifogk104.c
+ delete mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gpfifogv100.c
+ delete mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gpfifonv50.c
+ delete mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gpfifotu102.c
+ delete mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/nv04.h
+ delete mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/nv50.h
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.h
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/runq.c
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/runq.h
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/ucgrp.c
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/uchan.c
+ delete mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/user.h
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxga102.c
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/gr/ga102.c
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/nvdec/ga102.c
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/sec2/ga102.c
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/falcon/fw.c
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/falcon/ga100.c
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/falcon/ga102.c
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/falcon/gm200.c
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/falcon/gp102.c
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/acr/ga100.c
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/acr/ga102.c
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/acr/gv100.c
+ delete mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/acr/hsfw.c
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/ga102.c
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/ltc/ga102.c
+ delete mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/mc/tu102.c
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/vfn/Kbuild
+ rename drivers/gpu/drm/nouveau/nvkm/{engine/disp/rootnv04.c =>
+subdev/vfn/base.c} (55%)
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/vfn/ga100.c
+ rename drivers/gpu/drm/nouveau/nvkm/{engine/fifo/usergv100.c =>
+subdev/vfn/gv100.c} (63%)
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/vfn/priv.h
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/vfn/tu102.c
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/vfn/uvfn.c
+
