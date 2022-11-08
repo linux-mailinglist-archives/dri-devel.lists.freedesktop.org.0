@@ -1,54 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 240BD620F09
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 12:27:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DE0C620F79
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 12:49:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DB9710E3BE;
-	Tue,  8 Nov 2022 11:27:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2F5310E3D5;
+	Tue,  8 Nov 2022 11:49:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B021310E3BE;
- Tue,  8 Nov 2022 11:27:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1667906858; x=1699442858;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=hNS3Nr4O3q2nSkHc9K7N1maRZdTfnniUECgjB38Ewlg=;
- b=ZBv4/DG+MMvc2xvOETlW4MROinHWmMIokOaa9fvJ2dZ/vix7a1qx/pq1
- 4BvARz6ID2K/h+XYIMVskTp6aZwQboFGi/TvAZye/U7SO2JpcWW8Xhvcx
- FV89eQX8kLvLxP/RkDLsb1lnqG8P0D09B+panuH49yFSG2f/oqNWBXM/q
- dYDWJ1gDX5SmNC8JzPLbFUztO5px4oT8iv3rPVRr7uaj+KViiKbgbH2K7
- mz9PZCBOP7ViVrcrLJDofLVXPoa+D3XJYtYbHKWI51NJmi4AKv3e3Mw50
- fqXbWr728tyVQ9+TIQDRHtRGtuJD5x1+RXO5ZzW+DX3L+0KvJuQu7PdSY Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="309380443"
-X-IronPort-AV: E=Sophos;i="5.96,147,1665471600"; d="scan'208";a="309380443"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Nov 2022 03:27:37 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="630843213"
-X-IronPort-AV: E=Sophos;i="5.96,147,1665471600"; d="scan'208";a="630843213"
-Received: from smoriord-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.16.110])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Nov 2022 03:27:35 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Matthieu CHARETTE <matthieu.charette@gmail.com>
-Subject: Re: [PATCH] drm/edid/firmware: stop using throwaway platform device
-In-Reply-To: <0TLXKR.MU9V2CJGXH05@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20221006222146.2375217-1-jani.nikula@intel.com>
- <GLSKJR.CU4DWLJQSTHT2@gmail.com> <87wn96yggd.fsf@intel.com>
- <CA+FNwmJRZ-5BwuXykp3R6tQagQgunMC9EhfL9CRyi+Ff47TXhA@mail.gmail.com>
- <87v8opwiqw.fsf@intel.com> <HBHNJR.ME9DMISWT3961@gmail.com>
- <0TLXKR.MU9V2CJGXH05@gmail.com>
-Date: Tue, 08 Nov 2022 13:27:33 +0200
-Message-ID: <875yfpadp6.fsf@intel.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2308F10E3F6
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Nov 2022 11:49:21 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id DAD661F85D;
+ Tue,  8 Nov 2022 11:49:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1667908159; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=pUctL1Mjz+hPRnPU+RR4ZhMMlvSyFt0/M/zdCnt/5So=;
+ b=irNjTl9Ebh0FEAq4YgwGkKPG1h3TwXUhOLVHit1UZ2dSLfIsX/LEAsQqWQQqZkigV562GI
+ CUcBKY4OIpiGW1wBDuB3QCv9CuX79KtsOq38J7krVLeeiRsJBx2qHhRN1IM37sQnCzH65X
+ Kg5zrMAQgx/02Ged7RnapCzzxyvXkEY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1667908159;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=pUctL1Mjz+hPRnPU+RR4ZhMMlvSyFt0/M/zdCnt/5So=;
+ b=sqWQFp3yIaxJiZDfg0NFe7w5z4jr16oo+7UaZj5t+wjuSricRfaRPYr8YIMLbz5MNtGuW9
+ oDmr3QlQmR4+UDDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C003F139F1;
+ Tue,  8 Nov 2022 11:49:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id hlbiLT9CamNQRwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 08 Nov 2022 11:49:19 +0000
+Message-ID: <9245a94a-8aeb-57e7-bb89-6c57e6cc6b32@suse.de>
+Date: Tue, 8 Nov 2022 12:49:19 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH] drm/fb-helper: Fix missing kerneldoc include
+Content-Language: en-US
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <20221107190928.1212116-1-daniel.vetter@ffwll.ch>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20221107190928.1212116-1-daniel.vetter@ffwll.ch>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------dmCOoWYBKrAl2FOv6JIJQ5Tn"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,101 +70,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Javier Martinez Canillas <javierm@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 06 Nov 2022, Matthieu CHARETTE <matthieu.charette@gmail.com> wrote:
-> Hi,
->
-> Can you tell me what are we waiting for? Maybe I can help.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------dmCOoWYBKrAl2FOv6JIJQ5Tn
+Content-Type: multipart/mixed; boundary="------------a9NkUWbX0jY2uWrR6H9Mp90X";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Javier Martinez Canillas <javierm@redhat.com>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Message-ID: <9245a94a-8aeb-57e7-bb89-6c57e6cc6b32@suse.de>
+Subject: Re: [PATCH] drm/fb-helper: Fix missing kerneldoc include
+References: <20221107190928.1212116-1-daniel.vetter@ffwll.ch>
+In-Reply-To: <20221107190928.1212116-1-daniel.vetter@ffwll.ch>
 
-Have you tried the patch? Is it an improvement over the status quo?
+--------------a9NkUWbX0jY2uWrR6H9Mp90X
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-The "crash" is still ambiguous to me. Do you observe it with the patch?
-Do you have logs? Etc.
+DQoNCkFtIDA3LjExLjIyIHVtIDIwOjA5IHNjaHJpZWIgRGFuaWVsIFZldHRlcjoNCj4gVGhp
+cyB3YXMgbG9zdCBpbiB0aGUgY29kZSBtb3ZlbWVudCBkb25lIGluIDhhYjU5ZGEyNmJjMA0K
+PiAoImRybS9mYi1oZWxwZXI6IE1vdmUgZ2VuZXJpYyBmYmRldiBlbXVsYXRpb24gaW50byBz
+ZXBhcmF0ZSBzb3VyY2UNCj4gZmlsZSIpLg0KPiANCj4gRml4ZXM6IDhhYjU5ZGEyNmJjMCAo
+ImRybS9mYi1oZWxwZXI6IE1vdmUgZ2VuZXJpYyBmYmRldiBlbXVsYXRpb24gaW50byBzZXBh
+cmF0ZSBzb3VyY2UgZmlsZSIpDQo+IENjOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1h
+bm5Ac3VzZS5kZT4NCj4gQ2M6IEphdmllciBNYXJ0aW5leiBDYW5pbGxhcyA8amF2aWVybUBy
+ZWRoYXQuY29tPg0KPiBTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0
+dGVyQGludGVsLmNvbT4NCg0KUmV2aWV3ZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emlt
+bWVybWFubkBzdXNlLmRlPg0KDQo+IC0tLQ0KPiAgIERvY3VtZW50YXRpb24vZ3B1L2RybS1r
+bXMtaGVscGVycy5yc3QgfCAzICsrKw0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlv
+bnMoKykNCj4gDQo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2dwdS9kcm0ta21zLWhl
+bHBlcnMucnN0IGIvRG9jdW1lbnRhdGlvbi9ncHUvZHJtLWttcy1oZWxwZXJzLnJzdA0KPiBp
+bmRleCBkYmM4NWZkN2E5NzEuLmE0ODYwZmZkNmU4NiAxMDA2NDQNCj4gLS0tIGEvRG9jdW1l
+bnRhdGlvbi9ncHUvZHJtLWttcy1oZWxwZXJzLnJzdA0KPiArKysgYi9Eb2N1bWVudGF0aW9u
+L2dwdS9kcm0ta21zLWhlbHBlcnMucnN0DQo+IEBAIC0xMTYsNiArMTE2LDkgQEAgZmJkZXYg
+SGVscGVyIEZ1bmN0aW9ucyBSZWZlcmVuY2UNCj4gICAuLiBrZXJuZWwtZG9jOjogZHJpdmVy
+cy9ncHUvZHJtL2RybV9mYl9oZWxwZXIuYw0KPiAgICAgIDpleHBvcnQ6DQo+ICAgDQo+ICsu
+LiBrZXJuZWwtZG9jOjogZHJpdmVycy9ncHUvZHJtL2RybV9mYmRldl9nZW5lcmljLmMNCj4g
+KyAgIDpleHBvcnQ6DQo+ICsNCj4gICBmb3JtYXQgSGVscGVyIEZ1bmN0aW9ucyBSZWZlcmVu
+Y2UNCj4gICA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0NCj4gICANCg0KLS0g
+DQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBT
+b2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBO
+w7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6Rm
+dHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
-BR,
-Jani.
+--------------a9NkUWbX0jY2uWrR6H9Mp90X--
 
+--------------dmCOoWYBKrAl2FOv6JIJQ5Tn
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
->
-> Thanks.
->
-> Matthieu
->
-> On Wed, Oct 12 2022 at 07:16:29 PM +0200, Matthieu CHARETTE 
-> <matthieu.charette@gmail.com> wrote:
->> By crash, I mean that an error is returned here: 
->> https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux.git/+/refs/heads/master/drivers/gpu/drm/drm_edid_load.c#195
->> I don't really know what happens next, but on my machine the built-in 
->> screen and the external remains dark. Also the kernel seems to 
->> freeze. I suspect a kernel panic, but I'm not sure. Anyway, the error 
->> is definitely not well handled, and a fix would be great.
->> Also, request_firmware() will crash if called for the first time on 
->> the resume path because the file system isn't reachable on the resume 
->> process. And no cache is available for this firmware. So I guess that 
->> in this case, request_firmware() returns an error.
->> Suspend-plug-resume case is not my priority nether as long as it 
->> doesn't make the system crash (Which is currently the case).
->> 
->> On Wed, Oct 12 2022 at 11:25:59 AM +0300, Jani Nikula 
->> <jani.nikula@intel.com> wrote:
->>> On Tue, 11 Oct 2022, Matthieu CHARETTE <matthieu.charette@gmail.com> 
->>> wrote:
->>>>  Currently the EDID is requested during the resume. But since it's
->>>>  requested too early, this means before the filesystem is mounted, 
->>>> the
->>>>  firmware request fails. This make the DRM driver crash when 
->>>> resuming.
->>>>  This kind of issue should be prevented by the firmware caching 
->>>> process
->>>>  which cache every firmware requested for the next resume. But 
->>>> since we
->>>>  are using a temporary device, the firmware isn't cached on suspend
->>>>  since the device doesn't work anymore.
->>>>  When using a non temporary device to get the EDID, the firmware 
->>>> will
->>>>  be cached on suspend for the next resume. So requesting the 
->>>> firmware
->>>>  during resume will succeed.
->>>>  But if the firmware has never been requested since the boot, this
->>>>  means that the monitor isn't plugged since the boot. The kernel 
->>>> will
->>>>  not be caching the EDID. So if we plug the monitor while the 
->>>> machine
->>>>  is suspended. The resume will fail to load the firmware. And the 
->>>> DRM
->>>>  driver will crash.
->>>>  So basically, your fix should solve the issue except for the case
->>>>  where the monitor hasn't been plugged since boot and is plugged 
->>>> while
->>>>  the machine is suspended.
->>>>  I hope I was clear. Tell me if I wasn't. I'm not really good at 
->>>> explaining.
->>> 
->>> That was a pretty good explanation. The only thing I'm missing is 
->>> what
->>> the failure mode is exactly when you claim the driver will crash. Why
->>> would request_firmware() "crash" if called for the first time on the
->>> resume path?
->>> 
->>> I'm not sure I care much about not being able to load the firmware 
->>> EDID
->>> in the suspend-plug-resume case (as this can be remedied with a
->>> subsequent modeset), but obviously any errors need to be handled
->>> gracefully, without crashing.
->>> 
->>> BR,
->>> Jani.
->>> 
->>> 
->>> --
->>> Jani Nikula, Intel Open Source Graphics Center
->> 
->> 
->
->
+-----BEGIN PGP SIGNATURE-----
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmNqQj8FAwAAAAAACgkQlh/E3EQov+Dz
+SQ/7BF/j3ZWbJtm9OOmqeXWIMXZdVQZQBVd7DswB3zos02O+z01gPXQKlWm6//JSqFoCirb7wmSj
+F27Gh/le5a6+vvzrL/yAmQsYONq6462yFno+FALQkPysUVnzAN1CFeogbrKW+009F+SysaJ33nLI
+fWozP8HrpAoFDviWvVSKtZy3pKiBjXLQMq67dByIqJH0usSRqO173Zpq9Jg3lxkZ6yKtFU+3mSth
+R7JHQiIHUb5dyEtTo/1BMtTwEANGkl62q13ECw5AQ/ZUstImeyvwrwXpyc0vZRmaJRTyS8VETlcL
+/fVqknXG1krAcUcdTe2iLLydPFyEvE+EHXc7deCeZD51dLu4BmWKC/JfZ1WPaa/sOtdN74s3iwA9
+irf2zafVRzywEzCBSFMWzlA+YINIG+Zu3VSlQo0xZ1dVN5GkKITtvfmb45wQaiKzB46lVwBVQbak
+cECvp/hiHNkhpXhqY1YNmuB3cDx9Ti0qVvMh2p+KjAtMiaekrWVebUMskdg5cvzT6QeRIkMd+hM7
+dFMj1IOC4nhLcwa37tbmu7LzaNBZnr/olom5mycvHZlPCIjOIpJnFmqI+wjspbS1ST+/zsEvohQd
+yq8JkBjAtFMCvJLLbGqd8IOt+6XSMK/PrAuTzeZ/EWpU0JFj2zMtD438vcE/FXexVswFrIbMYsj7
+dCY=
+=pMMF
+-----END PGP SIGNATURE-----
+
+--------------dmCOoWYBKrAl2FOv6JIJQ5Tn--
