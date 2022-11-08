@@ -2,63 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73B03620B26
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 09:28:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B34D1620B39
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 09:32:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B72EC10E365;
-	Tue,  8 Nov 2022 08:28:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9D4E10E378;
+	Tue,  8 Nov 2022 08:32:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA28810E365
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Nov 2022 08:28:36 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id F051B1F88B;
- Tue,  8 Nov 2022 08:28:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1667896114; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=O7E77NXf7Njp1zqWdU6k301SGIi6TUkaQ9I7uUfLppY=;
- b=R+tV6EKJljgJ6VavdQTz6JR95lY3qCLR3w805A7vezjLx786SGSSDDtO+oI85SQysTYW1/
- n4J30/Kn7xvOQpTcPMkQHgCnFi/vgDuRDOaK7pp9l3iF4RL+k4vUGc5Cz9gPQXnwGO+haK
- S9kJEvBLgtmz1+7ngGLe7gfKEh/Z+IY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1667896114;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=O7E77NXf7Njp1zqWdU6k301SGIi6TUkaQ9I7uUfLppY=;
- b=kU2J9RD14mGNELZrOli9ml2ZFp61lQBr7Ip2JMlIfkBwAnvfiH955PvsLDzVD4Sy65xyum
- 903V0N/5tEiqOCBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CBF57139F1;
- Tue,  8 Nov 2022 08:28:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id EuDKMDITamMNTAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 08 Nov 2022 08:28:34 +0000
-Message-ID: <d4534f8e-d4b5-8484-dde5-34ce671972af@suse.de>
-Date: Tue, 8 Nov 2022 09:28:34 +0100
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85D5D10E378
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Nov 2022 08:32:43 +0000 (UTC)
+Received: from dggpeml500024.china.huawei.com (unknown [172.30.72.53])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4N61YX4N9ZzHvg9;
+ Tue,  8 Nov 2022 16:32:16 +0800 (CST)
+Received: from huawei.com (10.175.112.208) by dggpeml500024.china.huawei.com
+ (7.185.36.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Tue, 8 Nov
+ 2022 16:32:39 +0800
+From: Yuan Can <yuancan@huawei.com>
+To: <peter.senna@gmail.com>, <martin.donnelly@ge.com>,
+ <martyn.welch@collabora.co.uk>, <andrzej.hajda@intel.com>,
+ <neil.armstrong@linaro.org>, <robert.foss@linaro.org>,
+ <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
+ <jernej.skrabec@gmail.com>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <architt@codeaurora.org>, <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/bridge: megachips: Fix error handling in
+ i2c_register_driver()
+Date: Tue, 8 Nov 2022 08:29:56 +0000
+Message-ID: <20221108082956.35802-1-yuancan@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH] drm/gem-shmem: When drm_gem_object_init failed, should
- release object
-Content-Language: en-US
-To: ChunyouTang <tangchunyou@163.com>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch
-References: <20221108020321.911-1-tangchunyou@163.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20221108020321.911-1-tangchunyou@163.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------8rriCnaf73bjYXvY3oTaAk4N"
+Content-Type: text/plain
+X-Originating-IP: [10.175.112.208]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpeml500024.china.huawei.com (7.185.36.10)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,77 +49,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: yuancan@huawei.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------8rriCnaf73bjYXvY3oTaAk4N
-Content-Type: multipart/mixed; boundary="------------fvEzhbnPPNNP4hxa6taH2Gtb";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: ChunyouTang <tangchunyou@163.com>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <d4534f8e-d4b5-8484-dde5-34ce671972af@suse.de>
-Subject: Re: [PATCH] drm/gem-shmem: When drm_gem_object_init failed, should
- release object
-References: <20221108020321.911-1-tangchunyou@163.com>
-In-Reply-To: <20221108020321.911-1-tangchunyou@163.com>
+A problem about insmod megachips-stdpxxxx-ge-b850v3-fw.ko failed is
+triggered with the following log given:
 
---------------fvEzhbnPPNNP4hxa6taH2Gtb
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+[ 4497.981497] Error: Driver 'stdp4028-ge-b850v3-fw' is already registered, aborting...
+insmod: ERROR: could not insert module megachips-stdpxxxx-ge-b850v3-fw.ko: Device or resource busy
 
-SGkNCg0KQW0gMDguMTEuMjIgdW0gMDM6MDMgc2NocmllYiBDaHVueW91VGFuZzoNCj4gd2hl
-biBnb3RvIGVycl9mcmVlLCB0aGUgb2JqZWN0IGhhZCBpbml0LCBzbyBpdCBzaG91bGQgYmUg
-cmVsZWFzZSB3aGVuIGZhaWwuDQoNCklmIHRoZSBjYWxsIHRvIGRybV9nZW1fb2JqZWN0X2lu
-aXQoKSBmYWlscywgdGhlIG9iamVjdCBpcyBzdGlsbCANCnVuaW5pdGlhbGl6ZWQuIEFkbWl0
-dGVkbHksIHRoZSBjYWxsIHRvIGdlbV9jcmVhdGVfb2JqZWN0IGNvdWxkIG5lZWQgDQphZGRp
-dGlvbmFsIGNsZWFudXAsIGJ1dCBpdCBhcHBlYXJzIGFzIGlmIG5vIG9uZSBoYXMgaGFkIGEg
-bmVlZCBmb3IgdGhpcyANCnNvIGZhci4NCg0KSXMgdGhlcmUgYW55dGhpbmcgdGhhdCBtaWdo
-dCBsZWFrPw0KDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBDaHVueW91VGFuZyA8dGFuZ2NodW55
-b3VAMTYzLmNvbT4NCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fc2htZW1f
-aGVscGVyLmMgfCA0ICsrLS0NCj4gICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCsp
-LCAyIGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9k
-cm1fZ2VtX3NobWVtX2hlbHBlci5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fc2htZW1f
-aGVscGVyLmMNCj4gaW5kZXggMzUxMzhmOGEzNzVjLi4yZTVlMzIwNzM1NWYgMTAwNjQ0DQo+
-IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3NobWVtX2hlbHBlci5jDQo+ICsrKyBi
-L2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3NobWVtX2hlbHBlci5jDQo+IEBAIC0xMDQsMTAg
-KzEwNCwxMCBAQCBfX2RybV9nZW1fc2htZW1fY3JlYXRlKHN0cnVjdCBkcm1fZGV2aWNlICpk
-ZXYsIHNpemVfdCBzaXplLCBib29sIHByaXZhdGUpDQo+ICAgDQo+ICAgCXJldHVybiBzaG1l
-bTsNCj4gICANCj4gLWVycl9yZWxlYXNlOg0KPiAtCWRybV9nZW1fb2JqZWN0X3JlbGVhc2Uo
-b2JqKTsNCj4gICBlcnJfZnJlZToNCj4gICAJa2ZyZWUob2JqKTsNCj4gK2Vycl9yZWxlYXNl
-Og0KPiArCWRybV9nZW1fb2JqZWN0X3JlbGVhc2Uob2JqKTsNCg0KWW91IGhhdmUgbm93IGZy
-ZWVkIHRoZSBvYmplY3QncyBtZW1vcnkgYmVmb3JlIHJlbGVhc2luZyBpdC4gTm90IGdvaW5n
-IHRvIA0Kd29yay4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiAgIA0KPiAgIAlyZXR1
-cm4gRVJSX1BUUihyZXQpOw0KPiAgIH0NCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3Jh
-cGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFu
-eSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIg
-MzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+The reason is that stdpxxxx_ge_b850v3_init() returns i2c_add_driver()
+directly without checking its return value, if i2c_add_driver() failed,
+it returns without calling i2c_del_driver() on the previous i2c driver,
+resulting the megachips-stdpxxxx-ge-b850v3-fw can never be installed
+later.
+A simple call graph is shown as below:
 
+ stdpxxxx_ge_b850v3_init()
+   i2c_add_driver(&stdp4028_ge_b850v3_fw_driver)
+   i2c_add_driver(&stdp2690_ge_b850v3_fw_driver)
+     i2c_register_driver()
+       driver_register()
+         bus_add_driver()
+           priv = kzalloc(...) # OOM happened
+   # return without delete stdp4028_ge_b850v3_fw_driver
 
---------------fvEzhbnPPNNP4hxa6taH2Gtb--
+Fix by calling i2c_del_driver() on stdp4028_ge_b850v3_fw_driver when
+i2c_add_driver() returns error.
 
---------------8rriCnaf73bjYXvY3oTaAk4N
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Fixes: fcfa0ddc18ed ("drm/bridge: Drivers for megachips-stdpxxxx-ge-b850v3-fw (LVDS-DP++)")
+Signed-off-by: Yuan Can <yuancan@huawei.com>
+---
+ drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
------BEGIN PGP SIGNATURE-----
+diff --git a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
+index 97359f807bfc..0d037eeefcf3 100644
+--- a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
++++ b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
+@@ -440,7 +440,13 @@ static int __init stdpxxxx_ge_b850v3_init(void)
+ 	if (ret)
+ 		return ret;
+ 
+-	return i2c_add_driver(&stdp2690_ge_b850v3_fw_driver);
++	ret = i2c_add_driver(&stdp2690_ge_b850v3_fw_driver);
++	if (ret) {
++		i2c_del_driver(&stdp4028_ge_b850v3_fw_driver);
++		return ret;
++	}
++
++	return 0;
+ }
+ module_init(stdpxxxx_ge_b850v3_init);
+ 
+-- 
+2.17.1
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmNqEzIFAwAAAAAACgkQlh/E3EQov+Ct
-BBAAli6voVQ75PX8TLABNJDjoihk5HnWjXUK38BguNRMbd4/9qFP86fPXe1wEkuWzLA0bLTMH08i
-F98Yj+Tk0go9ibd+beNOItVGkS4hrP819VNIyAlrGVfP3HEnJB8ENZ7aQVvWPjNZxwAOQTvTIBwa
-aHn3EHspMS/GBhu/rukR+1lSOAA0Z+DeB++TAzxRm+M7ZJauDAX+wlpsjM5HO4FC5O1kxJEmnbLq
-h9zzVuPxBPzqKuIpytsoIgWys1d2pgGlnXAg+j/YIJGXN038B5MsuWBzGEXSihHkn6tIMvDAnhCQ
-VsXw5SaRDcBDITapjO3yh3k/KqcP9sw9aWH810QZIyDbEGA7o4N44jMxgyqu0h4Gd3tgsTM4elGs
-AYxkho3NYzIgPCH5qzLtf/9LKF2F5pqrRiPCjrBPxMleOYjqVBgouay6Ixq2jypsnZsiGjb4dOV9
-JZxacWp/ycF3RaSgtp9BIOHohFUp3gxV6pWA5E+lyzXqq0vy9DlNmQw2lUBjboQXtEgHCx7qXwsg
-iknFM0xU+VWFRK+ckoQLQ/C6j8IwrsZV5AFB3Lo3o2cSfNrPm8TnMqgWniOxjAYJkpTQDz76wB8j
-EEC180ZYg8Qo7TZiygeXL1JM68r6xiJ9FqPVUJvqh3oxGpuww8j1mHah8/k84goeBGMsuUJsKGZB
-2HA=
-=1+JV
------END PGP SIGNATURE-----
-
---------------8rriCnaf73bjYXvY3oTaAk4N--
