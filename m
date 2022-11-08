@@ -2,52 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E511A621948
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 17:24:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46CC162194A
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 17:25:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FAA510E4BA;
-	Tue,  8 Nov 2022 16:24:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BE7810E3C4;
+	Tue,  8 Nov 2022 16:25:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CF9F10E4CE
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Nov 2022 16:24:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1667924666; x=1699460666;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=JWcp+udE3kV0sIzY3NzDGLFMJx9zyzsbuG1EyA3H/yQ=;
- b=Fycmh0lQvoATA/PX5pKEBSu+WeWELKEhsWHV866On0tPQ+PaMpCL1VDr
- F3AcnJ51QqP8Qh4NOh6kUfpAfg9Hx7rN+NF6MqQQoMscWwfRYgBGw03kt
- tEMbNM2gxXhOqG4j01DquHfWA1x6C65LySEQ1lPm49n65qjO//p4Tyzvd
- zBU21vdRiboavz2kwqSt/D0M8NpJAvlKkHoIoH0ShCUZtEV8E0ZIZsRTk
- M9CN4xqSdWbqWEyTmEpx91yA5SvnIRKuDtGeMJ1u9BMUALXkjZC38722N
- KTJKuVERsYTy2b58Ncseghta4dTDUu5D+wDQHSSDBxIacq3P2QqV9kpQV w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10525"; a="308359866"
-X-IronPort-AV: E=Sophos;i="5.96,148,1665471600"; d="scan'208";a="308359866"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Nov 2022 08:24:25 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10525"; a="965646683"
-X-IronPort-AV: E=Sophos;i="5.96,148,1665471600"; d="scan'208";a="965646683"
-Received: from joe-255.igk.intel.com (HELO localhost) ([172.22.229.67])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Nov 2022 08:24:23 -0800
-Date: Tue, 8 Nov 2022 17:24:22 +0100
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH RESEND] drm: fix crash in drm_minor_alloc_release
-Message-ID: <20221108162422.GB6397@linux.intel.com>
-References: <20221107144500.3692212-1-stanislaw.gruszka@linux.intel.com>
- <Y2kf+HLy/Kz5BclF@intel.com>
- <20221107154041.GA3600973@linux.intel.com>
- <Y2kqtJH2K7O8sTu+@intel.com>
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
+ [IPv6:2607:f8b0:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8380710E3C4;
+ Tue,  8 Nov 2022 16:25:05 +0000 (UTC)
+Received: by mail-oi1-x229.google.com with SMTP id h132so8155713oif.2;
+ Tue, 08 Nov 2022 08:25:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=a+8Yf/sZNwiNDUj/OMYT77J47waMsvsoaujY8tR8y14=;
+ b=EFa7PkfPRlnNLAkXTEiEnYgZ6Y/YaZgVL3Mejm9llw7t8k9z2FPghpxGNhbq6VFRz2
+ k7PwoEROsjYqFNWwtx5OsaxUU5VihVUmV33d3R8czegD4Rf9mz6bKtYLqY6LUL3yJ2kw
+ qyM56Dyue5UAeC1R+nQWfRqk54qAo78RUOhkcKka8uYp35x5E655VZB55hwSxBXKGtsk
+ x/YE+JhmfgoapqnX/pKbhmS+Sv7/WyGNIDFWvkvr1D7BohVGprfjMHJSclZc2dSIaVHN
+ 4AHbgUQrN6Mgqb0OFic4NvD3QVYHX5cT6tVHFXkG7c4aH5c91EF6OIz/o4cQLVa0iZcd
+ wneA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=a+8Yf/sZNwiNDUj/OMYT77J47waMsvsoaujY8tR8y14=;
+ b=x+2PxVCxTAiCrPGijX0BJOHkF4t8RfmqJdq/sdNrqlChHCRnXNNVNenyjFNLpM1aub
+ yKZpBtKGBUiHdq7QM/djGg81NVE3/iHQ4KAE6xLqRJTEsOzcfscF8fptj4CWshNaZjQO
+ IuYM69jZYHAZcix/ryzc+P5D1NCcNVDj2YMXi/Qg9aYy7iI5lQSEoayjT1IJqVoW3fDt
+ PXYt//ynjfiIXcHYl344OX4UbjxkuBK0z6kHlUj9QXXCA2gyYcTSi5SXlP/b8KupYkq/
+ S7HtFYghfNYVoxZvZOTgJZakKuFlO+FBGQ0e1I5nU475tJA0DRqAE8Ngw5af43aJYDlb
+ OBbw==
+X-Gm-Message-State: ACrzQf0n/Dbw1bsGPYXOQFVwpjY5WpVT1eIOCPtAMG0m/Sqje81bsyJh
+ VBqMfRvWE6p8ey/91oLHDin/3dROoboqsD/+cmQ=
+X-Google-Smtp-Source: AMsMyM6FnW3smzsc2vqX42JCVFSvKrKyc0iMu552UOAzqJ/Mwzlw4oMjND0EEJAJMN56tBl6uBS3XHec1Vjmj7CzLVM=
+X-Received: by 2002:aca:b655:0:b0:35a:4fb4:c3d2 with SMTP id
+ g82-20020acab655000000b0035a4fb4c3d2mr16042060oif.96.1667924704519; Tue, 08
+ Nov 2022 08:25:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y2kqtJH2K7O8sTu+@intel.com>
+References: <20221107143715.279841-1-carlos.bilbao@amd.com>
+In-Reply-To: <20221107143715.279841-1-carlos.bilbao@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 8 Nov 2022 11:24:52 -0500
+Message-ID: <CADnq5_M9EvboWq9Oi58S3Rgh_U2_sNXGDA57NCh-oJWUedAN4Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Amend descriptions within enum
+ pipe_split_policy
+To: Carlos Bilbao <carlos.bilbao@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,53 +65,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Cc: sunpeng.li@amd.com, Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com, jun.lei@amd.com,
+ christian.koenig@amd.com, bilbao@vt.edu
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 07, 2022 at 05:56:36PM +0200, Ville Syrjälä wrote:
-> On Mon, Nov 07, 2022 at 04:40:41PM +0100, Stanislaw Gruszka wrote:
-> > On Mon, Nov 07, 2022 at 05:10:48PM +0200, Ville Syrjälä wrote:
-> > > On Mon, Nov 07, 2022 at 03:45:00PM +0100, Stanislaw Gruszka wrote:
-> > > > index 8214a0b1ab7f..e3a1243dd2ae 100644
-> > > > --- a/drivers/gpu/drm/drm_drv.c
-> > > > +++ b/drivers/gpu/drm/drm_drv.c
-> > > > @@ -102,7 +102,8 @@ static void drm_minor_alloc_release(struct drm_device *dev, void *data)
-> > > >  
-> > > >  	WARN_ON(dev != minor->dev);
-> > > >  
-> > > > -	put_device(minor->kdev);
-> > > > +	if (!IS_ERR(minor->kdev))
-> > > > +		put_device(minor->kdev);
-> > > 
-> > > Assigning error pointers into things is a terrible idea.
-> > > IMO the correct fix would be to not return some
-> > > half-constructed garbage from drm_minor_alloc().
-> > > So basically should at least partically revert
-> > > commit f96306f9892b ("drm: manage drm_minor cleanup with drmm_")
-> > 
-> > I would prefer to not change any ordering or remove drmm_* stuff, since
-> > as pointed to above commit message, things are tricky there.
-> 
-> Looks to me that it's only tricky because of drmm. Without that it was
-> totally clear what was happening. I think if the managed stuff is making
-> stuff more tricky then it has failed its purpose.
+On Mon, Nov 7, 2022 at 9:37 AM Carlos Bilbao <carlos.bilbao@amd.com> wrote:
+>
+> Correct descriptions of two last fields of enum pipe_split_policy, updating
+> comments with proper field names.
+>
+> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
 
-I'm not huge fan of managed resources everywhere either, but I think
-we should do rather small fixes for bugs to avoid regressions.
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
 
-> > I think assigning NULL to minor->kdev should be fine:
-> > 
-> > 	if (IS_ERR(minor->kdev)) {
-> > 		r = PTR_ERR(minor->kdev);
-> > 		minor->kdev = NULL;
-> > 		return r;
-> > 	}
-
-Seems having minor->kdev NULL was ordinal Daniel idea in commit
-f96306f9892b, but was not done properly when finally patch get's in.
-
-Regards
-Stanislaw
+> ---
+>  drivers/gpu/drm/amd/display/dc/dc.h | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/display/dc/dc.h
+> index bfc5474c0f4c..277631a899d8 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dc.h
+> +++ b/drivers/gpu/drm/amd/display/dc/dc.h
+> @@ -457,15 +457,16 @@ enum pipe_split_policy {
+>         MPC_SPLIT_DYNAMIC = 0,
+>
+>         /**
+> -        * @MPC_SPLIT_DYNAMIC: Avoid pipe split, which means that DC will not
+> +        * @MPC_SPLIT_AVOID: Avoid pipe split, which means that DC will not
+>          * try any sort of split optimization.
+>          */
+>         MPC_SPLIT_AVOID = 1,
+>
+>         /**
+> -        * @MPC_SPLIT_DYNAMIC: With this option, DC will only try to optimize
+> -        * the pipe utilization when using a single display; if the user
+> -        * connects to a second display, DC will avoid pipe split.
+> +        * @MPC_SPLIT_AVOID_MULT_DISP: With this option, DC will only try
+> +        * to optimize the pipe utilization when using a single display;
+> +        * if the user connects to a second display, DC will avoid pipe
+> +        * split.
+>          */
+>         MPC_SPLIT_AVOID_MULT_DISP = 2,
+>  };
+> --
+> 2.34.1
+>
