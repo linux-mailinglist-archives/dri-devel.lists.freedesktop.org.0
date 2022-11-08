@@ -1,61 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4343620859
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 05:42:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FF4A620888
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 05:54:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4ED9910E220;
-	Tue,  8 Nov 2022 04:41:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 094FB10E39C;
+	Tue,  8 Nov 2022 04:53:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
- [IPv6:2607:f8b0:4864:20::102b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE9C810E220
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Nov 2022 04:41:46 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id
- e7-20020a17090a77c700b00216928a3917so11969076pjs.4
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Nov 2022 20:41:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=1LhW8LVwSoxQQpyW4009bvl9o+iGdIJ8EYui4FeN5lI=;
- b=JrLTnqEqQQX/olx97uyFYEYYUbQ36qk5VkyCuZyuuWn1R7J3wu+34ybKhjRzMLHpkK
- SLYbJcs9eIRjjJmcIfRkwNgdkz/j98i7O1M2SL0VB8dHybCDB7FgWk32NbOPFCD3LOpf
- xTbXcCVQ6J1hJ9CQgnf8YLZQlKaACiv/VX+iAnPD/iL/0nnjzqyM7jorrphS2C3j5rsV
- W9ZWnrLfcasVe1qsmIqxMfUtyNb4e8wGiVo6tzHOE9t49CmEKZP3m4JR2CtX9tI6wkqo
- WOqvpRjODd2B1RADPzMGK8q0DyHrNxzgd2RTkFe8W1rXXGhYEbv/UjzGnmNJClev36Qi
- CDOQ==
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD69D10E39C
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Nov 2022 04:53:50 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id kt23so35525543ejc.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Nov 2022 20:53:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Fra4yIWv6TZGqY5e50Ht4t7fKg9qXIteCxj5r9JD6vc=;
+ b=k5nrvygDjfG84Jq8usw3TAeubZw8DjisC8BDW/Nl99poBxOVm3b4Emj6HmmfjmpRDg
+ 6UqJx+Zje8uwbw0492FSt+SP9nPZpSClhlI2a7jkV8gf4dZ+NQhHw/+vcVeKfiMshCy8
+ l5vHZxgwLrsSFmUFQ9k9AqBdcglrJDMAIuZNg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1LhW8LVwSoxQQpyW4009bvl9o+iGdIJ8EYui4FeN5lI=;
- b=NibbY2+WUE/V+HKAyvjpvMcK4iTZORl8ptt/pCFihkimtfrWYE+JOIOe/UfCRNypdg
- q17WNINYlNB0EVDXASdKijBibTPr2QHPUn5bSy+66xklRivhgd3jK9+n+GOSMIOdhrQ4
- I+SGpsbMgHxmPi3WH8yZyLhkVzOTJS+0p0wtxi1WvKPRzY7F/gMcYk7tCAhu8XgCSGXa
- aAyIhcdePK7BG1tI00CdZXdI7LCwpXPpgLv8Txsxf3U+6I28x84Egg0c3uMAxRKt/veC
- L6WBsF4P/EdxGnouT5MHByd3KQGHloCEkimWeQUVnMb2qweOo6gSA6uNE9KAgfIeQoMM
- 3Tvw==
-X-Gm-Message-State: ACrzQf3S6d+/2tPLoyx2FVqJlyCpbHVDh26aaGjlrBC502eCJoz4e2kp
- +Ek1RccM0C8q7Hlq6nP0ml0=
-X-Google-Smtp-Source: AMsMyM7L1FtirDOVqJjIsUVZ7WCVdzk4jypU9W5LWPfUxEa7dwpdnbp8zexf2QhSOS+ruG6K0QT3zg==
-X-Received: by 2002:a17:90a:c7c7:b0:20a:db08:8a8a with SMTP id
- gf7-20020a17090ac7c700b0020adb088a8amr913509pjb.141.1667882506250; 
- Mon, 07 Nov 2022 20:41:46 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:fb10:b5b0:232e:4afb])
- by smtp.gmail.com with ESMTPSA id
- y11-20020a1709029b8b00b00178b6ccc8a0sm5810357plp.51.2022.11.07.20.41.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Nov 2022 20:41:45 -0800 (PST)
-Date: Mon, 7 Nov 2022 20:41:42 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>
-Subject: [RESEND PATCH] drm/tegra: switch to using devm_fwnode_gpiod_get()
-Message-ID: <Y2neBkfe6b+MzQGa@google.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Fra4yIWv6TZGqY5e50Ht4t7fKg9qXIteCxj5r9JD6vc=;
+ b=aehryj0loulG9uzxCKhvhuoG8cwjS+as+0/Bms6HFyMYgjZNheX4OvhS1eQBpHhv8g
+ c9KipP/oVQGcp29DFSC3gEWWo15GsaTKgKW0z1WXbouuitAaCu0m3fIZYP4XUjfPpqV1
+ b1uw5ZJpMZ0lGT9GT4WWJo6zOzHhw0UQhg5ns4PmZHDXrfKqojM3M1lh5sEeuBYzY1X+
+ IHgOLFZJIQ3b5fohb6BbotBR8uDEUMxJiimk8qLiwCW98+Y/mWSRc5UUgd5ueLhCUais
+ XHB0i+f+tRBndbzbWXoGislgcZpmw7ZWDxXUp9BTlYoCVzjMPESt/3GZ0u5uezgBXJXd
+ 6dWQ==
+X-Gm-Message-State: ACrzQf0FvApDsTop8B/TZHQ4OUmaCe5E+ogZtUQebAhHPMQoJdiAAalp
+ T7Vxh4+gPynMrSysXunTVeKBLuFQJtCLxP5vtjQ=
+X-Google-Smtp-Source: AMsMyM59NVtb4ugtyYgZzBDmr7mudWDcLH3HUzcFiJnD9NnDSVb6Tg0grE3rUpNWXNUeaTLoVRZBbw==
+X-Received: by 2002:a17:906:8a57:b0:7ad:69fb:3a with SMTP id
+ gx23-20020a1709068a5700b007ad69fb003amr49863116ejc.179.1667883229132; 
+ Mon, 07 Nov 2022 20:53:49 -0800 (PST)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com.
+ [209.85.208.49]) by smtp.gmail.com with ESMTPSA id
+ ca21-20020aa7cd75000000b004580862ffdbsm5066397edb.59.2022.11.07.20.53.48
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Nov 2022 20:53:48 -0800 (PST)
+Received: by mail-ed1-f49.google.com with SMTP id a5so20698371edb.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Nov 2022 20:53:48 -0800 (PST)
+X-Received: by 2002:a17:906:ee8e:b0:730:3646:d178 with SMTP id
+ wt14-20020a170906ee8e00b007303646d178mr51989213ejb.426.1667882769115; Mon, 07
+ Nov 2022 20:46:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20221107161740.144456-1-david@redhat.com>
+ <20221107161740.144456-17-david@redhat.com>
+In-Reply-To: <20221107161740.144456-17-david@redhat.com>
+From: Tomasz Figa <tfiga@chromium.org>
+Date: Tue, 8 Nov 2022 13:45:57 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5C3Ba1WhjYJF_7tW06mgvzoz9KTakNo+Tz8h_f6dGKzHQ@mail.gmail.com>
+Message-ID: <CAAFQd5C3Ba1WhjYJF_7tW06mgvzoz9KTakNo+Tz8h_f6dGKzHQ@mail.gmail.com>
+Subject: Re: [PATCH RFC 16/19] mm/frame-vector: remove FOLL_FORCE usage
+To: David Hildenbrand <david@redhat.com>, Hans Verkuil <hverkuil@xs4all.nl>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,48 +75,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jonathan Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ Nadav Amit <namit@vmware.com>, linux-kselftest@vger.kernel.org,
+ Andrea Arcangeli <aarcange@redhat.com>, linux-samsung-soc@vger.kernel.org,
+ linux-rdma@vger.kernel.org, Hugh Dickins <hughd@google.com>,
+ Matthew Wilcox <willy@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, John Hubbard <jhubbard@nvidia.com>,
+ etnaviv@lists.freedesktop.org, Peter Xu <peterx@redhat.com>,
+ Muchun Song <songmuchun@bytedance.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Oded Gabbay <ogabbay@kernel.org>, linux-kernel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-devm_gpiod_get_from_of_node() is going away and GPIO consumers should
-use generic device/firmware node APIs to fetch GPIOs assigned to them.
-Switch the driver to use devm_fwnode_gpiod_get() instead.
+Hi David,
 
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
+On Tue, Nov 8, 2022 at 1:19 AM David Hildenbrand <david@redhat.com> wrote:
+>
+> FOLL_FORCE is really only for debugger access. According to commit
+> 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are always
+> writable"), the pinned pages are always writable.
 
-Marked as "resend" since the contents of the patch are the same (however
-I did update the description a bit).
+Actually that patch is only a workaround to temporarily disable
+support for read-only pages as they seemed to suffer from some
+corruption issues in the retrieved user pages. We expect to support
+read-only pages as hardware input after. That said, FOLL_FORCE doesn't
+sound like the right thing even in that case, but I don't know the
+background behind it being added here in the first place. +Hans
+Verkuil +Marek Szyprowski do you happen to remember anything about it?
 
- drivers/gpu/drm/tegra/output.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Best regards,
+Tomasz
 
-diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/output.c
-index 47d26b5d9945..a8925dcd7edd 100644
---- a/drivers/gpu/drm/tegra/output.c
-+++ b/drivers/gpu/drm/tegra/output.c
-@@ -133,11 +133,11 @@ int tegra_output_probe(struct tegra_output *output)
- 		}
- 	}
- 
--	output->hpd_gpio = devm_gpiod_get_from_of_node(output->dev,
--						       output->of_node,
--						       "nvidia,hpd-gpio", 0,
--						       GPIOD_IN,
--						       "HDMI hotplug detect");
-+	output->hpd_gpio = devm_fwnode_gpiod_get(output->dev,
-+					of_fwnode_handle(output->of_node),
-+					"nvidia,hpd",
-+					GPIOD_IN,
-+					"HDMI hotplug detect");
- 	if (IS_ERR(output->hpd_gpio)) {
- 		if (PTR_ERR(output->hpd_gpio) != -ENOENT)
- 			return PTR_ERR(output->hpd_gpio);
--- 
-2.38.1.431.g37b22c650d-goog
-
-
--- 
-Dmitry
+>
+> FOLL_FORCE in this case seems to be a legacy leftover. Let's just remove
+> it.
+>
+> Cc: Tomasz Figa <tfiga@chromium.org>
+> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  drivers/media/common/videobuf2/frame_vector.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/common/videobuf2/frame_vector.c b/drivers/media/common/videobuf2/frame_vector.c
+> index 542dde9d2609..062e98148c53 100644
+> --- a/drivers/media/common/videobuf2/frame_vector.c
+> +++ b/drivers/media/common/videobuf2/frame_vector.c
+> @@ -50,7 +50,7 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
+>         start = untagged_addr(start);
+>
+>         ret = pin_user_pages_fast(start, nr_frames,
+> -                                 FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM,
+> +                                 FOLL_WRITE | FOLL_LONGTERM,
+>                                   (struct page **)(vec->ptrs));
+>         if (ret > 0) {
+>                 vec->got_ref = true;
+> --
+> 2.38.1
+>
