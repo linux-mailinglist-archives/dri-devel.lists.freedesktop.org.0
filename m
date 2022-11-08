@@ -2,70 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AFF5621144
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 13:47:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39718621159
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 13:48:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F55E10E425;
-	Tue,  8 Nov 2022 12:46:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F239510E286;
+	Tue,  8 Nov 2022 12:48:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FBDB10E442
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Nov 2022 12:46:53 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id g12so21077795lfh.3
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Nov 2022 04:46:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ICaRGw9xCO3DSvdx7VVEsxQH9tTfnXE7G9tYCgGWr34=;
- b=CgRwNsUWCdaRfL0Zxw2rP8qnHgxwQqa92EwavvN0gY58lu/xEfqCf3aeLCvbOM/5EX
- iKzJivIDq1LGRPIQGB/os0BPO01HugtPFSoY/YN9kGAMRoUbs8N+MJl9JT392szKjLE6
- F9oVDo/kSdsb5IVos5xA4L5vNKE9p2MkvfjgeJEZh0/YvHQUGyysRjKVVj/IuRc0dFxy
- omYcT4CEKNgLZu0H/35FZqMNOYOs1LAFw5z/y0TLlgvj+HolM/IpPw9kxwoEEEMbz8hf
- pRpzYqAsHmi8pidSpaCxVRq7DNOmGt/8mcgYJn2i+dDJKYO65vbWGQx0Jzt99sVDBl0a
- jcDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ICaRGw9xCO3DSvdx7VVEsxQH9tTfnXE7G9tYCgGWr34=;
- b=PaPYm26Y5aP4Sc1LhVbvzz32PpR58Jk3mBwErm8gWPm0x/4uFP6FkKkaD1SqNyRzHv
- /rQohw8WlHEMnaTs8IzIBcnYPGiHjneSCy8xyPXlLiXaJ6xHiTUQmIr87fljbw9vVJn7
- VMCrwqBew4G6P3XbtucLJk+O24HYKFMzjTvTE2xH2WqAZ0XzjHFg6VBmaOiBp5Z0b0Yv
- zc1uHkMFTUgt6tnj4IdT0fi3IJBv1KJQzX5vXxVfN/u7xtrANu38YZ9V5FV9wO4yHcME
- 1Rs+m/mJT0o0wRZNsx992kxi3izJPurbZqVaQfT3+KzLw6Dr5IkjsT8N5BPW7T0Mnsvs
- Fv/Q==
-X-Gm-Message-State: ACrzQf205dGser4hVGhpaodhvCnSvA8gzehU69kdocO+GFV4l91HdQG7
- yJji3zbvC/LgOJgKk9t3s5Y8Lg==
-X-Google-Smtp-Source: AMsMyM7Rss3ZJXpWQzraDFVxnOgPelIhIHbOdwlUE0xr9Mb3GOdpjuUhBYjZGqSRdBoMHu/gRWClKw==
-X-Received: by 2002:a05:6512:78c:b0:4a2:4b01:8466 with SMTP id
- x12-20020a056512078c00b004a24b018466mr511398lfr.34.1667911611454; 
- Tue, 08 Nov 2022 04:46:51 -0800 (PST)
-Received: from [10.27.10.248] ([195.165.23.90])
- by smtp.gmail.com with ESMTPSA id
- s16-20020a056512215000b004a2c447598fsm1776440lfr.159.2022.11.08.04.46.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Nov 2022 04:46:51 -0800 (PST)
-Message-ID: <aeb59d3c-34d0-f00a-bfc3-524cd03acb71@linaro.org>
-Date: Tue, 8 Nov 2022 15:46:50 +0300
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F369710E286
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Nov 2022 12:48:47 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 7DD55B81ACB
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Nov 2022 12:48:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DF39C433D6
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Nov 2022 12:48:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1667911725;
+ bh=/C+b508gAj/Q+BmeIpxPFXFveLDZojLGt927GrLKC/s=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=T5XI5kDaxuWTZFlRoTxCxMjci3972mvKPT1Js/gWkB4QwmGvSLR9AwDBnJK2CZOvs
+ BpwvKvfXohfo44tUC4z7BDUfwN7o/4TG2+sVrKWmcuAssZ9lKqCVJTMJdTMqsBN8Sw
+ jSEBWQHBJJN221ZCDrWEAH3SAdopIIwNkZiQCFH7V19QjvVfWMXoNAH2fPCkgQUIOf
+ OqmjawYaRAToWUNGQg0XyvXtMeYb8HWpxyCKY8T7jOZqBbrSTA8VG31nARZqhIThup
+ yxF/ydBFHmxSrqHbX9W7ihHn/V+TW6EfUq7F0sL8CLT8hWGDrL2mb+nCpOPobmUnVi
+ s3wtUuAIC5eBw==
+Received: by mail-yb1-f180.google.com with SMTP id 7so12679979ybp.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Nov 2022 04:48:45 -0800 (PST)
+X-Gm-Message-State: ANoB5plOnzBP2cjgcX4jtcpSyvxMyvPZaOqyykX/eZb8TYKjMlHqWIkY
+ gqlyrYRQWJjMeT+HNGRpStYmutqvZKlHwR68Gg0=
+X-Google-Smtp-Source: AA0mqf6aAqrZKqRWPUmWG7Y6EiQsDi9ZjRKXAfj/lEixKDnfne0KRvlHho7AtHsaSH9EO35/AhsJIFG/EbpEjWqqjdI=
+X-Received: by 2002:a25:2389:0:b0:6d8:7f81:edaf with SMTP id
+ j131-20020a252389000000b006d87f81edafmr7102372ybj.443.1667911724199; Tue, 08
+ Nov 2022 04:48:44 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH v2 07/18] dt-bindings: msm: dsi-controller-main: Add
- compatible strings for every current SoC
-Content-Language: en-GB
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, robdclark@gmail.com,
- quic_abhinavk@quicinc.com, krzysztof.kozlowski+dt@linaro.org,
- robh+dt@kernel.org, quic_mkrishn@quicinc.com, linux-arm-msm@vger.kernel.org
-References: <20221107235654.1769462-1-bryan.odonoghue@linaro.org>
- <20221107235654.1769462-8-bryan.odonoghue@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20221107235654.1769462-8-bryan.odonoghue@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20221106210225.2065371-1-ogabbay@kernel.org>
+ <20221106210225.2065371-2-ogabbay@kernel.org>
+ <20221108124614.GA6397@linux.intel.com>
+In-Reply-To: <20221108124614.GA6397@linux.intel.com>
+From: Oded Gabbay <ogabbay@kernel.org>
+Date: Tue, 8 Nov 2022 14:48:17 +0200
+X-Gmail-Original-Message-ID: <CAFCwf12D=nEsRyDvbEotXN6xCP+8FPu-d-heTQGzas9DwCPRSQ@mail.gmail.com>
+Message-ID: <CAFCwf12D=nEsRyDvbEotXN6xCP+8FPu-d-heTQGzas9DwCPRSQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 1/3] drivers/accel: define kconfig and register a
+ new major
+To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,81 +63,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, devicetree@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
+ Kevin Hilman <khilman@baylibre.com>, Christoph Hellwig <hch@infradead.org>,
+ Jagan Teki <jagan@amarulasolutions.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ John Hubbard <jhubbard@nvidia.com>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ Arnd Bergmann <arnd@arndb.de>, Jiho Chu <jiho.chu@samsung.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/11/2022 02:56, Bryan O'Donoghue wrote:
-> Currently we do not differentiate between the various users of the
-> qcom,mdss-dsi-ctrl. The driver is flexible enough to operate from one
-> compatible string but, the hardware does have some significant differences
-> in the number of clocks.
-> 
-> To facilitate documenting the clocks add the following compatible strings
-> 
-> - qcom,mdss-dsi-ctrl-apq8064
+On Tue, Nov 8, 2022 at 2:46 PM Stanislaw Gruszka
+<stanislaw.gruszka@linux.intel.com> wrote:
+>
+> On Sun, Nov 06, 2022 at 11:02:23PM +0200, Oded Gabbay wrote:
+> > Add a new Kconfig for the accel subsystem. The Kconfig currently
+> > contains only the basic CONFIG_DRM_ACCEL option that will be used to
+> > decide whether to compile the accel registration code. Therefore, the
+> > kconfig option is defined as bool.
+> >
+> > The accel code will be compiled as part of drm.ko and will be called
+> > directly from the DRM core code. The reason we compile it as part of
+> > drm.ko and not as a separate module is because of cyclic dependency
+> > between drm.ko and the separate module (if it would have existed).
+> > This is due to the fact that DRM core code calls accel functions and
+> > vice-versa.
+> >
+> > The accelerator devices will be exposed to the user space with a new,
+> > dedicated major number - 261.
+> >
+> > The accel init function registers the new major number as a char device
+> > and create corresponding sysfs and debugfs root entries, similar to
+> > what is done in DRM init function.
+> >
+> > I added a new header called drm_accel.h to include/drm/, that will hold
+> > the prototypes of the drm_accel.c functions. In case CONFIG_DRM_ACCEL
+> > is set to 'N', that header will contain empty inline implementations of
+> > those functions, to allow DRM core code to compile successfully
+> > without dependency on CONFIG_DRM_ACCEL.
+> >
+> > I Updated the MAINTAINERS file accordingly with the newly added folder
+> > and I have taken the liberty to appropriate the dri-devel mailing list
+> > and the dri-devel IRC channel for the accel subsystem.
+> >
+> > Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
+>
+> Tested-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+>
+> I tested those patches with intel_vpu driver. After initial troubles,
+> I got things worked with our driver and user mode components.
+>
+> Regards
+> Stanislaw
 
-Generic comment: I think we'd better follow the arm/qcom-soc.yaml and 
-use qcom,soc-something as compat string. This would leave us with 
-qcom,apq8064-dsi-ctrl
-
-I'm not sure if we want to follow the qcm2290 approach and encode the 
-DSI ctrl revision here (6g vs v2).
-
-
-> - qcom,mdss-dsi-ctrl-msm8916
-> - qcom,mdss-dsi-ctrl-msm8974
-> - qcom,mdss-dsi-ctrl-msm8996
-> - qcom,mdss-dsi-ctrl-sc7180
-> - qcom,mdss-dsi-ctrl-sc7280
-> - qcom,mdss-dsi-ctrl-sdm630
-> - qcom,mdss-dsi-ctrl-sdm660
-> - qcom,mdss-dsi-ctrl-sdm845
-> - qcom,mdss-dsi-ctrl-sm8250
-> 
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-> Cc: linux-arm-msm@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: freedreno@lists.freedesktop.org
-> Cc: devicetree@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
->   .../bindings/display/msm/dsi-controller-main.yaml      | 10 ++++++++++
->   1 file changed, 10 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-> index b35130a77b43e..9db3e63acda3d 100644
-> --- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-> @@ -17,6 +17,16 @@ properties:
->       enum:
->         - qcom,dsi-ctrl-6g-qcm2290
->         - qcom,mdss-dsi-ctrl
-> +      - qcom,mdss-dsi-ctrl-apq8064
-> +      - qcom,mdss-dsi-ctrl-msm8916
-> +      - qcom,mdss-dsi-ctrl-msm8974
-> +      - qcom,mdss-dsi-ctrl-msm8996
-> +      - qcom,mdss-dsi-ctrl-sc7180
-> +      - qcom,mdss-dsi-ctrl-sc7280
-> +      - qcom,mdss-dsi-ctrl-sdm630
-> +      - qcom,mdss-dsi-ctrl-sdm660
-> +      - qcom,mdss-dsi-ctrl-sdm845
-> +      - qcom,mdss-dsi-ctrl-sm8250
->   
->     reg:
->       maxItems: 1
-
--- 
-With best wishes
-Dmitry
-
+Thanks!
+Great to hear that.
+Oded
