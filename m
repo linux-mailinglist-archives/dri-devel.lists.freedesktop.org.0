@@ -1,61 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17B046219E1
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 17:56:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3417621A05
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 18:06:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0463B10E4C5;
-	Tue,  8 Nov 2022 16:56:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1C2710E4C7;
+	Tue,  8 Nov 2022 17:06:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com
- [IPv6:2607:f8b0:4864:20::b2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0260910E4C7
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Nov 2022 16:56:04 +0000 (UTC)
-Received: by mail-yb1-xb2b.google.com with SMTP id 63so18067988ybq.4
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Nov 2022 08:56:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=TN8l2lGtVmcCUipWgzLJOYNCDLR8IIsOAYeFjH7zJ1w=;
- b=g5OU3wWOpPPOiIkbca2HE3EGr3zNuD22/5cVb58DoDhivuCuM0q7rGOcbDSVt6mbM7
- puJ6zoUGLHjZ/1y6uiMnCnkawiLa+M5N9DdXrQ4fzYvPxIjFicmtVpQ8iKuahX6iPh0i
- X33uSN0n5zZzyPl0GscyTiXlC/PF+u4fiNCN8nZFt1t5CQBCzfLjrBf1UE1UaRSAWmsU
- /H/vai7wpg8sZXUHAjh6JncNyIQ3i9u3PIH5a4SM67tfTLu4wIulHKdk3lJ+poqtCJRJ
- eKxusToqrCDwwsWxNYuMzuHTDss2yuC8kvBnCyb0uZnmj2tZGUMLRFR75V/P53l4/ANS
- /5Cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=TN8l2lGtVmcCUipWgzLJOYNCDLR8IIsOAYeFjH7zJ1w=;
- b=kG+I6XqPV53XGHTPBir66mR1fsD2Bj2D6ayvHfel5iY9V2E169AVqs4AQXAcNp9CiR
- wnykGLMZYlQ9ZOBYSSjTJg+82eGEOXBPxeP7xQ5jWDKGzfe89Q/DMi1NUI36PsWaQewk
- NBIMa2njbvlaDRVzZvWaHirN8pJro7xtMUicY6QK8ak8b5V0E21MXlWNQFwa1lwWQgQW
- rFh1rV5cBKskI9zA4+KKe6ZMjuIxK5UP0dskNC8a4h0TqqfVoMf0tw7RZVSTCR4yuUyd
- zEJrfaAdgJXiW5/0S6dsvnr34YpwJCndbdTv/vyIfjblzJkMBwxLLgaj+v0pyxWj5KRV
- gu1A==
-X-Gm-Message-State: ACrzQf1mbOyPR/1PWUvDflMoLePaQ4wHlxYAkSMUGwhiP4CbMXil6YtT
- F9JNiuTc8c6vamM+b+ic2dClfrSsgE4mnT0QymO9Ww==
-X-Google-Smtp-Source: AMsMyM56aNnx3FqXLL0Tf26b1gUZQslz7y1AQLBr6u3w0T002wSBE6l9w1Rkr4MeMdq0L5BOCNqcXfrK/a4ieFP1Q3M=
-X-Received: by 2002:a25:ba45:0:b0:67a:6298:7bac with SMTP id
- z5-20020a25ba45000000b0067a62987bacmr60069197ybj.194.1667926563854; Tue, 08
- Nov 2022 08:56:03 -0800 (PST)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AB6DD10E4C7
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Nov 2022 17:06:28 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 239B01FB;
+ Tue,  8 Nov 2022 09:06:34 -0800 (PST)
+Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com
+ [10.1.196.40])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id F308E3F703;
+ Tue,  8 Nov 2022 09:06:26 -0800 (PST)
+From: Robin Murphy <robin.murphy@arm.com>
+To: robh@kernel.org,
+	tomeu.vizoso@collabora.com,
+	steven.price@arm.com
+Subject: [PATCH] drm/panfrost: Split io-pgtable requests properly
+Date: Tue,  8 Nov 2022 17:06:19 +0000
+Message-Id: <49e54bb4019cd06e01549b106d7ac37c3d182cd3.1667927179.git.robin.murphy@arm.com>
+X-Mailer: git-send-email 2.36.1.dirty
 MIME-Version: 1.0
-References: <20221107235654.1769462-1-bryan.odonoghue@linaro.org>
- <20221107235654.1769462-4-bryan.odonoghue@linaro.org>
- <ceffec42-f9af-6bde-8db1-076f0cc2a34f@linaro.org>
- <a8c36604-5f52-0be9-29d7-f64811541c97@linaro.org>
-In-Reply-To: <a8c36604-5f52-0be9-29d7-f64811541c97@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 8 Nov 2022 19:55:52 +0300
-Message-ID: <CAA8EJpoepOn4ScZT6V7a1T73pWdQKsxUzVKA5KsBy9SFfNVBKQ@mail.gmail.com>
-Subject: Re: [PATCH v2 03/18] dt-bindings: msm: dsi-controller-main: Add vdd*
- descriptions back in
-To: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,56 +41,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- robh+dt@kernel.org, quic_mkrishn@quicinc.com,
- krzysztof.kozlowski+dt@linaro.org, Sean Paul <sean@poorly.run>
+Cc: linux-arm-kernel@lists.infradead.org,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ alyssa.rosenzweig@collabora.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 8 Nov 2022 at 17:42, Bryan O'Donoghue
-<bryan.odonoghue@linaro.org> wrote:
->
-> On 08/11/2022 12:59, Dmitry Baryshkov wrote:
-> >>
-> >> Warnings about missing regulators can be resolved by updating the
-> >> relevant
-> >> dtsi files to point to fixed always-on regulators where appropriate.
-> >
-> > Ugh. Are they missing or are they optional/not used on these platforms?
->
-> Some platforms either don't implement them or worse possibly do
-> implement but don't model them when they should.
->
-> > Can you possibly list all regulator warnings?
->
->
-> Downstream we have
->
-> arch/arm/boot/dts/qcom/msm8916-mdss.dtsi
->
-> mdss_dsi0: qcom,mdss_dsi@1a98000 {
->         vdda-supply = <&pm8916_l2>;
->         vdd-supply = <&pm8916_l17>;
->         vddio-supply = <&pm8916_l6>;
-> };
->
-> Looking at something like
->
-> arch/arm/boot/dts/qcom/msm8916-mtp.dtsi which references
-> arch/arm/boot/dts/qcom/dsi-panel-jdi-1080p-video.dtsi it doesn't appear
-> to delete andy of the vdd*-supply references
+Although we don't use 1GB block mappings, we still need to split
+map/unmap requests at 1GB boundaries to match what io-pgtable expects.
+Fix that, and add some explanation to make sense of it all.
 
-Good example. We have vdda-supply and vddio-supply in
-msm8916-pm8916.dtsi (correct).
-And the mentioned vdd-supply is not applicable to this platform. It
-powers up the external DSI-to-HDMI bridge. I'd assume that the same
-regulator was destined to power up the panel.
+Fixes: 3740b081795a ("drm/panfrost: Update io-pgtable API")
+Reported-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+---
+The previous diff turned out to be not quite right, so I've not
+included Dmitry's Tested-by given for that.
+---
+ drivers/gpu/drm/panfrost/panfrost_mmu.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-So, I'd suggest defining all supplies at the top level and then
-pushing all the required: parts into the per-SoC entries.
-
+diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+index e246d914e7f6..4e83a1891f3e 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+@@ -250,13 +250,22 @@ void panfrost_mmu_reset(struct panfrost_device *pfdev)
+ 
+ static size_t get_pgsize(u64 addr, size_t size, size_t *count)
+ {
++	/*
++	 * io-pgtable only operates on multiple pages within a single table
++	 * entry, so we need to split at boundaries of the table size, i.e.
++	 * the next block size up. The distance from address A to the next
++	 * boundary of block size B is logically B - A % B, but in unsigned
++	 * two's complement where B is a power of two we get the equivalence
++	 * B - A % B == (B - A) % B == (n * B - A) % B, and choose n = 0 :)
++	 */
+ 	size_t blk_offset = -addr % SZ_2M;
+ 
+ 	if (blk_offset || size < SZ_2M) {
+ 		*count = min_not_zero(blk_offset, size) / SZ_4K;
+ 		return SZ_4K;
+ 	}
+-	*count = size / SZ_2M;
++	blk_offset = -addr % SZ_1G ?: SZ_1G;
++	*count = min(blk_offset, size) / SZ_2M;
+ 	return SZ_2M;
+ }
+ 
 -- 
-With best wishes
-Dmitry
+2.36.1.dirty
+
