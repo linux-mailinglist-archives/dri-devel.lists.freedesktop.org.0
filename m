@@ -2,56 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46CC162194A
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 17:25:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CD58621957
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 17:27:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BE7810E3C4;
-	Tue,  8 Nov 2022 16:25:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D950010E4C3;
+	Tue,  8 Nov 2022 16:27:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
- [IPv6:2607:f8b0:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8380710E3C4;
- Tue,  8 Nov 2022 16:25:05 +0000 (UTC)
-Received: by mail-oi1-x229.google.com with SMTP id h132so8155713oif.2;
- Tue, 08 Nov 2022 08:25:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com
+ [IPv6:2607:f8b0:4864:20::112f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DADE10E4D1
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Nov 2022 16:27:05 +0000 (UTC)
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-370547b8ca0so138789507b3.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Nov 2022 08:27:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=edgeble-ai.20210112.gappssmtp.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=a+8Yf/sZNwiNDUj/OMYT77J47waMsvsoaujY8tR8y14=;
- b=EFa7PkfPRlnNLAkXTEiEnYgZ6Y/YaZgVL3Mejm9llw7t8k9z2FPghpxGNhbq6VFRz2
- k7PwoEROsjYqFNWwtx5OsaxUU5VihVUmV33d3R8czegD4Rf9mz6bKtYLqY6LUL3yJ2kw
- qyM56Dyue5UAeC1R+nQWfRqk54qAo78RUOhkcKka8uYp35x5E655VZB55hwSxBXKGtsk
- x/YE+JhmfgoapqnX/pKbhmS+Sv7/WyGNIDFWvkvr1D7BohVGprfjMHJSclZc2dSIaVHN
- 4AHbgUQrN6Mgqb0OFic4NvD3QVYHX5cT6tVHFXkG7c4aH5c91EF6OIz/o4cQLVa0iZcd
- wneA==
+ bh=tAZBstAdAsmK2XVl2Tom+G2xfbr9YP3jCR0NWwLcpbY=;
+ b=HiGTzUoVmhEVvVkdyNqwuF6heV9nAwZvdLKlIXsppaoNt+uX/qVAQNtFGgYmPsBGHM
+ 0F9S5/bsxeZCjF0LQEYGU9FcMiHDVR50vlIZ6RKwgEFqBYEb/SsdGHuFycPHMw9MmghX
+ JjXvd2EuDhKDQ9Isyh1iu309DukrHDA6mX8uOCxPHXgO2TvVT3sf1ovRCns3OwWcPg5R
+ jRCEfTr/BIz/5+1S8pIwwjXLmEf5g1xz6RFdomtLcAxOnwpB+kWGnszEEf0rbebzYfr+
+ 32G35niUMCT9cuuQFobooLkMDxKcF4TCb5KHkYcr5IaZ/IFlv1mnMNXdgwXk5goxJNTD
+ obsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=a+8Yf/sZNwiNDUj/OMYT77J47waMsvsoaujY8tR8y14=;
- b=x+2PxVCxTAiCrPGijX0BJOHkF4t8RfmqJdq/sdNrqlChHCRnXNNVNenyjFNLpM1aub
- yKZpBtKGBUiHdq7QM/djGg81NVE3/iHQ4KAE6xLqRJTEsOzcfscF8fptj4CWshNaZjQO
- IuYM69jZYHAZcix/ryzc+P5D1NCcNVDj2YMXi/Qg9aYy7iI5lQSEoayjT1IJqVoW3fDt
- PXYt//ynjfiIXcHYl344OX4UbjxkuBK0z6kHlUj9QXXCA2gyYcTSi5SXlP/b8KupYkq/
- S7HtFYghfNYVoxZvZOTgJZakKuFlO+FBGQ0e1I5nU475tJA0DRqAE8Ngw5af43aJYDlb
- OBbw==
-X-Gm-Message-State: ACrzQf0n/Dbw1bsGPYXOQFVwpjY5WpVT1eIOCPtAMG0m/Sqje81bsyJh
- VBqMfRvWE6p8ey/91oLHDin/3dROoboqsD/+cmQ=
-X-Google-Smtp-Source: AMsMyM6FnW3smzsc2vqX42JCVFSvKrKyc0iMu552UOAzqJ/Mwzlw4oMjND0EEJAJMN56tBl6uBS3XHec1Vjmj7CzLVM=
-X-Received: by 2002:aca:b655:0:b0:35a:4fb4:c3d2 with SMTP id
- g82-20020acab655000000b0035a4fb4c3d2mr16042060oif.96.1667924704519; Tue, 08
- Nov 2022 08:25:04 -0800 (PST)
+ bh=tAZBstAdAsmK2XVl2Tom+G2xfbr9YP3jCR0NWwLcpbY=;
+ b=JPDwR39d2BH90XlQSQiPwMgkVV8TcOaTl7p5dGQmLUtf8ZhAAATrOgtk8UHRuA7Q1q
+ yy3lsSarD2cjuIFBi3R+Dp/q7hrWKbl0ijd+QjMJk1HRgdtBeVkN94pkmYpgecP7XHh1
+ KGMPWFUziO59REQ/bgbDxLFUJNbiK7oXfBuY9O7tB3DzUlsKCZTRKDsGQD8C5UQucN1r
+ CD3d17Ot9L/jrW/4gslQajgwMz5kQ3gnxE+ZOIEJ1ig/+gTRvFMbpvPyVCGFX08kDRGZ
+ WcvDq/fChV0KBL7xsU3ZOyThRbw5WXIdU20XFrckb3bjTfzzGL1dAtUraSSzPT53RxHY
+ 3a7w==
+X-Gm-Message-State: ACrzQf1UIJJAa5ZUR14zSWX3f6/10EyZPn/jQUA4Zj1GP8KY9EjjFmb/
+ jq9LOtIOs6pS+drTR8/pPPeH8UFxAwaZF5l7ggbNpA==
+X-Google-Smtp-Source: AMsMyM6l2BaUQaFUsRd0n/pdKYEWQEefaZfrhq2KgsqeM81bGZLhCI92KaCqsVBeiJB0GDyRYIblXXScpd1fyEvMuwY=
+X-Received: by 2002:a0d:dd49:0:b0:36b:f81c:ceb8 with SMTP id
+ g70-20020a0ddd49000000b0036bf81cceb8mr55021890ywe.171.1667924824513; Tue, 08
+ Nov 2022 08:27:04 -0800 (PST)
 MIME-Version: 1.0
-References: <20221107143715.279841-1-carlos.bilbao@amd.com>
-In-Reply-To: <20221107143715.279841-1-carlos.bilbao@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 8 Nov 2022 11:24:52 -0500
-Message-ID: <CADnq5_M9EvboWq9Oi58S3Rgh_U2_sNXGDA57NCh-oJWUedAN4Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Amend descriptions within enum
- pipe_split_policy
-To: Carlos Bilbao <carlos.bilbao@amd.com>
+References: <20221103141155.1105961-1-jagan@edgeble.ai>
+ <20221103141155.1105961-4-jagan@edgeble.ai>
+ <CACRpkdYEW4z6EZ7UC9wT3NtRVnE=0L6AAHJDxtu5Jb-UrB+WSA@mail.gmail.com>
+ <CA+VMnFxyx=NP2QUiJ6RnfapZ9c=S4-cj+0kQn8PYyaMTBP3i-g@mail.gmail.com>
+ <CACRpkdaZnGgJ3egXEtoH0gTmR0m_-9Q+iGZr2eOx2JVHYgXCXA@mail.gmail.com>
+ <CA+VMnFz1h0MfwxiQeFCdvMJWQ9uKWvwstJvKnpDTKjaVHN3pYw@mail.gmail.com>
+ <CACRpkdZGXeGc_vyAGw3zW4MyR+tp9jhvKJ4sf2tSS7L9B+oyOA@mail.gmail.com>
+In-Reply-To: <CACRpkdZGXeGc_vyAGw3zW4MyR+tp9jhvKJ4sf2tSS7L9B+oyOA@mail.gmail.com>
+From: Jagan Teki <jagan@edgeble.ai>
+Date: Tue, 8 Nov 2022 21:56:53 +0530
+Message-ID: <CA+VMnFwKFFDADLDyjm-EG5p_8K8HE7V851b0uLPqR+i=MKFZDA@mail.gmail.com>
+Subject: Re: [PATCH v3 4/4] drm: panel: Add Jadard JD9365DA-H3 DSI panel
+To: Linus Walleij <linus.walleij@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,51 +72,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sunpeng.li@amd.com, Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com, jun.lei@amd.com,
- christian.koenig@amd.com, bilbao@vt.edu
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 7, 2022 at 9:37 AM Carlos Bilbao <carlos.bilbao@amd.com> wrote:
+On Tue, 8 Nov 2022 at 20:33, Linus Walleij <linus.walleij@linaro.org> wrote:
 >
-> Correct descriptions of two last fields of enum pipe_split_policy, updating
-> comments with proper field names.
+> On Tue, Nov 8, 2022 at 3:53 PM Jagan Teki <jagan@edgeble.ai> wrote:
+> > On Tue, 8 Nov 2022 at 20:18, Linus Walleij <linus.walleij@linaro.org> wrote:
+> > > On Tue, Nov 8, 2022 at 3:12 PM Jagan Teki <jagan@edgeble.ai> wrote:
+> > > > On Tue, 8 Nov 2022 at 19:31, Linus Walleij <linus.walleij@linaro.org> wrote:
+> > > > >
+> > > > > On Thu, Nov 3, 2022 at 3:12 PM Jagan Teki <jagan@edgeble.ai> wrote:
+> > > > >
+> > > > > > Jadard JD9365DA-H3 is WXGA MIPI DSI panel and it support TFT
+> > > > > > dot matrix LCD with 800RGBx1280 dots at maximum.
+> > > > > >
+> > > > > > Add support for it.
+> > > > > >
+> > > > > > Cc: dri-devel@lists.freedesktop.org
+> > > > > > Signed-off-by: Jagan Teki <jagan@edgeble.ai>
+> > > > > > ---
+> > > > > > Changes for v3:
+> > > > > > - updatd to WXGA
+> > > > > > - use JD9365DA_CMD_DCS and JD9365DA_CMD_DELAY
+> > > > >
+> > > > > My comments on v2 have not been addressed, for example I asked to
+> > > > > remove the delay from sequences and just use an explicit delay and
+> > > > > to then use the existing sequence sending macro.
+> > > >
+> > > > True, I responded on the same day [1], since I didn't get the reply I
+> > > > have posted by assuming my comment is valid. Would you please check
+> > > > and respond?
+> > > >
+> > > > [1] https://lore.kernel.org/all/CA+VMnFz0w-6O=wt3iuJo1BhQgPZ2XbpX6JdDz6vg_JW9nHTR2A@mail.gmail.com/
+> > >
+> > > OK I see, sorry for not reading close.
+> > >
+> > > The driver just supports one single variant.
+> > >
+> > > What you are doing is preparing the ground for more variants
+> > > that may or may not exist. This creates the antipattern "big upfront design"
+> > > i.e. abstractions added for things that do not yet exist.
+> > >
+> > > I think it is better to strip it down to just open coding the delay after
+> > > the init sequence. When the next variant appears, if ever, they can
+> > > add abstraction. Maybe they need the same delay in the same
+> > > place? Who knows...
+> >
+> > I understand your point, but delays are strictly mentioned by the
+> > panel vendor init sequence, cz101b4001 do you think adding in the
+> > generic or common code is still valid since we have code added for
+> > cz101b4001 specifically via driver data?
 >
-> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
+> I would instead of encoding a sequence into the driver data
+> encode a per-variant callback that sends the sequence (which
+> can then be just static array) and then ends with an explicit delay.
 
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Okay. I will wrap up that delay to make it explicit and update the dcs
+packet send sequence.
 
-> ---
->  drivers/gpu/drm/amd/display/dc/dc.h | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/display/dc/dc.h
-> index bfc5474c0f4c..277631a899d8 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dc.h
-> +++ b/drivers/gpu/drm/amd/display/dc/dc.h
-> @@ -457,15 +457,16 @@ enum pipe_split_policy {
->         MPC_SPLIT_DYNAMIC = 0,
->
->         /**
-> -        * @MPC_SPLIT_DYNAMIC: Avoid pipe split, which means that DC will not
-> +        * @MPC_SPLIT_AVOID: Avoid pipe split, which means that DC will not
->          * try any sort of split optimization.
->          */
->         MPC_SPLIT_AVOID = 1,
->
->         /**
-> -        * @MPC_SPLIT_DYNAMIC: With this option, DC will only try to optimize
-> -        * the pipe utilization when using a single display; if the user
-> -        * connects to a second display, DC will avoid pipe split.
-> +        * @MPC_SPLIT_AVOID_MULT_DISP: With this option, DC will only try
-> +        * to optimize the pipe utilization when using a single display;
-> +        * if the user connects to a second display, DC will avoid pipe
-> +        * split.
->          */
->         MPC_SPLIT_AVOID_MULT_DISP = 2,
->  };
-> --
-> 2.34.1
->
+Thanks,
+Jagan.
