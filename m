@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3456620FA0
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 12:57:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 108D5620FAB
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 13:00:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7AEE10E3F6;
-	Tue,  8 Nov 2022 11:57:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3B3110E291;
+	Tue,  8 Nov 2022 11:59:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CDC810E3F6
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Nov 2022 11:57:15 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id m22so731354eji.10
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Nov 2022 03:57:14 -0800 (PST)
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com
+ [IPv6:2607:f8b0:4864:20::d30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF36C8989C
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Nov 2022 11:59:51 +0000 (UTC)
+Received: by mail-io1-xd30.google.com with SMTP id e189so11254519iof.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Nov 2022 03:59:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=kVfGNdtNg+zCQhJb8JnZXraJEUpvWY2XlNM2DVwiefU=;
- b=Es1qARbsX7RS0Xd92HZZOXqamwXebEAT3D2rXZ3242oq86HzzlEKeouCKkE0VHuTdS
- wV5oVWbgvc1NgAKIFqN8aujoG++ihft46CuIV9EBKh+8ZOeAr+ECVeYP3n7kbgEcJzqU
- PASmZvErmpFvngKyJXPLWQGHor2Qink3rJUPw=
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=CXsk1mCcDSCxO8pZyOxPVPpi8Y+w18c1q2hqTt7a5PE=;
+ b=WIpcMn/mwq0TzQFxTxKZt3DD2TtjK3CkAqgjRCkGCIfFkWecUeRQ5Iyv4BNNfpp/KS
+ RIDQgo7f/xiAsG5wtV2nSeEQ3RYI6fv6k4Ju0dKGhl7W+IA3ZutcczXbL65E7kwFI7AK
+ 5yTh32v5DWwGsGdv1MPlmV/YLv3D1I5Bpp7p0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=kVfGNdtNg+zCQhJb8JnZXraJEUpvWY2XlNM2DVwiefU=;
- b=OvDa5BCFvr8K5uKWdFrHeyF46yZD5Z6FYFMXt00v/sKn7sMwuJ/JQ+Rz378HsdDM4k
- OsTfcJ2dflMMRMmkqXcRgVYV7yLuOPCrRF64I/BRBP/JiN1HP7a4VP6ilXbnWU0njY92
- k6OJHdA1Ai6C75XGdj51W3+C1ppZRUK8OdBM1oDrMGnHB7Fm3Qum7qutkl+m2c0gtZ3F
- a/DDQuqEspUpbh4MhZvYEFBb8hZLtv9mmDfya8lUt1uOFgTSvAAp0UK96y1A29YJ43cD
- VTeZwGGZ4y7xhsp2xBWshPekH6m7letiM2iIg8RrI6YIsWbGrYK/ku812M1e6jRwOxq+
- 5xQg==
-X-Gm-Message-State: ACrzQf28OvS9j6UZ5jdzp9W76lTVylwuZ/IaHu8mtcMkGC0ldKq1oum7
- 5i83jvqeGZqCO+vI2U6JjBNvs74neEANKw==
-X-Google-Smtp-Source: AMsMyM5BuaFCyJpqFWdC5RbAV59Rp2Hk0lf/tuzgBE7M6wyhtpIcHG60tUWHoycUppUGF1bFN6wtdw==
-X-Received: by 2002:a17:907:e8f:b0:7ad:923a:5a2c with SMTP id
- ho15-20020a1709070e8f00b007ad923a5a2cmr51867849ejc.736.1667908633613; 
- Tue, 08 Nov 2022 03:57:13 -0800 (PST)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- ky26-20020a170907779a00b0073cd7cc2c81sm4513201ejc.181.2022.11.08.03.57.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Nov 2022 03:57:12 -0800 (PST)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] docs/sphinx: More depth in the rtd sidebar toc
-Date: Tue,  8 Nov 2022 12:57:07 +0100
-Message-Id: <20221108115707.1232621-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.37.2
+ bh=CXsk1mCcDSCxO8pZyOxPVPpi8Y+w18c1q2hqTt7a5PE=;
+ b=bICFIvI7WX87D6xfoANWwA7ntuOsM2OSErbDizl1H1VMq0VOaKy3Q8OXkQ0rP13u4V
+ NSxau+ATEFpqXd6J9wJ8HIxpCu44mr7ZJR/ONqXLPrzSyHFqItmxaawRJ6YHVE0YQaqA
+ CHPAKbvFU4WVOLRjxlnfN9WzxhoylFar/xEjD7lw47/p6+rVqWdrAW22KLKLFdrLh5Wj
+ 2wbMVAk0LOMINJwiyLD7IWg/PK6Ef+YbggWRFOilgup/8nM1YxxXWiWdan5i6nE/eae5
+ YQEN9f+pQOkOkmRq/LEe9Nig/leZiM1PAhWCXGTUg50YFyg4c38e0r+eaGP0w2hhvSbk
+ LgGQ==
+X-Gm-Message-State: ACrzQf2Wk2btU/9rtVTCVrEVFR4w1xbbtpCKtx7aOf8ShBKnJZe9TRkq
+ dXg8vlnIa7P1omyppW9LyQWpsLGLDoE8ArIYs+84KQ==
+X-Google-Smtp-Source: AMsMyM49MEe3AzoIi+i4+4PvEOiz9LC0kpaCPJ2sRyWMyS+fkN3Tjxe5zRXlxuOemyOSM1zOTozUqYa/WYkaU33SrHA=
+X-Received: by 2002:a6b:b882:0:b0:6b7:56c3:b602 with SMTP id
+ i124-20020a6bb882000000b006b756c3b602mr32443363iof.5.1667908791200; Tue, 08
+ Nov 2022 03:59:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20221027104406.549734-1-daniel.vetter@ffwll.ch>
+ <87tu3n6cb2.fsf@meer.lwn.net>
+ <CAKMK7uHXz7kteQ_sckTQx=E9cWSqGXS_Y0_pLjX2CRcApOvKRQ@mail.gmail.com>
+In-Reply-To: <CAKMK7uHXz7kteQ_sckTQx=E9cWSqGXS_Y0_pLjX2CRcApOvKRQ@mail.gmail.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Tue, 8 Nov 2022 12:59:39 +0100
+Message-ID: <CAKMK7uF7riJszvbVNA2PGAxndVkA-TmzBx0uVVfYZ4L_BLaEgA@mail.gmail.com>
+Subject: Re: [PATCH] docs/sphinx: More depth in the rtd sidebar toc
+To: Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,52 +63,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>, linux-doc@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We love to nest our documenation for good structure, but that means
-the table of contents needs to keep up or you can't navigate them.
+On Mon, 7 Nov 2022 at 21:06, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+>
+> On Fri, 28 Oct 2022 at 20:19, Jonathan Corbet <corbet@lwn.net> wrote:
+> >
+> > Daniel Vetter <daniel.vetter@ffwll.ch> writes:
+> >
+> > > We love to nest our documenation for good structure, but that means
+> > > the table of contents needs to keep up or you can't navigate them.
+> > >
+> > > Realized this trying to find the drm property documentation, which
+> > > with some shuffling around disappeared. Why I didn't realize we can do
+> > > this earlier, no idea.
+> > >
+> > > Since the relevant parts of the toc are only loaded if you're in the
+> > > right .html file there's no harm in going all the way to unlimited.
+> > >
+> > > Note that this has no impact on the classic theme (which doesn't have
+> > > the sidebar) nor on the various :toctree: rendered inline in the
+> > > output.
+> > >
+> > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > > Cc: Jonathan Corbet <corbet@lwn.net>
+> > > Cc: linux-doc@vger.kernel.org
+> > > ---
+> > >  Documentation/conf.py | 4 ++++
+> > >  1 file changed, 4 insertions(+)
+> > >
+> > > diff --git a/Documentation/conf.py b/Documentation/conf.py
+> > > index 934727e23e0e..5dc141c66726 100644
+> > > --- a/Documentation/conf.py
+> > > +++ b/Documentation/conf.py
+> > > @@ -240,6 +240,10 @@ if html_theme == 'sphinx_rtd_theme' or html_theme == 'sphinx_rtd_dark_mode':
+> > >                  # Add color-specific RTD normal mode
+> > >                  html_css_files.append('theme_rtd_colors.css')
+> > >
+> > > +        html_theme_options = {
+> > > +            'navigation_depth': -1,
+> > > +        }
+> > > +
+> > >      except ImportError:
+> > >          html_theme = 'classic'
+> >
+> > So this patch isn't against docs-next, and applies to the RTD theme,
+> > which is no longer the default.  I have no objection to it, but have you
+> > looked at how your docs come out with the alabaster theme?
+>
+> [sorry took a bit longer to get back to this]
+>
+> Hm looks pretty, but more in a print style than using it dynamically,
+> you can't really click through the sidebar toc at all to quickly find
+> something, and if you're wrong, navigate up a few levels again. It's
+> just the toc for exactly the local document, nothing else at all. rtd
+> theme always gives you the full toc all the way up, and if you have
+> epic patience could actually give you the full toc on every document
+> (but that's probably not a good idea for the kernel). Do you need me
+> to send the rebased version or can you smash this one in?
+>
+> btw on today's linux-next the sphinx.rst page isn't updated with the
+> new default theme choice of alabaster. That seems to have been
+> forgotten.
 
-Realized this trying to find the drm property documentation, which
-with some shuffling around disappeared. Why I didn't realize we can do
-this earlier, no idea.
-
-Since the relevant parts of the toc are only loaded if you're in the
-right .html file there's no harm in going all the way to unlimited.
-
-Note that this has no impact on the alabaster theme (which has a much
-simpler sidebar toc which doesn't show the entire hierarchy, only
-what's in the local rendered file) nor on the various :toctree:
-rendered inline in the output.
-
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
-v2: Rebase onto linux-next, reword commit message to take into account
-that alabaster is the default now.
----
- Documentation/conf.py | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index c715610d6297..a5c45df0bd83 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -296,6 +296,10 @@ if html_theme == 'sphinx_rtd_theme' or html_theme == 'sphinx_rtd_dark_mode':
-                 # Add color-specific RTD normal mode
-                 html_css_files.append('theme_rtd_colors.css')
- 
-+        html_theme_options = {
-+            'navigation_depth': -1,
-+        }
-+
-     except ImportError:
-         html_theme = 'alabaster'
- 
+Sorry got confused on this and looked at the wrong tab/build output
+locally, it's good. Anyway I sent out a rebased version of the rtd
+patch, I do like that sidebar a lot more for navigating the docs :-)
+-Daniel
 -- 
-2.37.2
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
