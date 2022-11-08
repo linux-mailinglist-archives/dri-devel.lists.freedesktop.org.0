@@ -1,75 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3537620E1F
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 12:05:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 240BD620F09
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 12:27:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0902E10E3E2;
-	Tue,  8 Nov 2022 11:05:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DB9710E3BE;
+	Tue,  8 Nov 2022 11:27:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3E3F10E3D5
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Nov 2022 11:05:22 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id r12so20741942lfp.1
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Nov 2022 03:05:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=WmA4SwRAK4FKhvbkswEw6v9u4o5Xo6uAQ5jvXjJ9JHs=;
- b=x+lUOScQI2UK3mV8gMgM4ALhWKQ5J8qhEO23u/nHu/FkhLd3emRQJj/XilDluE9hYF
- cNz+e1I8EFkpjzlfTeJi7LFZwWpxK+X4144Czxh9WB4jILvjdJHgXT1zNxil4Xglpoj8
- 9OEkdh0B/f6bWlbhoq8zeTsDa/Fqz20UKwr02P93OCX3r7nQoux931fBNPein6IUt+pC
- qdTq+K+ExjQfP7DlrEDmYGTC3Y3GCHt2/e7i3RjWqbVAxJhgCNh8tDgmmwoTiR1hlBHo
- NMjqRZwBpqW9YdhXai7zBWusStWYzVYx3ocGxCOhJ5Mf/FO5ooETg4PzcTCZR4VlOVh9
- aI4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WmA4SwRAK4FKhvbkswEw6v9u4o5Xo6uAQ5jvXjJ9JHs=;
- b=qeBndlwDlc/1NdCuFtbHXNB50NrBkZbLxU62VsaoKhh2EjkI3SJf17x3LUjQp5ySsG
- YDsMMoGHfUN1u+rSLCGxeCbcDmR3S/hxGMyAS1sisHKDtGrbL/zVuM5WPpLnP9QaoKD0
- 72AXXQfMYkbmygLl7xmHErbe/6ti7NsCKKSy1lZtqeD/YibRgOGAf2N9IEkV8e1eGEU1
- Y5qgkP+P0mnbZuq/U3/xMZG6rUh6cABrAfe2JdlJ3jSgSvz1Ot85J1O8Ak5W6tvT1rgc
- tzN4+ThgejRK2j/rUqI1u4KG6hZrn6JY6fQzQS2FZVgG0COcb3moQ9bAHlZvKlCj/0mD
- 6Hfg==
-X-Gm-Message-State: ACrzQf2E4OmagfARt/xqYjrFROjHIoveF5q2MGqdbATr/k1fyq+m9r+G
- huvyJIqN5311qOYEedTevw7uJQ==
-X-Google-Smtp-Source: AMsMyM4QCZNhzqj/hg5k7Q/ywTj5eooBtNeEJafutY0EP3/GsLy+44CVVIEhKeAoePc6bKJbhlxDYw==
-X-Received: by 2002:ac2:5dce:0:b0:4a2:2dad:7ad4 with SMTP id
- x14-20020ac25dce000000b004a22dad7ad4mr18570086lfq.654.1667905521139; 
- Tue, 08 Nov 2022 03:05:21 -0800 (PST)
-Received: from [192.168.0.20]
- (088156142199.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.199])
- by smtp.gmail.com with ESMTPSA id
- i9-20020a2ea229000000b0027765fd616asm1705206ljm.20.2022.11.08.03.05.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Nov 2022 03:05:20 -0800 (PST)
-Message-ID: <f72aeaa0-0c0a-86d9-0b9b-db3810c35fad@linaro.org>
-Date: Tue, 8 Nov 2022 12:05:19 +0100
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B021310E3BE;
+ Tue,  8 Nov 2022 11:27:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1667906858; x=1699442858;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=hNS3Nr4O3q2nSkHc9K7N1maRZdTfnniUECgjB38Ewlg=;
+ b=ZBv4/DG+MMvc2xvOETlW4MROinHWmMIokOaa9fvJ2dZ/vix7a1qx/pq1
+ 4BvARz6ID2K/h+XYIMVskTp6aZwQboFGi/TvAZye/U7SO2JpcWW8Xhvcx
+ FV89eQX8kLvLxP/RkDLsb1lnqG8P0D09B+panuH49yFSG2f/oqNWBXM/q
+ dYDWJ1gDX5SmNC8JzPLbFUztO5px4oT8iv3rPVRr7uaj+KViiKbgbH2K7
+ mz9PZCBOP7ViVrcrLJDofLVXPoa+D3XJYtYbHKWI51NJmi4AKv3e3Mw50
+ fqXbWr728tyVQ9+TIQDRHtRGtuJD5x1+RXO5ZzW+DX3L+0KvJuQu7PdSY Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="309380443"
+X-IronPort-AV: E=Sophos;i="5.96,147,1665471600"; d="scan'208";a="309380443"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Nov 2022 03:27:37 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="630843213"
+X-IronPort-AV: E=Sophos;i="5.96,147,1665471600"; d="scan'208";a="630843213"
+Received: from smoriord-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.16.110])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Nov 2022 03:27:35 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Matthieu CHARETTE <matthieu.charette@gmail.com>
+Subject: Re: [PATCH] drm/edid/firmware: stop using throwaway platform device
+In-Reply-To: <0TLXKR.MU9V2CJGXH05@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20221006222146.2375217-1-jani.nikula@intel.com>
+ <GLSKJR.CU4DWLJQSTHT2@gmail.com> <87wn96yggd.fsf@intel.com>
+ <CA+FNwmJRZ-5BwuXykp3R6tQagQgunMC9EhfL9CRyi+Ff47TXhA@mail.gmail.com>
+ <87v8opwiqw.fsf@intel.com> <HBHNJR.ME9DMISWT3961@gmail.com>
+ <0TLXKR.MU9V2CJGXH05@gmail.com>
+Date: Tue, 08 Nov 2022 13:27:33 +0200
+Message-ID: <875yfpadp6.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v9 05/12] dt-bindings: display/msm: move common MDSS
- properties to mdss-common.yaml
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20221024164225.3236654-1-dmitry.baryshkov@linaro.org>
- <20221024164225.3236654-6-dmitry.baryshkov@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221024164225.3236654-6-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,56 +61,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/10/2022 18:42, Dmitry Baryshkov wrote:
-> Move properties common to all MDSS DT nodes to the mdss-common.yaml.
-> 
-> This extends qcom,msm8998-mdss schema to allow interconnect nodes, which
-> will be added later, once msm8998 gains interconnect support.
+On Sun, 06 Nov 2022, Matthieu CHARETTE <matthieu.charette@gmail.com> wrote:
+> Hi,
+>
+> Can you tell me what are we waiting for? Maybe I can help.
+
+Have you tried the patch? Is it an improvement over the status quo?
+
+The "crash" is still ambiguous to me. Do you observe it with the patch?
+Do you have logs? Etc.
+
+BR,
+Jani.
 
 
-(...)
+>
+> Thanks.
+>
+> Matthieu
+>
+> On Wed, Oct 12 2022 at 07:16:29 PM +0200, Matthieu CHARETTE 
+> <matthieu.charette@gmail.com> wrote:
+>> By crash, I mean that an error is returned here: 
+>> https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux.git/+/refs/heads/master/drivers/gpu/drm/drm_edid_load.c#195
+>> I don't really know what happens next, but on my machine the built-in 
+>> screen and the external remains dark. Also the kernel seems to 
+>> freeze. I suspect a kernel panic, but I'm not sure. Anyway, the error 
+>> is definitely not well handled, and a fix would be great.
+>> Also, request_firmware() will crash if called for the first time on 
+>> the resume path because the file system isn't reachable on the resume 
+>> process. And no cache is available for this firmware. So I guess that 
+>> in this case, request_firmware() returns an error.
+>> Suspend-plug-resume case is not my priority nether as long as it 
+>> doesn't make the system crash (Which is currently the case).
+>> 
+>> On Wed, Oct 12 2022 at 11:25:59 AM +0300, Jani Nikula 
+>> <jani.nikula@intel.com> wrote:
+>>> On Tue, 11 Oct 2022, Matthieu CHARETTE <matthieu.charette@gmail.com> 
+>>> wrote:
+>>>>  Currently the EDID is requested during the resume. But since it's
+>>>>  requested too early, this means before the filesystem is mounted, 
+>>>> the
+>>>>  firmware request fails. This make the DRM driver crash when 
+>>>> resuming.
+>>>>  This kind of issue should be prevented by the firmware caching 
+>>>> process
+>>>>  which cache every firmware requested for the next resume. But 
+>>>> since we
+>>>>  are using a temporary device, the firmware isn't cached on suspend
+>>>>  since the device doesn't work anymore.
+>>>>  When using a non temporary device to get the EDID, the firmware 
+>>>> will
+>>>>  be cached on suspend for the next resume. So requesting the 
+>>>> firmware
+>>>>  during resume will succeed.
+>>>>  But if the firmware has never been requested since the boot, this
+>>>>  means that the monitor isn't plugged since the boot. The kernel 
+>>>> will
+>>>>  not be caching the EDID. So if we plug the monitor while the 
+>>>> machine
+>>>>  is suspended. The resume will fail to load the firmware. And the 
+>>>> DRM
+>>>>  driver will crash.
+>>>>  So basically, your fix should solve the issue except for the case
+>>>>  where the monitor hasn't been plugged since boot and is plugged 
+>>>> while
+>>>>  the machine is suspended.
+>>>>  I hope I was clear. Tell me if I wasn't. I'm not really good at 
+>>>> explaining.
+>>> 
+>>> That was a pretty good explanation. The only thing I'm missing is 
+>>> what
+>>> the failure mode is exactly when you claim the driver will crash. Why
+>>> would request_firmware() "crash" if called for the first time on the
+>>> resume path?
+>>> 
+>>> I'm not sure I care much about not being able to load the firmware 
+>>> EDID
+>>> in the suspend-plug-resume case (as this can be remedied with a
+>>> subsequent modeset), but obviously any errors need to be handled
+>>> gracefully, without crashing.
+>>> 
+>>> BR,
+>>> Jani.
+>>> 
+>>> 
+>>> --
+>>> Jani Nikula, Intel Open Source Graphics Center
+>> 
+>> 
+>
+>
 
-> +    minItems: 1
-> +    items:
-> +      - description: Interconnect path from mdp0 (or a single mdp) port to the data bus
-> +      - description: Interconnect path from mdp1 port to the data bus
-> +
-> +  interconnect-names:
-> +    minItems: 1
-> +    items:
-> +      - const: mdp0-mem
-> +      - const: mdp1-mem
-> +
-> +  resets:
-> +    items:
-> +      - description: MDSS_CORE reset
-> +
-> +required:
-> +  - compatible
-
-For consistency this should not be required here, but in schema actually
-defining it.
-
-> +  - reg
-> +  - reg-names
-> +  - power-domains
-> +  - clocks
-> +  - interrupts
-> +  - interrupt-controller
-> +  - iommus
-> +  - ranges
-
-Keep the same order as in list of top-level properties.
-
-> +
-> +additionalProperties: true
-
-Best regards,
-Krzysztof
-
+-- 
+Jani Nikula, Intel Open Source Graphics Center
