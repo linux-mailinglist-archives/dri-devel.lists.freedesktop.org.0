@@ -2,33 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3417621A05
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 18:06:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E913D621A4B
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 18:21:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1C2710E4C7;
-	Tue,  8 Nov 2022 17:06:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 556BB10E4CE;
+	Tue,  8 Nov 2022 17:21:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id AB6DD10E4C7
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Nov 2022 17:06:28 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 239B01FB;
- Tue,  8 Nov 2022 09:06:34 -0800 (PST)
-Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com
- [10.1.196.40])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id F308E3F703;
- Tue,  8 Nov 2022 09:06:26 -0800 (PST)
-From: Robin Murphy <robin.murphy@arm.com>
-To: robh@kernel.org,
-	tomeu.vizoso@collabora.com,
-	steven.price@arm.com
-Subject: [PATCH] drm/panfrost: Split io-pgtable requests properly
-Date: Tue,  8 Nov 2022 17:06:19 +0000
-Message-Id: <49e54bb4019cd06e01549b106d7ac37c3d182cd3.1667927179.git.robin.murphy@arm.com>
-X-Mailer: git-send-email 2.36.1.dirty
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E47E10E4CE
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Nov 2022 17:21:05 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E4BF6616B5
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Nov 2022 17:21:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 526E8C433C1
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Nov 2022 17:21:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1667928064;
+ bh=OgjZyL/ifEGcV9paZgAbQ1c3FyhoheYeswv1nHDr/pU=;
+ h=From:To:Subject:Date:From;
+ b=uceMDYgFw/xGPhnsO+8oCQw3Phl772Ig3n+JFnne0sNa4CkgWCEfUyBdLVycoe1RN
+ 9fkPjHMxQuGWes+FUUQMJjWL/LTNRbNzSxD+50eSW402sd3qvaeuB6QTndS1n4yiEQ
+ +93yssEw3U7TpVuPxvi0uwV0vv+bLD0yKJIk+Dq9BQFdvC2wsXgMRvPAxmqBGPx2RM
+ 5PXU2vw7eyG908+kQk/6rcSyldMiHnINt8si7NRxxFGisu07x0mSi2Ht35xHrpwjpp
+ 7pFaAr4gOuRgelAGGTgvyr6+1OOmK36FJz6VezZ0++ohhcvuukpZvAUSmnCVLmrx/w
+ gR+KoZXIq9Fqw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 3EFCAC433E7; Tue,  8 Nov 2022 17:21:04 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 216673] New: Recurring amdgpu freeze on kernel 6.0.6 only
+Date: Tue, 08 Nov 2022 17:21:03 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: stanislav.modrak@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-216673-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,54 +71,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- alyssa.rosenzweig@collabora.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Although we don't use 1GB block mappings, we still need to split
-map/unmap requests at 1GB boundaries to match what io-pgtable expects.
-Fix that, and add some explanation to make sense of it all.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216673
 
-Fixes: 3740b081795a ("drm/panfrost: Update io-pgtable API")
-Reported-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Signed-off-by: Robin Murphy <robin.murphy@arm.com>
----
-The previous diff turned out to be not quite right, so I've not
-included Dmitry's Tested-by given for that.
----
- drivers/gpu/drm/panfrost/panfrost_mmu.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+            Bug ID: 216673
+           Summary: Recurring amdgpu freeze on kernel 6.0.6 only
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 6.0.6-060006-generic
+          Hardware: AMD
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: high
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: stanislav.modrak@gmail.com
+        Regression: No
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-index e246d914e7f6..4e83a1891f3e 100644
---- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-@@ -250,13 +250,22 @@ void panfrost_mmu_reset(struct panfrost_device *pfdev)
- 
- static size_t get_pgsize(u64 addr, size_t size, size_t *count)
- {
-+	/*
-+	 * io-pgtable only operates on multiple pages within a single table
-+	 * entry, so we need to split at boundaries of the table size, i.e.
-+	 * the next block size up. The distance from address A to the next
-+	 * boundary of block size B is logically B - A % B, but in unsigned
-+	 * two's complement where B is a power of two we get the equivalence
-+	 * B - A % B == (B - A) % B == (n * B - A) % B, and choose n = 0 :)
-+	 */
- 	size_t blk_offset = -addr % SZ_2M;
- 
- 	if (blk_offset || size < SZ_2M) {
- 		*count = min_not_zero(blk_offset, size) / SZ_4K;
- 		return SZ_4K;
- 	}
--	*count = size / SZ_2M;
-+	blk_offset = -addr % SZ_1G ?: SZ_1G;
-+	*count = min(blk_offset, size) / SZ_2M;
- 	return SZ_2M;
- }
- 
--- 
-2.36.1.dirty
+Created attachment 303150
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D303150&action=3Dedit
+log messages
 
+The monitor goes blank at 17:00:34 system time (the screen froze for a mome=
+nt
+before going blank completely, showing this timestamp) and no response from=
+ the
+system with keyboard commands is visible. Forced to hard reboot Recurring
+issue, only on kernel 6.0.6.
+
+Attaching the full log file here.
+
+Identified the log at 17:00:34 exactly. There are multiple logs at this
+timestamp, however, showing just one.
+
+```
+Time: 17:00:34
+Message: amdgpu 0000:06:00.0: amdgpu: [mmhub0] no-retry page fault (src_id:0
+ring:40 vmid:4 pasid:32777, for process todoist pid 26652 thread todoist:cs0
+pid 26658)
+Kernel Device: +pci:0000:06:00.0
+Priority: 3
+```
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
