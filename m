@@ -2,60 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DEB262190E
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 17:06:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3CB0621925
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 17:11:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88AF610E4B2;
-	Tue,  8 Nov 2022 16:06:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B41C010E4BD;
+	Tue,  8 Nov 2022 16:11:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77F0910E4B0
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Nov 2022 16:06:12 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id z18so23192593edb.9
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Nov 2022 08:06:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=m2T406pNI28bUQQ3A8W9bWn2Shz/lyjLe+O2Y6ispPQ=;
- b=Jnq9oeTcCH1Tpj98lVXml/65WBw0EfpMCLzrPX5Uv/C9mQrr+UBh6elYHApQKSqTF8
- CIj4E6pjroTzehWmf+7h6B9JvXy8VswPgDWeE+lT9kg0v2zTIf3k4V2BbyKAX0nz7SFT
- XUbUApCo+hcouoOOIuOpVKZyUBu4/O0SIbrt0=
+Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com
+ [IPv6:2001:4860:4864:20::35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 639C510E4BD;
+ Tue,  8 Nov 2022 16:11:28 +0000 (UTC)
+Received: by mail-oa1-x35.google.com with SMTP id
+ 586e51a60fabf-13b103a3e5dso16754833fac.2; 
+ Tue, 08 Nov 2022 08:11:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=IzZJtTel0h21j07X7KO7D0aS4ynI+dBJLPzqyI12t0g=;
+ b=kGYypjiYLM1zxDrHFV/0AuzBeOBcAS6yYCv3LYXSDmK0rUoqT2G2X+gvdS/XNhWFS6
+ qRSWLMfxifHeM4pOlul6jkx3TEzhkNEFXVCgiFOzRlB29hCMOH+lQ/7TadWLh6sVIzOs
+ ZMdLqHttRFnsJwGyR0N/EBAyEgQHtXWVmfDQDwEyBZcLvEzh+RVjOxlFMwKFOXJQKdq8
+ nGJIIsGZVmlwGOaxXRYoSTQvJiR2BPGVYi+4SXw+qT1VkckG4H+NAXyRVpYu0LFuYZvI
+ pYQFdYgy+tWH7N9adacl1cYYRN6W2ai6z/+lm6yxzoZ+PDdwDJ4Vn1Uq5mY7E8SanEp/
+ GFbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=m2T406pNI28bUQQ3A8W9bWn2Shz/lyjLe+O2Y6ispPQ=;
- b=o3RVej0uhqby4ZFmiUbqWuXjxAYLJhAjz/H1ynJKEW98BxDoZq7yJOlNE6AzxEn4++
- SqfX5NOF+YZ1PDBCKtXOrrPvUGtYFDmeRu5z4mCL8ypDXc/CVeNCdn39fU5m7fMcQ09s
- +VFP/Sr8uE/4JEgWWArCecSrL09W4wZazpuq9wGteNfDoJVQ/7iqF+rhdomASChJJJmY
- ZEWvol6mDoZYKJ8kXk61mUeoJRmofJuGfdkRQG8RpL0pspoxn5IZcqUEiKMz4A3mfTZy
- cM3TkflSKAuuKIPALSlkpy/4DkIHh4ej4zKf/KB9JAexR5yNwD2Q1L91uY7ExQBl/2TH
- 5LLQ==
-X-Gm-Message-State: ACrzQf01AErTRbdpP6X06gMDpKY/Mz73MT/MtrtydCGNSNnw3cw7mqUx
- hgyAYSjRjC9+HwKIf1RxGhRAeg==
-X-Google-Smtp-Source: AMsMyM6dnVHElWKLyrbfuNXD/0++t2xSFzbDjnTaaTFaY+Hx11m/ofNA5kgjg+irRsB99rFyzo/naA==
-X-Received: by 2002:a05:6402:1f84:b0:455:27b8:27aa with SMTP id
- c4-20020a0564021f8400b0045527b827aamr55492446edc.243.1667923570986; 
- Tue, 08 Nov 2022 08:06:10 -0800 (PST)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- ta19-20020a1709078c1300b0073d796a1043sm4799058ejc.123.2022.11.08.08.06.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Nov 2022 08:06:10 -0800 (PST)
-Date: Tue, 8 Nov 2022 17:06:08 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Wei Li <liwei391@huawei.com>
-Subject: Re: [PATCH] drm/qxl: Fix missing free_irq
-Message-ID: <Y2p+cFEgvJZMUpoS@phenom.ffwll.local>
-References: <20221108151601.1235068-1-liwei391@huawei.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=IzZJtTel0h21j07X7KO7D0aS4ynI+dBJLPzqyI12t0g=;
+ b=SIvIQw9RyEiL5LNMV41O1rVU0aPX/Pwe7o8czYtXUsrardJmuYm5mOBfoF1TA+/PTU
+ oihvg6QmlQrqOvit4VgiPcwuxfoE9Fh4KWQqIxwJhmUUW3ObzMXaYVlTKdMAgN6pXY1b
+ 0JzWPLLYPZDg4rSC4pnQSuAX5wCbWcwS7cTSIrVLIgPeRbmxMbluu6F9ucDZrMkBTiiH
+ 4nt7/TVJBRcQTNznf12A6z8Rwy1og54TdZ5GiJT4o3cgD0xj5qGwPn8fmiUns2QBFLMq
+ Gh9atedSpJLN7Fo53evUW8NqlWyVmuJOomfQ9G3ytW5naMrsQnJITrAViNN9WqvLsstw
+ DulA==
+X-Gm-Message-State: ACrzQf0J1Jsv6kHGcDtR5/wyb2b7wVOfSdinXtdre6Il3F0ho9Vp7HUb
+ 3rjAzDuYrAwSsdfHj6BsGS1+YD2f6+yvdpTS/8InD94L
+X-Google-Smtp-Source: AMsMyM5DYDrwKM88iEhZjq3W6qb4l9uo9kBAzUbmI6TcsLNvxj2thi71mu7FeCuohu/QXUQnRIhJinTr3KQkudY84dY=
+X-Received: by 2002:a05:6870:a7a4:b0:136:7c39:979e with SMTP id
+ x36-20020a056870a7a400b001367c39979emr33954773oao.96.1667923887729; Tue, 08
+ Nov 2022 08:11:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221108151601.1235068-1-liwei391@huawei.com>
-X-Operating-System: Linux phenom 5.19.0-2-amd64 
+References: <20221028224813.1466450-1-briannorris@chromium.org>
+In-Reply-To: <20221028224813.1466450-1-briannorris@chromium.org>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 8 Nov 2022 11:11:12 -0500
+Message-ID: <CADnq5_O92ourfZJyEKjYh4k01fMw1MWiYQLkEQNYsx2sTXa7nQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/amdgpu: Move racy global PMU list into device
+To: Brian Norris <briannorris@chromium.org>, "Kim,
+ Jonathan" <Jonathan.Kim@amd.com>, 
+ "Kuehling, Felix" <Felix.Kuehling@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,102 +67,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: huawei.libin@huawei.com, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>,
- Dave Airlie <airlied@redhat.com>, spice-devel@lists.freedesktop.org
+Cc: Xinhui <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 08, 2022 at 11:16:01PM +0800, Wei Li wrote:
-> When doing "cat /proc/interrupts" after qxl.ko is unloaded, an oops occurs:
-> 
-> BUG: unable to handle page fault for address: ffffffffc0274769
-> PGD 2a0d067 P4D 2a0d067 PUD 2a0f067 PMD 103f39067 PTE 0
-> Oops: 0000 [#1] PREEMPT SMP PTI
-> CPU: 6 PID: 246 Comm: cat Not tainted 6.1.0-rc2 #24
-> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1ubuntu1.1 04/01/2014
-> RIP: 0010:string_nocheck+0x34/0x50
-> Code: 66 85 c0 74 3c 83 e8 01 4c 8d 5c 07 01 31 c0 eb 19 49 39 fa 76 03 44 88 07 48 83 c7
-> RSP: 0018:ffffc90000893bb8 EFLAGS: 00010046
-> RAX: 0000000000000000 RBX: ffffc90000893c50 RCX: ffff0a00ffffff04
-> RDX: ffffffffc0274769 RSI: ffff888102812000 RDI: ffff88810281133e
-> RBP: ffff888102812000 R08: ffffffff823fa5e6 R09: 0000000000000007
-> R10: ffff888102812000 R11: ffff88820281133d R12: ffffffffc0274769
-> R13: ffff0a00ffffff04 R14: 0000000000000cc4 R15: ffffffff823276b4
-> FS:  000000000214f8c0(0000) GS:ffff88842fd80000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: ffffffffc0274769 CR3: 00000001025c4005 CR4: 0000000000770ee0
-> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> PKRU: 55555554
-> Call Trace:
->  <TASK>
->  string+0x46/0x60
->  vsnprintf+0x27a/0x4f0
->  seq_vprintf+0x34/0x50
->  seq_printf+0x53/0x70
->  ? seq_read_iter+0x365/0x450
->  show_interrupts+0x259/0x330
->  seq_read_iter+0x2a3/0x450
->  proc_reg_read_iter+0x47/0x70
->  generic_file_splice_read+0x94/0x160
->  splice_direct_to_actor+0xb0/0x230
->  ? do_splice_direct+0xd0/0xd0
->  do_splice_direct+0x8b/0xd0
->  do_sendfile+0x345/0x4f0
->  __x64_sys_sendfile64+0xa1/0xc0
->  do_syscall_64+0x38/0x90
->  entry_SYSCALL_64_after_hwframe+0x63/0xcd
-> RIP: 0033:0x4bb0ce
-> Code: c3 0f 1f 00 4c 89 d2 4c 89 c6 e9 bd fd ff ff 0f 1f 44 00 00 31 c0 c3 0f 1f 44 00 00
-> RSP: 002b:00007ffd99dc3fb8 EFLAGS: 00000246 ORIG_RAX: 0000000000000028
-> RAX: ffffffffffffffda RBX: 0000000001000000 RCX: 00000000004bb0ce
-> RDX: 0000000000000000 RSI: 0000000000000003 RDI: 0000000000000001
-> RBP: 0000000000000001 R08: 000000000068f240 R09: 0000000001000000
-> R10: 0000000001000000 R11: 0000000000000246 R12: 0000000000000003
-> R13: 0000000000000001 R14: 0000000000000000 R15: 0000000000000000
->  </TASK>
-> 
-> It seems that qxl doesn't free the interrupt it requests during unload,
-> fix this by adding the missing free_irq().
-> 
-> Fixes: f64122c1f6ad ("drm: add new QXL driver. (v1.4)")
-> Signed-off-by: Wei Li <liwei391@huawei.com>
+On Fri, Oct 28, 2022 at 6:48 PM Brian Norris <briannorris@chromium.org> wrote:
+>
+> If there are multiple amdgpu devices, this list processing can be racy.
+>
+> We're really treating this like a per-device list, so make that explicit
+> and remove the global list.
+>
+> Signed-off-by: Brian Norris <briannorris@chromium.org>
 
-Could we go right ahead and switch over to devm_request_irq? Or does that
-not quite do the right thing here?
--Daniel
+@Kuehling, Felix @Kim, Jonathan can you take a look at this patch?
+
+Thanks,
+
+Alex
+
 
 > ---
->  drivers/gpu/drm/qxl/qxl_kms.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/qxl/qxl_kms.c b/drivers/gpu/drm/qxl/qxl_kms.c
-> index dc3828db1991..d591084824de 100644
-> --- a/drivers/gpu/drm/qxl/qxl_kms.c
-> +++ b/drivers/gpu/drm/qxl/qxl_kms.c
-> @@ -283,6 +283,8 @@ int qxl_device_init(struct qxl_device *qdev,
->  void qxl_device_fini(struct qxl_device *qdev)
+>
+>  drivers/gpu/drm/amd/amdgpu/amdgpu.h     |  4 ++++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c | 12 +++++-------
+>  2 files changed, 9 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> index 0e6ddf05c23c..e968b7f2417c 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> @@ -1063,6 +1063,10 @@ struct amdgpu_device {
+>         struct work_struct              reset_work;
+>
+>         bool                            job_hang;
+> +
+> +#if IS_ENABLED(CONFIG_PERF_EVENTS)
+> +       struct list_head pmu_list;
+> +#endif
+>  };
+>
+>  static inline struct amdgpu_device *drm_to_adev(struct drm_device *ddev)
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c
+> index 71ee361d0972..24f2055a2f23 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c
+> @@ -23,6 +23,7 @@
+>
+>  #include <linux/perf_event.h>
+>  #include <linux/init.h>
+> +#include <linux/list.h>
+>  #include "amdgpu.h"
+>  #include "amdgpu_pmu.h"
+>
+> @@ -72,9 +73,6 @@ static ssize_t amdgpu_pmu_event_show(struct device *dev,
+>                         amdgpu_pmu_attr->event_str, amdgpu_pmu_attr->type);
+>  }
+>
+> -static LIST_HEAD(amdgpu_pmu_list);
+> -
+> -
+>  struct amdgpu_pmu_attr {
+>         const char *name;
+>         const char *config;
+> @@ -558,7 +556,7 @@ static int init_pmu_entry_by_type_and_add(struct amdgpu_pmu_entry *pmu_entry,
+>                 pr_info("Detected AMDGPU %d Perf Events.\n", total_num_events);
+>
+>
+> -       list_add_tail(&pmu_entry->entry, &amdgpu_pmu_list);
+> +       list_add_tail(&pmu_entry->entry, &pmu_entry->adev->pmu_list);
+>
+>         return 0;
+>  err_register:
+> @@ -579,9 +577,7 @@ void amdgpu_pmu_fini(struct amdgpu_device *adev)
 >  {
->  	int cur_idx;
-> +	struct drm_device *ddev = &qdev->ddev;
-> +	struct pci_dev *pdev = to_pci_dev(ddev->dev);
->  
->  	/* check if qxl_device_init() was successful (gc_work is initialized last) */
->  	if (!qdev->gc_work.func)
-> @@ -305,6 +307,7 @@ void qxl_device_fini(struct qxl_device *qdev)
->  	wait_event_timeout(qdev->release_event,
->  			   atomic_read(&qdev->release_count) == 0,
->  			   HZ);
-> +	free_irq(pdev->irq, ddev);
->  	flush_work(&qdev->gc_work);
->  	qxl_surf_evict(qdev);
->  	qxl_vram_evict(qdev);
-> -- 
-> 2.25.1
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+>         struct amdgpu_pmu_entry *pe, *temp;
+>
+> -       list_for_each_entry_safe(pe, temp, &amdgpu_pmu_list, entry) {
+> -               if (pe->adev != adev)
+> -                       continue;
+> +       list_for_each_entry_safe(pe, temp, &adev->pmu_list, entry) {
+>                 list_del(&pe->entry);
+>                 perf_pmu_unregister(&pe->pmu);
+>                 kfree(pe->pmu.attr_groups);
+> @@ -623,6 +619,8 @@ int amdgpu_pmu_init(struct amdgpu_device *adev)
+>         int ret = 0;
+>         struct amdgpu_pmu_entry *pmu_entry, *pmu_entry_df;
+>
+> +       INIT_LIST_HEAD(&adev->pmu_list);
+> +
+>         switch (adev->asic_type) {
+>         case CHIP_VEGA20:
+>                 pmu_entry_df = create_pmu_entry(adev, AMDGPU_PMU_PERF_TYPE_DF,
+> --
+> 2.38.1.273.g43a17bfeac-goog
+>
