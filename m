@@ -1,84 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D63C9620C34
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 10:29:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 447EA620C6C
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 10:38:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9BBE10E254;
-	Tue,  8 Nov 2022 09:29:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0BEE10E3BC;
+	Tue,  8 Nov 2022 09:38:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36D0210E254
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Nov 2022 09:29:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667899762;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=G/IvXa3Gtc42ocSwbE6e2PTXEI1xHOCM/WDymiGQVjk=;
- b=EclQgB/BAXWPmHv1CQSriGjM01041EmwLWXrYJNK4SB8YG848WwPaT3gtRThNKwuxzmdw5
- WIGW9R+7AM/5gAAZRH/0L5G44XvsMJQpHiO/l6SjGpDw5LLZtlzG5p9K4gQknYqLCl5Jpf
- 5BIWRtsM4d1QsnoJfX3bzespR7vjkbA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-538-L71vFh6xP-mrl-__uPsktg-1; Tue, 08 Nov 2022 04:29:21 -0500
-X-MC-Unique: L71vFh6xP-mrl-__uPsktg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- i82-20020a1c3b55000000b003cf9bd60855so2473987wma.6
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Nov 2022 01:29:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=G/IvXa3Gtc42ocSwbE6e2PTXEI1xHOCM/WDymiGQVjk=;
- b=D/GYkcC7dJwfBf9JhiELU6RQ8lnCdg/UHPoN4ngU8ODt4ukfrXA10BvoNGKdecAi3O
- E3QZiu5VadGJgDblOZPQMdQDxSdfCmj8+0fNSZnLUYyv0SHIaImy45ZQ475xVLBRqdv7
- Sew5Gi9L/D/5AB5/OIRq3YLqLUsUDeCQXeFFd2+Ri6hcgT2bRSLRIe5FMBoKbViYshxG
- goz+/R+46Z6YiMvcOIpWz7vKH7CeQLe8w4sAkyrgSnOnzEzz+d1i2u+VvqG+L8OqstX8
- riiaGbqoxjZmJg/JkPrBcMMlq8gM9sqaxBxxfrLCLTYSeXwUIuZNGBEj3KdR1JYNwRc9
- wZkA==
-X-Gm-Message-State: ACrzQf3VgX03ZbJo/5BvP9t7rKZhUGTQWTRXkX3ml5DZe3j3HmjmJKpx
- GV/OlGjRUjpp8YwbSP4CG7EeovUCnFZYiIJpUhnAVYpoDDtWxAu7A6dhSjscl48nrhyYjUGdHK7
- 7eaZG+TPYQyt3/4gZt56RHoa6NerM
-X-Received: by 2002:a1c:7418:0:b0:3cf:703a:4f0c with SMTP id
- p24-20020a1c7418000000b003cf703a4f0cmr31192091wmc.63.1667899760176; 
- Tue, 08 Nov 2022 01:29:20 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM5StZVkpugFYppLkRHp5xlGTjmqFOUyferk1nDQuYzjbb+gdKwEthZaHv8SGYCGJ8Geu++6Xg==
-X-Received: by 2002:a1c:7418:0:b0:3cf:703a:4f0c with SMTP id
- p24-20020a1c7418000000b003cf703a4f0cmr31192042wmc.63.1667899759842; 
- Tue, 08 Nov 2022 01:29:19 -0800 (PST)
-Received: from ?IPV6:2003:cb:c708:db00:6510:da8d:df40:abbb?
- (p200300cbc708db006510da8ddf40abbb.dip0.t-ipconnect.de.
- [2003:cb:c708:db00:6510:da8d:df40:abbb])
- by smtp.gmail.com with ESMTPSA id
- n10-20020a5d420a000000b0023682011c1dsm9563940wrq.104.2022.11.08.01.29.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Nov 2022 01:29:19 -0800 (PST)
-Message-ID: <ee9fceb8-f928-8754-d94f-54b662bb0c74@redhat.com>
-Date: Tue, 8 Nov 2022 10:29:17 +0100
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 602C810E0E8;
+ Tue,  8 Nov 2022 09:38:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=Gn2jtnurXeLoR+JBbYdWEKBeFwgIy7nQqvoCoWdGcMU=; b=Jm48u4quUIM9AnE2eAVOPXlszN
+ dHIUCxlanP3myizyV6x9HL+VzqOJBcIng+jIcCrV+ZPLX2GL3s239g7CE2I26KDmGGx0zkpumAvjA
+ EALkEKyh8Ho0vrR7//I1jF65jvIy8wwm/jayyESeeHlMso6Zu6yM2QoKn9j4hydIZxrtVraX1dJju
+ ItknqiWPduNMuNnrVezLIeZgNrbbgi5Djw/QrHpTXb6ozVvWRQxu6EbXp+RHmjSdNmEqARyimQjcf
+ DksOaOcw0fZ51OKSvj6zbrlcXCFUinsfBUGO2lO/rodVYogF86aGh3Q5y9/zFg8ENVbG/phX+5Kod
+ UAKOOx1A==;
+Received: from [2a01:799:95a:cb00:cca0:57ac:c55d:a485] (port=57639)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1osL3l-0008OX-8y; Tue, 08 Nov 2022 10:38:21 +0100
+Message-ID: <ba532387-6329-c57a-1fa2-627b2cf40281@tronnes.org>
+Date: Tue, 8 Nov 2022 10:38:12 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH RFC 00/19] mm/gup: remove FOLL_FORCE usage from drivers
- (reliable R/O long-term pinning)
-To: Linus Torvalds <torvalds@linux-foundation.org>
-References: <20221107161740.144456-1-david@redhat.com>
- <CAHk-=wj51-dtxf8BQBYP+9Kc3ejq4Y0=-6hCbf_XAnkT3fsgDQ@mail.gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <CAHk-=wj51-dtxf8BQBYP+9Kc3ejq4Y0=-6hCbf_XAnkT3fsgDQ@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v7 15/23] drm/modes: Introduce more named modes
+To: Maxime Ripard <maxime@cerno.tech>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Ben Skeggs <bskeggs@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>,
+ Lyude Paul <lyude@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>
+References: <20220728-rpi-analog-tv-properties-v7-0-7072a478c6b3@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v7-15-7072a478c6b3@cerno.tech>
+ <262f0953-1e05-e68e-3e96-2ac2132a1e57@tronnes.org>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <262f0953-1e05-e68e-3e96-2ac2132a1e57@tronnes.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,41 +67,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- Nadav Amit <namit@vmware.com>, linux-kselftest@vger.kernel.org,
- Andrea Arcangeli <aarcange@redhat.com>, linux-samsung-soc@vger.kernel.org,
- linux-rdma@vger.kernel.org, Hugh Dickins <hughd@google.com>,
- Matthew Wilcox <willy@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>, John Hubbard <jhubbard@nvidia.com>,
- etnaviv@lists.freedesktop.org, Peter Xu <peterx@redhat.com>,
- Muchun Song <songmuchun@bytedance.com>, Vlastimil Babka <vbabka@suse.cz>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Oded Gabbay <ogabbay@kernel.org>, linux-kernel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Mike Kravetz <mike.kravetz@oracle.com>
+Cc: Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07.11.22 18:27, Linus Torvalds wrote:
-> On Mon, Nov 7, 2022 at 8:18 AM David Hildenbrand <david@redhat.com> wrote:
+
+
+Den 07.11.2022 19.03, skrev Noralf Trønnes:
+> 
+> 
+> Den 07.11.2022 15.16, skrev Maxime Ripard:
+>> Now that we can easily extend the named modes list, let's add a few more
+>> analog TV modes that were used in the wild, and some unit tests to make
+>> sure it works as intended.
 >>
->> So instead, make R/O long-term pinning work as expected, by breaking COW
->> in a COW mapping early, such that we can remove any FOLL_FORCE usage from
->> drivers.
+>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>>
+>> ---
+>> Changes in v6:
+>> - Renamed the tests to follow DRM test naming convention
+>>
+>> Changes in v5:
+>> - Switched to KUNIT_ASSERT_NOT_NULL
+>> ---
+>>  drivers/gpu/drm/drm_modes.c                     |  2 +
+>>  drivers/gpu/drm/tests/drm_client_modeset_test.c | 54 +++++++++++++++++++++++++
+>>  2 files changed, 56 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+>> index 49441cabdd9d..17c5b6108103 100644
+>> --- a/drivers/gpu/drm/drm_modes.c
+>> +++ b/drivers/gpu/drm/drm_modes.c
+>> @@ -2272,7 +2272,9 @@ struct drm_named_mode {
+>>  
+>>  static const struct drm_named_mode drm_named_modes[] = {
+>>  	NAMED_MODE("NTSC", 13500, 720, 480, DRM_MODE_FLAG_INTERLACE, DRM_MODE_TV_MODE_NTSC),
+>> +	NAMED_MODE("NTSC-J", 13500, 720, 480, DRM_MODE_FLAG_INTERLACE, DRM_MODE_TV_MODE_NTSC_J),
+>>  	NAMED_MODE("PAL", 13500, 720, 576, DRM_MODE_FLAG_INTERLACE, DRM_MODE_TV_MODE_PAL),
+>> +	NAMED_MODE("PAL-M", 13500, 720, 480, DRM_MODE_FLAG_INTERLACE, DRM_MODE_TV_MODE_PAL_M),
+>>  };
 > 
-> Nothing makes me unhappy from a quick scan through these patches.
+> I'm now having second thoughts about the tv_mode commandline option. Can
+> we just add all the variants to this table and drop the tv_mode option?
+> IMO this will be more user friendly and less confusing.
 > 
-> And I'd really love to just have this long saga ended, and FOLL_FORCE
-> finally relegated to purely ptrace accesses.
-> 
-> So an enthusiastic Ack from me.
 
-Thanks Linus! My hope is that we can remove it from all drivers and not 
-have to leave it in for some corner cases; so far it looks promising.
+One downside of this is that it's not possible to force connector status
+when using named modes, but I think it would be better to have a force
+option than a tv_mode option. A lot of userspace treats unknown status
+as disconnected.
 
--- 
-Thanks,
+Anyone know if it's possible to set the connector status sysfs file
+using a udev rule?
 
-David / dhildenb
-
+Noralf.
