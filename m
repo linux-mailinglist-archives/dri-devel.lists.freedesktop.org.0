@@ -2,72 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 401C9621139
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 13:46:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D4AB62113C
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 13:46:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E7B110E27D;
-	Tue,  8 Nov 2022 12:46:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7AC710E42B;
+	Tue,  8 Nov 2022 12:46:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DEF210E27D
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Nov 2022 12:46:00 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id
- fn7-20020a05600c688700b003b4fb113b86so9012198wmb.0
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Nov 2022 04:46:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=hIQ3u/huOf4z9jf0jf8kWSgTP1/QU5AOGn1ARoDQeg0=;
- b=fWDgETyypYOc1gL0Y4RbTqbIiUZjuIhpIKjNKu4S+sZcyvPAKsmZV6mh+gKWcbWauE
- 2+U+9kYLsqPF97ahGm2w2l8rqq+RxVjS+aIOpe1i/rfXGdaHCPpv25jJxBogaQQgJmFv
- TW2MGPQo4ArbQvCCu7c/X7UiWcdHHTwx5oXHE+kibb/5WHpGYOqBv164DWKWUPxEF2cG
- bdSCcC4aYsD/2yOfkgKqsdRehjDYK8/jvylQp9T87ZXnNRBplvuu7KKaE8IKrmRv8nsT
- 2WMLkggWxVgV9wGE3495gzdDeDf5Q8H98e1hU3ebvAIu/9VuScQ6cDyVzMBCfMNHlJM6
- bI5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hIQ3u/huOf4z9jf0jf8kWSgTP1/QU5AOGn1ARoDQeg0=;
- b=tcfF0KdxBUoRF++QW1qmmB0LjQmIpZLovyKo2scTK2dytivdCx6mUptuIEv37Q5kvm
- gar3e+hQty7m84iVEy/qNYml2dzIJ9hs8SmsS0reJXSuFteQ3bE54zRmls6n+rv47Hgn
- Asa+y9q5MY9s+TokRDUF5aOhdYmiD/wwAgno4Feaoyf8ggvtAJ3wf0NSJfLav0+/ifWJ
- LULMMAIhOSNeV54qg6uGRaSSjoJcs5CbKgV6i+feWLHR96OaAAbu5F/xQiWQX63JVcu2
- uulGyp00hbnNRH+ueL3MKCWVt7sUZx0TW+XGg1anwgYWWNVnucmrMCMTAebGokDI2LkM
- LU+g==
-X-Gm-Message-State: ACrzQf2GcmL7VpYZQqBMOW1yE2F7uo3H15KRLbCnYFNx19F0kXcWR5WF
- b0WEZJn4N5BqQywPgx9FIYROrg==
-X-Google-Smtp-Source: AMsMyM44z2U/h+ehijFYZ/5qViV4YPBFnGfwbHys7xmuID6S4pCbrFGbASlzwGGFG0zW9x1S5a7Bsg==
-X-Received: by 2002:a05:600c:21a:b0:3cf:6e78:8e89 with SMTP id
- 26-20020a05600c021a00b003cf6e788e89mr33447753wmi.46.1667911558976; 
- Tue, 08 Nov 2022 04:45:58 -0800 (PST)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
- by smtp.gmail.com with ESMTPSA id
- q24-20020a1cf318000000b003cfb7c02542sm1937720wmq.11.2022.11.08.04.45.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Nov 2022 04:45:58 -0800 (PST)
-Message-ID: <162823f6-9fa9-1d69-5421-d77d37b6a0d7@linaro.org>
-Date: Tue, 8 Nov 2022 12:45:57 +0000
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 588C010E425
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Nov 2022 12:46:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1667911583; x=1699447583;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=yInpcuBqffNpHyEIyvcFabmM7Yq7M2fOh2s3ydZG1aI=;
+ b=WX/Be1QGWY+mRo5CQDhhLaaXc48iaF8QToYM1ve0AA0pCEmTsyGv5RcR
+ ActnbjiPudBLoHvxIrlFtLkWNR/MRn0OxshYtlHkVNFyDsKgDFjVigi9K
+ XMNnJAtC26WOTypD5shTlYbIwTiX6JU2qaJmix4hz3wqSMmXS88E3Pkmu
+ Iow3SNUnXxMoVBT6g4IzHdM6T/s9raR+7JpJnnsalYw2uuhhrmupakr5L
+ 2Ote9NdChx8UxReRZzr1LOoYuA2XzZ/HN/kzrBbEWW+8c4ySSC0ExgFae
+ pOTxN6sltD85Id9tfeZF91WmFb2xSGxex9RFjomPVoYSPPDRl/Dcdck0A A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="298199924"
+X-IronPort-AV: E=Sophos;i="5.96,147,1665471600"; d="scan'208";a="298199924"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Nov 2022 04:46:22 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="778913220"
+X-IronPort-AV: E=Sophos;i="5.96,147,1665471600"; d="scan'208";a="778913220"
+Received: from joe-255.igk.intel.com (HELO localhost) ([172.22.229.67])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Nov 2022 04:46:17 -0800
+Date: Tue, 8 Nov 2022 13:46:14 +0100
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: Oded Gabbay <ogabbay@kernel.org>
+Subject: Re: [RFC PATCH v3 1/3] drivers/accel: define kconfig and register a
+ new major
+Message-ID: <20221108124614.GA6397@linux.intel.com>
+References: <20221106210225.2065371-1-ogabbay@kernel.org>
+ <20221106210225.2065371-2-ogabbay@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2 08/18] dt-bindings: msm: dsi-controller-main: Document
- clocks on a per compatible basis
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, robdclark@gmail.com,
- quic_abhinavk@quicinc.com, krzysztof.kozlowski+dt@linaro.org,
- robh+dt@kernel.org, quic_mkrishn@quicinc.com, linux-arm-msm@vger.kernel.org
-References: <20221107235654.1769462-1-bryan.odonoghue@linaro.org>
- <20221107235654.1769462-9-bryan.odonoghue@linaro.org>
- <d10bf67c-c21c-5096-d774-ff924bf1dd41@linaro.org>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <d10bf67c-c21c-5096-d774-ff924bf1dd41@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221106210225.2065371-2-ogabbay@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,19 +58,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, devicetree@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
+ Kevin Hilman <khilman@baylibre.com>, Christoph Hellwig <hch@infradead.org>,
+ Jagan Teki <jagan@amarulasolutions.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ John Hubbard <jhubbard@nvidia.com>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ Arnd Bergmann <arnd@arndb.de>, Jiho Chu <jiho.chu@samsung.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/11/2022 12:43, Dmitry Baryshkov wrote:
-> I'd prefer to have this part squashed into the previous patch.
+On Sun, Nov 06, 2022 at 11:02:23PM +0200, Oded Gabbay wrote:
+> Add a new Kconfig for the accel subsystem. The Kconfig currently
+> contains only the basic CONFIG_DRM_ACCEL option that will be used to
+> decide whether to compile the accel registration code. Therefore, the
+> kconfig option is defined as bool.
+> 
+> The accel code will be compiled as part of drm.ko and will be called
+> directly from the DRM core code. The reason we compile it as part of
+> drm.ko and not as a separate module is because of cyclic dependency
+> between drm.ko and the separate module (if it would have existed).
+> This is due to the fact that DRM core code calls accel functions and
+> vice-versa.
+> 
+> The accelerator devices will be exposed to the user space with a new,
+> dedicated major number - 261.
+> 
+> The accel init function registers the new major number as a char device
+> and create corresponding sysfs and debugfs root entries, similar to
+> what is done in DRM init function.
+> 
+> I added a new header called drm_accel.h to include/drm/, that will hold
+> the prototypes of the drm_accel.c functions. In case CONFIG_DRM_ACCEL
+> is set to 'N', that header will contain empty inline implementations of
+> those functions, to allow DRM core code to compile successfully
+> without dependency on CONFIG_DRM_ACCEL.
+> 
+> I Updated the MAINTAINERS file accordingly with the newly added folder
+> and I have taken the liberty to appropriate the dri-devel mailing list
+> and the dri-devel IRC channel for the accel subsystem.
+> 
+> Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 
-NP.
+Tested-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 
-Actually I'll add you as a suggested by here since you sent me a patch ~ 
-similar to this.
+I tested those patches with intel_vpu driver. After initial troubles,
+I got things worked with our driver and user mode components.
 
----
-bod
+Regards
+Stanislaw
