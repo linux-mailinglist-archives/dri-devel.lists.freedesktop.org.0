@@ -1,63 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28509621C7D
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 19:51:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50FFC621C7F
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 19:51:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B3FC10E4F6;
-	Tue,  8 Nov 2022 18:50:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39E5B10E4F7;
+	Tue,  8 Nov 2022 18:50:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com
- [IPv6:2607:f8b0:4864:20::114a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A40E610E4EF
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Nov 2022 18:50:47 +0000 (UTC)
-Received: by mail-yw1-x114a.google.com with SMTP id
- 00721157ae682-36810cfa61fso141951637b3.6
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Nov 2022 10:50:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=to:from:subject:message-id:mime-version:date:from:to:cc:subject
- :date:message-id:reply-to;
- bh=ZB1r43VJCLEuCBOYhWr/N5mF6kTlkofIg4Tb9RTYcbk=;
- b=NisyEsfbVYNv6Hsq46RUemq5+Nod7rKoNQcwWsLzOKRC3P3TWNrxadp2uEKtLNU5ff
- l7tXdYBT12CTvVajEmmkWrU6kkKibllyL4yBWeX/OH96i5+OPUZFDwycrxxHR26C4C2C
- U2Zcvf9qO4SfpoogqZ7eoImSdfA6bqHK0x7c9nVdIxLK6QMDB4N3XeL55053VhPJVQyg
- r9YTHT9cYnsFDYazzX+/4DcMPnmCUeUE8wPIjiC37qqaI+XwBN4JmKpgz650rNa8rlch
- fwdGiN0nYtwluN8Dw9C4yhMou1EfuGrMUWQZxqV18u29oweRiMENEM/g3LcEhvRdlkaV
- wsDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=to:from:subject:message-id:mime-version:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ZB1r43VJCLEuCBOYhWr/N5mF6kTlkofIg4Tb9RTYcbk=;
- b=ZU4mJZJOmYv3ogmsmJ42fcdKjqfWDaF/SwzUmAajsPTROVCloinlJtmegEmdEHvxRH
- 7zunDGlYWiLDNP2+oWJpUutq+vjsIAn6q6THmo0uSgn3w4DPeTit8uHepbncn8SEYIps
- 6mJ7ki9MpcMabBRh86vHqDC7xIK8Kn/fGHLyZtz+96CEtd8iPbSHcYnZ5ZaEIWv/PQKU
- wL2yC9ubgPKKDwhag2kViW30R+FHSPl5R6rG/aG7rgpD91IbCQvqvSqXY6wCJzpxziV/
- blld5FUwRbMHla9z7tcX48vTGZMa1UbPPN7uPspOG7SvsThFHaslJp3GIROkmda1tneQ
- SSMA==
-X-Gm-Message-State: ACrzQf0wQHP41m3+M8zlq6wnpt/7YkevfOjfy3dkbwWKNZyRogx7ALQ/
- oTjATgXO3fTxg63aFIutWA8ij8zjUM+tuw==
-X-Google-Smtp-Source: AMsMyM78GhUZSj2TFcme5D9Rasl1Kf/bKSJV841t32VCPr4ab0/mASXWzS/08FZrF2siqV1MO556p8q4WBR9xA==
-X-Received: from wonchungspecialist.c.googlers.com
- ([fda3:e722:ac3:cc00:7f:e700:c0a8:1440])
- (user=wonchung job=sendgmr) by 2002:a0d:df46:0:b0:36a:73db:2c2d with SMTP id
- i67-20020a0ddf46000000b0036a73db2c2dmr55535895ywe.130.1667933436613; Tue, 08
- Nov 2022 10:50:36 -0800 (PST)
-Date: Tue,  8 Nov 2022 18:50:04 +0000
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.38.1.431.g37b22c650d-goog
-Message-ID: <20221108185004.2263578-1-wonchung@google.com>
-Subject: [PATCH v4] drm/sysfs: Link DRM connectors to corresponding Type-C
- connectors
-From: Won Chung <wonchung@google.com>
-To: wonchung@google.com, bleung@google.com, pmalani@chromium.org, 
- heikki.krogerus@linux.intel.com, imre.deak@intel.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, daniel@ffwll.ch, jani.nikula@linux.intel.com, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Received: from mail-4022.proton.ch (mail-4022.proton.ch [185.70.40.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7897C10E4EF;
+ Tue,  8 Nov 2022 18:50:48 +0000 (UTC)
+Date: Tue, 08 Nov 2022 18:50:42 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail3; t=1667933446; x=1668192646;
+ bh=iR4z0fcOUj4kLBli87jk8SRgbWffMR5GcTiGRWNAqFU=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=iodNwh3Yn79pSho7+Gaty5eM6k9SHFtE74jY2vKRDnn+w8g9LiaBg59FbKx1ufA5/
+ Vliap1b51XYM6e7cvCTNDAC+scDHnRXXxCnK3MnbV7V6KnoSyjneVAfCsPCb1FRqy5
+ KYbLDG1WwxgPlYjNHMbOEuf+V7G5KJKf7N8seZBU1j5SzTx+LXagWr5pY3/VBAcfd6
+ ipxtgQ0KuhhYGXsb8xvKJqI5dWWiytpvoP/7CaGd3+Ni5By2TNnSu3/tZGbviVbjhC
+ ZaJlK0gyJAQYl99GXdjTIwG8Gec3yUWFn8xV35mCKMMDE66j0b0Ym0XCS9SIAvQVWn
+ GjonFHFmCI8ZA==
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [RFC PATCH 1/3] drm: Introduce color fill properties for drm plane
+Message-ID: <U3Koc0-B-7C7sbIpcRWokBHPOQdrQl7azJxAUWFJ4nmsk5nPf9NnUgBr9HOFUZ9YLJOKREN878fXv_BeIc15Kh_jVAFCFbYr8XfS3s0Os_M=@emersion.fr>
+In-Reply-To: <712a9a25-4c38-9da5-b1a6-39e4665b4d31@linaro.org>
+References: <20221028225952.160-1-quic_jesszhan@quicinc.com>
+ <20221028225952.160-2-quic_jesszhan@quicinc.com>
+ <712a9a25-4c38-9da5-b1a6-39e4665b4d31@linaro.org>
+Feedback-ID: 1358184:user:proton
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,115 +49,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Pekka Paalanen <ppaalanen@gmail.com>, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, seanpaul@chromium.org, laurent.pinchart@ideasonboard.com,
+ daniel.vetter@ffwll.ch, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ wayland-devel <wayland-devel@lists.freedesktop.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Create a symlink pointing to USB Type-C connector for DRM connectors
-when they are created. The link will be created only if the firmware is
-able to describe the connection beween the two connectors.
+cc'ing Pekka and wayland-devel for userspace devs feedback on the new uAPI.
 
-Currently, even if a display uses a USB Type-C port, there is no way for
-the userspace to find which port is used for which display. With the
-symlink, display information would be accessible from Type-C connectors
-and port information would be accessible from DRM connectors.
-Associating the two subsystems, userspace would have potential to expose
-and utilize more complex information, such as bandwidth used for a
-specific USB Type-C port.
+On Saturday, October 29th, 2022 at 14:08, Dmitry Baryshkov <dmitry.baryshko=
+v@linaro.org> wrote:
 
-Signed-off-by: Won Chung <wonchung@google.com>
-Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
----
-Changes from v3:
-- Append to the commit message on why this patch is needed
+> On 29/10/2022 01:59, Jessica Zhang wrote:
+> > Add support for COLOR_FILL and COLOR_FILL_FORMAT properties for
+> > drm_plane. In addition, add support for setting and getting the values
+> > of these properties.
+> >
+> > COLOR_FILL represents the color fill of a plane while COLOR_FILL_FORMAT
+> > represents the format of the color fill. Userspace can set enable solid
+> > fill on a plane by assigning COLOR_FILL to a uint64_t value, assigning
+> > the COLOR_FILL_FORMAT property to a uint32_t value, and setting the
+> > framebuffer to NULL.
+> >
+> > Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>=20
+> Planes report supported formats using the drm_mode_getplane(). You'd
+> also need to tell userspace, which formats are supported for color fill.
+> I don't think one supports e.g. YV12.
+>=20
+> A bit of generic comment for the discussion (this is an RFC anyway).
+> Using color_fill/color_fill_format properties sounds simple, but this
+> might be not generic enough. Limiting color_fill to 32 bits would
+> prevent anybody from using floating point formats (e.g.
+> DRM_FORMAT_XRGB16161616F, 64-bit value). Yes, this can be solved with
+> e.g. using 64-bit for the color_fill value, but then this doesn't sound
+> extensible too much.
+>=20
+> So, a question for other hardware maintainers. Do we have hardware that
+> supports such 'color filled' planes? Do we want to support format
+> modifiers for filling color/data? Because what I have in mind is closer
+> to the blob structure, which can then be used for filling the plane:
+>=20
+> struct color_fill_blob {
+>      u32 pixel_format;
+>      u64 modifiers4];
+>      u32 pixel_data_size; // fixme: is this necessary?
+>      u8 pixel_data[];
+> };
+>=20
+> And then... This sounds a lot like a custom framebuffer.
+>=20
+> So, maybe what should we do instead is to add new DRM_MODE_FB_COLOR_FILL
+> flag to the framebuffers, which would e.g. mean that the FB gets stamped
+> all over the plane. This would also save us from changing if (!fb)
+> checks all over the drm core.
+>=20
+> Another approach might be using a format modifier instead of the FB flag.
+>=20
+> What do you think?
 
-Changes from v2:
-- Resend the patch to dri-devel list
+First off, we only need to represent the value of a single pixel here. So I=
+'m
+not quite following why we need format modifiers. Format modifiers describe=
+ how
+pixels are laid out in memory. Since there's a single pixel described, this
+is non-sensical to me, the format modifier is always LINEAR.
 
-Changes from v1:
-- Fix multiple lines to single line
+Then, I can understand why putting the pixel_format in there is tempting to
+guarantee future extensibility, but it also adds complexity. For instance, =
+how
+does user-space figure out which formats can be used for COLOR_FILL? Can
+user-space use any format supported by the plane? What does it mean for
+multi-planar formats? Do we really want the kernel to have conversion logic=
+ for
+all existing formats? Do we need to also add a new read-only blob prop to
+indicate supported COLOR_FILL formats?
 
+We've recently-ish standardized a new Wayland protocol [1] which has the sa=
+me
+purpose as this new kernel uAPI. The conclusion there was that using 32-bit
+values for each channel (R, G, B, A) would be enough for almost all use-cas=
+es.
+The driver can convert these high-precision values to what the hardware exp=
+ects.
+The only concern was about sending values outside of the [0.0, 1.0] range,
+which may have HDR use-cases.
 
- drivers/gpu/drm/drm_sysfs.c | 40 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
+So, there are multiple ways to go about this. I can think of:
 
-diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
-index 430e00b16eec..6a9904fa9186 100644
---- a/drivers/gpu/drm/drm_sysfs.c
-+++ b/drivers/gpu/drm/drm_sysfs.c
-@@ -11,12 +11,14 @@
-  */
- 
- #include <linux/acpi.h>
-+#include <linux/component.h>
- #include <linux/device.h>
- #include <linux/err.h>
- #include <linux/export.h>
- #include <linux/gfp.h>
- #include <linux/i2c.h>
- #include <linux/kdev_t.h>
-+#include <linux/property.h>
- #include <linux/slab.h>
- 
- #include <drm/drm_connector.h>
-@@ -95,6 +97,34 @@ static char *drm_devnode(struct device *dev, umode_t *mode)
- 	return kasprintf(GFP_KERNEL, "dri/%s", dev_name(dev));
- }
- 
-+static int typec_connector_bind(struct device *dev,
-+	struct device *typec_connector, void *data)
-+{
-+	int ret;
-+
-+	ret = sysfs_create_link(&dev->kobj, &typec_connector->kobj, "typec_connector");
-+	if (ret)
-+		return ret;
-+
-+	ret = sysfs_create_link(&typec_connector->kobj, &dev->kobj, "drm_connector");
-+	if (ret)
-+		sysfs_remove_link(&dev->kobj, "typec_connector");
-+
-+	return ret;
-+}
-+
-+static void typec_connector_unbind(struct device *dev,
-+	struct device *typec_connector, void *data)
-+{
-+	sysfs_remove_link(&typec_connector->kobj, "drm_connector");
-+	sysfs_remove_link(&dev->kobj, "typec_connector");
-+}
-+
-+static const struct component_ops typec_connector_ops = {
-+	.bind = typec_connector_bind,
-+	.unbind = typec_connector_unbind,
-+};
-+
- static CLASS_ATTR_STRING(version, S_IRUGO, "drm 1.1.0 20060810");
- 
- /**
-@@ -355,6 +385,13 @@ int drm_sysfs_connector_add(struct drm_connector *connector)
- 	if (connector->ddc)
- 		return sysfs_create_link(&connector->kdev->kobj,
- 				 &connector->ddc->dev.kobj, "ddc");
-+
-+	if (dev_fwnode(kdev)) {
-+		r = component_add(kdev, &typec_connector_ops);
-+		if (r)
-+			drm_err(dev, "failed to add component\n");
-+	}
-+
- 	return 0;
- 
- err_free:
-@@ -367,6 +404,9 @@ void drm_sysfs_connector_remove(struct drm_connector *connector)
- 	if (!connector->kdev)
- 		return;
- 
-+	if (dev_fwnode(connector->kdev))
-+		component_del(connector->kdev, &typec_connector_ops);
-+
- 	if (connector->ddc)
- 		sysfs_remove_link(&connector->kdev->kobj, "ddc");
- 
--- 
-2.37.3.998.g577e59143f-goog
+- Put "RGBA32" in the name of the prop, and if we ever need a different
+  color format, pick a different name.
+- Define a struct with an enum of possible fill kinds:
+  #define FILL_COLOR_RGBA32 1
+  #define FILL_COLOR_F32 2
+  struct color_fill_blob { u32 kind; u8 data[]; };
+- Define a struct with a version and RGBA values:
+  struct color_fill_blob { u32 version; u32 rgba[4]; };
+  If we need to add more formats later, or new metadata:
+  struct color_fill_blob2 { u32 version; /* new fields */ };
+  where version must be set to 2.
+- Define a struct with a "pixel_format" prop, but force user-space to use a
+  fixed format for now. Later, if we need another format, add a new prop to
+  advertise supported formats.
+- More complicated solutions, e.g. advertise the list of supported formats =
+from
+  the start.
 
+[1]: https://gitlab.freedesktop.org/wayland/wayland-protocols/-/merge_reque=
+sts/104
