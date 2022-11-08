@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9B98621E52
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 22:13:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92107621E5B
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Nov 2022 22:13:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F88510E03C;
-	Tue,  8 Nov 2022 21:13:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 751F110E526;
+	Tue,  8 Nov 2022 21:13:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
- [IPv6:2a00:1450:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3EB910E03C
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Nov 2022 21:12:58 +0000 (UTC)
-Received: by mail-lj1-x22e.google.com with SMTP id a15so22956906ljb.7
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Nov 2022 13:12:58 -0800 (PST)
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
+ [IPv6:2a00:1450:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F412910E2D2
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Nov 2022 21:13:46 +0000 (UTC)
+Received: by mail-lj1-x235.google.com with SMTP id t10so23051466ljj.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Nov 2022 13:13:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=wIdfbTng+tTAaILuDn9NZccChxnc1mAMEr243g5AE5Q=;
- b=iTjLTbcG99SbapGUPOpT8KcxRneAH8zYd4dQyMRXYtlti+glhDtRyLgvP5+CzzyfRv
- Fih/uqwNJ1eDGMVCFWx2tx9LCobMHtTd94MqkpcvGko+pS70kYfkZ5uLWF3idV8s7PRG
- 8ArTY6mX7/cnjb50OcQITOrV5KZSXqA8SJW5meeudaev/T54y3GQSjc26MAdnhMxr6go
- lV4Bltmxy9zViJM0YWctiK9UUHGgSxycoWy2hNdiOVj/qUBqzTIEm0AqWF2J6eRao15n
- PmieweREvx7OVbDwwuRX6ynqXrpdbyr7uIlGVBQPlL1B+lItiFP1rblnW3Dv1aNKfFyt
- 2qkQ==
+ bh=b+TEdIfIt1XEAkSUPk37PpRaSa+HP3u0XbUt51o/R5Q=;
+ b=hybL/ifLuD7Lq7OrqxEgPb+C3hZe6Zq/o9AmhBC3t26Y3R8MzxahlatCWAkuQxba6s
+ EPuEj4JngMnlo3aeVxau/Z1Qxs+H4hGVSBG+Vb3QnPV5hfRrbg/MhpQmYGnQacNIdzM9
+ Uu6BHThBxpHD7xHsdvES0oRgA+K49VywCjvxSo4gmm3bP+1480sreCSqcgLZBxKvDrJY
+ LM6qrbd3aMdEqxhBvamfi2ZZhgvEXsf2XQ7R8B9S7kurZ6AkdWCrINjDFXXqvaZJcp68
+ em7YdfcJ/kU/5L2Qov073/b188bqObSSwO7qpAa8DbMGNzqeRqKQC2x+LRYKkDk4qxAy
+ 2NgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wIdfbTng+tTAaILuDn9NZccChxnc1mAMEr243g5AE5Q=;
- b=DLxUOyMptvheZFXZkoPCoY7GJtMJexoZLAyOibFgyUnGGRvjI3r3TqKhhCRTa/Au2k
- fO1X2TfZ9JZ1l7XiW0G7yFbDuGZ22uB6hQpynX1U13CwB8f8OkYODGkFRwdK+wBykkP2
- qDkjty8GOrh0cuV6qmUcUnbcTBdNt5j7PGdJL3YwY6g8d9JojwEKKTCIPchjxBnWY7nR
- 209Jb/6Lj7Mb6joj1q7nYcqjuiySEVzaBpBARRmLVTtiML94nlcczNja9S39LY0RhYF1
- mPcvJNdjB3g1/ZjAavP2wPrIm4IHne2SvFMa3OXHBP9W3jCrSCNJNQp9isiUXMFwXERM
- +gGg==
-X-Gm-Message-State: ACrzQf29D/f1wVe6iV5gBp53qZXdeKWWYBAlWEvspoilaGjxhi5Qlrdq
- Kp2TZjwJht8MkPmY8EQtUkNHIQ==
-X-Google-Smtp-Source: AMsMyM6SgLmkxRFWJTxBTWSWRlGO/aMwDi/n44UGoH2/Rnkq8C6kWntqL+Y/9AfeOxEM2rY1scJwOA==
-X-Received: by 2002:a2e:b94a:0:b0:277:91a:737 with SMTP id
- 10-20020a2eb94a000000b00277091a0737mr18825127ljs.25.1667941977231; 
- Tue, 08 Nov 2022 13:12:57 -0800 (PST)
+ bh=b+TEdIfIt1XEAkSUPk37PpRaSa+HP3u0XbUt51o/R5Q=;
+ b=75Be+ziYjnTluqVEu1BcL1eQAZH4LmM+E/cZTvVhwcci15oL3XnV8fVsnEpGkYG+tX
+ OB8xXiG5559AlVSp9wINKfn4nznE9aqaELn4J0IeFlkbnn3pLvgQVy4/wSuFe/xdbwyu
+ /VN6Ry4WIZ1Jl9mYq3fpmXAlgMktpaRBgR9TVmFm5PxXufBjYnAOcamUef0SnjURaljO
+ ThKMvuHX9cEba1hB4UtLRuQaWoj9h1e2AErrEqDIk9NxBe591EAsDZzQHjBHC7PkYEWp
+ q5VpdXDZHIXywewukB/4Gw3O0hdGo3wrTAVmsP518K3fnW2vfsc23GLUJWLXUUOV5k1P
+ o8eQ==
+X-Gm-Message-State: ACrzQf0JS4r+L4ht7K6jgGEUi+whWR4SBHnhBoyjwWEce6l8f3j/ZTC7
+ UINXRByfh8Cze8APeoRJhmYuew==
+X-Google-Smtp-Source: AMsMyM704MrNlUBJ/82vwUjFUx934aW7BWfazzzhogmQIqSx2TtM8uSFy20O42NaVeF2kUOmlZ6Pqw==
+X-Received: by 2002:a2e:b626:0:b0:26e:6fb:4845 with SMTP id
+ s6-20020a2eb626000000b0026e06fb4845mr7126546ljn.120.1667942025342; 
+ Tue, 08 Nov 2022 13:13:45 -0800 (PST)
 Received: from [192.168.0.20]
  (088156142199.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.199])
  by smtp.gmail.com with ESMTPSA id
- c16-20020ac25f70000000b00492dba3c85asm1935745lfc.220.2022.11.08.13.12.55
+ 8-20020ac24d48000000b004998d9ccb62sm1939713lfp.99.2022.11.08.13.13.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Nov 2022 13:12:56 -0800 (PST)
-Message-ID: <6d671b6f-517d-54b5-23ac-49ba62c64701@linaro.org>
-Date: Tue, 8 Nov 2022 22:12:55 +0100
+ Tue, 08 Nov 2022 13:13:44 -0800 (PST)
+Message-ID: <20aa6301-c576-9221-d084-b11d3e9687e3@linaro.org>
+Date: Tue, 8 Nov 2022 22:13:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v2 05/18] dt-bindings: msm: dsi-controller-main: Fix
- description of core clock
+Subject: Re: [PATCH v2 06/18] dt-bindings: msm: dsi-controller-main:
+ Alphanumerically sort compatible enum
 Content-Language: en-US
 To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, robdclark@gmail.com,
  quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org,
  krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
  quic_mkrishn@quicinc.com, linux-arm-msm@vger.kernel.org
 References: <20221107235654.1769462-1-bryan.odonoghue@linaro.org>
- <20221107235654.1769462-6-bryan.odonoghue@linaro.org>
+ <20221107235654.1769462-7-bryan.odonoghue@linaro.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221107235654.1769462-6-bryan.odonoghue@linaro.org>
+In-Reply-To: <20221107235654.1769462-7-bryan.odonoghue@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -87,12 +87,27 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 08/11/2022 00:56, Bryan O'Donoghue wrote:
-> There's a typo in describing the core clock as an 'escape' clock. The
-> accurate description is 'core'.
+> Sort the order of the compatible strings alphanumerically.
 > 
-> Fixes: 4dbe55c97741 ("dt-bindings: msm: dsi: add yaml schemas for DSI bindings")
 > Cc: Rob Clark <robdclark@gmail.com>
+> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Cc: Sean Paul <sean@poorly.run>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+> Cc: linux-arm-msm@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: freedreno@lists.freedesktop.org
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
+I think here you can see how the commit msg looks now... One line of
+message and 13 lines of CC.
+
+With commit msg fixed:
 
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
