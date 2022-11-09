@@ -2,78 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B8CE62298E
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Nov 2022 12:06:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D5BF622A17
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Nov 2022 12:17:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDB6E10E569;
-	Wed,  9 Nov 2022 11:05:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25CB510E5A7;
+	Wed,  9 Nov 2022 11:17:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BB2010E599
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 11:05:52 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id A2BB358028C;
- Wed,  9 Nov 2022 06:05:51 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Wed, 09 Nov 2022 06:05:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1667991951; x=
- 1667999151; bh=vmOE1i1nn9SMlBuCJ3VnNfQD0xqLuGWwaNRgBFkPe6c=; b=i
- UBuhX7kriUxSCehPgyDNVaNazC6ZqYODyvhJk308S4xAUw5FR/DHRUqG16A1PS1v
- ENmxNSthPcYKnBHtEEF4NaMy6AMNMFRKmBB4ZMO5eWIGTyu5mcJ/lxtMQQKTp+Sl
- bQoUGjVADCr+WlHx0lEbNyRZEkgxaNZtrOmYQk0n2ac7Ict9gfpAbOd1BC7PqTrX
- 39etLAMsLKZQd37k5nG5BLcya9So/IuudBRhm20X4So5igEWds4fbHOimh5wN49/
- ln1R90AfTyvxybxkoM8IkNdb6OToGOLdadgCnR968ucV/axdvSNCg+RE2oF7ctmL
- 2LiRGx0TVolehy8/Ne86g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1667991951; x=
- 1667999151; bh=vmOE1i1nn9SMlBuCJ3VnNfQD0xqLuGWwaNRgBFkPe6c=; b=T
- TY4LI5yFmrInBONewR1yb5qlBkxihM8159PIPlYDmWA5k3cs6R078ZVOeWwQKn+P
- +GckfW29QMZbSl2Ct2toWmPP/d/xCps3+gIRhC/48d53tAMpx3CcXdvjbcMdlGaH
- 418HC+LOEQXdmRN+xj8IKR8GWz1rDO6wMRy7uCnn56UrZhz/yjPEDpwf7vYX0fkH
- m0aRfjw4W6386+uBxP7werCj507zKudg266b6LBMV4hkq3aTnpLukKcBpCDI5KGA
- 8lLXnV2C7a6crYf665PdrAcrj1EAi4pI3ygcaSw2JcXkB3tTOxiiF/e+yvWF+UEd
- KTf55HOf20U+esBTcvDDw==
-X-ME-Sender: <xms:j4lrYzcfce-pkfxbNMuUAe7O8SDJOGOpo4BU3gOxZUwHo3_o1PcbrA>
- <xme:j4lrY5PQ31XtPRQUz_ETEKlwp3m5MnIUkuBQicNvVSH2Dk-Z3jYgjUTMMcj9vm_ZH
- 2AmIewUJcs6VVAxKrI>
-X-ME-Received: <xmr:j4lrY8g4lF5pYrEXuizOwk38wsEzey4gfyK8eZCr5QD3P-aC1t9ztZvQmVMmd1ki94ZIcVtJtjvk3LGTtQiMc2tfSmAhsaxLcXamGm7hIZoq2Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrfedvgddvfecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeetgfelgefggeekkefggfeludeiudffjeffgeevveekjedukedtudeuteef
- teefgfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:j4lrY09JY312_H6bkXFS7A43Biy7qGwzGnEeP5Y0uZ9G7kysxJhf1A>
- <xmx:j4lrY_v0OupU2v2HjodxIchYMkMoZQ5cFdpdz4BYWFJTwbBA5z3TNQ>
- <xmx:j4lrYzFtfrVh7k6R2NrlYul8_U1RKhEST7MBUj48swjdXWPIopZ5uQ>
- <xmx:j4lrYz0j-wnR26hF6pYd5MvmBktuLP8ovKPiXE4FNNZ6DDGeDvNxfQ>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 9 Nov 2022 06:05:49 -0500 (EST)
-Date: Wed, 9 Nov 2022 12:05:48 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v2 34/65] clk: ux500: prcmu: Add a determine_rate hook
-Message-ID: <20221109110548.4dcbkwx3jgjnhldw@houat>
-References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
- <20221018-clk-range-checks-fixes-v2-34-f6736dec138e@cerno.tech>
- <CACRpkdYwM6X8bBABCisUGX=P4F=hcFb7QLT3Cu7XUWUvV4TE1Q@mail.gmail.com>
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 815C410E5A7
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 11:17:26 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id a14so25256709wru.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Nov 2022 03:17:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=7TZMakybPbFpJRwcj0rnyGA7xSqmp4zgniSRZniIZK4=;
+ b=LRilL4EzGUCsJsnSGNtname1ZH8ux5mPJ4lajTQNHrRYgpNwgqJkahrTdoidPpPYLm
+ 6audM/v7q3gRxeD/LG4GhKbK5K1m/tVJqIlEi5sitI3hWO792xHbEA4rMtIRdOw1isIT
+ V9nG1+0zGrEayoWgbDOtw0mPldsATOnLk+t5hSKElDdTIS0uWKJYAUi/K9a+6iFREIBF
+ krx3OvjTVEpEORdBTSdUA+eSm5MlfE2tN5pbvaZB8Mx4hBZCJCX5uRIHkO9iPpNTx1wR
+ dzrEpM9XWI9wZAKQJBvTmESoQtMvfgFfoIoZqTGnWO0aW3a8QZ3PkMWjQgoGAAt5pNE+
+ iMsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7TZMakybPbFpJRwcj0rnyGA7xSqmp4zgniSRZniIZK4=;
+ b=I1piE6OBPtuyQFA9GzmoFa9goEIrU5ZPiNeDcfVfEhTqe9n0+WnY5+Gj4qvJ77qo+P
+ e9jNn+b21zKJx0YoaklnHikr0Wt17SB9GEWEyJusXQe7rCvVqaZ7pywb8memaw2fCHSd
+ nnqStcC+19iA1ZUMinL871ROeqVGl9tuHvXooXrQemLxa8fA35RBh51Zy3wYH1asAk6K
+ myJvBAAC/YHrko8boBrQqgwoDY/SnoqEpO6IJn47ToHP05+oMNTVBGLaGY8fp3eL7HZ8
+ xJx3CT2qp0UdQMp4rY8Y2dX1Sse4bImQNM+hNIXGJg7Sn+5JYaMVsAWRyms7HXF/S6sF
+ 2FZA==
+X-Gm-Message-State: ACrzQf1XwTxlZmSRs9GZc+OHtRrGPwaHtJog7/QHk/iJ6jmbXni4Msk9
+ sGUPJFtuBYTh9AUrLjo4Id0=
+X-Google-Smtp-Source: AMsMyM5bEoKB4dIgSpobvcGXsYW/wLVEIpxJASmQ2OWpQrS8ziAUG9I39ARZMJ8PEfcr9AZ7ecv+Pw==
+X-Received: by 2002:a5d:5710:0:b0:236:cdd4:4cf4 with SMTP id
+ a16-20020a5d5710000000b00236cdd44cf4mr33946566wrv.376.1667992644821; 
+ Wed, 09 Nov 2022 03:17:24 -0800 (PST)
+Received: from [192.168.1.131] ([207.188.167.132])
+ by smtp.gmail.com with ESMTPSA id
+ bp4-20020a5d5a84000000b0023677081f3asm12946407wrb.42.2022.11.09.03.17.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Nov 2022 03:17:23 -0800 (PST)
+Message-ID: <8502e61e-7040-0f73-9f27-60985fb2283d@gmail.com>
+Date: Wed, 9 Nov 2022 12:17:22 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CACRpkdYwM6X8bBABCisUGX=P4F=hcFb7QLT3Cu7XUWUvV4TE1Q@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH v13,0/3] Add dpi output format control for MT8186
+To: =?UTF-8?B?WGlubGVpIExlZSAo5p2O5piV56OKKQ==?= <Xinlei.Lee@mediatek.com>,
+ =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ =?UTF-8?B?UmV4LUJDIENoZW4gKOmZs+afj+i+sCk=?= <Rex-BC.Chen@mediatek.com>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>,
+ "nfraprado@collabora.com" <nfraprado@collabora.com>
+References: <1666577099-3859-1-git-send-email-xinlei.lee@mediatek.com>
+ <c9228b64-c786-fa24-ff96-376eacfb1816@gmail.com>
+ <b69311d4d39eae54d1120760532a83bb62213277.camel@mediatek.com>
+Content-Language: en-US
+From: Matthias Brugger <matthias.bgg@gmail.com>
+In-Reply-To: <b69311d4d39eae54d1120760532a83bb62213277.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,94 +85,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
- Prashant Gaikwad <pgaikwad@nvidia.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Michael Turquette <mturquette@baylibre.com>, Sekhar Nori <nsekhar@ti.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
- Paul Cercueil <paul@crapouillou.net>, Max Filippov <jcmvbkbc@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-phy@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, Abel Vesa <abelvesa@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Samuel Holland <samuel@sholland.org>, Chunyan Zhang <zhang.lyra@gmail.com>,
- Takashi Iwai <tiwai@suse.com>, linux-tegra@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
- NXP Linux Team <linux-imx@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
- linux-mips@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- linux-sunxi@lists.linux.dev, linux-rtc@vger.kernel.org,
- linux-clk@vger.kernel.org, Charles Keepax <ckeepax@opensource.cirrus.com>,
- alsa-devel@alsa-project.org, Manivannan Sadhasivam <mani@kernel.org>,
- linux-kernel@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
- linux-actions@lists.infradead.org,
- Richard Fitzgerald <rf@opensource.cirrus.com>, Mark Brown <broonie@kernel.org>,
- linux-mediatek@lists.infradead.org,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Alessandro Zummo <a.zummo@towertech.it>, Stephen Boyd <sboyd@kernel.org>,
- patches@opensource.cirrus.com, Peter De Schrijver <pdeschrijver@nvidia.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
- linux-renesas-soc@vger.kernel.org, Dinh Nguyen <dinguyen@kernel.org>,
- Vinod Koul <vkoul@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- David Lechner <david@lechnology.com>, Shawn Guo <shawnguo@kernel.org>,
- Claudiu Beznea <claudiu.beznea@microchip.com>
+Cc: Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+Hi Xinlei,
 
-On Tue, Nov 08, 2022 at 02:25:04PM +0100, Linus Walleij wrote:
-> On Fri, Nov 4, 2022 at 2:32 PM Maxime Ripard <maxime@cerno.tech> wrote:
->=20
-> > The UX500 PRCMU "clkout" clock implements a mux with a set_parent hook,
-> > but doesn't provide a determine_rate implementation.
-> >
-> > This is a bit odd, since set_parent() is there to, as its name implies,
-> > change the parent of a clock. However, the most likely candidate to
-> > trigger that parent change is a call to clk_set_rate(), with
-> > determine_rate() figuring out which parent is the best suited for a
-> > given rate.
-> >
-> > The other trigger would be a call to clk_set_parent(), but it's far less
-> > used, and it doesn't look like there's any obvious user for that clock.
-> >
-> > So, the set_parent hook is effectively unused, possibly because of an
-> > oversight. However, it could also be an explicit decision by the
-> > original author to avoid any reparenting but through an explicit call to
-> > clk_set_parent().
->=20
-> It is actually set up from the device tree, typically like this:
->=20
-> /* clkout1 from ACLK divided by 8 */
-> clocks =3D <&clkout_clk DB8500_CLKOUT_1 DB8500_CLKOUT_SRC_ACLK 8>;
->=20
-> So the parent (source) and divisor comes in there.
->=20
-> clk->source and clk->divider is already set up when clk_hw_register() is
-> called.
+On 09/11/2022 03:40, Xinlei Lee (李昕磊) wrote:
+> On Tue, 2022-11-08 at 19:27 +0100, Matthias Brugger wrote:
+>> Hi Xinlei,
+>> 
+>> Somehow b4 broke with your thread but I was able to apply patch 1 and
+>> 2 by hand.
+>> 
+>> Thanks
+>> Matthias
+>> 
+>> On 24/10/2022 04:04, xinlei.lee@mediatek.com wrote:
+>> > From: Xinlei Lee <xinlei.lee@mediatek.com>
+>> > 
+>> > Base on the branch of linus/master v6.1 rc1.
+>> > 
+>> > Change since v12:
+>> > 1. Add MT8186_ prefix to variables added in mt8186-mmsys.h file.
+>> > 
+>> > Change since v11:
+>> > 1. Rebase on v6.1-rc1. Change nothing.
+>> > 
+>> > Change since v10:
+>> > 1. Modify patch title and add review tag.
+>> > 
+>> > Change since v9:
+>> > 1. Modify the location of the mmsys_dev member variable.
+>> > 
+>> > Change since v8:
+>> > 1. Modified the title and some description information.
+>> > 
+>> > Changes since v7:
+>> > 1. This series is based on the following patch:
+>> >     [1] soc: mediatek: Add mmsys func to adapt to dpi output for
+>> > MT8186
+>> >     
+>> > https://urldefense.com/v3/__https://patchwork.kernel.org/project/linux-mediatek/patch/1663161662-1598-2-git-send-email-xinlei.lee@mediatek.com/__;!!CTRNKA9wMg0ARbw!3tXTL3P6SgcP8Q_rcyCro64dxIXE6VuVbcNftU0ZnX6TNtU1akXwd96YfnoJs_fEig$
+>> >  
+>> > 2. Modify the DPI_FORMAT_MASK macro definition to GENMASK(1, 0);
+>> > 3. Add all settings to mtk_mmsys_ddp_dpi_fmt_config;
+>> > 4. Modify the commit title to Add mt8186 dpi compatibles and
+>> > platform
+>> > data.
+>> > 
+>> > Changes since v6:
+>> > 1. Different from other ICs, when mt8186 DPI changes the output
+>> > format,
+>> > the mmsys_base+400 register needs to be set to be valid at the same
+>> > time.
+>> >     In this series, all the situations that mmsys need to be set up
+>> > are
+>> > perfected (not necessarily used in practice).
+>> > 2. Put the value that controls the mmsys function in mtk-mmsys.h.
+>> > 3. Encountered the sink ic switched between dual edge and single
+>> > edge,
+>> > perfected setting and clearing mmsys bit operations in mtk_dpi.c.
+>> > 
+>> > Changes since v5:
+>> > 1. Separate the patch that adds edge_cfg_in_mmsys from the patch
+>> > that
+>> > adds mt8186 dpi support.
+>> > 2. Move the mmsys register definition to mmsys driver.
+>> >   
+>> > Changes since v4:
+>> > 1. This series of cancellations is based on the following patches:
+>> >     [1] Add MediaTek SoC(vdosys1) support for mt8195
+>> >     
+>> > https://urldefense.com/v3/__https://patchwork.kernel.org/project/linux-mediatek/cover/20220711075245.10492-1-nancy.lin@mediatek.com/__;!!CTRNKA9wMg0ARbw!3tXTL3P6SgcP8Q_rcyCro64dxIXE6VuVbcNftU0ZnX6TNtU1akXwd96Yfnqv0_QYpg$
+>> >  
+>> >     [2] Add MediaTek SoC DRM (vdosys1) support for mt8195
+>> >     
+>> > https://urldefense.com/v3/__https://patchwork.kernel.org/project/linux-mediatek/cover/20220804072827.22383-1-nancy.lin@mediatek.com/__;!!CTRNKA9wMg0ARbw!3tXTL3P6SgcP8Q_rcyCro64dxIXE6VuVbcNftU0ZnX6TNtU1akXwd96YfnoZMZ_peA$
+>> >  
+>> > 2. Added mtk_mmsys_update_bits function in mtk-mmsys.c;
+>> > 3. MMSYS 0x400 register is modified to
+>> > MT8186_MMSYS_DPI_OUTPUT_FORMAT;
+>> > 4. Fix formatting issues.
+>> > 
+>> > Changes since v3:
+>> > 1. Fix formatting issues;
+>> > 2. Modify the edge output control name & description;
+>> > 3. Fix the threading problem.
+>> > 
+>> > Changes since v2:
+>> > 1. Modify key nouns in the description;
+>> > 2. Add the label of jitao to Co-developed-by;
+>> > 3. Macro definition address lowercase problem and function naming;
+>> > 4. Add missing a description of this property in the mtk_dpi_conf.
+>> > 
+>> > Change since v1:
+>> > 1. Modify mt8186 compatiable location.
+>> > 2. Modify MT8186_DPI_OUTPUT_FORMAT name.
+>> > 
+>> > When MT8186 outputs dpi signal, it is necessary to add dual edge
+>> > output
+>> > format control in mmsys.
+>> > 
+>> > Xinlei Lee (3):
+>> >    soc: mediatek: Add all settings to mtk_mmsys_ddp_dpi_fmt_config
+>> > func
+>> >    drm: mediatek: Set dpi format in mmsys
+>> >    drm: mediatek: Add mt8186 dpi compatibles and platform data
+>> > 
+>> >   drivers/gpu/drm/mediatek/mtk_dpi.c     | 32
+>> > ++++++++++++++++++++++++++
+>> >   drivers/gpu/drm/mediatek/mtk_drm_drv.c |  2 ++
+>> >   drivers/soc/mediatek/mt8186-mmsys.h    |  8 ++++---
+>> >   drivers/soc/mediatek/mtk-mmsys.c       | 27 +++++++++++++++++--
+>> > ---
+>> >   include/linux/soc/mediatek/mtk-mmsys.h |  7 ++++++
+>> >   5 files changed, 67 insertions(+), 9 deletions(-)
+>> > 
+> 
+> Hi Matthias:
+> 
+> Is your problem solved?
+> 
+> I tried to pull the series in link[1] to the kernel 6.1-rc1 version,
+> the patches are all successfully applied, and the patch in link[1]
+> looks complete.
+> 
+> If you still think there is something wrong, please let me know and I
+> can send a new version to try to fix it.
 
-I wasn't aware that we had such bindings. AFAIUI, it looks redundant
-with assigned-clock-rates and assigned-clock-parents, could we deprecate
-it?
+Everything is fine, no worries.
 
-> So set/get_parent() is never used on clkout.
->=20
-> I think I just added the callbacks for completeness, should we delete them
-> altogether?
+Thanks for asking.
+Matthias
 
-I can't really test any of these platforms, so I'm a bit wary of making
-such changes myself. Feel free to send a follow-up if you think it's
-needed :)
-
-> The patch is probably fine as-is as well so
-> Acked-by: Linus Walleij <linus.walleij@linaro.org>
-
-Thanks!
-Maxime
+> 
+> [1]:
+> https://patchwork.kernel.org/project/linux-mediatek/cover/1666577099-3859-1-git-send-email-xinlei.lee@mediatek.com/
+> 
+> Best Regards!
+> xinlei
+> 
+> ************* MEDIATEK Confidentiality Notice
+>   ********************
+> The information contained in this e-mail message (including any
+> attachments) may be confidential, proprietary, privileged, or otherwise
+> exempt from disclosure under applicable laws. It is intended to be
+> conveyed only to the designated recipient(s). Any use, dissemination,
+> distribution, printing, retaining or copying of this e-mail (including its
+> attachments) by unintended recipient(s) is strictly prohibited and may
+> be unlawful. If you are not an intended recipient of this e-mail, or believe
+>   
+> that you have received this e-mail in error, please notify the sender
+> immediately (by replying to this e-mail), delete any and all copies of
+> this e-mail (including any attachments) from your system, and do not
+> disclose the content of this e-mail to any other person. Thank you!
