@@ -2,43 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E0A3622CD5
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Nov 2022 14:51:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8FCE622C1E
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Nov 2022 14:08:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6ACFF10E5C7;
-	Wed,  9 Nov 2022 13:51:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB11D10E038;
+	Wed,  9 Nov 2022 13:08:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9220410E0A8;
- Wed,  9 Nov 2022 09:24:22 +0000 (UTC)
-Received: from canpemm500010.china.huawei.com (unknown [172.30.72.57])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4N6fft0M8DzmVgY;
- Wed,  9 Nov 2022 17:24:06 +0800 (CST)
-Received: from huawei.com (10.175.101.6) by canpemm500010.china.huawei.com
- (7.192.105.118) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Wed, 9 Nov
- 2022 17:24:18 +0800
-From: Liu Jian <liujian56@huawei.com>
-To: <harry.wentland@amd.com>, <sunpeng.li@amd.com>,
- <Rodrigo.Siqueira@amd.com>, <alexander.deucher@amd.com>,
- <christian.koenig@amd.com>, <Xinhui.Pan@amd.com>, <airlied@gmail.com>,
- <daniel@ffwll.ch>, <nicholas.kazlauskas@amd.com>, <Charlene.Liu@amd.com>,
- <alex.hung@amd.com>, <duncan.ma@amd.com>, <aurabindo.pillai@amd.com>,
- <michael.strauss@amd.com>, <rdunlap@infradead.org>,
- <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/amd/display: delete the duplicate .set_odm_bypass
- initialization in dcn314_tg_funcs
-Date: Wed, 9 Nov 2022 17:31:22 +0800
-Message-ID: <20221109093122.6566-1-liujian56@huawei.com>
-X-Mailer: git-send-email 2.17.1
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 580A610E0AB
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 13:08:37 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 0946BB81EAE
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 13:08:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id BB968C433C1
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 13:08:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1667999314;
+ bh=bfdXH1XB1f2vjpulfWycYXyqYQ0aMBSeW/GHCwZSFJU=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=cuHpNWYsB+R1fKaqFU4ke1CPDz2AsOyBK3LSB2ag98UqQRxjQCJ9LrBodJQNb/21o
+ CHyIFDe2j2ccb0wunCAenzZBOksq/r38xJsRjSkD4Xso1y704IjrYML62ZC4ucGPu7
+ klN6NXhRwwQGHOQJ20Js3eMY9jeCjePR1MFIf2S3dYzeb7kYqmdTP9pUhqanMsUzmw
+ EN7vpUGiE9PDpDE9Xv4I0kw3Lx0XGBTl7NkWt/q+s8hN4SHmHkAI3u+pUe0BIHuGIM
+ pnJkSAiC6C5NGDtrb14eMmq3kz0JKNiIs0d/owrcbonf/2AWEw3i0UwWkfn7NS1LEA
+ MAPDM3EHnGkIQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id A771FC433E6; Wed,  9 Nov 2022 13:08:34 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 216673] Recurring amdgpu freeze on kernel 6.0.6 only
+Date: Wed, 09 Nov 2022 13:08:34 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: stanislav.modrak@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: ANSWERED
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-216673-2300-knlp7OIqTs@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-216673-2300@https.bugzilla.kernel.org/>
+References: <bug-216673-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.101.6]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- canpemm500010.china.huawei.com (7.192.105.118)
-X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Wed, 09 Nov 2022 13:50:32 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,32 +71,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: liujian56@huawei.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix below sparse warning:
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn314/dcn314_optc.c:244:18: warning: Initializer entry defined twice
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn314/dcn314_optc.c:257:18:   also defined here
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216673
 
-Fixes: 5ade1b951dec ("drm/amd/display: Add OTG/ODM functions")
-Signed-off-by: Liu Jian <liujian56@huawei.com>
----
- drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c | 1 -
- 1 file changed, 1 deletion(-)
+--- Comment #3 from Stanislav Modrak (stanislav.modrak@gmail.com) ---
+(In reply to Artem S. Tashkinov from comment #2)
+> https://gitlab.freedesktop.org is where it should be anyways.
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c
-index 47eb162f1a75..58d38de6a0f8 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c
-@@ -241,7 +241,6 @@ static struct timing_generator_funcs dcn314_tg_funcs = {
- 		.set_dsc_config = optc3_set_dsc_config,
- 		.get_dsc_status = optc2_get_dsc_status,
- 		.set_dwb_source = NULL,
--		.set_odm_bypass = optc3_set_odm_bypass,
- 		.set_odm_combine = optc314_set_odm_combine,
- 		.get_optc_source = optc2_get_optc_source,
- 		.set_out_mux = optc3_set_out_mux,
--- 
-2.17.1
+Can you please explain why it belongs there and not here? Thx!
 
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
