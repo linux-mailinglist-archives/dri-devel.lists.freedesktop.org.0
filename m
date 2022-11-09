@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C865B623DD7
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 09:49:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BCB4623DE2
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 09:49:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4499410E6B8;
-	Thu, 10 Nov 2022 08:47:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65B5F10E691;
+	Thu, 10 Nov 2022 08:49:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E20E810E601;
- Wed,  9 Nov 2022 17:15:20 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF35810E0C4;
+ Wed,  9 Nov 2022 19:34:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1668014121; x=1699550121;
+ t=1668022499; x=1699558499;
  h=date:from:to:cc:subject:message-id:mime-version;
- bh=8a7do7yc2Q+fxtg0dcXC8Ult9HWYViAjjeRFWMRYlgI=;
- b=PgjXYJKxdvwKWxsbETqSc57q7OdCdGBa5GAwAa7iOIDUSwpIfYtD1IWV
- YWOo2FYjLf2TtP5zwRGY7MwbgrNWlMYw/Kpi7gx9IkR3/rhueg9bAf1PZ
- uSzlNBWiVHJ2yfcrktbJZAMnuKLPF0po471W7nue1pqwZGjFduptCl/RB
- Q+ui8GYrtpPqJ4X6ehfTiWPfj24GPuY5Yuw1Ne5LXfp20c5ExjinjI3io
- 7tH1hP5dnRwvmR3KKsDWSWbf8Og/ly41DvQs0cBIJJa0M9sXI/9wiru3m
- ybzEorxz+CIoLJ+RtjRqkbG0Qf6FeWR9RN3D5+aVhDD6g0fV5QmP9nNRD g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10526"; a="312838707"
-X-IronPort-AV: E=Sophos;i="5.96,151,1665471600"; d="scan'208";a="312838707"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Nov 2022 09:13:53 -0800
+ bh=2VuEZj9Z7ob5nEqz2M6h4Ly7OSAOVk6InoDjAb1q/1A=;
+ b=klwE2mR9dxCtl8pq6KkVIapCacmyDRSHdwxJg9iv0HQElLPvYEQPeJ/R
+ SgYrY+lX4UAuEPzhfFsxbJPZpnSAO4zMRywhOG8mWzLykg1hU9au3kCbJ
+ pt6sksrMWBlXsHSvOA2t3VtFVlBdGLQ1O/2cGS90kogNUUGnCK0qPHnB6
+ LJgW+9RFZRGq2/UKOs3tMb7nTqRepGS3+Lp7Vm/AA1DhLwrmZSh/c5AGC
+ aKg8yal85ULy2zs7rcqlm7UGWXmFqIMP8rWkxZBD70nw6nRAHPjBwt1wb
+ qkcoLl4krKWfE7pnxo8qJWx3P8xbGieuWtgjuDSgfGufZg6sldUh5YweU A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10526"; a="291473549"
+X-IronPort-AV: E=Sophos;i="5.96,151,1665471600"; d="scan'208";a="291473549"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Nov 2022 11:34:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10526"; a="636818390"
-X-IronPort-AV: E=Sophos;i="5.96,151,1665471600"; d="scan'208";a="636818390"
+X-IronPort-AV: E=McAfee;i="6500,9779,10526"; a="631367400"
+X-IronPort-AV: E=Sophos;i="5.96,151,1665471600"; d="scan'208";a="631367400"
 Received: from lkp-server01.sh.intel.com (HELO e783503266e8) ([10.239.97.150])
- by orsmga002.jf.intel.com with ESMTP; 09 Nov 2022 09:13:50 -0800
+ by orsmga007.jf.intel.com with ESMTP; 09 Nov 2022 11:34:55 -0800
 Received: from kbuild by e783503266e8 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1osoe5-0001vc-2Q;
- Wed, 09 Nov 2022 17:13:49 +0000
-Date: Thu, 10 Nov 2022 01:13:13 +0800
+ (envelope-from <lkp@intel.com>) id 1osqqd-00024a-0D;
+ Wed, 09 Nov 2022 19:34:55 +0000
+Date: Thu, 10 Nov 2022 03:34:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: Ben Skeggs <bskeggs@redhat.com>
-Subject: [drm-tip:drm-tip 885/957]
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c:34:1: warning: no previous
- prototype for 'nvkm_engn_cgrp_get'
-Message-ID: <202211100144.fYDA6cWP-lkp@intel.com>
+Subject: [drm-tip:drm-tip 935/958]
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c:209:1: warning: no previous
+ prototype for 'tu102_gr_load'
+Message-ID: <202211100301.P44maN3W-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="c0QuhHbFbY1yN37D"
+Content-Type: multipart/mixed; boundary="IfU8MIfSfEvdhhxQ"
 Content-Disposition: inline
 X-Mailman-Approved-At: Thu, 10 Nov 2022 08:47:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,13 +65,13 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---c0QuhHbFbY1yN37D
+--IfU8MIfSfEvdhhxQ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-head:   ebf3e327527d46b699c2ee4f56211701a05e6001
-commit: 4d60100a23ec5b98e43277d82e5de53c359cf02c [885/957] drm/nouveau/fifo: add common channel recovery
+head:   8a360df54c04866499d763c87704f7a50953462e
+commit: 1cd97b5490c860409338eda1d9c16df20621024c [935/958] drm/nouveau/gr/tu102-: use sw_veid_bundle_init from firmware
 config: s390-allyesconfig
 compiler: s390-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
@@ -79,7 +79,7 @@ reproduce (this is a W=1 build):
         chmod +x ~/bin/make.cross
         git remote add drm-tip git://anongit.freedesktop.org/drm/drm-tip
         git fetch --no-tags drm-tip drm-tip
-        git checkout 4d60100a23ec5b98e43277d82e5de53c359cf02c
+        git checkout 1cd97b5490c860409338eda1d9c16df20621024c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/gpu/drm/
@@ -89,44 +89,33 @@ If you fix the issue, kindly add following tag where applicable
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c:34:1: warning: no previous prototype for 'nvkm_engn_cgrp_get' [-Wmissing-prototypes]
-      34 | nvkm_engn_cgrp_get(struct nvkm_engn *engn, unsigned long *pirqflags)
-         | ^~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c:209:1: warning: no previous prototype for 'tu102_gr_load' [-Wmissing-prototypes]
+     209 | tu102_gr_load(struct gf100_gr *gr, int ver, const struct gf100_gr_fwif *fwif)
+         | ^~~~~~~~~~~~~
 
 
-vim +/nvkm_engn_cgrp_get +34 drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c
+vim +/tu102_gr_load +209 drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c
 
-    32	
-    33	struct nvkm_cgrp *
-  > 34	nvkm_engn_cgrp_get(struct nvkm_engn *engn, unsigned long *pirqflags)
-    35	{
-    36		struct nvkm_cgrp *cgrp = NULL;
-    37		struct nvkm_chan *chan;
-    38		bool cgid;
-    39		int id;
-    40	
-    41		id = engn->func->cxid(engn, &cgid);
-    42		if (id < 0)
-    43			return NULL;
-    44	
-    45		if (!cgid) {
-    46			chan = nvkm_runl_chan_get_chid(engn->runl, id, pirqflags);
-    47			if (chan)
-    48				cgrp = chan->cgrp;
-    49		} else {
-    50			cgrp = nvkm_runl_cgrp_get_cgid(engn->runl, id, pirqflags);
-    51		}
-    52	
-    53		WARN_ON(!cgrp);
-    54		return cgrp;
-    55	}
-    56	
+   207	
+   208	int
+ > 209	tu102_gr_load(struct gf100_gr *gr, int ver, const struct gf100_gr_fwif *fwif)
+   210	{
+   211		int ret;
+   212	
+   213		ret = gm200_gr_load(gr, ver, fwif);
+   214		if (ret)
+   215			return ret;
+   216	
+   217		return gk20a_gr_load_net(gr, "gr/", "sw_veid_bundle_init", ver, tu102_gr_av_to_init_veid,
+   218					 &gr->bundle_veid);
+   219	}
+   220	
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---c0QuhHbFbY1yN37D
+--IfU8MIfSfEvdhhxQ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -13687,4 +13676,4 @@ CONFIG_WARN_MISSING_DOCUMENTS=y
 CONFIG_WARN_ABI_ERRORS=y
 # end of Kernel hacking
 
---c0QuhHbFbY1yN37D--
+--IfU8MIfSfEvdhhxQ--
