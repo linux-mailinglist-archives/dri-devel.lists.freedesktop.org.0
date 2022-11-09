@@ -1,71 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31F07622A27
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Nov 2022 12:18:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E270622A2D
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Nov 2022 12:18:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24BAE10E034;
-	Wed,  9 Nov 2022 11:18:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB72C10E599;
+	Wed,  9 Nov 2022 11:18:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F7D310E593
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 11:18:37 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id cl5so25230115wrb.9
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Nov 2022 03:18:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=AvtdKEg5HPVz3X+JgHtwGowTHYk1pgsNrv53DSwRrFA=;
- b=dr/5x8PeQugDwz9zS/lRvw1wyHROVXsoNERq/mQA55Cw10aTLyWLE2xDhkrbNtQfQb
- 9U9ZeAtu6osFQScxobESpVYxg9LEmAVE8HEeNV5p0q8b4wIrmlq4NAjb049xmjXOe1z7
- f6tt9aEucdDBFAC9y9DQzKLxobC2tK3YuO/tXHFlQuO4OttdIbIrcQ7PLQHLWcoTSIX5
- 4LRqPSf5D/ez+6dfzAV/pliSjSzX1x6uV8vwhTnTSb3I9zeOhmnYC+BCqQ/uWSAlyx75
- ZbaBIF5K4KGAXl2kKxGIGpEx0+rNm7F0+l2rI2FHW6EQ8Uve+1vm+vmcKfayY/uFAjzA
- mtyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=AvtdKEg5HPVz3X+JgHtwGowTHYk1pgsNrv53DSwRrFA=;
- b=loSmsF6+MLY4FEAJVwvlluZ37vWnofyUsrab+cVkJKXJjjUsSbqKg0lc0Umf+G3QEK
- TGtjNN+FbLZ8i8pQqaWVjofLDJnn0lAO8RBC8fzdQDA18/mpgS9J9AdDKhV3eQ1lKYis
- gIPZtWBaP+7BcKOl3zAL7fmXn88xnV+bfJu+Qj3St4CVsUBCRFWyTFnu8E7QaKjg66hh
- teIAlSm6dYGna2k8AppA9rF3ZKoWJ+kmMKbyiXoBUv1OePz29egC7fY3rOgG3xv73hjc
- UcAS9X3s/4Y5XyB1pwarqTXn2b29Zj6+0STSYGqvnojNx2o8Cj+hxJO2AYmNJIBJaMrg
- 77kg==
-X-Gm-Message-State: ACrzQf3TcGfp5LmpknMpPO0p7wIwcB3GAWmMYpz0jHbdGnz9ADwMAS2Z
- fJKe3vJsuucksox2QuFt6n0=
-X-Google-Smtp-Source: AMsMyM6WJqLIdMRVHiViy2TilAyD/0aBmIfS1ZkVy/xQ6rNS2kHQtvnt87DvaPbI24ekuh55jHC+Hw==
-X-Received: by 2002:adf:eec6:0:b0:236:aabb:8c90 with SMTP id
- a6-20020adfeec6000000b00236aabb8c90mr31041409wrp.199.1667992715589; 
- Wed, 09 Nov 2022 03:18:35 -0800 (PST)
-Received: from [192.168.1.131] ([207.188.167.132])
- by smtp.gmail.com with ESMTPSA id
- h4-20020a05600c350400b003c6f426467fsm1333419wmq.40.2022.11.09.03.18.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Nov 2022 03:18:34 -0800 (PST)
-Message-ID: <7eac9be2-a880-8971-117d-ec533eebaf4a@gmail.com>
-Date: Wed, 9 Nov 2022 12:18:33 +0100
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
+ [66.111.4.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8A5410E593;
+ Wed,  9 Nov 2022 11:18:47 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 49C755803FC;
+ Wed,  9 Nov 2022 06:18:47 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Wed, 09 Nov 2022 06:18:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1667992727; x=
+ 1667999927; bh=cpSERR+FK9P7ebGFjATnLVrDN6DOeEdblTQYZr4G17o=; b=T
+ Fl+QG10PPJjyqbLv7utqEfzNtwLor8oEF2yTMFmRZHKm4urXSwwwtVVoJls3ijLN
+ TZGwJSryG3lX2kfJo1LkfWBvNtXl25oDLriO6JyPMx/Zsocv8wuDzRVJB+jqy07g
+ QUOSBrMSfrge6LynWHCWE1/lV1yjZbK4yTuD1oMGOnBBq+3FWpOwfmhA2BvIWQpG
+ RAos1g98wq13r4iAbQU5ThqHpZt4x8tDRQXVhs20koBVF6zKRbK3XruwKa6T445f
+ UPJdRxk9PEJ1mjmw8VS4TxBh1ILLkI+NXFpGCoD5j1H5KRDBJ3PCaJ/0yprraXIE
+ ilDIlX626Xe9eToZoG2gA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1667992727; x=
+ 1667999927; bh=cpSERR+FK9P7ebGFjATnLVrDN6DOeEdblTQYZr4G17o=; b=d
+ uMtVZ+5DS4SQSD5wEMQmNSkiNMJP4Co4dFNFStkseeS8p6I8UchUdcqGmSsvgGxC
+ 4RZ6bcMdPuRLTA0BWbDhBAIt51NSpFXgMJ0eanp/yx4/cXLpRy45fJbbaEZ3G/4M
+ iyqTG3rDfQMqN7xTZBwZggU2VIS0IBURZBB1lbrHL5jFf6ZZEYfn3gt2dVU3Yeol
+ lcGQZL/uLfEmt35zmb9Tderps113BIXOMqQVwSxyL3x8oBdo8StWUaW3xV1L2m4n
+ hBePcSN+Xldp9A/ERXwotiMGuXGFHEzOg6uM3w/4xD0dZGkID2FivMHmtWBOPdAk
+ Rn/JJK1MJS1fA5u29rNGQ==
+X-ME-Sender: <xms:loxrY9oZHofVYB-XITEGN540BXn7pdvAyb5HkRRVKuV3-_D4Xzj-Hw>
+ <xme:loxrY_r5-Lu6Z4t1A-I9XxNLKGKm-cT-eCy5G1dpRG_dPbAjGCTszNZDtepV6wR2y
+ SY6pnM7gNlJcvOyxd0>
+X-ME-Received: <xmr:loxrY6Njce8GL4jAYU64mlkMvvlyt7WLUOgcDNj2a1d3upVMYv2KDd3GcN-h64BD9s_pgj3yUaqd_isIGMG4RtWhA7NNcsKwiYBA-tvWILfBmg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrfedvgddvhecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfhfgggtugfgjgesthhqredttddtudenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeelleefieelleetteefvdeikeeffeffvefhtdevgfehveduveehjedvvdei
+ ledtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:loxrY45K80tENQh_C6tjaEJy5Ie2cIxYtI6F2TIPDgsBNFBXs67_Bg>
+ <xmx:loxrY84Wvga5rc9l7qft3Ey8wYUNXaoQBGxcLU3HE_MljYGRvmVPEw>
+ <xmx:loxrYwhmO9Kg4ZdVH8zb01YUd34dgerunTXO7GxTtjsiArzFIAMChQ>
+ <xmx:l4xrY7bZZgCF33vaGgYE9or8bPnfheqAYCo2-vxIFb7wkj-JYmjgsg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 9 Nov 2022 06:18:45 -0500 (EST)
+Date: Wed, 9 Nov 2022 12:18:43 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: kfyatek+publicgit@gmail.com
+Subject: Re: [PATCH v7 15/23] drm/modes: Introduce more named modes
+Message-ID: <20221109111843.jkufdneexakofa4p@houat>
+References: <20220728-rpi-analog-tv-properties-v7-0-7072a478c6b3@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v7-15-7072a478c6b3@cerno.tech>
+ <262f0953-1e05-e68e-3e96-2ac2132a1e57@tronnes.org>
+ <ba532387-6329-c57a-1fa2-627b2cf40281@tronnes.org>
+ <b6b7c689-a50f-cd63-7e48-8739b0d91e61@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH v28 04/11] soc: mediatek: add mtk-mmsys support for mt8195
- vdosys1
-Content-Language: en-US
-To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>
-References: <20221107072243.15748-1-nancy.lin@mediatek.com>
- <20221107072243.15748-5-nancy.lin@mediatek.com>
- <90d8dfb1-2a37-e79a-b912-c77076e493c6@gmail.com>
- <20221108191008.lsasjskm7tzvpa42@notapiano>
-From: Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <20221108191008.lsasjskm7tzvpa42@notapiano>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <b6b7c689-a50f-cd63-7e48-8739b0d91e61@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,71 +88,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Project_Global_Chrome_Upstream_Group@mediatek.com, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
- dri-devel@lists.freedesktop.org, llvm@lists.linux.dev,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Yongqiang Niu <yongqiang.niu@mediatek.com>,
- Nathan Chancellor <nathan@kernel.org>, "Nancy.Lin" <nancy.lin@mediatek.com>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- wim@linux-watchdog.org, singo.chang@mediatek.com, linux@roeck-us.net,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
+ linux-sunxi@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+ Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Nov 08, 2022 at 10:27:17PM +0100, Mateusz Kwiatkowski wrote:
+> Hi Noralf,
+>=20
+> W dniu 8.11.2022 o 10:38, Noralf Tr=F8nnes pisze:
+> >
+> > Den 07.11.2022 19.03, skrev Noralf Tr=F8nnes:
+> >>
+> >> Den 07.11.2022 15.16, skrev Maxime Ripard:
+> >>> Now that we can easily extend the named modes list, let's add a few m=
+ore
+> >>> analog TV modes that were used in the wild, and some unit tests to ma=
+ke
+> >>> sure it works as intended.
+> >>>
+> >>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> >>>
+> >>> ---
+> >>> Changes in v6:
+> >>> - Renamed the tests to follow DRM test naming convention
+> >>>
+> >>> Changes in v5:
+> >>> - Switched to KUNIT_ASSERT_NOT_NULL
+> >>> ---
+> >>>  drivers/gpu/drm/drm_modes.c                     |  2 +
+> >>>  drivers/gpu/drm/tests/drm_client_modeset_test.c | 54 +++++++++++++++=
+++++++++++
+> >>>  2 files changed, 56 insertions(+)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+> >>> index 49441cabdd9d..17c5b6108103 100644
+> >>> --- a/drivers/gpu/drm/drm_modes.c
+> >>> +++ b/drivers/gpu/drm/drm_modes.c
+> >>> @@ -2272,7 +2272,9 @@ struct drm_named_mode {
+> >>> =20
+> >>>  static const struct drm_named_mode drm_named_modes[] =3D {
+> >>>  	NAMED_MODE("NTSC", 13500, 720, 480, DRM_MODE_FLAG_INTERLACE, DRM_MO=
+DE_TV_MODE_NTSC),
+> >>> +	NAMED_MODE("NTSC-J", 13500, 720, 480, DRM_MODE_FLAG_INTERLACE, DRM_=
+MODE_TV_MODE_NTSC_J),
+> >>>  	NAMED_MODE("PAL", 13500, 720, 576, DRM_MODE_FLAG_INTERLACE, DRM_MOD=
+E_TV_MODE_PAL),
+> >>> +	NAMED_MODE("PAL-M", 13500, 720, 480, DRM_MODE_FLAG_INTERLACE, DRM_M=
+ODE_TV_MODE_PAL_M),
+> >>>  };
+> >> I'm now having second thoughts about the tv_mode commandline option. C=
+an
+> >> we just add all the variants to this table and drop the tv_mode option?
+> >> IMO this will be more user friendly and less confusing.
+> >>
+> > One downside of this is that it's not possible to force connector status
+> > when using named modes, but I think it would be better to have a force
+> > option than a tv_mode option. A lot of userspace treats unknown status
+> > as disconnected.
+> >
+> > Anyone know if it's possible to set the connector status sysfs file
+> > using a udev rule?
+> >
+> > Noralf.
+>=20
+> I think that leaving named modes only would be a bit limiting. There are =
+use
+> cases for custom modes, e.g. we might want progressive 240p "NTSC" (like =
+80s/90s
+> home computers and video game consoles) or the modes with non-13.5MHz pix=
+el
+> clock that Geert requested with Amiga in mind.
 
+Yeah, it was one of the early requirements that we would be allowed to
+fill in any analog mode on the command line, so just having the named
+modes with the 480i and 576i modes won't really work for that.
 
-On 08/11/2022 20:10, Nícolas F. R. A. Prado wrote:
-> On Tue, Nov 08, 2022 at 06:46:54PM +0100, Matthias Brugger wrote:
->> On 07/11/2022 08:22, Nancy.Lin wrote:
-> [..]
->>> --- a/drivers/soc/mediatek/mtk-mmsys.c
->>> +++ b/drivers/soc/mediatek/mtk-mmsys.c
->>> @@ -80,6 +80,12 @@ static const struct mtk_mmsys_driver_data mt8195_vdosys0_driver_data = {
->>>    	.num_routes = ARRAY_SIZE(mmsys_mt8195_routing_table),
->>>    };
->>> +static const struct mtk_mmsys_driver_data mt8195_vdosys1_driver_data = {
->>> +	.clk_driver = "clk-mt8195-vdo1",
->>> +	.routes = mmsys_mt8195_vdo1_routing_table,
->>> +	.num_routes = ARRAY_SIZE(mmsys_mt8195_vdo1_routing_table),
->>> +};
->>> +
->>>    static const struct mtk_mmsys_driver_data mt8365_mmsys_driver_data = {
->>>    	.clk_driver = "clk-mt8365-mm",
->>>    	.routes = mt8365_mmsys_routing_table,
->>> @@ -292,6 +298,10 @@ static const struct of_device_id of_match_mtk_mmsys[] = {
->>>    		.compatible = "mediatek,mt8195-vdosys0",
->>>    		.data = &mt8195_vdosys0_driver_data,
->>
->> It seems we are missing a patch in the series. vdosys0 also correct was
->> never introduced in the driver...
-> 
-> Hi Matthias,
-> 
-> as mentioned in the cover letter, this series is based on the series "Change
-> mmsys compatible for mt8195 mediatek-drm" [1], which introduces vdosys0. This
-> compatible entry specifically is added on patch 3 of that series [2].
-> 
-> [1] https://lore.kernel.org/all/20220927152704.12018-1-jason-jh.lin@mediatek.com/
+> I'm not sure if the current cmdline-to-drm_mode conversion is flexible en=
+ough
+> to meaningfully facilitate those, but we're at least getting the syntax d=
+own.
 
-My bad. Thanks for the link. I realized that yesterday but had to leave 
-urgently. I'll have a look on this series now.
+It might require a bit of plumbing to get
+drm_mode_create_from_cmdline_mode() to add the mode if tv_mode_specified
+is set, but it's probably it.
 
-Regards,
-Matthias
-
-> [2] https://lore.kernel.org/all/20220927152704.12018-4-jason-jh.lin@mediatek.com/
-> 
-> Thanks,
-> Nícolas
-> 
->>
->>>    	},
->>> +	{
->>> +		.compatible = "mediatek,mt8195-vdosys1",
->>> +		.data = &mt8195_vdosys1_driver_data,
->>> +	},
->>>    	{
->>>    		.compatible = "mediatek,mt8365-mmsys",
->>>    		.data = &mt8365_mmsys_driver_data,
+Maxime
