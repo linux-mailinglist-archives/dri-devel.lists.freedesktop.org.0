@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 899AC623DCD
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 09:48:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4A40623DC7
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 09:48:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C43A10E699;
-	Thu, 10 Nov 2022 08:47:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB64C10E681;
+	Thu, 10 Nov 2022 08:47:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6DEF8920D
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 14:31:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D023897D4
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 14:31:04 +0000 (UTC)
 Received: from relay9-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::229])
- by mslow1.mail.gandi.net (Postfix) with ESMTP id 2995CD04AE
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 14:19:50 +0000 (UTC)
+ by mslow1.mail.gandi.net (Postfix) with ESMTP id 944D9D04CC
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 14:19:52 +0000 (UTC)
 Received: from booty.fritz.box (unknown [77.244.183.192])
  (Authenticated sender: luca.ceresoli@bootlin.com)
- by mail.gandi.net (Postfix) with ESMTPA id 3E45AFF810;
- Wed,  9 Nov 2022 14:19:44 +0000 (UTC)
+ by mail.gandi.net (Postfix) with ESMTPA id 0A89EFF80C;
+ Wed,  9 Nov 2022 14:19:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1668003586;
+ t=1668003589;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1MfEY6qNJmle8dG3mVnv/FdB23DDX5FGvXt/PgtRbi0=;
- b=EFRdtXEFhEhia1JbEDNKzAwCB9Mh+yP6b4KjqO4lqyA2HbNmAGzMByMAiDqMOXS1ueUluO
- PWumd/t60Oh3NdRsm0rCUdtc5XHCxGQrEyml82bS/b/0oZAFq14Ce3aMwJ2Brd+68GdR2G
- Oyp8hY/RQz+lE71RibbuIhjfevqZkIr9VOWmZVlOQDV1jdwQE1BmbPgzk8PPytXC4W6cRw
- AKaQTUcpWHBrUDAORmfyhX2tljzxmsysZJEcD6l+ljZIhr9MbV3B/yji3VL/cCN7hMejaA
- 0l+Olv6wYYRjXDtKe5urnbxXIObp77ERXqeiiIz1vw9WWgCeIz1qTiwSIQ/xpg==
+ bh=QFFI30QzE1G3IA3G1EY9+AlTR76QBFRpn0adqyIw2mo=;
+ b=RHmJUClNhsoJQKGef2L2nMwo+u+sk7ShPTcZ/6LJ0l+ivqZ486KMaattzm3VfDTYZoxcIf
+ u0wJH6gSY2oNrl3IHpSwpl0ICnhKcgc4RrSwAM4R/Vih8XsH7Ck8m/Lm10MYQnt36l+57s
+ NJmxNDH9RpYNxbe+S7TIXlhkpz/Mkc5tH9jlOY2ttXdXMdD3nZImS4Ze1CsHXGjnz57A/f
+ j03vGPknXdi5ZuAAozKnWDTOU+OBTJIVPTBLsNT1Di4wnpWFyzdtGimAW6jnrb7fjw6rnJ
+ pyOgfZcgoaopr3tC/qmtjZTTsSl2Y3ce+7wTUU58ieauhe4kbwWkfomyMwYjSA==
 From: luca.ceresoli@bootlin.com
 To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>,
@@ -41,10 +41,9 @@ To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Hans Verkuil <hverkuil-cisco@xs4all.nl>, Dmitry Osipenko <digetx@gmail.com>
-Subject: [PATCH 11/23] staging: media: tegra-video: move private struct
- declaration to C file
-Date: Wed,  9 Nov 2022 15:18:40 +0100
-Message-Id: <20221109141852.729246-12-luca.ceresoli@bootlin.com>
+Subject: [PATCH 12/23] staging: media: tegra-video: remove unneeded include
+Date: Wed,  9 Nov 2022 15:18:41 +0100
+Message-Id: <20221109141852.729246-13-luca.ceresoli@bootlin.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221109141852.729246-1-luca.ceresoli@bootlin.com>
 References: <20221109141852.729246-1-luca.ceresoli@bootlin.com>
@@ -73,63 +72,26 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-struct tegra_vi_graph_entity is an internal implementation detail of the VI
-module. Move its declaration from vi.h to vi.c.
+There is only a pointer reference to struct tegra_vi in video.h, thus vi.h
+is not needed.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/staging/media/tegra-video/vi.c | 13 +++++++++++++
- drivers/staging/media/tegra-video/vi.h | 13 -------------
- 2 files changed, 13 insertions(+), 13 deletions(-)
+ drivers/staging/media/tegra-video/video.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index 2657207e5b7d..55a135bef1a9 100644
---- a/drivers/staging/media/tegra-video/vi.c
-+++ b/drivers/staging/media/tegra-video/vi.c
-@@ -31,6 +31,19 @@
+diff --git a/drivers/staging/media/tegra-video/video.h b/drivers/staging/media/tegra-video/video.h
+index fadaf2189dc9..1e9be1474a9c 100644
+--- a/drivers/staging/media/tegra-video/video.h
++++ b/drivers/staging/media/tegra-video/video.h
+@@ -12,7 +12,6 @@
+ #include <media/v4l2-device.h>
  
- #define MAX_CID_CONTROLS		1
+ #include "vi.h"
+-#include "csi.h"
  
-+/**
-+ * struct tegra_vi_graph_entity - Entity in the video graph
-+ *
-+ * @asd: subdev asynchronous registration information
-+ * @entity: media entity from the corresponding V4L2 subdev
-+ * @subdev: V4L2 subdev
-+ */
-+struct tegra_vi_graph_entity {
-+	struct v4l2_async_subdev asd;
-+	struct media_entity *entity;
-+	struct v4l2_subdev *subdev;
-+};
-+
- static const struct tegra_video_format tegra_default_format = {
- 	.img_dt = TEGRA_IMAGE_DT_RAW10,
- 	.bit_width = 10,
-diff --git a/drivers/staging/media/tegra-video/vi.h b/drivers/staging/media/tegra-video/vi.h
-index dd35c3ac992b..dfd834a69848 100644
---- a/drivers/staging/media/tegra-video/vi.h
-+++ b/drivers/staging/media/tegra-video/vi.h
-@@ -98,19 +98,6 @@ struct tegra_vi {
- 	struct list_head vi_chans;
- };
- 
--/**
-- * struct tegra_vi_graph_entity - Entity in the video graph
-- *
-- * @asd: subdev asynchronous registration information
-- * @entity: media entity from the corresponding V4L2 subdev
-- * @subdev: V4L2 subdev
-- */
--struct tegra_vi_graph_entity {
--	struct v4l2_async_subdev asd;
--	struct media_entity *entity;
--	struct v4l2_subdev *subdev;
--};
--
- /**
-  * struct tegra_vi_channel - Tegra video channel
-  *
+ struct tegra_video_device {
+ 	struct v4l2_device v4l2_dev;
 -- 
 2.34.1
 
