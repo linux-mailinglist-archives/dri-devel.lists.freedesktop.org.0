@@ -1,38 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DA42622CC4
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Nov 2022 14:50:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F7D0622CD8
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Nov 2022 14:52:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D18D210E5BF;
-	Wed,  9 Nov 2022 13:49:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A94E410E5C4;
+	Wed,  9 Nov 2022 13:52:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 442CF10E5BF
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 13:49:50 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BCB121FB
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 05:49:55 -0800 (PST)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5BB1E3F73D
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 05:49:49 -0800 (PST)
-Date: Wed, 9 Nov 2022 13:49:38 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Danilo Krummrich <dakr@redhat.com>
-Subject: Re: [PATCH drm-misc-next v4 0/4] drm/arm/hdlcd: use drm managed
- resources
-Message-ID: <Y2uv8srKToS9WW5s@e110455-lin.cambridge.arm.com>
-References: <20221026153431.72033-1-dakr@redhat.com>
- <Y2VX9Egvh91/u9es@e110455-lin.cambridge.arm.com>
- <c05f7e24-ab3e-f1e8-f553-381755cd5c40@redhat.com>
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A686810E5D0
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 13:52:22 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id k2so46862327ejr.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Nov 2022 05:52:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=2S+J1iMBr46oe55nECdK26SAa6W64ZtOEh/PbByniAU=;
+ b=AZMhWxuad20lIxfAUULABl3yIgEcHVNdTApiGdmGv/ZRoE4CsXXL4K3vxKFM9e+0Uf
+ ITQwbHIx4eLw8MSlJ5Zh/OwdaUiheDOSJQ50J5aNPCuK8JJKz0X4vMtEcUMIKn1LW3uH
+ s+VyaVx9nlc47fG3YPUl7sJxh5+1n2b312Ivw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2S+J1iMBr46oe55nECdK26SAa6W64ZtOEh/PbByniAU=;
+ b=4icKsGSvC9RdzUkwH21x61aSsN0E5nRpk7vnHPWsNio4ycVzeExyYnxmy5p1BFgGeD
+ xGUQk9glJkiosNS+3pYuBWW7DJ/wyKHu9JVTnL5iy2xYt0krIxGJWyRn5iujAj15+e5I
+ ZQ0Ss9rLRaOUffCh+GXPljBjOKbYgP9MhGHJgl73qx4txRXQSK31KF5wzL5R7wytaHVl
+ NlhpWaOew4kl7AUnr/IxxGw5QxZOH3jvGmIHkFHEqkvdjgiVl3iuFDxsMIUseBdeFmtN
+ HRtyJRhqGXjMRI8G5hJqtpaQmL4AOcRZpL4Syrlt/0MpiZ5fxfZbNUmvDBWKEqnOQ1vb
+ nM9g==
+X-Gm-Message-State: ACrzQf1gzCzQ8DQl/RBm2aVwzySVy1WQuafM21D+36H8GbkpDSXyYDEH
+ L3YdaJS2nGEMdQhDRRvGRHKR4Q==
+X-Google-Smtp-Source: AMsMyM5cM+yUjAcRBZ6MzVFWPzKG388UhMKyFKh3eL7E58JSyMRacGE4fimWfsAwbnzEawMVN42zNw==
+X-Received: by 2002:a17:907:7639:b0:79f:d1dd:2f86 with SMTP id
+ jy25-20020a170907763900b0079fd1dd2f86mr57825602ejc.586.1668001941057; 
+ Wed, 09 Nov 2022 05:52:21 -0800 (PST)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
+ [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
+ q9-20020a170906360900b00795bb7d64d8sm5937137ejb.217.2022.11.09.05.52.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Nov 2022 05:52:19 -0800 (PST)
+Date: Wed, 9 Nov 2022 14:52:12 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [RFC PATCH 1/3] drm: Introduce color fill properties for drm plane
+Message-ID: <Y2uwjKCN4KGzm3aN@phenom.ffwll.local>
+References: <20221028225952.160-1-quic_jesszhan@quicinc.com>
+ <20221028225952.160-2-quic_jesszhan@quicinc.com>
+ <eddf4726-3d7e-601a-51ac-03adb2dd822b@linaro.org>
+ <fqY-wVvRxd553E0flH80_NaZMpmiVTIdhvu6F31qM9T4yQ0L5fbT9JiixWIhDcDAt3Hxy1roQxwntvgVEnqm5WK6dzEIKqXnlLRcywGhYH4=@emersion.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c05f7e24-ab3e-f1e8-f553-381755cd5c40@redhat.com>
+In-Reply-To: <fqY-wVvRxd553E0flH80_NaZMpmiVTIdhvu6F31qM9T4yQ0L5fbT9JiixWIhDcDAt3Hxy1roQxwntvgVEnqm5WK6dzEIKqXnlLRcywGhYH4=@emersion.fr>
+X-Operating-System: Linux phenom 5.19.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,82 +71,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de
+Cc: linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
+ laurent.pinchart@ideasonboard.com, daniel.vetter@ffwll.ch,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 08, 2022 at 08:57:55PM +0100, Danilo Krummrich wrote:
-> Hi Liviu,
+On Tue, Nov 08, 2022 at 06:25:29PM +0000, Simon Ser wrote:
+> On Saturday, October 29th, 2022 at 13:23, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
+> 
+> > On 29/10/2022 01:59, Jessica Zhang wrote:
+> > 
+> > > Add support for COLOR_FILL and COLOR_FILL_FORMAT properties for
+> > > drm_plane. In addition, add support for setting and getting the values
+> > > of these properties.
+> > > 
+> > > COLOR_FILL represents the color fill of a plane while COLOR_FILL_FORMAT
+> > > represents the format of the color fill. Userspace can set enable solid
+> > > fill on a plane by assigning COLOR_FILL to a uint64_t value, assigning
+> > > the COLOR_FILL_FORMAT property to a uint32_t value, and setting the
+> > > framebuffer to NULL.
+> > 
+> > I suppose that COLOR_FILL should override framebuffer rather than
+> > requiring that FB is set to NULL. In other words, if color_filL_format
+> > is non-zero, it would make sense to ignore the FB. Then one can use the
+> > color_fill_format property to quickly switch between filled plane and
+> > FB-backed one.
+> 
+> That would be inconsistent with the rest of the KMS uAPI. For instance,
+> the kernel will error out if CRTC has active=0 but a connector is still
+> linked to the CRTC. IOW, the current uAPI errors out if the KMS state
+> is inconsistent.
 
-Hi,
+So if the use-case here really is to solid-fill a plane (and not just
+provide a background color for the crtc overall), then I guess we could
+also extend addfb to make that happen. We've talked in the past about
+propertery-fying framebuffer objects, and that would sort out this uapi
+wart. And I agree the color fill vs PLANE_ID issue is a bit ugly at least.
 
-> 
-> > The only issue that I'm seeing that is not critical is that at reboot/shutdown time
-> > I'm getting an "Unexpected global fault, this could be serious" from the smmu:
-> > 
-> > [ 6893.467910] arm-smmu 7fb30000.iommu: disabling translation
-> > [ 6893.473550] ohci-platform 7ffb0000.usb: Removing from iommu group 1
-> > [ 6893.479909] ehci-platform 7ffc0000.usb: Removing from iommu group 1
-> > [ 6893.486931] arm-smmu 7fb10000.iommu: disabling translation
-> > [ 6893.492521] hdlcd 7ff50000.hdlcd: Removing from iommu group 3
-> > [ 6893.492650] arm-smmu 7fb10000.iommu: Unexpected global fault, this could be serious
-> > [ 6893.505959] arm-smmu 7fb10000.iommu:         GFSR 0x80000001, GFSYNR0 0x00000000, GFSYNR1 0x00000000, GFSYNR2 0x00000000
-> > [ 6893.516511] arm-smmu 7fb00000.iommu: disabling translation
-> > [ 6893.522195] dma-pl330 7ff00000.dma-controller: Removing from iommu group 2
-> > [ 6893.529607] arm-smmu 2b500000.iommu: disabling translation
-> > [ 6893.535221] pcieport 0000:00:00.0: Removing from iommu group 0
-> > [ 6893.541135] pci 0000:01:00.0: Removing from iommu group 0
-> > [ 6893.546604] pcieport 0000:02:01.0: Removing from iommu group 0
-> > [ 6893.552511] pcieport 0000:02:02.0: Removing from iommu group 0
-> > [ 6893.558418] pcieport 0000:02:03.0: Removing from iommu group 0
-> > [ 6893.564329] pcieport 0000:02:0c.0: Removing from iommu group 0
-> > [ 6893.570393] pcieport 0000:02:10.0: Removing from iommu group 0
-> > [ 6893.576314] pcieport 0000:02:1f.0: Removing from iommu group 0
-> > [ 6893.582214] sata_sil24 0000:03:00.0: Removing from iommu group 0
-> > [ 6893.588270] sky2 0000:08:00.0: Removing from iommu group 0
-> > [ 6893.594616] reboot: Power down
-> > 
-> > 
-> > The reboot/shutdown succeeds, so I'm not too worried about it for now, but hope that
-> > this is something you'll keep in mind in the later series when you do drm_dev_unplug().
-> 
-> Yes, I'd expect this to be related to the missing protection of platform
-> device bound resources.
-> 
-> > 
-> > With that, for the whole series:
-> > 
-> > Acked-by: Liviu Dudau <liviu.dudau@arm.com>
-> > 
-> > Thanks for the patience and going through the series iterations with me.
-> > 
-> > I can pull this series into drm-misc-next on Monday if you don't have any other plans.
-> Thanks, I saw you already applied the series.
-> 
-> Have you had a look on the same series for malidp?
-
-Yes, I've looked at the code and it looks reasonable, I just wanted to run it once
-through the minimum of tests that I use, which involves switching some FPGA images
-around. Hope to do that today or tomorrow.
-
-Best regards,
-Liviu
-
-> 
-> - Danilo
-> 
-> > 
-> > Best regards,
-> > Liviu
-> 
-
+But if the use-cases are all background color then just doing the crtc
+background color would be tons simpler (and likely also easier to support
+for more hardware).
+-Daniel
 -- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
