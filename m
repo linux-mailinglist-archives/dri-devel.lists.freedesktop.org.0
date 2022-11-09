@@ -2,52 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62FCF622CAA
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Nov 2022 14:46:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DA42622CC4
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Nov 2022 14:50:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EA6910E0F5;
-	Wed,  9 Nov 2022 13:46:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D18D210E5BF;
+	Wed,  9 Nov 2022 13:49:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D562A10E0F5
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 13:45:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:Message-ID:References:
- In-Reply-To:Subject:Cc:To:From:Date:MIME-Version:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=VQx1siaQxkBjqZa/MpTPsALSLkYVRjwlzym2w2DVDU0=; b=M1DZitnpfgcu0U4XpL+M5jltFQ
- 6GeeKJ3Fac7cZBbVoSmdOleEaLjtYHk3tP9sWSb4r46Jx0BpFVjFRNRSflw7/en5CEWZ++VRJbs37
- BDLDXUFwpPcP48XnbvsHGkTBYuJu5Hu6BXtPUQ8M/qu6ta4stILbExNbOtwRR7sPo2dcRw01knUwL
- wuDqM4LZGf6+bQ1QHAeTCeXRqHsfM+vjqF62sKwPemST+1tCalAQIH9VFzQW+X0ff0/5a9+7Zun7v
- JHGGj4gnJFfVfWRBHQDnVWTk0QVNe/7O6f7cICFlE57NI6/Eobp+gN5wb2aVxf5ijtXfH6qhpfXvJ
- 268At6Lw==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtps 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1oslOv-00EyL6-9J; Wed, 09 Nov 2022 14:45:57 +0100
-Received: from webmail.service.igalia.com ([192.168.21.45])
- by mail.igalia.com with esmtp (Exim)
- id 1oslOt-00BwOU-21; Wed, 09 Nov 2022 14:45:57 +0100
-Received: from localhost ([127.0.0.1] helo=webmail.igalia.com)
- by webmail.service.igalia.com with esmtp (Exim 4.94.2)
- (envelope-from <aemad@igalia.com>)
- id 1oslOs-006A7r-Dr; Wed, 09 Nov 2022 14:45:54 +0100
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 442CF10E5BF
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 13:49:50 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BCB121FB
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 05:49:55 -0800 (PST)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5BB1E3F73D
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 05:49:49 -0800 (PST)
+Date: Wed, 9 Nov 2022 13:49:38 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH drm-misc-next v4 0/4] drm/arm/hdlcd: use drm managed
+ resources
+Message-ID: <Y2uv8srKToS9WW5s@e110455-lin.cambridge.arm.com>
+References: <20221026153431.72033-1-dakr@redhat.com>
+ <Y2VX9Egvh91/u9es@e110455-lin.cambridge.arm.com>
+ <c05f7e24-ab3e-f1e8-f553-381755cd5c40@redhat.com>
 MIME-Version: 1.0
-Date: Wed, 09 Nov 2022 14:45:54 +0100
-From: aemad <aemad@igalia.com>
-To: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/vkms: change min cursor size to accept smaller values
-In-Reply-To: <20221109113945.20938-1-aemad@igalia.com>
-References: <20221109113945.20938-1-aemad@igalia.com>
-User-Agent: Roundcube Webmail/1.4.13
-Message-ID: <e7a6903ab65968adf468b953af903184@igalia.com>
-X-Sender: aemad@igalia.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c05f7e24-ab3e-f1e8-f553-381755cd5c40@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,37 +45,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: melissa.srw@gmail.com, hamohammed.sa@gmail.com, andrealmeid@igalia.com,
- mwen@igalia.com, rodrigosiqueiramelo@gmail.com
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sorry, for the noise. I had some issues in my git send-email setup.
-Please, consider this version.
+On Tue, Nov 08, 2022 at 08:57:55PM +0100, Danilo Krummrich wrote:
+> Hi Liviu,
 
-- Alaa
+Hi,
 
-On 2022-11-09 12:39, Alaa Emad wrote:
-> change min cursor size of vkms driver from 20 to 10, to increase the IGT test
-> coverage of vkms by enabling 32x10 cursor size subtests in kms_cursor_crc
 > 
-> Signed-off-by: Alaa Emad <aemad@igalia.com>
-> ---
->  drivers/gpu/drm/vkms/vkms_drv.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> > The only issue that I'm seeing that is not critical is that at reboot/shutdown time
+> > I'm getting an "Unexpected global fault, this could be serious" from the smmu:
+> > 
+> > [ 6893.467910] arm-smmu 7fb30000.iommu: disabling translation
+> > [ 6893.473550] ohci-platform 7ffb0000.usb: Removing from iommu group 1
+> > [ 6893.479909] ehci-platform 7ffc0000.usb: Removing from iommu group 1
+> > [ 6893.486931] arm-smmu 7fb10000.iommu: disabling translation
+> > [ 6893.492521] hdlcd 7ff50000.hdlcd: Removing from iommu group 3
+> > [ 6893.492650] arm-smmu 7fb10000.iommu: Unexpected global fault, this could be serious
+> > [ 6893.505959] arm-smmu 7fb10000.iommu:         GFSR 0x80000001, GFSYNR0 0x00000000, GFSYNR1 0x00000000, GFSYNR2 0x00000000
+> > [ 6893.516511] arm-smmu 7fb00000.iommu: disabling translation
+> > [ 6893.522195] dma-pl330 7ff00000.dma-controller: Removing from iommu group 2
+> > [ 6893.529607] arm-smmu 2b500000.iommu: disabling translation
+> > [ 6893.535221] pcieport 0000:00:00.0: Removing from iommu group 0
+> > [ 6893.541135] pci 0000:01:00.0: Removing from iommu group 0
+> > [ 6893.546604] pcieport 0000:02:01.0: Removing from iommu group 0
+> > [ 6893.552511] pcieport 0000:02:02.0: Removing from iommu group 0
+> > [ 6893.558418] pcieport 0000:02:03.0: Removing from iommu group 0
+> > [ 6893.564329] pcieport 0000:02:0c.0: Removing from iommu group 0
+> > [ 6893.570393] pcieport 0000:02:10.0: Removing from iommu group 0
+> > [ 6893.576314] pcieport 0000:02:1f.0: Removing from iommu group 0
+> > [ 6893.582214] sata_sil24 0000:03:00.0: Removing from iommu group 0
+> > [ 6893.588270] sky2 0000:08:00.0: Removing from iommu group 0
+> > [ 6893.594616] reboot: Power down
+> > 
+> > 
+> > The reboot/shutdown succeeds, so I'm not too worried about it for now, but hope that
+> > this is something you'll keep in mind in the later series when you do drm_dev_unplug().
 > 
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-> index 0a67b8073f7e..4a248567efb2 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -12,8 +12,8 @@
->  #include <drm/drm_encoder.h>
->  #include <drm/drm_writeback.h>
->  
-> -#define XRES_MIN    20
-> -#define YRES_MIN    20
-> +#define XRES_MIN    10
-> +#define YRES_MIN    10
->  
->  #define XRES_DEF  1024
->  #define YRES_DEF   768
+> Yes, I'd expect this to be related to the missing protection of platform
+> device bound resources.
+> 
+> > 
+> > With that, for the whole series:
+> > 
+> > Acked-by: Liviu Dudau <liviu.dudau@arm.com>
+> > 
+> > Thanks for the patience and going through the series iterations with me.
+> > 
+> > I can pull this series into drm-misc-next on Monday if you don't have any other plans.
+> Thanks, I saw you already applied the series.
+> 
+> Have you had a look on the same series for malidp?
+
+Yes, I've looked at the code and it looks reasonable, I just wanted to run it once
+through the minimum of tests that I use, which involves switching some FPGA images
+around. Hope to do that today or tomorrow.
+
+Best regards,
+Liviu
+
+> 
+> - Danilo
+> 
+> > 
+> > Best regards,
+> > Liviu
+> 
+
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
