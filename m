@@ -1,40 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76EC4622DA7
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Nov 2022 15:21:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69A18622DDB
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Nov 2022 15:27:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20DFE10E5DF;
-	Wed,  9 Nov 2022 14:21:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95C4510E06B;
+	Wed,  9 Nov 2022 14:27:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1865310E5DF
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 14:21:44 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9FDB5896;
- Wed,  9 Nov 2022 15:21:42 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1668003702;
- bh=kP5lC0vCldZuVd7ukcL4OuhKGJfq527jSr9BMS6LjxQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=YS+x2KWmsZNgtsyH6EfEhLBfJKSAlbi5DgNlGN7Y0g+/b8Luh/UiLTUtTDMqwI/Ia
- 1oCpbIqcqljqF9SpzFS8G5Uq5HQHqxN/o+6V5IpcqlJFHRTb5lAjS78bZiKqzj1Me0
- ymo2e5OxlO3nJ0Ju3J7VpIyZqfeOUp0VzGkjBAdM=
-Date: Wed, 9 Nov 2022 16:21:23 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Nathan Chancellor <nathan@kernel.org>
-Subject: Re: [PATCH v2] drm: xlnx: Fix return type of
- zynqmp_dp_bridge_mode_valid
-Message-ID: <Y2u3Y34bxiS//kyj@pendragon.ideasonboard.com>
-References: <20221109001424.1422495-1-nathan@kernel.org>
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91DC510E06B
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 14:27:33 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 3F220B81F0D
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 14:27:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E6C63C43470
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 14:27:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1668004050;
+ bh=5rXF6xMbGwyb845KIvPyUhRKZlvuCHkPqfI11IhQZW8=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=WuIcgaDkcCS8umADPB4Bg64E3GkEIBVhT6xvi+PshLGGhjhPxc+5J2RosJmQ9oW4G
+ lOnsXx/AJUjFXpJHZ+TI8XsN9T0kE2KzRrzsFnhlRPpYQlmVVTh8vvfgfPOaROJMyy
+ ve/+sf9bMzqrZ1ySMW6EFZsXbJw5kwunRnezxErdLUHpzGnLRaDhnBD/2YAxTrTkqT
+ EMn9NQ1xsntDbn39zDFBGHloHw+s91VI2vi95XlxXS2TfipSMF/g2kQuyPV0+ueuNM
+ YSc0qWJfLCFDlNZ4a1v0tqS7oOnl0enDYv1I5c01mK11NffVY9dF6kG9/xdJWd5f6v
+ PvTsyLQUZFrHQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id CF175C433E9; Wed,  9 Nov 2022 14:27:30 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 216673] Recurring amdgpu freeze on kernel 6.0.6 only
+Date: Wed, 09 Nov 2022 14:27:30 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: ANSWERED
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-216673-2300-wq2L5fJcgD@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-216673-2300@https.bugzilla.kernel.org/>
+References: <bug-216673-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221109001424.1422495-1-nathan@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,86 +71,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kees Cook <keescook@chromium.org>, Hyun Kwon <hyun.kwon@xilinx.com>,
- Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, patches@lists.linux.dev,
- Sami Tolvanen <samitolvanen@google.com>, Nathan Huckleberry <nhuck@google.com>,
- linux-arm-kernel@lists.infradead.org, Dan Carpenter <error27@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nathan,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216673
 
-Thank you for the patch.
+Alex Deucher (alexdeucher@gmail.com) changed:
 
-On Tue, Nov 08, 2022 at 05:14:25PM -0700, Nathan Chancellor wrote:
-> From: Nathan Huckleberry <nhuck@google.com>
-> 
-> The mode_valid field in drm_bridge_helper_funcs is expected to be of
-> type
-> enum drm_mode_status (* mode_valid) (struct drm_bridge *bridge,
->                                      struct drm_display_mode *mode);
-> 
-> The mismatched return type breaks forward edge kCFI since the underlying
-> function definition does not match the function hook definition. A new
-> warning in clang will catch this at compile time:
-> 
->   drivers/gpu/drm/xlnx/zynqmp_dp.c:1573:16: error: incompatible function pointer types initializing 'enum drm_mode_status (*)(struct drm_bridge *, const struct drm_display_info *, const struct drm_display_mode *)' with an expression of type 'int (struct drm_bridge *, const struct drm_display_info *, const struct drm_display_mode *)' [-Werror,-Wincompatible-function-pointer-types-strict]
->           .mode_valid = zynqmp_dp_bridge_mode_valid,
->                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->   1 error generated.
-> 
-> The return type of zynqmp_dp_bridge_mode_valid should be changed from
-> int to enum drm_mode_status.
-> 
-> Reported-by: Dan Carpenter <error27@gmail.com>
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1703
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1750
-> Signed-off-by: Nathan Huckleberry <nhuck@google.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> [nathan: Rebase on drm-misc-next and fix conflicts
->          Add note about new clang warning]
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> ---
-> 
-> Please consider picking this up so that it makes 6.2.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |alexdeucher@gmail.com
 
-I'll send a pull request shortly.
+--- Comment #4 from Alex Deucher (alexdeucher@gmail.com) ---
+(In reply to Stanislav Modrak from comment #3)
+> (In reply to Artem S. Tashkinov from comment #2)
+> > https://gitlab.freedesktop.org is where it should be anyways.
+>=20
+> Can you please explain why it belongs there and not here? Thx!
 
-> v2:
->   - Take over for Nathan, as he is busy with other matters.
->   - Rebase on drm-misc-next and resolve conflicts.
->   - Add a note about new clang warning that will catch this issue at
->     compile time.
-> 
-> v1: https://lore.kernel.org/20220913205600.155172-1-nhuck@google.com/
-> 
->  drivers/gpu/drm/xlnx/zynqmp_dp.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> index 7c9ae167eac7..0a7b466446fb 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> @@ -1362,9 +1362,10 @@ static void zynqmp_dp_bridge_detach(struct drm_bridge *bridge)
->  	zynqmp_dp_aux_cleanup(dp);
->  }
->  
-> -static int zynqmp_dp_bridge_mode_valid(struct drm_bridge *bridge,
-> -				       const struct drm_display_info *info,
-> -				       const struct drm_display_mode *mode)
-> +static enum drm_mode_status
-> +zynqmp_dp_bridge_mode_valid(struct drm_bridge *bridge,
-> +			    const struct drm_display_info *info,
-> +			    const struct drm_display_mode *mode)
->  {
->  	struct zynqmp_dp *dp = bridge_to_dp(bridge);
->  	int rate;
-> 
-> base-commit: 1a0257c352638916fdaffaac2ddedb8e049312f3
+That is where most GPU developers are and it also allows us to move bugs to
+other components when necessary.  E.g., a mesa or xorg bug is misfiled as
+kernel.
 
--- 
-Regards,
+--=20
+You may reply to this email to add a comment.
 
-Laurent Pinchart
+You are receiving this mail because:
+You are watching the assignee of the bug.=
