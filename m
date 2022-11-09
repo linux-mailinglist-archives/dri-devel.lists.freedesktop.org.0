@@ -2,41 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B50A4623494
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Nov 2022 21:30:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 892CF62366D
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Nov 2022 23:21:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D57110E0CF;
-	Wed,  9 Nov 2022 20:30:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B7AB10E112;
+	Wed,  9 Nov 2022 22:21:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E8AE10E0CF
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 20:30:17 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ms.lwn.net (Postfix) with ESMTPSA id 54F3C735;
- Wed,  9 Nov 2022 20:30:16 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 54F3C735
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
- t=1668025816; bh=wGLPC3XtH96GwGtDKrwRTD/1iXa52FW0QweS8oRlDpY=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=qPK2EAw6dWlpkSpiMikN2mqv/flF0gdhmOo0I65UF07hUN/3fkNicOnZJ3Di6YgZT
- H++xz1PzHGmtMKxr3vwiRd3nz3pTeomlvgBuBREU5Kfbf/wXANOPlGfhjFlmE6Hj4R
- IKxeiTvR5mPaD9Zs0GRX1jxy2G0hdpZTSdh7GamVLhcbcX/yskb5cGK7p8dI0kWMCy
- VYaIB0xFaUJ/VjnD9HFW+w/kY2Zewc/+YkHov5Ns1R3CELH3LBAVvPW8XEaG4oOBzK
- C/7Zn1ezGaCPMLD6iD9NDcOQ5CkxJSiXVNL5nRplKy3hpGj+NAF7H8y+NzA6FrU9Rl
- +XFb5MAAR9xCw==
-From: Jonathan Corbet <corbet@lwn.net>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, DRI Development
- <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH] docs/sphinx: More depth in the rtd sidebar toc
-In-Reply-To: <20221108115707.1232621-1-daniel.vetter@ffwll.ch>
-References: <20221108115707.1232621-1-daniel.vetter@ffwll.ch>
-Date: Wed, 09 Nov 2022 13:30:15 -0700
-Message-ID: <875yfnlvl4.fsf@meer.lwn.net>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DF6910E112;
+ Wed,  9 Nov 2022 22:21:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1668032465; x=1699568465;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=UOQUTE9ky1mtYyZgQemBbdXN5+QGmVpX1EJc9ZoKFwY=;
+ b=GsrmysfMVI+M3sce+ypgfDeoifRoPEkHRpUyEe/Zxti8JSArHq+QS6Yf
+ ry4YxIodpXu/M0bU3o9gudOg1PWlRNqArHGYzsT+2Jb893JyCO28FMk/q
+ NSAXjStqYA0/DPRK6cktJ8+RKTIZGALsnD5NiWZ32gBAs64bVfDKAQewP
+ Qb4kjfz66Yfk95H1YwTeAQEm7QF1XJq849fQ0VE8JFZXFI62l42bVSnPv
+ VuZ0QclTDgvkCV0wDEuQQW1AQOKCxyw95Kzef4hMJsBV9pTcQPMbNOn2h
+ /H0HGHA96w7k+Kk/A7dXij3AIM/hzdPmFDUbbhd36hStSooMNto29s3yM w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10526"; a="298624713"
+X-IronPort-AV: E=Sophos;i="5.96,151,1665471600"; d="scan'208";a="298624713"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Nov 2022 13:13:45 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10526"; a="670104856"
+X-IronPort-AV: E=Sophos;i="5.96,151,1665471600"; d="scan'208";a="670104856"
+Received: from dvorobye-mobl.ccr.corp.intel.com (HELO intel.com)
+ ([10.252.32.169])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Nov 2022 13:13:39 -0800
+Date: Wed, 9 Nov 2022 22:13:36 +0100
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+Subject: Re: [PATCH v6 20/20] drm/i915/vm_bind: Async vm_unbind support
+Message-ID: <Y2wYAPW5hIQImDU4@ashyti-mobl2.lan>
+References: <20221107085210.17221-1-niranjana.vishwanathapura@intel.com>
+ <20221107085210.17221-21-niranjana.vishwanathapura@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221107085210.17221-21-niranjana.vishwanathapura@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,53 +58,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, linux-doc@vger.kernel.org,
- LKML <linux-kernel@vger.kernel.org>, Daniel Vetter <daniel.vetter@intel.com>
+Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com,
+ lionel.g.landwerlin@intel.com, tvrtko.ursulin@intel.com, jani.nikula@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ thomas.hellstrom@intel.com, matthew.auld@intel.com, jason@jlekstrand.net,
+ andi.shyti@linux.intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Daniel Vetter <daniel.vetter@ffwll.ch> writes:
+Hi Niranjana,
 
-> We love to nest our documenation for good structure, but that means
-> the table of contents needs to keep up or you can't navigate them.
->
-> Realized this trying to find the drm property documentation, which
-> with some shuffling around disappeared. Why I didn't realize we can do
-> this earlier, no idea.
->
-> Since the relevant parts of the toc are only loaded if you're in the
-> right .html file there's no harm in going all the way to unlimited.
->
-> Note that this has no impact on the alabaster theme (which has a much
-> simpler sidebar toc which doesn't show the entire hierarchy, only
-> what's in the local rendered file) nor on the various :toctree:
-> rendered inline in the output.
->
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> ---
-> v2: Rebase onto linux-next, reword commit message to take into account
-> that alabaster is the default now.
-> ---
->  Documentation/conf.py | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/Documentation/conf.py b/Documentation/conf.py
-> index c715610d6297..a5c45df0bd83 100644
-> --- a/Documentation/conf.py
-> +++ b/Documentation/conf.py
-> @@ -296,6 +296,10 @@ if html_theme == 'sphinx_rtd_theme' or html_theme == 'sphinx_rtd_dark_mode':
->                  # Add color-specific RTD normal mode
->                  html_css_files.append('theme_rtd_colors.css')
+...
+
+> -static void force_unbind(struct i915_vma *vma)
+> +static void force_unbind(struct i915_vma *vma, bool async)
+>  {
+>  	if (!drm_mm_node_allocated(&vma->node))
+>  		return;
+> @@ -1725,7 +1727,21 @@ static void force_unbind(struct i915_vma *vma)
+>  		i915_vma_set_purged(vma);
 >  
-> +        html_theme_options = {
-> +            'navigation_depth': -1,
-> +        }
+>  	atomic_and(~I915_VMA_PIN_MASK, &vma->flags);
+> -	WARN_ON(__i915_vma_unbind(vma));
+> +	if (async) {
+> +		struct dma_fence *fence;
 > +
->      except ImportError:
->          html_theme = 'alabaster'
+> +		fence = __i915_vma_unbind_async(vma);
+> +		if (IS_ERR_OR_NULL(fence)) {
+> +			async = false;
+> +		} else {
+> +			dma_resv_add_fence(vma->obj->base.resv, fence,
+> +					   DMA_RESV_USAGE_READ);
+> +			dma_fence_put(fence);
+> +		}
+> +	}
+> +
+> +	if (!async)
+> +		WARN_ON(__i915_vma_unbind(vma));
+>  	GEM_BUG_ON(drm_mm_node_allocated(&vma->node));
+>  }
+>  
+> @@ -1785,7 +1801,7 @@ void i915_vma_destroy_locked(struct i915_vma *vma)
+>  {
+>  	lockdep_assert_held(&vma->vm->mutex);
+>  
+> -	force_unbind(vma);
+> +	force_unbind(vma, false);
 
-Applied, thanks.
+How about:
 
-jon
+#define force_unbind(v)		__force_unbind(v, false)
+#define force_unbind_async(v)	__force_unbind(v, true)
+
+The true/false parameters in a function is not immediately
+understandable.
+
+or
+
+#define force_unbind_sync(v)	force_unbind(v, false)
+#define force_unbind_async(v)	force_unbind(v, true)
+
+but I prefer the first version.
+
+Andi
