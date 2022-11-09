@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 091FA62277F
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Nov 2022 10:50:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41FCB622783
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Nov 2022 10:50:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2597A10E13A;
-	Wed,  9 Nov 2022 09:50:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8A7F10E51B;
+	Wed,  9 Nov 2022 09:50:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C153D10E12B
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 09:50:17 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id kt23so45146417ejc.7
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Nov 2022 01:50:17 -0800 (PST)
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B42810E13A
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 09:50:19 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id f27so45220189eje.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Nov 2022 01:50:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=2YlHN1nH3duYo4rVIJwXoiPtGWnH1xvxqUpFQTi0sQE=;
- b=KerWE3PGAYde6ZWWKbXGu/arezDh+40mnKhFfwQQNeeJrewBdlMOt5bTJil3zY0uMZ
- 2edS4r9NKASWtFdgkf2lEDx5/qcRElnk68yOSgPoiIuMfdPbAG2Wy85zclPGHnYr0Gdk
- mH+dRltXh1TPKRI6WciiR0oVWH17NW3N7alS83n5ihPpWsR14g8C1vku+dQTeMlf4IYL
- WKX+g2luXqoDnzM+Vx2aeeDcRoW+ppIp0bZYyrnkgKEZZlOwm8mO4Dx5C5NLMr81SpNq
- vUJic9rfSdP5w/1l3qqG0OYqM4lLISt5DFduI0QxJZNuvGzUreinMttJKDwDu8egXmSp
- cXKw==
+ bh=lJBFTRcNwwbuIBVh7uk8D1dXIHh8Bq+X8ggGiiL72aQ=;
+ b=MeCdhokzMXMvFhVqJDSGh4c9x7xSboG9rtPcva94GfBrWYDdKNP/EWAsD4WAH0fsc4
+ lpjm7lx75MmeHsQLplXu1UOEfTu6rM8oz51h8v5pNqlkaxBL6wX6lONcNKFKa+vkxD3W
+ EJeKSK8eDz86pBOqLiDLnVvU5tcYHeHpWJ5Zz2OuRAqiD5QGjk6KzM4PPlLiibYVLDGq
+ VPJ5j6TZcU0eA9+XWFEny2j42AhzirDYeU/KI9WjAPGec+QW+jVFDnO73XjyioT/iT6t
+ O4fhNcwrDPXs4Z+8j/U0a+rmAKmo89OrtpeKns0Gmq2IKuuebS4JE3yEk+3cBHEWNS2a
+ +tWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=2YlHN1nH3duYo4rVIJwXoiPtGWnH1xvxqUpFQTi0sQE=;
- b=GwBR/u86goHKoe/+tjrBrz0scJNqTbGPfCz0v87VJ/pdlHesUV0rsQgyEpJ2QTlK5O
- A9Jb71bbbq8zxy0p8zgSsZ+WaN9KKqFpuV9jSRP9ejZ9bmF4wwTYFlVyhaeCHOXwZKSw
- KovMeSL70d+uP99m5IcIfqZTv76T7Uw28WDPcRo3OYMRlhVizazX/B+akKCNqxNDmsJ3
- sBGqqI738araFbAliqMWX5LHAmkmiplSoiOBkdoRY1iJm1AnIEC71BRgzXum8768IQBK
- NOG4ZhM0lFHp57vmi3XZ8Zw6iP1rQDMc8FoMinrBxsh6wMgNJV8IsIwE/ReSvjzMAc+f
- /0sw==
-X-Gm-Message-State: ACrzQf1cn3iQ5TqNKYI4BVIr2sdWhwXTtOxGIzG6TGZ0Kod9jOQBXurQ
- UbkcEZr0DYN06j1PpLupCDA=
-X-Google-Smtp-Source: AMsMyM6hue9dk2unfbic3n5A31AycSl25HLMqFYCsUzDMcha+w9+Kh0GIqXIy7S12AV5QIFo38eYUA==
-X-Received: by 2002:a17:907:6e9e:b0:78c:5533:4158 with SMTP id
- sh30-20020a1709076e9e00b0078c55334158mr53190964ejc.417.1667987416194; 
- Wed, 09 Nov 2022 01:50:16 -0800 (PST)
+ bh=lJBFTRcNwwbuIBVh7uk8D1dXIHh8Bq+X8ggGiiL72aQ=;
+ b=awMk4THLepQCwWWtyxYWRp7H9oV/cNY61HcnsqOtaMr0NxEryGyTEE1tWpAGdpVdTy
+ PSdGXSuMv79tH9/AYNKcHTMkK68LXJtqSg5gOY/F7xfL4QwliRUy2cImlC05RBhicBGB
+ pzs7fSSnb/w6hafVGeFOB4JbB0Ri2LKLXrTs2a3n3QpvSIRJVpM8vkEdrqH/mcAbhZqU
+ rLGZ1Tq0F7u8vfY9uYovdGY3Uf+uPbqdNCRNFWiqMvX1UDdEaN0ww6Z0aEzM5MUbOVIm
+ J21k3aIDw5vf8hRB/ybyt3CyGtbo+napfs+T1/BIuW3oxCMAAS+s87kx9n99PAkFH6Za
+ UbmQ==
+X-Gm-Message-State: ACrzQf2x0/pq+ol8RDUYy9Ool/P4tvUe9bfSfaHrRB4PvaSNQfJI0CWA
+ CUVnzv9UEAVSUouKkupdUx4=
+X-Google-Smtp-Source: AMsMyM6bn+JDxdsvdz/Pguutl1+cyXvFPG0VoIq4nTtQ5F0GF7+rZKKfcQuCsNccmMmVzgis47TkEA==
+X-Received: by 2002:a17:907:77d5:b0:73f:40a9:62ff with SMTP id
+ kz21-20020a17090777d500b0073f40a962ffmr1110246ejc.678.1667987417433; 
+ Wed, 09 Nov 2022 01:50:17 -0800 (PST)
 Received: from able.fritz.box (p5b0ea229.dip0.t-ipconnect.de. [91.14.162.41])
  by smtp.gmail.com with ESMTPSA id
- s12-20020a1709062ecc00b00780f24b797dsm5604543eji.108.2022.11.09.01.50.15
+ s12-20020a1709062ecc00b00780f24b797dsm5604543eji.108.2022.11.09.01.50.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Nov 2022 01:50:15 -0800 (PST)
+ Wed, 09 Nov 2022 01:50:16 -0800 (PST)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: Alexander.Deucher@amd.com, daniel.vetter@ffwll.ch,
  dri-devel@lists.freedesktop.org, Shaoyun.Liu@amd.com
-Subject: [PATCH 4/5] drm/scheduler: cleanup define
-Date: Wed,  9 Nov 2022 10:50:09 +0100
-Message-Id: <20221109095010.141189-4-christian.koenig@amd.com>
+Subject: [PATCH 5/5] drm/scheduler: deprecate drm_sched_resubmit_jobs
+Date: Wed,  9 Nov 2022 10:50:10 +0100
+Message-Id: <20221109095010.141189-5-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221109095010.141189-1-christian.koenig@amd.com>
 References: <20221109095010.141189-1-christian.koenig@amd.com>
@@ -79,25 +79,40 @@ Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove some not implemented function define
+This interface is not working as it should.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- include/drm/gpu_scheduler.h | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpu/drm/scheduler/sched_main.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index 156601fd7053..73a2327d6b00 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -501,7 +501,6 @@ void drm_sched_increase_karma(struct drm_sched_job *bad);
- bool drm_sched_dependency_optimized(struct dma_fence* fence,
- 				    struct drm_sched_entity *entity);
- void drm_sched_fault(struct drm_gpu_scheduler *sched);
--void drm_sched_job_kickout(struct drm_sched_job *s_job);
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index e77e1fd16732..9eacce8aae3f 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -489,10 +489,21 @@ void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery)
+ EXPORT_SYMBOL(drm_sched_start);
  
- void drm_sched_rq_add_entity(struct drm_sched_rq *rq,
- 			     struct drm_sched_entity *entity);
+ /**
+- * drm_sched_resubmit_jobs - helper to relaunch jobs from the pending list
++ * drm_sched_resubmit_jobs - Deprecated, don't use in new code!
+  *
+  * @sched: scheduler instance
+  *
++ * Re-submitting jobs was a concept AMD came up as cheap way to implement
++ * recovery after a job timeout.
++ *
++ * This turned out to be not working very well. First of all there are many
++ * problem with the dma_fence implementation and requirements. Either the
++ * implementation is risking deadlocks with core memory management or violating
++ * documented implementation details of the dma_fence object.
++ *
++ * Drivers can still save and restore their state for recovery operations, but
++ * we shouldn't make this a general scheduler feature around the dma_fence
++ * interface.
+  */
+ void drm_sched_resubmit_jobs(struct drm_gpu_scheduler *sched)
+ {
 -- 
 2.34.1
 
