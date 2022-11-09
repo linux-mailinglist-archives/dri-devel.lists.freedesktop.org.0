@@ -1,64 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69A18622DDB
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Nov 2022 15:27:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1A9D622E3C
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Nov 2022 15:45:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95C4510E06B;
-	Wed,  9 Nov 2022 14:27:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26B8110E0ED;
+	Wed,  9 Nov 2022 14:45:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91DC510E06B
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 14:27:33 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 3F220B81F0D
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 14:27:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E6C63C43470
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 14:27:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1668004050;
- bh=5rXF6xMbGwyb845KIvPyUhRKZlvuCHkPqfI11IhQZW8=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=WuIcgaDkcCS8umADPB4Bg64E3GkEIBVhT6xvi+PshLGGhjhPxc+5J2RosJmQ9oW4G
- lOnsXx/AJUjFXpJHZ+TI8XsN9T0kE2KzRrzsFnhlRPpYQlmVVTh8vvfgfPOaROJMyy
- ve/+sf9bMzqrZ1ySMW6EFZsXbJw5kwunRnezxErdLUHpzGnLRaDhnBD/2YAxTrTkqT
- EMn9NQ1xsntDbn39zDFBGHloHw+s91VI2vi95XlxXS2TfipSMF/g2kQuyPV0+ueuNM
- YSc0qWJfLCFDlNZ4a1v0tqS7oOnl0enDYv1I5c01mK11NffVY9dF6kG9/xdJWd5f6v
- PvTsyLQUZFrHQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id CF175C433E9; Wed,  9 Nov 2022 14:27:30 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216673] Recurring amdgpu freeze on kernel 6.0.6 only
-Date: Wed, 09 Nov 2022 14:27:30 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: ANSWERED
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-216673-2300-wq2L5fJcgD@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216673-2300@https.bugzilla.kernel.org/>
-References: <bug-216673-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C801310E0ED
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 14:45:34 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 60FD9896;
+ Wed,  9 Nov 2022 15:45:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1668005133;
+ bh=Gqervy1KICAeshuyFashaJq3RzhDtwqdo80Kj6zaw2E=;
+ h=Date:From:To:Cc:Subject:From;
+ b=M9hpkgWcAWWvqalROqkVGvbwvwzAsQfhGoYRwqnYZjZPWeSEiok1hMKbXHpSv3sFT
+ fotuHFdxlyp93ypZbWgTzJhUWIz9AaxzjpTBHRBqd/pnboW8m8AqyEpCaYkm3QBXZo
+ 0xVQzWfH2bPdWPadQTVD98wo7VadDfq4KrF89Bjg=
+Date: Wed, 9 Nov 2022 16:45:14 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@gmail.com>
+Subject: [GIT PULL FOR v6.1] R-Car DU fixes
+Message-ID: <Y2u8+uM4A006XRPh@pendragon.ideasonboard.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,30 +44,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Randy Dunlap <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216673
+Hi Daniel, Dave,
 
-Alex Deucher (alexdeucher@gmail.com) changed:
+The following changes since commit 6295f1d8b4503ad8a18519b781dd2d1fe5e88c52:
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |alexdeucher@gmail.com
+  Merge tag 'drm-intel-fixes-2022-11-03' of git://anongit.freedesktop.org/drm/drm-intel into drm-fixes (2022-11-04 09:30:18 +1000)
 
---- Comment #4 from Alex Deucher (alexdeucher@gmail.com) ---
-(In reply to Stanislav Modrak from comment #3)
-> (In reply to Artem S. Tashkinov from comment #2)
-> > https://gitlab.freedesktop.org is where it should be anyways.
->=20
-> Can you please explain why it belongs there and not here? Thx!
+are available in the Git repository at:
 
-That is where most GPU developers are and it also allows us to move bugs to
-other components when necessary.  E.g., a mesa or xorg bug is misfiled as
-kernel.
+  git://linuxtv.org/pinchartl/media.git tags/drm-fixes-20221109
 
---=20
-You may reply to this email to add a comment.
+for you to fetch changes up to a830a15678593948f3271a5a398c9b67d8beedb9:
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+  drm: rcar-du: Fix Kconfig dependency between RCAR_DU and RCAR_MIPI_DSI (2022-11-09 16:32:46 +0200)
+
+----------------------------------------------------------------
+R-Car DSI Kconfig dependency fix
+
+----------------------------------------------------------------
+Laurent Pinchart (1):
+      drm: rcar-du: Fix Kconfig dependency between RCAR_DU and RCAR_MIPI_DSI
+
+ drivers/gpu/drm/rcar-du/Kconfig | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+
+-- 
+Regards,
+
+Laurent Pinchart
