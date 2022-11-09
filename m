@@ -2,36 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB7F6622D4E
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Nov 2022 15:17:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76EC4622DA7
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Nov 2022 15:21:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34F6310E04A;
-	Wed,  9 Nov 2022 14:17:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20DFE10E5DF;
+	Wed,  9 Nov 2022 14:21:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2ADB210E04A
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 14:17:14 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EC8EC1FB;
- Wed,  9 Nov 2022 06:17:19 -0800 (PST)
-Received: from [10.57.1.94] (unknown [10.57.1.94])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1DF323F73D;
- Wed,  9 Nov 2022 06:17:10 -0800 (PST)
-Message-ID: <dd5c7641-9cbf-7bae-db9d-32d37834f65c@arm.com>
-Date: Wed, 9 Nov 2022 14:17:07 +0000
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1865310E5DF
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 14:21:44 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9FDB5896;
+ Wed,  9 Nov 2022 15:21:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1668003702;
+ bh=kP5lC0vCldZuVd7ukcL4OuhKGJfq527jSr9BMS6LjxQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=YS+x2KWmsZNgtsyH6EfEhLBfJKSAlbi5DgNlGN7Y0g+/b8Luh/UiLTUtTDMqwI/Ia
+ 1oCpbIqcqljqF9SpzFS8G5Uq5HQHqxN/o+6V5IpcqlJFHRTb5lAjS78bZiKqzj1Me0
+ ymo2e5OxlO3nJ0Ju3J7VpIyZqfeOUp0VzGkjBAdM=
+Date: Wed, 9 Nov 2022 16:21:23 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Nathan Chancellor <nathan@kernel.org>
+Subject: Re: [PATCH v2] drm: xlnx: Fix return type of
+ zynqmp_dp_bridge_mode_valid
+Message-ID: <Y2u3Y34bxiS//kyj@pendragon.ideasonboard.com>
+References: <20221109001424.1422495-1-nathan@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH] drm/panfrost: Split io-pgtable requests properly
-To: Robin Murphy <robin.murphy@arm.com>, robh@kernel.org,
- tomeu.vizoso@collabora.com
-References: <49e54bb4019cd06e01549b106d7ac37c3d182cd3.1667927179.git.robin.murphy@arm.com>
-Content-Language: en-GB
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <49e54bb4019cd06e01549b106d7ac37c3d182cd3.1667927179.git.robin.murphy@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221109001424.1422495-1-nathan@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,62 +47,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- alyssa.rosenzweig@collabora.com, dri-devel@lists.freedesktop.org
+Cc: Kees Cook <keescook@chromium.org>, Hyun Kwon <hyun.kwon@xilinx.com>,
+ Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, patches@lists.linux.dev,
+ Sami Tolvanen <samitolvanen@google.com>, Nathan Huckleberry <nhuck@google.com>,
+ linux-arm-kernel@lists.infradead.org, Dan Carpenter <error27@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/11/2022 17:06, Robin Murphy wrote:
-> Although we don't use 1GB block mappings, we still need to split
-> map/unmap requests at 1GB boundaries to match what io-pgtable expects.
-> Fix that, and add some explanation to make sense of it all.
+Hi Nathan,
+
+Thank you for the patch.
+
+On Tue, Nov 08, 2022 at 05:14:25PM -0700, Nathan Chancellor wrote:
+> From: Nathan Huckleberry <nhuck@google.com>
 > 
-> Fixes: 3740b081795a ("drm/panfrost: Update io-pgtable API")
-> Reported-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
-
-Reviewed-by: Steven Price <steven.price@arm.com>
-
-I'll push to drm-misc-fixes.
-
-Thanks,
-
-Steve
-
-> ---
-> The previous diff turned out to be not quite right, so I've not
-> included Dmitry's Tested-by given for that.
-> ---
->  drivers/gpu/drm/panfrost/panfrost_mmu.c | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
+> The mode_valid field in drm_bridge_helper_funcs is expected to be of
+> type
+> enum drm_mode_status (* mode_valid) (struct drm_bridge *bridge,
+>                                      struct drm_display_mode *mode);
 > 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> index e246d914e7f6..4e83a1891f3e 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> @@ -250,13 +250,22 @@ void panfrost_mmu_reset(struct panfrost_device *pfdev)
->  
->  static size_t get_pgsize(u64 addr, size_t size, size_t *count)
->  {
-> +	/*
-> +	 * io-pgtable only operates on multiple pages within a single table
-> +	 * entry, so we need to split at boundaries of the table size, i.e.
-> +	 * the next block size up. The distance from address A to the next
-> +	 * boundary of block size B is logically B - A % B, but in unsigned
-> +	 * two's complement where B is a power of two we get the equivalence
-> +	 * B - A % B == (B - A) % B == (n * B - A) % B, and choose n = 0 :)
-> +	 */
->  	size_t blk_offset = -addr % SZ_2M;
->  
->  	if (blk_offset || size < SZ_2M) {
->  		*count = min_not_zero(blk_offset, size) / SZ_4K;
->  		return SZ_4K;
->  	}
-> -	*count = size / SZ_2M;
-> +	blk_offset = -addr % SZ_1G ?: SZ_1G;
-> +	*count = min(blk_offset, size) / SZ_2M;
->  	return SZ_2M;
+> The mismatched return type breaks forward edge kCFI since the underlying
+> function definition does not match the function hook definition. A new
+> warning in clang will catch this at compile time:
+> 
+>   drivers/gpu/drm/xlnx/zynqmp_dp.c:1573:16: error: incompatible function pointer types initializing 'enum drm_mode_status (*)(struct drm_bridge *, const struct drm_display_info *, const struct drm_display_mode *)' with an expression of type 'int (struct drm_bridge *, const struct drm_display_info *, const struct drm_display_mode *)' [-Werror,-Wincompatible-function-pointer-types-strict]
+>           .mode_valid = zynqmp_dp_bridge_mode_valid,
+>                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>   1 error generated.
+> 
+> The return type of zynqmp_dp_bridge_mode_valid should be changed from
+> int to enum drm_mode_status.
+> 
+> Reported-by: Dan Carpenter <error27@gmail.com>
+> Link: https://github.com/ClangBuiltLinux/linux/issues/1703
+> Link: https://github.com/ClangBuiltLinux/linux/issues/1750
+> Signed-off-by: Nathan Huckleberry <nhuck@google.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> [nathan: Rebase on drm-misc-next and fix conflicts
+>          Add note about new clang warning]
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> ---
+> 
+> Please consider picking this up so that it makes 6.2.
+
+I'll send a pull request shortly.
+
+> v2:
+>   - Take over for Nathan, as he is busy with other matters.
+>   - Rebase on drm-misc-next and resolve conflicts.
+>   - Add a note about new clang warning that will catch this issue at
+>     compile time.
+> 
+> v1: https://lore.kernel.org/20220913205600.155172-1-nhuck@google.com/
+> 
+>  drivers/gpu/drm/xlnx/zynqmp_dp.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> index 7c9ae167eac7..0a7b466446fb 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> @@ -1362,9 +1362,10 @@ static void zynqmp_dp_bridge_detach(struct drm_bridge *bridge)
+>  	zynqmp_dp_aux_cleanup(dp);
 >  }
 >  
+> -static int zynqmp_dp_bridge_mode_valid(struct drm_bridge *bridge,
+> -				       const struct drm_display_info *info,
+> -				       const struct drm_display_mode *mode)
+> +static enum drm_mode_status
+> +zynqmp_dp_bridge_mode_valid(struct drm_bridge *bridge,
+> +			    const struct drm_display_info *info,
+> +			    const struct drm_display_mode *mode)
+>  {
+>  	struct zynqmp_dp *dp = bridge_to_dp(bridge);
+>  	int rate;
+> 
+> base-commit: 1a0257c352638916fdaffaac2ddedb8e049312f3
 
+-- 
+Regards,
+
+Laurent Pinchart
