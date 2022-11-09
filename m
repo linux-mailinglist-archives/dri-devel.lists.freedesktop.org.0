@@ -1,44 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74D5562209B
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Nov 2022 01:13:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 764FD62209F
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Nov 2022 01:16:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA10E10E051;
-	Wed,  9 Nov 2022 00:13:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 950D310E546;
+	Wed,  9 Nov 2022 00:16:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47C7189B30;
- Wed,  9 Nov 2022 00:13:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1667952818; x=1699488818;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=lu/dE8y7lzwnFXO0aHAuRErweGaKFfnHqiq0aM3lg98=;
- b=NW1AIhop2ovJGfL0DUdYXQWcfrtxz1uIStvQm6EDdyr/H5EmzLCLa1lW
- bQvvC5tlFBwun4bccLGUXlU4rc6asr2yjJ/ei5yQDtt++Jca3vY0L3xdM
- xnSxgmDFFS+n64uMXo5aLWzIT6aUrhM0Y8WL16KO9JYh8FVeQCSQaCPPD
- fE/UiYLOAO9/eamh192XN9iV7E1BIxPu76fDi7cS0/sNSMWroTRwZ4wYJ
- VVvt3S59jjv/ENrBMoACdu7vF2gQN8LmR3q3WghlZPVvH7BiHQDofHsGd
- bqTAZHSS1N1qToBycLZ59NreMWSwny/COllOoAVJZ5R0BhlEsndoKZV7V g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10525"; a="308463084"
-X-IronPort-AV: E=Sophos;i="5.96,149,1665471600"; d="scan'208";a="308463084"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Nov 2022 16:13:37 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10525"; a="667784503"
-X-IronPort-AV: E=Sophos;i="5.96,149,1665471600"; d="scan'208";a="667784503"
-Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Nov 2022 16:13:36 -0800
-From: Matt Roper <matthew.d.roper@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915/dg2: Drop force_probe requirement
-Date: Tue,  8 Nov 2022 16:13:28 -0800
-Message-Id: <20221109001328.732000-1-matthew.d.roper@intel.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5E7C10E546
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 00:16:42 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 82BA0B81CAE;
+ Wed,  9 Nov 2022 00:16:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CF77C433D6;
+ Wed,  9 Nov 2022 00:16:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1667953000;
+ bh=k6rIgcDbcoDJIq3EZLWAhM+cWpUtGnxgL4bipmDPg84=;
+ h=From:To:Cc:Subject:Date:From;
+ b=nBRaKyid9YJHdSRpVRPiKJB1X2djFFHf1FwKmGhDdtx3oyOSmXoZgtee8iyHzhWJE
+ 8Zof+FrAtl/JLA1JUbb3GWxdaCcS+RMFTYGIwmASTw54XyRRXpZIxq+HJttXQVKgYq
+ ZQeYOB1BTzC/0shjVZMXMAsleg0HxuoxMZDg+txLbP31IPvsTQwFWk9c2uYUXm2U5Y
+ Q7YdeW6yis4kROVm7h5gCxiQ90/fdvo/Egmu25OSSCBuPZcP4L1rNDYg5YLUda1plK
+ p+ZXy7pQ3vN/th/TXNdSOfZeVWVGjgJ578G01uIIVOBXi71d+JYaLBgAZ1Bt7eeb7X
+ AoXhCkL19X2jA==
+From: Nathan Chancellor <nathan@kernel.org>
+To: Hyun Kwon <hyun.kwon@xilinx.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2] drm: xlnx: Fix return type of zynqmp_dp_bridge_mode_valid
+Date: Tue,  8 Nov 2022 17:14:25 -0700
+Message-Id: <20221109001424.1422495-1-nathan@kernel.org>
 X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -54,45 +51,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Kees Cook <keescook@chromium.org>, Tom Rix <trix@redhat.com>,
+ llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ patches@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>,
+ Sami Tolvanen <samitolvanen@google.com>, Nathan Huckleberry <nhuck@google.com>,
+ linux-arm-kernel@lists.infradead.org, Dan Carpenter <error27@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DG2 has been very usable for a while now, and all of the uapi changes
-related to fundamental platform usage have been finalized.  Recent CI
-results have also been healthy, so we're ready to drop the force_probe
-requirement and enable the platform by default.
+From: Nathan Huckleberry <nhuck@google.com>
 
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+The mode_valid field in drm_bridge_helper_funcs is expected to be of
+type
+enum drm_mode_status (* mode_valid) (struct drm_bridge *bridge,
+                                     struct drm_display_mode *mode);
+
+The mismatched return type breaks forward edge kCFI since the underlying
+function definition does not match the function hook definition. A new
+warning in clang will catch this at compile time:
+
+  drivers/gpu/drm/xlnx/zynqmp_dp.c:1573:16: error: incompatible function pointer types initializing 'enum drm_mode_status (*)(struct drm_bridge *, const struct drm_display_info *, const struct drm_display_mode *)' with an expression of type 'int (struct drm_bridge *, const struct drm_display_info *, const struct drm_display_mode *)' [-Werror,-Wincompatible-function-pointer-types-strict]
+          .mode_valid = zynqmp_dp_bridge_mode_valid,
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+  1 error generated.
+
+The return type of zynqmp_dp_bridge_mode_valid should be changed from
+int to enum drm_mode_status.
+
+Reported-by: Dan Carpenter <error27@gmail.com>
+Link: https://github.com/ClangBuiltLinux/linux/issues/1703
+Link: https://github.com/ClangBuiltLinux/linux/issues/1750
+Signed-off-by: Nathan Huckleberry <nhuck@google.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+[nathan: Rebase on drm-misc-next and fix conflicts
+         Add note about new clang warning]
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 ---
 
-There was some recent offline discussion questioning whether we'd fully
-identified the root cause of some historic CI failures, or whether it
-was possible we might still have a bug lurking somewhere causing
-sporadic failures.  Let's use this patch to centralize discussion about
-any remaining concerns and make sure they're addressed before we apply
-this.
+Please consider picking this up so that it makes 6.2.
 
- drivers/gpu/drm/i915/i915_pci.c | 1 -
- 1 file changed, 1 deletion(-)
+v2:
+  - Take over for Nathan, as he is busy with other matters.
+  - Rebase on drm-misc-next and resolve conflicts.
+  - Add a note about new clang warning that will catch this issue at
+    compile time.
 
-diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-index 211913be40ce..0866300243aa 100644
---- a/drivers/gpu/drm/i915/i915_pci.c
-+++ b/drivers/gpu/drm/i915/i915_pci.c
-@@ -1078,7 +1078,6 @@ static const struct intel_device_info dg2_info = {
- 	XE_LPD_FEATURES,
- 	.__runtime.cpu_transcoder_mask = BIT(TRANSCODER_A) | BIT(TRANSCODER_B) |
- 			       BIT(TRANSCODER_C) | BIT(TRANSCODER_D),
--	.require_force_probe = 1,
- };
+v1: https://lore.kernel.org/20220913205600.155172-1-nhuck@google.com/
+
+ drivers/gpu/drm/xlnx/zynqmp_dp.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+index 7c9ae167eac7..0a7b466446fb 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
++++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+@@ -1362,9 +1362,10 @@ static void zynqmp_dp_bridge_detach(struct drm_bridge *bridge)
+ 	zynqmp_dp_aux_cleanup(dp);
+ }
  
- static const struct intel_device_info ats_m_info = {
+-static int zynqmp_dp_bridge_mode_valid(struct drm_bridge *bridge,
+-				       const struct drm_display_info *info,
+-				       const struct drm_display_mode *mode)
++static enum drm_mode_status
++zynqmp_dp_bridge_mode_valid(struct drm_bridge *bridge,
++			    const struct drm_display_info *info,
++			    const struct drm_display_mode *mode)
+ {
+ 	struct zynqmp_dp *dp = bridge_to_dp(bridge);
+ 	int rate;
+
+base-commit: 1a0257c352638916fdaffaac2ddedb8e049312f3
 -- 
 2.38.1
 
