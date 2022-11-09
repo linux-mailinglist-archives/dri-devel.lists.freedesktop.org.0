@@ -2,60 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3542B622D19
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Nov 2022 15:03:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9DC2622D43
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Nov 2022 15:13:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4A7110E5D7;
-	Wed,  9 Nov 2022 14:03:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0B0F10E5DA;
+	Wed,  9 Nov 2022 14:13:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12FE210E5D7
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 14:03:19 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id ud5so46903718ejc.4
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Nov 2022 06:03:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=rZPfTkW4opYQ4IdXXjLm2tEI/ZZERgUuI2xu9GdLAJ4=;
- b=EV5xCkylkPoCYiU7P4dwvPebDzIvRC49lNGiom7QMqlNhRrSQSIjMAqMjURmrVCunk
- kBOOu5ZXiYJO1a2jh665H8t9jPMW9SpNP5/j9L9pwu53Z7fvBS+2LfZx2II7dPYwZ80W
- 9uLXq0CRTNVH6ZYAUgcQsJJ/2ejfoUY3rXH4g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rZPfTkW4opYQ4IdXXjLm2tEI/ZZERgUuI2xu9GdLAJ4=;
- b=1Iy7y9N67/vahNGbV4xSKCjSFtALlHmAIzkPnXgUHPspMTbUksgJr3+1e5mF/dxv6O
- IjSjlzDhkfjvuVo66kSuTUCedMff3kmCcyxYEio1rdYUQ/vw9Cuu7zYfAWRXPpKY7Gs7
- 2oIxQCAznBhHAdNxk4TGA8k/TgnFOdrNvXpGpSiv7D2Hvc4hXflU3+CfTeBsapZYwg+S
- LSUH+bnt44ASG0jP0BDG3mxK7NJTCNVGvmqnArr+PL1VaTavpOJ9jF5tYdvjug+C3wdI
- hX2XKpya6cK6g5H9Rx4WbWx/5VUPwQWgb6cGVQBGIxu1ySYZPjAJznReXLp+N/mpIAv4
- UtCA==
-X-Gm-Message-State: ACrzQf21cDm1H4panUBlr0DwSVcSjM6HXel1PGPYJKHkuAJ5W/MzaNRf
- HXebL+jBf3tnxb00CLJzEgS6oA==
-X-Google-Smtp-Source: AMsMyM5gurKnTiaLaTVnnlaZi5p140Pa+hUMbOdNOAqGGvB2GpWer4ZvKKuU2ixnYhtWf3rcnR/F8w==
-X-Received: by 2002:a17:907:1c8a:b0:782:1a0d:3373 with SMTP id
- nb10-20020a1709071c8a00b007821a0d3373mr55011246ejc.135.1668002597577; 
- Wed, 09 Nov 2022 06:03:17 -0800 (PST)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- 19-20020a170906309300b0079800b8173asm5945390ejv.158.2022.11.09.06.03.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Nov 2022 06:03:16 -0800 (PST)
-Date: Wed, 9 Nov 2022 15:03:14 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-Subject: Re: [PATCH v2] drm: fix crash in drm_minor_alloc_release
-Message-ID: <Y2uzInZ0Wdo52OQQ@phenom.ffwll.local>
-References: <20221108183823.314121-1-stanislaw.gruszka@linux.intel.com>
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B27F10E5DA;
+ Wed,  9 Nov 2022 14:13:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=uieGFSRlWfEudDPWzmLqa4FntHsQ1l9cOOh88HONQ+I=; b=XSNoEIfzs5COdh7u2/RQYNh5SC
+ gYIomJ7/I61w0V5mrGKK7L2CrQ3Ev26u7S8NOpeMVOdXI4B17U5eXuo3CAodWNX6nTbJfCagJMvv4
+ Dq2yjLybIPLqy87sNXPPFnYuQu8vcZ8qYweBfe9Pawv0uAn8z1JhMK5HcEMSSKg5daPD3qv/t1kED
+ 48XyzrYBUTsNO5ABRfYUUeVbl9Wlr0tkQnn4UTGwve/OR/aOWmbHcqVaGPA/Kyk67Z0Uk2A53X4pG
+ 8Y8elO/1Byq0lJ5AL9fKkmpRHFYXXlG0QzsbhrrtylC3XWbrSJ7XkQ8ii+pw9jwXdKsNb4MSBVFK7
+ mC7xLDFg==;
+Received: from [2a01:799:95a:cb00:81e6:f8f5:7f80:f3bd] (port=60889)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1oslm9-0004IU-Hy; Wed, 09 Nov 2022 15:09:57 +0100
+Message-ID: <d44f5edb-52d4-851a-9746-5c4d49d603f4@tronnes.org>
+Date: Wed, 9 Nov 2022 15:09:50 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221108183823.314121-1-stanislaw.gruszka@linux.intel.com>
-X-Operating-System: Linux phenom 5.19.0-2-amd64 
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v7 15/23] drm/modes: Introduce more named modes
+To: Maxime Ripard <maxime@cerno.tech>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Ben Skeggs <bskeggs@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>,
+ Lyude Paul <lyude@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>
+References: <20220728-rpi-analog-tv-properties-v7-0-7072a478c6b3@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v7-15-7072a478c6b3@cerno.tech>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v7-15-7072a478c6b3@cerno.tech>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,91 +66,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 08, 2022 at 07:38:23PM +0100, Stanislaw Gruszka wrote:
-> If drm_sysfs_minor_alloc() fail in drm_minor_alloc() we can end up
-> freeing invalid minor->kdev pointer and drm_minor_alloc_release()
-> will crash like below:
-> 
-> RIP: 0010:kobject_put+0x19/0x1c0
-> RSP: 0018:ffffbc7001637c38 EFLAGS: 00010282
-> RAX: ffffffffa8d6deb0 RBX: 00000000ffffffff RCX: ffff9cb5912d4540
-> RDX: ffffffffa9c45ec5 RSI: ffff9cb5902f2b68 RDI: fffffffffffffff4
-> RBP: fffffffffffffff4 R08: ffffffffa9c40dec R09: 0000000000000008
-> R10: ffffffffaa81f7d2 R11: 00000000aa81f7ca R12: ffff9cb5912d4540
-> R13: ffff9cb5912d4540 R14: dead000000000122 R15: dead000000000100
-> FS:  00007f56b06e6740(0000) GS:ffff9cb728b40000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 0000000000000030 CR3: 000000011285b004 CR4: 0000000000170ee0
-> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> DR3: 0000000000000000 DR6: 00000000ffff07f0 DR7: 0000000000000400
-> Call Trace:
->  <TASK>
->  drm_minor_alloc_release+0x19/0x50
->  drm_managed_release+0xab/0x150
->  drm_dev_init+0x21f/0x2f0
->  __devm_drm_dev_alloc+0x3c/0xa0
->  ivpu_probe+0x59/0x797 [intel_vpu 127058409b05eb2f99dcdecd3330bee28d6b3e76]
->  pci_device_probe+0xa4/0x160
->  really_probe+0x164/0x340
->  __driver_probe_device+0x10d/0x190
->  device_driver_attach+0x26/0x50
->  bind_store+0x9f/0x120
->  kernfs_fop_write_iter+0x12d/0x1c0
->  new_sync_write+0x106/0x180
->  vfs_write+0x216/0x2a0
->  ksys_write+0x65/0xe0
->  do_syscall_64+0x35/0x80
->  entry_SYSCALL_64_after_hwframe+0x44/0xae
-> 
-> Fix this crash by returning NULL minor->kdev on error.
-> 
-> Fixes: f96306f9892b ("drm: manage drm_minor cleanup with drmm_")
-> Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-On the entire drmm thing, you can avoid these if you do a drmm for every
-little thing, that way you never get stuff that might or might not be set
-up in the cleanup handler. But for one-off internal things that's a bit
-overkill, and C utterly sucks at taking care of the boilerplate.
--Daniel
-
+Den 07.11.2022 15.16, skrev Maxime Ripard:
+> Now that we can easily extend the named modes list, let's add a few more
+> analog TV modes that were used in the wild, and some unit tests to make
+> sure it works as intended.
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> 
 > ---
-> v2: return minor->kdev NULL pointer instead of checking for IS_ERR in
->     drm_minor_alloc_release()
+> Changes in v6:
+> - Renamed the tests to follow DRM test naming convention
 > 
->  drivers/gpu/drm/drm_drv.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
+> Changes in v5:
+> - Switched to KUNIT_ASSERT_NOT_NULL
+> ---
+>  drivers/gpu/drm/drm_modes.c                     |  2 +
+>  drivers/gpu/drm/tests/drm_client_modeset_test.c | 54 +++++++++++++++++++++++++
+>  2 files changed, 56 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index 8214a0b1ab7f..8d70b634d008 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -142,8 +142,11 @@ static int drm_minor_alloc(struct drm_device *dev, unsigned int type)
->  		return r;
+> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+> index 49441cabdd9d..17c5b6108103 100644
+> --- a/drivers/gpu/drm/drm_modes.c
+> +++ b/drivers/gpu/drm/drm_modes.c
+> @@ -2272,7 +2272,9 @@ struct drm_named_mode {
 >  
->  	minor->kdev = drm_sysfs_minor_alloc(minor);
-> -	if (IS_ERR(minor->kdev))
-> -		return PTR_ERR(minor->kdev);
-> +	if (IS_ERR(minor->kdev)) {
-> +		r = PTR_ERR(minor->kdev);
-> +		minor->kdev = NULL;
-> +		return r;
-> +	}
+>  static const struct drm_named_mode drm_named_modes[] = {
+>  	NAMED_MODE("NTSC", 13500, 720, 480, DRM_MODE_FLAG_INTERLACE, DRM_MODE_TV_MODE_NTSC),
+> +	NAMED_MODE("NTSC-J", 13500, 720, 480, DRM_MODE_FLAG_INTERLACE, DRM_MODE_TV_MODE_NTSC_J),
+>  	NAMED_MODE("PAL", 13500, 720, 576, DRM_MODE_FLAG_INTERLACE, DRM_MODE_TV_MODE_PAL),
+> +	NAMED_MODE("PAL-M", 13500, 720, 480, DRM_MODE_FLAG_INTERLACE, DRM_MODE_TV_MODE_PAL_M),
+>  };
 >  
->  	*drm_minor_get_slot(dev, type) = minor;
->  	return 0;
-> -- 
-> 2.25.1
-> 
+>  static int drm_mode_parse_cmdline_named_mode(const char *name,
+> diff --git a/drivers/gpu/drm/tests/drm_client_modeset_test.c b/drivers/gpu/drm/tests/drm_client_modeset_test.c
+> index fdfe9e20702e..b3820d25beca 100644
+> --- a/drivers/gpu/drm/tests/drm_client_modeset_test.c
+> +++ b/drivers/gpu/drm/tests/drm_client_modeset_test.c
+> @@ -133,6 +133,32 @@ static void drm_test_pick_cmdline_named_ntsc(struct kunit *test)
+>  	KUNIT_EXPECT_TRUE(test, drm_mode_equal(drm_mode_analog_ntsc_480i(drm), mode));
+>  }
+>  
+> +static void drm_test_pick_cmdline_named_ntsc_j(struct kunit *test)
+> +{
+> +	struct drm_client_modeset_test_priv *priv = test->priv;
+> +	struct drm_device *drm = priv->drm;
+> +	struct drm_connector *connector = &priv->connector;
+> +	struct drm_cmdline_mode *cmdline_mode = &connector->cmdline_mode;
+> +	struct drm_display_mode *mode;
+> +	const char *cmdline = "NTSC-J";
+> +	int ret;
+> +
+> +	KUNIT_ASSERT_TRUE(test,
+> +			  drm_mode_parse_command_line_for_connector(cmdline,
+> +								    connector,
+> +								    cmdline_mode));
+> +
+> +	mutex_lock(&drm->mode_config.mutex);
+> +	ret = drm_helper_probe_single_connector_modes(connector, 1920, 1080);
+> +	mutex_unlock(&drm->mode_config.mutex);
+> +	KUNIT_ASSERT_GT(test, ret, 0);
+> +
+> +	mode = drm_connector_pick_cmdline_mode(connector);
+> +	KUNIT_ASSERT_NOT_NULL(test, mode);
+> +
+> +	KUNIT_EXPECT_TRUE(test, drm_mode_equal(drm_mode_analog_ntsc_480i(drm), mode));
+> +}
+> +
+>  static void drm_test_pick_cmdline_named_pal(struct kunit *test)
+>  {
+>  	struct drm_client_modeset_test_priv *priv = test->priv;
+> @@ -159,10 +185,38 @@ static void drm_test_pick_cmdline_named_pal(struct kunit *test)
+>  	KUNIT_EXPECT_TRUE(test, drm_mode_equal(drm_mode_analog_pal_576i(drm), mode));
+>  }
+>  
+> +static void drm_test_pick_cmdline_named_pal_m(struct kunit *test)
+> +{
+> +	struct drm_client_modeset_test_priv *priv = test->priv;
+> +	struct drm_device *drm = priv->drm;
+> +	struct drm_connector *connector = &priv->connector;
+> +	struct drm_cmdline_mode *cmdline_mode = &connector->cmdline_mode;
+> +	struct drm_display_mode *mode;
+> +	const char *cmdline = "PAL-M";
+> +	int ret;
+> +
+> +	KUNIT_ASSERT_TRUE(test,
+> +			  drm_mode_parse_command_line_for_connector(cmdline,
+> +								    connector,
+> +								    cmdline_mode));
+> +
+> +	mutex_lock(&drm->mode_config.mutex);
+> +	ret = drm_helper_probe_single_connector_modes(connector, 1920, 1080);
+> +	mutex_unlock(&drm->mode_config.mutex);
+> +	KUNIT_ASSERT_GT(test, ret, 0);
+> +
+> +	mode = drm_connector_pick_cmdline_mode(connector);
+> +	KUNIT_ASSERT_NOT_NULL(test, mode);
+> +
+> +	KUNIT_EXPECT_TRUE(test, drm_mode_equal(drm_mode_analog_ntsc_480i(drm), mode));
+> +}
+> +
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+There are 4 named mode tests that are almost identical, should probably
+use KUNIT_ARRAY_PARAM like in the parser tests.
+
+This patchset has been going on for a long time now so it can be fixed
+later if you don't want to do it now:
+
+Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
+
+>  static struct kunit_case drm_test_pick_cmdline_tests[] = {
+>  	KUNIT_CASE(drm_test_pick_cmdline_res_1920_1080_60),
+>  	KUNIT_CASE(drm_test_pick_cmdline_named_ntsc),
+> +	KUNIT_CASE(drm_test_pick_cmdline_named_ntsc_j),
+>  	KUNIT_CASE(drm_test_pick_cmdline_named_pal),
+> +	KUNIT_CASE(drm_test_pick_cmdline_named_pal_m),
+>  	{}
+>  };
+>  
+> 
