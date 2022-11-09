@@ -1,58 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22AEC6231ED
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Nov 2022 18:53:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC914623202
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Nov 2022 19:04:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA16710E0FC;
-	Wed,  9 Nov 2022 17:53:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAE4810E611;
+	Wed,  9 Nov 2022 18:03:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B91AA10E02C;
- Wed,  9 Nov 2022 17:53:23 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id j4so27009430lfk.0;
- Wed, 09 Nov 2022 09:53:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=a/bkjmBXqyNJYxjv8IhlpFhEQhYzoGQfDrx7DN4akjY=;
- b=MDgy9B6E9HGwYm6Njha//BSnS9MHdlA5LScMRo3d878iGPkHhqcnvB4YV2jprlgd0q
- qOX8DstJD3aAi2hjOfKet2vZByO6HGAiU0wtvQq6v5PhBBGBlkxVeDDD6iUksFF+Xaeo
- br7ZSWKHUjWc1AAXEFIpR3xe2S/7pifb5/e2HE1irHZyXQHFZ1f5x++0Xh2QYaTmQKnp
- RhsjUAOHz9TEuJT/Htj2zhP9nof4YSyGVQi84wRroEGQ6P//Wrc2QazJQfWz7W9YGZVc
- 97fR5TDYc976Agm4qihG0gWrinM2J2VN+d7F/q/Q5E0hKJMfGwjWXAnZnAuifN3z0gRH
- jEZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=a/bkjmBXqyNJYxjv8IhlpFhEQhYzoGQfDrx7DN4akjY=;
- b=40y3yPM0v/6BN7nmZ4e525W23TvhidttvJbrhKbVHvNOJCeXgsHbELmB4nwce0Bb4N
- Yt+38UZjaDI43mAv50I1sRle3mfVLORdHsGY3uSGzmVFam1m9Eyaixi1JMTECvXh3bhq
- cW2e8gVCIDHwoimYvq5eFJ+UDVvAF95QdTOSTr/E2g2WedxKUvzeSw29+UlGd4bgvwbz
- MYU2SxZiKmzENWDeAq0GxM7c1SGUxxG3QqMZYAU/4nYBAaYqLMvTA0M/WLEVQgehLGzb
- nJwtQc93a9C/0XAnul1z4o3DzXKUW+BwjyFGdHHqdWnvFIHgAv/ciFrPtMWZqiWUPKz4
- Ttaw==
-X-Gm-Message-State: ACrzQf1AHJX37vMAElQ2KaTc/58mZQCoMddmcMd2IDXHXBdE/3RcMoaT
- OS04l9sNl7kv7GveCluuQX5AU2fnPuBv1qoVocE=
-X-Google-Smtp-Source: AMsMyM7gObLlpJFmkKPcjRUG2lH0htds9+PCQYQFrQAh2Oi7fiUws+kTfVL4GPjPQUCmWjORyZqsQ1ehGNdkgkccoQQ=
-X-Received: by 2002:a05:6512:34d2:b0:4a4:5ef8:4d16 with SMTP id
- w18-20020a05651234d200b004a45ef84d16mr20619799lfr.604.1668016401937; Wed, 09
- Nov 2022 09:53:21 -0800 (PST)
-MIME-Version: 1.0
-References: <20221107085210.17221-1-niranjana.vishwanathapura@intel.com>
- <20221107085210.17221-21-niranjana.vishwanathapura@intel.com>
-In-Reply-To: <20221107085210.17221-21-niranjana.vishwanathapura@intel.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Wed, 9 Nov 2022 17:52:54 +0000
-Message-ID: <CAM0jSHP6N321s4obATyEfVH1wUH2MEkU-bFy_yHShc=0M59=+w@mail.gmail.com>
-Subject: Re: [PATCH v6 20/20] drm/i915/vm_bind: Async vm_unbind support
-To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BF9010E02C;
+ Wed,  9 Nov 2022 18:03:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1668017030; x=1699553030;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=SUvudcxrhm3KLzEiMF05rDRSOBj7Q3TznyaidGF/79Q=;
+ b=FYT23hvKJlRsrfbOy7sngJeKD5/Lr0Hrim7CN6skgkN3Ocf6p+ku00TC
+ u2b6fcuJbHURVZlTybAnagjhNVDIYoewY2rMJElNmmcddRvBfZnCHrR35
+ zwxGx3K+wdIVMgx7kMKxr6gQ349lmHrbqaIXlN0IaMmv1ZdV3db9ttvI2
+ Nt0200GCHT12qwdukq/3JtUf0BdZnYzko+rRvAd1l50z7INpcuHZSzi/0
+ PzQX91+cuJqotI4HMNlkC44KcTDd+ZALq2dhxD4dftDCmKFWKr8nKYc/y
+ 6vc2+nbq0hcbcyb7D9HwTtOvy6SvGg1l10pXNQa/RSjannwIvjWJF9DWJ A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10526"; a="309768585"
+X-IronPort-AV: E=Sophos;i="5.96,151,1665471600"; d="scan'208";a="309768585"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Nov 2022 10:03:17 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10526"; a="779442018"
+X-IronPort-AV: E=Sophos;i="5.96,151,1665471600"; d="scan'208";a="779442018"
+Received: from skallurr-mobl1.ger.corp.intel.com (HELO [10.249.254.213])
+ ([10.249.254.213])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Nov 2022 10:03:15 -0800
+Message-ID: <f1f4123c3705c6883acdff4770e404704d54dc6e.camel@linux.intel.com>
+Subject: Re: [PATCH 0/3] add guard padding around i915_vma
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org,  dri-devel@lists.freedesktop.org
+Date: Wed, 09 Nov 2022 19:03:03 +0100
+In-Reply-To: <20221109174058.912720-1-andi.shyti@linux.intel.com>
+References: <20221109174058.912720-1-andi.shyti@linux.intel.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,137 +60,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
- jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, thomas.hellstrom@intel.com,
- lionel.g.landwerlin@intel.com, jason@jlekstrand.net,
- andi.shyti@linux.intel.com, daniel.vetter@intel.com, christian.koenig@amd.com,
- matthew.auld@intel.com
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi@etezian.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 7 Nov 2022 at 08:53, Niranjana Vishwanathapura
-<niranjana.vishwanathapura@intel.com> wrote:
->
-> Asynchronously unbind the vma upon vm_unbind call.
-> Fall back to synchronous unbind if backend doesn't support
-> async unbind or if async unbind fails.
->
-> No need for vm_unbind out fence support as i915 will internally
-> handle all sequencing and user need not try to sequence any
-> operation with the unbind completion.
->
-> Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-> ---
->  drivers/gpu/drm/i915/i915_vma.c | 51 ++++++++++++++++++++++++++++++---
->  drivers/gpu/drm/i915/i915_vma.h |  1 +
->  2 files changed, 48 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-> index 08218e3a2f12..03c966fad87b 100644
-> --- a/drivers/gpu/drm/i915/i915_vma.c
-> +++ b/drivers/gpu/drm/i915/i915_vma.c
-> @@ -42,6 +42,8 @@
->  #include "i915_vma.h"
->  #include "i915_vma_resource.h"
->
-> +static struct dma_fence *__i915_vma_unbind_async(struct i915_vma *vma);
-> +
->  static inline void assert_vma_held_evict(const struct i915_vma *vma)
->  {
->         /*
-> @@ -1711,7 +1713,7 @@ void i915_vma_reopen(struct i915_vma *vma)
->         spin_unlock_irq(&gt->closed_lock);
->  }
->
-> -static void force_unbind(struct i915_vma *vma)
-> +static void force_unbind(struct i915_vma *vma, bool async)
->  {
->         if (!drm_mm_node_allocated(&vma->node))
->                 return;
-> @@ -1725,7 +1727,21 @@ static void force_unbind(struct i915_vma *vma)
->                 i915_vma_set_purged(vma);
->
->         atomic_and(~I915_VMA_PIN_MASK, &vma->flags);
-> -       WARN_ON(__i915_vma_unbind(vma));
-> +       if (async) {
-> +               struct dma_fence *fence;
-> +
-> +               fence = __i915_vma_unbind_async(vma);
-> +               if (IS_ERR_OR_NULL(fence)) {
-> +                       async = false;
-> +               } else {
-> +                       dma_resv_add_fence(vma->obj->base.resv, fence,
-> +                                          DMA_RESV_USAGE_READ);
-> +                       dma_fence_put(fence);
-> +               }
-> +       }
-> +
-> +       if (!async)
-> +               WARN_ON(__i915_vma_unbind(vma));
->         GEM_BUG_ON(drm_mm_node_allocated(&vma->node));
->  }
->
-> @@ -1785,7 +1801,7 @@ void i915_vma_destroy_locked(struct i915_vma *vma)
->  {
->         lockdep_assert_held(&vma->vm->mutex);
->
-> -       force_unbind(vma);
-> +       force_unbind(vma, false);
->         list_del_init(&vma->vm_link);
->         release_references(vma, vma->vm->gt, false);
->  }
-> @@ -1796,7 +1812,34 @@ void i915_vma_destroy(struct i915_vma *vma)
->         bool vm_ddestroy;
->
->         mutex_lock(&vma->vm->mutex);
-> -       force_unbind(vma);
-> +       force_unbind(vma, false);
-> +       list_del_init(&vma->vm_link);
-> +       vm_ddestroy = vma->vm_ddestroy;
-> +       vma->vm_ddestroy = false;
-> +
-> +       /* vma->vm may be freed when releasing vma->vm->mutex. */
-> +       gt = vma->vm->gt;
-> +       mutex_unlock(&vma->vm->mutex);
-> +       release_references(vma, gt, vm_ddestroy);
-> +}
-> +
-> +void i915_vma_destroy_async(struct i915_vma *vma)
+Hi, Andi,
 
-Where are we calling this? I can't find it.
+This has been on the list before (three times I think) and at that
+point it (the guard pages) was NAK'd by Daniel as yet another
+complication, and a VT-d
+scanout workaround was implemented and pushed using a different
+approach, initially outlined by Daniel.
 
-> +{
-> +       bool vm_ddestroy, async = vma->obj->mm.rsgt;
-> +       struct intel_gt *gt;
-> +
-> +       if (dma_resv_reserve_fences(vma->obj->base.resv, 1))
-> +               async = false;
-> +
-> +       mutex_lock(&vma->vm->mutex);
-> +       /*
-> +        * Ensure any asynchronous binding is complete while using
-> +        * async unbind as we will be releasing the vma here.
-> +        */
-> +       if (async && i915_active_wait(&vma->active))
-> +               async = false;
-> +
-> +       force_unbind(vma, async);
->         list_del_init(&vma->vm_link);
->         vm_ddestroy = vma->vm_ddestroy;
->         vma->vm_ddestroy = false;
-> diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
-> index 737ef310d046..25f15965dab8 100644
-> --- a/drivers/gpu/drm/i915/i915_vma.h
-> +++ b/drivers/gpu/drm/i915/i915_vma.h
-> @@ -272,6 +272,7 @@ void i915_vma_reopen(struct i915_vma *vma);
->
->  void i915_vma_destroy_locked(struct i915_vma *vma);
->  void i915_vma_destroy(struct i915_vma *vma);
-> +void i915_vma_destroy_async(struct i915_vma *vma);
->
->  #define assert_vma_held(vma) dma_resv_assert_held((vma)->obj->base.resv)
->
+Patch is 2ef6efa79fecd. Those suspend/resumes should now be fast.
+
+I then also discussed patch 1 separately with Dave Airlie and Daniel
+and since both me and Dave liked it, Daniel OK'd it, but it never made
+it upstream.
+
+Just a short heads up on the history.
+
+/Thomas
+
+
+On Wed, 2022-11-09 at 18:40 +0100, Andi Shyti wrote:
+> Hi,
+>=20
+> This series adds guards around vma's but setting a pages at the
+> beginning and at the end that work as padding.
+>=20
+> The first user of the vma guard are scanout objects which don't
+> need anymore to add scratch to all the unused ggtt's and speeding
+> up up considerably the boot and resume by several hundreds of
+> milliseconds up to over a full second in slower machines.
+>=20
+> Andi
+>=20
+> Chris Wilson (3):
+> =C2=A0 drm/i915: Wrap all access to i915_vma.node.start|size
+> =C2=A0 drm/i915: Introduce guard pages to i915_vma
+> =C2=A0 drm/i915: Refine VT-d scanout workaround
+>=20
+> =C2=A0drivers/gpu/drm/i915/display/intel_fbdev.c=C2=A0=C2=A0=C2=A0 |=C2=
+=A0 2 +-
+> =C2=A0drivers/gpu/drm/i915/gem/i915_gem_domain.c=C2=A0=C2=A0=C2=A0 | 13 +=
++++
+> =C2=A0.../gpu/drm/i915/gem/i915_gem_execbuffer.c=C2=A0=C2=A0=C2=A0 | 33 +=
++++++-----
+> =C2=A0drivers/gpu/drm/i915/gem/i915_gem_mman.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0 2 +-
+> =C2=A0drivers/gpu/drm/i915/gem/i915_gem_shrinker.c=C2=A0 |=C2=A0 2 +-
+> =C2=A0drivers/gpu/drm/i915/gem/i915_gem_tiling.c=C2=A0=C2=A0=C2=A0 |=C2=
+=A0 4 +-
+> =C2=A0.../gpu/drm/i915/gem/selftests/huge_pages.c=C2=A0=C2=A0 |=C2=A0 2 +=
+-
+> =C2=A0.../i915/gem/selftests/i915_gem_client_blt.c=C2=A0 | 23 ++++----
+> =C2=A0.../drm/i915/gem/selftests/i915_gem_context.c | 15 +++--
+> =C2=A0.../drm/i915/gem/selftests/i915_gem_mman.c=C2=A0=C2=A0=C2=A0 |=C2=
+=A0 2 +-
+> =C2=A0.../drm/i915/gem/selftests/igt_gem_utils.c=C2=A0=C2=A0=C2=A0 |=C2=
+=A0 7 ++-
+> =C2=A0drivers/gpu/drm/i915/gt/gen7_renderclear.c=C2=A0=C2=A0=C2=A0 |=C2=
+=A0 2 +-
+> =C2=A0drivers/gpu/drm/i915/gt/intel_ggtt.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 | 39 ++++--------
+> =C2=A0drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c=C2=A0 |=C2=A0 3 +-
+> =C2=A0drivers/gpu/drm/i915/gt/intel_renderstate.c=C2=A0=C2=A0 |=C2=A0 2 +=
+-
+> =C2=A0.../gpu/drm/i915/gt/intel_ring_submission.c=C2=A0=C2=A0 |=C2=A0 2 +=
+-
+> =C2=A0drivers/gpu/drm/i915/gt/selftest_engine_cs.c=C2=A0 |=C2=A0 8 +--
+> =C2=A0drivers/gpu/drm/i915/gt/selftest_execlists.c=C2=A0 | 18 +++---
+> =C2=A0drivers/gpu/drm/i915/gt/selftest_hangcheck.c=C2=A0 | 15 ++---
+> =C2=A0drivers/gpu/drm/i915/gt/selftest_lrc.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 | 16 ++---
+> =C2=A0.../drm/i915/gt/selftest_ring_submission.c=C2=A0=C2=A0=C2=A0 |=C2=
+=A0 2 +-
+> =C2=A0drivers/gpu/drm/i915/gt/selftest_rps.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 | 12 ++--
+> =C2=A0.../gpu/drm/i915/gt/selftest_workarounds.c=C2=A0=C2=A0=C2=A0 |=C2=
+=A0 8 +--
+> =C2=A0drivers/gpu/drm/i915/i915_cmd_parser.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0 4 +-
+> =C2=A0drivers/gpu/drm/i915/i915_debugfs.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
+> =C2=A0drivers/gpu/drm/i915/i915_gem_gtt.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 3 +-
+> =C2=A0drivers/gpu/drm/i915/i915_perf.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
+> =C2=A0drivers/gpu/drm/i915/i915_vma.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 59 +++++++++++++----
 > --
-> 2.21.0.rc0.32.g243a4c7e27
->
+> =C2=A0drivers/gpu/drm/i915/i915_vma.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 52 +++++++++++++++-
+> =C2=A0drivers/gpu/drm/i915/i915_vma_resource.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0 4 +-
+> =C2=A0drivers/gpu/drm/i915/i915_vma_resource.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 | 17 ++++--
+> =C2=A0drivers/gpu/drm/i915/i915_vma_types.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0 3 +-
+> =C2=A0drivers/gpu/drm/i915/selftests/i915_request.c | 20 +++----
+> =C2=A0drivers/gpu/drm/i915/selftests/igt_spinner.c=C2=A0 |=C2=A0 8 +--
+> =C2=A034 files changed, 246 insertions(+), 160 deletions(-)
+>=20
+
