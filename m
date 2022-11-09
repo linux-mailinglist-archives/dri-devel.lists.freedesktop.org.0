@@ -2,118 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29DD1622771
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Nov 2022 10:49:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE3F62277E
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Nov 2022 10:50:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AA7D10E2B0;
-	Wed,  9 Nov 2022 09:48:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C55810E12B;
+	Wed,  9 Nov 2022 09:50:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2058.outbound.protection.outlook.com [40.107.220.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24B4410E0A8;
- Wed,  9 Nov 2022 09:48:52 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FWyEhnzIZz/sSfoxJfpFq6+aUaPkVP7L7Em49+tx4ddXIjGE37dFmdz9VRVQjMinB/PlkUidZ00t8pFjad3gfRIw7lkj23DtI3krx7UQNnrnseKUNlNFuubxSW6jMhFcyVto3uRQsT1UCOWESjKNCuU+df9cwD+5hdCWrQ/AzgNjr50VVWm0/MYL2bJdQ7wsoGKkwz3EojRQgdEMfGDtC0hpPVaS0rvn+MOgrAzmnLuF5Kye30fIxO+xGsQuAczGPvYrmSZyj9kw2mayfjV03Yi7cIamaDbTDL05Zhz0QQGEVNvYVi6R3D3+QciGFbQcvUh1C3iFcBjy0GZhfgvUfg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sqwi1OdDSlzuigFF520g/qM+1jhBLJg+nKEFr7U4Kd0=;
- b=VPj7yvOzclv6yk1sKKNK2hDWxXw8Jevyk21sdzrySLH+IKUvVLsNb40OSchpsC18NzE+Q3YTX5Bn/nucH7ye/s2qGiw0exwrZuzAKh5JYeetHNnx6gMAWZYroauRBqhYatVjvPqhFn3Wd1imDUUR+EuoxKJbbxVoWMXeOkdwi+y2QZV1wE/EEeUBJgOgnS7D6T4KvrydeZ3VMvyCWZDOQyr6Fj99lBjPygDzlz8SS1kkLNOpNWLn1Dh31nXe0UwKcqWw1w366EvX2k8JRJzbs6FMAg5WIDoHQT0GqxSqfQxK8ArC7GyZpzmChUpYCqMHoVD/6CgP2KPdE1D/NgbfIQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sqwi1OdDSlzuigFF520g/qM+1jhBLJg+nKEFr7U4Kd0=;
- b=Eb20HM8s31xcNuwuk+8bSFsH+QHiwi0LN7LcG+hy39Lh0mHcnl+v4QVxkgwQuOKOeMRNbYJbB31PLjGZ8pt7yy4lXqvTG0rrGotEqZgJ3j794uolqxevLDCOAAdSnI3D0duqmqGRwJj+Bgi4goK6NEsLRTcxPslXA2a9nD5bjx0=
-Received: from CO6PR12MB5489.namprd12.prod.outlook.com (2603:10b6:303:139::18)
- by DS0PR12MB7605.namprd12.prod.outlook.com (2603:10b6:8:13d::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.26; Wed, 9 Nov
- 2022 09:48:45 +0000
-Received: from CO6PR12MB5489.namprd12.prod.outlook.com
- ([fe80::2509:5f0c:f0f4:882d]) by CO6PR12MB5489.namprd12.prod.outlook.com
- ([fe80::2509:5f0c:f0f4:882d%3]) with mapi id 15.20.5813.012; Wed, 9 Nov 2022
- 09:48:45 +0000
-From: "Lin, Wayne" <Wayne.Lin@amd.com>
-To: Lyude Paul <lyude@redhat.com>, "amd-gfx@lists.freedesktop.org"
- <amd-gfx@lists.freedesktop.org>
-Subject: RE: [PATCH 1/2] drm/amdgpu/mst: Stop ignoring error codes and
- deadlocking
-Thread-Topic: [PATCH 1/2] drm/amdgpu/mst: Stop ignoring error codes and
- deadlocking
-Thread-Index: AQHY8KmDMbF79LTxvE27gfK2SyT5Bq42XHDQ
-Date: Wed, 9 Nov 2022 09:48:45 +0000
-Message-ID: <CO6PR12MB5489E3850FE3C9FBDA7BAC29FC3E9@CO6PR12MB5489.namprd12.prod.outlook.com>
-References: <20221104235926.302883-1-lyude@redhat.com>
- <20221104235926.302883-2-lyude@redhat.com>
-In-Reply-To: <20221104235926.302883-2-lyude@redhat.com>
-Accept-Language: en-US, zh-TW
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Enabled=true;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SetDate=2022-11-09T09:48:34Z; 
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Method=Privileged;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Name=Public-AIP 2.0;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ActionId=7634b220-8709-4bdc-b720-34b477742d9a;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ContentBits=1
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CO6PR12MB5489:EE_|DS0PR12MB7605:EE_
-x-ms-office365-filtering-correlation-id: 1ae24466-150f-43f7-c203-08dac23797e0
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: mkSaSqekt2Jf5IKZfBLIY4rf6Iag3XcsgdJEjsxodTOvNIESWydvCwYEfSu5cpNRdSXwYCB3daEQfLEFBJ/Qy57Ena2IhC6FfbGM86FAd1RGe9lMlZhHObYD/rRcPQzB4o4SdZIQaRJijTJdWd6FTEWOFBb0WVY9uACb+OUbAXQeqTVG7Scl9/wULa31aSrtIGU+H+waLV5ZXmB54zio8cTHjzZY3UjHX8dvT8Y1kP50D8BE2kd63en7cqbRHNzMqX5ZR/Wo2EsU8YMN7t9zpu7n4vcUFSIskPYIUDGGHywNR7aLOFljz+W8aSa4ps7Ip5PXfaQG2/5kEWs03MCNcO4EYOr1tQ22bDXf4Q0J7gU4JNBSYFQt0W2rEcfWnkguYa0C+TKNrUYeeU/w91qU6egd0zLtgNzw8EOT1vfhBxNc5a+iY3C9nrsZguml04f3SEbHjSyxf5Z1llCPW20BuMp6405Bu+JxoIoQtEcbHt51h0xfWxsTJ3S9Y7Ye/VnB4TFC78r8ahpIWyxQiMP+P79D1LxJU3vyjsry7d+heS2G570LOeimoWP0weLWzvzXdedOf4NcfTT1o7gw2Ssab04c9YRgIITDCNpL0Wg1ldDy4+LVYgdfYtvFurCVWe9gtcygyPGb7PjGHJEA9KLlQamnFb9eSPcjoOMyEu8uT5jONabcJZJbAMYLN8d4tlYxoeXFPid3tfAZB8fH5jWL3XFM+68M/bZUbaOs6CNjt27KbrKQyA5AUjvhxLSrtckbU0a6WlwgfOOJX7uVF9F8Lx+cFb2VvrFWqnnq7qiOq1o=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5489.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(366004)(396003)(136003)(346002)(39860400002)(376002)(451199015)(38070700005)(122000001)(38100700002)(86362001)(55016003)(33656002)(71200400001)(316002)(54906003)(110136005)(478600001)(8936002)(41300700001)(30864003)(52536014)(5660300002)(7696005)(8676002)(4326008)(76116006)(2906002)(66556008)(66476007)(66946007)(64756008)(66446008)(53546011)(6506007)(26005)(9686003)(83380400001)(186003)(11716005);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?k+vKMywCPLpD4xwEKiyoZSlg2f2dtqytqv+/kX4B2ZQQMyXgbmY2tsyKkXao?=
- =?us-ascii?Q?lz/LyceIlLsoEiC49xi6UTyZ7hY2Ge5lLgw6MnJhR8LJ8DphahfRTkoCgZRe?=
- =?us-ascii?Q?vVPbpTvwt94enUF8QQEWMw/D8K0A3OUs3BxeBiTEfQ+T7NQnzEuA9i5oZWYD?=
- =?us-ascii?Q?EUn5t3Y8PLTTYv1JxCtT+2UyT2QKfd44YM0upF4TANBzqHFVVS50uxpaJQNC?=
- =?us-ascii?Q?uHu9nk3nq1uDCIaQUbJEbjrJvM8hTowzkc4R2zPAEjDEhYQXs5yfpCLIcLuv?=
- =?us-ascii?Q?s8YYwmW/yqAZUIh+XWBHARz3nWCdUL8SvtBDIiiUu8yoFGC+WF/jhJhc/wB2?=
- =?us-ascii?Q?VCo/7n+sMiBy2urvacEQ3WHXZgu65mBlwB0g7YkX/GPUPnwyjPcrM4pT6lvM?=
- =?us-ascii?Q?nbT0H2H7kqnCWH9HTPO88hj1AeXOtlcghPDSdbwDZvBOOy4iux3BovGrBeHl?=
- =?us-ascii?Q?VbhGkuP+rbqhN4n3QwGuRsll/WUheyoL8cPxd/oV4nvhcX3wSsE6/5PCmWD6?=
- =?us-ascii?Q?lsY/p1OhIY1OleDOwm0mpVY+z87DYcXbc6eU/RYMk/tYZO9iW+PD4SOX8D50?=
- =?us-ascii?Q?x0Ya/8xa/yI1Sd3HAtWoHcCtFgfXBEmjPceXRYYaxCxmPZUUHXZao3Y2Hm4s?=
- =?us-ascii?Q?LAoXdaOUrMxqQvkm14R/x+E0vzVxpuW3hTDJKdD7jQp3ps1Bj8/Vs9+AUiOF?=
- =?us-ascii?Q?/FPBrTwrxItqiP8XF1ROi7xiEVCR0WVRj/72ULmxu30q8pKLQX4fjWBNJLlc?=
- =?us-ascii?Q?r2Cm0iMAuYVQLOjEzmDGG3fxEj9eJZZAqUUpwy5GvKHWMGFKa7AKp0xmddK0?=
- =?us-ascii?Q?DAXe2WiLf585a56RlgcTfRG5BtZUmI+g2bYPLLpRDpZ8oVAASgi7TCSWJRv5?=
- =?us-ascii?Q?kHxVoo3IlFv4mUEKW5lhN2T5zdQZwOMP3IwXwbu/avi497+sZ9EiuinZfY4m?=
- =?us-ascii?Q?2ci5jOuy2GG53i4i5LMCQqhprDQsHCR5p0pW7BwzNrGly3NnIUDIC5YTjg0A?=
- =?us-ascii?Q?lCam8sUgomfkuBd/LbxrYm1W7aeEAmEfz0QCDJktIS1BmI/e4xbGGNJsE1EJ?=
- =?us-ascii?Q?8Ek6m0i508ns8sicANPrkv2/dQ9FBeo1LtPvM8kXwC+cl17PXb+QeQkFIqEE?=
- =?us-ascii?Q?KT9WXPJ5LH7Y00NhXLeB0J7Ux1kBD0pV0HVlKawJivOMjgY2pBPtWp/oYBQ9?=
- =?us-ascii?Q?nYXl5eWemdyQScUtvX+KglSgdkLkbtscBotEjXbFHY5R4Jd0Y9XnK71481WR?=
- =?us-ascii?Q?Lq0WaR+fHBxfEaABQstZOafW54oYGMXNpcLFy9qnjrkpGSS4vS6yXXbstoNY?=
- =?us-ascii?Q?u690BORBEB5jkt0csC2O0q6piRXl4goa9CaFFsefY+Q2gA93nYeoKQ3GHBDY?=
- =?us-ascii?Q?qKlGgj0slwCsNIeidDq5B2JuvzWfvG6jBtQsC6HNqoqcVZ9x843a+v4vgZQF?=
- =?us-ascii?Q?BV/RKyFBvJKTSaYPQUFlH9djcHqkI7wHL2tbVMUcdI+1g4jQL0zmUFgWtdBf?=
- =?us-ascii?Q?yd9Q3QqQDn9RVw68T1kcg8lf3VEo7Bhyrx+t2gbsjSYBWEjg3AYIF7gZNrmJ?=
- =?us-ascii?Q?yBsZKTKxr8iv0Fv5auI=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E208910E12B
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 09:50:14 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id l11so26382181edb.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Nov 2022 01:50:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZDbzL71qJGKEEWxhHhjVdFL1vfQxk8fIaF9WfWTQzrc=;
+ b=pGS3SYmk3psyYPHIkNGOOz0PyD8tZnh8P1rg9rKQB/Pl+1DPjjC9gQrT7znnxVYjAx
+ 3ELIzNt2mrWpxM3BA0gdPuGNKXhPXi+a2Df2R7E4/QAySlImveUEq3oRfBW6b2eueU2Q
+ aCgFhXMG6XkV9JId0b0dcZnatQ66G9ai3W122cR6WAWnVwupYQtUXYKmwj398xiI1LAW
+ bYFPdgnVWAfsUWWeeqBIZPQAji8emBrkKafPbdBpCyxVtWvTVmFuHWFSGPPKlwWPhm7x
+ xkZY5CmI298LYxKL0i5Pw5QpHxR00kVIKwX5J4zZbufkUxYoqlOT/VYucb+/mF2H/Xc+
+ OitQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ZDbzL71qJGKEEWxhHhjVdFL1vfQxk8fIaF9WfWTQzrc=;
+ b=QSgOLQYDd3L24ASFpw2cXk7BuDzzanUIhNu97f4IvyGH5XtZYLoT36WQ36qD5U/hQf
+ 7/kfYnlp6e+zXJwNTI8CIJkggQaOYMEtdi7VrJ/HzKIRwczACJU9A+PKa9hKvKFr7h52
+ aSiCqygjUQYyHOUEipRbpS00gxIlhYOaWZUK7uI+KIRjuC8wFSXIEHsDohnr05vXebrz
+ oeW8mwpGXMw00+mMVVjBiUFK1tJd4bkFUgAZiI5453nNhfz6uMrtoaQmOeZk+Xr+M+47
+ IDHIXpCoROcp165dAf2zddb6kzfeWPFCMt7tZT7gH9Wbb9zfI5biX8EQxevPfIW0IsMt
+ 4VtA==
+X-Gm-Message-State: ACrzQf0rH7lOgJwcAr0jT9RQHLzViLwK91XvycVt29E7ZA3v+hbr7SL+
+ hDNRaBvw2ZYC1Kl4E3ZbTIgwwPTm7zY=
+X-Google-Smtp-Source: AMsMyM4OmcnJ8Fa9WX2WRakTnwvferlD8GphTEUaaWfbcbrxjzgERyDG2XH9lkyWDWFm5lW7+nmR5w==
+X-Received: by 2002:a05:6402:1767:b0:461:f1c6:1f22 with SMTP id
+ da7-20020a056402176700b00461f1c61f22mr1126435edb.95.1667987412901; 
+ Wed, 09 Nov 2022 01:50:12 -0800 (PST)
+Received: from able.fritz.box (p5b0ea229.dip0.t-ipconnect.de. [91.14.162.41])
+ by smtp.gmail.com with ESMTPSA id
+ s12-20020a1709062ecc00b00780f24b797dsm5604543eji.108.2022.11.09.01.50.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Nov 2022 01:50:12 -0800 (PST)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: Alexander.Deucher@amd.com, daniel.vetter@ffwll.ch,
+ dri-devel@lists.freedesktop.org, Shaoyun.Liu@amd.com
+Subject: [PATCH 1/5] drm/amd/amdgpu revert "implement tdr advanced mode"
+Date: Wed,  9 Nov 2022 10:50:06 +0100
+Message-Id: <20221109095010.141189-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5489.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1ae24466-150f-43f7-c203-08dac23797e0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Nov 2022 09:48:45.2957 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: iUU5OXd3kcXsLNhJ8rORv9liLEh7IJ/r/A/pf75j8TliIZNCQ6m800ln4KWIJ8wJyim5u7y2I6KMhtZj8qK4PQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7605
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,485 +72,333 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Liu, Wenjing" <Wenjing.Liu@amd.com>, "open list:DRM
- DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>, "Mahfooz,
- Hamza" <Hamza.Mahfooz@amd.com>, "Francis, David" <David.Francis@amd.com>,
- "Siqueira, Rodrigo" <Rodrigo.Siqueira@amd.com>, "Hung,
- Alex" <Alex.Hung@amd.com>, "Zuo, Jerry" <Jerry.Zuo@amd.com>, "Pillai,
- Aurabindo" <Aurabindo.Pillai@amd.com>, "Li,
- Sun peng \(Leo\)" <Sunpeng.Li@amd.com>, "Wu, Hersen" <hersenxs.wu@amd.com>,
- Mikita Lipski <mikita.lipski@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>, "Li,
- Roman" <Roman.Li@amd.com>, "stable@vger.kernel.org" <stable@vger.kernel.org>,
- "Koenig, Christian" <Christian.Koenig@amd.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, "Kazlauskas,
- Nicholas" <Nicholas.Kazlauskas@amd.com>
+Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Public]
+This reverts commit e6c6338f393b74ac0b303d567bb918b44ae7ad75.
 
-Thanks, Lyude!
-Comments inline.
+This feature basically re-submits one job after another to
+figure out which one was the one causing a hang.
 
-> -----Original Message-----
-> From: Lyude Paul <lyude@redhat.com>
-> Sent: Saturday, November 5, 2022 7:59 AM
-> To: amd-gfx@lists.freedesktop.org
-> Cc: Wentland, Harry <Harry.Wentland@amd.com>; stable@vger.kernel.org;
-> Li, Sun peng (Leo) <Sunpeng.Li@amd.com>; Siqueira, Rodrigo
-> <Rodrigo.Siqueira@amd.com>; Deucher, Alexander
-> <Alexander.Deucher@amd.com>; Koenig, Christian
-> <Christian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>; David
-> Airlie <airlied@gmail.com>; Daniel Vetter <daniel@ffwll.ch>; Kazlauskas,
-> Nicholas <Nicholas.Kazlauskas@amd.com>; Pillai, Aurabindo
-> <Aurabindo.Pillai@amd.com>; Li, Roman <Roman.Li@amd.com>; Zuo, Jerry
-> <Jerry.Zuo@amd.com>; Wu, Hersen <hersenxs.wu@amd.com>; Lin, Wayne
-> <Wayne.Lin@amd.com>; Thomas Zimmermann <tzimmermann@suse.de>;
-> Mahfooz, Hamza <Hamza.Mahfooz@amd.com>; Hung, Alex
-> <Alex.Hung@amd.com>; Francis, David <David.Francis@amd.com>; Mikita
-> Lipski <mikita.lipski@amd.com>; Liu, Wenjing <Wenjing.Liu@amd.com>;
-> open list:DRM DRIVERS <dri-devel@lists.freedesktop.org>; open list <linux=
--
-> kernel@vger.kernel.org>
-> Subject: [PATCH 1/2] drm/amdgpu/mst: Stop ignoring error codes and
-> deadlocking
->=20
-> It appears that amdgpu makes the mistake of completely ignoring the retur=
-n
-> values from the DP MST helpers, and instead just returns a simple true/fa=
-lse.
-> In this case, it seems to have come back to bite us because as a result o=
-f
-> simply returning false from compute_mst_dsc_configs_for_state(), amdgpu
-> had no way of telling when a deadlock happened from these helpers. This
-> could definitely result in some kernel splats.
->=20
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> Fixes: 8c20a1ed9b4f ("drm/amd/display: MST DSC compute fair share")
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: <stable@vger.kernel.org> # v5.6+
-> ---
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  18 +--
->  .../display/amdgpu_dm/amdgpu_dm_mst_types.c   | 107 ++++++++++------
-> --
->  .../display/amdgpu_dm/amdgpu_dm_mst_types.h   |  12 +-
->  3 files changed, 73 insertions(+), 64 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 0db2a88cd4d7b..6f76b2c84cdb5 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -6462,7 +6462,7 @@ static int
-> dm_update_mst_vcpi_slots_for_dsc(struct drm_atomic_state *state,
->  	struct drm_connector_state *new_con_state;
->  	struct amdgpu_dm_connector *aconnector;
->  	struct dm_connector_state *dm_conn_state;
-> -	int i, j;
-> +	int i, j, ret;
->  	int vcpi, pbn_div, pbn, slot_num =3D 0;
->=20
->  	for_each_new_connector_in_state(state, connector,
-> new_con_state, i) { @@ -6509,8 +6509,11 @@ static int
-> dm_update_mst_vcpi_slots_for_dsc(struct drm_atomic_state *state,
->  			dm_conn_state->pbn =3D pbn;
->  			dm_conn_state->vcpi_slots =3D slot_num;
->=20
-> -			drm_dp_mst_atomic_enable_dsc(state, aconnector-
-> >port, dm_conn_state->pbn,
-> -						     false);
-> +			ret =3D drm_dp_mst_atomic_enable_dsc(state,
-> aconnector->port,
-> +							   dm_conn_state-
-> >pbn, false);
-> +			if (ret !=3D 0)
-> +				return ret;
-> +
->  			continue;
->  		}
->=20
-> @@ -9523,10 +9526,9 @@ static int amdgpu_dm_atomic_check(struct
-> drm_device *dev,
->=20
->  #if defined(CONFIG_DRM_AMD_DC_DCN)
->  	if (dc_resource_is_dsc_encoding_supported(dc)) {
-> -		if (!pre_validate_dsc(state, &dm_state, vars)) {
-> -			ret =3D -EINVAL;
-> +		ret =3D pre_validate_dsc(state, &dm_state, vars);
-> +		if (ret !=3D 0)
->  			goto fail;
-> -		}
->  	}
->  #endif
->=20
-> @@ -9621,9 +9623,9 @@ static int amdgpu_dm_atomic_check(struct
-> drm_device *dev,
->  		}
->=20
->  #if defined(CONFIG_DRM_AMD_DC_DCN)
-> -		if (!compute_mst_dsc_configs_for_state(state, dm_state-
-> >context, vars)) {
-> +		ret =3D compute_mst_dsc_configs_for_state(state, dm_state-
-> >context, vars);
-> +		if (ret) {
->=20
-> 	DRM_DEBUG_DRIVER("compute_mst_dsc_configs_for_state()
-> failed\n");
-> -			ret =3D -EINVAL;
->  			goto fail;
->  		}
->=20
-> diff --git
-> a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> index 6ff96b4bdda5c..30bc2e5058b70 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> +++
-> b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> @@ -864,25 +864,25 @@ static bool try_disable_dsc(struct
-> drm_atomic_state *state,
->  	return true;
->  }
->=20
-> -static bool compute_mst_dsc_configs_for_link(struct drm_atomic_state
-> *state,
-> -					     struct dc_state *dc_state,
-> -					     struct dc_link *dc_link,
-> -					     struct dsc_mst_fairness_vars *vars,
-> -					     struct drm_dp_mst_topology_mgr
-> *mgr,
-> -					     int *link_vars_start_index)
-> +static int compute_mst_dsc_configs_for_link(struct drm_atomic_state
-> *state,
-> +					    struct dc_state *dc_state,
-> +					    struct dc_link *dc_link,
-> +					    struct dsc_mst_fairness_vars *vars,
-> +					    struct drm_dp_mst_topology_mgr
-> *mgr,
-> +					    int *link_vars_start_index)
->  {
->  	struct dc_stream_state *stream;
->  	struct dsc_mst_fairness_params params[MAX_PIPES];
->  	struct amdgpu_dm_connector *aconnector;
->  	struct drm_dp_mst_topology_state *mst_state =3D
-> drm_atomic_get_mst_topology_state(state, mgr);
->  	int count =3D 0;
-> -	int i, k;
-> +	int i, k, ret;
->  	bool debugfs_overwrite =3D false;
->=20
->  	memset(params, 0, sizeof(params));
->=20
->  	if (IS_ERR(mst_state))
-> -		return false;
-> +		return PTR_ERR(mst_state);
->=20
->  	mst_state->pbn_div =3D dm_mst_get_pbn_divider(dc_link);  #if
-> defined(CONFIG_DRM_AMD_DC_DCN) @@ -933,7 +933,7 @@ static bool
-> compute_mst_dsc_configs_for_link(struct drm_atomic_state *state,
->=20
->  	if (count =3D=3D 0) {
->  		ASSERT(0);
-> -		return true;
-> +		return 0;
->  	}
->=20
->  	/* k is start index of vars for current phy link used by mst hub */ @@
-> -949,11 +949,14 @@ static bool compute_mst_dsc_configs_for_link(struct
-> drm_atomic_state *state,
->  		vars[i + k].bpp_x16 =3D 0;
->  		if (drm_dp_atomic_find_time_slots(state, params[i].port-
-> >mgr, params[i].port,
->  						  vars[i + k].pbn) < 0)
-> -			return false;
-> +			return -EINVAL;
+This is obviously incompatible with gang-submit which requires
+that multiple jobs run at the same time. It's also absolutely
+not helpful to crash the hardware multiple times if a clean
+recovery is desired.
 
-Should we also return the error code get from drm_dp_atomic_find_time_slots=
-() rather than=20
-assigning a new one here?
+For testing and debugging environments we should rather disable
+recovery alltogether to be able to inspect the state with a hw
+debugger.
 
->  	}
-> -	if (!drm_dp_mst_atomic_check(state) && !debugfs_overwrite) {
-> +	ret =3D drm_dp_mst_atomic_check(state);
-> +	if (ret =3D=3D 0 && !debugfs_overwrite) {
->  		set_dsc_configs_from_fairness_vars(params, vars, count, k);
-> -		return true;
-> +		return 0;
-> +	} else if (ret =3D=3D -EDEADLK) {
-> +		return ret;
+Additional to that the sw implementation is clearly buggy and causes
+reference count issues for the hardware fence.
 
-I think we should return here whenever there is an error. Not just for EDEA=
-DLK case.=20
-
->  	}
->=20
->  	/* Try max compression */
-> @@ -964,29 +967,30 @@ static bool
-> compute_mst_dsc_configs_for_link(struct drm_atomic_state *state,
->  			vars[i + k].bpp_x16 =3D
-> params[i].bw_range.min_target_bpp_x16;
->  			if (drm_dp_atomic_find_time_slots(state,
-> params[i].port->mgr,
->  							  params[i].port, vars[i
-> + k].pbn) < 0)
-> -				return false;
-> +				return -EINVAL;
-
-Same as above.
-
->  		} else {
->  			vars[i + k].pbn =3D
-> kbps_to_peak_pbn(params[i].bw_range.stream_kbps);
->  			vars[i + k].dsc_enabled =3D false;
->  			vars[i + k].bpp_x16 =3D 0;
->  			if (drm_dp_atomic_find_time_slots(state,
-> params[i].port->mgr,
->  							  params[i].port, vars[i
-> + k].pbn) < 0)
-> -				return false;
-> +				return -EINVAL;
-
-Same as above.
-
->  		}
->  	}
-> -	if (drm_dp_mst_atomic_check(state))
-> -		return false;
-> +	ret =3D drm_dp_mst_atomic_check(state);
-> +	if (ret !=3D 0)
-> +		return ret;
->=20
->  	/* Optimize degree of compression */
->  	if (!increase_dsc_bpp(state, mst_state, dc_link, params, vars, count,
-> k))
-> -		return false;
-> +		return -ENOSPC;
->=20
->  	if (!try_disable_dsc(state, dc_link, params, vars, count, k))
-> -		return false;
-> +		return -ENOSPC;
->=20
->  	set_dsc_configs_from_fairness_vars(params, vars, count, k);
->=20
-> -	return true;
-> +	return 0;
->  }
->=20
->  static bool is_dsc_need_re_compute(
-> @@ -1087,15 +1091,16 @@ static bool is_dsc_need_re_compute(
->  	return is_dsc_need_re_compute;
->  }
->=20
-> -bool compute_mst_dsc_configs_for_state(struct drm_atomic_state *state,
-> -				       struct dc_state *dc_state,
-> -				       struct dsc_mst_fairness_vars *vars)
-> +int compute_mst_dsc_configs_for_state(struct drm_atomic_state *state,
-> +				      struct dc_state *dc_state,
-> +				      struct dsc_mst_fairness_vars *vars)
->  {
->  	int i, j;
->  	struct dc_stream_state *stream;
->  	bool computed_streams[MAX_PIPES];
->  	struct amdgpu_dm_connector *aconnector;
->  	int link_vars_start_index =3D 0;
-> +	int ret =3D 0;
->=20
->  	for (i =3D 0; i < dc_state->stream_count; i++)
->  		computed_streams[i] =3D false;
-> @@ -1118,17 +1123,19 @@ bool compute_mst_dsc_configs_for_state(struct
-> drm_atomic_state *state,
->  			continue;
->=20
->  		if (dcn20_remove_stream_from_ctx(stream->ctx->dc,
-> dc_state, stream) !=3D DC_OK)
-> -			return false;
-> +			return -EINVAL;
->=20
->  		if (!is_dsc_need_re_compute(state, dc_state, stream->link))
->  			continue;
->=20
->  		mutex_lock(&aconnector->mst_mgr.lock);
-> -		if (!compute_mst_dsc_configs_for_link(state, dc_state,
-> stream->link, vars,
-> -						      &aconnector->mst_mgr,
-> -						      &link_vars_start_index)) {
-> +
-> +		ret =3D compute_mst_dsc_configs_for_link(state, dc_state,
-> stream->link, vars,
-> +						       &aconnector->mst_mgr,
-> +						       &link_vars_start_index);
-> +		if (ret !=3D 0) {
->  			mutex_unlock(&aconnector->mst_mgr.lock);
-> -			return false;
-> +			return ret;
->  		}
->  		mutex_unlock(&aconnector->mst_mgr.lock);
->=20
-> @@ -1143,22 +1150,22 @@ bool compute_mst_dsc_configs_for_state(struct
-> drm_atomic_state *state,
->=20
->  		if (stream->timing.flags.DSC =3D=3D 1)
->  			if (dc_stream_add_dsc_to_resource(stream->ctx-
-> >dc, dc_state, stream) !=3D DC_OK)
-> -				return false;
-> +				return -EINVAL;
->  	}
->=20
-> -	return true;
-> +	return ret;
->  }
->=20
-> -static bool
-> -	pre_compute_mst_dsc_configs_for_state(struct drm_atomic_state
-> *state,
-> -					      struct dc_state *dc_state,
-> -					      struct dsc_mst_fairness_vars
-> *vars)
-> +static int pre_compute_mst_dsc_configs_for_state(struct
-> drm_atomic_state *state,
-> +						 struct dc_state *dc_state,
-> +						 struct dsc_mst_fairness_vars
-> *vars)
->  {
->  	int i, j;
->  	struct dc_stream_state *stream;
->  	bool computed_streams[MAX_PIPES];
->  	struct amdgpu_dm_connector *aconnector;
->  	int link_vars_start_index =3D 0;
-> +	int ret;
->=20
->  	for (i =3D 0; i < dc_state->stream_count; i++)
->  		computed_streams[i] =3D false;
-> @@ -1184,13 +1191,12 @@ static bool
->  			continue;
->=20
->  		mutex_lock(&aconnector->mst_mgr.lock);
-> -		if (!compute_mst_dsc_configs_for_link(state, dc_state,
-> stream->link, vars,
-> -						      &aconnector->mst_mgr,
-> -						      &link_vars_start_index)) {
-> -			mutex_unlock(&aconnector->mst_mgr.lock);
-> -			return false;
-> -		}
-> +		ret =3D compute_mst_dsc_configs_for_link(state, dc_state,
-> stream->link, vars,
-> +						       &aconnector->mst_mgr,
-> +						       &link_vars_start_index);
->  		mutex_unlock(&aconnector->mst_mgr.lock);
-> +		if (ret !=3D 0)
-> +			return ret;
->=20
->  		for (j =3D 0; j < dc_state->stream_count; j++) {
->  			if (dc_state->streams[j]->link =3D=3D stream->link) @@ -
-> 1198,7 +1204,7 @@ static bool
->  		}
->  	}
->=20
-> -	return true;
-> +	return ret;
->  }
->=20
->  static int find_crtc_index_in_state_by_stream(struct drm_atomic_state
-> *state, @@ -1253,9 +1259,9 @@ static bool
-> is_dsc_precompute_needed(struct drm_atomic_state *state)
->  	return ret;
->  }
->=20
-> -bool pre_validate_dsc(struct drm_atomic_state *state,
-> -		      struct dm_atomic_state **dm_state_ptr,
-> -		      struct dsc_mst_fairness_vars *vars)
-> +int pre_validate_dsc(struct drm_atomic_state *state,
-> +		     struct dm_atomic_state **dm_state_ptr,
-> +		     struct dsc_mst_fairness_vars *vars)
->  {
->  	int i;
->  	struct dm_atomic_state *dm_state;
-> @@ -1264,11 +1270,12 @@ bool pre_validate_dsc(struct drm_atomic_state
-> *state,
->=20
->  	if (!is_dsc_precompute_needed(state)) {
->  		DRM_INFO_ONCE("DSC precompute is not needed.\n");
-> -		return true;
-> +		return 0;
->  	}
-> -	if (dm_atomic_get_state(state, dm_state_ptr)) {
-> +	ret =3D dm_atomic_get_state(state, dm_state_ptr);
-> +	if (ret !=3D 0) {
->  		DRM_INFO_ONCE("dm_atomic_get_state() failed\n");
-> -		return false;
-> +		return ret;
->  	}
->  	dm_state =3D *dm_state_ptr;
->=20
-> @@ -1280,7 +1287,7 @@ bool pre_validate_dsc(struct drm_atomic_state
-> *state,
->=20
->  	local_dc_state =3D kmemdup(dm_state->context, sizeof(struct
-> dc_state), GFP_KERNEL);
->  	if (!local_dc_state)
-> -		return false;
-> +		return -ENOMEM;
->=20
->  	for (i =3D 0; i < local_dc_state->stream_count; i++) {
->  		struct dc_stream_state *stream =3D dm_state->context-
-> >streams[i]; @@ -1316,9 +1323,9 @@ bool pre_validate_dsc(struct
-> drm_atomic_state *state,
->  	if (ret !=3D 0)
->  		goto clean_exit;
->=20
-> -	if (!pre_compute_mst_dsc_configs_for_state(state, local_dc_state,
-> vars)) {
-> +	ret =3D pre_compute_mst_dsc_configs_for_state(state, local_dc_state,
-> vars);
-> +	if (ret !=3D 0) {
->=20
-> 	DRM_INFO_ONCE("pre_compute_mst_dsc_configs_for_state()
-> failed\n");
-> -		ret =3D -EINVAL;
->  		goto clean_exit;
->  	}
->=20
-> @@ -1349,7 +1356,7 @@ bool pre_validate_dsc(struct drm_atomic_state
-> *state,
->=20
->  	kfree(local_dc_state);
->=20
-> -	return (ret =3D=3D 0);
-> +	return ret;
->  }
->=20
->  static unsigned int kbps_from_pbn(unsigned int pbn) diff --git
-> a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.h
-> b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.h
-> index b92a7c5671aa2..97fd70df531bf 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.h
-> +++
-> b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.h
-> @@ -53,15 +53,15 @@ struct dsc_mst_fairness_vars {
->  	struct amdgpu_dm_connector *aconnector;  };
->=20
-> -bool compute_mst_dsc_configs_for_state(struct drm_atomic_state *state,
-> -				       struct dc_state *dc_state,
-> -				       struct dsc_mst_fairness_vars *vars);
-> +int compute_mst_dsc_configs_for_state(struct drm_atomic_state *state,
-> +				      struct dc_state *dc_state,
-> +				      struct dsc_mst_fairness_vars *vars);
->=20
->  bool needs_dsc_aux_workaround(struct dc_link *link);
->=20
-> -bool pre_validate_dsc(struct drm_atomic_state *state,
-> -		      struct dm_atomic_state **dm_state_ptr,
-> -		      struct dsc_mst_fairness_vars *vars);
-> +int pre_validate_dsc(struct drm_atomic_state *state,
-> +		     struct dm_atomic_state **dm_state_ptr,
-> +		     struct dsc_mst_fairness_vars *vars);
->=20
->  enum dc_status dm_dp_mst_is_port_support_mode(
->  	struct amdgpu_dm_connector *aconnector,
-> --
-> 2.37.3
+Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
-Regards,
-Wayne Lin
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 103 ---------------------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    |   2 +-
+ drivers/gpu/drm/scheduler/sched_main.c     |  58 ++----------
+ include/drm/gpu_scheduler.h                |   3 -
+ 4 files changed, 10 insertions(+), 156 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index 5b9f992e4607..0da55fd97df8 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -5077,94 +5077,6 @@ static int amdgpu_device_suspend_display_audio(struct amdgpu_device *adev)
+ 	return 0;
+ }
+ 
+-static void amdgpu_device_recheck_guilty_jobs(
+-	struct amdgpu_device *adev, struct list_head *device_list_handle,
+-	struct amdgpu_reset_context *reset_context)
+-{
+-	int i, r = 0;
+-
+-	for (i = 0; i < AMDGPU_MAX_RINGS; ++i) {
+-		struct amdgpu_ring *ring = adev->rings[i];
+-		int ret = 0;
+-		struct drm_sched_job *s_job;
+-
+-		if (!ring || !ring->sched.thread)
+-			continue;
+-
+-		s_job = list_first_entry_or_null(&ring->sched.pending_list,
+-				struct drm_sched_job, list);
+-		if (s_job == NULL)
+-			continue;
+-
+-		/* clear job's guilty and depend the folowing step to decide the real one */
+-		drm_sched_reset_karma(s_job);
+-		drm_sched_resubmit_jobs_ext(&ring->sched, 1);
+-
+-		if (!s_job->s_fence->parent) {
+-			DRM_WARN("Failed to get a HW fence for job!");
+-			continue;
+-		}
+-
+-		ret = dma_fence_wait_timeout(s_job->s_fence->parent, false, ring->sched.timeout);
+-		if (ret == 0) { /* timeout */
+-			DRM_ERROR("Found the real bad job! ring:%s, job_id:%llx\n",
+-						ring->sched.name, s_job->id);
+-
+-
+-			amdgpu_fence_driver_isr_toggle(adev, true);
+-
+-			/* Clear this failed job from fence array */
+-			amdgpu_fence_driver_clear_job_fences(ring);
+-
+-			amdgpu_fence_driver_isr_toggle(adev, false);
+-
+-			/* Since the job won't signal and we go for
+-			 * another resubmit drop this parent pointer
+-			 */
+-			dma_fence_put(s_job->s_fence->parent);
+-			s_job->s_fence->parent = NULL;
+-
+-			/* set guilty */
+-			drm_sched_increase_karma(s_job);
+-			amdgpu_reset_prepare_hwcontext(adev, reset_context);
+-retry:
+-			/* do hw reset */
+-			if (amdgpu_sriov_vf(adev)) {
+-				amdgpu_virt_fini_data_exchange(adev);
+-				r = amdgpu_device_reset_sriov(adev, false);
+-				if (r)
+-					adev->asic_reset_res = r;
+-			} else {
+-				clear_bit(AMDGPU_SKIP_HW_RESET,
+-					  &reset_context->flags);
+-				r = amdgpu_do_asic_reset(device_list_handle,
+-							 reset_context);
+-				if (r && r == -EAGAIN)
+-					goto retry;
+-			}
+-
+-			/*
+-			 * add reset counter so that the following
+-			 * resubmitted job could flush vmid
+-			 */
+-			atomic_inc(&adev->gpu_reset_counter);
+-			continue;
+-		}
+-
+-		/* got the hw fence, signal finished fence */
+-		atomic_dec(ring->sched.score);
+-		dma_fence_get(&s_job->s_fence->finished);
+-		dma_fence_signal(&s_job->s_fence->finished);
+-		dma_fence_put(&s_job->s_fence->finished);
+-
+-		/* remove node from list and free the job */
+-		spin_lock(&ring->sched.job_list_lock);
+-		list_del_init(&s_job->list);
+-		spin_unlock(&ring->sched.job_list_lock);
+-		ring->sched.ops->free_job(s_job);
+-	}
+-}
+-
+ static inline void amdgpu_device_stop_pending_resets(struct amdgpu_device *adev)
+ {
+ 	struct amdgpu_ras *con = amdgpu_ras_get_context(adev);
+@@ -5185,7 +5097,6 @@ static inline void amdgpu_device_stop_pending_resets(struct amdgpu_device *adev)
+ 
+ }
+ 
+-
+ /**
+  * amdgpu_device_gpu_recover - reset the asic and recover scheduler
+  *
+@@ -5208,7 +5119,6 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
+ 	int i, r = 0;
+ 	bool need_emergency_restart = false;
+ 	bool audio_suspended = false;
+-	int tmp_vram_lost_counter;
+ 	bool gpu_reset_for_dev_remove = false;
+ 
+ 	gpu_reset_for_dev_remove =
+@@ -5354,7 +5264,6 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
+ 		amdgpu_device_stop_pending_resets(tmp_adev);
+ 	}
+ 
+-	tmp_vram_lost_counter = atomic_read(&((adev)->vram_lost_counter));
+ 	/* Actual ASIC resets if needed.*/
+ 	/* Host driver will handle XGMI hive reset for SRIOV */
+ 	if (amdgpu_sriov_vf(adev)) {
+@@ -5379,18 +5288,6 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
+ 	/* Post ASIC reset for all devs .*/
+ 	list_for_each_entry(tmp_adev, device_list_handle, reset_list) {
+ 
+-		/*
+-		 * Sometimes a later bad compute job can block a good gfx job as gfx
+-		 * and compute ring share internal GC HW mutually. We add an additional
+-		 * guilty jobs recheck step to find the real guilty job, it synchronously
+-		 * submits and pends for the first job being signaled. If it gets timeout,
+-		 * we identify it as a real guilty job.
+-		 */
+-		if (amdgpu_gpu_recovery == 2 &&
+-			!(tmp_vram_lost_counter < atomic_read(&adev->vram_lost_counter)))
+-			amdgpu_device_recheck_guilty_jobs(
+-				tmp_adev, device_list_handle, reset_context);
+-
+ 		for (i = 0; i < AMDGPU_MAX_RINGS; ++i) {
+ 			struct amdgpu_ring *ring = tmp_adev->rings[i];
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+index 8e97e95aca8c..a6820603214f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+@@ -519,7 +519,7 @@ module_param_named(compute_multipipe, amdgpu_compute_multipipe, int, 0444);
+  * DOC: gpu_recovery (int)
+  * Set to enable GPU recovery mechanism (1 = enable, 0 = disable). The default is -1 (auto, disabled except SRIOV).
+  */
+-MODULE_PARM_DESC(gpu_recovery, "Enable GPU recovery mechanism, (2 = advanced tdr mode, 1 = enable, 0 = disable, -1 = auto)");
++MODULE_PARM_DESC(gpu_recovery, "Enable GPU recovery mechanism, (1 = enable, 0 = disable, -1 = auto)");
+ module_param_named(gpu_recovery, amdgpu_gpu_recovery, int, 0444);
+ 
+ /**
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 68317d3a7a27..e77e1fd16732 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -355,27 +355,6 @@ static void drm_sched_job_timedout(struct work_struct *work)
+ 	}
+ }
+ 
+- /**
+-  * drm_sched_increase_karma - Update sched_entity guilty flag
+-  *
+-  * @bad: The job guilty of time out
+-  *
+-  * Increment on every hang caused by the 'bad' job. If this exceeds the hang
+-  * limit of the scheduler then the respective sched entity is marked guilty and
+-  * jobs from it will not be scheduled further
+-  */
+-void drm_sched_increase_karma(struct drm_sched_job *bad)
+-{
+-	drm_sched_increase_karma_ext(bad, 1);
+-}
+-EXPORT_SYMBOL(drm_sched_increase_karma);
+-
+-void drm_sched_reset_karma(struct drm_sched_job *bad)
+-{
+-	drm_sched_increase_karma_ext(bad, 0);
+-}
+-EXPORT_SYMBOL(drm_sched_reset_karma);
+-
+ /**
+  * drm_sched_stop - stop the scheduler
+  *
+@@ -516,32 +495,15 @@ EXPORT_SYMBOL(drm_sched_start);
+  *
+  */
+ void drm_sched_resubmit_jobs(struct drm_gpu_scheduler *sched)
+-{
+-	drm_sched_resubmit_jobs_ext(sched, INT_MAX);
+-}
+-EXPORT_SYMBOL(drm_sched_resubmit_jobs);
+-
+-/**
+- * drm_sched_resubmit_jobs_ext - helper to relunch certain number of jobs from mirror ring list
+- *
+- * @sched: scheduler instance
+- * @max: job numbers to relaunch
+- *
+- */
+-void drm_sched_resubmit_jobs_ext(struct drm_gpu_scheduler *sched, int max)
+ {
+ 	struct drm_sched_job *s_job, *tmp;
+ 	uint64_t guilty_context;
+ 	bool found_guilty = false;
+ 	struct dma_fence *fence;
+-	int i = 0;
+ 
+ 	list_for_each_entry_safe(s_job, tmp, &sched->pending_list, list) {
+ 		struct drm_sched_fence *s_fence = s_job->s_fence;
+ 
+-		if (i >= max)
+-			break;
+-
+ 		if (!found_guilty && atomic_read(&s_job->karma) > sched->hang_limit) {
+ 			found_guilty = true;
+ 			guilty_context = s_job->s_fence->scheduled.context;
+@@ -551,7 +513,6 @@ void drm_sched_resubmit_jobs_ext(struct drm_gpu_scheduler *sched, int max)
+ 			dma_fence_set_error(&s_fence->finished, -ECANCELED);
+ 
+ 		fence = sched->ops->run_job(s_job);
+-		i++;
+ 
+ 		if (IS_ERR_OR_NULL(fence)) {
+ 			if (IS_ERR(fence))
+@@ -567,7 +528,7 @@ void drm_sched_resubmit_jobs_ext(struct drm_gpu_scheduler *sched, int max)
+ 		}
+ 	}
+ }
+-EXPORT_SYMBOL(drm_sched_resubmit_jobs_ext);
++EXPORT_SYMBOL(drm_sched_resubmit_jobs);
+ 
+ /**
+  * drm_sched_job_init - init a scheduler job
+@@ -1082,13 +1043,15 @@ void drm_sched_fini(struct drm_gpu_scheduler *sched)
+ EXPORT_SYMBOL(drm_sched_fini);
+ 
+ /**
+- * drm_sched_increase_karma_ext - Update sched_entity guilty flag
++ * drm_sched_increase_karma - Update sched_entity guilty flag
+  *
+  * @bad: The job guilty of time out
+- * @type: type for increase/reset karma
+  *
++ * Increment on every hang caused by the 'bad' job. If this exceeds the hang
++ * limit of the scheduler then the respective sched entity is marked guilty and
++ * jobs from it will not be scheduled further
+  */
+-void drm_sched_increase_karma_ext(struct drm_sched_job *bad, int type)
++void drm_sched_increase_karma(struct drm_sched_job *bad)
+ {
+ 	int i;
+ 	struct drm_sched_entity *tmp;
+@@ -1100,10 +1063,7 @@ void drm_sched_increase_karma_ext(struct drm_sched_job *bad, int type)
+ 	 * corrupt but keep in mind that kernel jobs always considered good.
+ 	 */
+ 	if (bad->s_priority != DRM_SCHED_PRIORITY_KERNEL) {
+-		if (type == 0)
+-			atomic_set(&bad->karma, 0);
+-		else if (type == 1)
+-			atomic_inc(&bad->karma);
++		atomic_inc(&bad->karma);
+ 
+ 		for (i = DRM_SCHED_PRIORITY_MIN; i < DRM_SCHED_PRIORITY_KERNEL;
+ 		     i++) {
+@@ -1114,7 +1074,7 @@ void drm_sched_increase_karma_ext(struct drm_sched_job *bad, int type)
+ 				if (bad->s_fence->scheduled.context ==
+ 				    entity->fence_context) {
+ 					if (entity->guilty)
+-						atomic_set(entity->guilty, type);
++						atomic_set(entity->guilty, 1);
+ 					break;
+ 				}
+ 			}
+@@ -1124,4 +1084,4 @@ void drm_sched_increase_karma_ext(struct drm_sched_job *bad, int type)
+ 		}
+ 	}
+ }
+-EXPORT_SYMBOL(drm_sched_increase_karma_ext);
++EXPORT_SYMBOL(drm_sched_increase_karma);
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index 289a33e80639..156601fd7053 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -497,10 +497,7 @@ void drm_sched_wakeup(struct drm_gpu_scheduler *sched);
+ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad);
+ void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery);
+ void drm_sched_resubmit_jobs(struct drm_gpu_scheduler *sched);
+-void drm_sched_resubmit_jobs_ext(struct drm_gpu_scheduler *sched, int max);
+ void drm_sched_increase_karma(struct drm_sched_job *bad);
+-void drm_sched_reset_karma(struct drm_sched_job *bad);
+-void drm_sched_increase_karma_ext(struct drm_sched_job *bad, int type);
+ bool drm_sched_dependency_optimized(struct dma_fence* fence,
+ 				    struct drm_sched_entity *entity);
+ void drm_sched_fault(struct drm_gpu_scheduler *sched);
+-- 
+2.34.1
+
