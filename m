@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4566E623DD6
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 09:49:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 899AC623DCD
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 09:48:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B125A10E6A1;
-	Thu, 10 Nov 2022 08:47:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C43A10E699;
+	Thu, 10 Nov 2022 08:47:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E53458920D
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 14:31:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6DEF8920D
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 14:31:03 +0000 (UTC)
 Received: from relay9-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::229])
- by mslow1.mail.gandi.net (Postfix) with ESMTP id 2C1A5D0489
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 14:19:47 +0000 (UTC)
+ by mslow1.mail.gandi.net (Postfix) with ESMTP id 2995CD04AE
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 14:19:50 +0000 (UTC)
 Received: from booty.fritz.box (unknown [77.244.183.192])
  (Authenticated sender: luca.ceresoli@bootlin.com)
- by mail.gandi.net (Postfix) with ESMTPA id 844EBFF80A;
- Wed,  9 Nov 2022 14:19:41 +0000 (UTC)
+ by mail.gandi.net (Postfix) with ESMTPA id 3E45AFF810;
+ Wed,  9 Nov 2022 14:19:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1668003584;
+ t=1668003586;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=k3EpwzVmWOzCEKjlHybKoyyKiKdw/13nJEA6CHMat30=;
- b=o6tnVo96a0eSlbSkQp8oYkb3vb9txGsF3WjNTB79swFuWe920qZYMHsmBqfDfe3y/cmNmB
- /CDOjMHZcErwRv4CAcP3g0uKnF4ZbXbNmh1vLZj3pxzflmTLOVseg6JOTsVoULzcXvU09/
- ooqT9Gmo+IaGRDXYR6FgnwGRKrghqFuPnrg608ACwABOwIQKAIBEOb556nxet1W/syJpXm
- 54h5WKA393IEHyt8oJukRkp+QbT6+t5lGci5XqI8pfeRD+tJVoSj1jX7GGFKV2xj/iNgi3
- smb4NQr3qFI1YoG/fA7Bpc2dOcBoV69O6o8Bo9BrlHNk/g8BoccJPTxmUAOTsQ==
+ bh=1MfEY6qNJmle8dG3mVnv/FdB23DDX5FGvXt/PgtRbi0=;
+ b=EFRdtXEFhEhia1JbEDNKzAwCB9Mh+yP6b4KjqO4lqyA2HbNmAGzMByMAiDqMOXS1ueUluO
+ PWumd/t60Oh3NdRsm0rCUdtc5XHCxGQrEyml82bS/b/0oZAFq14Ce3aMwJ2Brd+68GdR2G
+ Oyp8hY/RQz+lE71RibbuIhjfevqZkIr9VOWmZVlOQDV1jdwQE1BmbPgzk8PPytXC4W6cRw
+ AKaQTUcpWHBrUDAORmfyhX2tljzxmsysZJEcD6l+ljZIhr9MbV3B/yji3VL/cCN7hMejaA
+ 0l+Olv6wYYRjXDtKe5urnbxXIObp77ERXqeiiIz1vw9WWgCeIz1qTiwSIQ/xpg==
 From: luca.ceresoli@bootlin.com
 To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>,
@@ -41,10 +41,10 @@ To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Hans Verkuil <hverkuil-cisco@xs4all.nl>, Dmitry Osipenko <digetx@gmail.com>
-Subject: [PATCH 10/23] staging: media: tegra-video: slightly simplify cleanup
- on errors
-Date: Wed,  9 Nov 2022 15:18:39 +0100
-Message-Id: <20221109141852.729246-11-luca.ceresoli@bootlin.com>
+Subject: [PATCH 11/23] staging: media: tegra-video: move private struct
+ declaration to C file
+Date: Wed,  9 Nov 2022 15:18:40 +0100
+Message-Id: <20221109141852.729246-12-luca.ceresoli@bootlin.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221109141852.729246-1-luca.ceresoli@bootlin.com>
 References: <20221109141852.729246-1-luca.ceresoli@bootlin.com>
@@ -73,51 +73,63 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-of_node_put(node) does nothing if node == NULL, so it can be moved to the
-cleanup section at the bottom.
+struct tegra_vi_graph_entity is an internal implementation detail of the VI
+module. Move its declaration from vi.h to vi.c.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/staging/media/tegra-video/vi.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/staging/media/tegra-video/vi.c | 13 +++++++++++++
+ drivers/staging/media/tegra-video/vi.h | 13 -------------
+ 2 files changed, 13 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index 24de4ed1eaf0..2657207e5b7d 100644
+index 2657207e5b7d..55a135bef1a9 100644
 --- a/drivers/staging/media/tegra-video/vi.c
 +++ b/drivers/staging/media/tegra-video/vi.c
-@@ -1263,7 +1263,7 @@ static int tegra_vi_channels_alloc(struct tegra_vi *vi)
- 	struct device_node *node = vi->dev->of_node;
- 	struct device_node *ep = NULL;
- 	struct device_node *ports;
--	struct device_node *port;
-+	struct device_node *port = NULL;
- 	unsigned int port_num;
- 	struct device_node *parent;
- 	struct v4l2_fwnode_endpoint v4l2_ep = { .bus_type = 0 };
-@@ -1286,7 +1286,6 @@ static int tegra_vi_channels_alloc(struct tegra_vi *vi)
- 			dev_err(vi->dev, "invalid port num %d for %pOF\n",
- 				port_num, port);
- 			ret = -EINVAL;
--			of_node_put(port);
- 			goto cleanup;
- 		}
+@@ -31,6 +31,19 @@
  
-@@ -1309,13 +1308,12 @@ static int tegra_vi_channels_alloc(struct tegra_vi *vi)
+ #define MAX_CID_CONTROLS		1
  
- 		lanes = v4l2_ep.bus.mipi_csi2.num_data_lanes;
- 		ret = tegra_vi_channel_alloc(vi, port_num, port, lanes);
--		if (ret < 0) {
--			of_node_put(port);
-+		if (ret < 0)
- 			goto cleanup;
--		}
- 	}
++/**
++ * struct tegra_vi_graph_entity - Entity in the video graph
++ *
++ * @asd: subdev asynchronous registration information
++ * @entity: media entity from the corresponding V4L2 subdev
++ * @subdev: V4L2 subdev
++ */
++struct tegra_vi_graph_entity {
++	struct v4l2_async_subdev asd;
++	struct media_entity *entity;
++	struct v4l2_subdev *subdev;
++};
++
+ static const struct tegra_video_format tegra_default_format = {
+ 	.img_dt = TEGRA_IMAGE_DT_RAW10,
+ 	.bit_width = 10,
+diff --git a/drivers/staging/media/tegra-video/vi.h b/drivers/staging/media/tegra-video/vi.h
+index dd35c3ac992b..dfd834a69848 100644
+--- a/drivers/staging/media/tegra-video/vi.h
++++ b/drivers/staging/media/tegra-video/vi.h
+@@ -98,19 +98,6 @@ struct tegra_vi {
+ 	struct list_head vi_chans;
+ };
  
- cleanup:
-+	of_node_put(port);
- 	of_node_put(ports);
- 	return ret;
- }
+-/**
+- * struct tegra_vi_graph_entity - Entity in the video graph
+- *
+- * @asd: subdev asynchronous registration information
+- * @entity: media entity from the corresponding V4L2 subdev
+- * @subdev: V4L2 subdev
+- */
+-struct tegra_vi_graph_entity {
+-	struct v4l2_async_subdev asd;
+-	struct media_entity *entity;
+-	struct v4l2_subdev *subdev;
+-};
+-
+ /**
+  * struct tegra_vi_channel - Tegra video channel
+  *
 -- 
 2.34.1
 
