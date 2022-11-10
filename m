@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12F37624AFA
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 20:53:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E0A5624B5D
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 21:15:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7874B10E811;
-	Thu, 10 Nov 2022 19:53:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2AE310E829;
+	Thu, 10 Nov 2022 20:14:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
- [IPv6:2607:f8b0:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 934AF10E801;
- Thu, 10 Nov 2022 19:53:21 +0000 (UTC)
-Received: by mail-ot1-x335.google.com with SMTP id
- cb2-20020a056830618200b00661b6e5dcd8so1712305otb.8; 
- Thu, 10 Nov 2022 11:53:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=zpfnjo6fuKJE8yLJQoDwZgOT81sN9KFgm37VuSuSsoI=;
- b=AEc2Ulr7BLL70AOCBMaHt2UsMwr6+9EP3ynlc/2fmvRfgc2VeZfad8L/9JGKr05Mii
- Utn9K6juw2NXoJGFoLdyDFz2JRoVTT2qm4GEmJ1EYHiiieVyEmQ31WMUlkFnvg/aNoof
- SC3QTWN3TrymEXwee/Ip9zkqYXICw+JukrR4lGl4aNqdNpGuCRFOzOvBKTWtOSi1tmLO
- Zz2xh2lFBy3166FYx6N8fwbBfkjpO/DneI8/lwtXM9olCW0za5reusXFxdcTZmG2zzAg
- r9zxULuvLY5Pt4MJGMnPxlxryrszCpq7vIQTFsnCLbkCLf6XnpUIM5WFlxrP2o5QRSLU
- UIWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=zpfnjo6fuKJE8yLJQoDwZgOT81sN9KFgm37VuSuSsoI=;
- b=vyVQ7M+KV+oU1nP/nww1TJbuXttdAfRA9z0L8VjLExxQTCwjkx92WPhVHyRTgYLU31
- l2cYMTHL9/RFABMrGXzz9EyVjlGfW83hqG1mDQ0HyM2nGs51PrefBRCpwbDb/cpowo1v
- D4mZ2oYEqVfIYGuzD5rNOyEyb7deqCwwfalRSP3TP6bTXncgEow81jLGwCDBR/vdlFOF
- okoZE+HiEJRu9qxt2MMfotAD3+qs5tpV27ztMUVrToAd0+y9hmr2uMnIZl6oTiBnjIm8
- 8vW+G1LkfRlutu9I8vd49DGwbgSiM+Wk/ruRB3jafZ1LenRl24lLwxSSsgFdYzpH4sfe
- Tr/w==
-X-Gm-Message-State: ACrzQf1Uy9scgIghLFSXLlzomHnlj58XL5ttWpX0uL4TlJFEmi8vQV0H
- SqVxLDBzZlj6ACYZ45yYiywpqTjHcg1AQbKqDnGTl6Ia
-X-Google-Smtp-Source: AMsMyM6GTfCbCbTHTtTnna9tPa6LbeHqRl1Ez14DGsKLtXZMNbChl/N6T2J5nDrBsECpJgEcabjTphutuxhgBDTjARY=
-X-Received: by 2002:a9d:7f05:0:b0:66c:7982:2d45 with SMTP id
- j5-20020a9d7f05000000b0066c79822d45mr1805642otq.123.1668110000768; Thu, 10
- Nov 2022 11:53:20 -0800 (PST)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 870C210E832;
+ Thu, 10 Nov 2022 20:14:50 +0000 (UTC)
+Received: from dimapc.. (unknown [109.252.117.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 19FBD660035C;
+ Thu, 10 Nov 2022 20:14:47 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1668111289;
+ bh=1CE2XRZ5gwUkawW6nA0IR/hqxUlaRPTZF6KuqbnAdK4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Pj5kMSE9GqU5pIod/hV/hQiqGrn1Pc82jV7zEoc3SPd49PVIzcSZtKB39PBIrJQfb
+ slEMr55FoMedpN9OLyjLQUhkBaKsaedxt8g861x65hMcOuNc1EZ0tenq9K/+lRFSCv
+ 6+N7I7KZHrq6w8JR7W/PkV/fbamPiDjKTFEBCZ843qXcAqj4Aske+v6OrVaT4WmHEn
+ +O+YE8LCEqryYWmjsWquLHzHT7NNVjQsKTnNxMZ8OH4Zp3fxvBjFGES+SX6W+AtGfj
+ LNmCjLz5cLOmPsp1J1pRKVECoWq3h3DH1kLQLg2LFr/VwQNJ3nRGXV9Tnidn22xWvB
+ Ogmwwq6CY1ZRQ==
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To: Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Liam Mark <lmark@codeaurora.org>, Brian Starkey <Brian.Starkey@arm.com>,
+ John Stultz <jstultz@google.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Tomi Valkeinen <tomba@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Tomasz Figa <tfiga@chromium.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Amol Maheshwari <amahesh@qti.qualcomm.com>
+Subject: [PATCH v1 0/6] Move dma_buf_mmap_internal() to dynamic locking
+ specification
+Date: Thu, 10 Nov 2022 23:13:43 +0300
+Message-Id: <20221110201349.351294-1-dmitry.osipenko@collabora.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-References: <20221110143314.708434-1-dongchenchen2@huawei.com>
- <075b9979-e956-1f01-2a57-0ff0e15d9de6@amd.com>
-In-Reply-To: <075b9979-e956-1f01-2a57-0ff0e15d9de6@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 10 Nov 2022 14:53:09 -0500
-Message-ID: <CADnq5_PKw4W18kY3jAhxjD6yMQqbt9X8OXwj4rb0opH3YsLBaQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Fix memory leak in amdgpu_cs_pass1
-To: Luben Tuikov <luben.tuikov@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,58 +66,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinhui.Pan@amd.com, yuehaibing@huawei.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Dong Chenchen <dongchenchen2@huawei.com>,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, kernel@collabora.com, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 10, 2022 at 1:08 PM Luben Tuikov <luben.tuikov@amd.com> wrote:
->
-> Thanks for fixing this.
->
-> Please add a Cc tag to stable, and repost.
+Hello,
 
-No need for stable.  This patch just went upstream in 6.1, so I can
-include it in my 6.1 fixes pull next week.  Applied.
+Recently, dma-buf got a common locking convention for importers and
+exporters. All the dma-buf functions were moved to the new locking
+convention, apart from the dma_buf_mmap_internal() that was missed out
+by accident. This series moves dma_buf_mmap_internal() to the dynamic
+locking specification and updates drivers that support mmaping of
+dma-bufs to use the debug-assert of the lock.
 
-Thanks!
+Thanks to Daniel Vetter for spotting the missed function!
 
-Alex
+Dmitry Osipenko (6):
+  dma-buf: Move dma_buf_mmap_internal() to dynamic locking specification
+  drm: Assert held reservation lock for dma-buf mmapping
+  udmabuf: Assert held reservation lock for dma-buf mmapping
+  dma-buf/heaps: Assert held reservation lock for dma-buf mmapping
+  media: videobuf2: Assert held reservation lock for dma-buf mmapping
+  fastrpc: Assert held reservation lock for dma-buf mmapping
 
->
-> Reviewed-by: Luben Tuikov <luben.tuikov@amd.com>
->
-> Regards,
-> Luben
->
-> On 2022-11-10 09:33, Dong Chenchen wrote:
-> > When p->gang_size equals 0, amdgpu_cs_pass1() will return directly
-> > without freeing chunk_array, which will cause a memory leak issue,
-> > this patch fixes it.
-> >
-> > Fixes: 4624459c84d7 ("drm/amdgpu: add gang submit frontend v6")
-> > Signed-off-by: Dong Chenchen <dongchenchen2@huawei.com>
-> > ---
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 6 ++++--
-> >  1 file changed, 4 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> > index 1bbd39b3b0fc..0e24d6b80e0b 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> > @@ -287,8 +287,10 @@ static int amdgpu_cs_pass1(struct amdgpu_cs_parser *p,
-> >               }
-> >       }
-> >
-> > -     if (!p->gang_size)
-> > -             return -EINVAL;
-> > +     if (!p->gang_size) {
-> > +             ret = -EINVAL;
-> > +             goto free_partial_kdata;
-> > +     }
-> >
-> >       for (i = 0; i < p->gang_size; ++i) {
-> >               ret = amdgpu_job_alloc(p->adev, num_ibs[i], &p->jobs[i], vm);
->
+ drivers/dma-buf/dma-buf.c                             | 7 ++++++-
+ drivers/dma-buf/heaps/cma_heap.c                      | 3 +++
+ drivers/dma-buf/heaps/system_heap.c                   | 3 +++
+ drivers/dma-buf/udmabuf.c                             | 3 +++
+ drivers/gpu/drm/drm_prime.c                           | 2 ++
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c            | 2 ++
+ drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c             | 2 ++
+ drivers/gpu/drm/tegra/gem.c                           | 2 ++
+ drivers/media/common/videobuf2/videobuf2-dma-contig.c | 3 +++
+ drivers/media/common/videobuf2/videobuf2-dma-sg.c     | 3 +++
+ drivers/media/common/videobuf2/videobuf2-vmalloc.c    | 3 +++
+ drivers/misc/fastrpc.c                                | 3 +++
+ 12 files changed, 35 insertions(+), 1 deletion(-)
+
+-- 
+2.37.3
+
