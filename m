@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F245624767
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 17:48:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD2E062476D
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 17:48:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E64A10E152;
-	Thu, 10 Nov 2022 16:48:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13CBF10E153;
+	Thu, 10 Nov 2022 16:48:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
- [IPv6:2607:f8b0:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 313F710E152
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 16:48:19 +0000 (UTC)
-Received: by mail-pl1-x630.google.com with SMTP id d20so1834202plr.10
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 08:48:19 -0800 (PST)
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5150F10E158
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 16:48:50 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id
+ m14-20020a17090a3f8e00b00212dab39bcdso5221025pjc.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 08:48:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=content-disposition:mime-version:message-id:subject:cc:to:date:from
  :from:to:cc:subject:date:message-id:reply-to;
- bh=LDJ5GbeH4x/1yjxtjF2BP9FcVDh9qhDYbgp39xw30DM=;
- b=Fe2LrkP4LSaAmzpNbzUlL4Sz8W/ckj87PLB0s4ExV2y1hr/SBDx2aHXMGIHH4Q1HZp
- SlVXRYyU/kLp+VT2nJhpvSEpLp5Gw306usHXiFoSvkdLXpFh1XiL/tfTwivIahCI7ZWT
- lxhf3NYj8/XNq2LoDLiXIqTqCb4OIr0rR5gOM=
+ bh=g9kSxsO17Q+SGuhgv7bQJn3B89MxfwFUgXJQwdBXWxc=;
+ b=np5+c7/D+/Pe+ETkZmBCcBkcIkF9rWztcNUNpZ8fjJM55FzJgNq4nkQ3nqPKjpN1y4
+ +Vz42qN8iUh+CDPgfd4HJ+e7+YwQlV2RCywPsaAB8YsN7K22LSZWTzUSOkIgU8aIF4vU
+ Sg6WhOoBQQUUrmLT0u0VujZkRgeFf/Mp4HGoQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-disposition:mime-version:message-id:subject:cc:to:date:from
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LDJ5GbeH4x/1yjxtjF2BP9FcVDh9qhDYbgp39xw30DM=;
- b=HW6ERsAprehtRU2h29+aqiQDG3z0TmxtDGjGPSfm94XRMjloMr9+kVnrZrK5euVbH0
- n+dTuZlhsL4ZioeL1xQzwSz+RSEothKy+JARp1XaV+qS6maBXQgORyu7J7rqE/iwKL6+
- ep1PMrS4MgcMIzKG5uRritTGLd6uJSoNuvK0GeQR2FYJa2RfCQi94CRaP+XsXHcB2aG7
- Lh2uZ7iSSNAhMPAowkQ82Zw4gN1+0iZtX0sAQmPqz9j1uyfCsQp7YdTTY0uFFSOOdKIG
- x88yBDoi6D3oQBqOGly7IjTDRLLQIxP0pxettzzPVDciIaYH9oNJ5fkSKkUpSJsnu6nr
- zENQ==
-X-Gm-Message-State: ACrzQf0IhE7kJxYA58FxRU6xF+k/vFQm4ovQkFAjItihG01IpOFS7qec
- /2hthdG0THCgv+TKnnHZiUvlpQ==
-X-Google-Smtp-Source: AMsMyM5L7JASpAto4IfQ834QGHOPC/E4fFSGlP1B6IiNOx5M0h4LxXrBlQ6jL1GcB0G62qrRYLVm/w==
-X-Received: by 2002:a17:902:d503:b0:187:19c4:f9db with SMTP id
- b3-20020a170902d50300b0018719c4f9dbmr58312424plg.82.1668098898782; 
- Thu, 10 Nov 2022 08:48:18 -0800 (PST)
+ bh=g9kSxsO17Q+SGuhgv7bQJn3B89MxfwFUgXJQwdBXWxc=;
+ b=cRgo1Q0Q6zgyVaOMpGEpzuc9W1aUXK5fq0vT0yR9m0p/ac4CQ8Ia1lqoPmU1RRC2hx
+ h4zku8TYzlP/PQOEW72ZCqmhxU8lD50PHT0SnMXQTNJM1lz1It3aH6sljeSL9p5NqV1y
+ UzdUWKytHVClta3s7Hb5igySbCSqXba/gB1/J1hFUjbeEbqPPdKmYuy7jlk/NY1hQlnA
+ f/H1pn8uHcw5DmP5KMewk+lssKYdTlHzpazsP9as17akvYoyu6KwCw3IYaf+VtxtkNRy
+ 274lWP2Q1SR5bTbv00U+Uodqz9yhCqXm2VQf35W2dYzGRkhzkQJYBbYAqTzvSfvoRcFz
+ Oh0w==
+X-Gm-Message-State: ACrzQf0yPi3toTYOldy+IG4a4A3R7Q06YQK1gBx6AFzR/vt2hz0c9OQR
+ BA6U+iaYgoExgXxzN2nYoer5iQ==
+X-Google-Smtp-Source: AMsMyM46trOzdUYGkS4TOBz+lvhrf5w6Z58imMinDBIdbLY+Ryt5gQlR73fs5ggqqfV6HJyw6Yc/cw==
+X-Received: by 2002:a17:902:8d8d:b0:17d:b9c:cd64 with SMTP id
+ v13-20020a1709028d8d00b0017d0b9ccd64mr1509659plo.40.1668098929893; 
+ Thu, 10 Nov 2022 08:48:49 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
  by smtp.gmail.com with ESMTPSA id
- om15-20020a17090b3a8f00b00213c7cf21c0sm50871pjb.5.2022.11.10.08.48.18
+ s9-20020a63e809000000b00473c36ea150sm3597920pgh.92.2022.11.10.08.48.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Nov 2022 08:48:18 -0800 (PST)
+ Thu, 10 Nov 2022 08:48:49 -0800 (PST)
 From: coverity-bot <keescook@chromium.org>
 X-Google-Original-From: coverity-bot <keescook+coverity-bot@chromium.org>
-Date: Thu, 10 Nov 2022 08:48:17 -0800
+Date: Thu, 10 Nov 2022 08:48:48 -0800
 To: Ben Skeggs <bskeggs@redhat.com>
-Subject: Coverity: nv50_sor_atomic_enable(): Memory - corruptions
-Message-ID: <202211100848.FFBA2432@keescook>
+Subject: Coverity: nv50_pior_atomic_enable(): Memory - corruptions
+Message-ID: <202211100848.F4C2819BB@keescook>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -88,22 +89,22 @@ lines of code (noted below) that were touched by commits:
 
 Coverity reported the following:
 
-*** CID 1527269:  Memory - corruptions  (OVERRUN)
-drivers/gpu/drm/nouveau/dispnv50/disp.c:1619 in nv50_sor_atomic_enable()
-1613     				lvds_8bpc = true;
-1614     		}
-1615
-1616     		nvif_outp_acquire_lvds(&nv_encoder->outp, lvds_dual, lvds_8bpc);
-1617     		break;
-1618     	case DCB_OUTPUT_DP:
-vvv     CID 1527269:  Memory - corruptions  (OVERRUN)
+*** CID 1527268:  Memory - corruptions  (OVERRUN)
+drivers/gpu/drm/nouveau/dispnv50/disp.c:1817 in nv50_pior_atomic_enable()
+1811     	case DCB_OUTPUT_TMDS:
+1812     		ctrl |= NVDEF(NV507D, PIOR_SET_CONTROL, PROTOCOL, EXT_TMDS_ENC);
+1813     		nvif_outp_acquire_tmds(&nv_encoder->outp, false, false, 0, 0, 0, false);
+1814     		break;
+1815     	case DCB_OUTPUT_DP:
+1816     		ctrl |= NVDEF(NV507D, PIOR_SET_CONTROL, PROTOCOL, EXT_TMDS_ENC);
+vvv     CID 1527268:  Memory - corruptions  (OVERRUN)
 vvv     Overrunning array "(*nv_encoder).dp.dpcd" of 15 bytes by passing it to a function which accesses it at byte offset 15.
-1619     		nvif_outp_acquire_dp(&nv_encoder->outp, nv_encoder->dp.dpcd, 0, 0, hda, false);
-1620     		depth = nv50_dp_bpc_to_depth(asyh->or.bpc);
-1621
-1622     		if (nv_encoder->outp.or.link & 1)
-1623     			proto = NV887D_SOR_SET_CONTROL_PROTOCOL_DP_A;
-1624     		else
+1817     		nvif_outp_acquire_dp(&nv_encoder->outp, nv_encoder->dp.dpcd, 0, 0, false, false);
+1818     		break;
+1819     	default:
+1820     		BUG();
+1821     		break;
+1822     	}
 
 If this is a false positive, please let us know so we can mark it as
 such, or teach the Coverity rules to be smarter. If not, please make
@@ -111,7 +112,7 @@ sure fixes get into linux-next. :) For patches fixing this, please
 include these lines (but double-check the "Fixes" first):
 
 Reported-by: coverity-bot <keescook+coverity-bot@chromium.org>
-Addresses-Coverity-ID: 1527269 ("Memory - corruptions")
+Addresses-Coverity-ID: 1527268 ("Memory - corruptions")
 Fixes: 813443721331 ("drm/nouveau/disp: move DP link config into acquire")
 
 Thanks for your attention!
