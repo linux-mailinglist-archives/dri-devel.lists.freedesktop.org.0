@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05D9C6249B6
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 19:41:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1BD96249B9
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 19:41:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 859C110E7AD;
-	Thu, 10 Nov 2022 18:41:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 122E210E7B5;
+	Thu, 10 Nov 2022 18:41:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
- [IPv6:2607:f8b0:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EF8F10E7B3
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 18:41:19 +0000 (UTC)
-Received: by mail-pl1-x62e.google.com with SMTP id l2so2171451pld.13
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 10:41:19 -0800 (PST)
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
+ [IPv6:2607:f8b0:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B604E10E7B6
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 18:41:26 +0000 (UTC)
+Received: by mail-pg1-x534.google.com with SMTP id o13so2512812pgu.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 10:41:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ahKEBxaNtaA33OFl+eyGOGbGztMU8PeqwlZcki2k/x4=;
- b=VXDFnV+ebX4mCOgAqiqTFsc9TNRLyvjaC6pMK9b2DXGJ70queGWr4YUjYbkdfmtPuf
- aHYmn/tQl4wPVDj/naszMv3GLsPFs0KiYudNMphEUKAn0ul0xXbnbBTHYvwDMga2t41n
- BglFNyRI9DaCRYui2QoajHSmEvPYqI2qDV69E=
+ bh=+uQe3bmrV0zmghe9Tre6aGt5ad4Xsr/J3KkGBkCAzjo=;
+ b=kW6ySL9n+9McJX1vufvewvJWt6Ghf7ABWg4WL9I+w6MnWhduVB35BPxbNF1DaBapee
+ lfJ2uSLRVSEoWJB5nvBm4mtKhHomnYDQbNe7H8xgpYtr2N7idFdkXbj0B3ovQWpgCClF
+ eeI5A8w8WVPOzrU0FPTCuuWwjaduiJ9GSTt5k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ahKEBxaNtaA33OFl+eyGOGbGztMU8PeqwlZcki2k/x4=;
- b=zdhE/3wgQbesPUzb5a72iLDRBhGwh9o/Hga3sim2tmHJfBVFs/NmMoHN5leaMfiLvL
- t3Ru7+TCotVeURShPgPOghWEhRrPupCrgpdxqjYa3/iXnX5fd6zr+wFP1rJf5S8fcC1/
- X+LKz28y7vaVOMwGjyF7lZUTUPX/oRx/A9pmV1e14nniLlfyTcOrEkID4fNYrRFoRlPt
- mnPNGA+9JIwFFGT5sjAYm1t2r5sn6s99H2r118vFbeJxmcXY6v9G2ahz7V5cNejIQZu/
- 9DgPmYLijrANJPPQik3OeAL5/RUKYmLs1bFeaoDKFKl09hkpXqpbFNwmqbECWuCqZxeL
- Iz9g==
-X-Gm-Message-State: ACrzQf2WGPGRYmbL1lL27xAP/zDkNP/GRziPhrY/MsRM/bN0kYLRzc9v
- AVtwSlUDR3tHAdCAvQO/eGYHag==
-X-Google-Smtp-Source: AMsMyM4jzJxuGGkJGSCRfuP5IfIF59hFTS2DbgGth8M6S1QUY/oiBGjXVjKQd4uQNNfGVwv6qZtExA==
-X-Received: by 2002:a17:903:240a:b0:183:6555:7a89 with SMTP id
- e10-20020a170903240a00b0018365557a89mr64973897plo.68.1668105679220; 
- Thu, 10 Nov 2022 10:41:19 -0800 (PST)
+ bh=+uQe3bmrV0zmghe9Tre6aGt5ad4Xsr/J3KkGBkCAzjo=;
+ b=IMYWDMc79yV4JnczVmmpE1YCa5CUnlBMSvZtuXD8AFo3iDvFPLrud8j8munLk6I9vx
+ xc6ta4hEweYHMBdlXInOnWk/HKQr9hjEGGMCkA/rX53nFLl8cbTOBT/glU/myxNw1VeV
+ JaWBtyJVoYWx8Gv1QuhL5AtGbW5xorziPHJBJhebHtD6QTyLJDkEDtfM9AEfgOthPEi5
+ 2gJwwPA1NZO4CbW1nsTRY8ttP+oFpOVrfGJ77jVIgB4AsqFxtyC3/qXVQjAcpS2yQn07
+ adyouCplGH+1wo8EJgZmIAL9Udb0sW9sh7em9//3WDylFiFg8wsuqz4S232Ecb0t3aP5
+ EL9Q==
+X-Gm-Message-State: ACrzQf1MGDiVYCG/IXRNlzz6L0QMo78ONtTuxGsduMCvEOU1m8f0dF1w
+ IqEpd9Y2WL6TtodRChEhdIC/rA==
+X-Google-Smtp-Source: AMsMyM51ddcMMgzfIkx+DjiizwQGBjkpQqu0oehnqrEhCTJv0lFzNgYTi3y88dbmqpHoCNlaI1zW3w==
+X-Received: by 2002:a63:1053:0:b0:439:4c73:821c with SMTP id
+ 19-20020a631053000000b004394c73821cmr2977955pgq.109.1668105686267; 
+ Thu, 10 Nov 2022 10:41:26 -0800 (PST)
 Received: from localhost.localdomain ([2405:201:c00a:a809:b5a4:486a:f07:f67e])
  by smtp.gmail.com with ESMTPSA id
- c2-20020a170903234200b001869efb722csm11635627plh.215.2022.11.10.10.41.12
+ c2-20020a170903234200b001869efb722csm11635627plh.215.2022.11.10.10.41.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Nov 2022 10:41:18 -0800 (PST)
+ Thu, 10 Nov 2022 10:41:25 -0800 (PST)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
@@ -61,10 +61,9 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
  Marek Vasut <marex@denx.de>
-Subject: [PATCH v8 09/14] drm: bridge: samsung-dsim: Add
- atomic_get_input_bus_fmts
-Date: Fri, 11 Nov 2022 00:08:48 +0530
-Message-Id: <20221110183853.3678209-10-jagan@amarulasolutions.com>
+Subject: [PATCH v8 10/14] drm: bridge: samsung-dsim: Add input_bus_flags
+Date: Fri, 11 Nov 2022 00:08:49 +0530
+Message-Id: <20221110183853.3678209-11-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221110183853.3678209-1-jagan@amarulasolutions.com>
 References: <20221110183853.3678209-1-jagan@amarulasolutions.com>
@@ -89,117 +88,57 @@ Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Finding the right input bus format throughout the pipeline is hard
-so add atomic_get_input_bus_fmts callback and initialize with the
-proper input format from list of supported output formats.
+LCDIF-DSIM glue logic inverts the HS/VS/DE signals and expecting
+the i.MX8M Mini/Nano DSI host to add additional Data Enable signal
+active low (DE_LOW). This makes the valid data transfer on each
+horizontal line.
 
-This format can be used in pipeline for negotiating bus format between
-the DSI-end of this bridge and the other component closer to pipeline
-components.
-
-List of Pixel formats are taken from,
-AN13573 i.MX 8/RT MIPI DSI/CSI-2, Rev. 0, 21 March 2022
-3.7.4 Pixel formats
-Table 14. DSI pixel packing formats
+So, add additional bus flags DE_LOW setting via input_bus_flags for
+i.MX8M Mini/Nano platforms.
 
 v8:
-* added pixel formats supported by NXP AN13573 i.MX 8/RT MIPI DSI/CSI-2
+* add DE_LOW for i.MX8M Mini/Nano platforms.
 
-v7, v6, v5, v4:
+v7, v6:
 * none
 
-v3:
-* include media-bus-format.h
+v5:
+* rebased based on updated bridge changes
 
-v2:
+v4, v3, v2, v1:
 * none
-
-v1:
-* new patch
 
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
- drivers/gpu/drm/bridge/samsung-dsim.c | 53 +++++++++++++++++++++++++++
- 1 file changed, 53 insertions(+)
+ drivers/gpu/drm/bridge/samsung-dsim.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index 0fe153b29e4f..33e5ae9c865f 100644
+index 33e5ae9c865f..65f7d8522bc1 100644
 --- a/drivers/gpu/drm/bridge/samsung-dsim.c
 +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -15,6 +15,7 @@
- #include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/irq.h>
-+#include <linux/media-bus-format.h>
- #include <linux/of_device.h>
- #include <linux/phy/phy.h>
+@@ -1627,6 +1627,10 @@ static const struct samsung_dsim_host_ops samsung_dsim_generic_host_ops = {
+ 	.unregister_host = samsung_dsim_unregister_host,
+ };
  
-@@ -1321,6 +1322,57 @@ static void samsung_dsim_atomic_post_disable(struct drm_bridge *bridge,
- 	pm_runtime_put_sync(dsi->dev);
- }
- 
-+/*
-+ * This pixel output formats list referenced from,
-+ * AN13573 i.MX 8/RT MIPI DSI/CSI-2, Rev. 0, 21 March 2022
-+ * 3.7.4 Pixel formats
-+ * Table 14. DSI pixel packing formats
-+ */
-+static const u32 samsung_dsim_pixel_output_fmts[] = {
-+	MEDIA_BUS_FMT_UYVY8_1X16,
-+	MEDIA_BUS_FMT_RGB101010_1X30,
-+	MEDIA_BUS_FMT_RGB121212_1X36,
-+	MEDIA_BUS_FMT_RGB565_1X16,
-+	MEDIA_BUS_FMT_RGB666_1X18,
-+	MEDIA_BUS_FMT_RGB888_1X24,
++static const struct drm_bridge_timings samsung_dsim_bridge_timings_de_low = {
++	.input_bus_flags = DRM_BUS_FLAG_DE_LOW,
 +};
 +
-+static bool samsung_dsim_pixel_output_fmt_supported(u32 fmt)
-+{
-+	int i;
+ int samsung_dsim_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+@@ -1709,6 +1713,10 @@ int samsung_dsim_probe(struct platform_device *pdev)
+ 	dsi->bridge.of_node = dev->of_node;
+ 	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
+ 
++	/* DE_LOW: i.MX8M Mini/Nano LCDIF-DSIM glue logic inverts HS/VS/DE */
++	if (dsi->plat_data->hw_type == SAMSUNG_DSIM_TYPE_IMX8MM)
++		dsi->bridge.timings = &samsung_dsim_bridge_timings_de_low;
 +
-+	for (i = 0; i < ARRAY_SIZE(samsung_dsim_pixel_output_fmts); i++) {
-+		if (samsung_dsim_pixel_output_fmts[i] == fmt)
-+			return true;
-+	}
-+
-+	return false;
-+}
-+
-+static u32 *
-+samsung_dsim_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-+				       struct drm_bridge_state *bridge_state,
-+				       struct drm_crtc_state *crtc_state,
-+				       struct drm_connector_state *conn_state,
-+				       u32 output_fmt,
-+				       unsigned int *num_input_fmts)
-+{
-+	u32 *input_fmts;
-+
-+	if (!samsung_dsim_pixel_output_fmt_supported(output_fmt))
-+		return NULL;
-+
-+	*num_input_fmts = 1;
-+
-+	input_fmts = kmalloc(sizeof(*input_fmts), GFP_KERNEL);
-+	if (!input_fmts)
-+		return NULL;
-+
-+	input_fmts[0] = output_fmt;
-+
-+	return input_fmts;
-+}
-+
- static int samsung_dsim_atomic_check(struct drm_bridge *bridge,
- 				     struct drm_bridge_state *bridge_state,
- 				     struct drm_crtc_state *crtc_state,
-@@ -1385,6 +1437,7 @@ static const struct drm_bridge_funcs samsung_dsim_bridge_funcs = {
- 	.atomic_duplicate_state		= drm_atomic_helper_bridge_duplicate_state,
- 	.atomic_destroy_state		= drm_atomic_helper_bridge_destroy_state,
- 	.atomic_reset			= drm_atomic_helper_bridge_reset,
-+	.atomic_get_input_bus_fmts	= samsung_dsim_atomic_get_input_bus_fmts,
- 	.atomic_check			= samsung_dsim_atomic_check,
- 	.atomic_pre_enable		= samsung_dsim_atomic_pre_enable,
- 	.atomic_enable			= samsung_dsim_atomic_enable,
+ 	if (dsi->plat_data->host_ops && dsi->plat_data->host_ops->register_host)
+ 		ret = dsi->plat_data->host_ops->register_host(dsi);
+ 
 -- 
 2.25.1
 
