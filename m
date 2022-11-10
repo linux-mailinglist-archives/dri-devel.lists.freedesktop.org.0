@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F03F6240CF
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 12:09:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAD1B6240CA
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 12:08:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F274C10E6E8;
-	Thu, 10 Nov 2022 11:07:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38F9510E6DD;
+	Thu, 10 Nov 2022 11:07:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
  [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DE8210E6CE;
- Thu, 10 Nov 2022 11:07:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 426A510E6D4;
+ Thu, 10 Nov 2022 11:07:30 +0000 (UTC)
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id ADBE05802EE;
- Thu, 10 Nov 2022 06:07:27 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Thu, 10 Nov 2022 06:07:27 -0500
+ by mailnew.nyi.internal (Postfix) with ESMTP id A4DDB5802F7;
+ Thu, 10 Nov 2022 06:07:29 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Thu, 10 Nov 2022 06:07:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1668078447; x=
- 1668085647; bh=iQmqrLOmKwWmEVSmcqvhhVIkcN6O1VXNzVSjdauH6nI=; b=O
- Yi7MezSNAfnfjfdGHH6mVcPiaie5dSg3u+PIYmnyKlavDXum0OhMJ2a8M6UpS3UU
- yjxJ2mAoyOggmpKxj1HyV4enQAvoCcyTj2gBZXrI5sBg/TkEjgOk0VpdBEbslMxF
- SiPxHG/Xt1McN25oKvXByPYnMOjBXmF2NQzgMp05RaNJRv3XHpOmEBITTek3ajz6
- VabVQNP3QaOTS3tYZzOjxxTjzpfniVHE+bP9+ZcbWDFMOSepD03QQRdQmGWX/v6b
- gF9IhUZDyV+K0eY4lKX4UUL8CmhO9e6NdIYca74Kn4IcmgSyijKhRQnYlCbDHyE4
- L214DDhJR/qDpzlYrbErw==
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1668078449; x=
+ 1668085649; bh=ZzAaVyh2qK5iSPdGWwZjBe4HDRq1HsOA7KYHrOCWeqw=; b=W
+ r0GIGW2IFG1s+oofew1o9KK0ub2Kx71DrTXKAtvqvVJUVtQNIFN4TIQkqOU5aocS
+ t2gHyapz0Dyo1+3YmKXU2fZzHl/nXed/oGiQVG1KwWfC83vY1QRfBMBCchd0kNKI
+ pEV/hcaF6WHMB00daWAlhtrQmWOmh8uJ5DH0VC1dh5fWyx9vCXKiVdK0EYRcd/wm
+ x+WRG3JvCv10AaLIXZysUOqwWhS3XhZieT4jHwKcbyFDkx4O4sTqUpVSovbUPmfE
+ F5rMAUTT6W33YprW/Un9bt5e1fQPaxYFsWOxlGfjf3/2Fg/+5iL8hT+Yde6lTlXj
+ tqNZnx4ZGNYwaimgxTnKg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1668078447; x=
- 1668085647; bh=iQmqrLOmKwWmEVSmcqvhhVIkcN6O1VXNzVSjdauH6nI=; b=b
- sjwpmaQwOuqhgVszCnVn4YHDX5I2Riv2SKohNLApCErRmo6T6Y+g1T/SFL/R6RUr
- v/FkfeSIj1pcU8W3lrMYq0d0u6kyF1jg2bU96PvqcHW0gAEGCnV18RDsuRXlALH3
- S4BJR7br6bwVPCrBSG6PKQ7E+nNacwkzTDEqWXkUs3dRHEGummAHbjxF9j4lka6e
- 2WWv29dUvlt1hJZLzt9BWlPBCTHHv11LXS7qF3VW2d2gsg5N+oc2ZHZpxD+rUjFl
- AEc8dtNFxH3gR1XvYCbh2+hCiZE5tiEWIpwlrLdc1qm/osDDt1GzYAwgkAkZLrDi
- yFkn92aluEAcc9kFm0B+w==
-X-ME-Sender: <xms:b9tsY8FZo1nGa1YUUvFm7GG59y3s0OKI15YdSqWT7PHgGyH_-RHa5w>
- <xme:b9tsY1W5ElGbTwWtjyh0RcD7RnqfdYrGIEFNPvL7dZkjpqwxgzOHOSyUw9oGS4SUz
- 82PqKJywcpRfA7H6fY>
-X-ME-Received: <xmr:b9tsY2KfN9_CBdbnZ9-bCVG3A00Vav9xBwuWbTCK1d0PM253mcnK7nClaUXBPLTN_a365OCg1Tb1Ho8T-jTsmRNqCWV88hAALGmN5NGvc5ydQQ>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1668078449; x=
+ 1668085649; bh=ZzAaVyh2qK5iSPdGWwZjBe4HDRq1HsOA7KYHrOCWeqw=; b=N
+ GGMf8XA8BDLXnkp+LVY+P0cNNmyeeecclXRIosvow4OVQTipXveTV3gsWZVla+Z0
+ FpZ1NZcgWCNUZKyVmqZjMyii8SNH2ZPcCffZ7TPzZ04kg4kKVYYe0wpT8bZ9mqve
+ QcqDlCXIl9hXBMyQe0vtMGBAup2pjwtewR3NaY3h+1kRLz4ISDolACi8gdaisegX
+ rddntzb+HurWAkuvIEoAbXrPkFs/0Ls24zRneqH/Z6gMrY2It700YcQmYRkzJKLk
+ le5OD6HWXXS3ItkdBX7y/JCJ2Cd5YB8BOb+gp09QynJCmJBT53AcJjzp8V2DZ5I8
+ 2Ts3KOYwjY67MTEUbDjsQ==
+X-ME-Sender: <xms:cdtsY_eUj8N3uhCNQVTgtQYyBvXHBzDiUDSFitScj04OlGffTTxIOQ>
+ <xme:cdtsY1NzohHWdo4pRbaGNaIu0Iyj5ErTmGO7Ec5dkkyyKI3sbWdzrdwHCHNzDDb_x
+ SgUBaXAFRIrP3aRsM0>
+X-ME-Received: <xmr:cdtsY4gErLf4KgPZhk2d89fK4F2Xlm2UFzb_5KShyURrdH7yCs7GQ8qmPJkDH9xwVwIsxDQNAlStA3wPFIhX54JshiGvHbVK4PQbi8aPxj0Weg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrfeeggddvhecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhfffuggfgtgfkfhgjvfevofesthekredtredtjeenucfhrhhomhepofgrgihi
+ fjughrpefhfffugggtgffkfhgjvfevofesthekredtredtjeenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpedvgfevjefhtdetveevhfelieeuueetgfdvgeevkeegudejffegfffgtedt
- leelhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ htthgvrhhnpeduudduhfevjeetfeegvdffvdevvdejudegudekjeehtdelhfffveethfej
+ ledtveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:b9tsY-FUHDOuV7jEAtssa1LzbCx-ZAkIycMm-F9R7E4JP4BygOGNYw>
- <xmx:b9tsYyUOAtFdD4Y6JKiaoUTmyhN-n3yGfUspJORQZf2mAWo7fqRBaw>
- <xmx:b9tsYxPgl3fcqN1WE1U5mQcGtj3hgQbh-PZjKM_lsGIsR60InfIDfA>
- <xmx:b9tsY0iH8e9NAulZM-ArMaUN-_ValTuD83G1ew9VzFt2iG4QsRItrA>
+X-ME-Proxy: <xmx:cdtsYw-KkyKu_LiykSnFdHg5nsAG-eyZkE7l6SMiv55K5e4OedrOEA>
+ <xmx:cdtsY7sG88ruL3eUnu_mRhbrBmlN-JDMnDvX2SwLyZpbKLMj86Pujw>
+ <xmx:cdtsY_F70KC4112YdOm-twJNYReyjYtrVxGFuUhu1AWed4UrPoU5lw>
+ <xmx:cdtsY86TEhXqBZpsQBF59RHFZJusJfRz6NrAc_uPWw3HzrCPNMS1oA>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 10 Nov 2022 06:07:26 -0500 (EST)
+ 10 Nov 2022 06:07:28 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Thu, 10 Nov 2022 12:07:16 +0100
-Subject: [PATCH v8 04/24] drm/connector: Rename drm_mode_create_tv_properties
+Date: Thu, 10 Nov 2022 12:07:17 +0100
+Subject: [PATCH v8 05/24] drm/connector: Add TV standard property
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20220728-rpi-analog-tv-properties-v8-4-09ce1466967c@cerno.tech>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20220728-rpi-analog-tv-properties-v8-5-09ce1466967c@cerno.tech>
 References: <20220728-rpi-analog-tv-properties-v8-0-09ce1466967c@cerno.tech>
 In-Reply-To: <20220728-rpi-analog-tv-properties-v8-0-09ce1466967c@cerno.tech>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -82,11 +82,11 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  David Airlie <airlied@linux.ie>, Ben Skeggs <bskeggs@redhat.com>
 X-Mailer: b4 0.11.0-dev-99e3a
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7326; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=0qb2fv3Z6An+9q+7ApB0CGaBB/c0O4A8I0iLwHOK03Q=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMk5t1Os59crrbFtmRXbJ+DRVPtzlt91xnRDRe6u82JMsb5b
- v4p1lLIwiHExyIopssQImy+JOzXrdScb3zyYOaxMIEMYuDgFYCKS6Qz/DL6ul9hoY2GTtvzEJZbkWp
- Ebiw1c/91yZIvp8lT0+r3pByPDVpFrjRt3KTExqn1V4pEWPsvianhU97is09u4L1f/uEtwAwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=12385; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=uC4tAb/Xlexp/tthBP0X/Q7njyvCoqBbwBZ2YycGSt4=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMk5t1M23mrscVLISk7j7MzeZNv75L7L45l6l7Q/VL5/yWtW
+ cVKno5SFQYyLQVZMkSVG2HxJ3KlZrzvZ+ObBzGFlAhnCwMUpABO5EcXIMJXvyl7BmXkPb8n3XtY7pr
+ d1/gLRe7MP+GybeyRC0d4pJI3hf/nGLScjD++siQiMigjtSnH5dGdiwtnL5W8T2Tfbf7wynQsA
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -105,166 +105,364 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Dave Stevenson <dave.stevenson@raspberrypi
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_mode_create_tv_properties(), among other things, will create the
-"mode" property that stores the analog TV mode that connector is
-supposed to output.
+The TV mode property has been around for a while now to select and get the
+current TV mode output on an analog TV connector.
 
-However, that property is getting deprecated, so let's rename that
-function to mention it's deprecated. We'll introduce a new variant of
-that function creating the property superseeding it in a later patch.
+Despite that property name being generic, its content isn't and has been
+driver-specific which makes it hard to build any generic behaviour on top
+of it, both in kernel and user-space.
 
-Reviewed-by: Lyude Paul <lyude@redhat.com> # nouveau
-Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
+Let's create a new enum tv norm property, that can contain any of the
+analog TV standards currently supported by kernel drivers. Each driver can
+then pass in a bitmask of the modes it supports, and the property
+creation function will filter out the modes not supported.
+
+We'll then be able to phase out the older tv mode property.
+
 Tested-by: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/drm_connector.c           | 12 ++++++------
- drivers/gpu/drm/gud/gud_connector.c       |  4 ++--
- drivers/gpu/drm/i2c/ch7006_drv.c          |  2 +-
- drivers/gpu/drm/i915/display/intel_tv.c   |  2 +-
- drivers/gpu/drm/nouveau/dispnv04/tvnv17.c |  2 +-
- drivers/gpu/drm/vc4/vc4_vec.c             |  5 +++--
- include/drm/drm_connector.h               |  6 +++---
- 7 files changed, 17 insertions(+), 16 deletions(-)
 
+---
+Changes in v5:
+- Create an analog TV properties documentation section, and document TV
+  Mode there instead of the csv file
+
+Changes in v4:
+- Add property documentation to kms-properties.csv
+- Fix documentation
+---
+ Documentation/gpu/drm-kms.rst     |   6 ++
+ drivers/gpu/drm/drm_atomic_uapi.c |   4 ++
+ drivers/gpu/drm/drm_connector.c   | 122 +++++++++++++++++++++++++++++++++++++-
+ include/drm/drm_connector.h       |  64 ++++++++++++++++++++
+ include/drm/drm_mode_config.h     |   8 +++
+ 5 files changed, 203 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+index b4377a545425..321f2f582c64 100644
+--- a/Documentation/gpu/drm-kms.rst
++++ b/Documentation/gpu/drm-kms.rst
+@@ -520,6 +520,12 @@ HDMI Specific Connector Properties
+ .. kernel-doc:: drivers/gpu/drm/drm_connector.c
+    :doc: HDMI connector properties
+ 
++Analog TV Specific Connector Properties
++----------------------------------
++
++.. kernel-doc:: drivers/gpu/drm/drm_connector.c
++   :doc: Analog TV Connector Properties
++
+ Standard CRTC Properties
+ ------------------------
+ 
+diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+index 7f2b9a07fbdf..d867e7f9f2cd 100644
+--- a/drivers/gpu/drm/drm_atomic_uapi.c
++++ b/drivers/gpu/drm/drm_atomic_uapi.c
+@@ -700,6 +700,8 @@ static int drm_atomic_connector_set_property(struct drm_connector *connector,
+ 		state->tv.margins.bottom = val;
+ 	} else if (property == config->legacy_tv_mode_property) {
+ 		state->tv.legacy_mode = val;
++	} else if (property == config->tv_mode_property) {
++		state->tv.mode = val;
+ 	} else if (property == config->tv_brightness_property) {
+ 		state->tv.brightness = val;
+ 	} else if (property == config->tv_contrast_property) {
+@@ -810,6 +812,8 @@ drm_atomic_connector_get_property(struct drm_connector *connector,
+ 		*val = state->tv.margins.bottom;
+ 	} else if (property == config->legacy_tv_mode_property) {
+ 		*val = state->tv.legacy_mode;
++	} else if (property == config->tv_mode_property) {
++		*val = state->tv.mode;
+ 	} else if (property == config->tv_brightness_property) {
+ 		*val = state->tv.brightness;
+ 	} else if (property == config->tv_contrast_property) {
 diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index 78fcffae100b..06e737ed15f5 100644
+index 06e737ed15f5..07d449736956 100644
 --- a/drivers/gpu/drm/drm_connector.c
 +++ b/drivers/gpu/drm/drm_connector.c
-@@ -1604,7 +1604,7 @@ EXPORT_SYMBOL(drm_connector_attach_tv_margin_properties);
-  * Called by a driver's HDMI connector initialization routine, this function
-  * creates the TV margin properties for a given device. No need to call this
-  * function for an SDTV connector, it's already called from
-- * drm_mode_create_tv_properties().
-+ * drm_mode_create_tv_properties_legacy().
-  *
-  * Returns:
-  * 0 on success or a negative error code on failure.
-@@ -1639,7 +1639,7 @@ int drm_mode_create_tv_margin_properties(struct drm_device *dev)
- EXPORT_SYMBOL(drm_mode_create_tv_margin_properties);
+@@ -984,6 +984,17 @@ static const struct drm_prop_enum_list drm_dvi_i_subconnector_enum_list[] = {
+ DRM_ENUM_NAME_FN(drm_get_dvi_i_subconnector_name,
+ 		 drm_dvi_i_subconnector_enum_list)
  
++static const struct drm_prop_enum_list drm_tv_mode_enum_list[] = {
++	{ DRM_MODE_TV_MODE_NTSC, "NTSC" },
++	{ DRM_MODE_TV_MODE_NTSC_443, "NTSC-443" },
++	{ DRM_MODE_TV_MODE_NTSC_J, "NTSC-J" },
++	{ DRM_MODE_TV_MODE_PAL, "PAL" },
++	{ DRM_MODE_TV_MODE_PAL_M, "PAL-M" },
++	{ DRM_MODE_TV_MODE_PAL_N, "PAL-N" },
++	{ DRM_MODE_TV_MODE_SECAM, "SECAM" },
++};
++DRM_ENUM_NAME_FN(drm_get_tv_mode_name, drm_tv_mode_enum_list)
++
+ static const struct drm_prop_enum_list drm_tv_select_enum_list[] = {
+ 	{ DRM_MODE_SUBCONNECTOR_Automatic, "Automatic" }, /* DVI-I and TV-out */
+ 	{ DRM_MODE_SUBCONNECTOR_Composite, "Composite" }, /* TV-out */
+@@ -1552,6 +1563,71 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subconnector_property);
+  *	infoframe values is done through drm_hdmi_avi_infoframe_content_type().
+  */
+ 
++/*
++ * TODO: Document the properties:
++ *   - left margin
++ *   - right margin
++ *   - top margin
++ *   - bottom margin
++ *   - brightness
++ *   - contrast
++ *   - flicker reduction
++ *   - hue
++ *   - mode
++ *   - overscan
++ *   - saturation
++ *   - select subconnector
++ *   - subconnector
++ */
++/**
++ * DOC: Analog TV Connector Properties
++ *
++ * TV Mode:
++ *	Indicates the TV Mode used on an analog TV connector. The value
++ *	of this property can be one of the following:
++ *
++ *	NTSC:
++ *		TV Mode is CCIR System M (aka 525-lines) together with
++ *		the NTSC Color Encoding.
++ *
++ *	NTSC-443:
++ *
++ *		TV Mode is CCIR System M (aka 525-lines) together with
++ *		the NTSC Color Encoding, but with a color subcarrier
++ *		frequency of 4.43MHz
++ *
++ *	NTSC-J:
++ *
++ *		TV Mode is CCIR System M (aka 525-lines) together with
++ *		the NTSC Color Encoding, but with a black level equal to
++ *		the blanking level.
++ *
++ *	PAL:
++ *
++ *		TV Mode is CCIR System B (aka 625-lines) together with
++ *		the PAL Color Encoding.
++ *
++ *	PAL-M:
++ *
++ *		TV Mode is CCIR System M (aka 525-lines) together with
++ *		the PAL Color Encoding.
++ *
++ *	PAL-N:
++ *
++ *		TV Mode is CCIR System N together with the PAL Color
++ *		Encoding, a color subcarrier frequency of 3.58MHz, the
++ *		SECAM color space, and narrower channels than other PAL
++ *		variants.
++ *
++ *	SECAM:
++ *
++ *		TV Mode is CCIR System B (aka 625-lines) together with
++ *		the SECAM Color Encoding.
++ *
++ *	Drivers can set up this property by calling
++ *	drm_mode_create_tv_properties().
++ */
++
  /**
-- * drm_mode_create_tv_properties - create TV specific connector properties
-+ * drm_mode_create_tv_properties_legacy - create TV specific connector properties
-  * @dev: DRM device
-  * @num_modes: number of different TV formats (modes) supported
-  * @modes: array of pointers to strings containing name of each format
-@@ -1652,9 +1652,9 @@ EXPORT_SYMBOL(drm_mode_create_tv_margin_properties);
+  * drm_connector_attach_content_type_property - attach content-type property
+  * @connector: connector to attach content type property on.
+@@ -1649,6 +1725,10 @@ EXPORT_SYMBOL(drm_mode_create_tv_margin_properties);
+  * responsible for allocating a list of format names and passing them to
+  * this routine.
+  *
++ * NOTE: This functions registers the deprecated "mode" connector
++ * property to select the analog TV mode (ie, NTSC, PAL, etc.). New
++ * drivers must use drm_mode_create_tv_properties() instead.
++ *
   * Returns:
   * 0 on success or a negative error code on failure.
   */
--int drm_mode_create_tv_properties(struct drm_device *dev,
--				  unsigned int num_modes,
--				  const char * const modes[])
-+int drm_mode_create_tv_properties_legacy(struct drm_device *dev,
-+					 unsigned int num_modes,
-+					 const char * const modes[])
- {
- 	struct drm_property *tv_selector;
- 	struct drm_property *tv_subconnector;
-@@ -1737,7 +1737,7 @@ int drm_mode_create_tv_properties(struct drm_device *dev,
- nomem:
- 	return -ENOMEM;
- }
--EXPORT_SYMBOL(drm_mode_create_tv_properties);
-+EXPORT_SYMBOL(drm_mode_create_tv_properties_legacy);
+@@ -1690,7 +1770,6 @@ int drm_mode_create_tv_properties_legacy(struct drm_device *dev,
+ 	if (drm_mode_create_tv_margin_properties(dev))
+ 		goto nomem;
  
+-
+ 	if (num_modes) {
+ 		dev->mode_config.legacy_tv_mode_property =
+ 			drm_property_create(dev, DRM_MODE_PROP_ENUM,
+@@ -1739,6 +1818,47 @@ int drm_mode_create_tv_properties_legacy(struct drm_device *dev,
+ }
+ EXPORT_SYMBOL(drm_mode_create_tv_properties_legacy);
+ 
++/**
++ * drm_mode_create_tv_properties - create TV specific connector properties
++ * @dev: DRM device
++ * @supported_tv_modes: Bitmask of TV modes supported (See DRM_MODE_TV_MODE_*)
++
++ * Called by a driver's TV initialization routine, this function creates
++ * the TV specific connector properties for a given device.
++ *
++ * Returns:
++ * 0 on success or a negative error code on failure.
++ */
++int drm_mode_create_tv_properties(struct drm_device *dev,
++				  unsigned int supported_tv_modes)
++{
++	struct drm_prop_enum_list tv_mode_list[DRM_MODE_TV_MODE_MAX];
++	struct drm_property *tv_mode;
++	unsigned int i, len = 0;
++
++	if (dev->mode_config.tv_mode_property)
++		return 0;
++
++	for (i = 0; i < DRM_MODE_TV_MODE_MAX; i++) {
++		if (!(supported_tv_modes & BIT(i)))
++			continue;
++
++		tv_mode_list[len].type = i;
++		tv_mode_list[len].name = drm_get_tv_mode_name(i);
++		len++;
++	}
++
++	tv_mode = drm_property_create_enum(dev, 0, "TV mode",
++					   tv_mode_list, len);
++	if (!tv_mode)
++		return -ENOMEM;
++
++	dev->mode_config.tv_mode_property = tv_mode;
++
++	return drm_mode_create_tv_properties_legacy(dev, 0, NULL);
++}
++EXPORT_SYMBOL(drm_mode_create_tv_properties);
++
  /**
   * drm_mode_create_scaling_mode_property - create scaling mode property
-diff --git a/drivers/gpu/drm/gud/gud_connector.c b/drivers/gpu/drm/gud/gud_connector.c
-index 86e992b2108b..034e78360d4f 100644
---- a/drivers/gpu/drm/gud/gud_connector.c
-+++ b/drivers/gpu/drm/gud/gud_connector.c
-@@ -400,7 +400,7 @@ static int gud_connector_add_tv_mode(struct gud_device *gdrm, struct drm_connect
- 	for (i = 0; i < num_modes; i++)
- 		modes[i] = &buf[i * GUD_CONNECTOR_TV_MODE_NAME_LEN];
- 
--	ret = drm_mode_create_tv_properties(connector->dev, num_modes, modes);
-+	ret = drm_mode_create_tv_properties_legacy(connector->dev, num_modes, modes);
- free:
- 	kfree(buf);
- 	if (ret < 0)
-@@ -539,7 +539,7 @@ static int gud_connector_add_properties(struct gud_device *gdrm, struct gud_conn
- 			fallthrough;
- 		case GUD_PROPERTY_TV_HUE:
- 			/* This is a no-op if already added. */
--			ret = drm_mode_create_tv_properties(drm, 0, NULL);
-+			ret = drm_mode_create_tv_properties_legacy(drm, 0, NULL);
- 			if (ret)
- 				goto out;
- 			break;
-diff --git a/drivers/gpu/drm/i2c/ch7006_drv.c b/drivers/gpu/drm/i2c/ch7006_drv.c
-index ef69f9bdeace..b63bad04b09d 100644
---- a/drivers/gpu/drm/i2c/ch7006_drv.c
-+++ b/drivers/gpu/drm/i2c/ch7006_drv.c
-@@ -250,7 +250,7 @@ static int ch7006_encoder_create_resources(struct drm_encoder *encoder,
- 	struct drm_device *dev = encoder->dev;
- 	struct drm_mode_config *conf = &dev->mode_config;
- 
--	drm_mode_create_tv_properties(dev, NUM_TV_NORMS, ch7006_tv_norm_names);
-+	drm_mode_create_tv_properties_legacy(dev, NUM_TV_NORMS, ch7006_tv_norm_names);
- 
- 	priv->scale_property = drm_property_create_range(dev, 0, "scale", 0, 2);
- 	if (!priv->scale_property)
-diff --git a/drivers/gpu/drm/i915/display/intel_tv.c b/drivers/gpu/drm/i915/display/intel_tv.c
-index 95b021da5a11..0affbc80ba89 100644
---- a/drivers/gpu/drm/i915/display/intel_tv.c
-+++ b/drivers/gpu/drm/i915/display/intel_tv.c
-@@ -1903,7 +1903,7 @@ static void intel_tv_add_properties(struct drm_connector *connector)
- 
- 		tv_format_names[i] = tv_modes[i].name;
- 	}
--	drm_mode_create_tv_properties(&i915->drm, i, tv_format_names);
-+	drm_mode_create_tv_properties_legacy(&i915->drm, i, tv_format_names);
- 
- 	drm_object_attach_property(&connector->base,
- 				   i915->drm.mode_config.legacy_tv_mode_property,
-diff --git a/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c b/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
-index 1a15534adc60..e5480dab55e3 100644
---- a/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
-+++ b/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
-@@ -653,7 +653,7 @@ static int nv17_tv_create_resources(struct drm_encoder *encoder,
- 			tv_enc->tv_norm = i;
- 	}
- 
--	drm_mode_create_tv_properties(dev, num_tv_norms, nv17_tv_norm_names);
-+	drm_mode_create_tv_properties_legacy(dev, num_tv_norms, nv17_tv_norm_names);
- 
- 	drm_object_attach_property(&connector->base,
- 					conf->tv_select_subconnector_property,
-diff --git a/drivers/gpu/drm/vc4/vc4_vec.c b/drivers/gpu/drm/vc4/vc4_vec.c
-index e6043cf5d40e..adc9bf99e3fd 100644
---- a/drivers/gpu/drm/vc4/vc4_vec.c
-+++ b/drivers/gpu/drm/vc4/vc4_vec.c
-@@ -514,8 +514,9 @@ static int vc4_vec_bind(struct device *dev, struct device *master, void *data)
- 	struct vc4_vec *vec;
- 	int ret;
- 
--	ret = drm_mode_create_tv_properties(drm, ARRAY_SIZE(tv_mode_names),
--					    tv_mode_names);
-+	ret = drm_mode_create_tv_properties_legacy(drm,
-+						   ARRAY_SIZE(tv_mode_names),
-+						   tv_mode_names);
- 	if (ret)
- 		return ret;
- 
+  * @dev: DRM device
 diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index f18c2ba113d7..5913b8415137 100644
+index 5913b8415137..9afc7956fdc6 100644
 --- a/include/drm/drm_connector.h
 +++ b/include/drm/drm_connector.h
-@@ -1807,9 +1807,9 @@ int drm_mode_create_dvi_i_properties(struct drm_device *dev);
- void drm_connector_attach_dp_subconnector_property(struct drm_connector *connector);
+@@ -143,6 +143,65 @@ enum subpixel_order {
  
- int drm_mode_create_tv_margin_properties(struct drm_device *dev);
--int drm_mode_create_tv_properties(struct drm_device *dev,
--				  unsigned int num_modes,
--				  const char * const modes[]);
-+int drm_mode_create_tv_properties_legacy(struct drm_device *dev,
-+					 unsigned int num_modes,
-+					 const char * const modes[]);
+ };
+ 
++/**
++ * enum drm_connector_tv_mode - Analog TV output mode
++ *
++ * This enum is used to indicate the TV output mode used on an analog TV
++ * connector.
++ *
++ * WARNING: The values of this enum is uABI since they're exposed in the
++ * "TV mode" connector property.
++ */
++enum drm_connector_tv_mode {
++	/**
++	 * @DRM_MODE_TV_MODE_NTSC: CCIR System M (aka 525-lines)
++	 * together with the NTSC Color Encoding.
++	 */
++	DRM_MODE_TV_MODE_NTSC,
++
++	/**
++	 * @DRM_MODE_TV_MODE_NTSC_443: Variant of
++	 * @DRM_MODE_TV_MODE_NTSC. Uses a color subcarrier frequency
++	 * of 4.43 MHz.
++	 */
++	DRM_MODE_TV_MODE_NTSC_443,
++
++	/**
++	 * @DRM_MODE_TV_MODE_NTSC_J: Variant of @DRM_MODE_TV_MODE_NTSC
++	 * used in Japan. Uses a black level equals to the blanking
++	 * level.
++	 */
++	DRM_MODE_TV_MODE_NTSC_J,
++
++	/**
++	 * @DRM_MODE_TV_MODE_PAL: CCIR System B together with the PAL
++	 * color system.
++	 */
++	DRM_MODE_TV_MODE_PAL,
++
++	/**
++	 * @DRM_MODE_TV_MODE_PAL_M: CCIR System M (aka 525-lines)
++	 * together with the PAL color encoding
++	 */
++	DRM_MODE_TV_MODE_PAL_M,
++
++	/**
++	 * @DRM_MODE_TV_MODE_PAL_N: CCIR System N together with the PAL
++	 * color encoding. It uses 625 lines, but has a color subcarrier
++	 * frequency of 3.58MHz, the SECAM color space, and narrower
++	 * channels compared to most of the other PAL variants.
++	 */
++	DRM_MODE_TV_MODE_PAL_N,
++
++	/**
++	 * @DRM_MODE_TV_MODE_SECAM: CCIR System B together with the
++	 * SECAM color system.
++	 */
++	DRM_MODE_TV_MODE_SECAM,
++
++	DRM_MODE_TV_MODE_MAX,
++};
++
+ /**
+  * struct drm_scrambling: sink's scrambling support.
+  */
+@@ -696,6 +755,7 @@ struct drm_connector_tv_margins {
+  * @subconnector: detected subconnector
+  * @margins: TV margins
+  * @legacy_mode: Legacy TV mode, driver specific value
++ * @mode: TV mode
+  * @brightness: brightness in percent
+  * @contrast: contrast in percent
+  * @flicker_reduction: flicker reduction in percent
+@@ -708,6 +768,7 @@ struct drm_tv_connector_state {
+ 	enum drm_mode_subconnector subconnector;
+ 	struct drm_connector_tv_margins margins;
+ 	unsigned int legacy_mode;
++	unsigned int mode;
+ 	unsigned int brightness;
+ 	unsigned int contrast;
+ 	unsigned int flicker_reduction;
+@@ -1797,6 +1858,7 @@ const char *drm_get_subpixel_order_name(enum subpixel_order order);
+ const char *drm_get_dpms_name(int val);
+ const char *drm_get_dvi_i_subconnector_name(int val);
+ const char *drm_get_dvi_i_select_name(int val);
++const char *drm_get_tv_mode_name(int val);
+ const char *drm_get_tv_subconnector_name(int val);
+ const char *drm_get_tv_select_name(int val);
+ const char *drm_get_dp_subconnector_name(int val);
+@@ -1810,6 +1872,8 @@ int drm_mode_create_tv_margin_properties(struct drm_device *dev);
+ int drm_mode_create_tv_properties_legacy(struct drm_device *dev,
+ 					 unsigned int num_modes,
+ 					 const char * const modes[]);
++int drm_mode_create_tv_properties(struct drm_device *dev,
++				  unsigned int supported_tv_modes);
  void drm_connector_attach_tv_margin_properties(struct drm_connector *conn);
  int drm_mode_create_scaling_mode_property(struct drm_device *dev);
  int drm_connector_attach_content_type_property(struct drm_connector *dev);
+diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+index c47b29e80108..1a8bcc3fd14e 100644
+--- a/include/drm/drm_mode_config.h
++++ b/include/drm/drm_mode_config.h
+@@ -716,9 +716,17 @@ struct drm_mode_config {
+ 	/**
+ 	 * @legacy_tv_mode_property: Optional TV property to select
+ 	 * the output TV mode.
++	 *
++	 * Superseeded by @tv_mode_property
+ 	 */
+ 	struct drm_property *legacy_tv_mode_property;
+ 
++	/**
++	 * @tv_mode_property: Optional TV property to select the TV
++	 * standard output on the connector.
++	 */
++	struct drm_property *tv_mode_property;
++
+ 	/**
+ 	 * @tv_left_margin_property: Optional TV property to set the left
+ 	 * margin (expressed in pixels).
 
 -- 
 b4 0.11.0-dev-99e3a
