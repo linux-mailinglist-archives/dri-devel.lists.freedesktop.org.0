@@ -1,57 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 341946245FA
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 16:32:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45E896245FB
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 16:33:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0B8010E79E;
-	Thu, 10 Nov 2022 15:32:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36E8510E715;
+	Thu, 10 Nov 2022 15:32:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
- [IPv6:2607:f8b0:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B42F10E1C4;
- Thu, 10 Nov 2022 15:32:25 +0000 (UTC)
-Received: by mail-oi1-x22f.google.com with SMTP id c129so2212312oia.0;
- Thu, 10 Nov 2022 07:32:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5080410E715
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 15:32:44 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id ft34so5804216ejc.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 07:32:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=YlufS2rrpOl6bjQHbeYc55nowELOVd0RziNpq3gmm5s=;
- b=nTWfyV0q/cj1yBtveVYWeJB3RB7gdN7CkYcms4hpuiQvVOWuDl0KENvnKsC2gf852D
- hFNJL3z5mZKzDB0kQPXuSZIa4VhNZydaqVvBQ5X3zwT6nbEgiameGxdKRZi12YplLCjX
- mCg38+o+i1VFTsbD3Ik3T6HWAh9zQBQqbDY560eDw3k2hygBWg5oyZMs0Iqo9ZXtTtAp
- 0/PATR42Vg30OrGguo9cAHr0nWPmTp6m2osuDBuywOIZ0XODlu4k1e9/kU/gA6qLoL3W
- 6LZd51mzd1NQkUxQ83SgxsGUxUHuyk4b0nvTxaEKadNvbrM+At3Y1UU+RW3eZ5nBHm8Z
- bh/Q==
+ bh=lLWyKRw2Ej5Lpfhe4CBr1qjwt8vEPyBuJa6C43wuPh8=;
+ b=OkyOgnKMAJGwRvPJAFhXDJESxbMLb1Fk0onxCfwxfvJg9rRma53fxA9Hi2o5w58I03
+ +8HpwRbWFlTbcs53Se/6vK/S1S2fRP2RwZiXmYjABU9SNbw54OVQbnE0QdpD81tMek/n
+ 8wAr94Fchj/KpWbCevBtzdDELjSbHgxIu3NTs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=YlufS2rrpOl6bjQHbeYc55nowELOVd0RziNpq3gmm5s=;
- b=k6tSgg1wM1Nq/x72tsOAmFFD2tOHDw0hcJV8ElhfkJRst+0/J65vCo/wItzthehS77
- rhtF8b5oMonQStcBNyNCJHI39wWRWZmcu4mhdIwx3d2/oSJ2vTiDxkz5RMe4MLBmqPb6
- KtjBgYrgx7ARS0IsKFQnwiRToodexd2u1ULlGUMnrxeotVWJIqwQg8ap0ZxRM/5qRpYW
- Qbg/CBCm3sUzGtx8jBoVapfrDV3e5oV31cZreVxfcwvkVwOh6vMzne8J6Y9vmdeMBFyl
- SzrmXUR2YdS/mwjVGU9RpEhZ05mLXNTzGyeQ7sM3Jw8UYZ0Fl0ruI0k7OKAdD8NykwYN
- 0zAw==
-X-Gm-Message-State: ACrzQf3Ksfepx3LwydqN38fr/miutXFcHskic0ECkZuJ9JRBy9d0iGJ/
- ZBJZ4LgYmX5+H6JnYtP3Pg8WPW1rzif8Cl8dGWI=
-X-Google-Smtp-Source: AMsMyM6LHdZ/ETlKX9/b2JupO545+bEo2gtzg6mF3208MrJpNACahnUFlIlVARaay9tKV9WLzl7Khj9HrsAiu9bV2K0=
-X-Received: by 2002:a05:6808:7dc:b0:34f:97ea:14d with SMTP id
- f28-20020a05680807dc00b0034f97ea014dmr1559347oij.96.1668094344285; Thu, 10
- Nov 2022 07:32:24 -0800 (PST)
+ bh=lLWyKRw2Ej5Lpfhe4CBr1qjwt8vEPyBuJa6C43wuPh8=;
+ b=AFAYGE+b2zDZDIu5kf6tjYbVg8uT5FCMjdkuQEqay8bgajZ0yeJpUZSFbI6aXrY74x
+ BGSJCvizncAI4qFYK5E6IDVLlIqYG8vFHhBc1ZjP6Q4pYuJevnZ9DB2+v+0VEztCttXw
+ Q3E+ypwXhNwy7YlPGplRJJ1cOn4JZK1Z0LC1Cxxk1aap4G02jD7xxhlD8/Sg9+rGaNmJ
+ vxVyAsbqm5VTLfRFOJDOopFeyifvfgkwkf0zgFrDus/7qzZ+TOrG9jVSY/cDB2ymkJDD
+ FmYEVvli/RHxDReXWPwqV6mB2sOh+fIhq6WukX6+5lutWN6nWjYKz4erz7cHkDlhzbQl
+ sEmw==
+X-Gm-Message-State: ACrzQf2HTfsuB3UP0//v4Wx34ME2PqwsLF7mDTchlFTr1G+BvcLNpKqp
+ BNmXJ742jOatoXVFw1eRMG2QFD8os2kfMmWW
+X-Google-Smtp-Source: AMsMyM4POvCaaGUdjkd8YU1574reh5O2VSHNKBQ17xFDa6VOG4JEXZJt6GYX1dKyIdinzb3F/hE7jw==
+X-Received: by 2002:a17:906:b801:b0:7ae:1990:5486 with SMTP id
+ dv1-20020a170906b80100b007ae19905486mr32843976ejb.538.1668094361212; 
+ Thu, 10 Nov 2022 07:32:41 -0800 (PST)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com.
+ [209.85.128.42]) by smtp.gmail.com with ESMTPSA id
+ x16-20020a170906135000b007ae32daf4b9sm7277038ejb.106.2022.11.10.07.32.38
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Nov 2022 07:32:38 -0800 (PST)
+Received: by mail-wm1-f42.google.com with SMTP id
+ h133-20020a1c218b000000b003cf4d389c41so3685604wmh.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 07:32:38 -0800 (PST)
+X-Received: by 2002:a05:600c:4486:b0:3cf:6e1d:f4a5 with SMTP id
+ e6-20020a05600c448600b003cf6e1df4a5mr41251597wmo.85.1668094358585; Thu, 10
+ Nov 2022 07:32:38 -0800 (PST)
 MIME-Version: 1.0
-References: <20221109093122.6566-1-liujian56@huawei.com>
-In-Reply-To: <20221109093122.6566-1-liujian56@huawei.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 10 Nov 2022 10:32:11 -0500
-Message-ID: <CADnq5_Mg6tX3e2HgPY+V-0vm4V2eGDb7ZQEba8KkY-=6NWv=Eg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: delete the duplicate .set_odm_bypass
- initialization in dcn314_tg_funcs
-To: Liu Jian <liujian56@huawei.com>
+References: <20220831141622.39605-1-francesco.dolcini@toradex.com>
+ <Y01kJbZjkwo1A8l1@francesco-nb.int.toradex.com>
+ <Y2z4zoYU2rxrOKPC@francesco-nb.int.toradex.com>
+In-Reply-To: <Y2z4zoYU2rxrOKPC@francesco-nb.int.toradex.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 10 Nov 2022 07:32:26 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=UHOdxmKFSapPshxyo0NW3UxsmzSXroe4riAFDWM6Si=w@mail.gmail.com>
+Message-ID: <CAD=FV=UHOdxmKFSapPshxyo0NW3UxsmzSXroe4riAFDWM6Si=w@mail.gmail.com>
+Subject: Re: [PATCH v1] drm/panel: simple: set bpc field for logic
+ technologies displays
+To: Francesco Dolcini <francesco@dolcini.it>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,41 +77,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Charlene.Liu@amd.com, rdunlap@infradead.org, sunpeng.li@amd.com,
- Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, duncan.ma@amd.com,
- amd-gfx@lists.freedesktop.org, nicholas.kazlauskas@amd.com, alex.hung@amd.com,
- aurabindo.pillai@amd.com, michael.strauss@amd.com,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: David Airlie <airlied@linux.ie>,
+ Aishwarya Kothari <aishwarya.kothari@toradex.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Marcel Ziswiler <marcel.ziswiler@toradex.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Francesco Dolcini <francesco.dolcini@toradex.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+Hi,
 
-On Wed, Nov 9, 2022 at 8:51 AM Liu Jian <liujian56@huawei.com> wrote:
+On Thu, Nov 10, 2022 at 5:13 AM Francesco Dolcini <francesco@dolcini.it> wrote:
 >
-> Fix below sparse warning:
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn314/dcn314_optc.c:244:18: warning: Initializer entry defined twice
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn314/dcn314_optc.c:257:18:   also defined here
+> On Mon, Oct 17, 2022 at 04:18:13PM +0200, Francesco Dolcini wrote:
+> > On Wed, Aug 31, 2022 at 04:16:22PM +0200, Francesco Dolcini wrote:
+> > > From: Aishwarya Kothari <aishwarya.kothari@toradex.com>
+> > >
+> > > In case bpc is not set for a panel it then throws a WARN(). Add bpc to
+> > > the panels logictechno_lt170410_2whc and logictechno_lt161010_2nh.
+> > >
+> > > Fixes: 5728fe7fa539 ("drm/panel: simple: add display timings for logic technologies displays")
+> >
+> > Hello,
+> > just a gently ping on this. It applies cleanly on v6.1-rc1, anything I
+> > should do?
 >
-> Fixes: 5ade1b951dec ("drm/amd/display: Add OTG/ODM functions")
-> Signed-off-by: Liu Jian <liujian56@huawei.com>
-> ---
->  drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c
-> index 47eb162f1a75..58d38de6a0f8 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_optc.c
-> @@ -241,7 +241,6 @@ static struct timing_generator_funcs dcn314_tg_funcs = {
->                 .set_dsc_config = optc3_set_dsc_config,
->                 .get_dsc_status = optc2_get_dsc_status,
->                 .set_dwb_source = NULL,
-> -               .set_odm_bypass = optc3_set_odm_bypass,
->                 .set_odm_combine = optc314_set_odm_combine,
->                 .get_optc_source = optc2_get_optc_source,
->                 .set_out_mux = optc3_set_out_mux,
-> --
-> 2.17.1
->
+> Hello Doug,
+> can you help on this patch? I am not sure who is supposed to pick this
+> small fix, but it looks like you recently took patches on
+> "drm/panel: simple:", so maybe you can help.
+
+Sure. It looks fine to me so I don't mind applying it. I did a quick
+double-check and I was amused that the datasheet of the 800x480 screen
+claims that it can show 16.7M colors with an 18-bit interface. ;-)
+
+Pushed to drm-misc-fixes:
+
+876153ab068b drm/panel: simple: set bpc field for logic technologies displays
