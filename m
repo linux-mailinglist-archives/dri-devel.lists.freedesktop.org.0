@@ -1,61 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FA5C6242DB
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 14:06:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5DD36242E9
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 14:09:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93D6B10E797;
-	Thu, 10 Nov 2022 13:05:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03CD510E79B;
+	Thu, 10 Nov 2022 13:09:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
- [IPv6:2607:f8b0:4864:20::1034])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0085010E797
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 13:05:53 +0000 (UTC)
-Received: by mail-pj1-x1034.google.com with SMTP id
- c15-20020a17090a1d0f00b0021365864446so1456703pjd.4
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 05:05:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=lrV3scjxXBUgyRehk9/on/q8TxNDq8MdTdotV2WeMBQ=;
- b=GVZ09h+ngHWOecbTC/uzghXW93HVi79Hc3aHUMBuHut0K+MRP4qjrmbxOsy9wAvyhh
- CzAf4wAUsz2LX8ScnTSnBYBlU0zD4SfZXHjTGLx4odMNe2HTZmWoc8/O0MjERSTJDuKQ
- 9UeL9YNFV2iAuj4M769TxWHJzx0wEKM1UD/fL8Quarzgi8/jAHx03TmKPyEcNniVs1JP
- E1bQ9YyT5yBnS4K6hTH0QDyjNMb9vjtJqKa6/m2IeBhMmf0jPp66hTlfQCyxBUHnorSo
- 4QxzB8BVVnzEGtFh63S81NhnvCx7MGrBaQEPEUdQo8KV1MCY/puvxsLONjSQ8GgFephe
- xQuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=lrV3scjxXBUgyRehk9/on/q8TxNDq8MdTdotV2WeMBQ=;
- b=hCnErJym/KHwLgsCMO2duFROkmKTCT4AupFnmYRAUqb9BKJe+CqcZi5S4NNozSsJHl
- yD3WgYZ38X8jm4LWWxPY5xLulvUjzhnKqMbHXhKlBWU3Cp9Ha0XYXLYlB5Cs0UNNXKaq
- lvHfL1e114VHKQD9O5kzm1qbxwXXv3nKa7TYeH8Az8Xf7e1dA2QK/dIdFdCOiuU56N0w
- KoTSa0PIUbyXPDNjrIS0MfSpBKzFjICJ/HgGK+o3J9SWWKRpNkVbcjLIjUExp7XrurJX
- HleCNZXPCSWuXCaXnwCpBhCtzucSXH9c5hgBbN+0vZpTbEfac5m8hn3BjbZjyFTV4Za7
- KNEQ==
-X-Gm-Message-State: ACrzQf1tshGcYnvak2Y818s3+TSY6dmCSP/f8KVuG6UuvtgvgN1vI1Rc
- /itS6LRH7xNGhxTipCshZdkq9PNCZguOjtk41CQQ1A==
-X-Google-Smtp-Source: AMsMyM4ntafpxKu1kZoVYdCyuwK4y2qgGm0PDcBHChl8r8c0pj7m0JmQ6SHmodBY/Un25AY0R73awNrQX1GtCyrtwGQ=
-X-Received: by 2002:a17:903:100c:b0:186:63a1:3b5d with SMTP id
- a12-20020a170903100c00b0018663a13b5dmr65965693plb.148.1668085553525; Thu, 10
- Nov 2022 05:05:53 -0800 (PST)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B68D010E799;
+ Thu, 10 Nov 2022 13:09:35 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 751EA1F8F4;
+ Thu, 10 Nov 2022 13:09:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1668085772; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=hLX1Kf1YwFIN5rhfEBJFleCYcI9ShWd8l3DAEB7UhgM=;
+ b=BSyUDVgZSRZDIRTLntV01gt7BRNsEDF1S1rVWBu934pcVKgai0d+h9xcz8/z+UUk2c9XBB
+ 6b5teQV4sLhE69UZYpUvMP2SURMGI8yFhzsr1GOLflTaXxoAICD2jZjEmB3M8OOuZfYPSX
+ NdqEkedtPAQvqd6KGM0vSRDwO7quJa4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1668085772;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=hLX1Kf1YwFIN5rhfEBJFleCYcI9ShWd8l3DAEB7UhgM=;
+ b=k9DZQTcYod/BQInLVlKPWzfMkW9nn5RpVcIbGDFUYwhrqGMVS3P5Yn1ZBD85JjrAuCkHTM
+ aNi2Lmtnfz7TR9AQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5805913B58;
+ Thu, 10 Nov 2022 13:09:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id W8ANFQz4bGMcbwAAMHmgww
+ (envelope-from <tiwai@suse.de>); Thu, 10 Nov 2022 13:09:32 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: Alex Deucher <alexander.deucher@amd.com>
+Subject: [PATCH] drm: radeon: Fix audio get_eld callback
+Date: Thu, 10 Nov 2022 14:09:25 +0100
+Message-Id: <20221110130925.26928-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
- <20221018-clk-range-checks-fixes-v2-35-f6736dec138e@cerno.tech>
- <CAPDyKFoycVedCJMy0=UK+q5SiPQHqje_8bSN-gdkpBa6KhFfkg@mail.gmail.com>
- <CACRpkdYOj8uozJZO4MV-_OAKeOsQHhoEM=PyynVuNY-JkpgTOw@mail.gmail.com>
-In-Reply-To: <CACRpkdYOj8uozJZO4MV-_OAKeOsQHhoEM=PyynVuNY-JkpgTOw@mail.gmail.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Thu, 10 Nov 2022 14:05:16 +0100
-Message-ID: <CAPDyKFr6VeF3s47JfzJ9urtMsEem+GiBtHeU=_S8jNaz-D+qnw@mail.gmail.com>
-Subject: Re: [PATCH v2 35/65] clk: ux500: sysctrl: Add a determine_rate hook
-To: Linus Walleij <linus.walleij@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,88 +61,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Prashant Gaikwad <pgaikwad@nvidia.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Michael Turquette <mturquette@baylibre.com>, Sekhar Nori <nsekhar@ti.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
- Paul Cercueil <paul@crapouillou.net>, Max Filippov <jcmvbkbc@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-phy@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, Abel Vesa <abelvesa@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Samuel Holland <samuel@sholland.org>, Chunyan Zhang <zhang.lyra@gmail.com>,
- Takashi Iwai <tiwai@suse.com>, linux-tegra@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
- NXP Linux Team <linux-imx@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
- linux-mips@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- linux-sunxi@lists.linux.dev, linux-rtc@vger.kernel.org,
- linux-clk@vger.kernel.org, Charles Keepax <ckeepax@opensource.cirrus.com>,
- alsa-devel@alsa-project.org, Manivannan Sadhasivam <mani@kernel.org>,
- linux-kernel@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
- linux-actions@lists.infradead.org,
- Richard Fitzgerald <rf@opensource.cirrus.com>, Mark Brown <broonie@kernel.org>,
- linux-mediatek@lists.infradead.org, Maxime Ripard <maxime@cerno.tech>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Alessandro Zummo <a.zummo@towertech.it>, Stephen Boyd <sboyd@kernel.org>,
- patches@opensource.cirrus.com, Peter De Schrijver <pdeschrijver@nvidia.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
- linux-renesas-soc@vger.kernel.org, Dinh Nguyen <dinguyen@kernel.org>,
- Vinod Koul <vkoul@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- David Lechner <david@lechnology.com>, Shawn Guo <shawnguo@kernel.org>,
- Claudiu Beznea <claudiu.beznea@microchip.com>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 10 Nov 2022 at 12:39, Linus Walleij <linus.walleij@linaro.org> wrote:
->
-> On Thu, Nov 10, 2022 at 12:29 PM Ulf Hansson <ulf.hansson@linaro.org> wrote:
-> > On Fri, 4 Nov 2022 at 14:32, Maxime Ripard <maxime@cerno.tech> wrote:
-> > >
-> > > The UX500 sysctrl "set_parent" clocks implement a mux with a set_parent
-> > > hook, but doesn't provide a determine_rate implementation.
-> > >
-> > > This is a bit odd, since set_parent() is there to, as its name implies,
-> > > change the parent of a clock. However, the most likely candidate to
-> > > trigger that parent change is a call to clk_set_rate(), with
-> > > determine_rate() figuring out which parent is the best suited for a
-> > > given rate.
-> > >
-> > > The other trigger would be a call to clk_set_parent(), but it's far less
-> > > used, and it doesn't look like there's any obvious user for that clock.
-> >
-> > If I recall correctly, that is the use case we did target for these
-> > types of clocks. See sound/soc/ux500/ux500_ab85xx.c, for example.
->
-> Hm I am trying to get that driver to work ... from time to time.
-> It's just that ALSA SoC DT has changed to much that it turns out
-> into a complete rewrite :/
->
-> So in sound/soc/ux500/mop500_ab8500.c
-> I see this:
->
->         status = clk_set_parent(drvdata->clk_ptr_intclk, clk_ptr);
->         if (status)
-> (...)
->
-> and there is elaborate code to switch between "SYSCLK" and
-> "ULPCLK" (ulta-low power clock). Just like you say... however
-> a clock named SYSCLK or ULPCLK does not appear in the
-> code in drivers/clk/ux500 or any DT bindings so... it seems to
-> be non-working for the time being.
+Check the availability of the audio capability and mode config before
+going to the loop for avoiding the access to an unusable state.  Also,
+change the loop iterations over encoder instead of connector in order
+to align with radeon_audio_enable().
 
-It's definitely not working, but the corresponding clocks ("ulpclk",
-"intclk", "audioclk", etc) are being registered in ab8500_reg_clks().
+Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2236
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
 
-What seems to be missing is a DT conversion for these clocks, so they
-can be consumed properly. Right?
+Note: this is the additional fix on top of the previously submitted
+audio component support for radeon.
 
-Kind regards
-Uffe
+ drivers/gpu/drm/radeon/radeon_audio.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/radeon/radeon_audio.c b/drivers/gpu/drm/radeon/radeon_audio.c
+index 71b67d4efe08..d6ccaf24ee0c 100644
+--- a/drivers/gpu/drm/radeon/radeon_audio.c
++++ b/drivers/gpu/drm/radeon/radeon_audio.c
+@@ -747,6 +747,7 @@ static int radeon_audio_component_get_eld(struct device *kdev, int port,
+ 					  unsigned char *buf, int max_bytes)
+ {
+ 	struct drm_device *dev = dev_get_drvdata(kdev);
++	struct radeon_device *rdev = dev->dev_private;
+ 	struct drm_encoder *encoder;
+ 	struct radeon_encoder *radeon_encoder;
+ 	struct radeon_encoder_atom_dig *dig;
+@@ -754,19 +755,19 @@ static int radeon_audio_component_get_eld(struct device *kdev, int port,
+ 	int ret = 0;
+ 
+ 	*enabled = false;
+-	list_for_each_entry(connector, &dev->mode_config.connector_list, head) {
+-		const struct drm_connector_helper_funcs *connector_funcs =
+-			connector->helper_private;
+-		encoder = connector_funcs->best_encoder(connector);
++	if (!rdev->audio.enabled || !rdev->mode_info.mode_config_initialized)
++		return 0;
+ 
+-		if (!encoder)
+-			continue;
++	list_for_each_entry(encoder, &rdev->ddev->mode_config.encoder_list, head) {
+ 		if (!radeon_encoder_is_digital(encoder))
+ 			continue;
+ 		radeon_encoder = to_radeon_encoder(encoder);
+ 		dig = radeon_encoder->enc_priv;
+ 		if (!dig->pin || dig->pin->id != port)
+ 			continue;
++		connector = radeon_get_connector_for_encoder(encoder);
++		if (!connector)
++			continue;
+ 		*enabled = true;
+ 		ret = drm_eld_size(connector->eld);
+ 		memcpy(buf, connector->eld, min(max_bytes, ret));
+-- 
+2.35.3
+
