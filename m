@@ -2,33 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 973E0624B6B
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 21:15:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91A01624B76
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 21:15:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FD1810E84B;
-	Thu, 10 Nov 2022 20:15:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0022A10E851;
+	Thu, 10 Nov 2022 20:15:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77FAF10E847;
- Thu, 10 Nov 2022 20:14:56 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6320F10E832;
+ Thu, 10 Nov 2022 20:14:58 +0000 (UTC)
 Received: from dimapc.. (unknown [109.252.117.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 69D8C6602A41;
- Thu, 10 Nov 2022 20:14:53 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 76FB16602A52;
+ Thu, 10 Nov 2022 20:14:55 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1668111295;
- bh=Y9B9YrrEmHlNO1aEObVWaFh4UvP89E0LA68VwtlK5tI=;
+ s=mail; t=1668111297;
+ bh=tFGVSeUWIaYJ9Ib1/vtuoKFGinbIYhiNCk2JIU4TCAA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=YvJFNfG0veek5/GRaGa5nRrI/zKHIbyJmgP5Wf0I7nWHz14yHRQEDHx4U91zB4+XD
- DSZNDsmp1HtnE+QNOMSbxp9pUzx2JkuOF6lmfXmztWoOfbHEwP6SzHu/oMI5WkiuD4
- oX6vaEzRzRW/siHAWBjRVqW6yjWzyJfTbPzG3MvfNQs8R1zP6AMq/0gU0aPQp1L80R
- yXf2zI9i9HIIVNTDlvjA7BXetRNrmgqF/RdqwW+1JMdVFVILpoEaFunwkrayKHghVS
- 4ZSMpbMXyeTxhUhFrD0LReNJC90DC/wylSo3H1ulvMs/kenG8FCVxr2YPwqlzXVQM0
- QMcmyw/jqO+gQ==
+ b=WiW5lCgRnkdkfo5vaoZTlj8VvywC0gJ5C4YLWKTp1ofjQ0BBj8f7uw5QjMBvlfkHw
+ U6uiK9b4Eb3XC+zN7suX+FGdXFSRwZSf8FgLNCyB/F4QyMkABTGlj+mA975iKDaHfO
+ 7QamiY70dGTRMjl2ygQNU3faI4aoycDXfRrLeyuRtV6KdJddWr17/u6yA3PQIE0r3w
+ BixEZwWJq95W2JJM7jSHqPgCZc4dw6s1eFBd3ltOhk53gqgRa2fBwVWDy/XhH/Yuvl
+ Xu/PbO9SEaWlFQa8cDg2uwSa2nXQzk1T8MYDscwlF4w/kGa25X3PWjFooAZUrY7lIj
+ 7VRaF9B1tqf4A==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: Sumit Semwal <sumit.semwal@linaro.org>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -46,10 +47,10 @@ To: Sumit Semwal <sumit.semwal@linaro.org>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
  Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
  Amol Maheshwari <amahesh@qti.qualcomm.com>
-Subject: [PATCH v1 3/6] udmabuf: Assert held reservation lock for dma-buf
- mmapping
-Date: Thu, 10 Nov 2022 23:13:46 +0300
-Message-Id: <20221110201349.351294-4-dmitry.osipenko@collabora.com>
+Subject: [PATCH v1 4/6] dma-buf/heaps: Assert held reservation lock for
+ dma-buf mmapping
+Date: Thu, 10 Nov 2022 23:13:47 +0300
+Message-Id: <20221110201349.351294-5-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221110201349.351294-1-dmitry.osipenko@collabora.com>
 References: <20221110201349.351294-1-dmitry.osipenko@collabora.com>
@@ -74,35 +75,57 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 When userspace mmaps dma-buf's fd, the dma-buf reservation lock must be
-held. Add locking sanity check to the dma-buf mmaping callback to ensure
-that the locking assumption won't regress in the future.
+held. Add locking sanity checks to the dma-buf mmaping callbacks to ensure
+that the locking assumptions won't regress in the future.
 
 Suggested-by: Daniel Vetter <daniel@ffwll.ch>
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/dma-buf/udmabuf.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/dma-buf/heaps/cma_heap.c    | 3 +++
+ drivers/dma-buf/heaps/system_heap.c | 3 +++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index 2bcdb935a3ac..283816fbd72f 100644
---- a/drivers/dma-buf/udmabuf.c
-+++ b/drivers/dma-buf/udmabuf.c
-@@ -2,6 +2,7 @@
- #include <linux/cred.h>
- #include <linux/device.h>
+diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
+index 28fb04eccdd0..1131fb943992 100644
+--- a/drivers/dma-buf/heaps/cma_heap.c
++++ b/drivers/dma-buf/heaps/cma_heap.c
+@@ -13,6 +13,7 @@
  #include <linux/dma-buf.h>
+ #include <linux/dma-heap.h>
+ #include <linux/dma-map-ops.h>
 +#include <linux/dma-resv.h>
+ #include <linux/err.h>
  #include <linux/highmem.h>
- #include <linux/init.h>
- #include <linux/kernel.h>
-@@ -49,6 +50,8 @@ static int mmap_udmabuf(struct dma_buf *buf, struct vm_area_struct *vma)
+ #include <linux/io.h>
+@@ -182,6 +183,8 @@ static int cma_heap_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
  {
- 	struct udmabuf *ubuf = buf->priv;
+ 	struct cma_heap_buffer *buffer = dmabuf->priv;
  
-+	dma_resv_assert_held(buf->resv);
++	dma_resv_assert_held(dmabuf->resv);
 +
  	if ((vma->vm_flags & (VM_SHARED | VM_MAYSHARE)) == 0)
  		return -EINVAL;
+ 
+diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+index fcf836ba9c1f..e8bd10e60998 100644
+--- a/drivers/dma-buf/heaps/system_heap.c
++++ b/drivers/dma-buf/heaps/system_heap.c
+@@ -13,6 +13,7 @@
+ #include <linux/dma-buf.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/dma-heap.h>
++#include <linux/dma-resv.h>
+ #include <linux/err.h>
+ #include <linux/highmem.h>
+ #include <linux/mm.h>
+@@ -201,6 +202,8 @@ static int system_heap_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
+ 	struct sg_page_iter piter;
+ 	int ret;
+ 
++	dma_resv_assert_held(dmabuf->resv);
++
+ 	for_each_sgtable_page(table, &piter, vma->vm_pgoff) {
+ 		struct page *page = sg_page_iter_page(&piter);
  
 -- 
 2.37.3
