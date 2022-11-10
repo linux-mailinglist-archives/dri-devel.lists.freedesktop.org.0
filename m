@@ -1,74 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ACEA624D8F
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 23:16:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F35E624D9C
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 23:24:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79FBC10E033;
-	Thu, 10 Nov 2022 22:16:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BF5B10E043;
+	Thu, 10 Nov 2022 22:24:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43B9C10E033
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 22:16:16 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id k19so2550203lji.2
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 14:16:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=s65EYAknSFWDHKsSADywqpSR/Hc5YPGXnFWmJEkOdnE=;
- b=VJYfz5CCXLZC2WeV/V55DN0hnBl0ceRW8/LcAPSYEyecuIc7j4hvO08t413XUlLrkX
- aEKm5Swzk9K/nRYcMudX55BeXZh89wIhf33OXSYHi3WzMmyG2X2n5Fu4qkM6L853c5JC
- kurcwjnKe+pczq9SJu6dyWBhgPIHRSOPLNTIWPyJdTSz0TZR8c262W7vfqKgI558IEf8
- Fsgj6kBXIiQvq6G3KbefFvvnlVrYsKJMUp4dyKq490eyMzYetCcG/0Eo5rh186v0dEDg
- Ykni23rGvwhbGAJgM5F7lzRcqq3oPcAlB9AZfHRG0ynL1ILxy4I/2CUNr1ayqpbs+WXb
- EnJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=s65EYAknSFWDHKsSADywqpSR/Hc5YPGXnFWmJEkOdnE=;
- b=qjHg3p8akojMaFUxWX3supH+wyD8pagEDZLEenoAC4z6Wo4ZMQrwkCIfzMxrNF0JEJ
- wIy5Bcc47mqZTEh3u8bHsIhHu4vvnC4ipL3c1UV+fNQrpOoFN5sEwLtF9xZCJ/3hZ3lk
- HZWgPxzat6O7CCF0AYNmv89giosrWnRFgVftCfdZuHYx5xSFxKpRJuyF90/i7RQAmuBY
- OWTPJDasRmk7oX4aa4C5C1l6PD1rPPGBgKIvFFTG+wd3xCojSx1EpdUYoZWyR9Xd+VhO
- fyVeyyZwgNm/DKhP2b0D8D7h/O8WJDhjLt+brTMand0Pn7WrJVKiCUTeVI9ztZHL0lHm
- Qs6A==
-X-Gm-Message-State: ACrzQf2oF1cPullC0CTEK1FfTqh/RzyLID67WITGlsd/a+t6N+CJn9l9
- dqn/Pu/zsZ5aGtnITO390ibSR8P3g6GABw==
-X-Google-Smtp-Source: AMsMyM4MLrNvqUxxkYXiJH8W1vESNyV+NL2zGWZfOQW3mBUQWRPHWiynMzuPvAZDqZT6D1nzHNf62A==
-X-Received: by 2002:a2e:9dc2:0:b0:26f:aa1b:1fbc with SMTP id
- x2-20020a2e9dc2000000b0026faa1b1fbcmr8905935ljj.43.1668118574479; 
- Thu, 10 Nov 2022 14:16:14 -0800 (PST)
-Received: from [10.10.15.130] ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- r30-20020ac25a5e000000b00497a32e2576sm48827lfn.32.2022.11.10.14.16.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Nov 2022 14:16:14 -0800 (PST)
-Message-ID: <34ba9203-5c1f-9d8e-8de1-807b26f7f8c4@linaro.org>
-Date: Fri, 11 Nov 2022 01:16:13 +0300
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D02D10E00E;
+ Thu, 10 Nov 2022 22:24:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1668119046; x=1699655046;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=DvyljN7szcThSerb6rdhu2J8DbM4Hs8DDyEW9DEgFq0=;
+ b=aGPAgwDrr5nuYyopb4I2Ao5mLSqBZ+rKAj191I4JlIX8LllwCYg8ak3m
+ 4YkJvmyR46YeDzkacv+R4JlQV9W3/whorBv2yr6z3YIKvyrxt0aU7ILIU
+ ENr03T7lMKxoDVBVv2dRHA8UaHyI9pIIjvlYEkx58YZksa75T8qk1hRFk
+ qEdEkQEczzEL8LJl8jwUSix3W6H3espaEMxd9OUEOGSv0W4YSpVcCQN07
+ NQT5/8O0tE94ooO5Ve7rhb+lw/BKjjr5Qy27ate94gnLD7FAl/JOHIjvF
+ x4AVkBpUptk+yqu0k39BttfLHVL5UYfZoFtuWg1xzb25Fua1xYh6U99kR g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10527"; a="313238452"
+X-IronPort-AV: E=Sophos;i="5.96,155,1665471600"; d="scan'208";a="313238452"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2022 14:24:05 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10527"; a="615274650"
+X-IronPort-AV: E=Sophos;i="5.96,155,1665471600"; d="scan'208";a="615274650"
+Received: from ibass1-mobl.ger.corp.intel.com (HELO mdnavare-mobl9)
+ ([10.214.217.11])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2022 14:24:00 -0800
+Date: Thu, 10 Nov 2022 14:23:53 -0800
+From: "Navare, Manasi" <manasi.d.navare@intel.com>
+To: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
+Subject: Re: [PATCH 6/6] drm/i915: Bpp/timeslot calculation fixes for DP MST
+ DSC
+Message-ID: <Y215+cst5k5dCoBf@mdnavare-mobl9>
+References: <20221101094222.22091-7-stanislav.lisovskiy@intel.com>
+ <20221103132300.12805-1-stanislav.lisovskiy@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH v3 4/8] drm/msm/dsi: add support for DSI-PHY on SM8350 and
- SM8450
-Content-Language: en-GB
-To: Konrad Dybcio <konrad.dybcio@somainline.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20221104130324.1024242-1-dmitry.baryshkov@linaro.org>
- <20221104130324.1024242-5-dmitry.baryshkov@linaro.org>
- <fdea9d9b-a91a-06b9-a467-315af0c0fed4@somainline.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <fdea9d9b-a91a-06b9-a467-315af0c0fed4@somainline.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221103132300.12805-1-stanislav.lisovskiy@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,418 +59,314 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- Vinod Koul <vkoul@kernel.org>, Robert Foss <robert.foss@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
+ jani.saarinen@intel.com, dri-devel@lists.freedesktop.org,
+ vinod.govindapillai@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/11/2022 16:54, Konrad Dybcio wrote:
+On Thu, Nov 03, 2022 at 03:23:00PM +0200, Stanislav Lisovskiy wrote:
+> Fix intel_dp_dsc_compute_config, previously timeslots parameter
+> was used in fact not as a timeslots, but more like a ratio
+> timeslots/64, which of course didn't have any effect for SST DSC,
+> but causes now issues for MST DSC.
+> Secondly we need to calculate pipe_bpp using intel_dp_dsc_compute_bpp
+> only for SST DSC case, while for MST case it has been calculated
+> earlier already with intel_dp_dsc_mst_compute_link_config.
+> Third we also were wrongly determining sink min bpp/max bpp, those
+> limites should be intersected with our limits to find common
+> acceptable bpp's, plus on top of that we should align those with
+> VESA bpps and only then calculate required timeslots amount.
+> Some MST hubs started to work only after third change was made.
 > 
-> On 04/11/2022 14:03, Dmitry Baryshkov wrote:
->> SM8350 and SM8450 use 5nm DSI PHYs, which share register definitions
->> with 7nm DSI PHYs. Rather than duplicating the driver, handle 5nm
->> variants inside the common 5+7nm driver.
->>
->> Co-developed-by: Robert Foss <robert.foss@linaro.org>
->> Tested-by: Vinod Koul <vkoul@kernel.org>
->> Reviewed-by: Vinod Koul <vkoul@kernel.org>
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> ---
->>   drivers/gpu/drm/msm/Kconfig               |   6 +-
->>   drivers/gpu/drm/msm/dsi/phy/dsi_phy.c     |   4 +
->>   drivers/gpu/drm/msm/dsi/phy/dsi_phy.h     |   2 +
->>   drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 128 ++++++++++++++++++++--
->>   4 files changed, 127 insertions(+), 13 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
->> index 3c9dfdb0b328..e7b100d97f88 100644
->> --- a/drivers/gpu/drm/msm/Kconfig
->> +++ b/drivers/gpu/drm/msm/Kconfig
->> @@ -140,12 +140,12 @@ config DRM_MSM_DSI_10NM_PHY
->>         Choose this option if DSI PHY on SDM845 is used on the platform.
->>   config DRM_MSM_DSI_7NM_PHY
->> -    bool "Enable DSI 7nm PHY driver in MSM DRM"
->> +    bool "Enable DSI 7nm/5nm PHY driver in MSM DRM"
->>       depends on DRM_MSM_DSI
->>       default y
->>       help
->> -      Choose this option if DSI PHY on SM8150/SM8250/SC7280 is used on
->> -      the platform.
->> +      Choose this option if DSI PHY on 
->> SM8150/SM8250/SM8350/SM8450/SC7280
->> +      is used on the platform.
->>   config DRM_MSM_HDMI
->>       bool "Enable HDMI support in MSM DRM driver"
->> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c 
->> b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
->> index ee6051367679..0c956fdab23e 100644
->> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
->> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
->> @@ -569,6 +569,10 @@ static const struct of_device_id 
->> dsi_phy_dt_match[] = {
->>         .data = &dsi_phy_7nm_8150_cfgs },
->>       { .compatible = "qcom,sc7280-dsi-phy-7nm",
->>         .data = &dsi_phy_7nm_7280_cfgs },
->> +    { .compatible = "qcom,dsi-phy-5nm-8350",
->> +      .data = &dsi_phy_5nm_8350_cfgs },
->> +    { .compatible = "qcom,dsi-phy-5nm-8450",
->> +      .data = &dsi_phy_5nm_8450_cfgs },
->>   #endif
->>       {}
->>   };
->> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h 
->> b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
->> index 1096afedd616..f7a907ed2b4b 100644
->> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
->> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
->> @@ -57,6 +57,8 @@ extern const struct msm_dsi_phy_cfg 
->> dsi_phy_10nm_8998_cfgs;
->>   extern const struct msm_dsi_phy_cfg dsi_phy_7nm_cfgs;
->>   extern const struct msm_dsi_phy_cfg dsi_phy_7nm_8150_cfgs;
->>   extern const struct msm_dsi_phy_cfg dsi_phy_7nm_7280_cfgs;
->> +extern const struct msm_dsi_phy_cfg dsi_phy_5nm_8350_cfgs;
->> +extern const struct msm_dsi_phy_cfg dsi_phy_5nm_8450_cfgs;
->>   struct msm_dsi_dphy_timing {
->>       u32 clk_zero;
->> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c 
->> b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
->> index 9e7fa7d88ead..00d92fe97bc3 100644
->> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
->> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
->> @@ -39,8 +39,14 @@
->>   #define VCO_REF_CLK_RATE        19200000
->>   #define FRAC_BITS 18
->> +/* Hardware is pre V4.1 */
->> +#define DSI_PHY_7NM_QUIRK_PRE_V4_1    BIT(0)
->>   /* Hardware is V4.1 */
->> -#define DSI_PHY_7NM_QUIRK_V4_1        BIT(0)
->> +#define DSI_PHY_7NM_QUIRK_V4_1        BIT(1)
->> +/* Hardware is V4.2 */
->> +#define DSI_PHY_7NM_QUIRK_V4_2        BIT(2)
->> +/* Hardware is V4.3 */
->> +#define DSI_PHY_7NM_QUIRK_V4_3        BIT(3)
+> v2: Make kernel test robot happy(claimed there was unitialzed use,
+>     while there is none)
 > 
-> Quirk is quite an unfortunate name considering what we use it for.. but I
+> Signed-off-by: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_dp.c     | 69 ++++++++++++++-------
+>  drivers/gpu/drm/i915/display/intel_dp.h     |  3 +-
+>  drivers/gpu/drm/i915/display/intel_dp_mst.c | 69 +++++++++++++++++----
+>  3 files changed, 106 insertions(+), 35 deletions(-)
 > 
-> suppose it can stay, as otherwise even more renaming would have to be done.
-> 
-> 
->>   struct dsi_pll_config {
->>       bool enable_ssc;
->> @@ -116,7 +122,7 @@ static void dsi_pll_calc_dec_frac(struct 
->> dsi_pll_7nm *pll, struct dsi_pll_config
->>       dec_multiple = div_u64(pll_freq * multiplier, divider);
->>       dec = div_u64_rem(dec_multiple, multiplier, &frac);
->> -    if (!(pll->phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V4_1))
->> +    if (pll->phy->cfg->quirks & DSI_PHY_7NM_QUIRK_PRE_V4_1)
->>           config->pll_clock_inverters = 0x28;
->>       else if (pll_freq <= 1000000000ULL)
->>           config->pll_clock_inverters = 0xa0;
->> @@ -197,16 +203,25 @@ static void dsi_pll_config_hzindep_reg(struct 
->> dsi_pll_7nm *pll)
->>       void __iomem *base = pll->phy->pll_base;
->>       u8 analog_controls_five_1 = 0x01, vco_config_1 = 0x00;
->> -    if (pll->phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V4_1) {
->> +    if (!(pll->phy->cfg->quirks & DSI_PHY_7NM_QUIRK_PRE_V4_1))
->>           if (pll->vco_current_rate >= 3100000000ULL)
->>               analog_controls_five_1 = 0x03;
->> +    if (pll->phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V4_1) {
->>           if (pll->vco_current_rate < 1520000000ULL)
->>               vco_config_1 = 0x08;
->>           else if (pll->vco_current_rate < 2990000000ULL)
->>               vco_config_1 = 0x01;
->>       }
->> +    if ((pll->phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V4_2) ||
->> +        (pll->phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V4_3)) {
->> +        if (pll->vco_current_rate < 1520000000ULL)
->> +            vco_config_1 = 0x08;
->> +        else if (pll->vco_current_rate >= 2990000000ULL)
->> +            vco_config_1 = 0x01;
->> +    }
->> +
->>       dsi_phy_write(base + REG_DSI_7nm_PHY_PLL_ANALOG_CONTROLS_FIVE_1,
->>                 analog_controls_five_1);
->>       dsi_phy_write(base + REG_DSI_7nm_PHY_PLL_VCO_CONFIG_1, 
->> vco_config_1);
->> @@ -231,9 +246,9 @@ static void dsi_pll_config_hzindep_reg(struct 
->> dsi_pll_7nm *pll)
->>       dsi_phy_write(base + REG_DSI_7nm_PHY_PLL_PFILT, 0x2f);
->>       dsi_phy_write(base + REG_DSI_7nm_PHY_PLL_IFILT, 0x2a);
->>       dsi_phy_write(base + REG_DSI_7nm_PHY_PLL_IFILT,
->> -          pll->phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V4_1 ? 0x3f : 0x22);
->> +          !(pll->phy->cfg->quirks & DSI_PHY_7NM_QUIRK_PRE_V4_1) ? 
->> 0x3f : 0x22);
->> -    if (pll->phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V4_1) {
->> +    if (!(pll->phy->cfg->quirks & DSI_PHY_7NM_QUIRK_PRE_V4_1)) {
->>           dsi_phy_write(base + REG_DSI_7nm_PHY_PLL_PERF_OPTIMIZE, 0x22);
->>           if (pll->slave)
->>               dsi_phy_write(pll->slave->phy->pll_base + 
->> REG_DSI_7nm_PHY_PLL_PERF_OPTIMIZE, 0x22);
->> @@ -788,7 +803,7 @@ static void dsi_phy_hw_v4_0_lane_settings(struct 
->> msm_dsi_phy *phy)
->>       const u8 *tx_dctrl = tx_dctrl_0;
->>       void __iomem *lane_base = phy->lane_base;
->> -    if (phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V4_1)
->> +    if (!(phy->cfg->quirks & DSI_PHY_7NM_QUIRK_PRE_V4_1))
->>           tx_dctrl = tx_dctrl_1;
->>       /* Strength ctrl settings */
->> @@ -844,6 +859,12 @@ static int dsi_7nm_phy_enable(struct msm_dsi_phy 
->> *phy,
->>       if (dsi_phy_hw_v4_0_is_pll_on(phy))
->>           pr_warn("PLL turned on before configuring PHY\n");
->> +    /* Request for REFGEN READY */
->> +    if (phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V4_3) {
->> +        dsi_phy_write(phy->base + 
->> REG_DSI_7nm_PHY_CMN_GLBL_DIGTOP_SPARE10, 0x1);
->> +        udelay(500);
->> +    }
->> +
->>       /* wait for REFGEN READY */
->>       ret = readl_poll_timeout_atomic(base + 
->> REG_DSI_7nm_PHY_CMN_PHY_STATUS,
->>                       status, (status & BIT(0)),
->> @@ -858,23 +879,53 @@ static int dsi_7nm_phy_enable(struct msm_dsi_phy 
->> *phy,
->>       /* Alter PHY configurations if data rate less than 1.5GHZ*/
->>       less_than_1500_mhz = (clk_req->bitclk_rate <= 1500000000);
->> -    if (phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V4_1) {
->> -        vreg_ctrl_0 = less_than_1500_mhz ? 0x53 : 0x52;
->> +    if (phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V4_3) {
->> +        if (phy->cphy_mode) {
->> +            vreg_ctrl_0 = 0x51;
->> +            glbl_rescode_top_ctrl = less_than_1500_mhz ? 0x3d :  0x01;
->> +            glbl_rescode_bot_ctrl = less_than_1500_mhz ? 0x38 :  0x3b;
->> +            glbl_str_swi_cal_sel_ctrl = 0x00;
->> +            glbl_hstx_str_ctrl_0 = 0x00;
->> +        } else {
->> +            vreg_ctrl_0 = less_than_1500_mhz ? 0x53 : 0x52;
->> +            glbl_rescode_top_ctrl = less_than_1500_mhz ? 0x3d :  0x01;
-> 
-> msm-5.10 has it as 0x3d : 0x00 for both v4.2 and v4.3 in DPHY mode
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> index 8288a30dbd51..82752b696498 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -716,9 +716,14 @@ u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
+>  	 * for SST -> TimeSlotsPerMTP is 1,
+>  	 * for MST -> TimeSlotsPerMTP has to be calculated
+>  	 */
+> -	bits_per_pixel = (link_clock * lane_count * 8) * timeslots /
+> -			 intel_dp_mode_to_fec_clock(mode_clock);
+> -	drm_dbg_kms(&i915->drm, "Max link bpp: %u\n", bits_per_pixel);
+> +	bits_per_pixel = DIV_ROUND_UP((link_clock * lane_count) * timeslots,
+> +				      intel_dp_mode_to_fec_clock(mode_clock) * 8);
 
-Checking with the latest display-drivers sources at [1]:
+Why did we remove the *8 in the numerator for the total bandwidth
+link_clock * lane_count * 8 ? 
 
-There is a common code block using 0x3c : 0x00, but after that at line 
-398 comes the special case for >= 4.3, which sets 0x3d : 0x01;
+Other than this clarification, all changes look good
 
+Manasi
 
-[1] 
-https://git.codelinaro.org/clo/la/platform/vendor/opensource/display-drivers/-/blob/DISPLAY.LA.2.0.r1-08400-WAIPIO.0/msm/dsi/dsi_phy_hw_v4_0.c#L378
-
-This big if/switch is a little bit excessive, but I thought it might be 
-easier to review it this way. I might still merge some of the clauses.
-
-Would you find the following code part cleaner to review/compare?
-
-	glbl_str_swi_cal_sel_ctrl = 0x00;
-	if (phy->cphy_mode) {
-		vreg_ctrl_0 = 0x51;
-		vreg_ctrl_1 = 0x55;
-		glbl_pemph_ctrl_0 = 0x11;
-		glbl_hstx_str_ctrl_0 = 0x00;
-		lane_ctrl0 = 0x17;
-	} else {
-		vreg_ctrl_0 = less_than_1500_mhz ? 0x53 : 0x52;
-		vreg_ctrl_1 = 0x5c;
-		glbl_pemph_ctrl_0 = 0x00;
-		glbl_hstx_str_ctrl_0 = 0x88;
-		lane_ctrl0 = 0x1f;
-	}
-
-	if (phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V4_3) {
-		if (phy->cphy_mode) {
-			glbl_rescode_top_ctrl = less_than_1500_mhz ? 0x3d :  0x01;
-			glbl_rescode_bot_ctrl = less_than_1500_mhz ? 0x38 :  0x3b;
-		} else {
-			glbl_rescode_top_ctrl = less_than_1500_mhz ? 0x3d :  0x01;
-			glbl_rescode_bot_ctrl = less_than_1500_mhz ? 0x38 :  0x39;
-		}
-	} else if (phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V4_2) {
-		if (phy->cphy_mode) {
-			glbl_rescode_top_ctrl = less_than_1500_mhz ? 0x3d :  0x01;
-			glbl_rescode_bot_ctrl = less_than_1500_mhz ? 0x38 :  0x3b;
-		} else {
-			glbl_rescode_top_ctrl = less_than_1500_mhz ? 0x3c :  0x00;
-			glbl_rescode_bot_ctrl = less_than_1500_mhz ? 0x38 :  0x39;
-		}
-	} else if (phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V4_1) {
-		if (phy->cphy_mode) {
-			glbl_rescode_top_ctrl = 0x00;
-			glbl_rescode_bot_ctrl = 0x3c;
-			glbl_hstx_str_ctrl_0 = 0x88;
-		} else {
-			glbl_rescode_top_ctrl = less_than_1500_mhz ? 0x3d :  0x00;
-			glbl_rescode_bot_ctrl = less_than_1500_mhz ? 0x39 :  0x3c;
-		}
-	} else {
-		if (phy->cphy_mode) {
-			glbl_str_swi_cal_sel_ctrl = 0x03;
-			glbl_hstx_str_ctrl_0 = 0x66;
-		} else {
-			vreg_ctrl_0 = less_than_1500_mhz ? 0x5B : 0x59;
-			glbl_str_swi_cal_sel_ctrl = less_than_1500_mhz ? 0x03 : 0x00;
-			glbl_hstx_str_ctrl_0 = less_than_1500_mhz ? 0x66 : 0x88;
-		}
-		glbl_rescode_top_ctrl = 0x03;
-		glbl_rescode_bot_ctrl = 0x3c;
-	}
-
-
+> +
+> +	drm_dbg_kms(&i915->drm, "Max link bpp is %u for %u timeslots "
+> +				"total bw %u pixel clock %u\n",
+> +				bits_per_pixel, timeslots,
+> +				(link_clock * lane_count * 8),
+> +				intel_dp_mode_to_fec_clock(mode_clock));
+>  
+>  	/* Small Joiner Check: output bpp <= joiner RAM (bits) / Horiz. width */
+>  	max_bpp_small_joiner_ram = small_joiner_ram_size_bits(i915) /
+> @@ -1047,7 +1052,7 @@ intel_dp_mode_valid(struct drm_connector *_connector,
+>  							    target_clock,
+>  							    mode->hdisplay,
+>  							    bigjoiner,
+> -							    pipe_bpp, 1) >> 4;
+> +							    pipe_bpp, 64) >> 4;
+>  			dsc_slice_count =
+>  				intel_dp_dsc_get_slice_count(intel_dp,
+>  							     target_clock,
+> @@ -1481,7 +1486,8 @@ int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
+>  				struct intel_crtc_state *pipe_config,
+>  				struct drm_connector_state *conn_state,
+>  				struct link_config_limits *limits,
+> -				int timeslots)
+> +				int timeslots,
+> +				bool compute_pipe_bpp)
+>  {
+>  	struct intel_digital_port *dig_port = dp_to_dig_port(intel_dp);
+>  	struct drm_i915_private *dev_priv = to_i915(dig_port->base.base.dev);
+> @@ -1496,7 +1502,10 @@ int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
+>  	if (!intel_dp_supports_dsc(intel_dp, pipe_config))
+>  		return -EINVAL;
+>  
+> -	pipe_bpp = intel_dp_dsc_compute_bpp(intel_dp, conn_state->max_requested_bpc);
+> +	if (compute_pipe_bpp)
+> +		pipe_bpp = intel_dp_dsc_compute_bpp(intel_dp, conn_state->max_requested_bpc);
+> +	else
+> +		pipe_bpp = pipe_config->pipe_bpp;
+>  
+>  	if (intel_dp->force_dsc_bpc) {
+>  		pipe_bpp = intel_dp->force_dsc_bpc * 3;
+> @@ -1527,31 +1536,47 @@ int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
+>  			drm_dp_dsc_sink_max_slice_count(intel_dp->dsc_dpcd,
+>  							true);
+>  	} else {
+> -		u16 dsc_max_output_bpp;
+> +		u16 dsc_max_output_bpp = 0;
+>  		u8 dsc_dp_slice_count;
+>  
+> -		dsc_max_output_bpp =
+> -			intel_dp_dsc_get_output_bpp(dev_priv,
+> -						    pipe_config->port_clock,
+> -						    pipe_config->lane_count,
+> -						    adjusted_mode->crtc_clock,
+> -						    adjusted_mode->crtc_hdisplay,
+> -						    pipe_config->bigjoiner_pipes,
+> -						    pipe_bpp,
+> -						    timeslots);
+> +		if (compute_pipe_bpp) {
+> +			dsc_max_output_bpp =
+> +				intel_dp_dsc_get_output_bpp(dev_priv,
+> +							    pipe_config->port_clock,
+> +							    pipe_config->lane_count,
+> +							    adjusted_mode->crtc_clock,
+> +							    adjusted_mode->crtc_hdisplay,
+> +							    pipe_config->bigjoiner_pipes,
+> +							    pipe_bpp,
+> +							    timeslots);
+> +			if (!dsc_max_output_bpp) {
+> +				drm_dbg_kms(&dev_priv->drm,
+> +					    "Compressed BPP not supported\n");
+> +				return -EINVAL;
+> +			}
+> +		}
+>  		dsc_dp_slice_count =
+>  			intel_dp_dsc_get_slice_count(intel_dp,
+>  						     adjusted_mode->crtc_clock,
+>  						     adjusted_mode->crtc_hdisplay,
+>  						     pipe_config->bigjoiner_pipes);
+> -		if (!dsc_max_output_bpp || !dsc_dp_slice_count) {
+> +		if (!dsc_dp_slice_count) {
+>  			drm_dbg_kms(&dev_priv->drm,
+> -				    "Compressed BPP/Slice Count not supported\n");
+> +				    "Compressed Slice Count not supported\n");
+>  			return -EINVAL;
+>  		}
+> -		pipe_config->dsc.compressed_bpp = min_t(u16,
+> -							dsc_max_output_bpp >> 4,
+> -							pipe_config->pipe_bpp);
+> +
+> +		/*
+> +		 * compute pipe bpp is set to false for DP MST DSC case
+> +		 * and compressed_bpp is calculated same time once
+> +		 * vpci timeslots are allocated, because overall bpp
+> +		 * calculation procedure is bit different for MST case.
+> +		 */
+> +		if (compute_pipe_bpp) {
+> +			pipe_config->dsc.compressed_bpp = min_t(u16,
+> +								dsc_max_output_bpp >> 4,
+> +								pipe_config->pipe_bpp);
+> +		}
+>  		pipe_config->dsc.slice_count = dsc_dp_slice_count;
+>  		drm_dbg_kms(&dev_priv->drm, "DSC: compressed bpp %d slice count %d\n",
+>  			    pipe_config->dsc.compressed_bpp,
+> @@ -1659,7 +1684,7 @@ intel_dp_compute_link_config(struct intel_encoder *encoder,
+>  			    str_yes_no(ret), str_yes_no(joiner_needs_dsc),
+>  			    str_yes_no(intel_dp->force_dsc_en));
+>  		ret = intel_dp_dsc_compute_config(intel_dp, pipe_config,
+> -						  conn_state, &limits, 1);
+> +						  conn_state, &limits, 1, true);
+>  		if (ret < 0)
+>  			return ret;
+>  	}
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i915/display/intel_dp.h
+> index 0fe10d93b75c..75098001685a 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.h
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.h
+> @@ -60,7 +60,8 @@ int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
+>  				struct intel_crtc_state *pipe_config,
+>  				struct drm_connector_state *conn_state,
+>  				struct link_config_limits *limits,
+> -				int timeslots);
+> +				int timeslots,
+> +				bool recompute_pipe_bpp);
+>  bool intel_dp_is_edp(struct intel_dp *intel_dp);
+>  bool intel_dp_is_uhbr(const struct intel_crtc_state *crtc_state);
+>  bool intel_dp_is_port_edp(struct drm_i915_private *dev_priv, enum port port);
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> index 8442eea27a57..69e383decb39 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> @@ -80,12 +80,12 @@ static int intel_dp_mst_find_vcpi_slots_for_bpp(struct intel_encoder *encoder,
+>  	}
+>  
+>  	for (bpp = max_bpp; bpp >= min_bpp; bpp -= step) {
+> -		crtc_state->pipe_bpp = bpp;
+> -
+>  		crtc_state->pbn = drm_dp_calc_pbn_mode(adjusted_mode->crtc_clock,
+> -						       dsc ? bpp << 4 : crtc_state->pipe_bpp,
+> +						       dsc ? bpp << 4 : bpp,
+>  						       dsc);
+>  
+> +		drm_dbg_kms(&i915->drm, "Trying bpp %d\n", bpp);
+> +
+>  		slots = drm_dp_atomic_find_time_slots(state, &intel_dp->mst_mgr,
+>  						      connector->port,
+>  						      crtc_state->pbn);
+> @@ -107,9 +107,16 @@ static int intel_dp_mst_find_vcpi_slots_for_bpp(struct intel_encoder *encoder,
+>  	if (ret && slots >= 0)
+>  		slots = ret;
+>  
+> -	if (slots < 0)
+> +	if (slots < 0) {
+>  		drm_dbg_kms(&i915->drm, "failed finding vcpi slots:%d\n",
+>  			    slots);
+> +	} else {
+> +		if (!dsc)
+> +			crtc_state->pipe_bpp = bpp;
+> +		else
+> +			crtc_state->dsc.compressed_bpp = bpp;
+> +		drm_dbg_kms(&i915->drm, "Got %d slots for pipe bpp %d dsc %d\n", slots, bpp, dsc);
+> +	}
+>  
+>  	return slots;
+>  }
+> @@ -156,8 +163,10 @@ static int intel_dp_dsc_mst_compute_link_config(struct intel_encoder *encoder,
+>  	int slots = -EINVAL;
+>  	int i, num_bpc;
+>  	u8 dsc_bpc[3] = {0};
+> -	int min_bpp, max_bpp;
+> +	int min_bpp, max_bpp, sink_min_bpp, sink_max_bpp;
+>  	u8 dsc_max_bpc;
+> +	bool need_timeslot_recalc = false;
+> +	u32 last_compressed_bpp;
+>  
+>  	/* Max DSC Input BPC for ICL is 10 and for TGL+ is 12 */
+>  	if (DISPLAY_VER(i915) >= 12)
+> @@ -170,14 +179,28 @@ static int intel_dp_dsc_mst_compute_link_config(struct intel_encoder *encoder,
+>  
+>  	num_bpc = drm_dp_dsc_sink_supported_input_bpcs(intel_dp->dsc_dpcd,
+>  						       dsc_bpc);
+> -	for (i = 0; i < num_bpc; i++) {
+> -		if (max_bpp >= dsc_bpc[i] * 3)
+> -			if (min_bpp > dsc_bpc[i] * 3)
+> -				min_bpp = dsc_bpc[i] * 3;
+> +
+> +	drm_dbg_kms(&i915->drm, "DSC Source supported min bpp %d max bpp %d\n",
+> +		    min_bpp, max_bpp);
+> +
+> +	sink_max_bpp = dsc_bpc[0] * 3;
+> +	sink_min_bpp = sink_max_bpp;
+> +
+> +	for (i = 1; i < num_bpc; i++) {
+> +		if (sink_min_bpp > dsc_bpc[i] * 3)
+> +			sink_min_bpp = dsc_bpc[i] * 3;
+> +		if (sink_max_bpp < dsc_bpc[i] * 3)
+> +			sink_max_bpp = dsc_bpc[i] * 3;
+>  	}
+>  
+>  	drm_dbg_kms(&i915->drm, "DSC Sink supported min bpp %d max bpp %d\n",
+> -		    min_bpp, max_bpp);
+> +		    sink_min_bpp, sink_max_bpp);
+> +
+> +	if (min_bpp < sink_min_bpp)
+> +		min_bpp = sink_min_bpp;
+> +
+> +	if (max_bpp > sink_max_bpp)
+> +		max_bpp = sink_max_bpp;
+>  
+>  	slots = intel_dp_mst_find_vcpi_slots_for_bpp(encoder, crtc_state, max_bpp,
+>  						     min_bpp, limits,
+> @@ -186,6 +209,28 @@ static int intel_dp_dsc_mst_compute_link_config(struct intel_encoder *encoder,
+>  	if (slots < 0)
+>  		return slots;
+>  
+> +	last_compressed_bpp = crtc_state->dsc.compressed_bpp;
+> +
+> +	crtc_state->dsc.compressed_bpp = intel_dp_dsc_nearest_vesa_bpp(i915,
+> +								       last_compressed_bpp,
+> +								       crtc_state->pipe_bpp);
+> +
+> +	if (crtc_state->dsc.compressed_bpp != last_compressed_bpp)
+> +		need_timeslot_recalc = true;
+> +
+> +	/*
+> +	 * Apparently some MST hubs dislike if vcpi slots are not matching precisely
+> +	 * the actual compressed bpp we use.
+> +	 */
+> +	if (need_timeslot_recalc) {
+> +		slots = intel_dp_mst_find_vcpi_slots_for_bpp(encoder, crtc_state,
+> +							     crtc_state->dsc.compressed_bpp,
+> +							     crtc_state->dsc.compressed_bpp,
+> +							     limits, conn_state, 2 * 3, true);
+> +		if (slots < 0)
+> +			return slots;
+> +	}
+> +
+>  	intel_link_compute_m_n(crtc_state->pipe_bpp,
+>  			       crtc_state->lane_count,
+>  			       adjusted_mode->crtc_clock,
+> @@ -292,7 +337,7 @@ static int intel_dp_mst_compute_config(struct intel_encoder *encoder,
+>  
+>  		ret = intel_dp_dsc_compute_config(intel_dp, pipe_config,
+>  						  conn_state, &limits,
+> -						  pipe_config->dp_m_n.tu);
+> +						  pipe_config->dp_m_n.tu, false);
+>  	}
+>  
+>  	if (ret)
+> @@ -867,7 +912,7 @@ intel_dp_mst_mode_valid_ctx(struct drm_connector *connector,
+>  							    target_clock,
+>  							    mode->hdisplay,
+>  							    bigjoiner,
+> -							    pipe_bpp, 1) >> 4;
+> +							    pipe_bpp, 64) >> 4;
+>  			dsc_slice_count =
+>  				intel_dp_dsc_get_slice_count(intel_dp,
+>  							     target_clock,
+> -- 
+> 2.37.3
 > 
-> 
->> +            glbl_rescode_bot_ctrl = less_than_1500_mhz ? 0x38 :  0x39;
->> +            glbl_str_swi_cal_sel_ctrl = 0x00;
->> +            glbl_hstx_str_ctrl_0 = 0x88;
->> +        }
->> +    } else if (phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V4_2) {
->> +        if (phy->cphy_mode) {
->> +            vreg_ctrl_0 = 0x51;
->> +            glbl_rescode_top_ctrl = less_than_1500_mhz ? 0x3d :  0x01;
->> +            glbl_rescode_bot_ctrl = less_than_1500_mhz ? 0x38 :  0x3b;
->> +            glbl_str_swi_cal_sel_ctrl = 0x00;
->> +            glbl_hstx_str_ctrl_0 = 0x00;
->> +        } else {
->> +            vreg_ctrl_0 = less_than_1500_mhz ? 0x53 : 0x52;
->> +            glbl_rescode_top_ctrl = less_than_1500_mhz ? 0x3c :  0x00;
->> +            glbl_rescode_bot_ctrl = less_than_1500_mhz ? 0x38 :  0x39;
->> +            glbl_str_swi_cal_sel_ctrl = 0x00;
->> +            glbl_hstx_str_ctrl_0 = 0x88;
->> +        }
->> +    } else if (phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V4_1) {
->>           if (phy->cphy_mode) {
->> +            vreg_ctrl_0 = 0x51;
->>               glbl_rescode_top_ctrl = 0x00;
->>               glbl_rescode_bot_ctrl = 0x3c;
->>           } else {
->> +            vreg_ctrl_0 = less_than_1500_mhz ? 0x53 : 0x52;
->>               glbl_rescode_top_ctrl = less_than_1500_mhz ? 0x3d :  0x00;
->>               glbl_rescode_bot_ctrl = less_than_1500_mhz ? 0x39 :  0x3c;
->>           }
->>           glbl_str_swi_cal_sel_ctrl = 0x00;
->>           glbl_hstx_str_ctrl_0 = 0x88;
->>       } else {
->> -        vreg_ctrl_0 = less_than_1500_mhz ? 0x5B : 0x59;
->>           if (phy->cphy_mode) {
->> +            vreg_ctrl_0 = 0x51;
->>               glbl_str_swi_cal_sel_ctrl = 0x03;
->>               glbl_hstx_str_ctrl_0 = 0x66;
->>           } else {
->> +            vreg_ctrl_0 = less_than_1500_mhz ? 0x5B : 0x59;
->>               glbl_str_swi_cal_sel_ctrl = less_than_1500_mhz ? 0x03 : 
->> 0x00;
->>               glbl_hstx_str_ctrl_0 = less_than_1500_mhz ? 0x66 : 0x88;
->>           }
->> @@ -883,7 +934,6 @@ static int dsi_7nm_phy_enable(struct msm_dsi_phy 
->> *phy,
->>       }
->>       if (phy->cphy_mode) {
->> -        vreg_ctrl_0 = 0x51;
->>           vreg_ctrl_1 = 0x55;
->>           glbl_pemph_ctrl_0 = 0x11;
->>           lane_ctrl0 = 0x17;
->> @@ -1017,6 +1067,13 @@ static void dsi_7nm_phy_disable(struct 
->> msm_dsi_phy *phy)
->>           pr_warn("Turning OFF PHY while PLL is on\n");
->>       dsi_phy_hw_v4_0_config_lpcdrx(phy, false);
->> +
->> +    /* Turn off REFGEN Vote */
->> +        dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_GLBL_DIGTOP_SPARE10, 
->> 0x0);
->> +        wmb();
->> +        /* Delay to ensure HW removes vote before PHY shut down */
->> +        udelay(2);
-> 
-> Either thunderbird is acting up (again) or the code after the first 
-> comment is
-> 
-> indented with spaces instead of tabs.
-> 
-> 
-> Other than that,
-> 
-> Reviewed-by: Konrad Dybcio <konrad.dybcio@somainline.org>
-> 
-> 
-> Konrad
-> 
->> +
->>       data = dsi_phy_read(base + REG_DSI_7nm_PHY_CMN_CTRL_0);
->>       /* disable all lanes */
->> @@ -1040,6 +1097,10 @@ static const struct regulator_bulk_data 
->> dsi_phy_7nm_37750uA_regulators[] = {
->>       { .supply = "vdds", .init_load_uA = 37550 },
->>   };
->> +static const struct regulator_bulk_data 
->> dsi_phy_7nm_97800uA_regulators[] = {
->> +    { .supply = "vdds", .init_load_uA = 97800},
->> +};
->> +
->>   const struct msm_dsi_phy_cfg dsi_phy_7nm_cfgs = {
->>       .has_phy_lane = true,
->>       .regulator_data = dsi_phy_7nm_36mA_regulators,
->> @@ -1079,6 +1140,7 @@ const struct msm_dsi_phy_cfg 
->> dsi_phy_7nm_8150_cfgs = {
->>       .max_pll_rate = 3500000000UL,
->>       .io_start = { 0xae94400, 0xae96400 },
->>       .num_dsi_phy = 2,
->> +    .quirks = DSI_PHY_7NM_QUIRK_PRE_V4_1,
->>   };
->>   const struct msm_dsi_phy_cfg dsi_phy_7nm_7280_cfgs = {
->> @@ -1102,3 +1164,49 @@ const struct msm_dsi_phy_cfg 
->> dsi_phy_7nm_7280_cfgs = {
->>       .num_dsi_phy = 1,
->>       .quirks = DSI_PHY_7NM_QUIRK_V4_1,
->>   };
->> +
->> +const struct msm_dsi_phy_cfg dsi_phy_5nm_8350_cfgs = {
->> +    .has_phy_lane = true,
->> +    .regulator_data = dsi_phy_7nm_37750uA_regulators,
->> +    .num_regulators = ARRAY_SIZE(dsi_phy_7nm_37750uA_regulators),
->> +    .ops = {
->> +        .enable = dsi_7nm_phy_enable,
->> +        .disable = dsi_7nm_phy_disable,
->> +        .pll_init = dsi_pll_7nm_init,
->> +        .save_pll_state = dsi_7nm_pll_save_state,
->> +        .restore_pll_state = dsi_7nm_pll_restore_state,
->> +        .set_continuous_clock = dsi_7nm_set_continuous_clock,
->> +    },
->> +    .min_pll_rate = 600000000UL,
->> +#ifdef CONFIG_64BIT
->> +    .max_pll_rate = 5000000000UL,
->> +#else
->> +    .max_pll_rate = ULONG_MAX,
->> +#endif
->> +    .io_start = { 0xae94400, 0xae96400 },
->> +    .num_dsi_phy = 2,
->> +    .quirks = DSI_PHY_7NM_QUIRK_V4_2,
->> +};
->> +
->> +const struct msm_dsi_phy_cfg dsi_phy_5nm_8450_cfgs = {
->> +    .has_phy_lane = true,
->> +    .regulator_data = dsi_phy_7nm_97800uA_regulators,
->> +    .num_regulators = ARRAY_SIZE(dsi_phy_7nm_97800uA_regulators),
->> +    .ops = {
->> +        .enable = dsi_7nm_phy_enable,
->> +        .disable = dsi_7nm_phy_disable,
->> +        .pll_init = dsi_pll_7nm_init,
->> +        .save_pll_state = dsi_7nm_pll_save_state,
->> +        .restore_pll_state = dsi_7nm_pll_restore_state,
->> +        .set_continuous_clock = dsi_7nm_set_continuous_clock,
->> +    },
->> +    .min_pll_rate = 600000000UL,
->> +#ifdef CONFIG_64BIT
->> +    .max_pll_rate = 5000000000UL,
->> +#else
->> +    .max_pll_rate = ULONG_MAX,
->> +#endif
->> +    .io_start = { 0xae94400, 0xae96400 },
->> +    .num_dsi_phy = 2,
->> +    .quirks = DSI_PHY_7NM_QUIRK_V4_3,
->> +};
-
--- 
-With best wishes
-Dmitry
-
