@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A0E46249B2
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 19:41:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAA5E6249B4
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 19:41:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46AB310E7AB;
-	Thu, 10 Nov 2022 18:41:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7A9A10E7B2;
+	Thu, 10 Nov 2022 18:41:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
- [IPv6:2607:f8b0:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2429310E7AB
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 18:41:06 +0000 (UTC)
-Received: by mail-pl1-x62b.google.com with SMTP id d20so2183651plr.10
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 10:41:06 -0800 (PST)
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
+ [IPv6:2607:f8b0:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E64AD10E7AD
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 18:41:12 +0000 (UTC)
+Received: by mail-pl1-x631.google.com with SMTP id v17so2218555plo.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 10:41:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Oo60Yc6E8FyFlqiwb1b4t9ZpcglzeAFRUlIMg3kohkc=;
- b=mcLoW5TTqmk53BCLZUp6E+ychWdy4q6VcS37u14XB2PgGvp4BXZwYXT9++DuIbPJcq
- zWcBW8SPoC0crDWpvyP6xJ96aGXr99le7U0FGKGjm6fwjMAtG44twzuJ8remgZCy5WG0
- 0uv8s+uUCr/c+ooJWC6hClOh+oQUayxvfKbC4=
+ bh=cH5AHZZYCNmnhNvZUMuS6LHcRXOHT4jX43H6MOHuuRQ=;
+ b=IbhJvncDrplzSyuYuObWbKf4X0CcO4NUXEJiP74b9Z3sD3yddrvG59veD79V/FesCX
+ sKwAt5gP2jKtjV2m3n3b0nbYUFl8E99CvVR8qP3z3hkBcwhLYXfZTCg6KyzGAKAd2MrA
+ 8eEo+GUChNdZrXOhJEhSmPXA+IkNMqQFoK0yQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Oo60Yc6E8FyFlqiwb1b4t9ZpcglzeAFRUlIMg3kohkc=;
- b=Fc3CDx5RMP98bUJ2fI/nzen+FJL5mEIlq1V0BwWVt5HrpmlyVsgls2eLkDh5XkDp54
- hq1YoR6PXix6L7UWbTrQwtcHm/kHn+P2W9iqvXGys742Ust80DjsP9A6Zvo2gUBs++dJ
- jMcLrGym3DjxgXLmshm6ZLDvnXsU6xqmOl/k6nCaUIFHPLuG7nycU9n6TLgAnCxAz+Vw
- qMZcvGb20SpE8Kj+NxMcKlfFeesxlDsJcoCREkpPU654m8f73nP9hBwJreYxr0Yp+gZB
- ZDoweR+jfqBJ9GUH6k1Vqbd7aorYK68QSBhqMCWc0aCeoYT4RMLs0/jVxxoF+jXzuBOG
- zj0A==
-X-Gm-Message-State: ACrzQf0KW7wV0bHz41XHVrZfKz80/5+4LEjQwwar5Fh41jy15rzQQzZC
- FtQaCUYx9LR3+voPKwZJQMjXpg==
-X-Google-Smtp-Source: AMsMyM48eoM5/wFqVgOtS7w1A+4ef4J58piCH2ScCaaDzpj2IW6rOKFXrnpslXv/06EhVeGQmPsSpA==
-X-Received: by 2002:a17:902:ab1c:b0:17e:c0f0:96a4 with SMTP id
- ik28-20020a170902ab1c00b0017ec0f096a4mr1747519plb.80.1668105665652; 
- Thu, 10 Nov 2022 10:41:05 -0800 (PST)
+ bh=cH5AHZZYCNmnhNvZUMuS6LHcRXOHT4jX43H6MOHuuRQ=;
+ b=2COrtI8fG4KNRbuDqNBFstXKzS+QarBr0tcmy/1FlOV4djBh2z6rcik6BkCD7+dA0C
+ SueptVmq8lDJuYxxws9f3KgyNFGNe1XUkdfRpufeWY4VlOxLSLnTF+jl3YAhF/ihgjs6
+ dsmGEZudPP06hI+wetV98MPvl3rA2We7KkpOoCMOz6F4xtlRobngNF3+v1/AvJ/Tdqw4
+ y4ecIEOdhyQFB/et7uagbHtcPW04jKbVrT4quWZhqFN5tlc602gvr6jcCB+V5riH1Ayw
+ LulpuJxDbjywo07hGIugRPIinhhP5i1/8XTtdm0/4thez8z+h0GpJEuJzzmuin4XShpk
+ 2vZA==
+X-Gm-Message-State: ACrzQf0cI2keDQRPTtgvIbkRtNiipg7eDsa0AW8rWjKgGibEmmRaLg6S
+ IOox4KFNOcX4zcgE3QCRn9xL6g==
+X-Google-Smtp-Source: AMsMyM4ELlvvyi1y8HYEpYS1WX4vBSM5bauxpbIct6ZQE6zeMEMd1BUWxdUJ9wHvLwG28xo7wS6uug==
+X-Received: by 2002:a17:90b:1095:b0:213:ee6a:f268 with SMTP id
+ gj21-20020a17090b109500b00213ee6af268mr54624279pjb.213.1668105672436; 
+ Thu, 10 Nov 2022 10:41:12 -0800 (PST)
 Received: from localhost.localdomain ([2405:201:c00a:a809:b5a4:486a:f07:f67e])
  by smtp.gmail.com with ESMTPSA id
- c2-20020a170903234200b001869efb722csm11635627plh.215.2022.11.10.10.40.59
+ c2-20020a170903234200b001869efb722csm11635627plh.215.2022.11.10.10.41.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Nov 2022 10:41:05 -0800 (PST)
+ Thu, 10 Nov 2022 10:41:12 -0800 (PST)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
@@ -61,9 +61,10 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
  Marek Vasut <marex@denx.de>
-Subject: [PATCH v8 07/14] drm: bridge: samsung-dsim: Add atomic_check
-Date: Fri, 11 Nov 2022 00:08:46 +0530
-Message-Id: <20221110183853.3678209-8-jagan@amarulasolutions.com>
+Subject: [PATCH v8 08/14] drm: bridge: samsung-dsim: Add platform PLL_P
+ (PMS_P) offset
+Date: Fri, 11 Nov 2022 00:08:47 +0530
+Message-Id: <20221110183853.3678209-9-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221110183853.3678209-1-jagan@amarulasolutions.com>
 References: <20221110183853.3678209-1-jagan@amarulasolutions.com>
@@ -88,106 +89,131 @@ Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Look like an explicit fixing up of mode_flags is required for DSIM IP
-present in i.MX8M Mini/Nano SoCs.
+Look like PLL PMS_P offset value varies between platforms that have
+Samsung DSIM IP.
 
-At least the LCDIF + DSIM needs active low sync polarities in order
-to correlate the correct sync flags of the surrounding components in
-the chain to make sure the whole pipeline can work properly.
+However, there is no clear evidence for it as both Exynos and i.MX
+8M Mini Application Processor Reference Manual is still referring
+the PMS_P offset as 13.
 
-On the other hand the i.MX 8M Mini Applications Processor Reference Manual,
-Rev. 3, 11/2020 says.
-"13.6.3.5.2 RGB interface
- Vsync, Hsync, and VDEN are active high signals."
+The offset 13 is not working for i.MX8M Mini SoCs but the downstream
+NXP sec-dsim.c driver is using offset 14 for i.MX8M Mini SoC platforms
+[1] [2].
 
-i.MX 8M Mini Applications Processor Reference Manual Rev. 3, 11/2020
-3.6.3.5.2 RGB interface
-i.MX 8M Nano Applications Processor Reference Manual Rev. 2, 07/2022
-13.6.2.7.2 RGB interface
-both claim "Vsync, Hsync, and VDEN are active high signals.", the
-LCDIF must generate inverted HS/VS/DE signals, i.e. active LOW.
+PMS_P value set in sec_mipi_dsim_check_pll_out using PLLCTRL_SET_P()
+with offset 13 and then an additional offset of one bit added in
+sec_mipi_dsim_config_pll via PLLCTRL_SET_PMS().
 
-No clear evidence about whether it can be documentation issues or
-something, so added a comment FIXME for this and updated the active low
-sync polarities using SAMSUNG_DSIM_TYPE_IMX8MM hw_type.
+Not sure whether it is reference manual documentation or something else
+but this patch trusts the downstream code and handle PLL_P offset via
+platform driver data so-that imx8mm driver data shall use pll_p_offset
+to 14.
+
+Similar to Mini the i.MX8M Nano/Plus also has P=14, unlike Exynos.
+
+[1] https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/gpu/drm/bridge/sec-dsim.c?h=imx_5.4.47_2.2.0#n210
+[2] https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/gpu/drm/bridge/sec-dsim.c?h=imx_5.4.47_2.2.0#n211
 
 v8:
-* update the comments about sync signals polarities
-* added clear commit message by including i.MX8M Nano details
+* updated commit message for 8M Nano/Plus
+* collect Marek Ack
 
-v7:
-* fix the hw_type checking logic
-
-v6:
+v7, v6:
 * none
 
 v5:
-* rebase based new bridge changes [mszyprow]
-* remove DSIM_QUIRK_FIXUP_SYNC_POL
-* add hw_type check for sync polarities change.
+* updated clear commit message
 
-v4:
-* none
-
-v3:
-* add DSIM_QUIRK_FIXUP_SYNC_POL to handle mode_flasg fixup
-
-v2:
+v4, v3, v2:
 * none
 
 v1:
-* fix mode flags in atomic_check instead of mode_fixup
+* updated commit message
+* add downstream driver link
 
+Reviewed-by: Marek Vasut <marex@denx.de>
+Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
- drivers/gpu/drm/bridge/samsung-dsim.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+ drivers/gpu/drm/bridge/samsung-dsim.c | 10 ++++++++--
+ include/drm/bridge/samsung-dsim.h     |  1 +
+ 2 files changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index ec7e01ae02ea..3c0a8580508b 100644
+index 3c0a8580508b..0fe153b29e4f 100644
 --- a/drivers/gpu/drm/bridge/samsung-dsim.c
 +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -1315,6 +1315,32 @@ static void samsung_dsim_atomic_post_disable(struct drm_bridge *bridge,
- 	pm_runtime_put_sync(dsi->dev);
- }
+@@ -168,7 +168,7 @@
+ /* DSIM_PLLCTRL */
+ #define DSIM_FREQ_BAND(x)		((x) << 24)
+ #define DSIM_PLL_EN			(1 << 23)
+-#define DSIM_PLL_P(x)			((x) << 13)
++#define DSIM_PLL_P(x, offset)		((x) << (offset))
+ #define DSIM_PLL_M(x)			((x) << 4)
+ #define DSIM_PLL_S(x)			((x) << 1)
  
-+static int samsung_dsim_atomic_check(struct drm_bridge *bridge,
-+				     struct drm_bridge_state *bridge_state,
-+				     struct drm_crtc_state *crtc_state,
-+				     struct drm_connector_state *conn_state)
-+{
-+	struct samsung_dsim *dsi = bridge_to_dsi(bridge);
-+	struct drm_display_mode *adjusted_mode = &crtc_state->adjusted_mode;
-+
-+	/*
-+	 * The i.MX8M Mini/Nano glue logic between LCDIF and DSIM
-+	 * inverts HS/VS/DE sync signals polarity, therefore, while
-+	 * i.MX 8M Mini Applications Processor Reference Manual Rev. 3, 11/2020
-+	 * 13.6.3.5.2 RGB interface
-+	 * i.MX 8M Nano Applications Processor Reference Manual Rev. 2, 07/2022
-+	 * 13.6.2.7.2 RGB interface
-+	 * both claim "Vsync, Hsync, and VDEN are active high signals.", the
-+	 * LCDIF must generate inverted HS/VS/DE signals, i.e. active LOW.
-+	 */
-+	if (dsi->plat_data->hw_type == SAMSUNG_DSIM_TYPE_IMX8MM) {
-+		adjusted_mode->flags |= (DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC);
-+		adjusted_mode->flags &= ~(DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
-+	}
-+
-+	return 0;
-+}
-+
- static void samsung_dsim_mode_set(struct drm_bridge *bridge,
- 				  const struct drm_display_mode *mode,
- 				  const struct drm_display_mode *adjusted_mode)
-@@ -1353,6 +1379,7 @@ static const struct drm_bridge_funcs samsung_dsim_bridge_funcs = {
- 	.atomic_duplicate_state		= drm_atomic_helper_bridge_duplicate_state,
- 	.atomic_destroy_state		= drm_atomic_helper_bridge_destroy_state,
- 	.atomic_reset			= drm_atomic_helper_bridge_reset,
-+	.atomic_check			= samsung_dsim_atomic_check,
- 	.atomic_pre_enable		= samsung_dsim_atomic_pre_enable,
- 	.atomic_enable			= samsung_dsim_atomic_enable,
- 	.atomic_disable			= samsung_dsim_atomic_disable,
+@@ -368,6 +368,7 @@ static const struct samsung_dsim_driver_data exynos3_dsi_driver_data = {
+ 	.max_freq = 1000,
+ 	.wait_for_reset = 1,
+ 	.num_bits_resol = 11,
++	.pll_p_offset = 13,
+ 	.reg_values = reg_values,
+ };
+ 
+@@ -380,6 +381,7 @@ static const struct samsung_dsim_driver_data exynos4_dsi_driver_data = {
+ 	.max_freq = 1000,
+ 	.wait_for_reset = 1,
+ 	.num_bits_resol = 11,
++	.pll_p_offset = 13,
+ 	.reg_values = reg_values,
+ };
+ 
+@@ -390,6 +392,7 @@ static const struct samsung_dsim_driver_data exynos5_dsi_driver_data = {
+ 	.max_freq = 1000,
+ 	.wait_for_reset = 1,
+ 	.num_bits_resol = 11,
++	.pll_p_offset = 13,
+ 	.reg_values = reg_values,
+ };
+ 
+@@ -401,6 +404,7 @@ static const struct samsung_dsim_driver_data exynos5433_dsi_driver_data = {
+ 	.max_freq = 1500,
+ 	.wait_for_reset = 0,
+ 	.num_bits_resol = 12,
++	.pll_p_offset = 13,
+ 	.reg_values = exynos5433_reg_values,
+ };
+ 
+@@ -412,6 +416,7 @@ static const struct samsung_dsim_driver_data exynos5422_dsi_driver_data = {
+ 	.max_freq = 1500,
+ 	.wait_for_reset = 1,
+ 	.num_bits_resol = 12,
++	.pll_p_offset = 13,
+ 	.reg_values = exynos5422_reg_values,
+ };
+ 
+@@ -543,7 +548,8 @@ static unsigned long samsung_dsim_set_pll(struct samsung_dsim *dsi,
+ 	writel(driver_data->reg_values[PLL_TIMER],
+ 			dsi->reg_base + driver_data->plltmr_reg);
+ 
+-	reg = DSIM_PLL_EN | DSIM_PLL_P(p) | DSIM_PLL_M(m) | DSIM_PLL_S(s);
++	reg = DSIM_PLL_EN | DSIM_PLL_P(p, driver_data->pll_p_offset) |
++	      DSIM_PLL_M(m) | DSIM_PLL_S(s);
+ 
+ 	if (driver_data->has_freqband) {
+ 		static const unsigned long freq_bands[] = {
+diff --git a/include/drm/bridge/samsung-dsim.h b/include/drm/bridge/samsung-dsim.h
+index 0c5a905f3de7..df3d030daec6 100644
+--- a/include/drm/bridge/samsung-dsim.h
++++ b/include/drm/bridge/samsung-dsim.h
+@@ -53,6 +53,7 @@ struct samsung_dsim_driver_data {
+ 	unsigned int max_freq;
+ 	unsigned int wait_for_reset;
+ 	unsigned int num_bits_resol;
++	unsigned int pll_p_offset;
+ 	const unsigned int *reg_values;
+ };
+ 
 -- 
 2.25.1
 
