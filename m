@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E41B8624661
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 16:54:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D8A462466C
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 16:58:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EC3C10E144;
-	Thu, 10 Nov 2022 15:54:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B50C10E15A;
+	Thu, 10 Nov 2022 15:58:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
- [IPv6:2607:f8b0:4864:20::1031])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D1E010E144
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 15:54:47 +0000 (UTC)
-Received: by mail-pj1-x1031.google.com with SMTP id
- d13-20020a17090a3b0d00b00213519dfe4aso1869591pjc.2
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 07:54:47 -0800 (PST)
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
+ [IPv6:2607:f8b0:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FF9D10E142;
+ Thu, 10 Nov 2022 15:58:11 +0000 (UTC)
+Received: by mail-oi1-x22f.google.com with SMTP id v81so2238724oie.5;
+ Thu, 10 Nov 2022 07:58:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=5cY9qUsRqtE8TrX9YkzMKcdKUuXawtOb/S7+iZPyZhg=;
- b=ZkgP4TzeZjynPYYUd2OYz6AQRc9SKLkDMpRKeeezyHWelBe0m41B0WyMRGx7iIMrk0
- WSa3/rhSox2m5RimkbZ7okXs9Uw3q+ASfZ7xA13pfLIrn0ipKvINK3y25HdG1jHDEhcD
- ig85+y8y3qCWtu16PZHWYfUSJ8Azdh6UFcniqnlNvhgI9Em0dZXwK0B0PXyXZ7WWLuqk
- 4ryCYiHRHmfHwjuyTzxcQjSQDY2iKFmORTt37B028vZV20hvFE9MfJu/Ely92lB5Ca4W
- X7lAs5uOqxGLuZlOI9Ey8AH0uMfYtS/IsmpOdij9IU7EizU6DK+TiCR3lS2hAMeVKC3n
- Y1vQ==
+ bh=PqIxv0ykgX1dUcCkKNelcPiK/Dm8WOI9ANa20Luuz78=;
+ b=OeMN1rKkePk0RMijxlVlQsnyZva5JsgGdk5gD1Wmfp7zgg8+KrQGMefkBvzr+SwW44
+ s1wNFKq9I7T0DgF0Ai2dExVtOhu3yU7GanqxsRIjgwOPwxHpRDfA1UqoHu/qXI8osEey
+ uaCMOJc7hPOr9Bn5/DhUldUC4Jbj2aXb+ZHSIxC0ObYxXTACp84XRJcNR2XmXN7E+B82
+ ZSko+6Tnz/F1L0TlLzaIiJxfm4DcyLWSncUbNnI6LasnDYaOjXCc8cInixSvW/8FNbaW
+ gI8gssOFwptiwlEVmr09g2dgOVeOKPhdW7ei14S8gviE/FH2cBX0K2q2HIievlWtLBhO
+ NO9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=5cY9qUsRqtE8TrX9YkzMKcdKUuXawtOb/S7+iZPyZhg=;
- b=ULmw8ajtxZl1zjPgXnDRu+DHpqZF++LlZ0FppAyjt0yx+95NUNBzb4pj0KJNAmnnDp
- ahZfc1/fkK23DqxbQ4TXCU5g840hAyfRXrmJGCXf5ExTbj8LEvzcOM0mWHxK9XjJB4KC
- 6HzPoTy6TVG+D6GQxd59HpmUEucUWw5/rMRPY5sM1fmYbUDZnw2KM1Ue2gFLzODE6o/6
- Cuy/qkzngconRNQcpU5Bnurmxr/MU9uNEKhfbaGBHvGdgfnnttzYr4kW7pJHGGJ/R2oX
- 6H65+oWjpjwBgOZbV4JhUxSbK9DZDwuM0SNUEVtK2n92bEMLW977OLF0tamdJ1h2YlqS
- x8Ew==
-X-Gm-Message-State: ACrzQf0Zqyo7ZO8uhETUiHq2m7V7578vVfzxgpG7+cHT6+Go4pBQ72Bs
- s16BRi7xuhqSk8Fz7mZzMW2Cvp/n79nPLs+J1nE=
-X-Google-Smtp-Source: AMsMyM4MKenHQEpL5igM9bIJh+ijqHRMrG+VpTH9rZPo5TO0pW7paW7eRNDw9JbV9SvME7k+EyGiFEF2uvsWbkywwGA=
-X-Received: by 2002:a17:90b:1056:b0:212:dc2f:7ee7 with SMTP id
- gq22-20020a17090b105600b00212dc2f7ee7mr1325884pjb.172.1668095686643; Thu, 10
- Nov 2022 07:54:46 -0800 (PST)
+ bh=PqIxv0ykgX1dUcCkKNelcPiK/Dm8WOI9ANa20Luuz78=;
+ b=zc15rgYOhr4Xec9KhVKKHJfK9Zgy/KqWSPzipnvMTea5WlvUA1zDzBGaCE4UpSSFEm
+ Vl+TLCcu9KD2uyoIcVxU3k4uR/HUQW/Wlfd1L7ABqf+lrs/0dH/Z8H1fhKri+aqRjpTK
+ HThzDeDpNql4sgoRjRRtCEXZ93LoZCJXHBnTDUP6lj2KqtKVo9PDKpQSYSMknTjhUauC
+ asYV0S8jGkJ97dR9kh5NU77KiJQGfSqKDKoR3If6uiZmkBPcp/l+SrTbZyHpDl601sby
+ wMXxj8Kk7PEpXzn80yPNV3EfNeeJMFH4NEcGQFYVqfAaj/L7rXUlbJpAlV0IKph0k9sm
+ PU0Q==
+X-Gm-Message-State: ACrzQf3f9Nhvo3Z/YJ9SsCcTeZ9Uh4as58HtUJEZj+s6f47iorI93eij
+ IfSWtVz6rjHagj7Fx7vbYiMaCUiAQac684qUC84=
+X-Google-Smtp-Source: AMsMyM5yu9fp0U9ivZ86w+s8zY9m83vob70VluIoUBlOY2mSDFVVApkRPdDlzgO7pSrJ207FPp7MAWV6dVAFZV4Y9dY=
+X-Received: by 2002:a05:6808:7dc:b0:34f:97ea:14d with SMTP id
+ f28-20020a05680807dc00b0034f97ea014dmr1581484oij.96.1668095890301; Thu, 10
+ Nov 2022 07:58:10 -0800 (PST)
 MIME-Version: 1.0
-References: <20221005151309.7278-1-jagan@amarulasolutions.com>
- <f1dfac7d-643e-db29-28fe-7a2fcde01894@kontron.de>
-In-Reply-To: <f1dfac7d-643e-db29-28fe-7a2fcde01894@kontron.de>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Thu, 10 Nov 2022 12:54:32 -0300
-Message-ID: <CAOMZO5AqRRYLTUQWACiCA0RCvsjGaCmK3yhdGP8XfNxjFP1OiA@mail.gmail.com>
-Subject: Re: [PATCH v7 00/10] drm: bridge: Add Samsung MIPI DSIM bridge
-To: Frieder Schrempf <frieder.schrempf@kontron.de>
+References: <Y2tXzlBDxgg9WMl7@mail.google.com>
+In-Reply-To: <Y2tXzlBDxgg9WMl7@mail.google.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 10 Nov 2022 10:57:58 -0500
+Message-ID: <CADnq5_NJNa41y28-+PPjA6hUPrYGXc87K50LeiEYGnyGyackUQ@mail.gmail.com>
+Subject: Re: [PATCH] [next] drm/amdgpu: Replace one-element array with
+ flex-array member
+To: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,37 +65,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Fancy Fang <chen.fang@nxp.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Marek Vasut <marex@denx.de>,
- linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
- Neil Armstrong <narmstrong@linaro.org>,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- NXP Linux Team <linux-imx@nxp.com>, Matteo Lisi <matteo.lisi@engicam.com>,
- Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Seung-Woo Kim <sw0312.kim@samsung.com>, Robert Foss <robert.foss@linaro.org>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>
+Cc: Leo Li <sunpeng.li@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Slark Xiao <slark_xiao@163.com>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Rongguang Wei <weirongguang@kylinos.cn>, linux-hardening@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Mon, Nov 7, 2022 at 1:34 PM Frieder Schrempf
-<frieder.schrempf@kontron.de> wrote:
-
-> I tested this on the Kontron DL i.MX8MM which uses a TI SN65DSI84 bridge
-> and a Jenson 7" LVDS Display.
+On Wed, Nov 9, 2022 at 2:33 AM Paulo Miguel Almeida
+<paulo.miguel.almeida.rodenas@gmail.com> wrote:
 >
-> Thanks for your work, Jagan!
+> One-element arrays are deprecated, and we are replacing them with
+> flexible array members instead. So, replace one-element array with
+> flexible-array member in structs _ATOM_CONNECTOR_DEVICE_TAG_RECORD,
+> _ATOM_OBJECT_GPIO_CNTL_RECORD, _ATOM_BRACKET_LAYOUT_RECORD,
+> _ATOM_BRACKET_LAYOUT_RECORD, _ATOM_LEAKAGE_VOLTAGE_OBJECT_V3,
+> _ATOM_FUSION_SYSTEM_INFO_V3, _ATOM_I2C_DATA_RECORD,
+> _ATOM_I2C_DEVICE_SETUP_INFO, _ATOM_ASIC_MVDD_INFO and refactor the
+> rest of the code accordingly. While at it, removed a redundant casting.
 >
-> Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de> # Kontron DL
-> i.MX8MM
+> Important to mention is that doing a build before/after this patch results
+> in no binary output differences.
+>
+> This helps with the ongoing efforts to tighten the FORTIFY_SOURCE
+> routines on memcpy() and help us make progress towards globally
+> enabling -fstrict-flex-arrays=3 [1].
+>
+> Link: https://github.com/KSPP/linux/issues/79
+> Link: https://github.com/KSPP/linux/issues/238
+> Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=101836 [1]
+>
+> Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+> ---
+>
+> Alex, I noticed a few structs in atombios.h that were not referenced. Is
+> there any appetite for removing them? Or is that one of those cases
+> where the structs are there should one driver ever need it?
 
-As this series has been successfully tested on multiple devices, is it possible
-to apply it so people can make further adjustments?
+A lot of userspace tools use these tables and I'd like to keep the
+headers compatible.  Also, as I mentioned in the other thread, the
+atombios command tables often parse these tables when initializing the
+hardware so when you are debugging a command table, it helps to have
+the relevant structures defined so it's easier to understand what the
+command tables are doing.
 
-Thanks
+Alex
+
+
+>
+> Ex.:
+>         struct _ATOM_I2C_DATA_RECORD
+>         struct _ATOM_I2C_DEVICE_SETUP_INFO
+>         struct _ATOM_ASIC_MVDD_INFO
+> ---
+>  .../gpu/drm/amd/display/dc/bios/bios_parser.c    |  5 ++---
+>  drivers/gpu/drm/amd/include/atombios.h           | 16 ++++++++--------
+>  2 files changed, 10 insertions(+), 11 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c b/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c
+> index 39dd8b2dc254..6b9e64cd4379 100644
+> --- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c
+> +++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c
+> @@ -2606,8 +2606,7 @@ static enum bp_result update_slot_layout_info(
+>
+>         for (;;) {
+>
+> -               record_header = (ATOM_COMMON_RECORD_HEADER *)
+> -                       GET_IMAGE(ATOM_COMMON_RECORD_HEADER, record_offset);
+> +               record_header = GET_IMAGE(ATOM_COMMON_RECORD_HEADER, record_offset);
+>                 if (record_header == NULL) {
+>                         result = BP_RESULT_BADBIOSTABLE;
+>                         break;
+> @@ -2621,7 +2620,7 @@ static enum bp_result update_slot_layout_info(
+>
+>                 if (record_header->ucRecordType ==
+>                         ATOM_BRACKET_LAYOUT_RECORD_TYPE &&
+> -                       sizeof(ATOM_BRACKET_LAYOUT_RECORD)
+> +                       struct_size(record, asConnInfo, 1)
+>                         <= record_header->ucRecordSize) {
+>                         record = (ATOM_BRACKET_LAYOUT_RECORD *)
+>                                 (record_header);
+> diff --git a/drivers/gpu/drm/amd/include/atombios.h b/drivers/gpu/drm/amd/include/atombios.h
+> index 55ae93c1e365..60c44a8a067f 100644
+> --- a/drivers/gpu/drm/amd/include/atombios.h
+> +++ b/drivers/gpu/drm/amd/include/atombios.h
+> @@ -4733,7 +4733,7 @@ typedef struct  _ATOM_CONNECTOR_DEVICE_TAG_RECORD
+>    ATOM_COMMON_RECORD_HEADER   sheader;
+>    UCHAR                       ucNumberOfDevice;
+>    UCHAR                       ucReserved;
+> -  ATOM_CONNECTOR_DEVICE_TAG   asDeviceTag[1];         //This Id is same as "ATOM_DEVICE_XXX_SUPPORT", 1 is only for allocation
+> +  ATOM_CONNECTOR_DEVICE_TAG   asDeviceTag[];          //This Id is same as "ATOM_DEVICE_XXX_SUPPORT"
+>  }ATOM_CONNECTOR_DEVICE_TAG_RECORD;
+>
+>
+> @@ -4793,7 +4793,7 @@ typedef struct  _ATOM_OBJECT_GPIO_CNTL_RECORD
+>    ATOM_COMMON_RECORD_HEADER   sheader;
+>    UCHAR                       ucFlags;                // Future expnadibility
+>    UCHAR                       ucNumberOfPins;         // Number of GPIO pins used to control the object
+> -  ATOM_GPIO_PIN_CONTROL_PAIR  asGpio[1];              // the real gpio pin pair determined by number of pins ucNumberOfPins
+> +  ATOM_GPIO_PIN_CONTROL_PAIR  asGpio[];               // the real gpio pin pair determined by number of pins ucNumberOfPins
+>  }ATOM_OBJECT_GPIO_CNTL_RECORD;
+>
+>  //Definitions for GPIO pin state
+> @@ -4982,7 +4982,7 @@ typedef struct  _ATOM_BRACKET_LAYOUT_RECORD
+>    UCHAR                       ucWidth;
+>    UCHAR                       ucConnNum;
+>    UCHAR                       ucReserved;
+> -  ATOM_CONNECTOR_LAYOUT_INFO  asConnInfo[1];
+> +  ATOM_CONNECTOR_LAYOUT_INFO  asConnInfo[];
+>  }ATOM_BRACKET_LAYOUT_RECORD;
+>
+>
+> @@ -5161,7 +5161,7 @@ typedef struct  _ATOM_GPIO_VOLTAGE_OBJECT_V3
+>     UCHAR  ucPhaseDelay;                      // phase delay in unit of micro second
+>     UCHAR  ucReserved;
+>     ULONG  ulGpioMaskVal;                     // GPIO Mask value
+> -   VOLTAGE_LUT_ENTRY_V2 asVolGpioLut[1];
+> +   VOLTAGE_LUT_ENTRY_V2 asVolGpioLut[];
+>  }ATOM_GPIO_VOLTAGE_OBJECT_V3;
+>
+>  typedef struct  _ATOM_LEAKAGE_VOLTAGE_OBJECT_V3
+> @@ -5171,7 +5171,7 @@ typedef struct  _ATOM_LEAKAGE_VOLTAGE_OBJECT_V3
+>     UCHAR    ucLeakageEntryNum;               // indicate the entry number of LeakageId/Voltage Lut table
+>     UCHAR    ucReserved[2];
+>     ULONG    ulMaxVoltageLevel;
+> -   LEAKAGE_VOLTAGE_LUT_ENTRY_V2 asLeakageIdLut[1];
+> +   LEAKAGE_VOLTAGE_LUT_ENTRY_V2 asLeakageIdLut[];
+>  }ATOM_LEAKAGE_VOLTAGE_OBJECT_V3;
+>
+>
+> @@ -6599,7 +6599,7 @@ typedef struct _ATOM_FUSION_SYSTEM_INFO_V3
+>  typedef struct _ATOM_I2C_DATA_RECORD
+>  {
+>    UCHAR         ucNunberOfBytes;                                              //Indicates how many bytes SW needs to write to the external ASIC for one block, besides to "Start" and "Stop"
+> -  UCHAR         ucI2CData[1];                                                 //I2C data in bytes, should be less than 16 bytes usually
+> +  UCHAR         ucI2CData[];                                                  //I2C data in bytes, should be less than 16 bytes usually
+>  }ATOM_I2C_DATA_RECORD;
+>
+>
+> @@ -6610,14 +6610,14 @@ typedef struct _ATOM_I2C_DEVICE_SETUP_INFO
+>    UCHAR                              ucSSChipID;             //SS chip being used
+>    UCHAR                              ucSSChipSlaveAddr;      //Slave Address to set up this SS chip
+>    UCHAR                           ucNumOfI2CDataRecords;  //number of data block
+> -  ATOM_I2C_DATA_RECORD            asI2CData[1];
+> +  ATOM_I2C_DATA_RECORD            asI2CData[];
+>  }ATOM_I2C_DEVICE_SETUP_INFO;
+>
+>  //==========================================================================================
+>  typedef struct  _ATOM_ASIC_MVDD_INFO
+>  {
+>    ATOM_COMMON_TABLE_HEADER         sHeader;
+> -  ATOM_I2C_DEVICE_SETUP_INFO      asI2CSetup[1];
+> +  ATOM_I2C_DEVICE_SETUP_INFO      asI2CSetup[];
+>  }ATOM_ASIC_MVDD_INFO;
+>
+>  //==========================================================================================
+> --
+> 2.37.3
+>
