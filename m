@@ -1,60 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B14BD624390
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 14:48:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E829A62438F
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 14:48:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C676510E7C1;
-	Thu, 10 Nov 2022 13:48:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71DBE10E7BE;
+	Thu, 10 Nov 2022 13:48:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFB7C10E7B8
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 13:48:00 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id a14so2335937wru.5
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 05:48:00 -0800 (PST)
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E57A410E7B8
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 13:48:02 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id k8so2357218wrh.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 05:48:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=OLY2eEQFguZMIlY74s69pwkJXEOkjmvxBO7cb3VXH9s=;
- b=fhAPyBkyxhDKeTqg+JqZWQsY4umNf4sYfDnF8USCVvvFTZSNZHUo+JQvef272pkr1c
- 8I8aqC079tWCHZA/lNHvCzVqIvMVo51wS49wNbWWVRx9uR2UOaewRAcumne6bktPlaIL
- xez1MlDj8nAsglT7znRsVL3Il1ow8jY3Qxtv7oC1U3Emru5vkfr8gpyjcIGPPnAZ1Lac
- TB7xf61siUjU2WBFyXwRvlKoCO1ji6PdXb8xsSsjhGIuIMZ1bWfsKbYmjvZGHu5y2fe9
- LI0JVeHIloPW2F/9uBZKAeupKYCh33DPq67V+ryoKT5YLPqFM1z6e3hKyjia1x8gVtk+
- uvog==
+ bh=dFQJswkFzF6rVK/ySLw3u7BUeEqvWgS7HaoyjTUbHaU=;
+ b=FbYEQ4sMHFTKTwrRg+TG7p4q/Sr4qC7TP+ZtXyuyZAo3X/0cPO8yi/3DZcDjiSJbmY
+ W6IVpxLaN2Nh/907f6VE9WpUWDsacrmTcvjmaQbc1K3qvhJcBwH99WHeauqEFD6dTq9h
+ A2hdmu9SQVRciA7r1JEnwzQwioxi3IkeYWz0h1oojcrY+tRWuHICQPJAxdettUko9BwS
+ BdpYTJBNDjqTGO9eXrOAL2nwNNXzGmdqLsSCauwh9jgdgHxB5bPThosvesBkr9u06xUH
+ FF2wdmAP8xn4m5Os2UWdRjTrewr45n02PBcTLjVrbW7F8Un9M4+4ThHm62SiSfwTgesf
+ d48w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=OLY2eEQFguZMIlY74s69pwkJXEOkjmvxBO7cb3VXH9s=;
- b=CsY2m13cUi0E/kb/XxZpjZg7TM8oD/p/ii0N+rBfiklOgD+NXom9w3ZES2D6pZpbKV
- xieppLVu4BpVj5v+yqvHNlawfnaSgCAbPr0ZWdAdTMCWzn9oD+ym3Uq2s53y94vXX8pu
- ww92R1jwVwe41Bnb/5F+W6PSyhSYvCkfMn2rI5BNrgmZ9dYzZlfaRZloUb14jT0VuJlc
- uMkwk5/TbQCdWVpCekz201TbRnz3LKlpDFsNPggIx9rRa86qwkicI6YWgd9OFNGdBG7E
- dfjgykfNSiZ4Vxhgox01KuOZhv8FYGpDVlq1f68FNS6vJZrIUpXFk3xkUneDpcCVcKWV
- MpOg==
-X-Gm-Message-State: ACrzQf3msb9LmNM1fh0Be7ai/JTqt+6aH+ivK2s8QYWnft6723qh+Zff
- zBHJobiMVnM3Nk30LSJR5vc=
-X-Google-Smtp-Source: AMsMyM6FTHfjKzU1+iMHW0JdWPMGdz7hTtjxHSpuh1O2USH3Dn1AglaEQKe2BBL0wK+BEiQTwrEwbw==
-X-Received: by 2002:a5d:5a17:0:b0:238:589f:e610 with SMTP id
- bq23-20020a5d5a17000000b00238589fe610mr885821wrb.42.1668088079216; 
- Thu, 10 Nov 2022 05:47:59 -0800 (PST)
+ bh=dFQJswkFzF6rVK/ySLw3u7BUeEqvWgS7HaoyjTUbHaU=;
+ b=VoABHcanwWaOdODoG1QuiSgSG7ETwZfqGM22uCQua8xVu32LcRGX3uX5rdT6NiLPor
+ xPg8IddaygBXDIEi0jvQY89AVO2834dSZRydS4hQzv9DVzAlMtxlZmxltCYnuS+pg4ST
+ RZsINfBe3Xu2+egLbxnqV3lT7voy15v5ews7WlWx+FqZJOhligqMdRp7ly0e/YiFdoLf
+ /T/Z7SIrMBlDA02w9Xap21eR5BW4fJQAAAb6R94S1GJovZIOL8ezYjvQ5HcrT9ylW51P
+ sSBPMiRYQ/QfO16aVxthGw9R3l2ysYf1/s6iApph34TTPiO204+BeLyyAL2p1GUQH4O7
+ rN7Q==
+X-Gm-Message-State: ACrzQf1FTYOJfIr7oUh+EhdLKbD2DIfMPZ/xyIhZMzBNvtLoFlDHZ8zW
+ PK8M02xfPMSWfuDrepL0fNg=
+X-Google-Smtp-Source: AMsMyM7gP18kf7x+r2v5ySSaGrpwqLnSocitkDpa2Ir6vPYu4sHLNdb9K9bA9IMDJVsOH9kpsnIG3A==
+X-Received: by 2002:adf:e603:0:b0:236:80ac:5f4b with SMTP id
+ p3-20020adfe603000000b0023680ac5f4bmr40517495wrm.83.1668088081038; 
+ Thu, 10 Nov 2022 05:48:01 -0800 (PST)
 Received: from localhost.localdomain ([94.73.35.109])
  by smtp.gmail.com with ESMTPSA id
- h2-20020a5d4302000000b0022ae0965a8asm15717060wrq.24.2022.11.10.05.47.58
+ h2-20020a5d4302000000b0022ae0965a8asm15717060wrq.24.2022.11.10.05.48.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Nov 2022 05:47:58 -0800 (PST)
+ Thu, 10 Nov 2022 05:48:00 -0800 (PST)
 From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To: mripard@kernel.org
-Subject: [PATCH v2 1/2] drm/vc4: hdmi: Pass vc4_hdmi to
- vc4_hdmi_supports_scrambling()
-Date: Thu, 10 Nov 2022 14:47:51 +0100
-Message-Id: <20221110134752.238820-2-jose.exposito89@gmail.com>
+Subject: [PATCH v2 2/2] drm/vc4: hdmi: Fix pointer dereference before check
+Date: Thu, 10 Nov 2022 14:47:52 +0100
+Message-Id: <20221110134752.238820-3-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221110134752.238820-1-jose.exposito89@gmail.com>
 References: <20221110134752.238820-1-jose.exposito89@gmail.com>
@@ -79,55 +78,49 @@ Cc: emma@anholt.net, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Simplify vc4_hdmi_supports_scrambling() by changing its first parameter
-from struct drm_encoder to struct vc4_hdmi.
+Commit 6bed2ea3cb38 ("drm/vc4: hdmi: Reset link on hotplug") introduced
+the vc4_hdmi_reset_link() function. This function dereferences the
+"connector" pointer before checking whether it is NULL or not.
 
+Rework variable assignment to avoid this issue.
+
+Fixes: 6bed2ea3cb38 ("drm/vc4: hdmi: Reset link on hotplug")
 Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 0d78c800ed51..a49f88e5d2b9 100644
+index a49f88e5d2b9..6b223a5fcf6f 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -124,9 +124,8 @@ static unsigned long long
- vc4_hdmi_encoder_compute_mode_clock(const struct drm_display_mode *mode,
- 				    unsigned int bpc, enum vc4_hdmi_output_format fmt);
- 
--static bool vc4_hdmi_supports_scrambling(struct drm_encoder *encoder)
-+static bool vc4_hdmi_supports_scrambling(struct vc4_hdmi *vc4_hdmi)
+@@ -318,8 +318,8 @@ static int reset_pipe(struct drm_crtc *crtc,
+ static int vc4_hdmi_reset_link(struct drm_connector *connector,
+ 			       struct drm_modeset_acquire_ctx *ctx)
  {
--	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
- 	struct drm_display_info *display = &vc4_hdmi->connector.display_info;
- 
- 	lockdep_assert_held(&vc4_hdmi->mutex);
-@@ -321,7 +320,6 @@ static int vc4_hdmi_reset_link(struct drm_connector *connector,
- {
- 	struct drm_device *drm = connector->dev;
- 	struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
--	struct drm_encoder *encoder = &vc4_hdmi->encoder.base;
+-	struct drm_device *drm = connector->dev;
+-	struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
++	struct drm_device *drm;
++	struct vc4_hdmi *vc4_hdmi;
  	struct drm_connector_state *conn_state;
  	struct drm_crtc_state *crtc_state;
  	struct drm_crtc *crtc;
-@@ -349,7 +347,7 @@ static int vc4_hdmi_reset_link(struct drm_connector *connector,
+@@ -330,6 +330,7 @@ static int vc4_hdmi_reset_link(struct drm_connector *connector,
+ 	if (!connector)
+ 		return 0;
+ 
++	drm = connector->dev;
+ 	ret = drm_modeset_lock(&drm->mode_config.connection_mutex, ctx);
+ 	if (ret)
+ 		return ret;
+@@ -347,6 +348,7 @@ static int vc4_hdmi_reset_link(struct drm_connector *connector,
  	if (!crtc_state->active)
  		return 0;
  
--	if (!vc4_hdmi_supports_scrambling(encoder))
-+	if (!vc4_hdmi_supports_scrambling(vc4_hdmi))
++	vc4_hdmi = connector_to_vc4_hdmi(connector);
+ 	if (!vc4_hdmi_supports_scrambling(vc4_hdmi))
  		return 0;
  
- 	scrambling_needed = vc4_hdmi_mode_needs_scrambling(&vc4_hdmi->saved_adjusted_mode,
-@@ -867,7 +865,7 @@ static void vc4_hdmi_enable_scrambling(struct drm_encoder *encoder)
- 
- 	lockdep_assert_held(&vc4_hdmi->mutex);
- 
--	if (!vc4_hdmi_supports_scrambling(encoder))
-+	if (!vc4_hdmi_supports_scrambling(vc4_hdmi))
- 		return;
- 
- 	if (!vc4_hdmi_mode_needs_scrambling(mode,
 -- 
 2.25.1
 
