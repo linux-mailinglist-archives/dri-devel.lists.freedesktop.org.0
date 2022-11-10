@@ -2,40 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52A266237C1
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 00:54:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7A0C6237FE
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 01:08:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8717710E62F;
-	Wed,  9 Nov 2022 23:54:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBCDD10E632;
+	Thu, 10 Nov 2022 00:08:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6399510E62F
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Nov 2022 23:54:38 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4N71zD5mQRz4xYD;
- Thu, 10 Nov 2022 10:54:32 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1668038073;
- bh=8scDc1dWo/N/sQIgyaUpJyTxwAXLYx2ZCqELj/8aWy0=;
- h=Date:From:To:Cc:Subject:From;
- b=itKSEJgFosLrgotVH5ZbbbzfuywvaMuGuVYM4l3gcmsjIAi/s7Mea/sNT5/HUV9c7
- IkTdSDD3c7nD8XTWCBeijUL2Y4T9BwjlarNnDAF/DcmyVfN3I8GQOTjyUQa5nDEMqZ
- ARB0OJRI20o1nXiP5s3OGoenfT87/fmlqejB0a9fzdhVQ6OaYvdSUBMddv1LbMJniI
- ZL+UotntrOu2+1DXT9Mk9GuFobWwtE3wixWIriCbQuVIEt/eHzcqlANt3QJmgAc28n
- rwKFHZMNNy5AbaTzQuYwdkmH4oPo6LmkGtZTV8lxK8xfREr1wQgyZWEvrFyvcf1ckW
- PDIUQ13GjcjHw==
-Date: Thu, 10 Nov 2022 10:54:31 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Dave Airlie <airlied@redhat.com>
-Subject: linux-next: manual merge of the drm-misc tree with the drm tree
-Message-ID: <20221110105431.164e411d@canb.auug.org.au>
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E222510E632;
+ Thu, 10 Nov 2022 00:08:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1668038883; x=1699574883;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=rJFBKrXfpfeNQ6bDHt7gznyHdzSiIe37PTPTjbnBjRc=;
+ b=lDOmo51QE2FlmDPMIdGYjnRL+cnEU5NuCDZBWvPmg8IWXxgzVkNp+n8+
+ A3naauWffzGt4rCmFpfl9zZQSvbKmzn3SsxBeV+idAStYOLeJMEnY1JGf
+ L7jKuLsskWhn1RokxGH5Jnd8y361+0giZSVhUJbPtQj6xxJt+lm0kuZpX
+ xUzfdHUe/+f19K9u3vr8W7dVy4dbhmDbMJHuelsqtI+A0W7yVwyz/1bxC
+ b+SfM8O9qDFB/3OW7NzfHCmqqi8Kg3q+Qz4nI/lK/asyi/Ae1d6xQCGGp
+ pPW0lSRMnI8MhwZ9M8sahZF9JmoTmFco9AFZFSMqoQSnzV4HkpY2eOXOi Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10526"; a="373273031"
+X-IronPort-AV: E=Sophos;i="5.96,152,1665471600"; d="scan'208";a="373273031"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Nov 2022 16:08:03 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10526"; a="639396320"
+X-IronPort-AV: E=Sophos;i="5.96,152,1665471600"; d="scan'208";a="639396320"
+Received: from reddingx-mobl2.amr.corp.intel.com (HELO mdnavare-mobl9)
+ ([10.255.230.143])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Nov 2022 16:08:02 -0800
+Date: Wed, 9 Nov 2022 16:08:01 -0800
+From: "Navare, Manasi" <manasi.d.navare@intel.com>
+To: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
+Subject: Re: [PATCH 5/6] drm/i915: Extract VESA DSC bpp alignment to separate
+ function
+Message-ID: <Y2xA4WQ9DkfwLeRD@mdnavare-mobl9>
+References: <20221101094222.22091-6-stanislav.lisovskiy@intel.com>
+ <20221103132146.12759-1-stanislav.lisovskiy@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/Llf+jcIAGjBrZ9CjHZDQWCJ";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221103132146.12759-1-stanislav.lisovskiy@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,64 +59,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Ben Skeggs <bskeggs@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
+ jani.saarinen@intel.com, dri-devel@lists.freedesktop.org,
+ vinod.govindapillai@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/Llf+jcIAGjBrZ9CjHZDQWCJ
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Thu, Nov 03, 2022 at 03:21:46PM +0200, Stanislav Lisovskiy wrote:
+> We might to use that function separately from intel_dp_dsc_compute_config
+> for DP DSC over MST case, because allocating bandwidth in that
+> case can be a bit more tricky. So in order to avoid code copy-pasta
+> lets extract this to separate function and reuse it for both SST
+> and MST cases.
+> 
+> v2: Removed multiple blank lines
+> 
+> Signed-off-by: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_dp.c     | 50 +++++++++++++--------
+>  drivers/gpu/drm/i915/display/intel_dp.h     |  1 +
+>  drivers/gpu/drm/i915/display/intel_dp_mst.c |  1 -
+>  3 files changed, 32 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> index 70f4d6422795..8288a30dbd51 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -671,6 +671,36 @@ small_joiner_ram_size_bits(struct drm_i915_private *i915)
+>  		return 6144 * 8;
+>  }
+>  
+> +u32 intel_dp_dsc_nearest_vesa_bpp(struct drm_i915_private *i915, u32 bpp, u32 pipe_bpp)
 
-Hi all,
+It makes sense to pull this out into a separate function.
+For the function name, we have never had vesa in any of the function
+names even though most of these come from vesa spec. So I think we
+should remove vesa IMO, just name it as intel_dp_dsc_nearest_valid_bpp
+or something?
 
-Today's linux-next merge of the drm-misc tree got a conflict in:
+Manasi
 
-  drivers/gpu/drm/nouveau/nouveau_fbcon.c
-
-between commit:
-
-  4a16dd9d18a0 ("drm/nouveau/kms: switch to drm fbdev helpers")
-
-from the drm tree and commits:
-
-  9877d8f6bc37 ("drm/fb_helper: Rename field fbdev to info in struct drm_fb=
-_helper")
-  7fd50bc39d12 ("drm/fb-helper: Rename drm_fb_helper_alloc_fbi() to use _in=
-fo postfix")
-  afb0ff78c13c ("drm/fb-helper: Rename drm_fb_helper_unregister_fbi() to us=
-e _info postfix")
-
-from the drm-misc tree.
-
-I fixed it up (I just removed the file) and can carry the fix as
-necessary. This is now fixed as far as linux-next is concerned, but any
-non trivial conflicts should be mentioned to your upstream maintainer
-when your tree is submitted for merging.  You may also want to consider
-cooperating with the maintainer of the conflicting tree to minimise any
-particularly complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/Llf+jcIAGjBrZ9CjHZDQWCJ
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmNsPbcACgkQAVBC80lX
-0GwsKQgAhuT7YAcwMGTbZUiPbPr6ICtpwuQN7+2oe+0jemxqiaODBxvD1PvDi7cL
-bj4u3zVATZxmhMEFYaZn4TzY2WsuYnzVwtmineEzP/NzML0f4ZSP/nvlBFgCyYuJ
-+00oFge7ki+VWcy+6ZwlW/7ClNSyu+sADC+5N3/a9DXyKXhV0Q2jQy8e+U3Bw8Ki
-CrBdy4uENOH1dcd84MtqgCOlI8KmJHwaTwJkkw9LZnM52/1gCPZhkJVN6+fnT340
-l/orIVn2txdUJXVwa2Xj9b/gbt8fgutNLWY69nqm5p94OmxO/OPyr3sOB4OLzQ4r
-1D05WAMAlJKPMHSBHRtUg/HyE3fQ/g==
-=I2QK
------END PGP SIGNATURE-----
-
---Sig_/Llf+jcIAGjBrZ9CjHZDQWCJ--
+> +{
+> +	u32 bits_per_pixel = bpp;
+> +	int i;
+> +
+> +	/* Error out if the max bpp is less than smallest allowed valid bpp */
+> +	if (bits_per_pixel < valid_dsc_bpp[0]) {
+> +		drm_dbg_kms(&i915->drm, "Unsupported BPP %u, min %u\n",
+> +			    bits_per_pixel, valid_dsc_bpp[0]);
+> +		return 0;
+> +	}
+> +
+> +	/* From XE_LPD onwards we support from bpc upto uncompressed bpp-1 BPPs */
+> +	if (DISPLAY_VER(i915) >= 13) {
+> +		bits_per_pixel = min(bits_per_pixel, pipe_bpp - 1);
+> +	} else {
+> +		/* Find the nearest match in the array of known BPPs from VESA */
+> +		for (i = 0; i < ARRAY_SIZE(valid_dsc_bpp) - 1; i++) {
+> +			if (bits_per_pixel < valid_dsc_bpp[i + 1])
+> +				break;
+> +		}
+> +		drm_dbg_kms(&i915->drm, "Set dsc bpp from %d to VESA %d\n",
+> +			    bits_per_pixel, valid_dsc_bpp[i]);
+> +
+> +		bits_per_pixel = valid_dsc_bpp[i];
+> +	}
+> +
+> +	return bits_per_pixel;
+> +}
+> +
+>  u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
+>  				u32 link_clock, u32 lane_count,
+>  				u32 mode_clock, u32 mode_hdisplay,
+> @@ -679,7 +709,6 @@ u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
+>  				u32 timeslots)
+>  {
+>  	u32 bits_per_pixel, max_bpp_small_joiner_ram;
+> -	int i;
+>  
+>  	/*
+>  	 * Available Link Bandwidth(Kbits/sec) = (NumberOfLanes)*
+> @@ -712,24 +741,7 @@ u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
+>  		bits_per_pixel = min(bits_per_pixel, max_bpp_bigjoiner);
+>  	}
+>  
+> -	/* Error out if the max bpp is less than smallest allowed valid bpp */
+> -	if (bits_per_pixel < valid_dsc_bpp[0]) {
+> -		drm_dbg_kms(&i915->drm, "Unsupported BPP %u, min %u\n",
+> -			    bits_per_pixel, valid_dsc_bpp[0]);
+> -		return 0;
+> -	}
+> -
+> -	/* From XE_LPD onwards we support from bpc upto uncompressed bpp-1 BPPs */
+> -	if (DISPLAY_VER(i915) >= 13) {
+> -		bits_per_pixel = min(bits_per_pixel, pipe_bpp - 1);
+> -	} else {
+> -		/* Find the nearest match in the array of known BPPs from VESA */
+> -		for (i = 0; i < ARRAY_SIZE(valid_dsc_bpp) - 1; i++) {
+> -			if (bits_per_pixel < valid_dsc_bpp[i + 1])
+> -				break;
+> -		}
+> -		bits_per_pixel = valid_dsc_bpp[i];
+> -	}
+> +	bits_per_pixel = intel_dp_dsc_nearest_vesa_bpp(i915, bits_per_pixel, pipe_bpp);
+>  
+>  	/*
+>  	 * Compressed BPP in U6.4 format so multiply by 16, for Gen 11,
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i915/display/intel_dp.h
+> index c6539a6915e9..0fe10d93b75c 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.h
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.h
+> @@ -120,6 +120,7 @@ static inline unsigned int intel_dp_unused_lane_mask(int lane_count)
+>  }
+>  
+>  u32 intel_dp_mode_to_fec_clock(u32 mode_clock);
+> +u32 intel_dp_dsc_nearest_vesa_bpp(struct drm_i915_private *i915, u32 bpp, u32 pipe_bpp);
+>  
+>  void intel_ddi_update_pipe(struct intel_atomic_state *state,
+>  			   struct intel_encoder *encoder,
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> index 61b2bd504e80..8442eea27a57 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> @@ -114,7 +114,6 @@ static int intel_dp_mst_find_vcpi_slots_for_bpp(struct intel_encoder *encoder,
+>  	return slots;
+>  }
+>  
+> -
+>  static int intel_dp_mst_compute_link_config(struct intel_encoder *encoder,
+>  					    struct intel_crtc_state *crtc_state,
+>  					    struct drm_connector_state *conn_state,
+> -- 
+> 2.37.3
+> 
