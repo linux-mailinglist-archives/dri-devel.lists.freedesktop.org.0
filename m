@@ -1,59 +1,142 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A35B4624E75
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 00:30:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C18E624EA2
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 00:58:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F310010E125;
-	Thu, 10 Nov 2022 23:30:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8274010E143;
+	Thu, 10 Nov 2022 23:58:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1076 seconds by postgrey-1.36 at gabe;
- Thu, 10 Nov 2022 23:30:06 UTC
-Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5ED7610E11B;
- Thu, 10 Nov 2022 23:30:06 +0000 (UTC)
-Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
- client-signature RSA-PSS (2048 bits) client-digest SHA256)
- (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx0.riseup.net (Postfix) with ESMTPS id 4N7dNX4dZwz9svR;
- Thu, 10 Nov 2022 23:30:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1668123005; bh=fjuKmXRTkwtod6IBPhwlZ1iFXytpH70PXN+uyAnvcJU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=bXuDGCl8gu5dbDhZxNCxNGU6m3awVbK/pl9drcFPGlU06RjvGwCTgKLdPJ+49/BLg
- eSp0z/ipegAp4Gs5LVSt/xvRD8PtbyXf9jQHoIJsy9S/uYK9IxCXYXo7L1lle/OaAD
- OiK5LcDol8WaOacjUFveKpKTPwQu8PeKxOV9ZZko=
-X-Riseup-User-ID: 6A1C41D0E4C101BEC78841C4EA042529A6EBD75A5D224DDA08027C25E4B89A87
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews2.riseup.net (Postfix) with ESMTPSA id 4N7dNM3v56z1yQc;
- Thu, 10 Nov 2022 23:29:55 +0000 (UTC)
-Message-ID: <4e35ba53-ee3d-31b1-cf70-6d8279e25297@riseup.net>
-Date: Thu, 10 Nov 2022 20:29:53 -0300
-MIME-Version: 1.0
-Subject: Re: [PATCH v8 17/24] drm/probe-helper: Provide a TV get_modes helper
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0692910E16B;
+ Thu, 10 Nov 2022 23:58:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1668124712; x=1699660712;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=v4yLk0izUnlaIlMjrMV86bkCA0Hp3Be40jQ8sb3xkV4=;
+ b=KPhHKmokLJ6pUcRokhd64C39nlCwRP5AiHlxmA+wdRo+Zw4tucRV6p90
+ TfZQToNR6sqOlwJocV7QFnEPkqLGpjyVqv1IO3snI9vaNgFFoxOaHgaFJ
+ PhVVdTVQdo6kzY5PY+y60i0E+bifTWW+6w9D+eSVoow3P/u/Ul0jq1k8o
+ KCCXQYnt5i08+kHS8eDcUJJ1/5kcA7bWw24iW7va1na8U6zH8qwSpZzev
+ 7mEinDsuQiU2wo1xNB+9cAPP7H2d6DeCPkv96BAuYeMe6zMYBcFQbTuj3
+ xOKmjiGbGtGvVuV51ihTPV10t38KO/w5eB9cJ6DhSTOkfMAuv1sKV2HcZ Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10527"; a="312613477"
+X-IronPort-AV: E=Sophos;i="5.96,155,1665471600"; d="scan'208";a="312613477"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2022 15:58:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10527"; a="615297689"
+X-IronPort-AV: E=Sophos;i="5.96,155,1665471600"; d="scan'208";a="615297689"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by orsmga006.jf.intel.com with ESMTP; 10 Nov 2022 15:58:13 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 10 Nov 2022 15:58:13 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Thu, 10 Nov 2022 15:58:13 -0800
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Thu, 10 Nov 2022 15:58:13 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=a0aFPEbL+3zxfiBzKGJ9sPlbqoFWTVSM+gk26Cj9s6O20uRdSbh69+WqOA47nZMLAtvmnxkX4C2J5H5Lh7wOsGANeahxS9OdWYblBlpSpifBevsgjTKHo8s/7d0K0XFXXyfOFSy3tplXZa/xBIAJMjlXOBIKd5MF9BFyXVSNw4HbOtJdiLAk26Mehns/ljijLsGpF2frrppcwzpaCAVuiOHekt8nnhhvPGsZWsY8RevMeaKKLP5lQzQKV6aKUxC/GL7+EkSOdYfwJtfmbHtmWGiCKGwOZpqBtV4fL9YJFxYr3n9nn1FZjASus0dR+jauVRYOtwIKpXjl7gplcJhRbw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YiVN2fTijuAGMdFT1irA1KXhiLAJq/HNCORNZE5lk78=;
+ b=DgSiNDGEg7+S4N+JAIL+UIOvTPWwL5w9qUNiJMkoclwg/kGmdc8XJ/8Xo5n35Tc1Bgzy1JMgMaQyuIZaJktSyvD8PqF5844v2rDFH97aMdqYobGO/NKdPrcyaHVGFiYDU1fLJRpYB51Q615VG5oj9AIFEOJxSe/jSGezXZCCgfhZfVrQ4za8l/SPI0VCLuW9rg/P/8c8kXU+oqNBYuVPsVyR9l+VXSs8AaVFSR3iM69rm2J0yv2U/RybK8AeQUQez4Ek7ZjiFJ9QeMKhklyL8gUxBlppYAhFcl26FLg4KOwSJiG4x805LH3+2kw3U6rwxoL9ihZC0gV5PonXGA60mw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
+ by SJ0PR11MB5150.namprd11.prod.outlook.com (2603:10b6:a03:2d4::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.12; Thu, 10 Nov
+ 2022 23:58:06 +0000
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::737e:211a:bb53:4cd7]) by BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::737e:211a:bb53:4cd7%6]) with mapi id 15.20.5813.012; Thu, 10 Nov 2022
+ 23:58:05 +0000
+From: "Tian, Kevin" <kevin.tian@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: RE: [PATCH v2 07/11] vfio-iommufd: Support iommufd for physical VFIO
+ devices
+Thread-Topic: [PATCH v2 07/11] vfio-iommufd: Support iommufd for physical VFIO
+ devices
+Thread-Index: AQHY8wx4zHuY1VxYskGoQhcyiXm8Ka43ee6QgADxewCAAG3YMA==
+Date: Thu, 10 Nov 2022 23:58:05 +0000
+Message-ID: <BN9PR11MB527683EBFF79A8DAD22E1DF58C019@BN9PR11MB5276.namprd11.prod.outlook.com>
+References: <0-v2-65016290f146+33e-vfio_iommufd_jgg@nvidia.com>
+ <7-v2-65016290f146+33e-vfio_iommufd_jgg@nvidia.com>
+ <BN9PR11MB52766AA1ABD4EEDA30B696C98C019@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <Y20y6MnCn+pqXcnI@nvidia.com>
+In-Reply-To: <Y20y6MnCn+pqXcnI@nvidia.com>
+Accept-Language: en-US
 Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Karol Herbst
- <kherbst@redhat.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, Lyude Paul <lyude@redhat.com>,
- Samuel Holland <samuel@sholland.org>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, Ben Skeggs <bskeggs@redhat.com>
-References: <20220728-rpi-analog-tv-properties-v8-0-09ce1466967c@cerno.tech>
- <20220728-rpi-analog-tv-properties-v8-17-09ce1466967c@cerno.tech>
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v8-17-09ce1466967c@cerno.tech>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BN9PR11MB5276:EE_|SJ0PR11MB5150:EE_
+x-ms-office365-filtering-correlation-id: 46da331f-f953-4b49-ddd2-08dac3776911
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Ki4FjmDu5dSlLofk/plbuN0lv5BGXbC9eppRWjryFOlBRowGyAcVB5bq0cucMGBqOYpgG7vj2rxToEWTlQlFQ1tKQpZtte6pxvC+7ztsHpaC4wpcN6qXA1BFwc0IY+OFajaKnIKhH7TQ7ttswYlds5L+igEsR7Ao1QCm8jVq1xjU7N/LhpYCXZZqTwuERwhTWjfd+szDhgjgF/yEwWdjItW3JowwSSs3l0KB/exLOxJ6AqA5Z4j9u51xBCMlCpxKKGoLWGgX5ela/l3fxqdqzmDOaoOcXWvcPG2KVCtnG/tOCnobeCRPa2RwYjy5y9CdzSnveGyiBeFMb1AM4yOHbcH4o9FvFl0W1QmLP2939ew6YOLqwcQH55BKiURjrZ2ZmFmKiMbt3QWwziT8lMNLnnGEPFy2wZIByHs9UwPWtqZbyIRm2niarBkM8fbEWmz1IIWudtMz4dYQ20zj83EerWi4sCAWDW4sz68/PMGD6UCM864+wf84nh46UtN4+6nQCsmXstmAApequpr2JVUa/StxfToPnf326M7zPOExzA4EjZGjfKZCb7VtJpoye0wWGf90WRDL2/2OReeRhjQBdh5nGNbEQOYuy0HTXwFH20PvIbMtH+mcXeON1jAGReeYhHc0QPsczm/MZUkzGVg65RYpd/AVAaGSW/N6bAlaUilWZf3D8Layg5LpNnhvE89x02rYalgR8s/zWhfk+3h8/0aXKYT1lZx32uBqF6Pw50MaA76y57xn88wdCCoSjFNn5ePgU/aKZsxB8oLnAK+ibFqa7ngiW/yM1swfwen1Z8Q=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR11MB5276.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(396003)(366004)(136003)(376002)(346002)(39860400002)(451199015)(6506007)(83380400001)(316002)(66946007)(5660300002)(64756008)(122000001)(66446008)(6916009)(54906003)(66476007)(76116006)(8676002)(52536014)(8936002)(4326008)(66556008)(82960400001)(86362001)(38100700002)(41300700001)(38070700005)(33656002)(478600001)(55016003)(26005)(9686003)(71200400001)(7696005)(966005)(7416002)(7406005)(186003)(2906002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?00DVYmt2MevVyhMNadpbxRd46AHuYRZJAQjlGbaeePFL34nyHt59d+Ew4m2y?=
+ =?us-ascii?Q?65OW+QH8ajDh5MIEiMDqwTXJfdkifWVsm+dC2OYLJwYJxXWJbxnwQ6j7aby8?=
+ =?us-ascii?Q?B4Jn7sw31QH38jVKrbbx1gSTfU6VMI09kKsP5szfoHzrfLXmesmSzEA8F/h/?=
+ =?us-ascii?Q?YSiF3OT7y2p8lnbijStEGVCy/m+9y1qGsU3IVc5cbXkGBAYPYN/duOYMYD3u?=
+ =?us-ascii?Q?g/yJGOjBVVvdA+f9pdnaOwhLG9dJHjHdwD9yUkMFWEWcxgzoIL4JIyhV9j12?=
+ =?us-ascii?Q?SMIJBhnGoUgAQEsul9E/JW70UaoYYDoPZwtBTRj+Nrf4RKenJSedFg+HUkz+?=
+ =?us-ascii?Q?43AY8itHYp8Rlv1SoS87LX8v0egs5Fuo037kWUe0yLsjp1dFReOp/MpzVbJc?=
+ =?us-ascii?Q?1hRC/IadisCKLoo1vCf4SJie4MeiSMV71NZgJsm0AOFqeIRZplhRgv1OMnQ4?=
+ =?us-ascii?Q?pfCf2KFxZFbrtEy3MduVMyK+dwhigbzMhDBcM/1iUjGeP7Vrd6HeAEdtAtQP?=
+ =?us-ascii?Q?j2ETmqxgyGDrLsC4cDf/8ASX16AvOzOTCi7I+/aHM13E97ztOfe9ALwZUGUg?=
+ =?us-ascii?Q?uTEMi7n2/F700lp/nFuCVypVpZNWTxWJPQP5YVZyOTckJL1q/jVFZU7n072u?=
+ =?us-ascii?Q?Ua23MdNESZD2p3ILOPXi0UfXQGcUI4hkTLgdKQAY8B5Hza79uMpLFZy74ZTr?=
+ =?us-ascii?Q?nYAmUOgq3+DFJ6AxZQMzFk/TPAUUpLbGxBQjBvJiCHWpWqoeoaZIxX+sa4xp?=
+ =?us-ascii?Q?rjAta+mWSrPEZ2/NkbZ1dkaspSeCxBULKsD44HJw6DApS8F+//hYTPbcleeI?=
+ =?us-ascii?Q?FSv99q+HOMz4L7SLIFLSoSshhxzikqKjHTeZKjXgDo1t2Lt+/jqG7GPZ3s99?=
+ =?us-ascii?Q?fNA3TyXnpLKOs9NXMOB9Jc/6LhYcosEhndmhETLqCwt3B8Pzf9ncS9sXejxm?=
+ =?us-ascii?Q?pBOT4oAOYhlERzuaGSXtGDGxtXmyOambAf4Gl1MFLFV9OZiz6aPOz75XAvPR?=
+ =?us-ascii?Q?4UqC8JhcNdIag2yuAbPK2eY0TwfTLsgeSZYtfMhu9a0yVSDikh/PgvnGZMs8?=
+ =?us-ascii?Q?ArjDGx4cFTMOMleFOGi8E6zvE/GnuwShfhs/2bGVurzFZmjs7D+BW2oCJf80?=
+ =?us-ascii?Q?7M+2pmPiu+hu/+/Ut7so38ZbPbBIFu/BbRo/RbLbnJXOm0PZLUDq/4PaT/+V?=
+ =?us-ascii?Q?7WOQejCxk7+zVVPbTH9lmYm/+kZYnwQjuLuPh+8kSEsl1LWZVyObfX968fL6?=
+ =?us-ascii?Q?8FFEnXOOFYHAKPKm/AzDoC5kVNlQ11OtFqTwz5+wobT0ydX+TDL6lFYHUHof?=
+ =?us-ascii?Q?c+iJt7ZTHSJcxqUnD1bqY8P3aB0nuqQVXj/8+xyL8gQeHfYqfFyUIURyVRUO?=
+ =?us-ascii?Q?5LN99rmkUEeWkm0OrFltomhPmLFAgOPRTfzZRWsLncRc+u8AubdEvT8Da18a?=
+ =?us-ascii?Q?WXn7hsP0U0xzz+IXnosoaOyx0wCeiuDcTrjq0QQvMRH7zwQUn3gs9+0GnemQ?=
+ =?us-ascii?Q?5qGmWu6POB6eGsOE5tintWf7nErWpCOVZ8ZBfda+XaHV/peRZq33RChx8LGz?=
+ =?us-ascii?Q?tQ7gj5JvWkRiAm7HS1YISZUqOObWk2TMpQ9/xdKu?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 46da331f-f953-4b49-ddd2-08dac3776911
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Nov 2022 23:58:05.7180 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: sNPI0aXBWQcOmGl4/Wn29vkydOVPjUa2/9/1Nkd8aeW502mnR7Kapxs58W8oEL+EphbsPY67HJ2XwSRu8cpXcw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5150
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,276 +149,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, linux-sunxi@lists.linux.dev,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
+Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Diana Craciun <diana.craciun@oss.nxp.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Longfang Liu <liulongfang@huawei.com>,
+ "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>, "Liu,
+ Yi L" <yi.l.liu@intel.com>, Matthew
+ Rosato <mjrosato@linux.ibm.com>, Will Deacon <will@kernel.org>,
+ Joerg Roedel <joro@8bytes.org>, Halil Pasic <pasic@linux.ibm.com>,
+ "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+ Nicolin Chen <nicolinc@nvidia.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Wang,
+ Zhi A" <zhi.a.wang@intel.com>, Jason
+ Herne <jjherne@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, Eric
+ Auger <eric.auger@redhat.com>, Alex Williamson <alex.williamson@redhat.com>,
+ Harald
+ Freudenberger <freude@linux.ibm.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ Tony Krowiak <akrowiak@linux.ibm.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>, Shameer
+ Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Robin Murphy <robin.murphy@arm.com>,
+ Lu Baolu <baolu.lu@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+> From: Jason Gunthorpe <jgg@nvidia.com>
+> Sent: Friday, November 11, 2022 1:21 AM
+>=20
+> On Thu, Nov 10, 2022 at 03:11:16AM +0000, Tian, Kevin wrote:
+> > > From: Jason Gunthorpe <jgg@nvidia.com>
+> > > Sent: Tuesday, November 8, 2022 8:53 AM
+> > >
+> > > +
+> > > +int vfio_iommufd_bind(struct vfio_device *vdev, struct iommufd_ctx
+> *ictx)
+> > > +{
+> > > +	u32 ioas_id;
+> > > +	u32 device_id;
+> > > +	int ret;
+> > > +
+> > > +	lockdep_assert_held(&vdev->dev_set->lock);
+> > > +
+> > > +	/*
+> > > +	 * If the driver doesn't provide this op then it means the device d=
+oes
+> > > +	 * not do DMA at all. So nothing to do.
+> > > +	 */
+> > > +	if (!vdev->ops->bind_iommufd)
+> > > +		return 0;
+> > > +
+> > > +	ret =3D vdev->ops->bind_iommufd(vdev, ictx, &device_id);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	ret =3D iommufd_vfio_compat_ioas_id(ictx, &ioas_id);
+> > > +	if (ret)
+> > > +		goto err_unbind;
+> > > +	ret =3D vdev->ops->attach_ioas(vdev, &ioas_id);
+> > > +	if (ret)
+> > > +		goto err_unbind;
+> >
+> > with our discussion in v1:
+> >
+> > https://lore.kernel.org/all/Y2mgJqz8fvm54C+f@nvidia.com/
+> >
+> > I got the rationale on iommufd part which doesn't have the concept
+> > of container hence not necessarily to impose restriction on when
+> > an user can change a compat ioas.
+> >
+> > But from vfio side I wonder whether we should cache the compat
+> > ioas id when it's attached by the first device and then use it all the
+> > way for other device attachments coming after. implying IOAS_SET
+> > only affects containers which haven't been attached.
+>=20
+> I can't see a reason to do this. IOAS_SET is a new ioctl and it has
+> new semantics beyond what original vfio container could do. In this
+> case having an impact on the next vfio_device that is opened.
+>=20
+> This seems generally useful enough I wouldn't want to block it.
+>=20
+> In any case, we can't *really* change this because the vfio layer is
+> working on IDs and the IDs can be destroyed/recreated from under
+> it. So if we try to hold the ID we could still end up getting it
+> changed anyhow.
+>=20
 
-On 11/10/22 08:07, Maxime Ripard wrote:
-> From: Noralf Trønnes <noralf@tronnes.org>
-> 
-> Most of the TV connectors will need a similar get_modes implementation
-> that will, depending on the drivers' capabilities, register the 480i and
-> 576i modes.
-> 
-> That implementation will also need to set the preferred flag and order
-> the modes based on the driver and users preferrence.
-> 
-> This is especially important to guarantee that a userspace stack such as
-> Xorg can start and pick up the preferred mode while maintaining a
-> working output.
-> 
-> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
-> Tested-by: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> 
-> ---
-> Changes in v8:
-> - Remove unused tv_mode_support function
-> - Add unit tests
-> 
-> Changes in v7:
-> - Used Noralf's implementation
-> 
-> Changes in v6:
-> - New patch
-> ---
->  drivers/gpu/drm/drm_probe_helper.c            |  82 ++++++++++
->  drivers/gpu/drm/tests/Makefile                |   1 +
->  drivers/gpu/drm/tests/drm_probe_helper_test.c | 209 ++++++++++++++++++++++++++
->  include/drm/drm_probe_helper.h                |   1 +
->  4 files changed, 293 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/tests/drm_probe_helper_test.c b/drivers/gpu/drm/tests/drm_probe_helper_test.c
-> new file mode 100644
-> index 000000000000..4f295b39f746
-> --- /dev/null
-> +++ b/drivers/gpu/drm/tests/drm_probe_helper_test.c
-> @@ -0,0 +1,209 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Kunit test for drm_probe_helper functions
-> + */
-> +
-> +#include <drm/drm_atomic_state_helper.h>
-> +#include <drm/drm_connector.h>
-> +#include <drm/drm_device.h>
-> +#include <drm/drm_drv.h>
-> +#include <drm/drm_mode.h>
-> +#include <drm/drm_modes.h>
-> +#include <drm/drm_modeset_helper_vtables.h>
-> +#include <drm/drm_probe_helper.h>
-> +
-> +#include <kunit/test.h>
-> +
-> +#include "drm_kunit_helpers.h"
-> +
-> +static const struct drm_display_mode ntsc_mode = {
-> +	DRM_MODE("720x480i", 0, 13500,
-> +		 720, 736, 800, 858, 0,
-> +		 480, 486, 492, 525, 0,
-> +		 DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_INTERLACE)
-> +};
-> +
-> +static const struct drm_display_mode pal_mode = {
-> +	DRM_MODE("720x576i", 0, 13500,
-> +		 720, 732, 796, 864, 0,
-> +		 576, 581, 587, 625, 0,
-> +		 DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_INTERLACE)
-> +};
-> +
-> +struct drm_probe_helper_test_priv {
-> +	struct drm_device *drm;
-> +	struct drm_connector connector;
-> +};
-> +
-> +static const struct drm_connector_helper_funcs drm_probe_helper_connector_helper_funcs = {
-> +};
-> +
-> +static const struct drm_connector_funcs drm_probe_helper_connector_funcs = {
-> +	.atomic_destroy_state	= drm_atomic_helper_connector_destroy_state,
-> +	.atomic_duplicate_state	= drm_atomic_helper_connector_duplicate_state,
-> +	.reset			= drm_atomic_helper_connector_reset,
-> +};
-> +
-> +static int drm_probe_helper_test_init(struct kunit *test)
-> +{
-> +	struct drm_probe_helper_test_priv *priv;
-> +	struct drm_connector *connector;
-> +	int ret;
-> +
-> +	priv = kunit_kzalloc(test, sizeof(*priv), GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_NULL(test, priv);
-> +	test->priv = priv;
-> +
-> +	priv->drm = drm_kunit_device_init(test, DRIVER_MODESET | DRIVER_ATOMIC,
-> +					  "drm-probe-helper-test");
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv->drm);
-> +
-> +	connector = &priv->connector;
-> +	ret = drmm_connector_init(priv->drm, connector,
-> +				  &drm_probe_helper_connector_funcs,
-> +				  DRM_MODE_CONNECTOR_Unknown,
-> +				  NULL);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +
-> +	drm_connector_helper_add(connector, &drm_probe_helper_connector_helper_funcs);
-> +
-> +	return 0;
-> +}
-> +
-> +struct drm_connector_helper_tv_get_modes_test {
-> +	const char *name;
-> +	unsigned int supported_tv_modes;
-> +	enum drm_connector_tv_mode default_mode;
-> +	bool cmdline;
-> +	enum drm_connector_tv_mode cmdline_mode;
-> +	const struct drm_display_mode **expected_modes;
-> +	unsigned int num_expected_modes;
-> +};
-> +
-> +#define _TV_MODE_TEST(_name, _supported, _default, _cmdline, _cmdline_mode, ...) 			\
-> +	{												\
-> +		.name = _name,										\
-> +		.supported_tv_modes = _supported,							\
-> +		.default_mode = _default,								\
-> +		.cmdline = _cmdline,									\
-> +		.cmdline_mode = _cmdline_mode,								\
-> +		.expected_modes = (const struct drm_display_mode*[]) { __VA_ARGS__ }, 			\
-> +		.num_expected_modes = sizeof((const struct drm_display_mode*[]) { __VA_ARGS__ }) /	\
-> +				      (sizeof(const struct drm_display_mode*)),				\
-> +	}
-> +
-> +#define TV_MODE_TEST(_name, _supported, _default, ...)			\
-> +	_TV_MODE_TEST(_name, _supported, _default, false, 0, __VA_ARGS__)
-> +
-> +#define TV_MODE_TEST_CMDLINE(_name, _supported, _default, _cmdline, ...) \
-> +	_TV_MODE_TEST(_name, _supported, _default, true, _cmdline, __VA_ARGS__)
-> +
-> +static void
-> +drm_test_connector_helper_tv_get_modes_check(struct kunit *test)
-> +{
-> +	const struct drm_connector_helper_tv_get_modes_test *params = test->param_value;
-> +	struct drm_probe_helper_test_priv *priv = test->priv;
-> +	struct drm_connector *connector = &priv->connector;
-> +	struct drm_cmdline_mode *cmdline = &connector->cmdline_mode;
-> +	struct drm_display_mode *mode;
-> +	const struct drm_display_mode *expected;
-> +	size_t len;
-> +	int ret;
-> +
-> +	if (params->cmdline) {
-> +		cmdline->tv_mode_specified = true;
-> +		cmdline->tv_mode = params->cmdline_mode;
-> +	}
-> +
-> +	ret = drm_mode_create_tv_properties(priv->drm, params->supported_tv_modes);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +
-> +	drm_object_attach_property(&connector->base,
-> +				   priv->drm->mode_config.tv_mode_property,
-> +		 		   params->default_mode);
-> +
-> +	mutex_lock(&priv->drm->mode_config.mutex);
-> +
-> +	ret = drm_connector_helper_tv_get_modes(connector);
-> +	KUNIT_EXPECT_EQ(test, ret, params->num_expected_modes);
-> +
-> +	list_for_each_entry(mode, &connector->probed_modes, head)
-> +		len++;
-> +	KUNIT_EXPECT_EQ(test, len, params->num_expected_modes);
-> +
-> +	if (params->num_expected_modes >= 1) {
-> +		mode = list_first_entry_or_null(&connector->probed_modes,
-> +						struct drm_display_mode, head);
-> +		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mode);
-> +
-> +		expected = params->expected_modes[0];
-> +		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, expected);
-> +
-> +		KUNIT_EXPECT_TRUE(test, drm_mode_equal(mode, expected));
-> +		KUNIT_EXPECT_TRUE(test, mode->type & DRM_MODE_TYPE_PREFERRED);
-> +	}
-> +
-> +	if (params->num_expected_modes >= 2) {
-> +		mode = list_next_entry(mode, head);
-> +		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mode);
-> +
-> +		expected = params->expected_modes[1];
-> +		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, expected);
-> +
-> +		KUNIT_EXPECT_TRUE(test, drm_mode_equal(mode, expected));
-> +		KUNIT_EXPECT_FALSE(test, mode->type & DRM_MODE_TYPE_PREFERRED);
-> +	}
-> +
-> +	mutex_unlock(&priv->drm->mode_config.mutex);
-> +}
-> +
-> +static const
-> +struct drm_connector_helper_tv_get_modes_test drm_connector_helper_tv_get_modes_tests[] = {
-> +	{ .name = "None" },
-> +	TV_MODE_TEST("PAL", BIT(DRM_MODE_TV_MODE_PAL), DRM_MODE_TV_MODE_PAL, &pal_mode),
-> +	TV_MODE_TEST("NTSC", BIT(DRM_MODE_TV_MODE_NTSC), DRM_MODE_TV_MODE_NTSC, &ntsc_mode),
-> +	TV_MODE_TEST("Both, NTSC Default",
-> +		     BIT(DRM_MODE_TV_MODE_NTSC) | BIT(DRM_MODE_TV_MODE_PAL),
-> +		     DRM_MODE_TV_MODE_NTSC,
-> +		     &ntsc_mode, &pal_mode),
-> +	TV_MODE_TEST("Both, PAL Default",
-> +		     BIT(DRM_MODE_TV_MODE_NTSC) | BIT(DRM_MODE_TV_MODE_PAL),
-> +		     DRM_MODE_TV_MODE_PAL,
-> +		     &pal_mode, &ntsc_mode),
-> +	TV_MODE_TEST_CMDLINE("Both, NTSC Default, with PAL on command-line",
-> +			     BIT(DRM_MODE_TV_MODE_NTSC) | BIT(DRM_MODE_TV_MODE_PAL),
-> +			     DRM_MODE_TV_MODE_NTSC,
-> +			     DRM_MODE_TV_MODE_PAL,
-> +			     &pal_mode, &ntsc_mode),
-> +	TV_MODE_TEST_CMDLINE("Both, PAL Default, with NTSC on command-line",
-> +			     BIT(DRM_MODE_TV_MODE_NTSC) | BIT(DRM_MODE_TV_MODE_PAL),
-> +			     DRM_MODE_TV_MODE_PAL,
-> +			     DRM_MODE_TV_MODE_NTSC,
-> +			     &ntsc_mode, &pal_mode),
-> +};
-> +
-> +static void
-> +drm_connector_helper_tv_get_modes_desc(const struct drm_connector_helper_tv_get_modes_test *t,
-> +				       char *desc)
-> +{
-> +	sprintf(desc, "%s", t->name);
-> +}
-> +KUNIT_ARRAY_PARAM(drm_connector_helper_tv_get_modes,
-> +		  drm_connector_helper_tv_get_modes_tests,
-> +		  drm_connector_helper_tv_get_modes_desc);
-> +
-> +static struct kunit_case drm_test_connector_helper_tv_get_modes_tests[] = {
-> +	KUNIT_CASE_PARAM(drm_test_connector_helper_tv_get_modes_check,
-> +			 drm_connector_helper_tv_get_modes_gen_params),
-> +	{ }
-> +};
-> +
-> +static struct kunit_suite drm_test_connector_helper_tv_get_modes_suite = {
-> +	.name = "drm_test_connector_helper_tv_get_modes",
-> +	.init = drm_probe_helper_test_init,
-> +	.test_cases = drm_test_connector_helper_tv_get_modes_tests,
-> +};
-> +
-> +kunit_test_suites(
-> +	&drm_test_connector_helper_tv_get_modes_suite
-> +);
+OK, this is a valid point.
 
-Considering that there is only one suite, you could use the
-kunit_test_suite macro instead.
+So a legacy vfio application doesn't use IOAS_SET so the backward
+compatibility is guaranteed.
 
-Moreover, it would be nice to run the checkpatch script on this test, as
-there are a couple of problems with the code style.
+a iommufd native application will use cdev where IOAS_SET and
+compat ioas are irrelevant.
 
-Best Regards,
-- Maíra Canal
+here just we allow an interesting usage where an user is allowed
+to do more funny things with IOAS_SET on vfio-compat. Not sure
+how useful it is but not something we want to prohibit.
+
