@@ -1,57 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D84D3624689
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 17:03:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6890624688
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 17:03:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E96110E155;
-	Thu, 10 Nov 2022 16:03:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8636410E168;
+	Thu, 10 Nov 2022 16:03:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com
- [IPv6:2607:f8b0:4864:20::d2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0BD710E15B
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 16:03:17 +0000 (UTC)
-Received: by mail-io1-xd2d.google.com with SMTP id 63so1559540iov.8
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 08:03:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=RIxTRYd8LXmwSWWSkhggCPCFSFpw6CNw0xX91rswKjg=;
- b=BRbX2/V5HybGHHyn2aaIrJ51X6Xy2F1MOf4NAWdltjawfjvylCiqK0Dv9/NWVpG1DC
- LupQoAhjH5uv9xe5mNBHMyZKm/Inwxn+rul07Pi+Km6j/uEGSFxP5KpjjCZN7fW2DuCQ
- I0zQ05+1Jl4tjjmzl08dShWn0rIoHS/lRGpdQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=RIxTRYd8LXmwSWWSkhggCPCFSFpw6CNw0xX91rswKjg=;
- b=SvQ0s6Hc2Y9qWWMndxpKFj6R+6MpwJF7sTZYsXmtQgdUOlqnO+jIZLfvKNf50E1PIP
- HqyPfH2VQSzMGX6DtlYgy2EVHZ+GWXeoSbH0GuWK9jOf17eeaUTU8v9+uan2q/L7j3do
- 20JKke80UTfrWwZlhZFEWmjD872rT8O/AYPsfZV+hs2PqJukcQz+m0W9SdMEjXODXHqO
- Mvo2t2+m4L8MKESoj9G632Hxctijw7oEqub6iW3DkAUShS7VIULOi6oceScBaFrRIjkg
- XE7JzADYQEG/AsOdS3m7g8KdniiAv3VpYFwiXWq0wVxCBXzv2F7OaAGseUx5seopEQyE
- Xgtg==
-X-Gm-Message-State: ACrzQf13Mc5ONFW4nUVKcxoPwe4YIhcA7+s2sTAFipJC9wYKlSNHxnNz
- nCgakgVO9fkqh5TWK/ykqB8JxrPKutVaqDdcP8wdFA==
-X-Google-Smtp-Source: AMsMyM4fDoK33KDDH0EOAkYrqGWWMRDg6cHZ6bI+cXayZHtFVq/RgBH7wHIQaOmyPCFA/9zQ1nbl9V4uV9ZqLXFF+8o=
-X-Received: by 2002:a6b:6f19:0:b0:6c3:168a:a25e with SMTP id
- k25-20020a6b6f19000000b006c3168aa25emr2885739ioc.174.1668096197188; Thu, 10
- Nov 2022 08:03:17 -0800 (PST)
+Received: from galois.linutronix.de (Galois.linutronix.de
+ [IPv6:2a0a:51c0:0:12e:550::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A3E910E155
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 16:03:16 +0000 (UTC)
+From: John Ogness <john.ogness@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1668096193;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=S2ekXh2GYs190EffPperJZ/U7GEy4Ue5lLOHn3cnsTY=;
+ b=D1AzsMAdXVSDzz5kJrt9f713AtZ5rwnGbtn8uOef0JjHAAhBhyzEyiDq1I4hJFtlHwHh7m
+ GX7kiyvgZ3PjN+ftd7LtrFABw4GFID9mZN+agIDdaqey1U4NW5RLby7bOch02j8RPrSQtP
+ KTqpF0M+gkCE7sCeHQTPScGxCAPJKuWP/T2Xxk9rVHONfbgP9UaFMP37fW/W0INgYEmOYx
+ 0MR6EQms1qzi0t7s4cUwMnj75aA6oMqWPYYwkFXWQ2lSLfxYtxcfXX3CB4j1rGNpUxmnOM
+ +5J1Oi3XlYw6P51/QXLvftS8uzOWlMfNROslqy9yksaFLsFqyScc1+JGHlVleA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1668096193;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=S2ekXh2GYs190EffPperJZ/U7GEy4Ue5lLOHn3cnsTY=;
+ b=UIWSEc3uFNBtJFNIDDChRw/avEosrXGr8wJbKqiOCuw8HBJGUZix7GKEv6AtQEYcN/OaQw
+ EMckQVr9OCZKoJDg==
+To: Petr Mladek <pmladek@suse.com>
+Subject: Re: [PATCH printk v3 33/40] printk, xen: fbfront: create/use safe
+ function for forcing preferred
+In-Reply-To: <Y20aBwNWT19YDeib@alley>
+References: <20221107141638.3790965-1-john.ogness@linutronix.de>
+ <20221107141638.3790965-34-john.ogness@linutronix.de>
+ <Y20aBwNWT19YDeib@alley>
+Date: Thu, 10 Nov 2022 17:09:12 +0106
+Message-ID: <877d026blr.fsf@jogness.linutronix.de>
 MIME-Version: 1.0
-References: <20221005151309.7278-1-jagan@amarulasolutions.com>
- <f1dfac7d-643e-db29-28fe-7a2fcde01894@kontron.de>
- <CAOMZO5AqRRYLTUQWACiCA0RCvsjGaCmK3yhdGP8XfNxjFP1OiA@mail.gmail.com>
-In-Reply-To: <CAOMZO5AqRRYLTUQWACiCA0RCvsjGaCmK3yhdGP8XfNxjFP1OiA@mail.gmail.com>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Thu, 10 Nov 2022 21:33:06 +0530
-Message-ID: <CAMty3ZA9sPf97C0xonHwBR8SWDrRyA7DKVCmWOyoxijQwXUSZQ@mail.gmail.com>
-Subject: Re: [PATCH v7 00/10] drm: bridge: Add Samsung MIPI DSIM bridge
-To: Fabio Estevam <festevam@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,47 +56,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Fancy Fang <chen.fang@nxp.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Marek Vasut <marex@denx.de>,
- linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
- Neil Armstrong <narmstrong@linaro.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- NXP Linux Team <linux-imx@nxp.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Matteo Lisi <matteo.lisi@engicam.com>, Adam Ford <aford173@gmail.com>,
- linux-arm-kernel@lists.infradead.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Robert Foss <robert.foss@linaro.org>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>
+Cc: Juergen Gross <jgross@suse.com>, linux-fbdev@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
+ linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Tom Rix <trix@redhat.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 10, 2022 at 9:24 PM Fabio Estevam <festevam@gmail.com> wrote:
+On 2022-11-10, Petr Mladek <pmladek@suse.com> wrote:
+>> +void console_force_preferred_locked(struct console *con)
+>> +{
+>> +	struct console *cur_pref_con;
+>> +
+>> +	if (!console_is_registered_locked(con))
+>> +		return;
+>> +
+>> +	cur_pref_con = console_first();
+>> +
+>> +	/* Already preferred? */
+>> +	if (cur_pref_con == con)
+>> +		return;
+>> +
+>> +	hlist_del_init_rcu(&con->node);
 >
-> Hi,
+> We actually should re-initialize the node only after all existing
+> console list walks are finished. Se we should use here:
 >
-> On Mon, Nov 7, 2022 at 1:34 PM Frieder Schrempf
-> <frieder.schrempf@kontron.de> wrote:
->
-> > I tested this on the Kontron DL i.MX8MM which uses a TI SN65DSI84 bridge
-> > and a Jenson 7" LVDS Display.
-> >
-> > Thanks for your work, Jagan!
-> >
-> > Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de> # Kontron DL
-> > i.MX8MM
->
-> As this series has been successfully tested on multiple devices, is it possible
-> to apply it so people can make further adjustments?
+> 	hlist_del_rcu(&con->node);
 
-I think the next version patchset on this would be clean and properly
-address a few comments from Marek Vasut. However, I'm still waiting
-for Marek's response to my comment on the input bus formats - if it is
-Okay I will send the v8.
-https://lore.kernel.org/all/CAMty3ZAM+fetmBQWaSbfjME7-Up4h+Ln3BRHaPgg5tuSsObPdw@mail.gmail.com/
+hlist_del_init_rcu() only re-initializes @pprev pointer. But maybe you
+are concerned that there is a window where list_unhashed() becomes true?
+I agree that it should be changed to hlist_del_rcu() because there
+should not be a window where this console appears unregistered.
 
-Thanks,
-Jagan.
+>> +	/* Only the new head can have CON_CONSDEV set. */
+>> +	WRITE_ONCE(cur_pref_con->flags, cur_pref_con->flags & ~CON_CONSDEV);
+>
+> As mentioned in the reply for 7th patch, I would prefer to hide this
+> WRITE_ONCE into a wrapper, e.g. console_set_flag(). It might also
+> check that the console_list_lock is taken...
+
+Agreed. For v4 it will become:
+
+console_srcu_write_flags(cur_pref_con->flags & ~CON_CONSDEV);
+
+John
