@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91A01624B76
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 21:15:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56859624B77
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 21:15:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0022A10E851;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 301A910E850;
 	Thu, 10 Nov 2022 20:15:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6320F10E832;
- Thu, 10 Nov 2022 20:14:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5CCA10E83D;
+ Thu, 10 Nov 2022 20:15:00 +0000 (UTC)
 Received: from dimapc.. (unknown [109.252.117.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 76FB16602A52;
- Thu, 10 Nov 2022 20:14:55 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 7A6516602A42;
+ Thu, 10 Nov 2022 20:14:57 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1668111297;
- bh=tFGVSeUWIaYJ9Ib1/vtuoKFGinbIYhiNCk2JIU4TCAA=;
+ s=mail; t=1668111299;
+ bh=0zN59rGSaHbZbas6yjxA7nymGNsrifCHO9MjN64wknU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WiW5lCgRnkdkfo5vaoZTlj8VvywC0gJ5C4YLWKTp1ofjQ0BBj8f7uw5QjMBvlfkHw
- U6uiK9b4Eb3XC+zN7suX+FGdXFSRwZSf8FgLNCyB/F4QyMkABTGlj+mA975iKDaHfO
- 7QamiY70dGTRMjl2ygQNU3faI4aoycDXfRrLeyuRtV6KdJddWr17/u6yA3PQIE0r3w
- BixEZwWJq95W2JJM7jSHqPgCZc4dw6s1eFBd3ltOhk53gqgRa2fBwVWDy/XhH/Yuvl
- Xu/PbO9SEaWlFQa8cDg2uwSa2nXQzk1T8MYDscwlF4w/kGa25X3PWjFooAZUrY7lIj
- 7VRaF9B1tqf4A==
+ b=ZhXcr2Wesv4ltZzxDAV9yffX3x7Rlk6IoaAxCjlg4gWJ2Vpc26wAHHl3Rx7IXyMpm
+ oVoWvTIoaSxvrXpeuQB2+Crt+plNyIS9/OJs7xegIFje+wug48WV+dcMkXt+P/w8JR
+ lQGfLfJay+//UogKzaKofzdy8/4Gv62kQ3XlxulY5O9pSXd17poZ50IKH0JovLhKQf
+ Lk4H6BNbsqSXjFeGb9EZRdrhVUT/UtqVSp8FssWU5+xbik9WCiZx0iEQctBKRn0tTt
+ /z0eLj5HKexd2LpS1e16gQpf/E16O3xSLoDswwLZwE4oRNjmfBq7KUCKD2X4qYuXAT
+ gA/5/MHLsMEHg==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: Sumit Semwal <sumit.semwal@linaro.org>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -47,10 +47,10 @@ To: Sumit Semwal <sumit.semwal@linaro.org>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
  Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
  Amol Maheshwari <amahesh@qti.qualcomm.com>
-Subject: [PATCH v1 4/6] dma-buf/heaps: Assert held reservation lock for
+Subject: [PATCH v1 5/6] media: videobuf2: Assert held reservation lock for
  dma-buf mmapping
-Date: Thu, 10 Nov 2022 23:13:47 +0300
-Message-Id: <20221110201349.351294-5-dmitry.osipenko@collabora.com>
+Date: Thu, 10 Nov 2022 23:13:48 +0300
+Message-Id: <20221110201349.351294-6-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221110201349.351294-1-dmitry.osipenko@collabora.com>
 References: <20221110201349.351294-1-dmitry.osipenko@collabora.com>
@@ -81,51 +81,73 @@ that the locking assumptions won't regress in the future.
 Suggested-by: Daniel Vetter <daniel@ffwll.ch>
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/dma-buf/heaps/cma_heap.c    | 3 +++
- drivers/dma-buf/heaps/system_heap.c | 3 +++
- 2 files changed, 6 insertions(+)
+ drivers/media/common/videobuf2/videobuf2-dma-contig.c | 3 +++
+ drivers/media/common/videobuf2/videobuf2-dma-sg.c     | 3 +++
+ drivers/media/common/videobuf2/videobuf2-vmalloc.c    | 3 +++
+ 3 files changed, 9 insertions(+)
 
-diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-index 28fb04eccdd0..1131fb943992 100644
---- a/drivers/dma-buf/heaps/cma_heap.c
-+++ b/drivers/dma-buf/heaps/cma_heap.c
-@@ -13,6 +13,7 @@
+diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+index 555bd40fa472..7f45a62969f2 100644
+--- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
++++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+@@ -11,6 +11,7 @@
+  */
+ 
  #include <linux/dma-buf.h>
- #include <linux/dma-heap.h>
- #include <linux/dma-map-ops.h>
 +#include <linux/dma-resv.h>
- #include <linux/err.h>
- #include <linux/highmem.h>
- #include <linux/io.h>
-@@ -182,6 +183,8 @@ static int cma_heap_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
+ #include <linux/module.h>
+ #include <linux/refcount.h>
+ #include <linux/scatterlist.h>
+@@ -455,6 +456,8 @@ static int vb2_dc_dmabuf_ops_vmap(struct dma_buf *dbuf, struct iosys_map *map)
+ static int vb2_dc_dmabuf_ops_mmap(struct dma_buf *dbuf,
+ 	struct vm_area_struct *vma)
  {
- 	struct cma_heap_buffer *buffer = dmabuf->priv;
- 
-+	dma_resv_assert_held(dmabuf->resv);
++	dma_resv_assert_held(dbuf->resv);
 +
- 	if ((vma->vm_flags & (VM_SHARED | VM_MAYSHARE)) == 0)
- 		return -EINVAL;
+ 	return vb2_dc_mmap(dbuf->priv, vma);
+ }
  
-diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-index fcf836ba9c1f..e8bd10e60998 100644
---- a/drivers/dma-buf/heaps/system_heap.c
-+++ b/drivers/dma-buf/heaps/system_heap.c
-@@ -13,6 +13,7 @@
- #include <linux/dma-buf.h>
- #include <linux/dma-mapping.h>
- #include <linux/dma-heap.h>
+diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+index 36981a5b5c53..b7f39ee49ed8 100644
+--- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
++++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+@@ -10,6 +10,7 @@
+  * the Free Software Foundation.
+  */
+ 
 +#include <linux/dma-resv.h>
- #include <linux/err.h>
- #include <linux/highmem.h>
+ #include <linux/module.h>
  #include <linux/mm.h>
-@@ -201,6 +202,8 @@ static int system_heap_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
- 	struct sg_page_iter piter;
- 	int ret;
- 
-+	dma_resv_assert_held(dmabuf->resv);
+ #include <linux/refcount.h>
+@@ -495,6 +496,8 @@ static int vb2_dma_sg_dmabuf_ops_vmap(struct dma_buf *dbuf,
+ static int vb2_dma_sg_dmabuf_ops_mmap(struct dma_buf *dbuf,
+ 	struct vm_area_struct *vma)
+ {
++	dma_resv_assert_held(dbuf->resv);
 +
- 	for_each_sgtable_page(table, &piter, vma->vm_pgoff) {
- 		struct page *page = sg_page_iter_page(&piter);
+ 	return vb2_dma_sg_mmap(dbuf->priv, vma);
+ }
+ 
+diff --git a/drivers/media/common/videobuf2/videobuf2-vmalloc.c b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
+index 41db707e43a4..f9b665366365 100644
+--- a/drivers/media/common/videobuf2/videobuf2-vmalloc.c
++++ b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
+@@ -10,6 +10,7 @@
+  * the Free Software Foundation.
+  */
+ 
++#include <linux/dma-resv.h>
+ #include <linux/io.h>
+ #include <linux/module.h>
+ #include <linux/mm.h>
+@@ -316,6 +317,8 @@ static int vb2_vmalloc_dmabuf_ops_vmap(struct dma_buf *dbuf,
+ static int vb2_vmalloc_dmabuf_ops_mmap(struct dma_buf *dbuf,
+ 	struct vm_area_struct *vma)
+ {
++	dma_resv_assert_held(dbuf->resv);
++
+ 	return vb2_vmalloc_mmap(dbuf->priv, vma);
+ }
  
 -- 
 2.37.3
