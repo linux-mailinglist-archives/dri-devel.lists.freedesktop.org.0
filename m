@@ -2,57 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9802E623F0F
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 10:50:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5232623F1D
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 10:55:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8284A10E116;
-	Thu, 10 Nov 2022 09:50:04 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56F5910E116
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 09:50:01 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1ot4Bz-00038j-S8; Thu, 10 Nov 2022 10:49:51 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1ot4Bx-003QNd-Bg; Thu, 10 Nov 2022 10:49:50 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1ot4Bx-00Fc5W-At; Thu, 10 Nov 2022 10:49:49 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Philipp Zabel <p.zabel@pengutronix.de>,
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH v1] dt-bindings: display: Convert fsl,imx-fb.txt to dt-schema
-Date: Thu, 10 Nov 2022 10:49:45 +0100
-Message-Id: <20221110094945.191100-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.38.1
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93EED10E6B6;
+	Thu, 10 Nov 2022 09:55:13 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58BB410E12A;
+ Thu, 10 Nov 2022 09:55:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1668074111; x=1699610111;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=r2ikZK2r8f+DD7YfVaZQ2215g8rtTBRl2xEPkvt/D7g=;
+ b=jjNBgLsgpUbVIymbpYxmhv8BWb4SjMYZYHrX9idaIzokUUqENqBNRYrO
+ HAu8Ka+hPSUXPMwekxTUPRDlVEB7qg+j1FWc24oWk9l8lY5dqq8XQcbP0
+ GKFZtlDbVuh62oyRa+gOLYcGykNPJmYYrQms9cT3A6nnEuT8yxYGCMBFu
+ En3+Sq1pMQxmQH1TcGgpZ0Y1+U1yPmlyG+t6cIJFs9powdpM/BEXCTtLT
+ UYWpwDe2UlY96wg6DB6ehEtsooRHMgIozqvhCvIo8dXfNrS/8J9/iA6AV
+ BMSwjBgw5oZHdSkFT8IqsHC9RZk00NB/aPUEEvLsTpsUS8MhBq7Zcn6m7 A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10526"; a="294617040"
+X-IronPort-AV: E=Sophos;i="5.96,153,1665471600"; d="scan'208";a="294617040"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2022 01:55:04 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10526"; a="615042249"
+X-IronPort-AV: E=Sophos;i="5.96,153,1665471600"; d="scan'208";a="615042249"
+Received: from salmasha-mobl.ger.corp.intel.com (HELO [10.213.230.214])
+ ([10.213.230.214])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2022 01:55:02 -0800
+Message-ID: <7f420032-fe96-4d19-886d-b333668e4c5b@linux.intel.com>
+Date: Thu, 10 Nov 2022 09:55:00 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6633;
- i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=gDjfQeiKMW2DRBDBjhZv+vsZKqFTCNLSH4EUGQpsD94=;
- b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBjbMk2BDEgQuePuatqKXCGeqt/SeIve0qf4o5NL0hM
- oKAYx82JATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCY2zJNgAKCRDB/BR4rcrsCciyB/
- wMd2Q7bsWazaZlpfdbM7ePVGmuwseyzq8Ndif5LB7jTfVw6OZwTkAHr8pQWC0MfAC5q3LaWHdM6LQ9
- cSe3XTgCGbd5XG0Fspei/desUhAOcgwIZDAcT07BBLKa8sFFIDOfnMoIjA8JcSTKiwK1evsCEQDdbv
- Y9F9GEu/LUQAOnOoyS/FJJkLdOetI89IX970KbR58I10GhKD2A+xbqNH1CVbhrvGXrTo0CxXqNUSjw
- hTFZZMURMLEHDejKqPAjOARYSlkmwZ6nMy5qAqHp2XumdnucTdX60Nhg5JpiSqON2LiFYpvVxpm9l+
- ycPj59p2gxApUCehwllfitwG/Yu32x
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
- fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [Intel-gfx] [PATCH 1/2] drm/i915/gt: Add GT oriented dmesg output
+Content-Language: en-US
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ John Harrison <john.c.harrison@intel.com>,
+ "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>,
+ Intel-GFX@Lists.FreeDesktop.Org
+References: <20221104172525.569913-1-John.C.Harrison@Intel.com>
+ <20221104172525.569913-2-John.C.Harrison@Intel.com>
+ <6a4d1ac0-a1a0-e1d4-7d83-54b43d226371@intel.com>
+ <fabaf9ee-f3fc-c18f-56b3-6d073618da41@linux.intel.com>
+ <82055e8f-9bee-2b03-3dce-dcf66c30c903@linux.intel.com>
+ <2583bccd-82fd-967a-aec9-e6d3837dbbed@intel.com>
+ <1ad6bce7-9626-afa6-d73e-6d8f7a9c4d2a@linux.intel.com>
+ <c9742b0f-546f-cccc-021a-7bad68410838@intel.com>
+ <ad19d7ce-4102-4f8f-903d-7390b004b2e9@linux.intel.com>
+ <67d18d17-8a01-32a1-1ff6-099c708ab290@intel.com>
+ <02454937-4213-c558-590f-e1e7c83083e3@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <02454937-4213-c558-590f-e1e7c83083e3@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,224 +74,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>,
- dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org
+Cc: DRI-Devel@Lists.FreeDesktop.Org, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a straight forward conversion. Note that fsl,imx-lcdc was picked
-as the new name as this is the compatible that should supersede the
-legacy fb binding.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
-Hello,
+On 09/11/2022 19:57, Michal Wajdeczko wrote:
 
-the eventual goal is to add drm support for this hardware. That one will
-use a different (and more sensible) binding. However fsl,imx*-fb won't
-go away directly, and Rob requested to describe both bindings in the
-same file given that it describes a single hardware type.
+[snip]
 
-As a first step I convert the old binding to yaml. I tried to put the
-new binding on top of that but I'm not sure about a few things in this
-patch and so post only this first patch and once it's accepted add the
-new binding which I guess is less overall work.
+>> Is it really a problem to merge this patch now to get the process
+>> started? And other sub-components get updated as and when people get the
+>> time to do them? You could maybe even help rather than posting
+>> completely conflicting patch sets that basically duplicate all the
+>> effort for no actual benefit.
+> 
+> Instead of merging this patch now, oriented on GT only, I would rather
+> wait until we discuss and plan solution for the all sub-components.
 
-What I'm unsure about is the description of the display node (Is there a
-better description? I didn't find a schema for that.)
-Further I didn't find documentation about additionalProperties and
-unevaluatedProperties. Did I pick the right one here?
+Yes, agreed.
 
-Best regards
-Uwe
+> Once that's done (with agreement on naming and output) we can start
+> converting exiting messages.
+> 
+> My proposal would be:
+>   - use wrappers per component
 
- .../bindings/display/imx/fsl,imx-fb.txt       |  57 ---------
- .../bindings/display/imx/fsl,imx-lcdc.yaml    | 110 ++++++++++++++++++
- 2 files changed, 110 insertions(+), 57 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx-fb.txt
- create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx-lcdc.yaml
+This is passable to me but Jani has raised a concern on IRC that it 
+leads to a lot of macro duplication. Which is I think a valid point, but 
+which does not have a completely nice solution. Best I heard so far was 
+a suggestion from Joonas to add just a single component formatter macro 
+and use the existing drm_xxx helpers.
 
-diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx-fb.txt b/Documentation/devicetree/bindings/display/imx/fsl,imx-fb.txt
-deleted file mode 100644
-index f4df9e83bcd2..000000000000
---- a/Documentation/devicetree/bindings/display/imx/fsl,imx-fb.txt
-+++ /dev/null
-@@ -1,57 +0,0 @@
--Freescale imx21 Framebuffer
--
--This framebuffer driver supports devices imx1, imx21, imx25, and imx27.
--
--Required properties:
--- compatible : "fsl,<chip>-fb", chip should be imx1 or imx21
--- reg : Should contain 1 register ranges(address and length)
--- interrupts : One interrupt of the fb dev
--
--Required nodes:
--- display: Phandle to a display node as described in
--	Documentation/devicetree/bindings/display/panel/display-timing.txt
--	Additional, the display node has to define properties:
--	- bits-per-pixel: Bits per pixel
--	- fsl,pcr: LCDC PCR value
--	A display node may optionally define
--	- fsl,aus-mode: boolean to enable AUS mode (only for imx21)
--
--Optional properties:
--- lcd-supply: Regulator for LCD supply voltage.
--- fsl,dmacr: DMA Control Register value. This is optional. By default, the
--	register is not modified as recommended by the datasheet.
--- fsl,lpccr: Contrast Control Register value. This property provides the
--	default value for the contrast control register.
--	If that property is omitted, the register is zeroed.
--- fsl,lscr1: LCDC Sharp Configuration Register value.
--
--Example:
--
--	imxfb: fb@10021000 {
--		compatible = "fsl,imx21-fb";
--		interrupts = <61>;
--		reg = <0x10021000 0x1000>;
--		display = <&display0>;
--	};
--
--	...
--
--	display0: display0 {
--		model = "Primeview-PD050VL1";
--		bits-per-pixel = <16>;
--		fsl,pcr = <0xf0c88080>;	/* non-standard but required */
--		display-timings {
--			native-mode = <&timing_disp0>;
--			timing_disp0: 640x480 {
--				hactive = <640>;
--				vactive = <480>;
--				hback-porch = <112>;
--				hfront-porch = <36>;
--				hsync-len = <32>;
--				vback-porch = <33>;
--				vfront-porch = <33>;
--				vsync-len = <2>;
--				clock-frequency = <25000000>;
--			};
--		};
--	};
-diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx-lcdc.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx-lcdc.yaml
-new file mode 100644
-index 000000000000..c3cf6f92a766
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/imx/fsl,imx-lcdc.yaml
-@@ -0,0 +1,110 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/imx/fsl,imx-lcdc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Freescale i.MX LCD Controller, found on i.MX1, i.MX21, i.MX25 and i.MX27
-+
-+maintainers:
-+  - Sascha Hauer <s.hauer@pengutronix.de>
-+  - Pengutronix Kernel Team <kernel@pengutronix.de>
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - items:
-+          - enum:
-+              - fsl,imx1-fb
-+              - fsl,imx21-fb
-+      - items:
-+          - enum:
-+              - fsl,imx25-fb
-+              - fsl,imx27-fb
-+          - const: fsl,imx21-fb
-+
-+  clocks:
-+    maxItems: 3
-+
-+  clock-names:
-+    items:
-+      - const: ipg
-+      - const: ahb
-+      - const: per
-+
-+  display:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: |
-+      Display hardware node
-+      It needs to define the following properties:
-+        - bits-per-pixel
-+        - fsl,pcr: LCDC PCR value
-+      And optionally:
-+        - fsl,aus-mode: boolean to enable AUS mode (only for imx21)
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  reg:
-+    maxItems: 1
-+
-+  lcd-supply:
-+    description:
-+      Regulator for LCD supply voltage.
-+
-+  fsl,dmacr:
-+    $ref: '/schemas/types.yaml#/definitions/uint32'
-+    description:
-+      Override value for DMA Control Register
-+
-+  fsl,lpccr:
-+    $ref: '/schemas/types.yaml#/definitions/uint32'
-+    description:
-+      Contrast Control Register value.
-+
-+  fsl,lscr1:
-+    $ref: '/schemas/types.yaml#/definitions/uint32'
-+    description:
-+      LCDC Sharp Configuration Register value.
-+
-+required:
-+  - compatible
-+  - clocks
-+  - clock-names
-+  - display
-+  - interrupts
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    imxfb: fb@10021000 {
-+        compatible = "fsl,imx21-fb";
-+        interrupts = <61>;
-+        reg = <0x10021000 0x1000>;
-+        display = <&display0>;
-+        clocks = <&clks 103>, <&clks 49>, <&clks 66>;
-+        clock-names = "ipg", "ahb", "per";
-+    };
-+
-+    display0: display0 {
-+        model = "Primeview-PD050VL1";
-+        bits-per-pixel = <16>;
-+        fsl,pcr = <0xf0c88080>; /* non-standard but required */
-+
-+        display-timings {
-+            native-mode = <&timing_disp0>;
-+            timing_disp0: timing0 {
-+                hactive = <640>;
-+                vactive = <480>;
-+                hback-porch = <112>;
-+                hfront-porch = <36>;
-+                hsync-len = <32>;
-+                vback-porch = <33>;
-+                vfront-porch = <33>;
-+                vsync-len = <2>;
-+                clock-frequency = <25000000>;
-+            };
-+        };
-+    };
--- 
-2.38.1
+>   - use lower case names
 
+I prefer this as well. Even though usual argument is for macros to be 
+upper case, I find the improved readability of lower case trumps that.
+
+>   - don't add colon
+
+Not sure, when I look at it below it looks a bit not structured enough 
+without the colon, but maybe it is just me.
+
+> #define i915_xxx(_i915, _fmt, ...) \
+> 	drm_xxx(&(_i915)->drm, _fmt, ##__VA_ARGS__)
+> 
+> #define gt_xxx(_gt, _fmt, ...) \
+> 	i915_xxx((_gt)->i915, "GT%u " _fmt, (_gt)->info.id, ..
+> 
+> #define guc_xxx(_guc, _fmt, ...) \
+> 	gt_xxx(guc_to_gt(_guc), "GuC " _fmt, ..
+> 
+> #define ct_xxx(_ct, _fmt, ...) \
+> 	guc_xxx(ct_to_guc(_ct), "CTB " _fmt, ..
+> 
+> where
+> 	xxx = { err, warn, notice, info, dbg }
+> 
+> and then for calls like:
+> 
+> 	i915_err(i915, "Foo failed (%pe)\n", ERR_PTR(err));
+> 	  gt_err(gt,   "Foo failed (%pe)\n", ERR_PTR(err));
+> 	 guc_err(guc,  "Foo failed (%pe)\n", ERR_PTR(err));
+> 	  ct_err(ct,   "Foo failed (%pe)\n", ERR_PTR(err));
+
+So the macro idea would be like this:
+
+   drm_err(I915_LOG("Foo failed (%pe)\n", i915), ERR_PTR(err));
+   drm_err(GT_LOG("Foo failed (%pe)\n", gt), ERR_PTR(err));
+   drm_err(GUC_LOG("Foo failed (%pe)\n", guc), ERR_PTR(err));
+   drm_err(CT_LOG("Foo failed (%pe)\n", ct), ERR_PTR(err));
+
+Each component would just need to define a single macro and not have to 
+duplicate all the err, info, warn, notice, ratelimited, once, whatever 
+versions. Which is a benefit but it's a quite a bit uglier to read in 
+the code.
+
+Perhaps macro could be called something other than XX_LOG to make it 
+more readable, don't know.
+
+Regards,
+
+Tvrtko
