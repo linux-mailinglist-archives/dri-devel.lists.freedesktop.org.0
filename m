@@ -2,50 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C12AB62436D
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 14:42:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FA5C6242DB
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 14:06:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A899610E7C3;
-	Thu, 10 Nov 2022 13:42:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93D6B10E797;
+	Thu, 10 Nov 2022 13:05:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2545 seconds by postgrey-1.36 at gabe;
- Thu, 10 Nov 2022 13:42:31 UTC
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3DA410E7B4
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 13:42:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=CZcNVqk8g0KSBhUkHK8jBepdav+GnxjrdTrEFAD5npc=; b=hjFFxIsGFN79BXqIS1Crj19qI/
- /s46Ipu4kc9GHOn8iSyndnI/QJZvzLmLk9GcEpZyVJUtPwmCiLITMSdQk9cCkfTJDUDgaQV+tAkdr
- 5v66hVVTrzJ3stkcqg9+u+g7OiXbRkIlBH22hub2aYlJjdc9uduRXMiLjVRA85U2V/tJwOH545Rw3
- ZIFtBZNuS+EcLCR9xnzK56CejdPpXtLGrOSp+YZ5NwKVXMLGq31alJykB6OFr9n16/gpkWQw2TY5u
- WnvgM/b7WAB0Zqh1v2LNXTkQX/Kow40L/0GoeeYVTPH1AY2FCSAvPP6M/7oSDYb6yA9gA0yFz+Pxb
- yFc/5F+A==;
-Received: from [186.214.225.177] (helo=[192.168.15.50])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1ot7A0-00FVOM-Nr; Thu, 10 Nov 2022 14:00:01 +0100
-Message-ID: <335b511f-ecfd-6e83-ef2e-7a74c8293b00@igalia.com>
-Date: Thu, 10 Nov 2022 11:59:54 -0100
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
+ [IPv6:2607:f8b0:4864:20::1034])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0085010E797
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 13:05:53 +0000 (UTC)
+Received: by mail-pj1-x1034.google.com with SMTP id
+ c15-20020a17090a1d0f00b0021365864446so1456703pjd.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 05:05:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=lrV3scjxXBUgyRehk9/on/q8TxNDq8MdTdotV2WeMBQ=;
+ b=GVZ09h+ngHWOecbTC/uzghXW93HVi79Hc3aHUMBuHut0K+MRP4qjrmbxOsy9wAvyhh
+ CzAf4wAUsz2LX8ScnTSnBYBlU0zD4SfZXHjTGLx4odMNe2HTZmWoc8/O0MjERSTJDuKQ
+ 9UeL9YNFV2iAuj4M769TxWHJzx0wEKM1UD/fL8Quarzgi8/jAHx03TmKPyEcNniVs1JP
+ E1bQ9YyT5yBnS4K6hTH0QDyjNMb9vjtJqKa6/m2IeBhMmf0jPp66hTlfQCyxBUHnorSo
+ 4QxzB8BVVnzEGtFh63S81NhnvCx7MGrBaQEPEUdQo8KV1MCY/puvxsLONjSQ8GgFephe
+ xQuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=lrV3scjxXBUgyRehk9/on/q8TxNDq8MdTdotV2WeMBQ=;
+ b=hCnErJym/KHwLgsCMO2duFROkmKTCT4AupFnmYRAUqb9BKJe+CqcZi5S4NNozSsJHl
+ yD3WgYZ38X8jm4LWWxPY5xLulvUjzhnKqMbHXhKlBWU3Cp9Ha0XYXLYlB5Cs0UNNXKaq
+ lvHfL1e114VHKQD9O5kzm1qbxwXXv3nKa7TYeH8Az8Xf7e1dA2QK/dIdFdCOiuU56N0w
+ KoTSa0PIUbyXPDNjrIS0MfSpBKzFjICJ/HgGK+o3J9SWWKRpNkVbcjLIjUExp7XrurJX
+ HleCNZXPCSWuXCaXnwCpBhCtzucSXH9c5hgBbN+0vZpTbEfac5m8hn3BjbZjyFTV4Za7
+ KNEQ==
+X-Gm-Message-State: ACrzQf1tshGcYnvak2Y818s3+TSY6dmCSP/f8KVuG6UuvtgvgN1vI1Rc
+ /itS6LRH7xNGhxTipCshZdkq9PNCZguOjtk41CQQ1A==
+X-Google-Smtp-Source: AMsMyM4ntafpxKu1kZoVYdCyuwK4y2qgGm0PDcBHChl8r8c0pj7m0JmQ6SHmodBY/Un25AY0R73awNrQX1GtCyrtwGQ=
+X-Received: by 2002:a17:903:100c:b0:186:63a1:3b5d with SMTP id
+ a12-20020a170903100c00b0018663a13b5dmr65965693plb.148.1668085553525; Thu, 10
+ Nov 2022 05:05:53 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH v2 0/2] Balance mutex_init and mutex_destroy calls
-Content-Language: en-US
-To: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
- Emma Anholt <emma@anholt.net>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20221108175425.39819-1-mcanal@igalia.com>
-From: Melissa Wen <mwen@igalia.com>
-In-Reply-To: <20221108175425.39819-1-mcanal@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
+ <20221018-clk-range-checks-fixes-v2-35-f6736dec138e@cerno.tech>
+ <CAPDyKFoycVedCJMy0=UK+q5SiPQHqje_8bSN-gdkpBa6KhFfkg@mail.gmail.com>
+ <CACRpkdYOj8uozJZO4MV-_OAKeOsQHhoEM=PyynVuNY-JkpgTOw@mail.gmail.com>
+In-Reply-To: <CACRpkdYOj8uozJZO4MV-_OAKeOsQHhoEM=PyynVuNY-JkpgTOw@mail.gmail.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Thu, 10 Nov 2022 14:05:16 +0100
+Message-ID: <CAPDyKFr6VeF3s47JfzJ9urtMsEem+GiBtHeU=_S8jNaz-D+qnw@mail.gmail.com>
+Subject: Re: [PATCH v2 35/65] clk: ux500: sysctrl: Add a determine_rate hook
+To: Linus Walleij <linus.walleij@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,43 +68,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Juan A . Suarez" <jasuarez@igalia.com>,
- =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Michael Turquette <mturquette@baylibre.com>, Sekhar Nori <nsekhar@ti.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
+ Paul Cercueil <paul@crapouillou.net>, Max Filippov <jcmvbkbc@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-phy@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, Abel Vesa <abelvesa@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Samuel Holland <samuel@sholland.org>, Chunyan Zhang <zhang.lyra@gmail.com>,
+ Takashi Iwai <tiwai@suse.com>, linux-tegra@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
+ NXP Linux Team <linux-imx@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
+ linux-mips@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ linux-sunxi@lists.linux.dev, linux-rtc@vger.kernel.org,
+ linux-clk@vger.kernel.org, Charles Keepax <ckeepax@opensource.cirrus.com>,
+ alsa-devel@alsa-project.org, Manivannan Sadhasivam <mani@kernel.org>,
+ linux-kernel@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
+ linux-actions@lists.infradead.org,
+ Richard Fitzgerald <rf@opensource.cirrus.com>, Mark Brown <broonie@kernel.org>,
+ linux-mediatek@lists.infradead.org, Maxime Ripard <maxime@cerno.tech>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Alessandro Zummo <a.zummo@towertech.it>, Stephen Boyd <sboyd@kernel.org>,
+ patches@opensource.cirrus.com, Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
+ linux-renesas-soc@vger.kernel.org, Dinh Nguyen <dinguyen@kernel.org>,
+ Vinod Koul <vkoul@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ David Lechner <david@lechnology.com>, Shawn Guo <shawnguo@kernel.org>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, 10 Nov 2022 at 12:39, Linus Walleij <linus.walleij@linaro.org> wrote:
+>
+> On Thu, Nov 10, 2022 at 12:29 PM Ulf Hansson <ulf.hansson@linaro.org> wrote:
+> > On Fri, 4 Nov 2022 at 14:32, Maxime Ripard <maxime@cerno.tech> wrote:
+> > >
+> > > The UX500 sysctrl "set_parent" clocks implement a mux with a set_parent
+> > > hook, but doesn't provide a determine_rate implementation.
+> > >
+> > > This is a bit odd, since set_parent() is there to, as its name implies,
+> > > change the parent of a clock. However, the most likely candidate to
+> > > trigger that parent change is a call to clk_set_rate(), with
+> > > determine_rate() figuring out which parent is the best suited for a
+> > > given rate.
+> > >
+> > > The other trigger would be a call to clk_set_parent(), but it's far less
+> > > used, and it doesn't look like there's any obvious user for that clock.
+> >
+> > If I recall correctly, that is the use case we did target for these
+> > types of clocks. See sound/soc/ux500/ux500_ab85xx.c, for example.
+>
+> Hm I am trying to get that driver to work ... from time to time.
+> It's just that ALSA SoC DT has changed to much that it turns out
+> into a complete rewrite :/
+>
+> So in sound/soc/ux500/mop500_ab8500.c
+> I see this:
+>
+>         status = clk_set_parent(drvdata->clk_ptr_intclk, clk_ptr);
+>         if (status)
+> (...)
+>
+> and there is elaborate code to switch between "SYSCLK" and
+> "ULPCLK" (ulta-low power clock). Just like you say... however
+> a clock named SYSCLK or ULPCLK does not appear in the
+> code in drivers/clk/ux500 or any DT bindings so... it seems to
+> be non-working for the time being.
 
-On 11/8/22 16:54, Maíra Canal wrote:
-> This series introduces some changes to assure the correct resource release on
-> the V3D driver, especially the mutex. Currently, the V3D has no mutex_destroy()
-> calls, which means that a mutex is being instantiated, but it is not being
-> released by the end of its use.
->
-> So, use the DRM-managed mutex_init variants when possible to manage the mutex
-> release and add mutex_destroy() calls when not possible.
->
-> Best Regards,
-> - Maíra Canal
->
-> v1 -> v2: https://lore.kernel.org/dri-devel/20221107224656.278135-1-mcanal@igalia.com/T/#m3c23e3f21fe6aaae51138c746c74e94b2a7b3bfc
->
-> - Move mutex_destroy() to v3d_perfmon_put() (Daniel Vetter).
-> - Add mutex_destroy() on error case in v3d_perfmon_create_ioctl() (Daniel Vetter).
-> - Add Daniel Vetter's tags.
+It's definitely not working, but the corresponding clocks ("ulpclk",
+"intclk", "audioclk", etc) are being registered in ab8500_reg_clks().
 
-Applied to drm-misc-next.
+What seems to be missing is a DT conversion for these clocks, so they
+can be consumed properly. Right?
 
-Thanks,
-
-Melissa
-
->
-> Maíra Canal (2):
->    drm/v3d: switch to drmm_mutex_init
->    drm/v3d: add missing mutex_destroy
->
->   drivers/gpu/drm/v3d/v3d_gem.c     | 17 +++++++++++++----
->   drivers/gpu/drm/v3d/v3d_perfmon.c |  6 +++++-
->   2 files changed, 18 insertions(+), 5 deletions(-)
->
+Kind regards
+Uffe
