@@ -1,70 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30973623FF3
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 11:35:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59214623FF9
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 11:36:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCCEB10E6DE;
-	Thu, 10 Nov 2022 10:35:14 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F10AF10E6C2;
- Thu, 10 Nov 2022 10:35:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1668076507; x=1699612507;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=acfCZi49aNWIjXd+to48hKJjnxdc38i66nL5tddRPgI=;
- b=QFQa4EWKawnXX33SjyJaWagikgYmxkNEw25uw/nkE0bK/uFkQMxz/7Zl
- /HrPFIWMTdZhY0mN8LxXImd/+op8NzVcJP5YpJ/P9ZWLkJjnt8CUoYBdO
- wQAZm0toFcgSqe+3FxEFHpo0j51wlA4ljZQ4noS207K1NzXzt/K1z0FIe
- 73eXfF9gZBHwummLuyS6834MzUuT3CvM3BBzxraI0pptv88Szupqr3TM5
- fa2rdJbnEDuIM6AqI/82LLoLPZNUSwkgL9zvaleOZKAWyKCl9ntbaCt+U
- IePgNSgOM+QKPgaMvfy6EKIGEwaPuVAySgKZiI7kEtR5nwJDdmpZqtfhk Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10526"; a="373396670"
-X-IronPort-AV: E=Sophos;i="5.96,153,1665471600"; d="scan'208";a="373396670"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2022 02:35:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10526"; a="966366443"
-X-IronPort-AV: E=Sophos;i="5.96,153,1665471600"; d="scan'208";a="966366443"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
- by fmsmga005.fm.intel.com with ESMTP; 10 Nov 2022 02:35:03 -0800
-Received: from [10.249.147.250] (mwajdecz-MOBL.ger.corp.intel.com
- [10.249.147.250])
- by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
- 2AAAZ255025020; Thu, 10 Nov 2022 10:35:02 GMT
-Message-ID: <bd8662e8-57d4-40e9-bba1-d689ed31ce08@intel.com>
-Date: Thu, 10 Nov 2022 11:35:02 +0100
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49D1110E6C2;
+	Thu, 10 Nov 2022 10:36:48 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
+ [66.111.4.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5235610E6C2;
+ Thu, 10 Nov 2022 10:36:43 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 825145801D6;
+ Thu, 10 Nov 2022 05:36:41 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 10 Nov 2022 05:36:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; t=1668076601; x=1668083801; bh=nBoJDFkJJq
+ zsBQfR1N/+xj7J+//0xyFLrenyQ7PXUlg=; b=oS3gBOWS2Jkxc08ZKEglsrYDk5
+ cKoSW3lOwR6hOscSLcWtdwQdkOlP/wOOKMY+spb9ZfuuQxsfXbQ1HhSN79htTXhd
+ gS97dwGs07oLsfaMhUFMz7aVgBhFe1+uifQi5lXcJcJPFGnTO5J/JoKOqR87PvLo
+ 50emMP6yDTes462ANMJ+jEROiS06NdWYY+3+70hms29SUSidQ+ppw5e8MmI8K7bH
+ MyTi3ywT0GYM7EdM5ErS2y5ME132kO3OiU22dmLY6kKpcO2BUxuO0PcnMw8gehxJ
+ h3MTY+oFW4kFlpGpP0EIGlJL/o4pUFMmGjTBJElA2g2gdpclJ9IYHyWZZCUQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1668076601; x=1668083801; bh=nBoJDFkJJqzsBQfR1N/+xj7J+//0
+ xyFLrenyQ7PXUlg=; b=HApQSeuYUcYuSJ5s8TN27XYvDD3b8GZIL/aFBgp9/frU
+ PLhgMsdr02IUSU519noG8jNCnvfSoaM7OMQcFD2X83pKnQtCYz16GdWF1BGCVtow
+ JIdleYVFscWIjOad1aPMUUC84Nq0z+lIqehuim76Nz6g6c0xtbDPF5DDVfSpZ9x1
+ PZ2751Lz+PxzSln/cqRQjQ40TZAbfqLiwGDKYcYesmDuVX6OTzmtZsqbv3qT6vTt
+ NrGTvMQ9cvL3maIfr/HQpL3ArYL2ULFi00QfSr2oIb979KPqXWDTNgTpbDgwPBtL
+ 5haKOaiVhWZM2LfUzJ8VvtpjM2Dkdn9AFU6GIh99qw==
+X-ME-Sender: <xms:ONRsY_eJtZFzx-Nz7276dwsiuVyMAlDW7p8a3v1KrTWLazd0m7cVKA>
+ <xme:ONRsY1PE6c2FKT89ERYgqpRBuIYe51wPO5rgXq5ko-BrZvnPr0JmIuEeyFHxFyvbx
+ vt_mOrpsnSpjBm9_i8>
+X-ME-Received: <xmr:ONRsY4iBz6D4m6IRMrixdAQC397qCye1w9VSqZyfA8iVYVKm7dmImFl1jqqBkIOp5rxf7dAWposWqH1KC8FdaZMapboDg2HMgbi8HWYxHirLKA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrfeeggddujecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepjeevfeehfeekieffgeevleevtefgffefkedtfeeuhfettdegjeehgfegudff
+ ffdunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:ONRsYw_D_YTVxteD8Lb3YrJ7VwdVKQ3TFJpbpqxq-NOpe1SQZE4s1g>
+ <xmx:ONRsY7tLY61OyW8sGbGg0QtQF4A8ELk41e1KjztvpSV5iGMyj-bl7A>
+ <xmx:ONRsY_Hcm4R050ci6hMzwKlvzRkYRYEHr2i4pSLaRxjtVJPxYVIvLQ>
+ <xmx:OdRsY9MuQDK0TzCBdeZlntmdJgeqWP-Ddzhb7k8-vZXhPgQSWVVZhw>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 10 Nov 2022 05:36:40 -0500 (EST)
+Date: Thu, 10 Nov 2022 11:36:38 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Subject: Re: [PATCH v7 14/23] drm/modes: Properly generate a drm_display_mode
+ from a named mode
+Message-ID: <20221110103638.o3bomslhvb2sj43d@houat>
+References: <20220728-rpi-analog-tv-properties-v7-0-7072a478c6b3@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v7-14-7072a478c6b3@cerno.tech>
+ <9e9a8a48-89f2-35d4-b26f-afa7cc44f2f6@tronnes.org>
+ <85a607b4-2645-68c7-0898-08f7c6d064b9@tronnes.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.4.2
-Subject: Re: [Intel-gfx] [PATCH 1/2] drm/i915/gt: Add GT oriented dmesg output
-Content-Language: en-US
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- John Harrison <john.c.harrison@intel.com>,
- "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>,
- Intel-GFX@Lists.FreeDesktop.Org
-References: <20221104172525.569913-1-John.C.Harrison@Intel.com>
- <20221104172525.569913-2-John.C.Harrison@Intel.com>
- <6a4d1ac0-a1a0-e1d4-7d83-54b43d226371@intel.com>
- <fabaf9ee-f3fc-c18f-56b3-6d073618da41@linux.intel.com>
- <82055e8f-9bee-2b03-3dce-dcf66c30c903@linux.intel.com>
- <2583bccd-82fd-967a-aec9-e6d3837dbbed@intel.com>
- <1ad6bce7-9626-afa6-d73e-6d8f7a9c4d2a@linux.intel.com>
- <c9742b0f-546f-cccc-021a-7bad68410838@intel.com>
- <ad19d7ce-4102-4f8f-903d-7390b004b2e9@linux.intel.com>
- <67d18d17-8a01-32a1-1ff6-099c708ab290@intel.com>
- <02454937-4213-c558-590f-e1e7c83083e3@intel.com>
- <7f420032-fe96-4d19-886d-b333668e4c5b@linux.intel.com>
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-In-Reply-To: <7f420032-fe96-4d19-886d-b333668e4c5b@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="5srbqddj7e3dz2xw"
+Content-Disposition: inline
+In-Reply-To: <85a607b4-2645-68c7-0898-08f7c6d064b9@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,147 +86,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI-Devel@Lists.FreeDesktop.Org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
+ linux-sunxi@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+ Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+--5srbqddj7e3dz2xw
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 10.11.2022 10:55, Tvrtko Ursulin wrote:
-> 
-> On 09/11/2022 19:57, Michal Wajdeczko wrote:
-> 
-> [snip]
-> 
->>> Is it really a problem to merge this patch now to get the process
->>> started? And other sub-components get updated as and when people get the
->>> time to do them? You could maybe even help rather than posting
->>> completely conflicting patch sets that basically duplicate all the
->>> effort for no actual benefit.
->>
->> Instead of merging this patch now, oriented on GT only, I would rather
->> wait until we discuss and plan solution for the all sub-components.
-> 
-> Yes, agreed.
-> 
->> Once that's done (with agreement on naming and output) we can start
->> converting exiting messages.
->>
->> My proposal would be:
->>   - use wrappers per component
-> 
-> This is passable to me but Jani has raised a concern on IRC that it
-> leads to a lot of macro duplication. Which is I think a valid point, but
-> which does not have a completely nice solution. Best I heard so far was
-> a suggestion from Joonas to add just a single component formatter macro
-> and use the existing drm_xxx helpers.
-> 
->>   - use lower case names
-> 
-> I prefer this as well. Even though usual argument is for macros to be
-> upper case, I find the improved readability of lower case trumps that.
-> 
->>   - don't add colon
-> 
-> Not sure, when I look at it below it looks a bit not structured enough
-> without the colon, but maybe it is just me.
-> 
->> #define i915_xxx(_i915, _fmt, ...) \
->>     drm_xxx(&(_i915)->drm, _fmt, ##__VA_ARGS__)
->>
->> #define gt_xxx(_gt, _fmt, ...) \
->>     i915_xxx((_gt)->i915, "GT%u " _fmt, (_gt)->info.id, ..
->>
->> #define guc_xxx(_guc, _fmt, ...) \
->>     gt_xxx(guc_to_gt(_guc), "GuC " _fmt, ..
->>
->> #define ct_xxx(_ct, _fmt, ...) \
->>     guc_xxx(ct_to_guc(_ct), "CTB " _fmt, ..
->>
->> where
->>     xxx = { err, warn, notice, info, dbg }
->>
->> and then for calls like:
->>
->>     i915_err(i915, "Foo failed (%pe)\n", ERR_PTR(err));
->>       gt_err(gt,   "Foo failed (%pe)\n", ERR_PTR(err));
->>      guc_err(guc,  "Foo failed (%pe)\n", ERR_PTR(err));
->>       ct_err(ct,   "Foo failed (%pe)\n", ERR_PTR(err));
-> 
-> So the macro idea would be like this:
-> 
->   drm_err(I915_LOG("Foo failed (%pe)\n", i915), ERR_PTR(err));
->   drm_err(GT_LOG("Foo failed (%pe)\n", gt), ERR_PTR(err));
->   drm_err(GUC_LOG("Foo failed (%pe)\n", guc), ERR_PTR(err));
->   drm_err(CT_LOG("Foo failed (%pe)\n", ct), ERR_PTR(err));
-> 
-> Each component would just need to define a single macro and not have to
-> duplicate all the err, info, warn, notice, ratelimited, once, whatever
-> versions. Which is a benefit but it's a quite a bit uglier to read in
-> the code.
+On Tue, Nov 08, 2022 at 10:40:07AM +0100, Noralf Tr=F8nnes wrote:
+>=20
+>=20
+> Den 07.11.2022 18.49, skrev Noralf Tr=F8nnes:
+> >=20
+> >=20
+> > Den 07.11.2022 15.16, skrev Maxime Ripard:
+> >> The framework will get the drm_display_mode from the drm_cmdline_mode =
+it
+> >> got by parsing the video command line argument by calling
+> >> drm_connector_pick_cmdline_mode().
+> >>
+> >> The heavy lifting will then be done by the drm_mode_create_from_cmdlin=
+e_mode()
+> >> function.
+> >>
+> >> In the case of the named modes though, there's no real code to make th=
+at
+> >> translation and we rely on the drivers to guess which actual display m=
+ode
+> >> we meant.
+> >>
+> >> Let's modify drm_mode_create_from_cmdline_mode() to properly generate =
+the
+> >> drm_display_mode we mean when passing a named mode.
+> >>
+> >> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> >>
+> >> ---
+> >> Changes in v7:
+> >> - Use tv_mode_specified in drm_mode_parse_command_line_for_connector
+> >>
+> >> Changes in v6:
+> >> - Fix get_modes to return 0 instead of an error code
+> >> - Rename the tests to follow the DRM test naming convention
+> >>
+> >> Changes in v5:
+> >> - Switched to KUNIT_ASSERT_NOT_NULL
+> >> ---
+> >>  drivers/gpu/drm/drm_modes.c                     | 34 ++++++++++-
+> >>  drivers/gpu/drm/tests/drm_client_modeset_test.c | 77 ++++++++++++++++=
+++++++++-
+> >>  2 files changed, 109 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+> >> index dc037f7ceb37..49441cabdd9d 100644
+> >> --- a/drivers/gpu/drm/drm_modes.c
+> >> +++ b/drivers/gpu/drm/drm_modes.c
+> >> @@ -2497,6 +2497,36 @@ bool drm_mode_parse_command_line_for_connector(=
+const char *mode_option,
+> >>  }
+> >>  EXPORT_SYMBOL(drm_mode_parse_command_line_for_connector);
+> >> =20
+> >> +static struct drm_display_mode *drm_named_mode(struct drm_device *dev,
+> >> +					       struct drm_cmdline_mode *cmd)
+> >> +{
+> >> +	struct drm_display_mode *mode;
+> >> +	unsigned int i;
+> >> +
+> >> +	for (i =3D 0; i < ARRAY_SIZE(drm_named_modes); i++) {
+> >> +		const struct drm_named_mode *named_mode =3D &drm_named_modes[i];
+> >> +
+> >> +		if (strcmp(cmd->name, named_mode->name))
+> >> +			continue;
+> >> +
+> >> +		if (!cmd->tv_mode_specified)
+> >> +			continue;
+> >=20
+> > Only a named mode will set cmd->name, so is this check necessary?
+> >=20
+> >> +
+> >> +		mode =3D drm_analog_tv_mode(dev,
+> >> +					  named_mode->tv_mode,
+> >> +					  named_mode->pixel_clock_khz * 1000,
+> >> +					  named_mode->xres,
+> >> +					  named_mode->yres,
+> >> +					  named_mode->flags & DRM_MODE_FLAG_INTERLACE);
+> >> +		if (!mode)
+> >> +			return NULL;
+> >> +
+> >> +		return mode;
+> >=20
+> > You can just return the result from drm_analog_tv_mode() directly.
+> >=20
+> > With those considered:
+> >=20
+> > Reviewed-by: Noralf Tr=F8nnes <noralf@tronnes.org>
+> >=20
+>=20
+> I forgot one thing, shouldn't the named mode test in
+> drm_connector_pick_cmdline_mode() be removed now that we have proper mode=
+s?
 
-If there is a choice between having ugly code all over the place and few
-more lines with helpers then without any doubts I would pick the latter.
+Good catch, I've fixed it
 
-And this seems to be option already used elsewhere, see:
+Thanks!
+Maxime
 
-#define dev_err(dev, fmt, ...) \
-	dev_printk_index_wrap ...
+--5srbqddj7e3dz2xw
+Content-Type: application/pgp-signature; name="signature.asc"
 
-#define pci_err(pdev, fmt, arg...) \
-	dev_err(&(pdev)->dev, fmt, ##arg)
+-----BEGIN PGP SIGNATURE-----
 
-#define drm_err(drm, fmt, ...) \
-	__drm_printk((drm), err,, "*ERROR* " fmt, ##__VA_ARGS__)
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY2zUNgAKCRDj7w1vZxhR
+xc5tAQDufFWQT96Lb6iVY5J8Lt2HGBq1P51c1tAQgPlz+FoRAQD+K3ZwbAaLO5em
+tFADsUq+cdoZA5xWmbM0RCAIK2hDkg4=
+=cS0b
+-----END PGP SIGNATURE-----
 
-#define drbd_err(obj, fmt, args...) \
-	drbd_printk(KERN_ERR, obj, fmt, ## args)
-
-#define ch7006_err(client, format, ...) \
-	dev_err(&client->dev, format, __VA_ARGS__)
-
-#define mthca_err(mdev, format, arg...) \
-	dev_err(&mdev->pdev->dev, format, ## arg)
-
-#define ctx_err(ctx, fmt, arg...) \
-	cal_err((ctx)->cal, "ctx%u: " fmt, (ctx)->dma_ctx, ##arg)
-
-#define mlx4_err(mdev, format, ...) \
-	dev_err(&(mdev)->persist->pdev->dev, format, ##__VA_ARGS__)
-
-...
-
-Michal
-
-
-[1]
-https://elixir.bootlin.com/linux/v6.1-rc4/source/include/linux/dev_printk.h#L143
-
-[2]
-https://elixir.bootlin.com/linux/v6.1-rc4/source/include/linux/pci.h#L2485
-
-[3]
-https://elixir.bootlin.com/linux/v6.1-rc4/source/include/drm/drm_print.h#L468
-
-[4]
-https://elixir.bootlin.com/linux/v6.1-rc4/source/drivers/block/drbd/drbd_int.h#L113
-
-[5]
-https://elixir.bootlin.com/linux/v6.1-rc4/source/drivers/gpu/drm/i2c/ch7006_priv.h#L139
-
-[6]
-https://elixir.bootlin.com/linux/v6.1-rc4/source/drivers/infiniband/hw/mthca/mthca_dev.h#L377
-
-[7]
-https://elixir.bootlin.com/linux/v6.1-rc4/source/drivers/media/platform/ti/cal/cal.h#L279
-
-[8]
-https://elixir.bootlin.com/linux/v6.1-rc4/source/drivers/net/ethernet/mellanox/mlx4/mlx4.h#L225
-
-> 
-> Perhaps macro could be called something other than XX_LOG to make it
-> more readable, don't know.
-> 
-> Regards,
-> 
-> Tvrtko
+--5srbqddj7e3dz2xw--
