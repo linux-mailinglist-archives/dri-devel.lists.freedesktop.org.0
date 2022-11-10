@@ -2,49 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58E11624DAE
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 23:37:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93EA9624E30
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 00:02:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A45810E0A5;
-	Thu, 10 Nov 2022 22:37:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1ECA10E0E5;
+	Thu, 10 Nov 2022 23:02:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from galois.linutronix.de (Galois.linutronix.de
- [IPv6:2a0a:51c0:0:12e:550::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D5FB10E0A5
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 22:37:29 +0000 (UTC)
-From: John Ogness <john.ogness@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1668119847;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=W2EsEvJhlAZZQPSn3pNUyWB9e4WUrObOqKYk/7OmMuc=;
- b=L0SMSt4q7jIhlzsoMg/xRFF+mS5mvQInBQrHnxfqgLft7IMQvdhT0dYdY7yePwM9Fv+G4C
- Jo7De6PJWh1b57zTUEvA/r0LIsHe+Ele14Jqom9ODT7aG/xmLKVcR6kEkUGj65//fEAUEn
- LU694e9AwzJ05OHi702f+znr9M7EsMbvzWj5bFjKIV8TV6mgQ7YRykr3ApF1NcKh2+ZLZR
- /Mme5fix7hlnZP8MTGD/Hc3n5tv9+dRIWuECLKRCUQYsHHRPQUysQApkyADc/Utz/ZXHBL
- oNUuV/8UY2GMEtRqZNNwfY5AAaqIXXvG0DR5T0VeSz3HrDewe4dlY+d0MJrS1g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1668119847;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=W2EsEvJhlAZZQPSn3pNUyWB9e4WUrObOqKYk/7OmMuc=;
- b=cR6YDafDK7z9RudGpmOn+Lr/YsZxGTyyB4YVYSNXVaaNOgu+QC1ESLllubJrkI6jh2NdsI
- K/UxS8kYMw8BavCA==
-To: Petr Mladek <pmladek@suse.com>
-Subject: Re: [PATCH printk v3 33/40] printk, xen: fbfront: create/use safe
- function for forcing preferred
-In-Reply-To: <Y200WG6q4z0JGYBc@alley>
-References: <20221107141638.3790965-1-john.ogness@linutronix.de>
- <20221107141638.3790965-34-john.ogness@linutronix.de>
- <Y20aBwNWT19YDeib@alley> <877d026blr.fsf@jogness.linutronix.de>
- <Y200WG6q4z0JGYBc@alley>
-Date: Thu, 10 Nov 2022 23:43:26 +0106
-Message-ID: <87mt8ywi55.fsf@jogness.linutronix.de>
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDB0A10E0D9;
+ Thu, 10 Nov 2022 23:01:56 +0000 (UTC)
+Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx1.riseup.net (Postfix) with ESMTPS id 4N7cm32bpSzDqPP;
+ Thu, 10 Nov 2022 23:01:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1668121316; bh=ii9US/7BKMJSswViF5HF5Uy5RI+c/CUVF4WZu52VlbA=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=cPHdzSv4GOsGXIr9Eb/R795dEV6YP+Wcvkl6eGsKWdtRgGwoVyMK/BV00Y1wmpt+x
+ VT5C3PbwkiIXp1CbE3h8tiXgWjaLkL2sz5jPGwP6N5FVDgP14RsM71DWbpx3QKM3DZ
+ fIOHgYLoOehEqRAfXsjVCDqO/bPzcTrfbpxvOqTI=
+X-Riseup-User-ID: 659E986C72ED052D274028EE1034DB3275D9FA4A0450B3B0042660F6D26D59E1
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews2.riseup.net (Postfix) with ESMTPSA id 4N7cls13Q1z1xx2;
+ Thu, 10 Nov 2022 23:01:44 +0000 (UTC)
+Message-ID: <28d35094-ac32-e589-274e-76f4b2408aec@riseup.net>
+Date: Thu, 10 Nov 2022 20:01:42 -0300
 MIME-Version: 1.0
-Content-Type: text/plain
+Subject: Re: [PATCH v8 06/24] drm/modes: Add a function to generate analog
+ display modes
+Content-Language: en-US
+To: Maxime Ripard <maxime@cerno.tech>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Karol Herbst
+ <kherbst@redhat.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Lyude Paul <lyude@redhat.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, Ben Skeggs <bskeggs@redhat.com>
+References: <20220728-rpi-analog-tv-properties-v8-0-09ce1466967c@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v8-6-09ce1466967c@cerno.tech>
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v8-6-09ce1466967c@cerno.tech>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,47 +65,212 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juergen Gross <jgross@suse.com>, linux-fbdev@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
- linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Sergey Senozhatsky <senozhatsky@chromium.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Tom Rix <trix@redhat.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>
+Cc: Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, linux-sunxi@lists.linux.dev,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-11-10, Petr Mladek <pmladek@suse.com> wrote:
->>>> +	/* Only the new head can have CON_CONSDEV set. */
->>>> +	WRITE_ONCE(cur_pref_con->flags, cur_pref_con->flags & ~CON_CONSDEV);
->>>
->>> As mentioned in the reply for 7th patch, I would prefer to hide this
->>> WRITE_ONCE into a wrapper, e.g. console_set_flag(). It might also
->>> check that the console_list_lock is taken...
->> 
->> Agreed. For v4 it will become:
->> 
->> console_srcu_write_flags(cur_pref_con, cur_pref_con->flags & ~CON_CONSDEV);
->
-> I am happy that your are going to introduce an API for this.
->
-> Just to be sure. The _srcu_ in the name means that the write
-> will use WRITE_ONCE() so that it can be read safely in SRCU
-> context using READ_ONCE(). Do I get it correctly, please?
+Hi Maxime,
 
-Yes.
+On 11/10/22 08:07, Maxime Ripard wrote:
+> Multiple drivers (meson, vc4, sun4i) define analog TV 525-lines and
+> 625-lines modes in their drivers.
+> 
+> Since those modes are fairly standard, and that we'll need to use them
+> in more places in the future, it makes sense to move their definition
+> into the core framework.
+> 
+> However, analog display usually have fairly loose timings requirements,
+> the only discrete parameters being the total number of lines and pixel
+> clock frequency. Thus, we created a function that will create a display
+> mode from the standard, the pixel frequency and the active area.
+> 
+> Tested-by: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> 
+> ---
+> Changes in v6:
+> - Fix typo
+> 
+> Changes in v4:
+> - Reworded the line length check comment
+> - Switch to HZ_PER_KHZ in tests
+> - Use previous timing to fill our mode
+> - Move the number of lines check earlier
+> ---
+>  drivers/gpu/drm/drm_modes.c            | 474 +++++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/tests/Makefile         |   1 +
+>  drivers/gpu/drm/tests/drm_modes_test.c | 145 ++++++++++
+>  include/drm/drm_modes.h                |  17 ++
+>  4 files changed, 637 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/tests/drm_modes_test.c b/drivers/gpu/drm/tests/drm_modes_test.c
+> new file mode 100644
+> index 000000000000..afeda9f07859
+> --- /dev/null
+> +++ b/drivers/gpu/drm/tests/drm_modes_test.c
+> @@ -0,0 +1,145 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Kunit test for drm_modes functions
+> + */
+> +
+> +#include <drm/drm_drv.h>
+> +#include <drm/drm_modes.h>
+> +
+> +#include <kunit/test.h>
+> +
+> +#include <linux/units.h>
+> +
+> +#include "drm_kunit_helpers.h"
+> +
+> +struct drm_modes_test_priv {
+> +	struct drm_device *drm;
+> +};
+> +
+> +static int drm_modes_test_init(struct kunit *test)
+> +{
+> +	struct drm_modes_test_priv *priv;
+> +
+> +	priv = kunit_kzalloc(test, sizeof(*priv), GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_NULL(test, priv);
+> +
+> +	priv->drm = drm_kunit_device_init(test, DRIVER_MODESET, "drm-modes-test");
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv->drm);
+> +
+> +	test->priv = priv;
+> +
+> +	return 0;
+> +}
+> +
 
-> I expect that the counter part will be console_srcu_read_flags().
-> I like the name. It is better than _unsafe_ that I proposed earlier.
+As you did on the other tests, it would be nice to use the same naming
+convention as the other DRM tests. So, maybe change the "drm_modes"
+prefix to "drm_test_modes".
 
-Since the only flag that is ever checked in this way is CON_ENABLED, I
-was planning on calling it console_srcu_is_enabled(). But I suppose I
-could have it be: (console_srcu_read_flags() & CON_ENABLED). That would
-keep it more abstract in case anyone should want to read other flag bits
-under SRCU.
+> +static void drm_modes_analog_tv_ntsc_480i(struct kunit *test)
+> +{
+> +	struct drm_modes_test_priv *priv = test->priv;
+> +	struct drm_display_mode *mode;
+> +
+> +	mode = drm_analog_tv_mode(priv->drm,
+> +				  DRM_MODE_TV_MODE_NTSC,
+> +				  13500 * HZ_PER_KHZ, 720, 480,
+> +				  true);
+> +	KUNIT_ASSERT_NOT_NULL(test, mode);
+> +
+> +	KUNIT_EXPECT_EQ(test, drm_mode_vrefresh(mode), 60);
+> +	KUNIT_EXPECT_EQ(test, mode->hdisplay, 720);
+> +
+> +	/* BT.601 defines hsync_start at 736 for 480i */
+> +	KUNIT_EXPECT_EQ(test, mode->hsync_start, 736);
+> +
+> +	/*
+> +	 * The NTSC standard expects a line to take 63.556us. With a
+> +	 * pixel clock of 13.5 MHz, a pixel takes around 74ns, so we
+> +	 * need to have 63556ns / 74ns = 858.
+> +	 *
+> +	 * This is also mandated by BT.601.
+> +	 */
+> +	KUNIT_EXPECT_EQ(test, mode->htotal, 858);
+> +
+> +	KUNIT_EXPECT_EQ(test, mode->vdisplay, 480);
+> +	KUNIT_EXPECT_EQ(test, mode->vtotal, 525);
+> +}
+> +
+> +static void drm_modes_analog_tv_ntsc_480i_inlined(struct kunit *test)
+> +{
+> +	struct drm_modes_test_priv *priv = test->priv;
+> +	struct drm_display_mode *expected, *mode;
+> +
+> +	expected = drm_analog_tv_mode(priv->drm,
+> +				      DRM_MODE_TV_MODE_NTSC,
+> +				      13500 * HZ_PER_KHZ, 720, 480,
+> +				      true);
+> +	KUNIT_ASSERT_NOT_NULL(test, expected);
+> +
+> +	mode = drm_mode_analog_ntsc_480i(priv->drm);
+> +	KUNIT_ASSERT_NOT_NULL(test, mode);
+> +
+> +	KUNIT_EXPECT_TRUE(test, drm_mode_equal(expected, mode));
+> +}
+> +
+> +static void drm_modes_analog_tv_pal_576i(struct kunit *test)
+> +{
+> +	struct drm_modes_test_priv *priv = test->priv;
+> +	struct drm_display_mode *mode;
+> +
+> +	mode = drm_analog_tv_mode(priv->drm,
+> +				  DRM_MODE_TV_MODE_PAL,
+> +				  13500 * HZ_PER_KHZ, 720, 576,
+> +				  true);
+> +	KUNIT_ASSERT_NOT_NULL(test, mode);
+> +
+> +	KUNIT_EXPECT_EQ(test, drm_mode_vrefresh(mode), 50);
+> +	KUNIT_EXPECT_EQ(test, mode->hdisplay, 720);
+> +
+> +	/* BT.601 defines hsync_start at 732 for 576i */
+> +	KUNIT_EXPECT_EQ(test, mode->hsync_start, 732);
+> +
+> +	/*
+> +	 * The PAL standard expects a line to take 64us. With a pixel
+> +	 * clock of 13.5 MHz, a pixel takes around 74ns, so we need to
+> +	 * have 64000ns / 74ns = 864.
+> +	 *
+> +	 * This is also mandated by BT.601.
+> +	 */
+> +	KUNIT_EXPECT_EQ(test, mode->htotal, 864);
+> +
+> +	KUNIT_EXPECT_EQ(test, mode->vdisplay, 576);
+> +	KUNIT_EXPECT_EQ(test, mode->vtotal, 625);
+> +}
+> +
+> +static void drm_modes_analog_tv_pal_576i_inlined(struct kunit *test)
+> +{
+> +	struct drm_modes_test_priv *priv = test->priv;
+> +	struct drm_display_mode *expected, *mode;
+> +
+> +	expected = drm_analog_tv_mode(priv->drm,
+> +				      DRM_MODE_TV_MODE_PAL,
+> +				      13500 * HZ_PER_KHZ, 720, 576,
+> +				      true);
+> +	KUNIT_ASSERT_NOT_NULL(test, expected);
+> +
+> +	mode = drm_mode_analog_pal_576i(priv->drm);
+> +	KUNIT_ASSERT_NOT_NULL(test, mode);
+> +
+> +	KUNIT_EXPECT_TRUE(test, drm_mode_equal(expected, mode));
+> +}
+> +
+> +static struct kunit_case drm_modes_analog_tv_tests[] = {
+> +	KUNIT_CASE(drm_modes_analog_tv_ntsc_480i),
+> +	KUNIT_CASE(drm_modes_analog_tv_ntsc_480i_inlined),
+> +	KUNIT_CASE(drm_modes_analog_tv_pal_576i),
+> +	KUNIT_CASE(drm_modes_analog_tv_pal_576i_inlined),
+> +	{ }
+> +};
+> +
+> +static struct kunit_suite drm_modes_analog_tv_test_suite = {
+> +	.name = "drm_modes_analog_tv",
+> +	.init = drm_modes_test_init,
+> +	.test_cases = drm_modes_analog_tv_tests,
+> +};
+> +
+> +kunit_test_suites(
+> +	&drm_modes_analog_tv_test_suite
+> +);
 
-There are only 4 call sites that need this, so I suppose we don't need a
-special _is_enabled() variant. Thanks for the suggestion!
+Considering that there is only one suite, you could use the
+kunit_test_suite macro instead.
 
-John
+Best Regards,
+- Maíra Canal
+
+> +MODULE_LICENSE("GPL v2");
