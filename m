@@ -2,50 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEDE16247BE
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 17:59:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A67346247FF
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 18:10:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7C7910E6CE;
-	Thu, 10 Nov 2022 16:59:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA28E10E175;
+	Thu, 10 Nov 2022 17:10:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4328210E6CE
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 16:59:26 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id D533584D17;
- Thu, 10 Nov 2022 17:59:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1668099563;
- bh=wqRbI3/U80qgngzNAH74ntF8Owlq1j4hStCDINhdFHw=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=wJlds3nkqISrPYMnZX9iGaGqmv22qbVzZ3fVp7t2cTPjpcJOufA19dQRMb5F6Iae5
- WbB2UuGEwj/3CIZIoTAA52WITsUFYas+RhpPDn1BctYJnOaXKWhUtte8+LDPGVN24Q
- /9+efMNFsf4td2x7GvHPJNFRZ7hi9uVRzIyhnWm8m9/2JTPl1DBonBH6to5ux7VBLn
- 1Cwkl6ZLhBDV5C9JEmgyLYZ1DylBtiDuWfo41Cm2Bs9GpayuaKH5AQGLOLQyBpMNkw
- Gvor6JCwh70GPfQkbDH5z1qNh1MMwudET/FuP/sDMTVeCaqVQEb3e37R6rDt7T4tbk
- 1dX5Tjf5JhHDw==
-Message-ID: <291cd9ec-582a-49e7-adf5-9955539897ea@denx.de>
-Date: Thu, 10 Nov 2022 17:59:21 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 141E110E175
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 17:10:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668100228;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3XBNZVfwHOyxrKzEqgSDBaV/kDGeCsLaREPRXxkN8EM=;
+ b=bSmu2RAUiPP+uyo1YY4ieRzl9cShG71GbLpnBxH2iT03EesUvtjp48uwtHrt5Mtdb/GbJx
+ 3Bmk3RSSqk5MkKvhFrJaxVIH+zm8UugH4OueDyc3RVnqPvVn6Vday7YjCE1XwOVbwCt/Nc
+ 337UpDRnVVttpGEttl8herIPp31QH1Y=
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-635-hJv-SN6EOmu-44yTMIkksA-1; Thu, 10 Nov 2022 12:10:27 -0500
+X-MC-Unique: hJv-SN6EOmu-44yTMIkksA-1
+Received: by mail-il1-f198.google.com with SMTP id
+ s4-20020a056e02216400b003021b648144so1987529ilv.19
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 09:10:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=3XBNZVfwHOyxrKzEqgSDBaV/kDGeCsLaREPRXxkN8EM=;
+ b=WBL4ETyUYS+8j95/VjH9WzfQiCFQ9OkNGHC3OIjC/1crLWIPPkOcus+yZMG+R+mYzX
+ bZBUv2tE+dJ53iW7/ZnBs1cy6lU82FQg2VyBPmeRTDQQG2xQXhWd7M7VVmk/PQeqBaxo
+ vDwDlDGvarmqGyKkAjSvgceJIiYxrTiFHqFsuP2061bN6k5KiyvzFNX1mEL66krdifpY
+ YWctVZn/3XQxH7RZcmIUAoSSECqvAd3epfGhnbRwvMpIMSwHZvuzX2nmtqG6ZPpAaHN0
+ dT7mSZJEFZMLH6I0raqtPRT1cr5r7D4pYsEs6xREF2ufQTqXGmv15n8A/P8MUv4aR/yY
+ 3deA==
+X-Gm-Message-State: ACrzQf2soThy9q6plOjnjdP1Be9t1zByLGsGPMRsK9Vg/kL8weZipMas
+ Bs9K5gZsCfqB33lBrSNHjeiwW2Qvr5CAarZrNH0eK3JbwWWfymwA5xibXSj82PjHqMXUUII2KIA
+ RG+33Ymhnv6QuHWIU9qH4eJOn0uS1
+X-Received: by 2002:a05:6638:4413:b0:374:fbbe:2da6 with SMTP id
+ bp19-20020a056638441300b00374fbbe2da6mr3149425jab.163.1668100226566; 
+ Thu, 10 Nov 2022 09:10:26 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM5st2ROvi8y5IPXYSHhk18Mv2oS6m3aLQCRNeAm9L0KyqI2dN1lMnwqPxWnGmIZODwHu3sF6g==
+X-Received: by 2002:a05:6638:4413:b0:374:fbbe:2da6 with SMTP id
+ bp19-20020a056638441300b00374fbbe2da6mr3149377jab.163.1668100226283; 
+ Thu, 10 Nov 2022 09:10:26 -0800 (PST)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ m1-20020a924a01000000b002f9652849f6sm30029ilf.67.2022.11.10.09.10.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Nov 2022 09:10:25 -0800 (PST)
+Date: Thu, 10 Nov 2022 10:10:23 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: "Tian, Kevin" <kevin.tian@intel.com>
+Subject: Re: [PATCH v2 10/11] vfio: Make vfio_container optionally compiled
+Message-ID: <20221110101023.28e7a790.alex.williamson@redhat.com>
+In-Reply-To: <BN9PR11MB5276494548F01A42694E366A8C019@BN9PR11MB5276.namprd11.prod.outlook.com>
+References: <0-v2-65016290f146+33e-vfio_iommufd_jgg@nvidia.com>
+ <10-v2-65016290f146+33e-vfio_iommufd_jgg@nvidia.com>
+ <20221108152831.1a2ed3df.alex.williamson@redhat.com>
+ <Y2r6YnhuR3SxslL6@nvidia.com>
+ <20221109101809.2ff08303.alex.williamson@redhat.com>
+ <Y2wFFy0cxIIlCeTu@nvidia.com>
+ <BN9PR11MB5276494548F01A42694E366A8C019@BN9PR11MB5276.namprd11.prod.outlook.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH v7 00/10] drm: bridge: Add Samsung MIPI DSIM bridge
-To: Jagan Teki <jagan@amarulasolutions.com>, Fabio Estevam <festevam@gmail.com>
-References: <20221005151309.7278-1-jagan@amarulasolutions.com>
- <f1dfac7d-643e-db29-28fe-7a2fcde01894@kontron.de>
- <CAOMZO5AqRRYLTUQWACiCA0RCvsjGaCmK3yhdGP8XfNxjFP1OiA@mail.gmail.com>
- <CAMty3ZA9sPf97C0xonHwBR8SWDrRyA7DKVCmWOyoxijQwXUSZQ@mail.gmail.com>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <CAMty3ZA9sPf97C0xonHwBR8SWDrRyA7DKVCmWOyoxijQwXUSZQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,46 +88,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, Neil Armstrong <narmstrong@linaro.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Matteo Lisi <matteo.lisi@engicam.com>, Robert Foss <robert.foss@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, NXP Linux Team <linux-imx@nxp.com>,
- Fancy Fang <chen.fang@nxp.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Diana Craciun <diana.craciun@oss.nxp.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Longfang Liu <liulongfang@huawei.com>,
+ "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>, "Liu,
+ Yi L" <yi.l.liu@intel.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
+ Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+ Nicolin Chen <nicolinc@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Wang,
+ Zhi A" <zhi.a.wang@intel.com>, Jason
+ Herne <jjherne@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, Eric
+ Auger <eric.auger@redhat.com>, Harald
+ Freudenberger <freude@linux.ibm.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ Tony Krowiak <akrowiak@linux.ibm.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>, Shameer
+ Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Robin Murphy <robin.murphy@arm.com>,
+ Lu Baolu <baolu.lu@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/10/22 17:03, Jagan Teki wrote:
-> On Thu, Nov 10, 2022 at 9:24 PM Fabio Estevam <festevam@gmail.com> wrote:
->>
->> Hi,
->>
->> On Mon, Nov 7, 2022 at 1:34 PM Frieder Schrempf
->> <frieder.schrempf@kontron.de> wrote:
->>
->>> I tested this on the Kontron DL i.MX8MM which uses a TI SN65DSI84 bridge
->>> and a Jenson 7" LVDS Display.
->>>
->>> Thanks for your work, Jagan!
->>>
->>> Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de> # Kontron DL
->>> i.MX8MM
->>
->> As this series has been successfully tested on multiple devices, is it possible
->> to apply it so people can make further adjustments?
-> 
-> I think the next version patchset on this would be clean and properly
-> address a few comments from Marek Vasut. However, I'm still waiting
-> for Marek's response to my comment on the input bus formats - if it is
-> Okay I will send the v8.
-> https://lore.kernel.org/all/CAMty3ZAM+fetmBQWaSbfjME7-Up4h+Ln3BRHaPgg5tuSsObPdw@mail.gmail.com/
+On Thu, 10 Nov 2022 06:57:57 +0000
+"Tian, Kevin" <kevin.tian@intel.com> wrote:
 
-Just send a V8 and let's see how that looks, no need to wait for me.
+> > From: Jason Gunthorpe <jgg@nvidia.com>
+> > Sent: Thursday, November 10, 2022 3:53 AM
+> > 
+> > On Wed, Nov 09, 2022 at 10:18:09AM -0700, Alex Williamson wrote:
+> >   
+> > > DPDK supports no-iommu mode.  
+> > 
+> > Er? Huh? How? I thought no-iommu was for applications that didn't do
+> > DMA? How is DPDK getting packets in/out without DMA? I guess it snoops
+> > in /proc/ or something to learn PFNs of mlock'd memory? <shudder>  
+> 
+> iirc dpdk started with UIO plus various tricks (root privilege, hugepage, etc.)
+> to lock and learn PFN's from pagemap. Then when migrating it to vfio the
+> no-iommu option was introduced to provide UIO compatibility.
+
+IIRC, we essentially introduced no-iommu mode vfio because DPDK started
+pushing for extending interrupt support in uio-pci-generic.  The UIO
+driver is also only meant for devices that don't do DMA, but obviously
+DPDK didn't care about that.  Rather than extend UIO, we offered this
+no-iommu mode in vfio since we already had more extensive MSI support,
+were better able to impose restrictions on access to the device, and
+using the same device access makes the transition to proper IOMMU
+backed configurations more seamless.  Thanks,
+
+Alex
+
