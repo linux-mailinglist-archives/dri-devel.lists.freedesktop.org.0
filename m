@@ -1,82 +1,139 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F82962391B
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 02:44:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 728106239B0
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 03:17:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2AE310E646;
-	Thu, 10 Nov 2022 01:44:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF74610E64A;
+	Thu, 10 Nov 2022 02:17:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D443910E646;
- Thu, 10 Nov 2022 01:44:47 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2AA0WjW0015498; Thu, 10 Nov 2022 01:44:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=OdLE+TuxhRZtAUF+DVlWvnXLX0aWwsGqekatk5qNFpo=;
- b=eGALCP4T6iqtlx4uRSOhFZMBRLzM4rDWasd5w3dN6EY4fAQTWWjJlrXHMJz+6r8h6EDb
- FaeKYC6zmVY/Hq8dNlNGdm3jUngPxxy+YMgUlvr7jE/Cny1ktDZxzM72UaV2oPsPA7Xe
- nJddz4V4Vu07mpZyuZx+kih7F5PRVZ8F5CvkboLYKJV2KMaest4fMfdAefYSc2zMwEHO
- 8PUdvCdRCQZjTNPXio0UZrq/2gbh7vHK2Fq/L4RbZCeaNNIJvB0bBUN1fgs6aebIpolV
- shCusRM68CtyKaRhr7Lk11M0T/SBJfb9p6Id839Fw94cX3P8tahgFrHcs3vDJzGKjUBr VA== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kqugbbx9s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Nov 2022 01:44:40 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2AA1ich7008279
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Nov 2022 01:44:38 GMT
-Received: from [10.71.111.47] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Wed, 9 Nov 2022
- 17:44:38 -0800
-Message-ID: <1f291321-1319-f6d8-b2cb-85ddbe970766@quicinc.com>
-Date: Wed, 9 Nov 2022 17:44:37 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [RFC PATCH 1/3] drm: Introduce color fill properties for drm plane
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 291B610E64B;
+ Thu, 10 Nov 2022 02:17:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1668046623; x=1699582623;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=QhyD79hDSaJ2mqPkse9x0LnuPmDzakss2bdHxEUONsU=;
+ b=cfPJbOY/SIY5Dx0W6IQ7yk5a2QBFKPmD+eiIA7oqgDC6gIyyK9dUxNg3
+ ufk0yaJS6K5agm9o/CsrxOV50S22Z++LxcFXG9HzUN3FkPawxkVtbtuHy
+ AbOUtLjjwBGdS18k7cZY/va14KOe+0dZfSpM5cNqh/5CQQnYXjaRFI0h0
+ Bj5dj0fNcrWw0kesiLHwJ5cZxj3Wln0r9Usf7k+k4kojUF/IE4QirXnun
+ cdPFemCgkX955qm8JOukCfzV8lRBpAEtEz/epxBlRWwOYdn8ObCNmA2gx
+ BCg8ihtUQaZa1HZ+RaK23bJqdKhXZKNzFktSJMrSp2R0QZhsdzfpsfA9f Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10526"; a="312954197"
+X-IronPort-AV: E=Sophos;i="5.96,152,1665471600"; d="scan'208";a="312954197"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Nov 2022 18:17:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10526"; a="639430534"
+X-IronPort-AV: E=Sophos;i="5.96,152,1665471600"; d="scan'208";a="639430534"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by fmsmga007.fm.intel.com with ESMTP; 09 Nov 2022 18:17:00 -0800
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Wed, 9 Nov 2022 18:16:59 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Wed, 9 Nov 2022 18:16:59 -0800
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.48) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Wed, 9 Nov 2022 18:16:58 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EVIa16QaeuOdBy1rrI6LXmpMyWn/DfnU1FFL51HF51CKr0zdPGvDAtM+ph1vD/qDS200DczWJClE3njIkOPTRNFPB6mhESupv7cJKJJkARwbPgZpZ8yC+HPSyMxw10fxVlbbvffY/zZFsvGFnjL8Lzv/FlNlO7SOOOtVGz+OGaT1wd7wc55mqY9C/mXDbLjZcl3D2WVYMdHDjFtChNC7tv3KGKUi0jpO+SvnQUcib5zIcq79miDQvH+WdpKQBsJg0ILhyvLwKDGhXFgVU/SgnT3dvSxSCy7zZ1LkP7aYp2lTuOpXu+bs3+vU8+Nkg41sW1HQywd9NXkMAo2p+412KQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QhyD79hDSaJ2mqPkse9x0LnuPmDzakss2bdHxEUONsU=;
+ b=lJ9u8S1urSOpOr6zWYkHcmyI4NAVJiUl83FVQ8O2CTDgLtMwKhnMfzMo10cUx+D8JVq7fyuZZLyrfe8TQVGO885+oGrqS3TOqpZcypLZL5RCzNxgjGSQecRK0K/5Cd56eKXdpKccLI/MaBpj5vkRVJyroaKbLjriafKJghPMLTE+scWRPeDWA4aGyeVNR+lrRRbRhIQ/GllScg6WlyUu7uDGH2n4aXIRf/qqoC5NGDzQvZ6UE22zg6nsiBn9zoOPJ80uN3CgiLwPIcI2XRHVfQaDrmSBzMQ9MeeAWzi997trEO9kWp0uKJsRZzPcyn2Ph2QznEAWN4ak6CwaXZKeUQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
+ by MN0PR11MB6034.namprd11.prod.outlook.com (2603:10b6:208:375::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.26; Thu, 10 Nov
+ 2022 02:16:55 +0000
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::737e:211a:bb53:4cd7]) by BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::737e:211a:bb53:4cd7%6]) with mapi id 15.20.5813.012; Thu, 10 Nov 2022
+ 02:16:55 +0000
+From: "Tian, Kevin" <kevin.tian@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: RE: [PATCH v2 00/11] Connect VFIO to IOMMUFD
+Thread-Topic: [PATCH v2 00/11] Connect VFIO to IOMMUFD
+Thread-Index: AQHY8wx+1dkxGcCaVUCBYAtF8JMX8q42TMwggABAOwCAAOCeoA==
+Date: Thu, 10 Nov 2022 02:16:55 +0000
+Message-ID: <BN9PR11MB52769655CD0F2D7AC35D3BD28C019@BN9PR11MB5276.namprd11.prod.outlook.com>
+References: <0-v2-65016290f146+33e-vfio_iommufd_jgg@nvidia.com>
+ <BN9PR11MB5276F10DA6C223B78CA5F2458C3E9@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <Y2uhnLeivWBR0wZV@nvidia.com>
+In-Reply-To: <Y2uhnLeivWBR0wZV@nvidia.com>
+Accept-Language: en-US
 Content-Language: en-US
-To: Daniel Vetter <daniel@ffwll.ch>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>
-References: <20221028225952.160-1-quic_jesszhan@quicinc.com>
- <20221028225952.160-2-quic_jesszhan@quicinc.com>
- <eddf4726-3d7e-601a-51ac-03adb2dd822b@linaro.org>
- <fqY-wVvRxd553E0flH80_NaZMpmiVTIdhvu6F31qM9T4yQ0L5fbT9JiixWIhDcDAt3Hxy1roQxwntvgVEnqm5WK6dzEIKqXnlLRcywGhYH4=@emersion.fr>
- <Y2uwjKCN4KGzm3aN@phenom.ffwll.local>
- <ee755c43-434a-a990-0efa-ed5c6baa237e@linaro.org>
- <Y2uyOcVbadRwr9/O@phenom.ffwll.local>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <Y2uyOcVbadRwr9/O@phenom.ffwll.local>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: g36m7ROXu3t7PPwc0PyEZ9tfpCOqEndQ
-X-Proofpoint-ORIG-GUID: g36m7ROXu3t7PPwc0PyEZ9tfpCOqEndQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-09_06,2022-11-09_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0
- mlxlogscore=999 clxscore=1011 phishscore=0 mlxscore=0 lowpriorityscore=0
- adultscore=0 bulkscore=0 suspectscore=0 priorityscore=1501 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
- definitions=main-2211100010
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BN9PR11MB5276:EE_|MN0PR11MB6034:EE_
+x-ms-office365-filtering-correlation-id: b07a7df5-8e37-4290-3c37-08dac2c1a37d
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 9nQxzqYJtxSOqi+7bi4nhgfM+Cg7svewZX8sh2UG8nnu16RPLzGWe1OqtioI/Aj44LR6lfeaCFu7WCwV/w1jn0fOB5YtV60GiqwWU4V4Mvs3hVX8j0nx2Fg7j2AP7CU4TE4YmpsermVEL+rKiDTXhvqBjbwqvEymdb2lBsF8qY1x7qgexJ/9f91+porHyhapPwTUOZ1kpgDLlo7t/V1niR2EEu3xDF6Xc4b108uvw3yAxG/rAUAYRydIp+iMCkbdOyy2r5f4XBWDkKFa+89+0fu03Ej/LgRjausgHTSRjM3e/zOsvEK3jJw+yUTq7B9ge22XhbBwtF6uqLqaG1AtVLJcgdV1EluaRngKI0KU2nbEJ65LuyCVioGkGUZMWTw2hO59VTMBTTmTgB21L0/DEqt79hz0pBtSNQlSpvX3V0Pc4g2ZnDHFXgGb108jI52bumD7IHKiYdliiHRZllxmK1ys8wclsEM1mOoAFjfzWnXdve1jB6DK93fKuyWr349bvwgWLZQQR7iCcurUrwOUZAnBTE18C+9jh5c77H6aJtgTcyq1sKr4hpgzhO5qZzcZg8YZSfujdGR69YZInfV+QCTO847AN8y7dcEKZ/I9mAqT/PByqru6aMahTgkklwNB5zfijxSdY8CMPVMIsrjhhdOTnA5cA1pHSgDNCgOIHAWWFQpVRXaSFxAYzZHmvuyHR0Bned27quxycqHUFCfG1x1nP3rQJhSDJ2ykKVKcsI6g3zvHdvFNIsXu+4yLODBxNZ7cEQn3JEJVK+cg6/mq4ujdOoNhoQTvFXChbc5HsVg=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR11MB5276.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(396003)(39860400002)(346002)(136003)(366004)(376002)(451199015)(186003)(38070700005)(71200400001)(83380400001)(6506007)(26005)(7696005)(9686003)(33656002)(122000001)(55016003)(6916009)(2906002)(316002)(7416002)(52536014)(41300700001)(5660300002)(8676002)(8936002)(4326008)(54906003)(66946007)(86362001)(478600001)(64756008)(38100700002)(82960400001)(4744005)(966005)(7406005)(66556008)(66446008)(76116006)(66476007);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?6nJHnQIUc5tLD5o/v3zI4dTR43hJndet8NedGkfCJSDYuLGm9oN2eamPoYMy?=
+ =?us-ascii?Q?Xn1dYFdSuA9nOt4LfQPouM7qK6B/zkKaDjLaeQouykaINqRAi4YhweSDJvCy?=
+ =?us-ascii?Q?dlG48q0PQ04XFPB2h8rvErHLu8UiqwT4CWGF3sRdGQXJQBdNCydWCgRHCmPV?=
+ =?us-ascii?Q?WFdVkyOePglad6rpeepjZvI3RHDoreslOkTs1oGHL9w1oWQAS/FqPbVClLI4?=
+ =?us-ascii?Q?JcekZ3hJ7mzJaCzzBVl0bldGTvIM3Y/k8gOJ51JyPH6nIacE3YwxnOJYCWMG?=
+ =?us-ascii?Q?t9Dp/cdd60cEgn7Qwd4fhdK/dNS/AucGWU6gwNm+gOXZlRDJUMNNPnjUmVEX?=
+ =?us-ascii?Q?TD0snvxksRdDUL7YyAgulyBSsfkSxcfmnAPxGzqxkp422B2h40jjFGr5IwPK?=
+ =?us-ascii?Q?OX5I8Z1Da5vty1jkjUhET2kBZSEz6lf3Oo667TWLqr9wVKL+YEa9y2OZioHS?=
+ =?us-ascii?Q?KT9QFAKQxoxjE2oZELWSFuA16fCg+WsJ/EDO1Ou+pfnrQY4ba4vF2iIjU3LY?=
+ =?us-ascii?Q?NY/t6ig5En6Er9b/AL0x1ffG9KJefcYB0Aaq4q0LG4aEr01cX9+u0mECh9f+?=
+ =?us-ascii?Q?20EpcEKMu5uTGPE3N6lKJDSZZ0jUUXmOIZBzc+Kkrk+HKllQAOEeEzW0xV41?=
+ =?us-ascii?Q?o8PhdzkgHwrL8iYWMRRb1EksEve/tun5UV+gi3V7E3EIPKB47MBD8eAobwFF?=
+ =?us-ascii?Q?498RYOnLxKthrqTxJXS0CCPr3+qLbp90XDAj34Pg4iuGjRLdx3p794mJ2Tvk?=
+ =?us-ascii?Q?rj2MqrIyvmsKXc4iqb7TjWmF6FBgttYbtycNuVBEQcjZTyRpwasHZHc7qBTe?=
+ =?us-ascii?Q?DzE3HcZwnJvXda4zqFszSSXnq3uei9/3N5pejOWsbjWWB+pdjNkSXiOb7Iut?=
+ =?us-ascii?Q?wM7Plg+zfUTf3bwUWUZ5qJJkpI4uf0vMCAtjOLLJv7dvbYbpLTD5KExlb/SD?=
+ =?us-ascii?Q?rObqrZEj8KvAmhe1J1fcg3Zz+0H8U4aWtffEafESAoxYwm8W7tXAsPmJKlxJ?=
+ =?us-ascii?Q?QxPnocNdOhIvjfp9IMVqQHZ4nFK7QyUVtjCr9A0lUrPR3U7QaWmy8nB2pQ9E?=
+ =?us-ascii?Q?/hab+/F6rcICONuK1kfR6HPlPGwrRxQUbK/h1U1PfsTsMv3H3jDhn8yUCJcC?=
+ =?us-ascii?Q?HRYP8BN+zQksUhUVZq3ZOFXvjL7sb8TeRYKelec0GHzrCM1W3zRoVALQ646d?=
+ =?us-ascii?Q?x6kI3Y2qslH6B4FWbFPt7hbMMVjx52zVtARCvMSHOes5RfmoiBRdYLcq7JAH?=
+ =?us-ascii?Q?i76abXVExlo9ug6BBxsYcJMhfMVvKkZ/DnZlHOk1K/YGIKbbw9DSGfJu7WBT?=
+ =?us-ascii?Q?XbLBY28KkbcoEi0bjFF8OVtP9nCB2beT9Iruj4Sxc6dBX/ajxfpnFtxIVUHX?=
+ =?us-ascii?Q?ie7fw6ANYf3ynfamgvXDdpRvlQBmlXr86bUDpRMa0vtDvnoSfFBK7S/LbSw3?=
+ =?us-ascii?Q?dGtutxGqtAvbc4v7NSzsKH+2a/aCqaRjjcyVwssGyeGBz5jWZgmsRiVF3548?=
+ =?us-ascii?Q?6XfXEAc50HLKCXQatXoaJ/bnk8TZZLO/aT9RMT8W3j53C6/KlxyanzsLtqge?=
+ =?us-ascii?Q?Yu/Y0DpPeyCXDwD4djpEMrLhkIW9a+Spr2aF0XSg?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b07a7df5-8e37-4290-3c37-08dac2c1a37d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Nov 2022 02:16:55.3091 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: cO4XddH7WVO/AwQWFo0yNcdpJ+pvAJ29EKnHa6OGCVSZrJWmIoESejJEDV/x+kdPn4HiJKsG6je44CSY5ORG4w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6034
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,84 +146,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, daniel.vetter@ffwll.ch, seanpaul@chromium.org,
- laurent.pinchart@ideasonboard.com, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org
+Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Diana Craciun <diana.craciun@oss.nxp.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Longfang Liu <liulongfang@huawei.com>,
+ "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>, "Liu,
+ Yi L" <yi.l.liu@intel.com>, Matthew
+ Rosato <mjrosato@linux.ibm.com>, Will Deacon <will@kernel.org>,
+ Joerg Roedel <joro@8bytes.org>, Halil Pasic <pasic@linux.ibm.com>,
+ "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+ Nicolin Chen <nicolinc@nvidia.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Wang,
+ Zhi A" <zhi.a.wang@intel.com>, Jason
+ Herne <jjherne@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, Eric
+ Auger <eric.auger@redhat.com>, Alex Williamson <alex.williamson@redhat.com>,
+ Harald
+ Freudenberger <freude@linux.ibm.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ Tony Krowiak <akrowiak@linux.ibm.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>, Shameer
+ Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Robin Murphy <robin.murphy@arm.com>,
+ Lu Baolu <baolu.lu@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+> From: Jason Gunthorpe <jgg@nvidia.com>
+> Sent: Wednesday, November 9, 2022 8:48 PM
+>=20
+> On Wed, Nov 09, 2022 at 09:03:52AM +0000, Tian, Kevin wrote:
+> > every mail in this series is shown thrice in lore:
+> >
+> > https://lore.kernel.org/all/0-v2-65016290f146+33e-
+> vfio_iommufd_jgg@nvidia.com/
+> >
+> > not sure what caused it but it's annoying to check the conversation the=
+re.
+>=20
+> It is sort of a lore issue, it only combines messages that are exactly
+> the same together. Several of the mailing lists on CC here mangle the
+> message in various ways, eg adding trailer or whatever. This causes
+> repeated messages in lore.
+>=20
+> The trick in lore is to replace "/all/" with a good list, like /kvm/
+> or /linux-iommu/ that shows the original non-mangled version, and only
+> once.
+>=20
 
+this trick works. Thanks!
 
-On 11/9/2022 5:59 AM, Daniel Vetter wrote:
-> On Wed, Nov 09, 2022 at 04:53:45PM +0300, Dmitry Baryshkov wrote:
->> On 09/11/2022 16:52, Daniel Vetter wrote:
->>> On Tue, Nov 08, 2022 at 06:25:29PM +0000, Simon Ser wrote:
->>>> On Saturday, October 29th, 2022 at 13:23, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
->>>>
->>>>> On 29/10/2022 01:59, Jessica Zhang wrote:
->>>>>
->>>>>> Add support for COLOR_FILL and COLOR_FILL_FORMAT properties for
->>>>>> drm_plane. In addition, add support for setting and getting the values
->>>>>> of these properties.
->>>>>>
->>>>>> COLOR_FILL represents the color fill of a plane while COLOR_FILL_FORMAT
->>>>>> represents the format of the color fill. Userspace can set enable solid
->>>>>> fill on a plane by assigning COLOR_FILL to a uint64_t value, assigning
->>>>>> the COLOR_FILL_FORMAT property to a uint32_t value, and setting the
->>>>>> framebuffer to NULL.
->>>>>
->>>>> I suppose that COLOR_FILL should override framebuffer rather than
->>>>> requiring that FB is set to NULL. In other words, if color_filL_format
->>>>> is non-zero, it would make sense to ignore the FB. Then one can use the
->>>>> color_fill_format property to quickly switch between filled plane and
->>>>> FB-backed one.
->>>>
->>>> That would be inconsistent with the rest of the KMS uAPI. For instance,
->>>> the kernel will error out if CRTC has active=0 but a connector is still
->>>> linked to the CRTC. IOW, the current uAPI errors out if the KMS state
->>>> is inconsistent.
->>>
->>> So if the use-case here really is to solid-fill a plane (and not just
->>> provide a background color for the crtc overall), then I guess we could
->>> also extend addfb to make that happen. We've talked in the past about
->>> propertery-fying framebuffer objects, and that would sort out this uapi
->>> wart. And I agree the color fill vs PLANE_ID issue is a bit ugly at least.
->>>
->>> But if the use-cases are all background color then just doing the crtc
->>> background color would be tons simpler (and likely also easier to support
->>> for more hardware).
->>
->> No. The hardware supports multiple color-filled planes, which do not have to
->> cover the whole CRTC.
-> 
-> The use case here means the userspace use-case. What the hw can do on any
-> given chip kinda doesnt matter, which is why I'm asking. KMD uapi is not
-> meant to reflect 100% exactly what a specific chip can do, but instead:
-> - provide features userspace actually needs. If you want per-plane fill,
->    you need userspace that makes use of per-plane fill, and if all you have
->    is crtc background, then that's it.
-
-Hey Daniel,
-
-The userspace use case we're trying to support is the Android HWC 
-SOLID_FILL hint here [1], which is specifying per-plane fill.
-
-Thanks,
-
-Jessica Zhang
-
-[1] 
-https://android.googlesource.com/platform/hardware/interfaces/+/refs/heads/master/graphics/composer/aidl/android/hardware/graphics/composer3/Composition.aidl#52
-
-> - we should create uapi with an eye towards what's actually possible on a
->    reasonable set of drivers and hw. Sometimes that means a slightly more
->    restricted set so that it's possible to implement in more places,
->    especially if that restricted feature set still gets the job done for
->    userspace.
-> 
-> Cheers, Daniel
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
