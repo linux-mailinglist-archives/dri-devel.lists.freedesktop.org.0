@@ -2,56 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D72E2624370
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 14:42:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39B0362438A
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 14:48:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B40BA10E7B4;
-	Thu, 10 Nov 2022 13:42:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95AFB10E7BB;
+	Thu, 10 Nov 2022 13:48:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EAB310E7B4
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 13:42:41 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id BB76CB821E7
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 13:42:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1679DC433C1
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 13:42:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1668087758;
- bh=4U7C9niDGrmfi8IMDATi6BtcBIfDiuOKvkxBiJpdV3w=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=SX98KqeYKns7KGfDa8dTp6G5wayF8iiATI9dVap4Wgzf6d34aTkI97ttMf366XE+1
- R2U/r9UCn8XAghsEFSpznVYcqr8O4mENHj6OsaLq+Fq6HN0VtBRF5F87Flp3fz7U9W
- nvj7W8/tSmA7L4xJk7dnUI98uInsIF93sAvIZzyrmOw4EtrC/VyKLAoiFVV/YaO0TE
- juhdMKkkNBetHZgQdRAht04cUd+m9+wVS6uPEhlXh6VGR8enutToxoBG4kAhDSNlp5
- DlWpLWUfxIYQqAAL+Tvyjtd7LpIsGuKzn/xSnrb8o9O8thutGRnRZK09gfgNgN9+Eq
- peEprHo4LiCow==
-Received: by mail-ot1-f54.google.com with SMTP id
- 94-20020a9d0067000000b0066c8d13a33dso1101920ota.12
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 05:42:38 -0800 (PST)
-X-Gm-Message-State: ANoB5pm6U9ei+9UFxP+8iUladH7BviZEFPWOW1Mqo8hB23HWM/8ZHxTP
- Y8GTWcVq0SuxmSZQNZpO5kqertcOi9K/+CgZiA==
-X-Google-Smtp-Source: AA0mqf4gARCZUERKvwgaAfgdC1LEqRRi5pu66mk1Uqd2ev+ik8AG7xmvItT3O8MQpM0VXWbeKoELJNlYq11nhVFHllU=
-X-Received: by 2002:a9d:58c3:0:b0:66d:2f7d:2a68 with SMTP id
- s3-20020a9d58c3000000b0066d2f7d2a68mr4817252oth.40.1668087757150; Thu, 10 Nov
- 2022 05:42:37 -0800 (PST)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0488D10E7B8
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 13:47:59 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ ja4-20020a05600c556400b003cf6e77f89cso4258383wmb.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 05:47:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=jYeie/ZZSPiqzVcmz3SigR7Giv2tjj7giPYVI0G/E7k=;
+ b=ijXWAxem5lTKOYMl4Uihwu7Ix7IWDEene5SYiyg6yPx1m5qOEjycw2TplST+FxOVoa
+ 0qLOgswgxdTHYoz8hzDAwwCrg2T0NA8TFO1mbnKIks0areBtVKTQ4ZbCL879SX7uPBMt
+ 2ugCYEHFMlVfGQzlXQrRx/FuIBEE0uXjfST+CAksmVoqeKK0+yEKRaQwl+QKTpZG4821
+ HQGlY8xAoApEAcaVo2LX72xPeI+Ew1pyB+UE/+CDGCBVehy9MRblM20LLxNpjoHl/SIL
+ UhLN7l/82+5QjXxL5ZkO7OqGe4ra4SjbW7vA0TNDe6GonjHDTWOF8xlxw7SnpqAx5gyy
+ mCTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jYeie/ZZSPiqzVcmz3SigR7Giv2tjj7giPYVI0G/E7k=;
+ b=qxdTQ02h2XVeZjHcNjeJR2f5WblVmYVqJJDEdf2A3eb2bEESLJmPpEArcjqVDdSSkF
+ 73GNYgX8yehP//aJs1PJ4DIHmO8dHldECu/DlsyhfRRAEryuvaQxH+xdEKND3eJDJQo3
+ 795jRb7YuqwcjU6VLezgVjmqxYcSfDQeO5cY3oJigw4pW4+Cg9Oq4xYA316FukX6dRXS
+ FrJUY1tgun0mIRk+hMyWT2X2BQMNJeZJaDFUKbkWgCU8o28Q+7+MWcuypzhcylNnuQXO
+ s+hSPL/dr6rGm9L8c63uWFUUU4XkYJRoiqEv3fTRYPXWux1y9Rf+YWZtyaxEUwdDv1/S
+ xFNg==
+X-Gm-Message-State: ACrzQf0OxaRKAl0Qm0yMxlxPaUkaPToQ538UIql+ukC2V6XZnNuqGWhR
+ mEr48v0jriRN7DTuSuunGv8=
+X-Google-Smtp-Source: AMsMyM5wZZolV5Ko0Lr4iFvKUS2cxb3BGICIu49AM+D2kZAEymvE0C9TZtyWklq/EpOgs/qY6rY6/w==
+X-Received: by 2002:a05:600c:414b:b0:3cf:94a5:6564 with SMTP id
+ h11-20020a05600c414b00b003cf94a56564mr23266536wmm.65.1668088077197; 
+ Thu, 10 Nov 2022 05:47:57 -0800 (PST)
+Received: from localhost.localdomain ([94.73.35.109])
+ by smtp.gmail.com with ESMTPSA id
+ h2-20020a5d4302000000b0022ae0965a8asm15717060wrq.24.2022.11.10.05.47.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Nov 2022 05:47:56 -0800 (PST)
+From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To: mripard@kernel.org
+Subject: [PATCH v2 0/2] drm/vc4: hdmi: Fix pointer dereference before check
+Date: Thu, 10 Nov 2022 14:47:50 +0100
+Message-Id: <20221110134752.238820-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220927152704.12018-1-jason-jh.lin@mediatek.com>
- <20220927152704.12018-7-jason-jh.lin@mediatek.com>
- <30278e0f-88ec-069b-3469-56b3fb795702@gmail.com>
-In-Reply-To: <30278e0f-88ec-069b-3469-56b3fb795702@gmail.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Thu, 10 Nov 2022 21:42:25 +0800
-X-Gmail-Original-Message-ID: <CAAOTY__vvjKASUJAGOvL=-WnAq-ji7sfyEEY7j49ty0P7Svvdw@mail.gmail.com>
-Message-ID: <CAAOTY__vvjKASUJAGOvL=-WnAq-ji7sfyEEY7j49ty0P7Svvdw@mail.gmail.com>
-Subject: Re: [PATCH v5 6/6] soc: mediatek: remove DDP_DOMPONENT_DITHER from
- enum
-To: Matthias Brugger <matthias.bgg@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,76 +70,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, devicetree@vger.kernel.org,
- "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
- Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
+Cc: emma@anholt.net, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Rex-BC Chen <rex-bc.chen@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Nancy Lin <nancy.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+ =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Matthias Brugger <matthias.bgg@gmail.com> =E6=96=BC 2022=E5=B9=B411=E6=9C=
-=889=E6=97=A5 =E9=80=B1=E4=B8=89 =E6=99=9A=E4=B8=8A7:25=E5=AF=AB=E9=81=93=
-=EF=BC=9A
->
->
->
-> On 27/09/2022 17:27, Jason-JH.Lin wrote:
-> > After mmsys and drm change DITHER enum to DDP_COMPONENT_DITHER0,
-> > mmsys header can remove the useless DDP_COMPONENT_DITHER enum.
-> >
-> > Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-> > Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
-abora.com>
-> > Reviewed-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
-> > Acked-by: Matthias Brugger <matthias.bgg@gmail.com>
->
-> Chun-Kuan, I understand you will take this patch through your tree as it =
-depends
-> on DRM changes. We can also sync so that I take it once you merged the re=
-st of
-> the series. Having vdosys1 series around maybe that's better to avoid mer=
-ge
-> problems.
+v1 -> v2:
 
-Hi, Matthias:
+As suggested by Maxime, I simplified a bit vc4_hdmi_supports_scrambling()
+making it receive a struct vc4_hdmi as argument instead of a struct
+drm_encoder.
 
-I do not hurry to merge patches. To prevent merge conflict, let's
-merge step by step.
-The drm patches depend on binding document patch, so I would wait for
-binding document merged.
-After drm patch merged, you could merge this patch.
+Also, variables are initialized close to where they are used in the
+second patch.
 
-vdosys1 patches depend on vdosys0 patches, so just let it around.
+José Expósito (2):
+  drm/vc4: hdmi: Pass vc4_hdmi to vc4_hdmi_supports_scrambling()
+  drm/vc4: hdmi: Fix pointer dereference before check
 
-Regards,
-Chun-Kuang.
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
->
-> Regards,
-> Matthias
->
-> > ---
-> >   include/linux/soc/mediatek/mtk-mmsys.h | 3 +--
-> >   1 file changed, 1 insertion(+), 2 deletions(-)
-> >
-> > diff --git a/include/linux/soc/mediatek/mtk-mmsys.h b/include/linux/soc=
-/mediatek/mtk-mmsys.h
-> > index d2b02bb43768..16ac0e5847f0 100644
-> > --- a/include/linux/soc/mediatek/mtk-mmsys.h
-> > +++ b/include/linux/soc/mediatek/mtk-mmsys.h
-> > @@ -16,8 +16,7 @@ enum mtk_ddp_comp_id {
-> >       DDP_COMPONENT_CCORR,
-> >       DDP_COMPONENT_COLOR0,
-> >       DDP_COMPONENT_COLOR1,
-> > -     DDP_COMPONENT_DITHER,
-> > -     DDP_COMPONENT_DITHER0 =3D DDP_COMPONENT_DITHER,
-> > +     DDP_COMPONENT_DITHER0,
-> >       DDP_COMPONENT_DITHER1,
-> >       DDP_COMPONENT_DP_INTF0,
-> >       DDP_COMPONENT_DP_INTF1,
+-- 
+2.25.1
+
