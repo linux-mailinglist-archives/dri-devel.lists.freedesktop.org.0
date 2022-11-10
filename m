@@ -2,66 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5232623F1D
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 10:55:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75AA6623F9F
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Nov 2022 11:19:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93EED10E6B6;
-	Thu, 10 Nov 2022 09:55:13 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58BB410E12A;
- Thu, 10 Nov 2022 09:55:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A369710E6BC;
+	Thu, 10 Nov 2022 10:19:46 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C01B310E136;
+ Thu, 10 Nov 2022 10:19:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1668074111; x=1699610111;
+ t=1668075580; x=1699611580;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=r2ikZK2r8f+DD7YfVaZQ2215g8rtTBRl2xEPkvt/D7g=;
- b=jjNBgLsgpUbVIymbpYxmhv8BWb4SjMYZYHrX9idaIzokUUqENqBNRYrO
- HAu8Ka+hPSUXPMwekxTUPRDlVEB7qg+j1FWc24oWk9l8lY5dqq8XQcbP0
- GKFZtlDbVuh62oyRa+gOLYcGykNPJmYYrQms9cT3A6nnEuT8yxYGCMBFu
- En3+Sq1pMQxmQH1TcGgpZ0Y1+U1yPmlyG+t6cIJFs9powdpM/BEXCTtLT
- UYWpwDe2UlY96wg6DB6ehEtsooRHMgIozqvhCvIo8dXfNrS/8J9/iA6AV
- BMSwjBgw5oZHdSkFT8IqsHC9RZk00NB/aPUEEvLsTpsUS8MhBq7Zcn6m7 A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10526"; a="294617040"
-X-IronPort-AV: E=Sophos;i="5.96,153,1665471600"; d="scan'208";a="294617040"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2022 01:55:04 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10526"; a="615042249"
-X-IronPort-AV: E=Sophos;i="5.96,153,1665471600"; d="scan'208";a="615042249"
+ bh=TTcb86UtadUXJCy3qfD/FllQa6KAbQainzScpfzhNJw=;
+ b=XZUS2EHC3wk5oIfjboSbmx7mfzoVJzu1iewFL+daaO1FnbInxTX0POsg
+ W7+x4eJ7rzCUJnfdBTnjy3k40LMuLx9iSQswkqtGhZkFnzMjmG2I/5n0m
+ stDpSWeIjKtZ3Ges5sC53gOTLBQbcJo6TgXlATajxo5YMjja5zUoQRmZn
+ nQlcq662cdIcEW1QaDT9SVsubbqTa1u1mHnzwJxSHF3ivWU4OJcoAvIIc
+ YHF3ETIa+rvKtDyaccnUqC4SwHJwqwpdvu+f/zPv7OS1iBtw9DXT6O4Hv
+ 8MME+W7spc57rCkP5qKRh0uLVD1pMvYUVDz1N2UubtNv4+0TAxCWk8Wxr w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10526"; a="312406990"
+X-IronPort-AV: E=Sophos;i="5.96,153,1665471600"; d="scan'208";a="312406990"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2022 02:19:35 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10526"; a="588125964"
+X-IronPort-AV: E=Sophos;i="5.96,153,1665471600"; d="scan'208";a="588125964"
 Received: from salmasha-mobl.ger.corp.intel.com (HELO [10.213.230.214])
  ([10.213.230.214])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2022 01:55:02 -0800
-Message-ID: <7f420032-fe96-4d19-886d-b333668e4c5b@linux.intel.com>
-Date: Thu, 10 Nov 2022 09:55:00 +0000
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2022 02:19:33 -0800
+Message-ID: <b3795eb7-3d9b-21d8-8b10-fc090097c412@linux.intel.com>
+Date: Thu, 10 Nov 2022 10:19:31 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.3
-Subject: Re: [Intel-gfx] [PATCH 1/2] drm/i915/gt: Add GT oriented dmesg output
+Subject: Re: [Intel-gfx] [PATCH 0/3] add guard padding around i915_vma
 Content-Language: en-US
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
- John Harrison <john.c.harrison@intel.com>,
- "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>,
- Intel-GFX@Lists.FreeDesktop.Org
-References: <20221104172525.569913-1-John.C.Harrison@Intel.com>
- <20221104172525.569913-2-John.C.Harrison@Intel.com>
- <6a4d1ac0-a1a0-e1d4-7d83-54b43d226371@intel.com>
- <fabaf9ee-f3fc-c18f-56b3-6d073618da41@linux.intel.com>
- <82055e8f-9bee-2b03-3dce-dcf66c30c903@linux.intel.com>
- <2583bccd-82fd-967a-aec9-e6d3837dbbed@intel.com>
- <1ad6bce7-9626-afa6-d73e-6d8f7a9c4d2a@linux.intel.com>
- <c9742b0f-546f-cccc-021a-7bad68410838@intel.com>
- <ad19d7ce-4102-4f8f-903d-7390b004b2e9@linux.intel.com>
- <67d18d17-8a01-32a1-1ff6-099c708ab290@intel.com>
- <02454937-4213-c558-590f-e1e7c83083e3@intel.com>
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20221109174058.912720-1-andi.shyti@linux.intel.com>
+ <f1f4123c3705c6883acdff4770e404704d54dc6e.camel@linux.intel.com>
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Organization: Intel Corporation UK Plc
-In-Reply-To: <02454937-4213-c558-590f-e1e7c83083e3@intel.com>
+In-Reply-To: <f1f4123c3705c6883acdff4770e404704d54dc6e.camel@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,85 +64,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI-Devel@Lists.FreeDesktop.Org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 09/11/2022 19:57, Michal Wajdeczko wrote:
+Hi,
 
-[snip]
-
->> Is it really a problem to merge this patch now to get the process
->> started? And other sub-components get updated as and when people get the
->> time to do them? You could maybe even help rather than posting
->> completely conflicting patch sets that basically duplicate all the
->> effort for no actual benefit.
+On 09/11/2022 18:03, Thomas Hellström wrote:
+> Hi, Andi,
 > 
-> Instead of merging this patch now, oriented on GT only, I would rather
-> wait until we discuss and plan solution for the all sub-components.
+> This has been on the list before (three times I think) and at that
+> point it (the guard pages) was NAK'd by Daniel as yet another
+> complication, and a VT-d
+> scanout workaround was implemented and pushed using a different
+> approach, initially outlined by Daniel.
 
-Yes, agreed.
+I can't find this discussion and NAKs on the list - do you have a link?
 
-> Once that's done (with agreement on naming and output) we can start
-> converting exiting messages.
-> 
-> My proposal would be:
->   - use wrappers per component
+> Patch is 2ef6efa79fecd. Those suspend/resumes should now be fast.
 
-This is passable to me but Jani has raised a concern on IRC that it 
-leads to a lot of macro duplication. Which is I think a valid point, but 
-which does not have a completely nice solution. Best I heard so far was 
-a suggestion from Joonas to add just a single component formatter macro 
-and use the existing drm_xxx helpers.
+So the initiator to re-start this series was actually the boot time is 
+failing KPIs by quite a margin. Which means we may need a way forward 
+after all. Especially if the most churny patch 1 was deemed okay, then I 
+don't see why the concept of guard pages should be a problem. But again, 
+I couldn't find the discussion you mention to read what were the 
+objections..
 
->   - use lower case names
-
-I prefer this as well. Even though usual argument is for macros to be 
-upper case, I find the improved readability of lower case trumps that.
-
->   - don't add colon
-
-Not sure, when I look at it below it looks a bit not structured enough 
-without the colon, but maybe it is just me.
-
-> #define i915_xxx(_i915, _fmt, ...) \
-> 	drm_xxx(&(_i915)->drm, _fmt, ##__VA_ARGS__)
-> 
-> #define gt_xxx(_gt, _fmt, ...) \
-> 	i915_xxx((_gt)->i915, "GT%u " _fmt, (_gt)->info.id, ..
-> 
-> #define guc_xxx(_guc, _fmt, ...) \
-> 	gt_xxx(guc_to_gt(_guc), "GuC " _fmt, ..
-> 
-> #define ct_xxx(_ct, _fmt, ...) \
-> 	guc_xxx(ct_to_guc(_ct), "CTB " _fmt, ..
-> 
-> where
-> 	xxx = { err, warn, notice, info, dbg }
-> 
-> and then for calls like:
-> 
-> 	i915_err(i915, "Foo failed (%pe)\n", ERR_PTR(err));
-> 	  gt_err(gt,   "Foo failed (%pe)\n", ERR_PTR(err));
-> 	 guc_err(guc,  "Foo failed (%pe)\n", ERR_PTR(err));
-> 	  ct_err(ct,   "Foo failed (%pe)\n", ERR_PTR(err));
-
-So the macro idea would be like this:
-
-   drm_err(I915_LOG("Foo failed (%pe)\n", i915), ERR_PTR(err));
-   drm_err(GT_LOG("Foo failed (%pe)\n", gt), ERR_PTR(err));
-   drm_err(GUC_LOG("Foo failed (%pe)\n", guc), ERR_PTR(err));
-   drm_err(CT_LOG("Foo failed (%pe)\n", ct), ERR_PTR(err));
-
-Each component would just need to define a single macro and not have to 
-duplicate all the err, info, warn, notice, ratelimited, once, whatever 
-versions. Which is a benefit but it's a quite a bit uglier to read in 
-the code.
-
-Perhaps macro could be called something other than XX_LOG to make it 
-more readable, don't know.
+For 2ef6efa79fecd specifically. I only looked at it today - do you think 
+that the heuristic of checking one PTE and deciding all content was 
+preserved is safe? What if someone scribbled at random locations? On a 
+first thought it is making me a bit uncomfortable.
 
 Regards,
 
 Tvrtko
+
+> I then also discussed patch 1 separately with Dave Airlie and Daniel
+> and since both me and Dave liked it, Daniel OK'd it, but it never made
+> it upstream.
+> 
+> Just a short heads up on the history.
+> 
+> /Thomas
+> 
+> 
+> On Wed, 2022-11-09 at 18:40 +0100, Andi Shyti wrote:
+>> Hi,
+>>
+>> This series adds guards around vma's but setting a pages at the
+>> beginning and at the end that work as padding.
+>>
+>> The first user of the vma guard are scanout objects which don't
+>> need anymore to add scratch to all the unused ggtt's and speeding
+>> up up considerably the boot and resume by several hundreds of
+>> milliseconds up to over a full second in slower machines.
+>>
+>> Andi
+>>
+>> Chris Wilson (3):
+>>    drm/i915: Wrap all access to i915_vma.node.start|size
+>>    drm/i915: Introduce guard pages to i915_vma
+>>    drm/i915: Refine VT-d scanout workaround
+>>
+>>   drivers/gpu/drm/i915/display/intel_fbdev.c    |  2 +-
+>>   drivers/gpu/drm/i915/gem/i915_gem_domain.c    | 13 ++++
+>>   .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 33 ++++++-----
+>>   drivers/gpu/drm/i915/gem/i915_gem_mman.c      |  2 +-
+>>   drivers/gpu/drm/i915/gem/i915_gem_shrinker.c  |  2 +-
+>>   drivers/gpu/drm/i915/gem/i915_gem_tiling.c    |  4 +-
+>>   .../gpu/drm/i915/gem/selftests/huge_pages.c   |  2 +-
+>>   .../i915/gem/selftests/i915_gem_client_blt.c  | 23 ++++----
+>>   .../drm/i915/gem/selftests/i915_gem_context.c | 15 +++--
+>>   .../drm/i915/gem/selftests/i915_gem_mman.c    |  2 +-
+>>   .../drm/i915/gem/selftests/igt_gem_utils.c    |  7 ++-
+>>   drivers/gpu/drm/i915/gt/gen7_renderclear.c    |  2 +-
+>>   drivers/gpu/drm/i915/gt/intel_ggtt.c          | 39 ++++--------
+>>   drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c  |  3 +-
+>>   drivers/gpu/drm/i915/gt/intel_renderstate.c   |  2 +-
+>>   .../gpu/drm/i915/gt/intel_ring_submission.c   |  2 +-
+>>   drivers/gpu/drm/i915/gt/selftest_engine_cs.c  |  8 +--
+>>   drivers/gpu/drm/i915/gt/selftest_execlists.c  | 18 +++---
+>>   drivers/gpu/drm/i915/gt/selftest_hangcheck.c  | 15 ++---
+>>   drivers/gpu/drm/i915/gt/selftest_lrc.c        | 16 ++---
+>>   .../drm/i915/gt/selftest_ring_submission.c    |  2 +-
+>>   drivers/gpu/drm/i915/gt/selftest_rps.c        | 12 ++--
+>>   .../gpu/drm/i915/gt/selftest_workarounds.c    |  8 +--
+>>   drivers/gpu/drm/i915/i915_cmd_parser.c        |  4 +-
+>>   drivers/gpu/drm/i915/i915_debugfs.c           |  2 +-
+>>   drivers/gpu/drm/i915/i915_gem_gtt.h           |  3 +-
+>>   drivers/gpu/drm/i915/i915_perf.c              |  2 +-
+>>   drivers/gpu/drm/i915/i915_vma.c               | 59 +++++++++++++----
+>> --
+>>   drivers/gpu/drm/i915/i915_vma.h               | 52 +++++++++++++++-
+>>   drivers/gpu/drm/i915/i915_vma_resource.c      |  4 +-
+>>   drivers/gpu/drm/i915/i915_vma_resource.h      | 17 ++++--
+>>   drivers/gpu/drm/i915/i915_vma_types.h         |  3 +-
+>>   drivers/gpu/drm/i915/selftests/i915_request.c | 20 +++----
+>>   drivers/gpu/drm/i915/selftests/igt_spinner.c  |  8 +--
+>>   34 files changed, 246 insertions(+), 160 deletions(-)
+>>
+> 
