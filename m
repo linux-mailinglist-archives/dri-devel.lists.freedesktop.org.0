@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ACD7625237
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 05:12:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B5BC625242
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 05:13:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A53910E74C;
-	Fri, 11 Nov 2022 04:12:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 816E710E751;
+	Fri, 11 Nov 2022 04:13:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EB2510E747;
- Fri, 11 Nov 2022 04:12:15 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 634BC10E747;
+ Fri, 11 Nov 2022 04:13:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1668139935; x=1699675935;
+ t=1668140007; x=1699676007;
  h=message-id:date:subject:to:cc:references:from:
  in-reply-to:content-transfer-encoding:mime-version;
- bh=cTw+XUvINNWi6KXpf+bxRWBH07GfHWKUTEdZf6hcS7k=;
- b=EtjAA0wdcc7v4XVaEBw7jQwMPO+74+vziYUKzMn4GQnfmw1EByhnZnII
- +eQ/Z2/H2BNqSnnatEPIbQvqti5Fn5rzzZdr5Fdg1OtgRaZDUm6/ZHXcF
- WNIwc4NcnjTe8BxdcYI9WXY35HimsYC/TQjToFkPiHmRW1aClQX75q1ND
- CBt5qvaaY1vymYujOkMFZO2S2lOsCnv9iSzAVMOdDc5BJLHoHweIP5YHY
- a1l9bw64gwxuWD41be1yq+U46qeZRveoXqigJ87gVVWdEehO0Cx6s9kEt
- Krj+xEq6rqXz01b2VAsvlBuBby9Ondu2SR7o57tM+exvuuKLyZKBfqIE6 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10527"; a="291921969"
-X-IronPort-AV: E=Sophos;i="5.96,155,1665471600"; d="scan'208";a="291921969"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2022 20:12:14 -0800
+ bh=A5zNGDWsnnBgQfdfU1v0kyzNGredYDObwEku5d9M5yU=;
+ b=jigkkIp5M/DOlR9ZcZerY9jBiIk7/Pz5QsaP+cIuAmdsuvujwJQOFjvw
+ dTe/pyxuwXTKlbeA7yvwJOAhaYnp+6cOGYL7miCAQaBVYUpx2xl4g+hRW
+ PA1SJXb8rf6/V1pYVLhgx+h4CIkHYiITWuDwVHfOO5PmnPmr60F7JQCNn
+ TbqPTYMwi5dLqMRwbdMQgj4opGybkP6w04JSJ7gIxsy4evemH3MtRH30L
+ Eif0V3EsSRSe9YNlyuRT5Mdtsr6mCROL9/vy3b/YZh8ahOdE2/ugEZa9c
+ StNYybkN9WAXD9gEL7Q3EnXHJW0KNOaE4k8h5tSG0gnAFhrmy38zUVKj1 w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10527"; a="309144145"
+X-IronPort-AV: E=Sophos;i="5.96,155,1665471600"; d="scan'208";a="309144145"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2022 20:13:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10527"; a="762538487"
-X-IronPort-AV: E=Sophos;i="5.96,155,1665471600"; d="scan'208";a="762538487"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by orsmga004.jf.intel.com with ESMTP; 10 Nov 2022 20:12:13 -0800
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+X-IronPort-AV: E=McAfee;i="6500,9779,10527"; a="701076696"
+X-IronPort-AV: E=Sophos;i="5.96,155,1665471600"; d="scan'208";a="701076696"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmsmga008.fm.intel.com with ESMTP; 10 Nov 2022 20:13:26 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 10 Nov 2022 20:12:13 -0800
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ 15.1.2375.31; Thu, 10 Nov 2022 20:13:25 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 10 Nov 2022 20:12:12 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ 15.1.2375.31; Thu, 10 Nov 2022 20:13:24 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Thu, 10 Nov 2022 20:12:12 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.109)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ 15.1.2375.31 via Frontend Transport; Thu, 10 Nov 2022 20:13:24 -0800
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.45) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Thu, 10 Nov 2022 20:12:12 -0800
+ 15.1.2375.31; Thu, 10 Nov 2022 20:13:24 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HHv4P3OE2Ny6fFXg1jnUGlDFCqr8uLuv7G1/RoJ7LZKb8DgpGAfqUuSt0v6GQdIK5hJ8TpTznzwTDIxPBUM6CZ9b64k02f+pdDEw0k5Ucuz2k+XACi8M5bt02ynjQKaqrSRkZqquV0M5iWSeDqiKKAmzu8MZ5UYkfhz6EecHxpcXY2ATdVPVznDwa5UBwn8Hs2MPHzWUXx6MZmDG05z82yzQRsgCi3qi/tIn8tokJPxCxS9snhnHwN6Kus/+3jPZQxHBdGvYVVUNMeGLNL4+NTW7zLCeUXYSrMMl+xnIl0PoysWOPTsDNQ+tJ625l4WGN41Wv3kPIaqbb1jEWF8YjQ==
+ b=XOjyZLgZ5ilmztiqfZ6wYxBSNZR1uboGvvUelc/NWjjgP0MwISCARCpvR79fyGNaPQo0ak0zFfrj1QopvxAaAsctEjQUi7bjyB7Tw89WRnwnPOWYsXiyAKLUEKuHyn/onqNcbEUa648u4ArNf4ybV8BMYTjiUy+lgnwZOmLIzFxyNx/kGFDOoVmuxc9EPVK232L2N/4NyAMJ/2+OgeAyK2bDFKWsVrafsUD3fKR/Y6LV+fsRCHF8XwZpiKeG4PCbBUC0fNgnwK5JC7yjN6Aoy0qliXOtGuAVS83C10+5GeaFIPoI2fM66HEsrQykVtSGvvwnrYXdcsbPOr0M/s6fYA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yswTuldVs88gTzDx1lM8DTtDjpWd1p84WTHTJELwu/0=;
- b=miOoyIgyzlzpMP153OiB0AamzdG896SXDbpO6MQRSYdSUFFQDiTP3XY1iywU1k3dMh5uhTucPwAnrjxH8pVIZA9AFHbG+D5pOrG+Rl0/3826d4zMghs2tV57mp8lMKqW39IKT3yORQteEJ3dsu6JH9xXjC3r/14crVJRvCVU7E4E146EinyEloWRlcZafCgiyIwhs6OTNDynzRsLFvMxfI+sZCkqaRbxpevtx4vePzQVlWbj1WtIZJfIlMeiAKvO7Qtl8hjhwih6LS9JJT2BLPhaMrVUrSvHSN4EYL8OnSlui5rDV5PPdRAvUSJg1jFP4QAfvAtneGIMnZvNrs9sLg==
+ bh=xmM5juCY8JdMG8DeXrT1e5AckYB3UR98RM67cbFczOA=;
+ b=mmaGZ9en2BcK+m5VPPWngoXAz9EKp81IBN6cKvhV1O4WVFaOyyfQwJ9DgZTQAH0RAwNkzpMxNdv3+03upXgb13iT9hqIGeuFDZP8FcvGhrz6X7hISPJ2FQaK61ACCQzMxMn0fi5qAE46+lt1F6fJ8SVRFMEnKJ4NlWzhtn0CmxUTzDiHe7R03Jb1ejq2J4oG/gsg7GxCdkaNdtjN03hHDQZ4jCBjFIKZuOHCwXBX5OO3QU/nB/CQ26ICjxy5ugmzEYY+dzvG7YL4QvZQKV8r0rRUx48d0Sx8p8SLQXPOVJvtX5wUX+q/gBwA5qps+lvYD55Q1avNWi0cCiMEdtSQEw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -66,17 +66,17 @@ Received: from DS0PR11MB7529.namprd11.prod.outlook.com (2603:10b6:8:141::20)
  by SJ0PR11MB5150.namprd11.prod.outlook.com (2603:10b6:a03:2d4::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.12; Fri, 11 Nov
- 2022 04:12:10 +0000
+ 2022 04:13:22 +0000
 Received: from DS0PR11MB7529.namprd11.prod.outlook.com
  ([fe80::ad39:e00a:a7cb:4ada]) by DS0PR11MB7529.namprd11.prod.outlook.com
  ([fe80::ad39:e00a:a7cb:4ada%7]) with mapi id 15.20.5791.026; Fri, 11 Nov 2022
- 04:12:10 +0000
-Message-ID: <5d50d507-6cd9-5f38-23d4-85f784cb8609@intel.com>
-Date: Fri, 11 Nov 2022 12:12:36 +0800
+ 04:13:22 +0000
+Message-ID: <81f6239a-13b0-a6a0-1ff0-936624020e87@intel.com>
+Date: Fri, 11 Nov 2022 12:13:47 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Firefox/91.0 Thunderbird/91.11.0
-Subject: Re: [PATCH v2 07/11] vfio-iommufd: Support iommufd for physical VFIO
- devices
+Subject: Re: [PATCH v2 09/11] vfio: Move container related MODULE_ALIAS
+ statements into container.c
 Content-Language: en-US
 To: Jason Gunthorpe <jgg@nvidia.com>, Alexander Gordeev
  <agordeev@linux.ibm.com>, David Airlie <airlied@gmail.com>, Tony Krowiak
@@ -100,71 +100,71 @@ To: Jason Gunthorpe <jgg@nvidia.com>, Alexander Gordeev
  Vineeth Vijayan <vneethv@linux.ibm.com>, Will Deacon <will@kernel.org>,
  Yishai Hadas <yishaih@nvidia.com>, Zhenyu Wang <zhenyuw@linux.intel.com>,
  "Zhi Wang" <zhi.a.wang@intel.com>
-References: <7-v2-65016290f146+33e-vfio_iommufd_jgg@nvidia.com>
+References: <9-v2-65016290f146+33e-vfio_iommufd_jgg@nvidia.com>
 From: Yi Liu <yi.l.liu@intel.com>
-In-Reply-To: <7-v2-65016290f146+33e-vfio_iommufd_jgg@nvidia.com>
+In-Reply-To: <9-v2-65016290f146+33e-vfio_iommufd_jgg@nvidia.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SG3P274CA0017.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:be::29)
+X-ClientProxiedBy: SG3P274CA0007.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:be::19)
  To DS0PR11MB7529.namprd11.prod.outlook.com
  (2603:10b6:8:141::20)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DS0PR11MB7529:EE_|SJ0PR11MB5150:EE_
-X-MS-Office365-Filtering-Correlation-Id: ee2ec539-9829-4495-2ba9-08dac39ae76e
+X-MS-Office365-Filtering-Correlation-Id: 2e107619-d05e-48da-f447-08dac39b11e9
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yP13JX/2/AnTjS59gu54gscTaxsPnqfIXuUIP7JeoR7w2lZMtYcuT401LYziKjo3QQCilCwdE7j9eNxLjPQ9EeLlh0J2pYGpLTckERH9jD5eZXbcnmY/3FwygI/ctL0RknxLbDagkpVGKrmFWDBjaL6HPg10IcDO9npCGPZpbJ934Y+D29WA3+VZKy8BMjPr82+vLyeTsoMn33r7z3KceXBiIAO5JW9usgdgaCvMhbZpRrgDQ2th9qhXR5l84Vw6qI/RVKFxS/SvM/YwhZy4dBziTagL3bNLphiyN3lepklGHSDEeNPsP44/n7B+v5owOIw/WCDoYWBZn9YRI0sa7eWtzZMKzbvKK3dw+rBHj24w/2unzHhk3ZxmUS35wB7RjU+HzEy/wHjQT7O0Z2A1yCRAQvMoBio46w4TBqVuxqBuHKSLo4IQrUcH9NhvnU7c25VSwftE+R/IExp6TbxAoApeYedMrz0BTQgTU7MEHDqzFdACy7kZ8fukvLdNX+ly2CO5t0KQ6EPi+pxWBR+5EkEY4bv/iJ92ry4YeBAWT1J97mlJOmlZT53q6ePq/o/waoJpDkknErzguPl9TUeLN5zMDBOsyf1BAwB6WeowY6abdCntkfqn1UUtmse6SGs+enhS6VzAFm4Q+hdILrUV1w1phfI+psgYM9xGjIZ9c+fBh2FCqJTIAH55JmuwAJjVpPwlw/gE0cAkcOwyxVuHFxAZTMQQaZm3Gty6QrTbFp58vRvcQBOrqkaPQxCJrGvuahc2nEBo8TXpqvw+HBG0YW6XPTwppiNG22OYu1+ldH9GdGCBfcMwfR89ovj49bV/
+X-Microsoft-Antispam-Message-Info: xvkHADmEp/OBNYVompXJckyniHLD/MN7FqVX50DEJ9qKLx+CC5A0fLfONS6M7dBDFQlG2tIt6Dss5xpaEFbASg57yxZlTHkaGxb21M7vpcKQlj1iLbDZ6HVJo44zDFRu8X1mIsgcUaFvpVdXrPKCqT+uA1JU5t+eYJZ230hDhDZZltEjc2R99Qgg206RFnpLdavBlDI11OMWE7L+pTSqDcf8VwrKs1Xqo/D7UAZsFzkeKEqGwwSqF3CQs2748CpsXgEBCOtWjefQHORrQlETpMxYZ7s7bZ77RotpF7W05VkKNz2h7FHvZE8HpsAH8IR6rpxOVSyBex+x1omSKuTEr0g2UHQ2phKfDUHv2oJOHljIiK+oOJtdRqGZNaqfsvp1K6aVUdldbDlSaMKeZsBnivQq6m/dfm5mWSEpn4eDc9Pix1Mo3VS+4IkVQ48+SSs2792NPReQCtRIHz7wf6JHBv1EA0ener4dt4IBoDeUqogn9Kr/Wawjji4/JvvTYSpCAXyRtjqJBbYdGDuJkMHIdfWCtRI/KBc7qwwfRq5ZgzG8Cdt2y2nuuhyO4SrtKj42A5B9/K6FZH1jR8stT1twRXeedHeuBfcMTFyPzfWIxAuDIe4pO1i2D420/d0qTAUgB0G+iYA8OqHYpMpt/TpcmP/eS4xwmXAewXpRAD624r3awAFEnINMLxpJALm+hSwu5mL/ur4NswbOazrEYE8VvxIVatqP3PYYQhC+8PIdlOpDZ9glTM2AYs8C2lX8ZDm/tmUhgwooUH6g0IG/O8mhRRXdhYwpL7t34yj+zzhSlcOiVCnBW3rXxa/Rg2JxVfwx
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DS0PR11MB7529.namprd11.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230022)(396003)(39860400002)(366004)(136003)(376002)(346002)(451199015)(6506007)(31686004)(36756003)(83380400001)(66946007)(6636002)(316002)(5660300002)(66476007)(54906003)(110136005)(8676002)(8936002)(4326008)(31696002)(66556008)(86362001)(82960400001)(921005)(38100700002)(41300700001)(478600001)(7416002)(6512007)(26005)(2616005)(53546011)(6486002)(6666004)(7406005)(186003)(2906002)(43740500002)(45980500001);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d2w1SVJ6bWRRMDV1UWcxOGRMZDYrdi9ndlhHRHpuQ0x0UW4yODFHMXlYT2xl?=
- =?utf-8?B?bVNDckVDb0tYMlpBUVdKbU9MdmZTMjZtVTBndjNZUXNpcmpCSVNxNzZmRFRZ?=
- =?utf-8?B?OW1nRENBcXZIdmswM1Avd2ozT25YMkZVdVdPT1ZXQjA1Qzkyd0lyZCszTlBm?=
- =?utf-8?B?aWhxTlhUYnJVYU1rZjBwc2JrZ3ljV3VmU29wRDQyd0cxQjRNVmJHMEgza3dO?=
- =?utf-8?B?eWx4N2w1Q3lEaDA2ak1lVjR6S1pTYzBrbmpEK2dJTkFGS3ZvVFp3OXNNVWpI?=
- =?utf-8?B?R0l5R0JGakZQQ1RhOGU5SU1ZNnZhRzY4cnYyVGpEbEsvYzJMVitGdnI3VzJT?=
- =?utf-8?B?Y1VUY3RIbytuUDFkeU5pSkxxVGxZYVg5N05NV3VvMFhOZmQxV3BzS1AwdlFG?=
- =?utf-8?B?cURQY2RTQ1VnVGF6TncxNkp0cXhERXhLZ09aOEx0cXpuTEVUWGpVSXpySnBn?=
- =?utf-8?B?MllMQjBzSk9XYWMxaEVPd2d1ajh6Y3lDTjFhUFo1Uk15UWVZMnBKdEJZM2Fz?=
- =?utf-8?B?U1lGMy95RFBlWEVXdUNvUUphbWVmbDd0UlNUTk1YUldCZXplQzhDd1Q0S1Rp?=
- =?utf-8?B?cUV1eTFVMGVZRzRZay8va29uUkJhSnpGRWFxc2dQZjVHM3ZWR1NCdUdoSmVU?=
- =?utf-8?B?K2FpTzJ4RWxoTGF2S29DcU5UR0F5MXJUelNFejJSYlJ0empQL2NRUXV4d3p5?=
- =?utf-8?B?ZWZKL0hiWU9uc2RKakRhaHNGcFZhWWt0eHpnOXNSUUtlMkFaa1hTNWZ2ek9l?=
- =?utf-8?B?SHp5SDYzQ3FpUy9WMGxEajBhUFFSYzBxM1hGeTRyaDVhZ0l2RUlNMGMwK1A1?=
- =?utf-8?B?M3hiWDdLL05HcThWRytVbjBWTFRRSFhOcmlvay8yUW01d1FuRHU0QkROekpm?=
- =?utf-8?B?a1dCa3VRSWxZdkNxaFdua0FvbUR2MHY3MWppd25YSVRWUkNWN2Nqakk1Uk1S?=
- =?utf-8?B?K1ZVck93cHhkMjd4TGZ3OHBVUGxtMGJ2OExrSXRBZVJ4VzZBQkRrUjVOQjFx?=
- =?utf-8?B?Y0pFZHVLMlUvZThnaGthY0c1QUtnRFE1TWZiS1VoSURIUTcyL3ZqL0VxZEVt?=
- =?utf-8?B?WlQxclhsM0FvMEZLRG9iaklZdVU4M2FDMDZDRnRUVEs4Q2lNTGdQVVVud3FX?=
- =?utf-8?B?dHFnZVBTL3JqdzVYbU9qMWs3dUVITXNXS3VBVG1mTmhKTjM3ZFcvNWFxQndk?=
- =?utf-8?B?ekQxS2h0Ly9qTmt3N2JieEMyd1VnbFE0L3ZyQmZMMnU2OFRsTGtibG9zZWNm?=
- =?utf-8?B?VHNjeXJIckszWnIwQWgzRVZINGFIdzNwSGVENWxqdmdRWWJLNnp0cmw5Wkx0?=
- =?utf-8?B?SWZ2NXZjdVBIWW1qV3ZZWXpSd1NZZ21DV2d0amFXazcxNHUwV0FqWlEyaXFp?=
- =?utf-8?B?aXpOaTNkRVFmUThoWHNmOGZpWUlxbnhhYXNMWHhFMHREc1NMalRBT2RwU082?=
- =?utf-8?B?RjhyRXJCcE5iTE96QnZIWjRmdVcxTVZaakFvek4yTnVhWlVTMWRSNTlIUlVS?=
- =?utf-8?B?WkVjcWREcXN3Nk9qZ3BKMEpwMXFIOVMvMFV6cGdVN3oyK0J3cnQrQVZFdjZZ?=
- =?utf-8?B?VDZKdmdqeGx0cXFTUk11TVF3TzNxcDhrR0pUQzg2Q1NXZUtudkxOWS9VWVZZ?=
- =?utf-8?B?aWV2cEpyUU1TUkZBVlFBblF1OUhYV1VzTWcySDRiRmk0bFl6M1NQSFZEU2pp?=
- =?utf-8?B?N091QXczM1NuUERIdmFjQ29MSjBvTklPYyt6elJRc2tUTkpBa2hvcFlQbXY4?=
- =?utf-8?B?SW1VUXowb2kxQlZrQWxJMENQdGhuRkN4bnM0eGhpMHhabTk2RFg4Vjgwd283?=
- =?utf-8?B?SE1CVklhenVBbFk4MFVjNVdKRms5V3RhRXAvWXoyQ2lBQ2x1V3pyck16SXo4?=
- =?utf-8?B?RmI2bVZPb2FtcDgzR3hOR0pBcHg3U0ZGS09PL2ZuQmxLU2Fwa2lXb2d3eFpV?=
- =?utf-8?B?ODVSQy91MFhrRjRoZ3VsdVV2aituUlJ6OGpHd3pFYkNUZXFHUnljUGhxV2ps?=
- =?utf-8?B?RERqTDB4Q2hxc29KZjRSUmdyVHhzRmppZ2tTd1ArNGI2SDBqMk53YU9BYU5G?=
- =?utf-8?B?NEJjWHJpMEtxYk9FdFFmNU94WUhqZ3Rab0JBQmdod2JjdlhoclhpWWtoeXBV?=
- =?utf-8?Q?3Nhjd6mRcbKctf+EfnwORJb6D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: ee2ec539-9829-4495-2ba9-08dac39ae76e
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WnMybCtqUzh2UWI5cFJ5dUFSOTYxT3AzVVpjalZUREJYWFB2aWd2R0dqQmtn?=
+ =?utf-8?B?SzM1YTN6WDdFUHo1T1AyV3M2ZzkzdXkwRmVOS1oyUm1MbFZtT3RqVWdnYlM3?=
+ =?utf-8?B?VFhhekp6VFQrU1Fla1BHaVBudWk4OS9aVVZpTC9jYU10TlZWNDgyTE41dDdJ?=
+ =?utf-8?B?ZDdLL3dXTUxyR1ptSVF6Q1BDZ1kyWjFkeDloZlhMNDhkWngrV1RKSGFxNnYx?=
+ =?utf-8?B?VjV0SEZxKzVPQXRxNVdCMWh2aFJ6R09mYnhYWENzcUEweUZEWFlJOUY5Nlho?=
+ =?utf-8?B?bXU0ZElUMUViUE0xYmp2dndnNHVZTGd1SlMwSURIWUZqQXg5R0E1aTVmQi9z?=
+ =?utf-8?B?NzA0YldzUXA1bHcwNkxIMHNxWGpSajkwZEVEQncrQk5pWlMySGRxaVFJb0xk?=
+ =?utf-8?B?R3JKQmJkOUVHc0V0WkhBeFF2ZE5wL0hXWGI4UlMxOW4xM1NoVVk0OHhLbU9i?=
+ =?utf-8?B?OUpsTm5hRDhWQkVNdkNpV05yUmFQQklXZFE1MHRyVk5MNitEWXZzZEk4T1VM?=
+ =?utf-8?B?bXpVbStkTVZEMHJmWE8yclEwSEFRbitCZjNsWHVvWTlybUxWVXdhcVZvdmF2?=
+ =?utf-8?B?TkMyU3lxWExCZnJBR0F2Y3U2SFJhNE5LZTdpbG05eSsyQy9oNWtFNERKZ0k2?=
+ =?utf-8?B?K2lDMFk3Q2w3NWNrWG1ueVdMTFQwNVE2N05NUkxpU3pnM0dEQjVPSVgybUVJ?=
+ =?utf-8?B?eks3d2IwZktUVmN1d0ducUQ1QVZ5b3R3dE9aSTFyOFRjbzN4T3ZIRGVJeGxK?=
+ =?utf-8?B?ck1BRHhaNTdQWTljQVNNbVRTS1Mzc1BDWENMb1p3RmVZTElQcUttRzVYV3J1?=
+ =?utf-8?B?TmVMY2MxQnZabXpvY3VpWWpnL2VhTkFhZzNETFlpTkpKbUUzOVFZMkkxMDZQ?=
+ =?utf-8?B?ZGlLVkhFVUJES2tWS3A3QXJiMXhFMUs5VTJwNnBoUW5ORkxPempHeTdGQmV6?=
+ =?utf-8?B?bXRBN29peGZBZ21UMFZIYjZMWG0vNVlQaFBYL1lUYnNEcW1tTGE1dWwrc1pH?=
+ =?utf-8?B?c2lHcDBGQTAzUkh0ZUpZL29PV3pPZkIxbjcrOEQzV0RRMEQ0bFdwUjhFRXc1?=
+ =?utf-8?B?Vnk4amFnWjVTV0srV0JoZ29hNnFkRWlINElIWXpua2gwT3RJUWt1RjAxSlFw?=
+ =?utf-8?B?cHpkalhES2s4OVNvZWpSNm1sNGNwVi9VTE9kT2pJWTBvNVJoUmxHQzFpU2RB?=
+ =?utf-8?B?WWpseWpMa21Qa2pQUjJNNmRPL1c0WXRrVmJSdjlXVnNZbzNvWjAxSEdqVFVN?=
+ =?utf-8?B?UG10aFNsZXpSeW13SHhRQjdCU2dieWcwK2g3YmVyeE1obFU1dzhKZGJmR1RC?=
+ =?utf-8?B?dTc5aEN6UlV3LzN6bXhsSHIrc0dPUEZlM3pwMmE2TjlnZGh1K2E1WDVBZzh4?=
+ =?utf-8?B?ODBrdEhBRGJWQStycmN1Mlk0eGVaL0lCTEhQZGZLNEdpYlpxZzZWemJkS0I0?=
+ =?utf-8?B?MWVkK2JXQmN4Mjk3T3hZTEFvSUpMNDF3VWpSdVhjNTd6bmU4M0x4czJNaVZy?=
+ =?utf-8?B?VkFocDlYdGF2c3JLQm1oZFhrUHBKc1crdzh1aHNmZUNYb21IU0FYVi9NNkox?=
+ =?utf-8?B?RlI1amhSTzVZcWZzMm9xVVVYaTU5ZmMrK0xDYzFPUEg0ak9GUHNsV3JzUTd0?=
+ =?utf-8?B?U1VtRk0wU2xhdXI1ZHQzY0xTOEJaY0xFVXpKaXFDOGYrdC9SaHZPbEM2Tmlk?=
+ =?utf-8?B?czVXcnhYTkl4aXJoNVFCRVVCOFQ4V1JKbzQwaHlTd3dkOXZVaE5rQzZENnV1?=
+ =?utf-8?B?Z3dmc2YyemdYZXRqeGNuMHE1R3ZwTC9WT05FekFHQTB1VjRGWG5LOGtrMW1B?=
+ =?utf-8?B?NUxZY29tb2hJenZ4SENmNG9QdERyYWRJNXpjcHFWQ1pUd1E0T1VkdExGSkFN?=
+ =?utf-8?B?TzBSc0k4RlM3aWlDam5sWUdLdjkyK0p5UXRhQUlBR0F4ZEdBdTA3NU5jazB2?=
+ =?utf-8?B?OEN2RE5qaFlmUitmSDNtenMxV0NRTzUwSUUrWElSOWpLMnlMUFM4cjYvcXVs?=
+ =?utf-8?B?L0tSTFNxZTBGL1RVclkraVRTZUdOa3RFVWdzKzhYSS9vdmR3b0ZBUTRxVmFD?=
+ =?utf-8?B?RUsvTUpYY1d1ZmJ6YU82RkZEZ29DdEFxVlF5ckgxYUFmWEFBZDM3VUZlMGdn?=
+ =?utf-8?Q?KGY1k4lgcXqbDbHxKCy0sW/dy?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2e107619-d05e-48da-f447-08dac39b11e9
 X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7529.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2022 04:12:10.6013 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2022 04:13:21.8469 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FfqBHcTsLVvAlZm/SjydpERLIw4Q9SXr3S3KZZ1tEWLf+9cUe+0zp3dqmFhjTHf8DjwgeYkfigEkXZSZfGnWaA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: SvC+AqCfpviM2yg0NN/lZ+gWfBE5qLnynqpxXSzAi/JO9g7L5QaEtKJ92ttN5MK/67GRHeThCVrGw4fGQtw2Eg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5150
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -184,108 +184,46 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 2022/11/8 08:52, Jason Gunthorpe wrote:
-> This creates the iommufd_device for the physical VFIO drivers. These are
-> all the drivers that are calling vfio_register_group_dev() and expect the
-> type1 code to setup a real iommu_domain against their parent struct
-> device.
+> The miscdev is in container.c, so should these related MODULE_ALIAS
+> statements. This is necessary for the next patch to be able to fully
+> disable /dev/vfio/vfio.
 > 
-> The design gives the driver a choice in how it gets connected to iommufd
-> by providing bind_iommufd/unbind_iommufd/attach_ioas callbacks to
-> implement as required. The core code provides three default callbacks for
-> physical mode using a real iommu_domain. This is suitable for drivers
-> using vfio_register_group_dev()
-> 
-> Tested-by: Nicolin Chen <nicolinc@nvidia.com>
+> Fixes: cdc71fe4ecbf ("vfio: Move container code into drivers/vfio/container.c")
+> Reported-by: "Liu, Yi L" <yi.l.liu@intel.com>
+
+s/Liu Yi L/Yi Liu :)
+
+Reviewed-by: Yi Liu <yi.l.liu@intel.com>
+
 > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 > ---
->   drivers/vfio/Makefile                         |  1 +
->   drivers/vfio/fsl-mc/vfio_fsl_mc.c             |  3 +
->   drivers/vfio/iommufd.c                        | 99 +++++++++++++++++++
->   .../vfio/pci/hisilicon/hisi_acc_vfio_pci.c    |  6 ++
->   drivers/vfio/pci/mlx5/main.c                  |  3 +
->   drivers/vfio/pci/vfio_pci.c                   |  3 +
->   drivers/vfio/platform/vfio_amba.c             |  3 +
->   drivers/vfio/platform/vfio_platform.c         |  3 +
->   drivers/vfio/vfio.h                           | 15 +++
->   drivers/vfio/vfio_main.c                      | 13 ++-
->   include/linux/vfio.h                          | 25 +++++
->   11 files changed, 172 insertions(+), 2 deletions(-)
->   create mode 100644 drivers/vfio/iommufd.c
+>   drivers/vfio/container.c | 3 +++
+>   drivers/vfio/vfio_main.c | 2 --
+>   2 files changed, 3 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/vfio/Makefile b/drivers/vfio/Makefile
-> index b693a1169286f8..3863922529ef20 100644
-> --- a/drivers/vfio/Makefile
-> +++ b/drivers/vfio/Makefile
-> @@ -6,6 +6,7 @@ obj-$(CONFIG_VFIO) += vfio.o
->   vfio-y += vfio_main.o \
->   	  iova_bitmap.o \
->   	  container.o
-> +vfio-$(CONFIG_IOMMUFD) += iommufd.o
->   
->   obj-$(CONFIG_VFIO_VIRQFD) += vfio_virqfd.o
->   obj-$(CONFIG_VFIO_IOMMU_TYPE1) += vfio_iommu_type1.o
-> diff --git a/drivers/vfio/fsl-mc/vfio_fsl_mc.c b/drivers/vfio/fsl-mc/vfio_fsl_mc.c
-> index b16874e913e4f5..5cd4bb47644039 100644
-> --- a/drivers/vfio/fsl-mc/vfio_fsl_mc.c
-> +++ b/drivers/vfio/fsl-mc/vfio_fsl_mc.c
-> @@ -592,6 +592,9 @@ static const struct vfio_device_ops vfio_fsl_mc_ops = {
->   	.read		= vfio_fsl_mc_read,
->   	.write		= vfio_fsl_mc_write,
->   	.mmap		= vfio_fsl_mc_mmap,
-> +	.bind_iommufd	= vfio_iommufd_physical_bind,
-> +	.unbind_iommufd	= vfio_iommufd_physical_unbind,
-> +	.attach_ioas	= vfio_iommufd_physical_attach_ioas,
->   };
->   
->   static struct fsl_mc_driver vfio_fsl_mc_driver = {
-> diff --git a/drivers/vfio/iommufd.c b/drivers/vfio/iommufd.c
-> new file mode 100644
-> index 00000000000000..bf755d0f375c5d
-> --- /dev/null
-> +++ b/drivers/vfio/iommufd.c
-> @@ -0,0 +1,99 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2021-2022, NVIDIA CORPORATION & AFFILIATES
-> + */
-> +#include <linux/vfio.h>
-> +#include <linux/iommufd.h>
+> diff --git a/drivers/vfio/container.c b/drivers/vfio/container.c
+> index 7f3961fd4b5aac..6b362d97d68220 100644
+> --- a/drivers/vfio/container.c
+> +++ b/drivers/vfio/container.c
+> @@ -608,3 +608,6 @@ void vfio_container_cleanup(void)
+>   	misc_deregister(&vfio_dev);
+>   	mutex_destroy(&vfio.iommu_drivers_lock);
+>   }
 > +
-> +#include "vfio.h"
-> +
-> +MODULE_IMPORT_NS(IOMMUFD);
-> +MODULE_IMPORT_NS(IOMMUFD_VFIO);
-> +
-> +int vfio_iommufd_bind(struct vfio_device *vdev, struct iommufd_ctx *ictx)
-> +{
-> +	u32 ioas_id;
-> +	u32 device_id;
-> +	int ret;
-> +
-> +	lockdep_assert_held(&vdev->dev_set->lock);
-> +
-> +	/*
-> +	 * If the driver doesn't provide this op then it means the device does
-> +	 * not do DMA at all. So nothing to do.
-> +	 */
-> +	if (!vdev->ops->bind_iommufd)
-> +		return 0;
-> +
-> +	ret = vdev->ops->bind_iommufd(vdev, ictx, &device_id);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = iommufd_vfio_compat_ioas_id(ictx, &ioas_id);
-> +	if (ret)
-> +		goto err_unbind;
-> +	ret = vdev->ops->attach_ioas(vdev, &ioas_id);
-> +	if (ret)
-> +		goto err_unbind;
-> +	vdev->iommufd_attached = true;
+> +MODULE_ALIAS_MISCDEV(VFIO_MINOR);
+> +MODULE_ALIAS("devname:vfio/vfio");
+> diff --git a/drivers/vfio/vfio_main.c b/drivers/vfio/vfio_main.c
+> index cf49c5200a4c05..ee09ccf4a608e1 100644
+> --- a/drivers/vfio/vfio_main.c
+> +++ b/drivers/vfio/vfio_main.c
+> @@ -2064,6 +2064,4 @@ MODULE_VERSION(DRIVER_VERSION);
+>   MODULE_LICENSE("GPL v2");
+>   MODULE_AUTHOR(DRIVER_AUTHOR);
+>   MODULE_DESCRIPTION(DRIVER_DESC);
+> -MODULE_ALIAS_MISCDEV(VFIO_MINOR);
+> -MODULE_ALIAS("devname:vfio/vfio");
+>   MODULE_SOFTDEP("post: vfio_iommu_type1 vfio_iommu_spapr_tce");
 
-it's better to set this bool in vfio_iommufd_physical_attach_ioas() as
-the emulated devices uses iommufd_access instead. is it? or you mean this
-flag to cover both cases?
-  --
+-- 
 Regards,
 Yi Liu
