@@ -2,52 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D03A6260CA
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 19:03:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A4DD6260E2
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 19:10:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E38F10E0BF;
-	Fri, 11 Nov 2022 18:03:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9ED9910E040;
+	Fri, 11 Nov 2022 18:10:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15FFA10E040
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 18:03:06 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77A8710E040
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 18:10:42 +0000 (UTC)
+Received: from [192.168.2.108] (unknown [109.252.117.140])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 46F3AB82694;
- Fri, 11 Nov 2022 18:03:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E8D48C433C1;
- Fri, 11 Nov 2022 18:03:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1668189783;
- bh=eDxpYGXZz7q+HMfN0lo9h0m7cnwd8+zf86z4MHZD8j0=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=uptBZ5axr4ri2+huVdH6vqBDO3OkfKma3Bj9wsLMNCTKGzuQyVsENY4Cy4C8QSmZX
- 1YOQkmyL4cHgtVcQ7o0lLHC3fhMl3KumTTlHlBcI0gXvl54/35FCPtO32XupmiHgui
- /dZDFMJZq/PKJ0yhLNVBjx+qQcl5lR5bBCbMnRut8e56/U6VqdmajRxMjMWzXrd7Ov
- CxTDF24/96r82m3l27JMfEww9KcJ0zjc2nIASk6LG/d+hrxRCxYRWXSSAytfZzwW2y
- jc9zXnNvEn7Hbt3HsGYr05EaIpJliMeRhZSVUdycNQ/NaXp91NHgoF/Da67qnEzvcu
- tNC4fLLyAiSlA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- DA364C395FE; Fri, 11 Nov 2022 18:03:02 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 6.1-rc5
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9tz0wieno61nXib1N+P2KKERh6HO947d6rEYiBZMccr4Lg@mail.gmail.com>
-References: <CAPM=9tz0wieno61nXib1N+P2KKERh6HO947d6rEYiBZMccr4Lg@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAPM=9tz0wieno61nXib1N+P2KKERh6HO947d6rEYiBZMccr4Lg@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2022-11-11
-X-PR-Tracked-Commit-Id: b7ffd9d9ee13de2c5ad88046a5149de4cfb2a74b
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: fd979ca691715891a979ce12d1a485b108af74d3
-Message-Id: <166818978288.15878.9908916054430327359.pr-tracker-bot@kernel.org>
-Date: Fri, 11 Nov 2022 18:03:02 +0000
-To: Dave Airlie <airlied@gmail.com>
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id F13536602A42;
+ Fri, 11 Nov 2022 18:10:39 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1668190240;
+ bh=hCCpAhbEUa8/LLXwnIV87nxTTDpc6b/4kcIs4Wr2NCA=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=FMWR7sfUtjAPriAKjr5fzNysq0wiHmmdmIJbK3fI+sciVImumGHugv0Aaj2x3DJBU
+ evQQjtszZXUsKNMzvEcLxwAO7GtC/wGHv8m8uYLvO5EmTBg8JaDBUyZUNwphTpAEFL
+ T4QqFCVvovGqX72hrk0u9x11/mxsrsRniaQApO4YCFGIvuHuxhjpLzdDrdaXjAajdR
+ ogV8C5gmBLTjUU+tifs8lvulhSCdPzJXxyjhkZ38Yxynf/DSPi4anaOFEvGwPLFrD3
+ QE/yaB+MkOvPPu9MbFnmH33u2SLrnZL+PtwCP+MDf5mjFSEaYbkCJ5j0eLxuVhlgqw
+ cvebJ1wgapHmg==
+Message-ID: <9add69a6-9e81-9e5a-b039-fe869c2f3179@collabora.com>
+Date: Fri, 11 Nov 2022 21:10:36 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH] drm/virtio: Fix memory leak in virtio_gpu_object_create()
+To: Xiu Jianfeng <xiujianfeng@huawei.com>, airlied@redhat.com,
+ kraxel@redhat.com, gurchetansingh@chromium.org, olvaffe@gmail.com,
+ daniel@ffwll.ch
+References: <20221109091905.55451-1-xiujianfeng@huawei.com>
+Content-Language: en-US
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20221109091905.55451-1-xiujianfeng@huawei.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,22 +57,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 11 Nov 2022 12:18:21 +1000:
+On 11/9/22 12:19, Xiu Jianfeng wrote:
+> The virtio_gpu_object_shmem_init() will alloc memory and save it in
+> @ents, so when virtio_gpu_array_alloc() fails, this memory should be
+> freed, this patch fixes it.
+> 
+> Fixes: e7fef0923303 ("drm/virtio: Simplify error handling of virtio_gpu_object_create()")
+> Signed-off-by: Xiu Jianfeng <xiujianfeng@huawei.com>
+> ---
+>  drivers/gpu/drm/virtio/virtgpu_object.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+> index 8d7728181de0..c7e74cf13022 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_object.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+> @@ -184,7 +184,7 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
+>  	struct virtio_gpu_object_array *objs = NULL;
+>  	struct drm_gem_shmem_object *shmem_obj;
+>  	struct virtio_gpu_object *bo;
+> -	struct virtio_gpu_mem_entry *ents;
+> +	struct virtio_gpu_mem_entry *ents = NULL;
+>  	unsigned int nents;
+>  	int ret;
+>  
+> @@ -210,7 +210,7 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
+>  		ret = -ENOMEM;
+>  		objs = virtio_gpu_array_alloc(1);
+>  		if (!objs)
+> -			goto err_put_id;
+> +			goto err_free_entry;
+>  		virtio_gpu_array_add_obj(objs, &bo->base.base);
+>  
+>  		ret = virtio_gpu_array_lock_resv(objs);
+> @@ -239,6 +239,8 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
+>  
+>  err_put_objs:
+>  	virtio_gpu_array_put_free(objs);
+> +err_free_entry:
+> +	kvfree(ents);
+>  err_put_id:
+>  	virtio_gpu_resource_id_put(vgdev, bo->hw_res_handle);
+>  err_free_gem:
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-11-11
-
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/fd979ca691715891a979ce12d1a485b108af74d3
-
-Thank you!
+Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Best regards,
+Dmitry
+
