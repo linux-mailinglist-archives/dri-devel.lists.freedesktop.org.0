@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEA18625661
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 10:15:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 131C7625674
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 10:18:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA58A10E7C5;
-	Fri, 11 Nov 2022 09:15:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B38F10E7D2;
+	Fri, 11 Nov 2022 09:18:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 411DC10E7C5
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 09:15:23 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id y14so11205859ejd.9
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 01:15:23 -0800 (PST)
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FCD110E7D2
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 09:18:22 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id f27so11304516eje.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 01:18:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=xtSvYYn7sZgfQOD/LS+WUVcCFaMk/fKnGeBQ6IL0GRQ=;
- b=YyoTcmPDtOsf/E0K5Y2/VVSAJ9yIvKvsPrNg3CrlRW9o0aSG5efP9NxSR3I79UczVQ
- 9tRR0ck1L+hbKFg6qWblY63KSmSYex2W36hUvOcpFLi0JL+cqwd2sbr9tp2HnSsCkbsS
- ETPyZD4PG42ysgMwd9vi2WprqDmQA2xVJ2ZRI=
+ bh=gAeD23JiJEiBcBvX2QeEcF5Jlw/vSsr3wDHpYwyqVn4=;
+ b=KZQyTv4N29UOmqKw8sBsjTbjHMcFrA/IQb8zxcfsKLi/BU5X+JUNhUn861f/RroRAi
+ Z35+zfQCT3zt8q2ytO+xk9K6E6yxzq5xdFerxsgeURnXZUdS4o455QqRWMly/UdT0687
+ GtnjO+JaRS84387j5chml2FfO10ut0fxlh8HY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xtSvYYn7sZgfQOD/LS+WUVcCFaMk/fKnGeBQ6IL0GRQ=;
- b=GhLeLbhrOwmfxH9xUMSrCMBs/9jjPXnAxyTGmIy68XyyVN+aIQCXNwdCKN4ybyqF8m
- 4lDefPKoxzjHrUSTa4NLofsFcVQQkfC5zqeizgh7avknrkVfgLSbjUV7xDyHAWeMSCUd
- 3tjdYojsQbIg+xRVID4RgV34clGmNy/nsRc+w3SdVEMkNQvXf8xdO28TFO3/AO/mzL3z
- v7aM3ZEyLdi/FIMj9K5rGlNIYTuwdH6ImJAf8YswJLMvmgZfQTt5Q/mmICMPLfxznvga
- hJx3yLQQGW85ArM35X1XSSiy3awhSsQNCyX3lTYVn43Vip2hlhfZadpLpLGjSDQpJBsy
- DTIw==
-X-Gm-Message-State: ANoB5plWMtVabzfVk4SVIZcEPmBrktf7BJldBqgMFW1HaIdMLvbbnRlf
- 8169AVbsEhvWwL5hg8/cybOXwQ==
-X-Google-Smtp-Source: AA0mqf4TGEfL66bEjKQr84Z85zSPxSgAtD4vB7hFe2WP/GrFk3k5yWoePitdit+Uo7962YsKWANdtg==
-X-Received: by 2002:a17:907:9618:b0:78e:17ad:ba62 with SMTP id
- gb24-20020a170907961800b0078e17adba62mr1087711ejc.719.1668158121770; 
- Fri, 11 Nov 2022 01:15:21 -0800 (PST)
+ bh=gAeD23JiJEiBcBvX2QeEcF5Jlw/vSsr3wDHpYwyqVn4=;
+ b=3UKSIRdbGR8FnbwPxCkorqLToIqWSm2kwcUrrvXRj+8TYaPsIjahZoP7eSbnp+VosK
+ l6FjEbEcnardjO5D/S7wXWT1V64T3Cvn5Tvy+lV69XdTswrvuIKyPb0zkRvqq7V2rZT4
+ Kpm+YpO8A3PXRISBrw6wZfdUEbGlIIC72jsESMS2RoCNOTjnNRAe1+jXPicOPqLp1UOR
+ sn7T/LgpIttvYgNrmZkW9i33+NAGw3QCl+M1YV29XjiGMDQFIC1N6KQhFeHe8mdz9h5X
+ LatQmQxe2LpaD7j67XS+HiOWa8bdgIWN7hXFKEXfoavctbjEaDAG2u+mr6Rg302l4HKl
+ 2HTQ==
+X-Gm-Message-State: ANoB5pkQWrmF67aOT8fuVYSboHtqH9jaQYxXy2EPWC/cWW1oIPv9DLbd
+ YULkgtfqDReZIasopsNEF3sbMg==
+X-Google-Smtp-Source: AA0mqf6NY+SknmtIRYJ88onIRfBRqar/fCP7Spcf3qPpuxxwq32RcC11htBA2WL/FHpwvKq0G/U1hQ==
+X-Received: by 2002:a17:906:780e:b0:7a8:f24c:1466 with SMTP id
+ u14-20020a170906780e00b007a8f24c1466mr1129934ejm.452.1668158300822; 
+ Fri, 11 Nov 2022 01:18:20 -0800 (PST)
 Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
  [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- g18-20020a17090604d200b007ae0fde7a9asm631184eja.201.2022.11.11.01.15.20
+ qo14-20020a170907874e00b007a03313a78esm695221ejc.20.2022.11.11.01.18.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Nov 2022 01:15:21 -0800 (PST)
-Date: Fri, 11 Nov 2022 10:15:19 +0100
+ Fri, 11 Nov 2022 01:18:20 -0800 (PST)
+Date: Fri, 11 Nov 2022 10:18:18 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 1/5] drm/fb-helper: Set damage-clip area in helper
-Message-ID: <Y24Sp4cf9CnoWMRi@phenom.ffwll.local>
+Subject: Re: [PATCH 2/5] drm/fb-helper: Move dirty-fb update into helper
+ function
+Message-ID: <Y24TWkyXvMRmHyDZ@phenom.ffwll.local>
 References: <20221110135519.30029-1-tzimmermann@suse.de>
- <20221110135519.30029-2-tzimmermann@suse.de>
+ <20221110135519.30029-3-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221110135519.30029-2-tzimmermann@suse.de>
+In-Reply-To: <20221110135519.30029-3-tzimmermann@suse.de>
 X-Operating-System: Linux phenom 5.19.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,47 +74,53 @@ Cc: javierm@redhat.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 10, 2022 at 02:55:15PM +0100, Thomas Zimmermann wrote:
-> Set the damage area in the new helper drm_fb_helper_add_damage_clip().
-> It can now be updated without scheduling the damage worker. This change
-> will help to remove the damage worker entirely. No functional changes.
+On Thu, Nov 10, 2022 at 02:55:16PM +0100, Thomas Zimmermann wrote:
+> Move the dirty-fb update from the damage-worker callback into the
+> new helper drm_fb_helper_fb_dirty(), so that it can run outside the
+> damage worker. This change will help to remove the damage worker
+> entirely. No functional changes.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
 > ---
 >  drivers/gpu/drm/drm_fb_helper.c | 10 ++++++++--
 >  1 file changed, 8 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-> index e0384f967c0b3..178615565760e 100644
+> index 178615565760e..be8ecb5e50b56 100644
 > --- a/drivers/gpu/drm/drm_fb_helper.c
 > +++ b/drivers/gpu/drm/drm_fb_helper.c
-> @@ -576,8 +576,8 @@ void drm_fb_helper_fini(struct drm_fb_helper *fb_helper)
+> @@ -367,9 +367,8 @@ static void drm_fb_helper_resume_worker(struct work_struct *work)
+>  	console_unlock();
 >  }
->  EXPORT_SYMBOL(drm_fb_helper_fini);
 >  
-> -static void drm_fb_helper_damage(struct drm_fb_helper *helper, u32 x, u32 y,
-> -				 u32 width, u32 height)
-> +static void drm_fb_helper_add_damage_clip(struct drm_fb_helper *helper, u32 x, u32 y,
-> +					  u32 width, u32 height)
+> -static void drm_fb_helper_damage_work(struct work_struct *work)
+> +static void drm_fb_helper_fb_dirty(struct drm_fb_helper *helper)
 >  {
+> -	struct drm_fb_helper *helper = container_of(work, struct drm_fb_helper, damage_work);
+>  	struct drm_device *dev = helper->dev;
 >  	struct drm_clip_rect *clip = &helper->damage_clip;
->  	unsigned long flags;
-> @@ -588,6 +588,12 @@ static void drm_fb_helper_damage(struct drm_fb_helper *helper, u32 x, u32 y,
->  	clip->x2 = max_t(u32, clip->x2, x + width);
->  	clip->y2 = max_t(u32, clip->y2, y + height);
+>  	struct drm_clip_rect clip_copy;
+> @@ -404,6 +403,13 @@ static void drm_fb_helper_damage_work(struct work_struct *work)
 >  	spin_unlock_irqrestore(&helper->damage_lock, flags);
+>  }
+>  
+> +static void drm_fb_helper_damage_work(struct work_struct *work)
+> +{
+> +	struct drm_fb_helper *helper = container_of(work, struct drm_fb_helper, damage_work);
+> +
+> +	drm_fb_helper_fb_dirty(helper);
+
+Was pondering a bit the naming, but it fits the ->fb_dirty callback, so
+at least consistent with what we have. Sometimes I'm forgetting how many
+layers of indirection we have just for historical reasons :-/
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
 > +}
 > +
-> +static void drm_fb_helper_damage(struct drm_fb_helper *helper, u32 x, u32 y,
-> +				 u32 width, u32 height)
-> +{
-> +	drm_fb_helper_add_damage_clip(helper, x, y, width, height);
->  
->  	schedule_work(&helper->damage_work);
->  }
+>  /**
+>   * drm_fb_helper_prepare - setup a drm_fb_helper structure
+>   * @dev: DRM device
 > -- 
 > 2.38.0
 > 
