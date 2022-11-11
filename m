@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AB7E62507B
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 03:35:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A411625084
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 03:36:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A75D10E732;
-	Fri, 11 Nov 2022 02:35:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EED610E734;
+	Fri, 11 Nov 2022 02:36:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org
  [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5333E10E731
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 02:35:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E693010E738
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 02:35:53 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 03414B823DF;
- Fri, 11 Nov 2022 02:35:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 398D2C433D6;
- Fri, 11 Nov 2022 02:35:39 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 8F49BB823DC;
+ Fri, 11 Nov 2022 02:35:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D551FC433D6;
+ Fri, 11 Nov 2022 02:35:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1668134140;
- bh=bRQ2wPfkEKW2ybbGqq9Ir71j//He5n7nYpu7nOfKjy4=;
+ s=k20201202; t=1668134151;
+ bh=PEHzwfO/VIiHVS3KPMtQeWVmGCOUzoW4YxeEJJBvGXo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TMZna44FiP7gdzbUldebcC2abeZSsaGww4RAgt+rCTtOQgRKGzzHpyLmM9IG809TL
- xR0XMULr7f0BRdNyipoGHerhDab8kWMY/4rOG96Mi2gJYBTskJCLs1Bv+lEp3//T+i
- EkcBZgcNUSxAevWiJVknLrroYN67XkhNwsPQ7zKO6XuQFmac29ZPW8sYbl+UtmgUgy
- a/V/IWWnBSw+uP3c3HHC0EyZO1KWjxNY6uKzdAVr6ic4spDC4X9pvVI5k+l0/t+gRQ
- wHCf00Dxv4F3Eh9PlhtA0oxoOf2ge/bvpFOewWlt1VHtRh+v+DS+4rp2pu6nEakH1R
- mbfKx+Lp5nWCQ==
+ b=n9V/PkYJJK7PACBCCId5LBO/hqIq/J9/Efw+VKdMrtxQ6QnblPj+patptUnlwOpBn
+ cjgA6gjujhiwgEqUOaCI5sdNvdUSlom1gc7O9W9gGQhDLSBb9CUHzxl+iLWIo7L1PD
+ WwIHdWfSgpbkbBO6VKGv4ISHPzJ/Ie+/1H9gqewNLkHm1272ExQuN/zDx/ls5DdLOL
+ qYb6a9mVlnU/DYNM5ZvxKzV30lhhUwVq69jkXC9ux70HPHppViqGWFCryGzmr9wvlJ
+ swIeGqixgApxdE3SsYGcpeanNenc8dTOeeTuReeY+Zy4sTZOtLXAJ0OkqHDQ8DfJ0t
+ /9ZV9wKXoDeaA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 4/6] drm/imx: imx-tve: Fix return type of
+Subject: [PATCH AUTOSEL 5.4 3/5] drm/imx: imx-tve: Fix return type of
  imx_tve_connector_mode_valid
-Date: Thu, 10 Nov 2022 21:35:30 -0500
-Message-Id: <20221111023532.227959-4-sashal@kernel.org>
+Date: Thu, 10 Nov 2022 21:35:43 -0500
+Message-Id: <20221111023545.228051-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221111023532.227959-1-sashal@kernel.org>
-References: <20221111023532.227959-1-sashal@kernel.org>
+In-Reply-To: <20221111023545.228051-1-sashal@kernel.org>
+References: <20221111023545.228051-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -93,10 +93,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/imx/imx-tve.c b/drivers/gpu/drm/imx/imx-tve.c
-index 2a8d2e32e7b4..9fe6a4733106 100644
+index f91c3eb7697b..cc300ed456e1 100644
 --- a/drivers/gpu/drm/imx/imx-tve.c
 +++ b/drivers/gpu/drm/imx/imx-tve.c
-@@ -212,8 +212,9 @@ static int imx_tve_connector_get_modes(struct drm_connector *connector)
+@@ -237,8 +237,9 @@ static int imx_tve_connector_get_modes(struct drm_connector *connector)
  	return ret;
  }
  
