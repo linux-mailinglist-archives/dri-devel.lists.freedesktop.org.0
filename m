@@ -1,47 +1,116 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0B9862508A
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 03:36:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03CD9625139
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 04:02:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A8E910E738;
-	Fri, 11 Nov 2022 02:36:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60CCE10E0C3;
+	Fri, 11 Nov 2022 03:01:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 067A910E736
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 02:36:17 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 93ACFB822ED;
- Fri, 11 Nov 2022 02:36:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCC00C433B5;
- Fri, 11 Nov 2022 02:36:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1668134174;
- bh=YHxZlplJYFwobsY6XzCxLP+nTe0K3MkcAJaglIz46QQ=;
- h=From:To:Cc:Subject:Date:From;
- b=ZDKzJwk+OHJ2cRxR51HMBHxNVvSarDaD4Q6vxJkwLgjWgUoAS12NyR3VBqW16kJBt
- 7UoV1cUR3H2WPhoAcYxsmR9AZluL3EdLRcHqKH01WwpC0IvKLPlX3gFbrP9/ONA/2o
- /rgyj0CsJkZza0d/IlaiExwR4jiSXY0BpK+Po80FOv2ShkNHBiBSZPQKEbbPDJosjb
- lGhET2Evid4YOffs9t3XfFajDL53WdaJIqqtJ5QmXe/dr2KsYv6kixlXGR5R8dOmBZ
- q6qv9CiRl3LFKODdk5Umd/JWhv+wVeR68Zua/urxqu78wOfxvmDIpiuF21lznxDvfX
- xC7p+ELQw1dhQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 1/2] drm/imx: imx-tve: Fix return type of
- imx_tve_connector_mode_valid
-Date: Thu, 10 Nov 2022 21:36:10 -0500
-Message-Id: <20221111023611.228238-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF54410E0C3;
+ Fri, 11 Nov 2022 03:01:48 +0000 (UTC)
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2AB2g8qS006091;
+ Fri, 11 Nov 2022 03:01:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=00TlcYUA8IwStTfXDoL3E2DxuQ2WZQRuZzKUP07vGNo=;
+ b=Q4T42teEFhWY4+CvWtkyh4GJKfmrYAUM9/0H1D6q0GKmkbrSwNpcZzUmrECi6mvPh4XO
+ uzTFc5T2f1fsw8vEBYTZ5ntL82EarPMYNi2flne2Ib1unFb7snOP58ju0XSxBUD34TmX
+ 13wXg7guBbYQL/ugCp/E7SdZtwH0BUXHm+Z7ofWfexAQOdo5Q/d5gk1YGy68Odc4MecG
+ s50zbglmG6NHXz1Kh4qK/VmR35m20HfVWt/dV2rNLbo2ZYygDm0cP0i3Ku3OjUEIgJr0
+ FeRYqwJF58fb9+WecXajXcSScuXoqXvIAAkXI0Q79nouUQO/X3Vb2mnM2Q2XY25E9gu/ LQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ksdu7rbn0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 11 Nov 2022 03:01:21 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2AB2i0tJ016049;
+ Fri, 11 Nov 2022 03:01:21 GMT
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ksdu7rbmc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 11 Nov 2022 03:01:21 +0000
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AB2pAm0019707;
+ Fri, 11 Nov 2022 03:01:19 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com
+ (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+ by ppma02dal.us.ibm.com with ESMTP id 3kngne22qw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 11 Nov 2022 03:01:19 +0000
+Received: from smtpav03.dal12v.mail.ibm.com ([9.208.128.129])
+ by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2AB31Fle52101886
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 11 Nov 2022 03:01:15 GMT
+Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id ABC3D5806E;
+ Fri, 11 Nov 2022 03:01:17 +0000 (GMT)
+Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E6D9458064;
+ Fri, 11 Nov 2022 03:01:14 +0000 (GMT)
+Received: from [9.160.191.98] (unknown [9.160.191.98])
+ by smtpav03.dal12v.mail.ibm.com (Postfix) with ESMTP;
+ Fri, 11 Nov 2022 03:01:14 +0000 (GMT)
+Message-ID: <f54c2a93-539f-4520-0561-fbe5cea7772f@linux.ibm.com>
+Date: Thu, 10 Nov 2022 22:01:13 -0500
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH v2 00/11] Connect VFIO to IOMMUFD
+Content-Language: en-US
+To: Jason Gunthorpe <jgg@nvidia.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>, David Airlie
+ <airlied@gmail.com>, Tony Krowiak <akrowiak@linux.ibm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Diana Craciun <diana.craciun@oss.nxp.com>,
+ dri-devel@lists.freedesktop.org, Eric Auger <eric.auger@redhat.com>,
+ Eric Farman <farman@linux.ibm.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
+ intel-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
+ iommu@lists.linux.dev, Jani Nikula <jani.nikula@linux.intel.com>,
+ Jason Herne <jjherne@linux.ibm.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Joerg Roedel <joro@8bytes.org>, Kevin Tian <kevin.tian@intel.com>,
+ kvm@vger.kernel.org, linux-s390@vger.kernel.org,
+ Longfang Liu <liulongfang@huawei.com>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Halil Pasic <pasic@linux.ibm.com>, Robin Murphy <robin.murphy@arm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ Sven Schnelle <svens@linux.ibm.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Vineeth Vijayan <vneethv@linux.ibm.com>, Will Deacon <will@kernel.org>,
+ Yishai Hadas <yishaih@nvidia.com>,
+ Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>
+References: <0-v2-65016290f146+33e-vfio_iommufd_jgg@nvidia.com>
+From: Matthew Rosato <mjrosato@linux.ibm.com>
+In-Reply-To: <0-v2-65016290f146+33e-vfio_iommufd_jgg@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: YxgRt1vdsvEvvbqfh55g1ZCYoW5D9RzD
+X-Proofpoint-GUID: IC9-lYTkfXZkVJXpdPA5tora7izdjnW6
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-10_14,2022-11-09_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ lowpriorityscore=0 spamscore=0 impostorscore=0 suspectscore=0 adultscore=0
+ phishscore=0 priorityscore=1501 clxscore=1011 mlxlogscore=738 mlxscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211110019
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,58 +123,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Dan Carpenter <error27@gmail.com>,
- llvm@lists.linux.dev, ndesaulniers@google.com, shawnguo@kernel.org,
- Nathan Huckleberry <nhuck@google.com>, Nathan Chancellor <nathan@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Cc: "Liu, Yi L" <yi.l.liu@intel.com>, Nicolin Chen <nicolinc@nvidia.com>,
+ Lu Baolu <baolu.lu@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nathan Huckleberry <nhuck@google.com>
+On 11/7/22 7:52 PM, Jason Gunthorpe wrote:
+> This series provides an alternative container layer for VFIO implemented
+> using iommufd. This is optional, if CONFIG_IOMMUFD is not set then it will
+> not be compiled in.
+> 
+> At this point iommufd can be injected by passing in a iommfd FD to
+> VFIO_GROUP_SET_CONTAINER which will use the VFIO compat layer in iommufd
+> to obtain the compat IOAS and then connect up all the VFIO drivers as
+> appropriate.
+> 
+> This is temporary stopping point, a following series will provide a way to
+> directly open a VFIO device FD and directly connect it to IOMMUFD using
+> native ioctls that can expose the IOMMUFD features like hwpt, future
+> vPASID and dynamic attachment.
+> 
+> This series, in compat mode, has passed all the qemu tests we have
+> available, including the test suites for the Intel GVT mdev. Aside from
+> the temporary limitation with P2P memory this is belived to be fully
+> compatible with VFIO.
 
-[ Upstream commit fc007fb815ab5395c3962c09b79a1630b0fbed9c ]
+AFAICT there is no equivalent means to specify vfio_iommu_type1.dma_entry_limit when using iommufd; looks like we'll just always get the default 65535.  Was this because you envision the limit being not applicable for iommufd (limits will be enforced via either means and eventually we won't want to ) or was it an oversight?
 
-The mode_valid field in drm_connector_helper_funcs is expected to be of
-type:
-enum drm_mode_status (* mode_valid) (struct drm_connector *connector,
-                                     struct drm_display_mode *mode);
-
-The mismatched return type breaks forward edge kCFI since the underlying
-function definition does not match the function hook definition.
-
-The return type of imx_tve_connector_mode_valid should be changed from
-int to enum drm_mode_status.
-
-Reported-by: Dan Carpenter <error27@gmail.com>
-Link: https://github.com/ClangBuiltLinux/linux/issues/1703
-Cc: llvm@lists.linux.dev
-Signed-off-by: Nathan Huckleberry <nhuck@google.com>
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-Reviewed-by: Fabio Estevam <festevam@gmail.com>
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220913205544.155106-1-nhuck@google.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/imx/imx-tve.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/imx/imx-tve.c b/drivers/gpu/drm/imx/imx-tve.c
-index 9ae515f3171e..372582df6008 100644
---- a/drivers/gpu/drm/imx/imx-tve.c
-+++ b/drivers/gpu/drm/imx/imx-tve.c
-@@ -254,8 +254,9 @@ static int imx_tve_connector_get_modes(struct drm_connector *connector)
- 	return ret;
- }
- 
--static int imx_tve_connector_mode_valid(struct drm_connector *connector,
--					struct drm_display_mode *mode)
-+static enum drm_mode_status
-+imx_tve_connector_mode_valid(struct drm_connector *connector,
-+			     struct drm_display_mode *mode)
- {
- 	struct imx_tve *tve = con_to_tve(connector);
- 	unsigned long rate;
--- 
-2.35.1
+Thanks,
+Matt
 
