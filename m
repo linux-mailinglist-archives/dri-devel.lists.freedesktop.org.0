@@ -1,79 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FEBF625710
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 10:42:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C1E862572C
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 10:45:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9294D10E11A;
-	Fri, 11 Nov 2022 09:42:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AEE310E12E;
+	Fri, 11 Nov 2022 09:45:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2598410E7D9
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 09:42:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668159765;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UxbA0lbRcnNSHNC4p6nrgubCZPFh7F5q2151xPoT2H8=;
- b=Z/l+VfVmAbXEL38Nae6f1QpaANMrCNWq5YI2eRVjhjSDRu4EKTdfyzCMfBXwGzNrKAcNUl
- 6h3NTBf+h0+ygPuQi4UO9B/NrZfxGBkaBBm2E8QmY4zZmjZzbCS2lhkxNrENnnA4xULkwY
- KXi79FBc9Awxv9YQqYd41nC5MqhspmQ=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-491-FCDksQKPOMClKXjldejLsA-1; Fri, 11 Nov 2022 04:42:43 -0500
-X-MC-Unique: FCDksQKPOMClKXjldejLsA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 1-20020a05600c028100b003cf7833293cso4167520wmk.3
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 01:42:43 -0800 (PST)
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6196A10E12E
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 09:45:24 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id k2so11431408ejr.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 01:45:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=UMQFen+AlSzqDT2P7hCvWn/+unZBYVNQX2dAC6+w/KI=;
+ b=JmxwUPKAzozHR4+sK/xdFxKNC/vPBXXSndaeUvZV/zolRi9mUFwj9fbvX0qWuN2rVd
+ 5QrD3CB2HM1LcWRA+Q7WLdw3J7Vk5GpEnVWRrvfYBEZm8vgnAIPYJ/aOZIKv7yvBsnTm
+ sKXetN7/xl11hLTNdDs71d2D+WTxOxndogFQM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UxbA0lbRcnNSHNC4p6nrgubCZPFh7F5q2151xPoT2H8=;
- b=R5erSFBLn14hdgT1Eh3dSsak8pfRYJKssFVPYJ7QM0rfSY7gxBxuGPgmZhOHJZ00zz
- P6cfsM4E2nsJ3m+XKCN1uiBAz8yL1bt0IKmTZNDwKAiIf/GzxSkVzIO5tTIXj/TIpOcV
- w8pABETpq+V5YXjFHoqSDy/rC3Uv9TQToODxI7udiJ3yRZRHdhv3lPSMyoRodxx4kDPs
- YvsAmJ/cfMuZZW/XeGfQS+TicoFrGkA2T8j2h0mA5bwdNVvDahT/3f6UL7TtgYHAldE8
- AP4ZBaeRVSdO9O9Ua8Ee0SDTLpWk7E5UquCJK84B08onxR94OW4LrJw6F5RLQO55uhnY
- ezLA==
-X-Gm-Message-State: ANoB5pnra00O9L+nMe6extUc8ER9Rwvz3uEk+orcVrd5W6aDFyScc7Br
- /6TZQCloyLpgVebVVAIwSRWlbdv+1b3kv8ZKbXc+8tAIemfxjITNaIidKFRCB8Keh4l+FjuMbRr
- kOlt7ZDtZzpfsF+IiR2uzTRhmXlLG
-X-Received: by 2002:adf:f210:0:b0:236:63fa:c792 with SMTP id
- p16-20020adff210000000b0023663fac792mr732414wro.476.1668159762523; 
- Fri, 11 Nov 2022 01:42:42 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5V7QI8/LMvTiTwHK5Kz3y2ZLNLe9qwbmLqWyIAmtlZPTWVFV2ZHifyIyKwGFP/WQxJjjCjlQ==
-X-Received: by 2002:adf:f210:0:b0:236:63fa:c792 with SMTP id
- p16-20020adff210000000b0023663fac792mr732406wro.476.1668159762338; 
- Fri, 11 Nov 2022 01:42:42 -0800 (PST)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- j34-20020a05600c1c2200b003cf57329221sm8555745wms.14.2022.11.11.01.42.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Nov 2022 01:42:42 -0800 (PST)
-Message-ID: <712ce623-6b44-8514-822f-91ab980240d3@redhat.com>
-Date: Fri, 11 Nov 2022 10:42:41 +0100
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UMQFen+AlSzqDT2P7hCvWn/+unZBYVNQX2dAC6+w/KI=;
+ b=PoML7c3/gXntqWJAF2SI8f2JsmIewjQB4DRRTI74IDpwFLfHUPoStT1woZIfiojxny
+ n6Co4b5oxcBKfZftJ4GtwmjLtIGu6u7D/FLZuaEHWC6DaRCbSC4sVU4mbupa686+ro9N
+ 0OU0+JVcy9EsMOKSfxo2wgBxUvlCIVS5YZRdvmG41IheGEuPYd5c4rDR/9UxKDpKRsq2
+ PpT+H90B6OmLb6EgKRvqiQH59wxtKPj/R38ie8fuzuP6cantXXZE+XjcrXxOHGZv3C4i
+ GzXW3Ctry08L0YwtakeOMSxhqGMRi0Vc/TpnAuObiajiUsF7n6DKE0jcxV65Q+m6pTNK
+ enCA==
+X-Gm-Message-State: ANoB5pnk5eHYv22Mlc5sd51UZA4c28wXeHdZCCWE6q2BsgpLmm6QcVJe
+ eOc4dW+Qo9g0ZVzpHUphD/FsLw==
+X-Google-Smtp-Source: AA0mqf7x9A8ECGXtLZMM1NHsguIiF0JqVM38iNxjLGIcmH15A3R39dQK9ZYDg+g8+n0ggsJ7mQ3TrA==
+X-Received: by 2002:a17:906:714:b0:78d:e4c6:2c8b with SMTP id
+ y20-20020a170906071400b0078de4c62c8bmr1255775ejb.164.1668159922749; 
+ Fri, 11 Nov 2022 01:45:22 -0800 (PST)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
+ [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
+ l10-20020a1709060cca00b00731803d4d04sm687312ejh.82.2022.11.11.01.45.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Nov 2022 01:45:22 -0800 (PST)
+Date: Fri, 11 Nov 2022 10:45:20 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: Re: [RFC PATCH 1/3] drm: Introduce color fill properties for drm plane
+Message-ID: <Y24ZsAhAscVJd4Uf@phenom.ffwll.local>
+References: <20221028225952.160-1-quic_jesszhan@quicinc.com>
+ <20221028225952.160-2-quic_jesszhan@quicinc.com>
+ <eddf4726-3d7e-601a-51ac-03adb2dd822b@linaro.org>
+ <fqY-wVvRxd553E0flH80_NaZMpmiVTIdhvu6F31qM9T4yQ0L5fbT9JiixWIhDcDAt3Hxy1roQxwntvgVEnqm5WK6dzEIKqXnlLRcywGhYH4=@emersion.fr>
+ <Y2uwjKCN4KGzm3aN@phenom.ffwll.local>
+ <ee755c43-434a-a990-0efa-ed5c6baa237e@linaro.org>
+ <Y2uyOcVbadRwr9/O@phenom.ffwll.local>
+ <1f291321-1319-f6d8-b2cb-85ddbe970766@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH 2/2] fbdev: Add support for the nomodeset kernel parameter
-To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de, daniel@ffwll.ch
-References: <20221107104916.18733-1-tzimmermann@suse.de>
- <20221107104916.18733-3-tzimmermann@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221107104916.18733-3-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1f291321-1319-f6d8-b2cb-85ddbe970766@quicinc.com>
+X-Operating-System: Linux phenom 5.19.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,43 +75,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, daniel.vetter@ffwll.ch, seanpaul@chromium.org,
+ laurent.pinchart@ideasonboard.com, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/7/22 11:49, Thomas Zimmermann wrote:
-> Support the kernel's nomodeset parameter for all PCI-based fbdev
-> drivers that use aperture helpers to remove other, hardware-agnostic
-> graphics drivers.
+On Wed, Nov 09, 2022 at 05:44:37PM -0800, Jessica Zhang wrote:
 > 
-> The parameter is a simple way of using the firmware-provided scanout
-> buffer if the hardware's native driver is broken. The same effect
-> could be achieved with per-driver options, but the importance of the
-> graphics output for many users makes a single, unified approach
-> worthwhile.
 > 
-> With nomodeset specified, the fbdev driver module will not load. This
-> unifies behavior with similar DRM drivers. In DRM helpers, modules
-> first check the nomodeset parameter before registering the PCI
-> driver. As fbdev has no such module helpers, we have to modify each
-> driver individually.
+> On 11/9/2022 5:59 AM, Daniel Vetter wrote:
+> > On Wed, Nov 09, 2022 at 04:53:45PM +0300, Dmitry Baryshkov wrote:
+> > > On 09/11/2022 16:52, Daniel Vetter wrote:
+> > > > On Tue, Nov 08, 2022 at 06:25:29PM +0000, Simon Ser wrote:
+> > > > > On Saturday, October 29th, 2022 at 13:23, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
+> > > > > 
+> > > > > > On 29/10/2022 01:59, Jessica Zhang wrote:
+> > > > > > 
+> > > > > > > Add support for COLOR_FILL and COLOR_FILL_FORMAT properties for
+> > > > > > > drm_plane. In addition, add support for setting and getting the values
+> > > > > > > of these properties.
+> > > > > > > 
+> > > > > > > COLOR_FILL represents the color fill of a plane while COLOR_FILL_FORMAT
+> > > > > > > represents the format of the color fill. Userspace can set enable solid
+> > > > > > > fill on a plane by assigning COLOR_FILL to a uint64_t value, assigning
+> > > > > > > the COLOR_FILL_FORMAT property to a uint32_t value, and setting the
+> > > > > > > framebuffer to NULL.
+> > > > > > 
+> > > > > > I suppose that COLOR_FILL should override framebuffer rather than
+> > > > > > requiring that FB is set to NULL. In other words, if color_filL_format
+> > > > > > is non-zero, it would make sense to ignore the FB. Then one can use the
+> > > > > > color_fill_format property to quickly switch between filled plane and
+> > > > > > FB-backed one.
+> > > > > 
+> > > > > That would be inconsistent with the rest of the KMS uAPI. For instance,
+> > > > > the kernel will error out if CRTC has active=0 but a connector is still
+> > > > > linked to the CRTC. IOW, the current uAPI errors out if the KMS state
+> > > > > is inconsistent.
+> > > > 
+> > > > So if the use-case here really is to solid-fill a plane (and not just
+> > > > provide a background color for the crtc overall), then I guess we could
+> > > > also extend addfb to make that happen. We've talked in the past about
+> > > > propertery-fying framebuffer objects, and that would sort out this uapi
+> > > > wart. And I agree the color fill vs PLANE_ID issue is a bit ugly at least.
+> > > > 
+> > > > But if the use-cases are all background color then just doing the crtc
+> > > > background color would be tons simpler (and likely also easier to support
+> > > > for more hardware).
+> > > 
+> > > No. The hardware supports multiple color-filled planes, which do not have to
+> > > cover the whole CRTC.
+> > 
+> > The use case here means the userspace use-case. What the hw can do on any
+> > given chip kinda doesnt matter, which is why I'm asking. KMD uapi is not
+> > meant to reflect 100% exactly what a specific chip can do, but instead:
+> > - provide features userspace actually needs. If you want per-plane fill,
+> >    you need userspace that makes use of per-plane fill, and if all you have
+> >    is crtc background, then that's it.
 > 
-> The name 'nomodeset' is slightly misleading, but has been chosen for
-> historical reasons. Several drivers implemented it before it became a
-> general option for DRM. So keeping the existing name was preferred over
-> introducing a new one.
+> Hey Daniel,
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
+> The userspace use case we're trying to support is the Android HWC SOLID_FILL
+> hint here [1], which is specifying per-plane fill.
 
-Agreed that makes sense to have this in fbdev as well for consistency.
+Does surfaceflinger actually use this for more than background fills? Yes
+I'm annoying, but if we can simplify the kernel driver implementation
+burden by asking compositors to do the math and simplify things, then I
+think we should.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+We also need an open source implementation for this that works and is
+tested end-to-end. There's the drm_hwc project, but last time I've checked
+there's really not much happpening there unfortunately.
+-Daniel
+
+> 
+> Thanks,
+> 
+> Jessica Zhang
+> 
+> [1] https://android.googlesource.com/platform/hardware/interfaces/+/refs/heads/master/graphics/composer/aidl/android/hardware/graphics/composer3/Composition.aidl#52
+> 
+> > - we should create uapi with an eye towards what's actually possible on a
+> >    reasonable set of drivers and hw. Sometimes that means a slightly more
+> >    restricted set so that it's possible to implement in more places,
+> >    especially if that restricted feature set still gets the job done for
+> >    userspace.
+> > 
+> > Cheers, Daniel
+> > -- 
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
