@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85C3B625074
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 03:35:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE1FC62507D
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 03:35:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34A7810E728;
-	Fri, 11 Nov 2022 02:35:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D2CD10E731;
+	Fri, 11 Nov 2022 02:35:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF02D10E728
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 02:35:23 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0320410E728
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 02:35:28 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 4ADE561E87;
- Fri, 11 Nov 2022 02:35:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C038C433B5;
- Fri, 11 Nov 2022 02:35:21 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 8BE09B823E1;
+ Fri, 11 Nov 2022 02:35:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4C5AC433B5;
+ Fri, 11 Nov 2022 02:35:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1668134123;
- bh=upNkdi5O0O2ZCLZhuIgCzfblffSeZQe7x+ufoQQ0hg8=;
+ s=k20201202; t=1668134126;
+ bh=ZvJmBRius+jMqI9fFzOtmo5ZpQc62MIL0f24ld1r+s0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=k59DnB51BbAVCPrK0KBtPlVOcbhW5uelRiQAZBsGcLTpfvc0+In8gPwSvc3eKA54x
- 2jFPSO6GZdHkZ8iwyGy9JAsaFdO0THp+YyC/w5Aqr/+RH1AmQuLPJ5u2sffkPu1krL
- iHynQosorhi3dW/dG1c9WRTmJjTK0K1J9sqXO9txD1R19JS+x67QLpuk2E4ISnPuVg
- Dqc7MRyAulV7wnyYEO+GuK/keuIHoxJCh0uxLxr/jAkkoJc3AfAbb2f8sCJ3BxmSh7
- miTh5L6tH2Xbh4+aaJA0ZYVXeS6OrZMSQanlQNoKJSTNZ357kf3wSVJXoCPBnxm1Jq
- UxkEjBm8kHNEQ==
+ b=U+8WFjhVX9WRn6gq62qZQZMOz7mAxb6SrHB+HF8ylJExfOeLn0uiPme9XLX70Sf8j
+ T1uv++sQbEPJsiDRQ1AW38aVxe9/JOawtJVSoT4023M/LeaAVtGjBbAutc5tv5Ht5D
+ cjPzWRXpOI3913c1q4WKrfwwBBl0UHueL3dnZJ7bqSTk6tTudXZ9aTQw49KskvWjxx
+ /4LRpK319eLJoYnyiNT8B/arHKeRwjOAvK5KRSAbhNpV1XCfFb/+TTjNi7MzJGbsjH
+ rp6piO1M90sSbVe7xgJm8deuGmmA9o5dXf0HOqUOm/mElD3HUarDAr3T/nVACZCp3K
+ CipAjmDwN1aLQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 06/11] i2c: tegra: Allocate DMA memory for DMA
- engine
-Date: Thu, 10 Nov 2022 21:35:06 -0500
-Message-Id: <20221111023511.227800-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 08/11] drm/imx: imx-tve: Fix return type of
+ imx_tve_connector_mode_valid
+Date: Thu, 10 Nov 2022 21:35:08 -0500
+Message-Id: <20221111023511.227800-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221111023511.227800-1-sashal@kernel.org>
 References: <20221111023511.227800-1-sashal@kernel.org>
@@ -55,108 +55,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linaro-mm-sig@lists.linaro.org,
- christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
- jonathanh@nvidia.com, Wolfram Sang <wsa@kernel.org>, ldewangan@nvidia.com,
- thierry.reding@gmail.com, linux-i2c@vger.kernel.org,
- linux-tegra@vger.kernel.org, Thierry Reding <treding@nvidia.com>,
- Robin Murphy <robin.murphy@arm.com>, sumit.semwal@linaro.org,
- linux-media@vger.kernel.org
+Cc: Sasha Levin <sashal@kernel.org>, Dan Carpenter <error27@gmail.com>,
+ llvm@lists.linux.dev, ndesaulniers@google.com, shawnguo@kernel.org,
+ Nathan Huckleberry <nhuck@google.com>, Nathan Chancellor <nathan@kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thierry Reding <treding@nvidia.com>
+From: Nathan Huckleberry <nhuck@google.com>
 
-[ Upstream commit cdbf26251d3b35c4ccaea0c3a6de4318f727d3d2 ]
+[ Upstream commit fc007fb815ab5395c3962c09b79a1630b0fbed9c ]
 
-When the I2C controllers are running in DMA mode, it is the DMA engine
-that performs the memory accesses rather than the I2C controller. Pass
-the DMA engine's struct device pointer to the DMA API to make sure the
-correct DMA operations are used.
+The mode_valid field in drm_connector_helper_funcs is expected to be of
+type:
+enum drm_mode_status (* mode_valid) (struct drm_connector *connector,
+                                     struct drm_display_mode *mode);
 
-This fixes an issue where the DMA engine's SMMU stream ID needs to be
-misleadingly set for the I2C controllers in device tree.
+The mismatched return type breaks forward edge kCFI since the underlying
+function definition does not match the function hook definition.
 
-Suggested-by: Robin Murphy <robin.murphy@arm.com>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
-Signed-off-by: Wolfram Sang <wsa@kernel.org>
+The return type of imx_tve_connector_mode_valid should be changed from
+int to enum drm_mode_status.
+
+Reported-by: Dan Carpenter <error27@gmail.com>
+Link: https://github.com/ClangBuiltLinux/linux/issues/1703
+Cc: llvm@lists.linux.dev
+Signed-off-by: Nathan Huckleberry <nhuck@google.com>
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+Reviewed-by: Fabio Estevam <festevam@gmail.com>
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+Link: https://patchwork.freedesktop.org/patch/msgid/20220913205544.155106-1-nhuck@google.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/i2c/busses/i2c-tegra.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/imx/imx-tve.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
-index c883044715f3..444867cef682 100644
---- a/drivers/i2c/busses/i2c-tegra.c
-+++ b/drivers/i2c/busses/i2c-tegra.c
-@@ -283,6 +283,7 @@ struct tegra_i2c_dev {
- 	struct dma_chan *tx_dma_chan;
- 	struct dma_chan *rx_dma_chan;
- 	unsigned int dma_buf_size;
-+	struct device *dma_dev;
- 	dma_addr_t dma_phys;
- 	void *dma_buf;
+diff --git a/drivers/gpu/drm/imx/imx-tve.c b/drivers/gpu/drm/imx/imx-tve.c
+index bc8c3f802a15..fbfb7adead0b 100644
+--- a/drivers/gpu/drm/imx/imx-tve.c
++++ b/drivers/gpu/drm/imx/imx-tve.c
+@@ -217,8 +217,9 @@ static int imx_tve_connector_get_modes(struct drm_connector *connector)
+ 	return ret;
+ }
  
-@@ -419,7 +420,7 @@ static int tegra_i2c_dma_submit(struct tegra_i2c_dev *i2c_dev, size_t len)
- static void tegra_i2c_release_dma(struct tegra_i2c_dev *i2c_dev)
+-static int imx_tve_connector_mode_valid(struct drm_connector *connector,
+-					struct drm_display_mode *mode)
++static enum drm_mode_status
++imx_tve_connector_mode_valid(struct drm_connector *connector,
++			     struct drm_display_mode *mode)
  {
- 	if (i2c_dev->dma_buf) {
--		dma_free_coherent(i2c_dev->dev, i2c_dev->dma_buf_size,
-+		dma_free_coherent(i2c_dev->dma_dev, i2c_dev->dma_buf_size,
- 				  i2c_dev->dma_buf, i2c_dev->dma_phys);
- 		i2c_dev->dma_buf = NULL;
- 	}
-@@ -466,10 +467,13 @@ static int tegra_i2c_init_dma(struct tegra_i2c_dev *i2c_dev)
- 
- 	i2c_dev->tx_dma_chan = chan;
- 
-+	WARN_ON(i2c_dev->tx_dma_chan->device != i2c_dev->rx_dma_chan->device);
-+	i2c_dev->dma_dev = chan->device->dev;
-+
- 	i2c_dev->dma_buf_size = i2c_dev->hw->quirks->max_write_len +
- 				I2C_PACKET_HEADER_SIZE;
- 
--	dma_buf = dma_alloc_coherent(i2c_dev->dev, i2c_dev->dma_buf_size,
-+	dma_buf = dma_alloc_coherent(i2c_dev->dma_dev, i2c_dev->dma_buf_size,
- 				     &dma_phys, GFP_KERNEL | __GFP_NOWARN);
- 	if (!dma_buf) {
- 		dev_err(i2c_dev->dev, "failed to allocate DMA buffer\n");
-@@ -1255,7 +1259,7 @@ static int tegra_i2c_xfer_msg(struct tegra_i2c_dev *i2c_dev,
- 
- 	if (i2c_dev->dma_mode) {
- 		if (i2c_dev->msg_read) {
--			dma_sync_single_for_device(i2c_dev->dev,
-+			dma_sync_single_for_device(i2c_dev->dma_dev,
- 						   i2c_dev->dma_phys,
- 						   xfer_size, DMA_FROM_DEVICE);
- 
-@@ -1263,7 +1267,7 @@ static int tegra_i2c_xfer_msg(struct tegra_i2c_dev *i2c_dev,
- 			if (err)
- 				return err;
- 		} else {
--			dma_sync_single_for_cpu(i2c_dev->dev,
-+			dma_sync_single_for_cpu(i2c_dev->dma_dev,
- 						i2c_dev->dma_phys,
- 						xfer_size, DMA_TO_DEVICE);
- 		}
-@@ -1276,7 +1280,7 @@ static int tegra_i2c_xfer_msg(struct tegra_i2c_dev *i2c_dev,
- 			memcpy(i2c_dev->dma_buf + I2C_PACKET_HEADER_SIZE,
- 			       msg->buf, msg->len);
- 
--			dma_sync_single_for_device(i2c_dev->dev,
-+			dma_sync_single_for_device(i2c_dev->dma_dev,
- 						   i2c_dev->dma_phys,
- 						   xfer_size, DMA_TO_DEVICE);
- 
-@@ -1327,7 +1331,7 @@ static int tegra_i2c_xfer_msg(struct tegra_i2c_dev *i2c_dev,
- 		}
- 
- 		if (i2c_dev->msg_read && i2c_dev->msg_err == I2C_ERR_NONE) {
--			dma_sync_single_for_cpu(i2c_dev->dev,
-+			dma_sync_single_for_cpu(i2c_dev->dma_dev,
- 						i2c_dev->dma_phys,
- 						xfer_size, DMA_FROM_DEVICE);
- 
+ 	struct imx_tve *tve = con_to_tve(connector);
+ 	unsigned long rate;
 -- 
 2.35.1
 
