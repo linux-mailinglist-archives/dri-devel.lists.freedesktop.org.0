@@ -2,43 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7E1E6251C5
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 04:39:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 766CB6251CC
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 04:40:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E10B10E02F;
-	Fri, 11 Nov 2022 03:39:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DDD010E745;
+	Fri, 11 Nov 2022 03:40:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m12-14.163.com (m12-14.163.com [220.181.12.14])
- by gabe.freedesktop.org (Postfix) with ESMTP id D234010E02F
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 03:39:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=8SnPH
- 5Qx6ge1EtKB0f/nVg1sCMMgt2pTaFXFocUqJa8=; b=c5Zqxv7RjLUYIxVx+RVnW
- DwURkjfLUI5XBmNpLX8cpiPNSs3ueEPl19EMAeGrpTlwsJPfVknBFld3Oc4dILfB
- ppgfO/V0tg6DzqCfunszw3zq9IFS9zDZfj2GyBcD4INCR8F/ICS6AxsL9+4FdeDm
- i2hcRxAuX/Qu9K4sQcTd84=
-Received: from localhost.localdomain (unknown [114.221.197.143])
- by smtp10 (Coremail) with SMTP id DsCowABH7bG4w21jBvxXMA--.32326S2;
- Fri, 11 Nov 2022 11:38:39 +0800 (CST)
-From: ChunyouTang <tangchunyou@163.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, sumit.semwal@linaro.org,
- christian.koenig@amd.com
-Subject: [PATCH v2] drm/gem-shmem: When drm_gem_object_init failed,
- should release object
-Date: Fri, 11 Nov 2022 11:38:17 +0800
-Message-Id: <20221111033817.366-1-tangchunyou@163.com>
-X-Mailer: git-send-email 2.30.0.windows.1
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 368E210E745
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 03:39:59 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id ud5so9906640ejc.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 19:39:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=K+ov3P7MSKDC3zDq2K3swKKLzF2ZxWS9fJDHSnP7Go4=;
+ b=LKNNmdDsVXvTCl8Wcq1POX6SybDvycSSR4CE8r7wAkIe2ZYVfHNLHpXN/JAN90tQ/y
+ xHokgLfGCeEhZzKQdFKQk3kjeXJ4X2lcC6Ns627hli68sFlGpuH6IuqhOiOxaI8T2eXW
+ QRD61HydTcyb6eGWmPAKULpN+vJr8cl/RiL5M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=K+ov3P7MSKDC3zDq2K3swKKLzF2ZxWS9fJDHSnP7Go4=;
+ b=aEe19MbbGHgGIREpJpkPSQAKXfI5DGcxVAOGZPXboj5AWJ3+RR03g5ziu31QKmCklP
+ 0lVbILtDlQJk5Exap0zq24pr/5M+W4L7zVXvCKkiBsWRk9zY0hLO9gY+XQy9g0jBzllA
+ aqkVGks5v2d9Wb6w4kJSeCJckrSJFm9WyETNpMpwErcCGhtexqHET8u4JlnDdWdmjCJn
+ GPR9wlx0EXbXARRmcBJJxP4BIaUfFkIaiV1Pm1wEIDA3NqoJyrHlnM1088cW/wIAxIXP
+ hqmAPx540OK2NqReGl7bKMlQcX049A6FnWdNLVqcdT30FD+70tOXPk1p9/2pTgPMqJNQ
+ SEKA==
+X-Gm-Message-State: ANoB5pkJwp4dAv6MfoTp3HNmFj7sAFRL944vKRqZ24HL+ZtKVvNfLldm
+ J9H6s/ntqqzLevUEkatRsXxkxs5muEWszg==
+X-Google-Smtp-Source: AA0mqf4Md33dFAkvMNdn3J6fuu+3D0sfXQ709ZLYIeRFsBmFyP6geiuzV7aNf+Gm9M+g+j1pS98fgg==
+X-Received: by 2002:a17:906:9245:b0:783:71d1:14a0 with SMTP id
+ c5-20020a170906924500b0078371d114a0mr405007ejx.430.1668137997514; 
+ Thu, 10 Nov 2022 19:39:57 -0800 (PST)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com.
+ [209.85.218.42]) by smtp.gmail.com with ESMTPSA id
+ b26-20020a1709062b5a00b00780f24b797dsm409274ejg.108.2022.11.10.19.39.57
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Nov 2022 19:39:57 -0800 (PST)
+Received: by mail-ej1-f42.google.com with SMTP id ud5so9906593ejc.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 19:39:57 -0800 (PST)
+X-Received: by 2002:a17:906:4e48:b0:73d:dfb2:d188 with SMTP id
+ g8-20020a1709064e4800b0073ddfb2d188mr421713ejw.426.1668137986539; Thu, 10 Nov
+ 2022 19:39:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: DsCowABH7bG4w21jBvxXMA--.32326S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxAw4DXw1ruF43JryxZFW7XFb_yoW5Wryrpa
- nxAry7KrW8KFZFgrZ7XF4kCa43Gw40gF4xWaySq3yakr10yF1DXFn8Cr1DAFW3Jr17Xr1a
- q3sFkFySyrWjkF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0z_6wuUUUUUU=
-X-Originating-IP: [114.221.197.143]
-X-CM-SenderInfo: 5wdqwu5kxq50rx6rljoofrz/1tbiYwC2UVaEMNUQPwAAsc
+References: <20221110201349.351294-1-dmitry.osipenko@collabora.com>
+ <20221110201349.351294-6-dmitry.osipenko@collabora.com>
+In-Reply-To: <20221110201349.351294-6-dmitry.osipenko@collabora.com>
+From: Tomasz Figa <tfiga@chromium.org>
+Date: Fri, 11 Nov 2022 12:39:35 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5CsBEJkS=4nsH+4bQjCPNxwmw47Op4jnkydA+ivEfiPeA@mail.gmail.com>
+Message-ID: <CAAFQd5CsBEJkS=4nsH+4bQjCPNxwmw47Op4jnkydA+ivEfiPeA@mail.gmail.com>
+Subject: Re: [PATCH v1 5/6] media: videobuf2: Assert held reservation lock for
+ dma-buf mmapping
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,91 +75,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, ChunyouTang <tangchunyou@163.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ John Stultz <jstultz@google.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ kernel@collabora.com, Sumit Semwal <sumit.semwal@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ linux-tegra@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Tomi Valkeinen <tomba@kernel.org>, linux-kernel@vger.kernel.org,
+ Liam Mark <lmark@codeaurora.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Amol Maheshwari <amahesh@qti.qualcomm.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-when goto err_free, the object had init, so it should be release when fail.
+On Fri, Nov 11, 2022 at 5:15 AM Dmitry Osipenko
+<dmitry.osipenko@collabora.com> wrote:
+>
+> When userspace mmaps dma-buf's fd, the dma-buf reservation lock must be
+> held. Add locking sanity checks to the dma-buf mmaping callbacks to ensure
+> that the locking assumptions won't regress in the future.
+>
+> Suggested-by: Daniel Vetter <daniel@ffwll.ch>
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> ---
+>  drivers/media/common/videobuf2/videobuf2-dma-contig.c | 3 +++
+>  drivers/media/common/videobuf2/videobuf2-dma-sg.c     | 3 +++
+>  drivers/media/common/videobuf2/videobuf2-vmalloc.c    | 3 +++
+>  3 files changed, 9 insertions(+)
+>
 
-Signed-off-by: ChunyouTang <tangchunyou@163.com>
----
- drivers/gpu/drm/drm_gem.c              | 19 ++++++++++++++++---
- drivers/gpu/drm/drm_gem_shmem_helper.c |  4 +++-
- include/drm/drm_gem.h                  |  1 +
- 3 files changed, 20 insertions(+), 4 deletions(-)
+Acked-by: Tomasz Figa <tfiga@chromium.org>
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 8b68a3c1e6ab..cba32c46bb05 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -169,6 +169,21 @@ void drm_gem_private_object_init(struct drm_device *dev,
- }
- EXPORT_SYMBOL(drm_gem_private_object_init);
- 
-+/**
-+ * drm_gem_private_object_fini - Finalize a failed drm_gem_object
-+ * @obj: drm_gem_object
-+ *
-+ * Uninitialize an already allocated GEM object when it initialized failed
-+ */
-+void drm_gem_private_object_fini(struct drm_gem_object *obj)
-+{
-+	WARN_ON(obj->dma_buf);
-+
-+	dma_resv_fini(&obj->_resv);
-+	drm_gem_lru_remove(obj);
-+}
-+EXPORT_SYMBOL(drm_gem_private_object_fini);
-+
- /**
-  * drm_gem_object_handle_free - release resources bound to userspace handles
-  * @obj: GEM object to clean up.
-@@ -930,14 +945,12 @@ drm_gem_release(struct drm_device *dev, struct drm_file *file_private)
- void
- drm_gem_object_release(struct drm_gem_object *obj)
- {
--	WARN_ON(obj->dma_buf);
-+	drm_gem_private_object_fini(obj);
- 
- 	if (obj->filp)
- 		fput(obj->filp);
- 
--	dma_resv_fini(&obj->_resv);
- 	drm_gem_free_mmap_offset(obj);
--	drm_gem_lru_remove(obj);
- }
- EXPORT_SYMBOL(drm_gem_object_release);
- 
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index 35138f8a375c..845e3d5d71eb 100644
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -79,8 +79,10 @@ __drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private)
- 	} else {
- 		ret = drm_gem_object_init(dev, obj, size);
- 	}
--	if (ret)
-+	if (ret) {
-+		drm_gem_private_object_fini(obj)
- 		goto err_free;
-+	}
- 
- 	ret = drm_gem_create_mmap_offset(obj);
- 	if (ret)
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index bd42f25e449c..9b1feb03069d 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -405,6 +405,7 @@ int drm_gem_object_init(struct drm_device *dev,
- 			struct drm_gem_object *obj, size_t size);
- void drm_gem_private_object_init(struct drm_device *dev,
- 				 struct drm_gem_object *obj, size_t size);
-+void drm_gem_private_object_fini(struct drm_gem_object *obj);
- void drm_gem_vm_open(struct vm_area_struct *vma);
- void drm_gem_vm_close(struct vm_area_struct *vma);
- int drm_gem_mmap_obj(struct drm_gem_object *obj, unsigned long obj_size,
--- 
-2.25.1
+Best regards,
+Tomasz
 
+> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> index 555bd40fa472..7f45a62969f2 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> @@ -11,6 +11,7 @@
+>   */
+>
+>  #include <linux/dma-buf.h>
+> +#include <linux/dma-resv.h>
+>  #include <linux/module.h>
+>  #include <linux/refcount.h>
+>  #include <linux/scatterlist.h>
+> @@ -455,6 +456,8 @@ static int vb2_dc_dmabuf_ops_vmap(struct dma_buf *dbuf, struct iosys_map *map)
+>  static int vb2_dc_dmabuf_ops_mmap(struct dma_buf *dbuf,
+>         struct vm_area_struct *vma)
+>  {
+> +       dma_resv_assert_held(dbuf->resv);
+> +
+>         return vb2_dc_mmap(dbuf->priv, vma);
+>  }
+>
+> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> index 36981a5b5c53..b7f39ee49ed8 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> @@ -10,6 +10,7 @@
+>   * the Free Software Foundation.
+>   */
+>
+> +#include <linux/dma-resv.h>
+>  #include <linux/module.h>
+>  #include <linux/mm.h>
+>  #include <linux/refcount.h>
+> @@ -495,6 +496,8 @@ static int vb2_dma_sg_dmabuf_ops_vmap(struct dma_buf *dbuf,
+>  static int vb2_dma_sg_dmabuf_ops_mmap(struct dma_buf *dbuf,
+>         struct vm_area_struct *vma)
+>  {
+> +       dma_resv_assert_held(dbuf->resv);
+> +
+>         return vb2_dma_sg_mmap(dbuf->priv, vma);
+>  }
+>
+> diff --git a/drivers/media/common/videobuf2/videobuf2-vmalloc.c b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
+> index 41db707e43a4..f9b665366365 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-vmalloc.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
+> @@ -10,6 +10,7 @@
+>   * the Free Software Foundation.
+>   */
+>
+> +#include <linux/dma-resv.h>
+>  #include <linux/io.h>
+>  #include <linux/module.h>
+>  #include <linux/mm.h>
+> @@ -316,6 +317,8 @@ static int vb2_vmalloc_dmabuf_ops_vmap(struct dma_buf *dbuf,
+>  static int vb2_vmalloc_dmabuf_ops_mmap(struct dma_buf *dbuf,
+>         struct vm_area_struct *vma)
+>  {
+> +       dma_resv_assert_held(dbuf->resv);
+> +
+>         return vb2_vmalloc_mmap(dbuf->priv, vma);
+>  }
+>
+> --
+> 2.37.3
+>
