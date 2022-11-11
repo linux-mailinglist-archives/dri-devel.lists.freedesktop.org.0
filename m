@@ -2,62 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F0596261F7
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 20:33:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 531736261F2
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 20:32:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D49310E877;
-	Fri, 11 Nov 2022 19:32:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D0D810E1BC;
+	Fri, 11 Nov 2022 19:32:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4827510E0E3
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 11:46:34 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id be13so7971428lfb.4
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 03:46:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=8+TGbcI0QMZONMioawRdiUS9+5vmjoD8ChogAY21Oa0=;
- b=K5nlJPYQZx78+Mgn7RBBkCqYmu3Rn6ArgOwGOf2XXY7HAgZoJ9QjWVGhyg1cE6r9Rw
- kEQDEI+qTn83kiYVLHOOLrwoMQ5SCSru6awifHCwiI1tmWgqW7b1oa8ab36hG/fMWV2W
- ciFYrd6x3q5OcT7sYB9b0as4UqBgI9MAe5/vyuoHAKS+qPV89g6qVnLb3NKIrYMFZye3
- rxHA0LvaUTUFkaLK+k7im6nbFwPvI3Ek1hPhrTbUpu4WR+sZQoDcnxBXKugB0Le3HpUc
- TQgeC4cYZWc3HBPSa5vA3e3mgnb2b5GWUkLAmkF2qtIscMbhLPxFP3N2xXIiVGAV8bxm
- BE0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8+TGbcI0QMZONMioawRdiUS9+5vmjoD8ChogAY21Oa0=;
- b=Y0bheCI7qHC5kZ9OhDWbX0dV9KW4KnzOXlJ+HxsKfK7uveP8LDktXYNFCdsuNqDpg4
- K6G3Ury5R3LF4qRmKJ6DUdkLV5jhjPA94LWvcdSTfd5y5NrR0EmY1bCHKXMlNKdIWYFX
- ZE3ZKCCgJ2FrF6w1iXV48u/eG5TyY6nBeuvPgwsLUVolIFJfqrTAI4Er4oVXoOreEPm4
- Amf+kyogGhVq005byX/HVDb568nYlo0DAunxwmbpUNtRlv6vtBgLQMJ7ph+LYwfzUsLN
- LC8c3FlAwO12cbczdn+rbfoOKql+iP3fFHc9pOrlcClTpaN1A9fnJ1PTGk8yn9OkaqJv
- +v0Q==
-X-Gm-Message-State: ANoB5pnz1KQekn39YLKClw5gjf9C4Iim4DbG9mFNl8/GUFiii0nyQqsM
- 3pylKoaizD3GLQbhRlpTi1g=
-X-Google-Smtp-Source: AA0mqf4wiSpCasQPxQc2XZal1V3LS9Za3jYalQQVWS8JERfMTmHASiNZacgz6jFLRAGzfiUbS2gPpA==
-X-Received: by 2002:a19:e601:0:b0:4a8:e955:77e7 with SMTP id
- d1-20020a19e601000000b004a8e95577e7mr565011lfh.573.1668167192277; 
- Fri, 11 Nov 2022 03:46:32 -0800 (PST)
-Received: from localhost.localdomain ([78.133.163.249])
- by smtp.googlemail.com with ESMTPSA id
- 10-20020ac25f4a000000b004979ec19380sm281616lfz.285.2022.11.11.03.46.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Nov 2022 03:46:31 -0800 (PST)
-From: Lukasz Wiecaszek <lukasz.wiecaszek@googlemail.com>
-X-Google-Original-From: Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>
-To: kraxel@redhat.com
-Subject: [PATCH] udmabuf: add vmap method to udmabuf_ops
-Date: Fri, 11 Nov 2022 12:45:28 +0100
-Message-Id: <20221111114528.608801-1-lukasz.wiecaszek@gmail.com>
-X-Mailer: git-send-email 2.25.1
+X-Greylist: delayed 331 seconds by postgrey-1.36 at gabe;
+ Fri, 11 Nov 2022 14:49:15 UTC
+Received: from smtpout.efficios.com (smtpout.efficios.com [167.114.26.122])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A559D10E083
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 14:49:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=efficios.com;
+ s=smtpout1; t=1668177821;
+ bh=EYvFyeYoIXdpRZUrDIt9Kwnd3gAkvdIgxw1lIXG8SKY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=l66N3oiBVl0WpLOT0hkLWrSBLQJsJSW4+ouPxFZH5QD5KKmXDB6CMjzwtM8VVLLpX
+ a4mvKpJXJiuV9Qw3ANDqSRII+7K5waLtTRLYZ90oeO3HFXyKJpVusI8jz1TOHWpOiX
+ dJRcqsFN0mN40E/3U0KhejsRReLLA8QsqIZLb9mPKd4oL95EyLfXlhHXXYFtuTieM/
+ mQitMOSC/OQ89QyOELCnHdOHRibH9OXvgNxVpUIxiREjJL0PTMu3jrCYcnxgmXCUU+
+ h1vYvH07RGr00OmtJNBP+zQXctnrrr738WJXcAPDjU36sTOHtCkNno5wnO/vjAKkO+
+ R+/kME1qSOXkw==
+Received: from [172.16.0.153] (192-222-180-24.qc.cable.ebox.net
+ [192.222.180.24])
+ by smtpout.efficios.com (Postfix) with ESMTPSA id 4N81fh5HFrzgt1;
+ Fri, 11 Nov 2022 09:43:40 -0500 (EST)
+Message-ID: <02cdf436-6942-89a7-98b2-bfa75ba5f301@efficios.com>
+Date: Fri, 11 Nov 2022 09:43:49 -0500
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH printk v3 00/40] reduce console_lock scope
+Content-Language: en-US
+To: John Ogness <john.ogness@linutronix.de>, Petr Mladek <pmladek@suse.com>,
+ "Paul E. McKenney" <paulmck@kernel.org>,
+ Frederic Weisbecker <frederic@kernel.org>
+References: <20221107141638.3790965-1-john.ogness@linutronix.de>
+From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+In-Reply-To: <20221107141638.3790965-1-john.ogness@linutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Fri, 11 Nov 2022 19:32:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,87 +56,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, linux-efi@vger.kernel.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Tony Lindgren <tony@atomide.com>,
+ kgdb-bugreport@lists.sourceforge.net, Lai Jiangshan <jiangshanlai@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
+ Alim Akhtar <alim.akhtar@samsung.com>, Joel Fernandes <joel@joelfernandes.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ linux-samsung-soc@vger.kernel.org, Tom Rix <trix@redhat.com>,
+ Richard Weinberger <richard@nod.at>, Helge Deller <deller@gmx.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, linux-serial@vger.kernel.org,
+ Aaron Tomlin <atomlin@redhat.com>, Miguel Ojeda <ojeda@kernel.org>,
+ =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Paolo Abeni <pabeni@redhat.com>, Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+ Michal Simek <michal.simek@xilinx.com>, linux-um@lists.infradead.org,
+ Josh Triplett <josh@joshtriplett.org>, Steven Rostedt <rostedt@goodmis.org>,
+ rcu@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+ Jakub Kicinski <kuba@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-arm-kernel@lists.infradead.org, Juergen Gross <jgross@suse.com>,
+ Mathias Nyman <mathias.nyman@linux.intel.com>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ Douglas Anderson <dianders@chromium.org>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Luis Chamberlain <mcgrof@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jason Wessel <jason.wessel@windriver.com>, linux-fsdevel@vger.kernel.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Johannes Berg <johannes@sipsolutions.net>, linuxppc-dev@lists.ozlabs.org,
+ "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The reason behind that patch is associated with videobuf2 subsystem
-(or more genrally with v4l2 framework) and user created
-dma buffers (udmabuf). In some circumstances
-when dealing with V4L2_MEMORY_DMABUF buffers videobuf2 subsystem
-wants to use dma_buf_vmap() method on the attached dma buffer.
-As udmabuf does not have .vmap operation implemented,
-such dma_buf_vmap() natually fails.
+On 2022-11-07 09:15, John Ogness wrote:
+[...]
+> 
+> The base commit for this series is from Paul McKenney's RCU tree
+> and provides an NMI-safe SRCU implementation [1]. Without the
+> NMI-safe SRCU implementation, this series is not less safe than
+> mainline. But we will need the NMI-safe SRCU implementation for
+> atomic consoles anyway, so we might as well get it in
+> now. Especially since it _does_ increase the reliability for
+> mainline in the panic path.
 
-videobuf2_common: [cap-000000003473b2f1] __vb2_queue_alloc: allocated 3 buffers, 1 plane(s) each
-videobuf2_common: [cap-000000003473b2f1] __prepare_dmabuf: buffer for plane 0 changed
-videobuf2_common: [cap-000000003473b2f1] __prepare_dmabuf: failed to map dmabuf for plane 0
-videobuf2_common: [cap-000000003473b2f1] __buf_prepare: buffer preparation failed: -14
+So, your email got me to review the SRCU nmi-safe series:
 
-The patch itself seems to be strighforward.
-It adds implementation of .vmap method to 'struct dma_buf_ops udmabuf_ops'.
-.vmap method itself uses vm_map_ram() to map pages linearly
-into the kernel virtual address space (only if such mapping
-hasn't been created yet).
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git/log/?h=srcunmisafe.2022.10.21a
 
-Signed-off-by: Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>
----
- drivers/dma-buf/udmabuf.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+Especially this commit:
 
-diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index 2bcdb935a3ac..8649fcbd05c4 100644
---- a/drivers/dma-buf/udmabuf.c
-+++ b/drivers/dma-buf/udmabuf.c
-@@ -12,6 +12,7 @@
- #include <linux/slab.h>
- #include <linux/udmabuf.h>
- #include <linux/hugetlb.h>
-+#include <linux/vmalloc.h>
- 
- static int list_limit = 1024;
- module_param(list_limit, int, 0644);
-@@ -26,6 +27,7 @@ struct udmabuf {
- 	struct page **pages;
- 	struct sg_table *sg;
- 	struct miscdevice *device;
-+	void *vaddr;
- };
- 
- static vm_fault_t udmabuf_vm_fault(struct vm_fault *vmf)
-@@ -57,6 +59,21 @@ static int mmap_udmabuf(struct dma_buf *buf, struct vm_area_struct *vma)
- 	return 0;
- }
- 
-+static int vmap_udmabuf(struct dma_buf *buf, struct dma_buf_map *map)
-+{
-+	struct udmabuf *ubuf = buf->priv;
-+
-+	if (!ubuf->vaddr) {
-+		ubuf->vaddr = vm_map_ram(ubuf->pages, ubuf->pagecount, -1);
-+		if (!ubuf->vaddr)
-+			return -EINVAL;
-+	}
-+
-+	dma_buf_map_set_vaddr(map, ubuf->vaddr);
-+
-+	return 0;
-+}
-+
- static struct sg_table *get_sg_table(struct device *dev, struct dma_buf *buf,
- 				     enum dma_data_direction direction)
- {
-@@ -159,6 +176,7 @@ static const struct dma_buf_ops udmabuf_ops = {
- 	.unmap_dma_buf	   = unmap_udmabuf,
- 	.release	   = release_udmabuf,
- 	.mmap		   = mmap_udmabuf,
-+	.vmap		   = vmap_udmabuf,
- 	.begin_cpu_access  = begin_cpu_udmabuf,
- 	.end_cpu_access    = end_cpu_udmabuf,
- };
+https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git/commit/?h=srcunmisafe.2022.10.21a&id=5d0f5953b60f5f7a278085b55ddc73e2932f4c33
+
+I disagree with the overall approach taken there, which is to create
+yet another SRCU flavor, this time with explicit "nmi-safe" read-locks.
+This adds complexity to the kernel APIs and I think we can be clever
+about this and make SRCU nmi-safe without requiring a whole new incompatible
+API.
+
+You can find the basic idea needed to achieve this in the libside RCU
+user-space implementation. I needed to introduce a split-counter concept
+to support rseq vs atomics to keep track of per-cpu grace period counters.
+The "rseq" counter is the fast-path, but if rseq fails, the abort handler
+uses the atomic counter instead.
+
+https://github.com/compudj/side/blob/main/src/rcu.h#L23
+
+struct side_rcu_percpu_count {
+	uintptr_t begin;
+	uintptr_t rseq_begin;
+	uintptr_t end;
+	uintptr_t rseq_end;
+}  __attribute__((__aligned__(SIDE_CACHE_LINE_SIZE)));
+
+The idea is to "split" each percpu counter into two counters, one for rseq,
+and the other for atomics. When a grace period wants to observe the value of
+a percpu counter, it simply sums the two counters:
+
+https://github.com/compudj/side/blob/main/src/rcu.c#L112
+
+The same idea can be applied to SRCU in the kernel: one counter for percpu ops,
+and the other counter for nmi context, so basically:
+
+srcu_read_lock()
+
+if (likely(!in_nmi()))
+   increment the percpu-ops lock counter
+else
+   increment the atomic lock counter
+
+srcu_read_unlock()
+
+if (likely(!in_nmi()))
+   increment the percpu-ops unlock counter
+else
+   increment the atomic unlock counter
+
+Then in the grace period sum the percpu-ops and the atomic values whenever
+each counter value is read.
+
+This would allow SRCU to be NMI-safe without requiring the callers to
+explicitly state whether they need to be nmi-safe or not, and would only
+take the overhead of the atomics in the NMI handlers rather than for all
+users which happen to use SRCU read locks shared with nmi handlers.
+
+Thoughts ?
+
+Thanks,
+
+Mathieu
+
 -- 
-2.25.1
+Mathieu Desnoyers
+EfficiOS Inc.
+https://www.efficios.com
 
