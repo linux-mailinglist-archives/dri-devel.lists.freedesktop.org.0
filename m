@@ -1,49 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9AA1625A7A
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 13:31:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CE5D625A8A
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 13:37:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88FE810E16E;
-	Fri, 11 Nov 2022 12:31:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D51F10E167;
+	Fri, 11 Nov 2022 12:37:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D47B510E16E
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 12:31:20 +0000 (UTC)
-Received: from [192.168.2.41] (unknown [109.252.117.140])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3B8B10E167
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 12:37:14 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id A01BF6602A53;
- Fri, 11 Nov 2022 12:31:18 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1668169879;
- bh=gT2Zg1km2mpUlaANAsdrhIMFKbouao1ucd64mMJD3XE=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=RfVQvH8QKuuVvlOeRkaRv1xbN5mRU15bCs/pLrqhMZmLqmfFEtPJUzxsUpgII32Wt
- RzbP1bCPO/IQhBcgGjgH7rY8TPuBPBHhwqjHn7CblZkEc2/uo7SohO81qvz94Uqbdz
- Z0jbjnoSKGsy3QhTL2m+5xOnUfu7NojWBWYXYh0rRWl+U1FPlfYNTuVFixeRODo8XB
- pGHTMtGpXpHvb0e8/qOSHqZEgAEMqjjz6dK7L7HVoEqGgel4c3fGt+vDdREDppOPbh
- Vb5Xd6bOxxTNdpUl6GqS+p6kYFilFnoNkiQawBM+8YA0p9Rxb9NEOBgA1Jf4Ij3aXP
- FMlenubFaL+pQ==
-Message-ID: <512e97ec-5d5e-4d6a-e547-13ca4036f3d1@collabora.com>
-Date: Fri, 11 Nov 2022 15:31:15 +0300
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 211F0226D3;
+ Fri, 11 Nov 2022 12:37:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1668170233; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=oe0EVib4V5d0mTbfqDTmQDzOv5WnUzqoTXMLBXAf99c=;
+ b=UGgcAnw0t2Pa9NeDUrO314o/UePW5sgOJHNRTuq0XmISln8M5VEXooq25+tPLIO7IfsoD9
+ C+/r7/4okMT8cDCHMhdUN2VrZzC2mopr5vwwIC1waIYSWIOfxQlQmGDhNTr4N8ReyeiN9a
+ o6Gg4zUVuhbxUL8F/85UodON6mGQSTI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1668170233;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=oe0EVib4V5d0mTbfqDTmQDzOv5WnUzqoTXMLBXAf99c=;
+ b=Lly01IF2xo8L7hFzBWG9GW5d3FCp2Q6ioZb1zCuKUMPmcguo2yTxsh/RwP0xBaJjRFxAzN
+ Z/Sx/4HDy9K7okBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F30C713357;
+ Fri, 11 Nov 2022 12:37:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id EMFCOvhBbmP4TgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 11 Nov 2022 12:37:12 +0000
+Message-ID: <67cfe71f-358f-5bbf-a5b5-019cbc4838a5@suse.de>
+Date: Fri, 11 Nov 2022 13:37:12 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH] udmabuf: add vmap method to udmabuf_ops
+ Thunderbird/102.4.1
+Subject: Re: [PATCH 1/2] drm: Move nomodeset kernel parameter to drivers/video
 Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Lukasz Wiecaszek <lukasz.wiecaszek@googlemail.com>, kraxel@redhat.com
-References: <20221111114528.608801-1-lukasz.wiecaszek@gmail.com>
- <2ee10e0e-a347-71a5-051a-02b9bac0bbb6@amd.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <2ee10e0e-a347-71a5-051a-02b9bac0bbb6@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+To: Javier Martinez Canillas <javierm@redhat.com>, deller@gmx.de,
+ daniel@ffwll.ch
+References: <20221107104916.18733-1-tzimmermann@suse.de>
+ <20221107104916.18733-2-tzimmermann@suse.de>
+ <8447ae65-3f44-6e96-2c0e-f62a06b3e712@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <8447ae65-3f44-6e96-2c0e-f62a06b3e712@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------V70rFrUZmTRFGuIvk0zIH0f2"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,55 +72,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/11/22 15:05, Christian König wrote:
-> Adding Dmitry as well.
-> 
-> Am 11.11.22 um 12:45 schrieb Lukasz Wiecaszek:
->> The reason behind that patch is associated with videobuf2 subsystem
->> (or more genrally with v4l2 framework) and user created
->> dma buffers (udmabuf). In some circumstances
->> when dealing with V4L2_MEMORY_DMABUF buffers videobuf2 subsystem
->> wants to use dma_buf_vmap() method on the attached dma buffer.
->> As udmabuf does not have .vmap operation implemented,
->> such dma_buf_vmap() natually fails.
->>
->> videobuf2_common: [cap-000000003473b2f1] __vb2_queue_alloc: allocated
->> 3 buffers, 1 plane(s) each
->> videobuf2_common: [cap-000000003473b2f1] __prepare_dmabuf: buffer for
->> plane 0 changed
->> videobuf2_common: [cap-000000003473b2f1] __prepare_dmabuf: failed to
->> map dmabuf for plane 0
->> videobuf2_common: [cap-000000003473b2f1] __buf_prepare: buffer
->> preparation failed: -14
->>
->> The patch itself seems to be strighforward.
->> It adds implementation of .vmap method to 'struct dma_buf_ops
->> udmabuf_ops'.
->> .vmap method itself uses vm_map_ram() to map pages linearly
->> into the kernel virtual address space (only if such mapping
->> hasn't been created yet).
-> 
-> Of hand that sounds sane to me.
-> 
-> You should probably mention somewhere in a code comment that the cached
-> vaddr is protected by the reservation lock being taken. That's not
-> necessary obvious to everybody.
-> 
-> Apart from that looks good to me.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------V70rFrUZmTRFGuIvk0zIH0f2
+Content-Type: multipart/mixed; boundary="------------qNIBT6O7Ye2biLa6BwSRs1eK";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>, deller@gmx.de,
+ daniel@ffwll.ch
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Message-ID: <67cfe71f-358f-5bbf-a5b5-019cbc4838a5@suse.de>
+Subject: Re: [PATCH 1/2] drm: Move nomodeset kernel parameter to drivers/video
+References: <20221107104916.18733-1-tzimmermann@suse.de>
+ <20221107104916.18733-2-tzimmermann@suse.de>
+ <8447ae65-3f44-6e96-2c0e-f62a06b3e712@redhat.com>
+In-Reply-To: <8447ae65-3f44-6e96-2c0e-f62a06b3e712@redhat.com>
 
-Adding a comment won't hurt.
+--------------qNIBT6O7Ye2biLa6BwSRs1eK
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-We have the dma_resv_assert_held() in dma_buf_vmap() that will help
-spotting a missing lock at runtime by developers. While the
-dmbuf_ops->vmap() shouldn't be ever used directly by importers.
+SGkNCg0KQW0gMTEuMTEuMjIgdW0gMTA6Mjggc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
+aWxsYXM6DQo+IEhlbGxvIFRob21hcywNCj4gDQo+IE9uIDExLzcvMjIgMTE6NDksIFRob21h
+cyBaaW1tZXJtYW5uIHdyb3RlOg0KPiANCj4gWy4uLl0NCj4gDQo+Pg0KPj4gZGlmZiAtLWdp
+dCBhL0RvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUva2VybmVsLXBhcmFtZXRlcnMudHh0IGIv
+RG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9rZXJuZWwtcGFyYW1ldGVycy50eHQNCj4+IGlu
+ZGV4IGE0NjVkNTI0Mjc3NGEuLjcwMTc4YzVmNTM5NTYgMTAwNjQ0DQo+PiAtLS0gYS9Eb2N1
+bWVudGF0aW9uL2FkbWluLWd1aWRlL2tlcm5lbC1wYXJhbWV0ZXJzLnR4dA0KPj4gKysrIGIv
+RG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9rZXJuZWwtcGFyYW1ldGVycy50eHQNCj4+IEBA
+IC0zNzc3LDcgKzM3NzcsNyBAQA0KPj4gICAJCQlzaHV0ZG93biB0aGUgb3RoZXIgY3B1cy4g
+IEluc3RlYWQgdXNlIHRoZSBSRUJPT1RfVkVDVE9SDQo+PiAgIAkJCWlycS4NCj4+ICAgDQo+
+PiAtCW5vbW9kZXNldAlEaXNhYmxlIGtlcm5lbCBtb2Rlc2V0dGluZy4gRFJNIGRyaXZlcnMg
+d2lsbCBub3QgcGVyZm9ybQ0KPj4gKwlub21vZGVzZXQJRGlzYWJsZSBrZXJuZWwgbW9kZXNl
+dHRpbmcuIEdyYXBoaWNzIGRyaXZlcnMgd2lsbCBub3QgcGVyZm9ybQ0KPj4gICAJCQlkaXNw
+bGF5LW1vZGUgY2hhbmdlcyBvciBhY2NlbGVyYXRlZCByZW5kZXJpbmcuIE9ubHkgdGhlDQo+
+PiAgIAkJCXN5c3RlbSBmcmFtZWJ1ZmZlciB3aWxsIGJlIGF2YWlsYWJsZSBmb3IgdXNlIGlm
+IHRoaXMgd2FzDQo+PiAgIAkJCXNldC11cCBieSB0aGUgZmlybXdhcmUgb3IgYm9vdCBsb2Fk
+ZXIuDQo+IA0KPiBOb3QgcmVhbGx5IHBhcnQgb2YgeW91ciBwYXRjaCBidXQgcHJvYmFibHkg
+d2Ugc2hvdWxkIHJld29yZCB0aGlzIGEgbGl0dGxlIGJpdC4NCj4gDQo+IEJlY2F1c2UgYXMg
+dGhpcyBpcyB3cml0dGVuLCBpdCBpbXBsaWVzIHRoYXQgbm90IG9ubHkgRFJNIGRyaXZlcnMg
+d2l0aCBmZWF0dXJlDQo+IERSSVZFUl9NT0RFU0VUIHdpbGwgbm90IGJlIGF2YWlsYWJsZSBi
+dXQgYWxzbyBkcml2ZXJzIHdpdGggRFJJVkVSX1JFTkRFUi4gQnV0DQo+IHRoYXQncyBub3Qg
+dGhlIGNhc2UsIHJlbmRlci1vbmx5IGRyaXZlcnMgdXN1YWxseSBqdXN0IGlnbm9yZSB0aGlz
+IHBhcmFtZXRlcg0KPiAoYnV0IG5vdCBhbGwgSUlSQyksIHNvIEkgd29uZGVyIGhvdyB3ZSBj
+b3VsZCBtYWtlIHRoaXMgY29tbWVudCBtb3JlIGFjY3VyYXRlLg0KPiANCj4gQWxzbyBtYXli
+ZSB3ZSBjYW4gbWVudGlvbiBpbiB0aGUgY29tbWVudCBmYmRldiBhbmQgRFJNPyBKdXN0IHRv
+IG1ha2UgaXQgY2xlYXINCj4gdGhhdCB0aGlzIHdpbGwgYWZmZWN0IHRvIGJvdGggc3Vic3lz
+dGVtcz8gV2hlbiBJIGZpcnN0IHdvcmtlZCBvbiB0aGlzLCB0aGVyZQ0KPiB3ZXJlIGEgbG90
+IG9mIGFzc3VtcHRpb25zIGluIHRoZSBzdGFjayAoZ2RtLCBtdXR0ZXIsIHBseW1vdXRoKSB0
+aGF0IG5vbW9kZXNldA0KPiBiYXNpY2FsbHkgbWVhbnQgIm5vIERSTSBidXQgZmJkZXYiLg0K
+PiANCj4gWy4uLl0NCj4gDQo+PiAgIA0KPj4gICBpbnQgZHJtX2Rldl9zZXRfdW5pcXVlKHN0
+cnVjdCBkcm1fZGV2aWNlICpkZXYsIGNvbnN0IGNoYXIgKm5hbWUpOw0KPj4gICANCj4+IC1l
+eHRlcm4gYm9vbCBkcm1fZmlybXdhcmVfZHJpdmVyc19vbmx5KHZvaWQpOw0KPj4gKy8qIFRP
+RE86IElubGluZSBkcm1fZmlybXdhcmVfZHJpdmVyc19vbmx5KCkgaW4gYWxsIGl0cyBjYWxs
+ZXJzLiAqLw0KPiANCj4gSSBndWVzcyB5b3UgcGxhbiB0byBkbyB0aGF0IGFzIGZvbGxvdy11
+cCBwYXRjaGVzIG9uY2UgdGhpcyBzZXJpZXMgbGFuZD8gSnVzdA0KPiB0byBhdm9pZCB0aGUg
+Y2h1cm4gdG8gcmVxdWlyZSBhY2tzIGZvciBhbGwgdGhlIGRyaXZlcnMgdG8gbWVyZ2UgdGhp
+cyBzZXJpZXM/DQoNClllcy4gSXQgaGFzIG5vIGh1cnJ5LCBidXQgd2UgY2FuIGRvIHRoYXQu
+DQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IFRoZSBjaGFuZ2VzIGxvb2tzIGdv
+b2QgdG8gbWUuDQo+IA0KPiBSZXZpZXdlZC1ieTogSmF2aWVyIE1hcnRpbmV6IENhbmlsbGFz
+IDxqYXZpZXJtQHJlZGhhdC5jb20+DQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpH
+cmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJt
+YW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhS
+QiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
--- 
-Best regards,
-Dmitry
 
+--------------qNIBT6O7Ye2biLa6BwSRs1eK--
+
+--------------V70rFrUZmTRFGuIvk0zIH0f2
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmNuQfgFAwAAAAAACgkQlh/E3EQov+A4
+iRAAg6ww0uCRz0Y6BPSL+d8OzLH6dp4XDLwthg1/bCD8uj9PM92Yr+3NmvMm/2wBA1bKuyxEobtl
+/COtOUWeJs87PRWtkx4Uk2vEpLMxOJjDXO4tK+dVVrjM379RlrrutHyGKnjLsLTVAwIBLa5aKIp6
+yuBIF0/r6LtTtFNnoXiW7uQaYRUasChayxV41KbpGa1kndUfCwNHS0Rw8AV8Pzwv5kyOqs3QOQrj
+JnGK1HQtfK9yzFBukbYMtIThnEd6KhJ399wPgKY5FfVdzCQRWpBgulBe1jZItRa7DHr2VU9Ex9FJ
+GIFRRUW3iZ/iZlVGtiXBFbd0DblysQsRPq7LdDWFmFA7fJnpxUJWyNT4otCYWP89oXSbadTXWEzv
+CvFWiqjbZxQCN8p9WeszKQjAx5dPUI1XlJRddsFEaoNisBgKmZplxY9TZVhpDcd+QFT9AeX7rSDd
+SLhGuIkyeBb0MHwvukKuN9mp5kFjLltmpDyzlrgY8/RDGbfxADG3AR7WN8ZTWZ37RETw2jqPk4C5
+hJDSqrQ/vmijrj9Epb4f+P8ogVHgpLU3OFRxJRRFBn+LHv6OfoHBRxPp3Y9SONcYrph5Y+p0rAaG
+R/7hsBSLpvG1FHv1KgmP7fMfYaeSD5Dk+PUMtZopzvJscZ0BQq/ZD9ub2sO/otzC/KuTg41MrBR9
+nI8=
+=Za3v
+-----END PGP SIGNATURE-----
+
+--------------V70rFrUZmTRFGuIvk0zIH0f2--
