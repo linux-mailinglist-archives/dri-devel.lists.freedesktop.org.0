@@ -2,64 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8761E626321
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 21:44:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63F02626328
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 21:46:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B36210E049;
-	Fri, 11 Nov 2022 20:44:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BB6610E8C3;
+	Fri, 11 Nov 2022 20:46:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BD2B10E049
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 20:44:36 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id v27so9214577eda.1
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 12:44:36 -0800 (PST)
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B385910E8C3
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 20:46:13 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id n12so15115124eja.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 12:46:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=NnLqisDFGKGyEcOivxewv5QdcxXzGz5YXiWHVm2gs7Q=;
- b=jR2w8l/5qKL+O2Vvh57BDW7q1LHOcBDLQI+WmEiDLEw+ZYD0o/H9jLuNB/UBnBIqHL
- qrprw4ujpYS8N0i8zKaDbjhsyAuAwObSkeEB5FXAcHT4+OvwPNhzZV7SXieYcttnpP+g
- h/qeHb81Bubu/MGUENEVonrJL2iwTB1LfSxCs=
+ bh=I9Gsc4vAOXyP9hE0dy07upvJe/x2SdZ67s0li3UeIhg=;
+ b=kneG+DA5pe4jdo30hl6hW2O1BMx7Y5I6sjTgS/cI1D5Sj66I+Vd9CMBuuJQo9znbkg
+ +GIUPErJIfS7CFRyXdU9fmI0DgfS2JdhXiHrXowZWIgzS6dA2e5L+Dm3YEGX3tbTnk96
+ T5KuKk04n75cpDT4R8X/t/WlB0uvIzCf7e5nU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=NnLqisDFGKGyEcOivxewv5QdcxXzGz5YXiWHVm2gs7Q=;
- b=v6igrqxcFbKr8osxxQf/V5FKTbnHMcedjGpgC9UbS9I8LkEXgxBMXH5oneDf3KJYnx
- MERVOZ9rlUMb1SPau5eMHd7mXQsLSBn+KVwEreU5pLB1cvoulvHGARBlNNHSLpVeIYsi
- +14qm7rfSOvowFWJW4TiQ05A3xQdnNEPDAHi8oqEsn1dpJWmC/p3pNqM0oBVT7mK1hNR
- AFL8YTI8uhxZECkwewKqduYVtvlHAwRNQg/DDSSarmKd1Lc7p67aOXfEFY0NZm7vNDQh
- FxFGyPOi+zE4oy3EYx7mh9y9N/2H/ewLw8HNro+rhQ7k5Zl49b+qGDRpiifjGdDx2UN4
- +JCQ==
-X-Gm-Message-State: ANoB5pm99+lZJorbATf1rXVurZtvR6k+tqpntJa6rGlEkJPR4C6Ko628
- JNrVOuhowRGuFeNZkvh1bRJ13U+aUjps2t19
-X-Google-Smtp-Source: AA0mqf5xbx8cxXcFFrgMQHHmElR4rhuz3fmE1l5GCtdnKGw0pbzAeFbNtnjrHdCsJdYZhpr+fJOLgA==
-X-Received: by 2002:a50:baed:0:b0:461:46c7:53aa with SMTP id
- x100-20020a50baed000000b0046146c753aamr3011554ede.165.1668199474531; 
- Fri, 11 Nov 2022 12:44:34 -0800 (PST)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com.
- [209.85.128.51]) by smtp.gmail.com with ESMTPSA id
- b3-20020a170906728300b007a559542fcfsm1247922ejl.70.2022.11.11.12.44.33
+ bh=I9Gsc4vAOXyP9hE0dy07upvJe/x2SdZ67s0li3UeIhg=;
+ b=qZbBFCWzgIi5ND5ydmrOI12Bj7qz1YXlk0IQb4+BxESJtJ8xPzBmTdvrMqesS4brCk
+ cWvN4+9swBfhuMoLUl4tbDsef2gY491VbPtw3Vc4ZMxtgaftqSOZfb0jAAMFj83e1UQL
+ iBIN7AZHV1DeuXNI8ij/wBoZZcHKPg/WJukIla3s6aRvtKJyosOqtx0yE3sF8pItPD7w
+ qJACACUOVjB4RwnXRLjlHZURWmXmTEwg0xSgaqWMHI/UcZCZOoxD/QabvY2OFtepFLTN
+ NkMFW/SNFNV2SC1RespZAgeFZ3dWIYXeeoMUgtg5+tpoWhEWs2Hfy28vc+eMI3OvwDYF
+ tRlQ==
+X-Gm-Message-State: ANoB5plUnNS69drOndhjgmT6uFQKxR2e/LaiKHD8ad5r+kEanBI8gTAT
+ 9uFCGODstTGoe+2Y4grni2skKJlYBKQInv6j
+X-Google-Smtp-Source: AA0mqf6OhWm49ecdnTTuLr1lhVgIqeUrC4ZxnIiwruUvn+YQZTnGUvNbj1kX1wAm4kAgXeBgby9xQA==
+X-Received: by 2002:a17:907:8c81:b0:7ad:902c:d158 with SMTP id
+ td1-20020a1709078c8100b007ad902cd158mr3443257ejc.121.1668199571627; 
+ Fri, 11 Nov 2022 12:46:11 -0800 (PST)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com.
+ [209.85.221.53]) by smtp.gmail.com with ESMTPSA id
+ ce12-20020a170906b24c00b007addcbd402esm1232554ejb.215.2022.11.11.12.46.10
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Nov 2022 12:44:33 -0800 (PST)
-Received: by mail-wm1-f51.google.com with SMTP id o30so3549308wms.2
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 12:44:33 -0800 (PST)
-X-Received: by 2002:a7b:c459:0:b0:3cf:8e70:f34f with SMTP id
- l25-20020a7bc459000000b003cf8e70f34fmr2325334wmi.93.1668199472638; Fri, 11
- Nov 2022 12:44:32 -0800 (PST)
+ Fri, 11 Nov 2022 12:46:10 -0800 (PST)
+Received: by mail-wr1-f53.google.com with SMTP id cl5so7856668wrb.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 12:46:10 -0800 (PST)
+X-Received: by 2002:a5d:694c:0:b0:238:b29e:4919 with SMTP id
+ r12-20020a5d694c000000b00238b29e4919mr2219053wrw.583.1668199570136; Fri, 11
+ Nov 2022 12:46:10 -0800 (PST)
 MIME-Version: 1.0
-References: <20221110145102.1.I51639dc112bbbe27259df6bdad56dbabd655d91a@changeid>
-In-Reply-To: <20221110145102.1.I51639dc112bbbe27259df6bdad56dbabd655d91a@changeid>
+References: <20221021130637.1.I8c2de0954a4e54e0c59a72938268e2ead91daa98@changeid>
+ <e6bc800b-2d3b-aac9-c1cb-7c08d618fc8e@quicinc.com>
+ <CAD=FV=V4m5HNavewSTkrh64_BzLAkivR2mRkTQdaxA8k9JKQbA@mail.gmail.com>
+ <956de566-d60a-f257-edff-85a2eac06d99@quicinc.com>
+In-Reply-To: <956de566-d60a-f257-edff-85a2eac06d99@quicinc.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 11 Nov 2022 12:44:20 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=V6HAwvKskWvggxx8J3y_PkiisPzY5YzMV8BMTb3oSxpg@mail.gmail.com>
-Message-ID: <CAD=FV=V6HAwvKskWvggxx8J3y_PkiisPzY5YzMV8BMTb3oSxpg@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel-edp: Use ktime_get_boottime for delays
-To: Drew Davenport <ddavenport@chromium.org>
+Date: Fri, 11 Nov 2022 12:45:58 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=UUpR9Euq5r+MujO6BdTk2cnWe_0JTdcP_e5RP47apUcw@mail.gmail.com>
+Message-ID: <CAD=FV=UUpR9Euq5r+MujO6BdTk2cnWe_0JTdcP_e5RP47apUcw@mail.gmail.com>
+Subject: Re: [PATCH] drm/edid: Dump the EDID when drm_edid_get_panel_id() has
+ an error
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,48 +77,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Thu, Nov 10, 2022 at 1:51 PM Drew Davenport <ddavenport@chromium.org> wrote:
+On Tue, Oct 25, 2022 at 1:39 PM Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
 >
-> ktime_get is based on CLOCK_MONOTONIC which stops on suspend. On
-> suspend, the time that the panel was powerd off is recorded with
-> ktime_get, and on resume this time is compared to the current ktime_get
-> time to determine if the driver should wait for the panel to power down
-> completely before re-enabling it.
+> Hi Doug
 >
-> Because we're using ktime_get, this delay doesn't account for the time
-> that the device is suspended, during which the power down delay may have
-> already elapsed.
+> On 10/24/2022 1:28 PM, Doug Anderson wrote:
+> > Hi,
+> >
+> > On Fri, Oct 21, 2022 at 2:18 PM Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> >>
+> >> Hi Doug
+> >>
+> >> On 10/21/2022 1:07 PM, Douglas Anderson wrote:
+> >>> If we fail to get a valid panel ID in drm_edid_get_panel_id() we'd
+> >>> like to see the EDID that was read so we have a chance of
+> >>> understanding what's wrong. There's already a function for that, so
+> >>> let's call it in the error case.
+> >>>
+> >>> NOTE: edid_block_read() has a retry loop in it, so actually we'll only
+> >>> print the block read back from the final attempt. This still seems
+> >>> better than nothing.
+> >>>
+> >>> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> >>
+> >> Instead of checkinf for edid_block_status_valid() on the base_block, do
+> >> you want to use drm_edid_block_valid() instead?
+> >>
+> >> That way you get the edid_block_dump() for free if it was invalid.
+> >
+> > I can... ...but it feels a bit awkward and maybe not quite how the
+> > functions were intended to work together?
+> >
+> > One thing I notice is that if I call drm_edid_block_valid() I'm doing
+> > a bunch of duplicate work that already happened in edid_block_read(),
+> > which already calls edid_block_check() and handles fixing headers. I
+> > guess also if I call drm_edid_block_valid() then I should ignore the
+> > "status" return value of edid_block_read() because we don't need to
+> > pass it anywhere (because the work is re-done in
+> > drm_edid_block_valid()).
+> >
+> > So I guess I'm happy to do a v2 like that if everyone likes it better,
+> > but to me it feels a little weird.
+> >
+> > -Doug
 >
-> Change to use ktime_get_boottime throughout, which uses CLOCK_BOOTTIME
-> which does not stop when suspended. This ensures that the resume path
-> will not be delayed if the power off delay has already been met while
-> the device is suspended.
+> Alright, agreed. There is some duplication of code happening if we use
+> drm_edid_block_valid(). I had suggested that because it has inherent
+> support for dumping the bad EDID.
 >
-> Signed-off-by: Drew Davenport <ddavenport@chromium.org>
+> In that case, this change LGTM, because in principle you are doing the
+> same thing as _drm_do_get_edid() (with the only difference being here we
+> read only the base block as opposed to the full EDID there).
 >
-> ---
+> Hence,
 >
->  drivers/gpu/drm/panel/panel-edp.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-Nice!
+I've given this patch a bunch of time because it wasn't urgent, but
+seems like it could be about time to land. I'll plan to land it next
+Monday or Tuesday unless anyone has any other comments.
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-
-My plan will be to land this to drm-misc-next early next week (Tuesday
-maybe?) unless someone has any objections.
-
-BTW: any chance you'd be willing to post against two similar drivers:
-panel-simple.c and panel-samsung-atna33xc20.c? They have nearly the
-same code (and, yes, these drivers are purposely copies since there
-was overall consensus that having one giant panel driver to handle all
-possible panels was getting far too confusing)
+Thanks!
 
 -Doug
