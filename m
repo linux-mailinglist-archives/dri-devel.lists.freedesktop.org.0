@@ -2,69 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6CFD6258B0
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 11:50:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61877625936
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 12:19:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D001A10E7F3;
-	Fri, 11 Nov 2022 10:50:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC51610E087;
+	Fri, 11 Nov 2022 11:18:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D972E10E7F3
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 10:49:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1668163793; bh=TVVaXc4g6GTT1yFQeK38icswCRKjgAN5+Unyzwo73vM=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=LuYvuF2Dd/vv8mQu3DliLLVui5LwrjToWEDrQiUaGr9R+UkFkKffY28ThSr+FmD70
- ZN36E1lbSUJxchg/3qg4uOkzfOMUIRMGu3HsADucBRuSQHNr6Oujq2LtDQpZW2nlXt
- Bl5LyrNfjEN+EL8KUU9k9ibqTb5GYeFu7KclDqRlG8yk5twe64kZTeknrZz/TECuVj
- BhKpnHFItQ91y8qI6os9XoVen3OENAN3OdopcW/ot7iWvWKBsv6dWPlXhCP4m4FECB
- YYB4tPhPzYPxtRTGLhmwvbbJ/6YnFiEALfDWQYm/pedG+npGcFTNWvVsRwQziZ463+
- WcyhtbdYxDK0g==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([92.116.140.172]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N1OXZ-1ozw0w2nXv-012rIv; Fri, 11
- Nov 2022 11:49:53 +0100
-Message-ID: <3b3d0af7-0ad2-bd45-26ec-bd00eebfa905@gmx.de>
-Date: Fri, 11 Nov 2022 11:49:53 +0100
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
+ [209.85.166.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD26910E087
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 11:18:56 +0000 (UTC)
+Received: by mail-io1-f69.google.com with SMTP id
+ f2-20020a5ec602000000b006dc67829888so2925609iok.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 03:18:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ydVooePxmDrHayJC7VSqE+6bvJCgNaAZis4ZNWJBQpI=;
+ b=BhUCGkk2avrwxbnBezuPQ6T8ypFfdVVq+sig+LuSA729mpTB1kJb5Q3RWHTAktnfwR
+ grA54j4+C8BxMhVRvecXKY6ElZeQ8E4ZkBsbesYcDBODTrBiGfmd79ZPahdXF3lS7P7V
+ 3m5t5Lkg0TeGI1CRrLpdJ/fwj0zGJiNIYDf//QAk7NMwjrdHFGh65hN1dOB+spANwVr5
+ NaXVTzfk5nYK4dnQyyhw5oIKoJMW5iDxNyv/jgTMY5pudJi0pU0d2CKtmP+2vLP2hI+C
+ noNvM/nGeCAKmXlBi3cD8w2Pn6NTiQr0N7TEoL8HkNQ3UtWfAthn6Miz9VwWaQEn1jHB
+ vedQ==
+X-Gm-Message-State: ANoB5plNdiaXMliYim+RLU3tBUqzdf23uHAVrbWc6CeRnfDS5riM5sYz
+ I0iLxiJn9hqv+6wX8HClqnLQteMSsmWkm2Zk2oG34xGJy1RU
+X-Google-Smtp-Source: AA0mqf7OzarPms6yOizs00yfd8/BLnWlraeFLHqq5NrrCa+o9KN2bB3b/Jv0GPVBWwYvPrkNaOqwNEmy0qpKCiOz4sOCKpk5v1Ux
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH 2/2] fbdev: Add support for the nomodeset kernel parameter
-Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch
-References: <20221107104916.18733-1-tzimmermann@suse.de>
- <20221107104916.18733-3-tzimmermann@suse.de>
- <2e2d23f3-9c2d-e75e-f390-4651a4da730f@gmx.de>
- <6547fba2-a002-f339-2997-5b28df794095@suse.de>
- <d21a0a0d-22fb-99bf-0d29-75b1fe1db677@gmx.de>
- <dfa83c75-4062-93ee-380c-3e0e4f41c448@suse.de>
- <73c7243d-b1b7-ac3c-7b17-1f0084821aa4@redhat.com>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <73c7243d-b1b7-ac3c-7b17-1f0084821aa4@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:j8xjehE/ZM132UoLdDCvfwx6M9xwAKJ2vUxAiIHCHc3723nNu1F
- OTt1W00iax6Bk3n3ClBGre+cHrT3SKHbiHSRE2mO3v/Ph+gj7z82SlUMKvi6D9ERhAzUpF+
- miAxRTAB8cejChSCUZNU4RI1JJGuhwxOygFAXfri9OmagN/Id0VUCJvNYs+xsY7B5jBJIrA
- WqTnx6NlVICx5p2YA9WXw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:X7CRMHdMORk=;CmHL/JUPTU/IgC4sqqWnPGWs1ay
- 9OIXVV1Y+DLqP+FzQ4SOYPFQWjwFaZrghsQPNv6hwMRhnJ5aiG1z88O9DU16QYv4qQecp3ceJ
- nbKNvqQx6K+nevlcxhVOEqa9gyDqIVJ/oXzihSeVHi+a0B9/OJDKrqWSpkzQjG2gEVo1Bblyp
- jhfTAonn1ypo4IAuQBHL2AMkaawsCay757fBIvsyB8UfySC3CWZVjGnA9J9ZKIwxP1MpGJfIK
- ryvmypWydtQp27gwX28+C7DszXTiN/PBUjN4IhseKN64+Dpra7g/ej7WP1Bqy9V7t1645s2Xh
- lXE9NCsT3f1x1cf2kVoMie37p1gOtO7q1r0x4ptJE7nqFcwOH4PqhnHJzNe4TSsCZ+XtPe3Tb
- VaBxhCT2ZkbJbHFw/7QJNxbxC1M4qA6hQW3Rd2zwCJ6P7X/po5P2WKTns4PJRd5yp5pVANmzn
- zeN4W2iL/XkR48ntJDLoeAkQSXzgcQ0R85MPFeWwOZ6KDzI3G2cYB+fodM7AF+jLsMV7i6uYJ
- 3bnQ6V6id/yJq3VDJHhGoni4/FHe/0rA3dWWYK3eMiOg9MSk/UWlsCarqmPp961SRjSVGLyb4
- QYU4JxPQQSUMwtk2FhDmvXkd4m1l9xdlkgC482A8xiOhwYjn7bbJ0e++z+JNlcSSRKtxZiHUn
- JHnaRCHBtCenlVQUHv/p7HnGT4q5ThVUpQJghVA5fHMJ4jWR5gfMSS3pOFLy8hnKWV8JzT5jH
- fiIMuXR+jko727kyRctdz3Fvp4ouLbGDNn91W5AmpdJQMh9GGuOK/h+V85VDVrbgGY3AnsvsT
- tbENLZwezJkk0bA7lxw0KQhPEL9coXPNvUHIYOl5ipFX8hegadlPKt+SdUT0V8QaWGET1/Pzh
- EiHwsAhJ4sL3JtacdsO+2dJmJi4wtYLUS6FzJOsvi1zYq5OrkOuCHFQuMT8sDGG3oge0b4I8s
- xLCYqw==
+X-Received: by 2002:a02:8792:0:b0:363:bb1f:7a03 with SMTP id
+ t18-20020a028792000000b00363bb1f7a03mr540230jai.16.1668165536040; Fri, 11 Nov
+ 2022 03:18:56 -0800 (PST)
+Date: Fri, 11 Nov 2022 03:18:56 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000033d0f205ed300e3b@google.com>
+Subject: [syzbot] inconsistent lock state in trace_hardirqs_on
+From: syzbot <syzbot+6d6c13e35721fb4393fd@syzkaller.appspotmail.com>
+To: christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
+ gustavo@padovan.org, linaro-mm-sig@lists.linaro.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,37 +57,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/11/22 10:49, Javier Martinez Canillas wrote:
-> On 11/8/22 09:16, Thomas Zimmermann wrote:
->> Hi
->
-> [...]
->
->>
->> My proposal would be to add a little helper to fbdev that includes your
->> suggestions:
->>
->>     bool fb_modesetting_disabled(const char *drvname)
->>     {
->>        fwonly =3D video_firmware_drivers_only()
->>        if (fbonly && drvname)
->> 	pr_warn("")
->>        return fbonly;
->>     }
+Hello,
 
-I'm still wondering why you can't simply merge it with what is printed in
-  [1] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_n=
-omodeset.c#L18
+syzbot found the following issue on:
 
-Other than that, your the proposal is okay, if you adjust your patches to
-call this new function "fb_modesetting_disabled()" instead of
-calling video_firmware_drivers_only() like this:
+HEAD commit:    bbed346d5a96 Merge branch 'for-next/core' into for-kernelci
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
+console output: https://syzkaller.appspot.com/x/log.txt?x=14c82f39880000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=3a4a45d2d827c1e
+dashboard link: https://syzkaller.appspot.com/bug?extid=6d6c13e35721fb4393fd
+compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
+userspace arch: arm64
 
-> +    if (video_firmware_drivers_only())
-> +        return -ENODEV;
+Unfortunately, I don't have any reproducer for this issue yet.
 
-Helge
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/e8e91bc79312/disk-bbed346d.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/c1cb3fb3b77e/vmlinux-bbed346d.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+6d6c13e35721fb4393fd@syzkaller.appspotmail.com
+
+================================
+WARNING: inconsistent lock state
+6.0.0-rc7-syzkaller-18095-gbbed346d5a96 #0 Not tainted
+--------------------------------
+inconsistent {IN-HARDIRQ-W} -> {HARDIRQ-ON-W} usage.
+syz-executor.4/21937 [HC0[0]:SC0[0]:HE0:SE1] takes:
+ffff80000d6384c8 (sync_timeline_list_lock){?...}-{2:2}, at: spin_lock_irq include/linux/spinlock.h:374 [inline]
+ffff80000d6384c8 (sync_timeline_list_lock){?...}-{2:2}, at: sync_info_debugfs_show+0x54/0x2dc drivers/dma-buf/sync_debug.c:147
+{IN-HARDIRQ-W} state was registered at:
+  lock_acquire+0x100/0x1f8 kernel/locking/lockdep.c:5666
+  __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+  _raw_spin_lock_irqsave+0x6c/0xb4 kernel/locking/spinlock.c:162
+  sync_timeline_debug_remove+0x24/0x80 drivers/dma-buf/sync_debug.c:31
+  sync_timeline_free drivers/dma-buf/sw_sync.c:104 [inline]
+  kref_put include/linux/kref.h:65 [inline]
+  sync_timeline_put drivers/dma-buf/sw_sync.c:116 [inline]
+  timeline_fence_release+0xe0/0x15c drivers/dma-buf/sw_sync.c:144
+  dma_fence_release+0x70/0x11c drivers/dma-buf/dma-fence.c:549
+  kref_put include/linux/kref.h:65 [inline]
+  dma_fence_put include/linux/dma-fence.h:276 [inline]
+  dma_fence_array_release+0xac/0x154 drivers/dma-buf/dma-fence-array.c:120
+  dma_fence_release+0x70/0x11c drivers/dma-buf/dma-fence.c:549
+  kref_put include/linux/kref.h:65 [inline]
+  dma_fence_put include/linux/dma-fence.h:276 [inline]
+  irq_dma_fence_array_work+0x84/0x11c drivers/dma-buf/dma-fence-array.c:52
+  irq_work_single kernel/irq_work.c:211 [inline]
+  irq_work_run_list kernel/irq_work.c:242 [inline]
+  irq_work_run+0xc4/0x29c kernel/irq_work.c:251
+  do_handle_IPI arch/arm64/kernel/smp.c:899 [inline]
+  ipi_handler+0x120/0x1a8 arch/arm64/kernel/smp.c:922
+  handle_percpu_devid_irq+0xb0/0x1c8 kernel/irq/chip.c:930
+  generic_handle_irq_desc include/linux/irqdesc.h:158 [inline]
+  handle_irq_desc kernel/irq/irqdesc.c:648 [inline]
+  generic_handle_domain_irq+0x4c/0x6c kernel/irq/irqdesc.c:704
+  __gic_handle_irq drivers/irqchip/irq-gic-v3.c:695 [inline]
+  __gic_handle_irq_from_irqson drivers/irqchip/irq-gic-v3.c:746 [inline]
+  gic_handle_irq+0x78/0x1b4 drivers/irqchip/irq-gic-v3.c:790
+  call_on_irq_stack+0x2c/0x54 arch/arm64/kernel/entry.S:889
+  do_interrupt_handler+0x7c/0xc0 arch/arm64/kernel/entry-common.c:274
+  __el1_irq arch/arm64/kernel/entry-common.c:470 [inline]
+  el1_interrupt+0x34/0x68 arch/arm64/kernel/entry-common.c:485
+  el1h_64_irq_handler+0x18/0x24 arch/arm64/kernel/entry-common.c:490
+  el1h_64_irq+0x64/0x68 arch/arm64/kernel/entry.S:577
+  arch_local_irq_enable arch/arm64/include/asm/irqflags.h:35 [inline]
+  __raw_spin_unlock_irq include/linux/spinlock_api_smp.h:159 [inline]
+  _raw_spin_unlock_irq+0x44/0x70 kernel/locking/spinlock.c:202
+  spin_unlock_irq include/linux/spinlock.h:399 [inline]
+  sw_sync_debugfs_release+0xa8/0x158 drivers/dma-buf/sw_sync.c:321
+  __fput+0x198/0x3dc fs/file_table.c:320
+  ____fput+0x20/0x30 fs/file_table.c:353
+  task_work_run+0xc4/0x14c kernel/task_work.c:177
+  exit_task_work include/linux/task_work.h:38 [inline]
+  do_exit+0x26c/0xbe0 kernel/exit.c:795
+  __arm64_sys_exit_group+0x0/0x18 kernel/exit.c:925
+  __do_sys_exit_group kernel/exit.c:936 [inline]
+  __se_sys_exit_group kernel/exit.c:934 [inline]
+  __wake_up_parent+0x0/0x40 kernel/exit.c:934
+  __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
+  invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
+  el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
+  do_el0_svc+0x48/0x164 arch/arm64/kernel/syscall.c:206
+  el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:636
+  el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:654
+  el0t_64_sync+0x18c/0x190 arch/arm64/kernel/entry.S:581
+irq event stamp: 872
+hardirqs last  enabled at (871): [<ffff8000085633bc>] mod_objcg_state+0x19c/0x204 mm/memcontrol.c:3158
+hardirqs last disabled at (872): [<ffff80000bfc8834>] __raw_spin_lock_irq include/linux/spinlock_api_smp.h:117 [inline]
+hardirqs last disabled at (872): [<ffff80000bfc8834>] _raw_spin_lock_irq+0x34/0x9c kernel/locking/spinlock.c:170
+softirqs last  enabled at (856): [<ffff80000801c33c>] local_bh_enable+0x10/0x34 include/linux/bottom_half.h:32
+softirqs last disabled at (854): [<ffff80000801c308>] local_bh_disable+0x10/0x34 include/linux/bottom_half.h:19
+
+other info that might help us debug this:
+ Possible unsafe locking scenario:
+
+       CPU0
+       ----
+  lock(sync_timeline_list_lock);
+  <Interrupt>
+    lock(sync_timeline_list_lock);
+
+ *** DEADLOCK ***
+
+3 locks held by syz-executor.4/21937:
+ #0: ffff000128868ee8 (&f->f_pos_lock){+.+.}-{3:3}, at: __fdget_pos+0x12c/0x154 fs/file.c:1036
+ #1: ffff000126e66d50 (&p->lock){+.+.}-{3:3}, at: seq_read_iter+0x5c/0x5e0 fs/seq_file.c:182
+ #2: ffff80000d6384c8 (sync_timeline_list_lock){?...}-{2:2}, at: spin_lock_irq include/linux/spinlock.h:374 [inline]
+ #2: ffff80000d6384c8 (sync_timeline_list_lock){?...}-{2:2}, at: sync_info_debugfs_show+0x54/0x2dc drivers/dma-buf/sync_debug.c:147
+
+stack backtrace:
+CPU: 0 PID: 21937 Comm: syz-executor.4 Not tainted 6.0.0-rc7-syzkaller-18095-gbbed346d5a96 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/30/2022
+Call trace:
+ dump_backtrace+0x1c4/0x1f0 arch/arm64/kernel/stacktrace.c:156
+ show_stack+0x2c/0x54 arch/arm64/kernel/stacktrace.c:163
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0x104/0x16c lib/dump_stack.c:106
+ dump_stack+0x1c/0x58 lib/dump_stack.c:113
+ print_usage_bug+0x39c/0x3cc kernel/locking/lockdep.c:3961
+ mark_lock_irq+0x4a8/0x4b4
+ mark_lock+0x154/0x1b4 kernel/locking/lockdep.c:4632
+ mark_held_locks kernel/locking/lockdep.c:4234 [inline]
+ __trace_hardirqs_on_caller kernel/locking/lockdep.c:4252 [inline]
+ lockdep_hardirqs_on_prepare+0x158/0x2b0 kernel/locking/lockdep.c:4319
+ trace_hardirqs_on+0xc4/0x108 kernel/trace/trace_preemptirq.c:49
+ __raw_spin_unlock_irq include/linux/spinlock_api_smp.h:159 [inline]
+ _raw_spin_unlock_irq+0x3c/0x70 kernel/locking/spinlock.c:202
+ spin_unlock_irq include/linux/spinlock.h:399 [inline]
+ sync_print_obj drivers/dma-buf/sync_debug.c:118 [inline]
+ sync_info_debugfs_show+0xd8/0x2dc drivers/dma-buf/sync_debug.c:153
+ seq_read_iter+0x220/0x5e0 fs/seq_file.c:230
+ seq_read+0x98/0xd0 fs/seq_file.c:162
+ vfs_read+0x19c/0x448 fs/read_write.c:468
+ ksys_read+0xb4/0x160 fs/read_write.c:607
+ __do_sys_read fs/read_write.c:617 [inline]
+ __se_sys_read fs/read_write.c:615 [inline]
+ __arm64_sys_read+0x24/0x34 fs/read_write.c:615
+ __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
+ invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
+ el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
+ do_el0_svc+0x48/0x164 arch/arm64/kernel/syscall.c:206
+ el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:636
+ el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:654
+ el0t_64_sync+0x18c/0x190 arch/arm64/kernel/entry.S:581
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
