@@ -1,63 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71F556256D1
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 10:28:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D03C6256D2
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 10:29:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41BB110E7D8;
-	Fri, 11 Nov 2022 09:28:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B68C10E7D6;
+	Fri, 11 Nov 2022 09:29:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D964D10E7D8
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 09:28:48 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id f5so11303860ejc.5
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 01:28:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=jWWpGc1d1W9EauWP0DZa4AJFswxTRtE523haWiTtzfE=;
- b=SmUtHjrFMHfCj2CNDPSESD250ul3YkQrnED0hxs/ZCUt1MmvLuItpVrx2GrP1dYHBH
- 3c8rtRzQyRMMtFMxxcQl/J+ihcEwKPMqNjcJ/LmShLhEggrBosW5W6W5BCIjX+FuFzcx
- bJD8nEQDtwWfDV9WZ1YV/zvi2Iz7jKAxBPPrI=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27C6810E7D6
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 09:28:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668158936;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fi2SE1B7lTw9mdq0VS6e9xO7m6BadB4tfHCV89qdFtE=;
+ b=QLpENXMWdoifKQrfMAkdUXX0jr924XEepJvFh0dsbis9AMoSFb8rDkaBRNLSq1sLsuXvpV
+ 88RPN0KKc6lA0BYVsGv0Qo4eunS+N2YIiO1GrK27dUxjKn5Ft2XG1Gxdq/Vep5ghi4dCZi
+ tI8k443vnYD4tKc5Lba88EX1lMB/ifo=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-167-qcHNocJAN6Oc5TJ6e-nBDw-1; Fri, 11 Nov 2022 04:28:54 -0500
+X-MC-Unique: qcHNocJAN6Oc5TJ6e-nBDw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ c18-20020adfa312000000b002364fabf2ceso849973wrb.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 01:28:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=jWWpGc1d1W9EauWP0DZa4AJFswxTRtE523haWiTtzfE=;
- b=wbx5hWRHOMU0nI63OxDjBdCEu1cdc3LNHvlOhCCry9FTIAVKIEXerGJAJ6L8sbMLT3
- nEgFSOf5FakgmQ9lA9djGgJQWxhJe3/fvyg5RRVN0hElBPcPGllWSbQ+pGtPDLYh2TBq
- 9s86U09vxqpUPCrNRlilTrigoHJt/QW/DVEGLHZHlXlEiKkPhaCse23NR3OtoDqbzKHP
- cvMD3IJJ3WrGMXq/mIlPOwnvC88JBIjrBUclJ49loPaDH6kaxNuWlm3ygufZPkEVt/pI
- PcmwoLMevSQ27gOd+nn4dgy6vKR86PwVI0OqoU6BLbAZHOHWqwRjc/2kqTyvX7mcvjWd
- 0+KA==
-X-Gm-Message-State: ANoB5pnHAiUui5gXUTG1ovQmrD0stnKMqQxTU7bsmD6fgbElzt1g3CUa
- NoXvE2DhjQEgJ6jQpDxpYCNL+Q==
-X-Google-Smtp-Source: AA0mqf7AOKoqN+8xh6IA4fKZPnXyKEJfPCB/e7qUCKL3Ffxq2quRNfOVeeYUoYPakY5qNYOcG4/LjA==
-X-Received: by 2002:a17:906:e0d4:b0:7ad:d1ab:2431 with SMTP id
- gl20-20020a170906e0d400b007add1ab2431mr1130310ejb.213.1668158927359; 
- Fri, 11 Nov 2022 01:28:47 -0800 (PST)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- s1-20020a056402164100b004616cce0a26sm869325edx.24.2022.11.11.01.28.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Nov 2022 01:28:46 -0800 (PST)
-Date: Fri, 11 Nov 2022 10:28:44 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 4/5] drm/fb-helper: Schedule deferred-I/O worker after
- writing to framebuffer
-Message-ID: <Y24VzDRKrZBo5D31@phenom.ffwll.local>
-References: <20221110135519.30029-1-tzimmermann@suse.de>
- <20221110135519.30029-5-tzimmermann@suse.de>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=fi2SE1B7lTw9mdq0VS6e9xO7m6BadB4tfHCV89qdFtE=;
+ b=c1sk/mFLFUcTSzvoeF9L4UaToKBqZNY0J351h7ax+ea3CS5hIvD+nyQf9LhyYqX+s5
+ InXKLPBUqi7tAkj4IhrlxuWDuW0JDw50VE5TRRhNgLIGi97Nwe8N+1YpTukzpaGTTCVd
+ A/F1yJ+Vj8B6F1LdffrtabSDltTPSHoiQQ4F6kMuFZDG+h70BheDB4rN1m/Jtf1qLEYk
+ 1Au5NJUC13PDjkZg0hvaK86XVCGS/IQCrQKjSQ2NwmuwismkLdjiXBaN3dFHmVeaSr1/
+ KzKA4LpsJ+DU0Dx1olXf1ZLl+eRbVLDava3fgYTiCx3lkEOYPq4lfbSA4z9Hl8az17uk
+ RKhg==
+X-Gm-Message-State: ANoB5plt/atGGycTy6Tnph/TWqAz4rDvEbus2xNmfegohHGMQPD25KuM
+ 6e1/wawclhUO99Twxj/7tZ9V+8ArjggMJ51FloGpp6oGQYoa6Hcv1Vf1wYMg535m4ZcIbedBrFw
+ W/a0VH0tL7jJja1N563WfE3my99uH
+X-Received: by 2002:a05:600c:501f:b0:3cf:7801:c780 with SMTP id
+ n31-20020a05600c501f00b003cf7801c780mr665763wmr.29.1668158933144; 
+ Fri, 11 Nov 2022 01:28:53 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6gggVWY5XHMDcKBvOquzjta+/8rIcI2BSxVmt+9jHIw0LxNFF/HyaBPWPLAepS/LDlWXKyyA==
+X-Received: by 2002:a05:600c:501f:b0:3cf:7801:c780 with SMTP id
+ n31-20020a05600c501f00b003cf7801c780mr665754wmr.29.1668158932932; 
+ Fri, 11 Nov 2022 01:28:52 -0800 (PST)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ m10-20020a5d56ca000000b00241736714c3sm342853wrw.14.2022.11.11.01.28.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Nov 2022 01:28:52 -0800 (PST)
+Message-ID: <8447ae65-3f44-6e96-2c0e-f62a06b3e712@redhat.com>
+Date: Fri, 11 Nov 2022 10:28:51 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221110135519.30029-5-tzimmermann@suse.de>
-X-Operating-System: Linux phenom 5.19.0-2-amd64 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH 1/2] drm: Move nomodeset kernel parameter to drivers/video
+To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de, daniel@ffwll.ch
+References: <20221107104916.18733-1-tzimmermann@suse.de>
+ <20221107104916.18733-2-tzimmermann@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20221107104916.18733-2-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,251 +86,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: javierm@redhat.com, dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 10, 2022 at 02:55:18PM +0100, Thomas Zimmermann wrote:
-> Schedule the deferred-I/O worker instead of the damage worker after
-> writing to the fbdev framebuffer. The deferred-I/O worker then performs
-> the dirty-fb update. The fbdev emulation will initialize deferred I/O
-> for all drivers that require damage updates. It is therefore a valid
-> assumption that the deferred-I/O worker is present.
+Hello Thomas,
+
+On 11/7/22 11:49, Thomas Zimmermann wrote:
+
+[...]
+
 > 
-> It would be possible to perform the damage handling directly from within
-> the write operation. But doing this could increase the overhead of the
-> write or interfere with a concurrently scheduled deferred-I/O worker.
-> Instead, scheduling the deferred-I/O worker with its regular delay of
-> 50 ms removes load off the write operation and allows the deferred-I/O
-> worker to handle multiple write operations that arrived during the delay
-> time window.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/drm_fb_helper.c     | 81 ++++++++++++++++++++---------
->  drivers/video/fbdev/core/fb_defio.c | 16 ++++++
->  include/linux/fb.h                  |  1 +
->  3 files changed, 72 insertions(+), 26 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-> index ebc44ed1bf4a2..8cb644e4ecf90 100644
-> --- a/drivers/gpu/drm/drm_fb_helper.c
-> +++ b/drivers/gpu/drm/drm_fb_helper.c
-> @@ -596,14 +596,6 @@ static void drm_fb_helper_add_damage_clip(struct drm_fb_helper *helper, u32 x, u
->  	spin_unlock_irqrestore(&helper->damage_lock, flags);
->  }
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index a465d5242774a..70178c5f53956 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -3777,7 +3777,7 @@
+>  			shutdown the other cpus.  Instead use the REBOOT_VECTOR
+>  			irq.
 >  
-> -static void drm_fb_helper_damage(struct drm_fb_helper *helper, u32 x, u32 y,
-> -				 u32 width, u32 height)
-> -{
-> -	drm_fb_helper_add_damage_clip(helper, x, y, width, height);
-> -
-> -	schedule_work(&helper->damage_work);
+> -	nomodeset	Disable kernel modesetting. DRM drivers will not perform
+> +	nomodeset	Disable kernel modesetting. Graphics drivers will not perform
+>  			display-mode changes or accelerated rendering. Only the
+>  			system framebuffer will be available for use if this was
+>  			set-up by the firmware or boot loader.
 
-I'm kinda not seeing the point in removing this, and ending up with 2
-functions calls for every callsite. Replace the schedule_work with the
-inlined drm_fb_helper_flush instead? That also avoids the naming bikeshed
-in this case at least :-)
+Not really part of your patch but probably we should reword this a little bit.
 
+Because as this is written, it implies that not only DRM drivers with feature
+DRIVER_MODESET will not be available but also drivers with DRIVER_RENDER. But
+that's not the case, render-only drivers usually just ignore this parameter
+(but not all IIRC), so I wonder how we could make this comment more accurate.
 
-> -}
-> -
->  /*
->   * Convert memory region into area of scanlines and pixels per
->   * scanline. The parameters off and len must not reach beyond
-> @@ -683,6 +675,23 @@ void drm_fb_helper_deferred_io(struct fb_info *info, struct list_head *pagerefli
->  }
->  EXPORT_SYMBOL(drm_fb_helper_deferred_io);
->  
-> +static void drm_fb_helper_flush(struct drm_fb_helper *helper)
-> +{
-> +	struct drm_device *dev = helper->dev;
-> +	struct fb_info *info = helper->info;
-> +
-> +	/*
-> +	 * For now, we assume that deferred I/O has been enabled as damage
-> +	 * updates require deferred I/O for a working mmap. The current
-> +	 * fbdev emulation does not flush buffers if no damage update is
-> +	 * necessary. So it's safe to assume fbdefio to be set.
-> +	 */
-> +	if (drm_WARN_ON_ONCE(dev, !info->fbdefio))
-> +		return;
-> +
-> +	fb_deferred_io_flush(info);
-> +}
-> +
->  typedef ssize_t (*drm_fb_helper_read_screen)(struct fb_info *info, char __user *buf,
->  					     size_t count, loff_t pos);
->  
-> @@ -824,9 +833,10 @@ ssize_t drm_fb_helper_sys_write(struct fb_info *info, const char __user *buf,
->  
->  	if (helper->funcs->fb_dirty) {
->  		drm_fb_helper_memory_range_to_clip(info, pos, ret, &damage_area);
-> -		drm_fb_helper_damage(helper, damage_area.x1, damage_area.y1,
-> -				     drm_rect_width(&damage_area),
-> -				     drm_rect_height(&damage_area));
-> +		drm_fb_helper_add_damage_clip(helper, damage_area.x1, damage_area.y1,
-> +					      drm_rect_width(&damage_area),
-> +					      drm_rect_height(&damage_area));
-> +		drm_fb_helper_flush(helper);
->  	}
->  
->  	return ret;
-> @@ -847,8 +857,11 @@ void drm_fb_helper_sys_fillrect(struct fb_info *info,
->  
->  	sys_fillrect(info, rect);
->  
-> -	if (helper->funcs->fb_dirty)
-> -		drm_fb_helper_damage(helper, rect->dx, rect->dy, rect->width, rect->height);
-> +	if (helper->funcs->fb_dirty) {
-> +		drm_fb_helper_add_damage_clip(helper, rect->dx, rect->dy,
-> +					      rect->width, rect->height);
-> +		drm_fb_helper_flush(helper);
-> +	}
->  }
->  EXPORT_SYMBOL(drm_fb_helper_sys_fillrect);
->  
-> @@ -866,8 +879,11 @@ void drm_fb_helper_sys_copyarea(struct fb_info *info,
->  
->  	sys_copyarea(info, area);
->  
-> -	if (helper->funcs->fb_dirty)
-> -		drm_fb_helper_damage(helper, area->dx, area->dy, area->width, area->height);
-> +	if (helper->funcs->fb_dirty) {
-> +		drm_fb_helper_add_damage_clip(helper, area->dx, area->dy,
-> +					      area->width, area->height);
-> +		drm_fb_helper_flush(helper);
-> +	}
->  }
->  EXPORT_SYMBOL(drm_fb_helper_sys_copyarea);
->  
-> @@ -885,8 +901,11 @@ void drm_fb_helper_sys_imageblit(struct fb_info *info,
->  
->  	sys_imageblit(info, image);
->  
-> -	if (helper->funcs->fb_dirty)
-> -		drm_fb_helper_damage(helper, image->dx, image->dy, image->width, image->height);
-> +	if (helper->funcs->fb_dirty) {
-> +		drm_fb_helper_add_damage_clip(helper, image->dx, image->dy,
-> +					      image->width, image->height);
-> +		drm_fb_helper_flush(helper);
-> +	}
->  }
->  EXPORT_SYMBOL(drm_fb_helper_sys_imageblit);
->  
-> @@ -997,9 +1016,10 @@ ssize_t drm_fb_helper_cfb_write(struct fb_info *info, const char __user *buf,
->  
->  	if (helper->funcs->fb_dirty) {
->  		drm_fb_helper_memory_range_to_clip(info, pos, ret, &damage_area);
-> -		drm_fb_helper_damage(helper, damage_area.x1, damage_area.y1,
-> -				     drm_rect_width(&damage_area),
-> -				     drm_rect_height(&damage_area));
-> +		drm_fb_helper_add_damage_clip(helper, damage_area.x1, damage_area.y1,
-> +					      drm_rect_width(&damage_area),
-> +					      drm_rect_height(&damage_area));
-> +		drm_fb_helper_flush(helper);
->  	}
->  
->  	return ret;
-> @@ -1020,8 +1040,11 @@ void drm_fb_helper_cfb_fillrect(struct fb_info *info,
->  
->  	cfb_fillrect(info, rect);
->  
-> -	if (helper->funcs->fb_dirty)
-> -		drm_fb_helper_damage(helper, rect->dx, rect->dy, rect->width, rect->height);
-> +	if (helper->funcs->fb_dirty) {
-> +		drm_fb_helper_add_damage_clip(helper, rect->dx, rect->dy,
-> +					      rect->width, rect->height);
-> +		drm_fb_helper_flush(helper);
-> +	}
->  }
->  EXPORT_SYMBOL(drm_fb_helper_cfb_fillrect);
->  
-> @@ -1039,8 +1062,11 @@ void drm_fb_helper_cfb_copyarea(struct fb_info *info,
->  
->  	cfb_copyarea(info, area);
->  
-> -	if (helper->funcs->fb_dirty)
-> -		drm_fb_helper_damage(helper, area->dx, area->dy, area->width, area->height);
-> +	if (helper->funcs->fb_dirty) {
-> +		drm_fb_helper_add_damage_clip(helper, area->dx, area->dy,
-> +					      area->width, area->height);
-> +		drm_fb_helper_flush(helper);
-> +	}
->  }
->  EXPORT_SYMBOL(drm_fb_helper_cfb_copyarea);
->  
-> @@ -1058,8 +1084,11 @@ void drm_fb_helper_cfb_imageblit(struct fb_info *info,
->  
->  	cfb_imageblit(info, image);
->  
-> -	if (helper->funcs->fb_dirty)
-> -		drm_fb_helper_damage(helper, image->dx, image->dy, image->width, image->height);
-> +	if (helper->funcs->fb_dirty) {
-> +		drm_fb_helper_add_damage_clip(helper, image->dx, image->dy,
-> +					      image->width, image->height);
-> +		drm_fb_helper_flush(helper);
-> +	}
->  }
->  EXPORT_SYMBOL(drm_fb_helper_cfb_imageblit);
->  
-> diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbdev/core/fb_defio.c
-> index c730253ab85ce..325d12c3a4d61 100644
-> --- a/drivers/video/fbdev/core/fb_defio.c
-> +++ b/drivers/video/fbdev/core/fb_defio.c
-> @@ -332,3 +332,19 @@ void fb_deferred_io_cleanup(struct fb_info *info)
->  	mutex_destroy(&fbdefio->lock);
->  }
->  EXPORT_SYMBOL_GPL(fb_deferred_io_cleanup);
-> +
-> +void fb_deferred_io_flush(struct fb_info *info)
-> +{
-> +	struct fb_deferred_io *fbdefio = info->fbdefio;
-> +
-> +	if (WARN_ON_ONCE(!fbdefio))
-> +		return; /* bug in driver logic */
-> +
-> +	/*
-> +	 * There's no requirement to perform the flush immediately. So
-> +	 * schedule the worker with a delay and let a few more writes
-> +	 * pile up.
-> +	 */
+Also maybe we can mention in the comment fbdev and DRM? Just to make it clear
+that this will affect to both subsystems? When I first worked on this, there
+were a lot of assumptions in the stack (gdm, mutter, plymouth) that nomodeset
+basically meant "no DRM but fbdev".
 
-So this part is wrong, because the drm callers do rely on this not
-flushing anything immediately, but instead on scheduling the worker. Or at
-least that's the reason why we have the damage worker in the first place.
+[...]
 
-So this comment here needs to go, and the functions need to make it clear
-in their names that that they queue/schedule the flush.
-
-Also not sure whether you want to split out the fbdev part or not, imo
-overkill.
-
-With comments addressed:
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-
-> +	schedule_delayed_work(&info->deferred_work, fbdefio->delay);
-> +}
-> +EXPORT_SYMBOL_GPL(fb_deferred_io_flush);
-> diff --git a/include/linux/fb.h b/include/linux/fb.h
-> index bcb8658f5b64d..54b3b3e13522f 100644
-> --- a/include/linux/fb.h
-> +++ b/include/linux/fb.h
-> @@ -663,6 +663,7 @@ extern void fb_deferred_io_open(struct fb_info *info,
->  				struct inode *inode,
->  				struct file *file);
->  extern void fb_deferred_io_cleanup(struct fb_info *info);
-> +extern void fb_deferred_io_flush(struct fb_info *info);
->  extern int fb_deferred_io_fsync(struct file *file, loff_t start,
->  				loff_t end, int datasync);
 >  
-> -- 
-> 2.38.0
-> 
+>  int drm_dev_set_unique(struct drm_device *dev, const char *name);
+>  
+> -extern bool drm_firmware_drivers_only(void);
+> +/* TODO: Inline drm_firmware_drivers_only() in all its callers. */
+
+I guess you plan to do that as follow-up patches once this series land? Just
+to avoid the churn to require acks for all the drivers to merge this series?
+
+The changes looks good to me.
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
