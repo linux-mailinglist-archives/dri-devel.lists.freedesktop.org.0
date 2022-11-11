@@ -1,72 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEA53625B27
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 14:27:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAFA9625B3B
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 14:30:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B742A10E16D;
-	Fri, 11 Nov 2022 13:27:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B56C10E171;
+	Fri, 11 Nov 2022 13:30:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 400EB10E16D
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 13:27:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1668173241; bh=AslS6UA+QkhpCx7N4UCcC8p6QUKhFKPG0xeQ88Oxy6Y=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=VJ69l5gJt46hBUB436+ZCSwZjGW/41v1m+lo7LCWfKBuIbRsBIo1ouBubtrzpiMKx
- S2WVgzmnaY//lYIn+HxmZYgzqvKEz0uGtxpK3BDaCVObxa7/7KJWcZ3sm3CxKA8eNq
- 4OF9TDMU5Va+oTj7BMLFBk6SdYswFuUigxgweMXl2WBIrkMKuiGeoCt0PCWFY73Ajs
- X3FkZXdUdn30dCpu76h7I2toj0tiiQ3EptB9l4SjlU+38hf1cZAH27RMmUdUTtKKGP
- n+MLoSes5X5EBA7i+fzSkkqZdmSqsZiFhuEWcXvZSMVzQKDc4jxBVRQUt9s8mX85Wh
- gHXYAKKh6tB+Q==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([92.116.140.172]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MtfNf-1p7Z4Q253H-00v96C; Fri, 11
- Nov 2022 14:27:21 +0100
-Message-ID: <5c332e30-fd05-9eef-8f42-f2899e787906@gmx.de>
-Date: Fri, 11 Nov 2022 14:27:20 +0100
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46E1610E171
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 13:30:28 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id E80BB225DD;
+ Fri, 11 Nov 2022 13:30:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1668173426; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=sqR8fK4Evh8rvaVoQyV+qDhALL0xOMiadGIgeuzCylg=;
+ b=TFNG64YQqLLS6uAkdE8mQteSg+mhX4F5KEClyCVATRLwdefQJiBg7aaZpZEIMb0+/DX3ir
+ ID+P8Gv9TP8VQRO5jyoLc/j3uUf3gGtug8JfjoaY63FlaTpmkWO8LcgnRqfDgvFUMj93TM
+ /r8y9PtMUTgRlY5b2TpbG/LwqriPjGk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1668173426;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=sqR8fK4Evh8rvaVoQyV+qDhALL0xOMiadGIgeuzCylg=;
+ b=opHQMXoWjtzft0NNaCcD75YQGXgd+qL/mEngtLh0mh3YJAvU3T3qjPIW0lVsr/ehCJxka4
+ kLpmT9VqFTAJFyAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C66A513273;
+ Fri, 11 Nov 2022 13:30:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 4F6YL3JObmPCbQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 11 Nov 2022 13:30:26 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: deller@gmx.de,
+	daniel@ffwll.ch,
+	javierm@redhat.com
+Subject: [PATCH v2 0/2] video/fbdev: Support 'nomodeset' in PCI drivers
+Date: Fri, 11 Nov 2022 14:30:22 +0100
+Message-Id: <20221111133024.9897-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH 2/2] fbdev: Add support for the nomodeset kernel parameter
-Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>, daniel@ffwll.ch
-References: <20221107104916.18733-1-tzimmermann@suse.de>
- <20221107104916.18733-3-tzimmermann@suse.de>
- <2e2d23f3-9c2d-e75e-f390-4651a4da730f@gmx.de>
- <6547fba2-a002-f339-2997-5b28df794095@suse.de>
- <d21a0a0d-22fb-99bf-0d29-75b1fe1db677@gmx.de>
- <dfa83c75-4062-93ee-380c-3e0e4f41c448@suse.de>
- <73c7243d-b1b7-ac3c-7b17-1f0084821aa4@redhat.com>
- <3b3d0af7-0ad2-bd45-26ec-bd00eebfa905@gmx.de>
- <33481e86-8c8a-b464-6112-4ffa6decceaa@suse.de>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <33481e86-8c8a-b464-6112-4ffa6decceaa@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:+PVEYq53kmee5aohdr1h6cSZZkyxrcJ/eqhU8Py5n+tB15LGhCk
- aHomMYT7sXLhINU48pezSPhEQ4HbcafTe3GZ+trvvFW1dMmQLCX2nfGuR402+/RSKNiNoms
- hrys5xX6Rd6V3wMJfUawvkrYtoAcatt36tibi8NVSHNlZDNr+Z7doA6yyNMxXPl0bchjfb5
- OFpp4atH/sYpMr+3p8ETw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:flBcKf4Amb0=;ysDVK2Jmhr7YfCkjlRInNw1CSJW
- G/WTcZS+gvjQVXHP9MGbqV8mFNFR/xL+D2KyX4u+uaXqhIaqnCYa+Nyv/qCjXhUTOIPMcMWe1
- 1qGlEgBRqfDx4rmMwGO2YmFBkg4Lv0zmyCL6F6SVBJEyTfXForIFy5tDvJbKlf5E+GwjU021M
- PzEkoPdGBcLBWfgqDoQAHarXbJMHWf7y41Enrr6lPL36l3sd2kZyfE+aABDXImfct4q6HQGPW
- GbTcoeaTh4ov6Zmed7kh+tg/XGrqRixWPxaZK2ORktiSyhpKXg51mMRhbaHdz4rHC+jSsTtZt
- b7TJxi8rgB7wnyx4PEtHk44SMA6bGiod6fNkKDhsH45VHB4jFejwaRrHGFygGwEfHbVow4oek
- 8Z1kXV5mCbflFD6TVIx6ECLoGHuPakW/WjRNQogcV4veyVSjrg7u+xM75x4RiA8Rqqt6DwOHf
- TMb6pcZpyXbN//8jcf5WQiItpxswUiWRY8XYRBnlm2m1IFYDKgK43WBTOC+JoxgxoOmLGMUZy
- j2Xs08BuXGdCel/a/i3Dpfo19SJsXh5XnQSym+aoqICok3nfQD67VmM21+dPDNN9PcMebyaGC
- eD9/0bTwJs4cPLMVB+UdfgLG27sx9u+p3hbBHKlI+BM89tpziQ5fjieAHaSqgBY6nxLVObqfD
- hKsml9lQTALxnTQXZjOkcKErzjeOFAT54aqOWwQUAl6tgdwG5XizgM/S8e16i28gX8Usmeu2G
- 5hVgJ2FHWg1cR0IJsQT4XldQCLpIHuAhAx44h/VJgPmfBdpcxDnhPD28RMg0SOO6dI+8jE3Ym
- bWUztAoK2SAf7nmq3G+DUT6tV0+qQl/OHZxZx/AWF9oGQeIV7upYFDP5ekTQWRkv26Z02sr5l
- PyxtvTozaYYVmuBgSCTZ9LY9ZNG0icavxgp1kMR9Kbhjpm8FyH+GyCK7qHE0X1KEkP7rGRzO4
- o5/eSET5aVkaNMrXq58rqyl6DP0=
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,72 +63,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/11/22 12:42, Thomas Zimmermann wrote:
-> Hi
->
-> Am 11.11.22 um 11:49 schrieb Helge Deller:
->> On 11/11/22 10:49, Javier Martinez Canillas wrote:
->>> On 11/8/22 09:16, Thomas Zimmermann wrote:
->>>> Hi
->>>
->>> [...]
->>>
->>>>
->>>> My proposal would be to add a little helper to fbdev that includes yo=
-ur
->>>> suggestions:
->>>>
->>>> =C2=A0=C2=A0=C2=A0 bool fb_modesetting_disabled(const char *drvname)
->>>> =C2=A0=C2=A0=C2=A0 {
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fwonly =3D video_firmware_driver=
-s_only()
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (fbonly && drvname)
->>>> =C2=A0=C2=A0=C2=A0=C2=A0pr_warn("")
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return fbonly;
->>>> =C2=A0=C2=A0=C2=A0 }
->>
->> I'm still wondering why you can't simply merge it with what is printed =
-in
->> =C2=A0=C2=A0[1] https://elixir.bootlin.com/linux/latest/source/drivers/=
-gpu/drm/drm_nomodeset.c#L18
->
-> I don't understand. That message is still there after moving the code
-> around.
+Add support for the kernel's 'nomodeset' parameter to PCI-based
+fbdev drivers. The option prevents DRM drivers from loading if they
+could possibly displace a hardware-agnostic driver that runs on the
+firmware framebuffer. It is a fallback for systems on which the
+hardware's native driver does not work correctly.
 
-Sure.
+After the work on the aperture helpers and their integration with
+fbdev, it can happen that an fbdev driver replaces a hardware-
+agnostic DRM driver. Supporting the nomodeset parameter unifies
+the behavior among the graphics drivers and subsystems. An fbdev
+driver will not replace any hardware-agnostic driver with nomodeset
+given.
 
-> It is always printed if the nomodeset parameter is given.
+v2:
+	* print warning for disabled drivers (Helge)
+	* improve nomodeset docs (Javier)
+	* use fbdev-internal helper
 
-Yes, but wouldn't it be better if it would print the name of the really af=
-fected DRM driver too?
-Currently it even shows up if you don't have any graphic card installed (a=
-nd gave that parameter).
+Thomas Zimmermann (2):
+  drm: Move nomodeset kernel parameter to drivers/video
+  fbdev: Add support for the nomodeset kernel parameter
 
-> In addition to that, you get a per-driver warning for fbdev, so that it'=
-s clear which drivers are affected.
+ .../admin-guide/kernel-parameters.txt         | 15 +++++---
+ MAINTAINERS                                   |  2 +
+ drivers/gpu/drm/Kconfig                       |  7 +---
+ drivers/gpu/drm/Makefile                      |  1 -
+ drivers/staging/sm750fb/Kconfig               |  1 +
+ drivers/staging/sm750fb/sm750.c               |  3 ++
+ drivers/video/Kconfig                         |  4 ++
+ drivers/video/Makefile                        |  1 +
+ drivers/video/fbdev/Kconfig                   | 37 +++++++++++++++++++
+ drivers/video/fbdev/arkfb.c                   |  5 +++
+ drivers/video/fbdev/asiliantfb.c              |  3 ++
+ drivers/video/fbdev/aty/aty128fb.c            |  5 +++
+ drivers/video/fbdev/aty/atyfb_base.c          |  5 +++
+ drivers/video/fbdev/aty/radeon_base.c         |  5 +++
+ drivers/video/fbdev/carminefb.c               |  3 ++
+ drivers/video/fbdev/chipsfb.c                 |  3 ++
+ drivers/video/fbdev/cirrusfb.c                |  5 +++
+ drivers/video/fbdev/core/fbmem.c              | 15 ++++++++
+ drivers/video/fbdev/cyber2000fb.c             |  6 ++-
+ drivers/video/fbdev/geode/Kconfig             |  3 ++
+ drivers/video/fbdev/geode/gx1fb_core.c        |  5 +++
+ drivers/video/fbdev/geode/gxfb_core.c         |  5 +++
+ drivers/video/fbdev/geode/lxfb_core.c         |  5 +++
+ drivers/video/fbdev/gxt4500.c                 |  3 ++
+ drivers/video/fbdev/hyperv_fb.c               |  4 +-
+ drivers/video/fbdev/i740fb.c                  |  5 +++
+ drivers/video/fbdev/i810/i810_main.c          |  6 +++
+ drivers/video/fbdev/imsttfb.c                 |  5 +++
+ drivers/video/fbdev/intelfb/intelfbdrv.c      |  3 ++
+ drivers/video/fbdev/kyro/fbdev.c              |  5 +++
+ drivers/video/fbdev/matrox/matroxfb_base.c    |  3 ++
+ drivers/video/fbdev/mb862xx/mb862xxfbdrv.c    |  3 ++
+ drivers/video/fbdev/neofb.c                   |  5 +++
+ drivers/video/fbdev/nvidia/nvidia.c           |  5 +++
+ drivers/video/fbdev/pm2fb.c                   |  5 +++
+ drivers/video/fbdev/pm3fb.c                   |  5 +++
+ drivers/video/fbdev/pvr2fb.c                  |  5 +++
+ drivers/video/fbdev/riva/fbdev.c              |  5 +++
+ drivers/video/fbdev/s3fb.c                    |  5 +++
+ drivers/video/fbdev/savage/savagefb_driver.c  |  3 ++
+ drivers/video/fbdev/sis/sis_main.c            |  5 +++
+ drivers/video/fbdev/skeletonfb.c              |  5 +++
+ drivers/video/fbdev/sm712fb.c                 |  3 ++
+ drivers/video/fbdev/sstfb.c                   |  3 ++
+ drivers/video/fbdev/sunxvr2500.c              |  3 ++
+ drivers/video/fbdev/sunxvr500.c               |  3 ++
+ drivers/video/fbdev/tdfxfb.c                  |  5 +++
+ drivers/video/fbdev/tgafb.c                   |  5 +++
+ drivers/video/fbdev/tridentfb.c               |  5 +++
+ drivers/video/fbdev/vermilion/vermilion.c     |  5 +++
+ drivers/video/fbdev/via/via-core.c            |  3 ++
+ drivers/video/fbdev/vt8623fb.c                |  5 +++
+ .../drm/drm_nomodeset.c => video/nomodeset.c} | 12 +++---
+ include/drm/drm_drv.h                         |  8 +++-
+ include/linux/fb.h                            |  9 +++++
+ include/video/nomodeset.h                     |  8 ++++
+ 56 files changed, 285 insertions(+), 21 deletions(-)
+ rename drivers/{gpu/drm/drm_nomodeset.c => video/nomodeset.c} (63%)
+ create mode 100644 include/video/nomodeset.h
 
-and a per-drm-driver message would be nice too (can be added by follow-up =
-patches).
 
-Helge
-
->
-> Best regards
-> Thomas
->
->>
->> Other than that, your the proposal is okay, if you adjust your patches =
-to
->> call this new function "fb_modesetting_disabled()" instead of
->> calling video_firmware_drivers_only() like this:
->>
->>> +=C2=A0=C2=A0=C2=A0 if (video_firmware_drivers_only())
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -ENODEV;
->>
->> Helge
->
+base-commit: 3aa97a74d622aa26fe79cf4bd819b6a4fd176e90
+prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+prerequisite-patch-id: 3f204510fcbf9530d6540bd8e6128cce598988b6
+prerequisite-patch-id: a0b503ec2c15fdf17e3c93ff0357fd3c27a791f6
+prerequisite-patch-id: 2a2d490c863c0e2cb1b25052049b2f1c63f7c443
+prerequisite-patch-id: bfad12b053cc616edbc07b5ea3e8f5793b647a5a
+prerequisite-patch-id: a1abb89fd8c741f377444432278ea13f142b497d
+prerequisite-patch-id: 63b3e0f79bfe4e3e19f389e21c8e0ee010801075
+-- 
+2.38.0
 
