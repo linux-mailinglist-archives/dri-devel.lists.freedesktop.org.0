@@ -1,79 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D03C6256D2
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 10:29:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E668562570C
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 10:42:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B68C10E7D6;
-	Fri, 11 Nov 2022 09:29:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02CF910E05A;
+	Fri, 11 Nov 2022 09:42:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27C6810E7D6
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 09:28:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668158936;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fi2SE1B7lTw9mdq0VS6e9xO7m6BadB4tfHCV89qdFtE=;
- b=QLpENXMWdoifKQrfMAkdUXX0jr924XEepJvFh0dsbis9AMoSFb8rDkaBRNLSq1sLsuXvpV
- 88RPN0KKc6lA0BYVsGv0Qo4eunS+N2YIiO1GrK27dUxjKn5Ft2XG1Gxdq/Vep5ghi4dCZi
- tI8k443vnYD4tKc5Lba88EX1lMB/ifo=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-167-qcHNocJAN6Oc5TJ6e-nBDw-1; Fri, 11 Nov 2022 04:28:54 -0500
-X-MC-Unique: qcHNocJAN6Oc5TJ6e-nBDw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- c18-20020adfa312000000b002364fabf2ceso849973wrb.2
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 01:28:54 -0800 (PST)
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FFF110E05A
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 09:42:04 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id i10so2700302ejg.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 01:42:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=wCDP5OFRlghyUHd9s7ywxMsDsb+pewrFvRrJs8YJSjA=;
+ b=KwJETxyLNrqAq/C7IChgYLdPg4Q3VKbKcJhrxwDX150hLnUiO5yFpR7RJVGVbQ4KOy
+ NbgY452LpeFprh3kdmGS6VNCzQELMJOgsLjXPCa1G8tZbcnsN2Os5WQjMs1GJs7QX4c0
+ FC7WbPUs2qOMR+2F0EU4r0t7BEbKJGNzqskT8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fi2SE1B7lTw9mdq0VS6e9xO7m6BadB4tfHCV89qdFtE=;
- b=c1sk/mFLFUcTSzvoeF9L4UaToKBqZNY0J351h7ax+ea3CS5hIvD+nyQf9LhyYqX+s5
- InXKLPBUqi7tAkj4IhrlxuWDuW0JDw50VE5TRRhNgLIGi97Nwe8N+1YpTukzpaGTTCVd
- A/F1yJ+Vj8B6F1LdffrtabSDltTPSHoiQQ4F6kMuFZDG+h70BheDB4rN1m/Jtf1qLEYk
- 1Au5NJUC13PDjkZg0hvaK86XVCGS/IQCrQKjSQ2NwmuwismkLdjiXBaN3dFHmVeaSr1/
- KzKA4LpsJ+DU0Dx1olXf1ZLl+eRbVLDava3fgYTiCx3lkEOYPq4lfbSA4z9Hl8az17uk
- RKhg==
-X-Gm-Message-State: ANoB5plt/atGGycTy6Tnph/TWqAz4rDvEbus2xNmfegohHGMQPD25KuM
- 6e1/wawclhUO99Twxj/7tZ9V+8ArjggMJ51FloGpp6oGQYoa6Hcv1Vf1wYMg535m4ZcIbedBrFw
- W/a0VH0tL7jJja1N563WfE3my99uH
-X-Received: by 2002:a05:600c:501f:b0:3cf:7801:c780 with SMTP id
- n31-20020a05600c501f00b003cf7801c780mr665763wmr.29.1668158933144; 
- Fri, 11 Nov 2022 01:28:53 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6gggVWY5XHMDcKBvOquzjta+/8rIcI2BSxVmt+9jHIw0LxNFF/HyaBPWPLAepS/LDlWXKyyA==
-X-Received: by 2002:a05:600c:501f:b0:3cf:7801:c780 with SMTP id
- n31-20020a05600c501f00b003cf7801c780mr665754wmr.29.1668158932932; 
- Fri, 11 Nov 2022 01:28:52 -0800 (PST)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- m10-20020a5d56ca000000b00241736714c3sm342853wrw.14.2022.11.11.01.28.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Nov 2022 01:28:52 -0800 (PST)
-Message-ID: <8447ae65-3f44-6e96-2c0e-f62a06b3e712@redhat.com>
-Date: Fri, 11 Nov 2022 10:28:51 +0100
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wCDP5OFRlghyUHd9s7ywxMsDsb+pewrFvRrJs8YJSjA=;
+ b=HtjKRhVyrrSc0VO/fANwSgeSBQW36ZMxndrrTiN6ZMIhAIKt3Cch8XK7vVysr32HNc
+ 2hHS/P2gQagePT3ZBbSCs2P8AIbs1AMgasgrU5vteRY3IJEpq0q5b20akqKBhfpk3zNQ
+ bXTRQIHM3ioB+a/dyzJfIlsZaeqEmRkZ28IFSmYm63wCjZk4nZgd9kWuE+/0tPzO9zxc
+ LQBPXGhUR4BOnyB4WnAzQcZ2TxTRSD+/IFZZr+NuKkNenPs1DO4aq2pxOSQHSTJlsbBP
+ KQ+RzaQCZeJrb/TIaq9FaiIkRz/7Ik23ND69HlwkueZ+HOH2KdkSn0PVLf2uZdnfcSyP
+ mWng==
+X-Gm-Message-State: ANoB5pkJBjMBrlRXY6pzyHWpFg2vDpBMTjj0TMc4CLCBtzk25oOSLEpf
+ K3jjNt1pigTJh2H3RccmmAANvg==
+X-Google-Smtp-Source: AA0mqf5pNdDWYQkAAOXz9Zh3ESIWKLFtAxSI01E9lmjKfvek4EKanam3BqxVt2MONIV4n+o1kPCYNw==
+X-Received: by 2002:a17:906:339b:b0:78d:3862:4488 with SMTP id
+ v27-20020a170906339b00b0078d38624488mr1113768eja.683.1668159722882; 
+ Fri, 11 Nov 2022 01:42:02 -0800 (PST)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
+ [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
+ hw20-20020a170907a0d400b007add62dafb7sm719396ejc.5.2022.11.11.01.42.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Nov 2022 01:42:02 -0800 (PST)
+Date: Fri, 11 Nov 2022 10:42:00 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 5/5] drm/fb-helper: Remove damage worker
+Message-ID: <Y24Y6J5pctUt1mFB@phenom.ffwll.local>
+References: <20221110135519.30029-1-tzimmermann@suse.de>
+ <20221110135519.30029-6-tzimmermann@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH 1/2] drm: Move nomodeset kernel parameter to drivers/video
-To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de, daniel@ffwll.ch
-References: <20221107104916.18733-1-tzimmermann@suse.de>
- <20221107104916.18733-2-tzimmermann@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221107104916.18733-2-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221110135519.30029-6-tzimmermann@suse.de>
+X-Operating-System: Linux phenom 5.19.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,62 +69,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: javierm@redhat.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Thomas,
-
-On 11/7/22 11:49, Thomas Zimmermann wrote:
-
-[...]
-
+On Thu, Nov 10, 2022 at 02:55:19PM +0100, Thomas Zimmermann wrote:
+> The fbdev damage worker is unused, so remove it.
 > 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index a465d5242774a..70178c5f53956 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -3777,7 +3777,7 @@
->  			shutdown the other cpus.  Instead use the REBOOT_VECTOR
->  			irq.
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+I'd squash this into the previous patch, which gets rid of the
+schedule_work(), if you limit the previous patch to really just that
+change. But split out is fine too.
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+> ---
+>  drivers/gpu/drm/drm_fb_helper.c | 9 ---------
+>  include/drm/drm_fb_helper.h     | 2 --
+>  2 files changed, 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> index 8cb644e4ecf90..47b8ef03a1f89 100644
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -403,13 +403,6 @@ static void drm_fb_helper_fb_dirty(struct drm_fb_helper *helper)
+>  	spin_unlock_irqrestore(&helper->damage_lock, flags);
+>  }
 >  
-> -	nomodeset	Disable kernel modesetting. DRM drivers will not perform
-> +	nomodeset	Disable kernel modesetting. Graphics drivers will not perform
->  			display-mode changes or accelerated rendering. Only the
->  			system framebuffer will be available for use if this was
->  			set-up by the firmware or boot loader.
-
-Not really part of your patch but probably we should reword this a little bit.
-
-Because as this is written, it implies that not only DRM drivers with feature
-DRIVER_MODESET will not be available but also drivers with DRIVER_RENDER. But
-that's not the case, render-only drivers usually just ignore this parameter
-(but not all IIRC), so I wonder how we could make this comment more accurate.
-
-Also maybe we can mention in the comment fbdev and DRM? Just to make it clear
-that this will affect to both subsystems? When I first worked on this, there
-were a lot of assumptions in the stack (gdm, mutter, plymouth) that nomodeset
-basically meant "no DRM but fbdev".
-
-[...]
-
+> -static void drm_fb_helper_damage_work(struct work_struct *work)
+> -{
+> -	struct drm_fb_helper *helper = container_of(work, struct drm_fb_helper, damage_work);
+> -
+> -	drm_fb_helper_fb_dirty(helper);
+> -}
+> -
+>  /**
+>   * drm_fb_helper_prepare - setup a drm_fb_helper structure
+>   * @dev: DRM device
+> @@ -425,7 +418,6 @@ void drm_fb_helper_prepare(struct drm_device *dev, struct drm_fb_helper *helper,
+>  	INIT_LIST_HEAD(&helper->kernel_fb_list);
+>  	spin_lock_init(&helper->damage_lock);
+>  	INIT_WORK(&helper->resume_work, drm_fb_helper_resume_worker);
+> -	INIT_WORK(&helper->damage_work, drm_fb_helper_damage_work);
+>  	helper->damage_clip.x1 = helper->damage_clip.y1 = ~0;
+>  	mutex_init(&helper->lock);
+>  	helper->funcs = funcs;
+> @@ -557,7 +549,6 @@ void drm_fb_helper_fini(struct drm_fb_helper *fb_helper)
+>  		return;
 >  
->  int drm_dev_set_unique(struct drm_device *dev, const char *name);
+>  	cancel_work_sync(&fb_helper->resume_work);
+> -	cancel_work_sync(&fb_helper->damage_work);
 >  
-> -extern bool drm_firmware_drivers_only(void);
-> +/* TODO: Inline drm_firmware_drivers_only() in all its callers. */
-
-I guess you plan to do that as follow-up patches once this series land? Just
-to avoid the churn to require acks for all the drivers to merge this series?
-
-The changes looks good to me.
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+>  	info = fb_helper->info;
+>  	if (info) {
+> diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
+> index ecfcd2c56d95a..f37bb2832ba41 100644
+> --- a/include/drm/drm_fb_helper.h
+> +++ b/include/drm/drm_fb_helper.h
+> @@ -116,7 +116,6 @@ struct drm_fb_helper_funcs {
+>   * @damage_clip: clip rectangle used with deferred_io to accumulate damage to
+>   *                the screen buffer
+>   * @damage_lock: spinlock protecting @damage_clip
+> - * @damage_work: worker used to flush the framebuffer
+>   * @resume_work: worker used during resume if the console lock is already taken
+>   *
+>   * This is the main structure used by the fbdev helpers. Drivers supporting
+> @@ -146,7 +145,6 @@ struct drm_fb_helper {
+>  	u32 pseudo_palette[17];
+>  	struct drm_clip_rect damage_clip;
+>  	spinlock_t damage_lock;
+> -	struct work_struct damage_work;
+>  	struct work_struct resume_work;
+>  
+>  	/**
+> -- 
+> 2.38.0
+> 
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
