@@ -2,49 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AECE625657
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 10:13:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEA18625661
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 10:15:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4273310E7C0;
-	Fri, 11 Nov 2022 09:13:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA58A10E7C5;
+	Fri, 11 Nov 2022 09:15:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9642B10E7C0;
- Fri, 11 Nov 2022 09:13:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1668158004; x=1699694004;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=IVJlEJxcaLZjgj4B1SoJxrWJYgVgR68jgWpjx2f8kP0=;
- b=T3J+CAqi2taJsQ+BIHsNVVgkz+F90CK/Xt7WpbNuxQSfrh9xqTtrYXbB
- IuSyTXRbZBrtN/GzuKWpC2Aicf6ZGMnVFwWIlgb/LsMG2Q9IxnIPQiU8+
- wUwh3uvwTSsQ5F56fhIKTHqZ8IIbrh9uNPS6Jf4FcGq0K1uRgZXWJ6vga
- 39pJDDQaAztRNxlrHBuliLhzEDzjpQ42xA4q1RSXptK+wwpo2D1udBuIq
- QIj5LQbEKTSte7kP9N9yvpYsFmYCLvj7d2QJDJqUsIoHqMF0RWuFMlUXs
- hhdT8OHXSY6adCW0Yhn1LXTdAQO0t3WOY3eISVOl57SCyoY2fPxY/WUlb w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10527"; a="294921497"
-X-IronPort-AV: E=Sophos;i="5.96,156,1665471600"; d="scan'208";a="294921497"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Nov 2022 01:13:24 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10527"; a="706488000"
-X-IronPort-AV: E=Sophos;i="5.96,156,1665471600"; d="scan'208";a="706488000"
-Received: from ldunne-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.15.227])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Nov 2022 01:13:19 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: coverity-bot <keescook@chromium.org>, Lyude Paul <lyude@redhat.com>
-Subject: Re: Coverity: nouveau_dp_irq(): Null pointer dereferences
-In-Reply-To: <202211100850.7A8DD75@keescook>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <202211100850.7A8DD75@keescook>
-Date: Fri, 11 Nov 2022 11:13:17 +0200
-Message-ID: <87iljl6ehe.fsf@intel.com>
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 411DC10E7C5
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 09:15:23 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id y14so11205859ejd.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 01:15:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=xtSvYYn7sZgfQOD/LS+WUVcCFaMk/fKnGeBQ6IL0GRQ=;
+ b=YyoTcmPDtOsf/E0K5Y2/VVSAJ9yIvKvsPrNg3CrlRW9o0aSG5efP9NxSR3I79UczVQ
+ 9tRR0ck1L+hbKFg6qWblY63KSmSYex2W36hUvOcpFLi0JL+cqwd2sbr9tp2HnSsCkbsS
+ ETPyZD4PG42ysgMwd9vi2WprqDmQA2xVJ2ZRI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xtSvYYn7sZgfQOD/LS+WUVcCFaMk/fKnGeBQ6IL0GRQ=;
+ b=GhLeLbhrOwmfxH9xUMSrCMBs/9jjPXnAxyTGmIy68XyyVN+aIQCXNwdCKN4ybyqF8m
+ 4lDefPKoxzjHrUSTa4NLofsFcVQQkfC5zqeizgh7avknrkVfgLSbjUV7xDyHAWeMSCUd
+ 3tjdYojsQbIg+xRVID4RgV34clGmNy/nsRc+w3SdVEMkNQvXf8xdO28TFO3/AO/mzL3z
+ v7aM3ZEyLdi/FIMj9K5rGlNIYTuwdH6ImJAf8YswJLMvmgZfQTt5Q/mmICMPLfxznvga
+ hJx3yLQQGW85ArM35X1XSSiy3awhSsQNCyX3lTYVn43Vip2hlhfZadpLpLGjSDQpJBsy
+ DTIw==
+X-Gm-Message-State: ANoB5plWMtVabzfVk4SVIZcEPmBrktf7BJldBqgMFW1HaIdMLvbbnRlf
+ 8169AVbsEhvWwL5hg8/cybOXwQ==
+X-Google-Smtp-Source: AA0mqf4TGEfL66bEjKQr84Z85zSPxSgAtD4vB7hFe2WP/GrFk3k5yWoePitdit+Uo7962YsKWANdtg==
+X-Received: by 2002:a17:907:9618:b0:78e:17ad:ba62 with SMTP id
+ gb24-20020a170907961800b0078e17adba62mr1087711ejc.719.1668158121770; 
+ Fri, 11 Nov 2022 01:15:21 -0800 (PST)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
+ [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
+ g18-20020a17090604d200b007ae0fde7a9asm631184eja.201.2022.11.11.01.15.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Nov 2022 01:15:21 -0800 (PST)
+Date: Fri, 11 Nov 2022 10:15:19 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 1/5] drm/fb-helper: Set damage-clip area in helper
+Message-ID: <Y24Sp4cf9CnoWMRi@phenom.ffwll.local>
+References: <20221110135519.30029-1-tzimmermann@suse.de>
+ <20221110135519.30029-2-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221110135519.30029-2-tzimmermann@suse.de>
+X-Operating-System: Linux phenom 5.19.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,65 +69,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Nathan E. Egge" <unlord@xiph.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Karol Herbst <kherbst@redhat.com>,
- "Gustavo A. R. Silva" <gustavo@embeddedor.com>, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-next@vger.kernel.org, Ben Skeggs <bskeggs@redhat.com>,
- Dave Airlie <airlied@redhat.com>, linux-hardening@vger.kernel.org
+Cc: javierm@redhat.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 10 Nov 2022, coverity-bot <keescook@chromium.org> wrote:
-> Hello!
->
-> This is an experimental semi-automated report about issues detected by
-> Coverity from a scan of next-20221110 as part of the linux-next scan project:
-> https://scan.coverity.com/projects/linux-next-weekly-scan
->
-> You're getting this email because you were associated with the identified
-> lines of code (noted below) that were touched by commits:
->
->   Mon Aug 31 19:10:08 2020 -0400
->     a0922278f83e ("drm/nouveau/kms/nv50-: Refactor and cleanup DP HPD handling")
+On Thu, Nov 10, 2022 at 02:55:15PM +0100, Thomas Zimmermann wrote:
+> Set the damage area in the new helper drm_fb_helper_add_damage_clip().
+> It can now be updated without scheduling the damage worker. This change
+> will help to remove the damage worker entirely. No functional changes.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Hi Kees, this looks like a good idea, but maybe double check the Cc list
-generation? I was Cc'd on four mails today that I thought were
-irrelevant to me.
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Thanks,
-Jani.
-
->
-> Coverity reported the following:
->
-> *** CID 1527266:  Null pointer dereferences  (REVERSE_INULL)
-> drivers/gpu/drm/nouveau/nouveau_dp.c:237 in nouveau_dp_irq()
-> 231     	struct nouveau_encoder *outp = find_encoder(connector, DCB_OUTPUT_DP);
-> 232     	struct nouveau_drm *drm = nouveau_drm(outp->base.base.dev);
-> 233     	struct nv50_mstm *mstm;
-> 234     	u64 hpd = 0;
-> 235     	int ret;
-> 236
-> vvv     CID 1527266:  Null pointer dereferences  (REVERSE_INULL)
-> vvv     Null-checking "outp" suggests that it may be null, but it has already been dereferenced on all paths leading to the check.
-> 237     	if (!outp)
-> 238     		return;
-> 239
-> 240     	mstm = outp->dp.mstm;
-> 241     	NV_DEBUG(drm, "service %s\n", connector->name);
-> 242
->
-> If this is a false positive, please let us know so we can mark it as
-> such, or teach the Coverity rules to be smarter. If not, please make
-> sure fixes get into linux-next. :) For patches fixing this, please
-> include these lines (but double-check the "Fixes" first):
->
-> Reported-by: coverity-bot <keescook+coverity-bot@chromium.org>
-> Addresses-Coverity-ID: 1527266 ("Null pointer dereferences")
-> Fixes: a0922278f83e ("drm/nouveau/kms/nv50-: Refactor and cleanup DP HPD handling")
->
-> Thanks for your attention!
+> ---
+>  drivers/gpu/drm/drm_fb_helper.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> index e0384f967c0b3..178615565760e 100644
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -576,8 +576,8 @@ void drm_fb_helper_fini(struct drm_fb_helper *fb_helper)
+>  }
+>  EXPORT_SYMBOL(drm_fb_helper_fini);
+>  
+> -static void drm_fb_helper_damage(struct drm_fb_helper *helper, u32 x, u32 y,
+> -				 u32 width, u32 height)
+> +static void drm_fb_helper_add_damage_clip(struct drm_fb_helper *helper, u32 x, u32 y,
+> +					  u32 width, u32 height)
+>  {
+>  	struct drm_clip_rect *clip = &helper->damage_clip;
+>  	unsigned long flags;
+> @@ -588,6 +588,12 @@ static void drm_fb_helper_damage(struct drm_fb_helper *helper, u32 x, u32 y,
+>  	clip->x2 = max_t(u32, clip->x2, x + width);
+>  	clip->y2 = max_t(u32, clip->y2, y + height);
+>  	spin_unlock_irqrestore(&helper->damage_lock, flags);
+> +}
+> +
+> +static void drm_fb_helper_damage(struct drm_fb_helper *helper, u32 x, u32 y,
+> +				 u32 width, u32 height)
+> +{
+> +	drm_fb_helper_add_damage_clip(helper, x, y, width, height);
+>  
+>  	schedule_work(&helper->damage_work);
+>  }
+> -- 
+> 2.38.0
+> 
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
