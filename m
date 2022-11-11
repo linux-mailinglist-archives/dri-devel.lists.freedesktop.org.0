@@ -2,76 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0046D6254B5
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 08:56:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1443A6255BB
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Nov 2022 09:49:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BA5510E77F;
-	Fri, 11 Nov 2022 07:56:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE22810E796;
+	Fri, 11 Nov 2022 08:49:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
- [IPv6:2a00:1450:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DA4A10E77F
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 07:56:25 +0000 (UTC)
-Received: by mail-lj1-x22f.google.com with SMTP id k19so3668552lji.2
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Nov 2022 23:56:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=w/Iu4CEI39UAfFhQsd226xNTRIuJLpZNpM7aahMWDJI=;
- b=YLAMmPR8XvFijVBooaEVEjc7fGWjM7VcDGaePHyH9FX1PSQZLq6gmxDD5xY/Zx6VUJ
- qMVwx7Rfswu9pwAofNTTULIiUVirrNtZ9iZU42OGoQqxZUkv/vwMVhkJBi5guLi+2v5C
- weUM/HZ4vSypxstT8j3HcjyTHmfI+hdfIkmQRJzsXS8ZO0eM4dNFdOiEAc9O+vHOt3xt
- iR8H4zytTyiUGJc/YiygBY4Kgp+RHMvcPi46xgX0oWRpTkvrNwIlR6fFxdOcUvhaVE9A
- fYoFuoJ0fFJ+iRrnQqhE9jHx8kM56MgxaDBIjTkrlcwrgkWVftYoSaIjjJVGOFrUEJ/A
- nhDg==
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com
+ [IPv6:2607:f8b0:4864:20::d2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68BAE10E796
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 08:49:29 +0000 (UTC)
+Received: by mail-io1-xd2c.google.com with SMTP id e189so3170837iof.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Nov 2022 00:49:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=OAOfqtD4t6Iov+GKWdcNGYt7OOruw1aiI2cat97jgC0=;
+ b=eHChzSN+uZraxaSKRS3P3eFNuY3EI5c62iZlJDfxGvRDWddsYiHHSECeludFjDBy2G
+ oFXIUrVPqybBj9FMmi2GBA3IMf/yUlhm+dqsaD35+jVF9qcSINApUSUaMzyQ/OVI5VGl
+ 7gL4niZpcCljSQauFKduPWefdL11fw1MxLh+A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=w/Iu4CEI39UAfFhQsd226xNTRIuJLpZNpM7aahMWDJI=;
- b=tRSx56egkwZ2/McBQl7Rrm9KHJwRNdmfUiwJ3p7txfLsOAncKjMK366QQ2MYvugfw6
- RdVU4pR5J2SBLt5yDmJEfmq0iia3W3nKJsJWIGevc2f4zIeczk5Hp5B8+98qpx1BQwWn
- oRtVGRIEYzhgulrjcKWxPUxeUQycb0o4SAjer+UhImVLDah8j9OnMVUeU6r5Lq1gU1Ou
- i6Z5joaEUYZV4K876C78K9UHC0/qpOYd4UCePCMuR5QzS3kjWNfGCfVwN/KxZyQhogVK
- yPkyI8ztHYY4oB+3jgQj9rbvXA7XktO3ZpLtGlRpzjl54/M1A9SrKzHLfqsoI2rPYppA
- YDDg==
-X-Gm-Message-State: ANoB5plvOru+ytwlAOjMOQB4ZqhG4yPIlrQVaU2sS6J95Al/Sz65p/4E
- /AXqRbedyAl1c1Xxa+w9myx9tw==
-X-Google-Smtp-Source: AA0mqf4CXgp6RSjsayp7+lJEN8b658DQOYP1PwWFxEKDrjbMnsfX43KI8kyV2Q+vJJahTAHG9L8cQA==
-X-Received: by 2002:a2e:908f:0:b0:277:328:affd with SMTP id
- l15-20020a2e908f000000b002770328affdmr283115ljg.517.1668153383421; 
- Thu, 10 Nov 2022 23:56:23 -0800 (PST)
-Received: from [192.168.0.20]
- (088156142199.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.199])
- by smtp.gmail.com with ESMTPSA id
- b7-20020a0565120b8700b004a240eb0217sm199790lfv.251.2022.11.10.23.56.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Nov 2022 23:56:22 -0800 (PST)
-Message-ID: <a187db7b-1f42-af79-f50d-3f71f378c010@linaro.org>
-Date: Fri, 11 Nov 2022 08:56:21 +0100
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=OAOfqtD4t6Iov+GKWdcNGYt7OOruw1aiI2cat97jgC0=;
+ b=FUmBTr9odIs7MgqT5EZmA4hgMrthbCJDNHQq/n7V6EmZ8HTjXEqSWBVIYsz5jvyyNL
+ dwbKBee2R1HvR5XeaFPUZ13EQPmHCg2lwL7axqGsrLHt3DOJn/c+r7FsWw8QumJW7TRP
+ xvzcSttGbt7lT+BreMjyIQkjTXhtSInqIHrC37UjuDcdrq0oS+DnsI/ei7naWGP/6A2a
+ UVjGycv8sLLhPG1qLeGSyFvWuxiH5Yq/heaoy+w5P5xBVGBtE/BUCjoxmiKkSUomyjKc
+ +i0Ue3Km/FCSQc7QcTZegY1RyWjnLJcHwjYdyGXfG9K+iIB56Kxovg2x4ug7XSE3UYjH
+ 4ovw==
+X-Gm-Message-State: ANoB5pn8YZrbmBb29IuxKMmGWqAMOD1bkm3jksLIJQ5oF2TJGwx4evF0
+ K+rTpRe6Z2bbVEKdk5Sxgqxp2lU3+JE87BRLAU/Jog==
+X-Google-Smtp-Source: AA0mqf4YB8JnnedwQjoNfM0ypDQE3AoLbvHaHweu7xqhUzKKDY+IJOVxG62wn1eGloitvYrgpRBWLsuvrz6wf6I87+c=
+X-Received: by 2002:a05:6602:418d:b0:6a3:8925:be51 with SMTP id
+ bx13-20020a056602418d00b006a38925be51mr604390iob.51.1668156568750; Fri, 11
+ Nov 2022 00:49:28 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v9 05/12] dt-bindings: display/msm: move common MDSS
- properties to mdss-common.yaml
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20221024164225.3236654-1-dmitry.baryshkov@linaro.org>
- <20221024164225.3236654-6-dmitry.baryshkov@linaro.org>
- <f72aeaa0-0c0a-86d9-0b9b-db3810c35fad@linaro.org>
- <b62e7239-0fef-e19c-5653-96f72b7b89b5@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <b62e7239-0fef-e19c-5653-96f72b7b89b5@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20221110183853.3678209-1-jagan@amarulasolutions.com>
+ <20221110183853.3678209-2-jagan@amarulasolutions.com>
+ <CANMq1KCHQExVVp1jHjhRB2pMqeFFE1Cg1GVmnN83v=z1KzJt0Q@mail.gmail.com>
+In-Reply-To: <CANMq1KCHQExVVp1jHjhRB2pMqeFFE1Cg1GVmnN83v=z1KzJt0Q@mail.gmail.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Fri, 11 Nov 2022 14:19:17 +0530
+Message-ID: <CAMty3ZBC3pbWf4yixjv4DZWFR+fYkPctiL3hzubgY8RF4ZGHmA@mail.gmail.com>
+Subject: Re: [PATCH v8 01/14] drm: exynos: dsi: Fix MIPI_DSI*_NO_* mode flags
+To: Nicolas Boichat <drinkcat@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,30 +66,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Fancy Fang <chen.fang@nxp.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Marek Vasut <marex@denx.de>,
+ linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
+ Neil Armstrong <narmstrong@linaro.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Matteo Lisi <matteo.lisi@engicam.com>, Adam Ford <aford173@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ =?UTF-8?Q?S=C3=A9bastien_Szymanski?= <sebastien.szymanski@armadeus.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/11/2022 22:45, Dmitry Baryshkov wrote:
->>
->>> +  - reg
->>> +  - reg-names
->>> +  - power-domains
->>> +  - clocks
->>> +  - interrupts
->>> +  - interrupt-controller
->>> +  - iommus
->>> +  - ranges
->>
->> Keep the same order as in list of top-level properties.
-> 
-> But the order is the same.
+On Fri, Nov 11, 2022 at 6:19 AM Nicolas Boichat <drinkcat@chromium.org> wro=
+te:
+>
+> On Fri, Nov 11, 2022 at 2:40 AM Jagan Teki <jagan@amarulasolutions.com> w=
+rote:
+> >
+> > HFP/HBP/HSA/EOT_PACKET modes in Exynos DSI host specifies
+> > 0 =3D Enable and 1 =3D Disable.
+>
+> Oh I see, that's confusing... IMHO you might want to change the
+> register macro name... (but if that's what the datasheet uses, it
+> might not be ideal either). At the _very_ least, I'd add a comment in
+> the code so the next person doesn't attempt to "fix" it again...
 
-Yes, you're right.
+02/14 on the same series doing the name change.
+https://lore.kernel.org/all/20221110183853.3678209-3-jagan@amarulasolutions=
+.com/
 
+>
+> BTW, are you sure DSIM_HSE_MODE is correct now?
 
-Best regards,
-Krzysztof
+Yes, we have tested in imx8m platforms as well. S=C3=A9bastien Szymanski
+initially observed this issue on the imx8m platform.
 
+Jagan.
