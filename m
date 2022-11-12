@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A94D5626B12
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Nov 2022 19:35:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2923E626B18
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Nov 2022 19:44:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACD6A10E1D2;
-	Sat, 12 Nov 2022 18:35:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2894710E1D6;
+	Sat, 12 Nov 2022 18:44:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com
- [IPv6:2001:4860:4864:20::30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B11410E0C9;
- Sat, 12 Nov 2022 18:35:16 +0000 (UTC)
-Received: by mail-oa1-x30.google.com with SMTP id
- 586e51a60fabf-1322d768ba7so8628842fac.5; 
- Sat, 12 Nov 2022 10:35:16 -0800 (PST)
+Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com
+ [IPv6:2001:4860:4864:20::2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2EBF10E1D6;
+ Sat, 12 Nov 2022 18:44:13 +0000 (UTC)
+Received: by mail-oa1-x2a.google.com with SMTP id
+ 586e51a60fabf-13ae8117023so8611998fac.9; 
+ Sat, 12 Nov 2022 10:44:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=d5vdxZQMmvxIfDHl2Grcp/dYFfXeskzhKegPBwxMsEw=;
- b=WMYyJ01JIiVrA6qoU+cmAwDHQAzjTgPP+e5TNAlNwYPH25EIT+qq2Iq3YJCqa4HR7h
- P+US4EuKC2Lc6+qoANk5YEraAO8vCV3pLOW/BywFENBTlApvpo3+6tfPAFe4hw9fPd2f
- JP3ccP3sjqR0MVb9Ki8sGLHghN7OEAja1/Kvm6r3r+xCe83pfB8otrgZLSE2YkmER8O4
- SfGSpNMC7isjUsZ4xaYNqAGMG3SiH34bXIIHOs4dD59833XVSOP2VZBwgDQ7eDTCHV8M
- T+cLj7F/KVAkZrzq+RSIsYZWryhSwuZTjZoS5wWxCzm7tXRD+CljIsoQnLN1M5mujcjE
- v35g==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=RW2ierpmO9Ob9gBGCgFgoR5MnOmGKRHEK26wUjbjR4A=;
+ b=GCOaqdr4YOF0FX/9QEEFwpEW0tOXrQcDyze2xaDGpwIzqDuQbOC/dX+y+Yc8zz1Xmw
+ hb2z3xqDXKT2Sg2chXVIo8rgQLtWi/5iGHeUydXd8DWV/IY/eaIACoM3kF7gppmR944z
+ Nq3glLGU1AffkDUlsOgg4B5YtDqNtesEhGQXvUlzfj3BH7ptOujETRIFXeMxN/uuRVn/
+ tUil3PE7NlXPqXwHUOHEzCgeakanqIPT0hr7NYguCypMMRnzawy/NDadT5yBNBcfzW8R
+ wHjRDt0k87kdZs1sOaaak8tzxu9+pZ4Ax4UiDTjzZBr+/d4G/gUK6ZX6zEpNexpfWh6Y
+ 7yNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=d5vdxZQMmvxIfDHl2Grcp/dYFfXeskzhKegPBwxMsEw=;
- b=NGFkZY4oGi2j33drqTlTFqnce1/sOkOjfOLCKQEeO/JkqvyiVP+wq2J6rmz9yuWZr6
- 1jt2uNOXRQkpL5fUnf45B3KeNPcrF8Ci+upaEOBZgVFvF0zKanfyJodHXEPg2LbcQmw0
- D08EKWcQrjW1TCsXOvaRDjClGFUz9VomrlHqWuLG8yt9vn7DrJ09Wqzv29CgSBVX2Rsm
- cNF8rGtvPp1704psUsBMCp9ovl7vGovit9kz235AL1K0RytvMMnuXM4GoQmgH+BYOu1C
- Moc6988GQInVXrZstDrLkpS34eQzix5x2r8bNfWv0kOlBFkSIBpRmd+luxej22U8Mgi1
- kotA==
-X-Gm-Message-State: ANoB5pnVFCLcqgC5i5ivMoWteUzhcgUE259e8BGHbpPYfmGUjFMv8LdW
- ZGby3pT8LUwKq8/ue67rjY+g2f+oaGW74lRbx8Q=
-X-Google-Smtp-Source: AA0mqf7kihvVpfJP9izkq0AMhaawtXqOsBkR4pGYQuWbsKt9hYS3NZYPeJiSXwblnXAMOMYFSCeQDMndtqzlyWGwVdM=
-X-Received: by 2002:a05:6870:b87:b0:13d:51fe:3404 with SMTP id
- lg7-20020a0568700b8700b0013d51fe3404mr3682552oab.183.1668278115223; Sat, 12
- Nov 2022 10:35:15 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=RW2ierpmO9Ob9gBGCgFgoR5MnOmGKRHEK26wUjbjR4A=;
+ b=KKLx57rm6uPpXrZV+xTLAXeNq///B4K44xOtQQmMd7XNNlJM7xYuMjFVaO1ubeg+Ve
+ /gdaIZFhfJAJTr6XSTpleqEtVom25as4430qJytRmiBMUOAeSvAEnUT1WkFZIuvwj6v+
+ IJgg20PSoG+aMg/AorkpiR/l1NakhaDUd4zw297Vo0T+2zSOpjQeXnsBF8QawZeCLAL8
+ cBogGUEOeSXo4rz0MqbNg5d/OzOmw7NEeeXS0FqUAS+x+4+CK79sZf9QbrUCSaaLNITa
+ +m4mLI1L7FDStDz6OENgxnYSqP3JCGhq2j+WvxiHJF1UafauT920jij5u0sGoTvpyNYV
+ frKg==
+X-Gm-Message-State: ANoB5pnYstASOoG62u6VlaO3Bh+xZjWuDJTqPyciuscMUsxduPGAtqOX
+ zJbwS3mY3WljrzR5Go3hnvNGy9PB8GBDcd7GCmg=
+X-Google-Smtp-Source: AA0mqf4kaFqXtJ+RO4j7D+L1kwF4/PLgS1JnevXdJ1cEwhQKGJm/s6jrSY7XjKorOAs03anRZVUAIivVVjk+JpiIeBY=
+X-Received: by 2002:a05:6870:1f15:b0:131:f559:461b with SMTP id
+ pd21-20020a0568701f1500b00131f559461bmr3779869oab.38.1668278653159; Sat, 12
+ Nov 2022 10:44:13 -0800 (PST)
 MIME-Version: 1.0
 References: <20221111194957.4046771-1-joel@joelfernandes.org>
- <20221111194957.4046771-2-joel@joelfernandes.org>
- <899db0f8-7b8a-ed8f-30b8-4f630da1298d@quicinc.com>
-In-Reply-To: <899db0f8-7b8a-ed8f-30b8-4f630da1298d@quicinc.com>
+ <B336E259-FB18-4E16-8BC7-2117614ABE4D@joelfernandes.org>
+In-Reply-To: <B336E259-FB18-4E16-8BC7-2117614ABE4D@joelfernandes.org>
 From: Rob Clark <robdclark@gmail.com>
-Date: Sat, 12 Nov 2022 10:35:35 -0800
-Message-ID: <CAF6AEGtEswqCRXkrd+tWKb_1N1UXgQ=EVMTZAgxxpNcD2vYGHQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] adreno: Detect shutdown during get_param()
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Date: Sat, 12 Nov 2022 10:44:33 -0800
+Message-ID: <CAF6AEGvsmXZkw2epEE3y8hksQea0xW8TAhgitiGJY66PiQPaPA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] adreno: Shutdown the GPU properly
+To: Joel Fernandes <joel@joelfernandes.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,67 +69,72 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Clark <robdclark@chromium.org>, Emma Anholt <emma@anholt.net>,
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Ricardo Ribalda <ribalda@chromium.org>,
- Vladimir Lypak <vladimir.lypak@gmail.com>, linux-kernel@vger.kernel.org,
- Steven Rostedt <rostedt@goodmis.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- dri-devel@lists.freedesktop.org, Ross Zwisler <zwisler@kernel.org>,
- "Joel Fernandes \(Google\)" <joel@joelfernandes.org>,
- Sean Paul <sean@poorly.run>
+ Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
+ Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
+ Ross Zwisler <zwisler@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 11, 2022 at 1:28 PM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+On Fri, Nov 11, 2022 at 1:08 PM Joel Fernandes <joel@joelfernandes.org> wro=
+te:
 >
-> On 11/12/2022 1:19 AM, Joel Fernandes (Google) wrote:
-> > Even though the GPU is shut down, during kexec reboot we can have userspace
-> > still running. This is especially true if KEXEC_JUMP is not enabled, because we
-> > do not freeze userspace in this case.
+>
+>
+> > On Nov 11, 2022, at 2:50 PM, Joel Fernandes (Google) <joel@joelfernande=
+s.org> wrote:
 > >
-> > To prevent crashes, track that the GPU is shutdown and prevent get_param() from
-> > accessing GPU resources if we find it shutdown.
+> > =EF=BB=BFDuring kexec on ARM device, we notice that device_shutdown() o=
+nly calls
+> > pm_runtime_force_suspend() while shutting down the GPU. This means the =
+GPU
+> > kthread is still running and further, there maybe active submits.
 > >
-> > This fixes the following crash during kexec reboot on an ARM64 device with adreno GPU:
+> > This causes all kinds of issues during a kexec reboot:
 > >
-> > [  292.534314] Kernel panic - not syncing: Asynchronous SError Interrupt
-> > [  292.534323] Hardware name: Google Lazor (rev3 - 8) with LTE (DT)
-> > [  292.534326] Call trace:
-> > [  292.534328]  dump_backtrace+0x0/0x1d4
-> > [  292.534337]  show_stack+0x20/0x2c
-> > [  292.534342]  dump_stack_lvl+0x60/0x78
-> > [  292.534347]  dump_stack+0x18/0x38
-> > [  292.534352]  panic+0x148/0x3b0
-> > [  292.534357]  nmi_panic+0x80/0x94
-> > [  292.534364]  arm64_serror_panic+0x70/0x7c
-> > [  292.534369]  do_serror+0x0/0x7c
-> > [  292.534372]  do_serror+0x54/0x7c
-> > [  292.534377]  el1h_64_error_handler+0x34/0x4c
-> > [  292.534381]  el1h_64_error+0x7c/0x80
-> > [  292.534386]  el1_interrupt+0x20/0x58
-> > [  292.534389]  el1h_64_irq_handler+0x18/0x24
-> > [  292.534395]  el1h_64_irq+0x7c/0x80
-> > [  292.534399]  local_daif_inherit+0x10/0x18
-> > [  292.534405]  el1h_64_sync_handler+0x48/0xb4
-> > [  292.534410]  el1h_64_sync+0x7c/0x80
-> > [  292.534414]  a6xx_gmu_set_oob+0xbc/0x1fc
-> > [  292.534422]  a6xx_get_timestamp+0x40/0xb4
-> > [  292.534426]  adreno_get_param+0x12c/0x1e0
-> > [  292.534433]  msm_ioctl_get_param+0x64/0x70
-> > [  292.534440]  drm_ioctl_kernel+0xe8/0x158
-> > [  292.534448]  drm_ioctl+0x208/0x320
-> > [  292.534453]  __arm64_sys_ioctl+0x98/0xd0
-> > [  292.534461]  invoke_syscall+0x4c/0x118
-> > [  292.534467]  el0_svc_common+0x98/0x104
-> > [  292.534473]  do_el0_svc+0x30/0x80
-> > [  292.534478]  el0_svc+0x20/0x50
-> > [  292.534481]  el0t_64_sync_handler+0x78/0x108
-> > [  292.534485]  el0t_64_sync+0x1a4/0x1a8
-> > [  292.534632] Kernel Offset: 0x1a5f800000 from 0xffffffc008000000
-> > [  292.534635] PHYS_OFFSET: 0x80000000
-> > [  292.534638] CPU features: 0x40018541,a3300e42
-> > [  292.534644] Memory Limit: none
+> > Warning from shutdown path:
+> >
+> > [  292.509662] WARNING: CPU: 0 PID: 6304 at [...] adreno_runtime_suspen=
+d+0x3c/0x44
+> > [  292.509863] Hardware name: Google Lazor (rev3 - 8) with LTE (DT)
+> > [  292.509872] pstate: 80400009 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BT=
+YPE=3D--)
+> > [  292.509881] pc : adreno_runtime_suspend+0x3c/0x44
+> > [  292.509891] lr : pm_generic_runtime_suspend+0x30/0x44
+> > [  292.509905] sp : ffffffc014473bf0
+> > [...]
+> > [  292.510043] Call trace:
+> > [  292.510051]  adreno_runtime_suspend+0x3c/0x44
+> > [  292.510061]  pm_generic_runtime_suspend+0x30/0x44
+> > [  292.510071]  pm_runtime_force_suspend+0x54/0xc8
+> > [  292.510081]  adreno_shutdown+0x1c/0x28
+> > [  292.510090]  platform_shutdown+0x2c/0x38
+> > [  292.510104]  device_shutdown+0x158/0x210
+> > [  292.510119]  kernel_restart_prepare+0x40/0x4c
+> >
+> > And here from GPU kthread, an SError OOPs:
+> >
+> > [  192.648789]  el1h_64_error+0x7c/0x80
+> > [  192.648812]  el1_interrupt+0x20/0x58
+> > [  192.648833]  el1h_64_irq_handler+0x18/0x24
+> > [  192.648854]  el1h_64_irq+0x7c/0x80
+> > [  192.648873]  local_daif_inherit+0x10/0x18
+> > [  192.648900]  el1h_64_sync_handler+0x48/0xb4
+> > [  192.648921]  el1h_64_sync+0x7c/0x80
+> > [  192.648941]  a6xx_gmu_set_oob+0xbc/0x1fc
+> > [  192.648968]  a6xx_hw_init+0x44/0xe38
+> > [  192.648991]  msm_gpu_hw_init+0x48/0x80
+> > [  192.649013]  msm_gpu_submit+0x5c/0x1a8
+> > [  192.649034]  msm_job_run+0xb0/0x11c
+> > [  192.649058]  drm_sched_main+0x170/0x434
+> > [  192.649086]  kthread+0x134/0x300
+> > [  192.649114]  ret_from_fork+0x10/0x20
+> >
+> > Fix by calling adreno_system_suspend() in the device_shutdown() path.
 > >
 > > Cc: Rob Clark <robdclark@chromium.org>
 > > Cc: Steven Rostedt <rostedt@goodmis.org>
@@ -136,71 +142,52 @@ On Fri, Nov 11, 2022 at 1:28 PM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
 > > Cc: Ross Zwisler <zwisler@kernel.org>
 > > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 > > ---
-> >   drivers/gpu/drm/msm/adreno/adreno_device.c | 1 +
-> >   drivers/gpu/drm/msm/adreno/adreno_gpu.c    | 2 +-
-> >   drivers/gpu/drm/msm/msm_gpu.h              | 3 +++
-> >   3 files changed, 5 insertions(+), 1 deletion(-)
+> > drivers/gpu/drm/msm/adreno/adreno_device.c | 5 ++++-
+> > 1 file changed, 4 insertions(+), 1 deletion(-)
 > >
-> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > index f0cff62812c3..03d912dc0130 100644
+> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/d=
+rm/msm/adreno/adreno_device.c
+> > index 24b489b6129a..f0cff62812c3 100644
 > > --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
 > > +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > @@ -612,6 +612,7 @@ static void adreno_shutdown(struct platform_device *pdev)
-> >   {
-> >       struct msm_gpu *gpu = dev_to_gpu(&pdev->dev);
+> > @@ -607,9 +607,12 @@ static int adreno_remove(struct platform_device *p=
+dev)
+> >    return 0;
+> > }
 > >
-> > +     gpu->is_shutdown = true;
-> >       WARN_ON_ONCE(adreno_system_suspend(&pdev->dev));
-> >   }
-> >
-> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> > index 382fb7f9e497..6903c6892469 100644
-> > --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> > +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> > @@ -251,7 +251,7 @@ int adreno_get_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
-> >       struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-> >
-> >       /* No pointer params yet */
-> > -     if (*len != 0)
-> > +     if (*len != 0 || gpu->is_shutdown)
-> >               return -EINVAL;
-> This will race with shutdown. Probably, propagating back the return
-> value of pm_runtime_get() in every possible ioctl call path is the right
-> thing to do.
+> > +static int adreno_system_suspend(struct device *dev);
+> > static void adreno_shutdown(struct platform_device *pdev)
+> > {
+> > -    pm_runtime_force_suspend(&pdev->dev);
+> > +    struct msm_gpu *gpu =3D dev_to_gpu(&pdev->dev);
+> > +
 >
-> I have never thought about this scenario. Do you know why userspace is
-> not freezed before kexec?
+> This local variable definition should go to patch 2/2. Will fix in v2.
+>
+> Thanks,
+>
+>  - Joel
+>
+>
+> > +    WARN_ON_ONCE(adreno_system_suspend(&pdev->dev));
 
-So userspace not being frozen seems like the root issue, and is likely
-to cause all sorts of other whack-a-mole problems.  I guess I'd like
-to know if this is the expected behavior?
-
-If so, we should probably look at
-drm_dev_is_unplugged()/drm_dev_unplug()/etc rather than trying to NIH
-that mechanism.  We would need to sprinkle drm_dev_is_unplugged()
-checks more widely, and also ensure that the scheduler kthread(s) gets
-parked.  But it would be nice to know first if we are just trying to
-paper over a kexec bug.
+I think maybe adreno_unbind() needs the same treatment?  Any path
+where we yank out the power cord without ensuring the scheduler is
+parked means we'd be racing with jobs in the scheduler queue.  Ie.
+userspace could queue a job before it is frozen, but the drm/scheduler
+kthread hasn't yet called the msm_job_run() callback (which does
+various touching of the now powered off hw).  So I think we need to
+ensure that the scheduler is parked in all paths that call
+pm_runtime_force_suspend() (as that bypasses the runpm reference that
+would otherwise unsure the hw is powered before msm_job_run pokes at
+registers)
 
 BR,
 -R
 
->
-> -Akhil.
+> > }
 > >
-> >       switch (param) {
-> > diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-> > index ff911e7305ce..f18b0a91442b 100644
-> > --- a/drivers/gpu/drm/msm/msm_gpu.h
-> > +++ b/drivers/gpu/drm/msm/msm_gpu.h
-> > @@ -214,6 +214,9 @@ struct msm_gpu {
-> >       /* does gpu need hw_init? */
-> >       bool needs_hw_init;
+> > static const struct of_device_id dt_match[] =3D {
+> > --
+> > 2.38.1.493.g58b659f92b-goog
 > >
-> > +     /* is the GPU shutdown? */
-> > +     bool is_shutdown;
-> > +
-> >       /**
-> >        * global_faults: number of GPU hangs not attributed to a particular
-> >        * address space
->
