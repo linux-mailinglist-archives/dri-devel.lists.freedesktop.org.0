@@ -2,60 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CAF3626FB9
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Nov 2022 14:28:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCF8E627025
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Nov 2022 16:07:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D413410E213;
-	Sun, 13 Nov 2022 13:28:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A90610E191;
+	Sun, 13 Nov 2022 15:07:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com
- [IPv6:2607:f8b0:4864:20::112f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AD1410E213
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Nov 2022 13:28:34 +0000 (UTC)
-Received: by mail-yw1-x112f.google.com with SMTP id
- 00721157ae682-368edbc2c18so83249427b3.13
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Nov 2022 05:28:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=RBRObaACq4skoaxVBrtZ8v0pRx/dpMfq/nTCZQT1EHw=;
- b=VDVypVr2NsABEUCO9Cj6h0vr/oZ1XbPzamFb8IxL8D+6CoUairk26NtyP6QzbbxX+e
- VdZTX7UXqnsgeqSPb/WvaNYDVRUL13ZXpU9K5J+1/u2vv7aYyRZpk/5nTCoIAVCN2Plx
- riQN8+haehHwRzcRBIUuyv/3WDKweKIUVAvFxie/6POJBP9YNHk4I7/VztlXUew0DhpT
- fzerrqtrkdY8oyOOpGoH3mMJy2SMWc+IPGFBNaRU28FR64AGGi3twcm+2kmT1IwB9Bz/
- dbMclVr/Hm77ubm3BlLJa0wzjpFThvPjZczK97kfxtu1weYiryhFjWX+1wd8XYaCd4kC
- +zIQ==
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6764010E191
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Nov 2022 15:07:27 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id b3so15443622lfv.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Nov 2022 07:07:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=googlemail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=umo/xdUlQSYAVDNNJIA7iJ7EdK6y2kGfWONuMRbs/TA=;
+ b=e9lTnIlyKgsqjF+MrXGgxFYkfUbeoadmoDhRaLkeApmUoQyroEV1yTWy4iBDU1GumZ
+ 62VNSeshYUqjvZZbIHfhXRtyMracJ8xvEOAczV4BS+SEd1pi2iigs1dHU9Wxb7YtmCLx
+ xjGJM9yQZtIv/IbvoNb5hKb2yBGm3fJMxDNLcE68BXXRZQr1yfj5gAME1iZDEz+89it6
+ GrCDPrM3HbifmuqJMEfb3MKlY9t+1IJrgG+fqEJIVXBe424P41VyQoxGToyLhgwYCFNH
+ Syk3lZzZGTXghlpw64V8xD+ing6+wBvllMX82FHDHhzDUF7YjizxP5TBsHt7LGylUMwG
+ l97w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=RBRObaACq4skoaxVBrtZ8v0pRx/dpMfq/nTCZQT1EHw=;
- b=UHsXaJqSTCOGCZPMdGos218ytL5H0TSj89/vMekbF7BWm5IFrWIxmzZJ7w4FIxO9wQ
- s1aaWZr9VKNG+g/1knHFrvr18y7k/8e+ejl+zaRz72UJ4VrY3acVeQhFRn8jtlGyCAUy
- Vh92EehMfXzf5pW4CHykoAzoCsPAb7TfRVmCIuHwIMYvNQ+qFmO6XC6ihedJXd+sIa6M
- 1PKl/FQ7y3eYIyPYdxWigbPuL43bAhec+k0RJiJoy50YsNwOHkmAc99JxU7u6I5IOWSM
- iN+eGhAnjBOTeBe1FAN1x67dcbouuk7Muk+5BYz/uoq77LDeUds3t+mkWD/bww3M3PqX
- 8LEg==
-X-Gm-Message-State: ANoB5pkVd10FCGB8HyaOIzBpxX+ZXv2VkwEp3VnpWuHaXv0hKfvfjI0D
- Fz8JqxVlCgwHHRHM2hJlsA98Xhu/1a5QS7YHXv7xeA==
-X-Google-Smtp-Source: AA0mqf5/V8vAkG5yu8rfNBpBbPJKTqV98nZ/6hF0TeBD4mhjv0NsSJ3V9OLj2ZBQHss3zSAeh3o2CXznf0PuDUzBWmc=
-X-Received: by 2002:a0d:d84d:0:b0:37b:e3ae:decc with SMTP id
- a74-20020a0dd84d000000b0037be3aedeccmr8432724ywe.418.1668346113283; Sun, 13
- Nov 2022 05:28:33 -0800 (PST)
+ bh=umo/xdUlQSYAVDNNJIA7iJ7EdK6y2kGfWONuMRbs/TA=;
+ b=nbMOxw/fFNISb59XWMoIvmMJmemyI+GkkYwYk5OBHYT7/0LzHwX3HMSCgaVJHB2UC/
+ rvCunqztgUzCjvvG/yu2eqOYrSGPGIfqmLVLaGz/s8Kf8E1Z825xE3MKWFk+c/PRmNDP
+ U6rynnoWDOddckBnVxdR3NRZzwJMw62ILfuJ3i/ec/mDUqxxNKnZh4Dp8ELLEbTlBKrg
+ oNBR93zQDNkujQWYgW+lYJRC8YUHBhdI5Y79ivyttF723/KvSvrMYYPhAO9Vd+eQqkHP
+ UQtCePIIrcwTcVB/VIv2Kq5RIutd/Wzhf1SSB1W/uU4f+SyXca4PBkxcmKwJ52jiMyh8
+ Onhg==
+X-Gm-Message-State: ANoB5pmr7kUJE8/I8LYqKT+dlyLEB1MA6MIvu88FOHm+TuVGDHcr+Vzu
+ 0uCY/98NLngWl8pNI9E2A3E=
+X-Google-Smtp-Source: AA0mqf4TUvlSQjy+LPxsa8mUnyhfgrZ2+hMCJe8GBO7bMH6joUroCaeCl6wu7cYoNIms96wVInnnWw==
+X-Received: by 2002:a05:6512:2305:b0:4b1:8698:9f3e with SMTP id
+ o5-20020a056512230500b004b186989f3emr2911401lfu.421.1668352045590; 
+ Sun, 13 Nov 2022 07:07:25 -0800 (PST)
+Received: from localhost.localdomain (185-48-128-212.net.cybernetwmw.com.
+ [185.48.128.212]) by smtp.googlemail.com with ESMTPSA id
+ j26-20020ac2455a000000b004979ec19387sm1397753lfm.305.2022.11.13.07.07.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 13 Nov 2022 07:07:25 -0800 (PST)
+From: Lukasz Wiecaszek <lukasz.wiecaszek@googlemail.com>
+X-Google-Original-From: Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH v2] udmabuf: add vmap method to udmabuf_ops
+Date: Sun, 13 Nov 2022 16:05:11 +0100
+Message-Id: <20221113150511.8878-1-lukasz.wiecaszek@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <0abf1924-485b-8f1c-c8c8-d14dcccc3a27@quicinc.com>
- <0Co5PrfVEsYkXu9wz6ixpiFl0aWmXfIng6NSPOiYNcrAfHZx0w2crkWN7InPdtR-YTAb1IxLovgcEHCmFpmaqA==@protonmail.internalid>
- <20220712132258.671263-1-dmitry.baryshkov@linaro.org>
- <1892d0af-8aa4-dc03-887a-e44bb623b836@linaro.org>
-In-Reply-To: <1892d0af-8aa4-dc03-887a-e44bb623b836@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 13 Nov 2022 16:28:22 +0300
-Message-ID: <CAA8EJpq_9iC1rkiZVom28Kv_B3QLd4pBgFObxBfSpJ+Xh=Mp1g@mail.gmail.com>
-Subject: Re: [PATCH v2.5] drm/msm/dsi: switch to DRM_PANEL_BRIDGE
-To: Caleb Connolly <caleb.connolly@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,86 +70,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>
+Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ linaro-mm-sig@lists.linaro.org, Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Caleb,
+The reason behind that patch is associated with videobuf2 subsystem
+(or more genrally with v4l2 framework) and user created
+dma buffers (udmabuf). In some circumstances
+when dealing with V4L2_MEMORY_DMABUF buffers videobuf2 subsystem
+wants to use dma_buf_vmap() method on the attached dma buffer.
+As udmabuf does not have .vmap operation implemented,
+such dma_buf_vmap() natually fails.
 
-On Fri, 11 Nov 2022 at 18:30, Caleb Connolly <caleb.connolly@linaro.org> wrote:
->
-> Hi,
->
-> This patch has caused a regression on 6.1-rc for some devices that use
-> DSI panels. The new behaviour results in the DSI controller being
-> switched off before the panel unprepare hook is called. As a result,
-> panel drivers which call mipi_dsi_dcs_write() or similar in
-> unprepare() fail.
+videobuf2_common: [cap-000000003473b2f1] __vb2_queue_alloc: allocated 3 buffers, 1 plane(s) each
+videobuf2_common: [cap-000000003473b2f1] __prepare_dmabuf: buffer for plane 0 changed
+videobuf2_common: [cap-000000003473b2f1] __prepare_dmabuf: failed to map dmabuf for plane 0
+videobuf2_common: [cap-000000003473b2f1] __buf_prepare: buffer preparation failed: -14
 
-Thanks for the notice. Can you move your command stream to
-panel_disable() hook? (even if it's just as a temporary workaround)
+The patch itself seems to be strighforward.
+It adds implementation of .vmap method to 'struct dma_buf_ops udmabuf_ops'.
+.vmap method itself uses vm_map_ram() to map pages linearly
+into the kernel virtual address space (only if such mapping
+hasn't been created yet).
 
-From what I see from other panels, some of them call
-mipi_dsi_dcs_set_display_off() in the unprepare() hook, while others
-do it in disable().
+Signed-off-by: Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>
+Reported-by: kernel test robot <lkp@intel.com>
+---
+v1: https://lore.kernel.org/linux-media/202211120352.G7WPASoP-lkp@intel.com/T/#t
 
-Yes, this is (again) the DSI host vs device order here. Short story:
-the DRM has a notion of 'the display pipe (i.e. clocks and timing
-signals) feeding the bridge being running'. That's the difference
-between enable/pre_enable and disable/post_disable. For the DSI we
-have a third state, when the DSI clock and ln0 allow transferring
-commands to the panel, but the image is not enabled.
+v1 -> v2: Patch prepared and tested against 6.1.0-rc2+
 
-There was a somewhat promising patchset at [1], but it seems it went
-out of the radar. I can try working on an alternative (explicit)
-approach if I have time.
+ drivers/dma-buf/udmabuf.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-With respect to your panel. Let me quote the docs: 'Before stopping
-video transmission from the display controller it can be necessary to
-turn off the panel to avoid visual glitches. This is done in the
-.disable() function. Analogously to .enable() this typically involves
-turning off the backlight and waiting for some time to make sure no
-image is visible on the panel. It is then safe for the display
-controller to cease transmission of video data.'
-
-So, if we stop the call chain after switching the DSI host off but
-before calling the panel's unprepare() hook, will we see any
-artifacts/image leftover/etc. on the panel? Generally I have the
-feeling that all panels should call mipi_dsi_dcs_set_display_off() in
-the .disable() hook, not in the .unprepare() one.
-
-[1] https://lore.kernel.org/dri-devel/cover.1646406653.git.dave.stevenson@raspberrypi.com/
-
->
-> I've noticed it specifically on the OnePlus 6 (with upstream Samsung
-> s0fef00 panel driver) and the SHIFT6mq with an out of tree driver.
->
-> On 12/07/2022 14:22, Dmitry Baryshkov wrote:
-> > Currently the DSI driver has two separate paths: one if the next device
-> > in a chain is a bridge and another one if the panel is connected
-> > directly to the DSI host. Simplify the code path by using panel-bridge
-> > driver (already selected in Kconfig) and dropping support for
-> > handling the panel directly.
-> >
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> >
-> > I'm not sending this as a separate patchset (I'd like to sort out mdp5
-> > first), but more of a preview of changes related to
-> > msm_dsi_manager_ext_bridge_init().
-> >
-> > ---
-> >   drivers/gpu/drm/msm/dsi/dsi.c         |  35 +---
-> >   drivers/gpu/drm/msm/dsi/dsi.h         |  16 +-
-> >   drivers/gpu/drm/msm/dsi/dsi_host.c    |  25 ---
-> >   drivers/gpu/drm/msm/dsi/dsi_manager.c | 283 +++-----------------------
-> >   4 files changed, 36 insertions(+), 323 deletions(-)
-
-[skipped the patch itself]
-
+diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+index 2bcdb935a3ac..2ca0e3639360 100644
+--- a/drivers/dma-buf/udmabuf.c
++++ b/drivers/dma-buf/udmabuf.c
+@@ -12,6 +12,8 @@
+ #include <linux/slab.h>
+ #include <linux/udmabuf.h>
+ #include <linux/hugetlb.h>
++#include <linux/vmalloc.h>
++#include <linux/iosys-map.h>
+ 
+ static int list_limit = 1024;
+ module_param(list_limit, int, 0644);
+@@ -26,6 +28,7 @@ struct udmabuf {
+ 	struct page **pages;
+ 	struct sg_table *sg;
+ 	struct miscdevice *device;
++	void *vaddr;
+ };
+ 
+ static vm_fault_t udmabuf_vm_fault(struct vm_fault *vmf)
+@@ -57,6 +60,21 @@ static int mmap_udmabuf(struct dma_buf *buf, struct vm_area_struct *vma)
+ 	return 0;
+ }
+ 
++static int vmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
++{
++	struct udmabuf *ubuf = buf->priv;
++
++	if (!ubuf->vaddr) {
++		ubuf->vaddr = vm_map_ram(ubuf->pages, ubuf->pagecount, -1);
++		if (!ubuf->vaddr)
++			return -EINVAL;
++	}
++
++	iosys_map_set_vaddr(map, ubuf->vaddr);
++
++	return 0;
++}
++
+ static struct sg_table *get_sg_table(struct device *dev, struct dma_buf *buf,
+ 				     enum dma_data_direction direction)
+ {
+@@ -159,6 +177,7 @@ static const struct dma_buf_ops udmabuf_ops = {
+ 	.unmap_dma_buf	   = unmap_udmabuf,
+ 	.release	   = release_udmabuf,
+ 	.mmap		   = mmap_udmabuf,
++	.vmap		   = vmap_udmabuf,
+ 	.begin_cpu_access  = begin_cpu_udmabuf,
+ 	.end_cpu_access    = end_cpu_udmabuf,
+ };
 -- 
-With best wishes
-Dmitry
+2.25.1
+
