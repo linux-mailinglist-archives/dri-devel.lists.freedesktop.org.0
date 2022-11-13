@@ -1,55 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6399B627316
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Nov 2022 23:55:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65905627374
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 00:23:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A42C10E110;
-	Sun, 13 Nov 2022 22:55:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D80D10E24F;
+	Sun, 13 Nov 2022 23:23:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64CD210E110
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Nov 2022 22:55:19 +0000 (UTC)
-Received: from [192.168.2.248] (109-252-117-140.nat.spd-mgts.ru
- [109.252.117.140])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 437F36601FAA;
- Sun, 13 Nov 2022 22:55:17 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1668380117;
- bh=F03dUGn7tUZsgV2kBeJ7WoSqe3zgZ1vmINxDLXObmMY=;
- h=Date:Subject:To:References:From:In-Reply-To:From;
- b=iyW4Y2SB+TOshLi/YRYZ/rPdzXhchtZL3QJMHX9UGg2BGjYBt/nNVhEjt+JTlC2tU
- l9tJHSR42z4EC4ukScQRb/hK7DSyZVV6Cm/Zp0UmYeUQRLIsvwvQmQiizNT1ZVuA1p
- trwlmcbqA4Faj2KcAvh6NrQ46+s/X8uZXe30tjjYGIWu7pRfWHCvtgLQ9VIiAPd47e
- gaEOB4B0mi+4nvjmVow0KozTJ1ZHyyyDWkoPUUdjkoL9LMopjdk2/knI6O/iWlfJQc
- 8KLD2q7rv8B9WdGLsuJHB5BFhNn0Px2yXwA25CyPJpwxGf4XXbdUIqJNa2RjSk4RVy
- e97+1mCpb3l2g==
-Message-ID: <061ca923-866d-2d31-8084-f4133e05b171@collabora.com>
-Date: Mon, 14 Nov 2022 01:55:13 +0300
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0370510E24C;
+ Sun, 13 Nov 2022 23:23:35 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4N9T5X6QJRz4x1D;
+ Mon, 14 Nov 2022 10:23:28 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1668381810;
+ bh=65AmNELdQUu+5ZUFxLeHt1YFNVUSiBa9NN7XJDkLfcI=;
+ h=Date:From:To:Cc:Subject:From;
+ b=bCJ6EFhmvwL+L4257L0lSgATVHywjhbm2XWZI0I8HRFQ7QlkQLi+i6xY1iTWgsKsR
+ XcM00TeNiMuhPVqo3db8u8Bgdf9OSMQJ7yICBe+R07reaz67quvS0rKNcFtE1fXny1
+ VE1JVBNp/r5Kc2qvZtenrVBbltEiWlPgwImXR/+pObGp/zBkYkvs1RcVsguk42IM+o
+ jDDZSYkHID1jV0ng02johKCkXsDKXrCHP0zjXBv3EuFRxyluqIjOdkxXyCLPRgv33k
+ Z8tSI3/IRZVWCLO7ncZuT6jktCAIyPXuadwQ4uuatBs0goApetSkzBtiVNTu6LpDMz
+ fUiLIdy9EI5wQ==
+Date: Mon, 14 Nov 2022 10:23:27 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: linux-next: manual merge of the drm-intel tree with Linus' tree
+Message-ID: <20221114102327.6d53341e@canb.auug.org.au>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: dealock in drm_fb_helper_damage_work
-To: Dmitry Vyukov <dvyukov@google.com>, Dave Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, DRI <dri-devel@lists.freedesktop.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- LKML <linux-kernel@vger.kernel.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <CACT4Y+bJiZgT1W4JY+X=aZjbg8+X2fw7j2pxH_Hke_yn7R0Qnw@mail.gmail.com>
- <CACT4Y+YFtMzmDyHH8Uf2Q69xBAP6gVg+hN2Gz-+cj=K79U8okg@mail.gmail.com>
-Content-Language: en-US
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <CACT4Y+YFtMzmDyHH8Uf2Q69xBAP6gVg+hN2Gz-+cj=K79U8okg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/ZnAXSQtQ1fl=ax+EWztprCE";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,25 +51,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Jani Nikula <jani.nikula@intel.com>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>, Hans de Goede <hdegoede@redhat.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/13/22 23:48, Dmitry Vyukov wrote:
->> Hi,
->>
->> I am getting the following deadlock on reservation_ww_class_mutex
->> while trying to boot next-20221111 kernel:
-> The code is recently added by this commit:
-> 
-> commit 79e2cf2e7a193473dfb0da3b9b869682b43dc60f
-> Author: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> Date:   Mon Oct 17 20:22:11 2022 +0300
->     drm/gem: Take reservation lock for vmap/vunmap operations
+--Sig_/ZnAXSQtQ1fl=ax+EWztprCE
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for the report. I reproduced this problem using bochs driver,
-will send the fix ASAP.
+Hi all,
 
--- 
-Best regards,
-Dmitry
+Today's linux-next merge of the drm-intel tree got a conflict in:
 
+  drivers/gpu/drm/i915/display/intel_backlight.c
+
+between commit:
+
+  b1d36e73cc1c ("drm/i915: Don't register backlight when another backlight =
+should be used (v2)")
+
+from Linus' tree and commit:
+
+  801543b2593b ("drm/i915: stop including i915_irq.h from i915_trace.h")
+
+from the drm-intel tree.
+
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+diff --cc drivers/gpu/drm/i915/display/intel_backlight.c
+index beba39a38c87,0438071f58cf..000000000000
+--- a/drivers/gpu/drm/i915/display/intel_backlight.c
++++ b/drivers/gpu/drm/i915/display/intel_backlight.c
+@@@ -8,8 -8,7 +8,9 @@@
+  #include <linux/pwm.h>
+  #include <linux/string_helpers.h>
+ =20
+ +#include <acpi/video.h>
+ +
++ #include "i915_reg.h"
+  #include "intel_backlight.h"
+  #include "intel_backlight_regs.h"
+  #include "intel_connector.h"
+
+--Sig_/ZnAXSQtQ1fl=ax+EWztprCE
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmNxfG8ACgkQAVBC80lX
+0GxEfwf/ZY8+RcMKTXCLuurxKxq3aiF7cZqDEBXsSX75DF1hJbR4HJgviZevd33o
+Xby2YRrl5W5+lGzBS7B3gbiE7fhvzHONuDFhTYBWEUZ3SozZaruwGjg/C9bzX8B6
+Ch0G1haLNoP/+VfSPh8Efn3eLgnxKv4xWcz2NRXHPzWPOLg9xa9DdDu50X0OJyn3
+vlYIaqC3doE1UyWv9alq0MBTjMu1tbxgAMy4ch47B5jA0zSrKmwQDVsvC1GOvbOJ
+S09Fzemym++0a0NBl/9/VIXpGbtNFyGDgA7a2dQA4T/q7skXJIAwjeLO2YXHiVwT
+SlKy0f/AaXHYTinLpBhpxMMyGURIag==
+=6WTA
+-----END PGP SIGNATURE-----
+
+--Sig_/ZnAXSQtQ1fl=ax+EWztprCE--
