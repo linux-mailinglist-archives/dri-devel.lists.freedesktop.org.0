@@ -2,69 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9675626F9F
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Nov 2022 14:06:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CAF3626FB9
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Nov 2022 14:28:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 582AA10E088;
-	Sun, 13 Nov 2022 13:06:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D413410E213;
+	Sun, 13 Nov 2022 13:28:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9CB510E088
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Nov 2022 13:06:44 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id a15so9738262ljb.7
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Nov 2022 05:06:44 -0800 (PST)
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com
+ [IPv6:2607:f8b0:4864:20::112f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AD1410E213
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Nov 2022 13:28:34 +0000 (UTC)
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-368edbc2c18so83249427b3.13
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Nov 2022 05:28:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=bg2KmiI76U4Ti0aZEk6xjJDTuRTut6Y+EHhsa95b5oY=;
- b=DwzzemF5LFztYxgctPsOQw/8nRByZ4FKAEJdT9nAPbSho6AKSV7Z/JykwSd6Ywl7V4
- rS4zLu3x6E9LPEk4w9oAnYJ7fR21HPe8f5f92NDK+vSAMFbM/s94kaMobiAzHa6bJ3Bl
- MaHhWLG/Kdu2s1pp3hwxAcrUQm5SXVFJxHqNwFcxiovysrlEWPEGpGlP0GbB5ETzdWBD
- YMxJKcWxnBBI3/2rLw05zbcjjarXyy9Qa9qGsGUF3zNzPwCObl3fHFqGqCtUPljxRa7w
- Z6/4pzldxenGG3J0bKfKI0kp/BJ4cw0QVKOe4yzVZBq0RrCO9+B7mJWd+BIf5Ip+I+oq
- MDqg==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=RBRObaACq4skoaxVBrtZ8v0pRx/dpMfq/nTCZQT1EHw=;
+ b=VDVypVr2NsABEUCO9Cj6h0vr/oZ1XbPzamFb8IxL8D+6CoUairk26NtyP6QzbbxX+e
+ VdZTX7UXqnsgeqSPb/WvaNYDVRUL13ZXpU9K5J+1/u2vv7aYyRZpk/5nTCoIAVCN2Plx
+ riQN8+haehHwRzcRBIUuyv/3WDKweKIUVAvFxie/6POJBP9YNHk4I7/VztlXUew0DhpT
+ fzerrqtrkdY8oyOOpGoH3mMJy2SMWc+IPGFBNaRU28FR64AGGi3twcm+2kmT1IwB9Bz/
+ dbMclVr/Hm77ubm3BlLJa0wzjpFThvPjZczK97kfxtu1weYiryhFjWX+1wd8XYaCd4kC
+ +zIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bg2KmiI76U4Ti0aZEk6xjJDTuRTut6Y+EHhsa95b5oY=;
- b=bgB2jsq6PezAKTEPeH+c6TyKBlgDHccdCW1rJAxvpSgGfX3+gg8/f1amuFcF/2wvhW
- zHJsmHYJ6ScT1mS+oe0lKc9j5Cb0uZfqCIkBIkjGj+k1AwrtiTzhvTXn4OrKlq86MIC/
- aebCRjD/EeLWjU3z4fJSrPk4MeCZ0+2Xh6PNIaIFMnb7wDmUA4qEH+0lVgW1sxWwfijA
- sImJwyYLKMrxrWM7lxHvY1Fgpu5GV0QfT/H0eWCNUu8ocNKfBeFVRoQKC6X5jfMFevKs
- R9Rla4ktSOfEKzxbGXAw9d/FBcbPdTUEVB51kT9OxEgiH1japwiXnjHrUgvE4VBwoyjo
- 3gWw==
-X-Gm-Message-State: ANoB5pklt0o/iSzOrC++0R8BaszP5TpDN9JA+2ICP1tFpSno8cHHGiwT
- fWPyt7ZzWCpcHwU8mt1rmPm6+Q==
-X-Google-Smtp-Source: AA0mqf5iZ3L5DrafYgbQ34vvz+riwftXcJxAHd/q9n2bZkcTvWvLMXcFnlR1j2uCVTJ9ySH7n1b8vw==
-X-Received: by 2002:a2e:be8a:0:b0:277:710f:f973 with SMTP id
- a10-20020a2ebe8a000000b00277710ff973mr2903088ljr.74.1668344802403; 
- Sun, 13 Nov 2022 05:06:42 -0800 (PST)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- f21-20020ac25cd5000000b004a01105eea2sm1359389lfq.150.2022.11.13.05.06.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 13 Nov 2022 05:06:41 -0800 (PST)
-Message-ID: <0c472bfe-8faa-32b4-fe6e-c52a4cb74681@linaro.org>
-Date: Sun, 13 Nov 2022 16:06:41 +0300
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=RBRObaACq4skoaxVBrtZ8v0pRx/dpMfq/nTCZQT1EHw=;
+ b=UHsXaJqSTCOGCZPMdGos218ytL5H0TSj89/vMekbF7BWm5IFrWIxmzZJ7w4FIxO9wQ
+ s1aaWZr9VKNG+g/1knHFrvr18y7k/8e+ejl+zaRz72UJ4VrY3acVeQhFRn8jtlGyCAUy
+ Vh92EehMfXzf5pW4CHykoAzoCsPAb7TfRVmCIuHwIMYvNQ+qFmO6XC6ihedJXd+sIa6M
+ 1PKl/FQ7y3eYIyPYdxWigbPuL43bAhec+k0RJiJoy50YsNwOHkmAc99JxU7u6I5IOWSM
+ iN+eGhAnjBOTeBe1FAN1x67dcbouuk7Muk+5BYz/uoq77LDeUds3t+mkWD/bww3M3PqX
+ 8LEg==
+X-Gm-Message-State: ANoB5pkVd10FCGB8HyaOIzBpxX+ZXv2VkwEp3VnpWuHaXv0hKfvfjI0D
+ Fz8JqxVlCgwHHRHM2hJlsA98Xhu/1a5QS7YHXv7xeA==
+X-Google-Smtp-Source: AA0mqf5/V8vAkG5yu8rfNBpBbPJKTqV98nZ/6hF0TeBD4mhjv0NsSJ3V9OLj2ZBQHss3zSAeh3o2CXznf0PuDUzBWmc=
+X-Received: by 2002:a0d:d84d:0:b0:37b:e3ae:decc with SMTP id
+ a74-20020a0dd84d000000b0037be3aedeccmr8432724ywe.418.1668346113283; Sun, 13
+ Nov 2022 05:28:33 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH V2 0/3] DSI host and peripheral initialisation ordering
-Content-Language: en-GB
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Sam Ravnborg <sam@ravnborg.org>
-References: <cover.1646406653.git.dave.stevenson@raspberrypi.com>
- <YtXIEg0rRZLLYS75@ravnborg.org>
- <CAPY8ntCfXuZ6nPcJ77FLP5bgdcbXOeh-7rieb5PS-7oPFg7xnQ@mail.gmail.com>
+References: <0abf1924-485b-8f1c-c8c8-d14dcccc3a27@quicinc.com>
+ <0Co5PrfVEsYkXu9wz6ixpiFl0aWmXfIng6NSPOiYNcrAfHZx0w2crkWN7InPdtR-YTAb1IxLovgcEHCmFpmaqA==@protonmail.internalid>
+ <20220712132258.671263-1-dmitry.baryshkov@linaro.org>
+ <1892d0af-8aa4-dc03-887a-e44bb623b836@linaro.org>
+In-Reply-To: <1892d0af-8aa4-dc03-887a-e44bb623b836@linaro.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <CAPY8ntCfXuZ6nPcJ77FLP5bgdcbXOeh-7rieb5PS-7oPFg7xnQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Date: Sun, 13 Nov 2022 16:28:22 +0300
+Message-ID: <CAA8EJpq_9iC1rkiZVom28Kv_B3QLd4pBgFObxBfSpJ+Xh=Mp1g@mail.gmail.com>
+Subject: Re: [PATCH v2.5] drm/msm/dsi: switch to DRM_PANEL_BRIDGE
+To: Caleb Connolly <caleb.connolly@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,165 +68,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Jagan Teki <jagan@amarulasolutions.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Caleb Connolly <caleb.connolly@linaro.org>, andrzej.hajda@gmail.com,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+Hi Caleb,
 
-On 19/07/2022 16:45, Dave Stevenson wrote:
-> Hi Sam
-> 
-> On Mon, 18 Jul 2022 at 21:52, Sam Ravnborg <sam@ravnborg.org> wrote:
->>
->> Hi Dave,
->>
->> a long overdue reply on this series.
->>
->> On Fri, Mar 04, 2022 at 03:17:55PM +0000, Dave Stevenson wrote:
->>> Hi All
->>>
->>> Changes from v1:
->>> - New patch to refactor drm_bridge_chain_post_disable and drm_bridge_chain_pre_enable
->>>    to reuse drm_atomic_bridge_chain_post_disable / drm_atomic_bridge_chain_pre_enable
->>>    but with a NULL state.
->>> - New patch that adds a pre_enable_upstream_first to drm_panel.
->>> - changed from an OPS flag to a bool "pre_enable_upstream_first" in drm_bridge.
->>> - Followed Andrzej's suggestion of using continue in the main loop to avoid
->>>    needing 2 additional loops (one forward to find the last bridge wanting
->>>    upstream first, and the second backwards again).
->>> - Actioned Laurent's review comments on docs patch.
->>>
->>> Original cover letter:
->>>
->>> Hopefully I've cc'ed all those that have bashed this problem around previously,
->>> or are otherwise linked to DRM bridges.
->>>
->>> There have been numerous discussions around how DSI support is currently broken
->>> as it doesn't support initialising the PHY to LP-11 and potentially the clock
->>> lane to HS prior to configuring the DSI peripheral. There is no op where the
->>> interface is initialised but HS video isn't also being sent.
->>> Currently you have:
->>> - peripheral pre_enable (host not initialised yet)
->>> - host pre_enable
->>> - encoder enable
->>> - host enable
->>> - peripheral enable (video already running)
->>>
->>> vc4 and exynos currently implement the DSI host as an encoder, and split the
->>> bridge_chain. This fails if you want to switch to being a bridge and/or use
->>> atomic calls as the state of all the elements split off are not added by
->>> drm_atomic_add_encoder_bridges.
->>
->> A typically chain looks like this:
->>
->> CRTC => Encoder => Bridge A => Bridge B
->>
->> We have in DRM bridges established what is the "next" bridge - indicated
->> with the direction of the arrows in the drawing.
->>
->> This set of patches introduces the concept of "upstream" bridges.
->>
->> pre_enable_prev_bridge_first would be easier to understand as it uses
->> the current terminology.
->> I get that "upstream" is used in the DSI specification - but we are
->> dealing with bridges that happens to support DSI and more, and mixing
->> the two terminologies is not good.
->>
->> Note: Upstream is also used in a bridge doc section - here it should
->>        most likely be updated too.
-> 
-> Sure, I have no issues with switching to prev/next from upstream/downstream.
-> To the outsider it can be confusing - in pre_enable and disable, the
-> next bridge to be called is the previous one. At least it is
-> documented.
-> 
->> The current approach set a flag that magically makes the core do something
->> else. Have you considered a much more explicit approach?
->>
->> A few helpers like:
->>
->>          drm_bridge_pre_enable_prev_bridge()
->>          drm_bridge_enable_prev_bridge()
->>          drm_bridge_disable_prev_bridge()
->>          drm_bridge_post_disable_prev_bridge()
-> 
-> No point in drm_bridge_enable_prev_bridge() and
-> drm_bridge_post_disable_prev_bridge() as the call order down the chain
-> will mean that they have already been called.
-> drm_bridge_enable_next_bridge() and
-> drm_bridge_post_disable_next_bridge() possibly.
-> 
->> And then update the core so the relevant function is only called once
->> for a bridge.
->> Then the need for DSI lanes in LP-11 can be archived by a call to
->>
->>          drm_bridge_pre_enable_prev_bridge()
-> 
-> Unfortunately it gets ugly with post_disable.
-> The DSI host controller post_disable will have been called before the
-> DSI peripheral's post_disable, and there are conditions where the
-> peripheral needs to send DSI commands in post_disable (eg
-> panel-asus-z00t-tm5p5-n35596 [1]). Changing all DSI hosts to call
-> drm_bridge_post_disable_next_bridge feels like the wrong thing to do.
-> There are currently hacks in dw-mipi-dsi that do call the next
-> panel/bridge post_disable [2] and it would be nice to get rid of them.
-> Currently the calls aren't tracked for state, so you end up with
-> post_disable being called twice, and panels having to track state (eg
-> jdi_lt070me050000 [3]).
-> 
-> [1] tm5p5_nt35596_unprepare() calls tm5p5_nt35596_off()
-> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c#L107
-> [2] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c#L889
-> [3] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c#L44
-> 
->> This is more explicit than a flag that triggers some magic behaviour.
->> It may even see uses we have not realised yet.
-> 
-> Personally it feels like more boilerplate in almost all DSI drivers,
-> and generally I see a push to remove boilerplate.
-> 
->> It is late here - so maybe the above is not a good idea tomorrow - but
->> right now I like the simplicity of it.
->>
->> Other than the above I read that a mipi_dsi_host_init() is planned,
->> which is also explicit and simple - good.
-> 
-> It's been raised, but the justification for most use cases hasn't been
-> made. The Exynos conversion looks to be doing the wrong thing in
-> checking state, and that's why it is currently needing it.
-> Again it's also more boilerplate.
-> 
-> TC358767 is an odd one as it wants the DSI interface enabled very
-> early in order to have a clock for the DP aux channel well before
-> video is running. I had a thought on that, but It looks like I haven't
-> hit send on a reply to Lucas on that one - too many distractions.
-> 
->> Have we seen a new revision of some of these?
->> Chances are high that I have missed it then.
-> 
-> No, still on V2. Other than Dmitry's comment over updating
-> parade-ps8640 and dropping drm_bridge_chain_*, no real comments had
-> been made.
+On Fri, 11 Nov 2022 at 18:30, Caleb Connolly <caleb.connolly@linaro.org> wrote:
+>
+> Hi,
+>
+> This patch has caused a regression on 6.1-rc for some devices that use
+> DSI panels. The new behaviour results in the DSI controller being
+> switched off before the panel unprepare hook is called. As a result,
+> panel drivers which call mipi_dsi_dcs_write() or similar in
+> unprepare() fail.
 
-It's been a while now. Do you still plan to pursue this patchset?
+Thanks for the notice. Can you move your command stream to
+panel_disable() hook? (even if it's just as a temporary workaround)
 
-[personal notice: I'd prefer something less strange, e.g. an explicit 
-calls to mipi_dsi_host, but as this patchset seems to fix the issues, 
-I'm fine with it].
+From what I see from other panels, some of them call
+mipi_dsi_dcs_set_display_off() in the unprepare() hook, while others
+do it in disable().
 
-> 
->    Dave
+Yes, this is (again) the DSI host vs device order here. Short story:
+the DRM has a notion of 'the display pipe (i.e. clocks and timing
+signals) feeding the bridge being running'. That's the difference
+between enable/pre_enable and disable/post_disable. For the DSI we
+have a third state, when the DSI clock and ln0 allow transferring
+commands to the panel, but the image is not enabled.
+
+There was a somewhat promising patchset at [1], but it seems it went
+out of the radar. I can try working on an alternative (explicit)
+approach if I have time.
+
+With respect to your panel. Let me quote the docs: 'Before stopping
+video transmission from the display controller it can be necessary to
+turn off the panel to avoid visual glitches. This is done in the
+.disable() function. Analogously to .enable() this typically involves
+turning off the backlight and waiting for some time to make sure no
+image is visible on the panel. It is then safe for the display
+controller to cease transmission of video data.'
+
+So, if we stop the call chain after switching the DSI host off but
+before calling the panel's unprepare() hook, will we see any
+artifacts/image leftover/etc. on the panel? Generally I have the
+feeling that all panels should call mipi_dsi_dcs_set_display_off() in
+the .disable() hook, not in the .unprepare() one.
+
+[1] https://lore.kernel.org/dri-devel/cover.1646406653.git.dave.stevenson@raspberrypi.com/
+
+>
+> I've noticed it specifically on the OnePlus 6 (with upstream Samsung
+> s0fef00 panel driver) and the SHIFT6mq with an out of tree driver.
+>
+> On 12/07/2022 14:22, Dmitry Baryshkov wrote:
+> > Currently the DSI driver has two separate paths: one if the next device
+> > in a chain is a bridge and another one if the panel is connected
+> > directly to the DSI host. Simplify the code path by using panel-bridge
+> > driver (already selected in Kconfig) and dropping support for
+> > handling the panel directly.
+> >
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >
+> > I'm not sending this as a separate patchset (I'd like to sort out mdp5
+> > first), but more of a preview of changes related to
+> > msm_dsi_manager_ext_bridge_init().
+> >
+> > ---
+> >   drivers/gpu/drm/msm/dsi/dsi.c         |  35 +---
+> >   drivers/gpu/drm/msm/dsi/dsi.h         |  16 +-
+> >   drivers/gpu/drm/msm/dsi/dsi_host.c    |  25 ---
+> >   drivers/gpu/drm/msm/dsi/dsi_manager.c | 283 +++-----------------------
+> >   4 files changed, 36 insertions(+), 323 deletions(-)
+
+[skipped the patch itself]
 
 -- 
 With best wishes
 Dmitry
-
