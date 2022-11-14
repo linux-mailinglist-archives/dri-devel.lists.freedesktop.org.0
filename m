@@ -2,52 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B5B627F92
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 14:00:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C07B7627F9A
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 14:00:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB9B310E0A0;
-	Mon, 14 Nov 2022 13:00:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4515710E0AE;
+	Mon, 14 Nov 2022 13:00:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD15910E0A0
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 13:00:24 +0000 (UTC)
-Received: from [192.168.2.143] (109-252-117-140.nat.spd-mgts.ru
- [109.252.117.140])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id B13D36601817;
- Mon, 14 Nov 2022 13:00:22 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1668430823;
- bh=I7Rpp4vjv2bTlnUA9D9XQHB0GDaagjm7RngqTua3rzg=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=igy5/gKa0meQyDSAnpXboPvHhDqBpu3sZRKp7BSN63XidUujuFhe/QkCkj9ksZrZl
- 1wrpJtwHWvo1AMCr/pRckEbsGNXc/0a5FP7uyBXXvQdxC70iHfM1ry/4TZpmZV5GkB
- vd411yki9WjopoPKbZHSmrIXy6BpkNk09dNRytfwL7ftYwwC8pb7oMg5SMm0w+1GJg
- aVu4/l7GIxMzwknBylROzQprq5edkl5QeIycQDk4BhoPcBaHScVchEAU8bFtOZWx4d
- kp6GNPyUprE9FWX1UWlchYvSlP3wXVWanhNfgjPUw4FaZBc/Qknb6jIZYxNj9lOGcK
- odD971GP7Mj0w==
-Message-ID: <36fff1bc-1c72-b254-9d7f-4b344cc711d3@collabora.com>
-Date: Mon, 14 Nov 2022 16:00:20 +0300
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
+ [66.111.4.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4B3510E0AE;
+ Mon, 14 Nov 2022 13:00:36 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 7D31F580401;
+ Mon, 14 Nov 2022 08:00:35 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Mon, 14 Nov 2022 08:00:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1668430835; x=
+ 1668438035; bh=0JWLmMS4ys53k+X9d2nf5UFm2Qt1wBBlnbOmVwqA2+A=; b=P
+ 2fMj4KVYbgu6OYfTCbnyhUqrbpstYhG2qs8K1avdLRBBbqBLyApf2QITRDktrcv1
+ oBpY+ASY1YL46/+YRaH2cs1JhGhgTy4mP3iqot4niMC0aG6Uk2bv/7OHYMEx8FX5
+ OSunRc2kfqb3Y9ZuwIbB4MYTTPLCC13bRnxAIP1cr/iZqAoedlFjKz6JqovE5Ik8
+ 7Ya3CBcJbahPCPgX2w1i06qi75QhxpRKlWLJY7+MzZlx+GOO5mpzUvBhbkaLExyt
+ fjmyKbwJ5yRzFsviTZS26Rq+ZgTU/LgGiBTOQ2cfAEExiJJtTu18P3RtkN2bM5jT
+ 6b211sMAOT4NflUf7SWRQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1668430835; x=
+ 1668438035; bh=0JWLmMS4ys53k+X9d2nf5UFm2Qt1wBBlnbOmVwqA2+A=; b=N
+ dHvTNE3efzcmT1UmedezIyraShPjtEqqQE2l5qJMa08kAwuEizrUhJ9m7cPesNlh
+ k2YXLOAtQkr+AQp2AnjHVikZX5q4wN+G3ZFty6nOpz3Hd9X1VqqInFUtmUioicVd
+ S1chJTeJdCJ4EVI/SyUp1LxQ6v2EP1D1hl3R9Wun6kc518o4ox8221tfIA/aNhSM
+ uWmA4T3/BnCZKrZWxz8rN4WBCR4fbSQR2v/oVy7CK+K3Wq+Ne2OzCsNFY48wSW2R
+ 9NKmwrPvbiio7AK6qMk6+E4cLmbu95VYpC2EhIDVlLEY8QwH2QrGVUg7vblcspOL
+ NKSIdfX3EuG7Pvs2d1NBg==
+X-ME-Sender: <xms:8jtyYwlVjutUWWEQYDpQIm3vHyutqlz6lIWkw-WeOHZ-jN6Qg5HijA>
+ <xme:8jtyY_1mQqbRk4WPiyVZr6XbynMn1zI3DeFJLfF5ZM9S6AaJUiS7WYM3m3Var6nIq
+ MtEAqc8CVshQLLxgJ8>
+X-ME-Received: <xmr:8jtyY-p_acGZV8nvD_kjFmYa7Zs3KkmjKEiTIWjJK-d-2viu9KnvWEAZ-gr7zoOShgGQCRVGH8mNkUOgBUeHM8_DLEAFg8-lnVgThy7O7ycpGw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgedvgddvtdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhfffugggtgffkfhgjvfevofesthekredtredtjeenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeduudduhfevjeetfeegvdffvdevvdejudegudekjeehtdelhfffveethfej
+ ledtveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:8ztyY8kecz8It04O9L2nEnKKmw4rqt1evKFwBQGL7i_zR_jC03nWFA>
+ <xmx:8ztyY-11PF2S69MF3NsW62ThupeSuRWxv3oqPFoF_Z2FFy_GJ_jA3Q>
+ <xmx:8ztyYzvAE8JYZ6PC4o9shpIdoiCNM-eOiZXR-CHEZ6ylPLnucBnKbA>
+ <xmx:8ztyY1AMIRxTP18_-z7r6SXTRSFCY5iBG2eJeQqkaVd_f8ljTBuG8A>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 14 Nov 2022 08:00:34 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+Date: Mon, 14 Nov 2022 14:00:20 +0100
+Subject: [PATCH v9 01/25] docs/fb: Document current named modes
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH v1] drm/gem-vram: Fix deadlock in drm_gem_vram_vmap()
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Dmitry Vyukov <dvyukov@google.com>
-References: <20221113233850.427704-1-dmitry.osipenko@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20221113233850.427704-1-dmitry.osipenko@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20220728-rpi-analog-tv-properties-v9-1-24b168e5bcd5@cerno.tech>
+References: <20220728-rpi-analog-tv-properties-v9-0-24b168e5bcd5@cerno.tech>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v9-0-24b168e5bcd5@cerno.tech>
+To: Maxime Ripard <mripard@kernel.org>, Karol Herbst <kherbst@redhat.com>,
+ Samuel Holland <samuel@sholland.org>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Lyude Paul <lyude@redhat.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>,
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Ben Skeggs <bskeggs@redhat.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, 
+ David Airlie <airlied@linux.ie>, Jernej Skrabec <jernej.skrabec@gmail.com>
+X-Mailer: b4 0.11.0-dev-99e3a
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1097; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=HwgUgivGxiNK6PYRp//hctyxx0DYl44g6S9kEphLQOk=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMlF1q8DGM6ms7pM2VtQ/7Zulsi/EzNsjjs05BX+ymw16+4r
+ qHvWUcrCIMbFICumyBIjbL4k7tSs151sfPNg5rAygQxh4OIUgIns92f4X7WPycHy9hcD0UeCJ/4XG1
+ 2JCii9d9I5tz988V+D/eYvOBgZ9lhnbp04wc7zgOSWPTfSvO/d3HWlq63cs22R35eGlsZ7DAA=
+X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,78 +101,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Dom Cobley <dom@raspberrypi.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>, Hans de Goede <hdegoede@redhat.com>, Noralf Trønnes <noralf@tronnes.org>, Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>, linux-sunxi@lists.linux.dev, Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/14/22 02:38, Dmitry Osipenko wrote:
-> Recently DRM framebuffer core and all drivers were moved to unlocked
-> vmapping functions that take the reservation lock. The drm_gem_vram_vmap()
-> was missed out by accident and now deadlocks drivers that use drm_gem_vram
-> helpers when framebuffer is updated, like Bochs driver. Remove the locking
-> from drm_gem_vram_v[un]map() functions to fix the deadlock.
-> 
-> Reported-by: Dmitry Vyukov <dvyukov@google.com>
-> Fixes: 79e2cf2e7a19 ("drm/gem: Take reservation lock for vmap/vunmap operations")
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> ---
->  drivers/gpu/drm/drm_gem_vram_helper.c | 18 +++---------------
->  1 file changed, 3 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-> index 125160b534be..b6c7e3803bb3 100644
-> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-> @@ -433,25 +433,19 @@ int drm_gem_vram_vmap(struct drm_gem_vram_object *gbo, struct iosys_map *map)
->  {
->  	int ret;
->  
-> -	ret = ttm_bo_reserve(&gbo->bo, true, false, NULL);
-> -	if (ret)
-> -		return ret;
-> +	dma_resv_assert_held(gbo->bo.base.resv);
->  
->  	ret = drm_gem_vram_pin_locked(gbo, 0);
->  	if (ret)
-> -		goto err_ttm_bo_unreserve;
-> +		return ret;
->  	ret = drm_gem_vram_kmap_locked(gbo, map);
->  	if (ret)
->  		goto err_drm_gem_vram_unpin_locked;
->  
-> -	ttm_bo_unreserve(&gbo->bo);
-> -
->  	return 0;
->  
->  err_drm_gem_vram_unpin_locked:
->  	drm_gem_vram_unpin_locked(gbo);
-> -err_ttm_bo_unreserve:
-> -	ttm_bo_unreserve(&gbo->bo);
->  	return ret;
->  }
->  EXPORT_SYMBOL(drm_gem_vram_vmap);
-> @@ -467,16 +461,10 @@ EXPORT_SYMBOL(drm_gem_vram_vmap);
->  void drm_gem_vram_vunmap(struct drm_gem_vram_object *gbo,
->  			 struct iosys_map *map)
->  {
-> -	int ret;
-> -
-> -	ret = ttm_bo_reserve(&gbo->bo, false, false, NULL);
-> -	if (WARN_ONCE(ret, "ttm_bo_reserve_failed(): ret=%d\n", ret))
-> -		return;
-> +	dma_resv_assert_held(gbo->bo.base.resv);
->  
->  	drm_gem_vram_kunmap_locked(gbo, map);
->  	drm_gem_vram_unpin_locked(gbo);
-> -
-> -	ttm_bo_unreserve(&gbo->bo);
->  }
->  EXPORT_SYMBOL(drm_gem_vram_vunmap);
->  
+KMS supports a number of named modes already, but it's never been
+documented anywhere, let's fix that.
 
-Applied to drm-misc-next
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+
+---
+Changes in v9:
+- New patch
+---
+ Documentation/fb/modedb.rst | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/Documentation/fb/modedb.rst b/Documentation/fb/modedb.rst
+index 4d2411e32ebb..e53375033146 100644
+--- a/Documentation/fb/modedb.rst
++++ b/Documentation/fb/modedb.rst
+@@ -26,6 +26,11 @@ Valid mode specifiers (mode_option argument)::
+ with <xres>, <yres>, <bpp> and <refresh> decimal numbers and <name> a string.
+ Things between square brackets are optional.
+ 
++Valid names are::
++
++  - NSTC: 480i output, with the CCIR System-M TV mode and NTSC color encoding
++  - PAL: 576i output, with the CCIR System-B TV mode and PAL color encoding
++
+ If 'M' is specified in the mode_option argument (after <yres> and before
+ <bpp> and <refresh>, if specified) the timings will be calculated using
+ VESA(TM) Coordinated Video Timings instead of looking up the mode from a table.
 
 -- 
-Best regards,
-Dmitry
-
+b4 0.11.0-dev-99e3a
