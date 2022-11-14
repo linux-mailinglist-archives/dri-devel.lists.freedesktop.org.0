@@ -2,53 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D63A56279E2
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 11:02:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D32F627A0D
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 11:08:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 869AD10E035;
-	Mon, 14 Nov 2022 10:02:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE52610E058;
+	Mon, 14 Nov 2022 10:08:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F1EA10E035
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 10:02:34 +0000 (UTC)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C46610E058;
+ Mon, 14 Nov 2022 10:08:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1668420154; x=1699956154;
+ t=1668420483; x=1699956483;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version;
- bh=ZpphfstUP7oMJ91iN9xXMmrOJnu/uu6RmVG1mEwLx1g=;
- b=NkgOE1oreI5EBn6otBquUMjnTgk2Gtdsbh1/ETULRcy5VAtEi/Joe4zn
- iml+hCW9Pj24w8j0TmM1Wv7MzpabgiJ2iJodvf1YoXvtLgy6UXe0pFeSq
- KnyRL05Ko2O8d4FTnjZ8R+9MnleOtYLSSLWu1cpQEQ9JeepteAwFbs4Z6
- 1FB9mkvwqMDJjGaC65ztHlrb7lKqO7Wr5kXqnF89vg4qC+yUUbifCAUmo
- iEJgmCu6guR6sUVgrZ40bwgb6fhtYSAihBcs4CiyCK8r49UtyS+aeuORt
- eSPZ5O3a03IzCJXtkmJYrAy8Sib0ht5+2tfmNSubPVRuo61ftVrKKTa+3 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="311934951"
-X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; d="scan'208";a="311934951"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Nov 2022 02:02:33 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="763420378"
-X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; d="scan'208";a="763420378"
+ bh=yOVQIHkuUCyb9yuVJwgc7s85bbeRz6iUd3ajHxZ7HeA=;
+ b=OVd6U6H3ndTaEQp9DZJ+v6A5qnztIanD+L+ZXF/vhNLLplT6AYpxh4Ta
+ VjMKbZcHtOEZ3QGZ2aXjhuJLFPl5TwUaBkD9YJjy/eE63RKzUiQHE0zry
+ b5SYOPSflsVsZyjArF1uch7jtQ51sEyhHHEMlyuvC8HOYGuQXvpzET0ak
+ wBvJbQ/xAqiSHvuMT54ljOXEnPg/DsSfgbwATvV4aRdnduku7SeXU0rze
+ x75UaOHu0/1cUhmUpraqQCMgXkTpSG3/M9SxEBERf5CcbiB+nUSYmdQGS
+ NZV4NKfVxKza7bO2MrZvjG6U3GUlNlbr0LMiWUQey5TWghxdqbcnf5J64 Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="295294501"
+X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; d="scan'208";a="295294501"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Nov 2022 02:08:02 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="727466802"
+X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; d="scan'208";a="727466802"
 Received: from dsmahang-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.59.240])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Nov 2022 02:02:31 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Doug Anderson <dianders@chromium.org>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH] drm/edid: Dump the EDID when drm_edid_get_panel_id()
- has an error
-In-Reply-To: <CAD=FV=UUpR9Euq5r+MujO6BdTk2cnWe_0JTdcP_e5RP47apUcw@mail.gmail.com>
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Nov 2022 02:07:57 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Karol Herbst <kherbst@redhat.com>, Kees Cook <keescook@chromium.org>
+Subject: Re: Coverity: nouveau_dp_irq(): Null pointer dereferences
+In-Reply-To: <CACO55tvaXFyAMiAYmx2DKNj9fNtapThejHkRsvZd_5StYXTy+w@mail.gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20221021130637.1.I8c2de0954a4e54e0c59a72938268e2ead91daa98@changeid>
- <e6bc800b-2d3b-aac9-c1cb-7c08d618fc8e@quicinc.com>
- <CAD=FV=V4m5HNavewSTkrh64_BzLAkivR2mRkTQdaxA8k9JKQbA@mail.gmail.com>
- <956de566-d60a-f257-edff-85a2eac06d99@quicinc.com>
- <CAD=FV=UUpR9Euq5r+MujO6BdTk2cnWe_0JTdcP_e5RP47apUcw@mail.gmail.com>
-Date: Mon, 14 Nov 2022 12:02:28 +0200
-Message-ID: <87iljh4zwr.fsf@intel.com>
+References: <202211100850.7A8DD75@keescook> <87iljl6ehe.fsf@intel.com>
+ <202211111110.11B554B@keescook>
+ <CACO55tt5KOgDYMEw=spDeoMaYuj2GQOuHU+BEgadr1nQiFOGhw@mail.gmail.com>
+ <202211111215.1F421B7E@keescook>
+ <CACO55tvaXFyAMiAYmx2DKNj9fNtapThejHkRsvZd_5StYXTy+w@mail.gmail.com>
+Date: Mon, 14 Nov 2022 12:07:55 +0200
+Message-ID: <87fsel4zno.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,84 +61,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Stephen Boyd <swboyd@chromium.org>
+Cc: "Nathan E. Egge" <unlord@xiph.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ "Gustavo A. R. Silva" <gustavo@embeddedor.com>, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-next@vger.kernel.org, Ben Skeggs <bskeggs@redhat.com>,
+ Dave Airlie <airlied@redhat.com>, linux-hardening@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 11 Nov 2022, Doug Anderson <dianders@chromium.org> wrote:
-> Hi,
+On Fri, 11 Nov 2022, Karol Herbst <kherbst@redhat.com> wrote:
+> On Fri, Nov 11, 2022 at 9:16 PM Kees Cook <keescook@chromium.org> wrote:
+>>
+>> On Fri, Nov 11, 2022 at 09:06:54PM +0100, Karol Herbst wrote:
+>> > On Fri, Nov 11, 2022 at 8:21 PM Kees Cook <keescook@chromium.org> wrote:
+>> > >
+>> > > On Fri, Nov 11, 2022 at 11:13:17AM +0200, Jani Nikula wrote:
+>> > > > On Thu, 10 Nov 2022, coverity-bot <keescook@chromium.org> wrote:
+>> > > > > Hello!
+>> > > > >
+>> > > > > This is an experimental semi-automated report about issues detected by
+>> > > > > Coverity from a scan of next-20221110 as part of the linux-next scan project:
+>> > > > > https://scan.coverity.com/projects/linux-next-weekly-scan
+>> > > > >
+>> > > > > You're getting this email because you were associated with the identified
+>> > > > > lines of code (noted below) that were touched by commits:
+>> > > > >
+>> > > > >   Mon Aug 31 19:10:08 2020 -0400
+>> > > > >     a0922278f83e ("drm/nouveau/kms/nv50-: Refactor and cleanup DP HPD handling")
+>> > > >
+>> > > > Hi Kees, this looks like a good idea, but maybe double check the Cc list
+>> > > > generation? I was Cc'd on four mails today that I thought were
+>> > > > irrelevant to me.
+>> > >
+>> > > Hi!
+>> > >
+>> > > Heh, I was recently asked to _expand_ the CC list. :)
+>> > >
+>> > > For these last pass of reports, I added a get_maintainers.pl run to the
+>> > > identified commit. In this instance, the commit touched:
+>> > >
+>> > >  drivers/gpu/drm/nouveau/dispnv04/disp.c     |    6 +
+>> > >  drivers/gpu/drm/nouveau/dispnv50/disp.c     |  192 ++++++++++++++++++++++--------------------------
+>> > >  drivers/gpu/drm/nouveau/nouveau_connector.c |   14 ---
+>> > >  drivers/gpu/drm/nouveau/nouveau_display.c   |    2
+>> > >  drivers/gpu/drm/nouveau/nouveau_display.h   |    2
+>> > >  drivers/gpu/drm/nouveau/nouveau_dp.c        |  132 ++++++++++++++++++++++++++++-----
+>> > >  drivers/gpu/drm/nouveau/nouveau_encoder.h   |   33 +++++++-
+>> > >  7 files changed, 244 insertions(+), 137 deletions(-)
+>> > >
+>> > > And the get_maintainers.pl rationale was:
+>> > >
+>> > > Ben Skeggs <bskeggs@redhat.com> (supporter:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS,commit_signer:1/1=100%,commit_signer:6/16=38%,authored:4/16=25%,added_lines:23/124=19%,removed_lines:36/152=24%)
+>> > > Karol Herbst <kherbst@redhat.com> (supporter:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS,commit_signer:2/1=100%)
+>> > > Lyude Paul <lyude@redhat.com> (supporter:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS,commit_signer:9/16=56%,authored:6/16=38%,added_lines:92/124=74%,removed_lines:107/152=70%)
+>> > > David Airlie <airlied@gmail.com> (maintainer:DRM DRIVERS)
+>> > > Daniel Vetter <daniel@ffwll.ch> (maintainer:DRM DRIVERS)
+>> > > Ilia Mirkin <imirkin@alum.mit.edu> (commit_signer:1/1=100%,authored:1/1=100%,added_lines:2/2=100%,removed_lines:2/2=100%)
+>> > > "Nathan E. Egge" <unlord@xiph.org> (commit_signer:1/1=100%)
+>> > > Jani Nikula <jani.nikula@intel.com> (commit_signer:6/16=38%)
+>> > > Dave Airlie <airlied@redhat.com> (commit_signer:5/16=31%)
+>> > > Thomas Zimmermann <tzimmermann@suse.de> (commit_signer:4/16=25%,authored:4/16=25%)
+>> > > dri-devel@lists.freedesktop.org (open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS)
+>> > > nouveau@lists.freedesktop.org (open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS)
+>> > >
+>> >
+>> > I'd say it's good enough to message supporters and the mailing lists
+>> > for at least Nouveau code, maybe even all drm drivers.
+>>
+>> i.e. leave out the commit_signer hits?
+>>
 >
-> On Tue, Oct 25, 2022 at 1:39 PM Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->> Hi Doug
->>
->> On 10/24/2022 1:28 PM, Doug Anderson wrote:
->> > Hi,
->> >
->> > On Fri, Oct 21, 2022 at 2:18 PM Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->> >>
->> >> Hi Doug
->> >>
->> >> On 10/21/2022 1:07 PM, Douglas Anderson wrote:
->> >>> If we fail to get a valid panel ID in drm_edid_get_panel_id() we'd
->> >>> like to see the EDID that was read so we have a chance of
->> >>> understanding what's wrong. There's already a function for that, so
->> >>> let's call it in the error case.
->> >>>
->> >>> NOTE: edid_block_read() has a retry loop in it, so actually we'll only
->> >>> print the block read back from the final attempt. This still seems
->> >>> better than nothing.
->> >>>
->> >>> Signed-off-by: Douglas Anderson <dianders@chromium.org>
->> >>
->> >> Instead of checkinf for edid_block_status_valid() on the base_block, do
->> >> you want to use drm_edid_block_valid() instead?
->> >>
->> >> That way you get the edid_block_dump() for free if it was invalid.
->> >
->> > I can... ...but it feels a bit awkward and maybe not quite how the
->> > functions were intended to work together?
->> >
->> > One thing I notice is that if I call drm_edid_block_valid() I'm doing
->> > a bunch of duplicate work that already happened in edid_block_read(),
->> > which already calls edid_block_check() and handles fixing headers. I
->> > guess also if I call drm_edid_block_valid() then I should ignore the
->> > "status" return value of edid_block_read() because we don't need to
->> > pass it anywhere (because the work is re-done in
->> > drm_edid_block_valid()).
->> >
->> > So I guess I'm happy to do a v2 like that if everyone likes it better,
->> > but to me it feels a little weird.
->> >
->> > -Doug
->>
->> Alright, agreed. There is some duplication of code happening if we use
->> drm_edid_block_valid(). I had suggested that because it has inherent
->> support for dumping the bad EDID.
->>
->> In that case, this change LGTM, because in principle you are doing the
->> same thing as _drm_do_get_edid() (with the only difference being here we
->> read only the base block as opposed to the full EDID there).
->>
->> Hence,
->>
->> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->
-> I've given this patch a bunch of time because it wasn't urgent, but
-> seems like it could be about time to land. I'll plan to land it next
-> Monday or Tuesday unless anyone has any other comments.
+> yes.
 
-Ack, it's benign enough.
+Agreed.
+
+I understand the point of commit_signer, but I don't think
+get_maintainers.pl does a very good job with the heuristics, or
+filtering out "insignificant" contributions to the files being changed.
 
 BR,
 Jani.
 
 >
-> Thanks!
+>> > Not sure what to do about actual maintainers, but I doubt Dave and
+>> > Daniel want to be CCed on every Coverity report here either.
+>>
+>> I updated the CC logic based on this feedback:
+>> https://lore.kernel.org/linux-hardening/87h6zgfub4.fsf@kernel.org/
+>>
+>> So maybe just mailing lists?
+>>
 >
-> -Doug
+> That should be good enough, but maybe the DRM subsystem is big enough
+> so it's reasonable to add special rules. For Nouveau either way is
+> fine.
+>
+>> --
+>> Kees Cook
+>>
+>
 
 -- 
 Jani Nikula, Intel Open Source Graphics Center
