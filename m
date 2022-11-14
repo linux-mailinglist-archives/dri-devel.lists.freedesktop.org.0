@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6662628509
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 17:22:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA86B628508
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 17:22:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 747DF10E2F3;
-	Mon, 14 Nov 2022 16:22:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07F9810E2F0;
+	Mon, 14 Nov 2022 16:22:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95C6C10E2EE;
- Mon, 14 Nov 2022 16:22:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E98F110E2EE;
+ Mon, 14 Nov 2022 16:22:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1668442929; x=1699978929;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=I1tXtGfpkBEDqmbmf0YyNkDOosbFpAcq/3pOL4dmk2w=;
- b=eW2MRL+FcTG7+pOBAsmI9VlQAvOQXkKCAzVzQQiVOWmNMtoEU5bOiLgj
- R5Oea0aF9ErWyeFtOYDer6Ryxi1zaPzKBIsRIAYHlB1JVt7IKCIUP+j1S
- UggxDoPBE+IjymF0L2klI8CK5Qpna4H1tXkndhTToJ6Faz0kh5UEa47FO
- NonBn/D+JWu/uuLtS0xSrBJ1hjG39m3gyf6vsLo8a+p8ZM3mJ22D1eycC
- 4kre47KtkvwE6JYwkrSRgtQFsgiOQMvWb8JWo9NS/M2Okdh77JDUr8mmI
- RlEjXdMwAbjE6BQd+Atgc2qR4hk5HPq12igUqeFuo8smPgKdwGHB1A12L w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="299531495"
-X-IronPort-AV: E=Sophos;i="5.96,164,1665471600"; d="scan'208";a="299531495"
+ bh=w8JnsSQEeOM8g80fNSiY85GCK9KLByACfZ2G33EPHKE=;
+ b=Py3ByptcAz7P3jEc8n4V+FHyXHRjzEYME+CqHKP0MWeQLkweP0HhoQtY
+ Kxo4w5hN5mGBmgzLNlmNZpmqbm4MzcPw4KPhXjuuLQOVbxFLLJRfJQYoP
+ 9KpddBM5r15x8njQw/GB4OkehIHTMKZAMl4JlOhEwBow3JwyRzaAJ/nV9
+ To7WvFLK3d6PYZe427MMVc39aYMULozj0XxPSesXvDguk9iKf4bN2UTtw
+ H57367PbbwHsrblq3WDRa5z4XKvF7mNkWWZGfk49Q1OcL2KBt4B//mU6N
+ DTD5FtH3wSfkNV1qF8NPsZqACbyBz5un4TIDc6EuHtmQX1Fc6WIDn/unT Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="299531490"
+X-IronPort-AV: E=Sophos;i="5.96,164,1665471600"; d="scan'208";a="299531490"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  14 Nov 2022 08:21:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="616372367"
-X-IronPort-AV: E=Sophos;i="5.96,164,1665471600"; d="scan'208";a="616372367"
+X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="616372363"
+X-IronPort-AV: E=Sophos;i="5.96,164,1665471600"; d="scan'208";a="616372363"
 Received: from black.fi.intel.com ([10.237.72.28])
  by orsmga006.jf.intel.com with ESMTP; 14 Nov 2022 08:21:46 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1003)
- id BD50732E; Mon, 14 Nov 2022 18:22:10 +0200 (EET)
+ id D065D346; Mon, 14 Nov 2022 18:22:10 +0200 (EET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Jakob Koschel <jakobkoschel@gmail.com>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
@@ -43,9 +43,9 @@ To: Jakob Koschel <jakobkoschel@gmail.com>,
  Mathias Nyman <mathias.nyman@linux.intel.com>,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [PATCH v2 3/4] usb: gadget: udc: bcm63xx: Convert to use list_count()
-Date: Mon, 14 Nov 2022 18:22:06 +0200
-Message-Id: <20221114162207.62559-3-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2 4/4] xhci: Convert to use list_count()
+Date: Mon, 14 Nov 2022 18:22:07 +0200
+Message-Id: <20221114162207.62559-4-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221114162207.62559-1-andriy.shevchenko@linux.intel.com>
 References: <20221114162207.62559-1-andriy.shevchenko@linux.intel.com>
@@ -76,39 +76,34 @@ existing nodes in the list. Uilise it.
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
 v2: no change
- drivers/usb/gadget/udc/bcm63xx_udc.c | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+ drivers/usb/host/xhci-ring.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/usb/gadget/udc/bcm63xx_udc.c b/drivers/usb/gadget/udc/bcm63xx_udc.c
-index 2cdb07905bde..0762e49e85f8 100644
---- a/drivers/usb/gadget/udc/bcm63xx_udc.c
-+++ b/drivers/usb/gadget/udc/bcm63xx_udc.c
-@@ -2172,7 +2172,6 @@ static int bcm63xx_iudma_dbg_show(struct seq_file *s, void *p)
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index ad81e9a508b1..817c31e3b0c8 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -2532,7 +2532,6 @@ static int handle_tx_event(struct xhci_hcd *xhci,
+ 	union xhci_trb *ep_trb;
+ 	int status = -EINPROGRESS;
+ 	struct xhci_ep_ctx *ep_ctx;
+-	struct list_head *tmp;
+ 	u32 trb_comp_code;
+ 	int td_num = 0;
+ 	bool handling_skipped_tds = false;
+@@ -2580,10 +2579,8 @@ static int handle_tx_event(struct xhci_hcd *xhci,
+ 	}
  
- 	for (ch_idx = 0; ch_idx < BCM63XX_NUM_IUDMA; ch_idx++) {
- 		struct iudma_ch *iudma = &udc->iudma[ch_idx];
--		struct list_head *pos;
+ 	/* Count current td numbers if ep->skip is set */
+-	if (ep->skip) {
+-		list_for_each(tmp, &ep_ring->td_list)
+-			td_num++;
+-	}
++	if (ep->skip)
++		td_num += list_count(&ep_ring->td_list);
  
- 		seq_printf(s, "IUDMA channel %d -- ", ch_idx);
- 		switch (iudma_defaults[ch_idx].ep_type) {
-@@ -2205,14 +2204,10 @@ static int bcm63xx_iudma_dbg_show(struct seq_file *s, void *p)
- 		seq_printf(s, "  desc: %d/%d used", iudma->n_bds_used,
- 			   iudma->n_bds);
- 
--		if (iudma->bep) {
--			i = 0;
--			list_for_each(pos, &iudma->bep->queue)
--				i++;
--			seq_printf(s, "; %d queued\n", i);
--		} else {
-+		if (iudma->bep)
-+			seq_printf(s, "; %zu queued\n", list_count(&iudma->bep->queue));
-+		else
- 			seq_printf(s, "\n");
--		}
- 
- 		for (i = 0; i < iudma->n_bds; i++) {
- 			struct bcm_enet_desc *d = &iudma->bd_ring[i];
+ 	/* Look for common error cases */
+ 	switch (trb_comp_code) {
 -- 
 2.35.1
 
