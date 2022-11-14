@@ -1,58 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCD3A6273EC
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 01:48:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B07D627413
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 02:11:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A8B510E051;
-	Mon, 14 Nov 2022 00:48:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79BE910E255;
+	Mon, 14 Nov 2022 01:11:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41E0110E051
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 00:48:31 +0000 (UTC)
-Received: from [192.168.1.139] ([37.4.248.52]) by mrelayeu.kundenserver.de
- (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MpUlO-1pJZWl3Bds-00pxsB; Mon, 14 Nov 2022 01:48:15 +0100
-Message-ID: <b49a242f-dc85-171d-1f0c-93b9099712a3@i2se.com>
-Date: Mon, 14 Nov 2022 01:48:14 +0100
+Received: from mail-vk1-xa2f.google.com (mail-vk1-xa2f.google.com
+ [IPv6:2607:f8b0:4864:20::a2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CFB910E255
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 01:11:30 +0000 (UTC)
+Received: by mail-vk1-xa2f.google.com with SMTP id s204so4268089vkb.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Nov 2022 17:11:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=l2JJJpT0ZAjed7VELB5YPuXJMHJUvXdHN4Gx50WFZ2Q=;
+ b=dbe3cQHbcFqonNsjvCZQxgrzGLGy8dfsGA55BO3FuXHwPkRofmYZFbA+gd7jJDCmc8
+ Qa8IXmkZIB6FVJETBpi2t5ZBpgw8T5c4MPh2DqY9K57vX/1/xhcif4E04r/vao7gwLv6
+ s7voBGiIy4NEzxwqdVANa8ZMpEDvndGprBV6w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=l2JJJpT0ZAjed7VELB5YPuXJMHJUvXdHN4Gx50WFZ2Q=;
+ b=xK65vmZx04/zcLdkdrHPtA7dSEvCQ2HEC/u2kOUrZPY3WpjZTmUkJ0nDYeO1RExzcd
+ CyntiBuF7u7faY0pl4KPTWwll/7ssuC+KVX7SJF0gR36r/XKCyJpnWeS3V9oOtX+wm5U
+ qPkRvqfbLTzwt5iSfs37lJkoRf5quxNjy6GqiXvjhSe7JvmwS2XF79sjpcmMdUMb3bun
+ 1XJN7KDyzRSjAqpdcvqpOgWkIvcXViysj8Vmf1hVeiZQS+yaJXoGDmSoAflXercHukm3
+ vtqfHS5R8pUCBe8AN+/pA3e5o43RLuxekFQSV+q8JQiljFIgVPqcNXaasJIhw8FoA4Fu
+ qvIg==
+X-Gm-Message-State: ANoB5pkBSwPDCLyDXyZy2Rvi27w2O2l/gz3aptbVv61YIx1+JZ9VRHaQ
+ lX6ikY99sDUqrEUtsbFAWjYbnCiY558yC1HT+ybN0g==
+X-Google-Smtp-Source: AA0mqf7OCNSTYyU8cwy8NjWFqYTpVq0mYrZ6+3c5WtDvjw5nmr5nQzFmn/CpTIoO/+6tW19gfFk+dUy7QDooVct8Z7o=
+X-Received: by 2002:a05:6122:1786:b0:3b8:a3f9:be82 with SMTP id
+ o6-20020a056122178600b003b8a3f9be82mr5348280vkf.18.1668388288785; Sun, 13 Nov
+ 2022 17:11:28 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 1/2] drm/vc4: hdmi: Enforce the minimum rate at
- runtime_resume
-From: Stefan Wahren <stefan.wahren@i2se.com>
-To: Maxime Ripard <maxime@cerno.tech>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Emma Anholt <emma@anholt.net>
-References: <20220929-rpi-pi3-unplugged-fixes-v1-0-cd22e962296c@cerno.tech>
- <20220929-rpi-pi3-unplugged-fixes-v1-1-cd22e962296c@cerno.tech>
- <737e7e23-1bc5-eaf3-2d15-5498fc5b0415@i2se.com>
-Content-Language: en-US
-In-Reply-To: <737e7e23-1bc5-eaf3-2d15-5498fc5b0415@i2se.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:YS07FkhVr3OfGmnW5zQVJs+UtG1HE1PhzcW8TJ2mq+y5yxUQiu3
- xx1jlgi/+t/chVeyciJYmF/3/jjEaxpvEaY0sVHhVuC0tTAIDiSWdYO/LhhVtQjv9Hgc/RP
- Qr3lwUItjIT836nqIJe9n7xV091CqulOT6vskjrgjqcg+i/VhmMDh/5qgkOrdO4GgObGf3h
- XBzv5IX5s49SzCUjl+H+g==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:WtGh1L4o654=:yveJNpSn5Wmm2Ra1Qj7NN/
- FyMOJBpwzlDE6XNo/nsBjnpaEtXekZnwgaVfkP4/EV/5trTZaHYxeksa1ypZTbfCi+Ja7nqJS
- EAzlSX36PB8Kr0kGEu2bumAwU5jSqGXKvOOQdqs2IZNGMczxANcAQ7aR928DT07qB2FubPOKg
- fRIWhzDNdnST7cMMjAVy2hPA4XE5dLWtofGKHDQUjKKRFCm2ZMia8oX/FDByouj3axSDijXRg
- fLEw6pYis3rB8K+WMbI1TelLui6jiHUY/y3L6pMb8JRLeZSxEZHKaIidFGU/9BMAYuHQsbSD/
- MqSDMjJaUeNC7Oux6Rqx/8A8VORvFB7xbkDf+tzR2PxLGKwKXzdS5FxfTD0yOOtdDV+f08sXd
- i07C92mIqodf4B/nl5zFYaExX8rArFHS5xYYmw0ka+VEI59Q4u/zJKaBitSZJoh0yINv/P3OJ
- 6VNn/sT4KBDIo7wArGbD6NqXdEnq8YN1qhUZ/MQv++9dUA4R+ErgcEmta4v1TWWtd0zXdkGje
- 4llJwjvEqxjqD2j9Ely19v4CFUyuvMIu4ew7srpD7+7Lp/9rS2C70Y6wB27ELBMhU//f+y4Eq
- mBBk1+Kbja7GFCwLiFxq6KKTKWNAq3Gcr/Eh8k7ksk7w90UE4BmtqtqXSPddpNTfleUcwW4iy
- SR2fCBg0ATJDSbxkvx9iekfrr/yv1vVzhdRYeiiivsTkzjaAtuyOzibJn6ldR03hPeQg+3uP9
- zD+tkgyckBOnIaZ/ulWyHNtYkn/OhOK6CnKEEY7Kzp6I92Adn3k9u3+JkI5odShoWsg7P/She
- 8uITY4Byf5SjvYzubXXaXC/BrraPQ==
+References: <20221110183853.3678209-1-jagan@amarulasolutions.com>
+ <20221110183853.3678209-2-jagan@amarulasolutions.com>
+ <CANMq1KCHQExVVp1jHjhRB2pMqeFFE1Cg1GVmnN83v=z1KzJt0Q@mail.gmail.com>
+ <CAMty3ZBC3pbWf4yixjv4DZWFR+fYkPctiL3hzubgY8RF4ZGHmA@mail.gmail.com>
+ <CANMq1KDmF+cMo8qZh7UyM1vyZ6BD_cFPc6j2MNMNPFiutqxL3w@mail.gmail.com>
+ <c82a77f3-17a1-1b59-96da-924daae3678c@denx.de>
+In-Reply-To: <c82a77f3-17a1-1b59-96da-924daae3678c@denx.de>
+From: Nicolas Boichat <drinkcat@chromium.org>
+Date: Mon, 14 Nov 2022 09:11:17 +0800
+Message-ID: <CANMq1KBMJDcfcbfYGtRj+MDJgFKg_i5Rw6ZJuoZy0D_kzkob3Q@mail.gmail.com>
+Subject: Re: [PATCH v8 01/14] drm: exynos: dsi: Fix MIPI_DSI*_NO_* mode flags
+To: Marek Vasut <marex@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,75 +68,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marc Kleine-Budde <mkl@pengutronix.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Fancy Fang <chen.fang@nxp.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, linux-samsung-soc@vger.kernel.org,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Neil Armstrong <narmstrong@linaro.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Matteo Lisi <matteo.lisi@engicam.com>,
+ Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Robert Foss <robert.foss@linaro.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ =?UTF-8?Q?S=C3=A9bastien_Szymanski?= <sebastien.szymanski@armadeus.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 11.11.22 um 22:08 schrieb Stefan Wahren:
-> Hi Maxime,
+On Sun, Nov 13, 2022 at 8:29 AM Marek Vasut <marex@denx.de> wrote:
 >
-> Am 29.09.22 um 11:21 schrieb Maxime Ripard:
->> This is a revert of commit fd5894fa2413 ("drm/vc4: hdmi: Remove clock
->> rate initialization"), with the code slightly moved around.
->>
->> It turns out that we can't downright remove that code from the driver,
->> since the Pi0-3 and Pi4 are in different cases, and it only works for
->> the Pi4.
->>
->> Indeed, the commit mentioned above was relying on the RaspberryPi
->> firmware clocks driver to initialize the rate if it wasn't done by the
->> firmware. However, the Pi0-3 are using the clk-bcm2835 clock driver that
->> wasn't doing this initialization. We therefore end up with the clock not
->> being assigned a rate, and the CPU stalling when trying to access a
->> register.
->>
->> We can't move that initialization in the clk-bcm2835 driver, since the
->> HSM clock we depend on is actually part of the HDMI power domain, so any
->> rate setup is only valid when the power domain is enabled. Thus, we
->> reinstated the minimum rate setup at runtime_suspend, which should
->> address both issues.
->>
->> Link: 
->> https://lore.kernel.org/dri-devel/20220922145448.w3xfywkn5ecak2et@pengutronix.de/
->> Fixes: fd5894fa2413 ("drm/vc4: hdmi: Remove clock rate initialization")
->> Reported-by: Marc Kleine-Budde <mkl@pengutronix.de>
->> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->> ---
->>   drivers/gpu/drm/vc4/vc4_hdmi.c | 9 +++++++++
->>   1 file changed, 9 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c 
->> b/drivers/gpu/drm/vc4/vc4_hdmi.c
->> index 199bc398817f..2e28fe16ed5e 100644
->> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
->> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
->> @@ -2891,6 +2891,15 @@ static int vc4_hdmi_runtime_resume(struct 
->> device *dev)
->>       u32 __maybe_unused value;
->>       int ret;
->>   +    /*
->> +     * The HSM clock is in the HDMI power domain, so we need to set
->> +     * its frequency while the power domain is active so that it
->> +     * keeps its rate.
->> +     */
->> +    ret = clk_set_min_rate(vc4_hdmi->hsm_clock, HSM_MIN_CLOCK_FREQ);
->> +    if (ret)
->> +        return ret;
->> +
+> On 11/11/22 13:12, Nicolas Boichat wrote:
 >
-> unfortunately this breaks X on Raspberry Pi 4 in Linux 6.0.5 
-> (multi_v7_defconfig + LPAE). Today i saw this report [1] and bisected 
-> the issue down to this patch. Shame on me that i only tested this 
-> patch with Rpi 3B+ :-(
-Looks like "drm/vc4: hdmi: Fix HSM clock too low on Pi4" addresses this 
-issue ...
+> [...]
 >
-> Best regards
+> >>> BTW, are you sure DSIM_HSE_MODE is correct now?
+> >>
+> >> Yes, we have tested in imx8m platforms as well. S=C3=A9bastien Szymans=
+ki
+> >> initially observed this issue on the imx8m platform.
+> >
+> > I'll repeat, are you sure about HSE specifically? You invert the
+> > polarity for HBP, HFP, and HSA, which makes sense given your patch
+> > 02/14.
+> >
+> > I'm concerned about HSE. Is the bit really a disable bit?
+> > MIPI_DSI_MODE_VIDEO_HSE is supposed to be an enable flag, so you
+> > should not do `reg |=3D DSIM_HSE_DISABLE;`, probably.
 >
-> [1] - https://bugzilla.suse.com/show_bug.cgi?id=1205259
+> I suspect the HSE bit is a misnomer, but its handling in the driver is
+> correct.
 >
->>       ret = clk_prepare_enable(vc4_hdmi->hsm_clock);
->>       if (ret)
->>           return ret;
->>
+> i.MX 8M Plus Applications Processor Reference Manual, Rev. 1, 06/2021
+> Page 5436
+>
+> 23 HseDisableMode
+>
+> In Vsync pulse and Vporch area, MIPI DSI master transfers only Hsync
+> start packet to MIPI DSI slave at MIPI DSI spec 1.1r02. This bit
+> transfers Hsync end packet in Vsync pulse and Vporch area (optional).
+>
+> 0 =3D Disables transfer
+> 1 =3D Enables transfer
+>
+> In command mode, this bit is ignored.
+
+Okay. I'd suggest adding a comment in the code, it'd be so tempting to
+attempt to "fix" this as the if/or pattern looks different from the
+others.
+
+But it's up to you all.
+
+Thanks,
