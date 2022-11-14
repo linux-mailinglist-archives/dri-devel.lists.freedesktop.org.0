@@ -1,42 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CFB0627D5A
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 13:08:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D604D627D96
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 13:21:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2566C10E08B;
-	Mon, 14 Nov 2022 12:08:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85DD010E0A8;
+	Mon, 14 Nov 2022 12:20:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 842FB10E08B
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 12:07:56 +0000 (UTC)
-Received: from dggpeml500024.china.huawei.com (unknown [172.30.72.54])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4N9nzz1CdszJnhs;
- Mon, 14 Nov 2022 20:04:47 +0800 (CST)
-Received: from [10.174.178.41] (10.174.178.41) by
- dggpeml500024.china.huawei.com (7.185.36.10) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 14 Nov 2022 20:07:53 +0800
-Message-ID: <d02a8e65-8081-01d0-2bee-4d9473963417@huawei.com>
-Date: Mon, 14 Nov 2022 20:07:52 +0800
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D79D210E095;
+ Mon, 14 Nov 2022 12:20:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1668428452; x=1699964452;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=rvPmNzCoa8n8SixsXezw6M9E+Ll3YuySZ4TJDTq+LLk=;
+ b=EOKVVRvIhiBJ/bfxnSypH2N5XJVuchVpPD+pRE2t3VM/+fLNXGz+qzeb
+ KnVagiHooadFxDghXfYmPGLE60fQPf6DO/3rOb1giWjcb3rT7EVFYx8NT
+ VqcwI/g2BvrktaqaSNOwbSuAM8SaGh8sN97SZoaz0P7Jkw5Y92+dcVWXu
+ 5B+Z/03GR1rPBX+Q7kqR8kvNxVrq5w5R7nw4qAputiIP9lqZgtICzJMNr
+ zK3XqnC3JmgxK6kQbXfPAoVFzFEubKgGy0GXhNJIW5BFktjZm1fKcWFkw
+ kAhYbtiYps98wQilrZpF6v+OTVftQdxL+rFvfilajSlmynv0EEg+HrvL4 g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="313758172"
+X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; d="scan'208";a="313758172"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Nov 2022 04:20:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="616291804"
+X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; d="scan'208";a="616291804"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
+ by orsmga006.jf.intel.com with SMTP; 14 Nov 2022 04:20:46 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 14 Nov 2022 14:20:45 +0200
+Date: Mon, 14 Nov 2022 14:20:45 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 1/7] drm: mark drm.debug-on-dyndbg as BROKEN
+ for now
+Message-ID: <Y3IynYl3Ejb6NTAd@intel.com>
+References: <20220912052852.1123868-1-jim.cromie@gmail.com>
+ <20221111221715.563020-1-jim.cromie@gmail.com>
+ <20221111221715.563020-2-jim.cromie@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH] drm/panel/raspberrypi-touchscreen: Fix error handling in
- rpi_touchscreen_init()
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-References: <20221114081956.37853-1-yuancan@huawei.com>
- <CAPY8ntBWKaAWmKB2hHirvwzgMZoBP2ONb_WKJz44XTxUJ2k_sw@mail.gmail.com>
-From: Yuan Can <yuancan@huawei.com>
-In-Reply-To: <CAPY8ntBWKaAWmKB2hHirvwzgMZoBP2ONb_WKJz44XTxUJ2k_sw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.178.41]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpeml500024.china.huawei.com (7.185.36.10)
-X-CFilter-Loop: Reflected
+In-Reply-To: <20221111221715.563020-2-jim.cromie@gmail.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,66 +63,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: architt@codeaurora.org, f.fainelli@gmail.com, emma@anholt.net,
- sam@ravnborg.org, dri-devel@lists.freedesktop.org, thierry.reding@gmail.com,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: gregkh@linuxfoundation.org, intel-gfx@lists.freedesktop.org,
+ linux@rasmusvillemoes.dk, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, jbaron@akamai.com, seanpaul@chromium.org,
+ dri-devel@lists.freedesktop.org, daniel.vetter@ffwll.ch, joe@perches.com,
+ intel-gvt-dev@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Nov 11, 2022 at 03:17:09PM -0700, Jim Cromie wrote:
+> drm.debug-on-dyndbg has a regression, due to a chicken-egg
+> initialization problem:
+> 
+> 1- modprobe i915
+>    i915 needs drm.ko, which is loaded 1st
+> 
+> 2- "modprobe drm drm.debug=0x1ff" (virtual/implied)
+>    drm.debug is set post-initialization, from boot-args etc
+> 
+> 3- `modprobe i915` finishes
+> 
+> W/O drm.debug-on-dyndbg that just works, because all drm_dbg*
+> callsites use drm_debug_enabled() to check __drm_debug & DEM_UT_<CAT>
+> before printing.
+> 
+> But the whole point of drm.debug-on-dyndbg is to avoid that runtime
+> test, by enabling (at post-modinit) a static-key at each callsite in
+> the just-loaded module.
+> 
+> And since drm.ko is loaded before all dependent modules, none are
+> "just-loaded", and no drm.debug callsites are present yet, except
+> those in drm.ko itself.
+> 
+> Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+> ---
+>  drivers/gpu/drm/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index 34f5a092c99e..0d1e59e6bb7e 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -54,6 +54,7 @@ config DRM_DEBUG_MM
+>  config DRM_USE_DYNAMIC_DEBUG
+>  	bool "use dynamic debug to implement drm.debug"
+>  	default y
 
-åœ¨ 2022/11/14 19:55, Dave Stevenson å†™é“:
-> Hi Yuan
->
-> On Mon, 14 Nov 2022 at 08:21, Yuan Can <yuancan@huawei.com> wrote:
->> A problem about modprobe panel-raspberrypi-touchscreen is triggered with
->> the following log given:
->>
->>   [  542.980748] Error: Driver 'rpi-ts-dsi' is already registered, aborting...
->>
->> And with this log printed, the panel_raspberrypi_touchscreen is listed by
->> lsmod, rmmod on it can trigger the WARN of "Unexpected driver unregister".
->>
->> The reason is that the return value of mipi_dsi_driver_register() and
->> i2c_add_driver() is not checked in rpi_touchscreen_init(), if
->> i2c_add_driver() failed, the rpi_touchscreen_dsi_driver is never
->> unregistered, and next time when install this module, the
->> mipi_dsi_driver_register() is failed but rpi_touchscreen_init() returns 0,
->> leading to the panel_raspberrypi_touchscreen listed by lsmod.
->>
->> Call graph of modprobe panel-raspberrypi-touchscreen at the first time:
->>   rpi_touchscreen_init()
->>     mipi_dsi_driver_register() # register rpi_touchscreen_dsi_driver
->>     i2c_add_driver()
->>       driver_register()
->>         bus_add_driver()
->>           priv = kzalloc(...) # OOM happened
->>   # return without unregister rpi_touchscreen_dsi_driver
->>
->> Call graph of retrying modprobe panel-raspberrypi-touchscreen:
->>   rpi_touchscreen_init()
->>     mipi_dsi_driver_register() # Error message printed, register failed!
->>     i2c_add_driver() # succeed and return
->>
->> Fix by checking the return value of both functions and unregister
->> rpi_touchscreen_dsi_driver if i2c_add_driver() failed.
->>
->> Fixes: 2f733d6194bd ("drm/panel: Add support for the Raspberry Pi 7" Touchscreen.")
->> Signed-off-by: Yuan Can <yuancan@huawei.com>
-> Acked-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
->
-> I would strongly recommend that you look at switching to the tc358762
-> bridge, panel-simple, and the rpi-panel-attiny-regulator regulator
-> driver, rather than this driver.
->
-> The raspberrypi-touchscreen driver has no suitable hooks for the
-> edt-ft5x06 touch driver to register for regulator control. If the
-> display sleeps then the power is killed to the touch controller but
-> the touch driver has no knowledge of this. This issue should have been
-> solved with rpi-panel-attiny / tc358762 / panel-simple.
-Thanks for the suggestion!
+Could you switch to 'default n' as well? i915 CI actually enables
+BROKEN so that we can test some more experimental stuff which is
+hidden behind BROKEN for normal users.
+
+> +	depends on BROKEN	# chicken-egg initial enable problem
+>  	depends on DRM
+>  	depends on DYNAMIC_DEBUG || DYNAMIC_DEBUG_CORE
+>  	depends on JUMP_LABEL
+> -- 
+> 2.38.1
 
 -- 
-Best regards,
-Yuan Can
-
+Ville Syrjälä
+Intel
