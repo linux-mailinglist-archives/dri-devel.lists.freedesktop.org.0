@@ -2,52 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AAC762861E
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 17:55:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11BD16286A6
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 18:08:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E22F10E2F5;
-	Mon, 14 Nov 2022 16:55:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6B6C10E2FE;
+	Mon, 14 Nov 2022 17:08:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id CC8E010E2F5
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 16:55:01 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4DD4923A;
- Mon, 14 Nov 2022 08:55:07 -0800 (PST)
-Received: from [10.57.84.113] (unknown [10.57.84.113])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C696E3F663;
- Mon, 14 Nov 2022 08:54:55 -0800 (PST)
-Message-ID: <41c4d78c-cb47-d06f-f6af-e827dd56b857@arm.com>
-Date: Mon, 14 Nov 2022 16:54:57 +0000
+Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com
+ [IPv6:2607:f8b0:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D0A010E2F6
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 17:08:10 +0000 (UTC)
+Received: by mail-il1-x12e.google.com with SMTP id o13so6034176ilc.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 09:08:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=oF/VcIh9DTYrhAUqYIlPwKu3W+9vwFyq9IleIpZ5NpU=;
+ b=IejkMWnbEtrCIW34zXKAXdTdSqzeYCSA02JWvPusgw+ATTNrPw2vzXGTPTEFqCLgCf
+ kSs5YMWvmpur8TqLfDn/tmv3IW3+XVtE47wWdBdIw0Q0j5veb5Y22o/E4stswVe8HXGf
+ zLLY9+Sorn2UT4/Az09J4CF4lJomjjsKnCJ5U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=oF/VcIh9DTYrhAUqYIlPwKu3W+9vwFyq9IleIpZ5NpU=;
+ b=U1AiXusZAj11Hw+r4pdGQVoBwiEe41a+Uenbf2XpZ0qHNS8kYjGvE60hW+Zd3x5N/q
+ Pzv8vz/VQlDLGBTOgSnS4KZl0RlHdK8CaXQF3AIa6S3Bwg2LrdlwbWj6trD16S1w4uSZ
+ k2CXJnhGWLJpocidNqGOlGzv7hvs8sDakiBTWPdH+jRUKroqpE8XWeLWj/Q1eQLQGiWf
+ uFlkOBf/er/WPf06LvDq/FYuijtVPMpWPVa4vIu7oGkXxaI2aPTsN7+HAuDF+S46QOt8
+ la3hxgKWpR1O6gwIOjjKwTdcfCyJV9kUhP8N3QvkopBr7MuTmaUuMz7wajTf5+8DH7ax
+ d7MQ==
+X-Gm-Message-State: ANoB5pmmynscgW8MW2ODXJAF2kbl31wXcjtDVYEHrskAJd3mCH79FZAI
+ UkKuEzsFXsETzxdDMObxkzFqrgy9EPSr2tugrxW5jg==
+X-Google-Smtp-Source: AA0mqf6sioIaRYWc8BAtigtcGdJkglBwffFn/RmQ+IWH/p41+NXLK7ysWc5wY9HXC5i9+XuhoLdFbrHJmZ4zkM/Allw=
+X-Received: by 2002:a05:6e02:1bae:b0:2ff:e796:926 with SMTP id
+ n14-20020a056e021bae00b002ffe7960926mr6493107ili.216.1668445689318; Mon, 14
+ Nov 2022 09:08:09 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v8 7/7] drm/panfrost: Switch to generic memory shrinker
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- Daniel Stone <daniel@fooishbar.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Clark <robdclark@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Qiang Yu <yuq825@gmail.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Rob Herring <robh@kernel.org>, Sean Paul <sean@poorly.run>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-References: <20221105232719.302619-1-dmitry.osipenko@collabora.com>
- <20221105232719.302619-8-dmitry.osipenko@collabora.com>
-Content-Language: en-GB
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20221105232719.302619-8-dmitry.osipenko@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20221110183853.3678209-1-jagan@amarulasolutions.com>
+ <CGME20221110184122eucas1p11379ff6b85cf9a66455a026259c93340@eucas1p1.samsung.com>
+ <20221110183853.3678209-10-jagan@amarulasolutions.com>
+ <b13635de-26ce-a8e8-e38e-13c49a99312d@samsung.com>
+ <56cab7d0-d9fb-d890-0b1c-678980eafd9c@samsung.com>
+In-Reply-To: <56cab7d0-d9fb-d890-0b1c-678980eafd9c@samsung.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Mon, 14 Nov 2022 22:37:58 +0530
+Message-ID: <CAMty3ZD_+m_3aj2-rXThaEDtP=m3Knfo=bmXvMPH_7LSf6N5qA@mail.gmail.com>
+Subject: Re: [PATCH v8 09/14] drm: bridge: samsung-dsim: Add
+ atomic_get_input_bus_fmts
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,414 +67,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dmitry Osipenko <digetx@gmail.com>, kernel@collabora.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org
+Cc: Marek Vasut <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
+ Joonyoung Shim <jy0922.shim@samsung.com>, dri-devel@lists.freedesktop.org,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Neil Armstrong <narmstrong@linaro.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Matteo Lisi <matteo.lisi@engicam.com>, Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Fancy Fang <chen.fang@nxp.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/11/2022 23:27, Dmitry Osipenko wrote:
-> Replace Panfrost's custom memory shrinker with a common drm-shmem
-> memory shrinker.
-> 
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+On Mon, Nov 14, 2022 at 8:10 PM Marek Szyprowski
+<m.szyprowski@samsung.com> wrote:
+>
+> On 14.11.2022 11:57, Marek Szyprowski wrote:
+> > On 10.11.2022 19:38, Jagan Teki wrote:
+> >> Finding the right input bus format throughout the pipeline is hard
+> >> so add atomic_get_input_bus_fmts callback and initialize with the
+> >> proper input format from list of supported output formats.
+> >>
+> >> This format can be used in pipeline for negotiating bus format between
+> >> the DSI-end of this bridge and the other component closer to pipeline
+> >> components.
+> >>
+> >> List of Pixel formats are taken from,
+> >> AN13573 i.MX 8/RT MIPI DSI/CSI-2, Rev. 0, 21 March 2022
+> >> 3.7.4 Pixel formats
+> >> Table 14. DSI pixel packing formats
+> >>
+> >> v8:
+> >> * added pixel formats supported by NXP AN13573 i.MX 8/RT MIPI DSI/CSI-2
+> >>
+> >> v7, v6, v5, v4:
+> >> * none
+> >>
+> >> v3:
+> >> * include media-bus-format.h
+> >>
+> >> v2:
+> >> * none
+> >>
+> >> v1:
+> >> * new patch
+> >>
+> >> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> >> ---
+> >>   drivers/gpu/drm/bridge/samsung-dsim.c | 53 +++++++++++++++++++++++++++
+> >>   1 file changed, 53 insertions(+)
+> >>
+> >> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c
+> >> b/drivers/gpu/drm/bridge/samsung-dsim.c
+> >> index 0fe153b29e4f..33e5ae9c865f 100644
+> >> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> >> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> >> @@ -15,6 +15,7 @@
+> >>   #include <linux/clk.h>
+> >>   #include <linux/delay.h>
+> >>   #include <linux/irq.h>
+> >> +#include <linux/media-bus-format.h>
+> >>   #include <linux/of_device.h>
+> >>   #include <linux/phy/phy.h>
+> >>   @@ -1321,6 +1322,57 @@ static void
+> >> samsung_dsim_atomic_post_disable(struct drm_bridge *bridge,
+> >>       pm_runtime_put_sync(dsi->dev);
+> >>   }
+> >>   +/*
+> >> + * This pixel output formats list referenced from,
+> >> + * AN13573 i.MX 8/RT MIPI DSI/CSI-2, Rev. 0, 21 March 2022
+> >> + * 3.7.4 Pixel formats
+> >> + * Table 14. DSI pixel packing formats
+> >> + */
+> >> +static const u32 samsung_dsim_pixel_output_fmts[] = {
+> >> +    MEDIA_BUS_FMT_UYVY8_1X16,
+> >> +    MEDIA_BUS_FMT_RGB101010_1X30,
+> >> +    MEDIA_BUS_FMT_RGB121212_1X36,
+> >> +    MEDIA_BUS_FMT_RGB565_1X16,
+> >> +    MEDIA_BUS_FMT_RGB666_1X18,
+> >> +    MEDIA_BUS_FMT_RGB888_1X24,
+> >> +};
+> >> +
+> >> +static bool samsung_dsim_pixel_output_fmt_supported(u32 fmt)
+> >> +{
+> >> +    int i;
+> >> +
+> >> +    for (i = 0; i < ARRAY_SIZE(samsung_dsim_pixel_output_fmts); i++) {
+> >> +        if (samsung_dsim_pixel_output_fmts[i] == fmt)
+> >> +            return true;
+> >> +    }
+> >> +
+> >> +    return false;
+> >> +}
+> >> +
+> >> +static u32 *
+> >> +samsung_dsim_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
+> >> +                       struct drm_bridge_state *bridge_state,
+> >> +                       struct drm_crtc_state *crtc_state,
+> >> +                       struct drm_connector_state *conn_state,
+> >> +                       u32 output_fmt,
+> >> +                       unsigned int *num_input_fmts)
+> >> +{
+> >> +    u32 *input_fmts;
+> >> +
+> >> +    if (!samsung_dsim_pixel_output_fmt_supported(output_fmt))
+> >> +        return NULL;
+> >
+> >
+> > Please add support for MEDIA_BUS_FMT_FIXED and maybe default to
+> > MEDIA_BUS_FMT_RGB888_1X24 if requested format is not matched.
+> >
+> > Otherwise the above check breaks all current clients of the Samsung
+> > DSIM/Exynos DSI. I didn't dig into the bus matching code yet, but all
+> > DSI panels requests such format on my test systems...
+>
+> I've checked a bit more the bus format related code and it looks that
+> there are more issues. The DSI panels don't use the MEDIA_BUS_FMT_*
+> formats thus the bridge negotiation code selects MEDIA_BUS_FMT_FIXED for
+> them. On Arndale board with Toshiba tc358764 bridge the
+> MEDIA_BUS_FMT_RGB888_1X7X4_SPWG output_fmt is requested in
+> samsung_dsim_atomic_get_input_bus_fmts() (forwarded from the LVDS panel,
 
-Sadly this triggers GPU faults under memory pressure - it looks
-suspiciously like mappings are being freed while the jobs are still running.
+dsim => tc358764 => panel-simple
 
-I'm not sure I understand how the generic shrinker replicates the
-"gpu_usecount" atomic that Panfrost currently has, and I'm wondering if
-that's the cause?
+If I understand the bridge format negotiation correctly - If
+atomic_get_input_bus_fmts is not implemented in tc358764 then
+MEDIA_BUS_FMT_FIXED will be the output_fmt for dsim so we can assign
+MEDIA_BUS_FMT_RGB888_1X24 for FIXED formats.
 
-Also just reverting this commit (so just patches 1-6) I can't actually
-get Panfrost to purge any memory. So I don't think the changes (most
-likely in patch 4) are quite right either.
+from include/drm/drm_bridge.h:
 
-At the moment I don't have the time to investigate in detail. But if
-you've any ideas for something specific I should look at I can run more
-testing.
+         * This method is called on all elements of the bridge chain as part of
+         * the bus format negotiation process that happens in
+         * drm_atomic_bridge_chain_select_bus_fmts().
+         * This method is optional. When not implemented, the core will bypass
+         * bus format negotiation on this element of the bridge without
+         * failing, and the previous element in the chain will be passed
+         * MEDIA_BUS_FMT_FIXED as its output bus format.
 
-Steve
+As I can see tc358764 is not implemented either
+atomic_get_input_bus_fmts or atomic API, so I think dsim gets the
+MEDIA_BUS_FMT_FIXED bridge pipeline. I have tested sn65dsi without
+atomic_get_input_bus_fmts I can see the dsim is getting
+MEDIA_BUS_FMT_FIXED.
 
-> ---
->  drivers/gpu/drm/panfrost/Makefile             |   1 -
->  drivers/gpu/drm/panfrost/panfrost_device.h    |   4 -
->  drivers/gpu/drm/panfrost/panfrost_drv.c       |  19 +--
->  drivers/gpu/drm/panfrost/panfrost_gem.c       |  33 +++--
->  drivers/gpu/drm/panfrost/panfrost_gem.h       |   9 --
->  .../gpu/drm/panfrost/panfrost_gem_shrinker.c  | 129 ------------------
->  drivers/gpu/drm/panfrost/panfrost_job.c       |  18 ++-
->  7 files changed, 42 insertions(+), 171 deletions(-)
->  delete mode 100644 drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-> 
-> diff --git a/drivers/gpu/drm/panfrost/Makefile b/drivers/gpu/drm/panfrost/Makefile
-> index 7da2b3f02ed9..11622e22cf15 100644
-> --- a/drivers/gpu/drm/panfrost/Makefile
-> +++ b/drivers/gpu/drm/panfrost/Makefile
-> @@ -5,7 +5,6 @@ panfrost-y := \
->  	panfrost_device.o \
->  	panfrost_devfreq.o \
->  	panfrost_gem.o \
-> -	panfrost_gem_shrinker.o \
->  	panfrost_gpu.o \
->  	panfrost_job.o \
->  	panfrost_mmu.o \
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-> index 8b25278f34c8..fe04b21fc044 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-> @@ -115,10 +115,6 @@ struct panfrost_device {
->  		atomic_t pending;
->  	} reset;
->  
-> -	struct mutex shrinker_lock;
-> -	struct list_head shrinker_list;
-> -	struct shrinker shrinker;
-> -
->  	struct panfrost_devfreq pfdevfreq;
->  };
->  
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index 94b8e6de34b8..fe78d5c75abf 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -160,7 +160,6 @@ panfrost_lookup_bos(struct drm_device *dev,
->  			break;
->  		}
->  
-> -		atomic_inc(&bo->gpu_usecount);
->  		job->mappings[i] = mapping;
->  	}
->  
-> @@ -392,7 +391,6 @@ static int panfrost_ioctl_madvise(struct drm_device *dev, void *data,
->  {
->  	struct panfrost_file_priv *priv = file_priv->driver_priv;
->  	struct drm_panfrost_madvise *args = data;
-> -	struct panfrost_device *pfdev = dev->dev_private;
->  	struct drm_gem_object *gem_obj;
->  	struct panfrost_gem_object *bo;
->  	int ret = 0;
-> @@ -409,7 +407,6 @@ static int panfrost_ioctl_madvise(struct drm_device *dev, void *data,
->  	if (ret)
->  		goto out_put_object;
->  
-> -	mutex_lock(&pfdev->shrinker_lock);
->  	mutex_lock(&bo->mappings.lock);
->  	if (args->madv == PANFROST_MADV_DONTNEED) {
->  		struct panfrost_gem_mapping *first;
-> @@ -435,17 +432,8 @@ static int panfrost_ioctl_madvise(struct drm_device *dev, void *data,
->  
->  	args->retained = drm_gem_shmem_madvise(&bo->base, args->madv);
->  
-> -	if (args->retained) {
-> -		if (args->madv == PANFROST_MADV_DONTNEED)
-> -			list_move_tail(&bo->base.madv_list,
-> -				       &pfdev->shrinker_list);
-> -		else if (args->madv == PANFROST_MADV_WILLNEED)
-> -			list_del_init(&bo->base.madv_list);
-> -	}
-> -
->  out_unlock_mappings:
->  	mutex_unlock(&bo->mappings.lock);
-> -	mutex_unlock(&pfdev->shrinker_lock);
->  	dma_resv_unlock(bo->base.base.resv);
->  out_put_object:
->  	drm_gem_object_put(gem_obj);
-> @@ -577,9 +565,6 @@ static int panfrost_probe(struct platform_device *pdev)
->  	ddev->dev_private = pfdev;
->  	pfdev->ddev = ddev;
->  
-> -	mutex_init(&pfdev->shrinker_lock);
-> -	INIT_LIST_HEAD(&pfdev->shrinker_list);
-> -
->  	err = panfrost_device_init(pfdev);
->  	if (err) {
->  		if (err != -EPROBE_DEFER)
-> @@ -601,7 +586,7 @@ static int panfrost_probe(struct platform_device *pdev)
->  	if (err < 0)
->  		goto err_out1;
->  
-> -	panfrost_gem_shrinker_init(ddev);
-> +	drm_gem_shmem_shrinker_register(ddev, "panfrost-shrinker");
->  
->  	return 0;
->  
-> @@ -619,8 +604,8 @@ static int panfrost_remove(struct platform_device *pdev)
->  	struct panfrost_device *pfdev = platform_get_drvdata(pdev);
->  	struct drm_device *ddev = pfdev->ddev;
->  
-> +	drm_gem_shmem_shrinker_unregister(ddev);
->  	drm_dev_unregister(ddev);
-> -	panfrost_gem_shrinker_cleanup(ddev);
->  
->  	pm_runtime_get_sync(pfdev->dev);
->  	pm_runtime_disable(pfdev->dev);
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> index 293e799e2fe8..f1436405e3a0 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> @@ -19,16 +19,6 @@ static void panfrost_gem_free_object(struct drm_gem_object *obj)
->  	struct panfrost_gem_object *bo = to_panfrost_bo(obj);
->  	struct panfrost_device *pfdev = obj->dev->dev_private;
->  
-> -	/*
-> -	 * Make sure the BO is no longer inserted in the shrinker list before
-> -	 * taking care of the destruction itself. If we don't do that we have a
-> -	 * race condition between this function and what's done in
-> -	 * panfrost_gem_shrinker_scan().
-> -	 */
-> -	mutex_lock(&pfdev->shrinker_lock);
-> -	list_del_init(&bo->base.madv_list);
-> -	mutex_unlock(&pfdev->shrinker_lock);
-> -
->  	/*
->  	 * If we still have mappings attached to the BO, there's a problem in
->  	 * our refcounting.
-> @@ -209,6 +199,25 @@ static const struct drm_gem_object_funcs panfrost_gem_funcs = {
->  	.vm_ops = &drm_gem_shmem_vm_ops,
->  };
->  
-> +static int panfrost_shmem_evict(struct drm_gem_shmem_object *shmem)
-> +{
-> +	struct panfrost_gem_object *bo = to_panfrost_bo(&shmem->base);
-> +
-> +	if (!drm_gem_shmem_is_purgeable(shmem))
-> +		return -EOPNOTSUPP;
-> +
-> +	if (!mutex_trylock(&bo->mappings.lock))
-> +		return -EBUSY;
-> +
-> +	panfrost_gem_teardown_mappings_locked(bo);
-> +
-> +	drm_gem_shmem_purge(shmem);
-> +
-> +	mutex_unlock(&bo->mappings.lock);
-> +
-> +	return 0;
-> +}
-> +
->  /**
->   * panfrost_gem_create_object - Implementation of driver->gem_create_object.
->   * @dev: DRM device
-> @@ -230,6 +239,7 @@ struct drm_gem_object *panfrost_gem_create_object(struct drm_device *dev, size_t
->  	mutex_init(&obj->mappings.lock);
->  	obj->base.base.funcs = &panfrost_gem_funcs;
->  	obj->base.map_wc = !pfdev->coherent;
-> +	obj->base.evict = panfrost_shmem_evict;
->  
->  	return &obj->base.base;
->  }
-> @@ -266,6 +276,9 @@ panfrost_gem_create_with_handle(struct drm_file *file_priv,
->  	if (ret)
->  		return ERR_PTR(ret);
->  
-> +	if (!bo->is_heap)
-> +		drm_gem_shmem_set_purgeable(shmem);
-> +
->  	return bo;
->  }
->  
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.h b/drivers/gpu/drm/panfrost/panfrost_gem.h
-> index 8088d5fd8480..09da064f1c07 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.h
-> @@ -30,12 +30,6 @@ struct panfrost_gem_object {
->  		struct mutex lock;
->  	} mappings;
->  
-> -	/*
-> -	 * Count the number of jobs referencing this BO so we don't let the
-> -	 * shrinker reclaim this object prematurely.
-> -	 */
-> -	atomic_t gpu_usecount;
-> -
->  	bool noexec		:1;
->  	bool is_heap		:1;
->  };
-> @@ -84,7 +78,4 @@ panfrost_gem_mapping_get(struct panfrost_gem_object *bo,
->  void panfrost_gem_mapping_put(struct panfrost_gem_mapping *mapping);
->  void panfrost_gem_teardown_mappings_locked(struct panfrost_gem_object *bo);
->  
-> -void panfrost_gem_shrinker_init(struct drm_device *dev);
-> -void panfrost_gem_shrinker_cleanup(struct drm_device *dev);
-> -
->  #endif /* __PANFROST_GEM_H__ */
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c b/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-> deleted file mode 100644
-> index 865a989d67c8..000000000000
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-> +++ /dev/null
-> @@ -1,129 +0,0 @@
-> -// SPDX-License-Identifier: GPL-2.0
-> -/* Copyright (C) 2019 Arm Ltd.
-> - *
-> - * Based on msm_gem_freedreno.c:
-> - * Copyright (C) 2016 Red Hat
-> - * Author: Rob Clark <robdclark@gmail.com>
-> - */
-> -
-> -#include <linux/list.h>
-> -
-> -#include <drm/drm_device.h>
-> -#include <drm/drm_gem_shmem_helper.h>
-> -
-> -#include "panfrost_device.h"
-> -#include "panfrost_gem.h"
-> -#include "panfrost_mmu.h"
-> -
-> -static bool panfrost_gem_shmem_is_purgeable(struct drm_gem_shmem_object *shmem)
-> -{
-> -	return (shmem->madv > 0) &&
-> -		!shmem->pages_pin_count && shmem->sgt &&
-> -		!shmem->base.dma_buf && !shmem->base.import_attach;
-> -}
-> -
-> -static unsigned long
-> -panfrost_gem_shrinker_count(struct shrinker *shrinker, struct shrink_control *sc)
-> -{
-> -	struct panfrost_device *pfdev =
-> -		container_of(shrinker, struct panfrost_device, shrinker);
-> -	struct drm_gem_shmem_object *shmem;
-> -	unsigned long count = 0;
-> -
-> -	if (!mutex_trylock(&pfdev->shrinker_lock))
-> -		return 0;
-> -
-> -	list_for_each_entry(shmem, &pfdev->shrinker_list, madv_list) {
-> -		if (panfrost_gem_shmem_is_purgeable(shmem))
-> -			count += shmem->base.size >> PAGE_SHIFT;
-> -	}
-> -
-> -	mutex_unlock(&pfdev->shrinker_lock);
-> -
-> -	return count;
-> -}
-> -
-> -static bool panfrost_gem_purge(struct drm_gem_object *obj)
-> -{
-> -	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
-> -	struct panfrost_gem_object *bo = to_panfrost_bo(obj);
-> -	bool ret = false;
-> -
-> -	if (atomic_read(&bo->gpu_usecount))
-> -		return false;
-> -
-> -	if (!mutex_trylock(&bo->mappings.lock))
-> -		return false;
-> -
-> -	if (!dma_resv_trylock(shmem->base.resv))
-> -		goto unlock_mappings;
-> -
-> -	panfrost_gem_teardown_mappings_locked(bo);
-> -	drm_gem_shmem_purge(&bo->base);
-> -	ret = true;
-> -
-> -	dma_resv_unlock(shmem->base.resv);
-> -
-> -unlock_mappings:
-> -	mutex_unlock(&bo->mappings.lock);
-> -	return ret;
-> -}
-> -
-> -static unsigned long
-> -panfrost_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
-> -{
-> -	struct panfrost_device *pfdev =
-> -		container_of(shrinker, struct panfrost_device, shrinker);
-> -	struct drm_gem_shmem_object *shmem, *tmp;
-> -	unsigned long freed = 0;
-> -
-> -	if (!mutex_trylock(&pfdev->shrinker_lock))
-> -		return SHRINK_STOP;
-> -
-> -	list_for_each_entry_safe(shmem, tmp, &pfdev->shrinker_list, madv_list) {
-> -		if (freed >= sc->nr_to_scan)
-> -			break;
-> -		if (drm_gem_shmem_is_purgeable(shmem) &&
-> -		    panfrost_gem_purge(&shmem->base)) {
-> -			freed += shmem->base.size >> PAGE_SHIFT;
-> -			list_del_init(&shmem->madv_list);
-> -		}
-> -	}
-> -
-> -	mutex_unlock(&pfdev->shrinker_lock);
-> -
-> -	if (freed > 0)
-> -		pr_info_ratelimited("Purging %lu bytes\n", freed << PAGE_SHIFT);
-> -
-> -	return freed;
-> -}
-> -
-> -/**
-> - * panfrost_gem_shrinker_init - Initialize panfrost shrinker
-> - * @dev: DRM device
-> - *
-> - * This function registers and sets up the panfrost shrinker.
-> - */
-> -void panfrost_gem_shrinker_init(struct drm_device *dev)
-> -{
-> -	struct panfrost_device *pfdev = dev->dev_private;
-> -	pfdev->shrinker.count_objects = panfrost_gem_shrinker_count;
-> -	pfdev->shrinker.scan_objects = panfrost_gem_shrinker_scan;
-> -	pfdev->shrinker.seeks = DEFAULT_SEEKS;
-> -	WARN_ON(register_shrinker(&pfdev->shrinker, "drm-panfrost"));
-> -}
-> -
-> -/**
-> - * panfrost_gem_shrinker_cleanup - Clean up panfrost shrinker
-> - * @dev: DRM device
-> - *
-> - * This function unregisters the panfrost shrinker.
-> - */
-> -void panfrost_gem_shrinker_cleanup(struct drm_device *dev)
-> -{
-> -	struct panfrost_device *pfdev = dev->dev_private;
-> -
-> -	if (pfdev->shrinker.nr_deferred) {
-> -		unregister_shrinker(&pfdev->shrinker);
-> -	}
-> -}
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index dbc597ab46fb..98d9751d2b2c 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -272,6 +272,19 @@ static void panfrost_attach_object_fences(struct drm_gem_object **bos,
->  		dma_resv_add_fence(bos[i]->resv, fence, DMA_RESV_USAGE_WRITE);
->  }
->  
-> +static int panfrost_objects_prepare(struct drm_gem_object **bos, int bo_count)
-> +{
-> +	struct panfrost_gem_object *bo;
-> +	int ret = 0;
-> +
-> +	while (!ret && bo_count--) {
-> +		bo = to_panfrost_bo(bos[bo_count]);
-> +		ret = bo->base.madv ? -ENOMEM : 0;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
->  int panfrost_job_push(struct panfrost_job *job)
->  {
->  	struct panfrost_device *pfdev = job->pfdev;
-> @@ -283,6 +296,10 @@ int panfrost_job_push(struct panfrost_job *job)
->  	if (ret)
->  		return ret;
->  
-> +	ret = panfrost_objects_prepare(job->bos, job->bo_count);
-> +	if (ret)
-> +		goto unlock;
-> +
->  	mutex_lock(&pfdev->sched_lock);
->  	drm_sched_job_arm(&job->base);
->  
-> @@ -324,7 +341,6 @@ static void panfrost_job_cleanup(struct kref *ref)
->  			if (!job->mappings[i])
->  				break;
->  
-> -			atomic_dec(&job->mappings[i]->obj->gpu_usecount);
->  			panfrost_gem_mapping_put(job->mappings[i]);
->  		}
->  		kvfree(job->mappings);
+Can you check the same from your side?
 
+On the other side, MEDIA_BUS_FMT_RGB888_1X7X4_SPWG is 24-bit samples
+transferred over an LVDS bus with four differential data pairs,
+serialized into 7-time slots using SPWG which indeed a
+MEDIA_BUS_FMT_RGB888_1X24 input_fmt for the bridge. so handling in the
+supported list and reassigning the RGB888_1X24 would be the proper way
+to handle this format.
+
+Jagan.
