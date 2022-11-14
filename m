@@ -1,76 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B978E6277F9
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 09:42:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3C2362781C
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 09:47:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B336310E082;
-	Mon, 14 Nov 2022 08:42:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5D9B10E287;
+	Mon, 14 Nov 2022 08:47:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
- [64.147.123.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE6A810E082
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 08:42:28 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 92D3632000EB;
- Mon, 14 Nov 2022 03:42:24 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Mon, 14 Nov 2022 03:42:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1668415344; x=
- 1668501744; bh=w57Bc9UTDIEJ4cfpiy7aLmeMfmO0XFUxL/hhIzBHxs0=; b=i
- ktgMx8Kzq+DK2bXFwoPLEs5Jjm+G95iDh8RIPb/klW1Eiq6gp88WGRQQ6d6cesQT
- dPN1jjtjMnWZ0lUAkBnQgUnftgIz6NH2UKpViCklHwAUY71qZPoV/q11HFVMqxMg
- yf7EvC++zKvi9ONjyYmYappRovc6s7yTvezAVgCa3fsTpEP0MR1skoeGoZhgu/6p
- PtvsUo4LfJRPISFBm8XNkBHjG0v2NL3MCg2TyG4PGUsBe23U+PElEpH0KUJQELi4
- EpxkPjYTISr1Ke7uIzclMsE2YO3KV+45jOQfH0vzHR+OBEtHxlHksqg+GsMbRxKn
- OCh962Xm0JWtjMaRuITUg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1668415344; x=
- 1668501744; bh=w57Bc9UTDIEJ4cfpiy7aLmeMfmO0XFUxL/hhIzBHxs0=; b=J
- DPHvGAPvb/Hq2Kkr+JjvY2kZN0jPLlQA2nTjxgTbn0bsB1uCaT4C154/GqUp7RAi
- q8PHWxIpHG7VbxeZfcuUmYlp6zmGMnbbiZCCxHNl5+OmjR3rKxDe4iOzYcwoUyom
- 8NV0oGY5BRAsKmNkcYiZeFC4TLdB6bbPcE/WW1os8PjnNwlRQDGII7EU6bgfPqHE
- N1jrrt49xVaGkJjIESO1byRCl7XGrOiBZl5ObTSHuqjW5SORZCWqDhkwKRIgqeG3
- RvWGmMeLSnMGXJyKUiTVNkPzA/1XPPQQXd/M1n/W0B5jCSbPWixqpDKNscaqxRl5
- y7lNwP5XpuPnUP5EnbWnA==
-X-ME-Sender: <xms:b_9xY4j_vho1N480A4VB8w8oUz0rvHafk9nL8NJ2w2xeBjNoignGxg>
- <xme:b_9xYxAZPcZmMWcaHYIOr_9DyBu2E4Aoc8kA5lrDwuJDgNxeVPJjp_659TYGM2iZi
- ywAOvv-RP5AfGPxt0I>
-X-ME-Received: <xmr:b_9xYwFkqD4T1ADuRMuLFF9mgWnRL2h_wl5pMYtGFzzoP3HvswlLAWS6wq5h-at4lH77_eeUalFu8_tLdJkQySOutgOoV2sD2xTqECgxM_B4ew>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgedugdduvdefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevjghfuffkffggtgfgofesth
- ekredtredtjeenucfhrhhomhepofgrgihimhgvucftihhprghrugcuoehmrgigihhmvges
- tggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrhhnpeeifeeigeelhfehkeeltdetje
- etueelteeuveekueevffduhefffefhhfehgfehieenucevlhhushhtvghrufhiiigvpedt
- necurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:b_9xY5TmWkti1MC71DYLFon7DokD97auJgZm5sftupj8DHf-dSZN4A>
- <xmx:b_9xY1zpkOWhsW3jiT3S-nOf5fLJGrfJtiCARi7GBk1T9sywg082Ag>
- <xmx:b_9xY36gElrz07iFt-khnG69w1-f5Kr6Hu_QGj6uxNO7Rz1NFWemuA>
- <xmx:cP9xY4rTtRG-yT-Rti6qeHz4gzmsH0hM4TGa1eT_J4UfA-4uy0X60g>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 14 Nov 2022 03:42:23 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: José Expósito <jose.exposito89@gmail.com>, mripard@kernel.org
-In-Reply-To: <20221110134752.238820-1-jose.exposito89@gmail.com>
-References: <20221110134752.238820-1-jose.exposito89@gmail.com>
-Subject: Re: [PATCH v2 0/2] drm/vc4: hdmi: Fix pointer dereference before check
-Message-Id: <166841534136.121063.4135603044253245364.b4-ty@cerno.tech>
-Date: Mon, 14 Nov 2022 09:42:21 +0100
+Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com
+ [IPv6:2607:f8b0:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3B8E10E284
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 08:47:40 +0000 (UTC)
+Received: by mail-il1-x12a.google.com with SMTP id o13so5386591ilc.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 00:47:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=vQZaGyGGRMG9WSnxx0EKgQyP34O/zWxUK3kr2RIAKt8=;
+ b=m3Ypy7jgqA7HJ9d03+D79kNjn4LqBSbI1ZO72wNhweOHOKxwJ5xgtLNQx8zsqXpziZ
+ cHaEix1EjrZKwkv9ovN3KJlQapuaDvkifJk0Q21Q+h1B9sy09P7NhQSsZO+hONpGmZhP
+ NJhdDokKiIab2LPAaegj09Usq+SKIkLga/FdA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vQZaGyGGRMG9WSnxx0EKgQyP34O/zWxUK3kr2RIAKt8=;
+ b=KoLUDqPjR1o/J7tsHONFWGcYoaPMN4n73aEu8XU/ETJ6JDlYc77+nxClG8XgzKQFV3
+ Sr8LQS8iOaTugYkEbXPnSkkU+MA7hY6IBC+wyTKNxFJAWLzTjvBBO9g5QHktXtRTRuhN
+ TWcvvJOee+kT5sW7uHv1Cg3VDHGyqqZByHAmQATl+NVVfoJba/yDIyXtkGt4uci9WrWe
+ MsfxqOYDjlDbesNyk63KA85F9azh4eLSiREjDfLMSPLioP051xYbnbWS6KBCCLcShpuU
+ OO77E9cXGXgS+tu1p1cri9MYHl6nG6ClAB1QAvyEJiB9O4bu7zTlXgc3UFrH7TKdcrQb
+ ieiw==
+X-Gm-Message-State: ANoB5pk6q1iPiFAUYW3zM5pNZrDRGWJn1cmdQyqRZFHQLpnjpFQH2waU
+ KkQTDoV4fAzsCJ91viTa3aReyOXJ2uMA40oYFMg9Og==
+X-Google-Smtp-Source: AA0mqf6GVlTdNStkdafmYuPoOe6C9UIZRwut/dQ2SxahOodAVWaxTbIKNBB/R2sQ7J7EZ4sAvFSSNLxReqypBpNsYo8=
+X-Received: by 2002:a05:6e02:1a4b:b0:302:43b8:d42f with SMTP id
+ u11-20020a056e021a4b00b0030243b8d42fmr5359490ilv.64.1668415660226; Mon, 14
+ Nov 2022 00:47:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.11.0-dev-99e3a
+References: <20221110183853.3678209-1-jagan@amarulasolutions.com>
+ <abfb3397-a0b4-ce31-3b49-172d8256bee1@kontron.de>
+In-Reply-To: <abfb3397-a0b4-ce31-3b49-172d8256bee1@kontron.de>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Mon, 14 Nov 2022 14:17:29 +0530
+Message-ID: <CAMty3ZCcm8nPrP+0z6AVkN7TK3OEeDDdUogQuEpr8gKt0x+vSw@mail.gmail.com>
+Subject: Re: [PATCH v8 00/14] drm: bridge: Add Samsung MIPI DSIM bridge
+To: Frieder Schrempf <frieder.schrempf@kontron.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,24 +63,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- emma@anholt.net
+Cc: Marek Vasut <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
+ Joonyoung Shim <jy0922.shim@samsung.com>, dri-devel@lists.freedesktop.org,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Neil Armstrong <narmstrong@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Matteo Lisi <matteo.lisi@engicam.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Fancy Fang <chen.fang@nxp.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 10 Nov 2022 14:47:50 +0100, José Expósito wrote:
-> v1 -> v2:
-> 
-> As suggested by Maxime, I simplified a bit vc4_hdmi_supports_scrambling()
-> making it receive a struct vc4_hdmi as argument instead of a struct
-> drm_encoder.
-> 
-> Also, variables are initialized close to where they are used in the
-> second patch.
-> 
-> [...]
+Hi Frieder,
 
-Applied to drm/drm-misc (drm-misc-next).
+On Mon, Nov 14, 2022 at 2:12 PM Frieder Schrempf
+<frieder.schrempf@kontron.de> wrote:
+>
+> Hi Jagan,
+>
+> On 10.11.22 19:38, Jagan Teki wrote:
+> > This series supports common bridge support for Samsung MIPI DSIM
+> > which is used in Exynos and i.MX8MM SoC's.
+> >
+> > The final bridge supports both the Exynos and i.MX8M Mini/Nano/Plus.
+> >
+> > Changes for v8:
+> > * fixed comment lines
+> > * fixed commit messages
+> > * fixed video mode bits
+> > * collect Marek Ack
+> > * fixed video mode bit names
+> > * update input formats logic
+> > * added imx8mplus support
+>
+> Did you miss to collect all the Tested-by tags from v7, or did you drop
+> them deliberately?
 
-Thanks!
-Maxime
+Few changes in v8 compared to v7, so I've not picked these tags as code changes.
+
+Jagan.
