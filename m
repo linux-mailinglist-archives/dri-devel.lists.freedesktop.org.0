@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2BEB627768
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 09:21:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67B05627793
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 09:27:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1DD210E27B;
-	Mon, 14 Nov 2022 08:21:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A654F10E27D;
+	Mon, 14 Nov 2022 08:27:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADC6010E27D
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 08:21:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1668414081; x=1699950081;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=GWL1Zdg8VM0L4az7SdmVEV/OAhYP09tb0bBONmyWxYo=;
- b=i8wWvFvmkThk9lbcYi5yKb96AU+dHmf/jhOGtjXTxsl/b8os4ul0RdIg
- pD56Q/9xnDReoUzKAYh7D+Ps7oi8AIrq/A6nyr7MQX/QrExFRLT3oSNul
- 4lBtBXP0gyJ13GOtl/qsHbpsBSBQrhzz8AzKoCO1A0Aa0YooExwvw2XVy
- ooupA2dPCM5Ms+gMm28dIILL5IYh6IYDEBn86lmTh5u7wjmc/iGWUEE6O
- npr1zTnTjf59hhNtZKugsORvQGVvwdz2Gx8wa7/wD4rFDNasq0sx+tcnk
- 3/F4EwdZmEXiZ98eEVmAeShDxtjDI87w9b9OtJvPiGZV8Br28y+KMaWuQ g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="299430235"
-X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; d="scan'208";a="299430235"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Nov 2022 00:21:20 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="669552903"
-X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; d="scan'208";a="669552903"
-Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.249.143.213])
- ([10.249.143.213])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Nov 2022 00:21:18 -0800
-Message-ID: <9a9755b9-ad60-2f00-6845-00e0083579b8@linux.intel.com>
-Date: Mon, 14 Nov 2022 09:21:16 +0100
+Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com
+ [IPv6:2607:f8b0:4864:20::d35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80B7610E27E
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 08:27:18 +0000 (UTC)
+Received: by mail-io1-xd35.google.com with SMTP id d123so7625059iof.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 00:27:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Mmp1dYQCbZLGOPjiM2VzGz3cHY77hSYHeqQM7i6gYwU=;
+ b=pP2VMtbFMeWnVX6GpnQ/REv1U4873cMuvb+A5Xt16esbTDwV6k7EOk+Whl9RhAI2VS
+ V6ZqKgYBpWwp79cNQT3ivYrBfr89Vxob1V11IqGwvrN0UrB9dLkRRGo/n2Z7gI5O020D
+ mSWMnR8tY+l9tNHYR8+0DL1ZFCUBlSuWoK8wQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Mmp1dYQCbZLGOPjiM2VzGz3cHY77hSYHeqQM7i6gYwU=;
+ b=KJ55SBGLwW5XH5PoWl2w70VJQprz2z92Icyak0gMfwscJW06XReA8t0w4LTEK8wfXp
+ JiK9s7TNeiP9aesgnGOEJjDl7Ph7MQV/jvtmTVNxGxtZrJidf5TXl8tDGHuLuEGzU+C6
+ GlXSG2oktX4Cstgsb2P9psMmqXPgF1fiDNzZV2tAnwIjakAi88iEaykFLeERVdLc3tee
+ cD+7afwZWiJA84/R7FMVaRulQVqAPeqe5dwK3K6ouqj5Vav2fQ/BeGFiTx7k3oo17WYW
+ 0Zdc9bIUu4OqZsQZj3RPJFzbixcFexxpeXzy/VOl+zCzzbCfsbhmwsOBWQp/QWxNg4zx
+ xRUQ==
+X-Gm-Message-State: ANoB5pkzc2M91sg+rWwliSM7yJ3Ldwsmnv6+D5uM4RrB/5Ip4Ddl20f0
+ pTWvvqYgiit9YvK0R2dSqUxT/xZT7SuziwAkPP2O2A==
+X-Google-Smtp-Source: AA0mqf4CJNi/WT6y/nKg/6/MbojI99gy2fNilUDmZmqOZVGq3dUI3+Z3OCdc4F9z5LpkCdp5KzydLeE67p8aNZ/vyQ8=
+X-Received: by 2002:a6b:b7c6:0:b0:6d6:bff5:bbdf with SMTP id
+ h189-20020a6bb7c6000000b006d6bff5bbdfmr5126103iof.156.1668414437562; Mon, 14
+ Nov 2022 00:27:17 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH v3 5/7] drm/ivpu: Implement firmware parsing and booting
-To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
- airlied@gmail.com, daniel@ffwll.ch
-References: <20220924151149.323622-1-jacek.lawrynowicz@linux.intel.com>
- <20220924151149.323622-6-jacek.lawrynowicz@linux.intel.com>
- <1ba0151e-daf8-04ef-ffad-63973f85ecbc@suse.de>
-Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <1ba0151e-daf8-04ef-ffad-63973f85ecbc@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20221110183853.3678209-1-jagan@amarulasolutions.com>
+ <20221110183853.3678209-3-jagan@amarulasolutions.com>
+ <19761b19-72ac-249a-05f3-d99e27733ae0@denx.de>
+In-Reply-To: <19761b19-72ac-249a-05f3-d99e27733ae0@denx.de>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Mon, 14 Nov 2022 13:57:06 +0530
+Message-ID: <CAMty3ZAAYnDyWpZSmq2MRk2SHg7Oi2wUuA83K1Zno2WnrLPaJA@mail.gmail.com>
+Subject: Re: [PATCH v8 02/14] drm: exynos: dsi: Properly name HSA/HBP/HFP/HSE
+ bits
+To: Marek Vasut <marex@denx.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,100 +65,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrzej.kacprowski@linux.intel.com, stanislaw.gruszka@linux.intel.com
+Cc: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Neil Armstrong <narmstrong@linaro.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Matteo Lisi <matteo.lisi@engicam.com>, Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Fancy Fang <chen.fang@nxp.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Sun, Nov 13, 2022 at 5:55 AM Marek Vasut <marex@denx.de> wrote:
+>
+> On 11/10/22 19:38, Jagan Teki wrote:
+> > HSA/HBP/HFP/HSE mode bits in Exynos DSI host specify a naming
+> > conversion as 'disable mode bit' due to its bit definition,
+> > 0 = Enable and 1 = Disable.
+> >
+> > Fix the naming convention of the mode bits.
+> >
+> > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> > ---
+> >   drivers/gpu/drm/exynos/exynos_drm_dsi.c | 16 ++++++++--------
+> >   1 file changed, 8 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+> > index b5305b145ddb..fce7f0a7e4ee 100644
+> > --- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+> > +++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+> > @@ -75,10 +75,10 @@
+> >   #define DSIM_MAIN_PIX_FORMAT_RGB565 (0x4 << 12)
+> >   #define DSIM_SUB_VC                 (((x) & 0x3) << 16)
+> >   #define DSIM_MAIN_VC                        (((x) & 0x3) << 18)
+> > -#define DSIM_HSA_MODE                        (1 << 20)
+> > -#define DSIM_HBP_MODE                        (1 << 21)
+> > -#define DSIM_HFP_MODE                        (1 << 22)
+> > -#define DSIM_HSE_MODE                        (1 << 23)
+> > +#define DSIM_HSA_DISABLE             (1 << 20)
+> > +#define DSIM_HBP_DISABLE             (1 << 21)
+> > +#define DSIM_HFP_DISABLE             (1 << 22)
+> > +#define DSIM_HSE_DISABLE             (1 << 23)
+>
+> Those four bits are called Hxx_DISABLE_MODE in the MX8M{M,N,P}RM at
+> least, so keep both suffixes .
 
-On 11/1/2022 11:08 AM, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 24.09.22 um 17:11 schrieb Jacek Lawrynowicz:
->> Read, parse and boot VPU firmware image.
->>
->> Signed-off-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
->> Signed-off-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
->> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
->> ---
->>   drivers/gpu/drm/ivpu/Makefile       |   1 +
->>   drivers/gpu/drm/ivpu/ivpu_drv.c     | 122 +++++++-
->>   drivers/gpu/drm/ivpu/ivpu_drv.h     |  10 +
->>   drivers/gpu/drm/ivpu/ivpu_fw.c      | 422 ++++++++++++++++++++++++++++
->>   drivers/gpu/drm/ivpu/ivpu_fw.h      |  38 +++
->>   drivers/gpu/drm/ivpu/ivpu_hw_mtl.c  |  11 +
->>   drivers/gpu/drm/ivpu/vpu_boot_api.h | 241 ++++++++++++++++
->>   include/uapi/drm/ivpu_drm.h         |  21 ++
->>   8 files changed, 865 insertions(+), 1 deletion(-)
->>   create mode 100644 drivers/gpu/drm/ivpu/ivpu_fw.c
->>   create mode 100644 drivers/gpu/drm/ivpu/ivpu_fw.h
->>   create mode 100644 drivers/gpu/drm/ivpu/vpu_boot_api.h
->>
+Okay, I will update the suffixes.
 
->> diff --git a/drivers/gpu/drm/ivpu/ivpu_fw.c b/drivers/gpu/drm/ivpu/ivpu_fw.c
->> new file mode 100644
->> index 000000000000..d55f13f2daed
->> --- /dev/null
->> +++ b/drivers/gpu/drm/ivpu/ivpu_fw.c
->> @@ -0,0 +1,422 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +/*
->> + * Copyright © 2020-2022 Intel Corporation
->> + */
->> +
->> +#include <linux/firmware.h>
->> +#include <linux/highmem.h>
->> +#include <linux/moduleparam.h>
->> +#include <linux/pci.h>
->> +
->> +#include "vpu_boot_api.h"
->> +#include "ivpu_drv.h"
->> +#include "ivpu_fw.h"
->> +#include "ivpu_gem.h"
->> +#include "ivpu_hw.h"
->> +#include "ivpu_ipc.h"
->> +
->> +#define FW_MAX_NAMES        3
->> +#define FW_GLOBAL_MEM_START    (2ull * SZ_1G)
->> +#define FW_GLOBAL_MEM_END    (3ull * SZ_1G)
->> +#define FW_SHARED_MEM_SIZE    SZ_256M /* Must be aligned to FW_SHARED_MEM_ALIGNMENT */
->> +#define FW_SHARED_MEM_ALIGNMENT    SZ_128K /* VPU MTRR limitation */
->> +#define FW_RUNTIME_MAX_SIZE    SZ_512M
->> +#define FW_SHAVE_NN_MAX_SIZE    SZ_2M
->> +#define FW_RUNTIME_MIN_ADDR    (FW_GLOBAL_MEM_START)
->> +#define FW_RUNTIME_MAX_ADDR    (FW_GLOBAL_MEM_END - FW_SHARED_MEM_SIZE)
->> +#define FW_VERSION_HEADER_SIZE    SZ_4K
->> +#define FW_FILE_IMAGE_OFFSET    (VPU_FW_HEADER_SIZE + FW_VERSION_HEADER_SIZE)
->> +
->> +#define WATCHDOG_MSS_REDIRECT    32
->> +#define WATCHDOG_NCE_REDIRECT    33
->> +
->> +#define ADDR_TO_L2_CACHE_CFG(addr) ((addr) >> 31)
->> +
->> +#define IVPU_FW_CHECK_API(vdev, fw_hdr, name) ivpu_fw_check_api(vdev, fw_hdr, #name, \
->> +                                  VPU_##name##_API_VER_INDEX, \
->> +                                  VPU_##name##_API_VER_MAJOR, \
->> +                                  VPU_##name##_API_VER_MINOR)
->> +
->> +static char *ivpu_firmware;
->> +module_param_named_unsafe(firmware, ivpu_firmware, charp, 0644);
->> +MODULE_PARM_DESC(firmware, "VPU firmware binary in /lib/firmware/..");
->> +
->> +static int ivpu_fw_request(struct ivpu_device *vdev)
->> +{
->> +    const char *fw_names[FW_MAX_NAMES] = {
->> +        ivpu_firmware,
->> +        "mtl_vpu.bin",
->> +        "intel/vpu/mtl_vpu_v0.0.bin"
->> +    };
->> +    int ret = -ENOENT;
->> +    int i;
->> +
->> +    for (i = 0; i < FW_MAX_NAMES; i++) {
-> 
-> Better remove the constant FW_MAX_NAMES entirely and use ARRAY_SIZE(fw_names) here.
+>
+> A separate patch which turns those bits to BIT() macro would be nice.
 
-OK
+I plan to do this conversion for all bits once this basic patchset
+merges. I hope it is okay with it.
 
-Regards,
-Jacek
+Jagan.
