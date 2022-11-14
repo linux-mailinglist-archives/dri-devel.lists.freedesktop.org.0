@@ -2,83 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5316B6273E1
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 01:34:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCD3A6273EC
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 01:48:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65D8B10E256;
-	Mon, 14 Nov 2022 00:34:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A8B510E051;
+	Mon, 14 Nov 2022 00:48:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
- [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF28610E255
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 00:34:37 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 73892320090B;
- Sun, 13 Nov 2022 19:34:34 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Sun, 13 Nov 2022 19:34:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
- cc:cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1668386074; x=
- 1668472474; bh=JWCaNPNku2WcRjI/vXx0mmk36Axrc/QAZnO/9E8Yb7w=; b=y
- y22+SBeTE7NzkvoXCyHhjM6xpNFCWAvcSNd7siC+iuQK1hQ4ib7ndqvq7aQ93RuZ
- vaxIQukHGGc8/k438DT8lYuCMpbAW3SbBEjpYd/MXl2bHDtpWZi66EFKqxxptUAY
- 3SdYyYXrso+ps7tWXUk8kGz0+g0AOWODdk6RpdKvIIY0gUbIIBVxjA4uN1oeHPJY
- MDNgt1MoKZF1YLfeiMDHn0YMqAQeWWBMX4o5wd8H/yEJUMu+LzC7ol1WLg/ZtoQ5
- FdAWhQPiKSL0Q3LeERpjFygM0TL30WBDKO/9OjFxOd0mA/YI7DkSF5Lp/HGKVbxE
- FESRdYk5foVfDSGVkcabA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1668386074; x=
- 1668472474; bh=JWCaNPNku2WcRjI/vXx0mmk36Axrc/QAZnO/9E8Yb7w=; b=n
- Eno6uAakEAYLLVaDHC0LEFNZrsvt7InkYfGKW02JsZNoB5NYmYHcpzxjkGEkUJOC
- usJ1qC7bxoei3mN//citsERdGVUMDKuKAdT3Ax24CWCvDsJzTUgdyUmbIWUNO7/m
- FJrUxQTpqpg5tF95DcIP3KFH099V2Y7gxv9mNrxreCPtEM3Bs6/yQw7isDE1T4tO
- WqnaL3pVj1F7JPL++G0eRFSxJk8+LeTq+gCYnKa6mhiu45IjZ7X0kcIRqZDX+AdN
- 5kCodwAIrd/c9849xAx3lG3ZhQZkXBaLOo0AAJlw0e2ilqWWMaEqvMmALbDcHOOg
- y0qUNIBa4wr9ZXDaMJ88w==
-X-ME-Sender: <xms:GY1xYyaNF6NDggmi_3DifoUnlfwV4I6jULPz-Qh27t3_30yH2ZK_DA>
- <xme:GY1xY1ZZ1fSgKXsI1lizha-HCdDNChZNe3FT0kn0-Cs9rR4CAot1Z8y4Pf8PcOQJD
- n99cpV7olspEjSg1A>
-X-ME-Received: <xmr:GY1xY8-lwtN8I2jZhb-n2YEzNwcKxcteXbMu2clAfJa-o4Ziz-uRWLMTjrDr_wTsD0PhTuA2bb_dMLchpyHQrK9IL-mnEAIGtC5S8rtRh6fLOM2G_B-jeiU6eg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgedugddvfecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefkffggfgfuvfevfhfhjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
- vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
- ftrfgrthhtvghrnhepkeejleelfeeitdfhtdfgkeeghedufeduueegffdvhfdukeelleef
- tdetjeehuddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
- homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:GY1xY0r_j6w2S0xGO5los7x39XP_Kk5v2-pOaGdTyDJ_imH7FyT5Nw>
- <xmx:GY1xY9ryJ5mbbNHysbNscHlyIVJ9XypKCs901i7SfJTRl-cw4olKdA>
- <xmx:GY1xYyTfEIhVfFoyUMrxtWUiPei6J5QeeAIQinB9Cpqid9jLCFuh6g>
- <xmx:Go1xY6jvOI51jgUTtVrqrARqAYXuX0AB3vFDsCmRPBLIaG_8kQTIkg>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 13 Nov 2022 19:34:32 -0500 (EST)
-Message-ID: <22ca0f6f-1e2e-3dc0-46f8-8399889c240c@sholland.org>
-Date: Sun, 13 Nov 2022 18:34:31 -0600
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41E0110E051
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 00:48:31 +0000 (UTC)
+Received: from [192.168.1.139] ([37.4.248.52]) by mrelayeu.kundenserver.de
+ (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MpUlO-1pJZWl3Bds-00pxsB; Mon, 14 Nov 2022 01:48:15 +0100
+Message-ID: <b49a242f-dc85-171d-1f0c-93b9099712a3@i2se.com>
+Date: Mon, 14 Nov 2022 01:48:14 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH 06/26] drm: sun4i: Use the dev_pm_ops provided by modeset
- helper
-Content-Language: en-US
-To: Paul Cercueil <paul@crapouillou.net>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 1/2] drm/vc4: hdmi: Enforce the minimum rate at
+ runtime_resume
+From: Stefan Wahren <stefan.wahren@i2se.com>
+To: Maxime Ripard <maxime@cerno.tech>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20221107175106.360578-1-paul@crapouillou.net>
- <20221107175106.360578-7-paul@crapouillou.net>
-From: Samuel Holland <samuel@sholland.org>
-In-Reply-To: <20221107175106.360578-7-paul@crapouillou.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ Emma Anholt <emma@anholt.net>
+References: <20220929-rpi-pi3-unplugged-fixes-v1-0-cd22e962296c@cerno.tech>
+ <20220929-rpi-pi3-unplugged-fixes-v1-1-cd22e962296c@cerno.tech>
+ <737e7e23-1bc5-eaf3-2d15-5498fc5b0415@i2se.com>
+Content-Language: en-US
+In-Reply-To: <737e7e23-1bc5-eaf3-2d15-5498fc5b0415@i2se.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:YS07FkhVr3OfGmnW5zQVJs+UtG1HE1PhzcW8TJ2mq+y5yxUQiu3
+ xx1jlgi/+t/chVeyciJYmF/3/jjEaxpvEaY0sVHhVuC0tTAIDiSWdYO/LhhVtQjv9Hgc/RP
+ Qr3lwUItjIT836nqIJe9n7xV091CqulOT6vskjrgjqcg+i/VhmMDh/5qgkOrdO4GgObGf3h
+ XBzv5IX5s49SzCUjl+H+g==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:WtGh1L4o654=:yveJNpSn5Wmm2Ra1Qj7NN/
+ FyMOJBpwzlDE6XNo/nsBjnpaEtXekZnwgaVfkP4/EV/5trTZaHYxeksa1ypZTbfCi+Ja7nqJS
+ EAzlSX36PB8Kr0kGEu2bumAwU5jSqGXKvOOQdqs2IZNGMczxANcAQ7aR928DT07qB2FubPOKg
+ fRIWhzDNdnST7cMMjAVy2hPA4XE5dLWtofGKHDQUjKKRFCm2ZMia8oX/FDByouj3axSDijXRg
+ fLEw6pYis3rB8K+WMbI1TelLui6jiHUY/y3L6pMb8JRLeZSxEZHKaIidFGU/9BMAYuHQsbSD/
+ MqSDMjJaUeNC7Oux6Rqx/8A8VORvFB7xbkDf+tzR2PxLGKwKXzdS5FxfTD0yOOtdDV+f08sXd
+ i07C92mIqodf4B/nl5zFYaExX8rArFHS5xYYmw0ka+VEI59Q4u/zJKaBitSZJoh0yINv/P3OJ
+ 6VNn/sT4KBDIo7wArGbD6NqXdEnq8YN1qhUZ/MQv++9dUA4R+ErgcEmta4v1TWWtd0zXdkGje
+ 4llJwjvEqxjqD2j9Ely19v4CFUyuvMIu4ew7srpD7+7Lp/9rS2C70Y6wB27ELBMhU//f+y4Eq
+ mBBk1+Kbja7GFCwLiFxq6KKTKWNAq3Gcr/Eh8k7ksk7w90UE4BmtqtqXSPddpNTfleUcwW4iy
+ SR2fCBg0ATJDSbxkvx9iekfrr/yv1vVzhdRYeiiivsTkzjaAtuyOzibJn6ldR03hPeQg+3uP9
+ zD+tkgyckBOnIaZ/ulWyHNtYkn/OhOK6CnKEEY7Kzp6I92Adn3k9u3+JkI5odShoWsg7P/She
+ 8uITY4Byf5SjvYzubXXaXC/BrraPQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,27 +65,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Chen-Yu Tsai <wens@csie.org>, dri-devel@lists.freedesktop.org,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Cc: Marc Kleine-Budde <mkl@pengutronix.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/7/22 11:50, Paul Cercueil wrote:
-> Use the drm_mode_config_pm_ops structure exported by
-> drm_modeset_helper.c, which provides the exact same PM callbacks.
-> 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> ---
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Chen-Yu Tsai <wens@csie.org>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Samuel Holland <samuel@sholland.org>
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-sunxi@lists.linux.dev
-> ---
->  drivers/gpu/drm/sun4i/sun4i_drv.c | 24 ++----------------------
->  1 file changed, 2 insertions(+), 22 deletions(-)
-
-Reviewed-by: Samuel Holland <samuel@sholland.org>
-
+Am 11.11.22 um 22:08 schrieb Stefan Wahren:
+> Hi Maxime,
+>
+> Am 29.09.22 um 11:21 schrieb Maxime Ripard:
+>> This is a revert of commit fd5894fa2413 ("drm/vc4: hdmi: Remove clock
+>> rate initialization"), with the code slightly moved around.
+>>
+>> It turns out that we can't downright remove that code from the driver,
+>> since the Pi0-3 and Pi4 are in different cases, and it only works for
+>> the Pi4.
+>>
+>> Indeed, the commit mentioned above was relying on the RaspberryPi
+>> firmware clocks driver to initialize the rate if it wasn't done by the
+>> firmware. However, the Pi0-3 are using the clk-bcm2835 clock driver that
+>> wasn't doing this initialization. We therefore end up with the clock not
+>> being assigned a rate, and the CPU stalling when trying to access a
+>> register.
+>>
+>> We can't move that initialization in the clk-bcm2835 driver, since the
+>> HSM clock we depend on is actually part of the HDMI power domain, so any
+>> rate setup is only valid when the power domain is enabled. Thus, we
+>> reinstated the minimum rate setup at runtime_suspend, which should
+>> address both issues.
+>>
+>> Link: 
+>> https://lore.kernel.org/dri-devel/20220922145448.w3xfywkn5ecak2et@pengutronix.de/
+>> Fixes: fd5894fa2413 ("drm/vc4: hdmi: Remove clock rate initialization")
+>> Reported-by: Marc Kleine-Budde <mkl@pengutronix.de>
+>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>> ---
+>>   drivers/gpu/drm/vc4/vc4_hdmi.c | 9 +++++++++
+>>   1 file changed, 9 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c 
+>> b/drivers/gpu/drm/vc4/vc4_hdmi.c
+>> index 199bc398817f..2e28fe16ed5e 100644
+>> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+>> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+>> @@ -2891,6 +2891,15 @@ static int vc4_hdmi_runtime_resume(struct 
+>> device *dev)
+>>       u32 __maybe_unused value;
+>>       int ret;
+>>   +    /*
+>> +     * The HSM clock is in the HDMI power domain, so we need to set
+>> +     * its frequency while the power domain is active so that it
+>> +     * keeps its rate.
+>> +     */
+>> +    ret = clk_set_min_rate(vc4_hdmi->hsm_clock, HSM_MIN_CLOCK_FREQ);
+>> +    if (ret)
+>> +        return ret;
+>> +
+>
+> unfortunately this breaks X on Raspberry Pi 4 in Linux 6.0.5 
+> (multi_v7_defconfig + LPAE). Today i saw this report [1] and bisected 
+> the issue down to this patch. Shame on me that i only tested this 
+> patch with Rpi 3B+ :-(
+Looks like "drm/vc4: hdmi: Fix HSM clock too low on Pi4" addresses this 
+issue ...
+>
+> Best regards
+>
+> [1] - https://bugzilla.suse.com/show_bug.cgi?id=1205259
+>
+>>       ret = clk_prepare_enable(vc4_hdmi->hsm_clock);
+>>       if (ret)
+>>           return ret;
+>>
