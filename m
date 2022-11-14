@@ -2,55 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D604D627D96
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 13:21:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0680627DC1
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 13:30:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85DD010E0A8;
-	Mon, 14 Nov 2022 12:20:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 431C210E095;
+	Mon, 14 Nov 2022 12:30:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D79D210E095;
- Mon, 14 Nov 2022 12:20:51 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B68C10E095;
+ Mon, 14 Nov 2022 12:30:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1668428452; x=1699964452;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=rvPmNzCoa8n8SixsXezw6M9E+Ll3YuySZ4TJDTq+LLk=;
- b=EOKVVRvIhiBJ/bfxnSypH2N5XJVuchVpPD+pRE2t3VM/+fLNXGz+qzeb
- KnVagiHooadFxDghXfYmPGLE60fQPf6DO/3rOb1giWjcb3rT7EVFYx8NT
- VqcwI/g2BvrktaqaSNOwbSuAM8SaGh8sN97SZoaz0P7Jkw5Y92+dcVWXu
- 5B+Z/03GR1rPBX+Q7kqR8kvNxVrq5w5R7nw4qAputiIP9lqZgtICzJMNr
- zK3XqnC3JmgxK6kQbXfPAoVFzFEubKgGy0GXhNJIW5BFktjZm1fKcWFkw
- kAhYbtiYps98wQilrZpF6v+OTVftQdxL+rFvfilajSlmynv0EEg+HrvL4 g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="313758172"
-X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; d="scan'208";a="313758172"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Nov 2022 04:20:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="616291804"
-X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; d="scan'208";a="616291804"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
- by orsmga006.jf.intel.com with SMTP; 14 Nov 2022 04:20:46 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 14 Nov 2022 14:20:45 +0200
-Date: Mon, 14 Nov 2022 14:20:45 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 1/7] drm: mark drm.debug-on-dyndbg as BROKEN
- for now
-Message-ID: <Y3IynYl3Ejb6NTAd@intel.com>
-References: <20220912052852.1123868-1-jim.cromie@gmail.com>
- <20221111221715.563020-1-jim.cromie@gmail.com>
- <20221111221715.563020-2-jim.cromie@gmail.com>
+ t=1668429004; x=1699965004;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=1is2tJ0MTFYXoBldpJ/6ZUeOChJfL0yCGXBJv9eNjTs=;
+ b=T9bBE0UHHlEVNEtBz8/E4AnsEHRM0PqaWFT9Eti3zipJsLlFtLjQrwaE
+ ypdLo1w/TfjpgfUYlVICGEgHePRXLWHxKSFGrXCyZDkxX7ggwOwxEMnse
+ btwMotxWeV6A3Lw00+PbnQqJr839JKB9+rl51vOg0XWOWS8PaMrJZ9QMX
+ 6cWtdmg4XpMsjv3mbFEdpdK81+tMtiZxTboL9xy64vrp8pp8FBPmi21Hu
+ tXSENohhAVi6YRiwSKp4RkyrbwWBd5CyQYfM1yID/um6sd+2LGCc/IIlT
+ Qu7rcgjQHaK4Tv+z8ETGIDVQEimOAqMladx5WHH93x9qyvVMedc0vFBG2 g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="311960546"
+X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; d="scan'208";a="311960546"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Nov 2022 04:30:03 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="727509000"
+X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; d="scan'208";a="727509000"
+Received: from bnilawar-desk1.iind.intel.com ([10.145.169.158])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Nov 2022 04:30:02 -0800
+From: Badal Nilawar <badal.nilawar@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 0/5] i915: CAGF and RC6 changes for MTL
+Date: Mon, 14 Nov 2022 18:03:43 +0530
+Message-Id: <20221114123348.3474216-1-badal.nilawar@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221111221715.563020-2-jim.cromie@gmail.com>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,63 +54,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: gregkh@linuxfoundation.org, intel-gfx@lists.freedesktop.org,
- linux@rasmusvillemoes.dk, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, jbaron@akamai.com, seanpaul@chromium.org,
- dri-devel@lists.freedesktop.org, daniel.vetter@ffwll.ch, joe@perches.com,
- intel-gvt-dev@lists.freedesktop.org
+Cc: ashutosh.dixit@intel.com, dri-devel@lists.freedesktop.org,
+ rodrigo.vivi@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 11, 2022 at 03:17:09PM -0700, Jim Cromie wrote:
-> drm.debug-on-dyndbg has a regression, due to a chicken-egg
-> initialization problem:
-> 
-> 1- modprobe i915
->    i915 needs drm.ko, which is loaded 1st
-> 
-> 2- "modprobe drm drm.debug=0x1ff" (virtual/implied)
->    drm.debug is set post-initialization, from boot-args etc
-> 
-> 3- `modprobe i915` finishes
-> 
-> W/O drm.debug-on-dyndbg that just works, because all drm_dbg*
-> callsites use drm_debug_enabled() to check __drm_debug & DEM_UT_<CAT>
-> before printing.
-> 
-> But the whole point of drm.debug-on-dyndbg is to avoid that runtime
-> test, by enabling (at post-modinit) a static-key at each callsite in
-> the just-loaded module.
-> 
-> And since drm.ko is loaded before all dependent modules, none are
-> "just-loaded", and no drm.debug callsites are present yet, except
-> those in drm.ko itself.
-> 
-> Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
-> ---
->  drivers/gpu/drm/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 34f5a092c99e..0d1e59e6bb7e 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -54,6 +54,7 @@ config DRM_DEBUG_MM
->  config DRM_USE_DYNAMIC_DEBUG
->  	bool "use dynamic debug to implement drm.debug"
->  	default y
+This series includes the code changes to get CAGF, RC State and C6
+Residency of MTL.
 
-Could you switch to 'default n' as well? i915 CI actually enables
-BROKEN so that we can test some more experimental stuff which is
-hidden behind BROKEN for normal users.
+v3: Included "Use GEN12 RPSTAT register" patch
 
-> +	depends on BROKEN	# chicken-egg initial enable problem
->  	depends on DRM
->  	depends on DYNAMIC_DEBUG || DYNAMIC_DEBUG_CORE
->  	depends on JUMP_LABEL
-> -- 
-> 2.38.1
+v4:
+  - Rebased
+  - Dropped "Use GEN12 RPSTAT register" patch from this series
+    going to send separate series for it
+
+v5:
+  - Included "drm/i915/gt: Change RC6 residency functions to accept register
+    ID's" based on code review feedback
+
+v6:
+  - Addressed Jani N's review comments on "drm/i915/gt: Change RC6 residency
+    functions to accept register ID's"
+  - Re-add "drm/i915: Use GEN12_RPSTAT register for GT freq" to this series
+
+v7: Rebuild, identical to v6
+
+v8:
+  - Add "drm/i915/rps: Prefer REG_FIELD_GET in intel_rps_get_cagf" to the series
+    (based on Rodrigo's review) to consistently use REG_FIELD_GET
+  - Minor changes to other patches, please see individual patches for changelogs
+
+v9: Rebuild, identical to v8
+
+v10: Address review comments from Rodrigo on Patch 5
+
+v11: Change state name for MTL_CC0 to RC0 in Patch 5
+
+v12: Rebased to latest upstream. Identical to v11.
+
+Ashutosh Dixit (2):
+  drm/i915/rps: Prefer REG_FIELD_GET in intel_rps_get_cagf
+  drm/i915/gt: Use RC6 residency types as arguments to residency
+    functions
+
+Badal Nilawar (2):
+  drm/i915/mtl: Modify CAGF functions for MTL
+  drm/i915/mtl: C6 residency and C state type for MTL SAMedia
+
+Don Hiatt (1):
+  drm/i915: Use GEN12_RPSTAT register for GT freq
+
+ drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c | 88 ++++++++++++++-----
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h       | 22 +++--
+ drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c   | 12 +--
+ drivers/gpu/drm/i915/gt/intel_rc6.c           | 64 +++++++++-----
+ drivers/gpu/drm/i915/gt/intel_rc6.h           | 11 ++-
+ drivers/gpu/drm/i915/gt/intel_rc6_types.h     | 15 +++-
+ drivers/gpu/drm/i915/gt/intel_rps.c           | 51 ++++++++---
+ drivers/gpu/drm/i915/gt/intel_rps.h           |  2 +
+ drivers/gpu/drm/i915/gt/selftest_rc6.c        |  6 +-
+ drivers/gpu/drm/i915/i915_pmu.c               |  9 +-
+ 10 files changed, 198 insertions(+), 82 deletions(-)
 
 -- 
-Ville Syrjälä
-Intel
+2.25.1
+
