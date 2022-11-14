@@ -2,56 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26159628AA7
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 21:42:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AC43628AC8
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 21:49:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BD5B10E319;
-	Mon, 14 Nov 2022 20:42:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 463DF10E318;
+	Mon, 14 Nov 2022 20:49:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com
- [IPv6:2607:f8b0:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8284E10E318;
- Mon, 14 Nov 2022 20:42:22 +0000 (UTC)
-Received: by mail-oi1-x234.google.com with SMTP id n205so12724466oib.1;
- Mon, 14 Nov 2022 12:42:22 -0800 (PST)
+Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com
+ [IPv6:2001:4860:4864:20::2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E2DC10E063;
+ Mon, 14 Nov 2022 20:49:26 +0000 (UTC)
+Received: by mail-oa1-x2c.google.com with SMTP id
+ 586e51a60fabf-13bef14ea06so13912287fac.3; 
+ Mon, 14 Nov 2022 12:49:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=FhLdcZAhUiSSVqXijIiTlHHql4argBY05Hn7xx4K6sw=;
- b=kyWAoQ2hD6W55qcbLsRwPlrTRIQ0nY0WLSqB3VytSiIKvEvQz403hjsSpHt9afF2Nu
- XRUN8MzjE5iYZCsk3fUADAN+/Br97opF5pz9FX1TpuY1eNok0nRKJQrc/Giw2KYi8ShH
- aVnse/+6eousi/GRG/YP9wfN7GWFdRFbBGqekMAi6C721oUrOfjmCWPTlpWKb+shL34h
- SL4xyU6aF9DE0YxpIvUMk45hMhHdLBwzh+YL9N+pjP7D/iu7G/fpmIVp4PF9eowCuqXM
- 5jTK6nf0VJarjCjDD7iX5vxdI5sUKGH72A4XoRRcgGd4pEpf+p9Bf73YfPAlpm2/cKyI
- RhGg==
+ bh=/zs5GFS4zX5I6/Faq+e+SUg4iVEYXlwxarNYXij8AkM=;
+ b=ImPaTYpH20pxonMgoWCi8i5Qs38yYeoMefN7Ur6gCETa7/kYYYRJoRy4jpTu1Vpzn3
+ hWLLOgAeDNUPVTO+5huo0TYVcwfWujK0Aw1JE/wJwtx//tDBo9QX57HtwqowqYi+65MH
+ 3v3CO/F0ngn4sRyzWvOXMehFGzagpS0FBLRlphqddJCIOtVf0miMSb3Qsx6VfbltPPPz
+ rwAVxmLlrArcsS97jBiWyztSuCfBFEehxgy0Ck+9LbqJHYbe//kCtwbRZsJQNO6veN/7
+ J3DXqrlpMQxiGuUN9aDF4KMoC6Ld18+V4aHI/oXi83S5KpWO/sq5NJt+6H9JILlgOhOk
+ 3a/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=FhLdcZAhUiSSVqXijIiTlHHql4argBY05Hn7xx4K6sw=;
- b=z4SMZBoEThWxtnP0C/IKh7SUQ+kTKNaSbz2gurd/i9mwqLc0aFPwInRAcqrZIMqJiX
- Wr0ByLfO8xYJqR9OHv2PDbmsgq4frJblsnkLT2SnxP0coixqWjbSi/sAsjgBSPuClTLt
- L9Dhm2f7pMYX8d6qAQXZIRULz7j0pO9nxJWaSCdm9jJbxTNnfdjdY3u4Fp4InhE7T8hu
- A/tj+p3Ai+RLlLR3b9V8nPECzYKgHO5MPCo8VRFrtjqWbNE9lpX6sMtFxGTrydzeqnFc
- miyUVH2LXssuHhuyvFR/bl27Cw1UWwuwtw/0o+sv7gOSlPui98u8O//pmDrbguodk6Hk
- vPbA==
-X-Gm-Message-State: ANoB5pmW53NJEDsBRFEpqU0x/o6GyB5iEfMGhxE5vyhuhTA2VP6e7/M9
- KAL5hwKkhDsAVWnDnjEw0b/ARYog/FUltTT/wdc=
-X-Google-Smtp-Source: AA0mqf71L3WKc2HDxj3fRALVFx6wOxJhsA0EVIkhcX1I0NDHUAJg5NqqTQf4KI1K7NDQjbxzzxa9EIfAXpYNFkTL9vQ=
-X-Received: by 2002:a54:408e:0:b0:354:46fc:9bb3 with SMTP id
- i14-20020a54408e000000b0035446fc9bb3mr6745235oii.38.1668458541761; Mon, 14
- Nov 2022 12:42:21 -0800 (PST)
+ bh=/zs5GFS4zX5I6/Faq+e+SUg4iVEYXlwxarNYXij8AkM=;
+ b=6XpWGqU2uEo7G+8HDLQeGu5mvDXJbsYKjoIo6gmntpzrI3zUTwlpmZOKOeZGH8S1al
+ jJrDPcJVWcsViDCTRBsNeLFpLYTn8SBJVTsrYxUWg062ZlPjvAJj5CUd5a2GPprLUUik
+ Etcdm/S4IhTTlur1YcLwi2eVl1szY9gUSBHojw3JdgGqR2SbaxGy4DPuZtOLFY6duNdT
+ d7U6Yekm/iHoX0vQFphaUbzDIw/eiERRsDwr7UnOOHoTAZHqM4kkHKhgyNtbISkmfiY3
+ DHilJmEUFy6zu1bc2tO3O1sl7mJ+qAnXVFO96s9/VUEs0SwIkcb/Rra+1OFhpdPVC2bh
+ +iVA==
+X-Gm-Message-State: ANoB5pn9Ha39sQkAzfcz4d91itR0J0wizCDb5tSPGY7geunEM3aNYvsW
+ IQmSQAHI7cdta07/S6fBcBC4nINgZcuM1T4o2is=
+X-Google-Smtp-Source: AA0mqf5Oo2AzjTceHKiJk2Mi+Kzjn7EOsa7GoBX8c8TdPP3ULdrZxu7oElvFZNnKbpBB817J/M/OWPoG7FxpTmV9EYw=
+X-Received: by 2002:a05:6870:b87:b0:13d:51fe:3404 with SMTP id
+ lg7-20020a0568700b8700b0013d51fe3404mr7667561oab.183.1668458965345; Mon, 14
+ Nov 2022 12:49:25 -0800 (PST)
 MIME-Version: 1.0
 References: <20221114194133.1535178-1-robdclark@gmail.com>
- <CAD=FV=WB__v5TPFOqnQMajR6MvLGjLYrKrV+qosJYQFTCpROzQ@mail.gmail.com>
-In-Reply-To: <CAD=FV=WB__v5TPFOqnQMajR6MvLGjLYrKrV+qosJYQFTCpROzQ@mail.gmail.com>
+ <97429a67-e763-4226-828c-8381a2abe9f9@quicinc.com>
+In-Reply-To: <97429a67-e763-4226-828c-8381a2abe9f9@quicinc.com>
 From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 14 Nov 2022 12:42:41 -0800
-Message-ID: <CAF6AEGtshehnG8vPonD=ckH8-xbW+D6ykCrZBWDT6bVh3U0pOw@mail.gmail.com>
+Date: Mon, 14 Nov 2022 12:49:45 -0800
+Message-ID: <CAF6AEGu2soY3Xm_obivcLKqgJ0HVj0H90C7zN5YOTFK0RmRbdA@mail.gmail.com>
 Subject: Re: [PATCH] drm/msm/a6xx: Fix speed-bin detection vs probe-defer
-To: Doug Anderson <dianders@chromium.org>
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,44 +66,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
+Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
  Konrad Dybcio <konrad.dybcio@somainline.org>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
+ Douglas Anderson <dianders@chromium.org>, Sean Paul <sean@poorly.run>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+ freedreno@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 14, 2022 at 12:27 PM Doug Anderson <dianders@chromium.org> wrote:
+On Mon, Nov 14, 2022 at 11:59 AM Akhil P Oommen
+<quic_akhilpo@quicinc.com> wrote:
 >
-> Hi,
->
-> On Mon, Nov 14, 2022 at 11:41 AM Rob Clark <robdclark@gmail.com> wrote:
-> >
+> On 11/15/2022 1:11 AM, Rob Clark wrote:
 > > From: Rob Clark <robdclark@chromium.org>
 > >
 > > If we get an error (other than -ENOENT) we need to propagate that up the
 > > stack.  Otherwise if the nvmem driver hasn't probed yet, we'll end up with
 > > whatever OPP(s) are represented by bit zero.
+> >
+> > Fixed: fe7952c629da ("drm/msm: Add speed-bin support to a618 gpu")
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > ---
+> >   drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > index 7fe60c65a1eb..96de2202c86c 100644
+> > --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > @@ -1956,7 +1956,7 @@ static int a6xx_set_supported_hw(struct device *dev, struct adreno_rev rev)
+> >               DRM_DEV_ERROR(dev,
+> >                             "failed to read speed-bin (%d). Some OPPs may not be supported by hardware",
+> I just noticed and was going to send a similar fix. We should remove ".
+> Some OPPs may not be supported by hardware" here.
 >
-> Can you explain the "whatever OPP(s) are represented by bit zero"
-> part? This doesn't seem to be true because `supp_hw` is initiated to
-> UINT_MAX. If I'm remembering how this all works, doesn't that mean
-> that if we get an error we'll assume all OPPs are OK?
+> Reviewed-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+>
+> Btw, on msm-next-external-fixes + this fix,  I still see boot up issue
+> in herobrine due to drm_dev_alloc() failure with -ENOSPC error.
 
-Oh, that's right.. and even worse!  Ok, stand by for v2
+Could you track it down one level deeper? I wonder if there is some
+missing cleanup in the probe-defer path and we end up failing in
+drm_minor_alloc() or something along those lines
 
-> I'm not saying that I'm against your change, but I think maybe you're
-> misdescribing the old behavior.
+BR,
+-R
+
+> -Akhil.
+> >                             ret);
+> > -             goto done;
+> > +             return ret;
+> >       }
+> >
+> >       supp_hw = fuse_to_supp_hw(dev, rev, speedbin);
 >
-> Speaking of the initialization of supp_hw, if we want to change the
-> behavior like your patch does then we should be able to remove that
-> initialization, right?
->
-> I would also suspect that your patch will result in a compiler
-> warning, at least on some compilers. The goto label `done` is no
-> longer needed, right?
->
-> -Doug
