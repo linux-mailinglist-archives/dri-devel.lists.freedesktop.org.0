@@ -1,48 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28B8C6289D6
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 20:51:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC3986289FA
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 21:00:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5864A10E069;
-	Mon, 14 Nov 2022 19:51:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E85110E104;
+	Mon, 14 Nov 2022 20:00:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from galois.linutronix.de (Galois.linutronix.de
- [IPv6:2a0a:51c0:0:12e:550::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A172310E069
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 19:51:20 +0000 (UTC)
-From: John Ogness <john.ogness@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1668455478;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PfwmN3gCUQ+9TAw/6+bki3KtgpMLZgBklmxHfTgDw4o=;
- b=iMGGVuDKNStmNor0UI3iTAYJ0AUO55XogBClFvM6B+tx0AU7fG2GCFY1lB/NC6Tb3UDkHT
- wjMXw+7S+KKxg6nci2jZINQSPEpVH8/S75n8xpxWvbZB9TxM/doLt1grp8dJYSQNe4gcu2
- DqQPQFAS80ZUU4gsK6dxxarHe2nXdRbTQa10ScIZY9lfZD459n/D+zboV2n4sGBx1lblni
- JnLYd56MPxPaQR/+Mg3f7wjXIhTMsGxmrmPTrYXYKM4AA9jm8M7zDoQPx6vcpAWYDQ7x6x
- bqOsfc0s5Ggddqj32cmnHa27cCEyV5ocQGudIreuupfSYr3csW2a8Zggd4jVgw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1668455478;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PfwmN3gCUQ+9TAw/6+bki3KtgpMLZgBklmxHfTgDw4o=;
- b=dncJ14jVrz1LFCtglE+whx9TPp6GS0vWhsUTBrHNZGXicNcXkFVwyCGWGQtJhi1XDLy5gW
- vPUxufgOngSBI2Bw==
-To: Petr Mladek <pmladek@suse.com>
-Subject: Re: [PATCH printk v4 31/39] printk, xen: fbfront: create/use safe
- function for forcing preferred
-In-Reply-To: <20221114162932.141883-32-john.ogness@linutronix.de>
-References: <20221114162932.141883-1-john.ogness@linutronix.de>
- <20221114162932.141883-32-john.ogness@linutronix.de>
-Date: Mon, 14 Nov 2022 20:57:18 +0106
-Message-ID: <87mt8tfh6x.fsf@jogness.linutronix.de>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5228410E0C4;
+ Mon, 14 Nov 2022 20:00:01 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2AEIo38q032663; Mon, 14 Nov 2022 19:59:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=sQ1nJeVmiRxwoa8l/Qgl0ojbQH6TvWVv+gIlJxEaOcU=;
+ b=UMdArAdjNcVb1t1a0b0OTYp1rm4JK+N5zF9OwUdEXWsc5wa40V/koRSlGiZbv+qoIKRR
+ mDYFxfeHkISseh3b9ivFU9JwT6zDaFJZd48Lc6cQ35D+AWYFBMU2DOxm64OMsFAF6a5i
+ pZUbo6D7rrzQe5ZFQUrdv5ruFSW4kKdD/We6eEETNDVg6flrvKzPciPyonwWaQRlVHMj
+ 6OX1DFHC8Rq58a0VOfQ9BntkX+vdva+THp1L/GRh6EbOIex8ETmDypRuQQ1eva0+mcJx
+ ypiH0NVZ8Qa3sOw+MGwBjeX4KBlu0xI4I/mQPeoPs4fus7lbjIYmV1u9bvLGm16NmYh5 +A== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kut23gfa2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 14 Nov 2022 19:59:55 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2AEJxtc5028627
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 14 Nov 2022 19:59:55 GMT
+Received: from [10.216.50.94] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Mon, 14 Nov
+ 2022 11:59:50 -0800
+Message-ID: <97429a67-e763-4226-828c-8381a2abe9f9@quicinc.com>
+Date: Tue, 15 Nov 2022 01:29:46 +0530
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH] drm/msm/a6xx: Fix speed-bin detection vs probe-defer
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>, <dri-devel@lists.freedesktop.org>
+References: <20221114194133.1535178-1-robdclark@gmail.com>
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+In-Reply-To: <20221114194133.1535178-1-robdclark@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: -M5lczxghDAPoBbgTMz1x9Z-AWpRgyJo
+X-Proofpoint-ORIG-GUID: -M5lczxghDAPoBbgTMz1x9Z-AWpRgyJo
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-14_13,2022-11-11_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 adultscore=0
+ impostorscore=0 suspectscore=0 bulkscore=0 malwarescore=0
+ priorityscore=1501 mlxscore=0 spamscore=0 mlxlogscore=999 phishscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211140141
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,104 +82,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juergen Gross <jgross@suse.com>, linux-fbdev@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
- linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Sergey Senozhatsky <senozhatsky@chromium.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Tom Rix <trix@redhat.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Douglas
+ Anderson <dianders@chromium.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 11/15/2022 1:11 AM, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+>
+> If we get an error (other than -ENOENT) we need to propagate that up the
+> stack.  Otherwise if the nvmem driver hasn't probed yet, we'll end up with
+> whatever OPP(s) are represented by bit zero.
+>
+> Fixed: fe7952c629da ("drm/msm: Add speed-bin support to a618 gpu")
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index 7fe60c65a1eb..96de2202c86c 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -1956,7 +1956,7 @@ static int a6xx_set_supported_hw(struct device *dev, struct adreno_rev rev)
+>   		DRM_DEV_ERROR(dev,
+>   			      "failed to read speed-bin (%d). Some OPPs may not be supported by hardware",
+I just noticed and was going to send a similar fix. We should remove ". 
+Some OPPs may not be supported by hardware" here.
 
-After more detailed runtime testing I discovered that I didn't re-insert
-the console to the correct place in the list. More below...
+Reviewed-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
 
-On 2022-11-14, John Ogness <john.ogness@linutronix.de> wrote:
-> diff --git a/include/linux/console.h b/include/linux/console.h
-> index f716e1dd9eaf..9cea254b34b8 100644
-> --- a/include/linux/console.h
-> +++ b/include/linux/console.h
-> @@ -291,6 +291,7 @@ enum con_flush_mode {
->  };
->  
->  extern int add_preferred_console(char *name, int idx, char *options);
-> +extern void console_force_preferred_locked(struct console *con);
->  extern void register_console(struct console *);
->  extern int unregister_console(struct console *);
->  extern void console_lock(void);
-> diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
-> index e770b1ede6c9..dff76c1cef80 100644
-> --- a/kernel/printk/printk.c
-> +++ b/kernel/printk/printk.c
-> @@ -3461,6 +3462,48 @@ int unregister_console(struct console *console)
->  }
->  EXPORT_SYMBOL(unregister_console);
->  
-> +/**
-> + * console_force_preferred_locked - force a registered console preferred
-> + * @con: The registered console to force preferred.
-> + *
-> + * Must be called under console_list_lock().
-> + */
-> +void console_force_preferred_locked(struct console *con)
-> +{
-> +	struct console *cur_pref_con;
-> +
-> +	if (!console_is_registered_locked(con))
-> +		return;
-> +
-> +	cur_pref_con = console_first();
-> +
-> +	/* Already preferred? */
-> +	if (cur_pref_con == con)
-> +		return;
-> +
-> +	/*
-> +	 * Delete, but do not re-initialize the entry. This allows the console
-> +	 * to continue to appear registered (via any hlist_unhashed_lockless()
-> +	 * checks), even though it was briefly removed from the console list.
-> +	 */
-> +	hlist_del_rcu(&con->node);
-> +
-> +	/*
-> +	 * Ensure that all SRCU list walks have completed so that the console
-> +	 * can be added to the beginning of the console list and its forward
-> +	 * list pointer can be re-initialized.
-> +	 */
-> +	synchronize_srcu(&console_srcu);
-> +
-> +	con->flags |= CON_CONSDEV;
-> +	WARN_ON(!con->device);
-> +
-> +	/* Only the new head can have CON_CONSDEV set. */
-> +	console_srcu_write_flags(cur_pref_con, cur_pref_con->flags & ~CON_CONSDEV);
-> +	hlist_add_behind_rcu(&con->node, console_list.first);
+Btw, on msm-next-external-fixes + this fix,  I still see boot up issue 
+in herobrine due to drm_dev_alloc() failure with -ENOSPC error.
 
-This is adding the console as the 2nd item. It should be the new
-head. The patch below fixes it.
+-Akhil.
+>   			      ret);
+> -		goto done;
+> +		return ret;
+>   	}
+>   
+>   	supp_hw = fuse_to_supp_hw(dev, rev, speedbin);
 
-I have done careful runtime testing with this fixup. After the
-force_preferred, the console is the new head and sending data to
-/dev/console redirects to that console.
-
-It would be nice if we could fold this in. Sorry.
-
-John Ogness
-
-diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
-index 8d635467882f..4b77586cf4cb 100644
---- a/kernel/printk/printk.c
-+++ b/kernel/printk/printk.c
-@@ -3494,7 +3494,7 @@ void console_force_preferred_locked(struct console *con)
- 
- 	/* Only the new head can have CON_CONSDEV set. */
- 	console_srcu_write_flags(cur_pref_con, cur_pref_con->flags & ~CON_CONSDEV);
--	hlist_add_behind_rcu(&con->node, console_list.first);
-+	hlist_add_head_rcu(&con->node, &console_list);
- }
- EXPORT_SYMBOL(console_force_preferred_locked);
- 
