@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35393627CBB
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 12:46:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A094627CC0
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 12:46:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A38D10E03F;
-	Mon, 14 Nov 2022 11:46:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D79F10E077;
+	Mon, 14 Nov 2022 11:46:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB6F910E03F
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 11:46:22 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id k2so27674999ejr.2
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 03:46:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=JcA3WTxOLVsx9HyWrWLCEt+YOch5fZ11V6/Dj+y46aA=;
- b=J5IbFNRIl4mZrIOBZFbbul4vZSjr+pCopQ7xC7t7IOFNWt6LK4uxEvTlJnvi3DcCwg
- Mj0qHZIjwFJVNplqULbN/194xLESjkxtAhp/nuowYUfaRBLpXSknAajP3SX6Dgrzv59V
- yKghZNr1yjbX3bREjwDCaVqXxzRKTLp2WxROFiJm78qSAUevR0I+XZ0yL2AhwA5Pa8OC
- Ar++AW2/6pNlTjaFzQ+AU5BsmOCluF6KQGAxfnIzvKmg3YcHdqbB1xKailKTBo/9bQke
- f1lNIWQKey8NrtlSX6lZgrcC1R5huFLvUHeJ1g7l+kQtdhx1JHnLlDYNnPfod7M6u2NM
- 5PWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=JcA3WTxOLVsx9HyWrWLCEt+YOch5fZ11V6/Dj+y46aA=;
- b=2iGHhr9ITz9hZJjeSllAedW743MznvOTSC3MkFJGfWFXdkfFrLnKGfWArxDAWgS8Bf
- 8ff07Zrs294RycuLsfdR98ReF6c+j47CQTOHM4rVu5zPtUTL1azfWYurHk8R6GImJLC0
- WK/VEsQ/i1SYtdjc5TfsQDhFk2MOwozB8Zoc5gtQc0M8XO3I7jWnkFY3EIXuoQpDLUP+
- Hjn0KyVI8TLHAq8LyhAcHmonkgWc1KI+9ZJHvA3boh3CExSMN6KcyFaNQrtkNKOByGVp
- 96cTCVmXFPLJC6uh0KqhinOvsfSrnyGXkBJ1Ano2tX7fnd8PYR0+k96SZMSXGvy/3YFd
- cKOg==
-X-Gm-Message-State: ANoB5pmIMoZIk1PAPrGTbfOXP1znpC1Langs2UqT6qBwPUAPpJiinKH1
- WIyOIHX69ejYssmO81TedAvYYk97mOtioZHMvyo/fQ==
-X-Google-Smtp-Source: AA0mqf55Kgh4Bv2j+bcln0t870AQldqCRbuXxJ4UGCTGQspRwPvvgmh0WJDtUtbiPYrjd10rLRWtolMp2Yb6CagXlUk=
-X-Received: by 2002:a17:906:4911:b0:7ad:9891:8756 with SMTP id
- b17-20020a170906491100b007ad98918756mr10170402ejq.203.1668426381321; Mon, 14
- Nov 2022 03:46:21 -0800 (PST)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4A3F10E068;
+ Mon, 14 Nov 2022 11:46:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1668426388; x=1699962388;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=QnB8NT/BvHFT1lucPppdmRjJR8BHn93fAYcT0w+9YvI=;
+ b=AkgYO3JMr3J6LVs5BKfbckGqH8VblL3/g+IHmhEJzZF4C+Lkb1JdiARy
+ hZG4esDLvUVHe8TNvFWeMeWL/dOHzRk3v6KJ0k8lFtic8KTV+bksPamk5
+ ZKbYJg7+lLj46E56bPd0pKO3RycWTL32/pczWZ5yiTj9izJeofL6J2loP
+ kpn+iQ6UGYDd2Pny+KKQZVJAyiom7GMGB9MFGPVAFdN545IxNRryqtwN0
+ aiuniI+kMmx2obkIx5qzW2wdpSGIuyDxdkYIu5CwfJdQ7FKEGCcTt1wRB
+ OsZ+1g9hdSrTwjjbLf9VKNhtUfD1NxB61o/M5B/CtAM+ROANMVJKiJzbh Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="291664564"
+X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; d="scan'208";a="291664564"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Nov 2022 03:46:27 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="671529151"
+X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; d="scan'208";a="671529151"
+Received: from tursulin-desk.ger.corp.intel.com (HELO [10.213.208.165])
+ ([10.213.208.165])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Nov 2022 03:46:24 -0800
+Message-ID: <293aa829-df02-8049-9225-964b0c93e107@linux.intel.com>
+Date: Mon, 14 Nov 2022 11:46:22 +0000
 MIME-Version: 1.0
-References: <20221111203130.9615-1-macroalpha82@gmail.com>
-In-Reply-To: <20221111203130.9615-1-macroalpha82@gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 14 Nov 2022 12:46:10 +0100
-Message-ID: <CACRpkdatn3SFaSDwj33QVvx_B-020TaTDoPz3p_9K=EiT7A_7w@mail.gmail.com>
-Subject: Re: [PATCH V5 0/3] drm/panel: Add NewVision NV3051D Panels
-To: Chris Morgan <macroalpha82@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Simplify internal helper function
+ signature
+Content-Language: en-US
+To: Mika Kuoppala <mika.kuoppala@linux.intel.com>,
+ Intel-gfx@lists.freedesktop.org
+References: <20221110124633.3135026-1-tvrtko.ursulin@linux.intel.com>
+ <87pmduho0x.fsf@mkuoppal-desk>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <87pmduho0x.fsf@mkuoppal-desk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,32 +64,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
- dri-devel@lists.freedesktop.org, robh+dt@kernel.org, thierry.reding@gmail.com,
- Chris Morgan <macromorgan@hotmail.com>, sam@ravnborg.org
+Cc: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 11, 2022 at 9:31 PM Chris Morgan <macroalpha82@gmail.com> wrote:
 
-> From: Chris Morgan <macromorgan@hotmail.com>
->
-> Add the NewVision NV3051D panel as found on the Anbernic RG353P and
-> RG353V. The underlying LCD panel itself is unknown (the NV3051D is
-> the controller), so the device name is used for the panel with a
-> fallback to the driver IC.
->
-> Changes from V4:
->  - Removed "prepared" as its tracked by the framework.
->  - Use mipi_dsi_dcs_write_seq instead of custom implementation.
->  - Changed devm_gpiod_get_optional to assert GPIO as high at probe so
->    it is held in reset on suggestion from maintainer.
->  - Removed requirement for vdd-supply in documentation.
->  - Added description in documentation for reset gpio to note it should
->    be active low.
+On 10/11/2022 14:39, Mika Kuoppala wrote:
+> Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> writes:
+> 
+>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>
+>> Since we are now storing the GT backpointer in the wa list we can drop the
+>> explicit struct intel_gt * argument to wa_list_apply.
+> 
+> There is room for more dropping, all the platform lists inits.
 
-v5 looks good, patches applied to drm-misc-next and pushed, I had to fix
-a minor checkpatch complaint in the driver but it was trivial.
+Indeed! I'll put that on the back burner, time permitting.
 
-Yours,
-Linus Walleij
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> 
+> Reviewed-by: Mika Kuoppala <mika.kuoppala@linux.intel.com>
+
+Thanks Mika, pushed!
+
+Regards,
+
+Tvrtko
