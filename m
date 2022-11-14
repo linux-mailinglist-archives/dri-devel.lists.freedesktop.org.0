@@ -1,56 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 104196273AC
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 01:03:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5316B6273E1
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 01:34:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99FE210E067;
-	Mon, 14 Nov 2022 00:03:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65D8B10E256;
+	Mon, 14 Nov 2022 00:34:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A56A10E197
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 00:03:13 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 8093A60DE8
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 00:03:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF2F2C433D6
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 00:03:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1668384191;
- bh=Y6+GesINiuVpEDuqYdsy5iev4MVdI1Uu35S43Ufbsfk=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=pHR9XXS3jciNgcTlJe4f8U6qRQubEv/9wFdbpipVtW9H3ufdxALFDsKKrsPl8RTNH
- veSGQPkphxJU4IyIsY5qFZN4s953ZZYAeVaoeorksvV/kAX7oXZ6FGWAqFE8QCTgF2
- S4MOashNnZBGTtvwa9S62atATbfCtC/aMFdDB0viGiXrxOpDOQLV0WszHer8MxKxzt
- hOjzInM+pQN5E/J1iocH8WKSt3DLAgmKA0uEBoH5jHaqSR0+VqzMUBhhUW79b4AukJ
- UbEBVMlcBNgzjbXEKRvRgfxbRzbHtOJPD8pQdjKdOmPmMMrQbYl65DscvL4KR6Es5k
- pAJCtg/UF6/bw==
-Received: by mail-ot1-f45.google.com with SMTP id
- p10-20020a9d76ca000000b0066d6c6bce58so2785315otl.7
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Nov 2022 16:03:11 -0800 (PST)
-X-Gm-Message-State: ANoB5pmegU503admSFDTXFrToKDn/NuBN3oa1RKnlq4eD5ReoL/BCk9W
- d37zgVUwfjFpUxsjVuqpZk6ie7Lwjc7rqKH+Eg==
-X-Google-Smtp-Source: AA0mqf4gu4W/Men7HSJ8Gnbjz5l/uOk6f5sN2spmarR43u5YDzmkrtAca4fKVNC6ZOOoT9otESBFHAQKHzDDPV0mrKQ=
-X-Received: by 2002:a9d:4b02:0:b0:661:b04c:41d9 with SMTP id
- q2-20020a9d4b02000000b00661b04c41d9mr5409278otf.92.1668384190909; Sun, 13 Nov
- 2022 16:03:10 -0800 (PST)
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF28610E255
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 00:34:37 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 73892320090B;
+ Sun, 13 Nov 2022 19:34:34 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Sun, 13 Nov 2022 19:34:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+ cc:cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1668386074; x=
+ 1668472474; bh=JWCaNPNku2WcRjI/vXx0mmk36Axrc/QAZnO/9E8Yb7w=; b=y
+ y22+SBeTE7NzkvoXCyHhjM6xpNFCWAvcSNd7siC+iuQK1hQ4ib7ndqvq7aQ93RuZ
+ vaxIQukHGGc8/k438DT8lYuCMpbAW3SbBEjpYd/MXl2bHDtpWZi66EFKqxxptUAY
+ 3SdYyYXrso+ps7tWXUk8kGz0+g0AOWODdk6RpdKvIIY0gUbIIBVxjA4uN1oeHPJY
+ MDNgt1MoKZF1YLfeiMDHn0YMqAQeWWBMX4o5wd8H/yEJUMu+LzC7ol1WLg/ZtoQ5
+ FdAWhQPiKSL0Q3LeERpjFygM0TL30WBDKO/9OjFxOd0mA/YI7DkSF5Lp/HGKVbxE
+ FESRdYk5foVfDSGVkcabA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1668386074; x=
+ 1668472474; bh=JWCaNPNku2WcRjI/vXx0mmk36Axrc/QAZnO/9E8Yb7w=; b=n
+ Eno6uAakEAYLLVaDHC0LEFNZrsvt7InkYfGKW02JsZNoB5NYmYHcpzxjkGEkUJOC
+ usJ1qC7bxoei3mN//citsERdGVUMDKuKAdT3Ax24CWCvDsJzTUgdyUmbIWUNO7/m
+ FJrUxQTpqpg5tF95DcIP3KFH099V2Y7gxv9mNrxreCPtEM3Bs6/yQw7isDE1T4tO
+ WqnaL3pVj1F7JPL++G0eRFSxJk8+LeTq+gCYnKa6mhiu45IjZ7X0kcIRqZDX+AdN
+ 5kCodwAIrd/c9849xAx3lG3ZhQZkXBaLOo0AAJlw0e2ilqWWMaEqvMmALbDcHOOg
+ y0qUNIBa4wr9ZXDaMJ88w==
+X-ME-Sender: <xms:GY1xYyaNF6NDggmi_3DifoUnlfwV4I6jULPz-Qh27t3_30yH2ZK_DA>
+ <xme:GY1xY1ZZ1fSgKXsI1lizha-HCdDNChZNe3FT0kn0-Cs9rR4CAot1Z8y4Pf8PcOQJD
+ n99cpV7olspEjSg1A>
+X-ME-Received: <xmr:GY1xY8-lwtN8I2jZhb-n2YEzNwcKxcteXbMu2clAfJa-o4Ziz-uRWLMTjrDr_wTsD0PhTuA2bb_dMLchpyHQrK9IL-mnEAIGtC5S8rtRh6fLOM2G_B-jeiU6eg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgedugddvfecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefkffggfgfuvfevfhfhjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
+ vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+ ftrfgrthhtvghrnhepkeejleelfeeitdfhtdfgkeeghedufeduueegffdvhfdukeelleef
+ tdetjeehuddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+ homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:GY1xY0r_j6w2S0xGO5los7x39XP_Kk5v2-pOaGdTyDJ_imH7FyT5Nw>
+ <xmx:GY1xY9ryJ5mbbNHysbNscHlyIVJ9XypKCs901i7SfJTRl-cw4olKdA>
+ <xmx:GY1xYyTfEIhVfFoyUMrxtWUiPei6J5QeeAIQinB9Cpqid9jLCFuh6g>
+ <xmx:Go1xY6jvOI51jgUTtVrqrARqAYXuX0AB3vFDsCmRPBLIaG_8kQTIkg>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 13 Nov 2022 19:34:32 -0500 (EST)
+Message-ID: <22ca0f6f-1e2e-3dc0-46f8-8399889c240c@sholland.org>
+Date: Sun, 13 Nov 2022 18:34:31 -0600
 MIME-Version: 1.0
-References: <20221102154712.540548-1-nathan@kernel.org>
-In-Reply-To: <20221102154712.540548-1-nathan@kernel.org>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Mon, 14 Nov 2022 08:02:54 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_9nH8tW6yP=3giQmSKQjnQ+pmaGRQ0N3_ODFg1uS-rvCA@mail.gmail.com>
-Message-ID: <CAAOTY_9nH8tW6yP=3giQmSKQjnQ+pmaGRQ0N3_ODFg1uS-rvCA@mail.gmail.com>
-Subject: Re: [PATCH] drm/mediatek: Fix return type of
- mtk_hdmi_bridge_mode_valid()
-To: Nathan Chancellor <nathan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH 06/26] drm: sun4i: Use the dev_pm_ops provided by modeset
+ helper
+Content-Language: en-US
+To: Paul Cercueil <paul@crapouillou.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20221107175106.360578-1-paul@crapouillou.net>
+ <20221107175106.360578-7-paul@crapouillou.net>
+From: Samuel Holland <samuel@sholland.org>
+In-Reply-To: <20221107175106.360578-7-paul@crapouillou.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,83 +91,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Kees Cook <keescook@chromium.org>,
- Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, patches@lists.linux.dev,
- Sami Tolvanen <samitolvanen@google.com>, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>, dri-devel@lists.freedesktop.org,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
- Hi, Nathan:
-
-Nathan Chancellor <nathan@kernel.org> =E6=96=BC 2022=E5=B9=B411=E6=9C=882=
-=E6=97=A5 =E9=80=B1=E4=B8=89 =E6=99=9A=E4=B8=8A11:47=E5=AF=AB=E9=81=93=EF=
-=BC=9A
->
-> With clang's kernel control flow integrity (kCFI, CONFIG_CFI_CLANG),
-> indirect call targets are validated against the expected function
-> pointer prototype to make sure the call target is valid to help mitigate
-> ROP attacks. If they are not identical, there is a failure at run time,
-> which manifests as either a kernel panic or thread getting killed. A
-> proposed warning in clang aims to catch these at compile time, which
-> reveals:
->
->   drivers/gpu/drm/mediatek/mtk_hdmi.c:1407:16: error: incompatible functi=
-on pointer types initializing 'enum drm_mode_status (*)(struct drm_bridge *=
-, const struct drm_display_info *, const struct drm_display_mode *)' with a=
-n expression of type 'int (struct drm_bridge *, const struct drm_display_in=
-fo *, const struct drm_display_mode *)' [-Werror,-Wincompatible-function-po=
-inter-types-strict]
->           .mode_valid =3D mtk_hdmi_bridge_mode_valid,
->                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
->   1 error generated.
->
-> ->mode_valid() in 'struct drm_bridge_funcs' expects a return type of
-> 'enum drm_mode_status', not 'int'. Adjust the return type of
-> mtk_hdmi_bridge_mode_valid() to match the prototype's to resolve the
-> warning and CFI failure.
-
-Applied to mediatek-drm-next [1], thanks.
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
-log/?h=3Dmediatek-drm-next
-
-Chun-Kuang.
-
->
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1750
-> Reported-by: Sami Tolvanen <samitolvanen@google.com>
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+On 11/7/22 11:50, Paul Cercueil wrote:
+> Use the drm_mode_config_pm_ops structure exported by
+> drm_modeset_helper.c, which provides the exact same PM callbacks.
+> 
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 > ---
->  drivers/gpu/drm/mediatek/mtk_hdmi.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediat=
-ek/mtk_hdmi.c
-> index 4c80b6896dc3..6e8f99554f54 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-> @@ -1202,9 +1202,10 @@ static enum drm_connector_status mtk_hdmi_detect(s=
-truct mtk_hdmi *hdmi)
->         return mtk_hdmi_update_plugged_status(hdmi);
->  }
->
-> -static int mtk_hdmi_bridge_mode_valid(struct drm_bridge *bridge,
-> -                                     const struct drm_display_info *info=
-,
-> -                                     const struct drm_display_mode *mode=
-)
-> +static enum drm_mode_status
-> +mtk_hdmi_bridge_mode_valid(struct drm_bridge *bridge,
-> +                          const struct drm_display_info *info,
-> +                          const struct drm_display_mode *mode)
->  {
->         struct mtk_hdmi *hdmi =3D hdmi_ctx_from_bridge(bridge);
->         struct drm_bridge *next_bridge;
->
-> base-commit: 9abf2313adc1ca1b6180c508c25f22f9395cc780
-> --
-> 2.38.1
->
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Chen-Yu Tsai <wens@csie.org>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Samuel Holland <samuel@sholland.org>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-sunxi@lists.linux.dev
+> ---
+>  drivers/gpu/drm/sun4i/sun4i_drv.c | 24 ++----------------------
+>  1 file changed, 2 insertions(+), 22 deletions(-)
+
+Reviewed-by: Samuel Holland <samuel@sholland.org>
+
