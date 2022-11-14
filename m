@@ -1,82 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBCF1627756
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 09:20:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11A1462776C
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 09:21:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61ECD10E275;
-	Mon, 14 Nov 2022 08:19:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0724010E07D;
+	Mon, 14 Nov 2022 08:21:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A42910E07D
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 08:19:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668413989;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+Yxpc0+M0IPWKSXHEyC3cyneUXB0jkXapCGIc8Lc3oY=;
- b=coBZKsLASCJ0W/Xri/PP4k349+TObPPC4zYd6ZRM/AFPd/0Qtm8VKVFxg+zxoIvq9U0aJy
- 5x1PEuaEWTos3ftUy6CEhv0x0HrwoHJ4vVejmvybjMC1zd3HMitdIQpThfPJQjLfPjrdqo
- rpfwCjOXvI5Ix/eyowuEP+H1lt4cj6A=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-256-YdvBVAjANOeh7O1fYTRiOQ-1; Mon, 14 Nov 2022 03:19:47 -0500
-X-MC-Unique: YdvBVAjANOeh7O1fYTRiOQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- y20-20020a056402271400b004630f3a32c3so7714416edd.15
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 00:19:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+Yxpc0+M0IPWKSXHEyC3cyneUXB0jkXapCGIc8Lc3oY=;
- b=skZEYGZTn8gGlLKWVPnSbHiP/HIsF9TTURqasrdM+Ny3fw3I16ROuL1v2mwFBvoScJ
- 12n+LY3LOI1ppZ6g24sOMl/v0hVT9HJ8l9lYCJ7k81Q8A8dd3J25TWDYr8QEF/MLVIaA
- XyfgZQDuzc/5PEzoH5AmLZ/Jq0XNPko+szTqEhIdjfourlu3aNOnKTgSN334ovu/uELB
- 6u68sC0AazdjfkN9KxJZxZoa/w9/+36wlGI+x7DOzvGr3TCgp9Y0xRgIf665etYH5wDo
- AmTl/nAMzvlJYvAZqOGrp1nxlhnPV4GyEBUBTx967D7Uf4cQFIkeviDcRvRC89RzvBtc
- PuuA==
-X-Gm-Message-State: ANoB5pkayDRU4I534vOJHhmS5ukYvcedFpnTdM7LpN4Z8WLjDkQW/K9Z
- we1gZ6VxKWkcaX2hdbiN5gcdSHP1fWdByk7m4eNFhiSuoPcfGr/Ktk7/3UwSm9zP4CZODMY46qp
- 9waHs6pPWBkfEjHiYiw5rp2+IX/4f
-X-Received: by 2002:a17:906:5a6f:b0:7ad:8bd5:b7df with SMTP id
- my47-20020a1709065a6f00b007ad8bd5b7dfmr9198464ejc.57.1668413986799; 
- Mon, 14 Nov 2022 00:19:46 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf51p2NOcFiZ3Q4gnFIwqjGdYGaCfgTUB0YvTQf/RWWvsQXFVt45qefdd8RjE0Fo2ogYIQGtEA==
-X-Received: by 2002:a17:906:5a6f:b0:7ad:8bd5:b7df with SMTP id
- my47-20020a1709065a6f00b007ad8bd5b7dfmr9198451ejc.57.1668413986549; 
- Mon, 14 Nov 2022 00:19:46 -0800 (PST)
-Received: from [10.40.98.142] ([78.108.130.194])
- by smtp.gmail.com with ESMTPSA id
- o6-20020a170906768600b007a6c25819f1sm3897632ejm.145.2022.11.14.00.19.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Nov 2022 00:19:45 -0800 (PST)
-Message-ID: <33ef1207-aad7-b7cd-61ac-327e9afb0699@redhat.com>
-Date: Mon, 14 Nov 2022 09:19:44 +0100
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5E6710E07D
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 08:21:41 +0000 (UTC)
+Received: from dggpeml500024.china.huawei.com (unknown [172.30.72.55])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4N9j275g9NzmW1d;
+ Mon, 14 Nov 2022 16:21:19 +0800 (CST)
+Received: from huawei.com (10.175.112.208) by dggpeml500024.china.huawei.com
+ (7.185.36.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Mon, 14 Nov
+ 2022 16:21:38 +0800
+From: Yuan Can <yuancan@huawei.com>
+To: <thierry.reding@gmail.com>, <sam@ravnborg.org>, <airlied@gmail.com>,
+ <daniel@ffwll.ch>, <f.fainelli@gmail.com>,
+ <bcm-kernel-feedback-list@broadcom.com>, <architt@codeaurora.org>,
+ <eric@anholt.net>, <dri-devel@lists.freedesktop.org>,
+ <linux-rpi-kernel@lists.infradead.org>,
+ <linux-arm-kernel@lists.infradead.org>
+Subject: [PATCH] drm/panel/raspberrypi-touchscreen: Fix error handling in
+ rpi_touchscreen_init()
+Date: Mon, 14 Nov 2022 08:19:56 +0000
+Message-ID: <20221114081956.37853-1-yuancan@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: linux-next: manual merge of the drm-intel tree with Linus' tree
-To: Stephen Rothwell <sfr@canb.auug.org.au>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-References: <20221114102327.6d53341e@canb.auug.org.au>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20221114102327.6d53341e@canb.auug.org.au>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.112.208]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpeml500024.china.huawei.com (7.185.36.10)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,41 +49,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>
+Cc: yuancan@huawei.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+A problem about modprobe panel-raspberrypi-touchscreen is triggered with
+the following log given:
 
-On 11/14/22 00:23, Stephen Rothwell wrote:
-> Hi all,
-> 
-> Today's linux-next merge of the drm-intel tree got a conflict in:
-> 
->   drivers/gpu/drm/i915/display/intel_backlight.c
-> 
-> between commit:
-> 
->   b1d36e73cc1c ("drm/i915: Don't register backlight when another backlight should be used (v2)")
-> 
-> from Linus' tree and commit:
-> 
->   801543b2593b ("drm/i915: stop including i915_irq.h from i915_trace.h")
-> 
-> from the drm-intel tree.
+ [  542.980748] Error: Driver 'rpi-ts-dsi' is already registered, aborting...
 
-This is weird, because the:
+And with this log printed, the panel_raspberrypi_touchscreen is listed by
+lsmod, rmmod on it can trigger the WARN of "Unexpected driver unregister".
 
-   b1d36e73cc1c ("drm/i915: Don't register backlight when another backlight should be used (v2)")
+The reason is that the return value of mipi_dsi_driver_register() and
+i2c_add_driver() is not checked in rpi_touchscreen_init(), if
+i2c_add_driver() failed, the rpi_touchscreen_dsi_driver is never
+unregistered, and next time when install this module, the
+mipi_dsi_driver_register() is failed but rpi_touchscreen_init() returns 0,
+leading to the panel_raspberrypi_touchscreen listed by lsmod.
 
-commit is in 6.1-rc1, so there can only be a conflict it 6.1-rc1 has not
-been back-merged into drm-intel yet ?
+Call graph of modprobe panel-raspberrypi-touchscreen at the first time:
+ rpi_touchscreen_init()
+   mipi_dsi_driver_register() # register rpi_touchscreen_dsi_driver
+   i2c_add_driver()
+     driver_register()
+       bus_add_driver()
+         priv = kzalloc(...) # OOM happened
+ # return without unregister rpi_touchscreen_dsi_driver
 
-Regards,
+Call graph of retrying modprobe panel-raspberrypi-touchscreen:
+ rpi_touchscreen_init()
+   mipi_dsi_driver_register() # Error message printed, register failed!
+   i2c_add_driver() # succeed and return
 
-Hans
+Fix by checking the return value of both functions and unregister
+rpi_touchscreen_dsi_driver if i2c_add_driver() failed.
+
+Fixes: 2f733d6194bd ("drm/panel: Add support for the Raspberry Pi 7" Touchscreen.")
+Signed-off-by: Yuan Can <yuancan@huawei.com>
+---
+ .../gpu/drm/panel/panel-raspberrypi-touchscreen.c   | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c b/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
+index 79f852465a84..9f3d0fedc3f2 100644
+--- a/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
++++ b/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
+@@ -497,8 +497,17 @@ static struct i2c_driver rpi_touchscreen_driver = {
+ 
+ static int __init rpi_touchscreen_init(void)
+ {
+-	mipi_dsi_driver_register(&rpi_touchscreen_dsi_driver);
+-	return i2c_add_driver(&rpi_touchscreen_driver);
++	int ret;
++
++	ret = mipi_dsi_driver_register(&rpi_touchscreen_dsi_driver);
++	if (ret)
++		return ret;
++
++	ret = i2c_add_driver(&rpi_touchscreen_driver);
++	if (ret)
++		mipi_dsi_driver_unregister(&rpi_touchscreen_dsi_driver);
++
++	return ret;
+ }
+ module_init(rpi_touchscreen_init);
+ 
+-- 
+2.17.1
 
