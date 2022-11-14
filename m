@@ -2,53 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE904627713
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 09:07:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ECF0627716
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 09:07:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 695DC10E271;
-	Mon, 14 Nov 2022 08:07:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E4EB10E272;
+	Mon, 14 Nov 2022 08:07:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
- [IPv6:2607:f8b0:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED1D910E297
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 08:07:08 +0000 (UTC)
-Received: by mail-pf1-x42d.google.com with SMTP id b29so10267211pfp.13
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 00:07:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=4t/BoIsCViJGhjVIcNUi0sYe9H44xsAz/HtONZdW/v4=;
- b=VHNrJTq150PaoEG9nXYxs2RCJKQ2I9wNgzT/MRyXy6ix8bazIFcWEtNsUfbyDuloPx
- +CWl39jC8fRHczsUUIFYm+8RNk0/ytlwXZx1sCruqNW4hSnufbevbtwRVhE2cl3bTv1G
- KldHBcg5XCY/s7SQu+N4Zz3q3N7ct5CiTty4U=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E96C510E272
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 08:07:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668413262;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Sc3OD/33LVOTPB4+NFeZBiaw904aPGsKctdDvYBcdUs=;
+ b=SeAv1Ms+c08rDc/o0xlYib1ri6FsJPXDtS/28wBusHLgXOTso7dso1fKsVTDJ5CHvHpKx0
+ dPfEmadO9EhEyL9S+8eoXJhVdMACF6U0usS4a1bm+Gj0cRIwnA4Mya3srjR6qOAdgk4Ow7
+ cL0auSI083h+/d/P5WCXUD4HMNsl16A=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-156-RRnzpCjCMZa3J3vAWhZb2w-1; Mon, 14 Nov 2022 03:07:38 -0500
+X-MC-Unique: RRnzpCjCMZa3J3vAWhZb2w-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ p14-20020a05600c204e00b003cf4cce4da5so2657647wmg.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 00:07:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=4t/BoIsCViJGhjVIcNUi0sYe9H44xsAz/HtONZdW/v4=;
- b=CpYK++tklfCw4MmUw0Kh0lVYgaiDOQQhOAoJTuChdV0wzY25p6x2FFbt3Q2ENRkrd+
- O0YsbLnfywynBu0yCcHMj/0MMrNswdShLM7/lRQr77m9UnCb4GiqPXegTRx8qZc+Hsfj
- 1XP7IwfsZdg4qqDAlwFH5AJyRrggiFBsWokegMVsw6A6uRQjBeGJeqNJyjHsA1YXXlhO
- 1svhDSP7k46w4lRWpfrNvynuVOhV0oQ4SoA9djwKc5KOwBJMCCUgXKT3k80rdIth5Hna
- +4e0bOUYTM4TokT3HaB6FUHc+64b+Be8F/+oxB0UMYrcxFGULAN01GeDIb/59p7nY/ck
- I/ww==
-X-Gm-Message-State: ANoB5pk/H50PaCohl5pkXrogPWxsmQ4cCIiCn5iOe1BgQVHVI/Vo8Ns0
- rubbqQg93qxfxTCqS4zZ2Yx5X/Uv+JUHA4VnC3dqCA==
-X-Google-Smtp-Source: AA0mqf4aJRNb7lgu1jDUZ6VRUvPaQjM/np33yOCyyKTRuWTMAV48uov2RojHXaeQlMhaWZki3iPd6jpPIH0arKCkCoM=
-X-Received: by 2002:a65:4984:0:b0:470:8e:6003 with SMTP id
- r4-20020a654984000000b00470008e6003mr11017815pgs.19.1668413228425; 
- Mon, 14 Nov 2022 00:07:08 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:organization:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Sc3OD/33LVOTPB4+NFeZBiaw904aPGsKctdDvYBcdUs=;
+ b=ICGG0A3Q1/850SVwrRaZeZDMqSXCKGWPg2jhBmZk+ov6JVvZQuK/37GlGx4j+ZnOZf
+ aX2QJstlTFUawht9ySyDkkaemoMBRNsSoi/JwIlgoOT03w7pqJUvXUNzsv2isAVPyg9j
+ 6L/wL4Sivf3b53lKre/NgkP1CBmdiRZp0pwgupRy0Vuou2bDdOSCIM0sWcNDZaPLsZeX
+ XbnZ7Mg9N8KlYXcUXN+xDH+h+jLdMTsy/WV2V4uAzaVYkYx/OX0mHjX5L4x9tuXwglLU
+ ILh0QF1Vufr6SpmalKdJRDkF8r6tXMoUI1+LDaA37BY/Tfp2xsXAyGnb2kWwpdVvsMDM
+ 1DSQ==
+X-Gm-Message-State: ANoB5pnqFOZ9gi4cR+9czAWAVdIqrHvrk8jih+Pd8ARMEkNrBdnNaafi
+ bshvBpKlz2ukB3HIjRGFVMo+mi5qacJoK5Wvk/bLLP4wcl5OA5vQOm+MdnVnUWLYTAYRocDU4zp
+ EOsf3UOznYoq2oUo5LBeG2OPG8j/V
+X-Received: by 2002:a5d:4575:0:b0:236:6e4b:8c2 with SMTP id
+ a21-20020a5d4575000000b002366e4b08c2mr6336366wrc.545.1668413257330; 
+ Mon, 14 Nov 2022 00:07:37 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7nVXgU/8Jv+xzckTpvD06sshk0g6lWh6ohMy1bXzH3vi7keYGWVfIARGixyNY+Rc8WvFWGhQ==
+X-Received: by 2002:a5d:4575:0:b0:236:6e4b:8c2 with SMTP id
+ a21-20020a5d4575000000b002366e4b08c2mr6336334wrc.545.1668413256954; 
+ Mon, 14 Nov 2022 00:07:36 -0800 (PST)
+Received: from ?IPV6:2003:cb:c703:d300:8765:6ef2:3111:de53?
+ (p200300cbc703d30087656ef23111de53.dip0.t-ipconnect.de.
+ [2003:cb:c703:d300:8765:6ef2:3111:de53])
+ by smtp.gmail.com with ESMTPSA id
+ g11-20020a5d540b000000b0022cdeba3f83sm8798705wrv.84.2022.11.14.00.07.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Nov 2022 00:07:36 -0800 (PST)
+Message-ID: <f233f77b-a065-37aa-e2fb-5b92899dd13b@redhat.com>
+Date: Mon, 14 Nov 2022 09:07:34 +0100
 MIME-Version: 1.0
-References: <20221101112009.1067681-1-hsinyi@chromium.org>
-In-Reply-To: <20221101112009.1067681-1-hsinyi@chromium.org>
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Mon, 14 Nov 2022 16:06:42 +0800
-Message-ID: <CAJMQK-h-wu-eU1O6+oSxuxz6YPL16WV4GXQxrbXGfY=OfaRUnA@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: it6505: handle HDCP request
-To: Robert Foss <robert.foss@linaro.org>, Allen Chen <allen.chen@ite.com.tw>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH RFC 00/19] mm/gup: remove FOLL_FORCE usage from drivers
+ (reliable R/O long-term pinning)
+To: Christoph Hellwig <hch@infradead.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+References: <20221107161740.144456-1-david@redhat.com>
+ <CAHk-=wj51-dtxf8BQBYP+9Kc3ejq4Y0=-6hCbf_XAnkT3fsgDQ@mail.gmail.com>
+ <Y3HaGbPcGfTxlLPZ@infradead.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <Y3HaGbPcGfTxlLPZ@infradead.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,131 +93,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Pin-yen Lin <treapking@chromium.org>, Hermes Wu <hermes.wu@ite.com.tw>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ Nadav Amit <namit@vmware.com>, linux-kselftest@vger.kernel.org,
+ Andrea Arcangeli <aarcange@redhat.com>, linux-samsung-soc@vger.kernel.org,
+ linux-rdma@vger.kernel.org, Hugh Dickins <hughd@google.com>,
+ Matthew Wilcox <willy@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, John Hubbard <jhubbard@nvidia.com>,
+ etnaviv@lists.freedesktop.org, Peter Xu <peterx@redhat.com>,
+ Muchun Song <songmuchun@bytedance.com>, Vlastimil Babka <vbabka@suse.cz>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Oded Gabbay <ogabbay@kernel.org>, linux-kernel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 1, 2022 at 7:20 PM Hsin-Yi Wang <hsinyi@chromium.org> wrote:
->
-> it6505 supports HDCP 1.3, but current implementation lacks the update of
-> HDCP status through drm_hdcp_update_content_protection(). it6505 default
-> enables the HDCP. If user set it to undesired then the driver will stop
-> HDCP.
->
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> ---
-Move this patch into the series to register HDCP property:
-https://lore.kernel.org/lkml/20221114080405.2426999-1-hsinyi@chromium.org/
+On 14.11.22 07:03, Christoph Hellwig wrote:
+> On Mon, Nov 07, 2022 at 09:27:23AM -0800, Linus Torvalds wrote:
+>> And I'd really love to just have this long saga ended, and FOLL_FORCE
+>> finally relegated to purely ptrace accesses.
+> 
+> At that point we should also rename it to FOLL_PTRACE to make that
+> very clear, and also break anything in-flight accidentally readding it,
+> which I'd otherwise expect to happen.
 
->  drivers/gpu/drm/bridge/ite-it6505.c | 54 +++++++++++++++++++++++++++++
->  1 file changed, 54 insertions(+)
->
-> diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-> index b929fc766e243..65c6f932cae25 100644
-> --- a/drivers/gpu/drm/bridge/ite-it6505.c
-> +++ b/drivers/gpu/drm/bridge/ite-it6505.c
-> @@ -423,6 +423,7 @@ struct it6505 {
->         struct extcon_dev *extcon;
->         struct work_struct extcon_wq;
->         int extcon_state;
-> +       struct drm_connector *connector;
->         enum drm_connector_status connector_status;
->         enum link_train_status link_state;
->         struct work_struct link_works;
-> @@ -2399,6 +2400,14 @@ static void it6505_irq_hdcp_done(struct it6505 *it6505)
->
->         DRM_DEV_DEBUG_DRIVER(dev, "hdcp done interrupt");
->         it6505->hdcp_status = HDCP_AUTH_DONE;
-> +       if (it6505->connector) {
-> +               struct drm_device *drm_dev = it6505->connector->dev;
-> +
-> +               drm_modeset_lock(&drm_dev->mode_config.connection_mutex, NULL);
-> +               drm_hdcp_update_content_protection(it6505->connector,
-> +                                                  DRM_MODE_CONTENT_PROTECTION_ENABLED);
-> +               drm_modeset_unlock(&drm_dev->mode_config.connection_mutex);
-> +       }
->         it6505_show_hdcp_info(it6505);
->  }
->
-> @@ -2931,6 +2940,7 @@ static void it6505_bridge_atomic_enable(struct drm_bridge *bridge,
->         if (WARN_ON(!connector))
->                 return;
->
-> +       it6505->connector = connector;
->         conn_state = drm_atomic_get_new_connector_state(state, connector);
->
->         if (WARN_ON(!conn_state))
-> @@ -2974,6 +2984,7 @@ static void it6505_bridge_atomic_disable(struct drm_bridge *bridge,
->
->         DRM_DEV_DEBUG_DRIVER(dev, "start");
->
-> +       it6505->connector = NULL;
->         if (it6505->powered) {
->                 it6505_drm_dp_link_set_power(&it6505->aux, &it6505->link,
->                                              DP_SET_POWER_D3);
-> @@ -3028,6 +3039,48 @@ static struct edid *it6505_bridge_get_edid(struct drm_bridge *bridge,
->         return edid;
->  }
->
-> +static int it6505_connector_atomic_check(struct it6505 *it6505,
-> +                                        struct drm_connector_state *state)
-> +{
-> +       struct device *dev = &it6505->client->dev;
-> +       int cp = state->content_protection;
-> +
-> +       DRM_DEV_DEBUG_DRIVER(dev, "hdcp connector state:%d, curr hdcp state:%d",
-> +                            cp, it6505->hdcp_status);
-> +
-> +       if (!it6505->hdcp_desired) {
-> +               DRM_DEV_DEBUG_DRIVER(dev, "sink not support hdcp");
-> +               return 0;
-> +       }
-> +
-> +       if (it6505->hdcp_status == HDCP_AUTH_GOING)
-> +               return -EINVAL;
-> +
-> +       if (cp == DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
-> +               if (it6505->hdcp_status == HDCP_AUTH_DONE)
-> +                       it6505_stop_hdcp(it6505);
-> +       } else if (cp == DRM_MODE_CONTENT_PROTECTION_DESIRED) {
-> +               if (it6505->hdcp_status == HDCP_AUTH_IDLE &&
-> +                   it6505->link_state == LINK_OK)
-> +                       it6505_start_hdcp(it6505);
-> +       } else {
-> +               DRM_DEV_DEBUG_DRIVER(dev, "invalid to set hdcp enabled");
-> +               return -EINVAL;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +static int it6505_bridge_atomic_check(struct drm_bridge *bridge,
-> +                                     struct drm_bridge_state *bridge_state,
-> +                                     struct drm_crtc_state *crtc_state,
-> +                                     struct drm_connector_state *conn_state)
-> +{
-> +       struct it6505 *it6505 = bridge_to_it6505(bridge);
-> +
-> +       return it6505_connector_atomic_check(it6505, conn_state);
-> +}
-> +
->  static const struct drm_bridge_funcs it6505_bridge_funcs = {
->         .atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
->         .atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-> @@ -3035,6 +3088,7 @@ static const struct drm_bridge_funcs it6505_bridge_funcs = {
->         .attach = it6505_bridge_attach,
->         .detach = it6505_bridge_detach,
->         .mode_valid = it6505_bridge_mode_valid,
-> +       .atomic_check = it6505_bridge_atomic_check,
->         .atomic_enable = it6505_bridge_atomic_enable,
->         .atomic_disable = it6505_bridge_atomic_disable,
->         .atomic_pre_enable = it6505_bridge_atomic_pre_enable,
-> --
-> 2.38.0.135.g90850a2211-goog
->
+Good idea; I'll include a patch in v1.
+
+-- 
+Thanks,
+
+David / dhildenb
+
