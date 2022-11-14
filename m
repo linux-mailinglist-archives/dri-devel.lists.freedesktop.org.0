@@ -1,51 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CAEC627449
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 02:49:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDEEC6274DC
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 04:16:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F80B10E259;
-	Mon, 14 Nov 2022 01:49:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FF3710E05F;
+	Mon, 14 Nov 2022 03:16:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77CE510E259
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 01:49:39 +0000 (UTC)
-Received: by mail-il1-f198.google.com with SMTP id
- h10-20020a056e021b8a00b00302671bb5fdso96017ili.21
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Nov 2022 17:49:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=to:from:subject:message-id:in-reply-to:date:mime-version
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0NIciGEMFs3GR0VxmcRj2FqKZjUa05yht5hU+xLHqL8=;
- b=H5gilPW+JC+Do8mqZ+tsLhcVV+ahrYspSl1hecYSow3Nw9ZxhPAH2Hcp2M/0OCg1xh
- NFpNmnVFYDpDN5xvJHXveTMh7d2YINvRYUA0rrRoXtT0le91dARAJxH/Jxg6szaZ/jrm
- oG6aufMG+tELafnAY/xGa6Z3i9fGX4qa/I8JgI3ZvUNgsqoIGQwyOZDiIxJnFHeGOP+Q
- HOIkNwGogBQ32xTMjuZvg2ISXLjRm7pykOlN6op+V5QUKa5bAih9BaWu+6klIN4kf1ss
- MQxhvdKTrVzFNfo34/v2FxtS9kza5vgYcTVIJF3n0QKC/V8PXnygVJbijjqyA3kMcOgL
- B34w==
-X-Gm-Message-State: ANoB5pk3T7Vdwsm0OxsRgvBh9eSD8BToQcHRDx28KfsIOuAHNUY5WBMa
- rTzL7DcUjnka2M42JkeFMuC1Kch6vF0YEqnQA01VXkEMk65i
-X-Google-Smtp-Source: AA0mqf4oSH+2L1giJjDUKiHTVQUltrz0Z1AwBwcVEqq+IVE588oskcYMuAffWmdXohdOr+bP5nkTCRoWMV6ijRU4lY/7rTO8ke0c
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0B0310E05F
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 03:16:30 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 21F90839E1;
+ Mon, 14 Nov 2022 04:16:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1668395788;
+ bh=E0IhM/uCwD4sS9QR1hj1RvZ0InbjI+h1E2fJC/qgA3E=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=EArG/AK3iWzy90EETcWzpuGjQA2H1lWhudTcSAIbA5nRWE/9ZogYfxKWnMDeZuRSf
+ TohCPFNbiiZt1MalupM0R3dLfB6uGZPtTuElPQd0yo/kkwebhE5hsyqhBoFWllV1yF
+ LCwYnQaFCu97EH4Y5y1sLQ2fl+WNvWwfEzGA/vX7yZWAetcOlII1z61oNEDBXG4YnR
+ C0aqg4RTQFEk/UevXPfJWolrAglErwY67W3Vv2C93MH+D288P4U7NWS3+CwjABD/nN
+ JMVIPHWUx7YEcWSpdOqq/8PvOX6QLBVc6Arw9PTKzHmHPQxIHck7kMLG0XtWrkInhA
+ cy1Ktg2i7JYtQ==
+Message-ID: <ef265fa0-dea9-f7c6-3800-ad0353a838b8@denx.de>
+Date: Mon, 14 Nov 2022 04:16:25 +0100
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1061:b0:300:d3e0:2492 with SMTP id
- q1-20020a056e02106100b00300d3e02492mr5288163ilj.148.1668390578548; Sun, 13
- Nov 2022 17:49:38 -0800 (PST)
-Date: Sun, 13 Nov 2022 17:49:38 -0800
-In-Reply-To: <00000000000041665a05ed5c17db@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000c7f9c605ed6473c8@google.com>
-Subject: Re: [syzbot] possible deadlock in vfs_fileattr_set
-From: syzbot <syzbot+abe01a74653f00aabe3e@syzkaller.appspotmail.com>
-To: airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
- linux-graphics-maintainer@vmware.com, linux-kernel@vger.kernel.org, 
- reiserfs-devel@vger.kernel.org, sroland@vmware.com, 
- syzkaller-bugs@googlegroups.com, tzimmermann@suse.de, zackr@vmware.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH v8 01/14] drm: exynos: dsi: Fix MIPI_DSI*_NO_* mode flags
+To: Nicolas Boichat <drinkcat@chromium.org>
+References: <20221110183853.3678209-1-jagan@amarulasolutions.com>
+ <20221110183853.3678209-2-jagan@amarulasolutions.com>
+ <CANMq1KCHQExVVp1jHjhRB2pMqeFFE1Cg1GVmnN83v=z1KzJt0Q@mail.gmail.com>
+ <CAMty3ZBC3pbWf4yixjv4DZWFR+fYkPctiL3hzubgY8RF4ZGHmA@mail.gmail.com>
+ <CANMq1KDmF+cMo8qZh7UyM1vyZ6BD_cFPc6j2MNMNPFiutqxL3w@mail.gmail.com>
+ <c82a77f3-17a1-1b59-96da-924daae3678c@denx.de>
+ <CANMq1KBMJDcfcbfYGtRj+MDJgFKg_i5Rw6ZJuoZy0D_kzkob3Q@mail.gmail.com>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <CANMq1KBMJDcfcbfYGtRj+MDJgFKg_i5Rw6ZJuoZy0D_kzkob3Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,28 +61,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Fancy Fang <chen.fang@nxp.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, linux-samsung-soc@vger.kernel.org,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Neil Armstrong <narmstrong@linaro.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Matteo Lisi <matteo.lisi@engicam.com>,
+ Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Robert Foss <robert.foss@linaro.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ =?UTF-8?Q?S=c3=a9bastien_Szymanski?= <sebastien.szymanski@armadeus.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-syzbot has bisected this issue to:
+On 11/14/22 02:11, Nicolas Boichat wrote:
+> On Sun, Nov 13, 2022 at 8:29 AM Marek Vasut <marex@denx.de> wrote:
+>>
+>> On 11/11/22 13:12, Nicolas Boichat wrote:
+>>
+>> [...]
+>>
+>>>>> BTW, are you sure DSIM_HSE_MODE is correct now?
+>>>>
+>>>> Yes, we have tested in imx8m platforms as well. Sébastien Szymanski
+>>>> initially observed this issue on the imx8m platform.
+>>>
+>>> I'll repeat, are you sure about HSE specifically? You invert the
+>>> polarity for HBP, HFP, and HSA, which makes sense given your patch
+>>> 02/14.
+>>>
+>>> I'm concerned about HSE. Is the bit really a disable bit?
+>>> MIPI_DSI_MODE_VIDEO_HSE is supposed to be an enable flag, so you
+>>> should not do `reg |= DSIM_HSE_DISABLE;`, probably.
+>>
+>> I suspect the HSE bit is a misnomer, but its handling in the driver is
+>> correct.
+>>
+>> i.MX 8M Plus Applications Processor Reference Manual, Rev. 1, 06/2021
+>> Page 5436
+>>
+>> 23 HseDisableMode
+>>
+>> In Vsync pulse and Vporch area, MIPI DSI master transfers only Hsync
+>> start packet to MIPI DSI slave at MIPI DSI spec 1.1r02. This bit
+>> transfers Hsync end packet in Vsync pulse and Vporch area (optional).
+>>
+>> 0 = Disables transfer
+>> 1 = Enables transfer
+>>
+>> In command mode, this bit is ignored.
+> 
+> Okay. I'd suggest adding a comment in the code, it'd be so tempting to
+> attempt to "fix" this as the if/or pattern looks different from the
+> others.
+> 
+> But it's up to you all.
 
-commit 6dd6b7643e723b4779e59c8ad97bd5db6ff3bb12
-Author: Thomas Zimmermann <tzimmermann@suse.de>
-Date:   Mon Jan 18 13:14:19 2021 +0000
-
-    drm/vmwgfx: Remove reference to struct drm_device.pdev
-
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1418e6a5880000
-start commit:   f8f60f322f06 Add linux-next specific files for 20221111
-git tree:       linux-next
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=1618e6a5880000
-console output: https://syzkaller.appspot.com/x/log.txt?x=1218e6a5880000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=85ba52c07cd97289
-dashboard link: https://syzkaller.appspot.com/bug?extid=abe01a74653f00aabe3e
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=138b76ae880000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16ab1bfe880000
-
-Reported-by: syzbot+abe01a74653f00aabe3e@syzkaller.appspotmail.com
-Fixes: 6dd6b7643e72 ("drm/vmwgfx: Remove reference to struct drm_device.pdev")
-
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+I agree. Clearly the discrepancy is confusing and leads to mistakes.
