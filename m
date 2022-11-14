@@ -1,54 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7323D62888F
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 19:48:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60E52628891
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 19:48:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 175D610E02C;
-	Mon, 14 Nov 2022 18:48:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9291410E0F6;
+	Mon, 14 Nov 2022 18:48:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4130B10E02C;
- Mon, 14 Nov 2022 18:48:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1668451697; x=1699987697;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=AHgkLYtPHhgu7JKiPxVsv3AUt6xSMXEpy9zlW59ER+8=;
- b=Hd/WpQA5Z/A2jtLwU1dRfNnaK1l7rekliILwLMGrDlFt1KkSBpFZzMHz
- 1/iWOYyRrdi6OZiyyH0A81fdvkcMceTl91hjID/OIAVvRQoX1rWbpErDY
- zhuWfhL/12gZXtS/K2uhKy5IjTDVQ2vaYgrbaqDOCi5WA1ggDoAlhESRz
- AxBsCfod3SoAiPjqbfz7EqNcR2/e1C85ohMXjZ7xnwZM8uXrhduBYhNlL
- Z1de2EQZXF/442LTau/yv8OFEiTBMI13GkyCpaLsYElYYedLXfO1TOx5K
- dTzMtPkda2O1WoG3SEde5dk3rISjCClhjBfvgc6GrrXaCTGCQ1dDIzSBo g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="313857853"
-X-IronPort-AV: E=Sophos;i="5.96,164,1665471600"; d="scan'208";a="313857853"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Nov 2022 10:48:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="813369368"
-X-IronPort-AV: E=Sophos;i="5.96,164,1665471600"; d="scan'208";a="813369368"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by orsmga005.jf.intel.com with ESMTP; 14 Nov 2022 10:48:13 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1oueV7-00CJ1A-27; Mon, 14 Nov 2022 20:48:09 +0200
-Date: Mon, 14 Nov 2022 20:48:09 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
-Subject: Re: [PATCH v2 1/4] i915: Move list_count() to list.h for broader use
-Message-ID: <Y3KNaZjhqJZYjxrn@smile.fi.intel.com>
-References: <20221114162207.62559-1-andriy.shevchenko@linux.intel.com>
- <DM5PR11MB1324523623D88188493D7518C1059@DM5PR11MB1324.namprd11.prod.outlook.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D86D410E0F6
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 18:48:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1668451697; bh=gewXAtIaH7SmnHnPPkwoF7m+Ih7zyoFHig7cxNLFeBQ=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=c60iFwJ1Qty8Q+mBGZ2HWcqx7p7IUS4CIiMDL+yZvmF4APzlfqxkWGIXjEU4LFRcT
+ Z+dJzn4qM4DaRydtsT9qIhBUO9QzMDeARsKxFX5Xijvy/tzCZ8zXspXf3d1ZqkNywO
+ 48R56MttIScFDm4pDijq+NF4w2vcedd50940FANzYbeWYiTt26gJwBrSZoxpMiK8+e
+ zbynr4EkQ2THroyEOcT369Pl0gu7AkQtAZh7YqmCS/AvKy9HopxrsxI33jSI04ycc4
+ JCZbtFyg2Gf6QUVZ8zt4bgiOiZiXXMhqZN317leH5Gzk+owymFf2aes1R7kryjyjxV
+ W+NvnALVGYdtg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([92.116.133.36]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M9nxn-1ordh62J3V-005oDH; Mon, 14
+ Nov 2022 19:48:17 +0100
+Message-ID: <4bdd59e7-e811-0fa9-4f1b-154d7f038a20@gmx.de>
+Date: Mon, 14 Nov 2022 19:48:17 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DM5PR11MB1324523623D88188493D7518C1059@DM5PR11MB1324.namprd11.prod.outlook.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH] video: fbdev: vermilion: decrease reference count in
+ error path
+Content-Language: en-US
+To: Xiongfeng Wang <wangxiongfeng2@huawei.com>, javierm@redhat.com,
+ b.zolnierkie@samsung.com, tzimmermann@suse.de
+References: <20221114085654.179249-1-wangxiongfeng2@huawei.com>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <20221114085654.179249-1-wangxiongfeng2@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:QOK4Tcx7oEbHsGgvfXLbx44lFheyPwM4DdEbbF5Vqerx6tZ4VG4
+ 7Q+ULuxdik5GV0nG07V284SqhNTp1Bv7pVlL8q5PG9jyXFLPVmmkF1rXllISUEgtsVdfoGr
+ j7uFY8TpA7VtYzCiwxLuVhwPIluqMx2ytHCjDdq8fBQdXTEJ0q/cv4AEc8zELT1QheIjFe4
+ AwK0feMlQDay6uWoWVReQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:qd2ifuF6r70=;hHLBaoUSfeUZpTDhQr0cKz8gaOO
+ cpoyZxLjIfhtZt/tyz77oGAPk2Ug8I3Y3NGwPmjJTTJhOVl6fs72fsQp1Nt3u/Vqgvca0vuTD
+ nWiY4G/2oe07X/gQUGgpxa5dCbeMWhM6Ao9KWOTjfjN/0NoIYNDSt4PYszb2UB/u7YImx8AmW
+ eabnYmX7OfMxbQoImhzFSE41T9uPwBc92xAxdEevq0voZ0YtyaaGXBK6rtl4/CrmtUvx38vOl
+ 29QbfptLvcUkSa3ad1pq/96moQKpaFAZWGKTubfyeykuUePY2ezdCHeqhkpu4rZCAQ4GsyClC
+ lSrEAMO49V+wae625dE9+smVvYoLfOz4rgNNA91YR5U9pNDCWCfnivFHc93IB2wzn9CCWcaOp
+ Z+VO1wPWHoPdhZz+gHum64ymgzewecT8VyvOXTEBJkKWstw+M+tmEe0UUEpUHR39meVmm4ns8
+ rgI9uH7iOlcvI2o2orwB7cOD6IUp6g/shu33UVQWpn5NKpxGTD9bw8VOpefCObRX785C7TXqS
+ SryZiB46a0O6xMPhQt9M6DOQayISpWknuU7dPT2nxhh71kr0F1IHTQGH1MXw0gHJPbUO0mXrB
+ UhfyAPIlB8NlBMm+Kyk3B0dN4Hn/OGk8OQ0z87jYrnJ9mmKccmsO8tJrweqIX1v9ym2Qnhefj
+ pq8EZxROD3r/IaGCkZAA5/iASShQ6mssDIuKtNdseG9LfqpCD9NK3qUaaxRiblCaP9V7eNvk1
+ rSZrFGCqjeZJZAVx56+pBCQrTKPn6IYW9mUn2rU9mKXzhABPktVU+/ICXCJmQYUMDQJJnPH82
+ j5sJDLjx/N0Taq+OgfnoQ8pIpuCQRytSHn07CRS7aMBYqiDHdH/2NokoKL4bx0217QO5e1dKO
+ y35QjfVT07CXocwuM/hmaPkhcxVQo08EyxfTJpRpACwOJ6o9pXwcxd/NkqkCDgnDXV+lP6CIp
+ YeMud6c7oQkxKdu3bsi6CK5z0B0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,36 +72,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Kevin Cernekee <cernekee@gmail.com>,
- Mathias Nyman <mathias.nyman@linux.intel.com>, "Nyman,
- Mathias" <mathias.nyman@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Jakob Koschel <jakobkoschel@gmail.com>, "Vivi,
- Rodrigo" <rodrigo.vivi@intel.com>, Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ yangyingliang@huawei.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 14, 2022 at 06:11:51PM +0000, Ruhl, Michael J wrote:
+On 11/14/22 09:56, Xiongfeng Wang wrote:
+> pci_get_device() will increase the reference count for the returned
+> pci_dev. For the error path, we need to use pci_dev_put() to decrease
+> the reference count.
+>
+> Fixes: dbe7e429fedb ("vmlfb: framebuffer driver for Intel Vermilion Rang=
+e")
+> Signed-off-by: Xiongfeng Wang <wangxiongfeng2@huawei.com>
 
-...
+applied.
 
-> So all of the non-list_for_each code appears to be an inline.
+Thanks!
+Helge
 
-This is not true.
-
-> This which, resembles the non-list_for_each pattern is a macro?
-> 
-> Just curious as to why the macro rather than inline?
-
-See above. However, I'm fine with the inline.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+> ---
+>   drivers/video/fbdev/vermilion/vermilion.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/video/fbdev/vermilion/vermilion.c b/drivers/video/f=
+bdev/vermilion/vermilion.c
+> index 82b36dbb5b1a..33051e3a2561 100644
+> --- a/drivers/video/fbdev/vermilion/vermilion.c
+> +++ b/drivers/video/fbdev/vermilion/vermilion.c
+> @@ -278,8 +278,10 @@ static int vmlfb_get_gpu(struct vml_par *par)
+>
+>   	mutex_unlock(&vml_mutex);
+>
+> -	if (pci_enable_device(par->gpu) < 0)
+> +	if (pci_enable_device(par->gpu) < 0) {
+> +		pci_dev_put(par->gpu);
+>   		return -ENODEV;
+> +	}
+>
+>   	return 0;
+>   }
 
