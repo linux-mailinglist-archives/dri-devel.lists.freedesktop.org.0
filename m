@@ -1,79 +1,127 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B546B628084
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 14:06:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5FED628130
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 14:22:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4D0C10E2A1;
-	Mon, 14 Nov 2022 13:06:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D81CC10E237;
+	Mon, 14 Nov 2022 13:22:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60AD210E237
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 13:06:12 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id CD4325C0118;
- Mon, 14 Nov 2022 08:06:10 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Mon, 14 Nov 2022 08:06:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1668431170; x=1668517570; bh=hTwfEL8WhY
- 8IR4P7vKxZDyu4A7kRyCha3szkP5Ui2Og=; b=XFdwPJCq6MfipI6W6CxCjWujM8
- qKW6zvR1ZYsCyx1+cyr+9dTvnTFdKJeITINg8GhcyYFH+1se7R+lIW8Gd+sasxD0
- ZfYKHqQ6Pf9RpD/fWYkuNKD/zp0S2XYwAmrbrkuf5PMuR5Z3N1GvdtZ7PobEpwF0
- uqWybooDrC+1g7pGlO0DgALC/38dzu+zuJkxDljXmM0qAHNl51/209zYxq6HXNer
- ZIj8z+z3ERT2tmEu5FcuRAAtfvGISvOipkJalfF9jrrp9W6axuPukAgk9FK6C84M
- 21m3GtwN+YqGK8mqIwyWgTEFjBlkCmUZPB+p+XUZze/eVQEdDW3kvb+lusvw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1668431170; x=1668517570; bh=hTwfEL8WhY8IR4P7vKxZDyu4A7kR
- yCha3szkP5Ui2Og=; b=JuZeLjuR+w22RCnq0vwKBm6Xad6BN6Fubtp5SqLmo688
- qWoban8NACaUVRV91919czkb3Lv/5e4t2yUYxwQBV82XvRZQsUoqCEyys+n62F32
- YmN8uIXGkusTXYYrnzPoFEukN0G3XGHkYmZMfTXRKFYz3m5c6AZAoUhzYGGa+mKW
- BiDs/jjFTY14j1C33siqSK6SVzFrMnf4FvrrPPGxoSmNOoiBRML1ypO1HpzmK3u9
- 16//z3TVW8s2Scj/XUcupuBESaiQNROuwGDSZ4Bxwlm5tCGlB5QDrQ2G7m0j2JeR
- LIUosup1G476E8dfTf3bU7LVlYIKuUbIhgIoTYHUeA==
-X-ME-Sender: <xms:Qj1yY9cok38ROpNvFFdd4RXK-4OPSKfC8-DgImY8CZF3mnrB4IT2tA>
- <xme:Qj1yY7Opg-gLExeq8lrK7ERV1dPmsZc7K6u8MZfq6IcA7-WNiSUzRxd5vLrVdHcdh
- DmRoXwHzafaRfT1npU>
-X-ME-Received: <xmr:Qj1yY2hr6uy3_Yv_Ofct-6fME9fQK223nVPYdSp60mBNPxo6f0TkXQfQibQAu5os8yzwzPCXOeXMbSVPOOH8e3k40YCeCwpdxUfD7M-jU2QMSQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgedvgddvudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleejuefggeevteelveekteffgeduveeiteeiueegueegiedvtdejjedvfeef
- tefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
- dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:Qj1yY2-XEvWxG9h7ZB34iMtixqf404DtbTQWcK9P8-TsTv0VfP_JmA>
- <xmx:Qj1yY5v4jyUghn1q2YBfcsAUSKUWxx50meyv0GfcaWp2_S6vE_kBhA>
- <xmx:Qj1yY1G4cnHMTnEjbLjrlpVXigtgVb-VsC_NEUxRv4FvH3ZSYHrzyQ>
- <xmx:Qj1yYy82mZ2iCYsrdDXr5sqcRgAE8JOoyyaajeBiCM6_FxazEYjAAQ>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 14 Nov 2022 08:06:09 -0500 (EST)
-Date: Mon, 14 Nov 2022 14:06:08 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Stefan Wahren <stefan.wahren@i2se.com>
-Subject: Re: [PATCH 1/2] drm/vc4: hdmi: Enforce the minimum rate at
- runtime_resume
-Message-ID: <20221114130608.kqxhorlee25rvrc7@houat>
-References: <20220929-rpi-pi3-unplugged-fixes-v1-0-cd22e962296c@cerno.tech>
- <20220929-rpi-pi3-unplugged-fixes-v1-1-cd22e962296c@cerno.tech>
- <737e7e23-1bc5-eaf3-2d15-5498fc5b0415@i2se.com>
- <b49a242f-dc85-171d-1f0c-93b9099712a3@i2se.com>
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2048.outbound.protection.outlook.com [40.107.223.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1494E10E162;
+ Mon, 14 Nov 2022 13:22:45 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=guD2jE6JKT/9ONeNGcqd44i2BKMbGfG20IicIeIhYejX1I54tc2acMXKbzfaowncfJ1zJAnmqrBPnbVpKU+EMhK6fed8o1oVe1cgcLfrkwc1Dad3m7q1ALn2qWZOOWQoJz3RGDNQglSwou1EMVffKzw2EAi4I9cGAVyILwgz3kJp32+C0Eu19CGPIsGjeCXS9SuNqURKkYEpOiJC8paKabz+0EuS1P2QUIX/hWojlvkRcWXQcJJd1kNQtBUsGLu9mjzWhoG+0oXtmGxHqYTe/sn3a+VuTf7bO5fg5RWWTAVYOAwGJcntJ0VFsZikvVGIBxvyDArgYf3AS4PHW/91Pg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gl/hmrHrY7OWeKJwhPcWxl5FD83sb4mpXmudfSWIYNs=;
+ b=e+SEVOboTG4ldWYF3qE/8RwybeRJNXj33Kt4PsRwBumHGVD5XtzB3pFXFejzT8ch0QTpAF9PfxLzUTLn+NuDbRebN3XvGb4kFg02v56MrLbEZ4Xge0pu+uWpzhAc6bYulYg4YAVIobYM2hdbFzE4mZyM5YMW8AV1+nNYqajfrrZgXWVi2TWB9sOrOa8nimwrZWDFuw71UxHTKhs6DzTB+eW2x7Da9cEQNNU0QkHe0NfU4cGVcXpuYKqcKDj5dnepCQbXxEnaUAnJ280bmE71ql2n67/ulCDXw/YdWTzyJv/cySCBFfrvVClzlxrZ1DXjX7vcILi3bLjmxCJzGPq9zw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gl/hmrHrY7OWeKJwhPcWxl5FD83sb4mpXmudfSWIYNs=;
+ b=otNp0sPyynAinX1VXq5JC/bbJqNWZb9KMyVB/C5gL23SNKVwaRo5M+suPJwGf64TWSOzZ7rvKRB0Bo+CL7Q62ofsRSSP3seCJdDJlwbAc9iIALHb0hKB7aAjhsllcANLdsum8loTEokIND91R2d7biwBa0qK3rtE2mh2D6H+RRA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by BN9PR12MB5382.namprd12.prod.outlook.com (2603:10b6:408:103::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.17; Mon, 14 Nov
+ 2022 13:22:43 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::7d43:3f30:4caf:7421]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::7d43:3f30:4caf:7421%7]) with mapi id 15.20.5813.017; Mon, 14 Nov 2022
+ 13:22:42 +0000
+Message-ID: <c5c4f572-4720-04ff-3c70-30bba9c37202@amd.com>
+Date: Mon, 14 Nov 2022 14:22:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [6.1][regression] after commit
+ dd80d9c8eecac8c516da5b240d01a35660ba6cb6 some games (Cyberpunk 2077, Forza
+ Horizon 4/5) hang at start
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+References: <CABXGCsOeQ7VYm98jRVaYp6KaNsFVsAnSb33ZT8JvZxcTcEGW0w@mail.gmail.com>
+ <a67598e8-c826-2740-03bb-33d37c8c8e4b@amd.com>
+ <CABXGCsNvFvJz4=N=JKYSGVcd=dKfQ3Nv_zOssMb0Z6oK79xZ7g@mail.gmail.com>
+ <a537212d-4b42-4ba4-7707-1e397234c8b7@amd.com>
+ <CABXGCsMCfACsJRDPqZDYQGMpaA_6LKhQ0XqAmDN04GSMeetXnA@mail.gmail.com>
+ <ca6c98eb-fdb0-5fee-3925-5b697e3e6b50@gmail.com>
+ <CABXGCsPJFvNXfbdR=_sb4gLdd2E30aRN9usSiZc2XYmZNSKBcQ@mail.gmail.com>
+ <dc802bd0-ed77-d268-25e2-1cf162202912@gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <dc802bd0-ed77-d268-25e2-1cf162202912@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0137.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:95::11) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="zvzqn4wjbzjl3o27"
-Content-Disposition: inline
-In-Reply-To: <b49a242f-dc85-171d-1f0c-93b9099712a3@i2se.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|BN9PR12MB5382:EE_
+X-MS-Office365-Filtering-Correlation-Id: f1103997-14f3-46d4-68f0-08dac6434f94
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Tbfo+PNTubB+of01lb61QtMHyU7Bpg9sget+WzXrX+dO0QFjRMURXvs2aSoyqccB1GF/HeVm6pdi19awTsJiBSBF2RENL2a84Z5aEb8uVUG8wi7SBbJtceJyNyYHz7p4iCmkfZ7uCLH5yt5BIUSsFnW7Tyz79qb68aNadPVO4OV92anZBhIB1t8+/tVVpFK6sCnjfGR5NDfXKFrutAErs1Jd+ZLLO/p2JGt5bQK/EdRVdnAymx/hMOro4DrCxY21I+MVBNRCcN0kdnCKa7tACw46IroGQNdoDOgciW5zFvbDiJpAzRnanYzmFF+U6RUEUHnIzPEz3CDc1edvg1UcAhJkwnaQ22MAjCjmSUMPAQFh/CledYKg9rEsvsQzoqCDlOrrhnyxyEJJxeBlhB0W07bQLoh2uUg2CPEIJq5PwjlAIkWmfn81Q/XoEFOHb/EGumQKmTk95Y9bH2bHhiS8Ecc80XJjHqzvrOWDVcR+lLuOYT8lF0fUsPHQGFnnwWcxxF5+5Fm3Xo0EOMQdHN6cZrcSueqnF7bS/7BtCXe9NEEj3FXBZhqqzy0peVkJ1cPy0VywWuyrzExxMCNZ+ikmGhvI6r73c2+nTMTxo+NClAHT4QW6GVed2sl6/Lms8NpGAx0UkSyKVf+0PG5vNvvZq2FUTH7n+DXHECx/paJFghx4R/LsExu906NVnSVUcmpL+qgj3GsKvJd3lvXigmkJFhVjoIsHbNZg8Aj1Q8x42lmjtVvWHztqrxP+R4U4eZopcxXgeC0I3+gogo325ZcthFrpgbnBr+xaPJXWdCnZQpk=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(39860400002)(136003)(366004)(396003)(376002)(346002)(451199015)(31686004)(2906002)(36756003)(2616005)(8936002)(186003)(86362001)(31696002)(316002)(110136005)(83380400001)(66556008)(66946007)(5660300002)(66476007)(41300700001)(8676002)(4326008)(54906003)(53546011)(38100700002)(6486002)(66574015)(478600001)(6666004)(26005)(6512007)(6506007)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VXl1OEdDVGczOWVjR0M1UEhmSEEySEVnUXQ4Q1k3ODEwNWVzdE9ldi91dmcx?=
+ =?utf-8?B?am1SQWtQTStsRXVzL1FSbUUvTSt6Z1JJblZESE1qNDNvNUpwcmExbGFRU0NS?=
+ =?utf-8?B?ekFsR1FCc2hsTit1UUtzQ09oUzNHOWRUN1YrcmVpekdmSSt5MU9zS0h1ZCt0?=
+ =?utf-8?B?V04vYVZkNlkrL2tNY0lKRjJhL0pKKzI2TzQ0d2JOY2NTZ1lBRmlYeGZZcHR5?=
+ =?utf-8?B?eldQMXduVmQ3UndQSmdwTnhsUXo5Y1NWMGtwUEZOOHg2QTJOMmpleEREaTVT?=
+ =?utf-8?B?TURxK0ZvTU82aVpKbVZxV09Gb3pwUnNYNHNWcklBWTAwbWtkYVovVnNaZkgv?=
+ =?utf-8?B?ZCszd1F1M28zZ3dhNytyS2RZWElLcVh0clJ2ek5qaTVIYVNheTRrQmJxeS9E?=
+ =?utf-8?B?Tm9lTzJRWWpld2JmaVA1aGNmcTZrSkxDalhOS3ZCZjRSNFRGV3JJaUVLeEpv?=
+ =?utf-8?B?QXU3ZlZpdjRYbWp5V0tGbHYycGRGTVNCSXVjTFUxUlk1ZkhKbTFWU1VvVFR3?=
+ =?utf-8?B?YW1zcUErdUllUE9EVmk3TTF0VG44ZnlibnNTYnQxRFdlOGpORjJkejdJNzFP?=
+ =?utf-8?B?YUh1NGhQNWx5Z3RQSVJQQ2ZYWEFEbVlmZEdkWDdQMjdKWEJiU3Nrd1FkWUl5?=
+ =?utf-8?B?eWdSSnlkZkxUU3FkSC8yMkRBZ0wzcGp6RWFWYXhtR3hRc3lSeWE1NzZpQWdr?=
+ =?utf-8?B?UGJJTlJOMkVNV093MkdFQVJtdXJzR1VJd1c2N0I5WFRGdnZPdHV0cDI4YU9n?=
+ =?utf-8?B?U0hxMlFNUXNSd0VJdzNJOVJoMEtodWEyanI0UnhYU0hoa2s3MjFwS1RCOVVL?=
+ =?utf-8?B?VC8rZ0hUaFlNRDBUbVB3ajNzRlJQalN3ZWhvTThkRUw3WVlpQ1FlREQyOXgv?=
+ =?utf-8?B?WEVmM3p2Zm41QTJTRFZLdFdiZllIZGRzbGlUUHRJQTZWYVNBZnp0REhucC9H?=
+ =?utf-8?B?RGw4bTJ1bE1US3l1OXF4WmFhMEs0KzE0TjdIdHlqN0NIRVVMby9ZU0ZDL1ZC?=
+ =?utf-8?B?TXpZMXJiSldSU0ZJM0ZNUFl0cHJQNk91TzdvdFE4QnpwTUxseXl3enJyVStR?=
+ =?utf-8?B?ZUh0K0dHZjIrbE5WMHpWR1FyTU8wTGRVRjd1N0k5Qk1qUWt3cUMvSXk5azJj?=
+ =?utf-8?B?WEhRbXZoTkpQK3dXWTlRU1ovaEgwOEJLUTFrRHBsNG03dytmbms1TmZ4YVpY?=
+ =?utf-8?B?Y3pIZlh1N0RKUjRLQldOeER2SWF2bW5jdmlOLzdodittVStBTEZJSjZPaDh5?=
+ =?utf-8?B?K2JJY3V3ZWJrUE1IQ05RS2gyR0lIeEs5MjVFT0Z6SHJERHh2Q2Q2STR0K2JQ?=
+ =?utf-8?B?Z2Q2amlmQWFKWko2bHdEY1F6TE5KWnRRQXFkVFdpVW9DVUxkSUZRR09VQ0lS?=
+ =?utf-8?B?dkkvTVlHWW1iOHozRU1hWnNDalYzVHE4Mnp2R1Y0TVhJeDdwKzZZb1hLMDFa?=
+ =?utf-8?B?dStldGlQTnRBaFlVcFA5cXh6bGpNR3NlZVhCbDdaa0NtVC80YnV6T1pUUFY1?=
+ =?utf-8?B?Z1dTU2JINjNMcytCTm5ZYzZmV0diN1ZYME42ZUM1Uy9Ha1hZNjlyTFFLMkwr?=
+ =?utf-8?B?Vk56UHdWRWcvS1BSbXRDUFRyK2wvVG13eE1zcHhkY3NiZTNuelZhOWdIN256?=
+ =?utf-8?B?eHViQXhnMCswODltTVp6cGJqMVlOWi9DWDMyTHJCWW9jQThSaXJNSERWR2NJ?=
+ =?utf-8?B?c3JpdnZhTGxtRWlMQlM3elNjNkZna092RXZKTDRDQUMxVm14Nm1jSzFhNVNF?=
+ =?utf-8?B?RURHb2tvTUVIK3dnMGpTSG8wMXVidzNqUEIvVW1CM3RZNnRLOFBEalk0cjdP?=
+ =?utf-8?B?a1VjaE5QWHk5VXpSSkQrZFZ4ZGthSitkMDdPQ0RpeXRIMHljYVRieVRsbGdL?=
+ =?utf-8?B?VzFUYitpZUQxa3N4NnBWVFpDVHFYaFlzOGhacmo5Nk9PQkxVZjVrK3Zkc0xz?=
+ =?utf-8?B?V3hsSzZKMTBUd0gwZ1VTWVhmcWNYSENRTVAxcnJKUmhrYnU5djQ0aDAwQklV?=
+ =?utf-8?B?SGpubm9Nc0x1UHBYcytiaWhveDRzU3A0MjJXdG1MYmpVNDNncmh6VGUwcGZB?=
+ =?utf-8?B?Y0JBNFFPdDJURmhqekphblVkMTQ1N2phYTZiYkR3aUJPUDlyOTVQam9GVkJx?=
+ =?utf-8?Q?K44dkaQYn7exkP95LTo/KaWHA?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f1103997-14f3-46d4-68f0-08dac6434f94
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2022 13:22:42.8456 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: M82WoVeHZygn83OSYiaFzmaU7MsBhqUfqAm8VLcwKG8+VtNXjDr4Y63v5XDW+AFD
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5382
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,102 +134,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Marc Kleine-Budde <mkl@pengutronix.de>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Mikhail,
 
---zvzqn4wjbzjl3o27
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi Stefan,
-
-On Mon, Nov 14, 2022 at 01:48:14AM +0100, Stefan Wahren wrote:
-> Am 11.11.22 um 22:08 schrieb Stefan Wahren:
-> > Hi Maxime,
-> >=20
-> > Am 29.09.22 um 11:21 schrieb Maxime Ripard:
-> > > This is a revert of commit fd5894fa2413 ("drm/vc4: hdmi: Remove clock
-> > > rate initialization"), with the code slightly moved around.
-> > >=20
-> > > It turns out that we can't downright remove that code from the driver,
-> > > since the Pi0-3 and Pi4 are in different cases, and it only works for
-> > > the Pi4.
-> > >=20
-> > > Indeed, the commit mentioned above was relying on the RaspberryPi
-> > > firmware clocks driver to initialize the rate if it wasn't done by the
-> > > firmware. However, the Pi0-3 are using the clk-bcm2835 clock driver t=
-hat
-> > > wasn't doing this initialization. We therefore end up with the clock =
-not
-> > > being assigned a rate, and the CPU stalling when trying to access a
-> > > register.
-> > >=20
-> > > We can't move that initialization in the clk-bcm2835 driver, since the
-> > > HSM clock we depend on is actually part of the HDMI power domain, so =
-any
-> > > rate setup is only valid when the power domain is enabled. Thus, we
-> > > reinstated the minimum rate setup at runtime_suspend, which should
-> > > address both issues.
-> > >=20
-> > > Link: https://lore.kernel.org/dri-devel/20220922145448.w3xfywkn5ecak2=
-et@pengutronix.de/
-> > > Fixes: fd5894fa2413 ("drm/vc4: hdmi: Remove clock rate initialization=
-")
-> > > Reported-by: Marc Kleine-Budde <mkl@pengutronix.de>
-> > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > > ---
-> > > =A0 drivers/gpu/drm/vc4/vc4_hdmi.c | 9 +++++++++
-> > > =A0 1 file changed, 9 insertions(+)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > > b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > > index 199bc398817f..2e28fe16ed5e 100644
-> > > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > > @@ -2891,6 +2891,15 @@ static int vc4_hdmi_runtime_resume(struct
-> > > device *dev)
-> > > =A0=A0=A0=A0=A0 u32 __maybe_unused value;
-> > > =A0=A0=A0=A0=A0 int ret;
-> > > =A0 +=A0=A0=A0 /*
-> > > +=A0=A0=A0=A0 * The HSM clock is in the HDMI power domain, so we need=
- to set
-> > > +=A0=A0=A0=A0 * its frequency while the power domain is active so tha=
-t it
-> > > +=A0=A0=A0=A0 * keeps its rate.
-> > > +=A0=A0=A0=A0 */
-> > > +=A0=A0=A0 ret =3D clk_set_min_rate(vc4_hdmi->hsm_clock, HSM_MIN_CLOC=
-K_FREQ);
-> > > +=A0=A0=A0 if (ret)
-> > > +=A0=A0=A0=A0=A0=A0=A0 return ret;
-> > > +
-> >=20
-> > unfortunately this breaks X on Raspberry Pi 4 in Linux 6.0.5
-> > (multi_v7_defconfig + LPAE). Today i saw this report [1] and bisected
-> > the issue down to this patch. Shame on me that i only tested this patch
-> > with Rpi 3B+ :-(
+Am 02.11.22 um 14:43 schrieb Christian König:
+> Am 02.11.22 um 14:36 schrieb Mikhail Gavrilov:
+>> On Tue, Nov 1, 2022 at 10:52 PM Christian König
+>> <ckoenig.leichtzumerken@gmail.com> wrote:
+>> [SNIP]
+>> But the most interesting thing is that all previous kernels 6.0, 5.19
+>> are affected by the problem. It is not enough to revert the
+>> dd80d9c8eecac8c516da5b240d01a35660ba6cb6 commit.
 >
-> Looks like "drm/vc4: hdmi: Fix HSM clock too low on Pi4" addresses this
-> issue ...
+> Yeah, that totally confirms what I expected. The context lock just 
+> hides the problem because userspace tended to use the same context.
+>
+> What the application now seems to do is to use multiple contexts for 
+> its submission and in this case re-adding the lock doesn't even help.
+>
+> Thanks for that information, gets me a lot closer to a solution.
 
-Yes, indeed. The fix should be on its way to -stable already
+I've found and fixed a few problems around the userptr handling which 
+might explain what you see here.
 
-Maxime
+A series of four patches starting with "drm/amdgpu: always register an 
+MMU notifier for userptr" is under review now.
 
---zvzqn4wjbzjl3o27
-Content-Type: application/pgp-signature; name="signature.asc"
+Going to give that a bit cleanup later today and will CC you when I send 
+that out. Would be nice if you could give that some testing.
 
------BEGIN PGP SIGNATURE-----
+Thanks,
+Christian.
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY3I9QAAKCRDj7w1vZxhR
-xQKtAP4+zlNIn7+r6XxtuDBvv0Eo4QlHEDhlHIQWW069FlLORAD+LiRnVQRFYCRX
-sJL1ElqKtlXEsrhB6Q2bUqMfY9W+Lww=
-=9ceS
------END PGP SIGNATURE-----
+>
+> Regards,
+> Christian.
 
---zvzqn4wjbzjl3o27--
