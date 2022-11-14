@@ -1,38 +1,109 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56150628351
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 15:56:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97289628358
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 15:59:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C515510E2D7;
-	Mon, 14 Nov 2022 14:56:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BA5010E2D6;
+	Mon, 14 Nov 2022 14:59:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m-r1.th.seeweb.it (m-r1.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59B5C10E2EA
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 14:55:56 +0000 (UTC)
-Received: from [192.168.31.208] (unknown [194.29.137.22])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 790111F88F;
- Mon, 14 Nov 2022 15:55:53 +0100 (CET)
-Message-ID: <5dea6c72-1323-f052-a386-887c20e9f8c3@somainline.org>
-Date: Mon, 14 Nov 2022 15:55:49 +0100
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2081.outbound.protection.outlook.com [40.107.244.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5860610E2C3;
+ Mon, 14 Nov 2022 14:59:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AcYrzJFFaDGciRm+nCGyewe6kgodYGTdxFlUmk49Nku30qrw9ommnchI3LCenj/d0HFOYZpgczSG5Ctm96/WWJnYjtkHre/I9y6yObBSlwt/vAtlRDXCBeSh/rw6KRtKs1P4HRbx7TDqEGSr6Ga2E21zQk+MKoh7JJwdfZdF7RgEvnhmQ1q211TQY055G1BWolV8ghkyLRQV3X56uG4PfZwWMmj201y2IPh1Bh4eLAsG352gW07wZf8Jddse0IrHpwknTwygsdiaFX4Efd/sUDoT2edTyCdi9/o74sDVKYqGQEa4dGjHcMtVpyfJRHxhFXbPatXqJi9TDbR5MQR2tA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hcHq69i/R3KFtpvlq0hyBzFJJ59bvQIvZC6vqOpV2OU=;
+ b=HlkaoUuh9WUlZs3YkxO894gl6ZFBQDdGMnOKkXTQfCYiXV5xJAaPxgR3lvvsl48izk0UOxcRymQBq57SBn5hHXOJwjGCbSAYz4Dd8JRT66n3QcjPCm5IhVEu3lbIcarPkdHOofu1gFF2uOhSpIhsiJ3OdOSyevJLC4/NLsN5ybI7DI/bIXcGAI5Z0nFS0oI/o8hlCOIq3Mv2eeEaRit6rejgeB++wOo99zTYIvI02YWVhCSerZZqU9iC43J0gpr1NKH1KXejxuuisYMCd+Bw7Qg+TVj3LnTZJbwRZHM6x9J+SUVq/VygR8tk4Js3ow6MriKJ3dZpxYrULAdRoaal0w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hcHq69i/R3KFtpvlq0hyBzFJJ59bvQIvZC6vqOpV2OU=;
+ b=MOCY271AHQikX3ZxQk4A/SJYt6c6FSUi+0pcyhM85tQDc+Jq2h7ipeORBC2z7lSwnMrozgAOAhKbyOadOKtZTazev2eu5+l90xb6ado05bk0lFQ44+BN4XJ6qIh57Bd0lX1gHKiTYv4OOc0+fKu7EHkYs83Vbga+t591U8lvIUEpBkCuV6nBBIlx7aVZIJ5bxVQPydF+NWqRVj6nrx8U4Oyl5/rnIw0D4ELB0bmYLgkG+0/CYxcw0RtoWfnNZv7rA3Uk57JlpPY5VQRTMI0kjqA2UpbRTJCMPeoopUDHPPud2AfFqLMfhuZYJELiE5gNQJYbXgbMlm5drIDINnRSKw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by PH7PR12MB5687.namprd12.prod.outlook.com (2603:10b6:510:13e::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.17; Mon, 14 Nov
+ 2022 14:59:14 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::f8b0:df13:5f8d:12a]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::f8b0:df13:5f8d:12a%7]) with mapi id 15.20.5813.017; Mon, 14 Nov 2022
+ 14:59:14 +0000
+Date: Mon, 14 Nov 2022 10:59:13 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Matthew Rosato <mjrosato@linux.ibm.com>
+Subject: Re: [PATCH v2 00/11] Connect VFIO to IOMMUFD
+Message-ID: <Y3JXwd4sZJfm/Il2@nvidia.com>
+References: <0-v2-65016290f146+33e-vfio_iommufd_jgg@nvidia.com>
+ <f54c2a93-539f-4520-0561-fbe5cea7772f@linux.ibm.com>
+ <Y3JPZwEHjGDU4Oyq@nvidia.com>
+ <2890d53a-2437-c74c-2082-1ee29414878f@linux.ibm.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2890d53a-2437-c74c-2082-1ee29414878f@linux.ibm.com>
+X-ClientProxiedBy: BL1PR13CA0411.namprd13.prod.outlook.com
+ (2603:10b6:208:2c2::26) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.2
-Subject: Re: [PATCH v3 2/2] gpu/drm/panel: Add Sony TD4353 JDI panel driver
-From: Konrad Dybcio <konrad.dybcio@somainline.org>
-To: ~postmarketos/upstreaming@lists.sr.ht
-References: <20220930180812.32210-1-konrad.dybcio@somainline.org>
- <20220930180812.32210-2-konrad.dybcio@somainline.org>
- <8a78ab73-443f-a18d-b8ef-4a2d507aa1fb@somainline.org>
-In-Reply-To: <8a78ab73-443f-a18d-b8ef-4a2d507aa1fb@somainline.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|PH7PR12MB5687:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6992e931-78a6-4340-8ec9-08dac650cb8a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: AHD5DTENRskcRS3rZ6cW0unLo9yE24E0Tehcki6S6yCx7fqWR74NdtxW8O0RWXsPlO+T9J+JS+p1HJRgM+peTKBDnSaAQt4A7e1O4Nw27loBiCAgG5Of2z5cC4i4JIuFUNBQUPRjRAGWmpSfmxJTwzwjGHIZO7ZyLgbAZc0nANpsVDB7JgJ3s7ft+Ja+36KUOCFW9g39VpDYj+J/hlVMoZkTpVbYSLARqcpii/TkrzNnrLV+Fjm5nREdhjglbWzqnVQeYJfpt8ZTMPRI0DCmPkgKzAatvmiU3bSf1yp2PzQ3dizt8iz59x/Z8GBul5rCIvcZDH1nPt2EK/c4wmqBbaWm4IoRq5PC79HQRwG8sNwzAZwZVofLZjMyenb6ClBuW7fJKoRtkX4pD/5XBYWeC5VHxc+s+pI8ngL6cQUZZi0I14MFo6e3FeccUGjtg49Uoyv/KUpHtR0P2W632X+vlyvfFJIMRyeGyhBXnRVflwPG/dBtrP3E3wQJsmRlInjRfVQrCmmnisSTvBxaSy6Mcz4+y8W0eMwhgvO6Vwlv7HepBo1SP2W3C7JeyKsW26Ah79MjxSXUG1JS1hu8i97+IJd9f9u6cdJ5MZTfXvWPxT7QsX+Vzoymy857PMEYFZkpTXOb+4gxdrIihR/mgKX8LHeifI1l9LFGK3exJbwXD8v6E74JVhxYZg3+RK/nFtaafUPVlndosaaCQYzA8Euevg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(346002)(39860400002)(396003)(366004)(136003)(376002)(451199015)(7406005)(4744005)(7416002)(8936002)(5660300002)(66476007)(8676002)(66556008)(41300700001)(4326008)(66946007)(316002)(54906003)(6916009)(36756003)(6486002)(26005)(6512007)(6506007)(478600001)(2616005)(186003)(2906002)(83380400001)(38100700002)(86362001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9ssMh4Da/KpTmoeaMwDSQvY5ZhVLXnpRX8OYVeYwy9LWIqcxX3Ltub08l9UR?=
+ =?us-ascii?Q?8iKSCisU1/DMZnAlWmt8lPO2isKhQaW7pHCnqt7IuTqlc5D29X/ZwZhmwaWm?=
+ =?us-ascii?Q?5IAsUiIHjqSDUvKTXeoT9rSf58KpEKWn90PtN3aDZMXuH+aQ8qKsG6uQxJ8J?=
+ =?us-ascii?Q?8XqpuWCNTi0eDuScc8urz6UhYO2k/95/QvpsYyMLQuy9LeYtyVC1wEgqvoT/?=
+ =?us-ascii?Q?ARNhFOi9oTkNIiPfbi8rTyH0vNJKIFdqT+3Sr9vWnQP6eTZr0Pf0/H3rxV3U?=
+ =?us-ascii?Q?HMd82T4zNT21j4DVI1HcphFWKqxGbsai6szyj7oEQXwG+EabtRwtDFMtdrNq?=
+ =?us-ascii?Q?QfZER9QYD72LKAYGHhGBRA965wuh1NBcPAKsaJNV2faScQnyXgk1UclwMcKP?=
+ =?us-ascii?Q?taOXmBVRhr8Jz7j1eiQQQWN9FXK2hGbKGIUoGOFvRwCQE89kNLzFrqYLlC9i?=
+ =?us-ascii?Q?N7VVrH6ksiCFfGDVORTJqtiKvtVPPh/OtmmH3jsHDjqMhuMz+LH/Lv/LaAlk?=
+ =?us-ascii?Q?2H4j5S/cJeP4ik9Bx0an0U5A58K5vkqZX9o2fiU3O7cNIUJqRA3DVR6IDJmF?=
+ =?us-ascii?Q?oFgExer/fewCqQZd5aSqaNfh/Y476jjyuKZiCGg3g3+zOxef8/tydMFWaKqL?=
+ =?us-ascii?Q?/s0MnV/yqhVxDKb0xsmfuP0Xf9CS+6sTHNnF4tfk1/O5uxDuzN3mTKKUjftg?=
+ =?us-ascii?Q?zPhXEM8m7pYKBpUR02gpfArHBkBJYh1UjX7jImLd44NzZhA8dU6sAr6tuEJ9?=
+ =?us-ascii?Q?sjbszLuFd78WG5OL+bB5m0MOxhUAmBotuAfuVQKkCopL2+1TeoqaaWqp0Gfh?=
+ =?us-ascii?Q?P+UDFGIJp1uA55UBhSiMl2qQ7P6d9ZEz2u+juJeoFha1sEmM87wcdHb37Puq?=
+ =?us-ascii?Q?COz7vtKEH20XqQ661WrgulXYK/aifnh71mlqqmEVGCj67DaifaA4B/6yQyD8?=
+ =?us-ascii?Q?WzPuFiZaqBZI9Fx7xoerTL3j4GOVcA6U+c00pfd7TsLeum9CCIoClKWroMQ2?=
+ =?us-ascii?Q?/YOCqIi1F/S1NGurzVqCWLxzcgCyMuygvgbgM3cE6me/o1KIIircj1OuZ9mg?=
+ =?us-ascii?Q?pFlxURLIdoH0a5twNojbRX1Lw3v6HwA5RgIJNOmTHg/fzENbsVi/vQvtEYjn?=
+ =?us-ascii?Q?rx3whiLBnHJD/Z5WsgrqWW8lWC4P8unvewKwpkzvGN9MGfMi28V1EKg8U/31?=
+ =?us-ascii?Q?KvPHwYYUo1qFMyftJ9U8yf2fGseA9ce+XuarsTrsKWCWC1AQOpH+5BabqZgJ?=
+ =?us-ascii?Q?ma9LVGCN8DURu9EcF7tOLt36oN8g5Qv9I+EFA6nj/EwYiCfGp7vYQNmH54pq?=
+ =?us-ascii?Q?dMwnz9qs7do8smtNBYb2nYCGt268xTNnjpQgo2TAoPwcXlUGHG3e9XY1Y5gD?=
+ =?us-ascii?Q?vkjTJf7CRr6ltA+d61OhKEyh38Q45DOUaD5MPWsKSq8fc5V2OoiNotqFNVWp?=
+ =?us-ascii?Q?mRX37P1liw2wkaDbtMcfpfBaOnLFmwfA3iLNNblTro1WAkfiVT7hM8VV7GtL?=
+ =?us-ascii?Q?HxSUAHNOUiy5I7pHmdV9PZE0FDMH3ka+a7HKINOS5ecRgHvUujzmO/4Q6f6E?=
+ =?us-ascii?Q?Ojuea8w/s+egdZpwTmU=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6992e931-78a6-4340-8ec9-08dac650cb8a
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2022 14:59:14.4009 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: beVLXJPTWV9Vi9RX7z/KzWtr4QUUCyew+PpPHsMnMbHqyZTiZqnL4zAh0KYchw55
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5687
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,414 +116,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- jamipkettunen@somainline.org, Thierry Reding <thierry.reding@gmail.com>,
- martin.botka@somainline.org, dri-devel@lists.freedesktop.org,
- angelogioacchino.delregno@somainline.org, marijn.suijten@somainline.org,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: kvm@vger.kernel.org, Kevin Tian <kevin.tian@intel.com>,
+ dri-devel@lists.freedesktop.org, Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Diana Craciun <diana.craciun@oss.nxp.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Longfang Liu <liulongfang@huawei.com>, linux-s390@vger.kernel.org, "Liu,
+ Yi L" <yi.l.liu@intel.com>, Will Deacon <will@kernel.org>,
+ Joerg Roedel <joro@8bytes.org>, Halil Pasic <pasic@linux.ibm.com>,
+ iommu@lists.linux.dev, Nicolin Chen <nicolinc@nvidia.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ intel-gfx@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>,
+ Jason Herne <jjherne@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
+ Tony Krowiak <akrowiak@linux.ibm.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Robin Murphy <robin.murphy@arm.com>,
+ Lu Baolu <baolu.lu@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 14/10/2022 18:36, Konrad Dybcio wrote:
+On Mon, Nov 14, 2022 at 09:55:21AM -0500, Matthew Rosato wrote:
+> >> AFAICT there is no equivalent means to specify
+> >> vfio_iommu_type1.dma_entry_limit when using iommufd; looks like
+> >> we'll just always get the default 65535.
+> > 
+> > No, there is no arbitary limit on iommufd
 > 
-> 
-> On 30.09.2022 20:08, Konrad Dybcio wrote:
->> Add support for the Sony TD4353 JDI 2160x1080 display panel used in
->> some Sony Xperia XZ2 and XZ2 Compact smartphones. Due to the specifics
->> of smartphone manufacturing, it is impossible to retrieve a better name
->> for this panel.
->>
->> This revision adds support for the default 60 Hz configuration, however
->> there could possibly be some room for expansion, as the display panels
->> used on Sony devices have historically been capable of >2x refresh rate
->> overclocking.
->>
->> Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
->> ---
-> Gentle bump
-> 
-> Konrad
-Yet another one.
+> Yeah, that's what I suspected.  But FWIW, userspace checks the
+> advertised limit via VFIO_IOMMU_GET_INFO /
+> VFIO_IOMMU_TYPE1_INFO_DMA_AVAIL, and this is still being advertised
+> as 65535 when using iommufd.  I don't think there is a defined way
+> to return 'ignore this value'.
 
-Konrad
->> Changes since v2:
->> - "GPL v2" -> "GPL"
->> - add missing S-o-b (how embarassing)
->> - move { after sony_td4353_assert_reset_gpios() to a new line
->>
->>   drivers/gpu/drm/panel/Kconfig                 |  10 +
->>   drivers/gpu/drm/panel/Makefile                |   1 +
->>   drivers/gpu/drm/panel/panel-sony-td4353-jdi.c | 329 ++++++++++++++++++
->>   3 files changed, 340 insertions(+)
->>   create mode 100644 drivers/gpu/drm/panel/panel-sony-td4353-jdi.c
->>
->> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
->> index a582ddd583c2..6ef1b48169b5 100644
->> --- a/drivers/gpu/drm/panel/Kconfig
->> +++ b/drivers/gpu/drm/panel/Kconfig
->> @@ -637,6 +637,16 @@ config DRM_PANEL_SONY_ACX565AKM
->>   	  Say Y here if you want to enable support for the Sony ACX565AKM
->>   	  800x600 3.5" panel (found on the Nokia N900).
->>   
->> +config DRM_PANEL_SONY_TD4353_JDI
->> +	tristate "Sony TD4353 JDI panel"
->> +	depends on GPIOLIB && OF
->> +	depends on DRM_MIPI_DSI
->> +	depends on BACKLIGHT_CLASS_DEVICE
->> +	help
->> +	  Say Y here if you want to enable support for the Sony Tama
->> +	  TD4353 JDI command mode panel as found on some Sony Xperia
->> +	  XZ2 and XZ2 Compact smartphones.
->> +
->>   config DRM_PANEL_SONY_TULIP_TRULY_NT35521
->>   	tristate "Sony Tulip Truly NT35521 panel"
->>   	depends on GPIOLIB && OF
->> diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
->> index 8e71aa7581b8..8ef27bc86f94 100644
->> --- a/drivers/gpu/drm/panel/Makefile
->> +++ b/drivers/gpu/drm/panel/Makefile
->> @@ -64,6 +64,7 @@ obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7701) += panel-sitronix-st7701.o
->>   obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7703) += panel-sitronix-st7703.o
->>   obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7789V) += panel-sitronix-st7789v.o
->>   obj-$(CONFIG_DRM_PANEL_SONY_ACX565AKM) += panel-sony-acx565akm.o
->> +obj-$(CONFIG_DRM_PANEL_SONY_TD4353_JDI) += panel-sony-td4353-jdi.o
->>   obj-$(CONFIG_DRM_PANEL_SONY_TULIP_TRULY_NT35521) += panel-sony-tulip-truly-nt35521.o
->>   obj-$(CONFIG_DRM_PANEL_TDO_TL070WSH30) += panel-tdo-tl070wsh30.o
->>   obj-$(CONFIG_DRM_PANEL_TPO_TD028TTEC1) += panel-tpo-td028ttec1.o
->> diff --git a/drivers/gpu/drm/panel/panel-sony-td4353-jdi.c b/drivers/gpu/drm/panel/panel-sony-td4353-jdi.c
->> new file mode 100644
->> index 000000000000..11db62992b8b
->> --- /dev/null
->> +++ b/drivers/gpu/drm/panel/panel-sony-td4353-jdi.c
->> @@ -0,0 +1,329 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +/*
->> + * Copyright (c) 2022 Konrad Dybcio <konrad.dybcio@somainline.org>
->> + *
->> + * Generated with linux-mdss-dsi-panel-driver-generator with a
->> + * substantial amount of manual adjustments.
->> + *
->> + * SONY Downstream kernel calls this one:
->> + * - "JDI ID3" for Akari  (XZ2)
->> + * - "JDI ID4" for Apollo (XZ2 Compact)
->> + */
->> +
->> +#include <linux/delay.h>
->> +#include <linux/gpio/consumer.h>
->> +#include <linux/module.h>
->> +#include <linux/of.h>
->> +#include <linux/of_device.h>
->> +#include <linux/regulator/consumer.h>
->> +
->> +#include <video/mipi_display.h>
->> +
->> +#include <drm/drm_mipi_dsi.h>
->> +#include <drm/drm_modes.h>
->> +#include <drm/drm_panel.h>
->> +
->> +enum {
->> +	TYPE_TAMA_60HZ,
->> +	/*
->> +	 * Leaving room for expansion - SONY very often uses
->> +	 * *truly reliably* overclockable panels on their flagships!
->> +	 */
->> +};
->> +
->> +struct sony_td4353_jdi {
->> +	struct drm_panel panel;
->> +	struct mipi_dsi_device *dsi;
->> +	struct regulator_bulk_data supplies[3];
->> +	struct gpio_desc *panel_reset_gpio;
->> +	struct gpio_desc *touch_reset_gpio;
->> +	bool prepared;
->> +	int type;
->> +};
->> +
->> +static inline struct sony_td4353_jdi *to_sony_td4353_jdi(struct drm_panel *panel)
->> +{
->> +	return container_of(panel, struct sony_td4353_jdi, panel);
->> +}
->> +
->> +static int sony_td4353_jdi_on(struct sony_td4353_jdi *ctx)
->> +{
->> +	struct mipi_dsi_device *dsi = ctx->dsi;
->> +	struct device *dev = &dsi->dev;
->> +	int ret;
->> +
->> +	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
->> +
->> +	ret = mipi_dsi_dcs_set_column_address(dsi, 0x0000, 0x0437);
->> +	if (ret < 0) {
->> +		dev_err(dev, "Failed to set column address: %d\n", ret);
->> +		return ret;
->> +	}
->> +
->> +	ret = mipi_dsi_dcs_set_page_address(dsi, 0x0000, 0x086f);
->> +	if (ret < 0) {
->> +		dev_err(dev, "Failed to set page address: %d\n", ret);
->> +		return ret;
->> +	}
->> +
->> +	ret = mipi_dsi_dcs_set_tear_scanline(dsi, 0x0000);
->> +	if (ret < 0) {
->> +		dev_err(dev, "Failed to set tear scanline: %d\n", ret);
->> +		return ret;
->> +	}
->> +
->> +	ret = mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
->> +	if (ret < 0) {
->> +		dev_err(dev, "Failed to set tear on: %d\n", ret);
->> +		return ret;
->> +	}
->> +
->> +	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_ADDRESS_MODE, 0x00);
->> +
->> +	ret = mipi_dsi_dcs_set_pixel_format(dsi, 0x77);
->> +	if (ret < 0) {
->> +		dev_err(dev, "Failed to set pixel format: %d\n", ret);
->> +		return ret;
->> +	}
->> +
->> +	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_PARTIAL_ROWS,
->> +			  0x00, 0x00, 0x08, 0x6f);
->> +
->> +	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
->> +	if (ret < 0) {
->> +		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
->> +		return ret;
->> +	}
->> +	msleep(70);
->> +
->> +	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_MEMORY_START);
->> +
->> +	ret = mipi_dsi_dcs_set_display_on(dsi);
->> +	if (ret < 0) {
->> +		dev_err(dev, "Failed to turn display on: %d\n", ret);
->> +		return ret;
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->> +static int sony_td4353_jdi_off(struct sony_td4353_jdi *ctx)
->> +{
->> +	struct mipi_dsi_device *dsi = ctx->dsi;
->> +	struct device *dev = &dsi->dev;
->> +	int ret;
->> +
->> +	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
->> +
->> +	ret = mipi_dsi_dcs_set_display_off(dsi);
->> +	if (ret < 0) {
->> +		dev_err(dev, "Failed to set display off: %d\n", ret);
->> +		return ret;
->> +	}
->> +	msleep(22);
->> +
->> +	ret = mipi_dsi_dcs_set_tear_off(dsi);
->> +	if (ret < 0) {
->> +		dev_err(dev, "Failed to set tear off: %d\n", ret);
->> +		return ret;
->> +	}
->> +
->> +	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
->> +	if (ret < 0) {
->> +		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
->> +		return ret;
->> +	}
->> +	msleep(80);
->> +
->> +	return 0;
->> +}
->> +
->> +static void sony_td4353_assert_reset_gpios(struct sony_td4353_jdi *ctx, int mode)
->> +{
->> +	gpiod_set_value_cansleep(ctx->touch_reset_gpio, mode);
->> +	gpiod_set_value_cansleep(ctx->panel_reset_gpio, mode);
->> +	usleep_range(5000, 5100);
->> +}
->> +
->> +static int sony_td4353_jdi_prepare(struct drm_panel *panel)
->> +{
->> +	struct sony_td4353_jdi *ctx = to_sony_td4353_jdi(panel);
->> +	struct device *dev = &ctx->dsi->dev;
->> +	int ret;
->> +
->> +	if (ctx->prepared)
->> +		return 0;
->> +
->> +	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
->> +	if (ret < 0) {
->> +		dev_err(dev, "Failed to enable regulators: %d\n", ret);
->> +		return ret;
->> +	}
->> +
->> +	msleep(100);
->> +
->> +	sony_td4353_assert_reset_gpios(ctx, 1);
->> +
->> +	ret = sony_td4353_jdi_on(ctx);
->> +	if (ret < 0) {
->> +		dev_err(dev, "Failed to power on panel: %d\n", ret);
->> +		sony_td4353_assert_reset_gpios(ctx, 0);
->> +		regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
->> +		return ret;
->> +	}
->> +
->> +	ctx->prepared = true;
->> +	return 0;
->> +}
->> +
->> +static int sony_td4353_jdi_unprepare(struct drm_panel *panel)
->> +{
->> +	struct sony_td4353_jdi *ctx = to_sony_td4353_jdi(panel);
->> +	struct device *dev = &ctx->dsi->dev;
->> +	int ret;
->> +
->> +	if (!ctx->prepared)
->> +		return 0;
->> +
->> +	ret = sony_td4353_jdi_off(ctx);
->> +	if (ret < 0)
->> +		dev_err(dev, "Failed to power off panel: %d\n", ret);
->> +
->> +	sony_td4353_assert_reset_gpios(ctx, 0);
->> +	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
->> +
->> +	ctx->prepared = false;
->> +	return 0;
->> +}
->> +
->> +static const struct drm_display_mode sony_td4353_jdi_mode_tama_60hz = {
->> +	.clock = (1080 + 4 + 8 + 8) * (2160 + 259 + 8 + 8) * 60 / 1000,
->> +	.hdisplay = 1080,
->> +	.hsync_start = 1080 + 4,
->> +	.hsync_end = 1080 + 4 + 8,
->> +	.htotal = 1080 + 4 + 8 + 8,
->> +	.vdisplay = 2160,
->> +	.vsync_start = 2160 + 259,
->> +	.vsync_end = 2160 + 259 + 8,
->> +	.vtotal = 2160 + 259 + 8 + 8,
->> +	.width_mm = 64,
->> +	.height_mm = 128,
->> +};
->> +
->> +static int sony_td4353_jdi_get_modes(struct drm_panel *panel,
->> +				   struct drm_connector *connector)
->> +{
->> +	struct sony_td4353_jdi *ctx = to_sony_td4353_jdi(panel);
->> +	struct drm_display_mode *mode = NULL;
->> +
->> +	if (ctx->type == TYPE_TAMA_60HZ)
->> +		mode = drm_mode_duplicate(connector->dev, &sony_td4353_jdi_mode_tama_60hz);
->> +	else
->> +		return -EINVAL;
->> +
->> +	if (!mode)
->> +		return -ENOMEM;
->> +
->> +	drm_mode_set_name(mode);
->> +
->> +	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
->> +	connector->display_info.width_mm = mode->width_mm;
->> +	connector->display_info.height_mm = mode->height_mm;
->> +	drm_mode_probed_add(connector, mode);
->> +
->> +	return 1;
->> +}
->> +
->> +static const struct drm_panel_funcs sony_td4353_jdi_panel_funcs = {
->> +	.prepare = sony_td4353_jdi_prepare,
->> +	.unprepare = sony_td4353_jdi_unprepare,
->> +	.get_modes = sony_td4353_jdi_get_modes,
->> +};
->> +
->> +static int sony_td4353_jdi_probe(struct mipi_dsi_device *dsi)
->> +{
->> +	struct device *dev = &dsi->dev;
->> +	struct sony_td4353_jdi *ctx;
->> +	int ret;
->> +
->> +	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
->> +	if (!ctx)
->> +		return -ENOMEM;
->> +
->> +	ctx->type = (uintptr_t)of_device_get_match_data(dev);
->> +
->> +	ctx->supplies[0].supply = "vddio";
->> +	ctx->supplies[1].supply = "vsp";
->> +	ctx->supplies[2].supply = "vsn";
->> +	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(ctx->supplies),
->> +				      ctx->supplies);
->> +	if (ret < 0)
->> +		return dev_err_probe(dev, ret, "Failed to get regulators\n");
->> +
->> +	ctx->panel_reset_gpio = devm_gpiod_get(dev, "panel-reset", GPIOD_ASIS);
->> +	if (IS_ERR(ctx->panel_reset_gpio))
->> +		return dev_err_probe(dev, PTR_ERR(ctx->panel_reset_gpio),
->> +				     "Failed to get panel-reset-gpios\n");
->> +
->> +	ctx->touch_reset_gpio = devm_gpiod_get(dev, "touch-reset", GPIOD_ASIS);
->> +	if (IS_ERR(ctx->touch_reset_gpio))
->> +		return dev_err_probe(dev, PTR_ERR(ctx->touch_reset_gpio),
->> +				     "Failed to get touch-reset-gpios\n");
->> +
->> +	ctx->dsi = dsi;
->> +	mipi_dsi_set_drvdata(dsi, ctx);
->> +
->> +	dsi->lanes = 4;
->> +	dsi->format = MIPI_DSI_FMT_RGB888;
->> +	dsi->mode_flags = MIPI_DSI_CLOCK_NON_CONTINUOUS;
->> +
->> +	drm_panel_init(&ctx->panel, dev, &sony_td4353_jdi_panel_funcs,
->> +		       DRM_MODE_CONNECTOR_DSI);
->> +
->> +	ret = drm_panel_of_backlight(&ctx->panel);
->> +	if (ret)
->> +		return dev_err_probe(dev, ret, "Failed to get backlight\n");
->> +
->> +	drm_panel_add(&ctx->panel);
->> +
->> +	ret = mipi_dsi_attach(dsi);
->> +	if (ret < 0) {
->> +		dev_err(dev, "Failed to attach to DSI host: %d\n", ret);
->> +		drm_panel_remove(&ctx->panel);
->> +		return ret;
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->> +static void sony_td4353_jdi_remove(struct mipi_dsi_device *dsi)
->> +{
->> +	struct sony_td4353_jdi *ctx = mipi_dsi_get_drvdata(dsi);
->> +	int ret;
->> +
->> +	ret = mipi_dsi_detach(dsi);
->> +	if (ret < 0)
->> +		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
->> +
->> +	drm_panel_remove(&ctx->panel);
->> +}
->> +
->> +static const struct of_device_id sony_td4353_jdi_of_match[] = {
->> +	{ .compatible = "sony,td4353-jdi-tama", .data = (void *)TYPE_TAMA_60HZ },
->> +	{ /* sentinel */ }
->> +};
->> +MODULE_DEVICE_TABLE(of, sony_td4353_jdi_of_match);
->> +
->> +static struct mipi_dsi_driver sony_td4353_jdi_driver = {
->> +	.probe = sony_td4353_jdi_probe,
->> +	.remove = sony_td4353_jdi_remove,
->> +	.driver = {
->> +		.name = "panel-sony-td4353-jdi",
->> +		.of_match_table = sony_td4353_jdi_of_match,
->> +	},
->> +};
->> +module_mipi_dsi_driver(sony_td4353_jdi_driver);
->> +
->> +MODULE_AUTHOR("Konrad Dybcio <konrad.dybcio@somainline.org>");
->> +MODULE_DESCRIPTION("DRM panel driver for SONY Xperia XZ2/XZ2c JDI panel");
->> +MODULE_LICENSE("GPL");
+Is something using this? Should we make it much bigger?
+
+Jason
