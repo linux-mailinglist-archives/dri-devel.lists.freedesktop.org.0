@@ -1,61 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F35662898C
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 20:41:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28B8C6289D6
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 20:51:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAA5E10E314;
-	Mon, 14 Nov 2022 19:41:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5864A10E069;
+	Mon, 14 Nov 2022 19:51:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com
- [IPv6:2607:f8b0:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCAC210E314;
- Mon, 14 Nov 2022 19:41:10 +0000 (UTC)
-Received: by mail-pg1-x529.google.com with SMTP id v3so11134860pgh.4;
- Mon, 14 Nov 2022 11:41:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=3XrI4nxvGHUCxoc8HuMbGJ+vNpFCW7F3PwRmwEeEnBE=;
- b=gppJTB4ThxkXJZLbWfSW4pZ121wwq072YhQUh+SzfkcvR94GOYRlkaQZg7dO7+yQNN
- 5k3gNK8L1xS3vged5EKsB/9a71x2UreuBfs7GFBWV2mE+xY9TTS16jvL7ki0RpsXfaJV
- Fn3lgL3+mHi9IE5wNArMI0w7WgUEH2JE4OjytDywiWxE+1stkdv2Cul5CrgXn6Szpt6z
- 7jarednJ9M0GUC0dprQE4/2rcI04RCTEcgUkUfki2i9QZPbhAxvP1RrdSiIWznaI7VRa
- 0N4RaT5hz1BpQw8R4j91f9AxlSovfy1IUhd/99Xnb4TxVGlPSo9zlNgObRNYNcjTmOyA
- pDxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=3XrI4nxvGHUCxoc8HuMbGJ+vNpFCW7F3PwRmwEeEnBE=;
- b=mTyFMayI3/aNJL8lbWss1ddaggfDgNbSGLxRfOJtyoCCmrsmS0lYgXPMbVKwWVzJxd
- jgoAMnBItGLgFcp9WXCoWi38JghKqW/RF8qBzsrcV8FETHhC9xNFpYiJX/6D/hY+TxJK
- KFJMgFYfTM2WTmXY5vqC+h9K/KTah/xhD+cPJ5QiZ12ll63LFJH/08q6IgcgnC69nQ8m
- BdXYqexplradWHFg+av7VtF5EZ8KbJFN9XoiIIAJQaQmLt2WVyzljkW2xDwayjyILyMJ
- 1VxeRJF6UdEq8X2f1cCTNsFqbI8LBkoDirOg9HBH6Pg8ZJGd5ysfREaNZ+P83FY+fwNg
- h9mg==
-X-Gm-Message-State: ANoB5pk8rlXI446FnArIowlgOvxgBsF+093OsbEOQwiVHHt893zkLt/B
- 5StUnonPZIRjv9y70evSLFS+P9W+Gf0=
-X-Google-Smtp-Source: AA0mqf7ozzAVNmQ0762Wdq2RaoUHGyy3f7FD4K4fw0PZKL9JZzpVniJ6TDAEWGe0OS68Bc54J/2JBw==
-X-Received: by 2002:a63:5206:0:b0:41a:5a80:5f20 with SMTP id
- g6-20020a635206000000b0041a5a805f20mr12701044pgb.442.1668454870081; 
- Mon, 14 Nov 2022 11:41:10 -0800 (PST)
-Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
- by smtp.gmail.com with ESMTPSA id
- gk9-20020a17090b118900b00205db4ff6dfsm6841481pjb.46.2022.11.14.11.41.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Nov 2022 11:41:09 -0800 (PST)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/msm/a6xx: Fix speed-bin detection vs probe-defer
-Date: Mon, 14 Nov 2022 11:41:31 -0800
-Message-Id: <20221114194133.1535178-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.38.1
+Received: from galois.linutronix.de (Galois.linutronix.de
+ [IPv6:2a0a:51c0:0:12e:550::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A172310E069
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 19:51:20 +0000 (UTC)
+From: John Ogness <john.ogness@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1668455478;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=PfwmN3gCUQ+9TAw/6+bki3KtgpMLZgBklmxHfTgDw4o=;
+ b=iMGGVuDKNStmNor0UI3iTAYJ0AUO55XogBClFvM6B+tx0AU7fG2GCFY1lB/NC6Tb3UDkHT
+ wjMXw+7S+KKxg6nci2jZINQSPEpVH8/S75n8xpxWvbZB9TxM/doLt1grp8dJYSQNe4gcu2
+ DqQPQFAS80ZUU4gsK6dxxarHe2nXdRbTQa10ScIZY9lfZD459n/D+zboV2n4sGBx1lblni
+ JnLYd56MPxPaQR/+Mg3f7wjXIhTMsGxmrmPTrYXYKM4AA9jm8M7zDoQPx6vcpAWYDQ7x6x
+ bqOsfc0s5Ggddqj32cmnHa27cCEyV5ocQGudIreuupfSYr3csW2a8Zggd4jVgw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1668455478;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=PfwmN3gCUQ+9TAw/6+bki3KtgpMLZgBklmxHfTgDw4o=;
+ b=dncJ14jVrz1LFCtglE+whx9TPp6GS0vWhsUTBrHNZGXicNcXkFVwyCGWGQtJhi1XDLy5gW
+ vPUxufgOngSBI2Bw==
+To: Petr Mladek <pmladek@suse.com>
+Subject: Re: [PATCH printk v4 31/39] printk, xen: fbfront: create/use safe
+ function for forcing preferred
+In-Reply-To: <20221114162932.141883-32-john.ogness@linutronix.de>
+References: <20221114162932.141883-1-john.ogness@linutronix.de>
+ <20221114162932.141883-32-john.ogness@linutronix.de>
+Date: Mon, 14 Nov 2022 20:57:18 +0106
+Message-ID: <87mt8tfh6x.fsf@jogness.linutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,41 +55,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Douglas Anderson <dianders@chromium.org>, Sean Paul <sean@poorly.run>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>
+Cc: Juergen Gross <jgross@suse.com>, linux-fbdev@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
+ linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Tom Rix <trix@redhat.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+Hi,
 
-If we get an error (other than -ENOENT) we need to propagate that up the
-stack.  Otherwise if the nvmem driver hasn't probed yet, we'll end up with
-whatever OPP(s) are represented by bit zero.
+After more detailed runtime testing I discovered that I didn't re-insert
+the console to the correct place in the list. More below...
 
-Fixed: fe7952c629da ("drm/msm: Add speed-bin support to a618 gpu")
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 2022-11-14, John Ogness <john.ogness@linutronix.de> wrote:
+> diff --git a/include/linux/console.h b/include/linux/console.h
+> index f716e1dd9eaf..9cea254b34b8 100644
+> --- a/include/linux/console.h
+> +++ b/include/linux/console.h
+> @@ -291,6 +291,7 @@ enum con_flush_mode {
+>  };
+>  
+>  extern int add_preferred_console(char *name, int idx, char *options);
+> +extern void console_force_preferred_locked(struct console *con);
+>  extern void register_console(struct console *);
+>  extern int unregister_console(struct console *);
+>  extern void console_lock(void);
+> diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
+> index e770b1ede6c9..dff76c1cef80 100644
+> --- a/kernel/printk/printk.c
+> +++ b/kernel/printk/printk.c
+> @@ -3461,6 +3462,48 @@ int unregister_console(struct console *console)
+>  }
+>  EXPORT_SYMBOL(unregister_console);
+>  
+> +/**
+> + * console_force_preferred_locked - force a registered console preferred
+> + * @con: The registered console to force preferred.
+> + *
+> + * Must be called under console_list_lock().
+> + */
+> +void console_force_preferred_locked(struct console *con)
+> +{
+> +	struct console *cur_pref_con;
+> +
+> +	if (!console_is_registered_locked(con))
+> +		return;
+> +
+> +	cur_pref_con = console_first();
+> +
+> +	/* Already preferred? */
+> +	if (cur_pref_con == con)
+> +		return;
+> +
+> +	/*
+> +	 * Delete, but do not re-initialize the entry. This allows the console
+> +	 * to continue to appear registered (via any hlist_unhashed_lockless()
+> +	 * checks), even though it was briefly removed from the console list.
+> +	 */
+> +	hlist_del_rcu(&con->node);
+> +
+> +	/*
+> +	 * Ensure that all SRCU list walks have completed so that the console
+> +	 * can be added to the beginning of the console list and its forward
+> +	 * list pointer can be re-initialized.
+> +	 */
+> +	synchronize_srcu(&console_srcu);
+> +
+> +	con->flags |= CON_CONSDEV;
+> +	WARN_ON(!con->device);
+> +
+> +	/* Only the new head can have CON_CONSDEV set. */
+> +	console_srcu_write_flags(cur_pref_con, cur_pref_con->flags & ~CON_CONSDEV);
+> +	hlist_add_behind_rcu(&con->node, console_list.first);
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 7fe60c65a1eb..96de2202c86c 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -1956,7 +1956,7 @@ static int a6xx_set_supported_hw(struct device *dev, struct adreno_rev rev)
- 		DRM_DEV_ERROR(dev,
- 			      "failed to read speed-bin (%d). Some OPPs may not be supported by hardware",
- 			      ret);
--		goto done;
-+		return ret;
- 	}
+This is adding the console as the 2nd item. It should be the new
+head. The patch below fixes it.
+
+I have done careful runtime testing with this fixup. After the
+force_preferred, the console is the new head and sending data to
+/dev/console redirects to that console.
+
+It would be nice if we could fold this in. Sorry.
+
+John Ogness
+
+diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
+index 8d635467882f..4b77586cf4cb 100644
+--- a/kernel/printk/printk.c
++++ b/kernel/printk/printk.c
+@@ -3494,7 +3494,7 @@ void console_force_preferred_locked(struct console *con)
  
- 	supp_hw = fuse_to_supp_hw(dev, rev, speedbin);
--- 
-2.38.1
-
+ 	/* Only the new head can have CON_CONSDEV set. */
+ 	console_srcu_write_flags(cur_pref_con, cur_pref_con->flags & ~CON_CONSDEV);
+-	hlist_add_behind_rcu(&con->node, console_list.first);
++	hlist_add_head_rcu(&con->node, &console_list);
+ }
+ EXPORT_SYMBOL(console_force_preferred_locked);
+ 
