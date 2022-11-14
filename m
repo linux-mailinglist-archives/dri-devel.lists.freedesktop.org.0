@@ -2,64 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60E52628891
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 19:48:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F2B96288C7
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 19:59:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9291410E0F6;
-	Mon, 14 Nov 2022 18:48:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AB9310E1CB;
+	Mon, 14 Nov 2022 18:59:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D86D410E0F6
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 18:48:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1668451697; bh=gewXAtIaH7SmnHnPPkwoF7m+Ih7zyoFHig7cxNLFeBQ=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=c60iFwJ1Qty8Q+mBGZ2HWcqx7p7IUS4CIiMDL+yZvmF4APzlfqxkWGIXjEU4LFRcT
- Z+dJzn4qM4DaRydtsT9qIhBUO9QzMDeARsKxFX5Xijvy/tzCZ8zXspXf3d1ZqkNywO
- 48R56MttIScFDm4pDijq+NF4w2vcedd50940FANzYbeWYiTt26gJwBrSZoxpMiK8+e
- zbynr4EkQ2THroyEOcT369Pl0gu7AkQtAZh7YqmCS/AvKy9HopxrsxI33jSI04ycc4
- JCZbtFyg2Gf6QUVZ8zt4bgiOiZiXXMhqZN317leH5Gzk+owymFf2aes1R7kryjyjxV
- W+NvnALVGYdtg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([92.116.133.36]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1M9nxn-1ordh62J3V-005oDH; Mon, 14
- Nov 2022 19:48:17 +0100
-Message-ID: <4bdd59e7-e811-0fa9-4f1b-154d7f038a20@gmx.de>
-Date: Mon, 14 Nov 2022 19:48:17 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B9B910E1CB
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 18:59:46 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 81CB161370
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 18:59:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD4AEC43144
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 18:59:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1668452384;
+ bh=EtkNkpCgCEj/XCm8PzfrrbKRBgIIi7EzPDqg2iPYXLA=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=uQAOorrRZaUwIcN81mjBiutiJ6osxhBLFKL8JiACcvP0MuR3+NHddHSPV8Xv8PDaH
+ b0qeSFj5tnnFIsHQn5Ij5A83N6idgI192rkzVLbzoVsNdA/xjM4We81LD9f0tjwEw9
+ JQDPr9wQxjupn+AQGvO3RMwGEVNPLHpIipu+yrQtV0xnJKhsu7D682rfk1DlK2zdYf
+ AKRMw+apFdw1hdTXhYnC6b3mVKEr9R+5s7XuUtKIGt3T0c80COpu6gp99g8wNcryNv
+ PHaouI6rZY2kCYkRoCPZPkID8X1sfKLZCGPY/cLxhQkWxOR+Sj843fLOr8J4VTqSap
+ RuO40SLM6kcxQ==
+Received: by mail-lj1-f181.google.com with SMTP id t10so14534047ljj.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 10:59:44 -0800 (PST)
+X-Gm-Message-State: ANoB5plvOpC1k2kzI3nSmFEKPqgd1uID6Qv7/Roq+F/qw4dnD2Sxy0aC
+ m9sAFg5Cl93cDTEEcRejPJtqz45VKMCJgwgm4A==
+X-Google-Smtp-Source: AA0mqf6Q5WVlUmVRQ8ZKdu8TYVsI0kILX7ikKbk0RHKy0f7vWsNdByG/gg/o9jDPj9PCOPXRNjrJ7r+/TDeEecxeUGU=
+X-Received: by 2002:a2e:a80b:0:b0:275:1343:df71 with SMTP id
+ l11-20020a2ea80b000000b002751343df71mr4965402ljq.215.1668452382831; Mon, 14
+ Nov 2022 10:59:42 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH] video: fbdev: vermilion: decrease reference count in
- error path
-Content-Language: en-US
-To: Xiongfeng Wang <wangxiongfeng2@huawei.com>, javierm@redhat.com,
- b.zolnierkie@samsung.com, tzimmermann@suse.de
-References: <20221114085654.179249-1-wangxiongfeng2@huawei.com>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20221114085654.179249-1-wangxiongfeng2@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+References: <20221112194210.7657-1-rjs@fdy2.co.uk>
+ <20221112194210.7657-2-rjs@fdy2.co.uk>
+In-Reply-To: <20221112194210.7657-2-rjs@fdy2.co.uk>
+From: Rob Herring <robh@kernel.org>
+Date: Mon, 14 Nov 2022 12:59:34 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKgtDJJ8bbfTyMjcOvt80vpGMdo8Py3zN1ne3knM7szgg@mail.gmail.com>
+Message-ID: <CAL_JsqKgtDJJ8bbfTyMjcOvt80vpGMdo8Py3zN1ne3knM7szgg@mail.gmail.com>
+Subject: Re: [PATCH 1/1] drm/shmem: Dual licence the files as GPL-2 and MIT
+To: rjs@fdy2.co.uk
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:QOK4Tcx7oEbHsGgvfXLbx44lFheyPwM4DdEbbF5Vqerx6tZ4VG4
- 7Q+ULuxdik5GV0nG07V284SqhNTp1Bv7pVlL8q5PG9jyXFLPVmmkF1rXllISUEgtsVdfoGr
- j7uFY8TpA7VtYzCiwxLuVhwPIluqMx2ytHCjDdq8fBQdXTEJ0q/cv4AEc8zELT1QheIjFe4
- AwK0feMlQDay6uWoWVReQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:qd2ifuF6r70=;hHLBaoUSfeUZpTDhQr0cKz8gaOO
- cpoyZxLjIfhtZt/tyz77oGAPk2Ug8I3Y3NGwPmjJTTJhOVl6fs72fsQp1Nt3u/Vqgvca0vuTD
- nWiY4G/2oe07X/gQUGgpxa5dCbeMWhM6Ao9KWOTjfjN/0NoIYNDSt4PYszb2UB/u7YImx8AmW
- eabnYmX7OfMxbQoImhzFSE41T9uPwBc92xAxdEevq0voZ0YtyaaGXBK6rtl4/CrmtUvx38vOl
- 29QbfptLvcUkSa3ad1pq/96moQKpaFAZWGKTubfyeykuUePY2ezdCHeqhkpu4rZCAQ4GsyClC
- lSrEAMO49V+wae625dE9+smVvYoLfOz4rgNNA91YR5U9pNDCWCfnivFHc93IB2wzn9CCWcaOp
- Z+VO1wPWHoPdhZz+gHum64ymgzewecT8VyvOXTEBJkKWstw+M+tmEe0UUEpUHR39meVmm4ns8
- rgI9uH7iOlcvI2o2orwB7cOD6IUp6g/shu33UVQWpn5NKpxGTD9bw8VOpefCObRX785C7TXqS
- SryZiB46a0O6xMPhQt9M6DOQayISpWknuU7dPT2nxhh71kr0F1IHTQGH1MXw0gHJPbUO0mXrB
- UhfyAPIlB8NlBMm+Kyk3B0dN4Hn/OGk8OQ0z87jYrnJ9mmKccmsO8tJrweqIX1v9ym2Qnhefj
- pq8EZxROD3r/IaGCkZAA5/iASShQ6mssDIuKtNdseG9LfqpCD9NK3qUaaxRiblCaP9V7eNvk1
- rSZrFGCqjeZJZAVx56+pBCQrTKPn6IYW9mUn2rU9mKXzhABPktVU+/ICXCJmQYUMDQJJnPH82
- j5sJDLjx/N0Taq+OgfnoQ8pIpuCQRytSHn07CRS7aMBYqiDHdH/2NokoKL4bx0217QO5e1dKO
- y35QjfVT07CXocwuM/hmaPkhcxVQo08EyxfTJpRpACwOJ6o9pXwcxd/NkqkCDgnDXV+lP6CIp
- YeMud6c7oQkxKdu3bsi6CK5z0B0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,44 +61,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- yangyingliang@huawei.com
+Cc: sfr@canb.auug.org.au, dri-devel@lists.freedesktop.org,
+ marcel.ziswiler@toradex.com, daniel.vetter@ffwll.ch, liuzixian4@huawei.com,
+ lucas.demarchi@intel.com, boris.brezillon@collabora.com, nroberts@igalia.com,
+ noralf@tronnes.org, cai.huoqing@linux.dev, kraxel@redhat.com,
+ tzimmermann@suse.de, kuba@kernel.org, airlied@redhat.com,
+ emil.velikov@collabora.com, sam@ravnborg.org, dan.carpenter@oracle.com,
+ m.szyprowski@samsung.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/14/22 09:56, Xiongfeng Wang wrote:
-> pci_get_device() will increase the reference count for the returned
-> pci_dev. For the error path, we need to use pci_dev_put() to decrease
-> the reference count.
+On Sat, Nov 12, 2022 at 1:44 PM Robert Swindells <rjs@fdy2.co.uk> wrote:
 >
-> Fixes: dbe7e429fedb ("vmlfb: framebuffer driver for Intel Vermilion Rang=
-e")
-> Signed-off-by: Xiongfeng Wang <wangxiongfeng2@huawei.com>
+> Contributors to these files are:
+>
+> Noralf Tr=C3=B8nnes <noralf@tronnes.org>
+> Liu Zixian <liuzixian4@huawei.com>
+> Dave Airlie <airlied@redhat.com>
+> Thomas Zimmermann <tzimmermann@suse.de>
+> Lucas De Marchi <lucas.demarchi@intel.com>
+> Gerd Hoffmann <kraxel@redhat.com>
+> Rob Herring <robh@kernel.org>
 
-applied.
+My contributions are related to the madvise functions. That's largely
+lifted or inspired from the MSM code which is GPL only. That in turn
+looks inspired from i915 which is MIT (though not much more than the
+comment):
 
-Thanks!
-Helge
+$ git grep 'Our goal here is to return as much of the memory'
+drivers/gpu/drm/drm_gem_shmem_helper.c: /* Our goal here is to return
+as much of the memory as
+drivers/gpu/drm/i915/gem/i915_gem_shmem.c:       * Our goal here is to
+return as much of the memory as
+drivers/gpu/drm/msm/msm_gem.c:  /* Our goal here is to return as much
+of the memory as
 
-> ---
->   drivers/video/fbdev/vermilion/vermilion.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/video/fbdev/vermilion/vermilion.c b/drivers/video/f=
-bdev/vermilion/vermilion.c
-> index 82b36dbb5b1a..33051e3a2561 100644
-> --- a/drivers/video/fbdev/vermilion/vermilion.c
-> +++ b/drivers/video/fbdev/vermilion/vermilion.c
-> @@ -278,8 +278,10 @@ static int vmlfb_get_gpu(struct vml_par *par)
->
->   	mutex_unlock(&vml_mutex);
->
-> -	if (pci_enable_device(par->gpu) < 0)
-> +	if (pci_enable_device(par->gpu) < 0) {
-> +		pci_dev_put(par->gpu);
->   		return -ENODEV;
-> +	}
->
->   	return 0;
->   }
 
+I imagine this is not the only example in this file. In fact, looking
+at the introduction of this file, it looks like it originated from V3D
+code as that was the first driver to convert over. V3D is licensed
+GPL2+. Of course, its code was not written in a vacuum either and came
+from ???
+
+This to me is a problem with the dual licensing in DRM drivers. Code
+moves around with little attention paid at the time to licensing. I
+wouldn't trust anything claiming MIT license is not GPL
+'contaminated'.
+
+OTOH, there's really only one way for the madvise code to work, so
+maybe not a copyrightable work on its own.
+
+Rob
