@@ -2,48 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F195F628544
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 17:30:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 481D8628581
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 17:34:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFA9610E2EE;
-	Mon, 14 Nov 2022 16:29:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4D6C10E2F2;
+	Mon, 14 Nov 2022 16:34:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from galois.linutronix.de (Galois.linutronix.de
- [IPv6:2a0a:51c0:0:12e:550::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 664F110E2EE
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 16:29:49 +0000 (UTC)
-From: John Ogness <john.ogness@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1668443388;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YDZaOSQfmA3ieeMvolr63sTSZIZ73N1pM1Ndsn4fuIc=;
- b=dHJbmvzVtPyJ1YbuVbBDgnUwEWvzqfIWX/lYG3qITzjamvKx/92bfjhlfedBeaYSYuS0Im
- yWcAO3B1E6yEYpBKXY9DAqh4w5MYqQrald2Xy8tyYfE/SWY/9Pvqj2aYR/nTRZ4xqgUBJ4
- BwCpqphpuUcJjpFKWBWJpAAsCmVqnnVRJpZYuE/Az366y1W/WIAjXssnej2lMOy1SyXLtK
- DM78o+xXRSp+HpMDkEX9thcmyIq6GKVHX30uRk/xLxCIlajhvzUnN56off+bh1t6+vg+px
- 7Yo7D50qtqLgc8JemIqSf3cnkCD6XVy7fq+9oTDXpUzuxQp03SrFF7tZlHpSNw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1668443388;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YDZaOSQfmA3ieeMvolr63sTSZIZ73N1pM1Ndsn4fuIc=;
- b=Klw6CO0+RzlaQaF/TUs5OEp+YJFNKlnTXcnXdz4EGApnJTMd02z6VogUxfhBmPoyrSLS/L
- mpQPoXYjSbHQ65Dg==
-To: Petr Mladek <pmladek@suse.com>
-Subject: [PATCH printk v4 31/39] printk,
- xen: fbfront: create/use safe function for forcing preferred
-Date: Mon, 14 Nov 2022 17:35:24 +0106
-Message-Id: <20221114162932.141883-32-john.ogness@linutronix.de>
-In-Reply-To: <20221114162932.141883-1-john.ogness@linutronix.de>
-References: <20221114162932.141883-1-john.ogness@linutronix.de>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7B9310E2F2
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 16:34:00 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 20604612AE;
+ Mon, 14 Nov 2022 16:34:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2E92C433C1;
+ Mon, 14 Nov 2022 16:33:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1668443639;
+ bh=twFBnFJwPjIstNFMHySHoSZweRgHc3hjr0AkGxQgLvQ=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=bQ2Q597QRGuZYwA60FRgBJsafKBergZYVPKMAZ2m2wg7Rr0uIZkfoGaOKb5whQnVc
+ hXMhoRRx/QeiJDg2oG8PlsytSMbrJDOF+zoSfrwr+cXbG0ClfsADmdvkY12SdYZTyE
+ En62yxnKVeerMikaYVwUKfdl9kI/gMvOL7OrTEN8RC1K5rZ4OS3BpS6UPyGgZkQT6A
+ ywrhixi9LSOHVo2FR6ipSqQ+QS7ZlaqMxww7O/ByzNqFFV+cHnUBlDnREMMi5XKv4T
+ yuJEq+EP4L0ignOqeLk2KegtF73TJyWT46f3V2KHN0ndALct/agJYZ1N9pnYOLHlcE
+ A+nMOJnHDK5BA==
+Date: Mon, 14 Nov 2022 08:33:57 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Robert Swindells <rjs@fdy2.co.uk>
+Subject: Re: [PATCH 1/1] drm/shmem: Dual licence the files as GPL-2 and MIT
+Message-ID: <20221114083357.69bd1fe8@kernel.org>
+In-Reply-To: <20221112194210.7657-2-rjs@fdy2.co.uk>
+References: <20221112194210.7657-1-rjs@fdy2.co.uk>
+ <20221112194210.7657-2-rjs@fdy2.co.uk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,141 +52,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juergen Gross <jgross@suse.com>, linux-fbdev@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
- linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Sergey Senozhatsky <senozhatsky@chromium.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Tom Rix <trix@redhat.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>
+Cc: sfr@canb.auug.org.au, marcel.ziswiler@toradex.com, daniel.vetter@ffwll.ch,
+ liuzixian4@huawei.com, lucas.demarchi@intel.com,
+ dri-devel@lists.freedesktop.org, nroberts@igalia.com, noralf@tronnes.org,
+ cai.huoqing@linux.dev, kraxel@redhat.com, tzimmermann@suse.de,
+ boris.brezillon@collabora.com, airlied@redhat.com, emil.velikov@collabora.com,
+ sam@ravnborg.org, dan.carpenter@oracle.com, m.szyprowski@samsung.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With commit 9e124fe16ff2("xen: Enable console tty by default in domU
-if it's not a dummy") a hack was implemented to make sure that the
-tty console remains the console behind the /dev/console device. The
-main problem with the hack is that, after getting the console pointer
-to the tty console, it is assumed the pointer is still valid after
-releasing the console_sem. This assumption is incorrect and unsafe.
+On Sat, 12 Nov 2022 19:42:10 +0000 Robert Swindells wrote:
+> Contributors to these files are:
+>=20
+> Noralf Tr=C3=B8nnes <noralf@tronnes.org>
+> Liu Zixian <liuzixian4@huawei.com>
+> Dave Airlie <airlied@redhat.com>
+> Thomas Zimmermann <tzimmermann@suse.de>
+> Lucas De Marchi <lucas.demarchi@intel.com>
+> Gerd Hoffmann <kraxel@redhat.com>
+> Rob Herring <robh@kernel.org>
+> Jakub Kicinski <kuba@kernel.org>
+> Marcel Ziswiler <marcel.ziswiler@toradex.com>
+> Stephen Rothwell <sfr@canb.auug.org.au>
+> Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cai Huoqing <cai.huoqing@linux.dev>
+> Neil Roberts <nroberts@igalia.com>
+> Marek Szyprowski <m.szyprowski@samsung.com>
+> Emil Velikov <emil.velikov@collabora.com>
+> Sam Ravnborg <sam@ravnborg.org>
+> Boris Brezillon <boris.brezillon@collabora.com>
+> Dan Carpenter <dan.carpenter@oracle.com>
+>=20
+> Signed-off-by: Robert Swindells <rjs@fdy2.co.uk>
 
-Make the hack safe by introducing a new function
-console_force_preferred_locked() and perform the full operation
-under the console_list_lock.
+For the one-line #include addition I've contributed:
 
-Signed-off-by: John Ogness <john.ogness@linutronix.de>
----
- drivers/video/fbdev/xen-fbfront.c | 12 +++-----
- include/linux/console.h           |  1 +
- kernel/printk/printk.c            | 49 +++++++++++++++++++++++++++++--
- 3 files changed, 51 insertions(+), 11 deletions(-)
+Acked-by: Jakub Kicinski <kuba@kernel.org>
 
-diff --git a/drivers/video/fbdev/xen-fbfront.c b/drivers/video/fbdev/xen-fbfront.c
-index 4d2694d904aa..8752d389e382 100644
---- a/drivers/video/fbdev/xen-fbfront.c
-+++ b/drivers/video/fbdev/xen-fbfront.c
-@@ -504,18 +504,14 @@ static void xenfb_make_preferred_console(void)
- 	if (console_set_on_cmdline)
- 		return;
- 
--	console_lock();
-+	console_list_lock();
- 	for_each_console(c) {
- 		if (!strcmp(c->name, "tty") && c->index == 0)
- 			break;
- 	}
--	console_unlock();
--	if (c) {
--		unregister_console(c);
--		c->flags |= CON_CONSDEV;
--		c->flags &= ~CON_PRINTBUFFER; /* don't print again */
--		register_console(c);
--	}
-+	if (c)
-+		console_force_preferred_locked(c);
-+	console_list_unlock();
- }
- 
- static int xenfb_resume(struct xenbus_device *dev)
-diff --git a/include/linux/console.h b/include/linux/console.h
-index f716e1dd9eaf..9cea254b34b8 100644
---- a/include/linux/console.h
-+++ b/include/linux/console.h
-@@ -291,6 +291,7 @@ enum con_flush_mode {
- };
- 
- extern int add_preferred_console(char *name, int idx, char *options);
-+extern void console_force_preferred_locked(struct console *con);
- extern void register_console(struct console *);
- extern int unregister_console(struct console *);
- extern void console_lock(void);
-diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
-index e770b1ede6c9..dff76c1cef80 100644
---- a/kernel/printk/printk.c
-+++ b/kernel/printk/printk.c
-@@ -247,9 +247,10 @@ int devkmsg_sysctl_set_loglvl(struct ctl_table *table, int write,
- void console_list_lock(void)
- {
- 	/*
--	 * In unregister_console(), synchronize_srcu() is called with the
--	 * console_list_lock held. Therefore it is not allowed that the
--	 * console_list_lock is taken with the srcu_lock held.
-+	 * In unregister_console() and console_force_preferred_locked(),
-+	 * synchronize_srcu() is called with the console_list_lock held.
-+	 * Therefore it is not allowed that the console_list_lock is taken
-+	 * with the srcu_lock held.
- 	 *
- 	 * Detecting if this context is really in the read-side critical
- 	 * section is only possible if the appropriate debug options are
-@@ -3461,6 +3462,48 @@ int unregister_console(struct console *console)
- }
- EXPORT_SYMBOL(unregister_console);
- 
-+/**
-+ * console_force_preferred_locked - force a registered console preferred
-+ * @con: The registered console to force preferred.
-+ *
-+ * Must be called under console_list_lock().
-+ */
-+void console_force_preferred_locked(struct console *con)
-+{
-+	struct console *cur_pref_con;
-+
-+	if (!console_is_registered_locked(con))
-+		return;
-+
-+	cur_pref_con = console_first();
-+
-+	/* Already preferred? */
-+	if (cur_pref_con == con)
-+		return;
-+
-+	/*
-+	 * Delete, but do not re-initialize the entry. This allows the console
-+	 * to continue to appear registered (via any hlist_unhashed_lockless()
-+	 * checks), even though it was briefly removed from the console list.
-+	 */
-+	hlist_del_rcu(&con->node);
-+
-+	/*
-+	 * Ensure that all SRCU list walks have completed so that the console
-+	 * can be added to the beginning of the console list and its forward
-+	 * list pointer can be re-initialized.
-+	 */
-+	synchronize_srcu(&console_srcu);
-+
-+	con->flags |= CON_CONSDEV;
-+	WARN_ON(!con->device);
-+
-+	/* Only the new head can have CON_CONSDEV set. */
-+	console_srcu_write_flags(cur_pref_con, cur_pref_con->flags & ~CON_CONSDEV);
-+	hlist_add_behind_rcu(&con->node, console_list.first);
-+}
-+EXPORT_SYMBOL(console_force_preferred_locked);
-+
- /*
-  * Initialize the console device. This is called *early*, so
-  * we can't necessarily depend on lots of kernel help here.
--- 
-2.30.2
-
+:)
