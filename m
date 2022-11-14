@@ -1,50 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE8C7627DC7
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 13:30:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C510F627E7B
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Nov 2022 13:48:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A706210E0BE;
-	Mon, 14 Nov 2022 12:30:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2B4E10E09F;
+	Mon, 14 Nov 2022 12:48:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B8B110E297;
- Mon, 14 Nov 2022 12:30:13 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA97410E09F;
+ Mon, 14 Nov 2022 12:48:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1668429013; x=1699965013;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=xe4ne8eLBX4OZqn9CoyWwb8H4uX3KNaYFDmoYslC7QM=;
- b=PfgwzMmQoOdm3X9Zce1bla9ew1eEu/0xFP98BVQ0gmKNr0QvduDRwc1S
- OdqL+rxpWevXGQ01nyipCJNHtpWPVCD3IELYf/L+lnbqxXsXligybD8L4
- IKKHpnQzoCufxDFizaZmonF5bNW3VuRHfPg9UufMS5cUaQ1hsH+RSovVm
- lo7iSi2mnF3mnqJGNj0cTitwV9Q9aL48+yuBWpPkD7pPldHffACF3LMYG
- Xfr45iGoO3GaH1pXHREzIzHhkzkdv1Ztoh9UtOkFKOMN59NUkPY4O8ZUm
- goFbZZKfsqKlvSpYTAXaaTvJhCCirTg1aHA1+CwsTQnRCFqfEZHEocnSa A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="311960598"
-X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; d="scan'208";a="311960598"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Nov 2022 04:30:13 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="727509110"
-X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; d="scan'208";a="727509110"
-Received: from bnilawar-desk1.iind.intel.com ([10.145.169.158])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Nov 2022 04:30:11 -0800
-From: Badal Nilawar <badal.nilawar@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 5/5] drm/i915/mtl: C6 residency and C state type for MTL
- SAMedia
-Date: Mon, 14 Nov 2022 18:03:48 +0530
-Message-Id: <20221114123348.3474216-6-badal.nilawar@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221114123348.3474216-1-badal.nilawar@intel.com>
-References: <20221114123348.3474216-1-badal.nilawar@intel.com>
+ t=1668430099; x=1699966099;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=QjWg+CvyxEun+gDyBKTRZt0HnPMmJR2v/osNqjtGL7o=;
+ b=BBfAVfzdLl97fuH2WzEZmSAVfc7VmAAjEhB0oNOQpTXqN2dvajr14XOt
+ /im29JU8XU4bD2YfvMcM12xlYA05OcEcR0sGuhZlN2XKDSJ94AodkK++K
+ iOceg0mgk7xmw2ttV3o1OgG+q1iLosCc3D42DhuWye1JIprSiMizw6ywq
+ GtKmm8yCYUwGqVY46+HFrgAOVU3PcO7mwlQk6t1bkDxh4FxU54300JSsI
+ Tu1qHJm6adQaioO0rSYvOt6XHJES6Ftd+T3JCr44sMGr2BXrBaqxsbkcL
+ dzoG37oqwP8R0J/cwM5NrLROSikq2yhYLx3LUO8S0mgfWz7XIY0rjmhtJ A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="292357585"
+X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; d="scan'208";a="292357585"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Nov 2022 04:48:19 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="638465112"
+X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; d="scan'208";a="638465112"
+Received: from jsarha-mobl1.ger.corp.intel.com (HELO [10.249.254.68])
+ ([10.249.254.68])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Nov 2022 04:48:14 -0800
+Message-ID: <9d0b5696-496f-a03a-2b5c-e38f36a02d86@linux.intel.com>
+Date: Mon, 14 Nov 2022 13:48:11 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH] drm/i915: Fix unhandled deadlock in grab_vma()
+Content-Language: en-US
+To: Mani Milani <mani@chromium.org>
+References: <20221110053133.2433412-1-mani@chromium.org>
+ <1d066cb4-fb82-bffd-5e89-97ba572be3fa@intel.com>
+ <a26db94512198c20457ce40a6dc8692a3f8bf196.camel@linux.intel.com>
+ <CAHzEqDkFAiGkTFF3C--2NKt+ALjtfiNpWYca-Y-p=sekjQXGpw@mail.gmail.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <CAHzEqDkFAiGkTFF3C--2NKt+ALjtfiNpWYca-Y-p=sekjQXGpw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,161 +63,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ashutosh.dixit@intel.com, dri-devel@lists.freedesktop.org,
- rodrigo.vivi@intel.com
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ LKML <linux-kernel@vger.kernel.org>, Chris Wilson <chris@chris-wilson.co.uk>,
+ Matthew Auld <matthew.auld@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for C6 residency and C state type for MTL SAMedia. Also add
-mtl_drpc.
+Hi, Mani.
 
-v2: Fixed review comments (Ashutosh)
-v3: Sort registers and fix whitespace errors in intel_gt_regs.h (Matt R)
-    Remove MTL_CC_SHIFT (Ashutosh)
-    Adapt to RC6 residency register code refactor (Jani N)
-v4: Move MTL branch to top in drpc_show
-v5: Use FORCEWAKE_MT identical to gen6_drpc (Ashutosh)
-v6: Add MISSING_CASE for gt_core_status switch statement (Rodrigo)
-    Change state name for MTL_CC0 to C0 (from "on") (Rodrigo)
-v7: Change state name for MTL_CC0 to RC0 (Rodrigo)
+On 11/14/22 03:16, Mani Milani wrote:
+> Thank you for your comments.
+>
+> To Thomas's point, the crash always seems to happen when the following
+> sequence of events occurs:
+>
+> 1. When inside "i915_gem_evict_vm()", the call to
+> "i915_gem_object_trylock(vma->obj, ww)" fails (due to deadlock), and
+> eviction of a vma is skipped as a result. Basically if the code
+> reaches here:
+> https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/i915/i915_gem_evict.c#L468
+> And here is the stack dump for this scenario:
+>      Call Trace:
+>      <TASK>
+>      dump_stack_lvl+0x68/0x95
+>      i915_gem_evict_vm+0x1d2/0x369
+>      eb_validate_vmas+0x54a/0x6ae
+>      eb_relocate_parse+0x4b/0xdb
+>      i915_gem_execbuffer2_ioctl+0x6f5/0xab6
+>      ? i915_gem_object_prepare_write+0xfb/0xfb
+>      drm_ioctl_kernel+0xda/0x14d
+>      drm_ioctl+0x27f/0x3b7
+>      ? i915_gem_object_prepare_write+0xfb/0xfb
+>      __se_sys_ioctl+0x7a/0xbc
+>      do_syscall_64+0x56/0xa1
+>      ? exit_to_user_mode_prepare+0x3d/0x8c
+>      entry_SYSCALL_64_after_hwframe+0x61/0xcb
+>      RIP: 0033:0x78302de5fae7
+>      Code: c0 0f 89 74 ff ff ff 48 83 c4 08 49 c7 c4 ff ff ff ff 5b 4c
+> 89 e0 41 5c 41 5d 5d c3 0f 1f 80 00 00 00 00 b8 10 00 00 00 0f 05 <48>
+> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 51 c3 0c 00 f7 d8 64 89 01 48
+>      RSP: 002b:00007ffe64b87f78 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+>      RAX: ffffffffffffffda RBX: 000003cc00470000 RCX: 000078302de5fae7
+>      RDX: 00007ffe64b87fd0 RSI: 0000000040406469 RDI: 000000000000000d
+>      RBP: 00007ffe64b87fa0 R08: 0000000000000013 R09: 000003cc004d0950
+>      R10: 0000000000000200 R11: 0000000000000246 R12: 000000000000000d
+>      R13: 0000000000000000 R14: 00007ffe64b87fd0 R15: 0000000040406469
+>      </TASK>
+> It is worth noting that "i915_gem_evict_vm()" still returns success in
+> this case.
+>
+> 2. After step 1 occurs, the next call to "grab_vma()" always fails
+> (with "i915_gem_object_trylock(vma->obj, ww)" failing also due to
+> deadlock), which then results in the crash.
+> Here is the stack dump for this scenario:
+>      Call Trace:
+>      <TASK>
+>      dump_stack_lvl+0x68/0x95
+>      grab_vma+0x6c/0xd0
+>      i915_gem_evict_for_node+0x178/0x23b
+>      i915_gem_gtt_reserve+0x5a/0x82
+>      i915_vma_insert+0x295/0x29e
+>      i915_vma_pin_ww+0x41e/0x5c7
+>      eb_validate_vmas+0x5f5/0x6ae
+>      eb_relocate_parse+0x4b/0xdb
+>      i915_gem_execbuffer2_ioctl+0x6f5/0xab6
+>      ? i915_gem_object_prepare_write+0xfb/0xfb
+>      drm_ioctl_kernel+0xda/0x14d
+>      drm_ioctl+0x27f/0x3b7
+>      ? i915_gem_object_prepare_write+0xfb/0xfb
+>      __se_sys_ioctl+0x7a/0xbc
+>      do_syscall_64+0x56/0xa1
+>      ? exit_to_user_mode_prepare+0x3d/0x8c
+>      entry_SYSCALL_64_after_hwframe+0x61/0xcb
+>      RIP: 0033:0x78302de5fae7
+>      Code: c0 0f 89 74 ff ff ff 48 83 c4 08 49 c7 c4 ff ff ff ff 5b 4c
+> 89 e0 41 5c 41 5d 5d c3 0f 1f 80 00 00 00 00 b8 10 00 00 00 0f 05 <48>
+> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 51 c3 0c 00 f7 d8 64 89 01 48
+>      RSP: 002b:00007ffe64b87f78 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+>      RAX: ffffffffffffffda RBX: 000003cc00470000 RCX: 000078302de5fae7
+>      RDX: 00007ffe64b87fd0 RSI: 0000000040406469 RDI: 000000000000000d
+>      RBP: 00007ffe64b87fa0 R08: 0000000000000013 R09: 000003cc004d0950
+>      R10: 0000000000000200 R11: 0000000000000246 R12: 000000000000000d
+>      R13: 0000000000000000 R14: 00007ffe64b87fd0 R15: 0000000040406469
+>      </TASK>
+>
+> My Notes:
+> - I verified the two "i915_gem_object_trylock()" failures I mentioned
+> above are due to deadlock by slightly modifying the code to call
+> "i915_gem_object_lock()" only in those exact cases and subsequent to
+> the trylock failure, only to look at the return error code.
+> - The two cases mentioned above, are the only cases where
+> "i915_gem_object_trylock(obj, ww)" is called with the second argument
+> not being forced to NULL.
+> - When in either of the two cases above (i.e. inside "grab_vma()" or
+> "i915_gem_evict_vm") I replace calling "i915_gem_object_trylock" with
+> "i915_gem_object_lock", the issue gets resolved (because deadlock is
+> detected and resolved).
+>
+> So if this could matches the design better, another solution could be
+> for "grab_vma" to continue to call "i915_gem_object_trylock", but for
+> "i915_gem_evict_vm" to call "i915_gem_object_lock" instead.
 
-Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
-Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c | 59 ++++++++++++++++++-
- drivers/gpu/drm/i915/gt/intel_gt_regs.h       |  5 ++
- drivers/gpu/drm/i915/gt/intel_rc6.c           | 17 ++++--
- 3 files changed, 76 insertions(+), 5 deletions(-)
+No, i915_gem_object_lock() is not allowed when the vm mutex is held.
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
-index 5d6b34683139..83df4cd5e06c 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
-@@ -256,6 +256,61 @@ static int ilk_drpc(struct seq_file *m)
- 	return 0;
- }
- 
-+static int mtl_drpc(struct seq_file *m)
-+{
-+	struct intel_gt *gt = m->private;
-+	struct intel_uncore *uncore = gt->uncore;
-+	u32 gt_core_status, rcctl1, mt_fwake_req;
-+	u32 mtl_powergate_enable = 0, mtl_powergate_status = 0;
-+
-+	mt_fwake_req = intel_uncore_read_fw(uncore, FORCEWAKE_MT);
-+	gt_core_status = intel_uncore_read(uncore, MTL_MIRROR_TARGET_WP1);
-+
-+	rcctl1 = intel_uncore_read(uncore, GEN6_RC_CONTROL);
-+	mtl_powergate_enable = intel_uncore_read(uncore, GEN9_PG_ENABLE);
-+	mtl_powergate_status = intel_uncore_read(uncore,
-+						 GEN9_PWRGT_DOMAIN_STATUS);
-+
-+	seq_printf(m, "RC6 Enabled: %s\n",
-+		   str_yes_no(rcctl1 & GEN6_RC_CTL_RC6_ENABLE));
-+	if (gt->type == GT_MEDIA) {
-+		seq_printf(m, "Media Well Gating Enabled: %s\n",
-+			   str_yes_no(mtl_powergate_enable & GEN9_MEDIA_PG_ENABLE));
-+	} else {
-+		seq_printf(m, "Render Well Gating Enabled: %s\n",
-+			   str_yes_no(mtl_powergate_enable & GEN9_RENDER_PG_ENABLE));
-+	}
-+
-+	seq_puts(m, "Current RC state: ");
-+	switch (REG_FIELD_GET(MTL_CC_MASK, gt_core_status)) {
-+	case MTL_CC0:
-+		seq_puts(m, "RC0\n");
-+		break;
-+	case MTL_CC6:
-+		seq_puts(m, "RC6\n");
-+		break;
-+	default:
-+		MISSING_CASE(REG_FIELD_GET(MTL_CC_MASK, gt_core_status));
-+		seq_puts(m, "Unknown\n");
-+		break;
-+	}
-+
-+	seq_printf(m, "Multi-threaded Forcewake Request: 0x%x\n", mt_fwake_req);
-+	if (gt->type == GT_MEDIA)
-+		seq_printf(m, "Media Power Well: %s\n",
-+			   (mtl_powergate_status &
-+			    GEN9_PWRGT_MEDIA_STATUS_MASK) ? "Up" : "Down");
-+	else
-+		seq_printf(m, "Render Power Well: %s\n",
-+			   (mtl_powergate_status &
-+			    GEN9_PWRGT_RENDER_STATUS_MASK) ? "Up" : "Down");
-+
-+	/* Works for both render and media gt's */
-+	intel_rc6_print_residency(m, "RC6 residency since boot:", INTEL_RC6_RES_RC6);
-+
-+	return fw_domains_show(m, NULL);
-+}
-+
- static int drpc_show(struct seq_file *m, void *unused)
- {
- 	struct intel_gt *gt = m->private;
-@@ -264,7 +319,9 @@ static int drpc_show(struct seq_file *m, void *unused)
- 	int err = -ENODEV;
- 
- 	with_intel_runtime_pm(gt->uncore->rpm, wakeref) {
--		if (IS_VALLEYVIEW(i915) || IS_CHERRYVIEW(i915))
-+		if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70))
-+			err = mtl_drpc(m);
-+		else if (IS_VALLEYVIEW(i915) || IS_CHERRYVIEW(i915))
- 			err = vlv_drpc(m);
- 		else if (GRAPHICS_VER(i915) >= 6)
- 			err = gen6_drpc(m);
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-index a4da7de78420..684ac79a18b0 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-@@ -25,6 +25,9 @@
- /* MTL workpoint reg to get core C state and actual freq of 3D, SAMedia */
- #define MTL_MIRROR_TARGET_WP1			_MMIO(0xc60)
- #define   MTL_CAGF_MASK				REG_GENMASK(8, 0)
-+#define   MTL_CC0				0x0
-+#define   MTL_CC6				0x3
-+#define   MTL_CC_MASK				REG_GENMASK(12, 9)
- 
- /* RPM unit config (Gen8+) */
- #define RPM_CONFIG0				_MMIO(0xd00)
-@@ -1519,6 +1522,8 @@
- #define FORCEWAKE_MEDIA_VLV			_MMIO(0x1300b8)
- #define FORCEWAKE_ACK_MEDIA_VLV			_MMIO(0x1300bc)
- 
-+#define MTL_MEDIA_MC6				_MMIO(0x138048)
-+
- #define GEN6_GT_THREAD_STATUS_REG		_MMIO(0x13805c)
- #define   GEN6_GT_THREAD_STATUS_CORE_MASK	0x7
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_rc6.c b/drivers/gpu/drm/i915/gt/intel_rc6.c
-index 6db4e60d5fba..2ee4051e4d96 100644
---- a/drivers/gpu/drm/i915/gt/intel_rc6.c
-+++ b/drivers/gpu/drm/i915/gt/intel_rc6.c
-@@ -553,10 +553,19 @@ static void __intel_rc6_disable(struct intel_rc6 *rc6)
- 
- static void rc6_res_reg_init(struct intel_rc6 *rc6)
- {
--	rc6->res_reg[INTEL_RC6_RES_RC6_LOCKED] = GEN6_GT_GFX_RC6_LOCKED;
--	rc6->res_reg[INTEL_RC6_RES_RC6] = GEN6_GT_GFX_RC6;
--	rc6->res_reg[INTEL_RC6_RES_RC6p] = GEN6_GT_GFX_RC6p;
--	rc6->res_reg[INTEL_RC6_RES_RC6pp] = GEN6_GT_GFX_RC6pp;
-+	memset(rc6->res_reg, INVALID_MMIO_REG.reg, sizeof(rc6->res_reg));
-+
-+	switch (rc6_to_gt(rc6)->type) {
-+	case GT_MEDIA:
-+		rc6->res_reg[INTEL_RC6_RES_RC6] = MTL_MEDIA_MC6;
-+		break;
-+	default:
-+		rc6->res_reg[INTEL_RC6_RES_RC6_LOCKED] = GEN6_GT_GFX_RC6_LOCKED;
-+		rc6->res_reg[INTEL_RC6_RES_RC6] = GEN6_GT_GFX_RC6;
-+		rc6->res_reg[INTEL_RC6_RES_RC6p] = GEN6_GT_GFX_RC6p;
-+		rc6->res_reg[INTEL_RC6_RES_RC6pp] = GEN6_GT_GFX_RC6pp;
-+		break;
-+	}
- }
- 
- void intel_rc6_init(struct intel_rc6 *rc6)
--- 
-2.25.1
 
+>
+> Further info:
+> - Would you like any further info on the crash? If so, could you
+> please advise 1) what exactly you need and 2) how I can share with you
+> especially if it is big dumps?
+
+Yes, I would like to know how the crash manifests itself. Is it a kernel 
+BUG or a kernel WARNING or is it the user-space application that crashes 
+due to receiveing an -ENOSPC?
+
+Thanks,
+
+Thomas
+
+
+
+>
+> Thanks.
