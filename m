@@ -2,50 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C076F629E4D
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Nov 2022 16:59:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19215629E57
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Nov 2022 17:01:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C86EB10E41C;
-	Tue, 15 Nov 2022 15:58:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA8EB10E161;
+	Tue, 15 Nov 2022 16:01:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15F5C10E41B;
- Tue, 15 Nov 2022 15:58:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1668527931; x=1700063931;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=qEPShEiYCrkrgSGHecWabfF+GnwGLymC6/D/EowVA9E=;
- b=k10aFX4I5valHV/bTGJHKwjM003VusZdJrdhZfkQWylURxrePh50mUg3
- UdLihttxCeBYv8wnCgUjK/DTQsfo2Q+8WkE1Ae3xFXTSGXkg4RQtdVvmZ
- vvaFFzrre41voYYOWbmPs2KAp0H22CbJ5PGALpY43ZmIlQUDVQpdI03mk
- zaOo9gb1Pwj9jrqJ22EGE59OG0J7Znyover//18OI3WjV0smW3fvaEmEk
- Jw+cR9RzzN8NBO0RLCN/CUzFjCLbNtMvl6BPc2mQ0tKVy2Q9uydSuiMjr
- JHoWCuHVZOBgKk/XhcgD9rxReryPIrX7rBDcj7zSRjjZ9J4PXtmnXc0kd g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="292681570"
-X-IronPort-AV: E=Sophos;i="5.96,166,1665471600"; d="scan'208";a="292681570"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2022 07:58:50 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="638988576"
-X-IronPort-AV: E=Sophos;i="5.96,166,1665471600"; d="scan'208";a="638988576"
-Received: from sneubaue-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.251.220.98])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2022 07:58:45 -0800
-Date: Tue, 15 Nov 2022 16:58:42 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-Subject: Re: [PATCH v7 20/20] drm/i915/vm_bind: Async vm_unbind support
-Message-ID: <Y3O3Murna92s7iKL@ashyti-mobl2.lan>
-References: <20221113075732.32100-1-niranjana.vishwanathapura@intel.com>
- <20221113075732.32100-21-niranjana.vishwanathapura@intel.com>
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 310A910E161
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Nov 2022 16:01:31 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id bj12so37075066ejb.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Nov 2022 08:01:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=YCH6PtmHj3XKQVwXY2Gm1n1n5KTgNrZ2aoxjacIPkLA=;
+ b=XSZ1UsKd72WGVsU13AkxPx13kvV7eBMN2rk9mYv5/1BlvJuWdPfmvCjHqGY1YHuX1S
+ ZKcO4QYOE4Wc2+/sm0oCJqKm0mbgDpEta1QZXmLqmoik9/WEh1cA5d8rjRXkfeZwUrS2
+ t1agO5hRMm5K5WuuenC90gkUkRgs3BSOw1BPI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=YCH6PtmHj3XKQVwXY2Gm1n1n5KTgNrZ2aoxjacIPkLA=;
+ b=XNea2iXnj+bpjy9hVHgH+DIE72U3zqZ5fhClXSUG4E8EbsV/4dQFxBDBMBJ9Hb/FHE
+ vNq6BSwdcb4GPoa7gIRoNcBfr/tTi6IP9lRqt7WcOeNGX/8Xo9qgzdq9pJC0TNUfr813
+ xnRoKuJb7OyS46Io7Xa5lqCsh4kXguGXBg2e3gFInCcOWYWth5TewBhIUpULA6bw0z3S
+ gNfMGYSRROCuXuCKdiNbZrA00CVUhLbCo6N6x4KQDa0upIFIevaDhpLLa3oJDIA/xbDP
+ MJY5NFpT008cjpCx0W+glC77DVjrk9OC4FtAbkLAWG00/LX7+J4ErfVPH09dWEYVj6Ak
+ 16Iw==
+X-Gm-Message-State: ANoB5pnIfX2/AGmH73LEOsJm1cp6SVgGB2VBNYW8iLKIZHCAwdtYkql1
+ Tk6rtwHmBQMuIb3+fWYdXZXLP/SFoREfqQIw
+X-Google-Smtp-Source: AA0mqf4IzWQjQ1es/EcNDjnZ+KYCbt37yrSi/HTbSmYG5yOjKVzqG/tLjhWVTpAm/Dhc15lNqz41Mg==
+X-Received: by 2002:a17:906:a448:b0:7ad:d7f9:1f96 with SMTP id
+ cb8-20020a170906a44800b007add7f91f96mr14133282ejb.384.1668528089442; 
+ Tue, 15 Nov 2022 08:01:29 -0800 (PST)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com.
+ [209.85.221.51]) by smtp.gmail.com with ESMTPSA id
+ rn5-20020a170906d92500b0078dd4c89781sm5699131ejb.35.2022.11.15.08.01.24
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Nov 2022 08:01:27 -0800 (PST)
+Received: by mail-wr1-f51.google.com with SMTP id k8so25084116wrh.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Nov 2022 08:01:24 -0800 (PST)
+X-Received: by 2002:adf:f145:0:b0:236:5270:735e with SMTP id
+ y5-20020adff145000000b002365270735emr10938918wro.659.1668528084437; Tue, 15
+ Nov 2022 08:01:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221113075732.32100-21-niranjana.vishwanathapura@intel.com>
+References: <20221115155535.1615278-1-robdclark@gmail.com>
+In-Reply-To: <20221115155535.1615278-1-robdclark@gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 15 Nov 2022 08:01:10 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=VJKTHf7qLZkygfnMRSjXEdQ09opCpFM2brUc=uiTGyTw@mail.gmail.com>
+Message-ID: <CAD=FV=VJKTHf7qLZkygfnMRSjXEdQ09opCpFM2brUc=uiTGyTw@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm: Enable clamp_to_idle for 7c3
+To: Rob Clark <robdclark@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,71 +73,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com,
- lionel.g.landwerlin@intel.com, tvrtko.ursulin@intel.com, jani.nikula@intel.com,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- thomas.hellstrom@intel.com, matthew.auld@intel.com, jason@jlekstrand.net,
- andi.shyti@linux.intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
+Cc: Rob Clark <robdclark@chromium.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Niranjana,
+Hi,
 
-On Sat, Nov 12, 2022 at 11:57:32PM -0800, Niranjana Vishwanathapura wrote:
-> Asynchronously unbind the vma upon vm_unbind call.
-> Fall back to synchronous unbind if backend doesn't support
-> async unbind or if async unbind fails.
-> 
-> No need for vm_unbind out fence support as i915 will internally
-> handle all sequencing and user need not try to sequence any
-> operation with the unbind completion.
-> 
-> v2: use i915_vma_destroy_async in vm_unbind ioctl
-> 
-> Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+On Tue, Nov 15, 2022 at 7:55 AM Rob Clark <robdclark@gmail.com> wrote:
+>
+> From: Rob Clark <robdclark@chromium.org>
+>
+> This was overlooked.
+>
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
 > ---
->  .../drm/i915/gem/i915_gem_vm_bind_object.c    |  2 +-
->  drivers/gpu/drm/i915/i915_vma.c               | 51 +++++++++++++++++--
->  drivers/gpu/drm/i915/i915_vma.h               |  1 +
->  include/uapi/drm/i915_drm.h                   |  3 +-
->  4 files changed, 51 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
-> index d87d1210365b..36651b447966 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
-> @@ -210,7 +210,7 @@ static int i915_gem_vm_unbind_vma(struct i915_address_space *vm,
->  	 */
->  	obj = vma->obj;
->  	i915_gem_object_lock(obj, NULL);
-> -	i915_vma_destroy(vma);
-> +	i915_vma_destroy_async(vma);
->  	i915_gem_object_unlock(obj);
->  
->  	i915_gem_object_put(obj);
-> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-> index 7cf77c67d755..483d25f2425c 100644
-> --- a/drivers/gpu/drm/i915/i915_vma.c
-> +++ b/drivers/gpu/drm/i915/i915_vma.c
-> @@ -42,6 +42,8 @@
->  #include "i915_vma.h"
->  #include "i915_vma_resource.h"
->  
-> +static struct dma_fence *__i915_vma_unbind_async(struct i915_vma *vma);
-> +
->  static inline void assert_vma_held_evict(const struct i915_vma *vma)
->  {
->  	/*
-> @@ -1713,7 +1715,7 @@ void i915_vma_reopen(struct i915_vma *vma)
->  	spin_unlock_irq(&gt->closed_lock);
->  }
->  
-> -static void force_unbind(struct i915_vma *vma)
-> +static void force_unbind(struct i915_vma *vma, bool async)
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
 
-I still like the defines on this, they look cleaner, but it's a
-matter of taste.
-
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
-
-Andi
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
