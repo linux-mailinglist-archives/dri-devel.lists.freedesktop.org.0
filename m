@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 165DE6297DB
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Nov 2022 12:59:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 583A96297D7
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Nov 2022 12:58:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24F8810E3B1;
-	Tue, 15 Nov 2022 11:58:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9499F10E3B0;
+	Tue, 15 Nov 2022 11:58:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A85710E3B1
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EADD10E3B2
  for <dri-devel@lists.freedesktop.org>; Tue, 15 Nov 2022 11:58:24 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D174C1F8B4;
- Tue, 15 Nov 2022 11:58:22 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 1A0C7336CD;
+ Tue, 15 Nov 2022 11:58:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1668513502; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1668513503; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jGfTFwey8SdgPxwnK1endgDN3o0KGNC0QJEtl7871FE=;
- b=ZK+plwnzvVFQmKZ139XOwTlhL9+GFph3pduOXT/xZ9gX8HCmJPkF0JMk/oMnYTk6Ytlg/2
- RgpdGLkmwExFawxie7o9YOpCZLWe4u589PbqFdpoED9Afe3gbiOpXFtIcWduk9jjprkXKj
- MHMXjTiPvXzjh5aUDLiQhG8o6mHlF0M=
+ bh=YEUEpzs1w0uyHLA2DCBERkPR23KcQSr1oetD0I8tb7g=;
+ b=kwt7eme1roUqUqD2e4u8LV1dkLb2Wux/yoeobjy9mpS+EMbUjlFTiYOU4MbEPXkhTFhzZ4
+ v4EsCSidyVRIqXsALmeA8EuljaKMsQ3iilMF5spWC8rlFOsM/eGQNnfQxnObVqd9kLJQH3
+ XhfmzJXO4MI203O8Qb4rB3RxOSTRU6Q=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1668513502;
+ s=susede2_ed25519; t=1668513503;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jGfTFwey8SdgPxwnK1endgDN3o0KGNC0QJEtl7871FE=;
- b=llrCtBVSCmIK4wl0KlI5utQXQzMR2rkvdY6IwTal0VPXS/7TEpcCIaT4W1VA3tG/VW91Ke
- FGcoG+jsuCcJ2oCQ==
+ bh=YEUEpzs1w0uyHLA2DCBERkPR23KcQSr1oetD0I8tb7g=;
+ b=W3N+7KhH0egbSnjWNzw1HtLNlqEHdrqOPWHOWLdJBGNofYQE8cJjUuuXwCpVf89RVQxpEm
+ 3UUzlQzQet4sCMBw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A3EDC13273;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D619513273;
  Tue, 15 Nov 2022 11:58:22 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id kKUvJ95+c2OELgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id 4GYSM95+c2OELgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Tue, 15 Nov 2022 11:58:22 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@gmail.com, javierm@redhat.com, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com
-Subject: [PATCH v2 2/6] drm/fb-helper: Move dirty-fb update into helper
- function
-Date: Tue, 15 Nov 2022 12:58:15 +0100
-Message-Id: <20221115115819.23088-3-tzimmermann@suse.de>
+Subject: [PATCH v2 3/6] drm/fb-helper: Remove test for fb_dirty callback from
+ deferred-I/O helper
+Date: Tue, 15 Nov 2022 12:58:16 +0100
+Message-Id: <20221115115819.23088-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221115115819.23088-1-tzimmermann@suse.de>
 References: <20221115115819.23088-1-tzimmermann@suse.de>
@@ -74,46 +74,46 @@ Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move the dirty-fb update from the damage-worker callback into the
-new helper drm_fb_helper_fb_dirty(), so that it can run outside the
-damage worker. This change will help to remove the damage worker
-entirely. No functional changes.
+The helper for processing deferred I/O on pages has no dependency on
+the fb_dirty damge-handling callback; so remove the test. In practice,
+deferred I/O is only used with damage handling and the damage worker
+already guarantees the presence of the fb_dirty callback.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- drivers/gpu/drm/drm_fb_helper.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_fb_helper.c | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index 178615565760e..be8ecb5e50b56 100644
+index be8ecb5e50b56..b3a731b9170a6 100644
 --- a/drivers/gpu/drm/drm_fb_helper.c
 +++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -367,9 +367,8 @@ static void drm_fb_helper_resume_worker(struct work_struct *work)
- 	console_unlock();
- }
+@@ -656,17 +656,15 @@ void drm_fb_helper_deferred_io(struct fb_info *info, struct list_head *pagerefli
+ 		min_off = min(min_off, start);
+ 		max_off = max(max_off, end);
+ 	}
+-	if (min_off >= max_off)
+-		return;
  
--static void drm_fb_helper_damage_work(struct work_struct *work)
-+static void drm_fb_helper_fb_dirty(struct drm_fb_helper *helper)
- {
--	struct drm_fb_helper *helper = container_of(work, struct drm_fb_helper, damage_work);
- 	struct drm_device *dev = helper->dev;
- 	struct drm_clip_rect *clip = &helper->damage_clip;
- 	struct drm_clip_rect clip_copy;
-@@ -404,6 +403,13 @@ static void drm_fb_helper_damage_work(struct work_struct *work)
- 	spin_unlock_irqrestore(&helper->damage_lock, flags);
- }
+-	if (helper->funcs->fb_dirty) {
+-		/*
+-		 * As we can only track pages, we might reach beyond the end
+-		 * of the screen and account for non-existing scanlines. Hence,
+-		 * keep the covered memory area within the screen buffer.
+-		 */
+-		max_off = min(max_off, info->screen_size);
++	/*
++	 * As we can only track pages, we might reach beyond the end
++	 * of the screen and account for non-existing scanlines. Hence,
++	 * keep the covered memory area within the screen buffer.
++	 */
++	max_off = min(max_off, info->screen_size);
  
-+static void drm_fb_helper_damage_work(struct work_struct *work)
-+{
-+	struct drm_fb_helper *helper = container_of(work, struct drm_fb_helper, damage_work);
-+
-+	drm_fb_helper_fb_dirty(helper);
-+}
-+
- /**
-  * drm_fb_helper_prepare - setup a drm_fb_helper structure
-  * @dev: DRM device
++	if (min_off < max_off) {
+ 		drm_fb_helper_memory_range_to_clip(info, min_off, max_off - min_off, &damage_area);
+ 		drm_fb_helper_damage(helper, damage_area.x1, damage_area.y1,
+ 				     drm_rect_width(&damage_area),
 -- 
 2.38.1
 
