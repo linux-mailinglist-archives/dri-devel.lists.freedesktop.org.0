@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D043629ADF
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Nov 2022 14:43:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46371629AE8
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Nov 2022 14:44:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 485C310E3FA;
-	Tue, 15 Nov 2022 13:43:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7309C10E3F8;
+	Tue, 15 Nov 2022 13:44:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
- [IPv6:2a00:1450:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CEB110E3F6
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Nov 2022 13:42:57 +0000 (UTC)
-Received: by mail-lj1-x236.google.com with SMTP id d3so17576774ljl.1
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Nov 2022 05:42:57 -0800 (PST)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 336BB10E3F4
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Nov 2022 13:44:24 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id bp15so24406956lfb.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Nov 2022 05:44:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to:subject
  :user-agent:mime-version:date:message-id:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fCqAsBzIYqwnKg+sxRUK0clUHkV80l++z9LwleH3TLc=;
- b=AUHd9Vl5XP7LwggKtY0uN5sgsYZiCX11QgiYSD/c+2+rtQ6+Jout/Ghg6QdWN2Qbo9
- x5sSBRJ5fWqochfRzBHxwpEJ3eWCKo0vZ0EJkYX0sXssEZul7nrA+GuFTiRVN+Cc+drY
- zGeVJUBf4HXYPi+Ry4d0vSfJWJznx2ZPxGh9CAA+98EdXmjm17QHoPIHllnON+AA1NXp
- QJZmkTvQJUALIfdpm/INLAuq6SFbvq75Z2AYmM7cLD9I5q5qVrcWZ9hPZpbJ/T6fljgw
- CPm00n1HJQDmrJG8PqqJxutx3LaeUVa0R4f7IFQ6q9VZPQVnSDtV+kEn+Zw5muVgjdRR
- USgA==
+ bh=rdaHmrZopow0cZrS7QRhB/XmFkl/A5fmUKYPPGyHrPQ=;
+ b=ycizX72uD0PnQmkCOgJqAakMV2BZT7P/463tJ48Di3wgsFQuRWUW5BbRx5OScawtiB
+ RIqqRnnWzGAdh7G81shiXKHpxIwOspFS8e6VJSVJFu7FALGX2tT7HADcaoCwHYMa1Xt5
+ a8cPAQTbMJyeKfZFl8zdn9LV+ch5IZMEBgPeiGzVceiKzscwkdDkYr9sb2pY0+W0doyB
+ 5X4JA2EaOjA9vhFQfUqL6UB+rKaPY+R0//XOmJjKyI8c+mYexXEcIWr6G1oA7V5ao27h
+ L4W38YOvFj5a7m7/KMZl53EwN6USaEN1Lk1YNj/H7IwbzKOqi3cbXA1a5HEGFeeY+DQ9
+ sKuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to:subject
  :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=fCqAsBzIYqwnKg+sxRUK0clUHkV80l++z9LwleH3TLc=;
- b=zDYeAPsOYYCcxBL5VCh/TYxcQO8AdGBnNog847glb0lV55HtFxVwF+vkRR3m+jKWXo
- HzQf6BzItlJM4xlkKBY17c3fp2TKBxBCmPLPO+8GqYDz/2qOpofjAM0ELNOJmQvnHYu3
- q2vGWvZDsh5r4IG+S4QETHJ/F5fvNXx4pb4V/WmUexQ6FU8YtUf5MvSd9jQhmytxRrk+
- J2TWQ3imAgG7a14H6lVt0fSJlQO9kOfsCzZRY0Y4tC5XRw+FFfbM7Xc198BZG8jGMQmF
- AG8PPY/oBcsp8xgZhEBTXlyEBtiPKiZHrQ1SRCegsXQFBIbfIEhr1uOLxl9XAGQfH1E/
- 3cXA==
-X-Gm-Message-State: ANoB5pkdsh8BZ7j9FOvsIXFmAVm5xB8uUJ+6LnIi6KyiNY2WBOf4MDQv
- POS5SfQJ0WDH1wkc4tWZXGsEQA==
-X-Google-Smtp-Source: AA0mqf4jM/aaIEgxVl/vgYByJ08SwHmGqaXCY2GmD+dfUWrVFiHIuOPXAH4wPeBOtq/q5Y2zoAogbA==
-X-Received: by 2002:a2e:9a88:0:b0:276:b134:b04c with SMTP id
- p8-20020a2e9a88000000b00276b134b04cmr5684299lji.492.1668519775520; 
- Tue, 15 Nov 2022 05:42:55 -0800 (PST)
+ bh=rdaHmrZopow0cZrS7QRhB/XmFkl/A5fmUKYPPGyHrPQ=;
+ b=26f86NUAoCA82XbOneb7EStip9AjmDyp15IcvCNZU9sszDOH6MJmE98EGgq1ml+Zco
+ 2bufdrEkK2w6UEVeung7kfi/hRXfP3ZBcTTCBtcAtm42I8cloC9u7uyJkaNDtWmApu0i
+ gU2AjlasxG/jbCBRtzvV9pcgyp5+HK2eNwB1FSZfOhac+07SI7FVTCuIN87kQwFb/4hF
+ zeqeT6axUGgyza+6wSFPYVMEsDCJ5t+xH+TjLhAgOqjmov1Qz3DRA6jPoQ0Pym5Ygcrx
+ fYGh2o0fsADzac7zyl7/WZFr0/1UGORHLuHO97b6gwNKmKiIzU0I4JuCOqqqys1qEw/n
+ tQ4Q==
+X-Gm-Message-State: ANoB5pnT2UEmBviflYomkXxXZuZVGPj5BNlR0/Y75R8j2ebhCzge/jFY
+ gRy18kA/PTY9H7Hf5/TdYqEtJg==
+X-Google-Smtp-Source: AA0mqf7gFOTN3V/Hzzq2wgjXL7xVmz53u/5hppb8CWem6NjgH646duFocYVW9tk/Vyy7OF99ZPKYjw==
+X-Received: by 2002:ac2:41d4:0:b0:4a2:4d53:8294 with SMTP id
+ d20-20020ac241d4000000b004a24d538294mr5110012lfi.263.1668519862567; 
+ Tue, 15 Nov 2022 05:44:22 -0800 (PST)
 Received: from [192.168.31.208] ([194.29.137.22])
  by smtp.gmail.com with ESMTPSA id
- d13-20020ac244cd000000b004ac980a1ba1sm2215836lfm.24.2022.11.15.05.42.53
+ s13-20020ac25c4d000000b004a91d1b3070sm2207716lfp.308.2022.11.15.05.44.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Nov 2022 05:42:55 -0800 (PST)
-Message-ID: <fed78af8-015b-e57d-76c7-68c8ba317952@linaro.org>
-Date: Tue, 15 Nov 2022 14:42:49 +0100
+ Tue, 15 Nov 2022 05:44:22 -0800 (PST)
+Message-ID: <c4db1802-9aac-7fd6-605d-cac4b62b25d9@linaro.org>
+Date: Tue, 15 Nov 2022 14:44:16 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.4.2
-Subject: Re: [PATCH v2 06/12] drm/msm: Add support for SM8350
+Subject: Re: [PATCH v2 08/12] arm64: dts: qcom: sm8350: Remove mmxc
+ power-domain-name
 To: Robert Foss <robert.foss@linaro.org>, robdclark@gmail.com,
  quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org, sean@poorly.run,
  airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
@@ -68,9 +69,9 @@ To: Robert Foss <robert.foss@linaro.org>, robdclark@gmail.com,
  Jonathan Marek <jonathan@marek.ca>, vinod.koul@linaro.org,
  quic_jesszhan@quicinc.com, andersson@kernel.org
 References: <20221115133105.980877-1-robert.foss@linaro.org>
- <20221115133105.980877-7-robert.foss@linaro.org>
+ <20221115133105.980877-9-robert.foss@linaro.org>
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20221115133105.980877-7-robert.foss@linaro.org>
+In-Reply-To: <20221115133105.980877-9-robert.foss@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,37 +91,27 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 15/11/2022 14:30, Robert Foss wrote:
-> Add compatibles string, "qcom,sm8350-mdss", for the multimedia display
-> subsystem unit used on Qualcomm SM8350 platform.
+On 15/11/2022 14:31, Robert Foss wrote:
+> The mmxc power-domain-name is not required, and is not
+> used by either earlier or later SoC versions (sm8250 / sm8450).
 > 
 > Signed-off-by: Robert Foss <robert.foss@linaro.org>
 > ---
->   drivers/gpu/drm/msm/msm_mdss.c | 4 ++++
->   1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-> index a2264fb517a1..39746b972cdd 100644
-> --- a/drivers/gpu/drm/msm/msm_mdss.c
-> +++ b/drivers/gpu/drm/msm/msm_mdss.c
-> @@ -293,6 +293,9 @@ static int msm_mdss_enable(struct msm_mdss *msm_mdss)
->   		/* UBWC_2_0 */
->   		msm_mdss_setup_ubwc_dec_20(msm_mdss, 0x1e);
->   		break;
-> +	case DPU_HW_VER_700:
-> +		msm_mdss_setup_ubwc_dec_40(msm_mdss, UBWC_4_0, 6, 1, 1, 1);
-> +		break;
-Shouldn't the second-last argument be 2 or 3 depending on DDR type?
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
 Konrad
->   	case DPU_HW_VER_720:
->   		msm_mdss_setup_ubwc_dec_40(msm_mdss, UBWC_3_0, 6, 1, 1, 1);
->   		break;
-> @@ -530,6 +533,7 @@ static const struct of_device_id mdss_dt_match[] = {
->   	{ .compatible = "qcom,sc8180x-mdss" },
->   	{ .compatible = "qcom,sm8150-mdss" },
->   	{ .compatible = "qcom,sm8250-mdss" },
-> +	{ .compatible = "qcom,sm8350-mdss" },
->   	{ .compatible = "qcom,sm8450-mdss" },
->   	{}
->   };
+>   arch/arm64/boot/dts/qcom/sm8350.dtsi | 1 -
+>   1 file changed, 1 deletion(-)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sm8350.dtsi b/arch/arm64/boot/dts/qcom/sm8350.dtsi
+> index cbd48f248df4..805d53d91952 100644
+> --- a/arch/arm64/boot/dts/qcom/sm8350.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sm8350.dtsi
+> @@ -2558,7 +2558,6 @@ dispcc: clock-controller@af00000 {
+>   			#power-domain-cells = <1>;
+>   
+>   			power-domains = <&rpmhpd SM8350_MMCX>;
+> -			power-domain-names = "mmcx";
+>   		};
+>   
+>   		adsp: remoteproc@17300000 {
