@@ -1,90 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CCBB62940D
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Nov 2022 10:15:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ABF2629423
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Nov 2022 10:18:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9FCB10E39A;
-	Tue, 15 Nov 2022 09:15:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73ED810E38E;
+	Tue, 15 Nov 2022 09:18:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
- [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23E3710E395;
- Tue, 15 Nov 2022 09:14:56 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id 48B562B067B9;
- Tue, 15 Nov 2022 04:14:51 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Tue, 15 Nov 2022 04:14:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1668503690; x=
- 1668510890; bh=nasadNTIFSQnVJhZ15WImlEOjmdx13wSVUui+IzXtIA=; b=C
- EBCd8/IwgaRBHGCIJYVyt4Qz8rF9U2uAWGbw/asPEZpiTZeoJap9t9yOYsZeTFgz
- koEQRXgGf5K1JMFupoItiKDPIRUm4Xcb6mIi+naBuY6xivRF4NSKUtBLFa96Zaid
- ZRAtOlkuwITpc5oLd8kUPymDhoeR3JmnzH14A0oibNkZyQ85UYzK7CAnMPNPA/Pl
- G9joGglhF6E2iL5UIYUYJXZ/yxoKfWTKd2JzeA4Qv0cBn+WZ7SiVtAuqO661TpFy
- fvlZSsswYkZIzfXhkZ5/ZhsdvzYLFpNowZvUIalx57+JBqczAKYmgYmekrH8j8qV
- JVq6hgqFI1n1Y+2rf/m6g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1668503690; x=
- 1668510890; bh=nasadNTIFSQnVJhZ15WImlEOjmdx13wSVUui+IzXtIA=; b=h
- /riLX6+bZkRvDvcPC2uQ4xwCKu0D4Y8dKUntqhzO9hgOIZB+o3WOCuXVniciDe+t
- KbH/MDeCPAHcicQVDRKI+vq1pJf5VnyWa4kMmr/9ezkRiT424TL1WUk1sdA7dnJo
- GPmu3cvn16tF461xVYdteoCkCjTd+HsPiPLwPglJLgdyAP0TvC0ngWTHx/5bZsXK
- mHvb/JhiO4qAVfMCH1haPYNdEqmYaNRXkMmyHxafCVkh0I22OD3ATMLSpEjP5hHP
- i28y7oGFlG4Obf/VtfsweoQUfzomxW2UH0xlFncHbH/H2HUuMs0U8CJtqR0IhvXJ
- aHHP6RHG2uAcAvF24r1gQ==
-X-ME-Sender: <xms:ilhzY_Tn6COc1nnLpdK0G7q3xNvmFsTkZY2XIts-tYINmZS78yzt3Q>
- <xme:ilhzYwwXdj_Z0XlJX20hnmX0j77f6xcmDYD-Vd3zuEMM4t-elMA-7ZWJZxo2G7xla
- VvIWK6sVqGAP6syf4M>
-X-ME-Received: <xmr:ilhzY03wbLzmdw2-vU_dYkfZvceK5FNkmiHk81TvdZb4uYB0u-_ZKDxM451T2V6EZCtKOvmY-kqwDkxgyB3YI2Dhvg4gPoWWA7UmyB9KeCAtEA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgeeggddtvdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvfevjghfuffkffggtgfgofesthekredtredtjeenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeeifeeigeelhfehkeeltdetjeetueelteeuveekueevffduhefffefhhfeh
- gfehieenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:ilhzY_DqJqx3ZHsvWDfTRQWQVAMWykLBoSuG2Sh5eTqQH1oIHQtH1Q>
- <xmx:ilhzY4hsKTV8cQ6jndaz7OG8d9LgG14wjxc_UhA3bm5ef3RG7UqBTQ>
- <xmx:ilhzYzoCbFifuRKW6ylAXC2w0FkiUziuxOJSVEsrYpiQ3beBEXjU7Q>
- <xmx:ilhzY_8c9WrL_Jvf4WPD_En5cxcsHAbWG4xPi7lb_uw9UV_SqO5Wnnew-AA>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 15 Nov 2022 04:14:50 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Maxime Ripard <maxime@cerno.tech>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
- Samuel Holland <samuel@sholland.org>, 
- Chen-Yu Tsai <wens@csie.org>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Ben Skeggs <bskeggs@redhat.com>, 
- David Airlie <airlied@linux.ie>, Karol Herbst <kherbst@redhat.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Emma Anholt <emma@anholt.net>, Lyude Paul <lyude@redhat.com>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v9-12-24b168e5bcd5@cerno.tech>
-References: <20220728-rpi-analog-tv-properties-v9-0-24b168e5bcd5@cerno.tech>
- <20220728-rpi-analog-tv-properties-v9-12-24b168e5bcd5@cerno.tech>
-Subject: Re: (subset) [PATCH v9 12/25] drm/connector: Add pixel clock to
- cmdline mode
-Message-Id: <166850360503.1237314.16656357691430313065.b4-ty@cerno.tech>
-Date: Tue, 15 Nov 2022 10:13:25 +0100
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
+ [IPv6:2a00:1450:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DB5D10E38E
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Nov 2022 09:18:17 +0000 (UTC)
+Received: by mail-lj1-x22f.google.com with SMTP id u2so16697780ljl.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Nov 2022 01:18:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=qaitHJH1+HQ8p61NgJ/vK7sYaS5lBIaT79O+RvQ2OXY=;
+ b=LyPPwARTu0tlJXhl/BVeknR9SCniGkuacWgUyj07k8GOzP3SVMTSYPytcEMXri9NaX
+ fSjEQnT5j3WXbBuR+POiwPFioUjeFv7AIJTuECWDBgSxZ3d27icDW+WFothueik/1fq5
+ b0fxqF+dfUAF8PmPrXobJXikLrS7dNCMRSuDDSb3LbXdwOmcsAdH2J6wqO/sFWNUHU4w
+ shP91K96ejD8k6ztFaIUi0voO6U3LukQKrlA6TnmAva/L4VAgJ9TSNCCzHhcKhuiQ26h
+ aG1LInlkbsMeYrgNjOIrGmc7glpWYe7MtIoViLrMms0zDUE86tLivEwG1mZ/2p0ooEOu
+ ge0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qaitHJH1+HQ8p61NgJ/vK7sYaS5lBIaT79O+RvQ2OXY=;
+ b=4RLe3QjGlUIyJOzPMgG2J1xMPXFCPEofL4y6mZJvxedC+JwVaMj2g72cYlNJnT3KzM
+ b7opgYvCykJc2tSq0E1DPWqqsJmLaR5tmTcqKxYfvTy2wM+Kdc5pUxPwLA/1iFc+9yvC
+ fcLlxU9Y+SaHtZR1BCNW8oBQIBOiP0bDJ9DYveLe5Wkm0wLPSXgy/iU/x8ZL/lvqefzK
+ N/tR5V69eQ2Hwu6A8b8LdPM++Q9bNCxyce/tKjOFLqEt2NHrF7L75of7H99szbJ+DyNj
+ g7mZViPqj+Z733njsFpQEG6OXf5UT4ttJAiZd1rvPGB3BHNVmdUW3hJWuvLeoLAuhNmG
+ Bdcw==
+X-Gm-Message-State: ANoB5pmmaqLKErhoCPj6YA6eml5NghpmYnO3HaJnwtuij+5qzN9nGGeN
+ Ew3w9l4cCQ4Hnm3PYkrhzWF6/89cmBU=
+X-Google-Smtp-Source: AA0mqf65Dw7flQneldyaF6rMAs/W92zoRxN/Ls9WEY0Skp1Y4usRiRrcGJdYS9VhhQjyu6WUiK9obA==
+X-Received: by 2002:a2e:bf1c:0:b0:278:ea67:a38c with SMTP id
+ c28-20020a2ebf1c000000b00278ea67a38cmr4911226ljr.63.1668503895382; 
+ Tue, 15 Nov 2022 01:18:15 -0800 (PST)
+Received: from gmail.com (host-95-193-110-185.mobileonline.telia.com.
+ [95.193.110.185]) by smtp.gmail.com with ESMTPSA id
+ y1-20020ac24201000000b004a44ffb1023sm2153710lfh.57.2022.11.15.01.18.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Nov 2022 01:18:14 -0800 (PST)
+Date: Tue, 15 Nov 2022 10:18:12 +0100
+From: Jonas =?iso-8859-1?Q?=C5dahl?= <jadahl@gmail.com>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH 1/2] Revert "drm: hide unregistered connectors from
+ GETCONNECTOR IOCTL"
+Message-ID: <Y3NZVGxtxpQzlXYc@gmail.com>
+References: <20221017153150.60675-1-contact@emersion.fr>
+ <Y3NTFY9Dz7eB9Uho@gmail.com>
+ <Eeerr6sqPNtw7uDqaovP1hJxjfKeDT3dWUY6vT0NpTJnA7bWHEdfnk7Vu7nDNKbK3OCBr-s3bTq1-acc9vGQ1vnGXTXxSCjwXteN7E7GGWY=@emersion.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.10.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Eeerr6sqPNtw7uDqaovP1hJxjfKeDT3dWUY6vT0NpTJnA7bWHEdfnk7Vu7nDNKbK3OCBr-s3bTq1-acc9vGQ1vnGXTXxSCjwXteN7E7GGWY=@emersion.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,18 +73,14 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev, Hans de Goede <hdegoede@redhat.com>, Noralf Tr��nnes <noralf@tronnes.org>, Geert Uytterhoeven <geert@linux-m68k.org>, Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>, Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Jonas =?iso-8859-1?Q?=C5dahl?= <jadahl@redhat.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 14 Nov 2022 14:00:31 +0100, Maxime Ripard wrote:
-> We'll need to get the pixel clock to generate proper display modes for
-> all the current named modes. Let's add it to struct drm_cmdline_mode and
-> fill it when parsing the named mode.
-> 
-> 
+On Tue, Nov 15, 2022 at 08:55:12AM +0000, Simon Ser wrote:
+> I've already pushed both patches to drm-misc-next.
 
-Applied to drm/drm-misc (drm-misc-next).
-
-Thanks!
-Maxime
+It's not in any 6.1 rc yet, and apparently it needs to be pushed to
+drm-misc-fixes to get into 6.1.
