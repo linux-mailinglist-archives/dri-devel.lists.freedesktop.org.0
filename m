@@ -2,43 +2,137 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8CBD629EFB
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Nov 2022 17:26:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F019629ED9
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Nov 2022 17:20:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E108D10E15E;
-	Tue, 15 Nov 2022 16:26:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1182F10E14B;
+	Tue, 15 Nov 2022 16:20:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 437 seconds by postgrey-1.36 at gabe;
- Tue, 15 Nov 2022 16:26:18 UTC
-Received: from bananas.pp3345.net (bananas.pp3345.net [176.31.107.147])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03D3110E15E;
- Tue, 15 Nov 2022 16:26:17 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 41C62200CDB; Tue, 15 Nov 2022 17:18:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pp3345.net; s=saul;
- t=1668529140; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:content-language:in-reply-to:references;
- bh=lw0D3uI230cmTafAFcv/xLpYDFnzHqHfkKivbPHf6c0=;
- b=PQFOFL/OdI06u6ru90TT/ltLv7vs82okxoR02+1CFv4vcJbR0mggzLE9KZO35rP0HvrSzM
- 8HId27mOeWXLw40Krs5wM+lO0i1yXYRSusvRPH1NvOd6c5P1UUOH64PKguu7laejjuQnUx
- 7UcmuoEPYm4v2EX4wfE2UqMhB1Y7pUrb1hBrBOh/6qCXDL7QGNm8Jg1HQA4izF0HvFcsUM
- jwU1dSjVXwyYR8Hc/ZFvkAVBqMH6rCN947GzB3/Z64keBe6pS/upSkCEPpSCpMUOr7TzS2
- XLEMxFPjegq9F81nlJHuQXo5IVjIf4WMmBUf9D9bT6meZmBzblDxAycFxK/0aQ==
-Message-ID: <da30c1b6-5c9b-0a79-f654-f966f17833ff@pp3345.net>
-Date: Tue, 15 Nov 2022 17:18:56 +0100
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED66D10E14A;
+ Tue, 15 Nov 2022 16:20:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1668529214; x=1700065214;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=x9ku6dt5rmf89d10DQg/hI8qPaV7cKsf0cyW7CpFQBo=;
+ b=N86I+jNgACCXhoeGEMvVcHCaRVSZk2nOAZXIMSJ54s1Pqseh1Fm/7SpA
+ xMQKRWp6EN81MxT9QnWaIsvnEL8FGlczULSFHra67Rx8UuGg4zm677IbT
+ GfBME319ErHG4DE00+KAYgzec7jHX0t7tXFjLJqpyLoEAdsOiJRQuRVGI
+ jMj9jlbpKTmOfAqy/NDAkfdafWHnnLdVqBcaNEueAjHHJho5YbX/aeV27
+ F8ZifVGDA3YmaS+pe9qyeVAdbMAak8qb9cXCXGqsQhJsB8NwN91+KJXny
+ Afd0h4v3HwmncxmQpwK1FVjXSH+plGjBuUreuo6j0qq7gUEmKri1nnJ/H w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="311001672"
+X-IronPort-AV: E=Sophos;i="5.96,166,1665471600"; d="scan'208";a="311001672"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Nov 2022 08:20:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="707791055"
+X-IronPort-AV: E=Sophos;i="5.96,166,1665471600"; d="scan'208";a="707791055"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by fmsmga004.fm.intel.com with ESMTP; 15 Nov 2022 08:20:13 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 15 Nov 2022 08:20:12 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Tue, 15 Nov 2022 08:20:12 -0800
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.109)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Tue, 15 Nov 2022 08:20:12 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=j/U96ZfSquj9co+FJB3Clswu8V6D+pio0b062qTfgJS7CjpUiED9nL7bxtIivIkOmvYXJ//qMNCPmSjrvT8dAZyIGr6ZBgMqD+5YJscr/SsB3ao87q/Z3iGLrOCy5kkrvkljpXY1FZi1VkFCx/NUhJeYQTLKRc9aI/Rf94LHTD4hYO578xWzcBwjepfNRbj7ai17g2qckuUU86nrxguZBypl3SGaYnppGB7rmRlJ0OK3XYlxQxQlJHfOC8ZhpLYxjKK6FZfUlUmubfOvk2RO8ecMbmxGM50pXUgiH8yrzEBvGQtfcBv3I4nmVzBmKctqs1rZbvUphTZezF/JbOZx/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KguwQ/Ow8fu5CvPfWzOKXuOTNCSZwd8/H0030MlzBqs=;
+ b=TSd1AAm9nPX0Yy1o/ujRcedzdgoVaC/d42kZqJQf2W8U6ncR0IMHku6/09NgC+vq3J+BUwlXPcI2TQ7Qi2POAO4pbXI2gMJcZQyrg5EOjaPdHfnfBNIk0DFe/pK+AOhuv/c+9My8kwKdibo+qWBOPTyALn5mz5ALt2r5XutiCUvl6h9E3+WSDOICeSI5q2WK7UFMHitySYij6iyAdqEnrFfECm6bQkfPu6nGIaZWPcUEVfi5PZIPLTdOn5pk4CXoSHOf2FgdQ4HYtK1v2T9ZTuMnRnNjVM7ek7Fhw2lAdsLeExMNa485V5Kbt6E9fU81IkFvmU5/Eu1hB266TNXsaA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH8PR11MB6952.namprd11.prod.outlook.com (2603:10b6:510:224::13)
+ by CO1PR11MB4946.namprd11.prod.outlook.com (2603:10b6:303:9e::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.18; Tue, 15 Nov
+ 2022 16:20:10 +0000
+Received: from PH8PR11MB6952.namprd11.prod.outlook.com
+ ([fe80::d060:bf4d:10ad:3713]) by PH8PR11MB6952.namprd11.prod.outlook.com
+ ([fe80::d060:bf4d:10ad:3713%3]) with mapi id 15.20.5813.017; Tue, 15 Nov 2022
+ 16:20:10 +0000
+Date: Tue, 15 Nov 2022 08:20:04 -0800
+From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+Subject: Re: [PATCH v7 20/20] drm/i915/vm_bind: Async vm_unbind support
+Message-ID: <Y3O8NAyUXEnaNIfR@nvishwa1-DESK>
+References: <20221113075732.32100-1-niranjana.vishwanathapura@intel.com>
+ <20221113075732.32100-21-niranjana.vishwanathapura@intel.com>
+ <Y3O3Murna92s7iKL@ashyti-mobl2.lan>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Disposition: inline
+In-Reply-To: <Y3O3Murna92s7iKL@ashyti-mobl2.lan>
+X-ClientProxiedBy: MN2PR19CA0053.namprd19.prod.outlook.com
+ (2603:10b6:208:19b::30) To PH8PR11MB6952.namprd11.prod.outlook.com
+ (2603:10b6:510:224::13)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: The state of Quantization Range handling
-Content-Language: en-US
-To: Sebastian Wick <sebastian.wick@redhat.com>
-References: <CA+hFU4w8=yTU5tQgqZj4qUvJddAQL9fj5teTVSB_dvNcwCyr6g@mail.gmail.com>
-From: Yussuf Khalil <dev@pp3345.net>
-In-Reply-To: <CA+hFU4w8=yTU5tQgqZj4qUvJddAQL9fj5teTVSB_dvNcwCyr6g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR11MB6952:EE_|CO1PR11MB4946:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8f5f82dc-8047-487f-d6e0-08dac725443d
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: kyCgdUE2Y+6HnguxKZjI+D3VbzeZUdercSZdgqIDDpZqZlzIRrKit7tqLmjOCzt7DKrTL9xSkWl2qee/r2fTcX/E8oxbis48UBDjKs1FYxtyua3ro0t2EejA/qNac0HxwZAvGyl+YY4cAv5ER2OfVXUMiN9SwisHmlvEwBrh+amXkjFZWf6JutSpGtq/fBuI+spsvmeSJoRqMUe0rVCbzGuxTsscMrS0zRehZPtwjT7XV70jOTx5Kr6NSW+GH0f3t06OXO/83MQdW9gAk5x67KKn25BTjqlHCiJDWXngwPWTfm9QJNnordoFy3Qh7LA09B5AnW2jpBLuWZKPiHie5m7X7vnUGYcBa7LCA7bZSC/Rznxls2b4Prst+V1B7KJD1q27JTR6GapbkkRehPRbo0o59Gvc0pnmQGi9u40EOS6JJnTpnZMhLeoNxPnDdy/lUQf/BSfmx1wTPQo5uqANmCyRDx42HQnZT2yGsnsIrNmYTQHSz6ZXjDvMm3m72OCaSHs6jjh0VxFQ87YPy63N/9yY+/aQAh6FoMJtF84xsMyfzKcd0/6nrX5Am1KlXRkQXZqbCN/p9t1FYBGOhyxPFuXOdtFu1AawLtgaoox/i01HIS+PqPE8yQcunZo2oJ0d/zBjF3+bJxOcjbWv4uCMFEyx/3WebAmcGtyf04Fw9iNqbvEunfKdmqANO8IZl4lecE632ecPh7eb8lLBXruUOQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH8PR11MB6952.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(7916004)(396003)(366004)(39860400002)(136003)(346002)(376002)(451199015)(33716001)(6666004)(8936002)(6486002)(478600001)(83380400001)(5660300002)(6916009)(316002)(6506007)(66476007)(66556008)(4326008)(8676002)(9686003)(6512007)(82960400001)(66946007)(86362001)(38100700002)(2906002)(41300700001)(186003)(26005)(44832011);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?m97kvJ05vczZ7pFlg7sckwc6f0z/cOOCQqbVD8oj5DyEqfMaCOg/VzJs+T2n?=
+ =?us-ascii?Q?UKIW7/1uSeqV/L8MzsGHFswcL+U41N7lRt1+z9xKplso0hsSq9Qnxv11IA2A?=
+ =?us-ascii?Q?bgSnpjgSIl3gAqqKQEohcX1k/tJuuuP/qNn7u/OgitFT7wGXRXrN/aorRs7E?=
+ =?us-ascii?Q?cpK8K2ti1tJDAJr7S8iUowoC846lqUQyNNcUK0Xeufkrfp2F+TUDY0LEyPX/?=
+ =?us-ascii?Q?xCViowcsKt4Z1Idg71JvuBHoNssY+NB7jfQJ9iJqo6fidJrU2N2OUQfCRfsW?=
+ =?us-ascii?Q?31qAn0ApBDI5XZ8iV0wagkC8ZYz+Djo+us0v4nwQvwtT8Zd4dB8995jLo47n?=
+ =?us-ascii?Q?9f7L062eWENdsH3KGrfwpJxYpwwztTNHFAPIexorwLbKxzMugrcsriE0AZJO?=
+ =?us-ascii?Q?Y4yjDLJFuRWsaBMTSw3+pXzrsMctmvIvRGecPJL/51XRcpntXOEN6GEptGbp?=
+ =?us-ascii?Q?9kBJ/3hkNRir5NfHP2NHGNN6NDHOvsF/qZCUoV6cihELbZom9K0xJ+vtEXDF?=
+ =?us-ascii?Q?uhcwYy8xFcR7ui5BCDdkRCLMnYcpb7sj8fsR00y2gmV3HM+3Bx5HhS7wLkZA?=
+ =?us-ascii?Q?KsjonkJKTk+ozazX6i/FcUsQebf0EvGheZpPJmfML7GIOY95yGbF0K11wA5X?=
+ =?us-ascii?Q?RwVAAmkAMzLjSzwMLo2lXoZV31IYWTbWcSuVWkBRCCRzRlGvCkGm5FiG05of?=
+ =?us-ascii?Q?oKPjCcYz4iCXqNAfbXpTC9CVmGCOdmXpebWCBlw/vmSnImnpB6rxk4yeJH7x?=
+ =?us-ascii?Q?PqPLrdIrTctzN7JTEY7C8kQkd7paXkbd27ggKtfcOEE24eSR0vdJtqP3I1+O?=
+ =?us-ascii?Q?ly0Wl/SmewZ8w06qY8x0opqYE7ZPpKJtZG4r0Btwe6Qw0MoflYWK5DY0mZiy?=
+ =?us-ascii?Q?8HOTsT/RLDMWqsqvDIYz2iFiA81O7xbkjDBhD3/qQHatlm79SwGSP74I1KuL?=
+ =?us-ascii?Q?2T6syacDsRfhuxpOWeSFikxi0e7uYWUx+Wtk9VzWPVD6z64R63FWJCcFALFI?=
+ =?us-ascii?Q?p/oXD+XsJObMheyWCtvmQhQ/loktTJCW5bwq41quTEIwmHoLr/vCNqcwSP8W?=
+ =?us-ascii?Q?zVk5p61BWWmRrhYHnUVtwQ9KTgTV2u5xUvm/iwEw21dWlbI01+X5J1jNnxs7?=
+ =?us-ascii?Q?iUKfieNvXYdXU/qdgYC1Kf+1t88FQdiPwvVRKs18kD/t6GCZGC5+lW1mh1sN?=
+ =?us-ascii?Q?ZrVmIE422uS2+pxYCFzUqKzVl7Xd2PcAwxFzUYXnf1X2jqHoLZwgoPPAoZvO?=
+ =?us-ascii?Q?PUmifjO0vFVDB9mEL7ckAerxgTo1kZeAc+wxSQIFeH0d962EL0ZccWvTLSEP?=
+ =?us-ascii?Q?i/ShdI/uGzFcWfpnsoONDPmyac8dLP9yyRrYC8dcRvKueXRbJa4p0ueMRFgW?=
+ =?us-ascii?Q?HU9OQveZ19grvoyNpTt9tfj/bmhD74PuJb7BzrOKNezYarXJiW4W7DB8a3qL?=
+ =?us-ascii?Q?c5Zt/RU/ubW1z2M/T8YkVksuaxcJQZX9JIKFoZd9S+CHnhuN6jfzrlKg7ZWy?=
+ =?us-ascii?Q?u4ffKLJzULg+ZnwvlwrjpHQ4UpFDMbsygtIOYoQPSDsBHczRetWTtkZLCth8?=
+ =?us-ascii?Q?ullckXZUICTgxQWGxF7xjHyTmvIxBX9guF6EXzS/qnDn76qQ2EwdjshlZQEb?=
+ =?us-ascii?Q?3SBkU73Jby8PH/mj/mqDzoA=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8f5f82dc-8047-487f-d6e0-08dac725443d
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB6952.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2022 16:20:10.0385 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kopoBvwQ5dG0yy065fwzqA9Q4AtWzGytQilBINNwkFb9/Uibfr3ekyjtYWVi1Fx1cFEoH6AqQbxCqtPRNBZP2YhS1pEqIJxL+EfTXZ+NMOLbzmtQYOk3VTEQRO9EOHTp
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4946
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,111 +145,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- wayland <wayland-devel@lists.freedesktop.org>
+Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com,
+ lionel.g.landwerlin@intel.com, tvrtko.ursulin@intel.com, jani.nikula@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ thomas.hellstrom@intel.com, matthew.auld@intel.com, jason@jlekstrand.net,
+ daniel.vetter@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Sebastian,
+On Tue, Nov 15, 2022 at 04:58:42PM +0100, Andi Shyti wrote:
+>Hi Niranjana,
+>
+>On Sat, Nov 12, 2022 at 11:57:32PM -0800, Niranjana Vishwanathapura wrote:
+>> Asynchronously unbind the vma upon vm_unbind call.
+>> Fall back to synchronous unbind if backend doesn't support
+>> async unbind or if async unbind fails.
+>>
+>> No need for vm_unbind out fence support as i915 will internally
+>> handle all sequencing and user need not try to sequence any
+>> operation with the unbind completion.
+>>
+>> v2: use i915_vma_destroy_async in vm_unbind ioctl
+>>
+>> Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+>> ---
+>>  .../drm/i915/gem/i915_gem_vm_bind_object.c    |  2 +-
+>>  drivers/gpu/drm/i915/i915_vma.c               | 51 +++++++++++++++++--
+>>  drivers/gpu/drm/i915/i915_vma.h               |  1 +
+>>  include/uapi/drm/i915_drm.h                   |  3 +-
+>>  4 files changed, 51 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+>> index d87d1210365b..36651b447966 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+>> @@ -210,7 +210,7 @@ static int i915_gem_vm_unbind_vma(struct i915_address_space *vm,
+>>  	 */
+>>  	obj = vma->obj;
+>>  	i915_gem_object_lock(obj, NULL);
+>> -	i915_vma_destroy(vma);
+>> +	i915_vma_destroy_async(vma);
+>>  	i915_gem_object_unlock(obj);
+>>
+>>  	i915_gem_object_put(obj);
+>> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+>> index 7cf77c67d755..483d25f2425c 100644
+>> --- a/drivers/gpu/drm/i915/i915_vma.c
+>> +++ b/drivers/gpu/drm/i915/i915_vma.c
+>> @@ -42,6 +42,8 @@
+>>  #include "i915_vma.h"
+>>  #include "i915_vma_resource.h"
+>>
+>> +static struct dma_fence *__i915_vma_unbind_async(struct i915_vma *vma);
+>> +
+>>  static inline void assert_vma_held_evict(const struct i915_vma *vma)
+>>  {
+>>  	/*
+>> @@ -1713,7 +1715,7 @@ void i915_vma_reopen(struct i915_vma *vma)
+>>  	spin_unlock_irq(&gt->closed_lock);
+>>  }
+>>
+>> -static void force_unbind(struct i915_vma *vma)
+>> +static void force_unbind(struct i915_vma *vma, bool async)
+>
+>I still like the defines on this, they look cleaner, but it's a
+>matter of taste.
+>
 
-I've previously done some work on this topic [1]. My efforts were mostly about 
-fixing the situation regarding overrides and providing proper means for 
-userspace. I am affected by the issue myself as I own several DELL U2414H 
-screens that declare a CE mode as their preferred one, but should receive full 
-range data nonetheless. They do not have the respective bit set in their EDID 
-to indicate full range support either.
+Ok, will change.
 
-My implementation primarily moved the "Broadcast RGB" to DRM core and re-wired 
-it in i915 and gma500. I further added a flag to indicate CE modes to userspace 
-so that apps such as gnome-control-center can clearly communicate whether full 
-or limited range would be used by default. A v2 branch that I never submitted 
-is available at [2]. I also have some code lying around locally that adds the 
-required functionality to mutter and gnome-control-center.
+Niranjana
 
-I had to pause work on the issue back then and never really came around to 
-picking it up again, however, I would be interested in working on it again if 
-there is consensus on the direction that my patches laid out. I did not 
-consider use cases for the out-of-range bits though.
-
-Regards
-Yussuf
-
-[1] https://patchwork.kernel.org/project/dri-devel/cover/20200413214024.46500-1-dev@pp3345.net/
-[2] https://github.com/pp3345/linux/commits/rgb-quant-range-v2
-
-On 15.11.22 00:11, Sebastian Wick wrote:
-> There are still regular bug reports about monitors (sinks) and sources
-> disagreeing about the quantization range of the pixel data. In
-> particular sources sending full range data when the sink expects
-> limited range. From a user space perspective, this is all hidden in
-> the kernel. We send full range data to the kernel and then hope it
-> does the right thing but as the bug reports show: some combinations of
-> displays and drivers result in problems.
-> 
-> In general the whole handling of the quantization range on linux is
-> not defined or documented at all. User space sends full range data
-> because that's what seems to work most of the time but technically
-> this is all undefined and user space can not fix those issues. Some
-> compositors have resorted to giving users the option to choose the
-> quantization range but this really should only be necessary for
-> straight up broken hardware.
-> 
-> Quantization Range can be explicitly controlled by AVI InfoFrame or
-> HDMI General Control Packets. This is the ideal case and when the
-> source uses them there is not a lot that can go wrong. Not all
-> displays support those explicit controls in which case the chosen
-> video format (IT, CE, SD; details in CTA-861-H 5.1) influences which
-> quantization range the sink expects.
-> 
-> This means that we have to expect that sometimes we have to send
-> limited and sometimes full range content. The big question however
-> that is not answered in the docs: who is responsible for making sure
-> the data is in the correct range? Is it the kernel or user space?
-> 
-> If it's the kernel: does user space supply full range or limited range
-> content? Each of those has a disadvantage. If we send full range
-> content and the driver scales it down to limited range, we can't use
-> the out-of-range bits to transfer information. If we send limited
-> range content and the driver scales it up we lose information.
-> 
-> Either way, this must be documented. My suggestion is to say that the
-> kernel always expects full range data as input and is responsible for
-> scaling it to limited range data if the sink expects limited range
-> data.
-> 
-> Another problem is that some displays do not behave correctly. It must
-> be possible to override the kernel when the user detects such a
-> situation. This override then controls if the driver converts the full
-> range data coming from the client or not (Default, Force Limited,
-> Force Full). It does not try to control what range the sink expects.
-> Let's call this the Quantization Range Override property which should
-> be implemented by all drivers.
-> 
-> All drivers should make sure their behavior is correct:
-> 
-> * check that drivers choose the correct default quantization range for
-> the selected mode
-> * whenever explicit control is available, use it and set the
-> quantization range to full
-> * make sure that the hardware converts from full range to limited
-> range whenever the sink expects limited range
-> * implement the Quantization Range Override property
-> 
-> I'm volunteering for the documentation, UAPI and maybe even the drm
-> core parts if there is willingness to tackle the issue.
-> 
-> Appendix A: Broadcast RGB property
-> 
-> A few drivers already implement the Broadcast RGB property to control
-> the quantization range. However, it is pointless: It can be set to
-> Auto, Full and Limited when the sink supports explicitly setting the
-> quantization range. The driver expects full range content and converts
-> it to limited range content when necessary. Selecting limited range
-> never makes any sense: the out-of-range bits can't be used because the
-> input is full range. Selecting Default never makes sense: relying on
-> the default quantization range is risky because sinks often get it
-> wrong and as we established there is no reason to select limited range
-> if not necessary. The limited and full options also are not suitable
-> as an override because the property is not available if the sink does
-> not support explicitly setting the quantization range.
-> 
+>Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+>
+>Andi
