@@ -2,85 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00D4B6293FD
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Nov 2022 10:14:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 362CE629404
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Nov 2022 10:14:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A96810E389;
-	Tue, 15 Nov 2022 09:14:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 836CE10E391;
+	Tue, 15 Nov 2022 09:14:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
  [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CD3810E387;
- Tue, 15 Nov 2022 09:14:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48A0710E387;
+ Tue, 15 Nov 2022 09:14:29 +0000 (UTC)
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id AF4F12B067C0;
- Tue, 15 Nov 2022 04:14:17 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Tue, 15 Nov 2022 04:14:22 -0500
+ by mailnew.west.internal (Postfix) with ESMTP id 6D5822B067B9;
+ Tue, 15 Nov 2022 04:14:24 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Tue, 15 Nov 2022 04:14:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1668503657; x=
- 1668510857; bh=QVtIw/Y9KtoCntXzzfTXbTAVgaNNlVUhyJyAL6sHpPY=; b=V
- CsWb5ifjNvx6+/NWM24hujYYOQB1Fogv4DYY5Bcj8G8jgMyA0QYotPA5vItweyvs
- OExq9bNT1iPOTi1zbTqNt22qX/WkKBoO8rEMRt6ClxrgV5HothtCe5thnZOfjYlW
- MTMdGL5tKWy9PXJLraFZuHdJtCKBPK+qY1zzHMLWsowtECFXLjR8LThSXXYghpYQ
- qBSU/wcmYcP3vn8Mmr7IdB2++h1+zvuFKE1bLo4LvF6oCpf6RNpIB8u4hOtIXpY0
- oFckmS+XgxwhRfQNCIRpMYVe3jVjTDqJ/sGAME+fqoD5Br/sEvYHZOrA1KBCPIrB
- 5LcnROWKvubfVkM993Wpg==
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1668503664; x=
+ 1668510864; bh=82rrm1cPM5h8knW+8auhgpBiIWvA4DKT6azSx+4b8hE=; b=S
+ 5Z8aQMsDNqRonESvyTgzYgATFhMBJzcrTjGxZosyLrCPKbvwOHspyZMG2/tZK1Ow
+ XXJqlk/ohT+n1B0axV2xSZR2l5d7yPgsYqxy2r6tkwQCs5j0Cwr2DyjmJsv9OV9a
+ 6L0Z4tECbsbR7efjbHbKAnUQ/Ah8q3kEtxE3QLy/f6OtdDysNDptPvdVCxoakKb9
+ AA2dP9HqGGtAHJcHj/LNuGX4I5xVLHl36LEvFbRBXvQ95yRMw6+M/dpEUJWThjXL
+ JsUTtII2WHTcAdwclDlM8bMptye1Mnst6tyofX0TZPiZgcO4F65gN2fALWoLvw36
+ rWOWfcSr8vha34zMZlMVw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1668503657; x=
- 1668510857; bh=QVtIw/Y9KtoCntXzzfTXbTAVgaNNlVUhyJyAL6sHpPY=; b=l
- WROtZPBu8bmI8iGai6V0kIzuUaGu5xyED5z6Xwr1YFqkHffRknPG42jBuBEmCyhn
- ymus8GVFZixL/A+s6JB4HIhslV6+CmpntG87uePP13IlZFKitVg65zSDgRgnYZR8
- 3i9x10I3ugzWECG1eVbtUvnPubiPXH3BBXNJZUvFXUNqMg7Max3rdSx2SQqgJc/f
- AiesCIsXY5KQce+LX0ETTOY1u3VL1XTAo/850vvhNT64ODCBQ5J6kzDbFb4+Ieb/
- vGprk90Onaby61m3irlcw/FaXrfUeZsDoyC7vdtys5jPJsc5qR1GqDOsZitvNw1h
- 5Gn8XjQccz4ZDT0AiPPnQ==
-X-ME-Sender: <xms:aFhzY3tMoNMAyI6FN5KNqtzLj4jwa1BbM9HZz-AzkT3WEBEged8Z4w>
- <xme:aFhzY4cuUZNXc5VotaCY-IedgrDlEgilsmGefvXz5iymBR1NBeA1gP8qCbRGWlhIC
- KLCJ_a0TkS_5F3YUYw>
-X-ME-Received: <xmr:aFhzY6xxMpd3Z78I-iYLmV3ciWFlwtYtX_0cAKezbMrCl8OGHb-vcUoDu6k7QrPwHYq_C5i_ipzW1gzKjDgmFMqpyHrR6IZRzWcVghh-QJTbaw>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1668503664; x=
+ 1668510864; bh=82rrm1cPM5h8knW+8auhgpBiIWvA4DKT6azSx+4b8hE=; b=V
+ +j7Qoh4kD3FTCtCfOkuHOVNIQFM8GjIAzB6lCnuFbxCZFvwu4PG/LSqtJ0mLBsvL
+ +ns1HgX1FfD8bFJCUHyiX2Cj4ROpQ6N6NtqV0F7FdTzZhVE408/3VwJJQoCm51ak
+ 7Vg+Dac9jcwq3EHx8cuWOd6Gs1Hl/A6OK2xSD8MlSxt38Lz3D5gf/ThXS800g4I2
+ EKgiYHC3pm2ndaIyAK/cym/PeBPZHbPiwL5WTGsVTp4+JWtdYPKg/CpVbmR+LV4t
+ 93HPyJ8sEqgC8GGk1SBePA913EqQyW+6FtrIBydQSatiwMFhpPVv6BHlBB9jdDmu
+ 7Tj794qKyvyvpotjGSIUg==
+X-ME-Sender: <xms:b1hzYzu-mDq3L2PGB3nQ_DaeweunMaHSCKnbNM3rCvm5epmk7a4V3Q>
+ <xme:b1hzY0cdTP4ehXQm9rasinMtDFPZb0HYYGQNriFLZDMSKDS-MnqHRu21OW7m8qRvr
+ Ktba9VhqQluokyQqxY>
+X-ME-Received: <xmr:b1hzY2yZii-6BOxoEvJ5vPTfmJfNPr4eVd2xi1eCS4t7ShNH3w6ZQFcgLSddClUcgBvVHuke0XhkHB42VvE6qxBoo-eObKNe03Q5AtNYOccR0g>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgeeggddtvdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvfevjghfuffkffggtgfgofesthekredtredtjeenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeeifeeigeelhfehkeeltdetjeetueelteeuveekueevffduhefffefhhfeh
- gfehieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ gfehieenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:aFhzY2NaDurz4r4KzSDVxoh7BXNlFUg8TX2ZI-7W-ZDKTBIZqFGCPQ>
- <xmx:aFhzY38y2fbwlsGvKClqgwth1OJC-mPAarz27Svr47IfsmWMGagO5Q>
- <xmx:aFhzY2U20238DUG_7WZIToGhKdgBp-N6TyT3o3qdJS_07T4-stFJ3w>
- <xmx:aVhzY_YxachXRSv1oy6sT74UEDKSWVvYwU3VgHaGfpaqRhOoo5QXn1bywq4>
+X-ME-Proxy: <xmx:b1hzYyPHTSDlI1KZlqRlaFHyJYbtH7vgrzu0RcymXPq6pWDq3R8EzA>
+ <xmx:b1hzYz8Aj8x7xQA0E3T737TnygB6FaJDZG231X_y9pEG2XN0fntCPw>
+ <xmx:b1hzYyVRFvCm9GioiUmkLvdOtP6FTR1DDhhMXuV-yRVaSHruOSS07w>
+ <xmx:cFhzY7a_AnRl5_VASlAuVkxX61xdom3w2SmdMPPJeaip9JA7g5GxbQAosJY>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 15 Nov 2022 04:14:16 -0500 (EST)
+ 15 Nov 2022 04:14:23 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Maxime Ripard <maxime@cerno.tech>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel@ffwll.ch>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Samuel Holland <samuel@sholland.org>, 
- Chen-Yu Tsai <wens@csie.org>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Ben Skeggs <bskeggs@redhat.com>, 
- David Airlie <airlied@linux.ie>, Karol Herbst <kherbst@redhat.com>,
- Maxime Ripard <mripard@kernel.org>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, Samuel Holland <samuel@sholland.org>,
+ Chen-Yu Tsai <wens@csie.org>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>, 
+ Karol Herbst <kherbst@redhat.com>, Maxime Ripard <mripard@kernel.org>,
  Emma Anholt <emma@anholt.net>, Lyude Paul <lyude@redhat.com>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v9-2-24b168e5bcd5@cerno.tech>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v9-8-24b168e5bcd5@cerno.tech>
 References: <20220728-rpi-analog-tv-properties-v9-0-24b168e5bcd5@cerno.tech>
- <20220728-rpi-analog-tv-properties-v9-2-24b168e5bcd5@cerno.tech>
-Subject: Re: (subset) [PATCH v9 02/25] drm/tests: Add Kunit Helpers
-Message-Id: <166850357412.1237314.5112893845627847606.b4-ty@cerno.tech>
-Date: Tue, 15 Nov 2022 10:12:54 +0100
+ <20220728-rpi-analog-tv-properties-v9-8-24b168e5bcd5@cerno.tech>
+Subject: Re: (subset) [PATCH v9 08/25] drm/client: Add some tests for
+ drm_connector_pick_cmdline_mode()
+Message-Id: <166850358084.1237314.23879958208527722.b4-ty@cerno.tech>
+Date: Tue, 15 Nov 2022 10:13:00 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -101,13 +101,13 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Dave Stevenson <dave.stevenson@raspberrypi
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 14 Nov 2022 14:00:21 +0100, Maxime Ripard wrote:
-> As the number of kunit tests in KMS grows further, we start to have
-> multiple test suites that, for example, need to register a mock DRM
-> driver to interact with the KMS function they are supposed to test.
+On Mon, 14 Nov 2022 14:00:27 +0100, Maxime Ripard wrote:
+> drm_connector_pick_cmdline_mode() is in charge of finding a proper
+> drm_display_mode from the definition we got in the video= command line
+> argument.
 > 
-> Let's add a file meant to provide those kind of helpers to avoid
-> duplication.
+> Let's add some unit tests to make sure we're not getting any regressions
+> there.
 > 
 > [...]
 
