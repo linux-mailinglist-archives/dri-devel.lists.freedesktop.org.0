@@ -2,47 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35872629D64
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Nov 2022 16:28:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 135F3629DF7
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Nov 2022 16:46:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 603CA10E421;
-	Tue, 15 Nov 2022 15:28:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC54E10E417;
+	Tue, 15 Nov 2022 15:46:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F217010E413;
- Tue, 15 Nov 2022 15:28:13 +0000 (UTC)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC12810E416;
+ Tue, 15 Nov 2022 15:46:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1668526094; x=1700062094;
+ t=1668527195; x=1700063195;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version;
- bh=QyVi8xwimHr/SBGDnhpw7L6AZK+eBVpkUqCWoyo7LzM=;
- b=I6yldLIRXJKlaD8Qyu1bVxRJ0QOc93dB7qUeqWLAbAXad3uYM6XCmfZE
- pKqMSKOzMuEjXKxTaQBR8898k4l5+ZyMl87Mz1RuQl0xlI95cE3kCbMtd
- iFQ4lVp73kuMJaUU3YzQuFd2jNfYOjXBHTJ5a4JKMIkkN+BOS46z+lwfW
- HUgMYBl+FNq2xMzVs0SlFr5CPeL+cDikDH89IsnesHlE6x8+XBOjXAIOv
- 6VmMpeYSSiWG7r6yA1X/GuVpm2PCTUuFhSK8bIJ0stTXK/4A/HZI+jCIY
- /0pGnYS3pTKDdx9VuY0IfzqolX61EHjSB1PwlNqp45myyjTLqxM9Twuv/ g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="376545386"
-X-IronPort-AV: E=Sophos;i="5.96,166,1665471600"; d="scan'208";a="376545386"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2022 07:28:13 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="763949981"
-X-IronPort-AV: E=Sophos;i="5.96,166,1665471600"; d="scan'208";a="763949981"
+ bh=2h1puenqV2GbE9aSnvmb1LwGLVQPnIy1raebHUUmONY=;
+ b=gjK+52V/49w3Ao/enpPmYbXfvHdZd4rhjV9UTzxkhGB8/+kQ7kFuLwM2
+ PNYnOv83Y/KVdu/Y+QEePUTFRI4Tqt1LZ2HCooIMS36uTph0fY/ZBK53a
+ IfBHU77C9RVxsWrQT10OAM17WPmtldIqJqDwpo9kCSx+oIv5u5NA06R4x
+ 4RQvvJHuniCdvZ9LwAk+WHqu/E9JBb+F/OZ2/qipMZulKzLSVldPSQYHL
+ rSEdR0Syl3wJ0DOGRh03YYrnFfQLTUkPZoC0kvBHUBmaBijat9DhmUYww
+ eyBcQE+S5jI58WQosTygT0ccmqAZKnLPr/vVjV7RtxObUyUGaBs+9+AQ4 g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="295648343"
+X-IronPort-AV: E=Sophos;i="5.96,166,1665471600"; d="scan'208";a="295648343"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Nov 2022 07:46:35 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="641248834"
+X-IronPort-AV: E=Sophos;i="5.96,166,1665471600"; d="scan'208";a="641248834"
 Received: from golubevv-mobl2.ger.corp.intel.com (HELO localhost)
  ([10.252.58.73])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2022 07:28:10 -0800
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Nov 2022 07:46:30 -0800
 From: Jani Nikula <jani.nikula@linux.intel.com>
-To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-Subject: Re: [PATCH v2] drm/i915: remove circ_buf.h includes
-In-Reply-To: <20221115070302.4064-1-jirislaby@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Jakob Koschel
+ <jakobkoschel@gmail.com>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Mathias Nyman
+ <mathias.nyman@linux.intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] i915: Move list_count() to list.h for broader use
+In-Reply-To: <20221114162207.62559-1-andriy.shevchenko@linux.intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20221115070302.4064-1-jirislaby@kernel.org>
-Date: Tue, 15 Nov 2022 17:28:07 +0200
-Message-ID: <87o7t82q60.fsf@intel.com>
+References: <20221114162207.62559-1-andriy.shevchenko@linux.intel.com>
+Date: Tue, 15 Nov 2022 17:46:28 +0200
+Message-ID: <87leoc2pbf.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -58,65 +64,89 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Mathias Nyman <mathias.nyman@intel.com>, Kevin Cernekee <cernekee@gmail.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
- "Jiri Slaby \(SUSE\)" <jirislaby@kernel.org>
+ Andrew Morton <akpm@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 15 Nov 2022, "Jiri Slaby (SUSE)" <jirislaby@kernel.org> wrote:
-> The last user of macros from that include was removed in 2018 by the
-> commit below.
+On Mon, 14 Nov 2022, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> Some of the existing users, and definitely will be new ones, want to
+> count existing nodes in the list. Provide a generic API for that by
+> moving code from i915 to list.h.
+
+I think I'd find list_length() a much more natural name for this.
+
+*shrug*
+
+Acked-by: Jani Nikula <jani.nikula@intel.com>
+
+regardless of what you decide to do with name or static inline etc.
+
+
 >
-> Fixes: 6cc42152b02b ("drm/i915: Remove support for legacy debugfs crc interface")
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: intel-gfx@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
-
-Pushed to drm-intel-next, thanks for the patch!
-
-BR,
-Jani.
-
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 > ---
+> v2: dropped the duplicate code in i915 (LKP)
+>  drivers/gpu/drm/i915/gt/intel_engine_cs.c | 13 +------------
+>  include/linux/list.h                      | 13 +++++++++++++
+>  2 files changed, 14 insertions(+), 12 deletions(-)
 >
-> Notes:
->     [v2] fixed e-mail setup
->
->  drivers/gpu/drm/i915/display/intel_pipe_crc.c | 1 -
->  drivers/gpu/drm/i915/i915_irq.c               | 1 -
->  2 files changed, 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_pipe_crc.c b/drivers/gpu/drm/i915/display/intel_pipe_crc.c
-> index 673454fbf784..e9774670e3f6 100644
-> --- a/drivers/gpu/drm/i915/display/intel_pipe_crc.c
-> +++ b/drivers/gpu/drm/i915/display/intel_pipe_crc.c
-> @@ -24,7 +24,6 @@
->   *
->   */
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> index 6ae8b07cfaa1..b5d474be564d 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> @@ -2085,17 +2085,6 @@ static void print_request_ring(struct drm_printer *m, struct i915_request *rq)
+>  	}
+>  }
 >  
-> -#include <linux/circ_buf.h>
->  #include <linux/ctype.h>
->  #include <linux/debugfs.h>
->  #include <linux/seq_file.h>
-> diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
-> index b0180ea38de0..a815a45a6e6b 100644
-> --- a/drivers/gpu/drm/i915/i915_irq.c
-> +++ b/drivers/gpu/drm/i915/i915_irq.c
-> @@ -28,7 +28,6 @@
+> -static unsigned long list_count(struct list_head *list)
+> -{
+> -	struct list_head *pos;
+> -	unsigned long count = 0;
+> -
+> -	list_for_each(pos, list)
+> -		count++;
+> -
+> -	return count;
+> -}
+> -
+>  static unsigned long read_ul(void *p, size_t x)
+>  {
+>  	return *(unsigned long *)(p + x);
+> @@ -2270,7 +2259,7 @@ void intel_engine_dump(struct intel_engine_cs *engine,
+>  	spin_lock_irqsave(&engine->sched_engine->lock, flags);
+>  	engine_dump_active_requests(engine, m);
 >  
->  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> -	drm_printf(m, "\tOn hold?: %lu\n",
+> +	drm_printf(m, "\tOn hold?: %zu\n",
+>  		   list_count(&engine->sched_engine->hold));
+>  	spin_unlock_irqrestore(&engine->sched_engine->lock, flags);
 >  
-> -#include <linux/circ_buf.h>
->  #include <linux/slab.h>
->  #include <linux/sysrq.h>
+> diff --git a/include/linux/list.h b/include/linux/list.h
+> index 61762054b4be..098eccf8c1b6 100644
+> --- a/include/linux/list.h
+> +++ b/include/linux/list.h
+> @@ -655,6 +655,19 @@ static inline void list_splice_tail_init(struct list_head *list,
+>  	     !list_is_head(pos, (head)); \
+>  	     pos = n, n = pos->prev)
+>  
+> +/**
+> + * list_count - count nodes in the list
+> + * @head:	the head for your list.
+> + */
+> +#define list_count(head)		\
+> +({					\
+> +	struct list_head *__tmp;	\
+> +	size_t __i = 0;			\
+> +	list_for_each(__tmp, head)	\
+> +		__i++;			\
+> +	__i;				\
+> +})
+> +
+>  /**
+>   * list_entry_is_head - test if the entry points to the head of the list
+>   * @pos:	the type * to cursor
 
 -- 
 Jani Nikula, Intel Open Source Graphics Center
