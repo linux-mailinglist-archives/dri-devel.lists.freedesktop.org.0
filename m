@@ -1,78 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91AF162986B
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Nov 2022 13:16:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E246262996E
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Nov 2022 13:57:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8620010E3CE;
-	Tue, 15 Nov 2022 12:16:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77AEF10E13B;
+	Tue, 15 Nov 2022 12:57:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 246CB10E3B8
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Nov 2022 12:16:27 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id bp15so24056434lfb.13
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Nov 2022 04:16:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5846C10E3C6;
+ Tue, 15 Nov 2022 12:57:03 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id l14so24112872wrw.2;
+ Tue, 15 Nov 2022 04:57:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Rw1sjbR71GpDX4+lhHk1yLaScEbbe6ryeafI3CiJP10=;
- b=tR3w+a+JPTo0vZAk4sSj/mNTKv+ZhOTcOtCx2+3qEkMteQ3XTVzYbbKnLZLDmXNQZm
- EpWwiKYR7wHiNnFffVMVMw6i/SIXUy6yohd81DoWzdGvds6PL3NO/qTsBfqLMYhwbcPv
- +sLgujjc/1qTpymQnm2VbB4NjDWm6oZP7PTKtPAGtlgIFU1P3IotJ+Yg720TvfvWK5LY
- So997eksu3gD1Yrl5CpB2+flKWypWap7lE2wGRgW5DGu26fYiFHytTfTK5NYRcUtI4Rt
- OndCqUCzEim7UJBrC8EzWWZ93vwXJ8uYvAvn6KlHwiXbfEJU14Zda6YMkqNoUA5y05u3
- YGaA==
+ bh=l3npKNO7EdnZMJchPseofSyg8OvoZM8dnC8E9718dj4=;
+ b=SDBOJ9o8aDYmio2B7zkkXLe/1Vh/h/Iqa5PZ63quI+gZpgjuS+ZKqvuFioZeRw5lh4
+ swINKn34NNLGKfZRRFRWGGU4X3oQR8iGhKimzrVjMstpdal5MQhr8vvcjjM/vlXxRqk1
+ VB0RJUAJZ4dVUDJtjyr/Nbk0jEuAV8hWPlGp3OWFWUZW3kL/nlK2U2raRye5qUaywWee
+ sg0Op7ZpYx5yFCPfg8Zgw77JuwrR462NEkfuNmeZOZGtnjQrznz8lWkYRWKZGCMbnzzv
+ j7s/jUcRh1zI0Y6BIAgukQucOwc00yv6t5dSaoReN1lRVkBjYqrrSpm3DMZprMTlfRGd
+ /YDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Rw1sjbR71GpDX4+lhHk1yLaScEbbe6ryeafI3CiJP10=;
- b=Xjtz+ctmxXLXmLM577jg5Cq6KpaNB10JrprdsSztmV40Emz/7jL79DQ6CSFs+/vYUh
- YedYCZsX2DKMG8uIh3s5iKhvMkSJP6tSAv7wsqTF/pBAa7bdzWRX76eY6TRz/2CcSZYz
- NJXcxhUPXFXl2ZyZYt6/0zdzcfZzaci+/RYXVOC8ZL559i3u1zZybPM/NbmrwRGxN91V
- 6cb8X/3AdAFE+tzouFKEdpmV783j0/p9JvUvtHKmY3ZOnZrwf7Q7zr3c1EX7MT38fp4i
- GQf7x35kJRhcnj9eOMCZM+CzFwCFv5b89CVwaA00cSw5N+CR4bSsFnOzbWlsT+ZyAOw4
- /XXQ==
-X-Gm-Message-State: ANoB5pm7EPYl3xIm7vwxPTFDSO/gFfhQAcUWPshAnsd5SgYuhOs7oVCa
- uCuA6N2Q3kHCBRJjtNsvey4T3A==
-X-Google-Smtp-Source: AA0mqf7VWxyl1RZKscxhjDznC/kqYEwrVwdbg5fIWlrY+D8kHURt5sGT6UffK1OwKrikT7PXoa0dPA==
-X-Received: by 2002:ac2:47ea:0:b0:4b4:1324:6ed3 with SMTP id
- b10-20020ac247ea000000b004b413246ed3mr5262252lfp.19.1668514585345; 
- Tue, 15 Nov 2022 04:16:25 -0800 (PST)
-Received: from [192.168.0.20]
- (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
- by smtp.gmail.com with ESMTPSA id
- u11-20020a2eb80b000000b0026dc7b59d8esm2482225ljo.22.2022.11.15.04.16.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Nov 2022 04:16:24 -0800 (PST)
-Message-ID: <35bb9f38-d89b-77c6-a546-f575da5a79f5@linaro.org>
-Date: Tue, 15 Nov 2022 13:16:23 +0100
+ bh=l3npKNO7EdnZMJchPseofSyg8OvoZM8dnC8E9718dj4=;
+ b=l68bwjxALflvyzwOiVUGXtVNUJZel7/T+NvCKLFx7HX/GIaM3LQdbth3d8zzyA83SK
+ D0E62xVFPDeOSlc2DBPbuV5NE+4PWpjUac8u7lkrqgKrUPEuGfe1d+1Aa2FeG02W5ViP
+ lTmY5ABoHAWIayxwUbs52pTCyyWMzr0/6NK2kxi2QLLxQWECd1LYu4lkx/xv0Lf/E+Ii
+ 6ZnKgEe5S4jBgCRXdBQlc24XnpsXTPoLpIZ/31DqN0Sk2oUsIuBlcKDdUnqYLpKTLwTT
+ qz87IJoJrwU8sdhJPZnysvmmrGz9kQ1fNfjgkJ37dspsH7qKzpEgFv6D8oKVVtmb+HOY
+ bocw==
+X-Gm-Message-State: ANoB5pkllYVB4r+53InUjCS9AZ+NPK31iCbRmftBYJQWfSjdm9gqRqAw
+ 7L3yBy1cGWs4KbnDjQ6suZdsY2y6VHJhFA==
+X-Google-Smtp-Source: AA0mqf5WcSOrPcctHKA15TDbRyvs6c4/8xVmIbSG+fo7UP6Z8FoZdW/9b6SQUMJFkiQPDDyDDtH99g==
+X-Received: by 2002:a05:6000:605:b0:236:6f3c:1f2f with SMTP id
+ bn5-20020a056000060500b002366f3c1f2fmr10888123wrb.89.1668517021867; 
+ Tue, 15 Nov 2022 04:57:01 -0800 (PST)
+Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
+ p5-20020a05600c358500b003c6b9749505sm24241770wmq.30.2022.11.15.04.57.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Nov 2022 04:57:01 -0800 (PST)
+Date: Tue, 15 Nov 2022 15:56:57 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Evan Quan <evan.quan@amd.com>
+Subject: [PATCH] amdgpu/pm: prevent array underflow in
+ vega20_odn_edit_dpm_table()
+Message-ID: <Y2ZH2FPSuX/msEL1@kili>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 03/23] ARM: dts: tegra20: add label to nvidia,tegra20-vi
- node
-Content-Language: en-US
-To: luca.ceresoli@bootlin.com, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, Dmitry Osipenko <digetx@gmail.com>
-References: <20221109141852.729246-1-luca.ceresoli@bootlin.com>
- <20221109141852.729246-4-luca.ceresoli@bootlin.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221109141852.729246-4-luca.ceresoli@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,22 +67,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-tegra@vger.kernel.org,
- Richard Leitner <richard.leitner@skidata.com>, linux-media@vger.kernel.org
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, kernel-janitors@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Darren Powell <darren.powell@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Lang Yu <lang.yu@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/11/2022 15:18, luca.ceresoli@bootlin.com wrote:
-> From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> 
-> Useful to enable it from a board DTS.
-> 
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+In the PP_OD_EDIT_VDDC_CURVE case the "input_index" variable is capped at
+2 but not checked for negative values so it results in an out of bounds
+read.  This value comes from the user via sysfs.
 
-Adding unused labels is not useful at all.
+Fixes: d5bf26539494 ("drm/amd/powerplay: added vega20 overdrive support V3")
+Signed-off-by: Dan Carpenter <error27@gmail.com>
+---
+ drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_hwmgr.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Best regards,
-Krzysztof
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_hwmgr.c
+index 97b3ad369046..b30684c84e20 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_hwmgr.c
++++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_hwmgr.c
+@@ -2961,7 +2961,8 @@ static int vega20_odn_edit_dpm_table(struct pp_hwmgr *hwmgr,
+ 			data->od8_settings.od8_settings_array;
+ 	OverDriveTable_t *od_table =
+ 			&(data->smc_state_table.overdrive_table);
+-	int32_t input_index, input_clk, input_vol, i;
++	int32_t input_clk, input_vol, i;
++	uint32_t input_index;
+ 	int od8_id;
+ 	int ret;
+ 
+-- 
+2.35.1
 
