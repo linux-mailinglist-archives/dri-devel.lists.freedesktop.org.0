@@ -1,58 +1,88 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91FE462A145
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Nov 2022 19:23:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3642062A184
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Nov 2022 19:45:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BFB710E0E0;
-	Tue, 15 Nov 2022 18:23:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B8B410E02B;
+	Tue, 15 Nov 2022 18:45:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
- [IPv6:2a00:1450:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEFEA10E0C9;
- Tue, 15 Nov 2022 18:22:59 +0000 (UTC)
-Received: by mail-ed1-x52b.google.com with SMTP id x102so7868243ede.0;
- Tue, 15 Nov 2022 10:22:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=TbeEc7tgUbO+RNH4gJ0zEeAfLqkbBq1WScC8tYctFRY=;
- b=nsNlhXlut2VAlFrUr+ZNHYytJkb2Q+To7TVKHr0kGwAI0txcGc4Q0Bm249ge48pykr
- cqLzPnJS478Z33/SM8eWnbD9DeOu69/zg0e0ga7idRNGbWA0Xm1Yr1Amd57+bRHaA+pc
- jtfKWFLPCe6bPgLfHhYGKVlWMws8C264+iZfUviNzMJFqt9uTZ3NyP+Mqw3ZRSiZZSdu
- nGiDPQ57OW9L+HRJyujTZMLSTUnidS7+Vpy4PxbI3iChellQEIAFebQMGzc6CfAsCbs5
- l1uEkvdieE7UN+RzmnOAiaPnNhCZoF35XYY/gFrByUWGru/2U6dazhVQhJjR5NynSen1
- fW7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=TbeEc7tgUbO+RNH4gJ0zEeAfLqkbBq1WScC8tYctFRY=;
- b=vMn4tgs/PBjyMKPt2EcgZjncv4p8p7JGFZheiRnp8Qp3S7U6OfyktDz+/glIH+GzfU
- r236wZ7rCTujU/HcrLUFam5ECP8lJErwSAk5xnr6lV0UJUysRPXt6RLI8k6MrDKrDzEU
- pLjdxZtpBwMtO/iwrgvS2Lt4sltddC93UKl4m3gKvpijHchbuPN41Y5cYokSm/DdFaZJ
- 2OJPx9RkmNbBrKK+5rxIkjA+Zi3SD94sbfdtrad+fXHJFZ/NrdC/R1b+m6BMSjNjO6jv
- aPdw61wGs6lpfBHY+RjRUICfX0A/84goHW3NEK3M+vnQV3gvU6EalYGS+RmZIPC72xbr
- Zevg==
-X-Gm-Message-State: ANoB5pkrhAZoRlbQiEd6LgfGoxs5HSj0TUWbjkYw58rnLhyse3y95HWu
- j7gCeQ0IIE2u6rVjThQVRWb1nRaX7y2gfw1z1lE=
-X-Google-Smtp-Source: AA0mqf76Ix+TXvlQ4nWw8Pb8P1uTYICxMdANSvauu4I55iDfLYTMQg8sohKZfZzMNGcER9gEWYNfy/6Ob4zHDx4w4bs=
-X-Received: by 2002:aa7:df90:0:b0:461:37c2:e85c with SMTP id
- b16-20020aa7df90000000b0046137c2e85cmr15610362edy.74.1668536578133; Tue, 15
- Nov 2022 10:22:58 -0800 (PST)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C82EE10E02B;
+ Tue, 15 Nov 2022 18:45:05 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2AFGU1sn017719; Tue, 15 Nov 2022 18:44:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=NGu45BdBjZVyoRbcrPUvECK4GpTnQ11d3AWL4KAZka8=;
+ b=T1u7EXYnEh3V8PU29EeVZmeFKTQdXwtPekU3jSuUipok/TSyhQIsmIe5+F/I7kPBv3Eh
+ 1p0qMhpzudKMiEChmTKOhHcliA3ckZRvqW8rwpY/P/xq6657hNdyTZRtjLZtxwhpBDKh
+ ZcKOCdeF6+9EgJ8UI1GVTDPiCgES+35aBmwUO2QnSQ2ytRDLWJ/MRIBdxO4GxeBHgLmo
+ mxDs0JHkkxfn3WxJakdfhu+9EZloE6IicniCkGJsJiE9HuWx9L2Q4OfMqVoPpHOSDhji
+ 3RaOtasgsGPQIf1qFI0qBPcmOB73Sut0KOLREQPmF20HZKKxoVoqIgdBp2X+YcL8422p cA== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kveba8fvb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 15 Nov 2022 18:44:54 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2AFIisJe002377
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 15 Nov 2022 18:44:54 GMT
+Received: from [10.110.17.80] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Tue, 15 Nov
+ 2022 10:44:53 -0800
+Message-ID: <dcddd992-60e9-b802-b7a3-bab877545761@quicinc.com>
+Date: Tue, 15 Nov 2022 10:43:36 -0800
 MIME-Version: 1.0
-References: <20221115155535.1615278-1-robdclark@gmail.com>
- <CAD=FV=VJKTHf7qLZkygfnMRSjXEdQ09opCpFM2brUc=uiTGyTw@mail.gmail.com>
-In-Reply-To: <CAD=FV=VJKTHf7qLZkygfnMRSjXEdQ09opCpFM2brUc=uiTGyTw@mail.gmail.com>
-From: Chia-I Wu <olvaffe@gmail.com>
-Date: Tue, 15 Nov 2022 10:22:46 -0800
-Message-ID: <CAPaKu7T-NxfmagYfHUzSZw044+Py9Tmm4Oo9zq56v07BJ0ynvA@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm: Enable clamp_to_idle for 7c3
-To: Doug Anderson <dianders@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH] drm/msm/dp: remove limitation of link rate at 5.4G to
+ support HBR3
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Doug Anderson
+ <dianders@chromium.org>
+References: <1667237245-24988-1-git-send-email-quic_khsieh@quicinc.com>
+ <94b507e8-5b94-12ae-4c81-95f5d36279d5@linaro.org>
+ <deb60200-5a37-ec77-9515-0c0c89022174@quicinc.com>
+ <CAD=FV=X_fs_4JYcRvAwkU9mAafOten9WdyzPfSVWdAU=ZMo8zg@mail.gmail.com>
+ <155e4171-187c-4ecf-5a9b-12f0c2207524@linaro.org>
+ <CAD=FV=Wk5rBSq9Mx1GCO0QFYckKV9KUFKL36Ld7dQX1ypHVcYw@mail.gmail.com>
+ <CAD=FV=XTOUjVAGFWZ6xTkcNOrCT1p73aU-=KJNYUOxsS-BQsyA@mail.gmail.com>
+ <c5aedb31-3881-50e7-f747-e75b18c3f4b8@linaro.org>
+ <CAD=FV=WPde5wVOGCKQYGuGwgCwRebox4FF0MgV_2pPCTsfo_UA@mail.gmail.com>
+ <60643572-4148-cea5-e64d-ec6534b0c407@linaro.org>
+ <a4127ba2-5968-e8a9-da63-fd709aa01e7f@quicinc.com>
+ <adf5f80a-17e5-1163-a93c-2759ae57d77d@linaro.org>
+Content-Language: en-US
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <adf5f80a-17e5-1163-a93c-2759ae57d77d@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: dYZIKt45zug6K3dB_nl6knU1AhP-aSpu
+X-Proofpoint-GUID: dYZIKt45zug6K3dB_nl6knU1AhP-aSpu
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-15_08,2022-11-15_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0
+ priorityscore=1501 mlxscore=0 phishscore=0 suspectscore=0 malwarescore=0
+ impostorscore=0 adultscore=0 mlxlogscore=999 clxscore=1015 bulkscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211150127
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,30 +95,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: quic_sbillaka@quicinc.com, quic_abhinavk@quicinc.com, airlied@linux.ie,
+ freedreno@lists.freedesktop.org, Bjorn Andersson <andersson@kernel.org>,
+ vkoul@kernel.org, dri-devel@lists.freedesktop.org, swboyd@chromium.org,
+ agross@kernel.org, linux-arm-msm@vger.kernel.org, sean@poorly.run,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 15, 2022 at 8:01 AM Doug Anderson <dianders@chromium.org> wrote:
+
+On 11/9/2022 11:43 PM, Dmitry Baryshkov wrote:
+> On 10/11/2022 02:47, Kuogee Hsieh wrote:
+>>
+>> On 11/2/2022 11:04 AM, Dmitry Baryshkov wrote:
+>>> On 02/11/2022 20:28, Doug Anderson wrote:
+>>>> Hi,
+>>>>
+>>>> On Wed, Nov 2, 2022 at 10:23 AM Dmitry Baryshkov
+>>>> <dmitry.baryshkov@linaro.org> wrote:
+>>>>>
+>>>>>> 1. Someone figures out how to model this with the bridge chain and
+>>>>>> then we only allow HBR3 if we detect we've got a TCPC that supports
+>>>>>> it. This seems like the cleanest / best but feels like a long pole.
+>>>>>> Not only have we been trying to get the TCPC-modeled-as-a-bridge 
+>>>>>> stuff
+>>>>>> landed for a long time but even when we do it we still don't have a
+>>>>>> solution for how to communicate the number of lanes and other stuff
+>>>>>> between the TCPC and the DP controller so we have to enrich the 
+>>>>>> bridge
+>>>>>> interface.
+>>>>>
+>>>>> I think we'd need some OOB interface. For example for DSI 
+>>>>> interfaces we
+>>>>> have mipi_dsi_device struct to communicate such OOB data.
+>>>>>
+>>>>> Also take a note regarding data-lanes from my previous email.
+>>>>
+>>>> Right, we can somehow communicate the max link rate through the bridge
+>>>> chain to the DP controller in an OOB manner that would work.
+>>>
+>>> I'd note that our dp_panel has some notion of such OOB data. So do 
+>>> AUX drivers including the panel-edp. My suggestion would be to 
+>>> consider both of them while modelling the OOB data.
+>>>
+>>>>
+>>>>
+>>>>>> 2. We add in a DT property to the display controller node that says
+>>>>>> the max link rate for use on this board. This feels like a hack, but
+>>>>>> maybe it's not too bad. Certainly it would be incredibly simple to
+>>>>>> implement. Actually... ...one could argue that even if we later 
+>>>>>> model
+>>>>>> the TCPC as a bridge that this property would still be valid / 
+>>>>>> useful!
+>>>>>> You could certainly imagine that the SoC supports HBR3 and the TCPC
+>>>>>> supports HBR3 but that the board routing between the SoC and the 
+>>>>>> TCPC
+>>>>>> is bad and only supports HBR2. In this case the only way out is
+>>>>>> essentially a "board constraint" AKA a DT property in the DP
+>>>>>> controller.
+>>>>>
+>>>>> We have been discussing similar topics with Abhinav. Krzysztof 
+>>>>> suggested
+>>>>> using link-frequencies property to provide max and min values.
+>>
+>> questions,
+>>
+>> 1)is Krzysztof suggested had been implemented?
 >
-> Hi,
+> I can not parse this question, please excuse me.
 >
-> On Tue, Nov 15, 2022 at 7:55 AM Rob Clark <robdclark@gmail.com> wrote:
-> >
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > This was overlooked.
-> >
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > ---
-> >  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 14 +++++++-------
-> >  1 file changed, 7 insertions(+), 7 deletions(-)
+> Yes, Krzysztof suggested this being implemented as a link property, 
+> see media/video-interfaces.txt.
 >
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
-Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
+> Moreover your implementation goes against both the existing definition 
+> (array with the list of frequencies) and Krzysztof's suggested 
+> extension (min and max). Listing just a single frequency goes against 
+> both these suggestions. In case of DP we have a fixed set of 
+> frequencies. Thus I'd suggest listing all supported frequencies instead.
+
+I think this proposal is kind of strange.
+
+According to DP spec, if a link support 5,4G, then it must support 1.6, 
+2.7 and 5.4.
+
+If it support 8.1G, then it must support 1.6 , 2.7 and 5.4.
+
+There is no link can only support 2.7 and 5.4G without supporting 1.6G.
+
+>
+>> 2) where is link property i can add link-frequencies?
+>
+> link node. Create outbound graph node, add link-frequencies there. 
+> Also as you are touching this part, please move the data-lanes 
+> property too.
+>
+>>
+>>
+>>>>
+>>>> This sounds good to me and seems worth doing even if we eventually 
+>>>> do #1.
+>>>
+>>> And the bonus point is that it can be done easily.
+>>>
+>
