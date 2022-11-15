@@ -1,72 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4A44629A22
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Nov 2022 14:28:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6133E629A3A
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Nov 2022 14:29:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F1E410E3D9;
-	Tue, 15 Nov 2022 13:27:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6507010E3AC;
+	Tue, 15 Nov 2022 13:29:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
- [IPv6:2a00:1450:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2932A10E3D9
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Nov 2022 13:27:55 +0000 (UTC)
-Received: by mail-lj1-x22b.google.com with SMTP id u2so17491656ljl.3
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Nov 2022 05:27:55 -0800 (PST)
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E956C10E3AC
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Nov 2022 13:29:28 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id h12so17490028ljg.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Nov 2022 05:29:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=4CAGamBCwJlvXGLjsJzY/wgNzAR0V/YSmcsK0zwqq8s=;
- b=eOK41ApNBaa1GYLru+QjrijP97HhH673awTACRDo3sALtzQSYyrsfwshQB5pe/xFov
- mvDrfBKEX1V9nCTI9dovVaGRj3X5q6dcQs+aPxwrVBF08OwN+oy9Lm06DABE84im/FxT
- DSKzd+ciO7KT6G2KaLdoRYOc34B0PYts1TZBsAWmbs78ZJH2mNAXFL/3fAOBacsb6oDu
- W7y0qDdtcQ/Bho5unyaESb2EWaEg1f67d3MH7DRtPw75HDMihLJxKb+iImDSiqkLEwmB
- E/CVJKY/dnZqeY9FOxaKBte0IPJjOVxYQf7ORRb6xrcknSYI1dbuyWWk2XmgCo/tDDq+
- c2mg==
+ bh=m8/571RzD8HO7x98AMQxlDHgd69AGcRueUaHlHGZA2k=;
+ b=jpMA+aALKoFqugZ/DkuZDU0yDcLbzWdAdLvx3bKcWcJ//U9YlKIJvT2cIrb0dvFALa
+ Vdol+cwrROakLQObmfWUefKh3YtiSn7RBeIfeRy/AkVgZ4iOSpSIUqNDkR27/pzHtVz3
+ zHPCF1JqSz91LM3GKf2U+Yu9/ce/ZzwYC2QoVPI+4SVNYN2eYeJNDmV2ZokCwNEbL4PG
+ 7B+IvRTKPyyodKgHStyhW9VTSGji+cknjHJYAF+cu3MXKY8JPzINY77xyKaArIcTabmw
+ 5qg3F+wPC991MR1+cPNvTCCJ8ynDlsrEG7O0npmzdAoIe8v6T9JwYT3cWCn04lH6CuRI
+ ZcQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4CAGamBCwJlvXGLjsJzY/wgNzAR0V/YSmcsK0zwqq8s=;
- b=itL4C2AW1CslKKCJK3pZABUVrNpyp4VYxZPIwn72upv6zIREhNXxe05X5mq1hNW5a8
- FskVzUL6kIEWNgpxPuunCjyrLT+0otlHtTUQCf3xLiPThu21f6CxwvoGKWH4Q8QbI5g2
- 4NJSlH13m5Ys/BgKQPzeyIu4y43afglxOvOo0ORiFoZXJ2AS4u6EwLpeEhv4rCpHIwye
- DVbO+p8XBFlZifmHj+kBg8zxbQ++h413oD80lGEwYrtJ7wHazpMthFzEDupuvqrXqwYm
- bOdkZV3Ifj6bxaZgkpbo0bZXYFrHzaZV7OsNqqnjYQs+7PvVpM7EW7N2B2fpRZM1ZBUa
- OlGQ==
-X-Gm-Message-State: ANoB5pnDR8z17w4kcaJuLAOuWjKFbjYRAmcW4VgLvUcTKfQbtmJ2bYg9
- WDgIIGZ1PpbcoyyWplR+0nPBrw==
-X-Google-Smtp-Source: AA0mqf6fJcy47gcfAUV27JcgRnri6g7fOH0qrvTrYn9j65yLVWJYl+kJXAMipdsNznLO/OeMb88E6A==
-X-Received: by 2002:a2e:b1c7:0:b0:277:794:cb84 with SMTP id
- e7-20020a2eb1c7000000b002770794cb84mr6071216lja.7.1668518873539; 
- Tue, 15 Nov 2022 05:27:53 -0800 (PST)
+ bh=m8/571RzD8HO7x98AMQxlDHgd69AGcRueUaHlHGZA2k=;
+ b=OEqlLvbvKafxfAZS6xFHNgwksekPnhmHZUs5n4bsGNuUPF1qvga7c1t3dFNU3/obwJ
+ cVtGu27j8AkB6FHp+FnxqZY8qem3Y9PmawTLHSMNiADmuHHGPTZaYM1V90jmqj8J478k
+ w/Pdut2k3uN/cqTPOX5ORxfno8aNlVN7+SdCDBbZ8pvJ37tvU2adFWwd8QxW7V/4vMEz
+ TuwK4t3yUglyxeHnJ1UTc3c+HIoLF+deCCeCV5qF9FYsmq1d3Dz6rX3PwF2zbzCAInRo
+ H5VUCMG7IZIUB1OfzaUHrsKBI440V3DQezKKfIPaBF5HlKy6PNNZopkuFlw7dc4us8DO
+ i9sA==
+X-Gm-Message-State: ANoB5pmyEceIDJTZdwEx/Sdg11c3xM8KkC+NuVJNm+Y4UCEUYWP3NHy5
+ CNcOF4Y5nCHtHxqD2dqA/T7azw==
+X-Google-Smtp-Source: AA0mqf5lYIIfVeBC99+U3iZHmg7EN30sHOtE2HHltdeEpz34+ahL7J381NXgO+cbaTjJO1jB9Ljdmg==
+X-Received: by 2002:a05:651c:2314:b0:26e:2772:ffab with SMTP id
+ bi20-20020a05651c231400b0026e2772ffabmr5568604ljb.97.1668518967304; 
+ Tue, 15 Nov 2022 05:29:27 -0800 (PST)
 Received: from [192.168.0.20]
  (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
  by smtp.gmail.com with ESMTPSA id
- t10-20020a195f0a000000b0049c86ca95bfsm2205747lfb.52.2022.11.15.05.27.51
+ o18-20020a2e0c52000000b00277351f7145sm2415833ljd.105.2022.11.15.05.29.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Nov 2022 05:27:52 -0800 (PST)
-Message-ID: <5deca781-90e6-4f72-1abc-cb0bd4777187@linaro.org>
-Date: Tue, 15 Nov 2022 14:27:51 +0100
+ Tue, 15 Nov 2022 05:29:26 -0800 (PST)
+Message-ID: <205120bd-7178-0c2e-b131-e296d3d3cca8@linaro.org>
+Date: Tue, 15 Nov 2022 14:29:25 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v3 09/10] dt-bindings: phy: Add Cadence HDP-TX HDMI PHY
+Subject: Re: [EXT] Re: [PATCH v3 00/10] Initial support for Cadence
+ MHDP(HDMI/DP) for i.MX8MQ
 Content-Language: en-US
-To: Sandor Yu <Sandor.yu@nxp.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, robert.foss@linaro.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, vkoul@kernel.org
-References: <cover.1667911321.git.Sandor.yu@nxp.com>
- <a88409e6003fbb2a57df36ef4116a2cdb1c1eec1.1667911321.git.Sandor.yu@nxp.com>
+To: Sandor Yu <sandor.yu@nxp.com>, Jani Nikula <jani.nikula@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
+ "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
+ "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
+ "robert.foss@linaro.org" <robert.foss@linaro.org>,
+ "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
+ "jonas@kwiboo.se" <jonas@kwiboo.se>,
+ "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
+ "vkoul@kernel.org" <vkoul@kernel.org>
+References: <cover.1667911321.git.Sandor.yu@nxp.com> <87iljp8u4r.fsf@intel.com>
+ <PAXPR04MB9448612AD6C7744B7C706D6FF43F9@PAXPR04MB9448.eurprd04.prod.outlook.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <a88409e6003fbb2a57df36ef4116a2cdb1c1eec1.1667911321.git.Sandor.yu@nxp.com>
+In-Reply-To: <PAXPR04MB9448612AD6C7744B7C706D6FF43F9@PAXPR04MB9448.eurprd04.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,54 +90,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: oliver.brown@nxp.com, krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org,
- jani.nikula@intel.com, tzimmermann@suse.de, s.hauer@pengutronix.de,
- javierm@redhat.com, penguin-kernel@I-love.SAKURA.ne.jp, robh+dt@kernel.org,
- linux-imx@nxp.com, kernel@pengutronix.de, shawnguo@kernel.org,
- maxime@cerno.tech
+Cc: Oliver Brown <oliver.brown@nxp.com>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "sam@ravnborg.org" <sam@ravnborg.org>,
+ "penguin-kernel@I-love.SAKURA.ne.jp" <penguin-kernel@I-love.SAKURA.ne.jp>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+ "javierm@redhat.com" <javierm@redhat.com>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>, dl-linux-imx <linux-imx@nxp.com>,
+ "kernel@pengutronix.de" <kernel@pengutronix.de>,
+ "shawnguo@kernel.org" <shawnguo@kernel.org>,
+ "maxime@cerno.tech" <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/11/2022 14:00, Sandor Yu wrote:
-> Add bindings for Cadence HDP-TX HDMI PHY.
+On 08/11/2022 14:50, Sandor Yu wrote:
+> Run get_maintainer.pl for patch 1, 
+> Your email address is list as follow,
+> Jani Nikula <jani.nikula@intel.com> (commit_signer:2/8=25%)
 > 
-> Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
-> ---
->  .../bindings/phy/cdns,hdptx-hdmi-phy.yaml     | 50 +++++++++++++++++++
->  1 file changed, 50 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/phy/cdns,hdptx-hdmi-phy.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/phy/cdns,hdptx-hdmi-phy.yaml b/Documentation/devicetree/bindings/phy/cdns,hdptx-hdmi-phy.yaml
-> new file mode 100644
-> index 000000000000..c2ed17ffe6ef
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/phy/cdns,hdptx-hdmi-phy.yaml
-> @@ -0,0 +1,50 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/phy/cdns,hdptx-hdmi-phy.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Cadence HDP-TX(HDMI/DisplayPort) PHY for HDMI protocol
-> +
-> +maintainers:
-> +  - Sandor Yu <sandor.yu@nxp.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - cdns,hdptx-hdmi-phy
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      description:
+> And I add the email address that comment as "commit_signer" into Cc list.
 
-Same problem.
-
+That's not a maintainer entry, but contributor. No need to Cc occasional
+contributors, except people interested in the driver.
 
 Best regards,
 Krzysztof
