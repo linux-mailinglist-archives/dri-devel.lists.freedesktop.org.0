@@ -2,52 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41C376297E6
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Nov 2022 13:01:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86D9C629843
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Nov 2022 13:13:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BED9310E3BA;
-	Tue, 15 Nov 2022 12:01:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6528510E146;
+	Tue, 15 Nov 2022 12:12:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5E5B10E3BA
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Nov 2022 12:01:14 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 633D185131;
- Tue, 15 Nov 2022 13:00:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1668513667;
- bh=IJxgP1EpXEQ/FEqlAEx7cM8MHNdIUTzcVgAgAF53b2M=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=HsYOxYtqVM9xo6sFrkZZ7jRJRmWPR/dkD5BfrkShHRfIoWxl8G7iIixxGavYKbmHW
- ZZ4fKSPDz75CbdwB6RMN98WB/vEXN9PVCErLOKcmmi0N36LUKtla+kzlB7KZN+LN3B
- UKGqTHH0N2QC59Is+w+yI0e0HIjWci5QQ49LYSkgoyRsemLa/ON4dz440zzuhb6rla
- tXYWRxYE0vicM/XFZy0WEiL7cPvEJChnAL1VsxMQMt+JglwfzMVbqfludlnHSOkKbu
- Yjr+VB5DhuDuGK8bT7aAZpwiAUcbNp18Krdq2oRv46JmYsd5el8VxQZQeXBNrAgcua
- KGweRLwd5Y9oQ==
-Message-ID: <35a96ba1-1022-5f7a-ffb6-b3400279e244@denx.de>
-Date: Tue, 15 Nov 2022 13:00:57 +0100
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
+ [IPv6:2a00:1450:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D50FD10E146
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Nov 2022 12:12:47 +0000 (UTC)
+Received: by mail-lj1-x22b.google.com with SMTP id b9so17263616ljr.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Nov 2022 04:12:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=oMav8xKNkyJd8dYTuDrxcWCyxQ9njFDC0AA3Jeepq2U=;
+ b=gDzxzSC6yVNoqY1zCu3xhGRLsbd8bfIpOQs4V6/Wn3OhFeIlkL5K+DR+1RyGwvvLvO
+ ouUjHZpieshOzEo92gPkMWkMdhrktS3Hcc7Q7xDuQ0n/XXN5VAvpwSDQ9Z7bjiSNottj
+ Wmd/SkewWKJrjwJdeg6/AvovqKFeF1S1VQaqYwFhmJRiRAmmXusj4+PdVn86gSabWIIX
+ BqIOqVwrlYpIYAsimUifLhthNh0D0KxOTPS2qP9IUL36tlHbkc0/LV0ROO4jEn/Mptty
+ IpvRAXca3xUV+LLaVMPI1OvZIjxgTO6SbRwLoS67m+o6Z0n3kzfGqO+Z7OZwxa2J7cAT
+ XHTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=oMav8xKNkyJd8dYTuDrxcWCyxQ9njFDC0AA3Jeepq2U=;
+ b=AfzKT8VDSo5pZ8kCYAikvPRv3zcaI/VXLvJyUn0oD2HZbFfYSNayB58FCCfawo4kt3
+ rsQP6QgZh5PB5zjx+szj1QRqm82KX9/oO7Sefi18NDYjGlHk1to93Wp5zO41WkwvR1G8
+ 83GCJnCDgfA1zcqi9rCRpsAOW01X+dnvTkqHm4hSkwcGo643C2obzA+9c853i2eF+JjD
+ XgjbiiizFxSuORqHoFFNVI+nh89gbJsQ87XXw9l/rCgCldRLKOPvcS9QQiStr/bT/yGD
+ tB5cDqRqHf8hw59EDBJp0GhTreyNUSanI/IUTO2KAij+/3mH3j+QyS12hvm4Y7lDEtPr
+ IVMg==
+X-Gm-Message-State: ANoB5pleTlYCcqDLqYQmwQAInrV4vM1PNAl1IM7UrW5I/bQeWt21MCOk
+ rOSIqgmKQY5LY0xeAiTptwIgOA==
+X-Google-Smtp-Source: AA0mqf7sx3nXu5rTD5mQ5GRhhLsHR9sDtPFQcjrqxTGQIL4llNiJnNagH/dDXzwbxLekddyKweds/A==
+X-Received: by 2002:a2e:b621:0:b0:276:762b:3499 with SMTP id
+ s1-20020a2eb621000000b00276762b3499mr5525270ljn.444.1668514366200; 
+ Tue, 15 Nov 2022 04:12:46 -0800 (PST)
+Received: from [192.168.0.20]
+ (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+ by smtp.gmail.com with ESMTPSA id
+ g27-20020a2ea4bb000000b002771888fda1sm2473767ljm.84.2022.11.15.04.12.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Nov 2022 04:12:45 -0800 (PST)
+Message-ID: <ca5f3b54-25bd-4dd5-799f-c7bda08cdef6@linaro.org>
+Date: Tue, 15 Nov 2022 13:12:44 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH v8 09/14] drm: bridge: samsung-dsim: Add
- atomic_get_input_bus_fmts
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 01/23] dt-bindings: display: tegra: add bindings for
+ Tegra20 VIP
 Content-Language: en-US
-To: Jagan Teki <jagan@amarulasolutions.com>
-References: <20221110183853.3678209-1-jagan@amarulasolutions.com>
- <20221110183853.3678209-10-jagan@amarulasolutions.com>
- <694ccb10-15ad-5192-dd1b-86628227fb65@denx.de>
- <CAMty3ZDE4gt_Hhb3pgXW570d6F5f8F3WeEEHiMVuXyrqmka9Kw@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <CAMty3ZDE4gt_Hhb3pgXW570d6F5f8F3WeEEHiMVuXyrqmka9Kw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: luca.ceresoli@bootlin.com, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Dmitry Osipenko <digetx@gmail.com>
+References: <20221109141852.729246-1-luca.ceresoli@bootlin.com>
+ <20221109141852.729246-2-luca.ceresoli@bootlin.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221109141852.729246-2-luca.ceresoli@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,154 +85,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, Neil Armstrong <narmstrong@linaro.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Matteo Lisi <matteo.lisi@engicam.com>, Robert Foss <robert.foss@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, NXP Linux Team <linux-imx@nxp.com>,
- Fancy Fang <chen.fang@nxp.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-tegra@vger.kernel.org,
+ Richard Leitner <richard.leitner@skidata.com>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/14/22 08:49, Jagan Teki wrote:
-> On Sun, Nov 13, 2022 at 5:51 AM Marek Vasut <marex@denx.de> wrote:
->>
->> On 11/10/22 19:38, Jagan Teki wrote:
->>> Finding the right input bus format throughout the pipeline is hard
->>> so add atomic_get_input_bus_fmts callback and initialize with the
->>> proper input format from list of supported output formats.
->>>
->>> This format can be used in pipeline for negotiating bus format between
->>> the DSI-end of this bridge and the other component closer to pipeline
->>> components.
->>>
->>> List of Pixel formats are taken from,
->>> AN13573 i.MX 8/RT MIPI DSI/CSI-2, Rev. 0, 21 March 2022
->>> 3.7.4 Pixel formats
->>> Table 14. DSI pixel packing formats
->>>
->>> v8:
->>> * added pixel formats supported by NXP AN13573 i.MX 8/RT MIPI DSI/CSI-2
->>>
->>> v7, v6, v5, v4:
->>> * none
->>>
->>> v3:
->>> * include media-bus-format.h
->>>
->>> v2:
->>> * none
->>>
->>> v1:
->>> * new patch
->>>
->>> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
->>> ---
->>>    drivers/gpu/drm/bridge/samsung-dsim.c | 53 +++++++++++++++++++++++++++
->>>    1 file changed, 53 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
->>> index 0fe153b29e4f..33e5ae9c865f 100644
->>> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
->>> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
->>> @@ -15,6 +15,7 @@
->>>    #include <linux/clk.h>
->>>    #include <linux/delay.h>
->>>    #include <linux/irq.h>
->>> +#include <linux/media-bus-format.h>
->>>    #include <linux/of_device.h>
->>>    #include <linux/phy/phy.h>
->>>
->>> @@ -1321,6 +1322,57 @@ static void samsung_dsim_atomic_post_disable(struct drm_bridge *bridge,
->>>        pm_runtime_put_sync(dsi->dev);
->>>    }
->>>
->>> +/*
->>> + * This pixel output formats list referenced from,
->>> + * AN13573 i.MX 8/RT MIPI DSI/CSI-2, Rev. 0, 21 March 2022
->>> + * 3.7.4 Pixel formats
->>> + * Table 14. DSI pixel packing formats
->>> + */
->>> +static const u32 samsung_dsim_pixel_output_fmts[] = {
->>
->> You can also add :
->>
->> MEDIA_BUS_FMT_YUYV10_1X20
->>
->> MEDIA_BUS_FMT_YUYV12_1X24
+On 09/11/2022 15:18, luca.ceresoli@bootlin.com wrote:
+> From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 > 
-> Are these for the below formats?
+> VIP is the parallel video capture component within the video input
+> subsystem of Tegra20 (and other Tegra chips, apparently).
+
+Subject: drop second, redundant "bindings".
+
 > 
-> "Loosely Packed Pixel Stream, 20-bit YCbCr, 4:2:2
->   Packed Pixel Stream, 24-bit YCbCr, 4:2:2"
->>
->>> +     MEDIA_BUS_FMT_UYVY8_1X16,
->>> +     MEDIA_BUS_FMT_RGB101010_1X30,
->>> +     MEDIA_BUS_FMT_RGB121212_1X36,
->>> +     MEDIA_BUS_FMT_RGB565_1X16,
->>> +     MEDIA_BUS_FMT_RGB666_1X18,
->>> +     MEDIA_BUS_FMT_RGB888_1X24,
->>> +};
->>> +
->>> +static bool samsung_dsim_pixel_output_fmt_supported(u32 fmt)
->>> +{
->>> +     int i;
->>> +
->>> +     for (i = 0; i < ARRAY_SIZE(samsung_dsim_pixel_output_fmts); i++) {
->>> +             if (samsung_dsim_pixel_output_fmts[i] == fmt)
->>> +                     return true;
->>> +     }
->>> +
->>> +     return false;
->>> +}
->>> +
->>> +static u32 *
->>> +samsung_dsim_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
->>> +                                    struct drm_bridge_state *bridge_state,
->>> +                                    struct drm_crtc_state *crtc_state,
->>> +                                    struct drm_connector_state *conn_state,
->>> +                                    u32 output_fmt,
->>> +                                    unsigned int *num_input_fmts)
->>> +{
->>> +     u32 *input_fmts;
->>> +
->>> +     if (!samsung_dsim_pixel_output_fmt_supported(output_fmt))
->>> +             return NULL;
->>> +
->>> +     *num_input_fmts = 1;
->>
->> Shouldn't this be 6 ?
->>
->>> +     input_fmts = kmalloc(sizeof(*input_fmts), GFP_KERNEL);
->>> +     if (!input_fmts)
->>> +             return NULL;
->>> +
->>> +     input_fmts[0] = output_fmt;
->>
->> Shouldn't this be a list of all 6 supported pixel formats ?
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> ---
+>  .../display/tegra/nvidia,tegra20-vip.yaml     | 64 +++++++++++++++++++
+>  MAINTAINERS                                   |  7 ++
+>  2 files changed, 71 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
 > 
-> Negotiation would settle to return one input_fmt from the list of
-> supporting output_fmts. so the num_input_fmts would be 1 rather than
-> the number of fmts in the supporting list. This is what I understood
-> from the atomic_get_input_bus_fmts API. let me know if I miss
-> something here.
+> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
+> new file mode 100644
+> index 000000000000..934dabfd2307
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
+> @@ -0,0 +1,64 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-vip.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: NVIDIA Tegra VIP (parallel video capture) controller
+> +
+> +maintainers:
+> +  - Luca Ceresoli <luca.ceresoli@bootlin.com>
+> +
+> +properties:
+> +  $nodename:
+> +    const: vip
 
-How does the negotiation work for this kind of pipeline:
+No need to enforce names in device schemas, especially that this does
+not look like a generic name.
 
-LCDIFv3<->DSIM<->HDMI bridge<->HDMI connector
+> +
+> +  compatible:
+> +    enum:
+> +      - nvidia,tegra20-vip
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +  channel@0:
 
-where all elements (LCDIFv3, DSIM, HDMI bridge) can support either 
-RGB888 or packed YUV422 ?
+Missing description.
 
-Who decides the format used by such pipeline ?
+> +    type: object
 
-Why should it be the DSIM bridge and not e.g. the HDMI bridge or the 
-LCDIFv3 ?
+Do you expect it to grow to more channels?
+
+> +
+> +    properties:
+> +      reg: true
+
+const: 0
+
+> +
+> +      ports:
+> +        $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +        properties:
+> +          port@0:
+> +            $ref: /schemas/graph.yaml#/properties/port
+> +            description:
+> +              Port receiving the video stream from the sensor
+> +
+> +          port@1:
+> +            $ref: /schemas/graph.yaml#/properties/port
+> +            description:
+> +              Port sending the video stream to the VI
+> +
+> +        required:
+> +          - port@0
+> +          - port@1
+> +
+> +    additionalProperties: false
+> +
+> +    required:
+> +      - reg
+> +      - ports
+> +
+> +unevaluatedProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +  - channel@0
+> +
+> +# see nvidia,tegra20-vi.yaml for an example
+
+That file does not have this compatible. At least not on next-20221109.
+
+Best regards,
+Krzysztof
+
