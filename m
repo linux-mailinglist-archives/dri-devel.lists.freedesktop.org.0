@@ -2,58 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B74916291D3
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Nov 2022 07:28:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 583396291D9
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Nov 2022 07:29:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7439410E36F;
-	Tue, 15 Nov 2022 06:28:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1A4210E372;
+	Tue, 15 Nov 2022 06:28:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
- [IPv6:2607:f8b0:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7893A10E36E
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Nov 2022 06:28:41 +0000 (UTC)
-Received: by mail-pf1-x42b.google.com with SMTP id k15so13259473pfg.2
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 22:28:41 -0800 (PST)
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
+ [IPv6:2607:f8b0:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8783088C4C
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Nov 2022 06:28:43 +0000 (UTC)
+Received: by mail-pl1-x62a.google.com with SMTP id 4so12318234pli.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Nov 2022 22:28:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=jYF/Js/yiLI83Zy9sWN0PENTbwz1/nvxpqAaN81AAww=;
- b=Po3X0rFRnkmXUSuWki6spsmGHe32wlGY0z2bgPRVq1Tc0tzYKF81Dga33krFcwc8yL
- OCWKk6lm+vccRWTPaB55QNVqzfiWma0lZ3lbY3jrh7cucnDby7HfBBf4RIdNWCnWIrX7
- TTh8Ka5JMep8/45EfFJJbpgNaNQlUgtO0eTOw=
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9mBggjsv2GqBICe6FMg0nBv1QbzL30nQillIj133bFg=;
+ b=h9HAx1RYCL+85yBECtCTWfMwgCWVLWezO7TR3xa2myoeE/9GBNy1GPd2bVXJTCyHmp
+ RyF0Me4sutzi/qhfcY1o7pZhIMu0oNX4vDlc9AwIRTOVceoUFeGMdgeywaZLuC2h9L78
+ zI72oGlO3pPDEik9pwTxZKO2t7TaeOm8hPFgA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=jYF/Js/yiLI83Zy9sWN0PENTbwz1/nvxpqAaN81AAww=;
- b=N8aJrWWS4TMbhyDrYMc5tUtXWYvvBGo7zy2908qt9sK8gZ+JLJ5RvEe+ysGwyYYP2t
- q3dLBoAUpHTjHNmZm2kOGiuNIUcYLhQN2w/Z12TCbDru19VWz5/xB64CZuUQDz8bO0Le
- SYZenNiVLLkFd6QuXowVxARPb2UHNgvhujBwit9GU/9LivoXemYAcTeQATUGy5rmrW2N
- vcUpjbKCocDvFCYGnkW465S2WTc+krGuH0SaczUbGwID4remjQ3ZnxIe2PtcfNIdcIKL
- 5rRQBywWi492BmBfF6yOLBggvitai4PWE0YFnzGhwDIoiLa2VOcZYxQe2kSFKlA/QwGR
- Kzhw==
-X-Gm-Message-State: ANoB5plWAsu+BvoZd/Sy8B8RxMLsiwUDFheHS454FTLcELufntH4caim
- v2YpI37c41AAbbsQoy8iyqJDxA==
-X-Google-Smtp-Source: AA0mqf4IzV4EzwB6ZQ4gSGDn464H2Neoh21HBw+xWWP6tLmPn0yV5GZ2OwSsUT5D0Vuc4ME2acH77w==
-X-Received: by 2002:a63:eb4e:0:b0:45f:f8df:108e with SMTP id
- b14-20020a63eb4e000000b0045ff8df108emr14451107pgk.127.1668493720852; 
- Mon, 14 Nov 2022 22:28:40 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=9mBggjsv2GqBICe6FMg0nBv1QbzL30nQillIj133bFg=;
+ b=ZkbRikfexcVMFoeA6imX88D7DMhcqLIfNUdk/amGqXJjnUaymnZ7wsj+JOqsrFR7yI
+ GFZbpEp/51fcN8rlqn0BZ6XPMaHJTZut0m3gUoW5SKCYTOh7wJXLvLG7zT2s8lFvm54C
+ FBSbJKiJGdpjR9JY81trC7JYjRszSHMza/gJOas3ykiRxi1I3s7PIjVIrV+Pa4jGcuRp
+ zasfIi/DAAzWere3IGpd76B7+rVIQAmD4YFeFMR0VF05n0wfSLky3laqn9jXus3k/5Xm
+ 418UT57ON559TNeVVMOBofx74cU+mfk18PCss/3Avih9b2S4WuW2xP+JC6miyRbcUbJv
+ 3jQA==
+X-Gm-Message-State: ANoB5plEFlCnPVfD+60aD1pEHG8MLs4siP0r6rND69HPv4SvSTh3Go7Z
+ vaRSBCsaNlizm5fU7ZXPmYt86w==
+X-Google-Smtp-Source: AA0mqf4ZdtG1c1bBiabETrFV/B9eVEfGZPHGV8dOCo600f5jtC6bKO7vj0k8zeTsi/9EXykc/lZyAA==
+X-Received: by 2002:a17:90a:d985:b0:212:e891:f08d with SMTP id
+ d5-20020a17090ad98500b00212e891f08dmr144456pjv.18.1668493723030; 
+ Mon, 14 Nov 2022 22:28:43 -0800 (PST)
 Received: from hsinyi-z840.tpe.corp.google.com
  ([2401:fa00:1:10:17d2:e181:950d:967a])
  by smtp.gmail.com with ESMTPSA id
- b22-20020a630c16000000b004351358f056sm6956372pgl.85.2022.11.14.22.28.38
+ b22-20020a630c16000000b004351358f056sm6956372pgl.85.2022.11.14.22.28.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Nov 2022 22:28:40 -0800 (PST)
+ Mon, 14 Nov 2022 22:28:42 -0800 (PST)
 From: Hsin-Yi Wang <hsinyi@chromium.org>
 To: Sean Paul <seanpaul@chromium.org>,
  Douglas Anderson <dianders@chromium.org>,
  Robert Foss <robert.foss@linaro.org>
-Subject: [PATCH v5 1/3] drm_bridge: register content protect property
-Date: Tue, 15 Nov 2022 14:28:33 +0800
-Message-Id: <20221115062835.3785083-1-hsinyi@chromium.org>
+Subject: [PATCH v5 2/3] drm/bridge: anx7625: register content protect property
+Date: Tue, 15 Nov 2022 14:28:34 +0800
+Message-Id: <20221115062835.3785083-2-hsinyi@chromium.org>
 X-Mailer: git-send-email 2.38.1.431.g37b22c650d-goog
+In-Reply-To: <20221115062835.3785083-1-hsinyi@chromium.org>
+References: <20221115062835.3785083-1-hsinyi@chromium.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,81 +76,29 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, Allen Chen <allen.chen@ite.com.tw>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some bridges are able to update HDCP status from userspace request if
-they support HDCP.
-
-HDCP property is the same as other connector properties that needs to be
-created after the connecter is initialized and before the connector is
-registered.
-
-If there exists a bridge that supports HDCP, add the property to the
-bridge connector.
+Set support_hdcp so the connector can register content protect proterty
+when it's initializing.
 
 Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
 Reviewed-by: Sean Paul <seanpaul@chromium.org>
-Reported-by: kernel test robot <lkp@intel.com>
 ---
-v4->v5: fix compile warning when CONFIG_DRM_DISPLAY_HELPER=m
+v4->v5: no change
 ---
- drivers/gpu/drm/drm_bridge_connector.c | 8 ++++++++
- include/drm/drm_bridge.h               | 4 ++++
- 2 files changed, 12 insertions(+)
+ drivers/gpu/drm/bridge/analogix/anx7625.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
-index 1c7d936523df..16d038c2982f 100644
---- a/drivers/gpu/drm/drm_bridge_connector.c
-+++ b/drivers/gpu/drm/drm_bridge_connector.c
-@@ -7,6 +7,7 @@
- #include <linux/module.h>
- #include <linux/slab.h>
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+index b0ff1ecb80a5..0636ac59c739 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.c
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+@@ -2680,6 +2680,7 @@ static int anx7625_i2c_probe(struct i2c_client *client,
+ 	platform->bridge.type = platform->pdata.panel_bridge ?
+ 				    DRM_MODE_CONNECTOR_eDP :
+ 				    DRM_MODE_CONNECTOR_DisplayPort;
++	platform->bridge.support_hdcp = true;
  
-+#include <drm/display/drm_hdcp_helper.h>
- #include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_bridge_connector.h>
-@@ -333,6 +334,7 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 	struct i2c_adapter *ddc = NULL;
- 	struct drm_bridge *bridge, *panel_bridge = NULL;
- 	int connector_type;
-+	bool support_hdcp = false;
+ 	drm_bridge_add(&platform->bridge);
  
- 	bridge_connector = kzalloc(sizeof(*bridge_connector), GFP_KERNEL);
- 	if (!bridge_connector)
-@@ -376,6 +378,9 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 
- 		if (drm_bridge_is_panel(bridge))
- 			panel_bridge = bridge;
-+
-+		if (bridge->support_hdcp)
-+			support_hdcp = true;
- 	}
- 
- 	if (connector_type == DRM_MODE_CONNECTOR_Unknown) {
-@@ -398,6 +403,9 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 	if (panel_bridge)
- 		drm_panel_bridge_set_orientation(connector, panel_bridge);
- 
-+	if (support_hdcp && IS_REACHABLE(CONFIG_DRM_DISPLAY_HDCP_HELPER))
-+		drm_connector_attach_content_protection_property(connector, true);
-+
- 	return connector;
- }
- EXPORT_SYMBOL_GPL(drm_bridge_connector_init);
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index 6b65b0dfb4fb..1d2ab70f3436 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -768,6 +768,10 @@ struct drm_bridge {
- 	 * modes.
- 	 */
- 	bool interlace_allowed;
-+	/**
-+	 * @support_hdcp: Indicate that the bridge supports HDCP.
-+	 */
-+	bool support_hdcp;
- 	/**
- 	 * @ddc: Associated I2C adapter for DDC access, if any.
- 	 */
 -- 
 2.38.1.431.g37b22c650d-goog
 
