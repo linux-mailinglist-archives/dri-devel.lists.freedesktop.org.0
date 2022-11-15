@@ -2,56 +2,142 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE15B629F89
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Nov 2022 17:49:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8789662A079
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Nov 2022 18:36:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D621A89654;
-	Tue, 15 Nov 2022 16:49:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA2E110E042;
+	Tue, 15 Nov 2022 17:36:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com
- [209.85.167.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD0A889083;
- Tue, 15 Nov 2022 16:49:06 +0000 (UTC)
-Received: by mail-oi1-f179.google.com with SMTP id n205so15481944oib.1;
- Tue, 15 Nov 2022 08:49:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=R9gOR5XKafnXWgmzhGgTUQWq/LnlQ76zGIsqGskX8wE=;
- b=RiiVSN2azXx/PlZfHj/LbOD2nMUBY/D2qagssTFSXjp20pdaeZ+W23pipe0JZuUyts
- dnR0luD9p/BY7P5nPwnTOsTETrXDYzsnobDC77d0SDESpx+x3DvLSjfXPFgCk4KPTGse
- KaMgSI1gZgeAWDl2To4i8opSQzAQnkHFDaT2A7Q6uouFHfzkPMXVmJu41erdzbli2j15
- G2LSFIC4qPMycw/TMPq3XN6MmRtYxsN3ttuR7PKDLbgn0LT6dd4o6GgbfWnvlEtvqY6r
- IN1Xou6c0ty4awaEN4VeFjXwqOOQYVcwo8CWl1GDJ+e6nYh3PXhyPM9RX4q/SC1mBBcm
- SeMQ==
-X-Gm-Message-State: ANoB5pkVphbozM11X/C7Lzy5Km8YPmBk6b/IUuFO+1sCtE1iza9XA4GZ
- BXdtd0QPGw4g3g/tUNy1SuiWN6EJAg==
-X-Google-Smtp-Source: AA0mqf4d5Z3sehjltrwKpChnUtIkrEVBn/vItm4G+WKRu5RvWR52CR1/eAQuqsS+B90yt5zoYkk+tg==
-X-Received: by 2002:a05:6808:e8a:b0:34f:335e:6bb8 with SMTP id
- k10-20020a0568080e8a00b0034f335e6bb8mr749939oil.213.1668530945916; 
- Tue, 15 Nov 2022 08:49:05 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- bm49-20020a0568081ab100b00353fe4fb4casm5040871oib.48.2022.11.15.08.49.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Nov 2022 08:49:05 -0800 (PST)
-Received: (nullmailer pid 1095234 invoked by uid 1000);
- Tue, 15 Nov 2022 16:49:07 -0000
-Date: Tue, 15 Nov 2022 10:49:07 -0600
-From: Rob Herring <robh@kernel.org>
-To: Robert Foss <robert.foss@linaro.org>
-Subject: Re: [PATCH v2 02/12] dt-bindings: display: msm: Add qcom, sm8350-mdss
- binding
-Message-ID: <20221115164907.GB1088214-robh@kernel.org>
-References: <20221115111721.891404-1-robert.foss@linaro.org>
- <20221115111721.891404-3-robert.foss@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DE8D10E002;
+ Tue, 15 Nov 2022 17:36:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1668533794; x=1700069794;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=DzzV8YjXEWsiyPJhUXgBdk0ZWj09tDwpwvkXQfmmiBs=;
+ b=USyTlpFs1PszsmfKZnJrvHdsUkmXCyR483ub4Rlaw8E/iqiwH1mu4c9m
+ xepVp8cfHklIWwC/at+W7OjXTBKtLGfuVCh1cLJRsEBRd+KhKXqFKs7Sy
+ RXneuATCNK+nyGc9wDnyRM5AAahHVXhrP+sQrKBNsESc7KLbC8eIEPPCa
+ iM/b9olZVivbK/v3UguBmk2qyrEaOS5ENxmlXLOym6ZJB75mZRF/lqnJO
+ RXVlI6ItNHuWbYYCdnSPI+Nl4q1gTlILaCSyxnkxYHpPRzoZdGJWqFMMt
+ fxTAO9cS4zNHsyDw5HEeseXf7k2tJHmPyMu764Rvg8DXbHhLixKPU0MZ0 w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="398606676"
+X-IronPort-AV: E=Sophos;i="5.96,166,1665471600"; d="scan'208";a="398606676"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Nov 2022 09:36:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="672073732"
+X-IronPort-AV: E=Sophos;i="5.96,166,1665471600"; d="scan'208";a="672073732"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by orsmga001.jf.intel.com with ESMTP; 15 Nov 2022 09:36:32 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 15 Nov 2022 09:36:31 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 15 Nov 2022 09:36:31 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Tue, 15 Nov 2022 09:36:31 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Tue, 15 Nov 2022 09:36:31 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Au1h+/d2Ot8p4G8csYtfMDYkb5rWh2VWSIbsMxJIvxExPYiDXB6yuTLw598VHAysC1JHbo7Djr0Ih8CM0vlyr4YpLRVw41dwZvJeexo18evAmietmG26G0ogqWxiSCnX8IGqqwgf16lhbjSnc75hDm+5pdSmdqBeYrm8ALkDDJHtvUuWpMmwRQ45WX+kT9ilPzYhu4K6Bj2BSezDuSYof9t5uKKSSHK2Jh2FrSvsGVYyhopt+PUlxA0x4x0XAsoMknd+b5r8EfWduFQORSa/zpEK3DTod+QG3LBm4eShNs0XGbK4UNCJcBx1EKMmIYu109E6Zu+xfE3ifcYMNOBczg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Tknf43XwkaipWTbqu6I7jDzBmSvyMd+HjtccuwwpGNU=;
+ b=T8UDGDp6njNl7N8lMkEbdGp0LxgXfPnt7KjmkvKEMaReylNlYZpgIDXL8pnebKR0gHSqTGiAqbJug9nXQdrtn8GoJbUTgIlJlfoeoFFZLHUOm0xzCRki27/+4ke7etRYabsFwkECV0pUMeou1/WjaZgJPmsf35hfuJ5NL57eJUzGdszBW1avFr5SzSehMfm9iw4ZtL7y0yh585+ccIn8HjuB0dIRkWxEuz+Du3ox0GUReEyISH8qnLBNtjMjqdbW6yE0QBfPWafrKgDhMFSILtpfSAw6jH2flgAR8YdVhfjCS14vqU70c7L8V/GygIOBFKMAZ4N2+e0Gslt5xaQ8Jg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by DS0PR11MB7381.namprd11.prod.outlook.com (2603:10b6:8:134::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.17; Tue, 15 Nov
+ 2022 17:36:29 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::22:fdef:cea5:e8f3]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::22:fdef:cea5:e8f3%3]) with mapi id 15.20.5813.017; Tue, 15 Nov 2022
+ 17:36:29 +0000
+Date: Tue, 15 Nov 2022 09:36:23 -0800
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 2/3] Documentation/gpu: Limit index to
+ maxdepth=2
+Message-ID: <20221115173623.ozd2aotubxliybyw@ldmartin-desk2.lan>
+X-Patchwork-Hint: comment
+References: <20221107173209.2219571-1-lucas.demarchi@intel.com>
+ <20221107173209.2219571-3-lucas.demarchi@intel.com>
+ <Y3NgUWlKr1ie83BW@bala-ubuntu>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20221115111721.891404-3-robert.foss@linaro.org>
+In-Reply-To: <Y3NgUWlKr1ie83BW@bala-ubuntu>
+X-ClientProxiedBy: SJ0PR05CA0018.namprd05.prod.outlook.com
+ (2603:10b6:a03:33b::23) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|DS0PR11MB7381:EE_
+X-MS-Office365-Filtering-Correlation-Id: e863c84a-7ed8-49f5-2d7d-08dac72feda4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: rLdh+T/V4RBp6ooB3+LODnBKmXnb1sHvrzPa277vKTsHn62agq4/VG5FHzXPaP59hm0PYdY06li0KpvJ761OJaZVLfKiP59T68iKC8ZtAExpeGo2O2jRE9SmexCdJkF2853gGTeF/Ig0v7coAVG+fVhBhtWAXyBN5I2PCN1uQ3p7cCI3ZQ0vu6Bf19hrxqxBGssp0C9MgU4cq0GpKi6OTTh6gZDdzX4bwqxOTJ2yRhSu8n6HmIxghkUMgwEo8jratCHJx9D2n/4wMTWHtLtRzAcJu8WlH3IFAqUaUGvAhEnIKiGEsSnelKEYzMI6c4hdNLPV+X3zlp8g11IywBH+a+911qqvaAaWQVY3WXTnSUExBvgnM1MLVyar0OvcXKMHirx6nLV8vYrXn/bz9Z6mxk/bAbk96RCzbzqfxt9+C5YTwk5d+8RisSKOEQYrLQGrRQ6wawqmjvJwO/RXT0PhJpHtEN2teBTOZDoEN0ITlIimakHCbxx/zsRL6up6NaHKT8C3E0W3POLehatTvBb4ySPa3aVLyolqP2vIJFzlbCjc07ok7IBWgrqr6vQ5Cmxl2M4hy2ph1wq/jVXh+FItMixtw/5sgILdxLDtF367P62wi41DmwMji7kFKPzNXD/6ueEAeQ3hlVMtumUOFUWseiolKLO4Akl/fHtkT2KD2JO0MZgmMp7fDHuO3lOkgYjns2DJ16cle8CpOpSRwumVEw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(346002)(366004)(376002)(136003)(39860400002)(396003)(451199015)(1076003)(83380400001)(38100700002)(66476007)(8676002)(66946007)(4326008)(66556008)(186003)(316002)(41300700001)(9686003)(6512007)(2906002)(6506007)(6862004)(6636002)(6666004)(26005)(82960400001)(8936002)(5660300002)(478600001)(6486002)(36756003)(86362001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?sk0gY0cWQRRiyxL0/x5dcuszYmXj4w3wPmHyswskWgtond//Bjii96lg+/Rn?=
+ =?us-ascii?Q?t9cNgGz2L4DQ7OV/BSJcEXPw9zUiGiCq5Iwv8EbpCXKObseT16lLEjgY8HLC?=
+ =?us-ascii?Q?wEuXojopjrO1WoMhJensMoJKmL4RbMIxN52Nn2BsaKBwuj36wWBmVcWznDdY?=
+ =?us-ascii?Q?DKxFaonVk+VR7vqVjTla5FHhblKTIgBnAhif+rs7dornZZ0zoeeBtabeNMYE?=
+ =?us-ascii?Q?59zxwQI/8BftoFvCNWPVv6ECW3TEtJn/ouNmtrPh99tyqGzX1cb/mtmiwSQI?=
+ =?us-ascii?Q?dnCdOzOLNBGQV0BkAdxSG79wqW8m7ndIzl2orxqbb0WNwBvRkHd8e335fsFq?=
+ =?us-ascii?Q?Q4QCEtSULtQbJ8oBP+Wsid4qUiioN9XKD3giX7ZsRAOPv7xKRaNs7y2zFJ5I?=
+ =?us-ascii?Q?Rnccl50HQddQx9Nipn2N8v6toEb+dtGkmEtBqL+MkqmguX1zO4GbKoTWbbnN?=
+ =?us-ascii?Q?d3cfK5H5fd9SSAdv9NeORVqjFKJaza9MGTPYZ0X3IDsJAJbon7esBGE1A/x/?=
+ =?us-ascii?Q?g1jrIBxpzihY2ms9vDJ/OjxC0D5Dc0HA9boCcssdVIbO1SGu7yRMq80VqCWX?=
+ =?us-ascii?Q?CthkVw58YqoMLdrCeD4qS+nz0TjvbqYKOgcjaHx0NGcRJmvxHn/fOg3J0Gxw?=
+ =?us-ascii?Q?LKmkrnab9yq4OSXWjT1OUxTWQGzkLlG6DalN4yC3L7BARseBpLPQf93uCkak?=
+ =?us-ascii?Q?y/iP97cEDVatlE1WfIPHtUi5cTCTrwXZBMuHKXEN06K5MQ46YFYOZrebGKrW?=
+ =?us-ascii?Q?gV0mlFqMUJD0pdgjUNuNMyV6xyUDMcKDHOBQbPKciwllrsPg9NWOwYHi4Ca6?=
+ =?us-ascii?Q?Nl50ySpTKoxlul8DITkZf7rQhCZtS2INJxZQvSzbr9FVMl8BZXApRZQSMSJw?=
+ =?us-ascii?Q?BFgKlbwesKF9erax/Xqj20fUCIt/6qOJX/2iqhJwkSAsJrErWg8HuZLXnlwx?=
+ =?us-ascii?Q?7hsPHxH8RDaK26b4r1Mg7NUH63k2hWhilyu/nYuhlesyZ/7zhoEaDMDgllj1?=
+ =?us-ascii?Q?hvCWVmVRHMnRLbW8AQrA8mc5g7TMaKEEFNzNpo3uM5P+swW1UgUf4imDedwo?=
+ =?us-ascii?Q?8GklAibt9KHg6hbL1aXfQQ9JYUXr0mYSyCULntoZ+ORlcwliRVz0y5tKVrhW?=
+ =?us-ascii?Q?FaKY4IDbHe/LJaoeHX4H4IRrvpg24vZ1rPa5qGPGnLp1kWQQCyDwPI8TG+2k?=
+ =?us-ascii?Q?4mekWhgUWYeCh+qTTfF8K4CRDD5h6Ww2oEcKpVWy8sxmcltg5RJVcbTEj13G?=
+ =?us-ascii?Q?/RHyT0he8yWSWnN/mZHA6VM3nQDjeESTxW+Mj24bgNBs5eC3ZDCXWTY3UgIa?=
+ =?us-ascii?Q?rwnX3K65lJMIqrk+kSVaUFGgYY3SRsYzB8XmfB/BlSY6XFwApSOmhbx/pKuu?=
+ =?us-ascii?Q?q1mMWMgVptIrrlz9TE9IajcBGQgC/riamdlB59QfYhc3cthf8lNhEQssIyFv?=
+ =?us-ascii?Q?Rw0j3bgROR4QiWa/GX5wgW2x2wSIZRZQWSZFCcXW6x6u+ymbA8oK6khcKs+e?=
+ =?us-ascii?Q?/WmoR13t7N2lTNe/7gWKDZZLVF5KEFdXcBCKKSCvDAHJOb78VnWvw0hpkarH?=
+ =?us-ascii?Q?YNKTAx1phFyAG8xqFiyB2cywhdrhTYC5tiz660+DItKjYrAFSTV+nwYskaIR?=
+ =?us-ascii?Q?8g=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: e863c84a-7ed8-49f5-2d7d-08dac72feda4
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2022 17:36:29.2571 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hzD8/nVdr6xB/46jqm59CIXuiG8ArsPsaQ+VbnjoCo2RRkrypRzbkvnwcZqaJ7q89DHd1GPBzPfScZ9VvxZR5P8D4b/o38YHmbdORPM9mPE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7381
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,287 +150,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, konrad.dybcio@somainline.org,
- dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
- krzysztof.kozlowski+dt@linaro.org, angelogioacchino.delregno@somainline.org,
- vinod.koul@linaro.org, Jonathan Marek <jonathan@marek.ca>,
- quic_vpolimer@quicinc.com, agross@kernel.org, quic_jesszhan@quicinc.com,
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, swboyd@chromium.org, sean@poorly.run,
- quic_kalyant@quicinc.com, loic.poulain@linaro.org, andersson@kernel.org,
- dianders@chromium.org, linux-kernel@vger.kernel.org, vkoul@kernel.org,
- dmitry.baryshkov@linaro.org, freedreno@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 15, 2022 at 12:17:11PM +0100, Robert Foss wrote:
-> Mobile Display Subsystem (MDSS) encapsulates sub-blocks
-> like DPU display controller, DSI etc. Add YAML schema for MDSS device
-> tree bindings
-> 
-> Signed-off-by: Robert Foss <robert.foss@linaro.org>
-> ---
->  .../display/msm/qcom,sm8350-mdss.yaml         | 240 ++++++++++++++++++
->  1 file changed, 240 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml
-> new file mode 100644
-> index 000000000000..9a0694853576
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml
-> @@ -0,0 +1,240 @@
-> +# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/msm/qcom,sm8350-mdss.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Qualcomm SM8350 Display MDSS
-> +
-> +maintainers:
-> +  - Robert Foss <robert.foss@linaro.org>
-> +
-> +description:
-> +  Device tree bindings for MSM Mobile Display Subsystem(MDSS) that encapsulates
+On Tue, Nov 15, 2022 at 03:18:01PM +0530, Balasubramani Vivekanandan wrote:
+>On 07.11.2022 09:32, Lucas De Marchi wrote:
+>> With a lot of sub-section it's a little bit hard to find the information
+>> needed in the main GPU index. Limit the maxdepth to 2 so it doesn't get
+>> poluted with noise from each driver and from other sections.
+>>
+>> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+>> ---
+>>  Documentation/gpu/index.rst | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/Documentation/gpu/index.rst b/Documentation/gpu/index.rst
+>> index b99dede9a5b1..1d9402d519be 100644
+>> --- a/Documentation/gpu/index.rst
+>> +++ b/Documentation/gpu/index.rst
+>> @@ -3,6 +3,7 @@ Linux GPU Driver Developer's Guide
+>>  ==================================
+>>
+>>  .. toctree::
+>> +   :maxdepth: 2
+>
+>I have a bit different opinion here. I find it helpful to search for a
+>topic if the headers remain uncollapsed.
+>A top level view is anyways available in the TOC shown in the left side
+>of the page which shows only the immediate next level headers.
 
-Drop 'Device tree bindings for '. Describe what this h/w is.
+I think the left side doesn't render very well. I'd still like to have
+depth 2 for an overview, without going too deep in the innerworks of
+each and every driver. Looking around I found there is a lot of use of
+maxdepth in the indexes (git grep ":maxdepth:" -- Documentation), so
+thought it would be something to adopt here.  Anyway, I don't mind
+dropping these 2 patches if people don't agree with me :)
 
-> +  sub-blocks like DPU display controller, DSI and DP interfaces etc. Device tree
-> +  bindings of MDSS are mentioned for SM8350 target.
-> +
-> +$ref: /schemas/display/msm/mdss-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - const: qcom,sm8350-mdss
-> +
-> +  clocks:
-> +    items:
-> +      - description: Display AHB clock from gcc
-> +      - description: Display hf axi clock
-> +      - description: Display sf axi clock
-> +      - description: Display core clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: iface
-> +      - const: bus
-> +      - const: nrt_bus
-> +      - const: core
-> +
-> +  iommus:
-> +    maxItems: 1
-> +
-> +  interconnects:
-> +    maxItems: 2
-> +
-> +  interconnect-names:
-> +    maxItems: 2
 
-Need to define the names.
-
-> +
-> +patternProperties:
-> +  "^display-controller@[0-9a-f]+$":
-> +    type: object
-> +    properties:
-> +      compatible:
-> +        const: qcom,sm8350-dpu
-> +
-> +  "^dsi@[0-9a-f]+$":
-> +    type: object
-> +    properties:
-> +      compatible:
-> +        const: qcom,mdss-dsi-ctrl
-> +
-> +  "^phy@[0-9a-f]+$":
-> +    type: object
-> +    properties:
-> +      compatible:
-> +        const: qcom,dsi-phy-5nm-8350
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/qcom,dispcc-sm8350.h>
-> +    #include <dt-bindings/clock/qcom,gcc-sm8350.h>
-> +    #include <dt-bindings/clock/qcom,rpmh.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/interconnect/qcom,sm8350.h>
-> +    #include <dt-bindings/power/qcom-rpmpd.h>
-> +
-> +    display-subsystem@ae00000 {
-> +        compatible = "qcom,sm8350-mdss";
-> +        reg = <0x0ae00000 0x1000>;
-> +        reg-names = "mdss";
-> +
-> +        interconnects = <&mmss_noc MASTER_MDP0 0 &mc_virt SLAVE_EBI1 0>,
-> +                        <&mmss_noc MASTER_MDP1 0 &mc_virt SLAVE_EBI1 0>;
-> +        interconnect-names = "mdp0-mem", "mdp1-mem";
-> +
-> +        power-domains = <&dispcc MDSS_GDSC>;
-> +        resets = <&dispcc DISP_CC_MDSS_CORE_BCR>;
-> +
-> +        clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-> +                 <&gcc GCC_DISP_HF_AXI_CLK>,
-> +                 <&gcc GCC_DISP_SF_AXI_CLK>,
-> +                 <&dispcc DISP_CC_MDSS_MDP_CLK>;
-> +        clock-names = "iface", "bus", "nrt_bus", "core";
-> +
-> +        iommus = <&apps_smmu 0x820 0x402>;
-> +
-> +        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-> +        interrupt-controller;
-> +        #interrupt-cells = <1>;
-> +
-> +        #address-cells = <1>;
-> +        #size-cells = <1>;
-> +        ranges;
-> +
-> +        display-controller@ae01000 {
-> +            compatible = "qcom,sm8350-dpu";
-> +            reg = <0x0ae01000 0x8f000>,
-> +                  <0x0aeb0000 0x2008>;
-> +            reg-names = "mdp", "vbif";
-> +
-> +            clocks = <&gcc GCC_DISP_HF_AXI_CLK>,
-> +                     <&gcc GCC_DISP_SF_AXI_CLK>,
-> +                     <&dispcc DISP_CC_MDSS_AHB_CLK>,
-> +                     <&dispcc DISP_CC_MDSS_MDP_LUT_CLK>,
-> +                     <&dispcc DISP_CC_MDSS_MDP_CLK>,
-> +                     <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
-> +            clock-names = "bus",
-> +                          "nrt_bus",
-> +                          "iface",
-> +                          "lut",
-> +                          "core",
-> +                          "vsync";
-> +
-> +            assigned-clocks = <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
-> +            assigned-clock-rates = <19200000>;
-> +
-> +            operating-points-v2 = <&mdp_opp_table>;
-> +            power-domains = <&rpmhpd SM8350_MMCX>;
-> +
-> +            interrupt-parent = <&mdss>;
-> +            interrupts = <0>;
-> +
-> +            ports {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +
-> +                port@0 {
-> +                    reg = <0>;
-> +                    dpu_intf1_out: endpoint {
-> +                        remote-endpoint = <&dsi0_in>;
-> +                    };
-> +                };
-> +            };
-> +
-> +            mdp_opp_table: opp-table {
-> +                compatible = "operating-points-v2";
-> +
-> +                opp-200000000 {
-> +                    opp-hz = /bits/ 64 <200000000>;
-> +                    required-opps = <&rpmhpd_opp_low_svs>;
-> +                };
-> +
-> +                opp-300000000 {
-> +                    opp-hz = /bits/ 64 <300000000>;
-> +                    required-opps = <&rpmhpd_opp_svs>;
-> +                };
-> +
-> +                opp-345000000 {
-> +                    opp-hz = /bits/ 64 <345000000>;
-> +                    required-opps = <&rpmhpd_opp_svs_l1>;
-> +                };
-> +
-> +                opp-460000000 {
-> +                    opp-hz = /bits/ 64 <460000000>;
-> +                    required-opps = <&rpmhpd_opp_nom>;
-> +                };
-> +            };
-> +        };
-> +
-> +        dsi0: dsi@ae94000 {
-> +            compatible = "qcom,mdss-dsi-ctrl";
-> +            reg = <0x0ae94000 0x400>;
-> +            reg-names = "dsi_ctrl";
-> +
-> +            interrupt-parent = <&mdss>;
-> +            interrupts = <4>;
-> +
-> +            clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK>,
-> +                     <&dispcc DISP_CC_MDSS_BYTE0_INTF_CLK>,
-> +                     <&dispcc DISP_CC_MDSS_PCLK0_CLK>,
-> +                     <&dispcc DISP_CC_MDSS_ESC0_CLK>,
-> +                     <&dispcc DISP_CC_MDSS_AHB_CLK>,
-> +                     <&gcc GCC_DISP_HF_AXI_CLK>;
-> +            clock-names = "byte",
-> +                      "byte_intf",
-> +                      "pixel",
-> +                      "core",
-> +                      "iface",
-> +                      "bus";
-> +
-> +            assigned-clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK_SRC>,
-> +                          <&dispcc DISP_CC_MDSS_PCLK0_CLK_SRC>;
-> +            assigned-clock-parents = <&dsi0_phy 0>,
-> +                                 <&dsi0_phy 1>;
-> +
-> +            operating-points-v2 = <&dsi_opp_table>;
-> +            power-domains = <&rpmhpd SM8350_MMCX>;
-> +
-> +            phys = <&dsi0_phy>;
-> +            phy-names = "dsi";
-> +
-> +            ports {
-> +             #address-cells = <1>;
-> +                #size-cells = <0>;
-> +
-> +                port@0 {
-> +                    reg = <0>;
-> +                    dsi0_in: endpoint {
-> +                        remote-endpoint = <&dpu_intf1_out>;
-> +                    };
-> +                };
-> +
-> +                port@1 {
-> +                    reg = <1>;
-> +                    dsi0_out: endpoint {
-> +                    };
-> +                };
-> +            };
-> +        };
-> +
-> +        dsi0_phy: phy@ae94400 {
-
-I assume the phy has its own example somewhere else and its not really 
-relevant to this binding. So drop.
-
-> +            compatible = "qcom,dsi-phy-5nm-8350";
-> +            reg = <0x0ae94400 0x200>,
-> +                  <0x0ae94600 0x280>,
-> +                  <0x0ae94900 0x260>;
-> +            reg-names = "dsi_phy",
-> +                        "dsi_phy_lane",
-> +                        "dsi_pll";
-> +
-> +            #clock-cells = <1>;
-> +            #phy-cells = <0>;
-> +
-> +            clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-> +                     <&rpmhcc RPMH_CXO_CLK>;
-> +            clock-names = "iface", "ref";
-> +
-> +            vdds-supply = <&vreg_l5b_0p88>;
-> +        };
-> +    };
-> +...
-> -- 
-> 2.34.1
-> 
-> 
+thanks
+Lucas De Marchi
