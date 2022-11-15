@@ -1,61 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAC59629F3A
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Nov 2022 17:41:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 874A9629F6F
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Nov 2022 17:45:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9724610E137;
-	Tue, 15 Nov 2022 16:41:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2992710E424;
+	Tue, 15 Nov 2022 16:45:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
- [IPv6:2607:f8b0:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A28510E044;
- Tue, 15 Nov 2022 16:41:49 +0000 (UTC)
-Received: by mail-pg1-x533.google.com with SMTP id q71so13755501pgq.8;
- Tue, 15 Nov 2022 08:41:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=+Vs3kQEHL0oTrTy5MR4m4bXaJPdcU0IKOmmtigZy0RQ=;
- b=j1uDJjjED/dprSEJEMlZ1yfYS2WQkBO0HzjJ8V6lD93UppX4bhNioJRu/1W1T22Nma
- w6kGSPxjxKRdya3t1xIGPPkhmONCkzLKlXjQNkkqBk6Ps0/eR1H4zpabOP2tJ4ZxbVo6
- 37ZEz5k6P/3ar+DOP7F735TH8riybkRhQOEE4916Rja/Tifsq2caYJG9Wx40EoNQcK2a
- PAqV40oRIg+nuIX2CUSA+jeZOZjqBdqE2tVBl/b7IvDvWSnXBl+1/WRyIAQnnF4Hrc2k
- fTAYMvbufVg14/I/hH4b3FdFAcErksij/c7UmLsnVi8znWi5pXJcVxqt9kIlnQoHVL/e
- q7mg==
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com
+ [209.85.167.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EEEC10E044;
+ Tue, 15 Nov 2022 16:45:48 +0000 (UTC)
+Received: by mail-oi1-f176.google.com with SMTP id n205so15471630oib.1;
+ Tue, 15 Nov 2022 08:45:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=+Vs3kQEHL0oTrTy5MR4m4bXaJPdcU0IKOmmtigZy0RQ=;
- b=AE8s9hDtLKbLam7005EOxMEOC7Sq+PPpHrRHNp1NmiAWgAB7ZsCZogztJXlfzJK2q7
- l5siKXgRCNP/RNHxxsQNCiuG48m9qUAzhevI2dhu/LAiVBZrGmkfcNOv3YnSChNffAfS
- b+wbR0v79k+lv39K2hdFHAlyviMBSHk0yIR1exNCIQScN4vTwBN9c3IBU2mP1jQWEzox
- Icooy++jkS97Tr6NlfX9ifgiGgkrFxsTK8QlWm61loMFF6Q7PThh2dI2zrbrj+/T0dtE
- 5GVsd/AoRorN6w5+bi+Qqq197+4OViINdPtCN5x5gntmUPGCSM5QfIvBYUocux8658t3
- Mofg==
-X-Gm-Message-State: ANoB5plUt7n/39Kf5xkB+gg1PdWczXkYUqQnqTg9gi8ocdqdrR0o41NO
- GcT2yhHPbWHRFI7AM/h1UP1JMxaiPeE=
-X-Google-Smtp-Source: AA0mqf7djbrriQQMP2iaGU82u/FSoTUimc0HOuiGEe1GjVChTbR5YA+6lXVDqIK3EDM8kWDtP5UF0Q==
-X-Received: by 2002:a63:4d1d:0:b0:44b:d27e:520d with SMTP id
- a29-20020a634d1d000000b0044bd27e520dmr16272720pgb.124.1668530508704; 
- Tue, 15 Nov 2022 08:41:48 -0800 (PST)
-Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
- by smtp.gmail.com with ESMTPSA id
- n12-20020a170902e54c00b00186f608c543sm10211678plf.304.2022.11.15.08.41.48
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=bpB0DnIAvfrGbGP924nojTI5rkoGhC08JADkFVFEIXw=;
+ b=LwcfhvBVBshEBHrSmOhoB9H0vvpL9FIArZWucrft2clqa8y1uf3KPZrT8KvvOV+6hl
+ F+JnxkqNItlc8cuYsdi8oOb8sSr81gUTbZaVFy0VUE0YkdqD00P7WNYnXE0ZHaIwegoD
+ foGsLttEcnP+fo4MzACPcx2UB6meQfjHuHjmKsDXDwTAvESZv2MaHH2ruMV8N6c8fNoN
+ iW0bT8CptECjfctYoPLVAmL74d6aOEjDPisEyGQIMDemwTTpQYiC++parX9MsCKbrOpZ
+ 0GpQax8aKnWZ5E5zGQ3tVG7iHZu0/WqfnWeqpyt6Uc2IA9FTFbM9mpJMKP59O2V9dW+U
+ X1qw==
+X-Gm-Message-State: ANoB5pmxF9GWwjFg0Or6lsyxAp6pKrerb+Jcq/BOsH5aGB0oU0luhE1y
+ m2ouSR8eMefADbocwQ+JMQ==
+X-Google-Smtp-Source: AA0mqf5VUkKcLRvmerOG2+29l48fzbwkTMibacpwCXqHvIyVT9sdB9182Jgw1CU4ZxTjs6VTEzUywg==
+X-Received: by 2002:a54:4685:0:b0:35a:1078:5f90 with SMTP id
+ k5-20020a544685000000b0035a10785f90mr794917oic.117.1668530747395; 
+ Tue, 15 Nov 2022 08:45:47 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ u29-20020a0568301f5d00b00660fe564e12sm5522176oth.58.2022.11.15.08.45.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Nov 2022 08:41:48 -0800 (PST)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/msm: Enable unpin/eviction by default
-Date: Tue, 15 Nov 2022 08:42:12 -0800
-Message-Id: <20221115164212.1619306-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.38.1
+ Tue, 15 Nov 2022 08:45:46 -0800 (PST)
+Received: (nullmailer pid 1091300 invoked by uid 1000);
+ Tue, 15 Nov 2022 16:45:47 -0000
+Date: Tue, 15 Nov 2022 10:45:47 -0600
+From: Rob Herring <robh@kernel.org>
+To: Robert Foss <robert.foss@linaro.org>
+Subject: Re: [PATCH v2 01/12] dt-bindings: display: msm: Add qcom,sm8350-dpu
+ binding
+Message-ID: <20221115164547.GA1088214-robh@kernel.org>
+References: <20221115111721.891404-1-robert.foss@linaro.org>
+ <20221115111721.891404-2-robert.foss@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221115111721.891404-2-robert.foss@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,37 +64,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: airlied@linux.ie, konrad.dybcio@somainline.org,
+ dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
+ krzysztof.kozlowski+dt@linaro.org, angelogioacchino.delregno@somainline.org,
+ vinod.koul@linaro.org, Jonathan Marek <jonathan@marek.ca>,
+ quic_vpolimer@quicinc.com, agross@kernel.org, quic_jesszhan@quicinc.com,
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, swboyd@chromium.org, sean@poorly.run,
+ quic_kalyant@quicinc.com, loic.poulain@linaro.org, andersson@kernel.org,
+ dianders@chromium.org, linux-kernel@vger.kernel.org, vkoul@kernel.org,
+ dmitry.baryshkov@linaro.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+On Tue, Nov 15, 2022 at 12:17:10PM +0100, Robert Foss wrote:
+> Mobile Display Subsystem (MDSS) encapsulates sub-blocks
+> like DPU display controller, DSI etc. Add YAML schema for DPU device
+> tree bindings
+> 
+> Signed-off-by: Robert Foss <robert.foss@linaro.org>
+> ---
+>  .../bindings/display/msm/qcom,sm8350-dpu.yaml | 120 ++++++++++++++++++
+>  1 file changed, 120 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sm8350-dpu.yaml
 
-We've had this enabled in the CrOS kernel for a while now without seeing
-issues, so let's flip the switch upstream now.
+Reviewed-by: Rob Herring <robh@kernel.org>
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/msm_gem_shrinker.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/msm/msm_gem_shrinker.c b/drivers/gpu/drm/msm/msm_gem_shrinker.c
-index 8f83454ceedf..f6de1bd9d2e1 100644
---- a/drivers/gpu/drm/msm/msm_gem_shrinker.c
-+++ b/drivers/gpu/drm/msm/msm_gem_shrinker.c
-@@ -16,7 +16,7 @@
- /* Default disabled for now until it has some more testing on the different
-  * iommu combinations that can be paired with the driver:
-  */
--static bool enable_eviction = false;
-+static bool enable_eviction = true;
- MODULE_PARM_DESC(enable_eviction, "Enable swappable GEM buffers");
- module_param(enable_eviction, bool, 0600);
- 
--- 
-2.38.1
-
+But since there is a dependency, no idea if this passes validation.
