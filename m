@@ -1,49 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC5B962B636
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 10:17:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 203E462B638
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 10:17:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 526BE10E44C;
-	Wed, 16 Nov 2022 09:17:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5477410E449;
+	Wed, 16 Nov 2022 09:17:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out2-smtp.messagingengine.com (unknown [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFDF010E44E
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 09:17:21 +0000 (UTC)
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+ [66.111.4.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D79B110E44C
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 09:17:23 +0000 (UTC)
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 5F6475C01C2;
- Wed, 16 Nov 2022 04:17:20 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id 018D05C0135;
+ Wed, 16 Nov 2022 04:17:23 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Wed, 16 Nov 2022 04:17:20 -0500
+ by compute5.internal (MEProxy); Wed, 16 Nov 2022 04:17:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1668590240; x=1668676640; bh=HD
- hz6dCTIBueuPkznvqt2qE8stIixuwGCQ0nLlw9PIU=; b=CyGy6fjK0kXRnSc14S
- eBPaXbZy8EaIFu77On1MjO6QNCOHCQjUYGEkH5JhKvJ3d/YmpTuG9C7v7zIJkOOS
- VCXLZvtYG5d3j6/L7DCLlJ9igoYMVnTzs60wLZc9BModVHsSXYmJZyuy94CiPup/
- kxO313LjBIQ6Xy2CxOZ+JNhSa+GFQ+1G3/d5rDS0SXhTgpkjKiQqaGZ/bA9FXokx
- wEAURRupT9mj2B6VbVkJasnkVsCzWhasGzpoGAoa0JmC/bQ6uJASKy6O6cQFjVs+
- AwrPyh1E4KB/t0qwP+ybJdsWkAOxP8rVW9eqEL975gPznBGV+Kwni7MKsm5RMqle
- AhpQ==
+ :subject:subject:to:to; s=fm2; t=1668590242; x=1668676642; bh=Rw
+ Uykb/iqubbswUUCNf44Y0WfA2Nq+FieB2GLHcmZE8=; b=hV1oWcE8PhoZbG2Ojx
+ dDaWg4TWokIevb1x6PD121oKeXobpaClxv/KhYdyASLEa/Mc6EdJ0ECQjbYyIh9d
+ A+/lyz1h70/jCseOGHyATJQ6nd+8Md2HhdD6hTNYDSk857pN1GqnasxstUgGKeZF
+ SCPPGdP0OBYI/jEO4+eLKPILwWFX7OVe24X5u2EYPi5FS25wjAcJDqHqmJfsQHvS
+ 8YDoryeQiyhacpSd2QfsvAxDWxZ63daQNJDFpzP1TsK6rpV7fQwwUCGS1I/7OgvN
+ czOtchPJK88dh4N7qpSk0e6JSJu2PabpnenVtJlppOLXM1LXcFdhnnm4SsMzddcZ
+ MDbg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1668590240; x=1668676640; bh=HDhz6dCTIBueu
- Pkznvqt2qE8stIixuwGCQ0nLlw9PIU=; b=Wj23IxGXRNZSVsHbkrdfyjNuAPExy
- v+O/MHiUmN6SUFcS9P+KPieQNNu+udO39odihMK/C0IBqRn7rL+9kBs6uNlHoQOC
- nFGRjQIKYikFmQO47lzokcZ4KChl+p7Rp52FI0DRUN/M2hE1ZIZS0E1EzdgYqnwy
- 3yko6OFos6svW/wUR8ziVo5nylwgLgy/pPaSSl5gLPiSrWdBoGpU+3+WvXi0I0Q0
- SmuabEqNNAn5tqykIlF8i1KkW0N2gIw/q5yPA7Mr198eqZoxaPNT6zE1FXg6FkAP
- /MOYeiBBqHG8D1nh7OIJxWaZGM4eEpT4MrEugBPxI9C13AorkFGrNsvsA==
-X-ME-Sender: <xms:nqp0Y8Ij2QWcP72y47nmbFbAEGlmT7_ahVD4iyA9uWF6-i6Kq2wS7A>
- <xme:nqp0Y8KhYg6swNvL_JxZEv9nV168NQjhU70J-tqmMfVlNIGUTupcc47orG33h5Pt0
- iQ9SyEJQivY1iVyMWY>
-X-ME-Received: <xmr:nqp0Y8uDiw8KUSvgokZi9_4Rn1qskTH5DFRtAFGklI4uMi6lkp4KRGu0rLz8LhT1k3HABASam3wlZHOrUHxprXm0pjgseE1weBcvP0bNu90PlQ>
+ :x-sasl-enc; s=fm1; t=1668590242; x=1668676642; bh=RwUykb/iqubbs
+ wUUCNf44Y0WfA2Nq+FieB2GLHcmZE8=; b=LDAhTobKekHP7uP4Vd2rpJ/4UjDl6
+ jqh3VlR7FZSK8mFgb83GfkTf3qHLyUcdEerdnKu/6CDp/hYeSLwtrsp1UVzkdTm5
+ s/7dwC6+4NCAL7Cf7fiQGf4BWT+IwZBC1lYmmzHf0k/P6jHF2aJqwEGLg+kPrukr
+ JcCKKkh5GY4GV0SyDHEXBFa3TLD6S5xWSe4KW/sZr9z8KzNR8t+/94wOCMSxl3av
+ 5Tma3+JQ5dtIqIhZAwfM3d3/YZcTwfLyWgxZWSHuT3QNksd2wblzUom5tCvQb5F/
+ p6qc2yeodt4zkwt6BVxv8mItOrnkE5x2BzFytfhvflFxUFzPEbjBCwv3A==
+X-ME-Sender: <xms:oap0Y6RJiqLB3N_1rRkk2nCtwQZcVfnTUmruI02HF7ONf7Oe5xMmTg>
+ <xme:oap0Y_zOMNZVwlFvyIryQ7PzkVe6aQd7p_VSwE01Gu0Su-p7X6wNnz4SWvF79CwzU
+ y61xKhtm0Gu7aXV6zw>
+X-ME-Received: <xmr:oap0Y33hblx8HR00X0VtIvXwUjKUxEc9Wc5Et70wfXvqSoSieV4b5SOxQ_PqvnikAOc21pAO3XlQx-0QriiOXWlmf-dWn9y9Nh97xz_hTWePTA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgeehgdduvdekucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -52,21 +53,21 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgeehgdduvdekucetufdoteggod
  htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
  vdejhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:nqp0Y5br1sSNoh3Qt4jr0jGyCX8ZcGjTLdyDLjvfaS-7rE577Gk4xQ>
- <xmx:nqp0YzbXtmXZSAxY8eHUnYYiLludrW8lUWgyUFewckC7bezQeCigwQ>
- <xmx:nqp0Y1DC4k4rfPWZKYPm4nOIkJPBa0cCizmbM6Vz6hRkaezuCICEUQ>
- <xmx:oKp0YwRxxs39cYvsoDJs--P2uYoRTkw5NKb3WCRE4h1WDGRI0Oe_Pw>
+X-ME-Proxy: <xmx:oap0Y2C864NHHId6olyX99wchc10kezZyiUOPt9zddUNWMG8P6uQ0A>
+ <xmx:oap0Yzg5YRu1cNHpZlY-x3TtSoW0OPiE29OM6LFdguFk3eqee5H22Q>
+ <xmx:oap0YypJVNKSRxHOBCJgG_1PVoyJ9Dc0YBzW2KeEKI9MSWInEin5Zg>
+ <xmx:oqp0Y8blhpkQ8vM29pyz72964zPRoqJPU7dCpzQr_GPSCcPbLfq-Tg>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 16 Nov 2022 04:17:18 -0500 (EST)
+ 16 Nov 2022 04:17:21 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Florian Fainelli <f.fainelli@gmail.com>
-Subject: [PATCH 2/3] drm/tests: helpers: Add module infos
-Date: Wed, 16 Nov 2022 10:17:11 +0100
-Message-Id: <20221116091712.1309651-2-maxime@cerno.tech>
+Subject: [PATCH 3/3] firmware: raspberrypi: Fix type assignment
+Date: Wed, 16 Nov 2022 10:17:12 +0100
+Message-Id: <20221116091712.1309651-3-maxime@cerno.tech>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221116091712.1309651-1-maxime@cerno.tech>
 References: <20221116091712.1309651-1-maxime@cerno.tech>
@@ -84,35 +85,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org
+Cc: bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The MODULE_LICENSE macro is missing from the kunit helpers file, thus
-leading to a build error.
+We silently cast an unsigned int into a __le32 which makes sparse
+complain. Moreover, we never actually convert endianness between the
+CPU's and the expected little-endian value. Fix both at once by calling
+cpu_to_le32().
 
-Let's introduce it along with MODULE_AUTHOR.
-
-Fixes: 44a3928324e9 ("drm/tests: Add Kunit Helpers")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Fixes: 40c31955e4e9 ("firmware: raspberrypi: Provide a helper to query a clock max rate")
+Reported-by: kernel test robot <lkp@intel.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/tests/drm_kunit_helpers.c | 3 +++
- 1 file changed, 3 insertions(+)
+ include/soc/bcm2835/raspberrypi-firmware.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/tests/drm_kunit_helpers.c b/drivers/gpu/drm/tests/drm_kunit_helpers.c
-index dbd8ec24d4be..eea450de7de8 100644
---- a/drivers/gpu/drm/tests/drm_kunit_helpers.c
-+++ b/drivers/gpu/drm/tests/drm_kunit_helpers.c
-@@ -64,3 +64,6 @@ struct drm_device *drm_kunit_device_init(struct kunit *test, u32 features, char
+diff --git a/include/soc/bcm2835/raspberrypi-firmware.h b/include/soc/bcm2835/raspberrypi-firmware.h
+index ab955591cb72..73cac8d0287e 100644
+--- a/include/soc/bcm2835/raspberrypi-firmware.h
++++ b/include/soc/bcm2835/raspberrypi-firmware.h
+@@ -170,7 +170,7 @@ struct rpi_firmware_clk_rate_request {
  
- 	return drm;
- }
-+
-+MODULE_AUTHOR("Maxime Ripard <maxime@cerno.tech>");
-+MODULE_LICENSE("GPL");
+ #define RPI_FIRMWARE_CLK_RATE_REQUEST(_id)	\
+ 	{					\
+-		.id = _id,			\
++		.id = cpu_to_le32(_id),		\
+ 	}
+ 
+ #if IS_ENABLED(CONFIG_RASPBERRYPI_FIRMWARE)
 -- 
 2.38.1
 
