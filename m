@@ -2,94 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4EED62BA17
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 11:51:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E46B62BAEE
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 12:07:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43E5510E48E;
-	Wed, 16 Nov 2022 10:51:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B72BA10E472;
+	Wed, 16 Nov 2022 11:07:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B8C010E477
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 10:51:01 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id 21so25981423edv.3
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 02:51:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=NMt8HjKxItO2J6bIbRsCvEdSlAZpP8uC48lcisou+nI=;
- b=eLnGvKK+w1XqLxzowLTo19VxBdUCyRC3jZCwBMpKaUWXXlLi4fs0Axmuul/wRN/I3k
- Ls2daX/AS8NBqlkGiJqqxb0gEFzgn6n0a6+XnpTDtipAc3J5NayuL7HDBO33beS0D75x
- K2gRZhVXeM0+lA+7zcbmJS/RVo1YdOeZ/sxms=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NMt8HjKxItO2J6bIbRsCvEdSlAZpP8uC48lcisou+nI=;
- b=aF2Y6mSuPv6y/+JUxuCNb8blNH/bU5MnI7Gx+O4FDZzVrhm4pZ8kvov25uOmeacF8F
- DCrhMXf41z/yS47pvxoCJU8OMZNwITSI3jrjPZIbIHnpjewhJmwdxg5qgSGeN752bzec
- OVL5jnsspi8Z21HUHsfUg5oGNmjxRk6xGwCamIHz3+MlLOv/+iZkc8CiJJ1p+U1JFQT6
- n4w4P3QWhR8VCpvV7jq1DPMut4sIwx2nKusM/UOyG6i1tSBw09fgFZWWqGt6LnEYYPVQ
- c8BgwtdzTVPl6BG0MGUwMk8IVRhLe3f4FBCAGjQhEMVpYphdMdYaZwft4f28m8P3mUIv
- m7/Q==
-X-Gm-Message-State: ANoB5pnp084N1cmr451f27NvnQNihnTaapGFxcE1zlC0k4jPzkcNSKnU
- o7ogRLAU6kAIMobCuec3HGLGkQ==
-X-Google-Smtp-Source: AA0mqf4Z9KF9DYfdJQdqGvbtRloYOPQXnN3MkKcJxdOs80iDic7Ysg9e6qfGKtqJuC+1emfUPfQ+gw==
-X-Received: by 2002:a50:ff04:0:b0:462:709:9f7b with SMTP id
- a4-20020a50ff04000000b0046207099f7bmr19331341edu.263.1668595860175; 
- Wed, 16 Nov 2022 02:51:00 -0800 (PST)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- s6-20020a170906bc4600b007aed2057eaesm6056420ejv.161.2022.11.16.02.50.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Nov 2022 02:50:59 -0800 (PST)
-Date: Wed, 16 Nov 2022 11:50:57 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH mm-unstable v1 17/20] drm/exynos: remove FOLL_FORCE usage
-Message-ID: <Y3TAkWy/xXfX1cIv@phenom.ffwll.local>
-Mail-Followup-To: David Hildenbrand <david@redhat.com>,
- linux-kernel@vger.kernel.org, x86@kernel.org,
- linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-ia64@vger.kernel.org, linux-mips@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, sparclinux@vger.kernel.org,
- linux-um@lists.infradead.org, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
- linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-perf-users@vger.kernel.org,
- linux-security-module@vger.kernel.org,
- linux-kselftest@vger.kernel.org,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
- Peter Xu <peterx@redhat.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andrea Arcangeli <aarcange@redhat.com>,
- Hugh Dickins <hughd@google.com>, Nadav Amit <namit@vmware.com>,
- Vlastimil Babka <vbabka@suse.cz>,
- Matthew Wilcox <willy@infradead.org>,
- Mike Kravetz <mike.kravetz@oracle.com>,
- Muchun Song <songmuchun@bytedance.com>,
- Shuah Khan <shuah@kernel.org>, Lucas Stach <l.stach@pengutronix.de>,
- David Airlie <airlied@gmail.com>, Oded Gabbay <ogabbay@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>,
- Christoph Hellwig <hch@infradead.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- Inki Dae <inki.dae@samsung.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-References: <20221116102659.70287-1-david@redhat.com>
- <20221116102659.70287-18-david@redhat.com>
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33C7110E036
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 11:07:08 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20221116110706euoutp01c2aded9f7fb1f0829091e92d3ef7e926~oC-kPtsFQ2489024890euoutp01a
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 11:07:06 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20221116110706euoutp01c2aded9f7fb1f0829091e92d3ef7e926~oC-kPtsFQ2489024890euoutp01a
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1668596826;
+ bh=GCeAHRBhUM4hDV5qmoB1gpn1sI1NsvvafognEIXV4HM=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=NGflG5LUPThw2SoCgLuBYBzzvurTpLPrwH/uvfSg6J/S1Aspo6C2IMe7o36s0AKQP
+ 9EHqztNtsLTeBs4OgbwwWZJNUvszzcn6Bq8GZZ0FsB9Jodug5q4pPa/E+Erv2rJCj+
+ kYYtw0I/mMqfJjnrhKvnsW30EbZLKDF39UomSPGY=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20221116110705eucas1p10e5b7411d452c21f91a967feafa928bc~oC-j9Bf4I1135811358eucas1p1t;
+ Wed, 16 Nov 2022 11:07:05 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id 41.BD.10112.954C4736; Wed, 16
+ Nov 2022 11:07:05 +0000 (GMT)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20221116110705eucas1p24aa99e75f1eaecdadccf1ad1af885137~oC-jd6Vhs1278612786eucas1p28;
+ Wed, 16 Nov 2022 11:07:05 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20221116110705eusmtrp2fdcbcb4315dd50b950f2450529694749~oC-jdCXzo1042210422eusmtrp2o;
+ Wed, 16 Nov 2022 11:07:05 +0000 (GMT)
+X-AuditID: cbfec7f4-cf3ff70000002780-40-6374c4598601
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 4F.F3.08916.954C4736; Wed, 16
+ Nov 2022 11:07:05 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20221116110704eusmtip13670a376b6106dbfa7d7f9a752eae09b~oC-iXcbVk2116721167eusmtip13;
+ Wed, 16 Nov 2022 11:07:04 +0000 (GMT)
+Message-ID: <bfd2eea0-04eb-9c98-e8a2-967455d6e5ad@samsung.com>
+Date: Wed, 16 Nov 2022 12:07:03 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221116102659.70287-18-david@redhat.com>
-X-Operating-System: Linux phenom 5.19.0-2-amd64 
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.2
+Subject: Re: [PATCH v8 09/14] drm: bridge: samsung-dsim: Add
+ atomic_get_input_bus_fmts
+Content-Language: en-US
+To: Marek Vasut <marex@denx.de>, Jagan Teki <jagan@amarulasolutions.com>
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <7635358a-fc32-5a78-6130-7c5f4dd2d81b@denx.de>
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Se0xTdxT21/vopazsUlB+UeOjbpCxAXMj2Y9AzEzccueMUReywbJA016q
+ EYprYboxFSRFrYV1UmIpG4LAip2DUB6iEXXYUbTlUV7reNW5miEqrjw0A5WV3rnx33e+73z5
+ zjk5FCYqIVdT+xRZrFIhSReTAryl4+/uqCRrlvTNqfxYNDpix5C7agZH90dqSTQw94hEhTXd
+ BDrt1uFo1qIj0cS4E0ddxx7w0clvq/nIpLtKIssfQwTSzJ/HkKHnKg89KMgDyH6nHkO38tQ4
+ 6tPfING08XefWnyPRM7OaQw9WejC3l3F/OR1E0y5sRNn9J1WgunWjpHMJeMYnyk7UUowVVfu
+ 8RjrYBXBjA5dIRn3KRuPaaw+yjRMtfKYoiYzYGYs63YFJQsSZGz6vi9YZcyWVMFex1A5caA0
+ 5pDnx3P8XPA4QgMCKEjHwgJ3D08DBJSIrgXQ6riBccUsgPXeC4ArZgCsqXbhLyx5zb+RS1hE
+ mwCsuC3nmrwAzi+o/YKQ3gI14+N+A06/CrUD1zCOD4Y3Sz1+fiUtg5VNLt4SDqE/gW0lNX4e
+ o8PgsOesnw+lGfh8ogVfCsBoFwmnTzr9AklvhpqHGn9YAB0PTU8rAGdeD/ObyzBu0iIBLGoL
+ 5fA2eF09SXI4BE7amvgcXgsXL531HwDSx33bLLj/LXQA5v45DLiueDjaPe9zU76E12D95RiO
+ 3gorf7ETSzSkg6DrYTA3QxA83XIG42ghPFEg4rrDodFW91/sz719mA6IjcvOYly2vnHZNsb/
+ cysAbgZhbLYqQ86q3lKwB6NVkgxVtkIeLc3MsADf59qf22ZbgWnSG90OeBRoB5DCxKHCzOIs
+ qUgok3z5FavMTFFmp7OqdrCGwsVhQtIQKRXRckkWu59lD7DKFyqPClidy5NGzm3kr78moZ7s
+ SpzOD7we9PjzgvctJPPxivGjCpa4fLE/8Mjg/Rq8/5vADxrPnXLqt2NKsm+q8HDbzruRTeaO
+ ulpgSBPf0e6QhQ/fOrZpMsm1H++VrXkpdicMM3x0ZPfAVlFsXJUs3pmCtZYVpWhzjiePPSp8
+ 1vNdS/FhfnLJ8IdptOVu9meO8MUe018RzpyvC99IvHio0lwuKPFsSyPlrzQHezberlhx3iHd
+ 83qEOvEd7XzqSFzDr10XvE+xg5ZVSRsaflB9GjVDbOevtK6rqy/bo5cHv5y6I8rR22jKeTth
+ g/lMqeb7OvieOrpjrWGwsn/C5tQvztl740Ke3UxIUohx1V7J5khMqZL8A5V3TCsoBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrBKsWRmVeSWpSXmKPExsVy+t/xu7qRR0qSDZ5vErK4c/s0s8X9xZ9Z
+ LF7fXsFmceXrezaL3qXnWC0m3Z/AYvFl0wQ2ixf3LrJYnG16w27ROXEJu8XyCfvYLDY9vsZq
+ 0fVrJbPFjPP7mCzetDUyWpx+tJ7Z4lRjK4vFpSmH2Sw+zXoIlJ38ks3i4olPzBbff59ldhDz
+ WPvxPqvHvFknWDymnDjC6nGu5y6bx85Zd9k9ZnfMZPVYvOclk8eRq4tZPe5c28Pmcb/7OJPH
+ 5iX1Hhvf7WDy6NuyitHj8ya5AL4oPZui/NKSVIWM/OISW6VoQwsjPUNLCz0jE0s9Q2PzWCsj
+ UyV9O5uU1JzMstQifbsEvYwz1+axFszUr3iyehF7A+M39S5GTg4JAROJxq032boYuTiEBJYy
+ SnQ1HmWGSMhInJzWwAphC0v8udYFVfSeUeJu/21GkASvgJ1E1717LCA2i4CqRM+V/cwQcUGJ
+ kzOfAMU5OEQFUiTWHYkCCQsLREjsnboUrJxZQFzi1pP5TCC2iICHxL8X21hA5jML3GKTOHVm
+ BTPEsrvMElPOLAVbxiZgKNH1FuQKTg5OAWuJ5X8WMEJMMpPo2toFZctLNG+dzTyBUWgWkjtm
+ IVk4C0nLLCQtCxhZVjGKpJYW56bnFhvqFSfmFpfmpesl5+duYgQmmW3Hfm7ewTjv1Ue9Q4xM
+ HIyHGCU4mJVEePMnlyQL8aYkVlalFuXHF5XmpBYfYjQFBsZEZinR5HxgmssriTc0MzA1NDGz
+ NDC1NDNWEuf1LOhIFBJITyxJzU5NLUgtgulj4uCUamDq3huev/XrBOGV64omCu6IjP156YlH
+ s83v6A1KB1xNH67+OI/vAWun+rGq3Xw1TVrMed/05l2dukqnSy64uVK8wHNNp/mejw5HN/Mn
+ KBeXlfyqanVaY1Hj1fs/fxnHhu0+nfcD76rVnG6fLpG5oviXefPaCOeU2wHcHNZaOdP+FbF/
+ mJf/10liSwX3vjXav4oN7ZvuqKju6Y7KirzY8TmtrubR7G6+93UPylRXfru2/u/EiNWux6eo
+ ZwT/bThdIXuyTPn1/4WWSYFH60Jkjr16+5Rd8bmZj8dMM4fryyNvz/xh2xZxqCb0zXL+lcmh
+ wifLzBuleuN/yDMW203pfDf1HMff2zFHsjZPtPwatVmJpTgj0VCLuag4EQA6AumzuwMAAA==
+X-CMS-MailID: 20221116110705eucas1p24aa99e75f1eaecdadccf1ad1af885137
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20221115120119eucas1p1c57ca32b0a372d00cfb7b6dfb86cc1a7
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20221115120119eucas1p1c57ca32b0a372d00cfb7b6dfb86cc1a7
+References: <20221110183853.3678209-1-jagan@amarulasolutions.com>
+ <20221110183853.3678209-10-jagan@amarulasolutions.com>
+ <694ccb10-15ad-5192-dd1b-86628227fb65@denx.de>
+ <CAMty3ZDE4gt_Hhb3pgXW570d6F5f8F3WeEEHiMVuXyrqmka9Kw@mail.gmail.com>
+ <CGME20221115120119eucas1p1c57ca32b0a372d00cfb7b6dfb86cc1a7@eucas1p1.samsung.com>
+ <35a96ba1-1022-5f7a-ffb6-b3400279e244@denx.de>
+ <60729cf5-04b1-b9aa-fb0f-60efacde285d@samsung.com>
+ <7635358a-fc32-5a78-6130-7c5f4dd2d81b@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,74 +123,185 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-ia64@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, Nadav Amit <namit@vmware.com>,
- linux-kselftest@vger.kernel.org, sparclinux@vger.kernel.org,
- Shuah Khan <shuah@kernel.org>, Andrea Arcangeli <aarcange@redhat.com>,
- linux-samsung-soc@vger.kernel.org, linux-rdma@vger.kernel.org, x86@kernel.org,
- Hugh Dickins <hughd@google.com>, Kyungmin Park <kyungmin.park@samsung.com>,
- Matthew Wilcox <willy@infradead.org>, Christoph Hellwig <hch@infradead.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@suse.cz>,
- linux-media@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- John Hubbard <jhubbard@nvidia.com>, linux-um@lists.infradead.org,
- etnaviv@lists.freedesktop.org, Alex Williamson <alex.williamson@redhat.com>,
- Peter Xu <peterx@redhat.com>, Muchun Song <songmuchun@bytedance.com>,
- linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
- Oded Gabbay <ogabbay@kernel.org>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- linux-mips@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- linux-perf-users@vger.kernel.org, linux-security-module@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Mike Kravetz <mike.kravetz@oracle.com>
+Cc: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Neil Armstrong <narmstrong@linaro.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Matteo Lisi <matteo.lisi@engicam.com>, Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Fancy Fang <chen.fang@nxp.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 16, 2022 at 11:26:56AM +0100, David Hildenbrand wrote:
-> FOLL_FORCE is really only for ptrace access. As we unpin the pinned pages
-> using unpin_user_pages_dirty_lock(true), the assumption is that all these
-> pages are writable.
-> 
-> FOLL_FORCE in this case seems to be a legacy leftover. Let's just remove
-> it.
-> 
-> Cc: Inki Dae <inki.dae@samsung.com>
-> Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
-> Cc: Kyungmin Park <kyungmin.park@samsung.com>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+On 16.11.2022 11:49, Marek Vasut wrote:
+> On 11/16/22 09:07, Marek Szyprowski wrote:
+>> On 15.11.2022 13:00, Marek Vasut wrote:
+>>> On 11/14/22 08:49, Jagan Teki wrote:
+>>>> On Sun, Nov 13, 2022 at 5:51 AM Marek Vasut <marex@denx.de> wrote:
+>>>>>
+>>>>> On 11/10/22 19:38, Jagan Teki wrote:
+>>>>>> Finding the right input bus format throughout the pipeline is hard
+>>>>>> so add atomic_get_input_bus_fmts callback and initialize with the
+>>>>>> proper input format from list of supported output formats.
+>>>>>>
+>>>>>> This format can be used in pipeline for negotiating bus format 
+>>>>>> between
+>>>>>> the DSI-end of this bridge and the other component closer to 
+>>>>>> pipeline
+>>>>>> components.
+>>>>>>
+>>>>>> List of Pixel formats are taken from,
+>>>>>> AN13573 i.MX 8/RT MIPI DSI/CSI-2, Rev. 0, 21 March 2022
+>>>>>> 3.7.4 Pixel formats
+>>>>>> Table 14. DSI pixel packing formats
+>>>>>>
+>>>>>> v8:
+>>>>>> * added pixel formats supported by NXP AN13573 i.MX 8/RT MIPI
+>>>>>> DSI/CSI-2
+>>>>>>
+>>>>>> v7, v6, v5, v4:
+>>>>>> * none
+>>>>>>
+>>>>>> v3:
+>>>>>> * include media-bus-format.h
+>>>>>>
+>>>>>> v2:
+>>>>>> * none
+>>>>>>
+>>>>>> v1:
+>>>>>> * new patch
+>>>>>>
+>>>>>> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+>>>>>> ---
+>>>>>>     drivers/gpu/drm/bridge/samsung-dsim.c | 53
+>>>>>> +++++++++++++++++++++++++++
+>>>>>>     1 file changed, 53 insertions(+)
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c
+>>>>>> b/drivers/gpu/drm/bridge/samsung-dsim.c
+>>>>>> index 0fe153b29e4f..33e5ae9c865f 100644
+>>>>>> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+>>>>>> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+>>>>>> @@ -15,6 +15,7 @@
+>>>>>>     #include <linux/clk.h>
+>>>>>>     #include <linux/delay.h>
+>>>>>>     #include <linux/irq.h>
+>>>>>> +#include <linux/media-bus-format.h>
+>>>>>>     #include <linux/of_device.h>
+>>>>>>     #include <linux/phy/phy.h>
+>>>>>>
+>>>>>> @@ -1321,6 +1322,57 @@ static void
+>>>>>> samsung_dsim_atomic_post_disable(struct drm_bridge *bridge,
+>>>>>>         pm_runtime_put_sync(dsi->dev);
+>>>>>>     }
+>>>>>>
+>>>>>> +/*
+>>>>>> + * This pixel output formats list referenced from,
+>>>>>> + * AN13573 i.MX 8/RT MIPI DSI/CSI-2, Rev. 0, 21 March 2022
+>>>>>> + * 3.7.4 Pixel formats
+>>>>>> + * Table 14. DSI pixel packing formats
+>>>>>> + */
+>>>>>> +static const u32 samsung_dsim_pixel_output_fmts[] = {
+>>>>>
+>>>>> You can also add :
+>>>>>
+>>>>> MEDIA_BUS_FMT_YUYV10_1X20
+>>>>>
+>>>>> MEDIA_BUS_FMT_YUYV12_1X24
+>>>>
+>>>> Are these for the below formats?
+>>>>
+>>>> "Loosely Packed Pixel Stream, 20-bit YCbCr, 4:2:2
+>>>>    Packed Pixel Stream, 24-bit YCbCr, 4:2:2"
+>>>>>
+>>>>>> +     MEDIA_BUS_FMT_UYVY8_1X16,
+>>>>>> +     MEDIA_BUS_FMT_RGB101010_1X30,
+>>>>>> +     MEDIA_BUS_FMT_RGB121212_1X36,
+>>>>>> +     MEDIA_BUS_FMT_RGB565_1X16,
+>>>>>> +     MEDIA_BUS_FMT_RGB666_1X18,
+>>>>>> +     MEDIA_BUS_FMT_RGB888_1X24,
+>>>>>> +};
+>>>>>> +
+>>>>>> +static bool samsung_dsim_pixel_output_fmt_supported(u32 fmt)
+>>>>>> +{
+>>>>>> +     int i;
+>>>>>> +
+>>>>>> +     for (i = 0; i < ARRAY_SIZE(samsung_dsim_pixel_output_fmts);
+>>>>>> i++) {
+>>>>>> +             if (samsung_dsim_pixel_output_fmts[i] == fmt)
+>>>>>> +                     return true;
+>>>>>> +     }
+>>>>>> +
+>>>>>> +     return false;
+>>>>>> +}
+>>>>>> +
+>>>>>> +static u32 *
+>>>>>> +samsung_dsim_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
+>>>>>> +                                    struct drm_bridge_state
+>>>>>> *bridge_state,
+>>>>>> +                                    struct drm_crtc_state
+>>>>>> *crtc_state,
+>>>>>> +                                    struct drm_connector_state
+>>>>>> *conn_state,
+>>>>>> +                                    u32 output_fmt,
+>>>>>> +                                    unsigned int *num_input_fmts)
+>>>>>> +{
+>>>>>> +     u32 *input_fmts;
+>>>>>> +
+>>>>>> +     if (!samsung_dsim_pixel_output_fmt_supported(output_fmt))
+>>>>>> +             return NULL;
+>>>>>> +
+>>>>>> +     *num_input_fmts = 1;
+>>>>>
+>>>>> Shouldn't this be 6 ?
+>>>>>
+>>>>>> +     input_fmts = kmalloc(sizeof(*input_fmts), GFP_KERNEL);
+>>>>>> +     if (!input_fmts)
+>>>>>> +             return NULL;
+>>>>>> +
+>>>>>> +     input_fmts[0] = output_fmt;
+>>>>>
+>>>>> Shouldn't this be a list of all 6 supported pixel formats ?
+>>>>
+>>>> Negotiation would settle to return one input_fmt from the list of
+>>>> supporting output_fmts. so the num_input_fmts would be 1 rather than
+>>>> the number of fmts in the supporting list. This is what I understood
+>>>> from the atomic_get_input_bus_fmts API. let me know if I miss
+>>>> something here.
+>>>
+>>> How does the negotiation work for this kind of pipeline:
+>>>
+>>> LCDIFv3<->DSIM<->HDMI bridge<->HDMI connector
+>>>
+>>> where all elements (LCDIFv3, DSIM, HDMI bridge) can support either
+>>> RGB888 or packed YUV422 ?
+>>>
+>>> Who decides the format used by such pipeline ?
+>>>
+>>> Why should it be the DSIM bridge and not e.g. the HDMI bridge or the
+>>> LCDIFv3 ?
+>>
+>>
+>> If I got it right, the drivers reports their preference for the returned
+>> formats. The format that is first in the reported array is the most
+>> preferred one. This probably means that in your case the HDMI bridge
+>> decides by reporting RGB or YUV first (if all elements supports both).
+>
+> But in that case, we need to list input_fmts[0]...input_fmts[n-1] in 
+> samsung_dsim_atomic_get_input_bus_fmts() and also set *num_input_fmts 
+> = n, correct ?
+>
+Yes, if I got the bus format negotiation code right, but I didn't check 
+the details.
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-Plus ack for merging through the appropriate non-drm tree.
--Daniel
-
-> ---
->  drivers/gpu/drm/exynos/exynos_drm_g2d.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_g2d.c b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-> index 471fd6c8135f..e19c2ceb3759 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-> @@ -477,7 +477,7 @@ static dma_addr_t *g2d_userptr_get_dma_addr(struct g2d_data *g2d,
->  	}
->  
->  	ret = pin_user_pages_fast(start, npages,
-> -				  FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM,
-> +				  FOLL_WRITE | FOLL_LONGTERM,
->  				  g2d_userptr->pages);
->  	if (ret != npages) {
->  		DRM_DEV_ERROR(g2d->dev,
-> -- 
-> 2.38.1
-> 
-
+Best regards
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
+
