@@ -2,61 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6331562BE20
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 13:34:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C72F62BED8
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 14:03:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41E7F10E49F;
-	Wed, 16 Nov 2022 12:34:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B43BF10E0AC;
+	Wed, 16 Nov 2022 13:03:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6EEC10E49F;
- Wed, 16 Nov 2022 12:34:13 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id d6so29233894lfs.10;
- Wed, 16 Nov 2022 04:34:13 -0800 (PST)
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C958C10E0AC
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 13:03:13 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id b3so29378466lfv.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 05:03:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=Pm/UokDC+MeCjw9LQFvp0eEnSEGom3XN+YydihKg7qE=;
- b=cBn/txYjQ/24+5sM+GIRAHTZoptJ/ATz+NjhNnKS1eV+Q/pnLEayBtrOOKBWGYQSHw
- 1XglYJAh8CN24hRQmylUl0GOE5DRLBXAQ2L3X3em/S7cDwATcQAJHzCIzjSeZPih8WoB
- Fx53mCp70AV+LetZMQKbeJPkZsFkns9WjAYbMdJAFpZCzdZJ6Hzj4WGk0biUnjCIaLOg
- rj0xs8/HbN+JNd+FQ1OVDvcYfda8i1eK9TrR3VvvX4qIHtsn/S7AaiP0FLGFjJBRpq2E
- AAAUyqGMNBOco567ax4XJ6nTVRTObgEdPAfTEXXWpPIT2788TfjMkcE54AGGzZKJRfQk
- MPRA==
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=yj1uHK7HEYHiWFNEA4c6ztqJMkzjkf4XEFeM+LwxtIg=;
+ b=DQqtzDKWBRTTXrTN9hNrp+mtDefk1sMRvbwnlYah2vXNkxG9puls0fYPV+phkNSdFW
+ tlfwHOcvpqNA18GculZlgXIGwceB/LVIJlVMRIf8G1z0/6CGdTd1VWLUJMsP4tZbVaFS
+ YLYSNYLsZBmUxGis5weeBHTPBW+KWHEhG0hF2k8uXZvRiX1phQBxlAweebBbn5MCDYAf
+ KZPP80JcWP/6zUqVaO2p3aC7OvanvwK1xmSQBsThqwNsfFHpRKEniRUyASzYJsX8VafY
+ I41RtTe4Vq1DAUdY6ZsZlHmgB3Vh826+JdSXO14quqCwX6XhtZeOtni3R+MY5QkXtexS
+ KV0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Pm/UokDC+MeCjw9LQFvp0eEnSEGom3XN+YydihKg7qE=;
- b=F38lSK/dxHRyeyhZfzmdPdUSwHl5OBhl/Ts5SanNEafN0W5vZzxUm+YZoufNyokIR1
- H9x1zGxUhl8Gdy/JHCefbSc8b9+QCcUHG603TLkhBAiWbBJBHsvF+16cBg51niSfgy1K
- ReencZoKFNpGwRWzQMHWnvyqA+JybObkQIb1bmYPUj8g2CLSaC+hoOlydmohMxusQsZg
- kvmpCOuF7hTMe5tYFFoA1cXr7cqppn3A2aDegCNzR0/Qt2kh4lavT+w3TZD5T7b/91j6
- +fNV2+j5SmddbMGT/oIFZUJztBeLLcZcGSVg0p0e4xlKWPSDESpsCnMZODnn3+JqDOtR
- t1kg==
-X-Gm-Message-State: ANoB5plO87Nt1Q2EIKBlwOVufFNNzv+23QMkeZ6IElbVGng5mdmy7Y/D
- 2depn8yMc1rqgTxELEbaCqo=
-X-Google-Smtp-Source: AA0mqf6iArDqkPDs1jnU6iVsy7BhmtZ8obpIXFA2HjSgAhc6edQT64E+ME3Og33YjqgceqwX3pUuqA==
-X-Received: by 2002:a05:6512:2395:b0:4a2:2dc9:3e0e with SMTP id
- c21-20020a056512239500b004a22dc93e0emr7962593lfv.272.1668602051616; 
- Wed, 16 Nov 2022 04:34:11 -0800 (PST)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- bi20-20020a05651c231400b0026dcf0cbb97sm2992476ljb.137.2022.11.16.04.34.11
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=yj1uHK7HEYHiWFNEA4c6ztqJMkzjkf4XEFeM+LwxtIg=;
+ b=UWGwk1HQuuHBCNceAantAY0jBeI7+34TQEZ1Gm9w/kt8clR+mfaQKL2FGldOhzk0PR
+ ANVkXetjus4tiVWs4ort+uW/rGyf8ECELPyLJxZ/RJu6muZuSTh+82NcFBjv6qqc4ijk
+ Ek8GZ+Ozw9VGztmz83NrQKrb3q+0BMgA67SqoW6S8rFh3BFjgjKHlkSAjosQL0Sxo0JU
+ lne+Wn7NVy5FiEV/wRhDzrNL6wrOXiyHNx9ASpplEByHi2rnUhWJQFNezJ9wrmx/1CDc
+ hZyendzpu7G+tdr9k5c7QpLNy6NLpgMlnhw/Wd3gFEfDR2qAoKY7OMYsdu+hv996cnlW
+ XFiw==
+X-Gm-Message-State: ANoB5pk/hcVq4zQ7ApvDF6nouA8ZDw0z+m0pz30Cx2XYJY+gfWLkEPs2
+ CpelglZtYlKe4vzjFaHFdsk=
+X-Google-Smtp-Source: AA0mqf7AzfIzexM2z7u+Uqd3EVkiLAzQw1oHH8gedmcDfckXG3tZna2CfFK4Bwj1l2ZwJnkRNoljSA==
+X-Received: by 2002:ac2:55a1:0:b0:494:9680:5036 with SMTP id
+ y1-20020ac255a1000000b0049496805036mr6845823lfg.416.1668603791679; 
+ Wed, 16 Nov 2022 05:03:11 -0800 (PST)
+Received: from dc75zzyyyyyyyyyyyyydt-3.rev.dnainternet.fi
+ (dc75zzyyyyyyyyyyyyydt-3.rev.dnainternet.fi. [2001:14ba:16f3:4a00::7])
+ by smtp.gmail.com with ESMTPSA id
+ r18-20020a2e8e32000000b0026c4305e5e2sm3002831ljk.53.2022.11.16.05.03.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Nov 2022 04:34:11 -0800 (PST)
-Date: Wed, 16 Nov 2022 14:34:01 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Sebastian Wick <sebastian.wick@redhat.com>
-Subject: Re: The state of Quantization Range handling
-Message-ID: <20221116143401.3d7621b9@eldfell>
-In-Reply-To: <CA+hFU4w8=yTU5tQgqZj4qUvJddAQL9fj5teTVSB_dvNcwCyr6g@mail.gmail.com>
-References: <CA+hFU4w8=yTU5tQgqZj4qUvJddAQL9fj5teTVSB_dvNcwCyr6g@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ Wed, 16 Nov 2022 05:03:10 -0800 (PST)
+Date: Wed, 16 Nov 2022 15:02:41 +0200
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+To: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+ Matti Vaittinen <mazziesaccount@gmail.com>
+Subject: [PATCH RESEND v4 0/2] Use devm helpers for regulator get and enable
+Message-ID: <cover.1668602942.git.mazziesaccount@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/JahevPKqHchiagyONw.iBrL";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="5Tght3fByM0oHga+"
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,161 +70,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- wayland <wayland-devel@lists.freedesktop.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Robert Foss <robert.foss@linaro.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Kevin Hilman <khilman@baylibre.com>,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Jerome Brunet <jbrunet@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/JahevPKqHchiagyONw.iBrL
-Content-Type: text/plain; charset=US-ASCII
+
+--5Tght3fByM0oHga+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 15 Nov 2022 00:11:56 +0100
-Sebastian Wick <sebastian.wick@redhat.com> wrote:
+Simplify couple of drivers by using the new devm_regulator_*get_enable*()
 
-> There are still regular bug reports about monitors (sinks) and sources
-> disagreeing about the quantization range of the pixel data. In
-> particular sources sending full range data when the sink expects
-> limited range. From a user space perspective, this is all hidden in
-> the kernel. We send full range data to the kernel and then hope it
-> does the right thing but as the bug reports show: some combinations of
-> displays and drivers result in problems.
->=20
-> In general the whole handling of the quantization range on linux is
-> not defined or documented at all. User space sends full range data
-> because that's what seems to work most of the time but technically
-> this is all undefined and user space can not fix those issues. Some
-> compositors have resorted to giving users the option to choose the
-> quantization range but this really should only be necessary for
-> straight up broken hardware.
->=20
-> Quantization Range can be explicitly controlled by AVI InfoFrame or
-> HDMI General Control Packets. This is the ideal case and when the
-> source uses them there is not a lot that can go wrong. Not all
-> displays support those explicit controls in which case the chosen
-> video format (IT, CE, SD; details in CTA-861-H 5.1) influences which
-> quantization range the sink expects.
->=20
-> This means that we have to expect that sometimes we have to send
-> limited and sometimes full range content. The big question however
-> that is not answered in the docs: who is responsible for making sure
-> the data is in the correct range? Is it the kernel or user space?
->=20
-> If it's the kernel: does user space supply full range or limited range
-> content? Each of those has a disadvantage. If we send full range
-> content and the driver scales it down to limited range, we can't use
-> the out-of-range bits to transfer information. If we send limited
-> range content and the driver scales it up we lose information.
->=20
-> Either way, this must be documented. My suggestion is to say that the
-> kernel always expects full range data as input and is responsible for
-> scaling it to limited range data if the sink expects limited range
-> data.
-
-Hi Sebastian,
-
-you are proposing the that driver/hardware will do either no range
-conversion, or full-to-limited range conversion. Limited-to-full range
-conversion would never be supported.
-
-I still wonder if limited-to-full range conversion could be useful with
-video content.
-
-> Another problem is that some displays do not behave correctly. It must
-> be possible to override the kernel when the user detects such a
-> situation. This override then controls if the driver converts the full
-> range data coming from the client or not (Default, Force Limited,
-> Force Full). It does not try to control what range the sink expects.
-> Let's call this the Quantization Range Override property which should
-> be implemented by all drivers.
-
-In other words, a CRTC "quantization range conversion" property with
-values:
-- auto, with the assumption that color pipeline always produces full-range
-- identity
-- full-to-limited
-(- limited-to-full)
-
-If this property was truly independent of the metadata being sent to
-the sink, and of the framebuffer format, it would allow us to do four
-ways: both full/limited framebuffer on both full/limited sink. It would
-allow us to send sub-blacks and super-whites as well.
-
-More precisely, framebuffers would always have *undefined* quantization
-range. The configuration of the color pipeline then determines how that
-data is manipulated into a video signal.
-
-So I am advocating the same design as with color spaces: do not tell
-KMS what your colorspaces are. Instead tell KMS what operations it
-needs to do with the pixel data, and what metadata to send to the sink.
-
-> All drivers should make sure their behavior is correct:
->=20
-> * check that drivers choose the correct default quantization range for
-> the selected mode
-
-Mode implying a quantization range is awkward, but maybe the kernel
-established modes should just have a flag for it. Then userspace would
-know. Unless the video mode system is extended to communicate
-IT/CE/SD/VIC and whatnot to userspace, making the modes better defined.
-Then userspace would know too.
-
-> * whenever explicit control is available, use it and set the
-> quantization range to full
-> * make sure that the hardware converts from full range to limited
-> range whenever the sink expects limited range
-> * implement the Quantization Range Override property
->=20
-> I'm volunteering for the documentation, UAPI and maybe even the drm
-> core parts if there is willingness to tackle the issue.
-
-Is it a good idea to put even more automation/magic into configuring
-the color pipeline and metadata for a sink, making them even more
-intertwined?
-
-I would prefer the opposite direction, making thing more explicit and
-orthogonal.
+Found these patches when doing some clean-up for my local git. Seems
+like these two fell through the cracks while other were merged. So, this is
+a respin of subset of original series v4.
 
 
-Thanks,
-pq
 
-> Appendix A: Broadcast RGB property
->=20
-> A few drivers already implement the Broadcast RGB property to control
-> the quantization range. However, it is pointless: It can be set to
-> Auto, Full and Limited when the sink supports explicitly setting the
-> quantization range. The driver expects full range content and converts
-> it to limited range content when necessary. Selecting limited range
-> never makes any sense: the out-of-range bits can't be used because the
-> input is full range. Selecting Default never makes sense: relying on
-> the default quantization range is risky because sinks often get it
-> wrong and as we established there is no reason to select limited range
-> if not necessary. The limited and full options also are not suitable
-> as an override because the property is not available if the sink does
-> not support explicitly setting the quantization range.
->=20
+These patches were previously part of the series:
+https://lore.kernel.org/lkml/cover.1660934107.git.mazziesaccount@gmail.com/
+"Devm helpers for regulator get and enable". I did keep the patch series
+versioning even though I changed the series name (subject of this mail)
+to "Use devm helpers for regulator get and enable". Name was changed
+because the devm helpers are already in 6.1-rc1.
+
+Also, most of the patches in the series are already merged to subsystem
+trees so this series now contains only the patches that have not yet
+been merged. I hope they can be now directly taken sirectly into
+respective subsystem trees as the dependencies should be in v6.1-rc1.
+
+Please note that these changes are only compile-tested as I don't have
+the HW to do proper testing. Thus, reviewing / testing is highly
+appreciated.
+
+Revision history:
+
+v3 =3D> v4:
+	- Drop applied patches
+	- rewrite cover-letter
+	- rebase on v6.1-rc1
+	- split meson and sii902x into own patches as requested.
+	- slightly modify dev_err_probe() return in sii902x.
+
+Matti Vaittinen (2):
+  gpu: drm: sii902x: Use devm_regulator_bulk_get_enable()
+  gpu: drm: meson: Use devm_regulator_*get_enable*()
+
+ drivers/gpu/drm/bridge/sii902x.c      | 26 ++++----------------------
+ drivers/gpu/drm/meson/meson_dw_hdmi.c | 23 +++--------------------
+ 2 files changed, 7 insertions(+), 42 deletions(-)
 
 
---Sig_/JahevPKqHchiagyONw.iBrL
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+base-commit: 094226ad94f471a9f19e8f8e7140a09c2625abaa
+--=20
+2.38.1
+
+
+--=20
+Matti Vaittinen, Linux device drivers
+ROHM Semiconductors, Finland SWDC
+Kiviharjunlenkki 1E
+90220 OULU
+FINLAND
+
+~~~ "I don't think so," said Rene Descartes. Just then he vanished ~~~
+Simon says - in Latin please.
+~~~ "non cogito me" dixit Rene Descarte, deinde evanescavit ~~~
+Thanks to Simon Glass for the translation =3D]=20
+
+--5Tght3fByM0oHga+
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmN02LkACgkQI1/ltBGq
-qqdw/Q/+PPsLfqMlwndByVhC0jEA/BL6xh+0PsN/olYzye366AuUQevPcWHehKkL
-qB6uqxJyjtOWw8fMSQQoh4WbdBH7hQ3FNmjL14vpeY/3/m5CQfSj+A4cvLuK8PnU
-DXwSitUe/Yqyk5m8B4M78qcmnzjhz+9Uv6h2N3Hqax4E4VjbD3lMbHDbThVcQuVJ
-5HuVph8dvPlkOp3DpM270l/7mDgUStYwZd9U39YTkCiqbL8jfIo4BlrujZ+MQIOt
-4j4ickj6LUTUDNV7e4A5p7LyFjSPN1aWJwab8o1Y15fLZ79wevUQv2N0Ue2Is6JB
-smMNr6xt7BVmWbA4rRp1armMyhytX6icbR4vcirVHDHLYU9/CCwv6LaW32WPZoUS
-Ay6Vm7a37YgT4gkK1v/B2TbWaPXON5FW2xC3BfJ1LIYxREQhzivU7f8oFCylye05
-P3OpEO6FJ55WXWYup8QSJzQsxmjDYtbwm1qcBKxSDcas84ny9DXXgo0Hc9PW7r0j
-04KuWvZRCMBCQmrM2VCmtYH1xaEi8KDnMoHL/ayIdH03wSZIXkdhNJVNdkpZO7xS
-CfgEKEgoZUo/rDRdOzcmqPeDrrdsqetjyGvNbqn3mdEIMpzDj3GMABEOb6jSxXmH
-E1M3c+BtQtU8ptuAj9uB8khJ0vtO66wGqBtj/CNpwWoXO4GUB+0=
-=uH/8
+iQEzBAEBCAAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmN032MACgkQeFA3/03a
+ocUEvAgAjCWRtr46zfwvyaXn0DSSFgdHBz/YLZoO1HrDpIxcZuWYpBU4QHi5DzcN
+dYCTy1OXLEYBx1FQarMFxcV/DsSskwDPzz/+XvlZH5crOqRPg71QTYZ6FO1xCVK+
+Ws9cAFNhFU5EYjZcxG/AVkLAMTaQlcPlPu4hIog283gobsq40ApJbCdQGY5v8QXp
+YhMiAnjeHOR3P3mEpTb6dV32WwDykP1a9bPuKb4yPT4F80sPLb7DGKYsAeeMBj2+
+M1tuYjMHIJn8lERaCV28WudVTYU9BOCsXxRuitVRn3ro+wDIH9H/YhRuj3ylGLvf
+OgiXECbDMP4UlrQdgHmh3TeaTZGxGw==
+=joFx
 -----END PGP SIGNATURE-----
 
---Sig_/JahevPKqHchiagyONw.iBrL--
+--5Tght3fByM0oHga+--
