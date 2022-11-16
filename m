@@ -1,54 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14F6E62C269
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 16:24:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CA1C62C2B3
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 16:35:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1215C10E1A3;
-	Wed, 16 Nov 2022 15:24:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E36410E06A;
+	Wed, 16 Nov 2022 15:35:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE79410E1A3
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 15:23:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1668612238; x=1700148238;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=+izVJFEtstLEKAeJc/eZaesc5tWF6qBZ3EjMC/f5lS8=;
- b=aUvY1PuvMVpknX2JkSvBpl+Ztan9RjuY2ipLcc4331SNopNAqY6ojRq8
- dMPqJc+smm7LDo0GQ3DQW+JVSgxpQVJks/jw2gczwSOSjeFU/kDFBea1M
- 3aFBVlbbD7YxQOS2gUGk9yNaobx3fYMuHBnS0Iamn/PGROTVgCqcuLznR
- ivtfYkV/xS4p2fPW1XrFs2k+nTcH5J/wc1wrbS4F6Ci3naN9roPRTU+5E
- gwydncv8sb1E3PN/QcW6b0FAhG5ofvqF56FK3nZhCtbA/s0nUldfLDT71
- SndaRFyiYP7seKFcwcjir7ySuuyVNLBTPWySMhSsWvQoWAyI8LFwhqYTl w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10533"; a="314385273"
-X-IronPort-AV: E=Sophos;i="5.96,167,1665471600"; d="scan'208";a="314385273"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2022 07:23:57 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10533"; a="633661234"
-X-IronPort-AV: E=Sophos;i="5.96,167,1665471600"; d="scan'208";a="633661234"
-Received: from dariofax-mobl.amr.corp.intel.com (HELO localhost)
- ([10.252.59.5])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2022 07:23:54 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH 2/3] drm/tests: helpers: Add module infos
-In-Reply-To: <20221116151214.pnwszhhbassplbr3@houat>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20221116091712.1309651-1-maxime@cerno.tech>
- <20221116091712.1309651-2-maxime@cerno.tech>
- <6dba9207-5ba2-5c73-e575-a7a86a2b9520@riseup.net>
- <874juz2kyk.fsf@intel.com> <20221116151214.pnwszhhbassplbr3@houat>
-Date: Wed, 16 Nov 2022 17:23:51 +0200
-Message-ID: <87tu2y2a9k.fsf@intel.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 350FD10E06A;
+ Wed, 16 Nov 2022 15:35:27 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2AGDFiDp027890; Wed, 16 Nov 2022 15:35:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=4bgSVWe2DupxOwRr4EOFbsHDsofmk+PFg9oISOvq07w=;
+ b=AcC0d+H6Ykx45QyKTs91JvR5oMly//xnEMmuafbJ+4j5AFxQqRpBhfUI3lY3qBvo35U+
+ w2tVbt3T66tD+Ep+qW3ZkpgjSikFo66wyZtdYgGVaD8PwpvmkCCd336cOSdWyxZfnQ4M
+ Ar3WwuMqL9aOOQhxnO41GD6zp+hpdLrdriRjtnOdgSkQj4uC7LndSiM0kvzTHbMqXHzZ
+ XVR9iQerh42i3I0+TNT2BrflTvF4cOOEGaFDyOhGC8PPouo4Op2/OMHyryA6juE16+27
+ Vxnx1ZDH/LaQunuf9GW73GokZgHsU1esihFCQnR4bvRdhIBM/6n/Bcl6DxIl7L3kXSd1 Dw== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kw03a8bcj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 16 Nov 2022 15:35:24 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2AGFZNNY015031
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 16 Nov 2022 15:35:23 GMT
+Received: from [10.216.25.63] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Wed, 16 Nov
+ 2022 07:35:19 -0800
+Message-ID: <0dd3e096-84ac-da81-ad43-bf07485e7b65@quicinc.com>
+Date: Wed, 16 Nov 2022 07:35:16 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v2 2/3] drm/msm/disp/dpu1: add helper to know if display
+ is pluggable
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Kalyan Thota
+ <quic_kalyant@quicinc.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
+ <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>
+References: <1668609040-2549-1-git-send-email-quic_kalyant@quicinc.com>
+ <1668609040-2549-3-git-send-email-quic_kalyant@quicinc.com>
+ <e049f5b1-da41-6854-4731-b6697770ffde@linaro.org>
+ <6b1907db-3fdb-8fe0-e5e3-21ea17021925@quicinc.com>
+ <bf14540a-745c-c378-520a-f8edfd3e3adf@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <bf14540a-745c-c378-520a-f8edfd3e3adf@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: nvibYndKs-Sx2SNACmfVRs8TtFf1DTqK
+X-Proofpoint-ORIG-GUID: nvibYndKs-Sx2SNACmfVRs8TtFf1DTqK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-16_03,2022-11-16_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 mlxscore=0
+ lowpriorityscore=0 adultscore=0 phishscore=0 impostorscore=0
+ malwarescore=0 spamscore=0 mlxlogscore=999 bulkscore=0 suspectscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211160107
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,58 +90,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- Florian Fainelli <f.fainelli@gmail.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org,
- =?utf-8?Q?Ma=C3=ADra?= Canal <mairacanal@riseup.net>,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: robdclark@chromium.org, quic_vpolimer@quicinc.com, swboyd@chromium.org,
+ linux-kernel@vger.kernel.org, dianders@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 16 Nov 2022, Maxime Ripard <maxime@cerno.tech> wrote:
-> On Wed, Nov 16, 2022 at 01:32:51PM +0200, Jani Nikula wrote:
->> On Wed, 16 Nov 2022, Ma=C3=ADra Canal <mairacanal@riseup.net> wrote:
->> > Hi Maxime,
->> >
->> > On 11/16/22 06:17, Maxime Ripard wrote:
->> >> The MODULE_LICENSE macro is missing from the kunit helpers file, thus
->> >> leading to a build error.
->> >>=20
->> >> Let's introduce it along with MODULE_AUTHOR.
->> >>=20
->> >> Fixes: 44a3928324e9 ("drm/tests: Add Kunit Helpers")
->> >> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
->> >> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->> >
->> > It would be nice to add the SPDX-License-Identifier tag in the source
->> > file as well. Besides that,
->>=20
->> It's not just nice, it's basically mandatory to add license boilerplate.
->>=20
->> Checkpatch would've warned about this. And actually about a lot of stuff
->> in the series.
->
-> Right, sorry about that. I'll send additional patches to address the
-> issues already in.
->
->> (And our CI checkpatch did too, although we don't send the replies to
->> the world, just intel-gfx [1].)
->
-> I'm not sure how helpful it is though if the author is not a recipient
-> of the report
-
-It actually should be, but I have absolutely no idea why in this case it
-decided to do
-
-	To: "Mateusz Kwiatkowski" <kfyatek@gmail.com>
-
-instead of you. Baffled.
-
-BR,
-Jani.
 
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+On 11/16/2022 7:18 AM, Dmitry Baryshkov wrote:
+> On 16/11/2022 18:11, Abhinav Kumar wrote:
+>>
+>>
+>> On 11/16/2022 7:08 AM, Dmitry Baryshkov wrote:
+>>> On 16/11/2022 17:30, Kalyan Thota wrote:
+>>>> Since DRM encoder type for few encoders can be similar
+>>>> (like eDP and DP) find out if the interface supports HPD
+>>>> from encoder bridge to differentiate between builtin
+>>>> and pluggable displays.
+>>>>
+>>>> Changes in v1:
+>>>> - add connector type in the disp_info (Dmitry)
+>>>> - add helper functions to know encoder type
+>>>> - update commit text reflecting the change
+>>>>
+>>>> Changes in v2:
+>>>> - avoid hardcode of connector type for DSI as it may not be true 
+>>>> (Dmitry)
+>>>> - get the HPD information from encoder bridge
+>>>>
+>>>> Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
+>>>> ---
+>>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 16 ++++++++++++++++
+>>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  6 ++++++
+>>>>   2 files changed, 22 insertions(+)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c 
+>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>>> index 9c6817b..be93269 100644
+>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>>> @@ -15,6 +15,7 @@
+>>>>   #include <drm/drm_crtc.h>
+>>>>   #include <drm/drm_file.h>
+>>>>   #include <drm/drm_probe_helper.h>
+>>>> +#include <drm/drm_bridge.h>
+>>>>   #include "msm_drv.h"
+>>>>   #include "dpu_kms.h"
+>>>> @@ -217,6 +218,21 @@ static u32 dither_matrix[DITHER_MATRIX_SZ] = {
+>>>>       15, 7, 13, 5, 3, 11, 1, 9, 12, 4, 14, 6, 0, 8, 2, 10
+>>>>   };
+>>>> +bool dpu_encoder_is_pluggable(struct drm_encoder *encoder)
+>>>> +{
+>>>> +    struct drm_bridge *bridge;
+>>>> +    int ops = 0;
+>>>> +
+>>>> +    if (!encoder)
+>>>> +        return false;
+>>>> +
+>>>> +    /* Get last bridge in the chain to determine pluggable state */
+>>>> +    drm_for_each_bridge_in_chain(encoder, bridge)
+>>>> +        if (!drm_bridge_get_next_bridge(bridge))
+>>>> +            ops = bridge->ops;
+>>>> +
+>>>> +    return ops & DRM_BRIDGE_OP_HPD;
+>>>
+>>> No. This is not what you should be checking (hint: polled connectors 
+>>> also can be pluggable).
+>>>
+>>> Please check the type of the actual connector connected to this encoder.
+>>>
+>>
+>> Even if we check the connector type as DSI or eDP that does not 
+>> necessarily mean its built-in.
+>>
+>> We can even use DSI or eDP as a pluggable display.
+> 
+> Well, I don't think so. eDP and DSI connectors are not pluggable per 
+> design. One can use them so, but they are not thought to be used this 
+> way. Unlike e.g. HDMI, DP, VGA, etc.
+> 
+
+We have had many products where we used HDMI as the primary display 
+where the HPD line was disconnected in the design, so now if we 
+generalize all HDMI connectors to be pluggable we can never enable color 
+management on those even though DSI is not even used in that product.
+
+Thats why I felt we should rely on the HPD_OPS as that way we know that 
+it will be set only if HPD will be used.
+
+Wouldnt it be just better to also check polling displays to complete 
+this check? Is there a way to do it?
+
+> I would say LVDS, eDP, DSI, DPI and SPI can be assumed to be constantly 
+> plugged.
+> 
+> Compare this with Composite, SVIDEO, 9PinDIN, TV. They can be assumed to 
+> be external even if they do not have the HPD (or even polling). And 
+> these connectors usually don't have it.
+> 
+>>
+>> Thats why we thought of this check.
+>>
