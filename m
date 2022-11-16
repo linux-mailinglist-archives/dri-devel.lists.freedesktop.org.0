@@ -1,48 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AD8762BFBC
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 14:41:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5F5962BFC0
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 14:41:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A54E10E4AE;
-	Wed, 16 Nov 2022 13:41:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D21110E4AC;
+	Wed, 16 Nov 2022 13:41:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E077910E4AD
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 13:40:55 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <pza@pengutronix.de>)
- id 1ovIes-0001jl-70; Wed, 16 Nov 2022 14:40:54 +0100
-Received: from pza by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <pza@pengutronix.de>)
- id 1ovIer-0004zC-VF; Wed, 16 Nov 2022 14:40:53 +0100
-Date: Wed, 16 Nov 2022 14:40:53 +0100
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Lucas Stach <l.stach@pengutronix.de>
-Subject: Re: [PATCH v2 3/3] drm/etnaviv: export client GPU usage statistics
- via fdinfo
-Message-ID: <20221116134053.GB12239@pengutronix.de>
-References: <20220916151205.165687-1-l.stach@pengutronix.de>
- <20220916151205.165687-3-l.stach@pengutronix.de>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AF6A10E4AB
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 13:41:16 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id BF5B049C;
+ Wed, 16 Nov 2022 14:41:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1668606074;
+ bh=7kjV9XaHGlcIvSJMo1l48yxddcL5QyvUynUQIQE/utQ=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=PiSQRbxCpnhfvhLOvIlPUw+8d+v/T/vnY2kITjyVbbBRPRnaI26+x6KjSeEJAkFiE
+ R/4WIZXhHw0F1vbQABp1Wn2bdozEEwXuxGS45peSlO4RxQUTFRRahTtr9S6UAmjYat
+ S/H9lzSD7Uf3qXQDbCCMFxxR29ESVlnrcRDsinKk=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220916151205.165687-3-l.stach@pengutronix.de>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: pza@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20221107175256.360839-7-paul@crapouillou.net>
+References: <20221107175106.360578-1-paul@crapouillou.net>
+ <20221107175256.360839-1-paul@crapouillou.net>
+ <20221107175256.360839-7-paul@crapouillou.net>
+Subject: Re: [PATCH 17/26] drm: rcar-du: Remove #ifdef guards for PM related
+ functions
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Paul Cercueil <paul@crapouillou.net>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Date: Wed, 16 Nov 2022 13:41:12 +0000
+Message-ID: <166860607235.50677.11372324946195607108@Monstersaurus>
+User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,84 +53,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- patchwork-lst@pengutronix.de, kernel@pengutronix.de,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Paul Cercueil <paul@crapouillou.net>, linux-renesas-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 16, 2022 at 05:12:05PM +0200, Lucas Stach wrote:
-> This exposes a accumulated GPU active time per client via the
-> fdinfo infrastructure.
-> 
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+Quoting Paul Cercueil (2022-11-07 17:52:47)
+> Use the DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr() macros to handle
+> the .suspend/.resume callbacks.
+>=20
+> These macros allow the suspend and resume functions to be automatically
+> dropped by the compiler when CONFIG_SUSPEND is disabled, without having
+> to use #ifdef guards.
+>=20
+> This has the advantage of always compiling these functions in,
+> independently of any Kconfig option. Thanks to that, bugs and other
+> regressions are subsequently easier to catch.
+>=20
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+
+Seems reasonable to me.
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
 > ---
-> v2:
-> - fix code style
-> - switch to raw seq_printf
-> - leave some breadcrumbs about the output format
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Cc: linux-renesas-soc@vger.kernel.org
 > ---
->  drivers/gpu/drm/etnaviv/etnaviv_drv.c | 40 ++++++++++++++++++++++++++-
->  1 file changed, 39 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> index b69edb40ae2a..c08748472f74 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> @@ -22,6 +22,7 @@
->  #include "etnaviv_gem.h"
->  #include "etnaviv_mmu.h"
->  #include "etnaviv_perfmon.h"
-> +#include "common.xml.h"
->  
->  /*
->   * DRM operations:
-> @@ -471,7 +472,44 @@ static const struct drm_ioctl_desc etnaviv_ioctls[] = {
->  	ETNA_IOCTL(PM_QUERY_SIG, pm_query_sig, DRM_RENDER_ALLOW),
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar=
+-du/rcar_du_drv.c
+> index a2776f1d6f2c..0a89094461cc 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> @@ -599,7 +599,6 @@ static const struct drm_driver rcar_du_driver =3D {
+>   * Power management
+>   */
+> =20
+> -#ifdef CONFIG_PM_SLEEP
+>  static int rcar_du_pm_suspend(struct device *dev)
+>  {
+>         struct rcar_du_device *rcdu =3D dev_get_drvdata(dev);
+> @@ -613,11 +612,9 @@ static int rcar_du_pm_resume(struct device *dev)
+> =20
+>         return drm_mode_config_helper_resume(&rcdu->ddev);
+>  }
+> -#endif
+> =20
+> -static const struct dev_pm_ops rcar_du_pm_ops =3D {
+> -       SET_SYSTEM_SLEEP_PM_OPS(rcar_du_pm_suspend, rcar_du_pm_resume)
+> -};
+> +static DEFINE_SIMPLE_DEV_PM_OPS(rcar_du_pm_ops,
+> +                               rcar_du_pm_suspend, rcar_du_pm_resume);
+> =20
+>  /* ---------------------------------------------------------------------=
+--------
+>   * Platform driver
+> @@ -712,7 +709,7 @@ static struct platform_driver rcar_du_platform_driver=
+ =3D {
+>         .shutdown       =3D rcar_du_shutdown,
+>         .driver         =3D {
+>                 .name   =3D "rcar-du",
+> -               .pm     =3D &rcar_du_pm_ops,
+> +               .pm     =3D pm_sleep_ptr(&rcar_du_pm_ops),
+>                 .of_match_table =3D rcar_du_of_table,
+>         },
 >  };
->  
-> -DEFINE_DRM_GEM_FOPS(fops);
-> +static void etnaviv_fop_show_fdinfo(struct seq_file *m, struct file *f)
-> +{
-> +	struct drm_file *file = f->private_data;
-> +	struct drm_device *dev = file->minor->dev;
-> +	struct etnaviv_drm_private *priv = dev->dev_private;
-> +	struct etnaviv_file_private *ctx = file->driver_priv;
-> +
-> +	/*
-> +	 * For a description of the text output format used here, see
-> +	 * Documentation/gpu/drm-usage-stats.rst.
-> +	 */
-> +	seq_printf(m, "drm-driver:\t%s\n", dev->driver->name);
-> +	seq_printf(m, "drm-client-id:\t%u\n", ctx->id);
-> +
-> +	for (int i = 0; i < ETNA_MAX_PIPES; i++) {
-> +		struct etnaviv_gpu *gpu = priv->gpu[i];
-> +		char engine[8];
-
-Maybe initialize this as well? See below.
-
-> +		int cur = 0;
-> +
-> +		if (!gpu)
-> +			continue;
-> +
-> +		if (gpu->identity.features & chipFeatures_PIPE_2D)
-> +			cur = snprintf(engine, sizeof(engine), "2D");
-> +		if (gpu->identity.features & chipFeatures_PIPE_3D)
-> +			cur = snprintf(engine + cur, sizeof(engine) - cur,
-> +				       "%s3D", cur ? "/" : "");
-
-Does the NPU have either bit set? If not, this must not be forgotten to
-be changed when NPU support is added, to avoid uninitalized use of the
-engine variable.
-
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-Tested-by: Philipp Zabel <p.zabel@pengutronix.de>
-
-with gputop [1].
-
-[1] https://lore.kernel.org/dri-devel/20221111155844.3290531-1-tvrtko.ursulin@linux.intel.com/
-
-regards
-Philipp
+> --=20
+> 2.35.1
+>
