@@ -2,51 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36D8F62CAC1
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 21:23:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B8D062CB60
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 21:48:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F1CB10E4F8;
-	Wed, 16 Nov 2022 20:23:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3CB910E0CE;
+	Wed, 16 Nov 2022 20:48:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BBFF10E4F1;
- Wed, 16 Nov 2022 20:23:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1668630201; x=1700166201;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=ssoLq3s43pRzVOUXSM9GWIGMT3/dBXOWOzGhNOkA4Gs=;
- b=IbwC8uJv8eMkkGBK8yU0gY3I2P4RWMG5cEQdeuVyxSPWRO2FJmk40rPn
- irLSCJtVZiEKg2d+qbBimFQReRb6FHrAzlXxaSCMkgmPZt4HxdTkx59xd
- G68Ff8E8wA29YMooKJW48sHfr5sIh72gi9QrvVrU/FhATBd8o6mVbMXRm
- WH2nc8l/YJE4I/BFymEW6OURMW4kBP+5BRHMtkjFaZLde8Ib18qgyZmfP
- 71qozL16liu2i8mV724CfGRshroMQ8il3afYE4yEBX7KUCtJ1iL8mo/7o
- ibtqo5QR/VdW8ngO5zGSdXLxAUkoxVlKL6+ouQmQCoeBvOFfDuIYu78Vb Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10533"; a="300183153"
-X-IronPort-AV: E=Sophos;i="5.96,169,1665471600"; d="scan'208";a="300183153"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2022 12:23:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10533"; a="590323976"
-X-IronPort-AV: E=Sophos;i="5.96,169,1665471600"; d="scan'208";a="590323976"
-Received: from lkp-server01.sh.intel.com (HELO ebd99836cbe0) ([10.239.97.150])
- by orsmga003.jf.intel.com with ESMTP; 16 Nov 2022 12:23:17 -0800
-Received: from kbuild by ebd99836cbe0 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1ovOwH-0002hl-0X;
- Wed, 16 Nov 2022 20:23:17 +0000
-Date: Thu, 17 Nov 2022 04:22:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master] BUILD REGRESSION
- 15f3bff12cf6a888ec2ad39652828c60e6836b3d
-Message-ID: <63754698.I/fgy2FgVzs0e3UW%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E54710E0CE
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 20:48:10 +0000 (UTC)
+Received: by mail-lj1-x231.google.com with SMTP id a15so23407006ljb.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 12:48:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=googlemail.com; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:date:from:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=6JrqJ6Sbn/mpwug3ot31DQ5jlBaAKyV9UfORVKR2Mss=;
+ b=ae8G2P4a+COzSBWklcw0bHYPAGArR/ipKsW+u7fiYxLC5RpiZCMPR1nP6paPHPtTU+
+ ixAtrPPkYXbQrKfG9JJYkVYljE/UarocqtY2NdpjfKE/yG+428aRbIWnx8d23Nbgngem
+ 03e0erDFegoKeZ43KUMQmwfav4coOnd7KBBFBNxo/+2jdxIkFW/kgI3aW8cwEaDubHWz
+ VW6GaCciKF2TAdB14poivTQIW0ORCgyvavOMn59cxTTT7hkGEXlT1JRgnxxWahYX3oCj
+ zFfb2hQCOlTpnhIxRLUJq3uz7DGJW4p/zHMlSmf1UqgBuzLCY3UyXYDvx9/fs5eBxPWR
+ VBBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:date:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=6JrqJ6Sbn/mpwug3ot31DQ5jlBaAKyV9UfORVKR2Mss=;
+ b=V5WKLLTG75wtMWgbLq4NsDO0KzUm4SA8zUdgOQ/ucjbnaIJ9W0zPyIgf3xHN1+PXbQ
+ wxa8lYOgiZQ+hS8u5Le+ciA+k574+tACQEJYdzWk+8wHLmPnv9ZEjOgc49ukOmqCOlcm
+ aa/LSYWXWQMa/brTdv0yD6LC/sEc07J2FHV+a1v7Jkbmvds2g+4FHaC+AKFAB7nhI++f
+ WRTkE5A1z08kp7Vm4gSpmnjPW2cSarlmbNjPzmx8m6hbEw4mtdjOJNSLUP+9Hl6DToIp
+ 2hcOK+46UyU6wD3q+XL2R0pmBHu06KbS8iOIH2kfJNE1696juNTj33wa++hd9Xek6pZz
+ 6Ouw==
+X-Gm-Message-State: ANoB5pkVWmy0YYFRkY00gIFV4vgZGtywxQDIBhra73HVhtJg7IwzZB5z
+ ueQdhRYfRFUrEAbEf31nHqE=
+X-Google-Smtp-Source: AA0mqf7c2zjF447ne46/zGiLbIu4u1JQD5e98fP8HM3pjr3ANuBHPVYOBUVr94QMa4CkrW+Ny/1oPw==
+X-Received: by 2002:a2e:9103:0:b0:278:fa62:bc90 with SMTP id
+ m3-20020a2e9103000000b00278fa62bc90mr6506ljg.360.1668631688223; 
+ Wed, 16 Nov 2022 12:48:08 -0800 (PST)
+Received: from thinkpad-p72 (user-5-173-65-115.play-internet.pl.
+ [5.173.65.115]) by smtp.gmail.com with ESMTPSA id
+ n1-20020ac24901000000b004b4823f02b0sm2759613lfi.152.2022.11.16.12.48.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Nov 2022 12:48:07 -0800 (PST)
+From: Lukasz Wiecaszek <lukasz.wiecaszek@googlemail.com>
+X-Google-Original-From: Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>
+Date: Wed, 16 Nov 2022 21:48:04 +0100
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH v3] udmabuf: add vmap and vunmap methods to udmabuf_ops
+Message-ID: <20221116204804.GA22663@thinkpad-p72>
+References: <20221115200426.4801-1-lukasz.wiecaszek@gmail.com>
+ <b715cb83-32f1-a33b-a0c2-b779011151c0@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b715cb83-32f1-a33b-a0c2-b779011151c0@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,194 +75,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Linux Memory Management List <linux-mm@kvack.org>,
- amd-gfx@lists.freedesktop.org, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: kernel test robot <lkp@intel.com>,
+ Lukasz Wiecaszek <lukasz.wiecaszek@googlemail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: 15f3bff12cf6a888ec2ad39652828c60e6836b3d  Add linux-next specific files for 20221116
+On Wed, Nov 16, 2022 at 01:01:46PM +0100, Christian König wrote:
+> Am 15.11.22 um 21:04 schrieb Lukasz Wiecaszek:
+> > The reason behind that patch is associated with videobuf2 subsystem
+> > (or more genrally with v4l2 framework) and user created
+> > dma buffers (udmabuf). In some circumstances
+> > when dealing with V4L2_MEMORY_DMABUF buffers videobuf2 subsystem
+> > wants to use dma_buf_vmap() method on the attached dma buffer.
+> > As udmabuf does not have .vmap operation implemented,
+> > such dma_buf_vmap() natually fails.
+> > 
+> > videobuf2_common: __vb2_queue_alloc: allocated 3 buffers, 1 plane(s) each
+> > videobuf2_common: __prepare_dmabuf: buffer for plane 0 changed
+> > videobuf2_common: __prepare_dmabuf: failed to map dmabuf for plane 0
+> > videobuf2_common: __buf_prepare: buffer preparation failed: -14
+> > 
+> > The patch itself seems to be strighforward.
+> > It adds implementation of .vmap and .vunmap methods
+> > to 'struct dma_buf_ops udmabuf_ops'.
+> > .vmap method itself uses vm_map_ram() to map pages linearly
+> > into the kernel virtual address space.
+> > .vunmap removes mapping created earlier by .vmap.
+> > All locking and 'vmapping counting' is done in dma_buf.c
+> > so it seems to be redundant/unnecessary in .vmap/.vunmap.
+> > 
+> > Signed-off-by: Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>
+> 
+> > Reported-by: kernel test robot <lkp@intel.com>
+> 
+> Please drop this line, the kernel test robot should only be mentioned if the
+> original report came from it.
+> 
+> And keep in mind that it might be necessary to implement begin/end cpu
+> access callbacks as well.
+> 
+> Apart from that the patch is Acked-by: Christian König
+> <christian.koenig@amd.com>.
+> 
+> Regards,
+> Christian.
 
-Error/Warning reports:
+Thanks for that lesson with the 'kernel test robot' line.
+The second issue with begin/end cpu access callbacks is more complicated
+to me. My understaning is that memory allocated for udambuf will be the 
+memory obtained most likely (if not always) by memfd_create(). 
+So this will be the anonymous system memory which is 'by definition' 
+coherent for cpu access. So no need for begin/end callbacks.
+But if I miss something, plese let me/us know.
 
-https://lore.kernel.org/linux-mm/202210261404.b6UlzG7H-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202210270637.Q5Y7FiKJ-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202211041320.coq8EELJ-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202211130053.Np70VIdn-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202211161807.01CzsomY-lkp@intel.com
-
-Error/Warning: (recently discovered and may have been fixed)
-
-aarch64-linux-ld: Unexpected GOT/PLT entries detected!
-aarch64-linux-ld: Unexpected run-time procedure linkages detected!
-arch/arm/mach-s3c/devs.c:32:10: fatal error: linux/platform_data/dma-s3c24xx.h: No such file or directory
-drivers/clk/clk.c:1022:5: error: redefinition of 'clk_prepare'
-drivers/clk/clk.c:1268:6: error: redefinition of 'clk_is_enabled_when_prepared'
-drivers/clk/clk.c:941:6: error: redefinition of 'clk_unprepare'
-drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:4939: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dp.c:5075:24: warning: implicit conversion from 'enum <anonymous>' to 'enum dc_status' [-Wenum-conversion]
-drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn201/irq_service_dcn201.c:40:20: warning: no previous prototype for 'to_dal_irq_source_dcn201' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c:451:1: warning: no previous prototype for 'gf100_fifo_nonstall_block' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c:451:1: warning: no previous prototype for function 'gf100_fifo_nonstall_block' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c:34:1: warning: no previous prototype for 'nvkm_engn_cgrp_get' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c:34:1: warning: no previous prototype for function 'nvkm_engn_cgrp_get' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c:210:1: warning: no previous prototype for 'tu102_gr_load' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c:210:1: warning: no previous prototype for function 'tu102_gr_load' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/nvfw/acr.c:49:1: warning: no previous prototype for 'wpr_generic_header_dump' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/nvfw/acr.c:49:1: warning: no previous prototype for function 'wpr_generic_header_dump' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:221:21: warning: variable 'loc' set but not used [-Wunused-but-set-variable]
-ld.lld: error: .btf.vmlinux.bin.o: unknown file type
-ld.lld: error: undefined symbol: ipv6_icmp_error
-
-Unverified Error/Warning (likely false positive, please contact us if interested):
-
-ERROR: modpost: "usb_disabled" [drivers/usb/fotg210/fotg210.ko] undefined!
-lib/zstd/compress/huf_compress.c:460 HUF_getIndex() warn: the 'RANK_POSITION_LOG_BUCKETS_BEGIN' macro might need parens
-lib/zstd/decompress/zstd_decompress_block.c:1009 ZSTD_execSequence() warn: inconsistent indenting
-lib/zstd/decompress/zstd_decompress_block.c:894 ZSTD_execSequenceEnd() warn: inconsistent indenting
-lib/zstd/decompress/zstd_decompress_block.c:942 ZSTD_execSequenceEndSplitLitBuffer() warn: inconsistent indenting
-lib/zstd/decompress/zstd_decompress_internal.h:206 ZSTD_DCtx_get_bmi2() warn: inconsistent indenting
-mm/khugepaged.c:2038 collapse_file() warn: iterator used outside loop: 'page'
-
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- alpha-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
-|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
-|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
-|-- alpha-randconfig-r013-20221116
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
-|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
-|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
-|-- arc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
-|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
-|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
-|-- arc-randconfig-r011-20221116
-|   `-- ERROR:usb_disabled-drivers-usb-fotg210-fotg210.ko-undefined
-|-- arm-allyesconfig
-|   |-- arch-arm-mach-s3c-devs.c:fatal-error:linux-platform_data-dma-s3c24xx.h:No-such-file-or-directory
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
-|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
-|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
-|-- arm-defconfig
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
-|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
-|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
-|-- arm64-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
-|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
-|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
-|-- arm64-randconfig-c004-20221115
-|   |-- aarch64-linux-ld:Unexpected-GOT-PLT-entries-detected
-|   `-- aarch64-linux-ld:Unexpected-run-time-procedure-linkages-detected
-|-- i386-allyesconfig
-clang_recent_errors
-|-- arm64-randconfig-r023-20221116
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-function-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-function-nvkm_engn_cgrp_get
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-function-tu102_gr_load
-|   `-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-function-wpr_generic_header_dump
-|-- hexagon-randconfig-r003-20221116
-|   |-- ld.lld:error:.btf.vmlinux.bin.o:unknown-file-type
-|   `-- ld.lld:error:undefined-symbol:ipv6_icmp_error
-|-- i386-randconfig-a006
-|   |-- ld.lld:error:.btf.vmlinux.bin.o:unknown-file-type
-|   `-- ld.lld:error:undefined-symbol:ipv6_icmp_error
-|-- powerpc-randconfig-r014-20221116
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-function-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-function-nvkm_engn_cgrp_get
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-function-tu102_gr_load
-|   `-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-function-wpr_generic_header_dump
-|-- riscv-randconfig-r042-20221116
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-function-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-function-nvkm_engn_cgrp_get
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-function-tu102_gr_load
-|   `-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-function-wpr_generic_header_dump
-|-- x86_64-randconfig-a012-20221114
-|   `-- vmlinux.o:warning:objtool:handle_bug:call-to-kmsan_unpoison_entry_regs()-leaves-.noinstr.text-section
-`-- x86_64-randconfig-a016
-    `-- vmlinux.o:warning:objtool:handle_bug:call-to-kmsan_unpoison_entry_regs()-leaves-.noinstr.text-section
-
-elapsed time: 724m
-
-configs tested: 48
-configs skipped: 2
-
-gcc tested configs:
-ia64                             allmodconfig
-um                             i386_defconfig
-arc                              allyesconfig
-um                           x86_64_defconfig
-alpha                            allyesconfig
-x86_64                              defconfig
-x86_64                        randconfig-a004
-m68k                             allmodconfig
-m68k                             allyesconfig
-x86_64                        randconfig-a002
-arc                  randconfig-r043-20221115
-i386                          randconfig-a016
-x86_64                        randconfig-a015
-x86_64                        randconfig-a013
-x86_64                        randconfig-a011
-arc                  randconfig-r043-20221116
-sh                               allmodconfig
-arc                                 defconfig
-alpha                               defconfig
-i386                                defconfig
-s390                             allmodconfig
-s390                                defconfig
-powerpc                           allnoconfig
-s390                             allyesconfig
-arm                                 defconfig
-x86_64                         rhel-8.3-kunit
-x86_64                           rhel-8.3-kvm
-x86_64                           rhel-8.3-syz
-i386                             allyesconfig
-x86_64                          rhel-8.3-func
-x86_64                    rhel-8.3-kselftests
-x86_64                               rhel-8.3
-x86_64                           allyesconfig
-arm                              allyesconfig
-mips                             allyesconfig
-powerpc                          allmodconfig
-arm64                            allyesconfig
-
-clang tested configs:
-hexagon              randconfig-r041-20221115
-x86_64               randconfig-a012-20221114
-i386                          randconfig-a006
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-hexagon              randconfig-r041-20221116
-hexagon              randconfig-r045-20221116
-riscv                randconfig-r042-20221116
-s390                 randconfig-r044-20221116
-x86_64                          rhel-8.3-rust
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+> 
+> > ---
+> > v1: https://lore.kernel.org/linux-media/202211120352.G7WPASoP-lkp@intel.com/T/#t
+> > v2: https://lore.kernel.org/linux-media/20221114052944.GA7264@thinkpad-p72/T/#t
+> > 
+> > v2 -> v3: Added .vunmap to 'struct dma_buf_ops udmabuf_ops'
+> > v1 -> v2: Patch prepared and tested against 6.1.0-rc2+
+> > 
+> >   drivers/dma-buf/udmabuf.c | 28 ++++++++++++++++++++++++++++
+> >   1 file changed, 28 insertions(+)
+> > 
+> > diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+> > index 283816fbd72f..740d6e426ee9 100644
+> > --- a/drivers/dma-buf/udmabuf.c
+> > +++ b/drivers/dma-buf/udmabuf.c
+> > @@ -13,6 +13,8 @@
+> >   #include <linux/slab.h>
+> >   #include <linux/udmabuf.h>
+> >   #include <linux/hugetlb.h>
+> > +#include <linux/vmalloc.h>
+> > +#include <linux/iosys-map.h>
+> >   static int list_limit = 1024;
+> >   module_param(list_limit, int, 0644);
+> > @@ -60,6 +62,30 @@ static int mmap_udmabuf(struct dma_buf *buf, struct vm_area_struct *vma)
+> >   	return 0;
+> >   }
+> > +static int vmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
+> > +{
+> > +	struct udmabuf *ubuf = buf->priv;
+> > +	void *vaddr;
+> > +
+> > +	dma_resv_assert_held(buf->resv);
+> > +
+> > +	vaddr = vm_map_ram(ubuf->pages, ubuf->pagecount, -1);
+> > +	if (!vaddr)
+> > +		return -EINVAL;
+> > +
+> > +	iosys_map_set_vaddr(map, vaddr);
+> > +	return 0;
+> > +}
+> > +
+> > +static void vunmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
+> > +{
+> > +	struct udmabuf *ubuf = buf->priv;
+> > +
+> > +	dma_resv_assert_held(buf->resv);
+> > +
+> > +	vm_unmap_ram(map->vaddr, ubuf->pagecount);
+> > +}
+> > +
+> >   static struct sg_table *get_sg_table(struct device *dev, struct dma_buf *buf,
+> >   				     enum dma_data_direction direction)
+> >   {
+> > @@ -162,6 +188,8 @@ static const struct dma_buf_ops udmabuf_ops = {
+> >   	.unmap_dma_buf	   = unmap_udmabuf,
+> >   	.release	   = release_udmabuf,
+> >   	.mmap		   = mmap_udmabuf,
+> > +	.vmap		   = vmap_udmabuf,
+> > +	.vunmap		   = vunmap_udmabuf,
+> >   	.begin_cpu_access  = begin_cpu_udmabuf,
+> >   	.end_cpu_access    = end_cpu_udmabuf,
+> >   };
+> 
