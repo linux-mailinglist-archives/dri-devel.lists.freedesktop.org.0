@@ -1,65 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5E0062BEDB
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 14:03:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEC3E62BEDF
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 14:04:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3155410E0F1;
-	Wed, 16 Nov 2022 13:03:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13F5910E167;
+	Wed, 16 Nov 2022 13:04:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5ACD710E0F1
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 13:03:36 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id x21so21721887ljg.10
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 05:03:36 -0800 (PST)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 588F410E167
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 13:04:00 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id b3so29382066lfv.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 05:04:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=JylTANdU+MtnPx7R0U874tZZVITnr1u0HsmnJdn+AyY=;
- b=dddiZF0v13cgng46+PJjInrIBo9snGjnjymRxUgzSF5VH+mZyJpMByeuvXl39iuyx0
- Sn0EQqR55++pjD8hUrzNh4wGNbWqNnGuEqgbeRRXl5fxjqkgjiqpO5aixY9VjPzoFozy
- lbQX1J7/29ZWMBKx077j+lV0hhXfoXf+rPlWbFfgxeY1qu97wwQyyLs1srQxY+/oTAAb
- Rt6LK5WSuTBp6LIYHbUcX17WxDH/jGBLtTKjx+A2gf2K5qEbmQObSGdTbbUYnNoQMbJH
- LfoTrG4KGwY0fNBCnMkgHCK7EZrrMflSZjjffIA63qjvXNDJ1LVNeNXmjLO5lUKFJE/Z
- mIvA==
+ bh=/w2U0GiGwFFrflmNCFpCFLaMnMdqbHDas4my61VJ3H4=;
+ b=KAgIfzEgdBLkeRinXDVjGiOgDz4zxSP/Q12JRlfv9kc3Z0v1GoUvkrvMdg61Aye5RF
+ TzgwQMoR19i2nvfMfobkJVN2k2PS8K7zB7qRjke7MIHjC325iSFR6fcT1OZOg6XqS+6q
+ 4UbQn7/DqGiydfHGtx6F9lW/VEz0B5KI+bf5I3OniXwsnHcI/QxY4PLrgXhKLHFzJXGD
+ OFtQbFrp+uvaLYFxXYJ6TAmoz78B1tV58ztVPwWKLQ+GV/B/qLrdt5GFNd1PAziSQmZH
+ W1FBb8NEZYMss5dOJyo/D8lgckfchWPB1dn+MJOQH1vmqmCiIyJMuIzJGH/zsEL9HtRq
+ 9MNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=JylTANdU+MtnPx7R0U874tZZVITnr1u0HsmnJdn+AyY=;
- b=XPVXXl2v9VRPFOiy47m2gdKxWGqC2iNDFCy8dfoaBXJfqT8Zfh9V1766J7qXaQKgvG
- 5sU4WJ8VcFWfyJq1QUFLOs/cuar1IqdnuyqaV7B+9PnyIVkdzcvjhxDXadLMNeI6ZHna
- vE1m3TUKhEXYkT2Ljm0fFYklcAmSuYTKe56m6JJ5AbHsVWsgNPRJr1iFW8Dr4EI9kseE
- 0vZJ2Fxrs10AqfBvOFCkDcxjygD4HsYoWIW3kAt4TbgnPCKLZJ1vq+UPOa7C2JdwH6GB
- oXHgVQYjdruG9FlPQNHSX4h2oSaiOoXPevakY5zMuNP+UBQXdkjXV3b5Q4Z9yia0Tnut
- UBVg==
-X-Gm-Message-State: ANoB5pnocKR65DvtJjCpVj3V5pfEbrwpw65KQ6RsAPgql1aZNz7qgkBG
- GYy+pog5CUygN7o3aUlua6w=
-X-Google-Smtp-Source: AA0mqf6mYKQrD6tlA/nhsWmrS1ZVB5HKZrDM2mPsOQi7w/xcQPkxYVW0O+bEEcsE9+moP5hOhsdRXA==
-X-Received: by 2002:a2e:b8c5:0:b0:277:8144:2eb6 with SMTP id
- s5-20020a2eb8c5000000b0027781442eb6mr8247830ljp.45.1668603814464; 
- Wed, 16 Nov 2022 05:03:34 -0800 (PST)
+ bh=/w2U0GiGwFFrflmNCFpCFLaMnMdqbHDas4my61VJ3H4=;
+ b=STfrz9n0zxoF3KH70L2S5mBnE9hc6Fckfmk4wcpqEwnMFa346HYfnxAzAEv3Wdhnzn
+ 8eX26Ds5/AeIqPi7dj5iiGi1rXvrvyF+ZgJjy40E4K3RcSeylk7Nf89HjOEAkBgNK9wv
+ 34SJI7hQiDbRCo21qjKQFH09XszUozNAvmY7VF7LefA17Oh8F6DMmw4pH/vP1c8Z3LlZ
+ Mt3F0w42M95LMUu/60l8t+c7IOH5gnWhrcIjWYiUw4yIJTMxNia8c00HnAVfOMQGz6xv
+ e8YPSCf+a1U5aI3CzAdflSktTgDj7Rt4tMb7evW2s3iM6ixLSFgTjRJcCq328Mjqv/PD
+ G/zQ==
+X-Gm-Message-State: ANoB5plzvlAobV2Haj8LVF89hQghn8YiUVI8zJxmCKj3G89LkLSwL7E0
+ ObOm/pvhQUa+RMc9zMtHnfM=
+X-Google-Smtp-Source: AA0mqf5bbbM2Ey8aDDMRRxoQANiNABBR5EuqgbA88InhXkY5YtNllspX8hGfwRC2BZ1dEtaaBfF7Sw==
+X-Received: by 2002:a19:8c1e:0:b0:4b4:6460:24d with SMTP id
+ o30-20020a198c1e000000b004b46460024dmr6846311lfd.386.1668603838350; 
+ Wed, 16 Nov 2022 05:03:58 -0800 (PST)
 Received: from dc75zzyyyyyyyyyyyyydt-3.rev.dnainternet.fi
  (dc75zzyyyyyyyyyyyyydt-3.rev.dnainternet.fi. [2001:14ba:16f3:4a00::7])
  by smtp.gmail.com with ESMTPSA id
- u5-20020a05651c130500b002773a9b5898sm3010709lja.138.2022.11.16.05.03.32
+ n5-20020a056512388500b00492ea54beeasm2590371lft.306.2022.11.16.05.03.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Nov 2022 05:03:33 -0800 (PST)
-Date: Wed, 16 Nov 2022 15:03:28 +0200
+ Wed, 16 Nov 2022 05:03:57 -0800 (PST)
+Date: Wed, 16 Nov 2022 15:03:51 +0200
 From: Matti Vaittinen <mazziesaccount@gmail.com>
 To: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
  Matti Vaittinen <mazziesaccount@gmail.com>
-Subject: [PATCH RESEND v4 1/2] gpu: drm: sii902x: Use
- devm_regulator_bulk_get_enable()
-Message-ID: <3f0ffbc27e6bcc208d32eb3bb94979a8ab28265f.1668602942.git.mazziesaccount@gmail.com>
+Subject: [PATCH RESEND v4 2/2] gpu: drm: meson: Use
+ devm_regulator_*get_enable*()
+Message-ID: <a2f0835e8d3b5f5768d887ce47a1575ae11b19f0.1668602942.git.mazziesaccount@gmail.com>
 References: <cover.1668602942.git.mazziesaccount@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="H8Zp8DcY3BmnSL3A"
+ protocol="application/pgp-signature"; boundary="+AsYBOOQaVjrzzJT"
 Content-Disposition: inline
 In-Reply-To: <cover.1668602942.git.mazziesaccount@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,94 +74,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+ Mark Brown <broonie@kernel.org>, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, Jerome Brunet <jbrunet@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---H8Zp8DcY3BmnSL3A
+--+AsYBOOQaVjrzzJT
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Simplify using devm_regulator_bulk_get_enable()
+Simplify using the devm_regulator_get_enable_optional(). Also drop the
+seemingly unused struct member 'hdmi_supply'.
 
 Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
-Acked-by: Robert Foss <robert.foss@linaro.org>
 
 ---
 I am doing a clean-up for my local git and encountered this one.
 Respinning as it seems this one fell through the cracks.
 ---
- drivers/gpu/drm/bridge/sii902x.c | 26 ++++----------------------
- 1 file changed, 4 insertions(+), 22 deletions(-)
+ drivers/gpu/drm/meson/meson_dw_hdmi.c | 23 +++--------------------
+ 1 file changed, 3 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii9=
-02x.c
-index 878fb7d3732b..f6e8b401069b 100644
---- a/drivers/gpu/drm/bridge/sii902x.c
-+++ b/drivers/gpu/drm/bridge/sii902x.c
-@@ -171,7 +171,6 @@ struct sii902x {
- 	struct drm_connector connector;
- 	struct gpio_desc *reset_gpio;
- 	struct i2c_mux_core *i2cmux;
--	struct regulator_bulk_data supplies[2];
- 	bool sink_is_hdmi;
- 	/*
- 	 * Mutex protects audio and video functions from interfering
-@@ -1072,6 +1071,7 @@ static int sii902x_probe(struct i2c_client *client,
- 	struct device *dev =3D &client->dev;
- 	struct device_node *endpoint;
- 	struct sii902x *sii902x;
-+	static const char * const supplies[] =3D {"iovcc", "cvcc12"};
- 	int ret;
+diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/meson/=
+meson_dw_hdmi.c
+index 5cd2b2ebbbd3..7642f740272b 100644
+--- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
++++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
+@@ -140,7 +140,6 @@ struct meson_dw_hdmi {
+ 	struct reset_control *hdmitx_apb;
+ 	struct reset_control *hdmitx_ctrl;
+ 	struct reset_control *hdmitx_phy;
+-	struct regulator *hdmi_supply;
+ 	u32 irq_stat;
+ 	struct dw_hdmi *hdmi;
+ 	struct drm_bridge *bridge;
+@@ -665,11 +664,6 @@ static void meson_dw_hdmi_init(struct meson_dw_hdmi *m=
+eson_dw_hdmi)
 =20
- 	ret =3D i2c_check_functionality(client->adapter,
-@@ -1122,27 +1122,11 @@ static int sii902x_probe(struct i2c_client *client,
-=20
- 	mutex_init(&sii902x->mutex);
-=20
--	sii902x->supplies[0].supply =3D "iovcc";
--	sii902x->supplies[1].supply =3D "cvcc12";
--	ret =3D devm_regulator_bulk_get(dev, ARRAY_SIZE(sii902x->supplies),
--				      sii902x->supplies);
-+	ret =3D devm_regulator_bulk_get_enable(dev, ARRAY_SIZE(supplies), supplie=
-s);
- 	if (ret < 0)
--		return ret;
--
--	ret =3D regulator_bulk_enable(ARRAY_SIZE(sii902x->supplies),
--				    sii902x->supplies);
--	if (ret < 0) {
--		dev_err_probe(dev, ret, "Failed to enable supplies");
--		return ret;
--	}
-+		return dev_err_probe(dev, ret, "Failed to enable supplies");
-=20
--	ret =3D sii902x_init(sii902x);
--	if (ret < 0) {
--		regulator_bulk_disable(ARRAY_SIZE(sii902x->supplies),
--				       sii902x->supplies);
--	}
--
--	return ret;
-+	return sii902x_init(sii902x);
  }
 =20
- static void sii902x_remove(struct i2c_client *client)
-@@ -1152,8 +1136,6 @@ static void sii902x_remove(struct i2c_client *client)
+-static void meson_disable_regulator(void *data)
+-{
+-	regulator_disable(data);
+-}
+-
+ static void meson_disable_clk(void *data)
+ {
+ 	clk_disable_unprepare(data);
+@@ -723,20 +717,9 @@ static int meson_dw_hdmi_bind(struct device *dev, stru=
+ct device *master,
+ 	meson_dw_hdmi->data =3D match;
+ 	dw_plat_data =3D &meson_dw_hdmi->dw_plat_data;
 =20
- 	i2c_mux_del_adapters(sii902x->i2cmux);
- 	drm_bridge_remove(&sii902x->bridge);
--	regulator_bulk_disable(ARRAY_SIZE(sii902x->supplies),
--			       sii902x->supplies);
- }
+-	meson_dw_hdmi->hdmi_supply =3D devm_regulator_get_optional(dev, "hdmi");
+-	if (IS_ERR(meson_dw_hdmi->hdmi_supply)) {
+-		if (PTR_ERR(meson_dw_hdmi->hdmi_supply) =3D=3D -EPROBE_DEFER)
+-			return -EPROBE_DEFER;
+-		meson_dw_hdmi->hdmi_supply =3D NULL;
+-	} else {
+-		ret =3D regulator_enable(meson_dw_hdmi->hdmi_supply);
+-		if (ret)
+-			return ret;
+-		ret =3D devm_add_action_or_reset(dev, meson_disable_regulator,
+-					       meson_dw_hdmi->hdmi_supply);
+-		if (ret)
+-			return ret;
+-	}
++	ret =3D devm_regulator_get_enable_optional(dev, "hdmi");
++	if (ret !=3D -ENODEV)
++		return ret;
 =20
- static const struct of_device_id sii902x_dt_ids[] =3D {
+ 	meson_dw_hdmi->hdmitx_apb =3D devm_reset_control_get_exclusive(dev,
+ 						"hdmitx_apb");
 --=20
 2.38.1
 
@@ -178,19 +168,19 @@ Simon says - in Latin please.
 ~~~ "non cogito me" dixit Rene Descarte, deinde evanescavit ~~~
 Thanks to Simon Glass for the translation =3D]=20
 
---H8Zp8DcY3BmnSL3A
+--+AsYBOOQaVjrzzJT
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmN036AACgkQeFA3/03a
-ocXx+gf/R0FFQkTof0Kn1lEIOifj8AuiQC+lnzWdr/M00lMpi/T+lCTVWLPD5Qr4
-vcnYVHfbiPLL4ajrCYQ3NSBm4e1Bmo/hcj1csa/hpLFPNKGF6PNrKdPKdnXx2DMp
-x8MXeJa6oaNRRvsIBBTuwE27ebDLyazHpJbYGjUrhoOi9+BjqazSkTLH0Zt7eE8m
-9ja26ku3Xrpz2Wl0yyu+q50YipsXuXM3c0cKkQLyMdWQ5lRK+cmzQ/00xYB86Dg7
-6AkxaGtvNSIaYE9ERzRIyJ+QP0A4QGoHhcDXCXsaPEGgUAoI0LbDfAgYVbrNpjOP
-FQsZyKqrFeeKWHRvmbaTLjBiPwBjVw==
-=niLH
+iQEzBAEBCAAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmN037cACgkQeFA3/03a
+ocUqbwgAr9qOikS0LMJyO5GovQMABn825PnykrWGi+dZ6sDx5/TPtK3c6Wa+M75x
+AarIBszsCEdzLvBgGZs1OvcsAUvoV/8Xxeg8LkysmC6MOXrHVlklb2ybdezc13Xr
+/1ZT1lfyVl+FdgzLgcM6PzjOobO0YDxS8GMoIXft5WeEbsOM5O8/CW7CgOHbi8QP
+//3f3nJu8bTsJOZRjgcNEw9InElYaZYwPJUktYOfQ0qTSWSO9HCaeWYV13KQlAP8
+7YcST0Jm3ywbRiQAv5hzZhjkcZ634PVGsTpNlLgy+2MHrLOnHIQEw0vPiwKeYiJH
+XIT3agwTeqk+1JCl0jFIpZgiepnk7Q==
+=WwI9
 -----END PGP SIGNATURE-----
 
---H8Zp8DcY3BmnSL3A--
+--+AsYBOOQaVjrzzJT--
