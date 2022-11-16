@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D55762C2E9
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 16:45:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 717EA62C2F6
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 16:49:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8A4E10E12F;
-	Wed, 16 Nov 2022 15:45:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C54210E121;
+	Wed, 16 Nov 2022 15:48:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com
- [IPv6:2607:f8b0:4864:20::b2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86B9110E12F
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 15:45:26 +0000 (UTC)
-Received: by mail-yb1-xb2d.google.com with SMTP id j2so21419673ybb.6
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 07:45:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=u46I6go/saTRIVVfpJob0gPVrpMrbJdeJpSXHHVVJQQ=;
- b=SgN/WkakGEHfrc/+/Zer8Bi4Bvl+Q4PKwpqGfiz/x3kj2OQxojmQtm0SvkAgbZb4ah
- 1d9M8akX+xN3kORy+gQi1FweYbODOY8tktpwjl413BDsBTSaXcI0L9EoD3KLwRQQndbf
- aEB6Lts0HAFHwutWx7Wnuwj1cegrYdM1EQjII=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=u46I6go/saTRIVVfpJob0gPVrpMrbJdeJpSXHHVVJQQ=;
- b=ZT/bnV35AptFfbuwl2O9n6nidNTG9e+rvhCrxpgvBB9iZRRvGBTMABtit+/LaYOm0p
- TM5IrSR5BTRvChMAKHWdWqebUTiyHfKvHh1rOLEole+xGkU6Hi5e3hu/+SUZ/EqMpJD2
- Q5TSPVXIMZyGymYu9Oc4d3R91/gdMyg4bHoP01jS0cgKyuzb4YaeXC/Yh725BvdkXA1K
- A6RZitQbomekxaPfQu3JYBQ8DuRkVENBXQxtEbQ29Q/aQzgJGsJtaMcBTInL4jyxGBv9
- lIQj4lFZyGPYCN7xKG8ksR0m/Wltx7Ucovno508//4kttElz4nk8uZyPpgc5CI6XNcNN
- G1yQ==
-X-Gm-Message-State: ANoB5pmfOHF9z2/0r47k7jmnZfOjWcwkRHb264w8hjQWnmUkmJwDpdlX
- 2VawvYspDUc5q6+xA+I8BmJVD+Q7cd07m+7eOZKehA==
-X-Google-Smtp-Source: AA0mqf6TjNeRj9uOCEi4E77KeqyvFXUaQvgB+JF/BfhLS/pPYGblneEtNkSsZ6z5rmJYuAfKccPMeoPDVszPeUXDro0=
-X-Received: by 2002:a25:aac8:0:b0:6d0:707:9b8c with SMTP id
- t66-20020a25aac8000000b006d007079b8cmr22308755ybi.538.1668613525641; Wed, 16
- Nov 2022 07:45:25 -0800 (PST)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DE2710E121;
+ Wed, 16 Nov 2022 15:48:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1668613730; x=1700149730;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=cXKiGN/336RYbji5xQiFDbRsHaeyoTDt9IhbUIbCZM8=;
+ b=BlSf3lKPj+DrsRo6AcZ32EQKZYoIaae3rorLRS9p+5QvoucFm8zHlxpF
+ ffA7CHzYfu36iPbO8cKzvLHutHx+Dbrqz6TbehO0NSlAHb3w/lrY7TW25
+ zKgZaaPo6Jb7fygDAYfisJ1nnaL6XeVNDR3sbj0+PAXVtccAVrmAwqX1q
+ BrI1VAyg3VDi6sM50IvhXrlAItpPcTUXuISpyIokxZ+RUeQGVP+MjxrLR
+ XN58+C3RcJ8KO0LkxwfZlzBhgxA0og9l279Be/ODpZGpsoRFNqC29QCBm
+ mRu2zROFpdRc7laGv5OFF+QW43oT1a4R3dNdv7TSqyVF+oN8qqpzYIKdM A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10533"; a="398863091"
+X-IronPort-AV: E=Sophos;i="5.96,167,1665471600"; d="scan'208";a="398863091"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Nov 2022 07:48:47 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10533"; a="814126155"
+X-IronPort-AV: E=Sophos;i="5.96,167,1665471600"; d="scan'208";a="814126155"
+Received: from jkrzyszt-mobl1.ger.corp.intel.com ([10.213.12.208])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Nov 2022 07:48:44 -0800
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 3/3] drm/i915: Never return 0 if request wait
+ succeeds
+Date: Wed, 16 Nov 2022 16:48:41 +0100
+Message-ID: <5878741.lOV4Wx5bFT@jkrzyszt-mobl1.ger.corp.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
+ 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <cd0c8e1e-743c-f3d7-5e2e-91f7a8144c7d@intel.com>
+References: <20221116112532.36253-1-janusz.krzysztofik@linux.intel.com>
+ <20221116112532.36253-4-janusz.krzysztofik@linux.intel.com>
+ <cd0c8e1e-743c-f3d7-5e2e-91f7a8144c7d@intel.com>
 MIME-Version: 1.0
-References: <20221012191226.1646315-1-greenjustin@chromium.org>
- <CAAOTY__e43sEkXCc=F0oFopqm=4N22zpbVBqLpLqj1fc1Sn1wg@mail.gmail.com>
-In-Reply-To: <CAAOTY__e43sEkXCc=F0oFopqm=4N22zpbVBqLpLqj1fc1Sn1wg@mail.gmail.com>
-From: Justin Green <greenjustin@chromium.org>
-Date: Wed, 16 Nov 2022 10:45:14 -0500
-Message-ID: <CAHC42RfKHwULZ_4O8y=S8NQgOadrqYtF93VQmp9qcJxEjFRtaA@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/mediatek: Add AFBC support to Mediatek DRM driver
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,71 +63,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, jason-jh.lin@mediatek.com, justin.yeh@mediatek.com,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- wenst@chromium.org, matthias.bgg@gmail.com,
- angelogioacchino.delregno@collabora.com
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris.p.wilson@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Chun-Kuang,
+On Wednesday, 16 November 2022 15:42:46 CET Andrzej Hajda wrote:
+> On 16.11.2022 12:25, Janusz Krzysztofik wrote:
+> > According to the docs of i915_request_wait_timeout(), its return value
+> > "may be zero if the request is unfinished after the timeout expires."
+> > However, 0 is also returned when the request is found finished right
+> > after the timeout has expired.
+> > 
+> > Since the docs also state: "If the timeout is 0, it will return 1 if the
+> > fence is signaled.", return 1 also when the fence is found signaled after
+> > non-zero timeout has expired.
+> 
+> As I understand the patch "drm/i915: Fix i915_request fence wait 
+> semantics", and the docs "timeout is 0" means the initial value of 
+> timeout argument and this is handled already on the beginning of the 
+> function.
+> In case initial timeout is greater than zero and then it expires, 
+> function should return 0 regardless of fence state. This is what I have 
+> understood from reading docs and implementation of 
+> dma_fence_default_wait [1], which should be the best source of info 
+> about "dma_fence wait semantic".
+> 
+> As I said already, mixing remaining time and bool in return value of 
+> dma_fence_wait* functions is very confusing, but changing it would 
+> require major rework of the framework.
 
-> > +       mtk_ovl_set_afbc(dev, cmdq_pkt, idx, is_afbc);
-> >         mtk_ddp_write_relaxed(cmdq_pkt, con, &ovl->cmdq_reg, ovl->regs,
-> >                               DISP_REG_OVL_CON(idx));
-> > -       mtk_ddp_write_relaxed(cmdq_pkt, pitch, &ovl->cmdq_reg, ovl->regs,
-> > +       mtk_ddp_write_relaxed(cmdq_pkt, overlay_pitch.split_pitch.lsb, &ovl->cmdq_reg, ovl->regs,
-> >                               DISP_REG_OVL_PITCH(idx));
->
-> Is this general for all MediaTek SoC? If so, separate this to an
-> independent patch. Otherwise, use a device variable to separate this
-> setting.
+OK, let's drop this controversial patch.  The corner case it touches should 
+already be handled correctly by intel_gt_retire_requests_timeout(), which this 
+series is about, after 1/3 and 2/3 are applied.
 
-Yes and no. Technically all MediaTek SoCs have two separate registers
-for the pitch, each are 16 bits, so this code is technically always
-needed. However, because the lsb register is 16 bit, this issue has
-never come up, because nobody has tried to display a plane that was
-16384 ARGB pixels across. In fact, I think most MediaTek SoCs have a
-resolution limit of 4K. The reason this issue comes up now is because
-"pitch" is calculated differently for AFBC frames, and actually refers
-to the size in bytes of one row of AFBC blocks. Should I still
-separate this into an independent patch?
+Thanks,
+Janusz
 
-> >  }
-> > @@ -492,6 +567,15 @@ static const struct mtk_disp_ovl_data mt8192_ovl_2l_driver_data = {
-> >         .smi_id_en = true,
-> >  };
-> >
-> > +static const struct mtk_disp_ovl_data mt8195_ovl_driver_data = {
->
-> In this binding document, mt8195 ovl is compatible to mt8133 ovl.
-> Please confirm that mt8195 is not identical with mt8133.
-
-Do you mean MT8183? If so, we do not have any documentation indicating
-that the MT8183 supports AFBC. Do you have some reason to believe
-otherwise?
-
-> Usually the pitch needs alignment. So I guess the formula is
->
-> hdr_pitch = ALIGN(width_in_blocks * AFBC_HEADER_BLOCK_SIZE,
-> AFBC_HEADER_ALIGNMENT);
-> hdr_size = hdr_pitch * height_in_blocks;
-
-The documentation does not indicate that the pitch needs alignment
-beyond the AFBC header block size.
-
-> Could you explain the meaning of hdr_pitch?
-
-hdr_pitch refers to the size in bytes of one row of AFBC header
-blocks. AFBC is a proprietary compressed frame buffer format, but from
-what public information we have, it appears to be block compressed
-data stored in 2 contiguous planes. The first is called the "header"
-plane, and the second is called the "body" plane. The header plane
-contains metadata for each block of pixel data, and the body plane
-contains sparse compressed block data.
+> 
+> [1]: 
+> https://elixir.bootlin.com/linux/latest/source/drivers/dma-buf/dma-fence.c#L753
+> 
+> Regards
+> Andrzej
+> 
+> > 
+> > Fixes: 7e2e69ed4678 ("drm/i915: Fix i915_request fence wait semantics")
+> > Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+> > Cc: stable@vger.kernel.org # v5.17
+> > ---
+> >   drivers/gpu/drm/i915/i915_request.c | 2 ++
+> >   1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+> > index f949a9495758a..406ddfafbed4d 100644
+> > --- a/drivers/gpu/drm/i915/i915_request.c
+> > +++ b/drivers/gpu/drm/i915/i915_request.c
+> > @@ -2079,6 +2079,8 @@ long i915_request_wait_timeout(struct i915_request *rq,
+> >   
+> >   		timeout = io_schedule_timeout(timeout);
+> >   	}
+> > +	if (!timeout)	/* expired but signaled, we shouldn't return 0 */
+> > +		timeout = 1;
+> >   	__set_current_state(TASK_RUNNING);
+> >   
+> >   	if (READ_ONCE(wait.tsk))
+> 
+> 
 
 
-I'll send another patch with the other changes you mentioned.
 
-Thanks!
-Justin
+
