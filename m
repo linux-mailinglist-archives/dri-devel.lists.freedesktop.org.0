@@ -1,55 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A48AB62BEFE
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 14:06:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8349A62BF28
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 14:13:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE5CB10E12D;
-	Wed, 16 Nov 2022 13:06:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAF8F10E4A2;
+	Wed, 16 Nov 2022 13:13:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EFEB895B9;
- Wed, 16 Nov 2022 13:06:10 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 958E610E499;
+ Wed, 16 Nov 2022 13:13:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1668603970; x=1700139970;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=InMnGBG9WIu93rX/1BniIAb5g2P3gQSwtf4zO3a6OCk=;
- b=XISL0dHhL+TwTWYx85T2MQZ/oQ5+QEAJzl/OxS2OsI8kc37NN93dJmMp
- uyolFDVADtTvUYYbsBJyHcxtFplZCrL7QCHvJMD2FZC3xszVFcPLtBVmI
- 7PmpU5OhJtNjMbKLaev+zq6y30zHUocenVaQl1kgJFDC3Z15WbB/CNo1T
- 19GaoaBX2vBOBkCqi0ZSIqsFLe5HiJ8AbV5djzpctUACkhl/toAPFhbE/
- X3NWMtoOrEO7rikmHkasLY/TV1uKNbn40vHY5IyllRg2MSq3DtPP9VNon
- 32gwquw6ezfedJgh6AVmeQxOpC9nLgT+nuAvZQT2SGS40s9AfaW7+mYBj A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="339351385"
-X-IronPort-AV: E=Sophos;i="5.96,167,1665471600"; d="scan'208";a="339351385"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2022 05:06:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="633622290"
-X-IronPort-AV: E=Sophos;i="5.96,167,1665471600"; d="scan'208";a="633622290"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
- by orsmga007.jf.intel.com with SMTP; 16 Nov 2022 05:06:04 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 16 Nov 2022 15:06:03 +0200
-Date: Wed, 16 Nov 2022 15:06:03 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [Intel-gfx] How is the progress for removing
- flush_scheduled_work() callers?
-Message-ID: <Y3TgO7pHo9z9FINO@intel.com>
-References: <e170edc2-e5b9-4c8b-4ed3-7e2d7a2850dc@I-love.SAKURA.ne.jp>
- <877czv2ov8.fsf@intel.com>
+ t=1668604422; x=1700140422;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=0mjJr9W+5yXRNJbUdmoyXqUfHIvQ6nLqBc7PMqj4m58=;
+ b=fIAiJgri5jruDxvDVWik69sgzyScoNTiLgncHxoborS2XqtHWq7dW5Rk
+ Hn3gpwYShtpCzt2Lf9vBsNPF8/Cqv5wLFb729r/RqKqCJPkOaIjz2+vQQ
+ 6CldmPH0iBSSNDxg4rWBE0fz9KLMiLZX49quR/ojMX/uirZ+oePh81B8j
+ zt96OmXej7WUg2KFK0IJ83gslxt6WEfYA0C/XOTK9m3AwheozRes/MuzJ
+ Qb8bCAnIj227pUz99szAUFJw03IDxDnIAQiDCPsNozyY/jUF/rfbAmMJr
+ osYchJHaz5vwBW0d4tOkiL94/sRtELHFXMj57d4+XJDnadBOCyixkIwed A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="292929530"
+X-IronPort-AV: E=Sophos;i="5.96,167,1665471600"; d="scan'208";a="292929530"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Nov 2022 05:13:42 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="781760836"
+X-IronPort-AV: E=Sophos;i="5.96,167,1665471600"; d="scan'208";a="781760836"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.11.238])
+ ([10.213.11.238])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Nov 2022 05:13:40 -0800
+Message-ID: <58e39e38-eb47-2df1-f729-514c41dcd654@intel.com>
+Date: Wed, 16 Nov 2022 14:13:38 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <877czv2ov8.fsf@intel.com>
-X-Patchwork-Hint: comment
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.4.2
+Subject: Re: [Intel-gfx] [PATCH 1/3] drm/i915: Fix negative remaining time
+ after retire requests
+Content-Language: en-US
+To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+References: <20221116112532.36253-1-janusz.krzysztofik@linux.intel.com>
+ <20221116112532.36253-2-janusz.krzysztofik@linux.intel.com>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20221116112532.36253-2-janusz.krzysztofik@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,42 +66,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, DRI <dri-devel@lists.freedesktop.org>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris.p.wilson@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 16, 2022 at 12:08:27PM +0200, Jani Nikula wrote:
-> On Sun, 06 Nov 2022, Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp> wrote:
-> > Like commit c4f135d643823a86 ("workqueue: Wrap flush_workqueue() using a
-> > macro") says, flush_scheduled_work() is dangerous and will be forbidden.
-> > We are on the way for removing all flush_scheduled_work() callers from
-> > the kernel, and there are only 4 callers remaining as of linux-20221104.
-> >
-> >   drivers/gpu/drm/i915/display/intel_display.c:8997:      flush_scheduled_work();
+On 16.11.2022 12:25, Janusz Krzysztofik wrote:
+> Commit b97060a99b01 ("drm/i915/guc: Update intel_gt_wait_for_idle to work
+> with GuC") extended the API of intel_gt_retire_requests_timeout() with an
+> extra argument 'remaining_timeout', intended for passing back unconsumed
+> portion of requested timeout when 0 (success) is returned.  However, when
+> request retirement happens to succeed despite an error returned by
+> dma_fence_wait_timeout(), the error code (a negative value) is passed back
+> instead of remaining time.  If a user then passes that negative value
+> forward as requested timeout to another wait, an explicit WARN or BUG can
+> be triggered.
 > 
-> Thanks for the reminder, I've pinged folks to get someone working on
-> this. We do schedule quite a bunch of work, so it's not immediately
-> obvious (at least to me) what exactly needs flushing.
+> Instead of copying the value of timeout variable to *remaining_timeout
+> before return, update the *remaining_timeout after each DMA fence wait.
+> Set it to 0 on -ETIME, -EINTR or -ERESTARTSYS, and assume no time has been
+> consumed on other errors returned from the wait.
+> 
+> Fixes: b97060a99b01 ("drm/i915/guc: Update intel_gt_wait_for_idle to work with GuC")
+> Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+> Cc: stable@vger.kernel.org # v5.15+
+> ---
+>   drivers/gpu/drm/i915/gt/intel_gt_requests.c | 23 ++++++++++++++++++---
+>   1 file changed, 20 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_requests.c b/drivers/gpu/drm/i915/gt/intel_gt_requests.c
+> index edb881d756309..ccaf2fd80625b 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_requests.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_requests.c
+> @@ -138,6 +138,9 @@ long intel_gt_retire_requests_timeout(struct intel_gt *gt, long timeout,
+>   	unsigned long active_count = 0;
+>   	LIST_HEAD(free);
+>   
+> +	if (remaining_timeout)
+> +		*remaining_timeout = timeout;
+> +
+>   	flush_submission(gt, timeout); /* kick the ksoftirqd tasklets */
+>   	spin_lock(&timelines->lock);
+>   	list_for_each_entry_safe(tl, tn, &timelines->active_list, link) {
+> @@ -163,6 +166,23 @@ long intel_gt_retire_requests_timeout(struct intel_gt *gt, long timeout,
+>   								 timeout);
+>   				dma_fence_put(fence);
+>   
+> +				if (remaining_timeout) {
+> +					/*
+> +					 * If we get an error here but request
+> +					 * retirement succeeds anyway
+> +					 * (!active_count) and we return 0, the
+> +					 * caller may want to spend remaining
+> +					 * time on waiting for other events.
+> +					 */
+> +					if (timeout == -ETIME ||
+> +					    timeout == -EINTR ||
+> +					    timeout == -ERESTARTSYS)
+> +						*remaining_timeout = 0;
+> +					else if (timeout >= 0)
+> +						*remaining_timeout = timeout;
+> +					/* else assume no time consumed */
 
-Here's my earlier cursory analysis of the subject:
-https://lore.kernel.org/intel-gfx/Yy3byxFrfAfQL9xK@intel.com/
+Looks correct, but the crazy semantic of dma_fence_wait_timeout does not 
+make it easy to understand.
 
-> 
-> https://gitlab.freedesktop.org/drm/intel/-/issues/7546
-> 
-> >   drivers/gpu/drm/i915/gt/selftest_execlists.c:88:        flush_scheduled_work();
-> 
-> Removed by commit 7d33fd02dd94 ("drm/i915/selftests: Remove
-> flush_scheduled_work() from live_execlists") in drm-next.
-> 
-> BR,
-> Jani.
-> 
-> -- 
-> Jani Nikula, Intel Open Source Graphics Center
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
 
--- 
-Ville Syrjälä
-Intel
+Regards
+Andrzej
+
+
+> +				}
+> +
+>   				/* Retirement is best effort */
+>   				if (!mutex_trylock(&tl->mutex)) {
+>   					active_count++;
+> @@ -196,9 +216,6 @@ out_active:	spin_lock(&timelines->lock);
+>   	if (flush_submission(gt, timeout)) /* Wait, there's more! */
+>   		active_count++;
+>   
+> -	if (remaining_timeout)
+> -		*remaining_timeout = timeout;
+> -
+>   	return active_count ? timeout : 0;
+>   }
+>   
+
