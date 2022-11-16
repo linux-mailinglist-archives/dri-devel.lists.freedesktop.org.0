@@ -1,57 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C465962BBFF
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 12:33:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BDA562BC24
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 12:37:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECB5210E487;
-	Wed, 16 Nov 2022 11:33:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FFC410E496;
+	Wed, 16 Nov 2022 11:37:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D60A710E487
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 11:32:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1668598377; x=1700134377;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=yyz/NpAhYKux7y/lcRBUiBi4se0872yZ68IGfGeSjhg=;
- b=Xt+Ano65xL9S1W0F3qFBtG79wZz8mmVkQwEW0fEEgsfyzAKOSqyLvqG9
- xZAqiUwT1r2uC0O/RsnF/BHRh1OTUmvTb3zFoTfljTSKVh70cEFZe5Rn3
- AOSmKg7mfi2h62BscfZMnzdPehiCKc/t5QLBzFeshh7lwlpXMn2HE+3i/
- zJa6ObNMnEI4NBrEXjYCyP2xvv0AOb/9/WWAX26HvOBbyfR/n5MtNILhn
- Ezs986v7nHiD7RoHGclUTXOA6Pchn5TinBsivYspY5698OBn14kxeHot2
- cRteeBWPYgzR4ljlH2G6LMd881QMdallwF3c2kmZf1bDJBfc07++y/9eL w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="295886235"
-X-IronPort-AV: E=Sophos;i="5.96,167,1665471600"; d="scan'208";a="295886235"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2022 03:32:57 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="728340181"
-X-IronPort-AV: E=Sophos;i="5.96,167,1665471600"; d="scan'208";a="728340181"
-Received: from dariofax-mobl.amr.corp.intel.com (HELO localhost)
- ([10.252.59.5])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2022 03:32:54 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: =?utf-8?Q?Ma=C3=ADra?= Canal <mairacanal@riseup.net>, Maxime Ripard
- <maxime@cerno.tech>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Florian Fainelli <f.fainelli@gmail.com>
-Subject: Re: [PATCH 2/3] drm/tests: helpers: Add module infos
-In-Reply-To: <6dba9207-5ba2-5c73-e575-a7a86a2b9520@riseup.net>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20221116091712.1309651-1-maxime@cerno.tech>
- <20221116091712.1309651-2-maxime@cerno.tech>
- <6dba9207-5ba2-5c73-e575-a7a86a2b9520@riseup.net>
-Date: Wed, 16 Nov 2022 13:32:51 +0200
-Message-ID: <874juz2kyk.fsf@intel.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59CA710E48A;
+ Wed, 16 Nov 2022 11:37:40 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2AGBFuUn019569; Wed, 16 Nov 2022 11:37:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=mYWyqR0JxIsWxTN/dLRBhftkgrfE7nEPqDROuKX2JFc=;
+ b=hBdyAQ6dnjo8Zl+K64QGFAFnAZYNUqp94/AWYghy62X3zJ+odz7CEnbD2SgirMJkaWV5
+ jkEimyOOC0uSDsdwRaadmutn9EhTwqQXE7PhVWUwU0R8UJRIEYrNMRBk6CGeseJJSkGT
+ WI0cmBZsicKvuhgKxpRrNZd1ua4V9qKthe7p9ukLdAjdKASMt74QVybCIE+5SMbcxy/8
+ MhwkP8i+avFPqHiaYK3RW7os5L7UYJQp82ohskeUTNK1BGvLpFgWdroPJ6m5k8RODrlL
+ Av9c28P/HSb41PNFmkXBD2V6gLHDdCMYCaGkk3nbgB7EwK3YmgRoaEUbjiBX8XxED6dZ 7Q== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kvwwg84sd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 16 Nov 2022 11:37:35 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2AGBbYr8025278
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 16 Nov 2022 11:37:34 GMT
+Received: from [10.216.25.63] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Wed, 16 Nov
+ 2022 03:37:28 -0800
+Message-ID: <4f872825-e646-8a8c-dbd0-112328b9b5f2@quicinc.com>
+Date: Wed, 16 Nov 2022 03:37:25 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH] drm/msm/dpu1: Remove INTF4 IRQ from SDM845 IRQ mask
+Content-Language: en-US
+To: Konrad Dybcio <konrad.dybcio@linaro.org>, <linux-arm-msm@vger.kernel.org>, 
+ <andersson@kernel.org>, <agross@kernel.org>
+References: <20221107103739.8993-1-konrad.dybcio@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20221107103739.8993-1-konrad.dybcio@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: pn3OuoK3orfG4eeic5NRvt8rfaiM8CS_
+X-Proofpoint-ORIG-GUID: pn3OuoK3orfG4eeic5NRvt8rfaiM8CS_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-16_03,2022-11-16_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ malwarescore=0 spamscore=0 impostorscore=0 clxscore=1011 adultscore=0
+ bulkscore=0 mlxscore=0 suspectscore=0 priorityscore=1501 phishscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211160082
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,44 +83,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org
+Cc: Kalyan Thota <quic_kalyant@quicinc.com>, freedreno@lists.freedesktop.org,
+ Loic Poulain <loic.poulain@linaro.org>, patches@linaro.org,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 16 Nov 2022, Ma=C3=ADra Canal <mairacanal@riseup.net> wrote:
-> Hi Maxime,
->
-> On 11/16/22 06:17, Maxime Ripard wrote:
->> The MODULE_LICENSE macro is missing from the kunit helpers file, thus
->> leading to a build error.
->>=20
->> Let's introduce it along with MODULE_AUTHOR.
->>=20
->> Fixes: 44a3928324e9 ("drm/tests: Add Kunit Helpers")
->> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
->> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->
-> It would be nice to add the SPDX-License-Identifier tag in the source
-> file as well. Besides that,
-
-It's not just nice, it's basically mandatory to add license boilerplate.
-
-Checkpatch would've warned about this. And actually about a lot of stuff
-in the series.
-
-(And our CI checkpatch did too, although we don't send the replies to
-the world, just intel-gfx [1].)
-
-BR,
-Jani.
 
 
-[1] https://lore.kernel.org/r/166846421165.32750.1193593124785451784@emeril=
-.freedesktop.org
+On 11/7/2022 2:37 AM, Konrad Dybcio wrote:
+> From: Konrad Dybcio <konrad.dybcio@somainline.org>
+> 
+> SDM845 only has INTF0-3 and has no business caring about the INTF4 irq.
+> 
+> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+
+It is true that SDM845 doesnt have INTF4. I was a bit concerned whether 
+this would impact SM8150 as that re-uses the IRQ_SDM845_MASK but even 
+SM8150 doesnt have INTF4.
+
+A minor nit, the subject convention in this file seems to be drm/msm/dpu 
+and not drm/msm/dpu1.
+
+Other than that,
+
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
 
-
---=20
-Jani Nikula, Intel Open Source Graphics Center
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 1 -
+>   1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> index 27f029fdc682..06897a497eb7 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> @@ -86,7 +86,6 @@
+>   			 BIT(MDP_INTF1_INTR) | \
+>   			 BIT(MDP_INTF2_INTR) | \
+>   			 BIT(MDP_INTF3_INTR) | \
+> -			 BIT(MDP_INTF4_INTR) | \
+>   			 BIT(MDP_AD4_0_INTR) | \
+>   			 BIT(MDP_AD4_1_INTR))
+>   
