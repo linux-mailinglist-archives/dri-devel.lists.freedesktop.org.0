@@ -2,71 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B24062B637
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 10:17:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC5B962B636
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 10:17:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8905C10E44E;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 526BE10E44C;
 	Wed, 16 Nov 2022 09:17:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out2-smtp.messagingengine.com (unknown [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF90D10E44C
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFDF010E44E
  for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 09:17:21 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 5C08A5C0151;
- Wed, 16 Nov 2022 04:17:17 -0500 (EST)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 5F6475C01C2;
+ Wed, 16 Nov 2022 04:17:20 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Wed, 16 Nov 2022 04:17:17 -0500
+ by compute5.internal (MEProxy); Wed, 16 Nov 2022 04:17:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :message-id:mime-version:reply-to:sender:subject:subject:to:to;
- s=fm2; t=1668590237; x=1668676637; bh=MCvPBYbjxykSnjdfqUtaIxnpE
- 1B6yqqF7GXfuyGvVOI=; b=dO/v0G3wJ8TREFwtdS1CDz3bKPHvIqpmc3GtXX/fq
- 3dDT5mnZ3Ng3zriziW+FVjmrlZzIEH8GVXALhg2T3CtS9fpr0P4y1BYfQdJN7uCe
- lzXiYYDeRqcVWBBwyXfog0SFXO86EvvGbD7qMVmntb6+IZd8W1zLrZ7F2J6+TFs9
- qDCTA0zYDwleITAF7aLQbqUpQCUkGNP1++Kl91SvpX68aDJ7rD3XSZh0O95uL6jM
- xnMoxBSKakLo9bdEDwllaYJP7vgyn+K2cjD86CqlkO0XPYUcWsoceyZsVoyl8s7A
- MYQMulYXC+7KPQRifCB4yhZFioMpxEko/4JdmN5koF6bA==
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm2; t=1668590240; x=1668676640; bh=HD
+ hz6dCTIBueuPkznvqt2qE8stIixuwGCQ0nLlw9PIU=; b=CyGy6fjK0kXRnSc14S
+ eBPaXbZy8EaIFu77On1MjO6QNCOHCQjUYGEkH5JhKvJ3d/YmpTuG9C7v7zIJkOOS
+ VCXLZvtYG5d3j6/L7DCLlJ9igoYMVnTzs60wLZc9BModVHsSXYmJZyuy94CiPup/
+ kxO313LjBIQ6Xy2CxOZ+JNhSa+GFQ+1G3/d5rDS0SXhTgpkjKiQqaGZ/bA9FXokx
+ wEAURRupT9mj2B6VbVkJasnkVsCzWhasGzpoGAoa0JmC/bQ6uJASKy6O6cQFjVs+
+ AwrPyh1E4KB/t0qwP+ybJdsWkAOxP8rVW9eqEL975gPznBGV+Kwni7MKsm5RMqle
+ AhpQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
- 1668590237; x=1668676637; bh=MCvPBYbjxykSnjdfqUtaIxnpE1B6yqqF7GX
- fuyGvVOI=; b=nPLgsbc+B49vRy2dxVrxPDnqox7ZyDozmKjSCQIrTANbMAawYYi
- cd3+8ni5Q4IBIEUMH/0Er8BBLOroMEZJibkccb31d5M6mdjIj2yTA6U4i41q0KLg
- pGFD2Kjj6jLlobZGM2WnLaIVi+DlVIWsCcoT3ylPSWOXZkT575tZTwdA47QbAjOr
- MdNnzsIpWj7FDmdF5aTo9gh1TNZzW0Mprzcwr8gIcAh3AmdK3vRiM3s6oMPsIwkC
- XoIe8w6rGOnrDz2EC+ng81QyWFDLysDfxh7UxIKWA+RFHCQv7RMCXZK5VC3i5FWc
- Xgfo9H7rUfvRZQg5RVmjryaKAakAaHUzCmg==
-X-ME-Sender: <xms:m6p0Y_9kg2vixKun5LJhw0gZP0UGsBsw2EutFC5_vnt1umRI5hkKAg>
- <xme:m6p0Y7s2uViLAysaIAOztmgarOW5rnE-APSEr_x-2oNDC0N_0vq4r25jsqLgsB9XV
- CBJx6660utbYFk4Ht4>
-X-ME-Received: <xmr:m6p0Y9CnzMOW16-Sw1p30D4PyPZUzfOvOZwReBK6SJIQkXSRmWhcOiC7lFGOQBVrG4G86KuqU5SvLirB1ZVeweVmdYVGhG8yDRJfhoL7KrbJbQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgeehgdduvdelucetufdoteggodetrfdotf
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; t=1668590240; x=1668676640; bh=HDhz6dCTIBueu
+ Pkznvqt2qE8stIixuwGCQ0nLlw9PIU=; b=Wj23IxGXRNZSVsHbkrdfyjNuAPExy
+ v+O/MHiUmN6SUFcS9P+KPieQNNu+udO39odihMK/C0IBqRn7rL+9kBs6uNlHoQOC
+ nFGRjQIKYikFmQO47lzokcZ4KChl+p7Rp52FI0DRUN/M2hE1ZIZS0E1EzdgYqnwy
+ 3yko6OFos6svW/wUR8ziVo5nylwgLgy/pPaSSl5gLPiSrWdBoGpU+3+WvXi0I0Q0
+ SmuabEqNNAn5tqykIlF8i1KkW0N2gIw/q5yPA7Mr198eqZoxaPNT6zE1FXg6FkAP
+ /MOYeiBBqHG8D1nh7OIJxWaZGM4eEpT4MrEugBPxI9C13AorkFGrNsvsA==
+X-ME-Sender: <xms:nqp0Y8Ij2QWcP72y47nmbFbAEGlmT7_ahVD4iyA9uWF6-i6Kq2wS7A>
+ <xme:nqp0Y8KhYg6swNvL_JxZEv9nV168NQjhU70J-tqmMfVlNIGUTupcc47orG33h5Pt0
+ iQ9SyEJQivY1iVyMWY>
+X-ME-Received: <xmr:nqp0Y8uDiw8KUSvgokZi9_4Rn1qskTH5DFRtAFGklI4uMi6lkp4KRGu0rLz8LhT1k3HABASam3wlZHOrUHxprXm0pjgseE1weBcvP0bNu90PlQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgeehgdduvdekucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeektedujeeijeefhfejuedtudegtdejffffvdettdeigeekffeileelgeevgfdv
- vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
- igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:m6p0Y7e_i5XLD_P5gERVk9oUxuEF9pXe0xnvDqzfUc9jCIy4HYNwLg>
- <xmx:m6p0Y0PPtuXu3vxRal5aIAP2iCJxH7Mpa84s7iOlmNg8gYEIyE3Efg>
- <xmx:m6p0Y9kNt7lAaJXsTkujjsnCcRP9_CNQcoNAtJj0UxJT-wvc0_v6wQ>
- <xmx:nap0Y_ECN7Cteb8kZaDfYJvvR_8SqVG-w2jEcujq816oBXWt_jknUQ>
+ cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
+ vdejhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:nqp0Y5br1sSNoh3Qt4jr0jGyCX8ZcGjTLdyDLjvfaS-7rE577Gk4xQ>
+ <xmx:nqp0YzbXtmXZSAxY8eHUnYYiLludrW8lUWgyUFewckC7bezQeCigwQ>
+ <xmx:nqp0Y1DC4k4rfPWZKYPm4nOIkJPBa0cCizmbM6Vz6hRkaezuCICEUQ>
+ <xmx:oKp0YwRxxs39cYvsoDJs--P2uYoRTkw5NKb3WCRE4h1WDGRI0Oe_Pw>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 16 Nov 2022 04:17:15 -0500 (EST)
+ 16 Nov 2022 04:17:18 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Florian Fainelli <f.fainelli@gmail.com>
-Subject: [PATCH 1/3] drm/tests: Include helpers header
-Date: Wed, 16 Nov 2022 10:17:10 +0100
-Message-Id: <20221116091712.1309651-1-maxime@cerno.tech>
+Subject: [PATCH 2/3] drm/tests: helpers: Add module infos
+Date: Wed, 16 Nov 2022 10:17:11 +0100
+Message-Id: <20221116091712.1309651-2-maxime@cerno.tech>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221116091712.1309651-1-maxime@cerno.tech>
+References: <20221116091712.1309651-1-maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,37 +84,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org, kernel test robot <lkp@intel.com>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The kunit helpers code weren't including its header, leading to a
-warning that no previous prototype had been defined for public
-functions.
+The MODULE_LICENSE macro is missing from the kunit helpers file, thus
+leading to a build error.
 
-Include the matching header to fix the warning.
+Let's introduce it along with MODULE_AUTHOR.
 
 Fixes: 44a3928324e9 ("drm/tests: Add Kunit Helpers")
-Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/tests/drm_kunit_helpers.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/tests/drm_kunit_helpers.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/drivers/gpu/drm/tests/drm_kunit_helpers.c b/drivers/gpu/drm/tests/drm_kunit_helpers.c
-index d3f0d681b685..dbd8ec24d4be 100644
+index dbd8ec24d4be..eea450de7de8 100644
 --- a/drivers/gpu/drm/tests/drm_kunit_helpers.c
 +++ b/drivers/gpu/drm/tests/drm_kunit_helpers.c
-@@ -5,6 +5,8 @@
+@@ -64,3 +64,6 @@ struct drm_device *drm_kunit_device_init(struct kunit *test, u32 features, char
  
- #include <linux/device.h>
- 
-+#include "drm_kunit_helpers.h"
+ 	return drm;
+ }
 +
- struct kunit_dev {
- 	struct drm_device base;
- };
++MODULE_AUTHOR("Maxime Ripard <maxime@cerno.tech>");
++MODULE_LICENSE("GPL");
 -- 
 2.38.1
 
