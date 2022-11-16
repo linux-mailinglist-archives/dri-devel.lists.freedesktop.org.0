@@ -2,119 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DEFC62BDB5
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 13:25:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6331562BE20
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 13:34:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B63A10E49C;
-	Wed, 16 Nov 2022 12:25:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41E7F10E49F;
+	Wed, 16 Nov 2022 12:34:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2068.outbound.protection.outlook.com [40.107.93.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6839310E499;
- Wed, 16 Nov 2022 12:25:46 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EmYG8tc7xCwL3OBYBIiDkl5WkcytDwM3PZcrUid6ICBkUSf6T4veKDbGOm0t9YWJuwen8Zt9k0r1g3MxUwPVnz7TBka9/dLJm0kUeU12ZFTEXp1I4NDYgicU7WEXtUa38TAGEqFodN8zhYe9K9gCUJYeI4LO9AHsP1WNAKO8ZgdyKjzaAqIShd0onAhy2l5Aj2mzO2JLgDayfy6frSjE/nIlXCEArWOj3O8XkY/T/s8beb9U/s2YeIF3Phapq/R6vtfjpleBLI9xKVfJ1Ww98tNtQYCzdelRZXUqyGSGpqwLXsseJcO6fCy8NKW8gvXTWhknEGgA7N/D7OWfwIBp8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nTwQQCLd7psUGdavOXZ29rL2B9wL0IjRuAFjeQWbn9E=;
- b=UHskdAeSN8pTnNR1GrtLVI3lRO/z806It44xUXyVlZmaV8yWsegPzry4CCiTzK5cS8ohqk6h3QWPuK2tkpIgwb/LzZ04tDV+UifN674AKcNqU4bPSeFaUuSB2FZxiHj6xT4fMU2wJ+uJEg5URhQt7gk5ClFP8YhmQbombBC6Bca9Xv0Aej70OvFw9dCBIRGp/28bWCUgHg5FG6Orm2CDPVm+OGYVUkxB4ahNhkYM+H2KFjX9lvU0a08wJSt9F0YokgmM2pqABN6FFuj7v/lCdwbeDME8w+GpWxxZFxW8wIsL5/NfzymzQ5K7T8rMb7yDlw2Y5yV4LGslwDT6s/QB4A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nTwQQCLd7psUGdavOXZ29rL2B9wL0IjRuAFjeQWbn9E=;
- b=iNVSTSWByTPXhjEnOwrLtkVuf/K7LDE5yGKQ/qh4RNH8Nub+Ic2jPZpIiJVlieYbP/3Zb8aApNgvBogrSYLOfHPgDws/b9zY6A60uDPKKd01vTrUk9m7FxNHaVMCNGCyJFtozmPs/+5TE9j+QPRRq2zrqwIxoxgCJFlCyEH5Nac=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by DS7PR12MB6240.namprd12.prod.outlook.com (2603:10b6:8:94::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.17; Wed, 16 Nov
- 2022 12:25:44 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::7d43:3f30:4caf:7421]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::7d43:3f30:4caf:7421%7]) with mapi id 15.20.5813.017; Wed, 16 Nov 2022
- 12:25:44 +0000
-Message-ID: <0fca1cf1-5373-53a1-25cd-7c700c90add1@amd.com>
-Date: Wed, 16 Nov 2022 13:25:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 1/2] drm/ttm: Clean up page shift operation
-Content-Language: en-US
-To: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-References: <20221116085012.187756-1-Amaranath.Somalapuram@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20221116085012.187756-1-Amaranath.Somalapuram@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0114.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a8::16) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6EEC10E49F;
+ Wed, 16 Nov 2022 12:34:13 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id d6so29233894lfs.10;
+ Wed, 16 Nov 2022 04:34:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Pm/UokDC+MeCjw9LQFvp0eEnSEGom3XN+YydihKg7qE=;
+ b=cBn/txYjQ/24+5sM+GIRAHTZoptJ/ATz+NjhNnKS1eV+Q/pnLEayBtrOOKBWGYQSHw
+ 1XglYJAh8CN24hRQmylUl0GOE5DRLBXAQ2L3X3em/S7cDwATcQAJHzCIzjSeZPih8WoB
+ Fx53mCp70AV+LetZMQKbeJPkZsFkns9WjAYbMdJAFpZCzdZJ6Hzj4WGk0biUnjCIaLOg
+ rj0xs8/HbN+JNd+FQ1OVDvcYfda8i1eK9TrR3VvvX4qIHtsn/S7AaiP0FLGFjJBRpq2E
+ AAAUyqGMNBOco567ax4XJ6nTVRTObgEdPAfTEXXWpPIT2788TfjMkcE54AGGzZKJRfQk
+ MPRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Pm/UokDC+MeCjw9LQFvp0eEnSEGom3XN+YydihKg7qE=;
+ b=F38lSK/dxHRyeyhZfzmdPdUSwHl5OBhl/Ts5SanNEafN0W5vZzxUm+YZoufNyokIR1
+ H9x1zGxUhl8Gdy/JHCefbSc8b9+QCcUHG603TLkhBAiWbBJBHsvF+16cBg51niSfgy1K
+ ReencZoKFNpGwRWzQMHWnvyqA+JybObkQIb1bmYPUj8g2CLSaC+hoOlydmohMxusQsZg
+ kvmpCOuF7hTMe5tYFFoA1cXr7cqppn3A2aDegCNzR0/Qt2kh4lavT+w3TZD5T7b/91j6
+ +fNV2+j5SmddbMGT/oIFZUJztBeLLcZcGSVg0p0e4xlKWPSDESpsCnMZODnn3+JqDOtR
+ t1kg==
+X-Gm-Message-State: ANoB5plO87Nt1Q2EIKBlwOVufFNNzv+23QMkeZ6IElbVGng5mdmy7Y/D
+ 2depn8yMc1rqgTxELEbaCqo=
+X-Google-Smtp-Source: AA0mqf6iArDqkPDs1jnU6iVsy7BhmtZ8obpIXFA2HjSgAhc6edQT64E+ME3Og33YjqgceqwX3pUuqA==
+X-Received: by 2002:a05:6512:2395:b0:4a2:2dc9:3e0e with SMTP id
+ c21-20020a056512239500b004a22dc93e0emr7962593lfv.272.1668602051616; 
+ Wed, 16 Nov 2022 04:34:11 -0800 (PST)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ bi20-20020a05651c231400b0026dcf0cbb97sm2992476ljb.137.2022.11.16.04.34.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Nov 2022 04:34:11 -0800 (PST)
+Date: Wed, 16 Nov 2022 14:34:01 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Sebastian Wick <sebastian.wick@redhat.com>
+Subject: Re: The state of Quantization Range handling
+Message-ID: <20221116143401.3d7621b9@eldfell>
+In-Reply-To: <CA+hFU4w8=yTU5tQgqZj4qUvJddAQL9fj5teTVSB_dvNcwCyr6g@mail.gmail.com>
+References: <CA+hFU4w8=yTU5tQgqZj4qUvJddAQL9fj5teTVSB_dvNcwCyr6g@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DS7PR12MB6240:EE_
-X-MS-Office365-Filtering-Correlation-Id: c90e24ec-5626-4a60-6069-08dac7cdaedc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: h4U9FzldnmSi7eUO42F05ynxJELy3HKCTF6Q0rwRLM8QlGF99Dhl5lM1SVmGQ8k8QklFbabS7uHLVbeB05QAsGMPwssaYzvuGuhfc0uwSmN2SIbMW1k15ju/Z+Vtp8PYtrfhmiOmc9uEH7oHeLwsDR/7TzkhvyDN2cWK5qFKpP31c/sejX/qDCAxsC3ptABvQrSg83xAYtwSdaG5mZWzPHFLl3iOxoA67cTmeE/Yyyy4Ck0uypEacLoBynp4AZpsw4sn1OMt4VSAaSxXTgOm/m7LMSD35T+AjEgAoaD2x7Mg+MhDrdWdxqmfD8Z7yi+AP7NQyTaZa6vRrTujwmymEx8c3YEbrbc8h77dN3uEc0qSNWMrVVWXL2/H6hK8UsCjVRfPVrlcPZPe/h/tukcU3yZxfd0v5ncIvWBznuY01qHeIXyVeuytoPEnLHbveFHBJmGN0dJOV5MFNO3VkUV5PAgQL4w3mu3bGX7AEQxUrkKBbAaji9H9SAK0ewfHte99UL3tVMQIzRLIVNaSWrdObeiPQevY6HR/g8H+Qa5QXdfvblGbnSpkAMAh3oYIO0zDaXsMeYBfWFJmGVRZ7Fe9Yuf0polDDrVw1YXy5vmW3i2potouUewSwSGBtJ+JPgV3Vfdc4oLLnMKyhaE86/J7SUwuvpxpEA0si3e+uqEUgueSTph4yxnXlH8EbsEVw9CgiFgkwJIn7hPlOlt8H+tLeE42B7wIsVDLgUBsjWXsJ7osf0kGndWFFUTy/MSkPUoi5ukBK416fY+BZBooznE70KGt9vxgZG8gi0NBdrO8BgY=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(396003)(376002)(39860400002)(346002)(366004)(136003)(451199015)(186003)(6506007)(2906002)(83380400001)(316002)(41300700001)(36756003)(450100002)(5660300002)(2616005)(6512007)(66556008)(4326008)(31686004)(8676002)(8936002)(66476007)(66946007)(478600001)(6486002)(6666004)(86362001)(38100700002)(31696002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WmhTanBUbjZmcFBhVG8yMEUvdnV0VlhVblBEVWVFbWZYZkhIeHY2RzhpLzI5?=
- =?utf-8?B?WEV0VFpncEQyUmFBd1ZKWm5NUFhZRE0yREJ0RjIxN3NvVm1vZEVNL01DYVMz?=
- =?utf-8?B?QWJkOG1ZejBoS3BHMytkQ0NwZWFkbUpiRTlOUFFOZHlzemVXbi9UeXF2YlhE?=
- =?utf-8?B?eG1odWFMUFVzaTR5T0NGR0hCWUgrNG10VTE2UGs1b2NQb3VTYTJhU3ZJdnRn?=
- =?utf-8?B?UllQZHRWU2RDNXpueWV0cHdraXhnVTl1SGhjN1VrVEdMaXBQQ2JnWGRHa240?=
- =?utf-8?B?c2g3NU10VFo2WXVOOVBnS2JkQncwL3RETXNPVFpoTis4OHgvREEyWlhxYzVn?=
- =?utf-8?B?SU54SmJDVXNxekFMeXY2U3IvMGxtb1pzVHcyaXJWOTNEc2pEa2ppZ2FhTUp6?=
- =?utf-8?B?aDFJdkpjdXlvUmpvejRKcVBlcVAvSVJMS2ZyY0xuOXBFUnlaWWF3UzZ0RElX?=
- =?utf-8?B?UWpyaUtoZjNIUmpEeWxZSWk5L25ienBIVXFmVEo3ZFpkN0c1aDh3WE1rR2tT?=
- =?utf-8?B?ZEZOQ1IvN2p1bHMwNnpMYktCbFhLUThyT2J4SjdDelBRVkc4QnhwTDhrQ1N1?=
- =?utf-8?B?WnBPUGlWdzhENEM1THBTeUNZR3NyK0tGSzR4alhwQ2lnSk43azY4cjF6OXI5?=
- =?utf-8?B?NnhOME1ucWxJNHBUa0drbmxUUS9CSi8zb0YwdWlZZThJRTVyUTFhTWx4T1FF?=
- =?utf-8?B?RHphd2ZFQ2ptT0JjSDlBU0VlZUhvVUNvWGNFRHFGTGtwOGx2TE5uZkhnWjdk?=
- =?utf-8?B?TzNTQmlwcS83NXR5M3BvZTNDcjY3dVp6ZnNwUEkzNjZZcXlSbkw1S0Q1MWg3?=
- =?utf-8?B?azN5NDU4ek1QOUVJaU83NTdGNVpsUlRWbTg4ZHlvQW1pVk4wZnV5UDdRaU5X?=
- =?utf-8?B?RHErR21xSGxiVFB4UFdSOFI2eHdBZWtwaE1jcTRtQzRUMXFmUjgyS3J5aUVq?=
- =?utf-8?B?WWNCd29NVjlWS1ArYm0zZ1hEcUxnK0MyQzNyYkJUUjhkNWZkV09wZlFJa2Mr?=
- =?utf-8?B?Q1BCV2tUYmc5citUZjMyRU9LSjlqSjBPT0lWL09FSHArN3dMVy9YM0dpaDlM?=
- =?utf-8?B?bnRzV3pYcVBidkhVdXZRZU5pU0JmTktHbzBlalJBOTRGUjU3T1NvL3RwTHA0?=
- =?utf-8?B?aURoeU1NbWwveWcxeXF1YmFHRkIrOEd1Z0lnSE9XQ1hsdlA0RVpBQ2hDZExN?=
- =?utf-8?B?WXlwU29WVEdvZzdFR2NMb3ZUSHZ2RzBkQUFLeDFvSTNhOE1EWlJVclVYYklY?=
- =?utf-8?B?YWV6SUVkVEhZTWtqZnNNS091aVJjUVZyK3k1T3NhaHg5NlZZZ3QzOHQwUW54?=
- =?utf-8?B?aDliRm5Zak1XTE5kL1pxcEVJZ2pSNHRiTHN5bEVsN1RKK0NLQ251K29ONWtZ?=
- =?utf-8?B?andHbEhydHUzeTJ4eGRwWTlBeWxvQUFvdTdjdUtwNzd5QmNDYjM1cSttNmlG?=
- =?utf-8?B?am9RRWoyWXBwN2FJODZUYit4L24xeFVORmhXZ2w5SmY4RDByNHYyV1ZKbTNH?=
- =?utf-8?B?YlhLNUhPZ0RhTkFyV0lLSmF1T1NKdGhkM3dmYUdlWmRJcVZxWG1QcGxoRVZh?=
- =?utf-8?B?OWdyRm5TdHp4bTFwRUMwdjZLd3pCK1Q4TUJiQzdpaVIxWTUrMXZEa0NDL2tF?=
- =?utf-8?B?TWYyb25lNm9IY0diNUR0ZDV2aHZ6b0VGOTE4TFJYRzJPMERSLzRuV2YrNkpn?=
- =?utf-8?B?M0pJYU5mZXdGN2kvWmRkVUFUM2RNTThOTmdpNTVVT29yak9rOEVaQSt5T1Ux?=
- =?utf-8?B?cmZ4dUhKUDlLaUl1UnNzWkJRcE1VMk1KM1A1bFljZm0yak1idXIyYUxuamlD?=
- =?utf-8?B?ZUwzbWQ2YmN6alM5cGdEL21XRFRrN010bzVqcmhlQytoYXR6WkZYQVdheTIw?=
- =?utf-8?B?dXJuOUsvU0FGU3VESG04SjZTMDIwdEJlS2hkd2VrZENmQTBSM1JKblRLakdn?=
- =?utf-8?B?M2pRdS9UQ2J5SUsvTXY3MHhDdEJBTUlrNHBBbVJpUFBNdWtRN0NkZkxvRzd0?=
- =?utf-8?B?U1ROQU50bzVEUEF6b0ZBalQ5ak5GRndicjRXUnl3U0hDV1g0dldFZnBIbjlI?=
- =?utf-8?B?c2NtS20ydGNZVDM2OGtMQURIcng5bmJtbTBzNFMxamhuY2dwR0FvMlIxc2tj?=
- =?utf-8?B?NVFKaVVyTXBaOStVYkJVRUxnM1ZFWHl3VzVpUjRwRTBEdWdYem9MYitxOWIz?=
- =?utf-8?Q?NiJwycpqvWxY8SBbeUvolIpa8ZT//mFg6m/r0fDtdE47?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c90e24ec-5626-4a60-6069-08dac7cdaedc
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2022 12:25:44.3653 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HiKZ8yB8OKnVPsZ7XtRYU0aN+HXEfBNXRRYn2nkdLb7TGAkvMKs0+cRp2Bin74jU
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6240
+Content-Type: multipart/signed; boundary="Sig_/JahevPKqHchiagyONw.iBrL";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,60 +69,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, arunpravin.paneerselvam@amd.com,
- shashank.sharma@amd.com
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ wayland <wayland-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--Sig_/JahevPKqHchiagyONw.iBrL
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, 15 Nov 2022 00:11:56 +0100
+Sebastian Wick <sebastian.wick@redhat.com> wrote:
+
+> There are still regular bug reports about monitors (sinks) and sources
+> disagreeing about the quantization range of the pixel data. In
+> particular sources sending full range data when the sink expects
+> limited range. From a user space perspective, this is all hidden in
+> the kernel. We send full range data to the kernel and then hope it
+> does the right thing but as the bug reports show: some combinations of
+> displays and drivers result in problems.
+>=20
+> In general the whole handling of the quantization range on linux is
+> not defined or documented at all. User space sends full range data
+> because that's what seems to work most of the time but technically
+> this is all undefined and user space can not fix those issues. Some
+> compositors have resorted to giving users the option to choose the
+> quantization range but this really should only be necessary for
+> straight up broken hardware.
+>=20
+> Quantization Range can be explicitly controlled by AVI InfoFrame or
+> HDMI General Control Packets. This is the ideal case and when the
+> source uses them there is not a lot that can go wrong. Not all
+> displays support those explicit controls in which case the chosen
+> video format (IT, CE, SD; details in CTA-861-H 5.1) influences which
+> quantization range the sink expects.
+>=20
+> This means that we have to expect that sometimes we have to send
+> limited and sometimes full range content. The big question however
+> that is not answered in the docs: who is responsible for making sure
+> the data is in the correct range? Is it the kernel or user space?
+>=20
+> If it's the kernel: does user space supply full range or limited range
+> content? Each of those has a disadvantage. If we send full range
+> content and the driver scales it down to limited range, we can't use
+> the out-of-range bits to transfer information. If we send limited
+> range content and the driver scales it up we lose information.
+>=20
+> Either way, this must be documented. My suggestion is to say that the
+> kernel always expects full range data as input and is responsible for
+> scaling it to limited range data if the sink expects limited range
+> data.
+
+Hi Sebastian,
+
+you are proposing the that driver/hardware will do either no range
+conversion, or full-to-limited range conversion. Limited-to-full range
+conversion would never be supported.
+
+I still wonder if limited-to-full range conversion could be useful with
+video content.
+
+> Another problem is that some displays do not behave correctly. It must
+> be possible to override the kernel when the user detects such a
+> situation. This override then controls if the driver converts the full
+> range data coming from the client or not (Default, Force Limited,
+> Force Full). It does not try to control what range the sink expects.
+> Let's call this the Quantization Range Override property which should
+> be implemented by all drivers.
+
+In other words, a CRTC "quantization range conversion" property with
+values:
+- auto, with the assumption that color pipeline always produces full-range
+- identity
+- full-to-limited
+(- limited-to-full)
+
+If this property was truly independent of the metadata being sent to
+the sink, and of the framebuffer format, it would allow us to do four
+ways: both full/limited framebuffer on both full/limited sink. It would
+allow us to send sub-blacks and super-whites as well.
+
+More precisely, framebuffers would always have *undefined* quantization
+range. The configuration of the color pipeline then determines how that
+data is manipulated into a video signal.
+
+So I am advocating the same design as with color spaces: do not tell
+KMS what your colorspaces are. Instead tell KMS what operations it
+needs to do with the pixel data, and what metadata to send to the sink.
+
+> All drivers should make sure their behavior is correct:
+>=20
+> * check that drivers choose the correct default quantization range for
+> the selected mode
+
+Mode implying a quantization range is awkward, but maybe the kernel
+established modes should just have a flag for it. Then userspace would
+know. Unless the video mode system is extended to communicate
+IT/CE/SD/VIC and whatnot to userspace, making the modes better defined.
+Then userspace would know too.
+
+> * whenever explicit control is available, use it and set the
+> quantization range to full
+> * make sure that the hardware converts from full range to limited
+> range whenever the sink expects limited range
+> * implement the Quantization Range Override property
+>=20
+> I'm volunteering for the documentation, UAPI and maybe even the drm
+> core parts if there is willingness to tackle the issue.
+
+Is it a good idea to put even more automation/magic into configuring
+the color pipeline and metadata for a sink, making them even more
+intertwined?
+
+I would prefer the opposite direction, making thing more explicit and
+orthogonal.
 
 
-Am 16.11.22 um 09:50 schrieb Somalapuram Amaranath:
-> remove page shift operations as ttm_resource moved
-> from num_pages to size_t size in bytes.
->
-> Signed-off-by: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 4 +---
->   drivers/gpu/drm/ttm/ttm_range_manager.c    | 2 +-
->   2 files changed, 2 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> index 974e85d8b6cc..19ad365dc159 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> @@ -541,12 +541,10 @@ int amdgpu_bo_create(struct amdgpu_device *adev,
->   	if (bp->domain & (AMDGPU_GEM_DOMAIN_GWS | AMDGPU_GEM_DOMAIN_OA)) {
->   		/* GWS and OA don't need any alignment. */
->   		page_align = bp->byte_align;
-> -		size <<= PAGE_SHIFT;
-> -
->   	} else if (bp->domain & AMDGPU_GEM_DOMAIN_GDS) {
->   		/* Both size and alignment must be a multiple of 4. */
->   		page_align = ALIGN(bp->byte_align, 4);
-> -		size = ALIGN(size, 4) << PAGE_SHIFT;
-> +		size = ALIGN(size, 4);
->   	} else {
->   		/* Memory should be aligned at least to a page size. */
->   		page_align = ALIGN(bp->byte_align, PAGE_SIZE) >> PAGE_SHIFT;
-> diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c b/drivers/gpu/drm/ttm/ttm_range_manager.c
-> index 0a8bc0b7f380..4c7cba4ffdbf 100644
-> --- a/drivers/gpu/drm/ttm/ttm_range_manager.c
-> +++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
-> @@ -83,7 +83,7 @@ static int ttm_range_man_alloc(struct ttm_resource_manager *man,
->   
->   	spin_lock(&rman->lock);
->   	ret = drm_mm_insert_node_in_range(mm, &node->mm_nodes[0],
-> -					  PFN_UP(node->base.size),
-> +					  node->base.size,
->   					  bo->page_alignment, 0,
->   					  place->fpfn, lpfn, mode);
+Thanks,
+pq
 
-You need to make sure that fpfn and lpfn are now page shifted instead.
+> Appendix A: Broadcast RGB property
+>=20
+> A few drivers already implement the Broadcast RGB property to control
+> the quantization range. However, it is pointless: It can be set to
+> Auto, Full and Limited when the sink supports explicitly setting the
+> quantization range. The driver expects full range content and converts
+> it to limited range content when necessary. Selecting limited range
+> never makes any sense: the out-of-range bits can't be used because the
+> input is full range. Selecting Default never makes sense: relying on
+> the default quantization range is risky because sinks often get it
+> wrong and as we established there is no reason to select limited range
+> if not necessary. The limited and full options also are not suitable
+> as an override because the property is not available if the sink does
+> not support explicitly setting the quantization range.
+>=20
 
-Same for the overlap and compatible functions.
 
-Regards,
-Christian.
+--Sig_/JahevPKqHchiagyONw.iBrL
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
->   	spin_unlock(&rman->lock);
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmN02LkACgkQI1/ltBGq
+qqdw/Q/+PPsLfqMlwndByVhC0jEA/BL6xh+0PsN/olYzye366AuUQevPcWHehKkL
+qB6uqxJyjtOWw8fMSQQoh4WbdBH7hQ3FNmjL14vpeY/3/m5CQfSj+A4cvLuK8PnU
+DXwSitUe/Yqyk5m8B4M78qcmnzjhz+9Uv6h2N3Hqax4E4VjbD3lMbHDbThVcQuVJ
+5HuVph8dvPlkOp3DpM270l/7mDgUStYwZd9U39YTkCiqbL8jfIo4BlrujZ+MQIOt
+4j4ickj6LUTUDNV7e4A5p7LyFjSPN1aWJwab8o1Y15fLZ79wevUQv2N0Ue2Is6JB
+smMNr6xt7BVmWbA4rRp1armMyhytX6icbR4vcirVHDHLYU9/CCwv6LaW32WPZoUS
+Ay6Vm7a37YgT4gkK1v/B2TbWaPXON5FW2xC3BfJ1LIYxREQhzivU7f8oFCylye05
+P3OpEO6FJ55WXWYup8QSJzQsxmjDYtbwm1qcBKxSDcas84ny9DXXgo0Hc9PW7r0j
+04KuWvZRCMBCQmrM2VCmtYH1xaEi8KDnMoHL/ayIdH03wSZIXkdhNJVNdkpZO7xS
+CfgEKEgoZUo/rDRdOzcmqPeDrrdsqetjyGvNbqn3mdEIMpzDj3GMABEOb6jSxXmH
+E1M3c+BtQtU8ptuAj9uB8khJ0vtO66wGqBtj/CNpwWoXO4GUB+0=
+=uH/8
+-----END PGP SIGNATURE-----
+
+--Sig_/JahevPKqHchiagyONw.iBrL--
