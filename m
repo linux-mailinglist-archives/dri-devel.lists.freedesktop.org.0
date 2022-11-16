@@ -1,120 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6E9D62B64B
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 10:20:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 324E462B652
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 10:21:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F7D210E44A;
-	Wed, 16 Nov 2022 09:20:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15EBA10E450;
+	Wed, 16 Nov 2022 09:21:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2041.outbound.protection.outlook.com [40.107.244.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6ED710E44A;
- Wed, 16 Nov 2022 09:20:16 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CbnkXRjgG6p9ioCf3uWzFAA+ppZDgZN2U9eWn9jVTFCa/+BF9zgVwveEQGlCniJDdnz5lm8ta+bo2I84hm8C2p+4GWI9T0N5QAJpxmKdml4d2m8FZ5C8n2xu58m/vIYPK2TuNSyICSJi02Z0Xw0z8nK1hcLEUQuyrW80hbT7jTc1e1NB/kOAH35JYlLKoMcBBlHGxO7PncuuyQK1LC9sT/fFLX2QCS5DDqSIZDltLTp4OK66/lGGdY2SCwzy8nTVDMMZbiXMQ3XSCYuv6W76JuTz5I0QpgsAEShNharVaWpf2VH4pJro8vGyPqmR34e3O5XnXiA7FY8ag9BqNza28g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rvS47Dk/EZ9Xtgexi+qmjUydjeAzHAc3P//gh5+Kyws=;
- b=WUxZehujsEdJzxNkIRX7jTaOf4AWY8762eBXJaVFvZQSqetd0Fh8qupenwMwF14GkVfUaYHPYztgdP7GRZz3rFmIR/SAzZ4FTv+VwIT/NCAfHBo7NoC0W+9pcBZIpV9NZ7aAgWC6CScWOuny39Grrz+qq/ywDlSPmJHqs7QYX/prcPo/tPl90X034XF+UhkBIdw7kxsZeyfPgYpF9UCfImyZ++dtvw7KGOKfbE3BvfXvVonOttV+Yc8vV1B67UZTHR4stbWf7Pub8SU8nYJoGFE6PX9r7KVu6pAR7LlDbfLvPR9PVZzj5Te4M+e0XMlaVzJovM9yCBfPS4Ihe2273Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rvS47Dk/EZ9Xtgexi+qmjUydjeAzHAc3P//gh5+Kyws=;
- b=Rz+vvSRXyi9Y/KqIIhpxo7GvPQA7nOBXT0s8hXt8mgVXLLj9yPt4Da/dzuVCXcLoAct3+6YyqsbRq1Q/9v5oX1h/GKcorgDUQql7XBCz4Z934fLz0WU7qxqTGhffnpOD/PuccubfLf1AkTaMOEgC+SYx9JixMyQDKLMXLaNJujQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB4342.namprd12.prod.outlook.com (2603:10b6:208:264::7)
- by SA0PR12MB4591.namprd12.prod.outlook.com (2603:10b6:806:9d::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.18; Wed, 16 Nov
- 2022 09:20:15 +0000
-Received: from MN2PR12MB4342.namprd12.prod.outlook.com
- ([fe80::6755:9455:2407:ea3e]) by MN2PR12MB4342.namprd12.prod.outlook.com
- ([fe80::6755:9455:2407:ea3e%9]) with mapi id 15.20.5813.017; Wed, 16 Nov 2022
- 09:20:15 +0000
-Message-ID: <fa9ecb1f-17a9-c7ce-d25a-42c3860f1b8d@amd.com>
-Date: Wed, 16 Nov 2022 14:50:04 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH 2/2] drm/gem: Remove BUG_ON in drm_gem_private_object_init
-Content-Language: en-US
-To: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-References: <20221116085012.187756-1-Amaranath.Somalapuram@amd.com>
- <20221116085012.187756-2-Amaranath.Somalapuram@amd.com>
-From: Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>
-In-Reply-To: <20221116085012.187756-2-Amaranath.Somalapuram@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN2PR01CA0217.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:ea::15) To MN2PR12MB4342.namprd12.prod.outlook.com
- (2603:10b6:208:264::7)
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DF9B10E455
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 09:21:11 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id x2so25665608edd.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 01:21:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=59ZEQLzns9bFN6k0X3dzkU/GY50n/Ains7/g4SNusjg=;
+ b=DPvyNMc1mjWwrAcesTCxO6mPNOC33vU3UFlk0yfD5nuBMsro65esQfnWxB3aCZfqge
+ TLWxdzJqvgPt/agMTse/xsckU3nxhmYOCVVRnGJ1xYho0EdOu0Od6FK+8tzMoD2Q9jrz
+ kCSGqycj57YZEA1YIpCuFaY3C36dRuCHoUnHk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=59ZEQLzns9bFN6k0X3dzkU/GY50n/Ains7/g4SNusjg=;
+ b=SHVDiSWHn3jVzi3nhWJFCWrIhY8F7uLwD2G8ppyLtRi6ukAhOOUhvHBRXwpUYcCdqV
+ QiI/am9rO/p3Uu77Vn81Mdq4TehgH0ueIcR83rje/i2az9gg/D37KzyS+PGaTP9gyovQ
+ CuFld2+4o82F0vOQIypRHXakJ7vmrSGJUMNbpnCEQUgY4pvG8k6VUTXJkBaWZRoRCew0
+ uaLP4XMedIvVdW5l77hn0nwYQLCFTKxma969I5AwbMSrMNBdHUDA2T/XDCdoC0A/QNI8
+ 4SDdy/K0sTM8jC3CmkBd+dFjIUrmESimVEbKOFobWsTU04PgB9f5vC/f1qXl4qzKrK4r
+ 7CLA==
+X-Gm-Message-State: ANoB5pmBafgtpaosSzVPPYhKjehzuMCrTjwTTRw0QLTOkhDPBUcDfifh
+ HZ2DS7yHQHqRFqJjFa2cB3ERNA==
+X-Google-Smtp-Source: AA0mqf7k0TdeCFNtT6r6J/IA4wX+A5ATan/M98KG8IY3XqliuGgXx1uxLfS/NLRSxQSuDiqM4iBg9Q==
+X-Received: by 2002:a05:6402:1c85:b0:458:c339:4229 with SMTP id
+ cy5-20020a0564021c8500b00458c3394229mr18156900edb.393.1668590469900; 
+ Wed, 16 Nov 2022 01:21:09 -0800 (PST)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
+ [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
+ vu6-20020a170907a64600b007ae10525550sm6514520ejc.47.2022.11.16.01.21.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Nov 2022 01:21:09 -0800 (PST)
+Date: Wed, 16 Nov 2022 10:21:07 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 4/5] drm/fb-helper: Schedule deferred-I/O worker after
+ writing to framebuffer
+Message-ID: <Y3Srg5LwAgeamNNb@phenom.ffwll.local>
+References: <20221110135519.30029-1-tzimmermann@suse.de>
+ <20221110135519.30029-5-tzimmermann@suse.de>
+ <Y24VzDRKrZBo5D31@phenom.ffwll.local>
+ <30af7238-2f89-74cf-1534-9938e0f6c75e@suse.de>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4342:EE_|SA0PR12MB4591:EE_
-X-MS-Office365-Filtering-Correlation-Id: 59364dff-8cbc-48de-8803-08dac7b3c472
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pgDXAP1d67XTrG3vTy8kIP0a1WrVG5N0Vqz1MUTwLcfBAc1uxeDI5CLxvsAzJczlFtXvyjxtt4G8F9BIoeJ4rFVkv8t7/NnLsvjnzG6bEuFCt7d5NI9JvEOeyBkDfP+P5+hWUifNjdCN/FfG/gT8S7YHeEvrWnP19+rQl47cfFkCUjt/+uJ2EDSikcDUNqwjxQYfvWB5hm/OugUmr2Q2WlgptDt9QHgdlZq+PcUgyWA5jAeRlV5kikWvYpWoOjza7hX4AlMzk3qCuilVQKZoSOsPerNtaB0jDQYOORZIRcX9Dz11vmMxAPWPapt6w6zKvq79QhLSGgWEwO0O1gDlXDrQmEEPnVcJOtC7IeZVX7dPmFI5xq6hF/OAJE4X75CU/6YnkRrEUuq6M6TWr5u+wdNT4hId3v+qnE+g3FElWHLOd3nA2f9chQ7tdeA4FArpCP/G4LhiY922/eqO3ZWmmaVotfIbmiZYYitqVWBqTq7DLz60418ofZgEEKoqzpWDgguQnyWlGm6tQQ4u+wdkGusnaSuPKVro61s4nBpLXqNeqptgbvvsYMwFeZB5ZU2aFDP5twGYnBotXJkPcx9buOQT9Q/NdbfpIUOAv4Kd+i7QnA+AUo/VQNfyv1O/b7+e6jnyM0R/enRFJXD5R8+do/Zi2xF5fcOKe17J8+Sje4HqQPw09ntSWFXwAgsJeCFq/uvwE/iWqj/003E7RYCaOefDQI0WShLGpz/IbmIealeuegbjSBYsEeisp6BRp3Z74JrAq15AQXkPhy6ip+JbWHZ6hF9QQBx0LdQG+vIBCFk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4342.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(136003)(376002)(346002)(396003)(366004)(39860400002)(451199015)(38100700002)(26005)(6512007)(2616005)(186003)(53546011)(6506007)(4744005)(5660300002)(2906002)(83380400001)(66476007)(6666004)(41300700001)(478600001)(316002)(4326008)(8936002)(8676002)(6486002)(66946007)(450100002)(66556008)(86362001)(31696002)(36756003)(31686004)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QWxXblB3MUhBM0hxUTNTVndBbWhRVncvYWYxR055ZFNWYWQ4bmRoYmtWTDBs?=
- =?utf-8?B?VnpkSlROTVpFZVVTV1F6NExpcW1lcUdFUGIrblJIbEh6cHVMdTdjc0oyK2dr?=
- =?utf-8?B?djVvN1BUOW1aRWhzOHY5dEFOSThNMjBSdmltOGZNUDRSZGJYWlNXSTRrR2Jh?=
- =?utf-8?B?VjlJQTA1a2VQVTVqa0ZLaWtGN2lld0VoV2YvWk5hbGRKWHE4OWZuOTlnOVVq?=
- =?utf-8?B?QUt0dk43c1pwTVRNOUFuNEpIVUJBMWFPdkRYT3BHRVZFak9mQVZpbkRjcVp1?=
- =?utf-8?B?OFh4YytGSFRZK1NSc3F6R3VtYlJyanpVcUlNODB1T0J2TGtxK3d5aWtzMmRD?=
- =?utf-8?B?RjQzWll5VDh4QldWSjRRZHJTMFpidEVzUGtRRFlqUTJMay9wMHJvZXNiclJt?=
- =?utf-8?B?N3Z6MFpNWXNzQ1ZGWDZHdjVoenJuYUYvWlMrNGRjNnVvSENLdlQ2ckxPUzNH?=
- =?utf-8?B?VVI4aUZUMXc4TFpkQVhwd1RHWWp1U2lSYzk5eFZwVmF1YVZ2YmZXeEsza0po?=
- =?utf-8?B?L0laZFRPOHNIbWJ5VW9MeC9oZmtFUFUrOFQraVNLNzhhSmJYQ0IxdmVRb0pj?=
- =?utf-8?B?ODdCeVFTUzliQlB4SDFFTFo0NER0Y002RG9CQkZ2Yk5TR0xsVTlGdzhDNTRz?=
- =?utf-8?B?L3VPOGs5L1k4dFI1MmhNSDVVRjhrZGlDaFZpYm5rUE1zbTNxUE9GbFZQMDhj?=
- =?utf-8?B?ZmhVcGhOTUhLa3F0MVNxQVNXcXdXbnF0QXlTVFFrT1lOcHJvQkVTaDdrYjVX?=
- =?utf-8?B?MzhkWm9JbUdIN0pGNi9taEloRW9hUjFBa1ZJdnpoRG1yeUZZek9sN0ZkTGlY?=
- =?utf-8?B?dzMxelc4cjB2Q2RRNnByNjR4QW1paVY5c0h5eW00bXpoUmh4eFJTQ3gwaU1K?=
- =?utf-8?B?WjFsRUROWkNFOWZFUnBZOXJhcXlYVGl1Ukl4a0FOUVp1UXJJSE9DdDNHak15?=
- =?utf-8?B?ODNlNE1Edit5ZFhiZmg0bDB0aGZ5M0Z0TzR5Z1l0NHZYNWkxcVZEakdXQXFw?=
- =?utf-8?B?aWFEcUkrRlNlQ0k0N1NmWVQ1ZUpPMnpNNjhGQnRZUHhDNmcvZVl3SCtSMmJh?=
- =?utf-8?B?bE54K0VaR2gvaUZOakJYdHg5M0JkTTBMMklvNXdaMm1QeTU1ZUxoclZNMlRE?=
- =?utf-8?B?QnVWVzh1eTQrZ2N2dXlMN1Axbkl5OWdHNVlTdnNaSVgvMXBIRXBLYkxrWWlt?=
- =?utf-8?B?aWpXUmNIRFZEQlVCZUdsTUs4TXFoTXRML0liTXlUaU1uRUhlSjFBNmVoVi9C?=
- =?utf-8?B?WU0zbkNZUlFmanZtRkRFYzNPbXJ3cE5WRVhCMEI1a0lCY0JIaC9IYjgvZ040?=
- =?utf-8?B?ZlJSZnJHU0pjQ0JiSUtqcC9XSzBQZlZRQXhhbm9jWnJRTDFtL2FQRUc5bDVG?=
- =?utf-8?B?NGNGVHROZ3d0TXVxQnRlU044R0ltZGhUSjYrTlVZZmZFSVZFOEZsVWJ0cE1X?=
- =?utf-8?B?Vk5VUmJFelJVbDNqWjB1RCt3cUF4TW5HblBYZ2daV2FBVFVZT0RVY0JLOVh1?=
- =?utf-8?B?b0hzUFRqNmFBMmlEc29MLzRZUEFNdkJpb3ZBTzZGRnpLQ25SYWNwajltcXBh?=
- =?utf-8?B?U0ZZVm0rMUQ1Mnd5emFibUZFYVNrWUVBcndBV3VRblZvZDJVMzNkUG4zVlA1?=
- =?utf-8?B?OXRxYlVPSVZrYjE5MnBXaGdoTzBFMkFMTlRyZWVJQXlQWExwZVg4V280NG5j?=
- =?utf-8?B?cUdLYkNEMGNnMXZHRkhVV2NSclM1Ympoa3B4U2U3OVAveVJ3TGlHdWlXaHl4?=
- =?utf-8?B?ZVp4RXBmeG1PVzRmN2MwYmdNdG9OWEJvMWdNWW1XYUJtUVQwTjM2ZGU4SWxY?=
- =?utf-8?B?Wk5UTzFNOGNwY3ZsWFhzcEpPdkpYZ0hsVnRNc3hsNUc5U09hUFY5ZkpVSjVW?=
- =?utf-8?B?enJ4SUY3NmNacmtuTVNmNWVBY25sdnRlKzFreElGS2dna0VvcXp2MCtuVDlS?=
- =?utf-8?B?eTV4Rm9lMlkyVWdKUHRaOUlVU3pYMmlwcGpNdG4yaUJhSjNUWlk5bVJnd3pK?=
- =?utf-8?B?dzVMRVRISEoyeHZIYW5BNXVxZkViWVcrU3BGQ2I2bXJuTVRzdEdMaHFtelh5?=
- =?utf-8?B?Qk1xMlduay9ISEVYN1lvcmpYZ0drMzR4cERyd0FUai9FaVpBQmRwSmhBYTFa?=
- =?utf-8?Q?mumAO67N0npcfcBHalUs131gO?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59364dff-8cbc-48de-8803-08dac7b3c472
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4342.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2022 09:20:15.0885 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: n8LvZ2UsQicauMCOFfl6nJMqAPzxqM9iLzKjcMw3890DHLV/HnwCE0+NBVjnu1ve28zG0NOYSEWwirBTJyzfuA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4591
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <30af7238-2f89-74cf-1534-9938e0f6c75e@suse.de>
+X-Operating-System: Linux phenom 5.19.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,36 +74,272 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, christian.koenig@amd.com,
- shashank.sharma@amd.com
+Cc: javierm@redhat.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Amar,
+On Tue, Nov 15, 2022 at 11:05:02AM +0100, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 11.11.22 um 10:28 schrieb Daniel Vetter:
+> > On Thu, Nov 10, 2022 at 02:55:18PM +0100, Thomas Zimmermann wrote:
+> > > Schedule the deferred-I/O worker instead of the damage worker after
+> > > writing to the fbdev framebuffer. The deferred-I/O worker then performs
+> > > the dirty-fb update. The fbdev emulation will initialize deferred I/O
+> > > for all drivers that require damage updates. It is therefore a valid
+> > > assumption that the deferred-I/O worker is present.
+> > > 
+> > > It would be possible to perform the damage handling directly from within
+> > > the write operation. But doing this could increase the overhead of the
+> > > write or interfere with a concurrently scheduled deferred-I/O worker.
+> > > Instead, scheduling the deferred-I/O worker with its regular delay of
+> > > 50 ms removes load off the write operation and allows the deferred-I/O
+> > > worker to handle multiple write operations that arrived during the delay
+> > > time window.
+> > > 
+> > > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > > ---
+> > >   drivers/gpu/drm/drm_fb_helper.c     | 81 ++++++++++++++++++++---------
+> > >   drivers/video/fbdev/core/fb_defio.c | 16 ++++++
+> > >   include/linux/fb.h                  |  1 +
+> > >   3 files changed, 72 insertions(+), 26 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> > > index ebc44ed1bf4a2..8cb644e4ecf90 100644
+> > > --- a/drivers/gpu/drm/drm_fb_helper.c
+> > > +++ b/drivers/gpu/drm/drm_fb_helper.c
+> > > @@ -596,14 +596,6 @@ static void drm_fb_helper_add_damage_clip(struct drm_fb_helper *helper, u32 x, u
+> > >   	spin_unlock_irqrestore(&helper->damage_lock, flags);
+> > >   }
+> > > -static void drm_fb_helper_damage(struct drm_fb_helper *helper, u32 x, u32 y,
+> > > -				 u32 width, u32 height)
+> > > -{
+> > > -	drm_fb_helper_add_damage_clip(helper, x, y, width, height);
+> > > -
+> > > -	schedule_work(&helper->damage_work);
+> > 
+> > I'm kinda not seeing the point in removing this, and ending up with 2
+> > functions calls for every callsite. Replace the schedule_work with the
+> > inlined drm_fb_helper_flush instead? That also avoids the naming bikeshed
+> > in this case at least :-)
+> > 
+> > 
+> > > -}
+> > > -
+> > >   /*
+> > >    * Convert memory region into area of scanlines and pixels per
+> > >    * scanline. The parameters off and len must not reach beyond
+> > > @@ -683,6 +675,23 @@ void drm_fb_helper_deferred_io(struct fb_info *info, struct list_head *pagerefli
+> > >   }
+> > >   EXPORT_SYMBOL(drm_fb_helper_deferred_io);
+> > > +static void drm_fb_helper_flush(struct drm_fb_helper *helper)
+> > > +{
+> > > +	struct drm_device *dev = helper->dev;
+> > > +	struct fb_info *info = helper->info;
+> > > +
+> > > +	/*
+> > > +	 * For now, we assume that deferred I/O has been enabled as damage
+> > > +	 * updates require deferred I/O for a working mmap. The current
+> > > +	 * fbdev emulation does not flush buffers if no damage update is
+> > > +	 * necessary. So it's safe to assume fbdefio to be set.
+> > > +	 */
+> > > +	if (drm_WARN_ON_ONCE(dev, !info->fbdefio))
+> > > +		return;
+> > > +
+> > > +	fb_deferred_io_flush(info);
+> > > +}
+> > > +
+> > >   typedef ssize_t (*drm_fb_helper_read_screen)(struct fb_info *info, char __user *buf,
+> > >   					     size_t count, loff_t pos);
+> > > @@ -824,9 +833,10 @@ ssize_t drm_fb_helper_sys_write(struct fb_info *info, const char __user *buf,
+> > >   	if (helper->funcs->fb_dirty) {
+> > >   		drm_fb_helper_memory_range_to_clip(info, pos, ret, &damage_area);
+> > > -		drm_fb_helper_damage(helper, damage_area.x1, damage_area.y1,
+> > > -				     drm_rect_width(&damage_area),
+> > > -				     drm_rect_height(&damage_area));
+> > > +		drm_fb_helper_add_damage_clip(helper, damage_area.x1, damage_area.y1,
+> > > +					      drm_rect_width(&damage_area),
+> > > +					      drm_rect_height(&damage_area));
+> > > +		drm_fb_helper_flush(helper);
+> > >   	}
+> > >   	return ret;
+> > > @@ -847,8 +857,11 @@ void drm_fb_helper_sys_fillrect(struct fb_info *info,
+> > >   	sys_fillrect(info, rect);
+> > > -	if (helper->funcs->fb_dirty)
+> > > -		drm_fb_helper_damage(helper, rect->dx, rect->dy, rect->width, rect->height);
+> > > +	if (helper->funcs->fb_dirty) {
+> > > +		drm_fb_helper_add_damage_clip(helper, rect->dx, rect->dy,
+> > > +					      rect->width, rect->height);
+> > > +		drm_fb_helper_flush(helper);
+> > > +	}
+> > >   }
+> > >   EXPORT_SYMBOL(drm_fb_helper_sys_fillrect);
+> > > @@ -866,8 +879,11 @@ void drm_fb_helper_sys_copyarea(struct fb_info *info,
+> > >   	sys_copyarea(info, area);
+> > > -	if (helper->funcs->fb_dirty)
+> > > -		drm_fb_helper_damage(helper, area->dx, area->dy, area->width, area->height);
+> > > +	if (helper->funcs->fb_dirty) {
+> > > +		drm_fb_helper_add_damage_clip(helper, area->dx, area->dy,
+> > > +					      area->width, area->height);
+> > > +		drm_fb_helper_flush(helper);
+> > > +	}
+> > >   }
+> > >   EXPORT_SYMBOL(drm_fb_helper_sys_copyarea);
+> > > @@ -885,8 +901,11 @@ void drm_fb_helper_sys_imageblit(struct fb_info *info,
+> > >   	sys_imageblit(info, image);
+> > > -	if (helper->funcs->fb_dirty)
+> > > -		drm_fb_helper_damage(helper, image->dx, image->dy, image->width, image->height);
+> > > +	if (helper->funcs->fb_dirty) {
+> > > +		drm_fb_helper_add_damage_clip(helper, image->dx, image->dy,
+> > > +					      image->width, image->height);
+> > > +		drm_fb_helper_flush(helper);
+> > > +	}
+> > >   }
+> > >   EXPORT_SYMBOL(drm_fb_helper_sys_imageblit);
+> > > @@ -997,9 +1016,10 @@ ssize_t drm_fb_helper_cfb_write(struct fb_info *info, const char __user *buf,
+> > >   	if (helper->funcs->fb_dirty) {
+> > >   		drm_fb_helper_memory_range_to_clip(info, pos, ret, &damage_area);
+> > > -		drm_fb_helper_damage(helper, damage_area.x1, damage_area.y1,
+> > > -				     drm_rect_width(&damage_area),
+> > > -				     drm_rect_height(&damage_area));
+> > > +		drm_fb_helper_add_damage_clip(helper, damage_area.x1, damage_area.y1,
+> > > +					      drm_rect_width(&damage_area),
+> > > +					      drm_rect_height(&damage_area));
+> > > +		drm_fb_helper_flush(helper);
+> > >   	}
+> > >   	return ret;
+> > > @@ -1020,8 +1040,11 @@ void drm_fb_helper_cfb_fillrect(struct fb_info *info,
+> > >   	cfb_fillrect(info, rect);
+> > > -	if (helper->funcs->fb_dirty)
+> > > -		drm_fb_helper_damage(helper, rect->dx, rect->dy, rect->width, rect->height);
+> > > +	if (helper->funcs->fb_dirty) {
+> > > +		drm_fb_helper_add_damage_clip(helper, rect->dx, rect->dy,
+> > > +					      rect->width, rect->height);
+> > > +		drm_fb_helper_flush(helper);
+> > > +	}
+> > >   }
+> > >   EXPORT_SYMBOL(drm_fb_helper_cfb_fillrect);
+> > > @@ -1039,8 +1062,11 @@ void drm_fb_helper_cfb_copyarea(struct fb_info *info,
+> > >   	cfb_copyarea(info, area);
+> > > -	if (helper->funcs->fb_dirty)
+> > > -		drm_fb_helper_damage(helper, area->dx, area->dy, area->width, area->height);
+> > > +	if (helper->funcs->fb_dirty) {
+> > > +		drm_fb_helper_add_damage_clip(helper, area->dx, area->dy,
+> > > +					      area->width, area->height);
+> > > +		drm_fb_helper_flush(helper);
+> > > +	}
+> > >   }
+> > >   EXPORT_SYMBOL(drm_fb_helper_cfb_copyarea);
+> > > @@ -1058,8 +1084,11 @@ void drm_fb_helper_cfb_imageblit(struct fb_info *info,
+> > >   	cfb_imageblit(info, image);
+> > > -	if (helper->funcs->fb_dirty)
+> > > -		drm_fb_helper_damage(helper, image->dx, image->dy, image->width, image->height);
+> > > +	if (helper->funcs->fb_dirty) {
+> > > +		drm_fb_helper_add_damage_clip(helper, image->dx, image->dy,
+> > > +					      image->width, image->height);
+> > > +		drm_fb_helper_flush(helper);
+> > > +	}
+> > >   }
+> > >   EXPORT_SYMBOL(drm_fb_helper_cfb_imageblit);
+> > > diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbdev/core/fb_defio.c
+> > > index c730253ab85ce..325d12c3a4d61 100644
+> > > --- a/drivers/video/fbdev/core/fb_defio.c
+> > > +++ b/drivers/video/fbdev/core/fb_defio.c
+> > > @@ -332,3 +332,19 @@ void fb_deferred_io_cleanup(struct fb_info *info)
+> > >   	mutex_destroy(&fbdefio->lock);
+> > >   }
+> > >   EXPORT_SYMBOL_GPL(fb_deferred_io_cleanup);
+> > > +
+> > > +void fb_deferred_io_flush(struct fb_info *info)
+> > > +{
+> > > +	struct fb_deferred_io *fbdefio = info->fbdefio;
+> > > +
+> > > +	if (WARN_ON_ONCE(!fbdefio))
+> > > +		return; /* bug in driver logic */
+> > > +
+> > > +	/*
+> > > +	 * There's no requirement to perform the flush immediately. So
+> > > +	 * schedule the worker with a delay and let a few more writes
+> > > +	 * pile up.
+> > > +	 */
+> > 
+> > So this part is wrong, because the drm callers do rely on this not
+> > flushing anything immediately, but instead on scheduling the worker. Or at
+> > least that's the reason why we have the damage worker in the first place.
+> 
+> That is badly worded. The comment means that the worker does not have to be
+> scheduled immediately. I'll change that.
+> 
+> > 
+> > So this comment here needs to go, and the functions need to make it clear
+> > in their names that that they queue/schedule the flush.
+> 
+> fb_deferred_io_schedule_flush() seems like the most expressive name.
+> 
+> The current name came from glFlush() and glFinish(), where the former only
+> schedules a flushand the letter really waits before returning.
 
-On 11/16/2022 2:20 PM, Somalapuram Amaranath wrote:
-> ttm_resource allocate size in bytes i.e less than page size.
->
-> Signed-off-by: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
-> ---
->   drivers/gpu/drm/drm_gem.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index b8db675e7fb5..a346e3b7f9a8 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -152,7 +152,7 @@ EXPORT_SYMBOL(drm_gem_object_init);
->   void drm_gem_private_object_init(struct drm_device *dev,
->   				 struct drm_gem_object *obj, size_t size)
->   {
-> -	BUG_ON((size & (PAGE_SIZE - 1)) != 0);
-> +	//BUG_ON((size & (PAGE_SIZE - 1)) != 0);
-This line is added by mistake?
+Just an aside, but this actually meant the same thing 30 years ago, when
+GL was done on the cpu. glFlush actually flushed out and finished all the
+rendering, because gl was an immediate mode api back then.
 
-Regards,
-Arun
->   
->   	obj->dev = dev;
->   	obj->filp = NULL;
+But now we have bazillions of layers in between to keep up the old gl
+illusions while actually trying to use the power of modern gpus, and so
+you have stuff like dma-buf implicit sync to be able to keep up the
+illusion that everything is synchronous, while in reality it is absolutely
+not.
 
+vk has this all much better, where the equivalent of glflush is a queue
+command and you get a dma_fence (in some wrapper, usually syncobj) back
+explicitly.
+
+History aside, I like your choice of naming.
+-Daniel
+
+> 
+> Best regards
+> Thomas
+> 
+> > 
+> > Also not sure whether you want to split out the fbdev part or not, imo
+> > overkill.
+> > 
+> > With comments addressed:
+> > 
+> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > 
+> > 
+> > > +	schedule_delayed_work(&info->deferred_work, fbdefio->delay);
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(fb_deferred_io_flush);
+> > > diff --git a/include/linux/fb.h b/include/linux/fb.h
+> > > index bcb8658f5b64d..54b3b3e13522f 100644
+> > > --- a/include/linux/fb.h
+> > > +++ b/include/linux/fb.h
+> > > @@ -663,6 +663,7 @@ extern void fb_deferred_io_open(struct fb_info *info,
+> > >   				struct inode *inode,
+> > >   				struct file *file);
+> > >   extern void fb_deferred_io_cleanup(struct fb_info *info);
+> > > +extern void fb_deferred_io_flush(struct fb_info *info);
+> > >   extern int fb_deferred_io_fsync(struct file *file, loff_t start,
+> > >   				loff_t end, int datasync);
+> > > -- 
+> > > 2.38.0
+> > > 
+> > 
+> 
+> -- 
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 Nürnberg, Germany
+> (HRB 36809, AG Nürnberg)
+> Geschäftsführer: Ivo Totev
+
+
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
