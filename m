@@ -2,153 +2,136 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7019A62D390
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 07:45:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EB1062D414
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 08:30:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F98D10E544;
-	Thu, 17 Nov 2022 06:45:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B81F10E554;
+	Thu, 17 Nov 2022 07:29:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9D2510E544;
- Thu, 17 Nov 2022 06:45:33 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A79F710E4AA
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 13:41:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1668667533; x=1700203533;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=jTOHuOoOyW6SMgi3Yh56jH5UpXN7qAR6D8IvBKW73Hs=;
- b=FGjC6M1ExzZQy2+6yqhFq2k8cQVKmaZyX2ZlBSwA/v+X4VqCRiL1Y1XI
- RcbeDMK4wt+27paQ/HgqIuERmCVbYs+NBA5yCWqVX9lXcv1qqpk3ifK1s
- pb52Iu+mbGOXrtJPMX/qEpQxCFjdgc+o0fSkhqQFR+RXCNDHZ6+qIyT4d
- f2wNeSH4yJgtK02GH26rnIiASYQW//AAqnPK6DOU+Rt0N2+rJjRFZETVK
- Yl2bfxxuf92hXH3uQrNgV/7guwtXgTaLqlovfxLaabnzx9GNT0o7wAtF4
- ThbtuvwCpJ8nIc+GP44+lQnlDXEzB2L0soSeS+CHpEZ/HJWolBAuQ7CfR g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10533"; a="292479464"
-X-IronPort-AV: E=Sophos;i="5.96,171,1665471600"; d="scan'208";a="292479464"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2022 22:45:33 -0800
+ t=1668606065; x=1700142065;
+ h=date:from:to:cc:subject:message-id:in-reply-to: mime-version;
+ bh=ckxDyXUUlOokMfTFY8prFo8QjOEQtMvfQBkALK/Gk4o=;
+ b=E//d/gFziGijvU55bam+xm+uJZVgxeznaIrenc8t1a04L4we0+27OTHv
+ 6uLTJ9OTUE9KyrEDDG2ZFJ0oBzP/E2UhXGuPVfEB+wDOYPfSezCvyc4F1
+ log674WX1nIrkni2zIcMkRhhr22b+pqPIYFiq9ifleF+hMqkot1c2UJCE
+ OX5jNnt4k7APdrzL0PjYI/1MbPVZ5dxM+xF2aENRskc0UZplMssNW2M22
+ qLfHvzJpjYY0WuiwUpjB9MTu1lbwwM3AUm1sjwg85q0jXWPnUrBLbtC5T
+ dbjRtwQLagXcbnkiCaxEqz3ZYRPi7P5n/Ur2O9yBdlgmrKW/PS3ApANDv A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="292933906"
+X-IronPort-AV: E=Sophos;i="5.96,167,1665471600"; 
+ d="xz'?yaml'?scan'208";a="292933906"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Nov 2022 05:41:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10533"; a="728704635"
-X-IronPort-AV: E=Sophos;i="5.96,171,1665471600"; d="scan'208";a="728704635"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by FMSMGA003.fm.intel.com with ESMTP; 16 Nov 2022 22:45:33 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="745053488"
+X-IronPort-AV: E=Sophos;i="5.96,167,1665471600"; 
+ d="xz'?yaml'?scan'208";a="745053488"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by fmsmga002.fm.intel.com with ESMTP; 16 Nov 2022 05:41:04 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 16 Nov 2022 22:45:32 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ 15.1.2375.31; Wed, 16 Nov 2022 05:41:03 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 16 Nov 2022 22:45:32 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Wed, 16 Nov 2022 22:45:32 -0800
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.173)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ 15.1.2375.31 via Frontend Transport; Wed, 16 Nov 2022 05:41:03 -0800
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.45) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Wed, 16 Nov 2022 22:45:32 -0800
+ 15.1.2375.31; Wed, 16 Nov 2022 05:41:02 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=n6xZQB92Y3gCTu0G6XTiJcgojCGf7SoCSNEKyyysabaTmylEZJTCoFgBPXb3oxmFVcHxF510wSmlQE9W2UzjFxYkn2gfzqSLJeQVO5LgZNLcujk80bx0RaKOtQs/oWaXdu8ApvdVAY+dH0k0StwJ2sOQ7l476X1sv3q3QSPkoP/zlJtpd6wxhR+MUpJFJ4dxsXWxKOqfOi9C115kEX569SJx8cap3GCtYJme9VvrjYr+uHmZPV68dOIvwNXUpcmf6rU+jYssn8f4COQya8BPKRRHvpuSdkauVLlo+XbgzgFhJWCndrQgC0/sZf5uCH5kHebMug+7TD3KO3y5jUwaag==
+ b=GXms6WtJ7obBxAUeQME710F0v8DiKdZIgjH0AjNtX2+8/2dFbDDKIxm9F9RIF6UUAxraYFzci7Tg6c1qEv3ivSQseOnzOd50l+z8uZmrp/fl6chq7AXkpLdg+aHtT4jjE6/mkwDtZsxeyndJXDXij4IeDS14R2wE52VcL2zdCy0BQKB1YIuKdehC5AVmW8MCzgCzLFc1OXVW4xKao4jV3E64eJuT97MHeSoGYAP9up3hefWAVvV+cocBIx/1nlSeEHbQkG72dsDOlaUDbHMreq8KoYNa/0pNh7VoOEUH98+Wu4494HIqY+JitJJRVLlxSZgEczzwdqsRMQYmlLl0OQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4to2JaTbMdGplp5AQxcLxN4l++lDjEHO6DBYASVY/aY=;
- b=dMLcTDPoFsjqr2I8HYrapta/9nwxk6TpAEnlWZbfEXQi3Ma/0pELCLst4JFKUGaxjj+MdQgQCAcJdnVHwMbkWm8wED/SleRtFyj1iEH7XXmzIcfOXJWhZQ7iyKWWB5algnfhsXLX4qYTvUswmokcTvFABaUFpWJFR5pMTvF3kEThxRID/N5P/6dDWFCcNp4Nh6lB3sJB+zfaGTAFVOO22x2Sino2fIW7q/rMR77+ZOq6WodsQRrLpVQQ5FrGXqagCL0HLNJK4lOBOnRhKcASPQDs+u12np6HRibn2Gntm/MkNUqUu+AcsK84fW1D8HczbeYnehqklyD8JMD1SiE/QQ==
+ bh=Nl6QMA0buXrJjbaQ0PaCM2iGoWOyJXxcC35ZVz5X3bo=;
+ b=b/oRgp3zH0B3ia63PcQJhhQqbCBv1bnr384/vJmjL7wsrYCKoOgiNcAJdTCNxQccTgEYsiEIErWjNlN7ol08ve4uFTuutx5rAVCAllhGa/xim1FIR1dhG/zw44xCKck/aipQzMA42oKd2pDiYyuAi9rpuAlxcU4Ctv7pHUGxSybpI7+Zd570BN8TAV4BrwSapaA8F1x896MDIebervIdRbB98xRIR2p+EBu3hyngtyc5YrA4JRuWx/PGIKao9VRx20cLtGAT4eZIATM5oAaEgHDzx7+dwKJQG0VBpAEaohUz9hknU/6K3/1DHnQu0XAUNeVZpl1XnWky3ZTg7gBUXQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BN9PR11MB5530.namprd11.prod.outlook.com (2603:10b6:408:103::8)
- by CO1PR11MB5138.namprd11.prod.outlook.com (2603:10b6:303:94::24)
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
+ by MW5PR11MB5884.namprd11.prod.outlook.com (2603:10b6:303:1a0::16)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.19; Thu, 17 Nov
- 2022 06:45:30 +0000
-Received: from BN9PR11MB5530.namprd11.prod.outlook.com
- ([fe80::1357:5e64:1336:fddf]) by BN9PR11MB5530.namprd11.prod.outlook.com
- ([fe80::1357:5e64:1336:fddf%8]) with mapi id 15.20.5813.020; Thu, 17 Nov 2022
- 06:45:30 +0000
-Message-ID: <ec84875d-b1b0-407c-dd71-c7b628095fa7@intel.com>
-Date: Thu, 17 Nov 2022 12:15:20 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [Intel-gfx] [PATCH 1/1] drm/i915/mtl: Enable Idle Messaging for
- GSC CS
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-References: <20221115134440.3669021-1-badal.nilawar@intel.com>
- <20221115134440.3669021-2-badal.nilawar@intel.com>
- <Y3Ov2jrHAqnIDGUs@intel.com>
-Content-Language: en-US
-From: "Nilawar, Badal" <badal.nilawar@intel.com>
-In-Reply-To: <Y3Ov2jrHAqnIDGUs@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN2PR01CA0028.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:25::33) To BN9PR11MB5530.namprd11.prod.outlook.com
- (2603:10b6:408:103::8)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.18; Wed, 16 Nov
+ 2022 13:40:51 +0000
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::a397:a46c:3d1b:c35d]) by CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::a397:a46c:3d1b:c35d%8]) with mapi id 15.20.5813.018; Wed, 16 Nov 2022
+ 13:40:50 +0000
+Date: Wed, 16 Nov 2022 21:39:03 +0800
+From: kernel test robot <yujie.liu@intel.com>
+To: Won Chung <wonchung@google.com>
+Subject: Re: [PATCH v4] drm/sysfs: Link DRM connectors to corresponding
+ Type-C connectors
+Message-ID: <202211161829.1e6323fc-yujie.liu@intel.com>
+Content-Type: multipart/mixed; boundary="Th/c7wV5ABaOOy8w"
+Content-Disposition: inline
+In-Reply-To: <20221108185004.2263578-1-wonchung@google.com>
+X-ClientProxiedBy: SI2PR06CA0001.apcprd06.prod.outlook.com
+ (2603:1096:4:186::21) To CY5PR11MB6392.namprd11.prod.outlook.com
+ (2603:10b6:930:37::15)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR11MB5530:EE_|CO1PR11MB5138:EE_
-X-MS-Office365-Filtering-Correlation-Id: a8791a93-8ba6-4d0d-3f6f-08dac86750bf
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|MW5PR11MB5884:EE_
+X-MS-Office365-Filtering-Correlation-Id: 568201e2-417e-49dd-fb3a-08dac7d82c5c
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AVqX9F/z3cyM6Ob6gYfTo3nVI0oAUS2VHriu9MpnDVBDUcSeVugNj/vEyoURY2fDHZDJ3/19WhGdCvy2DrNcnYj51eywN1c95WBviebM0t2JKzqYs+YEBfKF2dpBxrIypxLBzOpcMN6csxj2rt1nKRbQF4t23FzIh3yUUUfBJyprk366n1lobK5sCeYIA7VEoz8j/zWWun1bPM3D9vxfJfFG9n8FfVYiSq8brdCxyUFgB2oxQqrIrJ8mbulXvkUhH7w68jK6trBsoT58HoMnddnXrCUjeKFNiCP3PAFQ6OcT25+H+mCBle/4TB/qs8turUHMd2fhhjwIdgjMKRGwuM9dyTsJICu6RSSIoyqbuupEaJkL2TkB5d6SmCHcWqW6VfteoJrB8oZcNMgI+mduZCSqN7Lvg0yAG17LJQplkl9EKTWcm9LpX4OlBUQ46mg3bmuRat7zBVpT/pi+UcIEeBYRZSvkq2EGShaJDiBl7IZInphOWxbkHxlTcFaQL2H8Vbt3lnqAlihxXew6ADw9/RrcoEVnPqEkNLR9jsl0KIAR0RUhSeBPuaKonyM4C0nligbPvLeriBtn1Rw5Hin3wGbuvh6sj2x9Y7oUl6Oiko2M7xTpKRxfTSiywrrvnr/d7rnpAeaaqlo7cq+Vm5DpGap3s7F1DeXeKW3LtFyhIvgUI4pXaJWXw50pCUqAgEdljkKxQzZc1lzxrNeoZ3GIWKTGw6rRL7vcJM9jwDMFU7w=
+X-Microsoft-Antispam-Message-Info: V7u8S7CdILMYhkuIyP5H54mw94re96UgAsUBOwY5T3vIFaVbqye9/tQw3H0oitWLDG8zilku2H+/6hWUD9r1XpJ5v4j5OCXZhMqwX2Oizh7Jtb+WNHhOmahgw1YPKoe3H2ifLEzAnwRQlf/CstaQVcoRCfV9SP6jfXxO5jyBM4LwHgWcmYPGXv8Mr2iuwvaW86oKaLhora/Gv2RwxAn3594sLGX0fZnw0xTPnFVaJkVPjzvcvX7nz5Mzu5CgUh0ZN7t2UFAS1AdReiWxaK1Zn9k4CY/y7SVAdvhMi+V6VBiwTt7LFfkVw8lD0gU9rkiF6d8NAzT9emyKTc/ycGa+hxZzAGShvfZDgZ1DSvBFNLQTfr3U+02608OVJO4KvaH+2DMdVnHlwnmwYv9FeMQ0zMy4kPSQqJpnEYHTzCPPTn0nBHb1EigK8A82OTqxPUO/HmtBVBGH32++Ty1t3mDrXB8RIHRc4mIKT01uxYvQIcWnJVFcqxJQMzRKIFFPWAQm3k3wqCpI+Lwf7JSCs9dkeoQzA5JW4rM1uKnF5HHnHQwv9YSM53G7qLnz/+/l5mE6GjUGt+jz+nZFHVTrPNdsCBzzMsmXLESjsEKEnfQi/azuEWVqxuO3AObPnJvdEeScTYNKUMOl/DlYf0NSwBHIK72AVrOwgdZFQyEo2n+EHrrPxKU+tGQzO7ORntuxIKmW0ue5Li7gJyizpy9iQZjUaHJkchxFVbENhxRPg7g08OZjCwoq4DX1Hk871bm3FoRovvuhGp1BXSL7r+2rJR3kzagxfNm8kRzBO4XvH4PeHFQV3OVR49jmdYtas6g1KmbL
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR11MB5530.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(39860400002)(346002)(136003)(376002)(366004)(396003)(451199015)(38100700002)(82960400001)(31686004)(36756003)(6636002)(4326008)(316002)(450100002)(66946007)(37006003)(66476007)(8676002)(41300700001)(6512007)(5660300002)(2906002)(66556008)(8936002)(6862004)(6486002)(86362001)(31696002)(2616005)(26005)(6506007)(83380400001)(6666004)(478600001)(53546011)(186003)(43740500002)(45980500001);
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6392.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(346002)(39860400002)(366004)(396003)(136003)(376002)(451199015)(316002)(44144004)(38100700002)(66946007)(186003)(66556008)(1076003)(7416002)(2616005)(8936002)(36756003)(235185007)(4326008)(21490400003)(26005)(5660300002)(8676002)(2906002)(66476007)(82960400001)(86362001)(41300700001)(83380400001)(45080400002)(6666004)(6512007)(6486002)(478600001)(966005)(6916009)(6506007)(2700100001);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dFRaeGQxamdpcXkzZ0dkWFlnNHVpZHdoQzR5by8vTlhVam0vMThNTERtWFI3?=
- =?utf-8?B?TWJtNkc1TXBhTjVkSHkzZWt3KzJ6SS9RamZuNGFzSzJoZ0ZZWlhncmpCY0pp?=
- =?utf-8?B?VGxHTUI3bXNXcGFVS1hPWTZRSExKSHI1Vm5lQzdWVXFZb2tOdUxqRVhwcFlH?=
- =?utf-8?B?M2lmY05ya3F4QkQxbytjdS9oUnVSWTlaME9mYzlvenQzODJjRldQTlJ4RTlW?=
- =?utf-8?B?TUxkSDRwU29PR1VlUlBSNTJocitreS9EdzRJWWRya29aSjczU21HUGlEVUZD?=
- =?utf-8?B?UExKV0Z3UnpuRUFiNjZ1eXN2VWYwaWFrLzRoOXFGeGhEbGNQYnJuNkxWMEo4?=
- =?utf-8?B?L3JZVXVVZi9aYjllNUhvZ2hBOUNEcFAxaVZiUSttbzBRdnNsRys5T0hibE9N?=
- =?utf-8?B?OVRPK1VYcERkU2ZPT0ZEUVgvK3ErREw5SjBpVllqZWJjRVVQUjRSWjRWWHBk?=
- =?utf-8?B?QnlvM3BMc00xalhDR2M5eGY4N0pBN0NhODFIaitPRVh1OG1USzFKcXVqb2JJ?=
- =?utf-8?B?QmFMOWlJODJkTENOVzB4aFlDUGFNM1psQTBlR0YxUmh5Umg0NlhEMXFjeFlX?=
- =?utf-8?B?STZKY1hxRXRaTUJxSS9OTGhCdm5QTGxyUGlVRzdDSy8zMDJtd2pPSCtNZzk2?=
- =?utf-8?B?b0pZanA5NDVKRFVLWEUxWUtva1dSTEduc3VsMktWVEFnZ3dBc0UrR0Z5TDFp?=
- =?utf-8?B?WllkUjRBVnY4dGduNWtMTXBQbzVZZlhxTGV3TGx5Qmp6YVhOd21CR3V5Y1E3?=
- =?utf-8?B?c0oxN3U4UTRuUlNOUVNJVnpVRHR0MXMra01aeVd4QzBJY21obDRQUms3Slcw?=
- =?utf-8?B?Z1NkZWtpNG1mMisvWUd1TkxYbVFmeW1zTHROSzFqNE9iWXNHY3FmOUFKSmg4?=
- =?utf-8?B?ZUZ4ZWFGcXJTTUo3N3E0QmJWcG5seXFGVjVTenFXMWRyUnpyQXVzYmcrOHZx?=
- =?utf-8?B?c1ZtNTNPREhaazNiLzllL0FNajZhcjVlZi9tbW1KN3BkSU4yN1d6eVRTbGY4?=
- =?utf-8?B?dzdMZy9NcUFVWVE0aDRVUlorQ0lBNldaRkZlNlNXeFNpNzhobCtUUFZ0ZGJI?=
- =?utf-8?B?R0JkbE12QkUwQTY1Q28wNER3UmtDWnptT0VsRFNoZ2VOL3ArektJRy9IZWpw?=
- =?utf-8?B?R2p0MWJGZUJvKytWbldHTjN4TlBKclFqak5ucUs4bk92ditMYWgvc1lNUnlT?=
- =?utf-8?B?UXRHdjlPL0xoZG1wRHdDRDNBSlkrNHVDenRPL1I4ZUxBSHhvUVFXcHo3NHor?=
- =?utf-8?B?V3NJR0ErSnlqQ20yNTdUdG5TcG1BR0NMTnpiVjVZWVB5R2JNRWtmRDJsVlY0?=
- =?utf-8?B?UnAxeWk4cnJZQlZKM3BlU0wwRlJmbHFYdDhXU0VzakhkKzlVd3hrbjJlakE5?=
- =?utf-8?B?Mlo1VHpJYTVEVnBLTHV1MnNQSlpNQzBIUmE1U2dyU2xreXBuZlljZE5CQnBX?=
- =?utf-8?B?dHgyVDFycFJIUjJ2TWJjK1pVMUVSb0xMcW1Ocmt3UGtrWkZYVEhDN3g5STJr?=
- =?utf-8?B?ZnprQ21URi9YUmlMdnlFNERWUnM1OWFCUjlyYzBiTWkxMlFmNFVOSkhFOGFN?=
- =?utf-8?B?RE5qU3BpcnZoem0vaHUzMkVJbDNnem9mcllrS01SajYvZW9rcWVpcjNUY0hE?=
- =?utf-8?B?RVpqbEd4QmswVytGM3kxVUVicG0vOWYvSzBaMHRnM3lSZTY5SXJFMFVJbXF5?=
- =?utf-8?B?dFExODc3YkZWK3RDWEF1U1dLVms5NTUrK3h6N2hhM3pHZ1pOWjJmOFNKWkU2?=
- =?utf-8?B?R04wNDhmR05vRVRmNXdodVBJUUJYM1BZdUlkK1BYK2lkcDYzdXJYMC9ZdVhD?=
- =?utf-8?B?Y3FVSHdIV3VVVEdxNm1Hb1NjdFZnRTV0WFpONFgzZU9HcHZLQURtSjY3NEpD?=
- =?utf-8?B?cFNHcVRKRmVISERyZjVNcGRlYWI3MlM2Y3dLUThBQWFDNGNWeG9EY3QyWmYy?=
- =?utf-8?B?NHVzd2QrNDJMaVpYUFlJeHRIRVpJSDhjVWRLUEZvdVFJMzNTdFFtZWx0N2E4?=
- =?utf-8?B?N2Z5N0dIVGQxSm1qRmlza0hUQmpyUlgrUUUxM21sZXRRYVoyQnNjWTNPZDlw?=
- =?utf-8?B?RndVc2E5SlEzWkEwbVpPY3hQNlhHeTNIdW1ITFV2L0xiR2s4bVJEdjZ1RlRm?=
- =?utf-8?B?SUtWUks0cmY0NkZKV2l3MS9Ib0NEM1hiUHN6Y1dLVlo5YzlHdU9teEI2bEFO?=
- =?utf-8?B?U3c9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: a8791a93-8ba6-4d0d-3f6f-08dac86750bf
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5530.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?OE22/iNH1ufuqC+HTwSoLyZEiBFEj5cqNSxlX33P0mb/rQFLZ3wV6SWK1Ea8?=
+ =?us-ascii?Q?+kfSvP6Ate++it8/EiNH8vrj44mptr5W5F5bgQ2mzIlyBnwznhhodTVgWCNG?=
+ =?us-ascii?Q?Jb/ksQqdjoTiIXKpJJwX8Kd1dW+nnxljf4LqqwiH33KoWeeietBHx7FxfRXn?=
+ =?us-ascii?Q?5XHNJmHPelys/FRM4hNIe6G2fp08GS1BIfyTyVpUlpiVrpTLPZeCpb3E7brd?=
+ =?us-ascii?Q?A75UcKhdi166v8KvOXEhnhI8QvegG0dCJ30XUaTqIjDfrupsY61yEx5+XBA+?=
+ =?us-ascii?Q?rxJaPrNTtLywwc6rsaKATq9Z9x95xrKO4FpnzeGVZKg1G7tkpzXzDitrz35G?=
+ =?us-ascii?Q?WN5C/sf5y1duWOoC9rL50FVhLUEBWUVkSa0o9u1L1WBjnPnGpO+O2RebOgZ0?=
+ =?us-ascii?Q?hStLgx/VutWEzIjKR4aLXDf8r4g+KoYTyn6vfiiMSWQHiaSZ0NfSYBavxIO9?=
+ =?us-ascii?Q?7ND0gq51fGtH18/OgR+jUYSB7BfkHEBunMfCbCKx0sFY6c8Ox/s5J6bC4afS?=
+ =?us-ascii?Q?xRvi41Avgl+/DKa4RFI1G6HyAhCQhMFy197Hx/MWx5mJH/Xb73sGXdRUF09C?=
+ =?us-ascii?Q?QfvLIGJ1sKVH4ycYYU/Fk1A4qQ8A/WEZuLfS6b/4YG9uAW8zmNhoAK8KI0JC?=
+ =?us-ascii?Q?QdxcjzXQBl3z3uMx956z0/dclWXY4jvv/r5uDpMwGr9fesVzIjvqiVJG8oSF?=
+ =?us-ascii?Q?z7jh3TJG6pNq5mAi1Mf0cNUuBgVNOwvijobS3G2LyUGr+4MMwz62ohKoP1TE?=
+ =?us-ascii?Q?ftxMa9Q9kv5jAMipQfcRbcHz0Fv3HVSyHwIg0J0eXNwE1IXClL90ntw6mp7f?=
+ =?us-ascii?Q?7pLg61ru05zDfAaGq86Bf8MiDCX1gOtLqcd3MUkWgWZXryWTwcUxFky/cOH7?=
+ =?us-ascii?Q?s6cSr2wPDxGldGXBTb2Wq1K2Uee8w3IIIEY3NqK9KvHXYQ9I4c8dWWvfArVu?=
+ =?us-ascii?Q?zWebdhbFPjoXNgb/iS79/7LJi/tWbFEi38pDCzNnHPccPpqumfTWCwlmRNGk?=
+ =?us-ascii?Q?UeyzY6QA2Jdk5PiVSJl15ocSigSMNZQA4mHjPc/NVM8+1CnU5VeWwGCEzfOT?=
+ =?us-ascii?Q?T6b6lxXl9a0Q0G+USiStLbxzIi8s+bgIQuq41j47CTrxlne0GCNP+zXMP3Kr?=
+ =?us-ascii?Q?PdXLQSWB8GeXWjouiRk8FM4rR2erQx6YeT/1yHOjoIeU+e1gZY/bPXa+09zA?=
+ =?us-ascii?Q?+7WwrFRfehyPRzi9sQ3fDxmJf7md55BUjmqHpFug0p7ZOBHjHszbqP0hq+9h?=
+ =?us-ascii?Q?WY6PHRY3HtzFqInrkAsVC8l+CLK6uNO9orf9U1fC0Km3OvpNImqErbv7muxl?=
+ =?us-ascii?Q?lhQBz58FWtJXDN9I8+8AIGKxbp4A5ivOU166ZEM6YxJ5sAZGGENcJxw1W/ax?=
+ =?us-ascii?Q?NlzgVLeVfyjrvBLsirVqIacxREd4i3aN1MfEuODhqsIa4QIHKbOviEEYgJUI?=
+ =?us-ascii?Q?5i2Y84LhAMaLzjTDn+wEq2CoJCpHwWg+G1cyyKVF+xtxP1Sw3pEhFQo5Moyw?=
+ =?us-ascii?Q?56ER3t2I8VhCD0d85MMwRcBELcTi73RRU3GdnDrZVRgpLYf7DuYn04taw70J?=
+ =?us-ascii?Q?gasHilekNWTFU+3jOS7j2TVCHVzHOD9u/eLG5kHX?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 568201e2-417e-49dd-fb3a-08dac7d82c5c
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2022 06:45:30.3879 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2022 13:40:50.8295 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Dtjq7RwPE7pIjadmVUOJarVYBbIZyZr2yq7JtZoca/UQslA0IDU+GHWOOJGSqTTuTmu3/ZDs1jULsFj6RMTB/w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB5138
+X-MS-Exchange-CrossTenant-UserPrincipalName: IcJP1WopyfA+A0TXSlUkeSlLFnr04XA2JlbQJ/4W+mYowvsiskfIeOSJgZnYzVzhYyj6Yja6tdstjM9zV2GUzw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR11MB5884
 X-OriginatorOrg: intel.com
+X-Mailman-Approved-At: Thu, 17 Nov 2022 07:29:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,103 +144,10734 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, lkp@intel.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ pmalani@chromium.org, tzimmermann@suse.de, oe-lkp@lists.linux.dev,
+ bleung@google.com, wonchung@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rodrigo,
+--Th/c7wV5ABaOOy8w
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-On 15-11-2022 20:57, Rodrigo Vivi wrote:
-> On Tue, Nov 15, 2022 at 07:14:40PM +0530, Badal Nilawar wrote:
->> From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
->>
->> By defaut idle mesaging is disabled for GSC CS so to unblock RC6
->> entry on media tile idle messaging need to be enabled.
->>
->> v2:
->>   - Fix review comments (Vinay)
->>   - Set GSC idle hysterisis to 5 us (Badal)
-> 
-> btw, no need for the cover letter in single/standalone patches.
-> This history here is enough.
-Sure, next revision I will take care of this.
-> 
->>
->> Bspec: 71496
->>
->> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
->> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
->> Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
->> ---
->>   drivers/gpu/drm/i915/gt/intel_engine_pm.c | 18 ++++++++++++++++++
->>   drivers/gpu/drm/i915/gt/intel_gt_regs.h   |  4 ++++
->>   2 files changed, 22 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.c b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
->> index b0a4a2dbe3ee..5522885b2db0 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_engine_pm.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
->> @@ -15,6 +15,22 @@
->>   #include "intel_rc6.h"
->>   #include "intel_ring.h"
->>   #include "shmem_utils.h"
->> +#include "intel_gt_regs.h"
->> +
->> +static void intel_gsc_idle_msg_enable(struct intel_engine_cs *engine)
->> +{
->> +	struct drm_i915_private *i915 = engine->i915;
->> +
->> +	if (IS_METEORLAKE(i915) && engine->id == GSC0) {
->> +		intel_uncore_write(engine->gt->uncore,
->> +				   RC_PSMI_CTRL_GSCCS,
->> +				   _MASKED_BIT_DISABLE(IDLE_MSG_DISABLE));
->> +		/* 5 us hysterisis */
-> 
-> typo
-> 
->> +		intel_uncore_write(engine->gt->uncore,
->> +				   PWRCTX_MAXCNT_GSCCS,
->> +				   0xA);
-> 
-> you said 5 above, but used 10 here, why?
-Bspec:71496 specifies 0xA = 5us.
-> 
->> +	}
->> +}
->>   
->>   static void dbg_poison_ce(struct intel_context *ce)
->>   {
->> @@ -275,6 +291,8 @@ void intel_engine_init__pm(struct intel_engine_cs *engine)
->>   
->>   	intel_wakeref_init(&engine->wakeref, rpm, &wf_ops);
->>   	intel_engine_init_heartbeat(engine);
->> +
->> +	intel_gsc_idle_msg_enable(engine);
->>   }
->>   
->>   /**
->> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
->> index 07031e03f80c..20472eb15364 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
->> +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
->> @@ -913,6 +913,10 @@
->>   #define  MSG_IDLE_FW_MASK	REG_GENMASK(13, 9)
->>   #define  MSG_IDLE_FW_SHIFT	9
->>   
->> +#define	RC_PSMI_CTRL_GSCCS	_MMIO(0x11a050)
->> +#define	  IDLE_MSG_DISABLE	BIT(0)
-> 
-> REG_BIT should be preferred.
-I will take care of this and above comments in next revision.
+Greeting,
 
-Regards,
-Badal
-> 
->> +#define PWRCTX_MAXCNT_GSCCS	_MMIO(0x11a054)
->> +
->>   #define FORCEWAKE_MEDIA_GEN9			_MMIO(0xa270)
->>   #define FORCEWAKE_RENDER_GEN9			_MMIO(0xa278)
->>   
->> -- 
->> 2.25.1
->>
+FYI, we noticed WARNING:at_drivers/base/component.c:#component_del due to commit (built with gcc-11):
+
+commit: 55495ab682271956fda4d2728480a8cd9e0afaa2 ("[PATCH v4] drm/sysfs: Link DRM connectors to corresponding Type-C connectors")
+url: https://github.com/intel-lab-lkp/linux/commits/Won-Chung/drm-sysfs-Link-DRM-connectors-to-corresponding-Type-C-connectors/20221109-025232
+base: git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link: https://lore.kernel.org/all/20221108185004.2263578-1-wonchung@google.com/
+patch subject: [PATCH v4] drm/sysfs: Link DRM connectors to corresponding Type-C connectors
+
+in testcase: igt
+version: igt-x86_64-7da9f813-1_20221112
+with following parameters:
+
+	group: group-04
+
+on test machine: 20 threads 1 sockets (Commet Lake) with 16G memory
+
+caused below changes (please refer to attached dmesg/kmsg for entire log/backtrace):
+
+
+[   75.976323][ T2291] ------------[ cut here ]------------
+[   75.981626][ T2291] WARNING: CPU: 9 PID: 2291 at drivers/base/component.c:821 component_del+0x38a/0x4b0
+[   75.990972][ T2291] Modules linked in: i915(-) drm_buddy drm_display_helper ttm drm_kms_helper drm netconsole intel_rapl_msr intel_rapl_common btrfs blake2b_generic xor raid6_pq zstd_compress libcrc32c sd_mod x86_pkg_temp_thermal ipmi_devintf intel_powerclamp t10_pi coretemp ipmi_msghandler crc64_rocksoft_generic kvm_intel crc64_rocksoft crc64 sg kvm irqbypass crct10dif_pclmul crc32_pclmul intel_gtt crc32c_intel ghash_clmulni_intel sdhci_pci cqhci sha512_ssse3 ahci sdhci libahci rapl intel_cstate intel_wmi_thunderbolt wmi_bmof ppdev i2c_designware_platform mei_me i2c_i801 syscopyarea video parport_pc i2c_smbus libata intel_uncore sysfillrect mmc_core serio_raw mei i2c_designware_core idma64 intel_pch_thermal sysimgblt parport wmi intel_pmc_core acpi_pad acpi_tad fuse ip_tables [last unloaded: drm]
+[   76.061091][ T2291] CPU: 9 PID: 2291 Comm: i915_module_loa Tainted: G        W          6.1.0-rc2-00560-g55495ab68227 #1
+[   76.071896][ T2291] RIP: 0010:component_del+0x38a/0x4b0
+[   76.077103][ T2291] Code: 48 89 f8 48 c1 e8 03 42 80 3c 20 00 75 6b 48 39 6b 20 75 a4 48 c7 43 20 00 00 00 00 eb 9a 48 c7 c7 00 b1 1a 85 e8 16 ad 04 01 <0f> 0b 31 ed 5b 48 89 ef 5d 41 5c 41 5d 41 5e 41 5f e9 50 84 2b ff
+[   76.096428][ T2291] RSP: 0018:ffffc90001cd7b28 EFLAGS: 00010282
+[   76.102339][ T2291] RAX: 0000000000000000 RBX: dffffc0000000000 RCX: ffffffff834ef740
+[   76.110135][ T2291] RDX: 0000000000000000 RSI: 0000000000000008 RDI: ffffc90001cd7ad0
+[   76.117927][ T2291] RBP: ffffffff851ab0c0 R08: 0000000000000001 R09: ffffc90001cd7ad7
+[   76.125717][ T2291] R10: fffff5200039af5a R11: 0000000000000001 R12: ffff888433f9f800
+[   76.133516][ T2291] R13: ffffffffa034d4e0 R14: ffff888106d2f038 R15: ffffffffa0389500
+[   76.141312][ T2291] FS:  00007f1ff5227bc0(0000) GS:ffff8883cae80000(0000) knlGS:0000000000000000
+[   76.150060][ T2291] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   76.156507][ T2291] CR2: 00005648c3f42428 CR3: 000000045664a005 CR4: 00000000003706e0
+[   76.164308][ T2291] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[   76.172106][ T2291] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+[   76.179897][ T2291] Call Trace:
+[   76.183049][ T2291]  <TASK>
+[   76.185845][ T2291]  drm_sysfs_connector_remove+0x6b/0x190 [drm]
+[   76.191864][ T2291]  drm_connector_unregister+0x1e2/0x2c0 [drm]
+[   76.197788][ T2291]  drm_connector_unregister_all+0x6d/0xf0 [drm]
+[   76.203884][ T2291]  ? drm_connector_free_work_fn+0x100/0x100 [drm]
+[   76.210157][ T2291]  ? ktime_get_mono_fast_ns+0x85/0x1d0
+[   76.215456][ T2291]  drm_modeset_unregister_all+0xe/0x30 [drm]
+[   76.221296][ T2291]  drm_dev_unregister+0x19d/0x220 [drm]
+[   76.226711][ T2291]  drm_dev_unplug+0x48/0xb0 [drm]
+[   76.231616][ T2291]  i915_driver_remove+0xb6/0x140 [i915]
+[   76.237100][ T2291]  i915_pci_remove+0x39/0x80 [i915]
+[   76.242216][ T2291]  pci_device_remove+0x96/0x1c0
+[   76.246922][ T2291]  device_release_driver_internal+0x3b9/0x600
+[   76.252819][ T2291]  driver_detach+0xc0/0x180
+[   76.257170][ T2291]  ? i915_pci_register_driver+0x20/0x20 [i915]
+[   76.263235][ T2291]  bus_remove_driver+0xe4/0x2d0
+[   76.267934][ T2291]  ? d_lru_add+0xa6/0xf0
+[   76.272029][ T2291]  ? i915_pci_register_driver+0x20/0x20 [i915]
+[   76.278088][ T2291]  pci_unregister_driver+0x26/0x260
+[   76.283133][ T2291]  ? unregister_sysctl_table+0x7d/0x170
+[   76.289123][ T2291]  ? i915_pci_register_driver+0x20/0x20 [i915]
+[   76.295184][ T2291]  i915_exit+0x7b/0xc5 [i915]
+[   76.299814][ T2291]  __do_sys_delete_module+0x2ea/0x510
+[   76.306059][ T2291]  ? module_flags+0x300/0x300
+[   76.310581][ T2291]  ? __fget_light+0x51/0x220
+[   76.315017][ T2291]  ? __blkcg_punt_bio_submit+0x1b0/0x1b0
+[   76.320494][ T2291]  ? _raw_spin_lock+0x81/0xd0
+[   76.325018][ T2291]  ? _raw_write_lock_irq+0xd0/0xd0
+[   76.329970][ T2291]  ? exit_to_user_mode_loop+0xbc/0x120
+[   76.335274][ T2291]  ? exit_to_user_mode_prepare+0x89/0xd0
+[   76.340744][ T2291]  do_syscall_64+0x35/0x80
+[   76.345008][ T2291]  entry_SYSCALL_64_after_hwframe+0x5e/0xc8
+[   76.350732][ T2291] RIP: 0033:0x7f1ff75d74d7
+[   76.355003][ T2291] Code: 73 01 c3 48 8b 0d b9 19 0d 00 f7 d8 64 89 01 48 83 c8 ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 b8 b0 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 89 19 0d 00 f7 d8 64 89 01 48
+[   76.374334][ T2291] RSP: 002b:00007ffe07f5ca38 EFLAGS: 00000206 ORIG_RAX: 00000000000000b0
+[   76.382558][ T2291] RAX: ffffffffffffffda RBX: 00005648c3f34da0 RCX: 00007f1ff75d74d7
+[   76.390353][ T2291] RDX: 000000000000001a RSI: 0000000000000800 RDI: 00005648c3f34e08
+[   76.398145][ T2291] RBP: 0000000000000000 R08: 00000000ffffffff R09: 00007ffe07f5b790
+[   76.405938][ T2291] R10: fffffffffffffeee R11: 0000000000000206 R12: 00007f1ff7788c22
+[   76.413736][ T2291] R13: 00007ffe07f5caf0 R14: 0000000000000000 R15: 0000000000000000
+[   76.421536][ T2291]  </TASK>
+[   76.424422][ T2291] ---[ end trace 0000000000000000 ]---
+
+
+If you fix the issue, kindly add following tag
+| Reported-by: kernel test robot <yujie.liu@intel.com>
+| Link: https://lore.kernel.org/oe-lkp/202211161829.1e6323fc-yujie.liu@intel.com
+
+
+To reproduce:
+
+        git clone https://github.com/intel/lkp-tests.git
+        cd lkp-tests
+        sudo bin/lkp install job.yaml           # job file is attached in this email
+        bin/lkp split-job --compatible job.yaml # generate the yaml file for lkp run
+        sudo bin/lkp run generated-yaml-file
+
+        # if come across any failure that blocks the test,
+        # please remove ~/.lkp and /lkp dir to run from a clean state.
+
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
+
+--Th/c7wV5ABaOOy8w
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: attachment;
+	filename="config-6.1.0-rc2-00560-g55495ab68227"
+
+#
+# Automatically generated file; DO NOT EDIT.
+# Linux/x86_64 6.1.0-rc2 Kernel Configuration
+#
+CONFIG_CC_VERSION_TEXT="gcc-11 (Debian 11.3.0-8) 11.3.0"
+CONFIG_CC_IS_GCC=y
+CONFIG_GCC_VERSION=110300
+CONFIG_CLANG_VERSION=0
+CONFIG_AS_IS_GNU=y
+CONFIG_AS_VERSION=23900
+CONFIG_LD_IS_BFD=y
+CONFIG_LD_VERSION=23900
+CONFIG_LLD_VERSION=0
+CONFIG_CC_CAN_LINK=y
+CONFIG_CC_CAN_LINK_STATIC=y
+CONFIG_CC_HAS_ASM_GOTO_OUTPUT=y
+CONFIG_CC_HAS_ASM_INLINE=y
+CONFIG_CC_HAS_NO_PROFILE_FN_ATTR=y
+CONFIG_PAHOLE_VERSION=123
+CONFIG_CONSTRUCTORS=y
+CONFIG_IRQ_WORK=y
+CONFIG_BUILDTIME_TABLE_SORT=y
+CONFIG_THREAD_INFO_IN_TASK=y
+
+#
+# General setup
+#
+CONFIG_INIT_ENV_ARG_LIMIT=32
+# CONFIG_COMPILE_TEST is not set
+# CONFIG_WERROR is not set
+CONFIG_LOCALVERSION=""
+CONFIG_LOCALVERSION_AUTO=y
+CONFIG_BUILD_SALT=""
+CONFIG_HAVE_KERNEL_GZIP=y
+CONFIG_HAVE_KERNEL_BZIP2=y
+CONFIG_HAVE_KERNEL_LZMA=y
+CONFIG_HAVE_KERNEL_XZ=y
+CONFIG_HAVE_KERNEL_LZO=y
+CONFIG_HAVE_KERNEL_LZ4=y
+CONFIG_HAVE_KERNEL_ZSTD=y
+CONFIG_KERNEL_GZIP=y
+# CONFIG_KERNEL_BZIP2 is not set
+# CONFIG_KERNEL_LZMA is not set
+# CONFIG_KERNEL_XZ is not set
+# CONFIG_KERNEL_LZO is not set
+# CONFIG_KERNEL_LZ4 is not set
+# CONFIG_KERNEL_ZSTD is not set
+CONFIG_DEFAULT_INIT=""
+CONFIG_DEFAULT_HOSTNAME="(none)"
+CONFIG_SYSVIPC=y
+CONFIG_SYSVIPC_SYSCTL=y
+CONFIG_SYSVIPC_COMPAT=y
+CONFIG_POSIX_MQUEUE=y
+CONFIG_POSIX_MQUEUE_SYSCTL=y
+CONFIG_WATCH_QUEUE=y
+CONFIG_CROSS_MEMORY_ATTACH=y
+# CONFIG_USELIB is not set
+CONFIG_AUDIT=y
+CONFIG_HAVE_ARCH_AUDITSYSCALL=y
+CONFIG_AUDITSYSCALL=y
+
+#
+# IRQ subsystem
+#
+CONFIG_GENERIC_IRQ_PROBE=y
+CONFIG_GENERIC_IRQ_SHOW=y
+CONFIG_GENERIC_IRQ_EFFECTIVE_AFF_MASK=y
+CONFIG_GENERIC_PENDING_IRQ=y
+CONFIG_GENERIC_IRQ_MIGRATION=y
+CONFIG_GENERIC_IRQ_INJECTION=y
+CONFIG_HARDIRQS_SW_RESEND=y
+CONFIG_IRQ_DOMAIN=y
+CONFIG_IRQ_DOMAIN_HIERARCHY=y
+CONFIG_GENERIC_MSI_IRQ=y
+CONFIG_GENERIC_MSI_IRQ_DOMAIN=y
+CONFIG_IRQ_MSI_IOMMU=y
+CONFIG_GENERIC_IRQ_MATRIX_ALLOCATOR=y
+CONFIG_GENERIC_IRQ_RESERVATION_MODE=y
+CONFIG_IRQ_FORCED_THREADING=y
+CONFIG_SPARSE_IRQ=y
+# CONFIG_GENERIC_IRQ_DEBUGFS is not set
+# end of IRQ subsystem
+
+CONFIG_CLOCKSOURCE_WATCHDOG=y
+CONFIG_ARCH_CLOCKSOURCE_INIT=y
+CONFIG_CLOCKSOURCE_VALIDATE_LAST_CYCLE=y
+CONFIG_GENERIC_TIME_VSYSCALL=y
+CONFIG_GENERIC_CLOCKEVENTS=y
+CONFIG_GENERIC_CLOCKEVENTS_BROADCAST=y
+CONFIG_GENERIC_CLOCKEVENTS_MIN_ADJUST=y
+CONFIG_GENERIC_CMOS_UPDATE=y
+CONFIG_HAVE_POSIX_CPU_TIMERS_TASK_WORK=y
+CONFIG_POSIX_CPU_TIMERS_TASK_WORK=y
+CONFIG_CONTEXT_TRACKING=y
+CONFIG_CONTEXT_TRACKING_IDLE=y
+
+#
+# Timers subsystem
+#
+CONFIG_TICK_ONESHOT=y
+CONFIG_NO_HZ_COMMON=y
+# CONFIG_HZ_PERIODIC is not set
+# CONFIG_NO_HZ_IDLE is not set
+CONFIG_NO_HZ_FULL=y
+CONFIG_CONTEXT_TRACKING_USER=y
+# CONFIG_CONTEXT_TRACKING_USER_FORCE is not set
+CONFIG_NO_HZ=y
+CONFIG_HIGH_RES_TIMERS=y
+CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US=100
+# end of Timers subsystem
+
+CONFIG_BPF=y
+CONFIG_HAVE_EBPF_JIT=y
+CONFIG_ARCH_WANT_DEFAULT_BPF_JIT=y
+
+#
+# BPF subsystem
+#
+CONFIG_BPF_SYSCALL=y
+CONFIG_BPF_JIT=y
+CONFIG_BPF_JIT_ALWAYS_ON=y
+CONFIG_BPF_JIT_DEFAULT_ON=y
+CONFIG_BPF_UNPRIV_DEFAULT_OFF=y
+# CONFIG_BPF_PRELOAD is not set
+# CONFIG_BPF_LSM is not set
+# end of BPF subsystem
+
+CONFIG_PREEMPT_VOLUNTARY_BUILD=y
+# CONFIG_PREEMPT_NONE is not set
+CONFIG_PREEMPT_VOLUNTARY=y
+# CONFIG_PREEMPT is not set
+CONFIG_PREEMPT_COUNT=y
+# CONFIG_PREEMPT_DYNAMIC is not set
+# CONFIG_SCHED_CORE is not set
+
+#
+# CPU/Task time and stats accounting
+#
+CONFIG_VIRT_CPU_ACCOUNTING=y
+CONFIG_VIRT_CPU_ACCOUNTING_GEN=y
+CONFIG_IRQ_TIME_ACCOUNTING=y
+CONFIG_HAVE_SCHED_AVG_IRQ=y
+CONFIG_BSD_PROCESS_ACCT=y
+CONFIG_BSD_PROCESS_ACCT_V3=y
+CONFIG_TASKSTATS=y
+CONFIG_TASK_DELAY_ACCT=y
+CONFIG_TASK_XACCT=y
+CONFIG_TASK_IO_ACCOUNTING=y
+# CONFIG_PSI is not set
+# end of CPU/Task time and stats accounting
+
+CONFIG_CPU_ISOLATION=y
+
+#
+# RCU Subsystem
+#
+CONFIG_TREE_RCU=y
+CONFIG_RCU_EXPERT=y
+CONFIG_SRCU=y
+CONFIG_TREE_SRCU=y
+CONFIG_TASKS_RCU_GENERIC=y
+CONFIG_FORCE_TASKS_RCU=y
+CONFIG_TASKS_RCU=y
+# CONFIG_FORCE_TASKS_RUDE_RCU is not set
+CONFIG_TASKS_RUDE_RCU=y
+CONFIG_FORCE_TASKS_TRACE_RCU=y
+CONFIG_TASKS_TRACE_RCU=y
+CONFIG_RCU_STALL_COMMON=y
+CONFIG_RCU_NEED_SEGCBLIST=y
+CONFIG_RCU_FANOUT=64
+CONFIG_RCU_FANOUT_LEAF=16
+CONFIG_RCU_NOCB_CPU=y
+# CONFIG_RCU_NOCB_CPU_DEFAULT_ALL is not set
+# CONFIG_TASKS_TRACE_RCU_READ_MB is not set
+# end of RCU Subsystem
+
+CONFIG_IKCONFIG=y
+CONFIG_IKCONFIG_PROC=y
+# CONFIG_IKHEADERS is not set
+CONFIG_LOG_BUF_SHIFT=20
+CONFIG_LOG_CPU_MAX_BUF_SHIFT=12
+CONFIG_PRINTK_SAFE_LOG_BUF_SHIFT=13
+# CONFIG_PRINTK_INDEX is not set
+CONFIG_HAVE_UNSTABLE_SCHED_CLOCK=y
+
+#
+# Scheduler features
+#
+# CONFIG_UCLAMP_TASK is not set
+# end of Scheduler features
+
+CONFIG_ARCH_SUPPORTS_NUMA_BALANCING=y
+CONFIG_ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH=y
+CONFIG_CC_HAS_INT128=y
+CONFIG_CC_IMPLICIT_FALLTHROUGH="-Wimplicit-fallthrough=5"
+CONFIG_GCC12_NO_ARRAY_BOUNDS=y
+CONFIG_ARCH_SUPPORTS_INT128=y
+CONFIG_NUMA_BALANCING=y
+CONFIG_NUMA_BALANCING_DEFAULT_ENABLED=y
+CONFIG_CGROUPS=y
+CONFIG_PAGE_COUNTER=y
+# CONFIG_CGROUP_FAVOR_DYNMODS is not set
+CONFIG_MEMCG=y
+CONFIG_MEMCG_KMEM=y
+CONFIG_BLK_CGROUP=y
+CONFIG_CGROUP_WRITEBACK=y
+CONFIG_CGROUP_SCHED=y
+CONFIG_FAIR_GROUP_SCHED=y
+CONFIG_CFS_BANDWIDTH=y
+CONFIG_RT_GROUP_SCHED=y
+CONFIG_CGROUP_PIDS=y
+CONFIG_CGROUP_RDMA=y
+CONFIG_CGROUP_FREEZER=y
+CONFIG_CGROUP_HUGETLB=y
+CONFIG_CPUSETS=y
+CONFIG_PROC_PID_CPUSET=y
+CONFIG_CGROUP_DEVICE=y
+CONFIG_CGROUP_CPUACCT=y
+CONFIG_CGROUP_PERF=y
+# CONFIG_CGROUP_BPF is not set
+# CONFIG_CGROUP_MISC is not set
+# CONFIG_CGROUP_DEBUG is not set
+CONFIG_SOCK_CGROUP_DATA=y
+CONFIG_NAMESPACES=y
+CONFIG_UTS_NS=y
+CONFIG_TIME_NS=y
+CONFIG_IPC_NS=y
+CONFIG_USER_NS=y
+CONFIG_PID_NS=y
+CONFIG_NET_NS=y
+CONFIG_CHECKPOINT_RESTORE=y
+CONFIG_SCHED_AUTOGROUP=y
+# CONFIG_SYSFS_DEPRECATED is not set
+CONFIG_RELAY=y
+CONFIG_BLK_DEV_INITRD=y
+CONFIG_INITRAMFS_SOURCE=""
+CONFIG_RD_GZIP=y
+CONFIG_RD_BZIP2=y
+CONFIG_RD_LZMA=y
+CONFIG_RD_XZ=y
+CONFIG_RD_LZO=y
+CONFIG_RD_LZ4=y
+CONFIG_RD_ZSTD=y
+# CONFIG_BOOT_CONFIG is not set
+CONFIG_INITRAMFS_PRESERVE_MTIME=y
+CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE=y
+# CONFIG_CC_OPTIMIZE_FOR_SIZE is not set
+CONFIG_LD_ORPHAN_WARN=y
+CONFIG_SYSCTL=y
+CONFIG_HAVE_UID16=y
+CONFIG_SYSCTL_EXCEPTION_TRACE=y
+CONFIG_HAVE_PCSPKR_PLATFORM=y
+CONFIG_EXPERT=y
+CONFIG_UID16=y
+CONFIG_MULTIUSER=y
+CONFIG_SGETMASK_SYSCALL=y
+CONFIG_SYSFS_SYSCALL=y
+CONFIG_FHANDLE=y
+CONFIG_POSIX_TIMERS=y
+CONFIG_PRINTK=y
+CONFIG_BUG=y
+CONFIG_ELF_CORE=y
+CONFIG_PCSPKR_PLATFORM=y
+CONFIG_BASE_FULL=y
+CONFIG_FUTEX=y
+CONFIG_FUTEX_PI=y
+CONFIG_EPOLL=y
+CONFIG_SIGNALFD=y
+CONFIG_TIMERFD=y
+CONFIG_EVENTFD=y
+CONFIG_SHMEM=y
+CONFIG_AIO=y
+CONFIG_IO_URING=y
+CONFIG_ADVISE_SYSCALLS=y
+CONFIG_MEMBARRIER=y
+CONFIG_KALLSYMS=y
+CONFIG_KALLSYMS_ALL=y
+CONFIG_KALLSYMS_ABSOLUTE_PERCPU=y
+CONFIG_KALLSYMS_BASE_RELATIVE=y
+CONFIG_ARCH_HAS_MEMBARRIER_SYNC_CORE=y
+CONFIG_KCMP=y
+CONFIG_RSEQ=y
+# CONFIG_DEBUG_RSEQ is not set
+# CONFIG_EMBEDDED is not set
+CONFIG_HAVE_PERF_EVENTS=y
+CONFIG_GUEST_PERF_EVENTS=y
+# CONFIG_PC104 is not set
+
+#
+# Kernel Performance Events And Counters
+#
+CONFIG_PERF_EVENTS=y
+# CONFIG_DEBUG_PERF_USE_VMALLOC is not set
+# end of Kernel Performance Events And Counters
+
+CONFIG_SYSTEM_DATA_VERIFICATION=y
+CONFIG_PROFILING=y
+CONFIG_TRACEPOINTS=y
+# end of General setup
+
+CONFIG_64BIT=y
+CONFIG_X86_64=y
+CONFIG_X86=y
+CONFIG_INSTRUCTION_DECODER=y
+CONFIG_OUTPUT_FORMAT="elf64-x86-64"
+CONFIG_LOCKDEP_SUPPORT=y
+CONFIG_STACKTRACE_SUPPORT=y
+CONFIG_MMU=y
+CONFIG_ARCH_MMAP_RND_BITS_MIN=28
+CONFIG_ARCH_MMAP_RND_BITS_MAX=32
+CONFIG_ARCH_MMAP_RND_COMPAT_BITS_MIN=8
+CONFIG_ARCH_MMAP_RND_COMPAT_BITS_MAX=16
+CONFIG_GENERIC_ISA_DMA=y
+CONFIG_GENERIC_CSUM=y
+CONFIG_GENERIC_BUG=y
+CONFIG_GENERIC_BUG_RELATIVE_POINTERS=y
+CONFIG_ARCH_MAY_HAVE_PC_FDC=y
+CONFIG_GENERIC_CALIBRATE_DELAY=y
+CONFIG_ARCH_HAS_CPU_RELAX=y
+CONFIG_ARCH_HIBERNATION_POSSIBLE=y
+CONFIG_ARCH_NR_GPIO=1024
+CONFIG_ARCH_SUSPEND_POSSIBLE=y
+CONFIG_AUDIT_ARCH=y
+CONFIG_KASAN_SHADOW_OFFSET=0xdffffc0000000000
+CONFIG_HAVE_INTEL_TXT=y
+CONFIG_X86_64_SMP=y
+CONFIG_ARCH_SUPPORTS_UPROBES=y
+CONFIG_FIX_EARLYCON_MEM=y
+CONFIG_DYNAMIC_PHYSICAL_MASK=y
+CONFIG_PGTABLE_LEVELS=5
+CONFIG_CC_HAS_SANE_STACKPROTECTOR=y
+
+#
+# Processor type and features
+#
+CONFIG_SMP=y
+CONFIG_X86_FEATURE_NAMES=y
+CONFIG_X86_X2APIC=y
+CONFIG_X86_MPPARSE=y
+# CONFIG_GOLDFISH is not set
+# CONFIG_X86_CPU_RESCTRL is not set
+CONFIG_X86_EXTENDED_PLATFORM=y
+# CONFIG_X86_NUMACHIP is not set
+# CONFIG_X86_VSMP is not set
+CONFIG_X86_UV=y
+# CONFIG_X86_GOLDFISH is not set
+# CONFIG_X86_INTEL_MID is not set
+CONFIG_X86_INTEL_LPSS=y
+# CONFIG_X86_AMD_PLATFORM_DEVICE is not set
+CONFIG_IOSF_MBI=y
+# CONFIG_IOSF_MBI_DEBUG is not set
+CONFIG_X86_SUPPORTS_MEMORY_FAILURE=y
+# CONFIG_SCHED_OMIT_FRAME_POINTER is not set
+CONFIG_HYPERVISOR_GUEST=y
+CONFIG_PARAVIRT=y
+# CONFIG_PARAVIRT_DEBUG is not set
+CONFIG_PARAVIRT_SPINLOCKS=y
+CONFIG_X86_HV_CALLBACK_VECTOR=y
+# CONFIG_XEN is not set
+CONFIG_KVM_GUEST=y
+CONFIG_ARCH_CPUIDLE_HALTPOLL=y
+# CONFIG_PVH is not set
+CONFIG_PARAVIRT_TIME_ACCOUNTING=y
+CONFIG_PARAVIRT_CLOCK=y
+# CONFIG_JAILHOUSE_GUEST is not set
+# CONFIG_ACRN_GUEST is not set
+CONFIG_INTEL_TDX_GUEST=y
+# CONFIG_MK8 is not set
+# CONFIG_MPSC is not set
+# CONFIG_MCORE2 is not set
+# CONFIG_MATOM is not set
+CONFIG_GENERIC_CPU=y
+CONFIG_X86_INTERNODE_CACHE_SHIFT=6
+CONFIG_X86_L1_CACHE_SHIFT=6
+CONFIG_X86_TSC=y
+CONFIG_X86_CMPXCHG64=y
+CONFIG_X86_CMOV=y
+CONFIG_X86_MINIMUM_CPU_FAMILY=64
+CONFIG_X86_DEBUGCTLMSR=y
+CONFIG_IA32_FEAT_CTL=y
+CONFIG_X86_VMX_FEATURE_NAMES=y
+CONFIG_PROCESSOR_SELECT=y
+CONFIG_CPU_SUP_INTEL=y
+# CONFIG_CPU_SUP_AMD is not set
+# CONFIG_CPU_SUP_HYGON is not set
+# CONFIG_CPU_SUP_CENTAUR is not set
+# CONFIG_CPU_SUP_ZHAOXIN is not set
+CONFIG_HPET_TIMER=y
+CONFIG_HPET_EMULATE_RTC=y
+CONFIG_DMI=y
+CONFIG_BOOT_VESA_SUPPORT=y
+CONFIG_MAXSMP=y
+CONFIG_NR_CPUS_RANGE_BEGIN=8192
+CONFIG_NR_CPUS_RANGE_END=8192
+CONFIG_NR_CPUS_DEFAULT=8192
+CONFIG_NR_CPUS=8192
+CONFIG_SCHED_CLUSTER=y
+CONFIG_SCHED_SMT=y
+CONFIG_SCHED_MC=y
+CONFIG_SCHED_MC_PRIO=y
+CONFIG_X86_LOCAL_APIC=y
+CONFIG_X86_IO_APIC=y
+CONFIG_X86_REROUTE_FOR_BROKEN_BOOT_IRQS=y
+CONFIG_X86_MCE=y
+CONFIG_X86_MCELOG_LEGACY=y
+CONFIG_X86_MCE_INTEL=y
+CONFIG_X86_MCE_THRESHOLD=y
+CONFIG_X86_MCE_INJECT=m
+
+#
+# Performance monitoring
+#
+CONFIG_PERF_EVENTS_INTEL_UNCORE=m
+CONFIG_PERF_EVENTS_INTEL_RAPL=m
+CONFIG_PERF_EVENTS_INTEL_CSTATE=m
+# end of Performance monitoring
+
+CONFIG_X86_16BIT=y
+CONFIG_X86_ESPFIX64=y
+CONFIG_X86_VSYSCALL_EMULATION=y
+CONFIG_X86_IOPL_IOPERM=y
+CONFIG_MICROCODE=y
+CONFIG_MICROCODE_INTEL=y
+CONFIG_MICROCODE_LATE_LOADING=y
+CONFIG_X86_MSR=y
+CONFIG_X86_CPUID=y
+CONFIG_X86_5LEVEL=y
+CONFIG_X86_DIRECT_GBPAGES=y
+# CONFIG_X86_CPA_STATISTICS is not set
+CONFIG_X86_MEM_ENCRYPT=y
+CONFIG_NUMA=y
+# CONFIG_AMD_NUMA is not set
+CONFIG_X86_64_ACPI_NUMA=y
+CONFIG_NUMA_EMU=y
+CONFIG_NODES_SHIFT=10
+CONFIG_ARCH_SPARSEMEM_ENABLE=y
+CONFIG_ARCH_SPARSEMEM_DEFAULT=y
+# CONFIG_ARCH_MEMORY_PROBE is not set
+CONFIG_ARCH_PROC_KCORE_TEXT=y
+CONFIG_ILLEGAL_POINTER_VALUE=0xdead000000000000
+CONFIG_X86_PMEM_LEGACY_DEVICE=y
+CONFIG_X86_PMEM_LEGACY=m
+CONFIG_X86_CHECK_BIOS_CORRUPTION=y
+# CONFIG_X86_BOOTPARAM_MEMORY_CORRUPTION_CHECK is not set
+CONFIG_MTRR=y
+CONFIG_MTRR_SANITIZER=y
+CONFIG_MTRR_SANITIZER_ENABLE_DEFAULT=1
+CONFIG_MTRR_SANITIZER_SPARE_REG_NR_DEFAULT=1
+CONFIG_X86_PAT=y
+CONFIG_ARCH_USES_PG_UNCACHED=y
+CONFIG_X86_UMIP=y
+CONFIG_CC_HAS_IBT=y
+# CONFIG_X86_KERNEL_IBT is not set
+CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS=y
+# CONFIG_X86_INTEL_TSX_MODE_OFF is not set
+# CONFIG_X86_INTEL_TSX_MODE_ON is not set
+CONFIG_X86_INTEL_TSX_MODE_AUTO=y
+# CONFIG_X86_SGX is not set
+CONFIG_EFI=y
+CONFIG_EFI_STUB=y
+CONFIG_EFI_MIXED=y
+# CONFIG_HZ_100 is not set
+# CONFIG_HZ_250 is not set
+# CONFIG_HZ_300 is not set
+CONFIG_HZ_1000=y
+CONFIG_HZ=1000
+CONFIG_SCHED_HRTICK=y
+CONFIG_KEXEC=y
+CONFIG_KEXEC_FILE=y
+CONFIG_ARCH_HAS_KEXEC_PURGATORY=y
+# CONFIG_KEXEC_SIG is not set
+CONFIG_CRASH_DUMP=y
+CONFIG_KEXEC_JUMP=y
+CONFIG_PHYSICAL_START=0x1000000
+CONFIG_RELOCATABLE=y
+# CONFIG_RANDOMIZE_BASE is not set
+CONFIG_PHYSICAL_ALIGN=0x200000
+CONFIG_DYNAMIC_MEMORY_LAYOUT=y
+CONFIG_HOTPLUG_CPU=y
+CONFIG_BOOTPARAM_HOTPLUG_CPU0=y
+# CONFIG_DEBUG_HOTPLUG_CPU0 is not set
+# CONFIG_COMPAT_VDSO is not set
+CONFIG_LEGACY_VSYSCALL_XONLY=y
+# CONFIG_LEGACY_VSYSCALL_NONE is not set
+# CONFIG_CMDLINE_BOOL is not set
+CONFIG_MODIFY_LDT_SYSCALL=y
+# CONFIG_STRICT_SIGALTSTACK_SIZE is not set
+CONFIG_HAVE_LIVEPATCH=y
+CONFIG_LIVEPATCH=y
+# end of Processor type and features
+
+CONFIG_CC_HAS_SLS=y
+CONFIG_CC_HAS_RETURN_THUNK=y
+CONFIG_SPECULATION_MITIGATIONS=y
+CONFIG_PAGE_TABLE_ISOLATION=y
+# CONFIG_RETPOLINE is not set
+CONFIG_CPU_IBRS_ENTRY=y
+# CONFIG_SLS is not set
+CONFIG_ARCH_HAS_ADD_PAGES=y
+CONFIG_ARCH_MHP_MEMMAP_ON_MEMORY_ENABLE=y
+
+#
+# Power management and ACPI options
+#
+CONFIG_ARCH_HIBERNATION_HEADER=y
+CONFIG_SUSPEND=y
+CONFIG_SUSPEND_FREEZER=y
+# CONFIG_SUSPEND_SKIP_SYNC is not set
+CONFIG_HIBERNATE_CALLBACKS=y
+CONFIG_HIBERNATION=y
+CONFIG_HIBERNATION_SNAPSHOT_DEV=y
+CONFIG_PM_STD_PARTITION=""
+CONFIG_PM_SLEEP=y
+CONFIG_PM_SLEEP_SMP=y
+# CONFIG_PM_AUTOSLEEP is not set
+# CONFIG_PM_USERSPACE_AUTOSLEEP is not set
+# CONFIG_PM_WAKELOCKS is not set
+CONFIG_PM=y
+CONFIG_PM_DEBUG=y
+# CONFIG_PM_ADVANCED_DEBUG is not set
+# CONFIG_PM_TEST_SUSPEND is not set
+CONFIG_PM_SLEEP_DEBUG=y
+# CONFIG_DPM_WATCHDOG is not set
+# CONFIG_PM_TRACE_RTC is not set
+CONFIG_PM_CLK=y
+# CONFIG_WQ_POWER_EFFICIENT_DEFAULT is not set
+# CONFIG_ENERGY_MODEL is not set
+CONFIG_ARCH_SUPPORTS_ACPI=y
+CONFIG_ACPI=y
+CONFIG_ACPI_LEGACY_TABLES_LOOKUP=y
+CONFIG_ARCH_MIGHT_HAVE_ACPI_PDC=y
+CONFIG_ACPI_SYSTEM_POWER_STATES_SUPPORT=y
+# CONFIG_ACPI_DEBUGGER is not set
+CONFIG_ACPI_SPCR_TABLE=y
+# CONFIG_ACPI_FPDT is not set
+CONFIG_ACPI_LPIT=y
+CONFIG_ACPI_SLEEP=y
+CONFIG_ACPI_REV_OVERRIDE_POSSIBLE=y
+CONFIG_ACPI_EC_DEBUGFS=m
+CONFIG_ACPI_AC=y
+CONFIG_ACPI_BATTERY=y
+CONFIG_ACPI_BUTTON=y
+CONFIG_ACPI_VIDEO=m
+CONFIG_ACPI_FAN=y
+CONFIG_ACPI_TAD=m
+CONFIG_ACPI_DOCK=y
+CONFIG_ACPI_CPU_FREQ_PSS=y
+CONFIG_ACPI_PROCESSOR_CSTATE=y
+CONFIG_ACPI_PROCESSOR_IDLE=y
+CONFIG_ACPI_CPPC_LIB=y
+CONFIG_ACPI_PROCESSOR=y
+CONFIG_ACPI_IPMI=m
+CONFIG_ACPI_HOTPLUG_CPU=y
+CONFIG_ACPI_PROCESSOR_AGGREGATOR=m
+CONFIG_ACPI_THERMAL=y
+CONFIG_ACPI_PLATFORM_PROFILE=m
+CONFIG_ARCH_HAS_ACPI_TABLE_UPGRADE=y
+CONFIG_ACPI_TABLE_UPGRADE=y
+# CONFIG_ACPI_DEBUG is not set
+CONFIG_ACPI_PCI_SLOT=y
+CONFIG_ACPI_CONTAINER=y
+CONFIG_ACPI_HOTPLUG_MEMORY=y
+CONFIG_ACPI_HOTPLUG_IOAPIC=y
+CONFIG_ACPI_SBS=m
+CONFIG_ACPI_HED=y
+# CONFIG_ACPI_CUSTOM_METHOD is not set
+CONFIG_ACPI_BGRT=y
+# CONFIG_ACPI_REDUCED_HARDWARE_ONLY is not set
+CONFIG_ACPI_NFIT=m
+# CONFIG_NFIT_SECURITY_DEBUG is not set
+CONFIG_ACPI_NUMA=y
+# CONFIG_ACPI_HMAT is not set
+CONFIG_HAVE_ACPI_APEI=y
+CONFIG_HAVE_ACPI_APEI_NMI=y
+CONFIG_ACPI_APEI=y
+CONFIG_ACPI_APEI_GHES=y
+CONFIG_ACPI_APEI_PCIEAER=y
+CONFIG_ACPI_APEI_MEMORY_FAILURE=y
+CONFIG_ACPI_APEI_EINJ=m
+# CONFIG_ACPI_APEI_ERST_DEBUG is not set
+# CONFIG_ACPI_DPTF is not set
+CONFIG_ACPI_WATCHDOG=y
+CONFIG_ACPI_EXTLOG=m
+CONFIG_ACPI_ADXL=y
+# CONFIG_ACPI_CONFIGFS is not set
+# CONFIG_ACPI_PFRUT is not set
+CONFIG_ACPI_PCC=y
+CONFIG_PMIC_OPREGION=y
+CONFIG_ACPI_PRMT=y
+CONFIG_X86_PM_TIMER=y
+
+#
+# CPU Frequency scaling
+#
+CONFIG_CPU_FREQ=y
+CONFIG_CPU_FREQ_GOV_ATTR_SET=y
+CONFIG_CPU_FREQ_GOV_COMMON=y
+CONFIG_CPU_FREQ_STAT=y
+CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE=y
+# CONFIG_CPU_FREQ_DEFAULT_GOV_POWERSAVE is not set
+# CONFIG_CPU_FREQ_DEFAULT_GOV_USERSPACE is not set
+# CONFIG_CPU_FREQ_DEFAULT_GOV_SCHEDUTIL is not set
+CONFIG_CPU_FREQ_GOV_PERFORMANCE=y
+CONFIG_CPU_FREQ_GOV_POWERSAVE=y
+CONFIG_CPU_FREQ_GOV_USERSPACE=y
+CONFIG_CPU_FREQ_GOV_ONDEMAND=y
+CONFIG_CPU_FREQ_GOV_CONSERVATIVE=y
+CONFIG_CPU_FREQ_GOV_SCHEDUTIL=y
+
+#
+# CPU frequency scaling drivers
+#
+CONFIG_X86_INTEL_PSTATE=y
+# CONFIG_X86_PCC_CPUFREQ is not set
+# CONFIG_X86_AMD_PSTATE is not set
+# CONFIG_X86_AMD_PSTATE_UT is not set
+CONFIG_X86_ACPI_CPUFREQ=m
+# CONFIG_X86_POWERNOW_K8 is not set
+# CONFIG_X86_SPEEDSTEP_CENTRINO is not set
+CONFIG_X86_P4_CLOCKMOD=m
+
+#
+# shared options
+#
+CONFIG_X86_SPEEDSTEP_LIB=m
+# end of CPU Frequency scaling
+
+#
+# CPU Idle
+#
+CONFIG_CPU_IDLE=y
+# CONFIG_CPU_IDLE_GOV_LADDER is not set
+CONFIG_CPU_IDLE_GOV_MENU=y
+# CONFIG_CPU_IDLE_GOV_TEO is not set
+# CONFIG_CPU_IDLE_GOV_HALTPOLL is not set
+CONFIG_HALTPOLL_CPUIDLE=y
+# end of CPU Idle
+
+CONFIG_INTEL_IDLE=y
+# end of Power management and ACPI options
+
+#
+# Bus options (PCI etc.)
+#
+CONFIG_PCI_DIRECT=y
+CONFIG_PCI_MMCONFIG=y
+CONFIG_MMCONF_FAM10H=y
+# CONFIG_PCI_CNB20LE_QUIRK is not set
+# CONFIG_ISA_BUS is not set
+CONFIG_ISA_DMA_API=y
+# end of Bus options (PCI etc.)
+
+#
+# Binary Emulations
+#
+CONFIG_IA32_EMULATION=y
+# CONFIG_X86_X32_ABI is not set
+CONFIG_COMPAT_32=y
+CONFIG_COMPAT=y
+CONFIG_COMPAT_FOR_U64_ALIGNMENT=y
+# end of Binary Emulations
+
+CONFIG_HAVE_KVM=y
+CONFIG_HAVE_KVM_PFNCACHE=y
+CONFIG_HAVE_KVM_IRQCHIP=y
+CONFIG_HAVE_KVM_IRQFD=y
+CONFIG_HAVE_KVM_IRQ_ROUTING=y
+CONFIG_HAVE_KVM_DIRTY_RING=y
+CONFIG_HAVE_KVM_DIRTY_RING_TSO=y
+CONFIG_HAVE_KVM_DIRTY_RING_ACQ_REL=y
+CONFIG_HAVE_KVM_EVENTFD=y
+CONFIG_KVM_MMIO=y
+CONFIG_KVM_ASYNC_PF=y
+CONFIG_HAVE_KVM_MSI=y
+CONFIG_HAVE_KVM_CPU_RELAX_INTERCEPT=y
+CONFIG_KVM_VFIO=y
+CONFIG_KVM_GENERIC_DIRTYLOG_READ_PROTECT=y
+CONFIG_KVM_COMPAT=y
+CONFIG_HAVE_KVM_IRQ_BYPASS=y
+CONFIG_HAVE_KVM_NO_POLL=y
+CONFIG_KVM_XFER_TO_GUEST_WORK=y
+CONFIG_HAVE_KVM_PM_NOTIFIER=y
+CONFIG_VIRTUALIZATION=y
+CONFIG_KVM=m
+# CONFIG_KVM_WERROR is not set
+CONFIG_KVM_INTEL=m
+# CONFIG_KVM_AMD is not set
+# CONFIG_KVM_XEN is not set
+CONFIG_AS_AVX512=y
+CONFIG_AS_SHA1_NI=y
+CONFIG_AS_SHA256_NI=y
+CONFIG_AS_TPAUSE=y
+
+#
+# General architecture-dependent options
+#
+CONFIG_CRASH_CORE=y
+CONFIG_KEXEC_CORE=y
+CONFIG_HOTPLUG_SMT=y
+CONFIG_GENERIC_ENTRY=y
+CONFIG_KPROBES=y
+CONFIG_JUMP_LABEL=y
+# CONFIG_STATIC_KEYS_SELFTEST is not set
+# CONFIG_STATIC_CALL_SELFTEST is not set
+CONFIG_OPTPROBES=y
+CONFIG_KPROBES_ON_FTRACE=y
+CONFIG_UPROBES=y
+CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS=y
+CONFIG_ARCH_USE_BUILTIN_BSWAP=y
+CONFIG_KRETPROBES=y
+CONFIG_KRETPROBE_ON_RETHOOK=y
+CONFIG_USER_RETURN_NOTIFIER=y
+CONFIG_HAVE_IOREMAP_PROT=y
+CONFIG_HAVE_KPROBES=y
+CONFIG_HAVE_KRETPROBES=y
+CONFIG_HAVE_OPTPROBES=y
+CONFIG_HAVE_KPROBES_ON_FTRACE=y
+CONFIG_ARCH_CORRECT_STACKTRACE_ON_KRETPROBE=y
+CONFIG_HAVE_FUNCTION_ERROR_INJECTION=y
+CONFIG_HAVE_NMI=y
+CONFIG_TRACE_IRQFLAGS_SUPPORT=y
+CONFIG_TRACE_IRQFLAGS_NMI_SUPPORT=y
+CONFIG_HAVE_ARCH_TRACEHOOK=y
+CONFIG_HAVE_DMA_CONTIGUOUS=y
+CONFIG_GENERIC_SMP_IDLE_THREAD=y
+CONFIG_ARCH_HAS_FORTIFY_SOURCE=y
+CONFIG_ARCH_HAS_SET_MEMORY=y
+CONFIG_ARCH_HAS_SET_DIRECT_MAP=y
+CONFIG_HAVE_ARCH_THREAD_STRUCT_WHITELIST=y
+CONFIG_ARCH_WANTS_DYNAMIC_TASK_STRUCT=y
+CONFIG_ARCH_WANTS_NO_INSTR=y
+CONFIG_HAVE_ASM_MODVERSIONS=y
+CONFIG_HAVE_REGS_AND_STACK_ACCESS_API=y
+CONFIG_HAVE_RSEQ=y
+CONFIG_HAVE_RUST=y
+CONFIG_HAVE_FUNCTION_ARG_ACCESS_API=y
+CONFIG_HAVE_HW_BREAKPOINT=y
+CONFIG_HAVE_MIXED_BREAKPOINTS_REGS=y
+CONFIG_HAVE_USER_RETURN_NOTIFIER=y
+CONFIG_HAVE_PERF_EVENTS_NMI=y
+CONFIG_HAVE_HARDLOCKUP_DETECTOR_PERF=y
+CONFIG_HAVE_PERF_REGS=y
+CONFIG_HAVE_PERF_USER_STACK_DUMP=y
+CONFIG_HAVE_ARCH_JUMP_LABEL=y
+CONFIG_HAVE_ARCH_JUMP_LABEL_RELATIVE=y
+CONFIG_MMU_GATHER_TABLE_FREE=y
+CONFIG_MMU_GATHER_RCU_TABLE_FREE=y
+CONFIG_MMU_GATHER_MERGE_VMAS=y
+CONFIG_ARCH_HAVE_NMI_SAFE_CMPXCHG=y
+CONFIG_HAVE_ALIGNED_STRUCT_PAGE=y
+CONFIG_HAVE_CMPXCHG_LOCAL=y
+CONFIG_HAVE_CMPXCHG_DOUBLE=y
+CONFIG_ARCH_WANT_COMPAT_IPC_PARSE_VERSION=y
+CONFIG_ARCH_WANT_OLD_COMPAT_IPC=y
+CONFIG_HAVE_ARCH_SECCOMP=y
+CONFIG_HAVE_ARCH_SECCOMP_FILTER=y
+CONFIG_SECCOMP=y
+CONFIG_SECCOMP_FILTER=y
+# CONFIG_SECCOMP_CACHE_DEBUG is not set
+CONFIG_HAVE_ARCH_STACKLEAK=y
+CONFIG_HAVE_STACKPROTECTOR=y
+CONFIG_STACKPROTECTOR=y
+CONFIG_STACKPROTECTOR_STRONG=y
+CONFIG_ARCH_SUPPORTS_LTO_CLANG=y
+CONFIG_ARCH_SUPPORTS_LTO_CLANG_THIN=y
+CONFIG_LTO_NONE=y
+CONFIG_ARCH_SUPPORTS_CFI_CLANG=y
+CONFIG_HAVE_ARCH_WITHIN_STACK_FRAMES=y
+CONFIG_HAVE_CONTEXT_TRACKING_USER=y
+CONFIG_HAVE_CONTEXT_TRACKING_USER_OFFSTACK=y
+CONFIG_HAVE_VIRT_CPU_ACCOUNTING_GEN=y
+CONFIG_HAVE_IRQ_TIME_ACCOUNTING=y
+CONFIG_HAVE_MOVE_PUD=y
+CONFIG_HAVE_MOVE_PMD=y
+CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE=y
+CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD=y
+CONFIG_HAVE_ARCH_HUGE_VMAP=y
+CONFIG_HAVE_ARCH_HUGE_VMALLOC=y
+CONFIG_ARCH_WANT_HUGE_PMD_SHARE=y
+CONFIG_HAVE_ARCH_SOFT_DIRTY=y
+CONFIG_HAVE_MOD_ARCH_SPECIFIC=y
+CONFIG_MODULES_USE_ELF_RELA=y
+CONFIG_HAVE_IRQ_EXIT_ON_IRQ_STACK=y
+CONFIG_HAVE_SOFTIRQ_ON_OWN_STACK=y
+CONFIG_SOFTIRQ_ON_OWN_STACK=y
+CONFIG_ARCH_HAS_ELF_RANDOMIZE=y
+CONFIG_HAVE_ARCH_MMAP_RND_BITS=y
+CONFIG_HAVE_EXIT_THREAD=y
+CONFIG_ARCH_MMAP_RND_BITS=28
+CONFIG_HAVE_ARCH_MMAP_RND_COMPAT_BITS=y
+CONFIG_ARCH_MMAP_RND_COMPAT_BITS=8
+CONFIG_HAVE_ARCH_COMPAT_MMAP_BASES=y
+CONFIG_PAGE_SIZE_LESS_THAN_64KB=y
+CONFIG_PAGE_SIZE_LESS_THAN_256KB=y
+CONFIG_HAVE_OBJTOOL=y
+CONFIG_HAVE_JUMP_LABEL_HACK=y
+CONFIG_HAVE_NOINSTR_HACK=y
+CONFIG_HAVE_NOINSTR_VALIDATION=y
+CONFIG_HAVE_UACCESS_VALIDATION=y
+CONFIG_HAVE_STACK_VALIDATION=y
+CONFIG_HAVE_RELIABLE_STACKTRACE=y
+CONFIG_OLD_SIGSUSPEND3=y
+CONFIG_COMPAT_OLD_SIGACTION=y
+CONFIG_COMPAT_32BIT_TIME=y
+CONFIG_HAVE_ARCH_VMAP_STACK=y
+CONFIG_VMAP_STACK=y
+CONFIG_HAVE_ARCH_RANDOMIZE_KSTACK_OFFSET=y
+CONFIG_RANDOMIZE_KSTACK_OFFSET=y
+# CONFIG_RANDOMIZE_KSTACK_OFFSET_DEFAULT is not set
+CONFIG_ARCH_HAS_STRICT_KERNEL_RWX=y
+CONFIG_STRICT_KERNEL_RWX=y
+CONFIG_ARCH_HAS_STRICT_MODULE_RWX=y
+CONFIG_STRICT_MODULE_RWX=y
+CONFIG_HAVE_ARCH_PREL32_RELOCATIONS=y
+CONFIG_ARCH_USE_MEMREMAP_PROT=y
+# CONFIG_LOCK_EVENT_COUNTS is not set
+CONFIG_ARCH_HAS_MEM_ENCRYPT=y
+CONFIG_ARCH_HAS_CC_PLATFORM=y
+CONFIG_HAVE_STATIC_CALL=y
+CONFIG_HAVE_STATIC_CALL_INLINE=y
+CONFIG_HAVE_PREEMPT_DYNAMIC=y
+CONFIG_HAVE_PREEMPT_DYNAMIC_CALL=y
+CONFIG_ARCH_WANT_LD_ORPHAN_WARN=y
+CONFIG_ARCH_SUPPORTS_DEBUG_PAGEALLOC=y
+CONFIG_ARCH_SUPPORTS_PAGE_TABLE_CHECK=y
+CONFIG_ARCH_HAS_ELFCORE_COMPAT=y
+CONFIG_ARCH_HAS_PARANOID_L1D_FLUSH=y
+CONFIG_DYNAMIC_SIGFRAME=y
+CONFIG_ARCH_HAS_NONLEAF_PMD_YOUNG=y
+
+#
+# GCOV-based kernel profiling
+#
+# CONFIG_GCOV_KERNEL is not set
+CONFIG_ARCH_HAS_GCOV_PROFILE_ALL=y
+# end of GCOV-based kernel profiling
+
+CONFIG_HAVE_GCC_PLUGINS=y
+CONFIG_GCC_PLUGINS=y
+# CONFIG_GCC_PLUGIN_LATENT_ENTROPY is not set
+# end of General architecture-dependent options
+
+CONFIG_RT_MUTEXES=y
+CONFIG_BASE_SMALL=0
+CONFIG_MODULE_SIG_FORMAT=y
+CONFIG_MODULES=y
+CONFIG_MODULE_FORCE_LOAD=y
+CONFIG_MODULE_UNLOAD=y
+# CONFIG_MODULE_FORCE_UNLOAD is not set
+# CONFIG_MODULE_UNLOAD_TAINT_TRACKING is not set
+# CONFIG_MODVERSIONS is not set
+# CONFIG_MODULE_SRCVERSION_ALL is not set
+CONFIG_MODULE_SIG=y
+# CONFIG_MODULE_SIG_FORCE is not set
+CONFIG_MODULE_SIG_ALL=y
+# CONFIG_MODULE_SIG_SHA1 is not set
+# CONFIG_MODULE_SIG_SHA224 is not set
+CONFIG_MODULE_SIG_SHA256=y
+# CONFIG_MODULE_SIG_SHA384 is not set
+# CONFIG_MODULE_SIG_SHA512 is not set
+CONFIG_MODULE_SIG_HASH="sha256"
+CONFIG_MODULE_COMPRESS_NONE=y
+# CONFIG_MODULE_COMPRESS_GZIP is not set
+# CONFIG_MODULE_COMPRESS_XZ is not set
+# CONFIG_MODULE_COMPRESS_ZSTD is not set
+# CONFIG_MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS is not set
+CONFIG_MODPROBE_PATH="/sbin/modprobe"
+# CONFIG_TRIM_UNUSED_KSYMS is not set
+CONFIG_MODULES_TREE_LOOKUP=y
+CONFIG_BLOCK=y
+CONFIG_BLOCK_LEGACY_AUTOLOAD=y
+CONFIG_BLK_CGROUP_RWSTAT=y
+CONFIG_BLK_DEV_BSG_COMMON=y
+CONFIG_BLK_ICQ=y
+CONFIG_BLK_DEV_BSGLIB=y
+CONFIG_BLK_DEV_INTEGRITY=y
+CONFIG_BLK_DEV_INTEGRITY_T10=m
+CONFIG_BLK_DEV_ZONED=y
+CONFIG_BLK_DEV_THROTTLING=y
+# CONFIG_BLK_DEV_THROTTLING_LOW is not set
+CONFIG_BLK_WBT=y
+CONFIG_BLK_WBT_MQ=y
+# CONFIG_BLK_CGROUP_IOLATENCY is not set
+# CONFIG_BLK_CGROUP_IOCOST is not set
+# CONFIG_BLK_CGROUP_IOPRIO is not set
+CONFIG_BLK_DEBUG_FS=y
+CONFIG_BLK_DEBUG_FS_ZONED=y
+# CONFIG_BLK_SED_OPAL is not set
+# CONFIG_BLK_INLINE_ENCRYPTION is not set
+
+#
+# Partition Types
+#
+# CONFIG_PARTITION_ADVANCED is not set
+CONFIG_MSDOS_PARTITION=y
+CONFIG_EFI_PARTITION=y
+# end of Partition Types
+
+CONFIG_BLOCK_COMPAT=y
+CONFIG_BLK_MQ_PCI=y
+CONFIG_BLK_MQ_VIRTIO=y
+CONFIG_BLK_MQ_RDMA=y
+CONFIG_BLK_PM=y
+CONFIG_BLOCK_HOLDER_DEPRECATED=y
+CONFIG_BLK_MQ_STACKING=y
+
+#
+# IO Schedulers
+#
+CONFIG_MQ_IOSCHED_DEADLINE=y
+CONFIG_MQ_IOSCHED_KYBER=y
+CONFIG_IOSCHED_BFQ=y
+CONFIG_BFQ_GROUP_IOSCHED=y
+# CONFIG_BFQ_CGROUP_DEBUG is not set
+# end of IO Schedulers
+
+CONFIG_PREEMPT_NOTIFIERS=y
+CONFIG_PADATA=y
+CONFIG_ASN1=y
+CONFIG_INLINE_SPIN_UNLOCK_IRQ=y
+CONFIG_INLINE_READ_UNLOCK=y
+CONFIG_INLINE_READ_UNLOCK_IRQ=y
+CONFIG_INLINE_WRITE_UNLOCK=y
+CONFIG_INLINE_WRITE_UNLOCK_IRQ=y
+CONFIG_ARCH_SUPPORTS_ATOMIC_RMW=y
+CONFIG_MUTEX_SPIN_ON_OWNER=y
+CONFIG_RWSEM_SPIN_ON_OWNER=y
+CONFIG_LOCK_SPIN_ON_OWNER=y
+CONFIG_ARCH_USE_QUEUED_SPINLOCKS=y
+CONFIG_QUEUED_SPINLOCKS=y
+CONFIG_ARCH_USE_QUEUED_RWLOCKS=y
+CONFIG_QUEUED_RWLOCKS=y
+CONFIG_ARCH_HAS_NON_OVERLAPPING_ADDRESS_SPACE=y
+CONFIG_ARCH_HAS_SYNC_CORE_BEFORE_USERMODE=y
+CONFIG_ARCH_HAS_SYSCALL_WRAPPER=y
+CONFIG_FREEZER=y
+
+#
+# Executable file formats
+#
+CONFIG_BINFMT_ELF=y
+CONFIG_COMPAT_BINFMT_ELF=y
+CONFIG_ELFCORE=y
+CONFIG_CORE_DUMP_DEFAULT_ELF_HEADERS=y
+CONFIG_BINFMT_SCRIPT=y
+CONFIG_BINFMT_MISC=m
+CONFIG_COREDUMP=y
+# end of Executable file formats
+
+#
+# Memory Management options
+#
+CONFIG_ZPOOL=y
+CONFIG_SWAP=y
+CONFIG_ZSWAP=y
+# CONFIG_ZSWAP_DEFAULT_ON is not set
+# CONFIG_ZSWAP_COMPRESSOR_DEFAULT_DEFLATE is not set
+CONFIG_ZSWAP_COMPRESSOR_DEFAULT_LZO=y
+# CONFIG_ZSWAP_COMPRESSOR_DEFAULT_842 is not set
+# CONFIG_ZSWAP_COMPRESSOR_DEFAULT_LZ4 is not set
+# CONFIG_ZSWAP_COMPRESSOR_DEFAULT_LZ4HC is not set
+# CONFIG_ZSWAP_COMPRESSOR_DEFAULT_ZSTD is not set
+CONFIG_ZSWAP_COMPRESSOR_DEFAULT="lzo"
+CONFIG_ZSWAP_ZPOOL_DEFAULT_ZBUD=y
+# CONFIG_ZSWAP_ZPOOL_DEFAULT_Z3FOLD is not set
+# CONFIG_ZSWAP_ZPOOL_DEFAULT_ZSMALLOC is not set
+CONFIG_ZSWAP_ZPOOL_DEFAULT="zbud"
+CONFIG_ZBUD=y
+# CONFIG_Z3FOLD is not set
+CONFIG_ZSMALLOC=y
+CONFIG_ZSMALLOC_STAT=y
+
+#
+# SLAB allocator options
+#
+# CONFIG_SLAB is not set
+CONFIG_SLUB=y
+# CONFIG_SLOB is not set
+CONFIG_SLAB_MERGE_DEFAULT=y
+CONFIG_SLAB_FREELIST_RANDOM=y
+# CONFIG_SLAB_FREELIST_HARDENED is not set
+# CONFIG_SLUB_STATS is not set
+CONFIG_SLUB_CPU_PARTIAL=y
+# end of SLAB allocator options
+
+CONFIG_SHUFFLE_PAGE_ALLOCATOR=y
+# CONFIG_COMPAT_BRK is not set
+CONFIG_SPARSEMEM=y
+CONFIG_SPARSEMEM_EXTREME=y
+CONFIG_SPARSEMEM_VMEMMAP_ENABLE=y
+CONFIG_SPARSEMEM_VMEMMAP=y
+CONFIG_HAVE_FAST_GUP=y
+CONFIG_NUMA_KEEP_MEMINFO=y
+CONFIG_MEMORY_ISOLATION=y
+CONFIG_EXCLUSIVE_SYSTEM_RAM=y
+CONFIG_HAVE_BOOTMEM_INFO_NODE=y
+CONFIG_ARCH_ENABLE_MEMORY_HOTPLUG=y
+CONFIG_ARCH_ENABLE_MEMORY_HOTREMOVE=y
+CONFIG_MEMORY_HOTPLUG=y
+# CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE is not set
+CONFIG_MEMORY_HOTREMOVE=y
+CONFIG_MHP_MEMMAP_ON_MEMORY=y
+CONFIG_SPLIT_PTLOCK_CPUS=4
+CONFIG_ARCH_ENABLE_SPLIT_PMD_PTLOCK=y
+CONFIG_MEMORY_BALLOON=y
+CONFIG_BALLOON_COMPACTION=y
+CONFIG_COMPACTION=y
+CONFIG_COMPACT_UNEVICTABLE_DEFAULT=1
+CONFIG_PAGE_REPORTING=y
+CONFIG_MIGRATION=y
+CONFIG_DEVICE_MIGRATION=y
+CONFIG_ARCH_ENABLE_HUGEPAGE_MIGRATION=y
+CONFIG_ARCH_ENABLE_THP_MIGRATION=y
+CONFIG_CONTIG_ALLOC=y
+CONFIG_PHYS_ADDR_T_64BIT=y
+CONFIG_MMU_NOTIFIER=y
+CONFIG_KSM=y
+CONFIG_DEFAULT_MMAP_MIN_ADDR=4096
+CONFIG_ARCH_SUPPORTS_MEMORY_FAILURE=y
+CONFIG_MEMORY_FAILURE=y
+CONFIG_HWPOISON_INJECT=m
+CONFIG_ARCH_WANT_GENERAL_HUGETLB=y
+CONFIG_ARCH_WANTS_THP_SWAP=y
+CONFIG_TRANSPARENT_HUGEPAGE=y
+CONFIG_TRANSPARENT_HUGEPAGE_ALWAYS=y
+# CONFIG_TRANSPARENT_HUGEPAGE_MADVISE is not set
+CONFIG_THP_SWAP=y
+# CONFIG_READ_ONLY_THP_FOR_FS is not set
+CONFIG_NEED_PER_CPU_EMBED_FIRST_CHUNK=y
+CONFIG_NEED_PER_CPU_PAGE_FIRST_CHUNK=y
+CONFIG_USE_PERCPU_NUMA_NODE_ID=y
+CONFIG_HAVE_SETUP_PER_CPU_AREA=y
+CONFIG_FRONTSWAP=y
+CONFIG_CMA=y
+# CONFIG_CMA_DEBUG is not set
+# CONFIG_CMA_DEBUGFS is not set
+# CONFIG_CMA_SYSFS is not set
+CONFIG_CMA_AREAS=19
+# CONFIG_MEM_SOFT_DIRTY is not set
+CONFIG_GENERIC_EARLY_IOREMAP=y
+CONFIG_DEFERRED_STRUCT_PAGE_INIT=y
+CONFIG_PAGE_IDLE_FLAG=y
+CONFIG_IDLE_PAGE_TRACKING=y
+CONFIG_ARCH_HAS_CACHE_LINE_SIZE=y
+CONFIG_ARCH_HAS_CURRENT_STACK_POINTER=y
+CONFIG_ARCH_HAS_PTE_DEVMAP=y
+CONFIG_ARCH_HAS_ZONE_DMA_SET=y
+CONFIG_ZONE_DMA=y
+CONFIG_ZONE_DMA32=y
+CONFIG_ZONE_DEVICE=y
+CONFIG_HMM_MIRROR=y
+CONFIG_GET_FREE_REGION=y
+CONFIG_DEVICE_PRIVATE=y
+CONFIG_VMAP_PFN=y
+CONFIG_ARCH_USES_HIGH_VMA_FLAGS=y
+CONFIG_ARCH_HAS_PKEYS=y
+CONFIG_VM_EVENT_COUNTERS=y
+# CONFIG_PERCPU_STATS is not set
+# CONFIG_GUP_TEST is not set
+CONFIG_ARCH_HAS_PTE_SPECIAL=y
+CONFIG_SECRETMEM=y
+# CONFIG_ANON_VMA_NAME is not set
+# CONFIG_USERFAULTFD is not set
+# CONFIG_LRU_GEN is not set
+
+#
+# Data Access Monitoring
+#
+# CONFIG_DAMON is not set
+# end of Data Access Monitoring
+# end of Memory Management options
+
+CONFIG_NET=y
+CONFIG_COMPAT_NETLINK_MESSAGES=y
+CONFIG_NET_INGRESS=y
+CONFIG_NET_EGRESS=y
+CONFIG_SKB_EXTENSIONS=y
+
+#
+# Networking options
+#
+CONFIG_PACKET=y
+CONFIG_PACKET_DIAG=m
+CONFIG_UNIX=y
+CONFIG_UNIX_SCM=y
+CONFIG_AF_UNIX_OOB=y
+CONFIG_UNIX_DIAG=m
+CONFIG_TLS=m
+CONFIG_TLS_DEVICE=y
+# CONFIG_TLS_TOE is not set
+CONFIG_XFRM=y
+CONFIG_XFRM_OFFLOAD=y
+CONFIG_XFRM_ALGO=y
+CONFIG_XFRM_USER=y
+# CONFIG_XFRM_USER_COMPAT is not set
+# CONFIG_XFRM_INTERFACE is not set
+CONFIG_XFRM_SUB_POLICY=y
+CONFIG_XFRM_MIGRATE=y
+CONFIG_XFRM_STATISTICS=y
+CONFIG_XFRM_AH=m
+CONFIG_XFRM_ESP=m
+CONFIG_XFRM_IPCOMP=m
+CONFIG_NET_KEY=m
+CONFIG_NET_KEY_MIGRATE=y
+# CONFIG_SMC is not set
+CONFIG_XDP_SOCKETS=y
+# CONFIG_XDP_SOCKETS_DIAG is not set
+CONFIG_INET=y
+CONFIG_IP_MULTICAST=y
+CONFIG_IP_ADVANCED_ROUTER=y
+CONFIG_IP_FIB_TRIE_STATS=y
+CONFIG_IP_MULTIPLE_TABLES=y
+CONFIG_IP_ROUTE_MULTIPATH=y
+CONFIG_IP_ROUTE_VERBOSE=y
+CONFIG_IP_ROUTE_CLASSID=y
+CONFIG_IP_PNP=y
+CONFIG_IP_PNP_DHCP=y
+# CONFIG_IP_PNP_BOOTP is not set
+# CONFIG_IP_PNP_RARP is not set
+CONFIG_NET_IPIP=m
+CONFIG_NET_IPGRE_DEMUX=m
+CONFIG_NET_IP_TUNNEL=m
+CONFIG_NET_IPGRE=m
+CONFIG_NET_IPGRE_BROADCAST=y
+CONFIG_IP_MROUTE_COMMON=y
+CONFIG_IP_MROUTE=y
+CONFIG_IP_MROUTE_MULTIPLE_TABLES=y
+CONFIG_IP_PIMSM_V1=y
+CONFIG_IP_PIMSM_V2=y
+CONFIG_SYN_COOKIES=y
+CONFIG_NET_IPVTI=m
+CONFIG_NET_UDP_TUNNEL=m
+# CONFIG_NET_FOU is not set
+# CONFIG_NET_FOU_IP_TUNNELS is not set
+CONFIG_INET_AH=m
+CONFIG_INET_ESP=m
+CONFIG_INET_ESP_OFFLOAD=m
+# CONFIG_INET_ESPINTCP is not set
+CONFIG_INET_IPCOMP=m
+CONFIG_INET_XFRM_TUNNEL=m
+CONFIG_INET_TUNNEL=m
+CONFIG_INET_DIAG=m
+CONFIG_INET_TCP_DIAG=m
+CONFIG_INET_UDP_DIAG=m
+CONFIG_INET_RAW_DIAG=m
+# CONFIG_INET_DIAG_DESTROY is not set
+CONFIG_TCP_CONG_ADVANCED=y
+CONFIG_TCP_CONG_BIC=m
+CONFIG_TCP_CONG_CUBIC=y
+CONFIG_TCP_CONG_WESTWOOD=m
+CONFIG_TCP_CONG_HTCP=m
+CONFIG_TCP_CONG_HSTCP=m
+CONFIG_TCP_CONG_HYBLA=m
+CONFIG_TCP_CONG_VEGAS=m
+CONFIG_TCP_CONG_NV=m
+CONFIG_TCP_CONG_SCALABLE=m
+CONFIG_TCP_CONG_LP=m
+CONFIG_TCP_CONG_VENO=m
+CONFIG_TCP_CONG_YEAH=m
+CONFIG_TCP_CONG_ILLINOIS=m
+CONFIG_TCP_CONG_DCTCP=m
+# CONFIG_TCP_CONG_CDG is not set
+CONFIG_TCP_CONG_BBR=m
+CONFIG_DEFAULT_CUBIC=y
+# CONFIG_DEFAULT_RENO is not set
+CONFIG_DEFAULT_TCP_CONG="cubic"
+CONFIG_TCP_MD5SIG=y
+CONFIG_IPV6=y
+CONFIG_IPV6_ROUTER_PREF=y
+CONFIG_IPV6_ROUTE_INFO=y
+CONFIG_IPV6_OPTIMISTIC_DAD=y
+CONFIG_INET6_AH=m
+CONFIG_INET6_ESP=m
+CONFIG_INET6_ESP_OFFLOAD=m
+# CONFIG_INET6_ESPINTCP is not set
+CONFIG_INET6_IPCOMP=m
+CONFIG_IPV6_MIP6=m
+# CONFIG_IPV6_ILA is not set
+CONFIG_INET6_XFRM_TUNNEL=m
+CONFIG_INET6_TUNNEL=m
+CONFIG_IPV6_VTI=m
+CONFIG_IPV6_SIT=m
+CONFIG_IPV6_SIT_6RD=y
+CONFIG_IPV6_NDISC_NODETYPE=y
+CONFIG_IPV6_TUNNEL=m
+CONFIG_IPV6_GRE=m
+CONFIG_IPV6_MULTIPLE_TABLES=y
+# CONFIG_IPV6_SUBTREES is not set
+CONFIG_IPV6_MROUTE=y
+CONFIG_IPV6_MROUTE_MULTIPLE_TABLES=y
+CONFIG_IPV6_PIMSM_V2=y
+# CONFIG_IPV6_SEG6_LWTUNNEL is not set
+# CONFIG_IPV6_SEG6_HMAC is not set
+# CONFIG_IPV6_RPL_LWTUNNEL is not set
+# CONFIG_IPV6_IOAM6_LWTUNNEL is not set
+CONFIG_NETLABEL=y
+# CONFIG_MPTCP is not set
+CONFIG_NETWORK_SECMARK=y
+CONFIG_NET_PTP_CLASSIFY=y
+CONFIG_NETWORK_PHY_TIMESTAMPING=y
+CONFIG_NETFILTER=y
+CONFIG_NETFILTER_ADVANCED=y
+CONFIG_BRIDGE_NETFILTER=m
+
+#
+# Core Netfilter Configuration
+#
+CONFIG_NETFILTER_INGRESS=y
+CONFIG_NETFILTER_EGRESS=y
+CONFIG_NETFILTER_SKIP_EGRESS=y
+CONFIG_NETFILTER_NETLINK=m
+CONFIG_NETFILTER_FAMILY_BRIDGE=y
+CONFIG_NETFILTER_FAMILY_ARP=y
+# CONFIG_NETFILTER_NETLINK_HOOK is not set
+# CONFIG_NETFILTER_NETLINK_ACCT is not set
+CONFIG_NETFILTER_NETLINK_QUEUE=m
+CONFIG_NETFILTER_NETLINK_LOG=m
+CONFIG_NETFILTER_NETLINK_OSF=m
+CONFIG_NF_CONNTRACK=m
+CONFIG_NF_LOG_SYSLOG=m
+CONFIG_NETFILTER_CONNCOUNT=m
+CONFIG_NF_CONNTRACK_MARK=y
+CONFIG_NF_CONNTRACK_SECMARK=y
+CONFIG_NF_CONNTRACK_ZONES=y
+CONFIG_NF_CONNTRACK_PROCFS=y
+CONFIG_NF_CONNTRACK_EVENTS=y
+CONFIG_NF_CONNTRACK_TIMEOUT=y
+CONFIG_NF_CONNTRACK_TIMESTAMP=y
+CONFIG_NF_CONNTRACK_LABELS=y
+CONFIG_NF_CT_PROTO_DCCP=y
+CONFIG_NF_CT_PROTO_GRE=y
+CONFIG_NF_CT_PROTO_SCTP=y
+CONFIG_NF_CT_PROTO_UDPLITE=y
+CONFIG_NF_CONNTRACK_AMANDA=m
+CONFIG_NF_CONNTRACK_FTP=m
+CONFIG_NF_CONNTRACK_H323=m
+CONFIG_NF_CONNTRACK_IRC=m
+CONFIG_NF_CONNTRACK_BROADCAST=m
+CONFIG_NF_CONNTRACK_NETBIOS_NS=m
+CONFIG_NF_CONNTRACK_SNMP=m
+CONFIG_NF_CONNTRACK_PPTP=m
+CONFIG_NF_CONNTRACK_SANE=m
+CONFIG_NF_CONNTRACK_SIP=m
+CONFIG_NF_CONNTRACK_TFTP=m
+CONFIG_NF_CT_NETLINK=m
+CONFIG_NF_CT_NETLINK_TIMEOUT=m
+CONFIG_NF_CT_NETLINK_HELPER=m
+CONFIG_NETFILTER_NETLINK_GLUE_CT=y
+CONFIG_NF_NAT=m
+CONFIG_NF_NAT_AMANDA=m
+CONFIG_NF_NAT_FTP=m
+CONFIG_NF_NAT_IRC=m
+CONFIG_NF_NAT_SIP=m
+CONFIG_NF_NAT_TFTP=m
+CONFIG_NF_NAT_REDIRECT=y
+CONFIG_NF_NAT_MASQUERADE=y
+CONFIG_NETFILTER_SYNPROXY=m
+CONFIG_NF_TABLES=m
+CONFIG_NF_TABLES_INET=y
+CONFIG_NF_TABLES_NETDEV=y
+CONFIG_NFT_NUMGEN=m
+CONFIG_NFT_CT=m
+CONFIG_NFT_CONNLIMIT=m
+CONFIG_NFT_LOG=m
+CONFIG_NFT_LIMIT=m
+CONFIG_NFT_MASQ=m
+CONFIG_NFT_REDIR=m
+CONFIG_NFT_NAT=m
+# CONFIG_NFT_TUNNEL is not set
+CONFIG_NFT_OBJREF=m
+CONFIG_NFT_QUEUE=m
+CONFIG_NFT_QUOTA=m
+CONFIG_NFT_REJECT=m
+CONFIG_NFT_REJECT_INET=m
+CONFIG_NFT_COMPAT=m
+CONFIG_NFT_HASH=m
+CONFIG_NFT_FIB=m
+CONFIG_NFT_FIB_INET=m
+# CONFIG_NFT_XFRM is not set
+CONFIG_NFT_SOCKET=m
+# CONFIG_NFT_OSF is not set
+# CONFIG_NFT_TPROXY is not set
+# CONFIG_NFT_SYNPROXY is not set
+CONFIG_NF_DUP_NETDEV=m
+CONFIG_NFT_DUP_NETDEV=m
+CONFIG_NFT_FWD_NETDEV=m
+CONFIG_NFT_FIB_NETDEV=m
+# CONFIG_NFT_REJECT_NETDEV is not set
+# CONFIG_NF_FLOW_TABLE is not set
+CONFIG_NETFILTER_XTABLES=y
+CONFIG_NETFILTER_XTABLES_COMPAT=y
+
+#
+# Xtables combined modules
+#
+CONFIG_NETFILTER_XT_MARK=m
+CONFIG_NETFILTER_XT_CONNMARK=m
+CONFIG_NETFILTER_XT_SET=m
+
+#
+# Xtables targets
+#
+CONFIG_NETFILTER_XT_TARGET_AUDIT=m
+CONFIG_NETFILTER_XT_TARGET_CHECKSUM=m
+CONFIG_NETFILTER_XT_TARGET_CLASSIFY=m
+CONFIG_NETFILTER_XT_TARGET_CONNMARK=m
+CONFIG_NETFILTER_XT_TARGET_CONNSECMARK=m
+CONFIG_NETFILTER_XT_TARGET_CT=m
+CONFIG_NETFILTER_XT_TARGET_DSCP=m
+CONFIG_NETFILTER_XT_TARGET_HL=m
+CONFIG_NETFILTER_XT_TARGET_HMARK=m
+CONFIG_NETFILTER_XT_TARGET_IDLETIMER=m
+# CONFIG_NETFILTER_XT_TARGET_LED is not set
+CONFIG_NETFILTER_XT_TARGET_LOG=m
+CONFIG_NETFILTER_XT_TARGET_MARK=m
+CONFIG_NETFILTER_XT_NAT=m
+CONFIG_NETFILTER_XT_TARGET_NETMAP=m
+CONFIG_NETFILTER_XT_TARGET_NFLOG=m
+CONFIG_NETFILTER_XT_TARGET_NFQUEUE=m
+CONFIG_NETFILTER_XT_TARGET_NOTRACK=m
+CONFIG_NETFILTER_XT_TARGET_RATEEST=m
+CONFIG_NETFILTER_XT_TARGET_REDIRECT=m
+CONFIG_NETFILTER_XT_TARGET_MASQUERADE=m
+CONFIG_NETFILTER_XT_TARGET_TEE=m
+CONFIG_NETFILTER_XT_TARGET_TPROXY=m
+CONFIG_NETFILTER_XT_TARGET_TRACE=m
+CONFIG_NETFILTER_XT_TARGET_SECMARK=m
+CONFIG_NETFILTER_XT_TARGET_TCPMSS=m
+CONFIG_NETFILTER_XT_TARGET_TCPOPTSTRIP=m
+
+#
+# Xtables matches
+#
+CONFIG_NETFILTER_XT_MATCH_ADDRTYPE=m
+CONFIG_NETFILTER_XT_MATCH_BPF=m
+CONFIG_NETFILTER_XT_MATCH_CGROUP=m
+CONFIG_NETFILTER_XT_MATCH_CLUSTER=m
+CONFIG_NETFILTER_XT_MATCH_COMMENT=m
+CONFIG_NETFILTER_XT_MATCH_CONNBYTES=m
+CONFIG_NETFILTER_XT_MATCH_CONNLABEL=m
+CONFIG_NETFILTER_XT_MATCH_CONNLIMIT=m
+CONFIG_NETFILTER_XT_MATCH_CONNMARK=m
+CONFIG_NETFILTER_XT_MATCH_CONNTRACK=m
+CONFIG_NETFILTER_XT_MATCH_CPU=m
+CONFIG_NETFILTER_XT_MATCH_DCCP=m
+CONFIG_NETFILTER_XT_MATCH_DEVGROUP=m
+CONFIG_NETFILTER_XT_MATCH_DSCP=m
+CONFIG_NETFILTER_XT_MATCH_ECN=m
+CONFIG_NETFILTER_XT_MATCH_ESP=m
+CONFIG_NETFILTER_XT_MATCH_HASHLIMIT=m
+CONFIG_NETFILTER_XT_MATCH_HELPER=m
+CONFIG_NETFILTER_XT_MATCH_HL=m
+# CONFIG_NETFILTER_XT_MATCH_IPCOMP is not set
+CONFIG_NETFILTER_XT_MATCH_IPRANGE=m
+CONFIG_NETFILTER_XT_MATCH_IPVS=m
+# CONFIG_NETFILTER_XT_MATCH_L2TP is not set
+CONFIG_NETFILTER_XT_MATCH_LENGTH=m
+CONFIG_NETFILTER_XT_MATCH_LIMIT=m
+CONFIG_NETFILTER_XT_MATCH_MAC=m
+CONFIG_NETFILTER_XT_MATCH_MARK=m
+CONFIG_NETFILTER_XT_MATCH_MULTIPORT=m
+# CONFIG_NETFILTER_XT_MATCH_NFACCT is not set
+CONFIG_NETFILTER_XT_MATCH_OSF=m
+CONFIG_NETFILTER_XT_MATCH_OWNER=m
+CONFIG_NETFILTER_XT_MATCH_POLICY=m
+CONFIG_NETFILTER_XT_MATCH_PHYSDEV=m
+CONFIG_NETFILTER_XT_MATCH_PKTTYPE=m
+CONFIG_NETFILTER_XT_MATCH_QUOTA=m
+CONFIG_NETFILTER_XT_MATCH_RATEEST=m
+CONFIG_NETFILTER_XT_MATCH_REALM=m
+CONFIG_NETFILTER_XT_MATCH_RECENT=m
+CONFIG_NETFILTER_XT_MATCH_SCTP=m
+CONFIG_NETFILTER_XT_MATCH_SOCKET=m
+CONFIG_NETFILTER_XT_MATCH_STATE=m
+CONFIG_NETFILTER_XT_MATCH_STATISTIC=m
+CONFIG_NETFILTER_XT_MATCH_STRING=m
+CONFIG_NETFILTER_XT_MATCH_TCPMSS=m
+# CONFIG_NETFILTER_XT_MATCH_TIME is not set
+# CONFIG_NETFILTER_XT_MATCH_U32 is not set
+# end of Core Netfilter Configuration
+
+CONFIG_IP_SET=m
+CONFIG_IP_SET_MAX=256
+CONFIG_IP_SET_BITMAP_IP=m
+CONFIG_IP_SET_BITMAP_IPMAC=m
+CONFIG_IP_SET_BITMAP_PORT=m
+CONFIG_IP_SET_HASH_IP=m
+CONFIG_IP_SET_HASH_IPMARK=m
+CONFIG_IP_SET_HASH_IPPORT=m
+CONFIG_IP_SET_HASH_IPPORTIP=m
+CONFIG_IP_SET_HASH_IPPORTNET=m
+CONFIG_IP_SET_HASH_IPMAC=m
+CONFIG_IP_SET_HASH_MAC=m
+CONFIG_IP_SET_HASH_NETPORTNET=m
+CONFIG_IP_SET_HASH_NET=m
+CONFIG_IP_SET_HASH_NETNET=m
+CONFIG_IP_SET_HASH_NETPORT=m
+CONFIG_IP_SET_HASH_NETIFACE=m
+CONFIG_IP_SET_LIST_SET=m
+CONFIG_IP_VS=m
+CONFIG_IP_VS_IPV6=y
+# CONFIG_IP_VS_DEBUG is not set
+CONFIG_IP_VS_TAB_BITS=12
+
+#
+# IPVS transport protocol load balancing support
+#
+CONFIG_IP_VS_PROTO_TCP=y
+CONFIG_IP_VS_PROTO_UDP=y
+CONFIG_IP_VS_PROTO_AH_ESP=y
+CONFIG_IP_VS_PROTO_ESP=y
+CONFIG_IP_VS_PROTO_AH=y
+CONFIG_IP_VS_PROTO_SCTP=y
+
+#
+# IPVS scheduler
+#
+CONFIG_IP_VS_RR=m
+CONFIG_IP_VS_WRR=m
+CONFIG_IP_VS_LC=m
+CONFIG_IP_VS_WLC=m
+CONFIG_IP_VS_FO=m
+CONFIG_IP_VS_OVF=m
+CONFIG_IP_VS_LBLC=m
+CONFIG_IP_VS_LBLCR=m
+CONFIG_IP_VS_DH=m
+CONFIG_IP_VS_SH=m
+# CONFIG_IP_VS_MH is not set
+CONFIG_IP_VS_SED=m
+CONFIG_IP_VS_NQ=m
+# CONFIG_IP_VS_TWOS is not set
+
+#
+# IPVS SH scheduler
+#
+CONFIG_IP_VS_SH_TAB_BITS=8
+
+#
+# IPVS MH scheduler
+#
+CONFIG_IP_VS_MH_TAB_INDEX=12
+
+#
+# IPVS application helper
+#
+CONFIG_IP_VS_FTP=m
+CONFIG_IP_VS_NFCT=y
+CONFIG_IP_VS_PE_SIP=m
+
+#
+# IP: Netfilter Configuration
+#
+CONFIG_NF_DEFRAG_IPV4=m
+CONFIG_NF_SOCKET_IPV4=m
+CONFIG_NF_TPROXY_IPV4=m
+CONFIG_NF_TABLES_IPV4=y
+CONFIG_NFT_REJECT_IPV4=m
+CONFIG_NFT_DUP_IPV4=m
+CONFIG_NFT_FIB_IPV4=m
+CONFIG_NF_TABLES_ARP=y
+CONFIG_NF_DUP_IPV4=m
+CONFIG_NF_LOG_ARP=m
+CONFIG_NF_LOG_IPV4=m
+CONFIG_NF_REJECT_IPV4=m
+CONFIG_NF_NAT_SNMP_BASIC=m
+CONFIG_NF_NAT_PPTP=m
+CONFIG_NF_NAT_H323=m
+CONFIG_IP_NF_IPTABLES=m
+CONFIG_IP_NF_MATCH_AH=m
+CONFIG_IP_NF_MATCH_ECN=m
+CONFIG_IP_NF_MATCH_RPFILTER=m
+CONFIG_IP_NF_MATCH_TTL=m
+CONFIG_IP_NF_FILTER=m
+CONFIG_IP_NF_TARGET_REJECT=m
+CONFIG_IP_NF_TARGET_SYNPROXY=m
+CONFIG_IP_NF_NAT=m
+CONFIG_IP_NF_TARGET_MASQUERADE=m
+CONFIG_IP_NF_TARGET_NETMAP=m
+CONFIG_IP_NF_TARGET_REDIRECT=m
+CONFIG_IP_NF_MANGLE=m
+# CONFIG_IP_NF_TARGET_CLUSTERIP is not set
+CONFIG_IP_NF_TARGET_ECN=m
+CONFIG_IP_NF_TARGET_TTL=m
+CONFIG_IP_NF_RAW=m
+CONFIG_IP_NF_SECURITY=m
+CONFIG_IP_NF_ARPTABLES=m
+CONFIG_IP_NF_ARPFILTER=m
+CONFIG_IP_NF_ARP_MANGLE=m
+# end of IP: Netfilter Configuration
+
+#
+# IPv6: Netfilter Configuration
+#
+CONFIG_NF_SOCKET_IPV6=m
+CONFIG_NF_TPROXY_IPV6=m
+CONFIG_NF_TABLES_IPV6=y
+CONFIG_NFT_REJECT_IPV6=m
+CONFIG_NFT_DUP_IPV6=m
+CONFIG_NFT_FIB_IPV6=m
+CONFIG_NF_DUP_IPV6=m
+CONFIG_NF_REJECT_IPV6=m
+CONFIG_NF_LOG_IPV6=m
+CONFIG_IP6_NF_IPTABLES=m
+CONFIG_IP6_NF_MATCH_AH=m
+CONFIG_IP6_NF_MATCH_EUI64=m
+CONFIG_IP6_NF_MATCH_FRAG=m
+CONFIG_IP6_NF_MATCH_OPTS=m
+CONFIG_IP6_NF_MATCH_HL=m
+CONFIG_IP6_NF_MATCH_IPV6HEADER=m
+CONFIG_IP6_NF_MATCH_MH=m
+CONFIG_IP6_NF_MATCH_RPFILTER=m
+CONFIG_IP6_NF_MATCH_RT=m
+# CONFIG_IP6_NF_MATCH_SRH is not set
+# CONFIG_IP6_NF_TARGET_HL is not set
+CONFIG_IP6_NF_FILTER=m
+CONFIG_IP6_NF_TARGET_REJECT=m
+CONFIG_IP6_NF_TARGET_SYNPROXY=m
+CONFIG_IP6_NF_MANGLE=m
+CONFIG_IP6_NF_RAW=m
+CONFIG_IP6_NF_SECURITY=m
+CONFIG_IP6_NF_NAT=m
+CONFIG_IP6_NF_TARGET_MASQUERADE=m
+CONFIG_IP6_NF_TARGET_NPT=m
+# end of IPv6: Netfilter Configuration
+
+CONFIG_NF_DEFRAG_IPV6=m
+CONFIG_NF_TABLES_BRIDGE=m
+# CONFIG_NFT_BRIDGE_META is not set
+CONFIG_NFT_BRIDGE_REJECT=m
+# CONFIG_NF_CONNTRACK_BRIDGE is not set
+CONFIG_BRIDGE_NF_EBTABLES=m
+CONFIG_BRIDGE_EBT_BROUTE=m
+CONFIG_BRIDGE_EBT_T_FILTER=m
+CONFIG_BRIDGE_EBT_T_NAT=m
+CONFIG_BRIDGE_EBT_802_3=m
+CONFIG_BRIDGE_EBT_AMONG=m
+CONFIG_BRIDGE_EBT_ARP=m
+CONFIG_BRIDGE_EBT_IP=m
+CONFIG_BRIDGE_EBT_IP6=m
+CONFIG_BRIDGE_EBT_LIMIT=m
+CONFIG_BRIDGE_EBT_MARK=m
+CONFIG_BRIDGE_EBT_PKTTYPE=m
+CONFIG_BRIDGE_EBT_STP=m
+CONFIG_BRIDGE_EBT_VLAN=m
+CONFIG_BRIDGE_EBT_ARPREPLY=m
+CONFIG_BRIDGE_EBT_DNAT=m
+CONFIG_BRIDGE_EBT_MARK_T=m
+CONFIG_BRIDGE_EBT_REDIRECT=m
+CONFIG_BRIDGE_EBT_SNAT=m
+CONFIG_BRIDGE_EBT_LOG=m
+CONFIG_BRIDGE_EBT_NFLOG=m
+# CONFIG_BPFILTER is not set
+# CONFIG_IP_DCCP is not set
+CONFIG_IP_SCTP=m
+# CONFIG_SCTP_DBG_OBJCNT is not set
+# CONFIG_SCTP_DEFAULT_COOKIE_HMAC_MD5 is not set
+CONFIG_SCTP_DEFAULT_COOKIE_HMAC_SHA1=y
+# CONFIG_SCTP_DEFAULT_COOKIE_HMAC_NONE is not set
+CONFIG_SCTP_COOKIE_HMAC_MD5=y
+CONFIG_SCTP_COOKIE_HMAC_SHA1=y
+CONFIG_INET_SCTP_DIAG=m
+# CONFIG_RDS is not set
+CONFIG_TIPC=m
+# CONFIG_TIPC_MEDIA_IB is not set
+CONFIG_TIPC_MEDIA_UDP=y
+CONFIG_TIPC_CRYPTO=y
+CONFIG_TIPC_DIAG=m
+CONFIG_ATM=m
+CONFIG_ATM_CLIP=m
+# CONFIG_ATM_CLIP_NO_ICMP is not set
+CONFIG_ATM_LANE=m
+# CONFIG_ATM_MPOA is not set
+CONFIG_ATM_BR2684=m
+# CONFIG_ATM_BR2684_IPFILTER is not set
+CONFIG_L2TP=m
+CONFIG_L2TP_DEBUGFS=m
+CONFIG_L2TP_V3=y
+CONFIG_L2TP_IP=m
+CONFIG_L2TP_ETH=m
+CONFIG_STP=m
+CONFIG_GARP=m
+CONFIG_MRP=m
+CONFIG_BRIDGE=m
+CONFIG_BRIDGE_IGMP_SNOOPING=y
+CONFIG_BRIDGE_VLAN_FILTERING=y
+# CONFIG_BRIDGE_MRP is not set
+# CONFIG_BRIDGE_CFM is not set
+# CONFIG_NET_DSA is not set
+CONFIG_VLAN_8021Q=m
+CONFIG_VLAN_8021Q_GVRP=y
+CONFIG_VLAN_8021Q_MVRP=y
+CONFIG_LLC=m
+# CONFIG_LLC2 is not set
+# CONFIG_ATALK is not set
+# CONFIG_X25 is not set
+# CONFIG_LAPB is not set
+# CONFIG_PHONET is not set
+CONFIG_6LOWPAN=m
+# CONFIG_6LOWPAN_DEBUGFS is not set
+# CONFIG_6LOWPAN_NHC is not set
+# CONFIG_IEEE802154 is not set
+CONFIG_NET_SCHED=y
+
+#
+# Queueing/Scheduling
+#
+CONFIG_NET_SCH_CBQ=m
+CONFIG_NET_SCH_HTB=m
+CONFIG_NET_SCH_HFSC=m
+CONFIG_NET_SCH_ATM=m
+CONFIG_NET_SCH_PRIO=m
+CONFIG_NET_SCH_MULTIQ=m
+CONFIG_NET_SCH_RED=m
+CONFIG_NET_SCH_SFB=m
+CONFIG_NET_SCH_SFQ=m
+CONFIG_NET_SCH_TEQL=m
+CONFIG_NET_SCH_TBF=m
+# CONFIG_NET_SCH_CBS is not set
+# CONFIG_NET_SCH_ETF is not set
+# CONFIG_NET_SCH_TAPRIO is not set
+CONFIG_NET_SCH_GRED=m
+CONFIG_NET_SCH_DSMARK=m
+CONFIG_NET_SCH_NETEM=m
+CONFIG_NET_SCH_DRR=m
+CONFIG_NET_SCH_MQPRIO=m
+# CONFIG_NET_SCH_SKBPRIO is not set
+CONFIG_NET_SCH_CHOKE=m
+CONFIG_NET_SCH_QFQ=m
+CONFIG_NET_SCH_CODEL=m
+CONFIG_NET_SCH_FQ_CODEL=y
+# CONFIG_NET_SCH_CAKE is not set
+CONFIG_NET_SCH_FQ=m
+CONFIG_NET_SCH_HHF=m
+CONFIG_NET_SCH_PIE=m
+# CONFIG_NET_SCH_FQ_PIE is not set
+CONFIG_NET_SCH_INGRESS=m
+CONFIG_NET_SCH_PLUG=m
+# CONFIG_NET_SCH_ETS is not set
+CONFIG_NET_SCH_DEFAULT=y
+# CONFIG_DEFAULT_FQ is not set
+# CONFIG_DEFAULT_CODEL is not set
+CONFIG_DEFAULT_FQ_CODEL=y
+# CONFIG_DEFAULT_SFQ is not set
+# CONFIG_DEFAULT_PFIFO_FAST is not set
+CONFIG_DEFAULT_NET_SCH="fq_codel"
+
+#
+# Classification
+#
+CONFIG_NET_CLS=y
+CONFIG_NET_CLS_BASIC=m
+CONFIG_NET_CLS_TCINDEX=m
+CONFIG_NET_CLS_ROUTE4=m
+CONFIG_NET_CLS_FW=m
+CONFIG_NET_CLS_U32=m
+CONFIG_CLS_U32_PERF=y
+CONFIG_CLS_U32_MARK=y
+CONFIG_NET_CLS_RSVP=m
+CONFIG_NET_CLS_RSVP6=m
+CONFIG_NET_CLS_FLOW=m
+CONFIG_NET_CLS_CGROUP=y
+CONFIG_NET_CLS_BPF=m
+CONFIG_NET_CLS_FLOWER=m
+CONFIG_NET_CLS_MATCHALL=m
+CONFIG_NET_EMATCH=y
+CONFIG_NET_EMATCH_STACK=32
+CONFIG_NET_EMATCH_CMP=m
+CONFIG_NET_EMATCH_NBYTE=m
+CONFIG_NET_EMATCH_U32=m
+CONFIG_NET_EMATCH_META=m
+CONFIG_NET_EMATCH_TEXT=m
+# CONFIG_NET_EMATCH_CANID is not set
+CONFIG_NET_EMATCH_IPSET=m
+# CONFIG_NET_EMATCH_IPT is not set
+CONFIG_NET_CLS_ACT=y
+CONFIG_NET_ACT_POLICE=m
+CONFIG_NET_ACT_GACT=m
+CONFIG_GACT_PROB=y
+CONFIG_NET_ACT_MIRRED=m
+CONFIG_NET_ACT_SAMPLE=m
+# CONFIG_NET_ACT_IPT is not set
+CONFIG_NET_ACT_NAT=m
+CONFIG_NET_ACT_PEDIT=m
+CONFIG_NET_ACT_SIMP=m
+CONFIG_NET_ACT_SKBEDIT=m
+CONFIG_NET_ACT_CSUM=m
+# CONFIG_NET_ACT_MPLS is not set
+CONFIG_NET_ACT_VLAN=m
+CONFIG_NET_ACT_BPF=m
+# CONFIG_NET_ACT_CONNMARK is not set
+# CONFIG_NET_ACT_CTINFO is not set
+CONFIG_NET_ACT_SKBMOD=m
+# CONFIG_NET_ACT_IFE is not set
+CONFIG_NET_ACT_TUNNEL_KEY=m
+# CONFIG_NET_ACT_GATE is not set
+# CONFIG_NET_TC_SKB_EXT is not set
+CONFIG_NET_SCH_FIFO=y
+CONFIG_DCB=y
+CONFIG_DNS_RESOLVER=m
+# CONFIG_BATMAN_ADV is not set
+CONFIG_OPENVSWITCH=m
+CONFIG_OPENVSWITCH_GRE=m
+CONFIG_VSOCKETS=m
+CONFIG_VSOCKETS_DIAG=m
+CONFIG_VSOCKETS_LOOPBACK=m
+CONFIG_VMWARE_VMCI_VSOCKETS=m
+CONFIG_VIRTIO_VSOCKETS=m
+CONFIG_VIRTIO_VSOCKETS_COMMON=m
+CONFIG_NETLINK_DIAG=m
+CONFIG_MPLS=y
+CONFIG_NET_MPLS_GSO=y
+CONFIG_MPLS_ROUTING=m
+CONFIG_MPLS_IPTUNNEL=m
+CONFIG_NET_NSH=y
+# CONFIG_HSR is not set
+CONFIG_NET_SWITCHDEV=y
+CONFIG_NET_L3_MASTER_DEV=y
+# CONFIG_QRTR is not set
+# CONFIG_NET_NCSI is not set
+CONFIG_PCPU_DEV_REFCNT=y
+CONFIG_RPS=y
+CONFIG_RFS_ACCEL=y
+CONFIG_SOCK_RX_QUEUE_MAPPING=y
+CONFIG_XPS=y
+CONFIG_CGROUP_NET_PRIO=y
+CONFIG_CGROUP_NET_CLASSID=y
+CONFIG_NET_RX_BUSY_POLL=y
+CONFIG_BQL=y
+CONFIG_NET_FLOW_LIMIT=y
+
+#
+# Network testing
+#
+CONFIG_NET_PKTGEN=m
+CONFIG_NET_DROP_MONITOR=y
+# end of Network testing
+# end of Networking options
+
+# CONFIG_HAMRADIO is not set
+CONFIG_CAN=m
+CONFIG_CAN_RAW=m
+CONFIG_CAN_BCM=m
+CONFIG_CAN_GW=m
+# CONFIG_CAN_J1939 is not set
+# CONFIG_CAN_ISOTP is not set
+# CONFIG_BT is not set
+# CONFIG_AF_RXRPC is not set
+# CONFIG_AF_KCM is not set
+CONFIG_STREAM_PARSER=y
+# CONFIG_MCTP is not set
+CONFIG_FIB_RULES=y
+CONFIG_WIRELESS=y
+CONFIG_WEXT_CORE=y
+CONFIG_WEXT_PROC=y
+CONFIG_CFG80211=m
+# CONFIG_NL80211_TESTMODE is not set
+# CONFIG_CFG80211_DEVELOPER_WARNINGS is not set
+# CONFIG_CFG80211_CERTIFICATION_ONUS is not set
+CONFIG_CFG80211_REQUIRE_SIGNED_REGDB=y
+CONFIG_CFG80211_USE_KERNEL_REGDB_KEYS=y
+CONFIG_CFG80211_DEFAULT_PS=y
+# CONFIG_CFG80211_DEBUGFS is not set
+CONFIG_CFG80211_CRDA_SUPPORT=y
+CONFIG_CFG80211_WEXT=y
+CONFIG_MAC80211=m
+CONFIG_MAC80211_HAS_RC=y
+CONFIG_MAC80211_RC_MINSTREL=y
+CONFIG_MAC80211_RC_DEFAULT_MINSTREL=y
+CONFIG_MAC80211_RC_DEFAULT="minstrel_ht"
+CONFIG_MAC80211_MESH=y
+CONFIG_MAC80211_LEDS=y
+CONFIG_MAC80211_DEBUGFS=y
+# CONFIG_MAC80211_MESSAGE_TRACING is not set
+# CONFIG_MAC80211_DEBUG_MENU is not set
+CONFIG_MAC80211_STA_HASH_MAX_SIZE=0
+CONFIG_RFKILL=m
+CONFIG_RFKILL_LEDS=y
+CONFIG_RFKILL_INPUT=y
+# CONFIG_RFKILL_GPIO is not set
+CONFIG_NET_9P=y
+CONFIG_NET_9P_FD=y
+CONFIG_NET_9P_VIRTIO=y
+# CONFIG_NET_9P_RDMA is not set
+# CONFIG_NET_9P_DEBUG is not set
+# CONFIG_CAIF is not set
+CONFIG_CEPH_LIB=m
+# CONFIG_CEPH_LIB_PRETTYDEBUG is not set
+CONFIG_CEPH_LIB_USE_DNS_RESOLVER=y
+# CONFIG_NFC is not set
+CONFIG_PSAMPLE=m
+# CONFIG_NET_IFE is not set
+CONFIG_LWTUNNEL=y
+CONFIG_LWTUNNEL_BPF=y
+CONFIG_DST_CACHE=y
+CONFIG_GRO_CELLS=y
+CONFIG_SOCK_VALIDATE_XMIT=y
+CONFIG_NET_SELFTESTS=y
+CONFIG_NET_SOCK_MSG=y
+CONFIG_PAGE_POOL=y
+# CONFIG_PAGE_POOL_STATS is not set
+CONFIG_FAILOVER=m
+CONFIG_ETHTOOL_NETLINK=y
+
+#
+# Device Drivers
+#
+CONFIG_HAVE_EISA=y
+# CONFIG_EISA is not set
+CONFIG_HAVE_PCI=y
+CONFIG_PCI=y
+CONFIG_PCI_DOMAINS=y
+CONFIG_PCIEPORTBUS=y
+CONFIG_HOTPLUG_PCI_PCIE=y
+CONFIG_PCIEAER=y
+CONFIG_PCIEAER_INJECT=m
+CONFIG_PCIE_ECRC=y
+CONFIG_PCIEASPM=y
+CONFIG_PCIEASPM_DEFAULT=y
+# CONFIG_PCIEASPM_POWERSAVE is not set
+# CONFIG_PCIEASPM_POWER_SUPERSAVE is not set
+# CONFIG_PCIEASPM_PERFORMANCE is not set
+CONFIG_PCIE_PME=y
+CONFIG_PCIE_DPC=y
+# CONFIG_PCIE_PTM is not set
+# CONFIG_PCIE_EDR is not set
+CONFIG_PCI_MSI=y
+CONFIG_PCI_MSI_IRQ_DOMAIN=y
+CONFIG_PCI_QUIRKS=y
+# CONFIG_PCI_DEBUG is not set
+# CONFIG_PCI_REALLOC_ENABLE_AUTO is not set
+CONFIG_PCI_STUB=y
+CONFIG_PCI_PF_STUB=m
+CONFIG_PCI_ATS=y
+CONFIG_PCI_LOCKLESS_CONFIG=y
+CONFIG_PCI_IOV=y
+CONFIG_PCI_PRI=y
+CONFIG_PCI_PASID=y
+# CONFIG_PCI_P2PDMA is not set
+CONFIG_PCI_LABEL=y
+# CONFIG_PCIE_BUS_TUNE_OFF is not set
+CONFIG_PCIE_BUS_DEFAULT=y
+# CONFIG_PCIE_BUS_SAFE is not set
+# CONFIG_PCIE_BUS_PERFORMANCE is not set
+# CONFIG_PCIE_BUS_PEER2PEER is not set
+CONFIG_VGA_ARB=y
+CONFIG_VGA_ARB_MAX_GPUS=64
+CONFIG_HOTPLUG_PCI=y
+CONFIG_HOTPLUG_PCI_ACPI=y
+CONFIG_HOTPLUG_PCI_ACPI_IBM=m
+# CONFIG_HOTPLUG_PCI_CPCI is not set
+CONFIG_HOTPLUG_PCI_SHPC=y
+
+#
+# PCI controller drivers
+#
+CONFIG_VMD=y
+
+#
+# DesignWare PCI Core Support
+#
+# CONFIG_PCIE_DW_PLAT_HOST is not set
+# CONFIG_PCI_MESON is not set
+# end of DesignWare PCI Core Support
+
+#
+# Mobiveil PCIe Core Support
+#
+# end of Mobiveil PCIe Core Support
+
+#
+# Cadence PCIe controllers support
+#
+# end of Cadence PCIe controllers support
+# end of PCI controller drivers
+
+#
+# PCI Endpoint
+#
+# CONFIG_PCI_ENDPOINT is not set
+# end of PCI Endpoint
+
+#
+# PCI switch controller drivers
+#
+# CONFIG_PCI_SW_SWITCHTEC is not set
+# end of PCI switch controller drivers
+
+# CONFIG_CXL_BUS is not set
+# CONFIG_PCCARD is not set
+# CONFIG_RAPIDIO is not set
+
+#
+# Generic Driver Options
+#
+CONFIG_AUXILIARY_BUS=y
+# CONFIG_UEVENT_HELPER is not set
+CONFIG_DEVTMPFS=y
+CONFIG_DEVTMPFS_MOUNT=y
+# CONFIG_DEVTMPFS_SAFE is not set
+CONFIG_STANDALONE=y
+CONFIG_PREVENT_FIRMWARE_BUILD=y
+
+#
+# Firmware loader
+#
+CONFIG_FW_LOADER=y
+CONFIG_FW_LOADER_PAGED_BUF=y
+CONFIG_FW_LOADER_SYSFS=y
+CONFIG_EXTRA_FIRMWARE=""
+CONFIG_FW_LOADER_USER_HELPER=y
+# CONFIG_FW_LOADER_USER_HELPER_FALLBACK is not set
+# CONFIG_FW_LOADER_COMPRESS is not set
+CONFIG_FW_CACHE=y
+# CONFIG_FW_UPLOAD is not set
+# end of Firmware loader
+
+CONFIG_ALLOW_DEV_COREDUMP=y
+# CONFIG_DEBUG_DRIVER is not set
+# CONFIG_DEBUG_DEVRES is not set
+# CONFIG_DEBUG_TEST_DRIVER_REMOVE is not set
+# CONFIG_TEST_ASYNC_DRIVER_PROBE is not set
+CONFIG_GENERIC_CPU_AUTOPROBE=y
+CONFIG_GENERIC_CPU_VULNERABILITIES=y
+CONFIG_REGMAP=y
+CONFIG_REGMAP_I2C=m
+CONFIG_REGMAP_SPI=m
+CONFIG_DMA_SHARED_BUFFER=y
+# CONFIG_DMA_FENCE_TRACE is not set
+# end of Generic Driver Options
+
+#
+# Bus devices
+#
+# CONFIG_MHI_BUS is not set
+# CONFIG_MHI_BUS_EP is not set
+# end of Bus devices
+
+CONFIG_CONNECTOR=y
+CONFIG_PROC_EVENTS=y
+
+#
+# Firmware Drivers
+#
+
+#
+# ARM System Control and Management Interface Protocol
+#
+# end of ARM System Control and Management Interface Protocol
+
+CONFIG_EDD=m
+# CONFIG_EDD_OFF is not set
+CONFIG_FIRMWARE_MEMMAP=y
+CONFIG_DMIID=y
+CONFIG_DMI_SYSFS=y
+CONFIG_DMI_SCAN_MACHINE_NON_EFI_FALLBACK=y
+# CONFIG_ISCSI_IBFT is not set
+CONFIG_FW_CFG_SYSFS=y
+# CONFIG_FW_CFG_SYSFS_CMDLINE is not set
+CONFIG_SYSFB=y
+# CONFIG_SYSFB_SIMPLEFB is not set
+# CONFIG_GOOGLE_FIRMWARE is not set
+
+#
+# EFI (Extensible Firmware Interface) Support
+#
+CONFIG_EFI_ESRT=y
+CONFIG_EFI_VARS_PSTORE=y
+CONFIG_EFI_VARS_PSTORE_DEFAULT_DISABLE=y
+CONFIG_EFI_RUNTIME_MAP=y
+# CONFIG_EFI_FAKE_MEMMAP is not set
+CONFIG_EFI_DXE_MEM_ATTRIBUTES=y
+CONFIG_EFI_RUNTIME_WRAPPERS=y
+CONFIG_EFI_GENERIC_STUB_INITRD_CMDLINE_LOADER=y
+# CONFIG_EFI_BOOTLOADER_CONTROL is not set
+# CONFIG_EFI_CAPSULE_LOADER is not set
+# CONFIG_EFI_TEST is not set
+# CONFIG_APPLE_PROPERTIES is not set
+# CONFIG_RESET_ATTACK_MITIGATION is not set
+# CONFIG_EFI_RCI2_TABLE is not set
+# CONFIG_EFI_DISABLE_PCI_DMA is not set
+CONFIG_EFI_EARLYCON=y
+CONFIG_EFI_CUSTOM_SSDT_OVERLAYS=y
+# CONFIG_EFI_DISABLE_RUNTIME is not set
+# CONFIG_EFI_COCO_SECRET is not set
+# end of EFI (Extensible Firmware Interface) Support
+
+CONFIG_UEFI_CPER=y
+CONFIG_UEFI_CPER_X86=y
+
+#
+# Tegra firmware driver
+#
+# end of Tegra firmware driver
+# end of Firmware Drivers
+
+# CONFIG_GNSS is not set
+# CONFIG_MTD is not set
+# CONFIG_OF is not set
+CONFIG_ARCH_MIGHT_HAVE_PC_PARPORT=y
+CONFIG_PARPORT=m
+CONFIG_PARPORT_PC=m
+CONFIG_PARPORT_SERIAL=m
+# CONFIG_PARPORT_PC_FIFO is not set
+# CONFIG_PARPORT_PC_SUPERIO is not set
+# CONFIG_PARPORT_AX88796 is not set
+CONFIG_PARPORT_1284=y
+CONFIG_PNP=y
+# CONFIG_PNP_DEBUG_MESSAGES is not set
+
+#
+# Protocols
+#
+CONFIG_PNPACPI=y
+CONFIG_BLK_DEV=y
+CONFIG_BLK_DEV_NULL_BLK=m
+CONFIG_BLK_DEV_NULL_BLK_FAULT_INJECTION=y
+# CONFIG_BLK_DEV_FD is not set
+CONFIG_CDROM=m
+# CONFIG_PARIDE is not set
+# CONFIG_BLK_DEV_PCIESSD_MTIP32XX is not set
+CONFIG_ZRAM=m
+CONFIG_ZRAM_DEF_COMP_LZORLE=y
+# CONFIG_ZRAM_DEF_COMP_LZO is not set
+CONFIG_ZRAM_DEF_COMP="lzo-rle"
+CONFIG_ZRAM_WRITEBACK=y
+# CONFIG_ZRAM_MEMORY_TRACKING is not set
+CONFIG_BLK_DEV_LOOP=m
+CONFIG_BLK_DEV_LOOP_MIN_COUNT=0
+# CONFIG_BLK_DEV_DRBD is not set
+CONFIG_BLK_DEV_NBD=m
+CONFIG_BLK_DEV_RAM=m
+CONFIG_BLK_DEV_RAM_COUNT=16
+CONFIG_BLK_DEV_RAM_SIZE=16384
+CONFIG_CDROM_PKTCDVD=m
+CONFIG_CDROM_PKTCDVD_BUFFERS=8
+# CONFIG_CDROM_PKTCDVD_WCACHE is not set
+# CONFIG_ATA_OVER_ETH is not set
+CONFIG_VIRTIO_BLK=m
+CONFIG_BLK_DEV_RBD=m
+# CONFIG_BLK_DEV_UBLK is not set
+
+#
+# NVME Support
+#
+CONFIG_NVME_CORE=m
+CONFIG_BLK_DEV_NVME=m
+CONFIG_NVME_MULTIPATH=y
+# CONFIG_NVME_VERBOSE_ERRORS is not set
+# CONFIG_NVME_HWMON is not set
+CONFIG_NVME_FABRICS=m
+# CONFIG_NVME_RDMA is not set
+# CONFIG_NVME_FC is not set
+# CONFIG_NVME_TCP is not set
+# CONFIG_NVME_AUTH is not set
+CONFIG_NVME_TARGET=m
+# CONFIG_NVME_TARGET_PASSTHRU is not set
+CONFIG_NVME_TARGET_LOOP=m
+# CONFIG_NVME_TARGET_RDMA is not set
+CONFIG_NVME_TARGET_FC=m
+# CONFIG_NVME_TARGET_TCP is not set
+# CONFIG_NVME_TARGET_AUTH is not set
+# end of NVME Support
+
+#
+# Misc devices
+#
+CONFIG_SENSORS_LIS3LV02D=m
+# CONFIG_AD525X_DPOT is not set
+# CONFIG_DUMMY_IRQ is not set
+# CONFIG_IBM_ASM is not set
+# CONFIG_PHANTOM is not set
+CONFIG_TIFM_CORE=m
+CONFIG_TIFM_7XX1=m
+# CONFIG_ICS932S401 is not set
+CONFIG_ENCLOSURE_SERVICES=m
+CONFIG_SGI_XP=m
+CONFIG_HP_ILO=m
+CONFIG_SGI_GRU=m
+# CONFIG_SGI_GRU_DEBUG is not set
+CONFIG_APDS9802ALS=m
+CONFIG_ISL29003=m
+CONFIG_ISL29020=m
+CONFIG_SENSORS_TSL2550=m
+CONFIG_SENSORS_BH1770=m
+CONFIG_SENSORS_APDS990X=m
+# CONFIG_HMC6352 is not set
+# CONFIG_DS1682 is not set
+CONFIG_VMWARE_BALLOON=m
+# CONFIG_LATTICE_ECP3_CONFIG is not set
+# CONFIG_SRAM is not set
+# CONFIG_DW_XDATA_PCIE is not set
+# CONFIG_PCI_ENDPOINT_TEST is not set
+# CONFIG_XILINX_SDFEC is not set
+CONFIG_MISC_RTSX=m
+# CONFIG_C2PORT is not set
+
+#
+# EEPROM support
+#
+# CONFIG_EEPROM_AT24 is not set
+# CONFIG_EEPROM_AT25 is not set
+CONFIG_EEPROM_LEGACY=m
+CONFIG_EEPROM_MAX6875=m
+CONFIG_EEPROM_93CX6=m
+# CONFIG_EEPROM_93XX46 is not set
+# CONFIG_EEPROM_IDT_89HPESX is not set
+# CONFIG_EEPROM_EE1004 is not set
+# end of EEPROM support
+
+CONFIG_CB710_CORE=m
+# CONFIG_CB710_DEBUG is not set
+CONFIG_CB710_DEBUG_ASSUMPTIONS=y
+
+#
+# Texas Instruments shared transport line discipline
+#
+# CONFIG_TI_ST is not set
+# end of Texas Instruments shared transport line discipline
+
+CONFIG_SENSORS_LIS3_I2C=m
+CONFIG_ALTERA_STAPL=m
+CONFIG_INTEL_MEI=m
+CONFIG_INTEL_MEI_ME=m
+# CONFIG_INTEL_MEI_TXE is not set
+# CONFIG_INTEL_MEI_GSC is not set
+# CONFIG_INTEL_MEI_HDCP is not set
+# CONFIG_INTEL_MEI_PXP is not set
+CONFIG_VMWARE_VMCI=m
+# CONFIG_GENWQE is not set
+# CONFIG_ECHO is not set
+# CONFIG_BCM_VK is not set
+# CONFIG_MISC_ALCOR_PCI is not set
+CONFIG_MISC_RTSX_PCI=m
+# CONFIG_MISC_RTSX_USB is not set
+# CONFIG_HABANA_AI is not set
+# CONFIG_UACCE is not set
+CONFIG_PVPANIC=y
+# CONFIG_PVPANIC_MMIO is not set
+# CONFIG_PVPANIC_PCI is not set
+# CONFIG_GP_PCI1XXXX is not set
+# end of Misc devices
+
+#
+# SCSI device support
+#
+CONFIG_SCSI_MOD=y
+CONFIG_RAID_ATTRS=m
+CONFIG_SCSI_COMMON=y
+CONFIG_SCSI=y
+CONFIG_SCSI_DMA=y
+CONFIG_SCSI_NETLINK=y
+CONFIG_SCSI_PROC_FS=y
+
+#
+# SCSI support type (disk, tape, CD-ROM)
+#
+CONFIG_BLK_DEV_SD=m
+CONFIG_CHR_DEV_ST=m
+CONFIG_BLK_DEV_SR=m
+CONFIG_CHR_DEV_SG=m
+CONFIG_BLK_DEV_BSG=y
+CONFIG_CHR_DEV_SCH=m
+CONFIG_SCSI_ENCLOSURE=m
+CONFIG_SCSI_CONSTANTS=y
+CONFIG_SCSI_LOGGING=y
+CONFIG_SCSI_SCAN_ASYNC=y
+
+#
+# SCSI Transports
+#
+CONFIG_SCSI_SPI_ATTRS=m
+CONFIG_SCSI_FC_ATTRS=m
+CONFIG_SCSI_ISCSI_ATTRS=m
+CONFIG_SCSI_SAS_ATTRS=m
+CONFIG_SCSI_SAS_LIBSAS=m
+CONFIG_SCSI_SAS_ATA=y
+CONFIG_SCSI_SAS_HOST_SMP=y
+CONFIG_SCSI_SRP_ATTRS=m
+# end of SCSI Transports
+
+CONFIG_SCSI_LOWLEVEL=y
+# CONFIG_ISCSI_TCP is not set
+# CONFIG_ISCSI_BOOT_SYSFS is not set
+# CONFIG_SCSI_CXGB3_ISCSI is not set
+# CONFIG_SCSI_CXGB4_ISCSI is not set
+# CONFIG_SCSI_BNX2_ISCSI is not set
+# CONFIG_BE2ISCSI is not set
+# CONFIG_BLK_DEV_3W_XXXX_RAID is not set
+# CONFIG_SCSI_HPSA is not set
+# CONFIG_SCSI_3W_9XXX is not set
+# CONFIG_SCSI_3W_SAS is not set
+# CONFIG_SCSI_ACARD is not set
+# CONFIG_SCSI_AACRAID is not set
+# CONFIG_SCSI_AIC7XXX is not set
+# CONFIG_SCSI_AIC79XX is not set
+# CONFIG_SCSI_AIC94XX is not set
+# CONFIG_SCSI_MVSAS is not set
+# CONFIG_SCSI_MVUMI is not set
+# CONFIG_SCSI_ADVANSYS is not set
+# CONFIG_SCSI_ARCMSR is not set
+# CONFIG_SCSI_ESAS2R is not set
+# CONFIG_MEGARAID_NEWGEN is not set
+# CONFIG_MEGARAID_LEGACY is not set
+# CONFIG_MEGARAID_SAS is not set
+CONFIG_SCSI_MPT3SAS=m
+CONFIG_SCSI_MPT2SAS_MAX_SGE=128
+CONFIG_SCSI_MPT3SAS_MAX_SGE=128
+# CONFIG_SCSI_MPT2SAS is not set
+# CONFIG_SCSI_MPI3MR is not set
+# CONFIG_SCSI_SMARTPQI is not set
+# CONFIG_SCSI_HPTIOP is not set
+# CONFIG_SCSI_BUSLOGIC is not set
+# CONFIG_SCSI_MYRB is not set
+# CONFIG_SCSI_MYRS is not set
+# CONFIG_VMWARE_PVSCSI is not set
+# CONFIG_LIBFC is not set
+# CONFIG_SCSI_SNIC is not set
+# CONFIG_SCSI_DMX3191D is not set
+# CONFIG_SCSI_FDOMAIN_PCI is not set
+CONFIG_SCSI_ISCI=m
+# CONFIG_SCSI_IPS is not set
+# CONFIG_SCSI_INITIO is not set
+# CONFIG_SCSI_INIA100 is not set
+# CONFIG_SCSI_PPA is not set
+# CONFIG_SCSI_IMM is not set
+# CONFIG_SCSI_STEX is not set
+# CONFIG_SCSI_SYM53C8XX_2 is not set
+# CONFIG_SCSI_IPR is not set
+# CONFIG_SCSI_QLOGIC_1280 is not set
+# CONFIG_SCSI_QLA_FC is not set
+# CONFIG_SCSI_QLA_ISCSI is not set
+# CONFIG_SCSI_LPFC is not set
+# CONFIG_SCSI_EFCT is not set
+# CONFIG_SCSI_DC395x is not set
+# CONFIG_SCSI_AM53C974 is not set
+# CONFIG_SCSI_WD719X is not set
+CONFIG_SCSI_DEBUG=m
+# CONFIG_SCSI_PMCRAID is not set
+# CONFIG_SCSI_PM8001 is not set
+# CONFIG_SCSI_BFA_FC is not set
+# CONFIG_SCSI_VIRTIO is not set
+# CONFIG_SCSI_CHELSIO_FCOE is not set
+CONFIG_SCSI_DH=y
+CONFIG_SCSI_DH_RDAC=y
+CONFIG_SCSI_DH_HP_SW=y
+CONFIG_SCSI_DH_EMC=y
+CONFIG_SCSI_DH_ALUA=y
+# end of SCSI device support
+
+CONFIG_ATA=m
+CONFIG_SATA_HOST=y
+CONFIG_PATA_TIMINGS=y
+CONFIG_ATA_VERBOSE_ERROR=y
+CONFIG_ATA_FORCE=y
+CONFIG_ATA_ACPI=y
+# CONFIG_SATA_ZPODD is not set
+CONFIG_SATA_PMP=y
+
+#
+# Controllers with non-SFF native interface
+#
+CONFIG_SATA_AHCI=m
+CONFIG_SATA_MOBILE_LPM_POLICY=0
+CONFIG_SATA_AHCI_PLATFORM=m
+# CONFIG_AHCI_DWC is not set
+# CONFIG_SATA_INIC162X is not set
+# CONFIG_SATA_ACARD_AHCI is not set
+# CONFIG_SATA_SIL24 is not set
+CONFIG_ATA_SFF=y
+
+#
+# SFF controllers with custom DMA interface
+#
+# CONFIG_PDC_ADMA is not set
+# CONFIG_SATA_QSTOR is not set
+# CONFIG_SATA_SX4 is not set
+CONFIG_ATA_BMDMA=y
+
+#
+# SATA SFF controllers with BMDMA
+#
+CONFIG_ATA_PIIX=m
+# CONFIG_SATA_DWC is not set
+# CONFIG_SATA_MV is not set
+# CONFIG_SATA_NV is not set
+# CONFIG_SATA_PROMISE is not set
+# CONFIG_SATA_SIL is not set
+# CONFIG_SATA_SIS is not set
+# CONFIG_SATA_SVW is not set
+# CONFIG_SATA_ULI is not set
+# CONFIG_SATA_VIA is not set
+# CONFIG_SATA_VITESSE is not set
+
+#
+# PATA SFF controllers with BMDMA
+#
+# CONFIG_PATA_ALI is not set
+# CONFIG_PATA_AMD is not set
+# CONFIG_PATA_ARTOP is not set
+# CONFIG_PATA_ATIIXP is not set
+# CONFIG_PATA_ATP867X is not set
+# CONFIG_PATA_CMD64X is not set
+# CONFIG_PATA_CYPRESS is not set
+# CONFIG_PATA_EFAR is not set
+# CONFIG_PATA_HPT366 is not set
+# CONFIG_PATA_HPT37X is not set
+# CONFIG_PATA_HPT3X2N is not set
+# CONFIG_PATA_HPT3X3 is not set
+# CONFIG_PATA_IT8213 is not set
+# CONFIG_PATA_IT821X is not set
+# CONFIG_PATA_JMICRON is not set
+# CONFIG_PATA_MARVELL is not set
+# CONFIG_PATA_NETCELL is not set
+# CONFIG_PATA_NINJA32 is not set
+# CONFIG_PATA_NS87415 is not set
+# CONFIG_PATA_OLDPIIX is not set
+# CONFIG_PATA_OPTIDMA is not set
+# CONFIG_PATA_PDC2027X is not set
+# CONFIG_PATA_PDC_OLD is not set
+# CONFIG_PATA_RADISYS is not set
+# CONFIG_PATA_RDC is not set
+# CONFIG_PATA_SCH is not set
+# CONFIG_PATA_SERVERWORKS is not set
+# CONFIG_PATA_SIL680 is not set
+# CONFIG_PATA_SIS is not set
+# CONFIG_PATA_TOSHIBA is not set
+# CONFIG_PATA_TRIFLEX is not set
+# CONFIG_PATA_VIA is not set
+# CONFIG_PATA_WINBOND is not set
+
+#
+# PIO-only SFF controllers
+#
+# CONFIG_PATA_CMD640_PCI is not set
+# CONFIG_PATA_MPIIX is not set
+# CONFIG_PATA_NS87410 is not set
+# CONFIG_PATA_OPTI is not set
+# CONFIG_PATA_RZ1000 is not set
+
+#
+# Generic fallback / legacy drivers
+#
+# CONFIG_PATA_ACPI is not set
+CONFIG_ATA_GENERIC=m
+# CONFIG_PATA_LEGACY is not set
+CONFIG_MD=y
+CONFIG_BLK_DEV_MD=y
+CONFIG_MD_AUTODETECT=y
+CONFIG_MD_LINEAR=m
+CONFIG_MD_RAID0=m
+CONFIG_MD_RAID1=m
+CONFIG_MD_RAID10=m
+CONFIG_MD_RAID456=m
+CONFIG_MD_MULTIPATH=m
+CONFIG_MD_FAULTY=m
+CONFIG_MD_CLUSTER=m
+# CONFIG_BCACHE is not set
+CONFIG_BLK_DEV_DM_BUILTIN=y
+CONFIG_BLK_DEV_DM=m
+CONFIG_DM_DEBUG=y
+CONFIG_DM_BUFIO=m
+# CONFIG_DM_DEBUG_BLOCK_MANAGER_LOCKING is not set
+CONFIG_DM_BIO_PRISON=m
+CONFIG_DM_PERSISTENT_DATA=m
+# CONFIG_DM_UNSTRIPED is not set
+CONFIG_DM_CRYPT=m
+CONFIG_DM_SNAPSHOT=m
+CONFIG_DM_THIN_PROVISIONING=m
+CONFIG_DM_CACHE=m
+CONFIG_DM_CACHE_SMQ=m
+CONFIG_DM_WRITECACHE=m
+# CONFIG_DM_EBS is not set
+CONFIG_DM_ERA=m
+# CONFIG_DM_CLONE is not set
+CONFIG_DM_MIRROR=m
+CONFIG_DM_LOG_USERSPACE=m
+CONFIG_DM_RAID=m
+CONFIG_DM_ZERO=m
+CONFIG_DM_MULTIPATH=m
+CONFIG_DM_MULTIPATH_QL=m
+CONFIG_DM_MULTIPATH_ST=m
+# CONFIG_DM_MULTIPATH_HST is not set
+# CONFIG_DM_MULTIPATH_IOA is not set
+CONFIG_DM_DELAY=m
+# CONFIG_DM_DUST is not set
+CONFIG_DM_UEVENT=y
+CONFIG_DM_FLAKEY=m
+CONFIG_DM_VERITY=m
+# CONFIG_DM_VERITY_VERIFY_ROOTHASH_SIG is not set
+# CONFIG_DM_VERITY_FEC is not set
+CONFIG_DM_SWITCH=m
+CONFIG_DM_LOG_WRITES=m
+CONFIG_DM_INTEGRITY=m
+# CONFIG_DM_ZONED is not set
+CONFIG_DM_AUDIT=y
+CONFIG_TARGET_CORE=m
+CONFIG_TCM_IBLOCK=m
+CONFIG_TCM_FILEIO=m
+CONFIG_TCM_PSCSI=m
+CONFIG_TCM_USER2=m
+CONFIG_LOOPBACK_TARGET=m
+CONFIG_ISCSI_TARGET=m
+# CONFIG_SBP_TARGET is not set
+# CONFIG_FUSION is not set
+
+#
+# IEEE 1394 (FireWire) support
+#
+CONFIG_FIREWIRE=m
+CONFIG_FIREWIRE_OHCI=m
+CONFIG_FIREWIRE_SBP2=m
+CONFIG_FIREWIRE_NET=m
+# CONFIG_FIREWIRE_NOSY is not set
+# end of IEEE 1394 (FireWire) support
+
+CONFIG_MACINTOSH_DRIVERS=y
+CONFIG_MAC_EMUMOUSEBTN=y
+CONFIG_NETDEVICES=y
+CONFIG_MII=y
+CONFIG_NET_CORE=y
+# CONFIG_BONDING is not set
+CONFIG_DUMMY=m
+# CONFIG_WIREGUARD is not set
+# CONFIG_EQUALIZER is not set
+# CONFIG_NET_FC is not set
+# CONFIG_IFB is not set
+# CONFIG_NET_TEAM is not set
+# CONFIG_MACVLAN is not set
+# CONFIG_IPVLAN is not set
+# CONFIG_VXLAN is not set
+# CONFIG_GENEVE is not set
+# CONFIG_BAREUDP is not set
+# CONFIG_GTP is not set
+# CONFIG_AMT is not set
+CONFIG_MACSEC=m
+CONFIG_NETCONSOLE=m
+CONFIG_NETCONSOLE_DYNAMIC=y
+CONFIG_NETPOLL=y
+CONFIG_NET_POLL_CONTROLLER=y
+CONFIG_TUN=m
+# CONFIG_TUN_VNET_CROSS_LE is not set
+CONFIG_VETH=m
+CONFIG_VIRTIO_NET=m
+# CONFIG_NLMON is not set
+# CONFIG_NET_VRF is not set
+# CONFIG_VSOCKMON is not set
+# CONFIG_ARCNET is not set
+CONFIG_ATM_DRIVERS=y
+# CONFIG_ATM_DUMMY is not set
+# CONFIG_ATM_TCP is not set
+# CONFIG_ATM_LANAI is not set
+# CONFIG_ATM_ENI is not set
+# CONFIG_ATM_NICSTAR is not set
+# CONFIG_ATM_IDT77252 is not set
+# CONFIG_ATM_IA is not set
+# CONFIG_ATM_FORE200E is not set
+# CONFIG_ATM_HE is not set
+# CONFIG_ATM_SOLOS is not set
+CONFIG_ETHERNET=y
+CONFIG_MDIO=y
+# CONFIG_NET_VENDOR_3COM is not set
+CONFIG_NET_VENDOR_ADAPTEC=y
+# CONFIG_ADAPTEC_STARFIRE is not set
+CONFIG_NET_VENDOR_AGERE=y
+# CONFIG_ET131X is not set
+CONFIG_NET_VENDOR_ALACRITECH=y
+# CONFIG_SLICOSS is not set
+CONFIG_NET_VENDOR_ALTEON=y
+# CONFIG_ACENIC is not set
+# CONFIG_ALTERA_TSE is not set
+CONFIG_NET_VENDOR_AMAZON=y
+# CONFIG_ENA_ETHERNET is not set
+# CONFIG_NET_VENDOR_AMD is not set
+CONFIG_NET_VENDOR_AQUANTIA=y
+# CONFIG_AQTION is not set
+CONFIG_NET_VENDOR_ARC=y
+CONFIG_NET_VENDOR_ASIX=y
+# CONFIG_SPI_AX88796C is not set
+CONFIG_NET_VENDOR_ATHEROS=y
+# CONFIG_ATL2 is not set
+# CONFIG_ATL1 is not set
+# CONFIG_ATL1E is not set
+# CONFIG_ATL1C is not set
+# CONFIG_ALX is not set
+# CONFIG_CX_ECAT is not set
+CONFIG_NET_VENDOR_BROADCOM=y
+# CONFIG_B44 is not set
+# CONFIG_BCMGENET is not set
+# CONFIG_BNX2 is not set
+# CONFIG_CNIC is not set
+# CONFIG_TIGON3 is not set
+# CONFIG_BNX2X is not set
+# CONFIG_SYSTEMPORT is not set
+# CONFIG_BNXT is not set
+CONFIG_NET_VENDOR_CADENCE=y
+# CONFIG_MACB is not set
+CONFIG_NET_VENDOR_CAVIUM=y
+# CONFIG_THUNDER_NIC_PF is not set
+# CONFIG_THUNDER_NIC_VF is not set
+# CONFIG_THUNDER_NIC_BGX is not set
+# CONFIG_THUNDER_NIC_RGX is not set
+CONFIG_CAVIUM_PTP=y
+# CONFIG_LIQUIDIO is not set
+# CONFIG_LIQUIDIO_VF is not set
+CONFIG_NET_VENDOR_CHELSIO=y
+# CONFIG_CHELSIO_T1 is not set
+# CONFIG_CHELSIO_T3 is not set
+# CONFIG_CHELSIO_T4 is not set
+# CONFIG_CHELSIO_T4VF is not set
+CONFIG_NET_VENDOR_CISCO=y
+# CONFIG_ENIC is not set
+CONFIG_NET_VENDOR_CORTINA=y
+CONFIG_NET_VENDOR_DAVICOM=y
+# CONFIG_DM9051 is not set
+# CONFIG_DNET is not set
+CONFIG_NET_VENDOR_DEC=y
+# CONFIG_NET_TULIP is not set
+CONFIG_NET_VENDOR_DLINK=y
+# CONFIG_DL2K is not set
+# CONFIG_SUNDANCE is not set
+CONFIG_NET_VENDOR_EMULEX=y
+# CONFIG_BE2NET is not set
+CONFIG_NET_VENDOR_ENGLEDER=y
+# CONFIG_TSNEP is not set
+CONFIG_NET_VENDOR_EZCHIP=y
+CONFIG_NET_VENDOR_FUNGIBLE=y
+# CONFIG_FUN_ETH is not set
+CONFIG_NET_VENDOR_GOOGLE=y
+# CONFIG_GVE is not set
+CONFIG_NET_VENDOR_HUAWEI=y
+# CONFIG_HINIC is not set
+CONFIG_NET_VENDOR_I825XX=y
+CONFIG_NET_VENDOR_INTEL=y
+# CONFIG_E100 is not set
+CONFIG_E1000=y
+CONFIG_E1000E=y
+CONFIG_E1000E_HWTS=y
+CONFIG_IGB=y
+CONFIG_IGB_HWMON=y
+# CONFIG_IGBVF is not set
+# CONFIG_IXGB is not set
+CONFIG_IXGBE=y
+CONFIG_IXGBE_HWMON=y
+# CONFIG_IXGBE_DCB is not set
+# CONFIG_IXGBE_IPSEC is not set
+# CONFIG_IXGBEVF is not set
+CONFIG_I40E=y
+# CONFIG_I40E_DCB is not set
+# CONFIG_I40EVF is not set
+# CONFIG_ICE is not set
+# CONFIG_FM10K is not set
+CONFIG_IGC=y
+CONFIG_NET_VENDOR_WANGXUN=y
+# CONFIG_NGBE is not set
+# CONFIG_TXGBE is not set
+# CONFIG_JME is not set
+CONFIG_NET_VENDOR_ADI=y
+# CONFIG_ADIN1110 is not set
+CONFIG_NET_VENDOR_LITEX=y
+CONFIG_NET_VENDOR_MARVELL=y
+# CONFIG_MVMDIO is not set
+# CONFIG_SKGE is not set
+# CONFIG_SKY2 is not set
+# CONFIG_OCTEON_EP is not set
+# CONFIG_PRESTERA is not set
+CONFIG_NET_VENDOR_MELLANOX=y
+# CONFIG_MLX4_EN is not set
+# CONFIG_MLX5_CORE is not set
+# CONFIG_MLXSW_CORE is not set
+# CONFIG_MLXFW is not set
+CONFIG_NET_VENDOR_MICREL=y
+# CONFIG_KS8842 is not set
+# CONFIG_KS8851 is not set
+# CONFIG_KS8851_MLL is not set
+# CONFIG_KSZ884X_PCI is not set
+CONFIG_NET_VENDOR_MICROCHIP=y
+# CONFIG_ENC28J60 is not set
+# CONFIG_ENCX24J600 is not set
+# CONFIG_LAN743X is not set
+CONFIG_NET_VENDOR_MICROSEMI=y
+CONFIG_NET_VENDOR_MICROSOFT=y
+CONFIG_NET_VENDOR_MYRI=y
+# CONFIG_MYRI10GE is not set
+# CONFIG_FEALNX is not set
+CONFIG_NET_VENDOR_NI=y
+# CONFIG_NI_XGE_MANAGEMENT_ENET is not set
+CONFIG_NET_VENDOR_NATSEMI=y
+# CONFIG_NATSEMI is not set
+# CONFIG_NS83820 is not set
+CONFIG_NET_VENDOR_NETERION=y
+# CONFIG_S2IO is not set
+CONFIG_NET_VENDOR_NETRONOME=y
+# CONFIG_NFP is not set
+CONFIG_NET_VENDOR_8390=y
+# CONFIG_NE2K_PCI is not set
+CONFIG_NET_VENDOR_NVIDIA=y
+# CONFIG_FORCEDETH is not set
+CONFIG_NET_VENDOR_OKI=y
+# CONFIG_ETHOC is not set
+CONFIG_NET_VENDOR_PACKET_ENGINES=y
+# CONFIG_HAMACHI is not set
+# CONFIG_YELLOWFIN is not set
+CONFIG_NET_VENDOR_PENSANDO=y
+# CONFIG_IONIC is not set
+CONFIG_NET_VENDOR_QLOGIC=y
+# CONFIG_QLA3XXX is not set
+# CONFIG_QLCNIC is not set
+# CONFIG_NETXEN_NIC is not set
+# CONFIG_QED is not set
+CONFIG_NET_VENDOR_BROCADE=y
+# CONFIG_BNA is not set
+CONFIG_NET_VENDOR_QUALCOMM=y
+# CONFIG_QCOM_EMAC is not set
+# CONFIG_RMNET is not set
+CONFIG_NET_VENDOR_RDC=y
+# CONFIG_R6040 is not set
+CONFIG_NET_VENDOR_REALTEK=y
+# CONFIG_ATP is not set
+# CONFIG_8139CP is not set
+# CONFIG_8139TOO is not set
+CONFIG_R8169=y
+CONFIG_NET_VENDOR_RENESAS=y
+CONFIG_NET_VENDOR_ROCKER=y
+# CONFIG_ROCKER is not set
+CONFIG_NET_VENDOR_SAMSUNG=y
+# CONFIG_SXGBE_ETH is not set
+CONFIG_NET_VENDOR_SEEQ=y
+CONFIG_NET_VENDOR_SILAN=y
+# CONFIG_SC92031 is not set
+CONFIG_NET_VENDOR_SIS=y
+# CONFIG_SIS900 is not set
+# CONFIG_SIS190 is not set
+CONFIG_NET_VENDOR_SOLARFLARE=y
+# CONFIG_SFC is not set
+# CONFIG_SFC_FALCON is not set
+# CONFIG_SFC_SIENA is not set
+CONFIG_NET_VENDOR_SMSC=y
+# CONFIG_EPIC100 is not set
+# CONFIG_SMSC911X is not set
+# CONFIG_SMSC9420 is not set
+CONFIG_NET_VENDOR_SOCIONEXT=y
+CONFIG_NET_VENDOR_STMICRO=y
+# CONFIG_STMMAC_ETH is not set
+CONFIG_NET_VENDOR_SUN=y
+# CONFIG_HAPPYMEAL is not set
+# CONFIG_SUNGEM is not set
+# CONFIG_CASSINI is not set
+# CONFIG_NIU is not set
+CONFIG_NET_VENDOR_SYNOPSYS=y
+# CONFIG_DWC_XLGMAC is not set
+CONFIG_NET_VENDOR_TEHUTI=y
+# CONFIG_TEHUTI is not set
+CONFIG_NET_VENDOR_TI=y
+# CONFIG_TI_CPSW_PHY_SEL is not set
+# CONFIG_TLAN is not set
+CONFIG_NET_VENDOR_VERTEXCOM=y
+# CONFIG_MSE102X is not set
+CONFIG_NET_VENDOR_VIA=y
+# CONFIG_VIA_RHINE is not set
+# CONFIG_VIA_VELOCITY is not set
+CONFIG_NET_VENDOR_WIZNET=y
+# CONFIG_WIZNET_W5100 is not set
+# CONFIG_WIZNET_W5300 is not set
+CONFIG_NET_VENDOR_XILINX=y
+# CONFIG_XILINX_EMACLITE is not set
+# CONFIG_XILINX_AXI_EMAC is not set
+# CONFIG_XILINX_LL_TEMAC is not set
+# CONFIG_FDDI is not set
+# CONFIG_HIPPI is not set
+# CONFIG_NET_SB1000 is not set
+CONFIG_PHYLINK=y
+CONFIG_PHYLIB=y
+CONFIG_SWPHY=y
+# CONFIG_LED_TRIGGER_PHY is not set
+CONFIG_FIXED_PHY=y
+# CONFIG_SFP is not set
+
+#
+# MII PHY device drivers
+#
+# CONFIG_AMD_PHY is not set
+# CONFIG_ADIN_PHY is not set
+# CONFIG_ADIN1100_PHY is not set
+# CONFIG_AQUANTIA_PHY is not set
+CONFIG_AX88796B_PHY=y
+# CONFIG_BROADCOM_PHY is not set
+# CONFIG_BCM54140_PHY is not set
+# CONFIG_BCM7XXX_PHY is not set
+# CONFIG_BCM84881_PHY is not set
+# CONFIG_BCM87XX_PHY is not set
+# CONFIG_CICADA_PHY is not set
+# CONFIG_CORTINA_PHY is not set
+# CONFIG_DAVICOM_PHY is not set
+# CONFIG_ICPLUS_PHY is not set
+# CONFIG_LXT_PHY is not set
+# CONFIG_INTEL_XWAY_PHY is not set
+# CONFIG_LSI_ET1011C_PHY is not set
+# CONFIG_MARVELL_PHY is not set
+# CONFIG_MARVELL_10G_PHY is not set
+# CONFIG_MARVELL_88X2222_PHY is not set
+# CONFIG_MAXLINEAR_GPHY is not set
+# CONFIG_MEDIATEK_GE_PHY is not set
+# CONFIG_MICREL_PHY is not set
+# CONFIG_MICROCHIP_PHY is not set
+# CONFIG_MICROCHIP_T1_PHY is not set
+# CONFIG_MICROSEMI_PHY is not set
+# CONFIG_MOTORCOMM_PHY is not set
+# CONFIG_NATIONAL_PHY is not set
+# CONFIG_NXP_C45_TJA11XX_PHY is not set
+# CONFIG_NXP_TJA11XX_PHY is not set
+# CONFIG_QSEMI_PHY is not set
+CONFIG_REALTEK_PHY=y
+# CONFIG_RENESAS_PHY is not set
+# CONFIG_ROCKCHIP_PHY is not set
+# CONFIG_SMSC_PHY is not set
+# CONFIG_STE10XP is not set
+# CONFIG_TERANETICS_PHY is not set
+# CONFIG_DP83822_PHY is not set
+# CONFIG_DP83TC811_PHY is not set
+# CONFIG_DP83848_PHY is not set
+# CONFIG_DP83867_PHY is not set
+# CONFIG_DP83869_PHY is not set
+# CONFIG_DP83TD510_PHY is not set
+# CONFIG_VITESSE_PHY is not set
+# CONFIG_XILINX_GMII2RGMII is not set
+# CONFIG_MICREL_KS8995MA is not set
+# CONFIG_PSE_CONTROLLER is not set
+CONFIG_CAN_DEV=m
+CONFIG_CAN_VCAN=m
+# CONFIG_CAN_VXCAN is not set
+CONFIG_CAN_NETLINK=y
+CONFIG_CAN_CALC_BITTIMING=y
+# CONFIG_CAN_CAN327 is not set
+# CONFIG_CAN_KVASER_PCIEFD is not set
+CONFIG_CAN_SLCAN=m
+CONFIG_CAN_C_CAN=m
+CONFIG_CAN_C_CAN_PLATFORM=m
+CONFIG_CAN_C_CAN_PCI=m
+CONFIG_CAN_CC770=m
+# CONFIG_CAN_CC770_ISA is not set
+CONFIG_CAN_CC770_PLATFORM=m
+# CONFIG_CAN_CTUCANFD_PCI is not set
+# CONFIG_CAN_IFI_CANFD is not set
+# CONFIG_CAN_M_CAN is not set
+# CONFIG_CAN_PEAK_PCIEFD is not set
+CONFIG_CAN_SJA1000=m
+CONFIG_CAN_EMS_PCI=m
+# CONFIG_CAN_F81601 is not set
+CONFIG_CAN_KVASER_PCI=m
+CONFIG_CAN_PEAK_PCI=m
+CONFIG_CAN_PEAK_PCIEC=y
+CONFIG_CAN_PLX_PCI=m
+# CONFIG_CAN_SJA1000_ISA is not set
+# CONFIG_CAN_SJA1000_PLATFORM is not set
+CONFIG_CAN_SOFTING=m
+
+#
+# CAN SPI interfaces
+#
+# CONFIG_CAN_HI311X is not set
+# CONFIG_CAN_MCP251X is not set
+# CONFIG_CAN_MCP251XFD is not set
+# end of CAN SPI interfaces
+
+#
+# CAN USB interfaces
+#
+# CONFIG_CAN_8DEV_USB is not set
+# CONFIG_CAN_EMS_USB is not set
+# CONFIG_CAN_ESD_USB is not set
+# CONFIG_CAN_ETAS_ES58X is not set
+# CONFIG_CAN_GS_USB is not set
+# CONFIG_CAN_KVASER_USB is not set
+# CONFIG_CAN_MCBA_USB is not set
+# CONFIG_CAN_PEAK_USB is not set
+# CONFIG_CAN_UCAN is not set
+# end of CAN USB interfaces
+
+# CONFIG_CAN_DEBUG_DEVICES is not set
+CONFIG_MDIO_DEVICE=y
+CONFIG_MDIO_BUS=y
+CONFIG_FWNODE_MDIO=y
+CONFIG_ACPI_MDIO=y
+CONFIG_MDIO_DEVRES=y
+# CONFIG_MDIO_BITBANG is not set
+# CONFIG_MDIO_BCM_UNIMAC is not set
+# CONFIG_MDIO_MVUSB is not set
+# CONFIG_MDIO_THUNDER is not set
+
+#
+# MDIO Multiplexers
+#
+
+#
+# PCS device drivers
+#
+# end of PCS device drivers
+
+# CONFIG_PLIP is not set
+# CONFIG_PPP is not set
+# CONFIG_SLIP is not set
+CONFIG_USB_NET_DRIVERS=y
+# CONFIG_USB_CATC is not set
+# CONFIG_USB_KAWETH is not set
+# CONFIG_USB_PEGASUS is not set
+# CONFIG_USB_RTL8150 is not set
+CONFIG_USB_RTL8152=y
+# CONFIG_USB_LAN78XX is not set
+CONFIG_USB_USBNET=y
+CONFIG_USB_NET_AX8817X=y
+CONFIG_USB_NET_AX88179_178A=y
+# CONFIG_USB_NET_CDCETHER is not set
+# CONFIG_USB_NET_CDC_EEM is not set
+# CONFIG_USB_NET_CDC_NCM is not set
+# CONFIG_USB_NET_HUAWEI_CDC_NCM is not set
+# CONFIG_USB_NET_CDC_MBIM is not set
+# CONFIG_USB_NET_DM9601 is not set
+# CONFIG_USB_NET_SR9700 is not set
+# CONFIG_USB_NET_SR9800 is not set
+# CONFIG_USB_NET_SMSC75XX is not set
+# CONFIG_USB_NET_SMSC95XX is not set
+# CONFIG_USB_NET_GL620A is not set
+# CONFIG_USB_NET_NET1080 is not set
+# CONFIG_USB_NET_PLUSB is not set
+# CONFIG_USB_NET_MCS7830 is not set
+# CONFIG_USB_NET_RNDIS_HOST is not set
+# CONFIG_USB_NET_CDC_SUBSET is not set
+# CONFIG_USB_NET_ZAURUS is not set
+# CONFIG_USB_NET_CX82310_ETH is not set
+# CONFIG_USB_NET_KALMIA is not set
+# CONFIG_USB_NET_QMI_WWAN is not set
+# CONFIG_USB_HSO is not set
+# CONFIG_USB_NET_INT51X1 is not set
+# CONFIG_USB_IPHETH is not set
+# CONFIG_USB_SIERRA_NET is not set
+# CONFIG_USB_NET_CH9200 is not set
+# CONFIG_USB_NET_AQC111 is not set
+CONFIG_WLAN=y
+CONFIG_WLAN_VENDOR_ADMTEK=y
+# CONFIG_ADM8211 is not set
+CONFIG_WLAN_VENDOR_ATH=y
+# CONFIG_ATH_DEBUG is not set
+# CONFIG_ATH5K is not set
+# CONFIG_ATH5K_PCI is not set
+# CONFIG_ATH9K is not set
+# CONFIG_ATH9K_HTC is not set
+# CONFIG_CARL9170 is not set
+# CONFIG_ATH6KL is not set
+# CONFIG_AR5523 is not set
+# CONFIG_WIL6210 is not set
+# CONFIG_ATH10K is not set
+# CONFIG_WCN36XX is not set
+# CONFIG_ATH11K is not set
+CONFIG_WLAN_VENDOR_ATMEL=y
+# CONFIG_ATMEL is not set
+# CONFIG_AT76C50X_USB is not set
+CONFIG_WLAN_VENDOR_BROADCOM=y
+# CONFIG_B43 is not set
+# CONFIG_B43LEGACY is not set
+# CONFIG_BRCMSMAC is not set
+# CONFIG_BRCMFMAC is not set
+CONFIG_WLAN_VENDOR_CISCO=y
+# CONFIG_AIRO is not set
+CONFIG_WLAN_VENDOR_INTEL=y
+# CONFIG_IPW2100 is not set
+# CONFIG_IPW2200 is not set
+# CONFIG_IWL4965 is not set
+# CONFIG_IWL3945 is not set
+# CONFIG_IWLWIFI is not set
+CONFIG_WLAN_VENDOR_INTERSIL=y
+# CONFIG_HOSTAP is not set
+# CONFIG_HERMES is not set
+# CONFIG_P54_COMMON is not set
+CONFIG_WLAN_VENDOR_MARVELL=y
+# CONFIG_LIBERTAS is not set
+# CONFIG_LIBERTAS_THINFIRM is not set
+# CONFIG_MWIFIEX is not set
+# CONFIG_MWL8K is not set
+# CONFIG_WLAN_VENDOR_MEDIATEK is not set
+CONFIG_WLAN_VENDOR_MICROCHIP=y
+# CONFIG_WILC1000_SDIO is not set
+# CONFIG_WILC1000_SPI is not set
+CONFIG_WLAN_VENDOR_PURELIFI=y
+# CONFIG_PLFXLC is not set
+CONFIG_WLAN_VENDOR_RALINK=y
+# CONFIG_RT2X00 is not set
+CONFIG_WLAN_VENDOR_REALTEK=y
+# CONFIG_RTL8180 is not set
+# CONFIG_RTL8187 is not set
+CONFIG_RTL_CARDS=m
+# CONFIG_RTL8192CE is not set
+# CONFIG_RTL8192SE is not set
+# CONFIG_RTL8192DE is not set
+# CONFIG_RTL8723AE is not set
+# CONFIG_RTL8723BE is not set
+# CONFIG_RTL8188EE is not set
+# CONFIG_RTL8192EE is not set
+# CONFIG_RTL8821AE is not set
+# CONFIG_RTL8192CU is not set
+# CONFIG_RTL8XXXU is not set
+# CONFIG_RTW88 is not set
+# CONFIG_RTW89 is not set
+CONFIG_WLAN_VENDOR_RSI=y
+# CONFIG_RSI_91X is not set
+CONFIG_WLAN_VENDOR_SILABS=y
+# CONFIG_WFX is not set
+CONFIG_WLAN_VENDOR_ST=y
+# CONFIG_CW1200 is not set
+CONFIG_WLAN_VENDOR_TI=y
+# CONFIG_WL1251 is not set
+# CONFIG_WL12XX is not set
+# CONFIG_WL18XX is not set
+# CONFIG_WLCORE is not set
+CONFIG_WLAN_VENDOR_ZYDAS=y
+# CONFIG_USB_ZD1201 is not set
+# CONFIG_ZD1211RW is not set
+CONFIG_WLAN_VENDOR_QUANTENNA=y
+# CONFIG_QTNFMAC_PCIE is not set
+CONFIG_MAC80211_HWSIM=m
+# CONFIG_USB_NET_RNDIS_WLAN is not set
+# CONFIG_VIRT_WIFI is not set
+# CONFIG_WAN is not set
+
+#
+# Wireless WAN
+#
+# CONFIG_WWAN is not set
+# end of Wireless WAN
+
+# CONFIG_VMXNET3 is not set
+# CONFIG_FUJITSU_ES is not set
+# CONFIG_NETDEVSIM is not set
+CONFIG_NET_FAILOVER=m
+# CONFIG_ISDN is not set
+
+#
+# Input device support
+#
+CONFIG_INPUT=y
+CONFIG_INPUT_LEDS=y
+CONFIG_INPUT_FF_MEMLESS=m
+CONFIG_INPUT_SPARSEKMAP=m
+# CONFIG_INPUT_MATRIXKMAP is not set
+CONFIG_INPUT_VIVALDIFMAP=y
+
+#
+# Userland interfaces
+#
+CONFIG_INPUT_MOUSEDEV=y
+# CONFIG_INPUT_MOUSEDEV_PSAUX is not set
+CONFIG_INPUT_MOUSEDEV_SCREEN_X=1024
+CONFIG_INPUT_MOUSEDEV_SCREEN_Y=768
+CONFIG_INPUT_JOYDEV=m
+CONFIG_INPUT_EVDEV=y
+# CONFIG_INPUT_EVBUG is not set
+
+#
+# Input Device Drivers
+#
+CONFIG_INPUT_KEYBOARD=y
+# CONFIG_KEYBOARD_ADP5588 is not set
+# CONFIG_KEYBOARD_ADP5589 is not set
+# CONFIG_KEYBOARD_APPLESPI is not set
+CONFIG_KEYBOARD_ATKBD=y
+# CONFIG_KEYBOARD_QT1050 is not set
+# CONFIG_KEYBOARD_QT1070 is not set
+# CONFIG_KEYBOARD_QT2160 is not set
+# CONFIG_KEYBOARD_DLINK_DIR685 is not set
+# CONFIG_KEYBOARD_LKKBD is not set
+# CONFIG_KEYBOARD_GPIO is not set
+# CONFIG_KEYBOARD_GPIO_POLLED is not set
+# CONFIG_KEYBOARD_TCA6416 is not set
+# CONFIG_KEYBOARD_TCA8418 is not set
+# CONFIG_KEYBOARD_MATRIX is not set
+# CONFIG_KEYBOARD_LM8323 is not set
+# CONFIG_KEYBOARD_LM8333 is not set
+# CONFIG_KEYBOARD_MAX7359 is not set
+# CONFIG_KEYBOARD_MCS is not set
+# CONFIG_KEYBOARD_MPR121 is not set
+# CONFIG_KEYBOARD_NEWTON is not set
+# CONFIG_KEYBOARD_OPENCORES is not set
+# CONFIG_KEYBOARD_SAMSUNG is not set
+# CONFIG_KEYBOARD_STOWAWAY is not set
+# CONFIG_KEYBOARD_SUNKBD is not set
+# CONFIG_KEYBOARD_TM2_TOUCHKEY is not set
+# CONFIG_KEYBOARD_XTKBD is not set
+# CONFIG_KEYBOARD_CYPRESS_SF is not set
+CONFIG_INPUT_MOUSE=y
+CONFIG_MOUSE_PS2=y
+CONFIG_MOUSE_PS2_ALPS=y
+CONFIG_MOUSE_PS2_BYD=y
+CONFIG_MOUSE_PS2_LOGIPS2PP=y
+CONFIG_MOUSE_PS2_SYNAPTICS=y
+CONFIG_MOUSE_PS2_SYNAPTICS_SMBUS=y
+CONFIG_MOUSE_PS2_CYPRESS=y
+CONFIG_MOUSE_PS2_LIFEBOOK=y
+CONFIG_MOUSE_PS2_TRACKPOINT=y
+CONFIG_MOUSE_PS2_ELANTECH=y
+CONFIG_MOUSE_PS2_ELANTECH_SMBUS=y
+CONFIG_MOUSE_PS2_SENTELIC=y
+# CONFIG_MOUSE_PS2_TOUCHKIT is not set
+CONFIG_MOUSE_PS2_FOCALTECH=y
+CONFIG_MOUSE_PS2_VMMOUSE=y
+CONFIG_MOUSE_PS2_SMBUS=y
+CONFIG_MOUSE_SERIAL=m
+# CONFIG_MOUSE_APPLETOUCH is not set
+# CONFIG_MOUSE_BCM5974 is not set
+CONFIG_MOUSE_CYAPA=m
+CONFIG_MOUSE_ELAN_I2C=m
+CONFIG_MOUSE_ELAN_I2C_I2C=y
+CONFIG_MOUSE_ELAN_I2C_SMBUS=y
+CONFIG_MOUSE_VSXXXAA=m
+# CONFIG_MOUSE_GPIO is not set
+CONFIG_MOUSE_SYNAPTICS_I2C=m
+# CONFIG_MOUSE_SYNAPTICS_USB is not set
+# CONFIG_INPUT_JOYSTICK is not set
+# CONFIG_INPUT_TABLET is not set
+# CONFIG_INPUT_TOUCHSCREEN is not set
+CONFIG_INPUT_MISC=y
+# CONFIG_INPUT_AD714X is not set
+# CONFIG_INPUT_BMA150 is not set
+# CONFIG_INPUT_E3X0_BUTTON is not set
+# CONFIG_INPUT_PCSPKR is not set
+# CONFIG_INPUT_MMA8450 is not set
+# CONFIG_INPUT_APANEL is not set
+# CONFIG_INPUT_GPIO_BEEPER is not set
+# CONFIG_INPUT_GPIO_DECODER is not set
+# CONFIG_INPUT_GPIO_VIBRA is not set
+# CONFIG_INPUT_ATLAS_BTNS is not set
+# CONFIG_INPUT_ATI_REMOTE2 is not set
+# CONFIG_INPUT_KEYSPAN_REMOTE is not set
+# CONFIG_INPUT_KXTJ9 is not set
+# CONFIG_INPUT_POWERMATE is not set
+# CONFIG_INPUT_YEALINK is not set
+# CONFIG_INPUT_CM109 is not set
+CONFIG_INPUT_UINPUT=y
+# CONFIG_INPUT_PCF8574 is not set
+# CONFIG_INPUT_PWM_BEEPER is not set
+# CONFIG_INPUT_PWM_VIBRA is not set
+# CONFIG_INPUT_GPIO_ROTARY_ENCODER is not set
+# CONFIG_INPUT_DA7280_HAPTICS is not set
+# CONFIG_INPUT_ADXL34X is not set
+# CONFIG_INPUT_IMS_PCU is not set
+# CONFIG_INPUT_IQS269A is not set
+# CONFIG_INPUT_IQS626A is not set
+# CONFIG_INPUT_IQS7222 is not set
+# CONFIG_INPUT_CMA3000 is not set
+# CONFIG_INPUT_IDEAPAD_SLIDEBAR is not set
+# CONFIG_INPUT_DRV260X_HAPTICS is not set
+# CONFIG_INPUT_DRV2665_HAPTICS is not set
+# CONFIG_INPUT_DRV2667_HAPTICS is not set
+CONFIG_RMI4_CORE=m
+CONFIG_RMI4_I2C=m
+CONFIG_RMI4_SPI=m
+CONFIG_RMI4_SMB=m
+CONFIG_RMI4_F03=y
+CONFIG_RMI4_F03_SERIO=m
+CONFIG_RMI4_2D_SENSOR=y
+CONFIG_RMI4_F11=y
+CONFIG_RMI4_F12=y
+CONFIG_RMI4_F30=y
+CONFIG_RMI4_F34=y
+# CONFIG_RMI4_F3A is not set
+CONFIG_RMI4_F55=y
+
+#
+# Hardware I/O ports
+#
+CONFIG_SERIO=y
+CONFIG_ARCH_MIGHT_HAVE_PC_SERIO=y
+CONFIG_SERIO_I8042=y
+CONFIG_SERIO_SERPORT=y
+# CONFIG_SERIO_CT82C710 is not set
+# CONFIG_SERIO_PARKBD is not set
+# CONFIG_SERIO_PCIPS2 is not set
+CONFIG_SERIO_LIBPS2=y
+CONFIG_SERIO_RAW=m
+CONFIG_SERIO_ALTERA_PS2=m
+# CONFIG_SERIO_PS2MULT is not set
+CONFIG_SERIO_ARC_PS2=m
+# CONFIG_SERIO_GPIO_PS2 is not set
+# CONFIG_USERIO is not set
+# CONFIG_GAMEPORT is not set
+# end of Hardware I/O ports
+# end of Input device support
+
+#
+# Character devices
+#
+CONFIG_TTY=y
+CONFIG_VT=y
+CONFIG_CONSOLE_TRANSLATIONS=y
+CONFIG_VT_CONSOLE=y
+CONFIG_VT_CONSOLE_SLEEP=y
+CONFIG_HW_CONSOLE=y
+CONFIG_VT_HW_CONSOLE_BINDING=y
+CONFIG_UNIX98_PTYS=y
+# CONFIG_LEGACY_PTYS is not set
+CONFIG_LDISC_AUTOLOAD=y
+
+#
+# Serial drivers
+#
+CONFIG_SERIAL_EARLYCON=y
+CONFIG_SERIAL_8250=y
+# CONFIG_SERIAL_8250_DEPRECATED_OPTIONS is not set
+CONFIG_SERIAL_8250_PNP=y
+# CONFIG_SERIAL_8250_16550A_VARIANTS is not set
+# CONFIG_SERIAL_8250_FINTEK is not set
+CONFIG_SERIAL_8250_CONSOLE=y
+CONFIG_SERIAL_8250_DMA=y
+CONFIG_SERIAL_8250_PCI=y
+CONFIG_SERIAL_8250_EXAR=y
+CONFIG_SERIAL_8250_NR_UARTS=64
+CONFIG_SERIAL_8250_RUNTIME_UARTS=4
+CONFIG_SERIAL_8250_EXTENDED=y
+CONFIG_SERIAL_8250_MANY_PORTS=y
+CONFIG_SERIAL_8250_SHARE_IRQ=y
+# CONFIG_SERIAL_8250_DETECT_IRQ is not set
+CONFIG_SERIAL_8250_RSA=y
+CONFIG_SERIAL_8250_DWLIB=y
+CONFIG_SERIAL_8250_DW=y
+# CONFIG_SERIAL_8250_RT288X is not set
+CONFIG_SERIAL_8250_LPSS=y
+CONFIG_SERIAL_8250_MID=y
+CONFIG_SERIAL_8250_PERICOM=y
+
+#
+# Non-8250 serial port support
+#
+# CONFIG_SERIAL_MAX3100 is not set
+# CONFIG_SERIAL_MAX310X is not set
+# CONFIG_SERIAL_UARTLITE is not set
+CONFIG_SERIAL_CORE=y
+CONFIG_SERIAL_CORE_CONSOLE=y
+CONFIG_SERIAL_JSM=m
+# CONFIG_SERIAL_LANTIQ is not set
+# CONFIG_SERIAL_SCCNXP is not set
+# CONFIG_SERIAL_SC16IS7XX is not set
+# CONFIG_SERIAL_ALTERA_JTAGUART is not set
+# CONFIG_SERIAL_ALTERA_UART is not set
+CONFIG_SERIAL_ARC=m
+CONFIG_SERIAL_ARC_NR_PORTS=1
+# CONFIG_SERIAL_RP2 is not set
+# CONFIG_SERIAL_FSL_LPUART is not set
+# CONFIG_SERIAL_FSL_LINFLEXUART is not set
+# CONFIG_SERIAL_SPRD is not set
+# end of Serial drivers
+
+CONFIG_SERIAL_MCTRL_GPIO=y
+CONFIG_SERIAL_NONSTANDARD=y
+# CONFIG_MOXA_INTELLIO is not set
+# CONFIG_MOXA_SMARTIO is not set
+CONFIG_SYNCLINK_GT=m
+CONFIG_N_HDLC=m
+CONFIG_N_GSM=m
+CONFIG_NOZOMI=m
+# CONFIG_NULL_TTY is not set
+CONFIG_HVC_DRIVER=y
+# CONFIG_SERIAL_DEV_BUS is not set
+# CONFIG_TTY_PRINTK is not set
+CONFIG_PRINTER=m
+# CONFIG_LP_CONSOLE is not set
+CONFIG_PPDEV=m
+CONFIG_VIRTIO_CONSOLE=m
+CONFIG_IPMI_HANDLER=m
+CONFIG_IPMI_DMI_DECODE=y
+CONFIG_IPMI_PLAT_DATA=y
+CONFIG_IPMI_PANIC_EVENT=y
+CONFIG_IPMI_PANIC_STRING=y
+CONFIG_IPMI_DEVICE_INTERFACE=m
+CONFIG_IPMI_SI=m
+CONFIG_IPMI_SSIF=m
+CONFIG_IPMI_WATCHDOG=m
+CONFIG_IPMI_POWEROFF=m
+CONFIG_HW_RANDOM=y
+CONFIG_HW_RANDOM_TIMERIOMEM=m
+CONFIG_HW_RANDOM_INTEL=m
+# CONFIG_HW_RANDOM_AMD is not set
+# CONFIG_HW_RANDOM_BA431 is not set
+CONFIG_HW_RANDOM_VIA=m
+CONFIG_HW_RANDOM_VIRTIO=y
+# CONFIG_HW_RANDOM_XIPHERA is not set
+# CONFIG_APPLICOM is not set
+# CONFIG_MWAVE is not set
+CONFIG_DEVMEM=y
+CONFIG_NVRAM=y
+CONFIG_DEVPORT=y
+CONFIG_HPET=y
+CONFIG_HPET_MMAP=y
+# CONFIG_HPET_MMAP_DEFAULT is not set
+CONFIG_HANGCHECK_TIMER=m
+CONFIG_UV_MMTIMER=m
+CONFIG_TCG_TPM=y
+CONFIG_HW_RANDOM_TPM=y
+CONFIG_TCG_TIS_CORE=y
+CONFIG_TCG_TIS=y
+# CONFIG_TCG_TIS_SPI is not set
+# CONFIG_TCG_TIS_I2C is not set
+# CONFIG_TCG_TIS_I2C_CR50 is not set
+CONFIG_TCG_TIS_I2C_ATMEL=m
+CONFIG_TCG_TIS_I2C_INFINEON=m
+CONFIG_TCG_TIS_I2C_NUVOTON=m
+CONFIG_TCG_NSC=m
+CONFIG_TCG_ATMEL=m
+CONFIG_TCG_INFINEON=m
+CONFIG_TCG_CRB=y
+# CONFIG_TCG_VTPM_PROXY is not set
+CONFIG_TCG_TIS_ST33ZP24=m
+CONFIG_TCG_TIS_ST33ZP24_I2C=m
+# CONFIG_TCG_TIS_ST33ZP24_SPI is not set
+CONFIG_TELCLOCK=m
+# CONFIG_XILLYBUS is not set
+# CONFIG_XILLYUSB is not set
+CONFIG_RANDOM_TRUST_CPU=y
+CONFIG_RANDOM_TRUST_BOOTLOADER=y
+# end of Character devices
+
+#
+# I2C support
+#
+CONFIG_I2C=y
+CONFIG_ACPI_I2C_OPREGION=y
+CONFIG_I2C_BOARDINFO=y
+CONFIG_I2C_COMPAT=y
+CONFIG_I2C_CHARDEV=m
+CONFIG_I2C_MUX=m
+
+#
+# Multiplexer I2C Chip support
+#
+# CONFIG_I2C_MUX_GPIO is not set
+# CONFIG_I2C_MUX_LTC4306 is not set
+# CONFIG_I2C_MUX_PCA9541 is not set
+# CONFIG_I2C_MUX_PCA954x is not set
+# CONFIG_I2C_MUX_REG is not set
+CONFIG_I2C_MUX_MLXCPLD=m
+# end of Multiplexer I2C Chip support
+
+CONFIG_I2C_HELPER_AUTO=y
+CONFIG_I2C_SMBUS=m
+CONFIG_I2C_ALGOBIT=y
+CONFIG_I2C_ALGOPCA=m
+
+#
+# I2C Hardware Bus support
+#
+
+#
+# PC SMBus host controller drivers
+#
+# CONFIG_I2C_ALI1535 is not set
+# CONFIG_I2C_ALI1563 is not set
+# CONFIG_I2C_ALI15X3 is not set
+# CONFIG_I2C_AMD756 is not set
+# CONFIG_I2C_AMD8111 is not set
+# CONFIG_I2C_AMD_MP2 is not set
+CONFIG_I2C_I801=m
+CONFIG_I2C_ISCH=m
+CONFIG_I2C_ISMT=m
+CONFIG_I2C_PIIX4=m
+CONFIG_I2C_NFORCE2=m
+CONFIG_I2C_NFORCE2_S4985=m
+# CONFIG_I2C_NVIDIA_GPU is not set
+# CONFIG_I2C_SIS5595 is not set
+# CONFIG_I2C_SIS630 is not set
+CONFIG_I2C_SIS96X=m
+CONFIG_I2C_VIA=m
+CONFIG_I2C_VIAPRO=m
+
+#
+# ACPI drivers
+#
+CONFIG_I2C_SCMI=m
+
+#
+# I2C system bus drivers (mostly embedded / system-on-chip)
+#
+# CONFIG_I2C_CBUS_GPIO is not set
+CONFIG_I2C_DESIGNWARE_CORE=m
+# CONFIG_I2C_DESIGNWARE_SLAVE is not set
+CONFIG_I2C_DESIGNWARE_PLATFORM=m
+# CONFIG_I2C_DESIGNWARE_AMDPSP is not set
+CONFIG_I2C_DESIGNWARE_BAYTRAIL=y
+# CONFIG_I2C_DESIGNWARE_PCI is not set
+# CONFIG_I2C_EMEV2 is not set
+# CONFIG_I2C_GPIO is not set
+# CONFIG_I2C_OCORES is not set
+CONFIG_I2C_PCA_PLATFORM=m
+CONFIG_I2C_SIMTEC=m
+# CONFIG_I2C_XILINX is not set
+
+#
+# External I2C/SMBus adapter drivers
+#
+# CONFIG_I2C_DIOLAN_U2C is not set
+# CONFIG_I2C_CP2615 is not set
+CONFIG_I2C_PARPORT=m
+# CONFIG_I2C_PCI1XXXX is not set
+# CONFIG_I2C_ROBOTFUZZ_OSIF is not set
+# CONFIG_I2C_TAOS_EVM is not set
+# CONFIG_I2C_TINY_USB is not set
+
+#
+# Other I2C/SMBus bus drivers
+#
+CONFIG_I2C_MLXCPLD=m
+# CONFIG_I2C_VIRTIO is not set
+# end of I2C Hardware Bus support
+
+CONFIG_I2C_STUB=m
+# CONFIG_I2C_SLAVE is not set
+# CONFIG_I2C_DEBUG_CORE is not set
+# CONFIG_I2C_DEBUG_ALGO is not set
+# CONFIG_I2C_DEBUG_BUS is not set
+# end of I2C support
+
+# CONFIG_I3C is not set
+CONFIG_SPI=y
+# CONFIG_SPI_DEBUG is not set
+CONFIG_SPI_MASTER=y
+# CONFIG_SPI_MEM is not set
+
+#
+# SPI Master Controller Drivers
+#
+# CONFIG_SPI_ALTERA is not set
+# CONFIG_SPI_AXI_SPI_ENGINE is not set
+# CONFIG_SPI_BITBANG is not set
+# CONFIG_SPI_BUTTERFLY is not set
+# CONFIG_SPI_CADENCE is not set
+# CONFIG_SPI_DESIGNWARE is not set
+# CONFIG_SPI_NXP_FLEXSPI is not set
+# CONFIG_SPI_GPIO is not set
+# CONFIG_SPI_LM70_LLP is not set
+# CONFIG_SPI_MICROCHIP_CORE is not set
+# CONFIG_SPI_MICROCHIP_CORE_QSPI is not set
+# CONFIG_SPI_LANTIQ_SSC is not set
+# CONFIG_SPI_OC_TINY is not set
+# CONFIG_SPI_PXA2XX is not set
+# CONFIG_SPI_ROCKCHIP is not set
+# CONFIG_SPI_SC18IS602 is not set
+# CONFIG_SPI_SIFIVE is not set
+# CONFIG_SPI_MXIC is not set
+# CONFIG_SPI_XCOMM is not set
+# CONFIG_SPI_XILINX is not set
+# CONFIG_SPI_ZYNQMP_GQSPI is not set
+# CONFIG_SPI_AMD is not set
+
+#
+# SPI Multiplexer support
+#
+# CONFIG_SPI_MUX is not set
+
+#
+# SPI Protocol Masters
+#
+# CONFIG_SPI_SPIDEV is not set
+# CONFIG_SPI_LOOPBACK_TEST is not set
+# CONFIG_SPI_TLE62X0 is not set
+# CONFIG_SPI_SLAVE is not set
+CONFIG_SPI_DYNAMIC=y
+# CONFIG_SPMI is not set
+# CONFIG_HSI is not set
+CONFIG_PPS=y
+# CONFIG_PPS_DEBUG is not set
+
+#
+# PPS clients support
+#
+# CONFIG_PPS_CLIENT_KTIMER is not set
+CONFIG_PPS_CLIENT_LDISC=m
+CONFIG_PPS_CLIENT_PARPORT=m
+CONFIG_PPS_CLIENT_GPIO=m
+
+#
+# PPS generators support
+#
+
+#
+# PTP clock support
+#
+CONFIG_PTP_1588_CLOCK=y
+CONFIG_PTP_1588_CLOCK_OPTIONAL=y
+# CONFIG_DP83640_PHY is not set
+# CONFIG_PTP_1588_CLOCK_INES is not set
+CONFIG_PTP_1588_CLOCK_KVM=m
+# CONFIG_PTP_1588_CLOCK_IDT82P33 is not set
+# CONFIG_PTP_1588_CLOCK_IDTCM is not set
+# CONFIG_PTP_1588_CLOCK_VMW is not set
+# end of PTP clock support
+
+CONFIG_PINCTRL=y
+# CONFIG_DEBUG_PINCTRL is not set
+# CONFIG_PINCTRL_AMD is not set
+# CONFIG_PINCTRL_CY8C95X0 is not set
+# CONFIG_PINCTRL_MCP23S08 is not set
+# CONFIG_PINCTRL_SX150X is not set
+
+#
+# Intel pinctrl drivers
+#
+# CONFIG_PINCTRL_BAYTRAIL is not set
+# CONFIG_PINCTRL_CHERRYVIEW is not set
+# CONFIG_PINCTRL_LYNXPOINT is not set
+# CONFIG_PINCTRL_ALDERLAKE is not set
+# CONFIG_PINCTRL_BROXTON is not set
+# CONFIG_PINCTRL_CANNONLAKE is not set
+# CONFIG_PINCTRL_CEDARFORK is not set
+# CONFIG_PINCTRL_DENVERTON is not set
+# CONFIG_PINCTRL_ELKHARTLAKE is not set
+# CONFIG_PINCTRL_EMMITSBURG is not set
+# CONFIG_PINCTRL_GEMINILAKE is not set
+# CONFIG_PINCTRL_ICELAKE is not set
+# CONFIG_PINCTRL_JASPERLAKE is not set
+# CONFIG_PINCTRL_LAKEFIELD is not set
+# CONFIG_PINCTRL_LEWISBURG is not set
+# CONFIG_PINCTRL_METEORLAKE is not set
+# CONFIG_PINCTRL_SUNRISEPOINT is not set
+# CONFIG_PINCTRL_TIGERLAKE is not set
+# end of Intel pinctrl drivers
+
+#
+# Renesas pinctrl drivers
+#
+# end of Renesas pinctrl drivers
+
+CONFIG_GPIOLIB=y
+CONFIG_GPIOLIB_FASTPATH_LIMIT=512
+CONFIG_GPIO_ACPI=y
+# CONFIG_DEBUG_GPIO is not set
+CONFIG_GPIO_SYSFS=y
+CONFIG_GPIO_CDEV=y
+CONFIG_GPIO_CDEV_V1=y
+
+#
+# Memory mapped GPIO drivers
+#
+# CONFIG_GPIO_AMDPT is not set
+# CONFIG_GPIO_DWAPB is not set
+# CONFIG_GPIO_EXAR is not set
+# CONFIG_GPIO_GENERIC_PLATFORM is not set
+CONFIG_GPIO_ICH=m
+# CONFIG_GPIO_MB86S7X is not set
+# CONFIG_GPIO_VX855 is not set
+# CONFIG_GPIO_AMD_FCH is not set
+# end of Memory mapped GPIO drivers
+
+#
+# Port-mapped I/O GPIO drivers
+#
+# CONFIG_GPIO_F7188X is not set
+# CONFIG_GPIO_IT87 is not set
+# CONFIG_GPIO_SCH is not set
+# CONFIG_GPIO_SCH311X is not set
+# CONFIG_GPIO_WINBOND is not set
+# CONFIG_GPIO_WS16C48 is not set
+# end of Port-mapped I/O GPIO drivers
+
+#
+# I2C GPIO expanders
+#
+# CONFIG_GPIO_MAX7300 is not set
+# CONFIG_GPIO_MAX732X is not set
+# CONFIG_GPIO_PCA953X is not set
+# CONFIG_GPIO_PCA9570 is not set
+# CONFIG_GPIO_PCF857X is not set
+# CONFIG_GPIO_TPIC2810 is not set
+# end of I2C GPIO expanders
+
+#
+# MFD GPIO expanders
+#
+# end of MFD GPIO expanders
+
+#
+# PCI GPIO expanders
+#
+# CONFIG_GPIO_AMD8111 is not set
+# CONFIG_GPIO_BT8XX is not set
+# CONFIG_GPIO_ML_IOH is not set
+# CONFIG_GPIO_PCI_IDIO_16 is not set
+# CONFIG_GPIO_PCIE_IDIO_24 is not set
+# CONFIG_GPIO_RDC321X is not set
+# end of PCI GPIO expanders
+
+#
+# SPI GPIO expanders
+#
+# CONFIG_GPIO_MAX3191X is not set
+# CONFIG_GPIO_MAX7301 is not set
+# CONFIG_GPIO_MC33880 is not set
+# CONFIG_GPIO_PISOSR is not set
+# CONFIG_GPIO_XRA1403 is not set
+# end of SPI GPIO expanders
+
+#
+# USB GPIO expanders
+#
+# end of USB GPIO expanders
+
+#
+# Virtual GPIO drivers
+#
+# CONFIG_GPIO_AGGREGATOR is not set
+# CONFIG_GPIO_MOCKUP is not set
+# CONFIG_GPIO_VIRTIO is not set
+# CONFIG_GPIO_SIM is not set
+# end of Virtual GPIO drivers
+
+# CONFIG_W1 is not set
+CONFIG_POWER_RESET=y
+# CONFIG_POWER_RESET_RESTART is not set
+CONFIG_POWER_SUPPLY=y
+# CONFIG_POWER_SUPPLY_DEBUG is not set
+CONFIG_POWER_SUPPLY_HWMON=y
+# CONFIG_PDA_POWER is not set
+# CONFIG_IP5XXX_POWER is not set
+# CONFIG_TEST_POWER is not set
+# CONFIG_CHARGER_ADP5061 is not set
+# CONFIG_BATTERY_CW2015 is not set
+# CONFIG_BATTERY_DS2780 is not set
+# CONFIG_BATTERY_DS2781 is not set
+# CONFIG_BATTERY_DS2782 is not set
+# CONFIG_BATTERY_SAMSUNG_SDI is not set
+# CONFIG_BATTERY_SBS is not set
+# CONFIG_CHARGER_SBS is not set
+# CONFIG_MANAGER_SBS is not set
+# CONFIG_BATTERY_BQ27XXX is not set
+# CONFIG_BATTERY_MAX17040 is not set
+# CONFIG_BATTERY_MAX17042 is not set
+# CONFIG_CHARGER_MAX8903 is not set
+# CONFIG_CHARGER_LP8727 is not set
+# CONFIG_CHARGER_GPIO is not set
+# CONFIG_CHARGER_LT3651 is not set
+# CONFIG_CHARGER_LTC4162L is not set
+# CONFIG_CHARGER_MAX77976 is not set
+# CONFIG_CHARGER_BQ2415X is not set
+# CONFIG_CHARGER_BQ24257 is not set
+# CONFIG_CHARGER_BQ24735 is not set
+# CONFIG_CHARGER_BQ2515X is not set
+# CONFIG_CHARGER_BQ25890 is not set
+# CONFIG_CHARGER_BQ25980 is not set
+# CONFIG_CHARGER_BQ256XX is not set
+# CONFIG_BATTERY_GAUGE_LTC2941 is not set
+# CONFIG_BATTERY_GOLDFISH is not set
+# CONFIG_BATTERY_RT5033 is not set
+# CONFIG_CHARGER_RT9455 is not set
+# CONFIG_CHARGER_BD99954 is not set
+# CONFIG_BATTERY_UG3105 is not set
+CONFIG_HWMON=y
+CONFIG_HWMON_VID=m
+# CONFIG_HWMON_DEBUG_CHIP is not set
+
+#
+# Native drivers
+#
+CONFIG_SENSORS_ABITUGURU=m
+CONFIG_SENSORS_ABITUGURU3=m
+# CONFIG_SENSORS_AD7314 is not set
+CONFIG_SENSORS_AD7414=m
+CONFIG_SENSORS_AD7418=m
+CONFIG_SENSORS_ADM1025=m
+CONFIG_SENSORS_ADM1026=m
+CONFIG_SENSORS_ADM1029=m
+CONFIG_SENSORS_ADM1031=m
+# CONFIG_SENSORS_ADM1177 is not set
+CONFIG_SENSORS_ADM9240=m
+CONFIG_SENSORS_ADT7X10=m
+# CONFIG_SENSORS_ADT7310 is not set
+CONFIG_SENSORS_ADT7410=m
+CONFIG_SENSORS_ADT7411=m
+CONFIG_SENSORS_ADT7462=m
+CONFIG_SENSORS_ADT7470=m
+CONFIG_SENSORS_ADT7475=m
+# CONFIG_SENSORS_AHT10 is not set
+# CONFIG_SENSORS_AQUACOMPUTER_D5NEXT is not set
+# CONFIG_SENSORS_AS370 is not set
+CONFIG_SENSORS_ASC7621=m
+# CONFIG_SENSORS_AXI_FAN_CONTROL is not set
+CONFIG_SENSORS_K8TEMP=m
+CONFIG_SENSORS_APPLESMC=m
+CONFIG_SENSORS_ASB100=m
+CONFIG_SENSORS_ATXP1=m
+# CONFIG_SENSORS_CORSAIR_CPRO is not set
+# CONFIG_SENSORS_CORSAIR_PSU is not set
+# CONFIG_SENSORS_DRIVETEMP is not set
+CONFIG_SENSORS_DS620=m
+CONFIG_SENSORS_DS1621=m
+# CONFIG_SENSORS_DELL_SMM is not set
+CONFIG_SENSORS_I5K_AMB=m
+CONFIG_SENSORS_F71805F=m
+CONFIG_SENSORS_F71882FG=m
+CONFIG_SENSORS_F75375S=m
+CONFIG_SENSORS_FSCHMD=m
+# CONFIG_SENSORS_FTSTEUTATES is not set
+CONFIG_SENSORS_GL518SM=m
+CONFIG_SENSORS_GL520SM=m
+CONFIG_SENSORS_G760A=m
+# CONFIG_SENSORS_G762 is not set
+# CONFIG_SENSORS_HIH6130 is not set
+CONFIG_SENSORS_IBMAEM=m
+CONFIG_SENSORS_IBMPEX=m
+CONFIG_SENSORS_I5500=m
+CONFIG_SENSORS_CORETEMP=m
+CONFIG_SENSORS_IT87=m
+CONFIG_SENSORS_JC42=m
+# CONFIG_SENSORS_POWR1220 is not set
+CONFIG_SENSORS_LINEAGE=m
+# CONFIG_SENSORS_LTC2945 is not set
+# CONFIG_SENSORS_LTC2947_I2C is not set
+# CONFIG_SENSORS_LTC2947_SPI is not set
+# CONFIG_SENSORS_LTC2990 is not set
+# CONFIG_SENSORS_LTC2992 is not set
+CONFIG_SENSORS_LTC4151=m
+CONFIG_SENSORS_LTC4215=m
+# CONFIG_SENSORS_LTC4222 is not set
+CONFIG_SENSORS_LTC4245=m
+# CONFIG_SENSORS_LTC4260 is not set
+CONFIG_SENSORS_LTC4261=m
+# CONFIG_SENSORS_MAX1111 is not set
+# CONFIG_SENSORS_MAX127 is not set
+CONFIG_SENSORS_MAX16065=m
+CONFIG_SENSORS_MAX1619=m
+CONFIG_SENSORS_MAX1668=m
+CONFIG_SENSORS_MAX197=m
+# CONFIG_SENSORS_MAX31722 is not set
+# CONFIG_SENSORS_MAX31730 is not set
+# CONFIG_SENSORS_MAX31760 is not set
+# CONFIG_SENSORS_MAX6620 is not set
+# CONFIG_SENSORS_MAX6621 is not set
+CONFIG_SENSORS_MAX6639=m
+CONFIG_SENSORS_MAX6650=m
+CONFIG_SENSORS_MAX6697=m
+# CONFIG_SENSORS_MAX31790 is not set
+CONFIG_SENSORS_MCP3021=m
+# CONFIG_SENSORS_MLXREG_FAN is not set
+# CONFIG_SENSORS_TC654 is not set
+# CONFIG_SENSORS_TPS23861 is not set
+# CONFIG_SENSORS_MR75203 is not set
+# CONFIG_SENSORS_ADCXX is not set
+CONFIG_SENSORS_LM63=m
+# CONFIG_SENSORS_LM70 is not set
+CONFIG_SENSORS_LM73=m
+CONFIG_SENSORS_LM75=m
+CONFIG_SENSORS_LM77=m
+CONFIG_SENSORS_LM78=m
+CONFIG_SENSORS_LM80=m
+CONFIG_SENSORS_LM83=m
+CONFIG_SENSORS_LM85=m
+CONFIG_SENSORS_LM87=m
+CONFIG_SENSORS_LM90=m
+CONFIG_SENSORS_LM92=m
+CONFIG_SENSORS_LM93=m
+CONFIG_SENSORS_LM95234=m
+CONFIG_SENSORS_LM95241=m
+CONFIG_SENSORS_LM95245=m
+CONFIG_SENSORS_PC87360=m
+CONFIG_SENSORS_PC87427=m
+# CONFIG_SENSORS_NCT6683 is not set
+CONFIG_SENSORS_NCT6775_CORE=m
+CONFIG_SENSORS_NCT6775=m
+# CONFIG_SENSORS_NCT6775_I2C is not set
+# CONFIG_SENSORS_NCT7802 is not set
+# CONFIG_SENSORS_NCT7904 is not set
+# CONFIG_SENSORS_NPCM7XX is not set
+# CONFIG_SENSORS_NZXT_KRAKEN2 is not set
+# CONFIG_SENSORS_NZXT_SMART2 is not set
+CONFIG_SENSORS_PCF8591=m
+CONFIG_PMBUS=m
+CONFIG_SENSORS_PMBUS=m
+# CONFIG_SENSORS_ADM1266 is not set
+CONFIG_SENSORS_ADM1275=m
+# CONFIG_SENSORS_BEL_PFE is not set
+# CONFIG_SENSORS_BPA_RS600 is not set
+# CONFIG_SENSORS_DELTA_AHE50DC_FAN is not set
+# CONFIG_SENSORS_FSP_3Y is not set
+# CONFIG_SENSORS_IBM_CFFPS is not set
+# CONFIG_SENSORS_DPS920AB is not set
+# CONFIG_SENSORS_INSPUR_IPSPS is not set
+# CONFIG_SENSORS_IR35221 is not set
+# CONFIG_SENSORS_IR36021 is not set
+# CONFIG_SENSORS_IR38064 is not set
+# CONFIG_SENSORS_IRPS5401 is not set
+# CONFIG_SENSORS_ISL68137 is not set
+CONFIG_SENSORS_LM25066=m
+# CONFIG_SENSORS_LT7182S is not set
+CONFIG_SENSORS_LTC2978=m
+# CONFIG_SENSORS_LTC3815 is not set
+# CONFIG_SENSORS_MAX15301 is not set
+CONFIG_SENSORS_MAX16064=m
+# CONFIG_SENSORS_MAX16601 is not set
+# CONFIG_SENSORS_MAX20730 is not set
+# CONFIG_SENSORS_MAX20751 is not set
+# CONFIG_SENSORS_MAX31785 is not set
+CONFIG_SENSORS_MAX34440=m
+CONFIG_SENSORS_MAX8688=m
+# CONFIG_SENSORS_MP2888 is not set
+# CONFIG_SENSORS_MP2975 is not set
+# CONFIG_SENSORS_MP5023 is not set
+# CONFIG_SENSORS_PIM4328 is not set
+# CONFIG_SENSORS_PLI1209BC is not set
+# CONFIG_SENSORS_PM6764TR is not set
+# CONFIG_SENSORS_PXE1610 is not set
+# CONFIG_SENSORS_Q54SJ108A2 is not set
+# CONFIG_SENSORS_STPDDC60 is not set
+# CONFIG_SENSORS_TPS40422 is not set
+# CONFIG_SENSORS_TPS53679 is not set
+# CONFIG_SENSORS_TPS546D24 is not set
+CONFIG_SENSORS_UCD9000=m
+CONFIG_SENSORS_UCD9200=m
+# CONFIG_SENSORS_XDPE152 is not set
+# CONFIG_SENSORS_XDPE122 is not set
+CONFIG_SENSORS_ZL6100=m
+# CONFIG_SENSORS_SBTSI is not set
+# CONFIG_SENSORS_SBRMI is not set
+CONFIG_SENSORS_SHT15=m
+CONFIG_SENSORS_SHT21=m
+# CONFIG_SENSORS_SHT3x is not set
+# CONFIG_SENSORS_SHT4x is not set
+# CONFIG_SENSORS_SHTC1 is not set
+CONFIG_SENSORS_SIS5595=m
+CONFIG_SENSORS_DME1737=m
+CONFIG_SENSORS_EMC1403=m
+# CONFIG_SENSORS_EMC2103 is not set
+# CONFIG_SENSORS_EMC2305 is not set
+CONFIG_SENSORS_EMC6W201=m
+CONFIG_SENSORS_SMSC47M1=m
+CONFIG_SENSORS_SMSC47M192=m
+CONFIG_SENSORS_SMSC47B397=m
+CONFIG_SENSORS_SCH56XX_COMMON=m
+CONFIG_SENSORS_SCH5627=m
+CONFIG_SENSORS_SCH5636=m
+# CONFIG_SENSORS_STTS751 is not set
+# CONFIG_SENSORS_SMM665 is not set
+# CONFIG_SENSORS_ADC128D818 is not set
+CONFIG_SENSORS_ADS7828=m
+# CONFIG_SENSORS_ADS7871 is not set
+CONFIG_SENSORS_AMC6821=m
+CONFIG_SENSORS_INA209=m
+CONFIG_SENSORS_INA2XX=m
+# CONFIG_SENSORS_INA238 is not set
+# CONFIG_SENSORS_INA3221 is not set
+# CONFIG_SENSORS_TC74 is not set
+CONFIG_SENSORS_THMC50=m
+CONFIG_SENSORS_TMP102=m
+# CONFIG_SENSORS_TMP103 is not set
+# CONFIG_SENSORS_TMP108 is not set
+CONFIG_SENSORS_TMP401=m
+CONFIG_SENSORS_TMP421=m
+# CONFIG_SENSORS_TMP464 is not set
+# CONFIG_SENSORS_TMP513 is not set
+CONFIG_SENSORS_VIA_CPUTEMP=m
+CONFIG_SENSORS_VIA686A=m
+CONFIG_SENSORS_VT1211=m
+CONFIG_SENSORS_VT8231=m
+# CONFIG_SENSORS_W83773G is not set
+CONFIG_SENSORS_W83781D=m
+CONFIG_SENSORS_W83791D=m
+CONFIG_SENSORS_W83792D=m
+CONFIG_SENSORS_W83793=m
+CONFIG_SENSORS_W83795=m
+# CONFIG_SENSORS_W83795_FANCTRL is not set
+CONFIG_SENSORS_W83L785TS=m
+CONFIG_SENSORS_W83L786NG=m
+CONFIG_SENSORS_W83627HF=m
+CONFIG_SENSORS_W83627EHF=m
+# CONFIG_SENSORS_XGENE is not set
+
+#
+# ACPI drivers
+#
+CONFIG_SENSORS_ACPI_POWER=m
+CONFIG_SENSORS_ATK0110=m
+# CONFIG_SENSORS_ASUS_WMI is not set
+# CONFIG_SENSORS_ASUS_EC is not set
+CONFIG_THERMAL=y
+# CONFIG_THERMAL_NETLINK is not set
+# CONFIG_THERMAL_STATISTICS is not set
+CONFIG_THERMAL_EMERGENCY_POWEROFF_DELAY_MS=0
+CONFIG_THERMAL_HWMON=y
+CONFIG_THERMAL_WRITABLE_TRIPS=y
+CONFIG_THERMAL_DEFAULT_GOV_STEP_WISE=y
+# CONFIG_THERMAL_DEFAULT_GOV_FAIR_SHARE is not set
+# CONFIG_THERMAL_DEFAULT_GOV_USER_SPACE is not set
+CONFIG_THERMAL_GOV_FAIR_SHARE=y
+CONFIG_THERMAL_GOV_STEP_WISE=y
+CONFIG_THERMAL_GOV_BANG_BANG=y
+CONFIG_THERMAL_GOV_USER_SPACE=y
+# CONFIG_THERMAL_EMULATION is not set
+
+#
+# Intel thermal drivers
+#
+CONFIG_INTEL_POWERCLAMP=m
+CONFIG_X86_THERMAL_VECTOR=y
+CONFIG_X86_PKG_TEMP_THERMAL=m
+# CONFIG_INTEL_SOC_DTS_THERMAL is not set
+
+#
+# ACPI INT340X thermal drivers
+#
+# CONFIG_INT340X_THERMAL is not set
+# end of ACPI INT340X thermal drivers
+
+CONFIG_INTEL_PCH_THERMAL=m
+# CONFIG_INTEL_TCC_COOLING is not set
+# CONFIG_INTEL_MENLOW is not set
+# CONFIG_INTEL_HFI_THERMAL is not set
+# end of Intel thermal drivers
+
+CONFIG_WATCHDOG=y
+CONFIG_WATCHDOG_CORE=y
+# CONFIG_WATCHDOG_NOWAYOUT is not set
+CONFIG_WATCHDOG_HANDLE_BOOT_ENABLED=y
+CONFIG_WATCHDOG_OPEN_TIMEOUT=0
+CONFIG_WATCHDOG_SYSFS=y
+# CONFIG_WATCHDOG_HRTIMER_PRETIMEOUT is not set
+
+#
+# Watchdog Pretimeout Governors
+#
+# CONFIG_WATCHDOG_PRETIMEOUT_GOV is not set
+
+#
+# Watchdog Device Drivers
+#
+CONFIG_SOFT_WATCHDOG=m
+CONFIG_WDAT_WDT=m
+# CONFIG_XILINX_WATCHDOG is not set
+# CONFIG_ZIIRAVE_WATCHDOG is not set
+# CONFIG_MLX_WDT is not set
+# CONFIG_CADENCE_WATCHDOG is not set
+# CONFIG_DW_WATCHDOG is not set
+# CONFIG_MAX63XX_WATCHDOG is not set
+# CONFIG_ACQUIRE_WDT is not set
+# CONFIG_ADVANTECH_WDT is not set
+CONFIG_ALIM1535_WDT=m
+CONFIG_ALIM7101_WDT=m
+# CONFIG_EBC_C384_WDT is not set
+# CONFIG_EXAR_WDT is not set
+CONFIG_F71808E_WDT=m
+# CONFIG_SP5100_TCO is not set
+CONFIG_SBC_FITPC2_WATCHDOG=m
+# CONFIG_EUROTECH_WDT is not set
+CONFIG_IB700_WDT=m
+CONFIG_IBMASR=m
+# CONFIG_WAFER_WDT is not set
+CONFIG_I6300ESB_WDT=y
+CONFIG_IE6XX_WDT=m
+CONFIG_ITCO_WDT=y
+CONFIG_ITCO_VENDOR_SUPPORT=y
+CONFIG_IT8712F_WDT=m
+CONFIG_IT87_WDT=m
+CONFIG_HP_WATCHDOG=m
+CONFIG_HPWDT_NMI_DECODING=y
+# CONFIG_SC1200_WDT is not set
+# CONFIG_PC87413_WDT is not set
+CONFIG_NV_TCO=m
+# CONFIG_60XX_WDT is not set
+# CONFIG_CPU5_WDT is not set
+CONFIG_SMSC_SCH311X_WDT=m
+# CONFIG_SMSC37B787_WDT is not set
+# CONFIG_TQMX86_WDT is not set
+CONFIG_VIA_WDT=m
+CONFIG_W83627HF_WDT=m
+CONFIG_W83877F_WDT=m
+CONFIG_W83977F_WDT=m
+CONFIG_MACHZ_WDT=m
+# CONFIG_SBC_EPX_C3_WATCHDOG is not set
+CONFIG_INTEL_MEI_WDT=m
+# CONFIG_NI903X_WDT is not set
+# CONFIG_NIC7018_WDT is not set
+# CONFIG_MEN_A21_WDT is not set
+
+#
+# PCI-based Watchdog Cards
+#
+CONFIG_PCIPCWATCHDOG=m
+CONFIG_WDTPCI=m
+
+#
+# USB-based Watchdog Cards
+#
+# CONFIG_USBPCWATCHDOG is not set
+CONFIG_SSB_POSSIBLE=y
+# CONFIG_SSB is not set
+CONFIG_BCMA_POSSIBLE=y
+CONFIG_BCMA=m
+CONFIG_BCMA_HOST_PCI_POSSIBLE=y
+CONFIG_BCMA_HOST_PCI=y
+# CONFIG_BCMA_HOST_SOC is not set
+CONFIG_BCMA_DRIVER_PCI=y
+CONFIG_BCMA_DRIVER_GMAC_CMN=y
+CONFIG_BCMA_DRIVER_GPIO=y
+# CONFIG_BCMA_DEBUG is not set
+
+#
+# Multifunction device drivers
+#
+CONFIG_MFD_CORE=y
+# CONFIG_MFD_AS3711 is not set
+# CONFIG_PMIC_ADP5520 is not set
+# CONFIG_MFD_AAT2870_CORE is not set
+# CONFIG_MFD_BCM590XX is not set
+# CONFIG_MFD_BD9571MWV is not set
+# CONFIG_MFD_AXP20X_I2C is not set
+# CONFIG_MFD_MADERA is not set
+# CONFIG_PMIC_DA903X is not set
+# CONFIG_MFD_DA9052_SPI is not set
+# CONFIG_MFD_DA9052_I2C is not set
+# CONFIG_MFD_DA9055 is not set
+# CONFIG_MFD_DA9062 is not set
+# CONFIG_MFD_DA9063 is not set
+# CONFIG_MFD_DA9150 is not set
+# CONFIG_MFD_DLN2 is not set
+# CONFIG_MFD_MC13XXX_SPI is not set
+# CONFIG_MFD_MC13XXX_I2C is not set
+# CONFIG_MFD_MP2629 is not set
+# CONFIG_HTC_PASIC3 is not set
+# CONFIG_HTC_I2CPLD is not set
+# CONFIG_MFD_INTEL_QUARK_I2C_GPIO is not set
+CONFIG_LPC_ICH=m
+CONFIG_LPC_SCH=m
+CONFIG_MFD_INTEL_LPSS=y
+CONFIG_MFD_INTEL_LPSS_ACPI=y
+CONFIG_MFD_INTEL_LPSS_PCI=y
+# CONFIG_MFD_INTEL_PMC_BXT is not set
+# CONFIG_MFD_IQS62X is not set
+# CONFIG_MFD_JANZ_CMODIO is not set
+# CONFIG_MFD_KEMPLD is not set
+# CONFIG_MFD_88PM800 is not set
+# CONFIG_MFD_88PM805 is not set
+# CONFIG_MFD_88PM860X is not set
+# CONFIG_MFD_MAX14577 is not set
+# CONFIG_MFD_MAX77693 is not set
+# CONFIG_MFD_MAX77843 is not set
+# CONFIG_MFD_MAX8907 is not set
+# CONFIG_MFD_MAX8925 is not set
+# CONFIG_MFD_MAX8997 is not set
+# CONFIG_MFD_MAX8998 is not set
+# CONFIG_MFD_MT6360 is not set
+# CONFIG_MFD_MT6370 is not set
+# CONFIG_MFD_MT6397 is not set
+# CONFIG_MFD_MENF21BMC is not set
+# CONFIG_MFD_OCELOT is not set
+# CONFIG_EZX_PCAP is not set
+# CONFIG_MFD_VIPERBOARD is not set
+# CONFIG_MFD_RETU is not set
+# CONFIG_MFD_PCF50633 is not set
+# CONFIG_MFD_SY7636A is not set
+# CONFIG_MFD_RDC321X is not set
+# CONFIG_MFD_RT4831 is not set
+# CONFIG_MFD_RT5033 is not set
+# CONFIG_MFD_RT5120 is not set
+# CONFIG_MFD_RC5T583 is not set
+# CONFIG_MFD_SI476X_CORE is not set
+CONFIG_MFD_SM501=m
+CONFIG_MFD_SM501_GPIO=y
+# CONFIG_MFD_SKY81452 is not set
+# CONFIG_MFD_SYSCON is not set
+# CONFIG_MFD_TI_AM335X_TSCADC is not set
+# CONFIG_MFD_LP3943 is not set
+# CONFIG_MFD_LP8788 is not set
+# CONFIG_MFD_TI_LMU is not set
+# CONFIG_MFD_PALMAS is not set
+# CONFIG_TPS6105X is not set
+# CONFIG_TPS65010 is not set
+# CONFIG_TPS6507X is not set
+# CONFIG_MFD_TPS65086 is not set
+# CONFIG_MFD_TPS65090 is not set
+# CONFIG_MFD_TI_LP873X is not set
+# CONFIG_MFD_TPS6586X is not set
+# CONFIG_MFD_TPS65910 is not set
+# CONFIG_MFD_TPS65912_I2C is not set
+# CONFIG_MFD_TPS65912_SPI is not set
+# CONFIG_TWL4030_CORE is not set
+# CONFIG_TWL6040_CORE is not set
+# CONFIG_MFD_WL1273_CORE is not set
+# CONFIG_MFD_LM3533 is not set
+# CONFIG_MFD_TQMX86 is not set
+CONFIG_MFD_VX855=m
+# CONFIG_MFD_ARIZONA_I2C is not set
+# CONFIG_MFD_ARIZONA_SPI is not set
+# CONFIG_MFD_WM8400 is not set
+# CONFIG_MFD_WM831X_I2C is not set
+# CONFIG_MFD_WM831X_SPI is not set
+# CONFIG_MFD_WM8350_I2C is not set
+# CONFIG_MFD_WM8994 is not set
+# CONFIG_MFD_ATC260X_I2C is not set
+# CONFIG_MFD_INTEL_M10_BMC is not set
+# end of Multifunction device drivers
+
+# CONFIG_REGULATOR is not set
+CONFIG_RC_CORE=m
+CONFIG_LIRC=y
+CONFIG_RC_MAP=m
+CONFIG_RC_DECODERS=y
+CONFIG_IR_IMON_DECODER=m
+CONFIG_IR_JVC_DECODER=m
+CONFIG_IR_MCE_KBD_DECODER=m
+CONFIG_IR_NEC_DECODER=m
+CONFIG_IR_RC5_DECODER=m
+CONFIG_IR_RC6_DECODER=m
+# CONFIG_IR_RCMM_DECODER is not set
+CONFIG_IR_SANYO_DECODER=m
+# CONFIG_IR_SHARP_DECODER is not set
+CONFIG_IR_SONY_DECODER=m
+# CONFIG_IR_XMP_DECODER is not set
+CONFIG_RC_DEVICES=y
+CONFIG_IR_ENE=m
+CONFIG_IR_FINTEK=m
+# CONFIG_IR_IGORPLUGUSB is not set
+# CONFIG_IR_IGUANA is not set
+# CONFIG_IR_IMON is not set
+# CONFIG_IR_IMON_RAW is not set
+CONFIG_IR_ITE_CIR=m
+# CONFIG_IR_MCEUSB is not set
+CONFIG_IR_NUVOTON=m
+# CONFIG_IR_REDRAT3 is not set
+CONFIG_IR_SERIAL=m
+CONFIG_IR_SERIAL_TRANSMITTER=y
+# CONFIG_IR_STREAMZAP is not set
+# CONFIG_IR_TOY is not set
+# CONFIG_IR_TTUSBIR is not set
+CONFIG_IR_WINBOND_CIR=m
+# CONFIG_RC_ATI_REMOTE is not set
+# CONFIG_RC_LOOPBACK is not set
+# CONFIG_RC_XBOX_DVD is not set
+
+#
+# CEC support
+#
+# CONFIG_MEDIA_CEC_SUPPORT is not set
+# end of CEC support
+
+CONFIG_MEDIA_SUPPORT=m
+CONFIG_MEDIA_SUPPORT_FILTER=y
+CONFIG_MEDIA_SUBDRV_AUTOSELECT=y
+
+#
+# Media device types
+#
+# CONFIG_MEDIA_CAMERA_SUPPORT is not set
+# CONFIG_MEDIA_ANALOG_TV_SUPPORT is not set
+# CONFIG_MEDIA_DIGITAL_TV_SUPPORT is not set
+# CONFIG_MEDIA_RADIO_SUPPORT is not set
+# CONFIG_MEDIA_SDR_SUPPORT is not set
+# CONFIG_MEDIA_PLATFORM_SUPPORT is not set
+# CONFIG_MEDIA_TEST_SUPPORT is not set
+# end of Media device types
+
+#
+# Media drivers
+#
+
+#
+# Drivers filtered as selected at 'Filter media drivers'
+#
+
+#
+# Media drivers
+#
+# CONFIG_MEDIA_USB_SUPPORT is not set
+# CONFIG_MEDIA_PCI_SUPPORT is not set
+# end of Media drivers
+
+#
+# Media ancillary drivers
+#
+# end of Media ancillary drivers
+
+#
+# Graphics support
+#
+CONFIG_APERTURE_HELPERS=y
+# CONFIG_AGP is not set
+CONFIG_INTEL_GTT=m
+CONFIG_VGA_SWITCHEROO=y
+CONFIG_DRM=m
+CONFIG_DRM_MIPI_DSI=y
+CONFIG_DRM_USE_DYNAMIC_DEBUG=y
+CONFIG_DRM_KMS_HELPER=m
+# CONFIG_DRM_DEBUG_DP_MST_TOPOLOGY_REFS is not set
+# CONFIG_DRM_DEBUG_MODESET_LOCK is not set
+CONFIG_DRM_FBDEV_EMULATION=y
+CONFIG_DRM_FBDEV_OVERALLOC=100
+# CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM is not set
+CONFIG_DRM_LOAD_EDID_FIRMWARE=y
+CONFIG_DRM_DISPLAY_HELPER=m
+CONFIG_DRM_DISPLAY_DP_HELPER=y
+CONFIG_DRM_DISPLAY_HDCP_HELPER=y
+CONFIG_DRM_DISPLAY_HDMI_HELPER=y
+CONFIG_DRM_DP_AUX_CHARDEV=y
+# CONFIG_DRM_DP_CEC is not set
+CONFIG_DRM_TTM=m
+CONFIG_DRM_BUDDY=m
+CONFIG_DRM_VRAM_HELPER=m
+CONFIG_DRM_TTM_HELPER=m
+CONFIG_DRM_GEM_SHMEM_HELPER=m
+
+#
+# I2C encoder or helper chips
+#
+CONFIG_DRM_I2C_CH7006=m
+CONFIG_DRM_I2C_SIL164=m
+# CONFIG_DRM_I2C_NXP_TDA998X is not set
+# CONFIG_DRM_I2C_NXP_TDA9950 is not set
+# end of I2C encoder or helper chips
+
+#
+# ARM devices
+#
+# end of ARM devices
+
+# CONFIG_DRM_RADEON is not set
+# CONFIG_DRM_AMDGPU is not set
+# CONFIG_DRM_NOUVEAU is not set
+CONFIG_DRM_I915=m
+CONFIG_DRM_I915_FORCE_PROBE=""
+CONFIG_DRM_I915_CAPTURE_ERROR=y
+CONFIG_DRM_I915_COMPRESS_ERROR=y
+CONFIG_DRM_I915_USERPTR=y
+# CONFIG_DRM_I915_GVT_KVMGT is not set
+
+#
+# drm/i915 Debugging
+#
+# CONFIG_DRM_I915_WERROR is not set
+# CONFIG_DRM_I915_DEBUG is not set
+# CONFIG_DRM_I915_DEBUG_MMIO is not set
+# CONFIG_DRM_I915_SW_FENCE_DEBUG_OBJECTS is not set
+# CONFIG_DRM_I915_SW_FENCE_CHECK_DAG is not set
+# CONFIG_DRM_I915_DEBUG_GUC is not set
+# CONFIG_DRM_I915_SELFTEST is not set
+# CONFIG_DRM_I915_LOW_LEVEL_TRACEPOINTS is not set
+# CONFIG_DRM_I915_DEBUG_VBLANK_EVADE is not set
+# CONFIG_DRM_I915_DEBUG_RUNTIME_PM is not set
+# end of drm/i915 Debugging
+
+#
+# drm/i915 Profile Guided Optimisation
+#
+CONFIG_DRM_I915_REQUEST_TIMEOUT=20000
+CONFIG_DRM_I915_FENCE_TIMEOUT=10000
+CONFIG_DRM_I915_USERFAULT_AUTOSUSPEND=250
+CONFIG_DRM_I915_HEARTBEAT_INTERVAL=2500
+CONFIG_DRM_I915_PREEMPT_TIMEOUT=640
+CONFIG_DRM_I915_PREEMPT_TIMEOUT_COMPUTE=7500
+CONFIG_DRM_I915_MAX_REQUEST_BUSYWAIT=8000
+CONFIG_DRM_I915_STOP_TIMEOUT=100
+CONFIG_DRM_I915_TIMESLICE_DURATION=1
+# end of drm/i915 Profile Guided Optimisation
+
+# CONFIG_DRM_VGEM is not set
+# CONFIG_DRM_VKMS is not set
+# CONFIG_DRM_VMWGFX is not set
+CONFIG_DRM_GMA500=m
+# CONFIG_DRM_UDL is not set
+CONFIG_DRM_AST=m
+# CONFIG_DRM_MGAG200 is not set
+CONFIG_DRM_QXL=m
+CONFIG_DRM_VIRTIO_GPU=m
+CONFIG_DRM_PANEL=y
+
+#
+# Display Panels
+#
+# CONFIG_DRM_PANEL_RASPBERRYPI_TOUCHSCREEN is not set
+# CONFIG_DRM_PANEL_WIDECHIPS_WS2401 is not set
+# end of Display Panels
+
+CONFIG_DRM_BRIDGE=y
+CONFIG_DRM_PANEL_BRIDGE=y
+
+#
+# Display Interface Bridges
+#
+# CONFIG_DRM_ANALOGIX_ANX78XX is not set
+# end of Display Interface Bridges
+
+# CONFIG_DRM_ETNAVIV is not set
+CONFIG_DRM_BOCHS=m
+CONFIG_DRM_CIRRUS_QEMU=m
+# CONFIG_DRM_GM12U320 is not set
+# CONFIG_DRM_PANEL_MIPI_DBI is not set
+# CONFIG_DRM_SIMPLEDRM is not set
+# CONFIG_TINYDRM_HX8357D is not set
+# CONFIG_TINYDRM_ILI9163 is not set
+# CONFIG_TINYDRM_ILI9225 is not set
+# CONFIG_TINYDRM_ILI9341 is not set
+# CONFIG_TINYDRM_ILI9486 is not set
+# CONFIG_TINYDRM_MI0283QT is not set
+# CONFIG_TINYDRM_REPAPER is not set
+# CONFIG_TINYDRM_ST7586 is not set
+# CONFIG_TINYDRM_ST7735R is not set
+# CONFIG_DRM_VBOXVIDEO is not set
+# CONFIG_DRM_GUD is not set
+# CONFIG_DRM_SSD130X is not set
+# CONFIG_DRM_LEGACY is not set
+CONFIG_DRM_PANEL_ORIENTATION_QUIRKS=y
+CONFIG_DRM_NOMODESET=y
+CONFIG_DRM_PRIVACY_SCREEN=y
+
+#
+# Frame buffer Devices
+#
+CONFIG_FB_CMDLINE=y
+CONFIG_FB_NOTIFY=y
+CONFIG_FB=y
+# CONFIG_FIRMWARE_EDID is not set
+CONFIG_FB_CFB_FILLRECT=y
+CONFIG_FB_CFB_COPYAREA=y
+CONFIG_FB_CFB_IMAGEBLIT=y
+CONFIG_FB_SYS_FILLRECT=m
+CONFIG_FB_SYS_COPYAREA=m
+CONFIG_FB_SYS_IMAGEBLIT=m
+# CONFIG_FB_FOREIGN_ENDIAN is not set
+CONFIG_FB_SYS_FOPS=m
+CONFIG_FB_DEFERRED_IO=y
+# CONFIG_FB_MODE_HELPERS is not set
+CONFIG_FB_TILEBLITTING=y
+
+#
+# Frame buffer hardware drivers
+#
+# CONFIG_FB_CIRRUS is not set
+# CONFIG_FB_PM2 is not set
+# CONFIG_FB_CYBER2000 is not set
+# CONFIG_FB_ARC is not set
+# CONFIG_FB_ASILIANT is not set
+# CONFIG_FB_IMSTT is not set
+# CONFIG_FB_VGA16 is not set
+# CONFIG_FB_UVESA is not set
+CONFIG_FB_VESA=y
+CONFIG_FB_EFI=y
+# CONFIG_FB_N411 is not set
+# CONFIG_FB_HGA is not set
+# CONFIG_FB_OPENCORES is not set
+# CONFIG_FB_S1D13XXX is not set
+# CONFIG_FB_NVIDIA is not set
+# CONFIG_FB_RIVA is not set
+# CONFIG_FB_I740 is not set
+# CONFIG_FB_LE80578 is not set
+# CONFIG_FB_MATROX is not set
+# CONFIG_FB_RADEON is not set
+# CONFIG_FB_ATY128 is not set
+# CONFIG_FB_ATY is not set
+# CONFIG_FB_S3 is not set
+# CONFIG_FB_SAVAGE is not set
+# CONFIG_FB_SIS is not set
+# CONFIG_FB_VIA is not set
+# CONFIG_FB_NEOMAGIC is not set
+# CONFIG_FB_KYRO is not set
+# CONFIG_FB_3DFX is not set
+# CONFIG_FB_VOODOO1 is not set
+# CONFIG_FB_VT8623 is not set
+# CONFIG_FB_TRIDENT is not set
+# CONFIG_FB_ARK is not set
+# CONFIG_FB_PM3 is not set
+# CONFIG_FB_CARMINE is not set
+# CONFIG_FB_SM501 is not set
+# CONFIG_FB_SMSCUFX is not set
+# CONFIG_FB_UDL is not set
+# CONFIG_FB_IBM_GXT4500 is not set
+# CONFIG_FB_VIRTUAL is not set
+# CONFIG_FB_METRONOME is not set
+# CONFIG_FB_MB862XX is not set
+# CONFIG_FB_SIMPLE is not set
+# CONFIG_FB_SSD1307 is not set
+# CONFIG_FB_SM712 is not set
+# end of Frame buffer Devices
+
+#
+# Backlight & LCD device support
+#
+CONFIG_LCD_CLASS_DEVICE=m
+# CONFIG_LCD_L4F00242T03 is not set
+# CONFIG_LCD_LMS283GF05 is not set
+# CONFIG_LCD_LTV350QV is not set
+# CONFIG_LCD_ILI922X is not set
+# CONFIG_LCD_ILI9320 is not set
+# CONFIG_LCD_TDO24M is not set
+# CONFIG_LCD_VGG2432A4 is not set
+CONFIG_LCD_PLATFORM=m
+# CONFIG_LCD_AMS369FG06 is not set
+# CONFIG_LCD_LMS501KF03 is not set
+# CONFIG_LCD_HX8357 is not set
+# CONFIG_LCD_OTM3225A is not set
+CONFIG_BACKLIGHT_CLASS_DEVICE=y
+# CONFIG_BACKLIGHT_KTD253 is not set
+# CONFIG_BACKLIGHT_PWM is not set
+CONFIG_BACKLIGHT_APPLE=m
+# CONFIG_BACKLIGHT_QCOM_WLED is not set
+# CONFIG_BACKLIGHT_SAHARA is not set
+# CONFIG_BACKLIGHT_ADP8860 is not set
+# CONFIG_BACKLIGHT_ADP8870 is not set
+# CONFIG_BACKLIGHT_LM3630A is not set
+# CONFIG_BACKLIGHT_LM3639 is not set
+CONFIG_BACKLIGHT_LP855X=m
+# CONFIG_BACKLIGHT_GPIO is not set
+# CONFIG_BACKLIGHT_LV5207LP is not set
+# CONFIG_BACKLIGHT_BD6107 is not set
+# CONFIG_BACKLIGHT_ARCXCNN is not set
+# end of Backlight & LCD device support
+
+CONFIG_HDMI=y
+
+#
+# Console display driver support
+#
+CONFIG_VGA_CONSOLE=y
+CONFIG_DUMMY_CONSOLE=y
+CONFIG_DUMMY_CONSOLE_COLUMNS=80
+CONFIG_DUMMY_CONSOLE_ROWS=25
+CONFIG_FRAMEBUFFER_CONSOLE=y
+# CONFIG_FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION is not set
+CONFIG_FRAMEBUFFER_CONSOLE_DETECT_PRIMARY=y
+CONFIG_FRAMEBUFFER_CONSOLE_ROTATION=y
+# CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER is not set
+# end of Console display driver support
+
+CONFIG_LOGO=y
+# CONFIG_LOGO_LINUX_MONO is not set
+# CONFIG_LOGO_LINUX_VGA16 is not set
+CONFIG_LOGO_LINUX_CLUT224=y
+# end of Graphics support
+
+# CONFIG_SOUND is not set
+
+#
+# HID support
+#
+CONFIG_HID=y
+CONFIG_HID_BATTERY_STRENGTH=y
+CONFIG_HIDRAW=y
+CONFIG_UHID=m
+CONFIG_HID_GENERIC=y
+
+#
+# Special HID drivers
+#
+CONFIG_HID_A4TECH=m
+# CONFIG_HID_ACCUTOUCH is not set
+CONFIG_HID_ACRUX=m
+# CONFIG_HID_ACRUX_FF is not set
+CONFIG_HID_APPLE=m
+# CONFIG_HID_APPLEIR is not set
+CONFIG_HID_ASUS=m
+CONFIG_HID_AUREAL=m
+CONFIG_HID_BELKIN=m
+# CONFIG_HID_BETOP_FF is not set
+# CONFIG_HID_BIGBEN_FF is not set
+CONFIG_HID_CHERRY=m
+# CONFIG_HID_CHICONY is not set
+# CONFIG_HID_CORSAIR is not set
+# CONFIG_HID_COUGAR is not set
+# CONFIG_HID_MACALLY is not set
+CONFIG_HID_CMEDIA=m
+# CONFIG_HID_CP2112 is not set
+# CONFIG_HID_CREATIVE_SB0540 is not set
+CONFIG_HID_CYPRESS=m
+CONFIG_HID_DRAGONRISE=m
+# CONFIG_DRAGONRISE_FF is not set
+# CONFIG_HID_EMS_FF is not set
+# CONFIG_HID_ELAN is not set
+CONFIG_HID_ELECOM=m
+# CONFIG_HID_ELO is not set
+CONFIG_HID_EZKEY=m
+# CONFIG_HID_FT260 is not set
+CONFIG_HID_GEMBIRD=m
+CONFIG_HID_GFRM=m
+# CONFIG_HID_GLORIOUS is not set
+# CONFIG_HID_HOLTEK is not set
+# CONFIG_HID_VIVALDI is not set
+# CONFIG_HID_GT683R is not set
+CONFIG_HID_KEYTOUCH=m
+CONFIG_HID_KYE=m
+# CONFIG_HID_UCLOGIC is not set
+CONFIG_HID_WALTOP=m
+# CONFIG_HID_VIEWSONIC is not set
+# CONFIG_HID_VRC2 is not set
+# CONFIG_HID_XIAOMI is not set
+CONFIG_HID_GYRATION=m
+CONFIG_HID_ICADE=m
+CONFIG_HID_ITE=m
+CONFIG_HID_JABRA=m
+CONFIG_HID_TWINHAN=m
+CONFIG_HID_KENSINGTON=m
+CONFIG_HID_LCPOWER=m
+CONFIG_HID_LED=m
+CONFIG_HID_LENOVO=m
+# CONFIG_HID_LETSKETCH is not set
+CONFIG_HID_LOGITECH=m
+CONFIG_HID_LOGITECH_DJ=m
+CONFIG_HID_LOGITECH_HIDPP=m
+# CONFIG_LOGITECH_FF is not set
+# CONFIG_LOGIRUMBLEPAD2_FF is not set
+# CONFIG_LOGIG940_FF is not set
+# CONFIG_LOGIWHEELS_FF is not set
+CONFIG_HID_MAGICMOUSE=y
+# CONFIG_HID_MALTRON is not set
+# CONFIG_HID_MAYFLASH is not set
+# CONFIG_HID_MEGAWORLD_FF is not set
+# CONFIG_HID_REDRAGON is not set
+CONFIG_HID_MICROSOFT=m
+CONFIG_HID_MONTEREY=m
+CONFIG_HID_MULTITOUCH=m
+# CONFIG_HID_NINTENDO is not set
+CONFIG_HID_NTI=m
+# CONFIG_HID_NTRIG is not set
+CONFIG_HID_ORTEK=m
+CONFIG_HID_PANTHERLORD=m
+# CONFIG_PANTHERLORD_FF is not set
+# CONFIG_HID_PENMOUNT is not set
+CONFIG_HID_PETALYNX=m
+CONFIG_HID_PICOLCD=m
+CONFIG_HID_PICOLCD_FB=y
+CONFIG_HID_PICOLCD_BACKLIGHT=y
+CONFIG_HID_PICOLCD_LCD=y
+CONFIG_HID_PICOLCD_LEDS=y
+CONFIG_HID_PICOLCD_CIR=y
+CONFIG_HID_PLANTRONICS=m
+# CONFIG_HID_PXRC is not set
+# CONFIG_HID_RAZER is not set
+CONFIG_HID_PRIMAX=m
+# CONFIG_HID_RETRODE is not set
+# CONFIG_HID_ROCCAT is not set
+CONFIG_HID_SAITEK=m
+CONFIG_HID_SAMSUNG=m
+# CONFIG_HID_SEMITEK is not set
+# CONFIG_HID_SIGMAMICRO is not set
+# CONFIG_HID_SONY is not set
+CONFIG_HID_SPEEDLINK=m
+# CONFIG_HID_STEAM is not set
+CONFIG_HID_STEELSERIES=m
+CONFIG_HID_SUNPLUS=m
+CONFIG_HID_RMI=m
+CONFIG_HID_GREENASIA=m
+# CONFIG_GREENASIA_FF is not set
+CONFIG_HID_SMARTJOYPLUS=m
+# CONFIG_SMARTJOYPLUS_FF is not set
+CONFIG_HID_TIVO=m
+CONFIG_HID_TOPSEED=m
+# CONFIG_HID_TOPRE is not set
+CONFIG_HID_THINGM=m
+CONFIG_HID_THRUSTMASTER=m
+# CONFIG_THRUSTMASTER_FF is not set
+# CONFIG_HID_UDRAW_PS3 is not set
+# CONFIG_HID_U2FZERO is not set
+# CONFIG_HID_WACOM is not set
+CONFIG_HID_WIIMOTE=m
+CONFIG_HID_XINMO=m
+CONFIG_HID_ZEROPLUS=m
+# CONFIG_ZEROPLUS_FF is not set
+CONFIG_HID_ZYDACRON=m
+CONFIG_HID_SENSOR_HUB=y
+CONFIG_HID_SENSOR_CUSTOM_SENSOR=m
+CONFIG_HID_ALPS=m
+# CONFIG_HID_MCP2221 is not set
+# end of Special HID drivers
+
+#
+# USB HID support
+#
+CONFIG_USB_HID=y
+# CONFIG_HID_PID is not set
+# CONFIG_USB_HIDDEV is not set
+# end of USB HID support
+
+#
+# I2C HID support
+#
+# CONFIG_I2C_HID_ACPI is not set
+# end of I2C HID support
+
+#
+# Intel ISH HID support
+#
+CONFIG_INTEL_ISH_HID=m
+# CONFIG_INTEL_ISH_FIRMWARE_DOWNLOADER is not set
+# end of Intel ISH HID support
+
+#
+# AMD SFH HID Support
+#
+# CONFIG_AMD_SFH_HID is not set
+# end of AMD SFH HID Support
+# end of HID support
+
+CONFIG_USB_OHCI_LITTLE_ENDIAN=y
+CONFIG_USB_SUPPORT=y
+CONFIG_USB_COMMON=y
+# CONFIG_USB_LED_TRIG is not set
+# CONFIG_USB_ULPI_BUS is not set
+# CONFIG_USB_CONN_GPIO is not set
+CONFIG_USB_ARCH_HAS_HCD=y
+CONFIG_USB=y
+CONFIG_USB_PCI=y
+CONFIG_USB_ANNOUNCE_NEW_DEVICES=y
+
+#
+# Miscellaneous USB options
+#
+CONFIG_USB_DEFAULT_PERSIST=y
+# CONFIG_USB_FEW_INIT_RETRIES is not set
+# CONFIG_USB_DYNAMIC_MINORS is not set
+# CONFIG_USB_OTG is not set
+# CONFIG_USB_OTG_PRODUCTLIST is not set
+# CONFIG_USB_OTG_DISABLE_EXTERNAL_HUB is not set
+CONFIG_USB_LEDS_TRIGGER_USBPORT=y
+CONFIG_USB_AUTOSUSPEND_DELAY=2
+CONFIG_USB_MON=y
+
+#
+# USB Host Controller Drivers
+#
+# CONFIG_USB_C67X00_HCD is not set
+CONFIG_USB_XHCI_HCD=y
+# CONFIG_USB_XHCI_DBGCAP is not set
+CONFIG_USB_XHCI_PCI=y
+# CONFIG_USB_XHCI_PCI_RENESAS is not set
+# CONFIG_USB_XHCI_PLATFORM is not set
+CONFIG_USB_EHCI_HCD=y
+CONFIG_USB_EHCI_ROOT_HUB_TT=y
+CONFIG_USB_EHCI_TT_NEWSCHED=y
+CONFIG_USB_EHCI_PCI=y
+# CONFIG_USB_EHCI_FSL is not set
+# CONFIG_USB_EHCI_HCD_PLATFORM is not set
+# CONFIG_USB_OXU210HP_HCD is not set
+# CONFIG_USB_ISP116X_HCD is not set
+# CONFIG_USB_FOTG210_HCD is not set
+# CONFIG_USB_MAX3421_HCD is not set
+CONFIG_USB_OHCI_HCD=y
+CONFIG_USB_OHCI_HCD_PCI=y
+# CONFIG_USB_OHCI_HCD_PLATFORM is not set
+CONFIG_USB_UHCI_HCD=y
+# CONFIG_USB_SL811_HCD is not set
+# CONFIG_USB_R8A66597_HCD is not set
+# CONFIG_USB_HCD_BCMA is not set
+# CONFIG_USB_HCD_TEST_MODE is not set
+
+#
+# USB Device Class drivers
+#
+# CONFIG_USB_ACM is not set
+# CONFIG_USB_PRINTER is not set
+# CONFIG_USB_WDM is not set
+# CONFIG_USB_TMC is not set
+
+#
+# NOTE: USB_STORAGE depends on SCSI but BLK_DEV_SD may
+#
+
+#
+# also be needed; see USB_STORAGE Help for more info
+#
+CONFIG_USB_STORAGE=m
+# CONFIG_USB_STORAGE_DEBUG is not set
+# CONFIG_USB_STORAGE_REALTEK is not set
+# CONFIG_USB_STORAGE_DATAFAB is not set
+# CONFIG_USB_STORAGE_FREECOM is not set
+# CONFIG_USB_STORAGE_ISD200 is not set
+# CONFIG_USB_STORAGE_USBAT is not set
+# CONFIG_USB_STORAGE_SDDR09 is not set
+# CONFIG_USB_STORAGE_SDDR55 is not set
+# CONFIG_USB_STORAGE_JUMPSHOT is not set
+# CONFIG_USB_STORAGE_ALAUDA is not set
+# CONFIG_USB_STORAGE_ONETOUCH is not set
+# CONFIG_USB_STORAGE_KARMA is not set
+# CONFIG_USB_STORAGE_CYPRESS_ATACB is not set
+# CONFIG_USB_STORAGE_ENE_UB6250 is not set
+# CONFIG_USB_UAS is not set
+
+#
+# USB Imaging devices
+#
+# CONFIG_USB_MDC800 is not set
+# CONFIG_USB_MICROTEK is not set
+# CONFIG_USBIP_CORE is not set
+# CONFIG_USB_CDNS_SUPPORT is not set
+# CONFIG_USB_MUSB_HDRC is not set
+# CONFIG_USB_DWC3 is not set
+# CONFIG_USB_DWC2 is not set
+# CONFIG_USB_CHIPIDEA is not set
+# CONFIG_USB_ISP1760 is not set
+
+#
+# USB port drivers
+#
+# CONFIG_USB_USS720 is not set
+CONFIG_USB_SERIAL=m
+CONFIG_USB_SERIAL_GENERIC=y
+# CONFIG_USB_SERIAL_SIMPLE is not set
+# CONFIG_USB_SERIAL_AIRCABLE is not set
+# CONFIG_USB_SERIAL_ARK3116 is not set
+# CONFIG_USB_SERIAL_BELKIN is not set
+# CONFIG_USB_SERIAL_CH341 is not set
+# CONFIG_USB_SERIAL_WHITEHEAT is not set
+# CONFIG_USB_SERIAL_DIGI_ACCELEPORT is not set
+# CONFIG_USB_SERIAL_CP210X is not set
+# CONFIG_USB_SERIAL_CYPRESS_M8 is not set
+# CONFIG_USB_SERIAL_EMPEG is not set
+# CONFIG_USB_SERIAL_FTDI_SIO is not set
+# CONFIG_USB_SERIAL_VISOR is not set
+# CONFIG_USB_SERIAL_IPAQ is not set
+# CONFIG_USB_SERIAL_IR is not set
+# CONFIG_USB_SERIAL_EDGEPORT is not set
+# CONFIG_USB_SERIAL_EDGEPORT_TI is not set
+# CONFIG_USB_SERIAL_F81232 is not set
+# CONFIG_USB_SERIAL_F8153X is not set
+# CONFIG_USB_SERIAL_GARMIN is not set
+# CONFIG_USB_SERIAL_IPW is not set
+# CONFIG_USB_SERIAL_IUU is not set
+# CONFIG_USB_SERIAL_KEYSPAN_PDA is not set
+# CONFIG_USB_SERIAL_KEYSPAN is not set
+# CONFIG_USB_SERIAL_KLSI is not set
+# CONFIG_USB_SERIAL_KOBIL_SCT is not set
+# CONFIG_USB_SERIAL_MCT_U232 is not set
+# CONFIG_USB_SERIAL_METRO is not set
+# CONFIG_USB_SERIAL_MOS7720 is not set
+# CONFIG_USB_SERIAL_MOS7840 is not set
+# CONFIG_USB_SERIAL_MXUPORT is not set
+# CONFIG_USB_SERIAL_NAVMAN is not set
+# CONFIG_USB_SERIAL_PL2303 is not set
+# CONFIG_USB_SERIAL_OTI6858 is not set
+# CONFIG_USB_SERIAL_QCAUX is not set
+# CONFIG_USB_SERIAL_QUALCOMM is not set
+# CONFIG_USB_SERIAL_SPCP8X5 is not set
+# CONFIG_USB_SERIAL_SAFE is not set
+# CONFIG_USB_SERIAL_SIERRAWIRELESS is not set
+# CONFIG_USB_SERIAL_SYMBOL is not set
+# CONFIG_USB_SERIAL_TI is not set
+# CONFIG_USB_SERIAL_CYBERJACK is not set
+# CONFIG_USB_SERIAL_OPTION is not set
+# CONFIG_USB_SERIAL_OMNINET is not set
+# CONFIG_USB_SERIAL_OPTICON is not set
+# CONFIG_USB_SERIAL_XSENS_MT is not set
+# CONFIG_USB_SERIAL_WISHBONE is not set
+# CONFIG_USB_SERIAL_SSU100 is not set
+# CONFIG_USB_SERIAL_QT2 is not set
+# CONFIG_USB_SERIAL_UPD78F0730 is not set
+# CONFIG_USB_SERIAL_XR is not set
+CONFIG_USB_SERIAL_DEBUG=m
+
+#
+# USB Miscellaneous drivers
+#
+# CONFIG_USB_EMI62 is not set
+# CONFIG_USB_EMI26 is not set
+# CONFIG_USB_ADUTUX is not set
+# CONFIG_USB_SEVSEG is not set
+# CONFIG_USB_LEGOTOWER is not set
+# CONFIG_USB_LCD is not set
+# CONFIG_USB_CYPRESS_CY7C63 is not set
+# CONFIG_USB_CYTHERM is not set
+# CONFIG_USB_IDMOUSE is not set
+# CONFIG_USB_FTDI_ELAN is not set
+# CONFIG_USB_APPLEDISPLAY is not set
+# CONFIG_APPLE_MFI_FASTCHARGE is not set
+# CONFIG_USB_SISUSBVGA is not set
+# CONFIG_USB_LD is not set
+# CONFIG_USB_TRANCEVIBRATOR is not set
+# CONFIG_USB_IOWARRIOR is not set
+# CONFIG_USB_TEST is not set
+# CONFIG_USB_EHSET_TEST_FIXTURE is not set
+# CONFIG_USB_ISIGHTFW is not set
+# CONFIG_USB_YUREX is not set
+# CONFIG_USB_EZUSB_FX2 is not set
+# CONFIG_USB_HUB_USB251XB is not set
+# CONFIG_USB_HSIC_USB3503 is not set
+# CONFIG_USB_HSIC_USB4604 is not set
+# CONFIG_USB_LINK_LAYER_TEST is not set
+# CONFIG_USB_CHAOSKEY is not set
+# CONFIG_USB_ATM is not set
+
+#
+# USB Physical Layer drivers
+#
+# CONFIG_NOP_USB_XCEIV is not set
+# CONFIG_USB_GPIO_VBUS is not set
+# CONFIG_USB_ISP1301 is not set
+# end of USB Physical Layer drivers
+
+# CONFIG_USB_GADGET is not set
+CONFIG_TYPEC=y
+# CONFIG_TYPEC_TCPM is not set
+CONFIG_TYPEC_UCSI=y
+# CONFIG_UCSI_CCG is not set
+CONFIG_UCSI_ACPI=y
+# CONFIG_UCSI_STM32G0 is not set
+# CONFIG_TYPEC_TPS6598X is not set
+# CONFIG_TYPEC_RT1719 is not set
+# CONFIG_TYPEC_STUSB160X is not set
+# CONFIG_TYPEC_WUSB3801 is not set
+
+#
+# USB Type-C Multiplexer/DeMultiplexer Switch support
+#
+# CONFIG_TYPEC_MUX_FSA4480 is not set
+# CONFIG_TYPEC_MUX_PI3USB30532 is not set
+# end of USB Type-C Multiplexer/DeMultiplexer Switch support
+
+#
+# USB Type-C Alternate Mode drivers
+#
+# CONFIG_TYPEC_DP_ALTMODE is not set
+# end of USB Type-C Alternate Mode drivers
+
+# CONFIG_USB_ROLE_SWITCH is not set
+CONFIG_MMC=m
+CONFIG_MMC_BLOCK=m
+CONFIG_MMC_BLOCK_MINORS=8
+CONFIG_SDIO_UART=m
+# CONFIG_MMC_TEST is not set
+
+#
+# MMC/SD/SDIO Host Controller Drivers
+#
+# CONFIG_MMC_DEBUG is not set
+CONFIG_MMC_SDHCI=m
+CONFIG_MMC_SDHCI_IO_ACCESSORS=y
+CONFIG_MMC_SDHCI_PCI=m
+CONFIG_MMC_RICOH_MMC=y
+CONFIG_MMC_SDHCI_ACPI=m
+CONFIG_MMC_SDHCI_PLTFM=m
+# CONFIG_MMC_SDHCI_F_SDH30 is not set
+# CONFIG_MMC_WBSD is not set
+# CONFIG_MMC_TIFM_SD is not set
+# CONFIG_MMC_SPI is not set
+# CONFIG_MMC_CB710 is not set
+# CONFIG_MMC_VIA_SDMMC is not set
+# CONFIG_MMC_VUB300 is not set
+# CONFIG_MMC_USHC is not set
+# CONFIG_MMC_USDHI6ROL0 is not set
+# CONFIG_MMC_REALTEK_PCI is not set
+CONFIG_MMC_CQHCI=m
+# CONFIG_MMC_HSQ is not set
+# CONFIG_MMC_TOSHIBA_PCI is not set
+# CONFIG_MMC_MTK is not set
+# CONFIG_MMC_SDHCI_XENON is not set
+# CONFIG_SCSI_UFSHCD is not set
+# CONFIG_MEMSTICK is not set
+CONFIG_NEW_LEDS=y
+CONFIG_LEDS_CLASS=y
+# CONFIG_LEDS_CLASS_FLASH is not set
+# CONFIG_LEDS_CLASS_MULTICOLOR is not set
+# CONFIG_LEDS_BRIGHTNESS_HW_CHANGED is not set
+
+#
+# LED drivers
+#
+# CONFIG_LEDS_APU is not set
+CONFIG_LEDS_LM3530=m
+# CONFIG_LEDS_LM3532 is not set
+# CONFIG_LEDS_LM3642 is not set
+# CONFIG_LEDS_PCA9532 is not set
+# CONFIG_LEDS_GPIO is not set
+CONFIG_LEDS_LP3944=m
+# CONFIG_LEDS_LP3952 is not set
+# CONFIG_LEDS_LP50XX is not set
+# CONFIG_LEDS_PCA955X is not set
+# CONFIG_LEDS_PCA963X is not set
+# CONFIG_LEDS_DAC124S085 is not set
+# CONFIG_LEDS_PWM is not set
+# CONFIG_LEDS_BD2802 is not set
+CONFIG_LEDS_INTEL_SS4200=m
+CONFIG_LEDS_LT3593=m
+# CONFIG_LEDS_TCA6507 is not set
+# CONFIG_LEDS_TLC591XX is not set
+# CONFIG_LEDS_LM355x is not set
+# CONFIG_LEDS_IS31FL319X is not set
+
+#
+# LED driver for blink(1) USB RGB LED is under Special HID drivers (HID_THINGM)
+#
+CONFIG_LEDS_BLINKM=m
+CONFIG_LEDS_MLXCPLD=m
+# CONFIG_LEDS_MLXREG is not set
+# CONFIG_LEDS_USER is not set
+# CONFIG_LEDS_NIC78BX is not set
+# CONFIG_LEDS_TI_LMU_COMMON is not set
+
+#
+# Flash and Torch LED drivers
+#
+
+#
+# RGB LED drivers
+#
+
+#
+# LED Triggers
+#
+CONFIG_LEDS_TRIGGERS=y
+CONFIG_LEDS_TRIGGER_TIMER=m
+CONFIG_LEDS_TRIGGER_ONESHOT=m
+# CONFIG_LEDS_TRIGGER_DISK is not set
+CONFIG_LEDS_TRIGGER_HEARTBEAT=m
+CONFIG_LEDS_TRIGGER_BACKLIGHT=m
+# CONFIG_LEDS_TRIGGER_CPU is not set
+# CONFIG_LEDS_TRIGGER_ACTIVITY is not set
+CONFIG_LEDS_TRIGGER_GPIO=m
+CONFIG_LEDS_TRIGGER_DEFAULT_ON=m
+
+#
+# iptables trigger is under Netfilter config (LED target)
+#
+CONFIG_LEDS_TRIGGER_TRANSIENT=m
+CONFIG_LEDS_TRIGGER_CAMERA=m
+# CONFIG_LEDS_TRIGGER_PANIC is not set
+# CONFIG_LEDS_TRIGGER_NETDEV is not set
+# CONFIG_LEDS_TRIGGER_PATTERN is not set
+CONFIG_LEDS_TRIGGER_AUDIO=m
+# CONFIG_LEDS_TRIGGER_TTY is not set
+
+#
+# Simple LED drivers
+#
+# CONFIG_ACCESSIBILITY is not set
+CONFIG_INFINIBAND=m
+CONFIG_INFINIBAND_USER_MAD=m
+CONFIG_INFINIBAND_USER_ACCESS=m
+CONFIG_INFINIBAND_USER_MEM=y
+CONFIG_INFINIBAND_ON_DEMAND_PAGING=y
+CONFIG_INFINIBAND_ADDR_TRANS=y
+CONFIG_INFINIBAND_ADDR_TRANS_CONFIGFS=y
+CONFIG_INFINIBAND_VIRT_DMA=y
+# CONFIG_INFINIBAND_EFA is not set
+# CONFIG_INFINIBAND_ERDMA is not set
+# CONFIG_MLX4_INFINIBAND is not set
+# CONFIG_INFINIBAND_MTHCA is not set
+# CONFIG_INFINIBAND_OCRDMA is not set
+# CONFIG_INFINIBAND_USNIC is not set
+# CONFIG_INFINIBAND_RDMAVT is not set
+CONFIG_RDMA_RXE=m
+CONFIG_RDMA_SIW=m
+CONFIG_INFINIBAND_IPOIB=m
+# CONFIG_INFINIBAND_IPOIB_CM is not set
+CONFIG_INFINIBAND_IPOIB_DEBUG=y
+# CONFIG_INFINIBAND_IPOIB_DEBUG_DATA is not set
+CONFIG_INFINIBAND_SRP=m
+CONFIG_INFINIBAND_SRPT=m
+# CONFIG_INFINIBAND_ISER is not set
+# CONFIG_INFINIBAND_ISERT is not set
+# CONFIG_INFINIBAND_RTRS_CLIENT is not set
+# CONFIG_INFINIBAND_RTRS_SERVER is not set
+# CONFIG_INFINIBAND_OPA_VNIC is not set
+CONFIG_EDAC_ATOMIC_SCRUB=y
+CONFIG_EDAC_SUPPORT=y
+CONFIG_EDAC=y
+CONFIG_EDAC_LEGACY_SYSFS=y
+# CONFIG_EDAC_DEBUG is not set
+CONFIG_EDAC_GHES=y
+CONFIG_EDAC_E752X=m
+CONFIG_EDAC_I82975X=m
+CONFIG_EDAC_I3000=m
+CONFIG_EDAC_I3200=m
+CONFIG_EDAC_IE31200=m
+CONFIG_EDAC_X38=m
+CONFIG_EDAC_I5400=m
+CONFIG_EDAC_I7CORE=m
+CONFIG_EDAC_I5000=m
+CONFIG_EDAC_I5100=m
+CONFIG_EDAC_I7300=m
+CONFIG_EDAC_SBRIDGE=m
+CONFIG_EDAC_SKX=m
+# CONFIG_EDAC_I10NM is not set
+CONFIG_EDAC_PND2=m
+# CONFIG_EDAC_IGEN6 is not set
+CONFIG_RTC_LIB=y
+CONFIG_RTC_MC146818_LIB=y
+CONFIG_RTC_CLASS=y
+CONFIG_RTC_HCTOSYS=y
+CONFIG_RTC_HCTOSYS_DEVICE="rtc0"
+# CONFIG_RTC_SYSTOHC is not set
+# CONFIG_RTC_DEBUG is not set
+CONFIG_RTC_NVMEM=y
+
+#
+# RTC interfaces
+#
+CONFIG_RTC_INTF_SYSFS=y
+CONFIG_RTC_INTF_PROC=y
+CONFIG_RTC_INTF_DEV=y
+# CONFIG_RTC_INTF_DEV_UIE_EMUL is not set
+# CONFIG_RTC_DRV_TEST is not set
+
+#
+# I2C RTC drivers
+#
+# CONFIG_RTC_DRV_ABB5ZES3 is not set
+# CONFIG_RTC_DRV_ABEOZ9 is not set
+# CONFIG_RTC_DRV_ABX80X is not set
+CONFIG_RTC_DRV_DS1307=m
+# CONFIG_RTC_DRV_DS1307_CENTURY is not set
+CONFIG_RTC_DRV_DS1374=m
+# CONFIG_RTC_DRV_DS1374_WDT is not set
+CONFIG_RTC_DRV_DS1672=m
+CONFIG_RTC_DRV_MAX6900=m
+CONFIG_RTC_DRV_RS5C372=m
+CONFIG_RTC_DRV_ISL1208=m
+CONFIG_RTC_DRV_ISL12022=m
+CONFIG_RTC_DRV_X1205=m
+CONFIG_RTC_DRV_PCF8523=m
+# CONFIG_RTC_DRV_PCF85063 is not set
+# CONFIG_RTC_DRV_PCF85363 is not set
+CONFIG_RTC_DRV_PCF8563=m
+CONFIG_RTC_DRV_PCF8583=m
+CONFIG_RTC_DRV_M41T80=m
+CONFIG_RTC_DRV_M41T80_WDT=y
+CONFIG_RTC_DRV_BQ32K=m
+# CONFIG_RTC_DRV_S35390A is not set
+CONFIG_RTC_DRV_FM3130=m
+# CONFIG_RTC_DRV_RX8010 is not set
+CONFIG_RTC_DRV_RX8581=m
+CONFIG_RTC_DRV_RX8025=m
+CONFIG_RTC_DRV_EM3027=m
+# CONFIG_RTC_DRV_RV3028 is not set
+# CONFIG_RTC_DRV_RV3032 is not set
+# CONFIG_RTC_DRV_RV8803 is not set
+# CONFIG_RTC_DRV_SD3078 is not set
+
+#
+# SPI RTC drivers
+#
+# CONFIG_RTC_DRV_M41T93 is not set
+# CONFIG_RTC_DRV_M41T94 is not set
+# CONFIG_RTC_DRV_DS1302 is not set
+# CONFIG_RTC_DRV_DS1305 is not set
+# CONFIG_RTC_DRV_DS1343 is not set
+# CONFIG_RTC_DRV_DS1347 is not set
+# CONFIG_RTC_DRV_DS1390 is not set
+# CONFIG_RTC_DRV_MAX6916 is not set
+# CONFIG_RTC_DRV_R9701 is not set
+CONFIG_RTC_DRV_RX4581=m
+# CONFIG_RTC_DRV_RS5C348 is not set
+# CONFIG_RTC_DRV_MAX6902 is not set
+# CONFIG_RTC_DRV_PCF2123 is not set
+# CONFIG_RTC_DRV_MCP795 is not set
+CONFIG_RTC_I2C_AND_SPI=y
+
+#
+# SPI and I2C RTC drivers
+#
+CONFIG_RTC_DRV_DS3232=m
+CONFIG_RTC_DRV_DS3232_HWMON=y
+# CONFIG_RTC_DRV_PCF2127 is not set
+CONFIG_RTC_DRV_RV3029C2=m
+# CONFIG_RTC_DRV_RV3029_HWMON is not set
+# CONFIG_RTC_DRV_RX6110 is not set
+
+#
+# Platform RTC drivers
+#
+CONFIG_RTC_DRV_CMOS=y
+CONFIG_RTC_DRV_DS1286=m
+CONFIG_RTC_DRV_DS1511=m
+CONFIG_RTC_DRV_DS1553=m
+# CONFIG_RTC_DRV_DS1685_FAMILY is not set
+CONFIG_RTC_DRV_DS1742=m
+CONFIG_RTC_DRV_DS2404=m
+CONFIG_RTC_DRV_STK17TA8=m
+# CONFIG_RTC_DRV_M48T86 is not set
+CONFIG_RTC_DRV_M48T35=m
+CONFIG_RTC_DRV_M48T59=m
+CONFIG_RTC_DRV_MSM6242=m
+CONFIG_RTC_DRV_BQ4802=m
+CONFIG_RTC_DRV_RP5C01=m
+CONFIG_RTC_DRV_V3020=m
+
+#
+# on-CPU RTC drivers
+#
+# CONFIG_RTC_DRV_FTRTC010 is not set
+
+#
+# HID Sensor RTC drivers
+#
+# CONFIG_RTC_DRV_GOLDFISH is not set
+CONFIG_DMADEVICES=y
+# CONFIG_DMADEVICES_DEBUG is not set
+
+#
+# DMA Devices
+#
+CONFIG_DMA_ENGINE=y
+CONFIG_DMA_VIRTUAL_CHANNELS=y
+CONFIG_DMA_ACPI=y
+# CONFIG_ALTERA_MSGDMA is not set
+CONFIG_INTEL_IDMA64=m
+# CONFIG_INTEL_IDXD is not set
+# CONFIG_INTEL_IDXD_COMPAT is not set
+CONFIG_INTEL_IOATDMA=m
+# CONFIG_PLX_DMA is not set
+# CONFIG_AMD_PTDMA is not set
+# CONFIG_QCOM_HIDMA_MGMT is not set
+# CONFIG_QCOM_HIDMA is not set
+CONFIG_DW_DMAC_CORE=y
+CONFIG_DW_DMAC=m
+CONFIG_DW_DMAC_PCI=y
+# CONFIG_DW_EDMA is not set
+# CONFIG_DW_EDMA_PCIE is not set
+CONFIG_HSU_DMA=y
+# CONFIG_SF_PDMA is not set
+# CONFIG_INTEL_LDMA is not set
+
+#
+# DMA Clients
+#
+CONFIG_ASYNC_TX_DMA=y
+CONFIG_DMATEST=m
+CONFIG_DMA_ENGINE_RAID=y
+
+#
+# DMABUF options
+#
+CONFIG_SYNC_FILE=y
+# CONFIG_SW_SYNC is not set
+# CONFIG_UDMABUF is not set
+# CONFIG_DMABUF_MOVE_NOTIFY is not set
+# CONFIG_DMABUF_DEBUG is not set
+# CONFIG_DMABUF_SELFTESTS is not set
+# CONFIG_DMABUF_HEAPS is not set
+# CONFIG_DMABUF_SYSFS_STATS is not set
+# end of DMABUF options
+
+CONFIG_DCA=m
+# CONFIG_AUXDISPLAY is not set
+# CONFIG_PANEL is not set
+CONFIG_UIO=m
+CONFIG_UIO_CIF=m
+CONFIG_UIO_PDRV_GENIRQ=m
+# CONFIG_UIO_DMEM_GENIRQ is not set
+CONFIG_UIO_AEC=m
+CONFIG_UIO_SERCOS3=m
+CONFIG_UIO_PCI_GENERIC=m
+# CONFIG_UIO_NETX is not set
+# CONFIG_UIO_PRUSS is not set
+# CONFIG_UIO_MF624 is not set
+CONFIG_VFIO=m
+CONFIG_VFIO_IOMMU_TYPE1=m
+CONFIG_VFIO_VIRQFD=m
+CONFIG_VFIO_NOIOMMU=y
+CONFIG_VFIO_PCI_CORE=m
+CONFIG_VFIO_PCI_MMAP=y
+CONFIG_VFIO_PCI_INTX=y
+CONFIG_VFIO_PCI=m
+# CONFIG_VFIO_PCI_VGA is not set
+# CONFIG_VFIO_PCI_IGD is not set
+CONFIG_VFIO_MDEV=m
+CONFIG_IRQ_BYPASS_MANAGER=m
+# CONFIG_VIRT_DRIVERS is not set
+CONFIG_VIRTIO_ANCHOR=y
+CONFIG_VIRTIO=y
+CONFIG_VIRTIO_PCI_LIB=y
+CONFIG_VIRTIO_PCI_LIB_LEGACY=y
+CONFIG_VIRTIO_MENU=y
+CONFIG_VIRTIO_PCI=y
+CONFIG_VIRTIO_PCI_LEGACY=y
+# CONFIG_VIRTIO_PMEM is not set
+CONFIG_VIRTIO_BALLOON=m
+# CONFIG_VIRTIO_MEM is not set
+CONFIG_VIRTIO_INPUT=m
+# CONFIG_VIRTIO_MMIO is not set
+CONFIG_VIRTIO_DMA_SHARED_BUFFER=m
+# CONFIG_VDPA is not set
+CONFIG_VHOST_IOTLB=m
+CONFIG_VHOST=m
+CONFIG_VHOST_MENU=y
+CONFIG_VHOST_NET=m
+# CONFIG_VHOST_SCSI is not set
+CONFIG_VHOST_VSOCK=m
+# CONFIG_VHOST_CROSS_ENDIAN_LEGACY is not set
+
+#
+# Microsoft Hyper-V guest support
+#
+# CONFIG_HYPERV is not set
+# end of Microsoft Hyper-V guest support
+
+# CONFIG_GREYBUS is not set
+# CONFIG_COMEDI is not set
+# CONFIG_STAGING is not set
+# CONFIG_CHROME_PLATFORMS is not set
+CONFIG_MELLANOX_PLATFORM=y
+CONFIG_MLXREG_HOTPLUG=m
+# CONFIG_MLXREG_IO is not set
+# CONFIG_MLXREG_LC is not set
+# CONFIG_NVSW_SN2201 is not set
+CONFIG_SURFACE_PLATFORMS=y
+# CONFIG_SURFACE3_WMI is not set
+# CONFIG_SURFACE_3_POWER_OPREGION is not set
+# CONFIG_SURFACE_GPE is not set
+# CONFIG_SURFACE_HOTPLUG is not set
+# CONFIG_SURFACE_PRO3_BUTTON is not set
+CONFIG_X86_PLATFORM_DEVICES=y
+CONFIG_ACPI_WMI=m
+CONFIG_WMI_BMOF=m
+# CONFIG_HUAWEI_WMI is not set
+# CONFIG_UV_SYSFS is not set
+CONFIG_MXM_WMI=m
+# CONFIG_PEAQ_WMI is not set
+# CONFIG_NVIDIA_WMI_EC_BACKLIGHT is not set
+# CONFIG_XIAOMI_WMI is not set
+# CONFIG_GIGABYTE_WMI is not set
+# CONFIG_YOGABOOK_WMI is not set
+CONFIG_ACERHDF=m
+# CONFIG_ACER_WIRELESS is not set
+CONFIG_ACER_WMI=m
+# CONFIG_AMD_PMF is not set
+# CONFIG_AMD_PMC is not set
+# CONFIG_ADV_SWBUTTON is not set
+CONFIG_APPLE_GMUX=m
+CONFIG_ASUS_LAPTOP=m
+# CONFIG_ASUS_WIRELESS is not set
+CONFIG_ASUS_WMI=m
+CONFIG_ASUS_NB_WMI=m
+# CONFIG_ASUS_TF103C_DOCK is not set
+# CONFIG_MERAKI_MX100 is not set
+CONFIG_EEEPC_LAPTOP=m
+CONFIG_EEEPC_WMI=m
+# CONFIG_X86_PLATFORM_DRIVERS_DELL is not set
+CONFIG_AMILO_RFKILL=m
+CONFIG_FUJITSU_LAPTOP=m
+CONFIG_FUJITSU_TABLET=m
+# CONFIG_GPD_POCKET_FAN is not set
+CONFIG_HP_ACCEL=m
+# CONFIG_WIRELESS_HOTKEY is not set
+CONFIG_HP_WMI=m
+# CONFIG_IBM_RTL is not set
+CONFIG_IDEAPAD_LAPTOP=m
+CONFIG_SENSORS_HDAPS=m
+CONFIG_THINKPAD_ACPI=m
+# CONFIG_THINKPAD_ACPI_DEBUGFACILITIES is not set
+# CONFIG_THINKPAD_ACPI_DEBUG is not set
+# CONFIG_THINKPAD_ACPI_UNSAFE_LEDS is not set
+CONFIG_THINKPAD_ACPI_VIDEO=y
+CONFIG_THINKPAD_ACPI_HOTKEY_POLL=y
+# CONFIG_THINKPAD_LMI is not set
+# CONFIG_INTEL_ATOMISP2_PM is not set
+# CONFIG_INTEL_SAR_INT1092 is not set
+CONFIG_INTEL_PMC_CORE=m
+
+#
+# Intel Speed Select Technology interface support
+#
+# CONFIG_INTEL_SPEED_SELECT_INTERFACE is not set
+# end of Intel Speed Select Technology interface support
+
+CONFIG_INTEL_WMI=y
+# CONFIG_INTEL_WMI_SBL_FW_UPDATE is not set
+CONFIG_INTEL_WMI_THUNDERBOLT=m
+
+#
+# Intel Uncore Frequency Control
+#
+# CONFIG_INTEL_UNCORE_FREQ_CONTROL is not set
+# end of Intel Uncore Frequency Control
+
+CONFIG_INTEL_HID_EVENT=m
+CONFIG_INTEL_VBTN=m
+# CONFIG_INTEL_INT0002_VGPIO is not set
+CONFIG_INTEL_OAKTRAIL=m
+# CONFIG_INTEL_ISHTP_ECLITE is not set
+# CONFIG_INTEL_PUNIT_IPC is not set
+CONFIG_INTEL_RST=m
+# CONFIG_INTEL_SMARTCONNECT is not set
+CONFIG_INTEL_TURBO_MAX_3=y
+# CONFIG_INTEL_VSEC is not set
+CONFIG_MSI_LAPTOP=m
+CONFIG_MSI_WMI=m
+# CONFIG_PCENGINES_APU2 is not set
+# CONFIG_BARCO_P50_GPIO is not set
+CONFIG_SAMSUNG_LAPTOP=m
+CONFIG_SAMSUNG_Q10=m
+CONFIG_TOSHIBA_BT_RFKILL=m
+# CONFIG_TOSHIBA_HAPS is not set
+# CONFIG_TOSHIBA_WMI is not set
+CONFIG_ACPI_CMPC=m
+CONFIG_COMPAL_LAPTOP=m
+# CONFIG_LG_LAPTOP is not set
+CONFIG_PANASONIC_LAPTOP=m
+CONFIG_SONY_LAPTOP=m
+CONFIG_SONYPI_COMPAT=y
+# CONFIG_SYSTEM76_ACPI is not set
+CONFIG_TOPSTAR_LAPTOP=m
+# CONFIG_SERIAL_MULTI_INSTANTIATE is not set
+CONFIG_MLX_PLATFORM=m
+CONFIG_INTEL_IPS=m
+# CONFIG_INTEL_SCU_PCI is not set
+# CONFIG_INTEL_SCU_PLATFORM is not set
+# CONFIG_SIEMENS_SIMATIC_IPC is not set
+# CONFIG_WINMATE_FM07_KEYS is not set
+CONFIG_P2SB=y
+CONFIG_HAVE_CLK=y
+CONFIG_HAVE_CLK_PREPARE=y
+CONFIG_COMMON_CLK=y
+# CONFIG_LMK04832 is not set
+# CONFIG_COMMON_CLK_MAX9485 is not set
+# CONFIG_COMMON_CLK_SI5341 is not set
+# CONFIG_COMMON_CLK_SI5351 is not set
+# CONFIG_COMMON_CLK_SI544 is not set
+# CONFIG_COMMON_CLK_CDCE706 is not set
+# CONFIG_COMMON_CLK_CS2000_CP is not set
+# CONFIG_COMMON_CLK_PWM is not set
+# CONFIG_XILINX_VCU is not set
+CONFIG_HWSPINLOCK=y
+
+#
+# Clock Source drivers
+#
+CONFIG_CLKEVT_I8253=y
+CONFIG_I8253_LOCK=y
+CONFIG_CLKBLD_I8253=y
+# end of Clock Source drivers
+
+CONFIG_MAILBOX=y
+CONFIG_PCC=y
+# CONFIG_ALTERA_MBOX is not set
+CONFIG_IOMMU_IOVA=y
+CONFIG_IOASID=y
+CONFIG_IOMMU_API=y
+CONFIG_IOMMU_SUPPORT=y
+
+#
+# Generic IOMMU Pagetable Support
+#
+# end of Generic IOMMU Pagetable Support
+
+# CONFIG_IOMMU_DEBUGFS is not set
+# CONFIG_IOMMU_DEFAULT_DMA_STRICT is not set
+CONFIG_IOMMU_DEFAULT_DMA_LAZY=y
+# CONFIG_IOMMU_DEFAULT_PASSTHROUGH is not set
+CONFIG_IOMMU_DMA=y
+CONFIG_IOMMU_SVA=y
+# CONFIG_AMD_IOMMU is not set
+CONFIG_DMAR_TABLE=y
+CONFIG_INTEL_IOMMU=y
+CONFIG_INTEL_IOMMU_SVM=y
+# CONFIG_INTEL_IOMMU_DEFAULT_ON is not set
+CONFIG_INTEL_IOMMU_FLOPPY_WA=y
+CONFIG_INTEL_IOMMU_SCALABLE_MODE_DEFAULT_ON=y
+CONFIG_IRQ_REMAP=y
+# CONFIG_VIRTIO_IOMMU is not set
+
+#
+# Remoteproc drivers
+#
+# CONFIG_REMOTEPROC is not set
+# end of Remoteproc drivers
+
+#
+# Rpmsg drivers
+#
+# CONFIG_RPMSG_QCOM_GLINK_RPM is not set
+# CONFIG_RPMSG_VIRTIO is not set
+# end of Rpmsg drivers
+
+# CONFIG_SOUNDWIRE is not set
+
+#
+# SOC (System On Chip) specific Drivers
+#
+
+#
+# Amlogic SoC drivers
+#
+# end of Amlogic SoC drivers
+
+#
+# Broadcom SoC drivers
+#
+# end of Broadcom SoC drivers
+
+#
+# NXP/Freescale QorIQ SoC drivers
+#
+# end of NXP/Freescale QorIQ SoC drivers
+
+#
+# fujitsu SoC drivers
+#
+# end of fujitsu SoC drivers
+
+#
+# i.MX SoC drivers
+#
+# end of i.MX SoC drivers
+
+#
+# Enable LiteX SoC Builder specific drivers
+#
+# end of Enable LiteX SoC Builder specific drivers
+
+#
+# Qualcomm SoC drivers
+#
+# end of Qualcomm SoC drivers
+
+# CONFIG_SOC_TI is not set
+
+#
+# Xilinx SoC drivers
+#
+# end of Xilinx SoC drivers
+# end of SOC (System On Chip) specific Drivers
+
+# CONFIG_PM_DEVFREQ is not set
+# CONFIG_EXTCON is not set
+# CONFIG_MEMORY is not set
+# CONFIG_IIO is not set
+CONFIG_NTB=m
+# CONFIG_NTB_MSI is not set
+# CONFIG_NTB_AMD is not set
+# CONFIG_NTB_IDT is not set
+# CONFIG_NTB_INTEL is not set
+# CONFIG_NTB_EPF is not set
+# CONFIG_NTB_SWITCHTEC is not set
+# CONFIG_NTB_PINGPONG is not set
+# CONFIG_NTB_TOOL is not set
+# CONFIG_NTB_PERF is not set
+# CONFIG_NTB_TRANSPORT is not set
+CONFIG_PWM=y
+CONFIG_PWM_SYSFS=y
+# CONFIG_PWM_DEBUG is not set
+# CONFIG_PWM_CLK is not set
+# CONFIG_PWM_DWC is not set
+CONFIG_PWM_LPSS=m
+CONFIG_PWM_LPSS_PCI=m
+CONFIG_PWM_LPSS_PLATFORM=m
+# CONFIG_PWM_PCA9685 is not set
+
+#
+# IRQ chip support
+#
+# end of IRQ chip support
+
+# CONFIG_IPACK_BUS is not set
+# CONFIG_RESET_CONTROLLER is not set
+
+#
+# PHY Subsystem
+#
+# CONFIG_GENERIC_PHY is not set
+# CONFIG_USB_LGM_PHY is not set
+# CONFIG_PHY_CAN_TRANSCEIVER is not set
+
+#
+# PHY drivers for Broadcom platforms
+#
+# CONFIG_BCM_KONA_USB2_PHY is not set
+# end of PHY drivers for Broadcom platforms
+
+# CONFIG_PHY_PXA_28NM_HSIC is not set
+# CONFIG_PHY_PXA_28NM_USB2 is not set
+# CONFIG_PHY_INTEL_LGM_EMMC is not set
+# end of PHY Subsystem
+
+CONFIG_POWERCAP=y
+CONFIG_INTEL_RAPL_CORE=m
+CONFIG_INTEL_RAPL=m
+# CONFIG_IDLE_INJECT is not set
+# CONFIG_MCB is not set
+
+#
+# Performance monitor support
+#
+# end of Performance monitor support
+
+CONFIG_RAS=y
+# CONFIG_RAS_CEC is not set
+# CONFIG_USB4 is not set
+
+#
+# Android
+#
+# CONFIG_ANDROID_BINDER_IPC is not set
+# end of Android
+
+CONFIG_LIBNVDIMM=m
+CONFIG_BLK_DEV_PMEM=m
+CONFIG_ND_CLAIM=y
+CONFIG_ND_BTT=m
+CONFIG_BTT=y
+CONFIG_ND_PFN=m
+CONFIG_NVDIMM_PFN=y
+CONFIG_NVDIMM_DAX=y
+CONFIG_NVDIMM_KEYS=y
+CONFIG_DAX=y
+CONFIG_DEV_DAX=m
+CONFIG_DEV_DAX_PMEM=m
+CONFIG_DEV_DAX_KMEM=m
+CONFIG_NVMEM=y
+CONFIG_NVMEM_SYSFS=y
+# CONFIG_NVMEM_RMEM is not set
+
+#
+# HW tracing support
+#
+CONFIG_STM=m
+# CONFIG_STM_PROTO_BASIC is not set
+# CONFIG_STM_PROTO_SYS_T is not set
+CONFIG_STM_DUMMY=m
+CONFIG_STM_SOURCE_CONSOLE=m
+CONFIG_STM_SOURCE_HEARTBEAT=m
+CONFIG_STM_SOURCE_FTRACE=m
+CONFIG_INTEL_TH=m
+CONFIG_INTEL_TH_PCI=m
+CONFIG_INTEL_TH_ACPI=m
+CONFIG_INTEL_TH_GTH=m
+CONFIG_INTEL_TH_STH=m
+CONFIG_INTEL_TH_MSU=m
+CONFIG_INTEL_TH_PTI=m
+# CONFIG_INTEL_TH_DEBUG is not set
+# end of HW tracing support
+
+# CONFIG_FPGA is not set
+# CONFIG_SIOX is not set
+# CONFIG_SLIMBUS is not set
+# CONFIG_INTERCONNECT is not set
+# CONFIG_COUNTER is not set
+# CONFIG_MOST is not set
+# CONFIG_PECI is not set
+# CONFIG_HTE is not set
+# end of Device Drivers
+
+#
+# File systems
+#
+CONFIG_DCACHE_WORD_ACCESS=y
+# CONFIG_VALIDATE_FS_PARSER is not set
+CONFIG_FS_IOMAP=y
+CONFIG_EXT2_FS=m
+CONFIG_EXT2_FS_XATTR=y
+CONFIG_EXT2_FS_POSIX_ACL=y
+CONFIG_EXT2_FS_SECURITY=y
+# CONFIG_EXT3_FS is not set
+CONFIG_EXT4_FS=y
+CONFIG_EXT4_FS_POSIX_ACL=y
+CONFIG_EXT4_FS_SECURITY=y
+# CONFIG_EXT4_DEBUG is not set
+CONFIG_JBD2=y
+# CONFIG_JBD2_DEBUG is not set
+CONFIG_FS_MBCACHE=y
+# CONFIG_REISERFS_FS is not set
+# CONFIG_JFS_FS is not set
+CONFIG_XFS_FS=m
+CONFIG_XFS_SUPPORT_V4=y
+CONFIG_XFS_QUOTA=y
+CONFIG_XFS_POSIX_ACL=y
+CONFIG_XFS_RT=y
+CONFIG_XFS_ONLINE_SCRUB=y
+CONFIG_XFS_ONLINE_REPAIR=y
+CONFIG_XFS_DEBUG=y
+CONFIG_XFS_ASSERT_FATAL=y
+CONFIG_GFS2_FS=m
+CONFIG_GFS2_FS_LOCKING_DLM=y
+CONFIG_OCFS2_FS=m
+CONFIG_OCFS2_FS_O2CB=m
+CONFIG_OCFS2_FS_USERSPACE_CLUSTER=m
+CONFIG_OCFS2_FS_STATS=y
+CONFIG_OCFS2_DEBUG_MASKLOG=y
+# CONFIG_OCFS2_DEBUG_FS is not set
+CONFIG_BTRFS_FS=m
+CONFIG_BTRFS_FS_POSIX_ACL=y
+# CONFIG_BTRFS_FS_CHECK_INTEGRITY is not set
+# CONFIG_BTRFS_FS_RUN_SANITY_TESTS is not set
+# CONFIG_BTRFS_DEBUG is not set
+# CONFIG_BTRFS_ASSERT is not set
+# CONFIG_BTRFS_FS_REF_VERIFY is not set
+# CONFIG_NILFS2_FS is not set
+CONFIG_F2FS_FS=m
+CONFIG_F2FS_STAT_FS=y
+CONFIG_F2FS_FS_XATTR=y
+CONFIG_F2FS_FS_POSIX_ACL=y
+CONFIG_F2FS_FS_SECURITY=y
+# CONFIG_F2FS_CHECK_FS is not set
+# CONFIG_F2FS_FAULT_INJECTION is not set
+# CONFIG_F2FS_FS_COMPRESSION is not set
+CONFIG_F2FS_IOSTAT=y
+# CONFIG_F2FS_UNFAIR_RWSEM is not set
+# CONFIG_ZONEFS_FS is not set
+CONFIG_FS_DAX=y
+CONFIG_FS_DAX_PMD=y
+CONFIG_FS_POSIX_ACL=y
+CONFIG_EXPORTFS=y
+CONFIG_EXPORTFS_BLOCK_OPS=y
+CONFIG_FILE_LOCKING=y
+CONFIG_FS_ENCRYPTION=y
+CONFIG_FS_ENCRYPTION_ALGS=y
+# CONFIG_FS_VERITY is not set
+CONFIG_FSNOTIFY=y
+CONFIG_DNOTIFY=y
+CONFIG_INOTIFY_USER=y
+CONFIG_FANOTIFY=y
+CONFIG_FANOTIFY_ACCESS_PERMISSIONS=y
+CONFIG_QUOTA=y
+CONFIG_QUOTA_NETLINK_INTERFACE=y
+CONFIG_PRINT_QUOTA_WARNING=y
+# CONFIG_QUOTA_DEBUG is not set
+CONFIG_QUOTA_TREE=y
+# CONFIG_QFMT_V1 is not set
+CONFIG_QFMT_V2=y
+CONFIG_QUOTACTL=y
+CONFIG_AUTOFS4_FS=y
+CONFIG_AUTOFS_FS=y
+CONFIG_FUSE_FS=m
+CONFIG_CUSE=m
+# CONFIG_VIRTIO_FS is not set
+CONFIG_OVERLAY_FS=m
+# CONFIG_OVERLAY_FS_REDIRECT_DIR is not set
+# CONFIG_OVERLAY_FS_REDIRECT_ALWAYS_FOLLOW is not set
+# CONFIG_OVERLAY_FS_INDEX is not set
+# CONFIG_OVERLAY_FS_XINO_AUTO is not set
+# CONFIG_OVERLAY_FS_METACOPY is not set
+
+#
+# Caches
+#
+CONFIG_NETFS_SUPPORT=y
+CONFIG_NETFS_STATS=y
+CONFIG_FSCACHE=m
+CONFIG_FSCACHE_STATS=y
+# CONFIG_FSCACHE_DEBUG is not set
+CONFIG_CACHEFILES=m
+# CONFIG_CACHEFILES_DEBUG is not set
+# CONFIG_CACHEFILES_ERROR_INJECTION is not set
+# CONFIG_CACHEFILES_ONDEMAND is not set
+# end of Caches
+
+#
+# CD-ROM/DVD Filesystems
+#
+CONFIG_ISO9660_FS=m
+CONFIG_JOLIET=y
+CONFIG_ZISOFS=y
+CONFIG_UDF_FS=m
+# end of CD-ROM/DVD Filesystems
+
+#
+# DOS/FAT/EXFAT/NT Filesystems
+#
+CONFIG_FAT_FS=m
+CONFIG_MSDOS_FS=m
+CONFIG_VFAT_FS=m
+CONFIG_FAT_DEFAULT_CODEPAGE=437
+CONFIG_FAT_DEFAULT_IOCHARSET="ascii"
+# CONFIG_FAT_DEFAULT_UTF8 is not set
+# CONFIG_EXFAT_FS is not set
+# CONFIG_NTFS_FS is not set
+# CONFIG_NTFS3_FS is not set
+# end of DOS/FAT/EXFAT/NT Filesystems
+
+#
+# Pseudo filesystems
+#
+CONFIG_PROC_FS=y
+CONFIG_PROC_KCORE=y
+CONFIG_PROC_VMCORE=y
+CONFIG_PROC_VMCORE_DEVICE_DUMP=y
+CONFIG_PROC_SYSCTL=y
+CONFIG_PROC_PAGE_MONITOR=y
+CONFIG_PROC_CHILDREN=y
+CONFIG_PROC_PID_ARCH_STATUS=y
+CONFIG_KERNFS=y
+CONFIG_SYSFS=y
+CONFIG_TMPFS=y
+CONFIG_TMPFS_POSIX_ACL=y
+CONFIG_TMPFS_XATTR=y
+# CONFIG_TMPFS_INODE64 is not set
+CONFIG_HUGETLBFS=y
+CONFIG_HUGETLB_PAGE=y
+CONFIG_ARCH_WANT_HUGETLB_PAGE_OPTIMIZE_VMEMMAP=y
+CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP=y
+# CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP_DEFAULT_ON is not set
+CONFIG_MEMFD_CREATE=y
+CONFIG_ARCH_HAS_GIGANTIC_PAGE=y
+CONFIG_CONFIGFS_FS=y
+CONFIG_EFIVAR_FS=y
+# end of Pseudo filesystems
+
+CONFIG_MISC_FILESYSTEMS=y
+# CONFIG_ORANGEFS_FS is not set
+# CONFIG_ADFS_FS is not set
+# CONFIG_AFFS_FS is not set
+# CONFIG_ECRYPT_FS is not set
+# CONFIG_HFS_FS is not set
+# CONFIG_HFSPLUS_FS is not set
+# CONFIG_BEFS_FS is not set
+# CONFIG_BFS_FS is not set
+# CONFIG_EFS_FS is not set
+CONFIG_CRAMFS=m
+CONFIG_CRAMFS_BLOCKDEV=y
+CONFIG_SQUASHFS=m
+# CONFIG_SQUASHFS_FILE_CACHE is not set
+CONFIG_SQUASHFS_FILE_DIRECT=y
+# CONFIG_SQUASHFS_DECOMP_SINGLE is not set
+# CONFIG_SQUASHFS_DECOMP_MULTI is not set
+CONFIG_SQUASHFS_DECOMP_MULTI_PERCPU=y
+CONFIG_SQUASHFS_XATTR=y
+CONFIG_SQUASHFS_ZLIB=y
+# CONFIG_SQUASHFS_LZ4 is not set
+CONFIG_SQUASHFS_LZO=y
+CONFIG_SQUASHFS_XZ=y
+# CONFIG_SQUASHFS_ZSTD is not set
+# CONFIG_SQUASHFS_4K_DEVBLK_SIZE is not set
+# CONFIG_SQUASHFS_EMBEDDED is not set
+CONFIG_SQUASHFS_FRAGMENT_CACHE_SIZE=3
+# CONFIG_VXFS_FS is not set
+CONFIG_MINIX_FS=m
+# CONFIG_OMFS_FS is not set
+# CONFIG_HPFS_FS is not set
+# CONFIG_QNX4FS_FS is not set
+# CONFIG_QNX6FS_FS is not set
+# CONFIG_ROMFS_FS is not set
+CONFIG_PSTORE=y
+CONFIG_PSTORE_DEFAULT_KMSG_BYTES=10240
+CONFIG_PSTORE_DEFLATE_COMPRESS=y
+# CONFIG_PSTORE_LZO_COMPRESS is not set
+# CONFIG_PSTORE_LZ4_COMPRESS is not set
+# CONFIG_PSTORE_LZ4HC_COMPRESS is not set
+# CONFIG_PSTORE_842_COMPRESS is not set
+# CONFIG_PSTORE_ZSTD_COMPRESS is not set
+CONFIG_PSTORE_COMPRESS=y
+CONFIG_PSTORE_DEFLATE_COMPRESS_DEFAULT=y
+CONFIG_PSTORE_COMPRESS_DEFAULT="deflate"
+# CONFIG_PSTORE_CONSOLE is not set
+# CONFIG_PSTORE_PMSG is not set
+# CONFIG_PSTORE_FTRACE is not set
+CONFIG_PSTORE_RAM=m
+# CONFIG_PSTORE_BLK is not set
+# CONFIG_SYSV_FS is not set
+# CONFIG_UFS_FS is not set
+# CONFIG_EROFS_FS is not set
+CONFIG_NETWORK_FILESYSTEMS=y
+CONFIG_NFS_FS=y
+# CONFIG_NFS_V2 is not set
+CONFIG_NFS_V3=y
+CONFIG_NFS_V3_ACL=y
+CONFIG_NFS_V4=m
+# CONFIG_NFS_SWAP is not set
+CONFIG_NFS_V4_1=y
+CONFIG_NFS_V4_2=y
+CONFIG_PNFS_FILE_LAYOUT=m
+CONFIG_PNFS_BLOCK=m
+CONFIG_PNFS_FLEXFILE_LAYOUT=m
+CONFIG_NFS_V4_1_IMPLEMENTATION_ID_DOMAIN="kernel.org"
+# CONFIG_NFS_V4_1_MIGRATION is not set
+CONFIG_NFS_V4_SECURITY_LABEL=y
+CONFIG_ROOT_NFS=y
+# CONFIG_NFS_USE_LEGACY_DNS is not set
+CONFIG_NFS_USE_KERNEL_DNS=y
+CONFIG_NFS_DEBUG=y
+CONFIG_NFS_DISABLE_UDP_SUPPORT=y
+# CONFIG_NFS_V4_2_READ_PLUS is not set
+CONFIG_NFSD=m
+CONFIG_NFSD_V2_ACL=y
+CONFIG_NFSD_V3_ACL=y
+CONFIG_NFSD_V4=y
+CONFIG_NFSD_PNFS=y
+# CONFIG_NFSD_BLOCKLAYOUT is not set
+CONFIG_NFSD_SCSILAYOUT=y
+# CONFIG_NFSD_FLEXFILELAYOUT is not set
+# CONFIG_NFSD_V4_2_INTER_SSC is not set
+CONFIG_NFSD_V4_SECURITY_LABEL=y
+CONFIG_GRACE_PERIOD=y
+CONFIG_LOCKD=y
+CONFIG_LOCKD_V4=y
+CONFIG_NFS_ACL_SUPPORT=y
+CONFIG_NFS_COMMON=y
+CONFIG_NFS_V4_2_SSC_HELPER=y
+CONFIG_SUNRPC=y
+CONFIG_SUNRPC_GSS=m
+CONFIG_SUNRPC_BACKCHANNEL=y
+CONFIG_RPCSEC_GSS_KRB5=m
+# CONFIG_SUNRPC_DISABLE_INSECURE_ENCTYPES is not set
+CONFIG_SUNRPC_DEBUG=y
+CONFIG_SUNRPC_XPRT_RDMA=m
+CONFIG_CEPH_FS=m
+# CONFIG_CEPH_FSCACHE is not set
+CONFIG_CEPH_FS_POSIX_ACL=y
+# CONFIG_CEPH_FS_SECURITY_LABEL is not set
+CONFIG_CIFS=m
+CONFIG_CIFS_STATS2=y
+CONFIG_CIFS_ALLOW_INSECURE_LEGACY=y
+CONFIG_CIFS_UPCALL=y
+CONFIG_CIFS_XATTR=y
+CONFIG_CIFS_POSIX=y
+CONFIG_CIFS_DEBUG=y
+# CONFIG_CIFS_DEBUG2 is not set
+# CONFIG_CIFS_DEBUG_DUMP_KEYS is not set
+CONFIG_CIFS_DFS_UPCALL=y
+# CONFIG_CIFS_SWN_UPCALL is not set
+# CONFIG_CIFS_SMB_DIRECT is not set
+# CONFIG_CIFS_FSCACHE is not set
+# CONFIG_SMB_SERVER is not set
+CONFIG_SMBFS_COMMON=m
+# CONFIG_CODA_FS is not set
+# CONFIG_AFS_FS is not set
+CONFIG_9P_FS=y
+CONFIG_9P_FS_POSIX_ACL=y
+# CONFIG_9P_FS_SECURITY is not set
+CONFIG_NLS=y
+CONFIG_NLS_DEFAULT="utf8"
+CONFIG_NLS_CODEPAGE_437=y
+CONFIG_NLS_CODEPAGE_737=m
+CONFIG_NLS_CODEPAGE_775=m
+CONFIG_NLS_CODEPAGE_850=m
+CONFIG_NLS_CODEPAGE_852=m
+CONFIG_NLS_CODEPAGE_855=m
+CONFIG_NLS_CODEPAGE_857=m
+CONFIG_NLS_CODEPAGE_860=m
+CONFIG_NLS_CODEPAGE_861=m
+CONFIG_NLS_CODEPAGE_862=m
+CONFIG_NLS_CODEPAGE_863=m
+CONFIG_NLS_CODEPAGE_864=m
+CONFIG_NLS_CODEPAGE_865=m
+CONFIG_NLS_CODEPAGE_866=m
+CONFIG_NLS_CODEPAGE_869=m
+CONFIG_NLS_CODEPAGE_936=m
+CONFIG_NLS_CODEPAGE_950=m
+CONFIG_NLS_CODEPAGE_932=m
+CONFIG_NLS_CODEPAGE_949=m
+CONFIG_NLS_CODEPAGE_874=m
+CONFIG_NLS_ISO8859_8=m
+CONFIG_NLS_CODEPAGE_1250=m
+CONFIG_NLS_CODEPAGE_1251=m
+CONFIG_NLS_ASCII=y
+CONFIG_NLS_ISO8859_1=m
+CONFIG_NLS_ISO8859_2=m
+CONFIG_NLS_ISO8859_3=m
+CONFIG_NLS_ISO8859_4=m
+CONFIG_NLS_ISO8859_5=m
+CONFIG_NLS_ISO8859_6=m
+CONFIG_NLS_ISO8859_7=m
+CONFIG_NLS_ISO8859_9=m
+CONFIG_NLS_ISO8859_13=m
+CONFIG_NLS_ISO8859_14=m
+CONFIG_NLS_ISO8859_15=m
+CONFIG_NLS_KOI8_R=m
+CONFIG_NLS_KOI8_U=m
+CONFIG_NLS_MAC_ROMAN=m
+CONFIG_NLS_MAC_CELTIC=m
+CONFIG_NLS_MAC_CENTEURO=m
+CONFIG_NLS_MAC_CROATIAN=m
+CONFIG_NLS_MAC_CYRILLIC=m
+CONFIG_NLS_MAC_GAELIC=m
+CONFIG_NLS_MAC_GREEK=m
+CONFIG_NLS_MAC_ICELAND=m
+CONFIG_NLS_MAC_INUIT=m
+CONFIG_NLS_MAC_ROMANIAN=m
+CONFIG_NLS_MAC_TURKISH=m
+CONFIG_NLS_UTF8=m
+CONFIG_DLM=m
+# CONFIG_DLM_DEPRECATED_API is not set
+CONFIG_DLM_DEBUG=y
+# CONFIG_UNICODE is not set
+CONFIG_IO_WQ=y
+# end of File systems
+
+#
+# Security options
+#
+CONFIG_KEYS=y
+# CONFIG_KEYS_REQUEST_CACHE is not set
+CONFIG_PERSISTENT_KEYRINGS=y
+CONFIG_TRUSTED_KEYS=y
+CONFIG_TRUSTED_KEYS_TPM=y
+CONFIG_ENCRYPTED_KEYS=y
+# CONFIG_USER_DECRYPTED_DATA is not set
+# CONFIG_KEY_DH_OPERATIONS is not set
+# CONFIG_KEY_NOTIFICATIONS is not set
+# CONFIG_SECURITY_DMESG_RESTRICT is not set
+CONFIG_SECURITY=y
+CONFIG_SECURITYFS=y
+CONFIG_SECURITY_NETWORK=y
+# CONFIG_SECURITY_INFINIBAND is not set
+CONFIG_SECURITY_NETWORK_XFRM=y
+# CONFIG_SECURITY_PATH is not set
+CONFIG_INTEL_TXT=y
+CONFIG_HAVE_HARDENED_USERCOPY_ALLOCATOR=y
+CONFIG_HARDENED_USERCOPY=y
+CONFIG_FORTIFY_SOURCE=y
+# CONFIG_STATIC_USERMODEHELPER is not set
+# CONFIG_SECURITY_SELINUX is not set
+# CONFIG_SECURITY_SMACK is not set
+# CONFIG_SECURITY_TOMOYO is not set
+# CONFIG_SECURITY_APPARMOR is not set
+# CONFIG_SECURITY_LOADPIN is not set
+CONFIG_SECURITY_YAMA=y
+# CONFIG_SECURITY_SAFESETID is not set
+# CONFIG_SECURITY_LOCKDOWN_LSM is not set
+# CONFIG_SECURITY_LANDLOCK is not set
+CONFIG_INTEGRITY=y
+CONFIG_INTEGRITY_SIGNATURE=y
+CONFIG_INTEGRITY_ASYMMETRIC_KEYS=y
+CONFIG_INTEGRITY_TRUSTED_KEYRING=y
+# CONFIG_INTEGRITY_PLATFORM_KEYRING is not set
+CONFIG_INTEGRITY_AUDIT=y
+# CONFIG_IMA is not set
+# CONFIG_IMA_SECURE_AND_OR_TRUSTED_BOOT is not set
+# CONFIG_EVM is not set
+CONFIG_DEFAULT_SECURITY_DAC=y
+CONFIG_LSM="landlock,lockdown,yama,loadpin,safesetid,integrity,bpf"
+
+#
+# Kernel hardening options
+#
+
+#
+# Memory initialization
+#
+CONFIG_INIT_STACK_NONE=y
+# CONFIG_GCC_PLUGIN_STRUCTLEAK_USER is not set
+# CONFIG_GCC_PLUGIN_STACKLEAK is not set
+# CONFIG_INIT_ON_ALLOC_DEFAULT_ON is not set
+# CONFIG_INIT_ON_FREE_DEFAULT_ON is not set
+CONFIG_CC_HAS_ZERO_CALL_USED_REGS=y
+# CONFIG_ZERO_CALL_USED_REGS is not set
+# end of Memory initialization
+
+CONFIG_RANDSTRUCT_NONE=y
+# CONFIG_RANDSTRUCT_FULL is not set
+# CONFIG_RANDSTRUCT_PERFORMANCE is not set
+# end of Kernel hardening options
+# end of Security options
+
+CONFIG_XOR_BLOCKS=m
+CONFIG_ASYNC_CORE=m
+CONFIG_ASYNC_MEMCPY=m
+CONFIG_ASYNC_XOR=m
+CONFIG_ASYNC_PQ=m
+CONFIG_ASYNC_RAID6_RECOV=m
+CONFIG_CRYPTO=y
+
+#
+# Crypto core or helper
+#
+CONFIG_CRYPTO_ALGAPI=y
+CONFIG_CRYPTO_ALGAPI2=y
+CONFIG_CRYPTO_AEAD=y
+CONFIG_CRYPTO_AEAD2=y
+CONFIG_CRYPTO_SKCIPHER=y
+CONFIG_CRYPTO_SKCIPHER2=y
+CONFIG_CRYPTO_HASH=y
+CONFIG_CRYPTO_HASH2=y
+CONFIG_CRYPTO_RNG=y
+CONFIG_CRYPTO_RNG2=y
+CONFIG_CRYPTO_RNG_DEFAULT=y
+CONFIG_CRYPTO_AKCIPHER2=y
+CONFIG_CRYPTO_AKCIPHER=y
+CONFIG_CRYPTO_KPP2=y
+CONFIG_CRYPTO_KPP=m
+CONFIG_CRYPTO_ACOMP2=y
+CONFIG_CRYPTO_MANAGER=y
+CONFIG_CRYPTO_MANAGER2=y
+CONFIG_CRYPTO_USER=m
+CONFIG_CRYPTO_MANAGER_DISABLE_TESTS=y
+CONFIG_CRYPTO_GF128MUL=y
+CONFIG_CRYPTO_NULL=y
+CONFIG_CRYPTO_NULL2=y
+CONFIG_CRYPTO_PCRYPT=m
+CONFIG_CRYPTO_CRYPTD=y
+CONFIG_CRYPTO_AUTHENC=m
+# CONFIG_CRYPTO_TEST is not set
+CONFIG_CRYPTO_SIMD=y
+# end of Crypto core or helper
+
+#
+# Public-key cryptography
+#
+CONFIG_CRYPTO_RSA=y
+CONFIG_CRYPTO_DH=m
+# CONFIG_CRYPTO_DH_RFC7919_GROUPS is not set
+CONFIG_CRYPTO_ECC=m
+CONFIG_CRYPTO_ECDH=m
+# CONFIG_CRYPTO_ECDSA is not set
+# CONFIG_CRYPTO_ECRDSA is not set
+# CONFIG_CRYPTO_SM2 is not set
+# CONFIG_CRYPTO_CURVE25519 is not set
+# end of Public-key cryptography
+
+#
+# Block ciphers
+#
+CONFIG_CRYPTO_AES=y
+# CONFIG_CRYPTO_AES_TI is not set
+CONFIG_CRYPTO_ANUBIS=m
+# CONFIG_CRYPTO_ARIA is not set
+CONFIG_CRYPTO_BLOWFISH=m
+CONFIG_CRYPTO_BLOWFISH_COMMON=m
+CONFIG_CRYPTO_CAMELLIA=m
+CONFIG_CRYPTO_CAST_COMMON=m
+CONFIG_CRYPTO_CAST5=m
+CONFIG_CRYPTO_CAST6=m
+CONFIG_CRYPTO_DES=m
+CONFIG_CRYPTO_FCRYPT=m
+CONFIG_CRYPTO_KHAZAD=m
+CONFIG_CRYPTO_SEED=m
+CONFIG_CRYPTO_SERPENT=m
+# CONFIG_CRYPTO_SM4_GENERIC is not set
+CONFIG_CRYPTO_TEA=m
+CONFIG_CRYPTO_TWOFISH=m
+CONFIG_CRYPTO_TWOFISH_COMMON=m
+# end of Block ciphers
+
+#
+# Length-preserving ciphers and modes
+#
+# CONFIG_CRYPTO_ADIANTUM is not set
+CONFIG_CRYPTO_ARC4=m
+CONFIG_CRYPTO_CHACHA20=m
+CONFIG_CRYPTO_CBC=y
+CONFIG_CRYPTO_CFB=y
+CONFIG_CRYPTO_CTR=y
+CONFIG_CRYPTO_CTS=m
+CONFIG_CRYPTO_ECB=y
+# CONFIG_CRYPTO_HCTR2 is not set
+# CONFIG_CRYPTO_KEYWRAP is not set
+CONFIG_CRYPTO_LRW=m
+# CONFIG_CRYPTO_OFB is not set
+CONFIG_CRYPTO_PCBC=m
+CONFIG_CRYPTO_XTS=m
+# end of Length-preserving ciphers and modes
+
+#
+# AEAD (authenticated encryption with associated data) ciphers
+#
+# CONFIG_CRYPTO_AEGIS128 is not set
+# CONFIG_CRYPTO_CHACHA20POLY1305 is not set
+CONFIG_CRYPTO_CCM=m
+CONFIG_CRYPTO_GCM=y
+CONFIG_CRYPTO_SEQIV=y
+CONFIG_CRYPTO_ECHAINIV=m
+CONFIG_CRYPTO_ESSIV=m
+# end of AEAD (authenticated encryption with associated data) ciphers
+
+#
+# Hashes, digests, and MACs
+#
+CONFIG_CRYPTO_BLAKE2B=m
+CONFIG_CRYPTO_CMAC=m
+CONFIG_CRYPTO_GHASH=y
+CONFIG_CRYPTO_HMAC=y
+CONFIG_CRYPTO_MD4=m
+CONFIG_CRYPTO_MD5=y
+CONFIG_CRYPTO_MICHAEL_MIC=m
+# CONFIG_CRYPTO_POLY1305 is not set
+CONFIG_CRYPTO_RMD160=m
+CONFIG_CRYPTO_SHA1=y
+CONFIG_CRYPTO_SHA256=y
+CONFIG_CRYPTO_SHA512=y
+CONFIG_CRYPTO_SHA3=m
+# CONFIG_CRYPTO_SM3_GENERIC is not set
+# CONFIG_CRYPTO_STREEBOG is not set
+CONFIG_CRYPTO_VMAC=m
+CONFIG_CRYPTO_WP512=m
+CONFIG_CRYPTO_XCBC=m
+CONFIG_CRYPTO_XXHASH=m
+# end of Hashes, digests, and MACs
+
+#
+# CRCs (cyclic redundancy checks)
+#
+CONFIG_CRYPTO_CRC32C=y
+CONFIG_CRYPTO_CRC32=m
+CONFIG_CRYPTO_CRCT10DIF=y
+CONFIG_CRYPTO_CRC64_ROCKSOFT=m
+# end of CRCs (cyclic redundancy checks)
+
+#
+# Compression
+#
+CONFIG_CRYPTO_DEFLATE=y
+CONFIG_CRYPTO_LZO=y
+# CONFIG_CRYPTO_842 is not set
+# CONFIG_CRYPTO_LZ4 is not set
+# CONFIG_CRYPTO_LZ4HC is not set
+# CONFIG_CRYPTO_ZSTD is not set
+# end of Compression
+
+#
+# Random number generation
+#
+CONFIG_CRYPTO_ANSI_CPRNG=m
+CONFIG_CRYPTO_DRBG_MENU=y
+CONFIG_CRYPTO_DRBG_HMAC=y
+CONFIG_CRYPTO_DRBG_HASH=y
+CONFIG_CRYPTO_DRBG_CTR=y
+CONFIG_CRYPTO_DRBG=y
+CONFIG_CRYPTO_JITTERENTROPY=y
+# end of Random number generation
+
+#
+# Userspace interface
+#
+CONFIG_CRYPTO_USER_API=y
+CONFIG_CRYPTO_USER_API_HASH=y
+CONFIG_CRYPTO_USER_API_SKCIPHER=y
+CONFIG_CRYPTO_USER_API_RNG=y
+# CONFIG_CRYPTO_USER_API_RNG_CAVP is not set
+CONFIG_CRYPTO_USER_API_AEAD=y
+CONFIG_CRYPTO_USER_API_ENABLE_OBSOLETE=y
+# CONFIG_CRYPTO_STATS is not set
+# end of Userspace interface
+
+CONFIG_CRYPTO_HASH_INFO=y
+
+#
+# Accelerated Cryptographic Algorithms for CPU (x86)
+#
+# CONFIG_CRYPTO_CURVE25519_X86 is not set
+CONFIG_CRYPTO_AES_NI_INTEL=y
+CONFIG_CRYPTO_BLOWFISH_X86_64=m
+CONFIG_CRYPTO_CAMELLIA_X86_64=m
+CONFIG_CRYPTO_CAMELLIA_AESNI_AVX_X86_64=m
+CONFIG_CRYPTO_CAMELLIA_AESNI_AVX2_X86_64=m
+CONFIG_CRYPTO_CAST5_AVX_X86_64=m
+CONFIG_CRYPTO_CAST6_AVX_X86_64=m
+# CONFIG_CRYPTO_DES3_EDE_X86_64 is not set
+CONFIG_CRYPTO_SERPENT_SSE2_X86_64=m
+CONFIG_CRYPTO_SERPENT_AVX_X86_64=m
+CONFIG_CRYPTO_SERPENT_AVX2_X86_64=m
+# CONFIG_CRYPTO_SM4_AESNI_AVX_X86_64 is not set
+# CONFIG_CRYPTO_SM4_AESNI_AVX2_X86_64 is not set
+CONFIG_CRYPTO_TWOFISH_X86_64=m
+CONFIG_CRYPTO_TWOFISH_X86_64_3WAY=m
+CONFIG_CRYPTO_TWOFISH_AVX_X86_64=m
+# CONFIG_CRYPTO_ARIA_AESNI_AVX_X86_64 is not set
+CONFIG_CRYPTO_CHACHA20_X86_64=m
+# CONFIG_CRYPTO_AEGIS128_AESNI_SSE2 is not set
+# CONFIG_CRYPTO_NHPOLY1305_SSE2 is not set
+# CONFIG_CRYPTO_NHPOLY1305_AVX2 is not set
+# CONFIG_CRYPTO_BLAKE2S_X86 is not set
+# CONFIG_CRYPTO_POLYVAL_CLMUL_NI is not set
+# CONFIG_CRYPTO_POLY1305_X86_64 is not set
+CONFIG_CRYPTO_SHA1_SSSE3=y
+CONFIG_CRYPTO_SHA256_SSSE3=y
+CONFIG_CRYPTO_SHA512_SSSE3=m
+# CONFIG_CRYPTO_SM3_AVX_X86_64 is not set
+CONFIG_CRYPTO_GHASH_CLMUL_NI_INTEL=m
+CONFIG_CRYPTO_CRC32C_INTEL=m
+CONFIG_CRYPTO_CRC32_PCLMUL=m
+CONFIG_CRYPTO_CRCT10DIF_PCLMUL=m
+# end of Accelerated Cryptographic Algorithms for CPU (x86)
+
+CONFIG_CRYPTO_HW=y
+CONFIG_CRYPTO_DEV_PADLOCK=m
+CONFIG_CRYPTO_DEV_PADLOCK_AES=m
+CONFIG_CRYPTO_DEV_PADLOCK_SHA=m
+# CONFIG_CRYPTO_DEV_ATMEL_ECC is not set
+# CONFIG_CRYPTO_DEV_ATMEL_SHA204A is not set
+CONFIG_CRYPTO_DEV_CCP=y
+CONFIG_CRYPTO_DEV_QAT=m
+CONFIG_CRYPTO_DEV_QAT_DH895xCC=m
+CONFIG_CRYPTO_DEV_QAT_C3XXX=m
+CONFIG_CRYPTO_DEV_QAT_C62X=m
+# CONFIG_CRYPTO_DEV_QAT_4XXX is not set
+CONFIG_CRYPTO_DEV_QAT_DH895xCCVF=m
+CONFIG_CRYPTO_DEV_QAT_C3XXXVF=m
+CONFIG_CRYPTO_DEV_QAT_C62XVF=m
+CONFIG_CRYPTO_DEV_NITROX=m
+CONFIG_CRYPTO_DEV_NITROX_CNN55XX=m
+# CONFIG_CRYPTO_DEV_VIRTIO is not set
+# CONFIG_CRYPTO_DEV_SAFEXCEL is not set
+# CONFIG_CRYPTO_DEV_AMLOGIC_GXL is not set
+CONFIG_ASYMMETRIC_KEY_TYPE=y
+CONFIG_ASYMMETRIC_PUBLIC_KEY_SUBTYPE=y
+CONFIG_X509_CERTIFICATE_PARSER=y
+# CONFIG_PKCS8_PRIVATE_KEY_PARSER is not set
+CONFIG_PKCS7_MESSAGE_PARSER=y
+# CONFIG_PKCS7_TEST_KEY is not set
+CONFIG_SIGNED_PE_FILE_VERIFICATION=y
+# CONFIG_FIPS_SIGNATURE_SELFTEST is not set
+
+#
+# Certificates for signature checking
+#
+CONFIG_MODULE_SIG_KEY="certs/signing_key.pem"
+CONFIG_MODULE_SIG_KEY_TYPE_RSA=y
+# CONFIG_MODULE_SIG_KEY_TYPE_ECDSA is not set
+CONFIG_SYSTEM_TRUSTED_KEYRING=y
+CONFIG_SYSTEM_TRUSTED_KEYS=""
+# CONFIG_SYSTEM_EXTRA_CERTIFICATE is not set
+# CONFIG_SECONDARY_TRUSTED_KEYRING is not set
+CONFIG_SYSTEM_BLACKLIST_KEYRING=y
+CONFIG_SYSTEM_BLACKLIST_HASH_LIST=""
+# CONFIG_SYSTEM_REVOCATION_LIST is not set
+# CONFIG_SYSTEM_BLACKLIST_AUTH_UPDATE is not set
+# end of Certificates for signature checking
+
+CONFIG_BINARY_PRINTF=y
+
+#
+# Library routines
+#
+CONFIG_RAID6_PQ=m
+CONFIG_RAID6_PQ_BENCHMARK=y
+# CONFIG_PACKING is not set
+CONFIG_BITREVERSE=y
+CONFIG_GENERIC_STRNCPY_FROM_USER=y
+CONFIG_GENERIC_STRNLEN_USER=y
+CONFIG_GENERIC_NET_UTILS=y
+CONFIG_CORDIC=m
+# CONFIG_PRIME_NUMBERS is not set
+CONFIG_RATIONAL=y
+CONFIG_GENERIC_PCI_IOMAP=y
+CONFIG_GENERIC_IOMAP=y
+CONFIG_ARCH_USE_CMPXCHG_LOCKREF=y
+CONFIG_ARCH_HAS_FAST_MULTIPLIER=y
+CONFIG_ARCH_USE_SYM_ANNOTATIONS=y
+
+#
+# Crypto library routines
+#
+CONFIG_CRYPTO_LIB_UTILS=y
+CONFIG_CRYPTO_LIB_AES=y
+CONFIG_CRYPTO_LIB_ARC4=m
+CONFIG_CRYPTO_LIB_BLAKE2S_GENERIC=y
+CONFIG_CRYPTO_ARCH_HAVE_LIB_CHACHA=m
+CONFIG_CRYPTO_LIB_CHACHA_GENERIC=m
+# CONFIG_CRYPTO_LIB_CHACHA is not set
+# CONFIG_CRYPTO_LIB_CURVE25519 is not set
+CONFIG_CRYPTO_LIB_DES=m
+CONFIG_CRYPTO_LIB_POLY1305_RSIZE=11
+# CONFIG_CRYPTO_LIB_POLY1305 is not set
+# CONFIG_CRYPTO_LIB_CHACHA20POLY1305 is not set
+CONFIG_CRYPTO_LIB_SHA1=y
+CONFIG_CRYPTO_LIB_SHA256=y
+# end of Crypto library routines
+
+CONFIG_CRC_CCITT=y
+CONFIG_CRC16=y
+CONFIG_CRC_T10DIF=y
+CONFIG_CRC64_ROCKSOFT=m
+CONFIG_CRC_ITU_T=m
+CONFIG_CRC32=y
+# CONFIG_CRC32_SELFTEST is not set
+CONFIG_CRC32_SLICEBY8=y
+# CONFIG_CRC32_SLICEBY4 is not set
+# CONFIG_CRC32_SARWATE is not set
+# CONFIG_CRC32_BIT is not set
+CONFIG_CRC64=m
+# CONFIG_CRC4 is not set
+CONFIG_CRC7=m
+CONFIG_LIBCRC32C=m
+CONFIG_CRC8=m
+CONFIG_XXHASH=y
+# CONFIG_RANDOM32_SELFTEST is not set
+CONFIG_ZLIB_INFLATE=y
+CONFIG_ZLIB_DEFLATE=y
+CONFIG_LZO_COMPRESS=y
+CONFIG_LZO_DECOMPRESS=y
+CONFIG_LZ4_DECOMPRESS=y
+CONFIG_ZSTD_COMMON=y
+CONFIG_ZSTD_COMPRESS=m
+CONFIG_ZSTD_DECOMPRESS=y
+CONFIG_XZ_DEC=y
+CONFIG_XZ_DEC_X86=y
+CONFIG_XZ_DEC_POWERPC=y
+CONFIG_XZ_DEC_IA64=y
+CONFIG_XZ_DEC_ARM=y
+CONFIG_XZ_DEC_ARMTHUMB=y
+CONFIG_XZ_DEC_SPARC=y
+# CONFIG_XZ_DEC_MICROLZMA is not set
+CONFIG_XZ_DEC_BCJ=y
+# CONFIG_XZ_DEC_TEST is not set
+CONFIG_DECOMPRESS_GZIP=y
+CONFIG_DECOMPRESS_BZIP2=y
+CONFIG_DECOMPRESS_LZMA=y
+CONFIG_DECOMPRESS_XZ=y
+CONFIG_DECOMPRESS_LZO=y
+CONFIG_DECOMPRESS_LZ4=y
+CONFIG_DECOMPRESS_ZSTD=y
+CONFIG_GENERIC_ALLOCATOR=y
+CONFIG_REED_SOLOMON=m
+CONFIG_REED_SOLOMON_ENC8=y
+CONFIG_REED_SOLOMON_DEC8=y
+CONFIG_TEXTSEARCH=y
+CONFIG_TEXTSEARCH_KMP=m
+CONFIG_TEXTSEARCH_BM=m
+CONFIG_TEXTSEARCH_FSM=m
+CONFIG_INTERVAL_TREE=y
+CONFIG_XARRAY_MULTI=y
+CONFIG_ASSOCIATIVE_ARRAY=y
+CONFIG_HAS_IOMEM=y
+CONFIG_HAS_IOPORT_MAP=y
+CONFIG_HAS_DMA=y
+CONFIG_DMA_OPS=y
+CONFIG_NEED_SG_DMA_LENGTH=y
+CONFIG_NEED_DMA_MAP_STATE=y
+CONFIG_ARCH_DMA_ADDR_T_64BIT=y
+CONFIG_ARCH_HAS_FORCE_DMA_UNENCRYPTED=y
+CONFIG_SWIOTLB=y
+CONFIG_DMA_CMA=y
+# CONFIG_DMA_PERNUMA_CMA is not set
+
+#
+# Default contiguous memory area size:
+#
+CONFIG_CMA_SIZE_MBYTES=0
+CONFIG_CMA_SIZE_SEL_MBYTES=y
+# CONFIG_CMA_SIZE_SEL_PERCENTAGE is not set
+# CONFIG_CMA_SIZE_SEL_MIN is not set
+# CONFIG_CMA_SIZE_SEL_MAX is not set
+CONFIG_CMA_ALIGNMENT=8
+# CONFIG_DMA_API_DEBUG is not set
+# CONFIG_DMA_MAP_BENCHMARK is not set
+CONFIG_SGL_ALLOC=y
+CONFIG_CHECK_SIGNATURE=y
+CONFIG_CPUMASK_OFFSTACK=y
+# CONFIG_FORCE_NR_CPUS is not set
+CONFIG_CPU_RMAP=y
+CONFIG_DQL=y
+CONFIG_GLOB=y
+# CONFIG_GLOB_SELFTEST is not set
+CONFIG_NLATTR=y
+CONFIG_CLZ_TAB=y
+CONFIG_IRQ_POLL=y
+CONFIG_MPILIB=y
+CONFIG_SIGNATURE=y
+CONFIG_DIMLIB=y
+CONFIG_OID_REGISTRY=y
+CONFIG_UCS2_STRING=y
+CONFIG_HAVE_GENERIC_VDSO=y
+CONFIG_GENERIC_GETTIMEOFDAY=y
+CONFIG_GENERIC_VDSO_TIME_NS=y
+CONFIG_FONT_SUPPORT=y
+# CONFIG_FONTS is not set
+CONFIG_FONT_8x8=y
+CONFIG_FONT_8x16=y
+CONFIG_SG_POOL=y
+CONFIG_ARCH_HAS_PMEM_API=y
+CONFIG_MEMREGION=y
+CONFIG_ARCH_HAS_UACCESS_FLUSHCACHE=y
+CONFIG_ARCH_HAS_COPY_MC=y
+CONFIG_ARCH_STACKWALK=y
+CONFIG_STACKDEPOT=y
+CONFIG_STACKDEPOT_ALWAYS_INIT=y
+CONFIG_SBITMAP=y
+# end of Library routines
+
+CONFIG_ASN1_ENCODER=y
+
+#
+# Kernel hacking
+#
+
+#
+# printk and dmesg options
+#
+CONFIG_PRINTK_TIME=y
+CONFIG_PRINTK_CALLER=y
+# CONFIG_STACKTRACE_BUILD_ID is not set
+CONFIG_CONSOLE_LOGLEVEL_DEFAULT=7
+CONFIG_CONSOLE_LOGLEVEL_QUIET=4
+CONFIG_MESSAGE_LOGLEVEL_DEFAULT=4
+CONFIG_BOOT_PRINTK_DELAY=y
+CONFIG_DYNAMIC_DEBUG=y
+CONFIG_DYNAMIC_DEBUG_CORE=y
+CONFIG_SYMBOLIC_ERRNAME=y
+CONFIG_DEBUG_BUGVERBOSE=y
+# end of printk and dmesg options
+
+CONFIG_DEBUG_KERNEL=y
+CONFIG_DEBUG_MISC=y
+
+#
+# Compile-time checks and compiler options
+#
+CONFIG_DEBUG_INFO=y
+CONFIG_AS_HAS_NON_CONST_LEB128=y
+# CONFIG_DEBUG_INFO_NONE is not set
+# CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT is not set
+CONFIG_DEBUG_INFO_DWARF4=y
+# CONFIG_DEBUG_INFO_DWARF5 is not set
+# CONFIG_DEBUG_INFO_REDUCED is not set
+# CONFIG_DEBUG_INFO_COMPRESSED is not set
+# CONFIG_DEBUG_INFO_SPLIT is not set
+CONFIG_DEBUG_INFO_BTF=y
+CONFIG_PAHOLE_HAS_SPLIT_BTF=y
+CONFIG_DEBUG_INFO_BTF_MODULES=y
+# CONFIG_MODULE_ALLOW_BTF_MISMATCH is not set
+# CONFIG_GDB_SCRIPTS is not set
+CONFIG_FRAME_WARN=8192
+CONFIG_STRIP_ASM_SYMS=y
+# CONFIG_READABLE_ASM is not set
+# CONFIG_HEADERS_INSTALL is not set
+CONFIG_DEBUG_SECTION_MISMATCH=y
+CONFIG_SECTION_MISMATCH_WARN_ONLY=y
+# CONFIG_DEBUG_FORCE_FUNCTION_ALIGN_64B is not set
+CONFIG_OBJTOOL=y
+# CONFIG_VMLINUX_MAP is not set
+# CONFIG_DEBUG_FORCE_WEAK_PER_CPU is not set
+# end of Compile-time checks and compiler options
+
+#
+# Generic Kernel Debugging Instruments
+#
+CONFIG_MAGIC_SYSRQ=y
+CONFIG_MAGIC_SYSRQ_DEFAULT_ENABLE=0x1
+CONFIG_MAGIC_SYSRQ_SERIAL=y
+CONFIG_MAGIC_SYSRQ_SERIAL_SEQUENCE=""
+CONFIG_DEBUG_FS=y
+CONFIG_DEBUG_FS_ALLOW_ALL=y
+# CONFIG_DEBUG_FS_DISALLOW_MOUNT is not set
+# CONFIG_DEBUG_FS_ALLOW_NONE is not set
+CONFIG_HAVE_ARCH_KGDB=y
+# CONFIG_KGDB is not set
+CONFIG_ARCH_HAS_UBSAN_SANITIZE_ALL=y
+CONFIG_UBSAN=y
+# CONFIG_UBSAN_TRAP is not set
+CONFIG_CC_HAS_UBSAN_BOUNDS=y
+CONFIG_UBSAN_BOUNDS=y
+CONFIG_UBSAN_ONLY_BOUNDS=y
+CONFIG_UBSAN_SHIFT=y
+# CONFIG_UBSAN_DIV_ZERO is not set
+# CONFIG_UBSAN_BOOL is not set
+# CONFIG_UBSAN_ENUM is not set
+# CONFIG_UBSAN_ALIGNMENT is not set
+CONFIG_UBSAN_SANITIZE_ALL=y
+# CONFIG_TEST_UBSAN is not set
+CONFIG_HAVE_ARCH_KCSAN=y
+CONFIG_HAVE_KCSAN_COMPILER=y
+# end of Generic Kernel Debugging Instruments
+
+#
+# Networking Debugging
+#
+# CONFIG_NET_DEV_REFCNT_TRACKER is not set
+# CONFIG_NET_NS_REFCNT_TRACKER is not set
+# CONFIG_DEBUG_NET is not set
+# end of Networking Debugging
+
+#
+# Memory Debugging
+#
+CONFIG_PAGE_EXTENSION=y
+# CONFIG_DEBUG_PAGEALLOC is not set
+CONFIG_SLUB_DEBUG=y
+# CONFIG_SLUB_DEBUG_ON is not set
+CONFIG_PAGE_OWNER=y
+# CONFIG_PAGE_TABLE_CHECK is not set
+# CONFIG_PAGE_POISONING is not set
+# CONFIG_DEBUG_PAGE_REF is not set
+# CONFIG_DEBUG_RODATA_TEST is not set
+CONFIG_ARCH_HAS_DEBUG_WX=y
+# CONFIG_DEBUG_WX is not set
+CONFIG_GENERIC_PTDUMP=y
+# CONFIG_PTDUMP_DEBUGFS is not set
+# CONFIG_DEBUG_OBJECTS is not set
+# CONFIG_SHRINKER_DEBUG is not set
+CONFIG_HAVE_DEBUG_KMEMLEAK=y
+# CONFIG_DEBUG_KMEMLEAK is not set
+# CONFIG_DEBUG_STACK_USAGE is not set
+# CONFIG_SCHED_STACK_END_CHECK is not set
+CONFIG_ARCH_HAS_DEBUG_VM_PGTABLE=y
+# CONFIG_DEBUG_VM is not set
+# CONFIG_DEBUG_VM_PGTABLE is not set
+CONFIG_ARCH_HAS_DEBUG_VIRTUAL=y
+# CONFIG_DEBUG_VIRTUAL is not set
+CONFIG_DEBUG_MEMORY_INIT=y
+# CONFIG_DEBUG_PER_CPU_MAPS is not set
+CONFIG_HAVE_ARCH_KASAN=y
+CONFIG_HAVE_ARCH_KASAN_VMALLOC=y
+CONFIG_CC_HAS_KASAN_GENERIC=y
+CONFIG_CC_HAS_WORKING_NOSANITIZE_ADDRESS=y
+CONFIG_KASAN=y
+CONFIG_KASAN_GENERIC=y
+# CONFIG_KASAN_OUTLINE is not set
+CONFIG_KASAN_INLINE=y
+CONFIG_KASAN_STACK=y
+CONFIG_KASAN_VMALLOC=y
+# CONFIG_KASAN_MODULE_TEST is not set
+CONFIG_HAVE_ARCH_KFENCE=y
+# CONFIG_KFENCE is not set
+CONFIG_HAVE_ARCH_KMSAN=y
+# end of Memory Debugging
+
+CONFIG_DEBUG_SHIRQ=y
+
+#
+# Debug Oops, Lockups and Hangs
+#
+CONFIG_PANIC_ON_OOPS=y
+CONFIG_PANIC_ON_OOPS_VALUE=1
+CONFIG_PANIC_TIMEOUT=0
+CONFIG_LOCKUP_DETECTOR=y
+CONFIG_SOFTLOCKUP_DETECTOR=y
+# CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC is not set
+CONFIG_HARDLOCKUP_DETECTOR_PERF=y
+CONFIG_HARDLOCKUP_CHECK_TIMESTAMP=y
+CONFIG_HARDLOCKUP_DETECTOR=y
+CONFIG_BOOTPARAM_HARDLOCKUP_PANIC=y
+CONFIG_DETECT_HUNG_TASK=y
+CONFIG_DEFAULT_HUNG_TASK_TIMEOUT=480
+# CONFIG_BOOTPARAM_HUNG_TASK_PANIC is not set
+CONFIG_WQ_WATCHDOG=y
+# CONFIG_TEST_LOCKUP is not set
+# end of Debug Oops, Lockups and Hangs
+
+#
+# Scheduler Debugging
+#
+CONFIG_SCHED_DEBUG=y
+CONFIG_SCHED_INFO=y
+CONFIG_SCHEDSTATS=y
+# end of Scheduler Debugging
+
+# CONFIG_DEBUG_TIMEKEEPING is not set
+
+#
+# Lock Debugging (spinlocks, mutexes, etc...)
+#
+CONFIG_LOCK_DEBUGGING_SUPPORT=y
+# CONFIG_PROVE_LOCKING is not set
+# CONFIG_LOCK_STAT is not set
+# CONFIG_DEBUG_RT_MUTEXES is not set
+# CONFIG_DEBUG_SPINLOCK is not set
+# CONFIG_DEBUG_MUTEXES is not set
+# CONFIG_DEBUG_WW_MUTEX_SLOWPATH is not set
+# CONFIG_DEBUG_RWSEMS is not set
+# CONFIG_DEBUG_LOCK_ALLOC is not set
+CONFIG_DEBUG_ATOMIC_SLEEP=y
+# CONFIG_DEBUG_LOCKING_API_SELFTESTS is not set
+# CONFIG_LOCK_TORTURE_TEST is not set
+# CONFIG_WW_MUTEX_SELFTEST is not set
+# CONFIG_SCF_TORTURE_TEST is not set
+# CONFIG_CSD_LOCK_WAIT_DEBUG is not set
+# end of Lock Debugging (spinlocks, mutexes, etc...)
+
+# CONFIG_DEBUG_IRQFLAGS is not set
+CONFIG_STACKTRACE=y
+# CONFIG_WARN_ALL_UNSEEDED_RANDOM is not set
+# CONFIG_DEBUG_KOBJECT is not set
+
+#
+# Debug kernel data structures
+#
+CONFIG_DEBUG_LIST=y
+# CONFIG_DEBUG_PLIST is not set
+# CONFIG_DEBUG_SG is not set
+# CONFIG_DEBUG_NOTIFIERS is not set
+CONFIG_BUG_ON_DATA_CORRUPTION=y
+# CONFIG_DEBUG_MAPLE_TREE is not set
+# end of Debug kernel data structures
+
+# CONFIG_DEBUG_CREDENTIALS is not set
+
+#
+# RCU Debugging
+#
+CONFIG_TORTURE_TEST=m
+# CONFIG_RCU_SCALE_TEST is not set
+# CONFIG_RCU_TORTURE_TEST is not set
+CONFIG_RCU_REF_SCALE_TEST=m
+CONFIG_RCU_CPU_STALL_TIMEOUT=60
+CONFIG_RCU_EXP_CPU_STALL_TIMEOUT=0
+# CONFIG_RCU_TRACE is not set
+# CONFIG_RCU_EQS_DEBUG is not set
+# end of RCU Debugging
+
+# CONFIG_DEBUG_WQ_FORCE_RR_CPU is not set
+# CONFIG_CPU_HOTPLUG_STATE_CONTROL is not set
+CONFIG_LATENCYTOP=y
+CONFIG_USER_STACKTRACE_SUPPORT=y
+CONFIG_NOP_TRACER=y
+CONFIG_HAVE_RETHOOK=y
+CONFIG_RETHOOK=y
+CONFIG_HAVE_FUNCTION_TRACER=y
+CONFIG_HAVE_FUNCTION_GRAPH_TRACER=y
+CONFIG_HAVE_DYNAMIC_FTRACE=y
+CONFIG_HAVE_DYNAMIC_FTRACE_WITH_REGS=y
+CONFIG_HAVE_DYNAMIC_FTRACE_WITH_DIRECT_CALLS=y
+CONFIG_HAVE_DYNAMIC_FTRACE_WITH_ARGS=y
+CONFIG_HAVE_DYNAMIC_FTRACE_NO_PATCHABLE=y
+CONFIG_HAVE_FTRACE_MCOUNT_RECORD=y
+CONFIG_HAVE_SYSCALL_TRACEPOINTS=y
+CONFIG_HAVE_FENTRY=y
+CONFIG_HAVE_OBJTOOL_MCOUNT=y
+CONFIG_HAVE_C_RECORDMCOUNT=y
+CONFIG_HAVE_BUILDTIME_MCOUNT_SORT=y
+CONFIG_BUILDTIME_MCOUNT_SORT=y
+CONFIG_TRACER_MAX_TRACE=y
+CONFIG_TRACE_CLOCK=y
+CONFIG_RING_BUFFER=y
+CONFIG_EVENT_TRACING=y
+CONFIG_CONTEXT_SWITCH_TRACER=y
+CONFIG_TRACING=y
+CONFIG_GENERIC_TRACER=y
+CONFIG_TRACING_SUPPORT=y
+CONFIG_FTRACE=y
+# CONFIG_BOOTTIME_TRACING is not set
+CONFIG_FUNCTION_TRACER=y
+CONFIG_FUNCTION_GRAPH_TRACER=y
+CONFIG_DYNAMIC_FTRACE=y
+CONFIG_DYNAMIC_FTRACE_WITH_REGS=y
+CONFIG_DYNAMIC_FTRACE_WITH_DIRECT_CALLS=y
+CONFIG_DYNAMIC_FTRACE_WITH_ARGS=y
+# CONFIG_FPROBE is not set
+CONFIG_FUNCTION_PROFILER=y
+CONFIG_STACK_TRACER=y
+# CONFIG_IRQSOFF_TRACER is not set
+CONFIG_SCHED_TRACER=y
+CONFIG_HWLAT_TRACER=y
+# CONFIG_OSNOISE_TRACER is not set
+# CONFIG_TIMERLAT_TRACER is not set
+# CONFIG_MMIOTRACE is not set
+CONFIG_FTRACE_SYSCALLS=y
+CONFIG_TRACER_SNAPSHOT=y
+# CONFIG_TRACER_SNAPSHOT_PER_CPU_SWAP is not set
+CONFIG_BRANCH_PROFILE_NONE=y
+# CONFIG_PROFILE_ANNOTATED_BRANCHES is not set
+# CONFIG_BLK_DEV_IO_TRACE is not set
+CONFIG_KPROBE_EVENTS=y
+# CONFIG_KPROBE_EVENTS_ON_NOTRACE is not set
+CONFIG_UPROBE_EVENTS=y
+CONFIG_BPF_EVENTS=y
+CONFIG_DYNAMIC_EVENTS=y
+CONFIG_PROBE_EVENTS=y
+CONFIG_BPF_KPROBE_OVERRIDE=y
+CONFIG_FTRACE_MCOUNT_RECORD=y
+CONFIG_FTRACE_MCOUNT_USE_CC=y
+CONFIG_TRACING_MAP=y
+CONFIG_SYNTH_EVENTS=y
+CONFIG_HIST_TRIGGERS=y
+# CONFIG_TRACE_EVENT_INJECT is not set
+# CONFIG_TRACEPOINT_BENCHMARK is not set
+CONFIG_RING_BUFFER_BENCHMARK=m
+# CONFIG_TRACE_EVAL_MAP_FILE is not set
+# CONFIG_FTRACE_RECORD_RECURSION is not set
+# CONFIG_FTRACE_STARTUP_TEST is not set
+# CONFIG_FTRACE_SORT_STARTUP_TEST is not set
+# CONFIG_RING_BUFFER_STARTUP_TEST is not set
+# CONFIG_RING_BUFFER_VALIDATE_TIME_DELTAS is not set
+# CONFIG_PREEMPTIRQ_DELAY_TEST is not set
+# CONFIG_SYNTH_EVENT_GEN_TEST is not set
+# CONFIG_KPROBE_EVENT_GEN_TEST is not set
+# CONFIG_HIST_TRIGGERS_DEBUG is not set
+# CONFIG_RV is not set
+CONFIG_PROVIDE_OHCI1394_DMA_INIT=y
+# CONFIG_SAMPLES is not set
+CONFIG_HAVE_SAMPLE_FTRACE_DIRECT=y
+CONFIG_HAVE_SAMPLE_FTRACE_DIRECT_MULTI=y
+CONFIG_ARCH_HAS_DEVMEM_IS_ALLOWED=y
+CONFIG_STRICT_DEVMEM=y
+# CONFIG_IO_STRICT_DEVMEM is not set
+
+#
+# x86 Debugging
+#
+CONFIG_EARLY_PRINTK_USB=y
+CONFIG_X86_VERBOSE_BOOTUP=y
+CONFIG_EARLY_PRINTK=y
+CONFIG_EARLY_PRINTK_DBGP=y
+CONFIG_EARLY_PRINTK_USB_XDBC=y
+# CONFIG_EFI_PGT_DUMP is not set
+# CONFIG_DEBUG_TLBFLUSH is not set
+CONFIG_HAVE_MMIOTRACE_SUPPORT=y
+# CONFIG_X86_DECODER_SELFTEST is not set
+CONFIG_IO_DELAY_0X80=y
+# CONFIG_IO_DELAY_0XED is not set
+# CONFIG_IO_DELAY_UDELAY is not set
+# CONFIG_IO_DELAY_NONE is not set
+CONFIG_DEBUG_BOOT_PARAMS=y
+# CONFIG_CPA_DEBUG is not set
+# CONFIG_DEBUG_ENTRY is not set
+# CONFIG_DEBUG_NMI_SELFTEST is not set
+# CONFIG_X86_DEBUG_FPU is not set
+# CONFIG_PUNIT_ATOM_DEBUG is not set
+CONFIG_UNWINDER_ORC=y
+# CONFIG_UNWINDER_FRAME_POINTER is not set
+# end of x86 Debugging
+
+#
+# Kernel Testing and Coverage
+#
+# CONFIG_KUNIT is not set
+# CONFIG_NOTIFIER_ERROR_INJECTION is not set
+CONFIG_FUNCTION_ERROR_INJECTION=y
+CONFIG_FAULT_INJECTION=y
+# CONFIG_FAILSLAB is not set
+# CONFIG_FAIL_PAGE_ALLOC is not set
+# CONFIG_FAULT_INJECTION_USERCOPY is not set
+CONFIG_FAIL_MAKE_REQUEST=y
+# CONFIG_FAIL_IO_TIMEOUT is not set
+# CONFIG_FAIL_FUTEX is not set
+CONFIG_FAULT_INJECTION_DEBUG_FS=y
+# CONFIG_FAIL_FUNCTION is not set
+# CONFIG_FAIL_MMC_REQUEST is not set
+# CONFIG_FAIL_SUNRPC is not set
+CONFIG_ARCH_HAS_KCOV=y
+CONFIG_CC_HAS_SANCOV_TRACE_PC=y
+# CONFIG_KCOV is not set
+CONFIG_RUNTIME_TESTING_MENU=y
+# CONFIG_LKDTM is not set
+# CONFIG_TEST_MIN_HEAP is not set
+# CONFIG_TEST_DIV64 is not set
+# CONFIG_BACKTRACE_SELF_TEST is not set
+# CONFIG_TEST_REF_TRACKER is not set
+# CONFIG_RBTREE_TEST is not set
+# CONFIG_REED_SOLOMON_TEST is not set
+# CONFIG_INTERVAL_TREE_TEST is not set
+# CONFIG_PERCPU_TEST is not set
+# CONFIG_ATOMIC64_SELFTEST is not set
+# CONFIG_ASYNC_RAID6_TEST is not set
+# CONFIG_TEST_HEXDUMP is not set
+# CONFIG_STRING_SELFTEST is not set
+# CONFIG_TEST_STRING_HELPERS is not set
+# CONFIG_TEST_STRSCPY is not set
+# CONFIG_TEST_KSTRTOX is not set
+# CONFIG_TEST_PRINTF is not set
+# CONFIG_TEST_SCANF is not set
+# CONFIG_TEST_BITMAP is not set
+# CONFIG_TEST_UUID is not set
+# CONFIG_TEST_XARRAY is not set
+# CONFIG_TEST_RHASHTABLE is not set
+# CONFIG_TEST_SIPHASH is not set
+# CONFIG_TEST_IDA is not set
+# CONFIG_TEST_LKM is not set
+# CONFIG_TEST_BITOPS is not set
+# CONFIG_TEST_VMALLOC is not set
+# CONFIG_TEST_USER_COPY is not set
+CONFIG_TEST_BPF=m
+# CONFIG_TEST_BLACKHOLE_DEV is not set
+# CONFIG_FIND_BIT_BENCHMARK is not set
+# CONFIG_TEST_FIRMWARE is not set
+# CONFIG_TEST_SYSCTL is not set
+# CONFIG_TEST_UDELAY is not set
+# CONFIG_TEST_STATIC_KEYS is not set
+# CONFIG_TEST_DYNAMIC_DEBUG is not set
+# CONFIG_TEST_KMOD is not set
+# CONFIG_TEST_MEMCAT_P is not set
+# CONFIG_TEST_LIVEPATCH is not set
+# CONFIG_TEST_MEMINIT is not set
+# CONFIG_TEST_HMM is not set
+# CONFIG_TEST_FREE_PAGES is not set
+# CONFIG_TEST_FPU is not set
+# CONFIG_TEST_CLOCKSOURCE_WATCHDOG is not set
+CONFIG_ARCH_USE_MEMTEST=y
+# CONFIG_MEMTEST is not set
+# end of Kernel Testing and Coverage
+
+#
+# Rust hacking
+#
+# end of Rust hacking
+# end of Kernel hacking
+
+--Th/c7wV5ABaOOy8w
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: attachment; filename="job-script"
+
+#!/bin/sh
+
+export_top_env()
+{
+	export suite='igt'
+	export testcase='igt'
+	export category='functional'
+	export job_origin='igt-part1.yaml'
+	export queue_cmdline_keys='branch
+commit
+kbuild_queue_analysis'
+	export queue='vip'
+	export testbox='lkp-cml-d02'
+	export tbox_group='lkp-cml-d02'
+	export submit_id='6374a10f6a25c6738074c998'
+	export job_file='/lkp/jobs/scheduled/lkp-cml-d02/igt-group-04-debian-11.1-x86_64-20220510.cgz-55495ab682271956fda4d2728480a8cd9e0afaa2-20221116-29568-13iegmx-2.yaml'
+	export id='397d55d1f2950364822ee7765b12673733b7cbea'
+	export queuer_version='/zday/lkp'
+	export model='Commet Lake'
+	export nr_node=1
+	export nr_cpu=20
+	export memory='16G'
+	export ssd_partitions='/dev/disk/by-id/ata-INTEL_SSDSC2BA800G4_BTHV61840945800OGN-part4'
+	export rootfs_partition='/dev/disk/by-id/ata-INTEL_SSDSC2BA800G4_BTHV61840945800OGN-part3'
+	export kernel_cmdline_hw='acpi_rsdp=0x9b0fe014'
+	export commit='55495ab682271956fda4d2728480a8cd9e0afaa2'
+	export netconsole_port=6683
+	export ucode='0xc2'
+	export need_kconfig_hw='{"PTP_1588_CLOCK"=>"y"}
+{"IGB"=>"y"}
+{"E1000E"=>"y"}
+SATA_AHCI
+DRM_I915
+{"IGC"=>"y, v4.20-rc1"}'
+	export bisect_dmesg=true
+	export kconfig='x86_64-rhel-8.3-func'
+	export enqueue_time='2022-11-16 16:36:31 +0800'
+	export _id='6374a10f6a25c6738074c998'
+	export _rt='/result/igt/group-04/lkp-cml-d02/debian-11.1-x86_64-20220510.cgz/x86_64-rhel-8.3-func/gcc-11/55495ab682271956fda4d2728480a8cd9e0afaa2'
+	export user='lkp'
+	export compiler='gcc-11'
+	export LKP_SERVER='internal-lkp-server'
+	export head_commit='a7a99adde43bcc3badd7140fc406e5182c621a60'
+	export base_commit='094226ad94f471a9f19e8f8e7140a09c2625abaa'
+	export branch='linux-review/Won-Chung/drm-sysfs-Link-DRM-connectors-to-corresponding-Type-C-connectors/20221109-025232'
+	export rootfs='debian-11.1-x86_64-20220510.cgz'
+	export result_root='/result/igt/group-04/lkp-cml-d02/debian-11.1-x86_64-20220510.cgz/x86_64-rhel-8.3-func/gcc-11/55495ab682271956fda4d2728480a8cd9e0afaa2/3'
+	export scheduler_version='/lkp/lkp/.src-20221115-214703'
+	export arch='x86_64'
+	export max_uptime=2100
+	export initrd='/osimage/debian/debian-11.1-x86_64-20220510.cgz'
+	export bootloader_append='root=/dev/ram0
+RESULT_ROOT=/result/igt/group-04/lkp-cml-d02/debian-11.1-x86_64-20220510.cgz/x86_64-rhel-8.3-func/gcc-11/55495ab682271956fda4d2728480a8cd9e0afaa2/3
+BOOT_IMAGE=/pkg/linux/x86_64-rhel-8.3-func/gcc-11/55495ab682271956fda4d2728480a8cd9e0afaa2/vmlinuz-6.1.0-rc2-00560-g55495ab68227
+branch=linux-review/Won-Chung/drm-sysfs-Link-DRM-connectors-to-corresponding-Type-C-connectors/20221109-025232
+job=/lkp/jobs/scheduled/lkp-cml-d02/igt-group-04-debian-11.1-x86_64-20220510.cgz-55495ab682271956fda4d2728480a8cd9e0afaa2-20221116-29568-13iegmx-2.yaml
+user=lkp
+ARCH=x86_64
+kconfig=x86_64-rhel-8.3-func
+commit=55495ab682271956fda4d2728480a8cd9e0afaa2
+initcall_debug
+acpi_rsdp=0x9b0fe014
+max_uptime=2100
+LKP_SERVER=internal-lkp-server
+nokaslr
+selinux=0
+debug
+apic=debug
+sysrq_always_enabled
+rcupdate.rcu_cpu_stall_timeout=100
+net.ifnames=0
+printk.devkmsg=on
+panic=-1
+softlockup_panic=1
+nmi_watchdog=panic
+oops=panic
+load_ramdisk=2
+prompt_ramdisk=0
+drbd.minor_count=8
+systemd.log_level=err
+ignore_loglevel
+console=tty0
+earlyprintk=ttyS0,115200
+console=ttyS0,115200
+vga=normal
+rw'
+	export modules_initrd='/pkg/linux/x86_64-rhel-8.3-func/gcc-11/55495ab682271956fda4d2728480a8cd9e0afaa2/modules.cgz'
+	export bm_initrd='/osimage/deps/debian-11.1-x86_64-20220510.cgz/run-ipconfig_20220515.cgz,/osimage/deps/debian-11.1-x86_64-20220510.cgz/lkp_20220513.cgz,/osimage/deps/debian-11.1-x86_64-20220510.cgz/rsync-rootfs_20220515.cgz,/osimage/deps/debian-11.1-x86_64-20220510.cgz/igt_20221112.cgz,/osimage/pkg/debian-11.1-x86_64-20220510.cgz/igt-x86_64-7da9f813-1_20221112.cgz,/osimage/deps/debian-11.1-x86_64-20220510.cgz/hw_20220526.cgz'
+	export ucode_initrd='/osimage/ucode/intel-ucode-20220804.cgz'
+	export lkp_initrd='/osimage/user/lkp/lkp-x86_64.cgz'
+	export site='inn'
+	export LKP_CGI_PORT=80
+	export LKP_CIFS_PORT=139
+	export last_kernel='6.1.0-rc5'
+	export repeat_to=6
+	export schedule_notify_address=
+	export stop_repeat_if_found='dmesg.WARNING:at_drivers/base/component.c:#component_del'
+	export kbuild_queue_analysis=1
+	export kernel='/pkg/linux/x86_64-rhel-8.3-func/gcc-11/55495ab682271956fda4d2728480a8cd9e0afaa2/vmlinuz-6.1.0-rc2-00560-g55495ab68227'
+	export dequeue_time='2022-11-16 16:49:56 +0800'
+	export job_initrd='/lkp/jobs/scheduled/lkp-cml-d02/igt-group-04-debian-11.1-x86_64-20220510.cgz-55495ab682271956fda4d2728480a8cd9e0afaa2-20221116-29568-13iegmx-2.cgz'
+
+	[ -n "$LKP_SRC" ] ||
+	export LKP_SRC=/lkp/${user:-lkp}/src
+}
+
+run_job()
+{
+	echo $$ > $TMP/run-job.pid
+
+	. $LKP_SRC/lib/http.sh
+	. $LKP_SRC/lib/job.sh
+	. $LKP_SRC/lib/env.sh
+
+	export_top_env
+
+	run_monitor $LKP_SRC/monitors/wrapper kmsg
+	run_monitor $LKP_SRC/monitors/wrapper heartbeat
+	run_monitor $LKP_SRC/monitors/wrapper meminfo
+	run_monitor $LKP_SRC/monitors/wrapper oom-killer
+	run_monitor $LKP_SRC/monitors/plain/watchdog
+
+	run_test group='group-04' $LKP_SRC/tests/wrapper igt
+}
+
+extract_stats()
+{
+	export stats_part_begin=
+	export stats_part_end=
+
+	env group='group-04' $LKP_SRC/stats/wrapper igt
+	$LKP_SRC/stats/wrapper kmsg
+	$LKP_SRC/stats/wrapper meminfo
+
+	$LKP_SRC/stats/wrapper time igt.time
+	$LKP_SRC/stats/wrapper dmesg
+	$LKP_SRC/stats/wrapper kmsg
+	$LKP_SRC/stats/wrapper last_state
+	$LKP_SRC/stats/wrapper stderr
+	$LKP_SRC/stats/wrapper time
+}
+
+"$@"
+
+--Th/c7wV5ABaOOy8w
+Content-Type: application/x-xz
+Content-Disposition: attachment; filename="dmesg.xz"
+Content-Transfer-Encoding: base64
+
+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
+
+--Th/c7wV5ABaOOy8w
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: attachment; filename="igt"
+
+2022-11-16 08:51:29 build/tests/api_intel_bb --run-subtest add-remove-objects
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: add-remove-objects
+Subtest add-remove-objects: SUCCESS (0.003s)
+2022-11-16 08:51:29 build/tests/api_intel_bb --run-subtest bb-with-allocator
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: bb-with-allocator
+Subtest bb-with-allocator: SUCCESS (0.001s)
+2022-11-16 08:51:29 build/tests/api_intel_bb --run-subtest blit-noreloc-keep-cache
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: blit-noreloc-keep-cache
+Subtest blit-noreloc-keep-cache: SUCCESS (0.004s)
+2022-11-16 08:51:29 build/tests/api_intel_bb --run-subtest blit-noreloc-keep-cache-random
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: blit-noreloc-keep-cache-random
+Subtest blit-noreloc-keep-cache-random: SUCCESS (0.004s)
+2022-11-16 08:51:30 build/tests/api_intel_bb --run-subtest blit-noreloc-purge-cache
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: blit-noreloc-purge-cache
+Subtest blit-noreloc-purge-cache: SUCCESS (0.004s)
+2022-11-16 08:51:30 build/tests/api_intel_bb --run-subtest blit-noreloc-purge-cache-random
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: blit-noreloc-purge-cache-random
+Subtest blit-noreloc-purge-cache-random: SUCCESS (0.004s)
+2022-11-16 08:51:30 build/tests/api_intel_bb --run-subtest blit-reloc-keep-cache
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: blit-reloc-keep-cache
+Subtest blit-reloc-keep-cache: SUCCESS (0.005s)
+2022-11-16 08:51:30 build/tests/api_intel_bb --run-subtest blit-reloc-purge-cache
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: blit-reloc-purge-cache
+Subtest blit-reloc-purge-cache: SUCCESS (0.005s)
+2022-11-16 08:51:30 build/tests/api_intel_bb --run-subtest crc32
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: crc32
+Test requirement not met in function __igt_unique____real_main1539, file ../tests/i915/api_intel_bb.c:1678:
+Test requirement: supports_i915_crc32(i915)
+Subtest crc32: SKIP (0.000s)
+2022-11-16 08:51:30 build/tests/api_intel_bb --run-subtest delta-check
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: delta-check
+Subtest delta-check: SUCCESS (0.002s)
+2022-11-16 08:51:30 build/tests/api_intel_bb --run-subtest destroy-bb
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: destroy-bb
+Subtest destroy-bb: SUCCESS (0.004s)
+2022-11-16 08:51:31 build/tests/api_intel_bb --run-subtest full-batch
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: full-batch
+Subtest full-batch: SUCCESS (0.001s)
+2022-11-16 08:51:31 build/tests/api_intel_bb --run-subtest intel-bb-blit-none
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: intel-bb-blit-none
+Subtest intel-bb-blit-none: SUCCESS (2.638s)
+2022-11-16 08:51:34 build/tests/api_intel_bb --run-subtest intel-bb-blit-x
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: intel-bb-blit-x
+Subtest intel-bb-blit-x: SUCCESS (2.444s)
+2022-11-16 08:51:36 build/tests/api_intel_bb --run-subtest intel-bb-blit-y
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: intel-bb-blit-y
+Subtest intel-bb-blit-y: SUCCESS (2.453s)
+2022-11-16 08:51:39 build/tests/api_intel_bb --run-subtest lot-of-buffers
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: lot-of-buffers
+Subtest lot-of-buffers: SUCCESS (1.014s)
+2022-11-16 08:51:40 build/tests/api_intel_bb --run-subtest misplaced-blitter
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: misplaced-blitter
+Subtest misplaced-blitter: SUCCESS (0.002s)
+2022-11-16 08:51:40 build/tests/api_intel_bb --run-subtest object-noreloc-keep-cache-random
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: object-noreloc-keep-cache-random
+Subtest object-noreloc-keep-cache-random: SUCCESS (0.001s)
+2022-11-16 08:51:40 build/tests/api_intel_bb --run-subtest object-noreloc-keep-cache-simple
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: object-noreloc-keep-cache-simple
+Subtest object-noreloc-keep-cache-simple: SUCCESS (0.001s)
+2022-11-16 08:51:40 build/tests/api_intel_bb --run-subtest object-noreloc-purge-cache-random
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: object-noreloc-purge-cache-random
+Subtest object-noreloc-purge-cache-random: SUCCESS (0.002s)
+2022-11-16 08:51:40 build/tests/api_intel_bb --run-subtest object-noreloc-purge-cache-simple
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: object-noreloc-purge-cache-simple
+Subtest object-noreloc-purge-cache-simple: SUCCESS (0.001s)
+2022-11-16 08:51:41 build/tests/api_intel_bb --run-subtest object-reloc-keep-cache
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: object-reloc-keep-cache
+Subtest object-reloc-keep-cache: SUCCESS (0.002s)
+2022-11-16 08:51:41 build/tests/api_intel_bb --run-subtest object-reloc-purge-cache
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: object-reloc-purge-cache
+Subtest object-reloc-purge-cache: SUCCESS (0.002s)
+2022-11-16 08:51:41 build/tests/api_intel_bb --run-subtest offset-control
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: offset-control
+Subtest offset-control: SUCCESS (0.003s)
+2022-11-16 08:51:41 build/tests/api_intel_bb --run-subtest purge-bb
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: purge-bb
+Subtest purge-bb: SUCCESS (0.001s)
+2022-11-16 08:51:41 build/tests/api_intel_bb --run-subtest render
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: render
+Starting dynamic subtest: render-none-512
+Dynamic subtest render-none-512: SUCCESS (0.066s)
+Starting dynamic subtest: render-none-reloc-512
+Dynamic subtest render-none-reloc-512: SUCCESS (0.064s)
+Starting dynamic subtest: render-none-1024
+Dynamic subtest render-none-1024: SUCCESS (0.258s)
+Starting dynamic subtest: render-none-reloc-1024
+Dynamic subtest render-none-reloc-1024: SUCCESS (0.263s)
+Starting dynamic subtest: render-x-512
+Dynamic subtest render-x-512: SUCCESS (0.061s)
+Starting dynamic subtest: render-x-reloc-512
+Dynamic subtest render-x-reloc-512: SUCCESS (0.060s)
+Starting dynamic subtest: render-x-1024
+Dynamic subtest render-x-1024: SUCCESS (0.240s)
+Starting dynamic subtest: render-x-reloc-1024
+Dynamic subtest render-x-reloc-1024: SUCCESS (0.242s)
+Starting dynamic subtest: render-y-512
+Dynamic subtest render-y-512: SUCCESS (0.062s)
+Starting dynamic subtest: render-y-reloc-512
+Dynamic subtest render-y-reloc-512: SUCCESS (0.061s)
+Starting dynamic subtest: render-y-1024
+Dynamic subtest render-y-1024: SUCCESS (0.243s)
+Starting dynamic subtest: render-y-reloc-1024
+Dynamic subtest render-y-reloc-1024: SUCCESS (0.242s)
+Subtest render: SUCCESS (1.954s)
+2022-11-16 08:51:43 build/tests/api_intel_bb --run-subtest render-ccs
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: render-ccs
+Subtest render-ccs: SUCCESS (0.233s)
+2022-11-16 08:51:44 build/tests/api_intel_bb --run-subtest reset-bb
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: reset-bb
+Subtest reset-bb: SUCCESS (0.001s)
+2022-11-16 08:51:44 build/tests/api_intel_bb --run-subtest reset-flags
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: reset-flags
+Subtest reset-flags: SUCCESS (0.004s)
+2022-11-16 08:51:44 build/tests/api_intel_bb --run-subtest simple-bb
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: simple-bb
+Subtest simple-bb: SUCCESS (0.001s)
+2022-11-16 08:51:44 build/tests/api_intel_bb --run-subtest simple-bb-ctx
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: simple-bb-ctx
+Subtest simple-bb-ctx: SUCCESS (0.002s)
+2022-11-16 08:51:44 build/tests/gem_media_fill --run-subtest media-fill
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: media-fill
+Starting dynamic subtest: smem
+Dynamic subtest smem: SUCCESS (0.002s)
+Subtest media-fill: SUCCESS (0.009s)
+2022-11-16 08:51:45 build/tests/gem_render_tiled_blits --run-subtest aperture-shrink
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: aperture-shrink
+(gem_render_tiled_blits:1649) igt_os-WARNING: Insufficient free memory; /proc/meminfo:
+MemTotal:       13824280 kB
+MemFree:        10112012 kB
+MemAvailable:    9996624 kB
+Buffers:               0 kB
+Cached:          2726584 kB
+SwapCached:            0 kB
+Active:              280 kB
+Inactive:         211412 kB
+Active(anon):        280 kB
+Inactive(anon):   211124 kB
+Active(file):          0 kB
+Inactive(file):      288 kB
+Unevictable:     2724976 kB
+Mlocked:               0 kB
+SwapTotal:             0 kB
+SwapFree:              0 kB
+Zswap:                 0 kB
+Zswapped:              0 kB
+Dirty:                 0 kB
+Writeback:             0 kB
+AnonPages:        210196 kB
+Mapped:            28480 kB
+Shmem:              1444 kB
+KReclaimable:      85204 kB
+Slab:             586300 kB
+SReclaimable:      85204 kB
+SUnreclaim:       501096 kB
+KernelStack:       10336 kB
+PageTables:         2188 kB
+SecPageTables:	       0 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:     6912140 kB
+Committed_AS:     294500 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:       45868 kB
+VmallocChunk:          0 kB
+Percpu:             7200 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:     24576 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:         0 kB
+FilePmdMapped:         0 kB
+CmaTotal:              0 kB
+CmaFree:               0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+Hugetlb:               0 kB
+DirectMap4k:      781364 kB
+DirectMap2M:     8534016 kB
+DirectMap1G:    10485760 kBInsufficient free memory; /proc/slabinfo:
+slabinfo - version: 2.1
+# name            <active_objs> <num_objs> <objsize> <objperslab> <pagesperslab> : tunables <limit> <batchcount> <sharedfactor> : slabdata <active_slabs> <num_slabs> <sharedavail>
+btrfs_prelim_ref       0      0    120   34    1 : tunables    0    0    0 : slabdata      0      0      0
+btrfs_delayed_extent_op      0      0     48   85    1 : tunables    0    0    0 : slabdata      0      0      0
+btrfs_delayed_data_ref      0      0    176   46    2 : tunables    0    0    0 : slabdata      0      0      0
+btrfs_delayed_tree_ref      0      0    168   24    1 : tunables    0    0    0 : slabdata      0      0      0
+btrfs_delayed_ref_head      0      0    208   39    2 : tunables    0    0    0 : slabdata      0      0      0
+btrfs_inode_defrag      0      0     88   46    1 : tunables    0    0    0 : slabdata      0      0      0
+btrfs_delayed_node      0      0    384   42    4 : tunables    0    0    0 : slabdata      0      0      0
+btrfs_ordered_extent      0      0    504   32    4 : tunables    0    0    0 : slabdata      0      0      0
+btrfs_extent_map      39     39    208   39    2 : tunables    0    0    0 : slabdata      1      1      0
+bio-352               72     72    448   36    4 : tunables    0    0    0 : slabdata      2      2      0
+btrfs_extent_buffer     50     50    320   25    2 : tunables    0    0    0 : slabdata      2      2      0
+btrfs_extent_state     78     78    104   39    1 : tunables    0    0    0 : slabdata      2      2      0
+bio-216               25     25    320   25    2 : tunables    0    0    0 : slabdata      1      1      0
+btrfs_free_space_bitmap      0      0   8192    4    8 : tunables    0    0    0 : slabdata      0      0      0
+btrfs_free_space       0      0    168   24    1 : tunables    0    0    0 : slabdata      0      0      0
+btrfs_path           230    230    176   46    2 : tunables    0    0    0 : slabdata      5      5      0
+btrfs_trans_handle    360    360    168   24    1 : tunables    0    0    0 : slabdata     15     15      0
+btrfs_inode           75     75   1272   25    8 : tunables    0    0    0 : slabdata      3      3      0
+bio-120               42     42    192   42    2 : tunables    0    0    0 : slabdata      1      1      0
+sd_ext_cdb             0      0     48   85    1 : tunables    0    0    0 : slabdata      0      0      0
+i915_vma_resource   2184   2394    384   42    4 : tunables    0    0    0 : slabdata     57     57      0
+i915_vma            1428   1596    768   42    8 : tunables    0    0    0 : slabdata     38     38      0
+i915_priolist        960    960     64   64    1 : tunables    0    0    0 : slabdata     15     15      0
+i915_dependency        0      0    128   32    1 : tunables    0    0    0 : slabdata      0      0      0
+execute_cb             0      0    128   32    1 : tunables    0    0    0 : slabdata      0      0      0
+i915_request         585    585    832   39    8 : tunables    0    0    0 : slabdata     15     15      0
+drm_i915_gem_object   4351   4940   1216   26    8 : tunables    0    0    0 : slabdata    190    190      0
+i915_lut_handle     1615   2040     48   85    1 : tunables    0    0    0 : slabdata     24     24      0
+intel_context        576    576    896   36    8 : tunables    0    0    0 : slabdata     16     16      0
+active_node         2020   2176    128   32    1 : tunables    0    0    0 : slabdata     68     68      0
+kvm_async_pf           0      0    200   40    2 : tunables    0    0    0 : slabdata      0      0      0
+kvm_vcpu               0      0  10624    3    8 : tunables    0    0    0 : slabdata      0      0      0
+kvm_mmu_page_header      0      0    248   33    2 : tunables    0    0    0 : slabdata      0      0      0
+pte_list_desc          0      0    192   42    2 : tunables    0    0    0 : slabdata      0      0      0
+x86_emulator           0      0   2784   11    8 : tunables    0    0    0 : slabdata      0      0      0
+drm_buddy_block        0      0    104   39    1 : tunables    0    0    0 : slabdata      0      0      0
+scsi_sense_cache     224    224    128   32    1 : tunables    0    0    0 : slabdata      7      7      0
+fuse_request           0      0    208   39    2 : tunables    0    0    0 : slabdata      0      0      0
+fuse_inode             0      0    960   34    8 : tunables    0    0    0 : slabdata      0      0      0
+fscrypt_info           0      0    192   42    2 : tunables    0    0    0 : slabdata      0      0      0
+zswap_entry            0      0     96   42    1 : tunables    0    0    0 : slabdata      0      0      0
+p9_req_t               0      0    200   40    2 : tunables    0    0    0 : slabdata      0      0      0
+ip6-frags              0      0    248   33    2 : tunables    0    0    0 : slabdata      0      0      0
+fib6_nodes            96     96    128   32    1 : tunables    0    0    0 : slabdata      3      3      0
+ip6_dst_cache        150    150    320   25    2 : tunables    0    0    0 : slabdata      6      6      0
+ip6_mrt_cache          0      0    256   32    2 : tunables    0    0    0 : slabdata      0      0      0
+PINGv6                 0      0   1344   24    8 : tunables    0    0    0 : slabdata      0      0      0
+RAWv6                 48     48   1344   24    8 : tunables    0    0    0 : slabdata      2      2      0
+UDPLITEv6              0      0   1472   22    8 : tunables    0    0    0 : slabdata      0      0      0
+UDPv6                 88     88   1472   22    8 : tunables    0    0    0 : slabdata      4      4      0
+tw_sock_TCPv6          0      0    304   26    2 : tunables    0    0    0 : slabdata      0      0      0
+request_sock_TCPv6      0      0    368   44    4 : tunables    0    0    0 : slabdata      0      0      0
+TCPv6                 26     26   2496   13    8 : tunables    0    0    0 : slabdata      2      2      0
+uhci_urb_priv          0      0     88   46    1 : tunables    0    0    0 : slabdata      0      0      0
+io_kiocb               0      0    320   25    2 : tunables    0    0    0 : slabdata      0      0      0
+bfq_io_cq              0      0    296   27    2 : tunables    0    0    0 : slabdata      0      0      0
+bfq_queue              0      0    696   47    8 : tunables    0    0    0 : slabdata      0      0      0
+mqueue_inode_cache     30     30   1088   30    8 : tunables    0    0    0 : slabdata      1      1      0
+v9fs_inode_cache       0      0    840   39    8 : tunables    0    0    0 : slabdata      0      0      0
+nfs_direct_cache       0      0    288   28    2 : tunables    0    0    0 : slabdata      0      0      0
+nfs_commit_data       39     39    832   39    8 : tunables    0    0    0 : slabdata      1      1      0
+nfs_write_data        32     32   1024   32    8 : tunables    0    0    0 : slabdata      1      1      0
+nfs_read_data          0      0   1024   32    8 : tunables    0    0    0 : slabdata      0      0      0
+nfs_inode_cache        0      0   1184   27    8 : tunables    0    0    0 : slabdata      0      0      0
+nfs_page               0      0    128   32    1 : tunables    0    0    0 : slabdata      0      0      0
+jbd2_transaction_s      0      0    320   25    2 : tunables    0    0    0 : slabdata      0      0      0
+jbd2_inode             0      0     96   42    1 : tunables    0    0    0 : slabdata      0      0      0
+jbd2_journal_handle      0      0     88   46    1 : tunables    0    0    0 : slabdata      0      0      0
+jbd2_journal_head      0      0    176   46    2 : tunables    0    0    0 : slabdata      0      0      0
+jbd2_revoke_table_s      0      0     32  128    1 : tunables    0    0    0 : slabdata      0      0      0
+jbd2_revoke_record_s      0      0     64   64    1 : tunables    0    0    0 : slabdata      0      0      0
+ext4_fc_dentry_update      0      0    128   32    1 : tunables    0    0    0 : slabdata      0      0      0
+ext4_inode_cache       0      0   1304   25    8 : tunables    0    0    0 : slabdata      0      0      0
+ext4_free_data         0      0     88   46    1 : tunables    0    0    0 : slabdata      0      0      0
+ext4_allocation_context      0      0    200   40    2 : tunables    0    0    0 : slabdata      0      0      0
+ext4_prealloc_space      0      0    168   24    1 : tunables    0    0    0 : slabdata      0      0      0
+ext4_system_zone       0      0     56   73    1 : tunables    0    0    0 : slabdata      0      0      0
+ext4_io_end_vec        0      0     48   85    1 : tunables    0    0    0 : slabdata      0      0      0
+ext4_io_end            0      0     96   42    1 : tunables    0    0    0 : slabdata      0      0      0
+ext4_bio_post_read_ctx    128    128     64   64    1 : tunables    0    0    0 : slabdata      2      2      0
+ext4_pending_reservation      0      0     48   85    1 : tunables    0    0    0 : slabdata      0      0      0
+ext4_extent_status      0      0     56   73    1 : tunables    0    0    0 : slabdata      0      0      0
+mbcache                0      0     88   46    1 : tunables    0    0    0 : slabdata      0      0      0
+kioctx                 0      0    704   46    8 : tunables    0    0    0 : slabdata      0      0      0
+aio_kiocb              0      0    256   32    2 : tunables    0    0    0 : slabdata      0      0      0
+fanotify_perm_event      0      0    104   39    1 : tunables    0    0    0 : slabdata      0      0      0
+fanotify_path_event      0      0     96   42    1 : tunables    0    0    0 : slabdata      0      0      0
+fanotify_fid_event      0      0    104   39    1 : tunables    0    0    0 : slabdata      0      0      0
+fsnotify_mark          0      0    104   39    1 : tunables    0    0    0 : slabdata      0      0      0
+dnotify_mark           0      0    112   36    1 : tunables    0    0    0 : slabdata      0      0      0
+dnotify_struct         0      0     48   85    1 : tunables    0    0    0 : slabdata      0      0      0
+dio                    0      0    768   42    8 : tunables    0    0    0 : slabdata      0      0      0
+fasync_cache           0      0     64   64    1 : tunables    0    0    0 : slabdata      0      0      0
+audit_tree_mark        0      0    112   36    1 : tunables    0    0    0 : slabdata      0      0      0
+pid_namespace          0      0    200   40    2 : tunables    0    0    0 : slabdata      0      0      0
+posix_timers_cache      0      0    320   25    2 : tunables    0    0    0 : slabdata      0      0      0
+rpc_inode_cache       39     39    832   39    8 : tunables    0    0    0 : slabdata      1      1      0
+rpc_buffers           15     15   2176   15    8 : tunables    0    0    0 : slabdata      1      1      0
+rpc_tasks             25     25    320   25    2 : tunables    0    0    0 : slabdata      1      1      0
+UNIX-STREAM          676    676   1216   26    8 : tunables    0    0    0 : slabdata     26     26      0
+UNIX                 338    338   1216   26    8 : tunables    0    0    0 : slabdata     13     13      0
+ip4-frags              0      0    264   31    2 : tunables    0    0    0 : slabdata      0      0      0
+ip_mrt_cache           0      0    256   32    2 : tunables    0    0    0 : slabdata      0      0      0
+UDP-Lite               0      0   1280   25    8 : tunables    0    0    0 : slabdata      0      0      0
+tcp_bind2_bucket      96     96    128   32    1 : tunables    0    0    0 : slabdata      3      3      0
+tcp_bind_bucket       96     96    128   32    1 : tunables    0    0    0 : slabdata      3      3      0
+inet_peer_cache        0      0    256   32    2 : tunables    0    0    0 : slabdata      0      0      0
+xfrm_dst_cache         0      0    384   42    4 : tunables    0    0    0 : slabdata      0      0      0
+xfrm_state             0      0    896   36    8 : tunables    0    0    0 : slabdata      0      0      0
+ip_fib_trie          192    192     64   64    1 : tunables    0    0    0 : slabdata      3      3      0
+ip_fib_alias         138    138     88   46    1 : tunables    0    0    0 : slabdata      3      3      0
+ip_dst_cache         192    192    256   32    2 : tunables    0    0    0 : slabdata      6      6      0
+PING                   0      0   1152   28    8 : tunables    0    0    0 : slabdata      0      0      0
+RAW                   56     56   1152   28    8 : tunables    0    0    0 : slabdata      2      2      0
+UDP                  225    225   1280   25    8 : tunables    0    0    0 : slabdata      9      9      0
+tw_sock_TCP           26     26    304   26    2 : tunables    0    0    0 : slabdata      1      1      0
+request_sock_TCP       0      0    368   44    4 : tunables    0    0    0 : slabdata      0      0      0
+TCP                   52     52   2368   13    8 : tunables    0    0    0 : slabdata      4      4      0
+hugetlbfs_inode_cache     84     84    776   42    8 : tunables    0    0    0 : slabdata      2      2      0
+dquot                  0      0    320   25    2 : tunables    0    0    0 : slabdata      0      0      0
+bio-248               75     75    320   25    2 : tunables    0    0    0 : slabdata      3      3      0
+ep_head             2432   2432     32  128    1 : tunables    0    0    0 : slabdata     19     19      0
+eventpoll_pwq        882    882     96   42    1 : tunables    0    0    0 : slabdata     21     21      0
+eventpoll_epi        882    882    192   42    2 : tunables    0    0    0 : slabdata     21     21      0
+inotify_inode_mark    432    432    112   36    1 : tunables    0    0    0 : slabdata     12     12      0
+dax_cache             36     36    896   36    8 : tunables    0    0    0 : slabdata      1      1      0
+sgpool-128             7      7   4352    7    8 : tunables    0    0    0 : slabdata      1      1      0
+sgpool-64             45     45   2176   15    8 : tunables    0    0    0 : slabdata      3      3      0
+sgpool-32            140    140   1152   28    8 : tunables    0    0    0 : slabdata      5      5      0
+sgpool-16            150    150    640   25    4 : tunables    0    0    0 : slabdata      6      6      0
+sgpool-8             175    175    320   25    2 : tunables    0    0    0 : slabdata      7      7      0
+request_queue_srcu      0      0   1440   22    8 : tunables    0    0    0 : slabdata      0      0      0
+request_queue         31     31   1048   31    8 : tunables    0    0    0 : slabdata      1      1      0
+blkdev_ioc            34     34    120   34    1 : tunables    0    0    0 : slabdata      1      1      0
+bio-184              224    224    256   32    2 : tunables    0    0    0 : slabdata      7      7      0
+biovec-max            77     77   4352    7    8 : tunables    0    0    0 : slabdata     11     11      0
+biovec-128             0      0   2176   15    8 : tunables    0    0    0 : slabdata      0      0      0
+biovec-64            140    140   1152   28    8 : tunables    0    0    0 : slabdata      5      5      0
+biovec-16            125    125    320   25    2 : tunables    0    0    0 : slabdata      5      5      0
+bio_integrity_payload     32     32    256   32    2 : tunables    0    0    0 : slabdata      1      1      0
+khugepaged_mm_slot    690    690    176   46    2 : tunables    0    0    0 : slabdata     15     15      0
+ksm_mm_slot            0      0     64   64    1 : tunables    0    0    0 : slabdata      0      0      0
+ksm_stable_node        0      0     96   42    1 : tunables    0    0    0 : slabdata      0      0      0
+ksm_rmap_item          0      0     96   42    1 : tunables    0    0    0 : slabdata      0      0      0
+user_namespace         0      0    752   43    8 : tunables    0    0    0 : slabdata      0      0      0
+uid_cache             64     64    256   32    2 : tunables    0    0    0 : slabdata      2      2      0
+iommu_iova             0      0     64   64    1 : tunables    0    0    0 : slabdata      0      0      0
+dmaengine-unmap-256     14     14   2240   14    8 : tunables    0    0    0 : slabdata      1      1      0
+dmaengine-unmap-128     26     26   1216   26    8 : tunables    0    0    0 : slabdata      1      1      0
+dmaengine-unmap-16     32     32    256   32    2 : tunables    0    0    0 : slabdata      1      1      0
+dmaengine-unmap-2     64     64     64   64    1 : tunables    0    0    0 : slabdata      1      1      0
+audit_buffer         102    102     40  102    1 : tunables    0    0    0 : slabdata      1      1      0
+sock_inode_cache     864    864    896   36    8 : tunables    0    0    0 : slabdata     24     24      0
+skbuff_ext_cache       0      0    192   42    2 : tunables    0    0    0 : slabdata      0      0      0
+skbuff_fclone_cache     50     50    640   25    4 : tunables    0    0    0 : slabdata      2      2      0
+skbuff_head_cache   2300   2475    320   25    2 : tunables    0    0    0 : slabdata     99     99      0
+configfs_dir_cache     34     34    120   34    1 : tunables    0    0    0 : slabdata      1      1      0
+file_lock_cache      348    348    280   29    2 : tunables    0    0    0 : slabdata     12     12      0
+file_lock_ctx        322    322     88   46    1 : tunables    0    0    0 : slabdata      7      7      0
+fsnotify_mark_connector    935    935     48   85    1 : tunables    0    0    0 : slabdata     11     11      0
+buffer_head           72     72    168   24    1 : tunables    0    0    0 : slabdata      3      3      0
+x86_lbr                0      0    928   35    8 : tunables    0    0    0 : slabdata      0      0      0
+task_delay_info        0      0    192   42    2 : tunables    0    0    0 : slabdata      0      0      0
+taskstats            102    102    480   34    4 : tunables    0    0    0 : slabdata      3      3      0
+proc_dir_entry      1088   1088    256   32    2 : tunables    0    0    0 : slabdata     34     34      0
+pde_opener          1460   1460     56   73    1 : tunables    0    0    0 : slabdata     20     20      0
+proc_inode_cache    1560   1560    824   39    8 : tunables    0    0    0 : slabdata     40     40      0
+seq_file            3256   3476    184   44    2 : tunables    0    0    0 : slabdata     79     79      0
+sigqueue             972    972    112   36    1 : tunables    0    0    0 : slabdata     27     27      0
+bdev_cache            54     54   1728   18    8 : tunables    0    0    0 : slabdata      3      3      0
+shmem_inode_cache   2122   2268    896   36    8 : tunables    0    0    0 : slabdata     63     63      0
+kernfs_iattrs_cache    238    238    120   34    1 : tunables    0    0    0 : slabdata      7      7      0
+kernfs_node_cache  40822  41706    192   42    2 : tunables    0    0    0 : slabdata    993    993      0
+mnt_cache            672    672    384   42    4 : tunables    0    0    0 : slabdata     16     16      0
+filp               35592  36050    320   25    2 : tunables    0    0    0 : slabdata   1442   1442      0
+inode_cache        56996  57190    752   43    8 : tunables    0    0    0 : slabdata   1330   1330      0
+dentry             89828  89984    256   32    2 : tunables    0    0    0 : slabdata   2812   2812      0
+names_cache        37469  37730   4352    7    8 : tunables    0    0    0 : slabdata   5390   5390      0
+net_namespace          7      7   4544    7    8 : tunables    0    0    0 : slabdata      1      1      0
+iint_cache             0      0    176   46    2 : tunables    0    0    0 : slabdata      0      0      0
+key_jar              450    450    320   25    2 : tunables    0    0    0 : slabdata     18     18      0
+uts_namespace         66     66    496   33    4 : tunables    0    0    0 : slabdata      2      2      0
+nsproxy              117    117    104   39    1 : tunables    0    0    0 : slabdata      3      3      0
+vm_area_struct     47616  48555    208   39    2 : tunables    0    0    0 : slabdata   1245   1245      0
+mm_struct           1267   1326   1216   26    8 : tunables    0    0    0 : slabdata     51     51      0
+fs_cache            1248   1248    128   32    1 : tunables    0    0    0 : slabdata     39     39      0
+files_cache         1287   1287    832   39    8 : tunables    0    0    0 : slabdata     33     33      0
+signal_cache        1275   1275   1280   25    8 : tunables    0    0    0 : slabdata     51     51      0
+sighand_cache        602    602   2240   14    8 : tunables    0    0    0 : slabdata     43     43      0
+task_struct          816    831  10688    3    8 : tunables    0    0    0 : slabdata    277    277      0
+cred_jar            2876   2880    256   32    2 : tunables    0    0    0 : slabdata     90     90      0
+anon_vma_chain     23575  23898     96   42    1 : tunables    0    0    0 : slabdata    569    569      0
+anon_vma            3030   3030    136   30    1 : tunables    0    0    0 : slabdata    101    101      0
+pid                 1596   1596    192   42    2 : tunables    0    0    0 : slabdata     38     38      0
+Acpi-Operand       17079  31590    104   39    1 : tunables    0    0    0 : slabdata    810    810      0
+Acpi-ParseExt       2484   2484    112   36    1 : tunables    0    0    0 : slabdata     69     69      0
+Acpi-Parse          4355   4416     88   46    1 : tunables    0    0    0 : slabdata     96     96      0
+Acpi-State          3778   3888    112   36    1 : tunables    0    0    0 : slabdata    108    108      0
+Acpi-Namespace      8630   8768     64   64    1 : tunables    0    0    0 : slabdata    137    137      0
+shared_policy_node      0      0     64   64    1 : tunables    0    0    0 : slabdata      0      0      0
+numa_policy           24     24    336   24    2 : tunables    0    0    0 : slabdata      1      1      0
+perf_event           480    480   1360   24    8 : tunables    0    0    0 : slabdata     20     20      0
+trace_event_file    2108   2108    120   34    1 : tunables    0    0    0 : slabdata     62     62      0
+ftrace_event_field   5504   5504     64   64    1 : tunables    0    0    0 : slabdata     86     86      0
+pool_workqueue       416    416    512   32    4 : tunables    0    0    0 : slabdata     13     13      0
+maple_node        354156 356384    512   32    4 : tunables    0    0    0 : slabdata  11137  11137      0
+radix_tree_node    24242  24242    704   46    8 : tunables    0    0    0 : slabdata    527    527      0
+task_group           702    702    832   39    8 : tunables    0    0    0 : slabdata     18     18      0
+vmap_area           3318   3318     96   42    1 : tunables    0    0    0 : slabdata     79     79      0
+dma-kmalloc-8k         0      0  16384    2    8 : tunables    0    0    0 : slabdata      0      0      0
+dma-kmalloc-4k         0      0   8192    4    8 : tunables    0    0    0 : slabdata      0      0      0
+dma-kmalloc-2k         0      0   4096    8    8 : tunables    0    0    0 : slabdata      0      0      0
+dma-kmalloc-1k         0      0   2048   16    8 : tunables    0    0    0 : slabdata      0      0      0
+dma-kmalloc-512        0      0   1024   32    8 : tunables    0    0    0 : slabdata      0      0      0
+dma-kmalloc-256        0      0    512   32    4 : tunables    0    0    0 : slabdata      0      0      0
+dma-kmalloc-192        0      0    256   32    2 : tunables    0    0    0 : slabdata      0      0      0
+dma-kmalloc-128        0      0    256   32    2 : tunables    0    0    0 : slabdata      0      0      0
+dma-kmalloc-96         0      0    128   32    1 : tunables    0    0    0 : slabdata      0      0      0
+dma-kmalloc-64         0      0    128   32    1 : tunables    0    0    0 : slabdata      0      0      0
+dma-kmalloc-32         0      0     64   64    1 : tunables    0    0    0 : slabdata      0      0      0
+dma-kmalloc-16         0      0     32  128    1 : tunables    0    0    0 : slabdata      0      0      0
+dma-kmalloc-8          0      0     40  102    1 : tunables    0    0    0 : slabdata      0      0      0
+kmalloc-rcl-8k         0      0  16384    2    8 : tunables    0    0    0 : slabdata      0      0      0
+kmalloc-rcl-4k         0      0   8192    4    8 : tunables    0    0    0 : slabdata      0      0      0
+kmalloc-rcl-2k         0      0   4096    8    8 : tunables    0    0    0 : slabdata      0      0      0
+kmalloc-rcl-1k         0      0   2048   16    8 : tunables    0    0    0 : slabdata      0      0      0
+kmalloc-rcl-512        0      0   1024   32    8 : tunables    0    0    0 : slabdata      0      0      0
+kmalloc-rcl-256        0      0    512   32    4 : tunables    0    0    0 : slabdata      0      0      0
+kmalloc-rcl-192       32     32    256   32    2 : tunables    0    0    0 : slabdata      1      1      0
+kmalloc-rcl-128       64     64    256   32    2 : tunables    0    0    0 : slabdata      2      2      0
+kmalloc-rcl-96       544    544    128   32    1 : tunables    0    0    0 : slabdata     17     17      0
+kmalloc-rcl-64      2688   2688    128   32    1 : tunables    0    0    0 : slabdata     84     84      0
+kmalloc-rcl-32         0      0     64   64    1 : tunables    0    0    0 : slabdata      0      0      0
+kmalloc-rcl-16         0      0     32  128    1 : tunables    0    0    0 : slabdata      0      0      0
+kmalloc-rcl-8          0      0     40  102    1 : tunables    0    0    0 : slabdata      0      0      0
+kmalloc-cg-8k          4      4  16384    2    8 : tunables    0    0    0 : slabdata      2      2      0
+kmalloc-cg-4k        383    392   8192    4    8 : tunables    0    0    0 : slabdata     98     98      0
+kmalloc-cg-2k        408    408   4096    8    8 : tunables    0    0    0 : slabdata     51     51      0
+kmalloc-cg-1k        720    720   2048   16    8 : tunables    0    0    0 : slabdata     45     45      0
+kmalloc-cg-512      1216   1344   1024   32    8 : tunables    0    0    0 : slabdata     42     42      0
+kmalloc-cg-256       160    160    512   32    4 : tunables    0    0    0 : slabdata      5      5      0
+kmalloc-cg-192       800    800    256   32    2 : tunables    0    0    0 : slabdata     25     25      0
+kmalloc-cg-128       384    384    256   32    2 : tunables    0    0    0 : slabdata     12     12      0
+kmalloc-cg-96        320    320    128   32    1 : tunables    0    0    0 : slabdata     10     10      0
+kmalloc-cg-64        480    480    128   32    1 : tunables    0    0    0 : slabdata     15     15      0
+kmalloc-cg-32       1856   1856     64   64    1 : tunables    0    0    0 : slabdata     29     29      0
+kmalloc-cg-16       1280   1280     32  128    1 : tunables    0    0    0 : slabdata     10     10      0
+kmalloc-cg-8        1428   1428     40  102    1 : tunables    0    0    0 : slabdata     14     14      0
+kmalloc-8k           162    176  16384    2    8 : tunables    0    0    0 : slabdata     88     88      0
+kmalloc-4k          1656   1800   8192    4    8 : tunables    0    0    0 : slabdata    450    450      0
+kmalloc-2k          1510   2408   4096    8    8 : tunables    0    0    0 : slabdata    301    301      0
+kmalloc-1k          2206   3040   2048   16    8 : tunables    0    0    0 : slabdata    190    190      0
+kmalloc-512         6557   8480   1024   32    8 : tunables    0    0    0 : slabdata    265    265      0
+kmalloc-256         7570   8608    512   32    4 : tunables    0    0    0 : slabdata    269    269      0
+kmalloc-192         2892   4320    256   32    2 : tunables    0    0    0 : slabdata    135    135      0
+kmalloc-128         2508   2592    256   32    2 : tunables    0    0    0 : slabdata     81     81      0
+kmalloc-96          3953   6432    128   32    1 : tunables    0    0    0 : slabdata    201    201      0
+kmalloc-64         14502  26496    128   32    1 : tunables    0    0    0 : slabdata    828    828      0
+kmalloc-32         11803  19328     64   64    1 : tunables    0    0    0 : slabdata    302    302      0
+kmalloc-16         13701  16128     32  128    1 : tunables    0    0    0 : slabdata    126    126      0
+kmalloc-8           9978  22644     40  102    1 : tunables    0    0    0 : slabdata    222    222      0
+kmem_cache_node      672    672    128   32    1 : tunables    0    0    0 : slabdata     21     21      0
+kmem_cache           550    550    320   25    2 : tunables    0    0    0 : slabdata     22     22      0Test requirement not met in function igt_require_memory, file ../lib/igt_os.c:409:
+Test requirement: sufficient_memory
+Estimated that we need 402653184 objects and 405798912 MiB for the test, but only have 12425 MiB available (RAM) and a maximum of 9223372036854775807 objects
+Subtest aperture-shrink: SKIP (0.183s)
+gem_render_tiled_blits: ../lib/igt_core.c:2252: igt_exit: Assertion `waitpid(-1, &tmp, WNOHANG) == -1 && errno == ECHILD' failed.
+Received signal SIGABRT.
+Stack trace: 
+ #0 [igt_nsec_elapsed+0x315]
+ #1 [killpg+0x40]
+ #2 [gsignal+0x141]
+ #3 [abort+0x123]
+ #4 [<unknown>+0x123]
+ #5 [__assert_fail+0x42]
+ #6 [igt_exit+0x187]
+ #7 [main+0x2c]
+ #8 [__libc_start_main+0xea]
+ #9 [_start+0x2a]
+Aborted
+2022-11-16 08:51:45 build/tests/gem_render_tiled_blits --run-subtest aperture-thrash
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: aperture-thrash
+(gem_render_tiled_blits:1672) igt_os-WARNING: Insufficient free memory; /proc/meminfo:
+MemTotal:       13824280 kB
+MemFree:        10108496 kB
+MemAvailable:    9993108 kB
+Buffers:               0 kB
+Cached:          2726708 kB
+SwapCached:            0 kB
+Active:              288 kB
+Inactive:         211672 kB
+Active(anon):        288 kB
+Inactive(anon):   211384 kB
+Active(file):          0 kB
+Inactive(file):      288 kB
+Unevictable:     2724976 kB
+Mlocked:               0 kB
+SwapTotal:             0 kB
+SwapFree:              0 kB
+Zswap:                 0 kB
+Zswapped:              0 kB
+Dirty:                 0 kB
+Writeback:             0 kB
+AnonPages:        210492 kB
+Mapped:            28156 kB
+Shmem:              1568 kB
+KReclaimable:      85204 kB
+Slab:             583012 kB
+SReclaimable:      85204 kB
+SUnreclaim:       497808 kB
+KernelStack:       10368 kB
+PageTables:         2216 kB
+SecPageTables:	       0 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:     6912140 kB
+Committed_AS:     291220 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:       45996 kB
+VmallocChunk:          0 kB
+Percpu:             7200 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:     24576 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:         0 kB
+FilePmdMapped:         0 kB
+CmaTotal:              0 kB
+CmaFree:               0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+Hugetlb:               0 kB
+DirectMap4k:      781364 kB
+DirectMap2M:     8534016 kB
+DirectMap1G:    10485760 kBInsufficient free memory; /proc/slabinfo:
+slabinfo - version: 2.1
+# name            <active_objs> <num_objs> <objsize> <objperslab> <pagesperslab> : tunables <limit> <batchcount> <sharedfactor> : slabdata <active_slabs> <num_slabs> <sharedavail>
+btrfs_prelim_ref       0      0    120   34    1 : tunables    0    0    0 : slabdata      0      0      0
+btrfs_delayed_extent_op      0      0     48   85    1 : tunables    0    0    0 : slabdata      0      0      0
+btrfs_delayed_data_ref      0      0    176   46    2 : tunables    0    0    0 : slabdata      0      0      0
+btrfs_delayed_tree_ref      0      0    168   24    1 : tunables    0    0    0 : slabdata      0      0      0
+btrfs_delayed_ref_head      0      0    208   39    2 : tunables    0    0    0 : slabdata      0      0      0
+btrfs_inode_defrag      0      0     88   46    1 : tunables    0    0    0 : slabdata      0      0      0
+btrfs_delayed_node      0      0    384   42    4 : tunables    0    0    0 : slabdata      0      0      0
+btrfs_ordered_extent      0      0    504   32    4 : tunables    0    0    0 : slabdata      0      0      0
+btrfs_extent_map      39     39    208   39    2 : tunables    0    0    0 : slabdata      1      1      0
+bio-352               72     72    448   36    4 : tunables    0    0    0 : slabdata      2      2      0
+btrfs_extent_buffer     50     50    320   25    2 : tunables    0    0    0 : slabdata      2      2      0
+btrfs_extent_state     78     78    104   39    1 : tunables    0    0    0 : slabdata      2      2      0
+bio-216               25     25    320   25    2 : tunables    0    0    0 : slabdata      1      1      0
+btrfs_free_space_bitmap      0      0   8192    4    8 : tunables    0    0    0 : slabdata      0      0      0
+btrfs_free_space       0      0    168   24    1 : tunables    0    0    0 : slabdata      0      0      0
+btrfs_path           230    230    176   46    2 : tunables    0    0    0 : slabdata      5      5      0
+btrfs_trans_handle    360    360    168   24    1 : tunables    0    0    0 : slabdata     15     15      0
+btrfs_inode           75     75   1272   25    8 : tunables    0    0    0 : slabdata      3      3      0
+bio-120               42     42    192   42    2 : tunables    0    0    0 : slabdata      1      1      0
+sd_ext_cdb             0      0     48   85    1 : tunables    0    0    0 : slabdata      0      0      0
+i915_vma_resource   2183   2352    384   42    4 : tunables    0    0    0 : slabdata     56     56      0
+i915_vma            1428   1596    768   42    8 : tunables    0    0    0 : slabdata     38     38      0
+i915_priolist        960    960     64   64    1 : tunables    0    0    0 : slabdata     15     15      0
+i915_dependency        0      0    128   32    1 : tunables    0    0    0 : slabdata      0      0      0
+execute_cb             0      0    128   32    1 : tunables    0    0    0 : slabdata      0      0      0
+i915_request         585    585    832   39    8 : tunables    0    0    0 : slabdata     15     15      0
+drm_i915_gem_object   4035   4602   1216   26    8 : tunables    0    0    0 : slabdata    177    177      0
+i915_lut_handle     1615   2040     48   85    1 : tunables    0    0    0 : slabdata     24     24      0
+intel_context        576    576    896   36    8 : tunables    0    0    0 : slabdata     16     16      0
+active_node         2020   2176    128   32    1 : tunables    0    0    0 : slabdata     68     68      0
+kvm_async_pf           0      0    200   40    2 : tunables    0    0    0 : slabdata      0      0      0
+kvm_vcpu               0      0  10624    3    8 : tunables    0    0    0 : slabdata      0      0      0
+kvm_mmu_page_header      0      0    248   33    2 : tunables    0    0    0 : slabdata      0      0      0
+pte_list_desc          0      0    192   42    2 : tunables    0    0    0 : slabdata      0      0      0
+x86_emulator           0      0   2784   11    8 : tunables    0    0    0 : slabdata      0      0      0
+drm_buddy_block        0      0    104   39    1 : tunables    0    0    0 : slabdata      0      0      0
+scsi_sense_cache     224    224    128   32    1 : tunables    0    0    0 : slabdata      7      7      0
+fuse_request           0      0    208   39    2 : tunables    0    0    0 : slabdata      0      0      0
+fuse_inode             0      0    960   34    8 : tunables    0    0    0 : slabdata      0      0      0
+fscrypt_info           0      0    192   42    2 : tunables    0    0    0 : slabdata      0      0      0
+zswap_entry            0      0     96   42    1 : tunables    0    0    0 : slabdata      0      0      0
+p9_req_t               0      0    200   40    2 : tunables    0    0    0 : slabdata      0      0      0
+ip6-frags              0      0    248   33    2 : tunables    0    0    0 : slabdata      0      0      0
+fib6_nodes            96     96    128   32    1 : tunables    0    0    0 : slabdata      3      3      0
+ip6_dst_cache        150    150    320   25    2 : tunables    0    0    0 : slabdata      6      6      0
+ip6_mrt_cache          0      0    256   32    2 : tunables    0    0    0 : slabdata      0      0      0
+PINGv6                 0      0   1344   24    8 : tunables    0    0    0 : slabdata      0      0      0
+RAWv6                 48     48   1344   24    8 : tunables    0    0    0 : slabdata      2      2      0
+UDPLITEv6              0      0   1472   22    8 : tunables    0    0    0 : slabdata      0      0      0
+UDPv6                 88     88   1472   22    8 : tunables    0    0    0 : slabdata      4      4      0
+tw_sock_TCPv6          0      0    304   26    2 : tunables    0    0    0 : slabdata      0      0      0
+request_sock_TCPv6      0      0    368   44    4 : tunables    0    0    0 : slabdata      0      0      0
+TCPv6                 26     26   2496   13    8 : tunables    0    0    0 : slabdata      2      2      0
+uhci_urb_priv          0      0     88   46    1 : tunables    0    0    0 : slabdata      0      0      0
+io_kiocb               0      0    320   25    2 : tunables    0    0    0 : slabdata      0      0      0
+bfq_io_cq              0      0    296   27    2 : tunables    0    0    0 : slabdata      0      0      0
+bfq_queue              0      0    696   47    8 : tunables    0    0    0 : slabdata      0      0      0
+mqueue_inode_cache     30     30   1088   30    8 : tunables    0    0    0 : slabdata      1      1      0
+v9fs_inode_cache       0      0    840   39    8 : tunables    0    0    0 : slabdata      0      0      0
+nfs_direct_cache       0      0    288   28    2 : tunables    0    0    0 : slabdata      0      0      0
+nfs_commit_data       39     39    832   39    8 : tunables    0    0    0 : slabdata      1      1      0
+nfs_write_data        32     32   1024   32    8 : tunables    0    0    0 : slabdata      1      1      0
+nfs_read_data          0      0   1024   32    8 : tunables    0    0    0 : slabdata      0      0      0
+nfs_inode_cache        0      0   1184   27    8 : tunables    0    0    0 : slabdata      0      0      0
+nfs_page               0      0    128   32    1 : tunables    0    0    0 : slabdata      0      0      0
+jbd2_transaction_s      0      0    320   25    2 : tunables    0    0    0 : slabdata      0      0      0
+jbd2_inode             0      0     96   42    1 : tunables    0    0    0 : slabdata      0      0      0
+jbd2_journal_handle      0      0     88   46    1 : tunables    0    0    0 : slabdata      0      0      0
+jbd2_journal_head      0      0    176   46    2 : tunables    0    0    0 : slabdata      0      0      0
+jbd2_revoke_table_s      0      0     32  128    1 : tunables    0    0    0 : slabdata      0      0      0
+jbd2_revoke_record_s      0      0     64   64    1 : tunables    0    0    0 : slabdata      0      0      0
+ext4_fc_dentry_update      0      0    128   32    1 : tunables    0    0    0 : slabdata      0      0      0
+ext4_inode_cache       0      0   1304   25    8 : tunables    0    0    0 : slabdata      0      0      0
+ext4_free_data         0      0     88   46    1 : tunables    0    0    0 : slabdata      0      0      0
+ext4_allocation_context      0      0    200   40    2 : tunables    0    0    0 : slabdata      0      0      0
+ext4_prealloc_space      0      0    168   24    1 : tunables    0    0    0 : slabdata      0      0      0
+ext4_system_zone       0      0     56   73    1 : tunables    0    0    0 : slabdata      0      0      0
+ext4_io_end_vec        0      0     48   85    1 : tunables    0    0    0 : slabdata      0      0      0
+ext4_io_end            0      0     96   42    1 : tunables    0    0    0 : slabdata      0      0      0
+ext4_bio_post_read_ctx    128    128     64   64    1 : tunables    0    0    0 : slabdata      2      2      0
+ext4_pending_reservation      0      0     48   85    1 : tunables    0    0    0 : slabdata      0      0      0
+ext4_extent_status      0      0     56   73    1 : tunables    0    0    0 : slabdata      0      0      0
+mbcache                0      0     88   46    1 : tunables    0    0    0 : slabdata      0      0      0
+kioctx                 0      0    704   46    8 : tunables    0    0    0 : slabdata      0      0      0
+aio_kiocb              0      0    256   32    2 : tunables    0    0    0 : slabdata      0      0      0
+fanotify_perm_event      0      0    104   39    1 : tunables    0    0    0 : slabdata      0      0      0
+fanotify_path_event      0      0     96   42    1 : tunables    0    0    0 : slabdata      0      0      0
+fanotify_fid_event      0      0    104   39    1 : tunables    0    0    0 : slabdata      0      0      0
+fsnotify_mark          0      0    104   39    1 : tunables    0    0    0 : slabdata      0      0      0
+dnotify_mark           0      0    112   36    1 : tunables    0    0    0 : slabdata      0      0      0
+dnotify_struct         0      0     48   85    1 : tunables    0    0    0 : slabdata      0      0      0
+dio                    0      0    768   42    8 : tunables    0    0    0 : slabdata      0      0      0
+fasync_cache           0      0     64   64    1 : tunables    0    0    0 : slabdata      0      0      0
+audit_tree_mark        0      0    112   36    1 : tunables    0    0    0 : slabdata      0      0      0
+pid_namespace          0      0    200   40    2 : tunables    0    0    0 : slabdata      0      0      0
+posix_timers_cache      0      0    320   25    2 : tunables    0    0    0 : slabdata      0      0      0
+rpc_inode_cache       39     39    832   39    8 : tunables    0    0    0 : slabdata      1      1      0
+rpc_buffers           15     15   2176   15    8 : tunables    0    0    0 : slabdata      1      1      0
+rpc_tasks             25     25    320   25    2 : tunables    0    0    0 : slabdata      1      1      0
+UNIX-STREAM          676    676   1216   26    8 : tunables    0    0    0 : slabdata     26     26      0
+UNIX                 338    338   1216   26    8 : tunables    0    0    0 : slabdata     13     13      0
+ip4-frags              0      0    264   31    2 : tunables    0    0    0 : slabdata      0      0      0
+ip_mrt_cache           0      0    256   32    2 : tunables    0    0    0 : slabdata      0      0      0
+UDP-Lite               0      0   1280   25    8 : tunables    0    0    0 : slabdata      0      0      0
+tcp_bind2_bucket      96     96    128   32    1 : tunables    0    0    0 : slabdata      3      3      0
+tcp_bind_bucket       96     96    128   32    1 : tunables    0    0    0 : slabdata      3      3      0
+inet_peer_cache        0      0    256   32    2 : tunables    0    0    0 : slabdata      0      0      0
+xfrm_dst_cache         0      0    384   42    4 : tunables    0    0    0 : slabdata      0      0      0
+xfrm_state             0      0    896   36    8 : tunables    0    0    0 : slabdata      0      0      0
+ip_fib_trie          192    192     64   64    1 : tunables    0    0    0 : slabdata      3      3      0
+ip_fib_alias         138    138     88   46    1 : tunables    0    0    0 : slabdata      3      3      0
+ip_dst_cache         192    192    256   32    2 : tunables    0    0    0 : slabdata      6      6      0
+PING                   0      0   1152   28    8 : tunables    0    0    0 : slabdata      0      0      0
+RAW                   56     56   1152   28    8 : tunables    0    0    0 : slabdata      2      2      0
+UDP                  225    225   1280   25    8 : tunables    0    0    0 : slabdata      9      9      0
+tw_sock_TCP           26     26    304   26    2 : tunables    0    0    0 : slabdata      1      1      0
+request_sock_TCP       0      0    368   44    4 : tunables    0    0    0 : slabdata      0      0      0
+TCP                   52     52   2368   13    8 : tunables    0    0    0 : slabdata      4      4      0
+hugetlbfs_inode_cache     84     84    776   42    8 : tunables    0    0    0 : slabdata      2      2      0
+dquot                  0      0    320   25    2 : tunables    0    0    0 : slabdata      0      0      0
+bio-248               75     75    320   25    2 : tunables    0    0    0 : slabdata      3      3      0
+ep_head             2432   2432     32  128    1 : tunables    0    0    0 : slabdata     19     19      0
+eventpoll_pwq        882    882     96   42    1 : tunables    0    0    0 : slabdata     21     21      0
+eventpoll_epi        882    882    192   42    2 : tunables    0    0    0 : slabdata     21     21      0
+inotify_inode_mark    432    432    112   36    1 : tunables    0    0    0 : slabdata     12     12      0
+dax_cache             36     36    896   36    8 : tunables    0    0    0 : slabdata      1      1      0
+sgpool-128             7      7   4352    7    8 : tunables    0    0    0 : slabdata      1      1      0
+sgpool-64             45     45   2176   15    8 : tunables    0    0    0 : slabdata      3      3      0
+sgpool-32            140    140   1152   28    8 : tunables    0    0    0 : slabdata      5      5      0
+sgpool-16            150    150    640   25    4 : tunables    0    0    0 : slabdata      6      6      0
+sgpool-8             175    175    320   25    2 : tunables    0    0    0 : slabdata      7      7      0
+request_queue_srcu      0      0   1440   22    8 : tunables    0    0    0 : slabdata      0      0      0
+request_queue         31     31   1048   31    8 : tunables    0    0    0 : slabdata      1      1      0
+blkdev_ioc            34     34    120   34    1 : tunables    0    0    0 : slabdata      1      1      0
+bio-184              224    224    256   32    2 : tunables    0    0    0 : slabdata      7      7      0
+biovec-max            77     77   4352    7    8 : tunables    0    0    0 : slabdata     11     11      0
+biovec-128             0      0   2176   15    8 : tunables    0    0    0 : slabdata      0      0      0
+biovec-64            140    140   1152   28    8 : tunables    0    0    0 : slabdata      5      5      0
+biovec-16            125    125    320   25    2 : tunables    0    0    0 : slabdata      5      5      0
+bio_integrity_payload     32     32    256   32    2 : tunables    0    0    0 : slabdata      1      1      0
+khugepaged_mm_slot    690    690    176   46    2 : tunables    0    0    0 : slabdata     15     15      0
+ksm_mm_slot            0      0     64   64    1 : tunables    0    0    0 : slabdata      0      0      0
+ksm_stable_node        0      0     96   42    1 : tunables    0    0    0 : slabdata      0      0      0
+ksm_rmap_item          0      0     96   42    1 : tunables    0    0    0 : slabdata      0      0      0
+user_namespace         0      0    752   43    8 : tunables    0    0    0 : slabdata      0      0      0
+uid_cache             64     64    256   32    2 : tunables    0    0    0 : slabdata      2      2      0
+iommu_iova             0      0     64   64    1 : tunables    0    0    0 : slabdata      0      0      0
+dmaengine-unmap-256     14     14   2240   14    8 : tunables    0    0    0 : slabdata      1      1      0
+dmaengine-unmap-128     26     26   1216   26    8 : tunables    0    0    0 : slabdata      1      1      0
+dmaengine-unmap-16     32     32    256   32    2 : tunables    0    0    0 : slabdata      1      1      0
+dmaengine-unmap-2     64     64     64   64    1 : tunables    0    0    0 : slabdata      1      1      0
+audit_buffer         102    102     40  102    1 : tunables    0    0    0 : slabdata      1      1      0
+sock_inode_cache     864    864    896   36    8 : tunables    0    0    0 : slabdata     24     24      0
+skbuff_ext_cache       0      0    192   42    2 : tunables    0    0    0 : slabdata      0      0      0
+skbuff_fclone_cache     50     50    640   25    4 : tunables    0    0    0 : slabdata      2      2      0
+skbuff_head_cache   2380   2475    320   25    2 : tunables    0    0    0 : slabdata     99     99      0
+configfs_dir_cache     34     34    120   34    1 : tunables    0    0    0 : slabdata      1      1      0
+file_lock_cache      348    348    280   29    2 : tunables    0    0    0 : slabdata     12     12      0
+file_lock_ctx        322    322     88   46    1 : tunables    0    0    0 : slabdata      7      7      0
+fsnotify_mark_connector    935    935     48   85    1 : tunables    0    0    0 : slabdata     11     11      0
+buffer_head           72     72    168   24    1 : tunables    0    0    0 : slabdata      3      3      0
+x86_lbr                0      0    928   35    8 : tunables    0    0    0 : slabdata      0      0      0
+task_delay_info        0      0    192   42    2 : tunables    0    0    0 : slabdata      0      0      0
+taskstats            102    102    480   34    4 : tunables    0    0    0 : slabdata      3      3      0
+proc_dir_entry      1088   1088    256   32    2 : tunables    0    0    0 : slabdata     34     34      0
+pde_opener          1460   1460     56   73    1 : tunables    0    0    0 : slabdata     20     20      0
+proc_inode_cache    1560   1560    824   39    8 : tunables    0    0    0 : slabdata     40     40      0
+seq_file            3256   3476    184   44    2 : tunables    0    0    0 : slabdata     79     79      0
+sigqueue            1008   1008    112   36    1 : tunables    0    0    0 : slabdata     28     28      0
+bdev_cache            54     54   1728   18    8 : tunables    0    0    0 : slabdata      3      3      0
+shmem_inode_cache   2122   2268    896   36    8 : tunables    0    0    0 : slabdata     63     63      0
+kernfs_iattrs_cache    238    238    120   34    1 : tunables    0    0    0 : slabdata      7      7      0
+kernfs_node_cache  40822  41706    192   42    2 : tunables    0    0    0 : slabdata    993    993      0
+mnt_cache            672    672    384   42    4 : tunables    0    0    0 : slabdata     16     16      0
+filp               36240  36325    320   25    2 : tunables    0    0    0 : slabdata   1453   1453      0
+inode_cache        56997  57190    752   43    8 : tunables    0    0    0 : slabdata   1330   1330      0
+dentry             90046  90432    256   32    2 : tunables    0    0    0 : slabdata   2826   2826      0
+names_cache        37429  37429   4352    7    8 : tunables    0    0    0 : slabdata   5347   5347      0
+net_namespace          7      7   4544    7    8 : tunables    0    0    0 : slabdata      1      1      0
+iint_cache             0      0    176   46    2 : tunables    0    0    0 : slabdata      0      0      0
+key_jar              450    450    320   25    2 : tunables    0    0    0 : slabdata     18     18      0
+uts_namespace         66     66    496   33    4 : tunables    0    0    0 : slabdata      2      2      0
+nsproxy              117    117    104   39    1 : tunables    0    0    0 : slabdata      3      3      0
+vm_area_struct     47979  48477    208   39    2 : tunables    0    0    0 : slabdata   1243   1243      0
+mm_struct           1311   1326   1216   26    8 : tunables    0    0    0 : slabdata     51     51      0
+fs_cache            1248   1248    128   32    1 : tunables    0    0    0 : slabdata     39     39      0
+files_cache         1287   1287    832   39    8 : tunables    0    0    0 : slabdata     33     33      0
+signal_cache        1300   1300   1280   25    8 : tunables    0    0    0 : slabdata     52     52      0
+sighand_cache        602    602   2240   14    8 : tunables    0    0    0 : slabdata     43     43      0
+task_struct          810    831  10688    3    8 : tunables    0    0    0 : slabdata    277    277      0
+cred_jar            2804   2880    256   32    2 : tunables    0    0    0 : slabdata     90     90      0
+anon_vma_chain     23810  23940     96   42    1 : tunables    0    0    0 : slabdata    570    570      0
+anon_vma            2985   3000    136   30    1 : tunables    0    0    0 : slabdata    100    100      0
+pid                 1596   1596    192   42    2 : tunables    0    0    0 : slabdata     38     38      0
+Acpi-Operand       17384  31590    104   39    1 : tunables    0    0    0 : slabdata    810    810      0
+Acpi-ParseExt       2484   2484    112   36    1 : tunables    0    0    0 : slabdata     69     69      0
+Acpi-Parse          4646   4646     88   46    1 : tunables    0    0    0 : slabdata    101    101      0
+Acpi-State          4140   4140    112   36    1 : tunables    0    0    0 : slabdata    115    115      0
+Acpi-Namespace      8630   8768     64   64    1 : tunables    0    0    0 : slabdata    137    137      0
+shared_policy_node      0      0     64   64    1 : tunables    0    0    0 : slabdata      0      0      0
+numa_policy           24     24    336   24    2 : tunables    0    0    0 : slabdata      1      1      0
+perf_event           480    480   1360   24    8 : tunables    0    0    0 : slabdata     20     20      0
+trace_event_file    2108   2108    120   34    1 : tunables    0    0    0 : slabdata     62     62      0
+ftrace_event_field   5504   5504     64   64    1 : tunables    0    0    0 : slabdata     86     86      0
+pool_workqueue       416    416    512   32    4 : tunables    0    0    0 : slabdata     13     13      0
+maple_node        353113 354240    512   32    4 : tunables    0    0    0 : slabdata  11070  11070      0
+radix_tree_node    24242  24242    704   46    8 : tunables    0    0    0 : slabdata    527    527      0
+task_group           702    702    832   39    8 : tunables    0    0    0 : slabdata     18     18      0
+vmap_area           3318   3318     96   42    1 : tunables    0    0    0 : slabdata     79     79      0
+dma-kmalloc-8k         0      0  16384    2    8 : tunables    0    0    0 : slabdata      0      0      0
+dma-kmalloc-4k         0      0   8192    4    8 : tunables    0    0    0 : slabdata      0      0      0
+dma-kmalloc-2k         0      0   4096    8    8 : tunables    0    0    0 : slabdata      0      0      0
+dma-kmalloc-1k         0      0   2048   16    8 : tunables    0    0    0 : slabdata      0      0      0
+dma-kmalloc-512        0      0   1024   32    8 : tunables    0    0    0 : slabdata      0      0      0
+dma-kmalloc-256        0      0    512   32    4 : tunables    0    0    0 : slabdata      0      0      0
+dma-kmalloc-192        0      0    256   32    2 : tunables    0    0    0 : slabdata      0      0      0
+dma-kmalloc-128        0      0    256   32    2 : tunables    0    0    0 : slabdata      0      0      0
+dma-kmalloc-96         0      0    128   32    1 : tunables    0    0    0 : slabdata      0      0      0
+dma-kmalloc-64         0      0    128   32    1 : tunables    0    0    0 : slabdata      0      0      0
+dma-kmalloc-32         0      0     64   64    1 : tunables    0    0    0 : slabdata      0      0      0
+dma-kmalloc-16         0      0     32  128    1 : tunables    0    0    0 : slabdata      0      0      0
+dma-kmalloc-8          0      0     40  102    1 : tunables    0    0    0 : slabdata      0      0      0
+kmalloc-rcl-8k         0      0  16384    2    8 : tunables    0    0    0 : slabdata      0      0      0
+kmalloc-rcl-4k         0      0   8192    4    8 : tunables    0    0    0 : slabdata      0      0      0
+kmalloc-rcl-2k         0      0   4096    8    8 : tunables    0    0    0 : slabdata      0      0      0
+kmalloc-rcl-1k         0      0   2048   16    8 : tunables    0    0    0 : slabdata      0      0      0
+kmalloc-rcl-512        0      0   1024   32    8 : tunables    0    0    0 : slabdata      0      0      0
+kmalloc-rcl-256        0      0    512   32    4 : tunables    0    0    0 : slabdata      0      0      0
+kmalloc-rcl-192       32     32    256   32    2 : tunables    0    0    0 : slabdata      1      1      0
+kmalloc-rcl-128       64     64    256   32    2 : tunables    0    0    0 : slabdata      2      2      0
+kmalloc-rcl-96       544    544    128   32    1 : tunables    0    0    0 : slabdata     17     17      0
+kmalloc-rcl-64      2688   2688    128   32    1 : tunables    0    0    0 : slabdata     84     84      0
+kmalloc-rcl-32         0      0     64   64    1 : tunables    0    0    0 : slabdata      0      0      0
+kmalloc-rcl-16         0      0     32  128    1 : tunables    0    0    0 : slabdata      0      0      0
+kmalloc-rcl-8          0      0     40  102    1 : tunables    0    0    0 : slabdata      0      0      0
+kmalloc-cg-8k          4      4  16384    2    8 : tunables    0    0    0 : slabdata      2      2      0
+kmalloc-cg-4k        416    416   8192    4    8 : tunables    0    0    0 : slabdata    104    104      0
+kmalloc-cg-2k        416    416   4096    8    8 : tunables    0    0    0 : slabdata     52     52      0
+kmalloc-cg-1k        720    720   2048   16    8 : tunables    0    0    0 : slabdata     45     45      0
+kmalloc-cg-512      1216   1344   1024   32    8 : tunables    0    0    0 : slabdata     42     42      0
+kmalloc-cg-256       160    160    512   32    4 : tunables    0    0    0 : slabdata      5      5      0
+kmalloc-cg-192       800    800    256   32    2 : tunables    0    0    0 : slabdata     25     25      0
+kmalloc-cg-128       384    384    256   32    2 : tunables    0    0    0 : slabdata     12     12      0
+kmalloc-cg-96        352    352    128   32    1 : tunables    0    0    0 : slabdata     11     11      0
+kmalloc-cg-64        480    480    128   32    1 : tunables    0    0    0 : slabdata     15     15      0
+kmalloc-cg-32       1920   1920     64   64    1 : tunables    0    0    0 : slabdata     30     30      0
+kmalloc-cg-16       1280   1280     32  128    1 : tunables    0    0    0 : slabdata     10     10      0
+kmalloc-cg-8        1428   1428     40  102    1 : tunables    0    0    0 : slabdata     14     14      0
+kmalloc-8k           162    176  16384    2    8 : tunables    0    0    0 : slabdata     88     88      0
+kmalloc-4k          1616   1744   8192    4    8 : tunables    0    0    0 : slabdata    436    436      0
+kmalloc-2k          1522   2408   4096    8    8 : tunables    0    0    0 : slabdata    301    301      0
+kmalloc-1k          2180   3024   2048   16    8 : tunables    0    0    0 : slabdata    189    189      0
+kmalloc-512         6468   8480   1024   32    8 : tunables    0    0    0 : slabdata    265    265      0
+kmalloc-256         7438   8576    512   32    4 : tunables    0    0    0 : slabdata    268    268      0
+kmalloc-192         2892   4320    256   32    2 : tunables    0    0    0 : slabdata    135    135      0
+kmalloc-128         2508   2592    256   32    2 : tunables    0    0    0 : slabdata     81     81      0
+kmalloc-96          3953   6432    128   32    1 : tunables    0    0    0 : slabdata    201    201      0
+kmalloc-64         14433  26496    128   32    1 : tunables    0    0    0 : slabdata    828    828      0
+kmalloc-32         11744  19328     64   64    1 : tunables    0    0    0 : slabdata    302    302      0
+kmalloc-16         13701  16128     32  128    1 : tunables    0    0    0 : slabdata    126    126      0
+kmalloc-8           9978  22644     40  102    1 : tunables    0    0    0 : slabdata    222    222      0
+kmem_cache_node      672    672    128   32    1 : tunables    0    0    0 : slabdata     21     21      0
+kmem_cache           550    550    320   25    2 : tunables    0    0    0 : slabdata     22     22      0Test requirement not met in function igt_require_memory, file ../lib/igt_os.c:409:
+Test requirement: sufficient_memory
+Estimated that we need 402653184 objects and 405798912 MiB for the test, but only have 12421 MiB available (RAM) and a maximum of 9223372036854775807 objects
+Subtest aperture-thrash: SKIP (0.141s)
+2022-11-16 08:51:45 build/tests/gem_render_tiled_blits --run-subtest basic
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: basic
+Using a snoop linear buffer for comparisons
+Verifying initialisation...
+Cyclic blits, forward...
+Cyclic blits, backward...
+Random blits...
+Subtest basic: SUCCESS (0.012s)
+2022-11-16 08:51:45 build/tests/gem_render_tiled_blits --run-subtest swap-thrash
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: swap-thrash
+Test requirement not met in function __igt_unique____real_main201, file ../tests/i915/gem_render_tiled_blits.c:240:
+Test requirement: swap_mb > 0
+Subtest swap-thrash: SKIP (0.000s)
+2022-11-16 08:51:46 build/tests/gem_ringfill --run-subtest basic-all
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function drm_open_driver, file ../lib/drmtest.c:572:
+Test requirement: !(fd<0)
+No known gpu found for chipset flags 0x4 (vgem)
+Last errno: 2, No such file or directory
+Subtest basic-all: SKIP (0.000s)
+LKP SKIP igt@gem_ringfill@engines-S3
+2022-11-16 08:51:46 build/tests/gem_ringfill --run-subtest engines-S4
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function drm_open_driver, file ../lib/drmtest.c:572:
+Test requirement: !(fd<0)
+No known gpu found for chipset flags 0x4 (vgem)
+Last errno: 2, No such file or directory
+Subtest engines-S4: SKIP (0.000s)
+2022-11-16 08:51:46 build/tests/gem_ringfill --run-subtest engines-basic
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function drm_open_driver, file ../lib/drmtest.c:572:
+Test requirement: !(fd<0)
+No known gpu found for chipset flags 0x4 (vgem)
+Last errno: 2, No such file or directory
+Subtest engines-basic: SKIP (0.000s)
+2022-11-16 08:51:46 build/tests/gem_ringfill --run-subtest engines-bomb
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function drm_open_driver, file ../lib/drmtest.c:572:
+Test requirement: !(fd<0)
+No known gpu found for chipset flags 0x4 (vgem)
+Last errno: 2, No such file or directory
+Subtest engines-bomb: SKIP (0.000s)
+2022-11-16 08:51:46 build/tests/gem_ringfill --run-subtest engines-child
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function drm_open_driver, file ../lib/drmtest.c:572:
+Test requirement: !(fd<0)
+No known gpu found for chipset flags 0x4 (vgem)
+Last errno: 2, No such file or directory
+Subtest engines-child: SKIP (0.000s)
+2022-11-16 08:51:47 build/tests/gem_ringfill --run-subtest engines-fd
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function drm_open_driver, file ../lib/drmtest.c:572:
+Test requirement: !(fd<0)
+No known gpu found for chipset flags 0x4 (vgem)
+Last errno: 2, No such file or directory
+Subtest engines-fd: SKIP (0.000s)
+2022-11-16 08:51:47 build/tests/gem_ringfill --run-subtest engines-forked
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function drm_open_driver, file ../lib/drmtest.c:572:
+Test requirement: !(fd<0)
+No known gpu found for chipset flags 0x4 (vgem)
+Last errno: 2, No such file or directory
+Subtest engines-forked: SKIP (0.000s)
+2022-11-16 08:51:47 build/tests/gem_ringfill --run-subtest engines-hang
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function drm_open_driver, file ../lib/drmtest.c:572:
+Test requirement: !(fd<0)
+No known gpu found for chipset flags 0x4 (vgem)
+Last errno: 2, No such file or directory
+Subtest engines-hang: SKIP (0.000s)
+2022-11-16 08:51:47 build/tests/gem_ringfill --run-subtest engines-interruptible
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function drm_open_driver, file ../lib/drmtest.c:572:
+Test requirement: !(fd<0)
+No known gpu found for chipset flags 0x4 (vgem)
+Last errno: 2, No such file or directory
+Subtest engines-interruptible: SKIP (0.000s)
+LKP SKIP igt@gem_ringfill@legacy-S3
+2022-11-16 08:51:47 build/tests/gem_ringfill --run-subtest legacy-S4
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function drm_open_driver, file ../lib/drmtest.c:572:
+Test requirement: !(fd<0)
+No known gpu found for chipset flags 0x4 (vgem)
+Last errno: 2, No such file or directory
+Subtest legacy-S4: SKIP (0.000s)
+2022-11-16 08:51:48 build/tests/gem_ringfill --run-subtest legacy-basic
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function drm_open_driver, file ../lib/drmtest.c:572:
+Test requirement: !(fd<0)
+No known gpu found for chipset flags 0x4 (vgem)
+Last errno: 2, No such file or directory
+Subtest legacy-basic: SKIP (0.000s)
+2022-11-16 08:51:48 build/tests/gem_ringfill --run-subtest legacy-bomb
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function drm_open_driver, file ../lib/drmtest.c:572:
+Test requirement: !(fd<0)
+No known gpu found for chipset flags 0x4 (vgem)
+Last errno: 2, No such file or directory
+Subtest legacy-bomb: SKIP (0.000s)
+2022-11-16 08:51:48 build/tests/gem_ringfill --run-subtest legacy-child
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function drm_open_driver, file ../lib/drmtest.c:572:
+Test requirement: !(fd<0)
+No known gpu found for chipset flags 0x4 (vgem)
+Last errno: 2, No such file or directory
+Subtest legacy-child: SKIP (0.000s)
+2022-11-16 08:51:48 build/tests/gem_ringfill --run-subtest legacy-fd
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function drm_open_driver, file ../lib/drmtest.c:572:
+Test requirement: !(fd<0)
+No known gpu found for chipset flags 0x4 (vgem)
+Last errno: 2, No such file or directory
+Subtest legacy-fd: SKIP (0.000s)
+2022-11-16 08:51:48 build/tests/gem_ringfill --run-subtest legacy-forked
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function drm_open_driver, file ../lib/drmtest.c:572:
+Test requirement: !(fd<0)
+No known gpu found for chipset flags 0x4 (vgem)
+Last errno: 2, No such file or directory
+Subtest legacy-forked: SKIP (0.000s)
+2022-11-16 08:51:49 build/tests/gem_ringfill --run-subtest legacy-hang
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function drm_open_driver, file ../lib/drmtest.c:572:
+Test requirement: !(fd<0)
+No known gpu found for chipset flags 0x4 (vgem)
+Last errno: 2, No such file or directory
+Subtest legacy-hang: SKIP (0.000s)
+2022-11-16 08:51:49 build/tests/gem_ringfill --run-subtest legacy-interruptible
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function drm_open_driver, file ../lib/drmtest.c:572:
+Test requirement: !(fd<0)
+No known gpu found for chipset flags 0x4 (vgem)
+Last errno: 2, No such file or directory
+Subtest legacy-interruptible: SKIP (0.000s)
+2022-11-16 08:51:49 build/tests/gem_tiled_partial_pwrite_pread --run-subtest reads
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: reads
+Subtest reads: SUCCESS (0.277s)
+2022-11-16 08:51:50 build/tests/gem_tiled_partial_pwrite_pread --run-subtest writes
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: writes
+Subtest writes: SUCCESS (0.268s)
+2022-11-16 08:51:50 build/tests/gem_tiled_partial_pwrite_pread --run-subtest writes-after-reads
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: writes-after-reads
+Subtest writes-after-reads: SUCCESS (0.293s)
+2022-11-16 08:51:51 build/tests/i915_module_load --run-subtest load
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: load
+Test requirement not met in function __igt_unique____real_main335, file ../tests/i915/i915_module_load.c:348:
+Test requirement: !(igt_kmod_is_loaded(unwanted_drivers[i]))
+i915 is already loaded
+Last errno: 2, No such file or directory
+Subtest load: SKIP (0.000s)
+2022-11-16 08:51:51 build/tests/i915_module_load --run-subtest reload
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: reload
+Subtest reload: SUCCESS (5.940s)
+2022-11-16 08:51:57 build/tests/i915_module_load --run-subtest reload-no-display
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: reload-no-display
+Reloading i915 with disable_display=1
+
+Subtest reload-no-display: SUCCESS (4.742s)
+2022-11-16 08:52:02 build/tests/i915_module_load --run-subtest reload-with-fault-injection
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: reload-with-fault-injection
+Using IGT_SRANDOM=1668588722 for randomised faults
+Test requirement not met in function __igt_unique____real_main335, file ../tests/i915/i915_module_load.c:401:
+Test requirement: igt_kmod_has_param("i915", param)
+Subtest reload-with-fault-injection: SKIP (0.002s)
+2022-11-16 08:52:02 build/tests/i915_module_load --run-subtest resize-bar
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: resize-bar
+Reloading i915 with lmem_bar_size=256
+
+Test requirement not met in function driver_load_with_lmem_bar_size, file ../tests/i915/i915_module_load.c:311:
+Test requirement: gem_has_lmem(i915)
+Subtest resize-bar: SKIP (2.202s)
+2022-11-16 08:52:04 build/tests/kms_fbcon_fbt --run-subtest fbc
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: fbc
+Modes unset.
+Test requirement not met in function set_mode_for_one_screen, file ../tests/i915/kms_fbcon_fbt.c:182:
+Test requirement: i < drm->res->count_connectors
+No connector available
+Subtest fbc: SKIP (0.001s)
+LKP SKIP igt@kms_fbcon_fbt@fbc-suspend
+2022-11-16 08:52:04 build/tests/kms_fbcon_fbt --run-subtest psr
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: psr
+Test requirement not met in function subtest, file ../tests/i915/kms_fbcon_fbt.c:340:
+Test requirement: feature->supported_on_chipset(drm->fd, drm->debugfs_fd)
+Last errno: 19, No such device
+Subtest psr: SKIP (0.000s)
+LKP SKIP igt@kms_fbcon_fbt@psr-suspend
+2022-11-16 08:52:05 build/tests/kms_force_connector_basic --run-subtest force-connector-state
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: force-connector-state
+Subtest force-connector-state: SUCCESS (0.110s)
+2022-11-16 08:52:05 build/tests/kms_force_connector_basic --run-subtest force-edid
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: force-edid
+Subtest force-edid: SUCCESS (0.054s)
+2022-11-16 08:52:05 build/tests/kms_force_connector_basic --run-subtest force-load-detect
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: force-load-detect
+Test requirement not met in function force_load_detect, file ../tests/kms_force_connector_basic.c:69:
+Test requirement: connector->connector_type == DRM_MODE_CONNECTOR_VGA
+Subtest force-load-detect: SKIP (0.000s)
+2022-11-16 08:52:06 build/tests/kms_force_connector_basic --run-subtest prune-stale-modes
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Starting subtest: prune-stale-modes
+Subtest prune-stale-modes: SUCCESS (0.055s)
+2022-11-16 08:52:06 build/tests/kms_universal_plane --run-subtest cursor-fb-leak-pipe-A
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Subtest cursor-fb-leak-pipe-A: SKIP (0.000s)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe D does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe E does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe F does not exist or not enabled
+2022-11-16 08:52:06 build/tests/kms_universal_plane --run-subtest cursor-fb-leak-pipe-B
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Subtest cursor-fb-leak-pipe-B: SKIP (0.000s)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe D does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe E does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe F does not exist or not enabled
+2022-11-16 08:52:06 build/tests/kms_universal_plane --run-subtest cursor-fb-leak-pipe-C
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Subtest cursor-fb-leak-pipe-C: SKIP (0.000s)
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe D does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe E does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe F does not exist or not enabled
+2022-11-16 08:52:07 build/tests/kms_universal_plane --run-subtest cursor-fb-leak-pipe-D
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe D does not exist or not enabled
+Subtest cursor-fb-leak-pipe-D: SKIP (0.000s)
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe E does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe F does not exist or not enabled
+2022-11-16 08:52:07 build/tests/kms_universal_plane --run-subtest cursor-fb-leak-pipe-E
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe D does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe E does not exist or not enabled
+Subtest cursor-fb-leak-pipe-E: SKIP (0.000s)
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe F does not exist or not enabled
+2022-11-16 08:52:07 build/tests/kms_universal_plane --run-subtest cursor-fb-leak-pipe-F
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe D does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe E does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe F does not exist or not enabled
+Subtest cursor-fb-leak-pipe-F: SKIP (0.000s)
+2022-11-16 08:52:07 build/tests/kms_universal_plane --run-subtest disable-primary-vs-flip-pipe-A
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Subtest disable-primary-vs-flip-pipe-A: SKIP (0.000s)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe D does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe E does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe F does not exist or not enabled
+2022-11-16 08:52:08 build/tests/kms_universal_plane --run-subtest disable-primary-vs-flip-pipe-B
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Subtest disable-primary-vs-flip-pipe-B: SKIP (0.000s)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe D does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe E does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe F does not exist or not enabled
+2022-11-16 08:52:08 build/tests/kms_universal_plane --run-subtest disable-primary-vs-flip-pipe-C
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Subtest disable-primary-vs-flip-pipe-C: SKIP (0.000s)
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe D does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe E does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe F does not exist or not enabled
+2022-11-16 08:52:08 build/tests/kms_universal_plane --run-subtest disable-primary-vs-flip-pipe-D
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe D does not exist or not enabled
+Subtest disable-primary-vs-flip-pipe-D: SKIP (0.000s)
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe E does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe F does not exist or not enabled
+2022-11-16 08:52:08 build/tests/kms_universal_plane --run-subtest disable-primary-vs-flip-pipe-E
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe D does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe E does not exist or not enabled
+Subtest disable-primary-vs-flip-pipe-E: SKIP (0.000s)
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe F does not exist or not enabled
+2022-11-16 08:52:08 build/tests/kms_universal_plane --run-subtest disable-primary-vs-flip-pipe-F
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe D does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe E does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe F does not exist or not enabled
+Subtest disable-primary-vs-flip-pipe-F: SKIP (0.000s)
+2022-11-16 08:52:09 build/tests/kms_universal_plane --run-subtest universal-plane-pageflip-windowed-pipe-A
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Subtest universal-plane-pageflip-windowed-pipe-A: SKIP (0.000s)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe D does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe E does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe F does not exist or not enabled
+2022-11-16 08:52:09 build/tests/kms_universal_plane --run-subtest universal-plane-pageflip-windowed-pipe-B
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Subtest universal-plane-pageflip-windowed-pipe-B: SKIP (0.000s)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe D does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe E does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe F does not exist or not enabled
+2022-11-16 08:52:09 build/tests/kms_universal_plane --run-subtest universal-plane-pageflip-windowed-pipe-C
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Subtest universal-plane-pageflip-windowed-pipe-C: SKIP (0.000s)
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe D does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe E does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe F does not exist or not enabled
+2022-11-16 08:52:09 build/tests/kms_universal_plane --run-subtest universal-plane-pageflip-windowed-pipe-D
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe D does not exist or not enabled
+Subtest universal-plane-pageflip-windowed-pipe-D: SKIP (0.000s)
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe E does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe F does not exist or not enabled
+2022-11-16 08:52:10 build/tests/kms_universal_plane --run-subtest universal-plane-pageflip-windowed-pipe-E
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe D does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe E does not exist or not enabled
+Subtest universal-plane-pageflip-windowed-pipe-E: SKIP (0.000s)
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe F does not exist or not enabled
+2022-11-16 08:52:10 build/tests/kms_universal_plane --run-subtest universal-plane-pageflip-windowed-pipe-F
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe D does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe E does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe F does not exist or not enabled
+Subtest universal-plane-pageflip-windowed-pipe-F: SKIP (0.000s)
+2022-11-16 08:52:10 build/tests/kms_universal_plane --run-subtest universal-plane-pipe-A-functional
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Subtest universal-plane-pipe-A-functional: SKIP (0.000s)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe D does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe E does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe F does not exist or not enabled
+2022-11-16 08:52:10 build/tests/kms_universal_plane --run-subtest universal-plane-pipe-A-sanity
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Subtest universal-plane-pipe-A-sanity: SKIP (0.000s)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe D does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe E does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe F does not exist or not enabled
+2022-11-16 08:52:11 build/tests/kms_universal_plane --run-subtest universal-plane-pipe-B-functional
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Subtest universal-plane-pipe-B-functional: SKIP (0.000s)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe D does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe E does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe F does not exist or not enabled
+2022-11-16 08:52:11 build/tests/kms_universal_plane --run-subtest universal-plane-pipe-B-sanity
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Subtest universal-plane-pipe-B-sanity: SKIP (0.000s)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe D does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe E does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe F does not exist or not enabled
+2022-11-16 08:52:11 build/tests/kms_universal_plane --run-subtest universal-plane-pipe-C-functional
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Subtest universal-plane-pipe-C-functional: SKIP (0.000s)
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe D does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe E does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe F does not exist or not enabled
+2022-11-16 08:52:11 build/tests/kms_universal_plane --run-subtest universal-plane-pipe-C-sanity
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Subtest universal-plane-pipe-C-sanity: SKIP (0.000s)
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe D does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe E does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe F does not exist or not enabled
+2022-11-16 08:52:12 build/tests/kms_universal_plane --run-subtest universal-plane-pipe-D-functional
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe D does not exist or not enabled
+Subtest universal-plane-pipe-D-functional: SKIP (0.000s)
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe E does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe F does not exist or not enabled
+2022-11-16 08:52:12 build/tests/kms_universal_plane --run-subtest universal-plane-pipe-D-sanity
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe D does not exist or not enabled
+Subtest universal-plane-pipe-D-sanity: SKIP (0.000s)
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe E does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe F does not exist or not enabled
+2022-11-16 08:52:12 build/tests/kms_universal_plane --run-subtest universal-plane-pipe-E-functional
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe D does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe E does not exist or not enabled
+Subtest universal-plane-pipe-E-functional: SKIP (0.000s)
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe F does not exist or not enabled
+2022-11-16 08:52:12 build/tests/kms_universal_plane --run-subtest universal-plane-pipe-E-sanity
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe D does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe E does not exist or not enabled
+Subtest universal-plane-pipe-E-sanity: SKIP (0.000s)
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe F does not exist or not enabled
+2022-11-16 08:52:12 build/tests/kms_universal_plane --run-subtest universal-plane-pipe-F-functional
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe D does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe E does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe F does not exist or not enabled
+Subtest universal-plane-pipe-F-functional: SKIP (0.000s)
+2022-11-16 08:52:13 build/tests/kms_universal_plane --run-subtest universal-plane-pipe-F-sanity
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function run_tests_for_pipe, file ../tests/kms_universal_plane.c:782:
+Test requirement: valid_tests
+no valid crtc/connector combinations found
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe D does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe E does not exist or not enabled
+Test requirement not met in function igt_require_pipe, file ../lib/igt_kms.c:2326:
+Test requirement: !(pipe >= display->n_pipes || !display->pipes[pipe].enabled)
+Pipe F does not exist or not enabled
+Subtest universal-plane-pipe-F-sanity: SKIP (0.000s)
+2022-11-16 08:52:13 build/tests/prime_nv_pcopy --run-subtest test1_macro
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function __igt_unique____real_main851, file ../tests/prime_nv_pcopy.c:856:
+Test requirement: nouveau_fd != -1
+Last errno: 2, No such file or directory
+Subtest test1_macro: SKIP (0.000s)
+2022-11-16 08:52:13 build/tests/prime_nv_pcopy --run-subtest test1_micro
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function __igt_unique____real_main851, file ../tests/prime_nv_pcopy.c:856:
+Test requirement: nouveau_fd != -1
+Last errno: 2, No such file or directory
+Subtest test1_micro: SKIP (0.000s)
+2022-11-16 08:52:13 build/tests/prime_nv_pcopy --run-subtest test2
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function __igt_unique____real_main851, file ../tests/prime_nv_pcopy.c:856:
+Test requirement: nouveau_fd != -1
+Last errno: 2, No such file or directory
+Subtest test2: SKIP (0.000s)
+2022-11-16 08:52:13 build/tests/prime_nv_pcopy --run-subtest test3_1
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function __igt_unique____real_main851, file ../tests/prime_nv_pcopy.c:856:
+Test requirement: nouveau_fd != -1
+Last errno: 2, No such file or directory
+Subtest test3_1: SKIP (0.000s)
+2022-11-16 08:52:14 build/tests/prime_nv_pcopy --run-subtest test3_2
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function __igt_unique____real_main851, file ../tests/prime_nv_pcopy.c:856:
+Test requirement: nouveau_fd != -1
+Last errno: 2, No such file or directory
+Subtest test3_2: SKIP (0.000s)
+2022-11-16 08:52:14 build/tests/prime_nv_pcopy --run-subtest test3_3
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function __igt_unique____real_main851, file ../tests/prime_nv_pcopy.c:856:
+Test requirement: nouveau_fd != -1
+Last errno: 2, No such file or directory
+Subtest test3_3: SKIP (0.000s)
+2022-11-16 08:52:14 build/tests/prime_nv_pcopy --run-subtest test3_4
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function __igt_unique____real_main851, file ../tests/prime_nv_pcopy.c:856:
+Test requirement: nouveau_fd != -1
+Last errno: 2, No such file or directory
+Subtest test3_4: SKIP (0.000s)
+2022-11-16 08:52:14 build/tests/prime_nv_pcopy --run-subtest test3_5
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function __igt_unique____real_main851, file ../tests/prime_nv_pcopy.c:856:
+Test requirement: nouveau_fd != -1
+Last errno: 2, No such file or directory
+Subtest test3_5: SKIP (0.000s)
+2022-11-16 08:52:14 build/tests/prime_nv_pcopy --run-subtest test_semaphore
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function __igt_unique____real_main851, file ../tests/prime_nv_pcopy.c:856:
+Test requirement: nouveau_fd != -1
+Last errno: 2, No such file or directory
+Subtest test_semaphore: SKIP (0.000s)
+2022-11-16 08:52:14 build/tests/syncobj_timeline --run-subtest 32bits-limit
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest 32bits-limit: SKIP (0.000s)
+2022-11-16 08:52:14 build/tests/syncobj_timeline --run-subtest device-signal-unordered
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest device-signal-unordered: SKIP (0.000s)
+2022-11-16 08:52:14 build/tests/syncobj_timeline --run-subtest device-submit-unordered
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest device-submit-unordered: SKIP (0.000s)
+2022-11-16 08:52:15 build/tests/syncobj_timeline --run-subtest etime-multi-wait-all-for-submit-available-unsubmitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest etime-multi-wait-all-for-submit-available-unsubmitted: SKIP (0.000s)
+2022-11-16 08:52:15 build/tests/syncobj_timeline --run-subtest etime-multi-wait-all-for-submit-available-unsubmitted-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest etime-multi-wait-all-for-submit-available-unsubmitted-signaled: SKIP (0.000s)
+2022-11-16 08:52:15 build/tests/syncobj_timeline --run-subtest etime-multi-wait-all-for-submit-available-unsubmitted-submitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest etime-multi-wait-all-for-submit-available-unsubmitted-submitted: SKIP (0.000s)
+2022-11-16 08:52:15 build/tests/syncobj_timeline --run-subtest etime-multi-wait-all-for-submit-submitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest etime-multi-wait-all-for-submit-submitted: SKIP (0.000s)
+2022-11-16 08:52:15 build/tests/syncobj_timeline --run-subtest etime-multi-wait-all-for-submit-submitted-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest etime-multi-wait-all-for-submit-submitted-signaled: SKIP (0.000s)
+2022-11-16 08:52:15 build/tests/syncobj_timeline --run-subtest etime-multi-wait-all-for-submit-unsubmitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest etime-multi-wait-all-for-submit-unsubmitted: SKIP (0.000s)
+2022-11-16 08:52:15 build/tests/syncobj_timeline --run-subtest etime-multi-wait-all-for-submit-unsubmitted-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest etime-multi-wait-all-for-submit-unsubmitted-signaled: SKIP (0.000s)
+2022-11-16 08:52:15 build/tests/syncobj_timeline --run-subtest etime-multi-wait-all-for-submit-unsubmitted-submitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest etime-multi-wait-all-for-submit-unsubmitted-submitted: SKIP (0.000s)
+2022-11-16 08:52:16 build/tests/syncobj_timeline --run-subtest etime-multi-wait-all-for-submit-unsubmitted-submitted-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest etime-multi-wait-all-for-submit-unsubmitted-submitted-signaled: SKIP (0.000s)
+2022-11-16 08:52:16 build/tests/syncobj_timeline --run-subtest etime-multi-wait-all-submitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest etime-multi-wait-all-submitted: SKIP (0.000s)
+2022-11-16 08:52:16 build/tests/syncobj_timeline --run-subtest etime-multi-wait-all-submitted-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest etime-multi-wait-all-submitted-signaled: SKIP (0.000s)
+2022-11-16 08:52:16 build/tests/syncobj_timeline --run-subtest etime-multi-wait-for-submit-available-unsubmitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest etime-multi-wait-for-submit-available-unsubmitted: SKIP (0.000s)
+2022-11-16 08:52:16 build/tests/syncobj_timeline --run-subtest etime-multi-wait-for-submit-submitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest etime-multi-wait-for-submit-submitted: SKIP (0.000s)
+2022-11-16 08:52:16 build/tests/syncobj_timeline --run-subtest etime-multi-wait-for-submit-unsubmitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest etime-multi-wait-for-submit-unsubmitted: SKIP (0.000s)
+2022-11-16 08:52:16 build/tests/syncobj_timeline --run-subtest etime-multi-wait-for-submit-unsubmitted-submitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest etime-multi-wait-for-submit-unsubmitted-submitted: SKIP (0.000s)
+2022-11-16 08:52:16 build/tests/syncobj_timeline --run-subtest etime-multi-wait-submitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest etime-multi-wait-submitted: SKIP (0.000s)
+2022-11-16 08:52:16 build/tests/syncobj_timeline --run-subtest etime-single-wait-all-for-submit-available-unsubmitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest etime-single-wait-all-for-submit-available-unsubmitted: SKIP (0.000s)
+2022-11-16 08:52:17 build/tests/syncobj_timeline --run-subtest etime-single-wait-all-for-submit-submitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest etime-single-wait-all-for-submit-submitted: SKIP (0.000s)
+2022-11-16 08:52:17 build/tests/syncobj_timeline --run-subtest etime-single-wait-all-for-submit-unsubmitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest etime-single-wait-all-for-submit-unsubmitted: SKIP (0.000s)
+2022-11-16 08:52:17 build/tests/syncobj_timeline --run-subtest etime-single-wait-all-submitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest etime-single-wait-all-submitted: SKIP (0.000s)
+2022-11-16 08:52:17 build/tests/syncobj_timeline --run-subtest etime-single-wait-for-submit-available-unsubmitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest etime-single-wait-for-submit-available-unsubmitted: SKIP (0.000s)
+2022-11-16 08:52:17 build/tests/syncobj_timeline --run-subtest etime-single-wait-for-submit-submitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest etime-single-wait-for-submit-submitted: SKIP (0.000s)
+2022-11-16 08:52:17 build/tests/syncobj_timeline --run-subtest etime-single-wait-for-submit-unsubmitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest etime-single-wait-for-submit-unsubmitted: SKIP (0.000s)
+2022-11-16 08:52:17 build/tests/syncobj_timeline --run-subtest etime-single-wait-submitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest etime-single-wait-submitted: SKIP (0.000s)
+2022-11-16 08:52:17 build/tests/syncobj_timeline --run-subtest host-signal-ordered
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest host-signal-ordered: SKIP (0.000s)
+2022-11-16 08:52:18 build/tests/syncobj_timeline --run-subtest host-signal-points
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest host-signal-points: SKIP (0.000s)
+2022-11-16 08:52:18 build/tests/syncobj_timeline --run-subtest invalid-multi-wait-all-available-unsubmitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-multi-wait-all-available-unsubmitted: SKIP (0.000s)
+2022-11-16 08:52:18 build/tests/syncobj_timeline --run-subtest invalid-multi-wait-all-available-unsubmitted-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-multi-wait-all-available-unsubmitted-signaled: SKIP (0.000s)
+2022-11-16 08:52:18 build/tests/syncobj_timeline --run-subtest invalid-multi-wait-all-available-unsubmitted-submitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-multi-wait-all-available-unsubmitted-submitted: SKIP (0.000s)
+2022-11-16 08:52:18 build/tests/syncobj_timeline --run-subtest invalid-multi-wait-all-available-unsubmitted-submitted-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-multi-wait-all-available-unsubmitted-submitted-signaled: SKIP (0.000s)
+2022-11-16 08:52:18 build/tests/syncobj_timeline --run-subtest invalid-multi-wait-all-unsubmitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-multi-wait-all-unsubmitted: SKIP (0.000s)
+2022-11-16 08:52:18 build/tests/syncobj_timeline --run-subtest invalid-multi-wait-all-unsubmitted-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-multi-wait-all-unsubmitted-signaled: SKIP (0.000s)
+2022-11-16 08:52:18 build/tests/syncobj_timeline --run-subtest invalid-multi-wait-all-unsubmitted-submitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-multi-wait-all-unsubmitted-submitted: SKIP (0.000s)
+2022-11-16 08:52:18 build/tests/syncobj_timeline --run-subtest invalid-multi-wait-all-unsubmitted-submitted-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-multi-wait-all-unsubmitted-submitted-signaled: SKIP (0.000s)
+2022-11-16 08:52:19 build/tests/syncobj_timeline --run-subtest invalid-multi-wait-available-unsubmitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-multi-wait-available-unsubmitted: SKIP (0.000s)
+2022-11-16 08:52:19 build/tests/syncobj_timeline --run-subtest invalid-multi-wait-available-unsubmitted-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-multi-wait-available-unsubmitted-signaled: SKIP (0.000s)
+2022-11-16 08:52:19 build/tests/syncobj_timeline --run-subtest invalid-multi-wait-available-unsubmitted-submitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-multi-wait-available-unsubmitted-submitted: SKIP (0.000s)
+2022-11-16 08:52:19 build/tests/syncobj_timeline --run-subtest invalid-multi-wait-available-unsubmitted-submitted-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-multi-wait-available-unsubmitted-submitted-signaled: SKIP (0.000s)
+2022-11-16 08:52:19 build/tests/syncobj_timeline --run-subtest invalid-multi-wait-unsubmitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-multi-wait-unsubmitted: SKIP (0.000s)
+2022-11-16 08:52:19 build/tests/syncobj_timeline --run-subtest invalid-multi-wait-unsubmitted-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-multi-wait-unsubmitted-signaled: SKIP (0.000s)
+2022-11-16 08:52:19 build/tests/syncobj_timeline --run-subtest invalid-multi-wait-unsubmitted-submitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-multi-wait-unsubmitted-submitted: SKIP (0.000s)
+2022-11-16 08:52:19 build/tests/syncobj_timeline --run-subtest invalid-multi-wait-unsubmitted-submitted-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-multi-wait-unsubmitted-submitted-signaled: SKIP (0.000s)
+2022-11-16 08:52:20 build/tests/syncobj_timeline --run-subtest invalid-query-bad-pad
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-query-bad-pad: SKIP (0.000s)
+2022-11-16 08:52:20 build/tests/syncobj_timeline --run-subtest invalid-query-illegal-handle
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-query-illegal-handle: SKIP (0.000s)
+2022-11-16 08:52:20 build/tests/syncobj_timeline --run-subtest invalid-query-one-illegal-handle
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-query-one-illegal-handle: SKIP (0.000s)
+2022-11-16 08:52:20 build/tests/syncobj_timeline --run-subtest invalid-query-zero-handles
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-query-zero-handles: SKIP (0.000s)
+2022-11-16 08:52:20 build/tests/syncobj_timeline --run-subtest invalid-signal-bad-pad
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-signal-bad-pad: SKIP (0.000s)
+2022-11-16 08:52:20 build/tests/syncobj_timeline --run-subtest invalid-signal-illegal-handle
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-signal-illegal-handle: SKIP (0.000s)
+2022-11-16 08:52:20 build/tests/syncobj_timeline --run-subtest invalid-signal-illegal-point
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-signal-illegal-point: SKIP (0.000s)
+2022-11-16 08:52:20 build/tests/syncobj_timeline --run-subtest invalid-signal-one-illegal-handle
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-signal-one-illegal-handle: SKIP (0.000s)
+2022-11-16 08:52:20 build/tests/syncobj_timeline --run-subtest invalid-signal-zero-handles
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-signal-zero-handles: SKIP (0.000s)
+2022-11-16 08:52:21 build/tests/syncobj_timeline --run-subtest invalid-single-wait-all-available-unsubmitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-single-wait-all-available-unsubmitted: SKIP (0.000s)
+2022-11-16 08:52:21 build/tests/syncobj_timeline --run-subtest invalid-single-wait-all-unsubmitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-single-wait-all-unsubmitted: SKIP (0.000s)
+2022-11-16 08:52:21 build/tests/syncobj_timeline --run-subtest invalid-single-wait-available-unsubmitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-single-wait-available-unsubmitted: SKIP (0.000s)
+2022-11-16 08:52:21 build/tests/syncobj_timeline --run-subtest invalid-single-wait-unsubmitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-single-wait-unsubmitted: SKIP (0.000s)
+2022-11-16 08:52:21 build/tests/syncobj_timeline --run-subtest invalid-transfer-bad-pad
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-transfer-bad-pad: SKIP (0.000s)
+2022-11-16 08:52:21 build/tests/syncobj_timeline --run-subtest invalid-transfer-illegal-handle
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-transfer-illegal-handle: SKIP (0.000s)
+2022-11-16 08:52:21 build/tests/syncobj_timeline --run-subtest invalid-transfer-non-existent-point
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-transfer-non-existent-point: SKIP (0.000s)
+2022-11-16 08:52:21 build/tests/syncobj_timeline --run-subtest invalid-wait-bad-flags
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-wait-bad-flags: SKIP (0.000s)
+2022-11-16 08:52:22 build/tests/syncobj_timeline --run-subtest invalid-wait-illegal-handle
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-wait-illegal-handle: SKIP (0.000s)
+2022-11-16 08:52:22 build/tests/syncobj_timeline --run-subtest invalid-wait-zero-handles
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest invalid-wait-zero-handles: SKIP (0.000s)
+2022-11-16 08:52:22 build/tests/syncobj_timeline --run-subtest multi-wait-all-available-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest multi-wait-all-available-signaled: SKIP (0.000s)
+2022-11-16 08:52:22 build/tests/syncobj_timeline --run-subtest multi-wait-all-available-submitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest multi-wait-all-available-submitted: SKIP (0.000s)
+2022-11-16 08:52:22 build/tests/syncobj_timeline --run-subtest multi-wait-all-available-submitted-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest multi-wait-all-available-submitted-signaled: SKIP (0.000s)
+2022-11-16 08:52:22 build/tests/syncobj_timeline --run-subtest multi-wait-all-for-submit-available-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest multi-wait-all-for-submit-available-signaled: SKIP (0.000s)
+2022-11-16 08:52:22 build/tests/syncobj_timeline --run-subtest multi-wait-all-for-submit-available-submitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest multi-wait-all-for-submit-available-submitted: SKIP (0.000s)
+2022-11-16 08:52:22 build/tests/syncobj_timeline --run-subtest multi-wait-all-for-submit-available-submitted-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest multi-wait-all-for-submit-available-submitted-signaled: SKIP (0.000s)
+2022-11-16 08:52:22 build/tests/syncobj_timeline --run-subtest multi-wait-all-for-submit-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest multi-wait-all-for-submit-signaled: SKIP (0.000s)
+2022-11-16 08:52:23 build/tests/syncobj_timeline --run-subtest multi-wait-all-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest multi-wait-all-signaled: SKIP (0.000s)
+2022-11-16 08:52:23 build/tests/syncobj_timeline --run-subtest multi-wait-available-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest multi-wait-available-signaled: SKIP (0.000s)
+2022-11-16 08:52:23 build/tests/syncobj_timeline --run-subtest multi-wait-available-submitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest multi-wait-available-submitted: SKIP (0.000s)
+2022-11-16 08:52:23 build/tests/syncobj_timeline --run-subtest multi-wait-available-submitted-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest multi-wait-available-submitted-signaled: SKIP (0.000s)
+2022-11-16 08:52:23 build/tests/syncobj_timeline --run-subtest multi-wait-for-submit-available-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest multi-wait-for-submit-available-signaled: SKIP (0.000s)
+2022-11-16 08:52:23 build/tests/syncobj_timeline --run-subtest multi-wait-for-submit-available-submitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest multi-wait-for-submit-available-submitted: SKIP (0.000s)
+2022-11-16 08:52:23 build/tests/syncobj_timeline --run-subtest multi-wait-for-submit-available-submitted-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest multi-wait-for-submit-available-submitted-signaled: SKIP (0.000s)
+2022-11-16 08:52:23 build/tests/syncobj_timeline --run-subtest multi-wait-for-submit-available-unsubmitted-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest multi-wait-for-submit-available-unsubmitted-signaled: SKIP (0.000s)
+2022-11-16 08:52:23 build/tests/syncobj_timeline --run-subtest multi-wait-for-submit-available-unsubmitted-submitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest multi-wait-for-submit-available-unsubmitted-submitted: SKIP (0.000s)
+2022-11-16 08:52:24 build/tests/syncobj_timeline --run-subtest multi-wait-for-submit-available-unsubmitted-submitted-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest multi-wait-for-submit-available-unsubmitted-submitted-signaled: SKIP (0.000s)
+2022-11-16 08:52:24 build/tests/syncobj_timeline --run-subtest multi-wait-for-submit-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest multi-wait-for-submit-signaled: SKIP (0.000s)
+2022-11-16 08:52:24 build/tests/syncobj_timeline --run-subtest multi-wait-for-submit-submitted-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest multi-wait-for-submit-submitted-signaled: SKIP (0.000s)
+2022-11-16 08:52:24 build/tests/syncobj_timeline --run-subtest multi-wait-for-submit-unsubmitted-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest multi-wait-for-submit-unsubmitted-signaled: SKIP (0.000s)
+2022-11-16 08:52:24 build/tests/syncobj_timeline --run-subtest multi-wait-for-submit-unsubmitted-submitted-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest multi-wait-for-submit-unsubmitted-submitted-signaled: SKIP (0.000s)
+2022-11-16 08:52:24 build/tests/syncobj_timeline --run-subtest multi-wait-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest multi-wait-signaled: SKIP (0.000s)
+2022-11-16 08:52:24 build/tests/syncobj_timeline --run-subtest multi-wait-submitted-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest multi-wait-submitted-signaled: SKIP (0.000s)
+2022-11-16 08:52:24 build/tests/syncobj_timeline --run-subtest reset-during-wait-for-submit
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest reset-during-wait-for-submit: SKIP (0.000s)
+2022-11-16 08:52:25 build/tests/syncobj_timeline --run-subtest reset-multiple-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest reset-multiple-signaled: SKIP (0.000s)
+2022-11-16 08:52:25 build/tests/syncobj_timeline --run-subtest reset-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest reset-signaled: SKIP (0.000s)
+2022-11-16 08:52:25 build/tests/syncobj_timeline --run-subtest reset-unsignaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest reset-unsignaled: SKIP (0.000s)
+2022-11-16 08:52:25 build/tests/syncobj_timeline --run-subtest signal
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest signal: SKIP (0.000s)
+2022-11-16 08:52:25 build/tests/syncobj_timeline --run-subtest signal-array
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest signal-array: SKIP (0.000s)
+2022-11-16 08:52:25 build/tests/syncobj_timeline --run-subtest signal-point-0
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest signal-point-0: SKIP (0.000s)
+2022-11-16 08:52:25 build/tests/syncobj_timeline --run-subtest single-wait-all-available-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest single-wait-all-available-signaled: SKIP (0.000s)
+2022-11-16 08:52:25 build/tests/syncobj_timeline --run-subtest single-wait-all-available-submitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest single-wait-all-available-submitted: SKIP (0.000s)
+2022-11-16 08:52:25 build/tests/syncobj_timeline --run-subtest single-wait-all-for-submit-available-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest single-wait-all-for-submit-available-signaled: SKIP (0.000s)
+2022-11-16 08:52:26 build/tests/syncobj_timeline --run-subtest single-wait-all-for-submit-available-submitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest single-wait-all-for-submit-available-submitted: SKIP (0.000s)
+2022-11-16 08:52:26 build/tests/syncobj_timeline --run-subtest single-wait-all-for-submit-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest single-wait-all-for-submit-signaled: SKIP (0.000s)
+2022-11-16 08:52:26 build/tests/syncobj_timeline --run-subtest single-wait-all-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest single-wait-all-signaled: SKIP (0.000s)
+2022-11-16 08:52:26 build/tests/syncobj_timeline --run-subtest single-wait-available-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest single-wait-available-signaled: SKIP (0.000s)
+2022-11-16 08:52:26 build/tests/syncobj_timeline --run-subtest single-wait-available-submitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest single-wait-available-submitted: SKIP (0.000s)
+2022-11-16 08:52:26 build/tests/syncobj_timeline --run-subtest single-wait-for-submit-available-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest single-wait-for-submit-available-signaled: SKIP (0.000s)
+2022-11-16 08:52:26 build/tests/syncobj_timeline --run-subtest single-wait-for-submit-available-submitted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest single-wait-for-submit-available-submitted: SKIP (0.000s)
+2022-11-16 08:52:26 build/tests/syncobj_timeline --run-subtest single-wait-for-submit-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest single-wait-for-submit-signaled: SKIP (0.000s)
+2022-11-16 08:52:27 build/tests/syncobj_timeline --run-subtest single-wait-signaled
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest single-wait-signaled: SKIP (0.000s)
+2022-11-16 08:52:27 build/tests/syncobj_timeline --run-subtest transfer-timeline-point
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest transfer-timeline-point: SKIP (0.000s)
+2022-11-16 08:52:27 build/tests/syncobj_timeline --run-subtest wait-all-complex
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest wait-all-complex: SKIP (0.000s)
+2022-11-16 08:52:27 build/tests/syncobj_timeline --run-subtest wait-all-delayed-signal
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest wait-all-delayed-signal: SKIP (0.000s)
+2022-11-16 08:52:27 build/tests/syncobj_timeline --run-subtest wait-all-for-submit-complex
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest wait-all-for-submit-complex: SKIP (0.000s)
+2022-11-16 08:52:27 build/tests/syncobj_timeline --run-subtest wait-all-for-submit-delayed-submit
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest wait-all-for-submit-delayed-submit: SKIP (0.000s)
+2022-11-16 08:52:27 build/tests/syncobj_timeline --run-subtest wait-all-for-submit-snapshot
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest wait-all-for-submit-snapshot: SKIP (0.000s)
+2022-11-16 08:52:27 build/tests/syncobj_timeline --run-subtest wait-all-interrupted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest wait-all-interrupted: SKIP (0.000s)
+2022-11-16 08:52:27 build/tests/syncobj_timeline --run-subtest wait-all-snapshot
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest wait-all-snapshot: SKIP (0.000s)
+2022-11-16 08:52:28 build/tests/syncobj_timeline --run-subtest wait-any-complex
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest wait-any-complex: SKIP (0.000s)
+2022-11-16 08:52:28 build/tests/syncobj_timeline --run-subtest wait-any-interrupted
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest wait-any-interrupted: SKIP (0.000s)
+2022-11-16 08:52:28 build/tests/syncobj_timeline --run-subtest wait-any-snapshot
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest wait-any-snapshot: SKIP (0.000s)
+2022-11-16 08:52:28 build/tests/syncobj_timeline --run-subtest wait-delayed-signal
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest wait-delayed-signal: SKIP (0.000s)
+2022-11-16 08:52:28 build/tests/syncobj_timeline --run-subtest wait-for-submit-complex
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest wait-for-submit-complex: SKIP (0.000s)
+2022-11-16 08:52:28 build/tests/syncobj_timeline --run-subtest wait-for-submit-delayed-submit
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest wait-for-submit-delayed-submit: SKIP (0.000s)
+2022-11-16 08:52:28 build/tests/syncobj_timeline --run-subtest wait-for-submit-snapshot
+IGT-Version: 1.26-g7da9f813 (x86_64) (Linux: 6.1.0-rc2-00560-g55495ab68227 x86_64)
+Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
+Test requirement: kernel_has_sw_sync()
+Last errno: 2, No such file or directory
+Subtest wait-for-submit-snapshot: SKIP (0.000s)
+LKP SKIP igt@v3d_get_param@base-params
+LKP SKIP igt@v3d_get_param@get-bad-flags
+LKP SKIP igt@v3d_get_param@get-bad-param
+
+--Th/c7wV5ABaOOy8w
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: attachment; filename="job.yaml"
+
+---
+
+#! jobs/igt-part1.yaml
+suite: igt
+testcase: igt
+category: functional
+igt:
+  group: group-04
+job_origin: igt-part1.yaml
+
+#! queue options
+queue_cmdline_keys:
+- branch
+- commit
+queue: bisect
+testbox: lkp-cml-d02
+tbox_group: lkp-cml-d02
+submit_id: 6374038a6a25c65348e43b83
+job_file: "/lkp/jobs/scheduled/lkp-cml-d02/igt-group-04-debian-11.1-x86_64-20220510.cgz-55495ab682271956fda4d2728480a8cd9e0afaa2-20221116-21320-159ub6c-0.yaml"
+id: a441d677f5633b9daf8f092cbaeda60a56c2a97e
+queuer_version: "/zday/lkp"
+
+#! hosts/lkp-cml-d02
+model: Commet Lake
+nr_node: 1
+nr_cpu: 20
+memory: 16G
+ssd_partitions: "/dev/disk/by-id/ata-INTEL_SSDSC2BA800G4_BTHV61840945800OGN-part4"
+rootfs_partition: "/dev/disk/by-id/ata-INTEL_SSDSC2BA800G4_BTHV61840945800OGN-part3"
+kernel_cmdline_hw: acpi_rsdp=0x9b0fe014
+
+#! include/category/functional
+kmsg:
+heartbeat:
+meminfo:
+
+#! include/queue/cyclic
+commit: 55495ab682271956fda4d2728480a8cd9e0afaa2
+
+#! include/testbox/lkp-cml-d02
+netconsole_port: 6683
+ucode: '0xc2'
+need_kconfig_hw:
+- PTP_1588_CLOCK: y
+- IGB: y
+- E1000E: y
+- SATA_AHCI
+- DRM_I915
+- IGC: y, v4.20-rc1
+bisect_dmesg: true
+kconfig: x86_64-rhel-8.3-func
+enqueue_time: 2022-11-16 05:24:26.384785062 +08:00
+_id: 6374038a6a25c65348e43b83
+_rt: "/result/igt/group-04/lkp-cml-d02/debian-11.1-x86_64-20220510.cgz/x86_64-rhel-8.3-func/gcc-11/55495ab682271956fda4d2728480a8cd9e0afaa2"
+
+#! schedule options
+user: lkp
+compiler: gcc-11
+LKP_SERVER: internal-lkp-server
+head_commit: a7a99adde43bcc3badd7140fc406e5182c621a60
+base_commit: '094226ad94f471a9f19e8f8e7140a09c2625abaa'
+branch: linux-devel/devel-hourly-20221114-110033
+rootfs: debian-11.1-x86_64-20220510.cgz
+result_root: "/result/igt/group-04/lkp-cml-d02/debian-11.1-x86_64-20220510.cgz/x86_64-rhel-8.3-func/gcc-11/55495ab682271956fda4d2728480a8cd9e0afaa2/0"
+scheduler_version: "/lkp/lkp/.src-20221115-214703"
+arch: x86_64
+max_uptime: 2100
+initrd: "/osimage/debian/debian-11.1-x86_64-20220510.cgz"
+bootloader_append:
+- root=/dev/ram0
+- RESULT_ROOT=/result/igt/group-04/lkp-cml-d02/debian-11.1-x86_64-20220510.cgz/x86_64-rhel-8.3-func/gcc-11/55495ab682271956fda4d2728480a8cd9e0afaa2/0
+- BOOT_IMAGE=/pkg/linux/x86_64-rhel-8.3-func/gcc-11/55495ab682271956fda4d2728480a8cd9e0afaa2/vmlinuz-6.1.0-rc2-00560-g55495ab68227
+- branch=linux-devel/devel-hourly-20221114-110033
+- job=/lkp/jobs/scheduled/lkp-cml-d02/igt-group-04-debian-11.1-x86_64-20220510.cgz-55495ab682271956fda4d2728480a8cd9e0afaa2-20221116-21320-159ub6c-0.yaml
+- user=lkp
+- ARCH=x86_64
+- kconfig=x86_64-rhel-8.3-func
+- commit=55495ab682271956fda4d2728480a8cd9e0afaa2
+- initcall_debug
+- acpi_rsdp=0x9b0fe014
+- max_uptime=2100
+- LKP_SERVER=internal-lkp-server
+- nokaslr
+- selinux=0
+- debug
+- apic=debug
+- sysrq_always_enabled
+- rcupdate.rcu_cpu_stall_timeout=100
+- net.ifnames=0
+- printk.devkmsg=on
+- panic=-1
+- softlockup_panic=1
+- nmi_watchdog=panic
+- oops=panic
+- load_ramdisk=2
+- prompt_ramdisk=0
+- drbd.minor_count=8
+- systemd.log_level=err
+- ignore_loglevel
+- console=tty0
+- earlyprintk=ttyS0,115200
+- console=ttyS0,115200
+- vga=normal
+- rw
+
+#! runtime status
+modules_initrd: "/pkg/linux/x86_64-rhel-8.3-func/gcc-11/55495ab682271956fda4d2728480a8cd9e0afaa2/modules.cgz"
+bm_initrd: "/osimage/deps/debian-11.1-x86_64-20220510.cgz/run-ipconfig_20220515.cgz,/osimage/deps/debian-11.1-x86_64-20220510.cgz/lkp_20220513.cgz,/osimage/deps/debian-11.1-x86_64-20220510.cgz/rsync-rootfs_20220515.cgz,/osimage/deps/debian-11.1-x86_64-20220510.cgz/igt_20221112.cgz,/osimage/pkg/debian-11.1-x86_64-20220510.cgz/igt-x86_64-7da9f813-1_20221112.cgz,/osimage/deps/debian-11.1-x86_64-20220510.cgz/hw_20220526.cgz"
+ucode_initrd: "/osimage/ucode/intel-ucode-20220804.cgz"
+lkp_initrd: "/osimage/user/lkp/lkp-x86_64.cgz"
+site: inn
+
+#! /cephfs/db/releases/20221114171303/lkp-src/include/site/inn
+LKP_CGI_PORT: 80
+LKP_CIFS_PORT: 139
+oom-killer:
+watchdog:
+last_kernel: 6.1.0-rc5-09765-g3152a7a43158
+schedule_notify_address:
+
+#! user overrides
+kernel: "/pkg/linux/x86_64-rhel-8.3-func/gcc-11/55495ab682271956fda4d2728480a8cd9e0afaa2/vmlinuz-6.1.0-rc2-00560-g55495ab68227"
+dequeue_time: 2022-11-16 06:24:06.696625397 +08:00
+
+#! /cephfs/db/releases/20221115214437/lkp-src/include/site/inn
+job_state: finished
+loadavg: 1.22 0.51 0.19 1/293 6218
+start_time: '1668551150'
+end_time: '1668551209'
+version: "/lkp/lkp/.src-20221115-214744:5c61d41c1:32d404348"
+
+--Th/c7wV5ABaOOy8w
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: attachment; filename="reproduce"
+
+ "build/tests/api_intel_bb" "--run-subtest" "add-remove-objects"
+ "build/tests/api_intel_bb" "--run-subtest" "bb-with-allocator"
+ "build/tests/api_intel_bb" "--run-subtest" "blit-noreloc-keep-cache"
+ "build/tests/api_intel_bb" "--run-subtest" "blit-noreloc-keep-cache-random"
+ "build/tests/api_intel_bb" "--run-subtest" "blit-noreloc-purge-cache"
+ "build/tests/api_intel_bb" "--run-subtest" "blit-noreloc-purge-cache-random"
+ "build/tests/api_intel_bb" "--run-subtest" "blit-reloc-keep-cache"
+ "build/tests/api_intel_bb" "--run-subtest" "blit-reloc-purge-cache"
+ "build/tests/api_intel_bb" "--run-subtest" "crc32"
+ "build/tests/api_intel_bb" "--run-subtest" "delta-check"
+ "build/tests/api_intel_bb" "--run-subtest" "destroy-bb"
+ "build/tests/api_intel_bb" "--run-subtest" "full-batch"
+ "build/tests/api_intel_bb" "--run-subtest" "intel-bb-blit-none"
+ "build/tests/api_intel_bb" "--run-subtest" "intel-bb-blit-x"
+ "build/tests/api_intel_bb" "--run-subtest" "intel-bb-blit-y"
+ "build/tests/api_intel_bb" "--run-subtest" "lot-of-buffers"
+ "build/tests/api_intel_bb" "--run-subtest" "misplaced-blitter"
+ "build/tests/api_intel_bb" "--run-subtest" "object-noreloc-keep-cache-random"
+ "build/tests/api_intel_bb" "--run-subtest" "object-noreloc-keep-cache-simple"
+ "build/tests/api_intel_bb" "--run-subtest" "object-noreloc-purge-cache-random"
+ "build/tests/api_intel_bb" "--run-subtest" "object-noreloc-purge-cache-simple"
+ "build/tests/api_intel_bb" "--run-subtest" "object-reloc-keep-cache"
+ "build/tests/api_intel_bb" "--run-subtest" "object-reloc-purge-cache"
+ "build/tests/api_intel_bb" "--run-subtest" "offset-control"
+ "build/tests/api_intel_bb" "--run-subtest" "purge-bb"
+ "build/tests/api_intel_bb" "--run-subtest" "render"
+ "build/tests/api_intel_bb" "--run-subtest" "render-ccs"
+ "build/tests/api_intel_bb" "--run-subtest" "reset-bb"
+ "build/tests/api_intel_bb" "--run-subtest" "reset-flags"
+ "build/tests/api_intel_bb" "--run-subtest" "simple-bb"
+ "build/tests/api_intel_bb" "--run-subtest" "simple-bb-ctx"
+ "build/tests/gem_media_fill" "--run-subtest" "media-fill"
+ "build/tests/gem_render_tiled_blits" "--run-subtest" "aperture-shrink"
+ "build/tests/gem_render_tiled_blits" "--run-subtest" "aperture-thrash"
+ "build/tests/gem_render_tiled_blits" "--run-subtest" "basic"
+ "build/tests/gem_render_tiled_blits" "--run-subtest" "swap-thrash"
+ "build/tests/gem_ringfill" "--run-subtest" "basic-all"
+ "build/tests/gem_ringfill" "--run-subtest" "engines-S4"
+ "build/tests/gem_ringfill" "--run-subtest" "engines-basic"
+ "build/tests/gem_ringfill" "--run-subtest" "engines-bomb"
+ "build/tests/gem_ringfill" "--run-subtest" "engines-child"
+ "build/tests/gem_ringfill" "--run-subtest" "engines-fd"
+ "build/tests/gem_ringfill" "--run-subtest" "engines-forked"
+ "build/tests/gem_ringfill" "--run-subtest" "engines-hang"
+ "build/tests/gem_ringfill" "--run-subtest" "engines-interruptible"
+ "build/tests/gem_ringfill" "--run-subtest" "legacy-S4"
+ "build/tests/gem_ringfill" "--run-subtest" "legacy-basic"
+ "build/tests/gem_ringfill" "--run-subtest" "legacy-bomb"
+ "build/tests/gem_ringfill" "--run-subtest" "legacy-child"
+ "build/tests/gem_ringfill" "--run-subtest" "legacy-fd"
+ "build/tests/gem_ringfill" "--run-subtest" "legacy-forked"
+ "build/tests/gem_ringfill" "--run-subtest" "legacy-hang"
+ "build/tests/gem_ringfill" "--run-subtest" "legacy-interruptible"
+ "build/tests/gem_tiled_partial_pwrite_pread" "--run-subtest" "reads"
+ "build/tests/gem_tiled_partial_pwrite_pread" "--run-subtest" "writes"
+ "build/tests/gem_tiled_partial_pwrite_pread" "--run-subtest" "writes-after-reads"
+ "build/tests/i915_module_load" "--run-subtest" "load"
+ "build/tests/i915_module_load" "--run-subtest" "reload"
+ "build/tests/i915_module_load" "--run-subtest" "reload-no-display"
+ "build/tests/i915_module_load" "--run-subtest" "reload-with-fault-injection"
+ "build/tests/i915_module_load" "--run-subtest" "resize-bar"
+ "build/tests/kms_fbcon_fbt" "--run-subtest" "fbc"
+ "build/tests/kms_fbcon_fbt" "--run-subtest" "psr"
+ "build/tests/kms_force_connector_basic" "--run-subtest" "force-connector-state"
+ "build/tests/kms_force_connector_basic" "--run-subtest" "force-edid"
+ "build/tests/kms_force_connector_basic" "--run-subtest" "force-load-detect"
+ "build/tests/kms_force_connector_basic" "--run-subtest" "prune-stale-modes"
+ "build/tests/kms_universal_plane" "--run-subtest" "cursor-fb-leak-pipe-A"
+ "build/tests/kms_universal_plane" "--run-subtest" "cursor-fb-leak-pipe-B"
+ "build/tests/kms_universal_plane" "--run-subtest" "cursor-fb-leak-pipe-C"
+ "build/tests/kms_universal_plane" "--run-subtest" "cursor-fb-leak-pipe-D"
+ "build/tests/kms_universal_plane" "--run-subtest" "cursor-fb-leak-pipe-E"
+ "build/tests/kms_universal_plane" "--run-subtest" "cursor-fb-leak-pipe-F"
+ "build/tests/kms_universal_plane" "--run-subtest" "disable-primary-vs-flip-pipe-A"
+ "build/tests/kms_universal_plane" "--run-subtest" "disable-primary-vs-flip-pipe-B"
+ "build/tests/kms_universal_plane" "--run-subtest" "disable-primary-vs-flip-pipe-C"
+ "build/tests/kms_universal_plane" "--run-subtest" "disable-primary-vs-flip-pipe-D"
+ "build/tests/kms_universal_plane" "--run-subtest" "disable-primary-vs-flip-pipe-E"
+ "build/tests/kms_universal_plane" "--run-subtest" "disable-primary-vs-flip-pipe-F"
+ "build/tests/kms_universal_plane" "--run-subtest" "universal-plane-pageflip-windowed-pipe-A"
+ "build/tests/kms_universal_plane" "--run-subtest" "universal-plane-pageflip-windowed-pipe-B"
+ "build/tests/kms_universal_plane" "--run-subtest" "universal-plane-pageflip-windowed-pipe-C"
+ "build/tests/kms_universal_plane" "--run-subtest" "universal-plane-pageflip-windowed-pipe-D"
+ "build/tests/kms_universal_plane" "--run-subtest" "universal-plane-pageflip-windowed-pipe-E"
+ "build/tests/kms_universal_plane" "--run-subtest" "universal-plane-pageflip-windowed-pipe-F"
+ "build/tests/kms_universal_plane" "--run-subtest" "universal-plane-pipe-A-functional"
+ "build/tests/kms_universal_plane" "--run-subtest" "universal-plane-pipe-A-sanity"
+ "build/tests/kms_universal_plane" "--run-subtest" "universal-plane-pipe-B-functional"
+ "build/tests/kms_universal_plane" "--run-subtest" "universal-plane-pipe-B-sanity"
+ "build/tests/kms_universal_plane" "--run-subtest" "universal-plane-pipe-C-functional"
+ "build/tests/kms_universal_plane" "--run-subtest" "universal-plane-pipe-C-sanity"
+ "build/tests/kms_universal_plane" "--run-subtest" "universal-plane-pipe-D-functional"
+ "build/tests/kms_universal_plane" "--run-subtest" "universal-plane-pipe-D-sanity"
+ "build/tests/kms_universal_plane" "--run-subtest" "universal-plane-pipe-E-functional"
+ "build/tests/kms_universal_plane" "--run-subtest" "universal-plane-pipe-E-sanity"
+ "build/tests/kms_universal_plane" "--run-subtest" "universal-plane-pipe-F-functional"
+ "build/tests/kms_universal_plane" "--run-subtest" "universal-plane-pipe-F-sanity"
+ "build/tests/prime_nv_pcopy" "--run-subtest" "test1_macro"
+ "build/tests/prime_nv_pcopy" "--run-subtest" "test1_micro"
+ "build/tests/prime_nv_pcopy" "--run-subtest" "test2"
+ "build/tests/prime_nv_pcopy" "--run-subtest" "test3_1"
+ "build/tests/prime_nv_pcopy" "--run-subtest" "test3_2"
+ "build/tests/prime_nv_pcopy" "--run-subtest" "test3_3"
+ "build/tests/prime_nv_pcopy" "--run-subtest" "test3_4"
+ "build/tests/prime_nv_pcopy" "--run-subtest" "test3_5"
+ "build/tests/prime_nv_pcopy" "--run-subtest" "test_semaphore"
+ "build/tests/syncobj_timeline" "--run-subtest" "32bits-limit"
+ "build/tests/syncobj_timeline" "--run-subtest" "device-signal-unordered"
+ "build/tests/syncobj_timeline" "--run-subtest" "device-submit-unordered"
+ "build/tests/syncobj_timeline" "--run-subtest" "etime-multi-wait-all-for-submit-available-unsubmitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "etime-multi-wait-all-for-submit-available-unsubmitted-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "etime-multi-wait-all-for-submit-available-unsubmitted-submitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "etime-multi-wait-all-for-submit-submitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "etime-multi-wait-all-for-submit-submitted-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "etime-multi-wait-all-for-submit-unsubmitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "etime-multi-wait-all-for-submit-unsubmitted-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "etime-multi-wait-all-for-submit-unsubmitted-submitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "etime-multi-wait-all-for-submit-unsubmitted-submitted-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "etime-multi-wait-all-submitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "etime-multi-wait-all-submitted-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "etime-multi-wait-for-submit-available-unsubmitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "etime-multi-wait-for-submit-submitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "etime-multi-wait-for-submit-unsubmitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "etime-multi-wait-for-submit-unsubmitted-submitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "etime-multi-wait-submitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "etime-single-wait-all-for-submit-available-unsubmitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "etime-single-wait-all-for-submit-submitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "etime-single-wait-all-for-submit-unsubmitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "etime-single-wait-all-submitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "etime-single-wait-for-submit-available-unsubmitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "etime-single-wait-for-submit-submitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "etime-single-wait-for-submit-unsubmitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "etime-single-wait-submitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "host-signal-ordered"
+ "build/tests/syncobj_timeline" "--run-subtest" "host-signal-points"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-multi-wait-all-available-unsubmitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-multi-wait-all-available-unsubmitted-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-multi-wait-all-available-unsubmitted-submitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-multi-wait-all-available-unsubmitted-submitted-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-multi-wait-all-unsubmitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-multi-wait-all-unsubmitted-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-multi-wait-all-unsubmitted-submitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-multi-wait-all-unsubmitted-submitted-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-multi-wait-available-unsubmitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-multi-wait-available-unsubmitted-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-multi-wait-available-unsubmitted-submitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-multi-wait-available-unsubmitted-submitted-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-multi-wait-unsubmitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-multi-wait-unsubmitted-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-multi-wait-unsubmitted-submitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-multi-wait-unsubmitted-submitted-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-query-bad-pad"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-query-illegal-handle"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-query-one-illegal-handle"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-query-zero-handles"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-signal-bad-pad"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-signal-illegal-handle"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-signal-illegal-point"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-signal-one-illegal-handle"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-signal-zero-handles"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-single-wait-all-available-unsubmitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-single-wait-all-unsubmitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-single-wait-available-unsubmitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-single-wait-unsubmitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-transfer-bad-pad"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-transfer-illegal-handle"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-transfer-non-existent-point"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-wait-bad-flags"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-wait-illegal-handle"
+ "build/tests/syncobj_timeline" "--run-subtest" "invalid-wait-zero-handles"
+ "build/tests/syncobj_timeline" "--run-subtest" "multi-wait-all-available-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "multi-wait-all-available-submitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "multi-wait-all-available-submitted-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "multi-wait-all-for-submit-available-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "multi-wait-all-for-submit-available-submitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "multi-wait-all-for-submit-available-submitted-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "multi-wait-all-for-submit-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "multi-wait-all-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "multi-wait-available-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "multi-wait-available-submitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "multi-wait-available-submitted-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "multi-wait-for-submit-available-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "multi-wait-for-submit-available-submitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "multi-wait-for-submit-available-submitted-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "multi-wait-for-submit-available-unsubmitted-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "multi-wait-for-submit-available-unsubmitted-submitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "multi-wait-for-submit-available-unsubmitted-submitted-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "multi-wait-for-submit-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "multi-wait-for-submit-submitted-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "multi-wait-for-submit-unsubmitted-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "multi-wait-for-submit-unsubmitted-submitted-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "multi-wait-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "multi-wait-submitted-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "reset-during-wait-for-submit"
+ "build/tests/syncobj_timeline" "--run-subtest" "reset-multiple-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "reset-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "reset-unsignaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "signal"
+ "build/tests/syncobj_timeline" "--run-subtest" "signal-array"
+ "build/tests/syncobj_timeline" "--run-subtest" "signal-point-0"
+ "build/tests/syncobj_timeline" "--run-subtest" "single-wait-all-available-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "single-wait-all-available-submitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "single-wait-all-for-submit-available-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "single-wait-all-for-submit-available-submitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "single-wait-all-for-submit-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "single-wait-all-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "single-wait-available-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "single-wait-available-submitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "single-wait-for-submit-available-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "single-wait-for-submit-available-submitted"
+ "build/tests/syncobj_timeline" "--run-subtest" "single-wait-for-submit-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "single-wait-signaled"
+ "build/tests/syncobj_timeline" "--run-subtest" "transfer-timeline-point"
+ "build/tests/syncobj_timeline" "--run-subtest" "wait-all-complex"
+ "build/tests/syncobj_timeline" "--run-subtest" "wait-all-delayed-signal"
+ "build/tests/syncobj_timeline" "--run-subtest" "wait-all-for-submit-complex"
+ "build/tests/syncobj_timeline" "--run-subtest" "wait-all-for-submit-delayed-submit"
+ "build/tests/syncobj_timeline" "--run-subtest" "wait-all-for-submit-snapshot"
+ "build/tests/syncobj_timeline" "--run-subtest" "wait-all-interrupted"
+ "build/tests/syncobj_timeline" "--run-subtest" "wait-all-snapshot"
+ "build/tests/syncobj_timeline" "--run-subtest" "wait-any-complex"
+ "build/tests/syncobj_timeline" "--run-subtest" "wait-any-interrupted"
+ "build/tests/syncobj_timeline" "--run-subtest" "wait-any-snapshot"
+ "build/tests/syncobj_timeline" "--run-subtest" "wait-delayed-signal"
+ "build/tests/syncobj_timeline" "--run-subtest" "wait-for-submit-complex"
+ "build/tests/syncobj_timeline" "--run-subtest" "wait-for-submit-delayed-submit"
+ "build/tests/syncobj_timeline" "--run-subtest" "wait-for-submit-snapshot"
+
+--Th/c7wV5ABaOOy8w--
