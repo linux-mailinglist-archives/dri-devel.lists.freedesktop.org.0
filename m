@@ -1,120 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2386562B26B
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 05:40:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E43262B28C
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 06:03:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74C9A10E17D;
-	Wed, 16 Nov 2022 04:40:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 478B610E181;
+	Wed, 16 Nov 2022 05:03:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2060f.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe5a::60f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B82110E179;
- Wed, 16 Nov 2022 04:40:00 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=E83PQE5e1KLWvWU623WMPkbdky6OQ62oN70KRWoGuC2gt2BCTT0QdM8juSmbq1GaCOEWHieDo7b/N3WoMrfF6/a9tuhdClrark0b6FJBtvkIa3PulZxZp3SzF8hdURUNECwiUD8Tu/9ap+5aCX1l0edBLCQF+91mSV1fuvHNxQypxEg7Ta48D284P5a8O3N7zRNZ58gMsrkQhqhenBz+iAqVUX1NfUv/TjlErhL8amGSNVhogFDx5dc37YRtJwGyA5WjeWK63Z/YQPbnnJy/0MH6CYOU21FsR+V4OY2u8wv37TYcp6OOEST4VDXcuUlHvaa4H9n1sjLybxqLGgAI3w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=b9V2riYdfJNNuFuM6xSBl1BDyk6DblgtlHNGG/s56qM=;
- b=b9LfBTBB9R2k9t099TPfjeMpxTTYcioldoflsx425Ky/i4Xq+EhslWs+5zYqgRoKNowHTNBPnFtDIQxnOqqrqBtyVdY4b+wjtfhD9LDQDz8jPmAk53P079XKELpad8eVyjBmyM0sgnPt2/Q1+PECi59jhSCiTBflyjCA7Y26neolXdaC/lW1DAMxbs3Gocj9d9J3aqUiBWVQogX1fWcGDgHDb7Cd37geis/wNHGw/AbmVi276JCTVSK4dRhCTGZbx5pxYNTEog/TXTyPq3GVX9c7vm2f0BfFu2ZKtT2KPPfs/qUDA3shmf/wZWPL9/Z7bHf6Knbp85D0dtA25IWFEg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b9V2riYdfJNNuFuM6xSBl1BDyk6DblgtlHNGG/s56qM=;
- b=riSRb3Tiow1Zl5ZhiDP81w2fpMM/h4vwChEK6oBrMiT8XPrer7d7/lBAjp/kUiAUU30d4HSqxzbXzbADZEGmVfwkxfsYXm/kTxKAAuYbdyfK6Mr9PpLwlwVVrxJdVtssRldFBp0CsC6+mHKfbcfjIgiTTTnSAPcVhnj4kzLRboo=
-Received: from CO6PR12MB5489.namprd12.prod.outlook.com (2603:10b6:303:139::18)
- by CY5PR12MB6252.namprd12.prod.outlook.com (2603:10b6:930:20::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.18; Wed, 16 Nov
- 2022 04:39:57 +0000
-Received: from CO6PR12MB5489.namprd12.prod.outlook.com
- ([fe80::2509:5f0c:f0f4:882d]) by CO6PR12MB5489.namprd12.prod.outlook.com
- ([fe80::2509:5f0c:f0f4:882d%3]) with mapi id 15.20.5813.018; Wed, 16 Nov 2022
- 04:39:57 +0000
-From: "Lin, Wayne" <Wayne.Lin@amd.com>
-To: Lyude Paul <lyude@redhat.com>, "amd-gfx@lists.freedesktop.org"
- <amd-gfx@lists.freedesktop.org>
-Subject: RE: [PATCH v2 1/4] drm/amdgpu/mst: Stop ignoring error codes and
- deadlocking
-Thread-Topic: [PATCH v2 1/4] drm/amdgpu/mst: Stop ignoring error codes and
- deadlocking
-Thread-Index: AQHY+HcT2dT0uSQ3+UaZejS/vjAtwq5A+SQg
-Date: Wed, 16 Nov 2022 04:39:57 +0000
-Message-ID: <CO6PR12MB548932515652B8D3130C66DEFC079@CO6PR12MB5489.namprd12.prod.outlook.com>
-References: <20221114221754.385090-1-lyude@redhat.com>
- <20221114221754.385090-2-lyude@redhat.com>
-In-Reply-To: <20221114221754.385090-2-lyude@redhat.com>
-Accept-Language: en-US, zh-TW
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Enabled=true;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SetDate=2022-11-16T04:39:44Z; 
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Method=Privileged;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Name=Public-AIP 2.0;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ActionId=f9a793f6-7271-48af-813a-188558cba7c3;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ContentBits=1
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CO6PR12MB5489:EE_|CY5PR12MB6252:EE_
-x-ms-office365-filtering-correlation-id: d5aa038f-4211-4998-6193-08dac78c9d6a
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 8nqRrdAH6a2qa+pxcdP3pGiYdhic49tK1epmKXfUETexxNNMaF8A52J0QPUZwb6lczAXH1F1kOGebynZygNQecwPsYu7eeNohU1q/GyJ10vCNIQaBvJFCN168zPNBNkaHHDjpoLJR38EOAKtceXqBtAwfGCRbtowqbieZWD/Ib0ZV4dx4WUsRW4zWKPdhD6Jy6I7gO+kMEup5JinXSaGoxt+imH0SG0aSPHDBRmUcAc+nyGvtFocdey1g6aoLgoSfYMF1xUEPPUYmYlWeq52ESGtXlm7X0PwFtFadqHOXhwHxBYMlnrThO0zp2UnTjkslR4Axc2IQU8aeLcqRlgqHP0dKC28yJ+dAs+bdvtxaJLKPI+FellLDN8VxOrNGIwpiMFG1I5wT8lWgSG6J0kRaYP8pSeC4Yom3BFyK0CUkyrlHtyyEqYoO3cyEhIrq93EhSI0bCEAx4wEXO2ik6tb36PC19X1+CrivYfqZxzM6Fs3uN7+SYN42CrwZrRfTn/xSX8tZeNL7Bu1Nj3zIdt032IE7Cjw+ibJ9819ijtYy6afoReGzr0C12/9Sh+yH2IE+1OGi88Xm8BMBGIGquO+gG0pzboWfLEa2mEmUfaqMObHqaCM2tEIhZwZQJMAcjWvZJSq3yP8vZGAF5XVRzxB1XHxceMQqgAlJgoJeOo5hiovXo4obqiPXpcEt4koP3yroaMW8vikn2NstjAokaoXMFFyDI6aLue/m/5xxIWuqp6L9Zh9wQCXa+z3NyWwxHopBFJhUOHOleNpwAa2bg8y702UgPrRdUiPoI+puCp8Los=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5489.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(39860400002)(366004)(376002)(346002)(396003)(136003)(451199015)(71200400001)(86362001)(26005)(53546011)(7696005)(6506007)(9686003)(316002)(110136005)(54906003)(38070700005)(33656002)(38100700002)(83380400001)(55016003)(66946007)(8676002)(76116006)(66556008)(66476007)(66446008)(64756008)(30864003)(5660300002)(52536014)(122000001)(8936002)(478600001)(2906002)(41300700001)(186003)(4326008)(11716005)(559001)(579004);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?1HbBvnMpn86Kt/Vy9oZMHMXe9I+1rJ72TgWZBLx/DproGgidHKy7K/ctziLL?=
- =?us-ascii?Q?En3Eu6oDdTe1Zsmg4L66dg2ApKBckoxaWe3GFjS25+e7RIbhFQHxgxoktJAT?=
- =?us-ascii?Q?vFeEt/mCYC52sEU6WCtXOmRoNQM2jcXcaMBSCGOC0UvxjSnSPO2cleZUgecZ?=
- =?us-ascii?Q?MmPVhxEeCLQ185SNUykeK5xSotMQwWz0il1n2fOEgHaTWrvHGj1aSw9k57Xg?=
- =?us-ascii?Q?0CqPPXGV4A26KmK6EUvEE5Jd7/E9QM2iVr35WvneVnrClZhk35GbhQW7JU8v?=
- =?us-ascii?Q?kXgMbVI9hFXl0ZHaO8rMOQqz5ylKntgCiL6CCi8J+7WeWOIwh19lU1vc4f1s?=
- =?us-ascii?Q?VCusnHglmzcNmRrBtnwiQIRTm9Wb9Gi6oCf/IVIyW1w3UTO9TWKpEdl+w625?=
- =?us-ascii?Q?jGWopz/+CvFCsyu+idksNEQBzqOnJIzposrnD/noCpI4IdPHSE9h2lFljKJM?=
- =?us-ascii?Q?jURobjGiV62IlGEzu2R/IT19Dw7eU9wtuX9fl/VNJ5G9T1KI8mPfTaw7Z1Tg?=
- =?us-ascii?Q?JcSTYOJDrfs1cSIi1/UZ+ihnGU9zmrlTIvFaJ98eROlIfUq7gGTML2rilGxl?=
- =?us-ascii?Q?akgzx+7i1Xpbplayod5vAmZctAj46rSC96UONkGKAUDOWvW8smv37zBmFkQO?=
- =?us-ascii?Q?OwzuFzdx6QT7oSic80yILD5Jgg15Cw3BzRbzB90GYlMYIxUosp17PMga3kHg?=
- =?us-ascii?Q?DuNtOGhQZZ9wCcrfkefb3CsuJj6jR0UeA2vYuTM8EGyywDZqCHXxCDeA35x5?=
- =?us-ascii?Q?zaIkGWZA60oOn487W1Oi1+R+xjmAMDa2to82FSuwxD0f958yalZumSTN7Wxa?=
- =?us-ascii?Q?u0rxfdwSUUIgRUDvg7LWZEMZhTgPDBTkOT+SfFmqlTIWE+uHosw0VU3jAI85?=
- =?us-ascii?Q?BUfPah+MGWq09XXcn4UxNUOmBEoWZZxl8bI890ar2lYd76JGHIUPz1AfBrqU?=
- =?us-ascii?Q?YC/5l1SHVcAdUxa/RbGFDCc0lOPBZnzlVElKBWvzKgJbmoKhp+wrRdGVdkJv?=
- =?us-ascii?Q?XArMhHrgKNPLWYXd1kLIBeNSTeOZF7xVygo52cvbVsM4MwcxBIlhACmlnOg0?=
- =?us-ascii?Q?Ki4kiB0OH9Q2s2iiE9o1OZGrtvHSY6rk4K3FxA9ktH5MJ+tptf0TloCdJXTr?=
- =?us-ascii?Q?AnDGOwBuFOlTJbbhVwK6S5FedtF5nKweHGvoIXIKeqVbVc/B1A29f/KZ4qkb?=
- =?us-ascii?Q?kVCiWa9XV6a6f1hhss+blGC8jzWIcik22UkwguW/+z7zonkpRc44aMVsJ7op?=
- =?us-ascii?Q?/5jxPFpuVgPPC5ya6+4PvXsaYqyUv5S6nvJ/5oyj0LB9cWvtAYG0L+qL90iC?=
- =?us-ascii?Q?HMX6Aq0/f08mwl1PLI4BYrjl+IJ2MB7SKGInRnJn5vdb/hUrkddP7rXpGTah?=
- =?us-ascii?Q?a6nKSfWFLAK0qrk/hd2A5xiWrIy4Byy/xYD8h5vUe37/FSgQHfONALVNpUr0?=
- =?us-ascii?Q?v4xZISRIL/qPZHdpUJsTJUXU35lBHZCIfdHTqaYRlM4H1nGKzhyCepg1W6pS?=
- =?us-ascii?Q?Mc5DEV0B3XcHmW2C38y0Z7zHJYckDgKC07cL9gAsFcH9lkb2mSvtevYBy0w9?=
- =?us-ascii?Q?v5xU5I5ElXh+g2bCYQ4=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com
+ [IPv6:2607:f8b0:4864:20::731])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3767C10E02A;
+ Wed, 16 Nov 2022 05:03:27 +0000 (UTC)
+Received: by mail-qk1-x731.google.com with SMTP id i9so10949408qki.10;
+ Tue, 15 Nov 2022 21:03:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=MPeLbqUi2a5gDUer3CWiqeNQAfyAMzz9/ZrcnFvYAug=;
+ b=VyEOGi39GEbiC5dSEGwuoH5SI68mp27/nSAHtoKmIn+tUS+9X2mYNsGbc05YchBvso
+ UztGCUWM/Hx0hunnOA3LeAkEpuLrON7fmNK2RFxHVJQLp+5E+bwhKlyi63ipU7q+OH1I
+ uIOfICqz8e447DKa1aG0+4Od22+b/0e9xvvtEc9UbfpKufYc9zDi3lV6Q/zjTxjRTFi2
+ rdtzVRVMy3g3OzHdNFJOF2LTph7z5GQbPmDrwJLThpg6kBVeConDwfcz7yp6kZzNGdG6
+ i1sqV3UgZW2Z9WjV97NIjW7o8WPK9NYv9jEXGjclMr5YldmsXhh+0Jz7nHX5u7we46vM
+ vcxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=MPeLbqUi2a5gDUer3CWiqeNQAfyAMzz9/ZrcnFvYAug=;
+ b=Q+0iuK3A+vUF69gwCcW3fJo379NuHg7FMflS8169+OFKpPqfeEHhAY6qGyX3NlFPTT
+ rlVX8QBaExkGI0anzCaK60UKNMaD9M0G05rkeD1tGC4CyoEVUJMmuSmTVp9Wr1iIOvy3
+ ZxF/r7Cyywct9TCpHsWocn8jSdYaC89x52dkpKE2Cd2/N2Z4zBBRyIYWsiUjca3z6Kp8
+ 2LOI9Y9A6SZYVhUwe3QqNAWPSRt9NMrp+Y4EgkO7FdVQ7DIFvv4xRtwocAJfNT+GWYp7
+ epWTm2wWOZFc44FbeTR/QFlkUCmbSFd8215IkjUas1iKPD0M7bCSNDx7G6rELMBzxChh
+ TCLQ==
+X-Gm-Message-State: ANoB5plRfi19J/skpwXg0ipHMzZ2ci9O3ier2NsFkNQVQK+TpVZqohDP
+ TdWlx6GkD/k8wGOso+Srsf5tHsa0qXW+mT3owqw=
+X-Google-Smtp-Source: AA0mqf6H3MkTsZBEYVODQSCrC26TcSCRtqdv8xQPsTqVfZRXIAjJTWqj/kc5c0aSNsZSBn6uVeGJe5RA7XEKcrPDUcA=
+X-Received: by 2002:a05:620a:1009:b0:6fa:9812:42f2 with SMTP id
+ z9-20020a05620a100900b006fa981242f2mr18325391qkj.754.1668575005977; Tue, 15
+ Nov 2022 21:03:25 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5489.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5aa038f-4211-4998-6193-08dac78c9d6a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Nov 2022 04:39:57.6221 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ee+tgj+7bU6LiIr4iPGVa7/MF8fezli9ylSR22QAPQeOEzlt/KqK5W9zXrfTpGBNjtQYvEfixsWtjr6fx2bH5Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6252
+References: <20221111201852.6341-1-alexander.deucher@amd.com>
+In-Reply-To: <20221111201852.6341-1-alexander.deucher@amd.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Wed, 16 Nov 2022 15:03:13 +1000
+Message-ID: <CAPM=9twYU=moXfat4pYCyjs-Z+Edx_pAwcTP3xuvh39htqNpvg@mail.gmail.com>
+Subject: Re: [pull] amdgpu, amdkfd, radeon drm-next-6.2
+To: Alex Deucher <alexander.deucher@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,704 +66,331 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Liu, Wenjing" <Wenjing.Liu@amd.com>, "open
- list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>, "Mahfooz,
- Hamza" <Hamza.Mahfooz@amd.com>, "Francis, David" <David.Francis@amd.com>,
- "Siqueira, Rodrigo" <Rodrigo.Siqueira@amd.com>, "Hung,
- Alex" <Alex.Hung@amd.com>, "Zuo, Jerry" <Jerry.Zuo@amd.com>, "Pillai,
- Aurabindo" <Aurabindo.Pillai@amd.com>, "Li,
- Sun peng \(Leo\)" <Sunpeng.Li@amd.com>, "Wu, Hersen" <hersenxs.wu@amd.com>,
- Mikita Lipski <mikita.lipski@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>, "Li,
- Roman" <Roman.Li@amd.com>, "stable@vger.kernel.org" <stable@vger.kernel.org>,
- "Koenig, Christian" <Christian.Koenig@amd.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, "Kazlauskas,
- Nicholas" <Nicholas.Kazlauskas@amd.com>
+Cc: daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Public]
+arm32 build fails
 
-All the patch set looks good to me. Feel free to add:
-Reviewed-by: Wayne Lin <Wayne.Lin@amd.com>
+/home/airlied/devel/kernel/dim/src/drivers/gpu/drm/amd/amdgpu/../display/dc=
+/core/dc.c:
+In function =E2=80=98disable_dangling_plane=E2=80=99:
+/home/airlied/devel/kernel/dim/src/drivers/gpu/drm/amd/amdgpu/../display/dc=
+/core/dc.c:1134:46:
+error: =E2=80=98const struct timing_generator_funcs=E2=80=99 has no member =
+named
+=E2=80=98disable_phantom_crtc=E2=80=99
+ 1134 |                                 if (tg->funcs->disable_phantom_crtc=
+)
+      |                                              ^~
+/home/airlied/devel/kernel/dim/src/drivers/gpu/drm/amd/amdgpu/../display/dc=
+/core/dc.c:1135:50:
+error: =E2=80=98const struct timing_generator_funcs=E2=80=99 has no member =
+named
+=E2=80=98disable_phantom_crtc=E2=80=99
+ 1135 |
+tg->funcs->disable_phantom_crtc(tg);
+      |                                                  ^~
+make[6]: *** [/home/airlied/devel/kernel/dim/src/scripts/Makefile.build:250=
+:
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.o] Error 1
 
-Again, thank you Lyude for helping on this!!!
+Dave.
 
-Regards,
-Wayne
-> -----Original Message-----
-> From: Lyude Paul <lyude@redhat.com>
-> Sent: Tuesday, November 15, 2022 6:18 AM
-> To: amd-gfx@lists.freedesktop.org
-> Cc: Wentland, Harry <Harry.Wentland@amd.com>; stable@vger.kernel.org;
-> Li, Sun peng (Leo) <Sunpeng.Li@amd.com>; Siqueira, Rodrigo
-> <Rodrigo.Siqueira@amd.com>; Deucher, Alexander
-> <Alexander.Deucher@amd.com>; Koenig, Christian
-> <Christian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>; David
-> Airlie <airlied@gmail.com>; Daniel Vetter <daniel@ffwll.ch>; Kazlauskas,
-> Nicholas <Nicholas.Kazlauskas@amd.com>; Pillai, Aurabindo
-> <Aurabindo.Pillai@amd.com>; Li, Roman <Roman.Li@amd.com>; Zuo, Jerry
-> <Jerry.Zuo@amd.com>; Wu, Hersen <hersenxs.wu@amd.com>; Lin, Wayne
-> <Wayne.Lin@amd.com>; Thomas Zimmermann <tzimmermann@suse.de>;
-> Mahfooz, Hamza <Hamza.Mahfooz@amd.com>; Hung, Alex
-> <Alex.Hung@amd.com>; Mikita Lipski <mikita.lipski@amd.com>; Liu,
-> Wenjing <Wenjing.Liu@amd.com>; Francis, David
-> <David.Francis@amd.com>; open list:DRM DRIVERS <dri-
-> devel@lists.freedesktop.org>; open list <linux-kernel@vger.kernel.org>
-> Subject: [PATCH v2 1/4] drm/amdgpu/mst: Stop ignoring error codes and
-> deadlocking
->=20
-> It appears that amdgpu makes the mistake of completely ignoring the retur=
-n
-> values from the DP MST helpers, and instead just returns a simple true/fa=
-lse.
-> In this case, it seems to have come back to bite us because as a result o=
-f
-> simply returning false from compute_mst_dsc_configs_for_state(), amdgpu
-> had no way of telling when a deadlock happened from these helpers. This
-> could definitely result in some kernel splats.
->=20
-> V2:
-> * Address Wayne's comments (fix another bunch of spots where we weren't
->   passing down return codes)
->=20
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> Fixes: 8c20a1ed9b4f ("drm/amd/display: MST DSC compute fair share")
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: <stable@vger.kernel.org> # v5.6+
-> ---
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  18 +-
->  .../display/amdgpu_dm/amdgpu_dm_mst_types.c   | 235 ++++++++++------
-> --
->  .../display/amdgpu_dm/amdgpu_dm_mst_types.h   |  12 +-
->  3 files changed, 147 insertions(+), 118 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 0db2a88cd4d7b..852a2100c6b38 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -6462,7 +6462,7 @@ static int
-> dm_update_mst_vcpi_slots_for_dsc(struct drm_atomic_state *state,
->  	struct drm_connector_state *new_con_state;
->  	struct amdgpu_dm_connector *aconnector;
->  	struct dm_connector_state *dm_conn_state;
-> -	int i, j;
-> +	int i, j, ret;
->  	int vcpi, pbn_div, pbn, slot_num =3D 0;
->=20
->  	for_each_new_connector_in_state(state, connector,
-> new_con_state, i) { @@ -6509,8 +6509,11 @@ static int
-> dm_update_mst_vcpi_slots_for_dsc(struct drm_atomic_state *state,
->  			dm_conn_state->pbn =3D pbn;
->  			dm_conn_state->vcpi_slots =3D slot_num;
->=20
-> -			drm_dp_mst_atomic_enable_dsc(state, aconnector-
-> >port, dm_conn_state->pbn,
-> -						     false);
-> +			ret =3D drm_dp_mst_atomic_enable_dsc(state,
-> aconnector->port,
-> +							   dm_conn_state-
-> >pbn, false);
-> +			if (ret < 0)
-> +				return ret;
-> +
->  			continue;
->  		}
->=20
-> @@ -9523,10 +9526,9 @@ static int amdgpu_dm_atomic_check(struct
-> drm_device *dev,
->=20
->  #if defined(CONFIG_DRM_AMD_DC_DCN)
->  	if (dc_resource_is_dsc_encoding_supported(dc)) {
-> -		if (!pre_validate_dsc(state, &dm_state, vars)) {
-> -			ret =3D -EINVAL;
-> +		ret =3D pre_validate_dsc(state, &dm_state, vars);
-> +		if (ret !=3D 0)
->  			goto fail;
-> -		}
->  	}
->  #endif
->=20
-> @@ -9621,9 +9623,9 @@ static int amdgpu_dm_atomic_check(struct
-> drm_device *dev,
->  		}
->=20
->  #if defined(CONFIG_DRM_AMD_DC_DCN)
-> -		if (!compute_mst_dsc_configs_for_state(state, dm_state-
-> >context, vars)) {
-> +		ret =3D compute_mst_dsc_configs_for_state(state, dm_state-
-> >context, vars);
-> +		if (ret) {
->=20
-> 	DRM_DEBUG_DRIVER("compute_mst_dsc_configs_for_state()
-> failed\n");
-> -			ret =3D -EINVAL;
->  			goto fail;
->  		}
->=20
-> diff --git
-> a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> index 6ff96b4bdda5c..bba2e8aaa2c20 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> +++
-> b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> @@ -703,13 +703,13 @@ static int bpp_x16_from_pbn(struct
-> dsc_mst_fairness_params param, int pbn)
->  	return dsc_config.bits_per_pixel;
->  }
->=20
-> -static bool increase_dsc_bpp(struct drm_atomic_state *state,
-> -			     struct drm_dp_mst_topology_state *mst_state,
-> -			     struct dc_link *dc_link,
-> -			     struct dsc_mst_fairness_params *params,
-> -			     struct dsc_mst_fairness_vars *vars,
-> -			     int count,
-> -			     int k)
-> +static int increase_dsc_bpp(struct drm_atomic_state *state,
-> +			    struct drm_dp_mst_topology_state *mst_state,
-> +			    struct dc_link *dc_link,
-> +			    struct dsc_mst_fairness_params *params,
-> +			    struct dsc_mst_fairness_vars *vars,
-> +			    int count,
-> +			    int k)
->  {
->  	int i;
->  	bool bpp_increased[MAX_PIPES];
-> @@ -719,6 +719,7 @@ static bool increase_dsc_bpp(struct
-> drm_atomic_state *state,
->  	int remaining_to_increase =3D 0;
->  	int link_timeslots_used;
->  	int fair_pbn_alloc;
-> +	int ret =3D 0;
->=20
->  	for (i =3D 0; i < count; i++) {
->  		if (vars[i + k].dsc_enabled) {
-> @@ -757,52 +758,60 @@ static bool increase_dsc_bpp(struct
-> drm_atomic_state *state,
->=20
->  		if (initial_slack[next_index] > fair_pbn_alloc) {
->  			vars[next_index].pbn +=3D fair_pbn_alloc;
-> -			if (drm_dp_atomic_find_time_slots(state,
-> -
-> params[next_index].port->mgr,
-> -
-> params[next_index].port,
-> -
-> vars[next_index].pbn) < 0)
-> -				return false;
-> -			if (!drm_dp_mst_atomic_check(state)) {
-> +			ret =3D drm_dp_atomic_find_time_slots(state,
-> +
-> params[next_index].port->mgr,
-> +
-> params[next_index].port,
-> +
-> vars[next_index].pbn);
-> +			if (ret < 0)
-> +				return ret;
-> +
-> +			ret =3D drm_dp_mst_atomic_check(state);
-> +			if (ret =3D=3D 0) {
->  				vars[next_index].bpp_x16 =3D
-> bpp_x16_from_pbn(params[next_index], vars[next_index].pbn);
->  			} else {
->  				vars[next_index].pbn -=3D fair_pbn_alloc;
-> -				if (drm_dp_atomic_find_time_slots(state,
-> -
-> params[next_index].port->mgr,
-> -
-> params[next_index].port,
-> -
-> vars[next_index].pbn) < 0)
-> -					return false;
-> +				ret =3D drm_dp_atomic_find_time_slots(state,
-> +
-> params[next_index].port->mgr,
-> +
-> params[next_index].port,
-> +
-> vars[next_index].pbn);
-> +				if (ret < 0)
-> +					return ret;
->  			}
->  		} else {
->  			vars[next_index].pbn +=3D initial_slack[next_index];
-> -			if (drm_dp_atomic_find_time_slots(state,
-> -
-> params[next_index].port->mgr,
-> -
-> params[next_index].port,
-> -
-> vars[next_index].pbn) < 0)
-> -				return false;
-> -			if (!drm_dp_mst_atomic_check(state)) {
-> +			ret =3D drm_dp_atomic_find_time_slots(state,
-> +
-> params[next_index].port->mgr,
-> +
-> params[next_index].port,
-> +
-> vars[next_index].pbn);
-> +			if (ret < 0)
-> +				return ret;
-> +
-> +			ret =3D drm_dp_mst_atomic_check(state);
-> +			if (ret =3D=3D 0) {
->  				vars[next_index].bpp_x16 =3D
-> params[next_index].bw_range.max_target_bpp_x16;
->  			} else {
->  				vars[next_index].pbn -=3D
-> initial_slack[next_index];
-> -				if (drm_dp_atomic_find_time_slots(state,
-> -
-> params[next_index].port->mgr,
-> -
-> params[next_index].port,
-> -
-> vars[next_index].pbn) < 0)
-> -					return false;
-> +				ret =3D drm_dp_atomic_find_time_slots(state,
-> +
-> params[next_index].port->mgr,
-> +
-> params[next_index].port,
-> +
-> vars[next_index].pbn);
-> +				if (ret < 0)
-> +					return ret;
->  			}
->  		}
->=20
->  		bpp_increased[next_index] =3D true;
->  		remaining_to_increase--;
->  	}
-> -	return true;
-> +	return 0;
->  }
->=20
-> -static bool try_disable_dsc(struct drm_atomic_state *state,
-> -			    struct dc_link *dc_link,
-> -			    struct dsc_mst_fairness_params *params,
-> -			    struct dsc_mst_fairness_vars *vars,
-> -			    int count,
-> -			    int k)
-> +static int try_disable_dsc(struct drm_atomic_state *state,
-> +			   struct dc_link *dc_link,
-> +			   struct dsc_mst_fairness_params *params,
-> +			   struct dsc_mst_fairness_vars *vars,
-> +			   int count,
-> +			   int k)
->  {
->  	int i;
->  	bool tried[MAX_PIPES];
-> @@ -810,6 +819,7 @@ static bool try_disable_dsc(struct drm_atomic_state
-> *state,
->  	int max_kbps_increase;
->  	int next_index;
->  	int remaining_to_try =3D 0;
-> +	int ret;
->=20
->  	for (i =3D 0; i < count; i++) {
->  		if (vars[i + k].dsc_enabled
-> @@ -840,49 +850,52 @@ static bool try_disable_dsc(struct
-> drm_atomic_state *state,
->  			break;
->=20
->  		vars[next_index].pbn =3D
-> kbps_to_peak_pbn(params[next_index].bw_range.stream_kbps);
-> -		if (drm_dp_atomic_find_time_slots(state,
-> -						  params[next_index].port-
-> >mgr,
-> -						  params[next_index].port,
-> -						  vars[next_index].pbn) < 0)
-> -			return false;
-> +		ret =3D drm_dp_atomic_find_time_slots(state,
-> +						    params[next_index].port-
-> >mgr,
-> +						    params[next_index].port,
-> +						    vars[next_index].pbn);
-> +		if (ret < 0)
-> +			return ret;
->=20
-> -		if (!drm_dp_mst_atomic_check(state)) {
-> +		ret =3D drm_dp_mst_atomic_check(state);
-> +		if (ret =3D=3D 0) {
->  			vars[next_index].dsc_enabled =3D false;
->  			vars[next_index].bpp_x16 =3D 0;
->  		} else {
->  			vars[next_index].pbn =3D
-> kbps_to_peak_pbn(params[next_index].bw_range.max_kbps);
-> -			if (drm_dp_atomic_find_time_slots(state,
-> -
-> params[next_index].port->mgr,
-> -
-> params[next_index].port,
-> -
-> vars[next_index].pbn) < 0)
-> -				return false;
-> +			ret =3D drm_dp_atomic_find_time_slots(state,
-> +
-> params[next_index].port->mgr,
-> +
-> params[next_index].port,
-> +
-> vars[next_index].pbn);
-> +			if (ret < 0)
-> +				return ret;
->  		}
->=20
->  		tried[next_index] =3D true;
->  		remaining_to_try--;
->  	}
-> -	return true;
-> +	return 0;
->  }
->=20
-> -static bool compute_mst_dsc_configs_for_link(struct drm_atomic_state
-> *state,
-> -					     struct dc_state *dc_state,
-> -					     struct dc_link *dc_link,
-> -					     struct dsc_mst_fairness_vars *vars,
-> -					     struct drm_dp_mst_topology_mgr
-> *mgr,
-> -					     int *link_vars_start_index)
-> +static int compute_mst_dsc_configs_for_link(struct drm_atomic_state
-> *state,
-> +					    struct dc_state *dc_state,
-> +					    struct dc_link *dc_link,
-> +					    struct dsc_mst_fairness_vars *vars,
-> +					    struct drm_dp_mst_topology_mgr
-> *mgr,
-> +					    int *link_vars_start_index)
->  {
->  	struct dc_stream_state *stream;
->  	struct dsc_mst_fairness_params params[MAX_PIPES];
->  	struct amdgpu_dm_connector *aconnector;
->  	struct drm_dp_mst_topology_state *mst_state =3D
-> drm_atomic_get_mst_topology_state(state, mgr);
->  	int count =3D 0;
-> -	int i, k;
-> +	int i, k, ret;
->  	bool debugfs_overwrite =3D false;
->=20
->  	memset(params, 0, sizeof(params));
->=20
->  	if (IS_ERR(mst_state))
-> -		return false;
-> +		return PTR_ERR(mst_state);
->=20
->  	mst_state->pbn_div =3D dm_mst_get_pbn_divider(dc_link);  #if
-> defined(CONFIG_DRM_AMD_DC_DCN) @@ -933,7 +946,7 @@ static bool
-> compute_mst_dsc_configs_for_link(struct drm_atomic_state *state,
->=20
->  	if (count =3D=3D 0) {
->  		ASSERT(0);
-> -		return true;
-> +		return 0;
->  	}
->=20
->  	/* k is start index of vars for current phy link used by mst hub */ @@
-> -947,13 +960,17 @@ static bool compute_mst_dsc_configs_for_link(struct
-> drm_atomic_state *state,
->  		vars[i + k].pbn =3D
-> kbps_to_peak_pbn(params[i].bw_range.stream_kbps);
->  		vars[i + k].dsc_enabled =3D false;
->  		vars[i + k].bpp_x16 =3D 0;
-> -		if (drm_dp_atomic_find_time_slots(state, params[i].port-
-> >mgr, params[i].port,
-> -						  vars[i + k].pbn) < 0)
-> -			return false;
-> +		ret =3D drm_dp_atomic_find_time_slots(state, params[i].port-
-> >mgr, params[i].port,
-> +						    vars[i + k].pbn);
-> +		if (ret < 0)
-> +			return ret;
->  	}
-> -	if (!drm_dp_mst_atomic_check(state) && !debugfs_overwrite) {
-> +	ret =3D drm_dp_mst_atomic_check(state);
-> +	if (ret =3D=3D 0 && !debugfs_overwrite) {
->  		set_dsc_configs_from_fairness_vars(params, vars, count, k);
-> -		return true;
-> +		return 0;
-> +	} else if (ret !=3D -ENOSPC) {
-> +		return ret;
->  	}
->=20
->  	/* Try max compression */
-> @@ -962,31 +979,36 @@ static bool
-> compute_mst_dsc_configs_for_link(struct drm_atomic_state *state,
->  			vars[i + k].pbn =3D
-> kbps_to_peak_pbn(params[i].bw_range.min_kbps);
->  			vars[i + k].dsc_enabled =3D true;
->  			vars[i + k].bpp_x16 =3D
-> params[i].bw_range.min_target_bpp_x16;
-> -			if (drm_dp_atomic_find_time_slots(state,
-> params[i].port->mgr,
-> -							  params[i].port, vars[i
-> + k].pbn) < 0)
-> -				return false;
-> +			ret =3D drm_dp_atomic_find_time_slots(state,
-> params[i].port->mgr,
-> +							    params[i].port,
-> vars[i + k].pbn);
-> +			if (ret < 0)
-> +				return ret;
->  		} else {
->  			vars[i + k].pbn =3D
-> kbps_to_peak_pbn(params[i].bw_range.stream_kbps);
->  			vars[i + k].dsc_enabled =3D false;
->  			vars[i + k].bpp_x16 =3D 0;
-> -			if (drm_dp_atomic_find_time_slots(state,
-> params[i].port->mgr,
-> -							  params[i].port, vars[i
-> + k].pbn) < 0)
-> -				return false;
-> +			ret =3D drm_dp_atomic_find_time_slots(state,
-> params[i].port->mgr,
-> +							    params[i].port,
-> vars[i + k].pbn);
-> +			if (ret < 0)
-> +				return ret;
->  		}
->  	}
-> -	if (drm_dp_mst_atomic_check(state))
-> -		return false;
-> +	ret =3D drm_dp_mst_atomic_check(state);
-> +	if (ret !=3D 0)
-> +		return ret;
->=20
->  	/* Optimize degree of compression */
-> -	if (!increase_dsc_bpp(state, mst_state, dc_link, params, vars, count,
-> k))
-> -		return false;
-> +	ret =3D increase_dsc_bpp(state, mst_state, dc_link, params, vars,
-> count, k);
-> +	if (ret < 0)
-> +		return ret;
->=20
-> -	if (!try_disable_dsc(state, dc_link, params, vars, count, k))
-> -		return false;
-> +	ret =3D try_disable_dsc(state, dc_link, params, vars, count, k);
-> +	if (ret < 0)
-> +		return ret;
->=20
->  	set_dsc_configs_from_fairness_vars(params, vars, count, k);
->=20
-> -	return true;
-> +	return 0;
->  }
->=20
->  static bool is_dsc_need_re_compute(
-> @@ -1087,15 +1109,16 @@ static bool is_dsc_need_re_compute(
->  	return is_dsc_need_re_compute;
->  }
->=20
-> -bool compute_mst_dsc_configs_for_state(struct drm_atomic_state *state,
-> -				       struct dc_state *dc_state,
-> -				       struct dsc_mst_fairness_vars *vars)
-> +int compute_mst_dsc_configs_for_state(struct drm_atomic_state *state,
-> +				      struct dc_state *dc_state,
-> +				      struct dsc_mst_fairness_vars *vars)
->  {
->  	int i, j;
->  	struct dc_stream_state *stream;
->  	bool computed_streams[MAX_PIPES];
->  	struct amdgpu_dm_connector *aconnector;
->  	int link_vars_start_index =3D 0;
-> +	int ret =3D 0;
->=20
->  	for (i =3D 0; i < dc_state->stream_count; i++)
->  		computed_streams[i] =3D false;
-> @@ -1118,17 +1141,19 @@ bool compute_mst_dsc_configs_for_state(struct
-> drm_atomic_state *state,
->  			continue;
->=20
->  		if (dcn20_remove_stream_from_ctx(stream->ctx->dc,
-> dc_state, stream) !=3D DC_OK)
-> -			return false;
-> +			return -EINVAL;
->=20
->  		if (!is_dsc_need_re_compute(state, dc_state, stream->link))
->  			continue;
->=20
->  		mutex_lock(&aconnector->mst_mgr.lock);
-> -		if (!compute_mst_dsc_configs_for_link(state, dc_state,
-> stream->link, vars,
-> -						      &aconnector->mst_mgr,
-> -						      &link_vars_start_index)) {
-> +
-> +		ret =3D compute_mst_dsc_configs_for_link(state, dc_state,
-> stream->link, vars,
-> +						       &aconnector->mst_mgr,
-> +						       &link_vars_start_index);
-> +		if (ret !=3D 0) {
->  			mutex_unlock(&aconnector->mst_mgr.lock);
-> -			return false;
-> +			return ret;
->  		}
->  		mutex_unlock(&aconnector->mst_mgr.lock);
->=20
-> @@ -1143,22 +1168,22 @@ bool compute_mst_dsc_configs_for_state(struct
-> drm_atomic_state *state,
->=20
->  		if (stream->timing.flags.DSC =3D=3D 1)
->  			if (dc_stream_add_dsc_to_resource(stream->ctx-
-> >dc, dc_state, stream) !=3D DC_OK)
-> -				return false;
-> +				return -EINVAL;
->  	}
->=20
-> -	return true;
-> +	return ret;
->  }
->=20
-> -static bool
-> -	pre_compute_mst_dsc_configs_for_state(struct drm_atomic_state
-> *state,
-> -					      struct dc_state *dc_state,
-> -					      struct dsc_mst_fairness_vars
-> *vars)
-> +static int pre_compute_mst_dsc_configs_for_state(struct
-> drm_atomic_state *state,
-> +						 struct dc_state *dc_state,
-> +						 struct dsc_mst_fairness_vars
-> *vars)
->  {
->  	int i, j;
->  	struct dc_stream_state *stream;
->  	bool computed_streams[MAX_PIPES];
->  	struct amdgpu_dm_connector *aconnector;
->  	int link_vars_start_index =3D 0;
-> +	int ret;
->=20
->  	for (i =3D 0; i < dc_state->stream_count; i++)
->  		computed_streams[i] =3D false;
-> @@ -1184,11 +1209,12 @@ static bool
->  			continue;
->=20
->  		mutex_lock(&aconnector->mst_mgr.lock);
-> -		if (!compute_mst_dsc_configs_for_link(state, dc_state,
-> stream->link, vars,
-> -						      &aconnector->mst_mgr,
-> -						      &link_vars_start_index)) {
-> +		ret =3D compute_mst_dsc_configs_for_link(state, dc_state,
-> stream->link, vars,
-> +						       &aconnector->mst_mgr,
-> +						       &link_vars_start_index);
-> +		if (ret !=3D 0) {
->  			mutex_unlock(&aconnector->mst_mgr.lock);
-> -			return false;
-> +			return ret;
->  		}
->  		mutex_unlock(&aconnector->mst_mgr.lock);
->=20
-> @@ -1198,7 +1224,7 @@ static bool
->  		}
->  	}
->=20
-> -	return true;
-> +	return ret;
->  }
->=20
->  static int find_crtc_index_in_state_by_stream(struct drm_atomic_state
-> *state, @@ -1253,9 +1279,9 @@ static bool
-> is_dsc_precompute_needed(struct drm_atomic_state *state)
->  	return ret;
->  }
->=20
-> -bool pre_validate_dsc(struct drm_atomic_state *state,
-> -		      struct dm_atomic_state **dm_state_ptr,
-> -		      struct dsc_mst_fairness_vars *vars)
-> +int pre_validate_dsc(struct drm_atomic_state *state,
-> +		     struct dm_atomic_state **dm_state_ptr,
-> +		     struct dsc_mst_fairness_vars *vars)
->  {
->  	int i;
->  	struct dm_atomic_state *dm_state;
-> @@ -1264,11 +1290,12 @@ bool pre_validate_dsc(struct drm_atomic_state
-> *state,
->=20
->  	if (!is_dsc_precompute_needed(state)) {
->  		DRM_INFO_ONCE("DSC precompute is not needed.\n");
-> -		return true;
-> +		return 0;
->  	}
-> -	if (dm_atomic_get_state(state, dm_state_ptr)) {
-> +	ret =3D dm_atomic_get_state(state, dm_state_ptr);
-> +	if (ret !=3D 0) {
->  		DRM_INFO_ONCE("dm_atomic_get_state() failed\n");
-> -		return false;
-> +		return ret;
->  	}
->  	dm_state =3D *dm_state_ptr;
->=20
-> @@ -1280,7 +1307,7 @@ bool pre_validate_dsc(struct drm_atomic_state
-> *state,
->=20
->  	local_dc_state =3D kmemdup(dm_state->context, sizeof(struct
-> dc_state), GFP_KERNEL);
->  	if (!local_dc_state)
-> -		return false;
-> +		return -ENOMEM;
->=20
->  	for (i =3D 0; i < local_dc_state->stream_count; i++) {
->  		struct dc_stream_state *stream =3D dm_state->context-
-> >streams[i]; @@ -1316,9 +1343,9 @@ bool pre_validate_dsc(struct
-> drm_atomic_state *state,
->  	if (ret !=3D 0)
->  		goto clean_exit;
->=20
-> -	if (!pre_compute_mst_dsc_configs_for_state(state, local_dc_state,
-> vars)) {
-> +	ret =3D pre_compute_mst_dsc_configs_for_state(state, local_dc_state,
-> vars);
-> +	if (ret !=3D 0) {
->=20
-> 	DRM_INFO_ONCE("pre_compute_mst_dsc_configs_for_state()
-> failed\n");
-> -		ret =3D -EINVAL;
->  		goto clean_exit;
->  	}
->=20
-> @@ -1349,7 +1376,7 @@ bool pre_validate_dsc(struct drm_atomic_state
-> *state,
->=20
->  	kfree(local_dc_state);
->=20
-> -	return (ret =3D=3D 0);
-> +	return ret;
->  }
->=20
->  static unsigned int kbps_from_pbn(unsigned int pbn) diff --git
-> a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.h
-> b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.h
-> index b92a7c5671aa2..97fd70df531bf 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.h
-> +++
-> b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.h
-> @@ -53,15 +53,15 @@ struct dsc_mst_fairness_vars {
->  	struct amdgpu_dm_connector *aconnector;  };
->=20
-> -bool compute_mst_dsc_configs_for_state(struct drm_atomic_state *state,
-> -				       struct dc_state *dc_state,
-> -				       struct dsc_mst_fairness_vars *vars);
-> +int compute_mst_dsc_configs_for_state(struct drm_atomic_state *state,
-> +				      struct dc_state *dc_state,
-> +				      struct dsc_mst_fairness_vars *vars);
->=20
->  bool needs_dsc_aux_workaround(struct dc_link *link);
->=20
-> -bool pre_validate_dsc(struct drm_atomic_state *state,
-> -		      struct dm_atomic_state **dm_state_ptr,
-> -		      struct dsc_mst_fairness_vars *vars);
-> +int pre_validate_dsc(struct drm_atomic_state *state,
-> +		     struct dm_atomic_state **dm_state_ptr,
-> +		     struct dsc_mst_fairness_vars *vars);
->=20
->  enum dc_status dm_dp_mst_is_port_support_mode(
->  	struct amdgpu_dm_connector *aconnector,
-> --
-> 2.37.3
+On Sat, 12 Nov 2022 at 06:19, Alex Deucher <alexander.deucher@amd.com> wrot=
+e:
+>
+> Hi Dave, Daniel,
+>
+> More new stuff for 6.2.
+>
+> The following changes since commit a143bc517bf31c4575191efbaac216a11ec016=
+e0:
+>
+>   Merge branch '00.06-gr-ampere' of https://gitlab.freedesktop.org/skeggs=
+b/nouveau into drm-next (2022-11-09 11:18:56 +1000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-next-6.2-20=
+22-11-11
+>
+> for you to fetch changes up to 2ebf61f2cfb9a11bc17db30df3e675a4cd7418d3:
+>
+>   drm/amdgpu: Fix memory leak in amdgpu_cs_pass1 (2022-11-10 15:30:34 -05=
+00)
+>
+> ----------------------------------------------------------------
+> amd-drm-next-6.2-2022-11-11:
+>
+> amdgpu:
+> - SMU 13.x updates
+> - GPUVM TLB race fix
+> - DCN 3.1.4 updates
+> - DCN 3.2.x updates
+> - PSR fixes
+> - Kerneldoc fix
+> - Vega10 fan fix
+> - GPUVM locking fixes in error pathes
+> - BACO fix for Beige Goby
+> - EEPROM I2C address cleanup
+> - GFXOFF fix
+> - Fix DC memory leak in error pathes
+> - Flexible array updates
+> - Mtype fix for GPUVM PTEs
+> - Move Kconfig into amdgpu directory
+> - SR-IOV updates
+> - Fix possible memory leak in CS IOCTL error path
+>
+> amdkfd:
+> - Fix possible memory overrun
+> - CRIU fixes
+>
+> radeon:
+> - ACPI ref count fix
+> - HDA audio notifier support
+> - Move Kconfig into radeon directory
+>
+> UAPI:
+> - Add new GEM_CREATE flags to help to transition more KFD functionality t=
+o the DRM UAPI.
+>   These are used internally in the driver to align location based memory =
+coherency
+>   requirements from memory allocated in the KFD with how we manage GPUVM =
+PTEs.  They
+>   are currently blocked in the GEM_CREATE IOCTL as we don't have a user r=
+ight now.
+>   They are just used internally in the kernel driver for now for existing=
+ KFD memory
+>   allocations. So a change to the UAPI header, but no functional change i=
+n the UAPI.
+>
+> ----------------------------------------------------------------
+> Alvin Lee (4):
+>       drm/amd/display: Wait for VBLANK during pipe programming
+>       drm/amd/display: Use min transition for SubVP into MPO
+>       drm/amd/display: Disable phantom OTG after enable for plane disable
+>       drm/amd/display: Add margin for max vblank time for SubVP + DRR
+>
+> Andrew Davis (1):
+>       drm: Move radeon and amdgpu Kconfig options into their directories
+>
+> Aric Cyr (1):
+>       drm/amd/display: 3.2.211
+>
+> Asher Song (1):
+>       Revert "drm/amdgpu: Revert "drm/amdgpu: getting fan speed pwm for v=
+ega10 properly""
+>
+> Aurabindo Pillai (1):
+>       drm/amd/display: Zeromem mypipe heap struct before using it
+>
+> Chaitanya Dhere (1):
+>       drm/amd/display: Fix FCLK deviation and tool compile issues
+>
+> Christian K=C3=B6nig (1):
+>       drm/amdgpu: workaround for TLB seq race
+>
+> Dillon Varone (1):
+>       drm/amd/display: Enforce minimum prefetch time for low memclk on DC=
+N32
+>
+> Dong Chenchen (1):
+>       drm/amdgpu: Fix memory leak in amdgpu_cs_pass1
+>
+> Felix Kuehling (3):
+>       drm/amdkfd: Fix error handling in kfd_criu_restore_events
+>       drm/amdkfd: Fix error handling in criu_checkpoint
+>       drm/amdgpu: Set MTYPE in PTE based on BO flags
+>
+> Gavin Wan (1):
+>       drm/amdgpu: Ignore stop rlc on SRIOV environment.
+>
+> George Shen (1):
+>       drm/amd/display: Populate DP2.0 output type for DML pipe
+>
+> Guchun Chen (1):
+>       drm/amdgpu: disable BACO on special BEIGE_GOBY card
+>
+> Hamza Mahfooz (1):
+>       drm/amd/display: only fill dirty rectangles when PSR is enabled
+>
+> Hanjun Guo (1):
+>       drm/radeon: Add the missed acpi_put_table() to fix memory leak
+>
+> Harsh Jain (1):
+>       drm/amdgpu: complete gfxoff allow signal during suspend without del=
+ay
+>
+> Kenneth Feng (2):
+>       drm/amd/pm: enable mode1 reset on smu_v13_0_10
+>       drm/amd/pm: skip disabling all smu features on smu_v13_0_10 in susp=
+end
+>
+> Leo Ma (1):
+>       drm/amd/display: Adding HDMI SCDC DEVICE_ID define
+>
+> Liu Jian (1):
+>       drm/amd/display: delete the duplicate .set_odm_bypass initializatio=
+n in dcn314_tg_funcs
+>
+> LongJun Tang (1):
+>       drm/amd/display: Have risk for memory exhaustion
+>
+> Luben Tuikov (2):
+>       drm/amdgpu: Remove redundant I2C EEPROM address
+>       drm/amdgpu: Decouple RAS EEPROM addresses from chips
+>
+> Ma Jun (2):
+>       drm/amdkfd: Fix the memory overrun
+>       drm/amdkfd: Make kfd_fill_cache_non_crat_info() as static
+>
+> Max Tseng (1):
+>       drm/amd/display: Cursor update refactor: PSR-SU support condition
+>
+> Michael Strauss (1):
+>       drm/amd/display: Only update link settings after successful MST lin=
+k train
+>
+> Mike Hsieh (1):
+>       drm/amd/display: Set correct EOTF and Gamut flag in VRR info
+>
+> Mustapha Ghaddar (1):
+>       drm/amd/display: Fix fallback issues for DP LL 1.4a tests
+>
+> Nawwar Ali (1):
+>       drm/amd/display: Update 709 gamma to 2.222 as stated in the stander=
+d
+>
+> Nicholas Kazlauskas (3):
+>       drm/amd/display: Update SR watermarks for DCN314
+>       drm/amd/display: Allow tuning DCN314 bounding box
+>       drm/amd/display: Fix reg timeout in enc314_enable_fifo
+>
+> Paulo Miguel Almeida (2):
+>       drm/amdgpu: Replace 1-element array with flexible-array member
+>       drm/amdgpu: Replace one-element array with flex-array member
+>
+> Philip Yang (2):
+>       drm/amdgpu: Unlock bo_list_mutex after error handling
+>       drm/amdgpu: Drop eviction lock when allocating PT BO
+>
+> Rajneesh Bhardwaj (1):
+>       drm/amdgpu: Fix the kerneldoc description
+>
+> Ryan Lin (1):
+>       drm/amd/display: Waiting for 1 frame to fix the flash issue on PSR1
+>
+> Steve Su (1):
+>       drm/amd/display: Fix gpio port mapping issue
+>
+> Takashi Iwai (1):
+>       drm/radeon: Add HD-audio component notifier support (v6)
+>
+> Tao Zhou (1):
+>       drm/amdgpu: remove the check of init status in psp_ras_initialize
+>
+> Tim Huang (1):
+>       drm/amd/pm: update SMU IP v13.0.4 msg interface header
+>
+> Tong Liu01 (1):
+>       drm/amdgpu: add vram reservation based on vram_usagebyfirmware_v2_2
+>
+> Ville Syrj=C3=A4l=C3=A4 (1):
+>       drm/amdgpu: Use drm_mode_init() for on-stack modes
+>
+> Wenjing Liu (1):
+>       drm/amd/display: Consider dp cable id only when data is non zero
+>
+> Wesley Chalmers (1):
+>       drm/amd/display: Disable DRR actions during state commit
+>
+> Yifan Zhang (1):
+>       drm/amdgpu: force read discovery file if set discovery=3D2
+>
+>  drivers/gpu/drm/Kconfig                            |  56 ----------
+>  drivers/gpu/drm/amd/amdgpu/Kconfig                 |  29 +++++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   |  59 ++---------
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c   | 104 ++++++++++++++-=
+---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c             |   7 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c      |   9 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c        |   4 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_eeprom.c         |   2 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c            |  10 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            |   8 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c     |  43 +++++---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |  56 +++++++++-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h            |   5 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             |  26 -----
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h             |  41 ++++++++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c          |   2 +
+>  drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c             |   7 ++
+>  drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c             |   7 ++
+>  drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c              |  79 ++++++++++++--
+>  drivers/gpu/drm/amd/amdgpu/soc21.c                 |   1 +
+>  drivers/gpu/drm/amd/amdkfd/kfd_chardev.c           |  34 +++---
+>  drivers/gpu/drm/amd/amdkfd/kfd_crat.c              |   2 +-
+>  drivers/gpu/drm/amd/amdkfd/kfd_events.c            |   3 +-
+>  drivers/gpu/drm/amd/amdkfd/kfd_topology.c          |   2 +-
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  10 +-
+>  .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  |   8 ++
+>  drivers/gpu/drm/amd/display/dc/bios/bios_parser.c  |  28 +++--
+>  .../amd/display/dc/clk_mgr/dcn314/dcn314_clk_mgr.c |  32 +++---
+>  drivers/gpu/drm/amd/display/dc/core/dc.c           |  55 ++++++----
+>  drivers/gpu/drm/amd/display/dc/core/dc_link.c      |   4 +
+>  drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c  |   1 +
+>  drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c   |  51 +++++++--
+>  drivers/gpu/drm/amd/display/dc/core/dc_link_dpia.c |  15 ++-
+>  drivers/gpu/drm/amd/display/dc/dc.h                |   4 +-
+>  drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c       |  60 ++++++++++-
+>  drivers/gpu/drm/amd/display/dc/dc_link.h           |   1 +
+>  drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c      |   5 +
+>  drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c |   1 +
+>  drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c |   3 -
+>  .../gpu/drm/amd/display/dc/dcn30/dcn30_resource.c  |   1 +
+>  .../drm/amd/display/dc/dcn301/dcn301_resource.c    |   1 +
+>  .../drm/amd/display/dc/dcn302/dcn302_resource.c    |   1 +
+>  .../drm/amd/display/dc/dcn303/dcn303_resource.c    |   1 +
+>  .../gpu/drm/amd/display/dc/dcn31/dcn31_resource.c  |   1 +
+>  .../display/dc/dcn314/dcn314_dio_stream_encoder.c  |  24 +++--
+>  .../gpu/drm/amd/display/dc/dcn314/dcn314_optc.c    |   1 -
+>  .../drm/amd/display/dc/dcn315/dcn315_resource.c    |   1 +
+>  drivers/gpu/drm/amd/display/dc/dcn32/dcn32_optc.c  |   8 ++
+>  .../gpu/drm/amd/display/dc/dcn32/dcn32_resource.c  |   3 +
+>  .../drm/amd/display/dc/dcn321/dcn321_resource.c    |   3 +
+>  drivers/gpu/drm/amd/display/dc/dm_helpers.h        |   5 +
+>  .../gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c   |   2 +
+>  .../gpu/drm/amd/display/dc/dml/dcn314/dcn314_fpu.c |  11 +-
+>  .../gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c   |   2 +
+>  .../amd/display/dc/dml/dcn32/display_mode_vba_32.c |   5 +
+>  .../amd/display/dc/dml/dcn32/display_mode_vba_32.h |   3 +
+>  .../dc/dml/dcn32/display_mode_vba_util_32.c        |  14 ++-
+>  .../dc/dml/dcn32/display_mode_vba_util_32.h        |   3 +-
+>  .../gpu/drm/amd/display/dc/dml/dcn321/dcn321_fpu.c |   2 +
+>  .../drm/amd/display/dc/dml/display_mode_structs.h  |   1 +
+>  .../amd/display/dc/gpio/dcn32/hw_factory_dcn32.c   |  14 +++
+>  drivers/gpu/drm/amd/display/dc/gpio/hw_ddc.c       |   9 +-
+>  .../drm/amd/display/dc/inc/hw/timing_generator.h   |   1 +
+>  drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h    |   6 +-
+>  .../drm/amd/display/modules/color/color_gamma.c    |   2 +-
+>  .../drm/amd/display/modules/freesync/freesync.c    |   8 +-
+>  drivers/gpu/drm/amd/include/atombios.h             |  24 ++---
+>  drivers/gpu/drm/amd/include/atomfirmware.h         |  63 +++++++++--
+>  .../drm/amd/pm/powerplay/hwmgr/vega10_thermal.c    |  25 +++--
+>  drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |   3 +-
+>  drivers/gpu/drm/amd/pm/swsmu/inc/amdgpu_smu.h      |   4 +
+>  .../amd/pm/swsmu/inc/pmfw_if/smu_v13_0_4_ppsmc.h   |  15 ++-
+>  .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    |   4 +-
+>  .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c   |  53 +++++++++-
+>  drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c             |  18 ++++
+>  drivers/gpu/drm/amd/pm/swsmu/smu_cmn.h             |   3 +
+>  drivers/gpu/drm/radeon/Kconfig                     |  30 ++++++
+>  drivers/gpu/drm/radeon/radeon.h                    |   8 ++
+>  drivers/gpu/drm/radeon/radeon_audio.c              | 117 +++++++++++++++=
+++++++
+>  drivers/gpu/drm/radeon/radeon_bios.c               |  18 ++--
+>  drivers/gpu/drm/radeon/radeon_device.c             |   4 +
+>  include/uapi/drm/amdgpu_drm.h                      |  14 +++
+>  82 files changed, 1041 insertions(+), 369 deletions(-)
