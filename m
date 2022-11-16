@@ -2,70 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65AD262C1E5
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 16:08:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8D3162C1FA
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 16:11:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97A2210E4B4;
-	Wed, 16 Nov 2022 15:08:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EADA810E083;
+	Wed, 16 Nov 2022 15:11:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65F8610E4B4
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 15:08:41 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id c1so29967280lfi.7
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 07:08:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=adyqmGjM2/t88ETfaCdsoHxVWXhSjmQ/Vu2VudXPCUc=;
- b=c8VfFr4bwKX5GqribNfHQoZpMGRMbhtwz0/3nHn25OW7yTWV2y1hbIRp7ej30MKYEI
- B+EDI/dHDMS4GrpH2uiNdrlgvVWp0m9dwnQi6URa6cinXq9cgobrHeic3m8kVnFncLQX
- 2ATypZjLaeMjPagjxdDbFnNKjv/tbAbfnrvq2mE+Od4SMmOemsvzJMGUbhNYp47WSh8U
- SQge65+D9h0WUnKgNB/QCdwh+EbJIXMJiWAKWPLhKvMQ8q96JbKmO7K61YxmKaXKmoiy
- Qq+kKcxfoN/nhm5Wx2Ei39iagnnr45S5pWe7qohShl0phcp+OmaDRt5oNqfDDcQznIM6
- yhAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=adyqmGjM2/t88ETfaCdsoHxVWXhSjmQ/Vu2VudXPCUc=;
- b=Jhlvk86BlfDpq+Jm8Rk5q977hr9XblU3X0g369rr068VjCWtntY4enVvPBS6jCFkST
- qgX7P2ZDCs/zmhPJxlJcasnPnpZFHiiRI2qASmOD152Xn25NJ+nuB1BugwLR42l7JRmE
- 8M0bAvCoJa43kLEg7Z98Spb8UaIxg0t1F/S2D21owmaYMwR1ia5vLfWAY45uND3NcdyO
- EN4gys1ISrv3cfK8Lq9JXYZj9ejqwf4qhkBuV1H8BVi/lgZwksEE63Wkcm+EPPKjNsMd
- nTb1zVbCTwBOXFTqa2PHa5ArVqDd9leVfuO552aDzsZfFruhbJ91qVoX2A6Kx/DeW0YR
- oklg==
-X-Gm-Message-State: ANoB5pmDxSvfSL5Jq0DauEa9aeuJtLJh/+FSbBJg5A42f6W1fruJ+/a9
- nUz9kLC5EF4CVZexXeXn5IjbEg==
-X-Google-Smtp-Source: AA0mqf62VyZdW4auUMnIXeVYdnC6S01JYtnXZYf5j6edhD/d7LSZvVxnROe6RVTCDX1scp9U+j/H8g==
-X-Received: by 2002:a05:6512:1308:b0:4b2:1e88:41bb with SMTP id
- x8-20020a056512130800b004b21e8841bbmr8370954lfu.117.1668611319711; 
- Wed, 16 Nov 2022 07:08:39 -0800 (PST)
-Received: from [10.10.15.130] ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- b24-20020a056512071800b004b15bc0ff63sm2621645lfs.277.2022.11.16.07.08.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Nov 2022 07:08:39 -0800 (PST)
-Message-ID: <e049f5b1-da41-6854-4731-b6697770ffde@linaro.org>
-Date: Wed, 16 Nov 2022 18:08:38 +0300
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6ABC010E083;
+ Wed, 16 Nov 2022 15:11:29 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2AGEneeX005649; Wed, 16 Nov 2022 15:11:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=pIhDvtdkQeKfm95d4eKSzt0UrUR7I+3ffypY3ZTOQ4g=;
+ b=LJoG9sepYOAXCfCEtp0040/XH84kCeyHBSNmoKTwqPGF286zqsxVM4ocOzF/T61JrmOj
+ Dd9la9T9lcM7o7h3iOmV4aBDGf4/n4sg0S33xAcc7MoIdNXgj3i7Tm6KVgorOJULDKfJ
+ XQfGQ4BSKPRZytag/LPew2t7WdiIZIXaSoI2NwALCA5UGaXumaBNHKIHFrtxUtWRoHBi
+ 6mVdKF3IlCZ75geiLefSo2ovkfCGJAnkvhixGJE4wxQU9frlNFGigYEvGZfQfS9OzyJz
+ FjMgN+BjpTNUICOC6OaQti1s/7riArDbcPaMnxKM4ho4f9BPYYXk2LbiyhfLpxL+nKqh vw== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kvyh2gb4h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 16 Nov 2022 15:11:26 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2AGFBOhL019728
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 16 Nov 2022 15:11:24 GMT
+Received: from [10.216.25.63] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Wed, 16 Nov
+ 2022 07:11:20 -0800
+Message-ID: <6b1907db-3fdb-8fe0-e5e3-21ea17021925@quicinc.com>
+Date: Wed, 16 Nov 2022 07:11:16 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
 Subject: Re: [PATCH v2 2/3] drm/msm/disp/dpu1: add helper to know if display
  is pluggable
-Content-Language: en-GB
-To: Kalyan Thota <quic_kalyant@quicinc.com>, dri-devel@lists.freedesktop.org, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Kalyan Thota
+ <quic_kalyant@quicinc.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
+ <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>
 References: <1668609040-2549-1-git-send-email-quic_kalyant@quicinc.com>
  <1668609040-2549-3-git-send-email-quic_kalyant@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1668609040-2549-3-git-send-email-quic_kalyant@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <e049f5b1-da41-6854-4731-b6697770ffde@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <e049f5b1-da41-6854-4731-b6697770ffde@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: D7LkRPspLYV_7_l_M4Das6kBg83zrcoa
+X-Proofpoint-ORIG-GUID: D7LkRPspLYV_7_l_M4Das6kBg83zrcoa
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-16_03,2022-11-16_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ impostorscore=0 mlxlogscore=999 adultscore=0 malwarescore=0 bulkscore=0
+ clxscore=1011 mlxscore=0 phishscore=0 spamscore=0 lowpriorityscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211160106
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,89 +88,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, dianders@chromium.org, quic_abhinavk@quicinc.com,
- linux-kernel@vger.kernel.org, quic_vpolimer@quicinc.com, swboyd@chromium.org
+Cc: robdclark@chromium.org, quic_vpolimer@quicinc.com, swboyd@chromium.org,
+ linux-kernel@vger.kernel.org, dianders@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/11/2022 17:30, Kalyan Thota wrote:
-> Since DRM encoder type for few encoders can be similar
-> (like eDP and DP) find out if the interface supports HPD
-> from encoder bridge to differentiate between builtin
-> and pluggable displays.
+
+
+On 11/16/2022 7:08 AM, Dmitry Baryshkov wrote:
+> On 16/11/2022 17:30, Kalyan Thota wrote:
+>> Since DRM encoder type for few encoders can be similar
+>> (like eDP and DP) find out if the interface supports HPD
+>> from encoder bridge to differentiate between builtin
+>> and pluggable displays.
+>>
+>> Changes in v1:
+>> - add connector type in the disp_info (Dmitry)
+>> - add helper functions to know encoder type
+>> - update commit text reflecting the change
+>>
+>> Changes in v2:
+>> - avoid hardcode of connector type for DSI as it may not be true (Dmitry)
+>> - get the HPD information from encoder bridge
+>>
+>> Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 16 ++++++++++++++++
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  6 ++++++
+>>   2 files changed, 22 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c 
+>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> index 9c6817b..be93269 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> @@ -15,6 +15,7 @@
+>>   #include <drm/drm_crtc.h>
+>>   #include <drm/drm_file.h>
+>>   #include <drm/drm_probe_helper.h>
+>> +#include <drm/drm_bridge.h>
+>>   #include "msm_drv.h"
+>>   #include "dpu_kms.h"
+>> @@ -217,6 +218,21 @@ static u32 dither_matrix[DITHER_MATRIX_SZ] = {
+>>       15, 7, 13, 5, 3, 11, 1, 9, 12, 4, 14, 6, 0, 8, 2, 10
+>>   };
+>> +bool dpu_encoder_is_pluggable(struct drm_encoder *encoder)
+>> +{
+>> +    struct drm_bridge *bridge;
+>> +    int ops = 0;
+>> +
+>> +    if (!encoder)
+>> +        return false;
+>> +
+>> +    /* Get last bridge in the chain to determine pluggable state */
+>> +    drm_for_each_bridge_in_chain(encoder, bridge)
+>> +        if (!drm_bridge_get_next_bridge(bridge))
+>> +            ops = bridge->ops;
+>> +
+>> +    return ops & DRM_BRIDGE_OP_HPD;
 > 
-> Changes in v1:
-> - add connector type in the disp_info (Dmitry)
-> - add helper functions to know encoder type
-> - update commit text reflecting the change
+> No. This is not what you should be checking (hint: polled connectors 
+> also can be pluggable).
 > 
-> Changes in v2:
-> - avoid hardcode of connector type for DSI as it may not be true (Dmitry)
-> - get the HPD information from encoder bridge
+> Please check the type of the actual connector connected to this encoder.
 > 
-> Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 16 ++++++++++++++++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  6 ++++++
->   2 files changed, 22 insertions(+)
+
+Even if we check the connector type as DSI or eDP that does not 
+necessarily mean its built-in.
+
+We can even use DSI or eDP as a pluggable display.
+
+Thats why we thought of this check.
+
+>> +}
+>>   bool dpu_encoder_is_widebus_enabled(const struct drm_encoder *drm_enc)
+>>   {
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h 
+>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+>> index 9e7236e..691ab57 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+>> @@ -224,4 +224,10 @@ void dpu_encoder_cleanup_wb_job(struct 
+>> drm_encoder *drm_enc,
+>>    */
+>>   bool dpu_encoder_is_valid_for_commit(struct drm_encoder *drm_enc);
+>> +/**
+>> + * dpu_encoder_is_pluggable - find if the encoder is of type pluggable
+>> + * @drm_enc:    Pointer to previously created drm encoder structure
+>> + */
+>> +bool dpu_encoder_is_pluggable(struct drm_encoder *drm_enc);
+>> +
+>>   #endif /* __DPU_ENCODER_H__ */
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index 9c6817b..be93269 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -15,6 +15,7 @@
->   #include <drm/drm_crtc.h>
->   #include <drm/drm_file.h>
->   #include <drm/drm_probe_helper.h>
-> +#include <drm/drm_bridge.h>
->   
->   #include "msm_drv.h"
->   #include "dpu_kms.h"
-> @@ -217,6 +218,21 @@ static u32 dither_matrix[DITHER_MATRIX_SZ] = {
->   	15, 7, 13, 5, 3, 11, 1, 9, 12, 4, 14, 6, 0, 8, 2, 10
->   };
->   
-> +bool dpu_encoder_is_pluggable(struct drm_encoder *encoder)
-> +{
-> +	struct drm_bridge *bridge;
-> +	int ops = 0;
-> +
-> +	if (!encoder)
-> +		return false;
-> +
-> +	/* Get last bridge in the chain to determine pluggable state */
-> +	drm_for_each_bridge_in_chain(encoder, bridge)
-> +		if (!drm_bridge_get_next_bridge(bridge))
-> +			ops = bridge->ops;
-> +
-> +	return ops & DRM_BRIDGE_OP_HPD;
-
-No. This is not what you should be checking (hint: polled connectors 
-also can be pluggable).
-
-Please check the type of the actual connector connected to this encoder.
-
-> +}
->   
->   bool dpu_encoder_is_widebus_enabled(const struct drm_encoder *drm_enc)
->   {
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> index 9e7236e..691ab57 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> @@ -224,4 +224,10 @@ void dpu_encoder_cleanup_wb_job(struct drm_encoder *drm_enc,
->    */
->   bool dpu_encoder_is_valid_for_commit(struct drm_encoder *drm_enc);
->   
-> +/**
-> + * dpu_encoder_is_pluggable - find if the encoder is of type pluggable
-> + * @drm_enc:    Pointer to previously created drm encoder structure
-> + */
-> +bool dpu_encoder_is_pluggable(struct drm_encoder *drm_enc);
-> +
->   #endif /* __DPU_ENCODER_H__ */
-
--- 
-With best wishes
-Dmitry
-
