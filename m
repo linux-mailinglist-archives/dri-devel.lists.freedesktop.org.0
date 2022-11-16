@@ -1,53 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79A7E62BF87
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 14:32:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03FA362BFAC
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 14:40:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C779810E4A8;
-	Wed, 16 Nov 2022 13:32:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08DC510E252;
+	Wed, 16 Nov 2022 13:40:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0362610E4A8;
- Wed, 16 Nov 2022 13:32:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1668605527; x=1700141527;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=HPL97wIoTrHzWCa0UIW8QpGefhVDiJRBrp7T53JjT5w=;
- b=inUr8M2ebBpeSv9BxOrrtxXXFxbR4ApoLd5MvBs6cEBIk1W+nt3XkPFC
- PVLbdmmkyNcsN7l7dbIeiVmFJZkjHn5toNtEoz6AYKAs0cz40Ws3aoHqe
- B181O8APOuQc8mddhAzDcCXpQ1Qv5aJbL/KbnV1eNnfWc73HIScIxscoV
- tavSulF3ebAxk7du1gExeiFMoWxmlok4q8JelRSpMciddLfLJV+RVLkPE
- XRKXO17g6mnkUlo6mFkTHffJaVytAL0YRvCkGKh8T1iIqfyPSoIOLd//0
- WXMSCi0gFFiQnqxl/1R6eUIBlr6YrXIvdqcpqLl65ifUsyNVkHcT2yLoJ A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="292932405"
-X-IronPort-AV: E=Sophos;i="5.96,167,1665471600"; d="scan'208";a="292932405"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2022 05:32:06 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="639358766"
-X-IronPort-AV: E=Sophos;i="5.96,167,1665471600"; d="scan'208";a="639358766"
-Received: from dariofax-mobl.amr.corp.intel.com (HELO localhost)
- ([10.252.59.5])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2022 05:32:04 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Subject: Re: [RESEND] drm/edid/firmware: stop using a throwaway platform device
-In-Reply-To: <0422ebb6-d4ff-52b0-b773-c643489e8fe9@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20221114111709.434979-1-jani.nikula@intel.com>
- <0422ebb6-d4ff-52b0-b773-c643489e8fe9@suse.de>
-Date: Wed, 16 Nov 2022 15:32:01 +0200
-Message-ID: <87wn7v10vi.fsf@intel.com>
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79E0B10E252
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 13:40:09 +0000 (UTC)
+Received: by mail-lj1-x231.google.com with SMTP id u11so21798008ljk.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 05:40:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=FX8GOOnP8ZSHhFFHMXCztbsOldYRDIsb+WpAuI+TEYY=;
+ b=G0sSQZ+ZXtWza2AMGO5KtIK3UUOSszCPt0Ds4x2tbPyvXoCP1N4XsDJajiJjAoPVz3
+ S597ujYXmn7p1BIoDzoV7st9ACahbFha6DFkOwZHiT7UG8HvLqxwVSP2XvXpPCOkXTI7
+ Cv2ApHXlWau+FpdOor2E4l3G5+gt7SiHyJ+muVXdBrmsJsQPwja0dlNn4LK9kEpXL237
+ V9ov0VTesXcp4REzRPvKNuzrsBE3JQLzojsZVuX1XjQwYHYCnGNGir8DRVex9qNXg/x6
+ dRWipbefTwIgPOq93TA5nf3ICzojrsgKd85962ypqbCpznOOZPrjUJKx/rtnvzhsEADU
+ gItg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FX8GOOnP8ZSHhFFHMXCztbsOldYRDIsb+WpAuI+TEYY=;
+ b=qpRjEnnWlavRX8Ok0R0TokipbBo9Xice9aSCiosofMgF772ZhNOz8yRzkv3feg4FmO
+ dtKOlyprFVNW9BBM5mV2yYfpBxWJyvKOvsF0NN+WB9WG2ZjwGO+XJLLx06b1SJaXN/Pl
+ SofrYJiPZDVu9G+Eu4MEH6XvcSuJX8WlhiD9jj1P2hjAHpkyFuJlzAgngDjD+57m9+Iq
+ HnmEtf4eKHFJ3RyjyfEr6qpkUy84dawtPJngRGc+iFBwy4vXr9aOzlkBJiQZDsisKRPr
+ UDhNlxkDUEwzhj29yXhWeriIzhMvdwx809HizX1qjwSN3uNconfbLu3FrWHLV+fzQEAR
+ y0zQ==
+X-Gm-Message-State: ANoB5pkYraPASkZkNGo4Lp/3PQsm1OpAiGebUAzzwLdU9VKbRRhwluNH
+ hn/lBVNpqpPoogseqjIJjVRs9w==
+X-Google-Smtp-Source: AA0mqf4Xa+9O40J4HIpQQrKtCOdBgL3RPVHzmGhM1GxAcMR09YAelDkNslDme++FbVKiCuGubiRdHQ==
+X-Received: by 2002:a2e:a30a:0:b0:277:6231:5a7 with SMTP id
+ l10-20020a2ea30a000000b00277623105a7mr7166027lje.300.1668606007736; 
+ Wed, 16 Nov 2022 05:40:07 -0800 (PST)
+Received: from [10.10.15.130] ([192.130.178.91])
+ by smtp.gmail.com with ESMTPSA id
+ v14-20020a056512096e00b0048af9576d30sm2596273lft.83.2022.11.16.05.40.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Nov 2022 05:40:07 -0800 (PST)
+Message-ID: <e85245a8-480a-0b1f-0e10-6a6d64ae76ec@linaro.org>
+Date: Wed, 16 Nov 2022 16:40:06 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH] drm/msm/dp: remove limitation of link rate at 5.4G to
+ support HBR3
+Content-Language: en-GB
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Doug Anderson <dianders@chromium.org>
+References: <1667237245-24988-1-git-send-email-quic_khsieh@quicinc.com>
+ <94b507e8-5b94-12ae-4c81-95f5d36279d5@linaro.org>
+ <deb60200-5a37-ec77-9515-0c0c89022174@quicinc.com>
+ <CAD=FV=X_fs_4JYcRvAwkU9mAafOten9WdyzPfSVWdAU=ZMo8zg@mail.gmail.com>
+ <155e4171-187c-4ecf-5a9b-12f0c2207524@linaro.org>
+ <CAD=FV=Wk5rBSq9Mx1GCO0QFYckKV9KUFKL36Ld7dQX1ypHVcYw@mail.gmail.com>
+ <CAD=FV=XTOUjVAGFWZ6xTkcNOrCT1p73aU-=KJNYUOxsS-BQsyA@mail.gmail.com>
+ <c5aedb31-3881-50e7-f747-e75b18c3f4b8@linaro.org>
+ <CAD=FV=WPde5wVOGCKQYGuGwgCwRebox4FF0MgV_2pPCTsfo_UA@mail.gmail.com>
+ <60643572-4148-cea5-e64d-ec6534b0c407@linaro.org>
+ <a4127ba2-5968-e8a9-da63-fd709aa01e7f@quicinc.com>
+ <adf5f80a-17e5-1163-a93c-2759ae57d77d@linaro.org>
+ <dcddd992-60e9-b802-b7a3-bab877545761@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <dcddd992-60e9-b802-b7a3-bab877545761@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,96 +88,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthieu CHARETTE <matthieu.charette@gmail.com>
+Cc: quic_sbillaka@quicinc.com, quic_abhinavk@quicinc.com, airlied@linux.ie,
+ freedreno@lists.freedesktop.org, Bjorn Andersson <andersson@kernel.org>,
+ vkoul@kernel.org, dri-devel@lists.freedesktop.org, swboyd@chromium.org,
+ agross@kernel.org, linux-arm-msm@vger.kernel.org, sean@poorly.run,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 16 Nov 2022, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Hi
->
-> Am 14.11.22 um 12:17 schrieb Jani Nikula:
->> We've used a temporary platform device for firmware EDID loading since
->> it was introduced in commit da0df92b5731 ("drm: allow loading an EDID as
->> firmware to override broken monitor"), but there's no explanation why.
->>=20
->> Using a temporary device does not play well with CONFIG_FW_CACHE=3Dy,
->> which caches firmware images (e.g. on suspend) so that drivers can
->> request firmware when the system is not ready for it, and return the
->> images from the cache (e.g. during resume). This works automatically for
->> regular devices, but obviously not for a temporarily created device.
->>=20
->> Stop using the throwaway platform device, and use the drm device
->> instead.
->>=20
->> Note that this may still be problematic for cases where the display was
->> plugged in during suspend, and the firmware wasn't loaded and therefore
->> not cached before suspend.
->>=20
->> References: https://lore.kernel.org/r/20220727074152.43059-1-matthieu.ch=
-arette@gmail.com
->> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/2061
->> Reported-by: Matthieu CHARETTE <matthieu.charette@gmail.com>
->> Tested-by: Matthieu CHARETTE <matthieu.charette@gmail.com>
->> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
->
-> I looked through request_firmware() but did not see any signs that it=20
-> somehow depends on a platform device. I assume that this might only=20
-> affect the device name in the error message.
+On 15/11/2022 21:43, Kuogee Hsieh wrote:
+> 
+> On 11/9/2022 11:43 PM, Dmitry Baryshkov wrote:
+>> On 10/11/2022 02:47, Kuogee Hsieh wrote:
+>>>
+>>> On 11/2/2022 11:04 AM, Dmitry Baryshkov wrote:
+>>>> On 02/11/2022 20:28, Doug Anderson wrote:
+>>>>> Hi,
+>>>>>
+>>>>> On Wed, Nov 2, 2022 at 10:23 AM Dmitry Baryshkov
+>>>>> <dmitry.baryshkov@linaro.org> wrote:
+>>>>>>
+>>>>>>> 1. Someone figures out how to model this with the bridge chain and
+>>>>>>> then we only allow HBR3 if we detect we've got a TCPC that supports
+>>>>>>> it. This seems like the cleanest / best but feels like a long pole.
+>>>>>>> Not only have we been trying to get the TCPC-modeled-as-a-bridge 
+>>>>>>> stuff
+>>>>>>> landed for a long time but even when we do it we still don't have a
+>>>>>>> solution for how to communicate the number of lanes and other stuff
+>>>>>>> between the TCPC and the DP controller so we have to enrich the 
+>>>>>>> bridge
+>>>>>>> interface.
+>>>>>>
+>>>>>> I think we'd need some OOB interface. For example for DSI 
+>>>>>> interfaces we
+>>>>>> have mipi_dsi_device struct to communicate such OOB data.
+>>>>>>
+>>>>>> Also take a note regarding data-lanes from my previous email.
+>>>>>
+>>>>> Right, we can somehow communicate the max link rate through the bridge
+>>>>> chain to the DP controller in an OOB manner that would work.
+>>>>
+>>>> I'd note that our dp_panel has some notion of such OOB data. So do 
+>>>> AUX drivers including the panel-edp. My suggestion would be to 
+>>>> consider both of them while modelling the OOB data.
+>>>>
+>>>>>
+>>>>>
+>>>>>>> 2. We add in a DT property to the display controller node that says
+>>>>>>> the max link rate for use on this board. This feels like a hack, but
+>>>>>>> maybe it's not too bad. Certainly it would be incredibly simple to
+>>>>>>> implement. Actually... ...one could argue that even if we later 
+>>>>>>> model
+>>>>>>> the TCPC as a bridge that this property would still be valid / 
+>>>>>>> useful!
+>>>>>>> You could certainly imagine that the SoC supports HBR3 and the TCPC
+>>>>>>> supports HBR3 but that the board routing between the SoC and the 
+>>>>>>> TCPC
+>>>>>>> is bad and only supports HBR2. In this case the only way out is
+>>>>>>> essentially a "board constraint" AKA a DT property in the DP
+>>>>>>> controller.
+>>>>>>
+>>>>>> We have been discussing similar topics with Abhinav. Krzysztof 
+>>>>>> suggested
+>>>>>> using link-frequencies property to provide max and min values.
+>>>
+>>> questions,
+>>>
+>>> 1)is Krzysztof suggested had been implemented?
+>>
+>> I can not parse this question, please excuse me.
+>>
+>> Yes, Krzysztof suggested this being implemented as a link property, 
+>> see media/video-interfaces.txt.
+>>
+>> Moreover your implementation goes against both the existing definition 
+>> (array with the list of frequencies) and Krzysztof's suggested 
+>> extension (min and max). Listing just a single frequency goes against 
+>> both these suggestions. In case of DP we have a fixed set of 
+>> frequencies. Thus I'd suggest listing all supported frequencies instead.
+> 
+> I think this proposal is kind of strange.
+> 
+> According to DP spec, if a link support 5,4G, then it must support 1.6, 
+> 2.7 and 5.4.
+> 
+> If it support 8.1G, then it must support 1.6 , 2.7 and 5.4.
+> 
+> There is no link can only support 2.7 and 5.4G without supporting 1.6G.
 
-Thanks, pushed to drm-misc-next.
+Let me quote the docs.
 
-Matthieu, thanks for you patience and the report as well!
+   link-frequencies:
+     $ref: /schemas/types.yaml#/definitions/uint64-array
+     description:
+       Allowed data bus frequencies. For MIPI CSI-2, for instance, this 
+is the
+       actual frequency of the bus, not bits per clock per lane value. 
+An array
+       of 64-bit unsigned integers.
 
-BR,
-Jani.
+Note. 'allowed data bus frequencies'. So by listing only the max 
+frequency you'd break this description.
 
+-- 
+With best wishes
+Dmitry
 
->
-> Best regards
-> Thomas
->
->>=20
->> ---
->>=20
->> Resend with a proper commit message; patch itself is unchanged.
->> ---
->>   drivers/gpu/drm/drm_edid_load.c | 13 +------------
->>   1 file changed, 1 insertion(+), 12 deletions(-)
->>=20
->> diff --git a/drivers/gpu/drm/drm_edid_load.c b/drivers/gpu/drm/drm_edid_=
-load.c
->> index ef4ab59d6935..5d9ef267ebb3 100644
->> --- a/drivers/gpu/drm/drm_edid_load.c
->> +++ b/drivers/gpu/drm/drm_edid_load.c
->> @@ -172,20 +172,9 @@ static const struct drm_edid *edid_load(struct drm_=
-connector *connector, const c
->>   		fwdata =3D generic_edid[builtin];
->>   		fwsize =3D sizeof(generic_edid[builtin]);
->>   	} else {
->> -		struct platform_device *pdev;
->>   		int err;
->>=20=20=20
->> -		pdev =3D platform_device_register_simple(connector->name, -1, NULL, 0=
-);
->> -		if (IS_ERR(pdev)) {
->> -			drm_err(connector->dev,
->> -				"[CONNECTOR:%d:%s] Failed to register EDID firmware platform device=
- for connector \"%s\"\n",
->> -				connector->base.id, connector->name,
->> -				connector->name);
->> -			return ERR_CAST(pdev);
->> -		}
->> -
->> -		err =3D request_firmware(&fw, name, &pdev->dev);
->> -		platform_device_unregister(pdev);
->> +		err =3D request_firmware(&fw, name, connector->dev->dev);
->>   		if (err) {
->>   			drm_err(connector->dev,
->>   				"[CONNECTOR:%d:%s] Requesting EDID firmware \"%s\" failed (err=3D%=
-d)\n",
-
---=20
-Jani Nikula, Intel Open Source Graphics Center
