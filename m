@@ -1,116 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4803162B4C3
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 09:14:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2998362B4E8
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 09:19:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00B6410E1A7;
-	Wed, 16 Nov 2022 08:14:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 292F010E430;
+	Wed, 16 Nov 2022 08:19:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD2E310E1A7
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 08:14:23 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20221116081422euoutp012f9c907d1171b4c03a33d0f98733f315~oAov8MwkI2599225992euoutp01Y
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 08:14:22 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20221116081422euoutp012f9c907d1171b4c03a33d0f98733f315~oAov8MwkI2599225992euoutp01Y
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1668586462;
- bh=3aqws/YncWkTS4/qF0rNbgttcL9y+V5YDpD/Ac+7C0s=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=dSRLnooZKEzU9MZav1AwO5/Pp04+1hLapUn4joZ8Y2oTEZnrx0EwkDoyGGvUCXARq
- Tc/N7vuOvq6L4LnPFkCcAr2pPbK3HysqOG7m1ABHvGtUVW6C0OPrvjaEjK2Jc4TKZe
- OQjgOlekbeu2H4+7K1A3eRXZ5yi4uQ7hXohrXsWU=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20221116081421eucas1p24f04236bedd7fdef8c9c6adb4b3aaebf~oAovbR0BX2135021350eucas1p2g;
- Wed, 16 Nov 2022 08:14:21 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id 48.85.09561.DDB94736; Wed, 16
- Nov 2022 08:14:21 +0000 (GMT)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20221116081421eucas1p2afc12af3222e875b0391d3cc8272c8c4~oAovEmkN02121421214eucas1p2n;
- Wed, 16 Nov 2022 08:14:21 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20221116081421eusmtrp2f83526b4fd7e69c14d3de14cdc86acb5~oAovDX4v70570805708eusmtrp2Z;
- Wed, 16 Nov 2022 08:14:21 +0000 (GMT)
-X-AuditID: cbfec7f2-0b3ff70000002559-7d-63749bddbba1
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id F3.73.08916.DDB94736; Wed, 16
- Nov 2022 08:14:21 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20221116081420eusmtip2e19f4cef99e32f0c69125464cfd8ed37~oAouKLoza0674806748eusmtip2e;
- Wed, 16 Nov 2022 08:14:20 +0000 (GMT)
-Message-ID: <5d1170f5-7fa4-6131-fe83-bd4467d601ee@samsung.com>
-Date: Wed, 16 Nov 2022 09:14:19 +0100
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
+ [IPv6:2a00:1450:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DCCF10E430
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 08:19:14 +0000 (UTC)
+Received: by mail-lj1-x229.google.com with SMTP id t10so20862897ljj.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 00:19:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=s3hmYFJCkTtn3TM6dsGaEPzkn+DVUmQOcvxVNta5NVs=;
+ b=zMdllhrGlGLzNtwjILPgItD3ZBxIAkcTMw7pPs/bw7bvKWrAtrWp6hiduO7xoSROqK
+ ijZD6Lf32PjqTtHwXUolAWJ74/zG3m24/+56zP70itbyj7sFyCMTuNz4qVIryI/xecjW
+ aVmky5mrlC28MzF1rXcT/bkQySdSuGZft4VlvRQ92SuO9rURGJsvMslWtJSYxB89Cgrj
+ H+sJUCf7OJRnCCc1awaGCLpRx2xISkmrEWA+HbxdsZl0I4o9ejpL/31Qz/uS8CRa0eU4
+ jGs9w7Vpblnph8dhPlEfNtohebPYzRsGjU8KU5PQS+WuYUlFBt3zja0dpvalVpNj5nhe
+ uhMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=s3hmYFJCkTtn3TM6dsGaEPzkn+DVUmQOcvxVNta5NVs=;
+ b=5NxDGp1ugmN9TDjUbtM5iJeMG+daD4i5GcFuuKbhafAWTSflRMvo8DhfRrOdnBh14U
+ s+HLb+SWIY3HLPU+GRxXtfcQLw90ArqHmc7U8QF1pfpC/R5Zf8mOrSIhnUo3m8mkQ87r
+ BIpEwVk5MvRweFCv/izf9esV41IDq27dOO2TobpW1itLqMU56Mp9hWixAH2KtYi3swcV
+ NI8ANEdgf5uz+ch2VcOD9erroy/vnRddyqvHM54G5ZcGrLZHUXQlQ61Sq/BXl7twqr0L
+ 1bpWxEaeuvPOoyhhDMbv6YYi4H/xfOT6uTCh8DIeYrmjfXF7yU4ksSoUgcoN2gPOq7he
+ GXWw==
+X-Gm-Message-State: ANoB5pn1/3c0ZWBDZMj7S9YjDmfm4lxR6CW2aUNNCm6qFwubeZIQneDm
+ 6CZc518kZu8I2YunUjyAfu9v4w==
+X-Google-Smtp-Source: AA0mqf7xhOCjW3QufeE804S/cxln/uZai7wNh/XLBauOT9JBywuiFQolclvFiIZKXUz31tEmZWpHYg==
+X-Received: by 2002:a2e:9b84:0:b0:277:a3d:6fb6 with SMTP id
+ z4-20020a2e9b84000000b002770a3d6fb6mr7621591lji.514.1668586752273; 
+ Wed, 16 Nov 2022 00:19:12 -0800 (PST)
+Received: from [10.27.10.248] ([195.165.23.90])
+ by smtp.gmail.com with ESMTPSA id
+ w26-20020ac254ba000000b0049c29389b98sm2487698lfk.151.2022.11.16.00.19.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Nov 2022 00:19:11 -0800 (PST)
+Message-ID: <e53520b4-65da-d183-c3bf-65dc16c59358@linaro.org>
+Date: Wed, 16 Nov 2022 11:19:10 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.2
-Subject: Re: [PATCH 1/1] drm/shmem: Dual licence the files as GPL-2 and MIT
-Content-Language: en-US
-To: Robert Swindells <rjs@fdy2.co.uk>, noralf@tronnes.org,
- liuzixian4@huawei.com, airlied@redhat.com, tzimmermann@suse.de,
- lucas.demarchi@intel.com, kraxel@redhat.com, robh@kernel.org,
- kuba@kernel.org, marcel.ziswiler@toradex.com, sfr@canb.auug.org.au,
- daniel.vetter@ffwll.ch, cai.huoqing@linux.dev, nroberts@igalia.com,
- emil.velikov@collabora.com, sam@ravnborg.org, boris.brezillon@collabora.com,
- dan.carpenter@oracle.com
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20221112194210.7657-2-rjs@fdy2.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH v3 6/8] drm/msm/dpu: add support for MDP_TOP blackhole
+Content-Language: en-GB
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Andy Gross
+ <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20221104130324.1024242-1-dmitry.baryshkov@linaro.org>
+ <20221104130324.1024242-7-dmitry.baryshkov@linaro.org>
+ <3429c5a5-084d-919c-5c3f-5e12f447c931@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <3429c5a5-084d-919c-5c3f-5e12f447c931@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupjk+LIzCtJLcpLzFFi42LZduznOd27s0uSDXb/UbK4emsBk8XpM6eY
- LJq2Lma2eP1vOovFwod3mS2ufH3PZvG06y2bxbNbJ5ktLmzrY7WY9m0DUOzxMjaLxsermCym
- nnrHbjHn0hpGi9cHVrJZ/N+zg91ixc+tjBZb915lt9jyZiKrg7BH440bbB477i5h9Pj+4gqL
- x95vC1g8Wo68ZfWYMLubzWPxnpdMHptWdbJ5LGyYyuxxv/s4k8fHp7dYPJZMu8rm8X4fkNh8
- utpj0ysPj/U9RxgDBKK4bFJSczLLUov07RK4Mjr3z2Ut+M1eceDWS8YGxldsXYycHBICJhJT
- ehazdDFycQgJrGCUmPXsMwtIQkjgC6PEs+UuEInPjBJPN09kh+n4s2sdVNFyRomO+/UQRR8Z
- JXofzmYCSfAK2El873zPCmKzCKhKTN/aCRUXlDg58wlYs6hAisTCLTeA4hwcwgLeEu8fcIGE
- mQXEJW49mQ9WLiKwiVnixXt2iLiyxLfDLxhBbDYBQ4mut11gH3AKGEu8/XWUCaJGXqJ562xm
- kHskBJq4JNZ/+s4IcbSLxLqNM6FsYYlXx7dAPSMj8X8nyDKQhnZGiQW/70M5ExglGp7fguqw
- lrhz7hcbyKXMApoS63fpQ4QdJWY1XGYHCUsI8EnceCsIcQSfxKRt05khwrwSHW1CENVqErOO
- r4Nbe/DCJeYJjEqzkEJlFpL3ZyF5ZxbC3gWMLKsYxVNLi3PTU4sN81LL9YoTc4tL89L1kvNz
- NzECk+zpf8c/7WCc++qj3iFGJg7GQ4wSHMxKIrz5k0uShXhTEiurUovy44tKc1KLDzFKc7Ao
- ifOyzdBKFhJITyxJzU5NLUgtgskycXBKNTBJ+Jw1dG+481TjbsPbd29NSh1+beNt2nTFdJdf
- eWL5MTmBBb76/I92VnmL1xTq3S3LlOj4+tyb5794b8Uf2Uju4tcqZ+f/6DV8cPNH9oobXQpC
- 19dfsGfocObXEymdtX5SpveceCPmwz8S9H2P+gpybYxTMz28f3Uvd3/YEcvzN6Ik/RpPn2F5
- MMVz15uzD+/ubzrpHB57sEEy6fhGlXm6nJqa7fNUk3PPTNvEpXFgn1HLhO7a5XMulHS+vWSz
- 5N8p9eIF6hs/ORYv/fXT1O3Cil6GsCiuGKtzvbfbzBf9uWZ2dLbVgld1shenfj4155+ywc7w
- zG6RE6WtM9yjw/6JPBL77zI3af/ToMOpz5YqsRRnJBpqMRcVJwIAw7JUmyEEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrIKsWRmVeSWpSXmKPExsVy+t/xe7p3Z5ckG+ycy2lx9dYCJovTZ04x
- WTRtXcxs8frfdBaLhQ/vMltc+fqezeJp11s2i2e3TjJbXNjWx2ox7dsGoNjjZWwWjY9XMVlM
- PfWO3WLOpTWMFq8PrGSz+L9nB7vFip9bGS227r3KbrHlzURWB2GPxhs32Dx23F3C6PH9xRUW
- j73fFrB4tBx5y+oxYXY3m8fiPS+ZPDat6mTzWNgwldnjfvdxJo+PT2+xeCyZdpXN4/0+ILH5
- dLXHplceHut7jjAGCETp2RTll5akKmTkF5fYKkUbWhjpGVpa6BmZWOoZGpvHWhmZKunb2aSk
- 5mSWpRbp2yXoZXTun8ta8Ju94sCtl4wNjK/Yuhg5OSQETCT+7FrH0sXIxSEksJRR4sre78wQ
- CRmJk9MaWCFsYYk/17rYIIreM0oc2vCZESTBK2An8b3zPVgRi4CqxPStnUwQcUGJkzOfAE3l
- 4BAVSJFYdyQKxBQW8JZ4/4ALpIJZQFzi1pP5YNUiApuYJdb9sIWIK0t8O/yCEWLVekaJ3oUr
- wQ5lEzCU6HrbBWZzChhLvP11lAmiwUyia2sXI4QtL9G8dTbzBEahWUiumIVk3ywkLbOQtCxg
- ZFnFKJJaWpybnltsqFecmFtcmpeul5yfu4kRmFa2Hfu5eQfjvFcf9Q4xMnEwHmKU4GBWEuHN
- n1ySLMSbklhZlVqUH19UmpNafIjRFBgUE5mlRJPzgYktryTe0MzA1NDEzNLA1NLMWEmc17Og
- I1FIID2xJDU7NbUgtQimj4mDU6qByX+CTeuudQktyQ+jbihwOcmv0rrfej4gddnZy2y3IoU4
- VxXPrPW/8ejftgevVH6IBd/bse3E0rnmBXes9d/6hTRuPHqNa23udNmICp6CxuNBuYHdSt0u
- M4PPLZ9UM+3RtQ1HM+wbDJYEfD/XojzHcSX/StMyv01eieem1QixbT4+h++WwCThgxbJq7Oe
- WucIbDxoK1wp1X9QuflA/FO2Ofdnyd3f/0qD5ULSnWsXs5+7CRrpvK5cdYezPNmv9Qe3ePVM
- wb/74taYfv3z+OieFqWk5fs+HntR33570i+W+b+vv+Dsmuhh97B4Yo20xOJlYiaJB7VcZKel
- d5l/qjn38ezWvzPXCb9kYVtSLfT6aY0SS3FGoqEWc1FxIgC7E/qUtAMAAA==
-X-CMS-MailID: 20221116081421eucas1p2afc12af3222e875b0391d3cc8272c8c4
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20221112194358eucas1p2b09c16f41bba1d70a115233f4b5c31a7
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20221112194358eucas1p2b09c16f41bba1d70a115233f4b5c31a7
-References: <20221112194210.7657-1-rjs@fdy2.co.uk>
- <CGME20221112194358eucas1p2b09c16f41bba1d70a115233f4b5c31a7@eucas1p2.samsung.com>
- <20221112194210.7657-2-rjs@fdy2.co.uk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,40 +81,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ Vinod Koul <vkoul@kernel.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12.11.2022 20:42, Robert Swindells wrote:
-> Contributors to these files are:
->
-> Noralf Trønnes <noralf@tronnes.org>
-> Liu Zixian <liuzixian4@huawei.com>
-> Dave Airlie <airlied@redhat.com>
-> Thomas Zimmermann <tzimmermann@suse.de>
-> Lucas De Marchi <lucas.demarchi@intel.com>
-> Gerd Hoffmann <kraxel@redhat.com>
-> Rob Herring <robh@kernel.org>
-> Jakub Kicinski <kuba@kernel.org>
-> Marcel Ziswiler <marcel.ziswiler@toradex.com>
-> Stephen Rothwell <sfr@canb.auug.org.au>
-> Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cai Huoqing <cai.huoqing@linux.dev>
-> Neil Roberts <nroberts@igalia.com>
-> Marek Szyprowski <m.szyprowski@samsung.com>
-> Emil Velikov <emil.velikov@collabora.com>
-> Sam Ravnborg <sam@ravnborg.org>
-> Boris Brezillon <boris.brezillon@collabora.com>
-> Dan Carpenter <dan.carpenter@oracle.com>
->
-> Signed-off-by: Robert Swindells <rjs@fdy2.co.uk>
+On 16/11/2022 10:50, Abhinav Kumar wrote:
+> 
+> 
+> On 11/4/2022 6:03 AM, Dmitry Baryshkov wrote:
+>> On sm8450 a register block was removed from MDP TOP. Accessing it during
+>> snapshotting results in NoC errors / immediate reboot. Skip accessing
+>> these registers during snapshot.
+>>
+>> Tested-by: Vinod Koul <vkoul@kernel.org>
+>> Reviewed-by: Vinod Koul <vkoul@kernel.org>
+>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> 
+> I am confused with both the ordering and the split of this patch.
+> 
+> You have defined DPU_MDP_PERIPH_0_REMOVED in the catalog header file in 
+> this patch but used it in the next.
+> 
+> But you also have code in this patch which relies on setting of this bit.
+> 
+> So if this patch is taken without the next, it will still crash.
+
+It will not crash if this patch is taken without the next one. Without 
+the next patch the DPU driver will not match and bind against the 
+qcom,sm8450-dpu device.
+
+So, the ordering is quite logical from my point of view:
+- add support for all the features required for the device
+- add the device compat string & catalog entry
+
+> 
+> Rather, you should combine the define part of this patch to the next 
+> patch in the series 
+> https://patchwork.freedesktop.org/patch/510114/?series=108883&rev=3 , 
+> then move that one in front of this patch.
+
+No. This way we'll have a state (after adding the next patch) when the 
+sm8450 support is enabled, but the top-hole is not handled, leading to a 
+crash.
+
+> 
+> So that its much more coherent that you defined DPU_MDP_PERIPH_0_REMOVED 
+> both in the catalog header and used it in the catalog.c file and the in 
+> the next change you used the caps to avoid touching that register.
+
+I'd say it's rather strange way. When I see a define/feature addition, 
+I'd prefer to seethe implementation too.
+
+> Regarding the TOP hole itself, I need one day to investigate this. I am 
+> waiting for permissions to the documentation.
+> 
+> If i cannot get access by the time you have re-ordered this, I will ack 
+> this once the reorder is done within a day.
 
 
-Acked-by: Marek Szyprowski <m.szyprowski@samsung.com>
+For the reference: [1]
 
+[1] 
+https://git.codelinaro.org/clo/la/platform/vendor/opensource/display-drivers/-/commit/f9ff8af5b640147f3651c23551c60f81f62874b1
 
-Best regards
+> 
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  1 +
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c        | 11 +++++++++--
+>>   2 files changed, 10 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h 
+>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+>> index 38aa38ab1568..4730f8268f2a 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+>> @@ -92,6 +92,7 @@ enum {
+>>       DPU_MDP_UBWC_1_0,
+>>       DPU_MDP_UBWC_1_5,
+>>       DPU_MDP_AUDIO_SELECT,
+>> +    DPU_MDP_PERIPH_0_REMOVED,
+>>       DPU_MDP_MAX
+>>   };
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c 
+>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>> index f3660cd14f4f..95d8765c1c53 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>> @@ -927,8 +927,15 @@ static void dpu_kms_mdp_snapshot(struct 
+>> msm_disp_state *disp_state, struct msm_k
+>>           msm_disp_snapshot_add_block(disp_state, cat->wb[i].len,
+>>                   dpu_kms->mmio + cat->wb[i].base, "wb_%d", i);
+>> -    msm_disp_snapshot_add_block(disp_state, cat->mdp[0].len,
+>> -            dpu_kms->mmio + cat->mdp[0].base, "top");
+>> +    if (dpu_kms->hw_mdp->caps->features & 
+>> BIT(DPU_MDP_PERIPH_0_REMOVED)) {
+>> +        msm_disp_snapshot_add_block(disp_state, 0x380,
+>> +                dpu_kms->mmio + cat->mdp[0].base, "top");
+>> +        msm_disp_snapshot_add_block(disp_state, cat->mdp[0].len - 0x3a8,
+>> +                dpu_kms->mmio + cat->mdp[0].base + 0x3a8, "top_2");
+>> +    } else {
+>> +        msm_disp_snapshot_add_block(disp_state, cat->mdp[0].len,
+>> +                dpu_kms->mmio + cat->mdp[0].base, "top");
+>> +    }
+>>       pm_runtime_put_sync(&dpu_kms->pdev->dev);
+>>   }
+
 -- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+With best wishes
+Dmitry
 
