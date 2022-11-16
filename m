@@ -2,60 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC91E62C479
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 17:32:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7E0062C4E2
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Nov 2022 17:41:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86D4A10E4D8;
-	Wed, 16 Nov 2022 16:32:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C448A10E4E0;
+	Wed, 16 Nov 2022 16:41:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFC3310E4D9
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 16:32:29 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id k2so45438362ejr.2
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 08:32:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=1QOj2w1cuKEuCIniHGOx+eV8LLJOHngxV7TUVqDlP5I=;
- b=u2k7Aq29+rEZRuq5H9ipwm5MwIJyfeSnavYzCbkSR9sRcej5GhYU7gxUCwFnNRXOwu
- cOeAxAiSan/C9H+9EzluRSKGEbbdZd6Y3cf5ck+dK4fm4E4Z8GSuOY+Xgy/N1G8tqzTl
- aDuRuoDAZiJEMaghbnstJRqW+IByKbn7exB6kMzRdpYqIZhyUNjuwqt4wdHuFPHa8uow
- YraOE1CTGUZcqDYovZ1qetd8lK79fd7kFoZHfoAeRYo4GyPKb6eaby4vcU8jfZXx/fNR
- JhKwb7S/Qcnn9Sulgb0GCCykyBjNiz+sm0GGGD9egaJr8ltxpCYQVK9cpma1vSOR7A7C
- zMYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=1QOj2w1cuKEuCIniHGOx+eV8LLJOHngxV7TUVqDlP5I=;
- b=mM7gc6GeTAZD+cblZxMexT+wNJjcVjElGAZBi9DTzcePzIZTBEf0CpsLX6G6/MCVtF
- 4WqsyuOmYSqgeFwuD4TwR65vr6G50RzGLcv9znEhfHqKvkgrrcI3TyxVF5+vSr/GkD6/
- ywa7yniG4WPhKEaBxWrBD0EMjVxRDhjDRqNV9IUqfnsFT2Az21c7o8d8CufJLyeJJC3q
- YmKTgQDhkxd1ay7Hcgn2/IhbLnmjjiByKs41qNs8SX7m6JkgMWgEnbiLbnocBxPgWX2r
- LRuri9J40XLRe2qBVDuPGeyw04UpMX+HmtJ4GM7RA/Pzb4EtXlR5Ku0orUFfCPgaqdbX
- duQw==
-X-Gm-Message-State: ANoB5pkXunE77GTZtRE5sdoQ6S0NzKvBZ3vN7Bcubt48HNnfWHvLgN5y
- LilJG3PwtiQSj/ZWIxMcCzGoRw==
-X-Google-Smtp-Source: AA0mqf4jxfP9I6wfX2k/5npoUZddyBUv0XsHwgJSeKCwsjhDVGtEdz+uFqYxcGQVmf4awiHn7Q/UFg==
-X-Received: by 2002:a17:906:c18b:b0:789:d2fc:41d1 with SMTP id
- g11-20020a170906c18b00b00789d2fc41d1mr17987998ejz.642.1668616348355; 
- Wed, 16 Nov 2022 08:32:28 -0800 (PST)
-Received: from localhost.localdomain ([194.29.137.22])
- by smtp.gmail.com with ESMTPSA id
- hw20-20020a170907a0d400b007add62dafb7sm7082093ejc.5.2022.11.16.08.32.26
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 16 Nov 2022 08:32:27 -0800 (PST)
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-To: linux-arm-msm@vger.kernel.org, andersson@kernel.org, agross@kernel.org,
- krzysztof.kozlowski@linaro.org
-Subject: [PATCH] dt-bindings: msm/dsi: Don't require vdds-supply on 10nm PHY
-Date: Wed, 16 Nov 2022 17:32:18 +0100
-Message-Id: <20221116163218.42449-1-konrad.dybcio@linaro.org>
-X-Mailer: git-send-email 2.32.0 (Apple Git-132)
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3E9A10E4DB
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 16:41:02 +0000 (UTC)
+Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx1.riseup.net (Postfix) with ESMTPS id 4NC81p1MxPzDqQJ;
+ Wed, 16 Nov 2022 16:41:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1668616862; bh=hwhPxQ+N1GwIenXL4LAvTaCUbrrAaZZZ+q6uX0DHLfk=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=q9VOp6b9Mrelqx0RspqzvQaKoU81Ct3cDxxmatVieJPO07z95DCf6GVJPBC0Qt0yN
+ vBiPUuq9oI1BE8xKe60OcBr6qZOl96m1woW+EyPXiZnhpOTghfogGYrbfRsCoH3YO4
+ NgBmn/IxgMBeI9QCv8d3nnNa7OG4snCsz41PQedg=
+X-Riseup-User-ID: FCBC604DC51F9033169ABE60C7640C2114AFDA2A148F26F3D6C452C39808535C
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews2.riseup.net (Postfix) with ESMTPSA id 4NC81m0VNPz1xx2;
+ Wed, 16 Nov 2022 16:40:59 +0000 (UTC)
+Message-ID: <0a1c18d7-21d0-2070-866c-65c4d8080289@riseup.net>
+Date: Wed, 16 Nov 2022 13:40:56 -0300
 MIME-Version: 1.0
+Subject: Re: [PATCH 1/2] drm/tests: client: Remove extra blank lines
+Content-Language: en-US
+To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter
+ <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+References: <20221116151833.1679379-1-maxime@cerno.tech>
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>
+In-Reply-To: <20221116151833.1679379-1-maxime@cerno.tech>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,38 +55,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, patches@linaro.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- devicetree@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On some SoCs (hello SM6350) vdds-supply is not wired to any smd-rpm
-or rpmh regulator, but instead powered by the VDD_MX/mx.lvl line,
-which is voted for in the DSI ctrl node.
+On 11/16/22 12:18, Maxime Ripard wrote:
+> Some extra blank lines slipped through, remove them.
+> 
+> Fixes: 8fc0380f6ba7 ("drm/client: Add some tests for drm_connector_pick_cmdline_mode()")
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
----
- Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml | 1 -
- 1 file changed, 1 deletion(-)
+Reviewed-by: Maíra Canal <mairacanal@riseup.net>
 
-diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
-index d9ad8b659f58..3ec466c3ab38 100644
---- a/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
-@@ -69,7 +69,6 @@ required:
-   - compatible
-   - reg
-   - reg-names
--  - vdds-supply
- 
- unevaluatedProperties: false
- 
--- 
-2.38.1
+Best Regards,
+- Maíra Canal
 
+> ---
+>  drivers/gpu/drm/tests/drm_client_modeset_test.c | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/tests/drm_client_modeset_test.c b/drivers/gpu/drm/tests/drm_client_modeset_test.c
+> index 558c098b0384..362a5fbd82f5 100644
+> --- a/drivers/gpu/drm/tests/drm_client_modeset_test.c
+> +++ b/drivers/gpu/drm/tests/drm_client_modeset_test.c
+> @@ -53,7 +53,6 @@ static int drm_client_modeset_test_init(struct kunit *test)
+>  	drm_connector_helper_add(&priv->connector, &drm_client_modeset_connector_helper_funcs);
+>  
+>  	return 0;
+> -
+>  }
+>  
+>  static void drm_test_pick_cmdline_res_1920_1080_60(struct kunit *test)
+> @@ -85,7 +84,6 @@ static void drm_test_pick_cmdline_res_1920_1080_60(struct kunit *test)
+>  	KUNIT_EXPECT_TRUE(test, drm_mode_equal(expected_mode, mode));
+>  }
+>  
+> -
+>  static struct kunit_case drm_test_pick_cmdline_tests[] = {
+>  	KUNIT_CASE(drm_test_pick_cmdline_res_1920_1080_60),
+>  	{}
