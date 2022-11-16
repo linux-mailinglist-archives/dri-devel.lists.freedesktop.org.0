@@ -2,66 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 410F362D41E
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 08:31:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1968B62D40F
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 08:29:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECDF610E55B;
-	Thu, 17 Nov 2022 07:30:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCF2110E551;
+	Thu, 17 Nov 2022 07:29:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA23A10E16D
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 13:44:35 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id y16so29976224wrt.12
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 05:44:35 -0800 (PST)
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4202510E4B3
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 14:35:47 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id cl5so30228101wrb.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 06:35:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
  bh=Z8czfhSUs3mWHeIfFdLH5/G0a3Uk3RSmYGgvVFUZjxw=;
- b=NT+BUGGtGZAE2pjUnqSGkFkx3B1JCAolXNU5i9AiCCH7MdU4HJuegoVnVsC45K8Iow
- jzJ7a8el4ZGSDJ6zEC9Z/GE3NEKoZvkhcIXqAon3nxxO47/i0Y/ELCUOUX7GkxB94T2I
- SZcO9pXD6CAGQKO7LeaJ21mYHK6PnybDztnrrEAYG/4oEPk268L6V2HJ40V9/2cupmT/
- DDknWLgdezM7NSFros3VfLOKEKYVXpzEfx+V34ZRARZs7EBxkVCwAWORLorCfNzaYRwl
- f6b7K1Kzm+WZNZoM96e7VIMNs6xtYjc9YbRKrRU8A/Y8I7s1NmOPmfXAzC03wBPejwdH
- 2euA==
+ b=WGzXTljvZSs2p0IjXnKub2fXvs+by26DaMNPHNseJK45SXzjN2mpHV2nhd5fKcEzUd
+ FxuC7mCyzPTDLpcs9+NvZw/9f3yKf5aMMPfu8xZ0EooP3sadwjoKmJQIu4kflQL6CSHm
+ 3mmk+vdddaNM8D7JGuOalFOsbuiiNyj8JYnY6upvijkpjzOqH6D3L5M+I87kCYmwj6Qr
+ PDHcRDHRBVD9EhBevRNBQXWcMgSIyBCz23/yjiEgPggheZs0hqVzZAVRSOxz++e8HEEe
+ su8WM+SnpCoQWwhJnDVoUmTLsNLqMz2pBd+0Ixw/wVgwV1Dj+Mcpr39k4ZwAjv2ULZR0
+ fVuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
  bh=Z8czfhSUs3mWHeIfFdLH5/G0a3Uk3RSmYGgvVFUZjxw=;
- b=LSe3memdkUyNAGwJVsDlIlBh/yp6YZAhPbfajjyqG7jnPeUvEiJ9f9MrmceJIbnvCd
- YEL8PJAr2iBJy2NyongoAxky3SQMYv5bfLa05HTO87huFwBISNTxG6zrKr5d7TxG/Qj4
- bwKBOpsBoOLo0vuhtQ1/fbbWG59Fd5xOS/7aBQcwTJJUbMS3Vc1PynQ3QQBlXeFLoxgr
- tZ6GjP1u/sFNgJJmUGIyDHEoQse4WmhDncYBsWnlNaxm1VoAau44Z1coU/KatDhUu99e
- W/9mhn4kll/bHHDuupd+PCEoSqeZ/AkJnaEjS/DGpui17YncCxxKD/Q5dQ06PU4gO6V1
- sngA==
-X-Gm-Message-State: ANoB5pkF1x4CMdKXrh4auQbffokndRA5WSF0/JO3U6pCrVg168Jesb87
- 6rod0HBuU5u9b1Qelx4RgA4=
-X-Google-Smtp-Source: AA0mqf67ZMlz+LUVMxCXN1/IrpPbOUHhtbCF/kaOO3d28Z3gsn7J2mkZlI9xuSJe+siQptMk1PxrHA==
-X-Received: by 2002:a5d:6f06:0:b0:236:5726:f1b with SMTP id
- ay6-20020a5d6f06000000b0023657260f1bmr13685093wrb.231.1668606274179; 
- Wed, 16 Nov 2022 05:44:34 -0800 (PST)
+ b=6tYaxdDvc9LU1FYJ/l9M+wF3XYUcjo35LIEHtctgdgvqldjXOOGNYw/URgJN594VxA
+ 2viWfgd/fv/fSSS9RN6g5kfnT+zVFpZD57doxfSoR1LVpeK6LnULoUOUGLYPDj8ur1RM
+ hZTVlSzOrEGSCFRY0xM4B9C1kWl2n8D4u0YUqsiEcRWqRquDT0aytZXPvVeF69KLhfeF
+ tDnQ/n3nHCx+8wHqj0ABLJUc9/9qe6sOaU4Y9UKmxWZKtBaaWKIwbl3D3EZSKksR2qWs
+ ctEf+2+KsRatrVmCmtsASwKV47QOxf+zIRIHdRWuplCeJlKbsldIjuE1Oy7bIB8YvFVY
+ uUyg==
+X-Gm-Message-State: ANoB5pmZFzi+elFn8XgBXwpIMGQR/8QlKlkjhnuFEyWahFeOeTN/YYMl
+ up2Zt8oSWRMLLx7VyeDX6GGDG+cyr4ge42l/
+X-Google-Smtp-Source: AA0mqf5598TxLDqy4tIWUpYjpY0aL3kt7HPLQgal2MvvcizUGXiBe1ztwx8Cofhygfbkrm1iEOsnCQ==
+X-Received: by 2002:a5d:658b:0:b0:22e:3397:2e96 with SMTP id
+ q11-20020a5d658b000000b0022e33972e96mr13714180wru.535.1668609345451; 
+ Wed, 16 Nov 2022 06:35:45 -0800 (PST)
 Received: from localhost.localdomain ([2a01:e0a:5da:d460:bf85:51f8:ca78:20c2])
  by smtp.googlemail.com with ESMTPSA id
- g18-20020a05600c4ed200b003cf6e1df4a8sm2594584wmq.15.2022.11.16.05.44.32
+ x11-20020a5d54cb000000b002415dd45320sm15152354wrv.112.2022.11.16.06.35.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Nov 2022 05:44:33 -0800 (PST)
+ Wed, 16 Nov 2022 06:35:44 -0800 (PST)
 From: Guillaume BRUN <the.cheaterman@gmail.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <robert.foss@linaro.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	"dri-devel@lists.freedesktop.org"@freedesktop.org,
-	"linux-kernel@vger.kernel.org"@freedesktop.org,
-	"linux-amlogic@lists.infradead.org"@freedesktop.org
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-amlogic@lists.infradead.org
 Subject: [PATCH] drm: bridge: dw_hdmi: fix preference of RGB modes over YUV420
-Date: Wed, 16 Nov 2022 14:44:19 +0100
-Message-Id: <20221116134419.16581-1-the.cheaterman@gmail.com>
+Date: Wed, 16 Nov 2022 15:35:23 +0100
+Message-Id: <20221116143523.2126-1-the.cheaterman@gmail.com>
 X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
