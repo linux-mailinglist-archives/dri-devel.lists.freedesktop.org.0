@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B12262DF56
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 16:11:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EE9D62DF6A
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 16:14:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C3EC10E626;
-	Thu, 17 Nov 2022 15:11:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B842E10E628;
+	Thu, 17 Nov 2022 15:14:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0890810E627;
- Thu, 17 Nov 2022 15:11:49 +0000 (UTC)
-Received: from [192.168.2.32] (109-252-117-140.nat.spd-mgts.ru
- [109.252.117.140])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 649B96602AA5;
- Thu, 17 Nov 2022 15:11:47 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1668697907;
- bh=wn7Cy/ZPgoMUXLEJ3MBjrTC/FWisYchJvN8Zlkkx/q8=;
- h=Date:Subject:To:References:From:In-Reply-To:From;
- b=UrHRMvoLGMClM5GSD8MdmpFQScwEEstNHrK0qA5NTLWvhhP05AheU9H8pzInFs6V+
- Pu7/oasHF1j7xTEJz3KUkcMp93WHfn1N4bLDKgkHvvD9zlnfjEVfBTx8et1MVhCSjN
- 6OznL7KDQHTBpDo1NOTH+/3pkJ9ousPrLkTmaqfuKtyfJ0HC9DW2Z1piBm+MQ6swa8
- Eblr7elzXlr4kPxoKKeEq4gXL1/V6KuhQcdo/HQXHM7XvVJvTUzgUGoX8lsXh1Js++
- Q0iwnIVlP17Zml15bpVLfuEpT4P3+n+XgmhPAS0idIncq56z/QLcn65BdRakG2xLXc
- +AVQRAU7wFp2Q==
-Message-ID: <647e876a-9710-c6bd-9cf3-a513d879c36a@collabora.com>
-Date: Thu, 17 Nov 2022 18:11:44 +0300
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com
+ [209.85.222.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F132110E628
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 15:14:34 +0000 (UTC)
+Received: by mail-qk1-f182.google.com with SMTP id p18so1357987qkg.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 07:14:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=SegVnAcLQLaJX7pNjPa5EmAcFg4cHidqxjj8yBrAgQs=;
+ b=ZayDHA+5ryyTlY/+1TGmTKANHIxxcWD29Ut5ZQq3GcV6NnOYOU7QDo7fWuIx1J9era
+ zi8kOoPhy/GVHR4/BWScrD/AgFYaZV9Q7OCW5W9I7A4Pf7EQqU4dZ8GHGsfmu7Ow5vTd
+ OhKMDG6vP+fL5I+HgzdaGGTpst6HMgCeRhCcIHA7SlkRyGjBz/NCkzyxttXk+mkToRdk
+ VTx3lLWoKd4316xMVcsMZzIbHSE3Gg5IJmZTLLv5zndQP4j2kVA/JMIiZsO39xBhkRLf
+ XgsF1Yh0qBb43QtQr+hN1WqJAxQiFmEzRJDwySWkqMhKeyCCoOvqIwVArNP/ZbBieZ/7
+ Rj5g==
+X-Gm-Message-State: ANoB5pkhYD3ammwxpU32DTv0phNB5/DANG+J/dtVQY+95/ICnJgecaMf
+ iVvmYHyWdC1tzNSz1ubtfYvaD6CBWWkEpQ==
+X-Google-Smtp-Source: AA0mqf7mT772JeMSWgf4U/fYhztzRRK6z/Cpb48SWCVE2qbLh6I/lxjOsZmNkC1MFNRSmPOBaOX1Qg==
+X-Received: by 2002:a05:620a:b83:b0:6fb:ec6:da03 with SMTP id
+ k3-20020a05620a0b8300b006fb0ec6da03mr2009227qkh.206.1668698073766; 
+ Thu, 17 Nov 2022 07:14:33 -0800 (PST)
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com.
+ [209.85.219.177]) by smtp.gmail.com with ESMTPSA id
+ r13-20020a05620a298d00b006eee3a09ff3sm610701qkp.69.2022.11.17.07.14.32
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Nov 2022 07:14:32 -0800 (PST)
+Received: by mail-yb1-f177.google.com with SMTP id 205so2201844ybe.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 07:14:32 -0800 (PST)
+X-Received: by 2002:a25:9e84:0:b0:6de:6183:c5c3 with SMTP id
+ p4-20020a259e84000000b006de6183c5c3mr2545467ybq.89.1668698072311; Thu, 17 Nov
+ 2022 07:14:32 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH 12/13] drm/scheduler: rework entity flush, kill and fini
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- luben.tuikov@amd.com, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-References: <20221014084641.128280-1-christian.koenig@amd.com>
- <20221014084641.128280-13-christian.koenig@amd.com>
- <1b1fae07-a5c3-e982-94a2-c35ab26f0e91@collabora.com>
- <da420e53-cafd-b46f-90df-ed54e6de09a3@amd.com>
- <9722032c-f1b3-37ff-91d2-6ed965300047@collabora.com>
- <ef732036-895b-0f5c-d06b-d7e4a739541a@gmail.com>
- <74d74689-9c8e-1691-a232-c18271974f37@collabora.com>
- <126a8c1e-69ec-5068-1aad-30f5e7c3ef21@collabora.com>
- <4f5766ab-d31f-d0c8-6b1e-0c7e0fbabfed@amd.com>
- <50308598-324f-f628-a4f1-55da3935a2f5@collabora.com>
- <067ffcf2-5d46-fd37-3df8-0de1714573e4@amd.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <067ffcf2-5d46-fd37-3df8-0de1714573e4@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20221117122547.809644-1-tomi.valkeinen@ideasonboard.com>
+ <20221117122547.809644-3-tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20221117122547.809644-3-tomi.valkeinen@ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 17 Nov 2022 16:14:21 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWUvLzCtFRXvUpCxczpkpaunb==gjBMwdniXY4UBVuMUw@mail.gmail.com>
+Message-ID: <CAMuHMdWUvLzCtFRXvUpCxczpkpaunb==gjBMwdniXY4UBVuMUw@mail.gmail.com>
+Subject: Re: [PATCH v1 2/8] dt-bindings: display: bridge: renesas, dsi-csi2-tx:
+ Add r8a779g0
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,31 +68,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/17/22 18:09, Christian König wrote:
-> Am 17.11.22 um 15:41 schrieb Dmitry Osipenko:
->> [SNIP]
->>> drm_sched_entity_flush() should be called from the flush callback from
->>> the file_operations structure of panfrost. See amdgpu_flush() and
->>> amdgpu_ctx_mgr_entity_flush(). This makes sure that we wait for all
->>> entities of the process/file descriptor to be flushed out.
->>>
->>> drm_sched_entity_fini() must be called before you free the memory the
->>> entity structure or otherwise we would run into an use after free.
->> Right, drm_sched_entity_destroy() invokes these two functions and
->> Panfrost uses drm_sched_entity_destroy().
-> 
-> Than I have no idea what's going wrong here.
-> 
-> The scheduler should trivially finish with the entity and call
-> complete(&entity->entity_idle) in it's main loop. No idea why this
-> doesn't happen. Can you investigate?
+Hi Tomi,
 
-I'll take a closer look. Hoped you may have a quick idea of what's wrong :)
+On Thu, Nov 17, 2022 at 1:26 PM Tomi Valkeinen
+<tomi.valkeinen@ideasonboard.com> wrote:
+> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>
+> Extend the Renesas DSI display bindings to support the r8a779g0 V4H.
+>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> ---
+>  .../bindings/display/bridge/renesas,dsi-csi2-tx.yaml           | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+> index afeeb967393d..bc3101f77e5a 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+> @@ -11,13 +11,14 @@ maintainers:
+>
+>  description: |
+>    This binding describes the MIPI DSI/CSI-2 encoder embedded in the Renesas
+> -  R-Car V3U SoC. The encoder can operate in either DSI or CSI-2 mode, with up
+> +  R-Car V3U/V4H SoC. The encoder can operate in either DSI or CSI-2 mode, with up
 
--- 
-Best regards,
-Dmitry
+Perhaps "R-Car Gen4 SoCs", so we stay within 80 chars, and don't have
+to update this when the next member of the family is around the block?
 
+Is there anything that might be SoC-specific?
+If not, perhaps the time is ripe for a family-specific compatible value?
+
+>    to four data lanes.
+>
+>  properties:
+>    compatible:
+>      enum:
+>        - renesas,r8a779a0-dsi-csi2-tx    # for V3U
+> +      - renesas,r8a779g0-dsi-csi2-tx    # for V4H
+>
+>    reg:
+>      maxItems: 1
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
