@@ -1,77 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EE0C62D45B
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 08:48:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A8AC62D46F
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 08:55:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 351C310E562;
-	Thu, 17 Nov 2022 07:48:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BAF210E565;
+	Thu, 17 Nov 2022 07:54:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3E0F10E562
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 07:48:20 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2AH6vGWY030397; Thu, 17 Nov 2022 07:48:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=tBzCcWB+FWTWbCRzQPLuDi04qenTt42bi9VpD3R/tks=;
- b=k5zdoItO7JDlN1YZQb7uFaC0sFN/yvrZq1KQpGNHEDXiKq1+/g1JLIiaf7ptpzh0FomQ
- d0XFLuA2aF7PGUQOTwUFGD+DlKhO2PL2pAjFFw9IqFGagOL9u7v2oYMZFzuOtADRkt8O
- NeGXfI5EtCSpJHJX4S+8Ms6OEP85VHO49zyUaoRV9+luuVJHdZ+VbmjGVQRintHz7z2k
- lCf06jUx+MIaCmpNIizxXRQdSHjsCkaSSPwLHCx48FOl2xIs33W5xMFCZvYbR6PcWp3t
- qkiEs59s8EIBlKL5QEA19jihs0ku77YhP6pP0NeZYp2HW7SlxKbWYl0qwmLO03mRxzqr 2Q== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kwg4sg5ve-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Nov 2022 07:48:10 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2AH7m9pV030059
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Nov 2022 07:48:09 GMT
-Received: from [10.216.46.79] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Wed, 16 Nov
- 2022 23:48:05 -0800
-Message-ID: <f12a5dbe-4626-f6c7-236b-30bb16be1dd6@quicinc.com>
-Date: Thu, 17 Nov 2022 13:18:02 +0530
+Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4AC410E565
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 07:54:51 +0000 (UTC)
+Date: Thu, 17 Nov 2022 07:54:40 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail3; t=1668671689; x=1668930889;
+ bh=1cuoc+c0B+o0lfrnedqd5WCFg5h3m6La1/QER4aQjds=;
+ h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+ Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+ b=Bj+htasW8sXvK2+HDk1XwIkbOUtnHrFev999/911vdVW1ELp7MGRqrPQnKlZwdEej
+ erxwCVpxUqpZoKti3OJe6VQtE6209kejI63RQKNjnD2bmHt/H23rb93DZO3lWhFiFC
+ 9+DFC24V0+DBhZmdtD/5MxNhzWd79a0ppjJawgi6DHTdqSX24XHg+W0LPf0nyvz8z+
+ GLzAujJdeGd0+TH1wVubUql6B3L8U8FZ3ByeSGtCHnOruFg4MyJCZcbmMQ7O81QLwu
+ BUdTSUiC3AzlY3iq+co3aino06c/ps1bcTd3vnLLTIWUctaz4xsnCT++ZBx3xuE+5t
+ Cl/wXYjFf21Jg==
+To: dri-devel@lists.freedesktop.org, wayland-devel@lists.freedesktop.org
+From: Simon Ser <contact@emersion.fr>
+Subject: [PATCH] drm/atomic: add quirks for blind save/restore
+Message-ID: <20221117075433.222968-1-contact@emersion.fr>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] dma-buf: Fix possible UAF in dma_buf_export
-Content-Language: en-US
-To: Gaosheng Cui <cuigaosheng1@huawei.com>, <sumit.semwal@linaro.org>,
- <christian.koenig@amd.com>, <tjmercier@google.com>, Dan Carpenter
- <dan.carpenter@oracle.com>, Pavan Kondeti <quic_pkondeti@quicinc.com>
-References: <20221117062152.3029018-1-cuigaosheng1@huawei.com>
-From: Charan Teja Kalla <quic_charante@quicinc.com>
-In-Reply-To: <20221117062152.3029018-1-cuigaosheng1@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: OAJK_heCCFjZ6aNynq_IIlIB5nii1D7-
-X-Proofpoint-ORIG-GUID: OAJK_heCCFjZ6aNynq_IIlIB5nii1D7-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-17_04,2022-11-16_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011
- lowpriorityscore=0 suspectscore=0 mlxlogscore=999 spamscore=0
- priorityscore=1501 impostorscore=0 bulkscore=0 mlxscore=0 malwarescore=0
- adultscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211170058
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,54 +44,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sometime back Dan also reported the same issue[1] where I do mentioned
-that fput()-->dma_buf_file_release() will remove it from the list.
+Two quirks to make blind atomic save/restore [1] work correctly:
 
-But it seems that I failed to notice fput() here calls the
-dma_buf_file_release() asynchronously i.e. dmabuf that is accessed in
-the close path is already freed. Am I wrong here?
+- Mark the DPMS property as immutable for atomic clients, since
+  atomic clients cannot change it.
+- Allow user-space to set content protection to "enabled", interpret
+  it as "desired".
 
-Should we have the __fput_sync(file) here instead of just fput(file)
-which can solve this problem?
+[1]: https://gitlab.freedesktop.org/wlroots/wlroots/-/merge_requests/3794
 
-[1]https://lore.kernel.org/all/20220516084704.GG29930@kadam/
+Signed-off-by: Simon Ser <contact@emersion.fr>
+---
 
-Thanks,
-Charan
-On 11/17/2022 11:51 AM, Gaosheng Cui wrote:
-> Smatch report warning as follows:
-> 
-> drivers/dma-buf/dma-buf.c:681 dma_buf_export() warn:
->   '&dmabuf->list_node' not removed from list
-> 
-> If dma_buf_stats_setup() fails in dma_buf_export(), goto err_sysfs
-> and dmabuf will be freed, but dmabuf->list_node will not be removed
-> from db_list.head, then list traversal may cause UAF.
-> 
-> Fix by removeing it from db_list.head before free().
-> 
-> Fixes: ef3a6b70507a ("dma-buf: call dma_buf_stats_setup after dmabuf is in valid list")
-> Signed-off-by: Gaosheng Cui <cuigaosheng1@huawei.com>
-> ---
->  drivers/dma-buf/dma-buf.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index b809513b03fe..6848f50226d5 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -675,6 +675,9 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
->  	return dmabuf;
->  
->  err_sysfs:
-> +	mutex_lock(&db_list.lock);
-> +	list_del(&dmabuf->list_node);
-> +	mutex_unlock(&db_list.lock);
->  	/*
->  	 * Set file->f_path.dentry->d_fsdata to NULL so that when
->  	 * dma_buf_release() gets invoked by dentry_ops, it exits
+I don't have the motivation to write IGT tests for this.
+
+ drivers/gpu/drm/drm_atomic_uapi.c | 5 +++--
+ drivers/gpu/drm/drm_property.c    | 7 +++++++
+ 2 files changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic=
+_uapi.c
+index c06d0639d552..95363aac7f69 100644
+--- a/drivers/gpu/drm/drm_atomic_uapi.c
++++ b/drivers/gpu/drm/drm_atomic_uapi.c
+@@ -741,8 +741,9 @@ static int drm_atomic_connector_set_property(struct drm=
+_connector *connector,
+ =09=09state->scaling_mode =3D val;
+ =09} else if (property =3D=3D config->content_protection_property) {
+ =09=09if (val =3D=3D DRM_MODE_CONTENT_PROTECTION_ENABLED) {
+-=09=09=09drm_dbg_kms(dev, "only drivers can set CP Enabled\n");
+-=09=09=09return -EINVAL;
++=09=09=09/* Degrade ENABLED to DESIRED so that blind atomic
++=09=09=09 * save/restore works as intended. */
++=09=09=09val =3D DRM_MODE_CONTENT_PROTECTION_DESIRED;
+ =09=09}
+ =09=09state->content_protection =3D val;
+ =09} else if (property =3D=3D config->hdcp_content_type_property) {
+diff --git a/drivers/gpu/drm/drm_property.c b/drivers/gpu/drm/drm_property.=
+c
+index dfec479830e4..dde42986f8cb 100644
+--- a/drivers/gpu/drm/drm_property.c
++++ b/drivers/gpu/drm/drm_property.c
+@@ -474,7 +474,14 @@ int drm_mode_getproperty_ioctl(struct drm_device *dev,
+ =09=09return -ENOENT;
+=20
+ =09strscpy_pad(out_resp->name, property->name, DRM_PROP_NAME_LEN);
++
+ =09out_resp->flags =3D property->flags;
++=09if (file_priv->atomic && property =3D=3D dev->mode_config.dpms_property=
+) {
++=09=09/* Quirk: indicate that the legacy DPMS property is not
++=09=09 * writable from atomic user-space, so that blind atomic
++=09=09 * save/restore works as intended. */
++=09=09out_resp->flags |=3D DRM_MODE_PROP_IMMUTABLE;
++=09}
+=20
+ =09value_count =3D property->num_values;
+ =09values_ptr =3D u64_to_user_ptr(out_resp->values_ptr);
+--=20
+2.38.1
+
+
