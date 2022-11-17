@@ -2,38 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CC7362D369
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 07:22:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8319D62D370
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 07:29:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B73A510E540;
-	Thu, 17 Nov 2022 06:22:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B33C510E52E;
+	Thu, 17 Nov 2022 06:29:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A81BF10E540
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 06:21:58 +0000 (UTC)
-Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.54])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4NCV9J2bx9zJnpN;
- Thu, 17 Nov 2022 14:18:44 +0800 (CST)
-Received: from cgs.huawei.com (10.244.148.83) by
- kwepemi500012.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 17 Nov 2022 14:21:53 +0800
-From: Gaosheng Cui <cuigaosheng1@huawei.com>
-To: <sumit.semwal@linaro.org>, <christian.koenig@amd.com>,
- <tjmercier@google.com>, <quic_charante@quicinc.com>,
- <cuigaosheng1@huawei.com>
-Subject: [PATCH] dma-buf: Fix possible UAF in dma_buf_export
-Date: Thu, 17 Nov 2022 14:21:52 +0800
-Message-ID: <20221117062152.3029018-1-cuigaosheng1@huawei.com>
-X-Mailer: git-send-email 2.25.1
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9C3910E52E;
+ Thu, 17 Nov 2022 06:29:06 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id D1E6AB81F9E;
+ Thu, 17 Nov 2022 06:29:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 020CEC433D6;
+ Thu, 17 Nov 2022 06:29:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1668666543;
+ bh=2lL2hzaia/cJFGMAWXRGKglaIEpZyNeP9+ahgQNP4kA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=c249IZd66Tr+XAm2SsQCHdhz1pBIhYWCzc81bpqF0pv9NC/oJGCZ/1CwjofM/9N9U
+ yZdZvpQinoxqQ7JUoKuHEGzZrLOlz7vufcjxKkzuKhENk52HDOrr/9ttoLvi6FJpPW
+ rkWtdmUMnQsx26P43tugym2GArfJW2LQmgLG39y4=
+Date: Thu, 17 Nov 2022 07:29:00 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Jim Cromie <jim.cromie@gmail.com>
+Subject: Re: [PATCH 1/7] drm: mark drm.debug-on-dyndbg as BROKEN for now
+Message-ID: <Y3XUrOGAV4I7bB3M@kroah.com>
+References: <20220912052852.1123868-1-jim.cromie@gmail.com>
+ <20221111221715.563020-1-jim.cromie@gmail.com>
+ <20221111221715.563020-2-jim.cromie@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.244.148.83]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- kwepemi500012.china.huawei.com (7.221.188.12)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221111221715.563020-2-jim.cromie@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,42 +51,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
+Cc: daniel.vetter@ffwll.ch, intel-gfx@lists.freedesktop.org,
+ linux@rasmusvillemoes.dk, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, jbaron@akamai.com, seanpaul@chromium.org,
+ dri-devel@lists.freedesktop.org, joe@perches.com,
+ intel-gvt-dev@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Smatch report warning as follows:
+On Fri, Nov 11, 2022 at 03:17:09PM -0700, Jim Cromie wrote:
+> drm.debug-on-dyndbg has a regression, due to a chicken-egg
+> initialization problem:
+> 
+> 1- modprobe i915
+>    i915 needs drm.ko, which is loaded 1st
+> 
+> 2- "modprobe drm drm.debug=0x1ff" (virtual/implied)
+>    drm.debug is set post-initialization, from boot-args etc
+> 
+> 3- `modprobe i915` finishes
+> 
+> W/O drm.debug-on-dyndbg that just works, because all drm_dbg*
+> callsites use drm_debug_enabled() to check __drm_debug & DEM_UT_<CAT>
+> before printing.
+> 
+> But the whole point of drm.debug-on-dyndbg is to avoid that runtime
+> test, by enabling (at post-modinit) a static-key at each callsite in
+> the just-loaded module.
+> 
+> And since drm.ko is loaded before all dependent modules, none are
+> "just-loaded", and no drm.debug callsites are present yet, except
+> those in drm.ko itself.
+> 
+> Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+> ---
+>  drivers/gpu/drm/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index 34f5a092c99e..0d1e59e6bb7e 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -54,6 +54,7 @@ config DRM_DEBUG_MM
+>  config DRM_USE_DYNAMIC_DEBUG
+>  	bool "use dynamic debug to implement drm.debug"
+>  	default y
+> +	depends on BROKEN	# chicken-egg initial enable problem
+>  	depends on DRM
+>  	depends on DYNAMIC_DEBUG || DYNAMIC_DEBUG_CORE
+>  	depends on JUMP_LABEL
+> -- 
+> 2.38.1
 
-drivers/dma-buf/dma-buf.c:681 dma_buf_export() warn:
-  '&dmabuf->list_node' not removed from list
+This should go through the drm tree now.  The rest probably should also
+go that way and not through my tree as well.
 
-If dma_buf_stats_setup() fails in dma_buf_export(), goto err_sysfs
-and dmabuf will be freed, but dmabuf->list_node will not be removed
-from db_list.head, then list traversal may cause UAF.
+thanks,
 
-Fix by removeing it from db_list.head before free().
-
-Fixes: ef3a6b70507a ("dma-buf: call dma_buf_stats_setup after dmabuf is in valid list")
-Signed-off-by: Gaosheng Cui <cuigaosheng1@huawei.com>
----
- drivers/dma-buf/dma-buf.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index b809513b03fe..6848f50226d5 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -675,6 +675,9 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
- 	return dmabuf;
- 
- err_sysfs:
-+	mutex_lock(&db_list.lock);
-+	list_del(&dmabuf->list_node);
-+	mutex_unlock(&db_list.lock);
- 	/*
- 	 * Set file->f_path.dentry->d_fsdata to NULL so that when
- 	 * dma_buf_release() gets invoked by dentry_ops, it exits
--- 
-2.25.1
-
+greg k-h
