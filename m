@@ -1,64 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91F5062D8F0
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 12:08:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8830362D90D
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 12:09:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0D7510E5BE;
-	Thu, 17 Nov 2022 11:08:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B302A10E54E;
+	Thu, 17 Nov 2022 11:09:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
- [IPv6:2607:f8b0:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD9F910E57F
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 11:08:13 +0000 (UTC)
-Received: by mail-pl1-x630.google.com with SMTP id p21so1295372plr.7
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 03:08:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=guDJ2D49X6qr8IBe/bEb2QRhshSWmmIUhs4eglbthY4=;
- b=T1QGfHblOvZFLAQ313+nynqrD6Pdbe1Pe3Zu2voXKUWYJ9vmhps/ejU6uy25NcskKj
- akstmsM5kk0uinqghnCVvwnxzAL768fyvX8cacrJ3O8j0shlGjfr37wyPjsFjMlEdpbv
- GfAHEfTmqlI1eVeggfwxsVmNSXl/XdHkCb2U0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=guDJ2D49X6qr8IBe/bEb2QRhshSWmmIUhs4eglbthY4=;
- b=mskULn1yWPniPDiYmJEiEQp+x6JTFDIjn9VY39I4xIpyE3/KcXJp6+kvSnvZCDmAOw
- lldoZ7G7ShYmSCxhO7DppYFnk4ex7HA5ZxWyYvL8rTp/BLkMx++OyZKgbDsrZzjzhpGH
- zNISaKmiEnDOKMAE532rNIuV72apH7WNvkGJaeEUnhhbJ9MaL17WQhaRw+pn043JibGn
- y3flJ0fIiXEH6cZLXJ+C+xmZiyC2KAvryL4j0TnGabvq3Dk3oDkO4hFuA6j/s73Rt+Yl
- OFZg29RQDkOQmQ/UnGFZMGiMnshcxQDDAc96z4Kn7gQ6zbwla1v+OkokGoOIbdy1uGar
- px8g==
-X-Gm-Message-State: ANoB5pkVei86q9Xz/snGLbhvBid2cKzjBsIMlEFM5GEtgWV9lei2tKyS
- C9V0kAMNLdR3+Qal/YycY3fwTQ==
-X-Google-Smtp-Source: AA0mqf706RxiMdIusqWwX81fa7V9EmCKZIYsYRY+QZDaYVhDAVD7PxZtE/5/OggHcrFqjSWwqJfHzA==
-X-Received: by 2002:a17:90a:6547:b0:213:d08f:a483 with SMTP id
- f7-20020a17090a654700b00213d08fa483mr2325282pjs.21.1668683293463; 
- Thu, 17 Nov 2022 03:08:13 -0800 (PST)
-Received: from hsinyi-z840.tpe.corp.google.com
- ([2401:fa00:1:10:e678:c7f5:9cb3:1a06])
- by smtp.gmail.com with ESMTPSA id
- z18-20020a170902ccd200b0017a032d7ae4sm1025540ple.104.2022.11.17.03.08.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Nov 2022 03:08:13 -0800 (PST)
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-To: Sean Paul <seanpaul@chromium.org>,
- Douglas Anderson <dianders@chromium.org>,
- Robert Foss <robert.foss@linaro.org>
-Subject: [PATCH v6 3/3] drm/bridge: it6505: handle HDCP request
-Date: Thu, 17 Nov 2022 19:08:04 +0800
-Message-Id: <20221117110804.1431024-3-hsinyi@chromium.org>
-X-Mailer: git-send-email 2.38.1.431.g37b22c650d-goog
-In-Reply-To: <20221117110804.1431024-1-hsinyi@chromium.org>
-References: <20221117110804.1431024-1-hsinyi@chromium.org>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BE3F10E54E
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 11:09:45 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B396B60EAD;
+ Thu, 17 Nov 2022 11:09:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3A05C433D6;
+ Thu, 17 Nov 2022 11:09:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1668683384;
+ bh=rlMFnUfQu8GJbpUZVcINUpGICn6p1+U5R0s89aqiluY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=W3x/iGCbNuMvys+UHPYxXfBNEAjRTHTA7o32s2r636M+YBziRU2SonABy/5UU1DnQ
+ 3YSZBpbLlV16b0wTYkkbOka0EYaToulvwQQ6YLZf1ROtwkCUY/mYWSKCusjvL5vfl5
+ GtXRdaGwEu5jajg8VLb3TOuqu8rtnFdEm4Xr02tIqPUgI6oDOyw0ISkleOPBWQv1Uh
+ Q4l5z6Y53UO3FFCyK7OG8Af7IuGHk5lPUop3+BjBi3gh4Pw65qxsKsd9Ug2shYBllT
+ zLwERhd4dFhs4bctzw0za1HB8NQRl6Qh5d7eU+rxh+CyqFs4sAk8zNQCSfWflRXOXM
+ +GanqHZNquZlw==
+Date: Thu, 17 Nov 2022 11:09:41 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Carlo Caione <ccaione@baylibre.com>
+Subject: Re: [PATCH 2/3] drm/tiny: ili9486: Do not assume 8-bit only SPI
+ controllers
+Message-ID: <Y3YWdeTLfmDh7UyB@sirena.org.uk>
+References: <20221116-s905x_spi_ili9486-v1-0-630401cb62d5@baylibre.com>
+ <20221116-s905x_spi_ili9486-v1-2-630401cb62d5@baylibre.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="LQcIBCJXd6N58uwP"
+Content-Disposition: inline
+In-Reply-To: <20221116-s905x_spi_ili9486-v1-2-630401cb62d5@baylibre.com>
+X-Cookie: Ego sum ens omnipotens.
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,132 +56,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Allen Chen <allen.chen@ite.com.tw>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Kevin Hilman <khilman@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-spi@vger.kernel.org,
+ linux-amlogic@lists.infradead.org,
+ Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, Jerome Brunet <jbrunet@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-it6505 supports HDCP 1.3, but current implementation lacks the update of
-HDCP status through drm_hdcp_update_content_protection(). it6505 default
-enables the HDCP. If user set it to undesired then the driver will stop
-HDCP.
 
-Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-Reviewed-by: allen chen <allen.chen@ite.com.tw>
----
-v5->v6: no change.
----
- drivers/gpu/drm/bridge/ite-it6505.c | 55 +++++++++++++++++++++++++++++
- 1 file changed, 55 insertions(+)
+--LQcIBCJXd6N58uwP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index 21a9b8422bda..be08b42de4ea 100644
---- a/drivers/gpu/drm/bridge/ite-it6505.c
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -423,6 +423,7 @@ struct it6505 {
- 	struct extcon_dev *extcon;
- 	struct work_struct extcon_wq;
- 	int extcon_state;
-+	struct drm_connector *connector;
- 	enum drm_connector_status connector_status;
- 	enum link_train_status link_state;
- 	struct work_struct link_works;
-@@ -2399,6 +2400,14 @@ static void it6505_irq_hdcp_done(struct it6505 *it6505)
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "hdcp done interrupt");
- 	it6505->hdcp_status = HDCP_AUTH_DONE;
-+	if (it6505->connector) {
-+		struct drm_device *drm_dev = it6505->connector->dev;
-+
-+		drm_modeset_lock(&drm_dev->mode_config.connection_mutex, NULL);
-+		drm_hdcp_update_content_protection(it6505->connector,
-+						   DRM_MODE_CONTENT_PROTECTION_ENABLED);
-+		drm_modeset_unlock(&drm_dev->mode_config.connection_mutex);
-+	}
- 	it6505_show_hdcp_info(it6505);
- }
- 
-@@ -2931,6 +2940,7 @@ static void it6505_bridge_atomic_enable(struct drm_bridge *bridge,
- 	if (WARN_ON(!connector))
- 		return;
- 
-+	it6505->connector = connector;
- 	conn_state = drm_atomic_get_new_connector_state(state, connector);
- 
- 	if (WARN_ON(!conn_state))
-@@ -2974,6 +2984,7 @@ static void it6505_bridge_atomic_disable(struct drm_bridge *bridge,
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "start");
- 
-+	it6505->connector = NULL;
- 	if (it6505->powered) {
- 		it6505_drm_dp_link_set_power(&it6505->aux, &it6505->link,
- 					     DP_SET_POWER_D3);
-@@ -3028,6 +3039,48 @@ static struct edid *it6505_bridge_get_edid(struct drm_bridge *bridge,
- 	return edid;
- }
- 
-+static int it6505_connector_atomic_check(struct it6505 *it6505,
-+					 struct drm_connector_state *state)
-+{
-+	struct device *dev = &it6505->client->dev;
-+	int cp = state->content_protection;
-+
-+	DRM_DEV_DEBUG_DRIVER(dev, "hdcp connector state:%d, curr hdcp state:%d",
-+			     cp, it6505->hdcp_status);
-+
-+	if (!it6505->hdcp_desired) {
-+		DRM_DEV_DEBUG_DRIVER(dev, "sink not support hdcp");
-+		return 0;
-+	}
-+
-+	if (it6505->hdcp_status == HDCP_AUTH_GOING)
-+		return -EINVAL;
-+
-+	if (cp == DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
-+		if (it6505->hdcp_status == HDCP_AUTH_DONE)
-+			it6505_stop_hdcp(it6505);
-+	} else if (cp == DRM_MODE_CONTENT_PROTECTION_DESIRED) {
-+		if (it6505->hdcp_status == HDCP_AUTH_IDLE &&
-+		    it6505->link_state == LINK_OK)
-+			it6505_start_hdcp(it6505);
-+	} else {
-+		DRM_DEV_DEBUG_DRIVER(dev, "invalid to set hdcp enabled");
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int it6505_bridge_atomic_check(struct drm_bridge *bridge,
-+				      struct drm_bridge_state *bridge_state,
-+				      struct drm_crtc_state *crtc_state,
-+				      struct drm_connector_state *conn_state)
-+{
-+	struct it6505 *it6505 = bridge_to_it6505(bridge);
-+
-+	return it6505_connector_atomic_check(it6505, conn_state);
-+}
-+
- static const struct drm_bridge_funcs it6505_bridge_funcs = {
- 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-@@ -3035,6 +3088,7 @@ static const struct drm_bridge_funcs it6505_bridge_funcs = {
- 	.attach = it6505_bridge_attach,
- 	.detach = it6505_bridge_detach,
- 	.mode_valid = it6505_bridge_mode_valid,
-+	.atomic_check = it6505_bridge_atomic_check,
- 	.atomic_enable = it6505_bridge_atomic_enable,
- 	.atomic_disable = it6505_bridge_atomic_disable,
- 	.atomic_pre_enable = it6505_bridge_atomic_pre_enable,
-@@ -3354,6 +3408,7 @@ static int it6505_i2c_probe(struct i2c_client *client,
- 	it6505->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
- 	it6505->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID |
- 			     DRM_BRIDGE_OP_HPD;
-+	it6505->bridge.support_hdcp = true;
- 	drm_bridge_add(&it6505->bridge);
- 
- 	return 0;
--- 
-2.38.1.431.g37b22c650d-goog
+On Thu, Nov 17, 2022 at 09:47:40AM +0100, Carlo Caione wrote:
+> The ILI9486 driver is wrongly assuming that the SPI panel is interfaced
+> only with 8-bit SPI controllers and consequently that the pixel data
+> passed by the MIPI DBI subsystem are already swapped before being sent
+> over SPI using 8 bits-per-word.
+>=20
+> This is not always true for all the SPI controllers.
+>=20
+> Make the command function more general to not only support 8-bit only
+> SPI controllers and support sending un-swapped data over SPI using 16
+> bits-per-word when dealing with pixel data.
 
+I don't understand what the commit log is saying here.  The
+meson-spicc driver advertises support for 8 bit words, if the
+driver is sending data formatted as a byte stream everything
+should be fine.  It may be that there is some optimisation
+available from taking advantage of the hardware's ability to
+handle larger word sizes but there should be no data corruption
+issue.
+
+> +	/*
+> +	 * Check whether pixel data bytes needs to be swapped or not
+> +	 */
+> +	if (*cmd =3D=3D MIPI_DCS_WRITE_MEMORY_START && !mipi->swap_bytes)
+> +		bpw =3D 16;
+> +
+
+You should check the SPI controller compatibility here.
+
+--LQcIBCJXd6N58uwP
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmN2FnQACgkQJNaLcl1U
+h9DkAQf/ZO81DRjufOHQCe4TT3YQX0I4BQbc6tjxpvEJsPkgTRL6r1vfxKJOjA6j
+gBJqo8B7TdFYzqzWf4hJwieTLgUKdg4pWERfMQ5O/g9bHsc0BwLUTzg6asgynPqk
+ZdxyCvC5QTA/b9ZIWdKPRN9com67mNQRrebpkwcRjFQ1alJxlLDi2P+yrsCE+WOj
+Q77RLUtE3cVmxP1tFERDaS6TTTxc51nqK/HT0t6x3LURP6nnPdp5o8s2+AU88Vfv
+QoJDmpltiUw2lUScF9jTJjc3ATKhvXAY2NuY1xpVOUMfd4noH1MX5L97UPVedrY2
+24k3w5zahZP+JTUtK7epT6eO/eckVg==
+=opWd
+-----END PGP SIGNATURE-----
+
+--LQcIBCJXd6N58uwP--
