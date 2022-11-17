@@ -1,95 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D7D562D70C
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 10:31:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 741AF62D71F
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 10:35:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A2BD10E5DB;
-	Thu, 17 Nov 2022 09:30:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D692F10E590;
+	Thu, 17 Nov 2022 09:35:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
- [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA1E510E5BE;
- Thu, 17 Nov 2022 09:30:22 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.west.internal (Postfix) with ESMTP id 1D3192B069D7;
- Thu, 17 Nov 2022 04:30:20 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Thu, 17 Nov 2022 04:30:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1668677419; x=
- 1668684619; bh=s0oohZSryHTvS6AqnbyD508bkpJln3+0v4TZJ9DnLl4=; b=O
- RY9r2AEDplu2+6CFVefhGjH/gBfINELGkzVdPsib9LIz7Y9dTrA4fG+VYfz3M28z
- wHgZOgcMA7zkvr9bnLZT4uHLabGTsurQYysyh7R/TnwX6b/pnLaXeAShT+o6OaBP
- Yuv/ZUWyBHS5sva3kw1hC0Vx+0wJpJKJdFrASA3oAVnCX/MDyYbvnqj8YRdo/huV
- eBZOPVL2SmEatdBArg2xTVzDocnNo8HzHMB6GdFndeSnSNGSoO4D8mvVQiEFtofR
- BkSpiKlrFIFoBLzw0E2YEVlcB3oMxngaVGQLnHVNUvHHsz9YusDKG5jmaHvfFmEz
- bM9LbaiC3rHNLMkrVwQaw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1668677419; x=
- 1668684619; bh=s0oohZSryHTvS6AqnbyD508bkpJln3+0v4TZJ9DnLl4=; b=R
- PhdcHVw3lCMmjlfEPKpo8xhctj9Epic6TCFOhOLPNqBZfXPltjklNgvW4ReqY6p0
- ZWCwP9nN1b92O9pm+xszNYxgsWaqDf2nRVSxLVNCxBSbcg8T64yDDTvcyhC9y1C/
- 9rJ33wHCm/Bu93tKN5qZY9iGzPyS49JD63RlECQcirNGcewTvhx6mKQcuGAWFDnQ
- hV+3qNfQXMfQTh/m7PDTZCqRjqALweFr2rIYT9NHXjMCN6A0swoFkiK+DNQ6e2B+
- AXyFSlDKH3z5y7GxRfDKWVFgEAkfsMgrwtT9HWcFr4WbttNACAz6EYRoIFeLriaW
- HKqhZua7hlGAgxukc5/GA==
-X-ME-Sender: <xms:K_91Y9UuT6DSQlDTVzOuQFzchPl7gBRUSJEUwPJeh0njGLviLJHQAw>
- <xme:K_91Y9lqHJBa6QfIcAtAHVyPe8_AW8-p5Tz_GxRjNJCj6ILLooY55ihWJvRpfvmJ5
- YIQxqWm8WD3y7BvrkQ>
-X-ME-Received: <xmr:K_91Y5bMhIksQZ2bn-rsqEeAkJh646zXIPPh8GzrQXsLRQCdYyXXCvcCmUyXp1CKyggty_v9JcIVhgqIFC1vYjZ4v5Q0pfk9dTnJ-WeqhGPU1Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgeekgddtfecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhfffuggfgtgfkfhgjvfevofesthekredtredtjeenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpedvgfevjefhtdetveevhfelieeuueetgfdvgeevkeegudejffegfffgtedt
- leelhfenucevlhhushhtvghrufhiiigvpeegnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:K_91YwVMhdDaFWFIplElIk0JMQiMDFjTJeLKeLKLp7C6_lplw5FWUA>
- <xmx:K_91Y3mg7TFeZAnLyH6FWlb-FU9sUUUGuUnP-kC0QXN3MdEj-nchig>
- <xmx:K_91Y9elzB6TABHy3mtjXPkhAprjYMaJgNc-WHPWhC5BlqHa-_u_oA>
- <xmx:K_91Y7wdS8yWGVeOW-4RGFaSwFhJSVIEoCVLvjvn7q-NlgfFGKjQokhQKs8>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 17 Nov 2022 04:30:19 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-Date: Thu, 17 Nov 2022 10:29:02 +0100
-Subject: [PATCH v10 19/19] drm/sun4i: tv: Convert to the new TV mode property
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9703610E590
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 09:35:38 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id n12so3550788eja.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 01:35:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9FT4n1wjg5nORyNmE5mwITth+m4dxBnfwmgGDsONNwY=;
+ b=FOWB3hyB3Kd8JoJLo5QF1W+7xmsqIjuDHTVD6rAXxB7bX7Y0LKlEyX84RuRXELLE0E
+ 5TS+kcfY6CvArwqES+0/oyD/l5GIuVupMqe0VMC5PBnMeZxRRIJBfvt7ASakYK7tjIrJ
+ bEtsHwQXJhUGgZqtbbnDHTGV/ghpd+CKFyrVw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=9FT4n1wjg5nORyNmE5mwITth+m4dxBnfwmgGDsONNwY=;
+ b=BRgKMZIeh3DeIDZzYYpYpjoU1GEkZw+vvmTPH93gmGOauHz0OmQZpO9V1et1d974px
+ j+Wuzp4gfgfwf82c33lthMiE71kahanNFsQieRYj0iUKio+UJahA+gRaC44S+TsH70JS
+ A5yAO4RCVc62EnqKQEOjlQOQkRk+iYb1VTGEZYC/BqMvUYXw3iByB9NMmum6jEkkV/Ux
+ zErTMxBPvR1k5RWfeys1e20qV1whVdIAGj0kJVDr3mBHaB+/xAwgXIzvr20KepSNZLbL
+ oGQRmMV+hEx4F06Qzqm9rJIozNmLLmkSyERMq9SFbGAm5gsAf+LmRvTa9KDWgk1R8G3r
+ 96yg==
+X-Gm-Message-State: ANoB5pl793JpvisGZ0mRWYPiMacTK5hvS8ZLQPiPZbviIxPgz08lJwKd
+ kshIxUb2IsydCQR02RvWzJ3UHlKoMdyCIg==
+X-Google-Smtp-Source: AA0mqf5qdSN7QT91sHmNnspXsH7UHk6AepIe+P18M3p/Dbxr+UCgomfLjxCaUFzgz9SVK029wFUj3Q==
+X-Received: by 2002:a17:906:ef1:b0:78d:260d:a6e4 with SMTP id
+ x17-20020a1709060ef100b0078d260da6e4mr1424453eji.93.1668677736912; 
+ Thu, 17 Nov 2022 01:35:36 -0800 (PST)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com.
+ [209.85.218.48]) by smtp.gmail.com with ESMTPSA id
+ en20-20020a056402529400b00461bb7e7ef1sm294129edb.30.2022.11.17.01.35.34
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Nov 2022 01:35:34 -0800 (PST)
+Received: by mail-ej1-f48.google.com with SMTP id t25so3589933ejb.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 01:35:34 -0800 (PST)
+X-Received: by 2002:a17:906:a889:b0:7ad:bd02:f491 with SMTP id
+ ha9-20020a170906a88900b007adbd02f491mr1470272ejb.703.1668677733356; Thu, 17
+ Nov 2022 01:35:33 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20220728-rpi-analog-tv-properties-v10-19-256dad125326@cerno.tech>
-References: <20220728-rpi-analog-tv-properties-v10-0-256dad125326@cerno.tech>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v10-0-256dad125326@cerno.tech>
-To: Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Ben Skeggs <bskeggs@redhat.com>, 
- Chen-Yu Tsai <wens@csie.org>, David Airlie <airlied@linux.ie>,
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Emma Anholt <emma@anholt.net>,
- Karol Herbst <kherbst@redhat.com>, 
- Lyude Paul <lyude@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel@ffwll.ch>
-X-Mailer: b4 0.11.0-dev-99e3a
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7620; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=hsNs2n7C7f9hehl8S1tfoiQIMRx0LRBYDZVow6+rmgA=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMml/y7ei3Rv5ptzU1yu+EqCL++LBLm7MzOSuw1vfspzeFw7
- S0G5o5SFQYyLQVZMkSVG2HxJ3KlZrzvZ+ObBzGFlAhnCwMUpABNRU2BkOFd/6gBrykHGry8t1xu1st
- 7OtbIs6bpavyCLo2fa41vz5RkZplq+bHvx+eauso7TatfqP9+ceO182RsR65w4zfcLT7j95gcA
-X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+References: <20221020121316.3946-1-christian.koenig@amd.com>
+ <3d7353f3fa5905ce18e5b2d92f758f098189bc5a.camel@pengutronix.de>
+ <7f5eff36-6886-bb06-061a-dd4263b61605@gmail.com>
+ <f5de84cfe81fee828bbe0d47d379028d28ef6ca6.camel@pengutronix.de>
+ <e02cedc2-6741-8813-a7a5-f8769e301745@gmail.com>
+ <a53e5df51ec0f2f9d4c2d377c0cc5ba85f2e58ff.camel@ndufresne.ca>
+ <9d716641-55c6-1590-26c2-1c3b14a28226@gmail.com>
+ <CAPj87rMPkmimR_RJHhxYZokH__TVpPArk0h6drOUSx7Z9+oAHA@mail.gmail.com>
+ <11a6f97c-e45f-f24b-8a73-48d5a388a2cc@gmail.com>
+ <caf4d6b82843788db97555a58bc9e33915e5b50a.camel@ndufresne.ca>
+ <b422be59-4b4b-2d0d-8e8c-b19f27c6832e@gmail.com>
+ <4fa4e5d3b1f46e46139bad069cbf5e795e63afa8.camel@pengutronix.de>
+ <cc091a11-d012-d998-b7e2-8b3d616867a7@gmail.com>
+ <0abc6efddb8dfc1888de15a1bedaaac6688fd078.camel@pengutronix.de>
+ <1e2a6750-9849-e9ee-69d6-e4bfdcfb64f3@gmail.com>
+In-Reply-To: <1e2a6750-9849-e9ee-69d6-e4bfdcfb64f3@gmail.com>
+From: Tomasz Figa <tfiga@chromium.org>
+Date: Thu, 17 Nov 2022 18:35:21 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5B+VHs62M5Wf2L-xOw=_PoaXT+akAySkeZc75HeA3d0jQ@mail.gmail.com>
+Message-ID: <CAAFQd5B+VHs62M5Wf2L-xOw=_PoaXT+akAySkeZc75HeA3d0jQ@mail.gmail.com>
+Subject: Re: Try to address the DMA-buf coherency problem
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,267 +89,194 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, Phil Elwell <phil@raspberrypi.com>, nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>, Hans de Goede <hdegoede@redhat.com>, Noralf Trønnes <noralf@tronnes.org>, Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>, linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Cc: Nicolas Dufresne <nicolas@ndufresne.ca>, linaro-mm-sig@lists.linaro.org,
+ ppaalanen@gmail.com, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, sumit.semwal@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that the core can deal fine with analog TV modes, let's convert the
-sun4i TV driver to leverage those new features.
+Hi Christian and everyone,
 
-Acked-by: Noralf Trønnes <noralf@tronnes.org>
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+On Thu, Nov 3, 2022 at 4:14 AM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+> Am 02.11.22 um 18:10 schrieb Lucas Stach:
+> > Am Mittwoch, dem 02.11.2022 um 13:21 +0100 schrieb Christian K=C3=B6nig=
+:
+> > [SNIP]
+> >> It would just be doing this for the importer and exactly that
+> >> would be bad design because we then have handling for the display driv=
+er
+> >> outside of the driver.
+> >>
+> > The driver would have to do those cache maintenance operations if it
+> > directly worked with a non-coherent device. Doing it for the importer
+> > is just doing it for another device, not the one directly managed by
+> > the exporter.
+> >
+> > I really don't see the difference to the other dma-buf ops: in
+> > dma_buf_map_attachment the exporter maps the dma-buf on behalf and into
+> > the address space of the importer. Why would cache maintenance be any
+> > different?
+>
+> The issue here is the explicit ownership transfer.
+>
+> We intentionally decided against that because it breaks tons of use
+> cases and is at least by me and a couple of others seen as generally
+> design failure of the Linux DMA-API.
 
----
-Changes in v6:
-- Convert to new get_modes helper
+First of all, thanks for starting the discussion and sorry for being
+late to the party. May I ask you to keep me on CC for any changes that
+touch the V4L2 videobuf2 framework, as a maintainer of it? I'm okay
+being copied on the entire series, no need to pick the specific
+patches. Thanks in advance.
 
-Changes in v5:
-- Removed the count variable in get_modes
-- Removed spurious vc4 change
----
- drivers/gpu/drm/sun4i/sun4i_tv.c | 141 ++++++++++-----------------------------
- 1 file changed, 34 insertions(+), 107 deletions(-)
+I agree that we have some design issues in the current DMA-buf
+framework, but I'd try to approach it a bit differently. Instead of
+focusing on the issues in the current design, could we write down our
+requirements and try to come up with how a correct design would look
+like? (A lot of that has been already mentioned in this thread, but I
+find it quite difficult to follow and it might not be a complete view
+either.)
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tv.c b/drivers/gpu/drm/sun4i/sun4i_tv.c
-index c65f0a89b6b0..9625a00a48ba 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tv.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tv.c
-@@ -141,23 +141,14 @@ struct resync_parameters {
- struct tv_mode {
- 	char		*name;
- 
-+	unsigned int	tv_mode;
-+
- 	u32		mode;
- 	u32		chroma_freq;
- 	u16		back_porch;
- 	u16		front_porch;
--	u16		line_number;
- 	u16		vblank_level;
- 
--	u32		hdisplay;
--	u16		hfront_porch;
--	u16		hsync_len;
--	u16		hback_porch;
--
--	u32		vdisplay;
--	u16		vfront_porch;
--	u16		vsync_len;
--	u16		vback_porch;
--
- 	bool		yc_en;
- 	bool		dac3_en;
- 	bool		dac_bit25_en;
-@@ -213,7 +204,7 @@ static const struct resync_parameters pal_resync_parameters = {
- 
- static const struct tv_mode tv_modes[] = {
- 	{
--		.name		= "NTSC",
-+		.tv_mode	= DRM_MODE_TV_MODE_NTSC,
- 		.mode		= SUN4I_TVE_CFG0_RES_480i,
- 		.chroma_freq	= 0x21f07c1f,
- 		.yc_en		= true,
-@@ -222,17 +213,6 @@ static const struct tv_mode tv_modes[] = {
- 
- 		.back_porch	= 118,
- 		.front_porch	= 32,
--		.line_number	= 525,
--
--		.hdisplay	= 720,
--		.hfront_porch	= 18,
--		.hsync_len	= 2,
--		.hback_porch	= 118,
--
--		.vdisplay	= 480,
--		.vfront_porch	= 26,
--		.vsync_len	= 2,
--		.vback_porch	= 17,
- 
- 		.vblank_level	= 240,
- 
-@@ -242,23 +222,12 @@ static const struct tv_mode tv_modes[] = {
- 		.resync_params	= &ntsc_resync_parameters,
- 	},
- 	{
--		.name		= "PAL",
-+		.tv_mode	= DRM_MODE_TV_MODE_PAL,
- 		.mode		= SUN4I_TVE_CFG0_RES_576i,
- 		.chroma_freq	= 0x2a098acb,
- 
- 		.back_porch	= 138,
- 		.front_porch	= 24,
--		.line_number	= 625,
--
--		.hdisplay	= 720,
--		.hfront_porch	= 3,
--		.hsync_len	= 2,
--		.hback_porch	= 139,
--
--		.vdisplay	= 576,
--		.vfront_porch	= 28,
--		.vsync_len	= 2,
--		.vback_porch	= 19,
- 
- 		.vblank_level	= 252,
- 
-@@ -276,63 +245,21 @@ drm_encoder_to_sun4i_tv(struct drm_encoder *encoder)
- 			    encoder);
- }
- 
--/*
-- * FIXME: If only the drm_display_mode private field was usable, this
-- * could go away...
-- *
-- * So far, it doesn't seem to be preserved when the mode is passed by
-- * to mode_set for some reason.
-- */
--static const struct tv_mode *sun4i_tv_find_tv_by_mode(const struct drm_display_mode *mode)
-+static const struct tv_mode *
-+sun4i_tv_find_tv_by_mode(unsigned int mode)
- {
- 	int i;
- 
--	/* First try to identify the mode by name */
- 	for (i = 0; i < ARRAY_SIZE(tv_modes); i++) {
- 		const struct tv_mode *tv_mode = &tv_modes[i];
- 
--		DRM_DEBUG_DRIVER("Comparing mode %s vs %s",
--				 mode->name, tv_mode->name);
--
--		if (!strcmp(mode->name, tv_mode->name))
--			return tv_mode;
--	}
--
--	/* Then by number of lines */
--	for (i = 0; i < ARRAY_SIZE(tv_modes); i++) {
--		const struct tv_mode *tv_mode = &tv_modes[i];
--
--		DRM_DEBUG_DRIVER("Comparing mode %s vs %s (X: %d vs %d)",
--				 mode->name, tv_mode->name,
--				 mode->vdisplay, tv_mode->vdisplay);
--
--		if (mode->vdisplay == tv_mode->vdisplay)
-+		if (tv_mode->tv_mode == mode)
- 			return tv_mode;
- 	}
- 
- 	return NULL;
- }
- 
--static void sun4i_tv_mode_to_drm_mode(const struct tv_mode *tv_mode,
--				      struct drm_display_mode *mode)
--{
--	DRM_DEBUG_DRIVER("Creating mode %s\n", mode->name);
--
--	mode->type = DRM_MODE_TYPE_DRIVER;
--	mode->clock = 13500;
--	mode->flags = DRM_MODE_FLAG_INTERLACE;
--
--	mode->hdisplay = tv_mode->hdisplay;
--	mode->hsync_start = mode->hdisplay + tv_mode->hfront_porch;
--	mode->hsync_end = mode->hsync_start + tv_mode->hsync_len;
--	mode->htotal = mode->hsync_end  + tv_mode->hback_porch;
--
--	mode->vdisplay = tv_mode->vdisplay;
--	mode->vsync_start = mode->vdisplay + tv_mode->vfront_porch;
--	mode->vsync_end = mode->vsync_start + tv_mode->vsync_len;
--	mode->vtotal = mode->vsync_end  + tv_mode->vback_porch;
--}
--
- static void sun4i_tv_disable(struct drm_encoder *encoder,
- 			    struct drm_atomic_state *state)
- {
-@@ -356,7 +283,11 @@ static void sun4i_tv_enable(struct drm_encoder *encoder,
- 	struct drm_crtc_state *crtc_state =
- 		drm_atomic_get_new_crtc_state(state, encoder->crtc);
- 	struct drm_display_mode *mode = &crtc_state->mode;
--	const struct tv_mode *tv_mode = sun4i_tv_find_tv_by_mode(mode);
-+	struct drm_connector *connector = &tv->connector;
-+	struct drm_connector_state *conn_state =
-+		drm_atomic_get_new_connector_state(state, connector);
-+	const struct tv_mode *tv_mode =
-+		sun4i_tv_find_tv_by_mode(conn_state->tv.mode);
- 
- 	DRM_DEBUG_DRIVER("Enabling the TV Output\n");
- 
-@@ -404,7 +335,7 @@ static void sun4i_tv_enable(struct drm_encoder *encoder,
- 	/* Set the lines setup */
- 	regmap_write(tv->regs, SUN4I_TVE_LINE_REG,
- 		     SUN4I_TVE_LINE_FIRST(22) |
--		     SUN4I_TVE_LINE_NUMBER(tv_mode->line_number));
-+		     SUN4I_TVE_LINE_NUMBER(mode->vtotal));
- 
- 	regmap_write(tv->regs, SUN4I_TVE_LEVEL_REG,
- 		     SUN4I_TVE_LEVEL_BLANK(tv_mode->video_levels->blank) |
-@@ -465,37 +396,21 @@ static const struct drm_encoder_helper_funcs sun4i_tv_helper_funcs = {
- 	.atomic_enable	= sun4i_tv_enable,
- };
- 
--static int sun4i_tv_comp_get_modes(struct drm_connector *connector)
--{
--	int i;
--
--	for (i = 0; i < ARRAY_SIZE(tv_modes); i++) {
--		struct drm_display_mode *mode;
--		const struct tv_mode *tv_mode = &tv_modes[i];
--
--		mode = drm_mode_create(connector->dev);
--		if (!mode) {
--			DRM_ERROR("Failed to create a new display mode\n");
--			return 0;
--		}
--
--		strcpy(mode->name, tv_mode->name);
--
--		sun4i_tv_mode_to_drm_mode(tv_mode, mode);
--		drm_mode_probed_add(connector, mode);
--	}
--
--	return i;
--}
--
- static const struct drm_connector_helper_funcs sun4i_tv_comp_connector_helper_funcs = {
--	.get_modes	= sun4i_tv_comp_get_modes,
-+	.atomic_check	= drm_atomic_helper_connector_tv_check,
-+	.get_modes	= drm_connector_helper_tv_get_modes,
- };
- 
-+static void sun4i_tv_connector_reset(struct drm_connector *connector)
-+{
-+	drm_atomic_helper_connector_reset(connector);
-+	drm_atomic_helper_connector_tv_reset(connector);
-+}
-+
- static const struct drm_connector_funcs sun4i_tv_comp_connector_funcs = {
- 	.fill_modes		= drm_helper_probe_single_connector_modes,
- 	.destroy		= drm_connector_cleanup,
--	.reset			= drm_atomic_helper_connector_reset,
-+	.reset			= sun4i_tv_connector_reset,
- 	.atomic_duplicate_state	= drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state	= drm_atomic_helper_connector_destroy_state,
- };
-@@ -587,8 +502,20 @@ static int sun4i_tv_bind(struct device *dev, struct device *master,
- 
- 	drm_connector_attach_encoder(&tv->connector, &tv->encoder);
- 
-+	ret = drm_mode_create_tv_properties(drm,
-+					    BIT(DRM_MODE_TV_MODE_NTSC) |
-+					    BIT(DRM_MODE_TV_MODE_PAL));
-+	if (ret)
-+		goto err_cleanup_connector;
-+
-+	drm_object_attach_property(&tv->connector.base,
-+				   drm->mode_config.tv_mode_property,
-+				   DRM_MODE_TV_MODE_NTSC);
-+
- 	return 0;
- 
-+err_cleanup_connector:
-+	drm_connector_cleanup(&tv->connector);
- err_cleanup_encoder:
- 	drm_encoder_cleanup(&tv->encoder);
- err_disable_clk:
+That said, let me address a few aspects already mentioned, to make
+sure that everyone is on the same page.
 
--- 
-b4 0.11.0-dev-99e3a
+>
+> DMA-Buf let's the exporter setup the DMA addresses the importer uses to
+> be able to directly decided where a certain operation should go. E.g. we
+> have cases where for example a P2P write doesn't even go to memory, but
+> rather a doorbell BAR to trigger another operation. Throwing in CPU
+> round trips for explicit ownership transfer completely breaks that concep=
+t.
+
+It sounds like we should have a dma_dev_is_coherent_with_dev() which
+accepts two (or an array?) of devices and tells the caller whether the
+devices need explicit ownership transfer. Based on that, your drivers
+would install the DMA completion (presumably IRQ) handlers or not.
+It's necessary since it's not uncommon that devices A and B could be
+in the same coherency domain, while C could be in a different one, but
+you may still want them to exchange data through DMA-bufs. Even if it
+means the need for some extra round trips it would likely be more
+efficient than a full memory copy (might not be true 100% of the
+time).
+
+>
+> Additional to that a very basic concept of DMA-buf is that the exporter
+> provides the buffer as it is and just double checks if the importer can
+> access it. For example we have XGMI links which makes memory accessible
+> to other devices on the same bus, but not to PCIe device and not even to
+> the CPU. Otherwise you wouldn't be able to implement things like secure
+> decoding where the data isn't even accessible outside the device to
+> device link.
+
+Fully agreed.
+
+>
+> So if a device driver uses cached system memory on an architecture which
+> devices which can't access it the right approach is clearly to reject
+> the access.
+
+I'd like to accent the fact that "requires cache maintenance" !=3D "can't a=
+ccess".
+
+>
+> What we can do is to reverse the role of the exporter and importer and
+> let the device which needs uncached memory take control. This way this
+> device can insert operations as needed, e.g. flush read caches or
+> invalidate write caches.
+>
+
+(Putting aside the cases when the access is really impossible at all.)
+Correct me if I'm wrong, but isn't that because we don't have a proper
+hook for the importer to tell the DMA-buf framework to prepare the
+buffer for its access?
+
+> This is what we have already done in DMA-buf and what already works
+> perfectly fine with use cases which are even more complicated than a
+> simple write cache invalidation.
+>
+> >>>> This is just a software solution which works because of coincident a=
+nd
+> >>>> not because of engineering.
+> >>> By mandating a software fallback for the cases where you would need
+> >>> bracketed access to the dma-buf, you simply shift the problem into
+> >>> userspace. Userspace then creates the bracket by falling back to some
+> >>> other import option that mostly do a copy and then the appropriate
+> >>> cache maintenance.
+> >>>
+> >>> While I understand your sentiment about the DMA-API design being
+> >>> inconvenient when things are just coherent by system design, the DMA-
+> >>> API design wasn't done this way due to bad engineering, but due to th=
+e
+> >>> fact that performant DMA access on some systems just require this kin=
+d
+> >>> of bracketing.
+> >> Well, this is exactly what I'm criticizing on the DMA-API. Instead of
+> >> giving you a proper error code when something won't work in a specific
+> >> way it just tries to hide the requirements inside the DMA layer.
+> >>
+> >> For example when your device can only access 32bits the DMA-API
+> >> transparently insert bounce buffers instead of giving you a proper err=
+or
+> >> code that the memory in question can't be accessed.
+> >>
+> >> This just tries to hide the underlying problem instead of pushing it
+> >> into the upper layer where it can be handled much more gracefully.
+> > How would you expect the DMA API to behave on a system where the device
+> > driver is operating on cacheable memory, but the device is non-
+> > coherent? Telling the driver that this just doesn't work?
+>
+> Yes, exactly that.
+>
+> It's the job of the higher level to prepare the buffer a device work
+> with, not the one of the lower level.
+
+What are higher and lower levels here?
+
+As per the existing design of the DMA mapping framework, the framework
+handles the system DMA architecture details and DMA master drivers
+take care of invoking the right DMA mapping operations around the DMA
+accesses. This makes sense to me, as DMA master drivers have no idea
+about the specific SoCs or buses they're plugged into, while the DMA
+mapping framework has no idea when the DMA accesses are taking place.
+
+>
+> In other words in a proper design the higher level would prepare the
+> memory in a way the device driver can work with it, not the other way
+> around.
+>
+> When a device driver gets memory it can't work with the correct response
+> is to throw an error and bubble that up into a layer where it can be
+> handled gracefully.
+>
+> For example instead of using bounce buffers under the hood the DMA layer
+> the MM should make sure that when you call read() with O_DIRECT that the
+> pages in question are accessible by the device.
+>
+
+I tend to agree with you if it's about a costly software "emulation"
+like bounce buffers, but cache maintenance is a hardware feature
+existing there by default and it's often much cheaper to operate on
+cached memory and synchronize the caches rather than have everything
+in uncached (or write-combined) memory.
+
+> > It's a use-case that is working fine today with many devices (e.g. netw=
+ork
+> > adapters) in the ARM world, exactly because the architecture specific
+> > implementation of the DMA API inserts the cache maintenance operations
+> > on buffer ownership transfer.
+>
+> Yeah, I'm perfectly aware of that. The problem is that exactly that
+> design totally breaks GPUs on Xen DOM0 for example.
+>
+> And Xen is just one example, I can certainly say from experience that
+> this design was a really really bad idea because it favors just one use
+> case while making other use cases practically impossible if not really
+> hard to implement.
+
+Sorry, I haven't worked with Xen. Could you elaborate what's the
+problem that this introduces for it?
+
+Best regards,
+Tomasz
