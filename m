@@ -1,52 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9487862E44D
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 19:30:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC5A062E476
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 19:40:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BD2810E66C;
-	Thu, 17 Nov 2022 18:30:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53C9910E669;
+	Thu, 17 Nov 2022 18:40:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0080C10E669;
- Thu, 17 Nov 2022 18:30:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1668709839; x=1700245839;
- h=message-id:date:mime-version:from:subject:to:cc;
- bh=tB08k/1miQXzJsaL6NP5r5QUMOwxfR2ggP9BM5NyC6Y=;
- b=lMWUibhxGd3I/JGwZI4yRPfpblUANT91f69XQ8ckV75r62V/hMr8o4hp
- iqhRkJTI/DDl89wPKjdcvEPSJr2uTce0Et6Ebx7iDkheXvC9ofulxRtKY
- 9yV6iy/WzWiX8NUewSPQvrnplQoN7S2/bj49rON5XCU80BVWYqfiTlOC6
- Q7TgmwR1ONf/W45LSwdYIajGWUbYmm6tET1fr1AU/IerFo3sP8Ck+Legn
- NN9b+cbzWO2XiqR9SaEpkHMNwpcTlYbKLOQ5RYGtS/9ctqF0Jp0BK9Rqj
- wOZhd00YcTi1pUjD4fODCWPLmQ4SAi3nbDcQQb7tbmeJHOcqrwl4lseRh Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="339771403"
-X-IronPort-AV: E=Sophos;i="5.96,172,1665471600"; 
- d="scan'208,217";a="339771403"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Nov 2022 10:30:38 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="639914158"
-X-IronPort-AV: E=Sophos;i="5.96,172,1665471600"; 
- d="scan'208,217";a="639914158"
-Received: from pduchene-mobl.ger.corp.intel.com (HELO [192.168.178.111])
- ([10.251.220.186])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Nov 2022 10:30:34 -0800
-Content-Type: multipart/alternative;
- boundary="------------mGzW0usBMkLE0XdbPI8HR0k5"
-Message-ID: <c7d02936-c550-199b-6cb7-cbf6cf104e4a@linux.intel.com>
-Date: Thu, 17 Nov 2022 19:30:31 +0100
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
+ [IPv6:2a00:1450:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DFAC10E12C
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 18:40:46 +0000 (UTC)
+Received: by mail-ej1-x634.google.com with SMTP id ud5so7336500ejc.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 10:40:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=SdWdBcRVnJGovle+6r9mHXM5s2nIjF4NnomafJZspdQ=;
+ b=iio25gbX1bMRRd0+9jwuh9Nw7EgfgTzEZN/DgMvKJiXXK8z//zor5Feye0llVP57vQ
+ w1faTtcLSy7KDZenpep2zUkgazGFrnWF4nBm++7NJGKCpEmqwYYmNFMN0xA0a36R2ES7
+ b+2mJFuaoxoVYl+k/H0Vgk/anwEEEXxgfOSEUPzjaCHR+Y2rEQFzxo2GZFoek2jnaf/f
+ GmYnKqeduc02g8Il3JNUN08FDhIQH+40i7+0deUB3KI/yfRS1p0Cu9oVLfj0rx89d0Nd
+ 7nduTXAeySsazb5b6y1P6f2HAvipHIivb32LzGBN2zg8tOjyR4JNArJJtu+gBU6bF+8g
+ xWDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=SdWdBcRVnJGovle+6r9mHXM5s2nIjF4NnomafJZspdQ=;
+ b=mSg3uBzrRNup9AZM8YeGVXx1AA3l/OJPehRhaEBAH+hystDzEeaS2m1UKtizvCid87
+ 3zH1cJjQF4OSHb6YOyuGAl1UmI3I14L2QbvVqXKa1HK7QmpmJiH95otLAg7P8GPRFLzP
+ cvxKeGosp84HAxYIX3fI+n2hVzJgiTZ3X8havzjPaQT4O/Z1o5Y4KN+s/hul3CuSNRUg
+ uZnrwHmuYSEFmndZinoSfLb904FgL5scNVTP3jj7IY5wsIvtdTJ0oTI53zvULAreO12i
+ jkDAFH2+z2/nR+Dy5tAaWbxOJasiYvRheyhiAR63RJRyFu0kty0DkHRpLi98kWeQOixu
+ uYwg==
+X-Gm-Message-State: ANoB5plsesHuDCbplL6WD5S+Jiw7tIfNhvNll4kYAmzlhFHmrhVZ9hLH
+ 8ivAwvqnJZGeaXBWZ83pluk=
+X-Google-Smtp-Source: AA0mqf6M80d2AVownwukK88YdOixGPgY0f7Vk8FqgKlgx+RHuHsk9ZiKkvkiaw1foLoV8PPUFHebNA==
+X-Received: by 2002:a17:907:98e3:b0:7af:883:ec72 with SMTP id
+ ke3-20020a17090798e300b007af0883ec72mr3219830ejc.727.1668710444545; 
+ Thu, 17 Nov 2022 10:40:44 -0800 (PST)
+Received: from localhost
+ (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de.
+ [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
+ by smtp.gmail.com with ESMTPSA id
+ l26-20020a056402231a00b004585eba4baesm867546eda.80.2022.11.17.10.40.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Nov 2022 10:40:43 -0800 (PST)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: David Airlie <airlied@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v3 0/8] drm/simpledrm: Support system memory framebuffers
+Date: Thu, 17 Nov 2022 19:40:31 +0100
+Message-Id: <20221117184039.2291937-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: [PULL] drm-misc-fixes
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,179 +71,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
+ Robin Murphy <robin.murphy@arm.com>, dri-devel@lists.freedesktop.org,
+ Jon Hunter <jonathanh@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------mGzW0usBMkLE0XdbPI8HR0k5
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Thierry Reding <treding@nvidia.com>
 
-Hi Dave, Daniel,
+Hi,
 
-A few fixes for v6.1-rc6.
+this series of patches adds support for framebuffers residing in system
+memory to the simple-framebuffer DRM driver. To do this, the DT bindings
+are extended do accept the memory-region property in addition to the reg
+property for specifying the framebuffer memory. This is done because the
+framebuffer memory will typically also need to be marked as reserved so
+that the operating system will not reuse it and the memory-region
+property is the standard property to reference reserved memory regions.
 
-Most important one apears to be reverting a change that breaks DP-MST.
+A new compatible string is documented to annotate the framebuffer memory
+regions and the simpledrm driver has code added to bind such annotated
+regions to the simple-framebuffer device.
 
-drm-misc-fixes-2022-11-17:
-drm-misc-fixes for v6.1-rc6:
-- Fix error handling in vc4_atomic_commit_tail()
-- Set bpc for logictechno panels.
-- Fix potential memory leak in drm_dev_init()
-- Fix potential null-ptr-deref in drm_vblank_destroy_worker()
-- Set lima's clkname corrrectly when regulator is missing.
-- Small amdgpu fix to gang submission.
-- Revert hiding unregistered connectors from userspace, as it breaks on DP-MST.
-- Add workaround for DP++ dual mode adaptors that don't support
-   i2c subaddressing.
-The following changes since commit f352262f727215553879705bacbcb208979f3eff:
+The second half of the series then adds support for the XB24 and AB24
+formats and ties it all together to provide a simple-framebuffer on
+Jetson Xavier NX. It should be noted, though, that the Jetson Xavier NX
+device tree nodes are placeholders only and it is expected that firmware
+or a bootloader will fill these in at runtime, due to the variable
+nature of the values that they contain.
 
-   drm/panfrost: Split io-pgtable requests properly (2022-11-09 14:17:39 +0000)
+This example also uses (but doesn't depend on) the iommu-addresses
+property that has been proposed and which will hopefully be merged soon.
 
-are available in the Git repository at:
+Version 2 of these patches can be found here:
 
-   git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2022-11-17
+	https://lore.kernel.org/all/20221007124946.406808-1-thierry.reding@gmail.com/
 
-for you to fetch changes up to 5954acbacbd1946b96ce8ee799d309cb0cd3cb9d:
+Changes in v3:
+- add new formats into conv_from_xrgb8888[] array to make it work after
+  commit 6fdaed8c7988 ("drm/format-helper: Only advertise supported
+  formats for conversion")
+- extract iosys_map fix into a separate patch
+- fix bogus increments in struct iosys_map usage
+- simplify memory code
 
-   drm/display: Don't assume dual mode adaptors support i2c sub-addressing (2022-11-15 23:31:02 +0200)
+Changes in v2:
+- DT fields are now cleared so that they can be filled in at runtime
+- add XB24 support and treat AB24 the same (alpha bits are unused)
+- consistently use struct iosys_map
+- fix issues with DT bindings
 
-----------------------------------------------------------------
-drm-misc-fixes for v6.1-rc6:
-- Fix error handling in vc4_atomic_commit_tail()
-- Set bpc for logictechno panels.
-- Fix potential memory leak in drm_dev_init()
-- Fix potential null-ptr-deref in drm_vblank_destroy_worker()
-- Set lima's clkname corrrectly when regulator is missing.
-- Small amdgpu fix to gang submission.
-- Revert hiding unregistered connectors from userspace, as it breaks on DP-MST.
-- Add workaround for DP++ dual mode adaptors that don't support
-   i2c subaddressing.
+I've tested these with a simple UEFI implementation that will fill in
+the placeholder values and set the simple-framebuffer's status property
+to "okay".
 
-----------------------------------------------------------------
-Aishwarya Kothari (1):
-       drm/panel: simple: set bpc field for logic technologies displays
+Thierry
 
-Christian König (1):
-       drm/amdgpu: use the last IB as gang leader v2
+Thierry Reding (8):
+  dt-bindings: display: simple-framebuffer: Support system memory
+    framebuffers
+  dt-bindings: display: simple-framebuffer: Document 32-bit BGR format
+  dt-bindings: reserved-memory: Support framebuffer reserved memory
+  drm/simpledrm: Use struct iosys_map consistently
+  drm/simpledrm: Add support for system memory framebuffers
+  drm/format-helper: Support the XB24 format
+  drm/simpledrm: Support the XB24/AB24 format
+  arm64: tegra: Add simple framebuffer on Jetson Xavier NX
 
-Erico Nunes (1):
-       drm/lima: Fix opp clkname setting in case of missing regulator
+ .../bindings/display/simple-framebuffer.yaml  |   7 ++
+ .../bindings/reserved-memory/framebuffer.yaml |  52 ++++++++
+ .../nvidia/tegra194-p3509-0000+p3668-0001.dts |  43 +++++++
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi      |   2 +-
+ drivers/gpu/drm/drm_format_helper.c           |  39 ++++++
+ drivers/gpu/drm/tiny/simpledrm.c              | 114 +++++++++++++-----
+ include/linux/platform_data/simplefb.h        |   1 +
+ 7 files changed, 227 insertions(+), 31 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/reserved-memory/framebuffer.yaml
 
-Gaosheng Cui (1):
-       drm/vc4: kms: Fix IS_ERR() vs NULL check for vc4_kms
+-- 
+2.38.1
 
-Shang XiaoJing (2):
-       drm/drv: Fix potential memory leak in drm_dev_init()
-       drm: Fix potential null-ptr-deref in drm_vblank_destroy_worker()
-
-Simon Rettberg (1):
-       drm/display: Don't assume dual mode adaptors support i2c sub-addressing
-
-Simon Ser (1):
-       Revert "drm: hide unregistered connectors from GETCONNECTOR IOCTL"
-
-  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c            | 23 ++++++----
-  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.h            |  1 +
-  drivers/gpu/drm/display/drm_dp_dual_mode_helper.c | 51 +++++++++++++----------
-  drivers/gpu/drm/drm_drv.c                         |  2 +-
-  drivers/gpu/drm/drm_internal.h                    |  3 +-
-  drivers/gpu/drm/drm_mode_config.c                 |  3 --
-  drivers/gpu/drm/lima/lima_devfreq.c               | 15 ++++---
-  drivers/gpu/drm/panel/panel-simple.c              |  2 +
-  drivers/gpu/drm/vc4/vc4_kms.c                     |  8 ++--
-  9 files changed, 64 insertions(+), 44 deletions(-)
-
---------------mGzW0usBMkLE0XdbPI8HR0k5
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    Hi Dave, Daniel,<br>
-    <p>A few fixes for v6.1-rc6.</p>
-    <p>Most important one apears to be reverting a change that breaks
-      DP-MST.<br>
-    </p>
-    <pre>drm-misc-fixes-2022-11-17:
-drm-misc-fixes for v6.1-rc6:
-- Fix error handling in vc4_atomic_commit_tail()
-- Set bpc for logictechno panels.
-- Fix potential memory leak in drm_dev_init()
-- Fix potential null-ptr-deref in drm_vblank_destroy_worker()
-- Set lima's clkname corrrectly when regulator is missing.
-- Small amdgpu fix to gang submission.
-- Revert hiding unregistered connectors from userspace, as it breaks on DP-MST.
-- Add workaround for DP++ dual mode adaptors that don't support
-  i2c subaddressing.
-The following changes since commit f352262f727215553879705bacbcb208979f3eff:
-
-  drm/panfrost: Split io-pgtable requests properly (2022-11-09 14:17:39 +0000)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2022-11-17
-
-for you to fetch changes up to 5954acbacbd1946b96ce8ee799d309cb0cd3cb9d:
-
-  drm/display: Don't assume dual mode adaptors support i2c sub-addressing (2022-11-15 23:31:02 +0200)
-
-----------------------------------------------------------------
-drm-misc-fixes for v6.1-rc6:
-- Fix error handling in vc4_atomic_commit_tail()
-- Set bpc for logictechno panels.
-- Fix potential memory leak in drm_dev_init()
-- Fix potential null-ptr-deref in drm_vblank_destroy_worker()
-- Set lima's clkname corrrectly when regulator is missing.
-- Small amdgpu fix to gang submission.
-- Revert hiding unregistered connectors from userspace, as it breaks on DP-MST.
-- Add workaround for DP++ dual mode adaptors that don't support
-  i2c subaddressing.
-
-----------------------------------------------------------------
-Aishwarya Kothari (1):
-      drm/panel: simple: set bpc field for logic technologies displays
-
-Christian König (1):
-      drm/amdgpu: use the last IB as gang leader v2
-
-Erico Nunes (1):
-      drm/lima: Fix opp clkname setting in case of missing regulator
-
-Gaosheng Cui (1):
-      drm/vc4: kms: Fix IS_ERR() vs NULL check for vc4_kms
-
-Shang XiaoJing (2):
-      drm/drv: Fix potential memory leak in drm_dev_init()
-      drm: Fix potential null-ptr-deref in drm_vblank_destroy_worker()
-
-Simon Rettberg (1):
-      drm/display: Don't assume dual mode adaptors support i2c sub-addressing
-
-Simon Ser (1):
-      Revert "drm: hide unregistered connectors from GETCONNECTOR IOCTL"
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c            | 23 ++++++----
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.h            |  1 +
- drivers/gpu/drm/display/drm_dp_dual_mode_helper.c | 51 +++++++++++++----------
- drivers/gpu/drm/drm_drv.c                         |  2 +-
- drivers/gpu/drm/drm_internal.h                    |  3 +-
- drivers/gpu/drm/drm_mode_config.c                 |  3 --
- drivers/gpu/drm/lima/lima_devfreq.c               | 15 ++++---
- drivers/gpu/drm/panel/panel-simple.c              |  2 +
- drivers/gpu/drm/vc4/vc4_kms.c                     |  8 ++--
- 9 files changed, 64 insertions(+), 44 deletions(-)
-
-</pre>
-  </body>
-</html>
-
---------------mGzW0usBMkLE0XdbPI8HR0k5--
