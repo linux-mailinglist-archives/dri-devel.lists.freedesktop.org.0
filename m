@@ -1,78 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF85062E24B
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 17:53:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36CF362E29A
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 18:09:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BD0810E198;
-	Thu, 17 Nov 2022 16:53:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5398310E183;
+	Thu, 17 Nov 2022 17:08:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
- [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56F4C10E0E5
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 16:53:19 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 989633201B69;
- Thu, 17 Nov 2022 11:53:15 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Thu, 17 Nov 2022 11:53:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to; s=fm2; t=
- 1668703995; x=1668790395; bh=FbzlDkkhhsRtKSZiUm2xWhCcXLtVXKnc1W3
- izJLploc=; b=Q/266Oy+xDLeuIV4Kf5CL1NHL7bAxNsInYyW4KsyQ3HCpNw9cHE
- dGhwAppw14wJKRPMUhL3OCzPc4MHEajCb5+7UHkc4XUvHtLWHFYmyMVc8nKnF2jH
- TA/jE/wJirFQ4yctUTYNyW9c7JbP4rx/rpWmzpiUubEG/o8xtXt037To+G/QqBra
- 009fhxDNboiMNF0A3vvEfzZ95B3jk2ZqSnOxdXNY1XJSOF8cF/g/7n3o64qprOGJ
- YEELav7az3jiUO2w5VLF6RcNkjMvpewKeB7Ix1ySwFDvdxKHhbe+68fhfIxn8NNj
- hHQYCqAE89CoZjk7qf1vuoZYMlwIr0OlZtg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:message-id:mime-version
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1668703995; x=
- 1668790395; bh=FbzlDkkhhsRtKSZiUm2xWhCcXLtVXKnc1W3izJLploc=; b=w
- kH5BeJJ0sxtl3xiySYdhYXXot1xbFrHsakf599nx+1VS0Wp9N8XtcwZSZDeHebpv
- 5iO113iphsejg6/oZRiQnUjznHRBwLZv17HRs35gFEg9WkGZDBqO8FvE43lyNeoY
- +U+VxaO+8J07/4hvimbbyHK7r6cmOxdVsXHIr1OpwUSRgr9oX9xPM5L9l/SNMDkC
- bNok6KkBXuu8bwNxhGDU7qkdI3EKOinFSSNSmEIKq71hisZ6i6drfzUG5D8Imt96
- oD0zj022aw0D2/CWrI0eMT5SFohIcDSmaU84y312vSytcyWSOMAPkzuRgQKne23h
- 9WW1y5ufVgJHT5G8l8GWw==
-X-ME-Sender: <xms:-mZ2Y7x75JmWi-PU-Tt81VKAsryb21C2a_9B0yzSh_rG1xxOrT24lw>
- <xme:-mZ2YzSzuS7MqFWmQcdDqyLqW-7l3G_LQFi0MQBGBuZzhnacMighm0ZRDzAhBOFHm
- yHJmxiARpM8eDlxTWU>
-X-ME-Received: <xmr:-mZ2Y1VdYv9Yikln76gc7Y6iGlLrM0G5JJ37hk0YA3mpEqq7J9bpa6XVkVm9Ku4hstHFQSkjAh0F6N5xIscBG6BDWeKv1WPsdy8Ua7yh5LrFNg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgeekgdelvdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfggtggusehgtderredttddvnecuhfhrohhmpeforgigihhmvgcu
- tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
- hrnhepteeifeeigeetgfffgedufeefheekgfevuefgtdehffefheelleejveeviefhgfek
- necuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgpdgsohhothhlihhnrdgtoh
- hmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgr
- gihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:-mZ2Y1iH-yFsgQdRLryHHochoP3jGepgvXLGMUhHdo2JarzBJppwbQ>
- <xmx:-mZ2Y9B0FcVk1lUd8yVc2AXI-uLyPAdP7Iyn1tni29TkL2FIAc7wrg>
- <xmx:-mZ2Y-I4vMEsHoqYzkUkAIp6bhLLpXte3kTFeSx0Fq4lPInIVpm3iQ>
- <xmx:-2Z2Y_xVlOHHHpggpykdE8Js_MZ1K28WKoRubwYn69x08c8ivqKrWQ>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 17 Nov 2022 11:53:14 -0500 (EST)
-Date: Thu, 17 Nov 2022 17:53:11 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>
-Subject: DRM-managed resources / devm_drm_dev_alloc leaking resources
-Message-ID: <20221117165311.vovrc7usy4efiytl@houat>
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A14E510E19F
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 17:08:43 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id gv23so6706211ejb.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 09:08:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=googlemail.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=UXTIiUhTsDF1ksUQHxOjXei7p0SmIC0BDVdiFoql/Uc=;
+ b=mfyuY0gsE5mnqDj5qh5OiKmRss9nTC7A3qsjOYoPmm5QQril+rlThWhPU0wD6Ub4FC
+ e8dxsES6M1eDGjtNdYNKm9uWUX68BWALYloABbu3r2vvFDB+bl/D9MHQ6dolimQYL7aN
+ EDoPyKs23xH6dMrl3+/EWt/jUTXcuymGKUPBkiLzojbxcQ6vhLN5DETjo1B4QFlOQLpM
+ A7oFWHptPVyHvILMhI23wk40X9QgjTKiYte9CvQuDej/WMCu4v9CcFPEYvL/YiE3Mxtw
+ /HQeS59Jod2FDBu4Yq1PYEyxlMlpgmB9ck9ERJDj84wD/D15QAx9uXMl5r5UV9ZilzRE
+ MwDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UXTIiUhTsDF1ksUQHxOjXei7p0SmIC0BDVdiFoql/Uc=;
+ b=UiWyEyanwxfJYR6tb+74dp0Y+hhLEPgtNSRsj3eZLMLs3e2oBf4Hfr+UAX9KSuGWhy
+ ujVNr7DDfRguDbVjqSLQ2hc7guDliwFfO+JR+PoFF6b1qUiIZHJpX6OhKokFGIMBVdeU
+ ROnb5QvI5PXJgBIXE0Pdc6SNGw9fssp+h9aq7lomTAp6LDWTw9tLPGRqTLN3R8rcsmmK
+ RFuZqIhYkH+8KhSRFR2NWJ7PwItxcrOsQqjaezarbaqBRnpaGOm9gXXCAuwuNPs8Hwn/
+ Afc1TJBc8g4oisRNReWl+xiMGgCykdhQKSL/Zrrap8pLNGYkB1lukIT7eO9M4djFRrV/
+ XxFA==
+X-Gm-Message-State: ANoB5pkHSzSZel9BQ7HJL9mKlheRn0FkM7EvVxPzTTPVJBVicBn9/DBd
+ YhcK1gShPf6U5tPJghNLQcM=
+X-Google-Smtp-Source: AA0mqf7wfxRfK7sRIBOzZ7oJkCHzXBfgd3DzeE6bB2BpmX+zB3cRO/dVMMsqWRKhiAIJzI2mS2+oNg==
+X-Received: by 2002:a17:906:c084:b0:78d:e786:e322 with SMTP id
+ f4-20020a170906c08400b0078de786e322mr2804280ejz.308.1668704921768; 
+ Thu, 17 Nov 2022 09:08:41 -0800 (PST)
+Received: from thinkpad-p72 (user-5-173-65-115.play-internet.pl.
+ [5.173.65.115]) by smtp.gmail.com with ESMTPSA id
+ m7-20020aa7c2c7000000b00467c3cbab6fsm769694edp.77.2022.11.17.09.08.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Nov 2022 09:08:41 -0800 (PST)
+From: Lukasz Wiecaszek <lukasz.wiecaszek@googlemail.com>
+X-Google-Original-From: Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>
+Date: Thu, 17 Nov 2022 18:08:38 +0100
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH v4] udmabuf: add vmap and vunmap methods to udmabuf_ops
+Message-ID: <20221117170838.GA74987@thinkpad-p72>
+References: <20221117045842.27161-1-lukasz.wiecaszek@gmail.com>
+ <970e798d-ea26-5e1e-ace8-7915a866f7c7@collabora.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="xbb4rrcandpnbw3a"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <970e798d-ea26-5e1e-ace8-7915a866f7c7@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,252 +73,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Lukasz Wiecaszek <lukasz.wiecaszek@googlemail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Nov 17, 2022 at 12:04:35PM +0300, Dmitry Osipenko wrote:
+> Hi,
+> 
+> On 11/17/22 07:58, Lukasz Wiecaszek wrote:
+> > The reason behind that patch is associated with videobuf2 subsystem
+> > (or more genrally with v4l2 framework) and user created
+> > dma buffers (udmabuf). In some circumstances
+> > when dealing with V4L2_MEMORY_DMABUF buffers videobuf2 subsystem
+> > wants to use dma_buf_vmap() method on the attached dma buffer.
+> > As udmabuf does not have .vmap operation implemented,
+> > such dma_buf_vmap() natually fails.
+> > 
+> > videobuf2_common: __vb2_queue_alloc: allocated 3 buffers, 1 plane(s) each
+> > videobuf2_common: __prepare_dmabuf: buffer for plane 0 changed
+> > videobuf2_common: __prepare_dmabuf: failed to map dmabuf for plane 0
+> > videobuf2_common: __buf_prepare: buffer preparation failed: -14
+> > 
+> > The patch itself seems to be strighforward.
+> > It adds implementation of .vmap and .vunmap methods
+> > to 'struct dma_buf_ops udmabuf_ops'.
+> > .vmap method itself uses vm_map_ram() to map pages linearly
+> > into the kernel virtual address space.
+> > .vunmap removes mapping created earlier by .vmap.
+> > All locking and 'vmapping counting' is done in dma_buf.c
+> > so it seems to be redundant/unnecessary in .vmap/.vunmap.
+> > 
+> > Signed-off-by: Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>
+> 
+> If new patch version doesn't contain significant changes and you got
+> acks/reviews for the previous version, then you should add the given
+> acked-by and reviewed-by tags to the commit message by yourself.
+> 
+> -- 
+> Best regards,
+> Dmitry
+>
 
---xbb4rrcandpnbw3a
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+I would like to thank you all for your patience and on the same time say
+sorry that I still cannot follow the process (although I have read
+'submitting patches' chapter).
 
-Hi,
-
-After trying to get more kunit tests for KMS, I found out that the
-recent kunit helpers we merged to create a DRM device [1] are broken and
-won't free their device-managed and DRM-managed resources.
-
-With some help from Thomas, we've dug into this and it turns out that if
-we allocate a device with root_device_register, initialise our drm
-device with devm_drm_dev_alloc(), register it using drm_dev_register(),
-unregister it using drm_dev_unregister/drm_dev_unplug and then remove
-the parent device, neither the device managed nor the DRM managed
-actions are run.
-
-root_device_register initializes the device by eventually calling
-device_initialize() which sets the initial reference count of the root
-device to 1 [2]. devm_drm_dev_alloc() then comes in, drm_dev_init() will
-increase the root device refcount [3] and initialize our DRM device to 1
-[4]. drm_dev_register(), through drm_minor_register() and device_add(),
-will increase the root device refcount [5].
-
-When unrolling things, drm_dev_unregister(), through
-drm_minor_unregister() and device_del(), will give up its reference [6].
-root_device_unregister(), through device_unregister(), will also give up
-its own [7].
-
-So we end up with this for the reference counts:
-
-+------------------------+-------------+------------+
-|         funcs          | root device | DRM device |
-+------------------------+-------------+------------+
-| root_device_register   |           1 | N/A        |
-| devm_drm_dev_alloc     |           2 | 1          |
-| drm_dev_register       |           3 | 1          |
-| drm_dev_unregister     |           2 | 1          |
-| root_device_unregister |           1 | 1          |
-+------------------------+-------------+------------+
-
-If we go back to the list of reference taken, the root device reference
-and the initial drm_device reference, both taken by devm_drm_dev_alloc()
-through drm_dev_init(), haven't been put back.
-
-If we look at the drm_dev_init code(), we can see that it sets up a
-DRM-managed action [8] that will put back the device reference [9]. The
-DRM-managed code is executed by the drm_managed_cleanup() function, that
-is executed as part of a release hook [10] executed once we give up the
-final reference to the DRM device [11].
-
-If we go back a little, the final reference to the DRM device is
-actually the initial one setup by devm_drm_dev_alloc(). This function
-has superseded drm_dev_alloc(), with the documentation that we do need a
-final drm_dev_put() to put back our final reference [12].
-
-devm_drm_dev_alloc() is a more convenient variant that has been
-introduced explicitly to not require that drm_dev_put(), and states it
-as such in the documentation [13]. It does so by adding a device-managed
-action that will call drm_dev_put() [14].
-
-Device-managed actions are ran as part devres_release_all() that is
-called by device_release() [15], itself being run when the last
-reference on the device is put back [16][17][18].
-
-So if we sum things up, the DRM device will only give its last root
-device reference when the last DRM device reference will be put back,
-and the last DRM device reference will be put back when the last device
-reference will be put back, which sounds very circular to me, with both
-ending up in a deadlock scenario.
-
-I've added two kunit tests that demonstrate the issue: we register a
-device, allocate and register a DRM device, register a DRM-managed
-action, remove the DRM device and the parent device, and wait for the
-action to execute. drm_register_unregister_with_devm_test() uses the
-broken(?) devm_drm_dev_alloc and is failing.
-drm_register_unregister_test uses the deprecated drm_dev_alloc() that
-requires an explicit call to drm_dev_put() which works fine.
-
-It's also worth noting that Thomas tested with simpledrm and it seems to
-work fine. Using a platform_device instead of the root_device doesn't
-change anything to the outcome in my tests, so there might be a more
-subtle behaviour involved.
-
-Thanks,
-Maxime
-
---------- 8< -----------
-diff --git a/drivers/gpu/drm/tests/drm_register_test.c b/drivers/gpu/drm/tests/drm_register_test.c
-new file mode 100644
-index 000000000000..3256b53d08f2
---- /dev/null
-+++ b/drivers/gpu/drm/tests/drm_register_test.c
-@@ -0,0 +1,117 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <drm/drm_drv.h>
-+#include <drm/drm_managed.h>
-+
-+#include <kunit/resource.h>
-+
-+#include <linux/device.h>
-+#include <linux/platform_device.h>
-+
-+#include "drm_kunit_helpers.h"
-+
-+struct test_priv {
-+	bool release_done;
-+	wait_queue_head_t release_wq;
-+};
-+
-+static const struct drm_mode_config_funcs drm_mode_config_funcs = {
-+};
-+
-+static const struct drm_driver drm_driver = {
-+	.driver_features = DRIVER_MODESET,
-+};
-+
-+static void drm_release(struct drm_device *drm, void *ptr)
-+{
-+	struct test_priv *priv = ptr;
-+
-+	priv->release_done = true;
-+	wake_up_interruptible(&priv->release_wq);
-+}
-+
-+#define RELEASE_TIMEOUT_MS	500
-+
-+static void drm_register_unregister_test(struct kunit *test)
-+{
-+	struct test_priv *priv;
-+	struct drm_device *drm;
-+	struct device *dev;
-+	int ret;
-+
-+	priv = kunit_kzalloc(test, sizeof(*priv), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv);
-+	init_waitqueue_head(&priv->release_wq);
-+
-+	dev = root_device_register("test");
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
-+
-+	drm = drm_dev_alloc(&drm_driver, dev);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, drm);
-+
-+	drm->mode_config.funcs = &drm_mode_config_funcs;
-+	ret = drmm_mode_config_init(drm);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	ret = drmm_add_action_or_reset(drm, drm_release, priv);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	ret = drm_dev_register(drm, 0);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	drm_dev_unregister(drm);
-+	drm_dev_put(drm);
-+	root_device_unregister(dev);
-+
-+	ret = wait_event_interruptible_timeout(priv->release_wq, priv->release_done,
-+					       msecs_to_jiffies(RELEASE_TIMEOUT_MS));
-+	KUNIT_EXPECT_GT(test, ret, 0);
-+}
-+
-+static void drm_register_unregister_with_devm_test(struct kunit *test)
-+{
-+	struct test_priv *priv;
-+	struct drm_device *drm;
-+	struct device *dev;
-+	int ret;
-+
-+	priv = kunit_kzalloc(test, sizeof(*priv), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv);
-+	init_waitqueue_head(&priv->release_wq);
-+
-+	dev = root_device_register("test");
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
-+
-+	drm = __devm_drm_dev_alloc(dev, &drm_driver, sizeof(*drm), 0);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, drm);
-+
-+	drm->mode_config.funcs = &drm_mode_config_funcs;
-+	ret = drmm_mode_config_init(drm);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	ret = drmm_add_action_or_reset(drm, drm_release, priv);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	ret = drm_dev_register(drm, 0);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	drm_dev_unregister(drm);
-+	root_device_unregister(dev);
-+
-+	ret = wait_event_interruptible_timeout(priv->release_wq, priv->release_done,
-+					       msecs_to_jiffies(RELEASE_TIMEOUT_MS));
-+	KUNIT_EXPECT_GT(test, ret, 0);
-+}
-+
-+static struct kunit_case drm_register_tests[] = {
-+	KUNIT_CASE(drm_register_unregister_test),
-+	KUNIT_CASE(drm_register_unregister_with_devm_test),
-+	{}
-+};
-+
-+static struct kunit_suite drm_register_test_suite = {
-+	.name = "drm-test-register",
-+	.test_cases = drm_register_tests
-+};
-+
-+kunit_test_suite(drm_register_test_suite);
---------- 8< -----------
-
-1: https://cgit.freedesktop.org/drm-misc/tree/drivers/gpu/drm/tests/drm_kunit_helpers.c
-2: https://elixir.bootlin.com/linux/latest/source/drivers/base/core.c#L2979
-3: https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_drv.c#L597
-4: https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_drv.c#L596
-5: https://elixir.bootlin.com/linux/latest/source/drivers/base/core.c#L3437
-6: https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_drv.c#L201
-7: https://elixir.bootlin.com/linux/latest/source/drivers/base/core.c#L3737
-8: https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_drv.c#L618
-9: https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_drv.c#L570
-10: https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_drv.c#L751
-11: https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_drv.c#L785
-12: https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_drv.c#L259
-13: https://elixir.bootlin.com/linux/latest/source/include/drm/drm_drv.h#L505
-14: https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_drv.c#L682
-15: https://elixir.bootlin.com/linux/latest/source/drivers/base/core.c#L2321
-16: https://elixir.bootlin.com/linux/latest/source/drivers/base/core.c#L2357
-17: https://elixir.bootlin.com/linux/latest/source/lib/kobject.c#L721
-18: https://elixir.bootlin.com/linux/latest/source/lib/kobject.c#L647
-
---xbb4rrcandpnbw3a
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY3Zm9wAKCRDj7w1vZxhR
-xRDZAQCq3cO0Zmh91tOdX7YViOkpir2812yiXd53XNvG1W2sjgD+Klv+TpHUfmx6
-lhJE2B1mOqhyh4biafZ6e/YsWNcMSgc=
-=roui
------END PGP SIGNATURE-----
-
---xbb4rrcandpnbw3a--
