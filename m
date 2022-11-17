@@ -2,66 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1736862D8E0
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 12:06:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EC5E62D8EC
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 12:08:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DE8D10E543;
-	Thu, 17 Nov 2022 11:06:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 167C810E57F;
+	Thu, 17 Nov 2022 11:08:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37F4210E543
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 11:06:29 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id h9so3313586wrt.0
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 03:06:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=kYDg53wsGKutNyKBdN9lJQxQ/YinXUOzzbN1yqpmcgE=;
- b=N8GxB1tiMjXUW++FirZ1HVaPg7IPaKpd6YWD+02vgi4dVNbZcPrrSId5hbmJCJ7afR
- ZS69cVHASx2Y0eZ5uGHSoU6J7g7RGcXLs+ipXCpZ2o0p1ynf9xosyKKkCSLhj7krp21V
- ndQNsYd0tfst1Kl5WGGLucB6fi3fDS9DZxEEVeeMGMzhD6qLJi2PQvJPneFXdKOgvKWu
- QLlGd6/k3CT6gFRcekXqgZvdo1lW4A7r0ZNwxa33R/qLSa+1fRzgca1aT+4PCP/7yKEp
- DFcQE3hdU0h9UJ9jOVmj+C6psrgDyuZtZi5qjEnf5aRYIVPIFvhtsnIlvRN1qd4hzJpD
- ASqQ==
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
+ [IPv6:2607:f8b0:4864:20::1034])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB45810E57F
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 11:08:09 +0000 (UTC)
+Received: by mail-pj1-x1034.google.com with SMTP id k5so1348510pjo.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 03:08:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=0tqK0qcu4ZbXIz1FounyREg16LfpvMx9JNd0Tfa961A=;
+ b=AFoBfEAD1nJWlMgLMnXn0vdIL+CPo94VWnV12a+S1YWYICb26F1Np8B8kTDn2QXh8v
+ 3MDzOYrdbhabqzws4QPDv8RY9mRvzvrHQTlp+AE1wWRhkwPQ4zHAz5NAx5NSPfZW3mQE
+ TIKnnBeFktEgCF3rHIxA2KZt5ybmy93+PksJ8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kYDg53wsGKutNyKBdN9lJQxQ/YinXUOzzbN1yqpmcgE=;
- b=bf/qExyIX46rz0WH6nolEqDs8bGXBuNCfSpoCxZ1YvkXY5bcMytlICB412WDHajUgJ
- 3CJ7JSl9TXcFtENAFilsWrVRluYQnt1FZelMgDqc5zpCoG83M2neFl98WQ8h4aN8LwUF
- ehUtxD9KkiAYOhs2jLfePJ2281IRI/pBHSKYnRgbMcLamXkeyYEudXpU9kTBOyjCtkG3
- 15t74axXa7HLSutK0igLa2q5fSomxnpyXowGymc+bFo75ImLokij4GAB+UJJH1NOlmyz
- LYZ7/ek/hLGph6AA8UdepbCLTGYhmfcjqk7g9C9rEYTQ/mMbS8ocb2Z6MpfoJVfJgMl9
- BDvQ==
-X-Gm-Message-State: ANoB5plhog1akXgSfhDH4LGkEIEGqq+fOKIIUzC5YK8HJ81syjbl6/1x
- G0J+oyKeAk1q22A9d/Vrv2Mx7KJILcgNHA==
-X-Google-Smtp-Source: AA0mqf5engmUU+Hc6t1F6Ib5V1yWVikFr373w4fj9rIxmIhbIEKPd3q1IKOAKEHl8Wb1UH5RkrcGLA==
-X-Received: by 2002:a5d:678c:0:b0:235:14dc:5e14 with SMTP id
- v12-20020a5d678c000000b0023514dc5e14mr1192804wru.252.1668683187724; 
- Thu, 17 Nov 2022 03:06:27 -0800 (PST)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
- m14-20020a5d56ce000000b002364c77bc96sm661051wrw.33.2022.11.17.03.06.26
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=0tqK0qcu4ZbXIz1FounyREg16LfpvMx9JNd0Tfa961A=;
+ b=wRnhf473gc2ChVmU22WZ4bmeJEJ5MTOGCFi/TGlaZ3sAy14PUKBfSo99843t0qJnil
+ PEl1SUBH4LJtd8vqHkbR+mwGvy1lhN3Yc12bVjGjAm9xbZU+flP13zeVrHX4SjDNiEAa
+ Oz8fZyDt/62u+HNcJsazVeceWnIGiUa4qPbc35Zs0cYBZyZlcgTCf2v9VJYGLNYYMA+6
+ Bck5QB8AbFV/tml2sch3YWKUZtQeZV7DbPU1vg31M2YzJxofW5iDtezYa5IjtWVEjiBo
+ Qi/uMotkC+Zlmr2M6BA9rYBJDpY9TojrnaRm7TtgDmIr/lv9Gj3HcUztWAQt4qI9L/tw
+ xQeA==
+X-Gm-Message-State: ANoB5pn76omhI0dICsZ+GSwd58J2HMVHSoIuPDDrnaTaxqD90iC+eS0D
+ DGQiSsN8e32ZXRPwJDpgeo1Ehw==
+X-Google-Smtp-Source: AA0mqf4+GevadWvaves7De04ntMu+JYejX2ZKDF7Jns6C/cQy0CVatDlK3RNSm4xGN01xw2wzCaSaQ==
+X-Received: by 2002:a17:90b:3544:b0:213:2173:f46a with SMTP id
+ lt4-20020a17090b354400b002132173f46amr8259914pjb.103.1668683288952; 
+ Thu, 17 Nov 2022 03:08:08 -0800 (PST)
+Received: from hsinyi-z840.tpe.corp.google.com
+ ([2401:fa00:1:10:e678:c7f5:9cb3:1a06])
+ by smtp.gmail.com with ESMTPSA id
+ z18-20020a170902ccd200b0017a032d7ae4sm1025540ple.104.2022.11.17.03.08.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Nov 2022 03:06:27 -0800 (PST)
-Date: Thu, 17 Nov 2022 11:06:25 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH] backlight: pwm_bl: Drop support for legacy PWM probing
-Message-ID: <Y3YVsaO38g9EUgHq@maple.lan>
-References: <20221117072151.3789691-1-u.kleine-koenig@pengutronix.de>
- <Y3YJaYx06Jzrs/Ej@maple.lan>
- <20221117102814.vdgixgfq4pr77fly@pengutronix.de>
+ Thu, 17 Nov 2022 03:08:08 -0800 (PST)
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+To: Sean Paul <seanpaul@chromium.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ Robert Foss <robert.foss@linaro.org>
+Subject: [PATCH v6 1/3] drm_bridge: register content protect property
+Date: Thu, 17 Nov 2022 19:08:02 +0800
+Message-Id: <20221117110804.1431024-1-hsinyi@chromium.org>
+X-Mailer: git-send-email 2.38.1.431.g37b22c650d-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221117102814.vdgixgfq4pr77fly@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,47 +68,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Allen Chen <allen.chen@ite.com.tw>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 17, 2022 at 11:28:14AM +0100, Uwe Kleine-König wrote:
-> On Thu, Nov 17, 2022 at 10:14:01AM +0000, Daniel Thompson wrote:
-> > On Thu, Nov 17, 2022 at 08:21:51AM +0100, Uwe Kleine-König wrote:
-> > > There is no in-tree user left which relies on legacy probing. So drop
-> > > support for it which removes another user of the deprecated
-> > > pwm_request() function.
-> > >
-> > > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> >
-> > I have to take the "no in-tree user" on faith since I'm not familiar
-> > enough with PWM history to check that. However from a backlight
-> > point-of-view it looks like a nice tidy up:
-> > Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
->
-> Probably "in-tree provider" would have been the better term. You can
-> convince you about that:
->
-> $ git grep -l platform_pwm_backlight_data | xargs grep pwm_id
->
-> That is, no machine used pwm_id to make the legacy lookup necessary.
+Some bridges are able to update HDCP status from userspace request if
+they support HDCP.
 
-Thanks for that. pwm_request() seems so old that my intuition about
-how device APIs in Linux work misled me and I completely missed that
-the consumption of pwm_id at the call site was the key to the source
-navigation here.
+HDCP property is the same as other connector properties that needs to be
+created after the connecter is initialized and before the connector is
+registered.
 
+If there exists a bridge that supports HDCP, add the property to the
+bridge connector.
 
-> Who will pick up this patch? Should I resend for s/user/provider/?
+Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+Reviewed-by: Sean Paul <seanpaul@chromium.org>
+Reported-by: kernel test robot <lkp@intel.com>
+---
+v5->v6: fix compile warning when CONFIG_DRM_DISPLAY_HELPER=m
+---
+ drivers/gpu/drm/drm_bridge_connector.c | 9 +++++++++
+ include/drm/drm_bridge.h               | 4 ++++
+ 2 files changed, 13 insertions(+)
 
-Lee Jones should hoover this up. Normally I only pick up backlight
-patches when Lee's on holiday ;-).
+diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
+index 1c7d936523df..4147c6240110 100644
+--- a/drivers/gpu/drm/drm_bridge_connector.c
++++ b/drivers/gpu/drm/drm_bridge_connector.c
+@@ -7,6 +7,7 @@
+ #include <linux/module.h>
+ #include <linux/slab.h>
+ 
++#include <drm/display/drm_hdcp_helper.h>
+ #include <drm/drm_atomic_state_helper.h>
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_bridge_connector.h>
+@@ -333,6 +334,7 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+ 	struct i2c_adapter *ddc = NULL;
+ 	struct drm_bridge *bridge, *panel_bridge = NULL;
+ 	int connector_type;
++	bool support_hdcp = false;
+ 
+ 	bridge_connector = kzalloc(sizeof(*bridge_connector), GFP_KERNEL);
+ 	if (!bridge_connector)
+@@ -376,6 +378,9 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+ 
+ 		if (drm_bridge_is_panel(bridge))
+ 			panel_bridge = bridge;
++
++		if (bridge->support_hdcp)
++			support_hdcp = true;
+ 	}
+ 
+ 	if (connector_type == DRM_MODE_CONNECTOR_Unknown) {
+@@ -398,6 +403,10 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+ 	if (panel_bridge)
+ 		drm_panel_bridge_set_orientation(connector, panel_bridge);
+ 
++	if (support_hdcp && IS_REACHABLE(CONFIG_DRM_DISPLAY_HELPER) &&
++	    IS_ENABLED(CONFIG_DRM_DISPLAY_HDCP_HELPER))
++		drm_connector_attach_content_protection_property(connector, true);
++
+ 	return connector;
+ }
+ EXPORT_SYMBOL_GPL(drm_bridge_connector_init);
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index 6b65b0dfb4fb..1d2ab70f3436 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -768,6 +768,10 @@ struct drm_bridge {
+ 	 * modes.
+ 	 */
+ 	bool interlace_allowed;
++	/**
++	 * @support_hdcp: Indicate that the bridge supports HDCP.
++	 */
++	bool support_hdcp;
+ 	/**
+ 	 * @ddc: Associated I2C adapter for DDC access, if any.
+ 	 */
+-- 
+2.38.1.431.g37b22c650d-goog
 
-No need to resend on my account. I interpreted the original
-description as "provider" anyway, I just didn't know how best to
-search for them.
-
-
-Daniel.
