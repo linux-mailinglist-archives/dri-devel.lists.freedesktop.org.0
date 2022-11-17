@@ -1,74 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FEB962DE55
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 15:35:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 672E262DE5E
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 15:36:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D62A810E60C;
-	Thu, 17 Nov 2022 14:35:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8601710E609;
+	Thu, 17 Nov 2022 14:36:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
- [IPv6:2a00:1450:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E76A10E0CC
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 14:35:41 +0000 (UTC)
-Received: by mail-lj1-x22e.google.com with SMTP id u11so2938662ljk.6
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 06:35:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=exZO0xDzaBIfzi+B7qM4w3OK+69catKlcvZNhs/hinQ=;
- b=bdhweEkFjF05xlr3ftUOoaA0mQY8ZxBW1LiBzxvA5osZaLu/k53jZNT6OFTruAflmn
- oPyL6xXObrTKrvkfq+O6tlSPxGeTOTCRWYJ+c4ggUl8UY9gNOygoMW6FCTWNVvSQyzVn
- /JUgSldsIQX4gObUysfgjVqDuBWHD2vvh10Cj1B/YII1ax6TjLY4js/KGkZPiofYX6+r
- g5tlKQT1zy2BnnVBVCoDJLsMPKSJxjJWt6eMVJq12gFX0FoaJBYiCQ1vdCx7uzjfzSMU
- GKfl1PmJjTwROKwL4iul1CL2O6PbWLzQTFASmJF9rJ7hd1InQevPwt4tmvJ18d3N6xDn
- MCzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=exZO0xDzaBIfzi+B7qM4w3OK+69catKlcvZNhs/hinQ=;
- b=dHWulCKHIRkAu8BID54qxoA31x0LuqsnAdMFz/FTmeZGxjIBdOzdVIRN1JtInDcnpv
- 7Q3Iv+UCMQGPuZsH+Sn9EqfJ2YIjXfAHeqC8jId0eFIfzHBnl8HMz/cGWNSrJr5ztRyY
- P/UlOJl3QhsOodZI2hxQGGxfOknclJOt1/Nyb+3EaeoapKKOjIBfRiPJoG3Y0zaUvIMw
- LYdzqBYW3EKcocZv9kWqyP5An3FSAFKEuHACZX3RFDqOuVrtIs0OBPlZPNIFWDpd9A+Q
- pCeBAO4JwedKiq4zcPErSwpNovAThtH6KPVCiT+rANpwP9OtkRxY72kypbswTOzVrgwk
- dbpw==
-X-Gm-Message-State: ANoB5plP1MjGqWWEi7+z1n4IVoAGYFk11+YTVxiqrkMGw/bkjL6qsxZx
- ITSF+ssmGSXHfa4ajKYSDlsSEQ==
-X-Google-Smtp-Source: AA0mqf7nAaJblMa0nawYk1UxxVkYrlhHOwreyheV3BOjOQJqKOvUGHNFgfc7e8RoMhGUeSu+4Mej5w==
-X-Received: by 2002:a2e:6a17:0:b0:277:fae:902e with SMTP id
- f23-20020a2e6a17000000b002770fae902emr1021136ljc.267.1668695739370; 
- Thu, 17 Nov 2022 06:35:39 -0800 (PST)
-Received: from [10.10.15.130] ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- bj25-20020a2eaa99000000b0026fb5525ee4sm227670ljb.116.2022.11.17.06.35.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Nov 2022 06:35:38 -0800 (PST)
-Message-ID: <79aa624a-88a0-9061-a4a3-8ece2a6eb31f@linaro.org>
-Date: Thu, 17 Nov 2022 16:35:38 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH V2 0/3] DSI host and peripheral initialisation ordering
-Content-Language: en-GB
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9B5110E609;
+ Thu, 17 Nov 2022 14:36:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1668695786; x=1700231786;
+ h=date:from:to:cc:subject:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=yh1vQtNHN6llzq1Dyn3Pw9I09GTqkyaQhV2cPEB6AzQ=;
+ b=g4bypIXzpBD2a451d7VFD/AeqmHg9jPHWyiUf7cy8Cw7pc8LZ6KX3jBo
+ 7BXLdd1zzhP6UMsU+faGaOL3olsy+SA8NtjRAasmkyqp3MT+5bFNIHDU/
+ KCczf/ehED2VCjneSSRBkeuYUlZjUhsl3/y4NIMSxTt4P9kSU/XT0eOAO
+ pAE80HXLJPXekpbCZSy2MC7Yeg/EM8ZqUFG1zhuPOeSFO6YpR365Salse
+ gIMFZayerhaYuTv3ZnkmShltOCz4p77x898zyZ45m1sZQ7V/3JOQPMxxR
+ U0XGYwbW+AaklFMvT2rVg0Sspx/zr/6dk5f8KtNVIY5/wKtZ4roBqGItY Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="310494361"
+X-IronPort-AV: E=Sophos;i="5.96,171,1665471600"; d="scan'208";a="310494361"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Nov 2022 06:36:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="670941025"
+X-IronPort-AV: E=Sophos;i="5.96,171,1665471600"; d="scan'208";a="670941025"
+Received: from linux.intel.com ([10.54.29.200])
+ by orsmga008.jf.intel.com with ESMTP; 17 Nov 2022 06:36:21 -0800
+Received: from maurocar-mobl2 (maurocar-mobl2.ger.corp.intel.com
+ [10.249.130.12])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by linux.intel.com (Postfix) with ESMTPS id 738DB580DFD;
+ Thu, 17 Nov 2022 06:36:03 -0800 (PST)
+Date: Thu, 17 Nov 2022 15:35:57 +0100
+From: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
 To: Maxime Ripard <maxime@cerno.tech>
-References: <cover.1646406653.git.dave.stevenson@raspberrypi.com>
- <YtXIEg0rRZLLYS75@ravnborg.org>
- <CAPY8ntCfXuZ6nPcJ77FLP5bgdcbXOeh-7rieb5PS-7oPFg7xnQ@mail.gmail.com>
- <0c472bfe-8faa-32b4-fe6e-c52a4cb74681@linaro.org>
- <CAPY8ntCN1YA6cRB80M_Dx9ZyxdRPhpdxZVPnkXmtzQG-gLyq7Q@mail.gmail.com>
- <b2115a41-c8cc-7b06-b9c8-95e5cc3545a3@linaro.org>
- <CAPY8ntB8d6VsgjBw7fQwf3gmQboS7tHCjLsofMwKAfUECgi08Q@mail.gmail.com>
- <30d38d02-29e2-f953-4202-9cea54327e98@linaro.org>
- <20221117143411.5sdyrx6v2nunql5n@houat>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20221117143411.5sdyrx6v2nunql5n@houat>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH v10 05/19] drm/connector: Add TV standard property
+Message-ID: <20221117153557.75c5dba1@maurocar-mobl2>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v10-5-256dad125326@cerno.tech>
+References: <20220728-rpi-analog-tv-properties-v10-0-256dad125326@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v10-5-256dad125326@cerno.tech>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,277 +63,454 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Jagan Teki <jagan@amarulasolutions.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, Jonas Karlman <jonas@kwiboo.se>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- Neil Armstrong <narmstrong@baylibre.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Caleb Connolly <caleb.connolly@linaro.org>,
- Robert Foss <robert.foss@linaro.org>, andrzej.hajda@gmail.com,
- Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
+ linux-sunxi@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+ Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ Noralf =?UTF-8?B?VHLDuG5uZXM=?= <noralf@tronnes.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/11/2022 17:34, Maxime Ripard wrote:
-> On Thu, Nov 17, 2022 at 03:24:07PM +0200, Dmitry Baryshkov wrote:
->> On 15/11/2022 17:38, Dave Stevenson wrote:
->>> Hi Dmitry
->>>
->>> On Tue, 15 Nov 2022 at 14:21, Dmitry Baryshkov
->>> <dmitry.baryshkov@linaro.org> wrote:
->>>>
->>>> On 15/11/2022 17:14, Dave Stevenson wrote:
->>>>> Hi Dmitry
->>>>>
->>>>> On Sun, 13 Nov 2022 at 13:06, Dmitry Baryshkov
->>>>> <dmitry.baryshkov@linaro.org> wrote:
->>>>>>
->>>>>> Hi Dave,
->>>>>>
->>>>>> On 19/07/2022 16:45, Dave Stevenson wrote:
->>>>>>> Hi Sam
->>>>>>>
->>>>>>> On Mon, 18 Jul 2022 at 21:52, Sam Ravnborg <sam@ravnborg.org> wrote:
->>>>>>>>
->>>>>>>> Hi Dave,
->>>>>>>>
->>>>>>>> a long overdue reply on this series.
->>>>>>>>
->>>>>>>> On Fri, Mar 04, 2022 at 03:17:55PM +0000, Dave Stevenson wrote:
->>>>>>>>> Hi All
->>>>>>>>>
->>>>>>>>> Changes from v1:
->>>>>>>>> - New patch to refactor drm_bridge_chain_post_disable and drm_bridge_chain_pre_enable
->>>>>>>>>       to reuse drm_atomic_bridge_chain_post_disable / drm_atomic_bridge_chain_pre_enable
->>>>>>>>>       but with a NULL state.
->>>>>>>>> - New patch that adds a pre_enable_upstream_first to drm_panel.
->>>>>>>>> - changed from an OPS flag to a bool "pre_enable_upstream_first" in drm_bridge.
->>>>>>>>> - Followed Andrzej's suggestion of using continue in the main loop to avoid
->>>>>>>>>       needing 2 additional loops (one forward to find the last bridge wanting
->>>>>>>>>       upstream first, and the second backwards again).
->>>>>>>>> - Actioned Laurent's review comments on docs patch.
->>>>>>>>>
->>>>>>>>> Original cover letter:
->>>>>>>>>
->>>>>>>>> Hopefully I've cc'ed all those that have bashed this problem around previously,
->>>>>>>>> or are otherwise linked to DRM bridges.
->>>>>>>>>
->>>>>>>>> There have been numerous discussions around how DSI support is currently broken
->>>>>>>>> as it doesn't support initialising the PHY to LP-11 and potentially the clock
->>>>>>>>> lane to HS prior to configuring the DSI peripheral. There is no op where the
->>>>>>>>> interface is initialised but HS video isn't also being sent.
->>>>>>>>> Currently you have:
->>>>>>>>> - peripheral pre_enable (host not initialised yet)
->>>>>>>>> - host pre_enable
->>>>>>>>> - encoder enable
->>>>>>>>> - host enable
->>>>>>>>> - peripheral enable (video already running)
->>>>>>>>>
->>>>>>>>> vc4 and exynos currently implement the DSI host as an encoder, and split the
->>>>>>>>> bridge_chain. This fails if you want to switch to being a bridge and/or use
->>>>>>>>> atomic calls as the state of all the elements split off are not added by
->>>>>>>>> drm_atomic_add_encoder_bridges.
->>>>>>>>
->>>>>>>> A typically chain looks like this:
->>>>>>>>
->>>>>>>> CRTC => Encoder => Bridge A => Bridge B
->>>>>>>>
->>>>>>>> We have in DRM bridges established what is the "next" bridge - indicated
->>>>>>>> with the direction of the arrows in the drawing.
->>>>>>>>
->>>>>>>> This set of patches introduces the concept of "upstream" bridges.
->>>>>>>>
->>>>>>>> pre_enable_prev_bridge_first would be easier to understand as it uses
->>>>>>>> the current terminology.
->>>>>>>> I get that "upstream" is used in the DSI specification - but we are
->>>>>>>> dealing with bridges that happens to support DSI and more, and mixing
->>>>>>>> the two terminologies is not good.
->>>>>>>>
->>>>>>>> Note: Upstream is also used in a bridge doc section - here it should
->>>>>>>>           most likely be updated too.
->>>>>>>
->>>>>>> Sure, I have no issues with switching to prev/next from upstream/downstream.
->>>>>>> To the outsider it can be confusing - in pre_enable and disable, the
->>>>>>> next bridge to be called is the previous one. At least it is
->>>>>>> documented.
->>>>>>>
->>>>>>>> The current approach set a flag that magically makes the core do something
->>>>>>>> else. Have you considered a much more explicit approach?
->>>>>>>>
->>>>>>>> A few helpers like:
->>>>>>>>
->>>>>>>>             drm_bridge_pre_enable_prev_bridge()
->>>>>>>>             drm_bridge_enable_prev_bridge()
->>>>>>>>             drm_bridge_disable_prev_bridge()
->>>>>>>>             drm_bridge_post_disable_prev_bridge()
->>>>>>>
->>>>>>> No point in drm_bridge_enable_prev_bridge() and
->>>>>>> drm_bridge_post_disable_prev_bridge() as the call order down the chain
->>>>>>> will mean that they have already been called.
->>>>>>> drm_bridge_enable_next_bridge() and
->>>>>>> drm_bridge_post_disable_next_bridge() possibly.
->>>>>>>
->>>>>>>> And then update the core so the relevant function is only called once
->>>>>>>> for a bridge.
->>>>>>>> Then the need for DSI lanes in LP-11 can be archived by a call to
->>>>>>>>
->>>>>>>>             drm_bridge_pre_enable_prev_bridge()
->>>>>>>
->>>>>>> Unfortunately it gets ugly with post_disable.
->>>>>>> The DSI host controller post_disable will have been called before the
->>>>>>> DSI peripheral's post_disable, and there are conditions where the
->>>>>>> peripheral needs to send DSI commands in post_disable (eg
->>>>>>> panel-asus-z00t-tm5p5-n35596 [1]). Changing all DSI hosts to call
->>>>>>> drm_bridge_post_disable_next_bridge feels like the wrong thing to do.
->>>>>>> There are currently hacks in dw-mipi-dsi that do call the next
->>>>>>> panel/bridge post_disable [2] and it would be nice to get rid of them.
->>>>>>> Currently the calls aren't tracked for state, so you end up with
->>>>>>> post_disable being called twice, and panels having to track state (eg
->>>>>>> jdi_lt070me050000 [3]).
->>>>>>>
->>>>>>> [1] tm5p5_nt35596_unprepare() calls tm5p5_nt35596_off()
->>>>>>> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c#L107
->>>>>>> [2] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c#L889
->>>>>>> [3] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c#L44
->>>>>>>
->>>>>>>> This is more explicit than a flag that triggers some magic behaviour.
->>>>>>>> It may even see uses we have not realised yet.
->>>>>>>
->>>>>>> Personally it feels like more boilerplate in almost all DSI drivers,
->>>>>>> and generally I see a push to remove boilerplate.
->>>>>>>
->>>>>>>> It is late here - so maybe the above is not a good idea tomorrow - but
->>>>>>>> right now I like the simplicity of it.
->>>>>>>>
->>>>>>>> Other than the above I read that a mipi_dsi_host_init() is planned,
->>>>>>>> which is also explicit and simple - good.
->>>>>>>
->>>>>>> It's been raised, but the justification for most use cases hasn't been
->>>>>>> made. The Exynos conversion looks to be doing the wrong thing in
->>>>>>> checking state, and that's why it is currently needing it.
->>>>>>> Again it's also more boilerplate.
->>>>>>>
->>>>>>> TC358767 is an odd one as it wants the DSI interface enabled very
->>>>>>> early in order to have a clock for the DP aux channel well before
->>>>>>> video is running. I had a thought on that, but It looks like I haven't
->>>>>>> hit send on a reply to Lucas on that one - too many distractions.
->>>>>>>
->>>>>>>> Have we seen a new revision of some of these?
->>>>>>>> Chances are high that I have missed it then.
->>>>>>>
->>>>>>> No, still on V2. Other than Dmitry's comment over updating
->>>>>>> parade-ps8640 and dropping drm_bridge_chain_*, no real comments had
->>>>>>> been made.
->>>>>>
->>>>>> It's been a while now. Do you still plan to pursue this patchset?
->>>>>
->>>>> If there was anything that could actually be worked on, then I'm happy
->>>>> to respin it, but if the approach is generally being rejected then I
->>>>> don't want to waste the effort.
->>>>>
->>>>> I'm not totally clear who the maintainers are that the final arbiters
->>>>> and need to sign off on this.
->>>>> drm_bridge.c falls to Maarten, Maxime, and Thomas for "DRM DRIVERS AND
->>>>> MISC GPU PATCHES"
->>>>> drm_panel.c falls to Thierry and Sam for "DRM PANEL DRIVERS", and then
->>>>> Maarten, Maxime, and Thomas.
->>>>> Only Sam has responded publicly. I have had discussions with Maxime,
->>>>> but it's not directly his area of knowledge.
->>>>>
->>>>> Looking at the patch series:
->>>>> Patch 1: Your comment "update parade-ps8640 to use
->>>>> drm_atomic_bridge_chain_". It looks like patchset [1] by Sam does
->>>>> this, but the patchset went wrong and is missing patches 8-11 and
->>>>> therefore hasn't been merged.
->>>>> Patch 2: Comment from Jagan that it's like an old patch. It has
->>>>> similarities, but isn't the same.
->>>>> Patch 3: R-b by you (thank you), but concerns from Jagan which I still
->>>>> don't understand. Without clarification on the issue and whether my
->>>>> suggested alternative place for the hook solves the issue, IMHO it's
->>>>> not worth respinning.
->>>>> Patch 4: R-b Laurent.
->>>>>
->>>>> This cover note got totally subverted with Exynos issues.
->>>>> Sam did request use of prev / next instead of upstream / downstream,
->>>>> which can be done and perhaps warrants a respin now.
->>>>>
->>>>>> [personal notice: I'd prefer something less strange, e.g. an explicit
->>>>>> calls to mipi_dsi_host, but as this patchset seems to fix the issues,
->>>>>> I'm fine with it].
->>>>>
->>>>> That can fix the power up sequence, but how do you propose telling the
->>>>> DSI controller NOT to power down in post_disable before the DSI
->>>>> peripheral post_disable has potentially sent DCS commands - i.e. the
->>>>> case you were discussing on Friday in [2].
->>>>
->>>> I thought that the same 'call the parent beforehand' switch applied to
->>>> the deinit paths, didn't it?
->>>
->>> My proposed flag does indeed swap the order of post_disable as well.
->>>
->>> Perhaps I was misunderstanding your personal preference.
->>> I was taking it as an explicit mipi_dsi_host call to initialise the
->>> DSI link, which then also needs an explicit mipi_dsi_host call to tear
->>> it down as well. In that situation there is a need to rework the
->>> bridge chain post_disable to allow for the panel post_disable to send
->>> DCS commands before the DSI host is disabled.
->>>
->>>>> If a panel/bridge driver doesn't call mipi_dsi_host_init then the
->>>>> expectation must be that it will be called by the DSI controller's
->>>>> pre_enable, and deinit from post_disable. Likewise init & deinit would
->>>>> be called if host_transfer is used when the host isn't initialised.
->>>>>
->>>>> If the panel/bridge driver explicitly calls mipi_dsi_host_init, then
->>>>> does that mandate that it must also call mipi_dsi_host_deinint. The
->>>>> controller post_disable is then effectively a no-op. This can be
->>>>> covered in documentation, but also leaves the potential for strange
->>>>> behaviour if the requirement is not followed, and I can't think of a
->>>>> nice place to drop a WARN to flag the issue in the driver.
->>>>>
->>>>>
->>>>> TBH The lack of interest in solving the issues almost makes me want to
->>>>> just document the total brokenness of it and throw in the towel.
->>>>> Seeing as we as Raspberry Pi run a vendor kernel, we can run with
->>>>> downstream patches until those who care finally make a decision for
->>>>> mainline. I'd prefer to solve it properly, but it requires some
->>>>> engagement from the community.
->>>>
->>>> I see. I can probably try spinning a patchset doing explicit mipi_dsi
->>>> calls. Let's see if it gains more attention.
->>>
->>> Is it better to have 2 competing patchsets floating around, or try and
->>> get responses on one first? I'll try and get an updated set out today.
->>
->> I'm a bit in a tough position here. I can't say that I like this approach,
->> but it seems to fix all the issues that we have with DSI hosts, so it's
->> better than the current state.
-> 
-> I'd say the bridge support in general is under-maintained. Historically,
-> Boris and Laurent did most of the architecture work, but are either
-> completely drowning under patches or have moved on.
-> 
-> I can't really speak for Thomas and Maarten, but I don't really have
-> such a good knowledge about the bridge infrastructure and haven't been
-> very involved. I have the same impression from Maarten and Thomas
-> though.
-> 
-> Which means that it's pretty much a blindspot for us :)
-> 
-> I'm sorry if it's taking a while, but I'd say that if you two have a
-> good comprehension of the issue (and I know Dave has), if you can reach
-> a reasonable solution for both of you, and if there is proper
-> documentation for the new work, I'd consider this a net improvement.
-> 
-> And as far as I know from that discussion, we're pretty much there
-> already. So yeah, go ahead with a new version and we'll merge it.
+On Thu, 17 Nov 2022 10:28:48 +0100
+Maxime Ripard <maxime@cerno.tech> wrote:
 
-Ack, then I'll hold on my proposal to let Dave's version to be merged.
+> The TV mode property has been around for a while now to select and get the
+> current TV mode output on an analog TV connector.
+> 
+> Despite that property name being generic, its content isn't and has been
+> driver-specific which makes it hard to build any generic behaviour on top
+> of it, both in kernel and user-space.
+> 
+> Let's create a new enum tv norm property, that can contain any of the
+> analog TV standards currently supported by kernel drivers. Each driver can
+> then pass in a bitmask of the modes it supports, and the property
+> creation function will filter out the modes not supported.
+> 
+> We'll then be able to phase out the older tv mode property.
+> 
+> Tested-by: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> 
+> ---
+> Changes in v10:
+> - Fix checkpatch warning
+> 
+> Changes in v5:
+> - Create an analog TV properties documentation section, and document TV
+>   Mode there instead of the csv file
+> 
+> Changes in v4:
+> - Add property documentation to kms-properties.csv
+> - Fix documentation
+> ---
+>  Documentation/gpu/drm-kms.rst     |   6 ++
+>  drivers/gpu/drm/drm_atomic_uapi.c |   4 ++
+>  drivers/gpu/drm/drm_connector.c   | 122 +++++++++++++++++++++++++++++++++++++-
+>  include/drm/drm_connector.h       |  64 ++++++++++++++++++++
+>  include/drm/drm_mode_config.h     |   8 +++
+>  5 files changed, 203 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+> index b4377a545425..321f2f582c64 100644
+> --- a/Documentation/gpu/drm-kms.rst
+> +++ b/Documentation/gpu/drm-kms.rst
+> @@ -520,6 +520,12 @@ HDMI Specific Connector Properties
+>  .. kernel-doc:: drivers/gpu/drm/drm_connector.c
+>     :doc: HDMI connector properties
+>  
+> +Analog TV Specific Connector Properties
+> +----------------------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/drm_connector.c
+> +   :doc: Analog TV Connector Properties
+> +
+>  Standard CRTC Properties
+>  ------------------------
+>  
+> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+> index 7f2b9a07fbdf..d867e7f9f2cd 100644
+> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> @@ -700,6 +700,8 @@ static int drm_atomic_connector_set_property(struct drm_connector *connector,
+>  		state->tv.margins.bottom = val;
+>  	} else if (property == config->legacy_tv_mode_property) {
+>  		state->tv.legacy_mode = val;
+> +	} else if (property == config->tv_mode_property) {
+> +		state->tv.mode = val;
+>  	} else if (property == config->tv_brightness_property) {
+>  		state->tv.brightness = val;
+>  	} else if (property == config->tv_contrast_property) {
+> @@ -810,6 +812,8 @@ drm_atomic_connector_get_property(struct drm_connector *connector,
+>  		*val = state->tv.margins.bottom;
+>  	} else if (property == config->legacy_tv_mode_property) {
+>  		*val = state->tv.legacy_mode;
+> +	} else if (property == config->tv_mode_property) {
+> +		*val = state->tv.mode;
+>  	} else if (property == config->tv_brightness_property) {
+>  		*val = state->tv.brightness;
+>  	} else if (property == config->tv_contrast_property) {
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> index 06e737ed15f5..07d449736956 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -984,6 +984,17 @@ static const struct drm_prop_enum_list drm_dvi_i_subconnector_enum_list[] = {
+>  DRM_ENUM_NAME_FN(drm_get_dvi_i_subconnector_name,
+>  		 drm_dvi_i_subconnector_enum_list)
+>  
+> +static const struct drm_prop_enum_list drm_tv_mode_enum_list[] = {
+> +	{ DRM_MODE_TV_MODE_NTSC, "NTSC" },
+> +	{ DRM_MODE_TV_MODE_NTSC_443, "NTSC-443" },
+> +	{ DRM_MODE_TV_MODE_NTSC_J, "NTSC-J" },
+> +	{ DRM_MODE_TV_MODE_PAL, "PAL" },
+> +	{ DRM_MODE_TV_MODE_PAL_M, "PAL-M" },
+> +	{ DRM_MODE_TV_MODE_PAL_N, "PAL-N" },
+> +	{ DRM_MODE_TV_MODE_SECAM, "SECAM" },
+> +};
 
--- 
-With best wishes
-Dmitry
+Nack. It sounds a very bad idea to have standards as generic as 
+NTSC, PAL, SECAM. 
 
+If you take a look at the CCIR/ITU-R specs that define video standards, 
+you'll see that the standard has actually two components:
+
+1. the composite color TV signal: PAL, NTSC, SECAM, defined in ITU-R BT1700[1]
+
+2. and the conventional analogue TV (the "monochromatic" part),
+as defined in ITU-R BT.1701[2], which is, basically, a letter from A to N
+(with some country-specific variants, like Nc). Two of those standards
+(M and J) are used on Countries with a power grid of 60Hz, as they have
+a frame rate of either 30fps or 29.997fps.
+
+[1] https://www.itu.int/rec/R-REC-BT.1700-0-200502-I/en
+[2] https://www.itu.int/rec/R-REC-BT.1701-1-200508-I/en
+
+The actual combination is defined within Country-specific laws, which
+selects a conventional analogue signal with a composite color one.
+
+So, for instance, US uses NTSC/M (because it uses a 60Hz power grid).
+There is a 50Hz variant, called NTSC/443 (not used on any Country, but
+present on some European VCR equipments capable of recording at 25fps,
+using NTSC).
+
+Btw, some VCR equipments in US may also have PAL/60 with has the
+same timings as NTSC, but uses PAL instead.
+
+What happens is that, in Europe, different PAL standards got used, but:
+
+- most TV sets and their chipsets were developed to auto-detect and
+  support the differences between different systems PAL/B, PAL/G, PAL/D,...
+- several of those standards have a difference only at the audio
+  sub-carriers. So, they look identical for the video decoding part.
+- standards may have a different inter-channel space (it can vary from
+  5 to 8 MHz) to minimize cross-signal interference.
+
+---
+
+Anyway, I strongly suggest to either:
+
+1. align the standards there to what we defined in V4L2. See:
+	https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/vidioc-enumstd.html#v4l2-std-id
+and:
+	https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/standard.html
+
+You can probably start with a subset of those, e. g. with:
+
+ - PAL/I, PAL/BG, PAL/DK, PAL/M, PAL/N, PAL/Nc, PAL/60
+ - NTSC/M, NTSC/M Japan, NTSC/M Korea, NTSC/443
+ - SECAM/BG, SECAM/DK, SECAM/I, SECAM/L, SECAM/LP
+
+Btw, for decoders, this should actually be a bitmask, as most decoding
+chipsets can auto-detect among several different video standards.
+
+2. split into two different properties:
+	- the "monochromatic" one: A to N, M_Japan, M_Korea,
+	  Nc, 60 and 443;
+	- the composite signal encoding: NTSC, PAL, SECAM.
+
+If I were to design V4L2 again back the days where commercial digital TV
+were not present, I would probably have opted to have two different 
+properties.
+
+Regards,
+Mauro
+
+> +DRM_ENUM_NAME_FN(drm_get_tv_mode_name, drm_tv_mode_enum_list)
+> +
+>  static const struct drm_prop_enum_list drm_tv_select_enum_list[] = {
+>  	{ DRM_MODE_SUBCONNECTOR_Automatic, "Automatic" }, /* DVI-I and TV-out */
+>  	{ DRM_MODE_SUBCONNECTOR_Composite, "Composite" }, /* TV-out */
+> @@ -1552,6 +1563,71 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subconnector_property);
+>   *	infoframe values is done through drm_hdmi_avi_infoframe_content_type().
+>   */
+>  
+> +/*
+> + * TODO: Document the properties:
+> + *   - left margin
+> + *   - right margin
+> + *   - top margin
+> + *   - bottom margin
+> + *   - brightness
+> + *   - contrast
+> + *   - flicker reduction
+> + *   - hue
+> + *   - mode
+> + *   - overscan
+> + *   - saturation
+> + *   - select subconnector
+> + *   - subconnector
+> + */
+> +/**
+> + * DOC: Analog TV Connector Properties
+> + *
+> + * TV Mode:
+> + *	Indicates the TV Mode used on an analog TV connector. The value
+> + *	of this property can be one of the following:
+> + *
+> + *	NTSC:
+> + *		TV Mode is CCIR System M (aka 525-lines) together with
+> + *		the NTSC Color Encoding.
+> + *
+> + *	NTSC-443:
+> + *
+> + *		TV Mode is CCIR System M (aka 525-lines) together with
+> + *		the NTSC Color Encoding, but with a color subcarrier
+> + *		frequency of 4.43MHz
+> + *
+> + *	NTSC-J:
+> + *
+> + *		TV Mode is CCIR System M (aka 525-lines) together with
+> + *		the NTSC Color Encoding, but with a black level equal to
+> + *		the blanking level.
+> + *
+> + *	PAL:
+> + *
+> + *		TV Mode is CCIR System B (aka 625-lines) together with
+> + *		the PAL Color Encoding.
+> + *
+> + *	PAL-M:
+> + *
+> + *		TV Mode is CCIR System M (aka 525-lines) together with
+> + *		the PAL Color Encoding.
+> + *
+> + *	PAL-N:
+> + *
+> + *		TV Mode is CCIR System N together with the PAL Color
+> + *		Encoding, a color subcarrier frequency of 3.58MHz, the
+> + *		SECAM color space, and narrower channels than other PAL
+> + *		variants.
+> + *
+> + *	SECAM:
+> + *
+> + *		TV Mode is CCIR System B (aka 625-lines) together with
+> + *		the SECAM Color Encoding.
+> + *
+> + *	Drivers can set up this property by calling
+> + *	drm_mode_create_tv_properties().
+> + */
+> +
+>  /**
+>   * drm_connector_attach_content_type_property - attach content-type property
+>   * @connector: connector to attach content type property on.
+> @@ -1649,6 +1725,10 @@ EXPORT_SYMBOL(drm_mode_create_tv_margin_properties);
+>   * responsible for allocating a list of format names and passing them to
+>   * this routine.
+>   *
+> + * NOTE: This functions registers the deprecated "mode" connector
+> + * property to select the analog TV mode (ie, NTSC, PAL, etc.). New
+> + * drivers must use drm_mode_create_tv_properties() instead.
+> + *
+>   * Returns:
+>   * 0 on success or a negative error code on failure.
+>   */
+> @@ -1690,7 +1770,6 @@ int drm_mode_create_tv_properties_legacy(struct drm_device *dev,
+>  	if (drm_mode_create_tv_margin_properties(dev))
+>  		goto nomem;
+>  
+> -
+>  	if (num_modes) {
+>  		dev->mode_config.legacy_tv_mode_property =
+>  			drm_property_create(dev, DRM_MODE_PROP_ENUM,
+> @@ -1739,6 +1818,47 @@ int drm_mode_create_tv_properties_legacy(struct drm_device *dev,
+>  }
+>  EXPORT_SYMBOL(drm_mode_create_tv_properties_legacy);
+>  
+> +/**
+> + * drm_mode_create_tv_properties - create TV specific connector properties
+> + * @dev: DRM device
+> + * @supported_tv_modes: Bitmask of TV modes supported (See DRM_MODE_TV_MODE_*)
+> +
+> + * Called by a driver's TV initialization routine, this function creates
+> + * the TV specific connector properties for a given device.
+> + *
+> + * Returns:
+> + * 0 on success or a negative error code on failure.
+> + */
+> +int drm_mode_create_tv_properties(struct drm_device *dev,
+> +				  unsigned int supported_tv_modes)
+> +{
+> +	struct drm_prop_enum_list tv_mode_list[DRM_MODE_TV_MODE_MAX];
+> +	struct drm_property *tv_mode;
+> +	unsigned int i, len = 0;
+> +
+> +	if (dev->mode_config.tv_mode_property)
+> +		return 0;
+> +
+> +	for (i = 0; i < DRM_MODE_TV_MODE_MAX; i++) {
+> +		if (!(supported_tv_modes & BIT(i)))
+> +			continue;
+> +
+> +		tv_mode_list[len].type = i;
+> +		tv_mode_list[len].name = drm_get_tv_mode_name(i);
+> +		len++;
+> +	}
+> +
+> +	tv_mode = drm_property_create_enum(dev, 0, "TV mode",
+> +					   tv_mode_list, len);
+> +	if (!tv_mode)
+> +		return -ENOMEM;
+> +
+> +	dev->mode_config.tv_mode_property = tv_mode;
+> +
+> +	return drm_mode_create_tv_properties_legacy(dev, 0, NULL);
+> +}
+> +EXPORT_SYMBOL(drm_mode_create_tv_properties);
+> +
+>  /**
+>   * drm_mode_create_scaling_mode_property - create scaling mode property
+>   * @dev: DRM device
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index 15cb58117a94..4927dcb2573f 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -143,6 +143,65 @@ enum subpixel_order {
+>  
+>  };
+>  
+> +/**
+> + * enum drm_connector_tv_mode - Analog TV output mode
+> + *
+> + * This enum is used to indicate the TV output mode used on an analog TV
+> + * connector.
+> + *
+> + * WARNING: The values of this enum is uABI since they're exposed in the
+> + * "TV mode" connector property.
+> + */
+> +enum drm_connector_tv_mode {
+> +	/**
+> +	 * @DRM_MODE_TV_MODE_NTSC: CCIR System M (aka 525-lines)
+> +	 * together with the NTSC Color Encoding.
+> +	 */
+> +	DRM_MODE_TV_MODE_NTSC,
+> +
+> +	/**
+> +	 * @DRM_MODE_TV_MODE_NTSC_443: Variant of
+> +	 * @DRM_MODE_TV_MODE_NTSC. Uses a color subcarrier frequency
+> +	 * of 4.43 MHz.
+> +	 */
+> +	DRM_MODE_TV_MODE_NTSC_443,
+> +
+> +	/**
+> +	 * @DRM_MODE_TV_MODE_NTSC_J: Variant of @DRM_MODE_TV_MODE_NTSC
+> +	 * used in Japan. Uses a black level equals to the blanking
+> +	 * level.
+> +	 */
+> +	DRM_MODE_TV_MODE_NTSC_J,
+> +
+> +	/**
+> +	 * @DRM_MODE_TV_MODE_PAL: CCIR System B together with the PAL
+> +	 * color system.
+> +	 */
+> +	DRM_MODE_TV_MODE_PAL,
+> +
+> +	/**
+> +	 * @DRM_MODE_TV_MODE_PAL_M: CCIR System M (aka 525-lines)
+> +	 * together with the PAL color encoding
+> +	 */
+> +	DRM_MODE_TV_MODE_PAL_M,
+> +
+> +	/**
+> +	 * @DRM_MODE_TV_MODE_PAL_N: CCIR System N together with the PAL
+> +	 * color encoding. It uses 625 lines, but has a color subcarrier
+> +	 * frequency of 3.58MHz, the SECAM color space, and narrower
+> +	 * channels compared to most of the other PAL variants.
+> +	 */
+> +	DRM_MODE_TV_MODE_PAL_N,
+> +
+> +	/**
+> +	 * @DRM_MODE_TV_MODE_SECAM: CCIR System B together with the
+> +	 * SECAM color system.
+> +	 */
+> +	DRM_MODE_TV_MODE_SECAM,
+> +
+> +	DRM_MODE_TV_MODE_MAX,
+> +};
+> +
+>  /**
+>   * struct drm_scrambling: sink's scrambling support.
+>   */
+> @@ -696,6 +755,7 @@ struct drm_connector_tv_margins {
+>   * @subconnector: detected subconnector
+>   * @margins: TV margins
+>   * @legacy_mode: Legacy TV mode, driver specific value
+> + * @mode: TV mode
+>   * @brightness: brightness in percent
+>   * @contrast: contrast in percent
+>   * @flicker_reduction: flicker reduction in percent
+> @@ -708,6 +768,7 @@ struct drm_tv_connector_state {
+>  	enum drm_mode_subconnector subconnector;
+>  	struct drm_connector_tv_margins margins;
+>  	unsigned int legacy_mode;
+> +	unsigned int mode;
+>  	unsigned int brightness;
+>  	unsigned int contrast;
+>  	unsigned int flicker_reduction;
+> @@ -1804,6 +1865,7 @@ const char *drm_get_subpixel_order_name(enum subpixel_order order);
+>  const char *drm_get_dpms_name(int val);
+>  const char *drm_get_dvi_i_subconnector_name(int val);
+>  const char *drm_get_dvi_i_select_name(int val);
+> +const char *drm_get_tv_mode_name(int val);
+>  const char *drm_get_tv_subconnector_name(int val);
+>  const char *drm_get_tv_select_name(int val);
+>  const char *drm_get_dp_subconnector_name(int val);
+> @@ -1817,6 +1879,8 @@ int drm_mode_create_tv_margin_properties(struct drm_device *dev);
+>  int drm_mode_create_tv_properties_legacy(struct drm_device *dev,
+>  					 unsigned int num_modes,
+>  					 const char * const modes[]);
+> +int drm_mode_create_tv_properties(struct drm_device *dev,
+> +				  unsigned int supported_tv_modes);
+>  void drm_connector_attach_tv_margin_properties(struct drm_connector *conn);
+>  int drm_mode_create_scaling_mode_property(struct drm_device *dev);
+>  int drm_connector_attach_content_type_property(struct drm_connector *dev);
+> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+> index c47b29e80108..e5b053001d22 100644
+> --- a/include/drm/drm_mode_config.h
+> +++ b/include/drm/drm_mode_config.h
+> @@ -716,9 +716,17 @@ struct drm_mode_config {
+>  	/**
+>  	 * @legacy_tv_mode_property: Optional TV property to select
+>  	 * the output TV mode.
+> +	 *
+> +	 * Superseded by @tv_mode_property
+>  	 */
+>  	struct drm_property *legacy_tv_mode_property;
+>  
+> +	/**
+> +	 * @tv_mode_property: Optional TV property to select the TV
+> +	 * standard output on the connector.
+> +	 */
+> +	struct drm_property *tv_mode_property;
+> +
+>  	/**
+>  	 * @tv_left_margin_property: Optional TV property to set the left
+>  	 * margin (expressed in pixels).
+> 
