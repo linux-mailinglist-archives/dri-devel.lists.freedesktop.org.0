@@ -2,38 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CAE662E2E0
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 18:20:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FC9962E2A5
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 18:13:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82E0110E64D;
-	Thu, 17 Nov 2022 17:20:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87FEF10E19F;
+	Thu, 17 Nov 2022 17:12:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64E5910E64D;
- Thu, 17 Nov 2022 17:20:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:In-Reply-To:References;
- bh=smL2Rmie4NiQV8CZsOPNkcR6M+ljD18RGFuWqIoGNYg=; b=h/G6IEwklW9pY5On6uKrLDOWJs
- Sxa8FqSCOBfPrIyBSn/0sK8oO552McbCLO0z/zNalJFABZ/hnVF8c+o/iYfVt7pPXQx7I9NmFmQhO
- 698RdHcYytKebOyYTMIfQRjlGM8jRyYnWxm4bRJiCl/tN+e0kGdkXsVsLETlPEucmrDUhEu4W46r4
- BHDnu0wFMKbAsyw8A3EKfWjAyevpojxce1qbyUHJRV7iM2DXN8o82jdgBuPyvBeIEQNeol9QYfkjV
- WqUhSWs/+f9s5eyZ7Nz0xSktH2MKG6FBv4oygJdnLm6bnmd5B3YLWfScMUHmRsjE4v7c7p+lSCxXl
- dpiBIhfQ==;
-Received: from [2601:1c2:d80:3110::a2e7] (helo=casper.infradead.org)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1oviYm-001FKW-Gy; Thu, 17 Nov 2022 17:20:21 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH -next] drm/amd/display: fix kernel-doc issues in dc.h
-Date: Thu, 17 Nov 2022 09:20:09 -0800
-Message-Id: <20221117172009.28207-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.38.1
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
+ [IPv6:2607:f8b0:4864:20::102f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FDBC10E19F
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 17:12:54 +0000 (UTC)
+Received: by mail-pj1-x102f.google.com with SMTP id
+ k2-20020a17090a4c8200b002187cce2f92so782103pjh.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 09:12:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=1R822jcgCiPh3CxEI4LZqZZ6f8Tc9V1v0R26xcOw7ZM=;
+ b=KDavSi0mdYdPpqiYNYkyB6ALcKpDiqvA6qoBp6uo6WPci0B62WhYU+tEdx9RvVST13
+ nElxU5sXpxk3vxdRv+MV45hsoF0ryXbvYsAViuobUqZoG9JbGFahBbsKCrbMj5XI9nC5
+ FJGIZdApp0fONaw//XhTp7kkKzXF8Y5TisIVs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1R822jcgCiPh3CxEI4LZqZZ6f8Tc9V1v0R26xcOw7ZM=;
+ b=05FcO8QXQZpR0qmsnhqqk/w7d7f919xcsyY2hbZ7JpTWTISES6r3wEB2AxmJ433U+b
+ G19MMh6C1OiRB0fbX94FTiyuvmqmLqE3PuIcuyubjhthT+7DdcHEzepT9RIrP8U7CiuK
+ ww1LUOaT7CnEhrsWsHL48LH3G0NJNuYKINI+6MggHzxAkvZibR45WJH5og5yGCrJeIgF
+ e/pISAAsQN9XaWRGvpqb+CIMi71JiPN3EGRLsNdh7X9k4T+QoqS34RwL5TgymVZvk/O/
+ GffKSNbFwqgGNVUVZoDM+2QiaEwQsnIuNxmCSDSm0Evzdn0eg4dmNML0Zii9qpPrCmIs
+ NXKg==
+X-Gm-Message-State: ANoB5pnZePP2AfKijFqXGAAx4Ms70kN1chQszQFA6LhjokPlAZcCNb0/
+ 8dW2pIceruNCmnOBComQeXcMNhCZfvohw+PIGS8dhA==
+X-Google-Smtp-Source: AA0mqf4Sr75qf5iJL/dTTs3yLXtqkRa5F/ANwcf6gxNnYDL3LMROj1R4pCZt6TEyz7OGaduAq6Tj4R9nhmFejgKpai4=
+X-Received: by 2002:a17:90a:5317:b0:213:34f7:fb14 with SMTP id
+ x23-20020a17090a531700b0021334f7fb14mr9449761pjh.25.1668705173302; Thu, 17
+ Nov 2022 09:12:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20221117110804.1431024-1-hsinyi@chromium.org>
+ <CAD=FV=VEC=GzkDfaOqauBB5Y79teS1ENA5wFUHZmnTRkg6Z4tg@mail.gmail.com>
+In-Reply-To: <CAD=FV=VEC=GzkDfaOqauBB5Y79teS1ENA5wFUHZmnTRkg6Z4tg@mail.gmail.com>
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+Date: Fri, 18 Nov 2022 01:20:19 +0800
+Message-ID: <CAJMQK-gQj83N1MBu1s+_YDJ4qbqN4McSqCnOwWAq4iaNXo5Sfg@mail.gmail.com>
+Subject: Re: [PATCH v6 1/3] drm_bridge: register content protect property
+To: Doug Anderson <dianders@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,72 +63,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, Randy Dunlap <rdunlap@infradead.org>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Allen Chen <allen.chen@ite.com.tw>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Sean Paul <seanpaul@chromium.org>, Robert Foss <robert.foss@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix these kernel-doc complaints:
+On Thu, Nov 17, 2022 at 11:57 PM Doug Anderson <dianders@chromium.org> wrote:
+>
+> Hi,
+>
+> On Thu, Nov 17, 2022 at 3:08 AM Hsin-Yi Wang <hsinyi@chromium.org> wrote:
+> >
+> > Some bridges are able to update HDCP status from userspace request if
+> > they support HDCP.
+> >
+> > HDCP property is the same as other connector properties that needs to be
+> > created after the connecter is initialized and before the connector is
+> > registered.
+> >
+> > If there exists a bridge that supports HDCP, add the property to the
+> > bridge connector.
+> >
+> > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> > Reviewed-by: Sean Paul <seanpaul@chromium.org>
+> > Reported-by: kernel test robot <lkp@intel.com>
+>
+> Not sure it's worth spinning for, but FWIW I wouldn't put
+> "Reported-by: kernel test robot <lkp@intel.com>". The emails from that
+> bot are always a bit confusing in this regards, but I think they mean
+> "if the patch has already landed and you're sending a separate patch
+> with a fix then please add the "Reported-by" tag". ...but adding it to
+> the original patch just doesn't make a lot of sense.
 
-drivers/gpu/drm/amd/display/dc/dc.h:505: warning: cannot understand function prototype: 'struct dc_clocks '
-dc.h:472: warning: Enum value 'MPC_SPLIT_AVOID' not described in enum 'pipe_split_policy'
-dc.h:472: warning: Enum value 'MPC_SPLIT_AVOID_MULT_DISP' not described in enum 'pipe_split_policy'
-dc.h:532: warning: Incorrect use of kernel-doc format:          * @fw_based_mclk_switching
-
-Fixes: ea76895ffab1 ("drm/amd/display: Document pipe split policy")
-Fixes: 1682bd1a6b5f ("drm/amd/display: Expand kernel doc for DC")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Harry Wentland <harry.wentland@amd.com>
-Cc: Leo Li <sunpeng.li@amd.com>
-Cc: amd-gfx@lists.freedesktop.org
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
----
- drivers/gpu/drm/amd/display/dc/dc.h |   12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff -- a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/display/dc/dc.h
---- a/drivers/gpu/drm/amd/display/dc/dc.h
-+++ b/drivers/gpu/drm/amd/display/dc/dc.h
-@@ -458,15 +458,15 @@ enum pipe_split_policy {
- 	MPC_SPLIT_DYNAMIC = 0,
- 
- 	/**
--	 * @MPC_SPLIT_DYNAMIC: Avoid pipe split, which means that DC will not
-+	 * @MPC_SPLIT_AVOID: Avoid pipe split, which means that DC will not
- 	 * try any sort of split optimization.
- 	 */
- 	MPC_SPLIT_AVOID = 1,
- 
- 	/**
--	 * @MPC_SPLIT_DYNAMIC: With this option, DC will only try to optimize
--	 * the pipe utilization when using a single display; if the user
--	 * connects to a second display, DC will avoid pipe split.
-+	 * @MPC_SPLIT_AVOID_MULT_DISP: With this option, DC will only try to
-+	 * optimize the pipe utilization when using a single display; if the
-+	 * user connects to a second display, DC will avoid pipe split.
- 	 */
- 	MPC_SPLIT_AVOID_MULT_DISP = 2,
- };
-@@ -497,7 +497,7 @@ enum dcn_zstate_support_state {
- };
- 
- /**
-- * dc_clocks - DC pipe clocks
-+ * struct dc_clocks - DC pipe clocks
-  *
-  * For any clocks that may differ per pipe only the max is stored in this
-  * structure
-@@ -528,7 +528,7 @@ struct dc_clocks {
- 	bool fclk_prev_p_state_change_support;
- 	int num_ways;
- 
--	/**
-+	/*
- 	 * @fw_based_mclk_switching
- 	 *
- 	 * DC has a mechanism that leverage the variable refresh rate to switch
+Got it, thanks. I think I'll wait for a while to see if there's other
+comments. Otherwise should I send another version to remove the tag?
