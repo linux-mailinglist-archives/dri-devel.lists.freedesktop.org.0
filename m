@@ -1,36 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4332462D3C9
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 08:07:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0582862D417
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 08:30:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA51F10E556;
-	Thu, 17 Nov 2022 07:07:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD53B10E557;
+	Thu, 17 Nov 2022 07:29:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-44.freemail.mail.aliyun.com
- (out30-44.freemail.mail.aliyun.com [115.124.30.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0A6110E550;
- Thu, 17 Nov 2022 07:07:18 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R111e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046049;
- MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=10; SR=0;
- TI=SMTPD_---0VV-tMJ4_1668668827; 
-Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
- fp:SMTPD_---0VV-tMJ4_1668668827) by smtp.aliyun-inc.com;
- Thu, 17 Nov 2022 15:07:12 +0800
-From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To: alexander.deucher@amd.com
-Subject: [PATCH 2/2] drm/amd/display: Remove set but unused variable cursor_bpp
-Date: Thu, 17 Nov 2022 15:06:55 +0800
-Message-Id: <20221117070655.52749-2-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
-In-Reply-To: <20221117070655.52749-1-jiapeng.chong@linux.alibaba.com>
-References: <20221117070655.52749-1-jiapeng.chong@linux.alibaba.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCD2810E54E
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 07:11:52 +0000 (UTC)
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mxhk.zte.com.cn (FangMail) with ESMTPS id 4NCWLb29t0z5BNS0;
+ Thu, 17 Nov 2022 15:11:51 +0800 (CST)
+Received: from xaxapp01.zte.com.cn ([10.88.40.50])
+ by mse-fl2.zte.com.cn with SMTP id 2AH7BV7m075328;
+ Thu, 17 Nov 2022 15:11:31 +0800 (+08)
+ (envelope-from ye.xingchen@zte.com.cn)
+Received: from mapi (xaxapp01[null]) by mapi (Zmail) with MAPI id mid31;
+ Thu, 17 Nov 2022 15:11:33 +0800 (CST)
+Date: Thu, 17 Nov 2022 15:11:33 +0800 (CST)
+X-Zmail-TransId: 2af96375dea56961b9ff
+X-Mailer: Zmail v1.0
+Message-ID: <202211171511333735699@zte.com.cn>
+Mime-Version: 1.0
+From: <ye.xingchen@zte.com.cn>
+To: <p.zabel@pengutronix.de>
+Subject: =?UTF-8?B?W1BBVENIIGxpbnV4LW5leHRdIGRybS9pbXg6IFVzZSBkZXZpY2VfbWF0Y2hfb2Zfbm9kZSgp?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL: mse-fl2.zte.com.cn 2AH7BV7m075328
+X-Fangmail-Gw-Spam-Type: 0
+X-FangMail-Miltered: at cgslv5.04-192.168.250.138.novalocal with ID
+ 6375DEB7.000 by FangMail milter!
+X-FangMail-Envelope: 1668669111/4NCWLb29t0z5BNS0/6375DEB7.000/10.5.228.133/[10.5.228.133]/mse-fl2.zte.com.cn/<ye.xingchen@zte.com.cn>
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 6375DEB7.000/4NCWLb29t0z5BNS0
+X-Mailman-Approved-At: Thu, 17 Nov 2022 07:29:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,56 +53,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, Xinhui.Pan@amd.com,
- Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- christian.koenig@amd.com
+Cc: s.hauer@pengutronix.de, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-imx@nxp.com, kernel@pengutronix.de,
+ shawnguo@kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Variable cursor_bpp is not effectively used in the function, so delete it.
+From: ye xingchen <ye.xingchen@zte.com.cn>
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_hwseq.c:217:10: warning: variable ‘cursor_bpp’ set but not used.
+Replace the open-code with device_match_of_node().
 
-Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=3120
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
 ---
- drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c | 4 ----
- 1 file changed, 4 deletions(-)
+ drivers/gpu/drm/imx/imx-drm-core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c
-index 763311ffb967..311be35de315 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c
-@@ -214,7 +214,6 @@ static uint32_t dcn32_calculate_cab_allocation(struct dc *dc, struct dc_state *c
- 	uint32_t lines_per_way = 0;
- 	uint8_t num_ways = 0;
- 	uint8_t bytes_per_pixel = 0;
--	uint8_t cursor_bpp = 0;
- 	uint16_t mblk_width = 0;
- 	uint16_t mblk_height = 0;
- 	uint16_t mall_alloc_width_blk_aligned = 0;
-@@ -288,19 +287,16 @@ static uint32_t dcn32_calculate_cab_allocation(struct dc *dc, struct dc_state *c
- 				switch (pipe->stream->cursor_attributes.color_format) {
- 				case CURSOR_MODE_MONO:
- 					cursor_size /= 2;
--					cursor_bpp = 4;
- 					break;
- 				case CURSOR_MODE_COLOR_1BIT_AND:
- 				case CURSOR_MODE_COLOR_PRE_MULTIPLIED_ALPHA:
- 				case CURSOR_MODE_COLOR_UN_PRE_MULTIPLIED_ALPHA:
- 					cursor_size *= 4;
--					cursor_bpp = 4;
- 					break;
- 
- 				case CURSOR_MODE_COLOR_64BIT_FP_PRE_MULTIPLIED:
- 				case CURSOR_MODE_COLOR_64BIT_FP_UN_PRE_MULTIPLIED:
- 					cursor_size *= 8;
--					cursor_bpp = 8;
- 					break;
- 				}
- 
+diff --git a/drivers/gpu/drm/imx/imx-drm-core.c b/drivers/gpu/drm/imx/imx-drm-core.c
+index e060fa6cbcb9..2e4f5af894b0 100644
+--- a/drivers/gpu/drm/imx/imx-drm-core.c
++++ b/drivers/gpu/drm/imx/imx-drm-core.c
+@@ -182,7 +182,7 @@ static int compare_of(struct device *dev, void *data)
+ 	if (strcmp(dev->driver->name, "imx-ipuv3-crtc") == 0) {
+ 		struct ipu_client_platformdata *pdata = dev->platform_data;
+
+-		return pdata->of_node == np;
++		return device_match_of_node(pdata, np);
+ 	}
+
+ 	/* Special case for LDB, one device for two channels */
+@@ -191,7 +191,7 @@ static int compare_of(struct device *dev, void *data)
+ 		of_node_put(np);
+ 	}
+
+-	return dev->of_node == np;
++	return device_match_of_node(dev, np);
+ }
+
+ static int imx_drm_bind(struct device *dev)
 -- 
-2.20.1.7.g153144c
-
+2.25.1
