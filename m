@@ -2,75 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF1A262D219
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 05:04:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D056762D270
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 05:58:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C4C710E14F;
-	Thu, 17 Nov 2022 04:04:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6307710E1C6;
+	Thu, 17 Nov 2022 04:58:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7706F10E14F;
- Thu, 17 Nov 2022 04:04:33 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2AH1HuMR002667; Thu, 17 Nov 2022 04:04:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=a++KL7xdar/RCqLS/mDi5J1eJ4XJgWkYEqifd2iF3Rw=;
- b=NmdNbQnOvxXy3CB8NNyBGLW1Dk62cVu40WGRTeYR9vNW9j/pSBffkdNGvkNee5sQO2eP
- R2AF50BYGuR3fyrywsG0ZIx6tqvW/LGnzOJz5Qjh3wViDO/jq786m9h8S07PCewmMvGP
- 1axFkvF94fIPgYBd6iakzRnRxMnSEvRG46vbsk+BGIojg+tpJN6iye7dtM2eSqctjPAj
- xnAwqf57IGW32UetcbcJQq/qvJNx+w3rR27h6z/DERbSavZWFUkA2m9EQ6UGTFgEck3d
- yx02RhKbSzcFCec3E+HSFcOpclTdNST/QM6kvhMVy4XGW2JVVl2QCCi/yLOrOkg4/utt Tw== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kw94q0sk9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Nov 2022 04:04:25 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2AH44O6j020231
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Nov 2022 04:04:24 GMT
-Received: from [10.216.25.63] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Wed, 16 Nov
- 2022 20:04:19 -0800
-Message-ID: <a6e0e71a-c696-57e0-7829-6511578a453b@quicinc.com>
-Date: Wed, 16 Nov 2022 20:04:16 -0800
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5DB810E1C6
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 04:58:13 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id DF00B851C0;
+ Thu, 17 Nov 2022 05:58:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1668661091;
+ bh=H75EdlqcmUQ++use3EJrvAxburWA1YNFKBN6VdzLs40=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=oY3SaVFCj7rrR8HBaKH/bz7jQ1FT5fF6hPm0rsNm4A8TSTtBGTCf85SL0eaQoeWeL
+ o5blLz5/yLhw8wW7mSo51epgCuFi/sDc7bvqQC1D8NIZWwtYHuVFYLgtq5Hti0Yz6I
+ 45Tc21agQDdO3AEMkJuDcWSZNnCkrUJJz14fKq+kgns0yfslVi9XLmWEGPwwVBL5MC
+ R0ACna4JDbnyNNjtvja6GXagq/9zdFqOINbBNjhB3kQ7wDwHG9ElaCsP+5LrAf1wqK
+ P/6phoZ95aonXCdaKAT3fxXvaQaTSfRtATYpZycQTVbk2J8WGmqmi/pry5NS0YQc4i
+ TJGPZ5bU2mjig==
+Message-ID: <04fb17e2-1b55-fbd9-d846-da3e3da4edb8@denx.de>
+Date: Thu, 17 Nov 2022 05:58:09 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH] drm/msm/hdmi: remove unnecessary NULL check
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH v8 06/14] drm: bridge: samsung-dsim: Handle proper DSI
+ host initialization
+To: Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Fancy Fang <chen.fang@nxp.com>, Tim Harvey <tharvey@gateworks.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Adam Ford <aford173@gmail.com>, Neil Armstrong <narmstrong@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+References: <20221110183853.3678209-1-jagan@amarulasolutions.com>
+ <20221110183853.3678209-7-jagan@amarulasolutions.com>
 Content-Language: en-US
-To: Dan Carpenter <error27@gmail.com>, Rob Clark <robdclark@gmail.com>,
- "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>
-References: <Y2o0TKZ5WRYnQXna@kili>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <Y2o0TKZ5WRYnQXna@kili>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <20221110183853.3678209-7-jagan@amarulasolutions.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 53_u3boPsp7LYsw0zoLpVv2lKVRlYKA_
-X-Proofpoint-ORIG-GUID: 53_u3boPsp7LYsw0zoLpVv2lKVRlYKA_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-16_03,2022-11-16_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 suspectscore=0
- lowpriorityscore=0 mlxlogscore=999 bulkscore=0 clxscore=1011 spamscore=0
- priorityscore=1501 phishscore=0 malwarescore=0 impostorscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211170027
+X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,47 +69,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, linux-arm-msm@vger.kernel.org,
- Stephen Boyd <swboyd@chromium.org>, Johan Hovold <johan+linaro@kernel.org>
+Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
+ dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 11/15/2022 5:03 AM, Dan Carpenter wrote:
-> This code was refactored in commit 69a88d8633ec ("drm/msm/hdmi: move
-> resource allocation to probe function") and now the "hdmi" pointer can't
-> be NULL.  Checking causes a Smatch warning:
+On 11/10/22 19:38, Jagan Teki wrote:
+> DSI host initialization handling in previous exynos dsi driver has
+> some pitfalls. It initializes the host during host transfer() hook
+> that is indeed not the desired call flow for I2C and any other DSI
+> configured downstream bridges.
 > 
->      drivers/gpu/drm/msm/hdmi/hdmi.c:141 msm_hdmi_init()
->      warn: variable dereferenced before check 'hdmi' (see line 119)
+> Host transfer() is usually triggered for downstream DSI panels or
+> bridges and I2C-configured-DSI bridges miss these host initialization
+> as these downstream bridges use bridge operations hooks like pre_enable,
+> and enable in order to initialize or set up the host.
 > 
-> Signed-off-by: Dan Carpenter <error27@gmail.com>
-
-Can you please add the fixes tag to point to the commit you have 
-referenced in the commit message?
-
-LTGM,
-
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-
+> This patch is trying to handle the host init handler to satisfy all
+> downstream panels and bridges. Added the DSIM_STATE_REINITIALIZED state
+> flag to ensure that host init is also done on first cmd transfer, this
+> helps existing DSI panels work on exynos platform (form Marek
+> Szyprowski).
+> 
+> v8, v7, v6, v5:
+> * none
+> 
+> v4:
+> * update init handling to ensure host init done on first cmd transfer
+> 
+> v3:
+> * none
+> 
+> v2:
+> * check initialized state in samsung_dsim_init
+> 
+> v1:
+> * keep DSI init in host transfer
+> 
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 > ---
->   drivers/gpu/drm/msm/hdmi/hdmi.c | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
+>   drivers/gpu/drm/bridge/samsung-dsim.c | 25 +++++++++++++++++--------
+>   include/drm/bridge/samsung-dsim.h     |  5 +++--
+>   2 files changed, 20 insertions(+), 10 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
-> index 7001fabd0977..4d3fdc806bef 100644
-> --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
-> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
-> @@ -138,8 +138,7 @@ static int msm_hdmi_init(struct hdmi *hdmi)
->   	return 0;
->   
->   fail:
-> -	if (hdmi)
-> -		msm_hdmi_destroy(hdmi);
-> +	msm_hdmi_destroy(hdmi);
->   
->   	return ret;
+> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
+> index bb1f45fd5a88..ec7e01ae02ea 100644
+> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> @@ -1234,12 +1234,17 @@ static void samsung_dsim_disable_irq(struct samsung_dsim *dsi)
+>   	disable_irq(dsi->irq);
 >   }
+>   
+> -static int samsung_dsim_init(struct samsung_dsim *dsi)
+> +static int samsung_dsim_init(struct samsung_dsim *dsi, unsigned int flag)
+>   {
+>   	const struct samsung_dsim_driver_data *driver_data = dsi->driver_data;
+>   
+> +	if (dsi->state & flag)
+> +		return 0;
+> +
+>   	samsung_dsim_reset(dsi);
+> -	samsung_dsim_enable_irq(dsi);
+> +
+> +	if (!(dsi->state & DSIM_STATE_INITIALIZED))
+> +		samsung_dsim_enable_irq(dsi);
+>   
+>   	if (driver_data->reg_values[RESET_TYPE] == DSIM_FUNCRST)
+>   		samsung_dsim_enable_lane(dsi, BIT(dsi->lanes) - 1);
+> @@ -1250,6 +1255,8 @@ static int samsung_dsim_init(struct samsung_dsim *dsi)
+>   	samsung_dsim_set_phy_ctrl(dsi);
+>   	samsung_dsim_init_link(dsi);
+>   
+> +	dsi->state |= flag;
+> +
+>   	return 0;
+>   }
+>   
+> @@ -1269,6 +1276,10 @@ static void samsung_dsim_atomic_pre_enable(struct drm_bridge *bridge,
+>   	}
+>   
+>   	dsi->state |= DSIM_STATE_ENABLED;
+> +
+> +	ret = samsung_dsim_init(dsi, DSIM_STATE_INITIALIZED);
+> +	if (ret)
+> +		return;
+>   }
+>   
+>   static void samsung_dsim_atomic_enable(struct drm_bridge *bridge,
+> @@ -1458,12 +1469,9 @@ static ssize_t samsung_dsim_host_transfer(struct mipi_dsi_host *host,
+>   	if (!(dsi->state & DSIM_STATE_ENABLED))
+>   		return -EINVAL;
+>   
+> -	if (!(dsi->state & DSIM_STATE_INITIALIZED)) {
+> -		ret = samsung_dsim_init(dsi);
+> -		if (ret)
+> -			return ret;
+> -		dsi->state |= DSIM_STATE_INITIALIZED;
+> -	}
+> +	ret = samsung_dsim_init(dsi, DSIM_STATE_REINITIALIZED);
+
+This triggers full controller reset and reprogramming upon first command 
+transfer, is such heavy handed reload really necessary ?
