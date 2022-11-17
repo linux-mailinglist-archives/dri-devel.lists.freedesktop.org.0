@@ -1,78 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF86F62E2AA
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 18:14:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8DF762E2D9
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 18:19:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F407310E1C5;
-	Thu, 17 Nov 2022 17:14:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 315F710E64F;
+	Thu, 17 Nov 2022 17:19:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com
- [64.147.123.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9208110E1BB;
- Thu, 17 Nov 2022 17:14:10 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id 8DB7F2B06A50;
- Thu, 17 Nov 2022 12:14:04 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Thu, 17 Nov 2022 12:14:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1668705244; x=1668712444; bh=EPKM98yuI0
- FafDSpZ4oH9M/3CpWV+m3u8fcRxTeHRuU=; b=IKSCrjRehJXLLAheMi3x1nBBT6
- xv79+oCuXcYWNZ56lfkM1xLPxqSAtDNNT3XxpSJC6jHP7Vkok/cXYc/Q95YEBpG+
- ezh5FAEU/QFRRHMU7pCIMZWiaEuhO0x26gZVc/BGSuAHy5m4qU6aEWjP9OzWk5Cf
- 7y/V0+6av4McswO2nCTSoODDF+vOIcOUhzF9inIWGgUE2fphLHOeDM01YAIZHVuu
- 6op3/MJ3VV7BmT1MOYTIwx+Fbwwh/wYlU+bcv4kNzWVhRhtS1sqQ7QUSpdXtsDF3
- jygjVycsZPOEbUmO7CCsQXSFduE2nvV6WgRq+ZD9hm+mSroQWO84l6sQNe3A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1668705244; x=1668712444; bh=EPKM98yuI0FafDSpZ4oH9M/3CpWV
- +m3u8fcRxTeHRuU=; b=FJ0o9lSTMDJUUNFAeEUAJvhsA4JEtyf0agBRuNaZs/Ax
- /vKmYa1NT94ktikwdItSLaULxP0rJYkbgBubo/OPC2hiCxDNnIO6FtAxj+/ejJGS
- iKmzcK9bLoYUzLTB6c7XqPKkxdZbPF4H0feWwbfpJ0BWVbdQePGuBroxY9MueMih
- 7FT17Z+ie0MmgR4aTVQmXVHXO6zsdMFbjOYNE6tCp0e8Lbm1N/mKRHD2iGxx8Xcb
- IXPAvjwzB7KOyD9S/fDSePH03flvfPtPB7NrqZXeNUmupz+zQ9RaGmo2KcKRHvbT
- zwZ7vlVYZEzM0Z1UI08AtAbJrk2HLpqzUu9OF5IoOQ==
-X-ME-Sender: <xms:22t2Y7aq50whuiFoQkEUePGTIQQg6ZfqHjYpnO3ZncSCACAWCnOiMg>
- <xme:22t2Y6ZPwV0Q-ALL-9E4JiTTYPis500kQYlEddlLdZGekFPHa-FsXpXfxA25fJ3o2
- gwMU9kLZtOVoGM6TQg>
-X-ME-Received: <xmr:22t2Y99lRvGfydEV4TyGUQvS_xMgz5cYjOuHKny_YDGWhp55onjpyMcwIi6_VHCLq68SvWWLiZglAAmz18UhhoZIzXVeUJL6MkOpgZBxhvpz-Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgeekgdeljecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheehfffh
- vedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:22t2Yxom94qDjT-BzKQYtjOcEEJ5G_ZpbqblIPWD4ny5xSpnARo47w>
- <xmx:22t2Y2pZsh_WWZJSX9aXYTEk1HHwKH4A-o6rp_LoVNmwmGmnNPxxGA>
- <xmx:22t2Y3Tq45VHs9_ipPR4WzxHHa3NojkmAl11WzxKDRL27UL_x3KIdg>
- <xmx:3Gt2Y5CoJVgET8RSJmOoRJmYWzwp91a6JyV2_DM6wMLHtCwwG3cyUPBYqxc>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 17 Nov 2022 12:14:02 -0500 (EST)
-Date: Thu, 17 Nov 2022 18:14:01 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
-Subject: Re: [PATCH v10 18/19] drm/vc4: vec: Add support for more analog TV
- standards
-Message-ID: <20221117171401.3ogenv6g5nszufmm@houat>
-References: <20220728-rpi-analog-tv-properties-v10-0-256dad125326@cerno.tech>
- <20220728-rpi-analog-tv-properties-v10-18-256dad125326@cerno.tech>
- <20221117164928.200b3a1a@maurocar-mobl2>
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B2F210E64D
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 17:19:44 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id n21so6709154ejb.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 09:19:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=googlemail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=vQyLviGauL30ZeO1VGGTeRWRAcWIrY0ASAZn99FKrKk=;
+ b=fy3Tzc3SpdWc06CoKx7g1QwwPHkHOB52LAGG2x0xRXgBBRgB+lhzB4dijn+MMgvCeo
+ +5REjnoYlMAIGg9muDOehuGTyb3yMonp7FWDWMeDx+kccf8/GI9w7Gb37iOlCByty0Io
+ gAEBG+4wDRyCNpGARhe8IWVrC34XHmo8N2d/bzPgnmD/e573rG5YdA0eYNnJM9TNaP0J
+ 7TqYmvcQfO0ReBOxz+w820/rvEZB03wQ6CleZceh6xToQnloUYi5RF3I6CHeY/Y9q/ws
+ SCeMehGPWjpATVnss7nV36hcQp+q6iM8X81Uuqd8taY5/ezLJqtp5750TZJKQHOhUNAP
+ X7jA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vQyLviGauL30ZeO1VGGTeRWRAcWIrY0ASAZn99FKrKk=;
+ b=YrHoejqYBzazGtxIRjwHUc+YEvsrQqXbVnJFUwGHHj2+9QRbG5DIkwiT7lLA+p/A3m
+ C7AiO88ov+Da4Wh1GMf1z3ht8mOpilyjUesLl9BpSL5zR/aaZeyjKp2gOyAH1CrnM55s
+ husDfjoR5sk+uvWYgf1MA6BAMJKtFXo1lRR7HLpuSWtJJocBWKCqjEmLvUGJ1EDxTo/+
+ wHDqV5VLL+RqW/Gki3yj5ArQ03kvZgn1163MepcSuarJ8ZjCZYId7hsNCO9PJau07U6z
+ NDIxtRx0waP3561JzkivfmrUEGr0D/yO4JMfSRcJbfvfhR1DKzzMwDYfQJChP1+DzVf0
+ AWsQ==
+X-Gm-Message-State: ANoB5pmrPq5OeCDlRu+sZUk5B22nFnG8PsmZVZdJhJyS2lPPIterE2Pg
+ k1v2MHFOyQxAJnQpWXrbA2s=
+X-Google-Smtp-Source: AA0mqf5kyd7O9Z2bUni4KE4HeakSPUmYiLtDLsMAABeqNZzbxLcNduSMzaOOHwW1pVRI0s/KYpzEVQ==
+X-Received: by 2002:a17:906:1585:b0:7ad:84c7:502d with SMTP id
+ k5-20020a170906158500b007ad84c7502dmr2879660ejd.177.1668705582464; 
+ Thu, 17 Nov 2022 09:19:42 -0800 (PST)
+Received: from localhost.localdomain (user-5-173-65-115.play-internet.pl.
+ [5.173.65.115]) by smtp.googlemail.com with ESMTPSA id
+ h5-20020a0564020e8500b00458a03203b1sm777561eda.31.2022.11.17.09.19.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Nov 2022 09:19:42 -0800 (PST)
+From: Lukasz Wiecaszek <lukasz.wiecaszek@googlemail.com>
+X-Google-Original-From: Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH v5] udmabuf: add vmap and vunmap methods to udmabuf_ops
+Date: Thu, 17 Nov 2022 18:18:09 +0100
+Message-Id: <20221117171810.75637-1-lukasz.wiecaszek@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="cz56iqciiap5nisp"
-Content-Disposition: inline
-In-Reply-To: <20221117164928.200b3a1a@maurocar-mobl2>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,89 +71,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Phil Elwell <phil@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
- Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
- linux-sunxi@lists.linux.dev, intel-gfx@lists.freedesktop.org,
- Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- linux-arm-kernel@lists.infradead.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
+ Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The reason behind that patch is associated with videobuf2 subsystem
+(or more genrally with v4l2 framework) and user created
+dma buffers (udmabuf). In some circumstances
+when dealing with V4L2_MEMORY_DMABUF buffers videobuf2 subsystem
+wants to use dma_buf_vmap() method on the attached dma buffer.
+As udmabuf does not have .vmap operation implemented,
+such dma_buf_vmap() natually fails.
 
---cz56iqciiap5nisp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+videobuf2_common: __vb2_queue_alloc: allocated 3 buffers, 1 plane(s) each
+videobuf2_common: __prepare_dmabuf: buffer for plane 0 changed
+videobuf2_common: __prepare_dmabuf: failed to map dmabuf for plane 0
+videobuf2_common: __buf_prepare: buffer preparation failed: -14
 
-On Thu, Nov 17, 2022 at 04:49:28PM +0100, Mauro Carvalho Chehab wrote:
-> On Thu, 17 Nov 2022 10:29:01 +0100
-> Maxime Ripard <maxime@cerno.tech> wrote:
->=20
-> > From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
-> >=20
-> > Add support for the following composite output modes (all of them are
-> > somewhat more obscure than the previously defined ones):
-> >=20
-> > - NTSC_443 - NTSC-style signal with the chroma subcarrier shifted to
-> >   4.43361875 MHz (the PAL subcarrier frequency). Never used for
-> >   broadcasting, but sometimes used as a hack to play NTSC content in PAL
-> >   regions (e.g. on VCRs).
->=20
-> > - PAL_N - PAL with alternative chroma subcarrier frequency,
-> >   3.58205625 MHz. Used as a broadcast standard in Argentina, Paraguay
-> >   and Uruguay to fit 576i50 with colour in 6 MHz channel raster.
->=20
-> That's not right. Argentina uses a different standard than Paraguay and
-> Uruguai.
->=20
-> See, there are two variants of PAL/N. The original one and PAL/N' - also
-> called PAL/NC or PAL/CN (Combination N). Some of the timings are=20
-> different on /NC variant.
->=20
-> As far as I'm aware, PAL/Nc is used in Argentina, while
-> PAL/N is used in Paraguai and Uruguai, but I may be wrong on that,
-> as it has been a long time since had to touch on this.
->=20
-> > - PAL60 - 480i60 signal with PAL-style color at normal European PAL
-> >   frequency. Another non-standard, non-broadcast mode, used in similar
-> >   contexts as NTSC_443. Some displays support one but not the other.
->=20
-> > - SECAM - French frequency-modulated analog color standard; also have
-> >   been broadcast in Eastern Europe and various parts of Africa and Asia.
-> >   Uses the same 576i50 timings as PAL.
->=20
-> This is also wrong. just like PAL, there are several variants of SECAM,
-> one used in France, and a different one in France overseas and on
-> previous France colonies in Africa and Asia. Eastern Europe also used
-> different variants of SECAM.
+The patch itself seems to be strighforward.
+It adds implementation of .vmap and .vunmap methods
+to 'struct dma_buf_ops udmabuf_ops'.
+.vmap method itself uses vm_map_ram() to map pages linearly
+into the kernel virtual address space.
+.vunmap removes mapping created earlier by .vmap.
+All locking and 'vmapping counting' is done in dma_buf.c
+so it seems to be redundant/unnecessary in .vmap/.vunmap.
 
-And that's fine? Everything I did is supposed to be easy to extend if
-and when needed, so if someone has some interest in providing support
-for more standards, they are very welcome to do so.
+Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Acked-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>
+---
+v1: https://lore.kernel.org/linux-media/202211120352.G7WPASoP-lkp@intel.com/T/#t
+v2: https://lore.kernel.org/linux-media/20221114052944.GA7264@thinkpad-p72/T/#t
+v3: https://lore.kernel.org/linux-media/4f92e95f-a0dc-4eac-4c08-0df85de78ae7@collabora.com/T/#t
+v4: https://lore.kernel.org/linux-media/970e798d-ea26-5e1e-ace8-7915a866f7c7@collabora.com/T/#t
 
-I won't do it in this series though.
+v4 -> v5: Added Acked-by and Reviewed-by to the commit message
+v3 -> v4: Removed line/info 'reported by kernel test robot'
+v2 -> v3: Added .vunmap to 'struct dma_buf_ops udmabuf_ops'
+v1 -> v2: Patch prepared and tested against 6.1.0-rc2+
 
-Maxime
+ drivers/dma-buf/udmabuf.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
---cz56iqciiap5nisp
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+index 283816fbd72f..740d6e426ee9 100644
+--- a/drivers/dma-buf/udmabuf.c
++++ b/drivers/dma-buf/udmabuf.c
+@@ -13,6 +13,8 @@
+ #include <linux/slab.h>
+ #include <linux/udmabuf.h>
+ #include <linux/hugetlb.h>
++#include <linux/vmalloc.h>
++#include <linux/iosys-map.h>
+ 
+ static int list_limit = 1024;
+ module_param(list_limit, int, 0644);
+@@ -60,6 +62,30 @@ static int mmap_udmabuf(struct dma_buf *buf, struct vm_area_struct *vma)
+ 	return 0;
+ }
+ 
++static int vmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
++{
++	struct udmabuf *ubuf = buf->priv;
++	void *vaddr;
++
++	dma_resv_assert_held(buf->resv);
++
++	vaddr = vm_map_ram(ubuf->pages, ubuf->pagecount, -1);
++	if (!vaddr)
++		return -EINVAL;
++
++	iosys_map_set_vaddr(map, vaddr);
++	return 0;
++}
++
++static void vunmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
++{
++	struct udmabuf *ubuf = buf->priv;
++
++	dma_resv_assert_held(buf->resv);
++
++	vm_unmap_ram(map->vaddr, ubuf->pagecount);
++}
++
+ static struct sg_table *get_sg_table(struct device *dev, struct dma_buf *buf,
+ 				     enum dma_data_direction direction)
+ {
+@@ -162,6 +188,8 @@ static const struct dma_buf_ops udmabuf_ops = {
+ 	.unmap_dma_buf	   = unmap_udmabuf,
+ 	.release	   = release_udmabuf,
+ 	.mmap		   = mmap_udmabuf,
++	.vmap		   = vmap_udmabuf,
++	.vunmap		   = vunmap_udmabuf,
+ 	.begin_cpu_access  = begin_cpu_udmabuf,
+ 	.end_cpu_access    = end_cpu_udmabuf,
+ };
+-- 
+2.25.1
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY3Zr2QAKCRDj7w1vZxhR
-xQY3AQC3ODU/A4r/xCJ5Ms7gOYpWhJaSGlaY+jf/qgMPcMmMhAD/VJCODvzEFvlF
-AuxhxZDFClQh1TusZBNOY31fQyzDIAU=
-=f8ne
------END PGP SIGNATURE-----
-
---cz56iqciiap5nisp--
