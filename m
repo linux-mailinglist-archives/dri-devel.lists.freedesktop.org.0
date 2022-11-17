@@ -1,78 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B00B62EA5C
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 01:33:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 729A862E970
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 00:19:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2658410E6CD;
-	Fri, 18 Nov 2022 00:33:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB66C10E6C0;
+	Thu, 17 Nov 2022 23:19:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF3C510E5FE
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 14:05:37 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id m22so5226967eji.10
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 06:05:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:sender:from:to:cc:subject:date:message-id:reply-to;
- bh=u6c8fBhfPadc8cu0krt5hkpFlG+n4LiTHELzXtnJeR0=;
- b=kRWk6QWNDibLsq2IbAq4If83VQOALIw5xVilUxzS34YjdBCn7F+w2xkgVRLq4DO8+a
- gl/cLqQwm82EwHWDNLqBb9Cb7Zjp2+vupdMC1ZTlnWkihuQvDxEJKOy4eZ/cOyxNeyKD
- +9UXTCAtdAmLJqFMDSJnuBPI0b0xWVcZgHHirImwxGi/qjI0KePyp0M0haL1sXq0foNI
- w9Sa7cxtJUcHNMDDEz9Qeh9mJSzl41jSdavSrS0/5TwFXa5fup2kLpgjuWLykR+bMlNF
- AsqAAbdc814rG+tIBgkci99DXVfF5Xp0yEDnMptkcAxJ2eUbN8CZBufVcpCzNahfjvV5
- 2tIg==
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com
+ [IPv6:2607:f8b0:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B29EA10E6BF
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 23:19:25 +0000 (UTC)
+Received: by mail-pf1-x431.google.com with SMTP id z26so3269011pff.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 15:19:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=SBG7oyaijsCs+AkyB480R7surFEt7JkA2k2VbS/kZYQ=;
+ b=JchDDL5/DOlP6j9lUMlspTqgaFV4s9nwIJAsn96fhlHO8vmv5OjKer7ndNaH2Cz7xY
+ angRwTwMUaQhTZSFCg5SSReYBynCN5+lVd/BZbbmZmTbg32Qo/D4UYmdS5qJQ4EuCLtb
+ LRcO4Rhcd6sxfjWlyGEHMkaxsvRbTcjQPJJxg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:sender:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=u6c8fBhfPadc8cu0krt5hkpFlG+n4LiTHELzXtnJeR0=;
- b=vaVGY9kPpPiRMXMt6vKiUGCmfQXCF6g8jCHJ2s4Q+YFhT4Yco8k5QtvLjEsc17n2VH
- uLGf7kSldw7JxvUtL72dJgUSAGVOsqtWVLMAbtNzTRg7WAzujRCnw7InZUMvEt6Kk7KE
- Jz1SjTuQwDAIrYOSJTW/cgCn7eGsOM8KTIc7lCNh+Dt9QqdvJiRdAph7p2JnjQ77qA8f
- Dv336PsUJQlsailmsyUan4/wx32wDi1+UDUrfZgjDcB6ayqgQJ/oCPw08vnSm1sl8ksJ
- J7dqaFILgOa6kQw+AY0O9SXtaVRdCr7SN7556vjBDDsjAnrd94h5HU9dEXDp061K7E38
- rtrg==
-X-Gm-Message-State: ANoB5plKYRwnZVfx3aGqSc4MTq72vyzWY25ioXRQZR/fswc5Y+ooEWMb
- 7MUKAwnYQFjZrRmUcSovF3s=
-X-Google-Smtp-Source: AA0mqf5eoLeMemC/Xj2W2AaH0lSZZn6rPS8GtVUMR7f1tz2ZshG8CzKSuB65mlB+x22wpyvJ69fmMA==
-X-Received: by 2002:a17:906:698f:b0:78d:93b1:b3ba with SMTP id
- i15-20020a170906698f00b0078d93b1b3bamr2348324ejr.66.1668693936035; 
- Thu, 17 Nov 2022 06:05:36 -0800 (PST)
-Received: from ?IPV6:2a0e:41a:894f:0:7a60:27eb:954c:5ab1?
- ([2a0e:41a:894f:0:7a60:27eb:954c:5ab1])
- by smtp.gmail.com with ESMTPSA id
- u21-20020a170906125500b007a7f9b6318asm415839eja.50.2022.11.17.06.05.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Nov 2022 06:05:35 -0800 (PST)
-From: Carlo Caione <carlo@caione.org>
-X-Google-Original-From: Carlo Caione <ccaione@baylibre.com>
-Message-ID: <3bfffc60-a4d3-ddc2-7811-f0fbec22ba65@baylibre.com>
-Date: Thu, 17 Nov 2022 15:05:34 +0100
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=SBG7oyaijsCs+AkyB480R7surFEt7JkA2k2VbS/kZYQ=;
+ b=BE+I7IEO1Leseb5wfGYD3Plfm1NPBhx+Sqsw6eDJnXFfstzp7NbkzuZCXOWFzUloXj
+ vmGpd0KGT3zylrqugt3xvDwRI0r3IBIJq+PaIUIch5sSiKNpLot3OSB5RGEi3gtjNRMf
+ 8MEFilJf7gIfBjtlThCiIyDB7Ge2OO40Ar5kLkkEZEkhC69WD3jL8VTxPX7QnIsWIUky
+ fGWD50y7KlS8L4D4Xil492bLRoFFllMB4FsK3kvAmEGKgSA94/a4xq4MI+yNgCrNbqM7
+ SeXbPpmZRRwubacOJe4ZXG7l9w7foVwr/q9RjQQsUIqRHrVT84Q07cSp8jle564X6ot6
+ Nwug==
+X-Gm-Message-State: ANoB5pn+tEki87QloNNzJ7SFUPmLJXecJvDgXljZ2JWSpC5U5gARy4PR
+ Z21t3UNi7CC4Fx8YFxZQNK0wbQ==
+X-Google-Smtp-Source: AA0mqf5gYHTV4d1cJmSvcoc5/KxPzeS1y0Zb1fIaJiX9fjzOdUIlsRe1Bo/bjk0EkMpAHBf2HyMu/w==
+X-Received: by 2002:a65:4c88:0:b0:477:55c:3ff4 with SMTP id
+ m8-20020a654c88000000b00477055c3ff4mr4055311pgt.442.1668727164990; 
+ Thu, 17 Nov 2022 15:19:24 -0800 (PST)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net.
+ [198.0.35.241]) by smtp.gmail.com with ESMTPSA id
+ 135-20020a62178d000000b0056ba6952e40sm1684386pfx.181.2022.11.17.15.19.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Nov 2022 15:19:24 -0800 (PST)
+Date: Thu, 17 Nov 2022 15:19:23 -0800
+From: Kees Cook <keescook@chromium.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Subject: Re: [PATCH] drm/fsl-dcu: Fix return type of
+ fsl_dcu_drm_connector_mode_valid()
+Message-ID: <202211171518.88D58BBE@keescook>
+References: <20221102154215.78059-1-nathan@kernel.org>
+ <Y3K7GbHAMZPdY243@distrobox-ZFeO0pwFho.thelio-3990X>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 3/3] spi: meson-spicc: Lower CS between bursts
-Content-Language: en-US
-To: neil.armstrong@linaro.org,
- Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jerome Brunet <jbrunet@baylibre.com>,
- David Airlie <airlied@gmail.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Kevin Hilman <khilman@baylibre.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20221116-s905x_spi_ili9486-v1-0-630401cb62d5@baylibre.com>
- <20221116-s905x_spi_ili9486-v1-3-630401cb62d5@baylibre.com>
- <098b923b-ff46-5ef5-9c21-19c974c9274f@linaro.org>
-In-Reply-To: <098b923b-ff46-5ef5-9c21-19c974c9274f@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Fri, 18 Nov 2022 00:32:52 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y3K7GbHAMZPdY243@distrobox-ZFeO0pwFho.thelio-3990X>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,27 +69,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-spi@vger.kernel.org
+Cc: llvm@lists.linux.dev, Tom Rix <trix@redhat.com>,
+ Alison Wang <alison.wang@nxp.com>, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ patches@lists.linux.dev, Sami Tolvanen <samitolvanen@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/11/2022 09:54, Neil Armstrong wrote:
-
-> I'm afraid this will actually break SPI NORs for example where CS 
-> actually splits transactions.
+On Mon, Nov 14, 2022 at 03:03:05PM -0700, Nathan Chancellor wrote:
+> Hi all,
 > 
-> Isn't Amjad change enough ? The CLK pull-up should avoid this.
+> On Wed, Nov 02, 2022 at 08:42:15AM -0700, Nathan Chancellor wrote:
+> > With clang's kernel control flow integrity (kCFI, CONFIG_CFI_CLANG),
+> > indirect call targets are validated against the expected function
+> > pointer prototype to make sure the call target is valid to help mitigate
+> > ROP attacks. If they are not identical, there is a failure at run time,
+> > which manifests as either a kernel panic or thread getting killed. A
+> > proposed warning in clang aims to catch these at compile time, which
+> > reveals:
+> > 
+> >   drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c:74:16: error: incompatible function pointer types initializing 'enum drm_mode_status (*)(struct drm_connector *, struct drm_display_mode *)' with an expression of type 'int (struct drm_connector *, struct drm_display_mode *)' [-Werror,-Wincompatible-function-pointer-types-strict]
+> >           .mode_valid = fsl_dcu_drm_connector_mode_valid,
+> >                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >   1 error generated.
+> > 
+> > ->mode_valid() in 'struct drm_connector_helper_funcs' expects a return
+> > type of 'enum drm_mode_status', not 'int'. Adjust the return type of
+> > fsl_dcu_drm_connector_mode_valid() to match the prototype's to resolve
+> > the warning and CFI failure.
+> > 
+> > Link: https://github.com/ClangBuiltLinux/linux/issues/1750
+> > Reported-by: Sami Tolvanen <samitolvanen@google.com>
+> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> > ---
+> >  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c | 5 +++--
+> >  1 file changed, 3 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c
+> > index 4d4a715b429d..2c2b92324a2e 100644
+> > --- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c
+> > +++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c
+> > @@ -60,8 +60,9 @@ static int fsl_dcu_drm_connector_get_modes(struct drm_connector *connector)
+> >  	return drm_panel_get_modes(fsl_connector->panel, connector);
+> >  }
+> >  
+> > -static int fsl_dcu_drm_connector_mode_valid(struct drm_connector *connector,
+> > -					    struct drm_display_mode *mode)
+> > +static enum drm_mode_status
+> > +fsl_dcu_drm_connector_mode_valid(struct drm_connector *connector,
+> > +				 struct drm_display_mode *mode)
+> >  {
+> >  	if (mode->hdisplay & 0xf)
+> >  		return MODE_ERROR;
+> > 
+> > base-commit: 9abf2313adc1ca1b6180c508c25f22f9395cc780
+> > -- 
+> > 2.38.1
+> > 
+> > 
+> 
+> Could someone please pick this up so that it makes 6.2? We would like
+> to try and get this warning turned on so that it can catch more
+> potential run time issues at compile time but that can only happen when
+> all the warnings are fixed.
 
-It looks like it is not enough unfortunately.
+I'll pick this up tomorrow if no one else snags it. :)
 
-> If it's not the case, then it's an HW issue and the CLK line pull-up 
-> is too weak and an external pull should then be added.
-	
-Alright, I'll drop this patch in the next respin if needed.
-
-Thanks,
-
---
-Carlo Caione
+-- 
+Kees Cook
