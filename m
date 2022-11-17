@@ -1,47 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93D9F62D4D8
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 09:12:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D30562D518
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 09:35:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9707510E571;
-	Thu, 17 Nov 2022 08:12:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15B8410E564;
+	Thu, 17 Nov 2022 08:35:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4A3910E571;
- Thu, 17 Nov 2022 08:12:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1668672722; x=1700208722;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=5/yntYGdhiGBk7M8JZ3DwDY6Knowo4GI0Rk0dqyjuQw=;
- b=a270TG+7+P/zT1T0c8O66k22EBsrFk12g5Ug9ErnXy67whA9K1RCB6re
- +9sfaCEiS+J4ZnXGzAixzOraVYWmdGUWk6tauuyEkmd+nRPlidAmcnLwa
- xiI+bedc17tSeA88vRywZ711U02uE2wpluuS4ST+lwvKs3us533RroLV8
- SoTiNHrzlk5rIjVx4aetN28sZZBL9Hsn7F5B4iWziMp2j2R6XLlpg1udk
- qDgDnPBTd3OjAEcIdW1mK/SFr+od8L48/kpWALnSmBS410qpERkonRCh2
- 3+1zNzURw6N9pE0f4bHLLCxhB6Qki/bdj5H+go2n8HVj6WPOyY12MQNmU A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10533"; a="313939037"
-X-IronPort-AV: E=Sophos;i="5.96,171,1665471600"; d="scan'208";a="313939037"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Nov 2022 00:12:01 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10533"; a="968776011"
-X-IronPort-AV: E=Sophos;i="5.96,171,1665471600"; d="scan'208";a="968776011"
-Received: from bnilawar-desk1.iind.intel.com ([10.145.169.158])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Nov 2022 00:11:58 -0800
-From: Badal Nilawar <badal.nilawar@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3] drm/i915/mtl: Enable Idle Messaging for GSC CS
-Date: Thu, 17 Nov 2022 13:45:46 +0530
-Message-Id: <20221117081546.218463-1-badal.nilawar@intel.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81E0710E57A;
+ Thu, 17 Nov 2022 08:35:26 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id l12so1663266lfp.6;
+ Thu, 17 Nov 2022 00:35:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=ObVsXIII727K1r+MqdiusoodIGGIxFl3h6+GPMS0wE8=;
+ b=cE51cSRMa45SarWkZhO/5XKMv3DcJ+oMgdt4vk6lK6fKU/dIOhPci3EohB1k8fT/ao
+ GzZRdTx8FbBUz8KW5m7s1ggtpZErA0JL/6mYdq8oHU799zzME1V/BlzZVjYeQDd3861t
+ cVGtVfrfVmgTqT3ajckukgx+xSgJkbF3qsUNpyuPkISv8fkQNfWIBdh5xffuhN9o/6AL
+ vlIp5o8/mzuoXoHvqGnY6d23ZY01J+qeE87EORYD4GZ6KE01odakzKUGfSbN+m2AB0lX
+ 4O0ISZI9oGoB+SA19l6EGDxRjDKp4DyY0oBfHrQ2brwtXV7ajKVOZrz42NAEE6mJaT+f
+ Z6MQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ObVsXIII727K1r+MqdiusoodIGGIxFl3h6+GPMS0wE8=;
+ b=R+jYnqu2V8beyygjhqMh+ubd+OGy7s83v4EKm7sHmtJGJ+qSiffe84yKRCAa9t1dRL
+ 2ZpgqmcVyc9TrUhIHKiHXDI6G6zkX/m5LWE9S968Ec1jj3EZJK+IK+1+c/23G+NZsKWF
+ 918GDuvRAFkKc0lpahTaXr6hiSqYayjXaBL47TCxUuVDEofxtBoPJKN8h45BgkqCsjBy
+ mkSB+wU2tBUtreMZPpn1rucoPgWwb4dyIIM75MUMsKP+lEFZ4Opmsvywh3xw1tFWManW
+ F+9JaEEzA3kFOG8qecuDGRN0Ntml92aQYs20oq+Rw+HtZsJxB4xgAenumW2AVaME5Z+e
+ Oc6Q==
+X-Gm-Message-State: ANoB5pke1GvAj4hwuGihZCp36JGLsBtnpt1Kp/xDCb97J3PXUFFEdSsh
+ Fq3RCfkHrHqUBa8vK+arBY8=
+X-Google-Smtp-Source: AA0mqf7b8CdZSOPpH2MdVy1M65rNORSFFxiOBOl3Z44EfZJKVcaQQUdMi2wBF0uJhjvLqjqloDbj/w==
+X-Received: by 2002:a05:6512:2382:b0:4a2:70de:3546 with SMTP id
+ c2-20020a056512238200b004a270de3546mr497627lfv.420.1668674124421; 
+ Thu, 17 Nov 2022 00:35:24 -0800 (PST)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ s5-20020a056512214500b004b07cdef19csm41260lfr.138.2022.11.17.00.35.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Nov 2022 00:35:24 -0800 (PST)
+Date: Thu, 17 Nov 2022 10:35:14 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH] drm/atomic: add quirks for blind save/restore
+Message-ID: <20221117103514.47dedae9@eldfell>
+In-Reply-To: <20221117075433.222968-1-contact@emersion.fr>
+References: <20221117075433.222968-1-contact@emersion.fr>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/HROJ3e51QhiPDf5SAysJvFG";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,86 +69,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: radhakrishna.sripada@intel.com, anshuman.gupta@intel.com,
- dri-devel@lists.freedesktop.org, ashutosh.dixit@intel.com, jon.ewins@intel.com,
- daniele.ceraolospurio@intel.com, rodrigo.vivi@intel.com,
- vinay.belgaumkar@intel.com
+Cc: dri-devel@lists.freedesktop.org, wayland-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+--Sig_/HROJ3e51QhiPDf5SAysJvFG
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-By defaut idle mesaging is disabled for GSC CS so to unblock RC6
-entry on media tile idle messaging need to be enabled.
+On Thu, 17 Nov 2022 07:54:40 +0000
+Simon Ser <contact@emersion.fr> wrote:
 
-v2:
- - Fix review comments (Vinay)
- - Set GSC idle hysteresis (Badal)
-v3:
- - Fix review comments (Rodrigo)
+> Two quirks to make blind atomic save/restore [1] work correctly:
+>=20
+> - Mark the DPMS property as immutable for atomic clients, since
+>   atomic clients cannot change it.
+> - Allow user-space to set content protection to "enabled", interpret
+>   it as "desired".
+>=20
+> [1]: https://gitlab.freedesktop.org/wlroots/wlroots/-/merge_requests/3794
+>=20
+> Signed-off-by: Simon Ser <contact@emersion.fr>
 
-Bspec: 71496
+That seems to be the sensible thing to do to these properties.
 
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
-Reviewed-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_engine_pm.c | 18 ++++++++++++++++++
- drivers/gpu/drm/i915/gt/intel_gt_regs.h   |  4 ++++
- 2 files changed, 22 insertions(+)
+Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.c b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
-index b0a4a2dbe3ee..fad0d97a9d79 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_pm.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
-@@ -15,6 +15,22 @@
- #include "intel_rc6.h"
- #include "intel_ring.h"
- #include "shmem_utils.h"
-+#include "intel_gt_regs.h"
-+
-+static void intel_gsc_idle_msg_enable(struct intel_engine_cs *engine)
-+{
-+	struct drm_i915_private *i915 = engine->i915;
-+
-+	if (IS_METEORLAKE(i915) && engine->id == GSC0) {
-+		intel_uncore_write(engine->gt->uncore,
-+				   RC_PSMI_CTRL_GSCCS,
-+				   _MASKED_BIT_DISABLE(IDLE_MSG_DISABLE));
-+		/* 5 us hysteresis */
-+		intel_uncore_write(engine->gt->uncore,
-+				   PWRCTX_MAXCNT_GSCCS,
-+				   0xA);
-+	}
-+}
- 
- static void dbg_poison_ce(struct intel_context *ce)
- {
-@@ -275,6 +291,8 @@ void intel_engine_init__pm(struct intel_engine_cs *engine)
- 
- 	intel_wakeref_init(&engine->wakeref, rpm, &wf_ops);
- 	intel_engine_init_heartbeat(engine);
-+
-+	intel_gsc_idle_msg_enable(engine);
- }
- 
- /**
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-index 07031e03f80c..011e3afff0d4 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-@@ -913,6 +913,10 @@
- #define  MSG_IDLE_FW_MASK	REG_GENMASK(13, 9)
- #define  MSG_IDLE_FW_SHIFT	9
- 
-+#define	RC_PSMI_CTRL_GSCCS	_MMIO(0x11a050)
-+#define	  IDLE_MSG_DISABLE	REG_BIT(0)
-+#define	PWRCTX_MAXCNT_GSCCS	_MMIO(0x11a054)
-+
- #define FORCEWAKE_MEDIA_GEN9			_MMIO(0xa270)
- #define FORCEWAKE_RENDER_GEN9			_MMIO(0xa278)
- 
--- 
-2.25.1
+I'm really to happy see wlroots doing this. This has been in my mind to
+do in Weston for years, but never had the chance to implement it yet. I
+have just one little detail different: I would snapshot the "original"
+KMS state at Weston start-up only once, and then use that snapshot as
+the base every time Weston needs to sanitize the KMS state, like when
+re-gaining DRM master. It's a bit more complicated, but it goes better
+with the idea of resetting KMS state or starting from clean state, in
+case KMS ever gains UAPI for that.
 
+
+Thanks,
+pq
+
+> ---
+>=20
+> I don't have the motivation to write IGT tests for this.
+>=20
+>  drivers/gpu/drm/drm_atomic_uapi.c | 5 +++--
+>  drivers/gpu/drm/drm_property.c    | 7 +++++++
+>  2 files changed, 10 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atom=
+ic_uapi.c
+> index c06d0639d552..95363aac7f69 100644
+> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> @@ -741,8 +741,9 @@ static int drm_atomic_connector_set_property(struct d=
+rm_connector *connector,
+>  		state->scaling_mode =3D val;
+>  	} else if (property =3D=3D config->content_protection_property) {
+>  		if (val =3D=3D DRM_MODE_CONTENT_PROTECTION_ENABLED) {
+> -			drm_dbg_kms(dev, "only drivers can set CP Enabled\n");
+> -			return -EINVAL;
+> +			/* Degrade ENABLED to DESIRED so that blind atomic
+> +			 * save/restore works as intended. */
+> +			val =3D DRM_MODE_CONTENT_PROTECTION_DESIRED;
+>  		}
+>  		state->content_protection =3D val;
+>  	} else if (property =3D=3D config->hdcp_content_type_property) {
+> diff --git a/drivers/gpu/drm/drm_property.c b/drivers/gpu/drm/drm_propert=
+y.c
+> index dfec479830e4..dde42986f8cb 100644
+> --- a/drivers/gpu/drm/drm_property.c
+> +++ b/drivers/gpu/drm/drm_property.c
+> @@ -474,7 +474,14 @@ int drm_mode_getproperty_ioctl(struct drm_device *de=
+v,
+>  		return -ENOENT;
+> =20
+>  	strscpy_pad(out_resp->name, property->name, DRM_PROP_NAME_LEN);
+> +
+>  	out_resp->flags =3D property->flags;
+> +	if (file_priv->atomic && property =3D=3D dev->mode_config.dpms_property=
+) {
+> +		/* Quirk: indicate that the legacy DPMS property is not
+> +		 * writable from atomic user-space, so that blind atomic
+> +		 * save/restore works as intended. */
+> +		out_resp->flags |=3D DRM_MODE_PROP_IMMUTABLE;
+> +	}
+> =20
+>  	value_count =3D property->num_values;
+>  	values_ptr =3D u64_to_user_ptr(out_resp->values_ptr);
+
+
+--Sig_/HROJ3e51QhiPDf5SAysJvFG
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmN18kIACgkQI1/ltBGq
+qqe8hA//XIzWlpbrx8nM5SGBZ+6PnYm7qxvRE++OJcr6+OnQqpmGJKSc4/re+a+7
+iAxEr/k58kW1eMDZde4AgEuSjnWPCg3HYWUOyXjyJuHq4PIeGL+7cG2i6qzfJd2r
+i84bdhf91GEmI2AbtGMbKC8/C6DF65CVMrmwL5DkzZfu2ivwSh8w4iyXrW0i/7MO
+MY/KpiITiPW2mGFsmwMjA1cNhgYEH0GWNcYEqQ4tkMM8kRXJVcXpi7ssThUL/Jx9
+I5jXlyFDMrKxD1CE7TaaCH9WzFXlRDl4D4pS9h2lYSYc/wGqH1/wsaWOldfhafVe
+MarItZFNZNzSxxswEoxhpD14LsHcWeJyIjNRKKM3Cj0vh8rQuaKOKS7WGQMYccLh
+2jYxF7Tq+7JpmmsMz+n2i/N1gyeouafafIxx3+rQYDAuz4DLw6qf5GUAdepsYrjm
+GGF7OXzrxF79iq6k2v4KgTsoutGwhkIm5EiwSP31fpBBHURu8hXV3+R37YlfAz3F
+teiqYwSiw9j60RyBOaT3izdSA4nvk4nj8zdWaA2IkzVgxdRkAmJAxbl80DZVl0Eq
+Wm7ao1Jmesjq4RCs4uPMXP63RajWKuSDn3cNAaCfh2TxG0Wez5c6HW2L8mo0pe/R
+wPuSmTHVcWm2xbjnnDqUbMElmnPpoZhkD6zAYkUbYrWZfI3Qeq4=
+=Q08p
+-----END PGP SIGNATURE-----
+
+--Sig_/HROJ3e51QhiPDf5SAysJvFG--
