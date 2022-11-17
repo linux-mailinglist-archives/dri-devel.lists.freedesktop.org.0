@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CF9662E60D
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 21:39:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 055B262E610
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 21:39:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A377110E657;
-	Thu, 17 Nov 2022 20:39:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 334A810E67B;
+	Thu, 17 Nov 2022 20:39:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com
- [IPv6:2607:f8b0:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C252D10E657
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 20:39:10 +0000 (UTC)
-Received: by mail-il1-x12b.google.com with SMTP id m15so1542061ilq.2
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 12:39:10 -0800 (PST)
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com
+ [IPv6:2607:f8b0:4864:20::d30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8878210E657
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 20:39:12 +0000 (UTC)
+Received: by mail-io1-xd30.google.com with SMTP id p184so2312555iof.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 12:39:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7Qtp1sQRQzBXlT3WBoRlm6hPTuZynYBPeMuxiH1WVCs=;
- b=mxu1ZgEQKaJCi68utQFU0bC1fkMRs13p4Xs2GkoaBU2QH4wFfg/WxjPA5j0rkPnioW
- Sa5tyQFiUFI53GUAjfZmJOPp62c17/GzgAM9E4RPx2/t9PW165trmk7Y3EQGLXX0exeX
- byktKViokoVJeV3MqqKA1XbBPxlvSrLz2Zfxw=
+ bh=HFWkWqQjI46OeczyUCkFpr7MHjvDvFUokPuH4qzo/bw=;
+ b=BNcRyYo1cs5H5wz/ooc/TaJyoeJQ8emL3WoCGbpKPrfUS1nlvORE78y9bqw3y0Z5w+
+ w8ZqaO/V7hCEAv6ZwwP6eNc/npYjSfskSs1qpgMswcD5xRMpRkF/suTtrTX1DfSKkQzP
+ IrFZpAM0rWr/KbthvifIe0mxC9QFGD97ng/4Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7Qtp1sQRQzBXlT3WBoRlm6hPTuZynYBPeMuxiH1WVCs=;
- b=f/wKbiRmqUWRnt9o9XWEL217zNlSWSJwXUovU0EGUBd+jXkTyYaPO5JcC3WVcEk7kl
- oY2MQvyTxJPxGfzG7d5Xa0AqQ9WeNHi2UBhhu6wiP47REpkK9ZJG1jk41fKFbYgeUUs2
- j1NJOprr0v7QW+m8WykTy+p7pyL8LgtYk9vLOuhhe855kf+HezIEw2MN20E6jR5RU5+J
- DvCUXJU3IsILaOgXdphswk96eC4gpmA2tteREAfcuEg85MKgfXn/+iONfhf6d8aCWPkW
- BtNRF6GZpnH2524FCcZyfigJYGjLlgbz7uoF7Z4EXEz8GIHuwGiKgtf4oPAaNmiWEADS
- 5Pdw==
-X-Gm-Message-State: ANoB5pnFf19eLMKg8u0sgXmJEagxqQfGVMYLZDp9kz3mm+qVRiDtD3F4
- rG1kZY3G4sLGomoo8iJIgz9rg/+f86qoJA==
-X-Google-Smtp-Source: AA0mqf7jiV+CUhBJR5sMY+0ATWmq+aNHemsPzFFpBRvofMaokqK+YPcfrO4aRwlaJTF1Dm4QFUvHQA==
-X-Received: by 2002:a92:dd0e:0:b0:300:b9c4:8c1 with SMTP id
- n14-20020a92dd0e000000b00300b9c408c1mr1945545ilm.124.1668717549772; 
- Thu, 17 Nov 2022 12:39:09 -0800 (PST)
+ bh=HFWkWqQjI46OeczyUCkFpr7MHjvDvFUokPuH4qzo/bw=;
+ b=OKAxOgUpfl3/OIxUOrvYsUW31T41Wcs9XGj/NyinKh7Vq5NJA+xOwvigJgHYBPXIyR
+ 5frqjqWMrd/5Rn3gRgAqWEZXG1zDjKI5gkYZimTfQsiDoJT4eKQY3VZy0U7qKcqRh021
+ 4PC/GB16IeeNSMGcljl5y9M2l0A6Iox5yQEUwHxs8tVnZqq/ahBx1vbhWTKalpHUs7Wh
+ Lob230uNEfKy045RYhgHOTlJFGRApKQ7Rhcvyu1OWwolEp8xaM++ylOJjuGKyHfRJ/uU
+ CFIO/0sCY4zKQUgAoqUym5kN6vuQKic3R+BN6Z1g3QXBmAidGD4l6zaFEBOXuTFe8Rqz
+ rCHw==
+X-Gm-Message-State: ANoB5pn7Ho358l6R0t8WxI+n4idRZO3ELW/8nIM2VZoGeLdu06Dm8Gnb
+ BtiN0bNbFuvEOhuR6MrRaI52k8VdsGEKbQ==
+X-Google-Smtp-Source: AA0mqf5+BPEGrp46T/YWlC2wc+z8vnTOZvFcMl/0RZ2ToQg3vrCmVrcjDa9tb5KKgV2l07n5Xp5jIA==
+X-Received: by 2002:a05:6638:4907:b0:375:ca55:284e with SMTP id
+ cx7-20020a056638490700b00375ca55284emr1888278jab.248.1668717551175; 
+ Thu, 17 Nov 2022 12:39:11 -0800 (PST)
 Received: from midworld.bld.corp.google.com
  ([2620:15c:183:200:b285:6808:3f3e:f538])
  by smtp.gmail.com with ESMTPSA id
- d191-20020a0262c8000000b00363da904602sm570192jac.13.2022.11.17.12.39.08
+ d191-20020a0262c8000000b00363da904602sm570192jac.13.2022.11.17.12.39.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Nov 2022 12:39:09 -0800 (PST)
+ Thu, 17 Nov 2022 12:39:10 -0800 (PST)
 From: Drew Davenport <ddavenport@chromium.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/5] drm/panel-simple: Use ktime_get_boottime for delays
-Date: Thu, 17 Nov 2022 13:38:46 -0700
-Message-Id: <20221117133655.3.Iebd9f79aba0a62015fd2383fe6986c2d6fe12cfd@changeid>
+Subject: [PATCH 4/5] drm/bridge/parade-ps8640: Extend autosuspend
+Date: Thu, 17 Nov 2022 13:38:47 -0700
+Message-Id: <20221117133655.4.If6153da69ec4bc9e83d5f095ef6e6b07283940a5@changeid>
 X-Mailer: git-send-email 2.38.1.584.g0f3c55d4c2-goog
 In-Reply-To: <20221117133655.1.I51639dc112bbbe27259df6bdad56dbabd655d91a@changeid>
 References: <20221117133655.1.I51639dc112bbbe27259df6bdad56dbabd655d91a@changeid>
@@ -69,53 +69,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dianders@chromium.org, linux-kernel@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Drew Davenport <ddavenport@chromium.org>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Robert Foss <robert.foss@linaro.org>, dianders@chromium.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Drew Davenport <ddavenport@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ktime_get_boottime continues while the device is suspended. This change
-ensures that the resume path will not be delayed if the power off delay
-has already been met while the device is suspended
+Same change as done for panel-samsung-atna33xc20. Extend the autosuspend
+delay to avoid oscillating between power status during boot.
 
 Signed-off-by: Drew Davenport <ddavenport@chromium.org>
 ---
 
- drivers/gpu/drm/panel/panel-simple.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/bridge/parade-ps8640.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 8a3b685c2fcc0..065f378bba9d2 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -280,7 +280,7 @@ static void panel_simple_wait(ktime_t start_ktime, unsigned int min_ms)
- 		return;
- 
- 	min_ktime = ktime_add(start_ktime, ms_to_ktime(min_ms));
--	now_ktime = ktime_get();
-+	now_ktime = ktime_get_boottime();
- 
- 	if (ktime_before(now_ktime, min_ktime))
- 		msleep(ktime_to_ms(ktime_sub(min_ktime, now_ktime)) + 1);
-@@ -307,7 +307,7 @@ static int panel_simple_suspend(struct device *dev)
- 
- 	gpiod_set_value_cansleep(p->enable_gpio, 0);
- 	regulator_disable(p->supply);
--	p->unprepared_time = ktime_get();
-+	p->unprepared_time = ktime_get_boottime();
- 
- 	kfree(p->edid);
- 	p->edid = NULL;
-@@ -351,7 +351,7 @@ static int panel_simple_resume(struct device *dev)
- 	if (p->desc->delay.prepare)
- 		msleep(p->desc->delay.prepare);
- 
--	p->prepared_time = ktime_get();
-+	p->prepared_time = ktime_get_boottime();
- 
- 	return 0;
- }
+diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
+index 6a614e54b383c..f74090a9cc9e8 100644
+--- a/drivers/gpu/drm/bridge/parade-ps8640.c
++++ b/drivers/gpu/drm/bridge/parade-ps8640.c
+@@ -734,13 +734,13 @@ static int ps8640_probe(struct i2c_client *client)
+ 	pm_runtime_enable(dev);
+ 	/*
+ 	 * Powering on ps8640 takes ~300ms. To avoid wasting time on power
+-	 * cycling ps8640 too often, set autosuspend_delay to 1000ms to ensure
++	 * cycling ps8640 too often, set autosuspend_delay to 2000ms to ensure
+ 	 * the bridge wouldn't suspend in between each _aux_transfer_msg() call
+ 	 * during EDID read (~20ms in my experiment) and in between the last
+ 	 * _aux_transfer_msg() call during EDID read and the _pre_enable() call
+ 	 * (~100ms in my experiment).
+ 	 */
+-	pm_runtime_set_autosuspend_delay(dev, 1000);
++	pm_runtime_set_autosuspend_delay(dev, 2000);
+ 	pm_runtime_use_autosuspend(dev);
+ 	pm_suspend_ignore_children(dev, true);
+ 	ret = devm_add_action_or_reset(dev, ps8640_runtime_disable, dev);
 -- 
 2.38.1.584.g0f3c55d4c2-goog
 
