@@ -1,47 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4BB062D58D
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 09:54:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CBB362D58F
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 09:54:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92AD010E583;
-	Thu, 17 Nov 2022 08:54:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB58E10E576;
+	Thu, 17 Nov 2022 08:54:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E71A10E57F;
- Thu, 17 Nov 2022 08:54:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1668675266; x=1700211266;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=s7QCnerC0XNVQ5ZtCOUEKRwtqBdJeutcYxAuu+4e4eY=;
- b=PdazqrSWNfGi7goJUIkKMSNULf5gD+XpdJIgHlcNZ2vFwzXAKuT3p4rL
- O1abJhpos3i2PiZQ/eSP0CTK7J+QBDZjYAC39DOcWD+Q3gOBiN8rOQNYJ
- X0/e6HP96Erhzoxt4sPms2HqWV6pmBQEsqGnYgvuNrhFSVjeh+5PK7zZs
- kBXk67GDmSXPlPUt0XAI+bUXtXnkMjOX+PfUHOV/1ZiFPDUJ3pFufejgO
- O0lv/JWxUFLJMhjcAfZiRCxJ43uNp6uLVedOnGCj1ENtZDSA0/8MSgqlK
- VEo8FOfvU9f13kXR+bcDS+XLvYeso3Ca/KvkQoN0179oLXLDezqH6kOFp A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10533"; a="293193673"
-X-IronPort-AV: E=Sophos;i="5.96,171,1665471600"; d="scan'208";a="293193673"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Nov 2022 00:54:25 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10533"; a="672740787"
-X-IronPort-AV: E=Sophos;i="5.96,171,1665471600"; d="scan'208";a="672740787"
-Received: from neerajde-mobl.ger.corp.intel.com (HELO localhost)
- ([10.213.200.114])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Nov 2022 00:54:21 -0800
-Date: Thu, 17 Nov 2022 08:54:19 +0000
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-fixes
-Message-ID: <Y3X2bNJ/4GR1BAiG@tursulin-desk>
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F3FC10E581
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 08:54:43 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id
+ i186-20020a1c3bc3000000b003cfe29a5733so4463325wma.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 00:54:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=9hYrAT2BNVskU/iDANhKEsz2VyGmJLN/rJvwow2j2xk=;
+ b=GejQpumCcaJEwAMF9vs5N6MTa4HzjPwDmJEUeAvSGwmdPfgcFftqfp718ZY//Kwd/6
+ NiRLKvzHWmOEB2glIPDCQqS20M5AbpWcheJWEe0v9HSameNpXDzd3tnXIkr21M/fO/+B
+ pMxqk3YwUh68R3+JoME0RkA8m5KvnhhhS5BEJpn7PLYav1RuSPombssgPei++tn1Lbhg
+ FKRcEUteXeQMMH39vFxOtoAEEqhtSHQu3b9aIGoVVR1/ibfYRas58aI9oEtbYLOM1yiM
+ SRgaK8m7sSzvY+2xBJIHjAcY9v4AZ62NV5llYbm9KOpaVbb/wgsOyny44CZrK2w4rHgZ
+ 96pQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9hYrAT2BNVskU/iDANhKEsz2VyGmJLN/rJvwow2j2xk=;
+ b=vXmQop3/iOeii8vsgGz9rfbHrXVuoYG3Enz1CwutSXyXyfXswWd9B7KfrtWstlfPhT
+ /rgb5u2nZ+aUihMw6lu+H9NuY27JzoSR38RYNq2kirkR+IwFNpGkVVqnYmSMCDgYbDsW
+ 2kWfT4Bq3NzCJ6DbcJNBFXGYyoJ7PnM1XpJ08HvwRUQvwjV3TU1QziE7C2TtU4kILn0U
+ 0/yvMoxecjIih0rxSa1UEaLroQdPQnnNNLojDknvj4/Pu98Wp0HpCmcjmKVP70/oTAq0
+ YiCmF0ocIbY7GKuDNJs1DUKeKC4Hy1tO3Fuygpc0DQh92B0F2S7C+9Iw/7T8UzxK7Wip
+ 1ZnQ==
+X-Gm-Message-State: ANoB5pkJTCXuTinOydNAMbWfDdQyvjkUOgcBHZDs/iVYYPNEDP7TQ4AV
+ zGLhbghn4FHasuLCfOi3JLDwTw==
+X-Google-Smtp-Source: AA0mqf7R5pytyH9/lNfPVQJWtwPbmJ8SiI7lVBKrIVlZzrwL5/u2Uq88NSqEZmONRgEmdbXer9wwaw==
+X-Received: by 2002:a7b:cd85:0:b0:3cf:931c:3cfa with SMTP id
+ y5-20020a7bcd85000000b003cf931c3cfamr940137wmj.203.1668675281746; 
+ Thu, 17 Nov 2022 00:54:41 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:aad5:8d14:a22f:2e8b?
+ ([2a01:e0a:982:cbb0:aad5:8d14:a22f:2e8b])
+ by smtp.gmail.com with ESMTPSA id
+ d16-20020a5d6dd0000000b0022584c82c80sm386384wrz.19.2022.11.17.00.54.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Nov 2022 00:54:41 -0800 (PST)
+Message-ID: <098b923b-ff46-5ef5-9c21-19c974c9274f@linaro.org>
+Date: Thu, 17 Nov 2022 09:54:40 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 3/3] spi: meson-spicc: Lower CS between bursts
+Content-Language: en-US
+To: Carlo Caione <ccaione@baylibre.com>,
+ Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jerome Brunet <jbrunet@baylibre.com>,
+ David Airlie <airlied@gmail.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Kevin Hilman <khilman@baylibre.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20221116-s905x_spi_ili9486-v1-0-630401cb62d5@baylibre.com>
+ <20221116-s905x_spi_ili9486-v1-3-630401cb62d5@baylibre.com>
+Organization: Linaro Developer Services
+In-Reply-To: <20221116-s905x_spi_ili9486-v1-3-630401cb62d5@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,42 +84,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
+Reply-To: neil.armstrong@linaro.org
+Cc: linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-spi@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+Hi,
 
-Just one fix for the release candidate window this week and that is for
-a possible use-after-free on discrete platforms with small BAR.
+On 17/11/2022 09:47, Carlo Caione wrote:
+> On some hardware (reproduced on S905X) when a large payload is
+> transmitted over SPI in bursts at the end of each burst, the clock line
+> briefly fluctuates creating spurious clock transitions that are being
+> recognised by the connected device as a genuine pulses, creating an
+> offset in the data being transmitted.
+> 
+> Lower the GPIO CS between bursts to avoid the clock being interpreted as
+> valid.
 
-Regards,
+I'm afraid this will actually break SPI NORs for example where CS actually splits
+transactions.
 
-Tvrtko
+Isn't Amjad change enough ? The CLK pull-up should avoid this.
 
-drm-intel-fixes-2022-11-17:
-- Fix uaf with lmem_userfault_list handling (Matthew Auld)
-The following changes since commit 094226ad94f471a9f19e8f8e7140a09c2625abaa:
+If it's not the case, then it's an HW issue and the CLK line pull-up is too weak and an
+external pull should then be added.
 
-  Linux 6.1-rc5 (2022-11-13 13:12:55 -0800)
+> 
+> Signed-off-by: Carlo Caione <ccaione@baylibre.com>
+> ---
+>   drivers/spi/spi-meson-spicc.c | 6 ++++++
+>   1 file changed, 6 insertions(+)
+> 
+> diff --git a/drivers/spi/spi-meson-spicc.c b/drivers/spi/spi-meson-spicc.c
+> index d47f2623a60f..af8d74b53519 100644
+> --- a/drivers/spi/spi-meson-spicc.c
+> +++ b/drivers/spi/spi-meson-spicc.c
+> @@ -291,6 +291,10 @@ static inline void meson_spicc_setup_burst(struct meson_spicc_device *spicc)
+>   static irqreturn_t meson_spicc_irq(int irq, void *data)
+>   {
+>   	struct meson_spicc_device *spicc = (void *) data;
+> +	struct spi_device *spi_dev;
+> +
+> +	spi_dev = spicc->message->spi;
+> +	gpiod_set_value(spi_dev->cs_gpiod, 0);
+>   
+>   	writel_bits_relaxed(SPICC_TC, SPICC_TC, spicc->base + SPICC_STATREG);
+>   
+> @@ -309,6 +313,8 @@ static irqreturn_t meson_spicc_irq(int irq, void *data)
+>   	/* Setup burst */
+>   	meson_spicc_setup_burst(spicc);
+>   
+> +	gpiod_set_value(spi_dev->cs_gpiod, 1);
+> +
+>   	/* Start burst */
+>   	writel_bits_relaxed(SPICC_XCH, SPICC_XCH, spicc->base + SPICC_CONREG);
+>   
+> 
 
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2022-11-17
-
-for you to fetch changes up to 4f68332b2f89ab84285e5b6cb3d30e8b9894bef1:
-
-  drm/i915/ttm: fix uaf with lmem_userfault_list handling (2022-11-14 09:46:06 +0000)
-
-----------------------------------------------------------------
-- Fix uaf with lmem_userfault_list handling (Matthew Auld)
-
-----------------------------------------------------------------
-Matthew Auld (1):
-      drm/i915/ttm: fix uaf with lmem_userfault_list handling
-
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
