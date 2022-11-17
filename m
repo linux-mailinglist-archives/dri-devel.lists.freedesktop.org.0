@@ -1,48 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B66962D41B
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 08:30:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7981862D3C7
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 08:07:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0872C10E559;
-	Thu, 17 Nov 2022 07:30:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FA0910E54D;
+	Thu, 17 Nov 2022 07:07:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1718 seconds by postgrey-1.36 at gabe;
- Thu, 17 Nov 2022 07:00:48 UTC
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 280A410E54A
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 07:00:47 +0000 (UTC)
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mxhk.zte.com.cn (FangMail) with ESMTPS id 4NCW5p2x9Zz8R040;
- Thu, 17 Nov 2022 15:00:46 +0800 (CST)
-Received: from xaxapp01.zte.com.cn ([10.88.40.50])
- by mse-fl2.zte.com.cn with SMTP id 2AH70cgR059705;
- Thu, 17 Nov 2022 15:00:38 +0800 (+08)
- (envelope-from ye.xingchen@zte.com.cn)
-Received: from mapi (xaxapp01[null]) by mapi (Zmail) with MAPI id mid31;
- Thu, 17 Nov 2022 15:00:40 +0800 (CST)
-Date: Thu, 17 Nov 2022 15:00:40 +0800 (CST)
-X-Zmail-TransId: 2af96375dc18ffffffffb19f3ea9
-X-Mailer: Zmail v1.0
-Message-ID: <202211171500403515273@zte.com.cn>
-Mime-Version: 1.0
-From: <ye.xingchen@zte.com.cn>
-To: <maarten.lankhorst@linux.intel.com>
-Subject: =?UTF-8?B?W1BBVENIIGxpbnV4LW5leHRdIGRybS9wYW5lbDogVXNlIGRldmljZV9tYXRjaF9vZl9ub2RlKCk=?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL: mse-fl2.zte.com.cn 2AH70cgR059705
-X-Fangmail-Gw-Spam-Type: 0
-X-FangMail-Miltered: at cgslv5.04-192.168.250.137.novalocal with ID
- 6375DC1E.000 by FangMail milter!
-X-FangMail-Envelope: 1668668446/4NCW5p2x9Zz8R040/6375DC1E.000/10.5.228.133/[10.5.228.133]/mse-fl2.zte.com.cn/<ye.xingchen@zte.com.cn>
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6375DC1E.000/4NCW5p2x9Zz8R040
-X-Mailman-Approved-At: Thu, 17 Nov 2022 07:29:39 +0000
+Received: from out30-130.freemail.mail.aliyun.com
+ (out30-130.freemail.mail.aliyun.com [115.124.30.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AC1F10E54D;
+ Thu, 17 Nov 2022 07:07:06 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R391e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045176;
+ MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=10; SR=0;
+ TI=SMTPD_---0VV.5Etf_1668668818; 
+Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
+ fp:SMTPD_---0VV.5Etf_1668668818) by smtp.aliyun-inc.com;
+ Thu, 17 Nov 2022 15:07:02 +0800
+From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To: alexander.deucher@amd.com
+Subject: [PATCH 1/2] drm/amd/display: Remove set but unused variable
+ 'TPreMargin'
+Date: Thu, 17 Nov 2022 15:06:54 +0800
+Message-Id: <20221117070655.52749-1-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,32 +42,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, sam@ravnborg.org, linux-kernel@vger.kernel.org,
- thierry.reding@gmail.com, dri-devel@lists.freedesktop.org
+Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, Xinhui.Pan@amd.com,
+ Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: ye xingchen <ye.xingchen@zte.com.cn>
+Variable TPreMargin is not effectively used in the function, so delete it.
 
-Replace the open-code with device_match_of_node().
+drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/display_mode_vba_util_32.c:3478:10: warning: variable ‘TPreMargin’ set but not used.
 
-Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
+Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=3144
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 ---
- drivers/gpu/drm/drm_panel.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
-index f634371c717a..ba66ac1ad88a 100644
---- a/drivers/gpu/drm/drm_panel.c
-+++ b/drivers/gpu/drm/drm_panel.c
-@@ -250,7 +250,7 @@ struct drm_panel *of_drm_find_panel(const struct device_node *np)
- 	mutex_lock(&panel_lock);
-
- 	list_for_each_entry(panel, &panel_list, list) {
--		if (panel->dev->of_node == np) {
-+		if (device_match_of_node(panel->dev, np)) {
- 			mutex_unlock(&panel_lock);
- 			return panel;
- 		}
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c
+index d967264e25cf..7f840c20d213 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c
+@@ -3475,7 +3475,6 @@ bool dml32_CalculatePrefetchSchedule(
+ 	double  min_Lsw;
+ 	double  Tsw_est1 = 0;
+ 	double  Tsw_est3 = 0;
+-	double  TPreMargin = 0;
+ 
+ 	if (v->GPUVMEnable == true && v->HostVMEnable == true)
+ 		HostVMDynamicLevelsTrips = v->HostVMMaxNonCachedPageTableLevels;
+@@ -3703,7 +3702,6 @@ bool dml32_CalculatePrefetchSchedule(
+ 	dst_y_prefetch_equ = dml_floor(4.0 * (dst_y_prefetch_equ + 0.125), 1) / 4.0;
+ 	Tpre_rounded = dst_y_prefetch_equ * LineTime;
+ 
+-	TPreMargin = Tpre_rounded - TPreReq;
+ #ifdef __DML_VBA_DEBUG__
+ 	dml_print("DML::%s: dst_y_prefetch_equ: %f (after round)\n", __func__, dst_y_prefetch_equ);
+ 	dml_print("DML::%s: LineTime: %f\n", __func__, LineTime);
 -- 
-2.25.1
+2.20.1.7.g153144c
+
