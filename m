@@ -2,45 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7CC762E325
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 18:34:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1D3162E364
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 18:49:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65C0F10E65B;
-	Thu, 17 Nov 2022 17:34:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D54910E65F;
+	Thu, 17 Nov 2022 17:49:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E41210E65A;
- Thu, 17 Nov 2022 17:34:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1668706444; x=1700242444;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=vJTuloVUVA2YCIjw8/Ea7+NqoPMQh0S9fw2e+qUtfDY=;
- b=Mq6qU+rVLVZUXluJgPfPdaOTA49VE2BAdnU4nkVYJzQ+zuTKuEIPuqx2
- VAfb+t2q8rekOFKC1Yd4HYiCJ0EaS+wEBVXO6VarQnKOpqPsh+AEwsNiN
- IQtvSmfKS/97m3LlMdIWnUyw6ZOmMUIsf+FP9RdvflXhr2jQNknBzC9Pc
- SX0XRTqqY99AdTBl4JbaMdpGXM9sqiUWv3XNPqQ8/Rx5PKMX31XV5kSIE
- RMNVyun75wk5byMCZ82kqfgcB7M75B4P6zeGLKcmh6yC2/P9JvhE+dilt
- FvDej60A3e1Q1Lv5iB1XhRHfwBUNLUm6iRXOWgVVRlWglpuU0bqiMErxm w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="314069765"
-X-IronPort-AV: E=Sophos;i="5.96,172,1665471600"; d="scan'208";a="314069765"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Nov 2022 09:34:03 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="634135261"
-X-IronPort-AV: E=Sophos;i="5.96,172,1665471600"; d="scan'208";a="634135261"
-Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Nov 2022 09:34:03 -0800
-From: Matt Roper <matthew.d.roper@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915/gt: Manage uncore->lock while waiting on MCR register
-Date: Thu, 17 Nov 2022 09:33:58 -0800
-Message-Id: <20221117173358.1980230-1-matthew.d.roper@intel.com>
-X-Mailer: git-send-email 2.38.1
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
+ [IPv6:2a00:1450:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8494410E65F
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 17:49:05 +0000 (UTC)
+Received: by mail-lj1-x22b.google.com with SMTP id c25so3659720ljr.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 09:49:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=oKps2kj8vyioDRFfnDtXuYlVJybPlQiLeu0C1JmglC0=;
+ b=DuNRImNUYAM9cXvN3ZheeodNKt4sZu1SzG7HzaUYBDsffFPakszDtyQfV3nYY103tR
+ TzJJ505h03FRuj0vuH/xW7SU0KKAl++T8l353Opez4Qw68bEokbGrrIpRqL57pqipOaI
+ VBBS27iR0paB2fXDQoJ44ljd8Za65G1HJIyMXU3pdgsKV3vweNf6a+QdDTJdcTSQqBpG
+ iIJSyDMckDE8dXlrm3xL33sVzL80fsncQ6MhRHoJfQ1kPl28jkz3co0531TtU0Ix6C6B
+ f8Ai09k9C1W7dLmoyV8iWp2Wsmw2n6aY48Vvhnerx9qSFjPZBo2TKT+vZpXWCEpG1PNL
+ Sriw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=oKps2kj8vyioDRFfnDtXuYlVJybPlQiLeu0C1JmglC0=;
+ b=l3Ua7aJYI2fj0J7plHXeERgtnd1pVpMOQfK/yHZoTxN4xSsoC4Tu28UDRkX1j3Z2jJ
+ vLO+Ctr5nOMh6SDgY7UvbBJBhGEPvP9fTMClKQD7Xak7Btow/1xfsCxm9wm3NqVFXE5A
+ bhsSC4+1Ar2Y6FmleTih/QBZ/kGu1HT8huB2O2n0V5nD9p8qGfJWEClYBsFWBPczDnlJ
+ /qOXrwtUZgJbJi2EV3jcEQZVwxNqcO3giaFE5toepO8LX22uNs+NqatNgUHwEZdP1+m5
+ 3Z1Lx6QKn8D6Zyz6fjyZrFDEJlWAYyDK97Ono3Y/GwA3y8DmBvug3Ei7NsOnwL/amzA8
+ m80g==
+X-Gm-Message-State: ANoB5pnUCycQamWQp2NLAHITblARqYFge6tEc5SB2fA2QRv8pj8SOoU9
+ rogTs/iJ8Y27wnd7YAeUVElSAg==
+X-Google-Smtp-Source: AA0mqf51Os+HnRrnHg9xxz4KBwdAm2B2vV6ky4H0rkIvKUTHbBLN4yaPF9EoABdMDFxnSPz+8qWbnA==
+X-Received: by 2002:a05:651c:1592:b0:277:b9f:cdbd with SMTP id
+ h18-20020a05651c159200b002770b9fcdbdmr1561707ljq.0.1668707343815; 
+ Thu, 17 Nov 2022 09:49:03 -0800 (PST)
+Received: from [192.168.0.20]
+ (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+ by smtp.gmail.com with ESMTPSA id
+ j8-20020ac253a8000000b004946a1e045fsm247258lfh.197.2022.11.17.09.49.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Nov 2022 09:49:03 -0800 (PST)
+Message-ID: <2b0463c1-7fee-b7f0-5cf7-0448a6aab4a7@linaro.org>
+Date: Thu, 17 Nov 2022 18:49:02 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v1] dt-bindings: display: Convert fsl,imx-fb.txt to
+ dt-schema
+Content-Language: en-US
+To: Philipp Zabel <p.zabel@pengutronix.de>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
+References: <20221110094945.191100-1-u.kleine-koenig@pengutronix.de>
+ <20221116174921.GA25509@pengutronix.de>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221116174921.GA25509@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,117 +78,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The GT MCR code currently relies on uncore->lock to avoid race
-conditions on the steering control register during MCR operations.  The
-*_fw() versions of MCR operations expect the caller to already hold
-uncore->lock, while the non-fw variants manage the lock internally.
-However the sole callsite of intel_gt_mcr_wait_for_reg_fw() does not
-currently obtain the forcewake lock, allowing a potential race condition
-(and triggering an assertion on lockdep builds).  Furthermore, since
-'wait for register value' requests may not return immediately, it is
-undesirable to hold a fundamental lock like uncore->lock for the entire
-wait and block all other MMIO for the duration; rather the lock is only
-needed around the MCR read operations and can be released during the
-delays.
+On 16/11/2022 18:49, Philipp Zabel wrote:
+> On Thu, Nov 10, 2022 at 10:49:45AM +0100, Uwe Kleine-König wrote:
+> [...]
+>> new file mode 100644
+>> index 000000000000..c3cf6f92a766
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx-lcdc.yaml
+>> @@ -0,0 +1,110 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/display/imx/fsl,imx-lcdc.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Freescale i.MX LCD Controller, found on i.MX1, i.MX21, i.MX25 and i.MX27
+>> +
+>> +maintainers:
+>> +  - Sascha Hauer <s.hauer@pengutronix.de>
+>> +  - Pengutronix Kernel Team <kernel@pengutronix.de>
+>> +
+>> +properties:
+>> +  compatible:
+>> +    oneOf:
+>> +      - items:
+>> +          - enum:
+>> +              - fsl,imx1-fb
+>> +              - fsl,imx21-fb
+> 
+> Are the items/enum keywords superfluous here? Couldn't this just be two
+> 
+>          - const: fsl,imx1-fb
+>          - const: fsl,imx21-fb
+> 
+> entries?
 
-Convert intel_gt_mcr_wait_for_reg_fw() to a non-fw variant that will
-manage uncore->lock internally.  This does have the side effect of
-causing an unnecessary lookup in the forcewake table on each read
-operation, but since the caller is still holding the relevant forcewake
-domain, this will ultimately just incremenent the reference count and
-won't actually cause any additional MMIO traffic.
+Only "items" is, so should be dropped.
 
-In the future we plan to switch to a dedicated MCR lock to protect the
-steering critical section rather than using the overloaded and
-high-traffic uncore->lock; on MTL and beyond the new lock can be
-implemented on top of the hardware-provided synchonization mechanism for
-steering.
-
-Fixes: 3068bec83eea ("drm/i915/gt: Add intel_gt_mcr_wait_for_reg_fw()")
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_gt.c     |  6 +++---
- drivers/gpu/drm/i915/gt/intel_gt_mcr.c | 18 ++++++++++--------
- drivers/gpu/drm/i915/gt/intel_gt_mcr.h | 12 ++++++------
- 3 files changed, 19 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-index 0325f071046c..b5ad9caa5537 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-@@ -1035,9 +1035,9 @@ get_reg_and_bit(const struct intel_engine_cs *engine, const bool gen8,
- static int wait_for_invalidate(struct intel_gt *gt, struct reg_and_bit rb)
- {
- 	if (GRAPHICS_VER_FULL(gt->i915) >= IP_VER(12, 50))
--		return intel_gt_mcr_wait_for_reg_fw(gt, rb.mcr_reg, rb.bit, 0,
--						    TLB_INVAL_TIMEOUT_US,
--						    TLB_INVAL_TIMEOUT_MS);
-+		return intel_gt_mcr_wait_for_reg(gt, rb.mcr_reg, rb.bit, 0,
-+						 TLB_INVAL_TIMEOUT_US,
-+						 TLB_INVAL_TIMEOUT_MS);
- 	else
- 		return __intel_wait_for_register_fw(gt->uncore, rb.reg, rb.bit, 0,
- 						    TLB_INVAL_TIMEOUT_US,
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
-index 830edffe88cc..d9a8ff9e5e57 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
-@@ -730,17 +730,19 @@ void intel_gt_mcr_get_ss_steering(struct intel_gt *gt, unsigned int dss,
-  *
-  * Return: 0 if the register matches the desired condition, or -ETIMEDOUT.
-  */
--int intel_gt_mcr_wait_for_reg_fw(struct intel_gt *gt,
--				 i915_mcr_reg_t reg,
--				 u32 mask,
--				 u32 value,
--				 unsigned int fast_timeout_us,
--				 unsigned int slow_timeout_ms)
-+int intel_gt_mcr_wait_for_reg(struct intel_gt *gt,
-+			      i915_mcr_reg_t reg,
-+			      u32 mask,
-+			      u32 value,
-+			      unsigned int fast_timeout_us,
-+			      unsigned int slow_timeout_ms)
- {
--	u32 reg_value = 0;
--#define done (((reg_value = intel_gt_mcr_read_any_fw(gt, reg)) & mask) == value)
- 	int ret;
- 
-+	lockdep_assert_not_held(&gt->uncore->lock);
-+
-+#define done ((intel_gt_mcr_read_any(gt, reg) & mask) == value)
-+
- 	/* Catch any overuse of this function */
- 	might_sleep_if(slow_timeout_ms);
- 	GEM_BUG_ON(fast_timeout_us > 20000);
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_mcr.h b/drivers/gpu/drm/i915/gt/intel_gt_mcr.h
-index 3fb0502bff22..ae93b20e1c17 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_mcr.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_mcr.h
-@@ -37,12 +37,12 @@ void intel_gt_mcr_report_steering(struct drm_printer *p, struct intel_gt *gt,
- void intel_gt_mcr_get_ss_steering(struct intel_gt *gt, unsigned int dss,
- 				  unsigned int *group, unsigned int *instance);
- 
--int intel_gt_mcr_wait_for_reg_fw(struct intel_gt *gt,
--				 i915_mcr_reg_t reg,
--				 u32 mask,
--				 u32 value,
--				 unsigned int fast_timeout_us,
--				 unsigned int slow_timeout_ms);
-+int intel_gt_mcr_wait_for_reg(struct intel_gt *gt,
-+			      i915_mcr_reg_t reg,
-+			      u32 mask,
-+			      u32 value,
-+			      unsigned int fast_timeout_us,
-+			      unsigned int slow_timeout_ms);
- 
- /*
-  * Helper for for_each_ss_steering loop.  On pre-Xe_HP platforms, subslice
--- 
-2.38.1
+Best regards,
+Krzysztof
 
