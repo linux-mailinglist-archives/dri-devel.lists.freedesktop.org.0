@@ -1,68 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8995362D002
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 01:46:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 493EA62D0A5
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 02:29:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B386D10E50C;
-	Thu, 17 Nov 2022 00:46:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EE8210E516;
+	Thu, 17 Nov 2022 01:29:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com
- [IPv6:2607:f8b0:4864:20::736])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 713C910E50C
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 00:46:05 +0000 (UTC)
-Received: by mail-qk1-x736.google.com with SMTP id g10so231268qkl.6
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 16:46:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
+ [IPv6:2607:f8b0:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9C9610E516
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 01:29:38 +0000 (UTC)
+Received: by mail-pf1-x433.google.com with SMTP id b29so282832pfp.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Nov 2022 17:29:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=rT9xjSJmKp4cCvf16bTKl9Dc4YEY7MjOtsK/w44qv+E=;
- b=VV2cb+pd6jfcSL2tauZE67KBioAHcybPQR+VfU40dKebsvpG7CB3+xd0Uv8h8MKz8R
- sbSQ7TqeMCU61fYQIjRwQoQBWrCcg8ekkdEQ8V7xYjRGPq0DN+C0Atnpvt0eAux7Zvaz
- PXr7WI31PYcmErRNWRYdBKljCyptLiKShcOF4gqH5bxcH7c9a48sUWSu+SLW+D60rEcT
- 94q2cJm8yEvdEzbYpl0Vwvwu6uXwvrse0KXhbaR5xd9/LECZYdD6vR+hmUeAJTlxbvcq
- ueSGRE+vNlUSsDE90kXWUWeAcS6lHSqHDXkbeBbAuFPPnKLrO2HgUtltNTPZxflFTx6j
- B+8A==
+ bh=WU+UX/tq+k1QsbWeDimipmexgpUGr52PPu1d3ddoXY4=;
+ b=eC5WH1WNRgA2/rwaTJUKo1kuPme+d4pVU+OgJNIml8H7TxPtF881zSAct3/mrmRnli
+ s+GX6wT9ggEhKa3rZSLhk7Ndc92QRPdTcBT77k3aoC0oy3gpnyCEu01u9xb3CTeg3q4t
+ iYgwZpNijwDFpwK0TLuS+b/vFTlGP7dzw1Png=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=rT9xjSJmKp4cCvf16bTKl9Dc4YEY7MjOtsK/w44qv+E=;
- b=fLG46hEarHkJNtUIsMFDKboLcxSfZl0scUDxw3hYaRd/u8AZ6sRZeuqe4s0gBx1hZt
- ifF6K6DiEeEXXPdeeVSutA6NiGLoRnphoq84qNEIOu5raKo200TRyOrExhoihTTT4Yqn
- JcH2qPTVz98rHsGg0kegbOfCx8Nk7wCRmgm+pBDuUbcircxgULYdVQv6epzJsA1VJPfb
- eHi3Za9CtxpTEZi0lpN0DodjdcgKKj53rBYBSxhpT05MWEHV+yDYpdwj2FIdPB+E/rI1
- 1TY57Sg+/jK8wDgvDM1P3+ao1sz6j/d8c0C0s7LjQwzWZVAtTzJ00p4H5+V1Nv3PV6VA
- Vnrg==
-X-Gm-Message-State: ANoB5pk202fosioulMUp9AQZ7fKSsk0Uri/4p7I3bLnnwJP6g0ZZefrH
- kybpGiP7BmHiWI4KG6wHahFdbA==
-X-Google-Smtp-Source: AA0mqf607w9C7cuVA1Gk/5OO594s7B3KGBk4c2yq8D1+/1YgY/KvFwESfDj3NEnwxZjz0MAqyk7Deg==
-X-Received: by 2002:a37:424c:0:b0:6fb:a0ec:c5ba with SMTP id
- p73-20020a37424c000000b006fba0ecc5bamr8177915qka.493.1668645964499; 
- Wed, 16 Nov 2022 16:46:04 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-47-55-122-23.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [47.55.122.23]) by smtp.gmail.com with ESMTPSA id
- i18-20020a05620a405200b006fa84082b6dsm11394495qko.128.2022.11.16.16.46.03
+ bh=WU+UX/tq+k1QsbWeDimipmexgpUGr52PPu1d3ddoXY4=;
+ b=iP8zEXhymAq2Wu7k4MS17O195IQXhIc/S/MFSk4IY+FwXuv44YeA4B9ykYGoEKyWed
+ RbuiEysZkBuHYVg5XJsFdmsSdjLLoR3k/2HTrDtZGjuHF6TJ4RYaeITwGmLbjkitNWvb
+ HYA7ENGPWTO7e3UhlZMrCXgsWbERDv42XHf+LeN+/8U2c2Zb9+NsJTXB7NP1G+BF3+k5
+ +d9PK7ZBqbYJmYmIlV2CY7sFI2qilYJRHPHgseYGVvl/zT+HWz1mXYAiO+02hk9xBPx2
+ Nf8+UuWYaPakGEsvEtH+nNnV5sJg805kNGoVPJTvBhEvFsZAt3mb4JQptDwyhukzGV/x
+ Zowg==
+X-Gm-Message-State: ANoB5pmanKR0KTH+LQS5OG5rClzLlGyLCuTV9I1u2CAf+C0pD7mcHMSk
+ HKhVARshJ9X7gSpQIgbBC72Y5w==
+X-Google-Smtp-Source: AA0mqf6g+Mdgg/9VB0n37JTINpluyDekpG6wpMzx9OVQiQAuFsnqOcXGGXiwOTv4IHm8i9RRrBSKeQ==
+X-Received: by 2002:a63:f047:0:b0:476:7742:de19 with SMTP id
+ s7-20020a63f047000000b004767742de19mr13174pgj.343.1668648578427; 
+ Wed, 16 Nov 2022 17:29:38 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:d1e8:472c:ff8:18d6])
+ by smtp.gmail.com with ESMTPSA id
+ m2-20020a170902768200b00172b87d9770sm12974813pll.81.2022.11.16.17.29.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Nov 2022 16:46:03 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.95)
- (envelope-from <jgg@ziepe.ca>) id 1ovT2Z-0066UZ-3n;
- Wed, 16 Nov 2022 20:46:03 -0400
-Date: Wed, 16 Nov 2022 20:46:03 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH mm-unstable v1 12/20] RDMA/siw: remove FOLL_FORCE usage
-Message-ID: <Y3WES5adl6yyS4ZB@ziepe.ca>
-References: <20221116102659.70287-1-david@redhat.com>
- <20221116102659.70287-13-david@redhat.com>
+ Wed, 16 Nov 2022 17:29:37 -0800 (PST)
+Date: Wed, 16 Nov 2022 17:29:35 -0800
+From: Brian Norris <briannorris@chromium.org>
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Subject: Re: [PATCH] drm/i915/huc: fix leak of debug object in huc load fence
+ on driver unload
+Message-ID: <Y3WOf7H6nG2861CJ@google.com>
+References: <20221111005651.4160369-1-daniele.ceraolospurio@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221116102659.70287-13-david@redhat.com>
+In-Reply-To: <20221111005651.4160369-1-daniele.ceraolospurio@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,48 +68,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-ia64@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, Nadav Amit <namit@vmware.com>,
- linux-kselftest@vger.kernel.org, sparclinux@vger.kernel.org,
- Shuah Khan <shuah@kernel.org>, Andrea Arcangeli <aarcange@redhat.com>,
- linux-samsung-soc@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
- linux-rdma@vger.kernel.org, x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Matthew Wilcox <willy@infradead.org>, Christoph Hellwig <hch@infradead.org>,
- Vlastimil Babka <vbabka@suse.cz>, Bernard Metzler <bmt@zurich.ibm.com>,
- linux-media@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- John Hubbard <jhubbard@nvidia.com>, linux-um@lists.infradead.org,
- etnaviv@lists.freedesktop.org, Alex Williamson <alex.williamson@redhat.com>,
- Peter Xu <peterx@redhat.com>, Muchun Song <songmuchun@bytedance.com>,
- linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
- Oded Gabbay <ogabbay@kernel.org>, linux-mips@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-security-module@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Mike Kravetz <mike.kravetz@oracle.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org,
+ Alan Previn <alan.previn.teres.alexis@intel.com>,
+ dri-devel@lists.freedesktop.org, John Harrison <John.C.Harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 16, 2022 at 11:26:51AM +0100, David Hildenbrand wrote:
-> GUP now supports reliable R/O long-term pinning in COW mappings, such
-> that we break COW early. MAP_SHARED VMAs only use the shared zeropage so
-> far in one corner case (DAXFS file with holes), which can be ignored
-> because GUP does not support long-term pinning in fsdax (see
-> check_vma_flags()).
+Hi Daniele,
+
+On Thu, Nov 10, 2022 at 04:56:51PM -0800, Daniele Ceraolo Spurio wrote:
+> The fence is always initialized in huc_init_early, but the cleanup in
+> huc_fini is only being run if HuC is enabled. This causes a leaking of
+> the debug object when HuC is disabled/not supported, which can in turn
+> trigger a warning if we try to register a new debug offset at the same
+> address on driver reload.
 > 
-> Consequently, FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM is no longer required
-> for reliable R/O long-term pinning: FOLL_LONGTERM is sufficient. So stop
-> using FOLL_FORCE, which is really only for ptrace access.
+> To fix the issue, make sure to always run the cleanup code.
 > 
-> Cc: Bernard Metzler <bmt@zurich.ibm.com>
-> Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> Cc: Leon Romanovsky <leon@kernel.org>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+> Reported-by: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> Reported-by: Brian Norris <briannorris@chromium.org>
+> Fixes: 27536e03271d ("drm/i915/huc: track delayed HuC load with a fence")
+> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> Cc: Brian Norris <briannorris@chromium.org>
+> Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
+> Cc: John Harrison <John.C.Harrison@Intel.com>
 > ---
->  drivers/infiniband/sw/siw/siw_mem.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
+> 
+> Note: I didn't manage to repro the reported warning, but I did confirm
+> that we weren't correctly calling i915_sw_fence_fini and that this patch
+> fixes that.
 
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+I *did* reproduce, and with this patch, I no longer reproduce. So:
 
-Jason
+Tested-by: Brian Norris <briannorris@chromium.org>
+
+I see this differs very slightly from the draft version (which didn't
+work for me):
+
+https://lore.kernel.org/all/ac5fde11-c17d-8574-c938-c2278d53cf95@intel.com/
+
+so presumably that diff is the fix.
+
+Thanks a bunch!
+
+Brian
+
+>  drivers/gpu/drm/i915/gt/uc/intel_huc.c | 12 +++++++-----
+>  drivers/gpu/drm/i915/gt/uc/intel_uc.c  |  1 +
+>  2 files changed, 8 insertions(+), 5 deletions(-)
