@@ -2,57 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36E6E62E898
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 23:41:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D554962E89E
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 23:44:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66B5410E6A9;
-	Thu, 17 Nov 2022 22:41:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5699D10E6AF;
+	Thu, 17 Nov 2022 22:44:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
- [IPv6:2607:f8b0:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C71310E6A9;
- Thu, 17 Nov 2022 22:41:17 +0000 (UTC)
-Received: by mail-oi1-x229.google.com with SMTP id t62so3493559oib.12;
- Thu, 17 Nov 2022 14:41:17 -0800 (PST)
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D93C10E6AF
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 22:44:16 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id gv23so8823827ejb.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 14:44:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=csDjA7Lmaoy5t254PbIdwoXPbMVcPqUkx2VOtdueRJA=;
- b=WcCYDu+PsGUNad1cIgVVLDXXKK+7SMRon35QDWLYdzHMC2Nfe+AJjlPyeQ+mTu9p2M
- lnKp7TE209DHIBwCFIwt13H+B1gwnE1I0xbUsPntNC8IsWiqDD38owDU1nhRRAZpyBwm
- SGDeAQTKLvoCYiUoaCCUxckQCxRFp0KH1FV3cKhOpYZum13wN3Iu0WOuavrbQJtQF/oi
- 7j9uJvvZnZZRt6uur28wzC7JOs9XzeHpBLrm2bhuoorZiEOW4yVDFK1d476Yi1NFe+rG
- VJVvrFemSmwvxuLJtWUO7wb2U58Y8ysRNo2iTDRkkZHHb417wB7LhB+tsf5/d+r+KnsI
- zwAQ==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=7quD5Hy3ZWcPrpDWeaqeNjMDNzDYEXAy9NXdrwbcOnU=;
+ b=q5WrBnSlx8pHrOHphw4/YZQmXS5GKpMW+DHOD9fthYRsK3Au0XWJoNEYppEhTj9KPB
+ yQyzs5oJt8v9rPvjIwj+bYhfl1thHAfjSRrkf3BLVkF7CQv+F1l18LJbk1ozk9cb4/Sb
+ HjvozOA78Aj52/Dvy9NmNdlUYYubAP73NvB3jKp33EHlWHXIDEbTsN5Zgjw7I+i0oeYN
+ cuiQkqeVlzW+25nA8lmazGRvWdc1A/sVBYB7hg+kIhj2FJ75zpaG8dSsBuv7oPcR79gu
+ 3O1iIc6am6YVyI/SeuLalHuoirB0YNpQrbtg4ofD8IPhIGAaE0S/uHG+PyStlFXk4+rs
+ 8Iug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=csDjA7Lmaoy5t254PbIdwoXPbMVcPqUkx2VOtdueRJA=;
- b=oyyo8I2Iv3WC9D443pKbnzBBDBVZCWK0eObEC316rUFblLZ9V9SMNFlrebmNH5Bi5+
- CjutwRLe7BupjN0eXmCvaNjEyLbdQDIAUgEz3baFkvB2IAv3sNUVDws2TrpHXJrTtDJJ
- u8xXlWco80LNxcWw7jLwer6V77qwZAcQuR7IDM6SrHWRK6mvpZTzb0EBLU+k0AdCRDio
- OV5nBo1bymAJVrR8J8UcKPSfaFg09fipB22Hl/gWa+V4bEUitahaueWkDBYIHZuYYrmQ
- Z+dh60o/tg9wN3Z7VLhPV7Imb0697dCXXdKI0WWDjjJICf5y0DPjLGqFn8bfrYX1tu/H
- 6Rdg==
-X-Gm-Message-State: ANoB5pmlKkTYvwD3dIy22J+PjBSMaBypMpwA7pLPTU9hC5eiSit0kdeQ
- vewdhq9yPEA4JdwYIoNNqvst6SWmKcASskrViHY=
-X-Google-Smtp-Source: AA0mqf5J6WVBYllKAiTJyVqHtz6V+lyUbEN/ZA10bz48P3xq84tSQvKqSf2PuVmJs4C/a56qA04o7ofJp3BIpIYXmV4=
-X-Received: by 2002:a05:6808:9b8:b0:34f:97ea:14d with SMTP id
- e24-20020a05680809b800b0034f97ea014dmr2306901oig.96.1668724876652; Thu, 17
- Nov 2022 14:41:16 -0800 (PST)
+ bh=7quD5Hy3ZWcPrpDWeaqeNjMDNzDYEXAy9NXdrwbcOnU=;
+ b=Ww3Z9fQ31FoaqM29aOsZVKJgetPaVrLFfYjNCegAh0jg2WCuhT4GbcAL7y4ZKkrs5r
+ AH7l1QvRf9qaHEOy47y2Or9F0hBHW40egCd6hVjdJ2UsCByFIejFLpFVQRRCY7GjVwM3
+ TYNBmMW+6yYar281vmuLqBWI7qqExeEWythTxjxW2whfuTomel0D2nkYsdKW3stqAX+B
+ AdotjSKcmqaOk4oN0eniHhQObKdmtmg8XAWM9pfYNwfn/Pq4DXSj/enxj/fRD6EEL54/
+ ePJTQJ59oO/PhQ2b0jq1+yF6DM6JriTkAgPiJ29jvXHYIniavluEY2mGHdLNaS3pb1Ip
+ DaMw==
+X-Gm-Message-State: ANoB5plxK7jPGdiGz8N2Wv8lZ9Ka968X5yj2CI/vpGlSKNd2ECEKJ909
+ pDz50K9mv8qHdQz+51XMztlJTvS46ts=
+X-Google-Smtp-Source: AA0mqf7E8OF8jcneLd9IXB70pKLdrySUW/wxBnItA+wIiC3LDnosCm8PfPWWL4m3U3hrUroVHfT49Q==
+X-Received: by 2002:a17:906:19d7:b0:7b2:b782:e1df with SMTP id
+ h23-20020a17090619d700b007b2b782e1dfmr130068ejd.308.1668725055059; 
+ Thu, 17 Nov 2022 14:44:15 -0800 (PST)
+Received: from localhost
+ (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de.
+ [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
+ by smtp.gmail.com with ESMTPSA id
+ eo14-20020a056402530e00b004588ef795easm1060882edb.34.2022.11.17.14.44.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Nov 2022 14:44:14 -0800 (PST)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Dave Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>
+Subject: [GIT PULL] drm/tegra: Fixes for v6.1-rc6
+Date: Thu, 17 Nov 2022 23:44:14 +0100
+Message-Id: <20221117224414.2374127-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-References: <20221117172009.28207-1-rdunlap@infradead.org>
- <28960f0b-97b9-7a41-9da3-188be25dd886@amd.com>
-In-Reply-To: <28960f0b-97b9-7a41-9da3-188be25dd886@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 17 Nov 2022 17:41:04 -0500
-Message-ID: <CADnq5_P5SLbamNkRYOhjvicnyHzKaBp8=V5g8hNtyz+TD5-UZA@mail.gmail.com>
-Subject: Re: [PATCH -next] drm/amd/display: fix kernel-doc issues in dc.h
-To: Harry Wentland <harry.wentland@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,88 +71,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, Randy Dunlap <rdunlap@infradead.org>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+Hi Dave, Daniel,
 
-Alex
+The following changes since commit 9abf2313adc1ca1b6180c508c25f22f9395cc780:
 
-On Thu, Nov 17, 2022 at 2:39 PM Harry Wentland <harry.wentland@amd.com> wrote:
->
->
->
-> On 11/17/22 12:20, Randy Dunlap wrote:
-> > Fix these kernel-doc complaints:
-> >
-> > drivers/gpu/drm/amd/display/dc/dc.h:505: warning: cannot understand function prototype: 'struct dc_clocks '
-> > dc.h:472: warning: Enum value 'MPC_SPLIT_AVOID' not described in enum 'pipe_split_policy'
-> > dc.h:472: warning: Enum value 'MPC_SPLIT_AVOID_MULT_DISP' not described in enum 'pipe_split_policy'
-> > dc.h:532: warning: Incorrect use of kernel-doc format:          * @fw_based_mclk_switching
-> >
-> > Fixes: ea76895ffab1 ("drm/amd/display: Document pipe split policy")
-> > Fixes: 1682bd1a6b5f ("drm/amd/display: Expand kernel doc for DC")
-> > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> > Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-> > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > Cc: Harry Wentland <harry.wentland@amd.com>
-> > Cc: Leo Li <sunpeng.li@amd.com>
-> > Cc: amd-gfx@lists.freedesktop.org
-> > Cc: David Airlie <airlied@gmail.com>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: dri-devel@lists.freedesktop.org
->
-> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
->
-> Harry
->
-> > ---
-> >  drivers/gpu/drm/amd/display/dc/dc.h |   12 ++++++------
-> >  1 file changed, 6 insertions(+), 6 deletions(-)
-> >
-> > diff -- a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/display/dc/dc.h
-> > --- a/drivers/gpu/drm/amd/display/dc/dc.h
-> > +++ b/drivers/gpu/drm/amd/display/dc/dc.h
-> > @@ -458,15 +458,15 @@ enum pipe_split_policy {
-> >       MPC_SPLIT_DYNAMIC = 0,
-> >
-> >       /**
-> > -      * @MPC_SPLIT_DYNAMIC: Avoid pipe split, which means that DC will not
-> > +      * @MPC_SPLIT_AVOID: Avoid pipe split, which means that DC will not
-> >        * try any sort of split optimization.
-> >        */
-> >       MPC_SPLIT_AVOID = 1,
-> >
-> >       /**
-> > -      * @MPC_SPLIT_DYNAMIC: With this option, DC will only try to optimize
-> > -      * the pipe utilization when using a single display; if the user
-> > -      * connects to a second display, DC will avoid pipe split.
-> > +      * @MPC_SPLIT_AVOID_MULT_DISP: With this option, DC will only try to
-> > +      * optimize the pipe utilization when using a single display; if the
-> > +      * user connects to a second display, DC will avoid pipe split.
-> >        */
-> >       MPC_SPLIT_AVOID_MULT_DISP = 2,
-> >  };
-> > @@ -497,7 +497,7 @@ enum dcn_zstate_support_state {
-> >  };
-> >
-> >  /**
-> > - * dc_clocks - DC pipe clocks
-> > + * struct dc_clocks - DC pipe clocks
-> >   *
-> >   * For any clocks that may differ per pipe only the max is stored in this
-> >   * structure
-> > @@ -528,7 +528,7 @@ struct dc_clocks {
-> >       bool fclk_prev_p_state_change_support;
-> >       int num_ways;
-> >
-> > -     /**
-> > +     /*
-> >        * @fw_based_mclk_switching
-> >        *
-> >        * DC has a mechanism that leverage the variable refresh rate to switch
->
+  Linux 6.1-rc1 (2022-10-16 15:36:24 -0700)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/tegra.git tags/drm/tegra/for-6.1-rc6
+
+for you to fetch changes up to ce071fc9ceafd339b74631d4907d77f2e9ef1b0c:
+
+  gpu: host1x: Avoid trying to use GART on Tegra20 (2022-11-10 11:21:18 +0100)
+
+Thanks,
+Thierry
+
+----------------------------------------------------------------
+drm/tegra: Fixes for v6.1-rc6
+
+This contains a single fix that avoids using the GART on Tegra20 because
+it doesn't work well with the way the Tegra DRM driver tries to use it.
+
+----------------------------------------------------------------
+Robin Murphy (1):
+      gpu: host1x: Avoid trying to use GART on Tegra20
+
+ drivers/gpu/drm/tegra/drm.c | 4 ++++
+ drivers/gpu/host1x/dev.c    | 4 ++++
+ 2 files changed, 8 insertions(+)
