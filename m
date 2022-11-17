@@ -1,50 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA4AA62DEE3
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 15:59:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC48562DEF4
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 16:04:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6ACE410E61B;
-	Thu, 17 Nov 2022 14:59:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9161D10E61C;
+	Thu, 17 Nov 2022 15:03:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A3B110E61C
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 14:59:34 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 3967DB8206C;
- Thu, 17 Nov 2022 14:59:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BD1FC433C1;
- Thu, 17 Nov 2022 14:59:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1668697171;
- bh=O+U992v26U9/jVBVgthCJ9el4v7NKpgKZhUu+7FqnGE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cEAkBgVTSjigXjhLE8Z3WCze+jK69DkTc+6W6TlQnjaTee11N1klVaeutLzNQw2BG
- 9vAsQv2qawUh6q/34t050wVxU0MBZmzhginKGpmDeC6e/LqZ3iQXuZDvob/kEFYdM2
- Tg4GoTGlYoOj9/A6BoYVPvcgKBNB8WlTOTZI6lj7qcAoUCbHNFg6IT9/6p2OGfypN7
- 0nEBjRZiTUonuIal7bJdOpsemQ5O3dC9LMFhhHE3Ue1kJL3LmBARVcVblZAjoH/WDT
- DWy3beAQBDNo8QkNFqWB9X+vAtEYrEx3YaQ50x/3jSB+1ouDq/YiJcC+0mKX+gFVO7
- C/KTEZKS3cBIQ==
-Date: Thu, 17 Nov 2022 14:59:27 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Carlo Caione <carlo@caione.org>
-Subject: Re: [PATCH 2/3] drm/tiny: ili9486: Do not assume 8-bit only SPI
- controllers
-Message-ID: <Y3ZMT4F3+3bjNXKo@sirena.org.uk>
-References: <20221116-s905x_spi_ili9486-v1-0-630401cb62d5@baylibre.com>
- <20221116-s905x_spi_ili9486-v1-2-630401cb62d5@baylibre.com>
- <Y3YWdeTLfmDh7UyB@sirena.org.uk>
- <cd2d4d1e-f42a-da5b-e498-fbb32f792094@baylibre.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E5C710E61C
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 15:03:43 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 86CED929;
+ Thu, 17 Nov 2022 16:03:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1668697421;
+ bh=LyYn0sdB63GI65NHTIo4dhBHSGZrdHRZMyOLF8zyaCQ=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=QXq+U4W1eyGgKAhpZ901UsMyA60SLLlr5yVjlSCVDpraDu71kVExb1hPsLS/qp+Yn
+ MjzllUhC1dw53L9ylHUHeq6ajdEs4DzOg7683MPFijwFnocy9g110cdzF9B1z45jFo
+ mf0sphZHPV7xVOUziKFiprR5bwZiq2tk7rc/+aQQ=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="9UsFcg/cAJcYd/H+"
-Content-Disposition: inline
-In-Reply-To: <cd2d4d1e-f42a-da5b-e498-fbb32f792094@baylibre.com>
-X-Cookie: Ego sum ens omnipotens.
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20221117122547.809644-5-tomi.valkeinen@ideasonboard.com>
+References: <20221117122547.809644-1-tomi.valkeinen@ideasonboard.com>
+ <20221117122547.809644-5-tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v1 4/8] arm64: dts: renesas: r8a779g0: Add display related
+ data
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+Date: Thu, 17 Nov 2022 15:03:39 +0000
+Message-ID: <166869741913.50677.3537704052215375530@Monstersaurus>
+User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,88 +55,223 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Kevin Hilman <khilman@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-spi@vger.kernel.org,
- linux-amlogic@lists.infradead.org,
- Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
- linux-arm-kernel@lists.infradead.org, Jerome Brunet <jbrunet@baylibre.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Quoting Tomi Valkeinen (2022-11-17 12:25:43)
+> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>=20
+> Add DT nodes for components needed to get the DSI output working:
+> - FCPv
+> - VSPd
+> - DU
+> - DSI
+>=20
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> ---
+>  arch/arm64/boot/dts/renesas/r8a779g0.dtsi | 129 ++++++++++++++++++++++
+>  1 file changed, 129 insertions(+)
+>=20
+> diff --git a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi b/arch/arm64/boot/=
+dts/renesas/r8a779g0.dtsi
+> index 45d8d927ad26..31d4930c5adc 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
+> @@ -1207,6 +1207,135 @@ prr: chipid@fff00044 {
+>                         compatible =3D "renesas,prr";
+>                         reg =3D <0 0xfff00044 0 4>;
+>                 };
 
---9UsFcg/cAJcYd/H+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+I think these nodes are supposed to be in sort order based on the
+register address in memory.
 
-On Thu, Nov 17, 2022 at 02:40:05PM +0100, Carlo Caione wrote:
-> On 17/11/2022 12:09, Mark Brown wrote:
+Disregarding sort order, I'll review the node contents.
 
-> > I don't understand what the commit log is saying here.  The meson-spicc
-> > driver advertises support for 8 bit words, if the driver is sending data
-> > formatted as a byte stream everything should be fine.
-> > It may be that there is some optimisation available from taking
-> > advantage of the hardware's ability to handle larger word sizes but
-> > there should be no data corruption issue.
+I would probably s/data/nodes/ in $SUBJECT too.
 
-> There is no data corruption but the 16-bit pixel data have per-pixel
-> bytes swapped: for example 0x55AD is sent instead of 0xAD55 and this is
-> causing the wrong color to be displayed on the panel.
 
-If the data is being unexpectedly byte swapped then clearly it is
-being corrupted.  How is this byte swapping happening?  SPI
-devices should default to doing 8 bit transfers, if things
-randomly get put into anything other than 8 bit mode without the
-client device explicitly asking for it then that seems really
-bad.
+> +
+> +               fcpvd0: fcp@fea10000 {
+> +                       compatible =3D "renesas,fcpv";
+> +                       reg =3D <0 0xfea10000 0 0x200>;
+> +                       clocks =3D <&cpg CPG_MOD 508>;
+> +                       power-domains =3D <&sysc R8A779G0_PD_ALWAYS_ON>;
+> +                       resets =3D <&cpg 508>;
+> +               };
+> +
+> +               fcpvd1: fcp@fea11000 {
+> +                       compatible =3D "renesas,fcpv";
+> +                       reg =3D <0 0xfea11000 0 0x200>;
+> +                       clocks =3D <&cpg CPG_MOD 509>;
+> +                       power-domains =3D <&sysc R8A779G0_PD_ALWAYS_ON>;
+> +                       resets =3D <&cpg 509>;
+> +               };
 
-> The problem is that the current code is sending data with an hardcoded
-> bpw == 8 whether the data is swapped or not before the sending.
+I'm intrigued at the length of 0x200 as I only see 3 registers up to
+0x0018 ..
 
-> For 8-bit only controllers the data is swapped by the MIPI DBI code but
-> this is not true for controllers supporting 16-bit as well, but in both
-> cases we are sending the data out the same way with an 8 bpw.
+But all existing platforms with fcpv* set 0x200 ... so lets cargo cult it u=
+p... :-)
 
-> So the same image is basically displayed differently whether the SPI
-> controller supports 16 bpw or not. I'm trying to fix this by sending
-> data with 16-bit bpw when the controller is supporting that.
+> +
+> +               vspd0: vsp@fea20000 {
+> +                       compatible =3D "renesas,vsp2";
+> +                       reg =3D <0 0xfea20000 0 0x5000>;
 
-So this is an issue in the MIPI DBI code where the interpretation
-of the buffer passed in depends on both the a caller parameter
-and the capabilities of the underlying SPI controller, meaning
-that a driver can suddenly become buggy when used with a new
-controller?  I can't really tell what the bits per word being
-passed in along with the buffer is supposed to mean, I'd have
-expected it to correspond to the format of the buffer but it
-seems like perhaps the buffer is always formatted for 16 bits and
-the callers are needing to pass in the capabilities of the
-controller which is then also checked by the underlying code?
-This all seems extremely confusing, I'm not surprised there's
-bugs.
+"""
+Below are the base addresses of each VSP unit. VSPX has 32Kbyte address
+space. VSPD has 28Kbyte address space.
+"""
 
-At the very least your changelog needs to express clearly what is
-going on, the description doesn't appear to correspond to what
-you're changing.
+Hrm : 28K is 0x7000
 
-> Please note that this is what it is done also by mipi_dbi_typec3_command().
+RPf n OSD CLUT Table: H=E2=80=994000 + H=E2=80=990400*n to H=E2=80=9943fc +=
+ H=E2=80=990400*n
 
-The core code does appear to have some checks for controller
-capabilities...
+ 0x43fc+(0x400*5)
+	22524	[0x57fc]
 
---9UsFcg/cAJcYd/H+
-Content-Type: application/pgp-signature; name="signature.asc"
+So this needs to be /at least/ 0x6000 (Would 0x5800 be odd?) and perhaps as=
+ it clearly states
+28k, we should just set it to 0x7000.
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmN2TEsACgkQJNaLcl1U
-h9DpKgf9FzxQ7ChMJiClsOLDz6yyHyS/FPaa1Kptfbl/K1nGsgEialuKtIsbFLTk
-Jns3jfo9+KpsN60wB9hYy0rstq8QUhoFd8M7HXHH0p8zC++zRgV64I0NUl1c7EKQ
-v4nMTmWTAwqeJ7g7rModR/lsJl7VeGJ4fxdY6b5TLBwVfasa/geoEAU8L7tlZYrb
-ECgj8WLnAmRkBTdXDuONdftUIbhBHJndjKJF9pmB4q9yXQ1/RlQk+DWQ7ERH9HHN
-oQEhftvv9z3hgY8dzfSCgFPWpx8MSQLgn3JigCHypmbMGwd6v5TJaR+MrbCCinWs
-55DZt6sIYRCfTC4nMyDGg0ogAZ2Hbg==
-=qeiD
------END PGP SIGNATURE-----
 
---9UsFcg/cAJcYd/H+--
+> +                       interrupts =3D <GIC_SPI 546 IRQ_TYPE_LEVEL_HIGH>;
+> +                       clocks =3D <&cpg CPG_MOD 830>;
+> +                       power-domains =3D <&sysc R8A779G0_PD_ALWAYS_ON>;
+> +                       resets =3D <&cpg 830>;
+> +
+> +                       renesas,fcp =3D <&fcpvd0>;
+> +               };
+> +
+> +               vspd1: vsp@fea28000 {
+> +                       compatible =3D "renesas,vsp2";
+> +                       reg =3D <0 0xfea28000 0 0x5000>;
+
+Same here of course (reg =3D <0 0xfea28000 0 0x7000>)
+
+
+> +                       interrupts =3D <GIC_SPI 551 IRQ_TYPE_LEVEL_HIGH>;
+> +                       clocks =3D <&cpg CPG_MOD 831>;
+> +                       power-domains =3D <&sysc R8A779G0_PD_ALWAYS_ON>;
+> +                       resets =3D <&cpg 831>;
+> +
+> +                       renesas,fcp =3D <&fcpvd1>;
+> +               };
+> +
+> +               du: display@feb00000 {
+> +                       compatible =3D "renesas,du-r8a779g0";
+> +                       reg =3D <0 0xfeb00000 0 0x40000>;
+> +                       interrupts =3D <GIC_SPI 523 IRQ_TYPE_LEVEL_HIGH>,
+> +                                    <GIC_SPI 524 IRQ_TYPE_LEVEL_HIGH>;
+> +                       clocks =3D <&cpg CPG_MOD 411>;
+> +                       clock-names =3D "du.0";
+> +                       power-domains =3D <&sysc R8A779G0_PD_ALWAYS_ON>;
+> +                       resets =3D <&cpg 411>;
+> +                       reset-names =3D "du.0";
+> +                       renesas,vsps =3D <&vspd0 0>, <&vspd1 0>;
+> +
+> +                       status =3D "disabled";
+> +
+> +                       ports {
+> +                               #address-cells =3D <1>;
+> +                               #size-cells =3D <0>;
+> +
+> +                               port@0 {
+> +                                       reg =3D <0>;
+> +                                       du_out_dsi0: endpoint {
+> +                                               remote-endpoint =3D <&dsi=
+0_in>;
+> +                                       };
+> +                               };
+> +
+> +                               port@1 {
+> +                                       reg =3D <1>;
+> +                                       du_out_dsi1: endpoint {
+> +                                               remote-endpoint =3D <&dsi=
+1_in>;
+> +                                       };
+> +                               };
+> +                       };
+> +               };
+> +
+> +               dsi0: dsi-encoder@fed80000 {
+> +                       compatible =3D "renesas,r8a779g0-dsi-csi2-tx";
+> +                       reg =3D <0 0xfed80000 0 0x10000>;
+> +                       power-domains =3D <&sysc R8A779G0_PD_ALWAYS_ON>;
+> +                       clocks =3D <&cpg CPG_MOD 415>,
+> +                                <&cpg CPG_CORE R8A779G0_CLK_DSIEXT>,
+> +                                <&cpg CPG_CORE R8A779G0_CLK_DSIREF>;
+> +                       clock-names =3D "fck", "dsi", "pll";
+> +                       resets =3D <&cpg 415>;
+
+blank line here to separate it, and highlight that it's disabled? (Like
+is done for DU?
+
+> +                       status =3D "disabled";
+> +
+> +                       ports {
+> +                               #address-cells =3D <1>;
+> +                               #size-cells =3D <0>;
+> +
+> +                               port@0 {
+> +                                       reg =3D <0>;
+> +                                       dsi0_in: endpoint {
+> +                                               remote-endpoint =3D <&du_=
+out_dsi0>;
+> +                                       };
+> +                               };
+> +
+> +                               port@1 {
+> +                                       reg =3D <1>;
+> +                               };
+> +                       };
+> +               };
+> +
+> +               dsi1: dsi-encoder@fed90000 {
+> +                       compatible =3D "renesas,r8a779g0-dsi-csi2-tx";
+> +                       reg =3D <0 0xfed90000 0 0x10000>;
+> +                       power-domains =3D <&sysc R8A779G0_PD_ALWAYS_ON>;
+> +                       clocks =3D <&cpg CPG_MOD 416>,
+> +                                <&cpg CPG_CORE R8A779G0_CLK_DSIEXT>,
+> +                                <&cpg CPG_CORE R8A779G0_CLK_DSIREF>;
+> +                       clock-names =3D "fck", "dsi", "pll";
+> +                       resets =3D <&cpg 416>;
+
+Same.
+
+With the VSPD register ranges increased accordingly:
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+> +                       status =3D "disabled";
+> +
+> +                       ports {
+> +                               #address-cells =3D <1>;
+> +                               #size-cells =3D <0>;
+> +
+> +                               port@0 {
+> +                                       reg =3D <0>;
+> +                                       dsi1_in: endpoint {
+> +                                               remote-endpoint =3D <&du_=
+out_dsi1>;
+> +                                       };
+> +                               };
+> +
+> +                               port@1 {
+> +                                       reg =3D <1>;
+> +                               };
+> +                       };
+> +               };
+> +
+>         };
+> =20
+>         timer {
+> --=20
+> 2.34.1
+>
