@@ -1,47 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EFE862DF15
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 16:08:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E405562DF34
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 16:10:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB11F10E61D;
-	Thu, 17 Nov 2022 15:08:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69B4C10E621;
+	Thu, 17 Nov 2022 15:10:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B34310E61D
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 15:08:43 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 98F8C929;
- Thu, 17 Nov 2022 16:08:41 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1668697721;
- bh=KDmMkOo4Xq7I/fLq82DmVwTZhsTmGJ8/nd1M+JpkZMQ=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=c1+44ai1zErA1wfRkm8rT9CNxu4WbWDyEWYQpBQg+fuyPi2R+LVBDA9k4pIgKjVUY
- qH1MRmAYZ4UbF9+N607NvKwj2GoKLHVRhaQgAF61iXRqEcWU6eKFP5unX7fhYNwFs0
- x192SP/P4YCTsm4xR8ccAJN/vJ8kLyQ0mwwYZNfw=
-Content-Type: text/plain; charset="utf-8"
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EFE110E621
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 15:10:09 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 2E24DCE1E4A
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 15:10:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E763C433D6
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 15:10:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1668697804;
+ bh=a8oMZAOc9h7O6TsnWfrrI7D4nYK+vWS6IWAXZdvkYzM=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=gQJMfegqtvoVKsBm4BszG7WjhanJAdAYNHPrq/Usfmqbi8YHGszC8MZytPxIQ+NL9
+ vM+FuTirPUwyn1qzsbzmFwonAcMDPc4ZO/9adjNIOx22XCWAgvgAnLAFTASyzYhLEL
+ DE18Lt4OF9xKgmaLfI8JidddDALtQJCj0Els3J0SZSESshOPptR9q1p569Re6pDNaX
+ SzE9N+3pSyrtTH2upCYuZcUd/YeLvVHMjl4kG5j4rEv0XrmDKylKqzcnT7rPNKeiJT
+ PoltCrGLvZI+LXNC0IyRFekN6rp2B/kijD1lTsAYp0p3qdz5SrK2N/dSf6w4cm+Dlt
+ em6g5doSEVB8A==
+Received: by mail-lj1-f178.google.com with SMTP id u11so3075681ljk.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 07:10:04 -0800 (PST)
+X-Gm-Message-State: ANoB5pmDTN1cZmKdI26vT7tNJeY7wh+QJOBmc2qqJI4ou64i1PSSWpH0
+ Ox3DDOleniZa08wtYHVtPLFsWV3Ob4mZXSuYzg==
+X-Google-Smtp-Source: AA0mqf6Lz40qWFVeozaj1msGanV43R9/mSdkVIGkUpBQAqbFtT5C7+OwGjSd4nDyemjdt6z0jrkrrad9ufaughNIcO0=
+X-Received: by 2002:a05:651c:333:b0:275:1343:df71 with SMTP id
+ b19-20020a05651c033300b002751343df71mr1231501ljp.215.1668697802340; Thu, 17
+ Nov 2022 07:10:02 -0800 (PST)
 MIME-Version: 1.0
+References: <20221110094945.191100-1-u.kleine-koenig@pengutronix.de>
+ <20221116174921.GA25509@pengutronix.de>
+In-Reply-To: <20221116174921.GA25509@pengutronix.de>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Thu, 17 Nov 2022 09:09:53 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqL-0G4p_V2+ZNbezbE5V25yvUfcerJAseDODNNP8YSdaA@mail.gmail.com>
+Message-ID: <CAL_JsqL-0G4p_V2+ZNbezbE5V25yvUfcerJAseDODNNP8YSdaA@mail.gmail.com>
+Subject: Re: [PATCH v1] dt-bindings: display: Convert fsl,
+ imx-fb.txt to dt-schema
+To: Philipp Zabel <p.zabel@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20221117122547.809644-7-tomi.valkeinen@ideasonboard.com>
-References: <20221117122547.809644-1-tomi.valkeinen@ideasonboard.com>
- <20221117122547.809644-7-tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v1 6/8] drm: rcar-du: Add r8a779g0 support
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-Date: Thu, 17 Nov 2022 15:08:38 +0000
-Message-ID: <166869771876.50677.1905794243575000038@Monstersaurus>
-User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,81 +62,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Tomi Valkeinen (2022-11-17 12:25:45)
-> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
->=20
-> Add support for DU on r8a779g0, which is identical to DU on r8a779a0.
->=20
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> ---
->  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar=
--du/rcar_du_drv.c
-> index d003e8d9e7a2..b1761d4ec4e5 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> @@ -524,6 +524,27 @@ static const struct rcar_du_device_info rcar_du_r8a7=
-79a0_info =3D {
->         .dsi_clk_mask =3D  BIT(1) | BIT(0),
->  };
-> =20
-> +static const struct rcar_du_device_info rcar_du_r8a779g0_info =3D {
-> +       .gen =3D 3,
-
-Given that this is the V4H ... I wonder if this should be bumped
-already. I guess that has knock on effects through the driver though...
-
-Aside from that, Which may need more work to handle correctly:
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-
-> +       .features =3D RCAR_DU_FEATURE_CRTC_IRQ
-> +                 | RCAR_DU_FEATURE_VSP1_SOURCE
-> +                 | RCAR_DU_FEATURE_NO_BLENDING,
-> +       .channels_mask =3D BIT(1) | BIT(0),
-> +       .routes =3D {
-> +               /* R8A779G0 has two MIPI DSI outputs. */
-> +               [RCAR_DU_OUTPUT_DSI0] =3D {
-> +                       .possible_crtcs =3D BIT(0),
-> +                       .port =3D 0,
-> +               },
-> +               [RCAR_DU_OUTPUT_DSI1] =3D {
-> +                       .possible_crtcs =3D BIT(1),
-> +                       .port =3D 1,
-> +               },
-> +       },
-> +       .num_rpf =3D 5,
-> +       .dsi_clk_mask =3D  BIT(1) | BIT(0),
-> +};
-> +
->  static const struct of_device_id rcar_du_of_table[] =3D {
->         { .compatible =3D "renesas,du-r8a7742", .data =3D &rcar_du_r8a779=
-0_info },
->         { .compatible =3D "renesas,du-r8a7743", .data =3D &rzg1_du_r8a774=
-3_info },
-> @@ -549,6 +570,7 @@ static const struct of_device_id rcar_du_of_table[] =
-=3D {
->         { .compatible =3D "renesas,du-r8a77990", .data =3D &rcar_du_r8a77=
-99x_info },
->         { .compatible =3D "renesas,du-r8a77995", .data =3D &rcar_du_r8a77=
-99x_info },
->         { .compatible =3D "renesas,du-r8a779a0", .data =3D &rcar_du_r8a77=
-9a0_info },
-> +       { .compatible =3D "renesas,du-r8a779g0", .data =3D &rcar_du_r8a77=
-9g0_info },
->         { }
->  };
-> =20
-> --=20
-> 2.34.1
+On Wed, Nov 16, 2022 at 11:49 AM Philipp Zabel <p.zabel@pengutronix.de> wro=
+te:
 >
+> On Thu, Nov 10, 2022 at 10:49:45AM +0100, Uwe Kleine-K=C3=B6nig wrote:
+> [...]
+> > new file mode 100644
+> > index 000000000000..c3cf6f92a766
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx-lcdc.yaml
+> > @@ -0,0 +1,110 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/display/imx/fsl,imx-lcdc.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Freescale i.MX LCD Controller, found on i.MX1, i.MX21, i.MX25 a=
+nd i.MX27
+> > +
+> > +maintainers:
+> > +  - Sascha Hauer <s.hauer@pengutronix.de>
+> > +  - Pengutronix Kernel Team <kernel@pengutronix.de>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    oneOf:
+> > +      - items:
+> > +          - enum:
+> > +              - fsl,imx1-fb
+> > +              - fsl,imx21-fb
+>
+> Are the items/enum keywords superfluous here? Couldn't this just be two
+>
+>          - const: fsl,imx1-fb
+>          - const: fsl,imx21-fb
+>
+> entries?
+
+mx1 is backwards compatible with mx21? No.
+
+Rob
