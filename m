@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC48562DEF4
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 16:04:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF78762DEF9
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 16:05:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9161D10E61C;
-	Thu, 17 Nov 2022 15:03:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BBE910E617;
+	Thu, 17 Nov 2022 15:05:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E5C710E61C
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 15:03:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FA3C10E617
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 15:05:09 +0000 (UTC)
 Received: from pendragon.ideasonboard.com
  (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 86CED929;
- Thu, 17 Nov 2022 16:03:41 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1F4CC929;
+ Thu, 17 Nov 2022 16:05:08 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1668697421;
- bh=LyYn0sdB63GI65NHTIo4dhBHSGZrdHRZMyOLF8zyaCQ=;
+ s=mail; t=1668697508;
+ bh=oKMtWtuyioi0YgvWzxpzxj77lBGNz8PB7EABwVQiruI=;
  h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=QXq+U4W1eyGgKAhpZ901UsMyA60SLLlr5yVjlSCVDpraDu71kVExb1hPsLS/qp+Yn
- MjzllUhC1dw53L9ylHUHeq6ajdEs4DzOg7683MPFijwFnocy9g110cdzF9B1z45jFo
- mf0sphZHPV7xVOUziKFiprR5bwZiq2tk7rc/+aQQ=
+ b=hII8nMnlvxrt27OOZJIRHSJgEVOWFZ/sTkFWgCzDMQ8xU4PMscDLQXwuLbTO4e7pt
+ 2jWZLq/iU1Z1mSnDhxxwYP7IR+Qir0swLQNOh5PpW+aBf7MlcskH8721MGG0+TaoPw
+ k/8+hxAScVX3pi74VLL19/N7wUyeKxpFylcWacU0=
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20221117122547.809644-5-tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20221117122547.809644-6-tomi.valkeinen@ideasonboard.com>
 References: <20221117122547.809644-1-tomi.valkeinen@ideasonboard.com>
- <20221117122547.809644-5-tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v1 4/8] arm64: dts: renesas: r8a779g0: Add display related
- data
+ <20221117122547.809644-6-tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v1 5/8] arm64: dts: renesas: white-hawk-cpu: Add DP output
+ support
 From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -40,8 +40,8 @@ To: Geert Uytterhoeven <geert+renesas@glider.be>,
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, devicetree@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-renesas-soc@vger.kernel.org
-Date: Thu, 17 Nov 2022 15:03:39 +0000
-Message-ID: <166869741913.50677.3537704052215375530@Monstersaurus>
+Date: Thu, 17 Nov 2022 15:05:04 +0000
+Message-ID: <166869750492.50677.10848791222370585422@Monstersaurus>
 User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,216 +62,156 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Tomi Valkeinen (2022-11-17 12:25:43)
+Quoting Tomi Valkeinen (2022-11-17 12:25:44)
 > From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 >=20
-> Add DT nodes for components needed to get the DSI output working:
-> - FCPv
-> - VSPd
-> - DU
-> - DSI
+> Add DT nodes needed for the mini DP connector. The DP is driven by
+> sn65dsi86, which in turn gets the pixel data from the SoC via DSI.
 >=20
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> ---
->  arch/arm64/boot/dts/renesas/r8a779g0.dtsi | 129 ++++++++++++++++++++++
->  1 file changed, 129 insertions(+)
->=20
-> diff --git a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi b/arch/arm64/boot/=
-dts/renesas/r8a779g0.dtsi
-> index 45d8d927ad26..31d4930c5adc 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-> @@ -1207,6 +1207,135 @@ prr: chipid@fff00044 {
->                         compatible =3D "renesas,prr";
->                         reg =3D <0 0xfff00044 0 4>;
->                 };
-
-I think these nodes are supposed to be in sort order based on the
-register address in memory.
-
-Disregarding sort order, I'll review the node contents.
-
-I would probably s/data/nodes/ in $SUBJECT too.
-
-
-> +
-> +               fcpvd0: fcp@fea10000 {
-> +                       compatible =3D "renesas,fcpv";
-> +                       reg =3D <0 0xfea10000 0 0x200>;
-> +                       clocks =3D <&cpg CPG_MOD 508>;
-> +                       power-domains =3D <&sysc R8A779G0_PD_ALWAYS_ON>;
-> +                       resets =3D <&cpg 508>;
-> +               };
-> +
-> +               fcpvd1: fcp@fea11000 {
-> +                       compatible =3D "renesas,fcpv";
-> +                       reg =3D <0 0xfea11000 0 0x200>;
-> +                       clocks =3D <&cpg CPG_MOD 509>;
-> +                       power-domains =3D <&sysc R8A779G0_PD_ALWAYS_ON>;
-> +                       resets =3D <&cpg 509>;
-> +               };
-
-I'm intrigued at the length of 0x200 as I only see 3 registers up to
-0x0018 ..
-
-But all existing platforms with fcpv* set 0x200 ... so lets cargo cult it u=
-p... :-)
-
-> +
-> +               vspd0: vsp@fea20000 {
-> +                       compatible =3D "renesas,vsp2";
-> +                       reg =3D <0 0xfea20000 0 0x5000>;
-
-"""
-Below are the base addresses of each VSP unit. VSPX has 32Kbyte address
-space. VSPD has 28Kbyte address space.
-"""
-
-Hrm : 28K is 0x7000
-
-RPf n OSD CLUT Table: H=E2=80=994000 + H=E2=80=990400*n to H=E2=80=9943fc +=
- H=E2=80=990400*n
-
- 0x43fc+(0x400*5)
-	22524	[0x57fc]
-
-So this needs to be /at least/ 0x6000 (Would 0x5800 be odd?) and perhaps as=
- it clearly states
-28k, we should just set it to 0x7000.
-
-
-
-> +                       interrupts =3D <GIC_SPI 546 IRQ_TYPE_LEVEL_HIGH>;
-> +                       clocks =3D <&cpg CPG_MOD 830>;
-> +                       power-domains =3D <&sysc R8A779G0_PD_ALWAYS_ON>;
-> +                       resets =3D <&cpg 830>;
-> +
-> +                       renesas,fcp =3D <&fcpvd0>;
-> +               };
-> +
-> +               vspd1: vsp@fea28000 {
-> +                       compatible =3D "renesas,vsp2";
-> +                       reg =3D <0 0xfea28000 0 0x5000>;
-
-Same here of course (reg =3D <0 0xfea28000 0 0x7000>)
-
-
-> +                       interrupts =3D <GIC_SPI 551 IRQ_TYPE_LEVEL_HIGH>;
-> +                       clocks =3D <&cpg CPG_MOD 831>;
-> +                       power-domains =3D <&sysc R8A779G0_PD_ALWAYS_ON>;
-> +                       resets =3D <&cpg 831>;
-> +
-> +                       renesas,fcp =3D <&fcpvd1>;
-> +               };
-> +
-> +               du: display@feb00000 {
-> +                       compatible =3D "renesas,du-r8a779g0";
-> +                       reg =3D <0 0xfeb00000 0 0x40000>;
-> +                       interrupts =3D <GIC_SPI 523 IRQ_TYPE_LEVEL_HIGH>,
-> +                                    <GIC_SPI 524 IRQ_TYPE_LEVEL_HIGH>;
-> +                       clocks =3D <&cpg CPG_MOD 411>;
-> +                       clock-names =3D "du.0";
-> +                       power-domains =3D <&sysc R8A779G0_PD_ALWAYS_ON>;
-> +                       resets =3D <&cpg 411>;
-> +                       reset-names =3D "du.0";
-> +                       renesas,vsps =3D <&vspd0 0>, <&vspd1 0>;
-> +
-> +                       status =3D "disabled";
-> +
-> +                       ports {
-> +                               #address-cells =3D <1>;
-> +                               #size-cells =3D <0>;
-> +
-> +                               port@0 {
-> +                                       reg =3D <0>;
-> +                                       du_out_dsi0: endpoint {
-> +                                               remote-endpoint =3D <&dsi=
-0_in>;
-> +                                       };
-> +                               };
-> +
-> +                               port@1 {
-> +                                       reg =3D <1>;
-> +                                       du_out_dsi1: endpoint {
-> +                                               remote-endpoint =3D <&dsi=
-1_in>;
-> +                                       };
-> +                               };
-> +                       };
-> +               };
-> +
-> +               dsi0: dsi-encoder@fed80000 {
-> +                       compatible =3D "renesas,r8a779g0-dsi-csi2-tx";
-> +                       reg =3D <0 0xfed80000 0 0x10000>;
-> +                       power-domains =3D <&sysc R8A779G0_PD_ALWAYS_ON>;
-> +                       clocks =3D <&cpg CPG_MOD 415>,
-> +                                <&cpg CPG_CORE R8A779G0_CLK_DSIEXT>,
-> +                                <&cpg CPG_CORE R8A779G0_CLK_DSIREF>;
-> +                       clock-names =3D "fck", "dsi", "pll";
-> +                       resets =3D <&cpg 415>;
-
-blank line here to separate it, and highlight that it's disabled? (Like
-is done for DU?
-
-> +                       status =3D "disabled";
-> +
-> +                       ports {
-> +                               #address-cells =3D <1>;
-> +                               #size-cells =3D <0>;
-> +
-> +                               port@0 {
-> +                                       reg =3D <0>;
-> +                                       dsi0_in: endpoint {
-> +                                               remote-endpoint =3D <&du_=
-out_dsi0>;
-> +                                       };
-> +                               };
-> +
-> +                               port@1 {
-> +                                       reg =3D <1>;
-> +                               };
-> +                       };
-> +               };
-> +
-> +               dsi1: dsi-encoder@fed90000 {
-> +                       compatible =3D "renesas,r8a779g0-dsi-csi2-tx";
-> +                       reg =3D <0 0xfed90000 0 0x10000>;
-> +                       power-domains =3D <&sysc R8A779G0_PD_ALWAYS_ON>;
-> +                       clocks =3D <&cpg CPG_MOD 416>,
-> +                                <&cpg CPG_CORE R8A779G0_CLK_DSIEXT>,
-> +                                <&cpg CPG_CORE R8A779G0_CLK_DSIREF>;
-> +                       clock-names =3D "fck", "dsi", "pll";
-> +                       resets =3D <&cpg 416>;
-
-Same.
-
-With the VSPD register ranges increased accordingly:
 
 Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-> +                       status =3D "disabled";
+
+> ---
+>  .../dts/renesas/r8a779g0-white-hawk-cpu.dtsi  | 94 +++++++++++++++++++
+>  1 file changed, 94 insertions(+)
+>=20
+> diff --git a/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi b/a=
+rch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi
+> index c10740aee9f6..8aab859aac7a 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi
+> @@ -97,6 +97,15 @@ memory@600000000 {
+>                 reg =3D <0x6 0x00000000 0x1 0x00000000>;
+>         };
+> =20
+> +       reg_1p2v: regulator-1p2v {
+> +               compatible =3D "regulator-fixed";
+> +               regulator-name =3D "fixed-1.2V";
+> +               regulator-min-microvolt =3D <1200000>;
+> +               regulator-max-microvolt =3D <1200000>;
+> +               regulator-boot-on;
+> +               regulator-always-on;
+> +       };
 > +
-> +                       ports {
-> +                               #address-cells =3D <1>;
-> +                               #size-cells =3D <0>;
+>         reg_1p8v: regulator-1p8v {
+>                 compatible =3D "regulator-fixed";
+>                 regulator-name =3D "fixed-1.8V";
+> @@ -114,6 +123,24 @@ reg_3p3v: regulator-3p3v {
+>                 regulator-boot-on;
+>                 regulator-always-on;
+>         };
 > +
-> +                               port@0 {
-> +                                       reg =3D <0>;
-> +                                       dsi1_in: endpoint {
-> +                                               remote-endpoint =3D <&du_=
-out_dsi1>;
-> +                                       };
+> +       mini-dp-con {
+> +               compatible =3D "dp-connector";
+> +               label =3D "CN5";
+> +               type =3D "mini";
+> +
+> +               port {
+> +                       mini_dp_con_in: endpoint {
+> +                               remote-endpoint =3D <&sn65dsi86_out>;
+> +                       };
+> +               };
+> +       };
+> +
+> +       sn65dsi86_refclk: clk-x6 {
+> +               compatible =3D "fixed-clock";
+> +               #clock-cells =3D <0>;
+> +               clock-frequency =3D <38400000>;
+> +       };
+>  };
+> =20
+>  &avb0 {
+> @@ -134,6 +161,23 @@ phy0: ethernet-phy@0 {
+>         };
+>  };
+> =20
+> +&dsi0 {
+> +       status =3D "okay";
+> +
+> +       ports {
+> +               port@1 {
+> +                       dsi0_out: endpoint {
+> +                               remote-endpoint =3D <&sn65dsi86_in>;
+> +                               data-lanes =3D <1 2 3 4>;
+> +                       };
+> +               };
+> +       };
+> +};
+> +
+> +&du {
+> +       status =3D "okay";
+> +};
+> +
+>  &extal_clk {
+>         clock-frequency =3D <16666666>;
+>  };
+> @@ -172,6 +216,51 @@ eeprom@50 {
+>         };
+>  };
+> =20
+> +&i2c1 {
+> +       pinctrl-0 =3D <&i2c1_pins>;
+> +       pinctrl-names =3D "default";
+> +
+> +       status =3D "okay";
+> +       clock-frequency =3D <400000>;
+> +
+> +       bridge@2c {
+> +               compatible =3D "ti,sn65dsi86";
+> +               reg =3D <0x2c>;
+> +
+> +               clocks =3D <&sn65dsi86_refclk>;
+> +               clock-names =3D "refclk";
+> +
+> +               interrupt-parent =3D <&intc_ex>;
+> +               interrupts =3D <0 IRQ_TYPE_LEVEL_HIGH>;
+> +
+> +               enable-gpios =3D <&gpio1 26 GPIO_ACTIVE_HIGH>;
+> +
+> +               vccio-supply =3D <&reg_1p8v>;
+> +               vpll-supply =3D <&reg_1p8v>;
+> +               vcca-supply =3D <&reg_1p2v>;
+> +               vcc-supply =3D <&reg_1p2v>;
+> +
+> +               ports {
+> +                       #address-cells =3D <1>;
+> +                       #size-cells =3D <0>;
+> +
+> +                       port@0 {
+> +                               reg =3D <0>;
+> +                               sn65dsi86_in: endpoint {
+> +                                       remote-endpoint =3D <&dsi0_out>;
 > +                               };
+> +                       };
 > +
-> +                               port@1 {
-> +                                       reg =3D <1>;
+> +                       port@1 {
+> +                               reg =3D <1>;
+> +                               sn65dsi86_out: endpoint {
+> +                                       remote-endpoint =3D <&mini_dp_con=
+_in>;
 > +                               };
 > +                       };
 > +               };
+> +       };
+> +};
 > +
+>  &mmc0 {
+>         pinctrl-0 =3D <&mmc_pins>;
+>         pinctrl-1 =3D <&mmc_pins>;
+> @@ -221,6 +310,11 @@ i2c0_pins: i2c0 {
+>                 function =3D "i2c0";
 >         };
 > =20
->         timer {
+> +       i2c1_pins: i2c1 {
+> +               groups =3D "i2c1";
+> +               function =3D "i2c1";
+> +       };
+> +
+>         keys_pins: keys {
+>                 pins =3D "GP_5_0", "GP_5_1", "GP_5_2";
+>                 bias-pull-up;
 > --=20
 > 2.34.1
 >
