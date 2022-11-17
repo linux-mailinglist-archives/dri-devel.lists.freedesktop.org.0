@@ -1,58 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF97D62D400
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 08:22:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 639A262D425
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 08:32:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EDB310E008;
-	Thu, 17 Nov 2022 07:22:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B02FC10E55C;
+	Thu, 17 Nov 2022 07:32:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DE9010E008
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 07:22:04 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1ovZDk-0006pm-A6; Thu, 17 Nov 2022 08:22:00 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1ovZDi-004o2U-38; Thu, 17 Nov 2022 08:21:59 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1ovZDi-00HDlY-6h; Thu, 17 Nov 2022 08:21:58 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee@kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>
-Subject: [PATCH] backlight: pwm_bl: Drop support for legacy PWM probing
-Date: Thu, 17 Nov 2022 08:21:51 +0100
-Message-Id: <20221117072151.3789691-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.38.1
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13BAC10E55E;
+ Thu, 17 Nov 2022 07:32:24 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4NCWp96HpFz4xGH;
+ Thu, 17 Nov 2022 18:32:17 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1668670339;
+ bh=q0FbdAqaG0HNIjHKwNowfghEhjynAez7A03pBstoQU0=;
+ h=Date:From:To:Cc:Subject:From;
+ b=KhymOuqAGJV6FLwllpoWvdHL3c6MPLTEPt6wzaRAARKGgKnZC1vPW8zU+8yfuorhg
+ kLhWjuukYjimYj9XUz3EpMO8+wvSziCXSVI1/CZZC3+QEnkrogBkwV/Lc8kaO4mODp
+ OGOdnkNSZHS/40YQF7Jb41P51BjHuluYhT8x0rGG0y4XXWQOopjjHGmuvaYFqbQAMs
+ awFoU/CbewKhxjgTWc1Vh65i+CIkVrJZ8c0OOl8pdm9xqeAd+C4Zur1Q0Cj+EW081B
+ 3rnPWpZizIf5R0zG+3D3/jlOS+7VGmyLH2Zl0OvtI+rIX13m6Kw3FOJFWQ7tLZeNhk
+ E7ooCiVbw9uSw==
+Date: Thu, 17 Nov 2022 18:32:14 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: linux-next: build failure after merge of the drm-misc tree
+Message-ID: <20221117183214.2473e745@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2504;
- i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=rSqok1k4GUjtAWeSAyFWtQ9yZyvrbmXx+GAVnwVQK7U=;
- b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBjdeEJwIfzABoyAsEpLbMq3vER8M/vKHHUdwIlvheh
- rgvLFW+JATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCY3XhCQAKCRDB/BR4rcrsCV0AB/
- oCGu1BnxfECZOLO6M3AVdlDI867ImIggjUXeq4vMaxX9R73D/rOkVaKrmsp5nS1jLSdBmIEwEamNxE
- D/xd8KzJsqdK3tLMIP+ig3TkZo+TUae1i4SjeJuZ0WvYO44lefTwz3C/JfgCLwoz1G3sz6sa6bHIvQ
- KXaPggRyfIGuMeyd9C7AyptL9SnGqs5sZNTuiT+h+4QhbcWS6jWM0pBG5IkEp6uvexHs3D8OG5xmDc
- D1+6JxNHTwu3xbBGS4oGC2aZxAQLfSZnUvlBC4werJrWD/QCWpi00v6DXMUyT+Lb8dc6IcSNaqvUeI
- r0VshUIRi4rhAyrOGFQBuboRKV3+4n
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
- fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: multipart/signed; boundary="Sig_/wjNg7IVu0VNo1vCy4/HXkgH";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,86 +49,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is no in-tree user left which relies on legacy probing. So drop
-support for it which removes another user of the deprecated
-pwm_request() function.
+--Sig_/wjNg7IVu0VNo1vCy4/HXkgH
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+Hi all,
+
+After merging the drm-misc tree, today's linux-next build (powerpc
+ppc44x_defconfig) failed like this:
+
+ld: drivers/video/fbdev/core/fbmon.o: in function `fb_modesetting_disabled':
+fbmon.c:(.text+0x1e4): multiple definition of `fb_modesetting_disabled'; dr=
+ivers/video/fbdev/core/fbmem.o:fbmem.c:(.text+0x1bac): first defined here
+ld: drivers/video/fbdev/core/fbcmap.o: in function `fb_modesetting_disabled=
+':
+fbcmap.c:(.text+0x478): multiple definition of `fb_modesetting_disabled'; d=
+rivers/video/fbdev/core/fbmem.o:fbmem.c:(.text+0x1bac): first defined here
+ld: drivers/video/fbdev/core/fbsysfs.o: in function `fb_modesetting_disable=
+d':
+fbsysfs.c:(.text+0xb64): multiple definition of `fb_modesetting_disabled'; =
+drivers/video/fbdev/core/fbmem.o:fbmem.c:(.text+0x1bac): first defined here
+ld: drivers/video/fbdev/core/modedb.o: in function `fb_modesetting_disabled=
+':
+modedb.c:(.text+0x129c): multiple definition of `fb_modesetting_disabled'; =
+drivers/video/fbdev/core/fbmem.o:fbmem.c:(.text+0x1bac): first defined here
+ld: drivers/video/fbdev/core/fbcvt.o: in function `fb_modesetting_disabled':
+fbcvt.c:(.text+0x0): multiple definition of `fb_modesetting_disabled'; driv=
+ers/video/fbdev/core/fbmem.o:fbmem.c:(.text+0x1bac): first defined here
+
+Caused by commit
+
+  0ba2fa8cbd29 ("fbdev: Add support for the nomodeset kernel parameter")
+
+This build does not have CONFIG_VIDEO_NOMODESET set.
+
+I applied the following patch for today.
+
+=46rom 63f957a050c62478ed1348c5b204bc65c68df4d7 Mon Sep 17 00:00:00 2001
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+Date: Thu, 17 Nov 2022 18:19:22 +1100
+Subject: [PATCH] fix up for "fbdev: Add support for the nomodeset kernel pa=
+rameter"
+
+Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
 ---
- drivers/video/backlight/pwm_bl.c | 12 ------------
- include/linux/pwm_backlight.h    |  1 -
- 2 files changed, 13 deletions(-)
+ include/linux/fb.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight/pwm_bl.c
-index c0523a0269ee..d0b22158cd70 100644
---- a/drivers/video/backlight/pwm_bl.c
-+++ b/drivers/video/backlight/pwm_bl.c
-@@ -28,7 +28,6 @@ struct pwm_bl_data {
- 	struct regulator	*power_supply;
- 	struct gpio_desc	*enable_gpio;
- 	unsigned int		scale;
--	bool			legacy;
- 	unsigned int		post_pwm_on_delay;
- 	unsigned int		pwm_off_delay;
- 	int			(*notify)(struct device *,
-@@ -455,7 +454,6 @@ static int pwm_backlight_probe(struct platform_device *pdev)
- 	struct platform_pwm_backlight_data defdata;
- 	struct backlight_properties props;
- 	struct backlight_device *bl;
--	struct device_node *node = pdev->dev.of_node;
- 	struct pwm_bl_data *pb;
- 	struct pwm_state state;
- 	unsigned int i;
-@@ -506,12 +504,6 @@ static int pwm_backlight_probe(struct platform_device *pdev)
- 	}
- 
- 	pb->pwm = devm_pwm_get(&pdev->dev, NULL);
--	if (IS_ERR(pb->pwm) && PTR_ERR(pb->pwm) != -EPROBE_DEFER && !node) {
--		dev_err(&pdev->dev, "unable to request PWM, trying legacy API\n");
--		pb->legacy = true;
--		pb->pwm = pwm_request(data->pwm_id, "pwm-backlight");
--	}
--
- 	if (IS_ERR(pb->pwm)) {
- 		ret = PTR_ERR(pb->pwm);
- 		if (ret != -EPROBE_DEFER)
-@@ -604,8 +596,6 @@ static int pwm_backlight_probe(struct platform_device *pdev)
- 	if (IS_ERR(bl)) {
- 		dev_err(&pdev->dev, "failed to register backlight\n");
- 		ret = PTR_ERR(bl);
--		if (pb->legacy)
--			pwm_free(pb->pwm);
- 		goto err_alloc;
- 	}
- 
-@@ -639,8 +629,6 @@ static int pwm_backlight_remove(struct platform_device *pdev)
- 
- 	if (pb->exit)
- 		pb->exit(&pdev->dev);
--	if (pb->legacy)
--		pwm_free(pb->pwm);
- 
- 	return 0;
+diff --git a/include/linux/fb.h b/include/linux/fb.h
+index 3a822e4357b1..ea421724f733 100644
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -807,7 +807,7 @@ extern int fb_find_mode(struct fb_var_screeninfo *var,
+ #if defined(CONFIG_VIDEO_NOMODESET)
+ bool fb_modesetting_disabled(const char *drvname);
+ #else
+-bool fb_modesetting_disabled(const char *drvname)
++static inline bool fb_modesetting_disabled(const char *drvname)
+ {
+ 	return false;
  }
-diff --git a/include/linux/pwm_backlight.h b/include/linux/pwm_backlight.h
-index 06086cb93b6f..cdd2ac366bc7 100644
---- a/include/linux/pwm_backlight.h
-+++ b/include/linux/pwm_backlight.h
-@@ -8,7 +8,6 @@
- #include <linux/backlight.h>
- 
- struct platform_pwm_backlight_data {
--	int pwm_id;
- 	unsigned int max_brightness;
- 	unsigned int dft_brightness;
- 	unsigned int lth_brightness;
+--=20
+2.35.1
 
-base-commit: 9abf2313adc1ca1b6180c508c25f22f9395cc780
--- 
-2.38.1
+--=20
+Cheers,
+Stephen Rothwell
 
+--Sig_/wjNg7IVu0VNo1vCy4/HXkgH
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmN1434ACgkQAVBC80lX
+0Gy73gf/bE1WqkOYNnd03HSmw1cf24Ym206L30fBc7j1ARYlcmBfl/RBOwERxccN
+rtP7JkTzYkOI1lcGwSqWkzUUf4Y8SK0z4ZawWnXJ3OIyN8PMC6fjrFQBAvjvuB3l
+wYnRs/a2E+kj7bijRu6Ad/oF3BXJ/oXY8vC85MNz/1NQmFxLOitpghLuXu0obG7P
+bhjmG/LddlNVgUjkyNijTqH9Dm+DID2+zfOd67Z93OUs2Rm0wteJdRaneRXXmcuI
+0OBL0y67tstzrAYCGEQRoqJTWKA/GDlIkvBcHpnTL5Vl8COZBukwu7OY8CipO+ym
+z6fSdt1WjmGNOG0KetVbrxPa2Kx1iQ==
+=L3k7
+-----END PGP SIGNATURE-----
+
+--Sig_/wjNg7IVu0VNo1vCy4/HXkgH--
