@@ -1,66 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36CF362E29A
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 18:09:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF86F62E2AA
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 18:14:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5398310E183;
-	Thu, 17 Nov 2022 17:08:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F407310E1C5;
+	Thu, 17 Nov 2022 17:14:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A14E510E19F
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 17:08:43 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id gv23so6706211ejb.3
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 09:08:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=UXTIiUhTsDF1ksUQHxOjXei7p0SmIC0BDVdiFoql/Uc=;
- b=mfyuY0gsE5mnqDj5qh5OiKmRss9nTC7A3qsjOYoPmm5QQril+rlThWhPU0wD6Ub4FC
- e8dxsES6M1eDGjtNdYNKm9uWUX68BWALYloABbu3r2vvFDB+bl/D9MHQ6dolimQYL7aN
- EDoPyKs23xH6dMrl3+/EWt/jUTXcuymGKUPBkiLzojbxcQ6vhLN5DETjo1B4QFlOQLpM
- A7oFWHptPVyHvILMhI23wk40X9QgjTKiYte9CvQuDej/WMCu4v9CcFPEYvL/YiE3Mxtw
- /HQeS59Jod2FDBu4Yq1PYEyxlMlpgmB9ck9ERJDj84wD/D15QAx9uXMl5r5UV9ZilzRE
- MwDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UXTIiUhTsDF1ksUQHxOjXei7p0SmIC0BDVdiFoql/Uc=;
- b=UiWyEyanwxfJYR6tb+74dp0Y+hhLEPgtNSRsj3eZLMLs3e2oBf4Hfr+UAX9KSuGWhy
- ujVNr7DDfRguDbVjqSLQ2hc7guDliwFfO+JR+PoFF6b1qUiIZHJpX6OhKokFGIMBVdeU
- ROnb5QvI5PXJgBIXE0Pdc6SNGw9fssp+h9aq7lomTAp6LDWTw9tLPGRqTLN3R8rcsmmK
- RFuZqIhYkH+8KhSRFR2NWJ7PwItxcrOsQqjaezarbaqBRnpaGOm9gXXCAuwuNPs8Hwn/
- Afc1TJBc8g4oisRNReWl+xiMGgCykdhQKSL/Zrrap8pLNGYkB1lukIT7eO9M4djFRrV/
- XxFA==
-X-Gm-Message-State: ANoB5pkHSzSZel9BQ7HJL9mKlheRn0FkM7EvVxPzTTPVJBVicBn9/DBd
- YhcK1gShPf6U5tPJghNLQcM=
-X-Google-Smtp-Source: AA0mqf7wfxRfK7sRIBOzZ7oJkCHzXBfgd3DzeE6bB2BpmX+zB3cRO/dVMMsqWRKhiAIJzI2mS2+oNg==
-X-Received: by 2002:a17:906:c084:b0:78d:e786:e322 with SMTP id
- f4-20020a170906c08400b0078de786e322mr2804280ejz.308.1668704921768; 
- Thu, 17 Nov 2022 09:08:41 -0800 (PST)
-Received: from thinkpad-p72 (user-5-173-65-115.play-internet.pl.
- [5.173.65.115]) by smtp.gmail.com with ESMTPSA id
- m7-20020aa7c2c7000000b00467c3cbab6fsm769694edp.77.2022.11.17.09.08.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Nov 2022 09:08:41 -0800 (PST)
-From: Lukasz Wiecaszek <lukasz.wiecaszek@googlemail.com>
-X-Google-Original-From: Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>
-Date: Thu, 17 Nov 2022 18:08:38 +0100
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v4] udmabuf: add vmap and vunmap methods to udmabuf_ops
-Message-ID: <20221117170838.GA74987@thinkpad-p72>
-References: <20221117045842.27161-1-lukasz.wiecaszek@gmail.com>
- <970e798d-ea26-5e1e-ace8-7915a866f7c7@collabora.com>
+Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com
+ [64.147.123.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9208110E1BB;
+ Thu, 17 Nov 2022 17:14:10 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id 8DB7F2B06A50;
+ Thu, 17 Nov 2022 12:14:04 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Thu, 17 Nov 2022 12:14:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; t=1668705244; x=1668712444; bh=EPKM98yuI0
+ FafDSpZ4oH9M/3CpWV+m3u8fcRxTeHRuU=; b=IKSCrjRehJXLLAheMi3x1nBBT6
+ xv79+oCuXcYWNZ56lfkM1xLPxqSAtDNNT3XxpSJC6jHP7Vkok/cXYc/Q95YEBpG+
+ ezh5FAEU/QFRRHMU7pCIMZWiaEuhO0x26gZVc/BGSuAHy5m4qU6aEWjP9OzWk5Cf
+ 7y/V0+6av4McswO2nCTSoODDF+vOIcOUhzF9inIWGgUE2fphLHOeDM01YAIZHVuu
+ 6op3/MJ3VV7BmT1MOYTIwx+Fbwwh/wYlU+bcv4kNzWVhRhtS1sqQ7QUSpdXtsDF3
+ jygjVycsZPOEbUmO7CCsQXSFduE2nvV6WgRq+ZD9hm+mSroQWO84l6sQNe3A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1668705244; x=1668712444; bh=EPKM98yuI0FafDSpZ4oH9M/3CpWV
+ +m3u8fcRxTeHRuU=; b=FJ0o9lSTMDJUUNFAeEUAJvhsA4JEtyf0agBRuNaZs/Ax
+ /vKmYa1NT94ktikwdItSLaULxP0rJYkbgBubo/OPC2hiCxDNnIO6FtAxj+/ejJGS
+ iKmzcK9bLoYUzLTB6c7XqPKkxdZbPF4H0feWwbfpJ0BWVbdQePGuBroxY9MueMih
+ 7FT17Z+ie0MmgR4aTVQmXVHXO6zsdMFbjOYNE6tCp0e8Lbm1N/mKRHD2iGxx8Xcb
+ IXPAvjwzB7KOyD9S/fDSePH03flvfPtPB7NrqZXeNUmupz+zQ9RaGmo2KcKRHvbT
+ zwZ7vlVYZEzM0Z1UI08AtAbJrk2HLpqzUu9OF5IoOQ==
+X-ME-Sender: <xms:22t2Y7aq50whuiFoQkEUePGTIQQg6ZfqHjYpnO3ZncSCACAWCnOiMg>
+ <xme:22t2Y6ZPwV0Q-ALL-9E4JiTTYPis500kQYlEddlLdZGekFPHa-FsXpXfxA25fJ3o2
+ gwMU9kLZtOVoGM6TQg>
+X-ME-Received: <xmr:22t2Y99lRvGfydEV4TyGUQvS_xMgz5cYjOuHKny_YDGWhp55onjpyMcwIi6_VHCLq68SvWWLiZglAAmz18UhhoZIzXVeUJL6MkOpgZBxhvpz-Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgeekgdeljecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheehfffh
+ vedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:22t2Yxom94qDjT-BzKQYtjOcEEJ5G_ZpbqblIPWD4ny5xSpnARo47w>
+ <xmx:22t2Y2pZsh_WWZJSX9aXYTEk1HHwKH4A-o6rp_LoVNmwmGmnNPxxGA>
+ <xmx:22t2Y3Tq45VHs9_ipPR4WzxHHa3NojkmAl11WzxKDRL27UL_x3KIdg>
+ <xmx:3Gt2Y5CoJVgET8RSJmOoRJmYWzwp91a6JyV2_DM6wMLHtCwwG3cyUPBYqxc>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 17 Nov 2022 12:14:02 -0500 (EST)
+Date: Thu, 17 Nov 2022 18:14:01 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
+Subject: Re: [PATCH v10 18/19] drm/vc4: vec: Add support for more analog TV
+ standards
+Message-ID: <20221117171401.3ogenv6g5nszufmm@houat>
+References: <20220728-rpi-analog-tv-properties-v10-0-256dad125326@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v10-18-256dad125326@cerno.tech>
+ <20221117164928.200b3a1a@maurocar-mobl2>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="cz56iqciiap5nisp"
 Content-Disposition: inline
-In-Reply-To: <970e798d-ea26-5e1e-ace8-7915a866f7c7@collabora.com>
+In-Reply-To: <20221117164928.200b3a1a@maurocar-mobl2>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,53 +85,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lukasz Wiecaszek <lukasz.wiecaszek@googlemail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
- Gerd Hoffmann <kraxel@redhat.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
+ linux-sunxi@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+ Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 17, 2022 at 12:04:35PM +0300, Dmitry Osipenko wrote:
-> Hi,
-> 
-> On 11/17/22 07:58, Lukasz Wiecaszek wrote:
-> > The reason behind that patch is associated with videobuf2 subsystem
-> > (or more genrally with v4l2 framework) and user created
-> > dma buffers (udmabuf). In some circumstances
-> > when dealing with V4L2_MEMORY_DMABUF buffers videobuf2 subsystem
-> > wants to use dma_buf_vmap() method on the attached dma buffer.
-> > As udmabuf does not have .vmap operation implemented,
-> > such dma_buf_vmap() natually fails.
-> > 
-> > videobuf2_common: __vb2_queue_alloc: allocated 3 buffers, 1 plane(s) each
-> > videobuf2_common: __prepare_dmabuf: buffer for plane 0 changed
-> > videobuf2_common: __prepare_dmabuf: failed to map dmabuf for plane 0
-> > videobuf2_common: __buf_prepare: buffer preparation failed: -14
-> > 
-> > The patch itself seems to be strighforward.
-> > It adds implementation of .vmap and .vunmap methods
-> > to 'struct dma_buf_ops udmabuf_ops'.
-> > .vmap method itself uses vm_map_ram() to map pages linearly
-> > into the kernel virtual address space.
-> > .vunmap removes mapping created earlier by .vmap.
-> > All locking and 'vmapping counting' is done in dma_buf.c
-> > so it seems to be redundant/unnecessary in .vmap/.vunmap.
-> > 
-> > Signed-off-by: Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>
-> 
-> If new patch version doesn't contain significant changes and you got
-> acks/reviews for the previous version, then you should add the given
-> acked-by and reviewed-by tags to the commit message by yourself.
-> 
-> -- 
-> Best regards,
-> Dmitry
->
 
-I would like to thank you all for your patience and on the same time say
-sorry that I still cannot follow the process (although I have read
-'submitting patches' chapter).
+--cz56iqciiap5nisp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Nov 17, 2022 at 04:49:28PM +0100, Mauro Carvalho Chehab wrote:
+> On Thu, 17 Nov 2022 10:29:01 +0100
+> Maxime Ripard <maxime@cerno.tech> wrote:
+>=20
+> > From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+> >=20
+> > Add support for the following composite output modes (all of them are
+> > somewhat more obscure than the previously defined ones):
+> >=20
+> > - NTSC_443 - NTSC-style signal with the chroma subcarrier shifted to
+> >   4.43361875 MHz (the PAL subcarrier frequency). Never used for
+> >   broadcasting, but sometimes used as a hack to play NTSC content in PAL
+> >   regions (e.g. on VCRs).
+>=20
+> > - PAL_N - PAL with alternative chroma subcarrier frequency,
+> >   3.58205625 MHz. Used as a broadcast standard in Argentina, Paraguay
+> >   and Uruguay to fit 576i50 with colour in 6 MHz channel raster.
+>=20
+> That's not right. Argentina uses a different standard than Paraguay and
+> Uruguai.
+>=20
+> See, there are two variants of PAL/N. The original one and PAL/N' - also
+> called PAL/NC or PAL/CN (Combination N). Some of the timings are=20
+> different on /NC variant.
+>=20
+> As far as I'm aware, PAL/Nc is used in Argentina, while
+> PAL/N is used in Paraguai and Uruguai, but I may be wrong on that,
+> as it has been a long time since had to touch on this.
+>=20
+> > - PAL60 - 480i60 signal with PAL-style color at normal European PAL
+> >   frequency. Another non-standard, non-broadcast mode, used in similar
+> >   contexts as NTSC_443. Some displays support one but not the other.
+>=20
+> > - SECAM - French frequency-modulated analog color standard; also have
+> >   been broadcast in Eastern Europe and various parts of Africa and Asia.
+> >   Uses the same 576i50 timings as PAL.
+>=20
+> This is also wrong. just like PAL, there are several variants of SECAM,
+> one used in France, and a different one in France overseas and on
+> previous France colonies in Africa and Asia. Eastern Europe also used
+> different variants of SECAM.
+
+And that's fine? Everything I did is supposed to be easy to extend if
+and when needed, so if someone has some interest in providing support
+for more standards, they are very welcome to do so.
+
+I won't do it in this series though.
+
+Maxime
+
+--cz56iqciiap5nisp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY3Zr2QAKCRDj7w1vZxhR
+xQY3AQC3ODU/A4r/xCJ5Ms7gOYpWhJaSGlaY+jf/qgMPcMmMhAD/VJCODvzEFvlF
+AuxhxZDFClQh1TusZBNOY31fQyzDIAU=
+=f8ne
+-----END PGP SIGNATURE-----
+
+--cz56iqciiap5nisp--
