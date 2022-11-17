@@ -1,28 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A63AA62DAC3
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 13:27:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C7A462DABF
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 13:26:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C99F10E5CB;
-	Thu, 17 Nov 2022 12:27:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECA5F10E127;
+	Thu, 17 Nov 2022 12:26:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DC2D10E11E
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 12:26:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6480010E13E
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 12:26:12 +0000 (UTC)
 Received: from desky.lan (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 292B8133C;
- Thu, 17 Nov 2022 13:26:09 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3BA59158D;
+ Thu, 17 Nov 2022 13:26:10 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1668687970;
- bh=Yp9gIE748wlY7gw+8HNjk6NkwSOWfjoqB6wxFtfVN+E=;
+ s=mail; t=1668687971;
+ bh=hJWHZolEgxknSo6UzcwOzzcgIN9JAn9uMotLz483CrU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HaSo4pZYzoo3itwKO8/m3/xpjHeFZskjJfImSF+RUvW0Zcx0vkUNqVPgQeXNK9c6K
- UkyDKN5+ahKf5ZJSYDHvcYWB60ORAeHZctQe82HG+KQOmZTrubGP0hRYDnM1S7kIil
- N0BYiZk+WdR+Oa8LCzVZauTzhDrMPazmQtg2YuzI=
+ b=MTDRahSiFaQ9cP16aQ43RcBnRZRq6cU6Y+52gqOdZqy6Xy/+Izq8vypPI6LPaOrBS
+ XZgDieNGWco0zhOQ2L58rBbF3gL9O1/IRVGambs3ZgFLScdF+wn/SNbkRT7G8iIrsk
+ IFVCAKdJuVjBvrHsDtRxXsXAs6d5jdy4yYOfSxUw=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
@@ -32,9 +32,9 @@ To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org,
  linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v1 3/8] clk: renesas: r8a779g0: Add display related clocks
-Date: Thu, 17 Nov 2022 14:25:42 +0200
-Message-Id: <20221117122547.809644-4-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v1 4/8] arm64: dts: renesas: r8a779g0: Add display related data
+Date: Thu, 17 Nov 2022 14:25:43 +0200
+Message-Id: <20221117122547.809644-5-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221117122547.809644-1-tomi.valkeinen@ideasonboard.com>
 References: <20221117122547.809644-1-tomi.valkeinen@ideasonboard.com>
@@ -61,55 +61,157 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-Add clocks related to display which are needed to get the DSI output
-working.
-
-Extracted from Renesas BSP tree.
+Add DT nodes for components needed to get the DSI output working:
+- FCPv
+- VSPd
+- DU
+- DSI
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 ---
- drivers/clk/renesas/r8a779g0-cpg-mssr.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ arch/arm64/boot/dts/renesas/r8a779g0.dtsi | 129 ++++++++++++++++++++++
+ 1 file changed, 129 insertions(+)
 
-diff --git a/drivers/clk/renesas/r8a779g0-cpg-mssr.c b/drivers/clk/renesas/r8a779g0-cpg-mssr.c
-index c6337a408e5e..6937f1aee677 100644
---- a/drivers/clk/renesas/r8a779g0-cpg-mssr.c
-+++ b/drivers/clk/renesas/r8a779g0-cpg-mssr.c
-@@ -145,6 +145,8 @@ static const struct cpg_core_clk r8a779g0_core_clks[] __initconst = {
- 	DEF_FIXED("viobusd2",	R8A779G0_CLK_VIOBUSD2,	CLK_VIO,	2, 1),
- 	DEF_FIXED("vcbus",	R8A779G0_CLK_VCBUS,	CLK_VC,		1, 1),
- 	DEF_FIXED("vcbusd2",	R8A779G0_CLK_VCBUSD2,	CLK_VC,		2, 1),
-+	DEF_FIXED("dsiref",	R8A779G0_CLK_DSIREF,	CLK_PLL5_DIV4,	48, 1),
-+	DEF_DIV6P1("dsiext",	R8A779G0_CLK_DSIEXT,	CLK_PLL5_DIV4,	0x884),
+diff --git a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
+index 45d8d927ad26..31d4930c5adc 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
+@@ -1207,6 +1207,135 @@ prr: chipid@fff00044 {
+ 			compatible = "renesas,prr";
+ 			reg = <0 0xfff00044 0 4>;
+ 		};
++
++		fcpvd0: fcp@fea10000 {
++			compatible = "renesas,fcpv";
++			reg = <0 0xfea10000 0 0x200>;
++			clocks = <&cpg CPG_MOD 508>;
++			power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
++			resets = <&cpg 508>;
++		};
++
++		fcpvd1: fcp@fea11000 {
++			compatible = "renesas,fcpv";
++			reg = <0 0xfea11000 0 0x200>;
++			clocks = <&cpg CPG_MOD 509>;
++			power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
++			resets = <&cpg 509>;
++		};
++
++		vspd0: vsp@fea20000 {
++			compatible = "renesas,vsp2";
++			reg = <0 0xfea20000 0 0x5000>;
++			interrupts = <GIC_SPI 546 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 830>;
++			power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
++			resets = <&cpg 830>;
++
++			renesas,fcp = <&fcpvd0>;
++		};
++
++		vspd1: vsp@fea28000 {
++			compatible = "renesas,vsp2";
++			reg = <0 0xfea28000 0 0x5000>;
++			interrupts = <GIC_SPI 551 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 831>;
++			power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
++			resets = <&cpg 831>;
++
++			renesas,fcp = <&fcpvd1>;
++		};
++
++		du: display@feb00000 {
++			compatible = "renesas,du-r8a779g0";
++			reg = <0 0xfeb00000 0 0x40000>;
++			interrupts = <GIC_SPI 523 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 524 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 411>;
++			clock-names = "du.0";
++			power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
++			resets = <&cpg 411>;
++			reset-names = "du.0";
++			renesas,vsps = <&vspd0 0>, <&vspd1 0>;
++
++			status = "disabled";
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				port@0 {
++					reg = <0>;
++					du_out_dsi0: endpoint {
++						remote-endpoint = <&dsi0_in>;
++					};
++				};
++
++				port@1 {
++					reg = <1>;
++					du_out_dsi1: endpoint {
++						remote-endpoint = <&dsi1_in>;
++					};
++				};
++			};
++		};
++
++		dsi0: dsi-encoder@fed80000 {
++			compatible = "renesas,r8a779g0-dsi-csi2-tx";
++			reg = <0 0xfed80000 0 0x10000>;
++			power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
++			clocks = <&cpg CPG_MOD 415>,
++				 <&cpg CPG_CORE R8A779G0_CLK_DSIEXT>,
++				 <&cpg CPG_CORE R8A779G0_CLK_DSIREF>;
++			clock-names = "fck", "dsi", "pll";
++			resets = <&cpg 415>;
++			status = "disabled";
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				port@0 {
++					reg = <0>;
++					dsi0_in: endpoint {
++						remote-endpoint = <&du_out_dsi0>;
++					};
++				};
++
++				port@1 {
++					reg = <1>;
++				};
++			};
++		};
++
++		dsi1: dsi-encoder@fed90000 {
++			compatible = "renesas,r8a779g0-dsi-csi2-tx";
++			reg = <0 0xfed90000 0 0x10000>;
++			power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
++			clocks = <&cpg CPG_MOD 416>,
++				 <&cpg CPG_CORE R8A779G0_CLK_DSIEXT>,
++				 <&cpg CPG_CORE R8A779G0_CLK_DSIREF>;
++			clock-names = "fck", "dsi", "pll";
++			resets = <&cpg 416>;
++			status = "disabled";
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				port@0 {
++					reg = <0>;
++					dsi1_in: endpoint {
++						remote-endpoint = <&du_out_dsi1>;
++					};
++				};
++
++				port@1 {
++					reg = <1>;
++				};
++			};
++		};
++
+ 	};
  
- 	DEF_GEN4_SDH("sd0h",	R8A779G0_CLK_SD0H,	CLK_SDSRC,	   0x870),
- 	DEF_GEN4_SD("sd0",	R8A779G0_CLK_SD0,	R8A779G0_CLK_SD0H, 0x870),
-@@ -161,6 +163,14 @@ static const struct mssr_mod_clk r8a779g0_mod_clks[] __initconst = {
- 	DEF_MOD("avb0",		211,	R8A779G0_CLK_S0D4_HSC),
- 	DEF_MOD("avb1",		212,	R8A779G0_CLK_S0D4_HSC),
- 	DEF_MOD("avb2",		213,	R8A779G0_CLK_S0D4_HSC),
-+
-+	DEF_MOD("dis0",			411,	R8A779G0_CLK_S0D3),
-+	DEF_MOD("dsitxlink0",		415,	R8A779G0_CLK_DSIREF),
-+	DEF_MOD("dsitxlink1",		416,	R8A779G0_CLK_DSIREF),
-+
-+	DEF_MOD("fcpvd0",		508,	R8A779G0_CLK_S0D3),
-+	DEF_MOD("fcpvd1",		509,	R8A779G0_CLK_S0D3),
-+
- 	DEF_MOD("hscif0",	514,	R8A779G0_CLK_SASYNCPERD1),
- 	DEF_MOD("hscif1",	515,	R8A779G0_CLK_SASYNCPERD1),
- 	DEF_MOD("hscif2",	516,	R8A779G0_CLK_SASYNCPERD1),
-@@ -193,6 +203,10 @@ static const struct mssr_mod_clk r8a779g0_mod_clks[] __initconst = {
- 	DEF_MOD("tmu3",		716,	R8A779G0_CLK_SASYNCPERD2),
- 	DEF_MOD("tmu4",		717,	R8A779G0_CLK_SASYNCPERD2),
- 	DEF_MOD("tpu0",		718,	R8A779G0_CLK_SASYNCPERD4),
-+
-+	DEF_MOD("vspd0",		830,	R8A779G0_CLK_S0D1_VIO),
-+	DEF_MOD("vspd1",		831,	R8A779G0_CLK_S0D1_VIO),
-+
- 	DEF_MOD("wdt1:wdt0",	907,	R8A779G0_CLK_R),
- 	DEF_MOD("cmt0",		910,	R8A779G0_CLK_R),
- 	DEF_MOD("cmt1",		911,	R8A779G0_CLK_R),
+ 	timer {
 -- 
 2.34.1
 
