@@ -2,60 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B713562DFDC
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 16:30:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A90162E00F
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 16:38:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2B2910E631;
-	Thu, 17 Nov 2022 15:30:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8994D10E637;
+	Thu, 17 Nov 2022 15:38:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97FCF10E631
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 15:30:44 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id j15so3889957wrq.3
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 07:30:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=NmTc8N4Shr092u5q5ZzMYQiK1Tct2nUI1iNfzKh4nMY=;
- b=A318zzSk1BBUdlkn8Dy/PMD9F4JHekHV2V+qkQuFEswyxWxyDUA8yHBCkp4HKz9wXq
- C3xiGOQ0YDoT6rDIPecYmVYrh7pS65pFb5wZ2rnsiEcHazYKHNgwAPV2609ovHpvunHo
- BpPhNT2lZxiMhQ+rd3koUxuAr5wrYnWO3Gkzw=
+Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com
+ [IPv6:2607:f8b0:4864:20::f30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C699310E638
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 15:38:18 +0000 (UTC)
+Received: by mail-qv1-xf30.google.com with SMTP id n18so1398826qvt.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 07:38:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=vyMHbYz7pcCdNisY9D7J4VP8a/I9/qddgBipkibQG+M=;
+ b=nmbivz/kcxfBCLU/jAAuW462IWRidAqpClZ0uFErVGlRdeIegMjlU+eqvz2tbWHaEZ
+ KaPYd4IZp7oHa0C8D6MDHS2KpQLwfrOWt8Pwf/VMl1wf47no3bFde2wi8BBsTAIaub2z
+ rPp1tLD9bcjZErhI+nK6eVwPamcyRRT+JJjsLsPfecDz5AwAs1Sx0WPilMs0xue8sNgg
+ hx/KzzWKbvqCtZ3vPY8dd289I/w5EA1RZRQBqca94LrqHUW42Sohy1FLpwEwvh2z6PWK
+ 2cYHwU128Itq9GXd9neoAFK30WSnxFBd97cVRMJ3qhdHOxiPmXv23PjpGPDjhtbfLjVf
+ OmCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NmTc8N4Shr092u5q5ZzMYQiK1Tct2nUI1iNfzKh4nMY=;
- b=heAGqLaNB9TDO7PCATDJYjITvEDa2xMTw8WVEBFzOXuTMK7DIUS2Un0O2f38QLwVge
- Ti7sBGW+CB6fITpvZuNor9rmwKo5FCRDIKEw7RLDUyrBH6Ir7NaMrygkUfeQ/fy7rKO8
- uEQFFe0fFBAiqOlrhpn5UQza2fTEpK1PDBs+H59vpEuIpArWqvUo7DYh21a+Jbx4thml
- 2HMwe0LTFhx8hR+sf3Xxo29xo29slP+jpfDeIm/87u5DSTFYpm6d3TYA1dpNeGZsDMyu
- 7jZagUVHdiyZXHk1JybFrEdw0VlEoGxt1ebiDTndgcr2RFsMbz3mTzmaHzZPArqA6ZpB
- auVQ==
-X-Gm-Message-State: ANoB5plpF00hpsHBMzhNRKlhaASy9J4IGE8uJuLLAaI5pp0buBeuDBvO
- H3XGuB/BN9ANPCpRFlnhZ2+jMw==
-X-Google-Smtp-Source: AA0mqf4w/Z5ktLFjNKV4YqK14v6dPGVMM0iwtA6cWCaaNwgP3b8MkYrqy2yxiya5oeEUGCWz/s+w+w==
-X-Received: by 2002:a5d:698c:0:b0:236:4930:2465 with SMTP id
- g12-20020a5d698c000000b0023649302465mr1828158wru.235.1668699043111; 
- Thu, 17 Nov 2022 07:30:43 -0800 (PST)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- l13-20020a5d668d000000b00236488f62d6sm1193827wru.79.2022.11.17.07.30.42
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=vyMHbYz7pcCdNisY9D7J4VP8a/I9/qddgBipkibQG+M=;
+ b=XcaT7IEJQeT+Y1LUYhUCdMO58YwbNpvOu9WKnxibUE82zBNZQDYZ2EBOcT3WJLH1SK
+ 4Y4kSvshsrDqtvJEZ0nnI9QxpxeBnEVAZjq+TgqkG50KrSThQ3FXINhaGZoDPiQU5IPs
+ ReozmBxlPyeZGv0qe3lr6CzYXihHZNomSVUXRT8QZuAhADmuOK6/n2Vcu2Dt78unQRR0
+ 8V0ndEsP494hIAfek3NWiZwvq2f3GH8I+IZfKMtqcwxx5TdV9AJDApUhjkhVpQE93Vhw
+ ISvDmNtFXWBBmfFeiPWlHLYcBTF+aDdmVisb5iKesxbVQuX3qJr7Hgs1zn+0T980panq
+ sb9w==
+X-Gm-Message-State: ANoB5pmvyyIv5xPqBmgIsUZ8Kw+fNEoi3WRmjeIJ0GVdh2yPihxIb5JP
+ FFypN4mdv+KE4skuE2Yg3FPSjg==
+X-Google-Smtp-Source: AA0mqf5Venn3LzgykvP/AW3ygZYkmxzaUHLCWmhJmw7owC7KwpImB6WDjiRHdsPxXKixU/hzrIG4Hw==
+X-Received: by 2002:ad4:4e42:0:b0:4b8:361:4ca with SMTP id
+ eb2-20020ad44e42000000b004b8036104camr2852335qvb.102.1668699497853; 
+ Thu, 17 Nov 2022 07:38:17 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net.
+ [192.222.136.102]) by smtp.gmail.com with ESMTPSA id
+ w9-20020a05620a424900b006ce2c3c48ebsm645891qko.77.2022.11.17.07.38.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Nov 2022 07:30:42 -0800 (PST)
-Date: Thu, 17 Nov 2022 16:30:41 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Subject: Re: [PATCH] fbcon: Use kzalloc() in fbcon_prepare_logo()
-Message-ID: <Y3ZTofhl0TYXvlDa@phenom.ffwll.local>
-References: <cad03d25-0ea0-32c4-8173-fd1895314bce@I-love.SAKURA.ne.jp>
+ Thu, 17 Nov 2022 07:38:17 -0800 (PST)
+Message-ID: <346d6ad023ef8697aafd93ac1b100890f3637e44.camel@ndufresne.ca>
+Subject: Re: Try to address the DMA-buf coherency problem
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Tomasz
+ Figa <tfiga@chromium.org>
+Date: Thu, 17 Nov 2022 10:38:16 -0500
+In-Reply-To: <b2dec9b3-03a7-e7ac-306e-1da024af8982@amd.com>
+References: <20221020121316.3946-1-christian.koenig@amd.com>
+ <3d7353f3fa5905ce18e5b2d92f758f098189bc5a.camel@pengutronix.de>
+ <7f5eff36-6886-bb06-061a-dd4263b61605@gmail.com>
+ <f5de84cfe81fee828bbe0d47d379028d28ef6ca6.camel@pengutronix.de>
+ <e02cedc2-6741-8813-a7a5-f8769e301745@gmail.com>
+ <a53e5df51ec0f2f9d4c2d377c0cc5ba85f2e58ff.camel@ndufresne.ca>
+ <9d716641-55c6-1590-26c2-1c3b14a28226@gmail.com>
+ <CAPj87rMPkmimR_RJHhxYZokH__TVpPArk0h6drOUSx7Z9+oAHA@mail.gmail.com>
+ <11a6f97c-e45f-f24b-8a73-48d5a388a2cc@gmail.com>
+ <caf4d6b82843788db97555a58bc9e33915e5b50a.camel@ndufresne.ca>
+ <b422be59-4b4b-2d0d-8e8c-b19f27c6832e@gmail.com>
+ <4fa4e5d3b1f46e46139bad069cbf5e795e63afa8.camel@pengutronix.de>
+ <cc091a11-d012-d998-b7e2-8b3d616867a7@gmail.com>
+ <0abc6efddb8dfc1888de15a1bedaaac6688fd078.camel@pengutronix.de>
+ <1e2a6750-9849-e9ee-69d6-e4bfdcfb64f3@gmail.com>
+ <CAAFQd5B+VHs62M5Wf2L-xOw=_PoaXT+akAySkeZc75HeA3d0jQ@mail.gmail.com>
+ <b2dec9b3-03a7-e7ac-306e-1da024af8982@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cad03d25-0ea0-32c4-8173-fd1895314bce@I-love.SAKURA.ne.jp>
-X-Operating-System: Linux phenom 5.19.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,98 +90,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI <dri-devel@lists.freedesktop.org>, Helge Deller <deller@gmx.de>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>
+Cc: linaro-mm-sig@lists.linaro.org, ppaalanen@gmail.com,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ sumit.semwal@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 18, 2022 at 12:27:58AM +0900, Tetsuo Handa wrote:
-> A kernel built with syzbot's config file reported that
-> 
->   scr_memcpyw(q, save, array3_size(logo_lines, new_cols, 2))
-> 
-> causes uninitialized "save" to be copied.
-> 
->   ----------
->   [drm] Initialized vgem 1.0.0 20120112 for vgem on minor 0
->   [drm] Initialized vkms 1.0.0 20180514 for vkms on minor 1
->   Console: switching to colour frame buffer device 128x48
->   =====================================================
->   BUG: KMSAN: uninit-value in do_update_region+0x4b8/0xba0
->    do_update_region+0x4b8/0xba0
->    update_region+0x40d/0x840
->    fbcon_switch+0x3364/0x35e0
->    redraw_screen+0xae3/0x18a0
->    do_bind_con_driver+0x1cb3/0x1df0
->    do_take_over_console+0x11cb/0x13f0
->    fbcon_fb_registered+0xacc/0xfd0
->    register_framebuffer+0x1179/0x1320
->    __drm_fb_helper_initial_config_and_unlock+0x23ad/0x2b40
->    drm_fbdev_client_hotplug+0xbea/0xda0
->    drm_fbdev_generic_setup+0x65e/0x9d0
->    vkms_init+0x9f3/0xc76
->    (...snipped...)
->   
->   Uninit was stored to memory at:
->    fbcon_prepare_logo+0x143b/0x1940
->    fbcon_init+0x2c1b/0x31c0
->    visual_init+0x3e7/0x820
->    do_bind_con_driver+0x14a4/0x1df0
->    do_take_over_console+0x11cb/0x13f0
->    fbcon_fb_registered+0xacc/0xfd0
->    register_framebuffer+0x1179/0x1320
->    __drm_fb_helper_initial_config_and_unlock+0x23ad/0x2b40
->    drm_fbdev_client_hotplug+0xbea/0xda0
->    drm_fbdev_generic_setup+0x65e/0x9d0
->    vkms_init+0x9f3/0xc76
->    (...snipped...)
->   
->   Uninit was created at:
->    __kmem_cache_alloc_node+0xb69/0x1020
->    __kmalloc+0x379/0x680
->    fbcon_prepare_logo+0x704/0x1940
->    fbcon_init+0x2c1b/0x31c0
->    visual_init+0x3e7/0x820
->    do_bind_con_driver+0x14a4/0x1df0
->    do_take_over_console+0x11cb/0x13f0
->    fbcon_fb_registered+0xacc/0xfd0
->    register_framebuffer+0x1179/0x1320
->    __drm_fb_helper_initial_config_and_unlock+0x23ad/0x2b40
->    drm_fbdev_client_hotplug+0xbea/0xda0
->    drm_fbdev_generic_setup+0x65e/0x9d0
->    vkms_init+0x9f3/0xc76
->    (...snipped...)
->   
->   CPU: 2 PID: 1 Comm: swapper/0 Not tainted 6.1.0-rc4-00356-g8f2975c2bb4c #924
->   Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
->   ----------
-> 
-> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Le jeudi 17 novembre 2022 =C3=A0 13:10 +0100, Christian K=C3=B6nig a =C3=A9=
+crit=C2=A0:
+> > > DMA-Buf let's the exporter setup the DMA addresses the importer uses =
+to
+> > > be able to directly decided where a certain operation should go. E.g.=
+ we
+> > > have cases where for example a P2P write doesn't even go to memory, b=
+ut
+> > > rather a doorbell BAR to trigger another operation. Throwing in CPU
+> > > round trips for explicit ownership transfer completely breaks that
+> > > concept.
+> > It sounds like we should have a dma_dev_is_coherent_with_dev() which
+> > accepts two (or an array?) of devices and tells the caller whether the
+> > devices need explicit ownership transfer.
+>=20
+> No, exactly that's the concept I'm pushing back on very hard here.
+>=20
+> In other words explicit ownership transfer is not something we would=20
+> want as requirement in the framework, cause otherwise we break tons of=
+=20
+> use cases which require concurrent access to the underlying buffer.
 
-Thanks for your patch, pushed to drm-misc-fixes.
--Daniel
+I'm not pushing for this solution, but really felt the need to correct you =
+here.
+I have quite some experience with ownership transfer mechanism, as this is =
+how
+GStreamer framework works since 2000. Concurrent access is a really common =
+use
+cases and it is quite well defined in that context. The bracketing system (=
+in
+this case called map() unmap(), with flag stating the usage intention like =
+reads
+and write) is combined the the refcount. The basic rules are simple:
 
-> ---
->  drivers/video/fbdev/core/fbcon.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-> index 098b62f7b701..c0143d38df83 100644
-> --- a/drivers/video/fbdev/core/fbcon.c
-> +++ b/drivers/video/fbdev/core/fbcon.c
-> @@ -577,7 +577,7 @@ static void fbcon_prepare_logo(struct vc_data *vc, struct fb_info *info,
->  		if (scr_readw(r) != vc->vc_video_erase_char)
->  			break;
->  	if (r != q && new_rows >= rows + logo_lines) {
-> -		save = kmalloc(array3_size(logo_lines, new_cols, 2),
-> +		save = kzalloc(array3_size(logo_lines, new_cols, 2),
->  			       GFP_KERNEL);
->  		if (save) {
->  			int i = min(cols, new_cols);
-> -- 
-> 2.34.1
+- An object with a refcount higher then 2 is shared, hence read-only
+- An object with refcount of one, mapped for writes becomes exclusive
+- Non exclusive writes can be done, but that has to be explicit (intentiona=
+l),
+we didn't go as far as Rust in that domain
+- Wrappers around these object can use mechanism like "copy-on-write" and c=
+an
+also maintain the state of shadow buffers (e.g. GL upload slow cases) even =
+with
+concurrent access.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Just hope it clarify, Rust language works, yet its all based on explicit
+ownership transfers. Its not limiting, but it requires a different way of
+thinking how data is to be accessed.
+
+Nicolas
+
