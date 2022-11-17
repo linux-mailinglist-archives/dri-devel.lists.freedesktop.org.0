@@ -1,28 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C7A462DABF
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 13:26:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E6FB62DAC0
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 13:26:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECA5F10E127;
-	Thu, 17 Nov 2022 12:26:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42A8F10E1D4;
+	Thu, 17 Nov 2022 12:26:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6480010E13E
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 12:26:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DD4910E11E
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 12:26:13 +0000 (UTC)
 Received: from desky.lan (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3BA59158D;
- Thu, 17 Nov 2022 13:26:10 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 49D421861;
+ Thu, 17 Nov 2022 13:26:11 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1668687971;
- bh=hJWHZolEgxknSo6UzcwOzzcgIN9JAn9uMotLz483CrU=;
+ s=mail; t=1668687972;
+ bh=IHdH+5Jq8YXyln1IMcVU8yG275BjH00+O71gzLrZch8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MTDRahSiFaQ9cP16aQ43RcBnRZRq6cU6Y+52gqOdZqy6Xy/+Izq8vypPI6LPaOrBS
- XZgDieNGWco0zhOQ2L58rBbF3gL9O1/IRVGambs3ZgFLScdF+wn/SNbkRT7G8iIrsk
- IFVCAKdJuVjBvrHsDtRxXsXAs6d5jdy4yYOfSxUw=
+ b=tmGJOOimaOkE3OqehCKtn+26szR2kXVe7nsdn101d16Eb2GK57i2UP7chM5my7/I2
+ 0tK9qwh1TVt3BQntpPJv1g0WZ9F7/p7A6VdEVn8sgr/Lx8nEc98EqjUoamjLQAjjQH
+ c0vOYnlA5yyzZsHnxFyMV6U59x2PiRsPaqlBBKwQ=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
@@ -32,9 +32,10 @@ To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org,
  linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v1 4/8] arm64: dts: renesas: r8a779g0: Add display related data
-Date: Thu, 17 Nov 2022 14:25:43 +0200
-Message-Id: <20221117122547.809644-5-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v1 5/8] arm64: dts: renesas: white-hawk-cpu: Add DP output
+ support
+Date: Thu, 17 Nov 2022 14:25:44 +0200
+Message-Id: <20221117122547.809644-6-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221117122547.809644-1-tomi.valkeinen@ideasonboard.com>
 References: <20221117122547.809644-1-tomi.valkeinen@ideasonboard.com>
@@ -61,157 +62,147 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-Add DT nodes for components needed to get the DSI output working:
-- FCPv
-- VSPd
-- DU
-- DSI
+Add DT nodes needed for the mini DP connector. The DP is driven by
+sn65dsi86, which in turn gets the pixel data from the SoC via DSI.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 ---
- arch/arm64/boot/dts/renesas/r8a779g0.dtsi | 129 ++++++++++++++++++++++
- 1 file changed, 129 insertions(+)
+ .../dts/renesas/r8a779g0-white-hawk-cpu.dtsi  | 94 +++++++++++++++++++
+ 1 file changed, 94 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-index 45d8d927ad26..31d4930c5adc 100644
---- a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-@@ -1207,6 +1207,135 @@ prr: chipid@fff00044 {
- 			compatible = "renesas,prr";
- 			reg = <0 0xfff00044 0 4>;
- 		};
-+
-+		fcpvd0: fcp@fea10000 {
-+			compatible = "renesas,fcpv";
-+			reg = <0 0xfea10000 0 0x200>;
-+			clocks = <&cpg CPG_MOD 508>;
-+			power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
-+			resets = <&cpg 508>;
-+		};
-+
-+		fcpvd1: fcp@fea11000 {
-+			compatible = "renesas,fcpv";
-+			reg = <0 0xfea11000 0 0x200>;
-+			clocks = <&cpg CPG_MOD 509>;
-+			power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
-+			resets = <&cpg 509>;
-+		};
-+
-+		vspd0: vsp@fea20000 {
-+			compatible = "renesas,vsp2";
-+			reg = <0 0xfea20000 0 0x5000>;
-+			interrupts = <GIC_SPI 546 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 830>;
-+			power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
-+			resets = <&cpg 830>;
-+
-+			renesas,fcp = <&fcpvd0>;
-+		};
-+
-+		vspd1: vsp@fea28000 {
-+			compatible = "renesas,vsp2";
-+			reg = <0 0xfea28000 0 0x5000>;
-+			interrupts = <GIC_SPI 551 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 831>;
-+			power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
-+			resets = <&cpg 831>;
-+
-+			renesas,fcp = <&fcpvd1>;
-+		};
-+
-+		du: display@feb00000 {
-+			compatible = "renesas,du-r8a779g0";
-+			reg = <0 0xfeb00000 0 0x40000>;
-+			interrupts = <GIC_SPI 523 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 524 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 411>;
-+			clock-names = "du.0";
-+			power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
-+			resets = <&cpg 411>;
-+			reset-names = "du.0";
-+			renesas,vsps = <&vspd0 0>, <&vspd1 0>;
-+
-+			status = "disabled";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					reg = <0>;
-+					du_out_dsi0: endpoint {
-+						remote-endpoint = <&dsi0_in>;
-+					};
-+				};
-+
-+				port@1 {
-+					reg = <1>;
-+					du_out_dsi1: endpoint {
-+						remote-endpoint = <&dsi1_in>;
-+					};
-+				};
-+			};
-+		};
-+
-+		dsi0: dsi-encoder@fed80000 {
-+			compatible = "renesas,r8a779g0-dsi-csi2-tx";
-+			reg = <0 0xfed80000 0 0x10000>;
-+			power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
-+			clocks = <&cpg CPG_MOD 415>,
-+				 <&cpg CPG_CORE R8A779G0_CLK_DSIEXT>,
-+				 <&cpg CPG_CORE R8A779G0_CLK_DSIREF>;
-+			clock-names = "fck", "dsi", "pll";
-+			resets = <&cpg 415>;
-+			status = "disabled";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					reg = <0>;
-+					dsi0_in: endpoint {
-+						remote-endpoint = <&du_out_dsi0>;
-+					};
-+				};
-+
-+				port@1 {
-+					reg = <1>;
-+				};
-+			};
-+		};
-+
-+		dsi1: dsi-encoder@fed90000 {
-+			compatible = "renesas,r8a779g0-dsi-csi2-tx";
-+			reg = <0 0xfed90000 0 0x10000>;
-+			power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
-+			clocks = <&cpg CPG_MOD 416>,
-+				 <&cpg CPG_CORE R8A779G0_CLK_DSIEXT>,
-+				 <&cpg CPG_CORE R8A779G0_CLK_DSIREF>;
-+			clock-names = "fck", "dsi", "pll";
-+			resets = <&cpg 416>;
-+			status = "disabled";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					reg = <0>;
-+					dsi1_in: endpoint {
-+						remote-endpoint = <&du_out_dsi1>;
-+					};
-+				};
-+
-+				port@1 {
-+					reg = <1>;
-+				};
-+			};
-+		};
-+
+diff --git a/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi b/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi
+index c10740aee9f6..8aab859aac7a 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi
+@@ -97,6 +97,15 @@ memory@600000000 {
+ 		reg = <0x6 0x00000000 0x1 0x00000000>;
  	};
  
- 	timer {
++	reg_1p2v: regulator-1p2v {
++		compatible = "regulator-fixed";
++		regulator-name = "fixed-1.2V";
++		regulator-min-microvolt = <1200000>;
++		regulator-max-microvolt = <1200000>;
++		regulator-boot-on;
++		regulator-always-on;
++	};
++
+ 	reg_1p8v: regulator-1p8v {
+ 		compatible = "regulator-fixed";
+ 		regulator-name = "fixed-1.8V";
+@@ -114,6 +123,24 @@ reg_3p3v: regulator-3p3v {
+ 		regulator-boot-on;
+ 		regulator-always-on;
+ 	};
++
++	mini-dp-con {
++		compatible = "dp-connector";
++		label = "CN5";
++		type = "mini";
++
++		port {
++			mini_dp_con_in: endpoint {
++				remote-endpoint = <&sn65dsi86_out>;
++			};
++		};
++	};
++
++	sn65dsi86_refclk: clk-x6 {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		clock-frequency = <38400000>;
++	};
+ };
+ 
+ &avb0 {
+@@ -134,6 +161,23 @@ phy0: ethernet-phy@0 {
+ 	};
+ };
+ 
++&dsi0 {
++	status = "okay";
++
++	ports {
++		port@1 {
++			dsi0_out: endpoint {
++				remote-endpoint = <&sn65dsi86_in>;
++				data-lanes = <1 2 3 4>;
++			};
++		};
++	};
++};
++
++&du {
++	status = "okay";
++};
++
+ &extal_clk {
+ 	clock-frequency = <16666666>;
+ };
+@@ -172,6 +216,51 @@ eeprom@50 {
+ 	};
+ };
+ 
++&i2c1 {
++	pinctrl-0 = <&i2c1_pins>;
++	pinctrl-names = "default";
++
++	status = "okay";
++	clock-frequency = <400000>;
++
++	bridge@2c {
++		compatible = "ti,sn65dsi86";
++		reg = <0x2c>;
++
++		clocks = <&sn65dsi86_refclk>;
++		clock-names = "refclk";
++
++		interrupt-parent = <&intc_ex>;
++		interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
++
++		enable-gpios = <&gpio1 26 GPIO_ACTIVE_HIGH>;
++
++		vccio-supply = <&reg_1p8v>;
++		vpll-supply = <&reg_1p8v>;
++		vcca-supply = <&reg_1p2v>;
++		vcc-supply = <&reg_1p2v>;
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port@0 {
++				reg = <0>;
++				sn65dsi86_in: endpoint {
++					remote-endpoint = <&dsi0_out>;
++				};
++			};
++
++			port@1 {
++				reg = <1>;
++				sn65dsi86_out: endpoint {
++					remote-endpoint = <&mini_dp_con_in>;
++				};
++			};
++		};
++	};
++};
++
+ &mmc0 {
+ 	pinctrl-0 = <&mmc_pins>;
+ 	pinctrl-1 = <&mmc_pins>;
+@@ -221,6 +310,11 @@ i2c0_pins: i2c0 {
+ 		function = "i2c0";
+ 	};
+ 
++	i2c1_pins: i2c1 {
++		groups = "i2c1";
++		function = "i2c1";
++	};
++
+ 	keys_pins: keys {
+ 		pins = "GP_5_0", "GP_5_1", "GP_5_2";
+ 		bias-pull-up;
 -- 
 2.34.1
 
