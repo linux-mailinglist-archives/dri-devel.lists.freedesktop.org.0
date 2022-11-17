@@ -1,47 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B80F962D8AA
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 12:00:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1736862D8E0
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Nov 2022 12:06:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7984D10E07E;
-	Thu, 17 Nov 2022 10:59:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DE8D10E543;
+	Thu, 17 Nov 2022 11:06:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9632F10E07E
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 10:59:55 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id CE96A60BA6;
- Thu, 17 Nov 2022 10:59:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C113CC433D6;
- Thu, 17 Nov 2022 10:59:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1668682794;
- bh=FTcXBVf4xKuIE7vas46JjAXZsr5dkNSkrqRgK59BR3E=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=j3aCJYHiEH9yeDG4sHk7/Z9AsxDyOnRrOuUaaPmyFhDe4xZ7640/EoC+qQ21H+kXH
- 08J0YkV0AvOWwkIZgeORvNcR7+Thk9/gFhQ+j/07CgdiSiqgHT9sIkpbJnlNSmSYy7
- F0s+Lkp/tCo9flUPLLLEOsKv77nTk0+dt8r9HQwPWNuFFrKmTl0g1PmuMnTR1dHuFK
- +EIKV6Bz/yqgXNyld4b+aneK1HPLhq8HFjHJiNQnrXiCMqPg/W7GwFnmcAzJ9Q24D4
- g/OdUB4RLlrAVnEBDmQqm2/TGfn+5SaqpKMM4hfxrlG03xxcvz/cnqRwwzEEYNWBF6
- 8Rz0l/MIOY8Kg==
-Date: Thu, 17 Nov 2022 10:59:50 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Carlo Caione <ccaione@baylibre.com>
-Subject: Re: [PATCH 3/3] spi: meson-spicc: Lower CS between bursts
-Message-ID: <Y3YUJjSTI9U9qz59@sirena.org.uk>
-References: <20221116-s905x_spi_ili9486-v1-0-630401cb62d5@baylibre.com>
- <20221116-s905x_spi_ili9486-v1-3-630401cb62d5@baylibre.com>
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37F4210E543
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 11:06:29 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id h9so3313586wrt.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 03:06:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=kYDg53wsGKutNyKBdN9lJQxQ/YinXUOzzbN1yqpmcgE=;
+ b=N8GxB1tiMjXUW++FirZ1HVaPg7IPaKpd6YWD+02vgi4dVNbZcPrrSId5hbmJCJ7afR
+ ZS69cVHASx2Y0eZ5uGHSoU6J7g7RGcXLs+ipXCpZ2o0p1ynf9xosyKKkCSLhj7krp21V
+ ndQNsYd0tfst1Kl5WGGLucB6fi3fDS9DZxEEVeeMGMzhD6qLJi2PQvJPneFXdKOgvKWu
+ QLlGd6/k3CT6gFRcekXqgZvdo1lW4A7r0ZNwxa33R/qLSa+1fRzgca1aT+4PCP/7yKEp
+ DFcQE3hdU0h9UJ9jOVmj+C6psrgDyuZtZi5qjEnf5aRYIVPIFvhtsnIlvRN1qd4hzJpD
+ ASqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=kYDg53wsGKutNyKBdN9lJQxQ/YinXUOzzbN1yqpmcgE=;
+ b=bf/qExyIX46rz0WH6nolEqDs8bGXBuNCfSpoCxZ1YvkXY5bcMytlICB412WDHajUgJ
+ 3CJ7JSl9TXcFtENAFilsWrVRluYQnt1FZelMgDqc5zpCoG83M2neFl98WQ8h4aN8LwUF
+ ehUtxD9KkiAYOhs2jLfePJ2281IRI/pBHSKYnRgbMcLamXkeyYEudXpU9kTBOyjCtkG3
+ 15t74axXa7HLSutK0igLa2q5fSomxnpyXowGymc+bFo75ImLokij4GAB+UJJH1NOlmyz
+ LYZ7/ek/hLGph6AA8UdepbCLTGYhmfcjqk7g9C9rEYTQ/mMbS8ocb2Z6MpfoJVfJgMl9
+ BDvQ==
+X-Gm-Message-State: ANoB5plhog1akXgSfhDH4LGkEIEGqq+fOKIIUzC5YK8HJ81syjbl6/1x
+ G0J+oyKeAk1q22A9d/Vrv2Mx7KJILcgNHA==
+X-Google-Smtp-Source: AA0mqf5engmUU+Hc6t1F6Ib5V1yWVikFr373w4fj9rIxmIhbIEKPd3q1IKOAKEHl8Wb1UH5RkrcGLA==
+X-Received: by 2002:a5d:678c:0:b0:235:14dc:5e14 with SMTP id
+ v12-20020a5d678c000000b0023514dc5e14mr1192804wru.252.1668683187724; 
+ Thu, 17 Nov 2022 03:06:27 -0800 (PST)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
+ m14-20020a5d56ce000000b002364c77bc96sm661051wrw.33.2022.11.17.03.06.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Nov 2022 03:06:27 -0800 (PST)
+Date: Thu, 17 Nov 2022 11:06:25 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH] backlight: pwm_bl: Drop support for legacy PWM probing
+Message-ID: <Y3YVsaO38g9EUgHq@maple.lan>
+References: <20221117072151.3789691-1-u.kleine-koenig@pengutronix.de>
+ <Y3YJaYx06Jzrs/Ej@maple.lan>
+ <20221117102814.vdgixgfq4pr77fly@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="sVW5maJnbV5GYFNa"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20221116-s905x_spi_ili9486-v1-3-630401cb62d5@baylibre.com>
-X-Cookie: Ego sum ens omnipotens.
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221117102814.vdgixgfq4pr77fly@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,52 +74,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Kevin Hilman <khilman@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-spi@vger.kernel.org,
- linux-amlogic@lists.infradead.org,
- Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
- linux-arm-kernel@lists.infradead.org, Jerome Brunet <jbrunet@baylibre.com>
+Cc: linux-pwm@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
+ Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Nov 17, 2022 at 11:28:14AM +0100, Uwe Kleine-König wrote:
+> On Thu, Nov 17, 2022 at 10:14:01AM +0000, Daniel Thompson wrote:
+> > On Thu, Nov 17, 2022 at 08:21:51AM +0100, Uwe Kleine-König wrote:
+> > > There is no in-tree user left which relies on legacy probing. So drop
+> > > support for it which removes another user of the deprecated
+> > > pwm_request() function.
+> > >
+> > > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> >
+> > I have to take the "no in-tree user" on faith since I'm not familiar
+> > enough with PWM history to check that. However from a backlight
+> > point-of-view it looks like a nice tidy up:
+> > Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+>
+> Probably "in-tree provider" would have been the better term. You can
+> convince you about that:
+>
+> $ git grep -l platform_pwm_backlight_data | xargs grep pwm_id
+>
+> That is, no machine used pwm_id to make the legacy lookup necessary.
 
---sVW5maJnbV5GYFNa
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Thanks for that. pwm_request() seems so old that my intuition about
+how device APIs in Linux work misled me and I completely missed that
+the consumption of pwm_id at the call site was the key to the source
+navigation here.
 
-On Thu, Nov 17, 2022 at 09:47:41AM +0100, Carlo Caione wrote:
-> On some hardware (reproduced on S905X) when a large payload is
-> transmitted over SPI in bursts at the end of each burst, the clock line
-> briefly fluctuates creating spurious clock transitions that are being
-> recognised by the connected device as a genuine pulses, creating an
-> offset in the data being transmitted.
 
-> Lower the GPIO CS between bursts to avoid the clock being interpreted as
-> valid.
+> Who will pick up this patch? Should I resend for s/user/provider/?
 
-This is just plain broken, *many* SPI devices attach meaning to
-chip select edges - for example register writes will typically
-have the register address followed by one or more register values
-for sequential registers.  Bouncing chip select in the middle of
-transfer will corrupt data.  If the device can't handle larger
-transfers it needs to advertise this limit and refuse to handle
-them.
+Lee Jones should hoover this up. Normally I only pick up backlight
+patches when Lee's on holiday ;-).
 
---sVW5maJnbV5GYFNa
-Content-Type: application/pgp-signature; name="signature.asc"
+No need to resend on my account. I interpreted the original
+description as "provider" anyway, I just didn't know how best to
+search for them.
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmN2FCYACgkQJNaLcl1U
-h9BA1Af9GvKfza2vtRbu0JnM9pTzjygGkt+vf4n801Z7oafMH+9AsCMpa4yyr7Dq
-zhMWNsKInloF+p+FGqJUx6iky4xR83YXfpR1dzXn9xh27MNjYMSvH9MgbDLKKPyZ
-TG+uVFrFsaus8eR7mzZw80l7KCiw6ypiGWh5o+qtO7UWGCVnbcwl1NeD0RDolNE+
-tmRoPMEoZohX3XIGL5NGihK0buq/ZFq4EkrpUK7mfJ5kHSCwtX7O4ZR4SUI2VB8g
-WiLut2anQJ/MgXPdHnhKdrY47fwGRDi3TCI88Le+mb2gc3iUAf4r1rdqviUnMps7
-6nf/3APDiJ0vw09mztpBv8KT1ASrrg==
-=atc7
------END PGP SIGNATURE-----
-
---sVW5maJnbV5GYFNa--
+Daniel.
