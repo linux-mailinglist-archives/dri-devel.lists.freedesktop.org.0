@@ -1,33 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FA64630EC6
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Nov 2022 13:40:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A36FC630EC2
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Nov 2022 13:39:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93EC810E0A8;
-	Sat, 19 Nov 2022 12:40:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D37E10E26D;
+	Sat, 19 Nov 2022 12:39:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.swemel.ru (mx.swemel.ru [95.143.211.150])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAEE710E6FE;
- Fri, 18 Nov 2022 11:53:11 +0000 (UTC)
-From: Denis Arefev <arefev@swemel.ru>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=swemel.ru; s=mail;
- t=1668772387;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=S0tk9zvEh9i3RpeDgKq2csbzg/78Ce7ScjSDjvtVy4w=;
- b=ZmV/V7mfYlM5CynFgGpfPcqhwVGjI/BtMQIRjv3GIh+F/3m0fq84tB+XkvGbSJzsObh98i
- UsbmerxlTGiIh+AvkKKpNI1fmlswJ15luLfdx7O0iYzCIwlm2RNKNYqFTr3/8+XPmcU5ow
- aR/p0WC2AbLQOYuuoGYKfT1tHFzXBoQ=
-To: Alex Deucher <alexander.deucher@amd.com>
-Subject: [PATCH v2] amdgpu: nbio_v7_4: Add pointer check
-Date: Fri, 18 Nov 2022 14:53:06 +0300
-Message-Id: <20221118115306.128293-1-arefev@swemel.ru>
+Received: from hust.edu.cn (mail.hust.edu.cn [202.114.0.240])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24EAB10E753
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 14:18:27 +0000 (UTC)
+Received: from localhost.localdomain ([172.16.0.254])
+ (user=dzm91@hust.edu.cn mech=LOGIN bits=0)
+ by mx1.hust.edu.cn  with ESMTP id 2AIEGVXC002760-2AIEGVXF002760
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+ Fri, 18 Nov 2022 22:16:36 +0800
+From: Dongliang Mu <dzm91@hust.edu.cn>
+To: Helge Deller <deller@gmx.de>, Dongliang Mu <dzm91@hust.edu.cn>,
+ Cai Huoqing <cai.huoqing@linux.dev>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Sekhar Nori <nsekhar@ti.com>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Subject: [PATCH] fbdev: da8xx-fb: add missing regulator_disable() in fb_probe
+Date: Fri, 18 Nov 2022 22:14:06 +0800
+Message-Id: <20221118141431.3005015-1-dzm91@hust.edu.cn>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-FEAS-AUTH-USER: dzm91@hust.edu.cn
 X-Mailman-Approved-At: Sat, 19 Nov 2022 12:39:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -41,37 +44,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lvc-project@linuxtesting.org, avid Airlie <airlied@linux.ie>,
- trufanov@swemel.ru, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, vfh@swemel.ru, amd-gfx@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Return value of a function 'amdgpu_ras_find_obj' is dereferenced 
-at nbio_v7_4.c:325 without checking for null
+The error handling code in fb_probe misses regulator_disable if
+regulator_enable is called successfully. The previous commit only
+adds regulator_disable in the .remove(), forgetting the error
+handling code in the .probe.
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+Fix this by adding a new error label to call regulator_disable.
 
-Signed-off-by: Denis Arefev <arefev@swemel.ru>
+Fixes: 611097d5daea("fbdev: da8xx: add support for a regulator")
+Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
 ---
- drivers/gpu/drm/amd/amdgpu/nbio_v7_4.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/video/fbdev/da8xx-fb.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/nbio_v7_4.c b/drivers/gpu/drm/amd/amdgpu/nbio_v7_4.c
-index eadc9526d33f..0f2ac99de864 100644
---- a/drivers/gpu/drm/amd/amdgpu/nbio_v7_4.c
-+++ b/drivers/gpu/drm/amd/amdgpu/nbio_v7_4.c
-@@ -304,6 +304,9 @@ static void nbio_v7_4_handle_ras_controller_intr_no_bifring(struct amdgpu_device
- 	struct ras_err_data err_data = {0, 0, 0, NULL};
- 	struct amdgpu_ras *ras = amdgpu_ras_get_context(adev);
+diff --git a/drivers/video/fbdev/da8xx-fb.c b/drivers/video/fbdev/da8xx-fb.c
+index 11922b009ed7..cd07e401b326 100644
+--- a/drivers/video/fbdev/da8xx-fb.c
++++ b/drivers/video/fbdev/da8xx-fb.c
+@@ -1431,7 +1431,7 @@ static int fb_probe(struct platform_device *device)
+ 		dev_err(&device->dev,
+ 			"GLCD: kmalloc for frame buffer failed\n");
+ 		ret = -EINVAL;
+-		goto err_release_fb;
++		goto err_disable_reg;
+ 	}
  
-+	if (!obj)
-+		return;
+ 	da8xx_fb_info->screen_base = (char __iomem *) par->vram_virt;
+@@ -1475,7 +1475,7 @@ static int fb_probe(struct platform_device *device)
  
- 	bif_doorbell_intr_cntl = RREG32_SOC15(NBIO, 0, mmBIF_DOORBELL_INT_CNTL);
- 	if (REG_GET_FIELD(bif_doorbell_intr_cntl,
- 		BIF_DOORBELL_INT_CNTL, RAS_CNTLR_INTERRUPT_STATUS)) {
+ 	ret = fb_alloc_cmap(&da8xx_fb_info->cmap, PALETTE_SIZE, 0);
+ 	if (ret)
+-		goto err_release_fb;
++		goto err_disable_reg;
+ 	da8xx_fb_info->cmap.len = par->palette_sz;
+ 
+ 	/* initialize var_screeninfo */
+@@ -1529,6 +1529,9 @@ static int fb_probe(struct platform_device *device)
+ err_dealloc_cmap:
+ 	fb_dealloc_cmap(&da8xx_fb_info->cmap);
+ 
++err_disable_reg:
++	if (par->lcd_supply)
++		regulator_disable(par->lcd_supply);
+ err_release_fb:
+ 	framebuffer_release(da8xx_fb_info);
+ 
 -- 
-2.25.1
+2.35.1
 
