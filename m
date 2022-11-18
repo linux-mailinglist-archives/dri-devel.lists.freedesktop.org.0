@@ -2,61 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C57B162FB1C
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 18:05:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8250E62FB28
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 18:08:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4F7A10E79A;
-	Fri, 18 Nov 2022 17:05:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E84810E79E;
+	Fri, 18 Nov 2022 17:08:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com
- [IPv6:2607:f8b0:4864:20::1132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28C3E10E79A
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 17:05:28 +0000 (UTC)
-Received: by mail-yw1-x1132.google.com with SMTP id
- 00721157ae682-368edbc2c18so54967977b3.13
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 09:05:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=pYaO4frsra4fw6h53DPHPnYJpAOilXGJ6vC54BFE2Kk=;
- b=djHYj3FUbzZdZg37yc4Igv/IRvLcb6mqU5V2Uwm6tOtJRNs0J7H3gpvKqCX9RvzED1
- 0P5LettHbtzsmOpfd1GLqt/g/EXkicFlh/9XKQBWMs/MEGMuBHXk692DkY3ncnY8MBvg
- XUeD+PzQJ4C+BHG4NYnjEv68I63G9IZ8nt7jwpfsT9lepT5VnCNct98/rOBBIYSpxZGE
- 0W9fU3BfnBtnkjtpj4RAGBLCVUEJ/8NY7ACvvn4d3ydHWzfe9OY9gC/VomcYjI+H8OjC
- 4fQM2c2sHqTkWXRA2YZPpebcyCeI5zt5JcGmGga3n1NeduoRPQYW/4pj0CoNNtOIwWh3
- vr1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=pYaO4frsra4fw6h53DPHPnYJpAOilXGJ6vC54BFE2Kk=;
- b=SwVarFL3BWPlqmoioV47lTQhHYrgEmoMNIaqtZ1GikfZ/eBqo14gOmH3FuLhWNNafa
- JrUctXV1HGNTI7gHFOcPzCwfmWyf32aSxKP+U05nU6L3wcM+AL7gU84R8JKIrBKs3K9n
- nABaJuK+ViFxMnlgGkyRZoEEtdYP98bFz7/bA+q/A1jVa4wimBgyqBdLvjvreCzNpFf4
- S0E1PUkgI7l3lzDA334Zl9FtrB8J3aern4wEkmDP+MzQwYcqLHCrC+vNs3CmwgYWp7kx
- zhzbHo2LFciJp3nuaNHdhnDC7++B7m2AIOddAH/nLLRVGPo4Gz4yagJx8fYMtNt6CKAb
- Uyyw==
-X-Gm-Message-State: ANoB5pkSWySU9YtSUIWCzVRrZwJaUYHJZFPs7uGPHhmfTts5GUytnb+Y
- 4ex3O+PYZTEhPWADqiwgk0PpTs4R3NdedP23+PX9KA==
-X-Google-Smtp-Source: AA0mqf6kYHjsb6cu7KeYD/Mn97m8h6gicsJm1ZP/wL2CBHiJ8/o9DeqQtFcPT83VCJF0cJ84uNPXpCEtXkqxuPA27Xg=
-X-Received: by 2002:a0d:d684:0:b0:36d:2169:3d65 with SMTP id
- y126-20020a0dd684000000b0036d21693d65mr7131722ywd.317.1668791126861; Fri, 18
- Nov 2022 09:05:26 -0800 (PST)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2058.outbound.protection.outlook.com [40.107.92.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48DDB10E79E;
+ Fri, 18 Nov 2022 17:08:30 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Jqfh+pgB5nGBX1f9CvAPCvffIRPGmgG5orDKEXjOFTREJigj3FdPWD1Uyk/olxSpdAS6dU1/QGNw5sPqb23GDiwL0AnnoRuf5kXZ1P0cINNFzgnRCM5yI3vssnD5jJNjuS6fFI2OHqqDLzXcY2Nv79hdtlgEfAFThIrnXvp3FL/jGm3abRMKhxEA7NbfjcYajsxC9qMKZQay2GRt1d/y65vy8ynTG7pEZxzuug9P7XgQ6OB0ftvy2yDgxfgteg2EPnUpavht/nOoE/zQCrcyRfzOQF7ewKJ84uT/ZW/n+++lwx+utYmnXOPSRcT62XCGGxOhlil3scMMqHVa5qveFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vWesz72P1GGuhkeNmjySaK8QDkU5Y5L2zWLCZKJYIiI=;
+ b=A+t7iJyGIe+rLk3ZRGIXa0jn5EI8QclwlJNhy7qpCu9o8/Tq2nm1uaA6IKxYdCbpkBjp1D1nz/k7fBYJSgirqz+CrGw+czR/aqS2cheAn+HG5qagYS5EUmnKHzwhEviJ40iDbaYDmNOl4yIvcLg5qqAlZ7JRAQgPFGvjf2KusGG4O6wAVuBV+lfx4G0ppdFy0b7RoCKiQ0q++8pC1HA/OaNCfIouwfv13hWa2xzqqjg0iwd6afafrjW9yIjGgZD3x9T/D5bNkqaAJxDDs5eZb9EJYxjR4v7Iq6VFcT8sT9O0qDJZd3L1lc/8C4KwPtGeoZJ/kkXE31RptBENT/CN9w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vWesz72P1GGuhkeNmjySaK8QDkU5Y5L2zWLCZKJYIiI=;
+ b=wuIZYsdcz8qC4Q4nncacX8f7J1rLcdKKGEzK8xN7oQr1iH9yRQOzexVO5Naaqu2Fav75qkrvPGb74adcvdDgG5j3tLKcubKZG3ee62/JE6U60HLoucyZKOaQ1brFiMbt7ElM8lA0g30wGbCXjnc/ggdXSuwjl5mYwfAut4//Cts=
+Received: from DM5PR07CA0093.namprd07.prod.outlook.com (2603:10b6:4:ae::22) by
+ BL1PR12MB5780.namprd12.prod.outlook.com (2603:10b6:208:393::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.20; Fri, 18 Nov
+ 2022 17:08:27 +0000
+Received: from DM6NAM11FT107.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:4:ae:cafe::14) by DM5PR07CA0093.outlook.office365.com
+ (2603:10b6:4:ae::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.9 via Frontend
+ Transport; Fri, 18 Nov 2022 17:08:26 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT107.mail.protection.outlook.com (10.13.172.142) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5834.8 via Frontend Transport; Fri, 18 Nov 2022 17:08:26 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 18 Nov
+ 2022 11:08:25 -0600
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
+Subject: [pull] amdgpu, amdkfd, radeon drm-next-6.2
+Date: Fri, 18 Nov 2022 12:08:07 -0500
+Message-ID: <20221118170807.6505-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-References: <20221117062152.3029018-1-cuigaosheng1@huawei.com>
- <f12a5dbe-4626-f6c7-236b-30bb16be1dd6@quicinc.com>
- <99d3aee6-ba3e-5333-6f79-ddbcfc0e8843@amd.com>
- <CABdmKX1UMB0L0PmHB59nijReZef6LUQ3XKXitHZo2YnUrJTz9Q@mail.gmail.com>
- <2c9fa595-e788-5474-4f2b-ffbd08a70d13@amd.com>
-In-Reply-To: <2c9fa595-e788-5474-4f2b-ffbd08a70d13@amd.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Fri, 18 Nov 2022 09:05:12 -0800
-Message-ID: <CABdmKX0KJJV0iQwy0aUNXcLc1DGyLjmh6_Y53asHEoh-uyHzAA@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: Fix possible UAF in dma_buf_export
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: multipart/alternative; boundary="00000000000052805605edc1b6f9"
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT107:EE_|BL1PR12MB5780:EE_
+X-MS-Office365-Filtering-Correlation-Id: c75a9518-0918-42e5-aff5-08dac9878224
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 5UbzLyPyNHmbloaTs0V+dPC3Z6zqcFOFxd7hUJ6FvsoWfJbUbMm8WKDQeu2J7vBhZOP/kv8IZdZrICk7lMH1o9KbvX8R7PthVqHZFsWNDbsg/xMcGYC4kOT4tjcdlZad3Ez/1D/DzLFZO0h+9lpfz0zQPGE5Q/EHnhFZG3xM0bOqpSEYDg9mRi8t/lU5+4K1isQqFWOi0xGl7e0lQ31ag8jlfEiOIUd0SNVIyWrEdj/JB7q7NJQBrNGYeEW9gzLRZgBzPsGcB0WPQkMGvWjJHF1rskVbG0LdjxU1o/HZs/acvpHvbaed5mFPj7xObc2KMNyViYcNcFV5pIU2s1KeybyNn1+jLZJ5VziXa9wg7Wj90L2zu5H7ZyB9SE+mmJkL7B8Nz00FQRHGB3kzb1zkT/V9Hut6YnGR7YeQoMfjGGsRkiza4kB0AfkCWkXzDg8uM6ZeJnBwXNAcJY3Ko5RENmnwkyc69ji9f4B8n+OgSoB2pZM0593XTKvTA0RRV4x5wEi4CDkVKVHh0rZeukAx2vlLwYLJ8aSuafKvblGTvEQNdX9A5Wepwb2o1CqWd0cgyuVP2gNKQR+QXWRZdd2QMMOi93h3acgQtn5w+SJZCe25xYnmdjljRcyiMD21yMfDshBQle92BJy2xXCTPok2I94D/bFrcPoxwMhl7nSLNEdLRr0k4EprnhuaHq8J1EJg
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230022)(4636009)(39860400002)(396003)(376002)(136003)(346002)(451199015)(46966006)(36840700001)(40470700004)(110136005)(7696005)(6666004)(26005)(316002)(478600001)(70586007)(8676002)(4326008)(41300700001)(2616005)(70206006)(186003)(16526019)(47076005)(30864003)(8936002)(336012)(426003)(2906002)(4001150100001)(66574015)(5660300002)(1076003)(83380400001)(36860700001)(86362001)(36756003)(40480700001)(82310400005)(966005)(40460700003)(82740400003)(356005)(81166007)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2022 17:08:26.6931 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c75a9518-0918-42e5-aff5-08dac9878224
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT107.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5780
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,300 +99,535 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pavan Kondeti <quic_pkondeti@quicinc.com>, dri-devel@lists.freedesktop.org,
- sumit.semwal@linaro.org, linaro-mm-sig@lists.linaro.org,
- Charan Teja Kalla <quic_charante@quicinc.com>,
- Gaosheng Cui <cuigaosheng1@huawei.com>,
- Dan Carpenter <dan.carpenter@oracle.com>, linux-media@vger.kernel.org
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000052805605edc1b6f9
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Dave, Daniel,
 
-On Fri, Nov 18, 2022 at 12:27 AM Christian K=C3=B6nig <christian.koenig@amd=
-.com>
-wrote:
+More new stuff for 6.2.  This includes last week's PR, plus the fix
+for ARM32, plus a few new things.
 
-> Am 18.11.22 um 03:36 schrieb T.J. Mercier:
-> > On Thu, Nov 17, 2022 at 2:16 AM Christian K=C3=B6nig
-> > <christian.koenig@amd.com> wrote:
-> >> Am 17.11.22 um 08:48 schrieb Charan Teja Kalla:
-> >>> Sometime back Dan also reported the same issue[1] where I do mentione=
-d
-> >>> that fput()-->dma_buf_file_release() will remove it from the list.
-> >>>
-> >>> But it seems that I failed to notice fput() here calls the
-> >>> dma_buf_file_release() asynchronously i.e. dmabuf that is accessed in
-> >>> the close path is already freed. Am I wrong here?
-> >>>
-> >>> Should we have the __fput_sync(file) here instead of just fput(file)
-> >>> which can solve this problem?
-> >>>
-> >>> [1]
-> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flore.=
-kernel.org%2Fall%2F20220516084704.GG29930%40kadam%2F&amp;data=3D05%7C01%7Cc=
-hristian.koenig%40amd.com%7C7d87a302d300479ecfa608dac90dc9f4%7C3dd8961fe488=
-4e608e11a82d994e183d%7C0%7C0%7C638043358319479671%7CUnknown%7CTWFpbGZsb3d8e=
-yJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C=
-%7C%7C&amp;sdata=3DerPl1hGdfLbfCxK3J3xiIR9boJbgj6hPUnCBvZFobog%3D&amp;reser=
-ved=3D0
-> >> That doesn't look like the right solution to me either.
-> >>
-> >> Essentially we have two separate tear down methods for the dma_buf
-> >> object here:
-> >>
-> >> 1. It's not completely initialized and we can call kfree()+module_put(=
-)
-> >> to clean up.
-> >>       There is actually a dma_resv_fini() here. That should probably b=
-e
-> >> fixed.
-> >>
-> >> 2. The dma_buf object is fully initialized, but creating the sysfs sta=
-ts
-> >> file failed.
-> >>       In this case we should *not* clean it up like we currently do, b=
-ut
-> >> rather call fput().
-> >>
-> >> So the right thing to do is a) fix the missing dma_resv_fini() call an=
-d
-> >> b) drop the setting d_fsdata=3DNULL hack and properly return after the
-> fput().
-> >>
-> > This looks right to me if by properly return you mean return
-> > ERR_PTR(ret); at the end of err_sysfs after the fput. (letting
-> > dma_buf_file_release and dma_buf_release do the full cleanup)
->
-> Yes, exactly that's the idea.
->
-> The only alternatives I can see would be to either move allocating the
-> file and so completing the dma_buf initialization last again or just
-> ignore errors from sysfs.
->
-> > If we still want to avoid calling dmabuf->ops->release(dmabuf) in
-> > dma_buf_release like the comment says I guess we could use sysfs_entry
-> > and ERR_PTR to flag that, otherwise it looks like we'd need a bit
-> > somewhere.
->
-> No, this should be dropped as far as I can see. The sysfs cleanup code
-> looks like it can handle not initialized kobj pointers.
->
+The following changes since commit a143bc517bf31c4575191efbaac216a11ec016e0:
 
-Yeah there is also the null check in dma_buf_stats_teardown() that would
-prevent it from running, but I understood the comment to be referring to
-the release() dma_buf_ops call into the exporter which comes right after
-the teardown call. That looks like it's preventing the fput task work
-calling back into the exporter after the exporter already got an error from
-dma_buf_export(). Otherwise the exporter sees a release() for a buffer that
-it doesn't know about / thinks shouldn't exist. So I could imagine an
-exporter trying to double free: once for the failed dma_buf_export() call,
-and again when the release() op is called later.
+  Merge branch '00.06-gr-ampere' of https://gitlab.freedesktop.org/skeggsb/nouveau into drm-next (2022-11-09 11:18:56 +1000)
 
->
-> Regards,
-> Christian.
->
-> >
-> >   >
-> >> Regards,
-> >> Christian.
-> >>
-> >>> Thanks,
-> >>> Charan
-> >>> On 11/17/2022 11:51 AM, Gaosheng Cui wrote:
-> >>>> Smatch report warning as follows:
-> >>>>
-> >>>> drivers/dma-buf/dma-buf.c:681 dma_buf_export() warn:
-> >>>>     '&dmabuf->list_node' not removed from list
-> >>>>
-> >>>> If dma_buf_stats_setup() fails in dma_buf_export(), goto err_sysfs
-> >>>> and dmabuf will be freed, but dmabuf->list_node will not be removed
-> >>>> from db_list.head, then list traversal may cause UAF.
-> >>>>
-> >>>> Fix by removeing it from db_list.head before free().
-> >>>>
-> >>>> Fixes: ef3a6b70507a ("dma-buf: call dma_buf_stats_setup after dmabuf
-> is in valid list")
-> >>>> Signed-off-by: Gaosheng Cui <cuigaosheng1@huawei.com>
-> >>>> ---
-> >>>>    drivers/dma-buf/dma-buf.c | 3 +++
-> >>>>    1 file changed, 3 insertions(+)
-> >>>>
-> >>>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> >>>> index b809513b03fe..6848f50226d5 100644
-> >>>> --- a/drivers/dma-buf/dma-buf.c
-> >>>> +++ b/drivers/dma-buf/dma-buf.c
-> >>>> @@ -675,6 +675,9 @@ struct dma_buf *dma_buf_export(const struct
-> dma_buf_export_info *exp_info)
-> >>>>       return dmabuf;
-> >>>>
-> >>>>    err_sysfs:
-> >>>> +    mutex_lock(&db_list.lock);
-> >>>> +    list_del(&dmabuf->list_node);
-> >>>> +    mutex_unlock(&db_list.lock);
-> >>>>       /*
-> >>>>        * Set file->f_path.dentry->d_fsdata to NULL so that when
-> >>>>        * dma_buf_release() gets invoked by dentry_ops, it exits
->
->
+are available in the Git repository at:
 
---00000000000052805605edc1b6f9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-next-6.2-2022-11-18
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-family:arial,sans-serif;font-size:small"><br></div></div><br><div class=
-=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Nov 18, 2022=
- at 12:27 AM Christian K=C3=B6nig &lt;<a href=3D"mailto:christian.koenig@am=
-d.com">christian.koenig@amd.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">Am 18.11.22 um 03:36 schrieb T.J. Mercier:=
-<br>
-&gt; On Thu, Nov 17, 2022 at 2:16 AM Christian K=C3=B6nig<br>
-&gt; &lt;<a href=3D"mailto:christian.koenig@amd.com" target=3D"_blank">chri=
-stian.koenig@amd.com</a>&gt; wrote:<br>
-&gt;&gt; Am 17.11.22 um 08:48 schrieb Charan Teja Kalla:<br>
-&gt;&gt;&gt; Sometime back Dan also reported the same issue[1] where I do m=
-entioned<br>
-&gt;&gt;&gt; that fput()--&gt;dma_buf_file_release() will remove it from th=
-e list.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; But it seems that I failed to notice fput() here calls the<br>
-&gt;&gt;&gt; dma_buf_file_release() asynchronously i.e. dmabuf that is acce=
-ssed in<br>
-&gt;&gt;&gt; the close path is already freed. Am I wrong here?<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Should we have the __fput_sync(file) here instead of just fput=
-(file)<br>
-&gt;&gt;&gt; which can solve this problem?<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; [1]<a href=3D"https://nam11.safelinks.protection.outlook.com/?=
-url=3Dhttps%3A%2F%2Flore.kernel.org%2Fall%2F20220516084704.GG29930%40kadam%=
-2F&amp;amp;data=3D05%7C01%7Cchristian.koenig%40amd.com%7C7d87a302d300479ecf=
-a608dac90dc9f4%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638043358319479=
-671%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1=
-haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;amp;sdata=3DerPl1hGdfLbfCxK3J3xiIR9=
-boJbgj6hPUnCBvZFobog%3D&amp;amp;reserved=3D0" rel=3D"noreferrer" target=3D"=
-_blank">https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2=
-Flore.kernel.org%2Fall%2F20220516084704.GG29930%40kadam%2F&amp;amp;data=3D0=
-5%7C01%7Cchristian.koenig%40amd.com%7C7d87a302d300479ecfa608dac90dc9f4%7C3d=
-d8961fe4884e608e11a82d994e183d%7C0%7C0%7C638043358319479671%7CUnknown%7CTWF=
-pbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D=
-%7C3000%7C%7C%7C&amp;amp;sdata=3DerPl1hGdfLbfCxK3J3xiIR9boJbgj6hPUnCBvZFobo=
-g%3D&amp;amp;reserved=3D0</a><br>
-&gt;&gt; That doesn&#39;t look like the right solution to me either.<br>
-&gt;&gt;<br>
-&gt;&gt; Essentially we have two separate tear down methods for the dma_buf=
-<br>
-&gt;&gt; object here:<br>
-&gt;&gt;<br>
-&gt;&gt; 1. It&#39;s not completely initialized and we can call kfree()+mod=
-ule_put()<br>
-&gt;&gt; to clean up.<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0There is actually a dma_resv_fini() here=
-. That should probably be<br>
-&gt;&gt; fixed.<br>
-&gt;&gt;<br>
-&gt;&gt; 2. The dma_buf object is fully initialized, but creating the sysfs=
- stats<br>
-&gt;&gt; file failed.<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0In this case we should *not* clean it up=
- like we currently do, but<br>
-&gt;&gt; rather call fput().<br>
-&gt;&gt;<br>
-&gt;&gt; So the right thing to do is a) fix the missing dma_resv_fini() cal=
-l and<br>
-&gt;&gt; b) drop the setting d_fsdata=3DNULL hack and properly return after=
- the fput().<br>
-&gt;&gt;<br>
-&gt; This looks right to me if by properly return you mean return<br>
-&gt; ERR_PTR(ret); at the end of err_sysfs after the fput. (letting<br>
-&gt; dma_buf_file_release and dma_buf_release do the full cleanup)<br>
-<br>
-Yes, exactly that&#39;s the idea.<br>
-<br>
-The only alternatives I can see would be to either move allocating the <br>
-file and so completing the dma_buf initialization last again or just <br>
-ignore errors from sysfs.<br>
-<br>
-&gt; If we still want to avoid calling dmabuf-&gt;ops-&gt;release(dmabuf) i=
-n<br>
-&gt; dma_buf_release like the comment says I guess we could use sysfs_entry=
-<br>
-&gt; and ERR_PTR to flag that, otherwise it looks like we&#39;d need a bit<=
-br>
-&gt; somewhere.<br>
-<br>
-No, this should be dropped as far as I can see. The sysfs cleanup code <br>
-looks like it can handle not initialized kobj pointers.<br></blockquote><di=
-v><br></div><div class=3D"gmail_default" style=3D"font-family:arial,sans-se=
-rif;font-size:small">Yeah there is also the null check in dma_buf_stats_tea=
-rdown() that would prevent it from running, but I understood the comment to=
- be referring to the release() dma_buf_ops call into the exporter which com=
-es right after the teardown call. That looks like it&#39;s preventing the f=
-put task work calling back into the exporter after the exporter already got=
- an error from dma_buf_export(). Otherwise the exporter sees a release() fo=
-r a buffer that it doesn&#39;t know about / thinks shouldn&#39;t exist. So =
-I could imagine an exporter trying to double free: once for the failed dma_=
-buf_export() call, and again when the release() op is called later.=C2=A0</=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Regards,<br>
-Christian.<br>
-<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0&gt;<br>
-&gt;&gt; Regards,<br>
-&gt;&gt; Christian.<br>
-&gt;&gt;<br>
-&gt;&gt;&gt; Thanks,<br>
-&gt;&gt;&gt; Charan<br>
-&gt;&gt;&gt; On 11/17/2022 11:51 AM, Gaosheng Cui wrote:<br>
-&gt;&gt;&gt;&gt; Smatch report warning as follows:<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; drivers/dma-buf/dma-buf.c:681 dma_buf_export() warn:<br>
-&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0&#39;&amp;dmabuf-&gt;list_node&#39; not=
- removed from list<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; If dma_buf_stats_setup() fails in dma_buf_export(), goto e=
-rr_sysfs<br>
-&gt;&gt;&gt;&gt; and dmabuf will be freed, but dmabuf-&gt;list_node will no=
-t be removed<br>
-&gt;&gt;&gt;&gt; from db_list.head, then list traversal may cause UAF.<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; Fix by removeing it from db_list.head before free().<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; Fixes: ef3a6b70507a (&quot;dma-buf: call dma_buf_stats_set=
-up after dmabuf is in valid list&quot;)<br>
-&gt;&gt;&gt;&gt; Signed-off-by: Gaosheng Cui &lt;<a href=3D"mailto:cuigaosh=
-eng1@huawei.com" target=3D"_blank">cuigaosheng1@huawei.com</a>&gt;<br>
-&gt;&gt;&gt;&gt; ---<br>
-&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 drivers/dma-buf/dma-buf.c | 3 +++<br>
-&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 1 file changed, 3 insertions(+)<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/d=
-ma-buf.c<br>
-&gt;&gt;&gt;&gt; index b809513b03fe..6848f50226d5 100644<br>
-&gt;&gt;&gt;&gt; --- a/drivers/dma-buf/dma-buf.c<br>
-&gt;&gt;&gt;&gt; +++ b/drivers/dma-buf/dma-buf.c<br>
-&gt;&gt;&gt;&gt; @@ -675,6 +675,9 @@ struct dma_buf *dma_buf_export(const s=
-truct dma_buf_export_info *exp_info)<br>
-&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return dmabuf;<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 err_sysfs:<br>
-&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 mutex_lock(&amp;db_list.lock);<br>
-&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 list_del(&amp;dmabuf-&gt;list_node);<br>
-&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 mutex_unlock(&amp;db_list.lock);<br>
-&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
-&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 * Set file-&gt;f_path.dentry-&g=
-t;d_fsdata to NULL so that when<br>
-&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 * dma_buf_release() gets invoke=
-d by dentry_ops, it exits<br>
-<br>
-</blockquote></div></div>
+for you to fetch changes up to aec3bb3a01de09058fbebed4821ed7d07e1ed994:
 
---00000000000052805605edc1b6f9--
+  drm/amdgpu: make psp_ring_init common (2022-11-17 18:09:16 -0500)
+
+----------------------------------------------------------------
+amd-drm-next-6.2-2022-11-18:
+
+amdgpu:
+- SR-IOV fixes
+- Clean up DC checks
+- DCN 3.2.x fixes
+- DCN 3.1.x fixes
+- Don't enable degamma on asics which don't support it
+- IP discovery fixes
+- BACO fixes
+- Fix vbios allocation handling when vkms is enabled
+- Drop buggy tdr advanced mode GPU reset handling
+- Fix the build when DCN is not set in kconfig
+- MST DSC fixes
+- Userptr fixes
+- FRU and RAS EEPROM fixes
+- VCN 4.x RAS support
+- Aldrebaran CU occupancy reporting fix
+- PSP ring cleanup
+
+amdkfd:
+- Memory limit fix
+- Enable cooperative launch on gfx 10.3
+
+amd-drm-next-6.2-2022-11-11:
+
+amdgpu:
+- SMU 13.x updates
+- GPUVM TLB race fix
+- DCN 3.1.4 updates
+- DCN 3.2.x updates
+- PSR fixes
+- Kerneldoc fix
+- Vega10 fan fix
+- GPUVM locking fixes in error pathes
+- BACO fix for Beige Goby
+- EEPROM I2C address cleanup
+- GFXOFF fix
+- Fix DC memory leak in error pathes
+- Flexible array updates
+- Mtype fix for GPUVM PTEs
+- Move Kconfig into amdgpu directory
+- SR-IOV updates
+- Fix possible memory leak in CS IOCTL error path
+
+amdkfd:
+- Fix possible memory overrun
+- CRIU fixes
+
+radeon:
+- ACPI ref count fix
+- HDA audio notifier support
+- Move Kconfig into radeon directory
+
+UAPI:
+- Add new GEM_CREATE flags to help to transition more KFD functionality to the DRM UAPI.
+  These are used internally in the driver to align location based memory coherency
+  requirements from memory allocated in the KFD with how we manage GPUVM PTEs.  They
+  are currently blocked in the GEM_CREATE IOCTL as we don't have a user right now.
+  They are just used internally in the kernel driver for now for existing KFD memory
+  allocations. So a change to the UAPI header, but no functional change in the UAPI.
+
+----------------------------------------------------------------
+Alex Deucher (8):
+      drm/amdgpu: use proper DC check in amdgpu_display_supported_domains()
+      drm/amdgpu: rework SR-IOV virtual display handling
+      drm/amdgpu: move non-DC vblank handling out of irq code
+      drm/amdgpu: clarify DC checks
+      drm/amdgpu: there is no vbios fb on devices with no display hw (v2)
+      drm/amd/display: fix the build when DRM_AMD_DC_DCN is not set
+      drm/amdgpu/psp12: move ih_reroute into ring_create
+      drm/amdgpu: make psp_ring_init common
+
+Alvin Lee (7):
+      drm/amd/display: Wait for VBLANK during pipe programming
+      drm/amd/display: Use min transition for SubVP into MPO
+      drm/amd/display: Disable phantom OTG after enable for plane disable
+      drm/amd/display: Add margin for max vblank time for SubVP + DRR
+      drm/amd/display: Use min transition for all SubVP plane add/remove
+      drm/amd/display: Don't check output BPP for phantom
+      drm/amd/display: Fix Subvp phantom pipe transition
+
+Andrew Davis (1):
+      drm: Move radeon and amdgpu Kconfig options into their directories
+
+Anthony Koo (1):
+      drm/amd/display: [FW Promotion] Release 0.0.143.0
+
+Aric Cyr (2):
+      drm/amd/display: 3.2.211
+      drm/amd/display: 3.2.212
+
+Asher Song (1):
+      Revert "drm/amdgpu: Revert "drm/amdgpu: getting fan speed pwm for vega10 properly""
+
+Aurabindo Pillai (3):
+      drm/amd/display: Zeromem mypipe heap struct before using it
+      drm/amd/display: fix array index out of bound error in bios parser
+      drm/amd/display: rework macros for DWB register access
+
+Candice Li (1):
+      drm/amdgpu: Add psp_13_0_10_ta firmware to modinfo
+
+Chaitanya Dhere (1):
+      drm/amd/display: Fix FCLK deviation and tool compile issues
+
+Charlene Liu (1):
+      drm/amd/display: fix dcn3.1x mode validation on high bandwidth config
+
+Christian König (8):
+      drm/amdgpu: workaround for TLB seq race
+      drm/amdgpu: revert "implement tdr advanced mode"
+      drm/amdgpu: stop resubmitting jobs for GPU reset v2
+      drm/amdgpu: stop resubmittting jobs in amdgpu_pci_resume
+      drm/amdgpu: always register an MMU notifier for userptr
+      drm/amdgpu: fix userptr HMM range handling v2
+      drm/amdgpu: rename the files for HMM handling
+      drm/amdgpu: cleanup amdgpu_hmm_range_get_pages
+
+Dan Carpenter (1):
+      amdgpu/pm: prevent array underflow in vega20_odn_edit_dpm_table()
+
+David Galiffi (1):
+      drm/amd/display: Update SubVP Visual Confirm
+
+Dillon Varone (7):
+      drm/amd/display: Enforce minimum prefetch time for low memclk on DCN32
+      drm/amd/display: Program pipes for ODM when removing planes
+      drm/amd/display: Check context constructed for pipe split flags is still valid
+      drm/amd/display: Align phantom pipe dst/src scaling with main for subvp
+      drm/amd/display: Fix prefetch calculations for dcn32
+      drm/amd/display: use uclk pstate latency for fw assisted mclk validation dcn32
+      drm/amd/display: Set max for prefetch lines on dcn32
+
+Dmytro Laktyushkin (2):
+      drm/amd/display: use low clocks for no plane configs
+      drm/amd/display: fix unbounded requesting for high pixel rate modes on dcn315
+
+Dong Chenchen (1):
+      drm/amdgpu: Fix memory leak in amdgpu_cs_pass1
+
+Eric Huang (1):
+      drm/amdkfd: Fix a memory limit issue
+
+Evan Quan (3):
+      drm/amd/pm: enable runpm support over BACO for SMU13.0.0
+      drm/amd/pm: enable runpm support over BACO for SMU13.0.7
+      drm/amd/pm: fix SMU13 runpm hang due to unintentional workaround
+
+Felix Kuehling (3):
+      drm/amdkfd: Fix error handling in kfd_criu_restore_events
+      drm/amdkfd: Fix error handling in criu_checkpoint
+      drm/amdgpu: Set MTYPE in PTE based on BO flags
+
+Gavin Wan (1):
+      drm/amdgpu: Ignore stop rlc on SRIOV environment.
+
+George Shen (4):
+      drm/amd/display: Populate DP2.0 output type for DML pipe
+      drm/amd/display: Support parsing VRAM info v3.0 from VBIOS
+      drm/amd/display: Workaround to increase phantom pipe vactive in pipesplit
+      drm/amd/display: Fix calculation for cursor CAB allocation
+
+Guchun Chen (2):
+      drm/amdgpu: disable BACO on special BEIGE_GOBY card
+      drm/amdgpu: disable BACO support on more cards
+
+Hamza Mahfooz (1):
+      drm/amd/display: only fill dirty rectangles when PSR is enabled
+
+Hanjun Guo (1):
+      drm/radeon: Add the missed acpi_put_table() to fix memory leak
+
+Harsh Jain (1):
+      drm/amdgpu: complete gfxoff allow signal during suspend without delay
+
+Ilya Bakoulin (1):
+      drm/amd/display: Adjust DP 8b10b LT exit behavior
+
+Jonathan Kim (1):
+      drm/amdkfd: enable cooperative launch for gfx10.3
+
+Jun Lei (1):
+      drm/amd/display: enable dchub request limit for DCN 3.2.x
+
+Kenneth Feng (2):
+      drm/amd/pm: enable mode1 reset on smu_v13_0_10
+      drm/amd/pm: skip disabling all smu features on smu_v13_0_10 in suspend
+
+Leo Ma (1):
+      drm/amd/display: Adding HDMI SCDC DEVICE_ID define
+
+Liu Jian (1):
+      drm/amd/display: delete the duplicate .set_odm_bypass initialization in dcn314_tg_funcs
+
+Liu Xi (1):
+      drm/amd/display: clean up some irq service code for dcn201
+
+LongJun Tang (1):
+      drm/amd/display: Have risk for memory exhaustion
+
+Luben Tuikov (6):
+      drm/amdgpu: Remove redundant I2C EEPROM address
+      drm/amdgpu: Decouple RAS EEPROM addresses from chips
+      drm/amdgpu: Allow non-standard EEPROM I2C address
+      drm/amdgpu: Bug-fix: Reading I2C FRU data on newer ASICs
+      drm/amdgpu: Interpret IPMI data for product information (v2)
+      drm/amdgpu: Add support for RAS table at 0x40000
+
+Lyude Paul (4):
+      drm/amdgpu/mst: Stop ignoring error codes and deadlocking
+      drm/display/dp_mst: Fix drm_dp_mst_add_affected_dsc_crtcs() return code
+      drm/amdgpu/dm/mst: Use the correct topology mgr pointer in amdgpu_dm_connector
+      drm/amdgpu/dm/dp_mst: Don't grab mst_mgr->lock when computing DSC state
+
+Ma Jun (2):
+      drm/amdkfd: Fix the memory overrun
+      drm/amdkfd: Make kfd_fill_cache_non_crat_info() as static
+
+Martin Leung (1):
+      drm/amd/display: revert Disable DRR actions during state commit
+
+Max Tseng (1):
+      drm/amd/display: Cursor update refactor: PSR-SU support condition
+
+Melissa Wen (1):
+      drm/amd/display: don't enable DRM CRTC degamma property for DCE
+
+Michael Strauss (1):
+      drm/amd/display: Only update link settings after successful MST link train
+
+Mike Hsieh (1):
+      drm/amd/display: Set correct EOTF and Gamut flag in VRR info
+
+Mustapha Ghaddar (1):
+      drm/amd/display: Fix fallback issues for DP LL 1.4a tests
+
+Nawwar Ali (1):
+      drm/amd/display: Update 709 gamma to 2.222 as stated in the standerd
+
+Nicholas Kazlauskas (3):
+      drm/amd/display: Update SR watermarks for DCN314
+      drm/amd/display: Allow tuning DCN314 bounding box
+      drm/amd/display: Fix reg timeout in enc314_enable_fifo
+
+Paulo Miguel Almeida (3):
+      drm/amdgpu: Replace 1-element array with flexible-array member
+      drm/amdgpu: Replace one-element array with flex-array member
+      drm/amdgpu: Replace one-elements array with flex-array members
+
+Perry Yuan (3):
+      drm/amdgpu: add Vangogh APU flag to IP discovery path
+      drm/amd/display: change GPU match with IP version for Vangogh
+      drm/amdgpu: remove the DID of Vangogh from pciidlist
+
+Philip Yang (2):
+      drm/amdgpu: Unlock bo_list_mutex after error handling
+      drm/amdgpu: Drop eviction lock when allocating PT BO
+
+Rajneesh Bhardwaj (1):
+      drm/amdgpu: Fix the kerneldoc description
+
+Ramesh Errabolu (1):
+      drm/amdgpu: Enable Aldebaran devices to report CU Occupancy
+
+Randy Dunlap (1):
+      drm/amd/display: fix kernel-doc issues in dc.h
+
+Rodrigo Siqueira (1):
+      drm/amd/display: Add HUBP surface flip interrupt handler
+
+Roman Li (2):
+      drm/amd/display: Fix optc2_configure warning on dcn314
+      drm/amd/display: Align dcn314_smu logging with other DCNs
+
+Ryan Lin (1):
+      drm/amd/display: Waiting for 1 frame to fix the flash issue on PSR1
+
+Steve Su (1):
+      drm/amd/display: Fix gpio port mapping issue
+
+Stylon Wang (2):
+      drm/amd/display: Fix access timeout to DPIA AUX at boot time
+      drm/amd/display: Fix invalid DPIA AUX reply causing system hang
+
+Takashi Iwai (1):
+      drm/radeon: Add HD-audio component notifier support (v6)
+
+Tao Zhou (9):
+      drm/amdgpu: remove the check of init status in psp_ras_initialize
+      drm/amdgpu: enable RAS for VCN/JPEG v4.0
+      drm/amdgpu: define common vcn_set_ras_funcs
+      drm/amdgpu: define common jpeg_set_ras_funcs
+      drm/amdgpu: add RAS query support for VCN 4.0
+      drm/amdgpu: add RAS error query for JPEG 4.0
+      drm/amdgpu: add irq source id definition for VCN/JPEG 4.0
+      drm/amdgpu: add VCN 4.0 RAS poison consumption handling
+      drm/amdgpu: add JPEG 4.0 RAS poison consumption handling
+
+Tim Huang (1):
+      drm/amd/pm: update SMU IP v13.0.4 msg interface header
+
+Tong Liu01 (1):
+      drm/amdgpu: add vram reservation based on vram_usagebyfirmware_v2_2
+
+Ville Syrjälä (1):
+      drm/amdgpu: Use drm_mode_init() for on-stack modes
+
+Wenjing Liu (1):
+      drm/amd/display: Consider dp cable id only when data is non zero
+
+Wesley Chalmers (1):
+      drm/amd/display: Disable DRR actions during state commit
+
+YiPeng Chai (3):
+      drm/amdgpu: Add umc channel index mapping table for umc_v8_10
+      drm/amdgpu: Fixed the problem that ras error can't be queried after gpu recovery is completed
+      drm/amdgpu: Enable mode-1 reset for RAS recovery in fatal error mode
+
+Yifan Zha (1):
+      drm/amdgpu: Remove programming GCMC_VM_FB_LOCATION* on gfxhub_v3_0_3 in VF
+
+Yifan Zhang (1):
+      drm/amdgpu: force read discovery file if set discovery=2
+
+YuBiao Wang (1):
+      drm/amdgpu: Stop clearing kiq position during unload
+
+Zhongwei Zhang (1):
+      drm/amd/display: fix dpms_off issue when disabling bios mode
+
+ drivers/gpu/drm/Kconfig                            |  56 ----
+ drivers/gpu/drm/amd/amdgpu/Kconfig                 |  29 ++
+ drivers/gpu/drm/amd/amdgpu/Makefile                |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h                |   5 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c           |   2 +-
+ .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_aldebaran.c   |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   |  82 ++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c   | 104 ++++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.c        |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.h        |   3 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c             |  15 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c        |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         | 203 +++++-------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c      |  28 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c        |  39 ++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.h        |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c        |   4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |   7 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_eeprom.c         |   4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fru_eeprom.c     | 215 ++++++------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c            |  17 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c            |  10 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c            |   2 +-
+ .../drm/amd/amdgpu/{amdgpu_mn.c => amdgpu_hmm.c}   |  51 ++-
+ .../drm/amd/amdgpu/{amdgpu_mn.h => amdgpu_hmm.h}   |  15 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c            |  58 +---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c           |  17 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.h           |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            |  34 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h            |   2 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |  10 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c     |  48 ++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            | 113 ++++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h            |  19 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c            |  17 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.h            |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c           |   4 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             |  26 --
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h             |  41 +++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c          |   2 +
+ drivers/gpu/drm/amd/amdgpu/dce_v10_0.c             |  13 +
+ drivers/gpu/drm/amd/amdgpu/dce_v11_0.c             |  13 +
+ drivers/gpu/drm/amd/amdgpu/dce_v6_0.c              |  14 +
+ drivers/gpu/drm/amd/amdgpu/dce_v8_0.c              |  14 +
+ drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c             |  16 +-
+ drivers/gpu/drm/amd/amdgpu/gfxhub_v3_0_3.c         |  12 -
+ drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c             |   7 +
+ drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c             |  12 +-
+ drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c              |  79 ++++-
+ drivers/gpu/drm/amd/amdgpu/jpeg_v2_5.c             |  13 +-
+ drivers/gpu/drm/amd/amdgpu/jpeg_v4_0.c             |  81 +++++
+ drivers/gpu/drm/amd/amdgpu/jpeg_v4_0.h             |   7 +
+ drivers/gpu/drm/amd/amdgpu/mes_v11_0.c             |   4 +-
+ drivers/gpu/drm/amd/amdgpu/psp_v10_0.c             |  27 --
+ drivers/gpu/drm/amd/amdgpu/psp_v11_0.c             |  27 --
+ drivers/gpu/drm/amd/amdgpu/psp_v11_0_8.c           |  27 --
+ drivers/gpu/drm/amd/amdgpu/psp_v12_0.c             |  31 +-
+ drivers/gpu/drm/amd/amdgpu/psp_v13_0.c             |  28 +-
+ drivers/gpu/drm/amd/amdgpu/psp_v13_0_4.c           |  27 --
+ drivers/gpu/drm/amd/amdgpu/psp_v3_1.c              |  27 --
+ drivers/gpu/drm/amd/amdgpu/soc21.c                 |   1 +
+ drivers/gpu/drm/amd/amdgpu/umc_v8_10.c             |  10 +
+ drivers/gpu/drm/amd/amdgpu/umc_v8_10.h             |   4 +
+ drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c              |  13 +-
+ drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c              |  70 ++++
+ drivers/gpu/drm/amd/amdgpu/vcn_v4_0.h              |   6 +
+ drivers/gpu/drm/amd/amdgpu/vi.c                    |   6 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_chardev.c           |  34 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_crat.c              |   2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_device.c            |   5 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_events.c            |   3 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_migrate.c           |   1 -
+ drivers/gpu/drm/amd/amdkfd/kfd_svm.c               |   8 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_topology.c          |   2 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  65 ++--
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h  |   6 -
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c |  10 +-
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  |   8 +
+ .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    | 254 +++++++-------
+ .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.h    |  12 +-
+ drivers/gpu/drm/amd/display/dc/bios/bios_parser.c  |  50 +--
+ drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c |  46 ++-
+ .../amd/display/dc/clk_mgr/dcn31/dcn31_clk_mgr.c   |   4 +-
+ .../amd/display/dc/clk_mgr/dcn314/dcn314_clk_mgr.c |  32 +-
+ .../drm/amd/display/dc/clk_mgr/dcn314/dcn314_smu.c |  11 +-
+ .../amd/display/dc/clk_mgr/dcn316/dcn316_clk_mgr.c |   1 +
+ drivers/gpu/drm/amd/display/dc/core/dc.c           | 157 ++++++---
+ drivers/gpu/drm/amd/display/dc/core/dc_link.c      |   4 +
+ drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c  |   1 +
+ drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c   |  71 +++-
+ drivers/gpu/drm/amd/display/dc/core/dc_link_dpia.c |  15 +-
+ drivers/gpu/drm/amd/display/dc/dc.h                |  17 +-
+ drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c       |  60 +++-
+ drivers/gpu/drm/amd/display/dc/dc_link.h           |   1 +
+ drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c      |   5 +
+ .../gpu/drm/amd/display/dc/dcn10/dcn10_hubbub.h    |   4 +-
+ .../drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c  |   4 +-
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dwb.h   | 363 ++++++++++-----------
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c |  50 +--
+ .../gpu/drm/amd/display/dc/dcn20/dcn20_mmhubbub.h  |   7 -
+ .../gpu/drm/amd/display/dc/dcn20/dcn20_resource.c  |  11 +-
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_vmid.h  |   6 -
+ .../gpu/drm/amd/display/dc/dcn21/dcn21_resource.c  |   2 -
+ drivers/gpu/drm/amd/display/dc/dcn30/dcn30_dwb.h   |  15 -
+ .../gpu/drm/amd/display/dc/dcn30/dcn30_mmhubbub.h  |   7 -
+ .../gpu/drm/amd/display/dc/dcn30/dcn30_resource.c  |   6 +-
+ .../drm/amd/display/dc/dcn301/dcn301_resource.c    |   6 +-
+ .../drm/amd/display/dc/dcn302/dcn302_resource.c    |   5 +-
+ .../drm/amd/display/dc/dcn303/dcn303_resource.c    |   5 +-
+ drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hubp.c  |   1 +
+ .../gpu/drm/amd/display/dc/dcn31/dcn31_resource.c  |  39 ++-
+ .../display/dc/dcn314/dcn314_dio_stream_encoder.c  |  24 +-
+ .../gpu/drm/amd/display/dc/dcn314/dcn314_optc.c    |   3 +-
+ .../drm/amd/display/dc/dcn314/dcn314_resource.c    |   3 +
+ .../drm/amd/display/dc/dcn315/dcn315_resource.c    |  13 +-
+ .../drm/amd/display/dc/dcn316/dcn316_resource.c    |   8 +-
+ .../gpu/drm/amd/display/dc/dcn32/dcn32_hubbub.c    |  18 +
+ .../gpu/drm/amd/display/dc/dcn32/dcn32_hubbub.h    |   8 +-
+ drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c |  44 ++-
+ drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.h |   2 +
+ drivers/gpu/drm/amd/display/dc/dcn32/dcn32_init.c  |   1 +
+ drivers/gpu/drm/amd/display/dc/dcn32/dcn32_optc.c  |   8 +
+ .../gpu/drm/amd/display/dc/dcn32/dcn32_resource.c  |  13 +-
+ .../gpu/drm/amd/display/dc/dcn32/dcn32_resource.h  |   3 +-
+ .../drm/amd/display/dc/dcn321/dcn321_resource.c    |   8 +-
+ drivers/gpu/drm/amd/display/dc/dm_helpers.h        |   5 +
+ .../gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c   |   2 +
+ .../gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c   |  23 +-
+ .../gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.h   |   5 +
+ .../amd/display/dc/dml/dcn31/display_mode_vba_31.c |  54 ++-
+ .../gpu/drm/amd/display/dc/dml/dcn314/dcn314_fpu.c |  16 +-
+ .../display/dc/dml/dcn314/display_mode_vba_314.c   |   2 -
+ .../gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c   |  66 +++-
+ .../amd/display/dc/dml/dcn32/display_mode_vba_32.c |   9 +-
+ .../amd/display/dc/dml/dcn32/display_mode_vba_32.h |   5 +
+ .../dc/dml/dcn32/display_mode_vba_util_32.c        |  13 +-
+ .../dc/dml/dcn32/display_mode_vba_util_32.h        |   3 +-
+ .../gpu/drm/amd/display/dc/dml/dcn321/dcn321_fpu.c |   2 +
+ .../drm/amd/display/dc/dml/display_mode_structs.h  |   1 +
+ .../amd/display/dc/gpio/dcn32/hw_factory_dcn32.c   |  14 +
+ drivers/gpu/drm/amd/display/dc/gpio/hw_ddc.c       |   9 +-
+ drivers/gpu/drm/amd/display/dc/inc/hw/dchubbub.h   |   1 +
+ .../drm/amd/display/dc/inc/hw/timing_generator.h   |   1 +
+ drivers/gpu/drm/amd/display/dc/inc/hw_sequencer.h  |   1 +
+ .../amd/display/dc/irq/dcn201/irq_service_dcn201.c |  17 +-
+ .../amd/display/dc/irq/dcn201/irq_service_dcn201.h |   2 +-
+ drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h    |   9 +-
+ .../drm/amd/display/modules/color/color_gamma.c    |   2 +-
+ .../drm/amd/display/modules/freesync/freesync.c    |   8 +-
+ drivers/gpu/drm/amd/include/atombios.h             |  30 +-
+ drivers/gpu/drm/amd/include/atomfirmware.h         |  63 +++-
+ .../drm/amd/include/ivsrcid/vcn/irqsrcs_vcn_4_0.h  |   3 +
+ drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c   |   2 +-
+ .../drm/amd/pm/powerplay/hwmgr/vega10_thermal.c    |  25 +-
+ .../gpu/drm/amd/pm/powerplay/hwmgr/vega20_hwmgr.c  |   3 +-
+ drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |  26 +-
+ drivers/gpu/drm/amd/pm/swsmu/inc/amdgpu_smu.h      |  12 +
+ .../amd/pm/swsmu/inc/pmfw_if/smu_v13_0_4_ppsmc.h   |  15 +-
+ drivers/gpu/drm/amd/pm/swsmu/inc/smu_v11_0.h       |  10 +-
+ drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h       |  11 +-
+ .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    |   8 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu11/smu_v11_0.c     |   2 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c     |   9 +
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c   |  83 ++++-
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c   |  30 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c             |  18 +
+ drivers/gpu/drm/amd/pm/swsmu/smu_cmn.h             |   3 +
+ drivers/gpu/drm/display/drm_dp_mst_topology.c      |   2 +-
+ drivers/gpu/drm/radeon/Kconfig                     |  30 ++
+ drivers/gpu/drm/radeon/radeon.h                    |   8 +
+ drivers/gpu/drm/radeon/radeon_audio.c              | 117 +++++++
+ drivers/gpu/drm/radeon/radeon_bios.c               |  18 +-
+ drivers/gpu/drm/radeon/radeon_device.c             |   4 +
+ drivers/gpu/drm/scheduler/sched_main.c             |  58 +---
+ include/drm/gpu_scheduler.h                        |   3 -
+ include/uapi/drm/amdgpu_drm.h                      |  14 +
+ 176 files changed, 2684 insertions(+), 1645 deletions(-)
+ rename drivers/gpu/drm/amd/amdgpu/{amdgpu_mn.c => amdgpu_hmm.c} (82%)
+ rename drivers/gpu/drm/amd/amdgpu/{amdgpu_mn.h => amdgpu_hmm.h} (78%)
