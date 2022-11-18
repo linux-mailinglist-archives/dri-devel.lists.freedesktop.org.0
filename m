@@ -2,118 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F20262F201
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 10:58:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 807D962F24D
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 11:15:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2998C10E21A;
-	Fri, 18 Nov 2022 09:58:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4CD210E21E;
+	Fri, 18 Nov 2022 10:15:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-sn1nam02on2072.outbound.protection.outlook.com [40.107.96.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D47710E21A
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 09:58:35 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=T1Rs3D+RrL08/4JqZi/w3dKJw+2pcg8ukar6gnHeS/ogxtyzlc9HXV2wXzB+9fl3BQQCwU8zv0A8K+cfeM0vIaOy4jw1IneTTXcyV+oq4RbxBfySfm8jb9fwrKGIPecSzXpBzvReo4JGs/RAXPUo6CYjMWshcRXftK8ht2P2bUvgmdyNuSxYzMEUeOiQQfsQXddYrxAPHE1PMxXZLtmMFqf9ahQ2wxpHeD5OJPL/txojewrn/VlEvoFOnve8IVDTvl6akqLWay0MiijQs0HV3FQGhJM7zkmSu211REsVPO5+o4vltzc3rDDDzfQdbUzDvzofSA5Dkrd3LPd1AyZnOw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sJF/IU7uZQzyCaWWiq8jwaowTN85bSbrM0A9GtwRBao=;
- b=VDjJVEmFaA+BUAny5qQovG+Hb2o4kKqpJg9yGIO7307s9d/E84gSPetHKM95WhjCXEzf4sgQM05NBrcn4JvAbU8m2adDe3dyKrWR1wQCYhylzsPH3rTk7+9N+UcHmfxWeCbrpTHVZhNjTPZj5k/kW6EsUU3c29TY2ovEOLefowAHurHfa2Hc1vETO938RIhEKJyXKYm0/tBL1dr3TDomhQN2Zo5tkD3mQYJAyXV+i8KM5ZfJ06fqc1Nk/M8WbDKXim4CwRSaMr/yn7/vIFKuYMJtjqX+ILf4VF2GaAZQTZT6Len1b8N95AWC++8YekPb4u/7MSwEAEPkFjVOXMJDYA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sJF/IU7uZQzyCaWWiq8jwaowTN85bSbrM0A9GtwRBao=;
- b=Fth/zx0qDmQ8NUbbigXZ63nOTI/3gzRo0SNwLpgHUe1wcygX/Nh4EknkjyqQ2/zZ2tiB87SuBWZVIeMe1odt0u2nv6XBwGbo4Hwg4EXqT27rsbxLf5nH7UkYIhug7EYsk5tXuNKkNe4w1/3GFHaGl+Os5SQqWZxfXNAQcoDvaYo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by CH0PR12MB5140.namprd12.prod.outlook.com (2603:10b6:610:bf::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.9; Fri, 18 Nov
- 2022 09:58:33 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::7d43:3f30:4caf:7421]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::7d43:3f30:4caf:7421%7]) with mapi id 15.20.5813.017; Fri, 18 Nov 2022
- 09:58:32 +0000
-Message-ID: <b31fc44a-5827-5213-2a8f-9f0529155542@amd.com>
-Date: Fri, 18 Nov 2022 10:58:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v5] udmabuf: add vmap and vunmap methods to udmabuf_ops
-Content-Language: en-US
-To: Lukasz Wiecaszek <lukasz.wiecaszek@googlemail.com>,
- Gerd Hoffmann <kraxel@redhat.com>
-References: <20221117171810.75637-1-lukasz.wiecaszek@gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20221117171810.75637-1-lukasz.wiecaszek@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0123.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9d::16) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
+ [IPv6:2a00:1450:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5455410E21C;
+ Fri, 18 Nov 2022 10:15:37 +0000 (UTC)
+Received: by mail-lj1-x235.google.com with SMTP id u11so6184083ljk.6;
+ Fri, 18 Nov 2022 02:15:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=/bE+UQuOqsqViZiyknOf88HY6KNxj6TSr8L058CR0Yk=;
+ b=cHUXAr6Wp08tvjyzIhglik4QtJJAMkiFpxpf5xG6kFItFKh2orZjynRE7pmIQOTAi9
+ 2GAJ2pioURkSdWYwrwhCxltjOqvR6a0cTIDtauNN1zIJuh5PyQAy5eejwXRLcMCOAnu8
+ ZCRtqEqOYeiK5BEQU/ShJCZHm/J1/bzRkP1EaAiEC2DUL219RPV5hxHZdik6n93SWkZq
+ //nOXWvaJ3oqPnT2S8aNn9L9+JBJJHJO8B6V6dZRI618FNY6JFF9VG94FV1J36cK2DIC
+ cPisBnOtLYqa+M5kWUk/ABwZhnwzDyfDwis5QFnMueidf57dYXwO6N81S0I32vixkr+V
+ 8UZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/bE+UQuOqsqViZiyknOf88HY6KNxj6TSr8L058CR0Yk=;
+ b=mi7SA5donz5FN160ILrYDh9Yqlj+VSrF02o9u0Yb3eElmZCWiaIAsyRH0X0MXPUA6X
+ NXpYce5KsaxyKOF036WqhAHlRG8PPoNLLaO44YD2++7RMeTjMa7PBlV/lAmdah7/NIFr
+ +q45L+yL3qlHfr51Jk6yIEVk7w+3zZ/bqX2yyyXYcW+TL40tZ8sMtTZibsWAUknxFPlN
+ 8L70oFBgBwJckv+tE7B4YNReWwU1EpovzwEPjUL3IsCVY0Ez55EP4oRi/+bhTzlUPVYF
+ a5UvL3GFH3UnUACSs35Rn0dqAAt8k6oOgFnaRI2mrWH+bGC0+2M6/2IIej0Hf8bhIVx0
+ qgcQ==
+X-Gm-Message-State: ANoB5pkcAh8iY/UOSPd9rswKlLQQa6wi27NUIvlNqu3XU9tLmR5ZlETO
+ 7mXpmKCe0gqgcbhMbaPITrc=
+X-Google-Smtp-Source: AA0mqf7PNboodqMp6alOClheePOiUvdkzdNhY1TW7cf6F6mr+AM7kHNAAfHcN9US6DO7FoLrvg5RZA==
+X-Received: by 2002:a2e:9d0b:0:b0:279:f7d:15cf with SMTP id
+ t11-20020a2e9d0b000000b002790f7d15cfmr2088206lji.468.1668766535309; 
+ Fri, 18 Nov 2022 02:15:35 -0800 (PST)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ l15-20020a2ea80f000000b002776eb5b1ccsm602351ljq.4.2022.11.18.02.15.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Nov 2022 02:15:34 -0800 (PST)
+Date: Fri, 18 Nov 2022 12:15:30 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Sebastian Wick <sebastian.wick@redhat.com>, Dave Stevenson
+ <dave.stevenson@raspberrypi.com>
+Subject: Re: The state of Quantization Range handling
+Message-ID: <20221118121530.23c7c3ee@eldfell>
+In-Reply-To: <CA+hFU4x0PGs-8oUBSXQa9uTNvvW80ZPFnheoBWO0SZnxJ=FKXA@mail.gmail.com>
+References: <CA+hFU4w8=yTU5tQgqZj4qUvJddAQL9fj5teTVSB_dvNcwCyr6g@mail.gmail.com>
+ <CAPY8ntCnAjGy0e55raxV=2bgi1YPSringrKdRmJHeS+Li=3yeg@mail.gmail.com>
+ <CA+hFU4x0PGs-8oUBSXQa9uTNvvW80ZPFnheoBWO0SZnxJ=FKXA@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|CH0PR12MB5140:EE_
-X-MS-Office365-Filtering-Correlation-Id: 97b1c632-0298-484f-fe22-08dac94b73a6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EBIZXCEzSr6CwGImqN49TCA/TQI1U0Nz1AqZqqcBEVJl7k6ZtU6aaRWXNfYjn2LuN4Bt83/kfkH0Q92a0wFL9jdXWnl6tUFjJbyLTfeMTu2gDCZ0yhrw6gDKwP48uysw3FO8OfiHT36vT4DV/Zi9/bPe/njtChwgiJcHC6iN8yJ044OQNrYxfn4PWCC+g87jU5t3jye4ffnE+C3fIt9o89BoQty6VFHJiSE/C+4AgcIuCszdHGKiJw6ZdAmwv19lBbJAqK4ZTy9MofxtjxIM7s/X5EyiVErIpPwH+eCZXoA5J3oCxxJkcpXU/CNhn5BMbgOClFxnIbRpx/3ABZCDZ/SJCvs3VbQ65UPDGVeWQegp4KChaylrpt9eot/neeE7L/xwBkbWKbHFNIAfFOYezwRd6dsAMAAQ3YqhbTqzlB1IfQX1onSAoV/BBgM1zsniZ1X64sutKaA7cIBxDvJF6UQf1pr3fI7LNEGaeK66cXjmcAkGse5dmYW7FWZ4qY5BRBFl/YIuv31S9YK8C/Eqk3HqcPb8/8sBZiQ0uH4gLb7T9Lw6pNMMDf3j2Zn5BrrftbEtd9PUHYLS0a52yL04K8C6FQZ/LgK/gziNG51RWOu9bmICs7W1AO9Lmqk1jVasH97hr1vomuY2w9sFKEcGE3Zcjm7/wO6jQcAwIunLqjTfS2gMLSxCB4LOspInjuaS1XHC9lZe/kiYVRAw0uH9aL5RR+v5Ym0zQROb/4U7iYgVABC2kVM58NMA4yeE11VKcrKuvKO22jDX8P8GuF2yadrgn8vqRWPOf1hpCYthgdM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(346002)(136003)(396003)(366004)(376002)(39860400002)(451199015)(45080400002)(6666004)(6506007)(66574015)(316002)(6512007)(110136005)(66899015)(31686004)(54906003)(2616005)(66946007)(8676002)(4326008)(66476007)(41300700001)(6486002)(966005)(66556008)(5660300002)(186003)(8936002)(478600001)(2906002)(83380400001)(36756003)(31696002)(86362001)(38100700002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R2FxTWM4SERvUE9CT1VmMzVPanoyTWNla2tGbDNXcCs0c0RUMlE1bzdIenFv?=
- =?utf-8?B?Zyt6TjJxaEMxQnYvUUs1SllNUkgrY3VRL3FlRjZ4R09tVk0wa2dVV1hCdVg5?=
- =?utf-8?B?S1g3aUQxcEFFWkFheVBMT1AzcGY0WTA2TmtPeStMWUd2LzJ0VEJzSWFSWGhM?=
- =?utf-8?B?V0w2TW5KSFZna3kwaEUyK1l5M1dndzc3ZzFpcjNtT0h4OUg1dkdyM1BVZmtH?=
- =?utf-8?B?eS9mWFNkYkZ0YzBqTTJPTFdFcEtXcjV5UGkzMi9STUZ5VjI1TVZGVUF4NXll?=
- =?utf-8?B?SXlsMEZQcGZKTVRwbHZmbzhJK2NESk03UVdnWXozQWYyeW91YXZhMFJSdGg3?=
- =?utf-8?B?NmVKa3Y1eTVvekowTzRBYmN0bGVWbmtQR2x6ZFdiWDlYVmZ1am9XU28zOU9u?=
- =?utf-8?B?a283VmVRVnBVRHpKY0FPV24yV0czNG1RQW4zMEJXUHV2VVgvc2dYZ0ZxZ0tU?=
- =?utf-8?B?eUpDUTJzSENBdFI1MHVhZU9YM0gzTUduNHBaNDJPcVJIeFBneXpNY2kyTW1I?=
- =?utf-8?B?QmRxb0xpWUUyV1ZzNStMMDFsVXBIYlVsQ082TlNJZ2xVN3lOcnV5U3FHclJE?=
- =?utf-8?B?NGFwVUsxKzU0VGc1SHJqSHp5T3h6aDc3amo4MkJpWlhCN2MrT0tESGM1bEN4?=
- =?utf-8?B?NHRIWHZWZFhsQTQ3ZG1tQk1CUnU0QXZHanl3eTQ2c3BZZXRycVBFOGFYN1Nv?=
- =?utf-8?B?NG9HZEtxcWhETDRoVnNlK2FMNkVSSjlEcWpQLzNDTW1TWExxTmx4bTRoMzEr?=
- =?utf-8?B?TjZUelVXajdUL1czbk15dmhLQ0VaSXEwYjN3ak54Ly9qSjVSTXpHeGtjVGtv?=
- =?utf-8?B?dHY3VE1ZWnN2bVNRSWQxcWZGbWpOeksvb25tM3d3UTNTeVk0azBnUXVrOERH?=
- =?utf-8?B?ZlBFZHRzK2VNTVlwRTlRVkdCeEpPVnhJR3liY3JkNUhEM2d1QkpnL1BMdDJs?=
- =?utf-8?B?bkxlYVhkRHhSbFZMdTB3TFpkOEtZVTVKYnNiaERTZHNxSEFJaFJHZllsL3Rz?=
- =?utf-8?B?bXRXZWlRQ2ZGRUMrdWpibHdkd3BkNTVRZVZETzdYU3JJamZmYzdvS3hZSkhN?=
- =?utf-8?B?Qi9CQ2MvZlpEdVJqSXVOUXZBbW43MWpldGY0cXg4bGFBSDN4Smo4SFo4elZa?=
- =?utf-8?B?OFdqZnFnRWlGUE1rdUVKcW1kMkRCdjd2L1ZZQ3Rrakl3WE5uYW92dE9sTysw?=
- =?utf-8?B?Z2FQRlMxZ1A1endObU9vU2pUczFEOTBNQTF6TFAwOHJJNzlTS05nTXVqRklo?=
- =?utf-8?B?WmpNUUhVTnZtQlRWQUN4Mk83eVBXalU2Q3R1bFYxMGR4cTBNdnlldmhxNWl2?=
- =?utf-8?B?Q2ZKdzVIYTdoejhjYVdDNVU2NlorQ1VnNTk1QVdrajR0dG92R1h3UlAzb1Zl?=
- =?utf-8?B?VHZ2NDRlUC9mNTNRZHlsQUlIbG9qS1p2Q0FBN1I0MnAvRG1yNmk5R1M5ZUVx?=
- =?utf-8?B?N2ZGTlEwNjBCbVVzVG9GbzlWOXE5ei83RnpNVjBXNUZoUEw1UTFpODdmVU8z?=
- =?utf-8?B?U0YzbGFGWHhkS0J5dXh5VVAxYnFZeDVGNGs4VWN5U3NqNEdjbXZlYmVmLzIv?=
- =?utf-8?B?M09tWlZlVk1NRmVlT1ozWmY0bkk5N09DTHo2M0FIV3lTUFY5UlZ2U1Fxc3FP?=
- =?utf-8?B?V3J4SDBDRWc1ZndFN2lhVkVJMEh4VnZwdjhwYnk5bmNXMG1JSEN1TWNTbnU0?=
- =?utf-8?B?d2g1SUNsQW5Qb2M4TlZKZ25KOXNEY3J1YzJHaEVWRDQvZWpMbG1wMmQvNGtZ?=
- =?utf-8?B?eWJ0Yjdib2VyU2EvcnRPTjhLTjRlb2o5em9tcmREZXBQeExNL1BaVjJDZEdx?=
- =?utf-8?B?Q0Izb094dkIxc3Y4U0RPQndxL1AxL2FxTmpFRG5JRHlZWWdWNkdhd3hjUHdI?=
- =?utf-8?B?M0F0MkxLTFZONlhLa0FrVTZMUlZ5aHdvUU9DdFlYV0ROSk5pa2xiWUVRY2l0?=
- =?utf-8?B?OFQ4aVpLVUV4RDczRDZvekFCSVFTZFE4a1VrdDZtcGxjVXdhYTFSWnhLamlP?=
- =?utf-8?B?TmM3M3dzdml0aEZmSFZKMFp4VjVkQ3lNNlVhbXp4VDViKzZDRnhVTWEvQTJS?=
- =?utf-8?B?Qkh4Ym9lL1l3U0hzQVJ0M1UxcE1qc1pJeE4zd1F0YkMzeDA3K1dtL3ZKYVk0?=
- =?utf-8?B?TDlpM3ZsMkU0MzE5S1A3Q2x2OFV4T3AwTDB4bDFrVjFWT2lOTEZ4bTlldWJk?=
- =?utf-8?Q?6Q8ag+yHZik1EaQpGbnUMrrzEeSYovmgZH7eDjawgQqS?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 97b1c632-0298-484f-fe22-08dac94b73a6
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2022 09:58:32.8119 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ishwQu9LVjOPABzrB1BgVbi9yhk0pgISx7RQE8DM5YMsBo8fi0LRFTD/ZQ5h3Wdf
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5140
+Content-Type: multipart/signed; boundary="Sig_/LkrlR7aaSqE6/Vbb7n7kr0u";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,109 +72,196 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ wayland <wayland-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Pushed this one here to drm-misc-next.
+--Sig_/LkrlR7aaSqE6/Vbb7n7kr0u
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, 17 Nov 2022 22:13:26 +0100
+Sebastian Wick <sebastian.wick@redhat.com> wrote:
+
+> Hi Dave,
+>=20
+> I noticed that I didn't get the Broadcast RGB property thanks to you
+> (more below)
+>=20
+> On Tue, Nov 15, 2022 at 2:16 PM Dave Stevenson
+> <dave.stevenson@raspberrypi.com> wrote:
+> >
+> > Hi Sebastian
+> >
+> > Thanks for starting the conversation - it's stalled a number of times
+> > previously.
+> >
+> > On Mon, 14 Nov 2022 at 23:12, Sebastian Wick <sebastian.wick@redhat.com=
+> wrote: =20
+> > >
+> > > There are still regular bug reports about monitors (sinks) and sources
+> > > disagreeing about the quantization range of the pixel data. In
+> > > particular sources sending full range data when the sink expects
+> > > limited range. From a user space perspective, this is all hidden in
+> > > the kernel. We send full range data to the kernel and then hope it
+> > > does the right thing but as the bug reports show: some combinations of
+> > > displays and drivers result in problems. =20
+> >
+> > I'll agree that we as Raspberry Pi also get a number of bug reports
+> > where sinks don't always look at the infoframes and misinterpret the
+> > data.
+> > =20
+> > > In general the whole handling of the quantization range on linux is
+> > > not defined or documented at all. User space sends full range data
+> > > because that's what seems to work most of the time but technically
+> > > this is all undefined and user space can not fix those issues. Some
+> > > compositors have resorted to giving users the option to choose the
+> > > quantization range but this really should only be necessary for
+> > > straight up broken hardware. =20
+> >
+> > Wowsers! Making userspace worry about limited range data would be a
+> > very weird decision in my view, so compositors should always deal in
+> > full range data. =20
+>=20
+> Making this a user space problem is IMO the ideal way to deal with it
+> but that's a bit harder to do (I'll answer that in the reply to
+> Pekka). So let's just assume we all agree that user space only deals
+> with full range data.
+
+Limited range was invented for some reason, so it must have some use
+somewhere, at least in the past. Maybe it was needed to calibrate mixed
+digital/analog video processing chains with test images that needed to
+contain sub-blacks and super-whites, to make sure that sub-blacks come
+out as the nominal black etc. Just because desktop computers do not
+seem to have any need for limited range, I personally wouldn't be as
+arrogant as to say it's never useful. Maybe there are professional
+video/broadcasting needs that currently can only be realized with
+proprietary OS/hardware, because Linux just can't do it today?
+
+Why would TVs support limited range, if it was never useful? Why would
+video sources produce limited range if it was always strictly inferior
+to full range?
+
+Even digital image processing algorithms might make use of
+out-of-unit-range values, not just analog circuitry for overshoot.
+
+But no, I can't give a real example, just speculation. Hence it's fine
+by me to discard limited range processing for now. Still, what I
+explain below would allow limited range processing without any extra
+complexity by making the KMS color pipeline better defined and less
+limiting for userspace.
+
+> > How would composition of multiple DRM planes work if some are limited
+> > range and some are full but you want limited range output? Your
+> > hardware needs to have CSC matrices to convert full range down to
+> > limited range, and know that you want to use them to effectively
+> > compose to limited range.
+> > In fact you can't currently tell DRM that an RGB plane is limited
+> > range - the values in enum drm_color_range are
+> > DRM_COLOR_YCBCR_LIMITED_RANGE and DRM_COLOR_YCBCR_FULL_RANGE [1].
+
+Yeah, that's because range conversion has been conflated with
+YUV-to-RGB conversion, and the result is always full-range RGB in
+practise, AFAIU. There is no way to feed limited range color into the
+further color pipeline in KMS, but that's actually a good thing.(*)
+
+The following is my opinion of the future, as someone who has been
+thinking about how to make HDR work on Wayland while allowing the
+display quality and hardware optimizations that Wayland was designed
+for:
+
+
+Userspace should not tell KMS about a plane being limited range at all.
+The reason is the same why userspace should not tell KMS about what
+colorspace a plane is in.
+
+Instead, userspace wants to program specific mathematical operations
+into KMS hardware without any associated or implied semantics. It's
+just math. The actual semantics have been worked out by userspace
+before-hand. This allows to use the KMS hardware to its fullest effect,
+even for things the hardware or KMS UAPI designers did not anticipate.
+
+IMO, framebuffers and KMS planes should ultimately be in undefined
+quantization range, undefined color space, and undefined dynamic range.
+The correct processing of the pixel values is programmed by per-plane
+KMS properties like CTM, LUT, and more specialized components like
+quantization range converter or YUV-to-RGB converter (which is just
+another CTM at a different point, really) where userspace explicitly
+programs the *operation*, and not the input and output types hoping the
+driver and hardware does something sensible.
+
+In that design, there is no problem at all to blend multiple planes of
+differing quantization ranges together. Userspace first chooses the
+blending space, a radiometrically linear RGB limited range BT.709 space
+for example, and then programs each plane to produce exactly that. Then
+CRTC properties are programmed to produce the desired type of output
+signal. Finally, connector properties are programmed to send the
+appropriate metadata to the sink. Of course, userspace takes the sink
+capabilities into account before deciding all this.
+
+The thing KMS UAPI is missing are the per-plane properties.
+
+(*) The reason it is a good thing that one cannot have limited range
+framebuffers is that it would raise problems on how to handle pixel
+values outside of the nominal range, that is, the sub-black and
+super-white channel values. The immediate problem is that LUT stages
+need normalized input and they cannot extrapolate. So if nominal
+quantization range is normalized to 0.0-1.0 for LUT input, sub-black
+would be negative values and super-white would be greater than 1.0
+values, which a LUT cannot sensibly handle. That makes the whole
+concept of limited range problematic in the color pipeline. But, if the
+color pipeline elements like LUTs are defined *as if* the data was
+always full range, it becomes well-defined and useful how the elements
+work, and userspace can produce a proper programming that is guaranteed
+to work.
+
+By completely removing the concept of quantization range and its
+"automatic" handling from the KMS color pipeline and adding processing
+elements to do scaling+offset at suitable stages, we gain the ability
+to accept, process, blend, and produce pixels in any quantization
+range, color space or dynamic range at will.
+
+Another thing such an approach solves is how to interpret
+floating-point pixel data which can naturally represent
+out-of-unit-range values.
+
 
 Thanks,
-Christian.
+pq
 
-Am 17.11.22 um 18:18 schrieb Lukasz Wiecaszek:
-> The reason behind that patch is associated with videobuf2 subsystem
-> (or more genrally with v4l2 framework) and user created
-> dma buffers (udmabuf). In some circumstances
-> when dealing with V4L2_MEMORY_DMABUF buffers videobuf2 subsystem
-> wants to use dma_buf_vmap() method on the attached dma buffer.
-> As udmabuf does not have .vmap operation implemented,
-> such dma_buf_vmap() natually fails.
->
-> videobuf2_common: __vb2_queue_alloc: allocated 3 buffers, 1 plane(s) each
-> videobuf2_common: __prepare_dmabuf: buffer for plane 0 changed
-> videobuf2_common: __prepare_dmabuf: failed to map dmabuf for plane 0
-> videobuf2_common: __buf_prepare: buffer preparation failed: -14
->
-> The patch itself seems to be strighforward.
-> It adds implementation of .vmap and .vunmap methods
-> to 'struct dma_buf_ops udmabuf_ops'.
-> .vmap method itself uses vm_map_ram() to map pages linearly
-> into the kernel virtual address space.
-> .vunmap removes mapping created earlier by .vmap.
-> All locking and 'vmapping counting' is done in dma_buf.c
-> so it seems to be redundant/unnecessary in .vmap/.vunmap.
->
-> Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> Acked-by: Christian König <christian.koenig@amd.com>
-> Signed-off-by: Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>
-> ---
-> v1: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Flinux-media%2F202211120352.G7WPASoP-lkp%40intel.com%2FT%2F%23t&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7C9ef170d657a94849986f08dac8bfeb0f%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638043023852257558%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=yml6LFzivvU1Vv4cHRf47BEeqRN%2BkH1Sy%2FN4h%2BMpRxU%3D&amp;reserved=0
-> v2: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Flinux-media%2F20221114052944.GA7264%40thinkpad-p72%2FT%2F%23t&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7C9ef170d657a94849986f08dac8bfeb0f%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638043023852257558%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=mBEfWp7w8wTIhO2qF7ad9GrfMyX29EM3neHNHm0i2Zc%3D&amp;reserved=0
-> v3: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Flinux-media%2F4f92e95f-a0dc-4eac-4c08-0df85de78ae7%40collabora.com%2FT%2F%23t&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7C9ef170d657a94849986f08dac8bfeb0f%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638043023852257558%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=2LTn8lzg48%2B%2BTK4w3vctyQ6PjUva%2BZKS8eZeLG%2FWR7I%3D&amp;reserved=0
-> v4: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Flinux-media%2F970e798d-ea26-5e1e-ace8-7915a866f7c7%40collabora.com%2FT%2F%23t&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7C9ef170d657a94849986f08dac8bfeb0f%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638043023852257558%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=tO4Tgd5jPeu6%2BNuWSl%2BSqF%2FEh4dI7vaah4%2FICimHvgo%3D&amp;reserved=0
->
-> v4 -> v5: Added Acked-by and Reviewed-by to the commit message
-> v3 -> v4: Removed line/info 'reported by kernel test robot'
-> v2 -> v3: Added .vunmap to 'struct dma_buf_ops udmabuf_ops'
-> v1 -> v2: Patch prepared and tested against 6.1.0-rc2+
->
->   drivers/dma-buf/udmabuf.c | 28 ++++++++++++++++++++++++++++
->   1 file changed, 28 insertions(+)
->
-> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-> index 283816fbd72f..740d6e426ee9 100644
-> --- a/drivers/dma-buf/udmabuf.c
-> +++ b/drivers/dma-buf/udmabuf.c
-> @@ -13,6 +13,8 @@
->   #include <linux/slab.h>
->   #include <linux/udmabuf.h>
->   #include <linux/hugetlb.h>
-> +#include <linux/vmalloc.h>
-> +#include <linux/iosys-map.h>
->   
->   static int list_limit = 1024;
->   module_param(list_limit, int, 0644);
-> @@ -60,6 +62,30 @@ static int mmap_udmabuf(struct dma_buf *buf, struct vm_area_struct *vma)
->   	return 0;
->   }
->   
-> +static int vmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
-> +{
-> +	struct udmabuf *ubuf = buf->priv;
-> +	void *vaddr;
-> +
-> +	dma_resv_assert_held(buf->resv);
-> +
-> +	vaddr = vm_map_ram(ubuf->pages, ubuf->pagecount, -1);
-> +	if (!vaddr)
-> +		return -EINVAL;
-> +
-> +	iosys_map_set_vaddr(map, vaddr);
-> +	return 0;
-> +}
-> +
-> +static void vunmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
-> +{
-> +	struct udmabuf *ubuf = buf->priv;
-> +
-> +	dma_resv_assert_held(buf->resv);
-> +
-> +	vm_unmap_ram(map->vaddr, ubuf->pagecount);
-> +}
-> +
->   static struct sg_table *get_sg_table(struct device *dev, struct dma_buf *buf,
->   				     enum dma_data_direction direction)
->   {
-> @@ -162,6 +188,8 @@ static const struct dma_buf_ops udmabuf_ops = {
->   	.unmap_dma_buf	   = unmap_udmabuf,
->   	.release	   = release_udmabuf,
->   	.mmap		   = mmap_udmabuf,
-> +	.vmap		   = vmap_udmabuf,
-> +	.vunmap		   = vunmap_udmabuf,
->   	.begin_cpu_access  = begin_cpu_udmabuf,
->   	.end_cpu_access    = end_cpu_udmabuf,
->   };
+> > Cheers.
+> >   Dave
+> >
+> > [1] https://elixir.bootlin.com/linux/latest/source/include/drm/drm_colo=
+r_mgmt.h#L84
+> > [2] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_=
+edid.c#L6756
+> > [3] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_=
+edid.c#L5642
+> > =20
+>=20
 
+
+--Sig_/LkrlR7aaSqE6/Vbb7n7kr0u
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmN3W0IACgkQI1/ltBGq
+qqdLmA//Xpln15Y4LBw2YlfsFlPFzTptfCzy8UBKpbOcrUrDJUL8KlA04ntcrAjd
+yvgJlr6Hufj5lBs8ujj/xFexWwK4C4xdYUviGVVdFx5h3rAJ01CAe9FJrTRp3fGu
+g7K0E1hbv52mqB0PxfwnaQshEv2ziIzwPZ2ZpGFngWE1WW/o9loXaZdJZsrQlSY8
+RPmA/bd1pqwe343vRg7vj73DwD0c3KOPefDQSSP3qQk94ZBYA6EkO+qCCj6TVO7Y
+Il/81gXJtkmxz+qLqeV8UmreaOQxEMdwOMRbxSEWpkZlcJpsaeQv2ENIxIomQYWq
+RsKNoa6HY7fOAxRl+mGUYYum/8H+dMxac5NXb8P64BwWCMXvzTv950Z/aoBuwHXf
+Kjz1MIysVYAD6YY3bDdfSWz6oW3CEKhFHXMrh74RIJolCU6O+NPhTvAiuYjUF6zp
+w3uXqnSAdlYDaw/P2NXcgKxVvpBYdy5/qygMvcFPp27P0SV0WkVkuXhNlnr+lvEB
+WWrGN8K9jzVmXcomgz5g96/sRQD2gStShp/bVqFx87x8bpCnpw5NF6J9a6pWshK1
+2GaVRA7Bf2DuOG0TwBlv7HyubEqkU/SQaiLDRlrvrIWbrMI2bwtGM9BU/U8YeP6C
+oDRjuZkSKwlE26cObKAVTc3YdDsRIamoQ0XBeTxhH0ssY4lj+vA=
+=Muww
+-----END PGP SIGNATURE-----
+
+--Sig_/LkrlR7aaSqE6/Vbb7n7kr0u--
