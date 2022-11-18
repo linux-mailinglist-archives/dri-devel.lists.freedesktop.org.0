@@ -2,63 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE33C62F062
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 10:03:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28B6B62F0AC
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 10:12:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F6EE10E1F2;
-	Fri, 18 Nov 2022 09:03:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0670510E1F4;
+	Fri, 18 Nov 2022 09:12:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADDC110E1F2;
- Fri, 18 Nov 2022 09:03:05 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id x21so5950697ljg.10;
- Fri, 18 Nov 2022 01:03:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=nqcxBaH31lx2u4NIPdlyV3PifFPN0d4S/QmfunVd5Yk=;
- b=pzu+Omu355frg0ueGuI5x6myuBFpz9v0G4ogyNwP77A6ylVn9Y/TuVQnusC2JtxDLR
- YEAvjv5588Ew35vhP3rPTHmfPVcX3mfP8GsNDNz1E7Vro6vbneEqxEH/bVcw/nmejf5Y
- l4Gl0iE5xGv7KvHBi6A6sY3d+NybKvKirKZXs4G1CWOGSzshL72qnV8qKLdHi/yYj7s5
- qxJtJ53VOJfcvIVjI4Z+N5sH08PAYVvSxts037FdSu6dFZKaP6eM/mQXiXkiBJZQjksU
- yA6aefDDXkp5R2oQUOQhlTLJ7zyuxzMAUreAYgf0Nv8kiJjOlwNl8tEgWpFUN5CJJPKB
- dl5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nqcxBaH31lx2u4NIPdlyV3PifFPN0d4S/QmfunVd5Yk=;
- b=Gy1jb7fqckMjZM3KWgrES1/ahLkiPtx2U91rYFsVSief4Zglp8Ek5G3pZMvYS/MGQb
- IWNSNIJBMwfh4fiEyz1xX/0j4SJCTeHPHQmapySzu7Jgwipwx8+4Id9EFqDyHUyPd6hH
- Y52sc7juprvYjUNiuC7L/MYwDRVen0sGqs+sSdEfDziTzSR32HFbcwZ/Zgcg0Zp1Keoo
- oLEUp/uIzO2vFQrnlUiqJTv6JqhpMTOlAB6Ur+u1eL8bHl/ht0mg+ECAcd8lXaHZaxUs
- CiQUriSmN2kO8tNn27qSxsBAc5uO8AbJ9HHmoHHGFWMnia0p71K3rQhfPLXgY3T6l15/
- QI2g==
-X-Gm-Message-State: ANoB5pmxMVNUquvW5GhV5bkZ1GLRKMAAmGh9hJ3gAt9enJUPb08/nopW
- QKQBgbN+QGCS5OvApvJEfNs=
-X-Google-Smtp-Source: AA0mqf57s1A4UeuwIQPDjK0NIxekjS3jE4N0LT4pzxr4wLxGtLZP1MyvPCA84rPZui9W+7rONxDHnA==
-X-Received: by 2002:a2e:990b:0:b0:277:5a8:91c8 with SMTP id
- v11-20020a2e990b000000b0027705a891c8mr2042285lji.173.1668762183677; 
- Fri, 18 Nov 2022 01:03:03 -0800 (PST)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- s12-20020a056512314c00b004b0317a1035sm581958lfi.109.2022.11.18.01.03.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Nov 2022 01:03:03 -0800 (PST)
-Date: Fri, 18 Nov 2022 11:02:33 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Sebastian Wick <sebastian.wick@redhat.com>
-Subject: Re: The state of Quantization Range handling
-Message-ID: <20221118110233.4e93786a@eldfell>
-In-Reply-To: <CA+hFU4z59z=P1pYzmxY=Mz=XWK9_zk7J2FtoKY=QJmztAN8J7Q@mail.gmail.com>
-References: <CA+hFU4w8=yTU5tQgqZj4qUvJddAQL9fj5teTVSB_dvNcwCyr6g@mail.gmail.com>
- <20221116143401.3d7621b9@eldfell>
- <CA+hFU4z59z=P1pYzmxY=Mz=XWK9_zk7J2FtoKY=QJmztAN8J7Q@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 831A410E1F4;
+ Fri, 18 Nov 2022 09:12:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1668762753; x=1700298753;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=Y3apXotWIE6g1eJI9xmlRrU+QHCDL5uz5zS/hSLBSNs=;
+ b=ggbFKvrcLz7JpfSpvctH9rWov3KzztLfqCdcKWKnGj+XZSbfQIMeDEv0
+ VfR7hcga4J10T/cH2DV7eyTWPzeKoXRzu2+7JUjYbskwVDJiQHdkXfX5K
+ z/ArkKJ1eDC8ZJAlgxnhAWRgpzgnZZE5i0CECiJryyvSzMA2fda8okwnG
+ DfBIfhHMvqRQWXz29/dukYl3diBfGku86wiMFJnc2nVjY0S8J7uhj4P/u
+ Sr6FxQocIMwX3CKpuHrNZsQpNWh1n4zCk4QgY0Rpmg52xQsrwUEwwvRQV
+ FxlZsW9XwETK43Q8QCNb5o9fk2FhVuxS0YPeSU6h2R2e4YJ+J6bEF08L7 w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="293485355"
+X-IronPort-AV: E=Sophos;i="5.96,173,1665471600"; d="scan'208";a="293485355"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Nov 2022 01:12:28 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="703673629"
+X-IronPort-AV: E=Sophos;i="5.96,173,1665471600"; d="scan'208";a="703673629"
+Received: from hazimham-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.1.130])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Nov 2022 01:12:25 -0800
+Date: Fri, 18 Nov 2022 11:12:23 +0200
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-intel-gt-next
+Message-ID: <Y3dMd9HDpfDehhWm@jlahtine-mobl.ger.corp.intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/te9gkBy7/N5O1t77Qlfxl3j";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,109 +54,279 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- wayland <wayland-devel@lists.freedesktop.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/te9gkBy7/N5O1t77Qlfxl3j
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Dave & Daniel,
 
-On Thu, 17 Nov 2022 22:39:36 +0100
-Sebastian Wick <sebastian.wick@redhat.com> wrote:
+Here goes the last drm-intel-gt-next feature pull req for v6.2.
 
-> On Wed, Nov 16, 2022 at 1:34 PM Pekka Paalanen <ppaalanen@gmail.com> wrot=
-e:
-> >
-> > Is it a good idea to put even more automation/magic into configuring
-> > the color pipeline and metadata for a sink, making them even more
-> > intertwined?
-> >
-> > I would prefer the opposite direction, making thing more explicit and
-> > orthogonal. =20
->=20
-> In general I completely agree with this, I just don't think it's
-> feasible with the current state of KMS. For the color pipeline API [1]
-> that's exactly the behavior I want but it should be guarded behind a
-> DRM cap.
->=20
-> For that new API, user space needs direct control over the
-> quantization range infoframe and the kernel has to somehow tell user
-> space what quantization range the sink expects for the default
-> behavior. User space then programs the infoframe when possible and
-> builds the color pipeline in such a way that the output is whatever
-> the sink expects.
->=20
-> The issue really is that if we push this all to user space it would be
-> a backwards incompatible change. So let's fix the current situation in
-> a backwards compatible way and then get it right for the new API that
-> user space can opt-into.
->=20
-> Does that make sense?
+We have a couple of important fixes around memory management (TTM
+and userptr), then demoting GuC kernel contexts to normal priority and
+Meteorlake enabling.
 
-It makes sense as far as userspace does not need to be changed to make
-use of this.
+Beyond that it's smaller fixes to code structure and corner cases.
 
-But if userspace will need changes regardless, why continue on a
-dead-end API? One reason could be that a new explicit API is too much
-work compared to when you want your issues fixed.
+Note the backmerge of drm-next to bring in v6.1-rc1 which had needed
+dependencies for which I gave heads-up in IRC.
 
-If you are introducing a new KMS property (the override control), then
-by definition userspace needs changes to use it.
+Regards, Joonas
 
-[1] OTOH is a re-design the world -approach, which is am not suggesting
-when I talk about making this explicit. I'm thinking about a much
-smaller step that concerns only quantization range handling inside the
-existing color pipeline "framework". E.g. deprecate "Broadcast RGB"
-property and add "quantization range conversion" property that is
-orthogonal to another new property for the quantization range metadata
-sent to a sink.
+**
 
+drm-intel-gt-next-2022-11-18:
 
-Thanks,
-pq
+Core Changes:
 
-> > > Appendix A: Broadcast RGB property
-> > >
-> > > A few drivers already implement the Broadcast RGB property to control
-> > > the quantization range. However, it is pointless: It can be set to
-> > > Auto, Full and Limited when the sink supports explicitly setting the
-> > > quantization range. The driver expects full range content and converts
-> > > it to limited range content when necessary. Selecting limited range
-> > > never makes any sense: the out-of-range bits can't be used because the
-> > > input is full range. Selecting Default never makes sense: relying on
-> > > the default quantization range is risky because sinks often get it
-> > > wrong and as we established there is no reason to select limited range
-> > > if not necessary. The limited and full options also are not suitable
-> > > as an override because the property is not available if the sink does
-> > > not support explicitly setting the quantization range.
-> > > =20
-> > =20
->=20
-> [1] https://gitlab.freedesktop.org/pq/color-and-hdr/-/issues/11
->=20
+- Backmerge of drm-next
 
+Driver Changes:
 
---Sig_/te9gkBy7/N5O1t77Qlfxl3j
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+- Restore probe_range behaviour for userptr (Matt A)
+- Fix use-after-free on lmem_userfault_list (Matt A)
+- Never purge busy TTM objects (Matt A)
+- Meteorlake enabling (Daniele, Badal, Daniele, Stuart, Aravind, Alan)
+- Demote GuC kernel contexts to normal priority (John)
 
------BEGIN PGP SIGNATURE-----
+- Use RC6 residency types as arguments to residency functions (Ashutosh,
+  Rodrigo, Jani)
+- Convert some legacy DRM debugging macros to new ones (Tvrtko)
+- Don't deadlock GuC busyness stats vs reset (John)
+- Remove excessive line feeds in GuC state dumps (John)
+- Use i915_sg_dma_sizes() for all backends (Matt A)
+- Prefer REG_FIELD_GET in intel_rps_get_cagf (Ashutosh, Rodrigo)
+- Use GEN12_RPSTAT register for GT freq (Don, Badal, Ashutosh)
+- Remove unwanted TTM ghost obj check (Matt A)
+- Update workaround documentation (Lucas)
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmN3SikACgkQI1/ltBGq
-qqeqsw//Z+dwpSjcBoaECZ41ctCJGhlliwWiB5Cf2412rHc0jEtXKW+qLBIFldaL
-iFBSsazoYCFs2Te2ichyobln9hiTcLuImORXAjtWrxCeULu7pZ7NSxQtl5dgVfxi
-fB2QffP9A3/AWTI5YDH8ejFWGCOR61Ls7Egk3MuwUA7Vqj5L7l5BH6huG8OQjW/G
-5UC5YWfnsAmFiCeZdvyS+/qQP34FZZyMRPAaBdZDF+D2sa2eaXnQOYHPf9AOdbrU
-MeqGJESSbAcF8YOziniUJsqHTjHmdit3u0Be0gYshzhT6UfQwQKbZV7dDA4luSCD
-a0wpQallVi1fMzwK8D5MFu93RWOa8zj2a189kdg6iTPdVDkeQgNQpvjEVhDEwXyp
-/743L1/j7qBXuoYL7rsbRExxT6vv/jeiemNqy1DoNwsMTXuYAihiYfoRARP1sNLv
-qZmFcU3q/yxohhUaSp/UMaBA3Xe4vislyCh7Jlc/6aPrzrlFflNecwhFYmVUDhfi
-FBtpQPwX0NccqSMQNsRg2l/5FfpyK4eLUXzYDm3iY0KDcmFTX/uZjxTg2G4lwLts
-idwImhofbHP5F8pHQi9GbVquTAOy1e1nQB0cwe/sxrQKUAz+p7utYOXLPuLSzKnv
-D3fceEM8MwllQP08On2i3IgZYQ5E+HeJ+mVHEp4qkQJQXFLMauw=
-=A6h1
------END PGP SIGNATURE-----
+- Coding style and static checker fixes and cleanups
+  (Jani, Umesh, Tvrtko, Lucas, Andrzej)
+- Selftest improvements (Chris, Daniele, Riana, Andrzej)
 
---Sig_/te9gkBy7/N5O1t77Qlfxl3j--
+The following changes since commit 60ba8c5bd94e17ab4b024f5cecf8b48e2cf36412:
+
+  Merge tag 'drm-intel-gt-next-2022-11-03' of git://anongit.freedesktop.org/drm/drm-intel into drm-next (2022-11-04 17:33:34 +1000)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-gt-next-2022-11-18
+
+for you to fetch changes up to 4bb9ca7ee07455bec0a802ecf0aa5b09496888e2:
+
+  drm/i915/mtl: C6 residency and C state type for MTL SAMedia (2022-11-17 10:47:12 -0500)
+
+----------------------------------------------------------------
+Core Changes:
+
+- Backmerge of drm-next
+
+Driver Changes:
+
+- Restore probe_range behaviour for userptr (Matt A)
+- Fix use-after-free on lmem_userfault_list (Matt A)
+- Never purge busy TTM objects (Matt A)
+- Meteorlake enabling (Daniele, Badal, Daniele, Stuart, Aravind, Alan)
+- Demote GuC kernel contexts to normal priority (John)
+
+- Use RC6 residency types as arguments to residency functions (Ashutosh,
+  Rodrigo, Jani)
+- Convert some legacy DRM debugging macros to new ones (Tvrtko)
+- Don't deadlock GuC busyness stats vs reset (John)
+- Remove excessive line feeds in GuC state dumps (John)
+- Use i915_sg_dma_sizes() for all backends (Matt A)
+- Prefer REG_FIELD_GET in intel_rps_get_cagf (Ashutosh, Rodrigo)
+- Use GEN12_RPSTAT register for GT freq (Don, Badal, Ashutosh)
+- Remove unwanted TTM ghost obj check (Matt A)
+- Update workaround documentation (Lucas)
+
+- Coding style and static checker fixes and cleanups
+  (Jani, Umesh, Tvrtko, Lucas, Andrzej)
+- Selftest improvements (Chris, Daniele, Riana, Andrzej)
+
+----------------------------------------------------------------
+Alan Previn (1):
+      drm/i915/pxp: Separate PXP FW interface structures for both v42 and 43
+
+Andrzej Hajda (2):
+      drm/i915: call i915_request_await_object from _i915_vma_move_to_active
+      drm/i915/selftests: add igt_vma_move_to_active_unlocked
+
+Aravind Iddamsetty (1):
+      drm/i915/mtl: Handle wopcm per-GT and limit calculations.
+
+Ashutosh Dixit (2):
+      drm/i915/rps: Prefer REG_FIELD_GET in intel_rps_get_cagf
+      drm/i915/gt: Use RC6 residency types as arguments to residency functions
+
+Badal Nilawar (3):
+      drm/i915/mtl: Add Wa_14017073508 for SAMedia
+      drm/i915/mtl: Modify CAGF functions for MTL
+      drm/i915/mtl: C6 residency and C state type for MTL SAMedia
+
+Chris Wilson (1):
+      drm/i915/selftests: Reduce oversaturation of request smoketesting
+
+Daniele Ceraolo Spurio (12):
+      drm/i915/mtl: add initial definitions for GSC CS
+      drm/i915/mtl: pass the GSC CS info to the GuC
+      drm/i915/mtl: add GSC CS interrupt support
+      drm/i915/mtl: add GSC CS reset support
+      drm/i915/mtl: don't expose GSC command streamer to the user
+      drm/i915/guc: don't hardcode BCS0 in guc_hang selftest
+      drm/i915/huc: only load HuC on GTs that have VCS engines
+      drm/i915/uc: fetch uc firmwares for each GT
+      drm/i915/uc: use different ggtt pin offsets for uc loads
+      drm/i915/guc: define media GT GuC send regs
+      drm/i915/guc: handle interrupts from media GuC
+      drm/i915/guc: add the GSC CS to the GuC capture list
+
+Don Hiatt (1):
+      drm/i915: Use GEN12_RPSTAT register for GT freq
+
+Jani Nikula (1):
+      drm/i915/pxp: use <> instead of "" for headers in include/
+
+John Harrison (3):
+      drm/i915/guc: Remove excessive line feeds in state dumps
+      drm/i915/guc: Properly initialise kernel contexts
+      drm/i915/guc: Don't deadlock busyness stats vs reset
+
+Joonas Lahtinen (1):
+      Merge drm/drm-next into drm-intel-gt-next
+
+Lucas De Marchi (2):
+      Documentation/gpu: Fix section in the wrong scope
+      drm/i915: Update workaround documentation
+
+Matthew Auld (5):
+      drm/i915/userptr: restore probe_range behaviour
+      drm/i915/ttm: fix uaf with lmem_userfault_list handling
+      drm/i915/ttm: add some sanity checks for lmem_userfault_list
+      drm/i915: use i915_sg_dma_sizes() for all backends
+      drm/i915/ttm: never purge busy objects
+
+Nirmoy Das (1):
+      drm/i915: Remove unwanted ghost obj check
+
+Riana Tauro (1):
+      drm/i915/guc/slpc: Add selftest for slpc tile-tile interaction
+
+Stuart Summers (1):
+      drm/i915/guc: Add GuC deprivilege feature to MTL
+
+Tvrtko Ursulin (3):
+      drm/i915: Partial abandonment of legacy DRM logging macros
+      drm/i915: Simplify internal helper function signature
+      drm/i915: Fix vma allocator debug
+
+Umesh Nerlige Ramappa (1):
+      drm/i915/perf: Fix kernel-doc warning
+
+ Documentation/gpu/drm-usage-stats.rst              |   1 -
+ Documentation/gpu/i915.rst                         |   2 +-
+ drivers/gpu/drm/i915/Makefile                      |   5 +-
+ drivers/gpu/drm/i915/gem/i915_gem_context.c        |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c         |   4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c     |  43 ++++---
+ drivers/gpu/drm/i915/gem/i915_gem_internal.c       |   5 +-
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c           |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.h         |   3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c          |   7 +-
+ drivers/gpu/drm/i915/gem/i915_gem_phys.c           |   9 +-
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c          |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c         |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c            |  20 +--
+ drivers/gpu/drm/i915/gem/i915_gem_userptr.c        |   9 +-
+ .../gpu/drm/i915/gem/selftests/huge_gem_object.c   |   2 +-
+ drivers/gpu/drm/i915/gem/selftests/huge_pages.c    |  10 +-
+ .../drm/i915/gem/selftests/i915_gem_client_blt.c   |  22 +---
+ .../drm/i915/gem/selftests/i915_gem_coherency.c    |   4 +-
+ .../gpu/drm/i915/gem/selftests/i915_gem_context.c  |  16 +--
+ drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c |  10 +-
+ drivers/gpu/drm/i915/gem/selftests/igt_gem_utils.c |   8 +-
+ drivers/gpu/drm/i915/gem/selftests/igt_gem_utils.h |  14 +++
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c          |   9 ++
+ drivers/gpu/drm/i915/gt/intel_engine_types.h       |   1 +
+ drivers/gpu/drm/i915/gt/intel_engine_user.c        |  28 ++++-
+ .../gpu/drm/i915/gt/intel_execlists_submission.c   |  13 +-
+ drivers/gpu/drm/i915/gt/intel_ggtt.c               |   2 +-
+ drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c       |   4 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c                 |   5 +-
+ drivers/gpu/drm/i915/gt/intel_gt_irq.c             | 104 +++++++++-------
+ drivers/gpu/drm/i915/gt/intel_gt_pm.c              |  27 +++++
+ drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c      |  88 ++++++++++----
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h            |  25 ++--
+ drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c        |  12 +-
+ drivers/gpu/drm/i915/gt/intel_gt_types.h           |   2 +
+ drivers/gpu/drm/i915/gt/intel_rc6.c                |  64 ++++++----
+ drivers/gpu/drm/i915/gt/intel_rc6.h                |  11 +-
+ drivers/gpu/drm/i915/gt/intel_rc6_types.h          |  15 ++-
+ drivers/gpu/drm/i915/gt/intel_renderstate.c        |   4 +-
+ drivers/gpu/drm/i915/gt/intel_reset.c              |  18 ++-
+ drivers/gpu/drm/i915/gt/intel_reset.h              |   1 +
+ drivers/gpu/drm/i915/gt/intel_rps.c                |  57 +++++++--
+ drivers/gpu/drm/i915/gt/intel_rps.h                |   2 +
+ drivers/gpu/drm/i915/{ => gt}/intel_wopcm.c        |  43 +++++--
+ drivers/gpu/drm/i915/{ => gt}/intel_wopcm.h        |   0
+ drivers/gpu/drm/i915/gt/intel_workarounds.c        | 134 ++++++++++++---------
+ drivers/gpu/drm/i915/gt/intel_workarounds_types.h  |   3 +
+ drivers/gpu/drm/i915/gt/selftest_execlists.c       |  14 +--
+ drivers/gpu/drm/i915/gt/selftest_hangcheck.c       |  35 +-----
+ drivers/gpu/drm/i915/gt/selftest_lrc.c             |  33 ++---
+ drivers/gpu/drm/i915/gt/selftest_mocs.c            |   5 +-
+ drivers/gpu/drm/i915/gt/selftest_rc6.c             |   6 +-
+ drivers/gpu/drm/i915/gt/selftest_rps.c             |   8 +-
+ drivers/gpu/drm/i915/gt/selftest_slpc.c            |  70 ++++++++++-
+ drivers/gpu/drm/i915/gt/selftest_workarounds.c     |  26 ++--
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c             |  47 +++++---
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h             |   5 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c         |  11 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c     |  11 ++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h        |   7 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c          |  13 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h         |   2 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c  |  15 ++-
+ drivers/gpu/drm/i915/gt/uc/intel_huc.c             |  29 +++++
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c              |  12 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c           |  46 +++++--
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h           |  14 +++
+ .../gpu/drm/i915/gt/uc/selftest_guc_hangcheck.c    |   8 +-
+ drivers/gpu/drm/i915/gvt/dmabuf.c                  |   2 +-
+ drivers/gpu/drm/i915/gvt/scheduler.c               |   5 +-
+ drivers/gpu/drm/i915/i915_debugfs.c                |   4 +-
+ drivers/gpu/drm/i915/i915_driver.c                 |   2 -
+ drivers/gpu/drm/i915/i915_drv.h                    |  16 ++-
+ drivers/gpu/drm/i915/i915_gem.c                    |   8 +-
+ drivers/gpu/drm/i915/i915_getparam.c               |   2 +-
+ drivers/gpu/drm/i915/i915_irq.c                    |  12 +-
+ drivers/gpu/drm/i915/i915_pci.c                    |   1 +
+ drivers/gpu/drm/i915/i915_perf.c                   |  18 +--
+ drivers/gpu/drm/i915/i915_perf_types.h             |   4 +-
+ drivers/gpu/drm/i915/i915_pmu.c                    |   9 +-
+ drivers/gpu/drm/i915/i915_query.c                  |  12 +-
+ drivers/gpu/drm/i915/i915_reg.h                    |  10 ++
+ drivers/gpu/drm/i915/i915_sysfs.c                  |   3 +-
+ drivers/gpu/drm/i915/i915_vma.c                    |  21 ++--
+ drivers/gpu/drm/i915/i915_vma.h                    |   1 +
+ drivers/gpu/drm/i915/intel_uncore.c                |  21 ++--
+ .../gpu/drm/i915/pxp/intel_pxp_cmd_interface_42.h  |  28 +++++
+ .../gpu/drm/i915/pxp/intel_pxp_cmd_interface_43.h  |  26 ++++
+ .../gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h |  35 ++++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_huc.c           |  13 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_tee.c           |  12 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_tee_interface.h |  57 ---------
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c      |   5 +-
+ drivers/gpu/drm/i915/selftests/i915_request.c      |  14 +--
+ drivers/gpu/drm/i915/selftests/igt_spinner.c       |  20 +--
+ drivers/gpu/drm/i915/selftests/mock_region.c       |   2 +-
+ 97 files changed, 1023 insertions(+), 631 deletions(-)
+ rename drivers/gpu/drm/i915/{ => gt}/intel_wopcm.c (87%)
+ rename drivers/gpu/drm/i915/{ => gt}/intel_wopcm.h (100%)
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_42.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_43.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h
+ delete mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_tee_interface.h
