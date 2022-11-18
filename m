@@ -2,57 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A31DC62EDCC
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 07:41:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FDED62EDFD
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 07:56:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB28F10E6EB;
-	Fri, 18 Nov 2022 06:40:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B93E10E6F1;
+	Fri, 18 Nov 2022 06:55:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com
- [IPv6:2607:f8b0:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A14F810E6EB
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 06:40:51 +0000 (UTC)
-Received: by mail-il1-x12c.google.com with SMTP id i5so2092163ilc.12
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 22:40:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=1h3lz0DSBoategYLivX3zWUKi0KsQyvxUG/DauE+x84=;
- b=BgAqPYkiUcaOX+t8/tpxntr/ai3Ou5E79vr1OFokABSABuwAAYyVh64Nhu8UPY4dVf
- B/ZnFiIO7tNYNJuAvrf//8GaApB/mCIJxX33MWHtoIowgVZIU8//AMe1RRlpJ0AyTIAo
- ennHZF4pCYHgfir/BYmric0v0TxN6tgJ50uzg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=1h3lz0DSBoategYLivX3zWUKi0KsQyvxUG/DauE+x84=;
- b=aALIpTqZIkoaGiyNltkfxVmwr6dmArmKSc9iO9ctmMB+N6fy6BJyib4ikD50JMEsRU
- aIpPHSHsgGvwskAT28PmNEn/qBiAA6fnMvASIcOHhp2LYiZ4e5IRXy8TqEm62Ew9NPbj
- SjSBIIIkGJZ/BZjyx+jZNdxGFP4TbGvjpjk0J0JcR+Tiiu7Sjtkt6ktGN8DrMvTdLKY2
- LwOvJsTWtuHkoHS5pKXI5PuQHbGv/5DmNABjpI/rv/hx1ESQkZxbY6YDguq5XNP6C7Yg
- AZMaeRWyb2P3ra26XSmBUAll67I12E4HjclZOK8gkOWjyMo7OFZd4ZDf+AaiLvWnkTh0
- /nVA==
-X-Gm-Message-State: ANoB5pnjfP7TBc3uFTHJ0qFdK07bNMN1GbQC/p4vP68vr8UgvK87Vvof
- hpwbxr5jjfVaKGr4t1hcf5jkzurlvgiXCCfbD/p3OA==
-X-Google-Smtp-Source: AA0mqf4UfhCd1mank/MvokLXuih0ZIMQlLg/WJN5Og6vXb1s7xgvXH94iPkW/Z+oJ+BeEucny5tnsra81ke6v3qEgrM=
-X-Received: by 2002:a05:6e02:5a5:b0:300:d831:8c90 with SMTP id
- k5-20020a056e0205a500b00300d8318c90mr2729866ils.21.1668753650978; Thu, 17 Nov
- 2022 22:40:50 -0800 (PST)
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB33D10E6F1
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 06:55:53 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4ND6xZ4Nbbz4xDK;
+ Fri, 18 Nov 2022 17:55:46 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1668754547;
+ bh=zpIJyV/SE/GQuLb+QekPKnaIAyoRHjNCDfnh9lXNTio=;
+ h=Date:From:To:Cc:Subject:From;
+ b=Tv1YpRazSooRkyzsAEkauY56/t8M+eIeyVg1swjGd24YRaMYZjXg10RCAnL+P05+S
+ 1TGPRZ0LFHIQS9EQlaE3HmklFRXcn1r8Ofli36/rnLgVTl/r/XsAdkKcfjEE1MqxVR
+ hXbccUZTg8ySRZd707nN9IqosV5DxUqLKQwNIs2/mr5D3dEvMwqFx3gh9gyksYjQZT
+ KUaqIYp6aDoaFxqlwSUCMh2dZEDSnSoMCnA+y8g9YxvINpRsZegzb7eXDp23iFwaAV
+ b1XxDeEvlk2LCKIVJ6wwKTOj1ZB4Xo/3vsUnT9fUiAiWWWv+QRENOoM+Ppb4WKSCWD
+ /I/EW1oiWTOjw==
+Date: Fri, 18 Nov 2022 17:55:45 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Alex Deucher <alexdeucher@gmail.com>, Dave Airlie <airlied@redhat.com>
+Subject: linux-next: build warnings after merge of the amdgpu tree
+Message-ID: <20221118175545.762d1a20@canb.auug.org.au>
 MIME-Version: 1.0
-References: <20221110183853.3678209-1-jagan@amarulasolutions.com>
- <20221110183853.3678209-4-jagan@amarulasolutions.com>
- <47ed3aae-308a-3b13-93c5-e31a3024f3a0@denx.de>
-In-Reply-To: <47ed3aae-308a-3b13-93c5-e31a3024f3a0@denx.de>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Fri, 18 Nov 2022 12:10:40 +0530
-Message-ID: <CAMty3ZCQhR64k8f1DN0uYnL2TSRc7LdqWym2usPTa2AKYKa2HQ@mail.gmail.com>
-Subject: Re: [PATCH v8 03/14] drm: bridge: Generalize Exynos-DSI driver into a
- Samsung DSIM bridge
-To: Marek Vasut <marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="Sig_/=RzvDKe/gCXtsYIIZ247mm2";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,44 +49,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, Neil Armstrong <narmstrong@linaro.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Matteo Lisi <matteo.lisi@engicam.com>, Robert Foss <robert.foss@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, NXP Linux Team <linux-imx@nxp.com>,
- Fancy Fang <chen.fang@nxp.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 17, 2022 at 10:31 AM Marek Vasut <marex@denx.de> wrote:
->
-> On 11/10/22 19:38, Jagan Teki wrote:
->
-> [...]
->
-> > +static int samsung_dsim_wait_for_hdr_fifo(struct samsung_dsim *dsi)
-> > +{
-> > +     int timeout = 2000;
-> > +
-> > +     do {
-> > +             u32 reg = samsung_dsim_read(dsi, DSIM_FIFOCTRL_REG);
-> > +
-> > +             if (!(reg & DSIM_SFR_HEADER_FULL))
->
-> Seems that unless I wait for DSIM_SFR_HEADER_EMPTY here, there may be
-> some command transfer corruption if very short commands are transferred
-> in rapid succession. This can be triggered with icn6211 driver for example.
+--Sig_/=RzvDKe/gCXtsYIIZ247mm2
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Not aware of this test, maybe adjusting or fixing the wait code on top
-of this initial support later make sense.
+Hi all,
 
-Thanks,
-Jagan.
+After merging the amdgpu tree, today's linux-next build (htmldocs)
+produced these warnings:
+
+drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or mem=
+ber 'dispclk_khz' not described in 'dc_clocks'
+drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or mem=
+ber 'actual_dispclk_khz' not described in 'dc_clocks'
+drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or mem=
+ber 'dppclk_khz' not described in 'dc_clocks'
+drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or mem=
+ber 'actual_dppclk_khz' not described in 'dc_clocks'
+drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or mem=
+ber 'disp_dpp_voltage_level_khz' not described in 'dc_clocks'
+drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or mem=
+ber 'dcfclk_khz' not described in 'dc_clocks'
+drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or mem=
+ber 'socclk_khz' not described in 'dc_clocks'
+drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or mem=
+ber 'dcfclk_deep_sleep_khz' not described in 'dc_clocks'
+drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or mem=
+ber 'fclk_khz' not described in 'dc_clocks'
+drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or mem=
+ber 'phyclk_khz' not described in 'dc_clocks'
+drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or mem=
+ber 'dramclk_khz' not described in 'dc_clocks'
+drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or mem=
+ber 'p_state_change_support' not described in 'dc_clocks'
+drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or mem=
+ber 'zstate_support' not described in 'dc_clocks'
+drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or mem=
+ber 'dtbclk_en' not described in 'dc_clocks'
+drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or mem=
+ber 'ref_dtbclk_khz' not described in 'dc_clocks'
+drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or mem=
+ber 'fclk_p_state_change_support' not described in 'dc_clocks'
+drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or mem=
+ber 'pwr_state' not described in 'dc_clocks'
+drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or mem=
+ber 'prev_p_state_change_support' not described in 'dc_clocks'
+drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or mem=
+ber 'fclk_prev_p_state_change_support' not described in 'dc_clocks'
+drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or mem=
+ber 'num_ways' not described in 'dc_clocks'
+drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or mem=
+ber 'fw_based_mclk_switching' not described in 'dc_clocks'
+drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or mem=
+ber 'fw_based_mclk_switching_shut_down' not described in 'dc_clocks'
+drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or mem=
+ber 'prev_num_ways' not described in 'dc_clocks'
+drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or mem=
+ber 'dtm_level' not described in 'dc_clocks'
+drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or mem=
+ber 'max_supported_dppclk_khz' not described in 'dc_clocks'
+drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or mem=
+ber 'max_supported_dispclk_khz' not described in 'dc_clocks'
+drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or mem=
+ber 'bw_dppclk_khz' not described in 'dc_clocks'
+drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or mem=
+ber 'bw_dispclk_khz' not described in 'dc_clocks'
+
+Introduced by commit
+
+  1682bd1a6b5f ("drm/amd/display: Expand kernel doc for DC")
+
+(now also in the drm tree) but revealed by commit
+
+  ef8d147fd442 ("drm/amd/display: fix kernel-doc issues in dc.h")
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/=RzvDKe/gCXtsYIIZ247mm2
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmN3LHEACgkQAVBC80lX
+0GxKSgf/SRy14QfQcTmaEOgQhaF8l5iE90BYKkrIxOzZO6bZAcLfl1dneHe3IEQb
+8oMWaIAovh/mLDzwYfsHoIKO5gqXir67KVVbFieeeZfxNf3dA+/yxH5dyUDbf4sD
+NLrJiPkhg96WKJxEpEasZSkXk/OX9Fi6D+HbEmv7f6kS3Wy4gjZK4CsXrstHf9r+
+Wctkf8DHXdq/G2CiqM69UX0Pr6AToCbJXeJbxRqkMRMdANtFmKUU3fIya0UTVu88
+MHJ7Nxxd5SWiQAMTrZjJAL5ELLfhNLAJeZDpxZDGv/M+Hbv6Fqtk2Cn704Kf6684
+JWoTZS1lUKJCVvlAYHmpX8g4l3Ps8A==
+=ITuw
+-----END PGP SIGNATURE-----
+
+--Sig_/=RzvDKe/gCXtsYIIZ247mm2--
