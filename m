@@ -1,68 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA3BB62F5D9
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 14:22:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B7A562F605
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 14:30:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1412510E737;
-	Fri, 18 Nov 2022 13:22:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9EB910E73C;
+	Fri, 18 Nov 2022 13:30:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59ADF10E737
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 13:22:23 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 17D6C1FA4A;
- Fri, 18 Nov 2022 13:22:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1668777742; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8KSFeZZcQcmOphqHP4wAHfaw5Qgs+WGe8vO8FoC897Q=;
- b=W9igDoPojmJMnHeEcFHVuJyFpEXL9nn+6yPXKk/IgQQBwlvRBqBOPe2KmhTa6Hz3LD2ynq
- fuCng2+Or5hnd5BimnXn7rPN8vAWI3omPmz3Df+oA6l6VQtNGdf87cYS7uQvXAp9eS+0g4
- MzUzGmoJFOUTyw6y+O3b69EiHZejB5E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1668777742;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8KSFeZZcQcmOphqHP4wAHfaw5Qgs+WGe8vO8FoC897Q=;
- b=TbL3mM/OR3uzZJnetBuemXorykqfNODCyWS4crjA7H9LcSpTUcfyhhnDCYr+BNovWcmX0B
- Zy3omPfov2NLToCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C94FB13A66;
- Fri, 18 Nov 2022 13:22:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id f1BMMA2Hd2OnJQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 18 Nov 2022 13:22:21 +0000
-Message-ID: <10c809cb-2ea9-273c-bfd2-a267e6219f22@suse.de>
-Date: Fri, 18 Nov 2022 14:22:21 +0100
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40E1C10E73F
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 13:29:56 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id
+ m7-20020a05600c090700b003cf8a105d9eso4035572wmp.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 05:29:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=HN8LVu2tBOU+OG4LnFinIFanAXLqtN8dB9g7K9KkfjU=;
+ b=OG2Ckv2ZO0fmf4LFpZ1ezKwfBJtCEtj08HMol4o7P/Y/9Ta89WhfUr3KKSF/viNvCS
+ Y2ZI5LjDOEBbGfVDg1BNP7WAozSBVCRJSPz0ubyYaaAeOrSEqRPWIv4HqA6hIhXRbyCs
+ z3Q6LA5CQYLLyPVszidp2Cv0N6FhlbL9Am8OjFiludhX67cUsXWwjDY01oFyhvbFj9CT
+ 8qZGqZOOphmvobWLK2G61e5D/yCVnvjcEJKLmXM0HYkY3LOX2g0cjeFwC9R6BUgKV6Qf
+ 1v9OwBYOVyWeKLa1Mquh74I6yx3SLyhX9aN0PzZsw8wSUrtQxzhVIoWyoh86XMxaYAMu
+ Gzsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=HN8LVu2tBOU+OG4LnFinIFanAXLqtN8dB9g7K9KkfjU=;
+ b=EP6gdLFhP4AMz0txkVaaYx8ztTnjCC8dEJoHxlNPF12ugY2vFLdqCp0HzRIgN41fOY
+ MsCAVC4zVM5XBxzLALpl3I7Bw4Rh2I6Zt4Ogh0yFJKKyCzZ7vlS0Sft7/KwlZ02iuEcc
+ CNZzPCxrbeojBzq7OtdzTo6mo+W5qqiAwkcgzP9FnY/TmjfNcoZXpfUN1Qd3d1mY1j7g
+ N/6Ugq1PP+f3m2vb0hIUjiveKh87mvyvjmR1aJlGT68jdW0nEov95QJbS/NdQbtFHI6n
+ pZTyxITbSbNrSuAw6Tegt99bZHWe74H+/Buy5RSqPBySzFB+xoAVhpSsLAuY9Uz1IBb/
+ Us8w==
+X-Gm-Message-State: ANoB5pmIu4PhhrYA09XC/bzOVD4+6ld1hneOkBzHyp9pzacQbT0KBtA9
+ Yn2Kq8LGz8JayOT0YZDE/kCVUPBhVr2bYw==
+X-Google-Smtp-Source: AA0mqf7i8dywQOhFfIFUfTreejp7KFR0nIu101KikdsXbMRrFt1RKBxdvI3qgRZVHoWm4mbMT54yiQ==
+X-Received: by 2002:a05:600c:ac1:b0:3c6:d18b:304b with SMTP id
+ c1-20020a05600c0ac100b003c6d18b304bmr8044158wmr.142.1668778195318; 
+ Fri, 18 Nov 2022 05:29:55 -0800 (PST)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+ by smtp.gmail.com with ESMTPSA id
+ r13-20020a056000014d00b0024165454262sm3607708wrx.11.2022.11.18.05.29.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Nov 2022 05:29:54 -0800 (PST)
+Message-ID: <0993d2bd-c0f2-8139-8f02-84abe6b8ad8b@linaro.org>
+Date: Fri, 18 Nov 2022 13:29:52 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 2/7] drm/logicvc: Fix preferred fbdev cpp
+Subject: Re: [PATCH v2 07/18] dt-bindings: msm: dsi-controller-main: Add
+ compatible strings for every current SoC
 Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>, daniel@ffwll.ch,
- airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- xinliang.liu@linaro.org, tiantao6@hisilicon.com, jstultz@google.com,
- kong.kongxinwei@hisilicon.com, puck.chen@hisilicon.com,
- paul.kocialkowski@bootlin.com, airlied@redhat.com, kraxel@redhat.com
-References: <20221116160917.26342-1-tzimmermann@suse.de>
- <20221116160917.26342-3-tzimmermann@suse.de>
- <521e43bb-0c76-f3b7-aa78-8ed97edce613@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <521e43bb-0c76-f3b7-aa78-8ed97edce613@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------pC07C59nTw9ATfbYYbKgTzXm"
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, robdclark@gmail.com,
+ quic_abhinavk@quicinc.com, krzysztof.kozlowski+dt@linaro.org,
+ robh+dt@kernel.org, quic_mkrishn@quicinc.com, linux-arm-msm@vger.kernel.org
+References: <20221107235654.1769462-1-bryan.odonoghue@linaro.org>
+ <20221107235654.1769462-8-bryan.odonoghue@linaro.org>
+ <aeb59d3c-34d0-f00a-bfc3-524cd03acb71@linaro.org>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <aeb59d3c-34d0-f00a-bfc3-524cd03acb71@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,107 +80,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Cc: Sean Paul <sean@poorly.run>, devicetree@vger.kernel.org,
+ Loic Poulain <loic.poulain@linaro.org>, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------pC07C59nTw9ATfbYYbKgTzXm
-Content-Type: multipart/mixed; boundary="------------wgxeQ0Y9p012UoklBJ4bWcxk";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>, daniel@ffwll.ch,
- airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- xinliang.liu@linaro.org, tiantao6@hisilicon.com, jstultz@google.com,
- kong.kongxinwei@hisilicon.com, puck.chen@hisilicon.com,
- paul.kocialkowski@bootlin.com, airlied@redhat.com, kraxel@redhat.com
-Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
-Message-ID: <10c809cb-2ea9-273c-bfd2-a267e6219f22@suse.de>
-Subject: Re: [PATCH 2/7] drm/logicvc: Fix preferred fbdev cpp
-References: <20221116160917.26342-1-tzimmermann@suse.de>
- <20221116160917.26342-3-tzimmermann@suse.de>
- <521e43bb-0c76-f3b7-aa78-8ed97edce613@redhat.com>
-In-Reply-To: <521e43bb-0c76-f3b7-aa78-8ed97edce613@redhat.com>
+On 08/11/2022 12:46, Dmitry Baryshkov wrote:
+> On 08/11/2022 02:56, Bryan O'Donoghue wrote:
+>> Currently we do not differentiate between the various users of the
+>> qcom,mdss-dsi-ctrl. The driver is flexible enough to operate from one
+>> compatible string but, the hardware does have some significant 
+>> differences
+>> in the number of clocks.
+>>
+>> To facilitate documenting the clocks add the following compatible strings
+>>
+>> - qcom,mdss-dsi-ctrl-apq8064
+> 
+> Generic comment: I think we'd better follow the arm/qcom-soc.yaml and 
+> use qcom,soc-something as compat string. This would leave us with 
+> qcom,apq8064-dsi-ctrl
+> 
+> I'm not sure if we want to follow the qcm2290 approach and encode the 
+> DSI ctrl revision here (6g vs v2).
 
---------------wgxeQ0Y9p012UoklBJ4bWcxk
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+For qcm2290 I'm thinking qcm2290-dsi-ctrl - without the 6g piece.
 
-SGkNCg0KQW0gMTguMTEuMjIgdW0gMTQ6MDggc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
-aWxsYXM6DQo+IE9uIDExLzE2LzIyIDE3OjA5LCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToN
-Cj4+IExvZ2ljdmMgY2FuIGhhdmUgZGlmZmVyZW50IHZhbHVlcyBmb3IgdGhlIHByZWZlcnJl
-ZCBjb2xvciBkZXB0aC4gU2V0DQo+PiB0aGUgZmJkZXYgYnBwIHZhbHVlIGRlcGVuZGluZyBv
-biB0aGUgcnVudGltZSB2YWx1ZS4NCj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmlt
-bWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4+IC0tLQ0KPj4gICBkcml2ZXJzL2dw
-dS9kcm0vbG9naWN2Yy9sb2dpY3ZjX2RybS5jIHwgMTQgKysrKysrKysrKysrKy0NCj4+ICAg
-MSBmaWxlIGNoYW5nZWQsIDEzIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4+DQo+
-PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2xvZ2ljdmMvbG9naWN2Y19kcm0uYyBi
-L2RyaXZlcnMvZ3B1L2RybS9sb2dpY3ZjL2xvZ2ljdmNfZHJtLmMNCj4+IGluZGV4IDlkZTI0
-ZDlmMGM5NjMuLmQ5Y2Q1ZDk2N2UzMWYgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL2dwdS9k
-cm0vbG9naWN2Yy9sb2dpY3ZjX2RybS5jDQo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbG9n
-aWN2Yy9sb2dpY3ZjX2RybS5jDQo+PiBAQCAtMzAxLDYgKzMwMSw3IEBAIHN0YXRpYyBpbnQg
-bG9naWN2Y19kcm1fcHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikNCj4+ICAg
-CXN0cnVjdCByZWdtYXAgKnJlZ21hcCA9IE5VTEw7DQo+PiAgIAlzdHJ1Y3QgcmVzb3VyY2Ug
-cmVzOw0KPj4gICAJdm9pZCBfX2lvbWVtICpiYXNlOw0KPj4gKwl1bnNpZ25lZCBpbnQgcHJl
-ZmVycmVkX2JwcDsNCj4+ICAgCWludCBpcnE7DQo+PiAgIAlpbnQgcmV0Ow0KPj4gICANCj4+
-IEBAIC00MzgsNyArNDM5LDE4IEBAIHN0YXRpYyBpbnQgbG9naWN2Y19kcm1fcHJvYmUoc3Ry
-dWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikNCj4+ICAgCQlnb3RvIGVycm9yX21vZGU7DQo+
-PiAgIAl9DQo+PiAgIA0KPj4gLQlkcm1fZmJkZXZfZ2VuZXJpY19zZXR1cChkcm1fZGV2LCBk
-cm1fZGV2LT5tb2RlX2NvbmZpZy5wcmVmZXJyZWRfZGVwdGgpOw0KPj4gKwlzd2l0Y2ggKGRy
-bV9kZXYtPm1vZGVfY29uZmlnLnByZWZlcnJlZF9kZXB0aCkgew0KPj4gKwljYXNlIDE1Og0K
-PiANCj4gV2h5IGNvdWxkIGhhdmUgMTU/IElJVUMgdGhlIGZvcm1hdHMgc3VwcG9ydGVkIGJ5
-IHRoaXMgZHJpdmVyIGFyZToNCj4gDQo+IHN0YXRpYyB1aW50MzJfdCBsb2dpY3ZjX2xheWVy
-X2Zvcm1hdHNfcmdiMTZbXSA9IHsNCj4gCURSTV9GT1JNQVRfUkdCNTY1LA0KPiAJRFJNX0ZP
-Uk1BVF9CR1I1NjUsDQo+IAlEUk1fRk9STUFUX0lOVkFMSUQsDQo+IH07DQo+IA0KPiBzdGF0
-aWMgdWludDMyX3QgbG9naWN2Y19sYXllcl9mb3JtYXRzX3JnYjI0W10gPSB7DQo+IAlEUk1f
-Rk9STUFUX1hSR0I4ODg4LA0KPiAJRFJNX0ZPUk1BVF9YQkdSODg4OCwNCj4gCURSTV9GT1JN
-QVRfSU5WQUxJRCwNCj4gfTsNCj4gDQo+IC8qDQo+ICAgKiBXaGF0IHdlIGNhbGwgZGVwdGgg
-aW4gdGhpcyBkcml2ZXIgb25seSBjb3VudHMgY29sb3IgY29tcG9uZW50cywgbm90IGFscGhh
-Lg0KPiAgICogVGhpcyBhbGxvd3MgdXMgdG8gc3RheSBjb21wYXRpYmxlIHdpdGggdGhlIExv
-Z2lDVkMgYmlzdHJlYW0gZGVmaW5pdGlvbnMuDQo+ICAgKi8NCj4gc3RhdGljIHVpbnQzMl90
-IGxvZ2ljdmNfbGF5ZXJfZm9ybWF0c19yZ2IyNF9hbHBoYVtdID0gew0KPiAJRFJNX0ZPUk1B
-VF9BUkdCODg4OCwNCj4gCURSTV9GT1JNQVRfQUJHUjg4ODgsDQo+IAlEUk1fRk9STUFUX0lO
-VkFMSUQsDQo+IH07DQo+IA0KPiBTbyBzaG91bGRuJ3QgYmUganVzdCAxNiwgMjQgYW5kIDMy
-ID8NCg0KVGhhdCBtYWtlcyBzZW5zZS4NCg0KPiANCj4+ICsJY2FzZSAxNjoNCj4+ICsJCXBy
-ZWZlcnJlZF9icHAgPSAxNjsNCj4+ICsJCWJyZWFrOw0KPj4gKwljYXNlIDI0Og0KPj4gKwlj
-YXNlIDMyOg0KPj4gKwlkZWZhdWx0Og0KPj4gKwkJcHJlZmVycmVkX2JwcCA9IDMyOw0KPj4g
-KwkJYnJlYWs7DQo+IA0KPiBJJ20gYWxzbyBub3Qgc3VyZSBpZiB0aGlzIGlzIG5lZWRlZC4g
-U2luY2UgSUlVQyBpbiBsb2dpY3ZjX21vZGVfaW5pdCgpIHRoZQ0KPiBkcml2ZXIgZG9lczoN
-Cj4gDQo+IAlwcmVmZXJyZWRfZGVwdGggPSBsYXllcl9wcmltYXJ5LT5mb3JtYXRzLT5kZXB0
-aDsNCj4gDQo+IAkvKiBEUk0gY291bnRzIGFscGhhIGluIGRlcHRoLCBvdXIgZHJpdmVyIGRv
-ZXNuJ3QuICovDQo+IAlpZiAobGF5ZXJfcHJpbWFyeS0+Zm9ybWF0cy0+YWxwaGEpDQo+IAkJ
-cHJlZmVycmVkX2RlcHRoICs9IDg7DQo+IA0KPiAJLi4uDQo+IAltb2RlX2NvbmZpZy0+cHJl
-ZmVycmVkX2RlcHRoID0gcHJlZmVycmVkX2RlcHRoOw0KPiANCj4gU28gaXQgc2VlbXMgdGhp
-cyBwYXRjaCBpcyBub3QgbmVlZGVkPyBVbmxlc3MgSSdtIG1pc3VuZGVyc3RhbmRpbmcgdGhl
-IGNvZGUuDQoNClRoZSBkcml2ZXIgdXNlcyBYUkdCODg4OCwgc28gdGhlIDI0LWJpdCBjb2xv
-ciBkZXB0aCBoYXMgYSAzMi1iaXQgYnBwIA0KdmFsdWUuIEhlbmNlIHRoZSBzd2l0Y2guDQoN
-CkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4N
-CkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdl
-cm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQoo
-SFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2
-DQo=
+a) Nobody is using the compat at the moment
+b) I'm not sure what - if any real information the silicon version
+    number conveys here.
 
---------------wgxeQ0Y9p012UoklBJ4bWcxk--
++ Loic, Shawn
 
---------------pC07C59nTw9ATfbYYbKgTzXm
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+---
+bod
 
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmN3hw0FAwAAAAAACgkQlh/E3EQov+CJ
-SA//c2J0S0au0WQJ+0NrtSwe0Ro6Rrgxegju5qqvLVlzXMZ3lbHq5KlQDBn3ObHrEyu7IDcxZFpj
-WfSayjS/Uso8HXQKmrz+QDe+qhk3SyeiG8WAOK50T8xh93a7QeiXaWM0XYkXtGRLJkI+AJh8pMFJ
-fZnsLG104pW7s5adaEnimmu6pvYs2BhUQFsazTN4d/dISSWyNEl+BkFdbEiotB+YYMAMocI5Zkdy
-j207IVGEDX/GFO2HYOmHmZ3qB0hX6c3Rr3eXot9fdmah5JO9Dv+L9tPCZKsH/IVDAquGETWGDFa7
-VI+B1i8L7F7ZqtYKGK8upmUsxZ+vsmIsMJxnmXoBYECp/hSXzmPYRMSh01+3e6JgfXrE4F/OMpAE
-BYMt4ZTzmTEy2ua0d5jbXFuw0hPQeAmCK4Z4ZVYM+FI58dC0fwDKO0CqgwCKCbjgQMwnmRrOO4H+
-hj0z7jFa+TqupUvW85Hl8EBSj3AupjZBsH9EULUn0/A2A/Eo9pvFeAHTq7JzaRTgcKaIwwhteFWv
-JxtoZeMIZZRJxXtC2YzeXrOjzhEml1TnU8p5kvhGJtlLj3Pq1h03kLwfm4h2bpczHj+uNkwJtEEE
-fV54dcMV7KsgkC1vnmcsY5rWbKfVrNDTQuBx+KkAxyAa4n96TNnUxRiis/3uXF9+CA5Orjgas5Pa
-HXI=
-=I4A7
------END PGP SIGNATURE-----
-
---------------pC07C59nTw9ATfbYYbKgTzXm--
