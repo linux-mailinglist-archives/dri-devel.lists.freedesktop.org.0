@@ -1,50 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF47962F2FE
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 11:52:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B997862F317
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 11:58:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 611C210E236;
-	Fri, 18 Nov 2022 10:52:23 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7456310E233;
- Fri, 18 Nov 2022 10:52:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1668768739; x=1700304739;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=22Bqdj6jlM3i95750viiyFWdj3b3FbMST5MVbFbzVMg=;
- b=OepZD/bNQiwbgkYO0IzxwMdfShHy8YtrOAAGnEo0vDuLwY0GJ3HbZb1t
- 8dqYxjlQgvqbcC8qHg6cIkaP4tUnineB+xTxcrykSJdDU4CD0FmUCyxzY
- kwEbrrv6p+s5eZXtsvLhSTAeQ6Obu1h2zecNdCeRBmFQsNMSPumN2VReC
- TuPA3F4haCOqd43fexazl5E0gbuV3lSqbfeqnkaSgGV7uCdQNmtHzyajR
- WYF148gHnLPkNkH21tNLEcNsJUfrZkP2+07o/ou/DB4jhbSs3OviwFewC
- mI6XJFJlHs5vm3VD7f3IEBDBxdOdjp20VGQNtXgNcuj0obGKknIJre4vo Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="300647174"
-X-IronPort-AV: E=Sophos;i="5.96,174,1665471600"; d="scan'208";a="300647174"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Nov 2022 02:52:18 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="969239452"
-X-IronPort-AV: E=Sophos;i="5.96,174,1665471600"; d="scan'208";a="969239452"
-Received: from mmilose-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.58.101])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Nov 2022 02:52:16 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: John.C.Harrison@Intel.com, Intel-GFX@Lists.FreeDesktop.Org
-Subject: Re: [Intel-gfx] [PATCH v2 0/5] Add module oriented dmesg output
-In-Reply-To: <20221118015858.2548106-1-John.C.Harrison@Intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20221118015858.2548106-1-John.C.Harrison@Intel.com>
-Date: Fri, 18 Nov 2022 12:52:14 +0200
-Message-ID: <87a64o1qn5.fsf@intel.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 362D610E233;
+	Fri, 18 Nov 2022 10:58:24 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B17210E233
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 10:58:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668769099;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2T5qd6feq3zDZNlT/UGmyIZ8zzHN1ErfKlpUTQ0WNcE=;
+ b=bJzkkTZGurswbtFDQfDTdu4qres4Lb723sCik0yqPVfYNx7+RfQlck0/mc7hkJphnwUv7d
+ zWFh63rsUxIvTeg4TtcCCQtmwaCcJMtw2l2RBwzWlzdZkhOEgVR6ZbEANVsZ5sh+v3t/Hz
+ PwLDsI0Wa+JzF7vfi/dPLjIDR8XPFzQ=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-363-gW8W530YPlu-b984PYaTQw-1; Fri, 18 Nov 2022 05:58:17 -0500
+X-MC-Unique: gW8W530YPlu-b984PYaTQw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ d10-20020adfa34a000000b00236616a168bso1434619wrb.18
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 02:58:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=2T5qd6feq3zDZNlT/UGmyIZ8zzHN1ErfKlpUTQ0WNcE=;
+ b=vRzgJ19F/gIhGJCoR1g28KvoXjeKxDqloEPep6LvT47ZXyk6hF3j5iYNEbuWcOky0M
+ STQXkypgMtdz23Q4yIaF3YuG+o4KbRGRubyDABWK2AJVyhCs5Woty9Nkb4hSKD6vlDsA
+ ZqKHL6E28/kAy4wvISPj/WLwBNgSzrM0rAOytDIeyFEWjh6DU0aE4YrQ7z5mGKQKc9Fv
+ HqqVlvQtrhe1QsPGOzJp2pUXe/zmFhX5iZaM/vPvB8kutrCsZj0XaVsu6d8paJqY/pN3
+ +TdeD3dXrv9FyDxnFLfcSM6dagnIGZXQ1QPsjrqPISy/7ty5EE2CIt97OuUYBoDu67Mo
+ 5d/w==
+X-Gm-Message-State: ANoB5pks5S0/gUhZALoHUMpnj4RNWPELyCgWNCU+3Pi2Fg/oN5YM80L6
+ 8Sw94c2U69krFYaabV+UBLI1/Nw4KlwTqHyEkrpZZZfLzHY4E3h0Lb+AYDugZYdcXxuwnf4mY6f
+ /xACMwQROGfzvgC8R1dlpmpiu7l1E
+X-Received: by 2002:a05:600c:3d8f:b0:3cf:6a4c:af8b with SMTP id
+ bi15-20020a05600c3d8f00b003cf6a4caf8bmr8387189wmb.115.1668769096401; 
+ Fri, 18 Nov 2022 02:58:16 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4EX1ezokQ/xV2/vooDpAF544GPsminjekyndTqx1XMBevmyEmo0eOdVIcwrh9ArNhlB9ScOA==
+X-Received: by 2002:a05:600c:3d8f:b0:3cf:6a4c:af8b with SMTP id
+ bi15-20020a05600c3d8f00b003cf6a4caf8bmr8387171wmb.115.1668769096148; 
+ Fri, 18 Nov 2022 02:58:16 -0800 (PST)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ 23-20020a05600c229700b003cf75213bb9sm8275081wmf.8.2022.11.18.02.58.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Nov 2022 02:58:15 -0800 (PST)
+Message-ID: <d3a98578-ff01-8487-60c3-86b14b41f514@redhat.com>
+Date: Fri, 18 Nov 2022 11:58:14 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: DRM-managed resources / devm_drm_dev_alloc leaking resources
+To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter
+ <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>
+References: <20221117165311.vovrc7usy4efiytl@houat>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20221117165311.vovrc7usy4efiytl@houat>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,86 +90,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- DRI-Devel@Lists.FreeDesktop.Org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 17 Nov 2022, John.C.Harrison@Intel.com wrote:
-> From: John Harrison <John.C.Harrison@Intel.com>
->
-> When trying to analyse bug reports from CI, customers, etc. it can be
-> difficult to work out exactly what is happening on which GT in a
-> multi-GT system. So add GT oriented debug/error message wrappers. If
-> used instead of the drm_ equivalents, you get the same output but with
-> a GT# prefix on it.
->
-> It was also requested to extend this further to submodules in order to
-> factor out the repeated structure accessing constructs and common
-> string prefixes. So, add versions for GuC, HuC and GuC CTB as well.
->
-> This patch set updates all the gt/uc files to use the new helpers as a
-> first step. The intention would be to convert all output messages that
-> have access to a GT structure.
->
-> v2: Go back to using lower case names, add more wrapper sets (combined
-> review feedback). Also, wrap up probe injection and WARN entries.
->
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+Hello Maxime,
 
-For adding the wrappers in general, I'm going to disagree and
-commit. I'll leave it up to Tvrtko and Joonas.
-
-Regarding the placement of the macros, I insist you add individual
-header files for the wrappers and include them only where needed.
-
-We have a fairly serious problem with everything including everything in
-i915 that I've been slowly trying to tackle. Touch one thing, rebuild
-everything. About a third of our headers cause the rebuild of the entire
-driver when modified. We need to reduce the surface of things that cause
-rebuilds.
-
-For example, intel_gt.h is included by 97 files, intel_guc.h by 332
-files, and intel_huc.h by 329 files (counting recursively).
-
-There's absolutely no reason any of the display code, for example, needs
-to have these logging macros in their build. Long term, the headers
-should be reorganized to reduce the interdependencies, and this is what
-I've been doing in i915_drv.h and display/ in general. But the least we
-can do is not make the problem worse.
-
-BR,
-Jani.
-
+On 11/17/22 17:53, Maxime Ripard wrote:
+> Hi,
+> 
+> After trying to get more kunit tests for KMS, I found out that the
+> recent kunit helpers we merged to create a DRM device [1] are broken and
+> won't free their device-managed and DRM-managed resources.
+> 
+> With some help from Thomas, we've dug into this and it turns out that if
+> we allocate a device with root_device_register, initialise our drm
+> device with devm_drm_dev_alloc(), register it using drm_dev_register(),
+> unregister it using drm_dev_unregister/drm_dev_unplug and then remove
+> the parent device, neither the device managed nor the DRM managed
+> actions are run.
+> 
+> root_device_register initializes the device by eventually calling
+> device_initialize() which sets the initial reference count of the root
+> device to 1 [2]. devm_drm_dev_alloc() then comes in, drm_dev_init() will
+> increase the root device refcount [3] and initialize our DRM device to 1
+> [4]. drm_dev_register(), through drm_minor_register() and device_add(),
+> will increase the root device refcount [5].
+> 
+> When unrolling things, drm_dev_unregister(), through
+> drm_minor_unregister() and device_del(), will give up its reference [6].
+> root_device_unregister(), through device_unregister(), will also give up
+> its own [7].
+> 
+> So we end up with this for the reference counts:
+> 
+> +------------------------+-------------+------------+
+> |         funcs          | root device | DRM device |
+> +------------------------+-------------+------------+
+> | root_device_register   |           1 | N/A        |
+> | devm_drm_dev_alloc     |           2 | 1          |
+> | drm_dev_register       |           3 | 1          |
+> | drm_dev_unregister     |           2 | 1          |
+> | root_device_unregister |           1 | 1          |
+> +------------------------+-------------+------------+
+> 
+> If we go back to the list of reference taken, the root device reference
+> and the initial drm_device reference, both taken by devm_drm_dev_alloc()
+> through drm_dev_init(), haven't been put back.
+> 
+> If we look at the drm_dev_init code(), we can see that it sets up a
+> DRM-managed action [8] that will put back the device reference [9]. The
+> DRM-managed code is executed by the drm_managed_cleanup() function, that
+> is executed as part of a release hook [10] executed once we give up the
+> final reference to the DRM device [11].
+> 
+> If we go back a little, the final reference to the DRM device is
+> actually the initial one setup by devm_drm_dev_alloc(). This function
+> has superseded drm_dev_alloc(), with the documentation that we do need a
+> final drm_dev_put() to put back our final reference [12].
+> 
+> devm_drm_dev_alloc() is a more convenient variant that has been
+> introduced explicitly to not require that drm_dev_put(), and states it
+> as such in the documentation [13]. It does so by adding a device-managed
+> action that will call drm_dev_put() [14].
+> 
+> Device-managed actions are ran as part devres_release_all() that is
+> called by device_release() [15], itself being run when the last
+> reference on the device is put back [16][17][18].
 >
+
+Thanks a lot for the write up. It was very informative and detailed.
+
+> So if we sum things up, the DRM device will only give its last root
+> device reference when the last DRM device reference will be put back,
+> and the last DRM device reference will be put back when the last device
+> reference will be put back, which sounds very circular to me, with both
+> ending up in a deadlock scenario.
 >
-> John Harrison (5):
->   drm/i915/gt: Start adding module oriented dmesg output
->   drm/i915/huc: Add HuC specific debug print wrappers
->   drm/i915/guc: Add GuC specific debug print wrappers
->   drm/i915/guc: Add GuC CT specific debug print wrappers
->   drm/i915/uc: Update the gt/uc code to use gt_err and friends
+
+So my conclusion after looking at this is the same than your, that the
+drivers would need to signal somehow to the DRM core when a DRM device
+won't be used anymore and drop the final reference to the DRM device.
+
+That is, I don't think we can get away of drivers not calling either
+drm_dev_put().
+
+I think that we should try to simplify the DRM register and release API
+and make very clear in the documentation what should be used. Right now
+for example as you mentioned we have both drm_dev_unregister() and
+drm_dev_unplug() but AFAICT the only difference is that the latter does
+a sync to protect critical sections during drm_dev_{enter,exit}().
+
+The drawback is that the DRM device will be marked as unplugged before
+drm_atomic_helper_shutdown(), but is this really a problem in practice?
+
+Maybe we can just rename drm_dev_unplug() to drm_dev_unregister() and
+drm_dev_unregister() to __drm_dev_unregister(). That way, the register
+path could always be:
+
+   devm_drm_dev_alloc()
+   drm_dev_register()
+
+and then in the release path:
+
+   drm_dev_unregister()
+   drm_dev_put()
+
+making both DRM-managed and device-managed resources to always work.
+
+> I've added two kunit tests that demonstrate the issue: we register a
+> device, allocate and register a DRM device, register a DRM-managed
+> action, remove the DRM device and the parent device, and wait for the
+> action to execute. drm_register_unregister_with_devm_test() uses the
+> broken(?) devm_drm_dev_alloc and is failing.
+> drm_register_unregister_test uses the deprecated drm_dev_alloc() that
+> requires an explicit call to drm_dev_put() which works fine.
 >
->  drivers/gpu/drm/i915/gt/intel_gt.c            |  96 ++++----
->  drivers/gpu/drm/i915/gt/intel_gt.h            |  35 +++
->  drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  32 +--
->  drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  35 +++
->  drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |   8 +-
->  .../gpu/drm/i915/gt/uc/intel_guc_capture.c    |  48 ++--
->  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     | 222 +++++++++---------
->  drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c     |  19 +-
->  drivers/gpu/drm/i915/gt/uc/intel_guc_log.c    |  37 ++-
->  drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c     |   7 +-
->  drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c   |  55 ++---
->  .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  62 +++--
->  drivers/gpu/drm/i915/gt/uc/intel_huc.c        |  31 +--
->  drivers/gpu/drm/i915/gt/uc/intel_huc.h        |  23 ++
->  drivers/gpu/drm/i915/gt/uc/intel_uc.c         | 108 ++++-----
->  drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      |  98 ++++----
->  drivers/gpu/drm/i915/gt/uc/selftest_guc.c     |  34 +--
->  .../drm/i915/gt/uc/selftest_guc_hangcheck.c   |  22 +-
->  .../drm/i915/gt/uc/selftest_guc_multi_lrc.c   |  10 +-
->  19 files changed, 507 insertions(+), 475 deletions(-)
+
+Great. In my opinion we should add these Kunit tests even when they are
+exposing an issue in the devm_drm_dev_alloc() helper.
+ 
+> It's also worth noting that Thomas tested with simpledrm and it seems to
+> work fine. Using a platform_device instead of the root_device doesn't
+> change anything to the outcome in my tests, so there might be a more
+> subtle behaviour involved.
+>
+
+That's strange because AFAICT simpledrm is basically doing the same than
+your failing tests. I tried to look at the differences but couldn't spot
+anything evident...
+ 
+> Thanks,
+> Maxime
+> 
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
