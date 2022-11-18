@@ -2,63 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B988062FBCA
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 18:40:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59AB862FBF6
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 18:48:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFFB410E226;
-	Fri, 18 Nov 2022 17:40:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8077D10E7A1;
+	Fri, 18 Nov 2022 17:48:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
- [IPv6:2607:f8b0:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12CE010E226
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 17:40:17 +0000 (UTC)
-Received: by mail-pl1-x629.google.com with SMTP id j12so5175756plj.5
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 09:40:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=BI5MC5wPkQQeEE83qP7tE3SCFpQYK/xq9Ol93cnM3VY=;
- b=gFc4SfbZvgjlbAJ650Ar86zoxHOUfORQSyStvBp17HLK7lxP5lrqFPd3H7gr+4Ayt6
- Ud/yj2PxnUbWSfETvS7Ohq73hj+K2B1RLD25ZA1swwLA8JwR13Oz7bR/zKNnRBV69dr8
- 1vERiIK/GLorWogYSmx2pdLuuNxPbKoaI/V+8=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6019610E7A4
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 17:48:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668793683;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZkJx+RgAzofek0cetBCDV8S2wNiIF1AHyooRWAe/tSY=;
+ b=QSAWDBmP3j6JznBssY9j+NTPLNSLTFhf9XL2P6K7nRSYocbv88/IVRdSEPIdjRmy7ErHkA
+ qTTgdtQbyqYqTAEqds+ddq26hv4CyxfjWud16lG2Cg3znB0tmFP7VbowzsLbKexX7WjmO/
+ TshnoSHY4L6k2t0CajlYkVC78EgXPaE=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-629-KXpu5vQsNNCHqMJ-zOxuAA-1; Fri, 18 Nov 2022 12:47:54 -0500
+X-MC-Unique: KXpu5vQsNNCHqMJ-zOxuAA-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ l18-20020a056402255200b004633509768bso3347073edb.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 09:47:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=BI5MC5wPkQQeEE83qP7tE3SCFpQYK/xq9Ol93cnM3VY=;
- b=SnWAz6ZcgeRsQDrZfdKcFfVb+R/KlE6Hh06eFCOYy2w3mdUOjtqwxNRtDXEp/geuyI
- nSMEYR0auj1QEDDGQo6udyjCRX2reYymMXgLbBsdJid9sPwYKfzJmmy87ySnuabJI6NG
- UNfyi7+Kv5lrvdhIIsPRU5ojbYC3zqHrd0QLVTSo/qkZFYHic+6fXPK6Rk1JMTSw5iiP
- 4xLFjeeARDCs/cvhZepswXWK0bxrt8ta+AJVKVQcXB05WdrxmMEpTF3SnpvxxcQnl1n6
- 2NKLFIpd57ZLAEz3KtVrnO4t7364ksp8XeGQyOdYn2LpCWuNTKEDxP4daiagXNZvj432
- UYFg==
-X-Gm-Message-State: ANoB5plPMIdeVLr7+idQVKKZ12x2BP62etRSh1KrXj00ZyDcvY0eHZwT
- 6/KHDa2GqIykHtKvI/7xIf+sMQ==
-X-Google-Smtp-Source: AA0mqf7FFavVCClOULx9pEedXB/2PA+q16XqUjZI2216vnXrk6B4HMcy7q6rcPKHBlGCFkt/8m95FQ==
-X-Received: by 2002:a17:90a:7885:b0:20a:d81d:a8 with SMTP id
- x5-20020a17090a788500b0020ad81d00a8mr14555998pjk.177.1668793216603; 
- Fri, 18 Nov 2022 09:40:16 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ZkJx+RgAzofek0cetBCDV8S2wNiIF1AHyooRWAe/tSY=;
+ b=XEFF6Bdph2nPaxYzX3C/MOtss5OqsjzUVQyVUGwJJBBIz1kEVgPphn0M0TpNtqojG2
+ X33SlOT0hBeaKGMdZAimAzkoUjkn/Bgq6HAgxXUwX/LvwJi4QaW3UVxIcy50/0ndU3c7
+ SK7kNx2fpyc7gkqCY88TpX3BEdwWfYL0EMgSKQkfrADmab9z8UzpKR5KbhPxCVCXMuM7
+ QeaszFADfImhSoWv4YJ93CBAkcql2T75PszflIXJhwCz7SXZqn4930vdxZq5hKl37it7
+ BtJl8LbyWjDfnRBFT7AHRCui3Gzbj9FAlQm62HS0UAYCEvI82AnZ0MMLhxAUXyGyXu5K
+ 3XUw==
+X-Gm-Message-State: ANoB5pnt4bq7GdcwxtOWvwcSrFodI6YV6GFio8KMxfBG53sRP2OqtZpu
+ c/qRbIBXUBmRray0xrHUVKZWzVdNgSux/Dbna9jlrYxAOB63wuu2YF0llKH12mx4T+CDdioIOtK
+ 8bi1TfjS4tGhbQpckfucJaHy85cRq
+X-Received: by 2002:a17:906:36d2:b0:7ae:9c7b:4d5c with SMTP id
+ b18-20020a17090636d200b007ae9c7b4d5cmr6610697ejc.598.1668793673621; 
+ Fri, 18 Nov 2022 09:47:53 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6674asXcYMlwXIeAqeZcpNWB+Ml8RoaoS1i6tRUnXdDqv9oTJdkY86khk21Rzpsob0OPciOQ==
+X-Received: by 2002:a17:906:36d2:b0:7ae:9c7b:4d5c with SMTP id
+ b18-20020a17090636d200b007ae9c7b4d5cmr6610685ejc.598.1668793673439; 
+ Fri, 18 Nov 2022 09:47:53 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b40:2ee8:642:1aff:fe31:a15c?
+ ([2a02:810d:4b40:2ee8:642:1aff:fe31:a15c])
  by smtp.gmail.com with ESMTPSA id
- ij27-20020a170902ab5b00b001885d15e3c1sm3992123plb.26.2022.11.18.09.40.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Nov 2022 09:40:16 -0800 (PST)
-From: Kees Cook <keescook@chromium.org>
-To: nathan@kernel.org,
-	alain.volmat@foss.st.com
-Subject: Re: [PATCH] drm/sti: Fix return type of sti_{dvo, hda,
- hdmi}_connector_mode_valid()
-Date: Fri, 18 Nov 2022 09:40:02 -0800
-Message-Id: <166879319847.2080862.11821072640113889089.b4-ty@chromium.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221102155623.3042869-1-nathan@kernel.org>
-References: <20221102155623.3042869-1-nathan@kernel.org>
+ jl24-20020a17090775d800b0073cf6ec3276sm1924617ejc.207.2022.11.18.09.47.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Nov 2022 09:47:53 -0800 (PST)
+Message-ID: <c295e26b-283c-c643-f2ac-979466829227@redhat.com>
+Date: Fri, 18 Nov 2022 18:47:51 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH drm-misc-next v3 0/5] drm/arm/malidp: use drm managed
+ resources
+To: Liviu Dudau <liviu.dudau@arm.com>, daniel@ffwll.ch
+References: <20221026155934.125294-1-dakr@redhat.com>
+ <Y3S+ZQ9gJVf9YYra@e110455-lin.cambridge.arm.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <Y3S+ZQ9gJVf9YYra@e110455-lin.cambridge.arm.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,29 +90,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kees Cook <keescook@chromium.org>, trix@redhat.com, llvm@lists.linux.dev,
- ndesaulniers@google.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, patches@lists.linux.dev,
- samitolvanen@google.com
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2 Nov 2022 08:56:23 -0700, Nathan Chancellor wrote:
-> With clang's kernel control flow integrity (kCFI, CONFIG_CFI_CLANG),
-> indirect call targets are validated against the expected function
-> pointer prototype to make sure the call target is valid to help mitigate
-> ROP attacks. If they are not identical, there is a failure at run time,
-> which manifests as either a kernel panic or thread getting killed. A
-> proposed warning in clang aims to catch these at compile time, which
-> reveals:
-> 
-> [...]
+Hi Liviu, hi Daniel,
 
-Applied to for-next/hardening, thanks!
+Thanks for submitting the patch series.
 
-[1/1] drm/sti: Fix return type of sti_{dvo,hda,hdmi}_connector_mode_valid()
-      https://git.kernel.org/kees/c/0ad811cc08a9
+Unfortunately, I wasn't able to finish the work to make drm_dev_unplug() 
+deal properly with non-hotunplug cases before my vacation, since I was 
+working on another series. I'll finalize and submit it once I'm back in 
+two weeks.
 
--- 
-Kees Cook
+- Danilo
 
