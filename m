@@ -2,49 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D75162F0DD
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 10:18:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5A7562F0F0
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 10:20:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B334C10E1F7;
-	Fri, 18 Nov 2022 09:18:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAC8610E208;
+	Fri, 18 Nov 2022 09:20:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A00C710E225
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 09:18:20 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4NDB606Phzz9skf;
- Fri, 18 Nov 2022 10:18:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1668763096;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lTdyYev7Ss9teMBT/XBdYBNta7QNMGTiSYism0OihVU=;
- b=K4iIv+pZTFwX+LEDRaLRHyjsgcD4KeBvR0ua48NOL0K5wqITYyjnjgNxRis4zmvj7lI5WQ
- tKQ/qV08YGd+MwUdViZ892ZR6tyNTo/TeaSnzkcXCI7Baa2CvAjAvVxCN1ebiQ66okaEL0
- WQXhuqP6Wxiq6m16KKL3Hbo1oOKlKducPVYjbF3EwAZH2zVR+Y4ClR79JKcojy2eakDzzb
- PCJzbJrb5EKfuHr2kjQYiMoI0Tc8rHhiJBVsG4VJJoX3aNmuVRcYqfLvAhvHFmEOWjWmFz
- cmTdNo7oTXxjP8RKYYjFKvyrmoLYtpJ5bZFIqEJsqr0d8NlhrQVRW/yBBc5E6A==
-Message-ID: <800a1207-8ff6-4cfa-60f3-6ff456874890@mailbox.org>
-Date: Fri, 18 Nov 2022 10:18:14 +0100
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAEB510E208;
+ Fri, 18 Nov 2022 09:20:26 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 523F45C0513;
+ Fri, 18 Nov 2022 04:20:23 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Fri, 18 Nov 2022 04:20:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; t=1668763223; x=1668849623; bh=4n4DR4UwM1
+ 0Hw+UX/vwcqMHSZCvbtAN5htQFeot9k0s=; b=LYNeULVFAebnqpXOJpHXpNjDeY
+ XS0flPyOKrAZxKsh4iQc0ZI5EJvqg/vL6nqEYs2k4HELn5ioOaZASWxsOBDZz8Nk
+ U05AvRz/anebMho0GIoFAUzeWR1Q6yHnU5KvMD1nZOe9dV2tCagLqZhi0JH3vmc1
+ LtG7PYqX4CR6zcupd+XfXf2RZZ7wky/8sxvaKpgnawNa9PBoZU0XWNLEBuTHrV+i
+ Dt9H/w54YuWeBAsGdv+QQNxbSMV265i4e6LiwviudQHCQc9zv90hT1Vw/cIQoosB
+ PtT0UHFH6679yAOFMWv+pSsE8UAUuA6b3otS69gmmKEp0Hw2aMEydArXGhHA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1668763223; x=1668849623; bh=4n4DR4UwM10Hw+UX/vwcqMHSZCvb
+ tAN5htQFeot9k0s=; b=dYtPEl3UgKwY4kyD4AclEMrQ2EtGmLPlA68TpselZHFF
+ 9u8LIdlGK0KAGUzTewj5FC9HO3MG39VuhRI9zm+ur9hWzfEkDlRNbeU9sL2qLVmh
+ l6v/t6vop4T3uI8/LivxEaQyaJWmgtH9aYewlRAVb8j7ag0mz4E2v7cI7LOh6voh
+ /brht4rf2zmC395EH+IGCIHNyyZpNURecjznZ6jIAtZY+V15ds2359kF8IrdJwYr
+ zHvtZDwHd6wq7ElS1IfwH7Sjao5l6JXsJ8P2Sy4Soqpn0N1m+w5WBYvMwhs8l3kn
+ cOdGElnKuyTbwsdFDvebzfpfudJciGUooy4nSwbV2w==
+X-ME-Sender: <xms:Vk53Y-mYyWluu8ptma9_HbxzN6V0WEpT_zpG02A8sZ0p4Td9uapCrw>
+ <xme:Vk53Y12N-XZjh3vrK1cA6dPEI_PelFPLODYnhhJEBfbWIzdJieuCywjCJIfyyG9mX
+ 2VuecYVem3sERPMWKc>
+X-ME-Received: <xmr:Vk53Y8oWX8yXhLN6ibFL6-YdpceVsXUpxT1bIWXFHrJ2u2si28bNZ-uOdYrR9x4V3rXXjRoq3c5mHX3uzb1vPUDmQtq3o5DOQaedOjnVGNt49w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrhedtgddtvdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheehfffh
+ vedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:Vk53YymcEeZCWCnz6mZOA7HIRDHqvrJ3RJhYNSBbdApXSrbN5jJdLQ>
+ <xmx:Vk53Y80X3IftNfwIwF5-yOrZ4Hj2t-qhk6Nplx_5Me_yOEJ2DXcITw>
+ <xmx:Vk53Y5vs-s38Diftjkj7piocKdDWJO3Q2-Af4vCMmlWqcY_7cI1Emw>
+ <xmx:V053Y1HYD8gWp49Ur4aXLMO6qjTii50h3ivR-O1mqw55YOZ9nRnksQ>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 18 Nov 2022 04:20:22 -0500 (EST)
+Date: Fri, 18 Nov 2022 10:20:20 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Nathan Chancellor <nathan@kernel.org>
+Subject: Re: linux-next: manual merge of the drm-misc tree with the origin tree
+Message-ID: <20221118092020.nhvjomvwwryb7j3n@houat>
+References: <20221116105702.746ce3cf@canb.auug.org.au>
+ <Y3ZvffZiR+SgtY6h@dev-arch.thelio-3990X>
+ <20221118090636.00bfc293@canb.auug.org.au>
+ <Y3bLRLDCrd7KYqom@dev-arch.thelio-3990X>
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/amdgpu: add mb for si
-Content-Language: de-CH-frami, en-CA
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Zhenneng Li <lizhenneng@kylinos.cn>, Alex Deucher <alexander.deucher@amd.com>
-References: <20221118074810.380368-1-lizhenneng@kylinos.cn>
- <ecd9d251-8941-b2db-71b2-e4ac06f860a3@amd.com>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
-In-Reply-To: <ecd9d251-8941-b2db-71b2-e4ac06f860a3@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 1afyttkaptk1qh7bss3ey8wa78i7z3af
-X-MBO-RS-ID: 4afc4dcc6c7cfafea96
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="utkgyjtezkaepsh6"
+Content-Disposition: inline
+In-Reply-To: <Y3bLRLDCrd7KYqom@dev-arch.thelio-3990X>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,49 +85,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, Xinhui.Pan@amd.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>, llvm@lists.linux.dev,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ =?utf-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/18/22 09:01, Christian König wrote:
-> Am 18.11.22 um 08:48 schrieb Zhenneng Li:
->> During reboot test on arm64 platform, it may failure on boot,
->> so add this mb in smc.
->>
->> The error message are as follows:
->> [    6.996395][ 7] [  T295] [drm:amdgpu_device_ip_late_init [amdgpu]] *ERROR*
->>                 late_init of IP block <si_dpm> failed -22
->> [    7.006919][ 7] [  T295] amdgpu 0000:04:00.0: amdgpu_device_ip_late_init failed
->> [    7.014224][ 7] [  T295] amdgpu 0000:04:00.0: Fatal error during GPU init
-> 
-> Memory barries are not supposed to be sprinkled around like this, you need to give a detailed explanation why this is necessary.
-> 
-> Regards,
-> Christian.
-> 
->>
->> Signed-off-by: Zhenneng Li <lizhenneng@kylinos.cn>
->> ---
->>   drivers/gpu/drm/amd/pm/legacy-dpm/si_smc.c | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/si_smc.c b/drivers/gpu/drm/amd/pm/legacy-dpm/si_smc.c
->> index 8f994ffa9cd1..c7656f22278d 100644
->> --- a/drivers/gpu/drm/amd/pm/legacy-dpm/si_smc.c
->> +++ b/drivers/gpu/drm/amd/pm/legacy-dpm/si_smc.c
->> @@ -155,6 +155,8 @@ bool amdgpu_si_is_smc_running(struct amdgpu_device *adev)
->>       u32 rst = RREG32_SMC(SMC_SYSCON_RESET_CNTL);
->>       u32 clk = RREG32_SMC(SMC_SYSCON_CLOCK_CNTL_0);
->>   +    mb();
->> +
->>       if (!(rst & RST_REG) && !(clk & CK_DISABLE))
->>           return true;
 
-In particular, it makes no sense in this specific place, since it cannot directly affect the values of rst & clk.
+--utkgyjtezkaepsh6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Nov 17, 2022 at 05:01:08PM -0700, Nathan Chancellor wrote:
+> On Fri, Nov 18, 2022 at 09:06:36AM +1100, Stephen Rothwell wrote:
+> > Hi Nathan,
+> >=20
+> > On Thu, 17 Nov 2022 10:29:33 -0700 Nathan Chancellor <nathan@kernel.org=
+> wrote:
+> > >
+> > > This resolution is not quite right, as pointed out by clang:
+> > >=20
+> > >     drivers/gpu/drm/vc4/vc4_hdmi.c:351:14: error: variable 'vc4_hdmi'=
+ is uninitialized when used here [-Werror,-Wuninitialized]
+> > >             mutex_lock(&vc4_hdmi->mutex);
+> > >                         ^~~~~~~~
+> > >     ./include/linux/mutex.h:187:44: note: expanded from macro 'mutex_=
+lock'
+> > >     #define mutex_lock(lock) mutex_lock_nested(lock, 0)
+> > >                                                ^~~~
+> > >     drivers/gpu/drm/vc4/vc4_hdmi.c:322:27: note: initialize the varia=
+ble 'vc4_hdmi' to silence this warning
+> > >             struct vc4_hdmi *vc4_hdmi;
+> > >                                      ^
+> > >                                       =3D NULL
+> > >     1 error generated.
+> > >=20
+> > > Obviously, the assignment of vc4_hdmi should be before mutex_lock().
+> >=20
+> > Thanks for pointing that out (silly me :-) ).  I have fixed up the
+> > resolution for today.
+>=20
+> Great, thank you so much! One less warning to worry about :)
 
--- 
-Earthling Michel Dänzer            |                  https://redhat.com
-Libre software enthusiast          |         Mesa and Xwayland developer
+I actually did the same conflict resolution in drm-tip. I've fixed it up
+too, thanks for your report :)
 
+Maxime
+
+--utkgyjtezkaepsh6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY3dOVAAKCRDj7w1vZxhR
+xa2fAQD933QJY5E3XRwJGvMvYIALowd4qIYtQyxBCrk/Zo2bTQEAiLYk8Ij68h6E
+CzpNCMHNSYp+43IPN7VzU0UqzQpvawk=
+=GyeM
+-----END PGP SIGNATURE-----
+
+--utkgyjtezkaepsh6--
