@@ -1,79 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5083F62F468
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 13:17:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74E7B62F494
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 13:26:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECC0010E713;
-	Fri, 18 Nov 2022 12:17:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0376810E1F8;
+	Fri, 18 Nov 2022 12:26:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F2A110E70D;
- Fri, 18 Nov 2022 12:17:00 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2AIAedc4017791; Fri, 18 Nov 2022 12:16:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references; s=qcppdkim1;
- bh=zs+iIabo+a0n5S83frFjyaZWLUp9v9JSbLtqjNPV9Jg=;
- b=L8UT1bA3kBNDMVqQA+iAbVyWcegoXzVwf9hF8JAzik+y3isQayOYVp6SM/KY4w0+wBvC
- sRbYAnHex0W2G6++E/912ufZRaubiAecfSaQIvcfQ2dUAXdVMbHR11hnfJL/E3HlJ+sY
- k1fFlKDbVxIJ9ZoBbGUY9KYcXRLOveH1ev9ivD+TZfnlKodkNRoceN/R9cSuhl+vXxFV
- J8GcMcaM0P609AnLLk1SsLoVPYDhoPMUiCVZitXz1y4hNrBJkOynScXo8AhpJejRNtpW
- GhsG5f/51vAJO1B10swSyOZjtxXFtmOvLUQTm8vjR2Z7Bu8rwqjpA+YDKY/1K0aFQuQ7 Ig== 
-Received: from apblrppmta02.qualcomm.com
- (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kx0s5hktg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Nov 2022 12:16:56 +0000
-Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
- by APBLRPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 2AICGqRZ013720; 
- Fri, 18 Nov 2022 12:16:52 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 3kt4jkkc6t-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Fri, 18 Nov 2022 12:16:52 +0000
-Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com
- [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2AICGphF013703;
- Fri, 18 Nov 2022 12:16:52 GMT
-Received: from kalyant-linux.qualcomm.com (kalyant-linux.qualcomm.com
- [10.204.66.210])
- by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 2AICGpQO013698;
- Fri, 18 Nov 2022 12:16:52 +0000
-Received: by kalyant-linux.qualcomm.com (Postfix, from userid 94428)
- id 8B6D32F35; Fri, 18 Nov 2022 04:16:51 -0800 (PST)
-From: Kalyan Thota <quic_kalyant@quicinc.com>
-To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [PATCH v3 3/3] drm/msm/disp/dpu1: add color management support for
- the crtc
-Date: Fri, 18 Nov 2022 04:16:47 -0800
-Message-Id: <1668773807-19598-4-git-send-email-quic_kalyant@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1668773807-19598-1-git-send-email-quic_kalyant@quicinc.com>
-References: <1668773807-19598-1-git-send-email-quic_kalyant@quicinc.com>
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: YjSIv20B4Ygfz9VaVgcf8W83ppuEq32u
-X-Proofpoint-ORIG-GUID: YjSIv20B4Ygfz9VaVgcf8W83ppuEq32u
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-18_02,2022-11-18_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- priorityscore=1501 lowpriorityscore=0 spamscore=0 phishscore=0
- malwarescore=0 bulkscore=0 mlxlogscore=999 suspectscore=0 impostorscore=0
- adultscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211180073
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8631210E1F8
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 12:26:30 +0000 (UTC)
+Received: from [192.168.15.130] (unknown [194.152.46.21])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: andrzej.p)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id ABEF96602AB2;
+ Fri, 18 Nov 2022 12:26:27 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1668774388;
+ bh=j00aZO+NDvxxNv4Ex5q1J/k6GVW5ZjtAsEcGyBIHILI=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=XvGN1rr80SkGZAX41h1EW5AQp/607Z4LBayXwxrsqjLq3fFJRCAzUCQhWEbOh5LqB
+ 41iQMd56+70Ria0SVmZgI5nmuIRHdiuS25l3GhW/fUG6BlJkTxhq+yVYlVx1DvMJ/G
+ iiYnpRhcbEgmiFfBs7oSp6hUux5nML+DTWrQPBH9034LNSEaiU9PeKbolyCeMkq4I+
+ 1hSKvku6osLUPK760X8GD6acGejQa3AakDoNNc6DNDVQxiYxFgMWsiTOpokEYh5XRT
+ Fb8iyAsIR/2/Y2PdVsC38pdikcIWIolD27LAEAlAxmuFgjGLYG5LUaDh3yKyJ3oQhO
+ Bo6YV2enLcirQ==
+Message-ID: <64f08478-16a7-1d33-e520-9f0fbcab47b9@collabora.com>
+Date: Fri, 18 Nov 2022 13:26:25 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [RFC PATCH v6] media: mediatek: vcodec: support stateless AV1
+ decoder
+Content-Language: en-US
+From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+To: Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+ Yunfei Dong <yunfei.dong@mediatek.com>,
+ Alexandre Courbot <acourbot@chromium.org>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Tomasz Figa <tfiga@google.com>
+References: <20221117061742.29702-1-xiaoyong.lu@mediatek.com>
+ <0672e801-1489-f222-2143-e0e7317d7eaf@collabora.com>
+In-Reply-To: <0672e801-1489-f222-2143-e0e7317d7eaf@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,169 +66,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kalyan Thota <quic_kalyant@quicinc.com>, robdclark@chromium.org,
- dianders@chromium.org, quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
- swboyd@chromium.org, dmitry.baryshkov@linaro.org, quic_vpolimer@quicinc.com
+Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
+ Steve Cho <stevecho@chromium.org>, srv_heupstream@mediatek.com,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Fritz Koenig <frkoenig@chromium.org>, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add color management support for the crtc provided there are
-enough dspps that can be allocated from the catalog.
+Hi again,
 
-Changes in v1:
-- cache color enabled state in the dpu crtc obj (Dmitry)
-- simplify dspp allocation while creating crtc (Dmitry)
-- register for color when crtc is created (Dmitry)
+W dniu 17.11.2022 o 13:42, Andrzej Pietrasiewicz pisze:
+> Hi Xiaoyong Lu,
+> 
+> Sorry about chiming in only at v6. Please see inline below.
+> 
+> Andrzej
+> 
+> W dniu 17.11.2022 o 07:17, Xiaoyong Lu pisze:
+>> Add mediatek av1 decoder linux driver which use the stateless API in
+>> MT8195.
+>>
+>> Signed-off-by: Xiaoyong Lu<xiaoyong.lu@mediatek.com>
+>> ---
+>> Changes from v5:
+>>
+>> - change av1 PROFILE and LEVEL cfg
+>> - test by av1 fluster, result is 173/239
+>>
+>> Changes from v4:
+>>
+>> - convert vb2_find_timestamp to vb2_find_buffer
+>> - test by av1 fluster, result is 173/239
+>>
+>> Changes from v3:
+>>
+>> - modify comment for struct vdec_av1_slice_slot
+>> - add define SEG_LVL_ALT_Q
+>> - change use_lr/use_chroma_lr parse from av1 spec
+>> - use ARRAY_SIZE to replace size for loop_filter_level and 
+>> loop_filter_mode_deltas
+>> - change array size of loop_filter_mode_deltas from 4 to 2
+>> - add define SECONDARY_FILTER_STRENGTH_NUM_BITS
+>> - change some hex values from upper case to lower case
+>> - change *dpb_sz equal to V4L2_AV1_TOTAL_REFS_PER_FRAME + 1
+>> - test by av1 fluster, result is 173/239
+>>
+>> Changes from v2:
+>>
+>> - Match with av1 uapi v3 modify
+>> - test by av1 fluster, result is 173/239
+>>
+>> ---
+>> Reference series:
+>> [1]: v3 of this series is presend by Daniel Almeida.
+>>       message-id: 20220825225312.564619-1-daniel.almeida@collabora.com
+>>
+>>   .../media/platform/mediatek/vcodec/Makefile   |    1 +
+>>   .../vcodec/mtk_vcodec_dec_stateless.c         |   47 +-
+>>   .../platform/mediatek/vcodec/mtk_vcodec_drv.h |    1 +
+>>   .../vcodec/vdec/vdec_av1_req_lat_if.c         | 2234 +++++++++++++++++
+>>   .../platform/mediatek/vcodec/vdec_drv_if.c    |    4 +
+>>   .../platform/mediatek/vcodec/vdec_drv_if.h    |    1 +
+>>   .../platform/mediatek/vcodec/vdec_msg_queue.c |   27 +
+>>   .../platform/mediatek/vcodec/vdec_msg_queue.h |    4 +
+>>   8 files changed, 2318 insertions(+), 1 deletion(-)
+>>   create mode 100644 
+>> drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c
+>>
 
-Changes in v2:
-- avoid primary encoders in the documentation (Dmitry)
+<snip>
 
-Changes in v3:
-- add ctm for builtin encoders (Dmitry)
+>> +
+>> +static void *vdec_av1_get_ctrl_ptr(struct mtk_vcodec_ctx *ctx, int id)
+>> +{
+>> +    struct v4l2_ctrl *ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl, id);
+>> +
+>> +    if (!ctrl)
+>> +        return ERR_PTR(-EINVAL);
+>> +
+>> +    return ctrl->p_cur.p;
+>> +}
+> 
+> I see we keep repeating this kind of a v4l2_ctrl_find() wrapper in drivers.
+> The only reason this code cannot be factored out is the "context" struct pointer
+> pointing at structs of different types. Maybe we could
+> 
+> #define v4l2_get_ctrl_ptr(ctx, member, id) \
+>      __v4l2_get_ctrl_ptr((ctx), offsetof(typeof(*ctx), (member)), (id))
+> 
+> void *__v4l2_get_ctrl_ptr(void *ctx, size_t offset, u32 id)
+> {
+>      struct v4l2_ctrl_handler *hdl = (struct v4l2_ctrl_handler *)(ctx + offset);
+>      struct v4l2_ctrl *ctrl = v4l2_ctrl_find(hdl, id);
+> 
+>      if (!ctrl)
+>          return ERR_PTR(-EINVAL);
+> 
+>      return ctrl->p_cur.p;
+> }
+> 
+> and reuse v4l2_get_ctrl_ptr() in drivers?
+> 
+> A similar kind of void* arithmetic happens in container_of, only with '-'.
+> 
 
-Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 5 +++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h    | 6 ++++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 7 +++++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 7 ++++++-
- 4 files changed, 18 insertions(+), 7 deletions(-)
+When I think of it it seems a bit over-engineered to me now, it would
+be better to give up the macro and simply pass struct v4l2_ctrl_handler *hdl.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index 4170fbe..6cacaaf 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -1571,7 +1571,7 @@ static const struct drm_crtc_helper_funcs dpu_crtc_helper_funcs = {
- 
- /* initialize crtc */
- struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
--				struct drm_plane *cursor)
-+				struct drm_plane *cursor, bool ctm)
- {
- 	struct drm_crtc *crtc = NULL;
- 	struct dpu_crtc *dpu_crtc = NULL;
-@@ -1583,6 +1583,7 @@ struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
- 
- 	crtc = &dpu_crtc->base;
- 	crtc->dev = dev;
-+	dpu_crtc->color_enabled = ctm;
- 
- 	spin_lock_init(&dpu_crtc->spin_lock);
- 	atomic_set(&dpu_crtc->frame_pending, 0);
-@@ -1604,7 +1605,7 @@ struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
- 
- 	drm_crtc_helper_add(crtc, &dpu_crtc_helper_funcs);
- 
--	drm_crtc_enable_color_mgmt(crtc, 0, true, 0);
-+	drm_crtc_enable_color_mgmt(crtc, 0, dpu_crtc->color_enabled, 0);
- 
- 	/* save user friendly CRTC name for later */
- 	snprintf(dpu_crtc->name, DPU_CRTC_NAME_SIZE, "crtc%u", crtc->base.id);
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-index 539b68b..1ec9517 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-@@ -136,6 +136,7 @@ struct dpu_crtc_frame_event {
-  * @enabled       : whether the DPU CRTC is currently enabled. updated in the
-  *                  commit-thread, not state-swap time which is earlier, so
-  *                  safe to make decisions on during VBLANK on/off work
-+ * @color_enabled : whether crtc supports color management
-  * @feature_list  : list of color processing features supported on a crtc
-  * @active_list   : list of color processing features are active
-  * @dirty_list    : list of color processing features are dirty
-@@ -164,7 +165,7 @@ struct dpu_crtc {
- 	u64 play_count;
- 	ktime_t vblank_cb_time;
- 	bool enabled;
--
-+	bool color_enabled;
- 	struct list_head feature_list;
- 	struct list_head active_list;
- 	struct list_head dirty_list;
-@@ -269,10 +270,11 @@ void dpu_crtc_complete_commit(struct drm_crtc *crtc);
-  * @dev: dpu device
-  * @plane: base plane
-  * @cursor: cursor plane
-+ * @ctm: ctm flag
-  * @Return: new crtc object or error
-  */
- struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
--			       struct drm_plane *cursor);
-+			       struct drm_plane *cursor, bool ctm);
- 
- /**
-  * dpu_crtc_register_custom_event - api for enabling/disabling crtc event
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 574f2b0..102612c 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -572,6 +572,7 @@ bool dpu_encoder_use_dsc_merge(struct drm_encoder *drm_enc)
- static struct msm_display_topology dpu_encoder_get_topology(
- 			struct dpu_encoder_virt *dpu_enc,
- 			struct dpu_kms *dpu_kms,
-+			struct dpu_crtc *dpu_crtc,
- 			struct drm_display_mode *mode)
- {
- 	struct msm_display_topology topology = {0};
-@@ -600,7 +601,7 @@ static struct msm_display_topology dpu_encoder_get_topology(
- 	else
- 		topology.num_lm = (mode->hdisplay > MAX_HDISPLAY_SPLIT) ? 2 : 1;
- 
--	if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI) {
-+	if (dpu_crtc->color_enabled) {
- 		if (dpu_kms->catalog->dspp &&
- 			(dpu_kms->catalog->dspp_count >= topology.num_lm))
- 			topology.num_dspp = topology.num_lm;
-@@ -635,6 +636,7 @@ static int dpu_encoder_virt_atomic_check(
- 	struct drm_display_mode *adj_mode;
- 	struct msm_display_topology topology;
- 	struct dpu_global_state *global_state;
-+	struct dpu_crtc *dpu_crtc;
- 	int i = 0;
- 	int ret = 0;
- 
-@@ -645,6 +647,7 @@ static int dpu_encoder_virt_atomic_check(
- 	}
- 
- 	dpu_enc = to_dpu_encoder_virt(drm_enc);
-+	dpu_crtc = to_dpu_crtc(crtc_state->crtc);
- 	DPU_DEBUG_ENC(dpu_enc, "\n");
- 
- 	priv = drm_enc->dev->dev_private;
-@@ -670,7 +673,7 @@ static int dpu_encoder_virt_atomic_check(
- 		}
- 	}
- 
--	topology = dpu_encoder_get_topology(dpu_enc, dpu_kms, adj_mode);
-+	topology = dpu_encoder_get_topology(dpu_enc, dpu_kms, dpu_crtc, adj_mode);
- 
- 	/* Reserve dynamic resources now. */
- 	if (!ret) {
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 4784db8..b57e261 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -747,6 +747,7 @@ static int _dpu_kms_drm_obj_init(struct dpu_kms *dpu_kms)
- 
- 	int primary_planes_idx = 0, cursor_planes_idx = 0, i, ret;
- 	int max_crtc_count;
-+
- 	dev = dpu_kms->dev;
- 	priv = dev->dev_private;
- 	catalog = dpu_kms->catalog;
-@@ -804,7 +805,11 @@ static int _dpu_kms_drm_obj_init(struct dpu_kms *dpu_kms)
- 	/* Create one CRTC per encoder */
- 	i = 0;
- 	drm_for_each_encoder(encoder, dev) {
--		crtc = dpu_crtc_init(dev, primary_planes[i], cursor_planes[i]);
-+		bool _ctm = false;
-+		if (catalog->dspp_count && dpu_encoder_is_builtin(encoder) &&
-+			encoder->encoder_type != DRM_MODE_ENCODER_VIRTUAL)
-+			_ctm = true;
-+		crtc = dpu_crtc_init(dev, primary_planes[i], cursor_planes[i], _ctm);
- 		if (IS_ERR(crtc)) {
- 			ret = PTR_ERR(crtc);
- 			return ret;
--- 
-2.7.4
+Another second thought is that including such a wrapper in this patch
+would make it too noisy if all potential users were to be updated.
+A separate series would make more sense.
+
+Regards,
+
+Andrzej
 
