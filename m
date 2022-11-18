@@ -1,64 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF9AF62F0B1
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 10:13:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D75162F0DD
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 10:18:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C90310E203;
-	Fri, 18 Nov 2022 09:13:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B334C10E1F7;
+	Fri, 18 Nov 2022 09:18:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D7AC10E1FB
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 09:13:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1668762759; bh=eKtJWiPpgSifp4dBJaDSkL5sqHrBEh+fk4begN3cTGM=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=QQdIoYkdv7fAqcKxznKql80UxqQqvLwoCdJXXKczFwaYw6nSNxqGjV3XXjg44Ufgm
- DQqhbIrWxmFDtcD1/UtWgejcX2zZx12hKkfRxfptU/8OGgTiK31xaRVGaGWni0jHXK
- fx1FefJBl1ccCTP8OBEeQa3ug4r5qBJDdsvJpr05XthVgMFQXZFUfLnRxjXPxa7Eh7
- wzslW5SfyRSMi5viHgeUUe/AqFcpC3DBx/ytRiTZr34dAJHpSqfDdety6rYbnID2dv
- KVH2GQXDc8VGyUBBRhn3Av0kk3l+PoaBd3Qt5x/m6YR/rg8ZMypjh0BM3GnMK+bv4P
- 42Z6+rtHS/+xw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([92.116.164.156]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MMGRA-1ocdcX1xl0-00JNsO; Fri, 18
- Nov 2022 10:12:39 +0100
-Message-ID: <9a32a234-b0a0-036d-86cc-f9942e165adc@gmx.de>
-Date: Fri, 18 Nov 2022 10:12:37 +0100
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A00C710E225
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 09:18:20 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4NDB606Phzz9skf;
+ Fri, 18 Nov 2022 10:18:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1668763096;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lTdyYev7Ss9teMBT/XBdYBNta7QNMGTiSYism0OihVU=;
+ b=K4iIv+pZTFwX+LEDRaLRHyjsgcD4KeBvR0ua48NOL0K5wqITYyjnjgNxRis4zmvj7lI5WQ
+ tKQ/qV08YGd+MwUdViZ892ZR6tyNTo/TeaSnzkcXCI7Baa2CvAjAvVxCN1ebiQ66okaEL0
+ WQXhuqP6Wxiq6m16KKL3Hbo1oOKlKducPVYjbF3EwAZH2zVR+Y4ClR79JKcojy2eakDzzb
+ PCJzbJrb5EKfuHr2kjQYiMoI0Tc8rHhiJBVsG4VJJoX3aNmuVRcYqfLvAhvHFmEOWjWmFz
+ cmTdNo7oTXxjP8RKYYjFKvyrmoLYtpJ5bZFIqEJsqr0d8NlhrQVRW/yBBc5E6A==
+Message-ID: <800a1207-8ff6-4cfa-60f3-6ff456874890@mailbox.org>
+Date: Fri, 18 Nov 2022 10:18:14 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH] video: fbdev: fix spelling mistake
- "paramaters"->"parameters"
-Content-Language: en-US
-To: Yu Zhe <yuzhe@nfschina.com>
-References: <20221118090050.22148-1-yuzhe@nfschina.com>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20221118090050.22148-1-yuzhe@nfschina.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:qfIlyXIDHqaMAPZu9uHYkCd2oiFTvgPIJHWKLO9du0KUtLNE/2m
- Qzk2OqSoz1Lb0es4i/CykSc+OajTd50HnyUFkQzuelz5HW3aIWEBQy8Dk5zb90YSPH9ZGYh
- 9CT9UHjKTNHTYpUCWyCcSQ2BpG7Jx/O28VfIL5eWVS+1St+fYQI62OimfoGlWe7J8DrQ2Sf
- ma7iSzENejpn3jVPXnV2Q==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:4MMYiyYALVU=;0s3UI9q7gh6NlMHW3ScnT+zMsEh
- YxFm1x/91bP1UjpfA4w7HsxhGwnSVkytLBItMdtfYZI1hhjHqQp9iqfBj0zz1QYVW/YNaR0sr
- xsmypNg3dyicDohMtOgwm0LJnz0fHOmY1IGYKcYCCkislAM1nYuKPde6XRzOMEbXgyJc+AWb2
- MaV6qwJyi4OvWhmmxnvYK5UJhQ89Oigao3q03tU9mwS6i35HXtJY6Qwq3uxCCGRCcNDu6/0u+
- Ulv7TXCA6z0RaINaGl2xsXrs3frdJ07AzN5RhiLFaO/leFse8OWC0EJZEMdrMfBWyHVZM+34r
- HgWIYOHGvHsoC7ugU34TFQTwRr2tgTm35mt/bBCp2QCeCdz94scZJfWXB3MY9/TO+9GkIr2mU
- RID51dkRyBET6GkgHljmpbcJbq9w4CDGixAPx3/jvSqIQO0NUU7LzY+JtPKwFjMCoLWNnNFh8
- RYLjVjimmVkF/AVHwsQNSgS8+VBjh2nVrMOLOmgkTerD3eiKvLPjdLW8hcKc9spTKz6v71D1J
- ZiOG+YGCAEr14jl7MdRLx1SYizM5nlbKJvvKJKQrOToDUvKAyaaLt+w9h4fLYTGBOsEPPRa3E
- Opln0X+n9MFIN7wLFhc1AI3Ik4IxZWaH8ZsS+9493yWn480SPrkx59xGwQywEDMNFQCXz9Xte
- TaZWBiR4KnFYcrtCdp/ae3/Pw+9T2KNycULx2+McNDAjQ5vJB5++xaEahRC8dIWZwvMND4cO4
- FHcFchrdWxxug0kJh8MPtdGQy9MI9wfK+h62KxmbpQ2DV6Bcfbh4S2LnQpf8WnW0gTtN5LfCP
- sd/yVeDHImW6+lxDAop06+KHHwHis0yXZ+AwStvMAZPYaiY4keu2/jfv/IWvIHKfeQo1oN/7x
- EHLhadKC8WSpHNR0Fx0r8Ca2ulhG0fDWYko0MSGVKRi52rnRfIqJgw+/RxtlPAhrFvaRN51Jm
- p6f9DA==
+Subject: Re: [PATCH] drm/amdgpu: add mb for si
+Content-Language: de-CH-frami, en-CA
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Zhenneng Li <lizhenneng@kylinos.cn>, Alex Deucher <alexander.deucher@amd.com>
+References: <20221118074810.380368-1-lizhenneng@kylinos.cn>
+ <ecd9d251-8941-b2db-71b2-e4ac06f860a3@amd.com>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
+In-Reply-To: <ecd9d251-8941-b2db-71b2-e4ac06f860a3@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: 1afyttkaptk1qh7bss3ey8wa78i7z3af
+X-MBO-RS-ID: 4afc4dcc6c7cfafea96
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,39 +57,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: liqiong@nfschina.com, linux-fbdev@vger.kernel.org,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: amd-gfx@lists.freedesktop.org, Xinhui.Pan@amd.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/18/22 10:00, Yu Zhe wrote:
-> There is a spelling mistake in comment. Fix it.
->
-> Signed-off-by: Yu Zhe <yuzhe@nfschina.com>
+On 11/18/22 09:01, Christian König wrote:
+> Am 18.11.22 um 08:48 schrieb Zhenneng Li:
+>> During reboot test on arm64 platform, it may failure on boot,
+>> so add this mb in smc.
+>>
+>> The error message are as follows:
+>> [    6.996395][ 7] [  T295] [drm:amdgpu_device_ip_late_init [amdgpu]] *ERROR*
+>>                 late_init of IP block <si_dpm> failed -22
+>> [    7.006919][ 7] [  T295] amdgpu 0000:04:00.0: amdgpu_device_ip_late_init failed
+>> [    7.014224][ 7] [  T295] amdgpu 0000:04:00.0: Fatal error during GPU init
+> 
+> Memory barries are not supposed to be sprinkled around like this, you need to give a detailed explanation why this is necessary.
+> 
+> Regards,
+> Christian.
+> 
+>>
+>> Signed-off-by: Zhenneng Li <lizhenneng@kylinos.cn>
+>> ---
+>>   drivers/gpu/drm/amd/pm/legacy-dpm/si_smc.c | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/si_smc.c b/drivers/gpu/drm/amd/pm/legacy-dpm/si_smc.c
+>> index 8f994ffa9cd1..c7656f22278d 100644
+>> --- a/drivers/gpu/drm/amd/pm/legacy-dpm/si_smc.c
+>> +++ b/drivers/gpu/drm/amd/pm/legacy-dpm/si_smc.c
+>> @@ -155,6 +155,8 @@ bool amdgpu_si_is_smc_running(struct amdgpu_device *adev)
+>>       u32 rst = RREG32_SMC(SMC_SYSCON_RESET_CNTL);
+>>       u32 clk = RREG32_SMC(SMC_SYSCON_CLOCK_CNTL_0);
+>>   +    mb();
+>> +
+>>       if (!(rst & RST_REG) && !(clk & CK_DISABLE))
+>>           return true;
 
-applied.
+In particular, it makes no sense in this specific place, since it cannot directly affect the values of rst & clk.
 
-Thanks!
-Helge
 
-> ---
->   drivers/video/fbdev/controlfb.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/video/fbdev/controlfb.c b/drivers/video/fbdev/contr=
-olfb.c
-> index 6bbcd9fc864e..77dbf94aae5f 100644
-> --- a/drivers/video/fbdev/controlfb.c
-> +++ b/drivers/video/fbdev/controlfb.c
-> @@ -376,7 +376,7 @@ static int read_control_sense(struct fb_info_control=
- *p)
->   #define CONTROL_PIXCLOCK_MIN	5000	/* ~ 200 MHz dot clock */
->
->   /*
-> - * calculate the clock paramaters to be sent to CUDA according to given
-> + * calculate the clock parameters to be sent to CUDA according to given
->    * pixclock in pico second.
->    */
->   static int calc_clock_params(unsigned long clk, unsigned char *param)
+-- 
+Earthling Michel Dänzer            |                  https://redhat.com
+Libre software enthusiast          |         Mesa and Xwayland developer
 
