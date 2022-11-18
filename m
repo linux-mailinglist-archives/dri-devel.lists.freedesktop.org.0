@@ -1,83 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B997862F317
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 11:58:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D649062F321
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 12:01:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 362D610E233;
-	Fri, 18 Nov 2022 10:58:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39E4210E6F9;
+	Fri, 18 Nov 2022 11:01:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B17210E233
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 10:58:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668769099;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2T5qd6feq3zDZNlT/UGmyIZ8zzHN1ErfKlpUTQ0WNcE=;
- b=bJzkkTZGurswbtFDQfDTdu4qres4Lb723sCik0yqPVfYNx7+RfQlck0/mc7hkJphnwUv7d
- zWFh63rsUxIvTeg4TtcCCQtmwaCcJMtw2l2RBwzWlzdZkhOEgVR6ZbEANVsZ5sh+v3t/Hz
- PwLDsI0Wa+JzF7vfi/dPLjIDR8XPFzQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-363-gW8W530YPlu-b984PYaTQw-1; Fri, 18 Nov 2022 05:58:17 -0500
-X-MC-Unique: gW8W530YPlu-b984PYaTQw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- d10-20020adfa34a000000b00236616a168bso1434619wrb.18
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 02:58:17 -0800 (PST)
+Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com
+ [IPv6:2607:f8b0:4864:20::1135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A37B410E6F9
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 11:01:22 +0000 (UTC)
+Received: by mail-yw1-x1135.google.com with SMTP id
+ 00721157ae682-3938dc90ab0so26960927b3.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 03:01:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ovobe2fmhyuPYDoklkU2etCcFH2NxQp5RSdNIJe8b60=;
+ b=raJdBwpGpiE+WuVHI+SLApMrpyXB/zkijj4DZV+Yc4lCCvMmxDhF19eVHQR+Jt9Abj
+ nFtdPjd4HPDBIPoHN/QHaZ7g70gPEyrL9OjoVW7nJBPtAQF0/05idVala0tCsDvZtwq6
+ mn9wn5TApuPWvDNAc3qb4xx6t5fFWt7QCO8UqOvP3z/hvTRJVJe2RfpQIc4IdOrtCKk1
+ NpBz0t55cfja3K6wcUpDI87MW9Jhsz8kU7dboIWfGmoZmAndw3cuOajSKy4+hRm9nrGm
+ 0fIzjHB0nbzG0nSx9fI4VdbSKuzVNA98fsWidV3gLpMDYdPhikkbbo/7OTXQ6sL5p3jk
+ Y+TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2T5qd6feq3zDZNlT/UGmyIZ8zzHN1ErfKlpUTQ0WNcE=;
- b=vRzgJ19F/gIhGJCoR1g28KvoXjeKxDqloEPep6LvT47ZXyk6hF3j5iYNEbuWcOky0M
- STQXkypgMtdz23Q4yIaF3YuG+o4KbRGRubyDABWK2AJVyhCs5Woty9Nkb4hSKD6vlDsA
- ZqKHL6E28/kAy4wvISPj/WLwBNgSzrM0rAOytDIeyFEWjh6DU0aE4YrQ7z5mGKQKc9Fv
- HqqVlvQtrhe1QsPGOzJp2pUXe/zmFhX5iZaM/vPvB8kutrCsZj0XaVsu6d8paJqY/pN3
- +TdeD3dXrv9FyDxnFLfcSM6dagnIGZXQ1QPsjrqPISy/7ty5EE2CIt97OuUYBoDu67Mo
- 5d/w==
-X-Gm-Message-State: ANoB5pks5S0/gUhZALoHUMpnj4RNWPELyCgWNCU+3Pi2Fg/oN5YM80L6
- 8Sw94c2U69krFYaabV+UBLI1/Nw4KlwTqHyEkrpZZZfLzHY4E3h0Lb+AYDugZYdcXxuwnf4mY6f
- /xACMwQROGfzvgC8R1dlpmpiu7l1E
-X-Received: by 2002:a05:600c:3d8f:b0:3cf:6a4c:af8b with SMTP id
- bi15-20020a05600c3d8f00b003cf6a4caf8bmr8387189wmb.115.1668769096401; 
- Fri, 18 Nov 2022 02:58:16 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4EX1ezokQ/xV2/vooDpAF544GPsminjekyndTqx1XMBevmyEmo0eOdVIcwrh9ArNhlB9ScOA==
-X-Received: by 2002:a05:600c:3d8f:b0:3cf:6a4c:af8b with SMTP id
- bi15-20020a05600c3d8f00b003cf6a4caf8bmr8387171wmb.115.1668769096148; 
- Fri, 18 Nov 2022 02:58:16 -0800 (PST)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- 23-20020a05600c229700b003cf75213bb9sm8275081wmf.8.2022.11.18.02.58.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Nov 2022 02:58:15 -0800 (PST)
-Message-ID: <d3a98578-ff01-8487-60c3-86b14b41f514@redhat.com>
-Date: Fri, 18 Nov 2022 11:58:14 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Ovobe2fmhyuPYDoklkU2etCcFH2NxQp5RSdNIJe8b60=;
+ b=0AhBoMt7YwzYZ/eQCBuEcfdc4aw1TjCec0eF6rN+pMmBrs7Js4x5syfg2KBGjvjWCB
+ FrEza6uq2Fh1uW0yUrFG+FgT1af+eKMMtWESp/iPub2YZx8MdwU73yVU1pPHOfu6etyg
+ xy+tRN7hdL/zBQtpVzN/CDTkqsf0RvRcuEWMXI2csNPV7vy151KnIjTCk0yJ3QDaW7zW
+ ry4avLzSaqpAdedHkWNZ+ftowmerpUCbOiE7SIJikDJpqr0LyDuB1rt8xzzyMOcgCM/S
+ il4oMxblaM3NW+SqpC/On8r+EIY2YORVnEhoD/ORgxbG7jeqzNvuoFEzcy9ekBdo2pSX
+ bcUw==
+X-Gm-Message-State: ANoB5pkKTTo/RZShfGqgz7vHPM/KDD4TgfPJG6mK4kflgxfXP2T+8JLY
+ a211QFqR1eTMzLZ8qv5zbFZn3a44iUObN96C5m+2ZQ==
+X-Google-Smtp-Source: AA0mqf5JTyZRxJWSp9nZNeFD4B5joGQXfKxY0vIOKubrYnUYC6PwJW0ADwQKqfVPCvXfPacDmoHvfB03MLfTPf0+K8k=
+X-Received: by 2002:a0d:f846:0:b0:37b:e3ae:decc with SMTP id
+ i67-20020a0df846000000b0037be3aedeccmr6063826ywf.418.1668769281590; Fri, 18
+ Nov 2022 03:01:21 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: DRM-managed resources / devm_drm_dev_alloc leaking resources
-To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter
- <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>
-References: <20221117165311.vovrc7usy4efiytl@houat>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221117165311.vovrc7usy4efiytl@houat>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <1668725369-6331-1-git-send-email-quic_khsieh@quicinc.com>
+ <1668725369-6331-2-git-send-email-quic_khsieh@quicinc.com>
+In-Reply-To: <1668725369-6331-2-git-send-email-quic_khsieh@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 18 Nov 2022 13:01:10 +0200
+Message-ID: <CAA8EJppjMK=SNbnir4QGgVJ5we1UGjrrvG6KJFgcSfRVZZm8sw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] arm64: dts: qcom: add data-lanes and
+ link-freuencies into dp_out endpoint
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,144 +67,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: quic_sbillaka@quicinc.com, quic_abhinavk@quicinc.com, airlied@linux.ie,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ dianders@chromium.org, vkoul@kernel.org, agross@kernel.org,
+ bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org, swboyd@chromium.org,
+ sean@poorly.run, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Maxime,
+On Fri, 18 Nov 2022 at 00:50, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+>
+> Add both data-lanes and link-frequencies property to dp_out endpoint.
 
-On 11/17/22 17:53, Maxime Ripard wrote:
-> Hi,
-> 
-> After trying to get more kunit tests for KMS, I found out that the
-> recent kunit helpers we merged to create a DRM device [1] are broken and
-> won't free their device-managed and DRM-managed resources.
-> 
-> With some help from Thomas, we've dug into this and it turns out that if
-> we allocate a device with root_device_register, initialise our drm
-> device with devm_drm_dev_alloc(), register it using drm_dev_register(),
-> unregister it using drm_dev_unregister/drm_dev_unplug and then remove
-> the parent device, neither the device managed nor the DRM managed
-> actions are run.
-> 
-> root_device_register initializes the device by eventually calling
-> device_initialize() which sets the initial reference count of the root
-> device to 1 [2]. devm_drm_dev_alloc() then comes in, drm_dev_init() will
-> increase the root device refcount [3] and initialize our DRM device to 1
-> [4]. drm_dev_register(), through drm_minor_register() and device_add(),
-> will increase the root device refcount [5].
-> 
-> When unrolling things, drm_dev_unregister(), through
-> drm_minor_unregister() and device_del(), will give up its reference [6].
-> root_device_unregister(), through device_unregister(), will also give up
-> its own [7].
-> 
-> So we end up with this for the reference counts:
-> 
-> +------------------------+-------------+------------+
-> |         funcs          | root device | DRM device |
-> +------------------------+-------------+------------+
-> | root_device_register   |           1 | N/A        |
-> | devm_drm_dev_alloc     |           2 | 1          |
-> | drm_dev_register       |           3 | 1          |
-> | drm_dev_unregister     |           2 | 1          |
-> | root_device_unregister |           1 | 1          |
-> +------------------------+-------------+------------+
-> 
-> If we go back to the list of reference taken, the root device reference
-> and the initial drm_device reference, both taken by devm_drm_dev_alloc()
-> through drm_dev_init(), haven't been put back.
-> 
-> If we look at the drm_dev_init code(), we can see that it sets up a
-> DRM-managed action [8] that will put back the device reference [9]. The
-> DRM-managed code is executed by the drm_managed_cleanup() function, that
-> is executed as part of a release hook [10] executed once we give up the
-> final reference to the DRM device [11].
-> 
-> If we go back a little, the final reference to the DRM device is
-> actually the initial one setup by devm_drm_dev_alloc(). This function
-> has superseded drm_dev_alloc(), with the documentation that we do need a
-> final drm_dev_put() to put back our final reference [12].
-> 
-> devm_drm_dev_alloc() is a more convenient variant that has been
-> introduced explicitly to not require that drm_dev_put(), and states it
-> as such in the documentation [13]. It does so by adding a device-managed
-> action that will call drm_dev_put() [14].
-> 
-> Device-managed actions are ran as part devres_release_all() that is
-> called by device_release() [15], itself being run when the last
-> reference on the device is put back [16][17][18].
+Bindings update?
+Deprecate the old data-lanes property?
+
+> Also set link-frequencies to 810000 khz at herobrine platform to have
+> max link rate limited at 810000 khz (HBR3).
+
+No. As  I stated before, the link-frequencies should list all
+supported frequencies (min/max in case the frequencies are
+continuous).
+Stating just maximum is against the property description.
+
+>
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> ---
+>  arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi   |  9 ++++++++-
+>  arch/arm64/boot/dts/qcom/sc7180.dtsi           |  5 -----
+>  arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi | 10 +++++++++-
+>  arch/arm64/boot/dts/qcom/sc7280.dtsi           |  5 -----
+>  4 files changed, 17 insertions(+), 12 deletions(-)
 >
 
-Thanks a lot for the write up. It was very informative and detailed.
+[skipped the sc7180 here. All comments noted against sc7280 apply to
+sc7180 too].
 
-> So if we sum things up, the DRM device will only give its last root
-> device reference when the last DRM device reference will be put back,
-> and the last DRM device reference will be put back when the last device
-> reference will be put back, which sounds very circular to me, with both
-> ending up in a deadlock scenario.
+> diff --git a/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi b/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi
+> index 93e39fc..e8fca18 100644
+> --- a/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi
+> @@ -440,7 +440,15 @@ ap_i2c_tpm: &i2c14 {
+>         status = "okay";
+>         pinctrl-names = "default";
+>         pinctrl-0 = <&dp_hot_plug_det>;
+> -       data-lanes = <0 1>;
+> +       ports {
+> +               port@1 {
+> +                       reg = <1>;
+> +                       dp_out: endpoint {
+> +                               data-lanes = <0 1>;
+> +                               link-frequencies=<810000>;
+
+Following the existing examples is nice. Not following them is frowned upon.
+
+> +                       };
+> +               };
+> +       };
+
+Just:
+
+&dp_out {
+    data-lanes = <0  1>;
+    link-frequencies = /bits/ 64 <160000000 270000000 540000000 810000000>;
+};
+
+>  };
 >
+>  &mdss_mdp {
+> diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> index a646405..4afe53b 100644
+> --- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> @@ -3899,11 +3899,6 @@
+>                                                         remote-endpoint = <&dpu_intf0_out>;
+>                                                 };
+>                                         };
+> -
+> -                                       port@1 {
+> -                                               reg = <1>;
+> -                                               dp_out: endpoint { };
+> -                                       };
 
-So my conclusion after looking at this is the same than your, that the
-drivers would need to signal somehow to the DRM core when a DRM device
-won't be used anymore and drop the final reference to the DRM device.
+Please leave it here. It is a part of the SoC, so it should be in SoC dtsi.
 
-That is, I don't think we can get away of drivers not calling either
-drm_dev_put().
-
-I think that we should try to simplify the DRM register and release API
-and make very clear in the documentation what should be used. Right now
-for example as you mentioned we have both drm_dev_unregister() and
-drm_dev_unplug() but AFAICT the only difference is that the latter does
-a sync to protect critical sections during drm_dev_{enter,exit}().
-
-The drawback is that the DRM device will be marked as unplugged before
-drm_atomic_helper_shutdown(), but is this really a problem in practice?
-
-Maybe we can just rename drm_dev_unplug() to drm_dev_unregister() and
-drm_dev_unregister() to __drm_dev_unregister(). That way, the register
-path could always be:
-
-   devm_drm_dev_alloc()
-   drm_dev_register()
-
-and then in the release path:
-
-   drm_dev_unregister()
-   drm_dev_put()
-
-making both DRM-managed and device-managed resources to always work.
-
-> I've added two kunit tests that demonstrate the issue: we register a
-> device, allocate and register a DRM device, register a DRM-managed
-> action, remove the DRM device and the parent device, and wait for the
-> action to execute. drm_register_unregister_with_devm_test() uses the
-> broken(?) devm_drm_dev_alloc and is failing.
-> drm_register_unregister_test uses the deprecated drm_dev_alloc() that
-> requires an explicit call to drm_dev_put() which works fine.
+>                                 };
 >
-
-Great. In my opinion we should add these Kunit tests even when they are
-exposing an issue in the devm_drm_dev_alloc() helper.
- 
-> It's also worth noting that Thomas tested with simpledrm and it seems to
-> work fine. Using a platform_device instead of the root_device doesn't
-> change anything to the outcome in my tests, so there might be a more
-> subtle behaviour involved.
->
-
-That's strange because AFAICT simpledrm is basically doing the same than
-your failing tests. I tried to look at the differences but couldn't spot
-anything evident...
- 
-> Thanks,
-> Maxime
-> 
+>                                 dp_opp_table: opp-table {
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+With best wishes
+Dmitry
