@@ -2,36 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B5F962F854
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 15:54:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1ADB62F85C
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 15:55:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C990B10E758;
-	Fri, 18 Nov 2022 14:54:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A7CB10E704;
+	Fri, 18 Nov 2022 14:55:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 525EC10E754
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 14:54:15 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1ow2ku-0005ve-Tv; Fri, 18 Nov 2022 15:54:12 +0100
-Message-ID: <adcb1b3dec89a18d6c3c4ee6e179b9b2c9f25046.camel@pengutronix.de>
-Subject: [GIT PULL] etnaviv-next for 6.2
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Fri, 18 Nov 2022 15:54:11 +0100
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+X-Greylist: delayed 12751 seconds by postgrey-1.36 at gabe;
+ Fri, 18 Nov 2022 14:55:30 UTC
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED0B110E704
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 14:55:30 +0000 (UTC)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out1.suse.de (Postfix) with ESMTP id A1D8221FB8;
+ Fri, 18 Nov 2022 14:55:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1668783329; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=RcWbup5BnnjHzEPpsHQeQ/9zmfC/ktCQBWDNShm4WAU=;
+ b=EDb4yO6yUhovxR1R/uuiYft78ukr2h+oU+IjaIre1crSLD6FqDa7tOBl7T9GdFyjImWzLl
+ fuZVE7BJe7raqlKMXUK6GnRr1NqEKply8FF3aod58x9Whn9xAOWMtUkNgxO/GnqpzSdULK
+ TFzAN6y09Rae96AY+OVlAOuIn3VhXg8=
+Received: from suse.cz (unknown [10.100.201.202])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by relay2.suse.de (Postfix) with ESMTPS id 093D42C141;
+ Fri, 18 Nov 2022 14:55:28 +0000 (UTC)
+Date: Fri, 18 Nov 2022 15:55:27 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: John Ogness <john.ogness@linutronix.de>
+Subject: Re: [PATCH printk v5 00/40] reduce console_lock scope
+Message-ID: <Y3ec3/fpdAQacAOW@alley>
+References: <20221116162152.193147-1-john.ogness@linutronix.de>
+ <Y3drEOkD1fuZcvV2@alley>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y3drEOkD1fuZcvV2@alley>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,63 +53,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, linux-efi@vger.kernel.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Peter Zijlstra <peterz@infradead.org>, kgdb-bugreport@lists.sourceforge.net,
+ dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
+ Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
+ Alim Akhtar <alim.akhtar@samsung.com>, Jiri Slaby <jirislaby@kernel.org>,
+ Ard Biesheuvel <ardb@kernel.org>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ linux-samsung-soc@vger.kernel.org, Tom Rix <trix@redhat.com>,
+ Richard Weinberger <richard@nod.at>, Helge Deller <deller@gmx.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, linux-serial@vger.kernel.org,
+ Aaron Tomlin <atomlin@redhat.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Paolo Abeni <pabeni@redhat.com>, Michal Simek <michal.simek@xilinx.com>,
+ linux-um@lists.infradead.org, Steven Rostedt <rostedt@goodmis.org>,
+ linux-m68k@lists.linux-m68k.org, Jakub Kicinski <kuba@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-arm-kernel@lists.infradead.org, Juergen Gross <jgross@suse.com>,
+ Mathias Nyman <mathias.nyman@linux.intel.com>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Luis Chamberlain <mcgrof@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jason Wessel <jason.wessel@windriver.com>, linux-fsdevel@vger.kernel.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Johannes Berg <johannes@sipsolutions.net>, linuxppc-dev@lists.ozlabs.org,
+ "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, hi Daniel,
+On Fri 2022-11-18 12:22:58, Petr Mladek wrote:
+> On Wed 2022-11-16 17:27:12, John Ogness wrote:
+> > This is v5 of a series to prepare for threaded/atomic
+> > printing. v4 is here [0]. This series focuses on reducing the
+> > scope of the BKL console_lock. It achieves this by switching to
+> > SRCU and a dedicated mutex for console list iteration and
+> > modification, respectively. The console_lock will no longer
+> > offer this protection.
+> 
+> The patchset looks ready for linux-next from my POV.
+> 
+> I am going to push it there right now to get as much testing
+> as possible before the merge window.
 
-please pull the following etnaviv changes for the next merge window.
-Mostly some small workarounds to get new hardware support going. But
-also more fixes to the softpin MMU handling and a nice addition from
-Christian to make the kernel logs on hang detection more useful.
+JFYI, the patchset is committed in printk/linux.git,
+branch rework/console-list-lock.
 
-Regards,
-Lucas
+I'll eventually merge it into rework/kthreads. But I wanted to have
+it separated until it gets some more testing in linux-next and
+eventually some more review.
 
-The following changes since commit 3d7cb6b04c3f3115719235cc6866b10326de34cd:
-
-  Linux 5.19 (2022-07-31 14:03:01 -0700)
-
-are available in the Git repository at:
-
-  https://git.pengutronix.de/git/lst/linux etnaviv/next
-
-for you to fetch changes up to a3b4c2f9b03917d5d640bc6e3f42c24695967552:
-
-  drm/etnaviv: switch to PFN mappings (2022-11-16 21:36:38 +0100)
-
-----------------------------------------------------------------
-Christian Gmeiner (1):
-      drm/etnaviv: print offender task information on hangcheck recovery
-
-Doug Brown (2):
-      drm/etnaviv: add missing quirks for GC300
-      drm/etnaviv: fix power register offset on GC300
-
-Lucas Stach (4):
-      drm/etnaviv: move idle mapping reaping into separate function
-      drm/etnaviv: reap idle mapping if it doesn't match the softpin address
-      drm/etnaviv: don't truncate physical page address
-      drm/etnaviv: switch to PFN mappings
-
-Marco Felsch (2):
-      drm/etnaviv: disable tx clock gating for GC7000 rev6203
-      drm/etnaviv: add HWDB entry for GC7000 r6203
-
-T.J. Mercier (1):
-      drm/etnaviv: Remove duplicate call to drm_gem_free_mmap_offset
-
- drivers/gpu/drm/etnaviv/etnaviv_dump.c       |  7 +++++-
- drivers/gpu/drm/etnaviv/etnaviv_gem.c        | 19 +++++++++------
- drivers/gpu/drm/etnaviv/etnaviv_gem.h        |  1 +
- drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c |  6 +++++
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c        | 58 ++++++++++++++++++++++++++++++++--------------
- drivers/gpu/drm/etnaviv/etnaviv_gpu.h        | 23 +++++++++++++++++-
- drivers/gpu/drm/etnaviv/etnaviv_hwdb.c       | 31 +++++++++++++++++++++++++
- drivers/gpu/drm/etnaviv/etnaviv_mmu.c        | 27 +++++++++++++--------
- drivers/gpu/drm/etnaviv/etnaviv_mmu.h        |  1 +
- drivers/gpu/drm/etnaviv/etnaviv_sched.c      |  2 +-
- 10 files changed, 138 insertions(+), 37 deletions(-)
-
+Best Regards,
+Petr
