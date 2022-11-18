@@ -1,80 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C93262F673
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 14:41:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8418162F684
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 14:44:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73D8610E088;
-	Fri, 18 Nov 2022 13:41:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DEA510E050;
+	Fri, 18 Nov 2022 13:44:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6C9E10E088
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 13:41:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E345C10E050
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 13:44:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668778886;
+ s=mimecast20190719; t=1668779091;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ram0fxHmsZGxDUyD+WE0J7ZuzKKqh3rr7YEBxmiB/rs=;
- b=B7Q2ng7Ai1jUPqMy+cOdiwrJF6SW8I+ouBju1YaoY2t6iPSxi/UD00o4cMkwEpW41TGvrq
- X8JyRaJkCVE8NUuJAj/Ss9awzkQ3jpaL0P3MrVGWqhhRmyN02cE6Evs//ZwbnZXyihAdY9
- TUWLq81Xtdn1pVS9EkVbiA4RkER/zYY=
+ bh=3wspIbRguKZ3H2ExPVy8laoW380DWu7RPwbmv7AgWgE=;
+ b=Bg+Rn+CtuYMadLTNdY/dxUL9YL/I/V2G4wRu5hHwDARleHy/FpOOln3gKQnHkmKxzTxk31
+ KFGX7bLk1N8JBN4Nd2HbAEPuEFpRzNBJQCRof3AAjF3jd/Klwz8fylRSq922W6aOqMIk/K
+ r6NjCdW+1GEnpJyM2FWy9AQMN5Rymnw=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-413-At3W43KQMqWQVm1isfHHdQ-1; Fri, 18 Nov 2022 08:41:25 -0500
-X-MC-Unique: At3W43KQMqWQVm1isfHHdQ-1
+ us-mta-623-AOuKmayWOYCpo02Yn_e9ow-1; Fri, 18 Nov 2022 08:44:49 -0500
+X-MC-Unique: AOuKmayWOYCpo02Yn_e9ow-1
 Received: by mail-wr1-f69.google.com with SMTP id
- t12-20020adfa2cc000000b0022adcbb248bso1570213wra.1
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 05:41:25 -0800 (PST)
+ k7-20020adfc707000000b002416f2e9ad5so1593810wrg.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 05:44:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Ram0fxHmsZGxDUyD+WE0J7ZuzKKqh3rr7YEBxmiB/rs=;
- b=4mmvsyL1viBVxLMse25EdR2GtHTx/FtpoRLsTn7+F02B1xt3zXxseNgQcA6/AIvDuc
- nWXRQn5UfZTd2tQpBi3tfCwaBoaPce6rVIImS6y6iQ8/r1bzLQ5KKkz19f3V/yVL9+4i
- YKqv8bdrOFW7zCMpImi5RseEr9ckmE7ASRSX68Qv/p0ywGpe74zducsRmy2buAOGcdIX
- taZ/X5hTztRFaJTVLZHBRzQGEntkqU+1VrRg+aFJfTNjqlsI1OD9Cg2yoNRI7hjs4i8k
- /llSXciehXnzIPKH1W+bx2csiboOaZN4798TDgKMLe6/BoR4J9O+BeAUF7BH6FE4lSUv
- 0W3A==
-X-Gm-Message-State: ANoB5plHPcZ/Y3teER8VrAeMYx+fy6Mtg/hLV79BejuPey7blFaJeME1
- zoV6kYnroPZnRadHnslMTMrx22vBOBOiu5pK05gNAEe+38OQANR69LTc9tMdMPVMU2LdYB2958b
- qYpBnua+Lb1uWJgH62cpZzHy8rbgM
-X-Received: by 2002:a5d:4c42:0:b0:236:6f90:3e55 with SMTP id
- n2-20020a5d4c42000000b002366f903e55mr4378461wrt.374.1668778883669; 
- Fri, 18 Nov 2022 05:41:23 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6XLvWuWvd4Jd2lEeB3aExRzJOdGWzwQJmIcCNtrHxAtn0Vt/Tg+2tMwIXMQ4LM1et29YRKVw==
-X-Received: by 2002:a5d:4c42:0:b0:236:6f90:3e55 with SMTP id
- n2-20020a5d4c42000000b002366f903e55mr4378454wrt.374.1668778883486; 
- Fri, 18 Nov 2022 05:41:23 -0800 (PST)
+ bh=3wspIbRguKZ3H2ExPVy8laoW380DWu7RPwbmv7AgWgE=;
+ b=Iv41NzlJ9Gqv+No+oIIbxt28OfRDnau4A73Kz0HreUM1rXfbmEExPhRmOgOdfDHvgH
+ i0C/DvGJUOkX55kSyItYRT7v8zEAuZu9dBQ2ULd8h7msTFPhrHhBj91o3XgA08l+8Z8I
+ Y+a6m4lYiZueAq7D/G58ULN9KQ+fvqOZdWGWWCuxGPTMDI4F2I68rUmmG7szBUhbXInG
+ OCwe7mRfILLG1INMnow3M9F0Q3MhH/POcZVw1UKrYvZyzCefREF6UCC3pgUI5z4cDNPz
+ yDSRjHPahYJrPL+dnHcjGigY2S7aaiR7UEt0keKGYiKxQ+J7U4Sby94BBeFoRJFfT70X
+ uOtg==
+X-Gm-Message-State: ANoB5pnbwa77ir0CwGHk3KA7YKmaCnLJb51j888IA+e0AXM2U/gSzgN7
+ Fm1XVKKYxoxaNYCTm+ajfiiLK5fjOo7bf7nz2auAIYMTlNr5N2j4h0xOmAIQDPEAwxvdESxIH1v
+ 5L7nAScT2FcBx13HcdYcDabhyOBS0
+X-Received: by 2002:a05:600c:600c:b0:3cf:81b1:bc7b with SMTP id
+ az12-20020a05600c600c00b003cf81b1bc7bmr8389990wmb.121.1668779087012; 
+ Fri, 18 Nov 2022 05:44:47 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4s4c+DL0XV0gYAoWwZ6gcR5oaOQBm2MCyU62ERU5MCR+CeOegBkiaWdMXc1cxLsOsr8Lyy4Q==
+X-Received: by 2002:a05:600c:600c:b0:3cf:81b1:bc7b with SMTP id
+ az12-20020a05600c600c00b003cf81b1bc7bmr8389972wmb.121.1668779086821; 
+ Fri, 18 Nov 2022 05:44:46 -0800 (PST)
 Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- l8-20020a5d4bc8000000b002238ea5750csm2345019wrt.72.2022.11.18.05.41.22
+ x11-20020a5d60cb000000b00241bc4880fesm2893039wrt.111.2022.11.18.05.44.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Nov 2022 05:41:22 -0800 (PST)
-Message-ID: <5893d46d-ca8a-81e4-2884-aa682ef69872@redhat.com>
-Date: Fri, 18 Nov 2022 14:41:21 +0100
+ Fri, 18 Nov 2022 05:44:46 -0800 (PST)
+Message-ID: <6e20b9fc-664e-a324-3304-dae740136a23@redhat.com>
+Date: Fri, 18 Nov 2022 14:44:45 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH 2/7] drm/logicvc: Fix preferred fbdev cpp
+Subject: Re: [PATCH 3/7] drm/cirrus: Decouple fbdev bpp value from color depth
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
  xinliang.liu@linaro.org, tiantao6@hisilicon.com, jstultz@google.com,
  kong.kongxinwei@hisilicon.com, puck.chen@hisilicon.com,
  paul.kocialkowski@bootlin.com, airlied@redhat.com, kraxel@redhat.com
 References: <20221116160917.26342-1-tzimmermann@suse.de>
- <20221116160917.26342-3-tzimmermann@suse.de>
- <521e43bb-0c76-f3b7-aa78-8ed97edce613@redhat.com>
- <10c809cb-2ea9-273c-bfd2-a267e6219f22@suse.de>
+ <20221116160917.26342-4-tzimmermann@suse.de>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <10c809cb-2ea9-273c-bfd2-a267e6219f22@suse.de>
+In-Reply-To: <20221116160917.26342-4-tzimmermann@suse.de>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -96,36 +94,31 @@ Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/18/22 14:22, Thomas Zimmermann wrote:
-
-[...]
-
->>
->> I'm also not sure if this is needed. Since IIUC in logicvc_mode_init() the
->> driver does:
->>
->> 	preferred_depth = layer_primary->formats->depth;
->>
->> 	/* DRM counts alpha in depth, our driver doesn't. */
->> 	if (layer_primary->formats->alpha)
->> 		preferred_depth += 8;
->>
->> 	...
->> 	mode_config->preferred_depth = preferred_depth;
->>
->> So it seems this patch is not needed? Unless I'm misunderstanding the code.
+On 11/16/22 17:09, Thomas Zimmermann wrote:
+> Cirrus has a preferred color depth of 16 bit; also use it as fbdev
+> bpp value. Don't use the color depth directly. It has a different
+> meaning than bpp and both cannot be used interchangeably.
 > 
-> The driver uses XRGB8888, so the 24-bit color depth has a 32-bit bpp 
-> value. Hence the switch.
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/tiny/cirrus.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
+> diff --git a/drivers/gpu/drm/tiny/cirrus.c b/drivers/gpu/drm/tiny/cirrus.c
+> index 678c2ef1cae70..cf35b60905032 100644
+> --- a/drivers/gpu/drm/tiny/cirrus.c
+> +++ b/drivers/gpu/drm/tiny/cirrus.c
+> @@ -604,7 +604,7 @@ static int cirrus_pci_probe(struct pci_dev *pdev,
+>  	if (ret)
+>  		return ret;
+>  
+> -	drm_fbdev_generic_setup(dev, dev->mode_config.preferred_depth);
+> +	drm_fbdev_generic_setup(dev, 16);
 
-Ah, I see. So is to set 32-bit bpp for both XRGB8888 and ARGB8888. But then
-I think that you also need to fix logicvc_mode_init() to remove that += 8?
+Even though this is not strictly needed as you mentioned, I agree that
+it's better to decouple it from the color depth and make it explicit.
 
-Because right now the preferred_depth += 8 would set a preferred_depth of 32
-when should be just 24 even if alpha is enabled?
-
-Or am I confusing again the meaning of the color depth?
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
 Best regards,
