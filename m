@@ -2,60 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1458462FDD5
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 20:16:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C21162FDD7
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 20:17:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3029910E239;
-	Fri, 18 Nov 2022 19:16:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB5DA10E23C;
+	Fri, 18 Nov 2022 19:17:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0B2610E7B2;
- Fri, 18 Nov 2022 19:16:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1668798970; x=1700334970;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=4c0RnUr6SOsHxsYhuejWyDU/paf7akST0jijN6gV6T4=;
- b=sdApPgKux3ZsVrX7F2se8jXeb+BItYD1njI1BChK5Yj+FQ6zvtHuQ7kI
- FlinFYxus/RnJx29kj9mhBsJFUdSpFASgW6XMLMfotTQxjAWWw21U8DgJ
- 8RaLtdl7EMRp2+u9HrAgwr+wWo/2uHSd76CiF06mr+P2jFhSnUOm4YTHk E=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 18 Nov 2022 11:16:09 -0800
-X-QCInternal: smtphost
-Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
- by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Nov 2022 11:16:09 -0800
-Received: from [10.71.111.47] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Fri, 18 Nov
- 2022 11:16:08 -0800
-Message-ID: <fd363264-8f91-6155-6a74-1dd3b12e7cdd@quicinc.com>
-Date: Fri, 18 Nov 2022 11:15:49 -0800
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2EE310E23C
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 19:17:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668799039;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=frhHccDg+zfkvzEA1uCRGBwYY1DJhjptF8PMs1qT5P0=;
+ b=O8LJ//MZF5zTGqILRJQG5+RgVlXKuUNoe2j+0+msTnnaPvx9ce3S0QwWgRpwBdJIryzCBX
+ xcrRoNnCDIfzPx/6ig3bYxI+583EcJMsrXBZvr/hXWTuV/Op0gLg7kVbMJLKhrHuugFA4D
+ POP7+lUZC0InljfT9lbGPWuxGOYZp/o=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-248-VLwXoMsUNIyMM5xqMy7WPQ-1; Fri, 18 Nov 2022 14:17:18 -0500
+X-MC-Unique: VLwXoMsUNIyMM5xqMy7WPQ-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ s14-20020a05622a1a8e00b00397eacd9c1aso5816157qtc.21
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 11:17:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:user-agent:organization
+ :references:in-reply-to:date:cc:to:from:subject:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=frhHccDg+zfkvzEA1uCRGBwYY1DJhjptF8PMs1qT5P0=;
+ b=e4GjMlAO8gOf6s9xKeTctfxngTxTA1jXr/wKBulytx8RBoX2LNGkxUZfYXPxfqnAAW
+ 6y7Nz6WEAZsEkXwmH86QJ5ywLm8c2S2JWwYCPM3hlkthIkp4MJmg7TqzvsyywVD8mYZM
+ xeymjaevb+Il/ps+LSZbKMuEt3LG5pIxrHqS43ZzBYaZHInKsRhve30PoxHATd64m6Ac
+ G7YVNTA42iMaYTCsBr4ErPqQhxzbjSt0mgUP9rDdhK6hj7y0D1Sy5dyvJrEGIR7R1vX7
+ NgjEO9F0DAuHNigzuBFF6K7bY3wHnFAglBOHHK3CwSzEUwhhKw9leyBGUzjr9wkvPDAO
+ Yh6Q==
+X-Gm-Message-State: ANoB5pmwt65G/UGvk43f18Z8fW9besCIWaR/kOK5KkO3z9dG1as9p8bw
+ zHcoVIM4mMkY7bgmBVerP9AAPX9N1hD3oMCfOPNiWyCAMXdy4tewQZbgzwHggTpkF7nNx1j0KbH
+ MBNRZxMwwKNjo2/S5DX9Aovj2HhtX
+X-Received: by 2002:a05:6214:4585:b0:4b4:51f1:7d74 with SMTP id
+ op5-20020a056214458500b004b451f17d74mr8157350qvb.121.1668799038002; 
+ Fri, 18 Nov 2022 11:17:18 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5+EAonWmc5h50OmzV0RewboHT1ubQw3JqJoS0ob9tW5tgTADkeqIvv5LHetK6Tey/hdtWIZQ==
+X-Received: by 2002:a05:6214:4585:b0:4b4:51f1:7d74 with SMTP id
+ op5-20020a056214458500b004b451f17d74mr8157325qvb.121.1668799037659; 
+ Fri, 18 Nov 2022 11:17:17 -0800 (PST)
+Received: from ?IPv6:2600:4040:5c6c:9200::feb? ([2600:4040:5c6c:9200::feb])
+ by smtp.gmail.com with ESMTPSA id
+ bp44-20020a05620a45ac00b006fb93acc788sm2958579qkb.6.2022.11.18.11.17.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Nov 2022 11:17:16 -0800 (PST)
+Message-ID: <35e55d8040afdcb5684bec16ff710ce5ff32b202.camel@redhat.com>
+Subject: Re: [PATCH v2 1/4] drm/amdgpu/mst: Stop ignoring error codes and
+ deadlocking
+From: Lyude Paul <lyude@redhat.com>
+To: "Lin, Wayne" <Wayne.Lin@amd.com>, "amd-gfx@lists.freedesktop.org"
+ <amd-gfx@lists.freedesktop.org>
+Date: Fri, 18 Nov 2022 14:17:14 -0500
+In-Reply-To: <CO6PR12MB548932515652B8D3130C66DEFC079@CO6PR12MB5489.namprd12.prod.outlook.com>
+References: <20221114221754.385090-1-lyude@redhat.com>
+ <20221114221754.385090-2-lyude@redhat.com>
+ <CO6PR12MB548932515652B8D3130C66DEFC079@CO6PR12MB5489.namprd12.prod.outlook.com>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [RFC PATCH 1/3] drm: Introduce color fill properties for drm plane
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20221028225952.160-1-quic_jesszhan@quicinc.com>
- <20221028225952.160-2-quic_jesszhan@quicinc.com>
- <eddf4726-3d7e-601a-51ac-03adb2dd822b@linaro.org>
- <fqY-wVvRxd553E0flH80_NaZMpmiVTIdhvu6F31qM9T4yQ0L5fbT9JiixWIhDcDAt3Hxy1roQxwntvgVEnqm5WK6dzEIKqXnlLRcywGhYH4=@emersion.fr>
- <Y2uwjKCN4KGzm3aN@phenom.ffwll.local>
- <ee755c43-434a-a990-0efa-ed5c6baa237e@linaro.org>
- <Y2uyOcVbadRwr9/O@phenom.ffwll.local>
- <1f291321-1319-f6d8-b2cb-85ddbe970766@quicinc.com>
- <Y24ZsAhAscVJd4Uf@phenom.ffwll.local>
-Content-Language: en-US
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <Y24ZsAhAscVJd4Uf@phenom.ffwll.local>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,122 +88,714 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, daniel.vetter@ffwll.ch, seanpaul@chromium.org,
- laurent.pinchart@ideasonboard.com, linux-arm-msm@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: "Liu, Wenjing" <Wenjing.Liu@amd.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>, "Mahfooz,
+ Hamza" <Hamza.Mahfooz@amd.com>, "Francis, David" <David.Francis@amd.com>,
+ "Siqueira, Rodrigo" <Rodrigo.Siqueira@amd.com>, "Hung, 
+ Alex" <Alex.Hung@amd.com>, "Zuo, Jerry" <Jerry.Zuo@amd.com>, "Pillai,
+ Aurabindo" <Aurabindo.Pillai@amd.com>, "Li,
+ Sun peng \(Leo\)" <Sunpeng.Li@amd.com>, "Wu, Hersen" <hersenxs.wu@amd.com>,
+ Mikita Lipski <mikita.lipski@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>, "Li,
+ Roman" <Roman.Li@amd.com>, "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ "Koenig, Christian" <Christian.Koenig@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>, "Kazlauskas, 
+ Nicholas" <Nicholas.Kazlauskas@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+JFYI, Coverity pointed out one more issue with this series so I'm going to
+send out a respin real quick to fix it. It's just a missing variable
+assignment (we leave ret unassigned by mistake in
+pre_compute_mst_dsc_configs()) so I will carry over your r-b on it.
 
-
-On 11/11/2022 1:45 AM, Daniel Vetter wrote:
-> On Wed, Nov 09, 2022 at 05:44:37PM -0800, Jessica Zhang wrote:
->>
->>
->> On 11/9/2022 5:59 AM, Daniel Vetter wrote:
->>> On Wed, Nov 09, 2022 at 04:53:45PM +0300, Dmitry Baryshkov wrote:
->>>> On 09/11/2022 16:52, Daniel Vetter wrote:
->>>>> On Tue, Nov 08, 2022 at 06:25:29PM +0000, Simon Ser wrote:
->>>>>> On Saturday, October 29th, 2022 at 13:23, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
->>>>>>
->>>>>>> On 29/10/2022 01:59, Jessica Zhang wrote:
->>>>>>>
->>>>>>>> Add support for COLOR_FILL and COLOR_FILL_FORMAT properties for
->>>>>>>> drm_plane. In addition, add support for setting and getting the values
->>>>>>>> of these properties.
->>>>>>>>
->>>>>>>> COLOR_FILL represents the color fill of a plane while COLOR_FILL_FORMAT
->>>>>>>> represents the format of the color fill. Userspace can set enable solid
->>>>>>>> fill on a plane by assigning COLOR_FILL to a uint64_t value, assigning
->>>>>>>> the COLOR_FILL_FORMAT property to a uint32_t value, and setting the
->>>>>>>> framebuffer to NULL.
->>>>>>>
->>>>>>> I suppose that COLOR_FILL should override framebuffer rather than
->>>>>>> requiring that FB is set to NULL. In other words, if color_filL_format
->>>>>>> is non-zero, it would make sense to ignore the FB. Then one can use the
->>>>>>> color_fill_format property to quickly switch between filled plane and
->>>>>>> FB-backed one.
->>>>>>
->>>>>> That would be inconsistent with the rest of the KMS uAPI. For instance,
->>>>>> the kernel will error out if CRTC has active=0 but a connector is still
->>>>>> linked to the CRTC. IOW, the current uAPI errors out if the KMS state
->>>>>> is inconsistent.
->>>>>
->>>>> So if the use-case here really is to solid-fill a plane (and not just
->>>>> provide a background color for the crtc overall), then I guess we could
->>>>> also extend addfb to make that happen. We've talked in the past about
->>>>> propertery-fying framebuffer objects, and that would sort out this uapi
->>>>> wart. And I agree the color fill vs PLANE_ID issue is a bit ugly at least.
->>>>>
->>>>> But if the use-cases are all background color then just doing the crtc
->>>>> background color would be tons simpler (and likely also easier to support
->>>>> for more hardware).
->>>>
->>>> No. The hardware supports multiple color-filled planes, which do not have to
->>>> cover the whole CRTC.
->>>
->>> The use case here means the userspace use-case. What the hw can do on any
->>> given chip kinda doesnt matter, which is why I'm asking. KMD uapi is not
->>> meant to reflect 100% exactly what a specific chip can do, but instead:
->>> - provide features userspace actually needs. If you want per-plane fill,
->>>     you need userspace that makes use of per-plane fill, and if all you have
->>>     is crtc background, then that's it.
->>
->> Hey Daniel,
->>
->> The userspace use case we're trying to support is the Android HWC SOLID_FILL
->> hint here [1], which is specifying per-plane fill.
+On Wed, 2022-11-16 at 04:39 +0000, Lin, Wayne wrote:
+> [Public]
 > 
-> Does surfaceflinger actually use this for more than background fills? Yes
-> I'm annoying, but if we can simplify the kernel driver implementation
-> burden by asking compositors to do the math and simplify things, then I
-> think we should.
-
-AFAIK surfaceflinger allows apps to use this for cases beyond just 
-background fill -- an app, for example, can pass the hint for a plane 
-that only partially covers a screen and the driver would be expected to 
-fill just that ROI.
-
+> All the patch set looks good to me. Feel free to add:
+> Reviewed-by: Wayne Lin <Wayne.Lin@amd.com>
 > 
-> We also need an open source implementation for this that works and is
-> tested end-to-end. There's the drm_hwc project, but last time I've checked
-> there's really not much happpening there unfortunately.
-
-FWIW, Simon mentioned in a separate reply that Wayland supports a 1x1 FB 
-support protocol [1] for a similar purpose as this RFC series. I can 
-also create an IGT test meanwhile showing an example of E2E usage.
-
-Thanks,
-
-Jessica
-
-[1] 
-https://gitlab.freedesktop.org/wayland/wayland-protocols/-/merge_requests/104
-
-> -Daniel
+> Again, thank you Lyude for helping on this!!!
 > 
->>
->> Thanks,
->>
->> Jessica Zhang
->>
->> [1] https://android.googlesource.com/platform/hardware/interfaces/+/refs/heads/master/graphics/composer/aidl/android/hardware/graphics/composer3/Composition.aidl#52
->>
->>> - we should create uapi with an eye towards what's actually possible on a
->>>     reasonable set of drivers and hw. Sometimes that means a slightly more
->>>     restricted set so that it's possible to implement in more places,
->>>     especially if that restricted feature set still gets the job done for
->>>     userspace.
->>>
->>> Cheers, Daniel
->>> -- 
->>> Daniel Vetter
->>> Software Engineer, Intel Corporation
->>> http://blog.ffwll.ch
+> Regards,
+> Wayne
+> > -----Original Message-----
+> > From: Lyude Paul <lyude@redhat.com>
+> > Sent: Tuesday, November 15, 2022 6:18 AM
+> > To: amd-gfx@lists.freedesktop.org
+> > Cc: Wentland, Harry <Harry.Wentland@amd.com>; stable@vger.kernel.org;
+> > Li, Sun peng (Leo) <Sunpeng.Li@amd.com>; Siqueira, Rodrigo
+> > <Rodrigo.Siqueira@amd.com>; Deucher, Alexander
+> > <Alexander.Deucher@amd.com>; Koenig, Christian
+> > <Christian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>; David
+> > Airlie <airlied@gmail.com>; Daniel Vetter <daniel@ffwll.ch>; Kazlauskas,
+> > Nicholas <Nicholas.Kazlauskas@amd.com>; Pillai, Aurabindo
+> > <Aurabindo.Pillai@amd.com>; Li, Roman <Roman.Li@amd.com>; Zuo, Jerry
+> > <Jerry.Zuo@amd.com>; Wu, Hersen <hersenxs.wu@amd.com>; Lin, Wayne
+> > <Wayne.Lin@amd.com>; Thomas Zimmermann <tzimmermann@suse.de>;
+> > Mahfooz, Hamza <Hamza.Mahfooz@amd.com>; Hung, Alex
+> > <Alex.Hung@amd.com>; Mikita Lipski <mikita.lipski@amd.com>; Liu,
+> > Wenjing <Wenjing.Liu@amd.com>; Francis, David
+> > <David.Francis@amd.com>; open list:DRM DRIVERS <dri-
+> > devel@lists.freedesktop.org>; open list <linux-kernel@vger.kernel.org>
+> > Subject: [PATCH v2 1/4] drm/amdgpu/mst: Stop ignoring error codes and
+> > deadlocking
+> > 
+> > It appears that amdgpu makes the mistake of completely ignoring the return
+> > values from the DP MST helpers, and instead just returns a simple true/false.
+> > In this case, it seems to have come back to bite us because as a result of
+> > simply returning false from compute_mst_dsc_configs_for_state(), amdgpu
+> > had no way of telling when a deadlock happened from these helpers. This
+> > could definitely result in some kernel splats.
+> > 
+> > V2:
+> > * Address Wayne's comments (fix another bunch of spots where we weren't
+> >   passing down return codes)
+> > 
+> > Signed-off-by: Lyude Paul <lyude@redhat.com>
+> > Fixes: 8c20a1ed9b4f ("drm/amd/display: MST DSC compute fair share")
+> > Cc: Harry Wentland <harry.wentland@amd.com>
+> > Cc: <stable@vger.kernel.org> # v5.6+
+> > ---
+> >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  18 +-
+> >  .../display/amdgpu_dm/amdgpu_dm_mst_types.c   | 235 ++++++++++------
+> > --
+> >  .../display/amdgpu_dm/amdgpu_dm_mst_types.h   |  12 +-
+> >  3 files changed, 147 insertions(+), 118 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > index 0db2a88cd4d7b..852a2100c6b38 100644
+> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > @@ -6462,7 +6462,7 @@ static int
+> > dm_update_mst_vcpi_slots_for_dsc(struct drm_atomic_state *state,
+> >  	struct drm_connector_state *new_con_state;
+> >  	struct amdgpu_dm_connector *aconnector;
+> >  	struct dm_connector_state *dm_conn_state;
+> > -	int i, j;
+> > +	int i, j, ret;
+> >  	int vcpi, pbn_div, pbn, slot_num = 0;
+> > 
+> >  	for_each_new_connector_in_state(state, connector,
+> > new_con_state, i) { @@ -6509,8 +6509,11 @@ static int
+> > dm_update_mst_vcpi_slots_for_dsc(struct drm_atomic_state *state,
+> >  			dm_conn_state->pbn = pbn;
+> >  			dm_conn_state->vcpi_slots = slot_num;
+> > 
+> > -			drm_dp_mst_atomic_enable_dsc(state, aconnector-
+> > > port, dm_conn_state->pbn,
+> > -						     false);
+> > +			ret = drm_dp_mst_atomic_enable_dsc(state,
+> > aconnector->port,
+> > +							   dm_conn_state-
+> > > pbn, false);
+> > +			if (ret < 0)
+> > +				return ret;
+> > +
+> >  			continue;
+> >  		}
+> > 
+> > @@ -9523,10 +9526,9 @@ static int amdgpu_dm_atomic_check(struct
+> > drm_device *dev,
+> > 
+> >  #if defined(CONFIG_DRM_AMD_DC_DCN)
+> >  	if (dc_resource_is_dsc_encoding_supported(dc)) {
+> > -		if (!pre_validate_dsc(state, &dm_state, vars)) {
+> > -			ret = -EINVAL;
+> > +		ret = pre_validate_dsc(state, &dm_state, vars);
+> > +		if (ret != 0)
+> >  			goto fail;
+> > -		}
+> >  	}
+> >  #endif
+> > 
+> > @@ -9621,9 +9623,9 @@ static int amdgpu_dm_atomic_check(struct
+> > drm_device *dev,
+> >  		}
+> > 
+> >  #if defined(CONFIG_DRM_AMD_DC_DCN)
+> > -		if (!compute_mst_dsc_configs_for_state(state, dm_state-
+> > > context, vars)) {
+> > +		ret = compute_mst_dsc_configs_for_state(state, dm_state-
+> > > context, vars);
+> > +		if (ret) {
+> > 
+> > 	DRM_DEBUG_DRIVER("compute_mst_dsc_configs_for_state()
+> > failed\n");
+> > -			ret = -EINVAL;
+> >  			goto fail;
+> >  		}
+> > 
+> > diff --git
+> > a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> > b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> > index 6ff96b4bdda5c..bba2e8aaa2c20 100644
+> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> > +++
+> > b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> > @@ -703,13 +703,13 @@ static int bpp_x16_from_pbn(struct
+> > dsc_mst_fairness_params param, int pbn)
+> >  	return dsc_config.bits_per_pixel;
+> >  }
+> > 
+> > -static bool increase_dsc_bpp(struct drm_atomic_state *state,
+> > -			     struct drm_dp_mst_topology_state *mst_state,
+> > -			     struct dc_link *dc_link,
+> > -			     struct dsc_mst_fairness_params *params,
+> > -			     struct dsc_mst_fairness_vars *vars,
+> > -			     int count,
+> > -			     int k)
+> > +static int increase_dsc_bpp(struct drm_atomic_state *state,
+> > +			    struct drm_dp_mst_topology_state *mst_state,
+> > +			    struct dc_link *dc_link,
+> > +			    struct dsc_mst_fairness_params *params,
+> > +			    struct dsc_mst_fairness_vars *vars,
+> > +			    int count,
+> > +			    int k)
+> >  {
+> >  	int i;
+> >  	bool bpp_increased[MAX_PIPES];
+> > @@ -719,6 +719,7 @@ static bool increase_dsc_bpp(struct
+> > drm_atomic_state *state,
+> >  	int remaining_to_increase = 0;
+> >  	int link_timeslots_used;
+> >  	int fair_pbn_alloc;
+> > +	int ret = 0;
+> > 
+> >  	for (i = 0; i < count; i++) {
+> >  		if (vars[i + k].dsc_enabled) {
+> > @@ -757,52 +758,60 @@ static bool increase_dsc_bpp(struct
+> > drm_atomic_state *state,
+> > 
+> >  		if (initial_slack[next_index] > fair_pbn_alloc) {
+> >  			vars[next_index].pbn += fair_pbn_alloc;
+> > -			if (drm_dp_atomic_find_time_slots(state,
+> > -
+> > params[next_index].port->mgr,
+> > -
+> > params[next_index].port,
+> > -
+> > vars[next_index].pbn) < 0)
+> > -				return false;
+> > -			if (!drm_dp_mst_atomic_check(state)) {
+> > +			ret = drm_dp_atomic_find_time_slots(state,
+> > +
+> > params[next_index].port->mgr,
+> > +
+> > params[next_index].port,
+> > +
+> > vars[next_index].pbn);
+> > +			if (ret < 0)
+> > +				return ret;
+> > +
+> > +			ret = drm_dp_mst_atomic_check(state);
+> > +			if (ret == 0) {
+> >  				vars[next_index].bpp_x16 =
+> > bpp_x16_from_pbn(params[next_index], vars[next_index].pbn);
+> >  			} else {
+> >  				vars[next_index].pbn -= fair_pbn_alloc;
+> > -				if (drm_dp_atomic_find_time_slots(state,
+> > -
+> > params[next_index].port->mgr,
+> > -
+> > params[next_index].port,
+> > -
+> > vars[next_index].pbn) < 0)
+> > -					return false;
+> > +				ret = drm_dp_atomic_find_time_slots(state,
+> > +
+> > params[next_index].port->mgr,
+> > +
+> > params[next_index].port,
+> > +
+> > vars[next_index].pbn);
+> > +				if (ret < 0)
+> > +					return ret;
+> >  			}
+> >  		} else {
+> >  			vars[next_index].pbn += initial_slack[next_index];
+> > -			if (drm_dp_atomic_find_time_slots(state,
+> > -
+> > params[next_index].port->mgr,
+> > -
+> > params[next_index].port,
+> > -
+> > vars[next_index].pbn) < 0)
+> > -				return false;
+> > -			if (!drm_dp_mst_atomic_check(state)) {
+> > +			ret = drm_dp_atomic_find_time_slots(state,
+> > +
+> > params[next_index].port->mgr,
+> > +
+> > params[next_index].port,
+> > +
+> > vars[next_index].pbn);
+> > +			if (ret < 0)
+> > +				return ret;
+> > +
+> > +			ret = drm_dp_mst_atomic_check(state);
+> > +			if (ret == 0) {
+> >  				vars[next_index].bpp_x16 =
+> > params[next_index].bw_range.max_target_bpp_x16;
+> >  			} else {
+> >  				vars[next_index].pbn -=
+> > initial_slack[next_index];
+> > -				if (drm_dp_atomic_find_time_slots(state,
+> > -
+> > params[next_index].port->mgr,
+> > -
+> > params[next_index].port,
+> > -
+> > vars[next_index].pbn) < 0)
+> > -					return false;
+> > +				ret = drm_dp_atomic_find_time_slots(state,
+> > +
+> > params[next_index].port->mgr,
+> > +
+> > params[next_index].port,
+> > +
+> > vars[next_index].pbn);
+> > +				if (ret < 0)
+> > +					return ret;
+> >  			}
+> >  		}
+> > 
+> >  		bpp_increased[next_index] = true;
+> >  		remaining_to_increase--;
+> >  	}
+> > -	return true;
+> > +	return 0;
+> >  }
+> > 
+> > -static bool try_disable_dsc(struct drm_atomic_state *state,
+> > -			    struct dc_link *dc_link,
+> > -			    struct dsc_mst_fairness_params *params,
+> > -			    struct dsc_mst_fairness_vars *vars,
+> > -			    int count,
+> > -			    int k)
+> > +static int try_disable_dsc(struct drm_atomic_state *state,
+> > +			   struct dc_link *dc_link,
+> > +			   struct dsc_mst_fairness_params *params,
+> > +			   struct dsc_mst_fairness_vars *vars,
+> > +			   int count,
+> > +			   int k)
+> >  {
+> >  	int i;
+> >  	bool tried[MAX_PIPES];
+> > @@ -810,6 +819,7 @@ static bool try_disable_dsc(struct drm_atomic_state
+> > *state,
+> >  	int max_kbps_increase;
+> >  	int next_index;
+> >  	int remaining_to_try = 0;
+> > +	int ret;
+> > 
+> >  	for (i = 0; i < count; i++) {
+> >  		if (vars[i + k].dsc_enabled
+> > @@ -840,49 +850,52 @@ static bool try_disable_dsc(struct
+> > drm_atomic_state *state,
+> >  			break;
+> > 
+> >  		vars[next_index].pbn =
+> > kbps_to_peak_pbn(params[next_index].bw_range.stream_kbps);
+> > -		if (drm_dp_atomic_find_time_slots(state,
+> > -						  params[next_index].port-
+> > > mgr,
+> > -						  params[next_index].port,
+> > -						  vars[next_index].pbn) < 0)
+> > -			return false;
+> > +		ret = drm_dp_atomic_find_time_slots(state,
+> > +						    params[next_index].port-
+> > > mgr,
+> > +						    params[next_index].port,
+> > +						    vars[next_index].pbn);
+> > +		if (ret < 0)
+> > +			return ret;
+> > 
+> > -		if (!drm_dp_mst_atomic_check(state)) {
+> > +		ret = drm_dp_mst_atomic_check(state);
+> > +		if (ret == 0) {
+> >  			vars[next_index].dsc_enabled = false;
+> >  			vars[next_index].bpp_x16 = 0;
+> >  		} else {
+> >  			vars[next_index].pbn =
+> > kbps_to_peak_pbn(params[next_index].bw_range.max_kbps);
+> > -			if (drm_dp_atomic_find_time_slots(state,
+> > -
+> > params[next_index].port->mgr,
+> > -
+> > params[next_index].port,
+> > -
+> > vars[next_index].pbn) < 0)
+> > -				return false;
+> > +			ret = drm_dp_atomic_find_time_slots(state,
+> > +
+> > params[next_index].port->mgr,
+> > +
+> > params[next_index].port,
+> > +
+> > vars[next_index].pbn);
+> > +			if (ret < 0)
+> > +				return ret;
+> >  		}
+> > 
+> >  		tried[next_index] = true;
+> >  		remaining_to_try--;
+> >  	}
+> > -	return true;
+> > +	return 0;
+> >  }
+> > 
+> > -static bool compute_mst_dsc_configs_for_link(struct drm_atomic_state
+> > *state,
+> > -					     struct dc_state *dc_state,
+> > -					     struct dc_link *dc_link,
+> > -					     struct dsc_mst_fairness_vars *vars,
+> > -					     struct drm_dp_mst_topology_mgr
+> > *mgr,
+> > -					     int *link_vars_start_index)
+> > +static int compute_mst_dsc_configs_for_link(struct drm_atomic_state
+> > *state,
+> > +					    struct dc_state *dc_state,
+> > +					    struct dc_link *dc_link,
+> > +					    struct dsc_mst_fairness_vars *vars,
+> > +					    struct drm_dp_mst_topology_mgr
+> > *mgr,
+> > +					    int *link_vars_start_index)
+> >  {
+> >  	struct dc_stream_state *stream;
+> >  	struct dsc_mst_fairness_params params[MAX_PIPES];
+> >  	struct amdgpu_dm_connector *aconnector;
+> >  	struct drm_dp_mst_topology_state *mst_state =
+> > drm_atomic_get_mst_topology_state(state, mgr);
+> >  	int count = 0;
+> > -	int i, k;
+> > +	int i, k, ret;
+> >  	bool debugfs_overwrite = false;
+> > 
+> >  	memset(params, 0, sizeof(params));
+> > 
+> >  	if (IS_ERR(mst_state))
+> > -		return false;
+> > +		return PTR_ERR(mst_state);
+> > 
+> >  	mst_state->pbn_div = dm_mst_get_pbn_divider(dc_link);  #if
+> > defined(CONFIG_DRM_AMD_DC_DCN) @@ -933,7 +946,7 @@ static bool
+> > compute_mst_dsc_configs_for_link(struct drm_atomic_state *state,
+> > 
+> >  	if (count == 0) {
+> >  		ASSERT(0);
+> > -		return true;
+> > +		return 0;
+> >  	}
+> > 
+> >  	/* k is start index of vars for current phy link used by mst hub */ @@
+> > -947,13 +960,17 @@ static bool compute_mst_dsc_configs_for_link(struct
+> > drm_atomic_state *state,
+> >  		vars[i + k].pbn =
+> > kbps_to_peak_pbn(params[i].bw_range.stream_kbps);
+> >  		vars[i + k].dsc_enabled = false;
+> >  		vars[i + k].bpp_x16 = 0;
+> > -		if (drm_dp_atomic_find_time_slots(state, params[i].port-
+> > > mgr, params[i].port,
+> > -						  vars[i + k].pbn) < 0)
+> > -			return false;
+> > +		ret = drm_dp_atomic_find_time_slots(state, params[i].port-
+> > > mgr, params[i].port,
+> > +						    vars[i + k].pbn);
+> > +		if (ret < 0)
+> > +			return ret;
+> >  	}
+> > -	if (!drm_dp_mst_atomic_check(state) && !debugfs_overwrite) {
+> > +	ret = drm_dp_mst_atomic_check(state);
+> > +	if (ret == 0 && !debugfs_overwrite) {
+> >  		set_dsc_configs_from_fairness_vars(params, vars, count, k);
+> > -		return true;
+> > +		return 0;
+> > +	} else if (ret != -ENOSPC) {
+> > +		return ret;
+> >  	}
+> > 
+> >  	/* Try max compression */
+> > @@ -962,31 +979,36 @@ static bool
+> > compute_mst_dsc_configs_for_link(struct drm_atomic_state *state,
+> >  			vars[i + k].pbn =
+> > kbps_to_peak_pbn(params[i].bw_range.min_kbps);
+> >  			vars[i + k].dsc_enabled = true;
+> >  			vars[i + k].bpp_x16 =
+> > params[i].bw_range.min_target_bpp_x16;
+> > -			if (drm_dp_atomic_find_time_slots(state,
+> > params[i].port->mgr,
+> > -							  params[i].port, vars[i
+> > + k].pbn) < 0)
+> > -				return false;
+> > +			ret = drm_dp_atomic_find_time_slots(state,
+> > params[i].port->mgr,
+> > +							    params[i].port,
+> > vars[i + k].pbn);
+> > +			if (ret < 0)
+> > +				return ret;
+> >  		} else {
+> >  			vars[i + k].pbn =
+> > kbps_to_peak_pbn(params[i].bw_range.stream_kbps);
+> >  			vars[i + k].dsc_enabled = false;
+> >  			vars[i + k].bpp_x16 = 0;
+> > -			if (drm_dp_atomic_find_time_slots(state,
+> > params[i].port->mgr,
+> > -							  params[i].port, vars[i
+> > + k].pbn) < 0)
+> > -				return false;
+> > +			ret = drm_dp_atomic_find_time_slots(state,
+> > params[i].port->mgr,
+> > +							    params[i].port,
+> > vars[i + k].pbn);
+> > +			if (ret < 0)
+> > +				return ret;
+> >  		}
+> >  	}
+> > -	if (drm_dp_mst_atomic_check(state))
+> > -		return false;
+> > +	ret = drm_dp_mst_atomic_check(state);
+> > +	if (ret != 0)
+> > +		return ret;
+> > 
+> >  	/* Optimize degree of compression */
+> > -	if (!increase_dsc_bpp(state, mst_state, dc_link, params, vars, count,
+> > k))
+> > -		return false;
+> > +	ret = increase_dsc_bpp(state, mst_state, dc_link, params, vars,
+> > count, k);
+> > +	if (ret < 0)
+> > +		return ret;
+> > 
+> > -	if (!try_disable_dsc(state, dc_link, params, vars, count, k))
+> > -		return false;
+> > +	ret = try_disable_dsc(state, dc_link, params, vars, count, k);
+> > +	if (ret < 0)
+> > +		return ret;
+> > 
+> >  	set_dsc_configs_from_fairness_vars(params, vars, count, k);
+> > 
+> > -	return true;
+> > +	return 0;
+> >  }
+> > 
+> >  static bool is_dsc_need_re_compute(
+> > @@ -1087,15 +1109,16 @@ static bool is_dsc_need_re_compute(
+> >  	return is_dsc_need_re_compute;
+> >  }
+> > 
+> > -bool compute_mst_dsc_configs_for_state(struct drm_atomic_state *state,
+> > -				       struct dc_state *dc_state,
+> > -				       struct dsc_mst_fairness_vars *vars)
+> > +int compute_mst_dsc_configs_for_state(struct drm_atomic_state *state,
+> > +				      struct dc_state *dc_state,
+> > +				      struct dsc_mst_fairness_vars *vars)
+> >  {
+> >  	int i, j;
+> >  	struct dc_stream_state *stream;
+> >  	bool computed_streams[MAX_PIPES];
+> >  	struct amdgpu_dm_connector *aconnector;
+> >  	int link_vars_start_index = 0;
+> > +	int ret = 0;
+> > 
+> >  	for (i = 0; i < dc_state->stream_count; i++)
+> >  		computed_streams[i] = false;
+> > @@ -1118,17 +1141,19 @@ bool compute_mst_dsc_configs_for_state(struct
+> > drm_atomic_state *state,
+> >  			continue;
+> > 
+> >  		if (dcn20_remove_stream_from_ctx(stream->ctx->dc,
+> > dc_state, stream) != DC_OK)
+> > -			return false;
+> > +			return -EINVAL;
+> > 
+> >  		if (!is_dsc_need_re_compute(state, dc_state, stream->link))
+> >  			continue;
+> > 
+> >  		mutex_lock(&aconnector->mst_mgr.lock);
+> > -		if (!compute_mst_dsc_configs_for_link(state, dc_state,
+> > stream->link, vars,
+> > -						      &aconnector->mst_mgr,
+> > -						      &link_vars_start_index)) {
+> > +
+> > +		ret = compute_mst_dsc_configs_for_link(state, dc_state,
+> > stream->link, vars,
+> > +						       &aconnector->mst_mgr,
+> > +						       &link_vars_start_index);
+> > +		if (ret != 0) {
+> >  			mutex_unlock(&aconnector->mst_mgr.lock);
+> > -			return false;
+> > +			return ret;
+> >  		}
+> >  		mutex_unlock(&aconnector->mst_mgr.lock);
+> > 
+> > @@ -1143,22 +1168,22 @@ bool compute_mst_dsc_configs_for_state(struct
+> > drm_atomic_state *state,
+> > 
+> >  		if (stream->timing.flags.DSC == 1)
+> >  			if (dc_stream_add_dsc_to_resource(stream->ctx-
+> > > dc, dc_state, stream) != DC_OK)
+> > -				return false;
+> > +				return -EINVAL;
+> >  	}
+> > 
+> > -	return true;
+> > +	return ret;
+> >  }
+> > 
+> > -static bool
+> > -	pre_compute_mst_dsc_configs_for_state(struct drm_atomic_state
+> > *state,
+> > -					      struct dc_state *dc_state,
+> > -					      struct dsc_mst_fairness_vars
+> > *vars)
+> > +static int pre_compute_mst_dsc_configs_for_state(struct
+> > drm_atomic_state *state,
+> > +						 struct dc_state *dc_state,
+> > +						 struct dsc_mst_fairness_vars
+> > *vars)
+> >  {
+> >  	int i, j;
+> >  	struct dc_stream_state *stream;
+> >  	bool computed_streams[MAX_PIPES];
+> >  	struct amdgpu_dm_connector *aconnector;
+> >  	int link_vars_start_index = 0;
+> > +	int ret;
+> > 
+> >  	for (i = 0; i < dc_state->stream_count; i++)
+> >  		computed_streams[i] = false;
+> > @@ -1184,11 +1209,12 @@ static bool
+> >  			continue;
+> > 
+> >  		mutex_lock(&aconnector->mst_mgr.lock);
+> > -		if (!compute_mst_dsc_configs_for_link(state, dc_state,
+> > stream->link, vars,
+> > -						      &aconnector->mst_mgr,
+> > -						      &link_vars_start_index)) {
+> > +		ret = compute_mst_dsc_configs_for_link(state, dc_state,
+> > stream->link, vars,
+> > +						       &aconnector->mst_mgr,
+> > +						       &link_vars_start_index);
+> > +		if (ret != 0) {
+> >  			mutex_unlock(&aconnector->mst_mgr.lock);
+> > -			return false;
+> > +			return ret;
+> >  		}
+> >  		mutex_unlock(&aconnector->mst_mgr.lock);
+> > 
+> > @@ -1198,7 +1224,7 @@ static bool
+> >  		}
+> >  	}
+> > 
+> > -	return true;
+> > +	return ret;
+> >  }
+> > 
+> >  static int find_crtc_index_in_state_by_stream(struct drm_atomic_state
+> > *state, @@ -1253,9 +1279,9 @@ static bool
+> > is_dsc_precompute_needed(struct drm_atomic_state *state)
+> >  	return ret;
+> >  }
+> > 
+> > -bool pre_validate_dsc(struct drm_atomic_state *state,
+> > -		      struct dm_atomic_state **dm_state_ptr,
+> > -		      struct dsc_mst_fairness_vars *vars)
+> > +int pre_validate_dsc(struct drm_atomic_state *state,
+> > +		     struct dm_atomic_state **dm_state_ptr,
+> > +		     struct dsc_mst_fairness_vars *vars)
+> >  {
+> >  	int i;
+> >  	struct dm_atomic_state *dm_state;
+> > @@ -1264,11 +1290,12 @@ bool pre_validate_dsc(struct drm_atomic_state
+> > *state,
+> > 
+> >  	if (!is_dsc_precompute_needed(state)) {
+> >  		DRM_INFO_ONCE("DSC precompute is not needed.\n");
+> > -		return true;
+> > +		return 0;
+> >  	}
+> > -	if (dm_atomic_get_state(state, dm_state_ptr)) {
+> > +	ret = dm_atomic_get_state(state, dm_state_ptr);
+> > +	if (ret != 0) {
+> >  		DRM_INFO_ONCE("dm_atomic_get_state() failed\n");
+> > -		return false;
+> > +		return ret;
+> >  	}
+> >  	dm_state = *dm_state_ptr;
+> > 
+> > @@ -1280,7 +1307,7 @@ bool pre_validate_dsc(struct drm_atomic_state
+> > *state,
+> > 
+> >  	local_dc_state = kmemdup(dm_state->context, sizeof(struct
+> > dc_state), GFP_KERNEL);
+> >  	if (!local_dc_state)
+> > -		return false;
+> > +		return -ENOMEM;
+> > 
+> >  	for (i = 0; i < local_dc_state->stream_count; i++) {
+> >  		struct dc_stream_state *stream = dm_state->context-
+> > > streams[i]; @@ -1316,9 +1343,9 @@ bool pre_validate_dsc(struct
+> > drm_atomic_state *state,
+> >  	if (ret != 0)
+> >  		goto clean_exit;
+> > 
+> > -	if (!pre_compute_mst_dsc_configs_for_state(state, local_dc_state,
+> > vars)) {
+> > +	ret = pre_compute_mst_dsc_configs_for_state(state, local_dc_state,
+> > vars);
+> > +	if (ret != 0) {
+> > 
+> > 	DRM_INFO_ONCE("pre_compute_mst_dsc_configs_for_state()
+> > failed\n");
+> > -		ret = -EINVAL;
+> >  		goto clean_exit;
+> >  	}
+> > 
+> > @@ -1349,7 +1376,7 @@ bool pre_validate_dsc(struct drm_atomic_state
+> > *state,
+> > 
+> >  	kfree(local_dc_state);
+> > 
+> > -	return (ret == 0);
+> > +	return ret;
+> >  }
+> > 
+> >  static unsigned int kbps_from_pbn(unsigned int pbn) diff --git
+> > a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.h
+> > b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.h
+> > index b92a7c5671aa2..97fd70df531bf 100644
+> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.h
+> > +++
+> > b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.h
+> > @@ -53,15 +53,15 @@ struct dsc_mst_fairness_vars {
+> >  	struct amdgpu_dm_connector *aconnector;  };
+> > 
+> > -bool compute_mst_dsc_configs_for_state(struct drm_atomic_state *state,
+> > -				       struct dc_state *dc_state,
+> > -				       struct dsc_mst_fairness_vars *vars);
+> > +int compute_mst_dsc_configs_for_state(struct drm_atomic_state *state,
+> > +				      struct dc_state *dc_state,
+> > +				      struct dsc_mst_fairness_vars *vars);
+> > 
+> >  bool needs_dsc_aux_workaround(struct dc_link *link);
+> > 
+> > -bool pre_validate_dsc(struct drm_atomic_state *state,
+> > -		      struct dm_atomic_state **dm_state_ptr,
+> > -		      struct dsc_mst_fairness_vars *vars);
+> > +int pre_validate_dsc(struct drm_atomic_state *state,
+> > +		     struct dm_atomic_state **dm_state_ptr,
+> > +		     struct dsc_mst_fairness_vars *vars);
+> > 
+> >  enum dc_status dm_dp_mst_is_port_support_mode(
+> >  	struct amdgpu_dm_connector *aconnector,
+> > --
+> > 2.37.3
 > 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+
+-- 
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
+
