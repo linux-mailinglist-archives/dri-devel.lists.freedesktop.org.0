@@ -2,60 +2,149 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8737862EBFD
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 03:37:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5288162ECBE
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 05:06:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 490FE10E6E3;
-	Fri, 18 Nov 2022 02:37:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3E7810E6EC;
+	Fri, 18 Nov 2022 04:05:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com
- [IPv6:2607:f8b0:4864:20::b31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B472710E6E3
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 02:37:08 +0000 (UTC)
-Received: by mail-yb1-xb31.google.com with SMTP id v123so4154487ybv.5
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Nov 2022 18:37:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4HRVnwEPfcbOzbMRSuMs2NCAF/YKRv3NoY+l+faUblg=;
- b=kHLH0YZhlWdDrEgGrLPz9ScoylswZMbdh04T67tjO/2HzqKAq+V2G0l4muslRCxzg+
- XCKNpW1eZlF8HrwLu0bwE9DIUnlOT8Y7y+9S6dUqcOq+5IuVnzRW0TgQ8r0C2kjXKBvB
- hoBxUXD8HY/BkmaFMWt/KDIaodNUFrDjijNn/1w9HeHfuppM7oRouEjnm5IvqR5SbL1b
- 160DXvkdT4vLDOYaYmu0nMyhqKEVPiunDPabVeh8oCYdThAFJJkdeArsC3KZjCxR79rU
- JvuS8yxkEhE104xvnTdDcou4o20pmw0RUape/+jG6GjP4MLtepO8NiyW0VX25VU9GG1L
- 4WLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=4HRVnwEPfcbOzbMRSuMs2NCAF/YKRv3NoY+l+faUblg=;
- b=U7bOsn33InGniqJ3MWU3D5ynBr95HcXuYglm+8sjO1TQvcebQS0R92MaJMddRwNsVR
- AKmU2PpmYCLo+sOASivKmyQ7z1akbDkwYM7GhVLUD6+qQtB9Z48d6wD98/5pjPoJYMkE
- GpgfvVhKEOAtDEK5KNj1XHzbhB9+X9+qfuH0S/dKruVeo5itNdiXSQ22IXelVCTXCNix
- BnU/R313cxANBg8hRjy+aG1Rjknf9aDmvaxTWHAlxsNrcYbZhupEtht0SNbWs0lBT5yi
- F7RG3Tw7TXPk1/PwX9eiPxIFsoRke/HX1lTtVB3v2j7qilZ7MIwkYgvQOHQITN7xqTXP
- FP2w==
-X-Gm-Message-State: ANoB5plMSHqoFtOPkr+JL2GOjJHZKAXEy0rkrrea9FR85nfL3pGAhtJG
- Gapik8f8n38XxH8jRRrqatyEOXiOMrFigQeWRdBDOw==
-X-Google-Smtp-Source: AA0mqf6tvEM8h8k0SC7Z2uTEXO+9G7gHq4QnR8+nNOQhmac2n6iyv5bfxPTv+iudbxbyX0LXFzhxaaeEGkxRLsrl2TQ=
-X-Received: by 2002:a5b:b06:0:b0:6dd:6382:90c with SMTP id
- z6-20020a5b0b06000000b006dd6382090cmr4828354ybp.636.1668739027644; 
- Thu, 17 Nov 2022 18:37:07 -0800 (PST)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E34A10E6EB;
+ Fri, 18 Nov 2022 04:05:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1668744352; x=1700280352;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=FdXazBwcadqmfTMGP+in2TXzlV5xgQ+FR6qzcu8MByQ=;
+ b=MMKaYjekRXOyBAzIADd5O7Cc6bORc/RobiU1UOR/7jJJ7kpAWgbdAXfj
+ 6peunJ4WYd0aVeAxKjbCCo//C+xkyQvl3L5rM9ZbU63U7aoDnsIrDGsuY
+ KfpC3QhTNFuS58EYxFyB+OF3nFvejRo74z6IotiCepLxJU1WGbtT+eDGM
+ Vv+k466SNv6wsV27oOfr2gvReKTc6ldiCZqlTHZh4u+kzhDCkCxu+VReP
+ LYYAIn3Bj4u5FLwUIF66I6w0N/SnQGida5EDj0zgBASRONZbvWkS2SXRe
+ D6xBYFLGTidVP4q8PAzqATdzo1z9/mookF+SRRrKzQqcjyjivKvYNDieh A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="292749833"
+X-IronPort-AV: E=Sophos;i="5.96,173,1665471600"; d="scan'208";a="292749833"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Nov 2022 20:05:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="617876404"
+X-IronPort-AV: E=Sophos;i="5.96,173,1665471600"; d="scan'208";a="617876404"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orsmga006.jf.intel.com with ESMTP; 17 Nov 2022 20:05:51 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 17 Nov 2022 20:05:50 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Thu, 17 Nov 2022 20:05:50 -0800
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.177)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Thu, 17 Nov 2022 20:05:50 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EzkBdmrvtEv5/fau12tIv9lAyJI0K5gR/6andUnJpcNHVyQZIgwj/6Ghp7p2cxZZ+NrMBYh3BbMm3B5nFofysYtx2rfDMcUtRQZlSAMiOoECurTUgxI9/l2833PIkhzXQhMD601fA5yeR46ZuxVkdGi01ycj4MdSgXKf4OPVZdnStDz8s1q8f1gX8i/GQSeErv9yU7S2uIM/STqg+uD4W56sx5MJMOY2eCb0bCmUqx8WnJzx6fI/+7izhTcPjTUigUNpEvxX62xSLNu3JJBFefq/TsakDJe0GxApruV66ZirPQEXxf5imJjab+cm0shaEXgwnnU7nqeP2LURp1FelA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=c6VdRJd+E1FpieGBVO+h+ECF3eyT2kOvmrUIE1bc4KU=;
+ b=X7az1KBiZ84c6n8SmhkQIdFemcRGjW92AQ4PD/lLaUKrcVzlEHlnozao03jNgp6hqNv/mCeIkhtLkOVzQx1PLaOTVvN/FeLul2r3RwWejoO++X9WBe8m7Prog0i+iwJM15J4M/PlVYiX2tMsof0s2xRkQ5qj4lm20D5THcOoFWfFosbE/1vG9XbFNbF4IbuRjLxPpcaYbo7Aol76MEn4CX7oujY45czojPzY3eLPQI6rrUdRhFNiWl3enL+iYAb/z7FSc9NFKhERwATU4j0aOqVqpm7y62gRYg7JiijlzRqCvAwPggrvaZMCqQfadQSthF4WEpF6ytxMwdCtysKpBA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BN9PR11MB5530.namprd11.prod.outlook.com (2603:10b6:408:103::8)
+ by MW4PR11MB6569.namprd11.prod.outlook.com (2603:10b6:303:1e1::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.9; Fri, 18 Nov
+ 2022 04:05:49 +0000
+Received: from BN9PR11MB5530.namprd11.prod.outlook.com
+ ([fe80::1357:5e64:1336:fddf]) by BN9PR11MB5530.namprd11.prod.outlook.com
+ ([fe80::1357:5e64:1336:fddf%8]) with mapi id 15.20.5813.020; Fri, 18 Nov 2022
+ 04:05:49 +0000
+Message-ID: <b20afaa3-9ea2-28f5-b83d-bed0a0fcd394@intel.com>
+Date: Fri, 18 Nov 2022 09:35:41 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [Intel-gfx] [PATCH 1/1] drm/i915/mtl: Enable Idle Messaging for
+ GSC CS
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+References: <20221115134440.3669021-1-badal.nilawar@intel.com>
+ <20221115134440.3669021-2-badal.nilawar@intel.com>
+ <Y3ayWbqIZGIX8b5R@intel.com>
+Content-Language: en-US
+From: "Nilawar, Badal" <badal.nilawar@intel.com>
+In-Reply-To: <Y3ayWbqIZGIX8b5R@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN3PR01CA0099.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:9b::19) To BN9PR11MB5530.namprd11.prod.outlook.com
+ (2603:10b6:408:103::8)
 MIME-Version: 1.0
-References: <20221117062152.3029018-1-cuigaosheng1@huawei.com>
- <f12a5dbe-4626-f6c7-236b-30bb16be1dd6@quicinc.com>
- <99d3aee6-ba3e-5333-6f79-ddbcfc0e8843@amd.com>
-In-Reply-To: <99d3aee6-ba3e-5333-6f79-ddbcfc0e8843@amd.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Thu, 17 Nov 2022 18:36:56 -0800
-Message-ID: <CABdmKX1UMB0L0PmHB59nijReZef6LUQ3XKXitHZo2YnUrJTz9Q@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: Fix possible UAF in dma_buf_export
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR11MB5530:EE_|MW4PR11MB6569:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2f70d958-eaf3-49d3-f0f6-08dac91a2ce4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: LMcfzQ/miKJet3VmVrT0Mea8RctS+vtguFAWW1yAvbCWOSBn8tz+9/Cq+lwgZ/226IQVC4QYK1vfii1WfG8vo1Bs9kTIcn5eLdhQOXWXpmzGEY8tGhjbPShD7UOCNIEc3gCSKx9f8LrplNUhI/PfcipH9cZ5P6qLc2tYNHDpyx+fi0ejkMdQRYyYNfmxTQ/FTU6vnsPJadOPwkQqBmo9p3oQH0/vcl13kYrHuc5H2g1cNZGySwCf5ebwMW+NNBNGMbQ00ePXnAR+hlBs5yiSG+ihjwWhzH9/rHSxHod1LmccmNHOdDX6cMLcmZP+3KSsBvFiHKrhyC+DJnAeiIFO+8OpBA4nD9QKYAAnQBu2b3VSg9x/hjCaDZ8waAvC05WE/baovqSZOR7wUATu37vfSCSZzq1w+7rV2Go1vuME76swMvKIDhzNRcjTuPSLHqqoqmZSeqIj8w526Xo+cjdyzxklHFKVOdlnB42CDMo0eRFInjXiuxq7/kQZSSyJtsBBkQN9MTRDoKUzb7GAbZdJXCT+AJigKkOXFLE3bWRWB2dp1B0Uo3mKDe9UEobgb1/IGARF0L0veC8U25TLMHm/YGwse+NYSHmz6xCQaMpLyZ9Xjw8DOMdk6N89C7J0iAcNf361mdPaOVzIknERVVHXP/kaLqmi/Sw8GIu0mI9lDreFKi6z7bAbWlfYlW4d5eZe9pp611GfduWHCWb7Ho8ZmfGBOQPe1F03THkKEwaocIw=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR11MB5530.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(376002)(39860400002)(396003)(136003)(366004)(346002)(451199015)(31696002)(83380400001)(2906002)(6636002)(316002)(37006003)(53546011)(6666004)(6506007)(26005)(6512007)(2616005)(186003)(478600001)(6486002)(86362001)(36756003)(82960400001)(66556008)(66946007)(450100002)(4326008)(5660300002)(66476007)(8676002)(6862004)(8936002)(31686004)(41300700001)(38100700002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NXp6NVZBa2RRM29jN3J0TUhQMUVZUUpvVld4M2xYYzdQSXg5SEhiUlpCazBC?=
+ =?utf-8?B?NDhzMWsrMXFrNTBrT01Jeko0K0M2TFBXajBlSGZnd29oM3NDQ004SXlGako5?=
+ =?utf-8?B?NlZnazRGdmt4UTAyNU95Qkt2ZWxpaThsWDJkQ2wrdllxY0JoekVKL2NHZmlS?=
+ =?utf-8?B?clR6VkF5eDFKNi9VTjlLTG5odHRvaFZEOWtZbTM1dFM0QUtuYlRpcHN5ZWlF?=
+ =?utf-8?B?RnAzYXhlWjl0cTd2clpCTStlTGNIc1Jpem5GZ0s0WEtYTW5qWmVRT2EwVmcy?=
+ =?utf-8?B?TTBCYnlIeDVnKzM2N0M1RzlGZWxEOFBZNmtMRVNDVTR3Tk53QzJ4cElvdC9M?=
+ =?utf-8?B?MnhEWE1OcU83SVZvN3MxL2pUcisyUXFIaWE0bjVyTDR5RVlJUEE4dWd4S2la?=
+ =?utf-8?B?bURFaENhNFhwSjNwUGZrc2dEbEJPWEh0T1drWDVLUkdhYXRNYi9FK01RMTlF?=
+ =?utf-8?B?ZkYvbDdUN0tUZGgzakpFaXF4MGo0NEYxcDhhZTBJYjI2c0RGcFpjTW9GMElH?=
+ =?utf-8?B?UVdmZmRCdDB2YVFkcFNjOG1OT1Z3Z3pkV0ZxU2h1OWY3emRLUUNONHdDLzcx?=
+ =?utf-8?B?NHVEV1lRSXhqTkJRRnE3VHNyRjlzSFcvQ254V1I1a25XUFhPSkpWSHMvQ0Jn?=
+ =?utf-8?B?VzZhTlp0YTJKelY1RUNXcVh4djgzVlI3MmVhRXVvTU1JeDJrTFI5ak1DaS94?=
+ =?utf-8?B?UmhGZ2FWRjFsbkl3NUdzWXdUUHFjU05LZmNoVWxIZ1NRUGo2YmNOaCtleTJG?=
+ =?utf-8?B?V1BOUTh1S0NSRTVFSGM5RklRVXJuVnIwRjBITGY0NFcwZytqMm5yVUpueEtt?=
+ =?utf-8?B?dE95WDNtR2pZUWZ3SW1HLzQ5VndDQm11aDlIK1dUSVpsR0pjWWhoVG9lT2Vj?=
+ =?utf-8?B?OVkwOUVQNG9EU3R5N2ZWckhySk15TnVWdjhlTnQrSW5BWkxFSjNCdS82R2pK?=
+ =?utf-8?B?ODF0NGRtMXV2c1hVK3FlRTVCSVdMcm4wY2F1QWxTa05MdXFyMGJuOUp1eWVN?=
+ =?utf-8?B?Z1VuRlpJNGlSWEFZNjVWQVhoK0R5QnJVVk1SNFlOK0JmbXR4eTFnWkRwRWhH?=
+ =?utf-8?B?SDkva2xxa2pDQ0V2enJPYXI2VyszV3JSMW1NUlErTldGa0xibTg5TVpHZFZ4?=
+ =?utf-8?B?OWpaMnpxMWs0d09RY3QxeTQyRlNldllMSTdaWGxERzRGMUpkNFA1djlaNm1S?=
+ =?utf-8?B?UmlnbGpJdkl5VUc0V3JiZTR0d3lTUHZ5T25Xdlo1K0pjQldLbnozaFY0cm1y?=
+ =?utf-8?B?bmszODNNK3dxYXFjQUVlTFloYmgxLzBwUW05bjBaOWZzUlNsL1U0bTlKNXVM?=
+ =?utf-8?B?cDAxODg4Qk1IN0o0V1FxQnEzMGMvbjBOdkVkbkx0NkpUY2ZnT1Vsdk5CcjZE?=
+ =?utf-8?B?Y245M2czblhocVpRWndFQmR4eGYvQlFjbi9CMHhNUGM5OUU5NVFmN1VGTTdM?=
+ =?utf-8?B?VWgvTVRLU0tNTkNVR1MzMlFva0lJKzU4RmVTSFJlYUZ6d3dpUFp2aFc1M0NQ?=
+ =?utf-8?B?SXYzV1BXVkx2cjROengvOHRnZ2JwaHJxVkRTbW03Ty9ZN3FGL2w5aHdnT1N3?=
+ =?utf-8?B?Ky9GSnQ4WENtQ2N5bGpBWVF3VTM5Q2h1RTJhOG1TaEJJL3g2dGo5eE41Myt3?=
+ =?utf-8?B?azQ4S0tpZHNFQWsrZ2MrVjZScWV0WFZpNy9ZdmhCbnNqdnJ1WHJDenVmR3pn?=
+ =?utf-8?B?VHRVNVlTVWVaekNLRkIyREp2dElqa0lEYzA3b3d0dzd6amRRbVlGcGhoN2g1?=
+ =?utf-8?B?VU1VNDRDM016RkFYcVR6YkpKOVcwdEFQT1hsUG1lTU5udXh6V21pdVVuN0NT?=
+ =?utf-8?B?YXJSVHdlSFlUM3hzeUtrUS9Kcm9zVGhzUDBSeFI0dG9WWmQvbm0zSmE2c3V2?=
+ =?utf-8?B?TSt6TzNaRTN1MXRhcTMrTGtKR3pWMHcrSnFNbjFtVlRRYkd0a01ocWoreCs2?=
+ =?utf-8?B?MVdIQlBweXFPWTJKOWRza1BiRUV6Z1BtNGJoanM4NWJJMUhITVFoaG5EZXBu?=
+ =?utf-8?B?VnpDeGRaZXVlVUlaUytRUVZsQjZ6UnNQWnNWbGFjSU5UYVpYNkVKUEN6SW0v?=
+ =?utf-8?B?ZlBIRXRJWk1vc0ZaZkRVOC9ZWEp2bGNwOFJLa0RBRC9yQzlUdzI3MkFrYWRo?=
+ =?utf-8?B?UVVLVmxHdks1eVVuNndlQmZSMlhhOXY5RWlkaEt5eGhDd1pZaktuMUY1WkFF?=
+ =?utf-8?B?ZHc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2f70d958-eaf3-49d3-f0f6-08dac91a2ce4
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5530.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2022 04:05:48.9018 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VcDI64iTYsDG+kyXgCirtG0B6cy/WEAMOh/3YKNCXl3VPs/ai59dXTOaHfTbhAixfiEcndaPfKRC7NBRQZqIbQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6569
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,103 +157,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pavan Kondeti <quic_pkondeti@quicinc.com>, dri-devel@lists.freedesktop.org,
- sumit.semwal@linaro.org, linaro-mm-sig@lists.linaro.org,
- Charan Teja Kalla <quic_charante@quicinc.com>,
- Gaosheng Cui <cuigaosheng1@huawei.com>,
- Dan Carpenter <dan.carpenter@oracle.com>, linux-media@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 17, 2022 at 2:16 AM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 17.11.22 um 08:48 schrieb Charan Teja Kalla:
-> > Sometime back Dan also reported the same issue[1] where I do mentioned
-> > that fput()-->dma_buf_file_release() will remove it from the list.
-> >
-> > But it seems that I failed to notice fput() here calls the
-> > dma_buf_file_release() asynchronously i.e. dmabuf that is accessed in
-> > the close path is already freed. Am I wrong here?
-> >
-> > Should we have the __fput_sync(file) here instead of just fput(file)
-> > which can solve this problem?
-> >
-> > [1]https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2F=
-lore.kernel.org%2Fall%2F20220516084704.GG29930%40kadam%2F&amp;data=3D05%7C0=
-1%7Cchristian.koenig%40amd.com%7C115292dd7a874278b3ed08dac8701320%7C3dd8961=
-fe4884e608e11a82d994e183d%7C0%7C0%7C638042680960627756%7CUnknown%7CTWFpbGZs=
-b3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C30=
-00%7C%7C%7C&amp;sdata=3DNYNIAJjt%2FSUXoc3wCz2vPvo%2Be%2FIVcABEA2JYZ8%2F2q04=
-%3D&amp;reserved=3D0
->
-> That doesn't look like the right solution to me either.
->
-> Essentially we have two separate tear down methods for the dma_buf
-> object here:
->
-> 1. It's not completely initialized and we can call kfree()+module_put()
-> to clean up.
->      There is actually a dma_resv_fini() here. That should probably be
-> fixed.
->
-> 2. The dma_buf object is fully initialized, but creating the sysfs stats
-> file failed.
->      In this case we should *not* clean it up like we currently do, but
-> rather call fput().
->
-> So the right thing to do is a) fix the missing dma_resv_fini() call and
-> b) drop the setting d_fsdata=3DNULL hack and properly return after the fp=
-ut().
->
-This looks right to me if by properly return you mean return
-ERR_PTR(ret); at the end of err_sysfs after the fput. (letting
-dma_buf_file_release and dma_buf_release do the full cleanup)
 
-If we still want to avoid calling dmabuf->ops->release(dmabuf) in
-dma_buf_release like the comment says I guess we could use sysfs_entry
-and ERR_PTR to flag that, otherwise it looks like we'd need a bit
-somewhere.
 
- >
-> Regards,
-> Christian.
->
-> >
-> > Thanks,
-> > Charan
-> > On 11/17/2022 11:51 AM, Gaosheng Cui wrote:
-> >> Smatch report warning as follows:
-> >>
-> >> drivers/dma-buf/dma-buf.c:681 dma_buf_export() warn:
-> >>    '&dmabuf->list_node' not removed from list
-> >>
-> >> If dma_buf_stats_setup() fails in dma_buf_export(), goto err_sysfs
-> >> and dmabuf will be freed, but dmabuf->list_node will not be removed
-> >> from db_list.head, then list traversal may cause UAF.
-> >>
-> >> Fix by removeing it from db_list.head before free().
-> >>
-> >> Fixes: ef3a6b70507a ("dma-buf: call dma_buf_stats_setup after dmabuf i=
-s in valid list")
-> >> Signed-off-by: Gaosheng Cui <cuigaosheng1@huawei.com>
-> >> ---
-> >>   drivers/dma-buf/dma-buf.c | 3 +++
-> >>   1 file changed, 3 insertions(+)
-> >>
-> >> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> >> index b809513b03fe..6848f50226d5 100644
-> >> --- a/drivers/dma-buf/dma-buf.c
-> >> +++ b/drivers/dma-buf/dma-buf.c
-> >> @@ -675,6 +675,9 @@ struct dma_buf *dma_buf_export(const struct dma_bu=
-f_export_info *exp_info)
-> >>      return dmabuf;
-> >>
-> >>   err_sysfs:
-> >> +    mutex_lock(&db_list.lock);
-> >> +    list_del(&dmabuf->list_node);
-> >> +    mutex_unlock(&db_list.lock);
-> >>      /*
-> >>       * Set file->f_path.dentry->d_fsdata to NULL so that when
-> >>       * dma_buf_release() gets invoked by dentry_ops, it exits
->
+On 18-11-2022 03:44, Rodrigo Vivi wrote:
+> On Tue, Nov 15, 2022 at 07:14:40PM +0530, Badal Nilawar wrote:
+>> From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+>>
+>> By defaut idle mesaging is disabled for GSC CS so to unblock RC6
+>> entry on media tile idle messaging need to be enabled.
+>>
+>> v2:
+>>   - Fix review comments (Vinay)
+>>   - Set GSC idle hysterisis to 5 us (Badal)
+>>
+>> Bspec: 71496
+>>
+>> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+>> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+>> Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
+>> ---
+>>   drivers/gpu/drm/i915/gt/intel_engine_pm.c | 18 ++++++++++++++++++
+>>   drivers/gpu/drm/i915/gt/intel_gt_regs.h   |  4 ++++
+>>   2 files changed, 22 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.c b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
+>> index b0a4a2dbe3ee..5522885b2db0 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_engine_pm.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
+>> @@ -15,6 +15,22 @@
+>>   #include "intel_rc6.h"
+>>   #include "intel_ring.h"
+>>   #include "shmem_utils.h"
+>> +#include "intel_gt_regs.h"
+>> +
+>> +static void intel_gsc_idle_msg_enable(struct intel_engine_cs *engine)
+>> +{
+>> +	struct drm_i915_private *i915 = engine->i915;
+>> +
+>> +	if (IS_METEORLAKE(i915) && engine->id == GSC0) {
+>> +		intel_uncore_write(engine->gt->uncore,
+>> +				   RC_PSMI_CTRL_GSCCS,
+>> +				   _MASKED_BIT_DISABLE(IDLE_MSG_DISABLE));
+> 
+> disable the disable? shouldn't be enable the disable?
+> 1 = disable, no?
+> 
+>> +		/* 5 us hysterisis */
+> 
+> could you please mention here in the comment that 0xA = 5 us per spec?
+> I got confused again even though you had explained already...
+Sure I will add the comment "0xA=5 us as per spec"
+> 
+> BTW, how reliable that spec is? Because according to that same line
+> we should be setting the bit 16, not the bit 0 in the previous reg!
+Bit 16 is mask bit. Bit 0 need to be cleared to enable Idle messaging.
+Bit[0] = 1 Disable Idle Messaging / 0 Enable Idle Messaging.
+
+Regards,
+Badal
+> 
+>> +		intel_uncore_write(engine->gt->uncore,
+>> +				   PWRCTX_MAXCNT_GSCCS,
+>> +				   0xA);
+>> +	}
+>> +}
+>>   
+>>   static void dbg_poison_ce(struct intel_context *ce)
+>>   {
+>> @@ -275,6 +291,8 @@ void intel_engine_init__pm(struct intel_engine_cs *engine)
+>>   
+>>   	intel_wakeref_init(&engine->wakeref, rpm, &wf_ops);
+>>   	intel_engine_init_heartbeat(engine);
+>> +
+>> +	intel_gsc_idle_msg_enable(engine);
+>>   }
+>>   
+>>   /**
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+>> index 07031e03f80c..20472eb15364 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+>> +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+>> @@ -913,6 +913,10 @@
+>>   #define  MSG_IDLE_FW_MASK	REG_GENMASK(13, 9)
+>>   #define  MSG_IDLE_FW_SHIFT	9
+>>   
+>> +#define	RC_PSMI_CTRL_GSCCS	_MMIO(0x11a050)
+>> +#define	  IDLE_MSG_DISABLE	BIT(0)
+>> +#define PWRCTX_MAXCNT_GSCCS	_MMIO(0x11a054)
+>> +
+>>   #define FORCEWAKE_MEDIA_GEN9			_MMIO(0xa270)
+>>   #define FORCEWAKE_RENDER_GEN9			_MMIO(0xa278)
+>>   
+>> -- 
+>> 2.25.1
+>>
