@@ -1,53 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5313762F361
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 12:10:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB35362F376
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 12:17:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1F2410E234;
-	Fri, 18 Nov 2022 11:10:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9F9C10E1AB;
+	Fri, 18 Nov 2022 11:17:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from desiato.infradead.org (desiato.infradead.org
- [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A51510E1AB;
- Fri, 18 Nov 2022 11:10:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=EfRO0ptxO3+ypU2KxCKexp96MUHxMRW8bunXh9MGsDQ=; b=j2fhWNOmh2ITESo1lzhfRgZXcy
- Ww/+yE7B77lsEp9a5n4uehGvoEzq0/D6H+yNfg2imI7YtOyX0f7hBuGqmcLLVHk7Xoiz2DhCcr6Ox
- Kyj24oVhndXBJUtnSu3HeY2mMmKgIgEYe+CgnUZx2ga615+T+GFz8I6+hMI7Htu6k0I+BMReJCS79
- lAjXTWY+taWdToLN5Du3UIwPnfLSaBXSvfRVjW0tKz24opKqeYxBMCGY3c/C/3e3UyKkhijlvua8W
- YSHKr8HDrN9+5aolNRPgkhdieUgbnls9Z9hPp8KrNiwdL9WqNuH3UC1ytxeh+awYd4oA+Hz9kLSlJ
- IaR4uXQw==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84]
- helo=noisy.programming.kicks-ass.net)
- by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ovzF5-001xdI-ON; Fri, 18 Nov 2022 11:09:08 +0000
-Received: from hirez.programming.kicks-ass.net
- (hirez.programming.kicks-ass.net [192.168.1.225])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (Client did not present a certificate)
- by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 9BC4C300220;
- Fri, 18 Nov 2022 12:09:02 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
- id 7C5AF205A9605; Fri, 18 Nov 2022 12:09:02 +0100 (CET)
-Date: Fri, 18 Nov 2022 12:09:02 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH mm-unstable v1 20/20] mm: rename FOLL_FORCE to FOLL_PTRACE
-Message-ID: <Y3dnzgwJpjTQXI9y@hirez.programming.kicks-ass.net>
-References: <20221116102659.70287-1-david@redhat.com>
- <20221116102659.70287-21-david@redhat.com>
- <CAHk-=wgtEwpR-rE_=cXzecHMZ+zgrx5zf9UfvH0w-mKgckn4=Q@mail.gmail.com>
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16CE810E1AB
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 11:17:40 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id
+ m7-20020a05600c090700b003cf8a105d9eso3794753wmp.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 03:17:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=6/k+QYW5Zt+9+PgPEh+E1fdeAG1j3bZsnfC5EWxu2Dk=;
+ b=IaHk/ZstcGml+8UfNgqDupHpto3ePyiOQacx4tPDiQvFR7Tn3KlJ0qE2WEDpxYok7p
+ Tc9cZI7xmplBWoABtgh9G/VbAQbgGRTv223qiLFFiZnChQDx3KQXg5fN5t0nnW+j0j+x
+ i4cLNLFtR6InyiQNCi7F09TuIEzZOwH8202vo7nNIEAbJEejHo+axGeX5vYzeCo+cnjT
+ YsBxIw+ke4M3UBhNemTjNWgvFrq3pYAjG+OnJj0lohf9UROpa1g5w28NKWNLat0C0sOh
+ g144fKJzKMmKdPio/kD2fM1M2ZqPcbkuCj+20Qc5dIjTdG9InZhVRJREqcF8gqqx7qTO
+ Na9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=6/k+QYW5Zt+9+PgPEh+E1fdeAG1j3bZsnfC5EWxu2Dk=;
+ b=YXlmoZthKB/Z82Jzb/dctwJ8HxFXaqORWSQ6XDsqfoxOvHojIfL5kN/QH5znCLTVbi
+ b9NW7I4ZwXhBiMElPHAkA6Z47lWKlJHaEhu6ekQ02AFsShAE0QKS8aPjsTyKc6F60Z8P
+ 8jpq1JWNUPVpJra4MJfvKTptLbJ6w5wFcUcN8AD1nvWqT7TtHgi7hraIqZfouDaXqNqp
+ K9O1pfQXRdVdufDagbIndHSH4Vpi3MhzLood9YVKUauMl1Qj15e8M2hTELh5g0HM0WV0
+ ANjtrQxUz5zqV17wx7NCiRP/zg5jYQV2GkcdNbPb7gTs6oSvPWnECy1VR2/EdD7qV9v0
+ H+vQ==
+X-Gm-Message-State: ANoB5plsKKiDHW8nUth+5mrNSyRKhuypxz0NTUMGhsXfPZ4YqwPK/I4n
+ 3fYOtezd2Y9f+c//zejxdwOR4Pak36fLnQ==
+X-Google-Smtp-Source: AA0mqf5EnxHN/1G6IrZ1g41k0K9M9gq1D3SvanvH90A3hjwMDgm+iseOzs5NS7206GWW4NyczuQiPQ==
+X-Received: by 2002:a05:600c:3ca0:b0:3cf:615f:54fb with SMTP id
+ bg32-20020a05600c3ca000b003cf615f54fbmr4462686wmb.76.1668770258513; 
+ Fri, 18 Nov 2022 03:17:38 -0800 (PST)
+Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
+ j18-20020a05600c191200b003c83465ccbfsm9773734wmq.35.2022.11.18.03.17.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Nov 2022 03:17:37 -0800 (PST)
+Date: Fri, 18 Nov 2022 14:17:34 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: sfr@canb.auug.org.au
+Subject: [bug report] Merge branch 'for-linux-next' of
+ git://anongit.freedesktop.org/drm/drm-misc
+Message-ID: <Y3dpzq5o3j/iZn4Q@kili>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wgtEwpR-rE_=cXzecHMZ+zgrx5zf9UfvH0w-mKgckn4=Q@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,61 +68,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, linux-ia64@vger.kernel.org,
- David Hildenbrand <david@redhat.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org, linux-mm@kvack.org, Will Deacon <will@kernel.org>,
- Nadav Amit <namit@vmware.com>, Michael Ellerman <mpe@ellerman.id.au>,
- linux-kselftest@vger.kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- sparclinux@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Andrea Arcangeli <aarcange@redhat.com>, linux-samsung-soc@vger.kernel.org,
- Paul Moore <paul@paul-moore.com>, linux-rdma@vger.kernel.org, x86@kernel.org,
- Hugh Dickins <hughd@google.com>, James Morris <jmorris@namei.org>,
- Matthew Wilcox <willy@infradead.org>, Christoph Hellwig <hch@infradead.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Ingo Molnar <mingo@redhat.com>,
- Vlastimil Babka <vbabka@suse.cz>, Matt Turner <mattst88@gmail.com>,
- Kentaro Takeda <takedakn@nttdata.co.jp>, linux-media@vger.kernel.org,
- Kees Cook <keescook@chromium.org>, Arnd Bergmann <arnd@arndb.de>,
- John Hubbard <jhubbard@nvidia.com>, linux-um@lists.infradead.org,
- etnaviv@lists.freedesktop.org, Nicholas Piggin <npiggin@gmail.com>,
- Richard Weinberger <richard@nod.at>,
- Alex Williamson <alex.williamson@redhat.com>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Peter Xu <peterx@redhat.com>,
- Muchun Song <songmuchun@bytedance.com>, Namhyung Kim <namhyung@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Richard Henderson <richard.henderson@linaro.org>,
- Arnaldo Carvalho de Melo <acme@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
- linux-arm-kernel@lists.infradead.org, "Serge E. Hallyn" <serge@hallyn.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Oded Gabbay <ogabbay@kernel.org>, linux-kernel@vger.kernel.org,
- Alexander Viro <viro@zeniv.linux.org.uk>, linux-perf-users@vger.kernel.org,
- Johannes Berg <johannes@sipsolutions.net>,
- linux-security-module@vger.kernel.org, Eric Biederman <ebiederm@xmission.com>,
- Jiri Olsa <jolsa@kernel.org>, linux-alpha@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- "David S. Miller" <davem@davemloft.net>,
- Mike Kravetz <mike.kravetz@oracle.com>
+Cc: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 16, 2022 at 10:16:34AM -0800, Linus Torvalds wrote:
-> Following the history of it is a big of a mess, because there's a
-> number of renamings and re-organizations, but it seems to go back to
-> 2007 and commit b6a2fea39318 ("mm: variable length argument support").
+Hello Stephen Rothwell,
 
-I went back and read parts of the discussions with Ollie, and the
-.force=1 thing just magically appeared one day when we were sending
-work-in-progress patches back and forth without mention of where it came
-from :-/
+The patch 23b727d76bda: "Merge branch 'for-linux-next' of
+git://anongit.freedesktop.org/drm/drm-misc" from Nov 17, 2022, leads
+to the following Smatch static checker warning:
 
-And I certainly can't remember now..
+	drivers/gpu/drm/vc4/vc4_hdmi.c:351 vc4_hdmi_reset_link()
+	error: uninitialized symbol 'vc4_hdmi'.
 
-Looking at it now, I have the same reaction as both you and Kees had, it
-seems entirely superflous. So I'm all for trying to remove it.
+drivers/gpu/drm/vc4/vc4_hdmi.c
+    346 
+    347         crtc_state = crtc->state;
+    348         if (!crtc_state->active)
+    349                 return 0;
+    350 
+--> 351         mutex_lock(&vc4_hdmi->mutex);
+                           ^^^^^^^^^
+This locking
+
+    352 
+    353         vc4_hdmi = connector_to_vc4_hdmi(connector);
+                ^^^^^^^^^^
+needs to be done after this assignment.  But this is only in linux-next
+so presumably it's a temporary thing.
+
+    354         if (!vc4_hdmi_supports_scrambling(vc4_hdmi)) {
+    355                 mutex_unlock(&vc4_hdmi->mutex);
+    356                 return 0;
+    357         }
+    358 
+    359         scrambling_needed = vc4_hdmi_mode_needs_scrambling(&vc4_hdmi->saved_adjusted_mode,
+    360                                                            vc4_hdmi->output_bpc,
+
+regards,
+dan carpenter
