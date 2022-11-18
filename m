@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58CA76300B6
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 23:48:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45B866300AD
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 23:47:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5EEA10E7FC;
-	Fri, 18 Nov 2022 22:47:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 813AA10E805;
+	Fri, 18 Nov 2022 22:47:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBF9710E7EE
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1096710E7F0
  for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 22:46:29 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1owA7k-0007f1-No; Fri, 18 Nov 2022 23:46:16 +0100
+ id 1owA7m-0007hX-78; Fri, 18 Nov 2022 23:46:18 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1owA7i-00589x-TX; Fri, 18 Nov 2022 23:46:15 +0100
+ id 1owA7k-0058AZ-DD; Fri, 18 Nov 2022 23:46:17 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1owA7h-00Hawq-Tm; Fri, 18 Nov 2022 23:46:13 +0100
+ id 1owA7i-00Hawu-36; Fri, 18 Nov 2022 23:46:14 +0100
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
 To: Angel Iglesias <ang.iglesiasg@gmail.com>, Lee Jones <lee.jones@linaro.org>,
  Grant Likely <grant.likely@linaro.org>, Wolfram Sang <wsa@kernel.org>,
@@ -32,9 +32,9 @@ To: Angel Iglesias <ang.iglesiasg@gmail.com>, Lee Jones <lee.jones@linaro.org>,
  Neil Armstrong <neil.armstrong@linaro.org>,
  Robert Foss <robert.foss@linaro.org>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 030/606] drm/bridge: sii9234: Convert to i2c's .probe_new()
-Date: Fri, 18 Nov 2022 23:36:04 +0100
-Message-Id: <20221118224540.619276-31-uwe@kleine-koenig.org>
+Subject: [PATCH 031/606] drm/bridge: sii8620: Convert to i2c's .probe_new()
+Date: Fri, 18 Nov 2022 23:36:05 +0100
+Message-Id: <20221118224540.619276-32-uwe@kleine-koenig.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
 References: <20221118224540.619276-1-uwe@kleine-koenig.org>
@@ -73,31 +73,31 @@ can be trivially converted.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/gpu/drm/bridge/sii9234.c | 5 ++---
+ drivers/gpu/drm/bridge/sil-sii8620.c | 5 ++---
  1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/sii9234.c b/drivers/gpu/drm/bridge/sii9234.c
-index 5b3061d4b5c3..099b510ff285 100644
---- a/drivers/gpu/drm/bridge/sii9234.c
-+++ b/drivers/gpu/drm/bridge/sii9234.c
-@@ -886,8 +886,7 @@ static const struct drm_bridge_funcs sii9234_bridge_funcs = {
- 	.mode_valid = sii9234_mode_valid,
+diff --git a/drivers/gpu/drm/bridge/sil-sii8620.c b/drivers/gpu/drm/bridge/sil-sii8620.c
+index 511982a1cedb..b96d03cd878d 100644
+--- a/drivers/gpu/drm/bridge/sil-sii8620.c
++++ b/drivers/gpu/drm/bridge/sil-sii8620.c
+@@ -2284,8 +2284,7 @@ static const struct drm_bridge_funcs sii8620_bridge_funcs = {
+ 	.mode_valid = sii8620_mode_valid,
  };
  
--static int sii9234_probe(struct i2c_client *client,
+-static int sii8620_probe(struct i2c_client *client,
 -			 const struct i2c_device_id *id)
-+static int sii9234_probe(struct i2c_client *client)
++static int sii8620_probe(struct i2c_client *client)
  {
- 	struct i2c_adapter *adapter = client->adapter;
- 	struct sii9234 *ctx;
-@@ -961,7 +960,7 @@ static struct i2c_driver sii9234_driver = {
- 		.name	= "sii9234",
- 		.of_match_table = sii9234_dt_match,
+ 	struct device *dev = &client->dev;
+ 	struct sii8620 *ctx;
+@@ -2379,7 +2378,7 @@ static struct i2c_driver sii8620_driver = {
+ 		.name	= "sii8620",
+ 		.of_match_table = of_match_ptr(sii8620_dt_match),
  	},
--	.probe = sii9234_probe,
-+	.probe_new = sii9234_probe,
- 	.remove = sii9234_remove,
- 	.id_table = sii9234_id,
+-	.probe		= sii8620_probe,
++	.probe_new	= sii8620_probe,
+ 	.remove		= sii8620_remove,
+ 	.id_table = sii8620_id,
  };
 -- 
 2.38.1
