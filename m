@@ -1,49 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EC4362EB55
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 02:51:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 602FD62EB7C
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 02:59:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4078910E6B1;
-	Fri, 18 Nov 2022 01:51:47 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A351010E6B1
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 01:51:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D660E10E6D7;
+	Fri, 18 Nov 2022 01:59:18 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1012D10E6D7;
+ Fri, 18 Nov 2022 01:59:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1668736285; x=1700272285;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=KvK2xGDc0kstgdhnUENokktqryJB57+x1oUrdtppFG4=;
- b=WQHmr19sioih02bGhf5G+XbzTu2yfUYJEW5gzz5OwB/kn7PSJSIMkYPA
- 2vDD/7/J7mCU4UKYjKcmAEFscvgwi8x+XYE9pxWTf1tSp5rafO/avU3yY
- 4FSEFvUvXpaSR8lzz1ls0SNPb012YnzSm3wUTe6QHTIX5lKIKrFz47ydo
- 57OFWPaA3srqxHPFK7lr54kQBfgvW37JGURZD4zAC3/TN8rMn30UgSOfP
- 517edtsd3zPkarwJPWlLctTmrJL+Q+bEnQQbrrGAdlir9LzFa66ZAiiNl
- RkfeKH6ATXUNsFiwawK6rFIxRQrZCR7xrFXNcBc4D3XZoF10b0HW3y6to Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="399313867"
-X-IronPort-AV: E=Sophos;i="5.96,172,1665471600"; d="scan'208";a="399313867"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Nov 2022 17:51:25 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="590843013"
-X-IronPort-AV: E=Sophos;i="5.96,172,1665471600"; d="scan'208";a="590843013"
-Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Nov 2022 17:51:24 -0800
-From: Vivek Kasireddy <vivek.kasireddy@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v1 2/2] drm/virtio: Add the hotplug_mode_update property for
- rescanning of modes
-Date: Thu, 17 Nov 2022 17:30:54 -0800
-Message-Id: <20221118013054.182304-3-vivek.kasireddy@intel.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20221118013054.182304-1-vivek.kasireddy@intel.com>
-References: <20221118013054.182304-1-vivek.kasireddy@intel.com>
+ t=1668736755; x=1700272755;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=ChZ2kpyYxQNwBlrGQM/5l8potdmZPG9r088A3AOdrh8=;
+ b=XrPwJYrr1wdUspee6vLvirr3BcBEqC5zHrPyJBH2hYWIZDMZMANv4CFO
+ m2hhIzOT28XkkN/iqchTgOZxlVd5JmkyKidTLfSEg1cGi7de4Gbum8rxX
+ ARGXFZpT8NDI8/RDCN9+gVfsjjkemMDdNwqzvi1bFGSnYT06vwoHiGS99
+ J8a8RfBZc4z0uYsaeJFO21+QgYf4B8jZC3cCoGASUiUzw6HMHMhtRCKXj
+ 9BYFURn1nIm/nuyOXgPv5qKGLRf5AOW7gsNHndS1fqvT1e0LlONTZT59V
+ zlq9lz7ZiOuLeSJRsIe/TrDzvAZOiO0xvMfV3B+MYwzu34qRWUPn8ERRR Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="300565825"
+X-IronPort-AV: E=Sophos;i="5.96,172,1665471600"; d="scan'208";a="300565825"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Nov 2022 17:59:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="703563410"
+X-IronPort-AV: E=Sophos;i="5.96,172,1665471600"; d="scan'208";a="703563410"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.143])
+ by fmsmga008.fm.intel.com with ESMTP; 17 Nov 2022 17:59:13 -0800
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Subject: [PATCH v2 0/5] Add module oriented dmesg output
+Date: Thu, 17 Nov 2022 17:58:53 -0800
+Message-Id: <20221118015858.2548106-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,77 +56,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dongwon Kim <dongwon.kim@intel.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Setting this property will allow the userspace to look for new modes or
-position info when a hotplug event occurs. This is really helpful for
-virtual GPU drivers to handle Host window resizing events which are
-propogated as hotplug interrupts to the Guest drivers. Mutter already
-uses this property while configuring the outputs.
+From: John Harrison <John.C.Harrison@Intel.com>
 
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Dongwon Kim <dongwon.kim@intel.com>
-Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
----
- drivers/gpu/drm/virtio/virtgpu_display.c | 14 ++++++++++++++
- drivers/gpu/drm/virtio/virtgpu_drv.h     |  2 ++
- 2 files changed, 16 insertions(+)
+When trying to analyse bug reports from CI, customers, etc. it can be
+difficult to work out exactly what is happening on which GT in a
+multi-GT system. So add GT oriented debug/error message wrappers. If
+used instead of the drm_ equivalents, you get the same output but with
+a GT# prefix on it.
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
-index 868b0183c6df..09a8089bb62a 100644
---- a/drivers/gpu/drm/virtio/virtgpu_display.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_display.c
-@@ -286,6 +286,8 @@ static int vgdev_output_init(struct virtio_gpu_device *vgdev, int index)
- 				   dev->mode_config.suggested_x_property, 0);
- 	drm_object_attach_property(&connector->base,
- 				   dev->mode_config.suggested_y_property, 0);
-+	drm_object_attach_property(&connector->base,
-+				   vgdev->hotplug_mode_update_property, 1);
- 
- 	drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_VIRTUAL);
- 	drm_encoder_helper_add(encoder, &virtio_gpu_enc_helper_funcs);
-@@ -336,6 +338,17 @@ static const struct drm_mode_config_funcs virtio_gpu_mode_funcs = {
- 	.atomic_commit = drm_atomic_helper_commit,
- };
- 
-+static void
-+virtio_gpu_create_hotplug_mode_update_property(struct virtio_gpu_device *vgdev)
-+{
-+	if (vgdev->hotplug_mode_update_property)
-+		return;
-+
-+	vgdev->hotplug_mode_update_property =
-+		drm_property_create_range(vgdev->ddev, DRM_MODE_PROP_IMMUTABLE,
-+					  "hotplug_mode_update", 0, 1);
-+}
-+
- int virtio_gpu_modeset_init(struct virtio_gpu_device *vgdev)
- {
- 	int i, ret;
-@@ -355,6 +368,7 @@ int virtio_gpu_modeset_init(struct virtio_gpu_device *vgdev)
- 
- 	vgdev->ddev->mode_config.fb_modifiers_not_supported = true;
- 	drm_mode_create_suggested_offset_properties(vgdev->ddev);
-+	virtio_gpu_create_hotplug_mode_update_property(vgdev);
- 
- 	for (i = 0 ; i < vgdev->num_scanouts; ++i)
- 		vgdev_output_init(vgdev, i);
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index b7a64c7dcc2c..35f940302e24 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -257,6 +257,8 @@ struct virtio_gpu_device {
- 	uint64_t capset_id_mask;
- 	struct list_head cap_cache;
- 
-+	struct drm_property *hotplug_mode_update_property;
-+
- 	/* protects uuid state when exporting */
- 	spinlock_t resource_export_lock;
- 	/* protects map state and host_visible_mm */
+It was also requested to extend this further to submodules in order to
+factor out the repeated structure accessing constructs and common
+string prefixes. So, add versions for GuC, HuC and GuC CTB as well.
+
+This patch set updates all the gt/uc files to use the new helpers as a
+first step. The intention would be to convert all output messages that
+have access to a GT structure.
+
+v2: Go back to using lower case names, add more wrapper sets (combined
+review feedback). Also, wrap up probe injection and WARN entries.
+
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+
+
+John Harrison (5):
+  drm/i915/gt: Start adding module oriented dmesg output
+  drm/i915/huc: Add HuC specific debug print wrappers
+  drm/i915/guc: Add GuC specific debug print wrappers
+  drm/i915/guc: Add GuC CT specific debug print wrappers
+  drm/i915/uc: Update the gt/uc code to use gt_err and friends
+
+ drivers/gpu/drm/i915/gt/intel_gt.c            |  96 ++++----
+ drivers/gpu/drm/i915/gt/intel_gt.h            |  35 +++
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  32 +--
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  35 +++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |   8 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_capture.c    |  48 ++--
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     | 222 +++++++++---------
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c     |  19 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.c    |  37 ++-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c     |   7 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c   |  55 ++---
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  62 +++--
+ drivers/gpu/drm/i915/gt/uc/intel_huc.c        |  31 +--
+ drivers/gpu/drm/i915/gt/uc/intel_huc.h        |  23 ++
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c         | 108 ++++-----
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      |  98 ++++----
+ drivers/gpu/drm/i915/gt/uc/selftest_guc.c     |  34 +--
+ .../drm/i915/gt/uc/selftest_guc_hangcheck.c   |  22 +-
+ .../drm/i915/gt/uc/selftest_guc_multi_lrc.c   |  10 +-
+ 19 files changed, 507 insertions(+), 475 deletions(-)
+
 -- 
-2.37.2
+2.37.3
 
