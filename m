@@ -1,65 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 807D962F24D
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 11:15:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35A1B62F24E
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 11:16:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4CD210E21E;
-	Fri, 18 Nov 2022 10:15:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5395A10E21F;
+	Fri, 18 Nov 2022 10:16:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5455410E21C;
- Fri, 18 Nov 2022 10:15:37 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id u11so6184083ljk.6;
- Fri, 18 Nov 2022 02:15:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=/bE+UQuOqsqViZiyknOf88HY6KNxj6TSr8L058CR0Yk=;
- b=cHUXAr6Wp08tvjyzIhglik4QtJJAMkiFpxpf5xG6kFItFKh2orZjynRE7pmIQOTAi9
- 2GAJ2pioURkSdWYwrwhCxltjOqvR6a0cTIDtauNN1zIJuh5PyQAy5eejwXRLcMCOAnu8
- ZCRtqEqOYeiK5BEQU/ShJCZHm/J1/bzRkP1EaAiEC2DUL219RPV5hxHZdik6n93SWkZq
- //nOXWvaJ3oqPnT2S8aNn9L9+JBJJHJO8B6V6dZRI618FNY6JFF9VG94FV1J36cK2DIC
- cPisBnOtLYqa+M5kWUk/ABwZhnwzDyfDwis5QFnMueidf57dYXwO6N81S0I32vixkr+V
- 8UZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/bE+UQuOqsqViZiyknOf88HY6KNxj6TSr8L058CR0Yk=;
- b=mi7SA5donz5FN160ILrYDh9Yqlj+VSrF02o9u0Yb3eElmZCWiaIAsyRH0X0MXPUA6X
- NXpYce5KsaxyKOF036WqhAHlRG8PPoNLLaO44YD2++7RMeTjMa7PBlV/lAmdah7/NIFr
- +q45L+yL3qlHfr51Jk6yIEVk7w+3zZ/bqX2yyyXYcW+TL40tZ8sMtTZibsWAUknxFPlN
- 8L70oFBgBwJckv+tE7B4YNReWwU1EpovzwEPjUL3IsCVY0Ez55EP4oRi/+bhTzlUPVYF
- a5UvL3GFH3UnUACSs35Rn0dqAAt8k6oOgFnaRI2mrWH+bGC0+2M6/2IIej0Hf8bhIVx0
- qgcQ==
-X-Gm-Message-State: ANoB5pkcAh8iY/UOSPd9rswKlLQQa6wi27NUIvlNqu3XU9tLmR5ZlETO
- 7mXpmKCe0gqgcbhMbaPITrc=
-X-Google-Smtp-Source: AA0mqf7PNboodqMp6alOClheePOiUvdkzdNhY1TW7cf6F6mr+AM7kHNAAfHcN9US6DO7FoLrvg5RZA==
-X-Received: by 2002:a2e:9d0b:0:b0:279:f7d:15cf with SMTP id
- t11-20020a2e9d0b000000b002790f7d15cfmr2088206lji.468.1668766535309; 
- Fri, 18 Nov 2022 02:15:35 -0800 (PST)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- l15-20020a2ea80f000000b002776eb5b1ccsm602351ljq.4.2022.11.18.02.15.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Nov 2022 02:15:34 -0800 (PST)
-Date: Fri, 18 Nov 2022 12:15:30 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Sebastian Wick <sebastian.wick@redhat.com>, Dave Stevenson
- <dave.stevenson@raspberrypi.com>
-Subject: Re: The state of Quantization Range handling
-Message-ID: <20221118121530.23c7c3ee@eldfell>
-In-Reply-To: <CA+hFU4x0PGs-8oUBSXQa9uTNvvW80ZPFnheoBWO0SZnxJ=FKXA@mail.gmail.com>
-References: <CA+hFU4w8=yTU5tQgqZj4qUvJddAQL9fj5teTVSB_dvNcwCyr6g@mail.gmail.com>
- <CAPY8ntCnAjGy0e55raxV=2bgi1YPSringrKdRmJHeS+Li=3yeg@mail.gmail.com>
- <CA+hFU4x0PGs-8oUBSXQa9uTNvvW80ZPFnheoBWO0SZnxJ=FKXA@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D132810E21F
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 10:15:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1668766549; x=1700302549;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=SaHeugNKo8OZK/lZ3uROir5ZbKTL8GEV1vddhbpqyZg=;
+ b=ePq6/maJ+YdGkVh8TyhtHmGoAdfJV7jKeixyZAX7MHeGjzDqDcQBgXbg
+ t4K4NgppKXr37X2ryCj2GFs/xJhmU74Kw4EOQRhqBopn6eODOujvwcETo
+ IXSJUPc11OV7uw17HMVUXy+13nF5jRX3/vb+ZiheRIG93URhJBNKHKSXA
+ SLgnWGbxYjS29PKH26YoZhCg868wtx8V4D9H/dWCclYS84w3egd5WseF9
+ u+I+YRvbTdEP9+3+BGgByeLWyM3A7yFvg+0b4EsCTeWX2/whb+eRWZjEy
+ 9IyNcxxe07pt1Om5e41eAbjEIomuf377rzyZU3w2mtbw5KD+D6FIKK7QQ A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="300641949"
+X-IronPort-AV: E=Sophos;i="5.96,173,1665471600"; d="scan'208";a="300641949"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Nov 2022 02:15:49 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="703691293"
+X-IronPort-AV: E=Sophos;i="5.96,173,1665471600"; d="scan'208";a="703691293"
+Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.249.149.49])
+ ([10.249.149.49])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Nov 2022 02:15:47 -0800
+Message-ID: <eea3f0ca-e0d1-1bc6-b65b-b4ef0658c5a9@linux.intel.com>
+Date: Fri, 18 Nov 2022 11:15:45 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/LkrlR7aaSqE6/Vbb7n7kr0u";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v3 2/7] drm/ivpu: Add Intel VPU MMU support
+Content-Language: en-US
+To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
+ airlied@gmail.com, daniel@ffwll.ch
+References: <20220924151149.323622-1-jacek.lawrynowicz@linux.intel.com>
+ <20220924151149.323622-3-jacek.lawrynowicz@linux.intel.com>
+ <6cfd6459-4ea2-742a-aa94-4b1ecd253d7d@suse.de>
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <6cfd6459-4ea2-742a-aa94-4b1ecd253d7d@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,196 +65,238 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- wayland <wayland-devel@lists.freedesktop.org>
+Cc: andrzej.kacprowski@linux.intel.com, stanislaw.gruszka@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/LkrlR7aaSqE6/Vbb7n7kr0u
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Thu, 17 Nov 2022 22:13:26 +0100
-Sebastian Wick <sebastian.wick@redhat.com> wrote:
+On 11/1/2022 10:00 AM, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 24.09.22 um 17:11 schrieb Jacek Lawrynowicz:
+>> VPU Memory Management Unit is based on ARM MMU-600.
+>> It allows to create multiple virtual address spaces for the device and
+>> map noncontinuous host memory (there is no dedicated memory on the VPU).
+>>
+>> Address space is implemented as a struct ivpu_mmu_context, it has an ID,
+>> drm_mm allocator for VPU addresses and struct ivpu_mmu_pgtable that holds
+>> actual 3-level, 4KB page table.
+>> Context with ID 0 (global context) is created upon driver initialization
+>> and it's mainly used for mapping memory required to execute
+>> the firmware.
+>> Contexts with non-zero IDs are user contexts allocated each time
+>> the devices is open()-ed and they map command buffers and other
+>> workload-related memory.
+>> Workloads executing in a given contexts have access only
+>> to the memory mapped in this context.
+>>
+>> This patch is has to main files:
+>>    - ivpu_mmu_context.c handles MMU page tables and memory mapping
+>>    - ivpu_mmu.c implements a driver that programs the MMU device
+>>
+>> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+>> Signed-off-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
+>> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+>> ---
+>>   drivers/gpu/drm/ivpu/Makefile           |   4 +-
+>>   drivers/gpu/drm/ivpu/ivpu_drv.c         |  59 +-
+>>   drivers/gpu/drm/ivpu/ivpu_drv.h         |   7 +
+>>   drivers/gpu/drm/ivpu/ivpu_hw_mtl.c      |  10 +
+>>   drivers/gpu/drm/ivpu/ivpu_mmu.c         | 883 ++++++++++++++++++++++++
+>>   drivers/gpu/drm/ivpu/ivpu_mmu.h         |  53 ++
+>>   drivers/gpu/drm/ivpu/ivpu_mmu_context.c | 419 +++++++++++
+>>   drivers/gpu/drm/ivpu/ivpu_mmu_context.h |  49 ++
+>>   include/uapi/drm/ivpu_drm.h             |   4 +
+>>   9 files changed, 1485 insertions(+), 3 deletions(-)
+>>   create mode 100644 drivers/gpu/drm/ivpu/ivpu_mmu.c
+>>   create mode 100644 drivers/gpu/drm/ivpu/ivpu_mmu.h
+>>   create mode 100644 drivers/gpu/drm/ivpu/ivpu_mmu_context.c
+>>   create mode 100644 drivers/gpu/drm/ivpu/ivpu_mmu_context.h
+>>
+>> diff --git a/drivers/gpu/drm/ivpu/Makefile b/drivers/gpu/drm/ivpu/Makefile
+>> index e59dc65abe6a..95bb04f26296 100644
+>> --- a/drivers/gpu/drm/ivpu/Makefile
+>> +++ b/drivers/gpu/drm/ivpu/Makefile
+>> @@ -3,6 +3,8 @@
+>>     intel_vpu-y := \
+>>       ivpu_drv.o \
+>> -    ivpu_hw_mtl.o
+>> +    ivpu_hw_mtl.o \
+>> +    ivpu_mmu.o \
+>> +    ivpu_mmu_context.o
+>>     obj-$(CONFIG_DRM_IVPU) += intel_vpu.o
+>> diff --git a/drivers/gpu/drm/ivpu/ivpu_drv.c b/drivers/gpu/drm/ivpu/ivpu_drv.c
+>> index a01c7244f6e5..cbeb9a801a31 100644
+>> --- a/drivers/gpu/drm/ivpu/ivpu_drv.c
+>> +++ b/drivers/gpu/drm/ivpu/ivpu_drv.c
+>> @@ -14,6 +14,8 @@
+>>     #include "ivpu_drv.h"
+>>   #include "ivpu_hw.h"
+>> +#include "ivpu_mmu.h"
+>> +#include "ivpu_mmu_context.h"
+>>     #ifndef DRIVER_VERSION_STR
+>>   #define DRIVER_VERSION_STR __stringify(DRM_IVPU_DRIVER_MAJOR) "." \
+>> @@ -50,6 +52,11 @@ char *ivpu_platform_to_str(u32 platform)
+>>     void ivpu_file_priv_get(struct ivpu_file_priv *file_priv, struct ivpu_file_priv **link)
+>>   {
+>> +    struct ivpu_device *vdev = file_priv->vdev;
+>> +
+>> +    ivpu_dbg(KREF, "file_priv get: ctx %u refcount %u\n",
+>> +         file_priv->ctx.id, kref_read(&file_priv->ref));
+>> +
+>>       kref_get(&file_priv->ref);
+>>       *link = file_priv;
+>>   }
+>> @@ -57,6 +64,12 @@ void ivpu_file_priv_get(struct ivpu_file_priv *file_priv, struct ivpu_file_priv
+>>   static void file_priv_release(struct kref *ref)
+>>   {
+>>       struct ivpu_file_priv *file_priv = container_of(ref, struct ivpu_file_priv, ref);
+>> +    struct ivpu_device *vdev = file_priv->vdev;
+>> +
+>> +    ivpu_dbg(FILE, "file_priv release: ctx %u\n", file_priv->ctx.id);
+>> +
+>> +    if (file_priv->ctx.id)
+>> +        ivpu_mmu_user_context_fini(file_priv);
+>>         kfree(file_priv);
+>>   }
+>> @@ -64,6 +77,10 @@ static void file_priv_release(struct kref *ref)
+>>   void ivpu_file_priv_put(struct ivpu_file_priv **link)
+>>   {
+>>       struct ivpu_file_priv *file_priv = *link;
+>> +    struct ivpu_device *vdev = file_priv->vdev;
+>> +
+>> +    ivpu_dbg(KREF, "file_priv put: ctx %u refcount %u\n",
+>> +         file_priv->ctx.id, kref_read(&file_priv->ref));
+>>         *link = NULL;
+>>       kref_put(&file_priv->ref, file_priv_release);
+>> @@ -75,7 +92,11 @@ static int ivpu_get_param_ioctl(struct drm_device *dev, void *data, struct drm_f
+>>       struct ivpu_device *vdev = file_priv->vdev;
+>>       struct pci_dev *pdev = to_pci_dev(vdev->drm.dev);
+>>       struct drm_ivpu_param *args = data;
+>> -    int ret = 0;
+>> +    int ret;
+>> +
+>> +    ret = ivpu_mmu_user_context_init(file_priv);
+>> +    if (ret)
+>> +        return ret;
+>>         switch (args->param) {
+>>       case DRM_IVPU_PARAM_DEVICE_ID:
+>> @@ -99,6 +120,9 @@ static int ivpu_get_param_ioctl(struct drm_device *dev, void *data, struct drm_f
+>>       case DRM_IVPU_PARAM_CONTEXT_PRIORITY:
+>>           args->value = file_priv->priority;
+>>           break;
+>> +    case DRM_IVPU_PARAM_CONTEXT_ID:
+>> +        args->value = file_priv->ctx.id;
+>> +        break;
+>>       default:
+>>           ret = -EINVAL;
+>>       }
+>> @@ -110,7 +134,11 @@ static int ivpu_set_param_ioctl(struct drm_device *dev, void *data, struct drm_f
+>>   {
+>>       struct ivpu_file_priv *file_priv = file->driver_priv;
+>>       struct drm_ivpu_param *args = data;
+>> -    int ret = 0;
+>> +    int ret;
+>> +
+>> +    ret = ivpu_mmu_user_context_init(file_priv);
+>> +    if (ret)
+>> +        return ret;
+>>         switch (args->param) {
+>>       case DRM_IVPU_PARAM_CONTEXT_PRIORITY:
+>> @@ -139,9 +167,13 @@ static int ivpu_open(struct drm_device *dev, struct drm_file *file)
+>>       file_priv->priority = DRM_IVPU_CONTEXT_PRIORITY_NORMAL;
+>>         kref_init(&file_priv->ref);
+>> +    mutex_init(&file_priv->lock);
+>>         file->driver_priv = file_priv;
+>>   +    ivpu_dbg(FILE, "file_priv alloc: process %s pid %d\n",
+>> +         current->comm, task_pid_nr(current));
+>> +
+>>       return 0;
+>>   }
+>>   @@ -164,6 +196,7 @@ int ivpu_shutdown(struct ivpu_device *vdev)
+>>       int ret;
+>>         ivpu_hw_irq_disable(vdev);
+>> +    ivpu_mmu_disable(vdev);
+>>         ret = ivpu_hw_power_down(vdev);
+>>       if (ret)
+>> @@ -272,6 +305,10 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
+>>       if (!vdev->hw)
+>>           return -ENOMEM;
+>>   +    vdev->mmu = devm_kzalloc(vdev->drm.dev, sizeof(*vdev->mmu), GFP_KERNEL);
+>> +    if (!vdev->mmu)
+>> +        return -ENOMEM;
+>> +
+>>       vdev->hw->ops = &ivpu_hw_mtl_ops;
+>>       vdev->platform = IVPU_PLATFORM_INVALID;
+>>   @@ -303,8 +340,24 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
+>>           goto err_irq_fini;
+>>       }
+>>   +    ret = ivpu_mmu_global_context_init(vdev);
+>> +    if (ret) {
+>> +        ivpu_err(vdev, "Failed to initialize global MMU context: %d\n", ret);
+>> +        goto err_power_down;
+>> +    }
+>> +
+>> +    ret = ivpu_mmu_init(vdev);
+>> +    if (ret) {
+>> +        ivpu_err(vdev, "Failed to initialize MMU device: %d\n", ret);
+>> +        goto err_mmu_gctx_fini;
+>> +    }
+>> +
+>>       return 0;
+>>   +err_mmu_gctx_fini:
+>> +    ivpu_mmu_global_context_fini(vdev);
+>> +err_power_down:
+>> +    ivpu_hw_power_down(vdev);
+>>   err_irq_fini:
+>>       ivpu_irq_fini(vdev);
+>>   err_pci_fini:
+>> @@ -316,6 +369,8 @@ static void ivpu_dev_fini(struct ivpu_device *vdev)
+>>   {
+>>       ivpu_shutdown(vdev);
+>>   +    ivpu_mmu_fini(vdev);
+>> +    ivpu_mmu_global_context_fini(vdev);
+>>       ivpu_irq_fini(vdev);
+>>       ivpu_pci_fini(vdev);
+>>   diff --git a/drivers/gpu/drm/ivpu/ivpu_drv.h b/drivers/gpu/drm/ivpu/ivpu_drv.h
+>> index 43dfa78544c6..6eec3eb76c2f 100644
+>> --- a/drivers/gpu/drm/ivpu/ivpu_drv.h
+>> +++ b/drivers/gpu/drm/ivpu/ivpu_drv.h
+>> @@ -14,6 +14,8 @@
+>>   #include <linux/xarray.h>
+>>   #include <uapi/drm/ivpu_drm.h>
+>>   +#include "ivpu_mmu_context.h"
+>> +
+>>   #define DRIVER_NAME "intel_vpu"
+>>   #define DRIVER_DESC "Driver for Intel Versatile Processing Unit (VPU)"
+>>   #define DRIVER_DATE "20220913"
+>> @@ -70,6 +72,7 @@ struct ivpu_wa_table {
+>>   };
+>>     struct ivpu_hw_info;
+>> +struct ivpu_mmu_info;
+>>     struct ivpu_device {
+>>       struct drm_device drm; /* Must be first */
+>> @@ -80,7 +83,9 @@ struct ivpu_device {
+>>         struct ivpu_wa_table wa;
+>>       struct ivpu_hw_info *hw;
+>> +    struct ivpu_mmu_info *mmu;
+>>   +    struct ivpu_mmu_context gctx;
+>>       struct xarray context_xa;
+>>       struct xa_limit context_xa_limit;
+>>   @@ -95,6 +100,8 @@ struct ivpu_device {
+>>   struct ivpu_file_priv {
+>>       struct kref ref;
+>>       struct ivpu_device *vdev;
+>> +    struct mutex lock;
+> 
+> There was another lock in the mmu struct, but what's this lock for?
 
-> Hi Dave,
->=20
-> I noticed that I didn't get the Broadcast RGB property thanks to you
-> (more below)
->=20
-> On Tue, Nov 15, 2022 at 2:16 PM Dave Stevenson
-> <dave.stevenson@raspberrypi.com> wrote:
-> >
-> > Hi Sebastian
-> >
-> > Thanks for starting the conversation - it's stalled a number of times
-> > previously.
-> >
-> > On Mon, 14 Nov 2022 at 23:12, Sebastian Wick <sebastian.wick@redhat.com=
-> wrote: =20
-> > >
-> > > There are still regular bug reports about monitors (sinks) and sources
-> > > disagreeing about the quantization range of the pixel data. In
-> > > particular sources sending full range data when the sink expects
-> > > limited range. From a user space perspective, this is all hidden in
-> > > the kernel. We send full range data to the kernel and then hope it
-> > > does the right thing but as the bug reports show: some combinations of
-> > > displays and drivers result in problems. =20
-> >
-> > I'll agree that we as Raspberry Pi also get a number of bug reports
-> > where sinks don't always look at the infoframes and misinterpret the
-> > data.
-> > =20
-> > > In general the whole handling of the quantization range on linux is
-> > > not defined or documented at all. User space sends full range data
-> > > because that's what seems to work most of the time but technically
-> > > this is all undefined and user space can not fix those issues. Some
-> > > compositors have resorted to giving users the option to choose the
-> > > quantization range but this really should only be necessary for
-> > > straight up broken hardware. =20
-> >
-> > Wowsers! Making userspace worry about limited range data would be a
-> > very weird decision in my view, so compositors should always deal in
-> > full range data. =20
->=20
-> Making this a user space problem is IMO the ideal way to deal with it
-> but that's a bit harder to do (I'll answer that in the reply to
-> Pekka). So let's just assume we all agree that user space only deals
-> with full range data.
-
-Limited range was invented for some reason, so it must have some use
-somewhere, at least in the past. Maybe it was needed to calibrate mixed
-digital/analog video processing chains with test images that needed to
-contain sub-blacks and super-whites, to make sure that sub-blacks come
-out as the nominal black etc. Just because desktop computers do not
-seem to have any need for limited range, I personally wouldn't be as
-arrogant as to say it's never useful. Maybe there are professional
-video/broadcasting needs that currently can only be realized with
-proprietary OS/hardware, because Linux just can't do it today?
-
-Why would TVs support limited range, if it was never useful? Why would
-video sources produce limited range if it was always strictly inferior
-to full range?
-
-Even digital image processing algorithms might make use of
-out-of-unit-range values, not just analog circuitry for overshoot.
-
-But no, I can't give a real example, just speculation. Hence it's fine
-by me to discard limited range processing for now. Still, what I
-explain below would allow limited range processing without any extra
-complexity by making the KMS color pipeline better defined and less
-limiting for userspace.
-
-> > How would composition of multiple DRM planes work if some are limited
-> > range and some are full but you want limited range output? Your
-> > hardware needs to have CSC matrices to convert full range down to
-> > limited range, and know that you want to use them to effectively
-> > compose to limited range.
-> > In fact you can't currently tell DRM that an RGB plane is limited
-> > range - the values in enum drm_color_range are
-> > DRM_COLOR_YCBCR_LIMITED_RANGE and DRM_COLOR_YCBCR_FULL_RANGE [1].
-
-Yeah, that's because range conversion has been conflated with
-YUV-to-RGB conversion, and the result is always full-range RGB in
-practise, AFAIU. There is no way to feed limited range color into the
-further color pipeline in KMS, but that's actually a good thing.(*)
-
-The following is my opinion of the future, as someone who has been
-thinking about how to make HDR work on Wayland while allowing the
-display quality and hardware optimizations that Wayland was designed
-for:
+It is used for protecting lazy context init and cmdq added in patch 6.
+The comment for this mutex is also in patch 6.
+I've removed lazy context init so it will be now used only for cmdq.
+The comment will also be in the correct patch.
 
 
-Userspace should not tell KMS about a plane being limited range at all.
-The reason is the same why userspace should not tell KMS about what
-colorspace a plane is in.
-
-Instead, userspace wants to program specific mathematical operations
-into KMS hardware without any associated or implied semantics. It's
-just math. The actual semantics have been worked out by userspace
-before-hand. This allows to use the KMS hardware to its fullest effect,
-even for things the hardware or KMS UAPI designers did not anticipate.
-
-IMO, framebuffers and KMS planes should ultimately be in undefined
-quantization range, undefined color space, and undefined dynamic range.
-The correct processing of the pixel values is programmed by per-plane
-KMS properties like CTM, LUT, and more specialized components like
-quantization range converter or YUV-to-RGB converter (which is just
-another CTM at a different point, really) where userspace explicitly
-programs the *operation*, and not the input and output types hoping the
-driver and hardware does something sensible.
-
-In that design, there is no problem at all to blend multiple planes of
-differing quantization ranges together. Userspace first chooses the
-blending space, a radiometrically linear RGB limited range BT.709 space
-for example, and then programs each plane to produce exactly that. Then
-CRTC properties are programmed to produce the desired type of output
-signal. Finally, connector properties are programmed to send the
-appropriate metadata to the sink. Of course, userspace takes the sink
-capabilities into account before deciding all this.
-
-The thing KMS UAPI is missing are the per-plane properties.
-
-(*) The reason it is a good thing that one cannot have limited range
-framebuffers is that it would raise problems on how to handle pixel
-values outside of the nominal range, that is, the sub-black and
-super-white channel values. The immediate problem is that LUT stages
-need normalized input and they cannot extrapolate. So if nominal
-quantization range is normalized to 0.0-1.0 for LUT input, sub-black
-would be negative values and super-white would be greater than 1.0
-values, which a LUT cannot sensibly handle. That makes the whole
-concept of limited range problematic in the color pipeline. But, if the
-color pipeline elements like LUTs are defined *as if* the data was
-always full range, it becomes well-defined and useful how the elements
-work, and userspace can produce a proper programming that is guaranteed
-to work.
-
-By completely removing the concept of quantization range and its
-"automatic" handling from the KMS color pipeline and adding processing
-elements to do scaling+offset at suitable stages, we gain the ability
-to accept, process, blend, and produce pixels in any quantization
-range, color space or dynamic range at will.
-
-Another thing such an approach solves is how to interpret
-floating-point pixel data which can naturally represent
-out-of-unit-range values.
-
-
-Thanks,
-pq
-
-> > Cheers.
-> >   Dave
-> >
-> > [1] https://elixir.bootlin.com/linux/latest/source/include/drm/drm_colo=
-r_mgmt.h#L84
-> > [2] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_=
-edid.c#L6756
-> > [3] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_=
-edid.c#L5642
-> > =20
->=20
-
-
---Sig_/LkrlR7aaSqE6/Vbb7n7kr0u
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmN3W0IACgkQI1/ltBGq
-qqdLmA//Xpln15Y4LBw2YlfsFlPFzTptfCzy8UBKpbOcrUrDJUL8KlA04ntcrAjd
-yvgJlr6Hufj5lBs8ujj/xFexWwK4C4xdYUviGVVdFx5h3rAJ01CAe9FJrTRp3fGu
-g7K0E1hbv52mqB0PxfwnaQshEv2ziIzwPZ2ZpGFngWE1WW/o9loXaZdJZsrQlSY8
-RPmA/bd1pqwe343vRg7vj73DwD0c3KOPefDQSSP3qQk94ZBYA6EkO+qCCj6TVO7Y
-Il/81gXJtkmxz+qLqeV8UmreaOQxEMdwOMRbxSEWpkZlcJpsaeQv2ENIxIomQYWq
-RsKNoa6HY7fOAxRl+mGUYYum/8H+dMxac5NXb8P64BwWCMXvzTv950Z/aoBuwHXf
-Kjz1MIysVYAD6YY3bDdfSWz6oW3CEKhFHXMrh74RIJolCU6O+NPhTvAiuYjUF6zp
-w3uXqnSAdlYDaw/P2NXcgKxVvpBYdy5/qygMvcFPp27P0SV0WkVkuXhNlnr+lvEB
-WWrGN8K9jzVmXcomgz5g96/sRQD2gStShp/bVqFx87x8bpCnpw5NF6J9a6pWshK1
-2GaVRA7Bf2DuOG0TwBlv7HyubEqkU/SQaiLDRlrvrIWbrMI2bwtGM9BU/U8YeP6C
-oDRjuZkSKwlE26cObKAVTc3YdDsRIamoQ0XBeTxhH0ssY4lj+vA=
-=Muww
------END PGP SIGNATURE-----
-
---Sig_/LkrlR7aaSqE6/Vbb7n7kr0u--
+Regards,
+Jacek
