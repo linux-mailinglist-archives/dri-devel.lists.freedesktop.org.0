@@ -2,68 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA2B562F9A2
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 16:45:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69CF162F9BC
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 16:53:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10C9C10E76C;
-	Fri, 18 Nov 2022 15:45:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1EFF10E746;
+	Fri, 18 Nov 2022 15:53:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9688710E76C
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 15:45:00 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id ud5so14003405ejc.4
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 07:45:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=o6L5mgU+JKnbKwI6y15nMhU3sJXrsWXfh8EhGsXVHEM=;
- b=FtAxkKH1luQM/BxQ7Z67dVxHUCYHZG5WMV5xWEsTi6BHG/mLSSrnCm1V1TFXLPn+V3
- vuMo7fu6Sa/VGTf73YwH/GDKR0IG0qSxhXTd8sO8rVdh1aBQNzBR7JR0D0XdjIrj3eKy
- eCTck4ERuXvkffONQsY6Ppb1N/UKi72SQaXjB3vF1hziagGGpiG0t59hc6uJq3stxTCm
- GXMPkdesN7YEEliMWa1bDDHoHxmxFPygYB6yToMa2Ya0wTPur3IUwWfjvX82ng1I8oCf
- ZtuU+30muLMICSic2Bx6/1z/GiBcDVfswhkGTz4O4Poy/0bNY95FewuExwf7AgDjz7S5
- Ol1g==
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 617AC893ED
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 15:53:46 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id vv4so4737871ejc.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 07:53:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=FyQ+14zvMT7VrA4M4I6XAMtkyyEu3ioJESJ13Q+Vqf8=;
+ b=eekqTE+rr8QVkOYasZ547zEzqYQJ75Jj7j/ekWxNd49skSOwRLUWM80yh6Vo5E7JpG
+ HX0PjzCRxtnaO20bK7QSeKUB3atS+2nC/Pt65G/edR+XxQTvrJp3ukgL43QKpWzZG7VB
+ okw/uTtcwK215rgKs52znnBxR5J1JsdQgccS11HyYeAWvIelQsI90hKNvo5ZX/ocKL6v
+ yvAKRwIELDYLjocqt00jYrkDuD95s/EX2dJEdRMaFTys0H+Rpsv4fUL+YBgqeKAdDXep
+ IPwuLQNqHzgUzdKnyHWfzZoerpSvlZHXE7p7t3PGRCyERyiwcR5wwIbW8t4ti9xlax8o
+ NBmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=o6L5mgU+JKnbKwI6y15nMhU3sJXrsWXfh8EhGsXVHEM=;
- b=gJIciWXQwB3wndqNQ+lWxTQE9TaTFo9m0Ql6iS0ndKvOFgqP7mMHLcd9yZnp9tdX4F
- EtL3BJ/OyM3FGvb8AcEioAoT4BbtKTG6lg1g1SzlcRFlHdkh0zkJljYndwSlN2k86u5J
- gzSzl7umSwRNca0K/e4R6vTTdKS0/WWoYXI5UWeR4rPeiKm+7gqQSx94aFjLtDLeJGUD
- VJlgMYqsPIe7Bo01KHJscIIdMt6LJvZDJGODFBmEbsa6meeYMyip669bSMUXW5nBMr4G
- wyohVh3Yzw1+pcI0l5O/VwQBTD9Oga35FVQIwxJWlqXYPyqHqb7qO4aLP2LQuRDGD4nx
- J24Q==
-X-Gm-Message-State: ANoB5pmNa3zJ7Q1Gn3x+V3uyg2kePwRyhyA9gfiPCT3nYlkB4GU+di4W
- ONXCAejA6KXsB9nlO1qVXKA=
-X-Google-Smtp-Source: AA0mqf6a7mxrvxb7UFmpnOkrs2KK4TZdU/yC+2D6DmftlrmiOzdJ4WYvQpr1TnQ2XJ8nibIu/iSLcg==
-X-Received: by 2002:a17:906:9457:b0:7ac:db40:7e1 with SMTP id
- z23-20020a170906945700b007acdb4007e1mr6593275ejx.204.1668786299018; 
- Fri, 18 Nov 2022 07:44:59 -0800 (PST)
-Received: from orome (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
- by smtp.gmail.com with ESMTPSA id
- d23-20020a056402001700b00461aca1c7b6sm1957753edu.6.2022.11.18.07.44.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Nov 2022 07:44:58 -0800 (PST)
-Date: Fri, 18 Nov 2022 16:44:56 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3 7/8] drm/simpledrm: Support the XB24/AB24 format
-Message-ID: <Y3eoeLLOxHaruPOV@orome>
-References: <20221117184039.2291937-1-thierry.reding@gmail.com>
- <20221117184039.2291937-8-thierry.reding@gmail.com>
- <7018f094-e1f8-d82d-f4b2-b1ae833d1c47@suse.de>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=FyQ+14zvMT7VrA4M4I6XAMtkyyEu3ioJESJ13Q+Vqf8=;
+ b=jbFGLVx5nHFwsi/vmtXcK3o7kV6mTcfwzhpSysC4ckY0aZnKjBcnMBUOA6Syq7jraC
+ wAzmXyuCInjb92M4l3i9theX4XbexWNnChFS7DwEbOokDj7UU7pcF7Sj11s5lF4safAF
+ +jDYjhzwgtDN+CtgEZIU2OB+da+EuO5I6fnfzX4F1ATVf7GGtmulK9O21OJviawgEHmQ
+ k9rD0gaVwDnq39aWlS2zzjsXQYy2vMLomkEl6b08w0NA5Qbtq6zSUenoBwo3C6+1yQnT
+ e55iLLKLSTBb8HAIMlGxNZKMO2oUQM9gMiEAe/dTgAD82eXJJWMcbIRHbD3oF44cF4WM
+ xzdA==
+X-Gm-Message-State: ANoB5plFpfNe/1QOHpeIZiHvJEWpzCNs89WvmVJeZ5rwzxwThH9J//QK
+ bDgI5mykKdc9dI8p2Wc4Y7CUZbAEljMuoKVIBhxXYA==
+X-Google-Smtp-Source: AA0mqf7W3nP3ZRA5KM+bVG3VDwcuhtvxumaMqp2wKHT5+9vU6ly5a3esrxrdTPS2uA42Xt7n3Co1nmThoU1FrS1DbCE=
+X-Received: by 2002:a17:906:6a0c:b0:7ad:9f03:aa46 with SMTP id
+ qw12-20020a1709066a0c00b007ad9f03aa46mr6709076ejc.175.1668786824808; Fri, 18
+ Nov 2022 07:53:44 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="vNq/aMDFmk2Q3leG"
-Content-Disposition: inline
-In-Reply-To: <7018f094-e1f8-d82d-f4b2-b1ae833d1c47@suse.de>
-User-Agent: Mutt/2.2.8 (2022-11-05)
+References: <CA+hFU4w8=yTU5tQgqZj4qUvJddAQL9fj5teTVSB_dvNcwCyr6g@mail.gmail.com>
+ <CAPY8ntCnAjGy0e55raxV=2bgi1YPSringrKdRmJHeS+Li=3yeg@mail.gmail.com>
+ <CA+hFU4x0PGs-8oUBSXQa9uTNvvW80ZPFnheoBWO0SZnxJ=FKXA@mail.gmail.com>
+ <20221118121530.23c7c3ee@eldfell>
+In-Reply-To: <20221118121530.23c7c3ee@eldfell>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Fri, 18 Nov 2022 15:53:29 +0000
+Message-ID: <CAPY8ntCux_s-iNaYSH4Fs+kwNAiSfTat5saT0jiDcxaVwpGp=g@mail.gmail.com>
+Subject: Re: The state of Quantization Range handling
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,125 +68,234 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
- David Airlie <airlied@redhat.com>, Robin Murphy <robin.murphy@arm.com>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ wayland <wayland-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Pekka
 
---vNq/aMDFmk2Q3leG
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, 18 Nov 2022 at 10:15, Pekka Paalanen <ppaalanen@gmail.com> wrote:
+>
+> On Thu, 17 Nov 2022 22:13:26 +0100
+> Sebastian Wick <sebastian.wick@redhat.com> wrote:
+>
+> > Hi Dave,
+> >
+> > I noticed that I didn't get the Broadcast RGB property thanks to you
+> > (more below)
+> >
+> > On Tue, Nov 15, 2022 at 2:16 PM Dave Stevenson
+> > <dave.stevenson@raspberrypi.com> wrote:
+> > >
+> > > Hi Sebastian
+> > >
+> > > Thanks for starting the conversation - it's stalled a number of times
+> > > previously.
+> > >
+> > > On Mon, 14 Nov 2022 at 23:12, Sebastian Wick <sebastian.wick@redhat.com> wrote:
+> > > >
+> > > > There are still regular bug reports about monitors (sinks) and sources
+> > > > disagreeing about the quantization range of the pixel data. In
+> > > > particular sources sending full range data when the sink expects
+> > > > limited range. From a user space perspective, this is all hidden in
+> > > > the kernel. We send full range data to the kernel and then hope it
+> > > > does the right thing but as the bug reports show: some combinations of
+> > > > displays and drivers result in problems.
+> > >
+> > > I'll agree that we as Raspberry Pi also get a number of bug reports
+> > > where sinks don't always look at the infoframes and misinterpret the
+> > > data.
+> > >
+> > > > In general the whole handling of the quantization range on linux is
+> > > > not defined or documented at all. User space sends full range data
+> > > > because that's what seems to work most of the time but technically
+> > > > this is all undefined and user space can not fix those issues. Some
+> > > > compositors have resorted to giving users the option to choose the
+> > > > quantization range but this really should only be necessary for
+> > > > straight up broken hardware.
+> > >
+> > > Wowsers! Making userspace worry about limited range data would be a
+> > > very weird decision in my view, so compositors should always deal in
+> > > full range data.
+> >
+> > Making this a user space problem is IMO the ideal way to deal with it
+> > but that's a bit harder to do (I'll answer that in the reply to
+> > Pekka). So let's just assume we all agree that user space only deals
+> > with full range data.
+>
+> Limited range was invented for some reason, so it must have some use
+> somewhere, at least in the past. Maybe it was needed to calibrate mixed
+> digital/analog video processing chains with test images that needed to
+> contain sub-blacks and super-whites, to make sure that sub-blacks come
+> out as the nominal black etc. Just because desktop computers do not
+> seem to have any need for limited range, I personally wouldn't be as
+> arrogant as to say it's never useful. Maybe there are professional
+> video/broadcasting needs that currently can only be realized with
+> proprietary OS/hardware, because Linux just can't do it today?
+>
+> Why would TVs support limited range, if it was never useful? Why would
+> video sources produce limited range if it was always strictly inferior
+> to full range?
+>
+> Even digital image processing algorithms might make use of
+> out-of-unit-range values, not just analog circuitry for overshoot.
+>
+> But no, I can't give a real example, just speculation. Hence it's fine
+> by me to discard limited range processing for now. Still, what I
+> explain below would allow limited range processing without any extra
+> complexity by making the KMS color pipeline better defined and less
+> limiting for userspace.
 
-On Fri, Nov 18, 2022 at 04:08:23PM +0100, Thomas Zimmermann wrote:
-> Hi
->=20
-> Am 17.11.22 um 19:40 schrieb Thierry Reding:
-> > From: Thierry Reding <treding@nvidia.com>
-> >=20
-> > Add XB24 and AB24 to the list of supported formats. The format helpers
-> > support conversion to these formats and they are documented in the
-> > simple-framebuffer device tree bindings.
-> >=20
-> > Signed-off-by: Thierry Reding <treding@nvidia.com>
-> > ---
-> > Changes in v2:
-> > - treat AB24 as XB24 and support both at the same time
-> >=20
-> >   drivers/gpu/drm/tiny/simpledrm.c       | 2 ++
-> >   include/linux/platform_data/simplefb.h | 1 +
-> >   2 files changed, 3 insertions(+)
-> >=20
-> > diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/si=
-mpledrm.c
-> > index 7f39bc58da52..ba1c2057fc65 100644
-> > --- a/drivers/gpu/drm/tiny/simpledrm.c
-> > +++ b/drivers/gpu/drm/tiny/simpledrm.c
-> > @@ -483,6 +483,8 @@ static int simpledrm_device_init_regulators(struct =
-simpledrm_device *sdev)
-> >   static const uint32_t simpledrm_primary_plane_formats[] =3D {
-> >   	DRM_FORMAT_XRGB8888,
-> >   	DRM_FORMAT_ARGB8888,
-> > +	DRM_FORMAT_XBGR8888,
-> > +	DRM_FORMAT_ABGR8888,
->=20
-> Does the hardware *really* support AB42 on its primary plane?
+AIUI limited range comes from the analogue world, or possibly creative
+(film/TV) world, hence being used on Consumer devices rather than IT
+ones (CTA and CEA modes vs VESA and DMT modes).
 
-Yes, Tegra display hardware supports this format on the primary plane.
+YCbCr output from video codecs typically uses a range of 16-235,
+therefore a media player wanting to pass the decoded video out to the
+display exactly as-is needs to be able to signal that to the display
+for it to be interpreted correctly.
+HDMI extended DVI. I believe both YCbCr support and range control were
+added to the HDMI spec at the same time, presumably to allow for this
+use case. Limited range RGB seems to be a bit of a quirk though.
 
-> We recently had a discussion about the exported formats and the consensus=
- is
-> that we only want the hardware's native formats plus XRGB888. That's not
-> implemented yet in simpledrm, but this format list will soon see a larger
-> cleanup.
->=20
-> So I think ARGB8888 likely shouldn't be on the list here.
+Just to be annoying, JPEG uses full range YCbCr.
 
-This is for consistency with the list below. If a device tree claims
-that the framebuffer is ABGR8888 using the "a8b8g8r8" string, then
-shouldn't we support it?
+> > > How would composition of multiple DRM planes work if some are limited
+> > > range and some are full but you want limited range output? Your
+> > > hardware needs to have CSC matrices to convert full range down to
+> > > limited range, and know that you want to use them to effectively
+> > > compose to limited range.
+> > > In fact you can't currently tell DRM that an RGB plane is limited
+> > > range - the values in enum drm_color_range are
+> > > DRM_COLOR_YCBCR_LIMITED_RANGE and DRM_COLOR_YCBCR_FULL_RANGE [1].
+>
+> Yeah, that's because range conversion has been conflated with
+> YUV-to-RGB conversion, and the result is always full-range RGB in
+> practise, AFAIU. There is no way to feed limited range color into the
+> further color pipeline in KMS, but that's actually a good thing.(*)
+>
+> The following is my opinion of the future, as someone who has been
+> thinking about how to make HDR work on Wayland while allowing the
+> display quality and hardware optimizations that Wayland was designed
+> for:
+>
+>
+> Userspace should not tell KMS about a plane being limited range at all.
+> The reason is the same why userspace should not tell KMS about what
+> colorspace a plane is in.
+>
+> Instead, userspace wants to program specific mathematical operations
+> into KMS hardware without any associated or implied semantics. It's
+> just math. The actual semantics have been worked out by userspace
+> before-hand. This allows to use the KMS hardware to its fullest effect,
+> even for things the hardware or KMS UAPI designers did not anticipate.
+>
+> IMO, framebuffers and KMS planes should ultimately be in undefined
+> quantization range, undefined color space, and undefined dynamic range.
+> The correct processing of the pixel values is programmed by per-plane
+> KMS properties like CTM, LUT, and more specialized components like
+> quantization range converter or YUV-to-RGB converter (which is just
+> another CTM at a different point, really) where userspace explicitly
+> programs the *operation*, and not the input and output types hoping the
+> driver and hardware does something sensible.
 
-Thierry
+How do you describe the functionality available on constrained
+hardware that has fixed matrices for YUV to RGB conversions using the
+normal BT601 and 709?
+Or hardware that has no per plane matrix for RGB? (I believe vc4 fits
+into this category).
 
->=20
-> Best regards
-> Thomas
->=20
-> >   	DRM_FORMAT_RGB565,
-> >   	//DRM_FORMAT_XRGB1555,
-> >   	//DRM_FORMAT_ARGB1555,
-> > diff --git a/include/linux/platform_data/simplefb.h b/include/linux/pla=
-tform_data/simplefb.h
-> > index 27ea99af6e1d..4f94d52ac99f 100644
-> > --- a/include/linux/platform_data/simplefb.h
-> > +++ b/include/linux/platform_data/simplefb.h
-> > @@ -22,6 +22,7 @@
-> >   	{ "r8g8b8", 24, {16, 8}, {8, 8}, {0, 8}, {0, 0}, DRM_FORMAT_RGB888 }=
-, \
-> >   	{ "x8r8g8b8", 32, {16, 8}, {8, 8}, {0, 8}, {0, 0}, DRM_FORMAT_XRGB88=
-88 }, \
-> >   	{ "a8r8g8b8", 32, {16, 8}, {8, 8}, {0, 8}, {24, 8}, DRM_FORMAT_ARGB8=
-888 }, \
-> > +	{ "x8b8g8r8", 32, {0, 8}, {8, 8}, {16, 8}, {0, 0}, DRM_FORMAT_XBGR888=
-8 }, \
-> >   	{ "a8b8g8r8", 32, {0, 8}, {8, 8}, {16, 8}, {24, 8}, DRM_FORMAT_ABGR8=
-888 }, \
-> >   	{ "x2r10g10b10", 32, {20, 10}, {10, 10}, {0, 10}, {0, 0}, DRM_FORMAT=
-_XRGB2101010 }, \
-> >   	{ "a2r10g10b10", 32, {20, 10}, {10, 10}, {0, 10}, {30, 2}, DRM_FORMA=
-T_ARGB2101010 }, \
->=20
-> --=20
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-> (HRB 36809, AG N=C3=BCrnberg)
-> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
+I'd also propose that you need a load of helpers so that the "normal"
+use cases of eg BT601 YCbCr to the default composition space is
+handled for simply. Otherwise the enforced complexity to userspace has
+just exploded.
+
+Or seeing as properties like COLOR_ENCODING and COLOR_RANGE already
+exist in the UAPI, add a "custom" mode to those that will enable all
+your other magic properties.
+
+> In that design, there is no problem at all to blend multiple planes of
+> differing quantization ranges together. Userspace first chooses the
+> blending space, a radiometrically linear RGB limited range BT.709 space
+> for example, and then programs each plane to produce exactly that. Then
+> CRTC properties are programmed to produce the desired type of output
+> signal. Finally, connector properties are programmed to send the
+> appropriate metadata to the sink. Of course, userspace takes the sink
+> capabilities into account before deciding all this.
+>
+> The thing KMS UAPI is missing are the per-plane properties.
+
+And hardware support on many platforms.
+I've just checked, and vc4 always composes to RGB. Things like YCbCr
+for HDMI are handled in the HDMI tx block. How do we tell userspace
+that it has no choice over the blending space?
+
+If you're trying to make things totally comprehensive, please don't
+miss out chroma-siting as that is another property that is missing
+from KMS for YCbCr planes.
+MPEG-2, MPEG-4 and H264 differ from JPEG and MPEG-1 in default
+chroma-siting, and HEVC differs again.
+
+Conversion of HDR to/from SDR is going to be an interesting problem on
+many platforms. I won't claim enough knowledge on the subject, but
+obviously there needs to be a choice made over which mode composition
+should happen in, and other planes will need to be converted. Is that
+conversion going to be totally generic?
 
 
+Lots of questions posed by this discussion, but I'm not sure that they
+are specifically relevant to HDMI quantization ranges at this stage.
+All RGB buffers should be full range, and full/limited range
+conversion should be controlled via a similar mechanism to "Broadcast
+RGB" but in the KMS core.
 
+Checking drm_hdmi_avi_infoframe_quant_range(), it already does the
+correct thing with regard to the EDID VCD block and signalling the
+quantization range. The implementation of range choice on i915 (and
+vendor vc4 tree) could be improved to also check
+display_info->rgb_quant_range_selectable and choose FULL even for CEA
+modes if the display allows it, but that may expose more compatibility
+issues with monitors where the EDID is a little iffy.
 
---vNq/aMDFmk2Q3leG
-Content-Type: application/pgp-signature; name="signature.asc"
+Cheers
+  Dave
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmN3qHgACgkQ3SOs138+
-s6Exkw/+Jt5RZlDy44ERgWiTBxt37qAeKtj5ZY8t5BLUo2Y4Z315h5xpUv3roXJa
-Jz2KB75PxNwp+KdWZQT5HkR3qxDL+Jh2YcX7RDsO/pTfDgfGgz0akwdnpXdpyarM
-MooVEAggH+xP+ASFA38CdwWt3PLqkVM0MWjtcv1bk9d4NXe3MYdgK54To/4FztNF
-162CfjUvVfX/bFpBwsJsS9fY2GQwaGtwd10mP6tS6q5GJapnRffZK0aW5m8d04Ek
-aaaRC2Qf6YrR8CSqjsBRRrVpQ4l0tVRuhAzMPCdr7Py7Hz5tzv/OKxd9Si5HEhhu
-pU8KVa7KGq+6DA07j7y+SJPF9xGK7WpSDlAz3q4Js0Jsr6fYXzk4CVuqEycjai1W
-wbColg/L7GnywWxxEmV7/owzUtPn7fcMJAC8w6hRaTgTEyUa+ZF8rjnObfRYWAhe
-EZo14G+bFhBr28sb26h3Ey8TFddfPSg1t0kPiTn+qk6nDkxse14alwnsO+elOqMH
-3LuByjGsUXeHvN7+o5Qoprm7rxt/0UltuizOjb2BymvqFyTtympwq86tzyYudEU5
-pGm6yMTX/95AkSpPs6nZ7E+JyxM+5e3MLC6UCYdHmRNnvY5qVF2QAy4ia+2p7FLn
-QdYh9Rh53QcdjHJJCeU1zqW7idMWO9NT40Xx0xjPbVw3qwqoY+c=
-=zV7L
------END PGP SIGNATURE-----
-
---vNq/aMDFmk2Q3leG--
+> (*) The reason it is a good thing that one cannot have limited range
+> framebuffers is that it would raise problems on how to handle pixel
+> values outside of the nominal range, that is, the sub-black and
+> super-white channel values. The immediate problem is that LUT stages
+> need normalized input and they cannot extrapolate. So if nominal
+> quantization range is normalized to 0.0-1.0 for LUT input, sub-black
+> would be negative values and super-white would be greater than 1.0
+> values, which a LUT cannot sensibly handle. That makes the whole
+> concept of limited range problematic in the color pipeline. But, if the
+> color pipeline elements like LUTs are defined *as if* the data was
+> always full range, it becomes well-defined and useful how the elements
+> work, and userspace can produce a proper programming that is guaranteed
+> to work.
+>
+> By completely removing the concept of quantization range and its
+> "automatic" handling from the KMS color pipeline and adding processing
+> elements to do scaling+offset at suitable stages, we gain the ability
+> to accept, process, blend, and produce pixels in any quantization
+> range, color space or dynamic range at will.
+>
+> Another thing such an approach solves is how to interpret
+> floating-point pixel data which can naturally represent
+> out-of-unit-range values.
+>
+>
+> Thanks,
+> pq
+>
+> > > Cheers.
+> > >   Dave
+> > >
+> > > [1] https://elixir.bootlin.com/linux/latest/source/include/drm/drm_color_mgmt.h#L84
+> > > [2] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_edid.c#L6756
+> > > [3] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_edid.c#L5642
+> > >
+> >
+>
