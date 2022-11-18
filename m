@@ -2,51 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8759762EB7F
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 02:59:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30BC662EBCF
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 03:18:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F43B10E6E2;
-	Fri, 18 Nov 2022 01:59:22 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A306110E6D8;
- Fri, 18 Nov 2022 01:59:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1668736756; x=1700272756;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=JQ14fNlddLHzFZiYkajj+NHGJPiTvI9/P8uLgdke33M=;
- b=Mj9CPmFi0I75CIkFL3Wnb3t/xp4oR85A0BLZaCLylR9VEuzqwrntAxH0
- tzkvJQHOQf9xItP947pueoJlzkhvuz5vAvzh621mr/dmzVB8DHYV353Jd
- zwygdHRvU79thm6bsCR5qZkXCDQtlRrYt8Bq61h7KUHWRAEDcPO0j+D52
- 0eEOEwwsjaZV3WVHnt+HpTvgvRMrJ6osNKo71X1SRMVvhZLiCl/Yq26r8
- 20VCHnBWUxJZwgDcDTxS/jsxuGZLS1PPmkkUfuTEF54YNkCINc8YCPh67
- 54gr8Nxwmn/IcLtgOmVIzW5yTUB6kiN6XVYUGJMYPKfCm/9JT7KwZ3LeH Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="300565835"
-X-IronPort-AV: E=Sophos;i="5.96,172,1665471600"; d="scan'208";a="300565835"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Nov 2022 17:59:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="703563426"
-X-IronPort-AV: E=Sophos;i="5.96,172,1665471600"; d="scan'208";a="703563426"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.143])
- by fmsmga008.fm.intel.com with ESMTP; 17 Nov 2022 17:59:14 -0800
-From: John.C.Harrison@Intel.com
-To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH v2 5/5] drm/i915/uc: Update the gt/uc code to use gt_err and
- friends
-Date: Thu, 17 Nov 2022 17:58:58 -0800
-Message-Id: <20221118015858.2548106-6-John.C.Harrison@Intel.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221118015858.2548106-1-John.C.Harrison@Intel.com>
-References: <20221118015858.2548106-1-John.C.Harrison@Intel.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEAF610E6E1;
+	Fri, 18 Nov 2022 02:18:34 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5ED8810E6E1
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 02:18:30 +0000 (UTC)
+Received: from kwepemi500016.china.huawei.com (unknown [172.30.72.57])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4ND0n64ZsbzmVrs;
+ Fri, 18 Nov 2022 10:18:02 +0800 (CST)
+Received: from huawei.com (10.175.100.227) by kwepemi500016.china.huawei.com
+ (7.221.188.220) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Fri, 18 Nov
+ 2022 10:18:26 +0800
+From: Shang XiaoJing <shangxiaojing@huawei.com>
+To: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <robdclark@gmail.com>, <seanpaul@chromium.org>,
+ <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm: Fix potential null-ptr-deref due to
+ drmm_mode_config_init()
+Date: Fri, 18 Nov 2022 10:16:51 +0800
+Message-ID: <20221118021651.2460-1-shangxiaojing@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.100.227]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ kwepemi500016.china.huawei.com (7.221.188.220)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,475 +47,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
+Cc: shangxiaojing@huawei.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
+drmm_mode_config_init() will call drm_mode_create_standard_properties()
+and won't check the ret value. When drm_mode_create_standard_properties()
+failed due to alloc, property will be a NULL pointer and may causes the
+null-ptr-deref. Fix the null-ptr-deref by adding the ret value check.
 
-Use the new module oriented output message helpers where possible.
+Found null-ptr-deref while testing insert module bochs:
+general protection fault, probably for non-canonical address
+    0xdffffc000000000c: 0000 [#1] SMP KASAN PTI
+KASAN: null-ptr-deref in range [0x0000000000000060-0x0000000000000067]
+CPU: 3 PID: 249 Comm: modprobe Not tainted 6.1.0-rc1+ #364
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
+rel-1.15.0-0-g2dd4b9b3f840-prebuilt.qemu.org 04/01/2014
+RIP: 0010:drm_object_attach_property+0x73/0x3c0 [drm]
+Call Trace:
+ <TASK>
+ __drm_connector_init+0xb6c/0x1100 [drm]
+ bochs_pci_probe.cold.11+0x4cb/0x7fe [bochs]
+ pci_device_probe+0x17d/0x340
+ really_probe+0x1db/0x5d0
+ __driver_probe_device+0x1e7/0x250
+ driver_probe_device+0x4a/0x120
+ __driver_attach+0xcd/0x2c0
+ bus_for_each_dev+0x11a/0x1b0
+ bus_add_driver+0x3d7/0x500
+ driver_register+0x18e/0x320
+ do_one_initcall+0xc4/0x3e0
+ do_init_module+0x1b4/0x630
+ load_module+0x5dca/0x7230
+ __do_sys_finit_module+0x100/0x170
+ do_syscall_64+0x3f/0x90
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7ff65af9f839
 
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+Fixes: 6b4959f43a04 ("drm/atomic: atomic plane properties")
+Signed-off-by: Shang XiaoJing <shangxiaojing@huawei.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_uc.c    | 108 +++++++++++------------
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c |  98 ++++++++++----------
- 2 files changed, 99 insertions(+), 107 deletions(-)
+ drivers/gpu/drm/drm_mode_config.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-index 1d28286e6f066..269be95625342 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-@@ -65,29 +65,29 @@ static int __intel_uc_reset_hw(struct intel_uc *uc)
- 
- 	ret = intel_reset_guc(gt);
- 	if (ret) {
--		DRM_ERROR("Failed to reset GuC, ret = %d\n", ret);
-+		gt_err(gt, "Failed to reset GuC, ret = %d\n", ret);
- 		return ret;
- 	}
- 
- 	guc_status = intel_uncore_read(gt->uncore, GUC_STATUS);
--	WARN(!(guc_status & GS_MIA_IN_RESET),
--	     "GuC status: 0x%x, MIA core expected to be in reset\n",
--	     guc_status);
-+	gt_WARN(gt, !(guc_status & GS_MIA_IN_RESET),
-+		"GuC status: 0x%x, MIA core expected to be in reset\n",
-+		guc_status);
- 
- 	return ret;
- }
- 
- static void __confirm_options(struct intel_uc *uc)
+diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
+index 939d621c9ad4..141a5b4042b2 100644
+--- a/drivers/gpu/drm/drm_mode_config.c
++++ b/drivers/gpu/drm/drm_mode_config.c
+@@ -402,6 +402,8 @@ static void drm_mode_config_init_release(struct drm_device *dev, void *ptr)
+  */
+ int drmm_mode_config_init(struct drm_device *dev)
  {
--	struct drm_i915_private *i915 = uc_to_gt(uc)->i915;
-+	struct intel_gt *gt = uc_to_gt(uc);
-+	struct drm_i915_private *i915 = gt->i915;
++	int ret;
++
+ 	mutex_init(&dev->mode_config.mutex);
+ 	drm_modeset_lock_init(&dev->mode_config.connection_mutex);
+ 	mutex_init(&dev->mode_config.idr_mutex);
+@@ -423,7 +425,11 @@ int drmm_mode_config_init(struct drm_device *dev)
+ 	init_llist_head(&dev->mode_config.connector_free_list);
+ 	INIT_WORK(&dev->mode_config.connector_free_work, drm_connector_free_work_fn);
  
--	drm_dbg(&i915->drm,
--		"enable_guc=%d (guc:%s submission:%s huc:%s slpc:%s)\n",
--		i915->params.enable_guc,
--		str_yes_no(intel_uc_wants_guc(uc)),
--		str_yes_no(intel_uc_wants_guc_submission(uc)),
--		str_yes_no(intel_uc_wants_huc(uc)),
--		str_yes_no(intel_uc_wants_guc_slpc(uc)));
-+	gt_dbg(gt, "enable_guc=%d (guc:%s submission:%s huc:%s slpc:%s)\n",
-+	       i915->params.enable_guc,
-+	       str_yes_no(intel_uc_wants_guc(uc)),
-+	       str_yes_no(intel_uc_wants_guc_submission(uc)),
-+	       str_yes_no(intel_uc_wants_huc(uc)),
-+	       str_yes_no(intel_uc_wants_guc_slpc(uc)));
+-	drm_mode_create_standard_properties(dev);
++	ret = drm_mode_create_standard_properties(dev);
++	if (ret) {
++		drm_mode_config_cleanup(dev);
++		return ret;
++	}
  
- 	if (i915->params.enable_guc == 0) {
- 		GEM_BUG_ON(intel_uc_wants_guc(uc));
-@@ -98,26 +98,22 @@ static void __confirm_options(struct intel_uc *uc)
- 	}
- 
- 	if (!intel_uc_supports_guc(uc))
--		drm_info(&i915->drm,
--			 "Incompatible option enable_guc=%d - %s\n",
--			 i915->params.enable_guc, "GuC is not supported!");
-+		gt_info(gt, "Incompatible option enable_guc=%d - %s\n",
-+			i915->params.enable_guc, "GuC is not supported!");
- 
- 	if (i915->params.enable_guc & ENABLE_GUC_LOAD_HUC &&
- 	    !intel_uc_supports_huc(uc))
--		drm_info(&i915->drm,
--			 "Incompatible option enable_guc=%d - %s\n",
--			 i915->params.enable_guc, "HuC is not supported!");
-+		gt_info(gt, "Incompatible option enable_guc=%d - %s\n",
-+			i915->params.enable_guc, "HuC is not supported!");
- 
- 	if (i915->params.enable_guc & ENABLE_GUC_SUBMISSION &&
- 	    !intel_uc_supports_guc_submission(uc))
--		drm_info(&i915->drm,
--			 "Incompatible option enable_guc=%d - %s\n",
--			 i915->params.enable_guc, "GuC submission is N/A");
-+		gt_info(gt, "Incompatible option enable_guc=%d - %s\n",
-+			i915->params.enable_guc, "GuC submission is N/A");
- 
- 	if (i915->params.enable_guc & ~ENABLE_GUC_MASK)
--		drm_info(&i915->drm,
--			 "Incompatible option enable_guc=%d - %s\n",
--			 i915->params.enable_guc, "undocumented flag");
-+		gt_info(gt, "Incompatible option enable_guc=%d - %s\n",
-+			i915->params.enable_guc, "undocumented flag");
- }
- 
- void intel_uc_init_early(struct intel_uc *uc)
-@@ -249,15 +245,13 @@ static int guc_enable_communication(struct intel_guc *guc)
- 	intel_guc_ct_event_handler(&guc->ct);
- 	spin_unlock_irq(gt->irq_lock);
- 
--	drm_dbg(&i915->drm, "GuC communication enabled\n");
-+	guc_dbg(guc, "communication enabled\n");
- 
- 	return 0;
- }
- 
- static void guc_disable_communication(struct intel_guc *guc)
- {
--	struct drm_i915_private *i915 = guc_to_gt(guc)->i915;
--
- 	/*
- 	 * Events generated during or after CT disable are logged by guc in
- 	 * via mmio. Make sure the register is clear before disabling CT since
-@@ -277,7 +271,7 @@ static void guc_disable_communication(struct intel_guc *guc)
- 	 */
- 	guc_get_mmio_msg(guc);
- 
--	drm_dbg(&i915->drm, "GuC communication disabled\n");
-+	guc_dbg(guc, "communication disabled\n");
- }
- 
- static void __uc_fetch_firmwares(struct intel_uc *uc)
-@@ -290,8 +284,8 @@ static void __uc_fetch_firmwares(struct intel_uc *uc)
- 	if (err) {
- 		/* Make sure we transition out of transient "SELECTED" state */
- 		if (intel_uc_wants_huc(uc)) {
--			drm_dbg(&uc_to_gt(uc)->i915->drm,
--				"Failed to fetch GuC: %d disabling HuC\n", err);
-+			gt_dbg(uc_to_gt(uc),
-+			       "Failed to fetch GuC: %d disabling HuC\n", err);
- 			intel_uc_fw_change_status(&uc->huc.fw,
- 						  INTEL_UC_FIRMWARE_ERROR);
- 		}
-@@ -364,7 +358,7 @@ static int uc_init_wopcm(struct intel_uc *uc)
- 	int err;
- 
- 	if (unlikely(!base || !size)) {
--		i915_probe_error(gt->i915, "Unsuccessful WOPCM partitioning\n");
-+		gt_probe_error(gt, "Unsuccessful WOPCM partitioning\n");
- 		return -E2BIG;
- 	}
- 
-@@ -395,13 +389,13 @@ static int uc_init_wopcm(struct intel_uc *uc)
- 	return 0;
- 
- err_out:
--	i915_probe_error(gt->i915, "Failed to init uC WOPCM registers!\n");
--	i915_probe_error(gt->i915, "%s(%#x)=%#x\n", "DMA_GUC_WOPCM_OFFSET",
--			 i915_mmio_reg_offset(DMA_GUC_WOPCM_OFFSET),
--			 intel_uncore_read(uncore, DMA_GUC_WOPCM_OFFSET));
--	i915_probe_error(gt->i915, "%s(%#x)=%#x\n", "GUC_WOPCM_SIZE",
--			 i915_mmio_reg_offset(GUC_WOPCM_SIZE),
--			 intel_uncore_read(uncore, GUC_WOPCM_SIZE));
-+	gt_probe_error(gt, "Failed to init uC WOPCM registers!\n");
-+	gt_probe_error(gt, "%s(%#x)=%#x\n", "DMA_GUC_WOPCM_OFFSET",
-+		       i915_mmio_reg_offset(DMA_GUC_WOPCM_OFFSET),
-+		       intel_uncore_read(uncore, DMA_GUC_WOPCM_OFFSET));
-+	gt_probe_error(gt, "%s(%#x)=%#x\n", "GUC_WOPCM_SIZE",
-+		       i915_mmio_reg_offset(GUC_WOPCM_SIZE),
-+		       intel_uncore_read(uncore, GUC_WOPCM_SIZE));
- 
- 	return err;
- }
-@@ -433,18 +427,19 @@ static int __uc_check_hw(struct intel_uc *uc)
- 
- static void print_fw_ver(struct intel_uc *uc, struct intel_uc_fw *fw)
- {
--	struct drm_i915_private *i915 = uc_to_gt(uc)->i915;
-+	struct intel_gt *gt = uc_to_gt(uc);
- 
--	drm_info(&i915->drm, "%s firmware %s version %u.%u.%u\n",
--		 intel_uc_fw_type_repr(fw->type), fw->file_selected.path,
--		 fw->file_selected.major_ver,
--		 fw->file_selected.minor_ver,
--		 fw->file_selected.patch_ver);
-+	gt_info(gt, "%s firmware %s version %u.%u.%u\n",
-+		intel_uc_fw_type_repr(fw->type), fw->file_selected.path,
-+		fw->file_selected.major_ver,
-+		fw->file_selected.minor_ver,
-+		fw->file_selected.patch_ver);
- }
- 
- static int __uc_init_hw(struct intel_uc *uc)
- {
--	struct drm_i915_private *i915 = uc_to_gt(uc)->i915;
-+	struct intel_gt *gt = uc_to_gt(uc);
-+	struct drm_i915_private *i915 = gt->i915;
- 	struct intel_guc *guc = &uc->guc;
- 	struct intel_huc *huc = &uc->huc;
- 	int ret, attempts;
-@@ -496,8 +491,8 @@ static int __uc_init_hw(struct intel_uc *uc)
- 		if (ret == 0)
- 			break;
- 
--		DRM_DEBUG_DRIVER("GuC fw load failed: %d; will reset and "
--				 "retry %d more time(s)\n", ret, attempts);
-+		gt_dbg(gt, "GuC fw load failed: %d; will reset and retry %d more time(s)\n",
-+		       ret, attempts);
- 	}
- 
- 	/* Did we succeded or run out of retries? */
-@@ -531,10 +526,10 @@ static int __uc_init_hw(struct intel_uc *uc)
- 		intel_rps_lower_unslice(&uc_to_gt(uc)->rps);
- 	}
- 
--	drm_info(&i915->drm, "GuC submission %s\n",
--		 str_enabled_disabled(intel_uc_uses_guc_submission(uc)));
--	drm_info(&i915->drm, "GuC SLPC %s\n",
--		 str_enabled_disabled(intel_uc_uses_guc_slpc(uc)));
-+	gt_info(gt, "GuC submission %s\n",
-+		str_enabled_disabled(intel_uc_uses_guc_submission(uc)));
-+	gt_info(gt, "GuC SLPC %s\n",
-+		str_enabled_disabled(intel_uc_uses_guc_slpc(uc)));
- 
- 	return 0;
- 
-@@ -552,12 +547,12 @@ static int __uc_init_hw(struct intel_uc *uc)
- 	__uc_sanitize(uc);
- 
- 	if (!ret) {
--		drm_notice(&i915->drm, "GuC is uninitialized\n");
-+		gt_notice(gt, "GuC is uninitialized\n");
- 		/* We want to run without GuC submission */
- 		return 0;
- 	}
- 
--	i915_probe_error(i915, "GuC initialization failed %d\n", ret);
-+	gt_probe_error(gt, "GuC initialization failed %d\n", ret);
- 
- 	/* We want to keep KMS alive */
- 	return -EIO;
-@@ -656,6 +651,7 @@ void intel_uc_runtime_suspend(struct intel_uc *uc)
- void intel_uc_suspend(struct intel_uc *uc)
- {
- 	struct intel_guc *guc = &uc->guc;
-+	struct intel_gt *gt = uc_to_gt(uc);
- 	intel_wakeref_t wakeref;
- 	int err;
- 
-@@ -664,10 +660,10 @@ void intel_uc_suspend(struct intel_uc *uc)
- 		return;
- 	}
- 
--	with_intel_runtime_pm(&uc_to_gt(uc)->i915->runtime_pm, wakeref) {
-+	with_intel_runtime_pm(&gt->i915->runtime_pm, wakeref) {
- 		err = intel_guc_suspend(guc);
- 		if (err)
--			DRM_DEBUG_DRIVER("Failed to suspend GuC, err=%d", err);
-+			guc_dbg(guc, "failed to suspend, err=%d\n", err);
- 	}
- }
- 
-@@ -695,7 +691,7 @@ static int __uc_resume(struct intel_uc *uc, bool enable_communication)
- 
- 	err = intel_guc_resume(guc);
- 	if (err) {
--		DRM_DEBUG_DRIVER("Failed to resume GuC, err=%d", err);
-+		guc_dbg(guc, "failed to resume, err=%d\n", err);
- 		return err;
- 	}
- 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-index 0c80ba51a4bdc..9f10b66599376 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-@@ -11,6 +11,7 @@
- #include <drm/drm_print.h>
- 
- #include "gem/i915_gem_lmem.h"
-+#include "gt/intel_gt.h"
- #include "intel_uc_fw.h"
- #include "intel_uc_fw_abi.h"
- #include "i915_drv.h"
-@@ -37,11 +38,10 @@ void intel_uc_fw_change_status(struct intel_uc_fw *uc_fw,
- 			       enum intel_uc_fw_status status)
- {
- 	uc_fw->__status =  status;
--	drm_dbg(&__uc_fw_to_gt(uc_fw)->i915->drm,
--		"%s firmware -> %s\n",
--		intel_uc_fw_type_repr(uc_fw->type),
--		status == INTEL_UC_FIRMWARE_SELECTED ?
--		uc_fw->file_selected.path : intel_uc_fw_status_repr(status));
-+	gt_dbg(__uc_fw_to_gt(uc_fw), "%s firmware -> %s\n",
-+	       intel_uc_fw_type_repr(uc_fw->type),
-+	       status == INTEL_UC_FIRMWARE_SELECTED ?
-+	       uc_fw->file_selected.path : intel_uc_fw_status_repr(status));
- }
- #endif
- 
-@@ -482,15 +482,14 @@ static int check_ccs_header(struct intel_gt *gt,
- 			    const struct firmware *fw,
- 			    struct intel_uc_fw *uc_fw)
- {
--	struct drm_i915_private *i915 = gt->i915;
- 	struct uc_css_header *css;
- 	size_t size;
- 
- 	/* Check the size of the blob before examining buffer contents */
- 	if (unlikely(fw->size < sizeof(struct uc_css_header))) {
--		drm_warn(&i915->drm, "%s firmware %s: invalid size: %zu < %zu\n",
--			 intel_uc_fw_type_repr(uc_fw->type), uc_fw->file_selected.path,
--			 fw->size, sizeof(struct uc_css_header));
-+		gt_warn(gt, "%s firmware %s: invalid size: %zu < %zu\n",
-+			intel_uc_fw_type_repr(uc_fw->type), uc_fw->file_selected.path,
-+			fw->size, sizeof(struct uc_css_header));
- 		return -ENODATA;
- 	}
- 
-@@ -500,10 +499,9 @@ static int check_ccs_header(struct intel_gt *gt,
- 	size = (css->header_size_dw - css->key_size_dw - css->modulus_size_dw -
- 		css->exponent_size_dw) * sizeof(u32);
- 	if (unlikely(size != sizeof(struct uc_css_header))) {
--		drm_warn(&i915->drm,
--			 "%s firmware %s: unexpected header size: %zu != %zu\n",
--			 intel_uc_fw_type_repr(uc_fw->type), uc_fw->file_selected.path,
--			 fw->size, sizeof(struct uc_css_header));
-+		gt_warn(gt, "%s firmware %s: unexpected header size: %zu != %zu\n",
-+			intel_uc_fw_type_repr(uc_fw->type), uc_fw->file_selected.path,
-+			fw->size, sizeof(struct uc_css_header));
- 		return -EPROTO;
- 	}
- 
-@@ -516,18 +514,18 @@ static int check_ccs_header(struct intel_gt *gt,
- 	/* At least, it should have header, uCode and RSA. Size of all three. */
- 	size = sizeof(struct uc_css_header) + uc_fw->ucode_size + uc_fw->rsa_size;
- 	if (unlikely(fw->size < size)) {
--		drm_warn(&i915->drm, "%s firmware %s: invalid size: %zu < %zu\n",
--			 intel_uc_fw_type_repr(uc_fw->type), uc_fw->file_selected.path,
--			 fw->size, size);
-+		gt_warn(gt, "%s firmware %s: invalid size: %zu < %zu\n",
-+			intel_uc_fw_type_repr(uc_fw->type), uc_fw->file_selected.path,
-+			fw->size, size);
- 		return -ENOEXEC;
- 	}
- 
- 	/* Sanity check whether this fw is not larger than whole WOPCM memory */
- 	size = __intel_uc_fw_get_upload_size(uc_fw);
- 	if (unlikely(size >= gt->wopcm.size)) {
--		drm_warn(&i915->drm, "%s firmware %s: invalid size: %zu > %zu\n",
--			 intel_uc_fw_type_repr(uc_fw->type), uc_fw->file_selected.path,
--			 size, (size_t)gt->wopcm.size);
-+		gt_warn(gt, "%s firmware %s: invalid size: %zu > %zu\n",
-+			intel_uc_fw_type_repr(uc_fw->type), uc_fw->file_selected.path,
-+			size, (size_t)gt->wopcm.size);
- 		return -E2BIG;
- 	}
- 
-@@ -578,10 +576,9 @@ int intel_uc_fw_fetch(struct intel_uc_fw *uc_fw)
- 	memcpy(&file_ideal, &uc_fw->file_wanted, sizeof(file_ideal));
- 
- 	if (!err && fw->size > INTEL_UC_RSVD_GGTT_PER_FW) {
--		drm_err(&i915->drm,
--			"%s firmware %s: size (%zuKB) exceeds max supported size (%uKB)\n",
--			intel_uc_fw_type_repr(uc_fw->type), uc_fw->file_selected.path,
--			fw->size / SZ_1K, INTEL_UC_RSVD_GGTT_PER_FW / SZ_1K);
-+		gt_err(gt, "%s firmware %s: size (%zuKB) exceeds max supported size (%uKB)\n",
-+		       intel_uc_fw_type_repr(uc_fw->type), uc_fw->file_selected.path,
-+		       fw->size / SZ_1K, INTEL_UC_RSVD_GGTT_PER_FW / SZ_1K);
- 
- 		/* try to find another blob to load */
- 		release_firmware(fw);
-@@ -624,10 +621,10 @@ int intel_uc_fw_fetch(struct intel_uc_fw *uc_fw)
- 	if (uc_fw->file_wanted.major_ver) {
- 		/* Check the file's major version was as it claimed */
- 		if (uc_fw->file_selected.major_ver != uc_fw->file_wanted.major_ver) {
--			drm_notice(&i915->drm, "%s firmware %s: unexpected version: %u.%u != %u.%u\n",
--				   intel_uc_fw_type_repr(uc_fw->type), uc_fw->file_selected.path,
--				   uc_fw->file_selected.major_ver, uc_fw->file_selected.minor_ver,
--				   uc_fw->file_wanted.major_ver, uc_fw->file_wanted.minor_ver);
-+			gt_notice(gt, "%s firmware %s: unexpected version: %u.%u != %u.%u\n",
-+				  intel_uc_fw_type_repr(uc_fw->type), uc_fw->file_selected.path,
-+				  uc_fw->file_selected.major_ver, uc_fw->file_selected.minor_ver,
-+				  uc_fw->file_wanted.major_ver, uc_fw->file_wanted.minor_ver);
- 			if (!intel_uc_fw_is_overridden(uc_fw)) {
- 				err = -ENOEXEC;
- 				goto fail;
-@@ -642,16 +639,14 @@ int intel_uc_fw_fetch(struct intel_uc_fw *uc_fw)
- 		/* Preserve the version that was really wanted */
- 		memcpy(&uc_fw->file_wanted, &file_ideal, sizeof(uc_fw->file_wanted));
- 
--		drm_notice(&i915->drm,
--			   "%s firmware %s (%d.%d) is recommended, but only %s (%d.%d) was found\n",
--			   intel_uc_fw_type_repr(uc_fw->type),
--			   uc_fw->file_wanted.path,
--			   uc_fw->file_wanted.major_ver, uc_fw->file_wanted.minor_ver,
--			   uc_fw->file_selected.path,
--			   uc_fw->file_selected.major_ver, uc_fw->file_selected.minor_ver);
--		drm_info(&i915->drm,
--			 "Consider updating your linux-firmware pkg or downloading from %s\n",
--			 INTEL_UC_FIRMWARE_URL);
-+		gt_notice(gt, "%s firmware %s (%d.%d) is recommended, but only %s (%d.%d) was found\n",
-+			  intel_uc_fw_type_repr(uc_fw->type),
-+			  uc_fw->file_wanted.path,
-+			  uc_fw->file_wanted.major_ver, uc_fw->file_wanted.minor_ver,
-+			  uc_fw->file_selected.path,
-+			  uc_fw->file_selected.major_ver, uc_fw->file_selected.minor_ver);
-+		gt_info(gt, "Consider updating your linux-firmware pkg or downloading from %s\n",
-+			INTEL_UC_FIRMWARE_URL);
- 	}
- 
- 	if (HAS_LMEM(i915)) {
-@@ -679,10 +674,10 @@ int intel_uc_fw_fetch(struct intel_uc_fw *uc_fw)
- 				  INTEL_UC_FIRMWARE_MISSING :
- 				  INTEL_UC_FIRMWARE_ERROR);
- 
--	i915_probe_error(i915, "%s firmware %s: fetch failed with error %d\n",
--			 intel_uc_fw_type_repr(uc_fw->type), uc_fw->file_selected.path, err);
--	drm_info(&i915->drm, "%s firmware(s) can be downloaded from %s\n",
--		 intel_uc_fw_type_repr(uc_fw->type), INTEL_UC_FIRMWARE_URL);
-+	gt_probe_error(gt, "%s firmware %s: fetch failed with error %d\n",
-+		       intel_uc_fw_type_repr(uc_fw->type), uc_fw->file_selected.path, err);
-+	gt_info(gt, "%s firmware(s) can be downloaded from %s\n",
-+		intel_uc_fw_type_repr(uc_fw->type), INTEL_UC_FIRMWARE_URL);
- 
- 	release_firmware(fw);		/* OK even if fw is NULL */
- 	return err;
-@@ -788,9 +783,9 @@ static int uc_fw_xfer(struct intel_uc_fw *uc_fw, u32 dst_offset, u32 dma_flags)
- 	/* Wait for DMA to finish */
- 	ret = intel_wait_for_register_fw(uncore, DMA_CTRL, START_DMA, 0, 100);
- 	if (ret)
--		drm_err(&gt->i915->drm, "DMA for %s fw failed, DMA_CTRL=%u\n",
--			intel_uc_fw_type_repr(uc_fw->type),
--			intel_uncore_read_fw(uncore, DMA_CTRL));
-+		gt_err(gt, "DMA for %s fw failed, DMA_CTRL=%u\n",
-+		       intel_uc_fw_type_repr(uc_fw->type),
-+		       intel_uncore_read_fw(uncore, DMA_CTRL));
- 
- 	/* Disable the bits once DMA is over */
- 	intel_uncore_write_fw(uncore, DMA_CTRL, _MASKED_BIT_DISABLE(dma_flags));
-@@ -836,9 +831,9 @@ int intel_uc_fw_upload(struct intel_uc_fw *uc_fw, u32 dst_offset, u32 dma_flags)
- 	return 0;
- 
- fail:
--	i915_probe_error(gt->i915, "Failed to load %s firmware %s (%d)\n",
--			 intel_uc_fw_type_repr(uc_fw->type), uc_fw->file_selected.path,
--			 err);
-+	gt_probe_error(gt, "Failed to load %s firmware %s (%d)\n",
-+		       intel_uc_fw_type_repr(uc_fw->type), uc_fw->file_selected.path,
-+		       err);
- 	intel_uc_fw_change_status(uc_fw, INTEL_UC_FIRMWARE_LOAD_FAIL);
- 	return err;
- }
-@@ -914,6 +909,7 @@ static void uc_fw_rsa_data_destroy(struct intel_uc_fw *uc_fw)
- 
- int intel_uc_fw_init(struct intel_uc_fw *uc_fw)
- {
-+	struct intel_gt *gt = __uc_fw_to_gt(uc_fw);
- 	int err;
- 
- 	/* this should happen before the load! */
-@@ -924,15 +920,15 @@ int intel_uc_fw_init(struct intel_uc_fw *uc_fw)
- 
- 	err = i915_gem_object_pin_pages_unlocked(uc_fw->obj);
- 	if (err) {
--		DRM_DEBUG_DRIVER("%s fw pin-pages err=%d\n",
--				 intel_uc_fw_type_repr(uc_fw->type), err);
-+		gt_dbg(gt, "%s fw pin-pages err=%d\n",
-+		       intel_uc_fw_type_repr(uc_fw->type), err);
- 		goto out;
- 	}
- 
- 	err = uc_fw_rsa_data_create(uc_fw);
- 	if (err) {
--		DRM_DEBUG_DRIVER("%s fw rsa data creation failed, err=%d\n",
--				 intel_uc_fw_type_repr(uc_fw->type), err);
-+		gt_dbg(gt, "%s fw rsa data creation failed, err=%d\n",
-+		       intel_uc_fw_type_repr(uc_fw->type), err);
- 		goto out_unpin;
- 	}
- 
+ 	/* Just to be sure */
+ 	dev->mode_config.num_fb = 0;
 -- 
-2.37.3
+2.17.1
 
