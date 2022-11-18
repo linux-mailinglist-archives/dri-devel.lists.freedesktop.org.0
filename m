@@ -1,73 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8733262F614
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 14:30:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DBF062F626
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 14:32:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEF2510E748;
-	Fri, 18 Nov 2022 13:30:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B822210E73A;
+	Fri, 18 Nov 2022 13:32:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59BD210E745
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 13:30:34 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id bp15so8174748lfb.13
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 05:30:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=hoPLnQIWHGZiBfocuqhD68DppPhxPPYZcsfi2ooXQ0Q=;
- b=LIBcnPcwE+cq0K/MX/yErC/yiG5Fh34Sxfgouazyo+Nr92ett/A8koHUpXDvSIuoht
- GqW/7DNDALIw3qJmw1Np6hqudkyBT1e9jPwRAJUAKZsl8v2xEaCnOxeuDFnvQYN29H7B
- 3xTznZiyn1IWlcMhz9lR6f3ullk5BVoMvATZLIfxLcycI3GMVeKCXmmm1GsNTmT0e3Cj
- qVoL9GDlznpB+M54vNS4apZHCx6W4r3tvnKbIwnM++DcK4alWYgup38PROQRQU68c8tu
- gCILPLcbNNB0oZ/kcMFZjsKfyno5MdA5dMB3oYHzpJsJL9rKxVWTWJE9CzO2EeL6P841
- UIXw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B4AD10E73A
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 13:32:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668778320;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=x4nB3PcQq6z+eg2ypXICO8ip5B2x/s01xN0yuqnITsw=;
+ b=HupPPATjvunp/dtBRzIgC7NCkPmi1fOuQ6m1nQZN9N0tWBg3JrU6cyqPE6/qTvfCibqDGu
+ p1bsLLGdP8kmhA6+wT0So5pTwcHPIlHl050uMvUti90ObCe+iGEl8akkYMznpo9D1sktsB
+ 9p8pmTC1pkwBQTuXtkgI6ATHvUqH+fg=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-605-lfgcOLwdOtOUEeh8yScWxw-1; Fri, 18 Nov 2022 08:31:59 -0500
+X-MC-Unique: lfgcOLwdOtOUEeh8yScWxw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ q2-20020adfab02000000b00241b8f7efc5so1415966wrc.19
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 05:31:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hoPLnQIWHGZiBfocuqhD68DppPhxPPYZcsfi2ooXQ0Q=;
- b=BkP5kG2c//0ltbepPmNZ5cWf6mK0do5SK9y5Wngp8CxjB/dxBz3ym7Cho56Lq/kUVE
- sM3QLO+6Nv0UpcaDv6I+tzyGB+KSRyQ+74bT+IxEUqmcLBdKRONNoAIwcfLDQdH+OuOm
- FiXbqUMFx8nUei8a9wP/OB7qybcS8BdgV75iB5NODr0+KxiNq1gg/0s6DRZzjo2yDN9c
- z/hAxMsV9wFLpC+cq0sgSiuS2IFQtLxkzrdt5aIr0f2nFRYlNJUGjhVcVV5WveJ4lhaY
- jwHh1RfJ6P0ve/LhcmFXXE3Sbgbl4dZtje3FewYSjKsfBHwAit8tzT3uqe7aTiqMDVIt
- cCNw==
-X-Gm-Message-State: ANoB5pnZ6jrYdClW6vKhtWYnaITyaikXTWZyTDv+kwXgtvjFV5seViAp
- VC3TrBJE6Br7OFIVfbyN9tc78BYxZ6vPNw==
-X-Google-Smtp-Source: AA0mqf7OZT9f7s8VRA0spaiqh80uqrm8D1jurdI5s/WAmu9eeAg1h/N5A/QUUqt1bvuMp8kMxtO90g==
-X-Received: by 2002:ac2:454b:0:b0:4a2:3f01:8669 with SMTP id
- j11-20020ac2454b000000b004a23f018669mr2290100lfm.305.1668778232687; 
- Fri, 18 Nov 2022 05:30:32 -0800 (PST)
-Received: from [10.10.15.130] ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- w25-20020a19c519000000b00498f3ebffb2sm661763lfe.25.2022.11.18.05.30.31
+ bh=x4nB3PcQq6z+eg2ypXICO8ip5B2x/s01xN0yuqnITsw=;
+ b=01B58CcoWatXrzqeMt9R6LuVY5wdimBgCetdpc8QrF03jYcTIHMAz8TxucmdO5p5sX
+ oUS0bvsbU0B3dlfKazz592fEIvi2xTGGZcvkjo25xcJ25AKdbyIJgO6JJ2jojqyXPvuU
+ CYUIKmOcAq1/wTUF9zky2sBR6ktCXfA9r9N5e6aYaZrlrfXIX3UMd2PEhYXuYapX+MXX
+ aI4J9kw6NuBLF5Wgu69PIzFaH3F+7nJ9i9ZdvZ2ooXxA9DMPW/FB2J1tF+0f07PelM8c
+ QQn6dTfRgfSPaHS77rOy91QKZkIfF4Mhp3EPkzgQOb6fOIY49drHy2BoaHQj5M+lXwV3
+ GD6g==
+X-Gm-Message-State: ANoB5plEkqJVqWWoAYQk4Spj6XkLLfwFgp5mUiv7RB/U6fZQfpiIyERO
+ Ihbuq66pkLmUhCA2sHZt97iXSHxlOYwJDqO1WShrtNtrdjnCI6LpSkKp8zureDzDLncXqFNGQ/7
+ 6OPmuNo1dG8Fo4VgwtPOdmiZU16AN
+X-Received: by 2002:a1c:7715:0:b0:3cf:d18d:3bfe with SMTP id
+ t21-20020a1c7715000000b003cfd18d3bfemr8286106wmi.203.1668778317985; 
+ Fri, 18 Nov 2022 05:31:57 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5Pcf9S1nam9Z2k4KCq9jhFqDb+bRC08A7LTUa1O+CywPor3rPQ+WkpX7PNfeTd9M/CvDc+pg==
+X-Received: by 2002:a1c:7715:0:b0:3cf:d18d:3bfe with SMTP id
+ t21-20020a1c7715000000b003cfd18d3bfemr8286091wmi.203.1668778317791; 
+ Fri, 18 Nov 2022 05:31:57 -0800 (PST)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ q14-20020a05600c46ce00b003c5571c27a1sm5745729wmo.32.2022.11.18.05.31.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Nov 2022 05:30:32 -0800 (PST)
-Message-ID: <361a94f8-280c-89de-0681-9b662b67d7ba@linaro.org>
-Date: Fri, 18 Nov 2022 15:30:31 +0200
+ Fri, 18 Nov 2022 05:31:57 -0800 (PST)
+Message-ID: <c1d46889-904d-c9c2-e246-4c8cfc1aeefe@redhat.com>
+Date: Fri, 18 Nov 2022 14:31:56 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH v2 07/18] dt-bindings: msm: dsi-controller-main: Add
- compatible strings for every current SoC
-Content-Language: en-GB
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, robdclark@gmail.com,
- quic_abhinavk@quicinc.com, krzysztof.kozlowski+dt@linaro.org,
- robh+dt@kernel.org, quic_mkrishn@quicinc.com, linux-arm-msm@vger.kernel.org
-References: <20221107235654.1769462-1-bryan.odonoghue@linaro.org>
- <20221107235654.1769462-8-bryan.odonoghue@linaro.org>
- <aeb59d3c-34d0-f00a-bfc3-524cd03acb71@linaro.org>
- <0993d2bd-c0f2-8139-8f02-84abe6b8ad8b@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <0993d2bd-c0f2-8139-8f02-84abe6b8ad8b@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ Thunderbird/102.3.1
+Subject: Re: [PATCH 1/7] drm/hisilicon/hibmc: Fix preferred depth and bpp
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ xinliang.liu@linaro.org, tiantao6@hisilicon.com, jstultz@google.com,
+ kong.kongxinwei@hisilicon.com, puck.chen@hisilicon.com,
+ paul.kocialkowski@bootlin.com, airlied@redhat.com, kraxel@redhat.com
+References: <20221116160917.26342-1-tzimmermann@suse.de>
+ <20221116160917.26342-2-tzimmermann@suse.de>
+ <b0421c22-2893-d76a-4cd8-07f5fdb9add1@redhat.com>
+ <a62babce-5deb-43ba-1a96-8f31c603b3a2@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <a62babce-5deb-43ba-1a96-8f31c603b3a2@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,49 +92,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, devicetree@vger.kernel.org,
- Loic Poulain <loic.poulain@linaro.org>, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/11/2022 15:29, Bryan O'Donoghue wrote:
-> On 08/11/2022 12:46, Dmitry Baryshkov wrote:
->> On 08/11/2022 02:56, Bryan O'Donoghue wrote:
->>> Currently we do not differentiate between the various users of the
->>> qcom,mdss-dsi-ctrl. The driver is flexible enough to operate from one
->>> compatible string but, the hardware does have some significant 
->>> differences
->>> in the number of clocks.
->>>
->>> To facilitate documenting the clocks add the following compatible 
->>> strings
->>>
->>> - qcom,mdss-dsi-ctrl-apq8064
->>
->> Generic comment: I think we'd better follow the arm/qcom-soc.yaml and 
->> use qcom,soc-something as compat string. This would leave us with 
->> qcom,apq8064-dsi-ctrl
->>
->> I'm not sure if we want to follow the qcm2290 approach and encode the 
->> DSI ctrl revision here (6g vs v2).
-> 
-> For qcm2290 I'm thinking qcm2290-dsi-ctrl - without the 6g piece.
+On 11/18/22 14:18, Thomas Zimmermann wrote:
 
-This sounds good too.
+[...]
 
+>>
+>> In the cover letter you said "color depth is the number of color and alpha bits
+>> that affect image composition" but it should be "only the number of color bits
+>> excluding the alpha bits" a better description right?
 > 
-> a) Nobody is using the compat at the moment
-> b) I'm not sure what - if any real information the silicon version
->     number conveys here.
+> I was looking at drm_fourcc.c, where alpha formats, such as ARGB888, 
+> have alpha included in their depth value. [1] Alpha obviously effects 
+> image composition.
 > 
-> + Loic, Shawn
+> But meaning of these terms is somewhat fuzzy, as the command-line 
+> arguments of video= include a BPP value that is more similar to DRM's 
+> depth value.
+>
+
+I see.
+ 
+> [1] 
+> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_fourcc.c#L175
 > 
-> ---
-> bod
+>>
+>> I also wonder if instead of using a 24 magic number, TRUE_COLOR_DEPTH constant
+>> macro or XRGB8888_COLOR_DEPTH could be defined?
 > 
+> Please not. What we should do is to replace the preferred depth and bpp 
+> with a single format constant (as 4cc or drm_format_info) that 
+> designates a preferred default. From that format constant, the values 
+> exported to userspace and fbdev emulation should be retrieved automatically.
+> 
+> If anything, I'd add a TODO item to convert the DRM codebase.
+>
+
+Right. That makes more sense indeed.
+ 
 
 -- 
-With best wishes
-Dmitry
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
