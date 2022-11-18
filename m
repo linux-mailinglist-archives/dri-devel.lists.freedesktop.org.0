@@ -2,77 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5A7562F0F0
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 10:20:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCD5662F101
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 10:21:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAC8610E208;
-	Fri, 18 Nov 2022 09:20:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68F4D10E204;
+	Fri, 18 Nov 2022 09:21:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
  [66.111.4.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAEB510E208;
- Fri, 18 Nov 2022 09:20:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6737010E204
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 09:21:37 +0000 (UTC)
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 523F45C0513;
- Fri, 18 Nov 2022 04:20:23 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Fri, 18 Nov 2022 04:20:23 -0500
+ by mailout.nyi.internal (Postfix) with ESMTP id B52645C0126;
+ Fri, 18 Nov 2022 04:21:36 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Fri, 18 Nov 2022 04:21:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1668763223; x=1668849623; bh=4n4DR4UwM1
- 0Hw+UX/vwcqMHSZCvbtAN5htQFeot9k0s=; b=LYNeULVFAebnqpXOJpHXpNjDeY
- XS0flPyOKrAZxKsh4iQc0ZI5EJvqg/vL6nqEYs2k4HELn5ioOaZASWxsOBDZz8Nk
- U05AvRz/anebMho0GIoFAUzeWR1Q6yHnU5KvMD1nZOe9dV2tCagLqZhi0JH3vmc1
- LtG7PYqX4CR6zcupd+XfXf2RZZ7wky/8sxvaKpgnawNa9PBoZU0XWNLEBuTHrV+i
- Dt9H/w54YuWeBAsGdv+QQNxbSMV265i4e6LiwviudQHCQc9zv90hT1Vw/cIQoosB
- PtT0UHFH6679yAOFMWv+pSsE8UAUuA6b3otS69gmmKEp0Hw2aMEydArXGhHA==
+ :subject:to:to; s=fm2; t=1668763296; x=1668849696; bh=e1bmKSL0a2
+ chnLF6Av9eaK4PnbBY6Rstx9vF4wBor3w=; b=ax/AJy/KGNPkqY3SovQ49gnLBe
+ 9Jfjpew08NceTcula/wphXSir6fu5EqXUmOGNn75rkbBBMJ4ffxRMr5ckqHTaqhF
+ z8LmswCpJ69iHOpoe0SO4O7QCokk2/X7VWItoZgrxgkg/MibH7qKMnlPgg6eWy/K
+ pK26PpM/CtDO7J5IBG2BMKLnR2akCe5eIijfzbjrWfXZEhd6bGkVNfL+a+wlI9Xs
+ wV7DeY39LsOsEgtVhKtUKrMboTd9iNMU2tywFxNBUXrY2AYnBOexN+dBMY7h6NrK
+ NcpBR4DiJsnpas2noPHdVv7sk4Bbn4knq9mjwlTvFB28vzZUkYsdmQYCi0Rw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
  :feedback-id:from:from:in-reply-to:in-reply-to:message-id
  :mime-version:references:reply-to:sender:subject:subject:to:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1668763223; x=1668849623; bh=4n4DR4UwM10Hw+UX/vwcqMHSZCvb
- tAN5htQFeot9k0s=; b=dYtPEl3UgKwY4kyD4AclEMrQ2EtGmLPlA68TpselZHFF
- 9u8LIdlGK0KAGUzTewj5FC9HO3MG39VuhRI9zm+ur9hWzfEkDlRNbeU9sL2qLVmh
- l6v/t6vop4T3uI8/LivxEaQyaJWmgtH9aYewlRAVb8j7ag0mz4E2v7cI7LOh6voh
- /brht4rf2zmC395EH+IGCIHNyyZpNURecjznZ6jIAtZY+V15ds2359kF8IrdJwYr
- zHvtZDwHd6wq7ElS1IfwH7Sjao5l6JXsJ8P2Sy4Soqpn0N1m+w5WBYvMwhs8l3kn
- cOdGElnKuyTbwsdFDvebzfpfudJciGUooy4nSwbV2w==
-X-ME-Sender: <xms:Vk53Y-mYyWluu8ptma9_HbxzN6V0WEpT_zpG02A8sZ0p4Td9uapCrw>
- <xme:Vk53Y12N-XZjh3vrK1cA6dPEI_PelFPLODYnhhJEBfbWIzdJieuCywjCJIfyyG9mX
- 2VuecYVem3sERPMWKc>
-X-ME-Received: <xmr:Vk53Y8oWX8yXhLN6ibFL6-YdpceVsXUpxT1bIWXFHrJ2u2si28bNZ-uOdYrR9x4V3rXXjRoq3c5mHX3uzb1vPUDmQtq3o5DOQaedOjnVGNt49w>
+ fm1; t=1668763296; x=1668849696; bh=e1bmKSL0a2chnLF6Av9eaK4PnbBY
+ 6Rstx9vF4wBor3w=; b=QyMUy/Fkyh51ZloeA7KquIak9lsOhpKtoR+FH94AJc3G
+ rk6qEEVeRpKo+iFwiDO10cFGZGSxHuczkz0nCMbrQrFVldl8vGpLl6FDk2cv/GpS
+ enYwYkWRPFiTo2nikRiItHRhKQtpQgPn1zUHBthvXTj43TtWyy26wxmW/2Ac4AJ/
+ LuvRocyA6HEnqQVSshCPacVwNOHmli5i5MV2f2SABop5h9+SFS9XYfZcUIhHwVkC
+ 65s04OFpLltFl+AGHPK3e8rs3dBz/sS4BBZNsLdUPkC5Sizno9EkSQQG86enMqrZ
+ pnLtAPgJtDN52eRc/Xm7KSEWDHSk5kIz2Z+GE+oQYQ==
+X-ME-Sender: <xms:oE53Yz1ipxfstQo02sOVJpFmbgC297uM-FFfl4qTeVedpcKmmpbObA>
+ <xme:oE53YyG-uTLKIW9sqVTgnuErr3g4-FAqInXA5cLyeOdegBmKIAY5adVWmGZDfFckv
+ 354RaAPjHPsa_R8PFs>
+X-ME-Received: <xmr:oE53Yz7ys1W1Cfua4DlPl2_VPAuO-1NmxZtH2Vm-PiDuXlef5ijf7f8BmygII2R2TMGDDLWvRT9lnPKJ9E2BcvUM1bZRmQegZnGdaXJ9P9Apaw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrhedtgddtvdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheehfffh
- vedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ htvghrnhepjeevfeehfeekieffgeevleevtefgffefkedtfeeuhfettdegjeehgfegudff
+ ffdunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:Vk53YymcEeZCWCnz6mZOA7HIRDHqvrJ3RJhYNSBbdApXSrbN5jJdLQ>
- <xmx:Vk53Y80X3IftNfwIwF5-yOrZ4Hj2t-qhk6Nplx_5Me_yOEJ2DXcITw>
- <xmx:Vk53Y5vs-s38Diftjkj7piocKdDWJO3Q2-Af4vCMmlWqcY_7cI1Emw>
- <xmx:V053Y1HYD8gWp49Ur4aXLMO6qjTii50h3ivR-O1mqw55YOZ9nRnksQ>
+X-ME-Proxy: <xmx:oE53Y41ETYNuECRhxLcWFscqvFSRer2d6CXwWnkclLNmqIY9tLhDvw>
+ <xmx:oE53Y2GivAeQDBhgpBx9xJP1lC8r8oDRs41nL8LyaIobTyipTESWKg>
+ <xmx:oE53Y5_lhhU5nAQ6ZAc4LWY-wwNIu3ZrN1K4EKJNumbqDEL5-l9Ksw>
+ <xmx:oE53Y--OhPTg81PNgqIsaWBUtuineE8SUavIT9QP9xCu9ROR1UhEFw>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 18 Nov 2022 04:20:22 -0500 (EST)
-Date: Fri, 18 Nov 2022 10:20:20 +0100
+ 18 Nov 2022 04:21:35 -0500 (EST)
+Date: Fri, 18 Nov 2022 10:21:33 +0100
 From: Maxime Ripard <maxime@cerno.tech>
-To: Nathan Chancellor <nathan@kernel.org>
-Subject: Re: linux-next: manual merge of the drm-misc tree with the origin tree
-Message-ID: <20221118092020.nhvjomvwwryb7j3n@houat>
-References: <20221116105702.746ce3cf@canb.auug.org.au>
- <Y3ZvffZiR+SgtY6h@dev-arch.thelio-3990X>
- <20221118090636.00bfc293@canb.auug.org.au>
- <Y3bLRLDCrd7KYqom@dev-arch.thelio-3990X>
+To: =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>
+Subject: Re: [PATCH 2/2] drm/tests: helpers: Add SPDX header
+Message-ID: <20221118092133.ip52btf5j22rbcu5@houat>
+References: <20221116151833.1679379-1-maxime@cerno.tech>
+ <20221116151833.1679379-2-maxime@cerno.tech>
+ <60f8860b-8a95-9c91-fcea-1b98b1b6c941@riseup.net>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="utkgyjtezkaepsh6"
+ protocol="application/pgp-signature"; boundary="g4krc4kzu2rkjksa"
 Content-Disposition: inline
-In-Reply-To: <Y3bLRLDCrd7KYqom@dev-arch.thelio-3990X>
+In-Reply-To: <60f8860b-8a95-9c91-fcea-1b98b1b6c941@riseup.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,67 +84,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>, llvm@lists.linux.dev,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- =?utf-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---utkgyjtezkaepsh6
-Content-Type: text/plain; charset=us-ascii
+--g4krc4kzu2rkjksa
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 17, 2022 at 05:01:08PM -0700, Nathan Chancellor wrote:
-> On Fri, Nov 18, 2022 at 09:06:36AM +1100, Stephen Rothwell wrote:
-> > Hi Nathan,
-> >=20
-> > On Thu, 17 Nov 2022 10:29:33 -0700 Nathan Chancellor <nathan@kernel.org=
-> wrote:
-> > >
-> > > This resolution is not quite right, as pointed out by clang:
-> > >=20
-> > >     drivers/gpu/drm/vc4/vc4_hdmi.c:351:14: error: variable 'vc4_hdmi'=
- is uninitialized when used here [-Werror,-Wuninitialized]
-> > >             mutex_lock(&vc4_hdmi->mutex);
-> > >                         ^~~~~~~~
-> > >     ./include/linux/mutex.h:187:44: note: expanded from macro 'mutex_=
-lock'
-> > >     #define mutex_lock(lock) mutex_lock_nested(lock, 0)
-> > >                                                ^~~~
-> > >     drivers/gpu/drm/vc4/vc4_hdmi.c:322:27: note: initialize the varia=
-ble 'vc4_hdmi' to silence this warning
-> > >             struct vc4_hdmi *vc4_hdmi;
-> > >                                      ^
-> > >                                       =3D NULL
-> > >     1 error generated.
-> > >=20
-> > > Obviously, the assignment of vc4_hdmi should be before mutex_lock().
-> >=20
-> > Thanks for pointing that out (silly me :-) ).  I have fixed up the
-> > resolution for today.
+Hi Maira,
+
+On Wed, Nov 16, 2022 at 01:48:13PM -0300, Ma=EDra Canal wrote:
+> Hi Maxime,
 >=20
-> Great, thank you so much! One less warning to worry about :)
+> On 11/16/22 12:18, Maxime Ripard wrote:
+> > The SPDX header is missing, let's add it and fix the corresponding
+> > checkpatch warning.
+> >=20
+> > Suggested-by: Ma=EDra Canal <mairacanal@riseup.net>
+> > Fixes: 44a3928324e9 ("drm/tests: Add Kunit Helpers")
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>=20
+> Could you add the SPDX-License-Identifier tag on the header file as
+> well? With the SPDX header on both files, this is:
+>=20
+> Reviewed-by: Ma=EDra Canal <mairacanal@riseup.net>
 
-I actually did the same conflict resolution in drm-tip. I've fixed it up
-too, thanks for your report :)
+I applied those patches yesterday, with the fix you suggested
 
+Thanks!
 Maxime
 
---utkgyjtezkaepsh6
+--g4krc4kzu2rkjksa
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY3dOVAAKCRDj7w1vZxhR
-xa2fAQD933QJY5E3XRwJGvMvYIALowd4qIYtQyxBCrk/Zo2bTQEAiLYk8Ij68h6E
-CzpNCMHNSYp+43IPN7VzU0UqzQpvawk=
-=GyeM
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY3dOnQAKCRDj7w1vZxhR
+xXFnAQCDGyKuHOZWhGX+AyGCRBMInjv+8Kn3Q7jGnFf9rDtNEQEA2Ivgdb2UDnxu
+flfVn4RcqxILk/ZgCmLfM1PQH8HLigw=
+=Aekk
 -----END PGP SIGNATURE-----
 
---utkgyjtezkaepsh6--
+--g4krc4kzu2rkjksa--
