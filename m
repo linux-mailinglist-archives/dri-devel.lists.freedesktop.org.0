@@ -1,83 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DF3A62F55A
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 13:52:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87E2D62F57D
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 14:03:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37F9C10E1FC;
-	Fri, 18 Nov 2022 12:52:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FB0C10E71B;
+	Fri, 18 Nov 2022 13:03:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0060F10E1F3
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 12:52:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668775951;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wT9OP3LDmRZ2M3TfE/uxE8r3xlgycJJRrdbX7I4PpEk=;
- b=FHLsO5yhndys3gyyIgLS3jGjDRH2PpS2G+7YnhhtPSTkB7wwD+KnNesdtg+gSe7M7Dc+ei
- Wf7HW4TiEl5PVeBl/zzhKj/ZKHo34fIe26h6mrh8lf+P7IiTncu8lL94fy18xJS0FbW3aG
- JWfu5zLzcnQ1q8NlWvgZYjx22MzXPeQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-158-w2-9zaBMPq-FfffVWDegEQ-1; Fri, 18 Nov 2022 07:52:29 -0500
-X-MC-Unique: w2-9zaBMPq-FfffVWDegEQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- h9-20020a1c2109000000b003cfd37aec58so2226942wmh.1
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 04:52:29 -0800 (PST)
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC01D10E1F3;
+ Fri, 18 Nov 2022 13:03:42 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id y16so9122800wrt.12;
+ Fri, 18 Nov 2022 05:03:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=w+mJ3Edh6kbESl5APrMtH6TLnWHibJoDuQN4pmY1e5w=;
+ b=Wx0jlzYay9LjVVSsN2mBigPaEKv37M+N8DcqfI0O38RcH3Co0sRBe1xZWo8497xfiP
+ kSMQO7AdA2uhiE2scezpG5UtE5duf5ZOElYbDjAJCGoH4/hr1sl0SLY1+WW9JgnfqpG3
+ g8CRZQWUkSbdd4GaQFRmewD8J1dRUyJGObMCeH7ML5vA9Nd7ibKQ3k+Rq+TEviS4kt+w
+ AV9tojYVnWs7bWXUwzkM6lgUKXvo4S5vzSmZXNe0U4L9cI6is02a1nL1q5mTQjwxkt/X
+ DcvCi4dXw470wasgEEKvAa92ov4U6ehpYVGZ2lCMf+p9Vu9J0gMEnaAuNhvJjftzbBf0
+ qgrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wT9OP3LDmRZ2M3TfE/uxE8r3xlgycJJRrdbX7I4PpEk=;
- b=jWwV16LiIgUUuz3Mm3v4cevIOCzbjGnBbhgvZ/ddE/2yQXD+yNaXqdtg517Aeiuls7
- 6an0iT2rYMQFXcRKnTuKSQlLP0/E+fRwcMhBFxpRJsxme3U8mmbnXKxLYF9DyHwFQX/1
- PabXiPD3+gLFtrKrsZblNEcmObpjbm66FlV2OCXgYPz1K4caWHgiqD2KoeePD3Q3aXKy
- m+pMmB+iZfmr0sAgI75OaIUrkn3QDGDt2BxVQJeYjdWnf3Q0cMuLgyxlCzNH8CCAdbTp
- O1HUGKLnn6YV46wnBdjf8eRpHOOYjqiI7Ad0VQ7adwMM2JDk7+GTs00tI3d1A45nQQeC
- 45BQ==
-X-Gm-Message-State: ANoB5pl2rMdsL5QrCzH7P7+G4vIy+KoehbLKy9sXCrBCvc305/edKNk8
- s5Wj4v10QWzAYnx/9/pHp5CE0j/QHe0VGMhDIuO1vMupzR/fhb57V4eaK3zboSA1nddrpqIN7GZ
- zZKS4EJDxjNqU7lg5zGDV/IkwPU35
-X-Received: by 2002:a5d:4a05:0:b0:236:5abb:590a with SMTP id
- m5-20020a5d4a05000000b002365abb590amr4205823wrq.700.1668775948702; 
- Fri, 18 Nov 2022 04:52:28 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4MX+07NFSdzp6BpmgEjgAS8YqzfVUz6NN4LkO1jB3x2TlMRy4PXvQVXHqTBmA60tIVPgyxmg==
-X-Received: by 2002:a5d:4a05:0:b0:236:5abb:590a with SMTP id
- m5-20020a5d4a05000000b002365abb590amr4205809wrq.700.1668775948381; 
- Fri, 18 Nov 2022 04:52:28 -0800 (PST)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- i7-20020a05600c354700b003cf4eac8e80sm6174027wmq.23.2022.11.18.04.52.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Nov 2022 04:52:28 -0800 (PST)
-Message-ID: <b0421c22-2893-d76a-4cd8-07f5fdb9add1@redhat.com>
-Date: Fri, 18 Nov 2022 13:52:26 +0100
+ bh=w+mJ3Edh6kbESl5APrMtH6TLnWHibJoDuQN4pmY1e5w=;
+ b=KCC6UX2Es6QM5lPwfyP8ragDCSv8zjZpLJbYQ5r0LG5JrKYbQN9gQ+XjlYKbb4cdgX
+ Tg913UXJ0fqQzSI8bnzoXd18IbrMXeFODvNkrMaTSupwliKSCudOYhS6n4hw5BtUJeUJ
+ 72eMABBVPr1HkQmVQ9Bh0VRyGym36lffVr773ai7E3c1Y8fkj8+fxaAAyBlVK36yHWuP
+ WbVB0XmQzSBxorPfOGiNepooQ8H1pqbAs4ttOzUzk7ziRuzYRmuPqUczndjvcOn5Y7NT
+ RoMIZ27cE5XNvblu5TfMQ4pcP3Of8JEXYljrTM7C7eHyccoJsesDHxHObfO4WmqNWom1
+ GK3A==
+X-Gm-Message-State: ANoB5pnQirR3Isj+VXt/rQKQvng+AjfG5oGj8jCc+0Ql9DOblBMNQH06
+ dRqfGJLktT/y6O6txe7rgdY=
+X-Google-Smtp-Source: AA0mqf44OUQxhKuuRxrZCjitDqseknQPFZscOEbgs+3XxXYr+Wn8F78z00bs+cb03HVN8YAqvWcm/w==
+X-Received: by 2002:adf:c64e:0:b0:236:78cd:f3d2 with SMTP id
+ u14-20020adfc64e000000b0023678cdf3d2mr4365829wrg.719.1668776621156; 
+ Fri, 18 Nov 2022 05:03:41 -0800 (PST)
+Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
+ f19-20020a05600c155300b003c6f3e5ba42sm9996185wmg.46.2022.11.18.05.03.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Nov 2022 05:03:40 -0800 (PST)
+Date: Fri, 18 Nov 2022 16:03:37 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Rob Clark <robdclark@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2] drm/msm/hdmi: remove unnecessary NULL check
+Message-ID: <Y3eCqQ2pm1uQnktV@kadam>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH 1/7] drm/hisilicon/hibmc: Fix preferred depth and bpp
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- xinliang.liu@linaro.org, tiantao6@hisilicon.com, jstultz@google.com,
- kong.kongxinwei@hisilicon.com, puck.chen@hisilicon.com,
- paul.kocialkowski@bootlin.com, airlied@redhat.com, kraxel@redhat.com
-References: <20221116160917.26342-1-tzimmermann@suse.de>
- <20221116160917.26342-2-tzimmermann@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221116160917.26342-2-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,61 +67,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ kernel-janitors@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ linux-arm-msm@vger.kernel.org, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Johan Hovold <johan+linaro@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Thomas,
+This code was recently refactored in commit and now the "hdmi" pointer
+can't be NULL.  Checking for NULL leads to a Smatch warning:
 
-On 11/16/22 17:09, Thomas Zimmermann wrote:
-> Set the preferred color depth to 24 bits and the fbdev bpp to 32
-> bits. This will signal XRGB8888 as default format to clients.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> index 22053c613644a..0c4aa4d9b0a77 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> @@ -106,7 +106,7 @@ static int hibmc_kms_init(struct hibmc_drm_private *priv)
->  	dev->mode_config.max_width = 1920;
->  	dev->mode_config.max_height = 1200;
->  
-> -	dev->mode_config.preferred_depth = 32;
-> +	dev->mode_config.preferred_depth = 24;
+    drivers/gpu/drm/msm/hdmi/hdmi.c:141 msm_hdmi_init()
+    warn: variable dereferenced before check 'hdmi' (see line 119)
 
-In the cover letter you said "color depth is the number of color and alpha bits
-that affect image composition" but it should be "only the number of color bits
-excluding the alpha bits" a better description right?
+Fixes: 69a88d8633ec ("drm/msm/hdmi: move resource allocation to probe function")
+Signed-off-by: Dan Carpenter <error27@gmail.com>
+---
+v2: Add a Fixes tag.  Re-work the commit message.
 
-I also wonder if instead of using a 24 magic number, TRUE_COLOR_DEPTH constant
-macro or XRGB8888_COLOR_DEPTH could be defined?
+ drivers/gpu/drm/msm/hdmi/hdmi.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
->  	dev->mode_config.prefer_shadow = 1;
->  
->  	dev->mode_config.funcs = (void *)&hibmc_mode_funcs;
-> @@ -340,7 +340,7 @@ static int hibmc_pci_probe(struct pci_dev *pdev,
->  		goto err_unload;
->  	}
->  
-> -	drm_fbdev_generic_setup(dev, dev->mode_config.preferred_depth);
-> +	drm_fbdev_generic_setup(dev, 32);
-> 
-
-And same here? Maybe TRUE_COLOR_ALPHA_BPP or XRGB8888_BPP? Can't think of a
-good name really for this, but just to avoid using a constant number here.
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
+index 7001fabd0977..4d3fdc806bef 100644
+--- a/drivers/gpu/drm/msm/hdmi/hdmi.c
++++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
+@@ -138,8 +138,7 @@ static int msm_hdmi_init(struct hdmi *hdmi)
+ 	return 0;
  
-In any case the patch looks good to me:
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
+ fail:
+-	if (hdmi)
+-		msm_hdmi_destroy(hdmi);
++	msm_hdmi_destroy(hdmi);
+ 
+ 	return ret;
+ }
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+2.35.1
