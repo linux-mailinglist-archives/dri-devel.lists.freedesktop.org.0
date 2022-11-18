@@ -1,43 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F00CF6304B1
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Nov 2022 00:45:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EF5F6304B6
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Nov 2022 00:45:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 213E610E828;
-	Fri, 18 Nov 2022 23:44:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E05010E82D;
+	Fri, 18 Nov 2022 23:45:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2082.outbound.protection.outlook.com [40.107.223.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9DC110E81A;
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on20611.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7e89::611])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E070F10E822;
  Fri, 18 Nov 2022 23:44:40 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ldAM371+jgjcQWbyVr4wExCbM/7yaIy7+t0gaLFdq8JoyMgW3/SJsGxYp66SFbuJy0/yCnXNgeu3Yz5QGJQaX33QNBPB3P3YA7GnOFiooz3l7dsNBPl9XtoPe721aDfuX628DX+HSqj0FnigKr6Z5UUheRjDy1jYu9XrwoGquQouWsbM2xKdxdnYgJciXjFVLyCYajYHt9znSMXf+f9b7ZizRX6t+ocaP24E86dGj2vfCfXrMae0cLoJ5GTmn/S1BduhfGI3vGBuySyLCLBwPjF378kzAVJDxkWad1B1mC8tfRy6+aSozSodhpFMP5deFFqItEZt1Ry1ba8n35sVDg==
+ b=TshNBiUwo0nHro3jy6pHZUXfz10pd71bbuyFQbebycSAqo+UoVGEPh05RTX4T7476VrdSFVudfA7vkSIp3P8BpPVFvn+4Yh2isrdS4Yrnd1t3o4+qOD0kumth9BH84rRB5d+yV7jmSmQsCiCgMij8/u+Du8KPxeU+WcWdBdkG8DP2JF2342md3dtT3xm7PvSeoduPUNht48n7XSZwjv/qTqW+poukrQjUbXGp84APJRyPEYdPMCQlO8UT7MtkXSVq2J574QvazFiGwKR8qoQZ/KslrrErToR2WeYqSUMlDE2CYT7OQ5xR1AKoucXCWU+ZSxDPlMkj6KmnF5H+pqrJw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MNa+0jXg3zotebl8DF+7mkWyGFevVD+e6cAVXyH7dmE=;
- b=VaO/lB4jGBmkRJuJmJXLuXLs5Rkp0xxBgI7Qgq9gylmsu85/DpAx2o5k5g0BtKWd5+2MokWVZu/KHW8Oms3/SQUGyITJXyYNiPL6NOqjKQ8b64ff8sZb7z5uSlOQMQbvmfuT4C715Qt8MnJYIwjG4CMqp+wiPqm+icXOzMI1zxHa7PZr3nso4CCutAaCpyLYpdzq1OaoSnhS6r+I0DuUy18EEXFxE2h+KLYTaE00qjEkYM1NGWx0AxZL/48qPRNUzY/yOBLTYQYIy228OK7kWSDntWhKWXLubH6eUZ9TfPCee5zqfJs8WY/c/UGHJ6Q78cGOzdsqG7nJQFmUEieiQg==
+ bh=rHwDlwC5Ppk5MBrNaHtl6E2VCkfhWbOCgEKSpuHgEwQ=;
+ b=XomJeqOyv1I4ttd/G6k3ShFH5othuuDTnIVwdjYmO6HUOiMpLicahZ43WToepzL2KhlzKpkAMCLvKTb09XKVnYx148YiOJhlP2BKbmhn1mUUIhXYDtt2Q9deTk1lgE+ziZURMOkX9JkX4Rz1xp1wutQKdq8Pipla4zNd8UbqZztivbnq00go2A7HMtgSxGMdVVPHqrnDtD1fno5L9BXV86VH2NbxBWMg78OU/gGwoS6YzvyNALDzbTaJ4i9Lr5VPmYkeW3mXLcufUFq6B1jDVCB3aXqM/o3IuLJc92Qk0vF7m7/X+iTsBDXsyDBYFzxgC9p+Q4XdLMgrjDwF5bLniw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MNa+0jXg3zotebl8DF+7mkWyGFevVD+e6cAVXyH7dmE=;
- b=WASA9L3y7ZXareBTUrWeYvgeuXId4k2N3G6YCFP+fpdIzerm+lgn7RsQqtij5Dkf/5HazhZXWIJ9tSK8kjdaMNYF3GIxEuzlEfhe86iiavJcQ+HlAZulXzEqmR5k6ChqA6Khpu+Upd/SxSfuxsmP4RmZetXJwjgxdwIy6D6emeo=
-Received: from DM6PR03CA0050.namprd03.prod.outlook.com (2603:10b6:5:100::27)
- by MW4PR12MB6900.namprd12.prod.outlook.com (2603:10b6:303:207::12) with
+ bh=rHwDlwC5Ppk5MBrNaHtl6E2VCkfhWbOCgEKSpuHgEwQ=;
+ b=wgprWvoRKkWBz4ODbcawiVIG2Vr8Q/T632ZzcemDtodbY+qr0rX0ecPj7v47X760fMxpyXs0B/ihE4k+nDQPok3VyW2I9I+KU5Z8yUcJtUT7pJ9IPBNQUQCSIjG7ntiBqnLNx8X1JaX/M9GST2GSvbXc+1tToXDLpipFN8ewQ2M=
+Received: from DM6PR03CA0058.namprd03.prod.outlook.com (2603:10b6:5:100::35)
+ by PH7PR12MB6955.namprd12.prod.outlook.com (2603:10b6:510:1b8::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.16; Fri, 18 Nov
- 2022 23:44:38 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.18; Fri, 18 Nov
+ 2022 23:44:39 +0000
 Received: from DM6NAM11FT014.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:100:cafe::1b) by DM6PR03CA0050.outlook.office365.com
- (2603:10b6:5:100::27) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10b6:5:100:cafe::5) by DM6PR03CA0058.outlook.office365.com
+ (2603:10b6:5:100::35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.9 via Frontend
- Transport; Fri, 18 Nov 2022 23:44:37 +0000
+ Transport; Fri, 18 Nov 2022 23:44:38 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -47,16 +48,16 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
  DM6NAM11FT014.mail.protection.outlook.com (10.13.173.132) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5834.8 via Frontend Transport; Fri, 18 Nov 2022 23:44:37 +0000
+ 15.20.5834.8 via Frontend Transport; Fri, 18 Nov 2022 23:44:38 +0000
 Received: from Harpoon.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 18 Nov
  2022 17:44:36 -0600
 From: Felix Kuehling <Felix.Kuehling@amd.com>
 To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 4/6] drm/amdgpu: Attach eviction fence on alloc
-Date: Fri, 18 Nov 2022 18:44:20 -0500
-Message-ID: <20221118234422.1468806-5-Felix.Kuehling@amd.com>
+Subject: [PATCH 5/6] drm/amdgpu: update mappings not managed by KFD
+Date: Fri, 18 Nov 2022 18:44:21 -0500
+Message-ID: <20221118234422.1468806-6-Felix.Kuehling@amd.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20221118234422.1468806-1-Felix.Kuehling@amd.com>
 References: <20221118234422.1468806-1-Felix.Kuehling@amd.com>
@@ -68,26 +69,26 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT014:EE_|MW4PR12MB6900:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7054f08b-b194-4271-9a09-08dac9bedae3
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT014:EE_|PH7PR12MB6955:EE_
+X-MS-Office365-Filtering-Correlation-Id: b02293d2-142d-47b4-e238-08dac9bedb4e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: meXNt2k9T1v7+aEpZAVGPC9BZmxbR1FAyiMQPUSmKo/CNMoS0DNohPnG2q7ECrTlngq5k5RPxhE9aMFWrI0x/li9yJ7TsSCaV+Uk6/UDFn9uD9HZNxmXpww4mlsxcROz1T6yD0/1hW2u4Kgjw7xrvDvLjgUgHXqesQmjlCFLroihWiiHCxIogAta9hCmexxP80ovkN+nR7hHTFNuvHAIeEIcmAu55mh7yzKNtO2dTyRQcR+6aW2UeYx5ar4sLK4nbkOE6XfUj2U3hYWRmFUqnYtv8vQ41CIxWfGDj1AIKhJD3Rue0Z3wRsUZ2eEiwxJGHLkibreQOjnnfnTFVEKXVhjPPG32lrsVhxcrg4g7CfZf44fYum7N6/nFew+E1DP+yh4clqyNqh9qYoXeRnUhKjCqM6Lu1Ci6n3yymNOKV1+Mtcd284Eljuj2aP+tugwIpRCA9xKQtnaH7ib8hHd1ZrNx29HKN1F1mjArurdAztM+afRDJusibW0FqVu5t/xF4AnojCytsUhgCP1pao2bOvZhF2jWD7BdpQyjotBiSQJf+2V8uZCYHm5XuXsxfSItuWCEuz/GNItKrD5YE1wuNv1k2eJEVr9GzHz+U3PRXqOZCePtxIbeeiv3mDK1CQ90H9m5WfK0gjIn0csTcbNR5GkDKX26bc8pld1cdbe6AJaiFaoh029bKGbiAU/UOyI4yhlQa9nbiovSOioToE74v6VwS9CpdR/tt52H/CCNu6U=
+X-Microsoft-Antispam-Message-Info: 4iEsZYkEDOQf/5ZIx7PFV5LKpG2lePIVeGGItpxqo2IH1m61fENnXtWBQY2J1y7X4ydn3VifYTMHqaeavGvZ7lmdrUEtuYgzqaAj3mBQcmYEhrHc78PqOAe2erRXI7SnpG3jkcWQTgMZc6CMj2hR80PKzVRBipVz+l/Gf7f4blc6c2OhBwUdXT8I0vP3VT/E4jxV3sGtMWvzuw1LKJW4N9CJa/B4LT1wTLfLxa0mCsqX8zjwgpE5sLTpRuDkbRUipfy4oQkQpeRTwcvcyXpWpWMvX7To24eAoUOrqV6+9O/CWX1VXFDfDq6NJob+ULs7jzYBcYtvhlpbvphvgZ+BdkJmyZ/jBQlUZpLzF+HUjSzBvgmNqB+r4wyfyxZzoEQ0mJ6re/YeA4PG1nhwVosMlbC56q+2/+G5w9gMS+kaaAC38D8KAWoxQfgxkHndc9mIZnKIiHbQQ3C6h3raWP0yQ4ZCPb302XDtc83gZ88pEaljfR0SpApK6Yumeg8b/9QpUgdvMie1Ee2p72y/sDxxQKJJ5BHZkBRXJ+y/dfwkMLRo2FWOb/BAt0aOehJ6EqL81XV91A/0v81hBgFLh9z78HZqQ/81HTZrDW8yevsyRxS4sZrAeoi96xL1rLe3PKqlpSQJAtYYp5CYfTcHCD8h/nHaF2Lok1CL9gZ1vlgy56UYd4fYjOOGDXWX/4k6O564nn5anlg8CAaWiJLiAB2NnfbH06X6qJbndeQE0MZTEPs=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230022)(4636009)(346002)(136003)(396003)(376002)(39860400002)(451199015)(36840700001)(40470700004)(46966006)(70206006)(450100002)(2906002)(8936002)(81166007)(36860700001)(70586007)(82740400003)(36756003)(356005)(8676002)(40460700003)(5660300002)(83380400001)(41300700001)(40480700001)(478600001)(110136005)(7696005)(6666004)(26005)(316002)(426003)(86362001)(2616005)(16526019)(47076005)(1076003)(336012)(186003)(82310400005)(36900700001);
+ SFS:(13230022)(4636009)(396003)(376002)(346002)(136003)(39860400002)(451199015)(46966006)(36840700001)(40470700004)(356005)(40460700003)(110136005)(41300700001)(82310400005)(316002)(186003)(8676002)(47076005)(70586007)(81166007)(450100002)(5660300002)(70206006)(1076003)(83380400001)(336012)(82740400003)(15650500001)(86362001)(36860700001)(8936002)(2616005)(2906002)(478600001)(426003)(36756003)(40480700001)(7696005)(26005)(16526019)(6666004)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2022 23:44:37.8883 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7054f08b-b194-4271-9a09-08dac9bedae3
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2022 23:44:38.5914 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b02293d2-142d-47b4-e238-08dac9bedb4e
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT014.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6900
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6955
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,147 +104,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of attaching the eviction fence when a KFD BO is first mapped,
-attach it when it is allocated or imported. This in preparation to allow
-KFD BOs to be mapped using the render node API.
+When restoring after an eviction, use amdgpu_vm_handle_moved to update
+BO VA mappings in KFD VMs that are not managed through the KFD API. This
+should allow using the render node API to create more flexible memory
+mappings in KFD VMs.
+
+v2: Sync with pd fence after all page table updates
+v3: Update comments, remove TODOs that are no longer applicable
 
 Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
 ---
- .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  | 63 ++++++++++---------
- 1 file changed, 32 insertions(+), 31 deletions(-)
+ .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  | 28 +++++++++++++++----
+ 1 file changed, 22 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-index bd36636a9596..e13dff75ca5c 100644
+index e13dff75ca5c..ecf81f27cb4b 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-@@ -360,6 +360,24 @@ static int amdgpu_amdkfd_bo_validate(struct amdgpu_bo *bo, uint32_t domain,
- 	return ret;
- }
+@@ -2655,12 +2655,6 @@ int amdgpu_amdkfd_gpuvm_restore_process_bos(void *info, struct dma_fence **ef)
+ 	if (ret)
+ 		goto validate_map_fail;
  
-+static int amdgpu_amdkfd_bo_validate_and_fence(struct amdgpu_bo *bo,
-+					       uint32_t domain,
-+					       struct dma_fence *fence)
-+{
-+	int ret = amdgpu_bo_reserve(bo, false);
-+
-+	if (ret)
-+		return ret;
-+
-+	ret = amdgpu_amdkfd_bo_validate(bo, domain, true);
-+	if (!ret)
-+		dma_resv_add_fence(bo->tbo.base.resv, fence,
-+				   DMA_RESV_USAGE_BOOKKEEP);
-+	amdgpu_bo_unreserve(bo);
-+
-+	return ret;
-+}
-+
- static int amdgpu_amdkfd_validate_vm_bo(void *_unused, struct amdgpu_bo *bo)
- {
- 	return amdgpu_amdkfd_bo_validate(bo, bo->allowed_domains, false);
-@@ -1709,6 +1727,11 @@ int amdgpu_amdkfd_gpuvm_alloc_memory_of_gpu(
- 		}
- 		bo->allowed_domains = AMDGPU_GEM_DOMAIN_GTT;
- 		bo->preferred_domains = AMDGPU_GEM_DOMAIN_GTT;
-+	} else {
-+		ret = amdgpu_amdkfd_bo_validate_and_fence(bo, domain,
-+				&avm->process_info->eviction_fence->base);
-+		if (ret)
-+			goto err_validate_bo;
- 	}
- 
- 	if (offset)
-@@ -1718,6 +1741,7 @@ int amdgpu_amdkfd_gpuvm_alloc_memory_of_gpu(
- 
- allocate_init_user_pages_failed:
- err_pin_bo:
-+err_validate_bo:
- 	remove_kgd_mem_from_kfd_bo_list(*mem, avm->process_info);
- 	drm_vma_node_revoke(&gobj->vma_node, drm_priv);
- err_node_allow:
-@@ -1788,10 +1812,6 @@ int amdgpu_amdkfd_gpuvm_free_memory_of_gpu(
- 	if (unlikely(ret))
- 		return ret;
- 
--	/* The eviction fence should be removed by the last unmap.
--	 * TODO: Log an error condition if the bo still has the eviction fence
--	 * attached
--	 */
- 	amdgpu_amdkfd_remove_eviction_fence(mem->bo,
- 					process_info->eviction_fence);
- 	pr_debug("Release VA 0x%llx - 0x%llx\n", mem->va,
-@@ -1905,19 +1925,6 @@ int amdgpu_amdkfd_gpuvm_map_memory_to_gpu(
- 	if (unlikely(ret))
- 		goto out_unreserve;
- 
--	if (mem->mapped_to_gpu_memory == 0 &&
--	    !amdgpu_ttm_tt_get_usermm(bo->tbo.ttm)) {
--		/* Validate BO only once. The eviction fence gets added to BO
--		 * the first time it is mapped. Validate will wait for all
--		 * background evictions to complete.
--		 */
--		ret = amdgpu_amdkfd_bo_validate(bo, domain, true);
--		if (ret) {
--			pr_debug("Validate failed\n");
--			goto out_unreserve;
--		}
+-	ret = process_sync_pds_resv(process_info, &sync_obj);
+-	if (ret) {
+-		pr_debug("Memory eviction: Failed to sync to PD BO moving fence. Try again\n");
+-		goto validate_map_fail;
 -	}
 -
- 	list_for_each_entry(entry, &mem->attachments, list) {
- 		if (entry->bo_va->base.vm != avm || entry->is_mapped)
- 			continue;
-@@ -1944,10 +1951,6 @@ int amdgpu_amdkfd_gpuvm_map_memory_to_gpu(
- 			 mem->mapped_to_gpu_memory);
- 	}
+ 	/* Validate BOs and map them to GPUVM (update VM page tables). */
+ 	list_for_each_entry(mem, &process_info->kfd_bo_list,
+ 			    validate_list.head) {
+@@ -2708,6 +2702,19 @@ int amdgpu_amdkfd_gpuvm_restore_process_bos(void *info, struct dma_fence **ef)
+ 	if (failed_size)
+ 		pr_debug("0x%lx/0x%lx in system\n", failed_size, total_size);
  
--	if (!amdgpu_ttm_tt_get_usermm(bo->tbo.ttm) && !bo->tbo.pin_count)
--		dma_resv_add_fence(bo->tbo.base.resv,
--				   &avm->process_info->eviction_fence->base,
--				   DMA_RESV_USAGE_BOOKKEEP);
- 	ret = unreserve_bo_and_vms(&ctx, false, false);
- 
- 	goto out;
-@@ -1964,7 +1967,6 @@ int amdgpu_amdkfd_gpuvm_unmap_memory_from_gpu(
- 		struct amdgpu_device *adev, struct kgd_mem *mem, void *drm_priv)
- {
- 	struct amdgpu_vm *avm = drm_priv_to_vm(drm_priv);
--	struct amdkfd_process_info *process_info = avm->process_info;
- 	unsigned long bo_size = mem->bo->tbo.base.size;
- 	struct kfd_mem_attachment *entry;
- 	struct bo_vm_reservation_context ctx;
-@@ -2005,15 +2007,6 @@ int amdgpu_amdkfd_gpuvm_unmap_memory_from_gpu(
- 			 mem->mapped_to_gpu_memory);
- 	}
- 
--	/* If BO is unmapped from all VMs, unfence it. It can be evicted if
--	 * required.
--	 */
--	if (mem->mapped_to_gpu_memory == 0 &&
--	    !amdgpu_ttm_tt_get_usermm(mem->bo->tbo.ttm) &&
--	    !mem->bo->tbo.pin_count)
--		amdgpu_amdkfd_remove_eviction_fence(mem->bo,
--						process_info->eviction_fence);
--
- unreserve_out:
- 	unreserve_bo_and_vms(&ctx, false, false);
- out:
-@@ -2240,8 +2233,16 @@ int amdgpu_amdkfd_gpuvm_import_dmabuf(struct amdgpu_device *adev,
- 	amdgpu_sync_create(&(*mem)->sync);
- 	(*mem)->is_imported = true;
- 
-+	ret = amdgpu_amdkfd_bo_validate_and_fence(bo, (*mem)->domain,
-+				&avm->process_info->eviction_fence->base);
-+	if (ret)
-+		goto err_remove_mem;
++	/* Update mappings not managed by KFD */
++	list_for_each_entry(peer_vm, &process_info->vm_list_head,
++			vm_list_node) {
++		struct amdgpu_device *adev = amdgpu_ttm_adev(
++			peer_vm->root.bo->tbo.bdev);
 +
- 	return 0;
++		ret = amdgpu_vm_handle_moved(adev, peer_vm, &ctx.ticket);
++		if (ret) {
++			pr_debug("Memory eviction: handle moved failed. Try again\n");
++			goto validate_map_fail;
++		}
++	}
++
+ 	/* Update page directories */
+ 	ret = process_update_pds(process_info, &sync_obj);
+ 	if (ret) {
+@@ -2715,6 +2722,15 @@ int amdgpu_amdkfd_gpuvm_restore_process_bos(void *info, struct dma_fence **ef)
+ 		goto validate_map_fail;
+ 	}
  
-+err_remove_mem:
-+	remove_kgd_mem_from_kfd_bo_list(*mem, avm->process_info);
-+	drm_vma_node_revoke(&obj->vma_node, drm_priv);
- err_free_mem:
- 	kfree(mem);
- err_put_obj:
++	/* Sync with fences on all the page tables. They implicitly depend on any
++	 * move fences from amdgpu_vm_handle_moved above.
++	 */
++	ret = process_sync_pds_resv(process_info, &sync_obj);
++	if (ret) {
++		pr_debug("Memory eviction: Failed to sync to PD BO moving fence. Try again\n");
++		goto validate_map_fail;
++	}
++
+ 	/* Wait for validate and PT updates to finish */
+ 	amdgpu_sync_wait(&sync_obj, false);
+ 
 -- 
 2.32.0
 
