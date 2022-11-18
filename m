@@ -2,60 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69CF162F9BC
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 16:53:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D8C362F9C0
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 16:54:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1EFF10E746;
-	Fri, 18 Nov 2022 15:53:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86FA9893AB;
+	Fri, 18 Nov 2022 15:54:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
- [IPv6:2a00:1450:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 617AC893ED
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 15:53:46 +0000 (UTC)
-Received: by mail-ej1-x62c.google.com with SMTP id vv4so4737871ejc.2
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 07:53:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=FyQ+14zvMT7VrA4M4I6XAMtkyyEu3ioJESJ13Q+Vqf8=;
- b=eekqTE+rr8QVkOYasZ547zEzqYQJ75Jj7j/ekWxNd49skSOwRLUWM80yh6Vo5E7JpG
- HX0PjzCRxtnaO20bK7QSeKUB3atS+2nC/Pt65G/edR+XxQTvrJp3ukgL43QKpWzZG7VB
- okw/uTtcwK215rgKs52znnBxR5J1JsdQgccS11HyYeAWvIelQsI90hKNvo5ZX/ocKL6v
- yvAKRwIELDYLjocqt00jYrkDuD95s/EX2dJEdRMaFTys0H+Rpsv4fUL+YBgqeKAdDXep
- IPwuLQNqHzgUzdKnyHWfzZoerpSvlZHXE7p7t3PGRCyERyiwcR5wwIbW8t4ti9xlax8o
- NBmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=FyQ+14zvMT7VrA4M4I6XAMtkyyEu3ioJESJ13Q+Vqf8=;
- b=jbFGLVx5nHFwsi/vmtXcK3o7kV6mTcfwzhpSysC4ckY0aZnKjBcnMBUOA6Syq7jraC
- wAzmXyuCInjb92M4l3i9theX4XbexWNnChFS7DwEbOokDj7UU7pcF7Sj11s5lF4safAF
- +jDYjhzwgtDN+CtgEZIU2OB+da+EuO5I6fnfzX4F1ATVf7GGtmulK9O21OJviawgEHmQ
- k9rD0gaVwDnq39aWlS2zzjsXQYy2vMLomkEl6b08w0NA5Qbtq6zSUenoBwo3C6+1yQnT
- e55iLLKLSTBb8HAIMlGxNZKMO2oUQM9gMiEAe/dTgAD82eXJJWMcbIRHbD3oF44cF4WM
- xzdA==
-X-Gm-Message-State: ANoB5plFpfNe/1QOHpeIZiHvJEWpzCNs89WvmVJeZ5rwzxwThH9J//QK
- bDgI5mykKdc9dI8p2Wc4Y7CUZbAEljMuoKVIBhxXYA==
-X-Google-Smtp-Source: AA0mqf7W3nP3ZRA5KM+bVG3VDwcuhtvxumaMqp2wKHT5+9vU6ly5a3esrxrdTPS2uA42Xt7n3Co1nmThoU1FrS1DbCE=
-X-Received: by 2002:a17:906:6a0c:b0:7ad:9f03:aa46 with SMTP id
- qw12-20020a1709066a0c00b007ad9f03aa46mr6709076ejc.175.1668786824808; Fri, 18
- Nov 2022 07:53:44 -0800 (PST)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9332B893AB
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 15:54:34 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 52F7E22907;
+ Fri, 18 Nov 2022 15:54:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1668786873; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ie4rP1zP9ZImaMKnE6o4mfW5YHg3lY9uIgwnDniBuwk=;
+ b=SnhT7s/QJSA5+zra838tdjLvvSkyniKV/Ttk678z9DT52La8hBfwFNqzHEqA0uDywa5Fgv
+ uboOBh7sJAquLnCngkW6A7v8twvz1w1dEx96Y0wsm9cHi9vEywSSx6QtYSq5547uA7+pC1
+ m0qfwsrcuJZ9yarkH6NlL7z1PzXQNfE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1668786873;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ie4rP1zP9ZImaMKnE6o4mfW5YHg3lY9uIgwnDniBuwk=;
+ b=wcSegVH6PpmZov/e22gHGL++Xcc2PX7/T+/MU31TdxNujGC5jAz/yvXVoXEo9bzovMc7yh
+ 1/QSc8ly7kREvCCw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id ECFAA13A66;
+ Fri, 18 Nov 2022 15:54:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id SKFkN7iqd2N5dQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 18 Nov 2022 15:54:32 +0000
+Message-ID: <9bf3dde1-dbbf-a03f-6659-68ecd4fce8cf@suse.de>
+Date: Fri, 18 Nov 2022 16:54:31 +0100
 MIME-Version: 1.0
-References: <CA+hFU4w8=yTU5tQgqZj4qUvJddAQL9fj5teTVSB_dvNcwCyr6g@mail.gmail.com>
- <CAPY8ntCnAjGy0e55raxV=2bgi1YPSringrKdRmJHeS+Li=3yeg@mail.gmail.com>
- <CA+hFU4x0PGs-8oUBSXQa9uTNvvW80ZPFnheoBWO0SZnxJ=FKXA@mail.gmail.com>
- <20221118121530.23c7c3ee@eldfell>
-In-Reply-To: <20221118121530.23c7c3ee@eldfell>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 18 Nov 2022 15:53:29 +0000
-Message-ID: <CAPY8ntCux_s-iNaYSH4Fs+kwNAiSfTat5saT0jiDcxaVwpGp=g@mail.gmail.com>
-Subject: Re: The state of Quantization Range handling
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v3 5/8] drm/simpledrm: Add support for system memory
+ framebuffers
+Content-Language: en-US
+To: Thierry Reding <thierry.reding@gmail.com>, Rob Herring <robh@kernel.org>
+References: <20221117184039.2291937-1-thierry.reding@gmail.com>
+ <20221117184039.2291937-6-thierry.reding@gmail.com>
+ <053fbbc2-824d-648b-fdac-6f6c7c64181d@suse.de> <Y3em7dwyJgQI1vZw@orome>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <Y3em7dwyJgQI1vZw@orome>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------HiXdb2m9oNa1iQFFHPXIKbJx"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,234 +72,218 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- wayland <wayland-devel@lists.freedesktop.org>
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+ David Airlie <airlied@redhat.com>, Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Pekka
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------HiXdb2m9oNa1iQFFHPXIKbJx
+Content-Type: multipart/mixed; boundary="------------aMQqydApo3k60vaPa0bSrIXJ";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Thierry Reding <thierry.reding@gmail.com>, Rob Herring <robh@kernel.org>
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+ David Airlie <airlied@redhat.com>, Robin Murphy <robin.murphy@arm.com>
+Message-ID: <9bf3dde1-dbbf-a03f-6659-68ecd4fce8cf@suse.de>
+Subject: Re: [PATCH v3 5/8] drm/simpledrm: Add support for system memory
+ framebuffers
+References: <20221117184039.2291937-1-thierry.reding@gmail.com>
+ <20221117184039.2291937-6-thierry.reding@gmail.com>
+ <053fbbc2-824d-648b-fdac-6f6c7c64181d@suse.de> <Y3em7dwyJgQI1vZw@orome>
+In-Reply-To: <Y3em7dwyJgQI1vZw@orome>
 
-On Fri, 18 Nov 2022 at 10:15, Pekka Paalanen <ppaalanen@gmail.com> wrote:
->
-> On Thu, 17 Nov 2022 22:13:26 +0100
-> Sebastian Wick <sebastian.wick@redhat.com> wrote:
->
-> > Hi Dave,
-> >
-> > I noticed that I didn't get the Broadcast RGB property thanks to you
-> > (more below)
-> >
-> > On Tue, Nov 15, 2022 at 2:16 PM Dave Stevenson
-> > <dave.stevenson@raspberrypi.com> wrote:
-> > >
-> > > Hi Sebastian
-> > >
-> > > Thanks for starting the conversation - it's stalled a number of times
-> > > previously.
-> > >
-> > > On Mon, 14 Nov 2022 at 23:12, Sebastian Wick <sebastian.wick@redhat.com> wrote:
-> > > >
-> > > > There are still regular bug reports about monitors (sinks) and sources
-> > > > disagreeing about the quantization range of the pixel data. In
-> > > > particular sources sending full range data when the sink expects
-> > > > limited range. From a user space perspective, this is all hidden in
-> > > > the kernel. We send full range data to the kernel and then hope it
-> > > > does the right thing but as the bug reports show: some combinations of
-> > > > displays and drivers result in problems.
-> > >
-> > > I'll agree that we as Raspberry Pi also get a number of bug reports
-> > > where sinks don't always look at the infoframes and misinterpret the
-> > > data.
-> > >
-> > > > In general the whole handling of the quantization range on linux is
-> > > > not defined or documented at all. User space sends full range data
-> > > > because that's what seems to work most of the time but technically
-> > > > this is all undefined and user space can not fix those issues. Some
-> > > > compositors have resorted to giving users the option to choose the
-> > > > quantization range but this really should only be necessary for
-> > > > straight up broken hardware.
-> > >
-> > > Wowsers! Making userspace worry about limited range data would be a
-> > > very weird decision in my view, so compositors should always deal in
-> > > full range data.
-> >
-> > Making this a user space problem is IMO the ideal way to deal with it
-> > but that's a bit harder to do (I'll answer that in the reply to
-> > Pekka). So let's just assume we all agree that user space only deals
-> > with full range data.
->
-> Limited range was invented for some reason, so it must have some use
-> somewhere, at least in the past. Maybe it was needed to calibrate mixed
-> digital/analog video processing chains with test images that needed to
-> contain sub-blacks and super-whites, to make sure that sub-blacks come
-> out as the nominal black etc. Just because desktop computers do not
-> seem to have any need for limited range, I personally wouldn't be as
-> arrogant as to say it's never useful. Maybe there are professional
-> video/broadcasting needs that currently can only be realized with
-> proprietary OS/hardware, because Linux just can't do it today?
->
-> Why would TVs support limited range, if it was never useful? Why would
-> video sources produce limited range if it was always strictly inferior
-> to full range?
->
-> Even digital image processing algorithms might make use of
-> out-of-unit-range values, not just analog circuitry for overshoot.
->
-> But no, I can't give a real example, just speculation. Hence it's fine
-> by me to discard limited range processing for now. Still, what I
-> explain below would allow limited range processing without any extra
-> complexity by making the KMS color pipeline better defined and less
-> limiting for userspace.
+--------------aMQqydApo3k60vaPa0bSrIXJ
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-AIUI limited range comes from the analogue world, or possibly creative
-(film/TV) world, hence being used on Consumer devices rather than IT
-ones (CTA and CEA modes vs VESA and DMT modes).
+SGkNCg0KQW0gMTguMTEuMjIgdW0gMTY6Mzggc2NocmllYiBUaGllcnJ5IFJlZGluZzoNCj4g
+T24gRnJpLCBOb3YgMTgsIDIwMjIgYXQgMDM6MjE6MTRQTSArMDEwMCwgVGhvbWFzIFppbW1l
+cm1hbm4gd3JvdGU6DQo+PiBIaQ0KPj4NCj4+IEFtIDE3LjExLjIyIHVtIDE5OjQwIHNjaHJp
+ZWIgVGhpZXJyeSBSZWRpbmc6DQo+Pj4gRnJvbTogVGhpZXJyeSBSZWRpbmcgPHRyZWRpbmdA
+bnZpZGlhLmNvbT4NCj4+Pg0KPj4+IFNpbXBsZSBmcmFtZWJ1ZmZlcnMgY2FuIGJlIHNldCB1
+cCBpbiBzeXN0ZW0gbWVtb3J5LCB3aGljaCBjYW5ub3QgYmUNCj4+PiByZXF1ZXN0ZWQgYW5k
+L29yIEkvTyByZW1hcHBlZCB1c2luZyB0aGUgSS9PIHJlc291cmNlIGhlbHBlcnMuIEFkZCBh
+DQo+Pj4gc2VwYXJhdGUgY29kZSBwYXRoIHRoYXQgb2J0YWlucyBzeXN0ZW0gbWVtb3J5IGZy
+YW1lYnVmZmVycyBmcm9tIHRoZQ0KPj4+IHJlc2VydmVkIG1lbW9yeSByZWdpb24gcmVmZXJl
+bmNlZCBpbiB0aGUgbWVtb3J5LXJlZ2lvbiBwcm9wZXJ0eS4NCj4+Pg0KPj4+IFNpZ25lZC1v
+ZmYtYnk6IFRoaWVycnkgUmVkaW5nIDx0cmVkaW5nQG52aWRpYS5jb20+DQo+Pj4gLS0tDQo+
+Pj4gQ2hhbmdlcyBpbiB2MzoNCj4+PiAtIHNpbXBsaWZ5IG1lbW9yeSBjb2RlIGFuZCBtb3Zl
+IGJhY2sgdG8gc2ltcGxlZHJtX2RldmljZV9jcmVhdGUoKQ0KPj4+IC0gZXh0cmFjdCBzY3Jl
+ZW5fYmFzZSBpb3N5c19tYXAgZml4IGludG8gc2VwYXJhdGUgcGF0Y2gNCj4+Pg0KPj4+IENo
+YW5nZXMgaW4gdjI6DQo+Pj4gLSBtYWtlIHNjcmVlbiBiYXNlIGEgc3RydWN0IGlvc3lzX21h
+cCB0byBhdm9pZCBzcGFyc2Ugd2FybmluZ3MNCj4+Pg0KPj4+ICAgIGRyaXZlcnMvZ3B1L2Ry
+bS90aW55L3NpbXBsZWRybS5jIHwgOTkgKysrKysrKysrKysrKysrKysrKysrKysrLS0tLS0t
+LS0NCj4+PiAgICAxIGZpbGUgY2hhbmdlZCwgNzUgaW5zZXJ0aW9ucygrKSwgMjQgZGVsZXRp
+b25zKC0pDQo+Pj4NCj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2lt
+cGxlZHJtLmMgYi9kcml2ZXJzL2dwdS9kcm0vdGlueS9zaW1wbGVkcm0uYw0KPj4+IGluZGV4
+IDM2NzNhNDJlNGJmNC4uN2YzOWJjNThkYTUyIDEwMDY0NA0KPj4+IC0tLSBhL2RyaXZlcnMv
+Z3B1L2RybS90aW55L3NpbXBsZWRybS5jDQo+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3Rp
+bnkvc2ltcGxlZHJtLmMNCj4+PiBAQCAtMyw2ICszLDcgQEANCj4+PiAgICAjaW5jbHVkZSA8
+bGludXgvY2xrLmg+DQo+Pj4gICAgI2luY2x1ZGUgPGxpbnV4L29mX2Nsay5oPg0KPj4+ICAg
+ICNpbmNsdWRlIDxsaW51eC9taW5tYXguaD4NCj4+PiArI2luY2x1ZGUgPGxpbnV4L29mX2Fk
+ZHJlc3MuaD4NCj4+PiAgICAjaW5jbHVkZSA8bGludXgvcGxhdGZvcm1fZGF0YS9zaW1wbGVm
+Yi5oPg0KPj4+ICAgICNpbmNsdWRlIDxsaW51eC9wbGF0Zm9ybV9kZXZpY2UuaD4NCj4+PiAg
+ICAjaW5jbHVkZSA8bGludXgvcmVndWxhdG9yL2NvbnN1bWVyLmg+DQo+Pj4gQEAgLTE4NCw2
+ICsxODUsMzEgQEAgc2ltcGxlZmJfZ2V0X2Zvcm1hdF9vZihzdHJ1Y3QgZHJtX2RldmljZSAq
+ZGV2LCBzdHJ1Y3QgZGV2aWNlX25vZGUgKm9mX25vZGUpDQo+Pj4gICAgCXJldHVybiBzaW1w
+bGVmYl9nZXRfdmFsaWRhdGVkX2Zvcm1hdChkZXYsIGZvcm1hdCk7DQo+Pj4gICAgfQ0KPj4+
+ICtzdGF0aWMgc3RydWN0IHJlc291cmNlICoNCj4+PiArc2ltcGxlZmJfZ2V0X21lbW9yeV9v
+ZihzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCBzdHJ1Y3QgZGV2aWNlX25vZGUgKm9mX25vZGUp
+DQo+Pj4gK3sNCj4+PiArCXN0cnVjdCBkZXZpY2Vfbm9kZSAqbnA7DQo+Pj4gKwlzdHJ1Y3Qg
+cmVzb3VyY2UgKnJlczsNCj4+PiArCWludCBlcnI7DQo+Pj4gKw0KPj4+ICsJbnAgPSBvZl9w
+YXJzZV9waGFuZGxlKG9mX25vZGUsICJtZW1vcnktcmVnaW9uIiwgMCk7DQo+Pj4gKwlpZiAo
+IW5wKQ0KPj4+ICsJCXJldHVybiBOVUxMOw0KPj4+ICsNCj4+PiArCXJlcyA9IGRldm1fa3ph
+bGxvYyhkZXYtPmRldiwgc2l6ZW9mKCpyZXMpLCBHRlBfS0VSTkVMKTsNCj4+PiArCWlmICgh
+cmVzKQ0KPj4+ICsJCXJldHVybiBFUlJfUFRSKC1FTk9NRU0pOw0KPj4+ICsNCj4+PiArCWVy
+ciA9IG9mX2FkZHJlc3NfdG9fcmVzb3VyY2UobnAsIDAsIHJlcyk7DQo+Pj4gKwlpZiAoZXJy
+KQ0KPj4+ICsJCXJldHVybiBFUlJfUFRSKGVycik7DQo+Pj4gKw0KPj4+ICsJaWYgKG9mX2dl
+dF9wcm9wZXJ0eShvZl9ub2RlLCAicmVnIiwgTlVMTCkpDQo+Pj4gKwkJZHJtX3dhcm4oZGV2
+LCAicHJlZmVycmluZyBcIm1lbW9yeS1yZWdpb25cIiBvdmVyIFwicmVnXCIgcHJvcGVydHlc
+biIpOw0KPj4NCj4+IFRoZSByZWcgcHJvcGVydHkgaXMgY29udmVydGVkIHRvIGEgZGV2aWNl
+IHJlc291cmNlIHdoZW4gd2UgY3JlYXRlIHRoZSBkZXZpY2UNCj4+IGF0IFsxXS4NCj4+DQo+
+PiBJIGhhdmUgYW5vdGhlciBxdWVzdGlvbiwgd2hpY2ggSSB3YXMgZGlzY3Vzc2luZyB3aXRo
+IEphdmllciByZWNlbnRseS4gSXMgaXQNCj4+IHBvc3NpYmxlIHRvIGhhbmRsZSBtZW1vcnkt
+cmVnaW9uIHRoZXJlIGF1dG9tYXRpY2FsbHk/IElmLCBmb3IgZXhtYXBsZSwgaXQNCj4+IHdv
+dWxkIGNyZWF0ZSBhIHJlc291cmNlIHdpdGggSU9SRVNPVVJDRV9DQUNIRUFCTEUsIHNpbXBs
+ZWRybSB3b3VsZCBoYW5kbGUgaXQNCj4+IGFzIG1lbW9yeSByZWdpb24uIFdpdGhvdXQgdGhl
+IENBQ0hFQUJMRSBmbGFnLCBpdCB3b3VsZCBiZSBhIHJlZ3VsYXIgcmVzb3VyY2UNCj4+IGFz
+IGJlZm9yZS4NCj4gDQo+IG1lbW9yeS1yZWdpb24gcHJvcGVydGllcyBhcmUgbm90IHR5cGlj
+YWxseSBjb252ZXJ0ZWQgaW50byBhIHN0YW5kYXJkDQo+IHJlc291cmNlIGF1dG9tYXRpY2Fs
+bHkuIE9uZSByZWFzb24gbWF5IGJlIHRoYXQgdGhleSBjYW4gaGF2ZSBhZGRpdGlvbmFsDQo+
+IHByb3BlcnRpZXMgYXNzb2NpYXRlZCB3aXRoIHRoZW0gYW5kIHNvIHNvbWV0aGluZyBsaWtl
+IGEgQ0FDSEVBQkxFIHR5cGUNCj4gbWF5IG5vdCBhcHBseS4NCj4gDQo+IEl0J3MgYWxzbyBz
+dGFuZGFyZCB0byBjb252ZXJ0ICJyZWciIHByb3BlcnRpZXMgaW50byBzdHJ1Y3QgcmVzb3Vy
+Y2UgYW5kDQo+IHRoYXQncyB3aGF0IG1hbnkgZHJpdmVycyB3aWxsIGV4cGVjdC4gSSBkb24n
+dCBrbm93IGlmIGFsbCBkcml2ZXJzIHdpbGwNCj4gZ3JhY2VmdWxseSBoYW5kbGUgYmVpbmcg
+cGFzc2VkIGEgc3RydWN0IHJlc291cmNlIHRoYXQgd2FzIGNyZWF0ZWQgaW4NCj4gdGhpcyB3
+YXkgZnJvbSBhIG1lbW9yeS1yZWdpb24gcHJvcGVydHkuIElmIGF0IGFsbCBJIHRoaW5rIHRo
+aXMgd291bGQNCj4gbmVlZCB0byBiZSBzcGVjaWFsLWNhc2VkIGZvciBzaW1wbGUtZnJhbWVi
+dWZmZXIsIGluIHdoaWNoIGNhc2UgSSdtIG5vdA0KPiBjb252aW5jZWQgdGhhdCBwdXR0aW5n
+IHRoZSBzcGVjaWFsIGNhc2UgaW50byB0aGUgY29yZSBPRiBjb2RlIGlzIGFueQ0KPiBiZXR0
+ZXIgdGhhbiBwdXR0aW5nIGl0IGludG8gdGhlIHNpbXBsZWRybSBkcml2ZXIuDQo+IA0KPiBB
+bHNvLCBldmVuIGlmIHdlIGRpZCBzbywgd2hhdCB3b3VsZCBpdCByZWFsbHkgY2hhbmdlPyBX
+ZSBtYXkgYmUgYWJsZSB0bw0KPiBhdm9pZCB0aGUgZXhwbGljaXQgRFQgbG9va3VwLCBidXQg
+dGhlIGJ1bGsgb2YgdGhlIG1lbW9yeS1yZWdpb24gY29kZSBpcw0KPiBhY3R1YWxseSBtYXBw
+aW5nIGl0LCBldGMuIFRoYXQgcGFydCB3ZSB3b24ndCBiZSBhYmxlIHRvIGF1dG9tYXRpY2Fs
+bHkNCj4gaGFuZGxlLCBJIHRoaW5rLg0KPiANCj4gVWx0aW1hdGVseSB0aGlzIGlzIHVwIHRv
+IFJvYiwgbm90IHN1cmUgaWYgaGUnbGwgd2FudCB0byBleHRlbmQgdGhlDQo+IHNpbXBsZS1m
+cmFtZWJ1ZmZlciBub2RlIGNyZWF0aW9uIGNvZGUgYW55IGZ1cnRoZXIuDQoNClRoYW5rcyBm
+b3IgZXhwbGFpbmluZy4gSXQgd2FzIHNpbXBseSBzb21ldGhpbmcgd2Ugd29uZGVyZWQgYWJv
+dXQuDQoNClRoZSBzaW1wbGVkcm0gZGV2aWNlIGRyaXZlciBoYW5kcyBvdmVyIGRldmljZSBv
+d25lcnNoaXAgdG8gdGhlIA0KaGFyZHdhcmUncyBuYXRpdmUgZHJpdmVyIGR1cmluZyB0aGUg
+Ym9vdCBwcm9jZXNzLiBUbyBtYWtlIHRoaXMgd29yayBpbiANCmFsbCBjYXNlcywgdGhlIE9G
+IGNvZGUgbmVlZHMgdG8gYmUgaW52b2x2ZWQuIFNvIGF0IHNvbWUgcG9pbnQsIHdlJ2xsIA0K
+bmVlZCB0byBtb3ZlIHNvbWUgb2YgdGhlIG1lbW9yeS1yZWdpb24gY29kZSBpbnRvIHRoZSBP
+RiBjb2RlLiBCdXQgaG93IA0KZXhhY3RseSB0aGlzIGhhcyB0byBiZSBkb25lIGNhbiBiZSBk
+aXNjdXNzZWQgbGF0ZXIuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IFRoaWVy
+cnkNCj4gDQo+Pg0KPj4gQmVzdCByZWdhcmRzDQo+PiBUaG9tYXMNCj4+DQo+PiBbMV0NCj4+
+IGh0dHBzOi8vZWxpeGlyLmJvb3RsaW4uY29tL2xpbnV4L3Y2LjAuOS9zb3VyY2UvZHJpdmVy
+cy9vZi9wbGF0Zm9ybS5jI0w1ODYNCj4+DQo+Pj4gKw0KPj4+ICsJcmV0dXJuIHJlczsNCj4+
+PiArfQ0KPj4+ICsNCj4+PiAgICAvKg0KPj4+ICAgICAqIFNpbXBsZSBGcmFtZWJ1ZmZlciBk
+ZXZpY2UNCj4+PiAgICAgKi8NCj4+PiBAQCAtNjIzLDggKzY0OSw3IEBAIHN0YXRpYyBzdHJ1
+Y3Qgc2ltcGxlZHJtX2RldmljZSAqc2ltcGxlZHJtX2RldmljZV9jcmVhdGUoc3RydWN0IGRy
+bV9kcml2ZXIgKmRydiwNCj4+PiAgICAJc3RydWN0IGRybV9kZXZpY2UgKmRldjsNCj4+PiAg
+ICAJaW50IHdpZHRoLCBoZWlnaHQsIHN0cmlkZTsNCj4+PiAgICAJY29uc3Qgc3RydWN0IGRy
+bV9mb3JtYXRfaW5mbyAqZm9ybWF0Ow0KPj4+IC0Jc3RydWN0IHJlc291cmNlICpyZXMsICpt
+ZW07DQo+Pj4gLQl2b2lkIF9faW9tZW0gKnNjcmVlbl9iYXNlOw0KPj4+ICsJc3RydWN0IHJl
+c291cmNlICpyZXMsICptZW0gPSBOVUxMOw0KPj4+ICAgIAlzdHJ1Y3QgZHJtX3BsYW5lICpw
+cmltYXJ5X3BsYW5lOw0KPj4+ICAgIAlzdHJ1Y3QgZHJtX2NydGMgKmNydGM7DQo+Pj4gICAg
+CXN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2RlcjsNCj4+PiBAQCAtNjc2LDYgKzcwMSw5IEBA
+IHN0YXRpYyBzdHJ1Y3Qgc2ltcGxlZHJtX2RldmljZSAqc2ltcGxlZHJtX2RldmljZV9jcmVh
+dGUoc3RydWN0IGRybV9kcml2ZXIgKmRydiwNCj4+PiAgICAJCWZvcm1hdCA9IHNpbXBsZWZi
+X2dldF9mb3JtYXRfb2YoZGV2LCBvZl9ub2RlKTsNCj4+PiAgICAJCWlmIChJU19FUlIoZm9y
+bWF0KSkNCj4+PiAgICAJCQlyZXR1cm4gRVJSX0NBU1QoZm9ybWF0KTsNCj4+PiArCQltZW0g
+PSBzaW1wbGVmYl9nZXRfbWVtb3J5X29mKGRldiwgb2Zfbm9kZSk7DQo+Pj4gKwkJaWYgKElT
+X0VSUihtZW0pKQ0KPj4+ICsJCQlyZXR1cm4gRVJSX0NBU1QobWVtKTsNCj4+PiAgICAJfSBl
+bHNlIHsNCj4+PiAgICAJCWRybV9lcnIoZGV2LCAibm8gc2ltcGxlZmIgY29uZmlndXJhdGlv
+biBmb3VuZFxuIik7DQo+Pj4gICAgCQlyZXR1cm4gRVJSX1BUUigtRU5PREVWKTsNCj4+PiBA
+QCAtNjk4LDMyICs3MjYsNTUgQEAgc3RhdGljIHN0cnVjdCBzaW1wbGVkcm1fZGV2aWNlICpz
+aW1wbGVkcm1fZGV2aWNlX2NyZWF0ZShzdHJ1Y3QgZHJtX2RyaXZlciAqZHJ2LA0KPj4+ICAg
+IAkgKiBNZW1vcnkgbWFuYWdlbWVudA0KPj4+ICAgIAkgKi8NCj4+PiAtCXJlcyA9IHBsYXRm
+b3JtX2dldF9yZXNvdXJjZShwZGV2LCBJT1JFU09VUkNFX01FTSwgMCk7DQo+Pj4gLQlpZiAo
+IXJlcykNCj4+PiAtCQlyZXR1cm4gRVJSX1BUUigtRUlOVkFMKTsNCj4+PiArCWlmIChtZW0p
+IHsNCj4+PiArCQl2b2lkICpzY3JlZW5fYmFzZTsNCj4+PiAtCXJldCA9IGRldm1fYXBlcnR1
+cmVfYWNxdWlyZV9mcm9tX2Zpcm13YXJlKGRldiwgcmVzLT5zdGFydCwgcmVzb3VyY2Vfc2l6
+ZShyZXMpKTsNCj4+PiAtCWlmIChyZXQpIHsNCj4+PiAtCQlkcm1fZXJyKGRldiwgImNvdWxk
+IG5vdCBhY3F1aXJlIG1lbW9yeSByYW5nZSAlcHI6IGVycm9yICVkXG4iLCByZXMsIHJldCk7
+DQo+Pj4gLQkJcmV0dXJuIEVSUl9QVFIocmV0KTsNCj4+PiAtCX0NCj4+PiArCQlyZXQgPSBk
+ZXZtX2FwZXJ0dXJlX2FjcXVpcmVfZnJvbV9maXJtd2FyZShkZXYsIG1lbS0+c3RhcnQsIHJl
+c291cmNlX3NpemUobWVtKSk7DQo+Pj4gKwkJaWYgKHJldCkgew0KPj4+ICsJCQlkcm1fZXJy
+KGRldiwgImNvdWxkIG5vdCBhY3F1aXJlIG1lbW9yeSByYW5nZSAlcHI6ICVkXG4iLCBtZW0s
+IHJldCk7DQo+Pj4gKwkJCXJldHVybiBFUlJfUFRSKHJldCk7DQo+Pj4gKwkJfQ0KPj4+IC0J
+bWVtID0gZGV2bV9yZXF1ZXN0X21lbV9yZWdpb24oJnBkZXYtPmRldiwgcmVzLT5zdGFydCwg
+cmVzb3VyY2Vfc2l6ZShyZXMpLCBkcnYtPm5hbWUpOw0KPj4+IC0JaWYgKCFtZW0pIHsNCj4+
+PiAtCQkvKg0KPj4+IC0JCSAqIFdlIGNhbm5vdCBtYWtlIHRoaXMgZmF0YWwuIFNvbWV0aW1l
+cyB0aGlzIGNvbWVzIGZyb20gbWFnaWMNCj4+PiAtCQkgKiBzcGFjZXMgb3VyIHJlc291cmNl
+IGhhbmRsZXJzIHNpbXBseSBkb24ndCBrbm93IGFib3V0LiBVc2UNCj4+PiAtCQkgKiB0aGUg
+SS9PLW1lbW9yeSByZXNvdXJjZSBhcy1pcyBhbmQgdHJ5IHRvIG1hcCB0aGF0IGluc3RlYWQu
+DQo+Pj4gLQkJICovDQo+Pj4gLQkJZHJtX3dhcm4oZGV2LCAiY291bGQgbm90IGFjcXVpcmUg
+bWVtb3J5IHJlZ2lvbiAlcHJcbiIsIHJlcyk7DQo+Pj4gLQkJbWVtID0gcmVzOw0KPj4+IC0J
+fQ0KPj4+ICsJCWRybV9pbmZvKGRldiwgInVzaW5nIHN5c3RlbSBtZW1vcnkgZnJhbWVidWZm
+ZXIgYXQgJXByXG4iLCBtZW0pOw0KPj4+IC0Jc2NyZWVuX2Jhc2UgPSBkZXZtX2lvcmVtYXBf
+d2MoJnBkZXYtPmRldiwgbWVtLT5zdGFydCwgcmVzb3VyY2Vfc2l6ZShtZW0pKTsNCj4+PiAt
+CWlmICghc2NyZWVuX2Jhc2UpDQo+Pj4gLQkJcmV0dXJuIEVSUl9QVFIoLUVOT01FTSk7DQo+
+Pj4gKwkJc2NyZWVuX2Jhc2UgPSBkZXZtX21lbXJlbWFwKGRldi0+ZGV2LCBtZW0tPnN0YXJ0
+LCByZXNvdXJjZV9zaXplKG1lbSksIE1FTVJFTUFQX1dCKTsNCj4+PiArCQlpZiAoIXNjcmVl
+bl9iYXNlKQ0KPj4+ICsJCQlyZXR1cm4gRVJSX1BUUigtRU5PTUVNKTsNCj4+PiArDQo+Pj4g
+KwkJaW9zeXNfbWFwX3NldF92YWRkcigmc2Rldi0+c2NyZWVuX2Jhc2UsIHNjcmVlbl9iYXNl
+KTsNCj4+PiArCX0gZWxzZSB7DQo+Pj4gKwkJdm9pZCBfX2lvbWVtICpzY3JlZW5fYmFzZTsN
+Cj4+PiArDQo+Pj4gKwkJcmVzID0gcGxhdGZvcm1fZ2V0X3Jlc291cmNlKHBkZXYsIElPUkVT
+T1VSQ0VfTUVNLCAwKTsNCj4+PiArCQlpZiAoIXJlcykNCj4+PiArCQkJcmV0dXJuIEVSUl9Q
+VFIoLUVJTlZBTCk7DQo+Pj4gLQlpb3N5c19tYXBfc2V0X3ZhZGRyX2lvbWVtKCZzZGV2LT5z
+Y3JlZW5fYmFzZSwgc2NyZWVuX2Jhc2UpOw0KPj4+ICsJCXJldCA9IGRldm1fYXBlcnR1cmVf
+YWNxdWlyZV9mcm9tX2Zpcm13YXJlKGRldiwgcmVzLT5zdGFydCwgcmVzb3VyY2Vfc2l6ZShy
+ZXMpKTsNCj4+PiArCQlpZiAocmV0KSB7DQo+Pj4gKwkJCWRybV9lcnIoZGV2LCAiY291bGQg
+bm90IGFjcXVpcmUgbWVtb3J5IHJhbmdlICVwcjogJWRcbiIsICZyZXMsIHJldCk7DQo+Pj4g
+KwkJCXJldHVybiBFUlJfUFRSKHJldCk7DQo+Pj4gKwkJfQ0KPj4+ICsNCj4+PiArCQlkcm1f
+aW5mbyhkZXYsICJ1c2luZyBJL08gbWVtb3J5IGZyYW1lYnVmZmVyIGF0ICVwclxuIiwgcmVz
+KTsNCj4+PiArDQo+Pj4gKwkJbWVtID0gZGV2bV9yZXF1ZXN0X21lbV9yZWdpb24oJnBkZXYt
+PmRldiwgcmVzLT5zdGFydCwgcmVzb3VyY2Vfc2l6ZShyZXMpLA0KPj4+ICsJCQkJCSAgICAg
+IGRydi0+bmFtZSk7DQo+Pj4gKwkJaWYgKCFtZW0pIHsNCj4+PiArCQkJLyoNCj4+PiArCQkJ
+ICogV2UgY2Fubm90IG1ha2UgdGhpcyBmYXRhbC4gU29tZXRpbWVzIHRoaXMgY29tZXMgZnJv
+bSBtYWdpYw0KPj4+ICsJCQkgKiBzcGFjZXMgb3VyIHJlc291cmNlIGhhbmRsZXJzIHNpbXBs
+eSBkb24ndCBrbm93IGFib3V0LiBVc2UNCj4+PiArCQkJICogdGhlIEkvTy1tZW1vcnkgcmVz
+b3VyY2UgYXMtaXMgYW5kIHRyeSB0byBtYXAgdGhhdCBpbnN0ZWFkLg0KPj4+ICsJCQkgKi8N
+Cj4+PiArCQkJZHJtX3dhcm4oZGV2LCAiY291bGQgbm90IGFjcXVpcmUgbWVtb3J5IHJlZ2lv
+biAlcHJcbiIsIHJlcyk7DQo+Pj4gKwkJCW1lbSA9IHJlczsNCj4+PiArCQl9DQo+Pj4gKw0K
+Pj4+ICsJCXNjcmVlbl9iYXNlID0gZGV2bV9pb3JlbWFwX3djKCZwZGV2LT5kZXYsIG1lbS0+
+c3RhcnQsIHJlc291cmNlX3NpemUobWVtKSk7DQo+Pj4gKwkJaWYgKCFzY3JlZW5fYmFzZSkN
+Cj4+PiArCQkJcmV0dXJuIEVSUl9QVFIoLUVOT01FTSk7DQo+Pj4gKw0KPj4+ICsJCWlvc3lz
+X21hcF9zZXRfdmFkZHJfaW9tZW0oJnNkZXYtPnNjcmVlbl9iYXNlLCBzY3JlZW5fYmFzZSk7
+DQo+Pj4gKwl9DQo+Pj4gICAgCS8qDQo+Pj4gICAgCSAqIE1vZGVzZXR0aW5nDQo+Pg0KPj4g
+LS0gDQo+PiBUaG9tYXMgWmltbWVybWFubg0KPj4gR3JhcGhpY3MgRHJpdmVyIERldmVsb3Bl
+cg0KPj4gU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQo+PiBNYXhmZWxk
+c3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCj4+IChIUkIgMzY4MDksIEFHIE7D
+vHJuYmVyZykNCj4+IEdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCj4gDQo+IA0KPiAN
+Cg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0K
+U1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5
+MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdl
+c2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
-YCbCr output from video codecs typically uses a range of 16-235,
-therefore a media player wanting to pass the decoded video out to the
-display exactly as-is needs to be able to signal that to the display
-for it to be interpreted correctly.
-HDMI extended DVI. I believe both YCbCr support and range control were
-added to the HDMI spec at the same time, presumably to allow for this
-use case. Limited range RGB seems to be a bit of a quirk though.
+--------------aMQqydApo3k60vaPa0bSrIXJ--
 
-Just to be annoying, JPEG uses full range YCbCr.
+--------------HiXdb2m9oNa1iQFFHPXIKbJx
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-> > > How would composition of multiple DRM planes work if some are limited
-> > > range and some are full but you want limited range output? Your
-> > > hardware needs to have CSC matrices to convert full range down to
-> > > limited range, and know that you want to use them to effectively
-> > > compose to limited range.
-> > > In fact you can't currently tell DRM that an RGB plane is limited
-> > > range - the values in enum drm_color_range are
-> > > DRM_COLOR_YCBCR_LIMITED_RANGE and DRM_COLOR_YCBCR_FULL_RANGE [1].
->
-> Yeah, that's because range conversion has been conflated with
-> YUV-to-RGB conversion, and the result is always full-range RGB in
-> practise, AFAIU. There is no way to feed limited range color into the
-> further color pipeline in KMS, but that's actually a good thing.(*)
->
-> The following is my opinion of the future, as someone who has been
-> thinking about how to make HDR work on Wayland while allowing the
-> display quality and hardware optimizations that Wayland was designed
-> for:
->
->
-> Userspace should not tell KMS about a plane being limited range at all.
-> The reason is the same why userspace should not tell KMS about what
-> colorspace a plane is in.
->
-> Instead, userspace wants to program specific mathematical operations
-> into KMS hardware without any associated or implied semantics. It's
-> just math. The actual semantics have been worked out by userspace
-> before-hand. This allows to use the KMS hardware to its fullest effect,
-> even for things the hardware or KMS UAPI designers did not anticipate.
->
-> IMO, framebuffers and KMS planes should ultimately be in undefined
-> quantization range, undefined color space, and undefined dynamic range.
-> The correct processing of the pixel values is programmed by per-plane
-> KMS properties like CTM, LUT, and more specialized components like
-> quantization range converter or YUV-to-RGB converter (which is just
-> another CTM at a different point, really) where userspace explicitly
-> programs the *operation*, and not the input and output types hoping the
-> driver and hardware does something sensible.
+-----BEGIN PGP SIGNATURE-----
 
-How do you describe the functionality available on constrained
-hardware that has fixed matrices for YUV to RGB conversions using the
-normal BT601 and 709?
-Or hardware that has no per plane matrix for RGB? (I believe vc4 fits
-into this category).
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmN3qrgFAwAAAAAACgkQlh/E3EQov+CS
+eBAAxLdwTKD38mqWgPgD4399VMchNAQn9fb0wx26aWblc7VWoQcsEKhheUGIKLLclQBoJGKvAf1T
+2F49lEqmG/SW6jns9zN0pw3nTREMn30GBCv4vJSd7DUy06l5oRrny8gxjuFKdZpvOoHAdnGuNdj1
+/6YUYd09lTktqExWZmCsbuIX1c/NHwAuVdha42tFsXOF9QtfIBaSmp/07o3uvFUgE3Eu+jO6tHgY
+XplsI5MSSABbTWkuhwBGPLw7MA3cRVLg1qN7zVJ+TpLUmgv004moKIpDM43Npj833/tG06ZsB/pg
+2DhVNeKs1fMf1stMuPdKr0M27+N2xMCdJa1sWSStZRiHAdrVitm/TrF6ln4rR+Y06EI+Yhtr+75X
+xtrsgQp0jjkFOvncI6olTFtT2rjoZ0qA16zwr2GI+SdyC1Z3oeuZaRCpffCsWsrvvx142SwLw9cA
+wvDRMSejelZ+xi0pMH6lDAucfPM+WV1NApWKpOpq0Y8tePLGL5C9P4TdtmFkQ0oYfdq38i74Z6OW
+iyYgYCKF0s8CqDzSlTnGXqUJD/k2KuYGm8/F1K+O5FeGAp97nH5rolJNx7cuKvhazBXsYm9kvvxK
+37viysETb7CgnKXPcgOz9bcNx8zhEGkEH+9XhjuyUCNsWeP36JMbVAraJYmQ/n0VYumE/q5zXrNJ
+UFw=
+=xNOw
+-----END PGP SIGNATURE-----
 
-I'd also propose that you need a load of helpers so that the "normal"
-use cases of eg BT601 YCbCr to the default composition space is
-handled for simply. Otherwise the enforced complexity to userspace has
-just exploded.
-
-Or seeing as properties like COLOR_ENCODING and COLOR_RANGE already
-exist in the UAPI, add a "custom" mode to those that will enable all
-your other magic properties.
-
-> In that design, there is no problem at all to blend multiple planes of
-> differing quantization ranges together. Userspace first chooses the
-> blending space, a radiometrically linear RGB limited range BT.709 space
-> for example, and then programs each plane to produce exactly that. Then
-> CRTC properties are programmed to produce the desired type of output
-> signal. Finally, connector properties are programmed to send the
-> appropriate metadata to the sink. Of course, userspace takes the sink
-> capabilities into account before deciding all this.
->
-> The thing KMS UAPI is missing are the per-plane properties.
-
-And hardware support on many platforms.
-I've just checked, and vc4 always composes to RGB. Things like YCbCr
-for HDMI are handled in the HDMI tx block. How do we tell userspace
-that it has no choice over the blending space?
-
-If you're trying to make things totally comprehensive, please don't
-miss out chroma-siting as that is another property that is missing
-from KMS for YCbCr planes.
-MPEG-2, MPEG-4 and H264 differ from JPEG and MPEG-1 in default
-chroma-siting, and HEVC differs again.
-
-Conversion of HDR to/from SDR is going to be an interesting problem on
-many platforms. I won't claim enough knowledge on the subject, but
-obviously there needs to be a choice made over which mode composition
-should happen in, and other planes will need to be converted. Is that
-conversion going to be totally generic?
-
-
-Lots of questions posed by this discussion, but I'm not sure that they
-are specifically relevant to HDMI quantization ranges at this stage.
-All RGB buffers should be full range, and full/limited range
-conversion should be controlled via a similar mechanism to "Broadcast
-RGB" but in the KMS core.
-
-Checking drm_hdmi_avi_infoframe_quant_range(), it already does the
-correct thing with regard to the EDID VCD block and signalling the
-quantization range. The implementation of range choice on i915 (and
-vendor vc4 tree) could be improved to also check
-display_info->rgb_quant_range_selectable and choose FULL even for CEA
-modes if the display allows it, but that may expose more compatibility
-issues with monitors where the EDID is a little iffy.
-
-Cheers
-  Dave
-
-> (*) The reason it is a good thing that one cannot have limited range
-> framebuffers is that it would raise problems on how to handle pixel
-> values outside of the nominal range, that is, the sub-black and
-> super-white channel values. The immediate problem is that LUT stages
-> need normalized input and they cannot extrapolate. So if nominal
-> quantization range is normalized to 0.0-1.0 for LUT input, sub-black
-> would be negative values and super-white would be greater than 1.0
-> values, which a LUT cannot sensibly handle. That makes the whole
-> concept of limited range problematic in the color pipeline. But, if the
-> color pipeline elements like LUTs are defined *as if* the data was
-> always full range, it becomes well-defined and useful how the elements
-> work, and userspace can produce a proper programming that is guaranteed
-> to work.
->
-> By completely removing the concept of quantization range and its
-> "automatic" handling from the KMS color pipeline and adding processing
-> elements to do scaling+offset at suitable stages, we gain the ability
-> to accept, process, blend, and produce pixels in any quantization
-> range, color space or dynamic range at will.
->
-> Another thing such an approach solves is how to interpret
-> floating-point pixel data which can naturally represent
-> out-of-unit-range values.
->
->
-> Thanks,
-> pq
->
-> > > Cheers.
-> > >   Dave
-> > >
-> > > [1] https://elixir.bootlin.com/linux/latest/source/include/drm/drm_color_mgmt.h#L84
-> > > [2] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_edid.c#L6756
-> > > [3] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_edid.c#L5642
-> > >
-> >
->
+--------------HiXdb2m9oNa1iQFFHPXIKbJx--
