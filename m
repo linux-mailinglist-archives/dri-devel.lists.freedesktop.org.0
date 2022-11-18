@@ -2,58 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74E7B62F494
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 13:26:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12DFF62F4FE
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 13:36:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0376810E1F8;
-	Fri, 18 Nov 2022 12:26:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F33810E715;
+	Fri, 18 Nov 2022 12:36:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8631210E1F8
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 12:26:30 +0000 (UTC)
-Received: from [192.168.15.130] (unknown [194.152.46.21])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: andrzej.p)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id ABEF96602AB2;
- Fri, 18 Nov 2022 12:26:27 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1668774388;
- bh=j00aZO+NDvxxNv4Ex5q1J/k6GVW5ZjtAsEcGyBIHILI=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=XvGN1rr80SkGZAX41h1EW5AQp/607Z4LBayXwxrsqjLq3fFJRCAzUCQhWEbOh5LqB
- 41iQMd56+70Ria0SVmZgI5nmuIRHdiuS25l3GhW/fUG6BlJkTxhq+yVYlVx1DvMJ/G
- iiYnpRhcbEgmiFfBs7oSp6hUux5nML+DTWrQPBH9034LNSEaiU9PeKbolyCeMkq4I+
- 1hSKvku6osLUPK760X8GD6acGejQa3AakDoNNc6DNDVQxiYxFgMWsiTOpokEYh5XRT
- Fb8iyAsIR/2/Y2PdVsC38pdikcIWIolD27LAEAlAxmuFgjGLYG5LUaDh3yKyJ3oQhO
- Bo6YV2enLcirQ==
-Message-ID: <64f08478-16a7-1d33-e520-9f0fbcab47b9@collabora.com>
-Date: Fri, 18 Nov 2022 13:26:25 +0100
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20C4010E715
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 12:36:08 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id j4so8063867lfk.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 04:36:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=cdtOWroELQJIWa4ogi8rXDaEyRIp/3m317/ZVv8U8mI=;
+ b=gcdoFMSgJ69cwq2ZZn7iEiz5VfeA5hEbmIiei5tverZWgEmex5v0nEGH4w5QL82HgN
+ 0zUyOxdTlgKG/0D0iSw9NO4CesjcZ7e1DvYZhHz9S/OctljK0udXzSyjDUjtHFpvzhjc
+ XrWdCHoaj/0XL3I6YvuANwkQmPXt8Nx7aHBJlKUZks8j68RjT18aUUvRzN8VzLE28cOm
+ 1XjuzIT2hjpCnHFeBwJNs/lZAZRwFK0E7xuQCbCY+Dg4CEnnh5eEG86Dxuu5zzofIGYG
+ v9WpMigTFH0ifC1Ln7Sig90LStYIf8T01OlfRcIuu19JhIS/HL5DdDDapyXk8I4xvJxG
+ Hrhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=cdtOWroELQJIWa4ogi8rXDaEyRIp/3m317/ZVv8U8mI=;
+ b=SJ3WrNUibENlIom3fEBuVfLaUmHwpY7lUk/WCWTgj5XkiO9xF4Vh0Tf97xmAfE+UJ+
+ 8M6AEPZjU7UDOSbcH7I6FUbdXbC5DMn3w67zc5Xwf2Rxak+3ph8UsyhKHojAkIeXOjr4
+ 16hyQZ3ErvwE91t2/jTC7uoB5cu6F37qj7U9i426K+7Q+HDynxTb0i/285Rvkl/NOcAN
+ swY4aLamMl7i4Z9h7FGL1P+juxmRDzHRHM4JzbbUEgAUL77jF+vPYikQeyMqT0JNRt5k
+ 51BLYPOT4L66HXxhO3ECpuRqMMcb42bwFgICzYdMgom0bnq0aIL0Yw885do/0dxsIcgx
+ gdow==
+X-Gm-Message-State: ANoB5pmFqhUsaaFhjG368HU6MriEDBmwnH46HcovlZnN/m6e50FV2s6Q
+ IYaj4pMfN6IySIf1YEJRy1fXkA==
+X-Google-Smtp-Source: AA0mqf7/qS3VtKs/HUHAaKu2eUfDph73XqMra7QwDqXGfo+Bj21zBYJduejC7cw7QFT0lBeGfUqiug==
+X-Received: by 2002:a19:6558:0:b0:4ac:fbf2:12ab with SMTP id
+ c24-20020a196558000000b004acfbf212abmr2272252lfj.384.1668774966434; 
+ Fri, 18 Nov 2022 04:36:06 -0800 (PST)
+Received: from [10.10.15.130] ([192.130.178.91])
+ by smtp.gmail.com with ESMTPSA id
+ v8-20020ac25608000000b004afd23cf7eesm641128lfd.168.2022.11.18.04.36.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Nov 2022 04:36:05 -0800 (PST)
+Message-ID: <5858e2ce-9b13-b694-a6d3-3f8553936dab@linaro.org>
+Date: Fri, 18 Nov 2022 14:36:05 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [RFC PATCH v6] media: mediatek: vcodec: support stateless AV1
- decoder
-Content-Language: en-US
-From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-To: Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
- Yunfei Dong <yunfei.dong@mediatek.com>,
- Alexandre Courbot <acourbot@chromium.org>,
- Nicolas Dufresne <nicolas@ndufresne.ca>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Tomasz Figa <tfiga@google.com>
-References: <20221117061742.29702-1-xiaoyong.lu@mediatek.com>
- <0672e801-1489-f222-2143-e0e7317d7eaf@collabora.com>
-In-Reply-To: <0672e801-1489-f222-2143-e0e7317d7eaf@collabora.com>
+ Thunderbird/102.4.1
+Subject: Re: [PATCH v3 1/3] drm/msm/disp/dpu1: pin 1 crtc to 1 encoder
+Content-Language: en-GB
+To: Kalyan Thota <quic_kalyant@quicinc.com>, dri-devel@lists.freedesktop.org, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+References: <1668773807-19598-1-git-send-email-quic_kalyant@quicinc.com>
+ <1668773807-19598-2-git-send-email-quic_kalyant@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <1668773807-19598-2-git-send-email-quic_kalyant@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,122 +77,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
- Steve Cho <stevecho@chromium.org>, srv_heupstream@mediatek.com,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Fritz Koenig <frkoenig@chromium.org>, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: robdclark@chromium.org, dianders@chromium.org, quic_abhinavk@quicinc.com,
+ linux-kernel@vger.kernel.org, quic_vpolimer@quicinc.com, swboyd@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi again,
+On 18/11/2022 15:16, Kalyan Thota wrote:
+> Pin each crtc with one encoder. This arrangement will
+> disallow crtc switching between encoders and also will
+> facilitate to advertise certain features on crtc based
+> on encoder type.
+> 
+> Changes in v1:
+> - use drm_for_each_encoder macro while iterating through
+>    encoder list (Dmitry)
+> 
+> Changes in v2:
+> - make sure no encoder miss to have a crtc (Dmitry)
+> - revisit various factors in deciding the crtc count
+>    such as num_mixers, num_sspp (Dmitry)
+> 
+> Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 17 ++++++++++-------
+>   1 file changed, 10 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> index 7a5fabc..4784db8 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> @@ -763,7 +763,7 @@ static int _dpu_kms_drm_obj_init(struct dpu_kms *dpu_kms)
+>   	drm_for_each_encoder(encoder, dev)
+>   		num_encoders++;
+>   
+> -	max_crtc_count = min(catalog->mixer_count, num_encoders);
+> +	max_crtc_count = num_encoders;
+>   
+>   	/* Create the planes, keeping track of one primary/cursor per crtc */
+>   	for (i = 0; i < catalog->sspp_count; i++) {
+> @@ -795,22 +795,25 @@ static int _dpu_kms_drm_obj_init(struct dpu_kms *dpu_kms)
+>   			primary_planes[primary_planes_idx++] = plane;
+>   	}
+>   
+> -	max_crtc_count = min(max_crtc_count, primary_planes_idx);
+> +	/*
+> +	 * All the platforms should have at least 1 primary plane for an
+> +	 * encoder. The below warn should help in setting up the catalog
+> +	 */
+> +	WARN_ON(num_encoders > primary_planes_idx);
 
-W dniu 17.11.2022 o 13:42, Andrzej Pietrasiewicz pisze:
-> Hi Xiaoyong Lu,
-> 
-> Sorry about chiming in only at v6. Please see inline below.
-> 
-> Andrzej
-> 
-> W dniu 17.11.2022 o 07:17, Xiaoyong Lu pisze:
->> Add mediatek av1 decoder linux driver which use the stateless API in
->> MT8195.
->>
->> Signed-off-by: Xiaoyong Lu<xiaoyong.lu@mediatek.com>
->> ---
->> Changes from v5:
->>
->> - change av1 PROFILE and LEVEL cfg
->> - test by av1 fluster, result is 173/239
->>
->> Changes from v4:
->>
->> - convert vb2_find_timestamp to vb2_find_buffer
->> - test by av1 fluster, result is 173/239
->>
->> Changes from v3:
->>
->> - modify comment for struct vdec_av1_slice_slot
->> - add define SEG_LVL_ALT_Q
->> - change use_lr/use_chroma_lr parse from av1 spec
->> - use ARRAY_SIZE to replace size for loop_filter_level and 
->> loop_filter_mode_deltas
->> - change array size of loop_filter_mode_deltas from 4 to 2
->> - add define SECONDARY_FILTER_STRENGTH_NUM_BITS
->> - change some hex values from upper case to lower case
->> - change *dpb_sz equal to V4L2_AV1_TOTAL_REFS_PER_FRAME + 1
->> - test by av1 fluster, result is 173/239
->>
->> Changes from v2:
->>
->> - Match with av1 uapi v3 modify
->> - test by av1 fluster, result is 173/239
->>
->> ---
->> Reference series:
->> [1]: v3 of this series is presend by Daniel Almeida.
->>       message-id: 20220825225312.564619-1-daniel.almeida@collabora.com
->>
->>   .../media/platform/mediatek/vcodec/Makefile   |    1 +
->>   .../vcodec/mtk_vcodec_dec_stateless.c         |   47 +-
->>   .../platform/mediatek/vcodec/mtk_vcodec_drv.h |    1 +
->>   .../vcodec/vdec/vdec_av1_req_lat_if.c         | 2234 +++++++++++++++++
->>   .../platform/mediatek/vcodec/vdec_drv_if.c    |    4 +
->>   .../platform/mediatek/vcodec/vdec_drv_if.h    |    1 +
->>   .../platform/mediatek/vcodec/vdec_msg_queue.c |   27 +
->>   .../platform/mediatek/vcodec/vdec_msg_queue.h |    4 +
->>   8 files changed, 2318 insertions(+), 1 deletion(-)
->>   create mode 100644 
->> drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c
->>
+WARN_ON(max_crtc_count > primary_planes_idx)
 
-<snip>
+We do not care about encoders number, we care about CRTCs number here.
 
->> +
->> +static void *vdec_av1_get_ctrl_ptr(struct mtk_vcodec_ctx *ctx, int id)
->> +{
->> +    struct v4l2_ctrl *ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl, id);
->> +
->> +    if (!ctrl)
->> +        return ERR_PTR(-EINVAL);
->> +
->> +    return ctrl->p_cur.p;
->> +}
-> 
-> I see we keep repeating this kind of a v4l2_ctrl_find() wrapper in drivers.
-> The only reason this code cannot be factored out is the "context" struct pointer
-> pointing at structs of different types. Maybe we could
-> 
-> #define v4l2_get_ctrl_ptr(ctx, member, id) \
->      __v4l2_get_ctrl_ptr((ctx), offsetof(typeof(*ctx), (member)), (id))
-> 
-> void *__v4l2_get_ctrl_ptr(void *ctx, size_t offset, u32 id)
-> {
->      struct v4l2_ctrl_handler *hdl = (struct v4l2_ctrl_handler *)(ctx + offset);
->      struct v4l2_ctrl *ctrl = v4l2_ctrl_find(hdl, id);
-> 
->      if (!ctrl)
->          return ERR_PTR(-EINVAL);
-> 
->      return ctrl->p_cur.p;
-> }
-> 
-> and reuse v4l2_get_ctrl_ptr() in drivers?
-> 
-> A similar kind of void* arithmetic happens in container_of, only with '-'.
-> 
+With that fixed:
 
-When I think of it it seems a bit over-engineered to me now, it would
-be better to give up the macro and simply pass struct v4l2_ctrl_handler *hdl.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Another second thought is that including such a wrapper in this patch
-would make it too noisy if all potential users were to be updated.
-A separate series would make more sense.
+>   
+>   	/* Create one CRTC per encoder */
+> -	for (i = 0; i < max_crtc_count; i++) {
+> +	i = 0;
+> +	drm_for_each_encoder(encoder, dev) {
+>   		crtc = dpu_crtc_init(dev, primary_planes[i], cursor_planes[i]);
+>   		if (IS_ERR(crtc)) {
+>   			ret = PTR_ERR(crtc);
+>   			return ret;
+>   		}
+>   		priv->crtcs[priv->num_crtcs++] = crtc;
+> +		encoder->possible_crtcs = 1 << drm_crtc_index(crtc);
+> +		i++;
+>   	}
+>   
+> -	/* All CRTCs are compatible with all encoders */
+> -	drm_for_each_encoder(encoder, dev)
+> -		encoder->possible_crtcs = (1 << priv->num_crtcs) - 1;
+> -
+>   	return 0;
+>   }
+>   
 
-Regards,
-
-Andrzej
+-- 
+With best wishes
+Dmitry
 
