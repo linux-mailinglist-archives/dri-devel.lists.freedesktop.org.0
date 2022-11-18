@@ -1,56 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9164962F11A
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 10:25:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 301EC62F126
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 10:28:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5DBF10E211;
-	Fri, 18 Nov 2022 09:25:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC2F910E212;
+	Fri, 18 Nov 2022 09:27:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw.kylinos.cn (unknown [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2F4310E211;
- Fri, 18 Nov 2022 09:24:57 +0000 (UTC)
-X-UUID: 65a0b4b390194fa38cb937c4cbeeb3a9-20221118
-X-CPASD-INFO: a30bbf889eb14895b776f333e9c9069e@qoNqgo-YZmhlhaR9g3uEb4JoZ2aWX1O
- Cp3ODaV5mZYWVhH5xTV5uYFV9fWtVYV9dYVR6eGxQYmBgZFJ4i3-XblBgXoZgUZB3sHVqgpKUaA==
-X-CLOUD-ID: a30bbf889eb14895b776f333e9c9069e
-X-CPASD-SUMMARY: SIP:-1, APTIP:-2.0, KEY:0.0, FROMBLOCK:1, OB:0.0, URL:-5,
- TVAL:181.
- 0, ESV:0.0, ECOM:-5.0, ML:0.0, FD:0.0, CUTS:192.0, IP:-2.0, MAL:-5.0, PHF:-5.0,
- PHC:-5
- .0, SPF:4.0, EDMS:-5, IPLABEL:4480.0, FROMTO:0, AD:0, FFOB:0.0, CFOB:0.0, SPC:0,
- SIG:-
- 5, AUF:7, DUF:8753, ACD:145, DCD:145, SL:0, EISP:0, AG:0, CFC:0.75, CFSR:0.034,
- UAT:0, R
- AF:2, IMG:-5.0, DFA:0, DTA:0, IBL:-2.0, ADI:-5, SBL:0, REDM:0, REIP:0, ESB:0,
- ATTNUM:0, EAF:0,CID:-5.0,VERSION:2.3.17
-X-CPASD-ID: 65a0b4b390194fa38cb937c4cbeeb3a9-20221118
-X-CPASD-BLOCK: 1000
-X-CPASD-STAGE: 1
-X-UUID: 65a0b4b390194fa38cb937c4cbeeb3a9-20221118
-X-User: lizhenneng@kylinos.cn
-Received: from [172.20.124.41] [(116.128.244.169)] by mailgw
- (envelope-from <lizhenneng@kylinos.cn>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256 128/128)
- with ESMTP id 1399027987; Fri, 18 Nov 2022 17:25:13 +0800
-Message-ID: <4adc40d1-e775-c480-bb35-23fe9c63e05e@kylinos.cn>
-Date: Fri, 18 Nov 2022 17:24:49 +0800
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 829D310E212
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 09:27:47 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id f27so11666257eje.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 01:27:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=LTV53IjLyTX2vAYvhYKIedftAswCCwSYXuzFP2rpIUI=;
+ b=U5nkdhkssFKgO2+KPFBYapfmiiCyAZG4HigPiK6IhbIpajA3a6gdNzNiBX6DF8ipQX
+ LTS53kvCO8yhoJqfYgA+WBXpfrGnuR2C4nx03HGZV/qBD0R3L2EOtNDqIp01Wsg7MLJ0
+ C7pppXLsTM2LBYtnJitETl0y6WzSZF6XnF26U2vzrVdm2BsGsJqSm9jVxOpwrGzJ9OND
+ p2SWrDlTLkFumPFWphxsbLdYqDKr5FpQEuxqHJzKPiLEHQZcPN45TxpxkoTAYdbVXA5K
+ VEDFmM6qtPlq7HkFJJd6ZSfnjQ670sZTSDVEESDkwlYjzOzIwBiZwY5dmfLhbeGrwS4x
+ ALyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=LTV53IjLyTX2vAYvhYKIedftAswCCwSYXuzFP2rpIUI=;
+ b=WNNPQWbEnKofOBsMQiorT6tLKVfXYQyNKTbo+mSDKlhJjig9pfHZjuKE2avy5OGGoR
+ nIgT3JPZaL+5YqxM+H3izW6+9W3mAUTKMoQ0BLLoRw78bV+yX5DXtxSp7LxLqN10PqAS
+ U51WDReN/CxFyYtwImTJBuI0A6MN4G+OHtAez5I7QyKW7QgFRiKf01BXQ0WU6BcsJYiL
+ B85vbnqQrRj8dZ1fJM+6jHkkihTJ6j6WaU5EfCBmWBJMiP1XdgKWEctRDKHbz9kNuTT+
+ DMGpp9IQk8E3J/3RLvUO9mEHOqzF1w4FUABras2fRvqv4FF8gkD1GoO8aXz1devElBv1
+ PhjA==
+X-Gm-Message-State: ANoB5pmBl2/CEfeO/Fz99IyjG8P/HJmuoqGeSH6/2JPn0AmsFLlrdW6k
+ AJixemDWH1xKMsLaZIEexZ4Blw3tPudH6JepY7c=
+X-Google-Smtp-Source: AA0mqf4b+pEbOxW77G+RWw6jQ4Ltx2BWetsnWN5Oklb/xBQtx86Xlt1Ohg8mLxGQO4vb/T+5dqfILCX3keBBsd9gALg=
+X-Received: by 2002:a17:907:7650:b0:781:e568:294f with SMTP id
+ kj16-20020a170907765000b00781e568294fmr5332578ejc.447.1668763665960; Fri, 18
+ Nov 2022 01:27:45 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] drm/amdgpu: add mb for si
-To: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>
-References: <20221118074810.380368-1-lizhenneng@kylinos.cn>
- <ecd9d251-8941-b2db-71b2-e4ac06f860a3@amd.com>
- <800a1207-8ff6-4cfa-60f3-6ff456874890@mailbox.org>
-From: =?UTF-8?B?5p2O55yf6IO9?= <lizhenneng@kylinos.cn>
-In-Reply-To: <800a1207-8ff6-4cfa-60f3-6ff456874890@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20220615221410.27459-1-laurent.pinchart@ideasonboard.com>
+ <20220615221410.27459-6-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20220615221410.27459-6-laurent.pinchart@ideasonboard.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Fri, 18 Nov 2022 09:27:19 +0000
+Message-ID: <CA+V-a8vy-wj6oyA76Z6+rPDxes1pt-uxYynT1_OjCNCa2A0qNw@mail.gmail.com>
+Subject: Re: [PATCH v3 5/6] ARM: dts: renesas: Use new media bus type macros
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,70 +65,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, Xinhui.Pan@amd.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Hugues Fruchet <hugues.fruchet@foss.st.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Rob Herring <robh+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Eugen Hristev <eugen.hristev@microchip.com>, Shawn Guo <shawnguo@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Laurent,
 
-在 2022/11/18 17:18, Michel Dänzer 写道:
-> On 11/18/22 09:01, Christian König wrote:
->> Am 18.11.22 um 08:48 schrieb Zhenneng Li:
->>> During reboot test on arm64 platform, it may failure on boot,
->>> so add this mb in smc.
->>>
->>> The error message are as follows:
->>> [    6.996395][ 7] [  T295] [drm:amdgpu_device_ip_late_init [amdgpu]] *ERROR*
->>>                  late_init of IP block <si_dpm> failed -22
->>> [    7.006919][ 7] [  T295] amdgpu 0000:04:00.0: amdgpu_device_ip_late_init failed
->>> [    7.014224][ 7] [  T295] amdgpu 0000:04:00.0: Fatal error during GPU init
->> Memory barries are not supposed to be sprinkled around like this, you need to give a detailed explanation why this is necessary.
->>
->> Regards,
->> Christian.
->>
->>> Signed-off-by: Zhenneng Li <lizhenneng@kylinos.cn>
->>> ---
->>>    drivers/gpu/drm/amd/pm/legacy-dpm/si_smc.c | 2 ++
->>>    1 file changed, 2 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/si_smc.c b/drivers/gpu/drm/amd/pm/legacy-dpm/si_smc.c
->>> index 8f994ffa9cd1..c7656f22278d 100644
->>> --- a/drivers/gpu/drm/amd/pm/legacy-dpm/si_smc.c
->>> +++ b/drivers/gpu/drm/amd/pm/legacy-dpm/si_smc.c
->>> @@ -155,6 +155,8 @@ bool amdgpu_si_is_smc_running(struct amdgpu_device *adev)
->>>        u32 rst = RREG32_SMC(SMC_SYSCON_RESET_CNTL);
->>>        u32 clk = RREG32_SMC(SMC_SYSCON_CLOCK_CNTL_0);
->>>    +    mb();
->>> +
->>>        if (!(rst & RST_REG) && !(clk & CK_DISABLE))
->>>            return true;
-> In particular, it makes no sense in this specific place, since it cannot directly affect the values of rst & clk.
+Thank you for the patch.
 
-I thinks so too.
-
-But when I do reboot test using nine desktop machines,  there maybe 
-report this error on one or two machines after Hundreds of times or 
-Thousands of times reboot test, at the beginning, I use msleep() instead 
-of mb(), these two methods are all works, but I don't know what is the 
-root case.
-
-I use this method on other verdor's oland card, this error message are 
-reported again.
-
-What could be the root reason?
-
-test environmen:
-
-graphics card: OLAND 0x1002:0x6611 0x1642:0x1869 0x87
-
-driver: amdgpu
-
-os: ubuntu 2004
-
-platform: arm64
-
-kernel: 5.4.18
-
+On Wed, Jun 15, 2022 at 11:21 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
+> Now that a header exists with macros for the media interface bus-type
+> values, replace hardcoding numerical constants with the corresponding
+> macros in the DT sources.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts       | 11 +++++++----
+>  .../dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi     |  4 +++-
+>  .../dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi     |  4 +++-
+>  3 files changed, 13 insertions(+), 6 deletions(-)
+>
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
+Cheers,
+Prabhakar
