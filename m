@@ -1,110 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B0FC62F927
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 16:20:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3066D62F972
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 16:38:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50A3810E6FE;
-	Fri, 18 Nov 2022 15:20:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45EF910E0E6;
+	Fri, 18 Nov 2022 15:38:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com
- (mail-tycjpn01on2095.outbound.protection.outlook.com [40.107.114.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD55A10E768
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 15:20:31 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=M8E9AtRzzHHBwkWnJvShlqBaGAoGiBCPBuZB+VBx8JxeuC9c7zFyl+5KXi1WYDsiItfBSnroB1014uBvQvQYT0rGtj+N14gwKw2P49xLjsGAm5aKg7G9/LBqO74n4L6l7IXL1kEdovqErJY8XLXI0zjjSY35WFSTdcrTedWepyEqRWEjbD81TCpIW8wpT68qGcgyTfkEzUytzzxr2y4ty8+R5DSe+G0IBWBMhaIrTGQMBY7CwvnjfzfWaVT/K0VEeMxPg/hK1eARCIEfsLqq0hgnkGPMh5woGgseZsJZiPB2DVkag0tG/yy/YLtYxuaAMuMFNgh3MoNqz7FMlT6erQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=j3sNu8PsjgmzF5josN+oUJm5naVuHczJ3mKr1/JXHVg=;
- b=eW0WFaF7Y8FWVPgq6Nn9yWntGyzGIeGAnUGXqxELaayhHydwrbGr8VskpcSSC3/62Bym5kkCWlzJCc7H60HlKwN0TvFUYkbSWSO3rGJ4hZXF9/vYRbWeIeWigtSmO4B+mUXdb6D5/jaQDv9nRIQIvF9WAeqn4xjI6KZ4prK6+zYg78t2L4wV+GFLPx7Lx25oG0qWeWBUmp5H/Fdq14rU0NNugITQ4QSHQIMUCPe7oehpN+DTCTqidghccHToUi2t8wPylaYNE+ZGqRzsxHWM2cH1yFxoSWimf05Rls40Zjo7yFe6gHBj0YYhJ7x1WK7G8oqwSXzBevDCRgcK/zk4YA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j3sNu8PsjgmzF5josN+oUJm5naVuHczJ3mKr1/JXHVg=;
- b=ghp/5oDsvVTpGk3uNaSkWd9JVT6TTencSNglJuIrzDjSfY6p4NSfAKXkRKV4sR5pe7v5WUQjQnM0cbCXkGEvGxTd4toSpqEnzKyxpfsif9TK6sJZbDE7KdWFrGHA2hOAm7iBe6HQQHjPTp0/ZI0VdkH6saNr72X17BnWkXtVTmM=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OS3PR01MB8793.jpnprd01.prod.outlook.com (2603:1096:604:153::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.20; Fri, 18 Nov
- 2022 15:20:29 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::5b24:f581:85bd:6ce2]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::5b24:f581:85bd:6ce2%3]) with mapi id 15.20.5834.009; Fri, 18 Nov 2022
- 15:20:29 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Dan Carpenter <error27@gmail.com>
-Subject: RE: [bug report] drm: rcar-du: Add RZ/G2L DSI driver
-Thread-Topic: [bug report] drm: rcar-du: Add RZ/G2L DSI driver
-Thread-Index: AQHY+16ZX3QE1FY8a0mWjMFcyJwrOq5Eyt+g
-Date: Fri, 18 Nov 2022 15:20:29 +0000
-Message-ID: <OS0PR01MB5922616741B726DEE4A5047886099@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <Y3eeMGDxaLcRxu69@kili>
-In-Reply-To: <Y3eeMGDxaLcRxu69@kili>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|OS3PR01MB8793:EE_
-x-ms-office365-filtering-correlation-id: d078a90c-89de-403e-4a07-08dac9786d71
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: jMQsOKob4KdxtFCPIaNPuU30jaVYWiUWZPiRu8DBpJGQub5e5qS+8r6I7e+gr2N2bskNNT/FGqeoXUG5o6FFQpgkZXYxv464Tcp9jrEKCOaHszIu096FLY1d1t1/UgKL5dSVoQhrxp0h7mHxIEY0lHv1IJjqafddTuitFuGB2SAHRZP+CmbiN7K/FF5iYPqqNCSLtFDkaacjQvX7KhXsTcAMOZ52p9KxYY6ubHH4JVYEKC4ZOAuOsZMewlkFvGVWZrAJFMTLon7h2V2BSR36spGBk8rmT7ykc+w5jghBVBFSKT9WeD1p5yku02WqaE2JSXr7A2X2heMf7fDmJMtVACVCiQRQO0BRtbuwUHYTVa6UhwkrWZ5NZEslXAXxnWkUeUQhmUcLmhISCGUGsNRxLVAeiRMFlF+XJpOlwsq9fh415o3NN0Iwt7r7J4PG1IRzu4UR+Oe97efwVx9jysGMPR1uZEVnKO2+KovMp73Z5c4RYrrmiurEXywAp5auotZyDBNyPqLe7f3g5IjEwDSkJ890Reyi+Hj9ybIFi3wOhZwJ/UAuQce1+dhSu/voO/ta/hrOUtDD3cLryspYWw6kpec4oWhsaw0N7pG7vEyUQgIXKysBk+19yYXIYqxIs4AGr7O89IwglTEE/5ccaYPpX4LLZl7LPoQVfo6X+wXd/bDvjVpgSG3Bl38QAuLl63/KJSEpAmgTVe2OXLxgNnYIGg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:OS0PR01MB5922.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(136003)(346002)(396003)(366004)(39860400002)(376002)(451199015)(71200400001)(38070700005)(2906002)(122000001)(478600001)(7696005)(6506007)(26005)(316002)(6916009)(54906003)(9686003)(41300700001)(8936002)(64756008)(8676002)(66946007)(66476007)(186003)(52536014)(66446008)(66556008)(4326008)(76116006)(38100700002)(55016003)(33656002)(5660300002)(86362001)(83380400001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?qztlTzd9s8S/1K+Rfik+WYP+g10HazVPpwFKQYq2l6wJvOcmOk2r53WtK7I5?=
- =?us-ascii?Q?gK/5s3FWOh1Ylzw//NmZrcPLrrjWnLKoFjNRlcJqYzMSdMdFSgpm7NdsepYe?=
- =?us-ascii?Q?vMBWZsxkMrX923T4aw4ILVvvNkUbKeeI2uNiuCg9X/rCslVFH/aW0/iZylyC?=
- =?us-ascii?Q?UP1Cr3tGnBNTkIAZhXnwA53X1Kca1pR9SufGNAQ8xLZvCaAG9D+qjTy7K+Vp?=
- =?us-ascii?Q?fo1bTPlROM8YitWwuRxpxcOwMAeTQjP+AB3L19nIwUsbpTeuTAAEGjM7rPCc?=
- =?us-ascii?Q?204zx+tizyXug8QUl24rPHTu5Qy5XgG7jr1FXnrLSDgPEn3yzmK6Fuhbsvgj?=
- =?us-ascii?Q?Z04YfXvN20ewOjTNE6PKD4oWLDzsSogWJcYNui9VZNC2Usq5FxAI3e92i13p?=
- =?us-ascii?Q?WCA2dxuAcCuRjQ2kwLvU0cS+pPfMlq3wduhBIB3AV0PVwf1IhqUPNi4MfBCD?=
- =?us-ascii?Q?pvVaHs4QP0Mc6zJRbhTOhTfZ/+frHo/GkgAdknEnxT88/T/4QjtcQSXo3kUJ?=
- =?us-ascii?Q?2xEePXXdKA0triPdPoFmg0kNzidNe3IZcnQhteBFuQCtQCtZOeYBVcur7hwJ?=
- =?us-ascii?Q?Ms69M91GN+xNx1VSJlfaeEf6yz8/FWvuhJx6RVrLD7Ea06GvBK5siTcfXyNh?=
- =?us-ascii?Q?7IHIPFstYFZ323gZ3in1RmXYtteOuBUyXwK9ErXRUQeB45R7QyJpMva5gPAq?=
- =?us-ascii?Q?oVdmVkR9cTA7sVQZX6nb4ZtNLkVJT5yankW8BbA8HeXaej/QySHGN6SRnqNU?=
- =?us-ascii?Q?9DGmK6Sq1K0rM+kMjdzk0qid4gsRbmGkp28zDwTnuTNqNoKLPoA4dlTOFGUQ?=
- =?us-ascii?Q?J0e3xfdudizTMPItzBaCQ5YMzT1+rcy/Tl9h43OC50clN4GSO9Ey3DqggAI4?=
- =?us-ascii?Q?49plJ3Ksdzxjbxzcd9x5o+P0q+b/hKgpGe6ijfLE5zqWYsRbnV1sS7v7pEpW?=
- =?us-ascii?Q?5oguH/TwhMwGpm03QYCeiNfobyCbuwMFm+IBjI8zhGNFpkjwgkeifI71cwoW?=
- =?us-ascii?Q?+YlkCqxqnyryYVEwBOe76jiiRk3sZzbz9r2e0FtkE2b4ahXkgHalgZHIz8Id?=
- =?us-ascii?Q?+3HE5uwfreDpg1lryPmCyW+KRK8EW18pP+/3XJnhnDen/FPg1DhJq7DTj+hx?=
- =?us-ascii?Q?zo0dTYqKR2hzu9wBtRuFQCU4x7zmPuqAlU0JmWRDSD6/9or/gEtP7je02B/D?=
- =?us-ascii?Q?mea44QJgo2mBg1OAmCIaCiktjBmdO0WZPTaKprwZAfkEbgLs+X8AP/jXmu6A?=
- =?us-ascii?Q?y+nUlSNLnjMYozLDASyEzGTQiBSOnbRQyfI28za11hQN0rK4XfsWZM8W/gZv?=
- =?us-ascii?Q?mqbM5OzgDOrYR271MdCXGHh0ZS1XL+//0zUidLqiSwdRaTDVSA2hnaXzufXF?=
- =?us-ascii?Q?tcB5R9JyBbCnVl+rCOeWQtC4HiuXilOj+Pdx96wdrWyKUtQwqSjB+GoSGqST?=
- =?us-ascii?Q?ICoxrJci2PQ+oIQyYW/f7YOLgjfCMOzyhQtI5MAsMzuUwHFVRHW3XJev13qb?=
- =?us-ascii?Q?ZpofhGEVRvLqgzPGhAvB97H2QmorcdM70m8xlxbLcmYunqcNXTHyEXBffJUc?=
- =?us-ascii?Q?v02ATLqRUb0BLcqAywBJ39swutsZDwj3f3SAZLrPvZrVn5wfe6L4lhA23+IR?=
- =?us-ascii?Q?Jg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16DA910E0E6
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 15:38:26 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id
+ v124-20020a1cac82000000b003cf7a4ea2caso7793883wme.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 07:38:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KfWcGzupuPCfI0d9QCtthkzC7LWdIhJQjIcNMy6mgbk=;
+ b=qfWkkKicKCcJpuZyFOQaZfqYgFTv2ShQUBr/2Xh4Km8qPrN8NjEsxvNcrhBTvoGX4z
+ RyRBMeEyHepf3JwZS+6a97Xmlpz7h0ejQ4KiecpqL/7z8z09eshU9JWKlhRcXacp68oQ
+ wRo/rzxo04TwG7DdLZrbsSm48+w1W+Qq3qWi0D4Gtagw4sliob8hbNS3vt8h8Bj4Am3K
+ /n8ho7zX4fQj8VokjwxFZzXpzqHYcH5MHAKLxqqettqfBw/3fsUqJXaU6xLyrNSLG8WP
+ kPpyuraYU7J8ROX+1Nceym15i4/Xyy+uWFdyGt9opIAndfVnNB4aEbsYOcOf3WGju4Gn
+ lE/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KfWcGzupuPCfI0d9QCtthkzC7LWdIhJQjIcNMy6mgbk=;
+ b=BdaOg4nK8WiiELQ1XzaHoAr9v2gaPhurIE6MWktaBjGKkLA+w6yUeQgCpq11yLBGnV
+ UO/U4Kaxb+cKoSM8ULabg26O0xs8g3xNDAn8FbITP+vEGrcZSM1M1gpJEosR6wsiSyFx
+ QiVrWGOqpGEveXmshT//1/7tNHIg4NPEG0x4GZmyOClnfZqSBHjVvNMzjFz+yQq0QT/1
+ /oKtN69NjV88eU9TtWiBwp6eKyEZCXQla0fIEOkXDw2zPrw0UBUKuSuECGa0SsO2O1fs
+ Kr/iExalRO/EozaqiyqQACIYhjpok4Da4mtw0CH35OsEbFhLVLdGNVKZAN3pZwJC/UrE
+ 429g==
+X-Gm-Message-State: ANoB5pmXnnweoCKswnMJjSjb6s8Dot1iyVOzAC1zNFb6vGlXnVqeb4t2
+ GcG1gYxH/4zVCQR17vohUds=
+X-Google-Smtp-Source: AA0mqf7BFOcCa81hDIMM+Nv+ugMUGcNH4ANSTYJ4RklrfzwrmLDd3PsJLWiQrMOVDu5tAFFpVTsUBw==
+X-Received: by 2002:a05:600c:a4a:b0:3cf:e138:cd80 with SMTP id
+ c10-20020a05600c0a4a00b003cfe138cd80mr8970643wmq.78.1668785904307; 
+ Fri, 18 Nov 2022 07:38:24 -0800 (PST)
+Received: from orome (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de.
+ [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
+ by smtp.gmail.com with ESMTPSA id
+ c16-20020a5d4f10000000b0023677081f3asm3811885wru.42.2022.11.18.07.38.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Nov 2022 07:38:23 -0800 (PST)
+Date: Fri, 18 Nov 2022 16:38:21 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v3 5/8] drm/simpledrm: Add support for system memory
+ framebuffers
+Message-ID: <Y3em7dwyJgQI1vZw@orome>
+References: <20221117184039.2291937-1-thierry.reding@gmail.com>
+ <20221117184039.2291937-6-thierry.reding@gmail.com>
+ <053fbbc2-824d-648b-fdac-6f6c7c64181d@suse.de>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d078a90c-89de-403e-4a07-08dac9786d71
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Nov 2022 15:20:29.5434 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: qH4msmzcG92pwKEE488cjyNqOpApmo4ABctMrmm0NlGF+M5tKMSvo0W+mSYgz17AZ3M+4Fy8gX8Ag8hqdGN1Q2vNIhehbWOA9qIi5D2Tc/c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB8793
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="rD4xpyu/Zx8vn3+R"
+Content-Disposition: inline
+In-Reply-To: <053fbbc2-824d-648b-fdac-6f6c7c64181d@suse.de>
+User-Agent: Mutt/2.2.8 (2022-11-05)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,79 +78,266 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+ David Airlie <airlied@redhat.com>, Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dan Carpenter,
 
-Thanks for the feedback.
+--rD4xpyu/Zx8vn3+R
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Subject: [bug report] drm: rcar-du: Add RZ/G2L DSI driver
+On Fri, Nov 18, 2022 at 03:21:14PM +0100, Thomas Zimmermann wrote:
+> Hi
 >=20
-> Hello Biju Das,
+> Am 17.11.22 um 19:40 schrieb Thierry Reding:
+> > From: Thierry Reding <treding@nvidia.com>
+> >=20
+> > Simple framebuffers can be set up in system memory, which cannot be
+> > requested and/or I/O remapped using the I/O resource helpers. Add a
+> > separate code path that obtains system memory framebuffers from the
+> > reserved memory region referenced in the memory-region property.
+> >=20
+> > Signed-off-by: Thierry Reding <treding@nvidia.com>
+> > ---
+> > Changes in v3:
+> > - simplify memory code and move back to simpledrm_device_create()
+> > - extract screen_base iosys_map fix into separate patch
+> >=20
+> > Changes in v2:
+> > - make screen base a struct iosys_map to avoid sparse warnings
+> >=20
+> >   drivers/gpu/drm/tiny/simpledrm.c | 99 ++++++++++++++++++++++++--------
+> >   1 file changed, 75 insertions(+), 24 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/si=
+mpledrm.c
+> > index 3673a42e4bf4..7f39bc58da52 100644
+> > --- a/drivers/gpu/drm/tiny/simpledrm.c
+> > +++ b/drivers/gpu/drm/tiny/simpledrm.c
+> > @@ -3,6 +3,7 @@
+> >   #include <linux/clk.h>
+> >   #include <linux/of_clk.h>
+> >   #include <linux/minmax.h>
+> > +#include <linux/of_address.h>
+> >   #include <linux/platform_data/simplefb.h>
+> >   #include <linux/platform_device.h>
+> >   #include <linux/regulator/consumer.h>
+> > @@ -184,6 +185,31 @@ simplefb_get_format_of(struct drm_device *dev, str=
+uct device_node *of_node)
+> >   	return simplefb_get_validated_format(dev, format);
+> >   }
+> > +static struct resource *
+> > +simplefb_get_memory_of(struct drm_device *dev, struct device_node *of_=
+node)
+> > +{
+> > +	struct device_node *np;
+> > +	struct resource *res;
+> > +	int err;
+> > +
+> > +	np =3D of_parse_phandle(of_node, "memory-region", 0);
+> > +	if (!np)
+> > +		return NULL;
+> > +
+> > +	res =3D devm_kzalloc(dev->dev, sizeof(*res), GFP_KERNEL);
+> > +	if (!res)
+> > +		return ERR_PTR(-ENOMEM);
+> > +
+> > +	err =3D of_address_to_resource(np, 0, res);
+> > +	if (err)
+> > +		return ERR_PTR(err);
+> > +
+> > +	if (of_get_property(of_node, "reg", NULL))
+> > +		drm_warn(dev, "preferring \"memory-region\" over \"reg\" property\n"=
+);
 >=20
-> The patch 7a043f978ed1: "drm: rcar-du: Add RZ/G2L DSI driver" from Sep
-> 20, 2022, leads to the following Smatch static checker warning:
+> The reg property is converted to a device resource when we create the dev=
+ice
+> at [1].
 >=20
-> 	drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c:372
-> rzg2l_mipi_dsi_set_display_timing()
-> 	warn: uninitialized special assign 'vich1ppsetr |=3D (1 << 15)'
->=20
-> drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c
->     347 static void rzg2l_mipi_dsi_set_display_timing(struct
-> rzg2l_mipi_dsi *dsi,
->     348                                               const struct
-> drm_display_mode *mode)
->     349 {
->     350         u32 vich1ppsetr;
->     351         u32 vich1vssetr;
->     352         u32 vich1vpsetr;
->     353         u32 vich1hssetr;
->     354         u32 vich1hpsetr;
->     355         int dsi_format;
->     356         u32 delay[2];
->     357         u8 index;
->     358
->     359         /* Configuration for Pixel Packet */
->     360         dsi_format =3D mipi_dsi_pixel_format_to_bpp(dsi->format);
->     361         switch (dsi_format) {
->     362         case 24:
->     363                 vich1ppsetr =3D VICH1PPSETR_DT_RGB24;
->     364                 break;
->     365         case 18:
->     366                 vich1ppsetr =3D VICH1PPSETR_DT_RGB18;
->     367                 break;
->=20
-> What if mipi_dsi_pixel_format_to_bpp() returns 16?
+> I have another question, which I was discussing with Javier recently. Is =
+it
+> possible to handle memory-region there automatically? If, for exmaple, it
+> would create a resource with IORESOURCE_CACHEABLE, simpledrm would handle=
+ it
+> as memory region. Without the CACHEABLE flag, it would be a regular resou=
+rce
+> as before.
 
-This condition is already validated in rzg2l_mipi_dsi_host_attach(). For va=
-l of 16,
-It returns error. See line 623.
+memory-region properties are not typically converted into a standard
+resource automatically. One reason may be that they can have additional
+properties associated with them and so something like a CACHEABLE type
+may not apply.
 
-default:                                                                =20
-                dev_err(dsi->dev, "Unsupported format 0x%04x\n", device->fo=
-rmat);
-                 return -EINVAL;=20
+It's also standard to convert "reg" properties into struct resource and
+that's what many drivers will expect. I don't know if all drivers will
+gracefully handle being passed a struct resource that was created in
+this way from a memory-region property. If at all I think this would
+need to be special-cased for simple-framebuffer, in which case I'm not
+convinced that putting the special case into the core OF code is any
+better than putting it into the simpledrm driver.
 
-Cheers,
-Biju =20
+Also, even if we did so, what would it really change? We may be able to
+avoid the explicit DT lookup, but the bulk of the memory-region code is
+actually mapping it, etc. That part we won't be able to automatically
+handle, I think.
+
+Ultimately this is up to Rob, not sure if he'll want to extend the
+simple-framebuffer node creation code any further.
+
+Thierry
 
 >=20
->     368         }
->     369
->     370         if ((dsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE)
-> &&
->     371             !(dsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST))
-> --> 372                 vich1ppsetr |=3D VICH1PPSETR_TXESYNC_PULSE;
->                         ^^^^^^^^^^^
-> Uninitialized.
+> Best regards
+> Thomas
 >=20
->     373
->     374         rzg2l_mipi_dsi_link_write(dsi, VICH1PPSETR,
-> vich1ppsetr);
+> [1]
+> https://elixir.bootlin.com/linux/v6.0.9/source/drivers/of/platform.c#L586
 >=20
-> regards,
-> dan carpenter
+> > +
+> > +	return res;
+> > +}
+> > +
+> >   /*
+> >    * Simple Framebuffer device
+> >    */
+> > @@ -623,8 +649,7 @@ static struct simpledrm_device *simpledrm_device_cr=
+eate(struct drm_driver *drv,
+> >   	struct drm_device *dev;
+> >   	int width, height, stride;
+> >   	const struct drm_format_info *format;
+> > -	struct resource *res, *mem;
+> > -	void __iomem *screen_base;
+> > +	struct resource *res, *mem =3D NULL;
+> >   	struct drm_plane *primary_plane;
+> >   	struct drm_crtc *crtc;
+> >   	struct drm_encoder *encoder;
+> > @@ -676,6 +701,9 @@ static struct simpledrm_device *simpledrm_device_cr=
+eate(struct drm_driver *drv,
+> >   		format =3D simplefb_get_format_of(dev, of_node);
+> >   		if (IS_ERR(format))
+> >   			return ERR_CAST(format);
+> > +		mem =3D simplefb_get_memory_of(dev, of_node);
+> > +		if (IS_ERR(mem))
+> > +			return ERR_CAST(mem);
+> >   	} else {
+> >   		drm_err(dev, "no simplefb configuration found\n");
+> >   		return ERR_PTR(-ENODEV);
+> > @@ -698,32 +726,55 @@ static struct simpledrm_device *simpledrm_device_=
+create(struct drm_driver *drv,
+> >   	 * Memory management
+> >   	 */
+> > -	res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> > -	if (!res)
+> > -		return ERR_PTR(-EINVAL);
+> > +	if (mem) {
+> > +		void *screen_base;
+> > -	ret =3D devm_aperture_acquire_from_firmware(dev, res->start, resource=
+_size(res));
+> > -	if (ret) {
+> > -		drm_err(dev, "could not acquire memory range %pr: error %d\n", res, =
+ret);
+> > -		return ERR_PTR(ret);
+> > -	}
+> > +		ret =3D devm_aperture_acquire_from_firmware(dev, mem->start, resourc=
+e_size(mem));
+> > +		if (ret) {
+> > +			drm_err(dev, "could not acquire memory range %pr: %d\n", mem, ret);
+> > +			return ERR_PTR(ret);
+> > +		}
+> > -	mem =3D devm_request_mem_region(&pdev->dev, res->start, resource_size=
+(res), drv->name);
+> > -	if (!mem) {
+> > -		/*
+> > -		 * We cannot make this fatal. Sometimes this comes from magic
+> > -		 * spaces our resource handlers simply don't know about. Use
+> > -		 * the I/O-memory resource as-is and try to map that instead.
+> > -		 */
+> > -		drm_warn(dev, "could not acquire memory region %pr\n", res);
+> > -		mem =3D res;
+> > -	}
+> > +		drm_info(dev, "using system memory framebuffer at %pr\n", mem);
+> > -	screen_base =3D devm_ioremap_wc(&pdev->dev, mem->start, resource_size=
+(mem));
+> > -	if (!screen_base)
+> > -		return ERR_PTR(-ENOMEM);
+> > +		screen_base =3D devm_memremap(dev->dev, mem->start, resource_size(me=
+m), MEMREMAP_WB);
+> > +		if (!screen_base)
+> > +			return ERR_PTR(-ENOMEM);
+> > +
+> > +		iosys_map_set_vaddr(&sdev->screen_base, screen_base);
+> > +	} else {
+> > +		void __iomem *screen_base;
+> > +
+> > +		res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> > +		if (!res)
+> > +			return ERR_PTR(-EINVAL);
+> > -	iosys_map_set_vaddr_iomem(&sdev->screen_base, screen_base);
+> > +		ret =3D devm_aperture_acquire_from_firmware(dev, res->start, resourc=
+e_size(res));
+> > +		if (ret) {
+> > +			drm_err(dev, "could not acquire memory range %pr: %d\n", &res, ret);
+> > +			return ERR_PTR(ret);
+> > +		}
+> > +
+> > +		drm_info(dev, "using I/O memory framebuffer at %pr\n", res);
+> > +
+> > +		mem =3D devm_request_mem_region(&pdev->dev, res->start, resource_siz=
+e(res),
+> > +					      drv->name);
+> > +		if (!mem) {
+> > +			/*
+> > +			 * We cannot make this fatal. Sometimes this comes from magic
+> > +			 * spaces our resource handlers simply don't know about. Use
+> > +			 * the I/O-memory resource as-is and try to map that instead.
+> > +			 */
+> > +			drm_warn(dev, "could not acquire memory region %pr\n", res);
+> > +			mem =3D res;
+> > +		}
+> > +
+> > +		screen_base =3D devm_ioremap_wc(&pdev->dev, mem->start, resource_siz=
+e(mem));
+> > +		if (!screen_base)
+> > +			return ERR_PTR(-ENOMEM);
+> > +
+> > +		iosys_map_set_vaddr_iomem(&sdev->screen_base, screen_base);
+> > +	}
+> >   	/*
+> >   	 * Modesetting
+>=20
+> --=20
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+> (HRB 36809, AG N=C3=BCrnberg)
+> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
+
+
+
+
+--rD4xpyu/Zx8vn3+R
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmN3puoACgkQ3SOs138+
+s6G8fQ/8CgzZ0V42DX96UOjOAFLzd2OgVmN8a3FwEYd3v6YRink/LSZBeV+Hpyg2
+4X7fAqpIkHO4yEAlhCfrZZr5TuIUlVA6HQRBXm2TYYe2WmldKGjU1gKX04jPQGts
+/DI2oI+J8fq44NX2f2aOR3nawYy51lmLGL7m9rZcY2ifskRwnJFQrQZWL50h7qt0
+ji9CWhElxqFMV6fJyHy/14bfyv8u3NsjpT76JabbqnrWEX00S67THux+FPXmIeuc
+N874WtgdqC6HkZtYgJGlxz0yxf0dDO3w1bIyA7rv+4JyRj98fsKQHK6iDZMEoFBh
+vhhy524nv2zK49l+bQKjmWZ/bUazhm9OA6Bu0uVqgiSFwzgOC1oxb9xcs9SNLc+4
+0MEyb+orjb2+U+SBVJxafWJKdBp8jR4hiqgRyb7XGfNiG185XDDKMtnz6vrszIPh
+GByYGuuqyZmlV5VivhyPZP/EBGK+XFbk82Cy69lKSr/Y6M/ntzWt/VlHUm4me3Pl
+xveQdHqGYMgnMmhoGY2NiDxCQYb+o5Sh2rNhwqcXnOoKSuL2qKwZOw2lni0fj8sS
+0zauRTMkME82OENZovQb9h4i2ShtaIPFrPSJ8oqm5RbIbhrkoRoc+KdkBR8cjoTg
+6jRFQYH2cFfu8dXyohrT0QpUlIUD4Btg58jFTjyDmLYondSC9wg=
+=+bd7
+-----END PGP SIGNATURE-----
+
+--rD4xpyu/Zx8vn3+R--
