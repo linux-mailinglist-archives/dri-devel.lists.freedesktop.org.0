@@ -1,53 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22F5662F648
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 14:35:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C4AE62F649
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 14:35:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE3B610E739;
-	Fri, 18 Nov 2022 13:35:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2135710E73E;
+	Fri, 18 Nov 2022 13:35:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3613510E739
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6DCF10E73D
  for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 13:35:39 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id ED4731FA6D;
- Fri, 18 Nov 2022 13:35:37 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 218FF22811;
+ Fri, 18 Nov 2022 13:35:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1668778537; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=RXC3tHru6KeDpfkCmImRBQj04iF/0nJ9blI9FXr3EN8=;
- b=RxxiU1zDZZoqoal+5G4/wINJfxHZdRoc19FpHAseiEtQRya+sDEuhNN159Uph8bhOD6rAb
- xqGx2pSCiGcL7spuasBSSWmVOsOi4dOzsH1Phdot8YXQJL+qJanpyeH59QNMnyNQpIe6m8
- f7hG3kbybfn3E3dhCw72Cg1WlnDdeoY=
+ t=1668778538; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2SaJGSuEq70+ztl7mqnPMjPAV3YObNsiD/W/hn/Oj7A=;
+ b=u7v8pHY60slLt3P7JcWLKPZAHXfjZQ9P/MQczVAJI9wxs+VSI9jW1+8VCNvCi+9FzBT1vA
+ albE8SFltzj+QfXzoRUrhCZ0hnW3iWr5sE0/pMdfvdLImvQfV2co4R2jKH0OTchLIu/KmJ
+ Fv6LmoL9dCBaYMLJZAkfwUjJSCwhtwo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1668778537;
+ s=susede2_ed25519; t=1668778538;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=RXC3tHru6KeDpfkCmImRBQj04iF/0nJ9blI9FXr3EN8=;
- b=uEOojezaSV8rju2PiyyRRVtHHpXPB/SOH+GZeQ1gHu+Tg7H3s/k4N2UbsZX9sOY7XdM+dv
- CQq+Iub9fqcy+WDA==
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2SaJGSuEq70+ztl7mqnPMjPAV3YObNsiD/W/hn/Oj7A=;
+ b=QpTENXTcjcAHbbEqCborwztC2fMg1FQ2k/8ymmlBdJowJPJkxedzYvndma6QwL7NdOVulq
+ arWUATdLjbG3S9DQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C6F1F13A66;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F1D4413A66;
  Fri, 18 Nov 2022 13:35:37 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id XcOILymKd2PHLAAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id cAsdOimKd2PHLAAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Fri, 18 Nov 2022 13:35:37 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@gmail.com, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org
-Subject: [PATCH 0/3] drm/fb-helper: Restore damage worker
-Date: Fri, 18 Nov 2022 14:35:32 +0100
-Message-Id: <20221118133535.9739-1-tzimmermann@suse.de>
+Subject: [PATCH 1/3] Revert "drm/fb-helper: Remove damage worker"
+Date: Fri, 18 Nov 2022 14:35:33 +0100
+Message-Id: <20221118133535.9739-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221118133535.9739-1-tzimmermann@suse.de>
+References: <20221118133535.9739-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,29 +72,74 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It turns out that the removal of the damage worker can lead to
-locking cycles. The display update now runs while holding the
-fbdefio lock, which conflicts with locks in the modesetting code
-that updates the display. There's no easy fix for this, so let's
-restore the damage worker. The display update will then again run
-outside of the fbdefio lock.
+This reverts commit 27c3e9452d552ea86369a94f23287a9675f2d7a1.
 
-See [1] for bug reports.
+Needed to restore the fbdev damage worker. There have been bug reports
+about locking order [1] and incorrectly takens branches. [2] Restore
+the damage worker until these problems have been resovled.
 
-[1] https://intel-gfx-ci.01.org/tree/drm-tip/fi-kbl-8809g.html
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Link: https://intel-gfx-ci.01.org/tree/drm-tip/fi-kbl-8809g.html # 1
+Link: https://lore.kernel.org/dri-devel/20221115115819.23088-6-tzimmermann@suse.de/T/#m06eedc0a468940e4cbbd14ca026733b639bc445a # 2
+---
+ drivers/gpu/drm/drm_fb_helper.c | 9 +++++++++
+ include/drm/drm_fb_helper.h     | 2 ++
+ 2 files changed, 11 insertions(+)
 
-Thomas Zimmermann (3):
-  Revert "drm/fb-helper: Remove damage worker"
-  Revert "drm/fb-helper: Schedule deferred-I/O worker after writing to
-    framebuffer"
-  Revert "drm/fb-helper: Perform damage handling in deferred-I/O helper"
-
- drivers/gpu/drm/drm_fb_helper.c     | 30 +++++++++++++----------------
- drivers/video/fbdev/core/fb_defio.c | 16 ---------------
- include/drm/drm_fb_helper.h         |  2 ++
- include/linux/fb.h                  |  1 -
- 4 files changed, 15 insertions(+), 34 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index a1f86e436ae8e..c0e9a977a3b3c 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -403,6 +403,13 @@ static void drm_fb_helper_fb_dirty(struct drm_fb_helper *helper)
+ 	spin_unlock_irqrestore(&helper->damage_lock, flags);
+ }
+ 
++static void drm_fb_helper_damage_work(struct work_struct *work)
++{
++	struct drm_fb_helper *helper = container_of(work, struct drm_fb_helper, damage_work);
++
++	drm_fb_helper_fb_dirty(helper);
++}
++
+ /**
+  * drm_fb_helper_prepare - setup a drm_fb_helper structure
+  * @dev: DRM device
+@@ -418,6 +425,7 @@ void drm_fb_helper_prepare(struct drm_device *dev, struct drm_fb_helper *helper,
+ 	INIT_LIST_HEAD(&helper->kernel_fb_list);
+ 	spin_lock_init(&helper->damage_lock);
+ 	INIT_WORK(&helper->resume_work, drm_fb_helper_resume_worker);
++	INIT_WORK(&helper->damage_work, drm_fb_helper_damage_work);
+ 	helper->damage_clip.x1 = helper->damage_clip.y1 = ~0;
+ 	mutex_init(&helper->lock);
+ 	helper->funcs = funcs;
+@@ -549,6 +557,7 @@ void drm_fb_helper_fini(struct drm_fb_helper *fb_helper)
+ 		return;
+ 
+ 	cancel_work_sync(&fb_helper->resume_work);
++	cancel_work_sync(&fb_helper->damage_work);
+ 
+ 	info = fb_helper->info;
+ 	if (info) {
+diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
+index 455f6c2b8117a..b111dc7ada78d 100644
+--- a/include/drm/drm_fb_helper.h
++++ b/include/drm/drm_fb_helper.h
+@@ -116,6 +116,7 @@ struct drm_fb_helper_funcs {
+  * @damage_clip: clip rectangle used with deferred_io to accumulate damage to
+  *                the screen buffer
+  * @damage_lock: spinlock protecting @damage_clip
++ * @damage_work: worker used to flush the framebuffer
+  * @resume_work: worker used during resume if the console lock is already taken
+  *
+  * This is the main structure used by the fbdev helpers. Drivers supporting
+@@ -145,6 +146,7 @@ struct drm_fb_helper {
+ 	u32 pseudo_palette[17];
+ 	struct drm_clip_rect damage_clip;
+ 	spinlock_t damage_lock;
++	struct work_struct damage_work;
+ 	struct work_struct resume_work;
+ 
+ 	/**
 -- 
 2.38.1
 
