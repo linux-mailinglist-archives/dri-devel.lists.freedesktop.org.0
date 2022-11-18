@@ -2,42 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5F8862F396
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 12:23:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F41E62F40D
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 12:53:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C703F10E219;
-	Fri, 18 Nov 2022 11:23:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD6EE10E6FC;
+	Fri, 18 Nov 2022 11:53:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EEC610E219
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 11:23:00 +0000 (UTC)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out1.suse.de (Postfix) with ESMTP id 24094224B6;
- Fri, 18 Nov 2022 11:22:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1668770578; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8+Mt338auMAPyZ6wHbrxbwJ1oWL2/y5Lq8MjJbkctG8=;
- b=Mqsids9jdixeoyQ3eEblSjOT6qn2nKBBxnXO4YIV6MczkJIueBfOWf5IH+Qgu5GEThrRT6
- hSgJwbIBgcAARZnSZqZlRalEkqp3F27xcCibtgAVfz9XkwKNyhdLPpWTxITfMMyrMmaYir
- bQTfFlUi5/jqo+/cVb1R0youfVPvkVY=
-Received: from suse.cz (unknown [10.100.201.202])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by relay2.suse.de (Postfix) with ESMTPS id 871B52C141;
- Fri, 18 Nov 2022 11:22:56 +0000 (UTC)
-Date: Fri, 18 Nov 2022 12:22:56 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: John Ogness <john.ogness@linutronix.de>
-Subject: Re: [PATCH printk v5 00/40] reduce console_lock scope
-Message-ID: <Y3drEOkD1fuZcvV2@alley>
-References: <20221116162152.193147-1-john.ogness@linutronix.de>
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA0FA10E1F5;
+ Fri, 18 Nov 2022 11:53:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1668772380; x=1700308380;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=tJ2YH/qx93td2pW8yOzfU3fpvOktkXMM9du6wzxIY9Q=;
+ b=KOLOkIUiN67z0bzlqw4t6t5Rb7c2q0kMsgsM6jfZpBD8ilohAgTNIvN8
+ nMJI9sBeHkKcVDyYNlSJgoxo42cYchwVx0u7aBakujs6W77+khlpH5djN
+ ouPjLeiAyR3FRWviXI5Gb56QTo3LrhcqwFswMfwXBHncS4wV7BsKukB9O
+ ExJf3CH2KuDBWEkUwkSCvESBjNqG7v4erqjeJqrq8OHupACCm7O8PEFTW
+ 72i8A4/ljSbRaioh65OwXxdcyIMfsWtuyE2PJ+s/bBleTR3OM+rzfKHjM
+ HuKThkGzkNcusvjO29NxKkicKsGdPpskj+Gp1wnJJI9OYKuWNuR/l8932 A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="375252553"
+X-IronPort-AV: E=Sophos;i="5.96,174,1665471600"; d="scan'208";a="375252553"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Nov 2022 03:52:59 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="709009168"
+X-IronPort-AV: E=Sophos;i="5.96,174,1665471600"; d="scan'208";a="709009168"
+Received: from richieox-mobl1.ger.corp.intel.com (HELO localhost.localdomain)
+ ([10.213.209.178])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Nov 2022 03:52:58 -0800
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915: Fix workarounds on Gen2-3
+Date: Fri, 18 Nov 2022 11:52:49 +0000
+Message-Id: <20221118115249.2683946-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221116162152.193147-1-john.ogness@linutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,55 +57,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-efi@vger.kernel.org,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Peter Zijlstra <peterz@infradead.org>, kgdb-bugreport@lists.sourceforge.net,
- dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
- Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
- Alim Akhtar <alim.akhtar@samsung.com>, Jiri Slaby <jirislaby@kernel.org>,
- Ard Biesheuvel <ardb@kernel.org>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- linux-samsung-soc@vger.kernel.org, Tom Rix <trix@redhat.com>,
- Richard Weinberger <richard@nod.at>, Helge Deller <deller@gmx.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, linux-serial@vger.kernel.org,
- Aaron Tomlin <atomlin@redhat.com>, Miguel Ojeda <ojeda@kernel.org>,
- Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Paolo Abeni <pabeni@redhat.com>, Michal Simek <michal.simek@xilinx.com>,
- linux-um@lists.infradead.org, Steven Rostedt <rostedt@goodmis.org>,
- linux-m68k@lists.linux-m68k.org, Jakub Kicinski <kuba@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-arm-kernel@lists.infradead.org, Juergen Gross <jgross@suse.com>,
- Mathias Nyman <mathias.nyman@linux.intel.com>,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, Sergey Senozhatsky <senozhatsky@chromium.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jason Wessel <jason.wessel@windriver.com>, linux-fsdevel@vger.kernel.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- Johannes Berg <johannes@sipsolutions.net>, linuxppc-dev@lists.ozlabs.org,
- "David S. Miller" <davem@davemloft.net>
+Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed 2022-11-16 17:27:12, John Ogness wrote:
-> This is v5 of a series to prepare for threaded/atomic
-> printing. v4 is here [0]. This series focuses on reducing the
-> scope of the BKL console_lock. It achieves this by switching to
-> SRCU and a dedicated mutex for console list iteration and
-> modification, respectively. The console_lock will no longer
-> offer this protection.
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-The patchset looks ready for linux-next from my POV.
+In 3653727560d0 ("drm/i915: Simplify internal helper function signature")
+I broke the old platforms by not noticing engine workaround init does not
+initialize the list on old platforms. Fix it by always initializing which
+already does the right thing by mostly not doing anything if there aren't
+any workarounds on the list.
 
-I am going to push it there right now to get as much testing
-as possible before the merge window.
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Fixes: 3653727560d0 ("drm/i915: Simplify internal helper function signature")
+Reported-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_workarounds.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-Any review and comments are still appreciate. We could always
-take it back if some critical problems are discovered and
-can't be solved easily.
+diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+index 213160f29ec3..4d7a01b45e09 100644
+--- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
++++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+@@ -2991,7 +2991,7 @@ general_render_compute_wa_init(struct intel_engine_cs *engine, struct i915_wa_li
+ static void
+ engine_init_workarounds(struct intel_engine_cs *engine, struct i915_wa_list *wal)
+ {
+-	if (I915_SELFTEST_ONLY(GRAPHICS_VER(engine->i915) < 4))
++	if (GRAPHICS_VER(engine->i915) < 4)
+ 		return;
+ 
+ 	engine_fake_wa_init(engine, wal);
+@@ -3016,9 +3016,6 @@ void intel_engine_init_workarounds(struct intel_engine_cs *engine)
+ {
+ 	struct i915_wa_list *wal = &engine->wa_list;
+ 
+-	if (GRAPHICS_VER(engine->i915) < 4)
+-		return;
+-
+ 	wa_init_start(wal, engine->gt, "engine", engine->name);
+ 	engine_init_workarounds(engine, wal);
+ 	wa_init_finish(wal);
+-- 
+2.34.1
 
-Best Regards,
-Petr
