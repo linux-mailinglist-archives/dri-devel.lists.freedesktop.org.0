@@ -1,64 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6D8E62F9EE
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 17:10:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAF5F62FA04
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 17:16:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DC1B10E714;
-	Fri, 18 Nov 2022 16:10:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C45A910E71A;
+	Fri, 18 Nov 2022 16:16:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EBF310E76E
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 16:10:40 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D08B41FD09;
- Fri, 18 Nov 2022 16:10:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1668787838; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7U/1Mi9nox8mJnkOVl/gHzJRLLVp3fDrIQVfSYDlOSk=;
- b=Y0ZMSe4NSFyXZLlqG6uTnBbbqZQ+5up8cQU9/mO9lX9NoQ9QzyEXAGdTaPAQ1ZT2Q5uuwF
- o9bkWSOWAcOmu2YZFJf2PVNgaHt2gpplxc8N0Ovp+Payy6MEChIlgmJcWRWcB771ygaCOC
- QJlkHFrnpTFFwer/NuOtytVafSGwv80=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1668787838;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7U/1Mi9nox8mJnkOVl/gHzJRLLVp3fDrIQVfSYDlOSk=;
- b=Dm4qO+o4PwY0DjSkEMJgZuHF+qUtj76l6vHJ6g7nJtx5QR1gdFhF3ssKdlug51A3U6AuWL
- sH9Z2XDU47M+XQBA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9D68D13A66;
- Fri, 18 Nov 2022 16:10:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id v9N3JX6ud2PffQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 18 Nov 2022 16:10:38 +0000
-Message-ID: <dbfd2e78-3250-ba4b-b8e0-96df46ce33a5@suse.de>
-Date: Fri, 18 Nov 2022 17:10:38 +0100
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
+ [64.147.123.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4C5310E71A
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 16:16:05 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 45DF632003F4;
+ Fri, 18 Nov 2022 11:16:02 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Fri, 18 Nov 2022 11:16:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; t=1668788161; x=1668874561; bh=2MRLkOCbkE
+ DRX6CVJEr1WS1Or0qtrbdWjr/+FfwAdfY=; b=YMzFndB7zrBvT2IC3ECT7lKQwP
+ /w0BOoFtW+9KkFSk80XZtuq+0Jy5vBZO6O1+FCtKWS5Qs98G0Yr0hOxvcdNYHERD
+ Qz0lyYk7bjPCYmgxK17GQ4sVrOlWWGfFPaEfbw4sFiNsCnxg6jWbw+DmuMGNMkk3
+ vFK/xIVaFuUXCqoO9XeE8Gz3v83sQZkNfrR2l5ryGdbqRQrfoknY8XZ4K4DI6dux
+ NcQAZz0mvUl95M8hTi0uALSd0IO3sB2z/2agMfTZnK1uZjeycc9rw1dgynQwQ65m
+ LiSKT/yixbGNQX4N2uI4qoXf65p0Zw25u4D6iBZjQy6RetQ1aH+QozMra+6A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1668788161; x=1668874561; bh=2MRLkOCbkEDRX6CVJEr1WS1Or0qt
+ rbdWjr/+FfwAdfY=; b=GQ8XSoXG43kEfb0mzBbyhydSwd5vp252VFBlah8DkQuS
+ w/UFRrHxJs7QR0a/pPYdf28I9jZI+tdF8293C7v1P4g8utuPkneoR2W2GS8BWAxx
+ ZwwLe5PixP3zN18x7sSyyXYZNb+XY01zMjtjeIhBMO/dgWGRFKu1hwv9vQDLxvmi
+ BB5NcpX2Eyz31fFSub55dofOs/wT2kOpgfhd/ILXuJeQnLrEpJDDm/XIPA5S4kqH
+ 4m7wF/LERbS94rBkV5rxyZzhlamMN6xm2lt/hJ8SmVSOTW8Vt1ivTLSDPIezkBKO
+ 0gY0qbYXPvH6AJs2CakzJR3cOLaGOYijOS/enGzxBA==
+X-ME-Sender: <xms:wa93Y6z_5mXt0s9cAQ-tzEX91YKzfD3M0xPxV-a2vwo5KaF6JOrBUA>
+ <xme:wa93Y2SAlQ-Pz9rTOANk-ie6bIQDcb2tFG4UsEZZbDNyUcSB26kNDfHwF0wZq38Zs
+ YM_tIACsBH3F5jIvrs>
+X-ME-Received: <xmr:wa93Y8Xakf-V0VzeVB4-g6aTDss60rLLsHLjvN45tPYZAFi67wIEeIzLhxyHXHt56FW9PKqPQ3ak3SIptGVU0A3DZTrwri7rh_ICXqKdEcbyzA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrhedtgdekjecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepgfeuuedtfefgveevheejfeeghedvjeejfeehkeffudetuedtgfeiieeiffeu
+ tdffnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecuvehluhhsthgvrhfuihiivg
+ eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
+ hh
+X-ME-Proxy: <xmx:wa93YwiQJqSZ8Yb4OvXKHoMyxRn_LFiIlqRQ-NclROoNyNNSXbnWxQ>
+ <xmx:wa93Y8BHdn0UAqJojqKE8A6gRQboxo5p9GD4TBRz7XrhzsW1xXboNA>
+ <xmx:wa93YxKpudX4mw5wWXF7ADxz591TwWUYQX363gG-ZYnsIBLTOz3Obg>
+ <xmx:wa93Y2zN8QOw1lBrH-2Ilez0eeK-fYsYgzL0Uv5iyhsByC_EHulbvQ>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 18 Nov 2022 11:16:00 -0500 (EST)
+Date: Fri, 18 Nov 2022 17:15:58 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>
+Subject: Re: DRM-managed resources / devm_drm_dev_alloc leaking resources
+Message-ID: <20221118161558.ym7sif4tkr5srk2b@houat>
+References: <20221117165311.vovrc7usy4efiytl@houat>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v3 7/8] drm/simpledrm: Support the XB24/AB24 format
-Content-Language: en-US
-To: Thierry Reding <thierry.reding@gmail.com>
-References: <20221117184039.2291937-1-thierry.reding@gmail.com>
- <20221117184039.2291937-8-thierry.reding@gmail.com>
- <7018f094-e1f8-d82d-f4b2-b1ae833d1c47@suse.de> <Y3eoeLLOxHaruPOV@orome>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <Y3eoeLLOxHaruPOV@orome>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------202Dtp8cf83Uuq0DcdWHeP0f"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="sn3tq4edyve2huny"
+Content-Disposition: inline
+In-Reply-To: <20221117165311.vovrc7usy4efiytl@houat>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,136 +84,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
- David Airlie <airlied@redhat.com>, Robin Murphy <robin.murphy@arm.com>
+Cc: David Airlie <airlied@linux.ie>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------202Dtp8cf83Uuq0DcdWHeP0f
-Content-Type: multipart/mixed; boundary="------------5SGVimdwae6OkR82Ao27cYgy";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
- David Airlie <airlied@redhat.com>, Robin Murphy <robin.murphy@arm.com>
-Message-ID: <dbfd2e78-3250-ba4b-b8e0-96df46ce33a5@suse.de>
-Subject: Re: [PATCH v3 7/8] drm/simpledrm: Support the XB24/AB24 format
-References: <20221117184039.2291937-1-thierry.reding@gmail.com>
- <20221117184039.2291937-8-thierry.reding@gmail.com>
- <7018f094-e1f8-d82d-f4b2-b1ae833d1c47@suse.de> <Y3eoeLLOxHaruPOV@orome>
-In-Reply-To: <Y3eoeLLOxHaruPOV@orome>
 
---------------5SGVimdwae6OkR82Ao27cYgy
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+--sn3tq4edyve2huny
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-SGkNCg0KQW0gMTguMTEuMjIgdW0gMTY6NDQgc2NocmllYiBUaGllcnJ5IFJlZGluZzoNCj4g
-T24gRnJpLCBOb3YgMTgsIDIwMjIgYXQgMDQ6MDg6MjNQTSArMDEwMCwgVGhvbWFzIFppbW1l
-cm1hbm4gd3JvdGU6DQo+PiBIaQ0KPj4NCj4+IEFtIDE3LjExLjIyIHVtIDE5OjQwIHNjaHJp
-ZWIgVGhpZXJyeSBSZWRpbmc6DQo+Pj4gRnJvbTogVGhpZXJyeSBSZWRpbmcgPHRyZWRpbmdA
-bnZpZGlhLmNvbT4NCj4+Pg0KPj4+IEFkZCBYQjI0IGFuZCBBQjI0IHRvIHRoZSBsaXN0IG9m
-IHN1cHBvcnRlZCBmb3JtYXRzLiBUaGUgZm9ybWF0IGhlbHBlcnMNCj4+PiBzdXBwb3J0IGNv
-bnZlcnNpb24gdG8gdGhlc2UgZm9ybWF0cyBhbmQgdGhleSBhcmUgZG9jdW1lbnRlZCBpbiB0
-aGUNCj4+PiBzaW1wbGUtZnJhbWVidWZmZXIgZGV2aWNlIHRyZWUgYmluZGluZ3MuDQo+Pj4N
-Cj4+PiBTaWduZWQtb2ZmLWJ5OiBUaGllcnJ5IFJlZGluZyA8dHJlZGluZ0BudmlkaWEuY29t
-Pg0KPj4+IC0tLQ0KPj4+IENoYW5nZXMgaW4gdjI6DQo+Pj4gLSB0cmVhdCBBQjI0IGFzIFhC
-MjQgYW5kIHN1cHBvcnQgYm90aCBhdCB0aGUgc2FtZSB0aW1lDQo+Pj4NCj4+PiAgICBkcml2
-ZXJzL2dwdS9kcm0vdGlueS9zaW1wbGVkcm0uYyAgICAgICB8IDIgKysNCj4+PiAgICBpbmNs
-dWRlL2xpbnV4L3BsYXRmb3JtX2RhdGEvc2ltcGxlZmIuaCB8IDEgKw0KPj4+ICAgIDIgZmls
-ZXMgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspDQo+Pj4NCj4+PiBkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMgYi9kcml2ZXJzL2dwdS9kcm0vdGlueS9z
-aW1wbGVkcm0uYw0KPj4+IGluZGV4IDdmMzliYzU4ZGE1Mi4uYmExYzIwNTdmYzY1IDEwMDY0
-NA0KPj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90aW55L3NpbXBsZWRybS5jDQo+Pj4gKysr
-IGIvZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMNCj4+PiBAQCAtNDgzLDYgKzQ4
-Myw4IEBAIHN0YXRpYyBpbnQgc2ltcGxlZHJtX2RldmljZV9pbml0X3JlZ3VsYXRvcnMoc3Ry
-dWN0IHNpbXBsZWRybV9kZXZpY2UgKnNkZXYpDQo+Pj4gICAgc3RhdGljIGNvbnN0IHVpbnQz
-Ml90IHNpbXBsZWRybV9wcmltYXJ5X3BsYW5lX2Zvcm1hdHNbXSA9IHsNCj4+PiAgICAJRFJN
-X0ZPUk1BVF9YUkdCODg4OCwNCj4+PiAgICAJRFJNX0ZPUk1BVF9BUkdCODg4OCwNCj4+PiAr
-CURSTV9GT1JNQVRfWEJHUjg4ODgsDQo+Pj4gKwlEUk1fRk9STUFUX0FCR1I4ODg4LA0KPj4N
-Cj4+IERvZXMgdGhlIGhhcmR3YXJlICpyZWFsbHkqIHN1cHBvcnQgQUI0MiBvbiBpdHMgcHJp
-bWFyeSBwbGFuZT8NCj4gDQo+IFllcywgVGVncmEgZGlzcGxheSBoYXJkd2FyZSBzdXBwb3J0
-cyB0aGlzIGZvcm1hdCBvbiB0aGUgcHJpbWFyeSBwbGFuZS4NCj4gDQo+PiBXZSByZWNlbnRs
-eSBoYWQgYSBkaXNjdXNzaW9uIGFib3V0IHRoZSBleHBvcnRlZCBmb3JtYXRzIGFuZCB0aGUg
-Y29uc2Vuc3VzIGlzDQo+PiB0aGF0IHdlIG9ubHkgd2FudCB0aGUgaGFyZHdhcmUncyBuYXRp
-dmUgZm9ybWF0cyBwbHVzIFhSR0I4ODguIFRoYXQncyBub3QNCj4+IGltcGxlbWVudGVkIHll
-dCBpbiBzaW1wbGVkcm0sIGJ1dCB0aGlzIGZvcm1hdCBsaXN0IHdpbGwgc29vbiBzZWUgYSBs
-YXJnZXINCj4+IGNsZWFudXAuDQo+Pg0KPj4gU28gSSB0aGluayBBUkdCODg4OCBsaWtlbHkg
-c2hvdWxkbid0IGJlIG9uIHRoZSBsaXN0IGhlcmUuDQo+IA0KPiBUaGlzIGlzIGZvciBjb25z
-aXN0ZW5jeSB3aXRoIHRoZSBsaXN0IGJlbG93LiBJZiBhIGRldmljZSB0cmVlIGNsYWltcw0K
-PiB0aGF0IHRoZSBmcmFtZWJ1ZmZlciBpcyBBQkdSODg4OCB1c2luZyB0aGUgImE4YjhnOHI4
-IiBzdHJpbmcsIHRoZW4NCj4gc2hvdWxkbid0IHdlIHN1cHBvcnQgaXQ/DQoNClRoZSBzaXR1
-YXRpb24gaXMgY29tcGxpY2F0ZWQuIFNldmVyYWwgRFRzIGNsYWltIHRoYXQgdGhlaXIgZnJh
-bWVidWZmZXJzIA0Kc3VwcG9ydCBBbHBoYStSR0Igd2hlbiB0aGV5IGFjdHVhbGx5IG1lYW4g
-WCtSR0IuIEJ1dCBmb3IgY29tcGF0aWJpbGl0eSwgDQp3ZSBjYW5ub3QgY2hhbmdlIHRoaXMg
-bm93IEFGQUlVLiBTbyB3ZSdyZSBzdHVjayB3aXRoIFgrUkdCIGZyYW1lYnVmZmVycyANCnRo
-YXQgY2xhaW0gdGhhdCB0aGV5IGhhdmUgYW4gYWxwaGEgY2hhbm5lbC4gT1RPSCwgb3RoZXIg
-aGFyZHdhcmUgbWlnaHQgDQphY3R1YWxseSBzdXBwb3J0IHRoZSBhbm5vdW5jZWQgYWxwaGEg
-Y2hhbm5lbC4gVHJ5aW5nIHRvIHJlbmRlciBpbnRvIGFuIA0KYWxwaGEgY2hhbm5lbCB3b3Vs
-ZCB0aGVyZWZvcmUgcHJvZHVjZSB1bmRlZmluZWQgb3V0cHV0Lg0KDQpUaGUgY29uc2Vuc3Vz
-IGlzIHRoYXQgd2Ugb25seSB3YW50IHRvIGFubm91bmNlIFhSR0I4ODg4IHBsdXMgdGhlIG5h
-dGl2ZSANCmZvcm1hdCB0byB1c2Vyc3BhY2UuIEJ1dCBpZiB0aGUgbmF0aXZlIGZvcm1hdCBo
-YXMgYW4gYWxwaGEgY2hhbm5lbCwgd2UnZCANCmFubm91bmNlIHRoZSBub24tYWxwaGEgZm9y
-bWF0IGluc3RlYWQuIE91ciBmb3JtYXQtY29udmVyc2lvbiBoZWxwZXJzIA0Kd291bGQgdGhl
-biBmaWxsIHRoZSBhbHBoYSBjaGFubmVsIGF1dG9tYXRpY2FsbHkgd2l0aCAweGZmIGR1cmlu
-ZyB0aGUgDQpwYWdlZmxpcC4NCg0KKFRoaXMgaGFzbid0IHlldCBiZWVuIGZ1bGx5IGltcGxl
-bWVudGVkIGJlY2F1c2Ugd2UgZmlyc3QgbmVlZCB0byBmaXggYSANCmZldyB0aGluZ3MgaW4g
-ZmJkZXYgZW11bGF0aW9uIHRvIG1ha2UgaXQgd29yay4pDQoNClRoZXJlZm9yZSBBQkdSODg4
-OCBzaG91bGRuJ3QgYmUgb24gdGhlIGxpc3QuIE5vdGUgdGhhdCBhIG5hdGl2ZSBEUk0gDQpk
-cml2ZXIgZm9yIHlvdXIgZGlzcGxheSBoYXJkd2FyZSB3b3VsZCBiZSBmcmVlIHRvIGV4cG9y
-dCBBQkdSODg4OC4gV2UgDQpvbmx5IGhhdmUgdGhpcyBydWxlIGZvciB0aGUgaGFyZHdhcmUt
-YWdub3N0aWMgZHJpdmVycy4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gVGhp
-ZXJyeQ0KPiANCj4+DQo+PiBCZXN0IHJlZ2FyZHMNCj4+IFRob21hcw0KPj4NCj4+PiAgICAJ
-RFJNX0ZPUk1BVF9SR0I1NjUsDQo+Pj4gICAgCS8vRFJNX0ZPUk1BVF9YUkdCMTU1NSwNCj4+
-PiAgICAJLy9EUk1fRk9STUFUX0FSR0IxNTU1LA0KPj4+IGRpZmYgLS1naXQgYS9pbmNsdWRl
-L2xpbnV4L3BsYXRmb3JtX2RhdGEvc2ltcGxlZmIuaCBiL2luY2x1ZGUvbGludXgvcGxhdGZv
-cm1fZGF0YS9zaW1wbGVmYi5oDQo+Pj4gaW5kZXggMjdlYTk5YWY2ZTFkLi40Zjk0ZDUyYWM5
-OWYgMTAwNjQ0DQo+Pj4gLS0tIGEvaW5jbHVkZS9saW51eC9wbGF0Zm9ybV9kYXRhL3NpbXBs
-ZWZiLmgNCj4+PiArKysgYi9pbmNsdWRlL2xpbnV4L3BsYXRmb3JtX2RhdGEvc2ltcGxlZmIu
-aA0KPj4+IEBAIC0yMiw2ICsyMiw3IEBADQo+Pj4gICAgCXsgInI4ZzhiOCIsIDI0LCB7MTYs
-IDh9LCB7OCwgOH0sIHswLCA4fSwgezAsIDB9LCBEUk1fRk9STUFUX1JHQjg4OCB9LCBcDQo+
-Pj4gICAgCXsgIng4cjhnOGI4IiwgMzIsIHsxNiwgOH0sIHs4LCA4fSwgezAsIDh9LCB7MCwg
-MH0sIERSTV9GT1JNQVRfWFJHQjg4ODggfSwgXA0KPj4+ICAgIAl7ICJhOHI4ZzhiOCIsIDMy
-LCB7MTYsIDh9LCB7OCwgOH0sIHswLCA4fSwgezI0LCA4fSwgRFJNX0ZPUk1BVF9BUkdCODg4
-OCB9LCBcDQo+Pj4gKwl7ICJ4OGI4ZzhyOCIsIDMyLCB7MCwgOH0sIHs4LCA4fSwgezE2LCA4
-fSwgezAsIDB9LCBEUk1fRk9STUFUX1hCR1I4ODg4IH0sIFwNCj4+PiAgICAJeyAiYThiOGc4
-cjgiLCAzMiwgezAsIDh9LCB7OCwgOH0sIHsxNiwgOH0sIHsyNCwgOH0sIERSTV9GT1JNQVRf
-QUJHUjg4ODggfSwgXA0KPj4+ICAgIAl7ICJ4MnIxMGcxMGIxMCIsIDMyLCB7MjAsIDEwfSwg
-ezEwLCAxMH0sIHswLCAxMH0sIHswLCAwfSwgRFJNX0ZPUk1BVF9YUkdCMjEwMTAxMCB9LCBc
-DQo+Pj4gICAgCXsgImEycjEwZzEwYjEwIiwgMzIsIHsyMCwgMTB9LCB7MTAsIDEwfSwgezAs
-IDEwfSwgezMwLCAyfSwgRFJNX0ZPUk1BVF9BUkdCMjEwMTAxMCB9LCBcDQo+Pg0KPj4gLS0g
-DQo+PiBUaG9tYXMgWmltbWVybWFubg0KPj4gR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0K
-Pj4gU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQo+PiBNYXhmZWxkc3Ry
-LiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCj4+IChIUkIgMzY4MDksIEFHIE7DvHJu
-YmVyZykNCj4+IEdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCj4gDQo+IA0KPiANCg0K
-LS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VT
-RSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQw
-OSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2No
-w6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+Hi,
 
---------------5SGVimdwae6OkR82Ao27cYgy--
+Javier and I looked into it some more today, and I think we have a
+better idea of what is going on.
 
---------------202Dtp8cf83Uuq0DcdWHeP0f
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+On Thu, Nov 17, 2022 at 05:53:11PM +0100, Maxime Ripard wrote:
+> After trying to get more kunit tests for KMS, I found out that the
+> recent kunit helpers we merged to create a DRM device [1] are broken and
+> won't free their device-managed and DRM-managed resources.
+>=20
+> With some help from Thomas, we've dug into this and it turns out that if
+> we allocate a device with root_device_register, initialise our drm
+> device with devm_drm_dev_alloc(), register it using drm_dev_register(),
+> unregister it using drm_dev_unregister/drm_dev_unplug and then remove
+> the parent device, neither the device managed nor the DRM managed
+> actions are run.
+>=20
+> root_device_register initializes the device by eventually calling
+> device_initialize() which sets the initial reference count of the root
+> device to 1 [2]. devm_drm_dev_alloc() then comes in, drm_dev_init() will
+> increase the root device refcount [3] and initialize our DRM device to 1
+> [4]. drm_dev_register(), through drm_minor_register() and device_add(),
+> will increase the root device refcount [5].
+>=20
+> When unrolling things, drm_dev_unregister(), through
+> drm_minor_unregister() and device_del(), will give up its reference [6].
+> root_device_unregister(), through device_unregister(), will also give up
+> its own [7].
+>=20
+> So we end up with this for the reference counts:
+>=20
+> +------------------------+-------------+------------+
+> |         funcs          | root device | DRM device |
+> +------------------------+-------------+------------+
+> | root_device_register   |           1 | N/A        |
+> | devm_drm_dev_alloc     |           2 | 1          |
+> | drm_dev_register       |           3 | 1          |
+> | drm_dev_unregister     |           2 | 1          |
+> | root_device_unregister |           1 | 1          |
+> +------------------------+-------------+------------+
+>=20
+> If we go back to the list of reference taken, the root device reference
+> and the initial drm_device reference, both taken by devm_drm_dev_alloc()
+> through drm_dev_init(), haven't been put back.
+>=20
+> If we look at the drm_dev_init code(), we can see that it sets up a
+> DRM-managed action [8] that will put back the device reference [9]. The
+> DRM-managed code is executed by the drm_managed_cleanup() function, that
+> is executed as part of a release hook [10] executed once we give up the
+> final reference to the DRM device [11].
+>=20
+> If we go back a little, the final reference to the DRM device is
+> actually the initial one setup by devm_drm_dev_alloc(). This function
+> has superseded drm_dev_alloc(), with the documentation that we do need a
+> final drm_dev_put() to put back our final reference [12].
+>=20
+> devm_drm_dev_alloc() is a more convenient variant that has been
+> introduced explicitly to not require that drm_dev_put(), and states it
+> as such in the documentation [13]. It does so by adding a device-managed
+> action that will call drm_dev_put() [14].
+>=20
+> Device-managed actions are ran as part devres_release_all() that is
+> called by device_release() [15], itself being run when the last
+> reference on the device is put back [16][17][18].
+>=20
+> So if we sum things up, the DRM device will only give its last root
+> device reference when the last DRM device reference will be put back,
+> and the last DRM device reference will be put back when the last device
+> reference will be put back, which sounds very circular to me, with both
+> ending up in a deadlock scenario.
+>=20
+> I've added two kunit tests that demonstrate the issue: we register a
+> device, allocate and register a DRM device, register a DRM-managed
+> action, remove the DRM device and the parent device, and wait for the
+> action to execute. drm_register_unregister_with_devm_test() uses the
+> broken(?) devm_drm_dev_alloc and is failing.
+> drm_register_unregister_test uses the deprecated drm_dev_alloc() that
+> requires an explicit call to drm_dev_put() which works fine.
+>=20
+> It's also worth noting that Thomas tested with simpledrm and it seems to
+> work fine.
+
+Indeed, the transition from simpledrm to a full-blown DRM driver handles
+this properly. It's using a platform_device_unregister() [1] and
+eventually device_del() [2][3]. That part is handled just like
+root_device_unregister() [4][5]. Basically, both will call device_del(),
+and then device_put(), so device_del() is called while holding a
+reference.
+
+As we've seen before, at this point the DRM driver still holds a
+reference to the device as well.
+
+device_del() will call bus_remove_device() [6], which will be skipped
+for the root device since it doesn't have a bus [7].
+
+It will then call device_release_driver() [8], which is basically forwarded
+to __device_release_driver() [9][10], that will call device_unbind_cleanup(=
+) [11].
+
+device_unbind_cleanup() calls devres_release_all() directly [12], that
+runs all the device-managed actions [13]. And it does so WHILE THERE'S
+STILL A REFCOUNT OF 2!
+
+I would expect the call to devres_release_all to happen only in
+device_release, once all the device reference have been put back. Not 4
+functions in as a side effect, and while there's still some active
+references.
+
+> Using a platform_device instead of the root_device doesn't
+> change anything to the outcome in my tests, so there might be a more
+> subtle behaviour involved.
+
+This one has the same symptom but a different cause. I was just
+registering a platform_device but it wasn't bound to any driver. While
+it's valid to do so according to that comment [13], it doesn't have any
+driver so the check for the driver in device_release_driver() [8], and
+never hits device_unbind_cleanup().
+
+Thanks again to Thomas and Javier for their help
+Maxime
+
+1: https://elixir.bootlin.com/linux/latest/source/drivers/video/aperture.c#=
+L199
+2: https://elixir.bootlin.com/linux/latest/source/drivers/base/platform.c#L=
+793
+3: https://elixir.bootlin.com/linux/latest/source/drivers/base/platform.c#L=
+751
+4: https://elixir.bootlin.com/linux/latest/source/drivers/base/core.c#L4153
+5: https://elixir.bootlin.com/linux/latest/source/drivers/base/core.c#L3733
+6: https://elixir.bootlin.com/linux/latest/source/drivers/base/core.c#L3704
+7: https://elixir.bootlin.com/linux/latest/source/drivers/base/bus.c#L511
+8: https://elixir.bootlin.com/linux/latest/source/drivers/base/bus.c#L529
+9: https://elixir.bootlin.com/linux/latest/source/drivers/base/dd.c#L1298
+10: https://elixir.bootlin.com/linux/latest/source/drivers/base/dd.c#L1275
+11: https://elixir.bootlin.com/linux/latest/source/drivers/base/dd.c#L1255
+12: https://elixir.bootlin.com/linux/latest/source/drivers/base/dd.c#L530
+13: https://elixir.bootlin.com/linux/latest/source/drivers/base/core.c#L2312
+
+--sn3tq4edyve2huny
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmN3rn4FAwAAAAAACgkQlh/E3EQov+BJ
-1A/+PjFnQqRuhc1J85sO09JaXAT1ytgZ2ZjzbS9vIeDukW0qnXijB3YYZWOEvH/7Od29NU7zGu31
-3WD3fou/yS1AJ8JYh3wOMCGT8YdYe56DLuPPvfpa5MlNmUlYLPqYduC2/uyuwhGijXwWtanu2qPh
-llhMIy0CMZw3Ek8dlv0xfrrOGAhqU39DISP1GckmGwyYhuj1yILM67OYTg6Cxst0D/BVrYDFd+Wi
-gubKvOpGxD3UIbr1V+tgFqW0tiYam7z28xujTn8+gK4mDG9rd1Y+91l0K/uYLwtr7n5hB3cw2zgZ
-31+5vRqI0XR47cdoi4/7BKErPW9Qu6sVbzylHTP3xOejMIStY4f1VRtiL7tF24/Avr/ELpR1LKpR
-UMP1zLCXWbc3E5iEKTF5xasGKDj7RX1IsjpbksFBRNa5XCXW33dwnNv0zNW9dqn6UPSeR+cLB230
-nRCtBQJimLvvcCvkpbjxMx3gU7K08njL+nbkW2s1kj5wTS5xy/L4ipKMWQWDdcDaKkcrYL+vorXh
-H4JayGVttU5zucCK0p6VVRvBcLklVwZEEovhRn2lbrThh9FyINCHK+LEOkOj/+IytTwFeQ+5qUMa
-+uNPHu4e+fhy+GtAmPzAkuk/N7mx77pmqA8V9mWOdYgE7YBDdcFxwCngzSTFiG6g1ob6TzQcQ1uz
-rjw=
-=WuIS
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY3evvgAKCRDj7w1vZxhR
+xZhwAQC5Rhgvvw332lWs45Crsps/+M9lQJf7Dpo3aqUQVlcZ3wD/XR01SNFEMIcI
+LK/nxSF19p2OTFpBjr5mRlVMutGgoAA=
+=IYM0
 -----END PGP SIGNATURE-----
 
---------------202Dtp8cf83Uuq0DcdWHeP0f--
+--sn3tq4edyve2huny--
