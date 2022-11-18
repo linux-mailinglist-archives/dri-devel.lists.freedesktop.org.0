@@ -1,37 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD0E563009F
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 23:47:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D3DC6300C7
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Nov 2022 23:48:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35C0110E7F3;
-	Fri, 18 Nov 2022 22:47:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5462310E803;
+	Fri, 18 Nov 2022 22:47:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F9CF10E7ED
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 22:46:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B13FE10E7EB
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Nov 2022 22:46:27 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1owA7n-0007jc-Td; Fri, 18 Nov 2022 23:46:19 +0100
+ id 1owA7n-0007iw-4D; Fri, 18 Nov 2022 23:46:19 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1owA7m-0058BD-0J; Fri, 18 Nov 2022 23:46:18 +0100
+ id 1owA7l-0058Aq-9w; Fri, 18 Nov 2022 23:46:18 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1owA7j-00HaxI-HI; Fri, 18 Nov 2022 23:46:15 +0100
+ id 1owA7j-00HaxL-MW; Fri, 18 Nov 2022 23:46:15 +0100
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
 To: Angel Iglesias <ang.iglesiasg@gmail.com>, Lee Jones <lee.jones@linaro.org>,
  Grant Likely <grant.likely@linaro.org>, Wolfram Sang <wsa@kernel.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 039/606] drm/i2c/sil164: Convert to i2c's .probe_new()
-Date: Fri, 18 Nov 2022 23:36:13 +0100
-Message-Id: <20221118224540.619276-40-uwe@kleine-koenig.org>
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Peter Senna Tschudin <peter.senna@gmail.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Peter Rosin <peda@axentia.se>
+Subject: [PATCH 040/606] drm/i2c/tda9950: Convert to i2c's .probe_new()
+Date: Fri, 18 Nov 2022 23:36:14 +0100
+Message-Id: <20221118224540.619276-41-uwe@kleine-koenig.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
 References: <20221118224540.619276-1-uwe@kleine-koenig.org>
@@ -68,31 +72,32 @@ can be trivially converted.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/gpu/drm/i2c/sil164_drv.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i2c/tda9950.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/i2c/sil164_drv.c b/drivers/gpu/drm/i2c/sil164_drv.c
-index 1bc0b5de4499..f57f9a807542 100644
---- a/drivers/gpu/drm/i2c/sil164_drv.c
-+++ b/drivers/gpu/drm/i2c/sil164_drv.c
-@@ -350,7 +350,7 @@ static const struct drm_encoder_slave_funcs sil164_encoder_funcs = {
- /* I2C driver functions */
+diff --git a/drivers/gpu/drm/i2c/tda9950.c b/drivers/gpu/drm/i2c/tda9950.c
+index 9ed54e7ccff2..b8c143e573e0 100644
+--- a/drivers/gpu/drm/i2c/tda9950.c
++++ b/drivers/gpu/drm/i2c/tda9950.c
+@@ -375,8 +375,7 @@ static void tda9950_cec_del(void *data)
+ 	cec_delete_adapter(priv->adap);
+ }
  
- static int
--sil164_probe(struct i2c_client *client, const struct i2c_device_id *id)
-+sil164_probe(struct i2c_client *client)
+-static int tda9950_probe(struct i2c_client *client,
+-			 const struct i2c_device_id *id)
++static int tda9950_probe(struct i2c_client *client)
  {
- 	int vendor = sil164_read(client, SIL164_VENDOR_HI) << 8 |
- 		sil164_read(client, SIL164_VENDOR_LO);
-@@ -420,7 +420,7 @@ MODULE_DEVICE_TABLE(i2c, sil164_ids);
+ 	struct tda9950_glue *glue = client->dev.platform_data;
+ 	struct device *dev = &client->dev;
+@@ -493,7 +492,7 @@ static struct i2c_device_id tda9950_ids[] = {
+ MODULE_DEVICE_TABLE(i2c, tda9950_ids);
  
- static struct drm_i2c_encoder_driver sil164_driver = {
- 	.i2c_driver = {
--		.probe = sil164_probe,
-+		.probe_new = sil164_probe,
- 		.driver = {
- 			.name = "sil164",
- 		},
+ static struct i2c_driver tda9950_driver = {
+-	.probe = tda9950_probe,
++	.probe_new = tda9950_probe,
+ 	.remove = tda9950_remove,
+ 	.driver = {
+ 		.name = "tda9950",
 -- 
 2.38.1
 
