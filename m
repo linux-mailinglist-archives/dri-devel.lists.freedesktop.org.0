@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2B14630956
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Nov 2022 03:13:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 340AB63095D
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Nov 2022 03:13:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93E4110E25C;
-	Sat, 19 Nov 2022 02:13:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6149810E7A4;
+	Sat, 19 Nov 2022 02:13:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28AC510E259;
- Sat, 19 Nov 2022 02:12:57 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14D8A10E71F;
+ Sat, 19 Nov 2022 02:13:07 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 863ADB82677;
- Sat, 19 Nov 2022 02:12:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06514C433C1;
- Sat, 19 Nov 2022 02:12:51 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 97A4862833;
+ Sat, 19 Nov 2022 02:13:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99E4AC433B5;
+ Sat, 19 Nov 2022 02:13:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1668823974;
- bh=6/ZcM18fIGlzYOv/MUHM9W2R6Q5LbIMHQh70HdVGb9w=;
+ s=k20201202; t=1668823986;
+ bh=lr5xJGzUjP8NLAV/SJAWmf1Bjx0GqUsuY3JFGcUnmbo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=eSPddijIcbn7Qz+Y2F8tWf8NAMdRzx20mXzDg3v2nn86/MgtAOvTlP9SUsdM4mZoj
- +RbmpulQ4vRNA4kdOofMLLau0sT6B/yD1mNtmyPDxsoQZUy5AR5U/RwGtD34YFmurA
- AA/VoW2qXGgkTGU7IodT7GsTt5uRuVJsGJRcUw+pUTksp2NhtlL/sqCS52YyJw+O4f
- IgNRFanKJh1fQ7/LWyvWxgL5wcB5E2rjGJjAX7zwajyYc787ITcjXjRxYByN+H3DeH
- 6BMXOYh5oAHsiAzhSknj2HLzTlaPcAWW+NGK/UMA2jbCZem7hWsYajrMAZwksGlYFW
- VgyXH+1bJv0NQ==
+ b=dW87T4iicceihr3GFAuTtZkuLP9/C36OTERdOjHknJtGekchVsCtvOq3ZRgYJlwPf
+ JutxgRLWBophT18+V2Q0KNAWBlSWkvfQc/jRw8sV7ovIrZwi1y1extOABDl1Frm7Jk
+ Pdd0NtL6C8FeW5RJ95Ge138pV+Xf0tN06ghy4rI7sZeKBrMQejd2qi1SR0WyWUzjuu
+ Y5sxT+GmNeYUq5hFXYEgx5wViWFC+D6HEjrMPUNjs0aG90jTf3IEltc2QKnn4tv0BY
+ PfSkhMUbIZ/gx03DgxfsZl79MNYtd6FkX8xpVcxQqpYiWpdALrxxqZkKJSiTh2P7Gl
+ na1q9uI/EGqoQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.0 35/44] drm/amd/display: Fix FCLK deviation and
- tool compile issues
-Date: Fri, 18 Nov 2022 21:11:15 -0500
-Message-Id: <20221119021124.1773699-35-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.0 36/44] drm/amd/display: Fix gpio port mapping issue
+Date: Fri, 18 Nov 2022 21:11:16 -0500
+Message-Id: <20221119021124.1773699-36-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221119021124.1773699-1-sashal@kernel.org>
 References: <20221119021124.1773699-1-sashal@kernel.org>
@@ -56,72 +56,91 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Alan Liu <HaoPing.Liu@amd.com>, Sasha Levin <sashal@kernel.org>,
- chris.park@amd.com, sunpeng.li@amd.com, Xinhui.Pan@amd.com,
- Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org, nathan@kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ sunpeng.li@amd.com, qingqing.zhuo@amd.com, Xinhui.Pan@amd.com,
+ Rodrigo.Siqueira@amd.com, Steve Su <steve.su@amd.com>,
  Daniel Wheeler <daniel.wheeler@amd.com>, aurabindo.pillai@amd.com,
- yang.lee@linux.alibaba.com, dri-devel@lists.freedesktop.org,
- george.shen@amd.com, Alex Deucher <alexander.deucher@amd.com>,
- Chaitanya Dhere <chaitanya.dhere@amd.com>, jun.lei@amd.com,
+ Alvin Lee <Alvin.Lee2@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
  christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chaitanya Dhere <chaitanya.dhere@amd.com>
+From: Steve Su <steve.su@amd.com>
 
-[ Upstream commit 0d5c5c210a4d4e655feb93b379647f0b179cdafe ]
+[ Upstream commit c0b2753f5db281b07013899c79b5f06a614055f9 ]
 
 [Why]
-Recent backports from open source do not have header inclusion pattern
-that is consistent with inclusion style in the rest of the file. This
-breaks the internal tool builds as well. A recent commit erronously
-modified the original DML formula for calculating
-ActiveClockChangeLatencyHidingY. This resulted in a FCLK deviation
-from the golden values.
+1. Port of gpio has different mapping.
 
 [How]
-Change the way in which display_mode_vba.h is included so that it is
-consistent with the inclusion style in rest of the file which also fixes
-the tool build. Restore the DML formula to its original state to fix the
-FCLK deviation.
+1. Add a dummy entry in mapping table.
+2. Fix incorrect mask bit field access.
 
-Reviewed-by: Aurabindo Pillai <Aurabindo.Pillai@amd.com>
-Reviewed-by: Jun Lei <Jun.Lei@amd.com>
+Reviewed-by: Alvin Lee <Alvin.Lee2@amd.com>
 Acked-by: Alan Liu <HaoPing.Liu@amd.com>
-Signed-off-by: Chaitanya Dhere <chaitanya.dhere@amd.com>
+Signed-off-by: Steve Su <steve.su@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c | 2 +-
- .../gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ .../amd/display/dc/gpio/dcn32/hw_factory_dcn32.c   | 14 ++++++++++++++
+ drivers/gpu/drm/amd/display/dc/gpio/hw_ddc.c       |  9 ++++++---
+ 2 files changed, 20 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c
-index 365d290bba99..d0f3f2414fb8 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.c
-@@ -4396,7 +4396,7 @@ void dml32_CalculateWatermarksMALLUseAndDRAMSpeedChangeSupport(
- 
- 		if (v->NumberOfActiveSurfaces > 1) {
- 			ActiveClockChangeLatencyHidingY = ActiveClockChangeLatencyHidingY
--					- (1 - 1 / v->NumberOfActiveSurfaces) * SwathHeightY[k] * v->HTotal[k]
-+					- (1.0 - 1.0 / v->NumberOfActiveSurfaces) * SwathHeightY[k] * v->HTotal[k]
- 							/ v->PixelClock[k] / v->VRatio[k];
- 		}
- 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.h b/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.h
-index 0b427d89b3c5..f174f5c5ff92 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.h
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_util_32.h
-@@ -30,7 +30,7 @@
- #include "os_types.h"
- #include "../dc_features.h"
- #include "../display_mode_structs.h"
--#include "dml/display_mode_vba.h"
-+#include "../display_mode_vba.h"
- 
- unsigned int dml32_dscceComputeDelay(
- 		unsigned int bpc,
+diff --git a/drivers/gpu/drm/amd/display/dc/gpio/dcn32/hw_factory_dcn32.c b/drivers/gpu/drm/amd/display/dc/gpio/dcn32/hw_factory_dcn32.c
+index d635b73af46f..0ea52ba5ac82 100644
+--- a/drivers/gpu/drm/amd/display/dc/gpio/dcn32/hw_factory_dcn32.c
++++ b/drivers/gpu/drm/amd/display/dc/gpio/dcn32/hw_factory_dcn32.c
+@@ -107,6 +107,13 @@ static const struct ddc_registers ddc_data_regs_dcn[] = {
+ 	ddc_data_regs_dcn2(3),
+ 	ddc_data_regs_dcn2(4),
+ 	ddc_data_regs_dcn2(5),
++	{
++		// add a dummy entry for cases no such port
++		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
++		.ddc_setup = 0,
++		.phy_aux_cntl = 0,
++		.dc_gpio_aux_ctrl_5 = 0
++	},
+ 	{
+ 			DDC_GPIO_VGA_REG_LIST(DATA),
+ 			.ddc_setup = 0,
+@@ -121,6 +128,13 @@ static const struct ddc_registers ddc_clk_regs_dcn[] = {
+ 	ddc_clk_regs_dcn2(3),
+ 	ddc_clk_regs_dcn2(4),
+ 	ddc_clk_regs_dcn2(5),
++	{
++		// add a dummy entry for cases no such port
++		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
++		.ddc_setup = 0,
++		.phy_aux_cntl = 0,
++		.dc_gpio_aux_ctrl_5 = 0
++	},
+ 	{
+ 			DDC_GPIO_VGA_REG_LIST(CLK),
+ 			.ddc_setup = 0,
+diff --git a/drivers/gpu/drm/amd/display/dc/gpio/hw_ddc.c b/drivers/gpu/drm/amd/display/dc/gpio/hw_ddc.c
+index 6fd38cdd68c0..525bc8881950 100644
+--- a/drivers/gpu/drm/amd/display/dc/gpio/hw_ddc.c
++++ b/drivers/gpu/drm/amd/display/dc/gpio/hw_ddc.c
+@@ -94,11 +94,14 @@ static enum gpio_result set_config(
+ 		 * is required for detection of AUX mode */
+ 		if (hw_gpio->base.en != GPIO_DDC_LINE_VIP_PAD) {
+ 			if (!ddc_data_pd_en || !ddc_clk_pd_en) {
+-
+-				REG_SET_2(gpio.MASK_reg, regval,
++				if (hw_gpio->base.en == GPIO_DDC_LINE_DDC_VGA) {
++					// bit 4 of mask has different usage in some cases
++					REG_SET(gpio.MASK_reg, regval, DC_GPIO_DDC1DATA_PD_EN, 1);
++				} else {
++					REG_SET_2(gpio.MASK_reg, regval,
+ 						DC_GPIO_DDC1DATA_PD_EN, 1,
+ 						DC_GPIO_DDC1CLK_PD_EN, 1);
+-
++				}
+ 				if (config_data->type ==
+ 						GPIO_CONFIG_TYPE_I2C_AUX_DUAL_MODE)
+ 					msleep(3);
 -- 
 2.35.1
 
