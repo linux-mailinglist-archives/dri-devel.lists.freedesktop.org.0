@@ -2,64 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62BCC630C8A
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Nov 2022 07:40:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1AC6630C94
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Nov 2022 07:43:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5ED110E163;
-	Sat, 19 Nov 2022 06:40:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDCEC10E24C;
+	Sat, 19 Nov 2022 06:43:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1504110E163
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Nov 2022 06:39:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1668839994; bh=l+WsbfLURdjYJd9P5p3v7g6Q4AV62aE2sA1DFwUojDk=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=tnMEwqGwhsRTSm4HzdENLCLBCbVgUIRtxSa2y5ZVm6sUdBL3TwQiXl5MeVqxQ8Rk8
- rkttyM49dUedBlHWfHZgwDM4v3369ljSapgxLkbkWxRV1h1lmauxEDV7WEg8fg6Qla
- 52Lgxe8Jm3fv519XwTgsq4318xdFPo5puxnyPdgX6Tf+bJrDz2ZUkdHQ63RS43IxYu
- 1l5zIn7yfTwQ5Zasqp28eG2Tj02D1Ro927ZfSJJ5Z7geazGJihTk7tx28xIZ2g4Mx7
- JUVoq7XWyoFkrVM3GTDBjFYK2qJ0khvaRmKCEz6usS2afgv83m9hz4eSffw5qbT+0N
- K9A7vyplAFDPA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([92.116.184.159]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N4zAy-1p6DiY0nTQ-010rWZ; Sat, 19
- Nov 2022 07:39:54 +0100
-Message-ID: <75f7bba1-8dca-ff17-f922-e3465759ba66@gmx.de>
-Date: Sat, 19 Nov 2022 07:39:53 +0100
+Received: from m12-11.163.com (m12-11.163.com [220.181.12.11])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 03F9810E24C
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Nov 2022 06:43:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=1llmR
+ ePQ0BZkXZUv/+5vLDGTpWNhrfaeQNFoxHbpgsY=; b=p4H3AS+Navz5n8UOrxv47
+ HDqS0tzL1tbO4F7bic2ERCq2J34uNKbgD5N38WJB4Ftmhei/DL32NAuNZ1F7EhsU
+ SeR3a42MGdWWvY6UPTkoE8r24C6lILK+h2Mr5e0Zc6m2tj4ZyzHg/AMX3w1tlSCD
+ //QfwVLrejUS8cqIDmyBqk=
+Received: from localhost.localdomain (unknown [114.221.197.177])
+ by smtp7 (Coremail) with SMTP id C8CowAAnBxCmenhjaHotSg--.7350S2;
+ Sat, 19 Nov 2022 14:41:47 +0800 (CST)
+From: ChunyouTang <tangchunyou@163.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, sumit.semwal@linaro.org,
+ christian.koenig@amd.com
+Subject: [PATCH v2 3/3] drm/gem-shmem: When drm_gem_object_init failed,
+ should release object
+Date: Sat, 19 Nov 2022 14:41:31 +0800
+Message-Id: <20221119064131.364-1-tangchunyou@163.com>
+X-Mailer: git-send-email 2.30.0.windows.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH 594/606] video: fbdev: matrox: Convert to i2c's
- .probe_new()
-Content-Language: en-US
-To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <uwe@kleine-koenig.org>
-References: <20221118224540.619276-1-uwe@kleine-koenig.org>
- <20221118224540.619276-595-uwe@kleine-koenig.org>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20221118224540.619276-595-uwe@kleine-koenig.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:VZ7IAwxjDCqR+1ZSYMAULZDjKb3OwL/bJQZZP+mRsalty8QZ/n8
- aRf6cSjyfqRQ+eJ4DdRt/b8yLK9hE9sDjXnP1lADZaX+7AchVX/zAp7c0alNrR19ntr+5lW
- mcDhca1dxVuRnKqnMxVEG6lTqET/fLW97TumFBs2qvuwibf3DunzSCp+jdW8GwooXCNSLM7
- Xa9AjRa57SmDBaQEiqeKA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:H8sX/ATSKvQ=;oTX6ETbOe4jXDHYbibatzVli/xH
- 8NThLqA8TssXhDfdFQ052wf434YbMGPp7X+Ond7PwhjiRY2K8CEeQOL0DYsVsqzuX32HO3TtR
- XhYNttThSIkAFO6YKox7hk6wfxBx8pQVU3WZUo/3eEGD3qUmDpUfL12ihvDBvAPL/wL1z044T
- fpHvxPUF601m8oqoO8lIcWJHrrtzx+hgNks5qXo2JdHWDBeeWrw0o8D8jTIiX/M6oAZOgRTBt
- IP2iUs70vI5ErJqj/9gq2abaP9EdKUY8Zgkne3Ti89D4bgg4Dv8SJN2+mIBty4Z561DYrn3Dk
- rCPwhxS8JCiLEG6Z384QOmi+XXMjOGaCozKODFYlAwGm8ygZR4MNn2Vpef88EUoMI48H6ckC2
- U6+PC9TMFXIEAWD/Syn/Cic2gpwlVv5ToourVoe5q6gYwLoiGykdFJwxfqTIr47E5zOF3CdPw
- gv+OnSg5LI/UWCVKxeKKMUYxbd+AxWcJXa6ExCK3baSlhTWGegoC/DpXE7WgQi0zfKtXpEopS
- nl3Py7y3Lxdi8xZlwdQL9g/LSCL0qS6p7ae15Tkk56AzfZDNGB2KmXRiPDVvHeFs9wBZm/ilZ
- kZMo5Cy4aMV9uJRQ76xxkjoxfu/kC8Zx31mC0jnaeoarAVAJP0mAJwk5D+sMWhudRX2cIutCm
- sYIujEZsSMayOkndCqJxef3uEAwnQQBapS+i9bUdIdHRGRNz6AnA5BIsMzZWNtWzaLpRRzUyn
- kJwh1EqZRqC6cFIMmfw7HE7v8faSVjFWd/ZftScNRLM5jak1PE7A+NcbJSgtpRzHiBlk+iCtG
- x/p50WRXEq6lTx6BGQDIVTh0FOtKnFgdnSdv9xDwTeBuYAP9liks/Q8XbEFAl1ooUsbOom5qr
- KkxPpsH4uCeZ+lJc5CIqRo6w6qUD8Q3cj5Koh7mT44S1Les6BFAcs33pS2O9WMR/Jwhygh7cu
- TF8xE6f+tA+lrXwB8Gw/E6P4xI4=
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: C8CowAAnBxCmenhjaHotSg--.7350S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxCr1UJr1xCF1kCw4UJrWrKrg_yoW5XFy5pa
+ nxAry7KrW8KFZ2grZ7XF4kCa43Gw40gF4xWa4Sq3yakw10yF1DXFn8Cr1DAFW3Jr47Xr1a
+ qwnFkFySyrWjyF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pNhF7UUUUUU=
+X-Originating-IP: [114.221.197.177]
+X-CM-SenderInfo: 5wdqwu5kxq50rx6rljoofrz/1tbiVgu+UVqzvFdXQwAAsk
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,55 +51,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-i2c@vger.kernel.org,
- kernel@pengutronix.de,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: linaro-mm-sig@lists.linaro.org, ChunyouTang <tangchunyou@163.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/18/22 23:45, Uwe Kleine-K=C3=B6nig wrote:
-> From: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
->
-> The probe function doesn't make use of the i2c_device_id * parameter so =
-it
-> can be trivially converted.
->
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+when goto err_free, the object had init, so it should be release when fail.
 
-applied.
+Signed-off-by: ChunyouTang <tangchunyou@163.com>
+---
+ drivers/gpu/drm/drm_gem.c              | 19 ++++++++++++++++---
+ drivers/gpu/drm/drm_gem_shmem_helper.c |  4 +++-
+ include/drm/drm_gem.h                  |  1 +
+ 3 files changed, 20 insertions(+), 4 deletions(-)
 
-Thanks!
-Helge
-
-
-> ---
->   drivers/video/fbdev/matrox/matroxfb_maven.c | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/video/fbdev/matrox/matroxfb_maven.c b/drivers/video=
-/fbdev/matrox/matroxfb_maven.c
-> index f2e02958673d..727a10a59811 100644
-> --- a/drivers/video/fbdev/matrox/matroxfb_maven.c
-> +++ b/drivers/video/fbdev/matrox/matroxfb_maven.c
-> @@ -1249,8 +1249,7 @@ static int maven_shutdown_client(struct i2c_client=
-* clnt) {
->   	return 0;
->   }
->
-> -static int maven_probe(struct i2c_client *client,
-> -		       const struct i2c_device_id *id)
-> +static int maven_probe(struct i2c_client *client)
->   {
->   	struct i2c_adapter *adapter =3D client->adapter;
->   	int err =3D -ENODEV;
-> @@ -1292,7 +1291,7 @@ static struct i2c_driver maven_driver=3D{
->   	.driver =3D {
->   		.name	=3D "maven",
->   	},
-> -	.probe		=3D maven_probe,
-> +	.probe_new	=3D maven_probe,
->   	.remove		=3D maven_remove,
->   	.id_table	=3D maven_id,
->   };
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index 8b68a3c1e6ab..3e2e660717c3 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -169,6 +169,20 @@ void drm_gem_private_object_init(struct drm_device *dev,
+ }
+ EXPORT_SYMBOL(drm_gem_private_object_init);
+ 
++/**
++ * drm_gem_private_object_fini - Finalize a failed drm_gem_object
++ * @obj: drm_gem_object
++ *
++ * Uninitialize an already allocated GEM object when it initialized failed
++ */
++void drm_gem_private_object_fini(struct drm_gem_object *obj)
++{
++	WARN_ON(obj->dma_buf);
++
++	dma_resv_fini(&obj->_resv);
++}
++EXPORT_SYMBOL(drm_gem_private_object_fini);
++
+ /**
+  * drm_gem_object_handle_free - release resources bound to userspace handles
+  * @obj: GEM object to clean up.
+@@ -930,12 +944,11 @@ drm_gem_release(struct drm_device *dev, struct drm_file *file_private)
+ void
+ drm_gem_object_release(struct drm_gem_object *obj)
+ {
+-	WARN_ON(obj->dma_buf);
+-
+ 	if (obj->filp)
+ 		fput(obj->filp);
+ 
+-	dma_resv_fini(&obj->_resv);
++	drm_gem_private_object_fini(obj);
++
+ 	drm_gem_free_mmap_offset(obj);
+ 	drm_gem_lru_remove(obj);
+ }
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index 35138f8a375c..db73234edcbe 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -79,8 +79,10 @@ __drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private)
+ 	} else {
+ 		ret = drm_gem_object_init(dev, obj, size);
+ 	}
+-	if (ret)
++	if (ret) {
++		drm_gem_private_object_fini(obj);
+ 		goto err_free;
++	}
+ 
+ 	ret = drm_gem_create_mmap_offset(obj);
+ 	if (ret)
+diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+index bd42f25e449c..9b1feb03069d 100644
+--- a/include/drm/drm_gem.h
++++ b/include/drm/drm_gem.h
+@@ -405,6 +405,7 @@ int drm_gem_object_init(struct drm_device *dev,
+ 			struct drm_gem_object *obj, size_t size);
+ void drm_gem_private_object_init(struct drm_device *dev,
+ 				 struct drm_gem_object *obj, size_t size);
++void drm_gem_private_object_fini(struct drm_gem_object *obj);
+ void drm_gem_vm_open(struct vm_area_struct *vma);
+ void drm_gem_vm_close(struct vm_area_struct *vma);
+ int drm_gem_mmap_obj(struct drm_gem_object *obj, unsigned long obj_size,
+-- 
+2.25.1
 
