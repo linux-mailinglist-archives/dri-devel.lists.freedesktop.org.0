@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1CDD630FD4
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Nov 2022 18:31:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAFFC630FD5
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Nov 2022 18:31:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B98610E279;
-	Sat, 19 Nov 2022 17:31:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42D1A10E278;
+	Sat, 19 Nov 2022 17:31:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92E5110E273
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Nov 2022 17:31:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C14F310E27B
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Nov 2022 17:31:39 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 15DE1749;
- Sat, 19 Nov 2022 18:31:19 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5462E749;
+ Sat, 19 Nov 2022 18:31:38 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1668879079;
- bh=yW91zXtP9MEsIH/A1q5d7M++OzfZLIE9H/uR5h2Gjyg=;
+ s=mail; t=1668879098;
+ bh=8TB93WgIpAtf7DBooyWu57a5/dN7O8GVgJGifX0hUnw=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WnYNUBetfY8zWWlcKgsh5UmA62Q1W9K60w+Ut0hBhtaW76R1nLiSdo9hQm581ZgB/
- NNifhN6XMeVLAVbm58rmrtsz9Y5s+9s0cplfC3X1qMtDf5QzoyiDDoTjPeoeslnIre
- tH7h/wbT6d28XeUWHJyTwIucEy1UFOqy12XL0DV8=
-Date: Sat, 19 Nov 2022 19:31:03 +0200
+ b=O7K+SgwRPG9GcmBge/PBta55KiYriA0x8A2A2UHSjBy9k9ytPB/icvh2f1cYafsKb
+ rvJg+/If+ToTSuL8N3TNf2WjpOIX2Fxn4mgAAaAJTtBHZfD1djcTWvnFD1J11Gvfgs
+ UGtrQ5BuTxKIfP8nMmVJ6QS6KD3lfyP4HQFH30nQ=
+Date: Sat, 19 Nov 2022 19:31:22 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
-Subject: Re: [PATCH 026/606] drm/bridge: megachips: Convert to i2c's
- .probe_new()
-Message-ID: <Y3kS13bmm8cL8Y/x@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 018/606] drm/bridge: icn6211: Convert to i2c's .probe_new()
+Message-ID: <Y3kS6iA3oRta/IQP@pendragon.ideasonboard.com>
 References: <20221118224540.619276-1-uwe@kleine-koenig.org>
- <20221118224540.619276-27-uwe@kleine-koenig.org>
+ <20221118224540.619276-19-uwe@kleine-koenig.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221118224540.619276-27-uwe@kleine-koenig.org>
+In-Reply-To: <20221118224540.619276-19-uwe@kleine-koenig.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,19 +49,19 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Martyn Welch <martyn.welch@collabora.co.uk>, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, Peter Senna Tschudin <peter.senna@gmail.com>,
- linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
- Wolfram Sang <wsa@kernel.org>, Angel Iglesias <ang.iglesiasg@gmail.com>,
- linux-i2c@vger.kernel.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Robert Foss <robert.foss@linaro.org>, Wolfram Sang <wsa@kernel.org>,
+ Angel Iglesias <ang.iglesiasg@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
  Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
  Grant Likely <grant.likely@linaro.org>, Lee Jones <lee.jones@linaro.org>,
- kernel@pengutronix.de, Martin Donnelly <martin.donnelly@ge.com>
+ kernel@pengutronix.de, linux-i2c@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 18, 2022 at 11:36:00PM +0100, Uwe Kleine-König wrote:
+On Fri, Nov 18, 2022 at 11:35:52PM +0100, Uwe Kleine-König wrote:
 > From: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 > 
 > The probe function doesn't make use of the i2c_device_id * parameter so it
@@ -73,51 +72,32 @@ On Fri, Nov 18, 2022 at 11:36:00PM +0100, Uwe Kleine-König wrote:
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
 > ---
->  .../gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c   | 10 ++++------
->  1 file changed, 4 insertions(+), 6 deletions(-)
+>  drivers/gpu/drm/bridge/chipone-icn6211.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-> index 97359f807bfc..4ee4a825a936 100644
-> --- a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-> +++ b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-> @@ -336,8 +336,7 @@ static int ge_b850v3_register(void)
->  			"ge-b850v3-lvds-dp", ge_b850v3_lvds_ptr);
+> diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/bridge/chipone-icn6211.c
+> index bf920c3503aa..0e37840cd7a8 100644
+> --- a/drivers/gpu/drm/bridge/chipone-icn6211.c
+> +++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
+> @@ -740,8 +740,7 @@ static int chipone_dsi_probe(struct mipi_dsi_device *dsi)
+>  	return ret;
 >  }
 >  
-> -static int stdp4028_ge_b850v3_fw_probe(struct i2c_client *stdp4028_i2c,
-> -				       const struct i2c_device_id *id)
-> +static int stdp4028_ge_b850v3_fw_probe(struct i2c_client *stdp4028_i2c)
+> -static int chipone_i2c_probe(struct i2c_client *client,
+> -			     const struct i2c_device_id *id)
+> +static int chipone_i2c_probe(struct i2c_client *client)
 >  {
->  	struct device *dev = &stdp4028_i2c->dev;
->  	int ret;
-> @@ -376,7 +375,7 @@ MODULE_DEVICE_TABLE(of, stdp4028_ge_b850v3_fw_match);
+>  	struct device *dev = &client->dev;
+>  	struct chipone *icn;
+> @@ -796,7 +795,7 @@ static struct i2c_device_id chipone_i2c_id[] = {
+>  MODULE_DEVICE_TABLE(i2c, chipone_i2c_id);
 >  
->  static struct i2c_driver stdp4028_ge_b850v3_fw_driver = {
->  	.id_table	= stdp4028_ge_b850v3_fw_i2c_table,
-> -	.probe		= stdp4028_ge_b850v3_fw_probe,
-> +	.probe_new	= stdp4028_ge_b850v3_fw_probe,
->  	.remove		= stdp4028_ge_b850v3_fw_remove,
->  	.driver		= {
->  		.name		= "stdp4028-ge-b850v3-fw",
-> @@ -384,8 +383,7 @@ static struct i2c_driver stdp4028_ge_b850v3_fw_driver = {
->  	},
->  };
->  
-> -static int stdp2690_ge_b850v3_fw_probe(struct i2c_client *stdp2690_i2c,
-> -				       const struct i2c_device_id *id)
-> +static int stdp2690_ge_b850v3_fw_probe(struct i2c_client *stdp2690_i2c)
->  {
->  	struct device *dev = &stdp2690_i2c->dev;
->  	int ret;
-> @@ -424,7 +422,7 @@ MODULE_DEVICE_TABLE(of, stdp2690_ge_b850v3_fw_match);
->  
->  static struct i2c_driver stdp2690_ge_b850v3_fw_driver = {
->  	.id_table	= stdp2690_ge_b850v3_fw_i2c_table,
-> -	.probe		= stdp2690_ge_b850v3_fw_probe,
-> +	.probe_new	= stdp2690_ge_b850v3_fw_probe,
->  	.remove		= stdp2690_ge_b850v3_fw_remove,
->  	.driver		= {
->  		.name		= "stdp2690-ge-b850v3-fw",
+>  static struct i2c_driver chipone_i2c_driver = {
+> -	.probe = chipone_i2c_probe,
+> +	.probe_new = chipone_i2c_probe,
+>  	.id_table = chipone_i2c_id,
+>  	.driver = {
+>  		.name = "chipone-icn6211-i2c",
 > -- 
 > 2.38.1
 > 
