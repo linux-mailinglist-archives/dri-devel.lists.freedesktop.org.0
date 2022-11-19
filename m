@@ -1,47 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69224630985
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Nov 2022 03:13:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63695630983
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Nov 2022 03:13:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C649E10E7DE;
-	Sat, 19 Nov 2022 02:13:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93E0E10E7D9;
+	Sat, 19 Nov 2022 02:13:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FC1310E7BB;
- Sat, 19 Nov 2022 02:13:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 170C510E7DC;
+ Sat, 19 Nov 2022 02:13:34 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id A238262830;
- Sat, 19 Nov 2022 02:13:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39769C433C1;
- Sat, 19 Nov 2022 02:13:26 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 8B5D16280C;
+ Sat, 19 Nov 2022 02:13:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B91E7C433B5;
+ Sat, 19 Nov 2022 02:13:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1668824007;
- bh=czlSI6kM+LOpXa1wVcw3iT0aw8FLrZoUgaCP3L537J4=;
+ s=k20201202; t=1668824013;
+ bh=NiKLtqhaTw1063gZHnyeVIvxhhTA/uGYOR5TfGK61Es=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JMNjrGozkItOmLBOEFc0hW8jl1jepw/favOyeN0C6pmS5lNeMpzj713yMwva5smaq
- xaNaLKaOm7hH5ZFimQtE7ciXsufFLr4rSYxS7WoLXnY1RuuCiqaj8O7vPcLwVD3OPr
- vcu4HCx1t3wgD2JlcNoMw1GuFOS6dq5HuSKcNPVx2rXkl+5w53CD6MDF9rRdoLLQ8C
- nDqkmqN3DgwJc732gEBlaCXVjc3okzvDF26uLOL9P2jgx1RUKYonI5ZzF6bSGIJXjf
- u4O1/OaOZBZVTaJoCxQcrQiPBncXn8TLp3hArs836E7jZxh2cQktO37styYOOBixmE
- PYodQTMW072wQ==
+ b=P7h0EQzLq2SeT5O7Xgq7p3OmnmrzFaNy/Xf+yiy1F0soaqEbbwejLzwPuxg9kY5uk
+ 8+FzObKaEhp+9gqPyl5sfeRyCA57iYWkfF4yB821u+8L/6JeHorhNq6q/vWjtcHiFg
+ Z3jyIJp745sukZCZSm/IO/IJ6GFXLPMo1F7PpynxbPrA+AzNTGRPn1nGDAdhypuuBk
+ agEK3ee98PBoEjb8XSq+pQW596CkO6cO0xEl6elxZ2RIhqHShZS00d1ng71T3cBIh9
+ LpLHtvKWAOM+IVfi86qpXIjYuM+2Vq3rOhG9A9AduwC0vdPHjh79bClyzKSsH3xHoS
+ rQsWJUCbqs66A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.0 39/44] drm/amdgpu: Drop eviction lock when
- allocating PT BO
-Date: Fri, 18 Nov 2022 21:11:19 -0500
-Message-Id: <20221119021124.1773699-39-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.0 40/44] drm/amd/display: only fill dirty rectangles
+ when PSR is enabled
+Date: Fri, 18 Nov 2022 21:11:20 -0500
+Message-Id: <20221119021124.1773699-40-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221119021124.1773699-1-sashal@kernel.org>
 References: <20221119021124.1773699-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -57,121 +56,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Philip Yang <Philip.Yang@amd.com>,
- mukul.joshi@amd.com, Felix.Kuehling@amd.com, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, qiang.yu@amd.com,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- airlied@redhat.com,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Leo Li <sunpeng.li@amd.com>,
+ dri-devel@lists.freedesktop.org, Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com,
+ roman.li@amd.com, amd-gfx@lists.freedesktop.org, nicholas.kazlauskas@amd.com,
+ Jerry.Zuo@amd.com, aurabindo.pillai@amd.com,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Philip Yang <Philip.Yang@amd.com>
+From: Hamza Mahfooz <hamza.mahfooz@amd.com>
 
-[ Upstream commit e034a0d9aaee5c9129d5dfdfdfcab988a953412d ]
+[ Upstream commit 675d84621a24490e1de3d59a4992a17fa9ff92b5 ]
 
-Re-take the eviction lock immediately again after the allocation is
-completed, to fix circular locking warning with drm_buddy allocator.
+Currently, we are calling fill_dc_dirty_rects() even if PSR isn't
+supported by the relevant link in amdgpu_dm_commit_planes(), this is
+undesirable especially because when drm.debug is enabled we are printing
+messages in fill_dc_dirty_rects() that are only useful for debugging PSR
+(and confusing otherwise). So, we can instead limit the filling of dirty
+rectangles to only when PSR is enabled.
 
-Move amdgpu_vm_eviction_lock/unlock/trylock to amdgpu_vm.h as they are
-called from multiple files.
-
-Signed-off-by: Philip Yang <Philip.Yang@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Leo Li <sunpeng.li@amd.com>
+Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c    | 26 -----------------------
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h    | 26 +++++++++++++++++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c |  2 ++
- 3 files changed, 28 insertions(+), 26 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-index 04130f8813ef..369c0d03e3c6 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-@@ -143,32 +143,6 @@ int amdgpu_vm_set_pasid(struct amdgpu_device *adev, struct amdgpu_vm *vm,
- 	return 0;
- }
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 3be70848b202..aaf7e4b22ed0 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -7639,9 +7639,10 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
+ 		bundle->surface_updates[planes_count].plane_info =
+ 			&bundle->plane_infos[planes_count];
  
--/*
-- * vm eviction_lock can be taken in MMU notifiers. Make sure no reclaim-FS
-- * happens while holding this lock anywhere to prevent deadlocks when
-- * an MMU notifier runs in reclaim-FS context.
-- */
--static inline void amdgpu_vm_eviction_lock(struct amdgpu_vm *vm)
--{
--	mutex_lock(&vm->eviction_lock);
--	vm->saved_flags = memalloc_noreclaim_save();
--}
--
--static inline int amdgpu_vm_eviction_trylock(struct amdgpu_vm *vm)
--{
--	if (mutex_trylock(&vm->eviction_lock)) {
--		vm->saved_flags = memalloc_noreclaim_save();
--		return 1;
--	}
--	return 0;
--}
--
--static inline void amdgpu_vm_eviction_unlock(struct amdgpu_vm *vm)
--{
--	memalloc_noreclaim_restore(vm->saved_flags);
--	mutex_unlock(&vm->eviction_lock);
--}
--
- /**
-  * amdgpu_vm_bo_evicted - vm_bo is evicted
-  *
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-index 9ecb7f663e19..1f3599363481 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-@@ -488,4 +488,30 @@ static inline uint64_t amdgpu_vm_tlb_seq(struct amdgpu_vm *vm)
- 	return atomic64_read(&vm->tlb_seq);
- }
+-		fill_dc_dirty_rects(plane, old_plane_state, new_plane_state,
+-				    new_crtc_state,
+-				    &bundle->flip_addrs[planes_count]);
++		if (acrtc_state->stream->link->psr_settings.psr_feature_enabled)
++			fill_dc_dirty_rects(plane, old_plane_state,
++					    new_plane_state, new_crtc_state,
++					    &bundle->flip_addrs[planes_count]);
  
-+/*
-+ * vm eviction_lock can be taken in MMU notifiers. Make sure no reclaim-FS
-+ * happens while holding this lock anywhere to prevent deadlocks when
-+ * an MMU notifier runs in reclaim-FS context.
-+ */
-+static inline void amdgpu_vm_eviction_lock(struct amdgpu_vm *vm)
-+{
-+	mutex_lock(&vm->eviction_lock);
-+	vm->saved_flags = memalloc_noreclaim_save();
-+}
-+
-+static inline bool amdgpu_vm_eviction_trylock(struct amdgpu_vm *vm)
-+{
-+	if (mutex_trylock(&vm->eviction_lock)) {
-+		vm->saved_flags = memalloc_noreclaim_save();
-+		return true;
-+	}
-+	return false;
-+}
-+
-+static inline void amdgpu_vm_eviction_unlock(struct amdgpu_vm *vm)
-+{
-+	memalloc_noreclaim_restore(vm->saved_flags);
-+	mutex_unlock(&vm->eviction_lock);
-+}
-+
- #endif
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c
-index 88de9f0d4728..983899574464 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c
-@@ -597,7 +597,9 @@ static int amdgpu_vm_pt_alloc(struct amdgpu_device *adev,
- 	if (entry->bo)
- 		return 0;
- 
-+	amdgpu_vm_eviction_unlock(vm);
- 	r = amdgpu_vm_pt_create(adev, vm, cursor->level, immediate, &pt);
-+	amdgpu_vm_eviction_lock(vm);
- 	if (r)
- 		return r;
- 
+ 		/*
+ 		 * Only allow immediate flips for fast updates that don't
 -- 
 2.35.1
 
