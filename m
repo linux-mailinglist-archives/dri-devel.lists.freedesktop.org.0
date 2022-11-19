@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19FE0630FEA
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Nov 2022 18:34:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6A06630FEF
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Nov 2022 18:34:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 518E810E057;
-	Sat, 19 Nov 2022 17:34:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2BA410E281;
+	Sat, 19 Nov 2022 17:34:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E168110E057
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Nov 2022 17:34:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEA9310E281
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Nov 2022 17:34:17 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6A043749;
- Sat, 19 Nov 2022 18:33:59 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 37282749;
+ Sat, 19 Nov 2022 18:34:16 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1668879239;
- bh=Uhq1WSIWtIIEYNtoY+COweGbY7lvYgISpM0/JN/1zYM=;
+ s=mail; t=1668879256;
+ bh=7tHvRVrH8z3LVgZXdtz7Q2QO8efFirX0nMfC9WpLVyg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Yf7o+rsf/ebCTzLSAyG96pRwcLOlYgqnYA5ZOUmb5i1NicWVRVcVsYn74g5r88Qij
- ZUaDgvGMy+WuSPrUZJuXvM8+LzHOf2NDk3lhAfAbjsvJwALc9/N6md/129C+FM+zUH
- OGIMMq4Ae1OAWVaFBjpw5nQ9ytDybU1fAFYQAaws=
-Date: Sat, 19 Nov 2022 19:33:43 +0200
+ b=qusWdgmc6Z0RBi3FhNfKuV4YBnhEJNf1Grkf3xIZc1EjfHb0SYZXcO1b6xDU1tHgo
+ ePR4v4RmHpBee/98hhPBSd6BZ3IjRtkev0jrwDM/cGUO1xd9C74rsmCTr4s0ZtkF63
+ Au+2wa6aaObFVCOzgNXdiWZPYp4g6r9VsBOfloek=
+Date: Sat, 19 Nov 2022 19:34:00 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
-Subject: Re: [PATCH 032/606] drm/bridge: tc358767: Convert to i2c's
- .probe_new()
-Message-ID: <Y3kTd3h2k+qC5uiq@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 034/606] drm/bridge/tc358775: Convert to i2c's .probe_new()
+Message-ID: <Y3kTiLEAGRFuckxI@pendragon.ideasonboard.com>
 References: <20221118224540.619276-1-uwe@kleine-koenig.org>
- <20221118224540.619276-33-uwe@kleine-koenig.org>
+ <20221118224540.619276-35-uwe@kleine-koenig.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221118224540.619276-33-uwe@kleine-koenig.org>
+In-Reply-To: <20221118224540.619276-35-uwe@kleine-koenig.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,7 +60,7 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 18, 2022 at 11:36:06PM +0100, Uwe Kleine-König wrote:
+On Fri, Nov 18, 2022 at 11:36:08PM +0100, Uwe Kleine-König wrote:
 > From: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 > 
 > The probe function doesn't make use of the i2c_device_id * parameter so it
@@ -72,15 +71,15 @@ On Fri, Nov 18, 2022 at 11:36:06PM +0100, Uwe Kleine-König wrote:
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
 > ---
->  drivers/gpu/drm/bridge/tc358767.c | 4 ++--
+>  drivers/gpu/drm/bridge/tc358775.c | 4 ++--
 >  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-> index 2a58eb271f70..a4725efe812d 100644
-> --- a/drivers/gpu/drm/bridge/tc358767.c
-> +++ b/drivers/gpu/drm/bridge/tc358767.c
-> @@ -2029,7 +2029,7 @@ static void tc_clk_disable(void *data)
->  	clk_disable_unprepare(refclk);
+> diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc358775.c
+> index 3ceb0e9f9bdc..91b5e1207c47 100644
+> --- a/drivers/gpu/drm/bridge/tc358775.c
+> +++ b/drivers/gpu/drm/bridge/tc358775.c
+> @@ -637,7 +637,7 @@ static int tc_attach_host(struct tc_data *tc)
+>  	return 0;
 >  }
 >  
 > -static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
@@ -88,15 +87,15 @@ Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 >  {
 >  	struct device *dev = &client->dev;
 >  	struct tc_data *tc;
-> @@ -2209,7 +2209,7 @@ static struct i2c_driver tc358767_driver = {
->  		.of_match_table = tc358767_of_ids,
+> @@ -729,7 +729,7 @@ static struct i2c_driver tc358775_driver = {
+>  		.of_match_table = tc358775_of_ids,
 >  	},
->  	.id_table = tc358767_i2c_ids,
+>  	.id_table = tc358775_i2c_ids,
 > -	.probe = tc_probe,
 > +	.probe_new = tc_probe,
 >  	.remove	= tc_remove,
 >  };
->  module_i2c_driver(tc358767_driver);
+>  module_i2c_driver(tc358775_driver);
 > -- 
 > 2.38.1
 > 
