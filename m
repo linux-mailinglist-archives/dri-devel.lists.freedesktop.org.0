@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25601630942
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Nov 2022 03:12:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BE7E630947
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Nov 2022 03:12:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A53210E256;
-	Sat, 19 Nov 2022 02:12:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 818B910E255;
+	Sat, 19 Nov 2022 02:12:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FD9310E255;
- Sat, 19 Nov 2022 02:12:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91D0210E255;
+ Sat, 19 Nov 2022 02:12:40 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2DF2E62831;
- Sat, 19 Nov 2022 02:12:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B04BAC433C1;
- Sat, 19 Nov 2022 02:12:16 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0D0A162837;
+ Sat, 19 Nov 2022 02:12:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEB0EC433C1;
+ Sat, 19 Nov 2022 02:12:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1668823938;
- bh=COaiIcgt9EIbEcLlc1GttK4dQ8KxbQg4sPoMcQWhQJs=;
+ s=k20201202; t=1668823959;
+ bh=DGpi5bOY4QODa+uCmcve2tFg2aWUelF3/ruWIkrknEM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=RXV/OVLpHcpRb5kf1+OR28S8USUaKjDwmhnwCaV20no+fzM75v12gdumnNZWJpa+Q
- HIsbQ8/XDsazo6K3czTf/bTzJcCAxzinydHZFJFyiFzEBbitNaBK1xeMxtxdFXKDTN
- G1HlLXvQ7vRj7x5Sb0Spk/zROCed7AgZlQLZpeQ8MZFKicRIzSQ8qyaffwIFOYcOiJ
- Rw4bQSPcyaDeYzS++RrT6QxBgLRBxtvO/mTUSoaz9g1aCQfxR9B9Cs6hoo/WXugM/7
- pIVAZoC35/zMropwtR8PITz5W4YQCdbZp9rKwqOc+9npyp8ifaFk9F/xw9zN6UWTtr
- yr8RuHleHoChA==
+ b=OacmNl3E/L37sdI4hhgEOJ6jivQOSceUSVgK8s6q/PxwepfluU8cDnPgJKpXTGoku
+ Jy9Z2MRXYZj0USuZdkcxgYZ+qhSvXJsmb7DfQiU1PaGqbY3/wGgMicQvSMnyYXFUvM
+ DSB50N/j73/r/Oql7g4fHv1ju4ue1kG+McwPRBn5DKage3VKmHZGPAb4Hktc6ZmL9q
+ hLcMBjb10JMsXp74+FUdjdXc2pVyF2j9HDCMMmAmxZXxZk7DwZp/h8XlF5u5ke5vPv
+ Ihf4tGUyK83cPWZRbgYgaK6G/qTkAgpnzRnfj09rPXL4FxHN5JGe3ahZgKtuFj6Ino
+ mZD42PcOMnh9w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.0 27/44] drm/amdgpu: Fix the lpfn checking condition
- in drm buddy
-Date: Fri, 18 Nov 2022 21:11:07 -0500
-Message-Id: <20221119021124.1773699-27-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.0 34/44] drm/amd/display: Zeromem mypipe heap struct
+ before using it
+Date: Fri, 18 Nov 2022 21:11:14 -0500
+Message-Id: <20221119021124.1773699-34-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221119021124.1773699-1-sashal@kernel.org>
 References: <20221119021124.1773699-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -57,43 +56,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, tao.zhou1@amd.com,
- Arunpravin.PaneerSelvam@amd.com, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, Ma Jun <Jun.Ma2@amd.com>, nirmoy.das@amd.com,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Alan Liu <HaoPing.Liu@amd.com>, Sasha Levin <sashal@kernel.org>,
+ george.shen@amd.com, sunpeng.li@amd.com, dri-devel@lists.freedesktop.org,
+ Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org,
+ nathan@kernel.org, Daniel Wheeler <daniel.wheeler@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, Alvin.Lee2@amd.com,
+ Martin Leung <Martin.Leung@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ jun.lei@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ma Jun <Jun.Ma2@amd.com>
+From: Aurabindo Pillai <aurabindo.pillai@amd.com>
 
-[ Upstream commit e0b26b9482461e9528552f54fa662c2269f75b3f ]
+[ Upstream commit ab4b35008db9b7ae747679250e5c26d7c3a90cea ]
 
-Because the value of man->size is changed during suspend/resume process,
-use mgr->mm.size instead of man->size here for lpfn checking.
+[Why&How]
+Bug was caused when moving variable from stack to heap because it was reusable
+and garbage was left over, so we need to zero mem.
 
-Signed-off-by: Ma Jun <Jun.Ma2@amd.com>
-Suggested-by: Christian König <christian.koenig@amd.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220914125331.2467162-1-Jun.Ma2@amd.com
-Signed-off-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Martin Leung <Martin.Leung@amd.com>
+Acked-by: Alan Liu <HaoPing.Liu@amd.com>
+Signed-off-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Signed-off-by: Martin Leung <Martin.Leung@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_32.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-index 28ec5f8ac1c1..27159f1d112e 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-@@ -435,7 +435,7 @@ static int amdgpu_vram_mgr_new(struct ttm_resource_manager *man,
- 	if (place->flags & TTM_PL_FLAG_TOPDOWN)
- 		vres->flags |= DRM_BUDDY_TOPDOWN_ALLOCATION;
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_32.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_32.c
+index 52525833a99b..96714dc6b695 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_32.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_32.c
+@@ -3194,6 +3194,7 @@ void dml32_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
+ 							mode_lib->vba.FCLKChangeLatency, mode_lib->vba.UrgLatency[i],
+ 							mode_lib->vba.SREnterPlusExitTime);
  
--	if (fpfn || lpfn != man->size)
-+	if (fpfn || lpfn != mgr->mm.size)
- 		/* Allocate blocks in desired range */
- 		vres->flags |= DRM_BUDDY_RANGE_ALLOCATION;
- 
++					memset(&v->dummy_vars.dml32_ModeSupportAndSystemConfigurationFull, 0, sizeof(DmlPipe));
+ 					v->dummy_vars.dml32_ModeSupportAndSystemConfigurationFull.myPipe.Dppclk = mode_lib->vba.RequiredDPPCLK[i][j][k];
+ 					v->dummy_vars.dml32_ModeSupportAndSystemConfigurationFull.myPipe.Dispclk = mode_lib->vba.RequiredDISPCLK[i][j];
+ 					v->dummy_vars.dml32_ModeSupportAndSystemConfigurationFull.myPipe.PixelClock = mode_lib->vba.PixelClock[k];
 -- 
 2.35.1
 
