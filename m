@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B6BF630998
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Nov 2022 03:14:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B93626309A5
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Nov 2022 03:15:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C784010E7E5;
-	Sat, 19 Nov 2022 02:14:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B25F10E816;
+	Sat, 19 Nov 2022 02:15:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B469E10E7E1;
- Sat, 19 Nov 2022 02:14:42 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C21F10E816
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Nov 2022 02:15:28 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 370EEB82670;
- Sat, 19 Nov 2022 02:14:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82E92C433D7;
- Sat, 19 Nov 2022 02:14:38 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 09F2062831;
+ Sat, 19 Nov 2022 02:15:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A15AC433C1;
+ Sat, 19 Nov 2022 02:15:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1668824079;
- bh=gGLteT8K6TxzFC9zMhFubn3DVHcCYF7LsJcYHZfDbXY=;
+ s=k20201202; t=1668824127;
+ bh=7YUEQNDGA0vOxlITCjEjDaauczgHKcdjWHCvmreHK6o=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=i5GnVJJ2rrpc8ucgFRBIs8bpFLHBOic371niLl6zYAXQ2SLukSmJxbdvdjpdoWPYT
- iyel7ahj7i6804IUwLLmlI8t8WtoVjEgr9XTsOmUQBwsQXcya321ws982Oah7eEz9o
- h3Lx+v1cwn3UDT4c9ivZwMpET3CyYEpeI7TTztCi3+jGxV72FkHi8DXgFIAYbDeaUX
- TcLaOiXfHPsdn41HXAkBXT8qab/bqZPHMTUEw+Q00mNTnjzpM32h6566gf3o2FczSr
- pBgNjPbpodAfpMvRjZ8oG3MH4w7hXd1nV5OXfc7XgTVLQEkAFVtW/AVy5Iwg69O4iw
- H1fwV/pzaIJKQ==
+ b=sTWu55vKsOjS4we7d1FxJ1ts8893DRLYhU53joyv61dsnfJcyrYJwTuncLOrbEpeh
+ FfKxmYJM9jogH6DYdPDugaU9onEqpaHMfgITBsx84G51aePgZ43XfSmmwAGkAeRUxK
+ Vkl8MTWFlwyoQiz6gXOWXj+39LAdJ7OjIO01JFpIU/V5hGfDka8n2AOF7h8DnmUDc7
+ 9hy7NdBWcCaINNPY8r2Lr/0QQ04qCQYL6jvwNiwMXwTmhwIsnKQxsP3+zkeIACrkM8
+ +yN5MZveuC7A4yDlVz+H0B0WOXg8UPXjKXeXP7KM3ExnKHxh9RxzDN6iT0cuOPqsnu
+ 3tONrbjGr0AIA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 24/27] Revert "drm/amdgpu: Revert "drm/amdgpu:
- getting fan speed pwm for vega10 properly""
-Date: Fri, 18 Nov 2022 21:13:49 -0500
-Message-Id: <20221119021352.1774592-24-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 14/18] drm: panel-orientation-quirks: Add quirk
+ for Acer Switch V 10 (SW5-017)
+Date: Fri, 18 Nov 2022 21:14:55 -0500
+Message-Id: <20221119021459.1775052-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221119021352.1774592-1-sashal@kernel.org>
-References: <20221119021352.1774592-1-sashal@kernel.org>
+In-Reply-To: <20221119021459.1775052-1-sashal@kernel.org>
+References: <20221119021459.1775052-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -56,70 +56,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, stalkerg@gmail.com,
- Guchun Chen <guchun.chen@amd.com>, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, Asher Song <Asher.Song@amd.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- evan.quan@amd.com, christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+ Rudolf Polzer <rpolzer@google.com>, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Asher Song <Asher.Song@amd.com>
+From: Hans de Goede <hdegoede@redhat.com>
 
-[ Upstream commit 30b8e7b8ee3be003e0df85c857c5cd0e0bd58b82 ]
+[ Upstream commit 653f2d94fcda200b02bd79cea2e0307b26c1b747 ]
 
-This reverts commit 4545ae2ed3f2f7c3f615a53399c9c8460ee5bca7.
+Like the Acer Switch One 10 S1003, for which there already is a quirk,
+the Acer Switch V 10 (SW5-017) has a 800x1280 portrait screen mounted
+in the tablet part of a landscape oriented 2-in-1. Add a quirk for this.
 
-The origin patch "drm/amdgpu: getting fan speed pwm for vega10 properly" works fine.
-Test failure is caused by test case self.
-
-Signed-off-by: Asher Song <Asher.Song@amd.com>
-Reviewed-by: Guchun Chen <guchun.chen@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Cc: Rudolf Polzer <rpolzer@google.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Acked-by: Simon Ser <contact@emersion.fr>
+Link: https://patchwork.freedesktop.org/patch/msgid/20221106215052.66995-1-hdegoede@redhat.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../amd/pm/powerplay/hwmgr/vega10_thermal.c   | 25 +++++++++----------
- 1 file changed, 12 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_thermal.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_thermal.c
-index dad3e3741a4e..190af79f3236 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_thermal.c
-+++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_thermal.c
-@@ -67,22 +67,21 @@ int vega10_fan_ctrl_get_fan_speed_info(struct pp_hwmgr *hwmgr,
- int vega10_fan_ctrl_get_fan_speed_pwm(struct pp_hwmgr *hwmgr,
- 		uint32_t *speed)
- {
--	uint32_t current_rpm;
--	uint32_t percent = 0;
--
--	if (hwmgr->thermal_controller.fanInfo.bNoFan)
--		return 0;
-+	struct amdgpu_device *adev = hwmgr->adev;
-+	uint32_t duty100, duty;
-+	uint64_t tmp64;
- 
--	if (vega10_get_current_rpm(hwmgr, &current_rpm))
--		return -1;
-+	duty100 = REG_GET_FIELD(RREG32_SOC15(THM, 0, mmCG_FDO_CTRL1),
-+				CG_FDO_CTRL1, FMAX_DUTY100);
-+	duty = REG_GET_FIELD(RREG32_SOC15(THM, 0, mmCG_THERMAL_STATUS),
-+				CG_THERMAL_STATUS, FDO_PWM_DUTY);
- 
--	if (hwmgr->thermal_controller.
--			advanceFanControlParameters.usMaxFanRPM != 0)
--		percent = current_rpm * 255 /
--			hwmgr->thermal_controller.
--			advanceFanControlParameters.usMaxFanRPM;
-+	if (!duty100)
-+		return -EINVAL;
- 
--	*speed = MIN(percent, 255);
-+	tmp64 = (uint64_t)duty * 255;
-+	do_div(tmp64, duty100);
-+	*speed = MIN((uint32_t)tmp64, 255);
- 
- 	return 0;
- }
+diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+index 083273736c83..ca0fefeaab20 100644
+--- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
++++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+@@ -128,6 +128,12 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "One S1003"),
+ 		},
+ 		.driver_data = (void *)&lcd800x1280_rightside_up,
++	}, {	/* Acer Switch V 10 (SW5-017) */
++		.matches = {
++		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Acer"),
++		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "SW5-017"),
++		},
++		.driver_data = (void *)&lcd800x1280_rightside_up,
+ 	}, {	/* Anbernic Win600 */
+ 		.matches = {
+ 		  DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "Anbernic"),
 -- 
 2.35.1
 
