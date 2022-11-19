@@ -1,45 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26B73630962
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Nov 2022 03:13:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93CF6630969
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Nov 2022 03:13:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD8E910E724;
-	Sat, 19 Nov 2022 02:13:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14A2E10E7D6;
+	Sat, 19 Nov 2022 02:13:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE55110E724;
- Sat, 19 Nov 2022 02:13:10 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91BA010E724;
+ Sat, 19 Nov 2022 02:13:14 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 3AB68624B7;
- Sat, 19 Nov 2022 02:13:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7F5DC433C1;
- Sat, 19 Nov 2022 02:13:08 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 1FE72627C1;
+ Sat, 19 Nov 2022 02:13:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CDC4C433C1;
+ Sat, 19 Nov 2022 02:13:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1668823990;
- bh=gGLteT8K6TxzFC9zMhFubn3DVHcCYF7LsJcYHZfDbXY=;
+ s=k20201202; t=1668823993;
+ bh=mmTliwXsNLCTNGG626gIBpomIlTwqu97eYzbGxNtVek=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=flxLWY5Jfv+TWw+PnVJh9QPyeDXkYxnNFbvi25vsFdnp8mcIdps81yJ3jiaYrPWMc
- 7t2sk7Jtk5sVXNbHcu4VgQWk/wOicBA7VWtVNAYDbdBeyp31ZrgvBICvjDxGhQikRu
- qVGxpd6n12RuFf5gZLDmvDNKXl5J+huMlrroc7MoUf/UMU+7uKSKmwwqDeDPRekhWl
- 6qfoJnV3jJI+mBusRQffJANZaPKpGRhtv/xh/VS+H9iIN/Gma3U+z+wVJpp3kBcVDE
- 9KKr7fpyYdOv4BNSC4xZI5rSXcHiF4ISlylJUGjaiT8QJYYA2E1bDiZshcZyA3v2hX
- 8rHRNwwbSQVgw==
+ b=T15YcGhJZ8sdBJdYUAj41oikMue0ful0HOghaWFjkfF2Ft2vFDY6xWtVJbzV03Kb6
+ pGlzTP/CyR4AZpK5CGyAddCOHyAhRPtz6nBEW5CZnyQJQ552ChFqC2wLaJIT0v28+U
+ mIDI1JMyxnbfARDiNgQfoLrkzo6KUStq9cB2LFdKYK28JsBtBjvJP2liIuFDgoIpq5
+ uBlOqWCI4ZDHuh2RCsHCDwYKWnGn3xPSjlO2kVUP7hIwDMV3gA0E3O1L5WZkU2Tupk
+ ouuRmd3MjrOMdEBfFiZq89CXXEol+xpz5NwyL14oOQ8zO6cKKDwICUI4hMIf8GSPVq
+ BwQKlQbF+ugjw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.0 37/44] Revert "drm/amdgpu: Revert "drm/amdgpu:
- getting fan speed pwm for vega10 properly""
-Date: Fri, 18 Nov 2022 21:11:17 -0500
-Message-Id: <20221119021124.1773699-37-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.0 38/44] drm/amdgpu: Unlock bo_list_mutex after
+ error handling
+Date: Fri, 18 Nov 2022 21:11:18 -0500
+Message-Id: <20221119021124.1773699-38-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221119021124.1773699-1-sashal@kernel.org>
 References: <20221119021124.1773699-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -55,70 +57,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, stalkerg@gmail.com,
- Guchun Chen <guchun.chen@amd.com>, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, Asher Song <Asher.Song@amd.com>,
+Cc: Sasha Levin <sashal@kernel.org>, Philip Yang <Philip.Yang@amd.com>,
+ Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org, luben.tuikov@amd.com,
  dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- evan.quan@amd.com, christian.koenig@amd.com
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Asher Song <Asher.Song@amd.com>
+From: Philip Yang <Philip.Yang@amd.com>
 
-[ Upstream commit 30b8e7b8ee3be003e0df85c857c5cd0e0bd58b82 ]
+[ Upstream commit 64f65135c41a75f933d3bca236417ad8e9eb75de ]
 
-This reverts commit 4545ae2ed3f2f7c3f615a53399c9c8460ee5bca7.
+Get below kernel WARNING backtrace when pressing ctrl-C to kill kfdtest
+application.
 
-The origin patch "drm/amdgpu: getting fan speed pwm for vega10 properly" works fine.
-Test failure is caused by test case self.
+If amdgpu_cs_parser_bos returns error after taking bo_list_mutex, as
+caller amdgpu_cs_ioctl will not unlock bo_list_mutex, this generates the
+kernel WARNING.
 
-Signed-off-by: Asher Song <Asher.Song@amd.com>
-Reviewed-by: Guchun Chen <guchun.chen@amd.com>
+Add unlock bo_list_mutex after amdgpu_cs_parser_bos error handling to
+cleanup bo_list userptr bo.
+
+ WARNING: kfdtest/2930 still has locks held!
+ 1 lock held by kfdtest/2930:
+  (&list->bo_list_mutex){+.+.}-{3:3}, at: amdgpu_cs_ioctl+0xce5/0x1f10 [amdgpu]
+  stack backtrace:
+   dump_stack_lvl+0x44/0x57
+   get_signal+0x79f/0xd00
+   arch_do_signal_or_restart+0x36/0x7b0
+   exit_to_user_mode_prepare+0xfd/0x1b0
+   syscall_exit_to_user_mode+0x19/0x40
+   do_syscall_64+0x40/0x80
+
+Signed-off-by: Philip Yang <Philip.Yang@amd.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../amd/pm/powerplay/hwmgr/vega10_thermal.c   | 25 +++++++++----------
- 1 file changed, 12 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_thermal.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_thermal.c
-index dad3e3741a4e..190af79f3236 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_thermal.c
-+++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_thermal.c
-@@ -67,22 +67,21 @@ int vega10_fan_ctrl_get_fan_speed_info(struct pp_hwmgr *hwmgr,
- int vega10_fan_ctrl_get_fan_speed_pwm(struct pp_hwmgr *hwmgr,
- 		uint32_t *speed)
- {
--	uint32_t current_rpm;
--	uint32_t percent = 0;
--
--	if (hwmgr->thermal_controller.fanInfo.bNoFan)
--		return 0;
-+	struct amdgpu_device *adev = hwmgr->adev;
-+	uint32_t duty100, duty;
-+	uint64_t tmp64;
- 
--	if (vega10_get_current_rpm(hwmgr, &current_rpm))
--		return -1;
-+	duty100 = REG_GET_FIELD(RREG32_SOC15(THM, 0, mmCG_FDO_CTRL1),
-+				CG_FDO_CTRL1, FMAX_DUTY100);
-+	duty = REG_GET_FIELD(RREG32_SOC15(THM, 0, mmCG_THERMAL_STATUS),
-+				CG_THERMAL_STATUS, FDO_PWM_DUTY);
- 
--	if (hwmgr->thermal_controller.
--			advanceFanControlParameters.usMaxFanRPM != 0)
--		percent = current_rpm * 255 /
--			hwmgr->thermal_controller.
--			advanceFanControlParameters.usMaxFanRPM;
-+	if (!duty100)
-+		return -EINVAL;
- 
--	*speed = MIN(percent, 255);
-+	tmp64 = (uint64_t)duty * 255;
-+	do_div(tmp64, duty100);
-+	*speed = MIN((uint32_t)tmp64, 255);
- 
- 	return 0;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+index b7bae833c804..9d59f83c8faa 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+@@ -655,6 +655,7 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_parser *p,
+ 		}
+ 		mutex_unlock(&p->bo_list->bo_list_mutex);
+ 	}
++	mutex_unlock(&p->bo_list->bo_list_mutex);
+ 	return r;
  }
+ 
 -- 
 2.35.1
 
