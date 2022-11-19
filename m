@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D428E6310EA
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Nov 2022 21:45:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F7C96310EB
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Nov 2022 21:45:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3734210E1CB;
-	Sat, 19 Nov 2022 20:45:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E694210E289;
+	Sat, 19 Nov 2022 20:45:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0025410E10A
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Nov 2022 20:45:04 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 452EB10E289
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Nov 2022 20:45:13 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5474360BA2;
+ by ams.source.kernel.org (Postfix) with ESMTPS id B35EFB808D5;
+ Sat, 19 Nov 2022 20:45:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48A10C433B5;
  Sat, 19 Nov 2022 20:45:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EFDAC433D7;
- Sat, 19 Nov 2022 20:44:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1668890703;
- bh=x8lGYDn9NFmqVJtumKwmzsrFD5VVbJMslBuQbFaO9io=;
+ s=k20201202; t=1668890709;
+ bh=CBD8OmSr5rPgSjZyuyDPRILXCnJ2vLZOKnkTF8abduY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=f2NEXGh6JcoUDqF9UdTVqfeRfestW21R7J7JPniO6r8qZ70dstO+gZlUl3KftvZhs
- gjUEd+oekzsWc+u3qxY/dbZkM79VHPFSjzDBJYIK/frgSPfGMe/YHGP7NyRR9x0xZ4
- ge9SfKkmGVwbCjLMd9ZA4jexRaJQTC4+i22nMPQs74VkYzPVTzQJT8uaa8j7laFHy7
- TM+//Fwnut7XJneOfmGWaw4f0mQvuBPKdkEg+PBGCxdThsLVv4UsbHMSbY/dog1gAE
- wdt4s6jQqyfssPzaZld9u05oCuz/noIgT1mgK1yilduC67B5H0NM5peBlR1sVUij2A
- /LxHfpZ37HSaQ==
+ b=BTlKETCBlC50W1bvIe0y4agSrAnfuz4DL+MDlTFJ4+4EqNgd8uPqna8IjWw0CYK1V
+ Rdtwfu8CFpacTMPvonQD20+USLFQVW2WW2AYtUeVFCNwej/ry6MOIgo2Zd98+36bpX
+ hLJGbz1X9Nke7pc5a4Z7d1J7kJ1tau+B3MRnnlo4aVa3N5RrWJcCaNo0H9MzpPuUWZ
+ 1Z3p1Y3n/Faekbmm4ZLRYSVsMFXHFWKeZc/1olwYCVmBHkcataTpwakiPtwFSAupnp
+ 2LtKKyciT8BytNUi8MDg3QuJnd8A1oUppwKFIrbWBRDhCpf7EZWFZi0hSGIPNtZx9v
+ rAtVePdAyFk/g==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v4 3/4] drm: initialize accel framework
-Date: Sat, 19 Nov 2022 22:44:34 +0200
-Message-Id: <20221119204435.97113-4-ogabbay@kernel.org>
+Subject: [PATCH v4 4/4] doc: add documentation for accel subsystem
+Date: Sat, 19 Nov 2022 22:44:35 +0200
+Message-Id: <20221119204435.97113-5-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221119204435.97113-1-ogabbay@kernel.org>
 References: <20221119204435.97113-1-ogabbay@kernel.org>
@@ -67,276 +68,184 @@ Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that we have the accel framework code ready, let's call the
-accel functions from all the appropriate places. These places are the
-drm module init/exit functions, and all the drm_minor handling
-functions.
+Add an introduction section for the accel subsystem. Most of the
+relevant data is in the DRM documentation, so the introduction only
+presents the why of the new subsystem, how are the compute accelerators
+exposed to user-space and what changes need to be done in a standard
+DRM driver to register it to the new accel subsystem.
 
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/gpu/drm/drm_drv.c   | 102 ++++++++++++++++++++++++++----------
- drivers/gpu/drm/drm_sysfs.c |  24 ++++++---
- 2 files changed, 91 insertions(+), 35 deletions(-)
+ Documentation/accel/index.rst        |  17 +++++
+ Documentation/accel/introduction.rst | 109 +++++++++++++++++++++++++++
+ Documentation/subsystem-apis.rst     |   1 +
+ MAINTAINERS                          |   1 +
+ 4 files changed, 128 insertions(+)
+ create mode 100644 Documentation/accel/index.rst
+ create mode 100644 Documentation/accel/introduction.rst
 
-diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index 8214a0b1ab7f..1aec019f6389 100644
---- a/drivers/gpu/drm/drm_drv.c
-+++ b/drivers/gpu/drm/drm_drv.c
-@@ -35,6 +35,7 @@
- #include <linux/slab.h>
- #include <linux/srcu.h>
- 
-+#include <drm/drm_accel.h>
- #include <drm/drm_cache.h>
- #include <drm/drm_client.h>
- #include <drm/drm_color_mgmt.h>
-@@ -90,6 +91,8 @@ static struct drm_minor **drm_minor_get_slot(struct drm_device *dev,
- 		return &dev->primary;
- 	case DRM_MINOR_RENDER:
- 		return &dev->render;
-+	case DRM_MINOR_ACCEL:
-+		return &dev->accel;
- 	default:
- 		BUG();
- 	}
-@@ -104,9 +107,13 @@ static void drm_minor_alloc_release(struct drm_device *dev, void *data)
- 
- 	put_device(minor->kdev);
- 
--	spin_lock_irqsave(&drm_minor_lock, flags);
--	idr_remove(&drm_minors_idr, minor->index);
--	spin_unlock_irqrestore(&drm_minor_lock, flags);
-+	if (minor->type == DRM_MINOR_ACCEL) {
-+		accel_minor_remove(minor->index);
-+	} else {
-+		spin_lock_irqsave(&drm_minor_lock, flags);
-+		idr_remove(&drm_minors_idr, minor->index);
-+		spin_unlock_irqrestore(&drm_minor_lock, flags);
-+	}
- }
- 
- static int drm_minor_alloc(struct drm_device *dev, unsigned int type)
-@@ -123,13 +130,17 @@ static int drm_minor_alloc(struct drm_device *dev, unsigned int type)
- 	minor->dev = dev;
- 
- 	idr_preload(GFP_KERNEL);
--	spin_lock_irqsave(&drm_minor_lock, flags);
--	r = idr_alloc(&drm_minors_idr,
--		      NULL,
--		      64 * type,
--		      64 * (type + 1),
--		      GFP_NOWAIT);
--	spin_unlock_irqrestore(&drm_minor_lock, flags);
-+	if (type == DRM_MINOR_ACCEL) {
-+		r = accel_minor_alloc();
-+	} else {
-+		spin_lock_irqsave(&drm_minor_lock, flags);
-+		r = idr_alloc(&drm_minors_idr,
-+			NULL,
-+			64 * type,
-+			64 * (type + 1),
-+			GFP_NOWAIT);
-+		spin_unlock_irqrestore(&drm_minor_lock, flags);
-+	}
- 	idr_preload_end();
- 
- 	if (r < 0)
-@@ -161,10 +172,14 @@ static int drm_minor_register(struct drm_device *dev, unsigned int type)
- 	if (!minor)
- 		return 0;
- 
--	ret = drm_debugfs_init(minor, minor->index, drm_debugfs_root);
--	if (ret) {
--		DRM_ERROR("DRM: Failed to initialize /sys/kernel/debug/dri.\n");
--		goto err_debugfs;
-+	if (minor->type == DRM_MINOR_ACCEL) {
-+		accel_debugfs_init(minor, minor->index);
-+	} else {
-+		ret = drm_debugfs_init(minor, minor->index, drm_debugfs_root);
-+		if (ret) {
-+			DRM_ERROR("DRM: Failed to initialize /sys/kernel/debug/dri.\n");
-+			goto err_debugfs;
-+		}
- 	}
- 
- 	ret = device_add(minor->kdev);
-@@ -172,9 +187,13 @@ static int drm_minor_register(struct drm_device *dev, unsigned int type)
- 		goto err_debugfs;
- 
- 	/* replace NULL with @minor so lookups will succeed from now on */
--	spin_lock_irqsave(&drm_minor_lock, flags);
--	idr_replace(&drm_minors_idr, minor, minor->index);
--	spin_unlock_irqrestore(&drm_minor_lock, flags);
-+	if (minor->type == DRM_MINOR_ACCEL) {
-+		accel_minor_replace(minor, minor->index);
-+	} else {
-+		spin_lock_irqsave(&drm_minor_lock, flags);
-+		idr_replace(&drm_minors_idr, minor, minor->index);
-+		spin_unlock_irqrestore(&drm_minor_lock, flags);
-+	}
- 
- 	DRM_DEBUG("new minor registered %d\n", minor->index);
- 	return 0;
-@@ -194,9 +213,13 @@ static void drm_minor_unregister(struct drm_device *dev, unsigned int type)
- 		return;
- 
- 	/* replace @minor with NULL so lookups will fail from now on */
--	spin_lock_irqsave(&drm_minor_lock, flags);
--	idr_replace(&drm_minors_idr, NULL, minor->index);
--	spin_unlock_irqrestore(&drm_minor_lock, flags);
-+	if (minor->type == DRM_MINOR_ACCEL) {
-+		accel_minor_replace(NULL, minor->index);
-+	} else {
-+		spin_lock_irqsave(&drm_minor_lock, flags);
-+		idr_replace(&drm_minors_idr, NULL, minor->index);
-+		spin_unlock_irqrestore(&drm_minor_lock, flags);
-+	}
- 
- 	device_del(minor->kdev);
- 	dev_set_drvdata(minor->kdev, NULL); /* safety belt */
-@@ -603,6 +626,14 @@ static int drm_dev_init(struct drm_device *dev,
- 	/* no per-device feature limits by default */
- 	dev->driver_features = ~0u;
- 
-+	if (drm_core_check_feature(dev, DRIVER_COMPUTE_ACCEL) &&
-+				(drm_core_check_feature(dev, DRIVER_RENDER) ||
-+				drm_core_check_feature(dev, DRIVER_MODESET))) {
+diff --git a/Documentation/accel/index.rst b/Documentation/accel/index.rst
+new file mode 100644
+index 000000000000..2b43c9a7f67b
+--- /dev/null
++++ b/Documentation/accel/index.rst
+@@ -0,0 +1,17 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+		DRM_ERROR("DRM driver can't be both a compute acceleration and graphics driver\n");
-+		return -EINVAL;
-+	}
++====================
++Compute Accelerators
++====================
 +
- 	drm_legacy_init_members(dev);
- 	INIT_LIST_HEAD(&dev->filelist);
- 	INIT_LIST_HEAD(&dev->filelist_internal);
-@@ -628,15 +659,21 @@ static int drm_dev_init(struct drm_device *dev,
- 
- 	dev->anon_inode = inode;
- 
--	if (drm_core_check_feature(dev, DRIVER_RENDER)) {
--		ret = drm_minor_alloc(dev, DRM_MINOR_RENDER);
-+	if (drm_core_check_feature(dev, DRIVER_COMPUTE_ACCEL)) {
-+		ret = drm_minor_alloc(dev, DRM_MINOR_ACCEL);
- 		if (ret)
- 			goto err;
--	}
-+	} else {
-+		if (drm_core_check_feature(dev, DRIVER_RENDER)) {
-+			ret = drm_minor_alloc(dev, DRM_MINOR_RENDER);
-+			if (ret)
-+				goto err;
-+		}
- 
--	ret = drm_minor_alloc(dev, DRM_MINOR_PRIMARY);
--	if (ret)
--		goto err;
-+		ret = drm_minor_alloc(dev, DRM_MINOR_PRIMARY);
-+		if (ret)
-+			goto err;
-+	}
- 
- 	ret = drm_legacy_create_map_hash(dev);
- 	if (ret)
-@@ -883,6 +920,10 @@ int drm_dev_register(struct drm_device *dev, unsigned long flags)
- 	if (ret)
- 		goto err_minors;
- 
-+	ret = drm_minor_register(dev, DRM_MINOR_ACCEL);
-+	if (ret)
-+		goto err_minors;
++.. toctree::
++   :maxdepth: 1
 +
- 	ret = create_compat_control_link(dev);
- 	if (ret)
- 		goto err_minors;
-@@ -902,12 +943,13 @@ int drm_dev_register(struct drm_device *dev, unsigned long flags)
- 		 driver->name, driver->major, driver->minor,
- 		 driver->patchlevel, driver->date,
- 		 dev->dev ? dev_name(dev->dev) : "virtual device",
--		 dev->primary->index);
-+		 dev->primary ? dev->primary->index : dev->accel->index);
- 
- 	goto out_unlock;
- 
- err_minors:
- 	remove_compat_control_link(dev);
-+	drm_minor_unregister(dev, DRM_MINOR_ACCEL);
- 	drm_minor_unregister(dev, DRM_MINOR_PRIMARY);
- 	drm_minor_unregister(dev, DRM_MINOR_RENDER);
- out_unlock:
-@@ -950,6 +992,7 @@ void drm_dev_unregister(struct drm_device *dev)
- 	drm_legacy_rmmaps(dev);
- 
- 	remove_compat_control_link(dev);
-+	drm_minor_unregister(dev, DRM_MINOR_ACCEL);
- 	drm_minor_unregister(dev, DRM_MINOR_PRIMARY);
- 	drm_minor_unregister(dev, DRM_MINOR_RENDER);
- }
-@@ -1034,6 +1077,7 @@ static const struct file_operations drm_stub_fops = {
- static void drm_core_exit(void)
- {
- 	drm_privacy_screen_lookup_exit();
-+	accel_core_exit();
- 	unregister_chrdev(DRM_MAJOR, "drm");
- 	debugfs_remove(drm_debugfs_root);
- 	drm_sysfs_destroy();
-@@ -1061,6 +1105,10 @@ static int __init drm_core_init(void)
- 	if (ret < 0)
- 		goto error;
- 
-+	ret = accel_core_init();
-+	if (ret < 0)
-+		goto error;
++   introduction
 +
- 	drm_privacy_screen_lookup_init();
- 
- 	drm_core_init_complete = true;
-diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
-index 430e00b16eec..b8da978d85bb 100644
---- a/drivers/gpu/drm/drm_sysfs.c
-+++ b/drivers/gpu/drm/drm_sysfs.c
-@@ -19,6 +19,7 @@
- #include <linux/kdev_t.h>
- #include <linux/slab.h>
- 
-+#include <drm/drm_accel.h>
- #include <drm/drm_connector.h>
- #include <drm/drm_device.h>
- #include <drm/drm_file.h>
-@@ -471,19 +472,26 @@ struct device *drm_sysfs_minor_alloc(struct drm_minor *minor)
- 	struct device *kdev;
- 	int r;
- 
--	if (minor->type == DRM_MINOR_RENDER)
--		minor_str = "renderD%d";
--	else
--		minor_str = "card%d";
--
- 	kdev = kzalloc(sizeof(*kdev), GFP_KERNEL);
- 	if (!kdev)
- 		return ERR_PTR(-ENOMEM);
- 
- 	device_initialize(kdev);
--	kdev->devt = MKDEV(DRM_MAJOR, minor->index);
--	kdev->class = drm_class;
--	kdev->type = &drm_sysfs_device_minor;
++.. only::  subproject and html
 +
-+	if (minor->type == DRM_MINOR_ACCEL) {
-+		minor_str = "accel%d";
-+		accel_set_device_instance_params(kdev, minor->index);
-+	} else {
-+		if (minor->type == DRM_MINOR_RENDER)
-+			minor_str = "renderD%d";
-+		else
-+			minor_str = "card%d";
++   Indices
++   =======
 +
-+		kdev->devt = MKDEV(DRM_MAJOR, minor->index);
-+		kdev->class = drm_class;
-+		kdev->type = &drm_sysfs_device_minor;
-+	}
++   * :ref:`genindex`
+diff --git a/Documentation/accel/introduction.rst b/Documentation/accel/introduction.rst
+new file mode 100644
+index 000000000000..5a3963eae973
+--- /dev/null
++++ b/Documentation/accel/introduction.rst
+@@ -0,0 +1,109 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
- 	kdev->parent = minor->dev->dev;
- 	kdev->release = drm_sysfs_release;
- 	dev_set_drvdata(kdev, minor);
++============
++Introduction
++============
++
++The Linux compute accelerators subsystem is designed to expose compute
++accelerators in a common way to user-space and provide a common set of
++functionality.
++
++These devices can be either stand-alone ASICs or IP blocks inside an SoC/GPU.
++Although these devices are typically designed to accelerate Machine-Learning
++and/or Deep-Learning computations, the accel layer is not limited to handling
++these types of accelerators.
++
++typically, a compute accelerator will belong to one of the following
++categories:
++
++- Edge AI - doing inference at an edge device. It can be an embedded ASIC/FPGA,
++  or an IP inside a SoC (e.g. laptop web camera). These devices
++  are typically configured using registers and can work with or without DMA.
++
++- Inference data-center - single/multi user devices in a large server. This
++  type of device can be stand-alone or an IP inside a SoC or a GPU. It will
++  have on-board DRAM (to hold the DL topology), DMA engines and
++  command submission queues (either kernel or user-space queues).
++  It might also have an MMU to manage multiple users and might also enable
++  virtualization (SR-IOV) to support multiple VMs on the same device. In
++  addition, these devices will usually have some tools, such as profiler and
++  debugger.
++
++- Training data-center - Similar to Inference data-center cards, but typically
++  have more computational power and memory b/w (e.g. HBM) and will likely have
++  a method of scaling-up/out, i.e. connecting to other training cards inside
++  the server or in other servers, respectively.
++
++All these devices typically have different runtime user-space software stacks,
++that are tailored-made to their h/w. In addition, they will also probably
++include a compiler to generate programs to their custom-made computational
++engines. Typically, the common layer in user-space will be the DL frameworks,
++such as PyTorch and TensorFlow.
++
++Sharing code with DRM
++=====================
++
++Because this type of devices can be an IP inside GPUs or have similar
++characteristics as those of GPUs, the accel subsystem will use the
++DRM subsystem's code and functionality. i.e. the accel core code will
++be part of the DRM subsystem and an accel device will be a new type of DRM
++device.
++
++This will allow us to leverage the extensive DRM code-base and
++collaborate with DRM developers that have experience with this type of
++devices. In addition, new features that will be added for the accelerator
++drivers can be of use to GPU drivers as well.
++
++Differentiation from GPUs
++=========================
++
++Because we want to prevent the extensive user-space graphic software stack
++from trying to use an accelerator as a GPU, the compute accelerators will be
++differentiated from GPUs by using a new major number and new device char files.
++
++Furthermore, the drivers will be located in a separate place in the kernel
++tree - drivers/accel/.
++
++The accelerator devices will be exposed to the user space with the dedicated
++261 major number and will have the following convention:
++
++- device char files - /dev/accel/accel*
++- sysfs             - /sys/class/accel/accel*/
++- debugfs           - /sys/kernel/debug/accel/accel*/
++
++Getting Started
++===============
++
++First, read the DRM documentation. Not only it will explain how to write a new
++DRM driver but it will also contain all the information on how to contribute,
++the Code Of Conduct and what is the coding style/documentation. All of that
++is the same for the accel subsystem.
++
++Second, make sure the kernel is configured with CONFIG_DRM_ACCEL.
++
++To expose your device as an accelerator, two changes are needed to
++be done in your driver (as opposed to a standard DRM driver):
++
++- Add the DRIVER_COMPUTE_ACCEL feature flag in your drm_driver's
++  driver_features field. It is important to note that this driver feature is
++  mutually exclusive with DRIVER_RENDER and DRIVER_MODESET. Devices that want
++  to expose both graphics and compute device char files should be handled by
++  two drivers that are connected using the auxiliary bus framework.
++
++- Change the open callback in your driver fops structure to accel_open().
++  Alternatively, your driver can use DEFINE_DRM_ACCEL_FOPS macro to easily
++  set the correct function operations pointers structure.
++
++External References
++===================
++
++email threads
++-------------
++
++* `Initial discussion on the New subsystem for acceleration devices <https://lkml.org/lkml/2022/7/31/83>`_ - Oded Gabbay (2022)
++* `patch-set to add the new subsystem <https://lkml.org/lkml/2022/10/22/544>`_ - Oded Gabbay (2022)
++
++Conference talks
++----------------
++
++* `LPC 2022 Accelerators BOF outcomes summary <https://airlied.blogspot.com/2022/09/accelerators-bof-outcomes-summary.html>`_ - Dave Airlie (2022)
+diff --git a/Documentation/subsystem-apis.rst b/Documentation/subsystem-apis.rst
+index af65004a80aa..b51f38527e14 100644
+--- a/Documentation/subsystem-apis.rst
++++ b/Documentation/subsystem-apis.rst
+@@ -43,6 +43,7 @@ needed).
+    input/index
+    hwmon/index
+    gpu/index
++   accel/index
+    security/index
+    sound/index
+    crypto/index
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 4d752aac3ec0..6ba7bb35208a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6837,6 +6837,7 @@ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+ C:	irc://irc.oftc.net/dri-devel
+ T:	git https://git.kernel.org/pub/scm/linux/kernel/git/ogabbay/accel.git
++F:	Documentation/accel/
+ F:	drivers/accel/
+ 
+ DRM DRIVERS FOR ALLWINNER A10
 -- 
 2.25.1
 
