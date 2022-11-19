@@ -2,44 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77F78630940
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Nov 2022 03:12:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25601630942
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Nov 2022 03:12:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7150610E253;
-	Sat, 19 Nov 2022 02:12:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A53210E256;
+	Sat, 19 Nov 2022 02:12:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB36810E1F9
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Nov 2022 02:12:14 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FD9310E255;
+ Sat, 19 Nov 2022 02:12:18 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2E30F62838;
- Sat, 19 Nov 2022 02:12:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DACBFC4314C;
- Sat, 19 Nov 2022 02:12:12 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 2DF2E62831;
+ Sat, 19 Nov 2022 02:12:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B04BAC433C1;
+ Sat, 19 Nov 2022 02:12:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1668823934;
- bh=crlVn6UUuZzHzKIKE7nBQg2KCq61S0dGC5C5q4gum0Q=;
+ s=k20201202; t=1668823938;
+ bh=COaiIcgt9EIbEcLlc1GttK4dQ8KxbQg4sPoMcQWhQJs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HoDl5nEXHWQdnxXV/dMUwgkE74X+gHzY9AdBm9k0luZt2hQjnx0Ht4L7v76hJ2tks
- Jec/EzQoumPd0eQjJ80djTz2W7gkgl4J+7J/e5J5DXDJ5XrgzZsQTxrRHEexwR4C2t
- RSjw1GeOLp0hleRVlDCo/bXjLXDyze7KT2YtdIVmOl25pyZ7HI5F/ClLj2OhV6RMdZ
- V716v5CT0625wGgpobhYfdt/uwBBriLY6BRia2RSAv1A6MH1xPG45L0jh+2snh+9v3
- ssHGbdkAp37+vyKPR/tPLavJp3l9ckeG+ZKO0si54R9ubxRnvgeWgMYeErWHStFQTL
- xyIy7oPEYPBvQ==
+ b=RXV/OVLpHcpRb5kf1+OR28S8USUaKjDwmhnwCaV20no+fzM75v12gdumnNZWJpa+Q
+ HIsbQ8/XDsazo6K3czTf/bTzJcCAxzinydHZFJFyiFzEBbitNaBK1xeMxtxdFXKDTN
+ G1HlLXvQ7vRj7x5Sb0Spk/zROCed7AgZlQLZpeQ8MZFKicRIzSQ8qyaffwIFOYcOiJ
+ Rw4bQSPcyaDeYzS++RrT6QxBgLRBxtvO/mTUSoaz9g1aCQfxR9B9Cs6hoo/WXugM/7
+ pIVAZoC35/zMropwtR8PITz5W4YQCdbZp9rKwqOc+9npyp8ifaFk9F/xw9zN6UWTtr
+ yr8RuHleHoChA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.0 26/44] drm: panel-orientation-quirks: Add quirk
- for Acer Switch V 10 (SW5-017)
-Date: Fri, 18 Nov 2022 21:11:06 -0500
-Message-Id: <20221119021124.1773699-26-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.0 27/44] drm/amdgpu: Fix the lpfn checking condition
+ in drm buddy
+Date: Fri, 18 Nov 2022 21:11:07 -0500
+Message-Id: <20221119021124.1773699-27-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221119021124.1773699-1-sashal@kernel.org>
 References: <20221119021124.1773699-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -55,46 +57,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
- Rudolf Polzer <rpolzer@google.com>, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de
+Cc: Sasha Levin <sashal@kernel.org>, tao.zhou1@amd.com,
+ Arunpravin.PaneerSelvam@amd.com, Xinhui.Pan@amd.com,
+ amd-gfx@lists.freedesktop.org, Ma Jun <Jun.Ma2@amd.com>, nirmoy.das@amd.com,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Hans de Goede <hdegoede@redhat.com>
+From: Ma Jun <Jun.Ma2@amd.com>
 
-[ Upstream commit 653f2d94fcda200b02bd79cea2e0307b26c1b747 ]
+[ Upstream commit e0b26b9482461e9528552f54fa662c2269f75b3f ]
 
-Like the Acer Switch One 10 S1003, for which there already is a quirk,
-the Acer Switch V 10 (SW5-017) has a 800x1280 portrait screen mounted
-in the tablet part of a landscape oriented 2-in-1. Add a quirk for this.
+Because the value of man->size is changed during suspend/resume process,
+use mgr->mm.size instead of man->size here for lpfn checking.
 
-Cc: Rudolf Polzer <rpolzer@google.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Acked-by: Simon Ser <contact@emersion.fr>
-Link: https://patchwork.freedesktop.org/patch/msgid/20221106215052.66995-1-hdegoede@redhat.com
+Signed-off-by: Ma Jun <Jun.Ma2@amd.com>
+Suggested-by: Christian König <christian.koenig@amd.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20220914125331.2467162-1-Jun.Ma2@amd.com
+Signed-off-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index f0f6fa306521..52d8800a8ab8 100644
---- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-+++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -134,6 +134,12 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "One S1003"),
- 		},
- 		.driver_data = (void *)&lcd800x1280_rightside_up,
-+	}, {	/* Acer Switch V 10 (SW5-017) */
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Acer"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "SW5-017"),
-+		},
-+		.driver_data = (void *)&lcd800x1280_rightside_up,
- 	}, {	/* Anbernic Win600 */
- 		.matches = {
- 		  DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "Anbernic"),
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+index 28ec5f8ac1c1..27159f1d112e 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+@@ -435,7 +435,7 @@ static int amdgpu_vram_mgr_new(struct ttm_resource_manager *man,
+ 	if (place->flags & TTM_PL_FLAG_TOPDOWN)
+ 		vres->flags |= DRM_BUDDY_TOPDOWN_ALLOCATION;
+ 
+-	if (fpfn || lpfn != man->size)
++	if (fpfn || lpfn != mgr->mm.size)
+ 		/* Allocate blocks in desired range */
+ 		vres->flags |= DRM_BUDDY_RANGE_ALLOCATION;
+ 
 -- 
 2.35.1
 
