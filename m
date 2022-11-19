@@ -1,84 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 573AA6310BE
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Nov 2022 21:35:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C3966310E4
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Nov 2022 21:44:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6777D10E02C;
-	Sat, 19 Nov 2022 20:35:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B006210E02E;
+	Sat, 19 Nov 2022 20:44:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com
- [IPv6:2607:f8b0:4864:20::82f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1B3910E02C
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Nov 2022 20:35:48 +0000 (UTC)
-Received: by mail-qt1-x82f.google.com with SMTP id w9so5209681qtv.13
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Nov 2022 12:35:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=+Q8d53TLpjCP7gdCP7UpIRVe0VEVtUGymc2f5Rbugko=;
- b=X3f8PGrW6OlGIyjAOq5RqjIzl1/LR7qL3lBC8lRK0cVsBBAQ6YIRonj8FxLnWXlimF
- GJvAd4k8Z4JLg5YAoOkXzhvLkyVbKsMkyfhGm5nRnQo6io4NkwbmBgt63d59e+9z+Sfm
- ACcIho6irT4KN1xsNw05BS8UQ3E0pROqRfT+JjAIhLhyzzx+i25Cb+GI2QTj/6OpQVxY
- DaUPG6El0f3FO7iPL3je0iX6/J6WkbAPMgQ6L0cOf+lKuyO5hB9XXctefoubh6J4OgDq
- 5j9QZSlda/KLg/q4LSfuv+DtQG6qFV7TZNqxMxm7n4F2NmIR+J7YKDPVf7tZYKBOdjQA
- Nrig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=+Q8d53TLpjCP7gdCP7UpIRVe0VEVtUGymc2f5Rbugko=;
- b=3UUHuKSa/AdD7mEkcd4RKRxzNZlXZ6+KQ1IMshEWFIku6i+i+im9KS+OSFInhc8k9b
- yHqXabmJng6eIJF0nEauI0WrsnQKskgVIsEQctdiolI9+4lWY4eLVAyyJpCMrsD+C+kq
- /hZ5uQYYOJz78w01+H4fty/q3G8I/HLJ3S0OyQpW46LgbHqvRfgGKMK7BaVGlG0IWnO1
- ES4pJXjEZepbUyA4sR2Fd7lwsHUisQDXVHF65Dytth+F/8WygKDkeXAKmnUMk08zswcq
- f0bhiYbLM+SnXKzMaB4KZGn/vSZF78h4nAXexWHEHFES+LYIbE4b40wx7Z3mwepLMgpH
- 691Q==
-X-Gm-Message-State: ANoB5pmjLU+KcoMnsMBfww3MBYoSB8m+mWUS380Pp949QTy/dgl4xmon
- 73eTnEgbSTWuouosV/zMf/Xy4Q==
-X-Google-Smtp-Source: AA0mqf7u+gaF38rzqg9VhfXbkShj2Hx3ztQIyZplmwrs/8bVvLIJVPykTe9XjaNAaZ4JqewmP8z3dw==
-X-Received: by 2002:ac8:75c9:0:b0:3a5:4a1a:6ff0 with SMTP id
- z9-20020ac875c9000000b003a54a1a6ff0mr11974238qtq.481.1668890147686; 
- Sat, 19 Nov 2022 12:35:47 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net.
- [192.222.136.102]) by smtp.gmail.com with ESMTPSA id
- x13-20020a05620a448d00b006fa4ac86bfbsm5061437qkp.55.2022.11.19.12.35.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Nov 2022 12:35:47 -0800 (PST)
-Message-ID: <4f79e934aac717ca7fac0c3b8b553a5690efd13a.camel@ndufresne.ca>
-Subject: Re: Try to address the DMA-buf coherency problem
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Rob Clark <robdclark@gmail.com>
-Date: Sat, 19 Nov 2022 15:35:46 -0500
-In-Reply-To: <CAF6AEGuqgWi0T=B9cb+Uy7aoWBPGQmZ3JbwFcK_45GbkY2nHPg@mail.gmail.com>
-References: <20221020121316.3946-1-christian.koenig@amd.com>
- <3d7353f3fa5905ce18e5b2d92f758f098189bc5a.camel@pengutronix.de>
- <7f5eff36-6886-bb06-061a-dd4263b61605@gmail.com>
- <f5de84cfe81fee828bbe0d47d379028d28ef6ca6.camel@pengutronix.de>
- <e02cedc2-6741-8813-a7a5-f8769e301745@gmail.com>
- <a53e5df51ec0f2f9d4c2d377c0cc5ba85f2e58ff.camel@ndufresne.ca>
- <9d716641-55c6-1590-26c2-1c3b14a28226@gmail.com>
- <CAPj87rMPkmimR_RJHhxYZokH__TVpPArk0h6drOUSx7Z9+oAHA@mail.gmail.com>
- <11a6f97c-e45f-f24b-8a73-48d5a388a2cc@gmail.com>
- <caf4d6b82843788db97555a58bc9e33915e5b50a.camel@ndufresne.ca>
- <b422be59-4b4b-2d0d-8e8c-b19f27c6832e@gmail.com>
- <4fa4e5d3b1f46e46139bad069cbf5e795e63afa8.camel@pengutronix.de>
- <cc091a11-d012-d998-b7e2-8b3d616867a7@gmail.com>
- <0abc6efddb8dfc1888de15a1bedaaac6688fd078.camel@pengutronix.de>
- <1e2a6750-9849-e9ee-69d6-e4bfdcfb64f3@gmail.com>
- <CAAFQd5B+VHs62M5Wf2L-xOw=_PoaXT+akAySkeZc75HeA3d0jQ@mail.gmail.com>
- <b2dec9b3-03a7-e7ac-306e-1da024af8982@amd.com>
- <346d6ad023ef8697aafd93ac1b100890f3637e44.camel@ndufresne.ca>
- <CAF6AEGuqgWi0T=B9cb+Uy7aoWBPGQmZ3JbwFcK_45GbkY2nHPg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF69810E10A
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Nov 2022 20:44:46 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id CBC5960BAA;
+ Sat, 19 Nov 2022 20:44:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5989C433C1;
+ Sat, 19 Nov 2022 20:44:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1668890685;
+ bh=MmB0kiiRS0fZ8FYGoiHwWYca4qOtCXkpxetHnZytkyM=;
+ h=From:To:Cc:Subject:Date:From;
+ b=YTlMpSOs6F34vvnrgMqsizuCW87N2FIyluvDo0yLv4T4YCtJpNnC0HiGUlL4rQudz
+ HjVDrGpzZ2iqPrR+J1EUskL5gVMb4yacrW2pTSvgXJ4aww5lOWilcPWAgB7vjdRvqB
+ x9EYgLuEM3GZTOaZyWKx3UPGgCv6yQXcr5Tw+IopltmQ0eUQ6Gxodgtx/nvisAsGFv
+ uEscs7DhaSC+EJXFyeBHqnxYwQGJZXXqA5H07VQCUDuxDYBpCc5xsQ9FTUdHDNVpZF
+ uahbGajimfLAm0/hgsIEL5EUPJe42FFD83l9RGot815k56yOHhPjfaRBUOxZIJ2nP1
+ RkV8iGIY9ltbg==
+From: Oded Gabbay <ogabbay@kernel.org>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v4 0/4] new subsystem for compute accelerator devices
+Date: Sat, 19 Nov 2022 22:44:31 +0200
+Message-Id: <20221119204435.97113-1-ogabbay@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,70 +51,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-media@vger.kernel.org,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, ppaalanen@gmail.com,
- dri-devel@lists.freedesktop.org, Tomasz Figa <tfiga@chromium.org>,
- sumit.semwal@linaro.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Arnd Bergmann <arnd@arndb.de>, Jiho Chu <jiho.chu@samsung.com>,
+ John Hubbard <jhubbard@nvidia.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Christoph Hellwig <hch@infradead.org>,
+ Christopher Friedt <chrisfriedt@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Kevin Hilman <khilman@baylibre.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
+ Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le vendredi 18 novembre 2022 =C3=A0 11:32 -0800, Rob Clark a =C3=A9crit=C2=
-=A0:
-> On Thu, Nov 17, 2022 at 7:38 AM Nicolas Dufresne <nicolas@ndufresne.ca> w=
-rote:
-> >=20
-> > Le jeudi 17 novembre 2022 =C3=A0 13:10 +0100, Christian K=C3=B6nig a =
-=C3=A9crit :
-> > > > > DMA-Buf let's the exporter setup the DMA addresses the importer u=
-ses to
-> > > > > be able to directly decided where a certain operation should go. =
-E.g. we
-> > > > > have cases where for example a P2P write doesn't even go to memor=
-y, but
-> > > > > rather a doorbell BAR to trigger another operation. Throwing in C=
-PU
-> > > > > round trips for explicit ownership transfer completely breaks tha=
-t
-> > > > > concept.
-> > > > It sounds like we should have a dma_dev_is_coherent_with_dev() whic=
-h
-> > > > accepts two (or an array?) of devices and tells the caller whether =
-the
-> > > > devices need explicit ownership transfer.
-> > >=20
-> > > No, exactly that's the concept I'm pushing back on very hard here.
-> > >=20
-> > > In other words explicit ownership transfer is not something we would
-> > > want as requirement in the framework, cause otherwise we break tons o=
-f
-> > > use cases which require concurrent access to the underlying buffer.
-> >=20
-> > I'm not pushing for this solution, but really felt the need to correct =
-you here.
-> > I have quite some experience with ownership transfer mechanism, as this=
- is how
-> > GStreamer framework works since 2000. Concurrent access is a really com=
-mon use
-> > cases and it is quite well defined in that context. The bracketing syst=
-em (in
-> > this case called map() unmap(), with flag stating the usage intention l=
-ike reads
-> > and write) is combined the the refcount. The basic rules are simple:
->=20
-> This is all CPU oriented, I think Christian is talking about the case
-> where ownership transfer happens without CPU involvement, such as via
-> GPU waiting on a fence
+This is the fourth (and hopefully last) version of the patch-set to add the
+new subsystem for compute accelerators. I removed the RFC headline as
+I believe it is now ready for merging.
 
-HW fences and proper ownership isn't incompatible at all. Even if you have =
-no
-software involved during the usage, software still need to share the dmabuf=
- (at
-least once), and sharing modify the ownership, and can be made explicit.
+Compare to v3, this patch-set contains one additional patch that adds
+documentation regarding the accel subsystem. I hope it's good enough for
+this stage. In addition, there were few very minor fixes according to
+comments received on v3.
 
-p.s. I will agree if someone raises that this is totally off topic
+The patches are in the following repo:
+https://git.kernel.org/pub/scm/linux/kernel/git/ogabbay/accel.git/log/?h=accel_v4
 
-Nicolas
-> BR,
-> -R
+As in v3, The HEAD of that branch is a commit adding a dummy driver that
+registers an accel device using the new framework. This can be served
+as a simple reference.
+
+v1 cover letter:
+https://lkml.org/lkml/2022/10/22/544
+
+v2 cover letter:
+https://lore.kernel.org/lkml/20221102203405.1797491-1-ogabbay@kernel.org/T/
+
+v3 cover letter:
+https://lore.kernel.org/lkml/20221106210225.2065371-1-ogabbay@kernel.org/T/
+
+Thanks,
+Oded.
+
+Oded Gabbay (4):
+  drivers/accel: define kconfig and register a new major
+  accel: add dedicated minor for accelerator devices
+  drm: initialize accel framework
+  doc: add documentation for accel subsystem
+
+ Documentation/accel/index.rst         |  17 ++
+ Documentation/accel/introduction.rst  | 109 +++++++++
+ Documentation/admin-guide/devices.txt |   5 +
+ Documentation/subsystem-apis.rst      |   1 +
+ MAINTAINERS                           |   9 +
+ drivers/Kconfig                       |   2 +
+ drivers/accel/Kconfig                 |  24 ++
+ drivers/accel/drm_accel.c             | 323 ++++++++++++++++++++++++++
+ drivers/gpu/drm/Makefile              |   1 +
+ drivers/gpu/drm/drm_drv.c             | 102 +++++---
+ drivers/gpu/drm/drm_file.c            |   2 +-
+ drivers/gpu/drm/drm_sysfs.c           |  24 +-
+ include/drm/drm_accel.h               |  97 ++++++++
+ include/drm/drm_device.h              |   3 +
+ include/drm/drm_drv.h                 |   8 +
+ include/drm/drm_file.h                |  21 +-
+ 16 files changed, 711 insertions(+), 37 deletions(-)
+ create mode 100644 Documentation/accel/index.rst
+ create mode 100644 Documentation/accel/introduction.rst
+ create mode 100644 drivers/accel/Kconfig
+ create mode 100644 drivers/accel/drm_accel.c
+ create mode 100644 include/drm/drm_accel.h
+
+--
+2.25.1
 
