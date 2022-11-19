@@ -1,63 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3D18630EAC
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Nov 2022 13:21:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDB40630EEF
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Nov 2022 14:17:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5085E10E10C;
-	Sat, 19 Nov 2022 12:21:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C89C10E077;
+	Sat, 19 Nov 2022 13:17:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33DDA10E271
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Nov 2022 12:21:29 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id v1so13189464wrt.11
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Nov 2022 04:21:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=3i4saDheNNSW7rU5zhzZgJAG50PuzgutcDNB0OsxXUE=;
- b=hetF44iglb3Xbd0bhzXvVVctRNm/1F31jTp+ak2dUjMmows8yGCugYyDVM2VJ9kjT4
- Wt25LM7ipx2IkakQVIfCIoreEZ3vDrMEnGZMHgZpkb3sSqpq/r/nfGOXs1IWUwH05c4m
- 56FVy/sZB/UTSZmRMVwVxTmaOA4w61/uTtR+htftOiOHSoZQboiSZxsEL4S/8xhU/P/P
- ZIZDfNyyLJswfHyZmIumaLI94fYfDkzaVRUgyGCoU0SuQYRBbSWzvrE+o6KECjEadDdY
- VLd0SEjs8StlZ4oSSxXB4TbgkMX+GF9mqMPkQ/pGp54x7ExQzNnjyvz4dd++M9YtdISG
- iRlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3i4saDheNNSW7rU5zhzZgJAG50PuzgutcDNB0OsxXUE=;
- b=6kyrQtTVVfW94m20bv4PbV4a728vGHfYVn60imN2bmhyS5ADpvIno4z+aFRsZqlZ+R
- V133Jc/xw5cDsUTL6mRKcjHL5jfQqWlk4EoCTd8i3xqhOcr4MSZRcrHFGHV4KXtPwKZM
- ygn2hys81+7U+9CSMkdMmg8aO2VfdHi2TLRCIsNsJmM289vaakjjpTCF9ponVVVOABlI
- VXszEKW7Ud8LcYMXFTlXK9wsQnaRU+oUBG1QOd2lVq4qzGCaRRPgagZpzQWjdhC8E1G9
- LAauJgYAAUJwPyiVuD2a8zUb/zMibFvuyHMG9dZvTyDfIXA7M47w/A1okg0QpuLx7oSz
- 5Dug==
-X-Gm-Message-State: ANoB5pl4PwAoHR6cTgCUhn4NQoYT6heUcBInoOJKFhONo04l/1qWD+QS
- D97WNjJpzoQnwd7KPgY52C/f//ZFpUA=
-X-Google-Smtp-Source: AA0mqf6rOz58LdioPFb/7LtQdgemxujzUOVokFGrCpJCCFbldSO10zJTLRGjdLD1EF3IQWqjl+di7w==
-X-Received: by 2002:adf:f408:0:b0:236:62c9:afa3 with SMTP id
- g8-20020adff408000000b0023662c9afa3mr6462644wro.467.1668860487682; 
- Sat, 19 Nov 2022 04:21:27 -0800 (PST)
-Received: from elementary ([94.73.35.229]) by smtp.gmail.com with ESMTPSA id
- n1-20020a5d6b81000000b00226dba960b4sm6125635wrx.3.2022.11.19.04.21.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Nov 2022 04:21:27 -0800 (PST)
-Date: Sat, 19 Nov 2022 13:21:25 +0100
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Dan Carpenter <error27@gmail.com>
-Subject: Re: [bug report] Merge branch 'for-linux-next' of
- git://anongit.freedesktop.org/drm/drm-misc
-Message-ID: <20221119122125.GA51798@elementary>
-References: <Y3dpzq5o3j/iZn4Q@kili>
+Received: from cstnet.cn (smtp23.cstnet.cn [159.226.251.23])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 83F0410E077;
+ Sat, 19 Nov 2022 13:17:02 +0000 (UTC)
+Received: from localhost.localdomain (unknown [124.16.138.125])
+ by APP-03 (Coremail) with SMTP id rQCowACXn5dD13hjEbIYAA--.22946S2;
+ Sat, 19 Nov 2022 21:16:51 +0800 (CST)
+From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+To: contact@emersion.fr
+Subject: [PATCH] drm/amd/display: rewrite the check for mods
+Date: Sat, 19 Nov 2022 21:16:50 +0800
+Message-Id: <20221119131650.21525-1-jiasheng@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y3dpzq5o3j/iZn4Q@kili>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: rQCowACXn5dD13hjEbIYAA--.22946S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrur1fCrW7JF1UZrykKFWxJFb_yoWkKwb_WF
+ 1kC3WDuw1DuF1Fvrs5G343CwsIyF4kJr1IgFs3tw4Dtwn8WrZ5Xr92v3s3Ga1xur4ftrsr
+ GF1qv343Xw1DujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbV8FF20E14v26ryj6rWUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+ Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+ 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+ jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+ 1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxa
+ n2IY04v7MxkIecxEwVAFwVW5GwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJV
+ W8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF
+ 1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6x
+ IIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvE
+ x4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvj
+ DU0xZFpf9x0JU3uc_UUUUU=
+X-Originating-IP: [124.16.138.125]
+X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,50 +54,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sfr@canb.auug.org.au, dri-devel@lists.freedesktop.org
+Cc: Jiasheng Jiang <jiasheng@iscas.ac.cn>, sunpeng.li@amd.com,
+ Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, roman.li@amd.com,
+ dri-devel@lists.freedesktop.org, nicholas.kazlauskas@amd.com,
+ Jerry.Zuo@amd.com, aurabindo.pillai@amd.com, amd-gfx@lists.freedesktop.org,
+ alexander.deucher@amd.com, christian.koenig@amd.com,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dan,
+On Thu, 17 Nov 2022 15:56:09 +0800, Simon Ser wrote:
+>> @@ -638,11 +638,14 @@ static int get_plane_modifiers(struct amdgpu_device *adev, unsigned int plane_ty
+>>  		return 0;
+>>  
+>>  	*mods = kmalloc(capacity * sizeof(uint64_t), GFP_KERNEL);
+>> +	if (!*mods)
+>> +		return -ENOMEM;
+>> +
+>>  
+>>  	if (plane_type == DRM_PLANE_TYPE_CURSOR) {
+>>  		add_modifier(mods, &size, &capacity, DRM_FORMAT_MOD_LINEAR);
+>>  		add_modifier(mods, &size, &capacity, DRM_FORMAT_MOD_INVALID);
+>> -		return *mods ? 0 : -ENOMEM;
+>> +		return 0;
+>>  	}
+>>  
+>>  	switch (adev->family) {
+>> @@ -671,9 +674,6 @@ static int get_plane_modifiers(struct amdgpu_device *adev, unsigned int plane_ty
+>>  	/* INVALID marks the end of the list. */
+>>  	add_modifier(mods, &size, &capacity, DRM_FORMAT_MOD_INVALID);
+>>  
+>> -	if (!*mods)
+>> -		return -ENOMEM;
+>> -
+>>  	return 0;
+>>  }
+ 
+> This breaks the "size" out-parameter.
 
-On Fri, Nov 18, 2022 at 02:17:34PM +0300, Dan Carpenter wrote:
-> Hello Stephen Rothwell,
-> 
-> The patch 23b727d76bda: "Merge branch 'for-linux-next' of
-> git://anongit.freedesktop.org/drm/drm-misc" from Nov 17, 2022, leads
-> to the following Smatch static checker warning:
-> 
-> 	drivers/gpu/drm/vc4/vc4_hdmi.c:351 vc4_hdmi_reset_link()
-> 	error: uninitialized symbol 'vc4_hdmi'.
-> 
-> drivers/gpu/drm/vc4/vc4_hdmi.c
->     346 
->     347         crtc_state = crtc->state;
->     348         if (!crtc_state->active)
->     349                 return 0;
->     350 
-> --> 351         mutex_lock(&vc4_hdmi->mutex);
->                            ^^^^^^^^^
-> This locking
-> 
->     352 
->     353         vc4_hdmi = connector_to_vc4_hdmi(connector);
->                 ^^^^^^^^^^
-> needs to be done after this assignment.  But this is only in linux-next
-> so presumably it's a temporary thing.
-> 
->     354         if (!vc4_hdmi_supports_scrambling(vc4_hdmi)) {
->     355                 mutex_unlock(&vc4_hdmi->mutex);
->     356                 return 0;
->     357         }
->     358 
->     359         scrambling_needed = vc4_hdmi_mode_needs_scrambling(&vc4_hdmi->saved_adjusted_mode,
->     360                                                            vc4_hdmi->output_bpc,
-> 
-> regards,
-> dan carpenter
+No, it will not change the value of the "size".
+The "size" can only be modified by add_modifier().
+However, when the "*mods" is NULL, add_modifier() will return immediately,
+without the execution of "*size += 1;".
+Therefore, when the "*mods" is NULL, the rest of the function is useless,
+which should be better to skip.
 
-I think that Stephen already handled this issue as discussed here:
-https://lore.kernel.org/all/Y3ZvffZiR+SgtY6h@dev-arch.thelio-3990X/
+Jiang
 
-Jose
