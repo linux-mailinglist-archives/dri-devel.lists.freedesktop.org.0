@@ -1,44 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F7C96310EB
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Nov 2022 21:45:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 761F663133A
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Nov 2022 10:38:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E694210E289;
-	Sat, 19 Nov 2022 20:45:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69D6010E05B;
+	Sun, 20 Nov 2022 09:38:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 452EB10E289
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Nov 2022 20:45:13 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id B35EFB808D5;
- Sat, 19 Nov 2022 20:45:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48A10C433B5;
- Sat, 19 Nov 2022 20:45:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1668890709;
- bh=CBD8OmSr5rPgSjZyuyDPRILXCnJ2vLZOKnkTF8abduY=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=BTlKETCBlC50W1bvIe0y4agSrAnfuz4DL+MDlTFJ4+4EqNgd8uPqna8IjWw0CYK1V
- Rdtwfu8CFpacTMPvonQD20+USLFQVW2WW2AYtUeVFCNwej/ry6MOIgo2Zd98+36bpX
- hLJGbz1X9Nke7pc5a4Z7d1J7kJ1tau+B3MRnnlo4aVa3N5RrWJcCaNo0H9MzpPuUWZ
- 1Z3p1Y3n/Faekbmm4ZLRYSVsMFXHFWKeZc/1olwYCVmBHkcataTpwakiPtwFSAupnp
- 2LtKKyciT8BytNUi8MDg3QuJnd8A1oUppwKFIrbWBRDhCpf7EZWFZi0hSGIPNtZx9v
- rAtVePdAyFk/g==
-From: Oded Gabbay <ogabbay@kernel.org>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v4 4/4] doc: add documentation for accel subsystem
-Date: Sat, 19 Nov 2022 22:44:35 +0200
-Message-Id: <20221119204435.97113-5-ogabbay@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221119204435.97113-1-ogabbay@kernel.org>
-References: <20221119204435.97113-1-ogabbay@kernel.org>
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com
+ [IPv6:2607:f8b0:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0C6810E05B
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Nov 2022 09:38:35 +0000 (UTC)
+Received: by mail-pg1-x52a.google.com with SMTP id n17so8688584pgh.9
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Nov 2022 01:38:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=xdh47TdFCyP5Jo4EkJC1KVjModNAx4vFEonjM44Yfks=;
+ b=iTynN8pTjr1cJvnkG7ZDVL9dN9LVoZhndKazXeJQj3Y7O2nWU3LFSGIj2ZFc/IYFtv
+ 6Up6UKsociYSjVOPCjiEqm5c1SUa0WPa6gC2KzKtSnmyvOnv1/rLY+tSITrAy7JT8Obb
+ 2JAHYHiVVC/ms0529NZlmf1NFId2N01IjlCiixgZYC8/i2L7HCfSazGkDVh4VdHbiZyx
+ x2U50tl11xKKEyXB4+IJgXSVduiGeK4d9wDphdDlU6YIaSwLpaxfSoSYq9fr/+LE4DAL
+ SSuaA5yuyjZuU0vmZGxp1hezo1hCnKisL9iCC+5EOyziXjBA4IjU0v/pbBhcfEnCBsDq
+ xrcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=xdh47TdFCyP5Jo4EkJC1KVjModNAx4vFEonjM44Yfks=;
+ b=l1i/uWbntikjL2YTfTXEctvvDGCuAB8SIrcaGuCyrcs6hTs6dd06aNLZ8bxkFTLhv3
+ exFx0ZH/Y8VsIukPeaKkBCC3Xg5L4DNNCix+T2vaa78g2WeFivoHZJpeEGwRMLn5vZQ0
+ 2LkohXIMqv6u1ETHLRmj53muDZMXNR/r5LuZzPOk7k2TEDeV8pwBiXQDIC0HgWA2Pfn9
+ 0gXtaHUa6EqESXEh4SCsfMqOyiyf/KFQ88bA+DeMNNgI4g2zfCSzV9bWMIjNzbo9bwic
+ 4yZvhCl7UKJzPp9w8/7l/N6COtJh3a/kYuhmAXH5rgWxI18rkqVnH8NCC3qnLN0//Xsy
+ hjxw==
+X-Gm-Message-State: ANoB5pkuzihp9Nm9jkGttkGREkF5WKocCOwHva2n+Du4VNFPRekIyHxh
+ 196b8EKdTg3XkOO0Ow5uG4c=
+X-Google-Smtp-Source: AA0mqf7Qb9yKGUq/bxq6PgPcQNj/9pksYDg4DDniOo2q/02PSfI5myWZHtCS0qzL+zASzr55fhwVDQ==
+X-Received: by 2002:a62:5f46:0:b0:56b:cc74:4bd5 with SMTP id
+ t67-20020a625f46000000b0056bcc744bd5mr2154127pfb.79.1668937115008; 
+ Sun, 20 Nov 2022 01:38:35 -0800 (PST)
+Received: from 167-179-157-192.a7b39d.syd.nbn.aussiebb.net
+ (167-179-157-192.a7b39d.syd.nbn.aussiebb.net. [167.179.157.192])
+ by smtp.gmail.com with ESMTPSA id
+ j7-20020a170902da8700b00176a6ba5969sm7161109plx.98.2022.11.20.01.38.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 20 Nov 2022 01:38:34 -0800 (PST)
+From: Jonathan Liu <net147@gmail.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Linus Walleij <linus.walleij@linaro.org>,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Emil Velikov <emil.velikov@collabora.com>
+Subject: [PATCH] drm/modes: Fix outdated drm_mode_vrefresh return value
+ documentation
+Date: Sun, 20 Nov 2022 20:38:29 +1100
+Message-Id: <20221120093830.47225-1-net147@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -53,199 +76,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Jeffrey Hugo <quic_jhugo@quicinc.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Arnd Bergmann <arnd@arndb.de>, Jiho Chu <jiho.chu@samsung.com>,
- John Hubbard <jhubbard@nvidia.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Christoph Hellwig <hch@infradead.org>,
- Christopher Friedt <chrisfriedt@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Kevin Hilman <khilman@baylibre.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
- Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: Jonathan Liu <net147@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add an introduction section for the accel subsystem. Most of the
-relevant data is in the DRM documentation, so the introduction only
-presents the why of the new subsystem, how are the compute accelerators
-exposed to user-space and what changes need to be done in a standard
-DRM driver to register it to the new accel subsystem.
+The vrefresh field in drm_display_mode struct was removed so the
+function no longer checks if it is set before calculating it.
 
-Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
+Fixes: 0425662fdf05 ("drm: Nuke mode->vrefresh")
+Signed-off-by: Jonathan Liu <net147@gmail.com>
 ---
- Documentation/accel/index.rst        |  17 +++++
- Documentation/accel/introduction.rst | 109 +++++++++++++++++++++++++++
- Documentation/subsystem-apis.rst     |   1 +
- MAINTAINERS                          |   1 +
- 4 files changed, 128 insertions(+)
- create mode 100644 Documentation/accel/index.rst
- create mode 100644 Documentation/accel/introduction.rst
+ drivers/gpu/drm/drm_modes.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/Documentation/accel/index.rst b/Documentation/accel/index.rst
-new file mode 100644
-index 000000000000..2b43c9a7f67b
---- /dev/null
-+++ b/Documentation/accel/index.rst
-@@ -0,0 +1,17 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+====================
-+Compute Accelerators
-+====================
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   introduction
-+
-+.. only::  subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
-diff --git a/Documentation/accel/introduction.rst b/Documentation/accel/introduction.rst
-new file mode 100644
-index 000000000000..5a3963eae973
---- /dev/null
-+++ b/Documentation/accel/introduction.rst
-@@ -0,0 +1,109 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+============
-+Introduction
-+============
-+
-+The Linux compute accelerators subsystem is designed to expose compute
-+accelerators in a common way to user-space and provide a common set of
-+functionality.
-+
-+These devices can be either stand-alone ASICs or IP blocks inside an SoC/GPU.
-+Although these devices are typically designed to accelerate Machine-Learning
-+and/or Deep-Learning computations, the accel layer is not limited to handling
-+these types of accelerators.
-+
-+typically, a compute accelerator will belong to one of the following
-+categories:
-+
-+- Edge AI - doing inference at an edge device. It can be an embedded ASIC/FPGA,
-+  or an IP inside a SoC (e.g. laptop web camera). These devices
-+  are typically configured using registers and can work with or without DMA.
-+
-+- Inference data-center - single/multi user devices in a large server. This
-+  type of device can be stand-alone or an IP inside a SoC or a GPU. It will
-+  have on-board DRAM (to hold the DL topology), DMA engines and
-+  command submission queues (either kernel or user-space queues).
-+  It might also have an MMU to manage multiple users and might also enable
-+  virtualization (SR-IOV) to support multiple VMs on the same device. In
-+  addition, these devices will usually have some tools, such as profiler and
-+  debugger.
-+
-+- Training data-center - Similar to Inference data-center cards, but typically
-+  have more computational power and memory b/w (e.g. HBM) and will likely have
-+  a method of scaling-up/out, i.e. connecting to other training cards inside
-+  the server or in other servers, respectively.
-+
-+All these devices typically have different runtime user-space software stacks,
-+that are tailored-made to their h/w. In addition, they will also probably
-+include a compiler to generate programs to their custom-made computational
-+engines. Typically, the common layer in user-space will be the DL frameworks,
-+such as PyTorch and TensorFlow.
-+
-+Sharing code with DRM
-+=====================
-+
-+Because this type of devices can be an IP inside GPUs or have similar
-+characteristics as those of GPUs, the accel subsystem will use the
-+DRM subsystem's code and functionality. i.e. the accel core code will
-+be part of the DRM subsystem and an accel device will be a new type of DRM
-+device.
-+
-+This will allow us to leverage the extensive DRM code-base and
-+collaborate with DRM developers that have experience with this type of
-+devices. In addition, new features that will be added for the accelerator
-+drivers can be of use to GPU drivers as well.
-+
-+Differentiation from GPUs
-+=========================
-+
-+Because we want to prevent the extensive user-space graphic software stack
-+from trying to use an accelerator as a GPU, the compute accelerators will be
-+differentiated from GPUs by using a new major number and new device char files.
-+
-+Furthermore, the drivers will be located in a separate place in the kernel
-+tree - drivers/accel/.
-+
-+The accelerator devices will be exposed to the user space with the dedicated
-+261 major number and will have the following convention:
-+
-+- device char files - /dev/accel/accel*
-+- sysfs             - /sys/class/accel/accel*/
-+- debugfs           - /sys/kernel/debug/accel/accel*/
-+
-+Getting Started
-+===============
-+
-+First, read the DRM documentation. Not only it will explain how to write a new
-+DRM driver but it will also contain all the information on how to contribute,
-+the Code Of Conduct and what is the coding style/documentation. All of that
-+is the same for the accel subsystem.
-+
-+Second, make sure the kernel is configured with CONFIG_DRM_ACCEL.
-+
-+To expose your device as an accelerator, two changes are needed to
-+be done in your driver (as opposed to a standard DRM driver):
-+
-+- Add the DRIVER_COMPUTE_ACCEL feature flag in your drm_driver's
-+  driver_features field. It is important to note that this driver feature is
-+  mutually exclusive with DRIVER_RENDER and DRIVER_MODESET. Devices that want
-+  to expose both graphics and compute device char files should be handled by
-+  two drivers that are connected using the auxiliary bus framework.
-+
-+- Change the open callback in your driver fops structure to accel_open().
-+  Alternatively, your driver can use DEFINE_DRM_ACCEL_FOPS macro to easily
-+  set the correct function operations pointers structure.
-+
-+External References
-+===================
-+
-+email threads
-+-------------
-+
-+* `Initial discussion on the New subsystem for acceleration devices <https://lkml.org/lkml/2022/7/31/83>`_ - Oded Gabbay (2022)
-+* `patch-set to add the new subsystem <https://lkml.org/lkml/2022/10/22/544>`_ - Oded Gabbay (2022)
-+
-+Conference talks
-+----------------
-+
-+* `LPC 2022 Accelerators BOF outcomes summary <https://airlied.blogspot.com/2022/09/accelerators-bof-outcomes-summary.html>`_ - Dave Airlie (2022)
-diff --git a/Documentation/subsystem-apis.rst b/Documentation/subsystem-apis.rst
-index af65004a80aa..b51f38527e14 100644
---- a/Documentation/subsystem-apis.rst
-+++ b/Documentation/subsystem-apis.rst
-@@ -43,6 +43,7 @@ needed).
-    input/index
-    hwmon/index
-    gpu/index
-+   accel/index
-    security/index
-    sound/index
-    crypto/index
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4d752aac3ec0..6ba7bb35208a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6837,6 +6837,7 @@ L:	dri-devel@lists.freedesktop.org
- S:	Maintained
- C:	irc://irc.oftc.net/dri-devel
- T:	git https://git.kernel.org/pub/scm/linux/kernel/git/ogabbay/accel.git
-+F:	Documentation/accel/
- F:	drivers/accel/
- 
- DRM DRIVERS FOR ALLWINNER A10
+diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+index 3c8034a8c27b..2d51ab2734a0 100644
+--- a/drivers/gpu/drm/drm_modes.c
++++ b/drivers/gpu/drm/drm_modes.c
+@@ -803,8 +803,7 @@ EXPORT_SYMBOL(drm_mode_set_name);
+  * @mode: mode
+  *
+  * Returns:
+- * @modes's vrefresh rate in Hz, rounded to the nearest integer. Calculates the
+- * value first if it is not yet set.
++ * @modes's vrefresh rate in Hz, rounded to the nearest integer.
+  */
+ int drm_mode_vrefresh(const struct drm_display_mode *mode)
+ {
 -- 
-2.25.1
+2.38.1
 
