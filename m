@@ -2,55 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 599C1631671
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Nov 2022 21:51:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B410563169F
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Nov 2022 22:48:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47E0510E04B;
-	Sun, 20 Nov 2022 20:51:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF83A10E00B;
+	Sun, 20 Nov 2022 21:47:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
- [209.85.166.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14B9C10E04B
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Nov 2022 20:51:19 +0000 (UTC)
-Received: by mail-il1-f200.google.com with SMTP id
- y12-20020a056e021bec00b00302a7d5bc83so5500778ilv.16
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Nov 2022 12:51:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=to:from:subject:message-id:in-reply-to:date:mime-version
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oDLcfZl+txYsJtzeVXqCYMCFgcOLb6wRGnlPi43ilE8=;
- b=Pw0atdkgqxlS4J1aRXATZF5Lp1o3zFtjIQVjm4yXs+nOmsGm1esHfOKliHasiduTti
- ghPFAJvK4y9uBP/B9NOCmpL0FArT8E3lFpejLgg1aufikVwkwYdK0sXYWYEnNkrLoHEy
- XJkJQBQrpXyTbFothGn1Hkt5oH7Dpr3p+VODM7rndyQDr2/nWe8yczRo6hpgT3U6y66c
- /hJRAU/bWF2czFj6zREHRzRO9tu8Aa9bjT/Jfopq+yL/mkfbC73BmGiuURLBnxAlgmET
- oWxDrYPEK9XAu7MWlB2E8rLdwCvFsVDB7MC24mrhiVqE8f9UiLSm3Yz+Rnt1+ZvhY3ZN
- Yqhw==
-X-Gm-Message-State: ANoB5plso6irU5ZdMqxc+TQjc2x7aNgQ9dIZBpFTvi0msmIr0lWEXpTC
- 9VEAkdtSFt4uExwSLuATyUjDAP1s8vNHwxcYfUUMfJpbFTan
-X-Google-Smtp-Source: AA0mqf5CBYmEqRFQYqm1UpoVHrdbq/uYkStlCRHWaDTVvlLNGxzh0dMVaQAZBLUykBc00JqAz74S8DO7Ridn5eA4tsjxMLFw/LVU
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29E3710E00B
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Nov 2022 21:47:47 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2AKLlIWr031340; Sun, 20 Nov 2022 21:47:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=LAMfF8kmKnNg+FHVFGSxFLkYm8i6qRF4/9CYNy9gWLo=;
+ b=dcXp7um9jsrx69un2GgNHlYZoMLmkB30lVh+PJgMgf2g4Hf0biMH2ewJMjB0ghFxx6Qu
+ ZjAt5eMDpd4HuhywGesTLZqoRHR28qQebqzcesD9qoRuam2P/7szeVaRnzT8WRvJha95
+ xYj3MQP8vAjTBl96haMopNaV6y7HDR6OcodqGHO+IZsS8YMIZeuH4NXwtYN4GL6kmDQd
+ HdP+xathRPH599lL6lQQuVvRx9z+LXAzD3WuzLW29eMwdgMO0WbMQ9nY/jKrWsOxaz7x
+ s18yk2broruBOhzRsz1Z1b1crTHT2/Vtj2w6a7//isOp7tckErqSb6z4f/nPBD4Vn5pC DA== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kxrf5jurw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 20 Nov 2022 21:47:17 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2AKLlGMD006377
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 20 Nov 2022 21:47:16 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Sun, 20 Nov
+ 2022 13:47:15 -0800
+Message-ID: <9ce1bf9f-a481-92e3-c7cc-a1b41270468d@quicinc.com>
+Date: Sun, 20 Nov 2022 14:47:14 -0700
 MIME-Version: 1.0
-X-Received: by 2002:a92:c64c:0:b0:2fa:de7:7c09 with SMTP id
- 12-20020a92c64c000000b002fa0de77c09mr6888485ill.94.1668977479370; Sun, 20 Nov
- 2022 12:51:19 -0800 (PST)
-Date: Sun, 20 Nov 2022 12:51:19 -0800
-In-Reply-To: <00000000000021719805d692e035@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000cbce8405eded1951@google.com>
-Subject: Re: [syzbot] inconsistent lock state in sync_info_debugfs_show
-From: syzbot <syzbot+007bfe0f3330f6e1e7d1@syzkaller.appspotmail.com>
-To: bp@alien8.de, christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
- gustavo@padovan.org, hdanton@sina.com, hpa@zytor.com, jmattson@google.com, 
- joro@8bytes.org, kvm@vger.kernel.org,
- linaro-mm-sig-bounces@lists.linaro.org, 
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, mark.rutland@arm.com, mingo@redhat.com, 
- pbonzini@redhat.com, peterz@infradead.org, seanjc@google.com, 
- sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com, tglx@linutronix.de, 
- vkuznets@redhat.com, wanpengli@tencent.com, will@kernel.org, x86@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v4 2/4] accel: add dedicated minor for accelerator devices
+Content-Language: en-US
+To: Oded Gabbay <ogabbay@kernel.org>, David Airlie <airlied@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <20221119204435.97113-1-ogabbay@kernel.org>
+ <20221119204435.97113-3-ogabbay@kernel.org>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20221119204435.97113-3-ogabbay@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: nh_pMpcUh2-irDtlfHgVUNxLkH1X63kv
+X-Proofpoint-ORIG-GUID: nh_pMpcUh2-irDtlfHgVUNxLkH1X63kv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-20_13,2022-11-18_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 adultscore=0
+ mlxlogscore=999 spamscore=0 suspectscore=0 bulkscore=0 impostorscore=0
+ lowpriorityscore=0 malwarescore=0 priorityscore=1501 clxscore=1011
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211200184
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,28 +84,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, Arnd Bergmann <arnd@arndb.de>,
+ Jiho Chu <jiho.chu@samsung.com>, John Hubbard <jhubbard@nvidia.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Christoph Hellwig <hch@infradead.org>,
+ Christopher Friedt <chrisfriedt@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Kevin Hilman <khilman@baylibre.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
+ Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-syzbot has bisected this issue to:
+On 11/19/2022 1:44 PM, Oded Gabbay wrote:
+> diff --git a/drivers/accel/drm_accel.c b/drivers/accel/drm_accel.c
+> index fac6ad6ac28e..703d40c4ff45 100644
+> --- a/drivers/accel/drm_accel.c
+> +++ b/drivers/accel/drm_accel.c
+> @@ -8,14 +8,25 @@
+> 
+>   #include <linux/debugfs.h>
+>   #include <linux/device.h>
+> +#include <linux/xarray.h>
 
-commit 997acaf6b4b59c6a9c259740312a69ea549cc684
-Author: Mark Rutland <mark.rutland@arm.com>
-Date:   Mon Jan 11 15:37:07 2021 +0000
+Including xarray, but using idr
+This should be linux/idr.h
 
-    lockdep: report broken irq restoration
+This seems so minor, I don't think I advise spinning a v5 for it.  If a 
+v5 is warranted elsewhere, obviously fix this.  If not, hopefully this 
+can be fixed up by whoever applies it, or someone submits a follow up patch.
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=115b350d880000
-start commit:   84368d882b96 Merge tag 'soc-fixes-6.1-3' of git://git.kern..
-git tree:       upstream
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=135b350d880000
-console output: https://syzkaller.appspot.com/x/log.txt?x=155b350d880000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=6f4e5e9899396248
-dashboard link: https://syzkaller.appspot.com/bug?extid=007bfe0f3330f6e1e7d1
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=164376f9880000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16cf0965880000
+Hopefully this is the only nit.  I would like to see this merged.
 
-Reported-by: syzbot+007bfe0f3330f6e1e7d1@syzkaller.appspotmail.com
-Fixes: 997acaf6b4b5 ("lockdep: report broken irq restoration")
-
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+-Jeff
