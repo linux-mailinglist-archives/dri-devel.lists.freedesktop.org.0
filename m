@@ -1,57 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC980631548
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Nov 2022 17:53:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CAD3631576
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Nov 2022 18:25:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4D1E10E13D;
-	Sun, 20 Nov 2022 16:53:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB7E910E136;
+	Sun, 20 Nov 2022 17:25:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com
- [209.85.210.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5ACC110E138;
- Sun, 20 Nov 2022 16:53:22 +0000 (UTC)
-Received: by mail-ot1-f41.google.com with SMTP id
- p8-20020a056830130800b0066bb73cf3bcso6058611otq.11; 
- Sun, 20 Nov 2022 08:53:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=aoQ4zuyTd7evirB3DHF86QcOknBwVYfLo01LRkadhOQ=;
- b=7IjHyOC4Hzez0FoRbWkjInHemNkvbDyM7THavScRwMy/SCA1PBzemRvp+d9W4pMImQ
- KRBqFjIfqXL+8hgwKcfTdj4NDbwlzQUCMo35+hJ59NjgGamWVmz9vApDfovOHPXGuUDT
- 2dL4Apj5ipTX4pvMY6SvvM1uOAiVt0ehT4emOrI5sPol29QgptV4Ccvjjo/k+PXsUGLP
- CkT5NTm/qr18OssGqk+CSvDrDRArgixUmXz+zSxd2S6xhW3PCX4/rSv7Iq6/27RukXbk
- lBivroOtmSJpPy5efaTjduL6K1hgWVYQteVAHLVusTO1kKIrCG8vAbdUnIxuDcuqiu++
- Fz+w==
-X-Gm-Message-State: ANoB5plnMZhjoN75ltjODyV6FRvoYrsk+LljZGh/sQ8bFBUF3zMonGa2
- uQ8MaqSkL5ANkHYl3czgXQ==
-X-Google-Smtp-Source: AA0mqf7VoumVeOat8gcKUatjmfqniX6zO3MOiPw3zmmtuxnZ2rqYap6OXiFNILEtWXSN+2z5E8jX9A==
-X-Received: by 2002:a9d:7e9a:0:b0:66c:6096:1878 with SMTP id
- m26-20020a9d7e9a000000b0066c60961878mr634215otp.203.1668963201355; 
- Sun, 20 Nov 2022 08:53:21 -0800 (PST)
-Received: from robh_at_kernel.org ([2605:ef80:80f8:5cb3:df5a:23c3:86fb:15a6])
- by smtp.gmail.com with ESMTPSA id
- k5-20020a056870d0c500b0014185b2b3d5sm2833328oaa.18.2022.11.20.08.53.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Nov 2022 08:53:20 -0800 (PST)
-Received: (nullmailer pid 3191260 invoked by uid 1000);
- Sun, 20 Nov 2022 16:53:22 -0000
-Date: Sun, 20 Nov 2022 10:53:22 -0600
-From: Rob Herring <robh@kernel.org>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: Re: [PATCH] dt-bindings: msm/dsi: Don't require vdds-supply on 10nm
- PHY
-Message-ID: <166896320103.3191204.6491707287483372164.robh@kernel.org>
-References: <20221116163218.42449-1-konrad.dybcio@linaro.org>
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
+ [80.237.130.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF20610E136
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Nov 2022 17:25:38 +0000 (UTC)
+Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
+ by wp530.webpack.hosteurope.de running ExIM with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ id 1owo4V-0000vZ-Ly; Sun, 20 Nov 2022 18:25:35 +0100
+Message-ID: <acb1c70c-0155-4d8b-205e-42514b95ebc8@leemhuis.info>
+Date: Sun, 20 Nov 2022 18:25:33 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221116163218.42449-1-konrad.dybcio@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [6.1][regression] after commit
+ dd80d9c8eecac8c516da5b240d01a35660ba6cb6 some games (Cyberpunk 2077, Forza
+ Horizon 4/5) hang at start #forregzbot
+Content-Language: en-US, de-DE
+To: amd-gfx list <amd-gfx@lists.freedesktop.org>
+References: <CABXGCsOeQ7VYm98jRVaYp6KaNsFVsAnSb33ZT8JvZxcTcEGW0w@mail.gmail.com>
+ <a67598e8-c826-2740-03bb-33d37c8c8e4b@amd.com>
+ <CABXGCsNvFvJz4=N=JKYSGVcd=dKfQ3Nv_zOssMb0Z6oK79xZ7g@mail.gmail.com>
+ <a537212d-4b42-4ba4-7707-1e397234c8b7@amd.com>
+ <CABXGCsMCfACsJRDPqZDYQGMpaA_6LKhQ0XqAmDN04GSMeetXnA@mail.gmail.com>
+ <ca6c98eb-fdb0-5fee-3925-5b697e3e6b50@gmail.com>
+ <CABXGCsPJFvNXfbdR=_sb4gLdd2E30aRN9usSiZc2XYmZNSKBcQ@mail.gmail.com>
+ <dc802bd0-ed77-d268-25e2-1cf162202912@gmail.com>
+ <c5c4f572-4720-04ff-3c70-30bba9c37202@amd.com>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+In-Reply-To: <c5c4f572-4720-04ff-3c70-30bba9c37202@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1668965138;
+ 35ec6f2d; 
+X-HE-SMSGID: 1owo4V-0000vZ-Ly
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,27 +55,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, patches@linaro.org,
- andersson@kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
- krzysztof.kozlowski@linaro.org, agross@kernel.org,
- Krishna Manikandan <quic_mkrishn@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+[Note: this mail is primarily send for documentation purposes and/or for
+regzbot, my Linux kernel regression tracking bot. That's why I removed
+most or all folks from the list of recipients, but left any that looked
+like a mailing lists. These mails usually contain '#forregzbot' in the
+subject, to make them easy to spot and filter out.]
 
-On Wed, 16 Nov 2022 17:32:18 +0100, Konrad Dybcio wrote:
-> On some SoCs (hello SM6350) vdds-supply is not wired to any smd-rpm
-> or rpmh regulator, but instead powered by the VDD_MX/mx.lvl line,
-> which is voted for in the DSI ctrl node.
+On 14.11.22 14:22, Christian König wrote:
 > 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> ---
->  Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml | 1 -
->  1 file changed, 1 deletion(-)
+> I've found and fixed a few problems around the userptr handling which
+> might explain what you see here.
 > 
+> A series of four patches starting with "drm/amdgpu: always register an
+> MMU notifier for userptr" is under review now.
 
-Acked-by: Rob Herring <robh@kernel.org>
+#regzbot monitor:
+https://lore.kernel.org/all/20221115133853.7950-1-christian.koenig@amd.com/
+#regzbot fixed-by: fec8fdb54e8f
+
+
