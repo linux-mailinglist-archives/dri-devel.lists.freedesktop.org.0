@@ -1,52 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 802EE6328EF
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 17:03:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 369196328C9
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 16:57:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF39E10E2DE;
-	Mon, 21 Nov 2022 16:03:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E03110E30B;
+	Mon, 21 Nov 2022 15:57:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 545 seconds by postgrey-1.36 at gabe;
- Mon, 21 Nov 2022 16:03:28 UTC
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk
- [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A168A10E2DE
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 16:03:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
- MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=13bL6LNTHjc49hw1t8dd+cr8coUyb0jg/mTexC5rZYA=; b=LcYJEoDuLEA+iEp2XldIp0x6sO
- cDK4ViwOPzWS0atHVRmRJIYugx1i71XJQTD3UD6xEv7YKU5H3+68xoDQ4ydlenqRUWLXsq6MVzbMq
- NHk2YvgQz5znt9jedC2wmP7fhgee9cuI9YoHT/YdDUD35fFshRGEPYwry6YYF1WVlkWsSxyWo5lXL
- NusRF5QwzT1c1Www6dY/rE13Xz82CXwMu/oOzPOw5tPtkZt1oXMNNJrFPcT7zOe3rhm03NiHUnORn
- i/fFa/63F7+6TSN/nO9vZ4omDuV0E7raom7v8GBZhTi5ktCX3Qpg0bSvgMtpaBRzHsk/JpPrwYWMB
- ME3Xf2xg==;
-Received: from shell.armlinux.org.uk
- ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35360)
- by pandora.armlinux.org.uk with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <linux@armlinux.org.uk>)
- id 1ox97j-0000H6-L8; Mon, 21 Nov 2022 15:54:19 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
- (envelope-from <linux@shell.armlinux.org.uk>)
- id 1ox97h-0002UN-VG; Mon, 21 Nov 2022 15:54:17 +0000
-Date: Mon, 21 Nov 2022 15:54:17 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH resend] drm/armada: Fix off-by-one error in
- armada_overlay_get_property()
-Message-ID: <Y3ufKdApJGj6f97b@shell.armlinux.org.uk>
-References: <788e97ac9b2aeee1941f274bf7b279b68c7592b6.1669045360.git.geert+renesas@glider.be>
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
+ [IPv6:2607:f8b0:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7CF110E06A
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 15:57:48 +0000 (UTC)
+Received: by mail-oi1-x22a.google.com with SMTP id s206so12966543oie.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 07:57:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ik+O2yFhiDkDp3RkLBc5Rnv+Co0LOibULw9gEY7U8T0=;
+ b=JN//ENGvlRn+Adk9i9dEqbgbYOd1F8XKs2vSvWxb4UvltkdIPUpjJi+gas/8glOu5j
+ Opu4z7SYkrFCk4VBXajZ5KB5IwF+wHvPRwttDADAXbUF0Gxy2YAIqAPK2ROgVDdz13jU
+ XAgGciFflBGnt/DrBshokkAa/IngSYsGTH0yOrDcrlahZps0PNQRcwEpDHHFLYwGdOBt
+ ty9kKiyjibB/zgI7JjOvmR158NiOZBXVoaDTB/3/4qPrLSmSSBgqM4XGjmlU18ikyTcq
+ eXer+0mr5qMZhxjmuKNWFj16lZyy7xCJSKiw1cNyar92H8iZjwuLV38RelhzJYGwTPrF
+ t+AQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Ik+O2yFhiDkDp3RkLBc5Rnv+Co0LOibULw9gEY7U8T0=;
+ b=mEf6cmo2F8P2eKb3F+pEBPAWP33Cv2Tuwdwk0faNFpYhxlh3hV/jqxqP5NH5rBfpK9
+ swHPzTjYs3kaZxHUYUrWdheX2zwzPpcMz5MKkiwjJPCIzQgOIyH8xtgyM4oVdtGU07Qp
+ qklAkYW74lhxOIlSDJBotxol4HfU9aCsiDQeINUNiJzdgmuPVMwiUZR2Zia/i10V1WAB
+ J5OelGpxTP/bpw3zVPkDd2vAhqtpSGXUTnycglplhackEzhEmkoRlILL+n+lnLsvtSmm
+ +3xsQnQL1RLjFRuPEntFnCjXb7efHtdk1rSajLB7yvEeCM9UVylLN0+OVag/kxoY4gB2
+ nLfg==
+X-Gm-Message-State: ANoB5pmrnG6iaItbe5UKTXT49hmnyOQPBJFyOONycVcsBq/Q9ALpEHzp
+ Pq8bWAjXE3TvDfE+9el3t8qfOHAiyCylpwHF/lE=
+X-Google-Smtp-Source: AA0mqf7B3UhZryQX9jOhaPL639OMvZw+mGDaYvFySZZA3OASotQiSxDe9JLWFat9fZ59veXeogwiQ6KhlqPmnfMRgbA=
+X-Received: by 2002:a05:6808:9b8:b0:34f:97ea:14d with SMTP id
+ e24-20020a05680809b800b0034f97ea014dmr9344853oig.96.1669046267882; Mon, 21
+ Nov 2022 07:57:47 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <788e97ac9b2aeee1941f274bf7b279b68c7592b6.1669045360.git.geert+renesas@glider.be>
+References: <20221119204435.97113-1-ogabbay@kernel.org>
+In-Reply-To: <20221119204435.97113-1-ogabbay@kernel.org>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 21 Nov 2022 10:57:36 -0500
+Message-ID: <CADnq5_MimkbzXXs+kwNTLSzLrcqpm+-7w3gZA8UiJVxQ8aapOg@mail.gmail.com>
+Subject: Re: [PATCH v4 0/4] new subsystem for compute accelerator devices
+To: Oded Gabbay <ogabbay@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,19 +64,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Arnd Bergmann <arnd@arndb.de>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ John Hubbard <jhubbard@nvidia.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Christoph Hellwig <hch@infradead.org>,
+ Christopher Friedt <chrisfriedt@gmail.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Jiho Chu <jiho.chu@samsung.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 21, 2022 at 04:43:14PM +0100, Geert Uytterhoeven wrote:
-> As ffs() returns one more than the index of the first bit set (zero
-> means no bits set), the color key mode value is shifted one position too
-> much.
-> 
-> Fix this by using FIELD_GET() instead.
+On Sat, Nov 19, 2022 at 3:44 PM Oded Gabbay <ogabbay@kernel.org> wrote:
+>
+> This is the fourth (and hopefully last) version of the patch-set to add the
+> new subsystem for compute accelerators. I removed the RFC headline as
+> I believe it is now ready for merging.
+>
+> Compare to v3, this patch-set contains one additional patch that adds
+> documentation regarding the accel subsystem. I hope it's good enough for
+> this stage. In addition, there were few very minor fixes according to
+> comments received on v3.
+>
+> The patches are in the following repo:
+> https://git.kernel.org/pub/scm/linux/kernel/git/ogabbay/accel.git/log/?h=accel_v4
+>
+> As in v3, The HEAD of that branch is a commit adding a dummy driver that
+> registers an accel device using the new framework. This can be served
+> as a simple reference.
+>
+> v1 cover letter:
+> https://lkml.org/lkml/2022/10/22/544
+>
+> v2 cover letter:
+> https://lore.kernel.org/lkml/20221102203405.1797491-1-ogabbay@kernel.org/T/
+>
+> v3 cover letter:
+> https://lore.kernel.org/lkml/20221106210225.2065371-1-ogabbay@kernel.org/T/
+>
 
-Reviewed-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+With the understanding that individual drivers can choose to use
+either classic drm or accel, whichever makes the most sense to them,
+this series is:
+Acked-by: Alex Deucher <alexander.deucer@amd.com>
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+> Thanks,
+> Oded.
+>
+> Oded Gabbay (4):
+>   drivers/accel: define kconfig and register a new major
+>   accel: add dedicated minor for accelerator devices
+>   drm: initialize accel framework
+>   doc: add documentation for accel subsystem
+>
+>  Documentation/accel/index.rst         |  17 ++
+>  Documentation/accel/introduction.rst  | 109 +++++++++
+>  Documentation/admin-guide/devices.txt |   5 +
+>  Documentation/subsystem-apis.rst      |   1 +
+>  MAINTAINERS                           |   9 +
+>  drivers/Kconfig                       |   2 +
+>  drivers/accel/Kconfig                 |  24 ++
+>  drivers/accel/drm_accel.c             | 323 ++++++++++++++++++++++++++
+>  drivers/gpu/drm/Makefile              |   1 +
+>  drivers/gpu/drm/drm_drv.c             | 102 +++++---
+>  drivers/gpu/drm/drm_file.c            |   2 +-
+>  drivers/gpu/drm/drm_sysfs.c           |  24 +-
+>  include/drm/drm_accel.h               |  97 ++++++++
+>  include/drm/drm_device.h              |   3 +
+>  include/drm/drm_drv.h                 |   8 +
+>  include/drm/drm_file.h                |  21 +-
+>  16 files changed, 711 insertions(+), 37 deletions(-)
+>  create mode 100644 Documentation/accel/index.rst
+>  create mode 100644 Documentation/accel/introduction.rst
+>  create mode 100644 drivers/accel/Kconfig
+>  create mode 100644 drivers/accel/drm_accel.c
+>  create mode 100644 include/drm/drm_accel.h
+>
+> --
+> 2.25.1
+>
