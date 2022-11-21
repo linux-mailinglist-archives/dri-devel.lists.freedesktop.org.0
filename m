@@ -1,54 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0179A6327B2
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 16:19:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FE876327B4
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 16:19:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9216B10E2E9;
-	Mon, 21 Nov 2022 15:19:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2388310E2D4;
+	Mon, 21 Nov 2022 15:19:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6914910E2D4
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 15:19:09 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id E071FB810AF
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 15:19:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8363C4314A
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 15:19:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1669043944;
- bh=hNvErq3/YI4nudexs9WhewJxFzxxT6n4zbIU2S0momQ=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=siXw93lDPd8wXGB3UTJDID/cFfKEeaSM81vj3f4Bh0cTHnK1iNHsVX8ieyeuoGld1
- ObiMAU7+P7l+/Ppqe7+w8vsBSoPAsouuVi5ECqACorxPFmYQaKu6WXPiv25Y+4gBmM
- j5gRNVTK+AfnlMylGKUUDrxXCvNB3l7OgiSjFqabm03OxMXPEYofspCHdAmTJvRhvi
- 5PJ2kaS/uepqTUG+9YNtT8OIHMyqtLRqYhYRT+8KqKKL5FZS2xiDtst0uKwQmrHXJV
- 322umduUFyKZv1zwHOtcTA+ZOyZvoWvT7MTzviQ/6HFiAYuSILag5doK7B8Qp4pOXt
- OGvW/79pkhrMg==
-Received: by mail-yb1-f177.google.com with SMTP id 205so13933521ybe.7
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 07:19:04 -0800 (PST)
-X-Gm-Message-State: ANoB5pnKdykcYQXg/4SNQz0n6v2ApyLAjHsrw6lsivluJzdltpRNJMMq
- cZuwQgKnGUZKZL496CeqaE+qPNcku+rpiFm4GLo=
-X-Google-Smtp-Source: AA0mqf7ceDqe5Fjo8jJBqFSfaLx/euEtnK53FpMQ42IwjbflQaf3yYI7/FWG7jLwGOxHaGrVPara/PGuSQjb2PS2PuQ=
-X-Received: by 2002:a25:c0d6:0:b0:6e6:619f:31f7 with SMTP id
- c205-20020a25c0d6000000b006e6619f31f7mr2575999ybf.642.1669043943527; Mon, 21
- Nov 2022 07:19:03 -0800 (PST)
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 140AB10E2D4
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 15:19:29 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 0818D320098C;
+ Mon, 21 Nov 2022 10:19:25 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Mon, 21 Nov 2022 10:19:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; t=1669043965; x=1669130365; bh=IwU/+ORPNc
+ FJdwYkRLc8Tov1cg+1MzhrAUgCDtEZ8+o=; b=cL9lHO9g6PmvoOLKpfjGaHQjI3
+ EBsQjMGTuIUMN5Ow7V+s7UazdsDZ0Ve8lyFeKHp+4SzIogZWUOcWNS4pDmIww26G
+ uQyQZKyRfp657P4cgxmrht+cXVWIg6AVGxht1CIIGLJ9nba8A/cxUIL1VtuBdLHT
+ DPoZ4x2dTQDv1yWJ/CFmzRSHCLFWYRCoAkainDijf0R5TnbyPN7kGIDvUe5tlCWs
+ dFPLknYPN0WfPV+OWPufdKCTWf877pvPyaIf0McxLUIH5Gv0RnY2pwRo3lGAxXbY
+ 9WL0xo9Lzd/k3O0NOPhFJFh32CYWNDdcjgX0RW/bNHGdDF8sABf3nPkAleYw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1669043965; x=1669130365; bh=IwU/+ORPNcFJdwYkRLc8Tov1cg+1
+ MzhrAUgCDtEZ8+o=; b=ON1mS3ama0Qcy0IQOV5loGdhXAdGzymft2OWFUkXFxj/
+ P6ztAvdKrk6TE+Nni4Qn2kkTpEJONIWJRoHQW8BIZB3o/2i34lAao8gYOazElDgb
+ tGdIxkWv9bsDinntYO3c3jq7J6A1ORwGNj3E/LI6fav5lW8L0z69EbiVrHHUgJUl
+ QvDOQzWvvSQG5jmNrdfZcdQDrE7xERvscfPeSvymGrogqv0+HBnWT66aWjz0N4gW
+ QEX6Zr+sBQ6R2l/NS7mdaDh1sI9nVHEwhczQSVQjEPzVSTV/fHrRGHKWDh5I5inX
+ o7hhbILgDMvbXLWAioe7eNC8wKJyinAoi8sbgejMQA==
+X-ME-Sender: <xms:_ZZ7YxIZaKRojPmkMr_KwpI9n83kL6DhmzcIp5EY3kut5u07oPy6Nw>
+ <xme:_ZZ7Y9L0ZofcPyGtJg_jECxB7el1kHRPP0Uj4o7axqPo77KLpuz1OhXrecyNBcG2l
+ inC-8hfnIOfeBg98KI>
+X-ME-Received: <xmr:_ZZ7Y5tBw-usgXpTUDj3t6eYoVXJsO8pbQ3T4DFNfK2Gi80z3wC3b5WZK62j5MTM4h3WUUy8ABmTjbhkqzto08JBT_O08j_taw_0Uq6lorRLGQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrheeigdejhecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepleejuefggeevteelveekteffgeduveeiteeiueegueegiedvtdejjedvfeef
+ tefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
+ dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:_ZZ7Yyad2_gDy45I2Oyez40fS_ZnoKNm1Y-43qNFLQR6XpuyNX8-uQ>
+ <xmx:_ZZ7Y4bR_VO40F88b838D-UHkxRcEeBtu9x8KZy5WP8Kc1ZPlTBxbQ>
+ <xmx:_ZZ7Y2A2v6mZVybmAtFITptx4koD-j6PJKng5agLIoWgpoyjK4FRGQ>
+ <xmx:_ZZ7Y_Xtl98cfmWF0_10xD0e7cnORLim5ZGXYyE53MTM315dLdSJ6Q>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 21 Nov 2022 10:19:25 -0500 (EST)
+Date: Mon, 21 Nov 2022 16:19:22 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Subject: Re: git send-email friendly smtp provider anyone?
+Message-ID: <20221121151922.jaal6ym7z2ejju4q@houat>
+References: <1bc45775-0667-01f8-36e1-9f65d3081092@tronnes.org>
 MIME-Version: 1.0
-References: <20221119204435.97113-1-ogabbay@kernel.org>
- <20221119204435.97113-5-ogabbay@kernel.org>
- <1e1cc8e3-8522-904f-6458-51dc8b212889@quicinc.com>
-In-Reply-To: <1e1cc8e3-8522-904f-6458-51dc8b212889@quicinc.com>
-From: Oded Gabbay <ogabbay@kernel.org>
-Date: Mon, 21 Nov 2022 17:18:37 +0200
-X-Gmail-Original-Message-ID: <CAFCwf13KLp7SzNjDE_EuhVePQ5=a-KEmzd7ytt3zY+tO6RyOxw@mail.gmail.com>
-Message-ID: <CAFCwf13KLp7SzNjDE_EuhVePQ5=a-KEmzd7ytt3zY+tO6RyOxw@mail.gmail.com>
-Subject: Re: [PATCH v4 4/4] doc: add documentation for accel subsystem
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="aufutovedl5p2dcy"
+Content-Disposition: inline
+In-Reply-To: <1bc45775-0667-01f8-36e1-9f65d3081092@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,229 +82,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
- Christopher Friedt <chrisfriedt@gmail.com>,
- Kevin Hilman <khilman@baylibre.com>, Christoph Hellwig <hch@infradead.org>,
- Jagan Teki <jagan@amarulasolutions.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Jiho Chu <jiho.chu@samsung.com>, Arnd Bergmann <arnd@arndb.de>,
- John Hubbard <jhubbard@nvidia.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 21, 2022 at 12:02 AM Jeffrey Hugo <quic_jhugo@quicinc.com> wrote:
->
-> On 11/19/2022 1:44 PM, Oded Gabbay wrote:
-> > Add an introduction section for the accel subsystem. Most of the
-> > relevant data is in the DRM documentation, so the introduction only
-> > presents the why of the new subsystem, how are the compute accelerators
-> > exposed to user-space and what changes need to be done in a standard
-> > DRM driver to register it to the new accel subsystem.
-> >
-> > Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
-> > ---
-> >   Documentation/accel/index.rst        |  17 +++++
-> >   Documentation/accel/introduction.rst | 109 +++++++++++++++++++++++++++
-> >   Documentation/subsystem-apis.rst     |   1 +
-> >   MAINTAINERS                          |   1 +
-> >   4 files changed, 128 insertions(+)
-> >   create mode 100644 Documentation/accel/index.rst
-> >   create mode 100644 Documentation/accel/introduction.rst
-> >
-> > diff --git a/Documentation/accel/index.rst b/Documentation/accel/index.rst
-> > new file mode 100644
-> > index 000000000000..2b43c9a7f67b
-> > --- /dev/null
-> > +++ b/Documentation/accel/index.rst
-> > @@ -0,0 +1,17 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +====================
-> > +Compute Accelerators
-> > +====================
-> > +
-> > +.. toctree::
-> > +   :maxdepth: 1
-> > +
-> > +   introduction
-> > +
-> > +.. only::  subproject and html
-> > +
-> > +   Indices
-> > +   =======
-> > +
-> > +   * :ref:`genindex`
-> > diff --git a/Documentation/accel/introduction.rst b/Documentation/accel/introduction.rst
-> > new file mode 100644
-> > index 000000000000..5a3963eae973
-> > --- /dev/null
-> > +++ b/Documentation/accel/introduction.rst
-> > @@ -0,0 +1,109 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +============
-> > +Introduction
-> > +============
-> > +
-> > +The Linux compute accelerators subsystem is designed to expose compute
-> > +accelerators in a common way to user-space and provide a common set of
-> > +functionality.
-> > +
-> > +These devices can be either stand-alone ASICs or IP blocks inside an SoC/GPU.
-> > +Although these devices are typically designed to accelerate Machine-Learning
-> > +and/or Deep-Learning computations, the accel layer is not limited to handling
->
-> You use "DL" later on as a short form for Deep-Learning.  It would be
-> good to introduce that here.
->
-> > +these types of accelerators.
-> > +
-> > +typically, a compute accelerator will belong to one of the following
->
-> Typically
->
-> > +categories:
-> > +
-> > +- Edge AI - doing inference at an edge device. It can be an embedded ASIC/FPGA,
-> > +  or an IP inside a SoC (e.g. laptop web camera). These devices
-> > +  are typically configured using registers and can work with or without DMA.
-> > +
-> > +- Inference data-center - single/multi user devices in a large server. This
-> > +  type of device can be stand-alone or an IP inside a SoC or a GPU. It will
-> > +  have on-board DRAM (to hold the DL topology), DMA engines and
-> > +  command submission queues (either kernel or user-space queues).
-> > +  It might also have an MMU to manage multiple users and might also enable
-> > +  virtualization (SR-IOV) to support multiple VMs on the same device. In
-> > +  addition, these devices will usually have some tools, such as profiler and
-> > +  debugger.
-> > +
-> > +- Training data-center - Similar to Inference data-center cards, but typically
-> > +  have more computational power and memory b/w (e.g. HBM) and will likely have
-> > +  a method of scaling-up/out, i.e. connecting to other training cards inside
-> > +  the server or in other servers, respectively.
-> > +
-> > +All these devices typically have different runtime user-space software stacks,
-> > +that are tailored-made to their h/w. In addition, they will also probably
-> > +include a compiler to generate programs to their custom-made computational
-> > +engines. Typically, the common layer in user-space will be the DL frameworks,
-> > +such as PyTorch and TensorFlow.
-> > +
-> > +Sharing code with DRM
-> > +=====================
-> > +
-> > +Because this type of devices can be an IP inside GPUs or have similar
-> > +characteristics as those of GPUs, the accel subsystem will use the
-> > +DRM subsystem's code and functionality. i.e. the accel core code will
-> > +be part of the DRM subsystem and an accel device will be a new type of DRM
-> > +device.
-> > +
-> > +This will allow us to leverage the extensive DRM code-base and
-> > +collaborate with DRM developers that have experience with this type of
-> > +devices. In addition, new features that will be added for the accelerator
-> > +drivers can be of use to GPU drivers as well.
-> > +
-> > +Differentiation from GPUs
-> > +=========================
-> > +
-> > +Because we want to prevent the extensive user-space graphic software stack
-> > +from trying to use an accelerator as a GPU, the compute accelerators will be
-> > +differentiated from GPUs by using a new major number and new device char files.
-> > +
-> > +Furthermore, the drivers will be located in a separate place in the kernel
-> > +tree - drivers/accel/.
-> > +
-> > +The accelerator devices will be exposed to the user space with the dedicated
-> > +261 major number and will have the following convention:
-> > +
-> > +- device char files - /dev/accel/accel*
-> > +- sysfs             - /sys/class/accel/accel*/
-> > +- debugfs           - /sys/kernel/debug/accel/accel*/
-> > +
-> > +Getting Started
-> > +===============
-> > +
-> > +First, read the DRM documentation. Not only it will explain how to write a new
->
-> How about a link to the DRM documentation?
->
-> > +DRM driver but it will also contain all the information on how to contribute,
-> > +the Code Of Conduct and what is the coding style/documentation. All of that
-> > +is the same for the accel subsystem.
-> > +
-> > +Second, make sure the kernel is configured with CONFIG_DRM_ACCEL.
-> > +
-> > +To expose your device as an accelerator, two changes are needed to
-> > +be done in your driver (as opposed to a standard DRM driver):
-> > +
-> > +- Add the DRIVER_COMPUTE_ACCEL feature flag in your drm_driver's
-> > +  driver_features field. It is important to note that this driver feature is
-> > +  mutually exclusive with DRIVER_RENDER and DRIVER_MODESET. Devices that want
->
-> I don't remember seeing code that validates a driver with
-> DRIVER_COMPUTE_ACCEL does not also have DRIVER_MODESET.  What am I missing?
 
-Look at drm_dev_init() (patch 3/4):
+--aufutovedl5p2dcy
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-if (drm_core_check_feature(dev, DRIVER_COMPUTE_ACCEL) &&
-               (drm_core_check_feature(dev, DRIVER_RENDER) ||
-                 drm_core_check_feature(dev, DRIVER_MODESET))) {
-            DRM_ERROR("DRM driver can't be both a compute acceleration
-and graphics driver\n");
-             return -EINVAL;
-}
+On Mon, Nov 21, 2022 at 12:48:52PM +0100, Noralf Tr=F8nnes wrote:
+> A couple of years ago my email provider blocked me from using git
+> send-email with their smtp server. So I switched to the one my ISP
+> provides. Now my ISP have outsourced their email service so the first 3
+> emails gets through and the rest looks like it ends up in a tar pit or
+> something, 18 hours later and 5 of 7 emails have gotten through. I have
+> asked them about this, but I fear the answer will be this is not
+> supported since they now don't have the service in-house anymore. I'm
+> waiting for a reply.
+>=20
+> Today I tried sendinblue.com since they have a free plan, but they
+> insert <br> in the emails so that didn't work out. They also have some
+> kind of queue, after 1 hour 6 of 7 emails have gotten through.
+>=20
+> Does anyone have an smtp provider to recommend that works with git
+> send-email and that sends out all the emails at once?
 
-Thanks for your other comments, I'll fix them before sending the PR.
-Oded
+I'm using fastmail and am very happy about it so far.
 
->
-> > +  to expose both graphics and compute device char files should be handled by
-> > +  two drivers that are connected using the auxiliary bus framework.
-> > +
-> > +- Change the open callback in your driver fops structure to accel_open().
-> > +  Alternatively, your driver can use DEFINE_DRM_ACCEL_FOPS macro to easily
-> > +  set the correct function operations pointers structure.
-> > +
-> > +External References
-> > +===================
-> > +
-> > +email threads
-> > +-------------
-> > +
-> > +* `Initial discussion on the New subsystem for acceleration devices <https://lkml.org/lkml/2022/7/31/83>`_ - Oded Gabbay (2022)
-> > +* `patch-set to add the new subsystem <https://lkml.org/lkml/2022/10/22/544>`_ - Oded Gabbay (2022)
-> > +
-> > +Conference talks
-> > +----------------
-> > +
-> > +* `LPC 2022 Accelerators BOF outcomes summary <https://airlied.blogspot.com/2022/09/accelerators-bof-outcomes-summary.html>`_ - Dave Airlie (2022)
-> > diff --git a/Documentation/subsystem-apis.rst b/Documentation/subsystem-apis.rst
-> > index af65004a80aa..b51f38527e14 100644
-> > --- a/Documentation/subsystem-apis.rst
-> > +++ b/Documentation/subsystem-apis.rst
-> > @@ -43,6 +43,7 @@ needed).
-> >      input/index
-> >      hwmon/index
-> >      gpu/index
-> > +   accel/index
-> >      security/index
-> >      sound/index
-> >      crypto/index
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 4d752aac3ec0..6ba7bb35208a 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -6837,6 +6837,7 @@ L:      dri-devel@lists.freedesktop.org
-> >   S:  Maintained
-> >   C:  irc://irc.oftc.net/dri-devel
-> >   T:  git https://git.kernel.org/pub/scm/linux/kernel/git/ogabbay/accel.git
-> > +F:   Documentation/accel/
-> >   F:  drivers/accel/
-> >
-> >   DRM DRIVERS FOR ALLWINNER A10
->
+Otherwise, you might consider using:
+https://b4.docs.kernel.org/en/latest/contributor/send.html#authenticating-w=
+ith-the-web-submission-endpoint
+
+Maxime
+
+--aufutovedl5p2dcy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY3uW+gAKCRDj7w1vZxhR
+xTliAP42DZbkg/gGP8nHP2wOWsm3v/FZYdMVwNTEQquHeHM8HwEAuGuOAy3qshT5
+51ek0yfLAMn0kg2lW7eA9mhqt0abiQI=
+=cvH2
+-----END PGP SIGNATURE-----
+
+--aufutovedl5p2dcy--
