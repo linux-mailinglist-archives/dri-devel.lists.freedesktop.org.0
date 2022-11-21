@@ -2,49 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A26E56321EF
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 13:28:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56C5A632278
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 13:41:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71AD610E087;
-	Mon, 21 Nov 2022 12:28:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C41BA10E2BF;
+	Mon, 21 Nov 2022 12:41:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB91710E087
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 12:28:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202112;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=iXcTz8lxYQ7geYhT3TlnQBnOfCxeX1gmPx4WmdhdkQM=; b=on9Wfu7lu6smGVbIGgWohfA/0x
- h8M3nDU26EKRAGGxd5047blCnotXLsXuIfZzxqTq9iym7iQTZOaYEtmLOD3nkJP828UIV7fdtVC1Q
- eQmSzyAGwYHCwYLnsZxQSstgT3CQFprYbbrbDI2UsbpuW0TPDH021boXuegt2JItbojokMJ6bi2dA
- iRxEP5r+xJ4kaB3MiMjXihQup+EjHk1s03qkA38/jxJG0NrAtbfuepqo22gLuxrQ9r+tj8ox72zeX
- uwHh6nWurJVGTY5B9R3VtXBpi1oovk9C/KmuMAO3hpjeD6Yzl2S12V+RuTcFY3Yg0xossZRjngpSu
- G3wGF23A==;
-Received: from [2a01:799:95e:1700:6395:ccbd:d000:d42b] (port=57644)
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1ox5u2-0004cF-Db; Mon, 21 Nov 2022 13:27:58 +0100
-Message-ID: <86f5b25d-55cc-c759-d9ec-b086d7f05698@tronnes.org>
-Date: Mon, 21 Nov 2022 13:27:54 +0100
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43B2F10E2DB
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 12:41:15 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 03BDB21CF4;
+ Mon, 21 Nov 2022 12:41:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1669034474; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3Sg20YjFdHsCdXs8OXaGgU51HC0eApYM2tMX90JZz2o=;
+ b=W9E0Z3VGfO0PasYZTDAyRoFKLbOn5cvZpRMPlzM7ue8pdaaF0IKq7u57QSUzIER5uQ7ZLe
+ kY58YXO2f0Pu96g4lAt65RjSiJfpqYIYPoYeQTMrhtP1Y1t3SqatNWEXtzDvADxJCG2u9l
+ RnwckmQtJoZWmXW93bGD9DWSuyXfq38=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1669034474;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3Sg20YjFdHsCdXs8OXaGgU51HC0eApYM2tMX90JZz2o=;
+ b=PB8+QyVEcyf6A7MXhpTpwilHOWEeh6OJqkGkE405MweAo/wsDIfvrt+2+cLYbJz9W6YxL5
+ 4wwx/43P1OddcsCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BC0591376E;
+ Mon, 21 Nov 2022 12:41:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 4yrTLOlxe2MfXwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 21 Nov 2022 12:41:13 +0000
+Message-ID: <98ed3b6c-bca1-c184-faab-c8d7b5771fb0@suse.de>
+Date: Mon, 21 Nov 2022 13:41:12 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
 Subject: Re: [PATCH 0/8] drm/mipi-dbi: Convert to shadow-plane helpers
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>, daniel@ffwll.ch,
  airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
  thierry.reding@gmail.com, sam@ravnborg.org, emma@anholt.net,
  david@lechnology.com, kamlesh.gurudasani@gmail.com, javierm@redhat.com
 References: <20221121104532.8301-1-tzimmermann@suse.de>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20221121104532.8301-1-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <86f5b25d-55cc-c759-d9ec-b086d7f05698@tronnes.org>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <86f5b25d-55cc-c759-d9ec-b086d7f05698@tronnes.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------itVXnD2yU6Mlsex0qNO20Ll9"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,39 +73,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------itVXnD2yU6Mlsex0qNO20Ll9
+Content-Type: multipart/mixed; boundary="------------lpkSbpJ0PWH0Nt8crf3iGCB1";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>, daniel@ffwll.ch,
+ airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ thierry.reding@gmail.com, sam@ravnborg.org, emma@anholt.net,
+ david@lechnology.com, kamlesh.gurudasani@gmail.com, javierm@redhat.com
+Cc: dri-devel@lists.freedesktop.org
+Message-ID: <98ed3b6c-bca1-c184-faab-c8d7b5771fb0@suse.de>
+Subject: Re: [PATCH 0/8] drm/mipi-dbi: Convert to shadow-plane helpers
+References: <20221121104532.8301-1-tzimmermann@suse.de>
+ <86f5b25d-55cc-c759-d9ec-b086d7f05698@tronnes.org>
+In-Reply-To: <86f5b25d-55cc-c759-d9ec-b086d7f05698@tronnes.org>
 
+--------------lpkSbpJ0PWH0Nt8crf3iGCB1
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Den 21.11.2022 11.45, skrev Thomas Zimmermann:
-> Convert the MIPI-DBI-based drivers to shadow-plane helpers. The
-> drivers vmap/vunmap GEM buffer memory during the atomic commit.
-> Shadow-plane helpers automate this process.
-> 
-> Patches 1 to 4 prepare the MIPI code for the change and simplify
-> the restof the patchset.
-> 
-> Patches 5 to 7 rework the vmap code in the MIPI-DBI drivers and add
-> shadow-plane helpers. Most of the affected drivers call MIPI-DBI
-> helpers and get the update automatically. Only ili9225 and st7586
-> require changes to their source code.
-> 
-> Patch 8 simplifies drm_dev_enter() and _exit(). It's not strictly
-> needed, but streamlines the driver code and make sense overall.
-> 
-> Testing is welcome, as I don't have any hardware to test these
-> changes myself.
-> 
+SGkNCg0KQW0gMjEuMTEuMjIgdW0gMTM6Mjcgc2NocmllYiBOb3JhbGYgVHLDuG5uZXM6DQo+
+IA0KPiANCj4gRGVuIDIxLjExLjIwMjIgMTEuNDUsIHNrcmV2IFRob21hcyBaaW1tZXJtYW5u
+Og0KPj4gQ29udmVydCB0aGUgTUlQSS1EQkktYmFzZWQgZHJpdmVycyB0byBzaGFkb3ctcGxh
+bmUgaGVscGVycy4gVGhlDQo+PiBkcml2ZXJzIHZtYXAvdnVubWFwIEdFTSBidWZmZXIgbWVt
+b3J5IGR1cmluZyB0aGUgYXRvbWljIGNvbW1pdC4NCj4+IFNoYWRvdy1wbGFuZSBoZWxwZXJz
+IGF1dG9tYXRlIHRoaXMgcHJvY2Vzcy4NCj4+DQo+PiBQYXRjaGVzIDEgdG8gNCBwcmVwYXJl
+IHRoZSBNSVBJIGNvZGUgZm9yIHRoZSBjaGFuZ2UgYW5kIHNpbXBsaWZ5DQo+PiB0aGUgcmVz
+dG9mIHRoZSBwYXRjaHNldC4NCj4+DQo+PiBQYXRjaGVzIDUgdG8gNyByZXdvcmsgdGhlIHZt
+YXAgY29kZSBpbiB0aGUgTUlQSS1EQkkgZHJpdmVycyBhbmQgYWRkDQo+PiBzaGFkb3ctcGxh
+bmUgaGVscGVycy4gTW9zdCBvZiB0aGUgYWZmZWN0ZWQgZHJpdmVycyBjYWxsIE1JUEktREJJ
+DQo+PiBoZWxwZXJzIGFuZCBnZXQgdGhlIHVwZGF0ZSBhdXRvbWF0aWNhbGx5LiBPbmx5IGls
+aTkyMjUgYW5kIHN0NzU4Ng0KPj4gcmVxdWlyZSBjaGFuZ2VzIHRvIHRoZWlyIHNvdXJjZSBj
+b2RlLg0KPj4NCj4+IFBhdGNoIDggc2ltcGxpZmllcyBkcm1fZGV2X2VudGVyKCkgYW5kIF9l
+eGl0KCkuIEl0J3Mgbm90IHN0cmljdGx5DQo+PiBuZWVkZWQsIGJ1dCBzdHJlYW1saW5lcyB0
+aGUgZHJpdmVyIGNvZGUgYW5kIG1ha2Ugc2Vuc2Ugb3ZlcmFsbC4NCj4+DQo+PiBUZXN0aW5n
+IGlzIHdlbGNvbWUsIGFzIEkgZG9uJ3QgaGF2ZSBhbnkgaGFyZHdhcmUgdG8gdGVzdCB0aGVz
+ZQ0KPj4gY2hhbmdlcyBteXNlbGYuDQo+Pg0KPiANCj4gSSBjYW4gZG8gYSB0ZXN0IHRoaXMg
+d2Vla2VuZC4NCg0KVGhhbmtzIGEgbG90Lg0KDQo+IA0KPiBCdHcgSSd2ZSBjb252ZXJ0ZWQg
+ZHJtL2d1ZCB0byB0aGUgc2hhZG93IHBsYW5lIGhlbHBlciwgSSBqdXN0IG5lZWQgdG8NCj4g
+c29sdmUgYW4gc210cCBwcm9ibGVtWzFdIHNvIEkgY2FuIHNlbmQgb3V0IHRoZSBwYXRjaHNl
+dC4NCg0KSG93IHNvPyAgV2hlbiBJIGxvb2tlZCBhdCBpdCwgdGhlIHZtYXAvdnVubWFwIGhh
+cHBlbmVkIG9uIGEgc2VwYXJhdGUgDQp3b3JrZXIgdGhhbiB0aGUgY29tbWl0IElJUkMuDQoN
+CkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IFsxXQ0KPiBodHRwczovL2xvcmUua2Vy
+bmVsLm9yZy9kcmktZGV2ZWwvMWJjNDU3NzUtMDY2Ny0wMWY4LTM2ZTEtOWY2NWQzMDgxMDky
+QHRyb25uZXMub3JnL1QvI3UNCj4gDQo+IE5vcmFsZi4NCg0KLS0gDQpUaG9tYXMgWmltbWVy
+bWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlv
+bnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1h
+bnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8g
+VG90ZXYNCg==
 
-I can do a test this weekend.
+--------------lpkSbpJ0PWH0Nt8crf3iGCB1--
 
-Btw I've converted drm/gud to the shadow plane helper, I just need to
-solve an smtp problem[1] so I can send out the patchset.
+--------------itVXnD2yU6Mlsex0qNO20Ll9
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-[1]
-https://lore.kernel.org/dri-devel/1bc45775-0667-01f8-36e1-9f65d3081092@tronnes.org/T/#u
+-----BEGIN PGP SIGNATURE-----
 
-Noralf.
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmN7cegFAwAAAAAACgkQlh/E3EQov+An
+uhAA0f4UX3GTPyikNzrf9pz4WL8cT0UDNc8Tz1wUalAWXUDYom24tspM3xB+PTUBf6lltWwQ6VOL
+PL8nw3Mgy8nhJjq0Km7hEYPNH4y3oBAXC7kj5lsCPRjm+KOt84jo6x8ye9cJLrU0ZfieRIaW9Ygw
+RyM//fTBIt26lA+4rwBXKydAAswzcK/nKdFR8uN/G3kvjF+99CKEFmuu9bd/wq7jvk6UepjIPmrZ
+uDFrlZqd2mEbbvlY8IZO/K3i8118WbZ1BZeLmhW90nmWY8ndvTrjDsQ3anTvQvMGm4jSQuSSjivP
+UHMQ4qKvRb00DzKOrycff2OPyh2kpCbNzsTtL2aweejdZ16qG3zysIIN3qRZ75u0ifnDDLeVuuuS
+/MX5F7w9mtgdrMiCh6cB27+ZA2/Y7g7ljBK8HRL6py5IMcH3OJzAAMGquL0OEjrfpQyjXG+yigu3
+9y/IJOJvxisu49maqgd/HYK/AlwfTcjGtGQeLICKRgUHx8pHlDz0e4tc1WtqEvsj4qMLmpeNt9gF
+3kaZqdkRxQ7Ga/YnWDmYut7mdmHHcwrc5mrIamVLkjjFG+Hm6lOC7Tx6rT5Rm2zncoLBRzKb+lJK
+C0v99Z09EGtbNsbaVueDdc1D15iIPAEv9F7CpZKAqVupLQ0sqQ0H/AjK/buh0BG8C2wSb4BV4P2h
+FsE=
+=YPFC
+-----END PGP SIGNATURE-----
+
+--------------itVXnD2yU6Mlsex0qNO20Ll9--
