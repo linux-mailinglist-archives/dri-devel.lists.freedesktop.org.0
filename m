@@ -1,54 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB456632778
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 16:12:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 482BD632795
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 16:14:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6332F10E2EE;
-	Mon, 21 Nov 2022 15:12:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2782A10E18B;
+	Mon, 21 Nov 2022 15:14:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 541C310E2EE
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 15:12:10 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 1A7A4B81091
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 15:12:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C212AC433D7
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 15:12:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1669043526;
- bh=Y2awgxzkLXn6V7BTrm8gtaQXfSLTb8RLAcCS65ZDhoo=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=F3ijGoICNR9wHi5/fz7CdYAI9mQeZ9alLkqsoAF1PrfSMFgXCbzs+exVs8YBVGxuA
- 8Da6ejJeLsfj40i6RUh/Shrm8foCHZlRu/K6q/rD4Q0YhZetpFstPz8j/Y9PUq/sPi
- Ek3gfenvjQpVdJdAV+OOWxO4RjkdLVjcW9gOsNUGAhPUIwhTDeKBu1Z53ThYihATbp
- VH1GsjDOjlpz4e7U1FEchNdUb0aTtu+X6KGwshZURSRLkgdp84vH6ptrSnQjNrcKw6
- gRVaOw9MUmDCoFnttED0weLKq9fifJxOGTyhvN3C63pujNdkaDJu7ERbkrkykCFsUQ
- cBA2aoQBnkAXA==
-Received: by mail-yb1-f170.google.com with SMTP id i131so13909801ybc.9
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 07:12:06 -0800 (PST)
-X-Gm-Message-State: ANoB5pnkaDo1T9N8tMwpuMXckkrI8b9q3wsxhIZLYTgpnFiF526Ffx6Y
- L0PX4yLr4VKkzD2OEXZBmqnl3HZBYEj7WqmcWbU=
-X-Google-Smtp-Source: AA0mqf5/5xxD5cxs88zpMsUiAEvUlgBYebjN8ztc7BugrLv4fV04+FofRMCpOJDou4t7KLcL8prele+XwwE85kjzVxs=
-X-Received: by 2002:a25:ed10:0:b0:6d0:5d59:dba1 with SMTP id
- k16-20020a25ed10000000b006d05d59dba1mr16252093ybh.68.1669043525889; Mon, 21
- Nov 2022 07:12:05 -0800 (PST)
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4D0410E2E9
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 15:14:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=IvJc3Xv91Y5fWMzRMgRvPbtd/n2RP+MXKy/jwSMMdg4=; b=KBvnAaJHQsfCsUB3ryG9L8ZSz3
+ dGoqcVwgn8/tqM1/dIyqO4vzSqmzN9JSS8K4RxRLbLiCw3cvHdUEb7/mCr4QVOdpez+Y6C4VlUCTF
+ 9NxC91ooWoOoqTVgR+y44tDm6L4auzT00q1d2A4cmwv/pBTHK+6HS4bQtOF3JkNizcS4dLIU3BBGr
+ E4GI2v2qdRSep0Pz/Wqtk9GRqJOR4yI8q93pMW+jrI0dUC6kRv2XQeD5B4qOrMGouNz3kwQTyoW0m
+ 4qDg0uJvjq9NCFtIwqMh4b7wi6x21OrQiZJkXUbtBOsrqlkMXBsL9QMNloRwbiN7aAoQXXRJXRqDn
+ ND/tGpfA==;
+Received: from [2a01:799:95e:1700:6395:ccbd:d000:d42b] (port=61750)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1ox8VE-0001KK-3J; Mon, 21 Nov 2022 16:14:32 +0100
+Message-ID: <f14e9985-ecd2-7e94-878f-d6564ead44a3@tronnes.org>
+Date: Mon, 21 Nov 2022 16:14:28 +0100
 MIME-Version: 1.0
-References: <20221119204435.97113-1-ogabbay@kernel.org>
- <20221119204435.97113-3-ogabbay@kernel.org>
- <9ce1bf9f-a481-92e3-c7cc-a1b41270468d@quicinc.com>
-In-Reply-To: <9ce1bf9f-a481-92e3-c7cc-a1b41270468d@quicinc.com>
-From: Oded Gabbay <ogabbay@kernel.org>
-Date: Mon, 21 Nov 2022 17:11:39 +0200
-X-Gmail-Original-Message-ID: <CAFCwf11doYdEEg8juX4Z3yOk8NfauWOV2hn8bCzmDY3k6-9sdg@mail.gmail.com>
-Message-ID: <CAFCwf11doYdEEg8juX4Z3yOk8NfauWOV2hn8bCzmDY3k6-9sdg@mail.gmail.com>
-Subject: Re: [PATCH v4 2/4] accel: add dedicated minor for accelerator devices
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH 0/8] drm/mipi-dbi: Convert to shadow-plane helpers
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ thierry.reding@gmail.com, sam@ravnborg.org, emma@anholt.net,
+ david@lechnology.com, kamlesh.gurudasani@gmail.com, javierm@redhat.com
+References: <20221121104532.8301-1-tzimmermann@suse.de>
+ <86f5b25d-55cc-c759-d9ec-b086d7f05698@tronnes.org>
+ <98ed3b6c-bca1-c184-faab-c8d7b5771fb0@suse.de>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <98ed3b6c-bca1-c184-faab-c8d7b5771fb0@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,45 +59,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
- Christopher Friedt <chrisfriedt@gmail.com>,
- Kevin Hilman <khilman@baylibre.com>, Christoph Hellwig <hch@infradead.org>,
- Jagan Teki <jagan@amarulasolutions.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Jiho Chu <jiho.chu@samsung.com>, Arnd Bergmann <arnd@arndb.de>,
- John Hubbard <jhubbard@nvidia.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Nov 20, 2022 at 11:47 PM Jeffrey Hugo <quic_jhugo@quicinc.com> wrote:
->
-> On 11/19/2022 1:44 PM, Oded Gabbay wrote:
-> > diff --git a/drivers/accel/drm_accel.c b/drivers/accel/drm_accel.c
-> > index fac6ad6ac28e..703d40c4ff45 100644
-> > --- a/drivers/accel/drm_accel.c
-> > +++ b/drivers/accel/drm_accel.c
-> > @@ -8,14 +8,25 @@
-> >
-> >   #include <linux/debugfs.h>
-> >   #include <linux/device.h>
-> > +#include <linux/xarray.h>
->
-> Including xarray, but using idr
-> This should be linux/idr.h
->
-> This seems so minor, I don't think I advise spinning a v5 for it.  If a
-> v5 is warranted elsewhere, obviously fix this.  If not, hopefully this
-> can be fixed up by whoever applies it, or someone submits a follow up patch.
->
-> Hopefully this is the only nit.  I would like to see this merged.
->
-> -Jeff
-Thanks,
-I'll update it before sending the PR.
-Oded
+
+
+Den 21.11.2022 13.41, skrev Thomas Zimmermann:
+> Hi
+> 
+> Am 21.11.22 um 13:27 schrieb Noralf Trønnes:
+>>
+>>
+>> Den 21.11.2022 11.45, skrev Thomas Zimmermann:
+>>> Convert the MIPI-DBI-based drivers to shadow-plane helpers. The
+>>> drivers vmap/vunmap GEM buffer memory during the atomic commit.
+>>> Shadow-plane helpers automate this process.
+>>>
+>>> Patches 1 to 4 prepare the MIPI code for the change and simplify
+>>> the restof the patchset.
+>>>
+>>> Patches 5 to 7 rework the vmap code in the MIPI-DBI drivers and add
+>>> shadow-plane helpers. Most of the affected drivers call MIPI-DBI
+>>> helpers and get the update automatically. Only ili9225 and st7586
+>>> require changes to their source code.
+>>>
+>>> Patch 8 simplifies drm_dev_enter() and _exit(). It's not strictly
+>>> needed, but streamlines the driver code and make sense overall.
+>>>
+>>> Testing is welcome, as I don't have any hardware to test these
+>>> changes myself.
+>>>
+>>
+>> I can do a test this weekend.
+> 
+> Thanks a lot.
+> 
+>>
+>> Btw I've converted drm/gud to the shadow plane helper, I just need to
+>> solve an smtp problem[1] so I can send out the patchset.
+> 
+> How so?  When I looked at it, the vmap/vunmap happened on a separate
+> worker than the commit IIRC.
+> 
+
+Yes you're right, originally the driver only did flushing asynchronously
+in a worker which meant it could access the framebuffer at the same time
+as userspace. Later when GNOME got support for one rendering loop per
+display, I added a module parameter to enable synchronous flushing
+during the commit, it also uses the worker for this but waits for it to
+complete.
+
+What I've done in the patchset is to inline the sync flushing and use a
+shadow buffer for the async path which still uses the worker, but now it
+won't risk reading the framebuffer while userspace writes to it, instead
+it reads from the shadow buffer.
+
+Noralf.
+
+> Best regards
+> Thomas
+> 
+>>
+>> [1]
+>> https://lore.kernel.org/dri-devel/1bc45775-0667-01f8-36e1-9f65d3081092@tronnes.org/T/#u
+>>
+>> Noralf.
+> 
