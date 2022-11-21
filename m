@@ -1,50 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1919632136
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 12:49:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A29A632173
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 12:58:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25C2410E179;
-	Mon, 21 Nov 2022 11:49:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52FB310E2B3;
+	Mon, 21 Nov 2022 11:58:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com
- [209.85.222.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CABD10E179
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 11:49:40 +0000 (UTC)
-Received: by mail-qk1-f181.google.com with SMTP id 8so7800320qka.1
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 03:49:40 -0800 (PST)
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DA5810E2B0
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 11:57:58 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id me22so11366895ejb.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 03:57:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=MBbsIuonafwREhzlZL+FNmZyLBn3gGtNW8dW5Tq4ubo=;
+ b=rMXy/vvwEhXKozlAX1RwrPPT42CNokrusCoQoaRmpnG1Qk15lltVbnd3j2iAUlPdCs
+ ti02LF5TBqoq6YtuHwOVTeMM8V3j9A/NyTYlxdqupHWMVJXHr1OdUGXBc1PgZ4MAwDHo
+ jBrJsSHfGHJvwDXnWS7nntzTuJE+2sCrNmMBY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=4lbzYkmJhxm5C+/5IVFkRr+sFHYjfyy9aJrVSznookE=;
- b=53HrN/1Rlgy/62DhpleHwNQ+6aRuy4pLQ47kDc8PVKuAvAIKva9mDE/vSOVuoT5SEQ
- dj8eT5iF8WJpo5h5naahnbeTNcF/0frMOvUv32+Y4HogmF1075BxcwTaDa2EfMqIN/xE
- pCyyPTARW/1ZVtakKGssqI0q0qtIiBwrXDDioIn4vbUAXsY5CSmdfQJKNhjZFG65c8y7
- k3A/T6SL07C/WTX94OrTWpafHY9U0p1Yj85IlwnEq37qrxa6xn7QLis2TQ+7zBvrB8PJ
- XUDEf5I00yAzLTLgbuXf25RwHBBLJzWR6E6algXg0m/xavXDaMgqIkTtraL19LGzD5P3
- lxyA==
-X-Gm-Message-State: ANoB5pkPFbzWtUSWkRGLjF2neblGN1VoX0Cp0i64+2VYzQLnKwcwpyL5
- kG3KlAVuvCf0uYDKOlYdmPoaJcmFujivBlFmANM=
-X-Google-Smtp-Source: AA0mqf46epIs+NcHJYD6sFzeJoDiCU0QUrd8rQyiq1r2eQjiNS7/0XOCN53oHWUTPo5MxqAfEsJksRoUxCgj+R4BG3Y=
-X-Received: by 2002:a05:620a:4611:b0:6fa:af7e:927c with SMTP id
- br17-20020a05620a461100b006faaf7e927cmr15551057qkb.443.1669031379745; Mon, 21
- Nov 2022 03:49:39 -0800 (PST)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=MBbsIuonafwREhzlZL+FNmZyLBn3gGtNW8dW5Tq4ubo=;
+ b=wYRUk5UA3LN+dciFsLanM51pDtOxlvdkAm1vNhMlRdobucfuwRt8Ljb8z1NuoyWkry
+ Yr258SVQmNjlxYw4DC8LLT1b3cIeVcyygF0A7OyH0CJ+ML2qppTa+eOEzX94AM4zQ4kt
+ lAgQl535FmN3vlv/dsAwwP42Whik07g+C2g6bIqnzaHWrKIsF5krHlUSWvGKOXhTuQTc
+ DmjtcHWAXH0oG0kI6Sq/gRz0WuPsSGBzMdS/NTgtBfXi2TLJlzYRYQI2CH4ZqwLF06mn
+ YMx2GjQQWq4Dt3p7+3IijKVFWsTxghWUuo3cmRgP7vqqpv2UbkTHD5i4gEAO4Tiwt9gb
+ sBwQ==
+X-Gm-Message-State: ANoB5pmMoKVBmWU8hfoQrOx5msFd6Ipupcl1KueAmcZWsUmCc0FntzMC
+ gLXp8uAwFnf+AO66RpZaLN2HmQ==
+X-Google-Smtp-Source: AA0mqf4GqPNprIWVxYHjPd6mEdI7a0BfxK3crJG0H7ykmiHCidUbmzKoQBMNZ5VBRsnmPvjpZMda8Q==
+X-Received: by 2002:a17:906:2342:b0:78d:9e77:1f8c with SMTP id
+ m2-20020a170906234200b0078d9e771f8cmr6710101eja.236.1669031876837; 
+ Mon, 21 Nov 2022 03:57:56 -0800 (PST)
+Received: from tom-ThinkPad-T14s-Gen-2i
+ (net-188-217-55-94.cust.vodafonedsl.it. [188.217.55.94])
+ by smtp.gmail.com with ESMTPSA id
+ k19-20020aa7c053000000b00456c6b4b777sm5037181edo.69.2022.11.21.03.57.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Nov 2022 03:57:56 -0800 (PST)
+Date: Mon, 21 Nov 2022 12:57:54 +0100
+From: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+To: Wang Yufen <wangyufen@huawei.com>
+Subject: Re: [PATCH] i2c: qcom-geni: fix error return code in geni_i2c_gpi_xfer
+Message-ID: <20221121115754.GA39395@tom-ThinkPad-T14s-Gen-2i>
+References: <1669025872-44226-1-git-send-email-wangyufen@huawei.com>
 MIME-Version: 1.0
-References: <20221121094649.1556002-1-gregkh@linuxfoundation.org>
- <20221121094649.1556002-3-gregkh@linuxfoundation.org>
-In-Reply-To: <20221121094649.1556002-3-gregkh@linuxfoundation.org>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 21 Nov 2022 12:49:25 +0100
-Message-ID: <CAJZ5v0j=HLEdKUhHjWGd8NTNLYW4n1q4OAKer-EZSufgX0ujeQ@mail.gmail.com>
-Subject: Re: [PATCH 3/5] kobject: kset_uevent_ops: make filter() callback take
- a const *
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1669025872-44226-1-git-send-email-wangyufen@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,113 +69,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
- linaro-mm-sig@lists.linaro.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+Cc: linux-arm-msm@vger.kernel.org, andersson@kernel.org,
+ konrad.dybcio@somainline.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
+ linaro-mm-sig@lists.linaro.org, vkoul@kernel.org, agross@kernel.org,
+ linux-i2c@vger.kernel.org, sumit.semwal@linaro.org,
  linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 21, 2022 at 10:47 AM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> The filter() callback in struct kset_uevent_ops does not modify the
-> kobject passed into it, so make the pointer const to enforce this
-> restriction.  When doing so, fix up all existing filter() callbacks to
-> have the correct signature to preserve the build.
->
-> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> Cc: linux-media@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Hi Wang,
 
-Acked-by: Rafael J. Wysocki <rafael@kernel.org>
-
+On Mon, Nov 21, 2022 at 06:17:52PM +0800, Wang Yufen wrote:
+> Fix to return a negative error code from the gi2c->err instead of
+> 0.
+> 
+> Fixes: d8703554f4de ("i2c: qcom-geni: Add support for GPI DMA")
+> Signed-off-by: Wang Yufen <wangyufen@huawei.com>
 > ---
->  drivers/base/bus.c                    | 2 +-
->  drivers/base/core.c                   | 4 ++--
->  drivers/dma-buf/dma-buf-sysfs-stats.c | 2 +-
->  include/linux/kobject.h               | 2 +-
->  kernel/params.c                       | 2 +-
->  5 files changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/base/bus.c b/drivers/base/bus.c
-> index 7ca47e5b3c1f..4ec6dbab73be 100644
-> --- a/drivers/base/bus.c
-> +++ b/drivers/base/bus.c
-> @@ -163,7 +163,7 @@ static struct kobj_type bus_ktype =3D {
->         .release        =3D bus_release,
->  };
->
-> -static int bus_uevent_filter(struct kobject *kobj)
-> +static int bus_uevent_filter(const struct kobject *kobj)
->  {
->         const struct kobj_type *ktype =3D get_ktype(kobj);
->
-> diff --git a/drivers/base/core.c b/drivers/base/core.c
-> index a79b99ecf4d8..005a2b092f3e 100644
-> --- a/drivers/base/core.c
-> +++ b/drivers/base/core.c
-> @@ -2362,12 +2362,12 @@ static struct kobj_type device_ktype =3D {
->  };
->
->
-> -static int dev_uevent_filter(struct kobject *kobj)
-> +static int dev_uevent_filter(const struct kobject *kobj)
->  {
->         const struct kobj_type *ktype =3D get_ktype(kobj);
->
->         if (ktype =3D=3D &device_ktype) {
-> -               struct device *dev =3D kobj_to_dev(kobj);
-> +               const struct device *dev =3D kobj_to_dev(kobj);
->                 if (dev->bus)
->                         return 1;
->                 if (dev->class)
-> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-=
-buf-sysfs-stats.c
-> index 2bba0babcb62..f69d68122b9b 100644
-> --- a/drivers/dma-buf/dma-buf-sysfs-stats.c
-> +++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
-> @@ -132,7 +132,7 @@ void dma_buf_stats_teardown(struct dma_buf *dmabuf)
->
->
->  /* Statistics files do not need to send uevents. */
-> -static int dmabuf_sysfs_uevent_filter(struct kobject *kobj)
-> +static int dmabuf_sysfs_uevent_filter(const struct kobject *kobj)
->  {
->         return 0;
->  }
-> diff --git a/include/linux/kobject.h b/include/linux/kobject.h
-> index 5a2d58e10bf5..640f59d4b3de 100644
-> --- a/include/linux/kobject.h
-> +++ b/include/linux/kobject.h
-> @@ -135,7 +135,7 @@ struct kobj_uevent_env {
->  };
->
->  struct kset_uevent_ops {
-> -       int (* const filter)(struct kobject *kobj);
-> +       int (* const filter)(const struct kobject *kobj);
->         const char *(* const name)(struct kobject *kobj);
->         int (* const uevent)(struct kobject *kobj, struct kobj_uevent_env=
- *env);
->  };
-> diff --git a/kernel/params.c b/kernel/params.c
-> index 5b92310425c5..d2237209ceda 100644
-> --- a/kernel/params.c
-> +++ b/kernel/params.c
-> @@ -926,7 +926,7 @@ static const struct sysfs_ops module_sysfs_ops =3D {
->         .store =3D module_attr_store,
->  };
->
-> -static int uevent_filter(struct kobject *kobj)
-> +static int uevent_filter(const struct kobject *kobj)
->  {
->         const struct kobj_type *ktype =3D get_ktype(kobj);
->
-> --
-> 2.38.1
->
+>  drivers/i2c/busses/i2c-qcom-geni.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-qcom-geni.c
+> index 84a7751..8fce98b 100644
+> --- a/drivers/i2c/busses/i2c-qcom-geni.c
+> +++ b/drivers/i2c/busses/i2c-qcom-geni.c
+> @@ -626,7 +626,6 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
+>  			dev_err(gi2c->se.dev, "I2C timeout gpi flags:%d addr:0x%x\n",
+>  				gi2c->cur->flags, gi2c->cur->addr);
+>  			gi2c->err = -ETIMEDOUT;
+> -			goto err;
+
+
+Looks good to me.
+Reviewed-by: Tommaso Merciai <tommaso.merciai@amarulasoluitons.com>
+
+Regards,
+Tommaso
+
+>  		}
+>  
+>  		if (gi2c->err) {
+> -- 
+> 1.8.3.1
+> 
+
+-- 
+Tommaso Merciai
+Embedded Linux Engineer
+tommaso.merciai@amarulasolutions.com
+__________________________________
+
+Amarula Solutions SRL
+Via Le Canevare 30, 31100 Treviso, Veneto, IT
+T. +39 042 243 5310
+info@amarulasolutions.com
+www.amarulasolutions.com
