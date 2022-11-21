@@ -1,38 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C708B63232A
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 14:09:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 999486323C3
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 14:34:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE46A10E2C7;
-	Mon, 21 Nov 2022 13:08:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A90FD10E12D;
+	Mon, 21 Nov 2022 13:34:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A580892E0;
- Mon, 21 Nov 2022 13:08:48 +0000 (UTC)
-Received: from kwepemi500022.china.huawei.com (unknown [172.30.72.55])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4NG7420Vtrz15Mml;
- Mon, 21 Nov 2022 21:08:18 +0800 (CST)
-Received: from huawei.com (10.67.175.34) by kwepemi500022.china.huawei.com
- (7.221.188.64) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Mon, 21 Nov
- 2022 21:08:45 +0800
-From: Ren Zhijie <renzhijie2@huawei.com>
-To: <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
- <airlied@gmail.com>, <daniel@ffwll.ch>
-Subject: [PATCH] drm/amdgpu: fix unused-function error
-Date: Mon, 21 Nov 2022 13:04:18 +0000
-Message-ID: <20221121130418.53267-1-renzhijie2@huawei.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6CD810E12D
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 13:34:01 +0000 (UTC)
+Date: Mon, 21 Nov 2022 13:33:56 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail3; t=1669037639; x=1669296839;
+ bh=cWyjS8gJ5tYyIQcQGe5x9R0S+IOi2uZyenuqRvdGD6M=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=ILoOFbgNvrObh0zLDV1ydlnFPyd2OcpXrNdSngiGAHxaV+qoBo8sIgM8E9mW5GDXv
+ qnGU/jPbxH9zlCS091gM2bF+kgb470a6oyPNV2VGWX/24mQhxQV9Jn911N+xY2SjNO
+ 8jhVZ/CLaBgipbxki3ThWeYI/YJGxDsPjO33YMbXiCJ/vu912kQSdsXfVNbQclOT2T
+ sc17JGHYR17xP7ZKI9cddTVIVfQRU5Dz4mxopOlOC1SixIxmy4iErbJC6mJ9vDfG2/
+ FCqMbGlk3LwlnA3QZi9dCLLtsBcSsn1BZtVQKbCbzE0jcX4coZxb1mAYlVDrB1w1+j
+ hDW/VC+QRfg0g==
+To: =?utf-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: git send-email friendly smtp provider anyone?
+Message-ID: <9-qCHLoI7vMtVX2UmZbrcDSyMIJRqoWx6G2sZEn08RP15vYjPwng_fInDkKYPvllUddwXshfYs_fIpPH3_TeFLat2MQx_LT5Hfb0dxb1vGA=@emersion.fr>
+In-Reply-To: <1bc45775-0667-01f8-36e1-9f65d3081092@tronnes.org>
+References: <1bc45775-0667-01f8-36e1-9f65d3081092@tronnes.org>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.67.175.34]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- kwepemi500022.china.huawei.com (7.221.188.64)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,47 +47,11 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: yusongping@huawei.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, renzhijie2@huawei.com, weiyongjun1@huawei.com,
- amd-gfx@lists.freedesktop.org
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If CONFIG_DRM_AMDGPU=y and CONFIG_DRM_AMD_DC is not set,
-gcc complained about unused-function :
+I think you can apply for a linux.dev mailbox [1].
 
-drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:1705:13: error: ‘amdgpu_discovery_set_sriov_display’ defined but not used [-Werror=unused-function]
- static void amdgpu_discovery_set_sriov_display(struct amdgpu_device *adev)
-             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-cc1: all warnings being treated as errors
-
-To fix this error, use CONFIG_DRM_AMD_DC to wrap
-the definition of amdgpu_discovery_set_sriov_display().
-
-Fixes: 25263da37693 ("drm/amdgpu: rework SR-IOV virtual display handling")
-Signed-off-by: Ren Zhijie <renzhijie2@huawei.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
-index 6b48178455bc..2509341df92d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
-@@ -1702,11 +1702,13 @@ static int amdgpu_discovery_set_smu_ip_blocks(struct amdgpu_device *adev)
- 	return 0;
- }
- 
-+#if defined(CONFIG_DRM_AMD_DC)
- static void amdgpu_discovery_set_sriov_display(struct amdgpu_device *adev)
- {
- 	amdgpu_device_set_sriov_virtual_display(adev);
- 	amdgpu_device_ip_block_add(adev, &amdgpu_vkms_ip_block);
- }
-+#endif
- 
- static int amdgpu_discovery_set_display_ip_blocks(struct amdgpu_device *adev)
- {
--- 
-2.17.1
-
+[1]: https://korg.docs.kernel.org/linuxdev.html
