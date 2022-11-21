@@ -1,65 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2494B631A7F
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 08:43:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2E03631B73
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 09:30:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BE6F10E012;
-	Mon, 21 Nov 2022 07:43:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0871010E165;
+	Mon, 21 Nov 2022 08:30:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D11910E012
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 07:43:01 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 764A160EF3
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 07:43:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4C1C7C433D7
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 07:42:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1669016579;
- bh=4SJWsV05IX6Fu/z/H7J4KRraUUrt6y/B8yucFFy3UWA=;
- h=From:To:Subject:Date:From;
- b=d09K5EHuUVeLUd++OVEJzWOfN+ZlBqbUwHDbVr52hYXxQ+mCDp32YuLUp+Z2kaxZm
- W5ZIOFX8iKHBwVIoX7BsOHvU2tBMh/7pQeYWpvS4Du92D3CfrJH0gNT6gIin8O/yKB
- /WUoY52gzM1yY+a6uCR2RWg0VJV4E5zcSPwdHHkOZZeR7wUlyiGIolrv6H8qqgoFOA
- QDNl73GusoWC+ML13t74G8Jpsd5maNM3lHfeTtvJxJiy4tqorF2CKLJ59P5yW4EYBz
- jKKfMEL91Mos1pqiGNkKrcfi55//Sm6yVjW9Bu3983fMMR20f3jPddEgJ143144+21
- QU4F9SlZnEkXg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 3CDDAC433E7; Mon, 21 Nov 2022 07:42:59 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216716] New: [drm:psp_resume [amdgpu]] *ERROR* PSP resume
- failed on r9 7950x igpu
-Date: Mon, 21 Nov 2022 07:42:58 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: kernel@januszmk.pl
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-216716-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DE7A10E165;
+ Mon, 21 Nov 2022 08:30:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1669019447; x=1700555447;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=pdnKycsOfYWpXT1hd7ZvzlSm6xze518SOmM9Ii97qO0=;
+ b=NVuGlBapf50zMlLkgz0W0m1dofA9bnu24WK3lIrbOoa0nqMUdqXKT3TK
+ 0Ke6zuse2bp5jwW7sEF2SHeYRcMUr4CC5cdFwba0ZxuPUgUwG9B0Bkg0R
+ e7S9OMkwOCH/o1aYHDXdTqbKIFNICTVZF7UWxSiTwvpz2oJ+2M06xVUOs
+ rPw4ZsC2FyZXu5lM0H2N/6AR50aNpziJ7pF8YNIqM3/0mJO8oOJk7mgU2
+ IHXmd2i1X1h0Hrb7AUnAdIAl2nxLJsmdJot/8/9jkWpOLCtRIS+YhatBt
+ zn8RNurwRwvQ6For3bpa2Eyf08Ynp9yGFEHhNjLE+IzBP4LrPXYQDglU7 w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10537"; a="315324080"
+X-IronPort-AV: E=Sophos;i="5.96,180,1665471600"; d="scan'208";a="315324080"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Nov 2022 00:30:46 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10537"; a="765882015"
+X-IronPort-AV: E=Sophos;i="5.96,180,1665471600"; d="scan'208";a="765882015"
+Received: from jkrzyszt-mobl1.ger.corp.intel.com ([10.213.31.92])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Nov 2022 00:30:42 -0800
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, "Das,
+ Nirmoy" <nirmoy.das@linux.intel.com>
+Subject: Re: [PATCH v2 2/2] drm/i915: Never return 0 if not all requests
+ retired
+Date: Mon, 21 Nov 2022 09:30:38 +0100
+Message-ID: <3200694.aeNJFYEL58@jkrzyszt-mobl1.ger.corp.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
+ 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <b7b01eef-3550-9f9f-11d0-8698fa322f66@linux.intel.com>
+References: <20221118104222.57328-1-janusz.krzysztofik@linux.intel.com>
+ <20221118104222.57328-3-janusz.krzysztofik@linux.intel.com>
+ <b7b01eef-3550-9f9f-11d0-8698fa322f66@linux.intel.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,43 +63,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Chris Wilson <chris.p.wilson@intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+ John Harrison <John.C.Harrison@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216716
+Hi Nimroy,
 
-            Bug ID: 216716
-           Summary: [drm:psp_resume [amdgpu]] *ERROR* PSP resume failed on
-                    r9 7950x igpu
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 6.0.9
-          Hardware: All
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: kernel@januszmk.pl
-        Regression: No
+Thanks for looking at this.
 
-Created attachment 303246
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D303246&action=3Dedit
-dmesg
+On Friday, 18 November 2022 20:56:50 CET Das, Nirmoy wrote:
+> 
+> On 11/18/2022 11:42 AM, Janusz Krzysztofik wrote:
+> > Users of intel_gt_retire_requests_timeout() expect 0 return value on
+> > success.  However, we have no protection from passing back 0 potentially
+> > returned by a call to dma_fence_wait_timeout() when it succedes right
+> > after its timeout has expired.
+> >
+> > Replace 0 with -ETIME before potentially using the timeout value as return
+> > code, so -ETIME is returned if there are still some requests not retired
+> > after timeout, 0 otherwise.
+> >
+> > v2: Move the added lines down so flush_submission() is not affected.
+> >
+> > Fixes: f33a8a51602c ("drm/i915: Merge wait_for_timelines with 
+retire_request")
+> > Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+> > Cc: stable@vger.kernel.org # v5.5+
+> > ---
+> >   drivers/gpu/drm/i915/gt/intel_gt_requests.c | 3 +++
+> >   1 file changed, 3 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_requests.c b/drivers/gpu/
+drm/i915/gt/intel_gt_requests.c
+> > index edb881d756309..3ac4603eeb4ee 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_gt_requests.c
+> > +++ b/drivers/gpu/drm/i915/gt/intel_gt_requests.c
+> > @@ -199,6 +199,9 @@ out_active:	spin_lock(&timelines->lock);
+> >   	if (remaining_timeout)
+> >   		*remaining_timeout = timeout;
+> >   
+> > +	if (!timeout)
+> > +		timeout = -ETIME;
+> 
+> This will return error, -ETIME when 0 timeout is passed, 
+> intel_gt_retire_requests().
 
-Sometimes when I put my pc to sleep through "echo mem > /sys/power/state",
-resuming fails. I am able to ssh into machine. Attaching dmesg, on this ses=
-sion
-I was able to sleep/resume properly once, and after putting it to sleep for=
- the
-night, it didn't resume.
-I had this problem on 6.0.5, 6.0.7 and 6.0.9.
-Its integrated gpu on r9 7950x.
+Yes, but only when active_count is not 0 after we loop through 
+timelines->active_list calling retire_requests() on each and counting up 
+failures in active_count.
 
---=20
-You may reply to this email to add a comment.
+> We don't want that. 
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+When 0 timeout is passed to intel_gt_retire_requests(), do we really want it 
+to return 0 unconditionally, or are we rather interested if those calls to 
+retire_requests() succeeded?
+
+> I think you can use a separate variable to store 
+> return val from the dma_fence_wait_timeout()
+> 
+> 
+> Regards,
+> 
+> Nirmoy
+> 
+> > +
+> >   	return active_count ? timeout : 0;
+
+If active count is 0, we return 0 regardless of timeout value, and that's OK.  
+However, if active_count is not 0, we shouldn't return 0, I believe, we should 
+return either remaining time if some left, or error (-ETIME) if not.  If you 
+think I'm wrong, please explain why.
+
+Thanks,
+Janusz
+
+> >   }
+> >   
+> 
+
+
+
+
