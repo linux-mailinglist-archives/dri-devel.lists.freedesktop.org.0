@@ -1,57 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C206963309A
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 00:14:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32CF7633088
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 00:13:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90E9910E344;
-	Mon, 21 Nov 2022 23:14:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE17410E342;
+	Mon, 21 Nov 2022 23:13:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B951710E353;
- Mon, 21 Nov 2022 23:13:53 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 938B410E342;
+ Mon, 21 Nov 2022 23:13:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669072433; x=1700608433;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=9GbJtB/pFucX+YFDbSw5MNy4L11Mtr/QAZz9A8G0Sgw=;
- b=hUnm/+P4L4GiNwM+KdGaLMWcdPlqHiHi2fUjDYv4OrktLeLT02GOimCS
- dwdBxOlCcA7udzekeYR4VOpWc90G0uiuEhHuSk0zo2LvcrOu5i3pZ/KaU
- TT3CNCgBzQdY6N0UNcSVSoDugP8+GqkUhjyWCyp1DYArG3eLft2nP4Ygi
- eCLUu9Ra/oIGBrMsyR+ydUsj2z1LEITWkqvOBb9k1uSi0bMQ1ybXVEXck
- dgQ9IIj8WQc/C3p0MEWfETXs6lyvpUekUYHcz3QmK4Nq5Opx6dZtAlD4o
- bUWjZ/ITbSTEZOKCwBFxax95tlwyPJ0JT0LrN7ZGuasVzcTNA3LXyvtLh Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="301230811"
-X-IronPort-AV: E=Sophos;i="5.96,182,1665471600"; d="scan'208";a="301230811"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Nov 2022 15:13:52 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="886296733"
-X-IronPort-AV: E=Sophos;i="5.96,182,1665471600"; d="scan'208";a="886296733"
-Received: from pdorozyn-mobl.ger.corp.intel.com (HELO
- jkrzyszt-mobl1.ger.corp.intel.com) ([10.213.28.217])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Nov 2022 15:13:49 -0800
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, "Das,
- Nirmoy" <nirmoy.das@linux.intel.com>, Andrzej Hajda <andrzej.hajda@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v2 2/2] drm/i915: Never return 0 if not all
- requests retired
-Date: Tue, 22 Nov 2022 00:13:47 +0100
-Message-ID: <9028647.CDJkKcVGEf@jkrzyszt-mobl1.ger.corp.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
- 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <f55479c0-ca32-c8ae-119d-d1c9dbb71ce5@intel.com>
-References: <20221118104222.57328-1-janusz.krzysztofik@linux.intel.com>
- <2856001.e9J7NaK4W3@jkrzyszt-mobl1.ger.corp.intel.com>
- <f55479c0-ca32-c8ae-119d-d1c9dbb71ce5@intel.com>
+ t=1669072382; x=1700608382;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=qW1DA/Siq32AI9LV60F7pQiEJQWc4Kxi8ciTegXP1xU=;
+ b=MBR6Evhafiy6Cn8gqirY5w2bXqwGcxx5+Fi576LHo4u40CZ/5YfUKswv
+ UFo85uZtmTq4FHdPmVVBWqTI9pG/gRKm4Ls9zBkd2O1PKinkEihpBvFIO
+ cm20RJ8JedTAZ9XT4R90k/8mtPIo8pFGolFOz6ymidnpFl2DrgYGGoZ+t
+ AzNfPiYTPw7WGq45cq8juINIdBQ0pTDscQfd0twB3eU+YaJZQSDFUSMM/
+ a+WqmsgwvBJqSzDZZNnDM7bAjSLqrXgbKPmt6pYu+LQzTgoH6VSVLMyjR
+ CtV/2sNnJbjAbWxn947jsRGAJhFyLaiDfyHgwlrFOvBaD7/+7saQznDNM g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="315503465"
+X-IronPort-AV: E=Sophos;i="5.96,182,1665471600"; d="scan'208";a="315503465"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Nov 2022 15:12:46 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="618993330"
+X-IronPort-AV: E=Sophos;i="5.96,182,1665471600"; d="scan'208";a="618993330"
+Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Nov 2022 15:12:45 -0800
+From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 0/6] drm/i915: Add support for GSC FW loading
+Date: Mon, 21 Nov 2022 15:16:11 -0800
+Message-Id: <20221121231617.1110329-1-daniele.ceraolospurio@intel.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,180 +54,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, Chris Wilson <chris.p.wilson@intel.com>,
- dri-devel@lists.freedesktop.org, Nirmoy Das <nirmoy.das@intel.com>
+Cc: John Harrison <John.C.Harrison@Intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Alan Previn <alan.previn.teres.alexis@intel.com>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andrzej,
+Starting from MTL, the GSC FW is runtime loaded by the driver, instead
+of being stored in flash memory. Loading the GSC FW is required to allow
+the media GT to go into its C6 state and for content protection features
+(PXP, HDCP).
 
-Thanks for providing your R-b, however, I'd still like to convince you that my 
-approach, which you accepted anyway, is better justified than if we updated 0 
-timeout with -ETIME immediately after returned by dma_fence_wait_timeout().
+The loading happens via a submission to the GSC engine. All subsequent
+communication with the FW will also happen via the engine, although no
+further messages are implemented as part of this series. The loading is
+currently done serially as part of driver init/resume, but the plan is
+to move it to a worker thread in the future to allow non-CP submission
+to go through while we wait for GSC FW load to complete. This will be
+done once all the pieces required for GSC to fully function are in place
+(see further below).
 
-On Monday, 21 November 2022 13:12:00 CET Andrzej Hajda wrote:
-> On 21.11.2022 11:59, Janusz Krzysztofik wrote:
-> > On Monday, 21 November 2022 11:51:15 CET Janusz Krzysztofik wrote:
-> >> Hi Andrzej,
-> >>
-> >> Thanks for your comment.
-> >>
-> >> On Monday, 21 November 2022 11:17:42 CET Andrzej Hajda wrote:
-> >>>
-> >>> On 21.11.2022 09:30, Janusz Krzysztofik wrote:
-> >>>> Hi Nimroy,
-> >>>>
-> >>>> Thanks for looking at this.
-> >>>>
-> >>>> On Friday, 18 November 2022 20:56:50 CET Das, Nirmoy wrote:
-> >>>>> On 11/18/2022 11:42 AM, Janusz Krzysztofik wrote:
-> >>>>>> Users of intel_gt_retire_requests_timeout() expect 0 return value on
-> >>>>>> success.  However, we have no protection from passing back 0 potentially
-> >>>>>> returned by a call to dma_fence_wait_timeout() when it succedes right
-> >>>>>> after its timeout has expired.
-> >>>>>>
-> >>>>>> Replace 0 with -ETIME before potentially using the timeout value as return
-> >>>>>> code, so -ETIME is returned if there are still some requests not retired
-> >>>>>> after timeout, 0 otherwise.
-> >>>>>>
-> >>>>>> v2: Move the added lines down so flush_submission() is not affected.
-> >>>>>>
-> >>>>>> Fixes: f33a8a51602c ("drm/i915: Merge wait_for_timelines with
-> >>>> retire_request")
-> >>>>>> Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-> >>>>>> Cc: stable@vger.kernel.org # v5.5+
-> >>>>>> ---
-> >>>>>>     drivers/gpu/drm/i915/gt/intel_gt_requests.c | 3 +++
-> >>>>>>     1 file changed, 3 insertions(+)
-> >>>>>>
-> >>>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_requests.c b/drivers/gpu/
-> >>>> drm/i915/gt/intel_gt_requests.c
-> >>>>>> index edb881d756309..3ac4603eeb4ee 100644
-> >>>>>> --- a/drivers/gpu/drm/i915/gt/intel_gt_requests.c
-> >>>>>> +++ b/drivers/gpu/drm/i915/gt/intel_gt_requests.c
-> >>>>>> @@ -199,6 +199,9 @@ out_active:	spin_lock(&timelines->lock);
-> >>>>>>     	if (remaining_timeout)
-> >>>>>>     		*remaining_timeout = timeout;
-> >>>>>>     
-> >>>>>> +	if (!timeout)
-> >>>>>> +		timeout = -ETIME;
-> >>>>> This will return error, -ETIME when 0 timeout is passed,
-> >>>>> intel_gt_retire_requests().
-> >>>> Yes, but only when active_count is not 0 after we loop through
-> >>>> timelines->active_list calling retire_requests() on each and counting up
-> >>>> failures in active_count.
-> >>>
-> >>> Moving this line just after the call to dma_fence_wait_timeout should
-> >>> solve the controversy.
-> >>
-> >> But that would break our need to pass 0, not -ETIME, to flush_submission() in
-> >> case the initial value of timeout was 0, as pointed out by Chris during our
-> >> discussion on v2.
-> >>
-> >> Maybe an inline comment above the added lines that explains why we are doing
-> >> this could help?
-> > 
-> > How about not adding those two lines but modifying the return line instead?
-> > 
-> > -	return active_count ? timeout : 0;
-> > +	return active_count ? timeout ?: -ETIME : 0;
-> 
-> Personally I would translate ret value from dma_fence* API ASAP, 
+This series also adds the GSC engine flag to the MTL platform, with the
+engine being runtime disabled if the FW is not selected, which makes the
+FW definition (not included in the series) the ultimate enabler for the
+whole GSC block.
 
-I think that would suggest we are trying to fix a problematic 0 response from 
-dma_fence_wait_timeout() on success, while we already agreed with Chris' 
-opinion that 0 is perfectl OK in that case, and returning 1 should be rather 
-considered as problematic, since 0 just means success but no time left, and 
--ETIME means no success within timeout.  That's what had been implemented one 
-time in our i915_request_wait_timeuout() backend, regardless of any breakage 
-potentially introduced by later patches.
+Note that just loading the FW is not enough for it to be fully
+functional. We'll also need to establish and handle a communication
+channel between GSC and CSME (a.k.a. SW proxy). This will require a new
+mei component to handle the CSME side of things, so it will be pushed as
+a separate series.
 
-Then, fixing 0 return value from dma_fence_wait_timeout(), which is OK, is not 
-what this patch is about.  The real problem is inconsistency between our 
-declared API of i915_retire_reqiests_wait_timeout(), which promises to return 
-0 on success, and that 0 remaining timeout value from dma_fence_wait_timeout() 
-that we can potentially return when not all requests have been retired.  
-That's what the patch is trying to fix, regardless of what that 0 timeout 
-value can tell us about success or failure of a single call to 
-dma_fence_wait_timeout(), not even speaking of a case when the function is 
-called with timeout already equal 0.  Focused on success of retire_requests() 
-rather than dma_fence_wait_timeout(), we generally ignore error codes from the 
-latter, using them only for skipping next calls to that function, based on an 
-assumption that no more time has been left.
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
+Cc: John Harrison <John.C.Harrison@Intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-Then, clearly fixing just our return value in the problematic case of 0 time 
-left while not all requests have been retired seems the best option to me.
+Daniele Ceraolo Spurio (5):
+  drm/i915/uc: Introduce GSC FW
+  drm/i915/gsc: Skip the version check when fetching the GSC FW
+  drm/i915/gsc: GSC firmware loading
+  drm/i915/gsc: Do a driver-FLR on unload if GSC was loaded
+  drm/i915/mtl: MTL has one GSC CS on the media GT
 
-I've added your R-b to my v3 which implements just what you've accepted -- I 
-hope you don't mind.
+Jonathan Cavitt (1):
+  drm/i915/gsc: Disable GSC engine and power well if FW is not selected
 
-Thanks,
-Janusz
+ drivers/gpu/drm/i915/Makefile                |   4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_pm.c       |  14 +-
+ drivers/gpu/drm/i915/gt/intel_engine.h       |   2 +
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c    |  18 ++
+ drivers/gpu/drm/i915/gt/intel_gpu_commands.h |   7 +
+ drivers/gpu/drm/i915/gt/intel_gt.c           |  11 ++
+ drivers/gpu/drm/i915/gt/intel_gt.h           |   5 +
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c    | 195 +++++++++++++++++++
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.h    |  13 ++
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c    | 103 ++++++++++
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.h    |  43 ++++
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c        |  32 +++
+ drivers/gpu/drm/i915/gt/uc/intel_uc.h        |   5 +
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c     |  74 +++++--
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h     |   8 +-
+ drivers/gpu/drm/i915/i915_params.c           |   3 +
+ drivers/gpu/drm/i915/i915_params.h           |   1 +
+ drivers/gpu/drm/i915/i915_pci.c              |   2 +-
+ drivers/gpu/drm/i915/i915_reg.h              |   3 +
+ drivers/gpu/drm/i915/intel_uncore.c          |  48 +++++
+ drivers/gpu/drm/i915/intel_uncore.h          |  13 ++
+ 21 files changed, 585 insertions(+), 19 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.h
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.h
 
-> and 
-> call flush_submission conditionally - to limit coexistence of both APIs.
-> But this looks correct to me, as well.
-> 
-> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
-> 
-> Regards
-> Andrzej
-> 
-> > 
-> > Would that be self explanatory?
-> > 
-> > Thanks,
-> > Janusz
-> > 
-> >>
-> >> Thanks,
-> >> Janusz
-> >>
-> >>>
-> >>> Regards
-> >>> Andrzej
-> >>>
-> >>>>
-> >>>>> We don't want that.
-> >>>> When 0 timeout is passed to intel_gt_retire_requests(), do we really want it
-> >>>> to return 0 unconditionally, or are we rather interested if those calls to
-> >>>> retire_requests() succeeded?
-> >>>>
-> >>>>> I think you can use a separate variable to store
-> >>>>> return val from the dma_fence_wait_timeout()
-> >>>>>
-> >>>>>
-> >>>>> Regards,
-> >>>>>
-> >>>>> Nirmoy
-> >>>>>
-> >>>>>> +
-> >>>>>>     	return active_count ? timeout : 0;
-> >>>> If active count is 0, we return 0 regardless of timeout value, and that's OK.
-> >>>> However, if active_count is not 0, we shouldn't return 0, I believe, we should
-> >>>> return either remaining time if some left, or error (-ETIME) if not.  If you
-> >>>> think I'm wrong, please explain why.
-> >>>>
-> >>>> Thanks,
-> >>>> Janusz
-> >>>>
-> >>>>>>     }
-> >>>>>>     
-> >>>>
-> >>>>
-> >>>>
-> >>>
-> >>>
-> >>
-> >>
-> > 
-> > 
-> > 
-> > 
-> 
-> 
-
-
-
+-- 
+2.37.3
 
