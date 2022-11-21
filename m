@@ -1,65 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B65D663249A
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 15:01:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6929E6324A1
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 15:01:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 778E810E0F1;
-	Mon, 21 Nov 2022 14:01:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A6EE10E2D1;
+	Mon, 21 Nov 2022 14:01:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EABA610E19B
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 09:42:40 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id i10so27133175ejg.6
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 01:42:40 -0800 (PST)
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C77210E19B
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 09:42:42 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id vv4so17863159ejc.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 01:42:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
- :subject:from:to:cc:subject:date:message-id:reply-to;
- bh=vamem0qPPK/+qqHyZ7VitfMXhg5vodX1x04ClBWqxyY=;
- b=OUeHTSRpqIyD4R+SqDqs5uhVa9x+OQ2cMnKfV2ZkV4P/IkGNIwZYRZ2VFJBzKqUPbl
- uymtKtNXLwDKBD+QV6MeP4nAhtRwDcMxEkVsDLXgcckmBx2vm7UeLrAtz4aL/pppDhYQ
- a7LBijeewz1qULGcsRntcMNYNtsfxAreJRugrhzxKIOkjgDuaj7eoKwpk3X2u/pELVnA
- ebm4zcczKzNhluBk4StHyjIF3A8MALqdji0MmPPSfR8UVHDyY5idpHdodx1qprpkxTC6
- CNrJsiXqL/tSCWVLPw6GtSUiB4bscMPRbcsLzd2aU3pzsRxRC6OoZm+9OJIu2XJzdktQ
- SpCw==
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=kplxU2lR5aG0mBiBv43tp2KK14DvgQ3747TCEeV3JMg=;
+ b=cq8m6/mJPVrF19T4WTdu7gvq/nVLWRDjsh13J+Xr+Nn2iF4Hy9OD9nI54bY967FWG/
+ 3UOVhClJW4x4n2d97tfeDtKj/uthmhp699BqkgzMipcAj7tJSDny5vG9BdCLomnktnEj
+ JLHLZjM0+76mx9DOq+ZPhDpQbUs1EjdA5A8QskH4ttK1DQdid4KKDe5WnlGyued2Rstr
+ Jr5nh/9uT/4QkkPRzvI8bD+mOl9SVJHzqYG1WEKJvRVndpiMXm7cxc7b5miDOmV6Uxx4
+ nj86LC1IOU+6NmDxVUZhIhYSv6YkCgpUu0klxQEKrS1S9MHECaNaSDIhEyK/W8FZe9Tk
+ t+cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
- :subject:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=vamem0qPPK/+qqHyZ7VitfMXhg5vodX1x04ClBWqxyY=;
- b=q+p8aTBhdWG5k2Up7hSFMmSd3XYMOZjwx8JX8K2hJOntaD160+LwrPijVmkRSqnNhU
- iFSrMlGdcxG7+5k1UCONZDJRdOIiUTn577401bKP8tBdTf2oIBGFGBtQhzjZwlTw+9Re
- rL4NjMbcMnaz66Zmw1Jm9dujv4UsWcoHx5EbXk3pELmfYwSP3bjIfLLY+0VK/CJKmEAD
- NddAO0owvq6kRzvQJg+7cpVCJem6wmRwYS+lds8p2EWsq/pbQ45oYBwQhvfiL4z6+D3l
- x98OdRV886S2xj+Ty0WbTa8u0AOd2nn/tzZVuREUKalWJBQbGReX/6QHgVW78Pm4uCqD
- hRuQ==
-X-Gm-Message-State: ANoB5pkxUwGwdGjn/lIo2pDUTGdmoCKb0vHOpCmIT6lfMWtEqzLMYx+i
- 1TJI+MAzBYUrPbJDKg0k040wCi3xxtbJIQmu
-X-Google-Smtp-Source: AA0mqf4Y/qO5IHzq7wyR8BmivhktsDan+5uOus9RTtHptmY2liXFr5diD78YovU3f96o/KrsaB8d2Q==
-X-Received: by 2002:a17:906:cedc:b0:7ad:e8dd:837c with SMTP id
- si28-20020a170906cedc00b007ade8dd837cmr15613331ejb.264.1669023758927; 
- Mon, 21 Nov 2022 01:42:38 -0800 (PST)
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=kplxU2lR5aG0mBiBv43tp2KK14DvgQ3747TCEeV3JMg=;
+ b=Fsl+YVoPQ01woztoTWL4MquFiUU/sUY2MiI55kgCzTy1uJESiyjJV/rSyoiZxVFidj
+ oMhFJmuT5SZd4jVMVOOLDBCMj0vudKo658mkcD117gZTpPQ7aNzYMKSZaB8FclDdzHxL
+ xOSY60w9v9jqhSh9F4Rth3HI77V+9PfnxoCqL9Bw1w058Hfi0kBahaGQuZCfNzPWO45R
+ D8xsDpxJ8PhttEIRM7pCAT0VBKiD2oSyyeP6GPFb43KJvAyWZdL/c13QcAX06VXh+6it
+ oLLXWSSRJoV/wAAEnAXsTJw9kWU9eHnzd8BuvuHGAxk4v2uxN9xMl9wGfMxLkBvSwSl/
+ zGyQ==
+X-Gm-Message-State: ANoB5pnzssjNLQp+ZYAuM0uUdaplgyoz9M2SEXtTwgdm5CvqQpdeK4ql
+ 9pZSvt/U+1KjCXqdGKd781dMtk1uXPvD8DLz
+X-Google-Smtp-Source: AA0mqf4iGDXMlAJ1h8pqCDx2Am2EQUjsXM5qy6Z6ikSWJyeR7/x1T5VoUQJXLLJdiXSkQzAYW6nAog==
+X-Received: by 2002:a17:906:a259:b0:7ad:ccae:a30d with SMTP id
+ bi25-20020a170906a25900b007adccaea30dmr15189830ejb.704.1669023760591; 
+ Mon, 21 Nov 2022 01:42:40 -0800 (PST)
 Received: from [127.0.1.1] ([2a0e:41a:894f:0:c97f:bc5d:82d3:1a3b])
  by smtp.gmail.com with ESMTPSA id
- k11-20020a17090632cb00b0078d3f96d293sm4822240ejk.30.2022.11.21.01.42.37
+ k11-20020a17090632cb00b0078d3f96d293sm4822240ejk.30.2022.11.21.01.42.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Nov 2022 01:42:38 -0800 (PST)
-Subject: [PATCH v2 0/2] Make ILI9486 driver working with 16-bits SPI
- controllers
+ Mon, 21 Nov 2022 01:42:39 -0800 (PST)
+From: Carlo Caione <ccaione@baylibre.com>
+Date: Mon, 21 Nov 2022 10:42:30 +0100
+Subject: [PATCH v2 1/2] drm/tiny: rpi-lcd-35: Enable driver module autoloading
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-b4-tracking: H4sIAAVIe2MC/32NUQrCMBBEr1L220g2bYP1y3uIlCTd2oWYSlaLpfTuBg/g1/AG3swGQplJ4FxtkG
- lh4TkVMIcKwuTSnRQPhcFoYxDRKul0++nlyT1H7pqTVY6GthnHOniDUDzvhJTPLoWpmOkdYyknltec
- 19/PgiWu/yYXVFrZWjcag7dmaC/erZF9pmOYH3Db9/0LqPc1fboAAAA=
-From: Carlo Caione <ccaione@baylibre.com>
-Date: Mon, 21 Nov 2022 10:42:29 +0100
-Message-Id: <20221116-s905x_spi_ili9486-v2-0-084c6e3cd930@baylibre.com>
+Message-Id: <20221116-s905x_spi_ili9486-v2-1-084c6e3cd930@baylibre.com>
+References: <20221116-s905x_spi_ili9486-v2-0-084c6e3cd930@baylibre.com>
+In-Reply-To: <20221116-s905x_spi_ili9486-v2-0-084c6e3cd930@baylibre.com>
 To: Mark Brown <broonie@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
  David Airlie <airlied@gmail.com>, 
  Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
@@ -87,41 +85,29 @@ Cc: linux-amlogic@lists.infradead.org, Carlo Caione <ccaione@baylibre.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patchset is trying to fix problems seen on S905X boards when interfacing
-with an ILI9486 equipped SPI panel.
+SPI devices use the spi_device_id for module autoloading even on
+systems using device tree.
 
-To: Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>
-To: David Airlie <airlied@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-To: Mark Brown <broonie@kernel.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-To: Kevin Hilman <khilman@baylibre.com>
-To: Jerome Brunet <jbrunet@baylibre.com>
-To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-amlogic@lists.infradead.org
+Add the spi_device_id entry to enable autoloading for the 3.5inch RPi
+Display (rpi-lcd-35).
+
 Signed-off-by: Carlo Caione <ccaione@baylibre.com>
-
 ---
-Changes in v2:
-- Removed SPICC patch
-- Reworked commit message
-- Link to v1: https://lore.kernel.org/r/20221116-s905x_spi_ili9486-v1-0-630401cb62d5@baylibre.com
+ drivers/gpu/drm/tiny/ili9486.c | 1 +
+ 1 file changed, 1 insertion(+)
 
----
-Carlo Caione (2):
-      drm/tiny: rpi-lcd-35: Enable driver module autoloading
-      drm/tiny: ili9486: Do not assume 8-bit only SPI controllers
+diff --git a/drivers/gpu/drm/tiny/ili9486.c b/drivers/gpu/drm/tiny/ili9486.c
+index 1bb847466b10..bd37dfe8dd05 100644
+--- a/drivers/gpu/drm/tiny/ili9486.c
++++ b/drivers/gpu/drm/tiny/ili9486.c
+@@ -183,6 +183,7 @@ MODULE_DEVICE_TABLE(of, ili9486_of_match);
+ 
+ static const struct spi_device_id ili9486_id[] = {
+ 	{ "ili9486", 0 },
++	{ "rpi-lcd-35", 0 },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(spi, ili9486_id);
 
- drivers/gpu/drm/tiny/ili9486.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
----
-base-commit: 147307c69ba4441ee90c1f8ce8edf5df4ea60f67
-change-id: 20221116-s905x_spi_ili9486-aed54ff3cb21
-
-Best regards,
 -- 
-Carlo Caione
-
+b4 0.10.1
