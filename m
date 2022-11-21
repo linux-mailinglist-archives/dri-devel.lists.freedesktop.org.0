@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9827632B38
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 18:41:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E973632B45
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 18:43:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 137A310E320;
-	Mon, 21 Nov 2022 17:41:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCFD710E321;
+	Mon, 21 Nov 2022 17:43:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EFE710E321;
- Mon, 21 Nov 2022 17:40:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669052456; x=1700588456;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=taaX+HsFoObIJYjO9nxND9C0DPV8hfbOWMRhNe+qwJI=;
- b=VXV4mgNgTRGtoGgvlRiTbez9O2IXbJKXFGU6urBhJSIpzZejZD4mxmb+
- vxtZ2/KmX/9TSuxPTGFxJxGUyuNpMNhnWDDrXXh8zcbL7HB/40CkMjhbW
- tApnBZCfAw71SWjpgVnT3fJDBYNyEvHW3hLIl5vQ6rzleAqOIPes/d0lB
- LtrHZujDd357S1NXtbC9I37TinZLqeyh2fLt80w4/CHry98VJhz9HbrQ4
- WGnwt5324SblHh6cCukSevenMxvyTfo936Hx44gjbZiWrCX9havGzy4ui
- T/NnqPiQpjufsjhZ8X2YqtjtphQorgIsVx/cMUZ4kCDAyWXms9egwULnj A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="311248328"
-X-IronPort-AV: E=Sophos;i="5.96,182,1665471600"; d="scan'208";a="311248328"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Nov 2022 09:40:55 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="886202204"
-X-IronPort-AV: E=Sophos;i="5.96,182,1665471600"; d="scan'208";a="886202204"
-Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.14.16])
- ([10.213.14.16])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Nov 2022 09:40:53 -0800
-Message-ID: <37493d84-441b-76fa-d42b-ae1764a361bb@intel.com>
-Date: Mon, 21 Nov 2022 18:40:51 +0100
+Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com
+ [IPv6:2001:4860:4864:20::36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C47710E321;
+ Mon, 21 Nov 2022 17:43:38 +0000 (UTC)
+Received: by mail-oa1-x36.google.com with SMTP id
+ 586e51a60fabf-142b72a728fso6770999fac.9; 
+ Mon, 21 Nov 2022 09:43:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=RVYmRlCIWUFfeVnOV5mudLBiIVI6uJJnon3FBZNLLUI=;
+ b=jcz1PMWg/P6eUBxRDkxKc0yQD7GP7vplwKzu1inK0mhWJoI8/LloPny5bXkEwBymN5
+ DE81ekBRjKVErsWjLKQIKkswXFOZa5bvoPUbkqafrlIq6oxhq6VQfXSUpSMoVBvgPJhu
+ H/VFqb2KjN2B7qnEk/Xb9WoeNPDQiWVKGN4k9glKFGm56FT10T3L+0XhXw+y8E6X6vUq
+ 0tu2oeQYspe06D815oLeil6BWq1FGQ/ZliZhLtVcUuJjmYdwoXBDVO50HCGOwCbfIaOF
+ 8w7HZGRzCVQ3FAwz0vSJYuwzGAnJXKKtM4S5xKxO5rpbnC+9IQR3Q/uIGgWdXVhYcJev
+ mBpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=RVYmRlCIWUFfeVnOV5mudLBiIVI6uJJnon3FBZNLLUI=;
+ b=DcCF2UuYwhjeaPeu/jH0pc5Tq2mZPatLmlhiwnYyAME+/GrDS4bMnlGUxPn0FIJ4Tr
+ DW9PFjHVx5OFsmUVv+ArkXh88itFVexkK/HGs/7BM+tFBJVT6/O0W1xn9yYywFB9kcQf
+ ifRlt6yNJykY3Pq1jjUDvWVF5+ChQZOWYjZ5Za1yJEo7mZvMybUZwREkwTaySDAjcBr7
+ JNjUHvw7+TrrvhXD86rYCtlD6ou8sMDP7BRnYjekIAyr1fXkxXG8k70//iW4rTDbhsUk
+ Sa0DAZGpU5X3j7bUJ2hg/OeU4x20PNmxYKm2MlfTmlAfeYeOLiFs6o3uvsriZXleoGv1
+ th5w==
+X-Gm-Message-State: ANoB5pkqt87Q/u1wa56wQss0pkaBrDdSWvZaL63OItrnc6n/onRh+BwK
+ I8TwQ4zYasPDBcGCds4Xy8YYdQd/L3Kv80Uq976G4cDv
+X-Google-Smtp-Source: AA0mqf74KkrNkY8BdaZc8j5XcGxfP6V3NbT9q1EO2RMtGv3fnMb3YyW9WSIaGDRpu2Sazq4MO0bHaAxzARnC7vzHCpg=
+X-Received: by 2002:a05:6870:b07:b0:13b:d07f:f29d with SMTP id
+ lh7-20020a0568700b0700b0013bd07ff29dmr2050631oab.96.1669052617328; Mon, 21
+ Nov 2022 09:43:37 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.4.2
-Subject: Re: [Intel-gfx] [PATCH v3 1/2] drm/i915: Fix negative value passed as
- remaining time
-Content-Language: en-US
-To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-References: <20221121145655.75141-1-janusz.krzysztofik@linux.intel.com>
- <20221121145655.75141-2-janusz.krzysztofik@linux.intel.com>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20221121145655.75141-2-janusz.krzysztofik@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <Y3soBt1jmXHUKhW9@mail.google.com>
+In-Reply-To: <Y3soBt1jmXHUKhW9@mail.google.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 21 Nov 2022 12:43:25 -0500
+Message-ID: <CADnq5_NAaX6t3r+J8qcEfL1-8SOunU9YR3HqohmuGTm_xBow+g@mail.gmail.com>
+Subject: Re: [PATCH] [next] drm/amdgpu: Replace remaining 1-element array with
+ flex-array
+To: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,68 +66,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Chris Wilson <chris.p.wilson@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Slark Xiao <slark_xiao@163.com>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Rongguang Wei <weirongguang@kylinos.cn>, linux-hardening@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21.11.2022 15:56, Janusz Krzysztofik wrote:
-> Commit b97060a99b01 ("drm/i915/guc: Update intel_gt_wait_for_idle to work
-> with GuC") extended the API of intel_gt_retire_requests_timeout() with an
-> extra argument 'remaining_timeout', intended for passing back unconsumed
-> portion of requested timeout when 0 (success) is returned.  However, when
-> request retirement happens to succeed despite an error returned by a call
-> to dma_fence_wait_timeout(), that error code (a negative value) is passed
-> back instead of remaining time.  If we then pass that negative value
-> forward as requested timeout to intel_uc_wait_for_idle(), an explicit BUG
-> will be triggered.
-> 
-> If request retirement succeeds but an error code is passed back via
-> remaininig_timeout, we may have no clue on how much of the initial timeout
-> might have been left for spending it on waiting for GuC to become idle.
-> OTOH, since all pending requests have been successfully retired, that
-> error code has been already ignored by intel_gt_retire_requests_timeout(),
-> then we shouldn't fail.
-> 
-> Assume no more time has been left on error and pass 0 timeout value to
-> intel_uc_wait_for_idle() to give it a chance to return success if GuC is
-> already idle.
-> 
-> v3: Don't fail on any error passed back via remaining_timeout.
-> 
-> v2: Fix the issue on the caller side, not the provider.
-> 
-> Fixes: b97060a99b01 ("drm/i915/guc: Update intel_gt_wait_for_idle to work with GuC")
-> Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-> Cc: stable@vger.kernel.org # v5.15+
+Applied.  Thanks!
 
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+Alex
 
-Regards
-Andrzej
-
+On Mon, Nov 21, 2022 at 2:26 AM Paulo Miguel Almeida
+<paulo.miguel.almeida.rodenas@gmail.com> wrote:
+>
+> One-element arrays are deprecated, and we are replacing them with
+> flexible array members instead. So, replace one-element array with
+> flexible-array member in struct GOP_VBIOS_CONTENT and refactor the
+> rest of the code accordingly.
+>
+> Important to mention is that doing a build before/after this patch
+> results in no functional binary output differences.
+>
+> This helps with the ongoing efforts to tighten the FORTIFY_SOURCE
+> routines on memcpy() and help us make progress towards globally
+> enabling -fstrict-flex-arrays=3 [1].
+>
+> Link: https://github.com/KSPP/linux/issues/79
+> Link: https://github.com/KSPP/linux/issues/238
+> Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=101836 [1]
+>
+> Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
 > ---
->   drivers/gpu/drm/i915/gt/intel_gt.c | 9 +++++++--
->   1 file changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-> index b5ad9caa55372..7ef0edb2e37cd 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-> @@ -677,8 +677,13 @@ int intel_gt_wait_for_idle(struct intel_gt *gt, long timeout)
->   			return -EINTR;
->   	}
->   
-> -	return timeout ? timeout : intel_uc_wait_for_idle(&gt->uc,
-> -							  remaining_timeout);
-> +	if (timeout)
-> +		return timeout;
-> +
-> +	if (remaining_timeout < 0)
-> +		remaining_timeout = 0;
-> +
-> +	return intel_uc_wait_for_idle(&gt->uc, remaining_timeout);
->   }
->   
->   int intel_gt_init(struct intel_gt *gt)
-
+> This should be the last one-element array that had references in source
+> code. Given the way it was used, no *.c code change was required.
+>
+> I will move on to the atombios.h in the radeon driver.
+> ---
+>  drivers/gpu/drm/amd/include/atombios.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/include/atombios.h b/drivers/gpu/drm/amd/include/atombios.h
+> index 4dc738c51771..b78360a71bc9 100644
+> --- a/drivers/gpu/drm/amd/include/atombios.h
+> +++ b/drivers/gpu/drm/amd/include/atombios.h
+> @@ -9292,7 +9292,7 @@ typedef struct {
+>
+>  typedef struct {
+>    VFCT_IMAGE_HEADER   VbiosHeader;
+> -  UCHAR   VbiosContent[1];
+> +  UCHAR   VbiosContent[];
+>  }GOP_VBIOS_CONTENT;
+>
+>  typedef struct {
+> --
+> 2.37.3
+>
