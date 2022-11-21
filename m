@@ -2,117 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77572633078
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 00:07:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C206963309A
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 00:14:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7CF2891E1;
-	Mon, 21 Nov 2022 23:06:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90E9910E344;
+	Mon, 21 Nov 2022 23:14:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2062c.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7e88::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6964891E1
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 23:06:51 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Smzhu+BD+7ZkaCo2EzcNSqkWqQrni9wVJYSplH7XkChDYMmVVG2lPtFB2mXwlP9kMcMsz9hHnNrw8gnze5W6xLXIAns52OA3XvwZTm1d1DT6I1lednUxKLyY9vpn/i2RYDvh9yMV1p7YeXIQs26MFUSFwPmyAvJDUZTFWrWlbrSyCtrW92tr5tWHWtMskI4z/h4CO+87cYRep70nTweyjF0tY+0uB3ZvQV/YG14Rj2dSdZy578DP0TnvE+itc21UwfNRbn8IUtZsrhdtrB80RxfSEnObD//wNvVSvBrwfUhVueZt5fZEgO8enixMba/QnmN7OBjd8SqA4p8knUBEBA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DBvebb4dQoIg8K3iWPU/Zr1rpI4qFKDTXdlG0ONEZzQ=;
- b=cMSt22wCYHYnG2nRYFEBypWQO7zlC6q7OAXYGgpRfIDJrhB+pMqVD/9Yx7If8WJwF3xL6i/hbVk3jQLQ15s/552JqJDsh2KMD547hOZQG8FEuRzrX24d0SwRg8A0EzkxVHcixz22byGH40AZmkDoQHF3s2ape4V0NV7vigrOJjuG+3z9dpgo0PwIiSw1ZcpbtRHj1p+/xftny7Yqs7mtiUny+HjNsVEH60WYmTYaf+sLueYTVlzaPCnMzmdZXZbwuFKa2R98bIz5Nhi9kwd2YlqLq7Z+M7tjMze8OOvsQZFqaEICMsSeJub4J2xc0RrOZuHRUR1ThecxlxI+939gqw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DBvebb4dQoIg8K3iWPU/Zr1rpI4qFKDTXdlG0ONEZzQ=;
- b=l3qvPyNtuYPHg9swZko59c9OQOjNLqSPIfFlpoXfYxYeaB03AwfN0cfoJl2iry2BpRkYxJMM0PomLkOMvbglhVGKbuQ84HEDfODtuQoluOg0mtLNkLBUrbLBNcMPRqnizFEgAVG5GiINNIrIJrD9Y8XHVP/HDV82uccl3r5aZoE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB4502.namprd12.prod.outlook.com (2603:10b6:208:263::20)
- by CY8PR12MB7563.namprd12.prod.outlook.com (2603:10b6:930:96::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.15; Mon, 21 Nov
- 2022 23:06:48 +0000
-Received: from MN2PR12MB4502.namprd12.prod.outlook.com
- ([fe80::ff07:a59a:76b4:f06]) by MN2PR12MB4502.namprd12.prod.outlook.com
- ([fe80::ff07:a59a:76b4:f06%9]) with mapi id 15.20.5834.015; Mon, 21 Nov 2022
- 23:06:48 +0000
-Message-ID: <02c514c0-62c4-1cdf-5d3f-b3d8942ef005@amd.com>
-Date: Mon, 21 Nov 2022 15:06:44 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v4 0/4] new subsystem for compute accelerator devices
-Content-Language: en-US
-To: Oded Gabbay <ogabbay@kernel.org>
-References: <20221119204435.97113-1-ogabbay@kernel.org>
-From: Sonal Santan <sonal.santan@amd.com>
-In-Reply-To: <20221119204435.97113-1-ogabbay@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR01CA0013.prod.exchangelabs.com (2603:10b6:a02:80::26)
- To MN2PR12MB4502.namprd12.prod.outlook.com
- (2603:10b6:208:263::20)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B951710E353;
+ Mon, 21 Nov 2022 23:13:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1669072433; x=1700608433;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=9GbJtB/pFucX+YFDbSw5MNy4L11Mtr/QAZz9A8G0Sgw=;
+ b=hUnm/+P4L4GiNwM+KdGaLMWcdPlqHiHi2fUjDYv4OrktLeLT02GOimCS
+ dwdBxOlCcA7udzekeYR4VOpWc90G0uiuEhHuSk0zo2LvcrOu5i3pZ/KaU
+ TT3CNCgBzQdY6N0UNcSVSoDugP8+GqkUhjyWCyp1DYArG3eLft2nP4Ygi
+ eCLUu9Ra/oIGBrMsyR+ydUsj2z1LEITWkqvOBb9k1uSi0bMQ1ybXVEXck
+ dgQ9IIj8WQc/C3p0MEWfETXs6lyvpUekUYHcz3QmK4Nq5Opx6dZtAlD4o
+ bUWjZ/ITbSTEZOKCwBFxax95tlwyPJ0JT0LrN7ZGuasVzcTNA3LXyvtLh Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="301230811"
+X-IronPort-AV: E=Sophos;i="5.96,182,1665471600"; d="scan'208";a="301230811"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Nov 2022 15:13:52 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="886296733"
+X-IronPort-AV: E=Sophos;i="5.96,182,1665471600"; d="scan'208";a="886296733"
+Received: from pdorozyn-mobl.ger.corp.intel.com (HELO
+ jkrzyszt-mobl1.ger.corp.intel.com) ([10.213.28.217])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Nov 2022 15:13:49 -0800
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, "Das,
+ Nirmoy" <nirmoy.das@linux.intel.com>, Andrzej Hajda <andrzej.hajda@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v2 2/2] drm/i915: Never return 0 if not all
+ requests retired
+Date: Tue, 22 Nov 2022 00:13:47 +0100
+Message-ID: <9028647.CDJkKcVGEf@jkrzyszt-mobl1.ger.corp.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
+ 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <f55479c0-ca32-c8ae-119d-d1c9dbb71ce5@intel.com>
+References: <20221118104222.57328-1-janusz.krzysztofik@linux.intel.com>
+ <2856001.e9J7NaK4W3@jkrzyszt-mobl1.ger.corp.intel.com>
+ <f55479c0-ca32-c8ae-119d-d1c9dbb71ce5@intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4502:EE_|CY8PR12MB7563:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8e8d123d-9b9e-440b-5b15-08dacc151116
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Mdum9taGacItL0e0J0zDXhoOSluOurEt2bjZufyknWiqTmL1zX924RTZ6sPP6PC8435sFJBZEt0ZewuC3Y2isU7JxrjIkCeyKsbhzTFYMI0X07/H5/ScHAz5zQAoyaOQdMsdH0sdPYwnOdyMKhk7A//qJKr6qd+E8QNnIJywPtVM1pZJ/+z6V+98nGMrE8DHxpsviLMWFS4yYF8JRbFHm6A7TfaiupOS8NRbkn6Lql0sdLp3kCk443wSyqGeGzBTgAxGHHEU+D/wISo3ff419ZEbWl0olsIrXbhqnqfWDfNZ+4gkleGypw/eN4yXIWpGVlEPlw4FNLCcE+MVOOjT/y5mwWR6C3EPy5/VFYh3lI6ga2r7vagNEJBxyvVd7+KRTB2j1qMpX+Rm35ggxu6131eH+dfgOYkXzdOX+S3+QGme59tcZ1xDEne0m74BACeQvaxtIv+7fEqbnqn6SNjmOOVfLNjQIDxaDQewjDE0p1ELIX1pllBGUmm5Bsk1YNEA4w3j2GY4imQ8oOvfKRCh/wKYTaQ8+2p/8bdZ11MsZad8W8Q3ntTO87QiNSvP5zljFbSQh0t8y1ru7o7hWIcaGlGJ/ACo0jkVpMFNbK/CkhCSd275ygR1tG/IQs6Bcd1l28fBa9bouI1TIt4gnPlUwKWkwNXH8mLTNxEx+DZ6EmhwpyfX0asjFRIWNEZFuzeIxzB7wE1BOKkL6JSrbOY4t42hyi1r22WCrF46x5N7R2j3qwj4kwH6cq7ytErcxkmRQmYgCRmd+HenUCEnSCo0AKmmJU1AAnYO2tT2bHD5nBE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4502.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(346002)(396003)(136003)(376002)(366004)(39860400002)(451199015)(66556008)(66946007)(66476007)(36756003)(53546011)(8676002)(4326008)(5660300002)(8936002)(31696002)(41300700001)(6512007)(86362001)(6666004)(44832011)(26005)(6506007)(83380400001)(186003)(2616005)(54906003)(6916009)(6486002)(316002)(966005)(38100700002)(478600001)(7416002)(31686004)(2906002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?LzhSejRCVGRWZlVHT29YTEM1eFRETnFWa0hRQ20zb0N5V1N6MFFlUEFqNW9a?=
- =?utf-8?B?UkdEdU9VTTVXTHg0cFJNWm1qWFVnYzFyOXhzWEVOSlVEcmZqZFNudzBXQllY?=
- =?utf-8?B?RjB6czJnUWIxc3ViZFdwTmk1RHFmWlV6QTVoUWJ2WVQ5a2dzWG1CdEtoaWo1?=
- =?utf-8?B?VC9INW5tR1BuRlQ4VWVOTlRlTGJSRmRrVDRnT0pyVXd0VWUwK01QYUZNZHdC?=
- =?utf-8?B?a0RrN1JTMFRNTVlZT2tYQlF4SWcyNjhZajdmcDJzY3pLTWlhUHdsdWpYZ1ZE?=
- =?utf-8?B?MkJWcVdtM1BPWUdzTVlxT0hYT1FYK0JjTWhVajZEaDltMXpkc282Y0lYQVF6?=
- =?utf-8?B?Ky80ZDEzemh2YWlzSHdWSU1RazZjWHByZHJUeFd5cnNQekt0MkwwVjdvWjlL?=
- =?utf-8?B?VW0xcTkvNFJrR0VWekk5NHhuZ0R6TEdST0MxOVlJOThicEZYeVNTTHBkNS9a?=
- =?utf-8?B?amRHSlh4bzVFRDVvMWNaOExpNzVWaUZ5QktCM0NQZFV4dzRXOGNXSTM3d2d2?=
- =?utf-8?B?NGlWTnBCUXVIZTdoNThGY1VaT3o1Q1hndG1ScVZZRUxSSndVL2pSMS9WdGZm?=
- =?utf-8?B?MnA2OUNjc1dLcm96QVdDT0hFU2Q4L1BrczFEak9WcUg2c21tVHVOMWs4SlRB?=
- =?utf-8?B?L1lHNjZ0MW55MmFZK0ozb3gydXNzVTd6K25DVGhCSkt0UFJYV1NIREJnSmVu?=
- =?utf-8?B?Vm9kckd4VWRJcnMvd25ZY2M1QzhOaTdJajJtalQ1dTdleDNrZTRIbDk3azBi?=
- =?utf-8?B?bnlURmZ1RVZBSFJqb3hpdU0yQVliWXp5aEV0M2sxdktEZnhCbzZjWmxqalIw?=
- =?utf-8?B?RE5oKy83d1lOMGZicXgyOUJSMldwOGtCMG0wWHZhbWV1TFVyVkxWbmdtUll1?=
- =?utf-8?B?K2ZsMjFseXhkWFE3OHA1b0hNZm43aXZNTTVuckJnLzIzMHl0UHQwQ29VdUhy?=
- =?utf-8?B?L3dzc2xPNkpuMEZjMzBvWk5aUk5pQkNpK3hubHpqL1pXbmd0c0RtMTRBOW95?=
- =?utf-8?B?VWJQMGhIc1pMa2VyOXBKWXdJbkkvRWE0dXgreC8rWjk4Ly9lV0l1V1hSNEM3?=
- =?utf-8?B?WUhOM283S3hlMnZNOHN4Tk5PZTAwUDd6WXJiVjVaRUw2TVMrcUprMHZ4U3V5?=
- =?utf-8?B?bUFraGRSQ2N2UHRsaTZnbHdmckNZSkZ3cm5SUjdmZ3JUQUxsTkpOWG4vSWZy?=
- =?utf-8?B?YVRTbWdiVGlJUkxQRWJWYjhCT2hKWEFOVmdBQ2o4TVkyK0FwYTFjZVUxUUJ1?=
- =?utf-8?B?RmhFeHlBcEE5cldvaVZHZ3RINVpXUUU1em94QWQyeHNvK3pzNXlJYkh0R29V?=
- =?utf-8?B?ZDZRdWtkdUFITTNsTi9qamxtNHF1UGJobmoycitrV2U2RFNVUWhqbkJRYS9n?=
- =?utf-8?B?UWh5R1djSmZWK1pLMlo4L2hoWUhlWms0a0NKdlBIazVtNzhqeTdKZThBZ2Nq?=
- =?utf-8?B?b3NCd1c4dEcwTFF3Vm1tendRVUhVRnczelBYR1ZoNTZHV0V0bWtRS1NoTGg4?=
- =?utf-8?B?TURPTUNGTVR0ZEdDbGhweTlSMWI2SVlIMTdEanpHY3JDVm51VjdyT1pWUTRs?=
- =?utf-8?B?WXRhREZBdk1aeEF6VHVhQlpWbEN6MGJTOTlYaC8xQjBWdEZScDZpV1FHOGlo?=
- =?utf-8?B?OXdBRTBLQnVUNHJXOFN5MGU3WHhLMGVDdGxCMU44bEdGRWhmNS9UeEI1YmNm?=
- =?utf-8?B?MzBmNUVvbWNhUDJmQjB1aE1mLytqNE1rOTZKNU5odFNzVTFtWGpKTW5hTzNH?=
- =?utf-8?B?M0pSMHRSa1FBemFSUmJiYXNzemJ3d0tvT0Yzb240OWxPa0hHcjQyaStETmdQ?=
- =?utf-8?B?MTVYeUtocU14UlpHbUNMYStqY1N5a2QyWXh6SG5zYlVjRVdHRG1sSWtQNHh2?=
- =?utf-8?B?bVk4S1RkR1J4UWpORkR6bHVROHZsbFpVVUpGN21XRjNpdm43N25haFVXMXlw?=
- =?utf-8?B?cjhTMm9qNWtsQWl1dlIxYlJMNnRlM0M2TXk5L3dML2g5Zkw0NzgzTTRKeGlR?=
- =?utf-8?B?SDN3MmMwVUtlQnVtMmx4clpFeTNrVFZZRVAwUGIraWY5K0NlZlRWWVNyQmo0?=
- =?utf-8?B?VHROd05QMXVDb0lRT3dtZ21sdjhaUlQxWVlhY2JrSWwrMzJzdkQyR0hOMEpx?=
- =?utf-8?Q?wJ+I52EPnySNFxdmqjeVu4CqP?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e8d123d-9b9e-440b-5b15-08dacc151116
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4502.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2022 23:06:48.0965 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VX1Qka41YHQW35T7ahutMLFFbvF6A863XA1QEjRPpxMd7ThJteFqQcBsB6Q+YV4t
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7563
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,89 +64,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jeffrey Hugo <quic_jhugo@quicinc.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiho Chu <jiho.chu@samsung.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Christoph Hellwig <hch@infradead.org>,
- Christopher Friedt <chrisfriedt@gmail.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Jason Gunthorpe <jgg@nvidia.com>, John Hubbard <jhubbard@nvidia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
- Kevin Hilman <khilman@baylibre.com>,
- Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, Chris Wilson <chris.p.wilson@intel.com>,
+ dri-devel@lists.freedesktop.org, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/19/22 12:44, Oded Gabbay wrote:
-> This is the fourth (and hopefully last) version of the patch-set to add the
-> new subsystem for compute accelerators. I removed the RFC headline as
-> I believe it is now ready for merging.
-> 
-> Compare to v3, this patch-set contains one additional patch that adds
-> documentation regarding the accel subsystem. I hope it's good enough for
-> this stage. In addition, there were few very minor fixes according to
-> comments received on v3.
-> 
-> The patches are in the following repo:
-> https://git.kernel.org/pub/scm/linux/kernel/git/ogabbay/accel.git/log/?h=accel_v4
-> 
-> As in v3, The HEAD of that branch is a commit adding a dummy driver that
-> registers an accel device using the new framework. This can be served
-> as a simple reference.
-> 
-> v1 cover letter:
-> https://lkml.org/lkml/2022/10/22/544
-> 
-> v2 cover letter:
-> https://lore.kernel.org/lkml/20221102203405.1797491-1-ogabbay@kernel.org/T/
-> 
-> v3 cover letter:
-> https://lore.kernel.org/lkml/20221106210225.2065371-1-ogabbay@kernel.org/T/
+Hi Andrzej,
 
-Thanks for defining the new accel subsystem. We are currently working on
-DRM based drivers for unannounced acceleration devices. I am fine with
-these changes with the assumption that the choice of using classic DRM
-or accel is left up to the individual driver.
+Thanks for providing your R-b, however, I'd still like to convince you that my 
+approach, which you accepted anyway, is better justified than if we updated 0 
+timeout with -ETIME immediately after returned by dma_fence_wait_timeout().
 
--Sonal
+On Monday, 21 November 2022 13:12:00 CET Andrzej Hajda wrote:
+> On 21.11.2022 11:59, Janusz Krzysztofik wrote:
+> > On Monday, 21 November 2022 11:51:15 CET Janusz Krzysztofik wrote:
+> >> Hi Andrzej,
+> >>
+> >> Thanks for your comment.
+> >>
+> >> On Monday, 21 November 2022 11:17:42 CET Andrzej Hajda wrote:
+> >>>
+> >>> On 21.11.2022 09:30, Janusz Krzysztofik wrote:
+> >>>> Hi Nimroy,
+> >>>>
+> >>>> Thanks for looking at this.
+> >>>>
+> >>>> On Friday, 18 November 2022 20:56:50 CET Das, Nirmoy wrote:
+> >>>>> On 11/18/2022 11:42 AM, Janusz Krzysztofik wrote:
+> >>>>>> Users of intel_gt_retire_requests_timeout() expect 0 return value on
+> >>>>>> success.  However, we have no protection from passing back 0 potentially
+> >>>>>> returned by a call to dma_fence_wait_timeout() when it succedes right
+> >>>>>> after its timeout has expired.
+> >>>>>>
+> >>>>>> Replace 0 with -ETIME before potentially using the timeout value as return
+> >>>>>> code, so -ETIME is returned if there are still some requests not retired
+> >>>>>> after timeout, 0 otherwise.
+> >>>>>>
+> >>>>>> v2: Move the added lines down so flush_submission() is not affected.
+> >>>>>>
+> >>>>>> Fixes: f33a8a51602c ("drm/i915: Merge wait_for_timelines with
+> >>>> retire_request")
+> >>>>>> Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+> >>>>>> Cc: stable@vger.kernel.org # v5.5+
+> >>>>>> ---
+> >>>>>>     drivers/gpu/drm/i915/gt/intel_gt_requests.c | 3 +++
+> >>>>>>     1 file changed, 3 insertions(+)
+> >>>>>>
+> >>>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_requests.c b/drivers/gpu/
+> >>>> drm/i915/gt/intel_gt_requests.c
+> >>>>>> index edb881d756309..3ac4603eeb4ee 100644
+> >>>>>> --- a/drivers/gpu/drm/i915/gt/intel_gt_requests.c
+> >>>>>> +++ b/drivers/gpu/drm/i915/gt/intel_gt_requests.c
+> >>>>>> @@ -199,6 +199,9 @@ out_active:	spin_lock(&timelines->lock);
+> >>>>>>     	if (remaining_timeout)
+> >>>>>>     		*remaining_timeout = timeout;
+> >>>>>>     
+> >>>>>> +	if (!timeout)
+> >>>>>> +		timeout = -ETIME;
+> >>>>> This will return error, -ETIME when 0 timeout is passed,
+> >>>>> intel_gt_retire_requests().
+> >>>> Yes, but only when active_count is not 0 after we loop through
+> >>>> timelines->active_list calling retire_requests() on each and counting up
+> >>>> failures in active_count.
+> >>>
+> >>> Moving this line just after the call to dma_fence_wait_timeout should
+> >>> solve the controversy.
+> >>
+> >> But that would break our need to pass 0, not -ETIME, to flush_submission() in
+> >> case the initial value of timeout was 0, as pointed out by Chris during our
+> >> discussion on v2.
+> >>
+> >> Maybe an inline comment above the added lines that explains why we are doing
+> >> this could help?
+> > 
+> > How about not adding those two lines but modifying the return line instead?
+> > 
+> > -	return active_count ? timeout : 0;
+> > +	return active_count ? timeout ?: -ETIME : 0;
+> 
+> Personally I would translate ret value from dma_fence* API ASAP, 
 
+I think that would suggest we are trying to fix a problematic 0 response from 
+dma_fence_wait_timeout() on success, while we already agreed with Chris' 
+opinion that 0 is perfectl OK in that case, and returning 1 should be rather 
+considered as problematic, since 0 just means success but no time left, and 
+-ETIME means no success within timeout.  That's what had been implemented one 
+time in our i915_request_wait_timeuout() backend, regardless of any breakage 
+potentially introduced by later patches.
+
+Then, fixing 0 return value from dma_fence_wait_timeout(), which is OK, is not 
+what this patch is about.  The real problem is inconsistency between our 
+declared API of i915_retire_reqiests_wait_timeout(), which promises to return 
+0 on success, and that 0 remaining timeout value from dma_fence_wait_timeout() 
+that we can potentially return when not all requests have been retired.  
+That's what the patch is trying to fix, regardless of what that 0 timeout 
+value can tell us about success or failure of a single call to 
+dma_fence_wait_timeout(), not even speaking of a case when the function is 
+called with timeout already equal 0.  Focused on success of retire_requests() 
+rather than dma_fence_wait_timeout(), we generally ignore error codes from the 
+latter, using them only for skipping next calls to that function, based on an 
+assumption that no more time has been left.
+
+Then, clearly fixing just our return value in the problematic case of 0 time 
+left while not all requests have been retired seems the best option to me.
+
+I've added your R-b to my v3 which implements just what you've accepted -- I 
+hope you don't mind.
+
+Thanks,
+Janusz
+
+> and 
+> call flush_submission conditionally - to limit coexistence of both APIs.
+> But this looks correct to me, as well.
 > 
-> Thanks,
-> Oded.
+> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
 > 
-> Oded Gabbay (4):
->   drivers/accel: define kconfig and register a new major
->   accel: add dedicated minor for accelerator devices
->   drm: initialize accel framework
->   doc: add documentation for accel subsystem
+> Regards
+> Andrzej
 > 
->  Documentation/accel/index.rst         |  17 ++
->  Documentation/accel/introduction.rst  | 109 +++++++++
->  Documentation/admin-guide/devices.txt |   5 +
->  Documentation/subsystem-apis.rst      |   1 +
->  MAINTAINERS                           |   9 +
->  drivers/Kconfig                       |   2 +
->  drivers/accel/Kconfig                 |  24 ++
->  drivers/accel/drm_accel.c             | 323 ++++++++++++++++++++++++++
->  drivers/gpu/drm/Makefile              |   1 +
->  drivers/gpu/drm/drm_drv.c             | 102 +++++---
->  drivers/gpu/drm/drm_file.c            |   2 +-
->  drivers/gpu/drm/drm_sysfs.c           |  24 +-
->  include/drm/drm_accel.h               |  97 ++++++++
->  include/drm/drm_device.h              |   3 +
->  include/drm/drm_drv.h                 |   8 +
->  include/drm/drm_file.h                |  21 +-
->  16 files changed, 711 insertions(+), 37 deletions(-)
->  create mode 100644 Documentation/accel/index.rst
->  create mode 100644 Documentation/accel/introduction.rst
->  create mode 100644 drivers/accel/Kconfig
->  create mode 100644 drivers/accel/drm_accel.c
->  create mode 100644 include/drm/drm_accel.h
+> > 
+> > Would that be self explanatory?
+> > 
+> > Thanks,
+> > Janusz
+> > 
+> >>
+> >> Thanks,
+> >> Janusz
+> >>
+> >>>
+> >>> Regards
+> >>> Andrzej
+> >>>
+> >>>>
+> >>>>> We don't want that.
+> >>>> When 0 timeout is passed to intel_gt_retire_requests(), do we really want it
+> >>>> to return 0 unconditionally, or are we rather interested if those calls to
+> >>>> retire_requests() succeeded?
+> >>>>
+> >>>>> I think you can use a separate variable to store
+> >>>>> return val from the dma_fence_wait_timeout()
+> >>>>>
+> >>>>>
+> >>>>> Regards,
+> >>>>>
+> >>>>> Nirmoy
+> >>>>>
+> >>>>>> +
+> >>>>>>     	return active_count ? timeout : 0;
+> >>>> If active count is 0, we return 0 regardless of timeout value, and that's OK.
+> >>>> However, if active_count is not 0, we shouldn't return 0, I believe, we should
+> >>>> return either remaining time if some left, or error (-ETIME) if not.  If you
+> >>>> think I'm wrong, please explain why.
+> >>>>
+> >>>> Thanks,
+> >>>> Janusz
+> >>>>
+> >>>>>>     }
+> >>>>>>     
+> >>>>
+> >>>>
+> >>>>
+> >>>
+> >>>
+> >>
+> >>
+> > 
+> > 
+> > 
+> > 
 > 
-> --
-> 2.25.1
 > 
+
+
+
 
