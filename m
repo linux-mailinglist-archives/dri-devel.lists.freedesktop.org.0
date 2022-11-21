@@ -1,57 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 468336330A7
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 00:19:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ACAC6330D9
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 00:42:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6473B10E346;
-	Mon, 21 Nov 2022 23:19:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D25310E34A;
+	Mon, 21 Nov 2022 23:42:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70D6110E18D;
- Mon, 21 Nov 2022 23:19:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669072779; x=1700608779;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=Yy1NK+JbZ/gF9hcdJKRhcjZhGjaIhJ59gbbzwxB6+Xg=;
- b=VvBPbZ9HVx1tEiUryccgL98CHP8fHuvAs4Te4vxsnw0em+C8JR3pbZS2
- 0P4+V9HDqgX43F/PvKdxQDOShxVIp+R55ISEckvpakvoRhnQ2MZMT33fI
- 2nJ2XXvsqX8NEgBoce+YSVcJNJqZGErzaTKplWKsSIyVn0XsVbUpaUye/
- NVIsVSUP63NIe9q9ebbf2BMVvyVpkFlJaAGaC8APRjBLopd37lcRwOjrx
- n3GDgRURbeA4Pm1b/Mh+i1mCE33lzgKhvWSZrQzpR3r3mDPl4E42I33lo
- RzUu3lGY1l11aFuk95eozmTW604EAkqpQl9xw0xWlB/3uBu3Y9NOICRKN g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="314832789"
-X-IronPort-AV: E=Sophos;i="5.96,182,1665471600"; d="scan'208";a="314832789"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Nov 2022 15:19:38 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="672268463"
-X-IronPort-AV: E=Sophos;i="5.96,182,1665471600"; d="scan'208";a="672268463"
-Received: from pdorozyn-mobl.ger.corp.intel.com (HELO
- jkrzyszt-mobl1.ger.corp.intel.com) ([10.213.28.217])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Nov 2022 15:19:35 -0800
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v3 1/2] drm/i915: Fix negative value passed as
- remaining time
-Date: Tue, 22 Nov 2022 00:19:32 +0100
-Message-ID: <8188363.NyiUUSuA9g@jkrzyszt-mobl1.ger.corp.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
- 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <37493d84-441b-76fa-d42b-ae1764a361bb@intel.com>
-References: <20221121145655.75141-1-janusz.krzysztofik@linux.intel.com>
- <20221121145655.75141-2-janusz.krzysztofik@linux.intel.com>
- <37493d84-441b-76fa-d42b-ae1764a361bb@intel.com>
+Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com
+ [IPv6:2607:f8b0:4864:20::f2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0655C10E349;
+ Mon, 21 Nov 2022 23:42:45 +0000 (UTC)
+Received: by mail-qv1-xf2c.google.com with SMTP id j6so9064982qvn.12;
+ Mon, 21 Nov 2022 15:42:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+pYR24VCwPA7AIcvoR94d6JtpexQw+IZN3CkB502KDg=;
+ b=fZkk+oVmbf0toRdLyZO/a2Vqyu7zPC5hbwzbdhegfUfHoQexX+N+hkDX4sQM0OCHRk
+ Y0gNS5TOJa3tiTk3HHKfeTZt5UQ0VmqEtXW8/7SId7HHllqDRRe06CAV+VOtgEeuXzz7
+ pYU4A81NLT0zvrAbwwFjNHP7vAmgQ+F2pEK4qcedxxY2c0ozZdgrxJOWgizdyHXsdb78
+ EJ2WwlfX3Vs9uaeFKMmr31+AHkeFdeWSqejMJtppDKGIZoYXYzFB/8iUqI7bbt4eqZ71
+ HtqWYKKG6pwZ3BAtua/jkHsBxNsWN3jD3YzFUW2qkS3OYp/BvqmYM3xwctWO8rRuE4X4
+ uLWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=+pYR24VCwPA7AIcvoR94d6JtpexQw+IZN3CkB502KDg=;
+ b=4BpE6PtEdhvFm75U6+2Z1lajcfcK+6wS9NpXO9LNb67ci2Yq/+JUrHVqrKv+UbQwD3
+ nPVtyI+HHbP0KYFgtLckAAzJldmskk3ZyjPL7yJINJLe11Rg6GSnk0Jg0RRGaKw+JjpE
+ v3S/bLqXAm9AnJfihNAvhbdZCzVe2Tu6I9ZJ9UFSke2fvqypEj2Pm5jfXLXtfIWtJ96H
+ wJOTqQNz8ex1TaXlL5AQHwsj78P740mSl1tBy6D5wImDbjAu0llaEcM6h6GuPWOCtHlt
+ YzYk/10ewJZeKEm0WuhH5UjPYpjcnwuptHMlgEFufvJiho9EbU4/NuX8fOabLkO0CdKy
+ 5ckg==
+X-Gm-Message-State: ANoB5pmYHkX0qboViu+PS5NHkkrXgdVtEwLV7PJyowiFgBBtOHqMylK/
+ RgaG9kYFPg7nc2Xvt3oC6v4cgguR9f6gLlCb+TA=
+X-Google-Smtp-Source: AA0mqf43tEb5jANC0zvF+IaYxYkwO7C35fEV4QbTHtpg4O+7kC+EYsvgLl/Oz2mQvPbL2ggpT9f5jGJRzAU9xoUgILQ=
+X-Received: by 2002:a0c:e8cc:0:b0:4c6:a094:9f22 with SMTP id
+ m12-20020a0ce8cc000000b004c6a0949f22mr3545112qvo.62.1669074164740; Mon, 21
+ Nov 2022 15:42:44 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <CABXGCsOeQ7VYm98jRVaYp6KaNsFVsAnSb33ZT8JvZxcTcEGW0w@mail.gmail.com>
+ <a67598e8-c826-2740-03bb-33d37c8c8e4b@amd.com>
+ <CABXGCsNvFvJz4=N=JKYSGVcd=dKfQ3Nv_zOssMb0Z6oK79xZ7g@mail.gmail.com>
+ <a537212d-4b42-4ba4-7707-1e397234c8b7@amd.com>
+ <CABXGCsMCfACsJRDPqZDYQGMpaA_6LKhQ0XqAmDN04GSMeetXnA@mail.gmail.com>
+ <ca6c98eb-fdb0-5fee-3925-5b697e3e6b50@gmail.com>
+ <CABXGCsPJFvNXfbdR=_sb4gLdd2E30aRN9usSiZc2XYmZNSKBcQ@mail.gmail.com>
+ <dc802bd0-ed77-d268-25e2-1cf162202912@gmail.com>
+ <c5c4f572-4720-04ff-3c70-30bba9c37202@amd.com>
+In-Reply-To: <c5c4f572-4720-04ff-3c70-30bba9c37202@amd.com>
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Date: Tue, 22 Nov 2022 04:42:33 +0500
+Message-ID: <CABXGCsMW7+dWU0S8ePUygWkkvmLBiHU8gSBKZcSMsBCE_gv4Ew@mail.gmail.com>
+Subject: Re: [6.1][regression] after commit
+ dd80d9c8eecac8c516da5b240d01a35660ba6cb6
+ some games (Cyberpunk 2077, Forza Horizon 4/5) hang at start
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,92 +76,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris.p.wilson@intel.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>
+Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andrzej,
+On Mon, Nov 14, 2022 at 6:22 PM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> I've found and fixed a few problems around the userptr handling which
+> might explain what you see here.
+>
+> A series of four patches starting with "drm/amdgpu: always register an
+> MMU notifier for userptr" is under review now.
+>
+> Going to give that a bit cleanup later today and will CC you when I send
+> that out. Would be nice if you could give that some testing.
+>
+> Thanks,
+> Christian.
+>
 
-Thanks for providing your R-b.
+Christian, I tested all four patches around week and can say that this
+issue is completely gone.
+All known broken games working.
+Tested-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
 
-On Monday, 21 November 2022 18:40:51 CET Andrzej Hajda wrote:
-> On 21.11.2022 15:56, Janusz Krzysztofik wrote:
-> > Commit b97060a99b01 ("drm/i915/guc: Update intel_gt_wait_for_idle to work
-> > with GuC") extended the API of intel_gt_retire_requests_timeout() with an
-> > extra argument 'remaining_timeout', intended for passing back unconsumed
-> > portion of requested timeout when 0 (success) is returned.  However, when
-> > request retirement happens to succeed despite an error returned by a call
-> > to dma_fence_wait_timeout(), that error code (a negative value) is passed
-> > back instead of remaining time.  If we then pass that negative value
-> > forward as requested timeout to intel_uc_wait_for_idle(), an explicit BUG
-> > will be triggered.
-> > 
-> > If request retirement succeeds but an error code is passed back via
-> > remaininig_timeout, we may have no clue on how much of the initial timeout
-> > might have been left for spending it on waiting for GuC to become idle.
-> > OTOH, since all pending requests have been successfully retired, that
-> > error code has been already ignored by intel_gt_retire_requests_timeout(),
-> > then we shouldn't fail.
-> > 
-> > Assume no more time has been left on error and pass 0 timeout value to
-> > intel_uc_wait_for_idle() to give it a chance to return success if GuC is
-> > already idle.
-> > 
-> > v3: Don't fail on any error passed back via remaining_timeout.
-> > 
-> > v2: Fix the issue on the caller side, not the provider.
-> > 
-> > Fixes: b97060a99b01 ("drm/i915/guc: Update intel_gt_wait_for_idle to work 
-with GuC")
-> > Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-> > Cc: stable@vger.kernel.org # v5.15+
-> 
-> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+The only thing I don't like is the flood in the kernel logs of the
+message "WARNING message at drivers/gpu/drm/drm_modeset_lock.c:276
+drm_modeset_drop_locks+0x63/0x70", but this is not related to the
+patches being checked.
+All kernel logs uploaded to pastebin [1][2][3][4][5][6][7][8]
 
-While still open for comments from others, I'm now looking for potential 
-committer.
+I wrote a separate bug report about "drm_modeset_lock" [9], it's a
+pity that no one paid attention to it. I even found the first bad
+commit. It is b261509952bc19d1012cf732f853659be6ebc61e.
 
-Thanks,
-Janusz
+[1] https://pastebin.com/WZWczupk
+[2] https://pastebin.com/f4i9pvjS
+[3] https://pastebin.com/rsDWaMR1
+[4] https://pastebin.com/tDNEYJq0
+[5] https://pastebin.com/xfZVbm1f
+[6] https://pastebin.com/Vx9gDyKt
+[7] https://pastebin.com/XvRkLckV
+[8] https://pastebin.com/pd8WBkgx
+[9] https://www.spinics.net/lists/dri-devel/msg367543.html
 
+Thanks.
 
-> 
-> Regards
-> Andrzej
-> 
-> > ---
-> >   drivers/gpu/drm/i915/gt/intel_gt.c | 9 +++++++--
-> >   1 file changed, 7 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/
-intel_gt.c
-> > index b5ad9caa55372..7ef0edb2e37cd 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_gt.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-> > @@ -677,8 +677,13 @@ int intel_gt_wait_for_idle(struct intel_gt *gt, long 
-timeout)
-> >   			return -EINTR;
-> >   	}
-> >   
-> > -	return timeout ? timeout : intel_uc_wait_for_idle(&gt->uc,
-> > -							  
-remaining_timeout);
-> > +	if (timeout)
-> > +		return timeout;
-> > +
-> > +	if (remaining_timeout < 0)
-> > +		remaining_timeout = 0;
-> > +
-> > +	return intel_uc_wait_for_idle(&gt->uc, remaining_timeout);
-> >   }
-> >   
-> >   int intel_gt_init(struct intel_gt *gt)
-> 
-> 
-
-
-
-
+--=20
+Best Regards,
+Mike Gavrilov.
