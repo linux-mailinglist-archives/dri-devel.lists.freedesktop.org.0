@@ -1,148 +1,112 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 427B2631A08
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 08:11:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F074631A27
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 08:27:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 668D010E131;
-	Mon, 21 Nov 2022 07:11:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA92E10E144;
+	Mon, 21 Nov 2022 07:26:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C154410E131
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 07:11:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669014661; x=1700550661;
- h=message-id:date:subject:to:cc:from:
- content-transfer-encoding:mime-version;
- bh=8aolYYXmbx+DBjPbg8iFFZJoVC9kO7Z1juAJu0QWnf0=;
- b=XnozICClYW+aKbIN6YxMsf92ldE2xmIA27Kw5SdKa5XzB0LVA5umIk2a
- +1zLeMarVlBo8zkmbh7Pd7zSiKg9Pku/RhgQAhw9soAqrL1/NH4aMQytJ
- CFuAWazDv7lu+Ci44Y5O9a9rh/fbso42ZwuVJYGfU1pnFngRblJ0f4dd7
- dwo446EYVg/o/i4Qi6cVCTQ253cA2p4Dm7T6YEQfepwqVgh92xDjtafDh
- pPJKxUP7luqJDF0vAEfpEaGCWju2yDnKM8fgriT3VDR8IRe41PlJwbDCw
- 5aiejXsuDKAbnu6H+Pzi4HPYZb1a5bKw7bXa6DQvstHXCrK6GRa2nBLup w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10537"; a="315308853"
-X-IronPort-AV: E=Sophos;i="5.96,180,1665471600"; d="scan'208";a="315308853"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Nov 2022 23:10:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10537"; a="640916476"
-X-IronPort-AV: E=Sophos;i="5.96,180,1665471600"; d="scan'208";a="640916476"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by orsmga002.jf.intel.com with ESMTP; 20 Nov 2022 23:10:59 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Sun, 20 Nov 2022 23:10:58 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Sun, 20 Nov 2022 23:10:58 -0800
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.173)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Sun, 20 Nov 2022 23:10:58 -0800
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com
+ (mail-eopbgr130077.outbound.protection.outlook.com [40.107.13.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E773C10E144
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 07:26:56 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lAAGCwEe6bgx/KQfw1IY/Q19wP5P5BDKGfMlY8zYL8Jns1zndky1a9d2RwKrEwH9I8dtNx9+NRxB+O2MQV+kJr4ABusYbHab0Kg1hHN6xwJgiwIH4SkXFNznyAUnQpNl9niDPNh8FCzco8zD+7txpAiEGM/VytKCTX7AGFE7iLZMuF4VlJqoWaNBvf5ITlBlIKfgQ4GRu4HeTYc0T1q03Lt7A5KWH7Q68f4uobWEnaYg1Pil/hrWhnH0Vgnzvu5Rzawj1Rw4/xJL0S6dJkT9d/VtYHbSGhNHlroSjN8QwSbB8mg/Fcro+/elOek5yMGPvoAxrPMXeSVc5Quixtsd4g==
+ b=Q4e4yGJVjSr1nvJfA+JzzFjDPlukivDUK9QvS86KRg57yYUQNSsxBGB20V0Q7w6cLzZfdP/5lUdfiUnrPrQTGg4ykbNJ8eaHAZJ7mqnQCRSvfgjzvPThzhNpVCmUHXOykXGhyWn2ihINcXqT4recAZRRu1PCeASUZAVl+3napE5cQYVVkys/wq9aovf6rV1w62YZDW3WsxGckOj/OqZbRUCa3WzfumqTo0sZuoViYduvPXIAwf+oOtRaJ2b05pQ7XmlVIy9ZE05xBNRm0eOtDaXXg2LbsMX7ffRKsrbflIPMMZDfyY0h/JQe7Ao/3ns1X1a/EaSWrjBlbg8YmrFkOA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9f/JMEczjkT/ZLjYi7565z/R8Jmvt0LM13du6z7eS7o=;
- b=T3YQ+iS8yhJhqTtx95ayPahVAiA27tiDL0Un0R6sJtdy+PHHSkqvs9y6Lpda/7oSad5mJAiFf0SVF1UL+Vretmklmq9LEaHRsN67jOiBWm0ILF4P5nrXspSno84elkVNrEh4tmU57IG17O47QShYX0AAW02IGY3SjlGqTBFguJzxPzMi4q4QRiJm9vcik+hoUio9cwZMk6qRCAaG8Moam+C3My6UIlxu7qB6lJea0CsE2fOhk88rTWh10moF25VHtaiPyeDremaYeMZ4SgGOyhM0vAvnN+kCE/PDcCffTjc3JYeyHKJzAp5/70tyF2L2G8b9QJrOpLyhSAMVcI4tAg==
+ bh=ax+iSoDRovbihzbLJHubNFTn6Y7J//DxyIVd5oM7vuY=;
+ b=kY2Dpi1TSyH9OlU0dDqleKj4ONgqhPnfIlWu+qAPjlyM+QTA8sChl7t/8eYdFOx6p+gCHEP93IHa3mi+eLawC9igxrsTj98HXGyOBhZNsrqD8kex4kGW6YEuBDPANVfh5TRBTxP0B2L1gZ4O+x8mG1ZEMhOLOqWjI9cWNToaZGISDV2TU2oR6TwVuqZHEPwUlTKn/2R4oummB7BHeZeQGOsxcucHV9f7LfKdClsIi1IRhr5NoJy9AcOMRFYXxQ8ERCPDbpz6NaXB/fiiB9twsScRPimKgQjMuGFw9KtbE5mdZ/gZ0TiBr5CluHfD9GV1SKlzQ2tbT2221lyQtKfWjg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ax+iSoDRovbihzbLJHubNFTn6Y7J//DxyIVd5oM7vuY=;
+ b=HNMN58aMofF08DfIJbP+v0GSlO966b671OduZd2JLXXbgOT2DrIfv0i9NvZ9O4GRB7mqf1ke2pucij7RH1V4DXDeRB8UPcqd7fDD9cQwGKHs3caxXGl55/4Y7q9PkaY/kSVziI5evPmDIm2Kj+pQy0yD1oSqWltsOUytmntT3rQ=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by SN7PR11MB6876.namprd11.prod.outlook.com (2603:10b6:806:2a7::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.15; Mon, 21 Nov
- 2022 07:10:56 +0000
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::513a:f91a:b65c:be1d]) by CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::513a:f91a:b65c:be1d%6]) with mapi id 15.20.5834.015; Mon, 21 Nov 2022
- 07:10:56 +0000
-Message-ID: <5db7b850-18eb-50a7-6a4c-2ee0acd07632@intel.com>
-Date: Mon, 21 Nov 2022 15:10:46 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.5.0
-Subject: [drm:drm-next 741/803]
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/chan.c: chid.h is included more than
- once.
-Content-Language: en-US
-To: Ben Skeggs <bskeggs@redhat.com>
-From: kernel test robot <yujie.liu@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SI2PR04CA0011.apcprd04.prod.outlook.com
- (2603:1096:4:197::10) To CY5PR11MB6392.namprd11.prod.outlook.com
- (2603:10b6:930:37::15)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXPR04MB9448.eurprd04.prod.outlook.com (2603:10a6:102:2b1::21)
+ by DBBPR04MB7769.eurprd04.prod.outlook.com (2603:10a6:10:1e0::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.9; Mon, 21 Nov
+ 2022 07:26:53 +0000
+Received: from PAXPR04MB9448.eurprd04.prod.outlook.com
+ ([fe80::60b2:4bec:7707:e196]) by PAXPR04MB9448.eurprd04.prod.outlook.com
+ ([fe80::60b2:4bec:7707:e196%5]) with mapi id 15.20.5834.015; Mon, 21 Nov 2022
+ 07:26:53 +0000
+From: Sandor Yu <Sandor.yu@nxp.com>
+To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, robert.foss@linaro.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, airlied@gmail.com, daniel@ffwll.ch,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, festevam@gmail.com, kishon@ti.com,
+ vkoul@kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ alexander.stein@ew.tq-group.com
+Subject: [PATCH v4 00/10] Initial support for Cadence MHDP(HDMI/DP) for i.MX8MQ
+Date: Mon, 21 Nov 2022 15:23:50 +0800
+Message-Id: <cover.1669013346.git.Sandor.yu@nxp.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR06CA0246.apcprd06.prod.outlook.com
+ (2603:1096:4:ac::30) To PAXPR04MB9448.eurprd04.prod.outlook.com
+ (2603:10a6:102:2b1::21)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|SN7PR11MB6876:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6aa23bfa-542c-443a-c91e-08dacb8f8871
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9448:EE_|DBBPR04MB7769:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5af55e4f-efd7-4e71-6914-08dacb91c336
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mG4Jj45jOZXDU3wH7VAn6i/yyfiKIaWuRPUm2Kbs60mkZtl79gBKbImM8OVdN8nxU4rBqlU3oYFdCDsfrEzEXXmVByDe16myOZHmYUzBozfPU7qoNfv4S2hrrQJbrX9H6Z+v7/Cl+qVv3HkixMxfMlK9DO/UeIsFiIlf+7MPSyKKW5FItTw4/VeiiYY2qvT7xWACgCC/2jW6hdTnxMHitXh3vkPeTg0NiV8fkqX9IR0rWqrgYtbVIOXdhdWeLlQNjxIcUrgVDQTJck5oi4WoOqs4LVO4mC2eNngzwKfQT31OrV9lUlMktgv/Tes2x21TuxEzpAOs9wkvjuRVsti59wj0xRQauWgc2wJusY3hP7a55iwrmvt/itt9vc8LVzs7yNJcJ8KxjOcai+r0gWuLjXpqVdb1ZIradLtL9Ztbha3Vf0HCjp2PE7+OgB1rhRJjN4Bp1KE3rtgFvbGEExLJ0neyjx9XaH/nbqueWza26LBXSCMkbf7UMkBlVp66MhwrT4RPMN0ifV8hK/WQLL+axTgRcB2QDoZ4e5Zbbbi5PfTyjSH7lwlHszqL9oKFYt/E3VRGAgT+8Q0hsu4ZuOJh7znldr1eJa5InNyKGznyIu1GVmpd9SxspAHF86fBql9djCaHdDxUU1+c/Y6XtOaDDCBRS+LP5XqBzM3zHVt6ajmwc/EbYxdHKgQi52bKyHvCXkEm9yxB24t9+MMVd3ppbw7u46S89Z/Sah3l00J9syW6dosBEirmf9vUOFUj/VQMEqgVZ6ZI/EgwF1CAZ5jJdw==
+X-Microsoft-Antispam-Message-Info: fDX9GvfojAjE27BjVdFlBdaoRZznmSs8rzXQ5js5WQNVEweVPxIULFistXagVC7WwHNZFRk7EkPZHM8cJKIxurhI4ww1meQqK9dl2CVsEGTizwps/Bs7nJWpKpi6+mqj/FxX0Zbacmr42lLB7Aop1UgxGtopswN5E6URbZ1I1HsYUSG9t+afLWuoJ9eQ5wD3tOuXdqoLueXkuSgZpVPe6qmqvtdaHv0PtV1z7Jt0YaXIy1qc95CZs6utDDOc9aMNpig8eiKaYwe1Cm8PVZHGDhEavzhp21VvlQehZQf5ySZuuFfL04rgXkbY/v7Emgo+0dY3E8Pijc/iwORykhfmeneyctyf5+Bc9rH2TOoGdlc/xYZVwACSvKH2Qs2uHfVcjNFcRJfEjHRqX7X+h8MFRS2DE9lABruhRGnZDoi5JBvcJspIlOXcch19kNQAd8Yj9EC5PoSZMhvGGlFDY2lpgQTtxpXhcqZnoJxAs0z1/hWtjVsPIMf0PB7SBpSVh/NNwpY4hDUoV6yfRbTqyHhCRYs/+Msrlh/NzxZCfX0BC2I3v5DIVxUGxc1duve119as337S9XlCvqt9xNsJrLATgE9z5EAv2DEFbv8Wsb+MvXmqIRzisuyNa+bzDLfWjcds/xE9HcmF5kC9KulSmr+ax6ijan525Q5T1pYcwsLwTY0BJk30t7UK1brWSYMz/iTf4ysrCM3PMLPJcTkp1UwwtjAFxVC6URs7OEFYKAalnvedz9OdE8c66QPAxsXncphx
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR11MB6392.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(366004)(136003)(39860400002)(376002)(346002)(396003)(451199015)(36756003)(31686004)(31696002)(86362001)(8676002)(5660300002)(2906002)(2616005)(6512007)(83380400001)(82960400001)(26005)(186003)(38100700002)(6506007)(966005)(6486002)(66946007)(66556008)(8936002)(66476007)(41300700001)(478600001)(316002)(6916009)(4326008)(6666004)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
+ IPV:NLI; SFV:NSPM; H:PAXPR04MB9448.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(396003)(366004)(39860400002)(136003)(376002)(346002)(451199015)(86362001)(36756003)(8936002)(5660300002)(7416002)(2616005)(2906002)(186003)(316002)(52116002)(4326008)(6506007)(66476007)(66946007)(8676002)(66556008)(6512007)(478600001)(38350700002)(38100700002)(26005)(921005)(41300700001)(83380400001)(6486002)(966005);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZUU1cjY0TTM4a0F3NVJKUWZBQmplWmpaOUExWTZKY1l6L21VUVZJUnZnTW5v?=
- =?utf-8?B?Mzh2S2ZPR0ZsTXRpUHROOEJ2dFEvNmowV1VaRk51djZBWFo2T1VNV3J4OVli?=
- =?utf-8?B?VE1ZU0pmWkpzalovaTZDbmM2S1V6SnBBT0VpdU5HMHdONzRiRWVTLy9Yd3JL?=
- =?utf-8?B?SzVzZnM1d0F5ZndGQnJid3FwVTBnTjduaHhQbGF3b2pQUkRMTkNrY2FqSHdL?=
- =?utf-8?B?N3V2cE5QcmY2TEprUlZmaFVWMFFQVlE0d2g4SHpFbE9CWWQzSDRZakJOVEVJ?=
- =?utf-8?B?YklVNXA5VFJZdkhsc1FvSndVM2kvUkdQcnFNS2dUZGQwVHNoc2NVbnNDU1JX?=
- =?utf-8?B?dlZIemNMZkppSW43OXE0ejl0WFg2NGI2T295ZVFsZjVuT1lhM1V2UVJSck9E?=
- =?utf-8?B?OXB4dUZtVVRqeXZJdG05VHh1cDBxSytHanNTbmg1WDRuS0g3Mys1SGdHQVdq?=
- =?utf-8?B?ME50RUxvbWR2eVN6eS83MzhwSkNDNE9yeGh4UjJNQkNQcGYvQlIyRDVkWUls?=
- =?utf-8?B?eFJpV2lSTC9xNG9oOEU1OGYrVmdsRVFGWTZGRDFVNEl1UEdadVBFb0hwSzdJ?=
- =?utf-8?B?M2loc2NDVUJaSGFzR0hTWjBwWi9jb2dyNnJBKzg5OGZENy9rT0lWSDhKVXJT?=
- =?utf-8?B?U1NCQTZtMUk0ZHBIOElONmNwUzM4U2Znc0lCZkRRS2l6ZU96d2Q4dlREREsv?=
- =?utf-8?B?U0VJUmZla2RoclNWUE5LMUtHb01POTYwbEZVWU12TnJBNDhRMzMwKy9hSTNm?=
- =?utf-8?B?cDI4amRXaWxTVStRVUxlOURUK2JlZ3lPS29HS1VpbjZNS3BwcFJHK2NVOFRE?=
- =?utf-8?B?UCtEREpkS1BCUHNtT3NnRXRGM0JlUkxTY3JsMmcyTmtKclBEcGRqUzFCSi9m?=
- =?utf-8?B?RnYyZlRrdmRSWmNjd2JCY3FVa3BianRUVHk3OGZKNmNtSFF6LzRvVFB0WCsw?=
- =?utf-8?B?S2xZWkFSTHBLOUVUUXpJaTJnemp1aE8wR2c2aU1FS1ZDeWM3NlowSUFhc1dw?=
- =?utf-8?B?cldqZ2tUTFByeFVNeFQwVmtCSFY2YW9KUGdGbElsNjFzL0hzQ2dROWFhaFgx?=
- =?utf-8?B?UjlyVmJaNHI5a3ZMSkJWWWxnUHFhamUxam9IcmZlcngvWDdDZ0NYNUxsSlQ0?=
- =?utf-8?B?WVFPdzJrWWhtZW5Kb1ZCNWczdUVaWXVkb0UwU1AxSmo4ckVJSCtSdFJ0NFpk?=
- =?utf-8?B?blVGZHBSem1ZUHQwckhwQXQvenhVUVBQU0dLQzJyVFlsUSs0N3BsQ1lhRlBQ?=
- =?utf-8?B?TjhPR2RQdCtudUpuRHhwS0VyVzVqMDlxbXZWTmFHSSs0QmRwZnBBTHZWcHU2?=
- =?utf-8?B?bFdGRDU0MkNUYXNJK1V6RGh6SVFqUU1kdElwcGdzZTRVaTdadERNMGREOGFW?=
- =?utf-8?B?ZlNTNUk3blEzQ2hydlFrSmt3T3A1N3RVWW8xWWVZSWxWc2tac0ZuWEhMbHpS?=
- =?utf-8?B?Z3RSem10ZWxSQk1FVFNuL0dYVDVmcEhWSE9PSlVvZzJxTGdneHZYNXV3K1Rq?=
- =?utf-8?B?OVM3MGdKbHVwUTVKYk5JWm0wMXdLU3RYR3NVVFZ4d2IwZzM0OVhjTnlRZ2hl?=
- =?utf-8?B?Y0ZQOHprdFZxUzZ4Z3lRS1c2c0RFc1U1MWZhelJkdk1GT0VjWCtOakQwcTJi?=
- =?utf-8?B?QTJ0V3BtQ1ZjSXRibUF2VWhiUG5zaGo2K2VueXI0VC9TK3F1ZTNtRVJYNGdM?=
- =?utf-8?B?Y3BtT1d6bEorakNsR0JWRlFicDlzYVd5ZmZRZDdQNVFGWTNCQ1FyNUk4WXAy?=
- =?utf-8?B?VDZsajNNSFlpa3ZhMEJlZHpVQ1JnMFZGM0ZhbHFaUFpvUUd2UHpYWm1lRHZx?=
- =?utf-8?B?SVlxdFdtdVVNblZRVnBjUTV1SlZHTWlmOWFhZjdBUU1SenAzWnVlRllOQndt?=
- =?utf-8?B?R2VZZW5NZDdNVmlkQ2hRYzFUQy9UY0JsTDRzdjBTRTlnTkVLTnVvb3FyMmRN?=
- =?utf-8?B?eVYyZDNab2JQT0owZmRqYUt1ZUhaSUxVeW8xbjB4VUFJaW4xTExnM0FvZks0?=
- =?utf-8?B?bHVwRElDUyswaUhmUVNkRVAwalBKZ1dMSStsR3ZDOC9SU0xBMzMrZ05YK3FO?=
- =?utf-8?B?L21rQ2tCc3dnN0d4eDJ1b0liM01wdTJ4WVNpYW9TVEtOVktEd1BoMnVKZjV3?=
- =?utf-8?B?Mk5kWnJlVmhmQzQ5TTZKWnlkU2FGdmRJaGhZeFV4M3pCSWI0djhCVHgvelNh?=
- =?utf-8?B?YVE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6aa23bfa-542c-443a-c91e-08dacb8f8871
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?j4sHi9Nz7aM7+cpsSYss+3G4oO/5ZxDecCzC86n5jWDIw1E9WiKzbE/9brBB?=
+ =?us-ascii?Q?mjA76v6uVGOMzc/NPtRUV0ii6xKcIaEG4IPbAunFYvUPxQB/O0RuVNv7/1Ht?=
+ =?us-ascii?Q?eXXxuZGDBIA4gCkB8wizxhWCpdZTJT0HCv7KZANCAR8ZiDDWpq66FOhGQmKS?=
+ =?us-ascii?Q?03Gt6zNiiocMoswQ2OOiI/ktNszc8BLIOCUf7d2uDWFj15k6dwtVcE4B++qn?=
+ =?us-ascii?Q?PAttDQ8GUpzziyaLsdZWN83HUzwZZR9mgb6xjy0orQjb/d7kTK8gKYcvQQBF?=
+ =?us-ascii?Q?YLo57i/y7lIFYrP0K/Pkc2hjwT04UdEcGGwXtn3UXfHk+tMDEodyPNIjF8VE?=
+ =?us-ascii?Q?4X6W6EX5VGXCmD93prNApBOHbmZPw/mQUIBFkkaQuQTmCg6gaP8UoLLe4s96?=
+ =?us-ascii?Q?KZjyy6ccix21E5sW757XJCtHbQ/62g7ENhdCwbokP1fPyp4BPLeF+y0ye1AF?=
+ =?us-ascii?Q?ryuRmZE2THLMJ5IdfsGtmkXrl3S/9kKikSsJDD8SJpgmGHiOzEYcfTH0vLwJ?=
+ =?us-ascii?Q?WW9xy+NO1eXw3f9dm4zcSR0ZxxPGDxQT611Z9la6/t8AioX4ZYhS/5hlsdaL?=
+ =?us-ascii?Q?c2Ayh8eFg2LKQzCJP7wu6agyFxupEnBppbbxJgpwG5yN5m+zyS0ZLyBTPEFO?=
+ =?us-ascii?Q?/8iYJdecP2gwV/in4/hVSUREGY+7AOOAbKktIbUg/bDhdOCvN98/5YO3vDYa?=
+ =?us-ascii?Q?kmkiw0sbHFuQ8xyTdfi9SofLuABsZOsF07bllW6eKL8jzwXUFzUpgPjjNHcu?=
+ =?us-ascii?Q?IGpBfGG8FdeUShTMRThb8Jz2qyxCQ2WRFyfwQQE58+LnLbkU3zfAiOlletGy?=
+ =?us-ascii?Q?zX5hJwyoT62gIx3VHJg8wGz/gs7bqor4jOoQCQD4rvrS8ASQbLnM5yo0LDsi?=
+ =?us-ascii?Q?murgbnQstS8LAwr/6upiaHi1Zl0f9/SySXRzw1jAgwNO12h41K6dpKB79hiF?=
+ =?us-ascii?Q?+mQFGZcF6vl45BjbcibG4ZLhyoqRkUS+JeXRdZbZh0ixjKsm3F3js5Oy4PWu?=
+ =?us-ascii?Q?qH+/yGAYCQgA5zTQh2gVKfJ9hhUUW0g+wWOu/9RL+iA0Gf90S6N2sCR9IuEC?=
+ =?us-ascii?Q?t3BzrjJDD1EUtGt/9zdR1hB1FbK6kDZrZfLsTtsE1ebIuXzomD3zdcseB10Y?=
+ =?us-ascii?Q?TbyVBgD5rGTEn6HwtTYcPP6nbiV1pAbkZQrTJLYEHHW14S3VT8arMHnEvqlg?=
+ =?us-ascii?Q?yJJE3JgI/PljFqU+LzLACOdsBrN/RYorJl15LfU7OeGxeCYe+WXP5OOT6ege?=
+ =?us-ascii?Q?TPKtgfd1Ch0bb0GA4D0CnjB4RWM8+Yh2cOYBgN4gGOO1MXjxn47ymEHMsXLC?=
+ =?us-ascii?Q?z+1n8b2QePgqIocJKeFp+Zj4O8aUeQWvvk+B+Fh+AGaNl1aig4Rb9+pBzdlD?=
+ =?us-ascii?Q?HRZRMFAD+TwuJAYG4rsTNXWFLu6u3W8HPlm5+3Ei32Ie+YjYKGw8/CSXL5y7?=
+ =?us-ascii?Q?/R6Wm4A6x3k3Ekt9qtQ/JbxeWGFCTIYW7HsURqEel6P0EX9S8ipaSrsBZR0s?=
+ =?us-ascii?Q?LqUWdM7bvdmgOB+jNBSkzYsSwzeOZ2HJtcqCmP7S2AK6myJt+/RL1xnZIREL?=
+ =?us-ascii?Q?N2rXhKDcNuRXD0s2XDrKOUwApaVmsMIbybm3jqro?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5af55e4f-efd7-4e71-6914-08dacb91c336
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9448.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2022 07:10:55.9547 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2022 07:26:53.4196 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lIUeq+87WFTgZ6E3qV5sAinwTaamErgj/4CVoHALDYsm7lUltB7Clcr1Auyvczx8vNOCC46S27AmRBIOc81dHQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6876
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7+nRnhwwOvudyu47Smxrrj45S/OEIWaD0edhqVYLwAAZORnti9urEQvlXoyQX7p6MFMtvdNomB4Yy5zLllwRBg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB7769
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,32 +119,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, oe-kbuild-all@lists.linux.dev
+Cc: oliver.brown@nxp.com, Sandor.yu@nxp.com, linux-imx@nxp.com,
+ kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm/drm drm-next
-head:   a143bc517bf31c4575191efbaac216a11ec016e0
-commit: 67059b9fb8997f3d4515d72052c331503b00274b [741/803] drm/nouveau/fifo: add chan start()/stop()
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+The patch set initial support for Cadence MHDP(HDMI/DP) DRM bridge
+drivers and Cadence HDP-TX PHY(HDMI/DP) drivers for iMX8MQ.
 
-includecheck warnings: (new ones prefixed by >>)
- >> drivers/gpu/drm/nouveau/nvkm/engine/fifo/chan.c: chid.h is included more than once.
+The patch set compose of DRM bridge drivers and PHY drivers.
+Both of them need the followed two patches to pass build.
+  drm: bridge: cadence: convert mailbox functions to macro functions
+  phy: Add HDMI configuration options
 
-$ git blame drivers/gpu/drm/nouveau/nvkm/engine/fifo/chan.c
+DRM bridges driver patches:
+  dts-bingings: display: bridge: Add MHDP HDMI bindings for i.MX8MQ
+  drm: bridge: cadence: Add MHDP DP driver for i.MX8MQ
+  dts-bindings: display: bridge: Add MHDP DP bindings for i.MX8MQ
+  drm: bridge: cadence: Add MHDP HDMI driver for i.MX8MQ
 
-9a65a38c456eb (Ben Skeggs 2015-08-20 14:54:19 +1000  24) #include "chan.h"
-468fae7bb0a31 (Ben Skeggs 2022-06-01 20:47:26 +1000 @25) #include "chid.h"
-468fae7bb0a31 (Ben Skeggs 2022-06-01 20:47:26 +1000  26) #include "cgrp.h"
-67059b9fb8997 (Ben Skeggs 2022-06-01 20:47:32 +1000 @27) #include "chid.h"
-468fae7bb0a31 (Ben Skeggs 2022-06-01 20:47:26 +1000  28) #include "runl.h"
-f5e4568991f60 (Ben Skeggs 2022-06-01 20:47:21 +1000  29) #include "priv.h"
+PHY driver patches:
+  dts-bindings: phy: Add Cadence HDP-TX DP PHY bindings
+  phy: cadence: Add driver for HDP-TX DisplyPort PHY
+  dts-bindings: phy: Add Cadence HDP-TX HDMI PHY bindings
+  phy: cadence: Add driver for HDP-TX HDMI PHY
 
+v3->v4:
+dt-bindings:
+- Correct dt-bindings coding style and address review comments.
+- Add apb_clk description.
+- Add output port for HDMI/DP connector
+PHY:
+- Alphabetically sorted in Kconfig and Makefile for DP and HDMI PHY
+- Remove unused registers define from HDMI and DP PHY drivers.
+- More description in phy_hdmi.h.
+- Add apb_clk to HDMI and DP phy driver.
+HDMI/DP:
+- Use get_unaligned_le32() to replace hardcode type conversion
+  in HDMI AVI infoframe data fill function.
+- Add mailbox mutex lock in HDMI/DP driver for phy functions
+  to reslove race conditions between HDMI/DP and PHY drivers.
+- Add apb_clk to both HDMI and DP driver.
+- Rename some function names and add prefix with "cdns_hdmi/cdns_dp".
+- Remove bpc 12 and 16 optional that not supported.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <yujie.liu@intel.com>
+v2->v3:
+Address comments for dt-bindings files.
+- Correct dts-bindings file names 
+  Rename phy-cadence-hdptx-dp.yaml to cdns,mhdp-imx8mq-dp.yaml
+  Rename phy-cadence-hdptx-hdmi.yaml to cdns,mhdp-imx8mq-hdmi.yaml
+- Drop redundant words and descriptions.
+- Correct hdmi/dp node name.
 
+v2 is a completely different version compared to v1.
+Previous v1 can be available here [1].
+
+v1->v2:
+- Reuse Cadence mailbox access functions from mhdp8546 instead of
+  rockchip DP.
+- Mailbox access functions be convert to marco functions
+  that will be referenced by HDP-TX PHY(HDMI/DP) driver too.
+- Plain bridge instead of component driver.
+- Standalone Cadence HDP-TX PHY(HDMI/DP) driver.
+- Audio driver are removed from the patch set, it will be add in another
+  patch set later.
+
+[1] https://patchwork.kernel.org/project/linux-rockchip/cover/cover.1590982881.git.Sandor.yu@nxp.com/
+
+Sandor Yu (10):
+  drm: bridge: cadence: convert mailbox functions to macro functions
+  dt-bindings: display: bridge: Add MHDP DP for i.MX8MQ
+  drm: bridge: cadence: Add MHDP DP driver for i.MX8MQ
+  phy: Add HDMI configuration options
+  dt-bindings: display: bridge: Add MHDP HDMI for i.MX8MQ
+  drm: bridge: cadence: Add MHDP HDMI driver for i.MX8MQ
+  dt-bindings: phy: Add Cadence HDP-TX DP PHY
+  phy: cadence: Add driver for HDP-TX DisplyPort PHY
+  dt-bindings: phy: Add Cadence HDP-TX HDMI PHY
+  phy: cadence: Add driver for HDP-TX HDMI PHY
+
+ .../display/bridge/cdns,mhdp-imx8mq-dp.yaml   |   93 ++
+ .../display/bridge/cdns,mhdp-imx8mq-hdmi.yaml |   93 ++
+ .../bindings/phy/cdns,hdptx-dp-phy.yaml       |   68 ++
+ .../bindings/phy/cdns,hdptx-hdmi-phy.yaml     |   52 +
+ drivers/gpu/drm/bridge/cadence/Kconfig        |   25 +
+ drivers/gpu/drm/bridge/cadence/Makefile       |    3 +
+ drivers/gpu/drm/bridge/cadence/cdns-dp-core.c | 1071 +++++++++++++++++
+ .../gpu/drm/bridge/cadence/cdns-hdmi-core.c   | 1018 ++++++++++++++++
+ .../gpu/drm/bridge/cadence/cdns-mhdp-common.h |  400 ++++++
+ .../drm/bridge/cadence/cdns-mhdp8546-core.c   |  197 +--
+ .../drm/bridge/cadence/cdns-mhdp8546-core.h   |    1 -
+ drivers/phy/cadence/Kconfig                   |   16 +
+ drivers/phy/cadence/Makefile                  |    2 +
+ drivers/phy/cadence/phy-cadence-hdptx-dp.c    |  737 ++++++++++++
+ drivers/phy/cadence/phy-cadence-hdptx-hdmi.c  |  891 ++++++++++++++
+ include/drm/bridge/cdns-mhdp-mailbox.h        |  240 ++++
+ include/linux/phy/phy-hdmi.h                  |   38 +
+ include/linux/phy/phy.h                       |    7 +-
+ 18 files changed, 4755 insertions(+), 197 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/cdns,mhdp-imx8mq-dp.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/cdns,mhdp-imx8mq-hdmi.yaml
+ create mode 100644 Documentation/devicetree/bindings/phy/cdns,hdptx-dp-phy.yaml
+ create mode 100644 Documentation/devicetree/bindings/phy/cdns,hdptx-hdmi-phy.yaml
+ create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-dp-core.c
+ create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-hdmi-core.c
+ create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp-common.h
+ create mode 100644 drivers/phy/cadence/phy-cadence-hdptx-dp.c
+ create mode 100644 drivers/phy/cadence/phy-cadence-hdptx-hdmi.c
+ create mode 100644 include/drm/bridge/cdns-mhdp-mailbox.h
+ create mode 100644 include/linux/phy/phy-hdmi.h
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.34.1
+
