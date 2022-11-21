@@ -2,65 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31638631B92
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 09:36:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AA77631B94
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 09:36:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFAA510E16B;
-	Mon, 21 Nov 2022 08:36:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D1A810E178;
+	Mon, 21 Nov 2022 08:36:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31E0410E16B
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 08:36:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1669019781; x=1700555781;
- h=subject:from:to:cc:date:message-id:in-reply-to:
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B85E910E174;
+ Mon, 21 Nov 2022 08:36:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1669019808; x=1700555808;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Cojv73ncYBlTMqJr0ZxMpVAT6qQR4qxJuKojHO4kyGg=;
- b=Exlgj+r+BXDuwctnlu9S/VF+ruM2BM7AvUPEvXnBD7usrSYU8GY4Saqc
- agERQz7w8chwPQIM10L8Qa2lvl3mwFlzaKWIdGVv5ba1kAPSHrfaIdbDK
- l2pC4fKsB0U5CDbFDqcxDb5lG610celxYs7ImZlQJJdjzGMdzuX+/gKPA
- xFZt+0yEpeCloY2rz581w+htA4pTL1NSoB3tI4MmVr/CLtHf8DZofXiWK
- 9Z0NxQaqddiXsoLcQw1l9cL/hbd5N1Y9WI9mdcp4cYUgSemXNM4yFzeAA
- fXhdAtc7B24OycV1yV8n5BxohvdCgNS10OWIuIIpKkgKjMyvDhBAc6Hfl w==;
-X-IronPort-AV: E=Sophos;i="5.96,180,1665439200"; d="scan'208";a="27473758"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
- by mx1-pgp.tq-group.com with ESMTP; 21 Nov 2022 09:36:19 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
- by tq-pgp-pr1.tq-net.de (PGP Universal service);
- Mon, 21 Nov 2022 09:36:19 +0100
-X-PGP-Universal: processed;
- by tq-pgp-pr1.tq-net.de on Mon, 21 Nov 2022 09:36:19 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1669019779; x=1700555779;
- h=from:to:cc:date:message-id:in-reply-to:references:
- mime-version:content-transfer-encoding:subject;
- bh=Cojv73ncYBlTMqJr0ZxMpVAT6qQR4qxJuKojHO4kyGg=;
- b=JAK/K/vsqDV3DaE+TvrLpDD4sYQ1RNgeYU/pWK1K0/MKvMtjHobrVnWv
- YhCuwwD4Rer2Rm9nLlRsN/dMVUFo3t+pbNJ8ic4JSfSnIcT4OQo0wWo7Y
- d9nPsp5fJa8jzrB/w7Y76IUeZ/3uyzQDdQbhaJ11QgWGSyEzwjASaAO3C
- 15Jq0/oJsD/C8YgTk72V9chmfe/He8kZA2QY+netMkQQw6ENDXapWXZ2g
- tRs1r87jbQb51Is3+bfRC+Mok3pQzOmtRLaeDepQlGwFnAYHI5xn2P4v8
- x//277kZ6aotT6G9tlt9PcuYMuTgqPOICaATUV/jqgEDR/IL7vLDj1IVf Q==;
-X-IronPort-AV: E=Sophos;i="5.96,180,1665439200"; d="scan'208";a="27473757"
-Subject: Re: [PATCH v4 00/10] Initial support for Cadence MHDP(HDMI/DP) for
- i.MX8MQ
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 21 Nov 2022 09:36:18 +0100
-Received: from steina-w.localnet (unknown [10.123.53.21])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 93D74280056;
- Mon, 21 Nov 2022 09:36:17 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Sandor Yu <Sandor.yu@nxp.com>
-Date: Mon, 21 Nov 2022 09:36:16 +0100
-Message-ID: <4760535.GXAFRqVoOG@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <cover.1669013346.git.Sandor.yu@nxp.com>
-References: <cover.1669013346.git.Sandor.yu@nxp.com>
+ bh=eBeydiOQajbqZZIFP0SEa1BlA1vceH2GGQc4SiEL9hs=;
+ b=Gw8+sRmCNakxZfNmEUQ3o078psFxludfh7VSm6yVElV5GCdtUUfiglNK
+ pCGgoe9eUEQq8BZHIbwK7otUcXEIbMZhy41YHOq6gaot78LVah4dc+PQI
+ j9T+MrnabP2p9vaLsYP6AT23zqvYNVbBl5HazP70aWnskXJ/TYfVhvwcM
+ MTxY/e3sHCZZd9NxDz+eVe8rN6OtTpYbko+fkghNP4V+59kchp55UwUXK
+ LMPAXj7X2p7KZkv5ghpR5CZM25ZaZ74lKO/h2+wg9+3zswd+O8KV44cTn
+ RHo6o1Hjda05+tjprcxTdzL6mU8Njn4DFmfXfaQeVkQ+La9HHUoez4K++ A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10537"; a="293894334"
+X-IronPort-AV: E=Sophos;i="5.96,180,1665471600"; d="scan'208";a="293894334"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Nov 2022 00:36:48 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10537"; a="783366436"
+X-IronPort-AV: E=Sophos;i="5.96,180,1665471600"; d="scan'208";a="783366436"
+Received: from michalza-mobl1.ger.corp.intel.com (HELO
+ jkrzyszt-mobl1.ger.corp.intel.com) ([10.213.31.92])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Nov 2022 00:36:45 -0800
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Subject: Re: [PATCH v2 1/2] drm/i915: Fix negative value passed as remaining
+ time
+Date: Mon, 21 Nov 2022 09:36:43 +0100
+Message-ID: <2205212.iZASKD2KPV@jkrzyszt-mobl1.ger.corp.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
+ 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20221118104222.57328-2-janusz.krzysztofik@linux.intel.com>
+References: <20221118104222.57328-1-janusz.krzysztofik@linux.intel.com>
+ <20221118104222.57328-2-janusz.krzysztofik@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
@@ -76,138 +62,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrzej.hajda@intel.com, dri-devel@lists.freedesktop.org,
- Laurent.pinchart@ideasonboard.com, krzysztof.kozlowski+dt@linaro.org,
- linux-phy@lists.infradead.org, jernej.skrabec@gmail.com, kishon@ti.com,
- linux-imx@nxp.com, devicetree@vger.kernel.org, kernel@pengutronix.de,
- jonas@kwiboo.se, s.hauer@pengutronix.de, robh+dt@kernel.org,
- linux-arm-kernel@lists.infradead.org, oliver.brown@nxp.com,
- neil.armstrong@linaro.org, linux-kernel@vger.kernel.org,
- robert.foss@linaro.org, vkoul@kernel.org, Sandor.yu@nxp.com,
- shawnguo@kernel.org
+Cc: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org,
+ Chris Wilson <chris.p.wilson@intel.com>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+ John Harrison <John.C.Harrison@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Sandor,
+On Friday, 18 November 2022 11:42:21 CET Janusz Krzysztofik wrote:
+> Commit b97060a99b01 ("drm/i915/guc: Update intel_gt_wait_for_idle to work
+> with GuC") extended the API of intel_gt_retire_requests_timeout() with an
+> extra argument 'remaining_timeout', intended for passing back unconsumed
+> portion of requested timeout when 0 (success) is returned.  However, when
+> request retirement happens to succeed despite an error returned by a call
+> to dma_fence_wait_timeout(), that error code (a negative value) is passed
+> back instead of remaining time.  If we then pass that negative value
+> forward as requested timeout to intel_uc_wait_for_idle(), an explicit BUG
+> will be triggered.
+> 
+> If request retirement succeeds but an error code other than -ETIME is
+> passed back via remaininig_timeout, we have no clue on how much of
+> the initial timeout might have been left for spending it on waiting for
+> GuC to become idle.  Then, we have no choice other than fail in that case
+> -- do it.  
 
-thanks for the updated series.
+Looking at this again, I think we should ignore those errors, like they have 
+been already ignored by intel_gt_retire_requests_timeout() returning 0, and 
+call intel_uc_wait_for_idle() with 0 timeout.
 
-Am Montag, 21. November 2022, 08:23:50 CET schrieb Sandor Yu:
-> The patch set initial support for Cadence MHDP(HDMI/DP) DRM bridge
-> drivers and Cadence HDP-TX PHY(HDMI/DP) drivers for iMX8MQ.
-> 
-> The patch set compose of DRM bridge drivers and PHY drivers.
-> Both of them need the followed two patches to pass build.
->   drm: bridge: cadence: convert mailbox functions to macro functions
->   phy: Add HDMI configuration options
-> 
-> DRM bridges driver patches:
->   dts-bingings: display: bridge: Add MHDP HDMI bindings for i.MX8MQ
->   drm: bridge: cadence: Add MHDP DP driver for i.MX8MQ
->   dts-bindings: display: bridge: Add MHDP DP bindings for i.MX8MQ
->   drm: bridge: cadence: Add MHDP HDMI driver for i.MX8MQ
-> 
-> PHY driver patches:
->   dts-bindings: phy: Add Cadence HDP-TX DP PHY bindings
->   phy: cadence: Add driver for HDP-TX DisplyPort PHY
->   dts-bindings: phy: Add Cadence HDP-TX HDMI PHY bindings
->   phy: cadence: Add driver for HDP-TX HDMI PHY
-> 
-> v3->v4:
-> dt-bindings:
-> - Correct dt-bindings coding style and address review comments.
-> - Add apb_clk description.
-> - Add output port for HDMI/DP connector
-> PHY:
-> - Alphabetically sorted in Kconfig and Makefile for DP and HDMI PHY
-> - Remove unused registers define from HDMI and DP PHY drivers.
-> - More description in phy_hdmi.h.
-> - Add apb_clk to HDMI and DP phy driver.
-> HDMI/DP:
-> - Use get_unaligned_le32() to replace hardcode type conversion
->   in HDMI AVI infoframe data fill function.
-> - Add mailbox mutex lock in HDMI/DP driver for phy functions
->   to reslove race conditions between HDMI/DP and PHY drivers.
-> - Add apb_clk to both HDMI and DP driver.
-> - Rename some function names and add prefix with "cdns_hdmi/cdns_dp".
-> - Remove bpc 12 and 16 optional that not supported.
+I'll submit new version if you agree.
 
-With the apb_clk enabled now, I can use both HDMI and PHY driver as modules 
-now. Thanks!
+Thanks,
+Janusz
 
-Best regards,
-Alexander
-
-> v2->v3:
-> Address comments for dt-bindings files.
-> - Correct dts-bindings file names
->   Rename phy-cadence-hdptx-dp.yaml to cdns,mhdp-imx8mq-dp.yaml
->   Rename phy-cadence-hdptx-hdmi.yaml to cdns,mhdp-imx8mq-hdmi.yaml
-> - Drop redundant words and descriptions.
-> - Correct hdmi/dp node name.
+> However, if -ETIME is returned via remaining_timeout then we
+> know that no more time has been left.  Then, pass 0 timeout value to
+> intel_uc_wait_for_idle() to give it a chance to return success if GuC is
+> already idle.
 > 
-> v2 is a completely different version compared to v1.
-> Previous v1 can be available here [1].
+> v2: Fix the issue on the caller side, not the provider.
 > 
-> v1->v2:
-> - Reuse Cadence mailbox access functions from mhdp8546 instead of
->   rockchip DP.
-> - Mailbox access functions be convert to marco functions
->   that will be referenced by HDP-TX PHY(HDMI/DP) driver too.
-> - Plain bridge instead of component driver.
-> - Standalone Cadence HDP-TX PHY(HDMI/DP) driver.
-> - Audio driver are removed from the patch set, it will be add in another
->   patch set later.
+> Fixes: b97060a99b01 ("drm/i915/guc: Update intel_gt_wait_for_idle to work 
+with GuC")
+> Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+> Cc: stable@vger.kernel.org # v5.15+
+> ---
+>  drivers/gpu/drm/i915/gt/intel_gt.c | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
 > 
-> [1]
-> https://patchwork.kernel.org/project/linux-rockchip/cover/cover.1590982881.
-> git.Sandor.yu@nxp.com/
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/
+intel_gt.c
+> index 0325f071046ca..5d612ba547d23 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+> @@ -677,8 +677,15 @@ int intel_gt_wait_for_idle(struct intel_gt *gt, long 
+timeout)
+>  			return -EINTR;
+>  	}
+>  
+> -	return timeout ? timeout : intel_uc_wait_for_idle(&gt->uc,
+> -							  
+remaining_timeout);
+> +	if (timeout)
+> +		return timeout;
+> +
+> +	if (remaining_timeout == -ETIME)
+> +		remaining_timeout = 0;
+> +	else if (remaining_timeout < 0)
+> +		return remaining_timeout;
+> +
+> +	return intel_uc_wait_for_idle(&gt->uc, remaining_timeout);
+>  }
+>  
+>  int intel_gt_init(struct intel_gt *gt)
 > 
-> Sandor Yu (10):
->   drm: bridge: cadence: convert mailbox functions to macro functions
->   dt-bindings: display: bridge: Add MHDP DP for i.MX8MQ
->   drm: bridge: cadence: Add MHDP DP driver for i.MX8MQ
->   phy: Add HDMI configuration options
->   dt-bindings: display: bridge: Add MHDP HDMI for i.MX8MQ
->   drm: bridge: cadence: Add MHDP HDMI driver for i.MX8MQ
->   dt-bindings: phy: Add Cadence HDP-TX DP PHY
->   phy: cadence: Add driver for HDP-TX DisplyPort PHY
->   dt-bindings: phy: Add Cadence HDP-TX HDMI PHY
->   phy: cadence: Add driver for HDP-TX HDMI PHY
-> 
->  .../display/bridge/cdns,mhdp-imx8mq-dp.yaml   |   93 ++
->  .../display/bridge/cdns,mhdp-imx8mq-hdmi.yaml |   93 ++
->  .../bindings/phy/cdns,hdptx-dp-phy.yaml       |   68 ++
->  .../bindings/phy/cdns,hdptx-hdmi-phy.yaml     |   52 +
->  drivers/gpu/drm/bridge/cadence/Kconfig        |   25 +
->  drivers/gpu/drm/bridge/cadence/Makefile       |    3 +
->  drivers/gpu/drm/bridge/cadence/cdns-dp-core.c | 1071 +++++++++++++++++
->  .../gpu/drm/bridge/cadence/cdns-hdmi-core.c   | 1018 ++++++++++++++++
->  .../gpu/drm/bridge/cadence/cdns-mhdp-common.h |  400 ++++++
->  .../drm/bridge/cadence/cdns-mhdp8546-core.c   |  197 +--
->  .../drm/bridge/cadence/cdns-mhdp8546-core.h   |    1 -
->  drivers/phy/cadence/Kconfig                   |   16 +
->  drivers/phy/cadence/Makefile                  |    2 +
->  drivers/phy/cadence/phy-cadence-hdptx-dp.c    |  737 ++++++++++++
->  drivers/phy/cadence/phy-cadence-hdptx-hdmi.c  |  891 ++++++++++++++
->  include/drm/bridge/cdns-mhdp-mailbox.h        |  240 ++++
->  include/linux/phy/phy-hdmi.h                  |   38 +
->  include/linux/phy/phy.h                       |    7 +-
->  18 files changed, 4755 insertions(+), 197 deletions(-)
->  create mode 100644
-> Documentation/devicetree/bindings/display/bridge/cdns,mhdp-imx8mq-dp.yaml
-> create mode 100644
-> Documentation/devicetree/bindings/display/bridge/cdns,mhdp-imx8mq-hdmi.yaml
-> create mode 100644
-> Documentation/devicetree/bindings/phy/cdns,hdptx-dp-phy.yaml create mode
-> 100644 Documentation/devicetree/bindings/phy/cdns,hdptx-hdmi-phy.yaml
-> create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-dp-core.c
->  create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-hdmi-core.c
->  create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp-common.h
->  create mode 100644 drivers/phy/cadence/phy-cadence-hdptx-dp.c
->  create mode 100644 drivers/phy/cadence/phy-cadence-hdptx-hdmi.c
->  create mode 100644 include/drm/bridge/cdns-mhdp-mailbox.h
->  create mode 100644 include/linux/phy/phy-hdmi.h
 
 
 
