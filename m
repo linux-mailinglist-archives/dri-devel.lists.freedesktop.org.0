@@ -2,39 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 999486323C3
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 14:34:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AE2C6326C2
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 15:49:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A90FD10E12D;
-	Mon, 21 Nov 2022 13:34:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75C1410E2DB;
+	Mon, 21 Nov 2022 14:48:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6CD810E12D
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 13:34:01 +0000 (UTC)
-Date: Mon, 21 Nov 2022 13:33:56 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1669037639; x=1669296839;
- bh=cWyjS8gJ5tYyIQcQGe5x9R0S+IOi2uZyenuqRvdGD6M=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector;
- b=ILoOFbgNvrObh0zLDV1ydlnFPyd2OcpXrNdSngiGAHxaV+qoBo8sIgM8E9mW5GDXv
- qnGU/jPbxH9zlCS091gM2bF+kgb470a6oyPNV2VGWX/24mQhxQV9Jn911N+xY2SjNO
- 8jhVZ/CLaBgipbxki3ThWeYI/YJGxDsPjO33YMbXiCJ/vu912kQSdsXfVNbQclOT2T
- sc17JGHYR17xP7ZKI9cddTVIVfQRU5Dz4mxopOlOC1SixIxmy4iErbJC6mJ9vDfG2/
- FCqMbGlk3LwlnA3QZi9dCLLtsBcSsn1BZtVQKbCbzE0jcX4coZxb1mAYlVDrB1w1+j
- hDW/VC+QRfg0g==
-To: =?utf-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: git send-email friendly smtp provider anyone?
-Message-ID: <9-qCHLoI7vMtVX2UmZbrcDSyMIJRqoWx6G2sZEn08RP15vYjPwng_fInDkKYPvllUddwXshfYs_fIpPH3_TeFLat2MQx_LT5Hfb0dxb1vGA=@emersion.fr>
-In-Reply-To: <1bc45775-0667-01f8-36e1-9f65d3081092@tronnes.org>
-References: <1bc45775-0667-01f8-36e1-9f65d3081092@tronnes.org>
-Feedback-ID: 1358184:user:proton
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B4DF10E2DB
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 14:48:47 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id ECEF2220F2;
+ Mon, 21 Nov 2022 14:48:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1669042125; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=NUrS+lQaYIBygZZ1oRuFGgQfEIu7uBcQQX4r8VE3fkM=;
+ b=PBFlQT+3bMbK69Vfip/yAGjKaX45m43sql9gfp+GWnr9IiNme5M+eyDag/i4QECRNZzTW0
+ b3ZF9CD2W+OgEF1/XQDy5stgYVoDgnCppcOQqnBnP0PGoU1mrzHjKFjQPlzdkYq8wdz9Cy
+ n5IrwrYX1Ck3gS6KIOPMB/ree6yD7Eg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1669042125;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=NUrS+lQaYIBygZZ1oRuFGgQfEIu7uBcQQX4r8VE3fkM=;
+ b=p9O/fWo1+fQ35r1ITqCt66gcWpA/FBmLxXBsrhTZlxhDW54xwEjaEyFQJaRCTLRUx1bkTY
+ CphoSnwo/4klYCAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B87F11377F;
+ Mon, 21 Nov 2022 14:48:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id i7VoK82Pe2PoKAAAMHmgww
+ (envelope-from <jdelvare@suse.de>); Mon, 21 Nov 2022 14:48:45 +0000
+Date: Mon, 21 Nov 2022 15:48:44 +0100
+From: Jean Delvare <jdelvare@suse.de>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: [PATCH] drm/logicvc: Drop obsolete dependency on COMPILE_TEST
+Message-ID: <20221121154844.385b29fa@endymion.delvare>
+Organization: SUSE Linux
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,11 +65,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I think you can apply for a linux.dev mailbox [1].
+Since commit 0166dc11be91 ("of: make CONFIG_OF user selectable"), it
+is possible to test-build any driver which depends on OF on any
+architecture by explicitly selecting OF. Therefore depending on
+COMPILE_TEST as an alternative is no longer needed.
 
-[1]: https://korg.docs.kernel.org/linuxdev.html
+It is actually better to always build such drivers with OF enabled,
+so that the test builds are closer to how each driver will actually be
+built on its intended target. Building them without OF may not test
+much as the compiler will optimize out potentially large parts of the
+code. In the worst case, this could even pop false positive warnings.
+Dropping COMPILE_TEST here improves the quality of our testing and
+avoids wasting time on non-existent issues.
+
+Signed-off-by: Jean Delvare <jdelvare@suse.de>
+Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+---
+ drivers/gpu/drm/logicvc/Kconfig |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- linux-6.0.orig/drivers/gpu/drm/logicvc/Kconfig
++++ linux-6.0/drivers/gpu/drm/logicvc/Kconfig
+@@ -1,7 +1,7 @@
+ config DRM_LOGICVC
+ 	tristate "LogiCVC DRM"
+ 	depends on DRM
+-	depends on OF || COMPILE_TEST
++	depends on OF
+ 	select DRM_KMS_HELPER
+ 	select DRM_KMS_CMA_HELPER
+ 	select DRM_GEM_CMA_HELPER
+
+
+-- 
+Jean Delvare
+SUSE L3 Support
