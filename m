@@ -1,64 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0451631EAD
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 11:46:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4D72631EC5
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 11:51:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE32910E1E2;
-	Mon, 21 Nov 2022 10:46:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C598510E013;
+	Mon, 21 Nov 2022 10:51:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA14D10E29D
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 10:45:38 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 96939220CF;
- Mon, 21 Nov 2022 10:45:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1669027537; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=V+xNnWpu/QjKEJioNZNGUFPIfSUbNb/7qtAoSxRpXkw=;
- b=UUj39sFfF2323/74ZZaLnAOn/MDwUBy0hvVr6f3E7TBfg2Y3f76D5r+LMgvSDTLEvKXz4F
- vyFj51gSpZ02gVGA0gun46k+5jQH/1btnuvUIvC8AmJuI5zUKQkzZ72XZXN+JuxXBHdGDG
- aD58sQoApP8zrKC2uHkgUcCe67RYKhw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1669027537;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=V+xNnWpu/QjKEJioNZNGUFPIfSUbNb/7qtAoSxRpXkw=;
- b=toALTKXqd97w9nQBoeDXy2eZeB7BA/A8a/ZmV4OpOG7RS1tuzWY80lbPYCwxYR47moPgsO
- HGUmoLxhA4z4eyBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 57C8513B03;
- Mon, 21 Nov 2022 10:45:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id oK+RFNFWe2NaGQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 21 Nov 2022 10:45:37 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, thierry.reding@gmail.com,
- sam@ravnborg.org, emma@anholt.net, david@lechnology.com,
- kamlesh.gurudasani@gmail.com, noralf@tronnes.org, javierm@redhat.com
-Subject: [PATCH 8/8] drm/mipi-dbi: Move drm_dev_{enter,
- exit}() out from fb_dirty functions
-Date: Mon, 21 Nov 2022 11:45:32 +0100
-Message-Id: <20221121104532.8301-9-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221121104532.8301-1-tzimmermann@suse.de>
-References: <20221121104532.8301-1-tzimmermann@suse.de>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD6A710E2A5;
+ Mon, 21 Nov 2022 10:51:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1669027883; x=1700563883;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=jpBnOyt00Ux1gj6iZRnc34tKenYrw5YzlZDiBkRdI5Q=;
+ b=T1bYCzVIgln1Lcu3sk/s55I37p4JdBbU5geZbAfjHytH2CnHPbPWycyC
+ lEqm/w/XBk1poZyKU75cXuQqVoMeYWCpGdeO/2cZT4zktk5Yp4TKPgYCm
+ 1Kx8wnWj7U9/blYFjvFpEntqyc2+Bcm24ifq7SzlngxvzAaLTN6jRMBbC
+ 2HBbUWZqRzPNNmQGLcDf3wxngS4m0Q27FYD9lgq+vyMgeye0Xjv5+neLa
+ nHlq43lwoGg5fL7fdZvQk3WCO2xlbhnXYWz5+9kosici4cWohdJRroUu0
+ +Du+OI/AG29tRq2nl5J4VhnAX7bU83qmW1kgACQXikWBmLvNYvqDBfBB5 g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10537"; a="311159390"
+X-IronPort-AV: E=Sophos;i="5.96,181,1665471600"; d="scan'208";a="311159390"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Nov 2022 02:51:23 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10537"; a="640978705"
+X-IronPort-AV: E=Sophos;i="5.96,181,1665471600"; d="scan'208";a="640978705"
+Received: from jkrzyszt-mobl1.ger.corp.intel.com ([10.213.16.21])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Nov 2022 02:51:19 -0800
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, "Das,
+ Nirmoy" <nirmoy.das@linux.intel.com>, Andrzej Hajda <andrzej.hajda@intel.com>
+Subject: Re: [PATCH v2 2/2] drm/i915: Never return 0 if not all requests
+ retired
+Date: Mon, 21 Nov 2022 11:51:15 +0100
+Message-ID: <4758027.GXAFRqVoOG@jkrzyszt-mobl1.ger.corp.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
+ 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <4f75fe15-96b0-ac79-62f3-2ec6f41f5c1e@intel.com>
+References: <20221118104222.57328-1-janusz.krzysztofik@linux.intel.com>
+ <3200694.aeNJFYEL58@jkrzyszt-mobl1.ger.corp.intel.com>
+ <4f75fe15-96b0-ac79-62f3-2ec6f41f5c1e@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,162 +63,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Chris Wilson <chris.p.wilson@intel.com>,
+ John Harrison <John.C.Harrison@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Call drm_dev_enter() and drm_dev_exit() in the outer-most callbacks
-of the modesetting pipeline. If drm_dev_enter() fails, the driver can
-thus avoid unnecessary work.
+Hi Andrzej,
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/drm_mipi_dbi.c | 13 +++++++------
- drivers/gpu/drm/tiny/ili9225.c | 13 +++++++------
- drivers/gpu/drm/tiny/st7586.c  | 13 +++++++------
- 3 files changed, 21 insertions(+), 18 deletions(-)
+Thanks for your comment.
 
-diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
-index d45824a65c9fd..fc1c8c536370a 100644
---- a/drivers/gpu/drm/drm_mipi_dbi.c
-+++ b/drivers/gpu/drm/drm_mipi_dbi.c
-@@ -261,13 +261,10 @@ static void mipi_dbi_fb_dirty(struct iosys_map *src, struct drm_framebuffer *fb,
- 	unsigned int width = rect->x2 - rect->x1;
- 	struct mipi_dbi *dbi = &dbidev->dbi;
- 	bool swap = dbi->swap_bytes;
--	int idx, ret = 0;
-+	int ret = 0;
- 	bool full;
- 	void *tr;
- 
--	if (!drm_dev_enter(fb->dev, &idx))
--		return;
--
- 	full = width == fb->width && height == fb->height;
- 
- 	DRM_DEBUG_KMS("Flushing [FB:%d] " DRM_RECT_FMT "\n", fb->base.id, DRM_RECT_ARG(rect));
-@@ -290,8 +287,6 @@ static void mipi_dbi_fb_dirty(struct iosys_map *src, struct drm_framebuffer *fb,
- err_msg:
- 	if (ret)
- 		drm_err_once(fb->dev, "Failed to update display %d\n", ret);
--
--	drm_dev_exit(idx);
- }
- 
- /**
-@@ -330,6 +325,7 @@ void mipi_dbi_pipe_update(struct drm_simple_display_pipe *pipe,
- 		&mipi_dbi_plane_state->shadow_plane_state;
- 	struct drm_framebuffer *fb = state->fb;
- 	struct drm_rect rect;
-+	int idx;
- 
- 	if (!pipe->crtc.state->active)
- 		return;
-@@ -337,8 +333,13 @@ void mipi_dbi_pipe_update(struct drm_simple_display_pipe *pipe,
- 	if (WARN_ON(!fb))
- 		return;
- 
-+	if (!drm_dev_enter(fb->dev, &idx))
-+		return;
-+
- 	if (drm_atomic_helper_damage_merged(old_state, state, &rect))
- 		mipi_dbi_fb_dirty(&shadow_plane_state->data[0], fb, &rect);
-+
-+	drm_dev_exit(idx);
- }
- EXPORT_SYMBOL(mipi_dbi_pipe_update);
- 
-diff --git a/drivers/gpu/drm/tiny/ili9225.c b/drivers/gpu/drm/tiny/ili9225.c
-index ba5681b63ffbf..7ecbb8b141757 100644
---- a/drivers/gpu/drm/tiny/ili9225.c
-+++ b/drivers/gpu/drm/tiny/ili9225.c
-@@ -87,13 +87,10 @@ static void ili9225_fb_dirty(struct iosys_map *src, struct drm_framebuffer *fb,
- 	bool swap = dbi->swap_bytes;
- 	u16 x_start, y_start;
- 	u16 x1, x2, y1, y2;
--	int idx, ret = 0;
-+	int ret = 0;
- 	bool full;
- 	void *tr;
- 
--	if (!drm_dev_enter(fb->dev, &idx))
--		return;
--
- 	full = width == fb->width && height == fb->height;
- 
- 	DRM_DEBUG_KMS("Flushing [FB:%d] " DRM_RECT_FMT "\n", fb->base.id, DRM_RECT_ARG(rect));
-@@ -156,8 +153,6 @@ static void ili9225_fb_dirty(struct iosys_map *src, struct drm_framebuffer *fb,
- err_msg:
- 	if (ret)
- 		dev_err_once(fb->dev->dev, "Failed to update display %d\n", ret);
--
--	drm_dev_exit(idx);
- }
- 
- static void ili9225_pipe_update(struct drm_simple_display_pipe *pipe,
-@@ -170,12 +165,18 @@ static void ili9225_pipe_update(struct drm_simple_display_pipe *pipe,
- 		&mipi_dbi_plane_state->shadow_plane_state;
- 	struct drm_framebuffer *fb = state->fb;
- 	struct drm_rect rect;
-+	int idx;
- 
- 	if (!pipe->crtc.state->active)
- 		return;
- 
-+	if (!drm_dev_enter(fb->dev, &idx))
-+		return;
-+
- 	if (drm_atomic_helper_damage_merged(old_state, state, &rect))
- 		ili9225_fb_dirty(&shadow_plane_state->data[0], fb, &rect);
-+
-+	drm_dev_exit(idx);
- }
- 
- static void ili9225_pipe_enable(struct drm_simple_display_pipe *pipe,
-diff --git a/drivers/gpu/drm/tiny/st7586.c b/drivers/gpu/drm/tiny/st7586.c
-index ddaa82c2e58ae..0f5e532fe5d1d 100644
---- a/drivers/gpu/drm/tiny/st7586.c
-+++ b/drivers/gpu/drm/tiny/st7586.c
-@@ -113,10 +113,7 @@ static void st7586_fb_dirty(struct iosys_map *src, struct drm_framebuffer *fb,
- {
- 	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(fb->dev);
- 	struct mipi_dbi *dbi = &dbidev->dbi;
--	int start, end, idx, ret = 0;
--
--	if (!drm_dev_enter(fb->dev, &idx))
--		return;
-+	int start, end, ret = 0;
- 
- 	/* 3 pixels per byte, so grow clip to nearest multiple of 3 */
- 	rect->x1 = rounddown(rect->x1, 3);
-@@ -145,8 +142,6 @@ static void st7586_fb_dirty(struct iosys_map *src, struct drm_framebuffer *fb,
- err_msg:
- 	if (ret)
- 		dev_err_once(fb->dev->dev, "Failed to update display %d\n", ret);
--
--	drm_dev_exit(idx);
- }
- 
- static void st7586_pipe_update(struct drm_simple_display_pipe *pipe,
-@@ -159,12 +154,18 @@ static void st7586_pipe_update(struct drm_simple_display_pipe *pipe,
- 		&mipi_dbi_plane_state->shadow_plane_state;
- 	struct drm_framebuffer *fb = state->fb;
- 	struct drm_rect rect;
-+	int idx;
- 
- 	if (!pipe->crtc.state->active)
- 		return;
- 
-+	if (!drm_dev_enter(fb->dev, &idx))
-+		return;
-+
- 	if (drm_atomic_helper_damage_merged(old_state, state, &rect))
- 		st7586_fb_dirty(&shadow_plane_state->data[0], fb, &rect);
-+
-+	drm_dev_exit(idx);
- }
- 
- static void st7586_pipe_enable(struct drm_simple_display_pipe *pipe,
--- 
-2.38.1
+On Monday, 21 November 2022 11:17:42 CET Andrzej Hajda wrote:
+> 
+> On 21.11.2022 09:30, Janusz Krzysztofik wrote:
+> > Hi Nimroy,
+> >
+> > Thanks for looking at this.
+> >
+> > On Friday, 18 November 2022 20:56:50 CET Das, Nirmoy wrote:
+> >> On 11/18/2022 11:42 AM, Janusz Krzysztofik wrote:
+> >>> Users of intel_gt_retire_requests_timeout() expect 0 return value on
+> >>> success.  However, we have no protection from passing back 0 potentially
+> >>> returned by a call to dma_fence_wait_timeout() when it succedes right
+> >>> after its timeout has expired.
+> >>>
+> >>> Replace 0 with -ETIME before potentially using the timeout value as return
+> >>> code, so -ETIME is returned if there are still some requests not retired
+> >>> after timeout, 0 otherwise.
+> >>>
+> >>> v2: Move the added lines down so flush_submission() is not affected.
+> >>>
+> >>> Fixes: f33a8a51602c ("drm/i915: Merge wait_for_timelines with
+> > retire_request")
+> >>> Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+> >>> Cc: stable@vger.kernel.org # v5.5+
+> >>> ---
+> >>>    drivers/gpu/drm/i915/gt/intel_gt_requests.c | 3 +++
+> >>>    1 file changed, 3 insertions(+)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_requests.c b/drivers/gpu/
+> > drm/i915/gt/intel_gt_requests.c
+> >>> index edb881d756309..3ac4603eeb4ee 100644
+> >>> --- a/drivers/gpu/drm/i915/gt/intel_gt_requests.c
+> >>> +++ b/drivers/gpu/drm/i915/gt/intel_gt_requests.c
+> >>> @@ -199,6 +199,9 @@ out_active:	spin_lock(&timelines->lock);
+> >>>    	if (remaining_timeout)
+> >>>    		*remaining_timeout = timeout;
+> >>>    
+> >>> +	if (!timeout)
+> >>> +		timeout = -ETIME;
+> >> This will return error, -ETIME when 0 timeout is passed,
+> >> intel_gt_retire_requests().
+> > Yes, but only when active_count is not 0 after we loop through
+> > timelines->active_list calling retire_requests() on each and counting up
+> > failures in active_count.
+> 
+> Moving this line just after the call to dma_fence_wait_timeout should 
+> solve the controversy.
+
+But that would break our need to pass 0, not -ETIME, to flush_submission() in 
+case the initial value of timeout was 0, as pointed out by Chris during our 
+discussion on v2.
+
+Maybe an inline comment above the added lines that explains why we are doing 
+this could help?
+
+Thanks,
+Janusz
+
+> 
+> Regards
+> Andrzej
+> 
+> >
+> >> We don't want that.
+> > When 0 timeout is passed to intel_gt_retire_requests(), do we really want it
+> > to return 0 unconditionally, or are we rather interested if those calls to
+> > retire_requests() succeeded?
+> >
+> >> I think you can use a separate variable to store
+> >> return val from the dma_fence_wait_timeout()
+> >>
+> >>
+> >> Regards,
+> >>
+> >> Nirmoy
+> >>
+> >>> +
+> >>>    	return active_count ? timeout : 0;
+> > If active count is 0, we return 0 regardless of timeout value, and that's OK.
+> > However, if active_count is not 0, we shouldn't return 0, I believe, we should
+> > return either remaining time if some left, or error (-ETIME) if not.  If you
+> > think I'm wrong, please explain why.
+> >
+> > Thanks,
+> > Janusz
+> >
+> >>>    }
+> >>>    
+> >
+> >
+> >
+> 
+> 
+
+
+
 
