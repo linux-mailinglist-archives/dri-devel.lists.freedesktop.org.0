@@ -2,34 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09370632BDD
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 19:16:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEACA632BCC
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 19:13:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C79410E32C;
-	Mon, 21 Nov 2022 18:16:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BC4210E329;
+	Mon, 21 Nov 2022 18:13:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
- Mon, 21 Nov 2022 18:16:31 UTC
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
- [210.160.252.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id D6C6110E32C
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 18:16:31 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.96,182,1665414000"; d="scan'208";a="143437121"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
- by relmlie6.idc.renesas.com with ESMTP; 22 Nov 2022 03:11:27 +0900
-Received: from localhost.localdomain (unknown [10.226.92.177])
- by relmlir6.idc.renesas.com (Postfix) with ESMTP id 6BE0840A598F;
- Tue, 22 Nov 2022 03:11:24 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm: rcar-du: Fix Kconfig dependency between DRM and
- RZG2L_MIPI_DSI
-Date: Mon, 21 Nov 2022 18:11:21 +0000
-Message-Id: <20221121181121.168278-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B27010E329
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 18:13:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=EGCjxibfGRGWcHEcF05lQ7fpC6xBYzkRntZKzSQejyo=; b=k6wd1BkNuQu5gDCU/YOmA55BKW
+ 8cEAGeYDEt/U+XNCmqGg3S+z431UMU3rb0Zr371Ffn5nLG/nWcNenBHGnY2ZK+wiWEi9nRzMrFEbM
+ U47XlSiQMyVqpEsBvqoDXer2dRJkLu4aVd7d0GqY80WMa6qADTD2M+yedntl5s6LoyCNOyNfgd/lG
+ 7Fq/9IFym4BthrWsiIfdg7cNdSTnWpfOdson5OfGkOrtXMw67ZsdrFf+9lVIRvS1woT72SCoqFLNT
+ Ra9oGVD4gHNgWEa4XHUBBEESKsJOuHREZqURdM15iIJ4u/O0sPmy7oq6iNMYDiyAfypUQaZ7HFkB9
+ Qq5QQ/Cg==;
+Received: from [2a01:799:95e:1700:6395:ccbd:d000:d42b] (port=50424)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1oxBIR-00062M-4R; Mon, 21 Nov 2022 19:13:31 +0100
+Message-ID: <de12952f-8346-8995-236d-69dcb70f19f6@tronnes.org>
+Date: Mon, 21 Nov 2022 19:13:28 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: git send-email friendly smtp provider anyone?
+To: Maxime Ripard <maxime@cerno.tech>
+References: <1bc45775-0667-01f8-36e1-9f65d3081092@tronnes.org>
+ <20221121151922.jaal6ym7z2ejju4q@houat>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20221121151922.jaal6ym7z2ejju4q@houat>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,42 +55,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Biju Das <biju.das.jz@bp.renesas.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When CONFIG_DRM=m and CONFIG_DRM_RZG2L_MIPI_DSI=y, it results in a
-build failure. This patch fixes the build issue by adding dependency
-to DRM.
 
-Fixes: 7a043f978ed1 ("drm: rcar-du: Add RZ/G2L DSI driver")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-Ref:
- * https://lore.kernel.org/linux-renesas-soc/OS0PR01MB592298E75153A52245D789D4860A9@OS0PR01MB5922.jpnprd01.prod.outlook.com/T/#u
----
- drivers/gpu/drm/rcar-du/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
-index 1065dca885ef..b2bddbeca878 100644
---- a/drivers/gpu/drm/rcar-du/Kconfig
-+++ b/drivers/gpu/drm/rcar-du/Kconfig
-@@ -56,7 +56,7 @@ config DRM_RCAR_MIPI_DSI
- 
- config DRM_RZG2L_MIPI_DSI
- 	tristate "RZ/G2L MIPI DSI Encoder Support"
--	depends on DRM_BRIDGE && OF
-+	depends on DRM && DRM_BRIDGE && OF
- 	depends on ARCH_RENESAS || COMPILE_TEST
- 	select DRM_MIPI_DSI
- 	help
--- 
-2.25.1
+Den 21.11.2022 16.19, skrev Maxime Ripard:
+> On Mon, Nov 21, 2022 at 12:48:52PM +0100, Noralf Trønnes wrote:
+>> A couple of years ago my email provider blocked me from using git
+>> send-email with their smtp server. So I switched to the one my ISP
+>> provides. Now my ISP have outsourced their email service so the first 3
+>> emails gets through and the rest looks like it ends up in a tar pit or
+>> something, 18 hours later and 5 of 7 emails have gotten through. I have
+>> asked them about this, but I fear the answer will be this is not
+>> supported since they now don't have the service in-house anymore. I'm
+>> waiting for a reply.
+>>
+>> Today I tried sendinblue.com since they have a free plan, but they
+>> insert <br> in the emails so that didn't work out. They also have some
+>> kind of queue, after 1 hour 6 of 7 emails have gotten through.
+>>
+>> Does anyone have an smtp provider to recommend that works with git
+>> send-email and that sends out all the emails at once?
+> 
+> I'm using fastmail and am very happy about it so far.
+> 
+> Otherwise, you might consider using:
+> https://b4.docs.kernel.org/en/latest/contributor/send.html#authenticating-with-the-web-submission-endpoint
+> 
 
+That's an interesting option. I did briefly look at b4 a few months back
+but it looked like it was under heavy development so I figured I'd wait
+before trying it out. I think I'll give b4 a spin to see how it works, I
+wonder how it handles patch changelogs.
+
+Noralf.
