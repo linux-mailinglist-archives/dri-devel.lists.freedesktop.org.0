@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DBF4633099
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 00:13:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ACE5633095
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 00:13:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5114410E350;
-	Mon, 21 Nov 2022 23:13:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E51010E34D;
+	Mon, 21 Nov 2022 23:13:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FBB010E343;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C59C910E342;
  Mon, 21 Nov 2022 23:13:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1669072383; x=1700608383;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=/IGzufppaQtjxVab8ANL4EiTxA7qJpRLaAzPkiQQEv8=;
- b=gddCgUe9cRp0CRxNzc7ODy3X8AMcOdhvZw7cQqTXC7gTlAcZhW0mOM8J
- kaTaAGCitkNQQyjFOi1xkVCaIYRGbK3nJPhJMylYPAiHLUJJnKk7PXwU2
- FYx86GerNBp7twWn3dZhKGfUKxMlp9+Y1EcKhdfl9FhXv87kpd3Fbt/iR
- oapS9lwwilNbpmDFWKYbKOR/qJCgAfN/0ockzQeGWtGKqsmSkz6brqV9x
- 9EZUp6jjrZ/PU9W0PRTkQ4VgTBlXOSBBmIAJvvHGOfVV8BLWnh1ESEAf7
- t6YUW0QTVf9Y4K3xyssMWmoXz1fMOC+yWAydDHK8UTkWzmc82K3u+4faG Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="315503489"
-X-IronPort-AV: E=Sophos;i="5.96,182,1665471600"; d="scan'208";a="315503489"
+ bh=EpnHZdIDTUe/4dTtOyTVedot9+gnufCCrveMNDFQoYM=;
+ b=XVK1w8hcbLb//glSmL3Mc0EMY/9ELAP1qOWcNWqQyzrcNVo0ur3nGd67
+ NZFleekv/ZGqaXaYGmq8HybAUhx9h6Urxdl/gXryKLUkcXeei/0TxCd2M
+ svOkdvhnF3Tdl7CygCliXBYJtHclVbQbmpFbMsFGnvjk77cw9wK7AU2Ep
+ sqmpel7PiUjEoODCJgHgm+IckZ29oT2q+7YHUq4XdSKG5XdbejMc7EBp7
+ ohVrYrUKCvMs7QWuwxgEAUNrNDAu79UrZFhsj13XfEXmn2A2iXwboFiEY
+ VWDePofA7/I9McNNFt8Bx82FNkMeP2uBCHEwuXB1kJlaKmr+anTV+H0W1 g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="315503492"
+X-IronPort-AV: E=Sophos;i="5.96,182,1665471600"; d="scan'208";a="315503492"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Nov 2022 15:12:54 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="618993372"
-X-IronPort-AV: E=Sophos;i="5.96,182,1665471600"; d="scan'208";a="618993372"
+ 21 Nov 2022 15:12:57 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="618993381"
+X-IronPort-AV: E=Sophos;i="5.96,182,1665471600"; d="scan'208";a="618993381"
 Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Nov 2022 15:12:54 -0800
+ 21 Nov 2022 15:12:57 -0800
 From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 4/6] drm/i915/gsc: Do a driver-FLR on unload if GSC was loaded
-Date: Mon, 21 Nov 2022 15:16:15 -0800
-Message-Id: <20221121231617.1110329-5-daniele.ceraolospurio@intel.com>
+Subject: [PATCH 5/6] drm/i915/gsc: Disable GSC engine and power well if FW is
+ not selected
+Date: Mon, 21 Nov 2022 15:16:16 -0800
+Message-Id: <20221121231617.1110329-6-daniele.ceraolospurio@intel.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221121231617.1110329-1-daniele.ceraolospurio@intel.com>
 References: <20221121231617.1110329-1-daniele.ceraolospurio@intel.com>
@@ -56,162 +57,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ John C Harrison <John.C.Harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the GSC was loaded, the only way to stop it during the driver unload
-flow is to do a driver-FLR.
-The driver-FLR is not the same as PCI config space FLR in that
-it doesn't reset the SGUnit and doesn't modify the PCI config
-space. Thus, it doesn't require a re-enumeration of the PCI BARs.
-However, the driver-FLR does cause a memory wipe of graphics memory
-on all discrete GPU platforms or a wipe limited to stolen memory
-on the integrated GPU platforms.
+From: Jonathan Cavitt <jonathan.cavitt@intel.com>
 
-We perform the FLR as the last action before releasing the MMIO bar, so
-that we don't have to care about the consequences of the reset on the
-unload flow.
+The GSC CS is only used for communicating with the GSC FW, so no need to
+initialize it if we're not going to use the FW. If we're not using
+neither the engine nor the microcontoller, then we can also disable the
+power well.
 
+IMPORTANT: lack of GSC FW breaks media C6 due to opposing requirements
+between CS setup and forcewake idleness. See in-code comment for detail.
+
+Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
 Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
+Cc: Matt Roper <matthew.d.roper@intel.com>
+Cc: John C Harrison <John.C.Harrison@intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c |  9 +++++
- drivers/gpu/drm/i915/i915_reg.h           |  3 ++
- drivers/gpu/drm/i915/intel_uncore.c       | 45 +++++++++++++++++++++++
- drivers/gpu/drm/i915/intel_uncore.h       | 13 +++++++
- 4 files changed, 70 insertions(+)
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c | 18 ++++++++++++++++++
+ drivers/gpu/drm/i915/intel_uncore.c       |  3 +++
+ 2 files changed, 21 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
-index 510fb47193ec..5dad3c19c445 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
-@@ -173,6 +173,15 @@ int intel_gsc_fw_upload(struct intel_gsc_uc *gsc)
- 	if (err)
- 		goto fail;
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+index c33e0d72d670..99c4b866addd 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+@@ -894,6 +894,24 @@ static intel_engine_mask_t init_engine_mask(struct intel_gt *gt)
+ 	engine_mask_apply_compute_fuses(gt);
+ 	engine_mask_apply_copy_fuses(gt);
  
 +	/*
-+	 * Once the GSC FW is loaded, the only way to kill it on driver unload
-+	 * is to do a driver FLR. Given this is a very disruptive action, we
-+	 * want to do it as the last action before releasing the access to the
-+	 * MMIO bar, which means we need to do it as part of the primary uncore
-+	 * cleanup.
++	 * The only use of the GSC CS is to load and communicate with the GSC
++	 * FW, so we have no use for it if we don't have the FW.
++	 *
++	 * IMPORTANT: in cases where we don't have the GSC FW, we have a
++	 * catch-22 situation that breaks media C6 due to 2 requirements:
++	 * 1) once turned on, the GSC power well will not go to sleep unless the
++	 *    GSC FW is loaded.
++	 * 2) to enable idling (which is required for media C6) we need to
++	 *    initialize the IDLE_MSG register for the GSC CS and do at least 1
++	 *    submission, which will wake up the GSC power well.
 +	 */
-+	intel_uncore_set_flr_on_fini(&gt->i915->uncore);
++	if (__HAS_ENGINE(info->engine_mask, GSC0) && !intel_uc_wants_gsc_uc(&gt->uc)) {
++		drm_notice(&gt->i915->drm,
++			   "No GSC FW selected, disabling GSC CS and media C6\n");
++		info->engine_mask &= ~BIT(GSC0);
++	}
 +
- 	/* FW is not fully operational until we enable SW proxy */
- 	intel_uc_fw_change_status(gsc_fw, INTEL_UC_FIRMWARE_TRANSFERRED);
+ 	return info->engine_mask;
+ }
  
-diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-index 8e1892d14774..60e55245200b 100644
---- a/drivers/gpu/drm/i915/i915_reg.h
-+++ b/drivers/gpu/drm/i915/i915_reg.h
-@@ -118,6 +118,9 @@
- 
- #define GU_CNTL				_MMIO(0x101010)
- #define   LMEM_INIT			REG_BIT(7)
-+#define   DRIVERFLR			REG_BIT(31)
-+#define GU_DEBUG			_MMIO(0x101018)
-+#define   DRIVERFLR_STATUS		REG_BIT(31)
- 
- #define GEN6_STOLEN_RESERVED		_MMIO(0x1082C0)
- #define GEN6_STOLEN_RESERVED_ADDR_MASK	(0xFFF << 20)
 diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
-index 8006a6c61466..c1befa33ff59 100644
+index c1befa33ff59..e63d957b59eb 100644
 --- a/drivers/gpu/drm/i915/intel_uncore.c
 +++ b/drivers/gpu/drm/i915/intel_uncore.c
-@@ -2703,6 +2703,48 @@ void intel_uncore_prune_engine_fw_domains(struct intel_uncore *uncore,
- 	}
- }
- 
-+static void driver_flr(struct intel_uncore *uncore)
-+{
-+	struct drm_i915_private *i915 = uncore->i915;
-+	const unsigned int flr_timeout_ms = 3000; /* specs recommend a 3s wait */
-+	int ret;
-+
-+	drm_dbg(&i915->drm, "Triggering Driver-FLR\n");
-+
-+	/*
-+	 * Make sure any pending FLR requests have cleared by waiting for the
-+	 * FLR trigger bit to go to zero. Also clear GU_DEBUG's DRIVERFLR_STATUS
-+	 * to make sure it's not still set from a prior attempt (it's a write to
-+	 * clear bit).
-+	 * Note that we should never be in a situation where a previous attempt
-+	 * is still pending (unless the HW is totally dead), but better to be
-+	 * safe in case something unexpected happens
-+	 */
-+	ret = intel_wait_for_register_fw(uncore, GU_CNTL, DRIVERFLR, 0, flr_timeout_ms);
-+	if (ret) {
-+		drm_err(&i915->drm,
-+			"Failed to wait for Driver-FLR bit to clear! %d\n",
-+			ret);
-+		return;
-+	}
-+	intel_uncore_write_fw(uncore, GU_DEBUG, DRIVERFLR_STATUS);
-+
-+	/* Trigger the actual Driver-FLR */
-+	intel_uncore_rmw_fw(uncore, GU_CNTL, 0, DRIVERFLR);
-+
-+	ret = intel_wait_for_register_fw(uncore, GU_DEBUG,
-+					 DRIVERFLR_STATUS, DRIVERFLR_STATUS,
-+					 flr_timeout_ms);
-+	if (ret) {
-+		drm_err(&i915->drm, "wait for Driver-FLR completion failed! %d\n", ret);
-+		return;
-+	}
-+
-+	intel_uncore_write_fw(uncore, GU_DEBUG, DRIVERFLR_STATUS);
-+
-+	return;
-+}
-+
- /* Called via drm-managed action */
- void intel_uncore_fini_mmio(struct drm_device *dev, void *data)
- {
-@@ -2716,6 +2758,9 @@ void intel_uncore_fini_mmio(struct drm_device *dev, void *data)
- 		intel_uncore_fw_domains_fini(uncore);
- 		iosf_mbi_punit_release();
+@@ -2701,6 +2701,9 @@ void intel_uncore_prune_engine_fw_domains(struct intel_uncore *uncore,
+ 		if (fw_domains & BIT(domain_id))
+ 			fw_domain_fini(uncore, domain_id);
  	}
 +
-+	if (intel_uncore_needs_flr_on_fini(uncore))
-+		driver_flr(uncore);
++	if ((fw_domains & BIT(FW_DOMAIN_ID_GSC)) && !HAS_ENGINE(gt, GSC0))
++		fw_domain_fini(uncore, FW_DOMAIN_ID_GSC);
  }
  
- /**
-diff --git a/drivers/gpu/drm/i915/intel_uncore.h b/drivers/gpu/drm/i915/intel_uncore.h
-index 5449146a0624..a9fa0b11e7e4 100644
---- a/drivers/gpu/drm/i915/intel_uncore.h
-+++ b/drivers/gpu/drm/i915/intel_uncore.h
-@@ -153,6 +153,7 @@ struct intel_uncore {
- #define UNCORE_HAS_FPGA_DBG_UNCLAIMED	BIT(1)
- #define UNCORE_HAS_DBG_UNCLAIMED	BIT(2)
- #define UNCORE_HAS_FIFO			BIT(3)
-+#define UNCORE_NEEDS_FLR_ON_FINI	BIT(3)
- 
- 	const struct intel_forcewake_range *fw_domains_table;
- 	unsigned int fw_domains_table_entries;
-@@ -223,6 +224,18 @@ intel_uncore_has_fifo(const struct intel_uncore *uncore)
- 	return uncore->flags & UNCORE_HAS_FIFO;
- }
- 
-+static inline bool
-+intel_uncore_needs_flr_on_fini(const struct intel_uncore *uncore)
-+{
-+	return uncore->flags & UNCORE_NEEDS_FLR_ON_FINI;
-+}
-+
-+static inline bool
-+intel_uncore_set_flr_on_fini(struct intel_uncore *uncore)
-+{
-+	return uncore->flags |= UNCORE_NEEDS_FLR_ON_FINI;
-+}
-+
- void intel_uncore_mmio_debug_init_early(struct drm_i915_private *i915);
- void intel_uncore_init_early(struct intel_uncore *uncore,
- 			     struct intel_gt *gt);
+ static void driver_flr(struct intel_uncore *uncore)
 -- 
 2.37.3
 
