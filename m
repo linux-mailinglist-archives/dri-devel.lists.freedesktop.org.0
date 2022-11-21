@@ -1,32 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A28D632FC7
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 23:25:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2268632FEB
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 23:37:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF80110E33E;
-	Mon, 21 Nov 2022 22:25:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCFE610E341;
+	Mon, 21 Nov 2022 22:37:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay05.th.seeweb.it (relay05.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::166])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A06D10E33D
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 22:25:10 +0000 (UTC)
-Received: from localhost.localdomain (94-209-172-39.cable.dynamic.v4.ziggo.nl
- [94.209.172.39])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45C6C10E354
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 22:37:23 +0000 (UTC)
+Received: from notapiano.myfiosgateway.com (unknown
+ [IPv6:2600:4041:5b1a:cd00:524d:e95d:1a9c:492a])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 712A13F20C;
- Mon, 21 Nov 2022 23:25:06 +0100 (CET)
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: phone-devel@vger.kernel.org
-Subject: [PATCH] drm/msm/dpu: Print interrupt index in addition to the mask
-Date: Mon, 21 Nov 2022 23:24:55 +0100
-Message-Id: <20221121222456.437815-1-marijn.suijten@somainline.org>
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: nfraprado)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 58A616602A54;
+ Mon, 21 Nov 2022 22:37:20 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1669070241;
+ bh=7RSaxYNrftEuEHu+tdPORhiDIvSBvNUAw0lshzAfmW0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=RNpYOKiZRomfKJVTk6xKJYXs9oDDsrn8DyTriqLeISTgtDL4nwq7K7zJ0T3DyUZDg
+ e1Znk/FAqixHf9VrLV4R7eLpaLCHRWjlc4oJ4HfnyPs/ePUEGk7zTZfusgmc4ny6B3
+ pvaiwuZzBHKwvL5esWfDrjN28hi1ZPwItelCh+N/8ql8wJ0XDfgKeAlNt9TZfotUu1
+ A0b3d2Tgv3YsAEWG0OcBCQopwpkgCEEgNC91DQTNaZE0P2ljBZUgxm8WoVT+JSwlNs
+ gCnPobdNtEb8JYSO4wLySkg8gCNXOm9W+zgSZRlTRl62dEnc2qs1BNu9gMeFg/7vNM
+ qYy4bUkmz6rag==
+From: =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?=
+ <nfraprado@collabora.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Subject: [PATCH] drm/mediatek: Clean dangling pointer on bind error path
+Date: Mon, 21 Nov 2022 17:37:17 -0500
+Message-Id: <20221121223717.3429913-1-nfraprado@collabora.com>
 X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -40,81 +51,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vinod Koul <vkoul@kernel.org>, linux-kernel@vger.kernel.org,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Vinod Polimera <quic_vpolimer@quicinc.com>, Sean Paul <sean@poorly.run>,
- linux-arm-msm@vger.kernel.org
+Cc: =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?=
+ <nfraprado@collabora.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "Nancy . Lin" <nancy.lin@mediatek.com>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The mask only describes the `irq_idx % 32` part, making it generally
-impossible to deduce what interrupt is being enabled/disabled.  Since
-`debug/core_irq` in debugfs (and other prints) also include the full
-`DPU_IRQ_IDX()` value, print the same full value here for easier
-correlation instead of only adding the `irq_idx / 32` part.
+mtk_drm_bind() can fail, in which case drm_dev_put() is called,
+destroying the drm_device object. However a pointer to it was still
+being held in the private object, and that pointer would be passed along
+to DRM in mtk_drm_sys_prepare() if a suspend were triggered at that
+point, resulting in a panic. Clean the pointer when destroying the
+object in the error path to prevent this from happening.
 
-Furthermore, make the dbgstr messages more consistent.
+Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 
-Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-index cf1b6d84c18a..64589a9c2c51 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-@@ -252,9 +252,9 @@ static int dpu_hw_intr_enable_irq_locked(struct dpu_hw_intr *intr, int irq_idx)
- 
- 	cache_irq_mask = intr->cache_irq_mask[reg_idx];
- 	if (cache_irq_mask & DPU_IRQ_MASK(irq_idx)) {
--		dbgstr = "DPU IRQ already set:";
-+		dbgstr = "already ";
- 	} else {
--		dbgstr = "DPU IRQ enabled:";
-+		dbgstr = "";
- 
- 		cache_irq_mask |= DPU_IRQ_MASK(irq_idx);
- 		/* Cleaning any pending interrupt */
-@@ -268,7 +268,7 @@ static int dpu_hw_intr_enable_irq_locked(struct dpu_hw_intr *intr, int irq_idx)
- 		intr->cache_irq_mask[reg_idx] = cache_irq_mask;
- 	}
- 
--	pr_debug("%s MASK:0x%.8lx, CACHE-MASK:0x%.8x\n", dbgstr,
-+	pr_debug("DPU IRQ %d %senabled: MASK:0x%.8lx, CACHE-MASK:0x%.8x\n", irq_idx, dbgstr,
- 			DPU_IRQ_MASK(irq_idx), cache_irq_mask);
- 
- 	return 0;
-@@ -301,9 +301,9 @@ static int dpu_hw_intr_disable_irq_locked(struct dpu_hw_intr *intr, int irq_idx)
- 
- 	cache_irq_mask = intr->cache_irq_mask[reg_idx];
- 	if ((cache_irq_mask & DPU_IRQ_MASK(irq_idx)) == 0) {
--		dbgstr = "DPU IRQ is already cleared:";
-+		dbgstr = "already ";
- 	} else {
--		dbgstr = "DPU IRQ mask disable:";
-+		dbgstr = "";
- 
- 		cache_irq_mask &= ~DPU_IRQ_MASK(irq_idx);
- 		/* Disable interrupts based on the new mask */
-@@ -317,7 +317,7 @@ static int dpu_hw_intr_disable_irq_locked(struct dpu_hw_intr *intr, int irq_idx)
- 		intr->cache_irq_mask[reg_idx] = cache_irq_mask;
- 	}
- 
--	pr_debug("%s MASK:0x%.8lx, CACHE-MASK:0x%.8x\n", dbgstr,
-+	pr_debug("DPU IRQ %d %sdisabled: MASK:0x%.8lx, CACHE-MASK:0x%.8x\n", irq_idx, dbgstr,
- 			DPU_IRQ_MASK(irq_idx), cache_irq_mask);
- 
- 	return 0;
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+index 39a42dc8fb85..a21ff1b3258c 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+@@ -514,6 +514,7 @@ static int mtk_drm_bind(struct device *dev)
+ err_deinit:
+ 	mtk_drm_kms_deinit(drm);
+ err_free:
++	private->drm = NULL;
+ 	drm_dev_put(drm);
+ 	return ret;
+ }
 -- 
 2.38.1
 
