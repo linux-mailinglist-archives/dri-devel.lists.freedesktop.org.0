@@ -2,58 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E973632B45
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 18:43:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 734B5632B73
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 18:50:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCFD710E321;
-	Mon, 21 Nov 2022 17:43:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4D5F10E323;
+	Mon, 21 Nov 2022 17:50:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com
- [IPv6:2001:4860:4864:20::36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C47710E321;
- Mon, 21 Nov 2022 17:43:38 +0000 (UTC)
-Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-142b72a728fso6770999fac.9; 
- Mon, 21 Nov 2022 09:43:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=RVYmRlCIWUFfeVnOV5mudLBiIVI6uJJnon3FBZNLLUI=;
- b=jcz1PMWg/P6eUBxRDkxKc0yQD7GP7vplwKzu1inK0mhWJoI8/LloPny5bXkEwBymN5
- DE81ekBRjKVErsWjLKQIKkswXFOZa5bvoPUbkqafrlIq6oxhq6VQfXSUpSMoVBvgPJhu
- H/VFqb2KjN2B7qnEk/Xb9WoeNPDQiWVKGN4k9glKFGm56FT10T3L+0XhXw+y8E6X6vUq
- 0tu2oeQYspe06D815oLeil6BWq1FGQ/ZliZhLtVcUuJjmYdwoXBDVO50HCGOwCbfIaOF
- 8w7HZGRzCVQ3FAwz0vSJYuwzGAnJXKKtM4S5xKxO5rpbnC+9IQR3Q/uIGgWdXVhYcJev
- mBpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=RVYmRlCIWUFfeVnOV5mudLBiIVI6uJJnon3FBZNLLUI=;
- b=DcCF2UuYwhjeaPeu/jH0pc5Tq2mZPatLmlhiwnYyAME+/GrDS4bMnlGUxPn0FIJ4Tr
- DW9PFjHVx5OFsmUVv+ArkXh88itFVexkK/HGs/7BM+tFBJVT6/O0W1xn9yYywFB9kcQf
- ifRlt6yNJykY3Pq1jjUDvWVF5+ChQZOWYjZ5Za1yJEo7mZvMybUZwREkwTaySDAjcBr7
- JNjUHvw7+TrrvhXD86rYCtlD6ou8sMDP7BRnYjekIAyr1fXkxXG8k70//iW4rTDbhsUk
- Sa0DAZGpU5X3j7bUJ2hg/OeU4x20PNmxYKm2MlfTmlAfeYeOLiFs6o3uvsriZXleoGv1
- th5w==
-X-Gm-Message-State: ANoB5pkqt87Q/u1wa56wQss0pkaBrDdSWvZaL63OItrnc6n/onRh+BwK
- I8TwQ4zYasPDBcGCds4Xy8YYdQd/L3Kv80Uq976G4cDv
-X-Google-Smtp-Source: AA0mqf74KkrNkY8BdaZc8j5XcGxfP6V3NbT9q1EO2RMtGv3fnMb3YyW9WSIaGDRpu2Sazq4MO0bHaAxzARnC7vzHCpg=
-X-Received: by 2002:a05:6870:b07:b0:13b:d07f:f29d with SMTP id
- lh7-20020a0568700b0700b0013bd07ff29dmr2050631oab.96.1669052617328; Mon, 21
- Nov 2022 09:43:37 -0800 (PST)
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0435A10E00F
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 17:50:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=JfUlmWwfrcwQGX0MmqgM2w05+AY0+GgsgRaGdODHtvM=; b=e43ckbPYrKjFQrIQWV2QmWTxQ8
+ 2F4/7ywsrlGjaE5g8vhW32NtVERr7qj2At1ZDwpb62Azqk0X5wuaxOIBSeYe+ML5tqwSKxudGV7V8
+ KjoiBYa1b9U//tU3lh46J7Z6zy4Ejc2+nBxnSFq1BfHcyl9kLpXS4OsHBGsMr4JEjqpwHO3UpIovP
+ +DzFo4MDtwgjclvpM0oKgfyhzXJ9JdFiFeV5SSN+jJRb02wlXGyp82Cbl/77UtMGu0VqiHjGq2Zhm
+ DzmqQrPIXerOZlrGWK3T90BS/Bt1nYrWt28vNQ6s5qTiauAR1UvLbVISdh9o1nYElt7B++dW6orTP
+ Ao8It4ww==;
+Received: from [2a01:799:95e:1700:6395:ccbd:d000:d42b] (port=49862)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1oxAvy-0002k9-FP; Mon, 21 Nov 2022 18:50:18 +0100
+Message-ID: <243c2d1e-fbbb-5b7b-3a5f-0a34c5084fa3@tronnes.org>
+Date: Mon, 21 Nov 2022 18:50:16 +0100
 MIME-Version: 1.0
-References: <Y3soBt1jmXHUKhW9@mail.google.com>
-In-Reply-To: <Y3soBt1jmXHUKhW9@mail.google.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 21 Nov 2022 12:43:25 -0500
-Message-ID: <CADnq5_NAaX6t3r+J8qcEfL1-8SOunU9YR3HqohmuGTm_xBow+g@mail.gmail.com>
-Subject: Re: [PATCH] [next] drm/amdgpu: Replace remaining 1-element array with
- flex-array
-To: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: git send-email friendly smtp provider anyone?
+To: Simon Ser <contact@emersion.fr>
+References: <1bc45775-0667-01f8-36e1-9f65d3081092@tronnes.org>
+ <9-qCHLoI7vMtVX2UmZbrcDSyMIJRqoWx6G2sZEn08RP15vYjPwng_fInDkKYPvllUddwXshfYs_fIpPH3_TeFLat2MQx_LT5Hfb0dxb1vGA=@emersion.fr>
+ <72e873e9-d4df-895b-2531-30168b8a4d64@tronnes.org>
+ <29wzxSbEeYmXyru0ObDIAEG_W_4Wh0qj77Y6zMgmfT6UbaftflIVKCcAdEuSsmsIoK-85IvhTC73Yh8UDm6et4EK5JZZbeeByj_j0spUc9Y=@emersion.fr>
+ <OO82gksmp_i249qMnDryWunPoUrSyyFxpxi009wWlytDaijmvalJffHrcPyMNLdfSzcIl5reNfJ2r2SmDVSG8xYXrIIbzc9rw-_bJPMDlag=@emersion.fr>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <OO82gksmp_i249qMnDryWunPoUrSyyFxpxi009wWlytDaijmvalJffHrcPyMNLdfSzcIl5reNfJ2r2SmDVSG8xYXrIIbzc9rw-_bJPMDlag=@emersion.fr>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,60 +58,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Slark Xiao <slark_xiao@163.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Rongguang Wei <weirongguang@kylinos.cn>, linux-hardening@vger.kernel.org
+Cc: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
 
-Alex
 
-On Mon, Nov 21, 2022 at 2:26 AM Paulo Miguel Almeida
-<paulo.miguel.almeida.rodenas@gmail.com> wrote:
->
-> One-element arrays are deprecated, and we are replacing them with
-> flexible array members instead. So, replace one-element array with
-> flexible-array member in struct GOP_VBIOS_CONTENT and refactor the
-> rest of the code accordingly.
->
-> Important to mention is that doing a build before/after this patch
-> results in no functional binary output differences.
->
-> This helps with the ongoing efforts to tighten the FORTIFY_SOURCE
-> routines on memcpy() and help us make progress towards globally
-> enabling -fstrict-flex-arrays=3 [1].
->
-> Link: https://github.com/KSPP/linux/issues/79
-> Link: https://github.com/KSPP/linux/issues/238
-> Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=101836 [1]
->
-> Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-> ---
-> This should be the last one-element array that had references in source
-> code. Given the way it was used, no *.c code change was required.
->
-> I will move on to the atombios.h in the radeon driver.
-> ---
->  drivers/gpu/drm/amd/include/atombios.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/include/atombios.h b/drivers/gpu/drm/amd/include/atombios.h
-> index 4dc738c51771..b78360a71bc9 100644
-> --- a/drivers/gpu/drm/amd/include/atombios.h
-> +++ b/drivers/gpu/drm/amd/include/atombios.h
-> @@ -9292,7 +9292,7 @@ typedef struct {
->
->  typedef struct {
->    VFCT_IMAGE_HEADER   VbiosHeader;
-> -  UCHAR   VbiosContent[1];
-> +  UCHAR   VbiosContent[];
->  }GOP_VBIOS_CONTENT;
->
->  typedef struct {
-> --
-> 2.37.3
->
+Den 21.11.2022 18.06, skrev Simon Ser:
+> On Monday, November 21st, 2022 at 18:02, Simon Ser <contact@emersion.fr> wrote:
+> 
+>> On Monday, November 21st, 2022 at 17:52, Noralf Trønnes noralf@tronnes.org wrote:
+>>
+>>> Den 21.11.2022 14.33, skrev Simon Ser:
+>>>
+>>>> I think you can apply for a linux.dev mailbox 1.
+>>>
+>>> Yeah you're right, I didn't know about that possibility.
+>>> But it depends on whether or not I can just use their smtp server and
+>>> keep my current email address. This looks like what's the problem with
+>>> my current ISP, I need to use the email account I have in their email
+>>> service (that I've never used) for sending through their smtp server,
+>>> but I want to send From: another email address.
+>>
+>> That's not possible. It breaks DKIM, so your emails will end up in Spam
+>> folders or be rejected. You need to use the SMTP server tied to your
+>> email address.
+> 
+> That said, you can send patches from an email address different from
+> the one in your patches. IOW, you can send patches committed by
+> <noralf@tronnes.org> from any email account.
+> 
+> The From in the email header won't match the commit, but the very first
+> line of the patch will hold that information.
+
+Thanks that was useful information. I've seen the DKIM abbr. but haven't
+looked into the meaning of it.
+
+I tried:
+
+git send-email --from=noralf.tronnes@altiboxmail.no
+--reply=noralf@tronnes.org
+
+and now I'm getting 'pass' in the Authentication-Results field, so
+that's progress. I'm still not getting all the emails through, so I
+still have that problem, I'll have to wait and see what the ISP can tell me.
+
+But this means that a linux.dev mailbox is an option for me should my
+ISP be a blocker.
+
+Noralf.
