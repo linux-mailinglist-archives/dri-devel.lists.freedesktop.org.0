@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 682BE631C73
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 10:08:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B8DB631C76
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 10:08:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51B7510E182;
-	Mon, 21 Nov 2022 09:08:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9947810E18A;
+	Mon, 21 Nov 2022 09:08:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECFE810E174;
- Mon, 21 Nov 2022 09:08:29 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BFA010E184;
+ Mon, 21 Nov 2022 09:08:31 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2AL8Opuu000867; Mon, 21 Nov 2022 09:08:26 GMT
+ 2AL8OpoL031133; Mon, 21 Nov 2022 09:08:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=qcppdkim1;
- bh=gWu3FAL7SNTqtCvUeN203XgMcssG6tMZhtleUGDkIfo=;
- b=XSl7uWJd/iBduaBKViLk5BGeSjmh7K0rbSU0uY3XOZEBYpJVq8zrWY7uYH9P2ETEL/Os
- gYtZXxl2DEjvPHEY0QrG+6HpvJLY5YvGmDc04+BdAkXyOgZpKxioHJ06H/45SGhrTEwR
- +HiQHYXwrHa0lo8VISUyPDdKh6gUNBY2U3FxpdotvX4yqJ512oxoIBxzUafiV+AzkaM8
- Q3kenz4VEGTLMalI+zL8RO3NY/nO5wlRYJGsYaTqc1AirNoNrGCpodg2gOF3XdFRhLXV
- UPSKrwni2CGcR+Otjo/asVexQdkOBF5D9ANmfocsCc3K5X9ICWlcp3YE+0jdYWnck5IZ LA== 
+ bh=1W1f8UH9EqIeBJHNQLHw8+dLhtc7tyzQLYpRIB2TrhE=;
+ b=gtJqlXuWt6/bIyNlD9RDZINPErMmqOsY/mblppoPyzwPmjYTKTF9KlVij3dJl8XUz47E
+ vlgBRYsIi/6FjPHQMjIWEM/zjYn2B6AOCXhNHR/zH7leshMVRlQ1H+gY5qPug62jV1E7
+ /Vf6jcvHq4bH4BdZofFxkiUhzYliRXeqZ8ioTrdYQsOIu2nvBJ0Q9wwLyPxc+otKtHjo
+ usjYZTOLm2gYE4Q9Y4wjSzCmZsfI7SQXvISEzJEuc141aecLOxk7abGXUrmWtWv2X1MC
+ CyzMNmqeH/k1tvlmTaYCPLGEVu+HeyRmZapz2eeX+MQv73azJ1iuapptCGGtCiyG24Ch qw== 
 Received: from apblrppmta02.qualcomm.com
  (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kxrf5ky3m-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kxrf0v07e-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 21 Nov 2022 09:08:26 +0000
+ Mon, 21 Nov 2022 09:08:27 +0000
 Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
- by APBLRPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 2AL98MH7000301; 
- Mon, 21 Nov 2022 09:08:22 GMT
+ by APBLRPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 2AL98LMm032757; 
+ Mon, 21 Nov 2022 09:08:24 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
- by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 3kxr7k3t81-1;
- Mon, 21 Nov 2022 09:08:22 +0000
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 3kxr7k3t86-1;
+ Mon, 21 Nov 2022 09:08:24 +0000
 Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com
  [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2AL98JXF032737;
- Mon, 21 Nov 2022 09:08:22 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2AL98OKZ000310;
+ Mon, 21 Nov 2022 09:08:24 GMT
 Received: from kalyant-linux.qualcomm.com (kalyant-linux.qualcomm.com
  [10.204.66.210])
- by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 2AL98MDN032762;
- Mon, 21 Nov 2022 09:08:22 +0000
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 2AL98Nmp000309;
+ Mon, 21 Nov 2022 09:08:24 +0000
 Received: by kalyant-linux.qualcomm.com (Postfix, from userid 94428)
- id 3835734A4; Mon, 21 Nov 2022 01:08:21 -0800 (PST)
+ id B1F28349C; Mon, 21 Nov 2022 01:08:22 -0800 (PST)
 From: Kalyan Thota <quic_kalyant@quicinc.com>
 To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [PATCH v4 2/3] drm/msm/disp/dpu1: add helper to know if display is
- builtin
-Date: Mon, 21 Nov 2022 01:08:14 -0800
-Message-Id: <1669021695-4397-3-git-send-email-quic_kalyant@quicinc.com>
+Subject: [PATCH v4 3/3] drm/msm/disp/dpu1: add color management support for
+ the crtc
+Date: Mon, 21 Nov 2022 01:08:15 -0800
+Message-Id: <1669021695-4397-4-git-send-email-quic_kalyant@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1669021695-4397-1-git-send-email-quic_kalyant@quicinc.com>
 References: <1669021695-4397-1-git-send-email-quic_kalyant@quicinc.com>
@@ -62,16 +62,16 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: VilkInZZ6Lz839DscdCPl5OGJCuSnL6J
-X-Proofpoint-ORIG-GUID: VilkInZZ6Lz839DscdCPl5OGJCuSnL6J
+X-Proofpoint-GUID: RpsPe8h3JH9O6sJxPTI8EVIBViL9TLt5
+X-Proofpoint-ORIG-GUID: RpsPe8h3JH9O6sJxPTI8EVIBViL9TLt5
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-21_05,2022-11-18_01,2022-06-22_01
+ definitions=2022-11-21_06,2022-11-18_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 adultscore=0
- mlxlogscore=952 spamscore=0 suspectscore=0 bulkscore=0 impostorscore=0
- lowpriorityscore=0 malwarescore=0 priorityscore=1501 clxscore=1015
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ lowpriorityscore=0
+ bulkscore=0 priorityscore=1501 spamscore=0 suspectscore=0 phishscore=0
+ clxscore=1015 impostorscore=0 mlxlogscore=999 malwarescore=0 mlxscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2210170000 definitions=main-2211210071
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -91,85 +91,158 @@ Cc: Kalyan Thota <quic_kalyant@quicinc.com>, robdclark@chromium.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since DRM encoder type for few encoders can be similar
-(like eDP and DP), get the connector type for a given
-encoder to differentiate between builtin and pluggable
-displays.
+Add color management support for the crtc provided there are
+enough dspps that can be allocated from the catalog.
 
 Changes in v1:
-- add connector type in the disp_info (Dmitry)
-- add helper functions to know encoder type
-- update commit text reflecting the change
+- cache color enabled state in the dpu crtc obj (Dmitry)
+- simplify dspp allocation while creating crtc (Dmitry)
+- register for color when crtc is created (Dmitry)
 
 Changes in v2:
-- avoid hardcode of connector type for DSI as it may not be true (Dmitry)
-- get the HPD information from encoder bridge
+- avoid primary encoders in the documentation (Dmitry)
 
 Changes in v3:
-- use connector type instead of bridge ops in determining
-connector (Dmitry)
+- add ctm for builtin encoders (Dmitry)
 
 Changes in v4:
-- get type from the drm connector rather from bridge connector (Dmitry)
+- few nits (Dmitry)
 
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 26 ++++++++++++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  6 ++++++
- 2 files changed, 32 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 5 +++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h    | 5 ++++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 7 +++++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 6 +++++-
+ 4 files changed, 17 insertions(+), 6 deletions(-)
 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+index 4170fbe..6cacaaf 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+@@ -1571,7 +1571,7 @@ static const struct drm_crtc_helper_funcs dpu_crtc_helper_funcs = {
+ 
+ /* initialize crtc */
+ struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
+-				struct drm_plane *cursor)
++				struct drm_plane *cursor, bool ctm)
+ {
+ 	struct drm_crtc *crtc = NULL;
+ 	struct dpu_crtc *dpu_crtc = NULL;
+@@ -1583,6 +1583,7 @@ struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
+ 
+ 	crtc = &dpu_crtc->base;
+ 	crtc->dev = dev;
++	dpu_crtc->color_enabled = ctm;
+ 
+ 	spin_lock_init(&dpu_crtc->spin_lock);
+ 	atomic_set(&dpu_crtc->frame_pending, 0);
+@@ -1604,7 +1605,7 @@ struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
+ 
+ 	drm_crtc_helper_add(crtc, &dpu_crtc_helper_funcs);
+ 
+-	drm_crtc_enable_color_mgmt(crtc, 0, true, 0);
++	drm_crtc_enable_color_mgmt(crtc, 0, dpu_crtc->color_enabled, 0);
+ 
+ 	/* save user friendly CRTC name for later */
+ 	snprintf(dpu_crtc->name, DPU_CRTC_NAME_SIZE, "crtc%u", crtc->base.id);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+index 539b68b..792b4f0 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+@@ -136,6 +136,7 @@ struct dpu_crtc_frame_event {
+  * @enabled       : whether the DPU CRTC is currently enabled. updated in the
+  *                  commit-thread, not state-swap time which is earlier, so
+  *                  safe to make decisions on during VBLANK on/off work
++ * @color_enabled : whether crtc supports color management
+  * @feature_list  : list of color processing features supported on a crtc
+  * @active_list   : list of color processing features are active
+  * @dirty_list    : list of color processing features are dirty
+@@ -164,6 +165,7 @@ struct dpu_crtc {
+ 	u64 play_count;
+ 	ktime_t vblank_cb_time;
+ 	bool enabled;
++	bool color_enabled;
+ 
+ 	struct list_head feature_list;
+ 	struct list_head active_list;
+@@ -269,10 +271,11 @@ void dpu_crtc_complete_commit(struct drm_crtc *crtc);
+  * @dev: dpu device
+  * @plane: base plane
+  * @cursor: cursor plane
++ * @ctm: ctm flag
+  * @Return: new crtc object or error
+  */
+ struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
+-			       struct drm_plane *cursor);
++			       struct drm_plane *cursor, bool ctm);
+ 
+ /**
+  * dpu_crtc_register_custom_event - api for enabling/disabling crtc event
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 9c6817b..96db7fb 100644
+index 96db7fb..a585036 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -217,6 +217,32 @@ static u32 dither_matrix[DITHER_MATRIX_SZ] = {
- 	15, 7, 13, 5, 3, 11, 1, 9, 12, 4, 14, 6, 0, 8, 2, 10
- };
- 
-+bool dpu_encoder_is_builtin(struct drm_encoder *encoder)
-+{
-+	struct drm_connector *connector;
-+	struct drm_connector_list_iter conn_iter;
-+	struct drm_device *dev = encoder->dev;
-+	int type = 0;
-+
-+	drm_connector_list_iter_begin(dev, &conn_iter);
-+	drm_for_each_connector_iter(connector, &conn_iter) {
-+		if (drm_connector_has_possible_encoder(connector, encoder)) {
-+			type = connector->connector_type;
-+			break;
-+		}
-+	}
-+	drm_connector_list_iter_end(&conn_iter);
-+
-+	switch (type) {
-+	case DRM_MODE_CONNECTOR_LVDS:
-+	case DRM_MODE_CONNECTOR_eDP:
-+	case DRM_MODE_CONNECTOR_DSI:
-+	case DRM_MODE_CONNECTOR_DPI:
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
- 
- bool dpu_encoder_is_widebus_enabled(const struct drm_encoder *drm_enc)
+@@ -571,6 +571,7 @@ bool dpu_encoder_use_dsc_merge(struct drm_encoder *drm_enc)
+ static struct msm_display_topology dpu_encoder_get_topology(
+ 			struct dpu_encoder_virt *dpu_enc,
+ 			struct dpu_kms *dpu_kms,
++			struct dpu_crtc *dpu_crtc,
+ 			struct drm_display_mode *mode)
  {
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-index 9e7236e..7f3d823 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-@@ -224,4 +224,10 @@ void dpu_encoder_cleanup_wb_job(struct drm_encoder *drm_enc,
-  */
- bool dpu_encoder_is_valid_for_commit(struct drm_encoder *drm_enc);
+ 	struct msm_display_topology topology = {0};
+@@ -599,7 +600,7 @@ static struct msm_display_topology dpu_encoder_get_topology(
+ 	else
+ 		topology.num_lm = (mode->hdisplay > MAX_HDISPLAY_SPLIT) ? 2 : 1;
  
-+/**
-+ * dpu_encoder_is_builtin - find if the encoder is of type builtin
-+ * @drm_enc:    Pointer to previously created drm encoder structure
-+ */
-+bool dpu_encoder_is_builtin(struct drm_encoder *drm_enc);
+-	if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI) {
++	if (dpu_crtc->color_enabled) {
+ 		if (dpu_kms->catalog->dspp &&
+ 			(dpu_kms->catalog->dspp_count >= topology.num_lm))
+ 			topology.num_dspp = topology.num_lm;
+@@ -634,6 +635,7 @@ static int dpu_encoder_virt_atomic_check(
+ 	struct drm_display_mode *adj_mode;
+ 	struct msm_display_topology topology;
+ 	struct dpu_global_state *global_state;
++	struct dpu_crtc *dpu_crtc;
+ 	int i = 0;
+ 	int ret = 0;
+ 
+@@ -644,6 +646,7 @@ static int dpu_encoder_virt_atomic_check(
+ 	}
+ 
+ 	dpu_enc = to_dpu_encoder_virt(drm_enc);
++	dpu_crtc = to_dpu_crtc(crtc_state->crtc);
+ 	DPU_DEBUG_ENC(dpu_enc, "\n");
+ 
+ 	priv = drm_enc->dev->dev_private;
+@@ -669,7 +672,7 @@ static int dpu_encoder_virt_atomic_check(
+ 		}
+ 	}
+ 
+-	topology = dpu_encoder_get_topology(dpu_enc, dpu_kms, adj_mode);
++	topology = dpu_encoder_get_topology(dpu_enc, dpu_kms, dpu_crtc, adj_mode);
+ 
+ 	/* Reserve dynamic resources now. */
+ 	if (!ret) {
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index d967eef..53e0163 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -805,7 +805,11 @@ static int _dpu_kms_drm_obj_init(struct dpu_kms *dpu_kms)
+ 	/* Create one CRTC per encoder */
+ 	i = 0;
+ 	drm_for_each_encoder(encoder, dev) {
+-		crtc = dpu_crtc_init(dev, primary_planes[i], cursor_planes[i]);
++		bool _ctm = false;
 +
- #endif /* __DPU_ENCODER_H__ */
++		if (catalog->dspp_count && dpu_encoder_is_builtin(encoder))
++			_ctm = true;
++		crtc = dpu_crtc_init(dev, primary_planes[i], cursor_planes[i], _ctm);
+ 		if (IS_ERR(crtc)) {
+ 			ret = PTR_ERR(crtc);
+ 			return ret;
 -- 
 2.7.4
 
