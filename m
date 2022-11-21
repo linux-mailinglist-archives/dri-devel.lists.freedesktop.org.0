@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B87E96320AA
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 12:32:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21A6063212C
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Nov 2022 12:49:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E333310E08D;
-	Mon, 21 Nov 2022 11:32:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0615C10E036;
+	Mon, 21 Nov 2022 11:49:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8D3A8903B;
- Mon, 21 Nov 2022 11:32:09 +0000 (UTC)
-Received: from canpemm500006.china.huawei.com (unknown [172.30.72.56])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NG4rY4Z4nzqSb0;
- Mon, 21 Nov 2022 19:28:13 +0800 (CST)
-Received: from localhost.localdomain (10.175.104.82) by
- canpemm500006.china.huawei.com (7.192.105.130) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 21 Nov 2022 19:32:06 +0800
-From: Ziyang Xuan <william.xuanziyang@huawei.com>
-To: <jani.nikula@linux.intel.com>, <joonas.lahtinen@linux.intel.com>,
- <rodrigo.vivi@intel.com>, <tvrtko.ursulin@linux.intel.com>,
- <airlied@gmail.com>, <daniel@ffwll.ch>, <matthew.d.roper@intel.com>,
- <matthew.auld@intel.com>, <lucas.demarchi@intel.com>,
- <michal.winiarski@intel.com>, <maarten.lankhorst@linux.intel.com>,
- <akeem.g.abodunrin@intel.com>, <intel-gfx@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/i915/selftests: Fix error return code in
- live_parallel_switch()
-Date: Mon, 21 Nov 2022 19:32:02 +0800
-Message-ID: <20221121113202.3122299-1-william.xuanziyang@huawei.com>
-X-Mailer: git-send-email 2.25.1
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B7AD10E036
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Nov 2022 11:48:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:Cc:Subject:From:To:
+ MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=1g943rh/a2EtqDcIab+Z59tn2hnQTsjs1qXHUMFguac=; b=k4xrJGgbU71tffXtbjg27l+WxP
+ v9kJbJ/+4LFQPySkqSVehcM/qSaXVlCbJtrUmkHO4IcbM0bSAaFtndDlGUMKRp0idFuuf+SAm6aML
+ AOHVtUtwEemkdeHNZFfG861k1TizJeioh8imU6r6NfGhRYC5Q8OziQoAh/eJAn50AXoGO1CVbOghO
+ Ps3ZaoW4YeEB2lMjHRVQ8hB/bJtkBgLoaMYkj06LoXU4bYKpAfA2n1i1zcPkOV7iIo8YRynOTQn4A
+ pZGrY2aTYgW7ru/qLh5hYAgJaR8odFPZ9fJsjHeNPGU991u+Y6hp7lIeB6AFkVJhc4Z/k7nYVLK7d
+ Q/8t+0dw==;
+Received: from [2a01:799:95e:1700:6395:ccbd:d000:d42b] (port=56753)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1ox5IE-0004Kk-BV; Mon, 21 Nov 2022 12:48:54 +0100
+Message-ID: <1bc45775-0667-01f8-36e1-9f65d3081092@tronnes.org>
+Date: Mon, 21 Nov 2022 12:48:52 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.104.82]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- canpemm500006.china.huawei.com (7.192.105.130)
-X-CFilter-Loop: Reflected
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+To: dri-devel@lists.freedesktop.org
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Subject: git send-email friendly smtp provider anyone?
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,35 +52,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: wiliam.xuanziyang@huawei.com
+Cc: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In live_parallel_switch(), excute intel_context_create() failed,
-the error code should be set before return from error handling path.
+Hi
 
-Fixes: 50d16d44cce4 ("drm/i915/selftests: Exercise context switching in parallel")
-Signed-off-by: Ziyang Xuan <william.xuanziyang@huawei.com>
----
- drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+A couple of years ago my email provider blocked me from using git
+send-email with their smtp server. So I switched to the one my ISP
+provides. Now my ISP have outsourced their email service so the first 3
+emails gets through and the rest looks like it ends up in a tar pit or
+something, 18 hours later and 5 of 7 emails have gotten through. I have
+asked them about this, but I fear the answer will be this is not
+supported since they now don't have the service in-house anymore. I'm
+waiting for a reply.
 
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-index c6ad67b90e8a..960ad65e5300 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-@@ -335,8 +335,10 @@ static int live_parallel_switch(void *arg)
- 				continue;
- 
- 			ce = intel_context_create(data[m].ce[0]->engine);
--			if (IS_ERR(ce))
-+			if (IS_ERR(ce)) {
-+				err = PTR_ERR(ce);
- 				goto out;
-+			}
- 
- 			err = intel_context_pin(ce);
- 			if (err) {
--- 
-2.25.1
+Today I tried sendinblue.com since they have a free plan, but they
+insert <br> in the emails so that didn't work out. They also have some
+kind of queue, after 1 hour 6 of 7 emails have gotten through.
 
+Does anyone have an smtp provider to recommend that works with git
+send-email and that sends out all the emails at once?
+
+I have a patchset that I want to send out.
+
+Noralf.
