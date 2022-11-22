@@ -2,16 +2,16 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDBE8634443
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 20:05:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50487634442
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 20:05:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9C3010E454;
-	Tue, 22 Nov 2022 19:05:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10D8810E44B;
+	Tue, 22 Nov 2022 19:05:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04D6210E449
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Nov 2022 19:05:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C00C610E449
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Nov 2022 19:05:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -19,24 +19,24 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=d/qI//+OQoEdsKqwLqt/SVzoshXizCJD9aKRGZJg7Dw=; b=dby7rT9cKHLWDj0TFoMMMHs8iq
- taXEyb6WQkCs+Sv0IAJiFvcJIpog+7TQfkqVsWfIMTWs5H7mFemM5e2ArW8Eiq7LlrLE8AEJAjE3c
- nPYbGQaisgVSmUP1EGz3Er2oN/oBF69W5yGC8IjzxlppqSf8UrzVVvR/wjVbgErJ7EsUWA+daT0WH
- WtSG594yiYv4aYJ07stMvtEdEgQiojvIrZjATdaqYYGqgIrjCOm56N92+Ix99hrMA7pRZFuB3GjI1
- TIvt2em/HWSsWXLsbCSVrCsBgTEsndA0tJJHMMLiSMlT0mbfNpoDujQNTei/ptYK0cjVeE0NLsy4w
- O9IuHxRQ==;
+ bh=TG1xpqHfdwRk7lbJjh3WdyMI9E3juJpQZYPXiE72gtY=; b=m6MkMiW5+UuvKm78vy4V2mYh2t
+ pAfnBOgdG+4SC0OhzrliiB90lvyK15F0nK5XFCLJSlJ8WdrqOrrtra0KhMlyk3n2kCSZBlnvKP1x0
+ n3Z83ZEFC7cv076EQ89octdZP0Bcd/hJ0m8F7pTg2MofGDFZRWY83u6gTbGdOmnPIAcgOxxhetKUE
+ 9Qilqtl3/JtQknt7o0uNoJRjq5JOtcqZfRjL+F9KPOdxmWIAybs6cNWE9bLimGqQEv/a7j2E8GRLK
+ lTL/I2iDvBHzPUUmbGJJsV9KxHq8gKtuqo1gSeMDKKdvw1sLKu51nuk0LPr8J8vhw+VidlARF9mUh
+ zvHliwjg==;
 Received: from [177.34.169.227] (helo=bowie..)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1oxYZi-007AP3-12; Tue, 22 Nov 2022 20:04:54 +0100
+ id 1oxYZn-007AP3-I5; Tue, 22 Nov 2022 20:05:00 +0100
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, Oded Gabbay <ogabbay@kernel.org>
-Subject: [PATCH 3/6] drm/vc4: use new debugfs device-centered functions
-Date: Tue, 22 Nov 2022 16:03:11 -0300
-Message-Id: <20221122190314.185015-4-mcanal@igalia.com>
+Subject: [PATCH 4/6] drm/v3d: use new debugfs device-centered functions
+Date: Tue, 22 Nov 2022 16:03:12 -0300
+Message-Id: <20221122190314.185015-5-mcanal@igalia.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221122190314.185015-1-mcanal@igalia.com>
 References: <20221122190314.185015-1-mcanal@igalia.com>
@@ -64,235 +64,81 @@ Cc: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, vc4 has its own debugfs infrastructure that adds the debugfs
-files on drm_dev_register(). With the introduction of the new debugfs,
-functions, replace the vc4 debugfs structure with the DRM debugfs
-device-centered function, drm_debugfs_add_file().
+Replace the use of drm_debugfs_create_files() with the new
+drm_debugfs_add_files() function, which centers the debugfs files
+management on the drm_device instead of drm_minor.
 
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/gpu/drm/vc4/vc4_bo.c      |  6 +++---
- drivers/gpu/drm/vc4/vc4_debugfs.c | 30 ++++--------------------------
- drivers/gpu/drm/vc4/vc4_drv.c     |  1 -
- drivers/gpu/drm/vc4/vc4_drv.h     | 16 ----------------
- drivers/gpu/drm/vc4/vc4_hdmi.c    |  6 +++---
- drivers/gpu/drm/vc4/vc4_hvs.c     | 12 ++++++------
- drivers/gpu/drm/vc4/vc4_v3d.c     |  6 +++---
- 7 files changed, 19 insertions(+), 58 deletions(-)
+ drivers/gpu/drm/v3d/v3d_debugfs.c | 22 ++++++++++------------
+ 1 file changed, 10 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
-index 43d9b3a6a352..10823e054b83 100644
---- a/drivers/gpu/drm/vc4/vc4_bo.c
-+++ b/drivers/gpu/drm/vc4/vc4_bo.c
-@@ -69,8 +69,8 @@ static void vc4_bo_stats_print(struct drm_printer *p, struct vc4_dev *vc4)
+diff --git a/drivers/gpu/drm/v3d/v3d_debugfs.c b/drivers/gpu/drm/v3d/v3d_debugfs.c
+index efbde124c296..330669f51fa7 100644
+--- a/drivers/gpu/drm/v3d/v3d_debugfs.c
++++ b/drivers/gpu/drm/v3d/v3d_debugfs.c
+@@ -79,8 +79,8 @@ static const struct v3d_reg_def v3d_csd_reg_defs[] = {
  
- static int vc4_bo_stats_debugfs(struct seq_file *m, void *unused)
+ static int v3d_v3d_debugfs_regs(struct seq_file *m, void *unused)
  {
 -	struct drm_info_node *node = (struct drm_info_node *)m->private;
 -	struct drm_device *dev = node->minor->dev;
 +	struct drm_debugfs_entry *entry = m->private;
 +	struct drm_device *dev = entry->dev;
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct drm_printer p = drm_seq_file_printer(m);
+ 	struct v3d_dev *v3d = to_v3d_dev(dev);
+ 	int i, core;
  
-@@ -998,7 +998,7 @@ int vc4_bo_debugfs_init(struct drm_minor *minor)
- 	if (!vc4->v3d)
- 		return -ENODEV;
+@@ -126,8 +126,8 @@ static int v3d_v3d_debugfs_regs(struct seq_file *m, void *unused)
  
--	ret = vc4_debugfs_add_file(minor, "bo_stats",
-+	ret = drm_debugfs_add_file(drm, "bo_stats",
- 				   vc4_bo_stats_debugfs, NULL);
- 	if (ret)
- 		return ret;
-diff --git a/drivers/gpu/drm/vc4/vc4_debugfs.c b/drivers/gpu/drm/vc4/vc4_debugfs.c
-index 19cda4f91a82..53f308357442 100644
---- a/drivers/gpu/drm/vc4/vc4_debugfs.c
-+++ b/drivers/gpu/drm/vc4/vc4_debugfs.c
-@@ -34,9 +34,9 @@ vc4_debugfs_init(struct drm_minor *minor)
- 
- static int vc4_debugfs_regset32(struct seq_file *m, void *unused)
+ static int v3d_v3d_debugfs_ident(struct seq_file *m, void *unused)
  {
 -	struct drm_info_node *node = (struct drm_info_node *)m->private;
--	struct drm_device *drm = node->minor->dev;
--	struct debugfs_regset32 *regset = node->info_ent->data;
+-	struct drm_device *dev = node->minor->dev;
 +	struct drm_debugfs_entry *entry = m->private;
-+	struct drm_device *drm = entry->dev;
-+	struct debugfs_regset32 *regset = entry->file.data;
- 	struct drm_printer p = drm_seq_file_printer(m);
- 	int idx;
++	struct drm_device *dev = entry->dev;
+ 	struct v3d_dev *v3d = to_v3d_dev(dev);
+ 	u32 ident0, ident1, ident2, ident3, cores;
+ 	int core;
+@@ -188,8 +188,8 @@ static int v3d_v3d_debugfs_ident(struct seq_file *m, void *unused)
  
-@@ -50,31 +50,9 @@ static int vc4_debugfs_regset32(struct seq_file *m, void *unused)
+ static int v3d_debugfs_bo_stats(struct seq_file *m, void *unused)
+ {
+-	struct drm_info_node *node = (struct drm_info_node *)m->private;
+-	struct drm_device *dev = node->minor->dev;
++	struct drm_debugfs_entry *entry = m->private;
++	struct drm_device *dev = entry->dev;
+ 	struct v3d_dev *v3d = to_v3d_dev(dev);
+ 
+ 	mutex_lock(&v3d->bo_lock);
+@@ -204,8 +204,8 @@ static int v3d_debugfs_bo_stats(struct seq_file *m, void *unused)
+ 
+ static int v3d_measure_clock(struct seq_file *m, void *unused)
+ {
+-	struct drm_info_node *node = (struct drm_info_node *)m->private;
+-	struct drm_device *dev = node->minor->dev;
++	struct drm_debugfs_entry *entry = m->private;
++	struct drm_device *dev = entry->dev;
+ 	struct v3d_dev *v3d = to_v3d_dev(dev);
+ 	uint32_t cycles;
+ 	int core = 0;
+@@ -236,7 +236,7 @@ static int v3d_measure_clock(struct seq_file *m, void *unused)
  	return 0;
  }
  
--int vc4_debugfs_add_file(struct drm_minor *minor,
--			 const char *name,
--			 int (*show)(struct seq_file*, void*),
--			 void *data)
--{
--	struct drm_device *dev = minor->dev;
--	struct dentry *root = minor->debugfs_root;
--	struct drm_info_list *file;
--
--	file = drmm_kzalloc(dev, sizeof(*file), GFP_KERNEL);
--	if (!file)
--		return -ENOMEM;
--
--	file->name = name;
--	file->show = show;
--	file->data = data;
--
--	drm_debugfs_create_files(file, 1, root, minor);
--
--	return 0;
--}
--
- int vc4_debugfs_add_regset32(struct drm_minor *minor,
- 			     const char *name,
- 			     struct debugfs_regset32 *regset)
+-static const struct drm_info_list v3d_debugfs_list[] = {
++static const struct drm_debugfs_info v3d_debugfs_list[] = {
+ 	{"v3d_ident", v3d_v3d_debugfs_ident, 0},
+ 	{"v3d_regs", v3d_v3d_debugfs_regs, 0},
+ 	{"measure_clock", v3d_measure_clock, 0},
+@@ -246,7 +246,5 @@ static const struct drm_info_list v3d_debugfs_list[] = {
+ void
+ v3d_debugfs_init(struct drm_minor *minor)
  {
--	return vc4_debugfs_add_file(minor, name, vc4_debugfs_regset32, regset);
-+	return drm_debugfs_add_file(minor->dev, name, vc4_debugfs_regset32, regset);
+-	drm_debugfs_create_files(v3d_debugfs_list,
+-				 ARRAY_SIZE(v3d_debugfs_list),
+-				 minor->debugfs_root, minor);
++	drm_debugfs_add_files(minor->dev, v3d_debugfs_list, ARRAY_SIZE(v3d_debugfs_list));
  }
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
-index b66bf7aea632..6e21ae7240ce 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.c
-+++ b/drivers/gpu/drm/vc4/vc4_drv.c
-@@ -320,7 +320,6 @@ static int vc4_drm_bind(struct device *dev)
- 
- 	drm = &vc4->base;
- 	platform_set_drvdata(pdev, drm);
--	INIT_LIST_HEAD(&vc4->debugfs_list);
- 
- 	if (!is_vc5) {
- 		ret = drmm_mutex_init(drm, &vc4->bin_bo_lock);
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index 515228682e8e..e2bf76bc0843 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.h
-+++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -221,11 +221,6 @@ struct vc4_dev {
- 	struct drm_private_obj hvs_channels;
- 	struct drm_private_obj load_tracker;
- 
--	/* List of vc4_debugfs_info_entry for adding to debugfs once
--	 * the minor is available (after drm_dev_register()).
--	 */
--	struct list_head debugfs_list;
--
- 	/* Mutex for binner bo allocation. */
- 	struct mutex bin_bo_lock;
- 	/* Reference count for our binner bo. */
-@@ -884,21 +879,10 @@ void vc4_crtc_get_margins(struct drm_crtc_state *state,
- /* vc4_debugfs.c */
- void vc4_debugfs_init(struct drm_minor *minor);
- #ifdef CONFIG_DEBUG_FS
--int vc4_debugfs_add_file(struct drm_minor *minor,
--			 const char *filename,
--			 int (*show)(struct seq_file*, void*),
--			 void *data);
- int vc4_debugfs_add_regset32(struct drm_minor *minor,
- 			     const char *filename,
- 			     struct debugfs_regset32 *regset);
- #else
--static inline int vc4_debugfs_add_file(struct drm_minor *minor,
--				       const char *filename,
--				       int (*show)(struct seq_file*, void*),
--				       void *data)
--{
--	return 0;
--}
- 
- static inline int vc4_debugfs_add_regset32(struct drm_minor *minor,
- 					   const char *filename,
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 6b223a5fcf6f..086481632b7f 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -160,8 +160,8 @@ static bool vc4_hdmi_is_full_range_rgb(struct vc4_hdmi *vc4_hdmi,
- 
- static int vc4_hdmi_debugfs_regs(struct seq_file *m, void *unused)
- {
--	struct drm_info_node *node = (struct drm_info_node *)m->private;
--	struct vc4_hdmi *vc4_hdmi = node->info_ent->data;
-+	struct drm_debugfs_entry *entry = m->private;
-+	struct vc4_hdmi *vc4_hdmi = entry->file.data;
- 	struct drm_device *drm = vc4_hdmi->connector.dev;
- 	struct drm_printer p = drm_seq_file_printer(m);
- 	int idx;
-@@ -1985,7 +1985,7 @@ static int vc4_hdmi_late_register(struct drm_encoder *encoder)
- 	const struct vc4_hdmi_variant *variant = vc4_hdmi->variant;
- 	int ret;
- 
--	ret = vc4_debugfs_add_file(drm->primary, variant->debugfs_name,
-+	ret = drm_debugfs_add_file(drm, variant->debugfs_name,
- 				   vc4_hdmi_debugfs_regs,
- 				   vc4_hdmi);
- 	if (ret)
-diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-index c4453a5ae163..682e5276c5d7 100644
---- a/drivers/gpu/drm/vc4/vc4_hvs.c
-+++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-@@ -93,8 +93,8 @@ void vc4_hvs_dump_state(struct vc4_hvs *hvs)
- 
- static int vc4_hvs_debugfs_underrun(struct seq_file *m, void *data)
- {
--	struct drm_info_node *node = m->private;
--	struct drm_device *dev = node->minor->dev;
-+	struct drm_debugfs_entry *entry = m->private;
-+	struct drm_device *dev = entry->dev;
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct drm_printer p = drm_seq_file_printer(m);
- 
-@@ -105,8 +105,8 @@ static int vc4_hvs_debugfs_underrun(struct seq_file *m, void *data)
- 
- static int vc4_hvs_debugfs_dlist(struct seq_file *m, void *data)
- {
--	struct drm_info_node *node = m->private;
--	struct drm_device *dev = node->minor->dev;
-+	struct drm_debugfs_entry *entry = m->private;
-+	struct drm_device *dev = entry->dev;
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct vc4_hvs *hvs = vc4->hvs;
- 	struct drm_printer p = drm_seq_file_printer(m);
-@@ -750,12 +750,12 @@ int vc4_hvs_debugfs_init(struct drm_minor *minor)
- 				    minor->debugfs_root,
- 				    &vc4->load_tracker_enabled);
- 
--	ret = vc4_debugfs_add_file(minor, "hvs_dlists",
-+	ret = drm_debugfs_add_file(drm, "hvs_dlists",
- 				   vc4_hvs_debugfs_dlist, NULL);
- 	if (ret)
- 		return ret;
- 
--	ret = vc4_debugfs_add_file(minor, "hvs_underrun",
-+	ret = drm_debugfs_add_file(drm, "hvs_underrun",
- 				   vc4_hvs_debugfs_underrun, NULL);
- 	if (ret)
- 		return ret;
-diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c b/drivers/gpu/drm/vc4/vc4_v3d.c
-index 56abb0d6bc39..699b0299cb1a 100644
---- a/drivers/gpu/drm/vc4/vc4_v3d.c
-+++ b/drivers/gpu/drm/vc4/vc4_v3d.c
-@@ -96,8 +96,8 @@ static const struct debugfs_reg32 v3d_regs[] = {
- 
- static int vc4_v3d_debugfs_ident(struct seq_file *m, void *unused)
- {
--	struct drm_info_node *node = (struct drm_info_node *)m->private;
--	struct drm_device *dev = node->minor->dev;
-+	struct drm_debugfs_entry *entry = m->private;
-+	struct drm_device *dev = entry->dev;
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	int ret = vc4_v3d_pm_get(vc4);
- 
-@@ -409,7 +409,7 @@ int vc4_v3d_debugfs_init(struct drm_minor *minor)
- 	if (!vc4->v3d)
- 		return -ENODEV;
- 
--	ret = vc4_debugfs_add_file(minor, "v3d_ident",
-+	ret = drm_debugfs_add_file(drm, "v3d_ident",
- 				   vc4_v3d_debugfs_ident, NULL);
- 	if (ret)
- 		return ret;
 -- 
 2.38.1
 
