@@ -1,78 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00C8A633707
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 09:28:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14238633740
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 09:35:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D562210E3A3;
-	Tue, 22 Nov 2022 08:27:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48AF810E3A9;
+	Tue, 22 Nov 2022 08:35:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E02B10E3A6
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Nov 2022 08:27:55 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id bp15so22463111lfb.13
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Nov 2022 00:27:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=NBwxUgJR8NGe1DGEeONE6WsC29VoXRjD7bpTza6BfUg=;
- b=hYAbwKH5QwjJOnfG9yEqUEgsnSseVoMPMrJp+TMXhBuNDQRxQ7RGD2NZcJx5RF+zdA
- zUEk6UCdzfHcUK/i4onhOvHK87UBvBaTtB6peOCWfiL0E9taxsBJKQAuhXQwodrEkVkC
- xL4sq0zWy3xh5+IAfFLbnPn5FT4ksU/GwbnVR5jX1LdlxqpGUKomwAIjVft2/AjPof62
- nm50CPe+4nUcYIm+1y65yNh83iK7eQx3FdObF/vzsX2WvFcNjpF1qtxTlHNfXSG4+isj
- phqUXSEniYZJ9DRmp46DvhNRcA2pOtPfiMCiJJGMU5CJvzQiRv4Avf8fRcdDjWA1DeiX
- dzGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NBwxUgJR8NGe1DGEeONE6WsC29VoXRjD7bpTza6BfUg=;
- b=vi3e8/4nbAeVVj6F7CUm1NbUdAysza7EsS1gdNHIexdcpaApRVrFZFqfU/jHn5tl8t
- 6hbRQe6tmCvMfQS4zJzGlN8sh9Tg9t792FqVZrUIVEQf+j9y2Ois+2bBpYlrxPSz03tF
- EjJZx6GkeH+xodzWz9fMp/ey26tCH8aT3nFUgaN6cnLFDKrk369exiMHOdw7ZBA8jfnt
- 846UdujfpL+HbAbRn8XTVbSy5NH76iyhl1K64em3UjVG21JQMmzS7U5N/lkF07HjdYwS
- oT0Ux6Hm2WnGs/udqVu7MBjNzTU1O2/ygy/BDT5gXj2h/nS61mi9xGaoCetWpGZxACYv
- 4nBQ==
-X-Gm-Message-State: ANoB5pnSxyD1iq9/HBZwFCz6WuyuNKjKu+gBiCGOVZzrufs9Le3Bx8Gg
- GBFwoxcMgfYEu4AOmUiSxxDouA==
-X-Google-Smtp-Source: AA0mqf7G3s5VlmrKWGE9XYyV7u93v/W4UcZyLl6VtWdTS85QQiPrOv2z7E7k5phTypSWytOq0S/ANA==
-X-Received: by 2002:a05:6512:a93:b0:4a2:6337:872d with SMTP id
- m19-20020a0565120a9300b004a26337872dmr1801184lfu.35.1669105673210; 
- Tue, 22 Nov 2022 00:27:53 -0800 (PST)
-Received: from [192.168.0.20]
- (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
- by smtp.gmail.com with ESMTPSA id
- n4-20020a195504000000b00492ce573726sm2418776lfe.47.2022.11.22.00.27.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Nov 2022 00:27:52 -0800 (PST)
-Message-ID: <d2f90ade-70ff-b05e-9643-cda25a4fd6ff@linaro.org>
-Date: Tue, 22 Nov 2022 09:27:50 +0100
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2F3610E3A9
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Nov 2022 08:35:19 +0000 (UTC)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi
+ [91.154.32.225])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 716612D9;
+ Tue, 22 Nov 2022 09:35:17 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1669106118;
+ bh=YlboxYqJIdlrRB8uXxg6m6iestgCL1+GiErR7mO0mFs=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=j8jGbyFXwpUXOcckyqpLUNJ1L68wSARaaiOrO/lF6xFvItrfAzyYe7m2X/Csj/oQb
+ JG9iszc4aB+SQalK/L5TGWws+umdvdoJ7PAHD0nUyLSlYs6AnHKSEnyrJrEwlH9tUe
+ yZpshEx8NCa/NWkh9etXXP8bu1HF/Witcbt81PjA=
+Message-ID: <3c012152-a031-65ef-1fe7-9d8e690947fa@ideasonboard.com>
+Date: Tue, 22 Nov 2022 10:35:15 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v4 02/10] dt-bindings: display: bridge: Add MHDP DP for
- i.MX8MQ
+Subject: Re: [PATCH v1 4/8] arm64: dts: renesas: r8a779g0: Add display related
+ data
 Content-Language: en-US
-To: Sandor Yu <Sandor.yu@nxp.com>, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, robert.foss@linaro.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, airlied@gmail.com, daniel@ffwll.ch,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, shawnguo@kernel.org,
- s.hauer@pengutronix.de, festevam@gmail.com, kishon@ti.com, vkoul@kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, alexander.stein@ew.tq-group.com
-References: <cover.1669013346.git.Sandor.yu@nxp.com>
- <f09833038399e4ed0ff845724fc99bcf8b2793c9.1669013346.git.Sandor.yu@nxp.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <f09833038399e4ed0ff845724fc99bcf8b2793c9.1669013346.git.Sandor.yu@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20221117122547.809644-1-tomi.valkeinen@ideasonboard.com>
+ <20221117122547.809644-5-tomi.valkeinen@ideasonboard.com>
+ <166869741913.50677.3537704052215375530@Monstersaurus>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <166869741913.50677.3537704052215375530@Monstersaurus>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,121 +58,223 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: oliver.brown@nxp.com, linux-imx@nxp.com, kernel@pengutronix.de
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/11/2022 08:23, Sandor Yu wrote:
-> Add bindings for i.MX8MQ MHDP DisplayPort.
+On 17/11/2022 17:03, Kieran Bingham wrote:
+> Quoting Tomi Valkeinen (2022-11-17 12:25:43)
+>> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>>
+>> Add DT nodes for components needed to get the DSI output working:
+>> - FCPv
+>> - VSPd
+>> - DU
+>> - DSI
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>> ---
+>>   arch/arm64/boot/dts/renesas/r8a779g0.dtsi | 129 ++++++++++++++++++++++
+>>   1 file changed, 129 insertions(+)
+>>
+>> diff --git a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
+>> index 45d8d927ad26..31d4930c5adc 100644
+>> --- a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
+>> +++ b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
+>> @@ -1207,6 +1207,135 @@ prr: chipid@fff00044 {
+>>                          compatible = "renesas,prr";
+>>                          reg = <0 0xfff00044 0 4>;
+>>                  };
 > 
-> Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
-> ---
->  .../display/bridge/cdns,mhdp-imx8mq-dp.yaml   | 93 +++++++++++++++++++
->  1 file changed, 93 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/cdns,mhdp-imx8mq-dp.yaml
+> I think these nodes are supposed to be in sort order based on the
+> register address in memory.
+
+Ah, I didn't realize that.
+
+> Disregarding sort order, I'll review the node contents.
 > 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp-imx8mq-dp.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp-imx8mq-dp.yaml
-> new file mode 100644
-> index 000000000000..d82f3ceddaa8
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp-imx8mq-dp.yaml
-> @@ -0,0 +1,93 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/bridge/cdns,mhdp-imx8mq-dp.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Cadence MHDP Displayport bridge
-> +
-> +maintainers:
-> +  - Sandor Yu <Sandor.yu@nxp.com>
-> +
-> +description:
-> +  The Cadence MHDP Displayport TX interface.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - cdns,mhdp-imx8mq-dp
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +    description: MHDP DP APB clock.
-> +
-> +  phys:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    items:
-> +      - description: Hotplug cable plugin.
-> +      - description: Hotplug cable plugout.
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: plug_in
-> +      - const: plug_out
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description:
-> +          Input port from display controller output.
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description:
-> +          Output port to DP connector.
-> +
-> +    required:
-> +      - port@0
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - interrupts
-> +  - interrupt-names
-> +  - phys
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/imx8mq-clock.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    mhdp_dp: dp-bridge@32c00000 {
-> +        compatible = "cdns,mhdp-imx8mq-dp";
-> +        reg = <0x32c00000 0x100000>;
-> +        interrupts = <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>,
-> +                     <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>;
-> +        interrupt-names = "plug_in", "plug_out";
-> +        clocks = <&clk IMX8MQ_CLK_DISP_APB_ROOT>;
-> +        phys = <&dp_phy>;
-> +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            port@0 {
-> +                reg = <0>;
-> +
-> +                mhdp_in: endpoint {
-> +                    remote-endpoint = <&dcss_out>;
-> +                };
+> I would probably s/data/nodes/ in $SUBJECT too.
+> 
+> 
+>> +
+>> +               fcpvd0: fcp@fea10000 {
+>> +                       compatible = "renesas,fcpv";
+>> +                       reg = <0 0xfea10000 0 0x200>;
+>> +                       clocks = <&cpg CPG_MOD 508>;
+>> +                       power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
+>> +                       resets = <&cpg 508>;
+>> +               };
+>> +
+>> +               fcpvd1: fcp@fea11000 {
+>> +                       compatible = "renesas,fcpv";
+>> +                       reg = <0 0xfea11000 0 0x200>;
+>> +                       clocks = <&cpg CPG_MOD 509>;
+>> +                       power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
+>> +                       resets = <&cpg 509>;
+>> +               };
+> 
+> I'm intrigued at the length of 0x200 as I only see 3 registers up to
+> 0x0018 ..
+> 
+> But all existing platforms with fcpv* set 0x200 ... so lets cargo cult it up... :-)
+> 
+>> +
+>> +               vspd0: vsp@fea20000 {
+>> +                       compatible = "renesas,vsp2";
+>> +                       reg = <0 0xfea20000 0 0x5000>;
+> 
+> """
+> Below are the base addresses of each VSP unit. VSPX has 32Kbyte address
+> space. VSPD has 28Kbyte address space.
+> """
+> 
+> Hrm : 28K is 0x7000
+> 
+> RPf n OSD CLUT Table: H’4000 + H’0400*n to H’43fc + H’0400*n
+> 
+>   0x43fc+(0x400*5)
+> 	22524	[0x57fc]
+> 
+> So this needs to be /at least/ 0x6000 (Would 0x5800 be odd?) and perhaps as it clearly states
+> 28k, we should just set it to 0x7000.
 
-As Rob suggested, you allowed property for output to DP port. However it
-is not in the example. If this is a bridge, what does it bridge if there
-is no output connector?
+Ok. These are identical to v3u, and I was just copying v3u's dts, 
+assuming they're correct. We probably should fix the v3u dts files too.
 
+> 
+>> +                       interrupts = <GIC_SPI 546 IRQ_TYPE_LEVEL_HIGH>;
+>> +                       clocks = <&cpg CPG_MOD 830>;
+>> +                       power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
+>> +                       resets = <&cpg 830>;
+>> +
+>> +                       renesas,fcp = <&fcpvd0>;
+>> +               };
+>> +
+>> +               vspd1: vsp@fea28000 {
+>> +                       compatible = "renesas,vsp2";
+>> +                       reg = <0 0xfea28000 0 0x5000>;
+> 
+> Same here of course (reg = <0 0xfea28000 0 0x7000>)
+> 
+> 
+>> +                       interrupts = <GIC_SPI 551 IRQ_TYPE_LEVEL_HIGH>;
+>> +                       clocks = <&cpg CPG_MOD 831>;
+>> +                       power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
+>> +                       resets = <&cpg 831>;
+>> +
+>> +                       renesas,fcp = <&fcpvd1>;
+>> +               };
+>> +
+>> +               du: display@feb00000 {
+>> +                       compatible = "renesas,du-r8a779g0";
+>> +                       reg = <0 0xfeb00000 0 0x40000>;
+>> +                       interrupts = <GIC_SPI 523 IRQ_TYPE_LEVEL_HIGH>,
+>> +                                    <GIC_SPI 524 IRQ_TYPE_LEVEL_HIGH>;
+>> +                       clocks = <&cpg CPG_MOD 411>;
+>> +                       clock-names = "du.0";
+>> +                       power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
+>> +                       resets = <&cpg 411>;
+>> +                       reset-names = "du.0";
+>> +                       renesas,vsps = <&vspd0 0>, <&vspd1 0>;
+>> +
+>> +                       status = "disabled";
+>> +
+>> +                       ports {
+>> +                               #address-cells = <1>;
+>> +                               #size-cells = <0>;
+>> +
+>> +                               port@0 {
+>> +                                       reg = <0>;
+>> +                                       du_out_dsi0: endpoint {
+>> +                                               remote-endpoint = <&dsi0_in>;
+>> +                                       };
+>> +                               };
+>> +
+>> +                               port@1 {
+>> +                                       reg = <1>;
+>> +                                       du_out_dsi1: endpoint {
+>> +                                               remote-endpoint = <&dsi1_in>;
+>> +                                       };
+>> +                               };
+>> +                       };
+>> +               };
+>> +
+>> +               dsi0: dsi-encoder@fed80000 {
+>> +                       compatible = "renesas,r8a779g0-dsi-csi2-tx";
+>> +                       reg = <0 0xfed80000 0 0x10000>;
+>> +                       power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
+>> +                       clocks = <&cpg CPG_MOD 415>,
+>> +                                <&cpg CPG_CORE R8A779G0_CLK_DSIEXT>,
+>> +                                <&cpg CPG_CORE R8A779G0_CLK_DSIREF>;
+>> +                       clock-names = "fck", "dsi", "pll";
+>> +                       resets = <&cpg 415>;
+> 
+> blank line here to separate it, and highlight that it's disabled? (Like
+> is done for DU?
 
-Best regards,
-Krzysztof
+Ok.
+
+>> +                       status = "disabled";
+>> +
+>> +                       ports {
+>> +                               #address-cells = <1>;
+>> +                               #size-cells = <0>;
+>> +
+>> +                               port@0 {
+>> +                                       reg = <0>;
+>> +                                       dsi0_in: endpoint {
+>> +                                               remote-endpoint = <&du_out_dsi0>;
+>> +                                       };
+>> +                               };
+>> +
+>> +                               port@1 {
+>> +                                       reg = <1>;
+>> +                               };
+>> +                       };
+>> +               };
+>> +
+>> +               dsi1: dsi-encoder@fed90000 {
+>> +                       compatible = "renesas,r8a779g0-dsi-csi2-tx";
+>> +                       reg = <0 0xfed90000 0 0x10000>;
+>> +                       power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
+>> +                       clocks = <&cpg CPG_MOD 416>,
+>> +                                <&cpg CPG_CORE R8A779G0_CLK_DSIEXT>,
+>> +                                <&cpg CPG_CORE R8A779G0_CLK_DSIREF>;
+>> +                       clock-names = "fck", "dsi", "pll";
+>> +                       resets = <&cpg 416>;
+> 
+> Same.
+> 
+> With the VSPD register ranges increased accordingly:
+> 
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> 
+>> +                       status = "disabled";
+>> +
+>> +                       ports {
+>> +                               #address-cells = <1>;
+>> +                               #size-cells = <0>;
+>> +
+>> +                               port@0 {
+>> +                                       reg = <0>;
+>> +                                       dsi1_in: endpoint {
+>> +                                               remote-endpoint = <&du_out_dsi1>;
+>> +                                       };
+>> +                               };
+>> +
+>> +                               port@1 {
+>> +                                       reg = <1>;
+>> +                               };
+>> +                       };
+>> +               };
+>> +
+>>          };
+>>   
+>>          timer {
+>> -- 
+>> 2.34.1
+>>
 
