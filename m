@@ -2,52 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B148634387
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 19:22:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B384634399
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 19:27:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 362F110E434;
-	Tue, 22 Nov 2022 18:21:59 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7EA110E19F;
- Tue, 22 Nov 2022 18:21:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669141312; x=1700677312;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=g+bxEE+yBg48pjoV3+DTGzyrgo9HmOayfng5ERUgGb8=;
- b=K1QhWw5JAdj0W9gw4pae4S0aUtQg1hEmZ+bsgo+R3caiVCvS8hm/aObf
- VkIXMITpRCJNccsZvyPVTQWZMGgI6aivDF49V7G3a7er9ud93OYKJpkf1
- K++OHXYrNk5YPLE27pGjlTeJeRSxMpxPhs+wkMfW69UYYg0/vOnYFxd07
- kSgPqbqtYG+nfbX1B9S1+YyZkVNVsO2YWOIpihI+k/iRTIY27az88Cbux
- Lx0v+qS7hDPTizJTTaLdK7WUvTIrlK0aJk7VG+p0I27kvfA3Ve6sPkwGk
- N3X5osk09tJPpzmjQ9hkPHJ17aqa6cI3ROveuV1yvEA03V8vPfvx60Yi3 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="400173982"
-X-IronPort-AV: E=Sophos;i="5.96,184,1665471600"; d="scan'208";a="400173982"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Nov 2022 10:21:52 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="643813704"
-X-IronPort-AV: E=Sophos;i="5.96,184,1665471600"; d="scan'208";a="643813704"
-Received: from sfflynn-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.18.151])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Nov 2022 10:21:50 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
- John.C.Harrison@Intel.com, Intel-GFX@Lists.FreeDesktop.Org
-Subject: Re: [Intel-gfx] [PATCH v2 0/5] Add module oriented dmesg output
-In-Reply-To: <3b7ef198-7aba-8948-6332-9a57d8ee0fb6@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20221118015858.2548106-1-John.C.Harrison@Intel.com>
- <87a64o1qn5.fsf@intel.com>
- <3b7ef198-7aba-8948-6332-9a57d8ee0fb6@intel.com>
-Date: Tue, 22 Nov 2022 20:21:45 +0200
-Message-ID: <87y1s2x32e.fsf@intel.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9339F10E192;
+	Tue, 22 Nov 2022 18:27:02 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
+ [IPv6:2a00:1450:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B80710E192
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Nov 2022 18:27:01 +0000 (UTC)
+Received: by mail-ed1-x52a.google.com with SMTP id f7so21820639edc.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Nov 2022 10:27:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=YuLHzdnVezmbIpehx2h6/dnqYAu8v7KYMyvH9VaugYw=;
+ b=NTmJC5lXXDteO1TzcKFiDAE31oHTlG2RVx8+4ouCu6VQpBiKSqzmPJVHgZZPDWyYM6
+ t8VlohS/Vl+ltOKCphTGumZH5BN97tmZJrmEqAo8XwD/iY2GICsL+PDs7jQTW3/RzGNe
+ cDngWYnxHhno1/NSakx58Y2rfBECXaGV4fbZ4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=YuLHzdnVezmbIpehx2h6/dnqYAu8v7KYMyvH9VaugYw=;
+ b=i1UjDzn5u7k4j6Vq6XM0i/yW/a1uED/RZ8tqtb4a9pog/fWGHU05t59/1nnImnaz/8
+ UY476NuOKnhsx2GURuLa7iSVYIMQEDf2skiHhwdUm1ZLQXjHI+Qj3y497/WwMVMp66rO
+ XLhbz6iBhVRSWKlfOwuSq0YViS4I1tqUWniUZczd5mtvVlbmVx1YLUvDk/loY9qAz9dU
+ pfDPLHmEfYO+04kwBS/Y301qCu9Fayz9GyZR4P8Zi3lQSSEyCFGvQ0O+XLhTKgpazzIk
+ xfec+H0NQW7XO8r72ISdPhyoks6awASIenIlYnL+jqUBAT7MpVo93Zdo7prB5gynh4Fh
+ c9MA==
+X-Gm-Message-State: ANoB5plwUHImBrA/rAisedGdPdCYdsa0ZSRBR/0OFVducepLBCDjo0nM
+ QrfZgxfsmaiyA4gqKBM4CpjjCK1qhEDWM6EUhpd+vg==
+X-Google-Smtp-Source: AA0mqf7uKugj4+VjnLOmVFqxL1s4AavX/tb4mgqzPy0yRNKjQpkiLy6jrFkvnCfcaczhmidwseHJJXO71t3tQNMli/Q=
+X-Received: by 2002:a05:6402:28a9:b0:461:f5ce:a478 with SMTP id
+ eg41-20020a05640228a900b00461f5cea478mr22062611edb.304.1669141619619; Tue, 22
+ Nov 2022 10:26:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <caf4d6b82843788db97555a58bc9e33915e5b50a.camel@ndufresne.ca>
+ <b422be59-4b4b-2d0d-8e8c-b19f27c6832e@gmail.com>
+ <4fa4e5d3b1f46e46139bad069cbf5e795e63afa8.camel@pengutronix.de>
+ <cc091a11-d012-d998-b7e2-8b3d616867a7@gmail.com>
+ <0abc6efddb8dfc1888de15a1bedaaac6688fd078.camel@pengutronix.de>
+ <1e2a6750-9849-e9ee-69d6-e4bfdcfb64f3@gmail.com>
+ <CAAFQd5B+VHs62M5Wf2L-xOw=_PoaXT+akAySkeZc75HeA3d0jQ@mail.gmail.com>
+ <b2dec9b3-03a7-e7ac-306e-1da024af8982@amd.com>
+ <346d6ad023ef8697aafd93ac1b100890f3637e44.camel@ndufresne.ca>
+ <CAF6AEGuqgWi0T=B9cb+Uy7aoWBPGQmZ3JbwFcK_45GbkY2nHPg@mail.gmail.com>
+ <Y3zeYnufgXJHQAbN@phenom.ffwll.local>
+ <ae9ba9ba-3ad3-af23-be66-1540862bf571@amd.com>
+In-Reply-To: <ae9ba9ba-3ad3-af23-be66-1540862bf571@amd.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 22 Nov 2022 19:26:47 +0100
+Message-ID: <CAKMK7uFdvMoonvmgKDeMTksRfN8r797AYm2JJAWBEazgK8BFvA@mail.gmail.com>
+Subject: Re: Try to address the DMA-buf coherency problem
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,150 +74,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI-Devel@Lists.FreeDesktop.Org
+Cc: linux-media@vger.kernel.org, ppaalanen@gmail.com,
+ Tomasz Figa <tfiga@chromium.org>, linaro-mm-sig@lists.linaro.org,
+ dri-devel@lists.freedesktop.org, Nicolas Dufresne <nicolas@ndufresne.ca>,
+ sumit.semwal@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 22 Nov 2022, Michal Wajdeczko <michal.wajdeczko@intel.com> wrote:
-> On 18.11.2022 11:52, Jani Nikula wrote:
->> On Thu, 17 Nov 2022, John.C.Harrison@Intel.com wrote:
->>> From: John Harrison <John.C.Harrison@Intel.com>
->>>
->>> When trying to analyse bug reports from CI, customers, etc. it can be
->>> difficult to work out exactly what is happening on which GT in a
->>> multi-GT system. So add GT oriented debug/error message wrappers. If
->>> used instead of the drm_ equivalents, you get the same output but with
->>> a GT# prefix on it.
->>>
->>> It was also requested to extend this further to submodules in order to
->>> factor out the repeated structure accessing constructs and common
->>> string prefixes. So, add versions for GuC, HuC and GuC CTB as well.
->>>
->>> This patch set updates all the gt/uc files to use the new helpers as a
->>> first step. The intention would be to convert all output messages that
->>> have access to a GT structure.
->>>
->>> v2: Go back to using lower case names, add more wrapper sets (combined
->>> review feedback). Also, wrap up probe injection and WARN entries.
->>>
->>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
->> 
->> For adding the wrappers in general, I'm going to disagree and
->> commit. I'll leave it up to Tvrtko and Joonas.
->> 
->> Regarding the placement of the macros, I insist you add individual
->> header files for the wrappers and include them only where needed.
+On Tue, 22 Nov 2022 at 18:34, Christian K=C3=B6nig <christian.koenig@amd.co=
+m> wrote:
+> Am 22.11.22 um 15:36 schrieb Daniel Vetter:
+> > On Fri, Nov 18, 2022 at 11:32:19AM -0800, Rob Clark wrote:
+> >> On Thu, Nov 17, 2022 at 7:38 AM Nicolas Dufresne <nicolas@ndufresne.ca=
+> wrote:
+> >>> Le jeudi 17 novembre 2022 =C3=A0 13:10 +0100, Christian K=C3=B6nig a =
+=C3=A9crit :
+> >>>>>> DMA-Buf let's the exporter setup the DMA addresses the importer us=
+es to
+> >>>>>> be able to directly decided where a certain operation should go. E=
+.g. we
+> >>>>>> have cases where for example a P2P write doesn't even go to memory=
+, but
+> >>>>>> rather a doorbell BAR to trigger another operation. Throwing in CP=
+U
+> >>>>>> round trips for explicit ownership transfer completely breaks that
+> >>>>>> concept.
+> >>>>> It sounds like we should have a dma_dev_is_coherent_with_dev() whic=
+h
+> >>>>> accepts two (or an array?) of devices and tells the caller whether =
+the
+> >>>>> devices need explicit ownership transfer.
+> >>>> No, exactly that's the concept I'm pushing back on very hard here.
+> >>>>
+> >>>> In other words explicit ownership transfer is not something we would
+> >>>> want as requirement in the framework, cause otherwise we break tons =
+of
+> >>>> use cases which require concurrent access to the underlying buffer.
+> >>> I'm not pushing for this solution, but really felt the need to correc=
+t you here.
+> >>> I have quite some experience with ownership transfer mechanism, as th=
+is is how
+> >>> GStreamer framework works since 2000. Concurrent access is a really c=
+ommon use
+> >>> cases and it is quite well defined in that context. The bracketing sy=
+stem (in
+> >>> this case called map() unmap(), with flag stating the usage intention=
+ like reads
+> >>> and write) is combined the the refcount. The basic rules are simple:
+> >> This is all CPU oriented, I think Christian is talking about the case
+> >> where ownership transfer happens without CPU involvement, such as via
+> >> GPU waiting on a fence
+> > Yeah for pure device2device handover the rule pretty much has to be tha=
+t
+> > any coherency management that needs to be done must be done from the
+> > device side (flushing device side caches and stuff like that) only. But
+> > under the assumption that _all_ cpu side management has been done alrea=
+dy
+> > before the first device access started.
+> >
+> > And then the map/unmap respectively begin/end_cpu_access can be used wh=
+at
+> > it was meant for with cpu side invalidation/flushing and stuff like tha=
+t,
+> > while having pretty clear handover/ownership rules and hopefully not do=
+ing
+> > no unecessary flushes. And all that while allowing device acces to be
+> > pipelined. Worst case the exporter has to insert some pipelined cache
+> > flushes as a dma_fence pipelined work of its own between the device acc=
+ess
+> > when moving from one device to the other. That last part sucks a bit ri=
+ght
+> > now, because we don't have any dma_buf_attachment method which does thi=
+s
+> > syncing without recreating the mapping, but in reality this is solved b=
+y
+> > caching mappings in the exporter (well dma-buf layer) nowadays.
+> >
+> > True concurrent access like vk/compute expects is still a model that
+> > dma-buf needs to support on top, but that's a special case and pretty m=
+uch
+> > needs hw that supports such concurrent access without explicit handover
+> > and fencing.
+> >
+> > Aside from some historical accidents and still a few warts, I do think
+> > dma-buf does support both of these models.
 >
-> do you mean:
->
-> 	intel_gt_print.h
-> 	intel_guc_print.h
-> 	intel_huc_print.h
->
-> with just macros or also with all functions that work with drm_printer?
+> We should have come up with dma-heaps earlier and make it clear that
+> exporting a DMA-buf from a device gives you something device specific
+> which might or might not work with others.
 
-At least for the macros being added now. If adding others does not
-require you to pull in a bunch of additional header dependencies, you
-can add more. And that can be separate patches.
+Yeah, but engineering practicalities were pretty clear that no one
+would rewrite the entire Xorg stack and all the drivers just to make
+that happen for prime.
 
->
->> 
->> We have a fairly serious problem with everything including everything in
->> i915 that I've been slowly trying to tackle. Touch one thing, rebuild
->> everything. About a third of our headers cause the rebuild of the entire
->> driver when modified. We need to reduce the surface of things that cause
->> rebuilds.
->> 
->> For example, intel_gt.h is included by 97 files, intel_guc.h by 332
->> files, and intel_huc.h by 329 files (counting recursively).
->> 
->> There's absolutely no reason any of the display code, for example, needs
->> to have these logging macros in their build. Long term, the headers
->> should be reorganized to reduce the interdependencies, and this is what
->> I've been doing in i915_drv.h and display/ in general. But the least we
->> can do is not make the problem worse.
->
-> to solve this we should really consider splitting out GuC and HuC
-> definitions to dedicated _types.h files and only include them in
-> i915_drv.h (and print macros are orthogonal for this problem)
+> Apart from that I agree, DMA-buf should be capable of handling this.
+> Question left is what documentation is missing to make it clear how
+> things are supposed to work?
 
-It's an orthogonal problem, but IMO with the current headers there's no
-reason to make the problem worse by adding somewhat independent new
-stuff to the headers.
+Given the historical baggage of existing use-case, I think the only
+way out is that we look at concrete examples from real world users
+that break, and figure out how to fix them. Without breaking any of
+the existing mess.
 
----
+One idea might be that we have a per-platform
+dma_buf_legacy_coherency_mode(), which tells you what mode (cpu cache
+snooping or uncached memory) you need to use to make sure that all
+devices agree. On x86 the rule might be that it's cpu cache snooping
+by default, but if you have an integrated gpu then everyone needs to
+use uncached. That sucks, but at least we could keep the existing mess
+going and clean it up. Everyone else would be uncached, except maybe
+arm64 servers with pcie connectors. Essentially least common
+denominator to make this work. Note that uncached actually means
+device access doesn't snoop, the cpu side you can handle with either
+uc/wc mappings or explicit flushing.
 
-I've looked at untangling this a bunch of times, but I've always felt
-that it's really not my area of expertise, and it would inevitably
-conflict with someone else's work in progress and someone else's idea of
-how the headers should be refactored.
+Then once we have that we could implement the coherency negotiation
+protocol on top as an explicit opt-in, so that you can still use
+coherent buffers across two pcie gpus even if you also have an
+integrated gpu.
 
-There are chains like this:
+Doing only the new protocol without some means to keep the existing
+pile of carefully hacked up assumptions would break things, and we
+can't do that. Also I have no idea whether that global legacy device
+coherency mode would work. Also we might more than just
+snooped/unsnoop, since depending upon architecture you might want to
+only snoop one transaction (reads vs writes) instead of both of them:
+If writes snoop then cpu reads would never need to invalidate caches
+beforehand, but writes would still need to flush (and would give you
+faster reads on the device side since those can still bypass
+snooping). Some igpu platforms work like that, but I'm not sure
+whether there's any other device that would care enough about these
+for this to matter. Yes it's a hw mis-design (well I don't like it
+personally), they fixed it :-)
 
-i915_drv.h:47:#include "gt/intel_gt_types.h"
-gt/intel_gt_types.h:19:#include "uc/intel_uc.h"
-gt/uc/intel_uc.h:9:#include "intel_guc.h"
-gt/uc/intel_guc.h:15:#include "intel_guc_fwif.h"
-gt/uc/intel_guc_fwif.h:14:#include "abi/guc_actions_abi.h"
-gt/uc/intel_guc_fwif.h:15:#include "abi/guc_actions_slpc_abi.h"
-gt/uc/intel_guc_fwif.h:16:#include "abi/guc_errors_abi.h"
-gt/uc/intel_guc_fwif.h:17:#include "abi/guc_communication_mmio_abi.h"
-gt/uc/intel_guc_fwif.h:18:#include "abi/guc_communication_ctb_abi.h"
-gt/uc/intel_guc_fwif.h:19:#include "abi/guc_klvs_abi.h"
-gt/uc/intel_guc_fwif.h:20:#include "abi/guc_messages_abi.h"
-
-They need to be broken up at some point. There are a bunch of headers
-where only minimal amount of info is actually needed in other headers,
-and the rest is used in a limited number of .c files only.
-
-It's a lot of tedious work to refactor and nobody's going to notice the
-impact directly, they'll just be less grumpy about the build being slow
-and the organization of the headers being messy. And if they don't build
-the driver a lot (like me) or don't refactor the driver a lot (like me)
-maybe they'll never notice.
-
-
-BR,
-Jani.
-
-
->
-> Michal
->
->> 
->> BR,
->> Jani.
->> 
->>>
->>>
->>> John Harrison (5):
->>>   drm/i915/gt: Start adding module oriented dmesg output
->>>   drm/i915/huc: Add HuC specific debug print wrappers
->>>   drm/i915/guc: Add GuC specific debug print wrappers
->>>   drm/i915/guc: Add GuC CT specific debug print wrappers
->>>   drm/i915/uc: Update the gt/uc code to use gt_err and friends
->>>
->>>  drivers/gpu/drm/i915/gt/intel_gt.c            |  96 ++++----
->>>  drivers/gpu/drm/i915/gt/intel_gt.h            |  35 +++
->>>  drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  32 +--
->>>  drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  35 +++
->>>  drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |   8 +-
->>>  .../gpu/drm/i915/gt/uc/intel_guc_capture.c    |  48 ++--
->>>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     | 222 +++++++++---------
->>>  drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c     |  19 +-
->>>  drivers/gpu/drm/i915/gt/uc/intel_guc_log.c    |  37 ++-
->>>  drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c     |   7 +-
->>>  drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c   |  55 ++---
->>>  .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  62 +++--
->>>  drivers/gpu/drm/i915/gt/uc/intel_huc.c        |  31 +--
->>>  drivers/gpu/drm/i915/gt/uc/intel_huc.h        |  23 ++
->>>  drivers/gpu/drm/i915/gt/uc/intel_uc.c         | 108 ++++-----
->>>  drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      |  98 ++++----
->>>  drivers/gpu/drm/i915/gt/uc/selftest_guc.c     |  34 +--
->>>  .../drm/i915/gt/uc/selftest_guc_hangcheck.c   |  22 +-
->>>  .../drm/i915/gt/uc/selftest_guc_multi_lrc.c   |  10 +-
->>>  19 files changed, 507 insertions(+), 475 deletions(-)
->> 
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Cheers, Daniel
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
