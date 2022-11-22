@@ -2,56 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65DFB6336CA
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 09:14:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69DA06336E8
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 09:20:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42B2710E399;
-	Tue, 22 Nov 2022 08:14:26 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCA0210E399;
- Tue, 22 Nov 2022 08:14:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669104863; x=1700640863;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=tLwrWSSEOPFJCx10qaxoCob7L/6w7jZnerpvx6l/blU=;
- b=g4yc6xUtiV46Qn4QHr4RZj0HnEJM+T6enFiS8qLWVK8w5wzaY/miCg+E
- ai6n4eHIgUsh627s/vH0l3TNGd2EV2wkyYggW6iwrJMjI6yKlhUZsv9/f
- yWFd1J23Xpr32g2+rhu0RaPxLXVtGMMWakodZpSCAXGcfAmkFyEyjY+wS
- bd3Mq3srmCR+6PBOOGW3GD2O7El27kKQnSGpV+UNV8Y467tAXaNxmgorP
- zu1FldlpcegXiW8G+IBxduRJN8xC6IhdGaeKX/1QVYsLkIg8rQlsQL/KQ
- x5zVP7Tw6fSsaHQWu3hfWMDtciboJmTRCo9HXBNahhDESadnf82rRUu18 w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="314910583"
-X-IronPort-AV: E=Sophos;i="5.96,183,1665471600"; d="scan'208";a="314910583"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Nov 2022 00:14:23 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="635465301"
-X-IronPort-AV: E=Sophos;i="5.96,183,1665471600"; d="scan'208";a="635465301"
-Received: from camorino-mobl.ger.corp.intel.com (HELO [10.213.209.233])
- ([10.213.209.233])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Nov 2022 00:14:16 -0800
-Message-ID: <e6fa25aa-d936-5b52-226e-e7dee1cc7844@linux.intel.com>
-Date: Tue, 22 Nov 2022 08:14:14 +0000
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A93E10E39F;
+	Tue, 22 Nov 2022 08:20:36 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 959F910E39F
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Nov 2022 08:20:32 +0000 (UTC)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi
+ [91.154.32.225])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9D7562D9;
+ Tue, 22 Nov 2022 09:20:29 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1669105230;
+ bh=LbhkI5gTxUpZ5zOH7qkzXvnWyaWWN/TtRQOMEKSf+Ek=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=BIn+/o9sLB4fhpniMBPR5FGDY6rMZv8mtuV3Zhg9sZYYRJC43TVHcxpbcR1B3ecSo
+ MPTi0cfj4bWfL6C6lh4e5h8RJV+bEkmqIxqzyQYjCNpGZR6cfhcJc5+N3O7d9k3Lc7
+ veSkg2Un1xdQOnXuaM/p7zpM694sNw7KVlv1ix7I=
+Message-ID: <f5df3cb8-d315-b06b-aa04-f0b4af64a1c2@ideasonboard.com>
+Date: Tue, 22 Nov 2022 10:20:26 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [Intel-gfx] [PATCH v2 0/5] Add module oriented dmesg output
+Subject: Re: [PATCH v1 2/8] dt-bindings: display: bridge: renesas, dsi-csi2-tx:
+ Add r8a779g0
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20221117122547.809644-1-tomi.valkeinen@ideasonboard.com>
+ <20221117122547.809644-3-tomi.valkeinen@ideasonboard.com>
+ <CAMuHMdWUvLzCtFRXvUpCxczpkpaunb==gjBMwdniXY4UBVuMUw@mail.gmail.com>
 Content-Language: en-US
-To: John Harrison <john.c.harrison@intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, Intel-GFX@Lists.FreeDesktop.Org,
- Michal Wajdeczko <michal.wajdeczko@intel.com>
-References: <20221118015858.2548106-1-John.C.Harrison@Intel.com>
- <87a64o1qn5.fsf@intel.com> <26c44ed9-4fd8-197a-85cd-038da7096c15@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <26c44ed9-4fd8-197a-85cd-038da7096c15@intel.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <CAMuHMdWUvLzCtFRXvUpCxczpkpaunb==gjBMwdniXY4UBVuMUw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,100 +52,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI-Devel@Lists.FreeDesktop.Org
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 21/11/2022 18:21, John Harrison wrote:
-> On 11/18/2022 02:52, Jani Nikula wrote:
->> On Thu, 17 Nov 2022, John.C.Harrison@Intel.com wrote:
->>> From: John Harrison <John.C.Harrison@Intel.com>
->>>
->>> When trying to analyse bug reports from CI, customers, etc. it can be
->>> difficult to work out exactly what is happening on which GT in a
->>> multi-GT system. So add GT oriented debug/error message wrappers. If
->>> used instead of the drm_ equivalents, you get the same output but with
->>> a GT# prefix on it.
->>>
->>> It was also requested to extend this further to submodules in order to
->>> factor out the repeated structure accessing constructs and common
->>> string prefixes. So, add versions for GuC, HuC and GuC CTB as well.
->>>
->>> This patch set updates all the gt/uc files to use the new helpers as a
->>> first step. The intention would be to convert all output messages that
->>> have access to a GT structure.
->>>
->>> v2: Go back to using lower case names, add more wrapper sets (combined
->>> review feedback). Also, wrap up probe injection and WARN entries.
->>>
->>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
->> For adding the wrappers in general, I'm going to disagree and
->> commit. I'll leave it up to Tvrtko and Joonas.
->>
->> Regarding the placement of the macros, I insist you add individual
->> header files for the wrappers and include them only where needed.
->>
->> We have a fairly serious problem with everything including everything in
->> i915 that I've been slowly trying to tackle. Touch one thing, rebuild
->> everything. About a third of our headers cause the rebuild of the entire
->> driver when modified. We need to reduce the surface of things that cause
->> rebuilds.
->>
->> For example, intel_gt.h is included by 97 files, intel_guc.h by 332
->> files, and intel_huc.h by 329 files (counting recursively).
->>
->> There's absolutely no reason any of the display code, for example, needs
->> to have these logging macros in their build. Long term, the headers
->> should be reorganized to reduce the interdependencies, and this is what
->> I've been doing in i915_drv.h and display/ in general. But the least we
->> can do is not make the problem worse.
-> @Tvrtko/@Michal W, any other review comments or feedback? I'd rather not 
-> spend time fixing up the header file issue and reposting only to have 
-> someone point out another issue that could have been resolved at the 
-> same time.
-
-I read through the patches when you posted them and it looked nice and 
-clean to me. I think I spotted one instance of a debug build only 
-message getting upgraded to production build, and one loss of stack 
-trace on a warning, but it wasn't a concern to me AFAIR.
-
-Regards,
-
-Tvrtko
-
+On 17/11/2022 17:14, Geert Uytterhoeven wrote:
+> Hi Tomi,
 > 
-> John.
-> 
->> BR,
->> Jani.
+> On Thu, Nov 17, 2022 at 1:26 PM Tomi Valkeinen
+> <tomi.valkeinen@ideasonboard.com> wrote:
+>> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 >>
->>>
->>> John Harrison (5):
->>>    drm/i915/gt: Start adding module oriented dmesg output
->>>    drm/i915/huc: Add HuC specific debug print wrappers
->>>    drm/i915/guc: Add GuC specific debug print wrappers
->>>    drm/i915/guc: Add GuC CT specific debug print wrappers
->>>    drm/i915/uc: Update the gt/uc code to use gt_err and friends
->>>
->>>   drivers/gpu/drm/i915/gt/intel_gt.c            |  96 ++++----
->>>   drivers/gpu/drm/i915/gt/intel_gt.h            |  35 +++
->>>   drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  32 +--
->>>   drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  35 +++
->>>   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |   8 +-
->>>   .../gpu/drm/i915/gt/uc/intel_guc_capture.c    |  48 ++--
->>>   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     | 222 +++++++++---------
->>>   drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c     |  19 +-
->>>   drivers/gpu/drm/i915/gt/uc/intel_guc_log.c    |  37 ++-
->>>   drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c     |   7 +-
->>>   drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c   |  55 ++---
->>>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  62 +++--
->>>   drivers/gpu/drm/i915/gt/uc/intel_huc.c        |  31 +--
->>>   drivers/gpu/drm/i915/gt/uc/intel_huc.h        |  23 ++
->>>   drivers/gpu/drm/i915/gt/uc/intel_uc.c         | 108 ++++-----
->>>   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      |  98 ++++----
->>>   drivers/gpu/drm/i915/gt/uc/selftest_guc.c     |  34 +--
->>>   .../drm/i915/gt/uc/selftest_guc_hangcheck.c   |  22 +-
->>>   .../drm/i915/gt/uc/selftest_guc_multi_lrc.c   |  10 +-
->>>   19 files changed, 507 insertions(+), 475 deletions(-)
+>> Extend the Renesas DSI display bindings to support the r8a779g0 V4H.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>> ---
+>>   .../bindings/display/bridge/renesas,dsi-csi2-tx.yaml           | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+>> index afeeb967393d..bc3101f77e5a 100644
+>> --- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+>> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+>> @@ -11,13 +11,14 @@ maintainers:
+>>
+>>   description: |
+>>     This binding describes the MIPI DSI/CSI-2 encoder embedded in the Renesas
+>> -  R-Car V3U SoC. The encoder can operate in either DSI or CSI-2 mode, with up
+>> +  R-Car V3U/V4H SoC. The encoder can operate in either DSI or CSI-2 mode, with up
 > 
+> Perhaps "R-Car Gen4 SoCs", so we stay within 80 chars, and don't have
+> to update this when the next member of the family is around the block?
+
+Is V3U gen 4? Or do you mean "R-Car V3U and Gen 4 SoCs"?
+
+> Is there anything that might be SoC-specific?
+> If not, perhaps the time is ripe for a family-specific compatible value?
+
+At least v3u and v4h DSIs are slightly different. Well, the DSI IP block 
+itself looks the same, but the PLL and PHY are different.
+
+  Tomi
+
