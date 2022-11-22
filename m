@@ -1,48 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB003633813
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 10:12:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3C15633913
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 10:53:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC8CE10E3BA;
-	Tue, 22 Nov 2022 09:12:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0CE710E1CE;
+	Tue, 22 Nov 2022 09:53:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2347210E3BA
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Nov 2022 09:12:12 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id E202B6602AC7;
- Tue, 22 Nov 2022 09:12:09 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1669108330;
- bh=XQs9y9qnM68EyMoHPrxiDgq88Oc9TnrG2mdHxwEI2sQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=CVkZzf1bm1eq3dnFoEDL8E2t9w+rllcHe6eClLcXsHRs+VHN3hKPjLV5NNgxlWMET
- eCx0667iQP4uhsgDs0Ept2jcZ+WRzK2yvZ+iscJPNmW3/3ygNLS+BSQh90MtVLdVD/
- MWNJoQHV0S4QC2P5aJ+ftzSDFA4sDFr9UU6JgqR+1Qse4U7PDJb3mdOK0v1Ea5O1oX
- dYDT2WE7ySmP1NVyuln3YcUSAec7mQqv7o+88+519dSNMboAtN0GUhGifNWE0UzpW4
- Y4O/McoElEA37GpxO7TJ9v+kFSWtsRDMXUk/tTthX6tDSzp7UWo/Uz+SgOZx2FgzhS
- /s9t1wFc4bXNg==
-Message-ID: <1ff98f52-93e1-d375-47ae-30b74068ea5b@collabora.com>
-Date: Tue, 22 Nov 2022 10:12:07 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8677010E1CE
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Nov 2022 09:53:36 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id F0206615D2
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Nov 2022 09:53:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5A0FBC433D6
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Nov 2022 09:53:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1669110815;
+ bh=SrBjxnGnQ0HZ2llthhzylw5FZdrVcDnygMu6dWiCQII=;
+ h=From:To:Subject:Date:From;
+ b=UMkbNe5lkrAz6Kurdo7Ypu9CLTwb4oDI94YOFRsOXHjfCHZIofpqXSma5rpxVfuWK
+ OF0OD/NMwEk0FDXE3qIfooSHV6Urk3MREQT6D0EXkkUOl9wOSxBAxTs1UMDrceOrs0
+ EY/Z/JOXdosFVkvNrMlU7pbPR11kLJ/VBb4MIthKXdhcvqf9NYmHdSP8RJenOPmkHx
+ YvLRV4fMBkEw5dR7C/ffCKXdq0Ke0ECgHUqxzANDmHmDQrIkFNDTaN4kPaLA9j9hgd
+ mxHmM6lXuTEQgRaYue2ahoGrNolPKD1dsw5QuJ8k6HHMZilsTS9RFuaD62SiRQDxif
+ JVwYqw3ZXAgKg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 48462C433E4; Tue, 22 Nov 2022 09:53:35 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 216727] New: Failure to wake up from suspend to RAM
+Date: Tue, 22 Nov 2022 09:53:35 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: martin.tk@gmx.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-216727-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH] drm/mediatek: Clean dangling pointer on bind error path
-To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>
-References: <20221121223717.3429913-1-nfraprado@collabora.com>
-Content-Language: en-US
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20221121223717.3429913-1-nfraprado@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,45 +71,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "Nancy . Lin" <nancy.lin@mediatek.com>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 21/11/22 23:37, Nícolas F. R. A. Prado ha scritto:
-> mtk_drm_bind() can fail, in which case drm_dev_put() is called,
-> destroying the drm_device object. However a pointer to it was still
-> being held in the private object, and that pointer would be passed along
-> to DRM in mtk_drm_sys_prepare() if a suspend were triggered at that
-> point, resulting in a panic. Clean the pointer when destroying the
-> object in the error path to prevent this from happening.
-> 
-> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-> 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216727
 
-Fixes tag please! :-)
+            Bug ID: 216727
+           Summary: Failure to wake up from suspend to RAM
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 6.0.9
+          Hardware: AMD
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: martin.tk@gmx.com
+        Regression: No
 
-Cheers,
-Angelo
+Created attachment 303261
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D303261&action=3Dedit
+errors and tracess logged when the issue occured
 
-> ---
-> 
->   drivers/gpu/drm/mediatek/mtk_drm_drv.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> index 39a42dc8fb85..a21ff1b3258c 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> @@ -514,6 +514,7 @@ static int mtk_drm_bind(struct device *dev)
->   err_deinit:
->   	mtk_drm_kms_deinit(drm);
->   err_free:
-> +	private->drm = NULL;
->   	drm_dev_put(drm);
->   	return ret;
->   }
+I've had this issue at least twice so far. The previous time it was on kern=
+el
+version 5.19.17.
 
+When I tried waking up my computer from sleep I was greeted with corrupt
+graphics. Was able to login via ssh and reboot.
 
+I'm on Slackware-current. CPU is AMD Phenom II X4 965 Black=C2=A0Edition. G=
+PU is AMD
+Radeon RX 550 / 550 Series
+
+Both time this happened I had a process running and using up all the memory=
+ and
+eventually being killed by "out of memory". Though first time I experienced
+this issue the out of memory happend the day beofre. The issue occured only=
+ on
+wake up the next day.
+
+I'm attaching some logs (some minor comments in the attached log file), I h=
+ope
+it's not too much but I didn't want to miss any relevant information. Apolo=
+gies
+in advance.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
