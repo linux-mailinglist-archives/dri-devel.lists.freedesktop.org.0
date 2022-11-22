@@ -2,140 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C36B46342FB
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 18:50:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4FA863430A
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 18:54:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 161318953E;
-	Tue, 22 Nov 2022 17:50:39 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED6668953E;
- Tue, 22 Nov 2022 17:50:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E8E110E42C;
+	Tue, 22 Nov 2022 17:54:47 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A618B10E198;
+ Tue, 22 Nov 2022 17:54:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669139436; x=1700675436;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=gA2BN19HosX0c8si6mEHXDi17OJWKe9xEfwe2rk0xkk=;
- b=B9W18xW9WL9TTQ9s2TkMwSa75RhrQRX9EvNwQVvIHyLAhx9W/ZDQoCy2
- bNLKHKxKnRYlXyBNLWbVYTW0xMbi4cqUu6mJ4zJScW1Gbsl/xJgTJyYGe
- ihyZLXgIZD8BLicsOFmsAqmchl9SJTizK8atPii9y9tAkQhwu+fsJaolO
- /akQs0j0EC+iwKt35BB5mQGfvG7gT/rNsD3H+jhjt+kRRCZJV+jPHxq6j
- Doel31pj0OWtwi7eI/Wcue5gkWfuecvsdvgdf2nqDEW6O+fFsWNNhucya
- kitPSgVFP/TX4gt8zEySJ2+t8ltrvbHI8kqpt/2/gnDqR8uO3oC4TV2gq g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="312575565"
-X-IronPort-AV: E=Sophos;i="5.96,184,1665471600"; d="scan'208";a="312575565"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Nov 2022 09:50:35 -0800
+ t=1669139683; x=1700675683;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=GhD9yMjNZaUADyIRhePOSew4ANk6NQXo8JYiUfTWOUc=;
+ b=UU2e5F2mujElvfpNM99lwJ2Z5ZiW8SuWZSG40dT2ZLjBCbDXzVkYGU5n
+ 5MVc+jDQwigVA2Yi78yfNqZt67iX+FKRVxowLnEVh/8SGg/HkkEUzC5Ut
+ sG++uEt3igI08/v60IXr3WVzRoN3kNeZ3Kzn86f9eqFIBquE/kON5Zu+6
+ mNzPjBumb/nZ/9C1jvSEJcC7rN0zs82PyIiG6TlYFHvsbjwf9RP8B46qH
+ qkL6ncrsRM1D1ivKML/D2hjZpKSvppDlKhjMcXWCfzEBsvIYyZR9t8hOb
+ v1jTygt8C1yxw7z/fGliVJHIiyXvgTEOiQtWm/Kje67o6XPuR1lTDvKP+ Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="294264719"
+X-IronPort-AV: E=Sophos;i="5.96,184,1665471600"; d="scan'208";a="294264719"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Nov 2022 09:54:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="783922131"
-X-IronPort-AV: E=Sophos;i="5.96,184,1665471600"; d="scan'208";a="783922131"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by fmsmga001.fm.intel.com with ESMTP; 22 Nov 2022 09:50:35 -0800
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 22 Nov 2022 09:50:34 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 22 Nov 2022 09:50:34 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Tue, 22 Nov 2022 09:50:34 -0800
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.109)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Tue, 22 Nov 2022 09:50:33 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=h/aGNYdeYqtUOxnLfHPugxd7+HaNV4/chEGatUqzZ+xT3mgWvZXq3fjBKhGnUZxO6mCjhXf+UQct1R2GAZfk9jXa+RSWVnfcMfArd55znzt5QbQOd+noQL+pt6P3DQBpZupGbQuFh6vSrEdvlpfSadB8c2J3PjGuMztUMENkF3H3vW93TpwdL9CSstmIfV0AWMfK/Tjaq3jh/E9Vn0VdoSSeWPQwiW27bY/reqbvfg80zBhZNwZeXVVdv+R0hqZYD68XJGrt9KjBp3Mk4kmbsLhIzoKUnawFLiOY6dq7FqsboDvkVcXx4K8iFcZ4IAJT1AksZ+a5N5ZI8d2tdpRLYA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gbiXoKB63o1w02dGzbQim58eE03IBZsO7of2QKiX9Ok=;
- b=Q9DcnVqdccAAUDDIa+LxGtpYfC3hu4WG9tqbJuSn9Y2Mlf8xJgGR+sVA/qAe9gP3BIMXjlNpkCDAkcxr1R4rqLU59WJq3MsMHLVGcwLCcVpD0Ugd/MKEvPOraJ+SxZY96aMRq64Vqi2GOhmOcfmK/oSpgxP5CuoNoVwbYqjHnVALZGGyDoXYze+ix/PxfmHMm6voIvGVRVvZ6/Sql6pbwPXAV/F4kHmOrG7Y/fC6FgI7jDENWqmCVM1R9x0kYYDkmqopDg5nPn5rNFBij8lnFiD4hEaGQ4QbVHSwc1gR6jdX0OI3O4yDUjhRFn8dKzQuHlr8z4X4dzO5a1cStaj5cw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by BN9PR11MB5403.namprd11.prod.outlook.com (2603:10b6:408:11c::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.15; Tue, 22 Nov
- 2022 17:50:31 +0000
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::f4b9:901c:6882:c286]) by MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::f4b9:901c:6882:c286%4]) with mapi id 15.20.5834.009; Tue, 22 Nov 2022
- 17:50:31 +0000
-Date: Tue, 22 Nov 2022 12:50:27 -0500
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [Intel-gfx] [MAINTAINER TOOLS] docs: updated rules for
- topic/core-for-CI commit management
-Message-ID: <Y30L4xoF5Zv+dC2M@intel.com>
-References: <20221122131714.3443238-1-jani.nikula@intel.com>
- <Y3zjvobswUkJFPV1@phenom.ffwll.local>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <Y3zjvobswUkJFPV1@phenom.ffwll.local>
-X-ClientProxiedBy: SJ0PR13CA0225.namprd13.prod.outlook.com
- (2603:10b6:a03:2c1::20) To MN0PR11MB6059.namprd11.prod.outlook.com
- (2603:10b6:208:377::9)
+X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="747441585"
+X-IronPort-AV: E=Sophos;i="5.96,184,1665471600"; d="scan'208";a="747441585"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+ by fmsmga002.fm.intel.com with ESMTP; 22 Nov 2022 09:54:22 -0800
+Received: from [10.249.128.57] (mwajdecz-MOBL.ger.corp.intel.com
+ [10.249.128.57])
+ by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
+ 2AMHsL7M009806; Tue, 22 Nov 2022 17:54:21 GMT
+Message-ID: <48f594de-9682-4b60-f934-9420d02b405e@intel.com>
+Date: Tue, 22 Nov 2022 18:54:21 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|BN9PR11MB5403:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2a135314-be5c-49ee-8775-08daccb20c66
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: S39BUDxYNXHVDk8WP6xLhl+RPD/1yOZ0UwUFVtp3JWE3Ya/3DNO9G1oVC72cjvEcMMSUlHDchq0DCJuxfhrn9olmMPbScF21HEvoUTDRDp/14JEqkP3kvfvlstBfD6ibnuzN7B5l6CiUTzfGHuOSmcaUgQdExIghCjx0EtqVaKPghlSaNUJgDDiLVTcKBbVgLuDwnnx4miZjptpBOEE/xKMdct0yVccjQ4oKAM33zQNqS5akL5wWQ3jDYMiAEDn41VF1z6KOkeSw6YiEUlfiyGKfGHt+TUSgbDprP5dov4puMOEDUUiPQZ8VM+WmuV4pAi1dEEhfrTCGrUQ8eTnV9nxpmRDOhhR1qkhoZ7Iv9WwtS+xfEUjrl5hyF4aCvYzeMEdm3QvAGIb0aDJwQTgNqqtqSpicO2HG8aA4IGWbd0FEYQNF8gF+48vIEAqLFYKSSdGqX2Ojwu9yKqRRRBVY7q3OsxGfPTaIAS0/X22EgvaKrrOWwx44vFUUSeqsDEApH0dGaWzLsK2gvhXqoxpEeYOZQqjBAAi78AfdJe8DDcz1tVplEtlSvBf1mMIG01njQpDn+1R/BPuu0RraZuMBaR/SXT1jGaqbjZ0C7P5K160diT7vMEgq4GljnLV7X+6Ir8fSvXJQ76dJvli74WaMldySSC8Xb1Obp9ScMEdnpwik6KsS+XBeU6D9Uvy1hZx+f54+jNnbqk39q767nonWnQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(346002)(39860400002)(396003)(366004)(376002)(136003)(451199015)(82960400001)(86362001)(36756003)(66476007)(38100700002)(186003)(316002)(54906003)(26005)(2616005)(478600001)(6486002)(966005)(83380400001)(6666004)(6916009)(41300700001)(4326008)(66556008)(66946007)(6506007)(8676002)(2906002)(15650500001)(44832011)(6512007)(5660300002)(8936002)(67856001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?XAPM/UIUoucU6z9Y91buyqgoACu64B8pRduAmC3Hjn0gdRW3+UJTa7kiMYD7?=
- =?us-ascii?Q?iFJTCqCR/+6NDeFVJf+cnGPLaIHkPuHF6sHzOL9VUF6pa6VIPrAFYLKpsJEE?=
- =?us-ascii?Q?O06rKTCCW61QhhQNZXOavgnC7FgdHL/+q+ADmVfY1OeAGRSGkUItSsjyhbm/?=
- =?us-ascii?Q?GPkh7xotbkzlj8uW7zx36lQYeZ59QU3rnUI4dpQmvzf5/8wOMAwmTCgzaKA+?=
- =?us-ascii?Q?xHJ7LAkbK3fuGCxGQJ+z+iOwoXZ5trJb4M4DK8dmLNIJsVP5kbcZ7W2QgYnF?=
- =?us-ascii?Q?Rjr0YIrhWC1cYC3HzIU1CnizzGQS0yTRni85ShiCgVfZeHjNmURdhgZ8sLBF?=
- =?us-ascii?Q?sFtqQfejVO7KB/eyXqs64zHPXfXWreiWJENgSwWfOCwOyjX/TTnn2sQM8TTN?=
- =?us-ascii?Q?g71VOFjqsrGHWOQJ41MPtIx6RPRtywfShuiypFOHNUNzQc3ykF3q77sHN2nG?=
- =?us-ascii?Q?gGLLT5uh9zax2xPPeILo784o0cUZlCcRGCvFFV8h7Kof003l1mgF8B4+2muE?=
- =?us-ascii?Q?df/7H6LkW5khKMqpwCJnYYxqqq52e0ihmVI9STEt3APP4kHk83ra/G7IX8zi?=
- =?us-ascii?Q?0mYn6B6uz4TprafxTUH7yxTsKp3lQ8HSReyrJ9ld7ArHaRKjcKaKL2DagOr6?=
- =?us-ascii?Q?P/m9YLCWmFBUvFPrVB6YhSwv1rT2f1ffAWO70JJLDjYyRhUmPJGaaRn2i3Vn?=
- =?us-ascii?Q?N/0/xeFou8MpE+/p84Nu3OiPsTlwwVr/D2s/b9YnAGk+juanqQ6HzgRq2rAQ?=
- =?us-ascii?Q?rJXGqIqisBSyOl2JF9HB0ZhX5FYQCqxIkHXoFCRlsLL/fD+q+WnxDdFUVcN6?=
- =?us-ascii?Q?mr6lR8kUlDkYjKEQtFkICuOFdu1hCBRYz0eGKExW15BC9VqiMfNSj7b+mnmH?=
- =?us-ascii?Q?ISXWCfMBuwth1z2xpDGUf9Q/fLXnwqaLX3TWtRj5K9Jvve3Lr9PcWvup0NMc?=
- =?us-ascii?Q?v8FU4HBs0AQQJ5cjGQS7tnm6ZCvSD1gq+nr3FMm0Jj9MtpI2H1JRQj/HHLM1?=
- =?us-ascii?Q?v205RSPXTyJYSkAciD/swtpDYNFqM05XzvHqdfoqL3C9TeTv7CU8awYQmwwx?=
- =?us-ascii?Q?mjd9URANgjDjSfS9maohB3xQRDJb5XFFubz+HNfKcMwurvIRQ+6b5QcBdzar?=
- =?us-ascii?Q?dfUQypIibLuhqDU3y1PV55YycGgyfE2ZDsQcPcoDh+yNAEYb32q5bZe7GlO7?=
- =?us-ascii?Q?2Vdms4uAxo5+PH+uZthW+poQRC9yan8W+X5REuzRDKShdjWGCv57iB/JJb8P?=
- =?us-ascii?Q?fEuyJEm4m2jdnE4kXJYdwCQYPeCgjeAVciedaDKiQL67+Ka+kjWLp1+5e41E?=
- =?us-ascii?Q?hT1gjYjI1Ls5gSqWGxnrCZb0hvm7zQvPSchCaqToTzy2xEWs/wheYM+bcEwy?=
- =?us-ascii?Q?epXd1PseGSWv8JqOsA9+JG6sJG2CyyQnSu92SyFih8EJtVjyVlH4EAJ7UUbQ?=
- =?us-ascii?Q?1Wi/tzDY3vyfXcnVX8OpmyAWHN5e7mKSdE6U0sWhYvuPbynFJLTa834xmVsc?=
- =?us-ascii?Q?zEnYChyybqZBO5GEkz50b7eSqFhaP9Be+TPZQOi9V3npL1XuJSGVofCwqKEE?=
- =?us-ascii?Q?5RSpN6ruFLLmQK3ooS0vJ5UXiiy2GYoW3v5AQHyG?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2a135314-be5c-49ee-8775-08daccb20c66
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2022 17:50:31.2512 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kzz65iT16V2sKCTUfzJ8Cy12mCYo7MM5UYreC6qwThBi6rSlW/GLHyR3idb3WO1naYaxW6e6o9CrM9w0yXtm4Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5403
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.5.0
+Subject: Re: [Intel-gfx] [PATCH v2 4/5] drm/i915/guc: Add GuC CT specific
+ debug print wrappers
+Content-Language: en-US
+To: John.C.Harrison@Intel.com, Intel-GFX@Lists.FreeDesktop.Org
+References: <20221118015858.2548106-1-John.C.Harrison@Intel.com>
+ <20221118015858.2548106-5-John.C.Harrison@Intel.com>
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+In-Reply-To: <20221118015858.2548106-5-John.C.Harrison@Intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,104 +65,541 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 22, 2022 at 03:59:10PM +0100, Daniel Vetter wrote:
-> On Tue, Nov 22, 2022 at 03:17:14PM +0200, Jani Nikula wrote:
-> > Introduce stricter rules for topic/core-for-CI management. Way too many
-> > commits have been added over the years, with insufficient rationale
-> > recorded in the commit message, and insufficient follow-up with removing
-> > the commits from the topic branch.
-> > 
-> > New rules:
-> > 
-> > 1. Require maintainer ack for rebase. Have better gating on when rebases
-> >    happen and on which baselines.
-> > 
-> > 2. Require maintainer/committer ack for adding/removing commits. No
-> >    single individual should decide.
-> > 
-> > 3. Require gitlab issues for new commits added. Improve tracking for
-> >    removing the commits.
-> > 
-> > Also use the stronger "must" for commit message requiring the
-> > justification for the commit being in topic/core-for-CI.
-> > 
-> > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> > Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> > Cc: David Airlie <airlied@gmail.com>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: intel-gfx@lists.freedesktop.org
-> > Cc: dri-devel@lists.freedesktop.org
-> > Cc: dim-tools@lists.freedesktop.org
-> > Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> 
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
+On 18.11.2022 02:58, John.C.Harrison@Intel.com wrote:
+> From: John Harrison <John.C.Harrison@Intel.com>
 > 
-> > ---
-> >  drm-tip.rst | 27 ++++++++++++++++++++-------
-> >  1 file changed, 20 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/drm-tip.rst b/drm-tip.rst
-> > index deae95cdd2fe..24036e2ef576 100644
-> > --- a/drm-tip.rst
-> > +++ b/drm-tip.rst
-> > @@ -203,11 +203,13 @@ justified exception. The primary goal is to fix issues originating from Linus'
-> >  tree. Issues that would need drm-next or other DRM subsystem tree as baseline
-> >  should be fixed in the offending DRM subsystem tree.
-> >  
-> > -Only rebase the branch if you really know what you're doing. When in doubt, ask
-> > -the maintainers. You'll need to be able to handle any conflicts in non-drm code
-> > -while rebasing.
-> > +Only rebase the branch if you really know what you're doing. You'll need to be
-> > +able to handle any conflicts in non-drm code while rebasing.
-> >  
-> > -Simply drop fixes that are already available in the new baseline.
-> > +Always ask for maintainer ack before rebasing. IRC ack is sufficient.
-> > +
-> > +Simply drop fixes that are already available in the new baseline. Close the
-> > +associated gitlab issue when removing commits.
-> >  
-> >  Force pushing a rebased topic/core-for-CI requires passing the ``--force``
-> >  parameter to git::
-> > @@ -225,11 +227,22 @@ judgement call.
-> >  Only add or remove commits if you really know what you're doing. When in doubt,
-> >  ask the maintainers.
-> >  
-> > -Apply new commits on top with regular push. The commit message needs to explain
-> > -why the patch has been applied to topic/core-for-CI. If it's a cherry-pick from
-> > +Always ask for maintainer/committer ack before adding/removing commits. IRC ack
-> > +is sufficient. Record the ``Acked-by:`` in commits being added.
-> > +
-> > +Apply new commits on top with regular push. The commit message must explain why
-> > +the patch has been applied to topic/core-for-CI. If it's a cherry-pick from
-> >  another subsystem, please reference the commit with ``git cherry-pick -x``
-> >  option. If it's a patch from another subsystem, please reference the patch on
-> >  the mailing list with ``Link:`` tag.
-> >  
-> > +New commits always need an associated gitlab issue for tracking purposes. The
-> > +goal is to have as few commits in topic/core-for-CI as possible, and we need to
-> > +be able to track the progress in making that happen. Reference the issue with
-> > +``References:`` tag. Add the ``core-for-CI`` label to the issue. (Note: Do not
-> > +use ``Closes:`` because the logic here is backwards; the issue is having the
-> > +commit in the branch in the first place.)
-> > +
-> >  Instead of applying reverts, just remove the commit. This implies ``git rebase
-> > --i`` on the current baseline; see directions above.
-> > +-i`` on the current baseline; see directions above. Close the associated gitlab
-> > +issue when removing commits.
-> > -- 
-> > 2.34.1
-> > 
+> Re-work the existing GuC CT printers and extend as required to match
+> the new wrapping scheme.
 > 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 222 +++++++++++-----------
+>  1 file changed, 113 insertions(+), 109 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> index 2b22065e87bf9..9d404fb377637 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> @@ -18,31 +18,49 @@ static inline struct intel_guc *ct_to_guc(struct intel_guc_ct *ct)
+>  	return container_of(ct, struct intel_guc, ct);
+>  }
+>  
+> -static inline struct intel_gt *ct_to_gt(struct intel_guc_ct *ct)
+> -{
+> -	return guc_to_gt(ct_to_guc(ct));
+> -}
+> -
+>  static inline struct drm_i915_private *ct_to_i915(struct intel_guc_ct *ct)
+>  {
+> -	return ct_to_gt(ct)->i915;
+> -}
+> +	struct intel_guc *guc = ct_to_guc(ct);
+> +	struct intel_gt *gt = guc_to_gt(guc);
+>  
+> -static inline struct drm_device *ct_to_drm(struct intel_guc_ct *ct)
+> -{
+> -	return &ct_to_i915(ct)->drm;
+> +	return gt->i915;
+>  }
+>  
+> -#define CT_ERROR(_ct, _fmt, ...) \
+> -	drm_err(ct_to_drm(_ct), "CT: " _fmt, ##__VA_ARGS__)
+> +#define ct_err(_ct, _fmt, ...) \
+> +	guc_err(ct_to_guc(_ct), "CT " _fmt, ##__VA_ARGS__)
+> +
+> +#define ct_warn(_ct, _fmt, ...) \
+> +	guc_warn(ct_to_guc(_ct), "CT " _fmt, ##__VA_ARGS__)
+> +
+> +#define ct_notice(_ct, _fmt, ...) \
+> +	guc_notice(ct_to_guc(_ct), "CT " _fmt, ##__VA_ARGS__)
+> +
+> +#define ct_info(_ct, _fmt, ...) \
+> +	guc_info(ct_to_guc(_ct), "CT " _fmt, ##__VA_ARGS__)
+> +
+>  #ifdef CONFIG_DRM_I915_DEBUG_GUC
+> -#define CT_DEBUG(_ct, _fmt, ...) \
+> -	drm_dbg(ct_to_drm(_ct), "CT: " _fmt, ##__VA_ARGS__)
+> +#define ct_dbg(_ct, _fmt, ...) \
+> +	guc_dbg(ct_to_guc(_ct), "CT " _fmt, ##__VA_ARGS__)
+>  #else
+> -#define CT_DEBUG(...)	do { } while (0)
+> +#define ct_dbg(...)	do { } while (0)
+>  #endif
+> -#define CT_PROBE_ERROR(_ct, _fmt, ...) \
+> -	i915_probe_error(ct_to_i915(ct), "CT: " _fmt, ##__VA_ARGS__)
+> +
+> +#define ct_probe_error(_ct, _fmt, ...) \
+> +	do { \
+> +		if (i915_error_injected()) \
+> +			ct_dbg(_ct, _fmt, ##__VA_ARGS__); \
+> +		else \
+> +			ct_err(_ct, _fmt, ##__VA_ARGS__); \
+> +	} while (0)
+
+guc_probe_error ?
+
+> +
+> +#define ct_WARN_ON(_ct, _condition) \
+> +	ct_WARN(_ct, _condition, "%s", "ct_WARN_ON(" __stringify(_condition) ")")
+> +
+> +#define ct_WARN(_ct, _condition, _fmt, ...) \
+> +	guc_WARN(ct_to_guc(_ct), _condition, "CT " _fmt, ##__VA_ARGS__)
+> +
+> +#define ct_WARN_ONCE(_ct, _condition, _fmt, ...) \
+> +	guc_WARN_ONCE(ct_to_guc(_ct), _condition, "CT " _fmt, ##__VA_ARGS__)
+>  
+>  /**
+>   * DOC: CTB Blob
+> @@ -170,7 +188,7 @@ static int ct_control_enable(struct intel_guc_ct *ct, bool enable)
+>  	err = guc_action_control_ctb(ct_to_guc(ct), enable ?
+>  				     GUC_CTB_CONTROL_ENABLE : GUC_CTB_CONTROL_DISABLE);
+>  	if (unlikely(err))
+> -		CT_PROBE_ERROR(ct, "Failed to control/%s CTB (%pe)\n",
+> +		ct_probe_error(ct, "Failed to control/%s CTB (%pe)\n",
+>  			       str_enable_disable(enable), ERR_PTR(err));
+
+btw, shouldn't we change all messages to start with lowercase ?
+
+was:
+	"CT0: Failed to control/%s CTB (%pe)"
+is:
+	"GT0: GuC CT Failed to control/%s CTB (%pe)"
+
+unless we keep colon (as suggested by Tvrtko) as then:
+
+	"GT0: GuC CT: Failed to control/%s CTB (%pe)"
+
+Michal
+
+>  
+>  	return err;
+> @@ -201,7 +219,7 @@ static int ct_register_buffer(struct intel_guc_ct *ct, bool send,
+>  				   size);
+>  	if (unlikely(err))
+>  failed:
+> -		CT_PROBE_ERROR(ct, "Failed to register %s buffer (%pe)\n",
+> +		ct_probe_error(ct, "Failed to register %s buffer (%pe)\n",
+>  			       send ? "SEND" : "RECV", ERR_PTR(err));
+>  
+>  	return err;
+> @@ -235,21 +253,21 @@ int intel_guc_ct_init(struct intel_guc_ct *ct)
+>  	blob_size = 2 * CTB_DESC_SIZE + CTB_H2G_BUFFER_SIZE + CTB_G2H_BUFFER_SIZE;
+>  	err = intel_guc_allocate_and_map_vma(guc, blob_size, &ct->vma, &blob);
+>  	if (unlikely(err)) {
+> -		CT_PROBE_ERROR(ct, "Failed to allocate %u for CTB data (%pe)\n",
+> +		ct_probe_error(ct, "Failed to allocate %u for CTB data (%pe)\n",
+>  			       blob_size, ERR_PTR(err));
+>  		return err;
+>  	}
+>  
+> -	CT_DEBUG(ct, "base=%#x size=%u\n", intel_guc_ggtt_offset(guc, ct->vma), blob_size);
+> +	ct_dbg(ct, "base=%#x size=%u\n", intel_guc_ggtt_offset(guc, ct->vma), blob_size);
+>  
+>  	/* store pointers to desc and cmds for send ctb */
+>  	desc = blob;
+>  	cmds = blob + 2 * CTB_DESC_SIZE;
+>  	cmds_size = CTB_H2G_BUFFER_SIZE;
+>  	resv_space = 0;
+> -	CT_DEBUG(ct, "%s desc %#tx cmds %#tx size %u/%u\n", "send",
+> -		 ptrdiff(desc, blob), ptrdiff(cmds, blob), cmds_size,
+> -		 resv_space);
+> +	ct_dbg(ct, "%s desc %#tx cmds %#tx size %u/%u\n", "send",
+> +	       ptrdiff(desc, blob), ptrdiff(cmds, blob), cmds_size,
+> +	       resv_space);
+>  
+>  	guc_ct_buffer_init(&ct->ctbs.send, desc, cmds, cmds_size, resv_space);
+>  
+> @@ -258,9 +276,9 @@ int intel_guc_ct_init(struct intel_guc_ct *ct)
+>  	cmds = blob + 2 * CTB_DESC_SIZE + CTB_H2G_BUFFER_SIZE;
+>  	cmds_size = CTB_G2H_BUFFER_SIZE;
+>  	resv_space = G2H_ROOM_BUFFER_SIZE;
+> -	CT_DEBUG(ct, "%s desc %#tx cmds %#tx size %u/%u\n", "recv",
+> -		 ptrdiff(desc, blob), ptrdiff(cmds, blob), cmds_size,
+> -		 resv_space);
+> +	ct_dbg(ct, "%s desc %#tx cmds %#tx size %u/%u\n", "recv",
+> +	       ptrdiff(desc, blob), ptrdiff(cmds, blob), cmds_size,
+> +	       resv_space);
+>  
+>  	guc_ct_buffer_init(&ct->ctbs.recv, desc, cmds, cmds_size, resv_space);
+>  
+> @@ -338,7 +356,7 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
+>  	return 0;
+>  
+>  err_out:
+> -	CT_PROBE_ERROR(ct, "Failed to enable CTB (%pe)\n", ERR_PTR(err));
+> +	ct_probe_error(ct, "Failed to enable CTB (%pe)\n", ERR_PTR(err));
+>  	return err;
+>  }
+>  
+> @@ -387,14 +405,12 @@ static int ct_write(struct intel_guc_ct *ct,
+>  
+>  #ifdef CONFIG_DRM_I915_DEBUG_GUC
+>  	if (unlikely(tail != READ_ONCE(desc->tail))) {
+> -		CT_ERROR(ct, "Tail was modified %u != %u\n",
+> -			 desc->tail, tail);
+> +		ct_err(ct, "Tail was modified %u != %u\n", desc->tail, tail);
+>  		desc->status |= GUC_CTB_STATUS_MISMATCH;
+>  		goto corrupted;
+>  	}
+>  	if (unlikely(READ_ONCE(desc->head) >= size)) {
+> -		CT_ERROR(ct, "Invalid head offset %u >= %u)\n",
+> -			 desc->head, size);
+> +		ct_err(ct, "Invalid head offset %u >= %u)\n", desc->head, size);
+>  		desc->status |= GUC_CTB_STATUS_OVERFLOW;
+>  		goto corrupted;
+>  	}
+> @@ -415,8 +431,8 @@ static int ct_write(struct intel_guc_ct *ct,
+>  		FIELD_PREP(GUC_HXG_EVENT_MSG_0_ACTION |
+>  			   GUC_HXG_EVENT_MSG_0_DATA0, action[0]);
+>  
+> -	CT_DEBUG(ct, "writing (tail %u) %*ph %*ph %*ph\n",
+> -		 tail, 4, &header, 4, &hxg, 4 * (len - 1), &action[1]);
+> +	ct_dbg(ct, "writing (tail %u) %*ph %*ph %*ph\n",
+> +	       tail, 4, &header, 4, &hxg, 4 * (len - 1), &action[1]);
+>  
+>  	cmds[tail] = header;
+>  	tail = (tail + 1) % size;
+> @@ -447,8 +463,8 @@ static int ct_write(struct intel_guc_ct *ct,
+>  	return 0;
+>  
+>  corrupted:
+> -	CT_ERROR(ct, "Corrupted descriptor head=%u tail=%u status=%#x\n",
+> -		 desc->head, desc->tail, desc->status);
+> +	ct_err(ct, "Corrupted descriptor on write head=%u tail=%u status=%#x\n",
+> +	       desc->head, desc->tail, desc->status);
+>  	ctb->broken = true;
+>  	return -EPIPE;
+>  }
+> @@ -507,17 +523,14 @@ static inline bool ct_deadlocked(struct intel_guc_ct *ct)
+>  		struct guc_ct_buffer_desc *send = ct->ctbs.send.desc;
+>  		struct guc_ct_buffer_desc *recv = ct->ctbs.send.desc;
+>  
+> -		CT_ERROR(ct, "Communication stalled for %lld ms, desc status=%#x,%#x\n",
+> -			 ktime_ms_delta(ktime_get(), ct->stall_time),
+> -			 send->status, recv->status);
+> -		CT_ERROR(ct, "H2G Space: %u (Bytes)\n",
+> -			 atomic_read(&ct->ctbs.send.space) * 4);
+> -		CT_ERROR(ct, "Head: %u (Dwords)\n", ct->ctbs.send.desc->head);
+> -		CT_ERROR(ct, "Tail: %u (Dwords)\n", ct->ctbs.send.desc->tail);
+> -		CT_ERROR(ct, "G2H Space: %u (Bytes)\n",
+> -			 atomic_read(&ct->ctbs.recv.space) * 4);
+> -		CT_ERROR(ct, "Head: %u\n (Dwords)", ct->ctbs.recv.desc->head);
+> -		CT_ERROR(ct, "Tail: %u\n (Dwords)", ct->ctbs.recv.desc->tail);
+> +		ct_err(ct, "Communication stalled for %lld ms, desc status=%#x,%#x\n",
+> +		       ktime_ms_delta(ktime_get(), ct->stall_time), send->status, recv->status);
+> +		ct_err(ct, "H2G Space: %u (Bytes)\n", atomic_read(&ct->ctbs.send.space) * 4);
+> +		ct_err(ct, "Head: %u (Dwords)\n", ct->ctbs.send.desc->head);
+> +		ct_err(ct, "Tail: %u (Dwords)\n", ct->ctbs.send.desc->tail);
+> +		ct_err(ct, "G2H Space: %u (Bytes)\n", atomic_read(&ct->ctbs.recv.space) * 4);
+> +		ct_err(ct, "Head: %u\n (Dwords)", ct->ctbs.recv.desc->head);
+> +		ct_err(ct, "Tail: %u\n (Dwords)", ct->ctbs.recv.desc->tail);
+>  
+>  		ct->ctbs.send.broken = true;
+>  	}
+> @@ -563,8 +576,7 @@ static inline bool h2g_has_room(struct intel_guc_ct *ct, u32 len_dw)
+>  
+>  	head = READ_ONCE(desc->head);
+>  	if (unlikely(head > ctb->size)) {
+> -		CT_ERROR(ct, "Invalid head offset %u >= %u)\n",
+> -			 head, ctb->size);
+> +		ct_err(ct, "Invalid head offset %u >= %u)\n", head, ctb->size);
+>  		desc->status |= GUC_CTB_STATUS_OVERFLOW;
+>  		ctb->broken = true;
+>  		return false;
+> @@ -715,17 +727,17 @@ static int ct_send(struct intel_guc_ct *ct,
+>  			/* wait_for_ct_request_update returns -ENODEV on reset/suspend in progress.
+>  			 * In this case, output is debug rather than error info
+>  			 */
+> -			CT_DEBUG(ct, "Request %#x (fence %u) cancelled as CTB is disabled\n",
+> -				 action[0], request.fence);
+> +			ct_dbg(ct, "Request %#x (fence %u) cancelled as CTB is disabled\n",
+> +			       action[0], request.fence);
+>  		else
+> -			CT_ERROR(ct, "No response for request %#x (fence %u)\n",
+> -				 action[0], request.fence);
+> +			ct_err(ct, "No response for request %#x (fence %u)\n",
+> +			       action[0], request.fence);
+>  		goto unlink;
+>  	}
+>  
+>  	if (FIELD_GET(GUC_HXG_MSG_0_TYPE, *status) == GUC_HXG_TYPE_NO_RESPONSE_RETRY) {
+> -		CT_DEBUG(ct, "retrying request %#x (%u)\n", *action,
+> -			 FIELD_GET(GUC_HXG_RETRY_MSG_0_REASON, *status));
+> +		ct_dbg(ct, "retrying request %#x (%u)\n", *action,
+> +		       FIELD_GET(GUC_HXG_RETRY_MSG_0_REASON, *status));
+>  		send_again = true;
+>  		goto unlink;
+>  	}
+> @@ -737,12 +749,12 @@ static int ct_send(struct intel_guc_ct *ct,
+>  
+>  	if (response_buf) {
+>  		/* There shall be no data in the status */
+> -		WARN_ON(FIELD_GET(GUC_HXG_RESPONSE_MSG_0_DATA0, request.status));
+> +		ct_WARN_ON(ct, FIELD_GET(GUC_HXG_RESPONSE_MSG_0_DATA0, request.status));
+>  		/* Return actual response len */
+>  		err = request.response_len;
+>  	} else {
+>  		/* There shall be no response payload */
+> -		WARN_ON(request.response_len);
+> +		ct_WARN_ON(ct, request.response_len);
+>  		/* Return data decoded from the status dword */
+>  		err = FIELD_GET(GUC_HXG_RESPONSE_MSG_0_DATA0, *status);
+>  	}
+> @@ -771,7 +783,7 @@ int intel_guc_ct_send(struct intel_guc_ct *ct, const u32 *action, u32 len,
+>  		struct intel_guc *guc = ct_to_guc(ct);
+>  		struct intel_uc *uc = container_of(guc, struct intel_uc, guc);
+>  
+> -		WARN(!uc->reset_in_progress, "Unexpected send: action=%#x\n", *action);
+> +		ct_WARN(ct, !uc->reset_in_progress, "Unexpected send: action=%#x\n", *action);
+>  		return -ENODEV;
+>  	}
+>  
+> @@ -784,11 +796,11 @@ int intel_guc_ct_send(struct intel_guc_ct *ct, const u32 *action, u32 len,
+>  	ret = ct_send(ct, action, len, response_buf, response_buf_size, &status);
+>  	if (unlikely(ret < 0)) {
+>  		if (ret != -ENODEV)
+> -			CT_ERROR(ct, "Sending action %#x failed (%pe) status=%#X\n",
+> -				 action[0], ERR_PTR(ret), status);
+> +			ct_err(ct, "sending action %#x failed (%pe) status=%#X\n",
+> +			       action[0], ERR_PTR(ret), status);
+>  	} else if (unlikely(ret)) {
+> -		CT_DEBUG(ct, "send action %#x returned %d (%#x)\n",
+> -			 action[0], ret, ret);
+> +		ct_dbg(ct, "send action %#x returned %d (%#x)\n",
+> +		       action[0], ret, ret);
+>  	}
+>  
+>  	return ret;
+> @@ -838,7 +850,7 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
+>  			 * contexts/engines being reset. But should never happen as
+>  			 * no contexts should be active when CLIENT_RESET is sent.
+>  			 */
+> -			CT_ERROR(ct, "Unexpected G2H after GuC has stopped!\n");
+> +			ct_err(ct, "Unexpected G2H after GuC has stopped!\n");
+>  			status &= ~GUC_CTB_STATUS_UNUSED;
+>  		}
+>  
+> @@ -850,15 +862,13 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
+>  
+>  #ifdef CONFIG_DRM_I915_DEBUG_GUC
+>  	if (unlikely(head != READ_ONCE(desc->head))) {
+> -		CT_ERROR(ct, "Head was modified %u != %u\n",
+> -			 desc->head, head);
+> +		ct_err(ct, "Head was modified %u != %u\n", desc->head, head);
+>  		desc->status |= GUC_CTB_STATUS_MISMATCH;
+>  		goto corrupted;
+>  	}
+>  #endif
+>  	if (unlikely(tail >= size)) {
+> -		CT_ERROR(ct, "Invalid tail offset %u >= %u)\n",
+> -			 tail, size);
+> +		ct_err(ct, "Invalid tail offset %u >= %u)\n", tail, size);
+>  		desc->status |= GUC_CTB_STATUS_OVERFLOW;
+>  		goto corrupted;
+>  	}
+> @@ -873,7 +883,7 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
+>  	/* beware of buffer wrap case */
+>  	if (unlikely(available < 0))
+>  		available += size;
+> -	CT_DEBUG(ct, "available %d (%u:%u:%u)\n", available, head, tail, size);
+> +	ct_dbg(ct, "read available %d (%u:%u:%u)\n", available, head, tail, size);
+>  	GEM_BUG_ON(available < 0);
+>  
+>  	header = cmds[head];
+> @@ -882,24 +892,24 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
+>  	/* message len with header */
+>  	len = FIELD_GET(GUC_CTB_MSG_0_NUM_DWORDS, header) + GUC_CTB_MSG_MIN_LEN;
+>  	if (unlikely(len > (u32)available)) {
+> -		CT_ERROR(ct, "Incomplete message %*ph %*ph %*ph\n",
+> -			 4, &header,
+> -			 4 * (head + available - 1 > size ?
+> -			      size - head : available - 1), &cmds[head],
+> -			 4 * (head + available - 1 > size ?
+> -			      available - 1 - size + head : 0), &cmds[0]);
+> +		ct_err(ct, "Incomplete message %*ph %*ph %*ph\n",
+> +		       4, &header,
+> +		       4 * (head + available - 1 > size ?
+> +			    size - head : available - 1), &cmds[head],
+> +		       4 * (head + available - 1 > size ?
+> +			    available - 1 - size + head : 0), &cmds[0]);
+>  		desc->status |= GUC_CTB_STATUS_UNDERFLOW;
+>  		goto corrupted;
+>  	}
+>  
+>  	*msg = ct_alloc_msg(len);
+>  	if (!*msg) {
+> -		CT_ERROR(ct, "No memory for message %*ph %*ph %*ph\n",
+> -			 4, &header,
+> -			 4 * (head + available - 1 > size ?
+> -			      size - head : available - 1), &cmds[head],
+> -			 4 * (head + available - 1 > size ?
+> -			      available - 1 - size + head : 0), &cmds[0]);
+> +		ct_err(ct, "No memory for message %*ph %*ph %*ph\n",
+> +		       4, &header,
+> +		       4 * (head + available - 1 > size ?
+> +			    size - head : available - 1), &cmds[head],
+> +		       4 * (head + available - 1 > size ?
+> +			    available - 1 - size + head : 0), &cmds[0]);
+>  		return available;
+>  	}
+>  
+> @@ -909,7 +919,7 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
+>  		(*msg)->msg[i] = cmds[head];
+>  		head = (head + 1) % size;
+>  	}
+> -	CT_DEBUG(ct, "received %*ph\n", 4 * len, (*msg)->msg);
+> +	ct_dbg(ct, "received %*ph\n", 4 * len, (*msg)->msg);
+>  
+>  	/* update local copies */
+>  	ctb->head = head;
+> @@ -920,8 +930,8 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
+>  	return available - len;
+>  
+>  corrupted:
+> -	CT_ERROR(ct, "Corrupted descriptor head=%u tail=%u status=%#x\n",
+> -		 desc->head, desc->tail, desc->status);
+> +	ct_err(ct, "Corrupted descriptor on read head=%u tail=%u status=%#x\n",
+> +	       desc->head, desc->tail, desc->status);
+>  	ctb->broken = true;
+>  	return -EPIPE;
+>  }
+> @@ -944,18 +954,17 @@ static int ct_handle_response(struct intel_guc_ct *ct, struct ct_incoming_msg *r
+>  		   FIELD_GET(GUC_HXG_MSG_0_TYPE, hxg[0]) != GUC_HXG_TYPE_NO_RESPONSE_RETRY &&
+>  		   FIELD_GET(GUC_HXG_MSG_0_TYPE, hxg[0]) != GUC_HXG_TYPE_RESPONSE_FAILURE);
+>  
+> -	CT_DEBUG(ct, "response fence %u status %#x\n", fence, hxg[0]);
+> +	ct_dbg(ct, "response fence %u status %#x\n", fence, hxg[0]);
+>  
+>  	spin_lock_irqsave(&ct->requests.lock, flags);
+>  	list_for_each_entry(req, &ct->requests.pending, link) {
+>  		if (unlikely(fence != req->fence)) {
+> -			CT_DEBUG(ct, "request %u awaits response\n",
+> -				 req->fence);
+> +			ct_dbg(ct, "request %u awaits response\n", req->fence);
+>  			continue;
+>  		}
+>  		if (unlikely(datalen > req->response_len)) {
+> -			CT_ERROR(ct, "Response %u too long (datalen %u > %u)\n",
+> -				 req->fence, datalen, req->response_len);
+> +			ct_err(ct, "response %u too long (datalen %u > %u)\n",
+> +			       req->fence, datalen, req->response_len);
+>  			datalen = min(datalen, req->response_len);
+>  			err = -EMSGSIZE;
+>  		}
+> @@ -967,12 +976,11 @@ static int ct_handle_response(struct intel_guc_ct *ct, struct ct_incoming_msg *r
+>  		break;
+>  	}
+>  	if (!found) {
+> -		CT_ERROR(ct, "Unsolicited response (fence %u)\n", fence);
+> -		CT_ERROR(ct, "Could not find fence=%u, last_fence=%u\n", fence,
+> -			 ct->requests.last_fence);
+> +		ct_err(ct, "Unsolicited response (fence %u)\n", fence);
+> +		ct_err(ct, "Could not find fence=%u, last_fence=%u\n", fence,
+> +		       ct->requests.last_fence);
+>  		list_for_each_entry(req, &ct->requests.pending, link)
+> -			CT_ERROR(ct, "request %u awaits response\n",
+> -				 req->fence);
+> +			ct_err(ct, "request %u awaits response\n", req->fence);
+>  		err = -ENOKEY;
+>  	}
+>  	spin_unlock_irqrestore(&ct->requests.lock, flags);
+> @@ -998,7 +1006,7 @@ static int ct_process_request(struct intel_guc_ct *ct, struct ct_incoming_msg *r
+>  	action = FIELD_GET(GUC_HXG_EVENT_MSG_0_ACTION, hxg[0]);
+>  	len = hxg_len - GUC_HXG_MSG_MIN_LEN;
+>  
+> -	CT_DEBUG(ct, "request %x %*ph\n", action, 4 * len, payload);
+> +	ct_dbg(ct, "request %x %*ph\n", action, 4 * len, payload);
+>  
+>  	switch (action) {
+>  	case INTEL_GUC_ACTION_DEFAULT:
+> @@ -1016,9 +1024,6 @@ static int ct_process_request(struct intel_guc_ct *ct, struct ct_incoming_msg *r
+>  		break;
+>  	case INTEL_GUC_ACTION_STATE_CAPTURE_NOTIFICATION:
+>  		ret = intel_guc_error_capture_process_msg(guc, payload, len);
+> -		if (unlikely(ret))
+> -			CT_ERROR(ct, "error capture notification failed %x %*ph\n",
+> -				 action, 4 * len, payload);
+>  		break;
+>  	case INTEL_GUC_ACTION_ENGINE_FAILURE_NOTIFICATION:
+>  		ret = intel_guc_engine_failure_process_msg(guc, payload, len);
+> @@ -1028,11 +1033,11 @@ static int ct_process_request(struct intel_guc_ct *ct, struct ct_incoming_msg *r
+>  		ret = 0;
+>  		break;
+>  	case INTEL_GUC_ACTION_NOTIFY_CRASH_DUMP_POSTED:
+> -		CT_ERROR(ct, "Received GuC crash dump notification!\n");
+> +		guc_err(guc, "notification: Crash dump!\n");
+>  		ret = 0;
+>  		break;
+>  	case INTEL_GUC_ACTION_NOTIFY_EXCEPTION:
+> -		CT_ERROR(ct, "Received GuC exception notification!\n");
+> +		guc_err(guc, "notification: Exception!\n");
+>  		ret = 0;
+>  		break;
+>  	default:
+> @@ -1041,8 +1046,7 @@ static int ct_process_request(struct intel_guc_ct *ct, struct ct_incoming_msg *r
+>  	}
+>  
+>  	if (unlikely(ret)) {
+> -		CT_ERROR(ct, "Failed to process request %04x (%pe)\n",
+> -			 action, ERR_PTR(ret));
+> +		ct_err(ct, "Failed to process request %04x (%pe)\n", action, ERR_PTR(ret));
+>  		return ret;
+>  	}
+>  
+> @@ -1070,8 +1074,8 @@ static bool ct_process_incoming_requests(struct intel_guc_ct *ct)
+>  
+>  	err = ct_process_request(ct, request);
+>  	if (unlikely(err)) {
+> -		CT_ERROR(ct, "Failed to process CT message (%pe) %*ph\n",
+> -			 ERR_PTR(err), 4 * request->size, request->msg);
+> +		ct_err(ct, "Failed to process message (%pe) %*ph\n",
+> +		       ERR_PTR(err), 4 * request->size, request->msg);
+>  		ct_free_msg(request);
+>  	}
+>  
+> @@ -1149,8 +1153,8 @@ static int ct_handle_hxg(struct intel_guc_ct *ct, struct ct_incoming_msg *msg)
+>  
+>  	if (unlikely(err)) {
+>  failed:
+> -		CT_ERROR(ct, "Failed to handle HXG message (%pe) %*ph\n",
+> -			 ERR_PTR(err), 4 * GUC_HXG_MSG_MIN_LEN, hxg);
+> +		ct_err(ct, "Failed to handle HXG message (%pe) %*ph\n",
+> +		       ERR_PTR(err), 4 * GUC_HXG_MSG_MIN_LEN, hxg);
+>  	}
+>  	return err;
+>  }
+> @@ -1166,8 +1170,8 @@ static void ct_handle_msg(struct intel_guc_ct *ct, struct ct_incoming_msg *msg)
+>  		err = -EOPNOTSUPP;
+>  
+>  	if (unlikely(err)) {
+> -		CT_ERROR(ct, "Failed to process CT message (%pe) %*ph\n",
+> -			 ERR_PTR(err), 4 * msg->size, msg->msg);
+> +		ct_err(ct, "Failed to handle message (%pe) %*ph\n",
+> +		       ERR_PTR(err), 4 * msg->size, msg->msg);
+>  		ct_free_msg(msg);
+>  	}
+>  }
+> @@ -1198,7 +1202,7 @@ static void ct_try_receive_message(struct intel_guc_ct *ct)
+>  {
+>  	int ret;
+>  
+> -	if (GEM_WARN_ON(!ct->enabled))
+> +	if (ct_WARN_ON(ct, !ct->enabled))
+>  		return;
+>  
+>  	ret = ct_receive(ct);
+> @@ -1220,7 +1224,7 @@ static void ct_receive_tasklet_func(struct tasklet_struct *t)
+>  void intel_guc_ct_event_handler(struct intel_guc_ct *ct)
+>  {
+>  	if (unlikely(!ct->enabled)) {
+> -		WARN(1, "Unexpected GuC event received while CT disabled!\n");
+> +		ct_warn(ct, "Unexpected event received while disabled!\n");
+>  		return;
+>  	}
+>  
