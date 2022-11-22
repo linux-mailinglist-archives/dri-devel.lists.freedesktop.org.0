@@ -1,63 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BD0B634186
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 17:29:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4E536341A2
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 17:36:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64B2210E41B;
-	Tue, 22 Nov 2022 16:29:24 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E518210E418;
- Tue, 22 Nov 2022 16:29:19 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id DF6E31F85D;
- Tue, 22 Nov 2022 16:29:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1669134557; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=i4/RJcDx5W5MDWxatsZO6Jcd+cYSccjZheprFRMkSho=;
- b=X60dEluFtp4cLi1JihULzmkzaAA9/k4ioOG0n7SnZjElr35p11yH8f4Bssb8T6zKnqjhw2
- BDEDmmllzzQfnE37AD6LBoQboXkTfOwklpWC3spbAYDRkpU5ZxaFtM8EabO2lg17w4JmPI
- FG84E0lRMDGpjDhIqVm+gTJfS8SspQg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1669134557;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=i4/RJcDx5W5MDWxatsZO6Jcd+cYSccjZheprFRMkSho=;
- b=tytwOJur3SCnNybSVppd+YvRZnEtonPJqvXEuE1IgRt5Krn2SkTFWXTND8eoiVlqfQBoI0
- i1KrLu2gVmy/a2Bg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4E82B13AA1;
- Tue, 22 Nov 2022 16:29:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id h9BSEt34fGMmOQAAMHmgww
- (envelope-from <vbabka@suse.cz>); Tue, 22 Nov 2022 16:29:17 +0000
-Message-ID: <8bb93984-a2f4-2029-7cec-bea659e77b6c@suse.cz>
-Date: Tue, 22 Nov 2022 17:29:16 +0100
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BB4110E41D;
+	Tue, 22 Nov 2022 16:35:53 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19E7F10E418;
+ Tue, 22 Nov 2022 16:35:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1669134950; x=1700670950;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Vqf2lbs4AecUhLO2yRoaDxcH4CKSLbkA+m46eIz9dUY=;
+ b=oHPVi35g5H6r3Da+5T6asLOY8QqCiq+RJx5PCoTzFud3Z2DM0822N2gd
+ 4iQBrvnxcfdM0JirqBqR0HLB7Qtx8IDvR5UZPRlaRhObIzcL+8R5w0JcC
+ +HwOvkcjMbSA4eGE1g0f2tD5lYlhrMf5cbKaW1dGvthecP4CHrutjJBKm
+ cFxRDQz91DcSZEHqZB7+JFErvxW6Xehh0L0o5KUmaWWdSVUWzHsS++juh
+ m58aDdA620ivYZ3Ujs2WJ3Qnk5uy0QI6LNmSTYDgZzm+ef7klFwWLXzmV
+ eeLygs3tNh1mZAY6iEXJN+yoEAMOu/P0G7IvORcWGV77+W4Nlq32dZQMz Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="313889402"
+X-IronPort-AV: E=Sophos;i="5.96,184,1665471600"; d="scan'208";a="313889402"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Nov 2022 08:35:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="816157379"
+X-IronPort-AV: E=Sophos;i="5.96,184,1665471600"; d="scan'208";a="816157379"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+ by orsmga005.jf.intel.com with ESMTP; 22 Nov 2022 08:35:48 -0800
+Received: from [10.249.128.71] (mwajdecz-MOBL.ger.corp.intel.com
+ [10.249.128.71])
+ by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
+ 2AMGZlaS028587; Tue, 22 Nov 2022 16:35:47 GMT
+Message-ID: <3b7ef198-7aba-8948-6332-9a57d8ee0fb6@intel.com>
+Date: Tue, 22 Nov 2022 17:35:46 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH mm-unstable v1 09/20] mm/gup: reliable R/O long-term
- pinning in COW mappings
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.5.0
+Subject: Re: [Intel-gfx] [PATCH v2 0/5] Add module oriented dmesg output
 Content-Language: en-US
-To: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org
-References: <20221116102659.70287-1-david@redhat.com>
- <20221116102659.70287-10-david@redhat.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <20221116102659.70287-10-david@redhat.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>, John.C.Harrison@Intel.com,
+ Intel-GFX@Lists.FreeDesktop.Org
+References: <20221118015858.2548106-1-John.C.Harrison@Intel.com>
+ <87a64o1qn5.fsf@intel.com>
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+In-Reply-To: <87a64o1qn5.fsf@intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,99 +65,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-ia64@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- Nadav Amit <namit@vmware.com>, linux-kselftest@vger.kernel.org,
- sparclinux@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
- Andrea Arcangeli <aarcange@redhat.com>, linux-samsung-soc@vger.kernel.org,
- linux-rdma@vger.kernel.org, x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Matthew Wilcox <willy@infradead.org>, Christoph Hellwig <hch@infradead.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, linux-media@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>, John Hubbard <jhubbard@nvidia.com>,
- linux-um@lists.infradead.org, etnaviv@lists.freedesktop.org,
- Alex Williamson <alex.williamson@redhat.com>, Peter Xu <peterx@redhat.com>,
- Muchun Song <songmuchun@bytedance.com>, linux-arm-kernel@lists.infradead.org,
- linuxppc-dev@lists.ozlabs.org, Oded Gabbay <ogabbay@kernel.org>,
- linux-mips@vger.kernel.org, linux-perf-users@vger.kernel.org,
- linux-security-module@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Mike Kravetz <mike.kravetz@oracle.com>
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/16/22 11:26, David Hildenbrand wrote:
-> We already support reliable R/O pinning of anonymous memory. However,
-> assume we end up pinning (R/O long-term) a pagecache page or the shared
-> zeropage inside a writable private ("COW") mapping. The next write access
-> will trigger a write-fault and replace the pinned page by an exclusive
-> anonymous page in the process page tables to break COW: the pinned page no
-> longer corresponds to the page mapped into the process' page table.
-> 
-> Now that FAULT_FLAG_UNSHARE can break COW on anything mapped into a
-> COW mapping, let's properly break COW first before R/O long-term
-> pinning something that's not an exclusive anon page inside a COW
-> mapping. FAULT_FLAG_UNSHARE will break COW and map an exclusive anon page
-> instead that can get pinned safely.
-> 
-> With this change, we can stop using FOLL_FORCE|FOLL_WRITE for reliable
-> R/O long-term pinning in COW mappings.
-> 
-> With this change, the new R/O long-term pinning tests for non-anonymous
-> memory succeed:
->   # [RUN] R/O longterm GUP pin ... with shared zeropage
->   ok 151 Longterm R/O pin is reliable
->   # [RUN] R/O longterm GUP pin ... with memfd
->   ok 152 Longterm R/O pin is reliable
->   # [RUN] R/O longterm GUP pin ... with tmpfile
->   ok 153 Longterm R/O pin is reliable
->   # [RUN] R/O longterm GUP pin ... with huge zeropage
->   ok 154 Longterm R/O pin is reliable
->   # [RUN] R/O longterm GUP pin ... with memfd hugetlb (2048 kB)
->   ok 155 Longterm R/O pin is reliable
->   # [RUN] R/O longterm GUP pin ... with memfd hugetlb (1048576 kB)
->   ok 156 Longterm R/O pin is reliable
->   # [RUN] R/O longterm GUP-fast pin ... with shared zeropage
->   ok 157 Longterm R/O pin is reliable
->   # [RUN] R/O longterm GUP-fast pin ... with memfd
->   ok 158 Longterm R/O pin is reliable
->   # [RUN] R/O longterm GUP-fast pin ... with tmpfile
->   ok 159 Longterm R/O pin is reliable
->   # [RUN] R/O longterm GUP-fast pin ... with huge zeropage
->   ok 160 Longterm R/O pin is reliable
->   # [RUN] R/O longterm GUP-fast pin ... with memfd hugetlb (2048 kB)
->   ok 161 Longterm R/O pin is reliable
->   # [RUN] R/O longterm GUP-fast pin ... with memfd hugetlb (1048576 kB)
->   ok 162 Longterm R/O pin is reliable
-> 
-> Note 1: We don't care about short-term R/O-pinning, because they have
-> snapshot semantics: they are not supposed to observe modifications that
-> happen after pinning.
-> 
-> As one example, assume we start direct I/O to read from a page and store
-> page content into a file: modifications to page content after starting
-> direct I/O are not guaranteed to end up in the file. So even if we'd pin
-> the shared zeropage, the end result would be as expected -- getting zeroes
-> stored to the file.
-> 
-> Note 2: For shared mappings we'll now always fallback to the slow path to
-> lookup the VMA when R/O long-term pining. While that's the necessary price
-> we have to pay right now, it's actually not that bad in practice: most
-> FOLL_LONGTERM users already specify FOLL_WRITE, for example, along with
-> FOLL_FORCE because they tried dealing with COW mappings correctly ...
-> 
-> Note 3: For users that use FOLL_LONGTERM right now without FOLL_WRITE,
-> such as VFIO, we'd now no longer pin the shared zeropage. Instead, we'd
-> populate exclusive anon pages that we can pin. There was a concern that
-> this could affect the memlock limit of existing setups.
-> 
-> For example, a VM running with VFIO could run into the memlock limit and
-> fail to run. However, we essentially had the same behavior already in
-> commit 17839856fd58 ("gup: document and work around "COW can break either
-> way" issue") which got merged into some enterprise distros, and there were
-> not any such complaints. So most probably, we're fine.
-> 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
 
+On 18.11.2022 11:52, Jani Nikula wrote:
+> On Thu, 17 Nov 2022, John.C.Harrison@Intel.com wrote:
+>> From: John Harrison <John.C.Harrison@Intel.com>
+>>
+>> When trying to analyse bug reports from CI, customers, etc. it can be
+>> difficult to work out exactly what is happening on which GT in a
+>> multi-GT system. So add GT oriented debug/error message wrappers. If
+>> used instead of the drm_ equivalents, you get the same output but with
+>> a GT# prefix on it.
+>>
+>> It was also requested to extend this further to submodules in order to
+>> factor out the repeated structure accessing constructs and common
+>> string prefixes. So, add versions for GuC, HuC and GuC CTB as well.
+>>
+>> This patch set updates all the gt/uc files to use the new helpers as a
+>> first step. The intention would be to convert all output messages that
+>> have access to a GT structure.
+>>
+>> v2: Go back to using lower case names, add more wrapper sets (combined
+>> review feedback). Also, wrap up probe injection and WARN entries.
+>>
+>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> 
+> For adding the wrappers in general, I'm going to disagree and
+> commit. I'll leave it up to Tvrtko and Joonas.
+> 
+> Regarding the placement of the macros, I insist you add individual
+> header files for the wrappers and include them only where needed.
+
+do you mean:
+
+	intel_gt_print.h
+	intel_guc_print.h
+	intel_huc_print.h
+
+with just macros or also with all functions that work with drm_printer?
+
+> 
+> We have a fairly serious problem with everything including everything in
+> i915 that I've been slowly trying to tackle. Touch one thing, rebuild
+> everything. About a third of our headers cause the rebuild of the entire
+> driver when modified. We need to reduce the surface of things that cause
+> rebuilds.
+> 
+> For example, intel_gt.h is included by 97 files, intel_guc.h by 332
+> files, and intel_huc.h by 329 files (counting recursively).
+> 
+> There's absolutely no reason any of the display code, for example, needs
+> to have these logging macros in their build. Long term, the headers
+> should be reorganized to reduce the interdependencies, and this is what
+> I've been doing in i915_drv.h and display/ in general. But the least we
+> can do is not make the problem worse.
+
+to solve this we should really consider splitting out GuC and HuC
+definitions to dedicated _types.h files and only include them in
+i915_drv.h (and print macros are orthogonal for this problem)
+
+Michal
+
+> 
+> BR,
+> Jani.
+> 
+>>
+>>
+>> John Harrison (5):
+>>   drm/i915/gt: Start adding module oriented dmesg output
+>>   drm/i915/huc: Add HuC specific debug print wrappers
+>>   drm/i915/guc: Add GuC specific debug print wrappers
+>>   drm/i915/guc: Add GuC CT specific debug print wrappers
+>>   drm/i915/uc: Update the gt/uc code to use gt_err and friends
+>>
+>>  drivers/gpu/drm/i915/gt/intel_gt.c            |  96 ++++----
+>>  drivers/gpu/drm/i915/gt/intel_gt.h            |  35 +++
+>>  drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  32 +--
+>>  drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  35 +++
+>>  drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |   8 +-
+>>  .../gpu/drm/i915/gt/uc/intel_guc_capture.c    |  48 ++--
+>>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     | 222 +++++++++---------
+>>  drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c     |  19 +-
+>>  drivers/gpu/drm/i915/gt/uc/intel_guc_log.c    |  37 ++-
+>>  drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c     |   7 +-
+>>  drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c   |  55 ++---
+>>  .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  62 +++--
+>>  drivers/gpu/drm/i915/gt/uc/intel_huc.c        |  31 +--
+>>  drivers/gpu/drm/i915/gt/uc/intel_huc.h        |  23 ++
+>>  drivers/gpu/drm/i915/gt/uc/intel_uc.c         | 108 ++++-----
+>>  drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      |  98 ++++----
+>>  drivers/gpu/drm/i915/gt/uc/selftest_guc.c     |  34 +--
+>>  .../drm/i915/gt/uc/selftest_guc_hangcheck.c   |  22 +-
+>>  .../drm/i915/gt/uc/selftest_guc_multi_lrc.c   |  10 +-
+>>  19 files changed, 507 insertions(+), 475 deletions(-)
+> 
