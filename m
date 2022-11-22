@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76FB76333A5
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 04:02:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14BD96333AD
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 04:05:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21C9A10E363;
-	Tue, 22 Nov 2022 03:02:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C66C10E367;
+	Tue, 22 Nov 2022 03:05:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA2E010E363
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Nov 2022 03:02:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96EF910E367
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Nov 2022 03:05:37 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 59597890;
- Tue, 22 Nov 2022 04:02:14 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 03279890;
+ Tue, 22 Nov 2022 04:05:35 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1669086134;
- bh=Ca28UhB9SgGZCoIjPHP31lx8i8vFUKXIOsQCRggn/e4=;
+ s=mail; t=1669086336;
+ bh=OP7Y7hsHz9XtzH4OrAc1DG1nsm5BYY0TnHJs66LwpeA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EDkXlHOouhQxm769dalIKJYAfmOUhg16wBVrnznOGYY6ycfoMc443QSCCG6JqfV+a
- j8ZOdf6bD9GuzsLukgPMocbsTmY8gtJZNN8kGQ/5TXyjI1/n88Kr355D21joCOEDpd
- fYYo+Ym1bs9AuNZLoa7B2qC1kxjn475/hvjZo67M=
-Date: Tue, 22 Nov 2022 05:01:59 +0200
+ b=ksEO7afwDfYQYLJcky9l5GiNb3FvnZiznXhKNyHfvPS+3j7Wy/APE98cIlCvCFA8G
+ URnoxdxXbXbeqdZ9BqABrFKnQUNm0HiyvAd0CCFNt43PkZgDUcA5r9BqJzIlNbHewe
+ /O5dUMsFzRHTQC3towY+Wt6Wty4luAbWXpoTk8aA=
+Date: Tue, 22 Nov 2022 05:05:20 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v1 5/8] arm64: dts: renesas: white-hawk-cpu: Add DP
- output support
-Message-ID: <Y3w7p0EGMLILUdaA@pendragon.ideasonboard.com>
+To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: Re: [PATCH v1 6/8] drm: rcar-du: Add r8a779g0 support
+Message-ID: <Y3w8cBh0uVaSPonO@pendragon.ideasonboard.com>
 References: <20221117122547.809644-1-tomi.valkeinen@ideasonboard.com>
- <20221117122547.809644-6-tomi.valkeinen@ideasonboard.com>
+ <20221117122547.809644-7-tomi.valkeinen@ideasonboard.com>
+ <166869771876.50677.1905794243575000038@Monstersaurus>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221117122547.809644-6-tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <166869771876.50677.1905794243575000038@Monstersaurus>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,168 +51,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <neil.armstrong@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
- Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Magnus Damm <magnus.damm@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
  Robert Foss <robert.foss@linaro.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
-
-Thank you for the patch.
-
-On Thu, Nov 17, 2022 at 02:25:44PM +0200, Tomi Valkeinen wrote:
-> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+On Thu, Nov 17, 2022 at 03:08:38PM +0000, Kieran Bingham wrote:
+> Quoting Tomi Valkeinen (2022-11-17 12:25:45)
+> > From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> > 
+> > Add support for DU on r8a779g0, which is identical to DU on r8a779a0.
+> > 
+> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> > ---
+> >  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 22 ++++++++++++++++++++++
+> >  1 file changed, 22 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> > index d003e8d9e7a2..b1761d4ec4e5 100644
+> > --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> > @@ -524,6 +524,27 @@ static const struct rcar_du_device_info rcar_du_r8a779a0_info = {
+> >         .dsi_clk_mask =  BIT(1) | BIT(0),
+> >  };
+> >  
+> > +static const struct rcar_du_device_info rcar_du_r8a779g0_info = {
+> > +       .gen = 3,
 > 
-> Add DT nodes needed for the mini DP connector. The DP is driven by
-> sn65dsi86, which in turn gets the pixel data from the SoC via DSI.
+> Given that this is the V4H ... I wonder if this should be bumped
+> already. I guess that has knock on effects through the driver though...
+
+rcar_du_group_setup_didsr() would need to be fixed to test gen >= 3
+instead of gen == 3. That seems to be the only problematic location. It
+could thus fairly easily be done in v2, but we can also delay it.
+
+> Aside from that, Which may need more work to handle correctly:
 > 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> ---
->  .../dts/renesas/r8a779g0-white-hawk-cpu.dtsi  | 94 +++++++++++++++++++
->  1 file changed, 94 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi b/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi
-> index c10740aee9f6..8aab859aac7a 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi
-> @@ -97,6 +97,15 @@ memory@600000000 {
->  		reg = <0x6 0x00000000 0x1 0x00000000>;
->  	};
->  
-> +	reg_1p2v: regulator-1p2v {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "fixed-1.2V";
-> +		regulator-min-microvolt = <1200000>;
-> +		regulator-max-microvolt = <1200000>;
-> +		regulator-boot-on;
-> +		regulator-always-on;
-> +	};
-> +
->  	reg_1p8v: regulator-1p8v {
->  		compatible = "regulator-fixed";
->  		regulator-name = "fixed-1.8V";
-> @@ -114,6 +123,24 @@ reg_3p3v: regulator-3p3v {
->  		regulator-boot-on;
->  		regulator-always-on;
->  	};
-> +
-> +	mini-dp-con {
-> +		compatible = "dp-connector";
-> +		label = "CN5";
-> +		type = "mini";
-> +
-> +		port {
-> +			mini_dp_con_in: endpoint {
-> +				remote-endpoint = <&sn65dsi86_out>;
-> +			};
-> +		};
-> +	};
-> +
-> +	sn65dsi86_refclk: clk-x6 {
-> +		compatible = "fixed-clock";
-> +		#clock-cells = <0>;
-> +		clock-frequency = <38400000>;
-> +	};
->  };
->  
->  &avb0 {
-> @@ -134,6 +161,23 @@ phy0: ethernet-phy@0 {
->  	};
->  };
->  
-> +&dsi0 {
-> +	status = "okay";
-> +
-> +	ports {
-> +		port@1 {
-> +			dsi0_out: endpoint {
-> +				remote-endpoint = <&sn65dsi86_in>;
-> +				data-lanes = <1 2 3 4>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&du {
-> +	status = "okay";
-> +};
-> +
->  &extal_clk {
->  	clock-frequency = <16666666>;
->  };
-> @@ -172,6 +216,51 @@ eeprom@50 {
->  	};
->  };
->  
-> +&i2c1 {
-> +	pinctrl-0 = <&i2c1_pins>;
-> +	pinctrl-names = "default";
-> +
-> +	status = "okay";
-> +	clock-frequency = <400000>;
-> +
-> +	bridge@2c {
-> +		compatible = "ti,sn65dsi86";
-> +		reg = <0x2c>;
-> +
-> +		clocks = <&sn65dsi86_refclk>;
-> +		clock-names = "refclk";
-> +
-> +		interrupt-parent = <&intc_ex>;
-> +		interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
-> +
-> +		enable-gpios = <&gpio1 26 GPIO_ACTIVE_HIGH>;
-> +
-> +		vccio-supply = <&reg_1p8v>;
-> +		vpll-supply = <&reg_1p8v>;
-> +		vcca-supply = <&reg_1p2v>;
-> +		vcc-supply = <&reg_1p2v>;
-> +
-> +		ports {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +
-> +			port@0 {
-> +				reg = <0>;
-> +				sn65dsi86_in: endpoint {
-> +					remote-endpoint = <&dsi0_out>;
-> +				};
-> +			};
-> +
-> +			port@1 {
-> +				reg = <1>;
-> +				sn65dsi86_out: endpoint {
-> +					remote-endpoint = <&mini_dp_con_in>;
-> +				};
-> +			};
-> +		};
-> +	};
-> +};
-> +
->  &mmc0 {
->  	pinctrl-0 = <&mmc_pins>;
->  	pinctrl-1 = <&mmc_pins>;
-> @@ -221,6 +310,11 @@ i2c0_pins: i2c0 {
->  		function = "i2c0";
->  	};
->  
-> +	i2c1_pins: i2c1 {
-> +		groups = "i2c1";
-> +		function = "i2c1";
-> +	};
-> +
->  	keys_pins: keys {
->  		pins = "GP_5_0", "GP_5_1", "GP_5_2";
->  		bias-pull-up;
+> > +       .features = RCAR_DU_FEATURE_CRTC_IRQ
+> > +                 | RCAR_DU_FEATURE_VSP1_SOURCE
+> > +                 | RCAR_DU_FEATURE_NO_BLENDING,
+> > +       .channels_mask = BIT(1) | BIT(0),
+> > +       .routes = {
+> > +               /* R8A779G0 has two MIPI DSI outputs. */
+> > +               [RCAR_DU_OUTPUT_DSI0] = {
+> > +                       .possible_crtcs = BIT(0),
+> > +                       .port = 0,
+> > +               },
+> > +               [RCAR_DU_OUTPUT_DSI1] = {
+> > +                       .possible_crtcs = BIT(1),
+> > +                       .port = 1,
+> > +               },
+> > +       },
+> > +       .num_rpf = 5,
+> > +       .dsi_clk_mask =  BIT(1) | BIT(0),
+> > +};
+> > +
+> >  static const struct of_device_id rcar_du_of_table[] = {
+> >         { .compatible = "renesas,du-r8a7742", .data = &rcar_du_r8a7790_info },
+> >         { .compatible = "renesas,du-r8a7743", .data = &rzg1_du_r8a7743_info },
+> > @@ -549,6 +570,7 @@ static const struct of_device_id rcar_du_of_table[] = {
+> >         { .compatible = "renesas,du-r8a77990", .data = &rcar_du_r8a7799x_info },
+> >         { .compatible = "renesas,du-r8a77995", .data = &rcar_du_r8a7799x_info },
+> >         { .compatible = "renesas,du-r8a779a0", .data = &rcar_du_r8a779a0_info },
+> > +       { .compatible = "renesas,du-r8a779g0", .data = &rcar_du_r8a779g0_info },
+> >         { }
+> >  };
+> >  
 
 -- 
 Regards,
