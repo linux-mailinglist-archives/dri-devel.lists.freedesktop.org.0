@@ -1,41 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC07363338F
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 03:52:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AD7963339F
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 04:00:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D31910E1BA;
-	Tue, 22 Nov 2022 02:52:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E884510E362;
+	Tue, 22 Nov 2022 03:00:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB5BB10E1BA
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Nov 2022 02:52:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DCF610E360
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Nov 2022 03:00:45 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 26BB8890;
- Tue, 22 Nov 2022 03:52:32 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8B633890;
+ Tue, 22 Nov 2022 04:00:43 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1669085552;
- bh=JhpNgNVNgok6E1jULFfPl5D/k6Ab70suuFOFO6RXYNs=;
+ s=mail; t=1669086043;
+ bh=Z5nJ8q0xaYleeoTP9dGIkZ/5BZsSiq7N4M/09+3v7TE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=HNaqosC0y1jvnJVPNO13OG+NY1A3/SJeFFDjkJr8gD0XWDgP2YTDafzxwBO92c2rr
- 2Vx5Y5kIHXa3aH9B7vMArs39SJ4ACngliYE74220znHNFqc1scF5zKTuf5T6UnMgvp
- i2OComn2+gAidMWhsipaTBzu25YBtjd3i+UV8Ee8=
-Date: Tue, 22 Nov 2022 04:52:17 +0200
+ b=Uwg14CrsCvoLYn1GybJu1yEasa8M/aCDZgmTv/ayiWL59b7EkjIxalTfIzBv9Yjmi
+ EV6AHH+QkiEuC1CfV4EWnqmOa9722eZNVg6iwaw/VggLENkG7FlLAYCUa5J++HRRbH
+ q8OS/ObpjnT+i3vawFvsIywPZZYJeRS9ueVMJhJ4=
+Date: Tue, 22 Nov 2022 05:00:28 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: Re: [PATCH v1 3/8] clk: renesas: r8a779g0: Add display related clocks
-Message-ID: <Y3w5YSqCI9GYrWTS@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v1 4/8] arm64: dts: renesas: r8a779g0: Add display
+ related data
+Message-ID: <Y3w7TLxwWKez8IVu@pendragon.ideasonboard.com>
 References: <20221117122547.809644-1-tomi.valkeinen@ideasonboard.com>
- <20221117122547.809644-4-tomi.valkeinen@ideasonboard.com>
- <166869413781.50677.10862438013473651942@Monstersaurus>
+ <20221117122547.809644-5-tomi.valkeinen@ideasonboard.com>
+ <166869741913.50677.3537704052215375530@Monstersaurus>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <166869413781.50677.10862438013473651942@Monstersaurus>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <166869741913.50677.3537704052215375530@Monstersaurus>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,78 +64,212 @@ Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 17, 2022 at 02:08:57PM +0000, Kieran Bingham wrote:
-> Quoting Tomi Valkeinen (2022-11-17 12:25:42)
+On Thu, Nov 17, 2022 at 03:03:39PM +0000, Kieran Bingham wrote:
+> Quoting Tomi Valkeinen (2022-11-17 12:25:43)
 > > From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 > > 
-> > Add clocks related to display which are needed to get the DSI output
-> > working.
-> > 
-> > Extracted from Renesas BSP tree.
+> > Add DT nodes for components needed to get the DSI output working:
+> > - FCPv
+> > - VSPd
+> > - DU
+> > - DSI
 > > 
 > > Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 > > ---
-> >  drivers/clk/renesas/r8a779g0-cpg-mssr.c | 14 ++++++++++++++
-> >  1 file changed, 14 insertions(+)
+> >  arch/arm64/boot/dts/renesas/r8a779g0.dtsi | 129 ++++++++++++++++++++++
+> >  1 file changed, 129 insertions(+)
 > > 
-> > diff --git a/drivers/clk/renesas/r8a779g0-cpg-mssr.c b/drivers/clk/renesas/r8a779g0-cpg-mssr.c
-> > index c6337a408e5e..6937f1aee677 100644
-> > --- a/drivers/clk/renesas/r8a779g0-cpg-mssr.c
-> > +++ b/drivers/clk/renesas/r8a779g0-cpg-mssr.c
-> > @@ -145,6 +145,8 @@ static const struct cpg_core_clk r8a779g0_core_clks[] __initconst = {
-> >         DEF_FIXED("viobusd2",   R8A779G0_CLK_VIOBUSD2,  CLK_VIO,        2, 1),
-> >         DEF_FIXED("vcbus",      R8A779G0_CLK_VCBUS,     CLK_VC,         1, 1),
-> >         DEF_FIXED("vcbusd2",    R8A779G0_CLK_VCBUSD2,   CLK_VC,         2, 1),
-> > +       DEF_FIXED("dsiref",     R8A779G0_CLK_DSIREF,    CLK_PLL5_DIV4,  48, 1),
-> > +       DEF_DIV6P1("dsiext",    R8A779G0_CLK_DSIEXT,    CLK_PLL5_DIV4,  0x884),
-> >  
-> >         DEF_GEN4_SDH("sd0h",    R8A779G0_CLK_SD0H,      CLK_SDSRC,         0x870),
-> >         DEF_GEN4_SD("sd0",      R8A779G0_CLK_SD0,       R8A779G0_CLK_SD0H, 0x870),
-> > @@ -161,6 +163,14 @@ static const struct mssr_mod_clk r8a779g0_mod_clks[] __initconst = {
-> >         DEF_MOD("avb0",         211,    R8A779G0_CLK_S0D4_HSC),
-> >         DEF_MOD("avb1",         212,    R8A779G0_CLK_S0D4_HSC),
-> >         DEF_MOD("avb2",         213,    R8A779G0_CLK_S0D4_HSC),
+> > diff --git a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
+> > index 45d8d927ad26..31d4930c5adc 100644
+> > --- a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
+> > +++ b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
+> > @@ -1207,6 +1207,135 @@ prr: chipid@fff00044 {
+> >                         compatible = "renesas,prr";
+> >                         reg = <0 0xfff00044 0 4>;
+> >                 };
+> 
+> I think these nodes are supposed to be in sort order based on the
+> register address in memory.
+> 
+> Disregarding sort order, I'll review the node contents.
+> 
+> I would probably s/data/nodes/ in $SUBJECT too.
+> 
 > > +
-> > +       DEF_MOD("dis0",                 411,    R8A779G0_CLK_S0D3),
-> 
-> dsi0?
-> 
-> Oh - how curious - it's listed as dis0 in the datasheet.
-> Ok - so this is the DU *display* not DSI ;-)
-> 
-> > +       DEF_MOD("dsitxlink0",           415,    R8A779G0_CLK_DSIREF),
-> > +       DEF_MOD("dsitxlink1",           416,    R8A779G0_CLK_DSIREF),
+> > +               fcpvd0: fcp@fea10000 {
+> > +                       compatible = "renesas,fcpv";
+> > +                       reg = <0 0xfea10000 0 0x200>;
+> > +                       clocks = <&cpg CPG_MOD 508>;
+> > +                       power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
+> > +                       resets = <&cpg 508>;
+> > +               };
 > > +
-> > +       DEF_MOD("fcpvd0",               508,    R8A779G0_CLK_S0D3),
-> > +       DEF_MOD("fcpvd1",               509,    R8A779G0_CLK_S0D3),
-> > +
+> > +               fcpvd1: fcp@fea11000 {
+> > +                       compatible = "renesas,fcpv";
+> > +                       reg = <0 0xfea11000 0 0x200>;
+> > +                       clocks = <&cpg CPG_MOD 509>;
+> > +                       power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
+> > +                       resets = <&cpg 509>;
+> > +               };
 > 
-> checks out. I guess the fcpcs is the CSI related FCP ? Anyway, if it's
-> not needed it can be ignored for now.
+> I'm intrigued at the length of 0x200 as I only see 3 registers up to
+> 0x0018 ..
 > 
+> But all existing platforms with fcpv* set 0x200 ... so lets cargo cult it up... :-)
 > 
-> >         DEF_MOD("hscif0",       514,    R8A779G0_CLK_SASYNCPERD1),
-> >         DEF_MOD("hscif1",       515,    R8A779G0_CLK_SASYNCPERD1),
-> >         DEF_MOD("hscif2",       516,    R8A779G0_CLK_SASYNCPERD1),
-> > @@ -193,6 +203,10 @@ static const struct mssr_mod_clk r8a779g0_mod_clks[] __initconst = {
-> >         DEF_MOD("tmu3",         716,    R8A779G0_CLK_SASYNCPERD2),
-> >         DEF_MOD("tmu4",         717,    R8A779G0_CLK_SASYNCPERD2),
-> >         DEF_MOD("tpu0",         718,    R8A779G0_CLK_SASYNCPERD4),
 > > +
-> > +       DEF_MOD("vspd0",                830,    R8A779G0_CLK_S0D1_VIO),
-> > +       DEF_MOD("vspd1",                831,    R8A779G0_CLK_S0D1_VIO),
+> > +               vspd0: vsp@fea20000 {
+> > +                       compatible = "renesas,vsp2";
+> > +                       reg = <0 0xfea20000 0 0x5000>;
+> 
+> """
+> Below are the base addresses of each VSP unit. VSPX has 32Kbyte address
+> space. VSPD has 28Kbyte address space.
+> """
+> 
+> Hrm : 28K is 0x7000
+> 
+> RPf n OSD CLUT Table: H’4000 + H’0400*n to H’43fc + H’0400*n
+> 
+>  0x43fc+(0x400*5)
+> 	22524	[0x57fc]
+> 
+> So this needs to be /at least/ 0x6000 (Would 0x5800 be odd?) and perhaps as it clearly states
+> 28k, we should just set it to 0x7000.
+
+I'd go for 0x7000 indeed.
+
+> > +                       interrupts = <GIC_SPI 546 IRQ_TYPE_LEVEL_HIGH>;
+> > +                       clocks = <&cpg CPG_MOD 830>;
+> > +                       power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
+> > +                       resets = <&cpg 830>;
 > > +
+> > +                       renesas,fcp = <&fcpvd0>;
+> > +               };
+> > +
+> > +               vspd1: vsp@fea28000 {
+> > +                       compatible = "renesas,vsp2";
+> > +                       reg = <0 0xfea28000 0 0x5000>;
+> 
+> Same here of course (reg = <0 0xfea28000 0 0x7000>)
+> 
+> > +                       interrupts = <GIC_SPI 551 IRQ_TYPE_LEVEL_HIGH>;
+> > +                       clocks = <&cpg CPG_MOD 831>;
+> > +                       power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
+> > +                       resets = <&cpg 831>;
+> > +
+> > +                       renesas,fcp = <&fcpvd1>;
+> > +               };
+> > +
+> > +               du: display@feb00000 {
+> > +                       compatible = "renesas,du-r8a779g0";
+> > +                       reg = <0 0xfeb00000 0 0x40000>;
+> > +                       interrupts = <GIC_SPI 523 IRQ_TYPE_LEVEL_HIGH>,
+> > +                                    <GIC_SPI 524 IRQ_TYPE_LEVEL_HIGH>;
+> > +                       clocks = <&cpg CPG_MOD 411>;
+> > +                       clock-names = "du.0";
+> > +                       power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
+> > +                       resets = <&cpg 411>;
+> > +                       reset-names = "du.0";
+> > +                       renesas,vsps = <&vspd0 0>, <&vspd1 0>;
+> > +
+> > +                       status = "disabled";
+> > +
+> > +                       ports {
+> > +                               #address-cells = <1>;
+> > +                               #size-cells = <0>;
+> > +
+> > +                               port@0 {
+> > +                                       reg = <0>;
+> > +                                       du_out_dsi0: endpoint {
+> > +                                               remote-endpoint = <&dsi0_in>;
+> > +                                       };
+> > +                               };
+> > +
+> > +                               port@1 {
+> > +                                       reg = <1>;
+> > +                                       du_out_dsi1: endpoint {
+> > +                                               remote-endpoint = <&dsi1_in>;
+> > +                                       };
+> > +                               };
+> > +                       };
+> > +               };
+> > +
+> > +               dsi0: dsi-encoder@fed80000 {
+> > +                       compatible = "renesas,r8a779g0-dsi-csi2-tx";
+> > +                       reg = <0 0xfed80000 0 0x10000>;
+> > +                       power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
+> > +                       clocks = <&cpg CPG_MOD 415>,
+> > +                                <&cpg CPG_CORE R8A779G0_CLK_DSIEXT>,
+> > +                                <&cpg CPG_CORE R8A779G0_CLK_DSIREF>;
+> > +                       clock-names = "fck", "dsi", "pll";
+> > +                       resets = <&cpg 415>;
+> 
+> blank line here to separate it, and highlight that it's disabled? (Like
+> is done for DU?
+> 
+> > +                       status = "disabled";
+> > +
+> > +                       ports {
+> > +                               #address-cells = <1>;
+> > +                               #size-cells = <0>;
+> > +
+> > +                               port@0 {
+> > +                                       reg = <0>;
+> > +                                       dsi0_in: endpoint {
+> > +                                               remote-endpoint = <&du_out_dsi0>;
+> > +                                       };
+> > +                               };
+> > +
+> > +                               port@1 {
+> > +                                       reg = <1>;
+> > +                               };
+> > +                       };
+> > +               };
+> > +
+> > +               dsi1: dsi-encoder@fed90000 {
+> > +                       compatible = "renesas,r8a779g0-dsi-csi2-tx";
+> > +                       reg = <0 0xfed90000 0 0x10000>;
+> > +                       power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
+> > +                       clocks = <&cpg CPG_MOD 416>,
+> > +                                <&cpg CPG_CORE R8A779G0_CLK_DSIEXT>,
+> > +                                <&cpg CPG_CORE R8A779G0_CLK_DSIREF>;
+> > +                       clock-names = "fck", "dsi", "pll";
+> > +                       resets = <&cpg 416>;
+> 
+> Same.
+> 
+> With the VSPD register ranges increased accordingly:
 > 
 > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> 
+> > +                       status = "disabled";
+> > +
+> > +                       ports {
+> > +                               #address-cells = <1>;
+> > +                               #size-cells = <0>;
+> > +
+> > +                               port@0 {
+> > +                                       reg = <0>;
+> > +                                       dsi1_in: endpoint {
+> > +                                               remote-endpoint = <&du_out_dsi1>;
+> > +                                       };
+> > +                               };
+> > +
+> > +                               port@1 {
+> > +                                       reg = <1>;
+> > +                               };
+> > +                       };
+> > +               };
+> > +
 
-I can't verify the MSTP clock parents, I assume they come from the BSP,
-so
+Extra blank line.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> >         DEF_MOD("wdt1:wdt0",    907,    R8A779G0_CLK_R),
-> >         DEF_MOD("cmt0",         910,    R8A779G0_CLK_R),
-> >         DEF_MOD("cmt1",         911,    R8A779G0_CLK_R),
+> >         };
+> >  
+> >         timer {
 
 -- 
 Regards,
