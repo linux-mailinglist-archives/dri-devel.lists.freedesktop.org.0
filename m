@@ -2,119 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 416EF633681
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 09:00:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65DFB6336CA
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 09:14:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04FF210E3AB;
-	Tue, 22 Nov 2022 08:00:37 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2062c.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7e8a::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC5F510E3A9;
- Tue, 22 Nov 2022 08:00:31 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kdcMZJihEEcOiWOLuAN9UdYjLzRP4FBpEvhOJ4XavKlxK1JUGOCe06h5KaId2hn8yl34oUln8a98gaXr7pdi9ANlswqbezCZperT5u452LUgMv2Hk6VtxyB4sAQJcEbEgbSIqXemnriIAlrdgX8344nYLCSaqowJNCOeKQpRK9W5KobZOYvyjRT8iOGn/A0+5vK6h5oomSwkt7Ngqtz2vCJqtfOix+ZKl197yfkKN9DLVCrA5eQq8HJYD5NYoBhhSCoIdfqcLLOCSdQdzdpEAwLsDHn0cPNdd3DFDCdtXYMYr7GevpL/aI5VjsWcjsW3Yv6W2GGrB82Vgtc/O5V9vQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=w/324b4Vq4BanEc6DE9Wurz17y4TJLWk5ssP4CxDlpI=;
- b=lKaJ9Ukb8/TIEs4BqQNYLtRhIoGdv7npmRa/us0XWuogZK9k7lYtQdSGhKTN69maM7k5J9XirXBb/3WmFz+ShNbz5JTnvEEc9rBVKMPe651EmJKymldMf3SFZ2wumCOe8IVlG9/80RUGFc5MoOOEmQKoxWcl/ijdEAFMqumrSCk+9iIli2V8ahlc6vxDYdFBajlc68iiHI5nxqCq+1E9J9Kwb5Io57CRyqFEzvUepD64Anfsog81+E4iTvyi5aMU2noFVZopOMCTDdpQ9dsW0+Auq5Uh+qziIrFGap5S3b/yMbopl3oTYrYAAIja/38qofE/JyJiaSG6pME08TImqA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w/324b4Vq4BanEc6DE9Wurz17y4TJLWk5ssP4CxDlpI=;
- b=FH7dLXzYhFnf+1UOuXMz5rLcDc6gvNhArUooCmqjXBvcL5vF4+U4Ps5Z19IIUvR8LObGPdB9mlLd7D6jGmjQNR+agfmQkbEXX9wdRGXvjayOkXsoFuiknOgiKfgEIxWSOeMcqNPcv0iXasKn2TPqQlb+kXerpf1/9LbjTpQ1YQU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by SA0PR12MB4592.namprd12.prod.outlook.com (2603:10b6:806:9b::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.15; Tue, 22 Nov
- 2022 08:00:29 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::7d43:3f30:4caf:7421]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::7d43:3f30:4caf:7421%7]) with mapi id 15.20.5834.009; Tue, 22 Nov 2022
- 08:00:28 +0000
-Message-ID: <e6104ecf-96c3-7895-6986-ee9fafbac4ac@amd.com>
-Date: Tue, 22 Nov 2022 09:00:24 +0100
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42B2710E399;
+	Tue, 22 Nov 2022 08:14:26 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCA0210E399;
+ Tue, 22 Nov 2022 08:14:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1669104863; x=1700640863;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=tLwrWSSEOPFJCx10qaxoCob7L/6w7jZnerpvx6l/blU=;
+ b=g4yc6xUtiV46Qn4QHr4RZj0HnEJM+T6enFiS8qLWVK8w5wzaY/miCg+E
+ ai6n4eHIgUsh627s/vH0l3TNGd2EV2wkyYggW6iwrJMjI6yKlhUZsv9/f
+ yWFd1J23Xpr32g2+rhu0RaPxLXVtGMMWakodZpSCAXGcfAmkFyEyjY+wS
+ bd3Mq3srmCR+6PBOOGW3GD2O7El27kKQnSGpV+UNV8Y467tAXaNxmgorP
+ zu1FldlpcegXiW8G+IBxduRJN8xC6IhdGaeKX/1QVYsLkIg8rQlsQL/KQ
+ x5zVP7Tw6fSsaHQWu3hfWMDtciboJmTRCo9HXBNahhDESadnf82rRUu18 w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="314910583"
+X-IronPort-AV: E=Sophos;i="5.96,183,1665471600"; d="scan'208";a="314910583"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Nov 2022 00:14:23 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="635465301"
+X-IronPort-AV: E=Sophos;i="5.96,183,1665471600"; d="scan'208";a="635465301"
+Received: from camorino-mobl.ger.corp.intel.com (HELO [10.213.209.233])
+ ([10.213.209.233])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Nov 2022 00:14:16 -0800
+Message-ID: <e6fa25aa-d936-5b52-226e-e7dee1cc7844@linux.intel.com>
+Date: Tue, 22 Nov 2022 08:14:14 +0000
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v1] drm/ttm: Clean up page shift operation
+Subject: Re: [Intel-gfx] [PATCH v2 0/5] Add module oriented dmesg output
 Content-Language: en-US
-To: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-References: <20221122075144.505736-1-Amaranath.Somalapuram@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20221122075144.505736-1-Amaranath.Somalapuram@amd.com>
+To: John Harrison <john.c.harrison@intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Intel-GFX@Lists.FreeDesktop.Org,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>
+References: <20221118015858.2548106-1-John.C.Harrison@Intel.com>
+ <87a64o1qn5.fsf@intel.com> <26c44ed9-4fd8-197a-85cd-038da7096c15@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <26c44ed9-4fd8-197a-85cd-038da7096c15@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0068.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:4b::15) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SA0PR12MB4592:EE_
-X-MS-Office365-Filtering-Correlation-Id: cb6a9227-85f9-4fa6-252f-08dacc5f9ee3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: DxNuKt8qDNwo1eLGxqXjaKrikbMkFasIwRUUpV/JHusCx2kIihx3vyaIavykIK6wryDerF+oJ+FZ3DdbPk340LPmZ9xcoO2QKV/bnJQTPcd+A1f3KPPamIXGwtpATXUsBNVPpqwmUGmKtMAP/lBRSY6eFR0BURtW8JRohIOIAtPdr+tzA+M2jvzfeIjccnQ89xZ7/Qhdc3LEDQ/1pw5uhSqiC0jI8HuWkT9zTnkb3/s8CZXSsWkSGON1BaPdOvsZI4q74ttEupNW3pt4M462qYTDWIdJ+Zq/kEVMUmmgeOR5YrSYhcm2+EC0INhENyKmI8RG+6e6Wb9lQA0byocfzblrQPyv8h/ZkL60t7x7KS9wrOcIkXoYxRHMiMQluSRLC/d3Iz/2cSsWfEp36+/SXtAniaNvga0e7VOXUO6vRUbQI+eOgvPSh7yDQHga3uuXkrAx8vdi7IgjHmQg/HA6WyrXfv5ZcTAbGp3lbr/BJHh9CUncDZK08i69ONaCrnMqMpjFQiT62VCx0o10NvAaFcJQRWlOJaQEA3V7mz15Scmtb+m1+ONfsZcmVxX2gtWuk4dmu6wz1K7y0o14uQXafCaG6YubH4LsxsaUUFqP7lD2lS8mXoF2niCvVFizH+BKrkI0mvISGSBp1VutTKx0pRJVgsIMoCcSf3tUjAUIHrdreBxJUcQgO9FWjSnxI1sOxCO+knC71207piFj4227GPTsCtSJlryQqVlx0JLdYSI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(366004)(39860400002)(346002)(136003)(396003)(376002)(451199015)(2906002)(31686004)(450100002)(2616005)(66556008)(66946007)(41300700001)(36756003)(31696002)(86362001)(4326008)(6506007)(83380400001)(38100700002)(5660300002)(8936002)(6486002)(8676002)(66476007)(186003)(6512007)(478600001)(316002)(6666004)(26005)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QmZqRDMrYk5EbUhhQ2ZqSndGeGc3aWgxN3F3VlRIb1hUSXdRM1BVNWRLM21Q?=
- =?utf-8?B?ZjFoN3VXL01PUnpON1c4QU1zUTR6RjMydmhNRGNlQnZHL0lZV3gyQ0x6c1h1?=
- =?utf-8?B?NHVhYkZsdmQvQ2dGNURFOEVZNzZFSFRGNWY1dTBjL0d4WW5UVEtvRFNOREs5?=
- =?utf-8?B?a0FYRVpOY2dYRGdzc1FsNk5IU0ZSU09EQ3VhYlp1aGJ2K09PM0kyUDY0dHFR?=
- =?utf-8?B?cGJVUjVVbkkzQytmdmxTVnowOHp2dlVhK1U1alpGRXAvdnBmNkNBOEdscERF?=
- =?utf-8?B?bllZTW5DS0JhaTFadSt5aE5MRnl5dEJTbGd2V3NLRXdtdmQ1bXl6RWtPSTdV?=
- =?utf-8?B?ZFpzcmtTL2FqRUZuMlN5Ulo4ZVlwUEkrMDF1N3FpVElXZ3hUckRySEtIR1NZ?=
- =?utf-8?B?cC9PL1prd09wNXNZWkpIUUtOaEd2a004emJQUmFNeTNwUmFtRXN4UEdWUlM1?=
- =?utf-8?B?Z285cm8rN1lPeFFEa1NxYmNBY2QxaWFmbDNDdlVWZFRrcHd0clV1MXUyd244?=
- =?utf-8?B?NDNRVzVxRWxNWUpxMUNJRGZjWUZKRjNFRzROMFZUZndpcU1oRmV2azBlRHZw?=
- =?utf-8?B?bWU1NG1MT3Fpc3g0a3JBNzFOQTFGOGQyUUNJVlR3T2YwT2FiLzN0OW92MS9W?=
- =?utf-8?B?TzdDYlF1disxVzU2ZzZLN3d0aXBDMHZQakVJQWRTVDF1Ull0VWZPdzZEV05p?=
- =?utf-8?B?dDM1ZWV0QXdQZVM2Y1BwZ0QycW5MYUgrRSt3WW1SZWR3ZzRlVlpGQm1WZ1dz?=
- =?utf-8?B?Yyt6QzJtNzZtWFg2Vzk2eVpUTUcyZWU2TE95ak9ITFFtS3BqTFlxOXdNb3Fh?=
- =?utf-8?B?c3crRy9HNDVUN3YyZW95RGlyUUtVc1pQSDNNMmVwOEg4U2F4Q1NxM1l0aENF?=
- =?utf-8?B?SVBiaWZtSjVaTDRLU0N4M0NNTkRZdTljTGgvejZ3U1EzT01YSjhlRDZTTGQx?=
- =?utf-8?B?dmF0dksxN205YmdGZGprS0lqelBNeVhlcjN4bld1K1NxQUdIbm5vd2M0STZq?=
- =?utf-8?B?V2ZPQUQ5Ylo3ZnI3SlpiS0s5YkMrRGtKQkllWnFuVkJNcjVyd3IxM2VDbTha?=
- =?utf-8?B?TUlJc2VudDU4UzI0aXZaRHBnRUdCREc1K0k5em1ZVmxXckEvdXVMTCsyc3da?=
- =?utf-8?B?OEdxMk1tNTFqRDJKWWM2bFJGVEVhZURvTTl3VTQyWEFOdndvbWErK3JYTnMr?=
- =?utf-8?B?c3YyMzRoeVhELzNGa3pzbEtGUWRWRGpOL0gzN3UwVml4WlFHck9ZeEZ0amcz?=
- =?utf-8?B?RmxZWVBDdGp1dXNpNUdMU1NJS3JUdVUvQ053TUZMdXRLa2hWYlc0ZEtrYlAx?=
- =?utf-8?B?K0ZONUE0VXlYTWJnSU0rWmJ2VjBXamxvaW9NK01IL1JWMnhyMDdTbVJvZmly?=
- =?utf-8?B?ZjNENEcrMkhjbGZsMmlEa3NhTDEzYlVuallkUnNNTFlJYVVndUJSdEtRb0Ju?=
- =?utf-8?B?WlM4cUxReFBlcmwzNS8vM3FLaEF3UkpmZHJyUWpIdWl2Z3FQempMMUlxV1VH?=
- =?utf-8?B?dkJLSisrV1FnazVTUnU5UERFbzNSdGJOdFhuTSt3aGtvejJzdnpkb0YrUEZ1?=
- =?utf-8?B?Y2ROR1J5K1Y2UVpuR3ZYTXNBNXNaMWpxU244WXV4UTg4NEhucFVhV1lIRnkw?=
- =?utf-8?B?UmZkN3ZGU3d2bjhsUG9xeVFBd0Z5RytwQmRCOHdkRjJLQnBSazM2bTlIU3kz?=
- =?utf-8?B?K25pYjBtYTdrSE9mVDQzNnBBMSt1WXNOVUhMSHNzTnVXV3ZGZkdsL3R1d3k5?=
- =?utf-8?B?dGlLR0tjRUh6SkRRUkxsM0w5WXdBdE9YVWluWFBuamdYaXNQMGtUTy95bkZW?=
- =?utf-8?B?TTZLSGtzSFh0UHZicE5TeUtGQjRhcTM0aHJMVGFhQnBKNy91eXJoaUU1dmxE?=
- =?utf-8?B?Y3pHYmtRY0c2NnBvNmtxU2JpVWR6bEYxd2wvTENUQUh6NE1lbEZJUXBhVkpv?=
- =?utf-8?B?Zkc1eFVydmZDUi8zYjNPNGVkcmhrWEFJTno2bkFXNmU2M1lVTHRDeHNiblNK?=
- =?utf-8?B?NVFWM0I3ckpYSnJTMk9YTzhSbnZBdVNSL0pnZ0hCQjJ5SW8vdngrMll4c3NN?=
- =?utf-8?B?RFI2RDVCQjV1bUl0dUJTTEVuMzBMMjRWYmZPRXFaTUtrcGdGMmRqQ0UzZitv?=
- =?utf-8?Q?Xr9Yc2dlVxyQJmMN9b57qHEU0?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cb6a9227-85f9-4fa6-252f-08dacc5f9ee3
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2022 08:00:28.7866 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JUgZGVXd3X2ROEJh1FzgUGC2kaN6y5WfD7WvjAOVw23eCobY21bxCVp78Bs+NqlY
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4592
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,97 +64,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, arunpravin.paneerselvam@amd.com,
- shashank.sharma@amd.com
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 22.11.22 um 08:51 schrieb Somalapuram Amaranath:
-> Remove page shift operations as ttm_resource moved
-> from num_pages to size_t size in bytes.
-> v1 -> v2: fix missing page shift to fpfn and lpfn
->
-> Signed-off-by: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c |  4 +---
->   drivers/gpu/drm/ttm/ttm_range_manager.c    | 13 ++++++-------
->   2 files changed, 7 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> index 974e85d8b6cc..19ad365dc159 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> @@ -541,12 +541,10 @@ int amdgpu_bo_create(struct amdgpu_device *adev,
->   	if (bp->domain & (AMDGPU_GEM_DOMAIN_GWS | AMDGPU_GEM_DOMAIN_OA)) {
->   		/* GWS and OA don't need any alignment. */
->   		page_align = bp->byte_align;
-> -		size <<= PAGE_SHIFT;
-> -
->   	} else if (bp->domain & AMDGPU_GEM_DOMAIN_GDS) {
->   		/* Both size and alignment must be a multiple of 4. */
->   		page_align = ALIGN(bp->byte_align, 4);
-> -		size = ALIGN(size, 4) << PAGE_SHIFT;
-> +		size = ALIGN(size, 4);
 
-The amdgpu changes should probably be a separate patch.
+On 21/11/2022 18:21, John Harrison wrote:
+> On 11/18/2022 02:52, Jani Nikula wrote:
+>> On Thu, 17 Nov 2022, John.C.Harrison@Intel.com wrote:
+>>> From: John Harrison <John.C.Harrison@Intel.com>
+>>>
+>>> When trying to analyse bug reports from CI, customers, etc. it can be
+>>> difficult to work out exactly what is happening on which GT in a
+>>> multi-GT system. So add GT oriented debug/error message wrappers. If
+>>> used instead of the drm_ equivalents, you get the same output but with
+>>> a GT# prefix on it.
+>>>
+>>> It was also requested to extend this further to submodules in order to
+>>> factor out the repeated structure accessing constructs and common
+>>> string prefixes. So, add versions for GuC, HuC and GuC CTB as well.
+>>>
+>>> This patch set updates all the gt/uc files to use the new helpers as a
+>>> first step. The intention would be to convert all output messages that
+>>> have access to a GT structure.
+>>>
+>>> v2: Go back to using lower case names, add more wrapper sets (combined
+>>> review feedback). Also, wrap up probe injection and WARN entries.
+>>>
+>>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+>> For adding the wrappers in general, I'm going to disagree and
+>> commit. I'll leave it up to Tvrtko and Joonas.
+>>
+>> Regarding the placement of the macros, I insist you add individual
+>> header files for the wrappers and include them only where needed.
+>>
+>> We have a fairly serious problem with everything including everything in
+>> i915 that I've been slowly trying to tackle. Touch one thing, rebuild
+>> everything. About a third of our headers cause the rebuild of the entire
+>> driver when modified. We need to reduce the surface of things that cause
+>> rebuilds.
+>>
+>> For example, intel_gt.h is included by 97 files, intel_guc.h by 332
+>> files, and intel_huc.h by 329 files (counting recursively).
+>>
+>> There's absolutely no reason any of the display code, for example, needs
+>> to have these logging macros in their build. Long term, the headers
+>> should be reorganized to reduce the interdependencies, and this is what
+>> I've been doing in i915_drv.h and display/ in general. But the least we
+>> can do is not make the problem worse.
+> @Tvrtko/@Michal W, any other review comments or feedback? I'd rather not 
+> spend time fixing up the header file issue and reposting only to have 
+> someone point out another issue that could have been resolved at the 
+> same time.
 
->   	} else {
->   		/* Memory should be aligned at least to a page size. */
->   		page_align = ALIGN(bp->byte_align, PAGE_SIZE) >> PAGE_SHIFT;
-> diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c b/drivers/gpu/drm/ttm/ttm_range_manager.c
-> index 0a8bc0b7f380..6ac38092dd2a 100644
-> --- a/drivers/gpu/drm/ttm/ttm_range_manager.c
-> +++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
-> @@ -83,9 +83,10 @@ static int ttm_range_man_alloc(struct ttm_resource_manager *man,
->   
->   	spin_lock(&rman->lock);
->   	ret = drm_mm_insert_node_in_range(mm, &node->mm_nodes[0],
-> -					  PFN_UP(node->base.size),
-> +					  node->base.size,
->   					  bo->page_alignment, 0,
-> -					  place->fpfn, lpfn, mode);
-> +					  place->fpfn << PAGE_SHIFT,
-> +					  lpfn << PAGE_SHIFT, mode);
->   	spin_unlock(&rman->lock);
->   
->   	if (unlikely(ret)) {
-> @@ -119,11 +120,10 @@ static bool ttm_range_man_intersects(struct ttm_resource_manager *man,
->   				     size_t size)
->   {
->   	struct drm_mm_node *node = &to_ttm_range_mgr_node(res)->mm_nodes[0];
-> -	u32 num_pages = PFN_UP(size);
->   
->   	/* Don't evict BOs outside of the requested placement range */
-> -	if (place->fpfn >= (node->start + num_pages) ||
-> -	    (place->lpfn && place->lpfn <= node->start))
-> +	if ((place->fpfn << PAGE_SHIFT) >= (node->start + size) ||
-> +	    (place->lpfn && (place->lpfn << PAGE_SHIFT) <= node->start))
->   		return false;
->   
->   	return true;
-> @@ -135,10 +135,9 @@ static bool ttm_range_man_compatible(struct ttm_resource_manager *man,
->   				     size_t size)
->   {
->   	struct drm_mm_node *node = &to_ttm_range_mgr_node(res)->mm_nodes[0];
-> -	u32 num_pages = PFN_UP(size);
->   
->   	if (node->start < place->fpfn ||
-> -	    (place->lpfn && (node->start + num_pages) > place->lpfn))
-> +	    (place->lpfn && (node->start + size) > place->lpfn << PAGE_SHIFT))
->   		return false;
-
-This looks good but can't be complete. We have a couple of place where 
-node->start and node->size is used outside of TTM.
-
-See drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h and 
-drivers/gpu/drm/i915/intel_region_ttm.c for example.
-
-Those need to be updated as well.
+I read through the patches when you posted them and it looked nice and 
+clean to me. I think I spotted one instance of a debug build only 
+message getting upgraded to production build, and one loss of stack 
+trace on a warning, but it wasn't a concern to me AFAIR.
 
 Regards,
-Christian.
 
+Tvrtko
 
->   
->   	return true;
-
+> 
+> John.
+> 
+>> BR,
+>> Jani.
+>>
+>>>
+>>> John Harrison (5):
+>>>    drm/i915/gt: Start adding module oriented dmesg output
+>>>    drm/i915/huc: Add HuC specific debug print wrappers
+>>>    drm/i915/guc: Add GuC specific debug print wrappers
+>>>    drm/i915/guc: Add GuC CT specific debug print wrappers
+>>>    drm/i915/uc: Update the gt/uc code to use gt_err and friends
+>>>
+>>>   drivers/gpu/drm/i915/gt/intel_gt.c            |  96 ++++----
+>>>   drivers/gpu/drm/i915/gt/intel_gt.h            |  35 +++
+>>>   drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  32 +--
+>>>   drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  35 +++
+>>>   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |   8 +-
+>>>   .../gpu/drm/i915/gt/uc/intel_guc_capture.c    |  48 ++--
+>>>   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     | 222 +++++++++---------
+>>>   drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c     |  19 +-
+>>>   drivers/gpu/drm/i915/gt/uc/intel_guc_log.c    |  37 ++-
+>>>   drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c     |   7 +-
+>>>   drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c   |  55 ++---
+>>>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  62 +++--
+>>>   drivers/gpu/drm/i915/gt/uc/intel_huc.c        |  31 +--
+>>>   drivers/gpu/drm/i915/gt/uc/intel_huc.h        |  23 ++
+>>>   drivers/gpu/drm/i915/gt/uc/intel_uc.c         | 108 ++++-----
+>>>   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      |  98 ++++----
+>>>   drivers/gpu/drm/i915/gt/uc/selftest_guc.c     |  34 +--
+>>>   .../drm/i915/gt/uc/selftest_guc_hangcheck.c   |  22 +-
+>>>   .../drm/i915/gt/uc/selftest_guc_multi_lrc.c   |  10 +-
+>>>   19 files changed, 507 insertions(+), 475 deletions(-)
+> 
