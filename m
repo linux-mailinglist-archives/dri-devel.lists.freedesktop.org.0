@@ -2,55 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4981563404B
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 16:35:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E66A63404E
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 16:36:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7B6810E410;
-	Tue, 22 Nov 2022 15:35:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AD9010E409;
+	Tue, 22 Nov 2022 15:36:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC6F310E40F;
- Tue, 22 Nov 2022 15:35:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669131314; x=1700667314;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=QhFQ1vvgWJPcpF58xWVY2cCZqGcl+FTrvlc1UL7N3w0=;
- b=CHLjHeLyOBf16PzlegSZLhz6GFJmOKXJZ4LiwRtCPHs4TUgdrcUCdCbW
- sFTfBfY/UmANp0V1uyFqlJg5ZMTjwV+/lBWfhqz/ysHM0hrGNd6wyJmF9
- b1mczFUYblZT3HK3+uNDSlFeW+KTjGMHZjuQ4YOb7v4qeVwLp9zJc+5Jm
- MHVXT9DGl+96kXz5X37kW1gMxdhh9uKNzIXfRzQKCyD2X8i1ueHivt5kF
- Ekj4S++f07XaJ9TDLkbnuup8e2b6Kj9GaBd9eqP6lBnXXK6QHMry1Xrhw
- KyQCLR8Nok9SqOHtLUkrj/CG6uPELkocXSQVqvp7SgEZtaLyhhVS08t9C Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="315662393"
-X-IronPort-AV: E=Sophos;i="5.96,184,1665471600"; d="scan'208";a="315662393"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Nov 2022 07:35:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="747395669"
-X-IronPort-AV: E=Sophos;i="5.96,184,1665471600"; d="scan'208";a="747395669"
-Received: from black.fi.intel.com ([10.237.72.28])
- by fmsmga002.fm.intel.com with ESMTP; 22 Nov 2022 07:35:00 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
- id 6623724A; Tue, 22 Nov 2022 17:35:26 +0200 (EET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Jakob Koschel <jakobkoschel@gmail.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mathias Nyman <mathias.nyman@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [PATCH v3 4/4] xhci: Convert to use list_count()
-Date: Tue, 22 Nov 2022 17:35:16 +0200
-Message-Id: <20221122153516.52577-4-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221122153516.52577-1-andriy.shevchenko@linux.intel.com>
-References: <20221122153516.52577-1-andriy.shevchenko@linux.intel.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB2D310E416;
+ Tue, 22 Nov 2022 15:35:54 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 8357A22007;
+ Tue, 22 Nov 2022 15:35:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+ t=1669131353; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xzeEtRVGkBValjf4cAqJIIBnm0WLgHIJrOj2Qpyeryk=;
+ b=hSz8uo53GqZkaSBqbG3aIh16lgMQB2Sw8gZ6Z+fnEjIR6uPvpuBuVkR8TpcuCDJwN2rjjn
+ iqJmydTFhzXH0tY5jw9oJ6zK0Sx7/l0zZrHLYI1mzVvp/woqabMd2RthMdqBUz+tckoXxt
+ gvUiGWpp9yM7xLCq0tNctpGuD1es/pI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+ s=susede2_ed25519; t=1669131353;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xzeEtRVGkBValjf4cAqJIIBnm0WLgHIJrOj2Qpyeryk=;
+ b=87yFyDfodelF6paPP+3fZVkcbfCamfu6aYJAmnQjTNh2RXFp/RQ8a0uSheJsgsaRl+tSbc
+ rgSpbkEWiLk/2KDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E380913B01;
+ Tue, 22 Nov 2022 15:35:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id /ANwNljsfGPGGwAAMHmgww
+ (envelope-from <vbabka@suse.cz>); Tue, 22 Nov 2022 15:35:52 +0000
+Message-ID: <34835490-57d7-4e26-7474-008b2c4c6b39@suse.cz>
+Date: Tue, 22 Nov 2022 16:35:52 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH mm-unstable v1 08/20] mm: extend FAULT_FLAG_UNSHARE
+ support to anything in a COW mapping
+Content-Language: en-US
+To: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org
+References: <20221116102659.70287-1-david@redhat.com>
+ <20221116102659.70287-9-david@redhat.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <20221116102659.70287-9-david@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,47 +72,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Kevin Cernekee <cernekee@gmail.com>, Mathias Nyman <mathias.nyman@intel.com>,
- Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: linux-ia64@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ Nadav Amit <namit@vmware.com>, linux-kselftest@vger.kernel.org,
+ sparclinux@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ Andrea Arcangeli <aarcange@redhat.com>, linux-samsung-soc@vger.kernel.org,
+ linux-rdma@vger.kernel.org, x86@kernel.org, Hugh Dickins <hughd@google.com>,
+ Matthew Wilcox <willy@infradead.org>, Christoph Hellwig <hch@infradead.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, linux-media@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, John Hubbard <jhubbard@nvidia.com>,
+ linux-um@lists.infradead.org, etnaviv@lists.freedesktop.org,
+ Alex Williamson <alex.williamson@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Muchun Song <songmuchun@bytedance.com>, linux-arm-kernel@lists.infradead.org,
+ linuxppc-dev@lists.ozlabs.org, Oded Gabbay <ogabbay@kernel.org>,
+ linux-mips@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ linux-security-module@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The list API now provides the list_count() to help with counting
-existing nodes in the list. Utilise it.
+On 11/16/22 11:26, David Hildenbrand wrote:
+> Extend FAULT_FLAG_UNSHARE to break COW on anything mapped into a
+> COW (i.e., private writable) mapping and adjust the documentation
+> accordingly.
+> 
+> FAULT_FLAG_UNSHARE will now also break COW when encountering the shared
+> zeropage, a pagecache page, a PFNMAP, ... inside a COW mapping, by
+> properly replacing the mapped page/pfn by a private copy (an exclusive
+> anonymous page).
+> 
+> Note that only do_wp_page() needs care: hugetlb_wp() already handles
+> FAULT_FLAG_UNSHARE correctly. wp_huge_pmd()/wp_huge_pud() also handles it
+> correctly, for example, splitting the huge zeropage on FAULT_FLAG_UNSHARE
+> such that we can handle FAULT_FLAG_UNSHARE on the PTE level.
+> 
+> This change is a requirement for reliable long-term R/O pinning in
+> COW mappings.
+> 
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
-v3: no change
-v2: no change
- drivers/usb/host/xhci-ring.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
 
-diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index ad81e9a508b1..817c31e3b0c8 100644
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ -2532,7 +2532,6 @@ static int handle_tx_event(struct xhci_hcd *xhci,
- 	union xhci_trb *ep_trb;
- 	int status = -EINPROGRESS;
- 	struct xhci_ep_ctx *ep_ctx;
--	struct list_head *tmp;
- 	u32 trb_comp_code;
- 	int td_num = 0;
- 	bool handling_skipped_tds = false;
-@@ -2580,10 +2579,8 @@ static int handle_tx_event(struct xhci_hcd *xhci,
- 	}
- 
- 	/* Count current td numbers if ep->skip is set */
--	if (ep->skip) {
--		list_for_each(tmp, &ep_ring->td_list)
--			td_num++;
--	}
-+	if (ep->skip)
-+		td_num += list_count(&ep_ring->td_list);
- 
- 	/* Look for common error cases */
- 	switch (trb_comp_code) {
--- 
-2.35.1
+> ---
+>  include/linux/mm_types.h | 8 ++++----
+>  mm/memory.c              | 4 ----
+>  2 files changed, 4 insertions(+), 8 deletions(-)
+> 
+> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+> index 5e7f4fac1e78..5e9aaad8c7b2 100644
+> --- a/include/linux/mm_types.h
+> +++ b/include/linux/mm_types.h
+> @@ -1037,9 +1037,9 @@ typedef struct {
+>   * @FAULT_FLAG_REMOTE: The fault is not for current task/mm.
+>   * @FAULT_FLAG_INSTRUCTION: The fault was during an instruction fetch.
+>   * @FAULT_FLAG_INTERRUPTIBLE: The fault can be interrupted by non-fatal signals.
+> - * @FAULT_FLAG_UNSHARE: The fault is an unsharing request to unshare (and mark
+> - *                      exclusive) a possibly shared anonymous page that is
+> - *                      mapped R/O.
+> + * @FAULT_FLAG_UNSHARE: The fault is an unsharing request to break COW in a
+> + *                      COW mapping, making sure that an exclusive anon page is
+> + *                      mapped after the fault.
+>   * @FAULT_FLAG_ORIG_PTE_VALID: whether the fault has vmf->orig_pte cached.
+>   *                        We should only access orig_pte if this flag set.
+>   *
+> @@ -1064,7 +1064,7 @@ typedef struct {
+>   *
+>   * The combination FAULT_FLAG_WRITE|FAULT_FLAG_UNSHARE is illegal.
+>   * FAULT_FLAG_UNSHARE is ignored and treated like an ordinary read fault when
+> - * no existing R/O-mapped anonymous page is encountered.
+> + * applied to mappings that are not COW mappings.
+>   */
+>  enum fault_flag {
+>  	FAULT_FLAG_WRITE =		1 << 0,
+> diff --git a/mm/memory.c b/mm/memory.c
+> index d47ad33c6487..56b21ab1e4d2 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -3432,10 +3432,6 @@ static vm_fault_t do_wp_page(struct vm_fault *vmf)
+>  		}
+>  		wp_page_reuse(vmf);
+>  		return 0;
+> -	} else if (unshare) {
+> -		/* No anonymous page -> nothing to do. */
+> -		pte_unmap_unlock(vmf->pte, vmf->ptl);
+> -		return 0;
+>  	}
+>  copy:
+>  	/*
 
