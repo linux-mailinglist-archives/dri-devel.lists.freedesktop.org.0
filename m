@@ -1,60 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28AAF633E36
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 14:55:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CECA5633E7B
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 15:07:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C141E10E3D1;
-	Tue, 22 Nov 2022 13:55:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2566110E0D8;
+	Tue, 22 Nov 2022 14:07:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc36.google.com (mail-oo1-xc36.google.com
- [IPv6:2607:f8b0:4864:20::c36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D1C010E3D0;
- Tue, 22 Nov 2022 13:55:29 +0000 (UTC)
-Received: by mail-oo1-xc36.google.com with SMTP id
- j6-20020a4ab1c6000000b004809a59818cso2273657ooo.0; 
- Tue, 22 Nov 2022 05:55:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=2SBGeqgV8aQ4ClE1rxARDUjCn/QaGrg5bogBswoE+Gk=;
- b=SnJrJJJB+uAOWpogJlqoVY6znPbePuzs8v8E+Jasq1bg9moQq8Gbla8WPFPotFYdUs
- rdiNTyjJgUOpZ//qEmNSffWMfpXCemCqV4jqqOLcafNGMG3y7VzHk2z9V6YfIYYTp81D
- df5NkH3zm4zUw3PzBRdPGQ4f8CJIBaeUTQh9hasrwmNEXQM/Q4hIQ6dVrmQyovTykNlk
- RNdlw5G+f5UCJDWk4RkG0HUq6cWwz+Pat2UDROelcqWZxV0KlNgJCCVHtdzbVNto0nKe
- fES8l3XJEdiw4y/2lEdykL46NhCsN3MbN/y7RDB/FanhyNqBLX9zLaQeCHNrj9s0p+p2
- fKaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=2SBGeqgV8aQ4ClE1rxARDUjCn/QaGrg5bogBswoE+Gk=;
- b=L+bvtEpxChyu0ZNZ/uDI2qRlHbmE7xc4HtnlA0Ai69lopH1n2pK2QPK4HPJfSVvNWR
- lg3e1vwEl+8PpbEIl2UZ6Az5hlHB8YRUqJlrXoIEoX3MgThrNg5BqQEJm3aH7dZgOMcG
- heejroBw6Kda6oXVhVXjtL/wpMmELBkBsjWApyXRxs3H6d9uNe7Yl9Q3j2MX7zu3NHzF
- zrz4dnWZMlsN+TgQOWold63XgcaWCIk5vxAdTNRdK33aSS3sMdd14P7MIpvkNuksVu/m
- rPNV0D/AotV9r5ujcgk/YJAgye4b3QzJ1HlD17RX1KAsJ1zPxh7niu3ZGmIETNk03VXd
- R7pQ==
-X-Gm-Message-State: ANoB5pneuZjRAQ/ylRwWJtsuG3yXpu7SzOkVUPhMbVLsq33xeK/ur8/v
- hoyX7N78fl6OwpLK+2m0skKCavk9EqcqCn4+/MU=
-X-Google-Smtp-Source: AA0mqf7ykzweR9BqX2Z1bFr3kRAAU5C3xDVsZgtZl+Svh5PRx1RmM9Dz5FRt4dxqYY1KiJhP24NikZC0YwM35U5Onhk=
-X-Received: by 2002:a4a:d1b2:0:b0:498:ce46:9fb1 with SMTP id
- z18-20020a4ad1b2000000b00498ce469fb1mr6131515oor.97.1669125328656; Tue, 22
- Nov 2022 05:55:28 -0800 (PST)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AF4710E0D8;
+ Tue, 22 Nov 2022 14:07:43 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 71F8E6155C;
+ Tue, 22 Nov 2022 14:07:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B899AC433C1;
+ Tue, 22 Nov 2022 14:07:35 +0000 (UTC)
+Message-ID: <4d3ef082-f7b3-2b6e-6fcf-5f991ffe14e9@xs4all.nl>
+Date: Tue, 22 Nov 2022 15:07:33 +0100
 MIME-Version: 1.0
-References: <CAHk-=wjKJyzfJmOzBdEOqCFRc8Fh-rdGM4tvMXfW0WXbbHwV0w@mail.gmail.com>
- <20221122105054.4062213-1-geert@linux-m68k.org>
- <alpine.DEB.2.22.394.2211221154280.284524@ramsan.of.borg>
-In-Reply-To: <alpine.DEB.2.22.394.2211221154280.284524@ramsan.of.borg>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 22 Nov 2022 08:55:17 -0500
-Message-ID: <CADnq5_PvouSKugXxJXqkVeZf+kbP8+hhUKFgVALSO=MOW3jzvA@mail.gmail.com>
-Subject: Re: Build regressions/improvements in v6.1-rc6
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH RFC 16/19] mm/frame-vector: remove FOLL_FORCE usage
+Content-Language: en-US
+To: David Hildenbrand <david@redhat.com>, Tomasz Figa <tfiga@chromium.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+References: <20221107161740.144456-1-david@redhat.com>
+ <20221107161740.144456-17-david@redhat.com>
+ <CAAFQd5C3Ba1WhjYJF_7tW06mgvzoz9KTakNo+Tz8h_f6dGKzHQ@mail.gmail.com>
+ <6175d780-3307-854c-448a-8e6c7ad0772c@xs4all.nl>
+ <6ace6cd4-3e13-8ec1-4c2a-49e2e14e81a6@redhat.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <6ace6cd4-3e13-8ec1-4c2a-49e2e14e81a6@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,49 +50,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-um@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ Nadav Amit <namit@vmware.com>, linux-kselftest@vger.kernel.org,
+ Andrea Arcangeli <aarcange@redhat.com>, linux-samsung-soc@vger.kernel.org,
+ linux-rdma@vger.kernel.org, Hugh Dickins <hughd@google.com>,
+ Matthew Wilcox <willy@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, John Hubbard <jhubbard@nvidia.com>,
+ etnaviv@lists.freedesktop.org, Peter Xu <peterx@redhat.com>,
+ Muchun Song <songmuchun@bytedance.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Oded Gabbay <ogabbay@kernel.org>, linux-kernel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 22, 2022 at 5:56 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> On Tue, 22 Nov 2022, Geert Uytterhoeven wrote:
-> > JFYI, when comparing v6.1-rc6[1] to v6.1-rc5[3], the summaries are:
-> >  - build errors: +6/-0
->
->    + /kisskb/src/arch/sh/include/asm/io.h: error: cast to pointer from integer of different size [-Werror=int-to-pointer-cast]:  => 239:34
->
-> sh4-gcc11/sh-allmodconfig (in cvm_oct_free_hw_memory())
->
->    + /kisskb/src/arch/um/include/asm/processor-generic.h: error: called object is not a function or function pointer:  => 94:18
->    + /kisskb/src/drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c: error: control reaches end of non-void function [-Werror=return-type]:  => 1934:1
->
-> um-x86_64/um-all{mod,yes}config (in kfd_cpumask_to_apic_id())
+On 11/22/22 13:38, David Hildenbrand wrote:
+> On 22.11.22 13:25, Hans Verkuil wrote:
+>> Hi Tomasz, David,
+>>
+>> On 11/8/22 05:45, Tomasz Figa wrote:
+>>> Hi David,
+>>>
+>>> On Tue, Nov 8, 2022 at 1:19 AM David Hildenbrand <david@redhat.com> wrote:
+>>>>
+>>>> FOLL_FORCE is really only for debugger access. According to commit
+>>>> 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are always
+>>>> writable"), the pinned pages are always writable.
+>>>
+>>> Actually that patch is only a workaround to temporarily disable
+>>> support for read-only pages as they seemed to suffer from some
+>>> corruption issues in the retrieved user pages. We expect to support
+>>> read-only pages as hardware input after. That said, FOLL_FORCE doesn't
+>>> sound like the right thing even in that case, but I don't know the
+>>> background behind it being added here in the first place. +Hans
+>>> Verkuil +Marek Szyprowski do you happen to remember anything about it?
+>>
+>> I tracked the use of 'force' all the way back to the first git commit
+>> (2.6.12-rc1) in the very old video-buf.c. So it is very, very old and the
+>> reason is lost in the mists of time.
+>>
+>> I'm not sure if the 'force' argument of get_user_pages() at that time
+>> even meant the same as FOLL_FORCE today. From what I can tell it has just
+>> been faithfully used ever since, but I have my doubt that anyone understands
+>> the reason behind it since it was never explained.
+>>
+>> Looking at this old LWN article https://lwn.net/Articles/28548/ suggests
+>> that it might be related to calling get_user_pages for write buffers
+>> (non-zero write argument) where you also want to be able to read from the
+>> buffer. That is certainly something that some drivers need to do post-capture
+>> fixups.
+>>
+>> But 'force' was also always set for read buffers, and I don't know if that
+>> was something that was actually needed, or just laziness.
+>>
+>> I assume that removing FOLL_FORCE from 'FOLL_FORCE|FOLL_WRITE' will still
+>> allow drivers to read from the buffer?
+> 
+> Yes. The only problematic corner case I can imagine is if someone has a 
+> VMA without write permissions (no PROT_WRITE/VM_WRITE) and wants to pin 
+> user space pages as a read buffer. We'd specify now FOLL_WRITE without 
+> FOLL_FORCE and GUP would reject that: write access without write 
+> permissions is invalid.
 
-Presumably cpu_data is not defined on um-x86_64?  Does it even make
-sense to build drivers on um-x86_64?
+I do not believe this will be an issue.
 
-Alex
+> 
+> There would be no way around "fixing" this implementation to not specify 
+> FOLL_WRITE when only reading from user-space pages. Not sure what the 
+> implications are regarding that corruption that was mentioned in 
+> 707947247e95.
 
->
->    + /kisskb/src/drivers/infiniband/hw/qib/qib_wc_x86_64.c: error: 'X86_VENDOR_AMD' undeclared (first use in this function):  => 149:37
->    + /kisskb/src/drivers/infiniband/hw/qib/qib_wc_x86_64.c: error: 'struct cpuinfo_um' has no member named 'x86_vendor':  => 149:22
->    + /kisskb/src/drivers/infiniband/hw/qib/qib_wc_x86_64.c: error: control reaches end of non-void function [-Werror=return-type]:  => 150:1
->
-> um-x86_64/um-allyesconfig
->
-> > [1] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/eb7081409f94a9a8608593d0fb63a1aa3d6f95d8/ (all 149 configs)
-> > [3] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/094226ad94f471a9f19e8f8e7140a09c2625abaa/ (all 149 configs)
->
-> Gr{oetje,eeting}s,
->
->                                                 Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                                             -- Linus Torvalds
+Before 707947247e95 the FOLL_WRITE flag was only set for write buffers
+(i.e. video capture, DMA_FROM_DEVICE), not for read buffers (video output,
+DMA_TO_DEVICE). In the video output case there should never be any need
+for drivers to write to the buffer to the best of my knowledge.
+
+But I have had some complaints about that commit that it causes problems
+in some scenarios, and it has been on my todo list for quite some time now
+to dig deeper into this. I probably should prioritize this for this or
+next week.
+
+> 
+> Having said that, I assume such a scenario is unlikely -- but you might 
+> know better how user space usually uses this interface. There would be 
+> three options:
+> 
+> 1) Leave the FOLL_FORCE hack in for now, which I *really* want to avoid.
+> 2) Remove FOLL_FORCE and see if anybody even notices (this patch) and
+>     leave the implementation as is for now.
+> 3) Remove FOLL_FORCE and fixup the implementation to only specify
+>     FOLL_WRITE if the pages will actually get written to.
+> 
+> 3) would most probably ideal, however, I am no expert on that code and 
+> can't do it (707947247e95 confuses me). So naive me would go with 2) first.
+> 
+
+Option 3 would be best. And 707947247e95 confuses me as well, and I actually
+wrote it :-) I am wondering whether it was addressed at the right level, but
+as I said, I need to dig a bit deeper into this.
+
+Regards,
+
+	Hans
