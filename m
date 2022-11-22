@@ -2,40 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14BD96333AD
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 04:05:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BED3563347F
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 05:37:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C66C10E367;
-	Tue, 22 Nov 2022 03:05:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BEFF10E0C6;
+	Tue, 22 Nov 2022 04:37:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96EF910E367
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Nov 2022 03:05:37 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 03279890;
- Tue, 22 Nov 2022 04:05:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1669086336;
- bh=OP7Y7hsHz9XtzH4OrAc1DG1nsm5BYY0TnHJs66LwpeA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ksEO7afwDfYQYLJcky9l5GiNb3FvnZiznXhKNyHfvPS+3j7Wy/APE98cIlCvCFA8G
- URnoxdxXbXbeqdZ9BqABrFKnQUNm0HiyvAd0CCFNt43PkZgDUcA5r9BqJzIlNbHewe
- /O5dUMsFzRHTQC3towY+Wt6Wty4luAbWXpoTk8aA=
-Date: Tue, 22 Nov 2022 05:05:20 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: Re: [PATCH v1 6/8] drm: rcar-du: Add r8a779g0 support
-Message-ID: <Y3w8cBh0uVaSPonO@pendragon.ideasonboard.com>
-References: <20221117122547.809644-1-tomi.valkeinen@ideasonboard.com>
- <20221117122547.809644-7-tomi.valkeinen@ideasonboard.com>
- <166869771876.50677.1905794243575000038@Monstersaurus>
+X-Greylist: delayed 1886 seconds by postgrey-1.36 at gabe;
+ Tue, 22 Nov 2022 04:37:28 UTC
+Received: from mail-m964.mail.126.com (mail-m964.mail.126.com [123.126.96.4])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C2A0310E0C6;
+ Tue, 22 Nov 2022 04:37:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=hyMHQ
+ +IQ32aYWO8By/rlk0gemkXtyhJVeG299Uy/CdE=; b=Buu1gI/xzxN+FGpkpOVil
+ Pr8/W/5UQMo3Wo+YbArVotj0x+IvygZ0kCSrRrPye5AM8p7v2W32sCIV3+tsvBaZ
+ 0v5uGbKbJOF49pxiS30+yk4wuQxqXqimPdlRn6Lmj5nHDz8eewDnCp80RGqTf1Dn
+ 0REiR0GuIsZ511P5uitK1o=
+Received: from localhost.localdomain (unknown [124.16.139.61])
+ by smtp9 (Coremail) with SMTP id NeRpCgAHVxOfSnxjPhmIGA--.14582S2;
+ Tue, 22 Nov 2022 12:05:52 +0800 (CST)
+From: Liang He <windhl@126.com>
+To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, sumit.semwal@linaro.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ windhl@126.com
+Subject: [PATCH] drm/amdgpu: Fix Double Free,
+ Null Pointer Dereference and MemLeak
+Date: Tue, 22 Nov 2022 12:05:50 +0800
+Message-Id: <20221122040550.1096952-1-windhl@126.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <166869771876.50677.1905794243575000038@Monstersaurus>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: NeRpCgAHVxOfSnxjPhmIGA--.14582S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Cr4xWw4rZF1DGF13Ar4kXrb_yoW8tFW3pF
+ 4fXr1UtrWDZF4xtw1Du3WrZasxtw12ga4Skr4UuwnI9wn8JF95Gw15JFWjqr1kJFZ2kr43
+ tFZrX3yUZF1qvFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pi1xRxUUUUU=
+X-Originating-IP: [124.16.139.61]
+X-CM-SenderInfo: hzlqvxbo6rjloofrz/1tbiHgDBF2IxpqDwSQAAsk
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,87 +54,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Magnus Damm <magnus.damm@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Robert Foss <robert.foss@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 17, 2022 at 03:08:38PM +0000, Kieran Bingham wrote:
-> Quoting Tomi Valkeinen (2022-11-17 12:25:45)
-> > From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> > 
-> > Add support for DU on r8a779g0, which is identical to DU on r8a779a0.
-> > 
-> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> > ---
-> >  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 22 ++++++++++++++++++++++
-> >  1 file changed, 22 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > index d003e8d9e7a2..b1761d4ec4e5 100644
-> > --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > @@ -524,6 +524,27 @@ static const struct rcar_du_device_info rcar_du_r8a779a0_info = {
-> >         .dsi_clk_mask =  BIT(1) | BIT(0),
-> >  };
-> >  
-> > +static const struct rcar_du_device_info rcar_du_r8a779g0_info = {
-> > +       .gen = 3,
-> 
-> Given that this is the V4H ... I wonder if this should be bumped
-> already. I guess that has knock on effects through the driver though...
+In amdgpu_get_xgmi_hive(), we should not call kfree() after
+kobject_put() as the PUT will call kfree(). Besides, we should
+not call kobject_get() again for the new *alloced* as its
+refcount will be initialized to 1 for the returned *hive*.
 
-rcar_du_group_setup_didsr() would need to be fixed to test gen >= 3
-instead of gen == 3. That seems to be the only problematic location. It
-could thus fairly easily be done in v2, but we can also delay it.
+In amdgpu_device_ip_init(), we need to check the returned *hive*
+which can be NULL before we dereference it.
 
-> Aside from that, Which may need more work to handle correctly:
-> 
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Signed-off-by: Liang He <windhl@126.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 5 +++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c   | 4 ----
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> > +       .features = RCAR_DU_FEATURE_CRTC_IRQ
-> > +                 | RCAR_DU_FEATURE_VSP1_SOURCE
-> > +                 | RCAR_DU_FEATURE_NO_BLENDING,
-> > +       .channels_mask = BIT(1) | BIT(0),
-> > +       .routes = {
-> > +               /* R8A779G0 has two MIPI DSI outputs. */
-> > +               [RCAR_DU_OUTPUT_DSI0] = {
-> > +                       .possible_crtcs = BIT(0),
-> > +                       .port = 0,
-> > +               },
-> > +               [RCAR_DU_OUTPUT_DSI1] = {
-> > +                       .possible_crtcs = BIT(1),
-> > +                       .port = 1,
-> > +               },
-> > +       },
-> > +       .num_rpf = 5,
-> > +       .dsi_clk_mask =  BIT(1) | BIT(0),
-> > +};
-> > +
-> >  static const struct of_device_id rcar_du_of_table[] = {
-> >         { .compatible = "renesas,du-r8a7742", .data = &rcar_du_r8a7790_info },
-> >         { .compatible = "renesas,du-r8a7743", .data = &rzg1_du_r8a7743_info },
-> > @@ -549,6 +570,7 @@ static const struct of_device_id rcar_du_of_table[] = {
-> >         { .compatible = "renesas,du-r8a77990", .data = &rcar_du_r8a7799x_info },
-> >         { .compatible = "renesas,du-r8a77995", .data = &rcar_du_r8a7799x_info },
-> >         { .compatible = "renesas,du-r8a779a0", .data = &rcar_du_r8a779a0_info },
-> > +       { .compatible = "renesas,du-r8a779g0", .data = &rcar_du_r8a779g0_info },
-> >         { }
-> >  };
-> >  
-
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index f1e9663b4051..00976e15b698 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -2462,6 +2462,11 @@ static int amdgpu_device_ip_init(struct amdgpu_device *adev)
+ 			if (!amdgpu_sriov_vf(adev)) {
+ 				struct amdgpu_hive_info *hive = amdgpu_get_xgmi_hive(adev);
+ 
++				if (WARN_ON(!hive)) {
++					r = -ENOENT;
++					goto init_failed;
++				}
++
+ 				if (!hive->reset_domain ||
+ 				    !amdgpu_reset_get_reset_domain(hive->reset_domain)) {
+ 					r = -ENOENT;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
+index 47159e9a0884..26adc7293468 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
+@@ -386,7 +386,6 @@ struct amdgpu_hive_info *amdgpu_get_xgmi_hive(struct amdgpu_device *adev)
+ 	if (ret) {
+ 		dev_err(adev->dev, "XGMI: failed initializing kobject for xgmi hive\n");
+ 		kobject_put(&hive->kobj);
+-		kfree(hive);
+ 		hive = NULL;
+ 		goto pro_end;
+ 	}
+@@ -410,7 +409,6 @@ struct amdgpu_hive_info *amdgpu_get_xgmi_hive(struct amdgpu_device *adev)
+ 				dev_err(adev->dev, "XGMI: failed initializing reset domain for xgmi hive\n");
+ 				ret = -ENOMEM;
+ 				kobject_put(&hive->kobj);
+-				kfree(hive);
+ 				hive = NULL;
+ 				goto pro_end;
+ 			}
+@@ -437,8 +435,6 @@ struct amdgpu_hive_info *amdgpu_get_xgmi_hive(struct amdgpu_device *adev)
+ 	list_add_tail(&hive->node, &xgmi_hive_list);
+ 
+ pro_end:
+-	if (hive)
+-		kobject_get(&hive->kobj);
+ 	mutex_unlock(&xgmi_mutex);
+ 	return hive;
+ }
 -- 
-Regards,
+2.25.1
 
-Laurent Pinchart
