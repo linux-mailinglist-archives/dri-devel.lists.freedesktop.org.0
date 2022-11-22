@@ -2,44 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FA0E634533
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 21:09:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFC22634539
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 21:09:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C83110E455;
-	Tue, 22 Nov 2022 20:09:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F9F010E460;
+	Tue, 22 Nov 2022 20:09:32 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AAB310E1D9;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D26CC10E455;
  Tue, 22 Nov 2022 20:09:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1669147764; x=1700683764;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=QjhOcRyuKZxwtyPzGdapyZa/nYZN8ckwvHZ4/FbiN1g=;
- b=EzGzNoIIJ3Ziu11CevfhQyIiSCSOwGtQWH4jqpk+N1ZVdJOUtF6cqUVS
- HPUzOBInKIlR3F2yHgV3i7+Kejb2FMnMjD7Zcgw2Z1jWdVYMz7F8dwCFf
- FKbgs0XsUFqS2nxjl72aFYJi71ZQ0JECAoTX/A3MeVSH6pP9mKlnOa+w6
- oDo6ewW7jUOWmNUUPFMGHoz32JLaa2tlRr7QwNWfIoZNsSJoWBZKs/0JR
- 8sROAlLOKG7uL1ux65ZBPsLRT/nuWodleKjRALAFQzpEkU63rzUL97a8r
- QwGcgegwuS7rGjFgwFhfOJYJcJINJiHzAFlGquJ+qnd5a6Qo9au8C2CPQ w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="301459450"
-X-IronPort-AV: E=Sophos;i="5.96,185,1665471600"; d="scan'208";a="301459450"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=hWOiaNsDZCyUwS2Hs2Fgg6TzCkA8ghF32kXLVEdJTPc=;
+ b=Y7DYbkCM5viGjWTps8dkC9MMvE19WTnu5RGbyNo8eC02RZiTR5z46M3c
+ 5Ml1kiqUmR/FZe+bZt2aXwpZjuLnkIfQodbcHAtimrVgARh7NZlutMPHH
+ YjvKDg/3/zeQ9esfr/cN1I8Tx4AzXfjM55Bxv6bnIMxFmkfaDfhDBO+dh
+ ZNWDWInRICj4ysAMC9e0ToomQ0dq9jOSkajk8oHE0NfzrBkiC11MZh6dn
+ JO7scmCwE4ZceDpfwDMjivKuawQbbSaX6eOqlb5TuBoquixKVZlbkU3Bp
+ GwJ50bobO1jnyT3z6Yb9VNKxrGaS6XCW958t5cNJObdwY1rqlYUnlc2Nb Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="301459452"
+X-IronPort-AV: E=Sophos;i="5.96,185,1665471600"; d="scan'208";a="301459452"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  22 Nov 2022 12:09:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="783966947"
-X-IronPort-AV: E=Sophos;i="5.96,185,1665471600"; d="scan'208";a="783966947"
+X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="783966950"
+X-IronPort-AV: E=Sophos;i="5.96,185,1665471600"; d="scan'208";a="783966950"
 Received: from relo-linux-5.jf.intel.com ([10.165.21.144])
- by fmsmga001.fm.intel.com with ESMTP; 22 Nov 2022 12:09:22 -0800
+ by fmsmga001.fm.intel.com with ESMTP; 22 Nov 2022 12:09:23 -0800
 From: John.C.Harrison@Intel.com
 To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH 0/3] More GuC firmware version improvements
-Date: Tue, 22 Nov 2022 12:09:12 -0800
-Message-Id: <20221122200915.680629-1-John.C.Harrison@Intel.com>
+Subject: [PATCH 1/3] drm/i915/uc: Rationalise delimiters in filename macros
+Date: Tue, 22 Nov 2022 12:09:13 -0800
+Message-Id: <20221122200915.680629-2-John.C.Harrison@Intel.com>
 X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20221122200915.680629-1-John.C.Harrison@Intel.com>
+References: <20221122200915.680629-1-John.C.Harrison@Intel.com>
 MIME-Version: 1.0
 Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
  Swindon SN3 1RJ
@@ -62,31 +64,64 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: John Harrison <John.C.Harrison@Intel.com>
 
-Start using the 'submission API version' for deciding which GuC API to
-use in the submission code.
-
-Correct version number manipulation code to support full 32bit
-major/minor/patch components, except for GuC which is guaranteed to be
-8bit safe.
-
-Other minor code clean ups around version number handling.
+The way delimieters (underscores and dots) were added to the UC
+filenames was different for different types of delimter. Rationalise
+them to all be done the same way - implicitly in the concatenation
+macro rather than explicitly in the file name prefix.
 
 Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+---
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-
-John Harrison (3):
-  drm/i915/uc: Rationalise delimiters in filename macros
-  drm/i915/uc: More refactoring of UC version numbers
-  drm/i915/guc: Use GuC submission API version number
-
- drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  11 ++
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  15 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc.c         |   6 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      | 173 ++++++++++++------
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h      |  15 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw_abi.h  |   3 +-
- 6 files changed, 150 insertions(+), 73 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+index 0c80ba51a4bdc..774c3d84a4243 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+@@ -118,35 +118,35 @@ void intel_uc_fw_change_status(struct intel_uc_fw *uc_fw,
+  */
+ #define __MAKE_UC_FW_PATH_BLANK(prefix_, name_) \
+ 	"i915/" \
+-	__stringify(prefix_) name_ ".bin"
++	__stringify(prefix_) "_" name_ ".bin"
+ 
+ #define __MAKE_UC_FW_PATH_MAJOR(prefix_, name_, major_) \
+ 	"i915/" \
+-	__stringify(prefix_) name_ \
++	__stringify(prefix_) "_" name_ "_" \
+ 	__stringify(major_) ".bin"
+ 
+ #define __MAKE_UC_FW_PATH_MMP(prefix_, name_, major_, minor_, patch_) \
+ 	"i915/" \
+-	__stringify(prefix_) name_ \
++	__stringify(prefix_) "_" name_  "_" \
+ 	__stringify(major_) "." \
+ 	__stringify(minor_) "." \
+ 	__stringify(patch_) ".bin"
+ 
+ /* Minor for internal driver use, not part of file name */
+ #define MAKE_GUC_FW_PATH_MAJOR(prefix_, major_, minor_) \
+-	__MAKE_UC_FW_PATH_MAJOR(prefix_, "_guc_", major_)
++	__MAKE_UC_FW_PATH_MAJOR(prefix_, "guc", major_)
+ 
+ #define MAKE_GUC_FW_PATH_MMP(prefix_, major_, minor_, patch_) \
+-	__MAKE_UC_FW_PATH_MMP(prefix_, "_guc_", major_, minor_, patch_)
++	__MAKE_UC_FW_PATH_MMP(prefix_, "guc", major_, minor_, patch_)
+ 
+ #define MAKE_HUC_FW_PATH_BLANK(prefix_) \
+-	__MAKE_UC_FW_PATH_BLANK(prefix_, "_huc")
++	__MAKE_UC_FW_PATH_BLANK(prefix_, "huc")
+ 
+ #define MAKE_HUC_FW_PATH_GSC(prefix_) \
+-	__MAKE_UC_FW_PATH_BLANK(prefix_, "_huc_gsc")
++	__MAKE_UC_FW_PATH_BLANK(prefix_, "huc_gsc")
+ 
+ #define MAKE_HUC_FW_PATH_MMP(prefix_, major_, minor_, patch_) \
+-	__MAKE_UC_FW_PATH_MMP(prefix_, "_huc_", major_, minor_, patch_)
++	__MAKE_UC_FW_PATH_MMP(prefix_, "huc", major_, minor_, patch_)
+ 
+ /*
+  * All blobs need to be declared via MODULE_FIRMWARE().
 -- 
 2.37.3
 
