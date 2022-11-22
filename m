@@ -1,52 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FE02634475
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 20:22:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E97E063448D
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 20:29:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B338410E445;
-	Tue, 22 Nov 2022 19:22:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C0E810E456;
+	Tue, 22 Nov 2022 19:29:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E50ED10E445
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Nov 2022 19:22:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202112;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=YvV2qYmfCARqWRX45HebslGCKHrlfAsFa+cPnV5a2UE=; b=NT2UmIG/ukqTxyvg4OjJNJVR6n
- Lvr7A1v6pJkki/W/YvFLA0dh/WSwxpXu7XkTVv3OHv68NtyX02NbeWNVTotaOuqpV9Kptsc+EufyK
- cdp1JKpbFeH5Rob0Xvh7/qS3DM89/xh4uJEF8NlawNFT30jIU9GwhT5DnuErvnupS4y7WnnmE/Pw4
- sB2RFkMH+jQRFmYFw+I8/xAB0EDTKriHMxa1Qzr4BToI8/uf+t1u86vqwm8AF8RjVu1DHH4Y24g4Y
- lXYhayqPjGZ4rNA3iaVc9xLHp8YJU6kd3WQ1mlq+bEfATYCobHF6a7G1nfSF9ZFyMbewr+mHydP48
- X3NpDeng==;
-Received: from [2a01:799:95e:1700:6395:ccbd:d000:d42b] (port=58456)
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1oxYqf-0007SH-6t; Tue, 22 Nov 2022 20:22:25 +0100
-Message-ID: <02bc2442-e3b3-d720-9d13-ffcdfd760fb8@tronnes.org>
-Date: Tue, 22 Nov 2022 20:22:22 +0100
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5DCE10E456
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Nov 2022 19:29:17 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id l11so22021823edb.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Nov 2022 11:29:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=NVDnmC2dKJqAUSDipNMGo0RTknLwbcl5eyAafViq/zw=;
+ b=F6JQcHUsspYdGaSt4ieZNwOMZpEsONnlt9o3YWjXlEPIa0eIcgJ24H9S942F8Q4aMc
+ g+39K4DM+a7d2RygbPWquSET+BAUOl/CuMuwn+gW+NMmdBYH2TajHT6E0wgDLsvyRn8Q
+ Oyjdw7OWDhgLbC7P9JZW0uMGCjhOePfyWsSdI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=NVDnmC2dKJqAUSDipNMGo0RTknLwbcl5eyAafViq/zw=;
+ b=JAii/Irr/nr87ZhK2WlO8VSTiuwHiJyO92LasrgcLXZum0eHmsWgXAZM5QhBDOVxVK
+ +GBsNOkL+cOENz+JAktwUo89wxo46bFvkyP5aGPJLawMrBlfZaSvlMH85un1eNO9f7+L
+ RAinFM0MgyHF1MAXbzBFLP4ajp42eFn2SHPXHnBnVtkqaVCEooEYgioWXmJlry47+sR/
+ jtG6Hyk9vwR7TEZFLe9QSF4n+yeT1GBEuoODAD8roqlcO0R0a/l+VBq7FWTEWe7itG3E
+ In8e7z+ZJuqPoLoXUs2KOsAcH/x579sT9ZDKUeL1fQh0f0SC4w4/zHOE2N5+2gOVw9mZ
+ em8A==
+X-Gm-Message-State: ANoB5pm8D6AcvQclyTtP71LUhwytB4jVz/pfchhYA/kvWHCVI+gPsuak
+ BN8h3NsgkdfORP7phK97BVaUa1FnNZ9MUrF/INUuPA==
+X-Google-Smtp-Source: AA0mqf7IcusChboGRGGt1s/cB7q39wPkujHV5XTXD9uN+GJhpblKvI9MCtZZtq2mwcwYehW0Unnkdw9V4tf6ONn4w74=
+X-Received: by 2002:a05:6402:c0b:b0:463:a83c:e0af with SMTP id
+ co11-20020a0564020c0b00b00463a83ce0afmr21647244edb.158.1669145356462; Tue, 22
+ Nov 2022 11:29:16 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: git send-email friendly smtp provider anyone?
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-References: <1bc45775-0667-01f8-36e1-9f65d3081092@tronnes.org>
- <20221121151922.jaal6ym7z2ejju4q@houat>
- <de12952f-8346-8995-236d-69dcb70f19f6@tronnes.org>
- <20221122155122.edxtmsqpjxgj4dsj@meerkat.local>
- <3b06dfd5-0eb4-dbfc-6ba8-077b1a92865b@tronnes.org>
- <20221122185001.q6hmeblp64jqdzvz@meerkat.local>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20221122185001.q6hmeblp64jqdzvz@meerkat.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20221122170801.842766-1-daniel.vetter@ffwll.ch>
+ <Y30PDdsvHIJo5YHR@ziepe.ca>
+ <CAKMK7uEccwYTNwDYQazmZvTfBFQOikZt5A6BmegweyO-inKYbQ@mail.gmail.com>
+ <Y30Z4VxT7Wdoc1Lc@ziepe.ca>
+In-Reply-To: <Y30Z4VxT7Wdoc1Lc@ziepe.ca>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Tue, 22 Nov 2022 20:29:05 +0100
+Message-ID: <CAKMK7uE=8eqyh9BKg_+7B1jjMi6K4wrmPyi9xeLVvVYFxBgF9g@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: Require VM_PFNMAP vma for mmap
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,141 +64,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Matthew Wilcox <willy@infradead.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linaro-mm-sig@lists.linaro.org, John Stultz <john.stultz@linaro.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Suren Baghdasaryan <surenb@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 22 Nov 2022 at 19:50, Jason Gunthorpe <jgg@ziepe.ca> wrote:
+>
+> On Tue, Nov 22, 2022 at 07:08:25PM +0100, Daniel Vetter wrote:
+> > On Tue, 22 Nov 2022 at 19:04, Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> > >
+> > > On Tue, Nov 22, 2022 at 06:08:00PM +0100, Daniel Vetter wrote:
+> > > > tldr; DMA buffers aren't normal memory, expecting that you can use
+> > > > them like that (like calling get_user_pages works, or that they're
+> > > > accounting like any other normal memory) cannot be guaranteed.
+> > > >
+> > > > Since some userspace only runs on integrated devices, where all
+> > > > buffers are actually all resident system memory, there's a huge
+> > > > temptation to assume that a struct page is always present and useable
+> > > > like for any more pagecache backed mmap. This has the potential to
+> > > > result in a uapi nightmare.
+> > > >
+> > > > To stop this gap require that DMA buffer mmaps are VM_PFNMAP, which
+> > > > blocks get_user_pages and all the other struct page based
+> > > > infrastructure for everyone. In spirit this is the uapi counterpart to
+> > > > the kernel-internal CONFIG_DMABUF_DEBUG.
+> > > >
+> > > > Motivated by a recent patch which wanted to swich the system dma-buf
+> > > > heap to vm_insert_page instead of vm_insert_pfn.
+> > > >
+> > > > v2:
+> > > >
+> > > > Jason brought up that we also want to guarantee that all ptes have the
+> > > > pte_special flag set, to catch fast get_user_pages (on architectures
+> > > > that support this). Allowing VM_MIXEDMAP (like VM_SPECIAL does) would
+> > > > still allow vm_insert_page, but limiting to VM_PFNMAP will catch that.
+> > > >
+> > > > From auditing the various functions to insert pfn pte entires
+> > > > (vm_insert_pfn_prot, remap_pfn_range and all it's callers like
+> > > > dma_mmap_wc) it looks like VM_PFNMAP is already required anyway, so
+> > > > this should be the correct flag to check for.
+> > >
+> > > I didn't look at how this actually gets used, but it is a bit of a
+> > > pain to insert a lifetime controlled object like a struct page as a
+> > > special PTE/VM_PFNMAP
+> > >
+> > > How is the lifetime model implemented here? How do you know when
+> > > userspace has finally unmapped the page?
+> >
+> > The vma has a filp which is the refcounted dma_buf. With dma_buf you
+> > never get an individual page it's always the entire object. And it's
+> > up to the allocator how exactly it wants to use or not use the page's
+> > refcount. So if gup goes in and elevates the refcount, you can break
+> > stuff, which is why I'm doing this.
+>
+> But how does move work?
 
-
-Den 22.11.2022 19.50, skrev Konstantin Ryabitsev:
-> On Tue, Nov 22, 2022 at 06:42:19PM +0100, Noralf Trønnes wrote:
->> The first thing that strikes me is that everyone mentioned in one of the
->> patches get the entire patchset, even stable@vger.kernel.org (cc'ed in a
->> fixes patch). The first patch touches a core file and as a result a few
->> drivers, so I've cc'ed the driver maintainers in that patch, but now
->> they get the entire patchset where 5 of 6 patches is about a driver that
->> I maintain. So from their point of view, they see a patchset about a
->> driver they don't care about and a patch touching a core file, but from
->> the subject it's not apparent that it touches their driver. I'm afraid
->> that this might result in none of them looking at that patch. In this
->> particular case it's not that important, but in another case it might be.
-> 
-> I did some (unscientific) polling among kernel maintainers and, by a vast
-> margin, they always prefer to receive the entire series instead of
-> cherry-picked patches -- having the entire series helps provide important
-> context for the change they are looking at.
-> 
-> So, this is deliberate and, for now at least, not configurable. Unless you're
-> sending 100+ patch series, I doubt anyone will have any problem with receiving
-> the whole series instead of individual patches.
-> 
->> As for the setting up the web endpoint, should I just follow the b4 docs
->> on that?
->>
->> I use b4 version 0.10.1, is that recent enough?
-> 
-> Yes. There will be a 0.10.2 in the near future, but the incoming fixes
-> shouldn't make much difference for the b4 send code.
-> 
-
-This is what I got:
-
-$ b4 send --web-auth-verify <challenge string from email>
-Signing challenge
-Submitting verification to https://lkml.kernel.org/_b4_submit
-Traceback (most recent call last):
-  File "/home/pi/.local/bin/b4", line 8, in <module>
-    sys.exit(cmd())
-  File "/home/pi/.local/lib/python3.10/site-packages/b4/command.py",
-line 341, in cmd
-    cmdargs.func(cmdargs)
-  File "/home/pi/.local/lib/python3.10/site-packages/b4/command.py",
-line 86, in cmd_send
-    b4.ez.cmd_send(cmdargs)
-  File "/home/pi/.local/lib/python3.10/site-packages/b4/ez.py", line
-1102, in cmd_send
-    auth_verify(cmdargs)
-  File "/home/pi/.local/lib/python3.10/site-packages/b4/ez.py", line
-188, in auth_verify
-    res = ses.post(endpoint, json=req)
-  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 590,
-in post
-    return self.request('POST', url, data=data, json=json, **kwargs)
-  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 528,
-in request
-    prep = self.prepare_request(req)
-  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 456,
-in prepare_request
-    p.prepare(
-  File "/usr/lib/python3/dist-packages/requests/models.py", line 319, in
-prepare
-    self.prepare_body(data, files, json)
-  File "/usr/lib/python3/dist-packages/requests/models.py", line 469, in
-prepare_body
-    body = complexjson.dumps(json)
-  File "/usr/lib/python3.10/json/__init__.py", line 231, in dumps
-    return _default_encoder.encode(obj)
-  File "/usr/lib/python3.10/json/encoder.py", line 199, in encode
-    chunks = self.iterencode(o, _one_shot=True)
-  File "/usr/lib/python3.10/json/encoder.py", line 257, in iterencode
-    return _iterencode(o, 0)
-  File "/usr/lib/python3.10/json/encoder.py", line 179, in default
-    raise TypeError(f'Object of type {o.__class__.__name__} '
-TypeError: Object of type bytes is not JSON serializable
-
-$ python3 --version
-Python 3.10.6
-
-Turning on debug output didn't add much:
-
-$ b4 -d send --web-auth-verify 7ad470b4-f531-4632-8093-738d4d3e5d88
-Running git --no-pager rev-parse --show-toplevel
-Running git --no-pager config -z --get-regexp b4\..*
-Running git --no-pager config -z --get-regexp gpg\..*
-Running git --no-pager config -z --get-regexp user\..*
-Signing challenge
-Submitting verification to https://lkml.kernel.org/_b4_submit
-Traceback (most recent call last):
-  File "/home/pi/.local/bin/b4", line 8, in <module>
-    sys.exit(cmd())
-  File "/home/pi/.local/lib/python3.10/site-packages/b4/command.py",
-line 341, in cmd
-    cmdargs.func(cmdargs)
-  File "/home/pi/.local/lib/python3.10/site-packages/b4/command.py",
-line 86, in cmd_send
-    b4.ez.cmd_send(cmdargs)
-  File "/home/pi/.local/lib/python3.10/site-packages/b4/ez.py", line
-1102, in cmd_send
-    auth_verify(cmdargs)
-  File "/home/pi/.local/lib/python3.10/site-packages/b4/ez.py", line
-188, in auth_verify
-    res = ses.post(endpoint, json=req)
-  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 590,
-in post
-    return self.request('POST', url, data=data, json=json, **kwargs)
-  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 528,
-in request
-    prep = self.prepare_request(req)
-  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 456,
-in prepare_request
-    p.prepare(
-  File "/usr/lib/python3/dist-packages/requests/models.py", line 319, in
-prepare
-    self.prepare_body(data, files, json)
-  File "/usr/lib/python3/dist-packages/requests/models.py", line 469, in
-prepare_body
-    body = complexjson.dumps(json)
-  File "/usr/lib/python3.10/json/__init__.py", line 231, in dumps
-    return _default_encoder.encode(obj)
-  File "/usr/lib/python3.10/json/encoder.py", line 199, in encode
-    chunks = self.iterencode(o, _one_shot=True)
-  File "/usr/lib/python3.10/json/encoder.py", line 257, in iterencode
-    return _iterencode(o, 0)
-  File "/usr/lib/python3.10/json/encoder.py", line 179, in default
-    raise TypeError(f'Object of type {o.__class__.__name__} '
-TypeError: Object of type bytes is not JSON serializable
-
-
-Noralf.
+You nuke all the ptes. Drivers that move have slightly more than a
+bare struct file, they also have a struct address_space so that
+invalidate_mapping_range() works. Refaulting and any coherency issues
+when a refault races against a dma-buf migration is up to the
+driver/exporter to handle correctly. None rely on struct page like mm/
+moving stuff around for compaction/ksm/numa-balancing/whateverr.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
