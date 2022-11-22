@@ -1,32 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27DBB633D1E
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 14:08:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 643BE633D5F
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 14:17:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C99910E11E;
-	Tue, 22 Nov 2022 13:07:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12A3B10E127;
+	Tue, 22 Nov 2022 13:17:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.swemel.ru (mx.swemel.ru [95.143.211.150])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CE2B10E0D2;
- Tue, 22 Nov 2022 13:07:51 +0000 (UTC)
-From: Denis Arefev <arefev@swemel.ru>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=swemel.ru; s=mail;
- t=1669122466;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=Lwqi47KLlf+3se6EowjmL8XqQoZpHqyKwAHzX3T03qY=;
- b=i2VYqD2MMJrb7FwHOZ5DvkAcxlMqgQBYCi1LOlVzp/AZxHfAe1oPPzhs667NWMtJydanlX
- PGW6skwbrIfUs2wdJkzZjMxSqIXhAmyR96qq78Ppbzg1iZuqm7S2yR4LEHn1yRn1CAGXMG
- WASvflA1/G2zE+JGw+jL+JFMtc0BG6U=
-To: Evan Quan <evan.quan@amd.com>
-Subject: 
-Date: Tue, 22 Nov 2022 16:07:46 +0300
-Message-Id: <20221122130746.24432-1-arefev@swemel.ru>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B0A010E127;
+ Tue, 22 Nov 2022 13:17:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1669123043; x=1700659043;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=xVjCq6D6Fp1SmzLuvEUhutyehepg8yiG9aEJq7JYLLA=;
+ b=bbqscu49TzE85KnjfjF1lDV8UwiJ4JmTYImb1DiQSXCPp2rrNddGpazF
+ 5/Ju8VGIS4hRz5twDsArP03naAd8U35v+xO0DTyXbNoR1v7HK/KthNzzU
+ JWmEC+5iZpdx33QBG56VSbCmG0iTeeD0J4Df9bH8hBogXgbzNWGnQSXXu
+ CAGv4U0nnTQ+HWY4C2NRO02E7R24ZB5f/mXA9HGc24ajatCOuNso/HLkh
+ tn3bnMXVgx5dZ1O2qKswc1gD4GAKnyx2Q3GkbbslgpAoNX0E6cbEzo2Wb
+ HMq/eaSChceV9Xgt+Wv2Dy/S3nudRWGRJ0D0Jj4SmMlMgEDwzCiuS5C0u w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="312512698"
+X-IronPort-AV: E=Sophos;i="5.96,184,1665471600"; d="scan'208";a="312512698"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Nov 2022 05:17:22 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="766333945"
+X-IronPort-AV: E=Sophos;i="5.96,184,1665471600"; d="scan'208";a="766333945"
+Received: from sfflynn-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.18.151])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Nov 2022 05:17:19 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: dim-tools@lists.freedesktop.org
+Subject: [MAINTAINER TOOLS] docs: updated rules for topic/core-for-CI commit
+ management
+Date: Tue, 22 Nov 2022 15:17:14 +0200
+Message-Id: <20221122131714.3443238-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -40,54 +57,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: trufanov@swemel.ru, lvc-project@linuxtesting.org, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, vfh@swemel.ru, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, jani.nikula@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Date: Tue, 22 Nov 2022 15:51:44 +0300
-Subject: [PATCH] powerplay: hwmgr: added result check
+Introduce stricter rules for topic/core-for-CI management. Way too many
+commits have been added over the years, with insufficient rationale
+recorded in the commit message, and insufficient follow-up with removing
+the commits from the topic branch.
 
-The return value of the 'div64_s64'
-function called in ppevvmath.h:371
-was not checked.
+New rules:
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+1. Require maintainer ack for rebase. Have better gating on when rebases
+   happen and on which baselines.
 
-Signed-off-by: Denis Arefev <arefev@swemel.ru>
+2. Require maintainer/committer ack for adding/removing commits. No
+   single individual should decide.
+
+3. Require gitlab issues for new commits added. Improve tracking for
+   removing the commits.
+
+Also use the stronger "must" for commit message requiring the
+justification for the commit being in topic/core-for-CI.
+
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: dim-tools@lists.freedesktop.org
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppevvmath.h | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drm-tip.rst | 27 ++++++++++++++++++++-------
+ 1 file changed, 20 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppevvmath.h b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppevvmath.h
-index dac29fe6cfc6..82aa7130d143 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppevvmath.h
-+++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppevvmath.h
-@@ -357,6 +357,7 @@ static fInt fDivide (fInt X, fInt Y)
- {
- 	fInt fZERO, fQuotient;
- 	int64_t longlongX, longlongY;
-+	int64_t result;
+diff --git a/drm-tip.rst b/drm-tip.rst
+index deae95cdd2fe..24036e2ef576 100644
+--- a/drm-tip.rst
++++ b/drm-tip.rst
+@@ -203,11 +203,13 @@ justified exception. The primary goal is to fix issues originating from Linus'
+ tree. Issues that would need drm-next or other DRM subsystem tree as baseline
+ should be fixed in the offending DRM subsystem tree.
  
- 	fZERO = ConvertToFraction(0);
+-Only rebase the branch if you really know what you're doing. When in doubt, ask
+-the maintainers. You'll need to be able to handle any conflicts in non-drm code
+-while rebasing.
++Only rebase the branch if you really know what you're doing. You'll need to be
++able to handle any conflicts in non-drm code while rebasing.
  
-@@ -367,10 +368,11 @@ static fInt fDivide (fInt X, fInt Y)
- 	longlongY = (int64_t)Y.full;
+-Simply drop fixes that are already available in the new baseline.
++Always ask for maintainer ack before rebasing. IRC ack is sufficient.
++
++Simply drop fixes that are already available in the new baseline. Close the
++associated gitlab issue when removing commits.
  
- 	longlongX = longlongX << 16; /*Q(16,16) -> Q(32,32) */
-+	longlongY = longlongY << 16;
+ Force pushing a rebased topic/core-for-CI requires passing the ``--force``
+ parameter to git::
+@@ -225,11 +227,22 @@ judgement call.
+ Only add or remove commits if you really know what you're doing. When in doubt,
+ ask the maintainers.
  
--	div64_s64(longlongX, longlongY); /*Q(32,32) divided by Q(16,16) = Q(16,16) Back to original format */
-+	result = div64_s64(longlongX, longlongY);
+-Apply new commits on top with regular push. The commit message needs to explain
+-why the patch has been applied to topic/core-for-CI. If it's a cherry-pick from
++Always ask for maintainer/committer ack before adding/removing commits. IRC ack
++is sufficient. Record the ``Acked-by:`` in commits being added.
++
++Apply new commits on top with regular push. The commit message must explain why
++the patch has been applied to topic/core-for-CI. If it's a cherry-pick from
+ another subsystem, please reference the commit with ``git cherry-pick -x``
+ option. If it's a patch from another subsystem, please reference the patch on
+ the mailing list with ``Link:`` tag.
  
--	fQuotient.full = (int)longlongX;
-+	fQuotient = ConvertToFraction((int)result);
- 	return fQuotient;
- }
- 
++New commits always need an associated gitlab issue for tracking purposes. The
++goal is to have as few commits in topic/core-for-CI as possible, and we need to
++be able to track the progress in making that happen. Reference the issue with
++``References:`` tag. Add the ``core-for-CI`` label to the issue. (Note: Do not
++use ``Closes:`` because the logic here is backwards; the issue is having the
++commit in the branch in the first place.)
++
+ Instead of applying reverts, just remove the commit. This implies ``git rebase
+--i`` on the current baseline; see directions above.
++-i`` on the current baseline; see directions above. Close the associated gitlab
++issue when removing commits.
 -- 
-2.25.1
+2.34.1
 
