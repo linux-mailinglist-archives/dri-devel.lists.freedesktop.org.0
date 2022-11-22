@@ -2,51 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C86D7634854
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 21:37:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE3A163487E
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 21:40:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90E8410E475;
-	Tue, 22 Nov 2022 20:37:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A09F10E1D6;
+	Tue, 22 Nov 2022 20:40:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19ADE10E471;
- Tue, 22 Nov 2022 20:37:36 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78E9210E1D6;
+ Tue, 22 Nov 2022 20:40:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669149456; x=1700685456;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=8B/tAZGrwyqOydFVEzbpljx8xrYqb8kXX2Bbtetb0Qc=;
- b=bxXfAvKddO7l4vDgrn8oIqFSTj+hk65K/PxBUIaie1x/RHVaBrCdou/6
- Ez12QELK970uAELFUAqazu/UV5qkSs3R09HMQYxdJzZTB97qS7nCJ8drE
- jAfPIb9xMYRL2nHH5F9Eb0KG6VSMrdAedfzo8ubBn3RHIgNerVOhh1m9+
- oYVyG2BiO5M6pe8fyemVskc/xtZI1AVd9HZ6XsW+aWmlSAuR+eQxTvda1
- aS0/ypf15t276voOqWGNrkbtJJXzlMciPEhDi4MsZ44E/muLLXMxgiVbv
- jfa2Ra2+yCwrgjfqYlg2B35BlapNkx+W6xSW9Yx6J/TRjuXufJxfftGbE g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="340784159"
-X-IronPort-AV: E=Sophos;i="5.96,185,1665471600"; d="scan'208";a="340784159"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Nov 2022 12:37:35 -0800
+ t=1669149624; x=1700685624;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=jYdOcU6u2PqKHt4xoIGrPm4nN7KDQHz2+v1q3VFy6h4=;
+ b=DoOP6Y8/RKoJQW5dzKfjX2qdq5LGOPXwWqO7OjV4ZRKkI0UFzO0njayG
+ SJ35J3kOY9EEJF28M43CcXfbbcR2oQmV9h0ydkjBn/A8IeJRqF8qk3+rm
+ b4y6B4fLtZjmtVP2surcUnvOdGJQQW8oprrKNOmOX0ZZQRMl37gD62DQG
+ 7gFfvxO7LJCKOzK53Cc0k3f7sCleOD0NRoyucJ3L2mB9+J7+cAZvS4ZHk
+ QUNeCVw/fdk6EY9SkzdRmE6hpWVIHJn6qobdzcxGn/FEIppwHQATglBdA
+ fRqs+/t+qHkinT1MmdlknGzj4TVzSm8gwT2STKP/bLvY5gVnF8LsjFWBp g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="312610827"
+X-IronPort-AV: E=Sophos;i="5.96,185,1665471600"; d="scan'208";a="312610827"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Nov 2022 12:40:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="766463310"
-X-IronPort-AV: E=Sophos;i="5.96,185,1665471600"; d="scan'208";a="766463310"
-Received: from lkp-server01.sh.intel.com (HELO 64a2d449c951) ([10.239.97.150])
- by orsmga004.jf.intel.com with ESMTP; 22 Nov 2022 12:37:31 -0800
-Received: from kbuild by 64a2d449c951 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1oxa1L-0001pX-0I;
- Tue, 22 Nov 2022 20:37:31 +0000
-Date: Wed, 23 Nov 2022 04:37:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master] BUILD REGRESSION
- 771a207d1ee9f38da8c0cee1412228f18b900bac
-Message-ID: <637d32fc.J7JDZVofmP9NLBs4%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="705103263"
+X-IronPort-AV: E=Sophos;i="5.96,185,1665471600"; d="scan'208";a="705103263"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by fmsmga008.fm.intel.com with ESMTP; 22 Nov 2022 12:40:23 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.13; Tue, 22 Nov 2022 12:40:23 -0800
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 22 Nov 2022 12:40:22 -0800
+Received: from fmsmsx612.amr.corp.intel.com ([10.18.126.92]) by
+ fmsmsx612.amr.corp.intel.com ([10.18.126.92]) with mapi id 15.01.2375.031;
+ Tue, 22 Nov 2022 12:40:22 -0800
+From: "Navare, Manasi D" <manasi.d.navare@intel.com>
+To: "Lisovskiy, Stanislav" <stanislav.lisovskiy@intel.com>
+Subject: RE: [PATCH 6/6] drm/i915: Bpp/timeslot calculation fixes for DP MST
+ DSC
+Thread-Topic: [PATCH 6/6] drm/i915: Bpp/timeslot calculation fixes for DP MST
+ DSC
+Thread-Index: AQHY/l7CNXpN51TcyEuEkWZZnTYHMK5LaGGQ
+Date: Tue, 22 Nov 2022 20:40:22 +0000
+Message-ID: <07d18550300f4e08bf7c41dcf81c17a6@intel.com>
+References: <20221101094222.22091-7-stanislav.lisovskiy@intel.com>
+ <20221103132300.12805-1-stanislav.lisovskiy@intel.com>
+ <Y215+cst5k5dCoBf@mdnavare-mobl9> <Y3ym8Ve4leqxKw3U@intel.com>
+In-Reply-To: <Y3ym8Ve4leqxKw3U@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.132]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,257 +78,399 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Memory Management List <linux-mm@kvack.org>,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- cluster-devel@redhat.com, linux-acpi@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, netdev@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: "Nikula, Jani" <jani.nikula@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Saarinen,
+ Jani" <jani.saarinen@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Govindapillai, Vinod" <vinod.govindapillai@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: 771a207d1ee9f38da8c0cee1412228f18b900bac  Add linux-next specific files for 20221122
+Thanks Stan for the explanation,
+With that
 
-Error/Warning reports:
+Reviewed-by: Manasi Navare <manasi.d.navare@intel.com>
 
-https://lore.kernel.org/oe-kbuild-all/202211130053.Np70VIdn-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202211211917.yLICUnMb-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202211221848.N0WN2GK3-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202211221932.A1a12yLH-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202211222131.H2kT55xh-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202211222348.riEBQcJQ-lkp@intel.com
+Manasi
 
-Error/Warning: (recently discovered and may have been fixed)
 
-ERROR: modpost: "__ld_r13_to_r22" [lib/zstd/zstd_decompress.ko] undefined!
-ERROR: modpost: "devm_ioremap_resource" [drivers/dma/qcom/hdma.ko] undefined!
-ERROR: modpost: "lockdep_is_held" [fs/dlm/dlm.ko] undefined!
-arch/arm/mach-s3c/devs.c:32:10: fatal error: linux/platform_data/dma-s3c24xx.h: No such file or directory
-drivers/clk/clk.c:1022:5: error: redefinition of 'clk_prepare'
-drivers/clk/clk.c:1268:6: error: redefinition of 'clk_is_enabled_when_prepared'
-drivers/clk/clk.c:941:6: error: redefinition of 'clk_unprepare'
-drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:4968: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dp.c:5075:24: warning: implicit conversion from 'enum <anonymous>' to 'enum dc_status' [-Wenum-conversion]
-drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn201/irq_service_dcn201.c:139:43: warning: unused variable 'dmub_outbox_irq_info_funcs' [-Wunused-const-variable]
-drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn201/irq_service_dcn201.c:40:20: warning: no previous prototype for 'to_dal_irq_source_dcn201' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn201/irq_service_dcn201.c:40:20: warning: no previous prototype for function 'to_dal_irq_source_dcn201' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c:451:1: warning: no previous prototype for 'gf100_fifo_nonstall_block' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c:451:1: warning: no previous prototype for function 'gf100_fifo_nonstall_block' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c:34:1: warning: no previous prototype for 'nvkm_engn_cgrp_get' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c:34:1: warning: no previous prototype for function 'nvkm_engn_cgrp_get' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c:210:1: warning: no previous prototype for 'tu102_gr_load' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c:210:1: warning: no previous prototype for function 'tu102_gr_load' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/nvfw/acr.c:49:1: warning: no previous prototype for 'wpr_generic_header_dump' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/nvfw/acr.c:49:1: warning: no previous prototype for function 'wpr_generic_header_dump' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:221:21: warning: variable 'loc' set but not used [-Wunused-but-set-variable]
-fs/dlm/lowcomms.c:623: undefined reference to `lockdep_is_held'
-include/net/sock.h:1713: undefined reference to `lockdep_is_held'
-ld.lld: error: undefined symbol: devm_drm_of_get_bridge
-ld.lld: error: undefined symbol: drm_atomic_get_new_connector_for_encoder
-ld.lld: error: undefined symbol: drm_atomic_helper_bridge_destroy_state
-ld.lld: error: undefined symbol: drm_atomic_helper_bridge_duplicate_state
-ld.lld: error: undefined symbol: drm_atomic_helper_bridge_reset
-ld.lld: error: undefined symbol: drm_bridge_add
-ld.lld: error: undefined symbol: drm_bridge_attach
-ld.lld: error: undefined symbol: drm_bridge_remove
-ld.lld: error: undefined symbol: drm_of_get_data_lanes_count_ep
-ld.lld: error: undefined symbol: lockdep_is_held
-microblaze-linux-ld: (.text+0x158): undefined reference to `drm_bridge_add'
-microblaze-linux-ld: drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.o:(.rodata+0x3b4): undefined reference to `drm_atomic_helper_bridge_duplicate_state'
-microblaze-linux-ld: drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.o:(.rodata+0x3b8): undefined reference to `drm_atomic_helper_bridge_destroy_state'
-microblaze-linux-ld: drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.o:(.rodata+0x3c8): undefined reference to `drm_atomic_helper_bridge_reset'
+-----Original Message-----
+From: Lisovskiy, Stanislav <stanislav.lisovskiy@intel.com>=20
+Sent: Tuesday, November 22, 2022 2:40 AM
+To: Navare, Manasi D <manasi.d.navare@intel.com>
+Cc: intel-gfx@lists.freedesktop.org; Saarinen, Jani <jani.saarinen@intel.co=
+m>; Nikula, Jani <jani.nikula@intel.com>; dri-devel@lists.freedesktop.org; =
+Govindapillai, Vinod <vinod.govindapillai@intel.com>
+Subject: Re: [PATCH 6/6] drm/i915: Bpp/timeslot calculation fixes for DP MS=
+T DSC
 
-Unverified Error/Warning (likely false positive, please contact us if interested):
+On Thu, Nov 10, 2022 at 02:23:53PM -0800, Navare, Manasi wrote:
+> On Thu, Nov 03, 2022 at 03:23:00PM +0200, Stanislav Lisovskiy wrote:
+> > Fix intel_dp_dsc_compute_config, previously timeslots parameter was=20
+> > used in fact not as a timeslots, but more like a ratio timeslots/64,=20
+> > which of course didn't have any effect for SST DSC, but causes now=20
+> > issues for MST DSC.
+> > Secondly we need to calculate pipe_bpp using=20
+> > intel_dp_dsc_compute_bpp only for SST DSC case, while for MST case=20
+> > it has been calculated earlier already with intel_dp_dsc_mst_compute_li=
+nk_config.
+> > Third we also were wrongly determining sink min bpp/max bpp, those=20
+> > limites should be intersected with our limits to find common=20
+> > acceptable bpp's, plus on top of that we should align those with=20
+> > VESA bpps and only then calculate required timeslots amount.
+> > Some MST hubs started to work only after third change was made.
+> >=20
+> > v2: Make kernel test robot happy(claimed there was unitialzed use,
+> >     while there is none)
+> >=20
+> > Signed-off-by: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/display/intel_dp.c     | 69 ++++++++++++++-------
+> >  drivers/gpu/drm/i915/display/intel_dp.h     |  3 +-
+> >  drivers/gpu/drm/i915/display/intel_dp_mst.c | 69=20
+> > +++++++++++++++++----
+> >  3 files changed, 106 insertions(+), 35 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/i915/display/intel_dp.c=20
+> > b/drivers/gpu/drm/i915/display/intel_dp.c
+> > index 8288a30dbd51..82752b696498 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> > @@ -716,9 +716,14 @@ u16 intel_dp_dsc_get_output_bpp(struct drm_i915_pr=
+ivate *i915,
+> >  	 * for SST -> TimeSlotsPerMTP is 1,
+> >  	 * for MST -> TimeSlotsPerMTP has to be calculated
+> >  	 */
+> > -	bits_per_pixel =3D (link_clock * lane_count * 8) * timeslots /
+> > -			 intel_dp_mode_to_fec_clock(mode_clock);
+> > -	drm_dbg_kms(&i915->drm, "Max link bpp: %u\n", bits_per_pixel);
+> > +	bits_per_pixel =3D DIV_ROUND_UP((link_clock * lane_count) * timeslots=
+,
+> > +				      intel_dp_mode_to_fec_clock(mode_clock) * 8);
+>=20
+> Why did we remove the *8 in the numerator for the total bandwidth=20
+> link_clock * lane_count * 8 ?
+>=20
+> Other than this clarification, all changes look good
+>=20
+> Manasi
 
-drivers/gpu/drm/nouveau/nvkm/falcon/base.c:47:23: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-lib/zstd/compress/huf_compress.c:460 HUF_getIndex() warn: the 'RANK_POSITION_LOG_BUCKETS_BEGIN' macro might need parens
-lib/zstd/decompress/zstd_decompress_block.c:1009 ZSTD_execSequence() warn: inconsistent indenting
-lib/zstd/decompress/zstd_decompress_block.c:894 ZSTD_execSequenceEnd() warn: inconsistent indenting
-lib/zstd/decompress/zstd_decompress_block.c:942 ZSTD_execSequenceEndSplitLitBuffer() warn: inconsistent indenting
-lib/zstd/decompress/zstd_decompress_internal.h:206 ZSTD_DCtx_get_bmi2() warn: inconsistent indenting
-s390x-linux-ld: hidma.c:(.text+0x7e): undefined reference to `devm_ioremap_resource'
+Hi Manasi,
 
-Error/Warning ids grouped by kconfigs:
+Because previously this function was actually confusing the ratio timeslots=
+/64, with the timeslots number.
 
-gcc_recent_errors
-|-- alpha-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
-|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
-|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
-|-- alpha-randconfig-m041-20221121
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
-|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
-|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
-|-- arc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
-|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
-|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
-|-- arc-randconfig-c003-20221120
-|   `-- ERROR:__ld_r13_to_r22-lib-zstd-zstd_decompress.ko-undefined
-|-- arm-allyesconfig
-|   |-- arch-arm-mach-s3c-devs.c:fatal-error:linux-platform_data-dma-s3c24xx.h:No-such-file-or-directory
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
-|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
-|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
-|-- arm-defconfig
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
-|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
-|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
-|-- arm-randconfig-c002-20221115
-|   `-- drivers-gpu-drm-nouveau-nvkm-falcon-base.c:warning:use-of-uninitialized-value-unknown-CWE
-|-- arm64-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
-clang_recent_errors
-|-- arm-randconfig-r016-20221121
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-function-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-function-nvkm_engn_cgrp_get
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-function-tu102_gr_load
-|   `-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-function-wpr_generic_header_dump
-|-- arm64-randconfig-r026-20221122
-|   |-- ld.lld:error:undefined-symbol:devm_drm_of_get_bridge
-|   |-- ld.lld:error:undefined-symbol:drm_atomic_get_new_connector_for_encoder
-|   |-- ld.lld:error:undefined-symbol:drm_atomic_helper_bridge_destroy_state
-|   |-- ld.lld:error:undefined-symbol:drm_atomic_helper_bridge_duplicate_state
-|   |-- ld.lld:error:undefined-symbol:drm_atomic_helper_bridge_reset
-|   |-- ld.lld:error:undefined-symbol:drm_bridge_add
-|   |-- ld.lld:error:undefined-symbol:drm_bridge_attach
-|   |-- ld.lld:error:undefined-symbol:drm_bridge_remove
-|   `-- ld.lld:error:undefined-symbol:drm_of_get_data_lanes_count_ep
-|-- hexagon-randconfig-r045-20221121
-|   `-- ld.lld:error:undefined-symbol:lockdep_is_held
-|-- powerpc-randconfig-r016-20221120
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-function-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-function-nvkm_engn_cgrp_get
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-function-tu102_gr_load
-|   `-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-function-wpr_generic_header_dump
-|-- riscv-randconfig-r042-20221120
-|   `-- ld.lld:error:too-many-errors-emitted-stopping-now-(use-error-limit-to-see-all-errors)
-|-- s390-randconfig-r026-20221120
-|   `-- ERROR:devm_ioremap_resource-drivers-dma-qcom-hdma.ko-undefined
-|-- s390-randconfig-r031-20221121
-|   `-- s39-linux-ld:hidma.c:(.text):undefined-reference-to-devm_ioremap_resource
-|-- s390-randconfig-r033-20221121
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-function-to_dal_irq_source_dcn201
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:unused-variable-dmub_outbox_irq_info_funcs
-|-- s390-randconfig-r044-20221120
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-function-to_dal_irq_source_dcn201
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:unused-variable-dmub_outbox_irq_info_funcs
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-function-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-function-nvkm_engn_cgrp_get
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-function-tu102_gr_load
-|   `-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-function-wpr_generic_header_dump
-`-- x86_64-rhel-8.3-rust
-    `-- ERROR:lockdep_is_held-fs-dlm-dlm.ko-undefined
+It was actually expecting a ratio timeslots/64, rather than the timeslots n=
+umber.
 
-elapsed time: 736m
+For SST it didn't matter as timeslots were always 1, but for MST case if we=
+ multiply that by number number of timeslots, this formula will return some=
+ big bogus bits_per_pixel number(checked that).=20
+Of course we can pass a ratio timeslots/64 here, but it isn't very convenie=
+nt and intuitive to manipulate.
+So I made it to use a "timeslots" parameter as timeslots number, so that th=
+e ratio is calculated as part of the formula i.e:
 
-configs tested: 77
-configs skipped: 4
+((link_clock * lane_count * 8) * (timeslots / 64)) /  intel_dp_mode_to_fec_=
+clock(mode_clock);
 
-gcc tested configs:
-arc                                 defconfig
-alpha                               defconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                              defconfig
-i386                 randconfig-a011-20221121
-i386                 randconfig-a013-20221121
-x86_64                               rhel-8.3
-i386                 randconfig-a012-20221121
-i386                 randconfig-a014-20221121
-i386                 randconfig-a015-20221121
-x86_64               randconfig-a012-20221121
-i386                 randconfig-a016-20221121
-x86_64               randconfig-a011-20221121
-x86_64               randconfig-a013-20221121
-x86_64               randconfig-a016-20221121
-x86_64               randconfig-a014-20221121
-m68k                             allmodconfig
-x86_64                           allyesconfig
-x86_64               randconfig-a015-20221121
-m68k                             allyesconfig
-ia64                             allmodconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-m68k                       m5249evb_defconfig
-powerpc                      ep88xc_defconfig
-sparc                       sparc32_defconfig
-mips                           jazz_defconfig
-arm                           sama5_defconfig
-sh                  sh7785lcr_32bit_defconfig
-arm                            xcep_defconfig
-sh                        edosk7705_defconfig
-parisc64                         alldefconfig
-arc                  randconfig-r043-20221120
-riscv                randconfig-r042-20221121
-arc                  randconfig-r043-20221121
-s390                 randconfig-r044-20221121
-i386                                defconfig
-arm                                 defconfig
-x86_64                          rhel-8.3-func
-s390                                defconfig
-x86_64                           rhel-8.3-kvm
-s390                             allmodconfig
-x86_64                           rhel-8.3-syz
-x86_64                    rhel-8.3-kselftests
-x86_64                         rhel-8.3-kunit
-s390                             allyesconfig
-powerpc                           allnoconfig
-mips                             allyesconfig
-arm                              allyesconfig
-powerpc                          allmodconfig
-arm64                            allyesconfig
-sh                               allmodconfig
-i386                             allyesconfig
+which can be simplified as
 
-clang tested configs:
-arm                        neponset_defconfig
-x86_64               randconfig-a004-20221121
-powerpc                 xes_mpc85xx_defconfig
-x86_64               randconfig-a001-20221121
-i386                 randconfig-a004-20221121
-i386                 randconfig-a001-20221121
-x86_64               randconfig-a003-20221121
-i386                 randconfig-a003-20221121
-x86_64               randconfig-a002-20221121
-i386                 randconfig-a005-20221121
-i386                 randconfig-a002-20221121
-x86_64               randconfig-a005-20221121
-arm                         lpc32xx_defconfig
-x86_64               randconfig-a006-20221121
-i386                 randconfig-a006-20221121
-arm                         bcm2835_defconfig
-powerpc                    mvme5100_defconfig
-hexagon              randconfig-r041-20221120
-hexagon              randconfig-r041-20221121
-hexagon              randconfig-r045-20221120
-hexagon              randconfig-r045-20221121
-riscv                randconfig-r042-20221120
-s390                 randconfig-r044-20221120
+((link_clock * lane_count * timeslots) / 8) / intel_dp_mode_to_fec_clock(mo=
+de_clock);
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+the whole formula comes from that
+pipe_bpp * crtc_clock should be equal to link_total_bw * (timeslots / 64), =
+i.e
+timeslots/64 ratio defines, how much of the link_total_bw(link_clock * lane=
+_count * 8) we have for those pipe_bpp * crtc_clock, which we want to accom=
+odate there.
+
+Obviously if we just multiplied link_total_bw by timeslots, we would get a =
+situation that the more timeslots we allocate, the more total bw we get, wh=
+ich is wrong and will result in some bogus huge pipe_bpp numbers.
+
+Stan
+
+>=20
+> > +
+> > +	drm_dbg_kms(&i915->drm, "Max link bpp is %u for %u timeslots "
+> > +				"total bw %u pixel clock %u\n",
+> > +				bits_per_pixel, timeslots,
+> > +				(link_clock * lane_count * 8),
+> > +				intel_dp_mode_to_fec_clock(mode_clock));
+> > =20
+> >  	/* Small Joiner Check: output bpp <=3D joiner RAM (bits) / Horiz. wid=
+th */
+> >  	max_bpp_small_joiner_ram =3D small_joiner_ram_size_bits(i915) / @@=20
+> > -1047,7 +1052,7 @@ intel_dp_mode_valid(struct drm_connector *_connector=
+,
+> >  							    target_clock,
+> >  							    mode->hdisplay,
+> >  							    bigjoiner,
+> > -							    pipe_bpp, 1) >> 4;
+> > +							    pipe_bpp, 64) >> 4;
+> >  			dsc_slice_count =3D
+> >  				intel_dp_dsc_get_slice_count(intel_dp,
+> >  							     target_clock,
+> > @@ -1481,7 +1486,8 @@ int intel_dp_dsc_compute_config(struct intel_dp *=
+intel_dp,
+> >  				struct intel_crtc_state *pipe_config,
+> >  				struct drm_connector_state *conn_state,
+> >  				struct link_config_limits *limits,
+> > -				int timeslots)
+> > +				int timeslots,
+> > +				bool compute_pipe_bpp)
+> >  {
+> >  	struct intel_digital_port *dig_port =3D dp_to_dig_port(intel_dp);
+> >  	struct drm_i915_private *dev_priv =3D=20
+> > to_i915(dig_port->base.base.dev); @@ -1496,7 +1502,10 @@ int intel_dp_d=
+sc_compute_config(struct intel_dp *intel_dp,
+> >  	if (!intel_dp_supports_dsc(intel_dp, pipe_config))
+> >  		return -EINVAL;
+> > =20
+> > -	pipe_bpp =3D intel_dp_dsc_compute_bpp(intel_dp, conn_state->max_reque=
+sted_bpc);
+> > +	if (compute_pipe_bpp)
+> > +		pipe_bpp =3D intel_dp_dsc_compute_bpp(intel_dp, conn_state->max_requ=
+ested_bpc);
+> > +	else
+> > +		pipe_bpp =3D pipe_config->pipe_bpp;
+> > =20
+> >  	if (intel_dp->force_dsc_bpc) {
+> >  		pipe_bpp =3D intel_dp->force_dsc_bpc * 3; @@ -1527,31 +1536,47 @@=20
+> > int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
+> >  			drm_dp_dsc_sink_max_slice_count(intel_dp->dsc_dpcd,
+> >  							true);
+> >  	} else {
+> > -		u16 dsc_max_output_bpp;
+> > +		u16 dsc_max_output_bpp =3D 0;
+> >  		u8 dsc_dp_slice_count;
+> > =20
+> > -		dsc_max_output_bpp =3D
+> > -			intel_dp_dsc_get_output_bpp(dev_priv,
+> > -						    pipe_config->port_clock,
+> > -						    pipe_config->lane_count,
+> > -						    adjusted_mode->crtc_clock,
+> > -						    adjusted_mode->crtc_hdisplay,
+> > -						    pipe_config->bigjoiner_pipes,
+> > -						    pipe_bpp,
+> > -						    timeslots);
+> > +		if (compute_pipe_bpp) {
+> > +			dsc_max_output_bpp =3D
+> > +				intel_dp_dsc_get_output_bpp(dev_priv,
+> > +							    pipe_config->port_clock,
+> > +							    pipe_config->lane_count,
+> > +							    adjusted_mode->crtc_clock,
+> > +							    adjusted_mode->crtc_hdisplay,
+> > +							    pipe_config->bigjoiner_pipes,
+> > +							    pipe_bpp,
+> > +							    timeslots);
+> > +			if (!dsc_max_output_bpp) {
+> > +				drm_dbg_kms(&dev_priv->drm,
+> > +					    "Compressed BPP not supported\n");
+> > +				return -EINVAL;
+> > +			}
+> > +		}
+> >  		dsc_dp_slice_count =3D
+> >  			intel_dp_dsc_get_slice_count(intel_dp,
+> >  						     adjusted_mode->crtc_clock,
+> >  						     adjusted_mode->crtc_hdisplay,
+> >  						     pipe_config->bigjoiner_pipes);
+> > -		if (!dsc_max_output_bpp || !dsc_dp_slice_count) {
+> > +		if (!dsc_dp_slice_count) {
+> >  			drm_dbg_kms(&dev_priv->drm,
+> > -				    "Compressed BPP/Slice Count not supported\n");
+> > +				    "Compressed Slice Count not supported\n");
+> >  			return -EINVAL;
+> >  		}
+> > -		pipe_config->dsc.compressed_bpp =3D min_t(u16,
+> > -							dsc_max_output_bpp >> 4,
+> > -							pipe_config->pipe_bpp);
+> > +
+> > +		/*
+> > +		 * compute pipe bpp is set to false for DP MST DSC case
+> > +		 * and compressed_bpp is calculated same time once
+> > +		 * vpci timeslots are allocated, because overall bpp
+> > +		 * calculation procedure is bit different for MST case.
+> > +		 */
+> > +		if (compute_pipe_bpp) {
+> > +			pipe_config->dsc.compressed_bpp =3D min_t(u16,
+> > +								dsc_max_output_bpp >> 4,
+> > +								pipe_config->pipe_bpp);
+> > +		}
+> >  		pipe_config->dsc.slice_count =3D dsc_dp_slice_count;
+> >  		drm_dbg_kms(&dev_priv->drm, "DSC: compressed bpp %d slice count %d\n=
+",
+> >  			    pipe_config->dsc.compressed_bpp, @@ -1659,7 +1684,7 @@=20
+> > intel_dp_compute_link_config(struct intel_encoder *encoder,
+> >  			    str_yes_no(ret), str_yes_no(joiner_needs_dsc),
+> >  			    str_yes_no(intel_dp->force_dsc_en));
+> >  		ret =3D intel_dp_dsc_compute_config(intel_dp, pipe_config,
+> > -						  conn_state, &limits, 1);
+> > +						  conn_state, &limits, 1, true);
+> >  		if (ret < 0)
+> >  			return ret;
+> >  	}
+> > diff --git a/drivers/gpu/drm/i915/display/intel_dp.h=20
+> > b/drivers/gpu/drm/i915/display/intel_dp.h
+> > index 0fe10d93b75c..75098001685a 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_dp.h
+> > +++ b/drivers/gpu/drm/i915/display/intel_dp.h
+> > @@ -60,7 +60,8 @@ int intel_dp_dsc_compute_config(struct intel_dp *inte=
+l_dp,
+> >  				struct intel_crtc_state *pipe_config,
+> >  				struct drm_connector_state *conn_state,
+> >  				struct link_config_limits *limits,
+> > -				int timeslots);
+> > +				int timeslots,
+> > +				bool recompute_pipe_bpp);
+> >  bool intel_dp_is_edp(struct intel_dp *intel_dp);  bool=20
+> > intel_dp_is_uhbr(const struct intel_crtc_state *crtc_state);  bool=20
+> > intel_dp_is_port_edp(struct drm_i915_private *dev_priv, enum port=20
+> > port); diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c=20
+> > b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> > index 8442eea27a57..69e383decb39 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> > @@ -80,12 +80,12 @@ static int intel_dp_mst_find_vcpi_slots_for_bpp(str=
+uct intel_encoder *encoder,
+> >  	}
+> > =20
+> >  	for (bpp =3D max_bpp; bpp >=3D min_bpp; bpp -=3D step) {
+> > -		crtc_state->pipe_bpp =3D bpp;
+> > -
+> >  		crtc_state->pbn =3D drm_dp_calc_pbn_mode(adjusted_mode->crtc_clock,
+> > -						       dsc ? bpp << 4 : crtc_state->pipe_bpp,
+> > +						       dsc ? bpp << 4 : bpp,
+> >  						       dsc);
+> > =20
+> > +		drm_dbg_kms(&i915->drm, "Trying bpp %d\n", bpp);
+> > +
+> >  		slots =3D drm_dp_atomic_find_time_slots(state, &intel_dp->mst_mgr,
+> >  						      connector->port,
+> >  						      crtc_state->pbn);
+> > @@ -107,9 +107,16 @@ static int intel_dp_mst_find_vcpi_slots_for_bpp(st=
+ruct intel_encoder *encoder,
+> >  	if (ret && slots >=3D 0)
+> >  		slots =3D ret;
+> > =20
+> > -	if (slots < 0)
+> > +	if (slots < 0) {
+> >  		drm_dbg_kms(&i915->drm, "failed finding vcpi slots:%d\n",
+> >  			    slots);
+> > +	} else {
+> > +		if (!dsc)
+> > +			crtc_state->pipe_bpp =3D bpp;
+> > +		else
+> > +			crtc_state->dsc.compressed_bpp =3D bpp;
+> > +		drm_dbg_kms(&i915->drm, "Got %d slots for pipe bpp %d dsc %d\n", slo=
+ts, bpp, dsc);
+> > +	}
+> > =20
+> >  	return slots;
+> >  }
+> > @@ -156,8 +163,10 @@ static int intel_dp_dsc_mst_compute_link_config(st=
+ruct intel_encoder *encoder,
+> >  	int slots =3D -EINVAL;
+> >  	int i, num_bpc;
+> >  	u8 dsc_bpc[3] =3D {0};
+> > -	int min_bpp, max_bpp;
+> > +	int min_bpp, max_bpp, sink_min_bpp, sink_max_bpp;
+> >  	u8 dsc_max_bpc;
+> > +	bool need_timeslot_recalc =3D false;
+> > +	u32 last_compressed_bpp;
+> > =20
+> >  	/* Max DSC Input BPC for ICL is 10 and for TGL+ is 12 */
+> >  	if (DISPLAY_VER(i915) >=3D 12)
+> > @@ -170,14 +179,28 @@ static int=20
+> > intel_dp_dsc_mst_compute_link_config(struct intel_encoder *encoder,
+> > =20
+> >  	num_bpc =3D drm_dp_dsc_sink_supported_input_bpcs(intel_dp->dsc_dpcd,
+> >  						       dsc_bpc);
+> > -	for (i =3D 0; i < num_bpc; i++) {
+> > -		if (max_bpp >=3D dsc_bpc[i] * 3)
+> > -			if (min_bpp > dsc_bpc[i] * 3)
+> > -				min_bpp =3D dsc_bpc[i] * 3;
+> > +
+> > +	drm_dbg_kms(&i915->drm, "DSC Source supported min bpp %d max bpp %d\n=
+",
+> > +		    min_bpp, max_bpp);
+> > +
+> > +	sink_max_bpp =3D dsc_bpc[0] * 3;
+> > +	sink_min_bpp =3D sink_max_bpp;
+> > +
+> > +	for (i =3D 1; i < num_bpc; i++) {
+> > +		if (sink_min_bpp > dsc_bpc[i] * 3)
+> > +			sink_min_bpp =3D dsc_bpc[i] * 3;
+> > +		if (sink_max_bpp < dsc_bpc[i] * 3)
+> > +			sink_max_bpp =3D dsc_bpc[i] * 3;
+> >  	}
+> > =20
+> >  	drm_dbg_kms(&i915->drm, "DSC Sink supported min bpp %d max bpp %d\n",
+> > -		    min_bpp, max_bpp);
+> > +		    sink_min_bpp, sink_max_bpp);
+> > +
+> > +	if (min_bpp < sink_min_bpp)
+> > +		min_bpp =3D sink_min_bpp;
+> > +
+> > +	if (max_bpp > sink_max_bpp)
+> > +		max_bpp =3D sink_max_bpp;
+> > =20
+> >  	slots =3D intel_dp_mst_find_vcpi_slots_for_bpp(encoder, crtc_state, m=
+ax_bpp,
+> >  						     min_bpp, limits,
+> > @@ -186,6 +209,28 @@ static int intel_dp_dsc_mst_compute_link_config(st=
+ruct intel_encoder *encoder,
+> >  	if (slots < 0)
+> >  		return slots;
+> > =20
+> > +	last_compressed_bpp =3D crtc_state->dsc.compressed_bpp;
+> > +
+> > +	crtc_state->dsc.compressed_bpp =3D intel_dp_dsc_nearest_vesa_bpp(i915=
+,
+> > +								       last_compressed_bpp,
+> > +								       crtc_state->pipe_bpp);
+> > +
+> > +	if (crtc_state->dsc.compressed_bpp !=3D last_compressed_bpp)
+> > +		need_timeslot_recalc =3D true;
+> > +
+> > +	/*
+> > +	 * Apparently some MST hubs dislike if vcpi slots are not matching pr=
+ecisely
+> > +	 * the actual compressed bpp we use.
+> > +	 */
+> > +	if (need_timeslot_recalc) {
+> > +		slots =3D intel_dp_mst_find_vcpi_slots_for_bpp(encoder, crtc_state,
+> > +							     crtc_state->dsc.compressed_bpp,
+> > +							     crtc_state->dsc.compressed_bpp,
+> > +							     limits, conn_state, 2 * 3, true);
+> > +		if (slots < 0)
+> > +			return slots;
+> > +	}
+> > +
+> >  	intel_link_compute_m_n(crtc_state->pipe_bpp,
+> >  			       crtc_state->lane_count,
+> >  			       adjusted_mode->crtc_clock, @@ -292,7 +337,7 @@ static int=20
+> > intel_dp_mst_compute_config(struct intel_encoder *encoder,
+> > =20
+> >  		ret =3D intel_dp_dsc_compute_config(intel_dp, pipe_config,
+> >  						  conn_state, &limits,
+> > -						  pipe_config->dp_m_n.tu);
+> > +						  pipe_config->dp_m_n.tu, false);
+> >  	}
+> > =20
+> >  	if (ret)
+> > @@ -867,7 +912,7 @@ intel_dp_mst_mode_valid_ctx(struct drm_connector *c=
+onnector,
+> >  							    target_clock,
+> >  							    mode->hdisplay,
+> >  							    bigjoiner,
+> > -							    pipe_bpp, 1) >> 4;
+> > +							    pipe_bpp, 64) >> 4;
+> >  			dsc_slice_count =3D
+> >  				intel_dp_dsc_get_slice_count(intel_dp,
+> >  							     target_clock,
+> > --
+> > 2.37.3
+> >=20
