@@ -2,49 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 643BE633D5F
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 14:17:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28AAF633E36
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 14:55:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12A3B10E127;
-	Tue, 22 Nov 2022 13:17:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C141E10E3D1;
+	Tue, 22 Nov 2022 13:55:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B0A010E127;
- Tue, 22 Nov 2022 13:17:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669123043; x=1700659043;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=xVjCq6D6Fp1SmzLuvEUhutyehepg8yiG9aEJq7JYLLA=;
- b=bbqscu49TzE85KnjfjF1lDV8UwiJ4JmTYImb1DiQSXCPp2rrNddGpazF
- 5/Ju8VGIS4hRz5twDsArP03naAd8U35v+xO0DTyXbNoR1v7HK/KthNzzU
- JWmEC+5iZpdx33QBG56VSbCmG0iTeeD0J4Df9bH8hBogXgbzNWGnQSXXu
- CAGv4U0nnTQ+HWY4C2NRO02E7R24ZB5f/mXA9HGc24ajatCOuNso/HLkh
- tn3bnMXVgx5dZ1O2qKswc1gD4GAKnyx2Q3GkbbslgpAoNX0E6cbEzo2Wb
- HMq/eaSChceV9Xgt+Wv2Dy/S3nudRWGRJ0D0Jj4SmMlMgEDwzCiuS5C0u w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="312512698"
-X-IronPort-AV: E=Sophos;i="5.96,184,1665471600"; d="scan'208";a="312512698"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Nov 2022 05:17:22 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="766333945"
-X-IronPort-AV: E=Sophos;i="5.96,184,1665471600"; d="scan'208";a="766333945"
-Received: from sfflynn-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.18.151])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Nov 2022 05:17:19 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: dim-tools@lists.freedesktop.org
-Subject: [MAINTAINER TOOLS] docs: updated rules for topic/core-for-CI commit
- management
-Date: Tue, 22 Nov 2022 15:17:14 +0200
-Message-Id: <20221122131714.3443238-1-jani.nikula@intel.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-oo1-xc36.google.com (mail-oo1-xc36.google.com
+ [IPv6:2607:f8b0:4864:20::c36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D1C010E3D0;
+ Tue, 22 Nov 2022 13:55:29 +0000 (UTC)
+Received: by mail-oo1-xc36.google.com with SMTP id
+ j6-20020a4ab1c6000000b004809a59818cso2273657ooo.0; 
+ Tue, 22 Nov 2022 05:55:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=2SBGeqgV8aQ4ClE1rxARDUjCn/QaGrg5bogBswoE+Gk=;
+ b=SnJrJJJB+uAOWpogJlqoVY6znPbePuzs8v8E+Jasq1bg9moQq8Gbla8WPFPotFYdUs
+ rdiNTyjJgUOpZ//qEmNSffWMfpXCemCqV4jqqOLcafNGMG3y7VzHk2z9V6YfIYYTp81D
+ df5NkH3zm4zUw3PzBRdPGQ4f8CJIBaeUTQh9hasrwmNEXQM/Q4hIQ6dVrmQyovTykNlk
+ RNdlw5G+f5UCJDWk4RkG0HUq6cWwz+Pat2UDROelcqWZxV0KlNgJCCVHtdzbVNto0nKe
+ fES8l3XJEdiw4y/2lEdykL46NhCsN3MbN/y7RDB/FanhyNqBLX9zLaQeCHNrj9s0p+p2
+ fKaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=2SBGeqgV8aQ4ClE1rxARDUjCn/QaGrg5bogBswoE+Gk=;
+ b=L+bvtEpxChyu0ZNZ/uDI2qRlHbmE7xc4HtnlA0Ai69lopH1n2pK2QPK4HPJfSVvNWR
+ lg3e1vwEl+8PpbEIl2UZ6Az5hlHB8YRUqJlrXoIEoX3MgThrNg5BqQEJm3aH7dZgOMcG
+ heejroBw6Kda6oXVhVXjtL/wpMmELBkBsjWApyXRxs3H6d9uNe7Yl9Q3j2MX7zu3NHzF
+ zrz4dnWZMlsN+TgQOWold63XgcaWCIk5vxAdTNRdK33aSS3sMdd14P7MIpvkNuksVu/m
+ rPNV0D/AotV9r5ujcgk/YJAgye4b3QzJ1HlD17RX1KAsJ1zPxh7niu3ZGmIETNk03VXd
+ R7pQ==
+X-Gm-Message-State: ANoB5pneuZjRAQ/ylRwWJtsuG3yXpu7SzOkVUPhMbVLsq33xeK/ur8/v
+ hoyX7N78fl6OwpLK+2m0skKCavk9EqcqCn4+/MU=
+X-Google-Smtp-Source: AA0mqf7ykzweR9BqX2Z1bFr3kRAAU5C3xDVsZgtZl+Svh5PRx1RmM9Dz5FRt4dxqYY1KiJhP24NikZC0YwM35U5Onhk=
+X-Received: by 2002:a4a:d1b2:0:b0:498:ce46:9fb1 with SMTP id
+ z18-20020a4ad1b2000000b00498ce469fb1mr6131515oor.97.1669125328656; Tue, 22
+ Nov 2022 05:55:28 -0800 (PST)
 MIME-Version: 1.0
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Content-Transfer-Encoding: 8bit
+References: <CAHk-=wjKJyzfJmOzBdEOqCFRc8Fh-rdGM4tvMXfW0WXbbHwV0w@mail.gmail.com>
+ <20221122105054.4062213-1-geert@linux-m68k.org>
+ <alpine.DEB.2.22.394.2211221154280.284524@ramsan.of.borg>
+In-Reply-To: <alpine.DEB.2.22.394.2211221154280.284524@ramsan.of.borg>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 22 Nov 2022 08:55:17 -0500
+Message-ID: <CADnq5_PvouSKugXxJXqkVeZf+kbP8+hhUKFgVALSO=MOW3jzvA@mail.gmail.com>
+Subject: Re: Build regressions/improvements in v6.1-rc6
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,92 +67,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, jani.nikula@intel.com,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: linux-rdma@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-um@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce stricter rules for topic/core-for-CI management. Way too many
-commits have been added over the years, with insufficient rationale
-recorded in the commit message, and insufficient follow-up with removing
-the commits from the topic branch.
+On Tue, Nov 22, 2022 at 5:56 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> On Tue, 22 Nov 2022, Geert Uytterhoeven wrote:
+> > JFYI, when comparing v6.1-rc6[1] to v6.1-rc5[3], the summaries are:
+> >  - build errors: +6/-0
+>
+>    + /kisskb/src/arch/sh/include/asm/io.h: error: cast to pointer from integer of different size [-Werror=int-to-pointer-cast]:  => 239:34
+>
+> sh4-gcc11/sh-allmodconfig (in cvm_oct_free_hw_memory())
+>
+>    + /kisskb/src/arch/um/include/asm/processor-generic.h: error: called object is not a function or function pointer:  => 94:18
+>    + /kisskb/src/drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c: error: control reaches end of non-void function [-Werror=return-type]:  => 1934:1
+>
+> um-x86_64/um-all{mod,yes}config (in kfd_cpumask_to_apic_id())
 
-New rules:
+Presumably cpu_data is not defined on um-x86_64?  Does it even make
+sense to build drivers on um-x86_64?
 
-1. Require maintainer ack for rebase. Have better gating on when rebases
-   happen and on which baselines.
+Alex
 
-2. Require maintainer/committer ack for adding/removing commits. No
-   single individual should decide.
-
-3. Require gitlab issues for new commits added. Improve tracking for
-   removing the commits.
-
-Also use the stronger "must" for commit message requiring the
-justification for the commit being in topic/core-for-CI.
-
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: dim-tools@lists.freedesktop.org
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
----
- drm-tip.rst | 27 ++++++++++++++++++++-------
- 1 file changed, 20 insertions(+), 7 deletions(-)
-
-diff --git a/drm-tip.rst b/drm-tip.rst
-index deae95cdd2fe..24036e2ef576 100644
---- a/drm-tip.rst
-+++ b/drm-tip.rst
-@@ -203,11 +203,13 @@ justified exception. The primary goal is to fix issues originating from Linus'
- tree. Issues that would need drm-next or other DRM subsystem tree as baseline
- should be fixed in the offending DRM subsystem tree.
- 
--Only rebase the branch if you really know what you're doing. When in doubt, ask
--the maintainers. You'll need to be able to handle any conflicts in non-drm code
--while rebasing.
-+Only rebase the branch if you really know what you're doing. You'll need to be
-+able to handle any conflicts in non-drm code while rebasing.
- 
--Simply drop fixes that are already available in the new baseline.
-+Always ask for maintainer ack before rebasing. IRC ack is sufficient.
-+
-+Simply drop fixes that are already available in the new baseline. Close the
-+associated gitlab issue when removing commits.
- 
- Force pushing a rebased topic/core-for-CI requires passing the ``--force``
- parameter to git::
-@@ -225,11 +227,22 @@ judgement call.
- Only add or remove commits if you really know what you're doing. When in doubt,
- ask the maintainers.
- 
--Apply new commits on top with regular push. The commit message needs to explain
--why the patch has been applied to topic/core-for-CI. If it's a cherry-pick from
-+Always ask for maintainer/committer ack before adding/removing commits. IRC ack
-+is sufficient. Record the ``Acked-by:`` in commits being added.
-+
-+Apply new commits on top with regular push. The commit message must explain why
-+the patch has been applied to topic/core-for-CI. If it's a cherry-pick from
- another subsystem, please reference the commit with ``git cherry-pick -x``
- option. If it's a patch from another subsystem, please reference the patch on
- the mailing list with ``Link:`` tag.
- 
-+New commits always need an associated gitlab issue for tracking purposes. The
-+goal is to have as few commits in topic/core-for-CI as possible, and we need to
-+be able to track the progress in making that happen. Reference the issue with
-+``References:`` tag. Add the ``core-for-CI`` label to the issue. (Note: Do not
-+use ``Closes:`` because the logic here is backwards; the issue is having the
-+commit in the branch in the first place.)
-+
- Instead of applying reverts, just remove the commit. This implies ``git rebase
---i`` on the current baseline; see directions above.
-+-i`` on the current baseline; see directions above. Close the associated gitlab
-+issue when removing commits.
--- 
-2.34.1
-
+>
+>    + /kisskb/src/drivers/infiniband/hw/qib/qib_wc_x86_64.c: error: 'X86_VENDOR_AMD' undeclared (first use in this function):  => 149:37
+>    + /kisskb/src/drivers/infiniband/hw/qib/qib_wc_x86_64.c: error: 'struct cpuinfo_um' has no member named 'x86_vendor':  => 149:22
+>    + /kisskb/src/drivers/infiniband/hw/qib/qib_wc_x86_64.c: error: control reaches end of non-void function [-Werror=return-type]:  => 150:1
+>
+> um-x86_64/um-allyesconfig
+>
+> > [1] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/eb7081409f94a9a8608593d0fb63a1aa3d6f95d8/ (all 149 configs)
+> > [3] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/094226ad94f471a9f19e8f8e7140a09c2625abaa/ (all 149 configs)
+>
+> Gr{oetje,eeting}s,
+>
+>                                                 Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                                             -- Linus Torvalds
