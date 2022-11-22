@@ -1,38 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A13D633705
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 09:27:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88C78633706
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 09:27:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B058510E3A1;
-	Tue, 22 Nov 2022 08:27:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13F8510E3A2;
+	Tue, 22 Nov 2022 08:27:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 344 seconds by postgrey-1.36 at gabe;
- Mon, 21 Nov 2022 22:41:34 UTC
-Received: from relay03.th.seeweb.it (relay03.th.seeweb.it [5.144.164.164])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC03510E33D;
- Mon, 21 Nov 2022 22:41:34 +0000 (UTC)
-Received: from [127.0.0.1] (bband-dyn193.178-41-216.t-com.sk [178.41.216.193])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from danwin1210.de (danwin1210.de [IPv6:2a01:4f8:c010:d56::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E60C110E1A2
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Nov 2022 00:34:24 +0000 (UTC)
+Received: from danwin1210.de (unknown [10.9.0.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X448 server-signature ECDSA (secp384r1)
+ client-signature ED448)
+ (Client CN "danwin1210.me", Issuer "danwin1210.me" (verified OK))
+ by mail.danwin1210.de (Postfix) with ESMTPS id 444361F4A2
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Nov 2022 00:34:22 +0000 (UTC)
+Received: from [127.0.0.1] (unknown [10.9.0.1])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 8150C1F8A5;
- Mon, 21 Nov 2022 23:35:48 +0100 (CET)
-Date: Mon, 21 Nov 2022 23:35:46 +0100
-From: Martin Botka <martin.botka@somainline.org>
-To: Marijn Suijten <marijn.suijten@somainline.org>, phone-devel@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH=5D_drm/msm/dpu=3A_Print_inte?=
- =?US-ASCII?Q?rrupt_index_in_addition_to_the_mask?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20221121222456.437815-1-marijn.suijten@somainline.org>
-References: <20221121222456.437815-1-marijn.suijten@somainline.org>
-Message-ID: <60E46E34-763F-4D03-B0CC-70B5A8AA660D@somainline.org>
+ by danwin1210.de (Postfix) with ESMTPSA id 34AB03C144
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Nov 2022 00:34:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=danwin1210.de;
+ s=20211204-rsa; t=1669077261;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Zge/xWZNOq8qrDouu3X8Yo5kaKakVeO1y5elsjN9ulQ=;
+ b=xB+4R9yY8hi0inXwZNEYWDsSxRAalVq19pI85zIpYdcFZtR2qHI7yVeEtg9RBPOQ6A1Dtr
+ 6zZZ71xTVkb+0G56kwHKKEeB6iZ7IC5HuYk1r9tnZVk1nmGA2HBxq0zMcbkAi+9vhjC97O
+ QI/JC49WAyW/qY7Y0jMyZJLrBlM95A70Ojzy7cpEq5ng5GlI3v1yTfQJp+fZPh6OVadf17
+ Ud7gPchk/q8iVg9r7//uZQZQ5jNccQumXVFQwhS5Nfy8Yoo7LgMx+DHOu6wfJG6gJDrr9I
+ zTNoEVibR42faCj5cgK9neqcYAxUGnSkr26F4jj3jcwtqjh0zYdJl5SP9KpfQQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=danwin1210.de;
+ s=20211204-ed25519; t=1669077261;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Zge/xWZNOq8qrDouu3X8Yo5kaKakVeO1y5elsjN9ulQ=;
+ b=WmLuDMnpFmwUVnj3/sNHrZOfB/qRzNePIv6dYIb3jQYM9OH+9ccMQw5iVA/IW+aTFWrxUv
+ vdA58RAVjfZnuwCw==
+Message-ID: <fc4fb250-430c-af85-cafb-58d606b07d71@danwin1210.de>
+Date: Tue, 22 Nov 2022 00:33:46 +0000
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+To: dri-devel@lists.freedesktop.org
+References: <ff36cca2-d4c7-1e1f-9853-9c4af716a889@danwin1210.de>
+ <f61043d2-72e8-11e1-4f8c-2e55d9dad076@suse.de>
+From: Jeremy Rand <jeremyrand@danwin1210.de>
+Subject: Re: ast: resolutions that require single-buffering (due to VRAM
+ limitations) are unavailable
+In-Reply-To: <f61043d2-72e8-11e1-4f8c-2e55d9dad076@suse.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------VCMo0tnSqUTLFPOCtV0mSGpp"
 X-Mailman-Approved-At: Tue, 22 Nov 2022 08:27:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,91 +70,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vinod Koul <vkoul@kernel.org>, linux-kernel@vger.kernel.org,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Vinod Polimera <quic_vpolimer@quicinc.com>, Sean Paul <sean@poorly.run>,
- linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------VCMo0tnSqUTLFPOCtV0mSGpp
+Content-Type: multipart/mixed; boundary="------------hKB6oUAiypQ2fbuRl2TaWtmm";
+ protected-headers="v1"
+From: Jeremy Rand <jeremyrand@danwin1210.de>
+To: dri-devel@lists.freedesktop.org
+Message-ID: <fc4fb250-430c-af85-cafb-58d606b07d71@danwin1210.de>
+Subject: Re: ast: resolutions that require single-buffering (due to VRAM
+ limitations) are unavailable
+References: <ff36cca2-d4c7-1e1f-9853-9c4af716a889@danwin1210.de>
+ <f61043d2-72e8-11e1-4f8c-2e55d9dad076@suse.de>
+In-Reply-To: <f61043d2-72e8-11e1-4f8c-2e55d9dad076@suse.de>
 
+--------------hKB6oUAiypQ2fbuRl2TaWtmm
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-On November 21, 2022 11:24:55 PM GMT+01:00, Marijn Suijten <marijn=2Esuijt=
-en@somainline=2Eorg> wrote:
->The mask only describes the `irq_idx % 32` part, making it generally
->impossible to deduce what interrupt is being enabled/disabled=2E  Since
->`debug/core_irq` in debugfs (and other prints) also include the full
->`DPU_IRQ_IDX()` value, print the same full value here for easier
->correlation instead of only adding the `irq_idx / 32` part=2E
->
->Furthermore, make the dbgstr messages more consistent=2E
->
->Signed-off-by: Marijn Suijten <marijn=2Esuijten@somainline=2Eorg>
->---
-> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts=2Ec | 12 ++++++------
-> 1 file changed, 6 insertions(+), 6 deletions(-)
->
->diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts=2Ec b/driver=
-s/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts=2Ec
->index cf1b6d84c18a=2E=2E64589a9c2c51 100644
->--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts=2Ec
->+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts=2Ec
->@@ -252,9 +252,9 @@ static int dpu_hw_intr_enable_irq_locked(struct dpu_h=
-w_intr *intr, int irq_idx)
->=20
-> 	cache_irq_mask =3D intr->cache_irq_mask[reg_idx];
-> 	if (cache_irq_mask & DPU_IRQ_MASK(irq_idx)) {
->-		dbgstr =3D "DPU IRQ already set:";
->+		dbgstr =3D "already ";
-> 	} else {
->-		dbgstr =3D "DPU IRQ enabled:";
->+		dbgstr =3D "";
->=20
-> 		cache_irq_mask |=3D DPU_IRQ_MASK(irq_idx);
-> 		/* Cleaning any pending interrupt */
->@@ -268,7 +268,7 @@ static int dpu_hw_intr_enable_irq_locked(struct dpu_h=
-w_intr *intr, int irq_idx)
-> 		intr->cache_irq_mask[reg_idx] =3D cache_irq_mask;
-> 	}
->=20
->-	pr_debug("%s MASK:0x%=2E8lx, CACHE-MASK:0x%=2E8x\n", dbgstr,
->+	pr_debug("DPU IRQ %d %senabled: MASK:0x%=2E8lx, CACHE-MASK:0x%=2E8x\n",=
- irq_idx, dbgstr,
-> 			DPU_IRQ_MASK(irq_idx), cache_irq_mask);
->=20
-> 	return 0;
->@@ -301,9 +301,9 @@ static int dpu_hw_intr_disable_irq_locked(struct dpu_=
-hw_intr *intr, int irq_idx)
->=20
-> 	cache_irq_mask =3D intr->cache_irq_mask[reg_idx];
-> 	if ((cache_irq_mask & DPU_IRQ_MASK(irq_idx)) =3D=3D 0) {
->-		dbgstr =3D "DPU IRQ is already cleared:";
->+		dbgstr =3D "already ";
-> 	} else {
->-		dbgstr =3D "DPU IRQ mask disable:";
->+		dbgstr =3D "";
->=20
-> 		cache_irq_mask &=3D ~DPU_IRQ_MASK(irq_idx);
-> 		/* Disable interrupts based on the new mask */
->@@ -317,7 +317,7 @@ static int dpu_hw_intr_disable_irq_locked(struct dpu_=
-hw_intr *intr, int irq_idx)
-> 		intr->cache_irq_mask[reg_idx] =3D cache_irq_mask;
-> 	}
->=20
->-	pr_debug("%s MASK:0x%=2E8lx, CACHE-MASK:0x%=2E8x\n", dbgstr,
->+	pr_debug("DPU IRQ %d %sdisabled: MASK:0x%=2E8lx, CACHE-MASK:0x%=2E8x\n"=
-, irq_idx, dbgstr,
-> 			DPU_IRQ_MASK(irq_idx), cache_irq_mask);
->=20
-> 	return 0;
+VGhvbWFzIFppbW1lcm1hbm46DQo+IEhpDQo+IA0KPiBBbSAyNS4xMC4yMiB1bSAwOToxMiBz
+Y2hyaWViIEplcmVteSBSYW5kOg0KPj4gSGkgZHJpLWRldmVsLA0KPj4NCj4+IEkgaGF2ZSB0
+d28gbWFjaGluZXMgd2l0aCBBU1BFRUQgR1BVJ3MgKGFzdCBMaW51eCBkcml2ZXIpLsKgIE9u
+ZSBtYWNoaW5lIA0KPj4gaXMgeDg2XzY0LCBydW5uaW5nIGFuIEFTUm9jayBSYWNrIFRvbW15
+IDkwLVNDMDJQMS0wMFVCTlogR1BVIChBU1QyNTEwIA0KPj4gY2hpcHNldCkgd2l0aCBLREUg
+UGxhc21hIFdheWxhbmQ7IHRoZSBvdGhlciBpcyBwcGM2NGxlLCBydW5uaW5nIGFuIA0KPj4g
+aW50ZWdyYXRlZCBBU1QyNTAwIEdQVSB3aXRoIEtERSBQbGFzbWEgWDExLsKgIEJvdGggdGhl
+IEFTVDI1MTAgYW5kIA0KPj4gQVNUMjUwMCBoYXZlIDE2IE1pQiBWUkFNIGFjY29yZGluZyB0
+byBsc3BjaS7CoCBCb3RoIEFTUEVFRCBHUFUncyBhcmUgDQo+PiBhZHZlcnRpc2VkIGFzIHN1
+cHBvcnRpbmcgdXAgdG8gMTkyMHgxMjAwIHJlc29sdXRpb24sIGJ1dCBLREUgb25seSANCj4+
+IGRldGVjdHMgYSBtYXhpbXVtIHJlc29sdXRpb24gb2YgMTkyMHgxMDgwLg0KPj4NCj4+IFNv
+bWUgYWRkaXRpb25hbCBpbmZvcm1hdGlvbiBhYm91dCB0aGlzIGJ1ZyBjYW4gYmUgZm91bmQg
+YXQgDQo+PiBodHRwczovL2ZvcnVtcy5yYXB0b3Jjcy5jb20vaW5kZXgucGhwL3RvcGljLDMx
+LjAuaHRtbCAuDQo+Pg0KPj4gSSBiZWxpZXZlIHRoaXMgaXMgYSBMaW51eCBidWcsIGJlY2F1
+c2UgaXQgaXMgc29sZWx5IGRlcGVuZGVudCBvbiB0aGUgDQo+PiBMaW51eCB2ZXJzaW9uLsKg
+IFRoZSBmb2xsb3dpbmcgTGludXggdmVyc2lvbnMgYXJlIGNvbmZpcm1lZCB0byBoYXZlIHRo
+ZSANCj4+IGJ1ZzoNCj4+DQo+PiBEZWJpYW46DQo+PiA1LjYuMC0xIChwcGM2NGVsKQ0KPj4g
+RmVkb3JhOg0KPj4gNS42LjAtMS5mYzMzLng4Nl82NA0KPj4gNS42LjAtMS5mYzMzLnBwYzY0
+bGUNCj4+IDUuMTcuNS0zMDAuZmMzNi54ODZfNjQNCj4+IDUuMTguNi0yMDAuZmMzNi5wcGM2
+NGxlDQo+PiA2LjEuMC0wLnJjMC4yMDIyMTAwN2dpdDRjODYxMTQxOTRlNi41LmZjMzgucHBj
+NjRsZQ0KPj4NCj4+IFdoZXJlYXMgdGhlIGZvbGxvd2luZyBMaW51eCB2ZXJzaW9ucyBhcmUg
+Y29uZmlybWVkIHRvIHdvcmsgZmluZSAobWF4IA0KPj4gcmVzb2x1dGlvbiBkZXRlY3RlZCBi
+eSBLREUgaXMgMTkyMHgxMjAwIGFzIGl0IHNob3VsZCBiZSwgYW5kIHRoYXQgDQo+PiByZXNv
+bHV0aW9uIHdvcmtzIGZpbmUgd2hlbiBzZWxlY3RlZCk6DQo+Pg0KPj4gRGViaWFuOg0KPj4g
+NS41LjAtMiAocHBjNjRlbCkNCj4+IEZlZG9yYToNCj4+IDUuNS4xNy0yMDAuZmMzMS54ODZf
+NjQNCj4+IDUuNS4xNy0yMDAuZmMzMS5wcGM2NGxlDQo+Pg0KPj4gSSBiZWxpZXZlIHRoZSBi
+dWcgd2FzIGludHJvZHVjZWQgYnkgTGludXggY29tbWl0IA0KPj4gOTI1M2Y4MzBjOTE2NmJm
+YTZjYzA3ZDVlZDU5ZTE3NGU5ZDVlYzZjYSwgd2hpY2ggYWRkcyBhIFZSQU0gc2l6ZSBjaGVj
+ayANCj4+IHRoYXQgYXNzdW1lcyBkb3VibGUtYnVmZmVyaW5nLsKgIDE5MjB4MTA4MCByZXNv
+bHV0aW9uIGF0IDQgYnl0ZXMgcGVyIA0KPj4gcGl4ZWwgd2l0aCAyIGJ1ZmZlcnMgaXMgMTYu
+NiBNQiwgd2hpbGUgYnVtcGluZyB0aGF0IHRvIDE5MjB4MTIwMCANCj4+IHJlc3VsdHMgaW4g
+MTguNCBNQi7CoCBTaW5jZSB0aGUgVlJBTSBzaXplIGlzIDE2IE1pQiA9PSAxNi44IE1CLCB0
+aGF0IA0KPj4gZXhwbGFpbnMgdGhlIGlzc3VlLg0KPiANCj4gVGhhbmtzIGZvciByZXBvcnRp
+bmcuIEl0J3MgYmVlbiBhIGtub3duIGlzc3VlIGZvciBhIHdoaWxlLg0KPiANCj4gQnV0IGlu
+IHRoZSBtb3N0IHJlY2VudCBkZXZlbCB0cmVlLCB3ZSBoYXZlIHJlcGxhY2VkIGFzdCBtZW1v
+cnkgDQo+IG1hbmFnZW1lbnQsIHNvIHRoYXQgaXQgY2FuIG5vdyB1c2UgdGhlIGZ1bGwgdnJh
+bSBzaXplIGZvciBzY2Fub3V0IA0KPiBidWZmZXJzLiBTZWUNCj4gDQo+IA0KPiBodHRwczov
+L2NnaXQuZnJlZWRlc2t0b3Aub3JnL2RybS9kcm0tdGlwL2NvbW1pdC9kcml2ZXJzL2dwdS9k
+cm0vYXN0L2FzdF9tb2RlLmM/aWQ9ZjJmYTVhOTljYTgxY2UxMDU2NTM5ZTgzYzcwNWYzZDZi
+ZWM2MmUzMSANCj4gDQo+IA0KPiBUbyB0ZXN0LCBnZXQgdGhlIGxhdGVzdCBkcm0tdGlwIGZy
+b20NCj4gDQo+ICDCoCBnaXQ6Ly9hbm9uZ2l0LmZyZWVkZXNrdG9wLm9yZy9kcm0vZHJtLXRp
+cA0KPiANCj4gYW5kIHRyeSBvbiB5b3VyIG1hY2hpbmUuDQo+IA0KPiBUaGUgdXBkYXRlZCBk
+cml2ZXIgc2hvdWxkIGJlY29tZSBhdmFpbGFibGUgaW4gTGludXggdjYuMy4NCj4gDQo+IEJl
+c3QgcmVnYXJkcw0KPiBUaG9tYXMNCg0KSGkgVGhvbWFzIQ0KDQpUaGFua3MgZm9yIHBvaW50
+aW5nIG1lIHRvIHRoYXQgYnJhbmNoLiAgSXQgdG9vayBtZSBzb21lIHdlZWtzIHRvIGdldCBp
+dCANCnRvIGJ1aWxkIGR1ZSB0byBteSBsYWNrIG9mIGV4cGVyaWVuY2UgYnVpbGRpbmcga2Vy
+bmVscyBmcm9tIHNvdXJjZSANCihoZW5jZSB0aGUgZGVsYXllZCByZXBseSksIGJ1dCBJIGNh
+biBjb25maXJtIHRoYXQgdGhlIGlzc3VlIGlzIGZpeGVkIGluIA0KZHJtLXRpcCAoMTkyMHgx
+MjAwIHdvcmtzIGFzIGl0IHNob3VsZCBvbiBteSBwcGM2NGxlIHN5c3RlbTsgSSBkaWRuJ3Qg
+DQp0ZXN0IG9uIG15IHg4Nl82NCBzeXN0ZW0pLiAgQWRkaXRpb25hbGx5LCBkcm0tdGlwIGZp
+eGVzIGEgZGlmZmVyZW50IEFTVCANCmJ1ZyB0aGF0IHdhcyBjYXVzaW5nIGNlcnRhaW4gV2F5
+bGFuZCBwcGM2NGxlIHN5c3RlbXMgKG1haW5seSBHTk9NRSwgS0RFLCANCmFuZCBHRE0pIHRv
+IGhhbmcgb24gYSBibGFjayBzY3JlZW4gKGZvciB3aGljaCBJIHdhcyBoYWxmd2F5IHRocm91
+Z2ggDQpwcmVwYXJpbmcgYSBidWcgcmVwb3J0KSwgc28gdGhhdCBpcyBhIHBsZWFzYW50IHN1
+cnByaXNlLg0KDQpMb29raW5nIGZvcndhcmQgdG8gTGludXggdjYuMy4NCg0KQ2hlZXJzLA0K
+LS0gDQotSmVyZW15IFJhbmQNCkxlYWQgQXBwbGljYXRpb24gRW5naW5lZXIgYXQgTmFtZWNv
+aW4NCg==
 
-Looks good to me=2E
+--------------hKB6oUAiypQ2fbuRl2TaWtmm--
 
-Reviewed-by: Martin Botka <martin=2Ebotka@somainline=2Eorg>
+--------------VCMo0tnSqUTLFPOCtV0mSGpp
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQQdBPudUL8qjp8+WK3cfn+K4w5z5gUCY3wY6gUDAAAAAAAKCRDcfn+K4w5z5kXV
+AQDXjw5hCBvRH+Sp8b1a0KP6O7YTAkNrzsPZgMxFYCOjWQEA7YsorGy8DsQ26MjETg4OoTSHjE6m
+Y2OsRnIpNWvq4Ac=
+=557G
+-----END PGP SIGNATURE-----
+
+--------------VCMo0tnSqUTLFPOCtV0mSGpp--
