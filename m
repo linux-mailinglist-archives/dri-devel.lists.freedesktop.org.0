@@ -1,45 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDE60633BD7
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 12:53:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0848D633B37
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 12:22:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17C5A10E07E;
-	Tue, 22 Nov 2022 11:53:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79BBB10E3C9;
+	Tue, 22 Nov 2022 11:22:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1907 seconds by postgrey-1.36 at gabe;
- Tue, 22 Nov 2022 11:53:41 UTC
-Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09FD710E07E;
- Tue, 22 Nov 2022 11:53:40 +0000 (UTC)
-X-QQ-mid: bizesmtp72t1669116099txffgh0h
-Received: from localhost.localdomain ( [113.57.152.160])
- by bizesmtp.qq.com (ESMTP) with 
- id ; Tue, 22 Nov 2022 19:21:37 +0800 (CST)
-X-QQ-SSF: 01400000000000E0R000000C0000000
-X-QQ-FEAT: +ynUkgUhZJlLDq+nP6+uedbXvgas1IUa13PrtWgKs2DOViskOswrChYt+MFKv
- Pl7pXSgPAC9YYzk66eyueb4WltFQHvZSCvT3pmXv1se7I7PYRHHS2+1FKm7VBkBJICOOW8B
- kK3W9lrRUW/buANCKL1Wyp2c+1nEoipKiy6JgwdUq3RRSUWkt6Otm7FKIjn7koJ3WcNt5U1
- HCfEsmgZBOHhvElsFR/C8Zo/QMfTfy3Tuj/xOWkzr1h7gtV6oVBaD9kndG5aPvZ5y+5HrWm
- +IB/Qsw+TMBz8rvwDV2InH89ZTSvxtWCalAOe4Gh6p8sl8iI1ql3AyD0jf9HTaHiiQ5H9jU
- 0cXEbZXTvvLg/v9KKHunEUcUQkl8vYnVIPxMovw9J360ql9NDpQpoyOBRfLR9AO/8hLpun8
- K5v013a9cN8=
-X-QQ-GoodBg: 1
-From: hongao <hongao@uniontech.com>
-To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, nicholas.kazlauskas@amd.com,
- aurabindo.pillai@amd.com, roman.li@amd.com, Jerry.Zuo@amd.com
-Subject: [PATCH] drm/amd/display: Fix set scaling doesn's work
-Date: Tue, 22 Nov 2022 19:20:34 +0800
-Message-Id: <20221122112034.30080-1-hongao@uniontech.com>
-X-Mailer: git-send-email 2.20.1
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D809F10E3C9
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Nov 2022 11:22:28 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 51A8061656;
+ Tue, 22 Nov 2022 11:22:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E948C433B5;
+ Tue, 22 Nov 2022 11:22:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1669116147;
+ bh=6WgNlDauiyoEDo3ITsLg57Fz3J8mYviYy1mteCmoMGU=;
+ h=Date:From:To:Cc:Subject:From;
+ b=JwPzwHJj3qxNLVJ+nqH+Vua1RDEjfa3e8XaGTndRtJ5wkv2y+fczKvjbhiQw5yBoM
+ Tb+vjZQGHRaoPbAKC2JEgztqrzoLu0n3ge7MJp4LGE6EBrP19+HM55AQHTAvDN5Tbh
+ dnjzAKgy45vEuHSm/v7aBX4yAB1pLhE8yfMGVv59LumYApzAwEIEYgcCxroDYfvgoi
+ ypttE9xFQkRL7Dh6NYjzgw0sn/U6VaYxfF2pGbzCzYW+UEMZgxEGTRScX9oeYH+TY/
+ e3gG1TeSuYyi396npS3rP8SrIV6nqGPzKO3Qy/okm1Uh+DJ7Ox4QjzGTIwQ2UdNNT2
+ lYjHK3mmlVWWA==
+Date: Tue, 22 Nov 2022 13:22:22 +0200
+From: Oded Gabbay <ogabbay@kernel.org>
+To: Dave Airlie <airlied@gmail.com>
+Subject: [git pull v2] new subsystem for compute accelerator devices
+Message-ID: <20221122112222.GA352082@ogabbay-vm-u20.habana-labs.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:uniontech.com:qybglogicsvr:qybglogicsvr6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,36 +49,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hongao <hongao@uniontech.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: daniel.vetter@ffwll.ch, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Why]
-Setting scaling does not correctly update CRTC state. As a result
-dc stream state's src (composition area) && dest (addressable area)
-was not calculated as expected. This causes set scaling doesn's work.
+Hi Dave,
 
-[How]
-Correctly update CRTC state when setting scaling property.
+Resending the pull-request with the fix of the build when CONFIG_DRM_ACCEL is
+set to N.
 
-Signed-off-by: hongao <hongao@uniontech.com>
+Thanks,
+Oded
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 3e1ecca72430..a88a6f758748 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -9386,8 +9386,8 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
- 			goto fail;
- 		}
- 
--		if (dm_old_con_state->abm_level !=
--		    dm_new_con_state->abm_level)
-+		if (dm_old_con_state->abm_level != dm_new_con_state->abm_level ||
-+		    dm_old_con_state->scaling != dm_new_con_state->scaling)
- 			new_crtc_state->connectors_changed = true;
- 	}
- 
--- 
-2.20.1
+The following changes since commit fc58764bbf602b65a6f63c53e5fd6feae76c510c:
 
+  Merge tag 'amd-drm-next-6.2-2022-11-18' of https://gitlab.freedesktop.org/agd5f/linux into drm-next (2022-11-22 13:41:11 +1000)
+
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/ogabbay/accel.git tags/drm-accel-2022-11-22
+
+for you to fetch changes up to 8c5577a5ccc632685e65168fc6890b72a779f93a:
+
+  doc: add documentation for accel subsystem (2022-11-22 13:14:52 +0200)
+
+----------------------------------------------------------------
+This tag contains the patches that add the new compute acceleration
+subsystem, which is part of the DRM subsystem.
+
+The patches:
+- Add a new directory at drivers/accel.
+- Add a new major (261) for compute accelerators.
+- Add a new DRM minor type for compute accelerators.
+- Integrate the accel core code with DRM core code.
+- Add documentation for the accel subsystem.
+
+----------------------------------------------------------------
+Oded Gabbay (4):
+      drivers/accel: define kconfig and register a new major
+      accel: add dedicated minor for accelerator devices
+      drm: initialize accel framework
+      doc: add documentation for accel subsystem
+
+ Documentation/accel/index.rst         |  17 ++
+ Documentation/accel/introduction.rst  | 110 ++++++++++++
+ Documentation/admin-guide/devices.txt |   5 +
+ Documentation/subsystem-apis.rst      |   1 +
+ MAINTAINERS                           |   9 +
+ drivers/Kconfig                       |   2 +
+ drivers/accel/Kconfig                 |  24 +++
+ drivers/accel/drm_accel.c             | 323 ++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/Makefile              |   1 +
+ drivers/gpu/drm/drm_drv.c             | 101 ++++++++---
+ drivers/gpu/drm/drm_file.c            |   2 +-
+ drivers/gpu/drm/drm_sysfs.c           |  24 ++-
+ include/drm/drm_accel.h               |  97 ++++++++++
+ include/drm/drm_device.h              |   3 +
+ include/drm/drm_drv.h                 |   8 +
+ include/drm/drm_file.h                |  21 ++-
+ 16 files changed, 711 insertions(+), 37 deletions(-)
+ create mode 100644 Documentation/accel/index.rst
+ create mode 100644 Documentation/accel/introduction.rst
+ create mode 100644 drivers/accel/Kconfig
+ create mode 100644 drivers/accel/drm_accel.c
+ create mode 100644 include/drm/drm_accel.h
