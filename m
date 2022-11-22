@@ -1,42 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F644633A74
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 11:48:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B745A633A8E
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 11:50:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEB5E10E3C1;
-	Tue, 22 Nov 2022 10:47:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 906B410E3BB;
+	Tue, 22 Nov 2022 10:50:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D42C910E3BB
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Nov 2022 10:47:53 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 6796AB81A01;
- Tue, 22 Nov 2022 10:47:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB446C433C1;
- Tue, 22 Nov 2022 10:47:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1669114071;
- bh=z5jHZXnfpR4uMGDRHA7iwHU4CEh2KqrEM7EyKMIZPe0=;
- h=Date:From:To:Cc:Subject:From;
- b=e2AaI1DwjnThPVgs+1ZMGfPa9sWB7BCC8YaagowfMSkWOtbRnqkHIsu+71FsdunpA
- f6yYr3swEQO/s904R+ji4i57h0MeQssguU1anWGD8/O1tdesxgccd9ZI16NlKf3/hV
- OTO6h/sUUSS59JlnHVa1M0EPUF/8O0kocig4XmGWVkazXLmRrQNzGWjhSiUx4meo32
- 6rL8HybqlDZ0eRFjzpSdxM6J71wUycAdGvelQPpnWa2AgnebVt7223TQaTFZdG+Ge6
- R9sYa6G5rFvquMgU/Q7vza8lCPaqNfSXhcJ7tti0pK6eQuXNXw1DNbmUvJxITEjcjD
- +eg93v3KVxueQ==
-Date: Tue, 22 Nov 2022 12:47:46 +0200
-From: Oded Gabbay <ogabbay@kernel.org>
-To: Dave Airlie <airlied@gmail.com>
-Subject: [git pull] new subsystem for compute accelerator devices
-Message-ID: <20221122104746.GA320209@ogabbay-vm-u20.habana-labs.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC6C910E039;
+ Tue, 22 Nov 2022 10:50:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1669114243; x=1700650243;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=hTmJOcb2/F7Ns1JLBwhouIBn1IhO1I7OWMGVPOceiuo=;
+ b=VXfi/QW28fc+/PX7fGlCqBww5Po7JrSIxucL+LxvxPe0AU2WWXVM+eSH
+ iZncjyDpVUuKQCAM0KhAbmtrbTZPGSZNhMpQr60IK/UebrM8IYET4FcGu
+ Ztk2cB+09gB2gF0p5706qfSyRtqvsnDXSDBTP1FdnAnR37ta38WvJ/Wom
+ jpUxb+ne/BkEvfVcfc97x7ySVjSVdu16kuQPs1X/IPbGQYAahZrXt5WZ9
+ YBTc553cw0w6VqujgC+yFrTeVJzn3HgbzjAf/EpdLegjjI5NcWryyUVfm
+ mfbw38PWstppjn/pggqDt0n/KVUcW/OUThIIfyQO8bNjMXA+/J0uyESlN w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="312489079"
+X-IronPort-AV: E=Sophos;i="5.96,183,1665471600"; d="scan'208";a="312489079"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Nov 2022 02:50:43 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="970428712"
+X-IronPort-AV: E=Sophos;i="5.96,183,1665471600"; d="scan'208";a="970428712"
+Received: from camorino-mobl.ger.corp.intel.com (HELO [10.213.209.233])
+ ([10.213.209.233])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Nov 2022 02:50:40 -0800
+Message-ID: <6a465c20-b0a7-4beb-6d1b-4ff66a29975f@linux.intel.com>
+Date: Tue, 22 Nov 2022 10:50:38 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v3 2/2] drm/i915: Never return 0 if not all requests
+ retired
+Content-Language: en-US
+To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+References: <20221121145655.75141-1-janusz.krzysztofik@linux.intel.com>
+ <20221121145655.75141-3-janusz.krzysztofik@linux.intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20221121145655.75141-3-janusz.krzysztofik@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,71 +64,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org
+Cc: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org,
+ Chris Wilson <chris.p.wilson@intel.com>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
 
-Here is the pull request for creating the compute acceleration (accel)
-subsystem. It includes the fixes to the few comments given in the latest
-patch-set review.
+On 21/11/2022 14:56, Janusz Krzysztofik wrote:
+> Users of intel_gt_retire_requests_timeout() expect 0 return value on
+> success.  However, we have no protection from passing back 0 potentially
+> returned by a call to dma_fence_wait_timeout() when it succedes right
+> after its timeout has expired.
 
-Highlights of the patch-set contents are in the signed tag.
+Is this talking about a potential weakness, or ambiguous kerneldoc, of 
+dma_fence_wait_timeout, dma_fence_default_wait and 
+i915_request_wait_timeout? They appear to say 0 return means timeout, 
+implying unsignaled fence. In other words signaled must return positive 
+remaining timeout. Implementations seems to allow a race which indeed 
+appears that return 0 and signaled fence is possible.
 
-Thanks,
-Oded
+If dma_fence_wait can indeed return 0 even when a request is signaled, 
+then how is timeout ?: -ETIME below correct? It isn't a chance for false 
+negative in its' callers?
 
-The following changes since commit fc58764bbf602b65a6f63c53e5fd6feae76c510c:
+Regards,
 
-  Merge tag 'amd-drm-next-6.2-2022-11-18' of https://gitlab.freedesktop.org/agd5f/linux into drm-next (2022-11-22 13:41:11 +1000)
+Tvrtko
 
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/ogabbay/accel.git tags/drm-accel-2022-11-22
-
-for you to fetch changes up to cadbcc80e81800a3189f9fed23407fa014b8e3c3:
-
-  doc: add documentation for accel subsystem (2022-11-22 12:41:08 +0200)
-
-----------------------------------------------------------------
-This tag contains the patches that add the new compute acceleration
-subsystem, which is part of the DRM subsystem.
-
-The patches:
-- Add a new directory at drivers/accel.
-- Add a new major (261) for compute accelerators.
-- Add a new DRM minor type for compute accelerators.
-- Integrate the accel core code with DRM core code.
-- Add documentation for the accel subsystem.
-
-----------------------------------------------------------------
-Oded Gabbay (4):
-      drivers/accel: define kconfig and register a new major
-      accel: add dedicated minor for accelerator devices
-      drm: initialize accel framework
-      doc: add documentation for accel subsystem
-
- Documentation/accel/index.rst         |  17 ++
- Documentation/accel/introduction.rst  | 110 ++++++++++++
- Documentation/admin-guide/devices.txt |   5 +
- Documentation/subsystem-apis.rst      |   1 +
- MAINTAINERS                           |   9 +
- drivers/Kconfig                       |   2 +
- drivers/accel/Kconfig                 |  24 +++
- drivers/accel/drm_accel.c             | 323 ++++++++++++++++++++++++++++++++++
- drivers/gpu/drm/Makefile              |   1 +
- drivers/gpu/drm/drm_drv.c             | 101 ++++++++---
- drivers/gpu/drm/drm_file.c            |   2 +-
- drivers/gpu/drm/drm_sysfs.c           |  24 ++-
- include/drm/drm_accel.h               |  97 ++++++++++
- include/drm/drm_device.h              |   3 +
- include/drm/drm_drv.h                 |   8 +
- include/drm/drm_file.h                |  21 ++-
- 16 files changed, 711 insertions(+), 37 deletions(-)
- create mode 100644 Documentation/accel/index.rst
- create mode 100644 Documentation/accel/introduction.rst
- create mode 100644 drivers/accel/Kconfig
- create mode 100644 drivers/accel/drm_accel.c
- create mode 100644 include/drm/drm_accel.h
+> Replace 0 with -ETIME before potentially using the timeout value as return
+> code, so -ETIME is returned if there are still some requests not retired
+> after timeout, 0 otherwise.
+> 
+> v3: Use conditional expression, more compact but also better reflecting
+>      intention standing behind the change.
+> 
+> v2: Move the added lines down so flush_submission() is not affected.
+> 
+> Fixes: f33a8a51602c ("drm/i915: Merge wait_for_timelines with retire_request")
+> Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: stable@vger.kernel.org # v5.5+
+> ---
+>   drivers/gpu/drm/i915/gt/intel_gt_requests.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_requests.c b/drivers/gpu/drm/i915/gt/intel_gt_requests.c
+> index edb881d756309..1dfd01668c79c 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_requests.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_requests.c
+> @@ -199,7 +199,7 @@ out_active:	spin_lock(&timelines->lock);
+>   	if (remaining_timeout)
+>   		*remaining_timeout = timeout;
+>   
+> -	return active_count ? timeout : 0;
+> +	return active_count ? timeout ?: -ETIME : 0;
+>   }
+>   
+>   static void retire_work_handler(struct work_struct *work)
