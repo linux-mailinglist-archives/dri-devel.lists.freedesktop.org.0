@@ -1,61 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEE8E633F36
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 15:48:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C60B1633F3D
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 15:49:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A25110E3FA;
-	Tue, 22 Nov 2022 14:48:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EB7510E401;
+	Tue, 22 Nov 2022 14:49:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D11F10E3FA
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Nov 2022 14:48:28 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id e11so12153865wru.8
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Nov 2022 06:48:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Y6VQZkRoHrqA7rpJ+k+Bc7BZuP/PY0GhLVjONMwr17o=;
- b=arkcTSSZ565+8zxaVnvMMkhBjDeyuV8uwARQodCjT/IrprezMx/J6gpGSxOsDOi6W0
- gzJQa/c/lk4i7feXnNiDgYk1VKfuckuqYMFg49LHY6zQ4i8tiic+81Kt1W8hxwAYNkGD
- XmZO2UXUf7FwmsVuEr0WLD/XKQQG94xP3axjo=
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
+ [IPv6:2607:f8b0:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AFBF10E3FB;
+ Tue, 22 Nov 2022 14:49:50 +0000 (UTC)
+Received: by mail-oi1-x22f.google.com with SMTP id h132so16071277oif.2;
+ Tue, 22 Nov 2022 06:49:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Hwgro+Mm4grcLsTI4z1CQ0gU6+UP66+rkYIgqXTF/rQ=;
+ b=hpFYUH249Ic1nL0AqhXFotGqEgkRx8sf1g9pza49gOxeUJLCAzb7JsbpO3oHEz+XD6
+ bJ+nyZAFg/XR2OtRO39KOI2/1fyZO2t9F5ils9Cvn5xnt7X2MItbBMvK8bwg+jPsny9c
+ xrJ4NdhFWaDAi8XLrj600h/Jqjn2uoJqlhnPBAim2UFijNX9DyAX+beFBHuocfyRB5Gv
+ nhfh5AaREN84WTay/HtyFpBVv8RUl5iad7XIrEOZcIVtYS2utU/lPMSmCFnSa9/zbXwm
+ cclPBnUkkSp/TjxpaxXfkqv3z1HRQdrHOi75bn4h0ISfioHrk/XMnY0s1LXtbmoiQYAR
+ N40Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Y6VQZkRoHrqA7rpJ+k+Bc7BZuP/PY0GhLVjONMwr17o=;
- b=Ph6vqmMKSv9zbVJZSEsvK101FMoUhi2ooUnlt/czbjr7Dpuuy8R1oWu2csFny7UXN9
- GsWfVcq9Bzv0ZYLgFG33XKQ2YhTjWBBBC3neCP6LEtmo+2FSTDhVxmIDO/+bxGUEBfbf
- SPjYOQO8fxVDY4qlmJGdTbO/naOFGZdOx9i2Bh8l8ToO8prYtaqMH15nDzyRwBVUn0Sj
- wa3I4zZLD/NAavOFb9ppAKAZFvai4UyF3RssEfbzYzcXoNnK5bEomKp8PLaWJUAuQk6w
- gYL2poKE52lKtTCoNLsGh4UUInFBp9pNhkPylm9wbK6o0Q0ou9rIPaUbsBEBz9E7sueO
- aXDA==
-X-Gm-Message-State: ANoB5pmxAofvx7DWKvQULlstnsAY8OyxfOln6s4r5fNX5qoXFKCS8YCL
- lTO3oZ9qFVJtI5jISpH9Ln3sfA==
-X-Google-Smtp-Source: AA0mqf74yf0WzGebkyR4zTY7KjsNMhDDBQMASADAm4iZKkPhgzAhOhyQoa4x3u5MiOZWvy6god7z9A==
-X-Received: by 2002:a5d:4ccb:0:b0:236:d611:4fcf with SMTP id
- c11-20020a5d4ccb000000b00236d6114fcfmr3765675wrt.192.1669128507148; 
- Tue, 22 Nov 2022 06:48:27 -0800 (PST)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- q14-20020a05600c46ce00b003c5571c27a1sm21728939wmo.32.2022.11.22.06.48.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Nov 2022 06:48:26 -0800 (PST)
-Date: Tue, 22 Nov 2022 15:48:24 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH] drm/doc: make drm-uapi igt-tests more readable
-Message-ID: <Y3zhOP6enOmUmapQ@phenom.ffwll.local>
-References: <20221118235137.6859-1-rdunlap@infradead.org>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Hwgro+Mm4grcLsTI4z1CQ0gU6+UP66+rkYIgqXTF/rQ=;
+ b=5AqDavWvFMecW3ARH28M1v44+DA9Ti8hSsQ1KbG/4vB3+Lybh1G18Mu2pFnoZKJQ20
+ uZxpzqdbh81nzKIj2ftvn19PLjQI6YvL9QGMQN8acsu6l3uKpW15ifz2SD0ppySEsH54
+ Q1YCG7VuBCwdFZnGuAWM5XzjQiC32LKIVQFRoBGrwpyuF4Z7hHXPJtAggpf917Es4VMa
+ RqPrt/vrO1Z3O3Pa7MEKiAhR5VAQfwY607f7D4PIDQyJrR6ChmoeX1sUKw3lBrM36N42
+ pRp30XpB+RLFky5KQr0p4pw+RDifwUZFClHYHj0bmhULXNZyjtMReqbLShzFQFROBhCd
+ +QlQ==
+X-Gm-Message-State: ANoB5pngXMOL58Yt3AUx+sN5I39OIEB3U8CnNZkf456FoheT2p9NY3Eh
+ +1pXniftrZ+xDBHZSup+YoFLCX8OPwz2U7F7t3k=
+X-Google-Smtp-Source: AA0mqf6pR02AvMqIQNHUy/xIW6cpnuZtBTZtDyYB2bN4HiiF4twoE9RF3lIvW3txzEnSq0pOHz2WFAjBVHIA3Tbj5tk=
+X-Received: by 2002:a05:6808:9b8:b0:34f:97ea:14d with SMTP id
+ e24-20020a05680809b800b0034f97ea014dmr1764935oig.96.1669128589816; Tue, 22
+ Nov 2022 06:49:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221118235137.6859-1-rdunlap@infradead.org>
-X-Operating-System: Linux phenom 5.19.0-2-amd64 
+References: <20221122113043.18715-1-wangxiongfeng2@huawei.com>
+ <20221122113043.18715-2-wangxiongfeng2@huawei.com>
+In-Reply-To: <20221122113043.18715-2-wangxiongfeng2@huawei.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 22 Nov 2022 09:49:38 -0500
+Message-ID: <CADnq5_NxLhU+zeNv4Esm=3Wn-=qHkRCzOmqT9a208BVZUn29pw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/radeon: Fix PCI device refcount leak in
+ radeon_atrm_get_bios()
+To: Xiongfeng Wang <wangxiongfeng2@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,65 +66,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Gabriela Bittencourt <gabrielabittencourt00@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-doc@vger.kernel.org,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Jonathan Corbet <corbet@lwn.net>,
- dri-devel@lists.freedesktop.org
+Cc: Xinhui.Pan@amd.com, lijo.lazar@amd.com, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, yangyingliang@huawei.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 18, 2022 at 03:51:37PM -0800, Randy Dunlap wrote:
-> Correct grammar and make the use of the igt-tests more readable.
-> 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Gabriela Bittencourt <gabrielabittencourt00@gmail.com>
-> Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: Jonathan Corbet <corbet@lwn.net>
+On Tue, Nov 22, 2022 at 6:12 AM Xiongfeng Wang
+<wangxiongfeng2@huawei.com> wrote:
+>
+> As comment of pci_get_class() says, it returns a pci_device with its
+> refcount increased and decreased the refcount for the input parameter
+> @from if it is not NULL.
+>
+> If we break the loop in radeon_atrm_get_bios() with 'pdev' not NULL, we
+> need to call pci_dev_put() to decrease the refcount. Add the missing
+> pci_dev_put() to avoid refcount leak.
 
-Pushed to drm-misc-next, thanks for your patch.
--Daniel
+For both patches, I think pci_dev_put() needs to go into the loops.
+There are 2 or more GPUs on the systems where this is relevant.
 
+Alex
+
+>
+> Fixes: d8ade3526b2a ("drm/radeon: handle non-VGA class pci devices with ATRM")
+> Fixes: c61e2775873f ("drm/radeon: split ATRM support out from the ATPX handler (v3)")
+> Signed-off-by: Xiongfeng Wang <wangxiongfeng2@huawei.com>
 > ---
->  Documentation/gpu/drm-uapi.rst |   12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff -- a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-> --- a/Documentation/gpu/drm-uapi.rst
-> +++ b/Documentation/gpu/drm-uapi.rst
-> @@ -402,19 +402,19 @@ It's possible to run the IGT-tests in a
->  	1. Use IGT inside a VM
->  	2. Use IGT from the host machine and write the results in a shared directory.
->  
-> -As follow, there is an example of using a VM with a shared directory with
-> -the host machine to run igt-tests. As an example it's used virtme::
-> +Following is an example of using a VM with a shared directory with
-> +the host machine to run igt-tests. This example uses virtme::
->  
->  	$ virtme-run --rwdir /path/for/shared_dir --kdir=path/for/kernel/directory --mods=auto
->  
-> -Run the igt-tests in the guest machine, as example it's ran the 'kms_flip'
-> +Run the igt-tests in the guest machine. This example runs the 'kms_flip'
->  tests::
->  
->  	$ /path/for/igt-gpu-tools/scripts/run-tests.sh -p -s -t "kms_flip.*" -v
->  
-> -In this example, instead of build the igt_runner, Piglit is used
-> -(-p option); it's created html summary of the tests results and it's saved
-> -in the folder "igt-gpu-tools/results"; it's executed only the igt-tests
-> +In this example, instead of building the igt_runner, Piglit is used
-> +(-p option). It creates an HTML summary of the test results and saves
-> +them in the folder "igt-gpu-tools/results". It executes only the igt-tests
->  matching the -t option.
->  
->  Display CRC Support
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+>  drivers/gpu/drm/radeon/radeon_bios.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/gpu/drm/radeon/radeon_bios.c b/drivers/gpu/drm/radeon/radeon_bios.c
+> index 33121655d50b..2df6ce3e32cb 100644
+> --- a/drivers/gpu/drm/radeon/radeon_bios.c
+> +++ b/drivers/gpu/drm/radeon/radeon_bios.c
+> @@ -227,6 +227,7 @@ static bool radeon_atrm_get_bios(struct radeon_device *rdev)
+>
+>         if (!found)
+>                 return false;
+> +       pci_dev_put(pdev);
+>
+>         rdev->bios = kmalloc(size, GFP_KERNEL);
+>         if (!rdev->bios) {
+> --
+> 2.20.1
+>
