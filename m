@@ -1,37 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B981363315D
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 01:32:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48D83633225
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 02:29:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9A3910E1BC;
-	Tue, 22 Nov 2022 00:32:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0936310E1D8;
+	Tue, 22 Nov 2022 01:29:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4532B10E1BC
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Nov 2022 00:32:36 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8A53FD01;
- Tue, 22 Nov 2022 01:32:34 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1669077154;
- bh=5JdASL/CiE4rTDsi9shcG4mSG6gPhLGkF4tCrZJmgkY=;
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7099610E1D8
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Nov 2022 01:29:00 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4NGRVZ3Nzsz4xGK;
+ Tue, 22 Nov 2022 12:28:54 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1669080535;
+ bh=r3Zq9zUP7eX1Hv56Y96Fbj75FRnDNCrFb/0crgzsSjE=;
  h=Date:From:To:Cc:Subject:From;
- b=RiXTm6jep5pZyBZqMVN0az13h077ntpSJLw+QQo9C/LeoslKmCzJvNg37EgWId3Ql
- 3owTXI6G2HUO6mofICPNAmiEWBoPuhsbWa07mn6aE1riDoHbjryvEPo6nSQAGllKS6
- JTJDhZEzqWzYAOUhMul0YGm8/A+ZcdsVoRH53KIg=
-Date: Tue, 22 Nov 2022 02:32:19 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [GIT PULL FOR v6.2] RZ/G2L DSI Kconfig fix
-Message-ID: <Y3wYk/Bn/qVa9ha0@pendragon.ideasonboard.com>
+ b=ubAVMvdBvdfQKmzNayTxaIXvNdbm3RNy/BzJ4K62wszd/FAHKru/sdHvZ6qDAxD+K
+ Ch+Hlp1t+RVGRT6fqZmp4kj02njXynLoKGis4Zq+JaI/yd2nF7UxVINAnKU9nQ3l3W
+ qz6NJ3po/bkyotVTntTWCeQN1FUtgM06cB5Ep9DneDAZXzcMhe+l4bnv9ADVIANBO+
+ U2zaTaeAlHw2LJHdnlF6N4wDYtASgo/ai/5IaoqlpwbOJb34KzQohsVaSMx8rEbwog
+ +aLBa65/8I9+CceKzVxX8N2D9dQg711NDHvrAm3fKSu5zzWX+0WUNkCCUyshMZAebo
+ lPZPFd74XcVuw==
+Date: Tue, 22 Nov 2022 12:28:50 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Alex Deucher <alexdeucher@gmail.com>, Dave Airlie <airlied@redhat.com>
+Subject: linux-next: manual merge of the amdgpu tree with the drm tree
+Message-ID: <20221122122850.3cd9657a@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: multipart/signed; boundary="Sig_/meyUr.nqIgyWpregzYFRhPm";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,38 +49,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>, dri-devel@lists.freedesktop.org
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ "Stanley.Yang" <Stanley.Yang@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+--Sig_/meyUr.nqIgyWpregzYFRhPm
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-The following changes since commit 4e291f2f585313efa5200cce655e17c94906e50a:
+Hi all,
 
-  Merge tag 'drm-misc-next-2022-11-10-1' of git://anongit.freedesktop.org/drm/drm-misc into drm-next (2022-11-16 07:17:32 +1000)
+Today's linux-next merge of the amdgpu tree got a conflict in:
 
-are available in the Git repository at:
+  drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
 
-  git://linuxtv.org/pinchartl/media.git tags/drm-next-20221122
+between commits:
 
-for you to fetch changes up to ff6d979454ee21bf2d21040c8f2996b8f66726f2:
+  1b2d5eda5ad7 ("drm/amdgpu: move explicit sync check into the CS")
+  1728baa7e4e6 ("drm/amdgpu: use scheduler dependencies for CS")
 
-  drm: rcar-du: Fix Kconfig dependency between DRM and RZG2L_MIPI_DSI (2022-11-22 02:20:23 +0200)
+from the drm tree and commit:
 
-This commit fixes a Kconfig issue that is in the drm-next branch for
-v6.2.
+  a61bf2f7299a ("drm/amdgpu: fix use-after-free during gpu recovery")
 
-----------------------------------------------------------------
-Kconfig fix for RZ/G2L DSI
+from the amdgpu tree.
 
-----------------------------------------------------------------
-Biju Das (1):
-      drm: rcar-du: Fix Kconfig dependency between DRM and RZG2L_MIPI_DSI
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
 
- drivers/gpu/drm/rcar-du/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--=20
+Cheers,
+Stephen Rothwell
 
--- 
-Regards,
+diff --cc drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+index ffaac1c21c91,f4a3122352de..000000000000
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+@@@ -173,8 -166,14 +173,13 @@@ static void amdgpu_job_free_cb(struct d
+ =20
+  	drm_sched_job_cleanup(s_job);
+ =20
+ -	amdgpu_sync_free(&job->sync);
+ -	amdgpu_sync_free(&job->sched_sync);
+ +	amdgpu_sync_free(&job->explicit_sync);
+- 	dma_fence_put(&job->hw_fence);
++=20
++ 	/* only put the hw fence if has embedded fence */
++ 	if (!job->hw_fence.ops)
++ 		kfree(job);
++ 	else
++ 		dma_fence_put(&job->hw_fence);
+  }
+ =20
+  void amdgpu_job_set_gang_leader(struct amdgpu_job *job,
 
-Laurent Pinchart
+--Sig_/meyUr.nqIgyWpregzYFRhPm
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmN8JdIACgkQAVBC80lX
+0Gxr+ggAoEPA1Y5lY/moFfUzHLgC6Q90pZRowb1WMlyJO78su6vpDIOm0v5yJFF7
+cB2ijv3IeJhXZ1c4nOFNFxtGunE+dg37JYf+1yQHQ2nlWKAOTEjsxOobIH7ctdrc
+WK8exzRcUV770i0L1D8hDb5FUpiFxnaLXAMkG7SvDCSjat8hNLAlYuUo7D5PH+2P
+ePhxVqS32PrbhtGguLZxxHvkUcA0GJvYg4cT5Eg60LRG7mslNaorlAl/eUtc2U4C
+Uw1p+Uq0TmkogWbIjijbK1647BtEB6SfOqRQoLOrTj49Vy+Z6UPR0rUCUQ6dN2f6
+JkY9CwNMGmfhcaYWL0ZHousiKTMDPA==
+=aSEP
+-----END PGP SIGNATURE-----
+
+--Sig_/meyUr.nqIgyWpregzYFRhPm--
