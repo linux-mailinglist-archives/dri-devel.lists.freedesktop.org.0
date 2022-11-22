@@ -1,62 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43E12633B79
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 12:35:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DD27633C0C
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Nov 2022 13:08:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9080C10E0AA;
-	Tue, 22 Nov 2022 11:35:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2D0B10E0C0;
+	Tue, 22 Nov 2022 12:08:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com
- [IPv6:2607:f8b0:4864:20::82c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0D2110E08F;
- Tue, 22 Nov 2022 11:35:12 +0000 (UTC)
-Received: by mail-qt1-x82c.google.com with SMTP id a27so9020444qtw.10;
- Tue, 22 Nov 2022 03:35:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :from:to:cc:subject:date:message-id:reply-to;
- bh=yjcaEIU8aaszVdE2YJFXT5V87395aETVGSUxQ01ZdKA=;
- b=iGmNWndvUeaZGjqbr+ZMN0HCB7sowPojucwRe5nzbbkZjp2gkNI6GeOVVqdl2+XZQu
- bpgxuU1nTZ+O/CQ2xwq8g+ZxYDAQTkn/bo8sLC2gULM3gFHhr0+fiExG/57/5Qe1TMYB
- 7UFKRmZtL2OUxyZwQsgRJXmqnh9vCK2Wf0CW89C6rk/1qgaCBGFQsW8MhGAAEnYpos69
- OIv9qlMf9r7uG1dMjFfHr/N9yL3AbZsq+A1QqLlW9QPFlUQudfZXhqPFMC3Fura0H91u
- De98fi3JvpFJ5YcJscDjA80WbQHcm+/ci0rZN3PSQNdQkkdPxkvySXRhgxb4Y4w29+cq
- RI3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=yjcaEIU8aaszVdE2YJFXT5V87395aETVGSUxQ01ZdKA=;
- b=VegSwh8TLZR4u5gMFflKF2w5mvSXRS8/DipzoM9FAOJ4g8KVge3nn0wueopvmwuzI1
- uHl1H8rbx5YzX7PHRgOokfaAO7qYKotizEKuYXJHgMNzmROe0yKr1EhAbk8lIuARBGNg
- WFDxZ51iT4+zNQ2anYzRaWvZv5iQvemyQv33aSDP/JxN6wt6hLL5NyAzi/QKzH1l3nO8
- RcbXk4MUrSQ9jCTXWVQJNXIpmdByNadnK5kpuX1KN34svp1V80rNbwj1g6EQNzo9HUUr
- BsE0QKvaHFKizjhR7yELNZUyst/hCRfjhxecpvb5fUMddDWyk8fs+NPKPrSIwAtKxWJX
- tDVA==
-X-Gm-Message-State: ANoB5pl0wTkgZzG084UeleGcvCN2v8GsCPSG5MJ8Nj6leAPnY4MNpWXj
- 2Ipkpe0cLf1pLVvIl5F+sa+ZYm7k75Jloak/23MBPDOotAMqF9C9aCQ=
-X-Google-Smtp-Source: AA0mqf4s/tmixJs7XFTUNXmYEIqSfZaZ+o3bkQmJ0pO+hCd0Zlcrm7DU5ubR77tUpZsMXto5dpdCfITM+2Ajbk4WwAI=
-X-Received: by 2002:ac8:480c:0:b0:3a4:f1c1:49a9 with SMTP id
- g12-20020ac8480c000000b003a4f1c149a9mr5452589qtq.464.1669116911696; Tue, 22
- Nov 2022 03:35:11 -0800 (PST)
-MIME-Version: 1.0
-References: <CABXGCsNFRQ9A1Vx6_qsP7NqedhG7QScOG4-Eupvz3etgykJt=Q@mail.gmail.com>
-In-Reply-To: <CABXGCsNFRQ9A1Vx6_qsP7NqedhG7QScOG4-Eupvz3etgykJt=Q@mail.gmail.com>
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Date: Tue, 22 Nov 2022 16:35:00 +0500
-Message-ID: <CABXGCsNvLzTMaYqcTM6Wn+uC__H3S94eiHTDLVqAeQByw3fqPg@mail.gmail.com>
-Subject: Re: [regression][6.0] After commit
- b261509952bc19d1012cf732f853659be6ebc61e
- I see WARNING message at drivers/gpu/drm/drm_modeset_lock.c:276
- drm_modeset_drop_locks+0x63/0x70
-To: amd-gfx list <amd-gfx@lists.freedesktop.org>, 
- Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- Harry Wentland <hwentlan@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+Received: from mxct.zte.com.cn (mxct.zte.com.cn [58.251.27.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C060410E0C0
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Nov 2022 12:08:28 +0000 (UTC)
+Received: from mxde.zte.com.cn (unknown [10.35.20.121])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mxct.zte.com.cn (FangMail) with ESMTPS id 4NGjhT6Pr7zK8S;
+ Tue, 22 Nov 2022 20:08:25 +0800 (CST)
+Received: from mxus.zte.com.cn (unknown [10.207.168.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mxde.zte.com.cn (FangMail) with ESMTPS id 4NGjhB49MfzBf6Lr;
+ Tue, 22 Nov 2022 20:08:10 +0800 (CST)
+Received: from mxhk.zte.com.cn (unknown [192.168.250.138])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mxus.zte.com.cn (FangMail) with ESMTPS id 4NGjh66CBPzdmJQW;
+ Tue, 22 Nov 2022 20:08:06 +0800 (CST)
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mxhk.zte.com.cn (FangMail) with ESMTPS id 4NGjh12Qybz5PkGj;
+ Tue, 22 Nov 2022 20:08:01 +0800 (CST)
+Received: from szxlzmapp04.zte.com.cn ([10.5.231.166])
+ by mse-fl2.zte.com.cn with SMTP id 2AMC7uCC005801;
+ Tue, 22 Nov 2022 20:07:56 +0800 (+08)
+ (envelope-from yang.yang29@zte.com.cn)
+Received: from mapi (szxlzmapp02[null]) by mapi (Zmail) with MAPI id mid14;
+ Tue, 22 Nov 2022 20:07:59 +0800 (CST)
+Date: Tue, 22 Nov 2022 20:07:59 +0800 (CST)
+X-Zmail-TransId: 2b04637cbb9ffffffffffa0dfedf
+X-Mailer: Zmail v1.0
+Message-ID: <202211222007593082125@zte.com.cn>
+Mime-Version: 1.0
+From: <yang.yang29@zte.com.cn>
+To: <zhenyuw@linux.intel.com>
+Subject: =?UTF-8?B?W1BBVENIIGxpbnV4LW5leHRdIGRybS9pOTE1L2d2dDogdXNlIHN5c2ZzX3N0cmVxKCkgaW5zdGVhZCBvZiBzdHJuY21wKCk=?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL: mse-fl2.zte.com.cn 2AMC7uCC005801
+X-Fangmail-Gw-Spam-Type: 0
+X-FangMail-Miltered: at cgslv5.04-192.168.251.14.novalocal with ID
+ 637CBBB8.002 by FangMail milter!
+X-FangMail-Envelope: 1669118906/4NGjhT6Pr7zK8S/637CBBB8.002/10.35.20.121/[10.35.20.121]/mxde.zte.com.cn/<yang.yang29@zte.com.cn>
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 637CBBB8.002/4NGjhT6Pr7zK8S
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,32 +67,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: tvrtko.ursulin@linux.intel.com, xu.panda@zte.com.cn,
+ intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, yang.yang29@zte.com.cn,
+ dri-devel@lists.freedesktop.org, rodrigo.vivi@intel.com, zhi.a.wang@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 13, 2022 at 6:36 PM Mikhail Gavrilov
-<mikhail.v.gavrilov@gmail.com> wrote:
->
-> Hi!
-> I bisected an issue of the 6.0 kernel which started happening after
-> 6.0-rc7 on all my machines.
->
-> Backtrace of this issue looks like as:
->
-> [ 2807.339439] ------------[ cut here ]------------
-> [ 2807.339445] WARNING: CPU: 11 PID: 2061 at
-> drivers/gpu/drm/drm_modeset_lock.c:276
-> drm_modeset_drop_locks+0x63/0x70
->
-> bisect points to this commit: b261509952bc19d1012cf732f853659be6ebc61e.
->
-> After reverting this commit the WARNING messages described here disappeared.
->
+From: Xu Panda <xu.panda@zte.com.cn>
 
-Hi Harry, Christian says that you can help with it.
+Replace the open-code with sysfs_streq().
 
-Thanks.
+Signed-off-by: Xu Panda <xu.panda@zte.com.cn>
+Signed-off-by: Yang Yang <yang.yang29@zte.com>
+---
+ drivers/gpu/drm/i915/gvt/cmd_parser.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
+diff --git a/drivers/gpu/drm/i915/gvt/cmd_parser.c b/drivers/gpu/drm/i915/gvt/cmd_parser.c
+index 0ebf5fbf0e39..7b9a5f7f5363 100644
+--- a/drivers/gpu/drm/i915/gvt/cmd_parser.c
++++ b/drivers/gpu/drm/i915/gvt/cmd_parser.c
+@@ -917,8 +917,8 @@ static int cmd_reg_handler(struct parser_exec_state *s,
+ 		return -EBADRQC;
+ 	}
+
+-	if (!strncmp(cmd, "srm", 3) ||
+-			!strncmp(cmd, "lrm", 3)) {
++	if (sysfs_streq(cmd, "srm") ||
++			sysfs_streq(cmd, "lrm")) {
+ 		if (offset == i915_mmio_reg_offset(GEN8_L3SQCREG4) ||
+ 		    offset == 0x21f0 ||
+ 		    (IS_BROADWELL(gvt->gt->i915) &&
+@@ -931,8 +931,8 @@ static int cmd_reg_handler(struct parser_exec_state *s,
+ 		}
+ 	}
+
+-	if (!strncmp(cmd, "lrr-src", 7) ||
+-			!strncmp(cmd, "lrr-dst", 7)) {
++	if (sysfs_streq(cmd, "lrr-src") ||
++			sysfs_streq(cmd, "lrr-dst")) {
+ 		if (IS_BROADWELL(gvt->gt->i915) && offset == 0x215c)
+ 			return 0;
+ 		else {
+@@ -941,12 +941,12 @@ static int cmd_reg_handler(struct parser_exec_state *s,
+ 		}
+ 	}
+
+-	if (!strncmp(cmd, "pipe_ctrl", 9)) {
++	if (sysfs_streq(cmd, "pipe_ctrl")) {
+ 		/* TODO: add LRI POST logic here */
+ 		return 0;
+ 	}
+
+-	if (strncmp(cmd, "lri", 3))
++	if (!sysfs_streq(cmd, "lri"))
+ 		return -EPERM;
+
+ 	/* below are all lri handlers */
+@@ -1011,7 +1011,7 @@ static int cmd_reg_handler(struct parser_exec_state *s,
+ 	 */
+ 	if (GRAPHICS_VER(s->engine->i915) == 9 &&
+ 	    intel_gvt_mmio_is_sr_in_ctx(gvt, offset) &&
+-	    !strncmp(cmd, "lri", 3)) {
++	    sysfs_streq(cmd, "lri")) {
+ 		intel_gvt_read_gpa(s->vgpu,
+ 			s->workload->ring_context_gpa + 12, &ctx_sr_ctl, 4);
+ 		/* check inhibit context */
 -- 
-Best Regards,
-Mike Gavrilov.
+2.15.2
