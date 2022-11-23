@@ -1,69 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CBEB636E25
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 00:11:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DC97636E5B
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 00:27:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9A7010E654;
-	Wed, 23 Nov 2022 23:11:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F19510E65D;
+	Wed, 23 Nov 2022 23:27:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D7A610E653
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 23:11:28 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id g7so40285lfv.5
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 15:11:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=7XcTTI3VTKH5Ew7b4w2Gn9cRXjRHQBtu6NQmXOetUGw=;
- b=SYoOY7rZftTsDa3r7rI6AIPmcr8sI5HSxxE/rCN+yjg6qQdWiKjKfjvLLKYXxHupWv
- qJwWaOf9Y+turS/k7IgQSFxXa3nmviUxOc9BUdkt98fICFMHeKroBhjTnTxcrrb1mplc
- lu8mryjd6BP7jPvu60q4RS/CKJ9prs+0t/QYjA9j2Q4/LxR2vns6EgMixVHpg7U7n3tb
- l5znAXSfUDcBeF+BF0pFx6QIzR9P+WX9/yu+4ZeN+ahgOET9V6osdxQBtsVCfiXkmM+l
- Ki/j+GjPmTeA5RkxRsBdi9EQXUqLvcDHvr1QIRFvP2+bhWfGZAbdDVvAgHYfc6yNt2gV
- 3eLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7XcTTI3VTKH5Ew7b4w2Gn9cRXjRHQBtu6NQmXOetUGw=;
- b=hD4WgbBinlgD4OXjjQUpTCiDR3IpcfUNruu63ZHGgr7YvCoW+yQKedkuvVEpJT9xN1
- 0AG3iuuESvr2bGa37pD1WNFzIVQUBOjql3bU1OoVUi0lcsXkqkGG/vVy649wYrdNuCHz
- Agc6CCcR9QU7bK3cCYzRFYzlxvLkhBZjvuSScZQy9pRfMZPmGH+j+iRG+mF8MrJphJax
- UKt1wN0GFBuLfs0n8bFiERN+YEWARgt004mTA4dGUQnllpa46iJwgEBjeIdhyrMzZNNI
- brWqP4e4cS4DXdgr6wAKpnwwttOUEpqVqC0tATD8plOslIvhDyWMvT0cMC2FghTBvife
- Vieg==
-X-Gm-Message-State: ANoB5pnqicLcWoO5FYafwQpJiwiRjVFh4enySRor3DUvn67ay8vC9SUP
- 9YCcggWVJfJP36+6tiGXmzITQw==
-X-Google-Smtp-Source: AA0mqf4ap4rSKu1q4RzaMVU+Ew9bLfwjunXcWBhERA8AnppBDiepmkCDzvZejuLLCMPYFng6xbdf+A==
-X-Received: by 2002:a05:6512:2591:b0:4ae:c2b5:29c4 with SMTP id
- bf17-20020a056512259100b004aec2b529c4mr4605476lfb.614.1669245086436; 
- Wed, 23 Nov 2022 15:11:26 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a302:192b::1?
- (dzpbbwm4yyyyyyyyyyyyt-3.rev.dnainternet.fi. [2001:14ba:a302:192b::1])
- by smtp.gmail.com with ESMTPSA id
- c4-20020ac25304000000b0049fff3f645esm3017256lfh.70.2022.11.23.15.11.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Nov 2022 15:11:25 -0800 (PST)
-Message-ID: <1ad9d68a-8735-07cf-e279-503d9ba63878@linaro.org>
-Date: Thu, 24 Nov 2022 01:11:25 +0200
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FA0310E653;
+ Wed, 23 Nov 2022 23:27:22 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2ANLw8Bd012358; Wed, 23 Nov 2022 23:27:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=UiHNcOmoMphTTi3nQUV3Z38plohqL6G7XBcr6w9GfY8=;
+ b=S5eu34NxyP2wDLpSJ+pR76vWEj39OGq2QZjaePcAkqqccHYzORIhiwyw07kNMfUxZrCD
+ CS7gg9OsiBpd7VNW9UgY2IEpzyR5UDohXdjuo886xADEWMT3GuGwn5019JvCJd77Engg
+ zFTzKe0lBMxZmErWbyUyo/aB+dC/Z5QnPB2L4/a0Te9MZoKM/WLnm1Ynlqlrhbd0K+Hz
+ p+imS1Ms5idB/HRhiOgwhm0FrJR/PxtA7090yhNTf5FDqK1jKmn6bFgB7bmQ0VvJzj2i
+ 7zHlHmGGVE+1AtNsjAOX5yshvmLv/eFSdbXts4blGJFjJX5C9WeXaDPkDEVkfR+DQrY3 tw== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3m1favjwab-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 23 Nov 2022 23:27:07 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2ANNR6FO023129
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 23 Nov 2022 23:27:06 GMT
+Received: from [10.71.111.47] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 23 Nov
+ 2022 15:27:05 -0800
+Message-ID: <0eb6155d-7b70-fc4b-97dd-7c5caea330ac@quicinc.com>
+Date: Wed, 23 Nov 2022 15:27:04 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH 1/2] dt-bindings: display/msm: add support for the display
-Content-Language: en-GB
-To: Adam Skladowski <a39.skl@gmail.com>
-References: <20221120133744.24808-1-a39.skl@gmail.com>
- <20221120133744.24808-2-a39.skl@gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20221120133744.24808-2-a39.skl@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [RFC PATCH 1/3] drm: Introduce color fill properties for drm plane
+Content-Language: en-US
+To: Pekka Paalanen <ppaalanen@gmail.com>
+References: <20221028225952.160-1-quic_jesszhan@quicinc.com>
+ <20221028225952.160-2-quic_jesszhan@quicinc.com>
+ <712a9a25-4c38-9da5-b1a6-39e4665b4d31@linaro.org>
+ <U3Koc0-B-7C7sbIpcRWokBHPOQdrQl7azJxAUWFJ4nmsk5nPf9NnUgBr9HOFUZ9YLJOKREN878fXv_BeIc15Kh_jVAFCFbYr8XfS3s0Os_M=@emersion.fr>
+ <CA+hFU4wrDtSpU5owaNVP=8F3bQCnFCaJ7RmGOS0y4cooKQ5+CQ@mail.gmail.com>
+ <20221109111857.36486d8d@eldfell>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20221109111857.36486d8d@eldfell>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: PY2VFpIhJkN_bx0LBUPVkDby6eRaYeeV
+X-Proofpoint-GUID: PY2VFpIhJkN_bx0LBUPVkDby6eRaYeeV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-23_13,2022-11-23_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ malwarescore=0 adultscore=0 clxscore=1011 mlxscore=0 phishscore=0
+ impostorscore=0 priorityscore=1501 bulkscore=0 spamscore=0 mlxlogscore=999
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211230173
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,329 +87,254 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- phone-devel@vger.kernel.org, Adam Skladowski <a_skl39@protonmail.com>,
- Vinod Polimera <quic_vpolimer@quicinc.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Jason Wang <wangborong@cdjrlc.com>, Sean Paul <sean@poorly.run>,
- Kalyan Thota <quic_kalyant@quicinc.com>,
- Loic Poulain <loic.poulain@linaro.org>, Bjorn Andersson <andersson@kernel.org>,
- Douglas Anderson <dianders@chromium.org>, Vinod Koul <vkoul@kernel.org>,
- freedreno@lists.freedesktop.org, ~postmarketos/upstreaming@lists.sr.ht
+Cc: Sebastian Wick <sebastian.wick@redhat.com>, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, daniel.vetter@ffwll.ch,
+ seanpaul@chromium.org, laurent.pinchart@ideasonboard.com,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ wayland-devel <wayland-devel@lists.freedesktop.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20/11/2022 15:37, Adam Skladowski wrote:
-> Add DPU and MDSS schemas to describe MDSS and DPU blocks on the Qualcomm
-> SM6115 platform.
-> Configuration for DSI/PHY is shared with QCM2290 so compatibles are reused.
-> Lack of dsi phy supply in example is intended
-> due to fact on qcm2290, sm6115 and sm6125
-> this phy is supplied via power domain, not regulator.
+
+
+On 11/9/2022 1:18 AM, Pekka Paalanen wrote:
+> On Tue, 8 Nov 2022 23:01:47 +0100
+> Sebastian Wick <sebastian.wick@redhat.com> wrote:
 > 
-> Signed-off-by: Adam Skladowski <a39.skl@gmail.com>
-> ---
->   .../bindings/display/msm/qcom,sm6115-dpu.yaml |  87 ++++++++
->   .../display/msm/qcom,sm6115-mdss.yaml         | 187 ++++++++++++++++++
->   2 files changed, 274 insertions(+)
->   create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sm6115-dpu.yaml
->   create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml
+>> On Tue, Nov 8, 2022 at 7:51 PM Simon Ser <contact@emersion.fr> wrote:
+>>>
+>>> cc'ing Pekka and wayland-devel for userspace devs feedback on the new uAPI.
 > 
-> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm6115-dpu.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm6115-dpu.yaml
-> new file mode 100644
-> index 000000000000..cc77675ec4f6
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm6115-dpu.yaml
-> @@ -0,0 +1,87 @@
-> +# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/msm/qcom,sm6115-dpu.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Qualcomm Display DPU dt properties for SM6115 target
-> +
-> +maintainers:
-> +  - Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> +
-> +$ref: /schemas/display/msm/dpu-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - const: qcom,sm6115-dpu
-> +
-> +  reg:
-> +    items:
-> +      - description: Address offset and size for mdp register set
-> +      - description: Address offset and size for vbif register set
-> +
-> +  reg-names:
-> +    items:
-> +      - const: mdp
-> +      - const: vbif
-> +
-> +  clocks:
-> +    items:
-> +      - description: Display AXI clock from gcc
-> +      - description: Display AHB clock from dispcc
-> +      - description: Display core clock from dispcc
-> +      - description: Display lut clock from dispcc
-> +      - description: Display rotator clock from dispcc
-> +      - description: Display vsync clock from dispcc
-> +
-> +  clock-names:
-> +    items:
-> +      - const: bus
-> +      - const: iface
-> +      - const: core
-> +      - const: lut
-> +      - const: rot
-> +      - const: vsync
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/qcom,sm6115-dispcc.h>
-> +    #include <dt-bindings/clock/qcom,gcc-sm6115.h>
-> +    #include <dt-bindings/power/qcom-rpmpd.h>
-> +
-> +    display-controller@5e01000 {
-> +        compatible = "qcom,sm6115-dpu";
-> +        reg = <0x05e01000 0x8f000>,
-> +              <0x05eb0000 0x2008>;
-> +        reg-names = "mdp", "vbif";
-> +
-> +        clocks = <&gcc GCC_DISP_HF_AXI_CLK>,
-> +                 <&dispcc DISP_CC_MDSS_AHB_CLK>,
-> +                 <&dispcc DISP_CC_MDSS_MDP_CLK>,
-> +                 <&dispcc DISP_CC_MDSS_MDP_LUT_CLK>,
-> +                 <&dispcc DISP_CC_MDSS_ROT_CLK>,
-> +                 <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
-> +        clock-names = "bus", "iface", "core", "lut", "rot", "vsync";
-> +
-> +        operating-points-v2 = <&mdp_opp_table>;
-> +        power-domains = <&rpmpd SM6115_VDDCX>;
-> +
-> +        interrupt-parent = <&mdss>;
-> +        interrupts = <0>;
-> +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            port@0 {
-> +                reg = <0>;
-> +                endpoint {
-> +                    remote-endpoint = <&dsi0_in>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +...
-> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml
-> new file mode 100644
-> index 000000000000..af721aa05b22
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml
-> @@ -0,0 +1,187 @@
-> +# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/msm/qcom,sm6115-mdss.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Qualcomm SM6115 Display MDSS
-> +
-> +maintainers:
-> +  - Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> +
-> +description:
-> +  Device tree bindings for MSM Mobile Display Subsystem(MDSS) that encapsulates
-> +  sub-blocks like DPU display controller and DSI. Device tree bindings of MDSS
-> +  are mentioned for SM6115 target.
-> +
-> +$ref: /schemas/display/msm/mdss-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - const: qcom,sm6115-mdss
-> +
-> +  clocks:
-> +    items:
-> +      - description: Display AHB clock from gcc
-> +      - description: Display AXI clock
-> +      - description: Display core clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: iface
-> +      - const: bus
-> +      - const: core
+> Hi all,
+> 
+> thanks! Comments below.
 
-I think you can drop clock-names from the MDSS node.
+Thanks for the feedback!
 
-> +
-> +  iommus:
-> +    maxItems: 2
-> +
-> +patternProperties:
-> +  "^display-controller@[0-9a-f]+$":
-> +    type: object
-> +    properties:
-> +      compatible:
-> +        const: qcom,sm6115-dpu
-> +
-> +  "^dsi@[0-9a-f]+$":
-> +    type: object
-> +    properties:
-> +      compatible:
-> +        const: qcom,dsi-ctrl-6g-qcm2290
-> +
-> +  "^phy@[0-9a-f]+$":
-> +    type: object
-> +    properties:
-> +      compatible:
-> +        const: qcom,dsi-phy-14nm-2290
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/qcom,sm6115-dispcc.h>
-> +    #include <dt-bindings/clock/qcom,gcc-sm6115.h>
-> +    #include <dt-bindings/clock/qcom,rpmcc.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/power/qcom-rpmpd.h>
-> +
-> +    mdss@5e00000 {
-> +        #address-cells = <1>;
-> +        #size-cells = <1>;
-> +        compatible = "qcom,sm6115-mdss";
-> +        reg = <0x05e00000 0x1000>;
-> +        reg-names = "mdss";
-> +        power-domains = <&dispcc MDSS_GDSC>;
-> +        clocks = <&gcc GCC_DISP_AHB_CLK>,
-> +                 <&gcc GCC_DISP_HF_AXI_CLK>,
-> +                 <&dispcc DISP_CC_MDSS_MDP_CLK>;
-> +        clock-names = "iface", "bus", "core";
-> +
-> +        interrupts = <GIC_SPI 186 IRQ_TYPE_LEVEL_HIGH>;
-> +        interrupt-controller;
-> +        #interrupt-cells = <1>;
-> +
-> +        iommus = <&apps_smmu 0x420 0x2>,
-> +                 <&apps_smmu 0x421 0x0>;
-> +        ranges;
-> +
-> +        display-controller@5e01000 {
-> +            compatible = "qcom,sm6115-dpu";
-> +            reg = <0x05e01000 0x8f000>,
-> +                  <0x05eb0000 0x2008>;
-> +            reg-names = "mdp", "vbif";
-> +
-> +            clocks = <&gcc GCC_DISP_HF_AXI_CLK>,
-> +                     <&dispcc DISP_CC_MDSS_AHB_CLK>,
-> +                     <&dispcc DISP_CC_MDSS_MDP_CLK>,
-> +                     <&dispcc DISP_CC_MDSS_MDP_LUT_CLK>,
-> +                     <&dispcc DISP_CC_MDSS_ROT_CLK>,
-> +                     <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
-> +            clock-names = "bus", "iface", "core", "lut", "rot", "vsync";
-> +
-> +            operating-points-v2 = <&mdp_opp_table>;
-> +            power-domains = <&rpmpd SM6115_VDDCX>;
-> +
-> +            interrupt-parent = <&mdss>;
-> +            interrupts = <0>;
-> +
-> +            ports {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +
-> +                port@0 {
-> +                    reg = <0>;
-> +                    dpu_intf1_out: endpoint {
-> +                        remote-endpoint = <&dsi0_in>;
-> +                    };
-> +                };
-> +            };
-> +        };
-> +
-> +        dsi@5e94000 {
-> +            compatible = "qcom,dsi-ctrl-6g-qcm2290";
-> +            reg = <0x05e94000 0x400>;
-> +            reg-names = "dsi_ctrl";
-> +
-> +            interrupt-parent = <&mdss>;
-> +            interrupts = <4>;
-> +
-> +            clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK>,
-> +                     <&dispcc DISP_CC_MDSS_BYTE0_INTF_CLK>,
-> +                     <&dispcc DISP_CC_MDSS_PCLK0_CLK>,
-> +                     <&dispcc DISP_CC_MDSS_ESC0_CLK>,
-> +                     <&dispcc DISP_CC_MDSS_AHB_CLK>,
-> +                     <&gcc GCC_DISP_HF_AXI_CLK>;
-> +            clock-names = "byte",
-> +                          "byte_intf",
-> +                          "pixel",
-> +                          "core",
-> +                          "iface",
-> +                          "bus";
-> +            assigned-clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK_SRC>, <&dispcc DISP_CC_MDSS_PCLK0_CLK_SRC>;
-> +            assigned-clock-parents = <&dsi0_phy 0>, <&dsi0_phy 1>;
-> +
-> +            operating-points-v2 = <&dsi_opp_table>;
-> +            power-domains = <&rpmpd SM6115_VDDCX>;
-> +            phys = <&dsi0_phy>;
-> +            phy-names = "dsi";
-> +
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            ports {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +
-> +                port@0 {
-> +                    reg = <0>;
-> +                    dsi0_in: endpoint {
-> +                        remote-endpoint = <&dpu_intf1_out>;
-> +                    };
-> +                };
-> +
-> +                port@1 {
-> +                    reg = <1>;
-> +                    dsi0_out: endpoint {
-> +                    };
-> +                };
-> +            };
-> +        };
-> +
-> +        dsi0_phy: phy@5e94400 {
-> +            compatible = "qcom,dsi-phy-14nm-2290";
-> +            reg = <0x05e94400 0x100>,
-> +                  <0x05e94500 0x300>,
-> +                  <0x05e94800 0x188>;
-> +            reg-names = "dsi_phy",
-> +                        "dsi_phy_lane",
-> +                        "dsi_pll";
-> +
-> +            #clock-cells = <1>;
-> +            #phy-cells = <0>;
-> +
-> +            clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>, <&rpmcc RPM_SMD_XO_CLK_SRC>;
-> +            clock-names = "iface", "ref";
-> +        };
-> +    };
-> +...
+> 
+>>>
+>>> On Saturday, October 29th, 2022 at 14:08, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
+>>>   
+>>>> On 29/10/2022 01:59, Jessica Zhang wrote:
+>>>>> Add support for COLOR_FILL and COLOR_FILL_FORMAT properties for
+>>>>> drm_plane. In addition, add support for setting and getting the values
+>>>>> of these properties.
+>>>>>
+>>>>> COLOR_FILL represents the color fill of a plane while COLOR_FILL_FORMAT
+>>>>> represents the format of the color fill. Userspace can set enable solid
+>>>>> fill on a plane by assigning COLOR_FILL to a uint64_t value, assigning
+>>>>> the COLOR_FILL_FORMAT property to a uint32_t value, and setting the
+>>>>> framebuffer to NULL.
+>>>>>
+>>>>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>>>>
+>>>> Planes report supported formats using the drm_mode_getplane(). You'd
+>>>> also need to tell userspace, which formats are supported for color fill.
+>>>> I don't think one supports e.g. YV12.
+>>>>
+>>>> A bit of generic comment for the discussion (this is an RFC anyway).
+>>>> Using color_fill/color_fill_format properties sounds simple, but this
+>>>> might be not generic enough. Limiting color_fill to 32 bits would
+>>>> prevent anybody from using floating point formats (e.g.
+>>>> DRM_FORMAT_XRGB16161616F, 64-bit value). Yes, this can be solved with
+>>>> e.g. using 64-bit for the color_fill value, but then this doesn't sound
+>>>> extensible too much.
+>>>>
+>>>> So, a question for other hardware maintainers. Do we have hardware that
+>>>> supports such 'color filled' planes? Do we want to support format
+>>>> modifiers for filling color/data? Because what I have in mind is closer
+>>>> to the blob structure, which can then be used for filling the plane:
+>>>>
+>>>> struct color_fill_blob {
+>>>>       u32 pixel_format;
+>>>>       u64 modifiers4];
+>>>>       u32 pixel_data_size; // fixme: is this necessary?
+>>>>       u8 pixel_data[];
+>>>> };
+>>>>
+>>>> And then... This sounds a lot like a custom framebuffer.
+>>>>
+>>>> So, maybe what should we do instead is to add new DRM_MODE_FB_COLOR_FILL
+>>>> flag to the framebuffers, which would e.g. mean that the FB gets stamped
+>>>> all over the plane. This would also save us from changing if (!fb)
+>>>> checks all over the drm core.
+>>>>
+>>>> Another approach might be using a format modifier instead of the FB flag.
+>>>>
+>>>> What do you think?
+>>>
+>>> First off, we only need to represent the value of a single pixel here. So I'm
+>>> not quite following why we need format modifiers. Format modifiers describe how
+>>> pixels are laid out in memory. Since there's a single pixel described, this
+>>> is non-sensical to me, the format modifier is always LINEAR.
+> 
+> Agreed.
+> 
+>>>
+>>> Then, I can understand why putting the pixel_format in there is tempting to
+>>> guarantee future extensibility, but it also adds complexity. For instance, how
+>>> does user-space figure out which formats can be used for COLOR_FILL? Can
+>>> user-space use any format supported by the plane? What does it mean for
+>>> multi-planar formats? Do we really want the kernel to have conversion logic for
+>>> all existing formats? Do we need to also add a new read-only blob prop to
+>>> indicate supported COLOR_FILL formats?
 
--- 
-With best wishes
-Dmitry
+FWIW the formats supported by solid_fill wouldn't necessarily be all the 
+formats supported by the plane (ex. for msm/dpu, solid_fill only 
+supports all RGB color variants, though planes can normally support YUV 
+formats too).
 
+That being said, I'm ok with having the solid_fill take in only 
+RGBA32323232 format based on the comments below.
+
+> 
+> Right. This does not seem to require pixel formats at all.
+> 
+> The point of pixel formats is to be able to feed large amounts of data
+> as-is into hardware and avoid the CPU ever touching it. You do that
+> with DRM FBs pointing to suitably allocated hardware buffers. But here
+> we have exactly one pixel, which I imagine will always be read by the
+> CPU so the driver will convert it into a hardware-specific format and
+> program it; probably the driver will not create an internal DRM FB for
+> it. >
+> The above might also be a reason to not model this as a special-case
+> DRM FB in UAPI. Or, at least you need a whole new ioctl to create such
+> DRM FB to avoid the need to allocate e.g. a dumb buffer or a
+> GPU-specific buffer. >
+> What one does need is what Sebastian brought up: does it support alpha
+> or not?
+Hmm, the drm_plane struct already supports an alpha property so it seems 
+a bit redundant to also have a separate alpha value in the solid fill color.
+
+That being said, we could have it so that setting the alpha for the 
+solid_fill property will also change the value of the plane's alpha 
+property too.
+
+> 
+> Userspace would also be interested in the supported precision of the
+> values, but the hardware pixel component order is irrelevant because the
+> driver will always convert the one pixel with CPU anyway.
+> 
+> YUV vs. RGB is a another question. The KMS color pipeline is defined in
+> terms of RGBA as far as I know, and alpha-blending YUV values makes no
+> sense. So will there ever be any need to set an YUV fill? I have a hard
+> time imagining it.
+> 
+> If you do set an YUV fill, the KMS color pipeline most likely needs to
+> convert it to RGBA for blending, and then you need the plane properties
+> COLOR_ENCODING and COLOR_RANGE.
+> 
+> But why bother when userspace can convert that one pixel to RGBA itself
+> anyway?
+
+Noted, I think this is reasonable.
+
+> 
+>>> We've recently-ish standardized a new Wayland protocol [1] which has the same
+>>> purpose as this new kernel uAPI. The conclusion there was that using 32-bit
+>>> values for each channel (R, G, B, A) would be enough for almost all use-cases.
+>>> The driver can convert these high-precision values to what the hardware expects.
+>>> The only concern was about sending values outside of the [0.0, 1.0] range,
+>>> which may have HDR use-cases.
+> 
+> This is what I would suggest, yes. This representation has enough
+> precision to be future-proof, and the driver will be converting the
+> value anyway.
+> 
+> The question about values outside of the unit range is a good one, too.
+> With Wayland, we can simply add another request to set a value in
+> floating-point if that turns up necessary.
+> 
+> Whether that will ever be necessary is connected to how the DRM KMS
+> abstract color pipeline is modelled, and that you must define from the
+> beginning:
+> 
+> If DRM KMS gets color processing related plane properties like CTM,
+> GAMMA or DEGAMMA (they already exist for CRTC, and these have been
+> proposed for planes quite some time ago), does the fill color go
+> through all these operations, or will the fill color skip all these
+> operations and go straight to plane blending?
+
+The fill color would still go through color processing operations, 
+though FWIW the MSM driver doesn't support GAMMA/DEGAMMA.
+
+> 
+> Whether values outside of the unit range will ever be needed depends
+> also on the userspace design. Userspace could choose the value range
+> freely if the KMS color pipeline elements happen to support that range.
+> However things like LUTs are naturally limited to unit range input, so
+> using values outside of the unit range might be difficult if not
+> impossible. Therefore I'm not concerned about this question much.
+> 
+>>> So, there are multiple ways to go about this. I can think of:
+>>>
+>>> - Put "RGBA32" in the name of the prop, and if we ever need a different
+>>>    color format, pick a different name.
+> 
+> I could see problems with that if the same device supports more than
+> one kind. How to turn off all but one color fill property?
+> 
+> What if userspace understands an old color fill property but not the
+> new one, and the new one happens to be set for some reason? Userspace
+> will attempt to use the old property without setting the new property
+> to nil, and fail.
+> 
+>>> - Define a struct with an enum of possible fill kinds:
+>>>    #define FILL_COLOR_RGBA32 1
+>>>    #define FILL_COLOR_F32 2
+>>>    struct color_fill_blob { u32 kind; u8 data[]; };
+> 
+> This could work.
+> 
+> Btw. maybe call it RGBA32323232 to make it follow the drm_fourcc naming
+> convention. Some userspace libraries already use RGBA32 to mean 32 bit
+> per pixel instead of per channel.
+> 
+> How will userspace know what kinds are supported?
+> 
+>>> - Define a struct with a version and RGBA values:
+>>>    struct color_fill_blob { u32 version; u32 rgba[4]; };
+>>>    If we need to add more formats later, or new metadata:
+>>>    struct color_fill_blob2 { u32 version; /* new fields */ };
+>>>    where version must be set to 2.
+> 
+> This could work.
+
+Leaning towards this option.
+
+Thanks,
+
+Jessica Zhang
+
+> 
+>>> - Define a struct with a "pixel_format" prop, but force user-space to use a
+>>>    fixed format for now. Later, if we need another format, add a new prop to
+>>>    advertise supported formats.
+>>> - More complicated solutions, e.g. advertise the list of supported formats from
+>>>    the start.
+> 
+> Feels more complicated than necessary.
+> 
+> Anyway, the idea of creating a blob and then setting that into some KMS
+> plane property sounds a very good mechanism.
+> 
+>>>
+>>> [1]: https://gitlab.freedesktop.org/wayland/wayland-protocols/-/merge_requests/104
+>>>   
+>>
+>> Agreeing with most of what you said here. However, what's the idea
+>> behind a format anyway? The 4 values provided here are fed directly
+>> into the color pipeline which seems to define the color channels it's
+>> working on as RGBA (or doesn't define anything at all). The only
+>> reason I can think of is that hardware might support only ingesting
+>> values either in a format with high bit depth color channels and no
+>> alpha or a format with low bit depth color but with alpha, so choosing
+>> between the formats provides a real trade-off. Is that actually
+>> something hardware might be restricted to or do they all just support
+>> ingesting the color data with enough precision on every channel? >
+> Right.
+> 
+> 
+> Thanks,
+> pq
