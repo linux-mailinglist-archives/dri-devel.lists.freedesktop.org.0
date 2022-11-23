@@ -1,53 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC452635C6A
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 13:09:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 508E4635C97
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 13:17:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 074AC10E2DC;
-	Wed, 23 Nov 2022 12:09:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8687B10E0D3;
+	Wed, 23 Nov 2022 12:17:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5174710E2E0
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 12:09:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202112;
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FBB310E2E0
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 12:17:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=+Wx/HQ4G2je0zrJ1tbtmqGYbSxV0n0gLQe353CgsJ+E=; b=YgH0rgG4wD/Zd9TUzYFVYd373P
- NyJPODX+Wcum0SwbbHqbsaThkmSmXlks4FZeHbEcuGL05rzyLniQnM9K0crHz0v9wYM/myG1AbLC7
- HmyKXud9ICo4t7wQIadCH4BFcwEKj6HFqbwlFUWIYsMTJ6nyO16/S1KFT0SMmE5+eM9G4t6TonfUI
- zttcCCFkNiWC+QeyglsFd7nw7euQG/ugaD7KLUIWDsHSRvK3DM4abB/2uWrVwzStxUEqV3eAKLYyw
- wR4PdjJh1c/E6ghzfZHbpkBXPtuZXwsBWQ9HUNkQ+v3DxLwiDJ+/m8McTWiPl5Dg8eNU/YhrDu8/H
- 85sJC5fA==;
-Received: from [2a01:799:95e:1700:6395:ccbd:d000:d42b] (port=57110)
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1oxoYo-0002N9-U4; Wed, 23 Nov 2022 13:09:02 +0100
-Message-ID: <14fba1b0-b46d-df4f-90b9-726d0ffe32e2@tronnes.org>
-Date: Wed, 23 Nov 2022 13:09:00 +0100
+ bh=vIeBl7vTF6NaLB2hFnwL23+uu766/EWpSu7THtDdPbk=; b=oOzqoUM5mcF24s36obgFHpZK9S
+ YGx6veSUMx7Tooxcvp7Hn6NR9gzZ3cM2TFUMnx510sAcDSWjnk+UQ+/8X6pGLvog4XNibPJnHyqCC
+ Um8CbqtsSgs33jQRX8Wg6EOdL0AQlTE/I8jG2Fm8x8z87uCoLfMe/2Q45GV5SeNjuWDRxcVsQYYpt
+ 6BnZJ+L1vTE+x3q5q6QJVCf9TdMD1dXPOI7RRiYi6g2TgRyicJG5ktE2y+pDCcdIPnEHHRI5ehtL0
+ 0HN6mKL4AycWEed2Cm31f3JVgE405Yg9Ht4jLC/e3Q7qsQJeMUIgDbjfTM19qxSslsrQ21s6ooEcg
+ 9jU2bBYg==;
+Received: from [177.34.169.227] (helo=[192.168.0.8])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1oxogl-007gYx-HS; Wed, 23 Nov 2022 13:17:15 +0100
+Message-ID: <99fe053c-6ad7-37fe-625c-cfc4634a938f@igalia.com>
+Date: Wed, 23 Nov 2022 09:17:06 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH 1/6] drm/gem: shadow_fb_access: Prepare imported buffers
- for CPU access
-To: Thomas Zimmermann <tzimmermann@suse.de>, stable@kernel.org,
- Dave Airlie <airlied@redhat.com>, dri-devel@lists.freedesktop.org,
- Hans de Goede <hdegoede@redhat.com>, Maxime Ripard <mripard@kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
- <noralf@tronnes.org>
-References: <20221122-gud-shadow-plane-v1-0-9de3afa3383e@tronnes.org>
- <20221122-gud-shadow-plane-v1-1-9de3afa3383e@tronnes.org>
- <315bb7cb-6832-88d5-d5da-fd4572f9e950@suse.de>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <315bb7cb-6832-88d5-d5da-fd4572f9e950@suse.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH 1/6] drm/debugfs: create device-centered debugfs functions
+Content-Language: en-US
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Oded Gabbay <ogabbay@kernel.org>
+References: <20221122190314.185015-1-mcanal@igalia.com>
+ <20221122190314.185015-2-mcanal@igalia.com> <87mt8ivsk8.fsf@intel.com>
+ <f95f2a71-5daf-332d-9971-55f1fca67ff6@igalia.com> <87h6ypx4ny.fsf@intel.com>
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <87h6ypx4ny.fsf@intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,270 +60,251 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
+ Emma Anholt <emma@anholt.net>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Wambui Karuga <wambui@karuga.org>,
+ Melissa Wen <mwen@igalia.com>, Wambui Karuga <wambui.karugax@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Den 23.11.2022 09.39, skrev Thomas Zimmermann:
-> (cc: danvet)
-> 
-> Hi
-> 
-> Am 22.11.22 um 21:58 schrieb Noralf Trønnes via B4 Submission Endpoint:
->> From: Noralf Trønnes <noralf@tronnes.org>
+On 11/23/22 08:59, Jani Nikula wrote:
+> On Wed, 23 Nov 2022, Maíra Canal <mcanal@igalia.com> wrote:
+>> Hi Jani,
 >>
->> Complete the shadow fb access functions by also preparing imported
->> buffers
->> for CPU access. Update the affected drivers that currently use
->> drm_gem_fb_begin_cpu_access().
+>> On 11/23/22 08:06, Jani Nikula wrote:
+>>> On Tue, 22 Nov 2022, Maíra Canal <mcanal@igalia.com> wrote:
+>>>> Introduce the ability to track requests for the addition of DRM debugfs
+>>>> files at any time and have them added all at once during
+>>>> drm_dev_register().
+>>>>
+>>>> Drivers can add DRM debugfs files to a device-managed list and, during
+>>>> drm_dev_register(), all added files will be created at once.
+>>>>
+>>>> Now, the drivers can use the functions drm_debugfs_add_file() and
+>>>> drm_debugfs_add_files() to create DRM debugfs files instead of using the
+>>>> drm_debugfs_create_files() function.
+>>>>
+>>>> Co-developed-by: Wambui Karuga <wambui.karugax@gmail.com>
+>>>> Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
+>>>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+>>>> ---
+>>>>  drivers/gpu/drm/drm_debugfs.c | 76 +++++++++++++++++++++++++++++++++++
+>>>>  drivers/gpu/drm/drm_drv.c     |  3 ++
+>>>>  include/drm/drm_debugfs.h     | 45 +++++++++++++++++++++
+>>>>  include/drm/drm_device.h      | 15 +++++++
+>>>>  4 files changed, 139 insertions(+)
+>>>>>> +/**
+>>>> + * drm_debugfs_add_file - Add a given file to the DRM device debugfs file list
+>>>> + * @dev: drm device for the ioctl
+>>>> + * @name: debugfs file name
+>>>> + * @show: show callback
+>>>> + * @data: driver-private data, should not be device-specific
+>>>> + *
+>>>> + * Add a given file entry to the DRM device debugfs file list to be created on
+>>>> + * drm_debugfs_init.
+>>>> + */
+>>>> +int drm_debugfs_add_file(struct drm_device *dev, const char *name,
+>>>> +			 int (*show)(struct seq_file*, void*), void *data)
+>>>> +{
+>>>> +	struct drm_debugfs_entry *entry = drmm_kzalloc(dev, sizeof(*entry), GFP_KERNEL);
+>>>> +
+>>>> +	if (!entry)
+>>>> +		return -ENOMEM;
+>>>> +
+>>>> +	entry->file.name = name;
+>>>> +	entry->file.show = show;
+>>>> +	entry->file.data = data;
+>>>> +	entry->dev = dev;
+>>>> +
+>>>> +	mutex_lock(&dev->debugfs_mutex);
+>>>> +	list_add(&entry->list, &dev->debugfs_list);
+>>>> +	mutex_unlock(&dev->debugfs_mutex);
+>>>> +
+>>>> +	return 0;
+>>>> +}
+>>>> +EXPORT_SYMBOL(drm_debugfs_add_file);
+>>>> +
+>>>> +/**
+>>>> + * drm_debugfs_add_files - Add an array of files to the DRM device debugfs file list
+>>>> + * @dev: drm device for the ioctl
+>>>> + * @files: The array of files to create
+>>>> + * @count: The number of files given
+>>>> + *
+>>>> + * Add a given set of debugfs files represented by an array of
+>>>> + * &struct drm_debugfs_info in the DRM device debugfs file list.
+>>>> + */
+>>>> +int drm_debugfs_add_files(struct drm_device *dev, const struct drm_debugfs_info *files, int count)
+>>>> +{
+>>>> +	int i, ret = 0, err;
+>>>> +
+>>>> +	for (i = 0; i < count; i++) {
+>>>> +		err = drm_debugfs_add_file(dev, files[i].name, files[i].show, files[i].data);
+>>>> +		if (err)
+>>>> +			ret = err;
+>>>> +	}
+>>>> +
+>>>> +	return ret;
+>>>> +}
+>>>> +EXPORT_SYMBOL(drm_debugfs_add_files);
+>>>
+>>> Do we want to add return values and error handling to debugfs related
+>>> functions at all?
 >>
->> Through this change the following SHMEM drivers will now also make sure
->> their imported buffers are prepared for CPU access: cirrus, hyperv,
->> mgag200, vkms
+>> Drivers such as vc4 can use the return values from debugfs-related
+>> functions for error handling. Although the return values are not
+>> explicitly necessary, some drivers can benefit from them for error handling.
 > 
-> I had a similar patch recently, but Daniel shot it down. AFAIR
-> begin_cpu_access *somehow* interferes with *something* and that can
-> leads to *problems.*  Sorry that's the best I remember. Daniel should
-> know. :D
+> Arguably they should cease to do error handling on debugfs failures
+> too. No driver should stop probe if debugfs fails, and that's been the
+> direction for years.
+
+Is it not even reasonable to return errors only to create drm_WARN_ON
+when the creation of debugfs files fails? Currently, vc4 doesn't stop to
+probe if debugfs fails, but only creates some warnings to let the user
+knows that it failed.
+
+Best Regards,
+- Maíra Canal
+
 > 
-
-I loved this explanation, it gave me a good laugh :)
-
-Yeah, I wondered why you hadn't done it, but assumed you just hadn't
-gotten atround to it yet and if there were other reasons I would be told :)
-
-Noralf.
-
-> Best regards
-> Thomas
+> BR,
+> Jani.
 > 
 >>
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: Javier Martinez Canillas <javierm@redhat.com>
->> Cc: Hans de Goede <hdegoede@redhat.com>
->> Cc: Dave Airlie <airlied@redhat.com>
->> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
->> ---
->>   drivers/gpu/drm/drm_gem_atomic_helper.c | 13 ++++++++++++-
->>   drivers/gpu/drm/solomon/ssd130x.c       | 10 +---------
->>   drivers/gpu/drm/tiny/gm12u320.c         | 10 +---------
->>   drivers/gpu/drm/tiny/ofdrm.c            | 10 ++--------
->>   drivers/gpu/drm/tiny/simpledrm.c        | 10 ++--------
->>   drivers/gpu/drm/udl/udl_modeset.c       | 11 ++---------
->>   6 files changed, 20 insertions(+), 44 deletions(-)
+>> Best Regards,
+>> - Maíra Canal
 >>
->> diff --git a/drivers/gpu/drm/drm_gem_atomic_helper.c
->> b/drivers/gpu/drm/drm_gem_atomic_helper.c
->> index e42800718f51..0eef4bb30d25 100644
->> --- a/drivers/gpu/drm/drm_gem_atomic_helper.c
->> +++ b/drivers/gpu/drm/drm_gem_atomic_helper.c
->> @@ -368,6 +368,7 @@ EXPORT_SYMBOL(drm_gem_reset_shadow_plane);
->>    * maps all buffer objects of the plane's framebuffer into kernel
->> address
->>    * space and stores them in struct &drm_shadow_plane_state.map. The
->> first data
->>    * bytes are available in struct &drm_shadow_plane_state.data.
->> + * It also prepares imported buffers for CPU access.
->>    *
->>    * See drm_gem_end_shadow_fb_access() for cleanup.
->>    *
->> @@ -378,11 +379,20 @@ int drm_gem_begin_shadow_fb_access(struct
->> drm_plane *plane, struct drm_plane_sta
->>   {
->>       struct drm_shadow_plane_state *shadow_plane_state =
->> to_drm_shadow_plane_state(plane_state);
->>       struct drm_framebuffer *fb = plane_state->fb;
->> +    int ret;
->>         if (!fb)
->>           return 0;
->>   -    return drm_gem_fb_vmap(fb, shadow_plane_state->map,
->> shadow_plane_state->data);
->> +    ret = drm_gem_fb_vmap(fb, shadow_plane_state->map,
->> shadow_plane_state->data);
->> +    if (ret)
->> +        return ret;
->> +
->> +    ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
->> +    if (ret)
->> +        drm_gem_fb_vunmap(fb, shadow_plane_state->map);
->> +
->> +    return ret;
->>   }
->>   EXPORT_SYMBOL(drm_gem_begin_shadow_fb_access);
->>   @@ -404,6 +414,7 @@ void drm_gem_end_shadow_fb_access(struct
->> drm_plane *plane, struct drm_plane_stat
->>       if (!fb)
->>           return;
->>   +    drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
->>       drm_gem_fb_vunmap(fb, shadow_plane_state->map);
->>   }
->>   EXPORT_SYMBOL(drm_gem_end_shadow_fb_access);
->> diff --git a/drivers/gpu/drm/solomon/ssd130x.c
->> b/drivers/gpu/drm/solomon/ssd130x.c
->> index 53464afc2b9a..58a2f0113f24 100644
->> --- a/drivers/gpu/drm/solomon/ssd130x.c
->> +++ b/drivers/gpu/drm/solomon/ssd130x.c
->> @@ -544,7 +544,6 @@ static int ssd130x_fb_blit_rect(struct
->> drm_framebuffer *fb, const struct iosys_m
->>       struct ssd130x_device *ssd130x = drm_to_ssd130x(fb->dev);
->>       struct iosys_map dst;
->>       unsigned int dst_pitch;
->> -    int ret = 0;
->>       u8 *buf = NULL;
->>         /* Align y to display page boundaries */
->> @@ -556,21 +555,14 @@ static int ssd130x_fb_blit_rect(struct
->> drm_framebuffer *fb, const struct iosys_m
->>       if (!buf)
->>           return -ENOMEM;
->>   -    ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
->> -    if (ret)
->> -        goto out_free;
->> -
->>       iosys_map_set_vaddr(&dst, buf);
->>       drm_fb_xrgb8888_to_mono(&dst, &dst_pitch, vmap, fb, rect);
->>   -    drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
->> -
->>       ssd130x_update_rect(ssd130x, buf, rect);
->>   -out_free:
->>       kfree(buf);
->>   -    return ret;
->> +    return 0;
->>   }
->>     static void ssd130x_primary_plane_helper_atomic_update(struct
->> drm_plane *plane,
->> diff --git a/drivers/gpu/drm/tiny/gm12u320.c
->> b/drivers/gpu/drm/tiny/gm12u320.c
->> index 130fd07a967d..59aad4b468cc 100644
->> --- a/drivers/gpu/drm/tiny/gm12u320.c
->> +++ b/drivers/gpu/drm/tiny/gm12u320.c
->> @@ -252,7 +252,7 @@ static void gm12u320_32bpp_to_24bpp_packed(u8
->> *dst, u8 *src, int len)
->>     static void gm12u320_copy_fb_to_blocks(struct gm12u320_device
->> *gm12u320)
->>   {
->> -    int block, dst_offset, len, remain, ret, x1, x2, y1, y2;
->> +    int block, dst_offset, len, remain, x1, x2, y1, y2;
->>       struct drm_framebuffer *fb;
->>       void *vaddr;
->>       u8 *src;
->> @@ -269,12 +269,6 @@ static void gm12u320_copy_fb_to_blocks(struct
->> gm12u320_device *gm12u320)
->>       y2 = gm12u320->fb_update.rect.y2;
->>       vaddr = gm12u320->fb_update.src_map.vaddr; /* TODO: Use mapping
->> abstraction properly */
->>   -    ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
->> -    if (ret) {
->> -        GM12U320_ERR("drm_gem_fb_begin_cpu_access err: %d\n", ret);
->> -        goto put_fb;
->> -    }
->> -
->>       src = vaddr + y1 * fb->pitches[0] + x1 * 4;
->>         x1 += (GM12U320_REAL_WIDTH - GM12U320_USER_WIDTH) / 2;
->> @@ -309,8 +303,6 @@ static void gm12u320_copy_fb_to_blocks(struct
->> gm12u320_device *gm12u320)
->>           src += fb->pitches[0];
->>       }
->>   -    drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
->> -put_fb:
->>       drm_framebuffer_put(fb);
->>       gm12u320->fb_update.fb = NULL;
->>   unlock:
->> diff --git a/drivers/gpu/drm/tiny/ofdrm.c b/drivers/gpu/drm/tiny/ofdrm.c
->> index dc9e4d71b12a..ed3072563db9 100644
->> --- a/drivers/gpu/drm/tiny/ofdrm.c
->> +++ b/drivers/gpu/drm/tiny/ofdrm.c
->> @@ -820,14 +820,10 @@ static void
->> ofdrm_primary_plane_helper_atomic_update(struct drm_plane *plane,
->>       const struct drm_format_info *dst_format = odev->format;
->>       struct drm_atomic_helper_damage_iter iter;
->>       struct drm_rect damage;
->> -    int ret, idx;
->> -
->> -    ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
->> -    if (ret)
->> -        return;
->> +    int idx;
->>         if (!drm_dev_enter(dev, &idx))
->> -        goto out_drm_gem_fb_end_cpu_access;
->> +        return;
->>         drm_atomic_helper_damage_iter_init(&iter, old_plane_state,
->> plane_state);
->>       drm_atomic_for_each_plane_damage(&iter, &damage) {
->> @@ -843,8 +839,6 @@ static void
->> ofdrm_primary_plane_helper_atomic_update(struct drm_plane *plane,
->>       }
->>         drm_dev_exit(idx);
->> -out_drm_gem_fb_end_cpu_access:
->> -    drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
->>   }
->>     static void ofdrm_primary_plane_helper_atomic_disable(struct
->> drm_plane *plane,
->> diff --git a/drivers/gpu/drm/tiny/simpledrm.c
->> b/drivers/gpu/drm/tiny/simpledrm.c
->> index 162eb44dcba8..1c0d9e277dc3 100644
->> --- a/drivers/gpu/drm/tiny/simpledrm.c
->> +++ b/drivers/gpu/drm/tiny/simpledrm.c
->> @@ -481,14 +481,10 @@ static void
->> simpledrm_primary_plane_helper_atomic_update(struct drm_plane *plane
->>       struct simpledrm_device *sdev = simpledrm_device_of_dev(dev);
->>       struct drm_atomic_helper_damage_iter iter;
->>       struct drm_rect damage;
->> -    int ret, idx;
->> -
->> -    ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
->> -    if (ret)
->> -        return;
->> +    int idx;
->>         if (!drm_dev_enter(dev, &idx))
->> -        goto out_drm_gem_fb_end_cpu_access;
->> +        return;
->>         drm_atomic_helper_damage_iter_init(&iter, old_plane_state,
->> plane_state);
->>       drm_atomic_for_each_plane_damage(&iter, &damage) {
->> @@ -504,8 +500,6 @@ static void
->> simpledrm_primary_plane_helper_atomic_update(struct drm_plane *plane
->>       }
->>         drm_dev_exit(idx);
->> -out_drm_gem_fb_end_cpu_access:
->> -    drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
->>   }
->>     static void simpledrm_primary_plane_helper_atomic_disable(struct
->> drm_plane *plane,
->> diff --git a/drivers/gpu/drm/udl/udl_modeset.c
->> b/drivers/gpu/drm/udl/udl_modeset.c
->> index 4b79d44752c9..022b18aa3f48 100644
->> --- a/drivers/gpu/drm/udl/udl_modeset.c
->> +++ b/drivers/gpu/drm/udl/udl_modeset.c
->> @@ -271,17 +271,13 @@ static void
->> udl_primary_plane_helper_atomic_update(struct drm_plane *plane,
->>       struct drm_plane_state *old_plane_state =
->> drm_atomic_get_old_plane_state(state, plane);
->>       struct drm_atomic_helper_damage_iter iter;
->>       struct drm_rect damage;
->> -    int ret, idx;
->> +    int idx;
->>         if (!fb)
->>           return; /* no framebuffer; plane is disabled */
->>   -    ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
->> -    if (ret)
->> -        return;
->> -
->>       if (!drm_dev_enter(dev, &idx))
->> -        goto out_drm_gem_fb_end_cpu_access;
->> +        return;
->>         drm_atomic_helper_damage_iter_init(&iter, old_plane_state,
->> plane_state);
->>       drm_atomic_for_each_plane_damage(&iter, &damage) {
->> @@ -289,9 +285,6 @@ static void
->> udl_primary_plane_helper_atomic_update(struct drm_plane *plane,
->>       }
->>         drm_dev_exit(idx);
->> -
->> -out_drm_gem_fb_end_cpu_access:
->> -    drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
->>   }
->>     static const struct drm_plane_helper_funcs
->> udl_primary_plane_helper_funcs = {
->>
+>>>
+>>> BR,
+>>> Jani.
+>>>
+>>>
+>>>> +
+>>>>  static int connector_show(struct seq_file *m, void *data)
+>>>>  {
+>>>>  	struct drm_connector *connector = m->private;
+>>>> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+>>>> index 8214a0b1ab7f..803942008fcb 100644
+>>>> --- a/drivers/gpu/drm/drm_drv.c
+>>>> +++ b/drivers/gpu/drm/drm_drv.c
+>>>> @@ -575,6 +575,7 @@ static void drm_dev_init_release(struct drm_device *dev, void *res)
+>>>>  	mutex_destroy(&dev->clientlist_mutex);
+>>>>  	mutex_destroy(&dev->filelist_mutex);
+>>>>  	mutex_destroy(&dev->struct_mutex);
+>>>> +	mutex_destroy(&dev->debugfs_mutex);
+>>>>  	drm_legacy_destroy_members(dev);
+>>>>  }
+>>>>  
+>>>> @@ -608,12 +609,14 @@ static int drm_dev_init(struct drm_device *dev,
+>>>>  	INIT_LIST_HEAD(&dev->filelist_internal);
+>>>>  	INIT_LIST_HEAD(&dev->clientlist);
+>>>>  	INIT_LIST_HEAD(&dev->vblank_event_list);
+>>>> +	INIT_LIST_HEAD(&dev->debugfs_list);
+>>>>  
+>>>>  	spin_lock_init(&dev->event_lock);
+>>>>  	mutex_init(&dev->struct_mutex);
+>>>>  	mutex_init(&dev->filelist_mutex);
+>>>>  	mutex_init(&dev->clientlist_mutex);
+>>>>  	mutex_init(&dev->master_mutex);
+>>>> +	mutex_init(&dev->debugfs_mutex);
+>>>>  
+>>>>  	ret = drmm_add_action(dev, drm_dev_init_release, NULL);
+>>>>  	if (ret)
+>>>> diff --git a/include/drm/drm_debugfs.h b/include/drm/drm_debugfs.h
+>>>> index 2188dc83957f..c5684d6c5055 100644
+>>>> --- a/include/drm/drm_debugfs.h
+>>>> +++ b/include/drm/drm_debugfs.h
+>>>> @@ -79,12 +79,43 @@ struct drm_info_node {
+>>>>  	struct dentry *dent;
+>>>>  };
+>>>>  
+>>>> +/**
+>>>> + * struct drm_debugfs_info - debugfs info list entry
+>>>> + *
+>>>> + * This structure represents a debugfs file to be created by the drm
+>>>> + * core.
+>>>> + */
+>>>> +struct drm_debugfs_info {
+>>>> +	const char *name;
+>>>> +	int (*show)(struct seq_file*, void*);
+>>>> +	u32 driver_features;
+>>>> +	void *data;
+>>>> +};
+>>>> +
+>>>> +/**
+>>>> + * struct drm_debugfs_entry - Per-device debugfs node structure
+>>>> + *
+>>>> + * This structure represents a debugfs file, as an instantiation of a &struct
+>>>> + * drm_debugfs_info on a &struct drm_device.
+>>>> + */
+>>>> +struct drm_debugfs_entry {
+>>>> +	struct drm_device *dev;
+>>>> +	struct drm_debugfs_info file;
+>>>> +	struct list_head list;
+>>>> +};
+>>>> +
+>>>>  #if defined(CONFIG_DEBUG_FS)
+>>>>  void drm_debugfs_create_files(const struct drm_info_list *files,
+>>>>  			      int count, struct dentry *root,
+>>>>  			      struct drm_minor *minor);
+>>>>  int drm_debugfs_remove_files(const struct drm_info_list *files,
+>>>>  			     int count, struct drm_minor *minor);
+>>>> +
+>>>> +int drm_debugfs_add_file(struct drm_device *dev, const char *name,
+>>>> +			 int (*show)(struct seq_file*, void*), void *data);
+>>>> +
+>>>> +int drm_debugfs_add_files(struct drm_device *dev,
+>>>> +			  const struct drm_debugfs_info *files, int count);
+>>>>  #else
+>>>>  static inline void drm_debugfs_create_files(const struct drm_info_list *files,
+>>>>  					    int count, struct dentry *root,
+>>>> @@ -96,6 +127,20 @@ static inline int drm_debugfs_remove_files(const struct drm_info_list *files,
+>>>>  {
+>>>>  	return 0;
+>>>>  }
+>>>> +
+>>>> +static inline int drm_debugfs_add_file(struct drm_device *dev, const char *name,
+>>>> +				       int (*show)(struct seq_file*, void*),
+>>>> +				       void *data)
+>>>> +{
+>>>> +	return 0;
+>>>> +}
+>>>> +
+>>>> +static inline int drm_debugfs_add_files(struct drm_device *dev,
+>>>> +					const struct drm_debugfs_info *files,
+>>>> +					int count)
+>>>> +{
+>>>> +	return 0;
+>>>> +}
+>>>>  #endif
+>>>>  
+>>>>  #endif /* _DRM_DEBUGFS_H_ */
+>>>> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+>>>> index 9923c7a6885e..fa6af1d57929 100644
+>>>> --- a/include/drm/drm_device.h
+>>>> +++ b/include/drm/drm_device.h
+>>>> @@ -295,6 +295,21 @@ struct drm_device {
+>>>>  	 */
+>>>>  	struct drm_fb_helper *fb_helper;
+>>>>  
+>>>> +	/**
+>>>> +	 * @debugfs_mutex:
+>>>> +	 *
+>>>> +	 * Protects &debugfs_list access.
+>>>> +	 */
+>>>> +	struct mutex debugfs_mutex;
+>>>> +
+>>>> +	/**
+>>>> +	 * @debugfs_list:
+>>>> +	 *
+>>>> +	 * List of debugfs files to be created by the DRM device. The files
+>>>> +	 * must be added during drm_dev_register().
+>>>> +	 */
+>>>> +	struct list_head debugfs_list;
+>>>> +
+>>>>  	/* Everything below here is for legacy driver, never use! */
+>>>>  	/* private: */
+>>>>  #if IS_ENABLED(CONFIG_DRM_LEGACY)
+>>>
 > 
