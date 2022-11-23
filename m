@@ -1,78 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C787635F03
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 14:12:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48D94635F24
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 14:17:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8708310E3D3;
-	Wed, 23 Nov 2022 13:12:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68F1910E54D;
+	Wed, 23 Nov 2022 13:17:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A02310E3D3;
- Wed, 23 Nov 2022 13:12:28 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id f27so42781743eje.1;
- Wed, 23 Nov 2022 05:12:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 510D710E54D
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 13:17:03 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id j16so28079021lfe.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 05:17:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Bvs98D7kn/blwT63+h55cu2gonMJ65ywZrI5Z5R+q8s=;
- b=CbKrP7EDuQM1+snQr1Bb3MbhbQ1msQARnAhP8lLIaw8jsoWgtUxr2YZuSk/BGmdbmJ
- CHML6hqeeAqT5QapkEJBOq5hHCB/AFN2yNlNe0UTVNNzfzV9/OUQvXEwNyHqnNUkvY1T
- XUteu4rleCYD+KdeDTBkycgH+nx6bdv7x5woMj/jfEdULmuRFG1kYORmlhBvWNHyjq/x
- H7opk6T9ej6goLupldeCS1Ai/LJlUZUOxPUAiwU0bK3GQ4OL9oZmnaLbFfWEJQr0UdrJ
- 8M3M4FzvBqbSzpKZSgEd1wobGpuhu0JxJgOdz4rmFVlq1zq8VKc+WvA4aSOCyLsvSPc7
- tlWQ==
+ bh=9rrWiHxgy8XL4EMhVPJm4PXUcc5P4DC16VghLNpNvqc=;
+ b=Szj6IJnVYD6/7h8/2+rn3OkkE6gMACGs65XIdv7bNYNGKsGU5q7Us/Uq7gdSb9ly1G
+ yUlhPNVMz6Jqo8Yy5gy5XqTa9MdZy9guSkgl/F1M7lVObURlfoB6Gf2pzeztXiuRwVlu
+ JqYlA1NWxo7mokcqBBNnjGN9lF8NJHWV0+52J3O7HoD1WEeLSPnIbBRAExSJr+FEOJx2
+ S0l6yeBGx6sZg4BB+WTqhbdAXpWE4xxBBDDQHRS0qUEZvnyLwUgLaX79U6WYdduy9yEC
+ rzhbGlJSyWEUw2D2dVast+4HSJf/B5S9MxVeqgGIYzSrlYTjUgEbrP4yW9kEWnfOBWJe
+ ewtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Bvs98D7kn/blwT63+h55cu2gonMJ65ywZrI5Z5R+q8s=;
- b=WygBH6MwSmuEyUTJNZgYN9ttXj3DyjQqRJ4do7sTRZVMr/ggWiy9DLMs+fxwzdL8+Y
- eUq31xsiiiz0CxMZKbsSUDG6r7cjZZx0icp5dDpAsZc4i5Vynz7eep9sm42KJDd2ROht
- HlH99J159DWiQn3qYNBBvHGWkLluNyCVvHupwT3XY4pqjLB3pMZKoa5mW00SQYaUrC8m
- ZuOOmXPQoQ6i6tIw8Zezlk/2s51GhUDHKrX5+bD2EC1ozc41yZlzyqwSN2MbPR7RrNYd
- Piqp2otkzOIE4T6oOZXZVmA0c1/uBIQQVDyvpBBxbu3cA5nRKNQjJnU+q6Fx6UaI3ltM
- IHHQ==
-X-Gm-Message-State: ANoB5pmGtlmbgQqNFx13tJfAAH19rukIHTtYMsDHK41byFN/ZDgkRCjt
- 0hYpOnybAZOU6fdJHGaofiUYZrZQBSE=
-X-Google-Smtp-Source: AA0mqf5Nj1HAYv/xJhMhjUhsdKhcctZzH8JOkFU/AOEqdt3oRJ5z0AWvGNokuhO7wHbBhMGKlisOWQ==
-X-Received: by 2002:a17:906:1ecf:b0:7ad:902c:d1d6 with SMTP id
- m15-20020a1709061ecf00b007ad902cd1d6mr12072437ejj.143.1669209147048; 
- Wed, 23 Nov 2022 05:12:27 -0800 (PST)
-Received: from ?IPV6:2a02:908:1256:79a0:d2d7:ceea:efc2:af43?
- ([2a02:908:1256:79a0:d2d7:ceea:efc2:af43])
- by smtp.gmail.com with ESMTPSA id
- mh23-20020a170906eb9700b007af105a87cbsm7152028ejb.152.2022.11.23.05.12.25
+ bh=9rrWiHxgy8XL4EMhVPJm4PXUcc5P4DC16VghLNpNvqc=;
+ b=s4BJXRY3cjxRSpO2Vfl7XY1M5l1wkDE8GmVYxzFtwKXAT8zpjBB+JOU2Gfb1auoETJ
+ PTvIK9e72AjXjfaRGBFqgMObTPNjMShMMv7yfsfLyX2wb92H/WWaFKmLlj2yNFNLXE1O
+ w9cea4/X/LeZS3i30WvEUOc3E46giZty8fBszg3yfA7+Kaehl4YSiuhhMBGZUfH73Uob
+ 2bCzWMR5V4O1Yy7oOKCRzM1hU9X+8d3J1hYT4trxaaJ8F0kJ1q2/oKXiTxszQQ6wp7K/
+ axgFp3tzN7ihebts2NPRrDmL+66IonXSzWH4dRTFAam9Gs23Xcz3p3fdz4XTxkZf9oCv
+ hLrg==
+X-Gm-Message-State: ANoB5pk8fQbKe3xM+phrPEHMedJLWkrdtlV/Nym2CkIQ9YWgRXZ31M3p
+ gVQ/Ez0LMYn85RaU0eV6WVAUtw==
+X-Google-Smtp-Source: AA0mqf7DLaDOx9/kIucgdP9wbuyY2ZzDY+IE1nEku1WaomgQSO+mpoC14e1nZTanImk+XPkpSwW5lg==
+X-Received: by 2002:ac2:4c50:0:b0:4b1:8a90:6524 with SMTP id
+ o16-20020ac24c50000000b004b18a906524mr8783922lfk.628.1669209421365; 
+ Wed, 23 Nov 2022 05:17:01 -0800 (PST)
+Received: from [192.168.1.101] (95.49.32.48.neoplus.adsl.tpnet.pl.
+ [95.49.32.48]) by smtp.gmail.com with ESMTPSA id
+ u14-20020ac258ce000000b00499d70c0310sm2888258lfo.3.2022.11.23.05.17.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Nov 2022 05:12:26 -0800 (PST)
-Message-ID: <dc2a9d7f-192b-e9d8-b1d1-3b868cb1fd44@gmail.com>
-Date: Wed, 23 Nov 2022 14:12:25 +0100
+ Wed, 23 Nov 2022 05:17:00 -0800 (PST)
+Message-ID: <afa7567f-e86e-639b-92b7-efae505b55f1@linaro.org>
+Date: Wed, 23 Nov 2022 14:16:59 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [Linaro-mm-sig] Re: [PATCH] dma-buf: Require VM_PFNMAP vma for
- mmap
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v2 3/5] arm64: dts: qcom: sm8450-hdk: enable display
+ hardware
 Content-Language: en-US
-To: Jason Gunthorpe <jgg@ziepe.ca>
-References: <Y30Z4VxT7Wdoc1Lc@ziepe.ca>
- <CAKMK7uE=8eqyh9BKg_+7B1jjMi6K4wrmPyi9xeLVvVYFxBgF9g@mail.gmail.com>
- <Y30kK6dsssSLJVgp@ziepe.ca>
- <CAKMK7uFQQkG82PzuSTGQTnN3ZNps5N_4TjR5NRWo0LaJkEaNew@mail.gmail.com>
- <3d8607b4-973d-945d-c184-260157ade7c3@amd.com>
- <CAKMK7uHVGgGHTiXYOfseXXda2Ug992nYvhPsL+4z18ssqeHXHQ@mail.gmail.com>
- <b05e6091-4e07-1e32-773d-f603ac9ac98b@gmail.com>
- <CAKMK7uFjmzewqv3r4hL9hvLADwV536n2n6xbAWaUvmAcStr5KQ@mail.gmail.com>
- <Y34WI9SZdiH/p1tA@ziepe.ca> <f8f844a5-0910-d19a-5aea-df7a1d83b1d3@gmail.com>
- <Y34XvmtHfb4ZwopN@ziepe.ca>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <Y34XvmtHfb4ZwopN@ziepe.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20221122233659.3308175-1-dmitry.baryshkov@linaro.org>
+ <20221122233659.3308175-4-dmitry.baryshkov@linaro.org>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20221122233659.3308175-4-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,86 +80,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
- John Stultz <john.stultz@linaro.org>, Matthew Wilcox <willy@infradead.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Suren Baghdasaryan <surenb@google.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 23.11.22 um 13:53 schrieb Jason Gunthorpe:
-> On Wed, Nov 23, 2022 at 01:49:41PM +0100, Christian König wrote:
->> Am 23.11.22 um 13:46 schrieb Jason Gunthorpe:
->>> On Wed, Nov 23, 2022 at 11:06:55AM +0100, Daniel Vetter wrote:
->>>
->>>>> Maybe a GFP flag to set the page reference count to zero or something
->>>>> like this?
->>>> Hm yeah that might work. I'm not sure what it will all break though?
->>>> And we'd need to make sure that underflowing the page refcount dies in
->>>> a backtrace.
->>> Mucking with the refcount like this to protect against crazy out of
->>> tree drives seems horrible..
->> Well not only out of tree drivers. The intree KVM got that horrible
->> wrong as well, those where the latest guys complaining about it.
-> kvm was taking refs on special PTEs? That seems really unlikely?
 
-Well then look at this code here:
 
-commit add6a0cd1c5ba51b201e1361b05a5df817083618
-Author: Paolo Bonzini <pbonzini@redhat.com>
-Date:   Tue Jun 7 17:51:18 2016 +0200
+On 23.11.2022 00:36, Dmitry Baryshkov wrote:
+> Enable MDSS/DPU/DSI0 on SM8450-HDK device. Note, there is no panel
+> configuration (yet).
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
-     KVM: MMU: try to fix up page faults before giving up
-
-     The vGPU folks would like to trap the first access to a BAR by setting
-     vm_ops on the VMAs produced by mmap-ing a VFIO device.  The fault 
-handler
-     then can use remap_pfn_range to place some non-reserved pages in 
-the VMA.
-
-     This kind of VM_PFNMAP mapping is not handled by KVM, but follow_pfn
-     and fixup_user_fault together help supporting it.  The patch also 
-supports
-     VM_MIXEDMAP vmas where the pfns are not reserved and thus subject to
-     reference counting.
-
-     Cc: Xiao Guangrong <guangrong.xiao@linux.intel.com>
-     Cc: Andrea Arcangeli <aarcange@redhat.com>
-     Cc: Radim Krčmář <rkrcmar@redhat.com>
-     Tested-by: Neo Jia <cjia@nvidia.com>
-     Reported-by: Kirti Wankhede <kwankhede@nvidia.com>
-     Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-
-And see also the discussion here: 
-https://patchwork.freedesktop.org/patch/414123/
-
-as well as here: https://patchwork.freedesktop.org/patch/499190/
-
-I can't count how often I have pointed out that this is absolutely 
-illegal and KVM can't touch pages in VMAs with VM_PFNMAP.
-
->>> The WARN_ON(pag_count(p) != 1) seems like a reasonable thing to do
->>> though, though you must combine this with the special PTE flag..
->> That's not sufficient. The pages are released much later than things
->> actually go wrong. In most cases this WARN_ON here won't hit.
-> How so? As long as the page is mapped into the PTE there is no issue
-> with corruption. If dmabuf checks the refcount after it does the unmap
-> mapping range it should catch any bogus pin that might be confused
-> about address coherency.
-
-Yeah, that would work. The problem is this WARN_ON() comes much later.
-
-The device drivers usually keep the page around for a while even after 
-it is unmapped. IIRC the cleanup worker only runs every 10ms or so.
-
-Christian.
-
->
-> Jason
-
+Konrad
+>  arch/arm64/boot/dts/qcom/sm8450-hdk.dts | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sm8450-hdk.dts b/arch/arm64/boot/dts/qcom/sm8450-hdk.dts
+> index 2dd4f8c8f931..75b7aecb7d8e 100644
+> --- a/arch/arm64/boot/dts/qcom/sm8450-hdk.dts
+> +++ b/arch/arm64/boot/dts/qcom/sm8450-hdk.dts
+> @@ -349,6 +349,28 @@ vreg_l7e_2p8: ldo7 {
+>  	};
+>  };
+>  
+> +&dispcc {
+> +	status = "okay";
+> +};
+> +
+> +&mdss {
+> +	status = "okay";
+> +};
+> +
+> +&mdss_dsi0 {
+> +	vdda-supply = <&vreg_l6b_1p2>;
+> +	status = "okay";
+> +};
+> +
+> +&mdss_dsi0_phy {
+> +	vdds-supply = <&vreg_l5b_0p88>;
+> +	status = "okay";
+> +};
+> +
+> +&mdss_mdp {
+> +	status = "okay";
+> +};
+> +
+>  &pcie0 {
+>  	status = "okay";
+>  	max-link-speed = <2>;
