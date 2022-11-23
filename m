@@ -2,62 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD4D2635644
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 10:30:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE8AF63568E
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 10:33:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6239010E533;
-	Wed, 23 Nov 2022 09:30:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEFE410E535;
+	Wed, 23 Nov 2022 09:33:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6EFC10E534
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 09:30:50 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id vv4so32128889ejc.2
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 01:30:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=k/P6HmngRm+KyT9/p0YBOvUT5RPDSJ3KZFWEC9yJwyg=;
- b=SEYF/QTgkO2KyNYiHEjRyucUFb+Ry9Ekx3DQApfopXV78YDBzf9VwXBQKgQJiCjU1x
- i9Ujwox9aEaL0s0ptkZ33/Eiv9tYtfXn/YlySaB4qMn6tMtPQ9g3j0KpDQKXZA10tmgT
- luHNcWnUrOP+rBqLFyPSotsOcnLRVK6vYN7CA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=k/P6HmngRm+KyT9/p0YBOvUT5RPDSJ3KZFWEC9yJwyg=;
- b=yrUC0IKR2U0sDuueI6oqe+LSU3W/fUtml182N1jOyr+rDWua7mELmj0Oy39Me54pie
- TD+8SlgB7CmvtGsBeb7pfWiGuLHzC4Qjw6e8LWKAdfp9Z2qLYG3mliBpXDNoBvcAKqOR
- vVfQ+yZEFmnpilZZwdP2Y1rvc2VgOPp5HYw4BgJI1XBcWxe9rFcW/tB4j6tgF5oGPK5r
- SLYwmCkUHTSpPUhOAmEaBv+AeoULcBT/BfUIHKWJbgbMnAvnNVEpfHfHy0Fo1qIqC6So
- Xtt59AFJPAKZsBJbLbZafkhxiVhWsG68rR51hdNU/gMblqoGdL2lCp+gOtrA0bYIYLfN
- tmGg==
-X-Gm-Message-State: ANoB5pn3Kfmu0VF3fbWf0WLC9ob93zvOpHLgyspZmiIxR+OaZPhySqnc
- kPPwqTtCCFT2A4rm3O9TAGKpcTah9rGfSUPGMw7q2A==
-X-Google-Smtp-Source: AA0mqf568pBwzED/LXK5vNiD3i8xo4oBiTQDcMA8vk117sCWXiDHnVcKEywyfB4Esfm/JhlCEhfPrQ2dAt8gaFHsgEk=
-X-Received: by 2002:a17:907:2a53:b0:7a1:6786:4566 with SMTP id
- fe19-20020a1709072a5300b007a167864566mr11215974ejc.433.1669195849127; Wed, 23
- Nov 2022 01:30:49 -0800 (PST)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D3BB10E535
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 09:33:33 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 06ECC21BEB;
+ Wed, 23 Nov 2022 09:33:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1669196012; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/b6yGEYVaRhKm9CGQcET3Plmmi4LDUJ+w/Fr/1rtK5s=;
+ b=RTVN9qFy4T/HX1WgLxvfQvQTN/A2jLHFP5izNxuizC0ul6MEF/BIAvEBknge9jEtEnxJ0n
+ AqDcxIHHX23nJr1cGhNRFHN3wHV/4K7iYc69wcilaCK8rjLlpm8CVNr+Z+vk23eefNuE/z
+ MHDzH0u5zo5E0ip488901I3sH2HNO60=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1669196012;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/b6yGEYVaRhKm9CGQcET3Plmmi4LDUJ+w/Fr/1rtK5s=;
+ b=NFBKocHFo7OsVVGK13Nl1oTEGf5x33Jsls2Rix1yZUcZ3Fyp+29XoxuAw58DxjmixH542/
+ nQdVHrkrFMicN+CA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D22BB13AE7;
+ Wed, 23 Nov 2022 09:33:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id zrBkMuvofWP6EgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 23 Nov 2022 09:33:31 +0000
+Message-ID: <6d5dfdff-8ef5-8816-bdd5-79e4267c93c8@suse.de>
+Date: Wed, 23 Nov 2022 10:33:31 +0100
 MIME-Version: 1.0
-References: <20221122170801.842766-1-daniel.vetter@ffwll.ch>
- <Y30PDdsvHIJo5YHR@ziepe.ca>
- <CAKMK7uEccwYTNwDYQazmZvTfBFQOikZt5A6BmegweyO-inKYbQ@mail.gmail.com>
- <Y30Z4VxT7Wdoc1Lc@ziepe.ca>
- <CAKMK7uE=8eqyh9BKg_+7B1jjMi6K4wrmPyi9xeLVvVYFxBgF9g@mail.gmail.com>
- <Y30kK6dsssSLJVgp@ziepe.ca>
- <CAKMK7uFQQkG82PzuSTGQTnN3ZNps5N_4TjR5NRWo0LaJkEaNew@mail.gmail.com>
- <3d8607b4-973d-945d-c184-260157ade7c3@amd.com>
-In-Reply-To: <3d8607b4-973d-945d-c184-260157ade7c3@amd.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Wed, 23 Nov 2022 10:30:37 +0100
-Message-ID: <CAKMK7uHVGgGHTiXYOfseXXda2Ug992nYvhPsL+4z18ssqeHXHQ@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: Require VM_PFNMAP vma for mmap
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH 5/6] drm/gud: Prepare buffer for CPU access in
+ gud_flush_work()
+Content-Language: en-US
+To: noralf@tronnes.org, stable@kernel.org, Dave Airlie <airlied@redhat.com>,
+ dri-devel@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Javier Martinez Canillas <javierm@redhat.com>
+References: <20221122-gud-shadow-plane-v1-0-9de3afa3383e@tronnes.org>
+ <20221122-gud-shadow-plane-v1-5-9de3afa3383e@tronnes.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20221122-gud-shadow-plane-v1-5-9de3afa3383e@tronnes.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------xQRXcuG4vJdI7Pbl0JTachDv"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,61 +74,194 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Matthew Wilcox <willy@infradead.org>, linaro-mm-sig@lists.linaro.org,
- Jason Gunthorpe <jgg@ziepe.ca>, John Stultz <john.stultz@linaro.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Suren Baghdasaryan <surenb@google.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 23 Nov 2022 at 10:06, Christian K=C3=B6nig <christian.koenig@amd.co=
-m> wrote:
-> Am 22.11.22 um 20:50 schrieb Daniel Vetter:
-> > On Tue, 22 Nov 2022 at 20:34, Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> >> On Tue, Nov 22, 2022 at 08:29:05PM +0100, Daniel Vetter wrote:
-> >>> You nuke all the ptes. Drivers that move have slightly more than a
-> >>> bare struct file, they also have a struct address_space so that
-> >>> invalidate_mapping_range() works.
-> >> Okay, this is one of the ways that this can be made to work correctly,
-> >> as long as you never allow GUP/GUP_fast to succeed on the PTEs. (this
-> >> was the DAX mistake)
-> > Hence this patch, to enforce that no dma-buf exporter gets this wrong.
-> > Which some did, and then blamed bug reporters for the resulting splats
-> > :-) One of the things we've reverted was the ttm huge pte support,
-> > since that doesn't have the pmd_special flag (yet) and so would let
-> > gup_fast through.
->
-> The problem is not only gup, a lot of people seem to assume that when
-> you are able to grab a reference to a page that the ptes pointing to
-> that page can't change any more. And that's obviously incorrect.
->
-> I witnessed tons of discussions about that already. Some customers even
-> modified our code assuming that and then wondered why the heck they ran
-> into data corruption.
->
-> It's gotten so bad that I've even proposed intentionally mangling the
-> page reference count on TTM allocated pages:
-> https://patchwork.kernel.org/project/dri-devel/patch/20220927143529.13568=
-9-1-christian.koenig@amd.com/
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------xQRXcuG4vJdI7Pbl0JTachDv
+Content-Type: multipart/mixed; boundary="------------W9yUSq4ThbXwEXVeK9HIO0dl";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: noralf@tronnes.org, stable@kernel.org, Dave Airlie <airlied@redhat.com>,
+ dri-devel@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Javier Martinez Canillas <javierm@redhat.com>
+Message-ID: <6d5dfdff-8ef5-8816-bdd5-79e4267c93c8@suse.de>
+Subject: Re: [PATCH 5/6] drm/gud: Prepare buffer for CPU access in
+ gud_flush_work()
+References: <20221122-gud-shadow-plane-v1-0-9de3afa3383e@tronnes.org>
+ <20221122-gud-shadow-plane-v1-5-9de3afa3383e@tronnes.org>
+In-Reply-To: <20221122-gud-shadow-plane-v1-5-9de3afa3383e@tronnes.org>
 
-Yeah maybe something like this could be applied after we land this
-patch here. Well maybe should have the same check in gem mmap code to
-make sure no driver
+--------------W9yUSq4ThbXwEXVeK9HIO0dl
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> I think it would be better that instead of having special flags in the
-> ptes and vmas that you can't follow them to a page structure we would
-> add something to the page indicating that you can't grab a reference to
-> it. But this might break some use cases as well.
+SGkNCg0KQW0gMjIuMTEuMjIgdW0gMjE6NTggc2NocmllYiBOb3JhbGYgVHLDuG5uZXMgdmlh
+IEI0IFN1Ym1pc3Npb24gRW5kcG9pbnQ6DQo+IEZyb206IE5vcmFsZiBUcsO4bm5lcyA8bm9y
+YWxmQHRyb25uZXMub3JnPg0KPiANCj4gSW4gcHJlcGFyYXRpb24gZm9yIG1vdmluZyB0byB0
+aGUgc2hhZG93IHBsYW5lIGhlbHBlciBwcmVwYXJlIHRoZQ0KPiBmcmFtZWJ1ZmZlciBmb3Ig
+Q1BVIGFjY2VzcyBhcyBlYXJseSBhcyBwb3NzaWJsZS4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6
+IE5vcmFsZiBUcsO4bm5lcyA8bm9yYWxmQHRyb25uZXMub3JnPg0KPiAtLS0NCj4gICBkcml2
+ZXJzL2dwdS9kcm0vZ3VkL2d1ZF9waXBlLmMgfCA2NyArKysrKysrKysrKysrKysrKysrKyst
+LS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gICAxIGZpbGUgY2hhbmdlZCwgMzMgaW5zZXJ0aW9u
+cygrKSwgMzQgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
+ZHJtL2d1ZC9ndWRfcGlwZS5jIGIvZHJpdmVycy9ncHUvZHJtL2d1ZC9ndWRfcGlwZS5jDQo+
+IGluZGV4IGQyYWY5OTQ3NDk0Zi4uZGZhZGE2ZWVkYzU4IDEwMDY0NA0KPiAtLS0gYS9kcml2
+ZXJzL2dwdS9kcm0vZ3VkL2d1ZF9waXBlLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2d1
+ZC9ndWRfcGlwZS5jDQo+IEBAIC0xNSw2ICsxNSw3IEBADQo+ICAgI2luY2x1ZGUgPGRybS9k
+cm1fZm91cmNjLmg+DQo+ICAgI2luY2x1ZGUgPGRybS9kcm1fZnJhbWVidWZmZXIuaD4NCj4g
+ICAjaW5jbHVkZSA8ZHJtL2RybV9nZW0uaD4NCj4gKyNpbmNsdWRlIDxkcm0vZHJtX2dlbV9h
+dG9taWNfaGVscGVyLmg+DQo+ICAgI2luY2x1ZGUgPGRybS9kcm1fZ2VtX2ZyYW1lYnVmZmVy
+X2hlbHBlci5oPg0KPiAgICNpbmNsdWRlIDxkcm0vZHJtX3ByaW50Lmg+DQo+ICAgI2luY2x1
+ZGUgPGRybS9kcm1fcmVjdC5oPg0KPiBAQCAtMTUyLDMyICsxNTMsMjEgQEAgc3RhdGljIHNp
+emVfdCBndWRfeHJnYjg4ODhfdG9fY29sb3IodTggKmRzdCwgY29uc3Qgc3RydWN0IGRybV9m
+b3JtYXRfaW5mbyAqZm9ybWENCj4gICB9DQo+ICAgDQo+ICAgc3RhdGljIGludCBndWRfcHJl
+cF9mbHVzaChzdHJ1Y3QgZ3VkX2RldmljZSAqZ2RybSwgc3RydWN0IGRybV9mcmFtZWJ1ZmZl
+ciAqZmIsDQo+ICsJCQkgIGNvbnN0IHN0cnVjdCBpb3N5c19tYXAgKm1hcCwgYm9vbCBjYWNo
+ZWRfcmVhZHMsDQoNCk90aGVyIGZ1bmN0aW9ucyBjYWxsIHRoaXMgJ3NyYycuIFRoaXMgd291
+bGQgYmUgdGhlIGJldHRlciBuYW1lIElNSE8uIA0KQWx0ZXJuYXRpdmVseSwgJ2RhdGEnIHdv
+dWxkIGJlIHByZWZlcmFibGUgb3ZlciAnbWFwJyBiZWNhdXNlIG9mIHRoZSANCnNlbWFudGlj
+cyBvZiBtYXAgdnMgbWFwX2RhdGEuDQoNCg0KPiAgIAkJCSAgY29uc3Qgc3RydWN0IGRybV9m
+b3JtYXRfaW5mbyAqZm9ybWF0LCBzdHJ1Y3QgZHJtX3JlY3QgKnJlY3QsDQo+ICAgCQkJICBz
+dHJ1Y3QgZ3VkX3NldF9idWZmZXJfcmVxICpyZXEpDQo+ICAgew0KPiAtCXN0cnVjdCBkbWFf
+YnVmX2F0dGFjaG1lbnQgKmltcG9ydF9hdHRhY2ggPSBmYi0+b2JqWzBdLT5pbXBvcnRfYXR0
+YWNoOw0KPiAgIAl1OCBjb21wcmVzc2lvbiA9IGdkcm0tPmNvbXByZXNzaW9uOw0KPiAtCXN0
+cnVjdCBpb3N5c19tYXAgbWFwW0RSTV9GT1JNQVRfTUFYX1BMQU5FU10gPSB7IH07DQo+IC0J
+c3RydWN0IGlvc3lzX21hcCBtYXBfZGF0YVtEUk1fRk9STUFUX01BWF9QTEFORVNdID0geyB9
+Ow0KPiAgIAlzdHJ1Y3QgaW9zeXNfbWFwIGRzdDsNCj4gICAJdm9pZCAqdmFkZHIsICpidWY7
+DQo+ICAgCXNpemVfdCBwaXRjaCwgbGVuOw0KPiAtCWludCByZXQgPSAwOw0KPiAgIA0KPiAg
+IAlwaXRjaCA9IGRybV9mb3JtYXRfaW5mb19taW5fcGl0Y2goZm9ybWF0LCAwLCBkcm1fcmVj
+dF93aWR0aChyZWN0KSk7DQo+ICAgCWxlbiA9IHBpdGNoICogZHJtX3JlY3RfaGVpZ2h0KHJl
+Y3QpOw0KPiAgIAlpZiAobGVuID4gZ2RybS0+YnVsa19sZW4pDQo+ICAgCQlyZXR1cm4gLUUy
+QklHOw0KPiAgIA0KPiAtCXJldCA9IGRybV9nZW1fZmJfdm1hcChmYiwgbWFwLCBtYXBfZGF0
+YSk7DQo+IC0JaWYgKHJldCkNCj4gLQkJcmV0dXJuIHJldDsNCj4gLQ0KPiAtCXZhZGRyID0g
+bWFwX2RhdGFbMF0udmFkZHI7DQo+IC0NCj4gLQlyZXQgPSBkcm1fZ2VtX2ZiX2JlZ2luX2Nw
+dV9hY2Nlc3MoZmIsIERNQV9GUk9NX0RFVklDRSk7DQoNCkFzIEkgbWVudGlvbmVkIGluIHRo
+ZSByZXBseSB0byBwYXRjaCAxLCBiZWdpbl9jcHVfYWNjZXNzIGhhcyB0byByZW1haW4gDQpp
+biB0aGUgZHJpdmVyLiBNb3ZpbmcgaXQgaW50byB0aGUgY2FsbGluZyBmdW5jdGlvbiBpcyBP
+SywgdGhvdWdoLg0KDQpJIGtub3cgdGhhdCBpdCB3b3VsZCBiZSBiZXR0ZXIgdG8gaGF2ZSBh
+IGJlZ2luX2NwdV9hY2Nlc3MgdGhhdCBjYW5ub3QgDQpyZXR1cm4gYW4gZXJyb3IuIERhbmll
+bCB0b2xkIG1lIHRoYXQgd2UnZCBoYXZlIHRvIHJld29yayBzb21lIG90aGVyIGNvZGUgDQp0
+byBtYWtlIHRoaXMgaGFwcGVuLg0KDQo+IC0JaWYgKHJldCkNCj4gLQkJZ290byB2dW5tYXA7
+DQo+ICsJdmFkZHIgPSBtYXBbMF0udmFkZHI7DQo+ICAgcmV0cnk6DQo+ICAgCWlmIChjb21w
+cmVzc2lvbikNCj4gICAJCWJ1ZiA9IGdkcm0tPmNvbXByZXNzX2J1ZjsNCj4gQEAgLTE5Miwy
+OSArMTgyLDI3IEBAIHN0YXRpYyBpbnQgZ3VkX3ByZXBfZmx1c2goc3RydWN0IGd1ZF9kZXZp
+Y2UgKmdkcm0sIHN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZiLA0KPiAgIAlpZiAoZm9ybWF0
+ICE9IGZiLT5mb3JtYXQpIHsNCj4gICAJCWlmIChmb3JtYXQtPmZvcm1hdCA9PSBHVURfRFJN
+X0ZPUk1BVF9SMSkgew0KPiAgIAkJCWxlbiA9IGd1ZF94cmdiODg4OF90b19yMTI0KGJ1Ziwg
+Zm9ybWF0LCB2YWRkciwgZmIsIHJlY3QpOw0KPiAtCQkJaWYgKCFsZW4pIHsNCj4gLQkJCQly
+ZXQgPSAtRU5PTUVNOw0KPiAtCQkJCWdvdG8gZW5kX2NwdV9hY2Nlc3M7DQo+IC0JCQl9DQo+
+ICsJCQlpZiAoIWxlbikNCj4gKwkJCQlyZXR1cm4gLUVOT01FTTsNCj4gICAJCX0gZWxzZSBp
+ZiAoZm9ybWF0LT5mb3JtYXQgPT0gRFJNX0ZPUk1BVF9SOCkgew0KPiAtCQkJZHJtX2ZiX3hy
+Z2I4ODg4X3RvX2dyYXk4KCZkc3QsIE5VTEwsIG1hcF9kYXRhLCBmYiwgcmVjdCk7DQo+ICsJ
+CQlkcm1fZmJfeHJnYjg4ODhfdG9fZ3JheTgoJmRzdCwgTlVMTCwgbWFwLCBmYiwgcmVjdCk7
+DQo+ICAgCQl9IGVsc2UgaWYgKGZvcm1hdC0+Zm9ybWF0ID09IERSTV9GT1JNQVRfUkdCMzMy
+KSB7DQo+IC0JCQlkcm1fZmJfeHJnYjg4ODhfdG9fcmdiMzMyKCZkc3QsIE5VTEwsIG1hcF9k
+YXRhLCBmYiwgcmVjdCk7DQo+ICsJCQlkcm1fZmJfeHJnYjg4ODhfdG9fcmdiMzMyKCZkc3Qs
+IE5VTEwsIG1hcCwgZmIsIHJlY3QpOw0KPiAgIAkJfSBlbHNlIGlmIChmb3JtYXQtPmZvcm1h
+dCA9PSBEUk1fRk9STUFUX1JHQjU2NSkgew0KPiAtCQkJZHJtX2ZiX3hyZ2I4ODg4X3RvX3Jn
+YjU2NSgmZHN0LCBOVUxMLCBtYXBfZGF0YSwgZmIsIHJlY3QsDQo+ICsJCQlkcm1fZmJfeHJn
+Yjg4ODhfdG9fcmdiNTY1KCZkc3QsIE5VTEwsIG1hcCwgZmIsIHJlY3QsDQo+ICAgCQkJCQkJ
+ICBndWRfaXNfYmlnX2VuZGlhbigpKTsNCj4gICAJCX0gZWxzZSBpZiAoZm9ybWF0LT5mb3Jt
+YXQgPT0gRFJNX0ZPUk1BVF9SR0I4ODgpIHsNCj4gLQkJCWRybV9mYl94cmdiODg4OF90b19y
+Z2I4ODgoJmRzdCwgTlVMTCwgbWFwX2RhdGEsIGZiLCByZWN0KTsNCj4gKwkJCWRybV9mYl94
+cmdiODg4OF90b19yZ2I4ODgoJmRzdCwgTlVMTCwgbWFwLCBmYiwgcmVjdCk7DQo+ICAgCQl9
+IGVsc2Ugew0KPiAgIAkJCWxlbiA9IGd1ZF94cmdiODg4OF90b19jb2xvcihidWYsIGZvcm1h
+dCwgdmFkZHIsIGZiLCByZWN0KTsNCj4gICAJCX0NCj4gICAJfSBlbHNlIGlmIChndWRfaXNf
+YmlnX2VuZGlhbigpICYmIGZvcm1hdC0+Y3BwWzBdID4gMSkgew0KPiAtCQlkcm1fZmJfc3dh
+YigmZHN0LCBOVUxMLCBtYXBfZGF0YSwgZmIsIHJlY3QsICFpbXBvcnRfYXR0YWNoKTsNCj4g
+LQl9IGVsc2UgaWYgKGNvbXByZXNzaW9uICYmICFpbXBvcnRfYXR0YWNoICYmIHBpdGNoID09
+IGZiLT5waXRjaGVzWzBdKSB7DQo+ICsJCWRybV9mYl9zd2FiKCZkc3QsIE5VTEwsIG1hcCwg
+ZmIsIHJlY3QsIGNhY2hlZF9yZWFkcyk7DQo+ICsJfSBlbHNlIGlmIChjb21wcmVzc2lvbiAm
+JiBjYWNoZWRfcmVhZHMgJiYgcGl0Y2ggPT0gZmItPnBpdGNoZXNbMF0pIHsNCj4gICAJCS8q
+IGNhbiBjb21wcmVzcyBkaXJlY3RseSBmcm9tIHRoZSBmcmFtZWJ1ZmZlciAqLw0KPiAgIAkJ
+YnVmID0gdmFkZHIgKyByZWN0LT55MSAqIHBpdGNoOw0KPiAgIAl9IGVsc2Ugew0KPiAtCQlk
+cm1fZmJfbWVtY3B5KCZkc3QsIE5VTEwsIG1hcF9kYXRhLCBmYiwgcmVjdCk7DQo+ICsJCWRy
+bV9mYl9tZW1jcHkoJmRzdCwgTlVMTCwgbWFwLCBmYiwgcmVjdCk7DQo+ICAgCX0NCj4gICAN
+Cj4gICAJbWVtc2V0KHJlcSwgMCwgc2l6ZW9mKCpyZXEpKTsNCj4gQEAgLTIzNywxMiArMjI1
+LDcgQEAgc3RhdGljIGludCBndWRfcHJlcF9mbHVzaChzdHJ1Y3QgZ3VkX2RldmljZSAqZ2Ry
+bSwgc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmIsDQo+ICAgCQlyZXEtPmNvbXByZXNzZWRf
+bGVuZ3RoID0gY3B1X3RvX2xlMzIoY29tcGxlbik7DQo+ICAgCX0NCj4gICANCj4gLWVuZF9j
+cHVfYWNjZXNzOg0KPiAtCWRybV9nZW1fZmJfZW5kX2NwdV9hY2Nlc3MoZmIsIERNQV9GUk9N
+X0RFVklDRSk7DQo+IC12dW5tYXA6DQo+IC0JZHJtX2dlbV9mYl92dW5tYXAoZmIsIG1hcCk7
+DQo+IC0NCj4gLQlyZXR1cm4gcmV0Ow0KPiArCXJldHVybiAwOw0KPiAgIH0NCj4gICANCj4g
+ICBzdHJ1Y3QgZ3VkX3VzYl9idWxrX2NvbnRleHQgew0KPiBAQCAtMjg1LDYgKzI2OCw3IEBA
+IHN0YXRpYyBpbnQgZ3VkX3VzYl9idWxrKHN0cnVjdCBndWRfZGV2aWNlICpnZHJtLCBzaXpl
+X3QgbGVuKQ0KPiAgIH0NCj4gICANCj4gICBzdGF0aWMgaW50IGd1ZF9mbHVzaF9yZWN0KHN0
+cnVjdCBndWRfZGV2aWNlICpnZHJtLCBzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYiwNCj4g
+KwkJCSAgY29uc3Qgc3RydWN0IGlvc3lzX21hcCAqbWFwLCBib29sIGNhY2hlZF9yZWFkcywN
+Cj4gICAJCQkgIGNvbnN0IHN0cnVjdCBkcm1fZm9ybWF0X2luZm8gKmZvcm1hdCwgc3RydWN0
+IGRybV9yZWN0ICpyZWN0KQ0KPiAgIHsNCj4gICAJc3RydWN0IGd1ZF9zZXRfYnVmZmVyX3Jl
+cSByZXE7DQo+IEBAIC0yOTMsNyArMjc3LDcgQEAgc3RhdGljIGludCBndWRfZmx1c2hfcmVj
+dChzdHJ1Y3QgZ3VkX2RldmljZSAqZ2RybSwgc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmIs
+DQo+ICAgDQo+ICAgCWRybV9kYmcoJmdkcm0tPmRybSwgIkZsdXNoaW5nIFtGQjolZF0gIiBE
+Uk1fUkVDVF9GTVQgIlxuIiwgZmItPmJhc2UuaWQsIERSTV9SRUNUX0FSRyhyZWN0KSk7DQo+
+ICAgDQo+IC0JcmV0ID0gZ3VkX3ByZXBfZmx1c2goZ2RybSwgZmIsIGZvcm1hdCwgcmVjdCwg
+JnJlcSk7DQo+ICsJcmV0ID0gZ3VkX3ByZXBfZmx1c2goZ2RybSwgZmIsIG1hcCwgY2FjaGVk
+X3JlYWRzLCBmb3JtYXQsIHJlY3QsICZyZXEpOw0KPiAgIAlpZiAocmV0KQ0KPiAgIAkJcmV0
+dXJuIHJldDsNCj4gICANCj4gQEAgLTMzNCw2ICszMTgsNyBAQCB2b2lkIGd1ZF9jbGVhcl9k
+YW1hZ2Uoc3RydWN0IGd1ZF9kZXZpY2UgKmdkcm0pDQo+ICAgfQ0KPiAgIA0KPiAgIHN0YXRp
+YyB2b2lkIGd1ZF9mbHVzaF9kYW1hZ2Uoc3RydWN0IGd1ZF9kZXZpY2UgKmdkcm0sIHN0cnVj
+dCBkcm1fZnJhbWVidWZmZXIgKmZiLA0KPiArCQkJICAgICBjb25zdCBzdHJ1Y3QgaW9zeXNf
+bWFwICptYXAsIGJvb2wgY2FjaGVkX3JlYWRzLA0KPiAgIAkJCSAgICAgc3RydWN0IGRybV9y
+ZWN0ICpkYW1hZ2UpDQo+ICAgew0KPiAgIAljb25zdCBzdHJ1Y3QgZHJtX2Zvcm1hdF9pbmZv
+ICpmb3JtYXQ7DQo+IEBAIC0zNTgsNyArMzQzLDcgQEAgc3RhdGljIHZvaWQgZ3VkX2ZsdXNo
+X2RhbWFnZShzdHJ1Y3QgZ3VkX2RldmljZSAqZ2RybSwgc3RydWN0IGRybV9mcmFtZWJ1ZmZl
+ciAqZmINCj4gICAJCXJlY3QueTEgKz0gaSAqIGxpbmVzOw0KPiAgIAkJcmVjdC55MiA9IG1p
+bl90KHUzMiwgcmVjdC55MSArIGxpbmVzLCBkYW1hZ2UtPnkyKTsNCj4gICANCj4gLQkJcmV0
+ID0gZ3VkX2ZsdXNoX3JlY3QoZ2RybSwgZmIsIGZvcm1hdCwgJnJlY3QpOw0KPiArCQlyZXQg
+PSBndWRfZmx1c2hfcmVjdChnZHJtLCBmYiwgbWFwLCBjYWNoZWRfcmVhZHMsIGZvcm1hdCwg
+JnJlY3QpOw0KPiAgIAkJaWYgKHJldCkgew0KPiAgIAkJCWlmIChyZXQgIT0gLUVOT0RFViAm
+JiByZXQgIT0gLUVDT05OUkVTRVQgJiYNCj4gICAJCQkgICAgcmV0ICE9IC1FU0hVVERPV04g
+JiYgcmV0ICE9IC1FUFJPVE8pDQo+IEBAIC0zNzMsOSArMzU4LDEwIEBAIHN0YXRpYyB2b2lk
+IGd1ZF9mbHVzaF9kYW1hZ2Uoc3RydWN0IGd1ZF9kZXZpY2UgKmdkcm0sIHN0cnVjdCBkcm1f
+ZnJhbWVidWZmZXIgKmZiDQo+ICAgdm9pZCBndWRfZmx1c2hfd29yayhzdHJ1Y3Qgd29ya19z
+dHJ1Y3QgKndvcmspDQo+ICAgew0KPiAgIAlzdHJ1Y3QgZ3VkX2RldmljZSAqZ2RybSA9IGNv
+bnRhaW5lcl9vZih3b3JrLCBzdHJ1Y3QgZ3VkX2RldmljZSwgd29yayk7DQo+ICsJc3RydWN0
+IGlvc3lzX21hcCBnZW1fbWFwID0geyB9LCBmYl9tYXAgPSB7IH07DQo+ICAgCXN0cnVjdCBk
+cm1fZnJhbWVidWZmZXIgKmZiOw0KPiAgIAlzdHJ1Y3QgZHJtX3JlY3QgZGFtYWdlOw0KPiAt
+CWludCBpZHg7DQo+ICsJaW50IGlkeCwgcmV0Ow0KPiAgIA0KPiAgIAlpZiAoIWRybV9kZXZf
+ZW50ZXIoJmdkcm0tPmRybSwgJmlkeCkpDQo+ICAgCQlyZXR1cm47DQo+IEBAIC0zOTAsOCAr
+Mzc2LDIxIEBAIHZvaWQgZ3VkX2ZsdXNoX3dvcmsoc3RydWN0IHdvcmtfc3RydWN0ICp3b3Jr
+KQ0KPiAgIAlpZiAoIWZiKQ0KPiAgIAkJZ290byBvdXQ7DQo+ICAgDQo+IC0JZ3VkX2ZsdXNo
+X2RhbWFnZShnZHJtLCBmYiwgJmRhbWFnZSk7DQo+ICsJcmV0ID0gZHJtX2dlbV9mYl92bWFw
+KGZiLCAmZ2VtX21hcCwgJmZiX21hcCk7DQo+ICsJaWYgKHJldCkNCj4gKwkJZ290byBmYl9w
+dXQ7DQo+ICAgDQo+ICsJcmV0ID0gZHJtX2dlbV9mYl9iZWdpbl9jcHVfYWNjZXNzKGZiLCBE
+TUFfRlJPTV9ERVZJQ0UpOw0KPiArCWlmIChyZXQpDQo+ICsJCWdvdG8gdnVubWFwOw0KPiAr
+DQo+ICsJLyogSW1wb3J0ZWQgYnVmZmVycyBhcmUgYXNzdW1lZCB0byBiZSBXcml0ZUNvbWJp
+bmVkIHdpdGggdW5jYWNoZWQgcmVhZHMgKi8NCj4gKwlndWRfZmx1c2hfZGFtYWdlKGdkcm0s
+IGZiLCAmZmJfbWFwLCAhZmItPm9ialswXS0+aW1wb3J0X2F0dGFjaCwgJmRhbWFnZSk7DQo+
+ICsNCj4gKwlkcm1fZ2VtX2ZiX2VuZF9jcHVfYWNjZXNzKGZiLCBETUFfRlJPTV9ERVZJQ0Up
+Ow0KPiArdnVubWFwOg0KPiArCWRybV9nZW1fZmJfdnVubWFwKGZiLCAmZ2VtX21hcCk7DQo+
+ICtmYl9wdXQ6DQo+ICAgCWRybV9mcmFtZWJ1ZmZlcl9wdXQoZmIpOw0KPiAgIG91dDoNCj4g
+ICAJZHJtX2Rldl9leGl0KGlkeCk7DQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpH
+cmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJt
+YW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhS
+QiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
-Afaik the problem with that is that there's no free page bits left for
-these debug checks. Plus the pte+vma flags are the flags to make this
-clear already.
--Daniel
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+
+--------------W9yUSq4ThbXwEXVeK9HIO0dl--
+
+--------------xQRXcuG4vJdI7Pbl0JTachDv
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmN96OsFAwAAAAAACgkQlh/E3EQov+BT
+cA/+N7TecN7S0ZgWDtWL1JCBjfjJLiCTvA48fOW5pKEZo2cC/xAzUOJEiwiNtv9GUochbE4Y7ZFl
+voE/C4zdVlKpIpz6L2QK/9MW3MTI6Udwke7Cl9fJ3zlFORmLxtn2zO+t2iPLgCWp06ohyjRkqQ5D
+u6pWRQtfdY1JdNnBFO2jAflp93o5wbzhC5PGobw1CPrisPf+rVCLZdEHLfrCHpKoYotc6Ex1NPYm
+M8RQbP5z39qcJjOgm91jA19Prx+TRj9EJphG/rkdOrLg0iAYNTEkiJn/JCv6lj/CqbSxO6xlGqth
+4o5jXbtVRBce2FS4OWYhOwsX5Ca41A5VG1moHipYXe7Mf3ZzQNmoLEkJ3FlPYgMnuAWgNcfTk0U4
+XXhY5uHmQwjQOHC93Zo4KNAp0sy9SV668OMDU8OpuanvCMgEO6ugU+fMDqaOmGmi2KBsIxzD9hAQ
+IlGkYst/utWycGzsbllxq7viR51uR+l5wnLZjLsNqNk3iZw3e/qfNz0rqbs/zCBNBXbBcOoFCDG2
+cLyVDreZ++AmlTk9azngwE/r3mCdrM62NLl9nu8llhsthgWDlYPVaPuny2K3dT40bzJRxQ+ws1Im
+NijA9RWEph7b1yVK67S0FolV30yey2Qv5LdXgGipGdLBC2ACxtWl98MYtjB8k3JcywO658/O/CFr
+dgE=
+=UvOe
+-----END PGP SIGNATURE-----
+
+--------------xQRXcuG4vJdI7Pbl0JTachDv--
