@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19C92635D4F
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 13:43:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A2B635D55
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 13:44:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0929D10E524;
-	Wed, 23 Nov 2022 12:43:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90D3410E542;
+	Wed, 23 Nov 2022 12:44:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C5B410E524
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 12:43:35 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE35810E1F8
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 12:44:24 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id CBDE861C65;
- Wed, 23 Nov 2022 12:43:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FE1CC433D7;
- Wed, 23 Nov 2022 12:43:32 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 9EF02B81F71;
+ Wed, 23 Nov 2022 12:44:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31C20C433D6;
+ Wed, 23 Nov 2022 12:44:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1669207414;
- bh=GcXlIGsa+nuE2ry+v6H1EZ8MlBMsb6KWVkWdNb6emWI=;
+ s=k20201202; t=1669207462;
+ bh=32JwF+5T8eFUXcCsM12zv8TYnKDw38lIf0unECxX/LA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=f4617rzHZlXGfkQSMrTOlMi3pWAqmYxcIDTuT45ufhspAhfs+rUC9dZgYuA8bj5L/
- 4Uf3x00dxvJyxBgQwhVZdtvb2iSRLEbqyz8GlpiR3XrAO/ROzu7OmmnbEADfpNXMcP
- KSE8offssPWUR7CQTttxQ2QpgT6QC/khr/H4xB6IJCbCmPwg/ooHoJdyBhCo9E7ZsG
- CEesTB3DDnwKbavRy5REqpVTu2OHUyDRD7i+CKcnSXqg7quIBwkx88T7Dv6kZFcNO6
- YPERSpdtrw0OUgj8KAeYEQte/OqV9YJf3xmaTyJuJy1+y6GXtgrnrKxWrYjAcZJSVo
- FUP+6Pe7yW61g==
+ b=JcTQY8GRguawQLauYB9pih2v+S72nKrd7BuNdi6QVaNj/F1kpxeGG3XJhRlsxKjdl
+ dBeDmVIjKGx+xTWGgT4xdoP+02H5lnPjqYJXZ1/bC6XfOhwQFyTJrOR8+nTCHP19EU
+ GYsSV7Ua9BbW57EbyzuwSVoUxQHHtwkJdxY4v86ZBVH1rEjB/XWz6Fk++QMRixdHB4
+ WeUS5BYlyWBX5oZM7SAqTgFZRbfY9zfCQY/OL6XUnq2V8079cDOg7C35HESytiJCQF
+ qjojaLifFzSOwBenNG4LRUnEkHJ9I7k2utKZSAqC1rCXCUsQN4Nm1CcgUf5Gyh4+C2
+ BeixVopdkNKYQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 29/31] gpu: host1x: Avoid trying to use GART on
+Subject: [PATCH AUTOSEL 5.10 20/22] gpu: host1x: Avoid trying to use GART on
  Tegra20
-Date: Wed, 23 Nov 2022 07:42:30 -0500
-Message-Id: <20221123124234.265396-29-sashal@kernel.org>
+Date: Wed, 23 Nov 2022 07:43:35 -0500
+Message-Id: <20221123124339.265912-20-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221123124234.265396-1-sashal@kernel.org>
-References: <20221123124234.265396-1-sashal@kernel.org>
+In-Reply-To: <20221123124339.265912-1-sashal@kernel.org>
+References: <20221123124339.265912-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -86,10 +87,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 8 insertions(+)
 
 diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-index 611cd8dad46e..4f5affdc6080 100644
+index 2c6ebc328b24..318692ad9680 100644
 --- a/drivers/gpu/drm/tegra/drm.c
 +++ b/drivers/gpu/drm/tegra/drm.c
-@@ -1083,6 +1083,10 @@ static bool host1x_drm_wants_iommu(struct host1x_device *dev)
+@@ -1042,6 +1042,10 @@ static bool host1x_drm_wants_iommu(struct host1x_device *dev)
  	struct host1x *host1x = dev_get_drvdata(dev->dev.parent);
  	struct iommu_domain *domain;
  
@@ -101,10 +102,10 @@ index 611cd8dad46e..4f5affdc6080 100644
  	 * If the Tegra DRM clients are backed by an IOMMU, push buffers are
  	 * likely to be allocated beyond the 32-bit boundary if sufficient
 diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
-index fc9f54282f7d..c2a4bf2aae61 100644
+index 8659558b518d..9f674a8d5009 100644
 --- a/drivers/gpu/host1x/dev.c
 +++ b/drivers/gpu/host1x/dev.c
-@@ -204,6 +204,10 @@ static void host1x_setup_sid_table(struct host1x *host)
+@@ -198,6 +198,10 @@ static void host1x_setup_sid_table(struct host1x *host)
  
  static bool host1x_wants_iommu(struct host1x *host1x)
  {
