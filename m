@@ -1,71 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48D94635F24
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 14:17:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D896635F29
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 14:17:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68F1910E54D;
-	Wed, 23 Nov 2022 13:17:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E114010E552;
+	Wed, 23 Nov 2022 13:17:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 510D710E54D
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 13:17:03 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id j16so28079021lfe.12
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 05:17:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=9rrWiHxgy8XL4EMhVPJm4PXUcc5P4DC16VghLNpNvqc=;
- b=Szj6IJnVYD6/7h8/2+rn3OkkE6gMACGs65XIdv7bNYNGKsGU5q7Us/Uq7gdSb9ly1G
- yUlhPNVMz6Jqo8Yy5gy5XqTa9MdZy9guSkgl/F1M7lVObURlfoB6Gf2pzeztXiuRwVlu
- JqYlA1NWxo7mokcqBBNnjGN9lF8NJHWV0+52J3O7HoD1WEeLSPnIbBRAExSJr+FEOJx2
- S0l6yeBGx6sZg4BB+WTqhbdAXpWE4xxBBDDQHRS0qUEZvnyLwUgLaX79U6WYdduy9yEC
- rzhbGlJSyWEUw2D2dVast+4HSJf/B5S9MxVeqgGIYzSrlYTjUgEbrP4yW9kEWnfOBWJe
- ewtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9rrWiHxgy8XL4EMhVPJm4PXUcc5P4DC16VghLNpNvqc=;
- b=s4BJXRY3cjxRSpO2Vfl7XY1M5l1wkDE8GmVYxzFtwKXAT8zpjBB+JOU2Gfb1auoETJ
- PTvIK9e72AjXjfaRGBFqgMObTPNjMShMMv7yfsfLyX2wb92H/WWaFKmLlj2yNFNLXE1O
- w9cea4/X/LeZS3i30WvEUOc3E46giZty8fBszg3yfA7+Kaehl4YSiuhhMBGZUfH73Uob
- 2bCzWMR5V4O1Yy7oOKCRzM1hU9X+8d3J1hYT4trxaaJ8F0kJ1q2/oKXiTxszQQ6wp7K/
- axgFp3tzN7ihebts2NPRrDmL+66IonXSzWH4dRTFAam9Gs23Xcz3p3fdz4XTxkZf9oCv
- hLrg==
-X-Gm-Message-State: ANoB5pk8fQbKe3xM+phrPEHMedJLWkrdtlV/Nym2CkIQ9YWgRXZ31M3p
- gVQ/Ez0LMYn85RaU0eV6WVAUtw==
-X-Google-Smtp-Source: AA0mqf7DLaDOx9/kIucgdP9wbuyY2ZzDY+IE1nEku1WaomgQSO+mpoC14e1nZTanImk+XPkpSwW5lg==
-X-Received: by 2002:ac2:4c50:0:b0:4b1:8a90:6524 with SMTP id
- o16-20020ac24c50000000b004b18a906524mr8783922lfk.628.1669209421365; 
- Wed, 23 Nov 2022 05:17:01 -0800 (PST)
-Received: from [192.168.1.101] (95.49.32.48.neoplus.adsl.tpnet.pl.
- [95.49.32.48]) by smtp.gmail.com with ESMTPSA id
- u14-20020ac258ce000000b00499d70c0310sm2888258lfo.3.2022.11.23.05.17.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Nov 2022 05:17:00 -0800 (PST)
-Message-ID: <afa7567f-e86e-639b-92b7-efae505b55f1@linaro.org>
-Date: Wed, 23 Nov 2022 14:16:59 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B47E10E551;
+ Wed, 23 Nov 2022 13:17:44 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0D2BB61CAD;
+ Wed, 23 Nov 2022 13:17:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC3BFC433D6;
+ Wed, 23 Nov 2022 13:17:36 +0000 (UTC)
+Message-ID: <73481668-9c41-7d01-d328-bd137a57c0b3@xs4all.nl>
+Date: Wed, 23 Nov 2022 14:17:35 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v2 3/5] arm64: dts: qcom: sm8450-hdk: enable display
- hardware
+ Thunderbird/102.4.1
+Subject: Re: [PATCH mm-unstable v1 13/20] media: videobuf-dma-sg: remove
+ FOLL_FORCE usage
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20221122233659.3308175-1-dmitry.baryshkov@linaro.org>
- <20221122233659.3308175-4-dmitry.baryshkov@linaro.org>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20221122233659.3308175-4-dmitry.baryshkov@linaro.org>
+To: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org
+References: <20221116102659.70287-1-david@redhat.com>
+ <20221116102659.70287-14-david@redhat.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20221116102659.70287-14-david@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -80,56 +46,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: linux-ia64@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ Nadav Amit <namit@vmware.com>, linux-kselftest@vger.kernel.org,
+ sparclinux@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ Andrea Arcangeli <aarcange@redhat.com>, linux-samsung-soc@vger.kernel.org,
+ linux-rdma@vger.kernel.org, x86@kernel.org, Hugh Dickins <hughd@google.com>,
+ Matthew Wilcox <willy@infradead.org>, Christoph Hellwig <hch@infradead.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@suse.cz>,
+ linux-media@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ John Hubbard <jhubbard@nvidia.com>, linux-um@lists.infradead.org,
+ etnaviv@lists.freedesktop.org, Alex Williamson <alex.williamson@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Muchun Song <songmuchun@bytedance.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ Oded Gabbay <ogabbay@kernel.org>, linux-mips@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-security-module@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 23.11.2022 00:36, Dmitry Baryshkov wrote:
-> Enable MDSS/DPU/DSI0 on SM8450-HDK device. Note, there is no panel
-> configuration (yet).
+On 16/11/2022 11:26, David Hildenbrand wrote:
+> GUP now supports reliable R/O long-term pinning in COW mappings, such
+> that we break COW early. MAP_SHARED VMAs only use the shared zeropage so
+> far in one corner case (DAXFS file with holes), which can be ignored
+> because GUP does not support long-term pinning in fsdax (see
+> check_vma_flags()).
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Consequently, FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM is no longer required
+> for reliable R/O long-term pinning: FOLL_LONGTERM is sufficient. So stop
+> using FOLL_FORCE, which is really only for ptrace access.
+> 
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+
+Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+
+Looks good!
+
+	Hans
+
 > ---
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-
-Konrad
->  arch/arm64/boot/dts/qcom/sm8450-hdk.dts | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
+>  drivers/media/v4l2-core/videobuf-dma-sg.c | 14 +++++---------
+>  1 file changed, 5 insertions(+), 9 deletions(-)
 > 
-> diff --git a/arch/arm64/boot/dts/qcom/sm8450-hdk.dts b/arch/arm64/boot/dts/qcom/sm8450-hdk.dts
-> index 2dd4f8c8f931..75b7aecb7d8e 100644
-> --- a/arch/arm64/boot/dts/qcom/sm8450-hdk.dts
-> +++ b/arch/arm64/boot/dts/qcom/sm8450-hdk.dts
-> @@ -349,6 +349,28 @@ vreg_l7e_2p8: ldo7 {
->  	};
->  };
+> diff --git a/drivers/media/v4l2-core/videobuf-dma-sg.c b/drivers/media/v4l2-core/videobuf-dma-sg.c
+> index f75e5eedeee0..234e9f647c96 100644
+> --- a/drivers/media/v4l2-core/videobuf-dma-sg.c
+> +++ b/drivers/media/v4l2-core/videobuf-dma-sg.c
+> @@ -151,17 +151,16 @@ static void videobuf_dma_init(struct videobuf_dmabuf *dma)
+>  static int videobuf_dma_init_user_locked(struct videobuf_dmabuf *dma,
+>  			int direction, unsigned long data, unsigned long size)
+>  {
+> +	unsigned int gup_flags = FOLL_LONGTERM;
+>  	unsigned long first, last;
+> -	int err, rw = 0;
+> -	unsigned int flags = FOLL_FORCE;
+> +	int err;
 >  
-> +&dispcc {
-> +	status = "okay";
-> +};
-> +
-> +&mdss {
-> +	status = "okay";
-> +};
-> +
-> +&mdss_dsi0 {
-> +	vdda-supply = <&vreg_l6b_1p2>;
-> +	status = "okay";
-> +};
-> +
-> +&mdss_dsi0_phy {
-> +	vdds-supply = <&vreg_l5b_0p88>;
-> +	status = "okay";
-> +};
-> +
-> +&mdss_mdp {
-> +	status = "okay";
-> +};
-> +
->  &pcie0 {
->  	status = "okay";
->  	max-link-speed = <2>;
+>  	dma->direction = direction;
+>  	switch (dma->direction) {
+>  	case DMA_FROM_DEVICE:
+> -		rw = READ;
+> +		gup_flags |= FOLL_WRITE;
+>  		break;
+>  	case DMA_TO_DEVICE:
+> -		rw = WRITE;
+>  		break;
+>  	default:
+>  		BUG();
+> @@ -177,14 +176,11 @@ static int videobuf_dma_init_user_locked(struct videobuf_dmabuf *dma,
+>  	if (NULL == dma->pages)
+>  		return -ENOMEM;
+>  
+> -	if (rw == READ)
+> -		flags |= FOLL_WRITE;
+> -
+>  	dprintk(1, "init user [0x%lx+0x%lx => %lu pages]\n",
+>  		data, size, dma->nr_pages);
+>  
+> -	err = pin_user_pages(data & PAGE_MASK, dma->nr_pages,
+> -			     flags | FOLL_LONGTERM, dma->pages, NULL);
+> +	err = pin_user_pages(data & PAGE_MASK, dma->nr_pages, gup_flags,
+> +			     dma->pages, NULL);
+>  
+>  	if (err != dma->nr_pages) {
+>  		dma->nr_pages = (err >= 0) ? err : 0;
+
