@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1115636512
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 16:58:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B09063651E
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 16:59:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0746E10E5A1;
-	Wed, 23 Nov 2022 15:58:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19BDA10E5A3;
+	Wed, 23 Nov 2022 15:59:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 78C4F10E5A1
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 15:58:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id AFCDF10E5A2
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 15:59:35 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3D6161FB;
- Wed, 23 Nov 2022 07:58:27 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D72831FB;
+ Wed, 23 Nov 2022 07:59:41 -0800 (PST)
 Received: from [10.57.87.10] (unknown [10.57.87.10])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 262FE3F73B;
- Wed, 23 Nov 2022 07:58:16 -0800 (PST)
-Message-ID: <f390d9ec-e8b2-a10d-bd2e-011ec879c615@arm.com>
-Date: Wed, 23 Nov 2022 15:58:14 +0000
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BC2823F73B;
+ Wed, 23 Nov 2022 07:59:30 -0800 (PST)
+Message-ID: <2ddef062-2db4-974b-e856-58878b70856e@arm.com>
+Date: Wed, 23 Nov 2022 15:59:28 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v9 03/11] drm/gem: Add evict() callback to
- drm_gem_object_funcs
+Subject: Re: [PATCH v9 02/11] drm/panfrost: Don't sync rpm suspension after
+ mmu flushing
 Content-Language: en-GB
 To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
  David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
@@ -44,9 +44,9 @@ To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
 References: <20221123025723.695075-1-dmitry.osipenko@collabora.com>
- <20221123025723.695075-4-dmitry.osipenko@collabora.com>
+ <20221123025723.695075-3-dmitry.osipenko@collabora.com>
 From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20221123025723.695075-4-dmitry.osipenko@collabora.com>
+In-Reply-To: <20221123025723.695075-3-dmitry.osipenko@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,71 +67,29 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 23/11/2022 02:57, Dmitry Osipenko wrote:
-> Add new common evict() callback to drm_gem_object_funcs and corresponding
-> drm_gem_object_evict() helper. This is a first step on a way to providing
-> common GEM-shrinker API for DRM drivers.
+> Lockdep warns about potential circular locking dependency of devfreq
+> with the fs_reclaim caused by immediate device suspension when mapping is
+> released by shrinker. Fix it by doing the suspension asynchronously.
 > 
-> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
 > Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+
+Reviewed-by: Steven Price <steven.price@arm.com>
+
 > ---
->  drivers/gpu/drm/drm_gem.c | 15 +++++++++++++++
->  include/drm/drm_gem.h     | 12 ++++++++++++
->  2 files changed, 27 insertions(+)
+>  drivers/gpu/drm/panfrost/panfrost_mmu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index 299bca1390aa..c0510b8080d2 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -1458,3 +1458,18 @@ drm_gem_lru_scan(struct drm_gem_lru *lru,
->  	return freed;
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> index e246d914e7f6..99a0975f6f03 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> @@ -273,7 +273,7 @@ static void panfrost_mmu_flush_range(struct panfrost_device *pfdev,
+>  	if (pm_runtime_active(pfdev->dev))
+>  		mmu_hw_do_operation(pfdev, mmu, iova, size, AS_COMMAND_FLUSH_PT);
+>  
+> -	pm_runtime_put_sync_autosuspend(pfdev->dev);
+> +	pm_runtime_put_autosuspend(pfdev->dev);
 >  }
->  EXPORT_SYMBOL(drm_gem_lru_scan);
-> +
-> +/**
-> + * drm_gem_object_evict - helper to evict backing pages for a GEM object
-> + * @obj: obj in question
-> + */
-> +bool
-> +drm_gem_object_evict(struct drm_gem_object *obj)
-> +{
-> +	dma_resv_assert_held(obj->resv);
-> +
-> +	if (obj->funcs->evict)
-> +		return obj->funcs->evict(obj);
-> +
-> +	return false;
-> +}
-
-This function needs exporting for the module build to work correctly.
-
-Steve
-
-> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> index b46ade812443..add1371453f0 100644
-> --- a/include/drm/drm_gem.h
-> +++ b/include/drm/drm_gem.h
-> @@ -172,6 +172,16 @@ struct drm_gem_object_funcs {
->  	 * This is optional but necessary for mmap support.
->  	 */
->  	const struct vm_operations_struct *vm_ops;
-> +
-> +	/**
-> +	 * @evict:
-> +	 *
-> +	 * Evicts gem object out from memory. Used by the drm_gem_object_evict()
-> +	 * helper. Returns true on success, false otherwise.
-> +	 *
-> +	 * This callback is optional.
-> +	 */
-> +	bool (*evict)(struct drm_gem_object *obj);
->  };
 >  
->  /**
-> @@ -480,4 +490,6 @@ unsigned long drm_gem_lru_scan(struct drm_gem_lru *lru,
->  			       unsigned long *remaining,
->  			       bool (*shrink)(struct drm_gem_object *obj));
->  
-> +bool drm_gem_object_evict(struct drm_gem_object *obj);
-> +
->  #endif /* __DRM_GEM_H__ */
+>  static int mmu_map_sg(struct panfrost_device *pfdev, struct panfrost_mmu *mmu,
 
