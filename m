@@ -1,122 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B42F6360F8
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 15:02:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 368AE6361C0
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 15:29:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FB0310E221;
-	Wed, 23 Nov 2022 14:02:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D24F10E1FD;
+	Wed, 23 Nov 2022 14:29:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam02on2047.outbound.protection.outlook.com [40.107.212.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C27310E221
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 14:02:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GPZ/H7CGCrARxGTii/SjrAwr9uFvpJGi5nZFWk5ePAX9HRKIzHiLrkPSyFM5RAQ2g+RXfQC3qy5FbqsB9l/0Mj4W5MnTdb4GvqfttIlp9jp41TWOoL4DoB8aj0tHEpxs+H3qtNmL7cwuzmaDYcr9t1UKOHP4bkdtH0ME2jfqO6hkex1Tq/KY4XOTwbuS7sqkS9X8yjRo4OFPaj3rjBUeZGsU3VSRzgR0jXBP4D4ACHTSvmKygsRmA2Rwrix22+P+LHgaCcRggyIovF50mECRcmNYmG57zFfXOsa1v3KVASShRZHc/jxXQ/KCjMabHvkVr7EwRFX2P2uQ3ULdJRLVUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Iv8gYaw/qRtI0HwMFyuckvTW0U2lSCpcSLdSybVmV0M=;
- b=BThDzPnEIz2RKBsIzfAZ24qIPmSyQZV8Abf70EJPoztgoVw9k7TwfW/NypVC5IziXcWxb+wAXRvN+MP0FHkJ0E3sbiGp62j5qL+stcSHmzqhs584jD2/eumKXPyglaeWZrXhqJd1MyDwAKw91pNU65a9wmBzjMeACkOMTcTB1eQpzIegniIQUx6DPI/x011elgkBZPIeqfMVkjBWrFN5vTTJpoj1O7jnAYW6gYJAIwSEGa31TjbnLczzrLloNOst2T6KnwnfeeyQ4XUrsJV3VG3FA1OvZQyl9ki+0yYYqK8FKXEoJRXNM6zrU/K3bjtBTYqu0AXQc372OyB0WD2oqA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Iv8gYaw/qRtI0HwMFyuckvTW0U2lSCpcSLdSybVmV0M=;
- b=INZoQWQMQJiTDTFNQfBBXUPWlZW3SPIhF6qgznjoApuCaxWA65CvEvMKJ4aUMQ5GYTwhXZ0VNvQr5RQ6ysMUSP1fYx/L1kXEG0cvlkSdUlNVl8yHqpIWZBGdm/TcSsGWBrVQn9uRWXba+D0NcKkC3RrwIpxkUGhqVrNdxOdpLnY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB4502.namprd12.prod.outlook.com (2603:10b6:208:263::20)
- by CY8PR12MB7146.namprd12.prod.outlook.com (2603:10b6:930:5e::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.15; Wed, 23 Nov
- 2022 14:02:34 +0000
-Received: from MN2PR12MB4502.namprd12.prod.outlook.com
- ([fe80::ff07:a59a:76b4:f06]) by MN2PR12MB4502.namprd12.prod.outlook.com
- ([fe80::ff07:a59a:76b4:f06%9]) with mapi id 15.20.5834.015; Wed, 23 Nov 2022
- 14:02:34 +0000
-Message-ID: <799672c1-c2fa-900d-326d-8673ce9e6e7a@amd.com>
-Date: Wed, 23 Nov 2022 06:02:29 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v4 0/4] new subsystem for compute accelerator devices
-To: Dave Airlie <airlied@gmail.com>, Oded Gabbay <ogabbay@kernel.org>,
- Daniel Vetter <daniel@ffwll.ch>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20221119204435.97113-1-ogabbay@kernel.org>
- <02c514c0-62c4-1cdf-5d3f-b3d8942ef005@amd.com>
- <CAPM=9ty_YHrM5QhAjgFvNdpkEwnB_WHsouhYG8m5XGrb+kmWAQ@mail.gmail.com>
- <Y3ziqU2vrgwIY4HB@phenom.ffwll.local>
-Content-Language: en-US
-From: Sonal Santan <sonal.santan@amd.com>
-In-Reply-To: <Y3ziqU2vrgwIY4HB@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PH0PR07CA0087.namprd07.prod.outlook.com
- (2603:10b6:510:f::32) To MN2PR12MB4502.namprd12.prod.outlook.com
- (2603:10b6:208:263::20)
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
+ [IPv6:2a00:1450:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EC3810E1FD
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 14:28:40 +0000 (UTC)
+Received: by mail-ej1-x634.google.com with SMTP id n20so43310065ejh.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 06:28:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ucQTvmzn91rzZAss19wwLVdxDJtfMPnU+ZLD4q4UOr4=;
+ b=WT7aZnirqlfHwqauYBvMMtrVy5bo2pha0DsZfPUcmWaiXhqbaeij/6ndqYkdegeckT
+ THXjqnLDQxeZ28AXp9/umwOtWDLa7NQTMzqXphjm/QmIlNqvR/sbxc45IoMrQwWQHEe6
+ x7BOJapEwYbv+NuKJL+8sIorhR2MAi9iVY21A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ucQTvmzn91rzZAss19wwLVdxDJtfMPnU+ZLD4q4UOr4=;
+ b=JV+ChXkR8GVVGzNPc1e4MZkPeZh7DP7mP37tABc4T4cowDMV+CzLlCtKTVQqQIb3Ks
+ yVV4r5OiPssK7AuZhBVLZGPDFsguBitIyACOW/0NkI0w3sq/MHeYUsndr9FB+xUDHwve
+ f7t/QLQZdTPLnSoMIBkCMHxTQI8CRqaX9z6C43q7vUwJb41VoYRPNl7x9Ddz15Yu+KYo
+ XIADIeb8xyg827/Qk6duam8zEoU295tlxk4/sIOyFOZSt9NGK5feS8SiTzBM090PqPmg
+ w/qBGwKMPvqzqekNmsbh7ucXqUvILmuAMR19uzp2PSU9VtM/oFj7pDtwwkZJxrJz+a1r
+ 1Giw==
+X-Gm-Message-State: ANoB5plrCQYfllZnqiUKp5srHVfvGiG5B5LKsZYuXBmXIwSc3YNsUUMm
+ 1Aag5ZDQZ87lkt5abtvlfuXE3GFfcg605YTwSh37wg==
+X-Google-Smtp-Source: AA0mqf6sZXWpHY0T6gpoVbuWg6Vf1JsDzG60PWxm05j3xQNGNGz1hoLjG6usYDq1yrMl9GvAUb1dUEr3/2FVoMO3p44=
+X-Received: by 2002:a17:907:8197:b0:7b8:eae2:716a with SMTP id
+ iy23-20020a170907819700b007b8eae2716amr5545863ejc.516.1669213718576; Wed, 23
+ Nov 2022 06:28:38 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4502:EE_|CY8PR12MB7146:EE_
-X-MS-Office365-Filtering-Correlation-Id: 52b9d575-cdcd-4607-9c4b-08dacd5b5ee0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: C7y2y2gmTS2JG4mInTzTv2qssdnaZdVBOPo/NIAhBqXxyPOATx5n3OzCSirnvPrVTIHPPg+BFzdUF05oso93Y7aEdsrGxGpJj4wcRf+adP8NZsucxFhlHz2LwOEm/O5mzm8QYpz95BMgr8McJuYcLkEOtDYkm2sCGmC3O/HWz4ed21hfxhe+7BYSOUxPxp/IfqRfC5QEpl/HNTJEJsMH7z4vkGYtZr8iJNQ9xTYjQpdQMOP0MmadM5yvBM0K8CrrYB16dZkqdi/j9VRwh1N+uPvXoYTHeQV+OcHzpcNqBRKBHF2sSkTBEff5+UgevI3KNvQ2Lt1lQB6u3JpE13PjDPU26dICZy5dDTlTVU0emiqOfbQoLqnt5MMXDSS+Ko85tXfeEVwndcFy/U55raP2TqwP036MUV46bu4XgNHVcGNEitH++/Va9o3cXza8AmeNgjFXLE7NesKdGSgcrkVw7djkX4+JNth9eCDqV9Dps28G5QHLshZe3Uclw5OX48THHixjNH6W398x0b8N8jM/BpoEsZ72vQm/NnKZALduwlsetfbuu/dFiHbHQWDes5hflHd+AILNXCDW9J8h68Vw5DpZz0qrFrrCb+wFDeAWxjJFeb6WU6KNMRwywL+5cr9rluejD++WlhxdGk+jl1QnMWOB54Xijx+fA5WkYwpwowo8TkJOtVW7lORCoT9EjaMKXL24EBjfGEUgbnipTQdN1SSdmuLow3mOmyiIQrEpMk3AMW4s4oiCUtY45KF5kckA/C0bJrkQew+sWdhCh4KMTJ5u3XGU0BrTU5FepbWsFjQ=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4502.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(39860400002)(346002)(136003)(376002)(396003)(366004)(451199015)(186003)(53546011)(2616005)(316002)(110136005)(54906003)(31686004)(6512007)(6506007)(26005)(6666004)(66946007)(44832011)(5660300002)(8676002)(66476007)(38100700002)(66556008)(4326008)(36756003)(86362001)(7416002)(8936002)(2906002)(966005)(6486002)(478600001)(31696002)(41300700001)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T3JTYnVJSm9qNlQ5Rm5zNDRPNm1NdjBZV3l4UzhIU0ZYQnBCMXd0bm1NdFVJ?=
- =?utf-8?B?SGx2aklGeSs1eEhiUUtzQmxkbmN4VnBqQzhRSzdoOUF0UE1FMWZjTXh6NStX?=
- =?utf-8?B?cXVKakVvODM0NzZUdzFIc2lRRWNMM2hlWjVLd3lUM3gyNlROaWVQa0pHZ0Yw?=
- =?utf-8?B?eG9IbU10MUlsZVd5blhrUkpWOXpiOTI1Qk4wWVJRRlhVQXBaczEzcldaa3lj?=
- =?utf-8?B?WDN2RnpQVmtnQVlvVkRzdlRLSS8vM09qdldPOUN2QllsRVBiT0JhOHQ5djFa?=
- =?utf-8?B?YU9HcC8yVGozd2ZtTDloUjRkOWluMSs5eXdKNlZibTg5dmo1QnlJKzIyVEsr?=
- =?utf-8?B?Vlk4NGtLNjFCdEpmVDZaUHhyL3ZhMUZMY0h3blFBdnkwNHlMazlzY25kbFZP?=
- =?utf-8?B?cEswNzVTdkN4UEZoeG0wcWtwYmVJd0NTOHhKdDlLNGE2Ylg4QlhRWVA1Qngy?=
- =?utf-8?B?MlJGVlNOd2pqNGRWdi9mVkJKYnQ0QkYrbmdkdm91R0NTM2JkQlJ3VVVBRzh5?=
- =?utf-8?B?Rnhhamxuclo2S2huQUFYQXhSRjJOek03NG5SOGJHM2s4akdFbVM4QU05VnRK?=
- =?utf-8?B?eFR5R3hsQ0kxZWZnbUNIVjYwY3VPaXlvMS8wYkxUQUZBd09OZHYwWkpzeU9t?=
- =?utf-8?B?VGdCQUhVdW03Sm4xeWdSMVNsR0N4U25zUVJoNXFWZlBsNkNiQjRxZGpWTStW?=
- =?utf-8?B?bFd1RTVJZXRsQTBkekExNzU4M3VnYjZmUlpLZHp3MU5sb3pyTHJnVTZweW9B?=
- =?utf-8?B?ZzZMdjFaQTNiOFNzMlQ0Z0FSWW0yVjJnWHh4dlpqN3Jsc204U1U3QVlyK2lG?=
- =?utf-8?B?Tzg2eTM2YVkwc0NhT2hMWTMvbWNrTFJYWUJud3JuTzduVzJUMU1Vc05uVStX?=
- =?utf-8?B?d3lEQ3ozbmFjN2RPRnFPWXdRQzhpMDFmZ3BDcndzVWJrZTQ3ZDdXVGl6WjJ3?=
- =?utf-8?B?bWprSGI5VUJuMko2WEkrQnlwUGpHN283LzB4LzlKL3FNN0E0UnljbWh2SlpH?=
- =?utf-8?B?V2dZNXB2cllTb0l2QTFEdUdCcm9kNTR3Mk82N3QrN2JodXBYRWNaWG9pZkxI?=
- =?utf-8?B?YVBjWnhGeG1CUWpJMTREVFBvdmJSaksrV2d3OFAwNFM0SkN0a1MwL20xdnB1?=
- =?utf-8?B?QjB6cHNSMHdFYWZ6SUhYVjA5RmgrcHdwYWFaamRHaGZBaG8rN1owTTErRG9w?=
- =?utf-8?B?VUkxY2JhSyt3ckgwcFpqZzNXOHVmaE1BekhUdVNJM2JNNHk5TjBTZHk0aEx1?=
- =?utf-8?B?UDR5cXRGaSs2YldLcUd0c1BOOTN3Y3ZqRnVzeVUzRjR5anQwM2l3SE9KdEMy?=
- =?utf-8?B?U2wyUEJHc0Y3WFcyVFRNc1VSTTVBZitCSnRaM1AyM0kxZC95YngySldrWFBW?=
- =?utf-8?B?RzFoUDZJMUR2QXgvTnp3ZDcreUxQVDBIdjZJckxJOGcvUHY3RGE1M3lIa3Ro?=
- =?utf-8?B?anMybnZpTzFqL1RoS0tzK3dycjYvUGR5Vit0R29YR3dnSXl5WTBaNmxuUFVp?=
- =?utf-8?B?clZ2UGZkdnlHd1JNMkVaVTBQYW5Kbyt3Rk9VZFJoMEVQdmhuMzdEYjVzUzZs?=
- =?utf-8?B?U3RyRTNzNU1NQWRiamc0b1pzSWpUd1B4SjNGVE5iNVJmNE1DL2FZN29aR2J3?=
- =?utf-8?B?TjNmZUpkZUFnRW1XM1FORHhQNUdDdlVoNDJ4QThUaHZBUVZXMWVzcjdkeWVZ?=
- =?utf-8?B?VWlpdVllYzFyZ1phNkRpQm1SdHJtU1BnSDA0UzltWFIzS0R0SjlGcExCN1RI?=
- =?utf-8?B?QnVuVmJIblFtb1UwYVdvTW9IM1c2Y0FIdEV1WldnQVpSVU9aQVdqWkpmSU1E?=
- =?utf-8?B?VnN3djFyNy9FcUlKQnoxdG8weXFmNXpqUU5yQ1FIK0dBNGVGejBMbk5kRzJP?=
- =?utf-8?B?czgrZUpSSjFmK1Rqc3RZa3J4NUs1NTRjMmVhcXF3TTFpMG5CZ3BhYWpvek5a?=
- =?utf-8?B?cmZTa3B4aWErd1RDcUtmMTJyV3M5cDVpSmU5ekw2dEVkMlpUWW5DVzhuYk9G?=
- =?utf-8?B?dkRyVVpOTVhLdDZ3WXNyeFh3N2QxNWlsRWtNZHI5L3loenhSeHRzc2Vpanpu?=
- =?utf-8?B?RVhWaDBkYlpKUlA0bHlmODFGWW5rbmNBQ3ZQL1QwM01iUGZOMzRuejZ0VGt0?=
- =?utf-8?Q?v4qG68raKVXpT2bcDQgjVpDnn?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 52b9d575-cdcd-4607-9c4b-08dacd5b5ee0
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4502.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2022 14:02:34.5405 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fL/xpenKoLl4x09UVTt+XDAd6MB8EKcGquH2kY6LdMkgbjy8P2o9u1M6BJu8khUU
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7146
+References: <Y30kK6dsssSLJVgp@ziepe.ca>
+ <CAKMK7uFQQkG82PzuSTGQTnN3ZNps5N_4TjR5NRWo0LaJkEaNew@mail.gmail.com>
+ <3d8607b4-973d-945d-c184-260157ade7c3@amd.com>
+ <CAKMK7uHVGgGHTiXYOfseXXda2Ug992nYvhPsL+4z18ssqeHXHQ@mail.gmail.com>
+ <b05e6091-4e07-1e32-773d-f603ac9ac98b@gmail.com>
+ <CAKMK7uFjmzewqv3r4hL9hvLADwV536n2n6xbAWaUvmAcStr5KQ@mail.gmail.com>
+ <Y34WI9SZdiH/p1tA@ziepe.ca> <f8f844a5-0910-d19a-5aea-df7a1d83b1d3@gmail.com>
+ <Y34XvmtHfb4ZwopN@ziepe.ca> <dc2a9d7f-192b-e9d8-b1d1-3b868cb1fd44@gmail.com>
+ <Y34gBUl0m+j1JdFk@ziepe.ca>
+In-Reply-To: <Y34gBUl0m+j1JdFk@ziepe.ca>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Wed, 23 Nov 2022 15:28:27 +0100
+Message-ID: <CAKMK7uHWyOcZ77-+GY7hxFUA65uQYFe0fw2rww6Y-rLXvHFAYw@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] Re: [PATCH] dma-buf: Require VM_PFNMAP vma for
+ mmap
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,77 +72,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jeffrey Hugo <quic_jhugo@quicinc.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Arnd Bergmann <arnd@arndb.de>, Jiho Chu <jiho.chu@samsung.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Christoph Hellwig <hch@infradead.org>,
- Christopher Friedt <chrisfriedt@gmail.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Jason Gunthorpe <jgg@nvidia.com>, John Hubbard <jhubbard@nvidia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
- Kevin Hilman <khilman@baylibre.com>,
- Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
+ John Stultz <john.stultz@linaro.org>, Matthew Wilcox <willy@infradead.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Suren Baghdasaryan <surenb@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/22/22 06:54, Daniel Vetter wrote:
-> On Tue, Nov 22, 2022 at 03:46:25PM +1000, Dave Airlie wrote:
->> On Tue, 22 Nov 2022 at 09:06, Sonal Santan <sonal.santan@amd.com> wrote:
->>>
->>> On 11/19/22 12:44, Oded Gabbay wrote:
->>>> This is the fourth (and hopefully last) version of the patch-set to add the
->>>> new subsystem for compute accelerators. I removed the RFC headline as
->>>> I believe it is now ready for merging.
->>>>
->>>> Compare to v3, this patch-set contains one additional patch that adds
->>>> documentation regarding the accel subsystem. I hope it's good enough for
->>>> this stage. In addition, there were few very minor fixes according to
->>>> comments received on v3.
->>>>
->>>> The patches are in the following repo:
->>>> https://git.kernel.org/pub/scm/linux/kernel/git/ogabbay/accel.git/log/?h=accel_v4
->>>>
->>>> As in v3, The HEAD of that branch is a commit adding a dummy driver that
->>>> registers an accel device using the new framework. This can be served
->>>> as a simple reference.
->>>>
->>>> v1 cover letter:
->>>> https://lkml.org/lkml/2022/10/22/544
->>>>
->>>> v2 cover letter:
->>>> https://lore.kernel.org/lkml/20221102203405.1797491-1-ogabbay@kernel.org/T/
->>>>
->>>> v3 cover letter:
->>>> https://lore.kernel.org/lkml/20221106210225.2065371-1-ogabbay@kernel.org/T/
->>>
->>> Thanks for defining the new accel subsystem. We are currently working on
->>> DRM based drivers for unannounced acceleration devices. I am fine with
->>> these changes with the assumption that the choice of using classic DRM
->>> or accel is left up to the individual driver.
->>
->> I don't think that decision should be up to any individual driver
->> author. It will have to be consensus with me/Daniel/Oded and the
->> driver authors.
-> 
-> Plus the entire point of this is that it's _still_ a drm based driver. So
-> aside from changing a flag in the kernel driver and adjusting userspace to
-> find the right chardev, there should be zero changes need for an existing
-> drm based driver stack that gets ported to drivers/accel.
-> 
-> And of course if we realize there's issues as we add drivers, we can fix
-> things up. This is just to kick things off, not something that's going to
-> be cast in stone for all eternity.
-> 
-> Sonal, with that clarification/explanation, is this entire thing
-> reasonable in principal and you can drop an Ack onto the series?
-> 
-> Thanks, Daniel
+On Wed, 23 Nov 2022 at 14:28, Jason Gunthorpe <jgg@ziepe.ca> wrote:
+>
+> On Wed, Nov 23, 2022 at 02:12:25PM +0100, Christian K=C3=B6nig wrote:
+> > Am 23.11.22 um 13:53 schrieb Jason Gunthorpe:
+> > > On Wed, Nov 23, 2022 at 01:49:41PM +0100, Christian K=C3=B6nig wrote:
+> > > > Am 23.11.22 um 13:46 schrieb Jason Gunthorpe:
+> > > > > On Wed, Nov 23, 2022 at 11:06:55AM +0100, Daniel Vetter wrote:
+> > > > >
+> > > > > > > Maybe a GFP flag to set the page reference count to zero or s=
+omething
+> > > > > > > like this?
+> > > > > > Hm yeah that might work. I'm not sure what it will all break th=
+ough?
+> > > > > > And we'd need to make sure that underflowing the page refcount =
+dies in
+> > > > > > a backtrace.
+> > > > > Mucking with the refcount like this to protect against crazy out =
+of
+> > > > > tree drives seems horrible..
+> > > > Well not only out of tree drivers. The intree KVM got that horrible
+> > > > wrong as well, those where the latest guys complaining about it.
+> > > kvm was taking refs on special PTEs? That seems really unlikely?
+> >
+> > Well then look at this code here:
+> >
+> > commit add6a0cd1c5ba51b201e1361b05a5df817083618
+> > Author: Paolo Bonzini <pbonzini@redhat.com>
+> > Date:   Tue Jun 7 17:51:18 2016 +0200
+> >
+> >     KVM: MMU: try to fix up page faults before giving up
+> >
+> >     The vGPU folks would like to trap the first access to a BAR by sett=
+ing
+> >     vm_ops on the VMAs produced by mmap-ing a VFIO device.  The fault
+> > handler
+> >     then can use remap_pfn_range to place some non-reserved pages in th=
+e
+> > VMA.
+> >
+> >     This kind of VM_PFNMAP mapping is not handled by KVM, but follow_pf=
+n
+> >     and fixup_user_fault together help supporting it.  The patch also
+> > supports
+> >     VM_MIXEDMAP vmas where the pfns are not reserved and thus subject t=
+o
+> >     reference counting.
+> >
+> >     Cc: Xiao Guangrong <guangrong.xiao@linux.intel.com>
+> >     Cc: Andrea Arcangeli <aarcange@redhat.com>
+> >     Cc: Radim Kr=C4=8Dm=C3=A1=C5=99 <rkrcmar@redhat.com>
+> >     Tested-by: Neo Jia <cjia@nvidia.com>
+> >     Reported-by: Kirti Wankhede <kwankhede@nvidia.com>
+> >     Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>
+> This patch is known to be broken in so many ways. It also has a major
+> security hole that it ignores the PTE flags making the page
+> RO. Ignoring the special bit is somehow not surprising :(
+>
+> This probably doesn't work, but is the general idea of what KVM needs
+> to do:
+
+Oh dear, when I dug around in there I entirely missed that
+kvm_try_get_pfn exists, and it's very broken indeed. kvm really needs
+to grow a proper mmu notifier.
+
+Another thing I'm wondering right now, the follow_pte();
+fixup_user_fault(); follow_pte(); approach does not make any
+guarantees of actually being right. If you're sufficiently unlucky you
+might race against an immediate pte invalidate between the fixup and
+the 2nd follow_pte(). But you can also not loop, because that would
+fail to catch permanent faults.
+
+I think the iommu fault drivers have a similar pattern.
+
+What am I missing here? Or is that also just broken. gup works around
+this with the slow path that takes the mmap sem and walking the vma
+tree, follow_pte/fixup_user_fautl users dont. Maybe mmu notifier based
+restarting would help with this too, if done properly.
+-Daniel
+
+> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> index 1376a47fedeedb..4161241fc3228c 100644
+> --- a/virt/kvm/kvm_main.c
+> +++ b/virt/kvm/kvm_main.c
+> @@ -2598,6 +2598,19 @@ static int hva_to_pfn_remapped(struct vm_area_stru=
+ct *vma,
+>                         return r;
+>         }
+>
+> +       /*
+> +        * Special PTEs are never convertible into a struct page, even if=
+ the
+> +        * driver that owns them might have put a PFN with a struct page =
+into
+> +        * the PFNMAP. If the arch doesn't support special then we cannot
+> +        * safely process these pages.
+> +        */
+> +#ifdef CONFIG_ARCH_HAS_PTE_SPECIAL
+> +       if (pte_special(*ptep))
+> +               return -EINVAL;
+> +#else
+> +       return -EINVAL;
+> +#endif
+> +
+>         if (write_fault && !pte_write(*ptep)) {
+>                 pfn =3D KVM_PFN_ERR_RO_FAULT;
+>                 goto out;
+>
+> Jason
 
 
-Sounds good. The accel patch series is:
-Acked-by: Sonal Santan <sonal.santan@amd.com>
 
--Sonal
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
