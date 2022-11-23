@@ -2,34 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DEFB634E19
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 04:00:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FA86634E22
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 04:01:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FA1310E1E4;
-	Wed, 23 Nov 2022 03:00:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E3DE10E4BD;
+	Wed, 23 Nov 2022 03:00:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DD4610E1E4
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 03:00:23 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A19FB10E1E4
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 03:00:25 +0000 (UTC)
 Received: from dimapc.. (109-252-117-140.nat.spd-mgts.ru [109.252.117.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id AE8166602AE5;
- Wed, 23 Nov 2022 03:00:20 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 941B96602AEC;
+ Wed, 23 Nov 2022 03:00:22 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1669172422;
- bh=le7MY1rHTG895yNoJQwBOn1a1w1txaYwjlqaSvlS+ZU=;
+ s=mail; t=1669172424;
+ bh=Tcyiae8fmjxfaeXdiMzjEcz2/nDyrSKq/p6Agz/qn0g=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=SGSx0uwx8kkMNzdM3DYE+uSXECwZ2wLApRBRzEdxzrLq44Xvwhubx/cqCm5/xf5HJ
- KF0FA0UqHMCz9UEkUx+5iBTkIyV38yO2oi/Fa8DJETSydmTB991ijwq5hUmkFEAHqH
- HpT2uzZ0f2zd3BCixTkrh55Ot3EASbEen/P5LBQD4IDQWjY+n/nboIA54CARKgaau1
- SxShXwFjc3XHyrlbXdpaGE3uO+3vzIDhP01Hx6bJAeYni+r5R2I+arNr/7cwnJwkIe
- ZxwfysE9f9FuhiIvh16OtBHxP7GcLyAXGep8JUNRmr0qZIgoiwmPnUyIgxkHjKGESN
- pWq5iw8MzODhw==
+ b=nnzjCKigGd8sZF7ZBgYoObi2Bodrq1n/ZRCZvvxsZguXUVfgjjvGLlbyUhswHfkE8
+ 9R5F5Q/YiKaGX+4vEURO0LjEdcLHfX6cddOvqhL6Modgx4nzEgXRYr3Bq5uzJs121g
+ h70paCq23o4zsSrHFEz+00Nn+EUo5Ls/FAazmA6ZMsUfi5BYVgealxmzXAEnyPOCu4
+ 6zC+faUUt8NcalScabTElZJVyDwZssMVWhzICTUlTBZtSfSOrpBSwRUzps+ThWUd1q
+ KFmkZT26RGJ93tGK5kBuLAoFFfof8EO1EGYHLLxGSKkfVHXVz8u6ERxyA89t0WJ0j9
+ JlDZQF2g8gBDw==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
@@ -48,9 +47,10 @@ To: David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Rob Herring <robh@kernel.org>, Sean Paul <sean@poorly.run>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v9 05/11] drm/shmem: Switch to use drm_* debug helpers
-Date: Wed, 23 Nov 2022 05:57:17 +0300
-Message-Id: <20221123025723.695075-6-dmitry.osipenko@collabora.com>
+Subject: [PATCH v9 06/11] drm/shmem-helper: Don't use vmap_use_count for
+ dma-bufs
+Date: Wed, 23 Nov 2022 05:57:18 +0300
+Message-Id: <20221123025723.695075-7-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221123025723.695075-1-dmitry.osipenko@collabora.com>
 References: <20221123025723.695075-1-dmitry.osipenko@collabora.com>
@@ -73,167 +73,89 @@ Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ease debugging of a multi-GPU system by using drm_WARN_*() and
-drm_dbg_kms() helpers that print out DRM device name corresponding
-to shmem GEM.
+DMA-buf core has its own refcounting of vmaps, use it instead of drm-shmem
+counting. This change prepares drm-shmem for addition of memory shrinker
+support where drm-shmem will use a single dma-buf reservation lock for
+all operations performed over dma-bufs.
 
-Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/gpu/drm/drm_gem_shmem_helper.c | 38 +++++++++++++++-----------
- 1 file changed, 22 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 35 +++++++++++++++-----------
+ 1 file changed, 20 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index 35138f8a375c..5504eeb61099 100644
+index 5504eeb61099..ba9d9c5f1064 100644
 --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
 +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -139,7 +139,7 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
- {
+@@ -299,24 +299,22 @@ static int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem,
  	struct drm_gem_object *obj = &shmem->base;
+ 	int ret = 0;
  
--	WARN_ON(shmem->vmap_use_count);
-+	drm_WARN_ON(obj->dev, shmem->vmap_use_count);
- 
- 	if (obj->import_attach) {
- 		drm_prime_gem_destroy(obj, shmem->sgt);
-@@ -154,7 +154,7 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
- 			drm_gem_shmem_put_pages(shmem);
- 	}
- 
--	WARN_ON(shmem->pages_use_count);
-+	drm_WARN_ON(obj->dev, shmem->pages_use_count);
- 
- 	drm_gem_object_release(obj);
- 	mutex_destroy(&shmem->pages_lock);
-@@ -173,7 +173,8 @@ static int drm_gem_shmem_get_pages_locked(struct drm_gem_shmem_object *shmem)
- 
- 	pages = drm_gem_get_pages(obj);
- 	if (IS_ERR(pages)) {
--		DRM_DEBUG_KMS("Failed to get pages (%ld)\n", PTR_ERR(pages));
-+		drm_dbg_kms(obj->dev, "Failed to get pages (%ld)\n",
-+			    PTR_ERR(pages));
- 		shmem->pages_use_count = 0;
- 		return PTR_ERR(pages);
- 	}
-@@ -205,9 +206,10 @@ static int drm_gem_shmem_get_pages_locked(struct drm_gem_shmem_object *shmem)
-  */
- int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
- {
-+	struct drm_gem_object *obj = &shmem->base;
- 	int ret;
- 
--	WARN_ON(shmem->base.import_attach);
-+	drm_WARN_ON(obj->dev, obj->import_attach);
- 
- 	ret = mutex_lock_interruptible(&shmem->pages_lock);
- 	if (ret)
-@@ -223,7 +225,7 @@ static void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem)
- {
- 	struct drm_gem_object *obj = &shmem->base;
- 
--	if (WARN_ON_ONCE(!shmem->pages_use_count))
-+	if (drm_WARN_ON_ONCE(obj->dev, !shmem->pages_use_count))
- 		return;
- 
- 	if (--shmem->pages_use_count > 0)
-@@ -266,7 +268,9 @@ EXPORT_SYMBOL(drm_gem_shmem_put_pages);
-  */
- int drm_gem_shmem_pin(struct drm_gem_shmem_object *shmem)
- {
--	WARN_ON(shmem->base.import_attach);
-+	struct drm_gem_object *obj = &shmem->base;
-+
-+	drm_WARN_ON(obj->dev, obj->import_attach);
- 
- 	return drm_gem_shmem_get_pages(shmem);
- }
-@@ -281,7 +285,9 @@ EXPORT_SYMBOL(drm_gem_shmem_pin);
-  */
- void drm_gem_shmem_unpin(struct drm_gem_shmem_object *shmem)
- {
--	WARN_ON(shmem->base.import_attach);
-+	struct drm_gem_object *obj = &shmem->base;
-+
-+	drm_WARN_ON(obj->dev, obj->import_attach);
- 
- 	drm_gem_shmem_put_pages(shmem);
- }
-@@ -301,7 +307,7 @@ static int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem,
+-	if (shmem->vmap_use_count++ > 0) {
+-		iosys_map_set_vaddr(map, shmem->vaddr);
+-		return 0;
+-	}
+-
  	if (obj->import_attach) {
  		ret = dma_buf_vmap(obj->import_attach->dmabuf, map);
  		if (!ret) {
--			if (WARN_ON(map->is_iomem)) {
-+			if (drm_WARN_ON(obj->dev, map->is_iomem)) {
+ 			if (drm_WARN_ON(obj->dev, map->is_iomem)) {
  				dma_buf_vunmap(obj->import_attach->dmabuf, map);
- 				ret = -EIO;
- 				goto err_put_pages;
-@@ -326,7 +332,7 @@ static int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem,
- 	}
- 
- 	if (ret) {
--		DRM_DEBUG_KMS("Failed to vmap pages, error %d\n", ret);
-+		drm_dbg_kms(obj->dev, "Failed to vmap pages, error %d\n", ret);
- 		goto err_put_pages;
- 	}
- 
-@@ -376,7 +382,7 @@ static void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem,
- {
- 	struct drm_gem_object *obj = &shmem->base;
- 
--	if (WARN_ON_ONCE(!shmem->vmap_use_count))
-+	if (drm_WARN_ON_ONCE(obj->dev, !shmem->vmap_use_count))
- 		return;
- 
- 	if (--shmem->vmap_use_count > 0)
-@@ -461,7 +467,7 @@ void drm_gem_shmem_purge_locked(struct drm_gem_shmem_object *shmem)
- 	struct drm_gem_object *obj = &shmem->base;
- 	struct drm_device *dev = obj->dev;
- 
--	WARN_ON(!drm_gem_shmem_is_purgeable(shmem));
-+	drm_WARN_ON(obj->dev, !drm_gem_shmem_is_purgeable(shmem));
- 
- 	dma_unmap_sgtable(dev->dev, shmem->sgt, DMA_BIDIRECTIONAL, 0);
- 	sg_free_table(shmem->sgt);
-@@ -553,7 +559,7 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
- 	mutex_lock(&shmem->pages_lock);
- 
- 	if (page_offset >= num_pages ||
--	    WARN_ON_ONCE(!shmem->pages) ||
-+	    drm_WARN_ON_ONCE(obj->dev, !shmem->pages) ||
- 	    shmem->madv < 0) {
- 		ret = VM_FAULT_SIGBUS;
+-				ret = -EIO;
+-				goto err_put_pages;
++				return -EIO;
+ 			}
+-			shmem->vaddr = map->vaddr;
+ 		}
  	} else {
-@@ -573,10 +579,10 @@ static void drm_gem_shmem_vm_open(struct vm_area_struct *vma)
- 	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
- 	int ret;
+ 		pgprot_t prot = PAGE_KERNEL;
  
--	WARN_ON(shmem->base.import_attach);
-+	drm_WARN_ON(obj->dev, obj->import_attach);
- 
- 	ret = drm_gem_shmem_get_pages(shmem);
--	WARN_ON_ONCE(ret != 0);
-+	drm_WARN_ON_ONCE(obj->dev, ret != 0);
- 
- 	drm_gem_vm_open(vma);
- }
-@@ -669,7 +675,7 @@ struct sg_table *drm_gem_shmem_get_sg_table(struct drm_gem_shmem_object *shmem)
++		if (shmem->vmap_use_count++ > 0) {
++			iosys_map_set_vaddr(map, shmem->vaddr);
++			return 0;
++		}
++
+ 		ret = drm_gem_shmem_get_pages(shmem);
+ 		if (ret)
+ 			goto err_zero_use;
+@@ -382,15 +380,15 @@ static void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem,
  {
  	struct drm_gem_object *obj = &shmem->base;
  
--	WARN_ON(shmem->base.import_attach);
-+	drm_WARN_ON(obj->dev, obj->import_attach);
- 
- 	return drm_prime_pages_to_sg(obj->dev, shmem->pages, obj->size >> PAGE_SHIFT);
+-	if (drm_WARN_ON_ONCE(obj->dev, !shmem->vmap_use_count))
+-		return;
+-
+-	if (--shmem->vmap_use_count > 0)
+-		return;
+-
+ 	if (obj->import_attach) {
+ 		dma_buf_vunmap(obj->import_attach->dmabuf, map);
+ 	} else {
++		if (drm_WARN_ON_ONCE(obj->dev, !shmem->vmap_use_count))
++			return;
++
++		if (--shmem->vmap_use_count > 0)
++			return;
++
+ 		vunmap(shmem->vaddr);
+ 		drm_gem_shmem_put_pages(shmem);
+ 	}
+@@ -652,7 +650,14 @@ void drm_gem_shmem_print_info(const struct drm_gem_shmem_object *shmem,
+ 			      struct drm_printer *p, unsigned int indent)
+ {
+ 	drm_printf_indent(p, indent, "pages_use_count=%u\n", shmem->pages_use_count);
+-	drm_printf_indent(p, indent, "vmap_use_count=%u\n", shmem->vmap_use_count);
++
++	if (shmem->base.import_attach)
++		drm_printf_indent(p, indent, "vmap_use_count=%u\n",
++				  shmem->base.dma_buf->vmapping_counter);
++	else
++		drm_printf_indent(p, indent, "vmap_use_count=%u\n",
++				  shmem->vmap_use_count);
++
+ 	drm_printf_indent(p, indent, "vaddr=%p\n", shmem->vaddr);
  }
-@@ -700,7 +706,7 @@ struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_shmem_object *shmem)
- 	if (shmem->sgt)
- 		return shmem->sgt;
- 
--	WARN_ON(obj->import_attach);
-+	drm_WARN_ON(obj->dev, obj->import_attach);
- 
- 	ret = drm_gem_shmem_get_pages(shmem);
- 	if (ret)
+ EXPORT_SYMBOL(drm_gem_shmem_print_info);
 -- 
 2.38.1
 
