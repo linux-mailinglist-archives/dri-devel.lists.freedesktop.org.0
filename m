@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB22B634E1B
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 04:00:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 815C6634E1E
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 04:00:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D52D410E1EE;
-	Wed, 23 Nov 2022 03:00:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4228510E4C0;
+	Wed, 23 Nov 2022 03:00:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAE0310E1E4
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 03:00:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD32F10E1EE
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 03:00:21 +0000 (UTC)
 Received: from dimapc.. (109-252-117-140.nat.spd-mgts.ru [109.252.117.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id C28496602AEE;
- Wed, 23 Nov 2022 03:00:16 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id B44986602AF2;
+ Wed, 23 Nov 2022 03:00:18 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1669172418;
- bh=RT5S0yzlaNnCWPARh+1Inmti1GJA1337tFu57txKjKk=;
+ s=mail; t=1669172420;
+ bh=yM5EklsLIeVBROoe840u6b3fWDQRZvJbUhCX8eobLRI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Hhc+CVgz3ztZzhqdqHOTNzN4wdgJzLzwr4A9Wu6OVixxsAi12YBGiHpRZxyozeHnb
- 16NoycUMWhhtlKjvjjVZ+Ba4sqjm4j94MjW++DYcWthha17ktWLmGHbsBQSMwetrfC
- oarSIj2efludtgTL1dme9UDMGJaNjCrB3xE8OrELTLaQMThKz0KtlnXDAkXo5fp0pv
- kWfQaDrKOuedrLkH2RS/mp97DGfVRPbJT69X00Dpa97H1AWIKRXqDY6JJYJmNUlH+6
- F4wQuW4EHv8OCIFQKywWdxsa9IkaAD9X6wj+pcwwW2FBMR0tExzUa+4U0/XRV63tp9
- RGzyWE9qLUGWg==
+ b=diTafuuSfJ3e6j4bOXS82lvtpcTDl5JupHdWUjZZt4ZUqEtU+hxE39me0iWB3ha1p
+ DbtwZIjN/x7xV/ZPQ/pbiNVNIzXdIMnV/U6B0DTU5hQmb1v7BloTpCY8+5fKSsQeny
+ ZaisB5RKbcLusbfRgJCDR9j/J8HfZw+fC1LhNYfhS2k18KPLPwP0QLq5orugizN67W
+ CXhTfUoFqrFl/VA5EHJa/WNZQtG4fx9gTzeKNJgDNdSVXhY8GD/k4BNRf2+GIB+ycI
+ SRjzS9of/yZHrVE07S2sfapc0C6Q0eaIebAjxyBBM9FpZ/DVDSAk7X4gkU9Rr04RK7
+ iwkyw76FR84Zw==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
@@ -48,9 +48,10 @@ To: David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Rob Herring <robh@kernel.org>, Sean Paul <sean@poorly.run>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v9 03/11] drm/gem: Add evict() callback to drm_gem_object_funcs
-Date: Wed, 23 Nov 2022 05:57:15 +0300
-Message-Id: <20221123025723.695075-4-dmitry.osipenko@collabora.com>
+Subject: [PATCH v9 04/11] drm/shmem: Put booleans in the end of struct
+ drm_gem_shmem_object
+Date: Wed, 23 Nov 2022 05:57:16 +0300
+Message-Id: <20221123025723.695075-5-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221123025723.695075-1-dmitry.osipenko@collabora.com>
 References: <20221123025723.695075-1-dmitry.osipenko@collabora.com>
@@ -73,68 +74,67 @@ Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add new common evict() callback to drm_gem_object_funcs and corresponding
-drm_gem_object_evict() helper. This is a first step on a way to providing
-common GEM-shrinker API for DRM drivers.
+Group all 1-bit boolean members of struct drm_gem_shmem_object in the end
+of the structure, allowing compiler to pack data better and making code to
+look more consistent.
 
 Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/gpu/drm/drm_gem.c | 15 +++++++++++++++
- include/drm/drm_gem.h     | 12 ++++++++++++
- 2 files changed, 27 insertions(+)
+ include/drm/drm_gem_shmem_helper.h | 30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 299bca1390aa..c0510b8080d2 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -1458,3 +1458,18 @@ drm_gem_lru_scan(struct drm_gem_lru *lru,
- 	return freed;
- }
- EXPORT_SYMBOL(drm_gem_lru_scan);
-+
-+/**
-+ * drm_gem_object_evict - helper to evict backing pages for a GEM object
-+ * @obj: obj in question
-+ */
-+bool
-+drm_gem_object_evict(struct drm_gem_object *obj)
-+{
-+	dma_resv_assert_held(obj->resv);
-+
-+	if (obj->funcs->evict)
-+		return obj->funcs->evict(obj);
-+
-+	return false;
-+}
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index b46ade812443..add1371453f0 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -172,6 +172,16 @@ struct drm_gem_object_funcs {
- 	 * This is optional but necessary for mmap support.
+diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+index a2201b2488c5..5994fed5e327 100644
+--- a/include/drm/drm_gem_shmem_helper.h
++++ b/include/drm/drm_gem_shmem_helper.h
+@@ -60,20 +60,6 @@ struct drm_gem_shmem_object {
  	 */
- 	const struct vm_operations_struct *vm_ops;
+ 	struct list_head madv_list;
+ 
+-	/**
+-	 * @pages_mark_dirty_on_put:
+-	 *
+-	 * Mark pages as dirty when they are put.
+-	 */
+-	unsigned int pages_mark_dirty_on_put    : 1;
+-
+-	/**
+-	 * @pages_mark_accessed_on_put:
+-	 *
+-	 * Mark pages as accessed when they are put.
+-	 */
+-	unsigned int pages_mark_accessed_on_put : 1;
+-
+ 	/**
+ 	 * @sgt: Scatter/gather table for imported PRIME buffers
+ 	 */
+@@ -97,10 +83,24 @@ struct drm_gem_shmem_object {
+ 	 */
+ 	unsigned int vmap_use_count;
+ 
++	/**
++	 * @pages_mark_dirty_on_put:
++	 *
++	 * Mark pages as dirty when they are put.
++	 */
++	bool pages_mark_dirty_on_put : 1;
 +
 +	/**
-+	 * @evict:
++	 * @pages_mark_accessed_on_put:
 +	 *
-+	 * Evicts gem object out from memory. Used by the drm_gem_object_evict()
-+	 * helper. Returns true on success, false otherwise.
-+	 *
-+	 * This callback is optional.
++	 * Mark pages as accessed when they are put.
 +	 */
-+	bool (*evict)(struct drm_gem_object *obj);
++	bool pages_mark_accessed_on_put : 1;
++
+ 	/**
+ 	 * @map_wc: map object write-combined (instead of using shmem defaults).
+ 	 */
+-	bool map_wc;
++	bool map_wc : 1;
  };
  
- /**
-@@ -480,4 +490,6 @@ unsigned long drm_gem_lru_scan(struct drm_gem_lru *lru,
- 			       unsigned long *remaining,
- 			       bool (*shrink)(struct drm_gem_object *obj));
- 
-+bool drm_gem_object_evict(struct drm_gem_object *obj);
-+
- #endif /* __DRM_GEM_H__ */
+ #define to_drm_gem_shmem_obj(obj) \
 -- 
 2.38.1
 
