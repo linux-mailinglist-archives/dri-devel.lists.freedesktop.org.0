@@ -1,63 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B84DE63637A
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 16:27:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50A5A636430
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 16:42:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79C0710E577;
-	Wed, 23 Nov 2022 15:27:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29A2D10E59C;
+	Wed, 23 Nov 2022 15:42:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DFA610E577
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 15:27:15 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id ED0D2B820FE
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 15:27:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A66ABC43144
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 15:27:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1669217232;
- bh=6G3HlKjouKwKXFMzgLCPn6LkLiAS0HzsmxR8j+rizYQ=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=kBHW6vBiYiisPxDtT5OdyJbzzT7Xf0MyyOJMkmevMLBS7JjeZxljVsvP5uOAfKEXY
- FAkB0JIMlTmxVSaGMs2EaRdWjdM2qv3gb5RE73JWWQnrYZa5mZzMD7LhHeHUH3A0Kl
- 7NJPIEci7r6ipkUf1Z9BU9QU8Fc0+lfzFULL+oMAI8xWXR40i+p1b7nmzDTwuqF4Uq
- fqanbhYWnoIX/tjOXLmAIDCBZKciqcg+xc0pepHcZGpqZjZdyislyNNxek+yCb9f4J
- B97udPkNJi3wohsm5IDcCA0pGYPjXtZx52aSEp6ldcQw7czWghMNtAna4eQX5aJvdi
- VeYgA2tTFQuhA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 95486C433E9; Wed, 23 Nov 2022 15:27:12 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216727] Failure to wake up from suspend to RAM
-Date: Wed, 23 Nov 2022 15:27:12 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: martin.tk@gmx.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-216727-2300-bZqx4NNvJ0@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216727-2300@https.bugzilla.kernel.org/>
-References: <bug-216727-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0381210E59B;
+ Wed, 23 Nov 2022 15:42:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1669218129; x=1700754129;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=kpvMgL7bhIO/OBnu6i47motW/ruLXZLpRUpjkbUCzL0=;
+ b=j8dUyrXoKfc/gqI1+pepqc0XP/+B0xjhud3AiujsiBN+Y3se/cpAKBXl
+ FTOord9VhOijY5n5xW/zgCL8RMxaOlJOBXTgWVNmVibYo/WXOETiUY6jI
+ c9vg8UjTAZWdXCo2mky4P6tqAMU8bURCrjfbCu33DmxpgXTD2pSo/0yey
+ 28xenPnQPLfItAbd6wO60HDKo/pUZcl1VxGHqiuCnXbqHxF3fTnUpV7j6
+ r60Ao/8j8TWDVEaJNZnWfywyf7ZAJ8m5a+Wktym/c2ARFsT4W6CNrFjSi
+ lR5HturcDWQCtllwJnuT+xsri1Zru0YV1RsPEhAjWPAc8qRRPfbWHKywU w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="378350939"
+X-IronPort-AV: E=Sophos;i="5.96,187,1665471600"; d="scan'208";a="378350939"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Nov 2022 07:42:08 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="766760438"
+X-IronPort-AV: E=Sophos;i="5.96,187,1665471600"; d="scan'208";a="766760438"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.16.106])
+ ([10.213.16.106])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Nov 2022 07:42:05 -0800
+Message-ID: <713228b8-16ec-c791-7f1c-abae0316831a@intel.com>
+Date: Wed, 23 Nov 2022 16:42:03 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.5.0
+Subject: Re: [PATCH v3 2/2] drm/i915: Never return 0 if not all requests
+ retired
+Content-Language: en-US
+To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+References: <20221121145655.75141-1-janusz.krzysztofik@linux.intel.com>
+ <20221121145655.75141-3-janusz.krzysztofik@linux.intel.com>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20221121145655.75141-3-janusz.krzysztofik@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,32 +66,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org,
+ Chris Wilson <chris.p.wilson@intel.com>, dri-devel@lists.freedesktop.org,
+ John Harrison <John.C.Harrison@Intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216727
 
---- Comment #3 from Martin (martin.tk@gmx.com) ---
-(In reply to Alex Deucher from comment #1)
-> Does this patch help?
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/
-> ?id=3D8d4de331f1b24a22d18e3c6116aa25228cf54854
 
-I think it helped.
+On 21.11.2022 15:56, Janusz Krzysztofik wrote:
+> Users of intel_gt_retire_requests_timeout() expect 0 return value on
+> success.  However, we have no protection from passing back 0 potentially
+> returned by a call to dma_fence_wait_timeout() when it succedes right
+> after its timeout has expired.
+>
+> Replace 0 with -ETIME before potentially using the timeout value as return
+> code, so -ETIME is returned if there are still some requests not retired
+> after timeout, 0 otherwise.
+>
+> v3: Use conditional expression, more compact but also better reflecting
+>      intention standing behind the change.
+>
+> v2: Move the added lines down so flush_submission() is not affected.
+>
+> Fixes: f33a8a51602c ("drm/i915: Merge wait_for_timelines with retire_request")
+> Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
 
-I booted yesterday, managed to trigger OOM killer twice and suspended and
-resumed three times.
+I confirm my r-b.
 
-I'm still getting those kind errors in the log:
+Regards
+Andrzej
 
-kernfs: can not remove 'threshold_limit', no directory
+> Cc: stable@vger.kernel.org # v5.5+
+> ---
+>   drivers/gpu/drm/i915/gt/intel_gt_requests.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_requests.c b/drivers/gpu/drm/i915/gt/intel_gt_requests.c
+> index edb881d756309..1dfd01668c79c 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_requests.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_requests.c
+> @@ -199,7 +199,7 @@ out_active:	spin_lock(&timelines->lock);
+>   	if (remaining_timeout)
+>   		*remaining_timeout = timeout;
+>   
+> -	return active_count ? timeout : 0;
+> +	return active_count ? timeout ?: -ETIME : 0;
+>   }
+>   
+>   static void retire_work_handler(struct work_struct *work)
 
-but I think those can be something else.
-
-Thank you.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
