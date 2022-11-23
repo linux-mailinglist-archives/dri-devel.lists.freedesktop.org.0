@@ -1,28 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BFB9635248
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 09:22:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33C9163523D
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 09:22:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CCE310E516;
-	Wed, 23 Nov 2022 08:21:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF5C110E505;
+	Wed, 23 Nov 2022 08:21:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3C0210E4F5
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 07:00:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A558A10E4F4
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 07:00:27 +0000 (UTC)
 Received: from desky.lan (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4D76E890;
- Wed, 23 Nov 2022 08:00:24 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 68C76BB0;
+ Wed, 23 Nov 2022 08:00:25 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1669186825;
- bh=NihHXOAyw3YquNkpsRZgUpX6GQmS+L99zVdRiIJdslI=;
+ s=mail; t=1669186826;
+ bh=+Iw1lIC2DfiPDS7XgR9gAyUsUIEu1mzVmEjS0w/SQ9o=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=PrNWPIb6cHFBSRNUZm50YFXvlgAqTQG0BuFe9/wk61/DJZHKL/ACZK7lp2+l+hAwC
- KnSsmzODapVInbfPjfFwGHY7HZ06VKdd+ksgOCj9utdDREj7bwMCTYaKSs0OO78jTB
- TIxl8PGXUB6/VAOk+kpAOp7jFfn43mgVpcupKi+4=
+ b=XuE4uuYMNfTsLkFcK83Gm2hfNtYxC3nR53hfMUOkN6v4ObVe1igBKMRKd0ihUU61m
+ qqm3npH5tn6w9O3RjwAF8cshnfoEiZJWC4nKqVaSZVVV2667REedwu+3KhqqfapVVO
+ 8Szcs8sW4sPYCYXGtuM7wcf9L24fSExh1cQxHNcY=
 From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
@@ -32,10 +32,10 @@ To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org,
  linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/7] dt-bindings: display: renesas,
- du: Provide bindings for r8a779g0
-Date: Wed, 23 Nov 2022 08:59:40 +0200
-Message-Id: <20221123065946.40415-2-tomi.valkeinen+renesas@ideasonboard.com>
+Subject: [PATCH v2 2/7] dt-bindings: display: bridge: renesas,
+ dsi-csi2-tx: Add r8a779g0
+Date: Wed, 23 Nov 2022 08:59:41 +0200
+Message-Id: <20221123065946.40415-3-tomi.valkeinen+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221123065946.40415-1-tomi.valkeinen+renesas@ideasonboard.com>
 References: <20221123065946.40415-1-tomi.valkeinen+renesas@ideasonboard.com>
@@ -62,36 +62,36 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Extend the Renesas DU display bindings to support the r8a779g0 V4H.
+Extend the Renesas DSI display bindings to support the r8a779g0 V4H.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- Documentation/devicetree/bindings/display/renesas,du.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ .../bindings/display/bridge/renesas,dsi-csi2-tx.yaml           | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/Documentation/devicetree/bindings/display/renesas,du.yaml
-index b3e588022082..d4830f52c512 100644
---- a/Documentation/devicetree/bindings/display/renesas,du.yaml
-+++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
-@@ -40,6 +40,7 @@ properties:
-       - renesas,du-r8a77990 # for R-Car E3 compatible DU
-       - renesas,du-r8a77995 # for R-Car D3 compatible DU
-       - renesas,du-r8a779a0 # for R-Car V3U compatible DU
-+      - renesas,du-r8a779g0 # for R-Car V4H compatible DU
+diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+index afeeb967393d..d33026f85e19 100644
+--- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+@@ -11,13 +11,14 @@ maintainers:
+ 
+ description: |
+   This binding describes the MIPI DSI/CSI-2 encoder embedded in the Renesas
+-  R-Car V3U SoC. The encoder can operate in either DSI or CSI-2 mode, with up
++  R-Car Gen4 SoCs. The encoder can operate in either DSI or CSI-2 mode, with up
+   to four data lanes.
+ 
+ properties:
+   compatible:
+     enum:
+       - renesas,r8a779a0-dsi-csi2-tx    # for V3U
++      - renesas,r8a779g0-dsi-csi2-tx    # for V4H
  
    reg:
      maxItems: 1
-@@ -762,6 +763,7 @@ allOf:
-           contains:
-             enum:
-               - renesas,du-r8a779a0
-+              - renesas,du-r8a779g0
-     then:
-       properties:
-         clocks:
 -- 
 2.34.1
 
