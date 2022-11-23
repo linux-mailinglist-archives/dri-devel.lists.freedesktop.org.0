@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11182635C3B
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 12:54:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9200635C3D
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 12:54:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 330B010E245;
-	Wed, 23 Nov 2022 11:54:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7650410E469;
+	Wed, 23 Nov 2022 11:54:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B265910E231
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 11:53:53 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20F5910E245
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 11:53:54 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 6BC7B1F8CA;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id BB7B11F8CB;
  Wed, 23 Nov 2022 11:53:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1669204432; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gNX3RKbPqrGaeSGTE3/ikhXZBQ0+c+dq8x2XJkZXmyI=;
- b=HJg8lN7K+4E9riMS6JI6lOyzqxncHVKDtroHh8Nw+YVbncGLHI6PyKEgVHLcsBonoTQhTW
- zPJlogaMIunwMbwauF+Q2fU8Un0ZDqK5sOrdLXHSQ1Pq3SWxqMGf69pFeeLaceoAGDSMMC
- gS5x/K/Zajub+NyvuwZa5R+UeWDdIYM=
+ bh=a68D3Xxyf363Eu/aEKTKGAaDJkqGjmYksFYOQq6ZT6E=;
+ b=x27xhtQka2sVu7oSFLkuslqsW31pqhiT05wKNGphlT9ydiDbd+L3U2zgfBI4tWRXlNHnyv
+ d99Jb2MxRlsMbTK2UMPblIGjSO/LWgb2zDyHarcaavD/oHNilVZogAywuqwNoEOv4FEohu
+ cRwd4HzF+0QWPxP0ffA11riZwv/Bj4U=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1669204432;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gNX3RKbPqrGaeSGTE3/ikhXZBQ0+c+dq8x2XJkZXmyI=;
- b=PeahHhENe75MePRZ8uAcv2kzJdTIw0D7aaDxCcKbVfWTJh2cyc4jvrBFBE1qJUnzO6WKiU
- 7eYlzKsoZvdHi5CQ==
+ bh=a68D3Xxyf363Eu/aEKTKGAaDJkqGjmYksFYOQq6ZT6E=;
+ b=pLFii4RIMNLE/tnXybn9175z1D1mup+in5fdkqhLUrxLH0uMhvTfSR9nFQL51QXM0aM12e
+ lsdNUHi6DOz/yjBw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1E1FE13B03;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6FA1513AE7;
  Wed, 23 Nov 2022 11:53:52 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id IM+CBtAJfmMwVwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id QH5jGtAJfmMwVwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Wed, 23 Nov 2022 11:53:52 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
@@ -51,10 +51,10 @@ To: daniel@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
  tiantao6@hisilicon.com, jstultz@google.com, kong.kongxinwei@hisilicon.com,
  puck.chen@hisilicon.com, paul.kocialkowski@bootlin.com, javierm@redhat.com,
  airlied@redhat.com, kraxel@redhat.com
-Subject: [PATCH v2 5/7] drm/simpledrm: Set preferred depth from format of
- scanout buffer
-Date: Wed, 23 Nov 2022 12:53:46 +0100
-Message-Id: <20221123115348.2521-6-tzimmermann@suse.de>
+Subject: [PATCH v2 6/7] drm/solomon: Set preferred color depth and bpp to the
+ correct values
+Date: Wed, 23 Nov 2022 12:53:47 +0100
+Message-Id: <20221123115348.2521-7-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221123115348.2521-1-tzimmermann@suse.de>
 References: <20221123115348.2521-1-tzimmermann@suse.de>
@@ -78,42 +78,37 @@ Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Set the preferred depth from the format of the scanout buffer. The
-value cannot be hardcoded, as the scanout buffer is only known at
-runtime. Also derive the fbdev emulation's bpp value from the scanout
-format.
-
-v2:
-	* fix commit-message typo
+Set the preferred color depth to 24 bits and the fbdev bpp to 32
+bits. This will signal XRGB8888 as default format to clients.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- drivers/gpu/drm/tiny/simpledrm.c | 4 ++--
+ drivers/gpu/drm/solomon/ssd130x.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-index 162eb44dcba89..30e928d627e8f 100644
---- a/drivers/gpu/drm/tiny/simpledrm.c
-+++ b/drivers/gpu/drm/tiny/simpledrm.c
-@@ -739,7 +739,7 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
- 	dev->mode_config.max_width = max_width;
- 	dev->mode_config.min_height = height;
- 	dev->mode_config.max_height = max_height;
--	dev->mode_config.preferred_depth = format->cpp[0] * 8;
-+	dev->mode_config.preferred_depth = format->depth;
- 	dev->mode_config.funcs = &simpledrm_mode_config_funcs;
+diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
+index 53464afc2b9ac..c3bf3a18302ea 100644
+--- a/drivers/gpu/drm/solomon/ssd130x.c
++++ b/drivers/gpu/drm/solomon/ssd130x.c
+@@ -876,7 +876,7 @@ static int ssd130x_init_modeset(struct ssd130x_device *ssd130x)
+ 	drm->mode_config.max_width = max_width;
+ 	drm->mode_config.min_height = mode->vdisplay;
+ 	drm->mode_config.max_height = max_height;
+-	drm->mode_config.preferred_depth = 32;
++	drm->mode_config.preferred_depth = 24;
+ 	drm->mode_config.funcs = &ssd130x_mode_config_funcs;
  
  	/* Primary plane */
-@@ -834,7 +834,7 @@ static int simpledrm_probe(struct platform_device *pdev)
+@@ -1006,7 +1006,7 @@ struct ssd130x_device *ssd130x_probe(struct device *dev, struct regmap *regmap)
  	if (ret)
- 		return ret;
+ 		return ERR_PTR(dev_err_probe(dev, ret, "DRM device register failed\n"));
  
--	drm_fbdev_generic_setup(dev, 0);
-+	drm_fbdev_generic_setup(dev, drm_format_info_bpp(sdev->format, 0));
+-	drm_fbdev_generic_setup(drm, 0);
++	drm_fbdev_generic_setup(drm, 32);
  
- 	return 0;
+ 	return ssd130x;
  }
 -- 
 2.38.1
