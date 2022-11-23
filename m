@@ -1,30 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD2B3636739
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 18:31:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7462463672B
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 18:30:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2571B10E5DC;
-	Wed, 23 Nov 2022 17:30:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D98BF10E5D8;
+	Wed, 23 Nov 2022 17:30:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
- [210.160.252.171])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1191710E5CF
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 17:29:50 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.96,187,1665414000"; d="scan'208";a="140988288"
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
+ [210.160.252.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5699210E5DA
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 17:29:54 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.96,187,1665414000"; d="scan'208";a="143666657"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
- by relmlie5.idc.renesas.com with ESMTP; 24 Nov 2022 02:29:50 +0900
+ by relmlie6.idc.renesas.com with ESMTP; 24 Nov 2022 02:29:53 +0900
 Received: from localhost.localdomain (unknown [10.226.92.61])
- by relmlir6.idc.renesas.com (Postfix) with ESMTP id 8590540ADCCF;
- Thu, 24 Nov 2022 02:29:47 +0900 (JST)
+ by relmlir6.idc.renesas.com (Postfix) with ESMTP id 0201140ADCC6;
+ Thu, 24 Nov 2022 02:29:50 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: David Airlie <airlied@gmail.com>,
 	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v6 11/19] drm: rcar-du: Move rcar_du_vsp_plane_cleanup_fb()
-Date: Wed, 23 Nov 2022 17:28:58 +0000
-Message-Id: <20221123172906.2919734-12-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v6 12/19] drm: rcar-du: Move rcar_du_vsp_plane_atomic_update()
+Date: Wed, 23 Nov 2022 17:28:59 +0000
+Message-Id: <20221123172906.2919734-13-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221123172906.2919734-1-biju.das.jz@bp.renesas.com>
 References: <20221123172906.2919734-1-biju.das.jz@bp.renesas.com>
@@ -51,87 +51,225 @@ Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move rcar_du_vsp_plane_cleanup_fb() to RCar DU vsp lib so that
-it can be shared by both RCar and RZ/G2L DU vsp drivers.
+Move rcar_du_vsp_plane_atomic_update() to RCar DU vsp lib so that
+both RCar and RZ/G2L DU vsp drivers can share this function.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 v5->v6:
- * Fixed check patch warning
+ * Updated rcar_du_vsp_plane_setup()
 v5:
  * New patch
 ---
- drivers/gpu/drm/rcar-du/rcar_du_vsp.c     | 12 ------------
- drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c | 12 ++++++++++++
- drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.h |  7 +++++++
- 3 files changed, 19 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c     | 70 ----------------------
+ drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c | 71 +++++++++++++++++++++++
+ drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.h |  7 +++
+ 3 files changed, 78 insertions(+), 70 deletions(-)
 
 diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-index b26c30902118..77a15450fca9 100644
+index 77a15450fca9..8d6ab048f5a5 100644
 --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
 +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-@@ -139,18 +139,6 @@ static void rcar_du_vsp_plane_setup(struct rcar_du_vsp_plane *plane)
- 			      plane->index, &cfg);
+@@ -84,61 +84,6 @@ void rcar_du_vsp_enable(struct rcar_du_crtc *crtc)
+ 	vsp1_du_setup_lif(crtc->vsp->vsp, crtc->vsp_pipe, &cfg);
  }
  
--static void rcar_du_vsp_plane_cleanup_fb(struct drm_plane *plane,
--					 struct drm_plane_state *state)
+-static void rcar_du_vsp_plane_setup(struct rcar_du_vsp_plane *plane)
 -{
--	struct rcar_du_vsp_plane_state *rstate = to_rcar_vsp_plane_state(state);
--	struct rcar_du_vsp *vsp = to_rcar_vsp_plane(plane)->vsp;
+-	struct rcar_du_vsp_plane_state *state =
+-		to_rcar_vsp_plane_state(plane->plane.state);
+-	struct rcar_du_crtc *crtc = to_rcar_crtc(state->state.crtc);
+-	struct drm_framebuffer *fb = plane->plane.state->fb;
+-	const struct rcar_du_format_info *format;
+-	struct vsp1_du_atomic_config cfg = {
+-		.pixelformat = 0,
+-		.pitch = fb->pitches[0],
+-		.alpha = state->state.alpha >> 8,
+-		.zpos = state->state.zpos,
+-	};
+-	u32 fourcc = state->format->fourcc;
+-	unsigned int i;
 -
--	if (!state->visible)
--		return;
+-	cfg.src.left = state->state.src.x1 >> 16;
+-	cfg.src.top = state->state.src.y1 >> 16;
+-	cfg.src.width = drm_rect_width(&state->state.src) >> 16;
+-	cfg.src.height = drm_rect_height(&state->state.src) >> 16;
 -
--	rcar_du_vsp_unmap_fb(vsp, state->fb, rstate->sg_tables);
+-	cfg.dst.left = state->state.dst.x1;
+-	cfg.dst.top = state->state.dst.y1;
+-	cfg.dst.width = drm_rect_width(&state->state.dst);
+-	cfg.dst.height = drm_rect_height(&state->state.dst);
+-
+-	for (i = 0; i < state->format->planes; ++i)
+-		cfg.mem[i] = sg_dma_address(state->sg_tables[i].sgl)
+-			   + fb->offsets[i];
+-
+-	if (state->state.pixel_blend_mode == DRM_MODE_BLEND_PIXEL_NONE) {
+-		switch (fourcc) {
+-		case DRM_FORMAT_ARGB1555:
+-			fourcc = DRM_FORMAT_XRGB1555;
+-			break;
+-
+-		case DRM_FORMAT_ARGB4444:
+-			fourcc = DRM_FORMAT_XRGB4444;
+-			break;
+-
+-		case DRM_FORMAT_ARGB8888:
+-			fourcc = DRM_FORMAT_XRGB8888;
+-			break;
+-		}
+-	}
+-
+-	format = rcar_du_format_info(fourcc);
+-	cfg.pixelformat = format->v4l2;
+-
+-	cfg.premult = state->state.pixel_blend_mode == DRM_MODE_BLEND_PREMULTI;
+-
+-	vsp1_du_atomic_update(plane->vsp->vsp, crtc->vsp_pipe,
+-			      plane->index, &cfg);
 -}
 -
  static int rcar_du_vsp_plane_atomic_check(struct drm_plane *plane,
  					  struct drm_atomic_state *state)
  {
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c
-index 1a5988cdf41a..56ed232326f7 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c
-@@ -174,6 +174,18 @@ void rcar_du_vsp_unmap_fb(struct rcar_du_vsp *vsp, struct drm_framebuffer *fb,
- 	}
+@@ -150,21 +95,6 @@ static int rcar_du_vsp_plane_atomic_check(struct drm_plane *plane,
+ 					    &rstate->format);
  }
  
-+void rcar_du_vsp_plane_cleanup_fb(struct drm_plane *plane,
-+				  struct drm_plane_state *state)
+-static void rcar_du_vsp_plane_atomic_update(struct drm_plane *plane,
+-					struct drm_atomic_state *state)
+-{
+-	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state, plane);
+-	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state, plane);
+-	struct rcar_du_vsp_plane *rplane = to_rcar_vsp_plane(plane);
+-	struct rcar_du_crtc *crtc = to_rcar_crtc(old_state->crtc);
+-
+-	if (new_state->visible)
+-		rcar_du_vsp_plane_setup(rplane);
+-	else if (old_state->crtc)
+-		vsp1_du_atomic_update(rplane->vsp->vsp, crtc->vsp_pipe,
+-				      rplane->index, NULL);
+-}
+-
+ static const struct drm_plane_helper_funcs rcar_du_vsp_plane_helper_funcs = {
+ 	.prepare_fb = rcar_du_vsp_plane_prepare_fb,
+ 	.cleanup_fb = rcar_du_vsp_plane_cleanup_fb,
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c
+index 56ed232326f7..2573d293da18 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c
+@@ -25,6 +25,7 @@
+ #include <media/vsp1.h>
+ 
+ #include "rcar_du_drv.h"
++#include "rcar_du_kms.h"
+ #include "rcar_du_writeback.h"
+ 
+ void rcar_du_vsp_disable(struct rcar_du_crtc *crtc)
+@@ -78,6 +79,61 @@ static const u32 rcar_du_vsp_formats[] = {
+ 	DRM_FORMAT_YVU444,
+ };
+ 
++static void rcar_du_vsp_plane_setup(struct rcar_du_vsp_plane *plane)
 +{
-+	struct rcar_du_vsp_plane_state *rstate = to_rcar_vsp_plane_state(state);
-+	struct rcar_du_vsp *vsp = to_rcar_vsp_plane(plane)->vsp;
++	struct rcar_du_vsp_plane_state *state =
++		to_rcar_vsp_plane_state(plane->plane.state);
++	struct rcar_du_crtc *crtc = to_rcar_crtc(state->state.crtc);
++	struct drm_framebuffer *fb = plane->plane.state->fb;
++	const struct rcar_du_format_info *format;
++	struct vsp1_du_atomic_config cfg = {
++		.pixelformat = 0,
++		.pitch = fb->pitches[0],
++		.alpha = state->state.alpha >> 8,
++		.zpos = state->state.zpos,
++	};
++	u32 fourcc = state->format->fourcc;
++	unsigned int i;
 +
-+	if (!state->visible)
-+		return;
++	cfg.src.left = state->state.src.x1 >> 16;
++	cfg.src.top = state->state.src.y1 >> 16;
++	cfg.src.width = drm_rect_width(&state->state.src) >> 16;
++	cfg.src.height = drm_rect_height(&state->state.src) >> 16;
 +
-+	rcar_du_vsp_unmap_fb(vsp, state->fb, rstate->sg_tables);
++	cfg.dst.left = state->state.dst.x1;
++	cfg.dst.top = state->state.dst.y1;
++	cfg.dst.width = drm_rect_width(&state->state.dst);
++	cfg.dst.height = drm_rect_height(&state->state.dst);
++
++	for (i = 0; i < state->format->planes; ++i)
++		cfg.mem[i] = sg_dma_address(state->sg_tables[i].sgl)
++			   + fb->offsets[i];
++
++	if (state->state.pixel_blend_mode == DRM_MODE_BLEND_PIXEL_NONE) {
++		switch (fourcc) {
++		case DRM_FORMAT_ARGB1555:
++			fourcc = DRM_FORMAT_XRGB1555;
++			break;
++
++		case DRM_FORMAT_ARGB4444:
++			fourcc = DRM_FORMAT_XRGB4444;
++			break;
++
++		case DRM_FORMAT_ARGB8888:
++			fourcc = DRM_FORMAT_XRGB8888;
++			break;
++		}
++	}
++
++	format = rcar_du_format_info(fourcc);
++	cfg.pixelformat = format->v4l2;
++
++	cfg.premult = state->state.pixel_blend_mode == DRM_MODE_BLEND_PREMULTI;
++
++	vsp1_du_atomic_update(plane->vsp->vsp, crtc->vsp_pipe,
++			      plane->index, &cfg);
++}
++
+ int rcar_du_vsp_map_fb(struct rcar_du_vsp *vsp, struct drm_framebuffer *fb,
+ 		       struct sg_table sg_tables[3])
+ {
+@@ -186,6 +242,21 @@ void rcar_du_vsp_plane_cleanup_fb(struct drm_plane *plane,
+ 	rcar_du_vsp_unmap_fb(vsp, state->fb, rstate->sg_tables);
+ }
+ 
++void rcar_du_vsp_plane_atomic_update(struct drm_plane *plane,
++				     struct drm_atomic_state *state)
++{
++	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state, plane);
++	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state, plane);
++	struct rcar_du_vsp_plane *rplane = to_rcar_vsp_plane(plane);
++	struct rcar_du_crtc *crtc = to_rcar_crtc(old_state->crtc);
++
++	if (new_state->visible)
++		rcar_du_vsp_plane_setup(rplane);
++	else if (old_state->crtc)
++		vsp1_du_atomic_update(rplane->vsp->vsp, crtc->vsp_pipe,
++				      rplane->index, NULL);
 +}
 +
  static struct drm_plane_state *
  rcar_du_vsp_plane_atomic_duplicate_state(struct drm_plane *plane)
  {
 diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.h b/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.h
-index cf2e8a4549e2..c14cd2f545d9 100644
+index c14cd2f545d9..0e1bf59d5133 100644
 --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.h
 +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.h
-@@ -27,6 +27,8 @@ int rcar_du_lib_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
- 			 const struct drm_plane_helper_funcs *rcar_du_vsp_plane_helper_funcs);
- int rcar_du_vsp_plane_prepare_fb(struct drm_plane *plane,
+@@ -29,6 +29,8 @@ int rcar_du_vsp_plane_prepare_fb(struct drm_plane *plane,
  				 struct drm_plane_state *state);
-+void rcar_du_vsp_plane_cleanup_fb(struct drm_plane *plane,
-+				  struct drm_plane_state *state);
+ void rcar_du_vsp_plane_cleanup_fb(struct drm_plane *plane,
+ 				  struct drm_plane_state *state);
++void rcar_du_vsp_plane_atomic_update(struct drm_plane *plane,
++				     struct drm_atomic_state *state);
  #else
  static inline void rcar_du_vsp_disable(struct rcar_du_crtc *crtc) { };
  static inline void rcar_du_vsp_atomic_begin(struct rcar_du_crtc *crtc) { };
-@@ -57,6 +59,11 @@ static inline int rcar_du_vsp_plane_prepare_fb(struct drm_plane *plane,
+@@ -64,6 +66,11 @@ static inline void rcar_du_vsp_plane_cleanup_fb(struct drm_plane *plane,
+ 						struct drm_plane_state *state)
  {
- 	return -ENXIO;
  }
 +
-+static inline void rcar_du_vsp_plane_cleanup_fb(struct drm_plane *plane,
-+						struct drm_plane_state *state)
++static inline void rcar_du_vsp_plane_atomic_update(struct drm_plane *plane,
++						   struct drm_atomic_state *state)
 +{
 +}
  #endif
