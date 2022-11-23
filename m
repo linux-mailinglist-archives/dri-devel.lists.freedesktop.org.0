@@ -2,61 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 458C26358E7
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 11:05:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 482AF6358FF
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 11:06:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CB5D10E208;
-	Wed, 23 Nov 2022 10:05:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94B6110E22B;
+	Wed, 23 Nov 2022 10:06:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
- [IPv6:2607:f8b0:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9223210E232
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 10:05:42 +0000 (UTC)
-Received: by mail-pl1-x62e.google.com with SMTP id k7so16187146pll.6
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 02:05:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Jg9Va4FU9dSDHU9ZJEP1jjLMkksxPUQCx/bp3wHT5LQ=;
- b=WfT72T7RroMBI9wlOw/bnHHnoMf0WdGs3XyvUrO4MKlEA6nqF+p/zMfKEtc1lbTHMP
- AUezr1Y3S9zCcAz1rse/vatF4x4DHyqj1sqxRUoc4F8B7S7ADYFtpx2fKEE76qFdjo4D
- I/yxw4O7JjW32pIQFhcmJQc1sgcv9rZRQrtcg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Jg9Va4FU9dSDHU9ZJEP1jjLMkksxPUQCx/bp3wHT5LQ=;
- b=3NBSqrHVAXsi/5V4Ld58xzozNHPE+GWTdJ+OTuOzrwrzG5uR+pkXXbGJcmnrsoc/zT
- giR7yw0huZwHzvUcVnC5UmDBUcgVQjexcO3SQPkL/8uq+Dlue/o2LXNYWex7+mGQlmwN
- u8z1Pa/2OMWC42wRqQDAgRaqNjsr3NmgrsK/5M6IpACF40cN9QZSFrqhpLp9NyOcYCFN
- JYppbdp3jCpDqHSkuJMD2rhFxoRJ5PaQprGmKAFPBq6M04AqpiX4I59f+NxtYeAkfPgH
- unJ9uzA1wgoYNLtZnHKNeFmgbiqSOgCHbBfvgWA69Bn09WDWi6HR0d9lvb2XUfnSmXPg
- GmiA==
-X-Gm-Message-State: ANoB5plrv1m1q/DlzvL/AJG7nTRRpg5XGFQSsoZXSJa3GxN6NYljFmCb
- YPf6cLM3utapB/oBeFzUH1GrTg==
-X-Google-Smtp-Source: AA0mqf5fXXQL3ErzztA77WK7yJt0QPQuomMU2DldHrT5bbiS3aoblEd2LM/kN8e/sUrTjWAALPK+vg==
-X-Received: by 2002:a17:903:26ce:b0:189:2274:7282 with SMTP id
- jg14-20020a17090326ce00b0018922747282mr8540890plb.90.1669197941921; 
- Wed, 23 Nov 2022 02:05:41 -0800 (PST)
-Received: from hsinyi.c.googlers.com.com
- (46.165.189.35.bc.googleusercontent.com. [35.189.165.46])
- by smtp.gmail.com with ESMTPSA id
- y129-20020a626487000000b005745a586badsm1020138pfb.218.2022.11.23.02.05.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Nov 2022 02:05:41 -0800 (PST)
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-To: Sean Paul <seanpaul@chromium.org>,
- Douglas Anderson <dianders@chromium.org>,
- Robert Foss <robert.foss@linaro.org>
-Subject: [PATCH v7 3/3] drm/bridge: it6505: handle HDCP request
-Date: Wed, 23 Nov 2022 10:05:29 +0000
-Message-Id: <20221123100529.3943662-3-hsinyi@chromium.org>
-X-Mailer: git-send-email 2.38.1.584.g0f3c55d4c2-goog
-In-Reply-To: <20221123100529.3943662-1-hsinyi@chromium.org>
-References: <20221123100529.3943662-1-hsinyi@chromium.org>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1959910E232;
+ Wed, 23 Nov 2022 10:05:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1669197955; x=1700733955;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=Hq5A3SLLEP6GHJoz5Ag5otAP5agEzcZxZ3KjT1qa7Ik=;
+ b=STZ/8T7MNocH9yXa72fdNwNCtq9NxruALAa1zeQlg+2pf9xCedau8Puh
+ 7vNl4xm8gkxBXK/FL1zWiBMQE6JRSsUBxYZ/IGT86EVNp/0iEHldhZ9CO
+ Oou4WbaEb8anpE68j9i8rDO33yiFXrmofgTSGp6qJfs+FFAtt6aNCAM7z
+ 5CEOmTWy66fIlfDNukWQ00wW9Fhj9xVU/j3BHp1kefgUOAO6FKnpiyOA5
+ 7vzKR46E+K1DU0PxaBHihIRGV9BtNU6f2P2NEkMKQp9XNht0hhGEHHCEm
+ LSsSoaaIXbPj9owTQkhBAvY4e0MYR+Fr6GGqZ5Pn4W8nvsBymqEkfCSZf g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="340909333"
+X-IronPort-AV: E=Sophos;i="5.96,187,1665471600"; d="scan'208";a="340909333"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Nov 2022 02:05:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="747730476"
+X-IronPort-AV: E=Sophos;i="5.96,187,1665471600"; d="scan'208";a="747730476"
+Received: from unknown (HELO slisovsk-Lenovo-ideapad-720S-13IKB.fi.intel.com)
+ ([10.237.72.65])
+ by fmsmga002.fm.intel.com with ESMTP; 23 Nov 2022 02:05:52 -0800
+From: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 5/6] drm/i915: Extract VESA DSC bpp alignment to separate
+ function
+Date: Wed, 23 Nov 2022 12:05:51 +0200
+Message-Id: <20221123100551.29080-1-stanislav.lisovskiy@intel.com>
+X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20221103132146.12759-1-stanislav.lisovskiy@intel.com>
+References: <20221103132146.12759-1-stanislav.lisovskiy@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,145 +58,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Allen Chen <allen.chen@ite.com.tw>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: manasi.d.navare@intel.com, vinod.govindapillai@intel.com,
+ jani.nikula@intel.com, dri-devel@lists.freedesktop.org,
+ Stanislav.Lisovskiy@intel.com, jani.saarinen@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-it6505 supports HDCP 1.3, but current implementation lacks the update of
-HDCP status through drm_hdcp_update_content_protection().
+We might to use that function separately from intel_dp_dsc_compute_config
+for DP DSC over MST case, because allocating bandwidth in that
+case can be a bit more tricky. So in order to avoid code copy-pasta
+lets extract this to separate function and reuse it for both SST
+and MST cases.
 
-it6505 default enables the HDCP. Remove this and only turn on when user
-requests it.
+v2: Removed multiple blank lines
+v3: Rename intel_dp_dsc_nearest_vesa_bpp to intel_dp_dsc_nearest_valid_bpp
+    to reflect its meaning more properly.
+    (Manasi Navare)
 
-Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-Reviewed-by: allen chen <allen.chen@ite.com.tw>
+Signed-off-by: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
 ---
-v6->v7: remove enable hdcp by default.
----
- drivers/gpu/drm/bridge/ite-it6505.c | 60 +++++++++++++++++++++++++++--
- 1 file changed, 57 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/i915/display/intel_dp.c     | 50 +++++++++++++--------
+ drivers/gpu/drm/i915/display/intel_dp.h     |  1 +
+ drivers/gpu/drm/i915/display/intel_dp_mst.c |  1 -
+ 3 files changed, 32 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index 21a9b8422bda..93626698c31e 100644
---- a/drivers/gpu/drm/bridge/ite-it6505.c
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -423,6 +423,7 @@ struct it6505 {
- 	struct extcon_dev *extcon;
- 	struct work_struct extcon_wq;
- 	int extcon_state;
-+	struct drm_connector *connector;
- 	enum drm_connector_status connector_status;
- 	enum link_train_status link_state;
- 	struct work_struct link_works;
-@@ -2159,9 +2160,6 @@ static void it6505_link_train_ok(struct it6505 *it6505)
- 		DRM_DEV_DEBUG_DRIVER(dev, "Enable audio!");
- 		it6505_enable_audio(it6505);
- 	}
--
--	if (it6505->hdcp_desired)
--		it6505_start_hdcp(it6505);
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index 44e2424a54c0..d78216fba0a2 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -672,6 +672,36 @@ small_joiner_ram_size_bits(struct drm_i915_private *i915)
+ 		return 6144 * 8;
  }
  
- static void it6505_link_step_train_process(struct it6505 *it6505)
-@@ -2399,6 +2397,14 @@ static void it6505_irq_hdcp_done(struct it6505 *it6505)
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "hdcp done interrupt");
- 	it6505->hdcp_status = HDCP_AUTH_DONE;
-+	if (it6505->connector) {
-+		struct drm_device *drm_dev = it6505->connector->dev;
-+
-+		drm_modeset_lock(&drm_dev->mode_config.connection_mutex, NULL);
-+		drm_hdcp_update_content_protection(it6505->connector,
-+						   DRM_MODE_CONTENT_PROTECTION_ENABLED);
-+		drm_modeset_unlock(&drm_dev->mode_config.connection_mutex);
-+	}
- 	it6505_show_hdcp_info(it6505);
- }
- 
-@@ -2931,6 +2937,7 @@ static void it6505_bridge_atomic_enable(struct drm_bridge *bridge,
- 	if (WARN_ON(!connector))
- 		return;
- 
-+	it6505->connector = connector;
- 	conn_state = drm_atomic_get_new_connector_state(state, connector);
- 
- 	if (WARN_ON(!conn_state))
-@@ -2974,6 +2981,7 @@ static void it6505_bridge_atomic_disable(struct drm_bridge *bridge,
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "start");
- 
-+	it6505->connector = NULL;
- 	if (it6505->powered) {
- 		it6505_drm_dp_link_set_power(&it6505->aux, &it6505->link,
- 					     DP_SET_POWER_D3);
-@@ -3028,6 +3036,50 @@ static struct edid *it6505_bridge_get_edid(struct drm_bridge *bridge,
- 	return edid;
- }
- 
-+static int it6505_connector_atomic_check(struct it6505 *it6505,
-+					 struct drm_connector_state *state)
++u32 intel_dp_dsc_nearest_valid_bpp(struct drm_i915_private *i915, u32 bpp, u32 pipe_bpp)
 +{
-+	struct device *dev = &it6505->client->dev;
-+	int cp = state->content_protection;
++	u32 bits_per_pixel = bpp;
++	int i;
 +
-+	DRM_DEV_DEBUG_DRIVER(dev, "hdcp connector state:%d, curr hdcp state:%d",
-+			     cp, it6505->hdcp_status);
-+
-+	if (!it6505->hdcp_desired) {
-+		DRM_DEV_DEBUG_DRIVER(dev, "sink not support hdcp");
++	/* Error out if the max bpp is less than smallest allowed valid bpp */
++	if (bits_per_pixel < valid_dsc_bpp[0]) {
++		drm_dbg_kms(&i915->drm, "Unsupported BPP %u, min %u\n",
++			    bits_per_pixel, valid_dsc_bpp[0]);
 +		return 0;
 +	}
 +
-+	if (it6505->hdcp_status == HDCP_AUTH_GOING)
-+		return -EINVAL;
-+
-+	if (cp == DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
-+		if (it6505->hdcp_status == HDCP_AUTH_DONE)
-+			it6505_stop_hdcp(it6505);
-+	} else if (cp == DRM_MODE_CONTENT_PROTECTION_DESIRED) {
-+		if (it6505->hdcp_status == HDCP_AUTH_IDLE &&
-+		    it6505->link_state == LINK_OK)
-+			it6505_start_hdcp(it6505);
++	/* From XE_LPD onwards we support from bpc upto uncompressed bpp-1 BPPs */
++	if (DISPLAY_VER(i915) >= 13) {
++		bits_per_pixel = min(bits_per_pixel, pipe_bpp - 1);
 +	} else {
-+		if (it6505->hdcp_status == HDCP_AUTH_IDLE) {
-+			DRM_DEV_DEBUG_DRIVER(dev, "invalid to set hdcp enabled");
-+			return -EINVAL;
++		/* Find the nearest match in the array of known BPPs from VESA */
++		for (i = 0; i < ARRAY_SIZE(valid_dsc_bpp) - 1; i++) {
++			if (bits_per_pixel < valid_dsc_bpp[i + 1])
++				break;
 +		}
++		drm_dbg_kms(&i915->drm, "Set dsc bpp from %d to VESA %d\n",
++			    bits_per_pixel, valid_dsc_bpp[i]);
++
++		bits_per_pixel = valid_dsc_bpp[i];
 +	}
 +
-+	return 0;
++	return bits_per_pixel;
 +}
 +
-+static int it6505_bridge_atomic_check(struct drm_bridge *bridge,
-+				      struct drm_bridge_state *bridge_state,
-+				      struct drm_crtc_state *crtc_state,
-+				      struct drm_connector_state *conn_state)
-+{
-+	struct it6505 *it6505 = bridge_to_it6505(bridge);
-+
-+	return it6505_connector_atomic_check(it6505, conn_state);
-+}
-+
- static const struct drm_bridge_funcs it6505_bridge_funcs = {
- 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-@@ -3035,6 +3087,7 @@ static const struct drm_bridge_funcs it6505_bridge_funcs = {
- 	.attach = it6505_bridge_attach,
- 	.detach = it6505_bridge_detach,
- 	.mode_valid = it6505_bridge_mode_valid,
-+	.atomic_check = it6505_bridge_atomic_check,
- 	.atomic_enable = it6505_bridge_atomic_enable,
- 	.atomic_disable = it6505_bridge_atomic_disable,
- 	.atomic_pre_enable = it6505_bridge_atomic_pre_enable,
-@@ -3354,6 +3407,7 @@ static int it6505_i2c_probe(struct i2c_client *client,
- 	it6505->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
- 	it6505->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID |
- 			     DRM_BRIDGE_OP_HPD;
-+	it6505->bridge.support_hdcp = true;
- 	drm_bridge_add(&it6505->bridge);
+ u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
+ 				u32 link_clock, u32 lane_count,
+ 				u32 mode_clock, u32 mode_hdisplay,
+@@ -680,7 +710,6 @@ u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
+ 				u32 timeslots)
+ {
+ 	u32 bits_per_pixel, max_bpp_small_joiner_ram;
+-	int i;
  
- 	return 0;
+ 	/*
+ 	 * Available Link Bandwidth(Kbits/sec) = (NumberOfLanes)*
+@@ -713,24 +742,7 @@ u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
+ 		bits_per_pixel = min(bits_per_pixel, max_bpp_bigjoiner);
+ 	}
+ 
+-	/* Error out if the max bpp is less than smallest allowed valid bpp */
+-	if (bits_per_pixel < valid_dsc_bpp[0]) {
+-		drm_dbg_kms(&i915->drm, "Unsupported BPP %u, min %u\n",
+-			    bits_per_pixel, valid_dsc_bpp[0]);
+-		return 0;
+-	}
+-
+-	/* From XE_LPD onwards we support from bpc upto uncompressed bpp-1 BPPs */
+-	if (DISPLAY_VER(i915) >= 13) {
+-		bits_per_pixel = min(bits_per_pixel, pipe_bpp - 1);
+-	} else {
+-		/* Find the nearest match in the array of known BPPs from VESA */
+-		for (i = 0; i < ARRAY_SIZE(valid_dsc_bpp) - 1; i++) {
+-			if (bits_per_pixel < valid_dsc_bpp[i + 1])
+-				break;
+-		}
+-		bits_per_pixel = valid_dsc_bpp[i];
+-	}
++	bits_per_pixel = intel_dp_dsc_nearest_valid_bpp(i915, bits_per_pixel, pipe_bpp);
+ 
+ 	/*
+ 	 * Compressed BPP in U6.4 format so multiply by 16, for Gen 11,
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i915/display/intel_dp.h
+index c6539a6915e9..e4faccf87370 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.h
++++ b/drivers/gpu/drm/i915/display/intel_dp.h
+@@ -120,6 +120,7 @@ static inline unsigned int intel_dp_unused_lane_mask(int lane_count)
+ }
+ 
+ u32 intel_dp_mode_to_fec_clock(u32 mode_clock);
++u32 intel_dp_dsc_nearest_valid_bpp(struct drm_i915_private *i915, u32 bpp, u32 pipe_bpp);
+ 
+ void intel_ddi_update_pipe(struct intel_atomic_state *state,
+ 			   struct intel_encoder *encoder,
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+index 59f80af8d17d..b4f01c01dc1c 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+@@ -115,7 +115,6 @@ static int intel_dp_mst_find_vcpi_slots_for_bpp(struct intel_encoder *encoder,
+ 	return slots;
+ }
+ 
+-
+ static int intel_dp_mst_compute_link_config(struct intel_encoder *encoder,
+ 					    struct intel_crtc_state *crtc_state,
+ 					    struct drm_connector_state *conn_state,
 -- 
-2.38.1.584.g0f3c55d4c2-goog
+2.37.3
 
