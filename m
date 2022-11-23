@@ -1,51 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE7DC635BF8
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 12:43:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05E8F635BF6
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 12:43:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CE6210E236;
-	Wed, 23 Nov 2022 11:43:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96E0510E0EF;
+	Wed, 23 Nov 2022 11:43:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44DCB10E53E
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 11:43:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=bjsZatlDfk0Hep6fXrRlj2Nci2uR52FF1b6AJV0In0g=; b=ABk8KNOmV+jXiFUwcbLAuSBX+D
- xUWs99JhxEyrzliXUS8fPrM8uUg9MJmb/WsuC0ug3yMWoky2mlAGOOE1POWVO3WoroBcjFp9IIN3n
- DXi1x5rpcB9P9tCUt02dAPc3sI7QWxv5WLRIXHixhll4tpz/7cXeBo9uSXz46HsEgkdS3P1X7Gz5D
- r3/9x9cxE3QHIKE8oyaWrjSu58EP4lFQ0XnsS2IQ1hIGlbj5Xyus/V3Z6nKRpu5CpZ6Y4rgGxQkQM
- Hrv2lP5u/wAd4htQAGSK4kbmry91CzcSXFymyi77BkTJoTtWsgI32QrBfhLyDafgnev5wsI2PVNZ1
- /oVBs/fg==;
-Received: from [177.34.169.227] (helo=[192.168.0.8])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1oxo9N-007fNZ-Jp; Wed, 23 Nov 2022 12:42:45 +0100
-Message-ID: <f95f2a71-5daf-332d-9971-55f1fca67ff6@igalia.com>
-Date: Wed, 23 Nov 2022 08:42:37 -0300
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E4BC10E0EF;
+ Wed, 23 Nov 2022 11:43:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1669203783; x=1700739783;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=SXWQhPKv5BN00tar/l4Lx/M/3vyxMrI9DulPpv5lWU4=;
+ b=M2Us7Jx/8oHFRAe+OvFpdA6zkoFp7JtwkDdr/GUySh5S1eOIWyq3/U3l
+ Mq37H8ZLZQIzBn4U19o3MGJhbgFNMqA9nOwmdz8UZRET3UrlSSzNPL+9R
+ 8X4sdR/YbswYEEG5nl3kYEOnxMiI0ZdXtCrOuVTuQVnq16reF1+XeELkq
+ loQ+EbY3TnoTLkP7GscjnrjMSjPOXz2TY4dsHyQ7WW7IdbyFLF8uqhau7
+ NnEq8ikm4OqmtIHAuj+WpxaoomLZOS98nyOgyuz9Jw1YUiOp2iwOw/zAH
+ WkjE+Go1ue0JZZIbrss3qtlV0TWo4BMIDwjyVl+8aXKjPYlJaIta7ZEIi Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="312747101"
+X-IronPort-AV: E=Sophos;i="5.96,187,1665471600"; d="scan'208";a="312747101"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Nov 2022 03:43:02 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="730757703"
+X-IronPort-AV: E=Sophos;i="5.96,187,1665471600"; d="scan'208";a="730757703"
+Received: from shanew6x-mobl.ger.corp.intel.com (HELO [10.252.16.236])
+ ([10.252.16.236])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Nov 2022 03:43:00 -0800
+Message-ID: <dc5a13ce-373c-995b-42a7-4b8f658e7990@intel.com>
+Date: Wed, 23 Nov 2022 11:42:58 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH 1/6] drm/debugfs: create device-centered debugfs functions
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Oded Gabbay <ogabbay@kernel.org>
-References: <20221122190314.185015-1-mcanal@igalia.com>
- <20221122190314.185015-2-mcanal@igalia.com> <87mt8ivsk8.fsf@intel.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <87mt8ivsk8.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8
+ Firefox/102.0 Thunderbird/102.5.0
+Subject: Re: [PATCH v7 20/20] drm/i915/vm_bind: Async vm_unbind support
+To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+References: <20221113075732.32100-1-niranjana.vishwanathapura@intel.com>
+ <20221113075732.32100-21-niranjana.vishwanathapura@intel.com>
+ <a828c36b-8f89-24b0-b287-dabf62f82085@intel.com>
+ <Y3O7NCxiZHjjmyN7@nvishwa1-DESK>
+ <d8b028ea-4179-768a-7154-5b0bc3641cb1@intel.com>
+ <Y3O/a/sF21wC3EdE@nvishwa1-DESK> <Y3Qdd2aW4AHHDgq3@nvishwa1-DESK>
+ <Y3QwtyKJKCKMBvjb@nvishwa1-DESK>
+Content-Language: en-GB
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <Y3QwtyKJKCKMBvjb@nvishwa1-DESK>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,231 +66,214 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
- Emma Anholt <emma@anholt.net>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Wambui Karuga <wambui@karuga.org>,
- Melissa Wen <mwen@igalia.com>, Wambui Karuga <wambui.karugax@gmail.com>
+Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
+ jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, thomas.hellstrom@intel.com,
+ lionel.g.landwerlin@intel.com, jason@jlekstrand.net,
+ andi.shyti@linux.intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jani,
-
-On 11/23/22 08:06, Jani Nikula wrote:
-> On Tue, 22 Nov 2022, Maíra Canal <mcanal@igalia.com> wrote:
->> Introduce the ability to track requests for the addition of DRM debugfs
->> files at any time and have them added all at once during
->> drm_dev_register().
+On 16/11/2022 00:37, Niranjana Vishwanathapura wrote:
+> On Tue, Nov 15, 2022 at 03:15:03PM -0800, Niranjana Vishwanathapura wrote:
+>> On Tue, Nov 15, 2022 at 08:33:47AM -0800, Niranjana Vishwanathapura 
+>> wrote:
+>>> On Tue, Nov 15, 2022 at 04:20:54PM +0000, Matthew Auld wrote:
+>>>> On 15/11/2022 16:15, Niranjana Vishwanathapura wrote:
+>>>>> On Tue, Nov 15, 2022 at 11:05:21AM +0000, Matthew Auld wrote:
+>>>>>> On 13/11/2022 07:57, Niranjana Vishwanathapura wrote:
+>>>>>>> Asynchronously unbind the vma upon vm_unbind call.
+>>>>>>> Fall back to synchronous unbind if backend doesn't support
+>>>>>>> async unbind or if async unbind fails.
+>>>>>>>
+>>>>>>> No need for vm_unbind out fence support as i915 will internally
+>>>>>>> handle all sequencing and user need not try to sequence any
+>>>>>>> operation with the unbind completion.
+>>>>>>>
+>>>>>>> v2: use i915_vma_destroy_async in vm_unbind ioctl
+>>>>>>>
+>>>>>>> Signed-off-by: Niranjana Vishwanathapura 
+>>>>>>> <niranjana.vishwanathapura@intel.com>
+>>>>>>
+>>>>>> This only does it for non-partial vma, right? Or was that changed 
+>>>>>> somewhere?
+>>>>>>
+>>>>>
+>>>>> No, it applies to any vma (partial or non-partial).
+>>>>> It was so from the beginning.
+>>>>
+>>>> Doesn't __i915_vma_unbind_async() return an error when mm.pages != 
+>>>> vma->pages? IIRC this was discussed before. Just trying to think 
+>>>> about the consequences of this change.
+>>>
+>>> I am not seeing any such restriction. Let me probe and check if there
+>>> is any such restriction anywhere in the call chain.
 >>
->> Drivers can add DRM debugfs files to a device-managed list and, during
->> drm_dev_register(), all added files will be created at once.
+>> I checked and I am not seeing any restriction anywher in the call chain.
 >>
->> Now, the drivers can use the functions drm_debugfs_add_file() and
->> drm_debugfs_add_files() to create DRM debugfs files instead of using the
->> drm_debugfs_create_files() function.
+> 
+> Note that just like binding case, unbinding is also synchronous unless
+> there is a pending activity, in which case, it will be asynchronous.
+
+In __i915_vma_unbind_async() there is:
+
+if (i915_vma_is_pinned(vma) ||
+     &vma->obj->mm.rsgt->table != vma->resource->bi.pages)
+         return ERR_PTR(-EAGAIN);
+
+AFAICT we then also don't get any pipelined moves with such an object, 
+if there is such a binding present.
+
+> 
+> Niranjana
+> 
+>> Niranjana
 >>
->> Co-developed-by: Wambui Karuga <wambui.karugax@gmail.com>
->> Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
->> Signed-off-by: Maíra Canal <mcanal@igalia.com>
->> ---
->>  drivers/gpu/drm/drm_debugfs.c | 76 +++++++++++++++++++++++++++++++++++
->>  drivers/gpu/drm/drm_drv.c     |  3 ++
->>  include/drm/drm_debugfs.h     | 45 +++++++++++++++++++++
->>  include/drm/drm_device.h      | 15 +++++++
->>  4 files changed, 139 insertions(+)
->>>> +/**
->> + * drm_debugfs_add_file - Add a given file to the DRM device debugfs file list
->> + * @dev: drm device for the ioctl
->> + * @name: debugfs file name
->> + * @show: show callback
->> + * @data: driver-private data, should not be device-specific
->> + *
->> + * Add a given file entry to the DRM device debugfs file list to be created on
->> + * drm_debugfs_init.
->> + */
->> +int drm_debugfs_add_file(struct drm_device *dev, const char *name,
->> +			 int (*show)(struct seq_file*, void*), void *data)
->> +{
->> +	struct drm_debugfs_entry *entry = drmm_kzalloc(dev, sizeof(*entry), GFP_KERNEL);
->> +
->> +	if (!entry)
->> +		return -ENOMEM;
->> +
->> +	entry->file.name = name;
->> +	entry->file.show = show;
->> +	entry->file.data = data;
->> +	entry->dev = dev;
->> +
->> +	mutex_lock(&dev->debugfs_mutex);
->> +	list_add(&entry->list, &dev->debugfs_list);
->> +	mutex_unlock(&dev->debugfs_mutex);
->> +
->> +	return 0;
->> +}
->> +EXPORT_SYMBOL(drm_debugfs_add_file);
->> +
->> +/**
->> + * drm_debugfs_add_files - Add an array of files to the DRM device debugfs file list
->> + * @dev: drm device for the ioctl
->> + * @files: The array of files to create
->> + * @count: The number of files given
->> + *
->> + * Add a given set of debugfs files represented by an array of
->> + * &struct drm_debugfs_info in the DRM device debugfs file list.
->> + */
->> +int drm_debugfs_add_files(struct drm_device *dev, const struct drm_debugfs_info *files, int count)
->> +{
->> +	int i, ret = 0, err;
->> +
->> +	for (i = 0; i < count; i++) {
->> +		err = drm_debugfs_add_file(dev, files[i].name, files[i].show, files[i].data);
->> +		if (err)
->> +			ret = err;
->> +	}
->> +
->> +	return ret;
->> +}
->> +EXPORT_SYMBOL(drm_debugfs_add_files);
-> 
-> Do we want to add return values and error handling to debugfs related
-> functions at all?
-
-Drivers such as vc4 can use the return values from debugfs-related
-functions for error handling. Although the return values are not
-explicitly necessary, some drivers can benefit from them for error handling.
-
-Best Regards,
-- Maíra Canal
-
-> 
-> BR,
-> Jani.
-> 
-> 
->> +
->>  static int connector_show(struct seq_file *m, void *data)
->>  {
->>  	struct drm_connector *connector = m->private;
->> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
->> index 8214a0b1ab7f..803942008fcb 100644
->> --- a/drivers/gpu/drm/drm_drv.c
->> +++ b/drivers/gpu/drm/drm_drv.c
->> @@ -575,6 +575,7 @@ static void drm_dev_init_release(struct drm_device *dev, void *res)
->>  	mutex_destroy(&dev->clientlist_mutex);
->>  	mutex_destroy(&dev->filelist_mutex);
->>  	mutex_destroy(&dev->struct_mutex);
->> +	mutex_destroy(&dev->debugfs_mutex);
->>  	drm_legacy_destroy_members(dev);
->>  }
->>  
->> @@ -608,12 +609,14 @@ static int drm_dev_init(struct drm_device *dev,
->>  	INIT_LIST_HEAD(&dev->filelist_internal);
->>  	INIT_LIST_HEAD(&dev->clientlist);
->>  	INIT_LIST_HEAD(&dev->vblank_event_list);
->> +	INIT_LIST_HEAD(&dev->debugfs_list);
->>  
->>  	spin_lock_init(&dev->event_lock);
->>  	mutex_init(&dev->struct_mutex);
->>  	mutex_init(&dev->filelist_mutex);
->>  	mutex_init(&dev->clientlist_mutex);
->>  	mutex_init(&dev->master_mutex);
->> +	mutex_init(&dev->debugfs_mutex);
->>  
->>  	ret = drmm_add_action(dev, drm_dev_init_release, NULL);
->>  	if (ret)
->> diff --git a/include/drm/drm_debugfs.h b/include/drm/drm_debugfs.h
->> index 2188dc83957f..c5684d6c5055 100644
->> --- a/include/drm/drm_debugfs.h
->> +++ b/include/drm/drm_debugfs.h
->> @@ -79,12 +79,43 @@ struct drm_info_node {
->>  	struct dentry *dent;
->>  };
->>  
->> +/**
->> + * struct drm_debugfs_info - debugfs info list entry
->> + *
->> + * This structure represents a debugfs file to be created by the drm
->> + * core.
->> + */
->> +struct drm_debugfs_info {
->> +	const char *name;
->> +	int (*show)(struct seq_file*, void*);
->> +	u32 driver_features;
->> +	void *data;
->> +};
->> +
->> +/**
->> + * struct drm_debugfs_entry - Per-device debugfs node structure
->> + *
->> + * This structure represents a debugfs file, as an instantiation of a &struct
->> + * drm_debugfs_info on a &struct drm_device.
->> + */
->> +struct drm_debugfs_entry {
->> +	struct drm_device *dev;
->> +	struct drm_debugfs_info file;
->> +	struct list_head list;
->> +};
->> +
->>  #if defined(CONFIG_DEBUG_FS)
->>  void drm_debugfs_create_files(const struct drm_info_list *files,
->>  			      int count, struct dentry *root,
->>  			      struct drm_minor *minor);
->>  int drm_debugfs_remove_files(const struct drm_info_list *files,
->>  			     int count, struct drm_minor *minor);
->> +
->> +int drm_debugfs_add_file(struct drm_device *dev, const char *name,
->> +			 int (*show)(struct seq_file*, void*), void *data);
->> +
->> +int drm_debugfs_add_files(struct drm_device *dev,
->> +			  const struct drm_debugfs_info *files, int count);
->>  #else
->>  static inline void drm_debugfs_create_files(const struct drm_info_list *files,
->>  					    int count, struct dentry *root,
->> @@ -96,6 +127,20 @@ static inline int drm_debugfs_remove_files(const struct drm_info_list *files,
->>  {
->>  	return 0;
->>  }
->> +
->> +static inline int drm_debugfs_add_file(struct drm_device *dev, const char *name,
->> +				       int (*show)(struct seq_file*, void*),
->> +				       void *data)
->> +{
->> +	return 0;
->> +}
->> +
->> +static inline int drm_debugfs_add_files(struct drm_device *dev,
->> +					const struct drm_debugfs_info *files,
->> +					int count)
->> +{
->> +	return 0;
->> +}
->>  #endif
->>  
->>  #endif /* _DRM_DEBUGFS_H_ */
->> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
->> index 9923c7a6885e..fa6af1d57929 100644
->> --- a/include/drm/drm_device.h
->> +++ b/include/drm/drm_device.h
->> @@ -295,6 +295,21 @@ struct drm_device {
->>  	 */
->>  	struct drm_fb_helper *fb_helper;
->>  
->> +	/**
->> +	 * @debugfs_mutex:
->> +	 *
->> +	 * Protects &debugfs_list access.
->> +	 */
->> +	struct mutex debugfs_mutex;
->> +
->> +	/**
->> +	 * @debugfs_list:
->> +	 *
->> +	 * List of debugfs files to be created by the DRM device. The files
->> +	 * must be added during drm_dev_register().
->> +	 */
->> +	struct list_head debugfs_list;
->> +
->>  	/* Everything below here is for legacy driver, never use! */
->>  	/* private: */
->>  #if IS_ENABLED(CONFIG_DRM_LEGACY)
-> 
+>>>
+>>> Niranjana
+>>>
+>>>>
+>>>>>
+>>>>> Niranjana
+>>>>>
+>>>>>> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+>>>>>>
+>>>>>>> ---
+>>>>>>>  .../drm/i915/gem/i915_gem_vm_bind_object.c    |  2 +-
+>>>>>>>  drivers/gpu/drm/i915/i915_vma.c               | 51 
+>>>>>>> +++++++++++++++++--
+>>>>>>>  drivers/gpu/drm/i915/i915_vma.h               |  1 +
+>>>>>>>  include/uapi/drm/i915_drm.h                   |  3 +-
+>>>>>>>  4 files changed, 51 insertions(+), 6 deletions(-)
+>>>>>>>
+>>>>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c 
+>>>>>>> b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+>>>>>>> index d87d1210365b..36651b447966 100644
+>>>>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+>>>>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+>>>>>>> @@ -210,7 +210,7 @@ static int i915_gem_vm_unbind_vma(struct 
+>>>>>>> i915_address_space *vm,
+>>>>>>>       */
+>>>>>>>      obj = vma->obj;
+>>>>>>>      i915_gem_object_lock(obj, NULL);
+>>>>>>> -    i915_vma_destroy(vma);
+>>>>>>> +    i915_vma_destroy_async(vma);
+>>>>>>>      i915_gem_object_unlock(obj);
+>>>>>>>      i915_gem_object_put(obj);
+>>>>>>> diff --git a/drivers/gpu/drm/i915/i915_vma.c 
+>>>>>>> b/drivers/gpu/drm/i915/i915_vma.c
+>>>>>>> index 7cf77c67d755..483d25f2425c 100644
+>>>>>>> --- a/drivers/gpu/drm/i915/i915_vma.c
+>>>>>>> +++ b/drivers/gpu/drm/i915/i915_vma.c
+>>>>>>> @@ -42,6 +42,8 @@
+>>>>>>>  #include "i915_vma.h"
+>>>>>>>  #include "i915_vma_resource.h"
+>>>>>>> +static struct dma_fence *__i915_vma_unbind_async(struct i915_vma 
+>>>>>>> *vma);
+>>>>>>> +
+>>>>>>>  static inline void assert_vma_held_evict(const struct i915_vma 
+>>>>>>> *vma)
+>>>>>>>  {
+>>>>>>>      /*
+>>>>>>> @@ -1713,7 +1715,7 @@ void i915_vma_reopen(struct i915_vma *vma)
+>>>>>>>      spin_unlock_irq(&gt->closed_lock);
+>>>>>>>  }
+>>>>>>> -static void force_unbind(struct i915_vma *vma)
+>>>>>>> +static void force_unbind(struct i915_vma *vma, bool async)
+>>>>>>>  {
+>>>>>>>      if (!drm_mm_node_allocated(&vma->node))
+>>>>>>>          return;
+>>>>>>> @@ -1727,7 +1729,21 @@ static void force_unbind(struct i915_vma 
+>>>>>>> *vma)
+>>>>>>>          i915_vma_set_purged(vma);
+>>>>>>>      atomic_and(~I915_VMA_PIN_MASK, &vma->flags);
+>>>>>>> -    WARN_ON(__i915_vma_unbind(vma));
+>>>>>>> +    if (async) {
+>>>>>>> +        struct dma_fence *fence;
+>>>>>>> +
+>>>>>>> +        fence = __i915_vma_unbind_async(vma);
+>>>>>>> +        if (IS_ERR_OR_NULL(fence)) {
+>>>>>>> +            async = false;
+>>>>>>> +        } else {
+>>>>>>> +            dma_resv_add_fence(vma->obj->base.resv, fence,
+>>>>>>> +                       DMA_RESV_USAGE_READ);
+>>>>>>> +            dma_fence_put(fence);
+>>>>>>> +        }
+>>>>>>> +    }
+>>>>>>> +
+>>>>>>> +    if (!async)
+>>>>>>> +        WARN_ON(__i915_vma_unbind(vma));
+>>>>>>>      GEM_BUG_ON(drm_mm_node_allocated(&vma->node));
+>>>>>>>  }
+>>>>>>> @@ -1787,7 +1803,7 @@ void i915_vma_destroy_locked(struct 
+>>>>>>> i915_vma *vma)
+>>>>>>>  {
+>>>>>>>      lockdep_assert_held(&vma->vm->mutex);
+>>>>>>> -    force_unbind(vma);
+>>>>>>> +    force_unbind(vma, false);
+>>>>>>>      list_del_init(&vma->vm_link);
+>>>>>>>      release_references(vma, vma->vm->gt, false);
+>>>>>>>  }
+>>>>>>> @@ -1798,7 +1814,34 @@ void i915_vma_destroy(struct i915_vma *vma)
+>>>>>>>      bool vm_ddestroy;
+>>>>>>>      mutex_lock(&vma->vm->mutex);
+>>>>>>> -    force_unbind(vma);
+>>>>>>> +    force_unbind(vma, false);
+>>>>>>> +    list_del_init(&vma->vm_link);
+>>>>>>> +    vm_ddestroy = vma->vm_ddestroy;
+>>>>>>> +    vma->vm_ddestroy = false;
+>>>>>>> +
+>>>>>>> +    /* vma->vm may be freed when releasing vma->vm->mutex. */
+>>>>>>> +    gt = vma->vm->gt;
+>>>>>>> +    mutex_unlock(&vma->vm->mutex);
+>>>>>>> +    release_references(vma, gt, vm_ddestroy);
+>>>>>>> +}
+>>>>>>> +
+>>>>>>> +void i915_vma_destroy_async(struct i915_vma *vma)
+>>>>>>> +{
+>>>>>>> +    bool vm_ddestroy, async = vma->obj->mm.rsgt;
+>>>>>>> +    struct intel_gt *gt;
+>>>>>>> +
+>>>>>>> +    if (dma_resv_reserve_fences(vma->obj->base.resv, 1))
+>>>>>>> +        async = false;
+>>>>>>> +
+>>>>>>> +    mutex_lock(&vma->vm->mutex);
+>>>>>>> +    /*
+>>>>>>> +     * Ensure any asynchronous binding is complete while using
+>>>>>>> +     * async unbind as we will be releasing the vma here.
+>>>>>>> +     */
+>>>>>>> +    if (async && i915_active_wait(&vma->active))
+>>>>>>> +        async = false;
+>>>>>>> +
+>>>>>>> +    force_unbind(vma, async);
+>>>>>>>      list_del_init(&vma->vm_link);
+>>>>>>>      vm_ddestroy = vma->vm_ddestroy;
+>>>>>>>      vma->vm_ddestroy = false;
+>>>>>>> diff --git a/drivers/gpu/drm/i915/i915_vma.h 
+>>>>>>> b/drivers/gpu/drm/i915/i915_vma.h
+>>>>>>> index 737ef310d046..25f15965dab8 100644
+>>>>>>> --- a/drivers/gpu/drm/i915/i915_vma.h
+>>>>>>> +++ b/drivers/gpu/drm/i915/i915_vma.h
+>>>>>>> @@ -272,6 +272,7 @@ void i915_vma_reopen(struct i915_vma *vma);
+>>>>>>>  void i915_vma_destroy_locked(struct i915_vma *vma);
+>>>>>>>  void i915_vma_destroy(struct i915_vma *vma);
+>>>>>>> +void i915_vma_destroy_async(struct i915_vma *vma);
+>>>>>>>  #define assert_vma_held(vma) 
+>>>>>>> dma_resv_assert_held((vma)->obj->base.resv)
+>>>>>>> diff --git a/include/uapi/drm/i915_drm.h 
+>>>>>>> b/include/uapi/drm/i915_drm.h
+>>>>>>> index e5600f358a15..431d40bb1dee 100644
+>>>>>>> --- a/include/uapi/drm/i915_drm.h
+>>>>>>> +++ b/include/uapi/drm/i915_drm.h
+>>>>>>> @@ -3969,7 +3969,8 @@ struct drm_i915_gem_vm_bind {
+>>>>>>>   * any error.
+>>>>>>>   *
+>>>>>>>   * VM_BIND/UNBIND ioctl calls executed on different CPU threads 
+>>>>>>> concurrently
+>>>>>>> - * are not ordered.
+>>>>>>> + * are not ordered. Furthermore, parts of the VM_UNBIND 
+>>>>>>> operation can be done
+>>>>>>> + * asynchronously.
+>>>>>>>   */
+>>>>>>>  struct drm_i915_gem_vm_unbind {
+>>>>>>>      /** @vm_id: VM (address space) id to bind */
