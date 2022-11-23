@@ -1,52 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 508E4635C97
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 13:17:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F617635CBC
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 13:25:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8687B10E0D3;
-	Wed, 23 Nov 2022 12:17:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6413410E083;
+	Wed, 23 Nov 2022 12:25:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FBB310E2E0
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 12:17:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=vIeBl7vTF6NaLB2hFnwL23+uu766/EWpSu7THtDdPbk=; b=oOzqoUM5mcF24s36obgFHpZK9S
- YGx6veSUMx7Tooxcvp7Hn6NR9gzZ3cM2TFUMnx510sAcDSWjnk+UQ+/8X6pGLvog4XNibPJnHyqCC
- Um8CbqtsSgs33jQRX8Wg6EOdL0AQlTE/I8jG2Fm8x8z87uCoLfMe/2Q45GV5SeNjuWDRxcVsQYYpt
- 6BnZJ+L1vTE+x3q5q6QJVCf9TdMD1dXPOI7RRiYi6g2TgRyicJG5ktE2y+pDCcdIPnEHHRI5ehtL0
- 0HN6mKL4AycWEed2Cm31f3JVgE405Yg9Ht4jLC/e3Q7qsQJeMUIgDbjfTM19qxSslsrQ21s6ooEcg
- 9jU2bBYg==;
-Received: from [177.34.169.227] (helo=[192.168.0.8])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1oxogl-007gYx-HS; Wed, 23 Nov 2022 13:17:15 +0100
-Message-ID: <99fe053c-6ad7-37fe-625c-cfc4634a938f@igalia.com>
-Date: Wed, 23 Nov 2022 09:17:06 -0300
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB2B010E083
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 12:25:40 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id B9A28B81F2E;
+ Wed, 23 Nov 2022 12:25:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B355C433C1;
+ Wed, 23 Nov 2022 12:25:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1669206337;
+ bh=vX90mk67saZPcle6Cg4swhPypgBu1ruT4d+AsZhYWVQ=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=YzHwrAzpi6Mlm7VSFwQeObtZ5GHNyY5UPoQ9uhqzgPlyuN3h9LzFIfshxqlrXtQkM
+ U2DseqZzrspOwrhOpW4ehWC6KIYswzEnQzR5df/NzP+AbNLVIjVDqAg180cudrfkFx
+ Z4QP2k96A5niygkQRC6hsDh5lOKrvGLenvl7FLDc=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 2/5] driver core: make struct class.devnode() take a const *
+Date: Wed, 23 Nov 2022 13:25:20 +0100
+Message-Id: <20221123122523.1332370-2-gregkh@linuxfoundation.org>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221123122523.1332370-1-gregkh@linuxfoundation.org>
+References: <20221123122523.1332370-1-gregkh@linuxfoundation.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH 1/6] drm/debugfs: create device-centered debugfs functions
-Content-Language: en-US
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Oded Gabbay <ogabbay@kernel.org>
-References: <20221122190314.185015-1-mcanal@igalia.com>
- <20221122190314.185015-2-mcanal@igalia.com> <87mt8ivsk8.fsf@intel.com>
- <f95f2a71-5daf-332d-9971-55f1fca67ff6@igalia.com> <87h6ypx4ny.fsf@intel.com>
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <87h6ypx4ny.fsf@intel.com>
 Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=16514;
+ i=gregkh@linuxfoundation.org; h=from:subject;
+ bh=vX90mk67saZPcle6Cg4swhPypgBu1ruT4d+AsZhYWVQ=;
+ b=owGbwMvMwCRo6H6F97bub03G02pJDMl1gsaX2G1fi0ze8WsKL89+jYOhm3aZpRevE/LnVXhnaz3T
+ KDikI5aFQZCJQVZMkeXLNp6j+ysOKXoZ2p6GmcPKBDKEgYtTACZSb8cwV6CLr1I+lS+A/eitsHff+y
+ dXttrNY5inpGNxYvN5CVYLXRdj5sZrzH0reX0A
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp;
+ fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,251 +58,470 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
- Emma Anholt <emma@anholt.net>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Wambui Karuga <wambui@karuga.org>,
- Melissa Wen <mwen@igalia.com>, Wambui Karuga <wambui.karugax@gmail.com>
+Cc: alsa-devel@alsa-project.org, Justin Sanders <justin@coraid.com>,
+ Anton Vorontsov <anton@enomsg.org>, Sean Young <sean@mess.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ Jaroslav Kysela <perex@perex.cz>, John Stultz <jstultz@google.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, Eli Cohen <elic@nvidia.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Kees Cook <keescook@chromium.org>,
+ Parav Pandit <parav@nvidia.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, kvm@vger.kernel.org,
+ Leon Romanovsky <leon@kernel.org>,
+ Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+ linux-rdma@vger.kernel.org, Jiri Slaby <jirislaby@kernel.org>, x86@kernel.org,
+ Frank Haverkamp <haver@linux.ibm.com>, Dan Carpenter <error27@gmail.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Ingo Molnar <mingo@redhat.com>,
+ linux-input@vger.kernel.org, Laura Abbott <labbott@redhat.com>,
+ virtualization@lists.linux-foundation.org, linux-media@vger.kernel.org,
+ Fenghua Yu <fenghua.yu@intel.com>, Arnd Bergmann <arnd@arndb.de>,
+ Colin Cross <ccross@android.com>, linaro-mm-sig@lists.linaro.org,
+ Gautam Dawar <gautam.dawar@xilinx.com>,
+ Alex Williamson <alex.williamson@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Reinette Chatre <reinette.chatre@intel.com>, Jens Axboe <axboe@kernel.dk>,
+ linux-block@vger.kernel.org, Tony Luck <tony.luck@intel.com>,
+ linux-scsi@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Takashi Iwai <tiwai@suse.com>,
+ Liam Mark <lmark@codeaurora.org>,
+ FUJITA Tomonori <fujita.tomonori@lab.ntt.co.jp>,
+ Xie Yongji <xieyongji@bytedance.com>,
+ Maxime Coquelin <maxime.coquelin@redhat.com>, linux-usb@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Cornelia Huck <cohuck@redhat.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/23/22 08:59, Jani Nikula wrote:
-> On Wed, 23 Nov 2022, Maíra Canal <mcanal@igalia.com> wrote:
->> Hi Jani,
->>
->> On 11/23/22 08:06, Jani Nikula wrote:
->>> On Tue, 22 Nov 2022, Maíra Canal <mcanal@igalia.com> wrote:
->>>> Introduce the ability to track requests for the addition of DRM debugfs
->>>> files at any time and have them added all at once during
->>>> drm_dev_register().
->>>>
->>>> Drivers can add DRM debugfs files to a device-managed list and, during
->>>> drm_dev_register(), all added files will be created at once.
->>>>
->>>> Now, the drivers can use the functions drm_debugfs_add_file() and
->>>> drm_debugfs_add_files() to create DRM debugfs files instead of using the
->>>> drm_debugfs_create_files() function.
->>>>
->>>> Co-developed-by: Wambui Karuga <wambui.karugax@gmail.com>
->>>> Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
->>>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
->>>> ---
->>>>  drivers/gpu/drm/drm_debugfs.c | 76 +++++++++++++++++++++++++++++++++++
->>>>  drivers/gpu/drm/drm_drv.c     |  3 ++
->>>>  include/drm/drm_debugfs.h     | 45 +++++++++++++++++++++
->>>>  include/drm/drm_device.h      | 15 +++++++
->>>>  4 files changed, 139 insertions(+)
->>>>>> +/**
->>>> + * drm_debugfs_add_file - Add a given file to the DRM device debugfs file list
->>>> + * @dev: drm device for the ioctl
->>>> + * @name: debugfs file name
->>>> + * @show: show callback
->>>> + * @data: driver-private data, should not be device-specific
->>>> + *
->>>> + * Add a given file entry to the DRM device debugfs file list to be created on
->>>> + * drm_debugfs_init.
->>>> + */
->>>> +int drm_debugfs_add_file(struct drm_device *dev, const char *name,
->>>> +			 int (*show)(struct seq_file*, void*), void *data)
->>>> +{
->>>> +	struct drm_debugfs_entry *entry = drmm_kzalloc(dev, sizeof(*entry), GFP_KERNEL);
->>>> +
->>>> +	if (!entry)
->>>> +		return -ENOMEM;
->>>> +
->>>> +	entry->file.name = name;
->>>> +	entry->file.show = show;
->>>> +	entry->file.data = data;
->>>> +	entry->dev = dev;
->>>> +
->>>> +	mutex_lock(&dev->debugfs_mutex);
->>>> +	list_add(&entry->list, &dev->debugfs_list);
->>>> +	mutex_unlock(&dev->debugfs_mutex);
->>>> +
->>>> +	return 0;
->>>> +}
->>>> +EXPORT_SYMBOL(drm_debugfs_add_file);
->>>> +
->>>> +/**
->>>> + * drm_debugfs_add_files - Add an array of files to the DRM device debugfs file list
->>>> + * @dev: drm device for the ioctl
->>>> + * @files: The array of files to create
->>>> + * @count: The number of files given
->>>> + *
->>>> + * Add a given set of debugfs files represented by an array of
->>>> + * &struct drm_debugfs_info in the DRM device debugfs file list.
->>>> + */
->>>> +int drm_debugfs_add_files(struct drm_device *dev, const struct drm_debugfs_info *files, int count)
->>>> +{
->>>> +	int i, ret = 0, err;
->>>> +
->>>> +	for (i = 0; i < count; i++) {
->>>> +		err = drm_debugfs_add_file(dev, files[i].name, files[i].show, files[i].data);
->>>> +		if (err)
->>>> +			ret = err;
->>>> +	}
->>>> +
->>>> +	return ret;
->>>> +}
->>>> +EXPORT_SYMBOL(drm_debugfs_add_files);
->>>
->>> Do we want to add return values and error handling to debugfs related
->>> functions at all?
->>
->> Drivers such as vc4 can use the return values from debugfs-related
->> functions for error handling. Although the return values are not
->> explicitly necessary, some drivers can benefit from them for error handling.
-> 
-> Arguably they should cease to do error handling on debugfs failures
-> too. No driver should stop probe if debugfs fails, and that's been the
-> direction for years.
+The devnode() in struct class should not be modifying the device that is
+passed into it, so mark it as a const * and propagate the function
+signature changes out into all relevant subsystems that use this
+callback.
 
-Is it not even reasonable to return errors only to create drm_WARN_ON
-when the creation of debugfs files fails? Currently, vc4 doesn't stop to
-probe if debugfs fails, but only creates some warnings to let the user
-knows that it failed.
+Cc: Fenghua Yu <fenghua.yu@intel.com>
+Cc: Reinette Chatre <reinette.chatre@intel.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: x86@kernel.org
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: FUJITA Tomonori <fujita.tomonori@lab.ntt.co.jp>
+Cc: Jens Axboe <axboe@kernel.dk>
+Cc: Justin Sanders <justin@coraid.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: Liam Mark <lmark@codeaurora.org>
+Cc: Laura Abbott <labbott@redhat.com>
+Cc: Brian Starkey <Brian.Starkey@arm.com>
+Cc: John Stultz <jstultz@google.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Leon Romanovsky <leon@kernel.org>
+Cc: Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Sean Young <sean@mess.org>
+Cc: Frank Haverkamp <haver@linux.ibm.com>
+Cc: Jiri Slaby <jirislaby@kernel.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>
+Cc: Alex Williamson <alex.williamson@redhat.com>
+Cc: Cornelia Huck <cohuck@redhat.com>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Anton Vorontsov <anton@enomsg.org>
+Cc: Colin Cross <ccross@android.com>
+Cc: Tony Luck <tony.luck@intel.com>
+Cc: Jaroslav Kysela <perex@perex.cz>
+Cc: Takashi Iwai <tiwai@suse.com>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: Xie Yongji <xieyongji@bytedance.com>
+Cc: Gautam Dawar <gautam.dawar@xilinx.com>
+Cc: Dan Carpenter <error27@gmail.com>
+Cc: Eli Cohen <elic@nvidia.com>
+Cc: Parav Pandit <parav@nvidia.com>
+Cc: Maxime Coquelin <maxime.coquelin@redhat.com>
+Cc: alsa-devel@alsa-project.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: kvm@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: linux-block@vger.kernel.org
+Cc: linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+Cc: linux-rdma@vger.kernel.org
+Cc: linux-scsi@vger.kernel.org
+Cc: linux-usb@vger.kernel.org
+Cc: virtualization@lists.linux-foundation.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ arch/x86/kernel/cpu/resctrl/pseudo_lock.c  | 4 ++--
+ arch/x86/kernel/cpuid.c                    | 2 +-
+ arch/x86/kernel/msr.c                      | 2 +-
+ block/bsg.c                                | 2 +-
+ drivers/block/aoe/aoechr.c                 | 2 +-
+ drivers/char/mem.c                         | 2 +-
+ drivers/char/misc.c                        | 4 ++--
+ drivers/dma-buf/dma-heap.c                 | 2 +-
+ drivers/gpu/drm/drm_sysfs.c                | 2 +-
+ drivers/infiniband/core/user_mad.c         | 2 +-
+ drivers/infiniband/core/uverbs_main.c      | 2 +-
+ drivers/infiniband/hw/hfi1/device.c        | 4 ++--
+ drivers/input/input.c                      | 2 +-
+ drivers/media/dvb-core/dvbdev.c            | 4 ++--
+ drivers/media/pci/ddbridge/ddbridge-core.c | 4 ++--
+ drivers/media/rc/rc-main.c                 | 2 +-
+ drivers/misc/genwqe/card_base.c            | 2 +-
+ drivers/tty/tty_io.c                       | 2 +-
+ drivers/usb/core/file.c                    | 2 +-
+ drivers/vdpa/vdpa_user/vduse_dev.c         | 2 +-
+ drivers/vfio/vfio_main.c                   | 2 +-
+ fs/pstore/pmsg.c                           | 2 +-
+ include/linux/device/class.h               | 2 +-
+ sound/sound_core.c                         | 2 +-
+ 24 files changed, 29 insertions(+), 29 deletions(-)
 
-Best Regards,
-- Maíra Canal
+diff --git a/arch/x86/kernel/cpu/resctrl/pseudo_lock.c b/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
+index d961ae3ed96e..4e4231a58f38 100644
+--- a/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
++++ b/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
+@@ -1560,9 +1560,9 @@ static const struct file_operations pseudo_lock_dev_fops = {
+ 	.mmap =		pseudo_lock_dev_mmap,
+ };
+ 
+-static char *pseudo_lock_devnode(struct device *dev, umode_t *mode)
++static char *pseudo_lock_devnode(const struct device *dev, umode_t *mode)
+ {
+-	struct rdtgroup *rdtgrp;
++	const struct rdtgroup *rdtgrp;
+ 
+ 	rdtgrp = dev_get_drvdata(dev);
+ 	if (mode)
+diff --git a/arch/x86/kernel/cpuid.c b/arch/x86/kernel/cpuid.c
+index 6f7b8cc1bc9f..621ba9c0f17a 100644
+--- a/arch/x86/kernel/cpuid.c
++++ b/arch/x86/kernel/cpuid.c
+@@ -139,7 +139,7 @@ static int cpuid_device_destroy(unsigned int cpu)
+ 	return 0;
+ }
+ 
+-static char *cpuid_devnode(struct device *dev, umode_t *mode)
++static char *cpuid_devnode(const struct device *dev, umode_t *mode)
+ {
+ 	return kasprintf(GFP_KERNEL, "cpu/%u/cpuid", MINOR(dev->devt));
+ }
+diff --git a/arch/x86/kernel/msr.c b/arch/x86/kernel/msr.c
+index ed8ac6bcbafb..708751311786 100644
+--- a/arch/x86/kernel/msr.c
++++ b/arch/x86/kernel/msr.c
+@@ -250,7 +250,7 @@ static int msr_device_destroy(unsigned int cpu)
+ 	return 0;
+ }
+ 
+-static char *msr_devnode(struct device *dev, umode_t *mode)
++static char *msr_devnode(const struct device *dev, umode_t *mode)
+ {
+ 	return kasprintf(GFP_KERNEL, "cpu/%u/msr", MINOR(dev->devt));
+ }
+diff --git a/block/bsg.c b/block/bsg.c
+index 2ab1351eb082..08046bd9207d 100644
+--- a/block/bsg.c
++++ b/block/bsg.c
+@@ -232,7 +232,7 @@ struct bsg_device *bsg_register_queue(struct request_queue *q,
+ }
+ EXPORT_SYMBOL_GPL(bsg_register_queue);
+ 
+-static char *bsg_devnode(struct device *dev, umode_t *mode)
++static char *bsg_devnode(const struct device *dev, umode_t *mode)
+ {
+ 	return kasprintf(GFP_KERNEL, "bsg/%s", dev_name(dev));
+ }
+diff --git a/drivers/block/aoe/aoechr.c b/drivers/block/aoe/aoechr.c
+index 8eea2529da20..7a368c90467d 100644
+--- a/drivers/block/aoe/aoechr.c
++++ b/drivers/block/aoe/aoechr.c
+@@ -273,7 +273,7 @@ static const struct file_operations aoe_fops = {
+ 	.llseek = noop_llseek,
+ };
+ 
+-static char *aoe_devnode(struct device *dev, umode_t *mode)
++static char *aoe_devnode(const struct device *dev, umode_t *mode)
+ {
+ 	return kasprintf(GFP_KERNEL, "etherd/%s", dev_name(dev));
+ }
+diff --git a/drivers/char/mem.c b/drivers/char/mem.c
+index 5611d127363e..83bf2a4dcb57 100644
+--- a/drivers/char/mem.c
++++ b/drivers/char/mem.c
+@@ -746,7 +746,7 @@ static const struct file_operations memory_fops = {
+ 	.llseek = noop_llseek,
+ };
+ 
+-static char *mem_devnode(struct device *dev, umode_t *mode)
++static char *mem_devnode(const struct device *dev, umode_t *mode)
+ {
+ 	if (mode && devlist[MINOR(dev->devt)].mode)
+ 		*mode = devlist[MINOR(dev->devt)].mode;
+diff --git a/drivers/char/misc.c b/drivers/char/misc.c
+index cba19bfdc44d..88c6995b9a3d 100644
+--- a/drivers/char/misc.c
++++ b/drivers/char/misc.c
+@@ -254,9 +254,9 @@ void misc_deregister(struct miscdevice *misc)
+ }
+ EXPORT_SYMBOL(misc_deregister);
+ 
+-static char *misc_devnode(struct device *dev, umode_t *mode)
++static char *misc_devnode(const struct device *dev, umode_t *mode)
+ {
+-	struct miscdevice *c = dev_get_drvdata(dev);
++	const struct miscdevice *c = dev_get_drvdata(dev);
+ 
+ 	if (mode && c->mode)
+ 		*mode = c->mode;
+diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+index 8f5848aa144f..4d7150791315 100644
+--- a/drivers/dma-buf/dma-heap.c
++++ b/drivers/dma-buf/dma-heap.c
+@@ -299,7 +299,7 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
+ 	return err_ret;
+ }
+ 
+-static char *dma_heap_devnode(struct device *dev, umode_t *mode)
++static char *dma_heap_devnode(const struct device *dev, umode_t *mode)
+ {
+ 	return kasprintf(GFP_KERNEL, "dma_heap/%s", dev_name(dev));
+ }
+diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
+index 430e00b16eec..14bf156b3f1b 100644
+--- a/drivers/gpu/drm/drm_sysfs.c
++++ b/drivers/gpu/drm/drm_sysfs.c
+@@ -90,7 +90,7 @@ static void drm_sysfs_acpi_register(void) { }
+ static void drm_sysfs_acpi_unregister(void) { }
+ #endif
+ 
+-static char *drm_devnode(struct device *dev, umode_t *mode)
++static char *drm_devnode(const struct device *dev, umode_t *mode)
+ {
+ 	return kasprintf(GFP_KERNEL, "dri/%s", dev_name(dev));
+ }
+diff --git a/drivers/infiniband/core/user_mad.c b/drivers/infiniband/core/user_mad.c
+index 98cb594cd9a6..f83954180a33 100644
+--- a/drivers/infiniband/core/user_mad.c
++++ b/drivers/infiniband/core/user_mad.c
+@@ -1224,7 +1224,7 @@ static struct attribute *umad_class_dev_attrs[] = {
+ };
+ ATTRIBUTE_GROUPS(umad_class_dev);
+ 
+-static char *umad_devnode(struct device *dev, umode_t *mode)
++static char *umad_devnode(const struct device *dev, umode_t *mode)
+ {
+ 	return kasprintf(GFP_KERNEL, "infiniband/%s", dev_name(dev));
+ }
+diff --git a/drivers/infiniband/core/uverbs_main.c b/drivers/infiniband/core/uverbs_main.c
+index d54434088727..bdb179a09d77 100644
+--- a/drivers/infiniband/core/uverbs_main.c
++++ b/drivers/infiniband/core/uverbs_main.c
+@@ -1237,7 +1237,7 @@ static void ib_uverbs_remove_one(struct ib_device *device, void *client_data)
+ 	put_device(&uverbs_dev->dev);
+ }
+ 
+-static char *uverbs_devnode(struct device *dev, umode_t *mode)
++static char *uverbs_devnode(const struct device *dev, umode_t *mode)
+ {
+ 	if (mode)
+ 		*mode = 0666;
+diff --git a/drivers/infiniband/hw/hfi1/device.c b/drivers/infiniband/hw/hfi1/device.c
+index 8ceff7141baf..1f4496032170 100644
+--- a/drivers/infiniband/hw/hfi1/device.c
++++ b/drivers/infiniband/hw/hfi1/device.c
+@@ -72,7 +72,7 @@ const char *class_name(void)
+ 	return hfi1_class_name;
+ }
+ 
+-static char *hfi1_devnode(struct device *dev, umode_t *mode)
++static char *hfi1_devnode(const struct device *dev, umode_t *mode)
+ {
+ 	if (mode)
+ 		*mode = 0600;
+@@ -85,7 +85,7 @@ static const char *class_name_user(void)
+ 	return hfi1_class_name_user;
+ }
+ 
+-static char *hfi1_user_devnode(struct device *dev, umode_t *mode)
++static char *hfi1_user_devnode(const struct device *dev, umode_t *mode)
+ {
+ 	if (mode)
+ 		*mode = 0666;
+diff --git a/drivers/input/input.c b/drivers/input/input.c
+index ebb2b7f0f8ff..50597165dc54 100644
+--- a/drivers/input/input.c
++++ b/drivers/input/input.c
+@@ -1913,7 +1913,7 @@ static const struct device_type input_dev_type = {
+ #endif
+ };
+ 
+-static char *input_devnode(struct device *dev, umode_t *mode)
++static char *input_devnode(const struct device *dev, umode_t *mode)
+ {
+ 	return kasprintf(GFP_KERNEL, "input/%s", dev_name(dev));
+ }
+diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
+index 6ef18bab9648..e73f5240cc2c 100644
+--- a/drivers/media/dvb-core/dvbdev.c
++++ b/drivers/media/dvb-core/dvbdev.c
+@@ -1018,9 +1018,9 @@ static int dvb_uevent(const struct device *dev, struct kobj_uevent_env *env)
+ 	return 0;
+ }
+ 
+-static char *dvb_devnode(struct device *dev, umode_t *mode)
++static char *dvb_devnode(const struct device *dev, umode_t *mode)
+ {
+-	struct dvb_device *dvbdev = dev_get_drvdata(dev);
++	const struct dvb_device *dvbdev = dev_get_drvdata(dev);
+ 
+ 	return kasprintf(GFP_KERNEL, "dvb/adapter%d/%s%d",
+ 		dvbdev->adapter->num, dnames[dvbdev->type], dvbdev->id);
+diff --git a/drivers/media/pci/ddbridge/ddbridge-core.c b/drivers/media/pci/ddbridge/ddbridge-core.c
+index fe833f39698a..ee8087f29b2c 100644
+--- a/drivers/media/pci/ddbridge/ddbridge-core.c
++++ b/drivers/media/pci/ddbridge/ddbridge-core.c
+@@ -2716,9 +2716,9 @@ static const struct file_operations ddb_fops = {
+ 	.release        = ddb_release,
+ };
+ 
+-static char *ddb_devnode(struct device *device, umode_t *mode)
++static char *ddb_devnode(const struct device *device, umode_t *mode)
+ {
+-	struct ddb *dev = dev_get_drvdata(device);
++	const struct ddb *dev = dev_get_drvdata(device);
+ 
+ 	return kasprintf(GFP_KERNEL, "ddbridge/card%d", dev->nr);
+ }
+diff --git a/drivers/media/rc/rc-main.c b/drivers/media/rc/rc-main.c
+index eba0cd30e314..527d9324742b 100644
+--- a/drivers/media/rc/rc-main.c
++++ b/drivers/media/rc/rc-main.c
+@@ -1017,7 +1017,7 @@ static void ir_close(struct input_dev *idev)
+ }
+ 
+ /* class for /sys/class/rc */
+-static char *rc_devnode(struct device *dev, umode_t *mode)
++static char *rc_devnode(const struct device *dev, umode_t *mode)
+ {
+ 	return kasprintf(GFP_KERNEL, "rc/%s", dev_name(dev));
+ }
+diff --git a/drivers/misc/genwqe/card_base.c b/drivers/misc/genwqe/card_base.c
+index 693981891870..0f00687f72d4 100644
+--- a/drivers/misc/genwqe/card_base.c
++++ b/drivers/misc/genwqe/card_base.c
+@@ -1349,7 +1349,7 @@ static struct pci_driver genwqe_driver = {
+  * Default mode should be rw for everybody. Do not change default
+  * device name.
+  */
+-static char *genwqe_devnode(struct device *dev, umode_t *mode)
++static char *genwqe_devnode(const struct device *dev, umode_t *mode)
+ {
+ 	if (mode)
+ 		*mode = 0666;
+diff --git a/drivers/tty/tty_io.c b/drivers/tty/tty_io.c
+index de06c3c2ff70..aad8171f6c21 100644
+--- a/drivers/tty/tty_io.c
++++ b/drivers/tty/tty_io.c
+@@ -3494,7 +3494,7 @@ void tty_default_fops(struct file_operations *fops)
+ 	*fops = tty_fops;
+ }
+ 
+-static char *tty_devnode(struct device *dev, umode_t *mode)
++static char *tty_devnode(const struct device *dev, umode_t *mode)
+ {
+ 	if (!mode)
+ 		return NULL;
+diff --git a/drivers/usb/core/file.c b/drivers/usb/core/file.c
+index 558890ada0e5..da7d88e069e6 100644
+--- a/drivers/usb/core/file.c
++++ b/drivers/usb/core/file.c
+@@ -62,7 +62,7 @@ static struct usb_class {
+ 	struct class *class;
+ } *usb_class;
+ 
+-static char *usb_devnode(struct device *dev, umode_t *mode)
++static char *usb_devnode(const struct device *dev, umode_t *mode)
+ {
+ 	struct usb_class_driver *drv;
+ 
+diff --git a/drivers/vdpa/vdpa_user/vduse_dev.c b/drivers/vdpa/vdpa_user/vduse_dev.c
+index 35dceee3ed56..0dd3c1f291da 100644
+--- a/drivers/vdpa/vdpa_user/vduse_dev.c
++++ b/drivers/vdpa/vdpa_user/vduse_dev.c
+@@ -1656,7 +1656,7 @@ static const struct file_operations vduse_ctrl_fops = {
+ 	.llseek		= noop_llseek,
+ };
+ 
+-static char *vduse_devnode(struct device *dev, umode_t *mode)
++static char *vduse_devnode(const struct device *dev, umode_t *mode)
+ {
+ 	return kasprintf(GFP_KERNEL, "vduse/%s", dev_name(dev));
+ }
+diff --git a/drivers/vfio/vfio_main.c b/drivers/vfio/vfio_main.c
+index 6e8804fe0095..5bf4b3454918 100644
+--- a/drivers/vfio/vfio_main.c
++++ b/drivers/vfio/vfio_main.c
+@@ -1812,7 +1812,7 @@ EXPORT_SYMBOL(vfio_set_irqs_validate_and_prepare);
+ /*
+  * Module/class support
+  */
+-static char *vfio_devnode(struct device *dev, umode_t *mode)
++static char *vfio_devnode(const struct device *dev, umode_t *mode)
+ {
+ 	return kasprintf(GFP_KERNEL, "vfio/%s", dev_name(dev));
+ }
+diff --git a/fs/pstore/pmsg.c b/fs/pstore/pmsg.c
+index d8542ec2f38c..b31c9c72d90b 100644
+--- a/fs/pstore/pmsg.c
++++ b/fs/pstore/pmsg.c
+@@ -46,7 +46,7 @@ static int pmsg_major;
+ #undef pr_fmt
+ #define pr_fmt(fmt) PMSG_NAME ": " fmt
+ 
+-static char *pmsg_devnode(struct device *dev, umode_t *mode)
++static char *pmsg_devnode(const struct device *dev, umode_t *mode)
+ {
+ 	if (mode)
+ 		*mode = 0220;
+diff --git a/include/linux/device/class.h b/include/linux/device/class.h
+index 94b1107258e5..42cc3fb44a84 100644
+--- a/include/linux/device/class.h
++++ b/include/linux/device/class.h
+@@ -60,7 +60,7 @@ struct class {
+ 	struct kobject			*dev_kobj;
+ 
+ 	int (*dev_uevent)(const struct device *dev, struct kobj_uevent_env *env);
+-	char *(*devnode)(struct device *dev, umode_t *mode);
++	char *(*devnode)(const struct device *dev, umode_t *mode);
+ 
+ 	void (*class_release)(struct class *class);
+ 	void (*dev_release)(struct device *dev);
+diff --git a/sound/sound_core.c b/sound/sound_core.c
+index 3332fe321737..3e7dd6fcb7cf 100644
+--- a/sound/sound_core.c
++++ b/sound/sound_core.c
+@@ -30,7 +30,7 @@ MODULE_DESCRIPTION("Core sound module");
+ MODULE_AUTHOR("Alan Cox");
+ MODULE_LICENSE("GPL");
+ 
+-static char *sound_devnode(struct device *dev, umode_t *mode)
++static char *sound_devnode(const struct device *dev, umode_t *mode)
+ {
+ 	if (MAJOR(dev->devt) == SOUND_MAJOR)
+ 		return NULL;
+-- 
+2.38.1
 
-> 
-> BR,
-> Jani.
-> 
->>
->> Best Regards,
->> - Maíra Canal
->>
->>>
->>> BR,
->>> Jani.
->>>
->>>
->>>> +
->>>>  static int connector_show(struct seq_file *m, void *data)
->>>>  {
->>>>  	struct drm_connector *connector = m->private;
->>>> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
->>>> index 8214a0b1ab7f..803942008fcb 100644
->>>> --- a/drivers/gpu/drm/drm_drv.c
->>>> +++ b/drivers/gpu/drm/drm_drv.c
->>>> @@ -575,6 +575,7 @@ static void drm_dev_init_release(struct drm_device *dev, void *res)
->>>>  	mutex_destroy(&dev->clientlist_mutex);
->>>>  	mutex_destroy(&dev->filelist_mutex);
->>>>  	mutex_destroy(&dev->struct_mutex);
->>>> +	mutex_destroy(&dev->debugfs_mutex);
->>>>  	drm_legacy_destroy_members(dev);
->>>>  }
->>>>  
->>>> @@ -608,12 +609,14 @@ static int drm_dev_init(struct drm_device *dev,
->>>>  	INIT_LIST_HEAD(&dev->filelist_internal);
->>>>  	INIT_LIST_HEAD(&dev->clientlist);
->>>>  	INIT_LIST_HEAD(&dev->vblank_event_list);
->>>> +	INIT_LIST_HEAD(&dev->debugfs_list);
->>>>  
->>>>  	spin_lock_init(&dev->event_lock);
->>>>  	mutex_init(&dev->struct_mutex);
->>>>  	mutex_init(&dev->filelist_mutex);
->>>>  	mutex_init(&dev->clientlist_mutex);
->>>>  	mutex_init(&dev->master_mutex);
->>>> +	mutex_init(&dev->debugfs_mutex);
->>>>  
->>>>  	ret = drmm_add_action(dev, drm_dev_init_release, NULL);
->>>>  	if (ret)
->>>> diff --git a/include/drm/drm_debugfs.h b/include/drm/drm_debugfs.h
->>>> index 2188dc83957f..c5684d6c5055 100644
->>>> --- a/include/drm/drm_debugfs.h
->>>> +++ b/include/drm/drm_debugfs.h
->>>> @@ -79,12 +79,43 @@ struct drm_info_node {
->>>>  	struct dentry *dent;
->>>>  };
->>>>  
->>>> +/**
->>>> + * struct drm_debugfs_info - debugfs info list entry
->>>> + *
->>>> + * This structure represents a debugfs file to be created by the drm
->>>> + * core.
->>>> + */
->>>> +struct drm_debugfs_info {
->>>> +	const char *name;
->>>> +	int (*show)(struct seq_file*, void*);
->>>> +	u32 driver_features;
->>>> +	void *data;
->>>> +};
->>>> +
->>>> +/**
->>>> + * struct drm_debugfs_entry - Per-device debugfs node structure
->>>> + *
->>>> + * This structure represents a debugfs file, as an instantiation of a &struct
->>>> + * drm_debugfs_info on a &struct drm_device.
->>>> + */
->>>> +struct drm_debugfs_entry {
->>>> +	struct drm_device *dev;
->>>> +	struct drm_debugfs_info file;
->>>> +	struct list_head list;
->>>> +};
->>>> +
->>>>  #if defined(CONFIG_DEBUG_FS)
->>>>  void drm_debugfs_create_files(const struct drm_info_list *files,
->>>>  			      int count, struct dentry *root,
->>>>  			      struct drm_minor *minor);
->>>>  int drm_debugfs_remove_files(const struct drm_info_list *files,
->>>>  			     int count, struct drm_minor *minor);
->>>> +
->>>> +int drm_debugfs_add_file(struct drm_device *dev, const char *name,
->>>> +			 int (*show)(struct seq_file*, void*), void *data);
->>>> +
->>>> +int drm_debugfs_add_files(struct drm_device *dev,
->>>> +			  const struct drm_debugfs_info *files, int count);
->>>>  #else
->>>>  static inline void drm_debugfs_create_files(const struct drm_info_list *files,
->>>>  					    int count, struct dentry *root,
->>>> @@ -96,6 +127,20 @@ static inline int drm_debugfs_remove_files(const struct drm_info_list *files,
->>>>  {
->>>>  	return 0;
->>>>  }
->>>> +
->>>> +static inline int drm_debugfs_add_file(struct drm_device *dev, const char *name,
->>>> +				       int (*show)(struct seq_file*, void*),
->>>> +				       void *data)
->>>> +{
->>>> +	return 0;
->>>> +}
->>>> +
->>>> +static inline int drm_debugfs_add_files(struct drm_device *dev,
->>>> +					const struct drm_debugfs_info *files,
->>>> +					int count)
->>>> +{
->>>> +	return 0;
->>>> +}
->>>>  #endif
->>>>  
->>>>  #endif /* _DRM_DEBUGFS_H_ */
->>>> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
->>>> index 9923c7a6885e..fa6af1d57929 100644
->>>> --- a/include/drm/drm_device.h
->>>> +++ b/include/drm/drm_device.h
->>>> @@ -295,6 +295,21 @@ struct drm_device {
->>>>  	 */
->>>>  	struct drm_fb_helper *fb_helper;
->>>>  
->>>> +	/**
->>>> +	 * @debugfs_mutex:
->>>> +	 *
->>>> +	 * Protects &debugfs_list access.
->>>> +	 */
->>>> +	struct mutex debugfs_mutex;
->>>> +
->>>> +	/**
->>>> +	 * @debugfs_list:
->>>> +	 *
->>>> +	 * List of debugfs files to be created by the DRM device. The files
->>>> +	 * must be added during drm_dev_register().
->>>> +	 */
->>>> +	struct list_head debugfs_list;
->>>> +
->>>>  	/* Everything below here is for legacy driver, never use! */
->>>>  	/* private: */
->>>>  #if IS_ENABLED(CONFIG_DRM_LEGACY)
->>>
-> 
