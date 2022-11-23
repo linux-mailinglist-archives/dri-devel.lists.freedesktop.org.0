@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EB6063654F
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 17:06:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AABB636568
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 17:08:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0AFF10E1F3;
-	Wed, 23 Nov 2022 16:06:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3D8110E5A5;
+	Wed, 23 Nov 2022 16:08:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77CAB10E1F3
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 16:06:10 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 030D961DE6;
- Wed, 23 Nov 2022 16:06:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50051C433C1;
- Wed, 23 Nov 2022 16:06:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1669219569;
- bh=WQYGgaE2FlHz9BgmKebu5rd6gRZbPxNH81JDfaGj06Y=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=IRYGO/4fmWR76PpS8av15fkBwXOLOYjBCFGPQZ4CE7XXUr3d5axzamdRf64l5ziWb
- 6V0iSRY0Fma2b04hVJUWIiSMN7woWN6izXe5wARaZ49bV5d8PypGDnBky3PT23f6e6
- oODkeUsmmcGZjMHfQpygWcjZhTz0cetJTuHhE/9UrwUm912Fmttqq2ECOAGpUPCjGR
- TYfO+DyHLVH+RKw0Ku8wBJeZVAuDQGTC1pUOyKIxPYVjl6TV8rfkEP038gXGvE/wqn
- Lu/nyH1EkZoeRo00sO7GOR+WpdW4jOsVr2gtaIN/58BhNU5el8ZR+iwbpDAbCEGC61
- dJb8u88vS0n4A==
-Message-ID: <9b74bde1-53e8-0435-9913-af88f626d737@kernel.org>
-Date: Wed, 23 Nov 2022 17:06:02 +0100
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3A0310E5A5
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 16:08:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=XRs7Eo096On4c/4Oz/ClSn98QmdXnkdHlJL88qVUywU=; b=lublJ4G+YOaSO4GKn+FY1Gsv5v
+ 1L7pPPVliITpE1GCpwKtxBHosi7VWd8rnS3bkUyrXQYg1MGM/ZAy/KYRC/6KP3PUSPF86uB8K1xc5
+ pxcHZvTqmB90pJ1aH7GoUmItFpoLNFVbswx7DvuS+Yf9ma/KGiT5M/fBzserpFbr7Yc97w86cP7iD
+ MG/ag+xNDgVQQ2PjobXgQev4pYb2bVwgikmChXgCwqos080dOKrrq1jO98WZdkDg6zxV66vx3FO3J
+ PJgg5mVZR14NM+sS01lNyFjAFfNcRy52rzKltE4KPLpJMbtFwUaEcz9MNyLFI/z0SJ+d5irha7srw
+ r8Hb+GVQ==;
+Received: from [2a01:799:95e:1700:6395:ccbd:d000:d42b] (port=49481)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1oxsIp-0000gb-E4; Wed, 23 Nov 2022 17:08:47 +0100
+Message-ID: <ad77be8b-e867-81df-c703-8afb1e6d473d@tronnes.org>
+Date: Wed, 23 Nov 2022 17:08:44 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
-Subject: Re: [PATCH v28 01/11] dt-bindings: arm: mediatek: mmsys: add vdosys1
- compatible for MT8195
-Content-Language: en-US
-To: "Nancy.Lin" <nancy.lin@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, wim@linux-watchdog.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux@roeck-us.net, nfraprado@collabora.com
-References: <20221107072243.15748-1-nancy.lin@mediatek.com>
- <20221107072243.15748-2-nancy.lin@mediatek.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <20221107072243.15748-2-nancy.lin@mediatek.com>
+Subject: Re: [PATCH 1/6] drm/gem: shadow_fb_access: Prepare imported buffers
+ for CPU access
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, stable@kernel.org,
+ Dave Airlie <airlied@redhat.com>, dri-devel@lists.freedesktop.org,
+ Hans de Goede <hdegoede@redhat.com>, Maxime Ripard <mripard@kernel.org>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+References: <20221122-gud-shadow-plane-v1-0-9de3afa3383e@tronnes.org>
+ <20221122-gud-shadow-plane-v1-1-9de3afa3383e@tronnes.org>
+ <79b39092-7f0d-5651-ac4f-f10d72411e34@redhat.com>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <79b39092-7f0d-5651-ac4f-f10d72411e34@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -61,29 +61,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- David Airlie <airlied@linux.ie>, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
- singo.chang@mediatek.com, llvm@lists.linux.dev,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>,
- linux-mediatek@lists.infradead.org, Yongqiang Niu <yongqiang.niu@mediatek.com>,
- linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/11/2022 08:22, Nancy.Lin wrote:
-> Add vdosys1 mmsys compatible for MT8195 platform.
+
+
+Den 23.11.2022 09.22, skrev Javier Martinez Canillas:
+> Hello Noralf,
 > 
-> For MT8195, VDOSYS0 and VDOSYS1 are 2 display HW pipelines binding to
-> 2 different power domains, different clock drivers and different
-> mediatek-drm drivers.
+> On 11/22/22 21:58, Noralf Trønnes via B4 Submission Endpoint wrote:
+>> From: Noralf Trønnes <noralf@tronnes.org>
+>>
+>> Complete the shadow fb access functions by also preparing imported buffers
+>> for CPU access. Update the affected drivers that currently use
+>> drm_gem_fb_begin_cpu_access().
+>>
+>> Through this change the following SHMEM drivers will now also make sure
+>> their imported buffers are prepared for CPU access: cirrus, hyperv,
+>> mgag200, vkms
+>>
 > 
-> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-> Reviewed-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> [...]
+> 
+>> @@ -378,11 +379,20 @@ int drm_gem_begin_shadow_fb_access(struct drm_plane *plane, struct drm_plane_sta
+>>  {
+>>  	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
+>>  	struct drm_framebuffer *fb = plane_state->fb;
+>> +	int ret;
+>>  
+>>  	if (!fb)
+>>  		return 0;
+>>  
+>> -	return drm_gem_fb_vmap(fb, shadow_plane_state->map, shadow_plane_state->data);
+>> +	ret = drm_gem_fb_vmap(fb, shadow_plane_state->map, shadow_plane_state->data);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
+>> +	if (ret)
+>> +		drm_gem_fb_vunmap(fb, shadow_plane_state->map);
+>> +
+>> +	return ret;
+> 
+> Makes sense to me to have the CPU access prepare here too.
+> 
+>> diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
+>> index 53464afc2b9a..58a2f0113f24 100644
+>> --- a/drivers/gpu/drm/solomon/ssd130x.c
+>> +++ b/drivers/gpu/drm/solomon/ssd130x.c
+>> @@ -544,7 +544,6 @@ static int ssd130x_fb_blit_rect(struct drm_framebuffer *fb, const struct iosys_m
+>>  	struct ssd130x_device *ssd130x = drm_to_ssd130x(fb->dev);
+>>  	struct iosys_map dst;
+>>  	unsigned int dst_pitch;
+>> -	int ret = 0;
+>>  	u8 *buf = NULL;
+>>  
+>>  	/* Align y to display page boundaries */
+>> @@ -556,21 +555,14 @@ static int ssd130x_fb_blit_rect(struct drm_framebuffer *fb, const struct iosys_m
+>>  	if (!buf)
+>>  		return -ENOMEM;
+>>  
+>> -	ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
+>> -	if (ret)
+>> -		goto out_free;
+>> -
+>>  	iosys_map_set_vaddr(&dst, buf);
+>>  	drm_fb_xrgb8888_to_mono(&dst, &dst_pitch, vmap, fb, rect);
+>>  
+>> -	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
+>> -
+> 
+> The only thing I'm not sure about is that drivers used to call the begin/end
+> CPU access only during the window while the BO data was accessed but now the
+> windows will be slightly bigger if that happens in .{begin,end}_fb_access.
+> 
 
-Any reason for not CC-ing maintainers pointed out by get_maintainers.pl?
+I didn't think that could be an issue since userspace isn't touching the
+buffer while the commit is ongoing anyways, but it's a complicated
+machinery. We'll see what Daniel has to say.
 
-Best regards,
-Krzysztof
+Noralf.
 
+> If that's not an issue then, I agree with your patch since it simplifies the
+> logic in the drivers and gets rid of duplicated code.
+> 
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> 
