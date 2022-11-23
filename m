@@ -2,46 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31EF9635240
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 09:22:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EA4C63523F
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 09:22:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C6E010E50C;
-	Wed, 23 Nov 2022 08:21:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B91710E502;
+	Wed, 23 Nov 2022 08:21:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2300 seconds by postgrey-1.36 at gabe;
- Wed, 23 Nov 2022 07:18:42 UTC
-Received: from mx0a-00176a03.pphosted.com (mx0a-00176a03.pphosted.com
- [67.231.149.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2544F10E4F3
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 07:18:42 +0000 (UTC)
-Received: from pps.filterd (m0047963.ppops.net [127.0.0.1])
- by m0047963.ppops.net-00176a03. (8.17.1.19/8.17.1.19) with ESMTP id
- 2AN67Amg031405
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 01:40:22 -0500
-Date: Wed, 23 Nov 2022 08:40:17 +0200
-From: Ian Ray <ian.ray@ge.com>
-To: Yuan Can <yuancan@huawei.com>
-Subject: Re: [PATCH v2] drm/bridge: megachips: Fix error handling in
- i2c_register_driver()
-Message-ID: <20221123064017.GA4408@zoo6.em.health.ge.com>
-References: <20221108091226.114524-1-yuancan@huawei.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4765610E4F5
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 07:00:26 +0000 (UTC)
+Received: from desky.lan (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 34BC288F;
+ Wed, 23 Nov 2022 08:00:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1669186824;
+ bh=Knz0JCCrfCqQxJejdfCSEXVWPhZVH+yr9Z4AiAaBvFg=;
+ h=From:To:Cc:Subject:Date:From;
+ b=oRRanw51554oiR9W7rj4aus04gF+aGASx6InEVVf73OEMWWbYnl1jgaPxSFCiL5w1
+ gGYB856SbsrKDl6gJxt1XEON195cLORWienlYPruWVzg1GUpaUTOvhCcroJ6/N5Ska
+ w0hCCsucGs5sdv73p3jqDpECgOkBIMHoCgozUSY8=
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/7] Renesas V4H DSI & DP output support
+Date: Wed, 23 Nov 2022 08:59:39 +0200
+Message-Id: <20221123065946.40415-1-tomi.valkeinen+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221108091226.114524-1-yuancan@huawei.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Proofpoint-ORIG-GUID: ie5pOnMtShkKnJSR_VQ-PmOsw8tt3RIq
-X-Proofpoint-GUID: ie5pOnMtShkKnJSR_VQ-PmOsw8tt3RIq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-23_02,2022-11-18_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- lowpriorityscore=0
- impostorscore=0 suspectscore=0 mlxscore=0 phishscore=0 priorityscore=1501
- clxscore=1011 malwarescore=0 bulkscore=0 spamscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
- definitions=main-2211230049
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Wed, 23 Nov 2022 08:21:41 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,75 +51,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, architt@codeaurora.org, jernej.skrabec@gmail.com,
- martyn.welch@collabora.co.uk, jonas@kwiboo.se, dri-devel@lists.freedesktop.org,
- peter.senna@gmail.com, robert.foss@linaro.org,
- Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
- martin.donnelly@ge.com
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 08, 2022 at 09:12:26AM +0000, Yuan Can wrote:
-> 
-> A problem about insmod megachips-stdpxxxx-ge-b850v3-fw.ko failed is
-> triggered with the following log given:
-> 
-> [ 4497.981497] Error: Driver 'stdp4028-ge-b850v3-fw' is already registered, aborting...
-> insmod: ERROR: could not insert module megachips-stdpxxxx-ge-b850v3-fw.ko: Device or resource busy
-> 
-> The reason is that stdpxxxx_ge_b850v3_init() returns i2c_add_driver()
-> directly without checking its return value, if i2c_add_driver() failed,
-> it returns without calling i2c_del_driver() on the previous i2c driver,
-> resulting the megachips-stdpxxxx-ge-b850v3-fw can never be installed
-> later.
-> A simple call graph is shown as below:
-> 
->  stdpxxxx_ge_b850v3_init()
->    i2c_add_driver(&stdp4028_ge_b850v3_fw_driver)
->    i2c_add_driver(&stdp2690_ge_b850v3_fw_driver)
->      i2c_register_driver()
->        driver_register()
->          bus_add_driver()
->            priv = kzalloc(...) # OOM happened
->    # return without delete stdp4028_ge_b850v3_fw_driver
-> 
-> Fix by calling i2c_del_driver() on stdp4028_ge_b850v3_fw_driver when
-> i2c_add_driver() returns error.
-> 
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-Thank you!
+Hi,
 
-> Fixes: fcfa0ddc18ed ("drm/bridge: Drivers for megachips-stdpxxxx-ge-b850v3-fw (LVDS-DP++)")
-> Signed-off-by: Yuan Can <yuancan@huawei.com>
-> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+These add support for DSI on V4H SoC (r8a779g0) and DP for Whitehawk
+board.
 
-Tested-by: Ian Ray <ian.ray@ge.com>
+Changes in v2:
+- A few cosmetic changes
+- Increase vspd address range in dts to 0x7000
+- Arrange nodes in dts by the block address
+- Use gen = 4 for r8a779g0 du
+- Drop the CLOCKSET1 hack patch
 
-> ---
-> Changes in v2:
-> - Add Andrzej's Reviewed-by
-> - Change to the new error return style suggested by Andrzej
-> 
->  drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-> index 97359f807bfc..cbfa05a6767b 100644
-> --- a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-> +++ b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-> @@ -440,7 +440,11 @@ static int __init stdpxxxx_ge_b850v3_init(void)
->  	if (ret)
->  		return ret;
->  
-> -	return i2c_add_driver(&stdp2690_ge_b850v3_fw_driver);
-> +	ret = i2c_add_driver(&stdp2690_ge_b850v3_fw_driver);
-> +	if (ret)
-> +		i2c_del_driver(&stdp4028_ge_b850v3_fw_driver);
-> +
-> +	return ret;
->  }
->  module_init(stdpxxxx_ge_b850v3_init);
->  
-> -- 
-> 2.17.1
-> 
+The CLOCKSET1 patch is apparently not needed to get the DSI & DP
+working. Which is baffling, as I'm quite sure it was needed. There are a
+few possible explanations: 1) it was never needed and I was just messing
+things up, 2) it was needed, but some of my later improvements made it
+unnecessary, 3) Whitehawk board firmware was updated in the middle of
+the development of this series, possibly the firmware made the patch
+unnecessary.
+
+ Tomi
+
+Tomi Valkeinen (7):
+  dt-bindings: display: renesas,du: Provide bindings for r8a779g0
+  dt-bindings: display: bridge: renesas,dsi-csi2-tx: Add r8a779g0
+  clk: renesas: r8a779g0: Add display related clocks
+  arm64: dts: renesas: r8a779g0: Add display related nodes
+  arm64: dts: renesas: white-hawk-cpu: Add DP output support
+  drm: rcar-du: Add r8a779g0 support
+  drm: rcar-du: dsi: Add r8A779g0 support
+
+ .../display/bridge/renesas,dsi-csi2-tx.yaml   |   3 +-
+ .../bindings/display/renesas,du.yaml          |   2 +
+ .../dts/renesas/r8a779g0-white-hawk-cpu.dtsi  |  94 ++++
+ arch/arm64/boot/dts/renesas/r8a779g0.dtsi     | 130 +++++
+ drivers/clk/renesas/r8a779g0-cpg-mssr.c       |  14 +
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c         |  22 +
+ drivers/gpu/drm/rcar-du/rcar_du_group.c       |   2 +-
+ drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c       | 484 ++++++++++++++----
+ drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h  |   6 +-
+ 9 files changed, 649 insertions(+), 108 deletions(-)
+
+-- 
+2.34.1
+
