@@ -2,123 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4555635463
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 10:06:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2FFF635464
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 10:07:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FBA310E520;
-	Wed, 23 Nov 2022 09:06:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E76F10E522;
+	Wed, 23 Nov 2022 09:07:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2059.outbound.protection.outlook.com [40.107.244.59])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 060BC10E520;
- Wed, 23 Nov 2022 09:06:09 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=T9Pqia4gohCWY42uH//2a1zz8NLY42BjDx2/HCdQXm5GNHJ9CCz4barXULK+yBbbm68XP5WPBoOOWj0uEoCoF+fxwmTlz4j1sGUtcaxq0qKomRnt+m61qRlazGer4i5D+1O7+AsVT+c6qIAhbHp5mpojzt5jTSdGkgy5kyLCC0rqko+mBVEh++TRugV4BkDoX9hTHOV5C1gD2IIgy9i6mk67VUtKjSxWq89ixYVUxiibSKkI4WQ8ldzZ3sD9qfiFjUb/fCZNPIoWeuD6itwEgljySsbXL5IzfxmOrTb37IKuVto1PluSATWs4quqLdoecbDyVkv+D7tpgnH14rnl1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GiIpqkoBIHW9U0YkLhhuENsDbAsUd4QW4welcq2ADWc=;
- b=bdE8libEJ0KAVVHb3UzDYEkEQWQrdnhQ7Emx0WlV7cmNzeXq2Nr7cjA43QnRJh7HX7tygcFN5o7+nK/e6taALVe6+C528TZFpj1yDjnWqUj33cuC6Kpj4jaPECPj6v8grLraALxhZQGxyn5eVD1Nv3rawO1wIX5htSFB+OzSxflfhwI3zvteN8ftu0WxzUkOS75JUrJ7TgVsGF55n1w6DgcuuYr5pUU6LRC3h/U2u3kxV0KCQf7q8iEGFTOWdiYIkip0Qkj8APpidXduT7BSrsZCMvZKPsK+feN5++7fNGpmGsdhwA3Sqia0naSS4Q0hvxpNQOohAp37Nch+qP/FdQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GiIpqkoBIHW9U0YkLhhuENsDbAsUd4QW4welcq2ADWc=;
- b=0UCsCT8hoIo7KQz/ZtZHnHC4JmeFabHfpnuLCt44DVfo+3aJ5Oa1qkmt3rZ9NNABTOZwP8Zx8aLHcfufEYmPhOGjV/BTPcdKK3AOhVverMLa9ChVYWagvkFk0cux1xV0s2Oes1nkv7iOKd6HdYqN1oXi0DnLNqoa6TVOvk+dMUA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by MN0PR12MB5763.namprd12.prod.outlook.com (2603:10b6:208:376::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.15; Wed, 23 Nov
- 2022 09:06:06 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::7d43:3f30:4caf:7421]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::7d43:3f30:4caf:7421%7]) with mapi id 15.20.5834.015; Wed, 23 Nov 2022
- 09:06:06 +0000
-Message-ID: <3d8607b4-973d-945d-c184-260157ade7c3@amd.com>
-Date: Wed, 23 Nov 2022 10:06:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] dma-buf: Require VM_PFNMAP vma for mmap
-Content-Language: en-US
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jason Gunthorpe <jgg@ziepe.ca>
-References: <20221122170801.842766-1-daniel.vetter@ffwll.ch>
- <Y30PDdsvHIJo5YHR@ziepe.ca>
- <CAKMK7uEccwYTNwDYQazmZvTfBFQOikZt5A6BmegweyO-inKYbQ@mail.gmail.com>
- <Y30Z4VxT7Wdoc1Lc@ziepe.ca>
- <CAKMK7uE=8eqyh9BKg_+7B1jjMi6K4wrmPyi9xeLVvVYFxBgF9g@mail.gmail.com>
- <Y30kK6dsssSLJVgp@ziepe.ca>
- <CAKMK7uFQQkG82PzuSTGQTnN3ZNps5N_4TjR5NRWo0LaJkEaNew@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CAKMK7uFQQkG82PzuSTGQTnN3ZNps5N_4TjR5NRWo0LaJkEaNew@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0018.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a::28) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F52C10E522;
+ Wed, 23 Nov 2022 09:07:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1669194451; x=1700730451;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=/Skoz19PJJCG1olgFfMNfIZSMpXD+mC7AjzhsERWvDA=;
+ b=LcALpfs2ngKsGQKaPB9iodFRH3lMAX1tmXb6ng9Xc8Vu0J3C7AmYAQ5e
+ wBi496XwgJ72B1PMxAHf2xFOgNDTUufeo6Vg8B72S9BZsWyOh4aCmGs0R
+ y/K8GNi6yH8undt98BsI0IYMzLEjID3ysSolQ8KBM8/9in87kLPZ6wI3D
+ RgwN1Fu7+y7ZrHp/j8WZp+m44Ji/GHGxQUbbIB5FLphQJmpzKpv3U/aCn
+ y3hXpDHAlfIA4E8HDWO//O0ccoiqPjIm+SG7obJFZYQx+0xBD29acIhTy
+ loJ93e1YerhorY+QMBlfqH4MCg2c7aa0VIviViqyOS2aX40u5s8c0jNEo A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="315841441"
+X-IronPort-AV: E=Sophos;i="5.96,187,1665471600"; d="scan'208";a="315841441"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Nov 2022 01:07:30 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="641723528"
+X-IronPort-AV: E=Sophos;i="5.96,187,1665471600"; d="scan'208";a="641723528"
+Received: from jgronski-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.16.163])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Nov 2022 01:07:28 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: Re: [MAINTAINER TOOLS] docs: updated rules for topic/core-for-CI
+ commit management
+In-Reply-To: <20221122215307.o3rg7x3a7r2sajby@ldmartin-desk2.lan>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20221122131714.3443238-1-jani.nikula@intel.com>
+ <20221122215307.o3rg7x3a7r2sajby@ldmartin-desk2.lan>
+Date: Wed, 23 Nov 2022 11:07:25 +0200
+Message-ID: <87sfiavy2a.fsf@intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|MN0PR12MB5763:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4e586f35-34cc-4ae0-e1bb-08dacd31f46a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: sFe2JIgTa3ajRVCNX+L6tykFaKgpJLsmZGNc4FVn0n+2eMxz35FjoXzFxq1HpN2hRd5pjCkYQP1uTNKh+IRnHzGTirQTBL+lPdwT5PuA6dV1ICY/NfsSQsuiBDA5usv/2jaqixYTfxBdy14re1pPV/3LqiBFFAbVXO0FtT+noKnYMrQ7MT78c2XxWfosKoDputZqGnCrOVMMxZvVQqMYDX4boM8GQGmsVoIOWKtz4/iipUYJmfvn1DWOHixbFXT1EzBjA4k7FXbUBnIoai8H2xMcLA1bgahWqjkmggakiQtKJH/dpBSZPaLY451SmArgKJEi4Y500ZhYjVCq3QwgxDOEDQ2xdorJcmR0hcBI2I+fg+fHaAo015CZHcDPR96tGenqvtRwanTVxdM5yTLf/O5d3iy65Pc1Lv0WVqpBDmDiNoqfTq67HilysYNn0aBZerH5RAdEhk8KqyP1nMJfdXeA7XepwhOWDNkR1O75YS0qPnoWrd89uGLQ0FLFqjDoMQqI4c8kpshwRRFv43y+Pu37t6W02FIoqPtvcyE+yl/jWBwDK+CwO5nNd7bcDlxNCC2NW7jJWrCLCtBJV2xtvpqyaK882LUNkIjkcJ0/8Mlx9SPCzmWjZ8q5h8W5swG4B7AvcCWTbu820uNgdzt3x5NE7ua8FT35Jz1YWz2XRpv1BHFwIe1xkPoXgnd2NC5ajIlhjp7tgx9BOKQ60qC1qxVVQrrarJAJSDBkKHKis4/+3muPSzfhCssQSqG8iHgZPaikrHW38iiaqIcrGREM3w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(39860400002)(346002)(366004)(136003)(376002)(396003)(451199015)(31696002)(7416002)(5660300002)(6666004)(8936002)(83380400001)(6512007)(6506007)(966005)(478600001)(6486002)(4326008)(54906003)(36756003)(66946007)(66556008)(8676002)(110136005)(2616005)(66476007)(186003)(38100700002)(86362001)(316002)(41300700001)(2906002)(31686004)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VWo4SURDTzJSSXNPaThUZ3RzenF5aUFwNDNjL0tmV1RibWVtSm5UWUVTallG?=
- =?utf-8?B?TlJFT2FlaTBSUFRNQmx3aHM2bk9ETjZOTUpvRUgwTHVZcEtoY1o1ZGZjZ1Bj?=
- =?utf-8?B?OTdWZUR0OHo1aTJEY3FadjN3TVUvblVUNFNKL1lkSmVlWWFRVjg1RlJnOFBn?=
- =?utf-8?B?Ukd1TXNBNHBVOGJvMDFIL3VYSkExUDBqZ3IwalJ6bFFwMW95S3o4dTZVVGVS?=
- =?utf-8?B?bXZzN2Nod3A0a1QyaWp2eUNua1RTWmhHbDVoZkNnL2R5RXFCTU1uMVFOWitM?=
- =?utf-8?B?VzBubVptTGNyZ2dHRDRlZHp6czJseXQ0VUdxUWZBc0luZGo0dGx3V2lNNklI?=
- =?utf-8?B?QTR3YVpzc2tHR2xsYStPUWVXL3J0Q0F5YTFRU1NEMmFiTFdoOG1WNjhNaVdp?=
- =?utf-8?B?MUg1cXJ6WWpUdkVBSjQyOVhDNm9SYWVFb0FhMjBaMmxlQjY0ZHBRSndCK2E4?=
- =?utf-8?B?Ui9sdGFsWTZSRUdwdXBGdE9icUdrTjltQUxjais0MFpqb0ZsRDVlaDFSeFZK?=
- =?utf-8?B?aFBXQ2JEaERoVHlWTnZUYzEvbXY5ajduRGVRbUhGcGZTRXJiSlkzZXg1NDB0?=
- =?utf-8?B?YjlGZFVyNncramk3eEhmRGVGNWh0anowWWZKcmg4SXVCeWNxQ2RFb21qeitP?=
- =?utf-8?B?QVRTSjRsanhISWd6ZTN4ZDRGdnphTU9ySDZUVlA2b1dKWExZSnd1dW5iK0pw?=
- =?utf-8?B?Nk5IRStWL29SNUxUS3FTQUVzZGtJV21BQ05WazlrYlRPYno3c3IrNWg5dGl6?=
- =?utf-8?B?a2NPSURWUXpUMU5vWGhSbU9ybUxKRVFvYWpJZHJSUnFjNXE1alAzZVE0NlFm?=
- =?utf-8?B?Rm9RRzdiMERtQXlHOHpFelpCN3MxajkvdWZvOEtJdEwxY2gzQ3A3WnpBbzJS?=
- =?utf-8?B?bmtoMU5nQnpVSko0SlJSREhLa3daMStNNFJvYWkraGNMT1RDTTRERW9xbjNs?=
- =?utf-8?B?RmxMNHE2akNaMkJmK0FxdkR3S1ExZTNFUDB4TEVKM1FJOFhFZVBqNUp6a1Zk?=
- =?utf-8?B?bzhuWTc5TGxHUDRqVVY4WURkcDY3ckp3eDI2OVpRNlhiVGwzanFlTWk4d0ta?=
- =?utf-8?B?MHA3V3c5UkpiTEtRVXN1bFhFanVEVWtEZytpeWpEdk9DRHBRdlpDaFZoSVM5?=
- =?utf-8?B?SDgxTXZPNDlXUGxlNUhkSmhSM29SbFB3QVNKemNzTk1keXBxdENXV05aNkJN?=
- =?utf-8?B?aHBrbFMySW9yNE0zUVovVitIK0tmK0pXS210SlJxemxLalc3ZmhKME1QNmd0?=
- =?utf-8?B?WFloQTRGdTgvSXJrSlIyc1pURWFWUml5b05hZzZkNklqNXZjclF0ZlNpMmkw?=
- =?utf-8?B?NHBJR0lwNXBoQnB4QkhETUdTbWNBTjB2WTBHOXNPV081YXU2TE92QUJrYTNz?=
- =?utf-8?B?N01DQXRtaDFHd1pSb3JvTlJQWXNJR2ZXbWNhOGkybjJqaFgxQ201MXF1SkFi?=
- =?utf-8?B?N1Q5Y3JBazIzRlBNUUlGcWUzbURDWG9BbTFUdUFQcHBjS2dYRlJJU1BNcW1N?=
- =?utf-8?B?YXFVTVhsRS94UjU0R1kwaGRZdXZCakJ6ZzNPOEVrV2ZXTHRXVjNGYXlDVVdn?=
- =?utf-8?B?bnJ4S0RDb3NrMmljQ0xIcFI4ejRVM0wrNVBiZzZzS1A3bHVhdTM3bnJmbXJD?=
- =?utf-8?B?dExrb0hvdlBQamg1T1FkNzNtZDdrem5OSGpZNWZENytDdUtjS0FIRm5kV0or?=
- =?utf-8?B?eXMySGw3WHgxYVpvV210cmZaOVNCNXNvd3ZKdGJGWWUxNHZtcUp5aFJRQSti?=
- =?utf-8?B?OXpLcmRibDR1RCtHMG90OXlSZEtUZktWOUxUOVJrNmNWTit5dGVrcU5OamJk?=
- =?utf-8?B?RHM2eEU0RTNnWnVwTmV6eHN4MGo0WmJvQzBUUzNjelI3RjRWUmFHV1FTTXp6?=
- =?utf-8?B?R2V6a2pHcEtpTnZqTDEyTjdhdHA2czRWZW9qa29oNDhVVEs1Z2w5L2Z6L0JX?=
- =?utf-8?B?bng2VnY1MDdQWEhrUUdRNTdMbURTZXNkYjU4N2twSEEydlc4aDRLVU0vQ1E1?=
- =?utf-8?B?RWhrQk9PZVp1L0JtMHVFMk9KWnQvWWRHYkZmTGE0WTNVODFJcVcxOEZsS3NS?=
- =?utf-8?B?UVNKbnBYcHI5VEp5UWhnWUdrdTFuVVFTNEtpYmlBTGNHc1V5NHMzanNhNGpQ?=
- =?utf-8?B?MjNOL0JLY21ySWd1MnJTUnI3VVIxSlBDeGxwVHprWUVpZzNDQkNRUDlyNnJG?=
- =?utf-8?Q?plcoQ7f1+izleEHWG4AVFbXBg2CQ3U/4rZMBTHQuYJzl?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4e586f35-34cc-4ae0-e1bb-08dacd31f46a
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2022 09:06:06.5958 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Rdj/gSweRQ1u7YOt2+ArEn0Y6CKcsr5MuqoghqhztFDrT1ZPAWsekucwt3+sID4C
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5763
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,51 +59,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Matthew Wilcox <willy@infradead.org>, linaro-mm-sig@lists.linaro.org,
- John Stultz <john.stultz@linaro.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Suren Baghdasaryan <surenb@google.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-media@vger.kernel.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 22.11.22 um 20:50 schrieb Daniel Vetter:
-> On Tue, 22 Nov 2022 at 20:34, Jason Gunthorpe <jgg@ziepe.ca> wrote:
->> On Tue, Nov 22, 2022 at 08:29:05PM +0100, Daniel Vetter wrote:
->>> You nuke all the ptes. Drivers that move have slightly more than a
->>> bare struct file, they also have a struct address_space so that
->>> invalidate_mapping_range() works.
->> Okay, this is one of the ways that this can be made to work correctly,
->> as long as you never allow GUP/GUP_fast to succeed on the PTEs. (this
->> was the DAX mistake)
-> Hence this patch, to enforce that no dma-buf exporter gets this wrong.
-> Which some did, and then blamed bug reporters for the resulting splats
-> :-) One of the things we've reverted was the ttm huge pte support,
-> since that doesn't have the pmd_special flag (yet) and so would let
-> gup_fast through.
+On Tue, 22 Nov 2022, Lucas De Marchi <lucas.demarchi@intel.com> wrote:
+> On Tue, Nov 22, 2022 at 03:17:14PM +0200, Jani Nikula wrote:
+>>Introduce stricter rules for topic/core-for-CI management. Way too many
+>>commits have been added over the years, with insufficient rationale
+>>recorded in the commit message, and insufficient follow-up with removing
+>>the commits from the topic branch.
+>>
+>>New rules:
+>
+> Why not make a list like this the actual text? It's easier to follow a
+> bullet/numbered list than the free form text.
 
-The problem is not only gup, a lot of people seem to assume that when 
-you are able to grab a reference to a page that the ptes pointing to 
-that page can't change any more. And that's obviously incorrect.
+Gah, you want me to rewrite the text and get all acks again?!
 
-I witnessed tons of discussions about that already. Some customers even 
-modified our code assuming that and then wondered why the heck they ran 
-into data corruption.
+>
+>>
+>>1. Require maintainer ack for rebase. Have better gating on when rebases
+>>   happen and on which baselines.
+>
+> What maintainer? drm-intel-gt-next/drm-intel-next/drm-misc/drm? Any?
 
-It's gotten so bad that I've even proposed intentionally mangling the 
-page reference count on TTM allocated pages: 
-https://patchwork.kernel.org/project/dri-devel/patch/20220927143529.135689-1-christian.koenig@amd.com/
+Basically any drm-intel maintainer. The branch is in drm-intel repo, and
+it exists at all to hotfix CI stuff like the name says.
 
-I think it would be better that instead of having special flags in the 
-ptes and vmas that you can't follow them to a page structure we would 
-add something to the page indicating that you can't grab a reference to 
-it. But this might break some use cases as well.
+>
+> I don't want fingers pointed, but just to know the context: was there
+> any event recently that triggered this? Because the last updates I've
+> seen on topic/core-for-CI were not from maintainers and
+> looking at the branch I don't see any issue with the recent commits.
+> The issue actually seems to be the very old ones.  I'm not sure such
+> a measure will actually fix the problem.
+>
+> I myself pushed recently to topic/core-for-CI so I want to know if **I**
+> caused any issue.
 
-Regards,
-Christian.
+This is not related to any individual commit or developer, at all.
 
-> -Daniel
+I've been meaning to do this for a very long time now.
 
+>
+>>
+>>2. Require maintainer/committer ack for adding/removing commits. No
+>>   single individual should decide.
+>
+> s@maintainers/committer @@? Or just let it have the same requirement as
+> the drm-intel-* branches. It seems odd to raise the bar for
+> topic/core-for-CI above the requirement for drm-intel-* branches (even
+> though that latter is a r-b). From committer-drm-intel.rst:
+
+The bar *should* be raised for topic/core-for-CI. Yes, it's for hotfixes
+that can be added as well as removed, but it should never be the first
+option. Or the "can we just put it in core-for-CI" option. I *want*
+pushback to adding stuff there.
+
+>
+> 	* Reviewed-by/Acked-by/Tested-by must include the name and email of a real
+> 	  person for transparency. Anyone can give these, and therefore you have to
+> 	  value them according to the merits of the person. Quality matters, not
+> 	  quantity. Be suspicious of rubber stamps.
+>
+> 	* Reviewed-by/Acked-by/Tested-by can be asked for and given informally (on the
+> 	  list, IRC, in person, in a meeting) but must be added to the commit.
+>
+> 	* Reviewed-by. All patches must be reviewed, no exceptions. Please see
+> 	  "Reviewer's statement of oversight" in `Documentation/process/submitting-patches
+> 	  <https://01.org/linuxgraphics/gfx-docs/drm/process/submitting-patches.html>`_
+> 	  and `review training
+> 	  <http://blog.ffwll.ch/2014/08/review-training-slides.html>`_.
+>
+>>
+>>3. Require gitlab issues for new commits added. Improve tracking for
+>>   removing the commits.
+>>
+>>Also use the stronger "must" for commit message requiring the
+>>justification for the commit being in topic/core-for-CI.
+>>
+>>Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+>>Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>>Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+>>Cc: David Airlie <airlied@gmail.com>
+>>Cc: Daniel Vetter <daniel@ffwll.ch>
+>>Cc: intel-gfx@lists.freedesktop.org
+>>Cc: dri-devel@lists.freedesktop.org
+>>Cc: dim-tools@lists.freedesktop.org
+>>Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>>---
+>> drm-tip.rst | 27 ++++++++++++++++++++-------
+>> 1 file changed, 20 insertions(+), 7 deletions(-)
+>>
+>>diff --git a/drm-tip.rst b/drm-tip.rst
+>>index deae95cdd2fe..24036e2ef576 100644
+>>--- a/drm-tip.rst
+>>+++ b/drm-tip.rst
+>>@@ -203,11 +203,13 @@ justified exception. The primary goal is to fix issues originating from Linus'
+>> tree. Issues that would need drm-next or other DRM subsystem tree as baseline
+>> should be fixed in the offending DRM subsystem tree.
+>>
+>>-Only rebase the branch if you really know what you're doing. When in doubt, ask
+>>-the maintainers. You'll need to be able to handle any conflicts in non-drm code
+>>-while rebasing.
+>>+Only rebase the branch if you really know what you're doing. You'll need to be
+>>+able to handle any conflicts in non-drm code while rebasing.
+>>
+>>-Simply drop fixes that are already available in the new baseline.
+>>+Always ask for maintainer ack before rebasing. IRC ack is sufficient.
+>>+
+>>+Simply drop fixes that are already available in the new baseline. Close the
+>>+associated gitlab issue when removing commits.
+>>
+>> Force pushing a rebased topic/core-for-CI requires passing the ``--force``
+>> parameter to git::
+>
+> there is a main issue here that is not being fixed: testing the merged
+> branch.  I think it would be much better to have the instruction here
+> to rebuild drm-tip without pushing... This will use the local topic branch:
+>
+> 	dim -d rebuild-tip topic/core-for-CI
+>
+> It's the only way I ever update it because I don't want to push a branch
+> and have a small window to potentially solve the merge conflicts (while
+> leaving others wondering why the tip is broken).
+
+This isn't strictly related to core-for-CI, is it? Can happen with any
+branch.
+
+>
+>>@@ -225,11 +227,22 @@ judgement call.
+>> Only add or remove commits if you really know what you're doing. When in doubt,
+>> ask the maintainers.
+>>
+>>-Apply new commits on top with regular push. The commit message needs to explain
+>>-why the patch has been applied to topic/core-for-CI. If it's a cherry-pick from
+>>+Always ask for maintainer/committer ack before adding/removing commits. IRC ack
+>>+is sufficient. Record the ``Acked-by:`` in commits being added.
+>>+
+>>+Apply new commits on top with regular push. The commit message must explain why
+>>+the patch has been applied to topic/core-for-CI. If it's a cherry-pick from
+>> another subsystem, please reference the commit with ``git cherry-pick -x``
+>> option. If it's a patch from another subsystem, please reference the patch on
+>> the mailing list with ``Link:`` tag.
+>>
+>>+New commits always need an associated gitlab issue for tracking purposes. The
+>>+goal is to have as few commits in topic/core-for-CI as possible, and we need to
+>>+be able to track the progress in making that happen. Reference the issue with
+>>+``References:`` tag. Add the ``core-for-CI`` label to the issue. (Note: Do not
+>>+use ``Closes:`` because the logic here is backwards; the issue is having the
+>>+commit in the branch in the first place.)
+>>+
+>> Instead of applying reverts, just remove the commit. This implies ``git rebase
+>>--i`` on the current baseline; see directions above.
+>>+-i`` on the current baseline; see directions above. Close the associated gitlab
+>>+issue when removing commits.
+>
+> wouldn't it be better to apply the revert and only drop the commit on
+> next rebase? This way it doesn't require the force push and it's easier
+> to see what was done in the branch since we don't have to procure the
+> right CI tag in which things got changed.
+
+Mmh, I guess revert could be left in as an option.
+
+> ... I actually came here to ask: wasn't gitlab supposed to be used for
+> patches in maintainer-tools?
+
+Was it? That's not what CONTRIBUTING.rst says. There's been talk about
+it, but no decisions to do so. And in any case I wanted more attention
+to this than gitlab pull requests would ever get.
+
+
+BR,
+Jani.
+
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
