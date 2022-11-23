@@ -1,49 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12A2B635D55
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 13:44:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AB10635D62
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 13:46:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90D3410E542;
-	Wed, 23 Nov 2022 12:44:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24BE210E1F8;
+	Wed, 23 Nov 2022 12:46:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE35810E1F8
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 12:44:24 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 9EF02B81F71;
- Wed, 23 Nov 2022 12:44:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31C20C433D6;
- Wed, 23 Nov 2022 12:44:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1669207462;
- bh=32JwF+5T8eFUXcCsM12zv8TYnKDw38lIf0unECxX/LA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JcTQY8GRguawQLauYB9pih2v+S72nKrd7BuNdi6QVaNj/F1kpxeGG3XJhRlsxKjdl
- dBeDmVIjKGx+xTWGgT4xdoP+02H5lnPjqYJXZ1/bC6XfOhwQFyTJrOR8+nTCHP19EU
- GYsSV7Ua9BbW57EbyzuwSVoUxQHHtwkJdxY4v86ZBVH1rEjB/XWz6Fk++QMRixdHB4
- WeUS5BYlyWBX5oZM7SAqTgFZRbfY9zfCQY/OL6XUnq2V8079cDOg7C35HESytiJCQF
- qjojaLifFzSOwBenNG4LRUnEkHJ9I7k2utKZSAqC1rCXCUsQN4Nm1CcgUf5Gyh4+C2
- BeixVopdkNKYQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 20/22] gpu: host1x: Avoid trying to use GART on
- Tegra20
-Date: Wed, 23 Nov 2022 07:43:35 -0500
-Message-Id: <20221123124339.265912-20-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221123124339.265912-1-sashal@kernel.org>
-References: <20221123124339.265912-1-sashal@kernel.org>
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com
+ [IPv6:2607:f8b0:4864:20::734])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC2D110E549
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 12:46:30 +0000 (UTC)
+Received: by mail-qk1-x734.google.com with SMTP id i9so2759724qkl.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 04:46:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=vHSuZN4AhWII4Tion5kFnCBewGFiwsSNV+ZIjchf+f8=;
+ b=OWqc+/Hcjy1lIN4itSKeUt1Kcn+4uEhyp7axNuC8sBdmRDxXEr1/45JaFAlkEs+ANC
+ TTzox7M2rFR6joSL/dcTy/ayQ8/phDoQeWBmeyKWeFkHysVtMOruUYasTM+0EYVpVBTU
+ iJJYzUW4aIhktj/Mn0/YtwGPsitoADuYiRaIdCj4+Ifq9+PRR5vjOD0PqtFu1VnIoEp5
+ qbvtl/Al85v7h5rs6UtSs4Ie6avliszVZ2ug/lrB5SPZb7L8ptPkjy5Ui9BPfpfEIca8
+ 20LOtxII2GHAjYH2KE3XX4AZsrbcUetO5EM2ayOptn03TFfYmFrecMcMsQI2P6Hg2l1r
+ KAmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vHSuZN4AhWII4Tion5kFnCBewGFiwsSNV+ZIjchf+f8=;
+ b=N62fl8T0WNfl+fSGoDpP60E/jHS+BwK9SNdY4xycvdoOgKT3Scy8nu3lNOHrbKQ+WT
+ INmiUIkKHgUe+hVpSboK8yR7t1k9jLVkPOfuByTQm+rb+X6jzyFBUsdlzGQ8uAx0xeZ4
+ f5vHqZmBZENSuIx7w3B0/J3pWecjz7Do9v9KgIgoGwK0YbI/q0pPxaQswQHag3vaWd/C
+ uf+K87q6IBCJwUDrIzCt9FTnkkyBIVwMwRDUFXNbTqxCNJhSA/6QBOqYNe3s+tGwi2ca
+ CLnIPHLZlZ7gL9HVDzfC2Yd/1IO3Du393vvw34+v2ylV9Qmm1wUsEmq75YlvCkFT0kSE
+ PwHg==
+X-Gm-Message-State: ANoB5pn5zqBodVGG/uA5GgWkFovg0hZr7i0+DRih3yVEX/MHudYND0or
+ PKqjgXt0HuuiQyGUaBkK6QYaoq1YlYtE8g==
+X-Google-Smtp-Source: AA0mqf5Pm6Gy/kcLjlysVCJSGWeOxmxlzXEFr3h2NLg2kKMpx3KAmbZGLymStChcFWZp5XFVCFIotQ==
+X-Received: by 2002:a05:620a:7eb:b0:6fa:aa59:ef9d with SMTP id
+ k11-20020a05620a07eb00b006faaa59ef9dmr25280510qkk.108.1669207589794; 
+ Wed, 23 Nov 2022 04:46:29 -0800 (PST)
+Received: from ziepe.ca
+ (hlfxns017vw-47-55-122-23.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [47.55.122.23]) by smtp.gmail.com with ESMTPSA id
+ r5-20020a05620a298500b006ecf030ef15sm12216462qkp.65.2022.11.23.04.46.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Nov 2022 04:46:28 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.95)
+ (envelope-from <jgg@ziepe.ca>) id 1oxp91-00AJCh-Qz;
+ Wed, 23 Nov 2022 08:46:27 -0400
+Date: Wed, 23 Nov 2022 08:46:27 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [Linaro-mm-sig] Re: [PATCH] dma-buf: Require VM_PFNMAP vma for
+ mmap
+Message-ID: <Y34WI9SZdiH/p1tA@ziepe.ca>
+References: <Y30PDdsvHIJo5YHR@ziepe.ca>
+ <CAKMK7uEccwYTNwDYQazmZvTfBFQOikZt5A6BmegweyO-inKYbQ@mail.gmail.com>
+ <Y30Z4VxT7Wdoc1Lc@ziepe.ca>
+ <CAKMK7uE=8eqyh9BKg_+7B1jjMi6K4wrmPyi9xeLVvVYFxBgF9g@mail.gmail.com>
+ <Y30kK6dsssSLJVgp@ziepe.ca>
+ <CAKMK7uFQQkG82PzuSTGQTnN3ZNps5N_4TjR5NRWo0LaJkEaNew@mail.gmail.com>
+ <3d8607b4-973d-945d-c184-260157ade7c3@amd.com>
+ <CAKMK7uHVGgGHTiXYOfseXXda2Ug992nYvhPsL+4z18ssqeHXHQ@mail.gmail.com>
+ <b05e6091-4e07-1e32-773d-f603ac9ac98b@gmail.com>
+ <CAKMK7uFjmzewqv3r4hL9hvLADwV536n2n6xbAWaUvmAcStr5KQ@mail.gmail.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uFjmzewqv3r4hL9hvLADwV536n2n6xbAWaUvmAcStr5KQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,66 +84,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- Jon Hunter <jonathanh@nvidia.com>, thierry.reding@gmail.com,
- linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
- Thierry Reding <treding@nvidia.com>, Robin Murphy <robin.murphy@arm.com>
+Cc: Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
+ John Stultz <john.stultz@linaro.org>, Matthew Wilcox <willy@infradead.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Suren Baghdasaryan <surenb@google.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Robin Murphy <robin.murphy@arm.com>
+On Wed, Nov 23, 2022 at 11:06:55AM +0100, Daniel Vetter wrote:
 
-[ Upstream commit c2418f911a31a266af4fbaca998dc73d3676475a ]
+> > Maybe a GFP flag to set the page reference count to zero or something
+> > like this?
+> 
+> Hm yeah that might work. I'm not sure what it will all break though?
+> And we'd need to make sure that underflowing the page refcount dies in
+> a backtrace.
 
-Since commit c7e3ca515e78 ("iommu/tegra: gart: Do not register with
-bus") quite some time ago, the GART driver has effectively disabled
-itself to avoid issues with the GPU driver expecting it to work in ways
-that it doesn't. As of commit 57365a04c921 ("iommu: Move bus setup to
-IOMMU device registration") that bodge no longer works, but really the
-GPU driver should be responsible for its own behaviour anyway. Make the
-workaround explicit.
+Mucking with the refcount like this to protect against crazy out of
+tree drives seems horrible..
 
-Reported-by: Jon Hunter <jonathanh@nvidia.com>
-Suggested-by: Dmitry Osipenko <digetx@gmail.com>
-Signed-off-by: Robin Murphy <robin.murphy@arm.com>
-Tested-by: Jon Hunter <jonathanh@nvidia.com>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/tegra/drm.c | 4 ++++
- drivers/gpu/host1x/dev.c    | 4 ++++
- 2 files changed, 8 insertions(+)
+The WARN_ON(pag_count(p) != 1) seems like a reasonable thing to do
+though, though you must combine this with the special PTE flag..
 
-diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-index 2c6ebc328b24..318692ad9680 100644
---- a/drivers/gpu/drm/tegra/drm.c
-+++ b/drivers/gpu/drm/tegra/drm.c
-@@ -1042,6 +1042,10 @@ static bool host1x_drm_wants_iommu(struct host1x_device *dev)
- 	struct host1x *host1x = dev_get_drvdata(dev->dev.parent);
- 	struct iommu_domain *domain;
- 
-+	/* Our IOMMU usage policy doesn't currently play well with GART */
-+	if (of_machine_is_compatible("nvidia,tegra20"))
-+		return false;
-+
- 	/*
- 	 * If the Tegra DRM clients are backed by an IOMMU, push buffers are
- 	 * likely to be allocated beyond the 32-bit boundary if sufficient
-diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
-index 8659558b518d..9f674a8d5009 100644
---- a/drivers/gpu/host1x/dev.c
-+++ b/drivers/gpu/host1x/dev.c
-@@ -198,6 +198,10 @@ static void host1x_setup_sid_table(struct host1x *host)
- 
- static bool host1x_wants_iommu(struct host1x *host1x)
- {
-+	/* Our IOMMU usage policy doesn't currently play well with GART */
-+	if (of_machine_is_compatible("nvidia,tegra20"))
-+		return false;
-+
- 	/*
- 	 * If we support addressing a maximum of 32 bits of physical memory
- 	 * and if the host1x firewall is enabled, there's no need to enable
--- 
-2.35.1
-
+Jason
