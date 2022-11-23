@@ -2,50 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2FFF635464
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 10:07:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC288635496
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 10:09:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E76F10E522;
-	Wed, 23 Nov 2022 09:07:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AEDF10E51E;
+	Wed, 23 Nov 2022 09:09:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F52C10E522;
- Wed, 23 Nov 2022 09:07:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669194451; x=1700730451;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=/Skoz19PJJCG1olgFfMNfIZSMpXD+mC7AjzhsERWvDA=;
- b=LcALpfs2ngKsGQKaPB9iodFRH3lMAX1tmXb6ng9Xc8Vu0J3C7AmYAQ5e
- wBi496XwgJ72B1PMxAHf2xFOgNDTUufeo6Vg8B72S9BZsWyOh4aCmGs0R
- y/K8GNi6yH8undt98BsI0IYMzLEjID3ysSolQ8KBM8/9in87kLPZ6wI3D
- RgwN1Fu7+y7ZrHp/j8WZp+m44Ji/GHGxQUbbIB5FLphQJmpzKpv3U/aCn
- y3hXpDHAlfIA4E8HDWO//O0ccoiqPjIm+SG7obJFZYQx+0xBD29acIhTy
- loJ93e1YerhorY+QMBlfqH4MCg2c7aa0VIviViqyOS2aX40u5s8c0jNEo A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="315841441"
-X-IronPort-AV: E=Sophos;i="5.96,187,1665471600"; d="scan'208";a="315841441"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Nov 2022 01:07:30 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="641723528"
-X-IronPort-AV: E=Sophos;i="5.96,187,1665471600"; d="scan'208";a="641723528"
-Received: from jgronski-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.16.163])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Nov 2022 01:07:28 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: Re: [MAINTAINER TOOLS] docs: updated rules for topic/core-for-CI
- commit management
-In-Reply-To: <20221122215307.o3rg7x3a7r2sajby@ldmartin-desk2.lan>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20221122131714.3443238-1-jani.nikula@intel.com>
- <20221122215307.o3rg7x3a7r2sajby@ldmartin-desk2.lan>
-Date: Wed, 23 Nov 2022 11:07:25 +0200
-Message-ID: <87sfiavy2a.fsf@intel.com>
-MIME-Version: 1.0
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+ [66.111.4.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B49C10E535
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 09:09:10 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id DAE9A5C01CA;
+ Wed, 23 Nov 2022 04:09:07 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+ by compute3.internal (MEProxy); Wed, 23 Nov 2022 04:09:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1669194547; x=1669280947; bh=xTbvnTor0y
+ 2z6py9bJZ/CyzeYDZ3IglF6k6GbnfGf90=; b=RyeD1XMcC11R/wWlR6Kw9Z/s+B
+ yYNFDO2itauhDGN7djvzeRxog/bHS97xeesDA2MPUs+womvGyaPvlJMJuIxqM7Y8
+ Lk8pPbjUQntRRynAT1Lb830UtJCGOAs5v8Jg5doYNS+7oY9+2pwfZcyZzmHuC8Cs
+ UeBEVlHgba9uAMuGjNLCwaXX/Q3JAUYeIzmvqV83v5IFtqGNhuolfrs/VIzT9rXx
+ ibzdTZxCPUdWJA6H6ZNfT9NoznHNH2A2K88+6l/8hc8MI7OB251xnEBHpRG/4MCV
+ VJd2sj2gVxS7MWRF+ARA/8ujXfzfevS5YdxTaIO/VdM3l1MYp2BlqxCJpItQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1669194547; x=1669280947; bh=xTbvnTor0y2z6py9bJZ/CyzeYDZ3
+ IglF6k6GbnfGf90=; b=OcMnfzyI6uIlpUfmFl567RrMUW788ReIXHlcU8Rx1pdL
+ hNdLwjkaUtvOAWqj9C26zWXdJ+jeSG+xrg6m2uX13LR7sktE66kK1xb0YzYM407V
+ eWW3Y4ZZdDlqVRNKI1b9FcrWH6wnEytjCucQJtcgVwRkP+NtSR9GIuknkpsT0462
+ RQoSnzPan9TcssZH1L9jrRR08To4FOlm/LWUzTe/AJkRxAxs3bjhwd74KegQQa7c
+ yWXyRHTDz6vDU7Eb1fUrlg13doZ1ovRS4i+AMGmj3ieoHU0Pd6+ncSz2KvNAgNfs
+ NnaV6bJN+VOtd/Oi8X8ON9UhDlAlq/UYfYv7gcwS8A==
+X-ME-Sender: <xms:MuN9Y_mrc4w5lK3MzR6I6lKzl3rq6tBlFgMpSevG2yOLX0kx33xMqA>
+ <xme:MuN9Yy0LRHmN3sYSvCglTcL53YjwQnIfotJdiy6UWOuohjtnqljb4Jt1MxaLije3U
+ 9MZSpBhZpfiawxw2S4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedriedtgdduvdekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+ nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+ htvghrnhepleetgfekhfetvdfhjeffvdfffedtleejjefhjeffieeuvdetieeffeehleeu
+ jeffnecuffhomhgrihhnpehrvghlrdhrohenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:M-N9Y1qI3w4VbqUDkq2JfzV4EtLKbfFZxle35PZ_KKdObiMZtZgejA>
+ <xmx:M-N9Y3lWiS1U-xmgGkTjByyEHPF3sRdLW4oaBrttJ8acsPx9eel75w>
+ <xmx:M-N9Y91L-qhlWAPhOPLXO7Ic5wQpggycvjz3f_IOTDX_O80iO8-Vvw>
+ <xmx:M-N9Y6m6KjWmT2vfKsQfnFN_YnkKkx1jr2SR8UrWUkFTK4W2RRWq4Q>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id E5024B60086; Wed, 23 Nov 2022 04:09:06 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1115-g8b801eadce-fm-20221102.001-g8b801ead
+Mime-Version: 1.0
+Message-Id: <4b10b87d-f255-4839-8700-858d98ffb801@app.fastmail.com>
+In-Reply-To: <20221123031605.16680-1-rdunlap@infradead.org>
+References: <20221123031605.16680-1-rdunlap@infradead.org>
+Date: Wed, 23 Nov 2022 10:08:45 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Randy Dunlap" <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH -next] fbdev: offb: allow build when DRM_OFDRM=m
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,183 +81,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Masahiro Yamada <masahiroy@kernel.org>, dri-devel@lists.freedesktop.org,
+ Michal Suchanek <msuchanek@suse.de>, linuxppc-dev@lists.ozlabs.org,
+ Helge Deller <deller@gmx.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 22 Nov 2022, Lucas De Marchi <lucas.demarchi@intel.com> wrote:
-> On Tue, Nov 22, 2022 at 03:17:14PM +0200, Jani Nikula wrote:
->>Introduce stricter rules for topic/core-for-CI management. Way too many
->>commits have been added over the years, with insufficient rationale
->>recorded in the commit message, and insufficient follow-up with removing
->>the commits from the topic branch.
->>
->>New rules:
+On Wed, Nov 23, 2022, at 04:16, Randy Dunlap wrote:
+> Fix build when CONFIG_FB_OF=y and CONFIG_DRM_OFDRM=m.
+> When the latter symbol is =m, kconfig downgrades (limits) the 'select's
+> under FB_OF to modular (=m). This causes undefined symbol references:
 >
-> Why not make a list like this the actual text? It's easier to follow a
-> bullet/numbered list than the free form text.
-
-Gah, you want me to rewrite the text and get all acks again?!
-
+> powerpc64-linux-ld: drivers/video/fbdev/offb.o:(.data.rel.ro+0x58): 
+> undefined reference to `cfb_fillrect'
+> powerpc64-linux-ld: drivers/video/fbdev/offb.o:(.data.rel.ro+0x60): 
+> undefined reference to `cfb_copyarea'
+> powerpc64-linux-ld: drivers/video/fbdev/offb.o:(.data.rel.ro+0x68): 
+> undefined reference to `cfb_imageblit'
 >
->>
->>1. Require maintainer ack for rebase. Have better gating on when rebases
->>   happen and on which baselines.
+> Fix this by allowing FB_OF any time that DRM_OFDRM != y so that the
+> selected FB_CFB_* symbols will become =y instead of =m.
 >
-> What maintainer? drm-intel-gt-next/drm-intel-next/drm-misc/drm? Any?
-
-Basically any drm-intel maintainer. The branch is in drm-intel repo, and
-it exists at all to hotfix CI stuff like the name says.
-
+> In tristate logic (for DRM_OFDRM), this changes the dependency from
+>     !DRM_OFDRM	== 2 - 1 == 1 => modular only (or disabled)
+> to (boolean)
+>     DRM_OFDRM != y == y, allowing the 'select's to cause the
+> FB_CFB_* symbols to =y instead of =m.
 >
-> I don't want fingers pointed, but just to know the context: was there
-> any event recently that triggered this? Because the last updates I've
-> seen on topic/core-for-CI were not from maintainers and
-> looking at the branch I don't see any issue with the recent commits.
-> The issue actually seems to be the very old ones.  I'm not sure such
-> a measure will actually fix the problem.
->
-> I myself pushed recently to topic/core-for-CI so I want to know if **I**
-> caused any issue.
 
-This is not related to any individual commit or developer, at all.
+Is it actually a useful configuration to have OFDRM=m and
+FB_OF=y though? I would expect in that case that the OFDRM
+driver never binds to a device because it's already owned
+by FB_OF.
 
-I've been meaning to do this for a very long time now.
+> diff -- a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
+> --- a/drivers/video/fbdev/Kconfig
+> +++ b/drivers/video/fbdev/Kconfig
+> @@ -455,7 +455,7 @@ config FB_ATARI
+>  config FB_OF
+>  	bool "Open Firmware frame buffer device support"
+>  	depends on (FB = y) && PPC && (!PPC_PSERIES || PCI)
+> -	depends on !DRM_OFDRM
+> +	depends on DRM_OFDRM != y
+>  	select APERTURE_HELPERS
 
->
->>
->>2. Require maintainer/committer ack for adding/removing commits. No
->>   single individual should decide.
->
-> s@maintainers/committer @@? Or just let it have the same requirement as
-> the drm-intel-* branches. It seems odd to raise the bar for
-> topic/core-for-CI above the requirement for drm-intel-* branches (even
-> though that latter is a r-b). From committer-drm-intel.rst:
+I would instead make this 'depends on DRM_OFDRM=n', which
+completely eliminates configs that have both driver enabled.
 
-The bar *should* be raised for topic/core-for-CI. Yes, it's for hotfixes
-that can be added as well as removed, but it should never be the first
-option. Or the "can we just put it in core-for-CI" option. I *want*
-pushback to adding stuff there.
+A nicer change would be to make FB_OF a tristate symbol,
+which makes it possible to load one of the two modules if
+both are enabled =m, while only allowing one of them to
+be =y if the other is completely disabled. It looks like
+offb was originally written to be usable as a loadable module,
+but Kconfig has prevented this since at least the start of
+the git history.
 
->
-> 	* Reviewed-by/Acked-by/Tested-by must include the name and email of a real
-> 	  person for transparency. Anyone can give these, and therefore you have to
-> 	  value them according to the merits of the person. Quality matters, not
-> 	  quantity. Be suspicious of rubber stamps.
->
-> 	* Reviewed-by/Acked-by/Tested-by can be asked for and given informally (on the
-> 	  list, IRC, in person, in a meeting) but must be added to the commit.
->
-> 	* Reviewed-by. All patches must be reviewed, no exceptions. Please see
-> 	  "Reviewer's statement of oversight" in `Documentation/process/submitting-patches
-> 	  <https://01.org/linuxgraphics/gfx-docs/drm/process/submitting-patches.html>`_
-> 	  and `review training
-> 	  <http://blog.ffwll.ch/2014/08/review-training-slides.html>`_.
->
->>
->>3. Require gitlab issues for new commits added. Improve tracking for
->>   removing the commits.
->>
->>Also use the stronger "must" for commit message requiring the
->>justification for the commit being in topic/core-for-CI.
->>
->>Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
->>Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
->>Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
->>Cc: David Airlie <airlied@gmail.com>
->>Cc: Daniel Vetter <daniel@ffwll.ch>
->>Cc: intel-gfx@lists.freedesktop.org
->>Cc: dri-devel@lists.freedesktop.org
->>Cc: dim-tools@lists.freedesktop.org
->>Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->>---
->> drm-tip.rst | 27 ++++++++++++++++++++-------
->> 1 file changed, 20 insertions(+), 7 deletions(-)
->>
->>diff --git a/drm-tip.rst b/drm-tip.rst
->>index deae95cdd2fe..24036e2ef576 100644
->>--- a/drm-tip.rst
->>+++ b/drm-tip.rst
->>@@ -203,11 +203,13 @@ justified exception. The primary goal is to fix issues originating from Linus'
->> tree. Issues that would need drm-next or other DRM subsystem tree as baseline
->> should be fixed in the offending DRM subsystem tree.
->>
->>-Only rebase the branch if you really know what you're doing. When in doubt, ask
->>-the maintainers. You'll need to be able to handle any conflicts in non-drm code
->>-while rebasing.
->>+Only rebase the branch if you really know what you're doing. You'll need to be
->>+able to handle any conflicts in non-drm code while rebasing.
->>
->>-Simply drop fixes that are already available in the new baseline.
->>+Always ask for maintainer ack before rebasing. IRC ack is sufficient.
->>+
->>+Simply drop fixes that are already available in the new baseline. Close the
->>+associated gitlab issue when removing commits.
->>
->> Force pushing a rebased topic/core-for-CI requires passing the ``--force``
->> parameter to git::
->
-> there is a main issue here that is not being fixed: testing the merged
-> branch.  I think it would be much better to have the instruction here
-> to rebuild drm-tip without pushing... This will use the local topic branch:
->
-> 	dim -d rebuild-tip topic/core-for-CI
->
-> It's the only way I ever update it because I don't want to push a branch
-> and have a small window to potentially solve the merge conflicts (while
-> leaving others wondering why the tip is broken).
-
-This isn't strictly related to core-for-CI, is it? Can happen with any
-branch.
-
->
->>@@ -225,11 +227,22 @@ judgement call.
->> Only add or remove commits if you really know what you're doing. When in doubt,
->> ask the maintainers.
->>
->>-Apply new commits on top with regular push. The commit message needs to explain
->>-why the patch has been applied to topic/core-for-CI. If it's a cherry-pick from
->>+Always ask for maintainer/committer ack before adding/removing commits. IRC ack
->>+is sufficient. Record the ``Acked-by:`` in commits being added.
->>+
->>+Apply new commits on top with regular push. The commit message must explain why
->>+the patch has been applied to topic/core-for-CI. If it's a cherry-pick from
->> another subsystem, please reference the commit with ``git cherry-pick -x``
->> option. If it's a patch from another subsystem, please reference the patch on
->> the mailing list with ``Link:`` tag.
->>
->>+New commits always need an associated gitlab issue for tracking purposes. The
->>+goal is to have as few commits in topic/core-for-CI as possible, and we need to
->>+be able to track the progress in making that happen. Reference the issue with
->>+``References:`` tag. Add the ``core-for-CI`` label to the issue. (Note: Do not
->>+use ``Closes:`` because the logic here is backwards; the issue is having the
->>+commit in the branch in the first place.)
->>+
->> Instead of applying reverts, just remove the commit. This implies ``git rebase
->>--i`` on the current baseline; see directions above.
->>+-i`` on the current baseline; see directions above. Close the associated gitlab
->>+issue when removing commits.
->
-> wouldn't it be better to apply the revert and only drop the commit on
-> next rebase? This way it doesn't require the force push and it's easier
-> to see what was done in the branch since we don't have to procure the
-> right CI tag in which things got changed.
-
-Mmh, I guess revert could be left in as an option.
-
-> ... I actually came here to ask: wasn't gitlab supposed to be used for
-> patches in maintainer-tools?
-
-Was it? That's not what CONTRIBUTING.rst says. There's been talk about
-it, but no decisions to do so. And in any case I wanted more attention
-to this than gitlab pull requests would ever get.
-
-
-BR,
-Jani.
-
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+     Arnd
