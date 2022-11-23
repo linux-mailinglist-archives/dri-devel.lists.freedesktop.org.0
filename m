@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FA156363A7
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 16:29:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76C5F6363B4
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 16:31:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B055810E58D;
-	Wed, 23 Nov 2022 15:29:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A200810E595;
+	Wed, 23 Nov 2022 15:31:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
  [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3851510E590
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 15:29:49 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.west.internal (Postfix) with ESMTP id 15D402B069BF;
- Wed, 23 Nov 2022 10:29:46 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C66E8911A
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 15:29:54 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id 0C9182B06A3D;
+ Wed, 23 Nov 2022 10:29:50 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Wed, 23 Nov 2022 10:29:48 -0500
+ by compute2.internal (MEProxy); Wed, 23 Nov 2022 10:29:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1669217385; x=
- 1669224585; bh=Dzvf2e2t3b+Fta3pbhuPZojmvdbKi1+FhykEBF7Qb3A=; b=F
- IlLToB9gpNbeUlQWVCfkWraMHef9p8ycXhSY8nc3iJq+Uhsdt6TSZyhFXXIRBkwe
- x5mCftjCWC7sx8SROHlr8T6Isw0iZ2DkCkZkHQ7A7062Wo1aoZibb98w1Mp/ZW6U
- sEHNXyANec4ZSC+cJsPEX35zQv5mVIlpN3X6q7Z8FXUsBGkCI/BCh6H/syCToR5w
- aLE59XYtLf5PQDcyqqZ4yC8BPK4lDqHmrUw+9WZOW+Bg/mv+SR65M1SApTx9lVTh
- hd9hMXU/xLb9OnjUmbBRpxhi/RNjjwW9ccptJ7Xg/LpZyNcYbPHGaPjLsQw9Dwmu
- g0vBfK5eoX95e/16hW79g==
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1669217390; x=
+ 1669224590; bh=hfaVFo38lriAGgJI1dbgMK2S3fYuU2KwWAQdbGjgo9E=; b=k
+ m6T1IJfE5/tmryfw/tFueC1+6iEyl8Cte1rI0q1WKwUhc2VqEKtbXFFfEmZlXiX6
+ vtMXFxJUS2Pi/qkFhF3r4WiHsIUMn3SfgrOOHbanbmbZqI4wQOEnf3kSHUKqlZFH
+ 9OmF+n152JHxSnp192sn/wdRuEtOdU1qV4phWEykmDlTOX8GAi7UYEupZuGdtIgr
+ ZtL4fgjEFNLvPNyItizfJgRsdcOpgeckpgSJHgmSkSoCbCTD8i4CXfrOKBRt6AV8
+ yO7/W4TfyBB5axml2zOElc2eUElOWYApC++JeZIx8bzyqfbNi9lwHvkrRvkaOfCx
+ ZjbqOvd4t4HXWrEY1v7lA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1669217385; x=
- 1669224585; bh=Dzvf2e2t3b+Fta3pbhuPZojmvdbKi1+FhykEBF7Qb3A=; b=R
- 9TSqkfrMqzj6GWV+e5lor0hTjZPWJd4R8jRb7S19vTZG6vzrDcBeQ52e7Y8jZppH
- 6fvIMIhycNtpqKhlP80eDMt0xrKK5z5SNAQnA8fraZEG2Gcjgb5B8PNI5Uwqi6cY
- HRUoB+QQnbpUxTTmJpZUmdko8GPLLJDXmkwAte7CnHieGWO709mK9PFEcn5GJmrl
- m/Wm0XxXC8NYXj7C6/aVBYJ5MF2hCT0UhWgfCjHyO+Tkc83cAw75R65NM4cbZgx+
- jMOtV6BMwSooEmWrRXyReKNapqkO1fUsWh8roH+wV3vWjblMDr+iLsjvg7TBG4bL
- TZM/47Y/9T2Sw8gE0T4zg==
-X-ME-Sender: <xms:aTx-Y-yDBWeFaXbB5xgssB_xFxvj1MYH_xWj-iFyazksBQG2XRMv7A>
- <xme:aTx-Y6RPZV-QyNoSsE-J1FvxIUxDjNaYGDEfd8oXR6Bp-oJJv4rCJRGFPLnW8vPUF
- j8qI9ia6qTxVAEqriM>
-X-ME-Received: <xmr:aTx-YwWZQD5ZgXAv8I0__oBF1fmV0apWhvqAj3o6GDJR9l_14eiyjDAeoEyiVqyLyMqMBe4cwiw0vVgvxsmeilcK85voRfSTAl3Kr3jCCKxeog>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1669217390; x=
+ 1669224590; bh=hfaVFo38lriAGgJI1dbgMK2S3fYuU2KwWAQdbGjgo9E=; b=b
+ MK+gG1M8M/eG0Rqyj+ZvnonE4/iG6w4CyU0mO+0Pvbqj5sI4+GPGT6uj55J+HSuu
+ fzBF4g3Jop6XP02HyxmXuqZBNPndJfvi4VpCxkLGGC2VmgreGpESdMREjzBR+rrC
+ 5Ul3h7tSn4EPiDwe7bWSMG2NybgyBDSjmq7c9Q02ofBPnM7q+lkiflFkeNWlfJYJ
+ wN0U/cQOQ9Yz5u9g2eO5aUJ3FGnVTmRpD3maEp8019eXns6I6+T9MUv0XRm1ES8U
+ pQIAD+XvWELryiu42bNNxFkK7+RXfRfLDacuYQY3KqeBMN6Vf9DAcg36CfD+gmTp
+ zuSZX5VIbuOdbWLvmG8dg==
+X-ME-Sender: <xms:bjx-Y4dEiJzxDDMexadG05CfVJ416dW9OWkTnjAeF6wXRdtiZDtitQ>
+ <xme:bjx-Y6OTAJob1SYItYAlHJRjqAeWqJ9pBXqyyGO9tVBYFK_oXa-rBIJlRSCqauWtS
+ a0667S4FMChkLmr7xs>
+X-ME-Received: <xmr:bjx-Y5imh4IBw0uIuLO7UljenbYnp3sdfGyxsZsW2R9p7KNAn1R89AQWQM4r0bMKgfU_pJkPveqmem2SArFwJEL6q0e7be3dzrGlfOgQ-NdMMQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedriedugdejgecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhfffugggtgffkfhgjvfevofesthekredtredtjeenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeduudduhfevjeetfeegvdffvdevvdejudegudekjeehtdelhfffveethfej
- ledtveenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ ledtveenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:aTx-Y0gRezbgcx6d3OCX2qbOgkP-i3jIVjbJBFPQHp_i98_T0D41kg>
- <xmx:aTx-YwDQkF7hIhlK7iXk4EOgrb0oAgWN6l_2HqFzhYjpIf3o5Nhwng>
- <xmx:aTx-Y1Isb59-_eoIvlRixqbyC6uqv_P3TTdtxPuWYkaUJC3jGeeqmA>
- <xmx:aTx-Y4iIH3jpmczQ4-esa9a6qVpzmACfQLM5JcEBpVsU6hNeJWmS6YBqoZE>
+X-ME-Proxy: <xmx:bjx-Y9_qcRwQ6IL_nop5pM1dJYTg5HpIHatZL1Hjn0LKGYkuuzKsaQ>
+ <xmx:bjx-Y0sfXZm7tHi5UX9XPHmLOISPyJE9Y2j5IojiflRQq2Uq9mpABA>
+ <xmx:bjx-Y0FRzlqJ3RtZKWO1kOLGRgZt6VzFLxV-Cf2esvUzAH9AbHKlAg>
+ <xmx:bjx-Y7OHUwiE41f2f5IxRM_CYHpGYUGr7aqbEw9I9ARr47IJZOTYPw_CSWM>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 23 Nov 2022 10:29:44 -0500 (EST)
+ 23 Nov 2022 10:29:49 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Wed, 23 Nov 2022 16:25:56 +0100
-Subject: [PATCH 14/24] drm/vc4: txp: Reorder the variable assignments
+Date: Wed, 23 Nov 2022 16:25:57 +0100
+Subject: [PATCH 15/24] drm/vc4: Add TXP encoder type
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20221123-rpi-kunit-tests-v1-14-051a0bb60a16@cerno.tech>
+Message-Id: <20221123-rpi-kunit-tests-v1-15-051a0bb60a16@cerno.tech>
 References: <20221123-rpi-kunit-tests-v1-0-051a0bb60a16@cerno.tech>
 In-Reply-To: <20221123-rpi-kunit-tests-v1-0-051a0bb60a16@cerno.tech>
 To: Maxime Ripard <mripard@kernel.org>,
@@ -75,11 +75,11 @@ To: Maxime Ripard <mripard@kernel.org>,
  Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
  Thomas Zimmermann <tzimmermann@suse.de>
 X-Mailer: b4 0.11.0-dev-d416f
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1848; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=eQTGHiaDzFDVJK7tMOdy666qnj3QVGckWUHDPGP3pU8=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMl11tXSzYfdT8d3iN+b+pJxm6nV/91GX3UTs/wMO39aLo+v
- SwvqKGVhEONikBVTZIkRNl8Sd2rW6042vnkwc1iZQIYwcHEKwERkrjAyrBVRaDz/Oi8mrGObpu1brb
- Uen1pveC6+svmQ8JWge87HuxkZHjwq83qygf2qysyODDOtwjNRh2QM4led05Wp0tY7/yuJEQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3354; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=D7jJxqAaTpOyDhDbfieClybVb+HI0s/oGcPVDjdEpCk=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMl11tVdBjd+zfdhLJqvrvVouojzFrcLs5/seJV51W/6Hp57
+ V8T3dJSyMIhxMciKKbLECJsviTs163UnG988mDmsTCBDGLg4BWAi34oYGd7KhnTv6ztSytyb+n916K
+ Z+j6prv7YueFc7u2W177IVOyQZ/vu9tPrtMLlnmlZv7pYj+rlt+upv7XJPvzZaIXyIQ85tAw8A
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -98,59 +98,103 @@ Cc: David Gow <davidgow@google.com>, Brendan Higgins <brendan.higgins@linux.dev>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current order of variable assignments is unneccessarily complex,
-let's make it simpler.
+The TXP is integrated as a separate CRTC/Encoder/Connector combo, but
+for some reason doesn't rely on the vc4_encoder type and it's associated
+type.
+
+Let's create a type to make it consistent with the other encoders.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_txp.c | 15 ++++++---------
- 1 file changed, 6 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/vc4/vc4_drv.h |  1 +
+ drivers/gpu/drm/vc4/vc4_txp.c | 30 ++++++++++++++++++++----------
+ 2 files changed, 21 insertions(+), 10 deletions(-)
 
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+index 855207c07e2e..31228d4cf080 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.h
++++ b/drivers/gpu/drm/vc4/vc4_drv.h
+@@ -473,6 +473,7 @@ enum vc4_encoder_type {
+ 	VC4_ENCODER_TYPE_DSI1,
+ 	VC4_ENCODER_TYPE_SMI,
+ 	VC4_ENCODER_TYPE_DPI,
++	VC4_ENCODER_TYPE_TXP,
+ };
+ 
+ struct vc4_encoder {
 diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
-index bd181b5a7b52..b00c6fae972f 100644
+index b00c6fae972f..0bb8e97d7891 100644
 --- a/drivers/gpu/drm/vc4/vc4_txp.c
 +++ b/drivers/gpu/drm/vc4/vc4_txp.c
-@@ -490,7 +490,6 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+@@ -153,6 +153,7 @@ struct vc4_txp {
+ 
+ 	struct platform_device *pdev;
+ 
++	struct vc4_encoder encoder;
+ 	struct drm_writeback_connector connector;
+ 
+ 	void __iomem *regs;
+@@ -160,7 +161,7 @@ struct vc4_txp {
+ 
+ static inline struct vc4_txp *encoder_to_vc4_txp(struct drm_encoder *encoder)
+ {
+-	return container_of(encoder, struct vc4_txp, connector.encoder);
++	return container_of(encoder, struct vc4_txp, encoder.base);
+ }
+ 
+ static inline struct vc4_txp *connector_to_vc4_txp(struct drm_connector *conn)
+@@ -488,9 +489,10 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+ {
+ 	struct platform_device *pdev = to_platform_device(dev);
  	struct drm_device *drm = dev_get_drvdata(master);
++	struct vc4_encoder *vc4_encoder;
++	struct drm_encoder *encoder;
  	struct vc4_crtc *vc4_crtc;
  	struct vc4_txp *txp;
--	struct drm_crtc *crtc;
- 	struct drm_encoder *encoder;
+-	struct drm_encoder *encoder;
  	int ret, irq;
  
-@@ -501,18 +500,16 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
- 	txp = drmm_kzalloc(drm, sizeof(*txp), GFP_KERNEL);
- 	if (!txp)
- 		return -ENOMEM;
--	vc4_crtc = &txp->base;
--	crtc = &vc4_crtc->base;
--
--	vc4_crtc->pdev = pdev;
--	vc4_crtc->data = &vc4_txp_crtc_data;
--	vc4_crtc->feeds_txp = true;
- 
- 	txp->pdev = pdev;
--
- 	txp->regs = vc4_ioremap_regs(pdev, 0);
- 	if (IS_ERR(txp->regs))
- 		return PTR_ERR(txp->regs);
-+
-+	vc4_crtc = &txp->base;
-+	vc4_crtc->pdev = pdev;
-+	vc4_crtc->data = &vc4_txp_crtc_data;
-+	vc4_crtc->feeds_txp = true;
- 	vc4_crtc->regset.base = txp->regs;
+ 	irq = platform_get_irq(pdev, 0);
+@@ -514,13 +516,24 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
  	vc4_crtc->regset.regs = txp_regs;
  	vc4_crtc->regset.nregs = ARRAY_SIZE(txp_regs);
-@@ -533,7 +530,7 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+ 
++	vc4_encoder = &txp->encoder;
++	txp->encoder.type = VC4_ENCODER_TYPE_TXP;
++
++	encoder = &vc4_encoder->base;
++	encoder->possible_crtcs = drm_crtc_mask(&vc4_crtc->base);
++
++	drm_encoder_helper_add(encoder, &vc4_txp_encoder_helper_funcs);
++
++	ret = drmm_encoder_init(drm, encoder, NULL, DRM_MODE_ENCODER_VIRTUAL, NULL);
++	if (ret)
++		return ret;
++
+ 	drm_connector_helper_add(&txp->connector.base,
+ 				 &vc4_txp_connector_helper_funcs);
+-	ret = drm_writeback_connector_init(drm, &txp->connector,
+-					   &vc4_txp_connector_funcs,
+-					   &vc4_txp_encoder_helper_funcs,
+-					   drm_fmts, ARRAY_SIZE(drm_fmts),
+-					   0);
++	ret = drm_writeback_connector_init_with_encoder(drm, &txp->connector,
++							encoder,
++							&vc4_txp_connector_funcs,
++							drm_fmts, ARRAY_SIZE(drm_fmts));
+ 	if (ret)
  		return ret;
  
- 	encoder = &txp->connector.encoder;
--	encoder->possible_crtcs = drm_crtc_mask(crtc);
-+	encoder->possible_crtcs = drm_crtc_mask(&vc4_crtc->base);
+@@ -529,9 +542,6 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+ 	if (ret)
+ 		return ret;
  
+-	encoder = &txp->connector.encoder;
+-	encoder->possible_crtcs = drm_crtc_mask(&vc4_crtc->base);
+-
  	ret = devm_request_irq(dev, irq, vc4_txp_interrupt, 0,
  			       dev_name(dev), txp);
+ 	if (ret)
 
 -- 
 2.38.1-b4-0.11.0-dev-d416f
