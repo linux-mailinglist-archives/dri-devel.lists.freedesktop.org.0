@@ -1,68 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD3086365F8
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 17:40:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1231E636601
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 17:42:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0814210E5B0;
-	Wed, 23 Nov 2022 16:40:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44B7710E5B2;
+	Wed, 23 Nov 2022 16:42:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02F2410E5B0
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 16:40:17 +0000 (UTC)
-Received: from [192.168.2.109] (109-252-117-140.nat.spd-mgts.ru
- [109.252.117.140])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 009BB6600367;
- Wed, 23 Nov 2022 16:40:13 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1669221616;
- bh=9jAcNG5mmc8WdRcm1FU/6k9HjRgP8OF/p9T3eXcNN5g=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Y4/HSy/fWd8Zgc3i5mYx/xGvm7+frMwkYiTm2sHW37EP882UGsVPbqeHZ8blbQQY9
- sPiKyi5LJsSKrVbRvyu2iq4EfFsI//PPQNI6WQ2XEGiru4Uh1mHFdOStdEvNns0qai
- V0rXdL0fBs3gGPdPbKqZSOFiLxl+H2iJxnZAbuyEuEF+FzUg685TWWUqR99/v0SKKW
- +MRB89IfKmwxp0XcVLLiWD70lF10fZdq0GLMXchbnEgvtqFXWGYbSuTRZ0cbU+qu2u
- OgSjhAYlVVgO9/+EPZno8IcvUkRSALHakD89Cb0buTjFS9kP7TCDrBUC109IUvMgqB
- Fmw5sowFqxNKA==
-Message-ID: <2d63940e-1cc2-a03e-a253-dac4d697e7d1@collabora.com>
-Date: Wed, 23 Nov 2022 19:40:10 +0300
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01ECD10E5B2
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 16:42:26 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id x102so25692542ede.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 08:42:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Z8JZOcUu6HJ6CYG3/kMUGO8YebOiQSwKW0GWNGGl19Y=;
+ b=ADDEafqnLTCuv/1hHN90tRHtZ2Js3zcTCuaBMGMkbqvScSkBlGqnqBfT0wnc0LII80
+ rDrcEHGNfHSMVJfmN26WsEdKKGwJYmzOaAvHE8ov7L+D01YMoweg/cBXtXUV4dLF35/+
+ jF7QmEj/+Yd1KFcp4m5j7acTPPd6auvLVpCqA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Z8JZOcUu6HJ6CYG3/kMUGO8YebOiQSwKW0GWNGGl19Y=;
+ b=PDZh6LkrfDkF1q5JzT0Wkppw1mH3X7dgNt0Yj6CczzQ6cbA4jlWqgS1AtgNx64GMfe
+ gTNwibPJjmQiu6azWK3D3vWgfZpEa3LXzqHlPmrArT9TV/F9aSuWXjJWrDsLH1sEjfU+
+ ZvlZNdv9ZWiU4eXMnmlN0S6N1iO8e9r7+keJYjbnx83Py/FBpbZKPKepegk4fWKjzfG6
+ L9VQgLH0PT1E9VFvejF19lk8bLAZhHoli0cNXMY83EJjUVzZzpXJuTu20oTr/AQsl8cc
+ K2UimTdlSDEl2EDBotiO2o7cjn3ar59YrzrrnYIHSjpYeQPW5I+S6aMa1a1imlKeGOoN
+ 7T7w==
+X-Gm-Message-State: ANoB5pnpXhnjN+9UnyLwvZqBHFKaW9ZTMVBq+mz8pEqC30gRJ8Kos32d
+ JXoWsKPd3+5lea0w2NV3BBjVvA==
+X-Google-Smtp-Source: AA0mqf6saUw2/dQuCbDeoGg7vK7k8Waf7Fx1BKirG8RmWJKZnwiw3hrYjy5Kryf4LcK8MTrhTAmczw==
+X-Received: by 2002:a05:6402:181:b0:461:ea0c:e151 with SMTP id
+ r1-20020a056402018100b00461ea0ce151mr12144745edv.376.1669221745500; 
+ Wed, 23 Nov 2022 08:42:25 -0800 (PST)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
+ [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
+ p3-20020a05640210c300b00463c367024bsm7691898edu.63.2022.11.23.08.42.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Nov 2022 08:42:24 -0800 (PST)
+Date: Wed, 23 Nov 2022 17:42:22 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jisheng Zhang <jszhang@kernel.org>
+Subject: Re: [PATCH v4] drm/fourcc: Add Synaptics VideoSmart tiled modifiers
+Message-ID: <Y35Nbhd/fhESOFeU@phenom.ffwll.local>
+Mail-Followup-To: Jisheng Zhang <jszhang@kernel.org>,
+ Hsia-Jun Li <randy.li@synaptics.com>,
+ dri-devel@lists.freedesktop.org, airlied@linux.ie,
+ ezequiel@vanguardiasur.com.ar, helen.koike@collabora.com,
+ laurent.pinchart@ideasonboard.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+ mchehab@kernel.org, mripard@kernel.org, nicolas@ndufresne.ca,
+ ribalda@chromium.org, sakari.ailus@linux.intel.com,
+ sebastian.hesselbarth@gmail.com, tfiga@chromium.org,
+ tzimmermann@suse.de, ayaka@soulik.info
+References: <20221123091957.75967-1-randy.li@synaptics.com>
+ <Y341AxDwqRC/0eep@xhacker>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH v9 03/11] drm/gem: Add evict() callback to
- drm_gem_object_funcs
-Content-Language: en-US
-To: Steven Price <steven.price@arm.com>, David Airlie <airlied@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- Daniel Stone <daniel@fooishbar.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Clark <robdclark@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Qiang Yu <yuq825@gmail.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Rob Herring <robh@kernel.org>, Sean Paul <sean@poorly.run>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-References: <20221123025723.695075-1-dmitry.osipenko@collabora.com>
- <20221123025723.695075-4-dmitry.osipenko@collabora.com>
- <f390d9ec-e8b2-a10d-bd2e-011ec879c615@arm.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <f390d9ec-e8b2-a10d-bd2e-011ec879c615@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y341AxDwqRC/0eep@xhacker>
+X-Operating-System: Linux phenom 5.19.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,53 +81,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Cc: mchehab@kernel.org, sakari.ailus@linux.intel.com, airlied@linux.ie,
+ tzimmermann@suse.de, ayaka@soulik.info, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, nicolas@ndufresne.ca,
+ Hsia-Jun Li <randy.li@synaptics.com>, helen.koike@collabora.com,
+ ezequiel@vanguardiasur.com.ar, ribalda@chromium.org,
+ sebastian.hesselbarth@gmail.com, tfiga@chromium.org,
+ linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/23/22 18:58, Steven Price wrote:
-> On 23/11/2022 02:57, Dmitry Osipenko wrote:
->> Add new common evict() callback to drm_gem_object_funcs and corresponding
->> drm_gem_object_evict() helper. This is a first step on a way to providing
->> common GEM-shrinker API for DRM drivers.
->>
->> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->> ---
->>  drivers/gpu/drm/drm_gem.c | 15 +++++++++++++++
->>  include/drm/drm_gem.h     | 12 ++++++++++++
->>  2 files changed, 27 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
->> index 299bca1390aa..c0510b8080d2 100644
->> --- a/drivers/gpu/drm/drm_gem.c
->> +++ b/drivers/gpu/drm/drm_gem.c
->> @@ -1458,3 +1458,18 @@ drm_gem_lru_scan(struct drm_gem_lru *lru,
->>  	return freed;
->>  }
->>  EXPORT_SYMBOL(drm_gem_lru_scan);
->> +
->> +/**
->> + * drm_gem_object_evict - helper to evict backing pages for a GEM object
->> + * @obj: obj in question
->> + */
->> +bool
->> +drm_gem_object_evict(struct drm_gem_object *obj)
->> +{
->> +	dma_resv_assert_held(obj->resv);
->> +
->> +	if (obj->funcs->evict)
->> +		return obj->funcs->evict(obj);
->> +
->> +	return false;
->> +}
+On Wed, Nov 23, 2022 at 10:58:11PM +0800, Jisheng Zhang wrote:
+> On Wed, Nov 23, 2022 at 05:19:57PM +0800, Hsia-Jun Li wrote:
+> > From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
+> > 
+> > Memory Traffic Reduction(MTR) is a module in Synaptics
+> > VideoSmart platform could process lossless compression image
+> > and cache the tile memory line.
+> > 
+> > Those modifiers only record the parameters would effort pixel
+> > layout or memory layout. Whether physical memory page mapping
+> > is used is not a part of format.
+> > 
+> > We would allocate the same size of memory for uncompressed
+> > and compressed luma and chroma data, while the compressed buffer
+> > would request two extra planes holding the metadata for
+> > the decompression.
+> > 
+> > Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com>
+> > ---
+> >  include/uapi/drm/drm_fourcc.h | 75 +++++++++++++++++++++++++++++++++++
+> >  1 file changed, 75 insertions(+)
+> > 
+> > diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> > index bc056f2d537d..ca0b4ca70b36 100644
+> > --- a/include/uapi/drm/drm_fourcc.h
+> > +++ b/include/uapi/drm/drm_fourcc.h
+> > @@ -407,6 +407,7 @@ extern "C" {
+> >  #define DRM_FORMAT_MOD_VENDOR_ARM     0x08
+> >  #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
+> >  #define DRM_FORMAT_MOD_VENDOR_AMLOGIC 0x0a
+> > +#define DRM_FORMAT_MOD_VENDOR_SYNAPTICS 0x0b
 > 
-> This function needs exporting for the module build to work correctly.
+> Any users in the mainline tree?
 
-Indeed, I missed that drm-shmem can be built as a separate module.
+Note that drm_fourcc.h serves as the vendor-neutral registry for these
+numbers, and they're referenced in both gl and vk extensions. So this is
+the one case where we do _not_ require in-kernel users or open source
+userspace.
+
+If there is someone interested in an in-kernel or open userspace driver
+though it would be really great to have their acks before merging. Just to
+make sure that the modifiers will work with both upstream and downstream
+driver stacks.
+
+I just realized that we've failed to document this, I'll type up a patch.
+-Daniel
+
+
+> 
+> >  
+> >  /* add more to the end as needed */
+> >  
+> > @@ -1507,6 +1508,80 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
+> >  #define AMD_FMT_MOD_CLEAR(field) \
+> >  	(~((__u64)AMD_FMT_MOD_##field##_MASK << AMD_FMT_MOD_##field##_SHIFT))
+> >  
+> > +/*
+> > + * Synaptics VideoSmart modifiers
+> > + *
+> > + * Tiles could be arranged in Groups of Tiles (GOTs), it is a small tile
+> > + * within a tile. GOT size and layout varies based on platform and
+> > + * performance concern. When the compression is applied, it is possible
+> > + * that we would have two tile type in the GOT, these parameters can't
+> > + * tell the secondary tile type.
+> > + *
+> > + * Besides, an 8 size 4 bytes arrary (32 bytes) would be need to store
+> > + * some compression parameters for a compression meta data plane.
+> > + *
+> > + *       Macro
+> > + * Bits  Param Description
+> > + * ----  ----- -----------------------------------------------------------------
+> > + *
+> > + *  7:0  f     Scan direction description.
+> > + *
+> > + *               0 = Invalid
+> > + *               1 = V4, the scan would always start from vertical for 4 pixel
+> > + *                   then move back to the start pixel of the next horizontal
+> > + *                   direction.
+> > + *               2 = Reserved for future use.
+> > + *
+> > + * 15:8  m     The times of pattern repeat in the right angle direction from
+> > + *             the first scan direction.
+> > + *
+> > + * 19:16 p     The padding bits after the whole scan, could be zero.
+> > + *
+> > + * 20:20 g     GOT packing flag.
+> > + *
+> > + * 23:21 -     Reserved for future use.  Must be zero.
+> > + *
+> > + * 27:24 h     log2(horizontal) of bytes, in GOTs.
+> > + *
+> > + * 31:28 v     log2(vertical) of bytes, in GOTs.
+> > + *
+> > + * 35:32 -     Reserved for future use.  Must be zero.
+> > + *
+> > + * 36:36 c     Compression flag.
+> > + *
+> > + * 55:37 -     Reserved for future use.  Must be zero.
+> > + *
+> > + */
+> > +
+> > +#define DRM_FORMAT_MOD_SYNA_V4_TILED		fourcc_mod_code(SYNAPTICS, 1)
+> > +
+> > +#define DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(f, m, p, g, h, v, c) \
+> > +	fourcc_mod_code(SYNAPTICS, ((__u64)((f) & 0xff) | \
+> > +				 ((__u64)((m) & 0xff) << 8) | \
+> > +				 ((__u64)((p) & 0xf) << 16) | \
+> > +				 ((__u64)((g) & 0x1) << 20) | \
+> > +				 ((__u64)((h) & 0xf) << 24) | \
+> > +				 ((__u64)((v) & 0xf) << 28) | \
+> > +				 ((__u64)((c) & 0x1) << 36)))
+> > +
+> > +#define DRM_FORMAT_MOD_SYNA_V4H1 \
+> > +	DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 1, 0, 0, 0, 0, 0)
+> > +
+> > +#define DRM_FORMAT_MOD_SYNA_V4H3P8 \
+> > +	DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 3, 8, 0, 0, 0, 0)
+> > +
+> > +#define DRM_FORMAT_MOD_SYNA_V4H1_64L4_COMPRESSED \
+> > +	DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 1, 0, 1, 6, 2, 1)
+> > +
+> > +#define DRM_FORMAT_MOD_SYNA_V4H3P8_64L4_COMPRESSED \
+> > +	DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 3, 8, 1, 6, 2, 1)
+> > +
+> > +#define DRM_FORMAT_MOD_SYNA_V4H1_128L128_COMPRESSED \
+> > +	DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 1, 0, 1, 7, 7, 1)
+> > +
+> > +#define DRM_FORMAT_MOD_SYNA_V4H3P8_128L128_COMPRESSED \
+> > +	DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 3, 8, 1, 7, 7, 1)
+> > +
+> >  #if defined(__cplusplus)
+> >  }
+> >  #endif
+> > -- 
+> > 2.17.1
+> > 
 
 -- 
-Best regards,
-Dmitry
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
