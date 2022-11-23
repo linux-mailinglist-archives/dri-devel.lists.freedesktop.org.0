@@ -1,73 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C5436363B1
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 16:30:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4B536363B3
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 16:31:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDA4D10E591;
-	Wed, 23 Nov 2022 15:30:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEDE710E59A;
+	Wed, 23 Nov 2022 15:31:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
  [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C671210E58E
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 15:30:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E151410E58E
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 15:30:24 +0000 (UTC)
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id A40A12B06A7A;
- Wed, 23 Nov 2022 10:30:16 -0500 (EST)
+ by mailnew.west.internal (Postfix) with ESMTP id BFEBF2B069B3;
+ Wed, 23 Nov 2022 10:30:21 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Wed, 23 Nov 2022 10:30:19 -0500
+ by compute2.internal (MEProxy); Wed, 23 Nov 2022 10:30:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1669217416; x=
- 1669224616; bh=J1D+XOFOUdxuNkuluOHcckyn8YovDBfQcmqL72Rdd5c=; b=g
- 9n8H1SBJFBybBizfrjOhCjCYEwZcAHWX92WPhSYM3NzS67VfysJuy+a+fA8z/uTH
- iLlId0sHP5ScrNozlU95ST2jwCh9s2hFEJtBcBLmFFDDK3P4Mvm8SuCLIEIyuxfp
- ES/T5OmR/0keqPa1ybACxkKGVXkqi8seKEfMybOPMwT8B8sKy/wLivzRhnK5FmvL
- Rmv/jcy9i/VdJR1iXWt8ZH1AUVZlknvfhYsTykk8hrauLpcrhLE83OSuvSDJDRGb
- j43TQBIVtZE2b7E53WQkWKK9/oMItcyCwfSz0IonKd7W8fvqCNXQpHIJ5u0TXYqc
- C76rQellz9Rx9pzDw8d7Q==
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1669217421; x=
+ 1669224621; bh=JATl2qhr/RFfgqDqkRZKh+3K38ne/hZ5dmlydDeuhjA=; b=d
+ 2gvJo/leKNNGU1zZC7oyFKSTD4B+1TZz8PEcIpcOmKNBjrdWoxpQP7XhqzZrtxGW
+ stHer8rDi2teHfPdC8gZz7m2IhwC1K8I5eO1/4jrpmvUgkc7yFM+n2DuEVZ5p8bH
+ ID+E9ciGUHfplK0+it5Mqxwi7J4m85hm3uKNe7Bdzym90wSak1RNDEZtNk9VcjL0
+ HvuVkMhTyENCbzG7khs5VOwOl7hR+Yj8bX4j5/QMnMAlkXzy/3jjSDTBoDnMYiWs
+ LbxdIHYVx4NQk1y3nwL5HOAp5q/SfPnH9sHDQzSPXYkoZGscEnb0VoaJ5Ibs54xS
+ DQdO2BjUsoSrRbmS0L8Ag==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1669217416; x=
- 1669224616; bh=J1D+XOFOUdxuNkuluOHcckyn8YovDBfQcmqL72Rdd5c=; b=X
- x6E+7aDptIHjRzdBaQMxhSRoZnUpsh1ikjJxFlLfxU8Tm48hilSZ50OQm5vMguUq
- dMQlK6V4PU0PpE9bXXiRobzJ4Dz9uALGNcm9M4vqJj98MXb38KC2HpIEtBW3+Qkc
- ds8BaHpGuN8xuJNGYFhnMyKUlBgwGnvJhiH4HG/cTr7pyo/EErJVRBqr7XVD71gM
- G335iz7bZukMGUAJuisFx2WGO4hWhostVVhAoqtfsWJgTtR1dYNLoW2kMxCRtkId
- o3xqQgpJEY8HJN44w7XvYNhQXrqaxsEuAqDvObZVmHxO3Zjg0JwEgnUAQfVUnMkW
- pqd71UxRJXXCICjUVaxBQ==
-X-ME-Sender: <xms:iDx-Y-Q44C9ynF-0MzA-aQRKiwF1vvm-holmsVahTNIdZ6cFGNF5AQ>
- <xme:iDx-Yzwtu0eQ9zYVVP6ASi7f-NPaVyNGpEI8pj0I_m1-EVJEEm0rKOlWFP232aD8q
- 0KHq4-sqY8KDY7v2vA>
-X-ME-Received: <xmr:iDx-Y72CBmhS8_TV66STVCVrJ2gxn8wiNUbT_nS9dl32k7ogKrcM_TBe35NPZYxwnb0SgP6zaFzW7MJuJ_gS2q6slvCrqNrZdnTqvrCZW_jR0A>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1669217421; x=
+ 1669224621; bh=JATl2qhr/RFfgqDqkRZKh+3K38ne/hZ5dmlydDeuhjA=; b=K
+ EvphMPzG32dJH3dVYiPy5PTo7fCpCEQijLkPbP+zvRa+7h7W/B/hdHfo58IAjMFC
+ 3UHmGS2yrDGWBI+uumiXJ/QIexZxXg6CS18Zcn3XlwaG95LlguD6lqYSMUdGWtnm
+ e3KPYyTaGmJf7tBFDYqWXN5l5n2xe2CsoqRYVtjkAnDdvuHv8jgPLakhgUvDlEj8
+ fb1mF7Qf1rjdLvgn7YgxlpZ3mdLDXiIc53UgbMlBHfgfUnu0F6tv1si/e8xDHEXK
+ nuzp+Dvs1ojlbscmrcnwbqdcOQnp+JpJ4qrtd3ZICJgKIhsVTjJ7I6p+2SiKNvgK
+ iqpj3qmUNi8GrF4wAYXMw==
+X-ME-Sender: <xms:jTx-Y12x8ntzbKZOm5sWk06nRA3tn_OP--XfZJwKNKyDfiVhPBeMrg>
+ <xme:jTx-Y8EuYUGAgkKssRZOdbXRpkBWx5BZLk6ZvYIcMU-nMNo2SRemuTLHyR6yKucQN
+ CuwZ3bKbHrg36eyRko>
+X-ME-Received: <xmr:jTx-Y16mrpUWrVpnNCoBoH8SkaSwfArhXxIenobCGCyMfPSXCzq1Wm20EBzdcue35jrioVT6mNlWLYj5L6MFuqbAxdqmgcUZjxAEZWdlskNfbg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedriedugdejgecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhfffugggtgffkfhgjvfevofesthekredtredtjeenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeduudduhfevjeetfeegvdffvdevvdejudegudekjeehtdelhfffveethfej
- ledtveenucevlhhushhtvghrufhiiigvpeegnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ ledtveenucevlhhushhtvghrufhiiigvpeehnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:iDx-Y6DkWtXRY317JihNtpUMQRj2a8rt7FRm6fJ-72ICdEZ50ut22A>
- <xmx:iDx-Y3jc3kDleS1vZHfXeO6MzXdjTOJ-VnOT7xpnA71JxtvfXBoRjg>
- <xmx:iDx-Y2pLfqj7fVPh7eaK2-nAR92fK-FKp3LK-Rscepxglf4oxTJE6w>
- <xmx:iDx-YwDINIcXJfBAgzQ5q5OtO5czY9F6-B2D43zdjyGVZjl7KB8D1x6skwo>
+X-ME-Proxy: <xmx:jTx-Yy22YMyya6qBrg9apA_5bAGx_xYXBp9NaIUU9NFSjSyYAxZ1PQ>
+ <xmx:jTx-Y4HDmRyBrQ5EPRq0mc1bfkjqRTuJ6zc2dF5ImE5RAI2o6JMahQ>
+ <xmx:jTx-Yz_A8OwluGs3LrUGCyKVeDxYPtrqsAt_piPgLf4_wTHzJ87ZFg>
+ <xmx:jTx-Y6nvKxMfxpiWJ-h0RQSwG8lsyoHyNr-EDh7CJwGDCMkfsL9wn0Jpwxk>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 23 Nov 2022 10:30:15 -0500 (EST)
+ 23 Nov 2022 10:30:20 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Wed, 23 Nov 2022 16:26:02 +0100
-Subject: [PATCH 20/24] drm/vc4: crtc: Provide a CRTC name
+Date: Wed, 23 Nov 2022 16:26:03 +0100
+Subject: [PATCH 21/24] drm/vc4: hvs: Provide a function to initialize the HVS
+ structure
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20221123-rpi-kunit-tests-v1-20-051a0bb60a16@cerno.tech>
+Message-Id: <20221123-rpi-kunit-tests-v1-21-051a0bb60a16@cerno.tech>
 References: <20221123-rpi-kunit-tests-v1-0-051a0bb60a16@cerno.tech>
 In-Reply-To: <20221123-rpi-kunit-tests-v1-0-051a0bb60a16@cerno.tech>
 To: Maxime Ripard <mripard@kernel.org>,
@@ -75,11 +76,11 @@ To: Maxime Ripard <mripard@kernel.org>,
  Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
  Thomas Zimmermann <tzimmermann@suse.de>
 X-Mailer: b4 0.11.0-dev-d416f
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4108; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=pcc23LPR7qSZhtIKFeyngoCDAeldcNBM+wc9YK9zG1A=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMl11jW2j8zOzV9Y0h4gd5Xxic3BeYfWdCSKPHoRu0aqYF1E
- R/uUjlIWBjEuBlkxRZYYYfMlcadmve5k45sHM4eVCWQIAxenAEykjoGR4drjH+tMfL0UzsfvqVL6yx
- 32L/DhwglT2v1e5XN+3y/klMPwP3H1/2Vf4g4tfGj9fPnFzRlzMhtEHok0xbL8y2mJkdq7lhcA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4822; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=EMemUBe66KSq5rc8ZBbOyen0nlUmdwgeEwccgFMU3X0=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMl11jWM39YKFrbNsTc8Gb5e2PjVsh7n9F3dm1sLgx/2fVg1
+ 0/F0RykLgxgXg6yYIkuMsPmSuFOzXney8c2DmcPKBDKEgYtTACZydhYjQzPjJ5tw/v9dO9UFZyw9HL
+ hFaKsWq+mc5bdPlWd1fX71kY/hJ2Ok7pbzl+0Vu3uC3EoL/XnSPzrUzVv+wWyf29SWxxrZPAA=
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -98,121 +99,142 @@ Cc: David Gow <davidgow@google.com>, Brendan Higgins <brendan.higgins@linux.dev>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's fairly hard to figure out the instance of the CRTC affected by an
-atomic change using the default name.
+We'll need to initialize the HVS structure without a backing device to
+create a mock we'll use for testing.
 
-Since we can provide our own to the CRTC initialization functions, let's
-do so to make the debugging sessions easier.
+Split the structure initialization part into a separate function.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_crtc.c | 10 +++++++++-
- drivers/gpu/drm/vc4/vc4_drv.h  |  2 ++
- drivers/gpu/drm/vc4/vc4_txp.c  |  1 +
- 3 files changed, 12 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/vc4/vc4_drv.h |  1 +
+ drivers/gpu/drm/vc4/vc4_hvs.c | 81 +++++++++++++++++++++++++------------------
+ 2 files changed, 48 insertions(+), 34 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index 8bc30ad0904b..59e473059fa2 100644
---- a/drivers/gpu/drm/vc4/vc4_crtc.c
-+++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -1118,6 +1118,7 @@ static const struct drm_crtc_helper_funcs vc4_crtc_helper_funcs = {
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+index 54352db48476..e0be7a81a24a 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.h
++++ b/drivers/gpu/drm/vc4/vc4_drv.h
+@@ -1009,6 +1009,7 @@ void vc4_irq_reset(struct drm_device *dev);
  
- static const struct vc4_pv_data bcm2835_pv0_data = {
- 	.base = {
-+		.name = "pixelvalve-0",
- 		.debugfs_name = "crtc0_regs",
- 		.hvs_available_channels = BIT(0),
- 		.hvs_output = 0,
-@@ -1132,6 +1133,7 @@ static const struct vc4_pv_data bcm2835_pv0_data = {
+ /* vc4_hvs.c */
+ extern struct platform_driver vc4_hvs_driver;
++struct vc4_hvs *__vc4_hvs_alloc(struct vc4_dev *vc4, struct platform_device *pdev);
+ void vc4_hvs_stop_channel(struct vc4_hvs *hvs, unsigned int output);
+ int vc4_hvs_get_fifo_from_output(struct vc4_hvs *hvs, unsigned int output);
+ u8 vc4_hvs_get_fifo_frame_count(struct vc4_hvs *hvs, unsigned int fifo);
+diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
+index c4453a5ae163..94c29f8547bb 100644
+--- a/drivers/gpu/drm/vc4/vc4_hvs.c
++++ b/drivers/gpu/drm/vc4/vc4_hvs.c
+@@ -768,22 +768,60 @@ int vc4_hvs_debugfs_init(struct drm_minor *minor)
+ 	return 0;
+ }
  
- static const struct vc4_pv_data bcm2835_pv1_data = {
- 	.base = {
-+		.name = "pixelvalve-1",
- 		.debugfs_name = "crtc1_regs",
- 		.hvs_available_channels = BIT(2),
- 		.hvs_output = 2,
-@@ -1146,6 +1148,7 @@ static const struct vc4_pv_data bcm2835_pv1_data = {
+-static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
++struct vc4_hvs *__vc4_hvs_alloc(struct vc4_dev *vc4, struct platform_device *pdev)
+ {
+-	struct platform_device *pdev = to_platform_device(dev);
+-	struct drm_device *drm = dev_get_drvdata(master);
+-	struct vc4_dev *vc4 = to_vc4_dev(drm);
+-	struct vc4_hvs *hvs = NULL;
+-	int ret;
+-	u32 dispctrl;
+-	u32 reg;
++	struct drm_device *drm = &vc4->base;
++	struct vc4_hvs *hvs;
  
- static const struct vc4_pv_data bcm2835_pv2_data = {
- 	.base = {
-+		.name = "pixelvalve-2",
- 		.debugfs_name = "crtc2_regs",
- 		.hvs_available_channels = BIT(1),
- 		.hvs_output = 1,
-@@ -1160,6 +1163,7 @@ static const struct vc4_pv_data bcm2835_pv2_data = {
+ 	hvs = drmm_kzalloc(drm, sizeof(*hvs), GFP_KERNEL);
+ 	if (!hvs)
+-		return -ENOMEM;
++		return ERR_PTR(-ENOMEM);
++
+ 	hvs->vc4 = vc4;
+ 	hvs->pdev = pdev;
  
- static const struct vc4_pv_data bcm2711_pv0_data = {
- 	.base = {
-+		.name = "pixelvalve-0",
- 		.debugfs_name = "crtc0_regs",
- 		.hvs_available_channels = BIT(0),
- 		.hvs_output = 0,
-@@ -1174,6 +1178,7 @@ static const struct vc4_pv_data bcm2711_pv0_data = {
++	spin_lock_init(&hvs->mm_lock);
++
++	/* Set up the HVS display list memory manager.  We never
++	 * overwrite the setup from the bootloader (just 128b out of
++	 * our 16K), since we don't want to scramble the screen when
++	 * transitioning from the firmware's boot setup to runtime.
++	 */
++	drm_mm_init(&hvs->dlist_mm,
++		    HVS_BOOTLOADER_DLIST_END,
++		    (SCALER_DLIST_SIZE >> 2) - HVS_BOOTLOADER_DLIST_END);
++
++	/* Set up the HVS LBM memory manager.  We could have some more
++	 * complicated data structure that allowed reuse of LBM areas
++	 * between planes when they don't overlap on the screen, but
++	 * for now we just allocate globally.
++	 */
++	if (!vc4->is_vc5)
++		/* 48k words of 2x12-bit pixels */
++		drm_mm_init(&hvs->lbm_mm, 0, 48 * 1024);
++	else
++		/* 60k words of 4x12-bit pixels */
++		drm_mm_init(&hvs->lbm_mm, 0, 60 * 1024);
++
++	vc4->hvs = hvs;
++
++	return hvs;
++}
++
++static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
++{
++	struct platform_device *pdev = to_platform_device(dev);
++	struct drm_device *drm = dev_get_drvdata(master);
++	struct vc4_dev *vc4 = to_vc4_dev(drm);
++	struct vc4_hvs *hvs = NULL;
++	int ret;
++	u32 dispctrl;
++	u32 reg;
++
++	hvs = __vc4_hvs_alloc(vc4, NULL);
++	if (IS_ERR(hvs))
++		return PTR_ERR(hvs);
++
+ 	hvs->regs = vc4_ioremap_regs(pdev, 0);
+ 	if (IS_ERR(hvs->regs))
+ 		return PTR_ERR(hvs->regs);
+@@ -835,29 +873,6 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
+ 	else
+ 		hvs->dlist = hvs->regs + SCALER5_DLIST_START;
  
- static const struct vc4_pv_data bcm2711_pv1_data = {
- 	.base = {
-+		.name = "pixelvalve-1",
- 		.debugfs_name = "crtc1_regs",
- 		.hvs_available_channels = BIT(0) | BIT(1) | BIT(2),
- 		.hvs_output = 3,
-@@ -1188,6 +1193,7 @@ static const struct vc4_pv_data bcm2711_pv1_data = {
- 
- static const struct vc4_pv_data bcm2711_pv2_data = {
- 	.base = {
-+		.name = "pixelvalve-2",
- 		.debugfs_name = "crtc2_regs",
- 		.hvs_available_channels = BIT(0) | BIT(1) | BIT(2),
- 		.hvs_output = 4,
-@@ -1201,6 +1207,7 @@ static const struct vc4_pv_data bcm2711_pv2_data = {
- 
- static const struct vc4_pv_data bcm2711_pv3_data = {
- 	.base = {
-+		.name = "pixelvalve-3",
- 		.debugfs_name = "crtc3_regs",
- 		.hvs_available_channels = BIT(1),
- 		.hvs_output = 1,
-@@ -1214,6 +1221,7 @@ static const struct vc4_pv_data bcm2711_pv3_data = {
- 
- static const struct vc4_pv_data bcm2711_pv4_data = {
- 	.base = {
-+		.name = "pixelvalve-4",
- 		.debugfs_name = "crtc4_regs",
- 		.hvs_available_channels = BIT(0) | BIT(1) | BIT(2),
- 		.hvs_output = 5,
-@@ -1282,7 +1290,7 @@ int __vc4_crtc_init(struct drm_device *drm,
- 	vc4_crtc->feeds_txp = feeds_txp;
- 	spin_lock_init(&vc4_crtc->irq_lock);
- 	ret = drmm_crtc_init_with_planes(drm, crtc, primary_plane, NULL,
--					 crtc_funcs, NULL);
-+					 crtc_funcs, data->name);
+-	spin_lock_init(&hvs->mm_lock);
+-
+-	/* Set up the HVS display list memory manager.  We never
+-	 * overwrite the setup from the bootloader (just 128b out of
+-	 * our 16K), since we don't want to scramble the screen when
+-	 * transitioning from the firmware's boot setup to runtime.
+-	 */
+-	drm_mm_init(&hvs->dlist_mm,
+-		    HVS_BOOTLOADER_DLIST_END,
+-		    (SCALER_DLIST_SIZE >> 2) - HVS_BOOTLOADER_DLIST_END);
+-
+-	/* Set up the HVS LBM memory manager.  We could have some more
+-	 * complicated data structure that allowed reuse of LBM areas
+-	 * between planes when they don't overlap on the screen, but
+-	 * for now we just allocate globally.
+-	 */
+-	if (!vc4->is_vc5)
+-		/* 48k words of 2x12-bit pixels */
+-		drm_mm_init(&hvs->lbm_mm, 0, 48 * 1024);
+-	else
+-		/* 60k words of 4x12-bit pixels */
+-		drm_mm_init(&hvs->lbm_mm, 0, 60 * 1024);
+-
+ 	/* Upload filter kernels.  We only have the one for now, so we
+ 	 * keep it around for the lifetime of the driver.
+ 	 */
+@@ -867,8 +882,6 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
  	if (ret)
  		return ret;
  
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index dca7be3fccb5..54352db48476 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.h
-+++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -512,6 +512,8 @@ struct drm_encoder *vc4_find_encoder_by_type(struct drm_device *drm,
- }
- 
- struct vc4_crtc_data {
-+	const char *name;
-+
- 	const char *debugfs_name;
- 
- 	/* Bitmask of channels (FIFOs) of the HVS that the output can source from */
-diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
-index 841da240d93a..4f7ce5d3e8ad 100644
---- a/drivers/gpu/drm/vc4/vc4_txp.c
-+++ b/drivers/gpu/drm/vc4/vc4_txp.c
-@@ -480,6 +480,7 @@ static irqreturn_t vc4_txp_interrupt(int irq, void *data)
- }
- 
- static const struct vc4_crtc_data vc4_txp_crtc_data = {
-+	.name = "txp",
- 	.debugfs_name = "txp_regs",
- 	.hvs_available_channels = BIT(2),
- 	.hvs_output = 2,
+-	vc4->hvs = hvs;
+-
+ 	reg = HVS_READ(SCALER_DISPECTRL);
+ 	reg &= ~SCALER_DISPECTRL_DSP2_MUX_MASK;
+ 	HVS_WRITE(SCALER_DISPECTRL,
 
 -- 
 2.38.1-b4-0.11.0-dev-d416f
