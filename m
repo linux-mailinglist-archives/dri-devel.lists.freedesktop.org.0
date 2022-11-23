@@ -1,148 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84864636D7C
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 23:46:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CBEB636E25
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 00:11:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF85710E650;
-	Wed, 23 Nov 2022 22:46:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9A7010E654;
+	Wed, 23 Nov 2022 23:11:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47C1610E64E;
- Wed, 23 Nov 2022 22:46:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669243585; x=1700779585;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=QofoWI49RmvTSvNFJbUmSBA119F8P1nX7A0o9kDukvc=;
- b=O+7qizGztO+If+IWQSvKJd+5cyngg/4shgbocDp7YnHMOFukXhvA4O8A
- OHdomwogrOCVCGPwygM2ZElBvd+68bhe28owxpH9Ci//rRiPdytMl6/xd
- B4+DFiwgTfzGPw1OfdwVgXSwfcKAfcUPgGfW2LdVBuL92rRZidLd9oWxr
- m/uB2PDdF+euzG5CX2H0bQf6kqk4hSrGoGLoAPN7vYCNi0i8ArO+0q12Y
- eC5pzf2eJZ0bcsMowHv+GdNTjZIV0V05VEfY7OdxyaKGSvYY5v4XoiB9p
- pzN7mxte4+9BIhIscTn5U8gk/gljepQhtJpAZs4vc7vBVvU3owY8bGKmr w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="293876932"
-X-IronPort-AV: E=Sophos;i="5.96,187,1665471600"; d="scan'208";a="293876932"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Nov 2022 14:46:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="747974066"
-X-IronPort-AV: E=Sophos;i="5.96,187,1665471600"; d="scan'208";a="747974066"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by fmsmga002.fm.intel.com with ESMTP; 23 Nov 2022 14:46:24 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 23 Nov 2022 14:46:23 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Wed, 23 Nov 2022 14:46:23 -0800
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.107)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Wed, 23 Nov 2022 14:46:22 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=D2sMkMGl7w4EA4kyy1ReDe7kS7j2SOKyQlxP4zJGAWMBcjAI24PZHKvX1MrIXaXG3nzTy02HQ4VbU+WRelcrR8FnSFplvuiKpndUVYAqviUAaTN+5Ud4gDltwEh+5EgMW+PSLc5VUO9hYjOT1LGoUVWLDFuHtIlRHgx4m6EHIt3ZMilnUtqsKE5MEoiL1nlnx9bfcb7xEej/AUzCE3N8maBXUOL/YMtUZ0LcYcoRtbnXlrbkxi1yVCpHrFu812vIrZen7f6aQ9hmLlErN1hNJ+9WcG++3bPj5fx8sxEORoATCJUMgiDlDBiOz5h8aHZNawPMAcdDF3GEwt96kqM5sw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TX0ndHhVhbnbmuf3h+vXakBcxCs5jzHmrx9Px+4wqfc=;
- b=dQrsFBxPh4H04YhDKupSu+GmWlEA4ye/tvMzsnI//GT9JJxGvLAUsxOGb7A4dqZHIEaOL/5pWld0cBV2Db2tyq8lQPfLiK2KGrcwgmo7dmreH+Y/SdSVlv71vXbIzj7uT/rioaEm6HrMuViJAffy8LtyYMXW2uiDxGgWT7Q9qoggo71uFBy78GP17pCUqqeOAoxsHPz16MclWfbrQQGYaF9Z0L0FhhLuSMleXgJwxJ6HE7Yw0yqNFnWks4rDNk6RoI0mwlBJi0zSEzV6sikKR1arRCXiweINBh4ifmnNZHEwvKMyrOJv++lZT9DxmPHCAxWdRqxmhxDie27SXbHAsw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB3911.namprd11.prod.outlook.com (2603:10b6:a03:18d::29)
- by SJ0PR11MB5071.namprd11.prod.outlook.com (2603:10b6:a03:2d7::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.15; Wed, 23 Nov
- 2022 22:46:21 +0000
-Received: from BY5PR11MB3911.namprd11.prod.outlook.com
- ([fe80::a9e2:5c97:e3f0:1f12]) by BY5PR11MB3911.namprd11.prod.outlook.com
- ([fe80::a9e2:5c97:e3f0:1f12%4]) with mapi id 15.20.5834.015; Wed, 23 Nov 2022
- 22:46:21 +0000
-Message-ID: <10d158a9-33b6-f9b1-1661-04da961ed8cd@intel.com>
-Date: Wed, 23 Nov 2022 14:46:18 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.5.0
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/gt: Manage uncore->lock while
- waiting on MCR register
-Content-Language: en-GB
-To: Matt Roper <matthew.d.roper@intel.com>, <intel-gfx@lists.freedesktop.org>
-References: <20221117173358.1980230-1-matthew.d.roper@intel.com>
-From: John Harrison <john.c.harrison@intel.com>
-In-Reply-To: <20221117173358.1980230-1-matthew.d.roper@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR06CA0058.namprd06.prod.outlook.com
- (2603:10b6:a03:14b::35) To BY5PR11MB3911.namprd11.prod.outlook.com
- (2603:10b6:a03:18d::29)
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D7A610E653
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 23:11:28 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id g7so40285lfv.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 15:11:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=7XcTTI3VTKH5Ew7b4w2Gn9cRXjRHQBtu6NQmXOetUGw=;
+ b=SYoOY7rZftTsDa3r7rI6AIPmcr8sI5HSxxE/rCN+yjg6qQdWiKjKfjvLLKYXxHupWv
+ qJwWaOf9Y+turS/k7IgQSFxXa3nmviUxOc9BUdkt98fICFMHeKroBhjTnTxcrrb1mplc
+ lu8mryjd6BP7jPvu60q4RS/CKJ9prs+0t/QYjA9j2Q4/LxR2vns6EgMixVHpg7U7n3tb
+ l5znAXSfUDcBeF+BF0pFx6QIzR9P+WX9/yu+4ZeN+ahgOET9V6osdxQBtsVCfiXkmM+l
+ Ki/j+GjPmTeA5RkxRsBdi9EQXUqLvcDHvr1QIRFvP2+bhWfGZAbdDVvAgHYfc6yNt2gV
+ 3eLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7XcTTI3VTKH5Ew7b4w2Gn9cRXjRHQBtu6NQmXOetUGw=;
+ b=hD4WgbBinlgD4OXjjQUpTCiDR3IpcfUNruu63ZHGgr7YvCoW+yQKedkuvVEpJT9xN1
+ 0AG3iuuESvr2bGa37pD1WNFzIVQUBOjql3bU1OoVUi0lcsXkqkGG/vVy649wYrdNuCHz
+ Agc6CCcR9QU7bK3cCYzRFYzlxvLkhBZjvuSScZQy9pRfMZPmGH+j+iRG+mF8MrJphJax
+ UKt1wN0GFBuLfs0n8bFiERN+YEWARgt004mTA4dGUQnllpa46iJwgEBjeIdhyrMzZNNI
+ brWqP4e4cS4DXdgr6wAKpnwwttOUEpqVqC0tATD8plOslIvhDyWMvT0cMC2FghTBvife
+ Vieg==
+X-Gm-Message-State: ANoB5pnqicLcWoO5FYafwQpJiwiRjVFh4enySRor3DUvn67ay8vC9SUP
+ 9YCcggWVJfJP36+6tiGXmzITQw==
+X-Google-Smtp-Source: AA0mqf4ap4rSKu1q4RzaMVU+Ew9bLfwjunXcWBhERA8AnppBDiepmkCDzvZejuLLCMPYFng6xbdf+A==
+X-Received: by 2002:a05:6512:2591:b0:4ae:c2b5:29c4 with SMTP id
+ bf17-20020a056512259100b004aec2b529c4mr4605476lfb.614.1669245086436; 
+ Wed, 23 Nov 2022 15:11:26 -0800 (PST)
+Received: from ?IPV6:2001:14ba:a302:192b::1?
+ (dzpbbwm4yyyyyyyyyyyyt-3.rev.dnainternet.fi. [2001:14ba:a302:192b::1])
+ by smtp.gmail.com with ESMTPSA id
+ c4-20020ac25304000000b0049fff3f645esm3017256lfh.70.2022.11.23.15.11.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Nov 2022 15:11:25 -0800 (PST)
+Message-ID: <1ad9d68a-8735-07cf-e279-503d9ba63878@linaro.org>
+Date: Thu, 24 Nov 2022 01:11:25 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR11MB3911:EE_|SJ0PR11MB5071:EE_
-X-MS-Office365-Filtering-Correlation-Id: 14b5080c-1623-43b9-0830-08dacda48ae3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: gbdl5wpjw4uvZv1FDEws2MUWImqB3lvUSdARyGRqOWUCrPvfaTof9Po0IgZLhjB8To8r8yyBXT9ETCYdE0LMkXySWY4vCPtHtWwS843xErT+jhsDNFTNBVuvcfDWSb3N/imJzdVpPFbjIuB+M5O9Cbp7a29vb+fNOfJhd6YMBrINdoWjODc0VM5nXSeKqRnS/f8TTKMjbR7stjLedFDgBKtNYuvLkCpj2w5RP8WxrT1ez9uqYYyTXWDoKMhlvB4ZgaIfioitPDMq9G+FrdcfiYmvRMVmOXmTLsDWMnHmcN4FCac+JCUVyfE0CmaKF5xYMSyeOT7b31j9sxyQ1L31Cb7IUy/+TvOP1SEKXygI3cgtCiFjH52eWID7am6kFu6gwH2xRPGwt4yIS0Zvdhr8jNm8QryAgUaR3Ls1ssjYZQ5ty2yR2U7Km9L6AHwoQoSxfQuKOBel4tyZCpsA0h1p8DDCZwPKYc3qUf9TxNzvhH5po2K+8T13D7tmdV8Ra9NoJHhqHdxImfWzmQY7Vxqtekw8aGC72wwBCTdEewHSJmfM+jr7H16/40bJNat+yNuqIVBUQlMTYZiW5X7i1CW8QZvjvxSQIzsdHvLCe8IcIwNBZZYALBIkFSbnYZbpJLWr/hQ+BfFJjZ83puvHI8+jIinDcF3HGNZ4qdUI79/OWxNlqfKR5e9VPbePC8TTLZ/jIWRXWQwzgm3xZOevmE4wJQvCXhCNfU9Bzs9+/v1Ichk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB3911.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(136003)(346002)(376002)(39860400002)(396003)(366004)(451199015)(5660300002)(36756003)(186003)(6506007)(83380400001)(2616005)(82960400001)(4326008)(8676002)(316002)(66476007)(450100002)(66946007)(66556008)(53546011)(8936002)(26005)(38100700002)(2906002)(86362001)(6512007)(31696002)(6666004)(41300700001)(31686004)(6486002)(478600001)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MnphWGlFSU5wdXNpSDNNMjRsVzhFODd2UlB0TGsyVk1nRU40dnMvV0FTRDN5?=
- =?utf-8?B?SFhZQTFqRFNuSTMwQjMyM0dNT0JMOG1adGhjWGFzODRUQ3ZDeGkzNGdveDJ2?=
- =?utf-8?B?NVF2L0NyLysrZ3lLdWxiWkE5dkFxSTBuTTZWM0gwa3g0ZGZlenRaRWp4b1Vq?=
- =?utf-8?B?aFByeDJ5MkphODYvR0VSUVg3NzVhL2lzSXdzYmRBOHBQWDQ2OEtLbVc3Q2kx?=
- =?utf-8?B?YUpaNmtCTVd2Q0NSbUNYMFQyc3Z0Mm40a1lSVkNqN3hOYVROd2xSdDYvTXFl?=
- =?utf-8?B?SHFnRmxIaWNPWDMzT2gxa2h5YUZCaVhLYkNERVZ6RVoxMDhSbHROV012b0pl?=
- =?utf-8?B?RGpTakNacmJLNFRXZlJOSktqVHg5NDFrTnZsZ1JqeU44T2F5ZHdZeDZzUCt4?=
- =?utf-8?B?VG5ybk1uRVhTajJqL2dIc29vNmZRZEdmZzN0alJ2SUVOQkJNN1YxOFdlM3RC?=
- =?utf-8?B?d2Rydi91aXFVdWR2Z2RGNjIyYlFnUndvRTNlWEFXQ3lKdmdQeW9uTi9nbitK?=
- =?utf-8?B?ZG16MDNVT09iU3ZHWVgwbzc0RlBqOWs2NVpuTXIvM200SEdvTFZjVzNpRlZl?=
- =?utf-8?B?cFdLY0FiNGxKc1dDRXJUeDNVUnppclQ4ZGRvSWRXWlRmVVRBRXNUOWtUU2ZI?=
- =?utf-8?B?ZVBpeEkxeFpIZ2J6NmtqYnlhQnpQRTk4ZlprdUpJTmMvTVhyNmYxWFNIWDVV?=
- =?utf-8?B?d0pDcE9hd1FHRU9Jd09Eemw1WjQ5emlQUHgyV213MVVwL2loYkxNTnVCUkl5?=
- =?utf-8?B?QStWTzJsSkRrMU8zRDFqUFdtQ2xxOVYzV2lQL1A0YlUzOW9EcTF5UVl2amxC?=
- =?utf-8?B?WGdTQ2FoVnJiTjRSU0NrMnNXOEdPZUczSTFaY3J5bGVVb0FXenlaMmRNU3V6?=
- =?utf-8?B?dFczNHBadDU5SWNienk2bFlUd3hrUEpZWGNFYkc1ZGpIekk0L056a0RkNW1q?=
- =?utf-8?B?ZEtUTlkwTVVsYzZvV280NXUzV1FoK1gxRThtSzNnU2V4MXlZR3BVaVJKN0Ex?=
- =?utf-8?B?Yjd3ZGRvendrZ3hXSzlBZzNFQUxkc1JobVFpUXZHZnEzbUJmaHQwM21oaGZG?=
- =?utf-8?B?MnZJR3F3Q0FTZi82d2pMOXFaVkc4blRIUW9qbEJxWFNOZW5WOGxIdEEwemEx?=
- =?utf-8?B?WmI3RDdNbURoTno3N1pGVHU3Njk4TjdaZjVSaUNlSlc3Qll2UXY2TU1rdVFU?=
- =?utf-8?B?OWtlczZ1Q1VLRmdXemlpOHJnS0RrY0VicURhWURMSExvQ3U5ZC9Kc29UWlpP?=
- =?utf-8?B?cUFRVlpRaHh5QzNBRll5NVJOMmlsUW5wMlIrQlp2MHdyendPNHQyN0RpZFNw?=
- =?utf-8?B?djRxM2lQbG15RmRQdjZJSW5qVE5SMS9BY0J6UXJCYzVBS1I1SVFyRDhQeitS?=
- =?utf-8?B?REJJQTd6RkRKeWl5eTg4R2xSMzRLSjZLNHc2Y1c3MlRFNTZ3UDRmRXRaQjRw?=
- =?utf-8?B?djJ5V2ppYlZUWldYTkw4ZDBQT0hrVzk4NEI5ZlArd0RBR2JCUEkxNHNXQUJU?=
- =?utf-8?B?MzIyRERQUUUwOGJBekZQbGhsWUhrRWFnd3pOYWMvTmw2WlJVNHYwUTkvQ2F0?=
- =?utf-8?B?OURtUzJyZWN5aHJ3c0g5VVM1bm0zTzBRQWR5Rkdwb2t2d1QvUmRPeFZpNkRl?=
- =?utf-8?B?SUlxNFZrUTVITC95a0tvOXNoaFh4SFcwMmNNckZPTDR5SWxkem5vQUpFajRy?=
- =?utf-8?B?OEpXbkJEUlE4UDN1ZjhxOEdZUTVveWpPaFlPQ0JwV040dEVSTkVPdlZaalhB?=
- =?utf-8?B?R3k0d01qZWw0N1V0Rm8zQUxIc1Y2L1RRTU96M3M1U1FoMTd3RkFBTE96ZmlX?=
- =?utf-8?B?dCtodWtad2ttaUhJeWpXRU1jQThPS2RYRUxpb1lBMXJUK1h0UDFQR2ZDZlc3?=
- =?utf-8?B?ODYvZUw3VGFJZExqdW5UbmZSSEthd1Qwd2RXcERJWlBHNlY4NU04T1I3YkZn?=
- =?utf-8?B?OXArZzNEbmtTVFhLUWJwRWhBWE95b1BuTzRRdlZybG1QdS9TbUltaTFqY3E2?=
- =?utf-8?B?eTB2NnVlTHJPd0dEWGFxT1cwdVZWYVZqYWlsWVUzK1BRL1BLalR2UHluMVQ0?=
- =?utf-8?B?QmExTkI4bmtHOWt3MFF2MDB4VGVvN2JyT0o2YnZTNnZkZmMzaXR4eU9OVzh0?=
- =?utf-8?B?c01MaUkyUStWQ0RyNHpvTGRubGlHTk5ERk5jbVQxcy9iMTBVMFVQc0FGaVVj?=
- =?utf-8?B?U2c9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 14b5080c-1623-43b9-0830-08dacda48ae3
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3911.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2022 22:46:21.5905 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fEuNo6zPX2C7zfQRUpr4TR9dKSBaVWAwvj/J1ScNntMs2ByH31nOvR8EhzuDdl2UC9AJd6x8I/bz+hpM+MRbMEsYTBh1AMDySqikTxtwGXk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5071
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH 1/2] dt-bindings: display/msm: add support for the display
+Content-Language: en-GB
+To: Adam Skladowski <a39.skl@gmail.com>
+References: <20221120133744.24808-1-a39.skl@gmail.com>
+ <20221120133744.24808-2-a39.skl@gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20221120133744.24808-2-a39.skl@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,35 +76,329 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ phone-devel@vger.kernel.org, Adam Skladowski <a_skl39@protonmail.com>,
+ Vinod Polimera <quic_vpolimer@quicinc.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Jason Wang <wangborong@cdjrlc.com>, Sean Paul <sean@poorly.run>,
+ Kalyan Thota <quic_kalyant@quicinc.com>,
+ Loic Poulain <loic.poulain@linaro.org>, Bjorn Andersson <andersson@kernel.org>,
+ Douglas Anderson <dianders@chromium.org>, Vinod Koul <vkoul@kernel.org>,
+ freedreno@lists.freedesktop.org, ~postmarketos/upstreaming@lists.sr.ht
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/17/2022 09:33, Matt Roper wrote:
-> ...
->
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
-> index 830edffe88cc..d9a8ff9e5e57 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
-> @@ -730,17 +730,19 @@ void intel_gt_mcr_get_ss_steering(struct intel_gt *gt, unsigned int dss,
->    *
->    * Return: 0 if the register matches the desired condition, or -ETIMEDOUT.
->    */
-> -int intel_gt_mcr_wait_for_reg_fw(struct intel_gt *gt,
-> -				 i915_mcr_reg_t reg,
-> -				 u32 mask,
-> -				 u32 value,
-> -				 unsigned int fast_timeout_us,
-> -				 unsigned int slow_timeout_ms)
-> +int intel_gt_mcr_wait_for_reg(struct intel_gt *gt,
-This change missed the comment above and so is causing errors from the 
-documentation build:
+On 20/11/2022 15:37, Adam Skladowski wrote:
+> Add DPU and MDSS schemas to describe MDSS and DPU blocks on the Qualcomm
+> SM6115 platform.
+> Configuration for DSI/PHY is shared with QCM2290 so compatibles are reused.
+> Lack of dsi phy supply in example is intended
+> due to fact on qcm2290, sm6115 and sm6125
+> this phy is supplied via power domain, not regulator.
+> 
+> Signed-off-by: Adam Skladowski <a39.skl@gmail.com>
+> ---
+>   .../bindings/display/msm/qcom,sm6115-dpu.yaml |  87 ++++++++
+>   .../display/msm/qcom,sm6115-mdss.yaml         | 187 ++++++++++++++++++
+>   2 files changed, 274 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sm6115-dpu.yaml
+>   create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm6115-dpu.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm6115-dpu.yaml
+> new file mode 100644
+> index 000000000000..cc77675ec4f6
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm6115-dpu.yaml
+> @@ -0,0 +1,87 @@
+> +# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/msm/qcom,sm6115-dpu.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm Display DPU dt properties for SM6115 target
+> +
+> +maintainers:
+> +  - Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> +
+> +$ref: /schemas/display/msm/dpu-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - const: qcom,sm6115-dpu
+> +
+> +  reg:
+> +    items:
+> +      - description: Address offset and size for mdp register set
+> +      - description: Address offset and size for vbif register set
+> +
+> +  reg-names:
+> +    items:
+> +      - const: mdp
+> +      - const: vbif
+> +
+> +  clocks:
+> +    items:
+> +      - description: Display AXI clock from gcc
+> +      - description: Display AHB clock from dispcc
+> +      - description: Display core clock from dispcc
+> +      - description: Display lut clock from dispcc
+> +      - description: Display rotator clock from dispcc
+> +      - description: Display vsync clock from dispcc
+> +
+> +  clock-names:
+> +    items:
+> +      - const: bus
+> +      - const: iface
+> +      - const: core
+> +      - const: lut
+> +      - const: rot
+> +      - const: vsync
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/qcom,sm6115-dispcc.h>
+> +    #include <dt-bindings/clock/qcom,gcc-sm6115.h>
+> +    #include <dt-bindings/power/qcom-rpmpd.h>
+> +
+> +    display-controller@5e01000 {
+> +        compatible = "qcom,sm6115-dpu";
+> +        reg = <0x05e01000 0x8f000>,
+> +              <0x05eb0000 0x2008>;
+> +        reg-names = "mdp", "vbif";
+> +
+> +        clocks = <&gcc GCC_DISP_HF_AXI_CLK>,
+> +                 <&dispcc DISP_CC_MDSS_AHB_CLK>,
+> +                 <&dispcc DISP_CC_MDSS_MDP_CLK>,
+> +                 <&dispcc DISP_CC_MDSS_MDP_LUT_CLK>,
+> +                 <&dispcc DISP_CC_MDSS_ROT_CLK>,
+> +                 <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
+> +        clock-names = "bus", "iface", "core", "lut", "rot", "vsync";
+> +
+> +        operating-points-v2 = <&mdp_opp_table>;
+> +        power-domains = <&rpmpd SM6115_VDDCX>;
+> +
+> +        interrupt-parent = <&mdss>;
+> +        interrupts = <0>;
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +                endpoint {
+> +                    remote-endpoint = <&dsi0_in>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +...
+> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml
+> new file mode 100644
+> index 000000000000..af721aa05b22
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml
+> @@ -0,0 +1,187 @@
+> +# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/msm/qcom,sm6115-mdss.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm SM6115 Display MDSS
+> +
+> +maintainers:
+> +  - Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> +
+> +description:
+> +  Device tree bindings for MSM Mobile Display Subsystem(MDSS) that encapsulates
+> +  sub-blocks like DPU display controller and DSI. Device tree bindings of MDSS
+> +  are mentioned for SM6115 target.
+> +
+> +$ref: /schemas/display/msm/mdss-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - const: qcom,sm6115-mdss
+> +
+> +  clocks:
+> +    items:
+> +      - description: Display AHB clock from gcc
+> +      - description: Display AXI clock
+> +      - description: Display core clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: iface
+> +      - const: bus
+> +      - const: core
 
-Error: make htmldocs had i915 warnings
-./drivers/gpu/drm/i915/gt/intel_gt_mcr.c:739: warning: expecting prototype for intel_gt_mcr_wait_for_reg_fw(). Prototype was for intel_gt_mcr_wait_for_reg() instead
-./drivers/gpu/drm/i915/gt/intel_gt_mcr.c:739: warning: expecting prototype for intel_gt_mcr_wait_for_reg_fw(). Prototype was for intel_gt_mcr_wait_for_reg() instead
+I think you can drop clock-names from the MDSS node.
 
-John.
+> +
+> +  iommus:
+> +    maxItems: 2
+> +
+> +patternProperties:
+> +  "^display-controller@[0-9a-f]+$":
+> +    type: object
+> +    properties:
+> +      compatible:
+> +        const: qcom,sm6115-dpu
+> +
+> +  "^dsi@[0-9a-f]+$":
+> +    type: object
+> +    properties:
+> +      compatible:
+> +        const: qcom,dsi-ctrl-6g-qcm2290
+> +
+> +  "^phy@[0-9a-f]+$":
+> +    type: object
+> +    properties:
+> +      compatible:
+> +        const: qcom,dsi-phy-14nm-2290
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/qcom,sm6115-dispcc.h>
+> +    #include <dt-bindings/clock/qcom,gcc-sm6115.h>
+> +    #include <dt-bindings/clock/qcom,rpmcc.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/power/qcom-rpmpd.h>
+> +
+> +    mdss@5e00000 {
+> +        #address-cells = <1>;
+> +        #size-cells = <1>;
+> +        compatible = "qcom,sm6115-mdss";
+> +        reg = <0x05e00000 0x1000>;
+> +        reg-names = "mdss";
+> +        power-domains = <&dispcc MDSS_GDSC>;
+> +        clocks = <&gcc GCC_DISP_AHB_CLK>,
+> +                 <&gcc GCC_DISP_HF_AXI_CLK>,
+> +                 <&dispcc DISP_CC_MDSS_MDP_CLK>;
+> +        clock-names = "iface", "bus", "core";
+> +
+> +        interrupts = <GIC_SPI 186 IRQ_TYPE_LEVEL_HIGH>;
+> +        interrupt-controller;
+> +        #interrupt-cells = <1>;
+> +
+> +        iommus = <&apps_smmu 0x420 0x2>,
+> +                 <&apps_smmu 0x421 0x0>;
+> +        ranges;
+> +
+> +        display-controller@5e01000 {
+> +            compatible = "qcom,sm6115-dpu";
+> +            reg = <0x05e01000 0x8f000>,
+> +                  <0x05eb0000 0x2008>;
+> +            reg-names = "mdp", "vbif";
+> +
+> +            clocks = <&gcc GCC_DISP_HF_AXI_CLK>,
+> +                     <&dispcc DISP_CC_MDSS_AHB_CLK>,
+> +                     <&dispcc DISP_CC_MDSS_MDP_CLK>,
+> +                     <&dispcc DISP_CC_MDSS_MDP_LUT_CLK>,
+> +                     <&dispcc DISP_CC_MDSS_ROT_CLK>,
+> +                     <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
+> +            clock-names = "bus", "iface", "core", "lut", "rot", "vsync";
+> +
+> +            operating-points-v2 = <&mdp_opp_table>;
+> +            power-domains = <&rpmpd SM6115_VDDCX>;
+> +
+> +            interrupt-parent = <&mdss>;
+> +            interrupts = <0>;
+> +
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                port@0 {
+> +                    reg = <0>;
+> +                    dpu_intf1_out: endpoint {
+> +                        remote-endpoint = <&dsi0_in>;
+> +                    };
+> +                };
+> +            };
+> +        };
+> +
+> +        dsi@5e94000 {
+> +            compatible = "qcom,dsi-ctrl-6g-qcm2290";
+> +            reg = <0x05e94000 0x400>;
+> +            reg-names = "dsi_ctrl";
+> +
+> +            interrupt-parent = <&mdss>;
+> +            interrupts = <4>;
+> +
+> +            clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK>,
+> +                     <&dispcc DISP_CC_MDSS_BYTE0_INTF_CLK>,
+> +                     <&dispcc DISP_CC_MDSS_PCLK0_CLK>,
+> +                     <&dispcc DISP_CC_MDSS_ESC0_CLK>,
+> +                     <&dispcc DISP_CC_MDSS_AHB_CLK>,
+> +                     <&gcc GCC_DISP_HF_AXI_CLK>;
+> +            clock-names = "byte",
+> +                          "byte_intf",
+> +                          "pixel",
+> +                          "core",
+> +                          "iface",
+> +                          "bus";
+> +            assigned-clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK_SRC>, <&dispcc DISP_CC_MDSS_PCLK0_CLK_SRC>;
+> +            assigned-clock-parents = <&dsi0_phy 0>, <&dsi0_phy 1>;
+> +
+> +            operating-points-v2 = <&dsi_opp_table>;
+> +            power-domains = <&rpmpd SM6115_VDDCX>;
+> +            phys = <&dsi0_phy>;
+> +            phy-names = "dsi";
+> +
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                port@0 {
+> +                    reg = <0>;
+> +                    dsi0_in: endpoint {
+> +                        remote-endpoint = <&dpu_intf1_out>;
+> +                    };
+> +                };
+> +
+> +                port@1 {
+> +                    reg = <1>;
+> +                    dsi0_out: endpoint {
+> +                    };
+> +                };
+> +            };
+> +        };
+> +
+> +        dsi0_phy: phy@5e94400 {
+> +            compatible = "qcom,dsi-phy-14nm-2290";
+> +            reg = <0x05e94400 0x100>,
+> +                  <0x05e94500 0x300>,
+> +                  <0x05e94800 0x188>;
+> +            reg-names = "dsi_phy",
+> +                        "dsi_phy_lane",
+> +                        "dsi_pll";
+> +
+> +            #clock-cells = <1>;
+> +            #phy-cells = <0>;
+> +
+> +            clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>, <&rpmcc RPM_SMD_XO_CLK_SRC>;
+> +            clock-names = "iface", "ref";
+> +        };
+> +    };
+> +...
 
+-- 
+With best wishes
+Dmitry
 
