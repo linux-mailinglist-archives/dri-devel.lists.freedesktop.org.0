@@ -1,44 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3D176365EB
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 17:35:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD3086365F8
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 17:40:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C50F10E5AD;
-	Wed, 23 Nov 2022 16:35:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0814210E5B0;
+	Wed, 23 Nov 2022 16:40:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:3::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5516510E0E6
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 16:35:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=3h/VgEw0Wflfm9bqnZb5OvyNPIn+ZE40wg6eS0dcqRM=; b=fT8osm953AWBxu8+52OtN4myCG
- neTJeoJChBklml5lCWyNy25CDFeCueojHw+n+N61xIYLuxt1T0p6PxZVBJjwjMV0ldvrUH2A9OPYR
- itmfGGiLDmlnZXP36gb1owvtUQvHzf7Bhp4BKeaTXV8RUlfIwfnhhKdkNzQb/KSsUKO3ko7L9q+nJ
- z57ddCke4H/HGWjrZM2F76zLg2jda4Ljv9btOrm663EPRkvBCTE7sGeyjzbaVMz4F2QkOJyvsyHfj
- pxSBJRnkJQvI0qSzv+OzdDFYLi0au9aheuskBtF1H6aN58aWr8WzoD5HTnMtiM9Xxtyo+Is5iBpQ2
- DOF4RH5A==;
-Received: from [2601:1c2:d80:3110::a2e7]
- by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1oxsix-000tzy-65; Wed, 23 Nov 2022 16:35:47 +0000
-Message-ID: <fcdb5238-5977-526a-4752-fa82893a580e@infradead.org>
-Date: Wed, 23 Nov 2022 08:35:44 -0800
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02F2410E5B0
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 16:40:17 +0000 (UTC)
+Received: from [192.168.2.109] (109-252-117-140.nat.spd-mgts.ru
+ [109.252.117.140])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 009BB6600367;
+ Wed, 23 Nov 2022 16:40:13 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1669221616;
+ bh=9jAcNG5mmc8WdRcm1FU/6k9HjRgP8OF/p9T3eXcNN5g=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Y4/HSy/fWd8Zgc3i5mYx/xGvm7+frMwkYiTm2sHW37EP882UGsVPbqeHZ8blbQQY9
+ sPiKyi5LJsSKrVbRvyu2iq4EfFsI//PPQNI6WQ2XEGiru4Uh1mHFdOStdEvNns0qai
+ V0rXdL0fBs3gGPdPbKqZSOFiLxl+H2iJxnZAbuyEuEF+FzUg685TWWUqR99/v0SKKW
+ +MRB89IfKmwxp0XcVLLiWD70lF10fZdq0GLMXchbnEgvtqFXWGYbSuTRZ0cbU+qu2u
+ OgSjhAYlVVgO9/+EPZno8IcvUkRSALHakD89Cb0buTjFS9kP7TCDrBUC109IUvMgqB
+ Fmw5sowFqxNKA==
+Message-ID: <2d63940e-1cc2-a03e-a253-dac4d697e7d1@collabora.com>
+Date: Wed, 23 Nov 2022 19:40:10 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH -next] fbdev: offb: allow build when DRM_OFDRM=m
+ Thunderbird/102.4.1
+Subject: Re: [PATCH v9 03/11] drm/gem: Add evict() callback to
+ drm_gem_object_funcs
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-To: Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org
-References: <20221123031605.16680-1-rdunlap@infradead.org>
- <4b10b87d-f255-4839-8700-858d98ffb801@app.fastmail.com>
- <25c22370-b67a-33a6-f1e6-abf70760d866@infradead.org>
-In-Reply-To: <25c22370-b67a-33a6-f1e6-abf70760d866@infradead.org>
+To: Steven Price <steven.price@arm.com>, David Airlie <airlied@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Daniel Stone <daniel@fooishbar.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Clark <robdclark@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Qiang Yu <yuq825@gmail.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Rob Herring <robh@kernel.org>, Sean Paul <sean@poorly.run>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+References: <20221123025723.695075-1-dmitry.osipenko@collabora.com>
+ <20221123025723.695075-4-dmitry.osipenko@collabora.com>
+ <f390d9ec-e8b2-a10d-bd2e-011ec879c615@arm.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <f390d9ec-e8b2-a10d-bd2e-011ec879c615@arm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -53,76 +75,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Masahiro Yamada <masahiroy@kernel.org>, dri-devel@lists.freedesktop.org,
- Michal Suchanek <msuchanek@suse.de>, linuxppc-dev@lists.ozlabs.org,
- Helge Deller <deller@gmx.de>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 11/23/22 02:02, Randy Dunlap wrote:
-> Hi Arnd,
-> 
-> On 11/23/22 01:08, Arnd Bergmann wrote:
->> On Wed, Nov 23, 2022, at 04:16, Randy Dunlap wrote:
->>> Fix build when CONFIG_FB_OF=y and CONFIG_DRM_OFDRM=m.
->>> When the latter symbol is =m, kconfig downgrades (limits) the 'select's
->>> under FB_OF to modular (=m). This causes undefined symbol references:
->>>
->>> powerpc64-linux-ld: drivers/video/fbdev/offb.o:(.data.rel.ro+0x58): 
->>> undefined reference to `cfb_fillrect'
->>> powerpc64-linux-ld: drivers/video/fbdev/offb.o:(.data.rel.ro+0x60): 
->>> undefined reference to `cfb_copyarea'
->>> powerpc64-linux-ld: drivers/video/fbdev/offb.o:(.data.rel.ro+0x68): 
->>> undefined reference to `cfb_imageblit'
->>>
->>> Fix this by allowing FB_OF any time that DRM_OFDRM != y so that the
->>> selected FB_CFB_* symbols will become =y instead of =m.
->>>
->>> In tristate logic (for DRM_OFDRM), this changes the dependency from
->>>     !DRM_OFDRM	== 2 - 1 == 1 => modular only (or disabled)
->>> to (boolean)
->>>     DRM_OFDRM != y == y, allowing the 'select's to cause the
->>> FB_CFB_* symbols to =y instead of =m.
->>>
+On 11/23/22 18:58, Steven Price wrote:
+> On 23/11/2022 02:57, Dmitry Osipenko wrote:
+>> Add new common evict() callback to drm_gem_object_funcs and corresponding
+>> drm_gem_object_evict() helper. This is a first step on a way to providing
+>> common GEM-shrinker API for DRM drivers.
 >>
->> Is it actually a useful configuration to have OFDRM=m and
->> FB_OF=y though? I would expect in that case that the OFDRM
->> driver never binds to a device because it's already owned
->> by FB_OF.
+>> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>> ---
+>>  drivers/gpu/drm/drm_gem.c | 15 +++++++++++++++
+>>  include/drm/drm_gem.h     | 12 ++++++++++++
+>>  2 files changed, 27 insertions(+)
 >>
->>> diff -- a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
->>> --- a/drivers/video/fbdev/Kconfig
->>> +++ b/drivers/video/fbdev/Kconfig
->>> @@ -455,7 +455,7 @@ config FB_ATARI
->>>  config FB_OF
->>>  	bool "Open Firmware frame buffer device support"
->>>  	depends on (FB = y) && PPC && (!PPC_PSERIES || PCI)
->>> -	depends on !DRM_OFDRM
->>> +	depends on DRM_OFDRM != y
->>>  	select APERTURE_HELPERS
->>
->> I would instead make this 'depends on DRM_OFDRM=n', which
->> completely eliminates configs that have both driver enabled.
+>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+>> index 299bca1390aa..c0510b8080d2 100644
+>> --- a/drivers/gpu/drm/drm_gem.c
+>> +++ b/drivers/gpu/drm/drm_gem.c
+>> @@ -1458,3 +1458,18 @@ drm_gem_lru_scan(struct drm_gem_lru *lru,
+>>  	return freed;
+>>  }
+>>  EXPORT_SYMBOL(drm_gem_lru_scan);
+>> +
+>> +/**
+>> + * drm_gem_object_evict - helper to evict backing pages for a GEM object
+>> + * @obj: obj in question
+>> + */
+>> +bool
+>> +drm_gem_object_evict(struct drm_gem_object *obj)
+>> +{
+>> +	dma_resv_assert_held(obj->resv);
+>> +
+>> +	if (obj->funcs->evict)
+>> +		return obj->funcs->evict(obj);
+>> +
+>> +	return false;
+>> +}
 > 
-> Yep, that works for me. Thanks.
-> 
-> Thomas, Michal, are you OK with that change?
-> 
->> A nicer change would be to make FB_OF a tristate symbol,
->> which makes it possible to load one of the two modules if
->> both are enabled =m, while only allowing one of them to
->> be =y if the other is completely disabled. It looks like
->> offb was originally written to be usable as a loadable module,
->> but Kconfig has prevented this since at least the start of
->> the git history.
+> This function needs exporting for the module build to work correctly.
 
-ISTM that a distro would prefer to have both DFM_OFDRM and
-FB_OF as tristate symbols that could both be built as loadable
-modules, as Arnd describes above.
-I'll look into that.
+Indeed, I missed that drm-shmem can be built as a separate module.
 
 -- 
-~Randy
+Best regards,
+Dmitry
+
