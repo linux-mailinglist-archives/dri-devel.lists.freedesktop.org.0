@@ -1,73 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDA916363A2
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 16:29:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 049906363A3
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 16:29:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F63B10E585;
-	Wed, 23 Nov 2022 15:29:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB67A10E58B;
+	Wed, 23 Nov 2022 15:29:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
  [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A454E10E585
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 15:29:23 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.west.internal (Postfix) with ESMTP id 859B12B069B4;
- Wed, 23 Nov 2022 10:29:20 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6B3010E585
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 15:29:28 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.west.internal (Postfix) with ESMTP id 871582B069B3;
+ Wed, 23 Nov 2022 10:29:25 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Wed, 23 Nov 2022 10:29:23 -0500
+ by compute3.internal (MEProxy); Wed, 23 Nov 2022 10:29:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1669217360; x=
- 1669224560; bh=Ld/xmdM5JwuLR4lMs18cSragw0fqAAqcmDNRf6MhwfY=; b=U
- 5u6Mo33xXnrMvQyNLRrmX62UfFKnzVSY8Mp3r0kussJ/B87+LASCpz7YXXUWB8lV
- VgjtsBEj1SNU5D4LBFg73KT99aTehAgmMfFLpL/eNM9P8IqY9CfrHGdDrpfOyDYq
- oJKq49ZXZOcRMBRuCXxiUXjJ5wmhv1H7VTAKKCYB1N5kjOtmdmfwAC9bTs0/Q3wZ
- PG/0GLCtFkvZ1gB7rkoqRfYnBoJWB5yg95qSWvWO6Cb43DgttlT42BOxDRHxnT1K
- MMeb5K/BYJZ74LkIFp8pcrF+MsKWfJCl6T3U8U8+cqHtdk7XXk6kKGuy7aZX4uz3
- LK64XQewhYE7LC0E8OTiA==
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1669217365; x=
+ 1669224565; bh=XIe9ChVfep79HIV2ztecYqwJ5irN+RhpQRjGxmM94Pc=; b=S
+ VQquPBRuWvd4mdEaUBj4qKYsAhzixCxJ768IZ0NPKxLqB/R04wQtbJle9k+HICsF
+ AOOEOWMfoBmRp7Uo09GuF4EwQyrqWgDYIL4JDE/vhWqDcqnh+C7iDzbHGtp+eh3E
+ +11/CeYAXwKqESPI9NOybRtKREBgF87jVlbNBWnCbrpvQSpGphheeRynYIdqKqmW
+ t205l8OJZscjKMRFsvGXU8DsTm/45d1fxyrhjpY87EBpDKM8Z9gr+WcIxVnMAPeJ
+ 1Sazl2xRGsk8PTtAxuZ5zgqdLmJvJP3b3Xp96I9h5T+eEfsmjc4Nzgk7CfZxEW+2
+ ssCCnEP/Eute1Suj0CMSw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1669217360; x=
- 1669224560; bh=Ld/xmdM5JwuLR4lMs18cSragw0fqAAqcmDNRf6MhwfY=; b=a
- rP3FyShBvB5qYpRKQpEWSgni3ejjAHl60ssoWc9jn/WhgOBc1kcrF8se6gHDr9vH
- wiEgw/R+Hy1ml914OHjCnQxdo8/9tbVInOMiKkrgj7I3q4Wayqi8CTNSVGIN+lFg
- F/GIwkSTulhtBGDMrsQMBE1V45WxHN+cd8DkauGiKXSdvv0ZMqlc5KmGS8c/bMb1
- 24C5hWlKp1JXfyrohOv3z7z+VYmRLR71sCTjngG8gK7xoUEq4E1vZV0l7uaRL4Qg
- tcp3FmEC4HLy/+reZ0LUfhNoHmku1119iX+obC0pQBXl9scf1ACu3YdqHKKbt+NE
- JFobG6xikFLyjogG3Rg9g==
-X-ME-Sender: <xms:Tzx-Y3E4ctCwGLlN1pYkQqtfyXki9k-1K5ZCZA6K2WryC1W5dzE9-A>
- <xme:Tzx-Y0Wqea3jccS8R48MlW5QEiFZh-OVMS2vYWUtQrpzAjo4bASUT7lNhC4wUaOS3
- ch1Rz7FttbLhxO71o8>
-X-ME-Received: <xmr:Tzx-Y5LVw_CIngWaKbiQkWjk0JV0yosR0CsGL1LoZaM4Sfefor6qc_lWMFQcJWTtstgzWuJMd3DDU8h3B8Tz6OercTS_0HTvOUqX_E0KtmhlEQ>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1669217365; x=
+ 1669224565; bh=XIe9ChVfep79HIV2ztecYqwJ5irN+RhpQRjGxmM94Pc=; b=s
+ GWy1G6SzQM5g89M7IJDS6PjQR2QWprsk8FxAMrNPqvwJAxcFwdyP+yj7QFQGR4wh
+ 017qxGxUmYAXhGjK12ow61CE+NK9hCSsawLLah2VnVpVZxnHR9iv5Au932NUB+xM
+ VesdzFWjnIQ/omplnu6lBSgLfVLg3QLxsfna9D2y0V9KEtgZ90ZzLLcyEe296A9a
+ jLw+Vy5f7prFzbrA7o1pQKucyWz+sDok8HYOQl0hkJ4NNl9KHR/NCITbYEjJEtJK
+ ArhHpXPBAW2WSKpfSZGJsfLoxoAKmPOqsDD7ljMVrR5yQcw0lKwwsPBkYrz5F3zP
+ 4OWCQgQDNg9zljhGLb4Dg==
+X-ME-Sender: <xms:VDx-Y5jUk-WIfa37ZD0QIxwULAPKKc2oHd3ky4SsIas8ionuBvwAHw>
+ <xme:VDx-Y-AwCKWNPfNb9Gwcp3Oz-Q9c6wch1HOJEQjopYT6xo05qNIN17MovcQvrIgR4
+ D2ElqvK1g5E1wgfwdY>
+X-ME-Received: <xmr:VDx-Y5FnRuYKTHYI90L8_aFItvYnPU63crr8i3C_K58wL83HbTiDGBuSDAbFZkiF9_jkYR7rYwBVC4K7xNXJ8CQB0XEfmtsIYiY0Ys7AmXohqQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedriedugdejgecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhfffugggtgffkfhgjvfevofesthekredtredtjeenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeduudduhfevjeetfeegvdffvdevvdejudegudekjeehtdelhfffveethfej
- ledtveenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ ledtveenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:UDx-Y1GHvjjXgpJcZDydTnmF7Fp2L0rxhTaafba6wq_xPw5HIcfG2w>
- <xmx:UDx-Y9Unoo_K2uKI8pTl7Lvb1lQgobQ3zQLvs92a5AKikKCrzsNCDw>
- <xmx:UDx-YwPwFscCbx2t9fac_sL9q-QNuuPZLCc7HK9MUt6jUDUX6W1CBQ>
- <xmx:UDx-Y30En-JV1TnR6GcpUmx_ibbcqc_mudVOGyxW6ebBwzHK-vjj0t6_RIA>
+X-ME-Proxy: <xmx:VTx-Y-TKlcl6Vqiv1zp1yFuuHSsBONKs-b4e53-as01Fqy4ZVSocyQ>
+ <xmx:VTx-Y2z_g2fADDt_EXt48rCvSBMzZ_vOl22Noaek05JPqcEUKBX-Vw>
+ <xmx:VTx-Y05lJUsq9V24wLFk705usTp-y8dapKFAp57eGjQG5jaLLvR-4w>
+ <xmx:VTx-Y3Sfb4dUcyqgGTXXVGTQZF_0nqeUKfy4ufa_iC8FZuLZoGUBbpHgTlM>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 23 Nov 2022 10:29:19 -0500 (EST)
+ 23 Nov 2022 10:29:24 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Wed, 23 Nov 2022 16:25:51 +0100
-Subject: [PATCH 09/24] drm/atomic: Constify the old/new state accessors
+Date: Wed, 23 Nov 2022 16:25:52 +0100
+Subject: [PATCH 10/24] drm/vc4: kms: Sort the CRTCs by output before assigning
+ them
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20221123-rpi-kunit-tests-v1-9-051a0bb60a16@cerno.tech>
+Message-Id: <20221123-rpi-kunit-tests-v1-10-051a0bb60a16@cerno.tech>
 References: <20221123-rpi-kunit-tests-v1-0-051a0bb60a16@cerno.tech>
 In-Reply-To: <20221123-rpi-kunit-tests-v1-0-051a0bb60a16@cerno.tech>
 To: Maxime Ripard <mripard@kernel.org>,
@@ -75,11 +76,11 @@ To: Maxime Ripard <mripard@kernel.org>,
  Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
  Thomas Zimmermann <tzimmermann@suse.de>
 X-Mailer: b4 0.11.0-dev-d416f
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8953; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=xYhnBEqe7KGi5dmcnsCQ0kWzTdbbF6MZ0o4hUEoisvw=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMl11tWZr6w+Fum/5quNvcK89PyGrQ3iW7MftrmVVCh+Nyxe
- 9t6xo5SFQYyLQVZMkSVG2HxJ3KlZrzvZ+ObBzGFlAhnCwMUpABNJeM/I8OzwbG/mih7xK6HLp0V1hf
- VkTHxj8X3GQ69XYZ2l14NyXRn+qemcP7TzwafnzCdffT9ybS7TrvRrx15MTC7QfFYh08MlxwQA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7049; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=Fhc9v1EUxdUe1v6nXkVnFJ5g1bTC5p8FGgV6Ra3SZus=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMl11tXLWl87LP3bPlXwcKeYndO9otbaygNrTKxNwlLev+P4
+ OT+vo5SFQYyLQVZMkSVG2HxJ3KlZrzvZ+ObBzGFlAhnCwMUpABPZZMXw36+gdD7v8UbPpyXJXwLOvD
+ 21ZJVEpluWxuNb+w6Uaiu3rWZkuCR0Z41bouVRvuave94Ef5HUOXln2WqrqDK3W0/qj/m3MgEA
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -98,202 +99,198 @@ Cc: David Gow <davidgow@google.com>, Brendan Higgins <brendan.higgins@linux.dev>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm_atomic_get_(old|new)_*_state don't modify the passed
-drm_atomic_state, so we can make it const.
+On the vc4 devices (and later), the blending is done by a single device
+called the HVS. The HVS has three FIFO that can operate in parallel, and
+route their output to 6 CRTCs and 7 encoders on the BCM2711.
 
+Each of these CRTCs and encoders have some contraints on which FIFO they
+can feed from, so we need some code to take all those constraints into
+account and assign FIFOs to CRTCs.
+
+The problem can be simplified by assigning those FIFOs to CRTCs by
+ascending output index number. We had a comment mentioning it already,
+but we were never actually enforcing it.
+
+It was working still in most situations because the probe order is
+roughly equivalent, except for the (optional, and fairly rarely used on
+the Pi4) VEC which was last in the probe order sequence, but one of the
+earliest device to assign.
+
+This resulted in configurations that were rejected by our code but were
+still valid with a different assignment.
+
+We can fix this by making sure we assign CRTCs to FIFOs by ordering
+them by ascending HVS output index.
+
+Fixes: 87ebcd42fb7b ("drm/vc4: crtc: Assign output to channel automatically")
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/drm_atomic.c | 12 ++++++------
- include/drm/drm_atomic.h     | 32 ++++++++++++++++----------------
- 2 files changed, 22 insertions(+), 22 deletions(-)
+ drivers/gpu/drm/vc4/vc4_kms.c | 109 +++++++++++++++++++++++++++++-------------
+ 1 file changed, 76 insertions(+), 33 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-index f197f59f6d99..e666799a46d5 100644
---- a/drivers/gpu/drm/drm_atomic.c
-+++ b/drivers/gpu/drm/drm_atomic.c
-@@ -880,7 +880,7 @@ EXPORT_SYMBOL(drm_atomic_get_private_obj_state);
-  * or NULL if the private_obj is not part of the global atomic state.
+diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
+index 5c97642ed66a..17a28f9a2f31 100644
+--- a/drivers/gpu/drm/vc4/vc4_kms.c
++++ b/drivers/gpu/drm/vc4/vc4_kms.c
+@@ -12,6 +12,7 @@
   */
- struct drm_private_state *
--drm_atomic_get_old_private_obj_state(struct drm_atomic_state *state,
-+drm_atomic_get_old_private_obj_state(const struct drm_atomic_state *state,
- 				     struct drm_private_obj *obj)
- {
- 	int i;
-@@ -902,7 +902,7 @@ EXPORT_SYMBOL(drm_atomic_get_old_private_obj_state);
-  * or NULL if the private_obj is not part of the global atomic state.
-  */
- struct drm_private_state *
--drm_atomic_get_new_private_obj_state(struct drm_atomic_state *state,
-+drm_atomic_get_new_private_obj_state(const struct drm_atomic_state *state,
- 				     struct drm_private_obj *obj)
- {
- 	int i;
-@@ -934,7 +934,7 @@ EXPORT_SYMBOL(drm_atomic_get_new_private_obj_state);
-  * not connected.
-  */
- struct drm_connector *
--drm_atomic_get_old_connector_for_encoder(struct drm_atomic_state *state,
-+drm_atomic_get_old_connector_for_encoder(const struct drm_atomic_state *state,
- 					 struct drm_encoder *encoder)
- {
- 	struct drm_connector_state *conn_state;
-@@ -968,7 +968,7 @@ EXPORT_SYMBOL(drm_atomic_get_old_connector_for_encoder);
-  * not connected.
-  */
- struct drm_connector *
--drm_atomic_get_new_connector_for_encoder(struct drm_atomic_state *state,
-+drm_atomic_get_new_connector_for_encoder(const struct drm_atomic_state *state,
- 					 struct drm_encoder *encoder)
- {
- 	struct drm_connector_state *conn_state;
-@@ -1117,7 +1117,7 @@ EXPORT_SYMBOL(drm_atomic_get_bridge_state);
-  * the bridge is not part of the global atomic state.
-  */
- struct drm_bridge_state *
--drm_atomic_get_old_bridge_state(struct drm_atomic_state *state,
-+drm_atomic_get_old_bridge_state(const struct drm_atomic_state *state,
- 				struct drm_bridge *bridge)
- {
- 	struct drm_private_state *obj_state;
-@@ -1139,7 +1139,7 @@ EXPORT_SYMBOL(drm_atomic_get_old_bridge_state);
-  * the bridge is not part of the global atomic state.
-  */
- struct drm_bridge_state *
--drm_atomic_get_new_bridge_state(struct drm_atomic_state *state,
-+drm_atomic_get_new_bridge_state(const struct drm_atomic_state *state,
- 				struct drm_bridge *bridge)
- {
- 	struct drm_private_state *obj_state;
-diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-index 10b1990bc1f6..92586ab55ef5 100644
---- a/include/drm/drm_atomic.h
-+++ b/include/drm/drm_atomic.h
-@@ -515,17 +515,17 @@ struct drm_private_state * __must_check
- drm_atomic_get_private_obj_state(struct drm_atomic_state *state,
- 				 struct drm_private_obj *obj);
- struct drm_private_state *
--drm_atomic_get_old_private_obj_state(struct drm_atomic_state *state,
-+drm_atomic_get_old_private_obj_state(const struct drm_atomic_state *state,
- 				     struct drm_private_obj *obj);
- struct drm_private_state *
--drm_atomic_get_new_private_obj_state(struct drm_atomic_state *state,
-+drm_atomic_get_new_private_obj_state(const struct drm_atomic_state *state,
- 				     struct drm_private_obj *obj);
  
- struct drm_connector *
--drm_atomic_get_old_connector_for_encoder(struct drm_atomic_state *state,
-+drm_atomic_get_old_connector_for_encoder(const struct drm_atomic_state *state,
- 					 struct drm_encoder *encoder);
- struct drm_connector *
--drm_atomic_get_new_connector_for_encoder(struct drm_atomic_state *state,
-+drm_atomic_get_new_connector_for_encoder(const struct drm_atomic_state *state,
- 					 struct drm_encoder *encoder);
+ #include <linux/clk.h>
++#include <linux/sort.h>
  
- /**
-@@ -540,7 +540,7 @@ drm_atomic_get_new_connector_for_encoder(struct drm_atomic_state *state,
-  * @drm_atomic_get_new_crtc_state should be used instead.
-  */
- static inline struct drm_crtc_state *
--drm_atomic_get_existing_crtc_state(struct drm_atomic_state *state,
-+drm_atomic_get_existing_crtc_state(const struct drm_atomic_state *state,
- 				   struct drm_crtc *crtc)
- {
- 	return state->crtcs[drm_crtc_index(crtc)].state;
-@@ -555,7 +555,7 @@ drm_atomic_get_existing_crtc_state(struct drm_atomic_state *state,
-  * NULL if the CRTC is not part of the global atomic state.
-  */
- static inline struct drm_crtc_state *
--drm_atomic_get_old_crtc_state(struct drm_atomic_state *state,
-+drm_atomic_get_old_crtc_state(const struct drm_atomic_state *state,
- 			      struct drm_crtc *crtc)
- {
- 	return state->crtcs[drm_crtc_index(crtc)].old_state;
-@@ -569,7 +569,7 @@ drm_atomic_get_old_crtc_state(struct drm_atomic_state *state,
-  * NULL if the CRTC is not part of the global atomic state.
-  */
- static inline struct drm_crtc_state *
--drm_atomic_get_new_crtc_state(struct drm_atomic_state *state,
-+drm_atomic_get_new_crtc_state(const struct drm_atomic_state *state,
- 			      struct drm_crtc *crtc)
- {
- 	return state->crtcs[drm_crtc_index(crtc)].new_state;
-@@ -587,7 +587,7 @@ drm_atomic_get_new_crtc_state(struct drm_atomic_state *state,
-  * @drm_atomic_get_new_plane_state should be used instead.
-  */
- static inline struct drm_plane_state *
--drm_atomic_get_existing_plane_state(struct drm_atomic_state *state,
-+drm_atomic_get_existing_plane_state(const struct drm_atomic_state *state,
- 				    struct drm_plane *plane)
- {
- 	return state->planes[drm_plane_index(plane)].state;
-@@ -602,7 +602,7 @@ drm_atomic_get_existing_plane_state(struct drm_atomic_state *state,
-  * NULL if the plane is not part of the global atomic state.
-  */
- static inline struct drm_plane_state *
--drm_atomic_get_old_plane_state(struct drm_atomic_state *state,
-+drm_atomic_get_old_plane_state(const struct drm_atomic_state *state,
- 			       struct drm_plane *plane)
- {
- 	return state->planes[drm_plane_index(plane)].old_state;
-@@ -617,7 +617,7 @@ drm_atomic_get_old_plane_state(struct drm_atomic_state *state,
-  * NULL if the plane is not part of the global atomic state.
-  */
- static inline struct drm_plane_state *
--drm_atomic_get_new_plane_state(struct drm_atomic_state *state,
-+drm_atomic_get_new_plane_state(const struct drm_atomic_state *state,
- 			       struct drm_plane *plane)
- {
- 	return state->planes[drm_plane_index(plane)].new_state;
-@@ -635,7 +635,7 @@ drm_atomic_get_new_plane_state(struct drm_atomic_state *state,
-  * @drm_atomic_get_new_connector_state should be used instead.
-  */
- static inline struct drm_connector_state *
--drm_atomic_get_existing_connector_state(struct drm_atomic_state *state,
-+drm_atomic_get_existing_connector_state(const struct drm_atomic_state *state,
- 					struct drm_connector *connector)
- {
- 	int index = drm_connector_index(connector);
-@@ -655,7 +655,7 @@ drm_atomic_get_existing_connector_state(struct drm_atomic_state *state,
-  * or NULL if the connector is not part of the global atomic state.
-  */
- static inline struct drm_connector_state *
--drm_atomic_get_old_connector_state(struct drm_atomic_state *state,
-+drm_atomic_get_old_connector_state(const struct drm_atomic_state *state,
- 				   struct drm_connector *connector)
- {
- 	int index = drm_connector_index(connector);
-@@ -675,7 +675,7 @@ drm_atomic_get_old_connector_state(struct drm_atomic_state *state,
-  * or NULL if the connector is not part of the global atomic state.
-  */
- static inline struct drm_connector_state *
--drm_atomic_get_new_connector_state(struct drm_atomic_state *state,
-+drm_atomic_get_new_connector_state(const struct drm_atomic_state *state,
- 				   struct drm_connector *connector)
- {
- 	int index = drm_connector_index(connector);
-@@ -713,7 +713,7 @@ drm_atomic_get_new_connector_state(struct drm_atomic_state *state,
-  * Read-only pointer to the current plane state.
-  */
- static inline const struct drm_plane_state *
--__drm_atomic_get_current_plane_state(struct drm_atomic_state *state,
-+__drm_atomic_get_current_plane_state(const struct drm_atomic_state *state,
- 				     struct drm_plane *plane)
- {
- 	if (state->planes[drm_plane_index(plane)].state)
-@@ -1134,10 +1134,10 @@ struct drm_bridge_state *
- drm_atomic_get_bridge_state(struct drm_atomic_state *state,
- 			    struct drm_bridge *bridge);
- struct drm_bridge_state *
--drm_atomic_get_old_bridge_state(struct drm_atomic_state *state,
-+drm_atomic_get_old_bridge_state(const struct drm_atomic_state *state,
- 				struct drm_bridge *bridge);
- struct drm_bridge_state *
--drm_atomic_get_new_bridge_state(struct drm_atomic_state *state,
-+drm_atomic_get_new_bridge_state(const struct drm_atomic_state *state,
- 				struct drm_bridge *bridge);
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+@@ -776,6 +777,20 @@ static int vc4_hvs_channels_obj_init(struct vc4_dev *vc4)
+ 	return drmm_add_action_or_reset(&vc4->base, vc4_hvs_channels_obj_fini, NULL);
+ }
  
- #endif /* DRM_ATOMIC_H_ */
++static int cmp_vc4_crtc_hvs_output(const void *a, const void *b)
++{
++	const struct vc4_crtc *crtc_a =
++		to_vc4_crtc(*(const struct drm_crtc **)a);
++	const struct vc4_crtc_data *data_a =
++		vc4_crtc_to_vc4_crtc_data(crtc_a);
++	const struct vc4_crtc *crtc_b =
++		to_vc4_crtc(*(const struct drm_crtc **)b);
++	const struct vc4_crtc_data *data_b =
++		vc4_crtc_to_vc4_crtc_data(crtc_b);
++
++	return data_a->hvs_output - data_b->hvs_output;
++}
++
+ /*
+  * The BCM2711 HVS has up to 7 outputs connected to the pixelvalves and
+  * the TXP (and therefore all the CRTCs found on that platform).
+@@ -810,10 +825,11 @@ static int vc4_pv_muxing_atomic_check(struct drm_device *dev,
+ 				      struct drm_atomic_state *state)
+ {
+ 	struct vc4_hvs_state *hvs_new_state;
+-	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
++	struct drm_crtc **sorted_crtcs;
+ 	struct drm_crtc *crtc;
+ 	unsigned int unassigned_channels = 0;
+ 	unsigned int i;
++	int ret;
+ 
+ 	hvs_new_state = vc4_hvs_get_global_state(state);
+ 	if (IS_ERR(hvs_new_state))
+@@ -823,15 +839,59 @@ static int vc4_pv_muxing_atomic_check(struct drm_device *dev,
+ 		if (!hvs_new_state->fifo_state[i].in_use)
+ 			unassigned_channels |= BIT(i);
+ 
+-	for_each_oldnew_crtc_in_state(state, crtc, old_crtc_state, new_crtc_state, i) {
+-		struct vc4_crtc_state *old_vc4_crtc_state =
+-			to_vc4_crtc_state(old_crtc_state);
+-		struct vc4_crtc_state *new_vc4_crtc_state =
+-			to_vc4_crtc_state(new_crtc_state);
+-		struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
++	/*
++	 * The problem we have to solve here is that we have up to 7
++	 * encoders, connected to up to 6 CRTCs.
++	 *
++	 * Those CRTCs, depending on the instance, can be routed to 1, 2
++	 * or 3 HVS FIFOs, and we need to set the change the muxing
++	 * between FIFOs and outputs in the HVS accordingly.
++	 *
++	 * It would be pretty hard to come up with an algorithm that
++	 * would generically solve this. However, the current routing
++	 * trees we support allow us to simplify a bit the problem.
++	 *
++	 * Indeed, with the current supported layouts, if we try to
++	 * assign in the ascending crtc index order the FIFOs, we can't
++	 * fall into the situation where an earlier CRTC that had
++	 * multiple routes is assigned one that was the only option for
++	 * a later CRTC.
++	 *
++	 * If the layout changes and doesn't give us that in the future,
++	 * we will need to have something smarter, but it works so far.
++	 */
++	sorted_crtcs = kmalloc_array(dev->num_crtcs, sizeof(*sorted_crtcs), GFP_KERNEL);
++	if (!sorted_crtcs)
++		return -ENOMEM;
++
++	i = 0;
++	drm_for_each_crtc(crtc, dev)
++		sorted_crtcs[i++] = crtc;
++
++	sort(sorted_crtcs, i, sizeof(*sorted_crtcs), cmp_vc4_crtc_hvs_output, NULL);
++
++	for (i = 0; i < dev->num_crtcs; i++) {
++		struct vc4_crtc_state *old_vc4_crtc_state, *new_vc4_crtc_state;
++		struct drm_crtc_state *old_crtc_state, *new_crtc_state;
++		struct vc4_crtc *vc4_crtc;
+ 		unsigned int matching_channels;
+ 		unsigned int channel;
+ 
++		crtc = sorted_crtcs[i];
++		if (!crtc)
++			continue;
++		vc4_crtc = to_vc4_crtc(crtc);
++
++		old_crtc_state = drm_atomic_get_old_crtc_state(state, crtc);
++		if (!old_crtc_state)
++			continue;
++		old_vc4_crtc_state = to_vc4_crtc_state(old_crtc_state);
++
++		new_crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
++		if (!new_crtc_state)
++			continue;
++		new_vc4_crtc_state = to_vc4_crtc_state(new_crtc_state);
++
+ 		drm_dbg(dev, "%s: Trying to find a channel.\n", crtc->name);
+ 
+ 		/* Nothing to do here, let's skip it */
+@@ -860,33 +920,11 @@ static int vc4_pv_muxing_atomic_check(struct drm_device *dev,
+ 			continue;
+ 		}
+ 
+-		/*
+-		 * The problem we have to solve here is that we have
+-		 * up to 7 encoders, connected to up to 6 CRTCs.
+-		 *
+-		 * Those CRTCs, depending on the instance, can be
+-		 * routed to 1, 2 or 3 HVS FIFOs, and we need to set
+-		 * the change the muxing between FIFOs and outputs in
+-		 * the HVS accordingly.
+-		 *
+-		 * It would be pretty hard to come up with an
+-		 * algorithm that would generically solve
+-		 * this. However, the current routing trees we support
+-		 * allow us to simplify a bit the problem.
+-		 *
+-		 * Indeed, with the current supported layouts, if we
+-		 * try to assign in the ascending crtc index order the
+-		 * FIFOs, we can't fall into the situation where an
+-		 * earlier CRTC that had multiple routes is assigned
+-		 * one that was the only option for a later CRTC.
+-		 *
+-		 * If the layout changes and doesn't give us that in
+-		 * the future, we will need to have something smarter,
+-		 * but it works so far.
+-		 */
+ 		matching_channels = unassigned_channels & vc4_crtc->data->hvs_available_channels;
+-		if (!matching_channels)
+-			return -EINVAL;
++		if (!matching_channels) {
++			ret = -EINVAL;
++			goto err_free_crtc_array;
++		}
+ 
+ 		channel = ffs(matching_channels) - 1;
+ 
+@@ -896,7 +934,12 @@ static int vc4_pv_muxing_atomic_check(struct drm_device *dev,
+ 		hvs_new_state->fifo_state[channel].in_use = true;
+ 	}
+ 
++	kfree(sorted_crtcs);
+ 	return 0;
++
++err_free_crtc_array:
++	kfree(sorted_crtcs);
++	return ret;
+ }
+ 
+ static int
 
 -- 
 2.38.1-b4-0.11.0-dev-d416f
