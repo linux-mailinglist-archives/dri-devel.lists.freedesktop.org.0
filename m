@@ -2,75 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CD9A635A3B
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 11:38:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A5CA635A3D
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 11:38:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1D8210E228;
-	Wed, 23 Nov 2022 10:38:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45E0510E217;
+	Wed, 23 Nov 2022 10:38:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
- [IPv6:2a00:1450:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78B7D10E220
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 10:38:28 +0000 (UTC)
-Received: by mail-lj1-x236.google.com with SMTP id q7so473607ljp.9
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 02:38:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=seTGGYFc6lGg3lbS4N83LE8Bp6OtFcacLrP8CTGacMo=;
- b=YRPv1aLHrpgKQyrWWKzzTrcXxqQfxYuqxsSGd7uEuq981X7hksZLz+TdvyLWfdn03b
- 6tjf/0pxtl1DkIn+/I4f3EOVM3m0BqaTnD4az6qT0cdntEcAdK7LlUw2zJIgNvNBwdRj
- K3LPnJQIhvo/IEvR5kEs1mCeh6qrckKtXskuE4x8s5VoFfsCf1H2QzEw2BlgMTgrOS5s
- xz0OTdERJOvpVGfS7LBXdqImjfZ7YDC6FyBTZiiB7mnIjyTSwZjEMxWbTs1fPAi7lNAW
- 2vJPP6rntVFftTJdo2BlYNIJxSxLohBEWkdkpMYYe4rwVABXIAU+FuA14/6A68qcsTU9
- hIcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=seTGGYFc6lGg3lbS4N83LE8Bp6OtFcacLrP8CTGacMo=;
- b=ay1PBgeF8EnJrruJUkgwlsYBpgJ/wIEcKT30Rmj/Y8reOK1mfxOQOeLExpwSzEAzm9
- R7+olOTPOSi+rzVuf0BCNy00WZNCIUQDVnRmR9xgW15t1pJLHDeEGNpGICqdzXGk/N6w
- tPFxgB+pI6tUWgEs1p3gImnQUa8VY2pZUaLuaHUwpX0/44JjZBXtBYEK11PkvQEYVPkE
- Vrpb5WxFhEL9MnaL7J2P56gc5vD8qmowLX53Yw8tJnDEoK+a9ofDH+gOZFoFjoPzcxW0
- d+RNOJxECwZKTony8uCxLw2iJPkGlnv8xN4yAnKMpACTCHf4CWi1HgmbBqDisyNYa04X
- kb1g==
-X-Gm-Message-State: ANoB5pmlrx50iJjfsDSrMGVS0mgHpX/mdJbsS8b7UqOdrH2VrBDIUJU0
- C4POQRSmQUJ2oFmV8+udy14F5Q==
-X-Google-Smtp-Source: AA0mqf4uRdVYTYJT9FcrmT33/8lfD0TV26DGvjJ+0jndv4ZddyX2v3XPAYCmZFruP3JnzGP+yTAgKw==
-X-Received: by 2002:a2e:9d50:0:b0:26f:db16:4735 with SMTP id
- y16-20020a2e9d50000000b0026fdb164735mr9017224ljj.323.1669199906750; 
- Wed, 23 Nov 2022 02:38:26 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a302:5f12::1?
- (dzpbg0ftyyyyyyyyyyyyt-3.rev.dnainternet.fi. [2001:14ba:a302:5f12::1])
- by smtp.gmail.com with ESMTPSA id
- bt26-20020a056512261a00b004ab2cb8deb5sm2834451lfb.18.2022.11.23.02.38.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Nov 2022 02:38:26 -0800 (PST)
-Message-ID: <fc3bec1d-8e07-d890-c84c-39b7cec8769d@linaro.org>
-Date: Wed, 23 Nov 2022 12:38:25 +0200
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 968BF10E217
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 10:38:50 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 428202188E;
+ Wed, 23 Nov 2022 10:38:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1669199929; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kXZ8jumHlDsA4AQ16SMp/3TVzpa8XX78HSOSmTGF/qQ=;
+ b=EzhrFuS1dDmGZd2/M2OGov+69v9A+kzM6Ua5Ji+tNBvHI0F/7PvXUinJseWKvPUEf61y39
+ k0j79I57Ob2FQemK4DnxK7henJO0JCzpzMWj/hEuQ5vF09tygRg1xpWTNdfJZaxGdPqqw3
+ f7HG72wjjbhGKpbgQj66/xVdpJUjpzc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1669199929;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kXZ8jumHlDsA4AQ16SMp/3TVzpa8XX78HSOSmTGF/qQ=;
+ b=wB3fFC2n3GKRgEhKVEykFoi+XRGWgHsGHZIXeBa9PSZHJJBeXU+7XLeXWO7ifdibc/zX5v
+ lNd1r/mhMRK1nlAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0DED713A37;
+ Wed, 23 Nov 2022 10:38:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id Y/aFAjn4fWNlMQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 23 Nov 2022 10:38:49 +0000
+Message-ID: <77a90e8c-4ee9-dc63-02db-de8fc3ab8939@suse.de>
+Date: Wed, 23 Nov 2022 11:38:48 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
-Subject: Re: [PATCH v4 05/11] dt-bindings: display/msm: add support for the
- display on SM8450
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20221122231235.3299737-1-dmitry.baryshkov@linaro.org>
- <20221122231235.3299737-6-dmitry.baryshkov@linaro.org>
- <1d32c6d0-c6dc-cd24-ba52-ecb597553ef9@linaro.org>
-Content-Language: en-GB
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1d32c6d0-c6dc-cd24-ba52-ecb597553ef9@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 6/6] drm/gud: Use the shadow plane helper
+Content-Language: en-US
+To: noralf@tronnes.org, stable@kernel.org, Dave Airlie <airlied@redhat.com>,
+ dri-devel@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Javier Martinez Canillas <javierm@redhat.com>
+References: <20221122-gud-shadow-plane-v1-0-9de3afa3383e@tronnes.org>
+ <20221122-gud-shadow-plane-v1-6-9de3afa3383e@tronnes.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20221122-gud-shadow-plane-v1-6-9de3afa3383e@tronnes.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------f2kSx2ER11xLaJsVqfbSYbKh"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,218 +73,185 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/11/2022 12:32, Krzysztof Kozlowski wrote:
-> On 23/11/2022 00:12, Dmitry Baryshkov wrote:
->> Add DPU and MDSS schemas to describe MDSS and DPU blocks on the Qualcomm
->> SM8450 platform.
->>
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> ---
->>   .../bindings/display/msm/qcom,sm8450-dpu.yaml | 139 +++++++
->>   .../display/msm/qcom,sm8450-mdss.yaml         | 352 ++++++++++++++++++
->>   2 files changed, 491 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sm8450-dpu.yaml
->>   create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml
->>
-> 
-> 
->> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8450-dpu.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8450-dpu.yaml
->> new file mode 100644
->> index 000000000000..8e25d456e5e9
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8450-dpu.yaml
->> @@ -0,0 +1,139 @@
->> +# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/display/msm/qcom,sm8450-dpu.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Qualcomm SM8450 Display DPU
->> +
->> +maintainers:
->> +  - Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> +
->> +$ref: /schemas/display/msm/dpu-common.yaml#
->> +
->> +properties:
->> +  compatible:
->> +    const: qcom,sm8450-dpu
->> +
->> +  reg:
->> +    items:
->> +      - description: Address offset and size for mdp register set
->> +      - description: Address offset and size for vbif register set
->> +
->> +  reg-names:
->> +    items:
->> +      - const: mdp
->> +      - const: vbif
->> +
->> +  clocks:
->> +    items:
->> +      - description: Display hf axi clock
->> +      - description: Display sf axi clock
->> +      - description: Display ahb clock
->> +      - description: Display lut clock
->> +      - description: Display core clock
->> +      - description: Display vsync clock
->> +
->> +  clock-names:
->> +    items:
->> +      - const: bus
->> +      - const: nrt_bus
->> +      - const: iface
->> +      - const: lut
->> +      - const: core
->> +      - const: vsync
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - reg-names
->> +  - clocks
->> +  - clock-names
->> +
->> +unevaluatedProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/clock/qcom,sm8450-dispcc.h>
->> +    #include <dt-bindings/clock/qcom,gcc-sm8450.h>
->> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->> +    #include <dt-bindings/interconnect/qcom,sm8450.h>
->> +    #include <dt-bindings/power/qcom-rpmpd.h>
->> +
->> +    display-controller@ae01000 {
->> +        compatible = "qcom,sm8450-dpu";
->> +        reg = <0x0ae01000 0x8f000>,
->> +              <0x0aeb0000 0x2008>;
->> +        reg-names = "mdp", "vbif";
->> +
->> +        clocks = <&gcc GCC_DISP_HF_AXI_CLK>,
->> +                <&gcc GCC_DISP_SF_AXI_CLK>,
->> +                <&dispcc DISP_CC_MDSS_AHB_CLK>,
->> +                <&dispcc DISP_CC_MDSS_MDP_LUT_CLK>,
->> +                <&dispcc DISP_CC_MDSS_MDP_CLK>,
->> +                <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
->> +        clock-names = "bus",
->> +                      "nrt_bus",
->> +                      "iface",
->> +                      "lut",
->> +                      "core",
->> +                      "vsync";
->> +
->> +        assigned-clocks = <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
->> +        assigned-clock-rates = <19200000>;
->> +
->> +        operating-points-v2 = <&mdp_opp_table>;
->> +        power-domains = <&rpmhpd SM8450_MMCX>;
->> +
->> +        interrupt-parent = <&mdss>;
->> +        interrupts = <0>;
->> +
->> +        ports {
->> +            #address-cells = <1>;
->> +            #size-cells = <0>;
->> +
->> +            port@0 {
->> +                reg = <0>;
->> +                dpu_intf1_out: endpoint {
->> +                    remote-endpoint = <&dsi0_in>;
->> +                };
->> +            };
->> +
->> +            port@1 {
->> +                reg = <1>;
->> +                dpu_intf2_out: endpoint {
->> +                    remote-endpoint = <&dsi1_in>;
->> +                };
->> +            };
->> +        };
->> +
->> +        mdp_opp_table: opp-table {
->> +            compatible = "operating-points-v2";
->> +
->> +            opp-172000000{
->> +                opp-hz = /bits/ 64 <172000000>;
->> +                required-opps = <&rpmhpd_opp_low_svs_d1>;
->> +            };
->> +
->> +            opp-200000000 {
->> +                opp-hz = /bits/ 64 <200000000>;
->> +                required-opps = <&rpmhpd_opp_low_svs>;
->> +            };
->> +
->> +            opp-325000000 {
->> +                opp-hz = /bits/ 64 <325000000>;
->> +                required-opps = <&rpmhpd_opp_svs>;
->> +            };
->> +
->> +            opp-375000000 {
->> +                opp-hz = /bits/ 64 <375000000>;
->> +                required-opps = <&rpmhpd_opp_svs_l1>;
->> +            };
->> +
->> +            opp-500000000 {
->> +                opp-hz = /bits/ 64 <500000000>;
->> +                required-opps = <&rpmhpd_opp_nom>;
->> +            };
->> +        };
->> +    };
->> +...
->> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml
->> new file mode 100644
->> index 000000000000..73f8c5caf637
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml
->> @@ -0,0 +1,352 @@
->> +# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/display/msm/qcom,sm8450-mdss.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Qualcomm SM8450 Display MDSS
->> +
->> +maintainers:
->> +  - Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> +
->> +description:
->> +  Device tree bindings for MSM Mobile Display Subsystem(MDSS) that encapsulates
->> +  sub-blocks like DPU display controller, DSI and DP interfaces etc. Device tree
->> +  bindings of MDSS are mentioned for SM8450 target.
->> +
->> +$ref: /schemas/display/msm/mdss-common.yaml#
->> +
->> +properties:
->> +  compatible:
->> +    items:
-> 
-> I don't understand this patchset. Some tags were present, then gone.
-> Items was never here, now it is... and you explicitly received such
-> feedback long time ago, therefore I suspect you sent or rebased
-> something old.
-> 
-> Go through all previous comments.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------f2kSx2ER11xLaJsVqfbSYbKh
+Content-Type: multipart/mixed; boundary="------------H0vB2VCsFYgb1paU4zkNGhjt";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: noralf@tronnes.org, stable@kernel.org, Dave Airlie <airlied@redhat.com>,
+ dri-devel@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Javier Martinez Canillas <javierm@redhat.com>
+Message-ID: <77a90e8c-4ee9-dc63-02db-de8fc3ab8939@suse.de>
+Subject: Re: [PATCH 6/6] drm/gud: Use the shadow plane helper
+References: <20221122-gud-shadow-plane-v1-0-9de3afa3383e@tronnes.org>
+ <20221122-gud-shadow-plane-v1-6-9de3afa3383e@tronnes.org>
+In-Reply-To: <20221122-gud-shadow-plane-v1-6-9de3afa3383e@tronnes.org>
 
-Let me check, what went wrong on my side.
+--------------H0vB2VCsFYgb1paU4zkNGhjt
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> 
->> +      - const: qcom,sm8450-mdss
->> +
-> 
-> Best regards,
-> Krzysztof
-> 
+SGkNCg0KQW0gMjIuMTEuMjIgdW0gMjE6NTggc2NocmllYiBOb3JhbGYgVHLDuG5uZXMgdmlh
+IEI0IFN1Ym1pc3Npb24gRW5kcG9pbnQ6DQo+IEZyb206IE5vcmFsZiBUcsO4bm5lcyA8bm9y
+YWxmQHRyb25uZXMub3JnPg0KPiANCj4gVXNlIHRoZSBzaGFkb3cgcGxhbmUgaGVscGVyIHRv
+IHRha2UgY2FyZSBvZiBwcmVwYXJpbmcgdGhlIGZyYW1lYnVmZmVyIGZvcg0KPiBDUFUgYWNj
+ZXNzLiBUaGUgc3luY2hyb25vdXMgZmx1c2hpbmcgaXMgbm93IGRvbmUgaW5saW5lIHdpdGhv
+dXQgdGhlIHVzZSBvZg0KPiBhIHdvcmtlci4gVGhlIGFzeW5jIHBhdGggbm93IHVzZXMgYSBz
+aGFkb3cgYnVmZmVyIHRvIGhvbGQgZnJhbWVidWZmZXINCj4gY2hhbmdlcyBhbmQgaXQgZG9l
+c24ndCByZWFkIHRoZSBmcmFtZWJ1ZmZlciBiZWhpbmQgdXNlcnNwYWNlJ3MgYmFjaw0KPiBh
+bnltb3JlLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogTm9yYWxmIFRyw7hubmVzIDxub3JhbGZA
+dHJvbm5lcy5vcmc+DQo+IC0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9ndWQvZ3VkX2Rydi5j
+ICAgICAgfCAgMSArDQo+ICAgZHJpdmVycy9ncHUvZHJtL2d1ZC9ndWRfaW50ZXJuYWwuaCB8
+ICAxICsNCj4gICBkcml2ZXJzL2dwdS9kcm0vZ3VkL2d1ZF9waXBlLmMgICAgIHwgNjkgKysr
+KysrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0NCj4gICAzIGZpbGVzIGNoYW5n
+ZWQsIDQ2IGluc2VydGlvbnMoKyksIDI1IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvZ3B1L2RybS9ndWQvZ3VkX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL2d1
+ZC9ndWRfZHJ2LmMNCj4gaW5kZXggZDU3ZGFiMTA0MzU4Li41YWFjN2NkYTA1MDUgMTAwNjQ0
+DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ndWQvZ3VkX2Rydi5jDQo+ICsrKyBiL2RyaXZl
+cnMvZ3B1L2RybS9ndWQvZ3VkX2Rydi5jDQo+IEBAIC0zNjUsNiArMzY1LDcgQEAgc3RhdGlj
+IHZvaWQgZ3VkX2RlYnVnZnNfaW5pdChzdHJ1Y3QgZHJtX21pbm9yICptaW5vcikNCj4gICBz
+dGF0aWMgY29uc3Qgc3RydWN0IGRybV9zaW1wbGVfZGlzcGxheV9waXBlX2Z1bmNzIGd1ZF9w
+aXBlX2Z1bmNzID0gew0KPiAgIAkuY2hlY2sgICAgICA9IGd1ZF9waXBlX2NoZWNrLA0KPiAg
+IAkudXBkYXRlCSAgICA9IGd1ZF9waXBlX3VwZGF0ZSwNCj4gKwlEUk1fR0VNX1NJTVBMRV9E
+SVNQTEFZX1BJUEVfU0hBRE9XX1BMQU5FX0ZVTkNTDQo+ICAgfTsNCj4gICANCj4gICBzdGF0
+aWMgY29uc3Qgc3RydWN0IGRybV9tb2RlX2NvbmZpZ19mdW5jcyBndWRfbW9kZV9jb25maWdf
+ZnVuY3MgPSB7DQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZ3VkL2d1ZF9pbnRl
+cm5hbC5oIGIvZHJpdmVycy9ncHUvZHJtL2d1ZC9ndWRfaW50ZXJuYWwuaA0KPiBpbmRleCBl
+MzUxYTFmMTQyMGQuLjBkMTQ4YTZmMjdhYSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL2d1ZC9ndWRfaW50ZXJuYWwuaA0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZ3VkL2d1
+ZF9pbnRlcm5hbC5oDQo+IEBAIC00Myw2ICs0Myw3IEBAIHN0cnVjdCBndWRfZGV2aWNlIHsN
+Cj4gICAJc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmI7DQo+ICAgCXN0cnVjdCBkcm1fcmVj
+dCBkYW1hZ2U7DQo+ICAgCWJvb2wgcHJldl9mbHVzaF9mYWlsZWQ7DQo+ICsJdm9pZCAqc2hh
+ZG93X2J1ZjsNCj4gICB9Ow0KPiAgIA0KPiAgIHN0YXRpYyBpbmxpbmUgc3RydWN0IGd1ZF9k
+ZXZpY2UgKnRvX2d1ZF9kZXZpY2Uoc3RydWN0IGRybV9kZXZpY2UgKmRybSkNCj4gZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ndWQvZ3VkX3BpcGUuYyBiL2RyaXZlcnMvZ3B1L2Ry
+bS9ndWQvZ3VkX3BpcGUuYw0KPiBpbmRleCBkZmFkYTZlZWRjNTguLjc2ODYzMjVmN2VlNyAx
+MDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2d1ZC9ndWRfcGlwZS5jDQo+ICsrKyBi
+L2RyaXZlcnMvZ3B1L2RybS9ndWQvZ3VkX3BpcGUuYw0KPiBAQCAtMzU4LDEwICszNTgsMTAg
+QEAgc3RhdGljIHZvaWQgZ3VkX2ZsdXNoX2RhbWFnZShzdHJ1Y3QgZ3VkX2RldmljZSAqZ2Ry
+bSwgc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmINCj4gICB2b2lkIGd1ZF9mbHVzaF93b3Jr
+KHN0cnVjdCB3b3JrX3N0cnVjdCAqd29yaykNCj4gICB7DQo+ICAgCXN0cnVjdCBndWRfZGV2
+aWNlICpnZHJtID0gY29udGFpbmVyX29mKHdvcmssIHN0cnVjdCBndWRfZGV2aWNlLCB3b3Jr
+KTsNCj4gLQlzdHJ1Y3QgaW9zeXNfbWFwIGdlbV9tYXAgPSB7IH0sIGZiX21hcCA9IHsgfTsN
+Cj4gKwlzdHJ1Y3QgaW9zeXNfbWFwIHNoYWRvd19tYXA7DQo+ICAgCXN0cnVjdCBkcm1fZnJh
+bWVidWZmZXIgKmZiOw0KPiAgIAlzdHJ1Y3QgZHJtX3JlY3QgZGFtYWdlOw0KPiAtCWludCBp
+ZHgsIHJldDsNCj4gKwlpbnQgaWR4Ow0KPiAgIA0KPiAgIAlpZiAoIWRybV9kZXZfZW50ZXIo
+Jmdkcm0tPmRybSwgJmlkeCkpDQo+ICAgCQlyZXR1cm47DQo+IEBAIC0zNjksNiArMzY5LDcg
+QEAgdm9pZCBndWRfZmx1c2hfd29yayhzdHJ1Y3Qgd29ya19zdHJ1Y3QgKndvcmspDQo+ICAg
+CW11dGV4X2xvY2soJmdkcm0tPmRhbWFnZV9sb2NrKTsNCj4gICAJZmIgPSBnZHJtLT5mYjsN
+Cj4gICAJZ2RybS0+ZmIgPSBOVUxMOw0KPiArCWlvc3lzX21hcF9zZXRfdmFkZHIoJnNoYWRv
+d19tYXAsIGdkcm0tPnNoYWRvd19idWYpOw0KPiAgIAlkYW1hZ2UgPSBnZHJtLT5kYW1hZ2U7
+DQo+ICAgCWd1ZF9jbGVhcl9kYW1hZ2UoZ2RybSk7DQo+ICAgCW11dGV4X3VubG9jaygmZ2Ry
+bS0+ZGFtYWdlX2xvY2spOw0KPiBAQCAtMzc2LDMzICszNzcsMzMgQEAgdm9pZCBndWRfZmx1
+c2hfd29yayhzdHJ1Y3Qgd29ya19zdHJ1Y3QgKndvcmspDQo+ICAgCWlmICghZmIpDQo+ICAg
+CQlnb3RvIG91dDsNCj4gICANCj4gLQlyZXQgPSBkcm1fZ2VtX2ZiX3ZtYXAoZmIsICZnZW1f
+bWFwLCAmZmJfbWFwKTsNCj4gLQlpZiAocmV0KQ0KPiAtCQlnb3RvIGZiX3B1dDsNCj4gKwln
+dWRfZmx1c2hfZGFtYWdlKGdkcm0sIGZiLCAmc2hhZG93X21hcCwgdHJ1ZSwgJmRhbWFnZSk7
+DQo+ICAgDQo+IC0JcmV0ID0gZHJtX2dlbV9mYl9iZWdpbl9jcHVfYWNjZXNzKGZiLCBETUFf
+RlJPTV9ERVZJQ0UpOw0KPiAtCWlmIChyZXQpDQo+IC0JCWdvdG8gdnVubWFwOw0KPiAtDQo+
+IC0JLyogSW1wb3J0ZWQgYnVmZmVycyBhcmUgYXNzdW1lZCB0byBiZSBXcml0ZUNvbWJpbmVk
+IHdpdGggdW5jYWNoZWQgcmVhZHMgKi8NCj4gLQlndWRfZmx1c2hfZGFtYWdlKGdkcm0sIGZi
+LCAmZmJfbWFwLCAhZmItPm9ialswXS0+aW1wb3J0X2F0dGFjaCwgJmRhbWFnZSk7DQo+IC0N
+Cj4gLQlkcm1fZ2VtX2ZiX2VuZF9jcHVfYWNjZXNzKGZiLCBETUFfRlJPTV9ERVZJQ0UpOw0K
+PiAtdnVubWFwOg0KPiAtCWRybV9nZW1fZmJfdnVubWFwKGZiLCAmZ2VtX21hcCk7DQo+IC1m
+Yl9wdXQ6DQo+ICAgCWRybV9mcmFtZWJ1ZmZlcl9wdXQoZmIpOw0KPiAgIG91dDoNCj4gICAJ
+ZHJtX2Rldl9leGl0KGlkeCk7DQo+ICAgfQ0KPiAgIA0KPiAtc3RhdGljIHZvaWQgZ3VkX2Zi
+X3F1ZXVlX2RhbWFnZShzdHJ1Y3QgZ3VkX2RldmljZSAqZ2RybSwgc3RydWN0IGRybV9mcmFt
+ZWJ1ZmZlciAqZmIsDQo+IC0JCQkJc3RydWN0IGRybV9yZWN0ICpkYW1hZ2UpDQo+ICtzdGF0
+aWMgaW50IGd1ZF9mYl9xdWV1ZV9kYW1hZ2Uoc3RydWN0IGd1ZF9kZXZpY2UgKmdkcm0sIHN0
+cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZiLA0KPiArCQkJICAgICAgIGNvbnN0IHN0cnVjdCBp
+b3N5c19tYXAgKm1hcCwgc3RydWN0IGRybV9yZWN0ICpkYW1hZ2UpDQo+ICAgew0KPiAgIAlz
+dHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpvbGRfZmIgPSBOVUxMOw0KPiArCXN0cnVjdCBpb3N5
+c19tYXAgc2hhZG93X21hcDsNCj4gICANCj4gICAJbXV0ZXhfbG9jaygmZ2RybS0+ZGFtYWdl
+X2xvY2spOw0KPiAgIA0KPiArCWlmICghZ2RybS0+c2hhZG93X2J1Zikgew0KPiArCQlnZHJt
+LT5zaGFkb3dfYnVmID0gdnphbGxvYyhmYi0+cGl0Y2hlc1swXSAqIGZiLT5oZWlnaHQpOw0K
+PiArCQlpZiAoIWdkcm0tPnNoYWRvd19idWYpIHsNCj4gKwkJCW11dGV4X3VubG9jaygmZ2Ry
+bS0+ZGFtYWdlX2xvY2spOw0KPiArCQkJcmV0dXJuIC1FTk9NRU07DQo+ICsJCX0NCj4gKwl9
+DQo+ICsNCj4gKwlpb3N5c19tYXBfc2V0X3ZhZGRyKCZzaGFkb3dfbWFwLCBnZHJtLT5zaGFk
+b3dfYnVmKTsNCj4gKwlpb3N5c19tYXBfaW5jcigmc2hhZG93X21hcCwgZHJtX2ZiX2NsaXBf
+b2Zmc2V0KGZiLT5waXRjaGVzWzBdLCBmYi0+Zm9ybWF0LCBkYW1hZ2UpKTsNCj4gKwlkcm1f
+ZmJfbWVtY3B5KCZzaGFkb3dfbWFwLCBmYi0+cGl0Y2hlcywgbWFwLCBmYiwgZGFtYWdlKTsN
+Cj4gKw0KDQpJdCdzIGFsbCBnb29kIChzYW5zIHRoZSBiZWdpbl9jcHVfYWNjZXNzIGlzc3Vl
+KSBpbiB0ZXJtcyBvZiBjb2RlLCBidXQgDQp0aGUgbWVtY3B5IGhlcmUgY2FuIGhhdmUgcXVp
+dGUgYW4gaW1wYWN0IG9uIHBlcmZvcm1hY2UuDQoNClNvIHdoeSBub3QganVzdCBudWtlIHRo
+ZSBhc3luYyBjb2RlIGVudGlyZWx5PyBJdCdzIGEgdXNlcnNwYWNlIHByb2JsZW0gDQphbmQg
+d2UgZG9uJ3QgaGF2ZSBtYW55KC9hbnk/KSBvdGhlciBkcml2ZXJzIHdpdGggc3VjaCBhIHdv
+cmthcm91bmQuIFVkbCwgDQpvdXIgb3RoZXIgdXNiLWJhc2VkIGRyaXZlciwgd29ya3Mgd2Vs
+bCBlbm91Z2ggd2l0aG91dC4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiAgIAlpZiAo
+ZmIgIT0gZ2RybS0+ZmIpIHsNCj4gICAJCW9sZF9mYiA9IGdkcm0tPmZiOw0KPiAgIAkJZHJt
+X2ZyYW1lYnVmZmVyX2dldChmYik7DQo+IEBAIC00MjAsNiArNDIxLDI2IEBAIHN0YXRpYyB2
+b2lkIGd1ZF9mYl9xdWV1ZV9kYW1hZ2Uoc3RydWN0IGd1ZF9kZXZpY2UgKmdkcm0sIHN0cnVj
+dCBkcm1fZnJhbWVidWZmZXINCj4gICANCj4gICAJaWYgKG9sZF9mYikNCj4gICAJCWRybV9m
+cmFtZWJ1ZmZlcl9wdXQob2xkX2ZiKTsNCj4gKw0KPiArCXJldHVybiAwOw0KPiArfQ0KPiAr
+DQo+ICtzdGF0aWMgdm9pZCBndWRfZmJfaGFuZGxlX2RhbWFnZShzdHJ1Y3QgZ3VkX2Rldmlj
+ZSAqZ2RybSwgc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmIsDQo+ICsJCQkJIGNvbnN0IHN0
+cnVjdCBpb3N5c19tYXAgKm1hcCwgc3RydWN0IGRybV9yZWN0ICpkYW1hZ2UpDQo+ICt7DQo+
+ICsJaW50IHJldDsNCj4gKw0KPiArCWlmIChnZHJtLT5mbGFncyAmIEdVRF9ESVNQTEFZX0ZM
+QUdfRlVMTF9VUERBVEUpDQo+ICsJCWRybV9yZWN0X2luaXQoZGFtYWdlLCAwLCAwLCBmYi0+
+d2lkdGgsIGZiLT5oZWlnaHQpOw0KPiArDQo+ICsJaWYgKGd1ZF9hc3luY19mbHVzaCkgew0K
+PiArCQlyZXQgPSBndWRfZmJfcXVldWVfZGFtYWdlKGdkcm0sIGZiLCBtYXAsIGRhbWFnZSk7
+DQo+ICsJCWlmIChyZXQgIT0gLUVOT01FTSkNCj4gKwkJCXJldHVybjsNCj4gKwl9DQo+ICsN
+Cj4gKwkvKiBJbXBvcnRlZCBidWZmZXJzIGFyZSBhc3N1bWVkIHRvIGJlIFdyaXRlQ29tYmlu
+ZWQgd2l0aCB1bmNhY2hlZCByZWFkcyAqLw0KPiArCWd1ZF9mbHVzaF9kYW1hZ2UoZ2RybSwg
+ZmIsIG1hcCwgIWZiLT5vYmpbMF0tPmltcG9ydF9hdHRhY2gsIGRhbWFnZSk7DQo+ICAgfQ0K
+PiAgIA0KPiAgIGludCBndWRfcGlwZV9jaGVjayhzdHJ1Y3QgZHJtX3NpbXBsZV9kaXNwbGF5
+X3BpcGUgKnBpcGUsDQo+IEBAIC01NDQsNiArNTY1LDcgQEAgdm9pZCBndWRfcGlwZV91cGRh
+dGUoc3RydWN0IGRybV9zaW1wbGVfZGlzcGxheV9waXBlICpwaXBlLA0KPiAgIAlzdHJ1Y3Qg
+ZHJtX2RldmljZSAqZHJtID0gcGlwZS0+Y3J0Yy5kZXY7DQo+ICAgCXN0cnVjdCBndWRfZGV2
+aWNlICpnZHJtID0gdG9fZ3VkX2RldmljZShkcm0pOw0KPiAgIAlzdHJ1Y3QgZHJtX3BsYW5l
+X3N0YXRlICpzdGF0ZSA9IHBpcGUtPnBsYW5lLnN0YXRlOw0KPiArCXN0cnVjdCBkcm1fc2hh
+ZG93X3BsYW5lX3N0YXRlICpzaGFkb3dfcGxhbmVfc3RhdGUgPSB0b19kcm1fc2hhZG93X3Bs
+YW5lX3N0YXRlKHN0YXRlKTsNCj4gICAJc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmIgPSBz
+dGF0ZS0+ZmI7DQo+ICAgCXN0cnVjdCBkcm1fY3J0YyAqY3J0YyA9ICZwaXBlLT5jcnRjOw0K
+PiAgIAlzdHJ1Y3QgZHJtX3JlY3QgZGFtYWdlOw0KPiBAQCAtNTU3LDYgKzU3OSw4IEBAIHZv
+aWQgZ3VkX3BpcGVfdXBkYXRlKHN0cnVjdCBkcm1fc2ltcGxlX2Rpc3BsYXlfcGlwZSAqcGlw
+ZSwNCj4gICAJCQlnZHJtLT5mYiA9IE5VTEw7DQo+ICAgCQl9DQo+ICAgCQlndWRfY2xlYXJf
+ZGFtYWdlKGdkcm0pOw0KPiArCQl2ZnJlZShnZHJtLT5zaGFkb3dfYnVmKTsNCj4gKwkJZ2Ry
+bS0+c2hhZG93X2J1ZiA9IE5VTEw7DQo+ICAgCQltdXRleF91bmxvY2soJmdkcm0tPmRhbWFn
+ZV9sb2NrKTsNCj4gICAJfQ0KPiAgIA0KPiBAQCAtNTcyLDEzICs1OTYsOCBAQCB2b2lkIGd1
+ZF9waXBlX3VwZGF0ZShzdHJ1Y3QgZHJtX3NpbXBsZV9kaXNwbGF5X3BpcGUgKnBpcGUsDQo+
+ICAgCWlmIChjcnRjLT5zdGF0ZS0+YWN0aXZlX2NoYW5nZWQpDQo+ICAgCQlndWRfdXNiX3Nl
+dF91OChnZHJtLCBHVURfUkVRX1NFVF9ESVNQTEFZX0VOQUJMRSwgY3J0Yy0+c3RhdGUtPmFj
+dGl2ZSk7DQo+ICAgDQo+IC0JaWYgKGRybV9hdG9taWNfaGVscGVyX2RhbWFnZV9tZXJnZWQo
+b2xkX3N0YXRlLCBzdGF0ZSwgJmRhbWFnZSkpIHsNCj4gLQkJaWYgKGdkcm0tPmZsYWdzICYg
+R1VEX0RJU1BMQVlfRkxBR19GVUxMX1VQREFURSkNCj4gLQkJCWRybV9yZWN0X2luaXQoJmRh
+bWFnZSwgMCwgMCwgZmItPndpZHRoLCBmYi0+aGVpZ2h0KTsNCj4gLQkJZ3VkX2ZiX3F1ZXVl
+X2RhbWFnZShnZHJtLCBmYiwgJmRhbWFnZSk7DQo+IC0JCWlmICghZ3VkX2FzeW5jX2ZsdXNo
+KQ0KPiAtCQkJZmx1c2hfd29yaygmZ2RybS0+d29yayk7DQo+IC0JfQ0KPiArCWlmIChkcm1f
+YXRvbWljX2hlbHBlcl9kYW1hZ2VfbWVyZ2VkKG9sZF9zdGF0ZSwgc3RhdGUsICZkYW1hZ2Up
+KQ0KPiArCQlndWRfZmJfaGFuZGxlX2RhbWFnZShnZHJtLCBmYiwgJnNoYWRvd19wbGFuZV9z
+dGF0ZS0+ZGF0YVswXSwgJmRhbWFnZSk7DQo+ICAgDQo+ICAgCWlmICghY3J0Yy0+c3RhdGUt
+PmVuYWJsZSkNCj4gICAJCWd1ZF91c2Jfc2V0X3U4KGdkcm0sIEdVRF9SRVFfU0VUX0NPTlRS
+T0xMRVJfRU5BQkxFLCAwKTsNCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBo
+aWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkg
+R21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2
+ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
--- 
-With best wishes
-Dmitry
+--------------H0vB2VCsFYgb1paU4zkNGhjt--
 
+--------------f2kSx2ER11xLaJsVqfbSYbKh
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmN9+DgFAwAAAAAACgkQlh/E3EQov+Cx
+OhAAlFZR01ij6JaZK79XR0rYUEez8dnmRcenA0AmQnZ4MfrB2iuMQOinETHTQDIYpLinZtAuFhoT
+RMUcEbQI8mvZbufjQX23SsQsAMDMqJnFgGrfKBG/TBmZS8QvGEX8mZ+QyETIhAdugilWLoQhM6Ok
+3JYYgoXxLXp4vOsUYfFACGhN3SU+LiMZ1Fox1seDWW9hoAUcKmaQ0AfXUhlBjdDkbQtvKylfLiAn
+hrjufdAkdy2Q9X1rRPYqdDatSNcoW9+6FIntWHa4E6Q/gg3PRvn8S5lGHansITbrJQltKCWZ/knl
+DBjDb9aaaUqs97wb6nd2OyLhJXeUE6AsLekhYD/T0z7pJQ50HNOwCvf3W5ZvB3A8Dax6+LOD2Mwc
+v3hEB5s9WFKdDzJ6x1y61Yv2HcQ+aiY1BTQ+CMWDpqgAdqWDBce71BMry6aPRh85/s2uQzVhYxny
+Drj4JBo6oeBj8QgwpnAlMrd8XE+7FPXs3757Eigqt703F+sx9HKG+2xiOn1On18lt1bldUTb+Nyg
+vOkvFK958O8WenpjGb0g+5EmJrswiXIpEUFSsg0ElPWdO1wQMsV5z3NsvBAmpSsYlWR3FwXe4r3F
+YFeUNEwh8I85uVcOsnHUbN8T5tJT4AgMAi4haF/EzDMjlR/ZTyGR77RltfGV1G74Yt8HTihxdYnf
+sMI=
+=+6+z
+-----END PGP SIGNATURE-----
+
+--------------f2kSx2ER11xLaJsVqfbSYbKh--
