@@ -2,60 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B3836369C5
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 20:19:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 803BA6369D3
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 20:24:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2594B10E5FC;
-	Wed, 23 Nov 2022 19:19:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF05A10E5FE;
+	Wed, 23 Nov 2022 19:24:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x92f.google.com (mail-ua1-x92f.google.com
- [IPv6:2607:f8b0:4864:20::92f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D227610E5FC
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 19:19:35 +0000 (UTC)
-Received: by mail-ua1-x92f.google.com with SMTP id x24so621864uaf.4
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 11:19:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SwMzuEDw937D1BNWUA0+s7FH/Sv/GWnLAgn8jMy5G/0=;
- b=g/nn420R1OojaK+ZrP5yWqCPRWhqBR3yJ1bGeZnSy5rk1jJk4NsK6VjXpTG+jsegam
- dBm2h9744Pvni4Tx3Vg54pqwd9DZjb1z22H0MRPKB+9jQeP56FN28EFvVyFJz2E5LBJ9
- oImZsEE9BVhSfGNwgLNk2FshAC5d0BF1yGL9i7WxmEAZHKb39SwzeGlFMlYz+KbBSU/1
- OBcH6y45lXdKxud/yud4DKrczBhWp7gVspfwxvN5+bANrEhxzl32kMonJcRnomPu/vRA
- fHY4Ktf8hzgF8/QRtPHetAsVza0ZL9CslbOCwPxxHRp9lsOejr9Lr8cvglm0ml7YP14v
- LTmg==
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B7FC10E5FE
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 19:24:46 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id v7so13826706wmn.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 11:24:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=1Xjthq2+qgiXzb/f7wAfOELUP1rS9RtqVyPjIavSAuI=;
+ b=XG9xx70jS8Gy7jU/YYfq1AJFelsQPJGeexQnfc5SSaIq63hP669Ell1gQEFJWCZqOr
+ l/SGxgUTD2VBYjpAjgGHUVNdi/N201mz8evlz2jr+//Lst70qErW7H0PpKw+Xlj+ADEu
+ ir+oN+qdWoIDLNsOPmiC/uaDH4opINzqH7Zl4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=SwMzuEDw937D1BNWUA0+s7FH/Sv/GWnLAgn8jMy5G/0=;
- b=YzEQxCZhVKKfs9nqGVYHx4OpgVeTuzsRk2X33IcWbrIPDGZAl583m13FDKPX86XhRd
- j0H7UXJ+VnCz6lgHW3i90QKU1SW9rrlaNRPFHZH9atITwnX7W2VdaImi3xxB3deaFUhd
- 9i5+U5n/35Uy1mgNl5o707bQ6WKHZlfcdmy4fojk0SyvsKavLGNPnZwno809+ZaHkgHd
- N89odurbY5GvBrwBWCT3YDS+ukQRsSzxJonFahv9bEHjb5S7G1h6cKPnfOsQ04N6Hjnz
- AL9UZwZD9g05K5Mzipg7QqqRv0iQoejuUZvYXNl2oH2RlOd+tToCMqmSXD9AF/DBOfnM
- hotQ==
-X-Gm-Message-State: ANoB5pnz2U4b63srxntd/HefqaTzbez0wGSilXhld7QBEjCbEI4326vd
- BdhrY1QXYGm+pQujEJFTdpn+Z2ztxTp18JyoOe3n
-X-Google-Smtp-Source: AA0mqf7ymL6DaildKXguHmgnNFyFiHrXAqeOVxwz1oN82oZWA+QVsylDv6FEwr3OYMAtZxhB6iEMFSrnXPfn7MTN3I8=
-X-Received: by 2002:ab0:4986:0:b0:414:4bb5:3e54 with SMTP id
- e6-20020ab04986000000b004144bb53e54mr6742748uad.121.1669231174806; Wed, 23
- Nov 2022 11:19:34 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1Xjthq2+qgiXzb/f7wAfOELUP1rS9RtqVyPjIavSAuI=;
+ b=pS+6l2iZeqWxDfkEQ+pvrWVM8qDBXK/GQu6ImTv/G3Zomh8xRJx/rYLC0rJ41qvUlw
+ UzxgU3ZErBz1z+ku9j4gRmPva8Vn7wIfkhltINzqjjfDF8ZT4pEp4yfbOO+nAxW05FS8
+ 82sGun0U0ogGB6JXlFSIerkubofWhEevSTX5Rn5WRnbRsJ7E/v8B6w18Ikag3i8KqRXB
+ luCk7pOKWmkaeSsHKktKrNgBwQd1bE/rtoZE39QyVwWgM3LGvjAsr8xM8CI8lFOCQM8O
+ eiGL8uopJybv2fryeKtd4zN6BkCrLesJR5xMOVogTxQWDnZnsUun5AnFnQ0e64j/sk2Q
+ RcEA==
+X-Gm-Message-State: ANoB5pk4vqgX6VPKlGIeidlNr4eN5BDG+LDNFQhSivfIUDzA5QO5RdQZ
+ Rf84KWPOQdwj0qNld1aRjvzOQn8KTVRL7g==
+X-Google-Smtp-Source: AA0mqf5d7H2p5Gny8ZJZ5ozgkc2ss9Vs12BnlW9NzmfzZyzsiie3CW5P1s5Bl/fIEJ0ulGsqTLTujg==
+X-Received: by 2002:a05:600c:600c:b0:3cf:81b1:bc7b with SMTP id
+ az12-20020a05600c600c00b003cf81b1bc7bmr11995546wmb.121.1669231484674; 
+ Wed, 23 Nov 2022 11:24:44 -0800 (PST)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
+ [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
+ p13-20020a05600c358d00b003c6b9749505sm3459826wmq.30.2022.11.23.11.24.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Nov 2022 11:24:44 -0800 (PST)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/fourcc: Document open source user waiver
+Date: Wed, 23 Nov 2022 20:24:37 +0100
+Message-Id: <20221123192437.1065826-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-References: <TYCP286MB2323873BBDF88020781FB986CA3B9@TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM>
- <TYCP286MB2323894F9939C27291FD998CCA0A9@TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM>
- <56393e84-485b-42ba-5fce-d4a0d0017653@amd.com>
-In-Reply-To: <56393e84-485b-42ba-5fce-d4a0d0017653@amd.com>
-From: John Stultz <jstultz@google.com>
-Date: Wed, 23 Nov 2022 11:19:24 -0800
-Message-ID: <CANDhNCrKaa580Hb-w5GcGxo-h5xr9_GSq86JUSfR+meVLqiY1g@mail.gmail.com>
-Subject: Re: [PATCH v4] dma-buf: fix racing conflict of dma_heap_add()
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,31 +65,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: benjamin.gaignard@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, afd@ti.com, linaro-mm-sig@lists.linaro.org,
- sspatil@android.com, Dawei Li <set_pte_at@outlook.com>, labbott@redhat.com,
- sumit.semwal@linaro.org, linux-media@vger.kernel.org
+Cc: Neil Trevett <ntrevett@nvidia.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Daniel Vetter <daniel.vetter@intel.com>, Jason Ekstrand <jason@jlekstrand.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 21, 2022 at 10:24 AM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Hi Dawei,
->
-> from the technical description, coding style etc.. it looks clean to me,
-> but I'm the completely wrong person to ask for a background check.
->
-> I have a high level understanding of how dma-heaps work, but not a
-> single line of this code is from me.
->
-> Feel free to add my Acked-by, but Laura, John and others do you have any
-> opinion?
+It's a bit a FAQ, and we really can't claim to be the authoritative
+source for allocating these numbers used in many standard extensions
+if we tell closed source or vendor stacks in general to go away.
 
-No objection from me.
-Thanks Dawei for submitting this improvement!
+Iirc this was already clarified in some vulkan discussions, but I
+can't find that anywhere anymore. At least not in a public link.
 
-Acked-by: John Stultz <jstultz@google.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Alex Deucher <alexdeucher@gmail.com>
+Cc: Daniel Stone <daniel@fooishbar.org>
+Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Cc: Jason Ekstrand <jason@jlekstrand.net>
+Cc: Neil Trevett <ntrevett@nvidia.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+---
+ include/uapi/drm/drm_fourcc.h | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-thanks
--john
+diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+index bc056f2d537d..de703c6be969 100644
+--- a/include/uapi/drm/drm_fourcc.h
++++ b/include/uapi/drm/drm_fourcc.h
+@@ -88,6 +88,18 @@ extern "C" {
+  *
+  * The authoritative list of format modifier codes is found in
+  * `include/uapi/drm/drm_fourcc.h`
++ *
++ * Open Source User Waiver
++ * -----------------------
++ *
++ * Because this is the authoritative source for pixel formats and modifiers
++ * referenced by GL, Vulkan extensions and other standards and hence used both
++ * by open source and closed source driver stacks, the usual requirement for an
++ * upstream in-kernel or open source userspace user does not apply.
++ *
++ * To ensure, as much as feasible, compatibility across stacks and avoid
++ * confusion with incompatible enumerations stakeholders for all relevant driver
++ * stacks should approve additions.
+  */
+ 
+ #define fourcc_code(a, b, c, d) ((__u32)(a) | ((__u32)(b) << 8) | \
+-- 
+2.37.2
+
