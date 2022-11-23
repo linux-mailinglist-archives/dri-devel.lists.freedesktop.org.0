@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC6A76363A0
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 16:29:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ECFE6363A1
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 16:29:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3738310E580;
-	Wed, 23 Nov 2022 15:29:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A52910E582;
+	Wed, 23 Nov 2022 15:29:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
  [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A04DB10E580
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 15:29:13 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id 7D47C2B069B4;
- Wed, 23 Nov 2022 10:29:10 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6DEA10E580
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 15:29:18 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.west.internal (Postfix) with ESMTP id 830B42B069B3;
+ Wed, 23 Nov 2022 10:29:15 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Wed, 23 Nov 2022 10:29:13 -0500
+ by compute5.internal (MEProxy); Wed, 23 Nov 2022 10:29:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1669217350; x=
- 1669224550; bh=u+1ymrAP+Uo/CwDGmXOacIfISOEP++Rwn9qJQbSVq8E=; b=N
- AYi2/vcBLMDWtLcwQpME0YLmuCi9gO7LsXeCue+VQagjDk5HrYfyp4b8CMi4w00Z
- 29LsG7Hidtz2Aj3+4qtkKuG6ckk73eZRiqWkEIL3NUGRQE2FJb+9WhvmE6MJaLa0
- jr8ZzP7WUkpLf34Tx4ULGV9RlqYQId6MXhGtKeiKDkTJM4X2tPTu7HpSh5HW7xNr
- tHQnI9Uth/aM5y+TjnvGJuJDM3R9hgukxgbIJKVGGmPGnClzod+B1rU5++wFZm8O
- njtADye0efyK8UESnJFARByB+MZoR81y4erJtAmcCF1fI0DwrO5YvdCARYUM+ia9
- qLwyVrsUXdHLYnoxt2Q+g==
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1669217355; x=
+ 1669224555; bh=E+F6j3rDHAg7el7OBdKDoKd9QAC9lnirKzZ7wgoZYxo=; b=U
+ TObc4fpZjWo5ok4o4QSnl0a94+ZNKsFwwNIeGrLfNZnlJSgmqnSnef6jQjE/F5tq
+ owSCKNRxz0FeWDSeuqHyw/ON94ZvBzIji+vktVj1hMI0A4po4JSbMzTx/x3/Zck+
+ 4j1F8UFoVmIt+Z5E/GqCO3fNfwg5VL0DqX18QyQqadzG1eMYAWNbFtHDy+PJs3V/
+ oFpRtKrO49ravdZMrsChgEZD0hwzNKDrwg7ScNJsN3W6cBXwMiEVWoGN8JDH5aW8
+ vIKUza8QpJb1V4LZUdX5/H/XNv0xskm5o++jj8zsgTlXUq8BFdbhdrmQLADy0iEZ
+ ShahpsRyUpQI2UuoCwqoQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1669217350; x=
- 1669224550; bh=u+1ymrAP+Uo/CwDGmXOacIfISOEP++Rwn9qJQbSVq8E=; b=c
- Lt3gFaILhOvjOrVYOdI+Wgg/D7a8koC99CI0KJnHxGhvfPt+8XgeIldOaNFJg0Ig
- JDmpt9qfY501ux2kvQzrA/xNzCJxfvfn+oiWI+Dq8dQFHyi1G90p/42KCXVseEfm
- IQgdJjb6JtAgq0V+gdYbzRLSSHaeWxp+Ol1q5VGcPMupW0nZ1bn/O6Wn1hEFTdrK
- 7O6JyC/5L4iRdE6/1Tw6eqUgvRbw1HAi9nlcuhM9RqmR7dyT0XX7y4+dMtyr5J5r
- A0akVPLgNInkC5RwECExampf3PqA3em9OKFw80bno4drszNe9PupQVWs2OcWBJKz
- ypYcOmG5oZvyy0sgQmZ0A==
-X-ME-Sender: <xms:RTx-Y7_pp1Q_YC4psCGVWjLIrTYE_7WzLuddQ1N5xkkBqu0UbECt5A>
- <xme:RTx-Y3s8ik39r2zv6JXiXjoPQDDlYGEtpNRzKmaIWCh1FliSSDi7oElYsNhoaLPgx
- 5nK-tWXD5-flZf4vlc>
-X-ME-Received: <xmr:RTx-Y5Ca9pi4PDcatr9Dq-psv6CiDgGuMheSHEsbZXE0qzdVr2ov8IiUZAIzTkcf8-WitJ-qD1LM-FmrkNd5D5cph9Ito6wqcE1ruUp1MovJcg>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1669217355; x=
+ 1669224555; bh=E+F6j3rDHAg7el7OBdKDoKd9QAC9lnirKzZ7wgoZYxo=; b=V
+ vdUI8DhZx2z/VaNFF4uW23IozVvv4FAxUf+SDWyIrKL73OJoR49jlEUHe88Ckgbc
+ IiQjhEf+0GYsvWpLtInUmLEtFFyZeOVMTYF691fV8htC8N+8RngGyPHP/j6X6wJx
+ aH4JW1Y/TrAz/qCZCRGgPU5GEIt14fnOxOB/LA85i70vzbOUOfUccXGgqZZFJm7I
+ qxmLp++k3splfYh1AaBx/uJ5SPfFzdUBs812xnXGDwS84Lal/vOh1Gc2k1EjGbtl
+ XKMRJt/lBHSODagQ20hwBGkpxtK2xNuEL8uFnsah+cnTUZH0kFgfm772YwD3qmzh
+ FOcfNvo3F104lCbso8lfQ==
+X-ME-Sender: <xms:Sjx-Y8Q2SxPuggVCz2WB7zA44oIyMRMSjGjO4DWzZ6cqezwASJ8OVA>
+ <xme:Sjx-Y5yF4IbXe2xuvrVyh0NN-Iid9cpyG69AGoHxG_U_ytiEo57mRJeZOcOmGKlYB
+ IgN_rwL6iJdEDXHnpk>
+X-ME-Received: <xmr:Sjx-Y51j05CHQYNrxQAcK6Jey3Y58lZgq2McJpUsOsb3Ja8NHUXo5zrywaZHYjLf8OatVOdCKKhPgoaCKkLu1qgJRGm5qaZboPN_LK-UGiZLbQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedriedugdejgecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhfffugggtgffkfhgjvfevofesthekredtredtjeenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeduudduhfevjeetfeegvdffvdevvdejudegudekjeehtdelhfffveethfej
- ledtveenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ ledtveenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:RTx-Y3ebgFE_51-GXnG_QkyEvrbMLn0f1wjvCIBMwYw90u062eLPjA>
- <xmx:RTx-YwPgZv9PTC0nxnGEY2fLrOzAZc7hd9oQ0EuW20AntefbFghatA>
- <xmx:RTx-Y5mvusnupntz-WNWG66Ur5DgpzYLljTNi-diNxnkAmhMo5TNwA>
- <xmx:Rjx-Y2vjwSb6K37xPRL1EU0o1DJYwZ9WvbzhGbYyTMcmEHTcIEe3sk27PH8>
+X-ME-Proxy: <xmx:Szx-YwDkH9XwO_7_AEsk14D_Z7d6GInnEw4lA2l9MsKxBLrfHO-H5A>
+ <xmx:Szx-Y1jYr9GkA35anFI4MssXYppaZ7EUdxouyY39vgwv4jQQbNtyuQ>
+ <xmx:Szx-Y8rJRIZgf5JpDUMmeRqHxQdtUOAfXHU4TNm_kcLRbVJ2OMKZOw>
+ <xmx:Szx-Y-DPfky-Nc7WFF1YyydEB5wVPqD39veWup823ovPBMBqy-Kc8IOxOIs>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 23 Nov 2022 10:29:09 -0500 (EST)
+ 23 Nov 2022 10:29:14 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Wed, 23 Nov 2022 16:25:49 +0100
-Subject: [PATCH 07/24] drm/tests: helpers: Allow to pass a custom drm_driver
+Date: Wed, 23 Nov 2022 16:25:50 +0100
+Subject: [PATCH 08/24] drm/tests: Add a test for DRM managed actions
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20221123-rpi-kunit-tests-v1-7-051a0bb60a16@cerno.tech>
+Message-Id: <20221123-rpi-kunit-tests-v1-8-051a0bb60a16@cerno.tech>
 References: <20221123-rpi-kunit-tests-v1-0-051a0bb60a16@cerno.tech>
 In-Reply-To: <20221123-rpi-kunit-tests-v1-0-051a0bb60a16@cerno.tech>
 To: Maxime Ripard <mripard@kernel.org>,
@@ -75,11 +75,11 @@ To: Maxime Ripard <mripard@kernel.org>,
  Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
  Thomas Zimmermann <tzimmermann@suse.de>
 X-Mailer: b4 0.11.0-dev-d416f
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3124; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=Ahr/dzE3tn44EjPLHFard1PjEGhVLUGRIQk+hZvFDEQ=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMl11tV372yR3ysf8KIgQf+wyCf3JaeUf3ieFtW8eYt3+7Ql
- 091kO0pZGMS4GGTFFFlihM2XxJ2a9bqTjW8ezBxWJpAhDFycAjCRg5yMDIv8H17brcQsWCGx8rS63p
- yo5rf+PdO9uXW2Os0vcMz+IsjI8LGsq+5SwMqjPHMNn87Ifj/zau6mdW5VZTILWLlW3pyhwA0A
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2796; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=txZGu5YsKfJXUp6BjWwvlIBYY88sSzl4HbGo87GOweA=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMl11tX7GDz3OcW9a14j8XxSlt37RwVR3x7U5EpVfrtZLSIe
+ /GxhRykLgxgXg6yYIkuMsPmSuFOzXney8c2DmcPKBDKEgYtTACYSJcDw38tk7QsdTuavoRH/dmRP4n
+ qy/5T2e+au63ernCW4Iq+5bmX4Z3J3lxFDUoxNdMePD/MazXl+V+qLfmG4t7D15mePz5dnMAMA
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -98,86 +98,101 @@ Cc: David Gow <davidgow@google.com>, Brendan Higgins <brendan.higgins@linux.dev>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some tests will need to provide their own drm_driver instead of relying
-on the dumb one in the helpers, so let's create a helper that allows to
-do so.
+DRM-managed actions are supposed to be ran whenever the device is
+released. Let's introduce a basic unit test to make sure it happens.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/tests/drm_kunit_helpers.c | 13 ++++---------
- drivers/gpu/drm/tests/drm_kunit_helpers.h | 29 +++++++++++++++++++++++++++--
- 2 files changed, 31 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/tests/Makefile           |  1 +
+ drivers/gpu/drm/tests/drm_managed_test.c | 68 ++++++++++++++++++++++++++++++++
+ 2 files changed, 69 insertions(+)
 
-diff --git a/drivers/gpu/drm/tests/drm_kunit_helpers.c b/drivers/gpu/drm/tests/drm_kunit_helpers.c
-index 6d614f9e62d8..5c758a22f526 100644
---- a/drivers/gpu/drm/tests/drm_kunit_helpers.c
-+++ b/drivers/gpu/drm/tests/drm_kunit_helpers.c
-@@ -100,20 +100,15 @@ void drm_kunit_helper_free_device(struct kunit *test, struct device *dev)
- }
- 
- struct drm_device *
--__drm_kunit_helper_alloc_drm_device(struct kunit *test, struct device *dev,
--				    size_t size, size_t offset,
--				    u32 features)
-+__drm_kunit_helper_alloc_drm_device_with_driver(struct kunit *test,
-+						struct device *dev,
-+						size_t size, size_t offset,
-+						const struct drm_driver *driver)
- {
- 	struct drm_device *drm;
--	struct drm_driver *driver;
- 	void *container;
- 	int ret;
- 
--	driver = kunit_kzalloc(test, sizeof(*driver), GFP_KERNEL);
--	if (!driver)
--		return ERR_PTR(-ENOMEM);
--
--	driver->driver_features = features;
- 	container = __devm_drm_dev_alloc(dev, driver, size, offset);
- 	if (IS_ERR(container))
- 		return ERR_CAST(container);
-diff --git a/drivers/gpu/drm/tests/drm_kunit_helpers.h b/drivers/gpu/drm/tests/drm_kunit_helpers.h
-index 70abc8c806c9..45bc12a53cd4 100644
---- a/drivers/gpu/drm/tests/drm_kunit_helpers.h
-+++ b/drivers/gpu/drm/tests/drm_kunit_helpers.h
-@@ -10,9 +10,34 @@ struct device *drm_kunit_helper_alloc_device(struct kunit *test);
- void drm_kunit_helper_free_device(struct kunit *test, struct device *dev);
- 
- struct drm_device *
--__drm_kunit_helper_alloc_drm_device(struct kunit *test, struct device *dev,
-+__drm_kunit_helper_alloc_drm_device_with_driver(struct kunit *test,
-+						struct device *dev,
-+						size_t size, size_t offset,
-+						const struct drm_driver *driver);
+diff --git a/drivers/gpu/drm/tests/Makefile b/drivers/gpu/drm/tests/Makefile
+index b29ef1085cad..35962c6ef0c4 100644
+--- a/drivers/gpu/drm/tests/Makefile
++++ b/drivers/gpu/drm/tests/Makefile
+@@ -9,6 +9,7 @@ obj-$(CONFIG_DRM_KUNIT_TEST) += \
+ 	drm_format_test.o \
+ 	drm_framebuffer_test.o \
+ 	drm_kunit_helpers.o \
++	drm_managed_test.o \
+ 	drm_mm_test.o \
+ 	drm_plane_helper_test.o \
+ 	drm_rect_test.o
+diff --git a/drivers/gpu/drm/tests/drm_managed_test.c b/drivers/gpu/drm/tests/drm_managed_test.c
+new file mode 100644
+index 000000000000..4fc11b289d9e
+--- /dev/null
++++ b/drivers/gpu/drm/tests/drm_managed_test.c
+@@ -0,0 +1,68 @@
++// SPDX-License-Identifier: GPL-2.0
 +
-+#define drm_kunit_helper_alloc_drm_device_with_driver(_test, _dev, _type, _member, _drv)	\
-+	((_type *) __drm_kunit_helper_alloc_drm_device_with_driver(_test, _dev,			\
-+						       sizeof(_type),				\
-+						       offsetof(_type, _member),		\
-+						       _drv))
++#include <drm/drm_drv.h>
++#include <drm/drm_managed.h>
 +
-+static inline struct drm_device *
-+__drm_kunit_helper_alloc_drm_device(struct kunit *test,
-+				    struct device *dev,
- 				    size_t size, size_t offset,
--				    u32 features);
-+				    u32 features)
++#include <kunit/resource.h>
++
++#include <linux/device.h>
++
++#include "drm_kunit_helpers.h"
++
++#define TEST_TIMEOUT_MS	100
++
++struct managed_test_priv {
++	bool action_done;
++	wait_queue_head_t action_wq;
++};
++
++static void drm_action(struct drm_device *drm, void *ptr)
 +{
-+	struct drm_driver *driver;
++	struct managed_test_priv *priv = ptr;
 +
-+	driver = kunit_kzalloc(test, sizeof(*driver), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, driver);
-+
-+	driver->driver_features = features;
-+
-+	return __drm_kunit_helper_alloc_drm_device_with_driver(test, dev,
-+							       size, offset,
-+							       driver);
++	priv->action_done = true;
++	wake_up_interruptible(&priv->action_wq);
 +}
- 
- #define drm_kunit_helper_alloc_drm_device(_test, _dev, _type, _member, _feat)	\
- 	((_type *) __drm_kunit_helper_alloc_drm_device(_test, _dev,		\
++
++static void drm_test_managed_run_action(struct kunit *test)
++{
++	struct managed_test_priv *priv;
++	struct drm_device *drm;
++	struct device *dev;
++	int ret;
++
++	priv = kunit_kzalloc(test, sizeof(*priv), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv);
++	init_waitqueue_head(&priv->action_wq);
++
++	dev = drm_kunit_helper_alloc_device(test);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
++
++	drm = __drm_kunit_helper_alloc_drm_device(test, dev, sizeof(*drm), 0, DRIVER_MODESET);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, drm);
++
++	ret = drmm_add_action_or_reset(drm, drm_action, priv);
++	KUNIT_EXPECT_EQ(test, ret, 0);
++
++	ret = drm_dev_register(drm, 0);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++
++	drm_dev_unregister(drm);
++	drm_kunit_helper_free_device(test, dev);
++
++	ret = wait_event_interruptible_timeout(priv->action_wq, priv->action_done,
++					       msecs_to_jiffies(TEST_TIMEOUT_MS));
++	KUNIT_EXPECT_GT(test, ret, 0);
++}
++
++static struct kunit_case drm_managed_tests[] = {
++	KUNIT_CASE(drm_test_managed_run_action),
++	{}
++};
++
++static struct kunit_suite drm_managed_test_suite = {
++	.name = "drm-test-managed",
++	.test_cases = drm_managed_tests
++};
++
++kunit_test_suite(drm_managed_test_suite);
 
 -- 
 2.38.1-b4-0.11.0-dev-d416f
