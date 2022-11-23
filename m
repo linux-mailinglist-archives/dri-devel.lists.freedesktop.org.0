@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81329636A18
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 20:51:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15C11636A24
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 20:52:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F185D10E244;
-	Wed, 23 Nov 2022 19:51:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C79D10E60F;
+	Wed, 23 Nov 2022 19:51:36 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38A7A10E602;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5879E10E603;
  Wed, 23 Nov 2022 19:51:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1669233090; x=1700769090;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=dqQk6c76UlV+XYBTd03kiUGshgQr25lhunOx9PeoWi0=;
- b=khSexHGXXSlD4z2E7xc9c7noe8DcL7yu1kckB0H/nl7P05Bo/A0mgBbK
- 2sSuvWtFKK24ImzR4RByJqga+be/uw3qTgss8kZHRGGw+r0Xl1zrbi0LM
- 9OT1zpXXg59NJXx26zOCEmrPsnhocrRmgPs9MZ58opGlb7OnxAc7/qDvV
- Yh7sYiGGgG62GX4H+5Le/YOygO51FodwZYzQ9X72KP0xviKOXOsaK5shX
- fYABItaFU4jgdzmm6tJoORIyH4o9EmwdRCetcGfrSIsTGlFdqH0LPP87e
- WFgbR/xQAUCstvER50q8c2488OAM9hB8V2mbawIIIs8vu6qVv+4bNlSHQ g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="312846852"
-X-IronPort-AV: E=Sophos;i="5.96,187,1665471600"; d="scan'208";a="312846852"
+ bh=4B0xGU4xjeKmJ2rZRm6Z3APJgbcrUz3yNd3InUQj6mI=;
+ b=Al0WE8KOxr02PV+nDht9Rc8ywQ454t5i6gnItxfFmFCYS1fiI+wB4XXy
+ v1Jsh4q/k5IsKQxBzHtu33HlbgV23Bwyatz0oI/TeEqtWd+XIwXqh0Gfh
+ 4llvebbVjUdX2E+Pxo1mARyLrM5dFIivBBrDdg6SN5sh4zylc+acy47EA
+ rFeuOBRolYvqAfDtVxgic2GYNp14eP4rI2p2ZVfV7kA6KSUJ/BEP88CQo
+ rAIOtaLixb8t2dG0nkeuvf7jxx4/1Egnjq3F/VBuDEjP/4PKubb7DkNSU
+ akcbMz+6WzCILt/b5lcKhjknFjt5olMG3Ubn2PCk5hDDDeqwGybbZ+/3M g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="312846854"
+X-IronPort-AV: E=Sophos;i="5.96,187,1665471600"; d="scan'208";a="312846854"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  23 Nov 2022 11:51:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="816597788"
-X-IronPort-AV: E=Sophos;i="5.96,187,1665471600"; d="scan'208";a="816597788"
+X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="816597791"
+X-IronPort-AV: E=Sophos;i="5.96,187,1665471600"; d="scan'208";a="816597791"
 Received: from relo-linux-5.jf.intel.com ([10.165.21.144])
  by orsmga005.jf.intel.com with ESMTP; 23 Nov 2022 11:51:28 -0800
 From: John.C.Harrison@Intel.com
 To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH v3 1/5] drm/i915/gt: Start adding module oriented dmesg output
-Date: Wed, 23 Nov 2022 11:51:19 -0800
-Message-Id: <20221123195123.1525100-2-John.C.Harrison@Intel.com>
+Subject: [PATCH v3 2/5] drm/i915/huc: Add HuC specific debug print wrappers
+Date: Wed, 23 Nov 2022 11:51:20 -0800
+Message-Id: <20221123195123.1525100-3-John.C.Harrison@Intel.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221123195123.1525100-1-John.C.Harrison@Intel.com>
 References: <20221123195123.1525100-1-John.C.Harrison@Intel.com>
@@ -65,286 +65,175 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: John Harrison <John.C.Harrison@Intel.com>
 
-When trying to analyse bug reports from CI, customers, etc. it can be
-difficult to work out exactly what is happening on which GT in a
-multi-GT system. So add GT oriented debug/error message wrappers. If
-used instead of the drm_ equivalents, you get the same output but with
-a GT# prefix on it.
+Create a set of HuC printers and start using them.
 
-v2: Go back to using lower case names (combined review feedback).
-Convert intel_gt.c as a first step.
-v3: Add gt_err_ratelimited() as well, undo one conversation that might
-not have a GT pointer in some scenarios (review feedback from Michal W).
+v2: Minor tweaks (review feedback from MichalW).
 Split definitions into separate header (review feedback from Jani).
 
 Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_gt.c       | 96 ++++++++++++------------
- drivers/gpu/drm/i915/gt/intel_gt_print.h | 51 +++++++++++++
- 2 files changed, 97 insertions(+), 50 deletions(-)
- create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_print.h
+ drivers/gpu/drm/i915/gt/uc/intel_huc.c       | 32 ++++++++------------
+ drivers/gpu/drm/i915/gt/uc/intel_huc_print.h | 30 ++++++++++++++++++
+ 2 files changed, 43 insertions(+), 19 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_huc_print.h
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-index b5ad9caa55372..f153003120997 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-@@ -23,6 +23,7 @@
- #include "intel_gt_debugfs.h"
- #include "intel_gt_mcr.h"
- #include "intel_gt_pm.h"
-+#include "intel_gt_print.h"
- #include "intel_gt_regs.h"
- #include "intel_gt_requests.h"
- #include "intel_migrate.h"
-@@ -90,9 +91,8 @@ static int intel_gt_probe_lmem(struct intel_gt *gt)
- 		if (err == -ENODEV)
- 			return 0;
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+index be855811d85df..7656c6c423154 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+@@ -8,6 +8,7 @@
+ #include "gt/intel_gt.h"
+ #include "intel_guc_reg.h"
+ #include "intel_huc.h"
++#include "intel_huc_print.h"
+ #include "i915_drv.h"
  
--		drm_err(&i915->drm,
--			"Failed to setup region(%d) type=%d\n",
--			err, INTEL_MEMORY_LOCAL);
-+		gt_err(gt, "Failed to setup region(%d) type=%d\n",
-+		       err, INTEL_MEMORY_LOCAL);
- 		return err;
+ #include <linux/device/bus.h>
+@@ -107,11 +108,9 @@ static enum hrtimer_restart huc_delayed_load_timer_callback(struct hrtimer *hrti
+ 
+ 	if (!intel_huc_is_authenticated(huc)) {
+ 		if (huc->delayed_load.status == INTEL_HUC_WAITING_ON_GSC)
+-			drm_notice(&huc_to_gt(huc)->i915->drm,
+-				   "timed out waiting for MEI GSC init to load HuC\n");
++			huc_notice(huc, "Timed out waiting for MEI GSC init to load FW\n");
+ 		else if (huc->delayed_load.status == INTEL_HUC_WAITING_ON_PXP)
+-			drm_notice(&huc_to_gt(huc)->i915->drm,
+-				   "timed out waiting for MEI PXP init to load HuC\n");
++			huc_notice(huc, "Timed out waiting for MEI PXP init to load FW\n");
+ 		else
+ 			MISSING_CASE(huc->delayed_load.status);
+ 
+@@ -174,8 +173,7 @@ static int gsc_notifier(struct notifier_block *nb, unsigned long action, void *d
+ 
+ 	case BUS_NOTIFY_DRIVER_NOT_BOUND: /* mei driver fails to be bound */
+ 	case BUS_NOTIFY_UNBIND_DRIVER: /* mei driver about to be unbound */
+-		drm_info(&huc_to_gt(huc)->i915->drm,
+-			 "mei driver not bound, disabling HuC load\n");
++		huc_info(huc, "- mei driver not bound, disabling HuC load\n");
+ 		gsc_init_error(huc);
+ 		break;
  	}
- 
-@@ -192,14 +192,14 @@ int intel_gt_init_hw(struct intel_gt *gt)
- 
- 	ret = i915_ppgtt_init_hw(gt);
+@@ -193,8 +191,7 @@ void intel_huc_register_gsc_notifier(struct intel_huc *huc, struct bus_type *bus
+ 	huc->delayed_load.nb.notifier_call = gsc_notifier;
+ 	ret = bus_register_notifier(bus, &huc->delayed_load.nb);
  	if (ret) {
--		drm_err(&i915->drm, "Enabling PPGTT failed (%d)\n", ret);
-+		gt_err(gt, "Enabling PPGTT failed (%d)\n", ret);
- 		goto out;
+-		drm_err(&huc_to_gt(huc)->i915->drm,
+-			"failed to register GSC notifier\n");
++		huc_err(huc, "Failed to register GSC notifier\n");
+ 		huc->delayed_load.nb.notifier_call = NULL;
+ 		gsc_init_error(huc);
+ 	}
+@@ -284,8 +281,7 @@ static int check_huc_loading_mode(struct intel_huc *huc)
+ 			      GSC_LOADS_HUC;
+ 
+ 	if (fw_needs_gsc != hw_uses_gsc) {
+-		drm_err(&gt->i915->drm,
+-			"mismatch between HuC FW (%s) and HW (%s) load modes\n",
++		huc_err(huc, "Mismatch between FW (%s) and HW (%s) load modes\n",
+ 			HUC_LOAD_MODE_STRING(fw_needs_gsc),
+ 			HUC_LOAD_MODE_STRING(hw_uses_gsc));
+ 		return -ENOEXEC;
+@@ -294,19 +290,17 @@ static int check_huc_loading_mode(struct intel_huc *huc)
+ 	/* make sure we can access the GSC via the mei driver if we need it */
+ 	if (!(IS_ENABLED(CONFIG_INTEL_MEI_PXP) && IS_ENABLED(CONFIG_INTEL_MEI_GSC)) &&
+ 	    fw_needs_gsc) {
+-		drm_info(&gt->i915->drm,
+-			 "Can't load HuC due to missing MEI modules\n");
++		huc_info(huc, "Can't load due to missing MEI modules\n");
+ 		return -EIO;
  	}
  
- 	/* We can't enable contexts until all firmware is loaded */
- 	ret = intel_uc_init_hw(&gt->uc);
+-	drm_dbg(&gt->i915->drm, "GSC loads huc=%s\n", str_yes_no(fw_needs_gsc));
++	huc_dbg(huc, "load by GSC: %s\n", str_yes_no(fw_needs_gsc));
+ 
+ 	return 0;
+ }
+ 
+ int intel_huc_init(struct intel_huc *huc)
+ {
+-	struct drm_i915_private *i915 = huc_to_gt(huc)->i915;
+ 	int err;
+ 
+ 	err = check_huc_loading_mode(huc);
+@@ -323,7 +317,7 @@ int intel_huc_init(struct intel_huc *huc)
+ 
+ out:
+ 	intel_uc_fw_change_status(&huc->fw, INTEL_UC_FIRMWARE_INIT_FAIL);
+-	drm_info(&i915->drm, "HuC init failed with %d\n", err);
++	huc_info(huc, "init failed with %d\n", err);
+ 	return err;
+ }
+ 
+@@ -366,13 +360,13 @@ int intel_huc_wait_for_auth_complete(struct intel_huc *huc)
+ 	delayed_huc_load_complete(huc);
+ 
  	if (ret) {
--		i915_probe_error(i915, "Enabling uc failed (%d)\n", ret);
-+		gt_probe_error(gt, "Enabling uc failed (%d)\n", ret);
- 		goto out;
- 	}
- 
-@@ -264,7 +264,7 @@ intel_gt_clear_error_registers(struct intel_gt *gt,
- 		 * some errors might have become stuck,
- 		 * mask them.
- 		 */
--		drm_dbg(&gt->i915->drm, "EIR stuck: 0x%08x, masking\n", eir);
-+		gt_dbg(gt, "EIR stuck: 0x%08x, masking\n", eir);
- 		rmw_set(uncore, EMR, eir);
- 		intel_uncore_write(uncore, GEN2_IIR,
- 				   I915_MASTER_ERROR_INTERRUPT);
-@@ -298,16 +298,16 @@ static void gen6_check_faults(struct intel_gt *gt)
- 	for_each_engine(engine, gt, id) {
- 		fault = GEN6_RING_FAULT_REG_READ(engine);
- 		if (fault & RING_FAULT_VALID) {
--			drm_dbg(&engine->i915->drm, "Unexpected fault\n"
--				"\tAddr: 0x%08lx\n"
--				"\tAddress space: %s\n"
--				"\tSource ID: %d\n"
--				"\tType: %d\n",
--				fault & PAGE_MASK,
--				fault & RING_FAULT_GTTSEL_MASK ?
--				"GGTT" : "PPGTT",
--				RING_FAULT_SRCID(fault),
--				RING_FAULT_FAULT_TYPE(fault));
-+			gt_dbg(gt, "Unexpected fault\n"
-+			       "\tAddr: 0x%08lx\n"
-+			       "\tAddress space: %s\n"
-+			       "\tSource ID: %d\n"
-+			       "\tType: %d\n",
-+			       fault & PAGE_MASK,
-+			       fault & RING_FAULT_GTTSEL_MASK ?
-+			       "GGTT" : "PPGTT",
-+			       RING_FAULT_SRCID(fault),
-+			       RING_FAULT_FAULT_TYPE(fault));
- 		}
- 	}
- }
-@@ -334,17 +334,17 @@ static void xehp_check_faults(struct intel_gt *gt)
- 		fault_addr = ((u64)(fault_data1 & FAULT_VA_HIGH_BITS) << 44) |
- 			     ((u64)fault_data0 << 12);
- 
--		drm_dbg(&gt->i915->drm, "Unexpected fault\n"
--			"\tAddr: 0x%08x_%08x\n"
--			"\tAddress space: %s\n"
--			"\tEngine ID: %d\n"
--			"\tSource ID: %d\n"
--			"\tType: %d\n",
--			upper_32_bits(fault_addr), lower_32_bits(fault_addr),
--			fault_data1 & FAULT_GTT_SEL ? "GGTT" : "PPGTT",
--			GEN8_RING_FAULT_ENGINE_ID(fault),
--			RING_FAULT_SRCID(fault),
--			RING_FAULT_FAULT_TYPE(fault));
-+		gt_dbg(gt, "Unexpected fault\n"
-+		       "\tAddr: 0x%08x_%08x\n"
-+		       "\tAddress space: %s\n"
-+		       "\tEngine ID: %d\n"
-+		       "\tSource ID: %d\n"
-+		       "\tType: %d\n",
-+		       upper_32_bits(fault_addr), lower_32_bits(fault_addr),
-+		       fault_data1 & FAULT_GTT_SEL ? "GGTT" : "PPGTT",
-+		       GEN8_RING_FAULT_ENGINE_ID(fault),
-+		       RING_FAULT_SRCID(fault),
-+		       RING_FAULT_FAULT_TYPE(fault));
- 	}
- }
- 
-@@ -375,17 +375,17 @@ static void gen8_check_faults(struct intel_gt *gt)
- 		fault_addr = ((u64)(fault_data1 & FAULT_VA_HIGH_BITS) << 44) |
- 			     ((u64)fault_data0 << 12);
- 
--		drm_dbg(&uncore->i915->drm, "Unexpected fault\n"
--			"\tAddr: 0x%08x_%08x\n"
--			"\tAddress space: %s\n"
--			"\tEngine ID: %d\n"
--			"\tSource ID: %d\n"
--			"\tType: %d\n",
--			upper_32_bits(fault_addr), lower_32_bits(fault_addr),
--			fault_data1 & FAULT_GTT_SEL ? "GGTT" : "PPGTT",
--			GEN8_RING_FAULT_ENGINE_ID(fault),
--			RING_FAULT_SRCID(fault),
--			RING_FAULT_FAULT_TYPE(fault));
-+		gt_dbg(gt, "Unexpected fault\n"
-+		       "\tAddr: 0x%08x_%08x\n"
-+		       "\tAddress space: %s\n"
-+		       "\tEngine ID: %d\n"
-+		       "\tSource ID: %d\n"
-+		       "\tType: %d\n",
-+		       upper_32_bits(fault_addr), lower_32_bits(fault_addr),
-+		       fault_data1 & FAULT_GTT_SEL ? "GGTT" : "PPGTT",
-+		       GEN8_RING_FAULT_ENGINE_ID(fault),
-+		       RING_FAULT_SRCID(fault),
-+		       RING_FAULT_FAULT_TYPE(fault));
- 	}
- }
- 
-@@ -479,7 +479,7 @@ static int intel_gt_init_scratch(struct intel_gt *gt, unsigned int size)
- 	if (IS_ERR(obj))
- 		obj = i915_gem_object_create_internal(i915, size);
- 	if (IS_ERR(obj)) {
--		drm_err(&i915->drm, "Failed to allocate scratch page\n");
-+		gt_err(gt, "Failed to allocate scratch page\n");
- 		return PTR_ERR(obj);
- 	}
- 
-@@ -729,8 +729,7 @@ int intel_gt_init(struct intel_gt *gt)
- 
- 	err = intel_gt_init_hwconfig(gt);
- 	if (err)
--		drm_err(&gt->i915->drm, "Failed to retrieve hwconfig table: %pe\n",
--			ERR_PTR(err));
-+		gt_err(gt, "Failed to retrieve hwconfig table: %pe\n", ERR_PTR(err));
- 
- 	err = __engines_record_defaults(gt);
- 	if (err)
-@@ -891,7 +890,7 @@ int intel_gt_probe_all(struct drm_i915_private *i915)
- 	gt->name = "Primary GT";
- 	gt->info.engine_mask = RUNTIME_INFO(i915)->platform_engine_mask;
- 
--	drm_dbg(&i915->drm, "Setting up %s\n", gt->name);
-+	gt_dbg(gt, "Setting up %s\n", gt->name);
- 	ret = intel_gt_tile_setup(gt, phys_addr);
- 	if (ret)
+-		drm_err(&gt->i915->drm, "HuC: Firmware not verified %d\n", ret);
++		huc_err(huc, "firmware not verified %d\n", ret);
+ 		intel_uc_fw_change_status(&huc->fw, INTEL_UC_FIRMWARE_LOAD_FAIL);
  		return ret;
-@@ -916,7 +915,7 @@ int intel_gt_probe_all(struct drm_i915_private *i915)
- 		gt->info.engine_mask = gtdef->engine_mask;
- 		gt->info.id = i;
- 
--		drm_dbg(&i915->drm, "Setting up %s\n", gt->name);
-+		gt_dbg(gt, "Setting up %s\n", gt->name);
- 		if (GEM_WARN_ON(range_overflows_t(resource_size_t,
- 						  gtdef->mapping_base,
- 						  SZ_16M,
-@@ -1004,8 +1003,7 @@ get_reg_and_bit(const struct intel_engine_cs *engine, const bool gen8,
- 	const unsigned int class = engine->class;
- 	struct reg_and_bit rb = { };
- 
--	if (drm_WARN_ON_ONCE(&engine->i915->drm,
--			     class >= num || !regs[class].reg))
-+	if (gt_WARN_ON_ONCE(engine->gt, class >= num || !regs[class].reg))
- 		return rb;
- 
- 	rb.reg = regs[class];
-@@ -1088,8 +1086,7 @@ static void mmio_invalidate_full(struct intel_gt *gt)
- 		return;
  	}
  
--	if (drm_WARN_ONCE(&i915->drm, !num,
--			  "Platform does not implement TLB invalidation!"))
-+	if (gt_WARN_ONCE(gt, !num, "Platform does not implement TLB invalidation!"))
- 		return;
+ 	intel_uc_fw_change_status(&huc->fw, INTEL_UC_FIRMWARE_RUNNING);
+-	drm_info(&gt->i915->drm, "HuC authenticated\n");
++	huc_info(huc, "authenticated\n");
+ 	return 0;
+ }
  
- 	intel_uncore_forcewake_get(uncore, FORCEWAKE_ALL);
-@@ -1141,9 +1138,8 @@ static void mmio_invalidate_full(struct intel_gt *gt)
- 		}
+@@ -407,7 +401,7 @@ int intel_huc_auth(struct intel_huc *huc)
  
- 		if (wait_for_invalidate(gt, rb))
--			drm_err_ratelimited(&gt->i915->drm,
--					    "%s TLB invalidation did not complete in %ums!\n",
--					    engine->name, TLB_INVAL_TIMEOUT_MS);
-+			gt_err_ratelimited(gt, "%s TLB invalidation did not complete in %ums!\n",
-+					   engine->name, TLB_INVAL_TIMEOUT_MS);
+ 	ret = intel_guc_auth_huc(guc, intel_guc_ggtt_offset(guc, huc->fw.rsa_data));
+ 	if (ret) {
+-		DRM_ERROR("HuC: GuC did not ack Auth request %d\n", ret);
++		huc_err(huc, "auth request not acked by GuC: %d\n", ret);
+ 		goto fail;
  	}
  
- 	/*
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_print.h b/drivers/gpu/drm/i915/gt/intel_gt_print.h
+@@ -419,7 +413,7 @@ int intel_huc_auth(struct intel_huc *huc)
+ 	return 0;
+ 
+ fail:
+-	i915_probe_error(gt->i915, "HuC: Authentication failed %d\n", ret);
++	huc_probe_error(huc, "authentication failed %d\n", ret);
+ 	return ret;
+ }
+ 
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc_print.h b/drivers/gpu/drm/i915/gt/uc/intel_huc_print.h
 new file mode 100644
-index 0000000000000..0d53c95901b38
+index 0000000000000..de74c66547bf5
 --- /dev/null
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_print.h
-@@ -0,0 +1,51 @@
++++ b/drivers/gpu/drm/i915/gt/uc/intel_huc_print.h
+@@ -0,0 +1,30 @@
 +/* SPDX-License-Identifier: MIT */
 +/*
 + * Copyright © 2022 Intel Corporation
 + */
 +
-+#ifndef __INTEL_GT_PRINT__
-+#define __INTEL_GT_PRINT__
++#ifndef _INTEL_HUC_PRINT_H_
++#define _INTEL_HUC_PRINT_H_
 +
-+#include <drm/drm_print.h>
-+#include "intel_gt_types.h"
-+#include "i915_utils.h"
++#include "gt/intel_gt.h"
++#include "gt/intel_gt_print.h"
 +
-+#define gt_err(_gt, _fmt, ...) \
-+	drm_err(&(_gt)->i915->drm, "GT%u: " _fmt, (_gt)->info.id, ##__VA_ARGS__)
++#define huc_err(_huc, _fmt, ...) \
++	gt_err(huc_to_gt(_huc), "HuC " _fmt, ##__VA_ARGS__)
 +
-+#define gt_warn(_gt, _fmt, ...) \
-+	drm_warn(&(_gt)->i915->drm, "GT%u: " _fmt, (_gt)->info.id, ##__VA_ARGS__)
++#define huc_warn(_huc, _fmt, ...) \
++	gt_warn(huc_to_gt(_huc), "HuC " _fmt, ##__VA_ARGS__)
 +
-+#define gt_notice(_gt, _fmt, ...) \
-+	drm_notice(&(_gt)->i915->drm, "GT%u: " _fmt, (_gt)->info.id, ##__VA_ARGS__)
++#define huc_notice(_huc, _fmt, ...) \
++	gt_notice(huc_to_gt(_huc), "HuC " _fmt, ##__VA_ARGS__)
 +
-+#define gt_info(_gt, _fmt, ...) \
-+	drm_info(&(_gt)->i915->drm, "GT%u: " _fmt, (_gt)->info.id, ##__VA_ARGS__)
++#define huc_info(_huc, _fmt, ...) \
++	gt_info(huc_to_gt(_huc), "HuC " _fmt, ##__VA_ARGS__)
 +
-+#define gt_dbg(_gt, _fmt, ...) \
-+	drm_dbg(&(_gt)->i915->drm, "GT%u: " _fmt, (_gt)->info.id, ##__VA_ARGS__)
++#define huc_dbg(_huc, _fmt, ...) \
++	gt_dbg(huc_to_gt(_huc), "HuC " _fmt, ##__VA_ARGS__)
 +
-+#define gt_err_ratelimited(_gt, _fmt, ...) \
-+	drm_err_ratelimited(&(_gt)->i915->drm, "GT%u: " _fmt, (_gt)->info.id, ##__VA_ARGS__)
++#define huc_probe_error(_huc, _fmt, ...) \
++	gt_probe_error(huc_to_gt(_huc), "HuC " _fmt, ##__VA_ARGS__)
 +
-+#define gt_probe_error(_gt, _fmt, ...) \
-+	do { \
-+		if (i915_error_injected()) \
-+			gt_dbg(_gt, _fmt, ##__VA_ARGS__); \
-+		else \
-+			gt_err(_gt, _fmt, ##__VA_ARGS__); \
-+	} while (0)
-+
-+#define gt_WARN_ON(_gt, _condition) \
-+	gt_WARN(_gt, _condition, "%s", "gt_WARN_ON(" __stringify(_condition) ")")
-+
-+#define gt_WARN_ON_ONCE(_gt, _condition) \
-+	gt_WARN_ONCE(_gt, _condition, "%s", "gt_WARN_ONCE(" __stringify(_condition) ")")
-+
-+#define gt_WARN(_gt, _condition, _fmt, ...) \
-+	drm_WARN(&(_gt)->i915->drm, _condition, "GT%u: " _fmt, (_gt)->info.id, ##__VA_ARGS__)
-+
-+#define gt_WARN_ONCE(_gt, _condition, _fmt, ...) \
-+	drm_WARN_ONCE(&(_gt)->i915->drm, _condition, "GT%u: " _fmt, (_gt)->info.id, ##__VA_ARGS__)
-+
-+#endif /* __INTEL_GT_H__ */
++#endif
 -- 
 2.37.3
 
