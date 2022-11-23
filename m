@@ -1,43 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1D67635964
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 11:13:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0576763596D
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 11:15:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27D4610E203;
-	Wed, 23 Nov 2022 10:12:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A84810E1F7;
+	Wed, 23 Nov 2022 10:15:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
- [80.237.130.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8584410E1B7;
- Wed, 23 Nov 2022 10:12:47 +0000 (UTC)
-Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1oxmkG-0003GP-J1; Wed, 23 Nov 2022 11:12:44 +0100
-Message-ID: <b5ba4e16-ed09-2893-53ed-9803fd2b00d5@leemhuis.info>
-Date: Wed, 23 Nov 2022 11:12:44 +0100
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDBB210E1B7
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 10:15:04 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id d6so27444888lfs.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 02:15:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=bchWv29KUIlfhCBzeS/RlrJmepqrkZ2O36CXiGWm93Y=;
+ b=xedXVArDLvIR/udrtXffNHoizqE0zg1raQB+FSllgKAqXe6q+1d2GAXlwOuTtfcCyk
+ 2DU1r6mJC8t65HrCaIltDw7DgxhWnt9xs10eaS3CRk8oWTLfpmPMeX+IT/TEtCxgR5ck
+ 0ZAUM8vPg5a5XoxblHWuF82IY7hPL30CwyxrWbxB4dLTIwxLL5yDu6nVh2kvsP/hOV51
+ 8V/oV7n8rZIRoAHRCy3+0c9MRwJDMCXNlk7Se9S3Z2cwQmAsLuI2/AGi11DyV14l8AOZ
+ J4sO+OhW1swnFUpvzihysRxA7lpAe1fkJcvXCoVKG/6/StvaFgTTgQdTd0xr5qtmwZT5
+ wHAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=bchWv29KUIlfhCBzeS/RlrJmepqrkZ2O36CXiGWm93Y=;
+ b=I1HT4K1nltyShAhLnAjjLJUeX689wUNxIqpUnkDXGHNmLsLPEcna/V/qsXBdGEfwyM
+ +pSkiZyuc6bJCobUj0uodLKIny/MstMQQjljWKeeBte2ctB5zXhokp40jMcJnAjROMoH
+ 1fdF8UQ6Al2ZDzYweAHyXOHva/CJgKLsPHfZv86YmhezUAHFlGMZzYhabhHik9KZDTkU
+ uF1VYrQECQ+xt7c3gQWeb8FATSSwjhO2TqKFVOcPf/UgCU0h/9hQbfd7lf4VwwjonAC6
+ AdIZnCtEAV5qm/wueEAleg4ucQj8MlgoVfK05vLj/7NMCOi6ZqC9ag8N081djtTZlbyw
+ jOWg==
+X-Gm-Message-State: ANoB5plmSK1RLnJUaheyd1/wisghhro4ciZE3ZukiWkMsW4hlqfCgol9
+ hNnMNwV2kMeYZ+Kl7IjTvkdxWw==
+X-Google-Smtp-Source: AA0mqf4P6Eq/wqOg5Tajs92LbSU1nWk3/3lttgoUsmyi/7LsJFhSMFkymsFaFXCg/zb856zXQtWhjg==
+X-Received: by 2002:a05:6512:3cc:b0:4a2:2bac:e4fb with SMTP id
+ w12-20020a05651203cc00b004a22bace4fbmr3214001lfp.297.1669198503026; 
+ Wed, 23 Nov 2022 02:15:03 -0800 (PST)
+Received: from [192.168.0.20]
+ (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+ by smtp.gmail.com with ESMTPSA id
+ 6-20020a2eb946000000b0027775fb1f6csm2152048ljs.136.2022.11.23.02.15.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Nov 2022 02:15:02 -0800 (PST)
+Message-ID: <3f796546-f9ac-353c-9f5b-870f77726da6@linaro.org>
+Date: Wed, 23 Nov 2022 11:15:01 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH v2.5] drm/msm/dsi: switch to DRM_PANEL_BRIDGE
-Content-Language: en-US, de-DE
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v4 01/11] dt-bindings: display/msm: *dpu.yaml: split
+ required properties clauses
+Content-Language: en-US
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Caleb Connolly <caleb.connolly@linaro.org>
-References: <0abf1924-485b-8f1c-c8c8-d14dcccc3a27@quicinc.com>
- <0Co5PrfVEsYkXu9wz6ixpiFl0aWmXfIng6NSPOiYNcrAfHZx0w2crkWN7InPdtR-YTAb1IxLovgcEHCmFpmaqA==@protonmail.internalid>
- <20220712132258.671263-1-dmitry.baryshkov@linaro.org>
- <1892d0af-8aa4-dc03-887a-e44bb623b836@linaro.org>
- <CAA8EJpq_9iC1rkiZVom28Kv_B3QLd4pBgFObxBfSpJ+Xh=Mp1g@mail.gmail.com>
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-In-Reply-To: <CAA8EJpq_9iC1rkiZVom28Kv_B3QLd4pBgFObxBfSpJ+Xh=Mp1g@mail.gmail.com>
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20221122231235.3299737-1-dmitry.baryshkov@linaro.org>
+ <20221122231235.3299737-2-dmitry.baryshkov@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221122231235.3299737-2-dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1669198367;
- 7b4741fb; 
-X-HE-SMSGID: 1oxmkG-0003GP-J1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,101 +82,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, freedreno@lists.freedesktop.org
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, this is your Linux kernel regression tracker.
+On 23/11/2022 00:12, Dmitry Baryshkov wrote:
+> Per Krzysztof's request, move a clause requiring certain properties to
+> the file where they are declared.
+> 
 
-On 13.11.22 14:28, Dmitry Baryshkov wrote:
-> Hi Caleb,
-> 
-> On Fri, 11 Nov 2022 at 18:30, Caleb Connolly <caleb.connolly@linaro.org> wrote:
->>
->> Hi,
->>
->> This patch has caused a regression on 6.1-rc for some devices that use
->> DSI panels. The new behaviour results in the DSI controller being
->> switched off before the panel unprepare hook is called. As a result,
->> panel drivers which call mipi_dsi_dcs_write() or similar in
->> unprepare() fail.
-> 
-> Thanks for the notice. Can you move your command stream to
-> panel_disable() hook? (even if it's just as a temporary workaround)
+Commit msg could be a bit more generic, without naming me (there are few
+Krzysztofs), e.g.:
 
-Caleb, did you look into what Dmitry suggested? This issue is on my list
-of tracked regressions in 6.1 and time is running out to get it fixed
-before the release.
+Require only properties declared in given schema, which makes the code a
+bit more readable and easy to follow.
 
-Or was there any progress to get this fixed and I just missed it?
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Suggested-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+Best regards,
+Krzysztof
 
-P.S.: As the Linux kernel's regression tracker I deal with a lot of
-reports and sometimes miss something important when writing mails like
-this. If that's the case here, don't hesitate to tell me in a public
-reply, it's in everyone's interest to set the public record straight.
-
-#regzbot ignore-activity
-
-> From what I see from other panels, some of them call
-> mipi_dsi_dcs_set_display_off() in the unprepare() hook, while others
-> do it in disable().
-> 
-> Yes, this is (again) the DSI host vs device order here. Short story:
-> the DRM has a notion of 'the display pipe (i.e. clocks and timing
-> signals) feeding the bridge being running'. That's the difference
-> between enable/pre_enable and disable/post_disable. For the DSI we
-> have a third state, when the DSI clock and ln0 allow transferring
-> commands to the panel, but the image is not enabled.
-> 
-> There was a somewhat promising patchset at [1], but it seems it went
-> out of the radar. I can try working on an alternative (explicit)
-> approach if I have time.
-> 
-> With respect to your panel. Let me quote the docs: 'Before stopping
-> video transmission from the display controller it can be necessary to
-> turn off the panel to avoid visual glitches. This is done in the
-> .disable() function. Analogously to .enable() this typically involves
-> turning off the backlight and waiting for some time to make sure no
-> image is visible on the panel. It is then safe for the display
-> controller to cease transmission of video data.'
-> 
-> So, if we stop the call chain after switching the DSI host off but
-> before calling the panel's unprepare() hook, will we see any
-> artifacts/image leftover/etc. on the panel? Generally I have the
-> feeling that all panels should call mipi_dsi_dcs_set_display_off() in
-> the .disable() hook, not in the .unprepare() one.
-> 
-> [1] https://lore.kernel.org/dri-devel/cover.1646406653.git.dave.stevenson@raspberrypi.com/
-> 
->>
->> I've noticed it specifically on the OnePlus 6 (with upstream Samsung
->> s0fef00 panel driver) and the SHIFT6mq with an out of tree driver.
->>
->> On 12/07/2022 14:22, Dmitry Baryshkov wrote:
->>> Currently the DSI driver has two separate paths: one if the next device
->>> in a chain is a bridge and another one if the panel is connected
->>> directly to the DSI host. Simplify the code path by using panel-bridge
->>> driver (already selected in Kconfig) and dropping support for
->>> handling the panel directly.
->>>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->>>
->>> I'm not sending this as a separate patchset (I'd like to sort out mdp5
->>> first), but more of a preview of changes related to
->>> msm_dsi_manager_ext_bridge_init().
->>>
->>> ---
->>>   drivers/gpu/drm/msm/dsi/dsi.c         |  35 +---
->>>   drivers/gpu/drm/msm/dsi/dsi.h         |  16 +-
->>>   drivers/gpu/drm/msm/dsi/dsi_host.c    |  25 ---
->>>   drivers/gpu/drm/msm/dsi/dsi_manager.c | 283 +++-----------------------
->>>   4 files changed, 36 insertions(+), 323 deletions(-)
-> 
-> [skipped the patch itself]
-> 
