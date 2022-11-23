@@ -1,51 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 482AF6358FF
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 11:06:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74619635905
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 11:07:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94B6110E22B;
-	Wed, 23 Nov 2022 10:06:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 305AA10E232;
+	Wed, 23 Nov 2022 10:07:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1959910E232;
- Wed, 23 Nov 2022 10:05:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669197955; x=1700733955;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=Hq5A3SLLEP6GHJoz5Ag5otAP5agEzcZxZ3KjT1qa7Ik=;
- b=STZ/8T7MNocH9yXa72fdNwNCtq9NxruALAa1zeQlg+2pf9xCedau8Puh
- 7vNl4xm8gkxBXK/FL1zWiBMQE6JRSsUBxYZ/IGT86EVNp/0iEHldhZ9CO
- Oou4WbaEb8anpE68j9i8rDO33yiFXrmofgTSGp6qJfs+FFAtt6aNCAM7z
- 5CEOmTWy66fIlfDNukWQ00wW9Fhj9xVU/j3BHp1kefgUOAO6FKnpiyOA5
- 7vzKR46E+K1DU0PxaBHihIRGV9BtNU6f2P2NEkMKQp9XNht0hhGEHHCEm
- LSsSoaaIXbPj9owTQkhBAvY4e0MYR+Fr6GGqZ5Pn4W8nvsBymqEkfCSZf g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="340909333"
-X-IronPort-AV: E=Sophos;i="5.96,187,1665471600"; d="scan'208";a="340909333"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Nov 2022 02:05:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="747730476"
-X-IronPort-AV: E=Sophos;i="5.96,187,1665471600"; d="scan'208";a="747730476"
-Received: from unknown (HELO slisovsk-Lenovo-ideapad-720S-13IKB.fi.intel.com)
- ([10.237.72.65])
- by fmsmga002.fm.intel.com with ESMTP; 23 Nov 2022 02:05:52 -0800
-From: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 5/6] drm/i915: Extract VESA DSC bpp alignment to separate
- function
-Date: Wed, 23 Nov 2022 12:05:51 +0200
-Message-Id: <20221123100551.29080-1-stanislav.lisovskiy@intel.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221103132146.12759-1-stanislav.lisovskiy@intel.com>
-References: <20221103132146.12759-1-stanislav.lisovskiy@intel.com>
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EBCF10E1FF
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 10:07:08 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id n21so41566944ejb.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 02:07:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=h+UdvofUGp6+nqq/FR8FcX4hvZmapqrFr41Q2JO7x4c=;
+ b=TQ51N5ElxONDKI/zhDJ3pCgpfLjbZshPT3dmaV8oEwygDZ7SUkV43yilCvjo5DTHkM
+ 5vinp6v+ldQAo/Z6KGaY5xTUo3Lnhb4v5NMeNcJq5CXQqT+ExG+ICc1x7EqIpc/l8ZI+
+ 6kkzXHBS485z5Q3W1BWot8CJKckOO6+wlmPxY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=h+UdvofUGp6+nqq/FR8FcX4hvZmapqrFr41Q2JO7x4c=;
+ b=RiSjvX+JY+83pgik3kYsUjiQaYZDhWfMe557ZTWXUCgDc1qwRRIJPOwl6lK95EGoWM
+ Bl+GddnwspayUN8hYZfQgtUCmHK73N/Vg0XId1r93J6CoSuQxlOMC6iONM/RWjk3+97m
+ rduC7c6/R3wGLIXUXYTwF9gSlW651AX688XdOT7pTLxEdaLfgKlXfC7MYeDYtn8ihlFS
+ uTzYZ7Qf144P/YQr7L5OiiZnSC2u/HlwQDcJiaQ2StG7G2hNlufXxh+6mlye14BZydqH
+ EIHqXn16lmSXJ/OtSiVFoHr7RYNjaNyQVfAehqkGYDbZc9TDaqV4sWxTNVcPard3x7qX
+ 9Mwg==
+X-Gm-Message-State: ANoB5pmKX9sgFweGt0mP48om3tURn19GBPfpl9QR4sE5eX5apH0GiX5f
+ BWZxrKGAI+wrJRHmIrFKRf7ZKTaQ3HtHNcYlhHhUjA==
+X-Google-Smtp-Source: AA0mqf7tcZdPWNPPAaRZELTq9mvgZpMH+k/1GataSXqkuF2ePYeDW4qUMkJISiWe8P9mQTOVdyKvWgBCSqeQKGcAWaA=
+X-Received: by 2002:a17:907:8197:b0:7b8:eae2:716a with SMTP id
+ iy23-20020a170907819700b007b8eae2716amr4704467ejc.516.1669198026954; Wed, 23
+ Nov 2022 02:07:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20221122170801.842766-1-daniel.vetter@ffwll.ch>
+ <Y30PDdsvHIJo5YHR@ziepe.ca>
+ <CAKMK7uEccwYTNwDYQazmZvTfBFQOikZt5A6BmegweyO-inKYbQ@mail.gmail.com>
+ <Y30Z4VxT7Wdoc1Lc@ziepe.ca>
+ <CAKMK7uE=8eqyh9BKg_+7B1jjMi6K4wrmPyi9xeLVvVYFxBgF9g@mail.gmail.com>
+ <Y30kK6dsssSLJVgp@ziepe.ca>
+ <CAKMK7uFQQkG82PzuSTGQTnN3ZNps5N_4TjR5NRWo0LaJkEaNew@mail.gmail.com>
+ <3d8607b4-973d-945d-c184-260157ade7c3@amd.com>
+ <CAKMK7uHVGgGHTiXYOfseXXda2Ug992nYvhPsL+4z18ssqeHXHQ@mail.gmail.com>
+ <b05e6091-4e07-1e32-773d-f603ac9ac98b@gmail.com>
+In-Reply-To: <b05e6091-4e07-1e32-773d-f603ac9ac98b@gmail.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Wed, 23 Nov 2022 11:06:55 +0100
+Message-ID: <CAKMK7uFjmzewqv3r4hL9hvLADwV536n2n6xbAWaUvmAcStr5KQ@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] Re: [PATCH] dma-buf: Require VM_PFNMAP vma for
+ mmap
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,129 +73,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: manasi.d.navare@intel.com, vinod.govindapillai@intel.com,
- jani.nikula@intel.com, dri-devel@lists.freedesktop.org,
- Stanislav.Lisovskiy@intel.com, jani.saarinen@intel.com
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Stultz <john.stultz@linaro.org>,
+ Matthew Wilcox <willy@infradead.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Suren Baghdasaryan <surenb@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We might to use that function separately from intel_dp_dsc_compute_config
-for DP DSC over MST case, because allocating bandwidth in that
-case can be a bit more tricky. So in order to avoid code copy-pasta
-lets extract this to separate function and reuse it for both SST
-and MST cases.
+On Wed, 23 Nov 2022 at 10:39, Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+> Am 23.11.22 um 10:30 schrieb Daniel Vetter:
+> > On Wed, 23 Nov 2022 at 10:06, Christian K=C3=B6nig <christian.koenig@am=
+d.com> wrote:
+> >> Am 22.11.22 um 20:50 schrieb Daniel Vetter:
+> >>> On Tue, 22 Nov 2022 at 20:34, Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> >>>> On Tue, Nov 22, 2022 at 08:29:05PM +0100, Daniel Vetter wrote:
+> >>>>> You nuke all the ptes. Drivers that move have slightly more than a
+> >>>>> bare struct file, they also have a struct address_space so that
+> >>>>> invalidate_mapping_range() works.
+> >>>> Okay, this is one of the ways that this can be made to work correctl=
+y,
+> >>>> as long as you never allow GUP/GUP_fast to succeed on the PTEs. (thi=
+s
+> >>>> was the DAX mistake)
+> >>> Hence this patch, to enforce that no dma-buf exporter gets this wrong=
+.
+> >>> Which some did, and then blamed bug reporters for the resulting splat=
+s
+> >>> :-) One of the things we've reverted was the ttm huge pte support,
+> >>> since that doesn't have the pmd_special flag (yet) and so would let
+> >>> gup_fast through.
+> >> The problem is not only gup, a lot of people seem to assume that when
+> >> you are able to grab a reference to a page that the ptes pointing to
+> >> that page can't change any more. And that's obviously incorrect.
+> >>
+> >> I witnessed tons of discussions about that already. Some customers eve=
+n
+> >> modified our code assuming that and then wondered why the heck they ra=
+n
+> >> into data corruption.
+> >>
+> >> It's gotten so bad that I've even proposed intentionally mangling the
+> >> page reference count on TTM allocated pages:
+> >> https://patchwork.kernel.org/project/dri-devel/patch/20220927143529.13=
+5689-1-christian.koenig@amd.com/
+> > Yeah maybe something like this could be applied after we land this
+> > patch here.
+>
+> I think both should land ASAP. We don't have any other way than to
+> clearly point out incorrect approaches if we want to prevent the
+> resulting data corruption.
+>
+> > Well maybe should have the same check in gem mmap code to
+> > make sure no driver
+>
+> Reads like the sentence is somehow cut of?
 
-v2: Removed multiple blank lines
-v3: Rename intel_dp_dsc_nearest_vesa_bpp to intel_dp_dsc_nearest_valid_bpp
-    to reflect its meaning more properly.
-    (Manasi Navare)
+Yeah, just wanted to say that we need to make sure in as many places
+as possible that VM_PFNMAP is set for bo mmaps.
 
-Signed-off-by: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
----
- drivers/gpu/drm/i915/display/intel_dp.c     | 50 +++++++++++++--------
- drivers/gpu/drm/i915/display/intel_dp.h     |  1 +
- drivers/gpu/drm/i915/display/intel_dp_mst.c |  1 -
- 3 files changed, 32 insertions(+), 20 deletions(-)
+> >> I think it would be better that instead of having special flags in the
+> >> ptes and vmas that you can't follow them to a page structure we would
+> >> add something to the page indicating that you can't grab a reference t=
+o
+> >> it. But this might break some use cases as well.
+> > Afaik the problem with that is that there's no free page bits left for
+> > these debug checks. Plus the pte+vma flags are the flags to make this
+> > clear already.
+>
+> Maybe a GFP flag to set the page reference count to zero or something
+> like this?
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 44e2424a54c0..d78216fba0a2 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -672,6 +672,36 @@ small_joiner_ram_size_bits(struct drm_i915_private *i915)
- 		return 6144 * 8;
- }
- 
-+u32 intel_dp_dsc_nearest_valid_bpp(struct drm_i915_private *i915, u32 bpp, u32 pipe_bpp)
-+{
-+	u32 bits_per_pixel = bpp;
-+	int i;
-+
-+	/* Error out if the max bpp is less than smallest allowed valid bpp */
-+	if (bits_per_pixel < valid_dsc_bpp[0]) {
-+		drm_dbg_kms(&i915->drm, "Unsupported BPP %u, min %u\n",
-+			    bits_per_pixel, valid_dsc_bpp[0]);
-+		return 0;
-+	}
-+
-+	/* From XE_LPD onwards we support from bpc upto uncompressed bpp-1 BPPs */
-+	if (DISPLAY_VER(i915) >= 13) {
-+		bits_per_pixel = min(bits_per_pixel, pipe_bpp - 1);
-+	} else {
-+		/* Find the nearest match in the array of known BPPs from VESA */
-+		for (i = 0; i < ARRAY_SIZE(valid_dsc_bpp) - 1; i++) {
-+			if (bits_per_pixel < valid_dsc_bpp[i + 1])
-+				break;
-+		}
-+		drm_dbg_kms(&i915->drm, "Set dsc bpp from %d to VESA %d\n",
-+			    bits_per_pixel, valid_dsc_bpp[i]);
-+
-+		bits_per_pixel = valid_dsc_bpp[i];
-+	}
-+
-+	return bits_per_pixel;
-+}
-+
- u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
- 				u32 link_clock, u32 lane_count,
- 				u32 mode_clock, u32 mode_hdisplay,
-@@ -680,7 +710,6 @@ u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
- 				u32 timeslots)
- {
- 	u32 bits_per_pixel, max_bpp_small_joiner_ram;
--	int i;
- 
- 	/*
- 	 * Available Link Bandwidth(Kbits/sec) = (NumberOfLanes)*
-@@ -713,24 +742,7 @@ u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
- 		bits_per_pixel = min(bits_per_pixel, max_bpp_bigjoiner);
- 	}
- 
--	/* Error out if the max bpp is less than smallest allowed valid bpp */
--	if (bits_per_pixel < valid_dsc_bpp[0]) {
--		drm_dbg_kms(&i915->drm, "Unsupported BPP %u, min %u\n",
--			    bits_per_pixel, valid_dsc_bpp[0]);
--		return 0;
--	}
--
--	/* From XE_LPD onwards we support from bpc upto uncompressed bpp-1 BPPs */
--	if (DISPLAY_VER(i915) >= 13) {
--		bits_per_pixel = min(bits_per_pixel, pipe_bpp - 1);
--	} else {
--		/* Find the nearest match in the array of known BPPs from VESA */
--		for (i = 0; i < ARRAY_SIZE(valid_dsc_bpp) - 1; i++) {
--			if (bits_per_pixel < valid_dsc_bpp[i + 1])
--				break;
--		}
--		bits_per_pixel = valid_dsc_bpp[i];
--	}
-+	bits_per_pixel = intel_dp_dsc_nearest_valid_bpp(i915, bits_per_pixel, pipe_bpp);
- 
- 	/*
- 	 * Compressed BPP in U6.4 format so multiply by 16, for Gen 11,
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i915/display/intel_dp.h
-index c6539a6915e9..e4faccf87370 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.h
-+++ b/drivers/gpu/drm/i915/display/intel_dp.h
-@@ -120,6 +120,7 @@ static inline unsigned int intel_dp_unused_lane_mask(int lane_count)
- }
- 
- u32 intel_dp_mode_to_fec_clock(u32 mode_clock);
-+u32 intel_dp_dsc_nearest_valid_bpp(struct drm_i915_private *i915, u32 bpp, u32 pipe_bpp);
- 
- void intel_ddi_update_pipe(struct intel_atomic_state *state,
- 			   struct intel_encoder *encoder,
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-index 59f80af8d17d..b4f01c01dc1c 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-@@ -115,7 +115,6 @@ static int intel_dp_mst_find_vcpi_slots_for_bpp(struct intel_encoder *encoder,
- 	return slots;
- }
- 
--
- static int intel_dp_mst_compute_link_config(struct intel_encoder *encoder,
- 					    struct intel_crtc_state *crtc_state,
- 					    struct drm_connector_state *conn_state,
--- 
-2.37.3
-
+Hm yeah that might work. I'm not sure what it will all break though?
+And we'd need to make sure that underflowing the page refcount dies in
+a backtrace.
+-Daniel
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
