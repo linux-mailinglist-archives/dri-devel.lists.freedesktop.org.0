@@ -2,109 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8CB5635296
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 09:29:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E77A96352BD
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 09:33:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0F6810E50B;
-	Wed, 23 Nov 2022 08:28:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F4F010E51A;
+	Wed, 23 Nov 2022 08:33:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com
- (mail-tycjpn01on2135.outbound.protection.outlook.com [40.107.114.135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9B0A10E50B
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 08:28:53 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=odk1JPa0AgF+iCFjVXRd6qitQw8W9zntZlwc7F5u4DBysQJLF4zK4WPccUVeLgy1GVbhxx2Zw0jCjLV7klZ/zjOawb/dTcnDanPIplJLqFFzOIFS8pzJqbEzQxqT+w+7OGDxcNRQkUVpWWxGGzNJ8pM+Sdmp595rxY2JYf8a39KosW3bGsmvr/ILn1r4b3+3Nj96bGC1TlcAXptcRYbAlrpcG6Q6vtzuw62v3bQ7xDiVSCWGSL9CIicDz1pQN05WRtF50x2yhuPhyTJ+1b9OVwQrZMFbG/tUdldjpi+aATeGApgz1mCqFrhlV3YDa6/NEkEsxJ1m+6AMDa6dqFhhKA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=R2lTorZ0JlpTanTWsrAzX/JSZT84mBygRwcR+I6W0kk=;
- b=djOQPyP4QvzQI+quHgcTFmIvLD/LdCHbwTjGnaCXx5rgZ8vRVzyKEwvrZorECLT+F4cOqXhxteJwX9BD/N36HreAwiNV1W/d8zuMO0AEKEZOdAknJ0TtuzifbZcNkliDVBmnNokrW3e6dYr1XqtLiatpgOTWdIfU95WCuvhrb0BWdxhZTbnJUbmkmP5vudOTW30JYuGwrAePQ37qx4h1Vz34SUtlE7lg3wFcg76Fbu9X8Gs7CnM90kWrpRGMg5NioTE3gz8Vhc8oRh59ID8N0mScXjX7k3PP9MW8k5xxieV67gAicryex4wyT09l0aqEAy5fh/CVz1SIb3Nlv9etJQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=R2lTorZ0JlpTanTWsrAzX/JSZT84mBygRwcR+I6W0kk=;
- b=FZ45AGbFdxEh699r2xLEmYUdW8Jq2IRgoLtihHebPni4SI1UUyarVk/mjMrCb42hj8Ki3sKLSxrPSmD6u5wXhSTdpMyae2Q9NGlf1HCRurY1JWT6X6kRZX7uD71ZolZt+/Tw6MTCqHcCqm9vAijS3t97xN2ekYQ/CT9wvgQESt0=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TY3PR01MB9873.jpnprd01.prod.outlook.com (2603:1096:400:22b::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.15; Wed, 23 Nov
- 2022 08:28:51 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::2cfb:38d2:d52e:c8a3]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::2cfb:38d2:d52e:c8a3%5]) with mapi id 15.20.5834.015; Wed, 23 Nov 2022
- 08:28:51 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: "tzimmermann@suse.de" <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 5/6] drm/fb-helper: Schedule deferred-I/O worker after
- writing to framebuffer
-Thread-Topic: Re: [PATCH v2 5/6] drm/fb-helper: Schedule deferred-I/O worker
- after writing to framebuffer
-Thread-Index: Adj/Ego4F6mti9kBRqOBoe7Z1q73qw==
-Date: Wed, 23 Nov 2022 08:28:51 +0000
-Message-ID: <OS0PR01MB592225470AD263665B0E8647860C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TY3PR01MB9873:EE_
-x-ms-office365-filtering-correlation-id: 7adf1d29-9f61-4c00-d98f-08dacd2cc053
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 9yGMNp6Ar+sZ0MWm/maqryc/N0AgIdVhyKdkPgLu+EnL5Dp1+Ym/ZUC/wqPw86TPbM4MJlkVMRYINb3V+vyr9cExTqvShqxA1vTyzNzqJDFZxpgoc6+rsUNFA3wuDc8pa0MAXvLo/JbPDVU391YOijiBTXBn8BEHB95ZpoAWVDR3q0vJjhHhfok23Woz4MMVCocy/mu6CdfcJEVKmg57OdD7wHXHkHwV4G+9+fbP3s5zBTplX0Ylki331Lywv37uwf+W6LMmlboOk4ibJlydf5JXqf9htEAVpRp0LOkwUvS0I501gerSFVo8HB6c9FVZfLcHwniS+UcRbOqZAD6EJcLG+q97vQpGraHGFAef/Spw4JhLxmPxxPzKKSoKSBtLnQh2x5Ggnfi55TsUj/vyX8ln2THHAvRbW/+nKDTsjbI4j8kWMkSMcpE1zIcbGZGHJM2xGkyLJh0jw1YS0QaM7b/TyLtiQx7CM9NNqoz/wYVyObe+gyMSVE+kCrWuaWtWXSevqK04xipiOYoeRGfEfLqugDGYKXRZe5J/AqWsSp/5g5sTLh+xcU3thoANARAf1hdmttSZm4K3KsbmRc1VZt15JaV2zMZwy/XHfG5kkfbeheZFVDkH/936lqjskIMW+PIplWcdEzJ7mwZ3e2FCN1SfLGfswLGoW/+JaZiuQqFp3295mC2Ve6+ZnNCS7p/CQr1c2i8MV9SkaeYPE/Za6w==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:OS0PR01MB5922.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(366004)(136003)(376002)(39860400002)(346002)(396003)(451199015)(33656002)(52536014)(38070700005)(41300700001)(38100700002)(2906002)(86362001)(66476007)(83380400001)(122000001)(9686003)(66556008)(8676002)(66946007)(316002)(66446008)(4326008)(76116006)(186003)(71200400001)(45080400002)(64756008)(54906003)(26005)(8936002)(55016003)(478600001)(7416002)(6916009)(5660300002)(7696005)(6506007);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?cp4ucFWG8o256GLz81hrJVGrbI50qUK4phlbgNtbrCy9mFilB9wbzUzotnqF?=
- =?us-ascii?Q?JZ93cnM9RVIAFv/dE8FwEuwo3kIx/8YIBc5u9AL6qZOVtOK7cT/3k4neE2ht?=
- =?us-ascii?Q?cUjGbIa3T984vYwwRF6hLX9dL91CHhT3tuKp7WMdqf9YYpNnhC9QMuqpIFgZ?=
- =?us-ascii?Q?3r6qV8KeSBqcs5CWsEGmLRsi1TmDbMGpMBymulVuT5TNHouESr4IRIfZ5h2p?=
- =?us-ascii?Q?bMGNCk2V+QrUQYzSIuonvJ2wjlS+k+5KAdFJHATOSWGdZMIxpu+Wcl7Bi5uz?=
- =?us-ascii?Q?hQGPQ9QbeztfhQM8JyXiyZUG47gUiviuuX9hcr4fJGdXuoTAHVAuLFqFqI7C?=
- =?us-ascii?Q?nOh2bgkHn/tE//6nhkm01e+ss/vLQ6o2fr8QpTiu1fd6+Lkm/SN7VpMviGcF?=
- =?us-ascii?Q?K8t4Ciq1NZtVjOM5l/o/qBvnxlNxNTiz/CcNzZeZilVCYvwFItdkIZWcPZnF?=
- =?us-ascii?Q?UTqeAJR953ciYJZpiYtEnX/LBEPzAWU5qHdrMsyesbHtfz94VZy0QiRPuJwH?=
- =?us-ascii?Q?dGhalsiz71dmusUn+gJTdU037whQw62olh8BzfVkxJITJNH+5o8J3RdUL2TK?=
- =?us-ascii?Q?bYFZboEjKE4qDleQZ4A/gtEzmSOyhLnbiubgooXfjNrAOfR7J6F7l++ugJMA?=
- =?us-ascii?Q?QjvbJWKmkisaKGKzQjJ0qMwLKCgSSllcpCGEVUg+JoYj6ywpCcexnoQ9ccIN?=
- =?us-ascii?Q?FgUFLvyDloXMH4R1EVINphZLX3PE8NXIBTX1AQ0+3eB9gzL9i8KwN0nKeRDu?=
- =?us-ascii?Q?iN3G6HiOgOJl6VTKrq1HBVLbUPhZGhNgEZQcgFErg9WxrEtg18a9vmT5pAYA?=
- =?us-ascii?Q?52aeNOd6SapoKzeZpkPMyKaD1pJgZgXZ1JYJeuvq4o1lgNPudkR4p4oQU3Gb?=
- =?us-ascii?Q?gw+lkPxXdM+u41kzBMje8WUX/HOn9T2rXf17RXlcFRkcVmYlUFS3eESYxdBl?=
- =?us-ascii?Q?waZySLfsHczCrGyDLT+5MYHV9DLUjzcLsymbasJzxyEvkLkv4/j2EljpD2Kj?=
- =?us-ascii?Q?JOPFqTTZJ56O7GM0Stp/8EKm78Jm7kGNT4uiZMiFTM8BFSqkfe7m17qAqI7W?=
- =?us-ascii?Q?D6zrMOg1E3pMKI6zFoV3s7V+tr4t94SALTHpWbaEYRPt8VXv+W172EUjeV+o?=
- =?us-ascii?Q?cqh9wX74u086SHb+42vs4M35u2v5+j2zTMYMVdkgBUFoiZx9/sxyD+42W4YY?=
- =?us-ascii?Q?K5UHBvnjWi0jDh7x9BAm6HPJ+i5AdeLxbRnCmU29TLmjcbmHtphxcw0qPwEd?=
- =?us-ascii?Q?jl02Xkd6kLpbd+k01wBN8+JMq9FNwjzMQhuEtCu8bnPSIofc0ZPYEkc3Eo/l?=
- =?us-ascii?Q?6MZ5hduK5BlPtI6oRSom985rYZ91iyTZxfP2gqVQA6lsHjlJq7EOVxewGXQX?=
- =?us-ascii?Q?uUHaFYO9QfbTWUEiXqaJ4hjTsrnNE2n0wtl4K5fgvfr3qFK4dC/BnnRAqGpM?=
- =?us-ascii?Q?7Vo5TutaX2AH8mwR+L6iI9zGiPuzZJMOWrNpL0S5VQk2NQX4BPiXnILjQY2y?=
- =?us-ascii?Q?gmki0hnZbXtmZX3O0grCZKZ15J0tnPdlnuOvlRz4LDc2y0PxTZkTR2Rvo3BX?=
- =?us-ascii?Q?YiJVQuoT27UTJk5IebvPZur3kJpWUXNChzJ7dHrEP2HdZz/Ru84zpHqDLoWc?=
- =?us-ascii?Q?Rg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D512B10E51D;
+ Wed, 23 Nov 2022 08:33:03 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 77FED220C6;
+ Wed, 23 Nov 2022 08:33:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1669192382; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=hNQlWKXs/MH91UsdigvjQBX+ylGHs8MNJsZNwJEJ8ZY=;
+ b=MpA6Cwax6KZQ3hK0dtrtjCeccDrOqyirrz1389h/W8sJ6qvYnHOVJ9cHfEFBUGIUc4fIUv
+ e2JcIWdNtnxIb0DG/vK3Fr0xrIa3hiO1if2rDOsaiBOas8YZANiql1yNTIEKY6CJm633bs
+ DPt7GSjZdTfXyc0qvbN7tmixLLshtcA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1669192382;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=hNQlWKXs/MH91UsdigvjQBX+ylGHs8MNJsZNwJEJ8ZY=;
+ b=w2l6LYj2mIwzZg/UIyhpDoGioeUppLF6NgEWXcx9zYw0R1ySldNpwXcYRVAh3cc/vzvfKX
+ uyo4gsDn0fpV3yCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 522D813A37;
+ Wed, 23 Nov 2022 08:33:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 9n4vE77afWNPdQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 23 Nov 2022 08:33:02 +0000
+Message-ID: <3332093f-4a9a-a7ca-aeba-22d3de383d0e@suse.de>
+Date: Wed, 23 Nov 2022 09:33:01 +0100
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7adf1d29-9f61-4c00-d98f-08dacd2cc053
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Nov 2022 08:28:51.5166 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: jpPqh4OGsIyJL7KoVv/4SNe5HFTiGcYw/10vxYfqPLR5uZnjunCHpbTjCRpbzCNMrZhzmwVImxsdbjFzqvTFgHoYp/905nWPqV0g4ZJK0eM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB9873
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: linux-next: build failure after merge of the drm-misc tree
+Content-Language: en-US
+To: David Airlie <airlied@redhat.com>, Stephen Rothwell <sfr@canb.auug.org.au>
+References: <20221117183214.2473e745@canb.auug.org.au>
+ <20221123162033.02910a5a@canb.auug.org.au>
+ <CAMwc25pz4mBYJUK5_GX01X0_5CCCrzfrGS=HoFTtrVRrqF13kA@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <CAMwc25pz4mBYJUK5_GX01X0_5CCCrzfrGS=HoFTtrVRrqF13kA@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------0osnNQKmu45Fkg3R03W9zLh8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,126 +71,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
- "javierm@redhat.com" <javierm@redhat.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
  Linux Next Mailing List <linux-next@vger.kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi All,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------0osnNQKmu45Fkg3R03W9zLh8
+Content-Type: multipart/mixed; boundary="------------jVie6nt74P5DO9SS0jrl9C36";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: David Airlie <airlied@redhat.com>, Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
+Message-ID: <3332093f-4a9a-a7ca-aeba-22d3de383d0e@suse.de>
+Subject: Re: linux-next: build failure after merge of the drm-misc tree
+References: <20221117183214.2473e745@canb.auug.org.au>
+ <20221123162033.02910a5a@canb.auug.org.au>
+ <CAMwc25pz4mBYJUK5_GX01X0_5CCCrzfrGS=HoFTtrVRrqF13kA@mail.gmail.com>
+In-Reply-To: <CAMwc25pz4mBYJUK5_GX01X0_5CCCrzfrGS=HoFTtrVRrqF13kA@mail.gmail.com>
 
-The below patch in Linux-next 20221123 is causing regression on Renesas {RZ=
-/G2M, R-Car Gen-3}
-Platforms.
+--------------jVie6nt74P5DO9SS0jrl9C36
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Steps to reproduce:
+SGkNCg0KQW0gMjMuMTEuMjIgdW0gMDY6MzUgc2NocmllYiBEYXZpZCBBaXJsaWU6DQo+IE9u
+IFdlZCwgTm92IDIzLCAyMDIyIGF0IDM6MjEgUE0gU3RlcGhlbiBSb3Rod2VsbCA8c2ZyQGNh
+bmIuYXV1Zy5vcmcuYXU+IHdyb3RlOg0KPj4NCj4+IEhpIGFsbCwNCj4+DQo+PiBPbiBUaHUs
+IDE3IE5vdiAyMDIyIDE4OjMyOjE0ICsxMTAwIFN0ZXBoZW4gUm90aHdlbGwgPHNmckBjYW5i
+LmF1dWcub3JnLmF1PiB3cm90ZToNCj4+Pg0KPj4+IEFmdGVyIG1lcmdpbmcgdGhlIGRybS1t
+aXNjIHRyZWUsIHRvZGF5J3MgbGludXgtbmV4dCBidWlsZCAocG93ZXJwYw0KPj4+IHBwYzQ0
+eF9kZWZjb25maWcpIGZhaWxlZCBsaWtlIHRoaXM6DQo+Pj4NCj4+PiBsZDogZHJpdmVycy92
+aWRlby9mYmRldi9jb3JlL2ZibW9uLm86IGluIGZ1bmN0aW9uIGBmYl9tb2Rlc2V0dGluZ19k
+aXNhYmxlZCc6DQo+Pj4gZmJtb24uYzooLnRleHQrMHgxZTQpOiBtdWx0aXBsZSBkZWZpbml0
+aW9uIG9mIGBmYl9tb2Rlc2V0dGluZ19kaXNhYmxlZCc7IGRyaXZlcnMvdmlkZW8vZmJkZXYv
+Y29yZS9mYm1lbS5vOmZibWVtLmM6KC50ZXh0KzB4MWJhYyk6IGZpcnN0IGRlZmluZWQgaGVy
+ZQ0KPj4+IGxkOiBkcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJjbWFwLm86IGluIGZ1bmN0
+aW9uIGBmYl9tb2Rlc2V0dGluZ19kaXNhYmxlZCc6DQo+Pj4gZmJjbWFwLmM6KC50ZXh0KzB4
+NDc4KTogbXVsdGlwbGUgZGVmaW5pdGlvbiBvZiBgZmJfbW9kZXNldHRpbmdfZGlzYWJsZWQn
+OyBkcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJtZW0ubzpmYm1lbS5jOigudGV4dCsweDFi
+YWMpOiBmaXJzdCBkZWZpbmVkIGhlcmUNCj4+PiBsZDogZHJpdmVycy92aWRlby9mYmRldi9j
+b3JlL2Zic3lzZnMubzogaW4gZnVuY3Rpb24gYGZiX21vZGVzZXR0aW5nX2Rpc2FibGVkJzoN
+Cj4+PiBmYnN5c2ZzLmM6KC50ZXh0KzB4YjY0KTogbXVsdGlwbGUgZGVmaW5pdGlvbiBvZiBg
+ZmJfbW9kZXNldHRpbmdfZGlzYWJsZWQnOyBkcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJt
+ZW0ubzpmYm1lbS5jOigudGV4dCsweDFiYWMpOiBmaXJzdCBkZWZpbmVkIGhlcmUNCj4+PiBs
+ZDogZHJpdmVycy92aWRlby9mYmRldi9jb3JlL21vZGVkYi5vOiBpbiBmdW5jdGlvbiBgZmJf
+bW9kZXNldHRpbmdfZGlzYWJsZWQnOg0KPj4+IG1vZGVkYi5jOigudGV4dCsweDEyOWMpOiBt
+dWx0aXBsZSBkZWZpbml0aW9uIG9mIGBmYl9tb2Rlc2V0dGluZ19kaXNhYmxlZCc7IGRyaXZl
+cnMvdmlkZW8vZmJkZXYvY29yZS9mYm1lbS5vOmZibWVtLmM6KC50ZXh0KzB4MWJhYyk6IGZp
+cnN0IGRlZmluZWQgaGVyZQ0KPj4+IGxkOiBkcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJj
+dnQubzogaW4gZnVuY3Rpb24gYGZiX21vZGVzZXR0aW5nX2Rpc2FibGVkJzoNCj4+PiBmYmN2
+dC5jOigudGV4dCsweDApOiBtdWx0aXBsZSBkZWZpbml0aW9uIG9mIGBmYl9tb2Rlc2V0dGlu
+Z19kaXNhYmxlZCc7IGRyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYm1lbS5vOmZibWVtLmM6
+KC50ZXh0KzB4MWJhYyk6IGZpcnN0IGRlZmluZWQgaGVyZQ0KPj4+DQo+Pj4gQ2F1c2VkIGJ5
+IGNvbW1pdA0KPj4+DQo+Pj4gICAgMGJhMmZhOGNiZDI5ICgiZmJkZXY6IEFkZCBzdXBwb3J0
+IGZvciB0aGUgbm9tb2Rlc2V0IGtlcm5lbCBwYXJhbWV0ZXIiKQ0KPj4+DQo+Pj4gVGhpcyBi
+dWlsZCBkb2VzIG5vdCBoYXZlIENPTkZJR19WSURFT19OT01PREVTRVQgc2V0Lg0KPj4+DQo+
+Pj4gSSBhcHBsaWVkIHRoZSBmb2xsb3dpbmcgcGF0Y2ggZm9yIHRvZGF5Lg0KPj4+DQo+Pj4g
+IEZyb20gNjNmOTU3YTA1MGM2MjQ3OGVkMTM0OGM1YjIwNGJjNjVjNjhkZjRkNyBNb24gU2Vw
+IDE3IDAwOjAwOjAwIDIwMDENCj4+PiBGcm9tOiBTdGVwaGVuIFJvdGh3ZWxsIDxzZnJAY2Fu
+Yi5hdXVnLm9yZy5hdT4NCj4+PiBEYXRlOiBUaHUsIDE3IE5vdiAyMDIyIDE4OjE5OjIyICsx
+MTAwDQo+Pj4gU3ViamVjdDogW1BBVENIXSBmaXggdXAgZm9yICJmYmRldjogQWRkIHN1cHBv
+cnQgZm9yIHRoZSBub21vZGVzZXQga2VybmVsIHBhcmFtZXRlciINCj4+Pg0KPj4+IFNpZ25l
+ZC1vZmYtYnk6IFN0ZXBoZW4gUm90aHdlbGwgPHNmckBjYW5iLmF1dWcub3JnLmF1Pg0KPj4+
+IC0tLQ0KPj4+ICAgaW5jbHVkZS9saW51eC9mYi5oIHwgMiArLQ0KPj4+ICAgMSBmaWxlIGNo
+YW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pDQo+Pj4NCj4+PiBkaWZmIC0t
+Z2l0IGEvaW5jbHVkZS9saW51eC9mYi5oIGIvaW5jbHVkZS9saW51eC9mYi5oDQo+Pj4gaW5k
+ZXggM2E4MjJlNDM1N2IxLi5lYTQyMTcyNGY3MzMgMTAwNjQ0DQo+Pj4gLS0tIGEvaW5jbHVk
+ZS9saW51eC9mYi5oDQo+Pj4gKysrIGIvaW5jbHVkZS9saW51eC9mYi5oDQo+Pj4gQEAgLTgw
+Nyw3ICs4MDcsNyBAQCBleHRlcm4gaW50IGZiX2ZpbmRfbW9kZShzdHJ1Y3QgZmJfdmFyX3Nj
+cmVlbmluZm8gKnZhciwNCj4+PiAgICNpZiBkZWZpbmVkKENPTkZJR19WSURFT19OT01PREVT
+RVQpDQo+Pj4gICBib29sIGZiX21vZGVzZXR0aW5nX2Rpc2FibGVkKGNvbnN0IGNoYXIgKmRy
+dm5hbWUpOw0KPj4+ICAgI2Vsc2UNCj4+PiAtYm9vbCBmYl9tb2Rlc2V0dGluZ19kaXNhYmxl
+ZChjb25zdCBjaGFyICpkcnZuYW1lKQ0KPj4+ICtzdGF0aWMgaW5saW5lIGJvb2wgZmJfbW9k
+ZXNldHRpbmdfZGlzYWJsZWQoY29uc3QgY2hhciAqZHJ2bmFtZSkNCj4+PiAgIHsNCj4+PiAg
+ICAgICAgcmV0dXJuIGZhbHNlOw0KPj4+ICAgfQ0KPj4+IC0tDQo+Pj4gMi4zNS4xDQo+Pg0K
+Pj4gVGhpcyBjb21taXQgd2VudCBhd2F5IGZvciBhIGNvdXBsZSBvZiBsaW51eC1uZXh0IHJl
+bGVhc2VzLCBidXQgbm93IGhhcw0KPj4gcmVhcHBlYXJlZCBpbiB0aGUgZHJtIHRyZWUgOi0o
+ICBXaGF0IHdlbnQgd3Jvbmc/DQo+IA0KPiBOb3RoaW5nIGdvbmUgd3JvbmcgYXMgc3VjaCwg
+anVzdCB0aGUgZHJtLW1pc2MtbmV4dCBwdWxsIHJlcXVlc3Qgd2FzDQo+IHNlbnQgb24gYSBy
+ZWd1bGFyIHdlZWtseSBjYWRlbmNlLCB0aGVuIEkgbWVyZ2VkIGl0IGEgZmV3IGRheXMgbGF0
+ZXIuDQo+IFRoZSBmaXggZm9yIHRoaXMgaXMgc3RpbGwgaW4gdGhlIGRybS1taXNjLW5leHQg
+cXVldWUgZm9yIHRoZSBuZXh0IFBSDQo+IHdoaWNoIEkgd2lsbCBnZXQgdGhpcyB3ZWVrLg0K
+DQpUaGUgbmV4dCBQUiBzaG91bGQgYmUgZHJtLW1pc2MtbmV4dC1maXhlcy4gRllJIEkgZm9y
+d2FyZGVkIHRoZSB0cmVlIGFuZCANCmNoZXJyeS1waWNrZWQgdGhlIHBhdGNoIGZyb20gZHJt
+LW1pc2MtbmV4dC4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gRGF2ZS4NCj4g
+DQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXIN
+ClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwg
+OTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpH
+ZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
-Use the arm64 defconfig to build the kernel and then boot the board.
+--------------jVie6nt74P5DO9SS0jrl9C36--
 
-Is there any patch to fix the problem? I am happy to test.
+--------------0osnNQKmu45Fkg3R03W9zLh8
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Logs:-
+-----BEGIN PGP SIGNATURE-----
 
-[   23.762999] Console: switching to colour frame buffer device 240x67
-[   23.763128] ------------[ cut here ]------------
-[   23.763133] WARNING: CPU: 3 PID: 278 at drivers/video/fbdev/core/fb_defi=
-o.c:340 fb_deferred_io_schedule_flush+0x38/0x40
-[   23.763164] Modules linked in: cfg80211(+) rcar_du_drm(+) rcar_mipi_dsi =
-rcar_cmm rcar_lvds snd_soc_hdmi_codec vsp1 dw_hdmi_cec dw_hdmi_i2s_audio rc=
-ar_fdp1 v4l2_mem2mem videobuf2_vmalloc rcar_dw_hdmi videobuf2_dma_contig dw=
-_hdmi videobuf2_memops hci_uart videobuf2_v4l2 cec videobuf2_common crct10d=
-if_ce btqca drm_display_helper snd_soc_audio_graph_card drm_dma_helper vide=
-odev snd_soc_simple_card_utils btbcm wlcore_sdio mc rcar_fcp display_connec=
-tor bluetooth rcar_can drm_kms_helper ecdh_generic renesas_usb3 ecc snd_soc=
-_rcar drm rfkill can_dev pwm_rcar usb_dmac renesas_usbhs phy_rcar_gen3_usb3=
- ipv6
-[   23.763314] CPU: 3 PID: 278 Comm: systemd-udevd Not tainted 6.1.0-rc6-ne=
-xt-20221123-10432-g736b6d81d93c #314
-[   23.763323] Hardware name: HopeRun HiHope RZ/G2M with sub board (DT)
-[   23.763329] pstate: 80000005 (Nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=
-=3D--)
-[   23.763337] pc : fb_deferred_io_schedule_flush+0x38/0x40
-[   23.763344] lr : drm_fb_helper_sys_imageblit+0xa8/0xc4 [drm_kms_helper]
-[   23.763474] sp : ffff80000ac5b3c0
-[   23.763478] x29: ffff80000ac5b3c0 x28: 00000000ffffffff x27: 00000000000=
-00010
-[   23.763489] x26: ffff0005c1356000 x25: ffff0005c3a80800 x24: ffff0005c02=
-528cc
-[   23.763499] x23: 0000000000000000 x22: 0000000000000180 x21: 00000000000=
-00008
-[   23.763509] x20: 0000000000000010 x19: ffff0005c0252800 x18: 00000000000=
-00001
-[   23.763519] x17: 0000000000000004 x16: 0000000000000000 x15: 00000000000=
-00000
-[   23.763529] x14: 0000000000000020 x13: 0000000000000000 x12: 00000000000=
-00020
-[   23.763539] x11: 00000000ffffffff x10: 0000000000000001 x9 : 00000000000=
-00001
-[   23.763549] x8 : ffff0005c1356010 x7 : 0000000000000008 x6 : 00000000000=
-00000
-[   23.763559] x5 : 0000000000000190 x4 : 0000000000000180 x3 : 00000000000=
-00008
-[   23.763569] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff0005c3a=
-80800
-[   23.763580] Call trace:
-[   23.763585]  fb_deferred_io_schedule_flush+0x38/0x40
-[   23.763594]  drm_fbdev_fb_imageblit+0x38/0x70 [drm_kms_helper]
-[   23.763671]  soft_cursor+0x15c/0x200
-[   23.763680]  bit_cursor+0x3ac/0x500
-[   23.763687]  fbcon_cursor+0xec/0x11c
-[   23.763694]  hide_cursor+0x3c/0xc0
-[   23.763708]  redraw_screen+0x128/0x240
-[   23.763717]  do_bind_con_driver.isra.0+0x2c8/0x39c
-[   23.763726]  do_take_over_console+0x140/0x200
-[   23.763736]  do_fbcon_takeover+0x6c/0xe4
-[   23.763742]  fbcon_fb_registered+0x1e4/0x1f0
-[   23.763749]  register_framebuffer+0x214/0x310
-[   23.763761]  __drm_fb_helper_initial_config_and_unlock+0x33c/0x534 [drm_=
-kms_helper]
-[   23.763837]  drm_fb_helper_initial_config+0x4c/0x60 [drm_kms_helper]
-[   23.763912]  drm_fbdev_client_hotplug+0xc4/0x150 [drm_kms_helper]
-[   23.763987]  drm_fbdev_generic_setup+0x90/0x154 [drm_kms_helper]
-[   23.764061]  rcar_du_probe+0x154/0x184 [rcar_du_drm]
-[   23.764103]  platform_probe+0x68/0xe0
-[   23.764115]  really_probe+0xbc/0x2e0
-[   23.764122]  __driver_probe_device+0x78/0xe0
-[   23.764129]  driver_probe_device+0xd8/0x15c
-[   23.764136]  __driver_attach+0x94/0x19c
-[   23.764143]  bus_for_each_dev+0x70/0xd0
-[   23.764149]  driver_attach+0x24/0x30
-[   23.764155]  bus_add_driver+0x154/0x20c
-[   23.764161]  driver_register+0x78/0x130
-[   23.764168]  __platform_driver_register+0x28/0x34
-[   23.764176]  rcar_du_platform_driver_init+0x20/0x1000 [rcar_du_drm]
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmN92r0FAwAAAAAACgkQlh/E3EQov+Ao
+yxAApV5Ale3PHGkNbZlm9ihzVELP7Y3Tr8w1wbTqIgfRuwimAewSl8calZhvtKZc+vzw1bef86dg
+PEOmZh+GQSS/iPGoRpt6I1Nix8NjXHdYQrEoQMZ3B52LHhVxzANcKo9r9+GbWxoYTP0letPjX4op
+CTvabCLikxW7LofJYZkV19pzqDHGScewOlCMvDFuKUC5H1D0TSv8c7WEkxJilTPXRWOUpNc4lFNh
+ub6+yDems3UF1woqzqZ8kG4gMflkFh5dHSmRzv+CicA39mUqvwToCB404APWoMIHgQqIqAqFvsCJ
+t8GxDukRf6+dBbkW5IvQ+dlqhtnmFBZpK9kbMnixffUgelNX7aTu4nZsIpQ6pa+T7MsEQL+r+p76
+VsqwFoNVB5o5AvXi5Dsd93Qf6pN4TBIzkEtNC0IHrVuh52Za7OpeDnFqvkvjRXv3yKUydx/R8OoU
+3crz3RlYDfHYg5DGt5SrA43ax6EeKqj4jGdR3k7r41K1S/3kgKBZ/HL+R1ykWoGzWIijyRtiPC8c
+1UgGR4lU7a1Vl0GkMm1dqlU3yPJbBwbYhL/TOVJvOcpl3P3M3nXw6M9TZiCgV1O3FUZwy3ni1gQf
+SChPBuX4RWS7xuhBkmTAXixkryrShDzxWpluNkBA5yHMS7zxQN33gUUUVLQ11wnEuNf4kqRAQ1C+
+/lk=
+=ilOZ
+-----END PGP SIGNATURE-----
 
-Cheers,
-Biju
-
-> Subject: [PATCH v2 5/6] drm/fb-helper: Schedule deferred-I/O worker after
-> writing to framebuffer
-
-> Schedule the deferred-I/O worker instead of the damage worker after
-> writing to the fbdev framebuffer. The deferred-I/O worker then performs
-> the dirty-fb update. The fbdev emulation will initialize deferred I/O
-> for all drivers that require damage updates. It is therefore a valid
-> assumption that the deferred-I/O worker is present.
-
-> It would be possible to perform the damage handling directly from within
-> the write operation. But doing this could increase the overhead of the
-> write or interfere with a concurrently scheduled deferred-I/O worker.
-> Instead, scheduling the deferred-I/O worker with its regular delay of
-> 50 ms removes load off the write operation and allows the deferred-I/O
-> worker to handle multiple write operations that arrived during the delay
-> time window.
-
-> v2:
-> 	* keep drm_fb_helper_damage() (Daniel)
->	* use fb_deferred_io_schedule_flush() (Daniel)
->	* clarify comments (Daniel)
-
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+--------------0osnNQKmu45Fkg3R03W9zLh8--
