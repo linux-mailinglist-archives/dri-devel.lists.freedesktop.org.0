@@ -1,55 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DA9D635AFC
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 12:06:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C198635B52
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Nov 2022 12:13:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FB2510E21A;
-	Wed, 23 Nov 2022 11:06:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FEC710E21E;
+	Wed, 23 Nov 2022 11:13:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04B7810E21A
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 11:06:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C401110E21E;
+ Wed, 23 Nov 2022 11:13:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669201583; x=1700737583;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=8uGP6q8XTA8Elpda7XPz9LiKFmveLCjAneE8VyaWC0Y=;
- b=UceLF3AW0QTmanQweP+8+2kEa8dhHsDB5MAX72l+78o8n52kCBvqW2Kq
- HysdNheEt9AWY69oozvtyfcVyIfuD0Iwscf/FNSq13yilQOQJtf5JyYOl
- 4gyucqTs+ZGfpVWCzIcPAGtrT+qMFNf9wu5MDzhHECpFEXRUnwcXADmrE
- Uq3b9bZUElE1Tm9COAOVvlk3EFqI3uqypyg0EeiPA0lVH/oMuyHniuBUK
- +J3USdu09Kvwwt2+4K9M4xftznf55LEVQWCXMFT4wTD/4b6qST1besfM3
- uqhSqoR1QasTB/zBx2y2LR1rlRMWq4vbaTqXJB8baJWx7lbXRhVIGhnUe A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="301599517"
-X-IronPort-AV: E=Sophos;i="5.96,187,1665471600"; d="scan'208";a="301599517"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ t=1669202007; x=1700738007;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=hGHyvTu7e3FmEL4/pm9JSvGIjfBYQlF6caCofb7sF/o=;
+ b=hfrNvVn94wAQA4/ojDZwkQ0D7aMpIt2bT/r8i4ND/vAPpSUgtz3bNwaH
+ IwKbySPgbTKjhkVMe3ucsrSr8MqEulQkHus4rz5gHg7M3vYSzBwFkcUOp
+ +SG+kSG+BSTzNYvTrGS42k9ui9d3Ic+ZB1RZZzdMll5FlOW7pyC9LaqIE
+ s5wrQ6528Mswjec78dFHt/M/zDzPJRHrKnBvr9w99P/aoZK2ikf72MtwB
+ 9puJdwK2Xwo1gPitwt82sNHjoiyJTJQtCjOg2kJpdrWAAKhQceEfWnVSf
+ jkorS3fvAmNr6weKq5dB2ZT/lscId3kdCD1VvfmlkJ6bIZvwGFgy0YdJo Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="301600729"
+X-IronPort-AV: E=Sophos;i="5.96,187,1665471600"; d="scan'208";a="301600729"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Nov 2022 03:06:22 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="672840991"
-X-IronPort-AV: E=Sophos;i="5.96,187,1665471600"; d="scan'208";a="672840991"
-Received: from jgronski-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.16.163])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Nov 2022 03:06:17 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: =?utf-8?Q?Ma=C3=ADra?= Canal <mcanal@igalia.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Oded Gabbay <ogabbay@kernel.org>
-Subject: Re: [PATCH 1/6] drm/debugfs: create device-centered debugfs functions
-In-Reply-To: <20221122190314.185015-2-mcanal@igalia.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20221122190314.185015-1-mcanal@igalia.com>
- <20221122190314.185015-2-mcanal@igalia.com>
-Date: Wed, 23 Nov 2022 13:06:15 +0200
-Message-ID: <87mt8ivsk8.fsf@intel.com>
+ 23 Nov 2022 03:13:27 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="674693233"
+X-IronPort-AV: E=Sophos;i="5.96,187,1665471600"; d="scan'208";a="674693233"
+Received: from tpowell-mobl.ger.corp.intel.com (HELO [10.213.224.65])
+ ([10.213.224.65])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Nov 2022 03:13:25 -0800
+Message-ID: <a579e9a5-0bd4-d439-3193-64dc52e05997@linux.intel.com>
+Date: Wed, 23 Nov 2022 11:13:23 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [Intel-gfx] [PATCH v2 2/4] drm/i915: Introduce guard pages to
+ i915_vma
+Content-Language: en-US
+To: Andi Shyti <andi.shyti@linux.intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+References: <20221122185737.96459-1-andi.shyti@linux.intel.com>
+ <20221122185737.96459-3-andi.shyti@linux.intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20221122185737.96459-3-andi.shyti@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,296 +64,318 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?utf-8?Q?Andr=C3=A9?= Almeida <andrealmeid@igalia.com>,
- Emma Anholt <emma@anholt.net>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- =?utf-8?Q?Ma=C3=ADra?= Canal <mcanal@igalia.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Wambui Karuga <wambui@karuga.org>,
- Melissa Wen <mwen@igalia.com>, Wambui Karuga <wambui.karugax@gmail.com>
+Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 22 Nov 2022, Ma=C3=ADra Canal <mcanal@igalia.com> wrote:
-> Introduce the ability to track requests for the addition of DRM debugfs
-> files at any time and have them added all at once during
-> drm_dev_register().
->
-> Drivers can add DRM debugfs files to a device-managed list and, during
-> drm_dev_register(), all added files will be created at once.
->
-> Now, the drivers can use the functions drm_debugfs_add_file() and
-> drm_debugfs_add_files() to create DRM debugfs files instead of using the
-> drm_debugfs_create_files() function.
->
-> Co-developed-by: Wambui Karuga <wambui.karugax@gmail.com>
-> Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
-> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+
+On 22/11/2022 18:57, Andi Shyti wrote:
+> From: Chris Wilson <chris@chris-wilson.co.uk>
+> 
+> Introduce the concept of padding the i915_vma with guard pages before
+> and after. The major consequence is that all ordinary uses of i915_vma
+> must use i915_vma_offset/i915_vma_size and not i915_vma.node.start/size
+> directly, as the drm_mm_node will include the guard pages that surround
+> our object.
+> 
+> The biggest connundrum is how exactly to mix requesting a fixed address
+> with guard pages, particularly through the existing uABI. The user does
+> not know about guard pages, so such must be transparent to the user, and
+> so the execobj.offset must be that of the object itself excluding the
+> guard. So a PIN_OFFSET_FIXED must then be exclusive of the guard pages.
+> The caveat is that some placements will be impossible with guard pages,
+> as wrap arounds need to be avoided, and the vma itself will require a
+> larger node. We must not report EINVAL but ENOSPC as these are unavailable
+> locations within the GTT rather than conflicting user requirements.
+> 
+> In the next patch, we start using guard pages for scanout objects. While
+> these are limited to GGTT vma, on a few platforms these vma (or at least
+> an alias of the vma) is shared with userspace, so we may leak the
+> existence of such guards if we are not careful to ensure that the
+> execobj.offset is transparent and excludes the guards. (On such platforms
+> like ivb, without full-ppgtt, userspace has to use relocations so the
+> presence of more untouchable regions within its GTT such be of no further
+> issue.)
+> 
+> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> Signed-off-by: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
 > ---
->  drivers/gpu/drm/drm_debugfs.c | 76 +++++++++++++++++++++++++++++++++++
->  drivers/gpu/drm/drm_drv.c     |  3 ++
->  include/drm/drm_debugfs.h     | 45 +++++++++++++++++++++
->  include/drm/drm_device.h      | 15 +++++++
->  4 files changed, 139 insertions(+)
->
-> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-> index ee445f4605ba..ca27c2b05051 100644
-> --- a/drivers/gpu/drm/drm_debugfs.c
-> +++ b/drivers/gpu/drm/drm_debugfs.c
-> @@ -38,6 +38,7 @@
->  #include <drm/drm_edid.h>
->  #include <drm/drm_file.h>
->  #include <drm/drm_gem.h>
-> +#include <drm/drm_managed.h>
->=20=20
->  #include "drm_crtc_internal.h"
->  #include "drm_internal.h"
-> @@ -151,6 +152,21 @@ static int drm_debugfs_open(struct inode *inode, str=
-uct file *file)
->  	return single_open(file, node->info_ent->show, node);
->  }
->=20=20
-> +static int drm_debugfs_entry_open(struct inode *inode, struct file *file)
-> +{
-> +	struct drm_debugfs_entry *entry =3D inode->i_private;
-> +	struct drm_debugfs_info *node =3D &entry->file;
-> +
-> +	return single_open(file, node->show, entry);
-> +}
-> +
-> +static const struct file_operations drm_debugfs_entry_fops =3D {
-> +	.owner =3D THIS_MODULE,
-> +	.open =3D drm_debugfs_entry_open,
-> +	.read =3D seq_read,
-> +	.llseek =3D seq_lseek,
-> +	.release =3D single_release,
-> +};
->=20=20
->  static const struct file_operations drm_debugfs_fops =3D {
->  	.owner =3D THIS_MODULE,
-> @@ -207,6 +223,7 @@ int drm_debugfs_init(struct drm_minor *minor, int min=
-or_id,
->  		     struct dentry *root)
->  {
->  	struct drm_device *dev =3D minor->dev;
-> +	struct drm_debugfs_entry *entry;
->  	char name[64];
->=20=20
->  	INIT_LIST_HEAD(&minor->debugfs_list);
-> @@ -230,6 +247,11 @@ int drm_debugfs_init(struct drm_minor *minor, int mi=
-nor_id,
->  	if (dev->driver->debugfs_init)
->  		dev->driver->debugfs_init(minor);
->=20=20
-> +	list_for_each_entry(entry, &dev->debugfs_list, list) {
-> +		debugfs_create_file(entry->file.name, S_IFREG | S_IRUGO,
-> +				    minor->debugfs_root, entry, &drm_debugfs_entry_fops);
-> +	}
-> +
->  	return 0;
->  }
->=20=20
-> @@ -281,6 +303,60 @@ void drm_debugfs_cleanup(struct drm_minor *minor)
->  	minor->debugfs_root =3D NULL;
->  }
->=20=20
-> +/**
-> + * drm_debugfs_add_file - Add a given file to the DRM device debugfs fil=
-e list
-> + * @dev: drm device for the ioctl
-> + * @name: debugfs file name
-> + * @show: show callback
-> + * @data: driver-private data, should not be device-specific
-> + *
-> + * Add a given file entry to the DRM device debugfs file list to be crea=
-ted on
-> + * drm_debugfs_init.
-> + */
-> +int drm_debugfs_add_file(struct drm_device *dev, const char *name,
-> +			 int (*show)(struct seq_file*, void*), void *data)
-> +{
-> +	struct drm_debugfs_entry *entry =3D drmm_kzalloc(dev, sizeof(*entry), G=
-FP_KERNEL);
-> +
-> +	if (!entry)
-> +		return -ENOMEM;
-> +
-> +	entry->file.name =3D name;
-> +	entry->file.show =3D show;
-> +	entry->file.data =3D data;
-> +	entry->dev =3D dev;
-> +
-> +	mutex_lock(&dev->debugfs_mutex);
-> +	list_add(&entry->list, &dev->debugfs_list);
-> +	mutex_unlock(&dev->debugfs_mutex);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_debugfs_add_file);
-> +
-> +/**
-> + * drm_debugfs_add_files - Add an array of files to the DRM device debug=
-fs file list
-> + * @dev: drm device for the ioctl
-> + * @files: The array of files to create
-> + * @count: The number of files given
-> + *
-> + * Add a given set of debugfs files represented by an array of
-> + * &struct drm_debugfs_info in the DRM device debugfs file list.
-> + */
-> +int drm_debugfs_add_files(struct drm_device *dev, const struct drm_debug=
-fs_info *files, int count)
-> +{
-> +	int i, ret =3D 0, err;
-> +
-> +	for (i =3D 0; i < count; i++) {
-> +		err =3D drm_debugfs_add_file(dev, files[i].name, files[i].show, files[=
-i].data);
-> +		if (err)
-> +			ret =3D err;
-> +	}
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(drm_debugfs_add_files);
+>   drivers/gpu/drm/i915/gt/intel_ggtt.c     | 14 ++++++++----
+>   drivers/gpu/drm/i915/i915_gem_gtt.h      |  3 ++-
+>   drivers/gpu/drm/i915/i915_vma.c          | 27 ++++++++++++++++++------
+>   drivers/gpu/drm/i915/i915_vma.h          |  5 +++--
+>   drivers/gpu/drm/i915/i915_vma_resource.c |  4 ++--
+>   drivers/gpu/drm/i915/i915_vma_resource.h |  7 +++++-
+>   drivers/gpu/drm/i915/i915_vma_types.h    |  3 ++-
+>   7 files changed, 46 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> index 8145851ad23d5..133710258eae6 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> @@ -287,8 +287,11 @@ static void gen8_ggtt_insert_entries(struct i915_address_space *vm,
+>   	 */
+>   
+>   	gte = (gen8_pte_t __iomem *)ggtt->gsm;
+> -	gte += vma_res->start / I915_GTT_PAGE_SIZE;
+> -	end = gte + vma_res->node_size / I915_GTT_PAGE_SIZE;
+> +	gte += (vma_res->start - vma_res->guard) / I915_GTT_PAGE_SIZE;
+> +	end = gte + vma_res->guard / I915_GTT_PAGE_SIZE;
+> +	while (gte < end)
+> +		gen8_set_pte(gte++, vm->scratch[0]->encode);
+> +	end += (vma_res->node_size + vma_res->guard) / I915_GTT_PAGE_SIZE;
+>   
+>   	for_each_sgt_daddr(addr, iter, vma_res->bi.pages)
+>   		gen8_set_pte(gte++, pte_encode | addr);
+> @@ -338,9 +341,12 @@ static void gen6_ggtt_insert_entries(struct i915_address_space *vm,
+>   	dma_addr_t addr;
+>   
+>   	gte = (gen6_pte_t __iomem *)ggtt->gsm;
+> -	gte += vma_res->start / I915_GTT_PAGE_SIZE;
+> -	end = gte + vma_res->node_size / I915_GTT_PAGE_SIZE;
+> +	gte += (vma_res->start - vma_res->guard) / I915_GTT_PAGE_SIZE;
+>   
+> +	end = gte + vma_res->guard / I915_GTT_PAGE_SIZE;
+> +	while (gte < end)
+> +		iowrite32(vm->scratch[0]->encode, gte++);
+> +	end += (vma_res->node_size + vma_res->guard) / I915_GTT_PAGE_SIZE;
+>   	for_each_sgt_daddr(addr, iter, vma_res->bi.pages)
+>   		iowrite32(vm->pte_encode(addr, level, flags), gte++);
+>   	GEM_BUG_ON(gte > end);
+> diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.h b/drivers/gpu/drm/i915/i915_gem_gtt.h
+> index 8c2f57eb5ddaa..2434197830523 100644
+> --- a/drivers/gpu/drm/i915/i915_gem_gtt.h
+> +++ b/drivers/gpu/drm/i915/i915_gem_gtt.h
+> @@ -44,7 +44,8 @@ int i915_gem_gtt_insert(struct i915_address_space *vm,
+>   #define PIN_HIGH		BIT_ULL(5)
+>   #define PIN_OFFSET_BIAS		BIT_ULL(6)
+>   #define PIN_OFFSET_FIXED	BIT_ULL(7)
+> -#define PIN_VALIDATE		BIT_ULL(8) /* validate placement only, no need to call unpin() */
+> +#define PIN_OFFSET_GUARD	BIT_ULL(8)
+> +#define PIN_VALIDATE		BIT_ULL(9) /* validate placement only, no need to call unpin() */
+>   
+>   #define PIN_GLOBAL		BIT_ULL(10) /* I915_VMA_GLOBAL_BIND */
+>   #define PIN_USER		BIT_ULL(11) /* I915_VMA_LOCAL_BIND */
+> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+> index 2232118babeb3..457e35e03895f 100644
+> --- a/drivers/gpu/drm/i915/i915_vma.c
+> +++ b/drivers/gpu/drm/i915/i915_vma.c
+> @@ -419,7 +419,7 @@ i915_vma_resource_init_from_vma(struct i915_vma_resource *vma_res,
+>   			       obj->mm.rsgt, i915_gem_object_is_readonly(obj),
+>   			       i915_gem_object_is_lmem(obj), obj->mm.region,
+>   			       vma->ops, vma->private, __i915_vma_offset(vma),
+> -			       __i915_vma_size(vma), vma->size);
+> +			       __i915_vma_size(vma), vma->size, vma->guard);
+>   }
+>   
+>   /**
+> @@ -749,7 +749,7 @@ static int
+>   i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+>   		u64 size, u64 alignment, u64 flags)
+>   {
+> -	unsigned long color;
+> +	unsigned long color, guard;
+>   	u64 start, end;
+>   	int ret;
+>   
+> @@ -757,7 +757,7 @@ i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+>   	GEM_BUG_ON(drm_mm_node_allocated(&vma->node));
+>   
+>   	size = max(size, vma->size);
+> -	alignment = max(alignment, vma->display_alignment);
+> +	alignment = max_t(typeof(alignment), alignment, vma->display_alignment);
+>   	if (flags & PIN_MAPPABLE) {
+>   		size = max_t(typeof(size), size, vma->fence_size);
+>   		alignment = max_t(typeof(alignment),
+> @@ -768,6 +768,9 @@ i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+>   	GEM_BUG_ON(!IS_ALIGNED(alignment, I915_GTT_MIN_ALIGNMENT));
+>   	GEM_BUG_ON(!is_power_of_2(alignment));
+>   
+> +	guard = vma->guard; /* retain guard across rebinds */
+> +	guard = ALIGN(guard, alignment);
 
-Do we want to add return values and error handling to debugfs related
-functions at all?
-
-BR,
-Jani.
-
+Why does guard area needs the same alignment as the requested mapping? What about the fact on 32-bit builds guard is 32-bit and alignment u64?
 
 > +
->  static int connector_show(struct seq_file *m, void *data)
->  {
->  	struct drm_connector *connector =3D m->private;
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index 8214a0b1ab7f..803942008fcb 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -575,6 +575,7 @@ static void drm_dev_init_release(struct drm_device *d=
-ev, void *res)
->  	mutex_destroy(&dev->clientlist_mutex);
->  	mutex_destroy(&dev->filelist_mutex);
->  	mutex_destroy(&dev->struct_mutex);
-> +	mutex_destroy(&dev->debugfs_mutex);
->  	drm_legacy_destroy_members(dev);
->  }
->=20=20
-> @@ -608,12 +609,14 @@ static int drm_dev_init(struct drm_device *dev,
->  	INIT_LIST_HEAD(&dev->filelist_internal);
->  	INIT_LIST_HEAD(&dev->clientlist);
->  	INIT_LIST_HEAD(&dev->vblank_event_list);
-> +	INIT_LIST_HEAD(&dev->debugfs_list);
->=20=20
->  	spin_lock_init(&dev->event_lock);
->  	mutex_init(&dev->struct_mutex);
->  	mutex_init(&dev->filelist_mutex);
->  	mutex_init(&dev->clientlist_mutex);
->  	mutex_init(&dev->master_mutex);
-> +	mutex_init(&dev->debugfs_mutex);
->=20=20
->  	ret =3D drmm_add_action(dev, drm_dev_init_release, NULL);
->  	if (ret)
-> diff --git a/include/drm/drm_debugfs.h b/include/drm/drm_debugfs.h
-> index 2188dc83957f..c5684d6c5055 100644
-> --- a/include/drm/drm_debugfs.h
-> +++ b/include/drm/drm_debugfs.h
-> @@ -79,12 +79,43 @@ struct drm_info_node {
->  	struct dentry *dent;
->  };
->=20=20
-> +/**
-> + * struct drm_debugfs_info - debugfs info list entry
-> + *
-> + * This structure represents a debugfs file to be created by the drm
-> + * core.
-> + */
-> +struct drm_debugfs_info {
-> +	const char *name;
-> +	int (*show)(struct seq_file*, void*);
-> +	u32 driver_features;
-> +	void *data;
-> +};
-> +
-> +/**
-> + * struct drm_debugfs_entry - Per-device debugfs node structure
-> + *
-> + * This structure represents a debugfs file, as an instantiation of a &s=
-truct
-> + * drm_debugfs_info on a &struct drm_device.
-> + */
-> +struct drm_debugfs_entry {
-> +	struct drm_device *dev;
-> +	struct drm_debugfs_info file;
-> +	struct list_head list;
-> +};
-> +
->  #if defined(CONFIG_DEBUG_FS)
->  void drm_debugfs_create_files(const struct drm_info_list *files,
->  			      int count, struct dentry *root,
->  			      struct drm_minor *minor);
->  int drm_debugfs_remove_files(const struct drm_info_list *files,
->  			     int count, struct drm_minor *minor);
-> +
-> +int drm_debugfs_add_file(struct drm_device *dev, const char *name,
-> +			 int (*show)(struct seq_file*, void*), void *data);
-> +
-> +int drm_debugfs_add_files(struct drm_device *dev,
-> +			  const struct drm_debugfs_info *files, int count);
->  #else
->  static inline void drm_debugfs_create_files(const struct drm_info_list *=
-files,
->  					    int count, struct dentry *root,
-> @@ -96,6 +127,20 @@ static inline int drm_debugfs_remove_files(const stru=
-ct drm_info_list *files,
->  {
->  	return 0;
->  }
-> +
-> +static inline int drm_debugfs_add_file(struct drm_device *dev, const cha=
-r *name,
-> +				       int (*show)(struct seq_file*, void*),
-> +				       void *data)
-> +{
-> +	return 0;
-> +}
-> +
-> +static inline int drm_debugfs_add_files(struct drm_device *dev,
-> +					const struct drm_debugfs_info *files,
-> +					int count)
-> +{
-> +	return 0;
-> +}
->  #endif
->=20=20
->  #endif /* _DRM_DEBUGFS_H_ */
-> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-> index 9923c7a6885e..fa6af1d57929 100644
-> --- a/include/drm/drm_device.h
-> +++ b/include/drm/drm_device.h
-> @@ -295,6 +295,21 @@ struct drm_device {
->  	 */
->  	struct drm_fb_helper *fb_helper;
->=20=20
-> +	/**
-> +	 * @debugfs_mutex:
-> +	 *
-> +	 * Protects &debugfs_list access.
-> +	 */
-> +	struct mutex debugfs_mutex;
-> +
-> +	/**
-> +	 * @debugfs_list:
-> +	 *
-> +	 * List of debugfs files to be created by the DRM device. The files
-> +	 * must be added during drm_dev_register().
-> +	 */
-> +	struct list_head debugfs_list;
-> +
->  	/* Everything below here is for legacy driver, never use! */
->  	/* private: */
->  #if IS_ENABLED(CONFIG_DRM_LEGACY)
+>   	start = flags & PIN_OFFSET_BIAS ? flags & PIN_OFFSET_MASK : 0;
+>   	GEM_BUG_ON(!IS_ALIGNED(start, I915_GTT_PAGE_SIZE));
+>   
+> @@ -777,6 +780,7 @@ i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+>   	if (flags & PIN_ZONE_4G)
+>   		end = min_t(u64, end, (1ULL << 32) - I915_GTT_PAGE_SIZE);
+>   	GEM_BUG_ON(!IS_ALIGNED(end, I915_GTT_PAGE_SIZE));
+> +	GEM_BUG_ON(2 * guard > end);
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+End is the size of relevant VA area at this point so what and why is this checking?
+
+>   
+>   	alignment = max(alignment, i915_vm_obj_min_alignment(vma->vm, vma->obj));
+>   
+> @@ -784,7 +788,7 @@ i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+>   	 * aperture has, reject it early before evicting everything in a vain
+>   	 * attempt to find space.
+>   	 */
+> -	if (size > end) {
+> +	if (size > end - 2 * guard) {
+>   		drm_dbg(&to_i915(vma->obj->base.dev)->drm,
+>   			"Attempting to bind an object larger than the aperture: request=%llu > %s aperture=%llu\n",
+>   			size, flags & PIN_MAPPABLE ? "mappable" : "total", end);
+> @@ -801,13 +805,23 @@ i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+>   		if (!IS_ALIGNED(offset, alignment) ||
+>   		    range_overflows(offset, size, end))
+>   			return -EINVAL;
+> +		/*
+> +		 * The caller knows not of the guard added by others and
+> +		 * requests for the offset of the start of its buffer
+> +		 * to be fixed, which may not be the same as the position
+> +		 * of the vma->node due to the guard pages.
+> +		 */
+> +		if (offset < guard || offset + size > end - guard)
+> +			return -ENOSPC;
+>   
+>   		ret = i915_gem_gtt_reserve(vma->vm, ww, &vma->node,
+> -					   size, offset, color,
+> -					   flags);
+> +					   size + 2 * guard,
+> +					   offset - guard,
+> +					   color, flags);
+>   		if (ret)
+>   			return ret;
+>   	} else {
+> +		size += 2 * guard;
+>   		/*
+>   		 * We only support huge gtt pages through the 48b PPGTT,
+>   		 * however we also don't want to force any alignment for
+> @@ -855,6 +869,7 @@ i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+>   	GEM_BUG_ON(!i915_gem_valid_gtt_space(vma, color));
+>   
+>   	list_move_tail(&vma->vm_link, &vma->vm->bound_list);
+> +	vma->guard = guard;
+
+unsigned long into u32 - what guarantees no truncation?
+
+>   
+>   	return 0;
+>   }
+> diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
+> index 3fd4512b1f65f..ed5c9d682a1b2 100644
+> --- a/drivers/gpu/drm/i915/i915_vma.h
+> +++ b/drivers/gpu/drm/i915/i915_vma.h
+> @@ -128,7 +128,7 @@ static inline bool i915_vma_is_closed(const struct i915_vma *vma)
+>   /* Internal use only. */
+>   static inline u64 __i915_vma_size(const struct i915_vma *vma)
+>   {
+> -	return vma->node.size;
+> +	return vma->node.size - 2 * vma->guard;
+>   }
+>   
+>   /**
+> @@ -150,7 +150,8 @@ static inline u64 i915_vma_size(const struct i915_vma *vma)
+>   /* Internal use only. */
+>   static inline u64 __i915_vma_offset(const struct i915_vma *vma)
+>   {
+> -	return vma->node.start;
+> +	/* The actual start of the vma->pages is after the guard pages. */
+> +	return vma->node.start + vma->guard;
+>   }
+>   
+>   /**
+> diff --git a/drivers/gpu/drm/i915/i915_vma_resource.c b/drivers/gpu/drm/i915/i915_vma_resource.c
+> index de1342dbfa128..6ba7a7feceba1 100644
+> --- a/drivers/gpu/drm/i915/i915_vma_resource.c
+> +++ b/drivers/gpu/drm/i915/i915_vma_resource.c
+> @@ -34,8 +34,8 @@ static struct kmem_cache *slab_vma_resources;
+>    * and removal of fences increases as O(ln(pending_unbinds)) instead of
+>    * O(1) for a single fence without interval tree.
+>    */
+> -#define VMA_RES_START(_node) ((_node)->start)
+> -#define VMA_RES_LAST(_node) ((_node)->start + (_node)->node_size - 1)
+> +#define VMA_RES_START(_node) ((_node)->start - (_node)->guard)
+> +#define VMA_RES_LAST(_node) ((_node)->start + (_node)->node_size + (_node)->guard - 1)
+>   INTERVAL_TREE_DEFINE(struct i915_vma_resource, rb,
+>   		     u64, __subtree_last,
+>   		     VMA_RES_START, VMA_RES_LAST, static, vma_res_itree);
+> diff --git a/drivers/gpu/drm/i915/i915_vma_resource.h b/drivers/gpu/drm/i915/i915_vma_resource.h
+> index 54edf3739ca0b..c1864e3d0b43e 100644
+> --- a/drivers/gpu/drm/i915/i915_vma_resource.h
+> +++ b/drivers/gpu/drm/i915/i915_vma_resource.h
+> @@ -57,6 +57,7 @@ struct i915_page_sizes {
+>    * @node_size: Size of the allocated range manager node with padding
+>    * subtracted.
+>    * @vma_size: Bind size.
+> + * @guard: The size of guard area preceding and trailing the bind.
+>    * @page_sizes_gtt: Resulting page sizes from the bind operation.
+>    * @bound_flags: Flags indicating binding status.
+>    * @allocated: Backend private data. TODO: Should move into @private.
+> @@ -115,6 +116,7 @@ struct i915_vma_resource {
+>   	u64 start;
+>   	u64 node_size;
+>   	u64 vma_size;
+> +	u32 guard;
+>   	u32 page_sizes_gtt;
+>   
+>   	u32 bound_flags;
+> @@ -179,6 +181,7 @@ static inline void i915_vma_resource_put(struct i915_vma_resource *vma_res)
+>    * @start: Offset into the address space of bind range start after padding.
+>    * @node_size: Size of the allocated range manager node minus padding.
+>    * @size: Bind size.
+> + * @guard: The size of the guard area preceding and trailing the bind.
+>    *
+>    * Initializes a vma resource allocated using i915_vma_resource_alloc().
+>    * The reason for having separate allocate and initialize function is that
+> @@ -197,7 +200,8 @@ static inline void i915_vma_resource_init(struct i915_vma_resource *vma_res,
+>   					  void *private,
+>   					  u64 start,
+>   					  u64 node_size,
+> -					  u64 size)
+> +					  u64 size,
+> +					  u32 guard)
+>   {
+>   	__i915_vma_resource_init(vma_res);
+>   	vma_res->vm = vm;
+> @@ -215,6 +219,7 @@ static inline void i915_vma_resource_init(struct i915_vma_resource *vma_res,
+>   	vma_res->start = start;
+>   	vma_res->node_size = node_size;
+>   	vma_res->vma_size = size;
+> +	vma_res->guard = guard;
+>   }
+>   
+>   static inline void i915_vma_resource_fini(struct i915_vma_resource *vma_res)
+> diff --git a/drivers/gpu/drm/i915/i915_vma_types.h b/drivers/gpu/drm/i915/i915_vma_types.h
+> index ec0f6c9f57d02..77fda2244d161 100644
+> --- a/drivers/gpu/drm/i915/i915_vma_types.h
+> +++ b/drivers/gpu/drm/i915/i915_vma_types.h
+> @@ -197,14 +197,15 @@ struct i915_vma {
+>   	struct i915_fence_reg *fence;
+>   
+>   	u64 size;
+> -	u64 display_alignment;
+>   	struct i915_page_sizes page_sizes;
+>   
+>   	/* mmap-offset associated with fencing for this vma */
+>   	struct i915_mmap_offset	*mmo;
+>   
+> +	u32 guard; /* padding allocated around vma->pages within the node */
+>   	u32 fence_size;
+>   	u32 fence_alignment;
+> +	u32 display_alignment;
+
+u64 -> u32 for display_alignment looks unrelated change.
+
+./display/intel_fb_pin.c:       vma->display_alignment = max_t(u64, vma->display_alignment, alignment);
+./gem/i915_gem_domain.c:        vma->display_alignment = max_t(u64, vma->display_alignment, alignment);
+
+These two sites need to be changed not to use u64.
+
+Do this part in a separate patch?
+
+>   
+>   	/**
+>   	 * Count of the number of times this vma has been opened by different
+
+Regards,
+
+Tvrtko
