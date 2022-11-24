@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 889F36378C2
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 13:24:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C2D46378CA
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 13:25:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16BF910E26F;
-	Thu, 24 Nov 2022 12:23:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3409710E054;
+	Thu, 24 Nov 2022 12:25:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C29C10E277
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Nov 2022 12:23:47 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D494A10E054
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Nov 2022 12:25:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669292627; x=1700828627;
+ t=1669292701; x=1700828701;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=ObxTC5S376qcP+jc5Vqug+j/70Vb8bRa53QKgt/sNI0=;
- b=TAkd87MI3g9IIv6jKxilbUyRn7Xtf91ySoQVrSKBa76amUvI/djlpyzA
- Qp59Yye0ah75bHWg9ssGDdK3+8JSeEUzRFGK0YLvTvvePRiME0WX5fbL7
- IlIBZTfO80x1cHOaoboFtTMDpQdBkHAwhKutyBk58JvqjJVJoqV4i5ag2
- 6f/342glZbcNdrdhVE4dDbaNnot7T0UaMja7bgJqoELxsJ5JVMN7irWlz
- 7wCE23nVKBxk6/mPyJgCuQobHXkkooTF1i6Ubp6LZczIZ/x5pZvk++dSn
- tl4XoIuPSXBJvB2tIMein+e1b7cEH8yqNrUoMlRKU+C27D+9w5rJ3VMQ7 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="293994900"
-X-IronPort-AV: E=Sophos;i="5.96,190,1665471600"; d="scan'208";a="293994900"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Nov 2022 04:23:46 -0800
+ bh=KrpjK4F7jdU1QpIQ8SnZenQcGxWFonbm3xOqctiSeP0=;
+ b=VmrG2TAyOI1rQbt/Sj1qiXTqaqNwKfs21ATwpT0dR8o3yuvX+QuyTLBq
+ qAUGbL3ScpKJIo8XP8vWKuoAL9IE9ho6Eked4m5B28k4eRSdkYjD1Nb3j
+ ukdjKUVXTmdSMPCCBpDQ+ZbA9i1a0+lJKiHeJSCG8q333q2cE8UFaj35W
+ IwyuHSjgidBWrWij4kqaVPZKE3iS/0AI0xNB9Uj9BWDrZsILOY/vccV8Q
+ NtbH2Wzle4H72XL2NfNpqpi/9PetLh71PsNr+LS2ZJ2c14xz3MzBs03e4
+ TkABhvWYRoOTvU5S4o4fzOEAdBiYssuYLpqb2yh7IcOVqnbx9yPWQ+Mvj g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="312991343"
+X-IronPort-AV: E=Sophos;i="5.96,190,1665471600"; d="scan'208";a="312991343"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Nov 2022 04:25:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="642336159"
-X-IronPort-AV: E=Sophos;i="5.96,190,1665471600"; d="scan'208";a="642336159"
+X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="592905313"
+X-IronPort-AV: E=Sophos;i="5.96,190,1665471600"; d="scan'208";a="592905313"
 Received: from smile.fi.intel.com ([10.237.72.54])
- by orsmga002.jf.intel.com with ESMTP; 24 Nov 2022 04:23:37 -0800
+ by orsmga003.jf.intel.com with ESMTP; 24 Nov 2022 04:24:52 -0800
 Received: from andy by smile.fi.intel.com with local (Exim 4.96)
  (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1oyBGQ-00GjwQ-0y; Thu, 24 Nov 2022 14:23:34 +0200
-Date: Thu, 24 Nov 2022 14:23:34 +0200
+ id 1oyBHd-00Gjxg-1Q; Thu, 24 Nov 2022 14:24:49 +0200
+Date: Thu, 24 Nov 2022 14:24:49 +0200
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Pin-yen Lin <treapking@chromium.org>
-Subject: Re: [PATCH v6 7/7] drm/bridge: it6505: Register Type C mode switches
-Message-ID: <Y39iRg2TZCljOyNN@smile.fi.intel.com>
+Subject: Re: [PATCH v6 2/7] platform/chrome: cros_ec_typec: Purge blocking
+ switch devlinks
+Message-ID: <Y39ikbcqx5/pEc64@smile.fi.intel.com>
 References: <20221124102056.393220-1-treapking@chromium.org>
- <20221124102056.393220-8-treapking@chromium.org>
+ <20221124102056.393220-3-treapking@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221124102056.393220-8-treapking@chromium.org>
+In-Reply-To: <20221124102056.393220-3-treapking@chromium.org>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -83,114 +84,41 @@ Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 24, 2022 at 06:20:56PM +0800, Pin-yen Lin wrote:
-> Register USB Type-C mode switches when the "mode-switch" property and
-> relevant port are available in Device Tree. Configure the "lane_swap"
-> state based on the entered alternate mode for a specific Type-C
-> connector, which ends up updating the lane swap registers of the it6505
-> chip.
+On Thu, Nov 24, 2022 at 06:20:51PM +0800, Pin-yen Lin wrote:
+> From: Prashant Malani <pmalani@chromium.org>
+> 
+> When using OF graph, the fw_devlink code will create links between the
+> individual port driver (cros-ec-typec here) and the parent device for
+> a Type-C switch (like mode-switch). Since the mode-switch will in turn
+> have the usb-c-connector (i.e the child of the port driver) as a
+> supplier, fw_devlink will not be able to resolve the cyclic dependency
+> correctly.
+> 
+> As a result, the mode-switch driver probe() never runs, so mode-switches
+> are never registered. Because of that, the port driver probe constantly
+> fails with -EPROBE_DEFER, because the Type-C connector class requires all
+> switch devices to be registered prior to port registration.
+> 
+> To break this deadlock and allow the mode-switch registration to occur,
+> purge all the usb-c-connector nodes' absent suppliers. This eliminates
+> the connector as a supplier for a switch and allows it to be probed.
 
 ...
 
->  config DRM_ITE_IT6505
->          tristate "ITE IT6505 DisplayPort bridge"
->          depends on OF
-> +	depends on TYPEC || TYPEC=n
->  	select DRM_DISPLAY_DP_HELPER
->  	select DRM_DISPLAY_HDCP_HELPER
->  	select DRM_DISPLAY_HELPER
+> +	/*
+> +	 * OF graph may have set up some device links with switches, since connectors have their
+> +	 * own compatible. Purge these to avoid a deadlock in switch probe (the switch mistakenly
+> +	 * assumes the connector is a supplier).
+> +	 */
 
-Something went wrong with the indentation. Perhaps you need to fix it first.
+A bit too long lines...
 
-...
+> +	if (dev->of_node)
 
->  #include <drm/drm_edid.h>
->  #include <drm/drm_print.h>
->  #include <drm/drm_probe_helper.h>
-> +#include <drm/drm_of.h>
+Why do you need this check?
 
-Make it ordered?
-
-...
-
-> +struct it6505_port_data {
-
-> +	bool dp_connected;
-
-Perhaps make it last?
-
-> +	struct typec_mux_dev *typec_mux;
-> +	struct it6505 *it6505;
-> +};
-
-...
-
-> +static void it6505_typec_ports_update(struct it6505 *it6505)
-> +{
-> +	usleep_range(3000, 4000);
-> +
-> +	if (it6505->typec_ports[0].dp_connected && it6505->typec_ports[1].dp_connected)
-> +		/* Both ports available, do nothing to retain the current one. */
-> +		return;
-> +	else if (it6505->typec_ports[0].dp_connected)
-> +		it6505->lane_swap = false;
-> +	else if (it6505->typec_ports[1].dp_connected)
-> +		it6505->lane_swap = true;
-> +
-> +	usleep_range(3000, 4000);
-> +}
-
-As per previous patch comments.
-
-Also, comment out these long sleeps. Why they are needed.
-
-...
-
-> +		int ret = pm_runtime_get_sync(dev);
-> +
-> +		/*
-> +		 * On system resume, mux_set can be triggered before
-> +		 * pm_runtime_force_resume re-enables runtime power management.
-
-We refer to the functions as func().
-
-> +		 * Handling the error here to make sure the bridge is powered on.
-> +		 */
-> +		if (ret < 0)
-> +			it6505_poweron(it6505);
-
-This seems needed a bit more of explanation, esp. why you leave PM runtime
-reference count bumped up.
-
-...
-
-> +	num_lanes = drm_of_get_data_lanes_count(node, 0, 2);
-> +	if (num_lanes <= 0) {
-> +		dev_err(dev, "Error on getting data lanes count: %d\n",
-> +			num_lanes);
-> +		return num_lanes;
-> +	}
-> +
-> +	ret = of_property_read_u32_array(node, "data-lanes", dp_lanes, num_lanes);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to read the data-lanes variable: %d\n",
-> +			ret);
-> +		return ret;
-> +	}
-> +
-> +	for (i = 0; i < num_lanes; i++) {
-> +		if (port_num != -1 && port_num != dp_lanes[i] / 2) {
-> +			dev_err(dev, "Invalid data lane numbers\n");
-> +			return -EINVAL;
-> +		}
-
-As per previous patch comments.
-
-> +		port_num = dp_lanes[i] / 2;
-> +	}
-
-The above seems like tons of duplicating code that drivers need to implement.
-Can we shrink that burden by adding some library functions?
+> +		device_for_each_child_node(dev, fwnode)
+> +			fw_devlink_purge_absent_suppliers(fwnode);
 
 -- 
 With Best Regards,
