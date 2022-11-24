@@ -2,55 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE62063719E
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 05:53:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 136B86371F3
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 06:53:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0961A10E0C7;
-	Thu, 24 Nov 2022 04:53:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C96BC10E67E;
+	Thu, 24 Nov 2022 05:52:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com
- [IPv6:2607:f8b0:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FA2A10E0C7
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Nov 2022 04:53:41 +0000 (UTC)
-Received: by mail-pf1-x431.google.com with SMTP id z26so661550pff.1
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 20:53:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=R1Wg6FTenY9DFHsl9mPn4muGkPnhlT6iCDc5PSEwMCY=;
- b=ANrMaolJrh7zPSDCADpsNG5QqXz2Kzd7eWFi733lh4w05eMhVrBllnw6LXQVmHbjCe
- BLcCNRRlJke8SqdTjrTzw74831CWlE+rkzmRtfwQV6NBimGG+1QKHf/eJc804AhOgXxA
- 00PQchEQqDL7QCdorjFD0n1U6iKbmvfsrl9eQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=R1Wg6FTenY9DFHsl9mPn4muGkPnhlT6iCDc5PSEwMCY=;
- b=cVYeQEIN3qwX+PzRbDrn4V7/uG4A+54Ovh7xR6Hrm1l8DZfOD/7hOx730bxtdjIHlo
- p6NzJm9bPdCyvALVYruGdEAafthY7YKVDP4Lmtlcl6uXqATPJbpmwnhaTgRM89e00cc2
- YNZI03UkO4OomqSbN+qmX6ZCe3WrOXTuckv12WjiP+3JZkKu18Ma4ym7ddpuO8XZkZdd
- Tlpy4EIgTCoVQxc2ELFoBq7lCTEc7yXgZzwqAZcdvDzcB5X4/jNkOzlrtDsPm601uyNk
- NeIJv9Chn2HlycHGGcgI7tO2Th0EvR5Qa6pIePt0NhkUOnPTP3sDDY2rkHws7zW47NXb
- c1nA==
-X-Gm-Message-State: ANoB5pn/DqbSl71a6y66wuPCi2x8/PS7OetF0ZodymniaXB4O17jvRkS
- c1Kw0V5moUq1oml+OLc/eYzLio2dZjbmEf61WFWy1A==
-X-Google-Smtp-Source: AA0mqf7CW/gCjn46bMWgQdQpDpW0NEoRga5KPr+WLmnXVq3uDYjYSg7xvl7VicC9BJYo66qrIgm0yzzj1QSAoWtksS0=
-X-Received: by 2002:a63:4e57:0:b0:477:ae2f:3cd7 with SMTP id
- o23-20020a634e57000000b00477ae2f3cd7mr8099861pgl.44.1669265620935; Wed, 23
- Nov 2022 20:53:40 -0800 (PST)
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBEB410E67E
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Nov 2022 05:52:52 +0000 (UTC)
+X-UUID: 9e22ba4d051044a7a4b2569070575e4e-20221124
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
+ bh=uwGmJUU2CBhfNR2BroyngGgYmGH5ZPj96xF/eGDb3io=; 
+ b=OT7AnxQaD+zSVQ/A75F5F5usNO2cHQV/qOqDZk/twKg7RY+Jj+A1MxGbeeBaTFZS5wrZ2KqvaZNLuwlOpMyOq61I/QKlbjcIdNK3udFKSSK6Qw6YaNH9a5R+Lp4BOtdv2YY2aonzcrxLAXhnZ+QZQIx26KLVd8mz5sZYvRdRX/s=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.14, REQID:ece834d9-f21d-4230-b76c-73849401c42b, IP:0,
+ U
+ RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+ N:release,TS:-10
+X-CID-INFO: VERSION:1.1.14, REQID:ece834d9-f21d-4230-b76c-73849401c42b, IP:0,
+ URL
+ :0,TC:0,Content:-5,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:-10
+X-CID-META: VersionHash:dcaaed0, CLOUDID:035a1adc-6ad4-42ff-91f3-18e0272db660,
+ B
+ ulkID:2211241352386IBPLQCB,BulkQuantity:0,Recheck:0,SF:17|19|102,TC:nil,Co
+ ntent:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 9e22ba4d051044a7a4b2569070575e4e-20221124
+Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by
+ mailgw01.mediatek.com (envelope-from <allen-kh.cheng@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 269678354; Thu, 24 Nov 2022 13:52:35 +0800
+Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
+ mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Thu, 24 Nov 2022 13:52:34 +0800
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (172.21.101.239)
+ by mtkmbs10n1.mediatek.com (172.21.101.34) with Microsoft SMTP
+ Server id
+ 15.2.792.15 via Frontend Transport; Thu, 24 Nov 2022 13:52:34 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XlX8AVasHByPhpH5SArqWrJhvc2DUfd/4FJeI0N5pSs3mQ5lr8DiFk4jklSz5cxzoz1IS6GCUFq15lPX2fKeYCUpg+EhK0Z4YBawYRui0LD+uW8C/Xn9wsOw/pmBFD3TG1IKCAfHSycOlj8xIbuIocUp9X8d3c8CCy7TeqewEnqCLN4JIygTwWez/Segcog2QDV7Pkxf6Mzks9UKuJ6BcJg7xFsJkCXVOnb43YZjbXnLLybVZnNXyPLSB9yLv04dMKHanBypMMtPn+m8PKI8DePP7WbGQIybRc1siYjJ2cesCd6PhuqH5uVR+zlVekTznNtxiGadLixBMH3hZSZbzg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=R+Jlv7KMbT0vt9jNDXzZEsthMrNMW63jVRa0g7+cpMU=;
+ b=W6I5+TKvXRfUe4fW4nPNgNzqVvb6PBwX3x718R4/nT9KUHTuIkGT9L09No75hIrggXTwBKXdUWXvJfaIVrwUbsUhNmpmcf1ZqeMTctuSHBMM4u+zLFl8VPcNJQuJVIK4/SHt7rcYlC5KsxawwVgg1vSwWzP4NKPzAXqPiL3R4L2P7a8XX0rbb12oQ6kut/RZw9X7WnL5e/qLx4qvMQlXng6bICkGn6PZmk3pMA6CWRF612zW6EtF86cuREx8bd8m2fPogvhDrPKF1jXUFdJ6zb6i634GBIvgSovRswmGfUDlb+k81nW7Wya+uaAK/En1c82RSp1uslQm2jl1RpkH5g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=R+Jlv7KMbT0vt9jNDXzZEsthMrNMW63jVRa0g7+cpMU=;
+ b=kokv7BklX1PxSV8Pld4WhO7k/CLOtO1SyQyzYSSU8qY7W+K6XSYB1Xu73jG7xP9vCBx98MJ+Hb0RJNWF5WunzVJOzWclmaVg9hTj4RRa44P9eLOibPzltejFMB7gQF2zBNKrUnk47bSB+NdE3izKslGSyVzxpphADd+x7/XbwuU=
+Received: from TYZPR03MB6919.apcprd03.prod.outlook.com (2603:1096:400:28c::9)
+ by TYZPR03MB5422.apcprd03.prod.outlook.com (2603:1096:400:38::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.18; Thu, 24 Nov
+ 2022 05:52:33 +0000
+Received: from TYZPR03MB6919.apcprd03.prod.outlook.com
+ ([fe80::af56:be8f:f:85b2]) by TYZPR03MB6919.apcprd03.prod.outlook.com
+ ([fe80::af56:be8f:f:85b2%7]) with mapi id 15.20.5857.017; Thu, 24 Nov 2022
+ 05:52:33 +0000
+From: =?utf-8?B?QWxsZW4tS0ggQ2hlbmcgKOeoi+WGoOWLsyk=?=
+ <Allen-KH.Cheng@mediatek.com>
+To: "tzungbi@google.com" <tzungbi@google.com>
+Subject: Re: [PATCH 1/6] ASoC: hdmi-codec: add PCM trigger operator
+Thread-Topic: [PATCH 1/6] ASoC: hdmi-codec: add PCM trigger operator
+Thread-Index: AQHY/8Oywl8/s31fH0iQmmHOuVawAa5NklkA
+Date: Thu, 24 Nov 2022 05:52:33 +0000
+Message-ID: <d051f427516fb7e5f7161e60d7e0033740a2aeb4.camel@mediatek.com>
+References: <20191022114505.196852-1-tzungbi@google.com>
+ <20191022193301.1.I3039014cf259de5e4d6315fc05dff111591a0901@changeid>
+In-Reply-To: <20191022193301.1.I3039014cf259de5e4d6315fc05dff111591a0901@changeid>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYZPR03MB6919:EE_|TYZPR03MB5422:EE_
+x-ms-office365-filtering-correlation-id: 61943c97-c5a7-4f3e-9c9d-08dacde014cd
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 5ph+Qai2LVkCPoIIJAJ8y6/nbGUMLBW9YlmnDBjvzEnRwaQvqnvyVSk42NdIyeUrjdWBaQN9aZ3Mvkc4xSbWlvmKtvskDJduf/MGX/s/G4xWFD4FokvZLz787hcph0sA6a45UOHaMImGPEIDhtvdkbGyT0wULZTm9lBGPNxZYkrPlUYmx3kwEKtfh5wsEyZ7BRZcs58lweZh04xKekyVg1ynkxGk9TNxCgMUVambLCl7k8NUxVKMYBJCaA/dQp90lENHEezeTKVMYmZDpGUet1DIS7fqL8MxTO17TfOX4hJ8ciyvbeeWg7Xq66lTVa4WOG7dxYpjoyX3q+mMh4xbUrkBaphXrEaGPYZeUWMu4f+v/2+NgBHAlWGIsQ4i5rtEChSdXCFH+1u2CMaHgCqLqK5dHZ8l2Wy/qHmlQiM1mZsb9tLr5PK7UUzOomaAW7edxBz8fiW7Diuzem4ROn7Leh2H6RONySSszMKTWHixeZIHPA+827CFOm9zcJfMswkff40Xu6rt5EfHjYGryr7wMmK8i/SUUzxtNMhsKH3v0kesIPCae4klyszGCSdWILs+cAe0Sxel7Lg2trd9IxOtwZqzpI8C9ozLsiXc80aRUpSleCESEuJq5wZt1A71cHME6d5ICaklmjpxfzIbsrpNpsuqZdIijScgaswUfO/SYVG3WeBN97rWn0z5I+P1dY0eCXgQaLs8PnsWN4vlIOX9zg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYZPR03MB6919.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(136003)(376002)(366004)(39860400002)(346002)(396003)(451199015)(38070700005)(36756003)(85182001)(86362001)(6486002)(71200400001)(6506007)(6916009)(54906003)(107886003)(478600001)(5660300002)(2906002)(26005)(8936002)(4001150100001)(7416002)(316002)(76116006)(8676002)(41300700001)(64756008)(4326008)(66946007)(66556008)(66446008)(66476007)(38100700002)(122000001)(186003)(6512007)(2616005)(83380400001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?aGlOZFgvdVV2TUtkSnM3b2tlSHRPVEdkY05GQVNoMWhVQ0dOUGtlbGtVTFN4?=
+ =?utf-8?B?ZVBsd1dlZ0IzL1g0NWNnZy9rR29WdForMDJJaCtuYy9XZXdNWjNrcmpHSHBp?=
+ =?utf-8?B?dHNEUEhSZ2dLdHFVWGVOMkRoT0tZM25XZjdMQnA1eFRhOWZROW82M2VXV1V1?=
+ =?utf-8?B?Tzl0bVJhOFJrQ2RRS1JSdktMWWtZTFJhU2hHT2NOcmt1YSt0aU5mU3AzUHJB?=
+ =?utf-8?B?ZW5LTVFsWjFrbCswK3ZyTUNNSGo2NzBFVlgybzNjQXFBNDE0MmFaYU9aR1hl?=
+ =?utf-8?B?UWZXc2ZTcjQ4TExQeVBYd2UyR1VSK3lwU3l3ZVZHallKOWU3THQ3Y1ZSSlpP?=
+ =?utf-8?B?RTFuWkFISjNCbTgvRXZzZWNYT3IxREFqOVZrcyt3R0xERVJIQzNNMldhcU9S?=
+ =?utf-8?B?WEtFcDNlUStnV05sZTFKSnI2QjdQZTI1d3RlRlhlaFloWXZqRTBBaTR3dFhO?=
+ =?utf-8?B?Qk5oWFIydHpMN1Y5Y2JsY3FNYkQ3VW5rNFRORGJuc1I4RVRldXN2c3JrQjFq?=
+ =?utf-8?B?QjlFaTMrRXc0SnJHNm5UWGF5Z0tPYUcreVVMQWJKRXU2OVhHdDB0ZlRuZ0Yv?=
+ =?utf-8?B?T1lScUVGckhkUnZnNkJVamNlODRqZTFhU2ZhSDJpR3N3MU13TE1mWWhJalh2?=
+ =?utf-8?B?QkZtREVYWlM3R29HYlhwN0dibkFqd1JMODE2Y3h4bHFwRndkOWlzVGNRR1Bn?=
+ =?utf-8?B?RkVId29nb1dmRi9oYW1vOXdrTi9nNjVnakcwTFBMUkFpeHZtK3ZGRDlneVdx?=
+ =?utf-8?B?bzBKazVWUnF2Q2RGNnRmUkV6dWM3N1NCM05yNlFNb3I1ZGF6UHZhYWFtOVQw?=
+ =?utf-8?B?cGZQMEVmNy9lTkU3azhQdFVNR2Iwc3BrVGZWOWZYcDJlUEp6ejUzOGtxOFBn?=
+ =?utf-8?B?dURkNEhZVnR1UThzQVZKSGZxOW5hNUVJaERSYm53cTl3TWt0b3liLzdPK0dX?=
+ =?utf-8?B?b21odmhwVnpoTGZ2TkZLRjhTSzQ4MStVQW1OTzNvdkFDdEJBT2JkanhJcXZs?=
+ =?utf-8?B?RHBISXFLc21ZUTM0TThaZ014UXczL3U5Ykh6bDY1UUYwVlg4KzdqN3BFTzly?=
+ =?utf-8?B?TEFLU1YwK1hnamRMbHZlL0lqQXNvTlpzb0kzSFhsTjdZVUhMSlEyKyswMHNr?=
+ =?utf-8?B?QmJmQ2RhY0ZBZkUvSkNvR2VjdzNpUlR1bnY0Q3psK3dzclRoVlVHV2E3TE4w?=
+ =?utf-8?B?WDF6Uzgrem81UTlEVlNVYWN4aVMrTTVQcGNISnpHT0tIVEJFd0NLbi94SHo3?=
+ =?utf-8?B?TklnVGNqRHJWWVY0dWVncXZyWmZkbEo2Wng4Y0htK0RNOWdZQkpOczN2amdJ?=
+ =?utf-8?B?WlF6aEhUdnlCa2tkekdNSmc1NzRBS2xNY1lVa3VqbW9IeE8wR1NId3ZpbEV2?=
+ =?utf-8?B?bjhlWlYrbU1BdVFodzVmOGtZMlJFTUZFR21JOGRHL25VQ1VsY2VHaC91TmMr?=
+ =?utf-8?B?NGk1QUx4M09iUnRKbXFNcU1OTzJKR2NOc2FWdkVaQTJWcVNmeThCSnFWdUVS?=
+ =?utf-8?B?WFl4ajkyYjA0WDI5Zko5QUZXeUpLcEVQbDdXcGVidlVONVZQRnNXSHJIRDdv?=
+ =?utf-8?B?dWpOdlpJQW1ncXgvMWZQdk4wTHpNN2ppbWt0ZXBuc0VFdU5VUHNnZ2pHZTc1?=
+ =?utf-8?B?VURza0xWUGJrMkhFWUVnSmFCTmM0blhUd05MUFh4MzZraDJVSUhzTjROMStV?=
+ =?utf-8?B?Q0NaMG5vOFJuc2hBcGhCYTJqUGdCdFRqL1FWclpveVFMQjFNbmdyYWxsVWxv?=
+ =?utf-8?B?dklEdXR0aThFd3BOOHBuMkZJR2pFamVSWU1PZVhsQ0xKVWZNUjNyTHZiNmda?=
+ =?utf-8?B?dENDNEt5WDhOeEozK04zQmZJZnhxZEZMVlhZWUhLbkRNcENOaGZkYXdSOGxM?=
+ =?utf-8?B?RFZmK29aWW9jMldPeGMyanNIMVNJbExDdDljaUJhdTByN01EV0NlK25JbHhR?=
+ =?utf-8?B?UytiQnZTcVBpcExWWVVwWFRwdXdKTkpyRnF3dXAra0phYkd6OERMU2U3d3hz?=
+ =?utf-8?B?b1RzZXdHa2RGRG4yOWluUnBCMStOL3JhL1dYbExrSGRXc2s0U1hiUkl3NXFl?=
+ =?utf-8?B?ZkJQeEVkVzU5S0UwTTZTd1FvbTB4ZDl1RGNxSXpRbHZoaHYrV1kwb2kxZTRT?=
+ =?utf-8?B?MlF4YWJMT2p4cHNSWFkzQVBBOEV1NUtndkVib3J6dkpJUS9ET0M1bTcvZnI3?=
+ =?utf-8?Q?YqGjGICSOBGwqalJk1aBwHE=3D?=
+Content-ID: <5C7554BB2449AD43B1FE4E8863F2F3EA@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20221123100529.3943662-1-hsinyi@chromium.org>
- <20221123100529.3943662-3-hsinyi@chromium.org>
- <Y35/pfy0QqP7l4Ru@art_vandelay>
-In-Reply-To: <Y35/pfy0QqP7l4Ru@art_vandelay>
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Thu, 24 Nov 2022 12:53:14 +0800
-Message-ID: <CAJMQK-htF_8xPj6_pv+=3=e1+KcH75Jtr72UYAFSeikfZXXwPA@mail.gmail.com>
-Subject: Re: [PATCH v7 3/3] drm/bridge: it6505: handle HDCP request
-To: Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6919.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 61943c97-c5a7-4f3e-9c9d-08dacde014cd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Nov 2022 05:52:33.1265 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: zNYDu1izSLrN7PJIPdns98dLynL33+WzZGk8iXyMlPlUG/HGFPltMrBaH8zy5EKrNf/uwk6x0dnx8LKzTBKbimMrFu5lrzEPsmJu8pvTRfA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR03MB5422
+Content-Type: multipart/alternative;
+ boundary="__=_Part_Boundary_007_1247460002.144730166"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,183 +160,195 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Allen Chen <allen.chen@ite.com.tw>, linux-kernel@vger.kernel.org,
- Robert Foss <robert.foss@linaro.org>, Douglas Anderson <dianders@chromium.org>,
- Sean Paul <seanpaul@chromium.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "jernej.skrabec@siol.net" <jernej.skrabec@siol.net>,
+ "cychiang@google.com" <cychiang@google.com>,
+ "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
+ "allen.chen@ite.com.tw" <allen.chen@ite.com.tw>,
+ "broonie@kernel.org" <broonie@kernel.org>, "jonas@kwiboo.se" <jonas@kwiboo.se>,
+ "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ =?utf-8?B?SmlheGluIFl1ICjkv57lrrbpkasp?= <Jiaxin.Yu@mediatek.com>,
+ "a.hajda@samsung.com" <a.hajda@samsung.com>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
+ "hsinyi@chromium.org" <hsinyi@chromium.org>,
+ "dgreid@google.com" <dgreid@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 24, 2022 at 4:16 AM Sean Paul <sean@poorly.run> wrote:
->
-> On Wed, Nov 23, 2022 at 10:05:29AM +0000, Hsin-Yi Wang wrote:
-> > it6505 supports HDCP 1.3, but current implementation lacks the update of
-> > HDCP status through drm_hdcp_update_content_protection().
-> >
-> > it6505 default enables the HDCP. Remove this and only turn on when user
-> > requests it.
-> >
-> > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> > Reviewed-by: allen chen <allen.chen@ite.com.tw>
-> > ---
-> > v6->v7: remove enable hdcp by default.
-> > ---
-> >  drivers/gpu/drm/bridge/ite-it6505.c | 60 +++++++++++++++++++++++++++--
-> >  1 file changed, 57 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-> > index 21a9b8422bda..93626698c31e 100644
-> > --- a/drivers/gpu/drm/bridge/ite-it6505.c
-> > +++ b/drivers/gpu/drm/bridge/ite-it6505.c
-> > @@ -423,6 +423,7 @@ struct it6505 {
-> >       struct extcon_dev *extcon;
-> >       struct work_struct extcon_wq;
-> >       int extcon_state;
-> > +     struct drm_connector *connector;
-> >       enum drm_connector_status connector_status;
-> >       enum link_train_status link_state;
-> >       struct work_struct link_works;
-> > @@ -2159,9 +2160,6 @@ static void it6505_link_train_ok(struct it6505 *it6505)
-> >               DRM_DEV_DEBUG_DRIVER(dev, "Enable audio!");
-> >               it6505_enable_audio(it6505);
-> >       }
-> > -
-> > -     if (it6505->hdcp_desired)
-> > -             it6505_start_hdcp(it6505);
-> >  }
-> >
-> >  static void it6505_link_step_train_process(struct it6505 *it6505)
-> > @@ -2399,6 +2397,14 @@ static void it6505_irq_hdcp_done(struct it6505 *it6505)
-> >
-> >       DRM_DEV_DEBUG_DRIVER(dev, "hdcp done interrupt");
-> >       it6505->hdcp_status = HDCP_AUTH_DONE;
-> > +     if (it6505->connector) {
-> > +             struct drm_device *drm_dev = it6505->connector->dev;
-> > +
-> > +             drm_modeset_lock(&drm_dev->mode_config.connection_mutex, NULL);
-> > +             drm_hdcp_update_content_protection(it6505->connector,
-> > +                                                DRM_MODE_CONTENT_PROTECTION_ENABLED);
-> > +             drm_modeset_unlock(&drm_dev->mode_config.connection_mutex);
-> > +     }
-> >       it6505_show_hdcp_info(it6505);
-> >  }
-> >
-> > @@ -2931,6 +2937,7 @@ static void it6505_bridge_atomic_enable(struct drm_bridge *bridge,
-> >       if (WARN_ON(!connector))
-> >               return;
-> >
-> > +     it6505->connector = connector;
-> >       conn_state = drm_atomic_get_new_connector_state(state, connector);
-> >
-> >       if (WARN_ON(!conn_state))
-> > @@ -2974,6 +2981,7 @@ static void it6505_bridge_atomic_disable(struct drm_bridge *bridge,
-> >
-> >       DRM_DEV_DEBUG_DRIVER(dev, "start");
-> >
-> > +     it6505->connector = NULL;
-> >       if (it6505->powered) {
-> >               it6505_drm_dp_link_set_power(&it6505->aux, &it6505->link,
-> >                                            DP_SET_POWER_D3);
-> > @@ -3028,6 +3036,50 @@ static struct edid *it6505_bridge_get_edid(struct drm_bridge *bridge,
-> >       return edid;
-> >  }
-> >
-> > +static int it6505_connector_atomic_check(struct it6505 *it6505,
-> > +                                      struct drm_connector_state *state)
-> > +{
-> > +     struct device *dev = &it6505->client->dev;
-> > +     int cp = state->content_protection;
-> > +
-> > +     DRM_DEV_DEBUG_DRIVER(dev, "hdcp connector state:%d, curr hdcp state:%d",
-> > +                          cp, it6505->hdcp_status);
-> > +
-> > +     if (!it6505->hdcp_desired) {
-> > +             DRM_DEV_DEBUG_DRIVER(dev, "sink not support hdcp");
-> > +             return 0;
-> > +     }
-> > +
-> > +     if (it6505->hdcp_status == HDCP_AUTH_GOING)
-> > +             return -EINVAL;
-> > +
-> > +     if (cp == DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
-> > +             if (it6505->hdcp_status == HDCP_AUTH_DONE)
-> > +                     it6505_stop_hdcp(it6505);
->
-> You shouldn't touch the hardware in atomic_check, this should be done in the
-> commit.
->
-Since it6505 is a bridge, do you have suggested callbacks in
-drm_bridge_funcs similar to commit?
+--__=_Part_Boundary_007_1247460002.144730166
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-> > +     } else if (cp == DRM_MODE_CONTENT_PROTECTION_DESIRED) {
-> > +             if (it6505->hdcp_status == HDCP_AUTH_IDLE &&
-> > +                 it6505->link_state == LINK_OK)
-> > +                     it6505_start_hdcp(it6505);
->
-> Same here
->
-> > +     } else {
-> > +             if (it6505->hdcp_status == HDCP_AUTH_IDLE) {
-> > +                     DRM_DEV_DEBUG_DRIVER(dev, "invalid to set hdcp enabled");
-> > +                     return -EINVAL;
-> > +             }
-> > +     }
->
-> In general, I think there are a number of locking and state issues with this
-> approach. I had pulled all of this logic into a set of helpers [1], but the
-> patchset has gotten stale on the list. You might consider looking at patches 1-4
-> to see how the state and locking should be handled to avoid races.
->
+PHByZT4NCkhpJiMzMjtUenVuZy1CaSwNCg0KV2UmIzMyO3dvdWxkJiMzMjt3YW50JiMzMjt0byYj
+MzI7Y29uZmlybSYjMzI7d2l0aCYjMzI7eW91JiMzMjthcyYjMzI7d2UmIzMyO3dvcmsmIzMyO29u
+JiMzMjt0aGUmIzMyO2hkbWktY29kZWMmIzMyO2ZvciYjMzI7dGhlDQptdDgxODYuDQoNCkRvJiMz
+Mjt5b3UmIzMyO2hhdmUmIzMyO2FueSYjMzI7cGxhbiYjMzI7dG8mIzMyO2NvbnRpbnVlJiMzMjt3
+b3JraW5nJiMzMjtvbiYjMzI7dGhpcyYjMzI7c2VyaWVzJiM2MzsmIzMyO1dlJiMzMjttYXkmIzMy
+O3Rha2UNCm92ZXImIzMyO2FzJiMzMjt3ZWxsLg0KDQpUaGFua3MsDQpBbGxlbg0KDQpPbiYjMzI7
+VHVlLCYjMzI7MjAxOS0xMC0yMiYjMzI7YXQmIzMyOzE5OjQ1JiMzMjsrMDgwMCwmIzMyO1R6dW5n
+LUJpJiMzMjtTaGloJiMzMjt3cm90ZToNCiZndDsmIzMyO0hETUkmIzMyO2NvZGVjJiMzMjttYXkm
+IzMyO2JlJiMzMjthbHNvJiMzMjtpbnRlcmVzdGVkJiMzMjtpbiYjMzI7UENNJiMzMjt0cmlnZ2Vy
+cy4mIzMyOyYjMzI7QWRkJiMzMjtQQ00mIzMyO3RyaWdnZXINCiZndDsmIzMyO29wZXJhdG9yLg0K
+Jmd0OyYjMzI7DQomZ3Q7JiMzMjtTaWduZWQtb2ZmLWJ5OiYjMzI7VHp1bmctQmkmIzMyO1NoaWgm
+IzMyOyZsdDt0enVuZ2JpQGdvb2dsZS5jb20mZ3Q7DQomZ3Q7JiMzMjstLS0NCiZndDsmIzMyOyYj
+MzI7aW5jbHVkZS9zb3VuZC9oZG1pLWNvZGVjLmgmIzMyOyYjMzI7JiMzMjsmIzMyO3wmIzMyOzEz
+JiMzMjsrKysrKysrKysrKysrDQomZ3Q7JiMzMjsmIzMyO3NvdW5kL3NvYy9jb2RlY3MvaGRtaS1j
+b2RlYy5jJiMzMjt8JiMzMjszMSYjMzI7KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKw0K
+Jmd0OyYjMzI7JiMzMjsyJiMzMjtmaWxlcyYjMzI7Y2hhbmdlZCwmIzMyOzQ0JiMzMjtpbnNlcnRp
+b25zKCspDQomZ3Q7JiMzMjsNCiZndDsmIzMyO2RpZmYmIzMyOy0tZ2l0JiMzMjthL2luY2x1ZGUv
+c291bmQvaGRtaS1jb2RlYy5oJiMzMjtiL2luY2x1ZGUvc291bmQvaGRtaS1jb2RlYy5oDQomZ3Q7
+JiMzMjtpbmRleCYjMzI7ODNiMTc2ODJlMDFjLi45ZGU0NjJlZjE3MGQmIzMyOzEwMDY0NA0KJmd0
+OyYjMzI7LS0tJiMzMjthL2luY2x1ZGUvc291bmQvaGRtaS1jb2RlYy5oDQomZ3Q7JiMzMjsrKysm
+IzMyO2IvaW5jbHVkZS9zb3VuZC9oZG1pLWNvZGVjLmgNCiZndDsmIzMyO0BAJiMzMjstNTAsNiYj
+MzI7KzUwLDEzJiMzMjtAQCYjMzI7c3RydWN0JiMzMjtoZG1pX2NvZGVjX3BhcmFtcyYjMzI7ew0K
+Jmd0OyYjMzI7JiMzMjt0eXBlZGVmJiMzMjt2b2lkJiMzMjsoKmhkbWlfY29kZWNfcGx1Z2dlZF9j
+Yikoc3RydWN0JiMzMjtkZXZpY2UmIzMyOypkZXYsDQomZ3Q7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
+IzMyOyYjMzI7JiMzMjsmIzMyO2Jvb2wmIzMyO3BsdWdnZWQpOw0KJmd0OyYjMzI7JiMzMjsNCiZn
+dDsmIzMyOytlbnVtJiMzMjt7DQomZ3Q7JiMzMjsrSERNSV9DT0RFQ19UUklHR0VSX0VWRU5UX1NU
+T1AsDQomZ3Q7JiMzMjsrSERNSV9DT0RFQ19UUklHR0VSX0VWRU5UX1NUQVJULA0KJmd0OyYjMzI7
+K0hETUlfQ09ERUNfVFJJR0dFUl9FVkVOVF9TVVNQRU5ELA0KJmd0OyYjMzI7K0hETUlfQ09ERUNf
+VFJJR0dFUl9FVkVOVF9SRVNVTUUsDQomZ3Q7JiMzMjsrfTsNCiZndDsmIzMyOysNCiZndDsmIzMy
+OyYjMzI7c3RydWN0JiMzMjtoZG1pX2NvZGVjX3BkYXRhOw0KJmd0OyYjMzI7JiMzMjtzdHJ1Y3Qm
+IzMyO2hkbWlfY29kZWNfb3BzJiMzMjt7DQomZ3Q7JiMzMjsmIzMyOy8qDQomZ3Q7JiMzMjtAQCYj
+MzI7LTY2LDYmIzMyOys3MywxMiYjMzI7QEAmIzMyO3N0cnVjdCYjMzI7aGRtaV9jb2RlY19vcHMm
+IzMyO3sNCiZndDsmIzMyOyYjMzI7JiMzMjtzdHJ1Y3QmIzMyO2hkbWlfY29kZWNfZGFpZm10JiMz
+MjsqZm10LA0KJmd0OyYjMzI7JiMzMjsmIzMyO3N0cnVjdCYjMzI7aGRtaV9jb2RlY19wYXJhbXMm
+IzMyOypocGFybXMpOw0KJmd0OyYjMzI7JiMzMjsNCiZndDsmIzMyOysvKg0KJmd0OyYjMzI7KyYj
+MzI7KiYjMzI7UENNJiMzMjt0cmlnZ2VyJiMzMjtjYWxsYmFjay4NCiZndDsmIzMyOysmIzMyOyom
+IzMyO09wdGlvbmFsDQomZ3Q7JiMzMjsrJiMzMjsqLw0KJmd0OyYjMzI7K2ludCYjMzI7KCp0cmln
+Z2VyKShzdHJ1Y3QmIzMyO2RldmljZSYjMzI7KmRldiwmIzMyO2ludCYjMzI7ZXZlbnQpOw0KJmd0
+OyYjMzI7Kw0KJmd0OyYjMzI7JiMzMjsvKg0KJmd0OyYjMzI7JiMzMjsmIzMyOyomIzMyO1NodXRz
+JiMzMjtkb3duJiMzMjt0aGUmIzMyO2F1ZGlvJiMzMjtzdHJlYW0uDQomZ3Q7JiMzMjsmIzMyOyYj
+MzI7KiYjMzI7TWFuZGF0b3J5DQomZ3Q7JiMzMjtkaWZmJiMzMjstLWdpdCYjMzI7YS9zb3VuZC9z
+b2MvY29kZWNzL2hkbWktY29kZWMuYyYjMzI7Yi9zb3VuZC9zb2MvY29kZWNzL2hkbWktDQomZ3Q7
+JiMzMjtjb2RlYy5jDQomZ3Q7JiMzMjtpbmRleCYjMzI7YjVmZDhmMDg3MjZlLi4xYmEyZmEyNmJh
+MDMmIzMyOzEwMDY0NA0KJmd0OyYjMzI7LS0tJiMzMjthL3NvdW5kL3NvYy9jb2RlY3MvaGRtaS1j
+b2RlYy5jDQomZ3Q7JiMzMjsrKysmIzMyO2Ivc291bmQvc29jL2NvZGVjcy9oZG1pLWNvZGVjLmMN
+CiZndDsmIzMyO0BAJiMzMjstNTY1LDEyJiMzMjsrNTY1LDQyJiMzMjtAQCYjMzI7c3RhdGljJiMz
+MjtpbnQmIzMyO2hkbWlfY29kZWNfZGlnaXRhbF9tdXRlKHN0cnVjdA0KJmd0OyYjMzI7c25kX3Nv
+Y19kYWkmIzMyOypkYWksJiMzMjtpbnQmIzMyO211dGUpDQomZ3Q7JiMzMjsmIzMyO3JldHVybiYj
+MzI7MDsNCiZndDsmIzMyOyYjMzI7fQ0KJmd0OyYjMzI7JiMzMjsNCiZndDsmIzMyOytzdGF0aWMm
+IzMyO2ludCYjMzI7aGRtaV9jb2RlY190cmlnZ2VyKHN0cnVjdCYjMzI7c25kX3BjbV9zdWJzdHJl
+YW0mIzMyOypzdWJzdHJlYW0sDQomZ3Q7JiMzMjtpbnQmIzMyO2NtZCwNCiZndDsmIzMyOysmIzMy
+OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtzdHJ1Y3QmIzMyO3NuZF9zb2NfZGFpJiMzMjsqZGFp
+KQ0KJmd0OyYjMzI7K3sNCiZndDsmIzMyOytzdHJ1Y3QmIzMyO2hkbWlfY29kZWNfcHJpdiYjMzI7
+KmhjcCYjMzI7PSYjMzI7c25kX3NvY19kYWlfZ2V0X2RydmRhdGEoZGFpKTsNCiZndDsmIzMyOytp
+bnQmIzMyO2V2ZW50Ow0KJmd0OyYjMzI7Kw0KJmd0OyYjMzI7K2lmJiMzMjsoIWhjcC0mZ3Q7aGNk
+Lm9wcy0mZ3Q7dHJpZ2dlcikNCiZndDsmIzMyOytyZXR1cm4mIzMyOzA7DQomZ3Q7JiMzMjsrDQom
+Z3Q7JiMzMjsrc3dpdGNoJiMzMjsoY21kKSYjMzI7ew0KJmd0OyYjMzI7K2Nhc2UmIzMyO1NORFJW
+X1BDTV9UUklHR0VSX1NUT1A6DQomZ3Q7JiMzMjsrZXZlbnQmIzMyOz0mIzMyO0hETUlfQ09ERUNf
+VFJJR0dFUl9FVkVOVF9TVE9QOw0KJmd0OyYjMzI7K2JyZWFrOw0KJmd0OyYjMzI7K2Nhc2UmIzMy
+O1NORFJWX1BDTV9UUklHR0VSX1NUQVJUOg0KJmd0OyYjMzI7K2V2ZW50JiMzMjs9JiMzMjtIRE1J
+X0NPREVDX1RSSUdHRVJfRVZFTlRfU1RBUlQ7DQomZ3Q7JiMzMjsrYnJlYWs7DQomZ3Q7JiMzMjsr
+Y2FzZSYjMzI7U05EUlZfUENNX1RSSUdHRVJfU1VTUEVORDoNCiZndDsmIzMyOytldmVudCYjMzI7
+PSYjMzI7SERNSV9DT0RFQ19UUklHR0VSX0VWRU5UX1NVU1BFTkQ7DQomZ3Q7JiMzMjsrYnJlYWs7
+DQomZ3Q7JiMzMjsrY2FzZSYjMzI7U05EUlZfUENNX1RSSUdHRVJfUkVTVU1FOg0KJmd0OyYjMzI7
+K2V2ZW50JiMzMjs9JiMzMjtIRE1JX0NPREVDX1RSSUdHRVJfRVZFTlRfUkVTVU1FOw0KJmd0OyYj
+MzI7K2JyZWFrOw0KJmd0OyYjMzI7K2RlZmF1bHQ6DQomZ3Q7JiMzMjsrcmV0dXJuJiMzMjstRUlO
+VkFMOw0KJmd0OyYjMzI7K30NCiZndDsmIzMyOysNCiZndDsmIzMyOytyZXR1cm4mIzMyO2hjcC0m
+Z3Q7aGNkLm9wcy0mZ3Q7dHJpZ2dlcihkYWktJmd0O2Rldi0mZ3Q7cGFyZW50LCYjMzI7ZXZlbnQp
+Ow0KJmd0OyYjMzI7K30NCiZndDsmIzMyOysNCiZndDsmIzMyOyYjMzI7c3RhdGljJiMzMjtjb25z
+dCYjMzI7c3RydWN0JiMzMjtzbmRfc29jX2RhaV9vcHMmIzMyO2hkbWlfY29kZWNfaTJzX2RhaV9v
+cHMmIzMyOz0mIzMyO3sNCiZndDsmIzMyOyYjMzI7LnN0YXJ0dXA9JiMzMjtoZG1pX2NvZGVjX3N0
+YXJ0dXAsDQomZ3Q7JiMzMjsmIzMyOy5zaHV0ZG93bj0mIzMyO2hkbWlfY29kZWNfc2h1dGRvd24s
+DQomZ3Q7JiMzMjsmIzMyOy5od19wYXJhbXM9JiMzMjtoZG1pX2NvZGVjX2h3X3BhcmFtcywNCiZn
+dDsmIzMyOyYjMzI7LnNldF9mbXQ9JiMzMjtoZG1pX2NvZGVjX2kyc19zZXRfZm10LA0KJmd0OyYj
+MzI7JiMzMjsuZGlnaXRhbF9tdXRlPSYjMzI7aGRtaV9jb2RlY19kaWdpdGFsX211dGUsDQomZ3Q7
+JiMzMjsrLnRyaWdnZXI9JiMzMjtoZG1pX2NvZGVjX3RyaWdnZXIsDQomZ3Q7JiMzMjsmIzMyO307
+DQomZ3Q7JiMzMjsmIzMyOw0KJmd0OyYjMzI7JiMzMjtzdGF0aWMmIzMyO2NvbnN0JiMzMjtzdHJ1
+Y3QmIzMyO3NuZF9zb2NfZGFpX29wcyYjMzI7aGRtaV9jb2RlY19zcGRpZl9kYWlfb3BzJiMzMjs9
+JiMzMjt7DQomZ3Q7JiMzMjtAQCYjMzI7LTU3OCw2JiMzMjsrNjA4LDcmIzMyO0BAJiMzMjtzdGF0
+aWMmIzMyO2NvbnN0JiMzMjtzdHJ1Y3QmIzMyO3NuZF9zb2NfZGFpX29wcw0KJmd0OyYjMzI7aGRt
+aV9jb2RlY19zcGRpZl9kYWlfb3BzJiMzMjs9JiMzMjt7DQomZ3Q7JiMzMjsmIzMyOy5zaHV0ZG93
+bj0mIzMyO2hkbWlfY29kZWNfc2h1dGRvd24sDQomZ3Q7JiMzMjsmIzMyOy5od19wYXJhbXM9JiMz
+MjtoZG1pX2NvZGVjX2h3X3BhcmFtcywNCiZndDsmIzMyOyYjMzI7LmRpZ2l0YWxfbXV0ZT0mIzMy
+O2hkbWlfY29kZWNfZGlnaXRhbF9tdXRlLA0KJmd0OyYjMzI7Ky50cmlnZ2VyPSYjMzI7aGRtaV9j
+b2RlY190cmlnZ2VyLA0KJmd0OyYjMzI7JiMzMjt9Ow0KJmd0OyYjMzI7JiMzMjsNCiZndDsmIzMy
+OyYjMzI7I2RlZmluZSYjMzI7SERNSV9SQVRFUyhTTkRSVl9QQ01fUkFURV8zMjAwMCYjMzI7fCYj
+MzI7U05EUlZfUENNX1JBVEVfNDQxMDAmIzMyO3wmIzkyOw0KDQo8L3ByZT48IS0tdHlwZTp0ZXh0
+LS0+PCEtLXstLT48cHJlPioqKioqKioqKioqKiogTUVESUFURUsgQ29uZmlkZW50aWFsaXR5IE5v
+dGljZSAqKioqKioqKioqKioqKioqKioqKg0KVGhlIGluZm9ybWF0aW9uIGNvbnRhaW5lZCBpbiB0
+aGlzIGUtbWFpbCBtZXNzYWdlIChpbmNsdWRpbmcgYW55IA0KYXR0YWNobWVudHMpIG1heSBiZSBj
+b25maWRlbnRpYWwsIHByb3ByaWV0YXJ5LCBwcml2aWxlZ2VkLCBvciBvdGhlcndpc2UNCmV4ZW1w
+dCBmcm9tIGRpc2Nsb3N1cmUgdW5kZXIgYXBwbGljYWJsZSBsYXdzLiBJdCBpcyBpbnRlbmRlZCB0
+byBiZSANCmNvbnZleWVkIG9ubHkgdG8gdGhlIGRlc2lnbmF0ZWQgcmVjaXBpZW50KHMpLiBBbnkg
+dXNlLCBkaXNzZW1pbmF0aW9uLCANCmRpc3RyaWJ1dGlvbiwgcHJpbnRpbmcsIHJldGFpbmluZyBv
+ciBjb3B5aW5nIG9mIHRoaXMgZS1tYWlsIChpbmNsdWRpbmcgaXRzIA0KYXR0YWNobWVudHMpIGJ5
+IHVuaW50ZW5kZWQgcmVjaXBpZW50KHMpIGlzIHN0cmljdGx5IHByb2hpYml0ZWQgYW5kIG1heSAN
+CmJlIHVubGF3ZnVsLiBJZiB5b3UgYXJlIG5vdCBhbiBpbnRlbmRlZCByZWNpcGllbnQgb2YgdGhp
+cyBlLW1haWwsIG9yIGJlbGlldmUgDQp0aGF0IHlvdSBoYXZlIHJlY2VpdmVkIHRoaXMgZS1tYWls
+IGluIGVycm9yLCBwbGVhc2Ugbm90aWZ5IHRoZSBzZW5kZXIgDQppbW1lZGlhdGVseSAoYnkgcmVw
+bHlpbmcgdG8gdGhpcyBlLW1haWwpLCBkZWxldGUgYW55IGFuZCBhbGwgY29waWVzIG9mIA0KdGhp
+cyBlLW1haWwgKGluY2x1ZGluZyBhbnkgYXR0YWNobWVudHMpIGZyb20geW91ciBzeXN0ZW0sIGFu
+ZCBkbyBub3QNCmRpc2Nsb3NlIHRoZSBjb250ZW50IG9mIHRoaXMgZS1tYWlsIHRvIGFueSBvdGhl
+ciBwZXJzb24uIFRoYW5rIHlvdSENCjwvcHJlPjwhLS19LS0+
 
-After checking the series, all the hdcp controls are done in dp
-controller instead of bridges. Is it proper for the bridge to update
-the HDCP state?
-- If it's not, then this series might be going in the wrong direction.
-- If it is, since the current it6505 enables HDCP in the hardware
-(it6505_start_hdcp() is called ) all the time, can we just update the
-state without turning it off?
+--__=_Part_Boundary_007_1247460002.144730166
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
+SGkgVHp1bmctQmksDQoNCldlIHdvdWxkIHdhbnQgdG8gY29uZmlybSB3aXRoIHlvdSBhcyB3ZSB3
+b3JrIG9uIHRoZSBoZG1pLWNvZGVjIGZvciB0aGUNCm10ODE4Ni4NCg0KRG8geW91IGhhdmUgYW55
+IHBsYW4gdG8gY29udGludWUgd29ya2luZyBvbiB0aGlzIHNlcmllcz8gV2UgbWF5IHRha2UNCm92
+ZXIgYXMgd2VsbC4NCg0KVGhhbmtzLA0KQWxsZW4NCg0KT24gVHVlLCAyMDE5LTEwLTIyIGF0IDE5
+OjQ1ICswODAwLCBUenVuZy1CaSBTaGloIHdyb3RlOg0KPiBIRE1JIGNvZGVjIG1heSBiZSBhbHNv
+IGludGVyZXN0ZWQgaW4gUENNIHRyaWdnZXJzLiAgQWRkIFBDTSB0cmlnZ2VyDQo+IG9wZXJhdG9y
+Lg0KPiANCj4gU2lnbmVkLW9mZi1ieTogVHp1bmctQmkgU2hpaCA8dHp1bmdiaUBnb29nbGUuY29t
+Pg0KPiAtLS0NCj4gIGluY2x1ZGUvc291bmQvaGRtaS1jb2RlYy5oICAgIHwgMTMgKysrKysrKysr
+KysrKw0KPiAgc291bmQvc29jL2NvZGVjcy9oZG1pLWNvZGVjLmMgfCAzMSArKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrDQo+ICAyIGZpbGVzIGNoYW5nZWQsIDQ0IGluc2VydGlvbnMoKykN
+Cj4gDQo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL3NvdW5kL2hkbWktY29kZWMuaCBiL2luY2x1ZGUv
+c291bmQvaGRtaS1jb2RlYy5oDQo+IGluZGV4IDgzYjE3NjgyZTAxYy4uOWRlNDYyZWYxNzBkIDEw
+MDY0NA0KPiAtLS0gYS9pbmNsdWRlL3NvdW5kL2hkbWktY29kZWMuaA0KPiArKysgYi9pbmNsdWRl
+L3NvdW5kL2hkbWktY29kZWMuaA0KPiBAQCAtNTAsNiArNTAsMTMgQEAgc3RydWN0IGhkbWlfY29k
+ZWNfcGFyYW1zIHsNCj4gIHR5cGVkZWYgdm9pZCAoKmhkbWlfY29kZWNfcGx1Z2dlZF9jYikoc3Ry
+dWN0IGRldmljZSAqZGV2LA0KPiAgCQkJCSAgICAgIGJvb2wgcGx1Z2dlZCk7DQo+ICANCj4gK2Vu
+dW0gew0KPiArCUhETUlfQ09ERUNfVFJJR0dFUl9FVkVOVF9TVE9QLA0KPiArCUhETUlfQ09ERUNf
+VFJJR0dFUl9FVkVOVF9TVEFSVCwNCj4gKwlIRE1JX0NPREVDX1RSSUdHRVJfRVZFTlRfU1VTUEVO
+RCwNCj4gKwlIRE1JX0NPREVDX1RSSUdHRVJfRVZFTlRfUkVTVU1FLA0KPiArfTsNCj4gKw0KPiAg
+c3RydWN0IGhkbWlfY29kZWNfcGRhdGE7DQo+ICBzdHJ1Y3QgaGRtaV9jb2RlY19vcHMgew0KPiAg
+CS8qDQo+IEBAIC02Niw2ICs3MywxMiBAQCBzdHJ1Y3QgaGRtaV9jb2RlY19vcHMgew0KPiAgCQkJ
+IHN0cnVjdCBoZG1pX2NvZGVjX2RhaWZtdCAqZm10LA0KPiAgCQkJIHN0cnVjdCBoZG1pX2NvZGVj
+X3BhcmFtcyAqaHBhcm1zKTsNCj4gIA0KPiArCS8qDQo+ICsJICogUENNIHRyaWdnZXIgY2FsbGJh
+Y2suDQo+ICsJICogT3B0aW9uYWwNCj4gKwkgKi8NCj4gKwlpbnQgKCp0cmlnZ2VyKShzdHJ1Y3Qg
+ZGV2aWNlICpkZXYsIGludCBldmVudCk7DQo+ICsNCj4gIAkvKg0KPiAgCSAqIFNodXRzIGRvd24g
+dGhlIGF1ZGlvIHN0cmVhbS4NCj4gIAkgKiBNYW5kYXRvcnkNCj4gZGlmZiAtLWdpdCBhL3NvdW5k
+L3NvYy9jb2RlY3MvaGRtaS1jb2RlYy5jIGIvc291bmQvc29jL2NvZGVjcy9oZG1pLQ0KPiBjb2Rl
+Yy5jDQo+IGluZGV4IGI1ZmQ4ZjA4NzI2ZS4uMWJhMmZhMjZiYTAzIDEwMDY0NA0KPiAtLS0gYS9z
+b3VuZC9zb2MvY29kZWNzL2hkbWktY29kZWMuYw0KPiArKysgYi9zb3VuZC9zb2MvY29kZWNzL2hk
+bWktY29kZWMuYw0KPiBAQCAtNTY1LDEyICs1NjUsNDIgQEAgc3RhdGljIGludCBoZG1pX2NvZGVj
+X2RpZ2l0YWxfbXV0ZShzdHJ1Y3QNCj4gc25kX3NvY19kYWkgKmRhaSwgaW50IG11dGUpDQo+ICAJ
+cmV0dXJuIDA7DQo+ICB9DQo+ICANCj4gK3N0YXRpYyBpbnQgaGRtaV9jb2RlY190cmlnZ2VyKHN0
+cnVjdCBzbmRfcGNtX3N1YnN0cmVhbSAqc3Vic3RyZWFtLA0KPiBpbnQgY21kLA0KPiArCQkJICAg
+ICAgc3RydWN0IHNuZF9zb2NfZGFpICpkYWkpDQo+ICt7DQo+ICsJc3RydWN0IGhkbWlfY29kZWNf
+cHJpdiAqaGNwID0gc25kX3NvY19kYWlfZ2V0X2RydmRhdGEoZGFpKTsNCj4gKwlpbnQgZXZlbnQ7
+DQo+ICsNCj4gKwlpZiAoIWhjcC0+aGNkLm9wcy0+dHJpZ2dlcikNCj4gKwkJcmV0dXJuIDA7DQo+
+ICsNCj4gKwlzd2l0Y2ggKGNtZCkgew0KPiArCWNhc2UgU05EUlZfUENNX1RSSUdHRVJfU1RPUDoN
+Cj4gKwkJZXZlbnQgPSBIRE1JX0NPREVDX1RSSUdHRVJfRVZFTlRfU1RPUDsNCj4gKwkJYnJlYWs7
+DQo+ICsJY2FzZSBTTkRSVl9QQ01fVFJJR0dFUl9TVEFSVDoNCj4gKwkJZXZlbnQgPSBIRE1JX0NP
+REVDX1RSSUdHRVJfRVZFTlRfU1RBUlQ7DQo+ICsJCWJyZWFrOw0KPiArCWNhc2UgU05EUlZfUENN
+X1RSSUdHRVJfU1VTUEVORDoNCj4gKwkJZXZlbnQgPSBIRE1JX0NPREVDX1RSSUdHRVJfRVZFTlRf
+U1VTUEVORDsNCj4gKwkJYnJlYWs7DQo+ICsJY2FzZSBTTkRSVl9QQ01fVFJJR0dFUl9SRVNVTUU6
+DQo+ICsJCWV2ZW50ID0gSERNSV9DT0RFQ19UUklHR0VSX0VWRU5UX1JFU1VNRTsNCj4gKwkJYnJl
+YWs7DQo+ICsJZGVmYXVsdDoNCj4gKwkJcmV0dXJuIC1FSU5WQUw7DQo+ICsJfQ0KPiArDQo+ICsJ
+cmV0dXJuIGhjcC0+aGNkLm9wcy0+dHJpZ2dlcihkYWktPmRldi0+cGFyZW50LCBldmVudCk7DQo+
+ICt9DQo+ICsNCj4gIHN0YXRpYyBjb25zdCBzdHJ1Y3Qgc25kX3NvY19kYWlfb3BzIGhkbWlfY29k
+ZWNfaTJzX2RhaV9vcHMgPSB7DQo+ICAJLnN0YXJ0dXAJPSBoZG1pX2NvZGVjX3N0YXJ0dXAsDQo+
+ICAJLnNodXRkb3duCT0gaGRtaV9jb2RlY19zaHV0ZG93biwNCj4gIAkuaHdfcGFyYW1zCT0gaGRt
+aV9jb2RlY19od19wYXJhbXMsDQo+ICAJLnNldF9mbXQJPSBoZG1pX2NvZGVjX2kyc19zZXRfZm10
+LA0KPiAgCS5kaWdpdGFsX211dGUJPSBoZG1pX2NvZGVjX2RpZ2l0YWxfbXV0ZSwNCj4gKwkudHJp
+Z2dlcgk9IGhkbWlfY29kZWNfdHJpZ2dlciwNCj4gIH07DQo+ICANCj4gIHN0YXRpYyBjb25zdCBz
+dHJ1Y3Qgc25kX3NvY19kYWlfb3BzIGhkbWlfY29kZWNfc3BkaWZfZGFpX29wcyA9IHsNCj4gQEAg
+LTU3OCw2ICs2MDgsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IHNuZF9zb2NfZGFpX29wcw0KPiBo
+ZG1pX2NvZGVjX3NwZGlmX2RhaV9vcHMgPSB7DQo+ICAJLnNodXRkb3duCT0gaGRtaV9jb2RlY19z
+aHV0ZG93biwNCj4gIAkuaHdfcGFyYW1zCT0gaGRtaV9jb2RlY19od19wYXJhbXMsDQo+ICAJLmRp
+Z2l0YWxfbXV0ZQk9IGhkbWlfY29kZWNfZGlnaXRhbF9tdXRlLA0KPiArCS50cmlnZ2VyCT0gaGRt
+aV9jb2RlY190cmlnZ2VyLA0KPiAgfTsNCj4gIA0KPiAgI2RlZmluZSBIRE1JX1JBVEVTCShTTkRS
+Vl9QQ01fUkFURV8zMjAwMCB8IFNORFJWX1BDTV9SQVRFXzQ0MTAwIHxcDQo=
 
-> Sean
->
-> [1] - https://lore.kernel.org/all/20220411204741.1074308-1-sean@poorly.run/
->
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int it6505_bridge_atomic_check(struct drm_bridge *bridge,
-> > +                                   struct drm_bridge_state *bridge_state,
-> > +                                   struct drm_crtc_state *crtc_state,
-> > +                                   struct drm_connector_state *conn_state)
-> > +{
-> > +     struct it6505 *it6505 = bridge_to_it6505(bridge);
-> > +
-> > +     return it6505_connector_atomic_check(it6505, conn_state);
-> > +}
-> > +
-> >  static const struct drm_bridge_funcs it6505_bridge_funcs = {
-> >       .atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-> >       .atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-> > @@ -3035,6 +3087,7 @@ static const struct drm_bridge_funcs it6505_bridge_funcs = {
-> >       .attach = it6505_bridge_attach,
-> >       .detach = it6505_bridge_detach,
-> >       .mode_valid = it6505_bridge_mode_valid,
-> > +     .atomic_check = it6505_bridge_atomic_check,
-> >       .atomic_enable = it6505_bridge_atomic_enable,
-> >       .atomic_disable = it6505_bridge_atomic_disable,
-> >       .atomic_pre_enable = it6505_bridge_atomic_pre_enable,
-> > @@ -3354,6 +3407,7 @@ static int it6505_i2c_probe(struct i2c_client *client,
-> >       it6505->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
-> >       it6505->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID |
-> >                            DRM_BRIDGE_OP_HPD;
-> > +     it6505->bridge.support_hdcp = true;
-> >       drm_bridge_add(&it6505->bridge);
-> >
-> >       return 0;
-> > --
-> > 2.38.1.584.g0f3c55d4c2-goog
-> >
->
-> --
-> Sean Paul, Software Engineer, Google / Chromium OS
+--__=_Part_Boundary_007_1247460002.144730166--
+
