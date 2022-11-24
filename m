@@ -2,58 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1181637572
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 10:44:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBF54637599
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 10:54:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A38FE10E080;
-	Thu, 24 Nov 2022 09:44:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89FEF10E078;
+	Thu, 24 Nov 2022 09:54:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com
- [IPv6:2607:f8b0:4864:20::1136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01F8B10E080
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Nov 2022 09:44:14 +0000 (UTC)
-Received: by mail-yw1-x1136.google.com with SMTP id
- 00721157ae682-3876f88d320so10587997b3.6
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Nov 2022 01:44:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=cm3vAmeocbFT2WUKnv6ZhMoxulICH/ZBbc9Pjefv5wU=;
- b=EeFiY/PSLzCnyCYhKnMPO3Cw1UiQQq0DIIJYoLMEXqVN2vyA1MUepGCuZ1vIvKRv8j
- luG/46+67nAkVZollBDBljoZVfPMi5i5zbaiovRRVZlUmTp+8CsujK+ge2b1xLmphAOu
- 0qutQm9QP62ucXSAU7JMGYRQn8mLFC6KEx/1YYoTdvCmyJEUgO8tSuZYZXLikSziq2qw
- 8JQE4aGwsBCD+YrRIxDCg5tI7KO8zyW2TbqGLtH+oxLl+XpTZWRtWDeyV6ipwJ84GOTM
- vS3aR5XHbNKkwZB00fWNE/RpRVGgM2lALkjMken9scvEcM2yPW5l8KbsX1OcVL/UsDPZ
- GGJQ==
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 966CB10E6BC
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Nov 2022 09:54:15 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id s5so1704077wru.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Nov 2022 01:54:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=CLBDPUP9FGkKDGO1g0btIJtnmTUhoMJwrJJH5s4jVyk=;
+ b=fRiEi4MXYM5dZgMBZbMA0YrY792sGlXxn0DfGEpZMRX6+cPgbulCtsGeFdsIFXqbjp
+ 8HAAWrZGtb3qVQa9vPNGkPrJU7xpa66WzlAUHCyq0Mih6V/JcaJTWGL8ztJXmUQqDrMb
+ CBpp6pHtqaa+CWFQxvJfFcmrHcVqL/qgOYEDpSjJWftQVOBihPIeVkgBRPbCBHRuqn9T
+ rdOv0/OSvRAg7zpCBsvnH5SIMv2N59IsMwpC1CsN078+9OYx6C6s8c4m3H5nuuTClPn4
+ zblfiQNk/L7HyI2L+mVbP0dQL1FvYJzNtHTSO5YB1uX8kCIFOc2oatll1UPzEnHhhNmt
+ lNag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=cm3vAmeocbFT2WUKnv6ZhMoxulICH/ZBbc9Pjefv5wU=;
- b=CcEQ1XE2ibC2eZI5NKZTg9ZgdZEV8BGjcTIlAfdjQVVOtJMp/XC8tZWUaWVkUxRJYk
- kJklah/cYBhfAnt7dx+G+CLnlTI54yi1XfqwsUc2xV/oYlgSFHc1lsubHQ3o35HSSbBR
- exifRSTUgR3yn6XBCMiW2LBgn+u8ZIXytrOq9I0V/idI7aSo5/Pzveu/uNe8gMI22O/3
- UVpOYX+jW66hRmpx0WwJgDLhG6xXLaBSF94ZE7DWCIuxr1zb0O6I0bBEujJjGo+q0zTb
- ktQ0DiFt7BDrOqupySIH7SREBqeyDh3fQRLMqGIF4N/aNaVwjln69yjbUlpiUtkuDWmM
- 1bnw==
-X-Gm-Message-State: ANoB5plC0gr7ZThCOSpRmpp0knIywbVtE8fS3uzS2S8inADBeskBVKmO
- 1s2ctN8R7p8PXcRyfFbBOGdqHfgc7exE0vbjpwAD4A==
-X-Google-Smtp-Source: AA0mqf5X112cEoeVWRyE9CnA7boYGz4w4mIHjcLzL+YseLgdq0JijCHfFdfmpalg37J5ozevJskT689VbKx3j+5UEfE=
-X-Received: by 2002:a81:a18c:0:b0:394:9bc1:c29b with SMTP id
- y134-20020a81a18c000000b003949bc1c29bmr27338268ywg.304.1669283054057; Thu, 24
- Nov 2022 01:44:14 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=CLBDPUP9FGkKDGO1g0btIJtnmTUhoMJwrJJH5s4jVyk=;
+ b=hc7dUCH9OV8ny+kjt2HJZGNkWGWl7IQtQmjCZ876esR/itCqq2crUb4cQXZhApTL9u
+ pNH/x7EwSN7/akJ2w8ldnkBQQGeuPFdpWMqC9CitgnrBHSGObr2Y62sgfNfYpXW1a8VP
+ AByXWvfrHoUxSWokeAwtbwQhejOTmAowN/KlJu17Czz/xRvueBjsHsIXA1Pk8i0+R9M7
+ ZfovyAuYSvR+wZ8qD6+dwPBz2E9zOZ9Jz9yZBtmw3okEObgiabXsQDeqqf2hT8cvfXsn
+ Lgg0ZUwrp7KCe95vuroLR0Dhw601O8GEwBzEMEni1rrVH1rv4qMG4nvD+pUnwyjlsa8U
+ CMSQ==
+X-Gm-Message-State: ANoB5pnMLGDCtDSqb56rVT/MeXdat5YXcNtilhMnIzDRw5fki8zOpjsn
+ 80DKYCZ5x4cbBgBCriHsb9AUQfZoH9TKzrQiFfnC4g==
+X-Google-Smtp-Source: AA0mqf416D+WFJos8wQzMUQ33QM0jwoO1N4c0LIU9fiyYurrcYArWa7LcxtXjjJUcBHysRUqQqaEC7UbWnu5r3cNOnE=
+X-Received: by 2002:adf:e28b:0:b0:241:c2c3:26c8 with SMTP id
+ v11-20020adfe28b000000b00241c2c326c8mr16582659wri.278.1669283653936; Thu, 24
+ Nov 2022 01:54:13 -0800 (PST)
 MIME-Version: 1.0
-References: <20221123192437.1065826-1-daniel.vetter@ffwll.ch>
-In-Reply-To: <20221123192437.1065826-1-daniel.vetter@ffwll.ch>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Thu, 24 Nov 2022 09:44:01 +0000
-Message-ID: <CAPj87rNOH5dGs2aGNzY-nuw77ue4+fBwgmcoznLjKEERg1i46w@mail.gmail.com>
-Subject: Re: [PATCH] drm/fourcc: Document open source user waiver
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <20191022114505.196852-1-tzungbi@google.com>
+ <20191022193301.1.I3039014cf259de5e4d6315fc05dff111591a0901@changeid>
+ <d051f427516fb7e5f7161e60d7e0033740a2aeb4.camel@mediatek.com>
+In-Reply-To: <d051f427516fb7e5f7161e60d7e0033740a2aeb4.camel@mediatek.com>
+From: Tzung-Bi Shih <tzungbi@google.com>
+Date: Thu, 24 Nov 2022 17:54:03 +0800
+Message-ID: <CA+Px+wWGGjTMydcyw=jT=T+w96A=GTO_qsgmvZTQiyQ1R2tAoA@mail.gmail.com>
+Subject: Re: [PATCH 1/6] ASoC: hdmi-codec: add PCM trigger operator
+To: =?UTF-8?B?QWxsZW4tS0ggQ2hlbmcgKOeoi+WGoOWLsyk=?=
+ <Allen-KH.Cheng@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,22 +69,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Trevett <ntrevett@nvidia.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>, Jason Ekstrand <jason@jlekstrand.net>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "jernej.skrabec@siol.net" <jernej.skrabec@siol.net>,
+ "cychiang@google.com" <cychiang@google.com>,
+ "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
+ "allen.chen@ite.com.tw" <allen.chen@ite.com.tw>,
+ "broonie@kernel.org" <broonie@kernel.org>, "jonas@kwiboo.se" <jonas@kwiboo.se>,
+ "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?B?SmlheGluIFl1ICjkv57lrrbpkasp?= <Jiaxin.Yu@mediatek.com>,
+ "a.hajda@samsung.com" <a.hajda@samsung.com>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
+ "hsinyi@chromium.org" <hsinyi@chromium.org>,
+ "dgreid@google.com" <dgreid@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 23 Nov 2022 at 19:24, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> It's a bit a FAQ, and we really can't claim to be the authoritative
-> source for allocating these numbers used in many standard extensions
-> if we tell closed source or vendor stacks in general to go away.
+On Thu, Nov 24, 2022 at 1:52 PM Allen-KH Cheng (=E7=A8=8B=E5=86=A0=E5=8B=B3=
+)
+<Allen-KH.Cheng@mediatek.com> wrote:
+> We would want to confirm with you as we work on the hdmi-codec for the
+> mt8186.
 >
-> Iirc this was already clarified in some vulkan discussions, but I
-> can't find that anywhere anymore. At least not in a public link.
+> Do you have any plan to continue working on this series? We may take
+> over as well.
 
-I seem to recall the policy being set in an IRC discussion at some
-point (or perhaps during the AFBC merge?). This is a good
-clarification of what we already do in practice.
-
-Acked-by: Daniel Stone <daniels@collabora.com>
+No (from testing's perspective).  Please take over it as you require.
