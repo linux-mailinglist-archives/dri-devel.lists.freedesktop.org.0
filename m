@@ -1,58 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B5B363784B
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 13:01:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0253C637883
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 13:06:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE4DE10E6F0;
-	Thu, 24 Nov 2022 12:01:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F8DF89916;
+	Thu, 24 Nov 2022 12:05:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC17D10E6EB;
- Thu, 24 Nov 2022 12:01:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669291275; x=1700827275;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=kTr6HYcTwWUQvPtmQnpS+jHvO7CnzNkycnjetlUV/U0=;
- b=CJqwecre4l4VGO+prGRx2q/yU9NPqmb2PiuXAWLq8X7WB6qTAuxcUTEc
- siVc/NgTRRg03tRvJCCkBZVVvwTLF4jws+kvm+W/H3s+k2jqUrqRdjvJx
- HVYL9odfqTmqCU4n9wIMM3Y3dWgBo6CQPnWbnZ3VRBoyD57x7PpLrVTBi
- WIVDdTBWMor7VZsuZdwjvZt4pDjZNIXTB3OtRjZZ0qQhtqJ8QP2V4pvsx
- 33az8wDgJ84IPZyX3uVm4+RR4vpmawc6gk1LdA9Q5LfrPgJA+kTpGBINH
- QzrtG89uWXtaaSdxMJaceSXHiPSDurdtIdwgyXKvrrhwlckGgbC4kbVTl g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="294672199"
-X-IronPort-AV: E=Sophos;i="5.96,190,1665471600"; d="scan'208";a="294672199"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Nov 2022 04:01:15 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="642325590"
-X-IronPort-AV: E=Sophos;i="5.96,190,1665471600"; d="scan'208";a="642325590"
-Received: from smurr10x-mobl1.amr.corp.intel.com (HELO [10.213.209.98])
- ([10.213.209.98])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Nov 2022 04:01:12 -0800
-Message-ID: <d009a434-d348-32c5-07eb-128d1d9fc36b@linux.intel.com>
-Date: Thu, 24 Nov 2022 12:01:10 +0000
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46043895EE
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Nov 2022 12:05:51 +0000 (UTC)
+Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.54])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4NHxST0x94zJnr8;
+ Thu, 24 Nov 2022 20:02:17 +0800 (CST)
+Received: from [10.67.110.176] (10.67.110.176) by
+ kwepemi500012.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 24 Nov 2022 20:05:33 +0800
+Subject: Re: [PATCH] dma-buf: Fix possible UAF in dma_buf_export
+To: Charan Teja Kalla <quic_charante@quicinc.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>, "T.J. Mercier"
+ <tjmercier@google.com>
+References: <20221117062152.3029018-1-cuigaosheng1@huawei.com>
+ <f12a5dbe-4626-f6c7-236b-30bb16be1dd6@quicinc.com>
+ <99d3aee6-ba3e-5333-6f79-ddbcfc0e8843@amd.com>
+ <CABdmKX1UMB0L0PmHB59nijReZef6LUQ3XKXitHZo2YnUrJTz9Q@mail.gmail.com>
+ <2c9fa595-e788-5474-4f2b-ffbd08a70d13@amd.com>
+ <CABdmKX0KJJV0iQwy0aUNXcLc1DGyLjmh6_Y53asHEoh-uyHzAA@mail.gmail.com>
+ <83944425-c177-7918-bcde-9cf7296a613f@amd.com>
+ <e12784da-b3e3-ddec-0e84-f968d60097c4@quicinc.com>
+From: cuigaosheng <cuigaosheng1@huawei.com>
+Message-ID: <b2d5d904-99f2-7974-a22d-63a6cf864973@huawei.com>
+Date: Thu, 24 Nov 2022 20:05:33 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [Intel-gfx] [PATCH v2 2/4] drm/i915: Introduce guard pages to
- i915_vma
-Content-Language: en-US
-To: Andi Shyti <andi.shyti@linux.intel.com>
-References: <20221122185737.96459-1-andi.shyti@linux.intel.com>
- <20221122185737.96459-3-andi.shyti@linux.intel.com>
- <a579e9a5-0bd4-d439-3193-64dc52e05997@linux.intel.com>
- <Y35sXXLiAmwulDRU@ashyti-mobl2.lan>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <Y35sXXLiAmwulDRU@ashyti-mobl2.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <e12784da-b3e3-ddec-0e84-f968d60097c4@quicinc.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.67.110.176]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ kwepemi500012.china.huawei.com (7.221.188.12)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,118 +56,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>,
- dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Pavan Kondeti <quic_pkondeti@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
+ Dan Carpenter <dan.carpenter@oracle.com>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Some tips:
+     Before we call the dma_buf_stats_setup(), we have to finish creating the file,
+otherwise dma_buf_stats_setup() will return -EINVAL, maybe we need to think about
+this when making a new patch.
 
-On 23/11/2022 18:54, Andi Shyti wrote:
-> Hi Tvrtko,
-> 
-> [...]
-> 
->>> @@ -768,6 +768,9 @@ i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
->>>    	GEM_BUG_ON(!IS_ALIGNED(alignment, I915_GTT_MIN_ALIGNMENT));
->>>    	GEM_BUG_ON(!is_power_of_2(alignment));
->>> +	guard = vma->guard; /* retain guard across rebinds */
->>> +	guard = ALIGN(guard, alignment);
+Hope these tips are useful, thanks!
+
+On 2022/11/24 13:56, Charan Teja Kalla wrote:
+> Thanks T.J and Christian for the inputs.
+>
+> On 11/19/2022 7:00 PM, Christian König wrote:
+>>>      Yes, exactly that's the idea.
+>>>
+>>>      The only alternatives I can see would be to either move allocating
+>>>      the
+>>>      file and so completing the dma_buf initialization last again or just
+>>>      ignore errors from sysfs.
+>>>
+>>>      > If we still want to avoid calling dmabuf->ops->release(dmabuf) in
+>>>      > dma_buf_release like the comment says I guess we could use
+>>>      sysfs_entry
+>>>      > and ERR_PTR to flag that, otherwise it looks like we'd need a bit
+>>>      > somewhere.
+>>>
+>>>      No, this should be dropped as far as I can see. The sysfs cleanup
+>>>      code
+>>>      looks like it can handle not initialized kobj pointers.
+>>>
+>>>
+>>> Yeah there is also the null check in dma_buf_stats_teardown() that
+>>> would prevent it from running, but I understood the comment to be
+>>> referring to the release() dma_buf_ops call into the exporter which
+>>> comes right after the teardown call. That looks like it's preventing
+>>> the fput task work calling back into the exporter after the exporter
+>>> already got an error from dma_buf_export(). Otherwise the exporter
+>>> sees a release() for a buffer that it doesn't know about / thinks
+>>> shouldn't exist. So I could imagine an exporter trying to double free:
+>>> once for the failed dma_buf_export() call, and again when the
+>>> release() op is called later.
 >>
->> Why does guard area needs the same alignment as the requested mapping? What about the fact on 32-bit builds guard is 32-bit and alignment u64?
-> 
-> I guess this just to round up/down guard to something, not
-> necessarily to that alignment.
-> 
-> Shall I remove it?
-
-Don't know, initially I thought it maybe needs a comment on what's it 
-doing and why. If it is about aligning to "something" then should it be 
-I915_GTT_MIN_ALIGNMENT?
-
->>> @@ -777,6 +780,7 @@ i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
->>>    	if (flags & PIN_ZONE_4G)
->>>    		end = min_t(u64, end, (1ULL << 32) - I915_GTT_PAGE_SIZE);
->>>    	GEM_BUG_ON(!IS_ALIGNED(end, I915_GTT_PAGE_SIZE));
->>> +	GEM_BUG_ON(2 * guard > end);
+>> Oh, very good point as well. Yeah, then creating the file should
+>> probably come last.
 >>
->> End is the size of relevant VA area at this point so what and why is this checking?
-> 
-> I think because we want to make sure the padding is at least not
-> bigger that the size. What is actually wrong with this.
-
-Same as above - if there is subtle special meaning please add a comment. 
-Otherwise, for the whole object and not just the guards, it is covered by:
-
-+	if (size > end - 2 * guard) {
-
-I don't follow what is the point on only checking the guards.
-
-> 
-> [...]
-> 
->>> @@ -855,6 +869,7 @@ i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
->>>    	GEM_BUG_ON(!i915_gem_valid_gtt_space(vma, color));
->>>    	list_move_tail(&vma->vm_link, &vma->vm->bound_list);
->>> +	vma->guard = guard;
->>
->> unsigned long into u32 - what guarantees no truncation?
-> 
-> we are missing here this part above:
-> 
-> 	guard = vma->guard; /* retain guard across rebinds */
-> 	if (flags & PIN_OFFSET_GUARD) {
-> 		GEM_BUG_ON(overflows_type(flags & PIN_OFFSET_MASK, u32));
-> 		guard = max_t(u32, guard, flags & PIN_OFFSET_MASK);
-> 	}
-> 
-> that should make sure that we fit into 32 bits.
-
-Hm okay. I guess the u64 alignment and that "guard = ALIGN(guard, 
-alignment);" is what is bothering me to begin with. In other words with 
-that there is a chance to overflow vma->guard with a small guard and 
-large alignment.
-
-> 
-> [...]
-> 
->>> @@ -197,14 +197,15 @@ struct i915_vma {
->>>    	struct i915_fence_reg *fence;
->>>    	u64 size;
->>> -	u64 display_alignment;
->>>    	struct i915_page_sizes page_sizes;
->>>    	/* mmap-offset associated with fencing for this vma */
->>>    	struct i915_mmap_offset	*mmo;
->>> +	u32 guard; /* padding allocated around vma->pages within the node */
->>>    	u32 fence_size;
->>>    	u32 fence_alignment;
->>> +	u32 display_alignment;
->>
->> u64 -> u32 for display_alignment looks unrelated change.
->>
->> ./display/intel_fb_pin.c:       vma->display_alignment = max_t(u64, vma->display_alignment, alignment);
->> ./gem/i915_gem_domain.c:        vma->display_alignment = max_t(u64, vma->display_alignment, alignment);
->>
->> These two sites need to be changed not to use u64.
->>
->> Do this part in a separate patch?
-> 
-> Right! will remove it.
-
-Okay, to be clear, refactoring of vma->display_alignemnt to be u32 as a 
-separate patch in the series. Thanks!
-
-Regards,
-
-Tvrtko
-
-> 
->>>    	/**
->>>    	 * Count of the number of times this vma has been opened by different
->>
+> @Gaosheng: Could you please make these changes or you let me to do?
+>
 >> Regards,
-> 
-> Thanks,
-> Andi
-> 
->> Tvrtko
+>> Christian.
+> .
