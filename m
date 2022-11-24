@@ -1,56 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B92E637588
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 10:49:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52E996374B5
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 10:04:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6A2210E6BA;
-	Thu, 24 Nov 2022 09:49:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA74110E6B5;
+	Thu, 24 Nov 2022 09:04:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD57510E6BF;
- Thu, 24 Nov 2022 09:49:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669283345; x=1700819345;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=5nqwP74Xj8YI6Z6aeEp89v3bOKulSwTBcOFdpyY6vQk=;
- b=KLiGoNu7uFZ6xXzfU6yhq9ZWUZUCUqU5ITSD63gUE3jTAYJEsGjpS6Ji
- PIVhhDWKs0J74ukFDcYUqT4TBO1HtNNJWdJ+cevnOzOTJU97HcUk66DD8
- M9PyscHYknJ4AEz7AieVhmLq4mXUfvNcHzFPU5GLneYz2CNp1q580BVRC
- ccl79bx0AdLAm/eQ3PC+3WmpnyUY67aw/VpSjlJ2IDST2el38p8tXkEA8
- jIPakOcy1XA4/QTWoiuK+DXQahw/48mAVIzeh0MrOKptkQFWt0e+jfYvp
- ID9gWLnUhazV/WSBNn7Rot0AFkD+OpChzFwcVOVQOXkqr9SvQtEj4LMp7 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="301827531"
-X-IronPort-AV: E=Sophos;i="5.96,190,1665471600"; d="scan'208";a="301827531"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Nov 2022 01:49:05 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="748174836"
-X-IronPort-AV: E=Sophos;i="5.96,190,1665471600"; d="scan'208";a="748174836"
-Received: from psidor-mobl.ger.corp.intel.com (HELO
- jkrzyszt-mobl1.ger.corp.intel.com) ([10.213.2.209])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Nov 2022 01:49:02 -0800
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [PATCH v3 2/2] drm/i915: Never return 0 if not all requests
- retired
-Date: Wed, 23 Nov 2022 17:21:08 +0100
-Message-ID: <1880834.taCxCBeP46@jkrzyszt-mobl1.ger.corp.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
- 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <b1f9851e-b8c9-6b53-2d21-a5a5eb37749c@linux.intel.com>
-References: <20221121145655.75141-1-janusz.krzysztofik@linux.intel.com>
- <9026056.CDJkKcVGEf@jkrzyszt-mobl1.ger.corp.intel.com>
- <b1f9851e-b8c9-6b53-2d21-a5a5eb37749c@linux.intel.com>
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A747E10E6B5
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Nov 2022 09:04:34 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id fy37so2665061ejc.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Nov 2022 01:04:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=pcMMrNexMg7uk5V07y6ofHZRaGMFOJAdVNWM7NvAom8=;
+ b=c6ZFFMxPziWGEih6OnzFHJWQjimPOB+VTcv7M55W96qIhRsMA9iYuK2Zne80r9r8Te
+ ghZefKeRzP2yj2a0TGWmlmzZNCl8sijGM9rSs3aGaFrDv39pwcxFPvxveLiJApl5ZYwd
+ kUQi4nvT0r1sn4RfbaeCZgTsM3mxERsLLq1P4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=pcMMrNexMg7uk5V07y6ofHZRaGMFOJAdVNWM7NvAom8=;
+ b=TMdIXiYPbfTtQAVLuymufbaXJrzvKf6IQVxU6WHBKdGjIKgaG5VnzZxNbCzSgSSZkx
+ rMbHSeKQXAHpxMUzdMew7iXG/TlCFGbxpvCJdZXr8hrXiIVISThz/CbokERL2XWVX6Uq
+ Js6qMMoiSK2pJ1eGUmIyPfBRpJnO5dz2Y1RrIUsHY2YXp+9I76UqWtMfOW7bFe6B8Fua
+ MismcdreNoK7fO9dT8jswMZjrOYL+QGLJ9A5ZJrawvFQImCyYuGfy86y6P6Y3TAd2nZK
+ +QUhqRn/XQ5QpMLDB/x+uh+lymeCN3g6Q2IoN7nBjjMuqenXhnvhsvverSPJsNcRvO+A
+ 1I8g==
+X-Gm-Message-State: ANoB5pn3WyuUA3RqgKRhIaSfGbmsb9eTmx7Ibe3Li3XesR9CgKKW00iI
+ XpDt2QAIaa1LiZ1CpV3wToDoZw==
+X-Google-Smtp-Source: AA0mqf5YqGkNGskmrDFzq3+eFN3Y6OY0f7bSR7ohOOG2Q/QaVAUliYK9jJg4fzmfR/0SXkM+XsDyhw==
+X-Received: by 2002:a17:907:8c0d:b0:7ae:70f9:114 with SMTP id
+ ta13-20020a1709078c0d00b007ae70f90114mr26594367ejc.44.1669280672953; 
+ Thu, 24 Nov 2022 01:04:32 -0800 (PST)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
+ [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
+ i25-20020a056402055900b0046730154ccbsm271694edx.42.2022.11.24.01.04.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Nov 2022 01:04:32 -0800 (PST)
+Date: Thu, 24 Nov 2022 10:04:30 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH resend v2] drm/fourcc: Add missing big-endian XRGB1555
+ and RGB565 formats
+Message-ID: <Y38znirlUpFoQRqX@phenom.ffwll.local>
+Mail-Followup-To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ linux-fbdev@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <3ee1f8144feb96c28742b22384189f1f83bcfc1a.1669221671.git.geert@linux-m68k.org>
+ <e2ef753e-8527-1fc6-f2f0-bc10aa744463@suse.de>
+ <CAMuHMdXHOGz6Q9jsp9+Y6Op5qw3E-qUnHzYv3rxkVO5Bd2bKjw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXHOGz6Q9jsp9+Y6Op5qw3E-qUnHzYv3rxkVO5Bd2bKjw@mail.gmail.com>
+X-Operating-System: Linux phenom 5.19.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,152 +79,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org,
- Chris Wilson <chris.p.wilson@intel.com>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- John Harrison <John.C.Harrison@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
+Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-m68k@lists.linux-m68k.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wednesday, 23 November 2022 13:57:26 CET Tvrtko Ursulin wrote:
+On Thu, Nov 24, 2022 at 09:55:18AM +0100, Geert Uytterhoeven wrote:
+> Hi Thomas,
 > 
-> On 23/11/2022 09:28, Janusz Krzysztofik wrote:
-> > Hi Tvrtko,
-> > 
-> > Thanks for your comments.
-> > 
-> > On Tuesday, 22 November 2022 11:50:38 CET Tvrtko Ursulin wrote:
-> >>
-> >> On 21/11/2022 14:56, Janusz Krzysztofik wrote:
-> >>> Users of intel_gt_retire_requests_timeout() expect 0 return value on
-> >>> success.  However, we have no protection from passing back 0 potentially
-> >>> returned by a call to dma_fence_wait_timeout() when it succedes right
-> >>> after its timeout has expired.
-> >>
-> >> Is this talking about a potential weakness, or ambiguous kerneldoc, of
-> >> dma_fence_wait_timeout, dma_fence_default_wait and
-> >> i915_request_wait_timeout? They appear to say 0 return means timeout,
-> >> implying unsignaled fence. In other words signaled must return positive
-> >> remaining timeout. Implementations seems to allow a race which indeed
-> >> appears that return 0 and signaled fence is possible.
-> > 
-> > While my initial analysis was indeed focused on inconsistent semantics of 0
-> > return values from different dma_fence_default_wait() backends, I should have
-> > also mentioned in this commit description that users may perfectly
-> > call intel_gt_retire_requests_timeout() with 0 timeout, in which case the
-> > false positive 0 value can be returned regardless of dma_fence_wait_timeout()
-> > potential issues.  Would you like me to reword and resubmit?
+> On Thu, Nov 24, 2022 at 9:47 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> > Am 23.11.22 um 17:43 schrieb Geert Uytterhoeven:
+> > > As of commit eae06120f1974e1a ("drm: refuse ADDFB2 ioctl for broken
+> > > bigendian drivers"), drivers must set the
+> > > quirk_addfb_prefer_host_byte_order quirk to make the drm_mode_addfb()
+> > > compat code work correctly on big-endian machines.
+> > >
+> > > While that works fine for big-endian XRGB8888 and ARGB8888, which are
+> > > mapped to the existing little-endian BGRX8888 and BGRA8888 formats, it
+> > > does not work for big-endian XRGB1555 and RGB565, as the latter are not
+> > > listed in the format database.
+> > >
+> > > Fix this by adding the missing formats.  Limit this to big-endian
+> > > platforms, as there is currently no need to support these formats on
+> > > little-endian platforms.
+> > >
+> > > Fixes: 6960e6da9cec3f66 ("drm: fix drm_mode_addfb() on big endian machines.")
+> > > Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> > > ---
+> > > v2:
+> > >    - Use "DRM_FORMAT_foo | DRM_FORMAT_BIG_ENDIAN" instead of
+> > >      "DRM_FORMAT_HOST_foo",
+> > >    - Turn into a lone patch, as all other patches from series
+> > >      https://lore.kernel.org/r/cover.1657300532.git.geert@linux-m68k.org
+> > >      were applied to drm-misc/for-linux-next.
+> > > ---
+> > >   drivers/gpu/drm/drm_fourcc.c | 4 ++++
+> > >   1 file changed, 4 insertions(+)
+> > >
+> > > diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
+> > > index e09331bb3bc73f21..265671a7f9134c1f 100644
+> > > --- a/drivers/gpu/drm/drm_fourcc.c
+> > > +++ b/drivers/gpu/drm/drm_fourcc.c
+> > > @@ -190,6 +190,10 @@ const struct drm_format_info *__drm_format_info(u32 format)
+> > >               { .format = DRM_FORMAT_BGRA5551,        .depth = 15, .num_planes = 1, .cpp = { 2, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+> > >               { .format = DRM_FORMAT_RGB565,          .depth = 16, .num_planes = 1, .cpp = { 2, 0, 0 }, .hsub = 1, .vsub = 1 },
+> > >               { .format = DRM_FORMAT_BGR565,          .depth = 16, .num_planes = 1, .cpp = { 2, 0, 0 }, .hsub = 1, .vsub = 1 },
+> > > +#ifdef __BIG_ENDIAN
+> > > +             { .format = DRM_FORMAT_XRGB1555 | DRM_FORMAT_BIG_ENDIAN, .depth = 15, .num_planes = 1, .cpp = { 2, 0, 0 }, .hsub = 1, .vsub = 1 },
+> > > +             { .format = DRM_FORMAT_RGB565 | DRM_FORMAT_BIG_ENDIAN, .depth = 16, .num_planes = 1, .cpp = { 2, 0, 0 }, .hsub = 1, .vsub = 1 },
+> >
+> > Getting back to the discussion on endianess, I don't understand why the
+> > BIG_ENDIAN flag is set here.  AFAIK these formats are always little
+> > endian.  And the BE flag is set by drivers/userspace if a framebuffer
+> > has a BE ordering.
+> >
+> > It would be better to filter the BE flag in __drm_format_info() before
+> > the function does the lookup.
 > 
-> Not sure yet.
+> I mentioned that alternative in [2], but rejected it because of the
+> disadvantages:
+>   - {,__}drm_format_info() returns a pointer to a const object,
+>     whose .format field won't have the DRM_FORMAT_BIG_ENDIAN flag set,
+>     complicating callers,
+>   - All callers need to be updated,
+>   - It is difficult to know which big-endian formats are really
+>     supported, especially as only a few are needed.
+
+fwiw this last point is why I think this is the right approach. Long term
+we might want to add _BE variants of these #defines so that they can be
+used everywhere and are easy to grep. As long as it's just a handful of
+places then the very verboy | DRM_FORMAT_BIG_ENDIAN is ok too.
+
+With this approach we can make it _very_ explicit what big endian formats
+are supported by a driver or other piece in the stack (like fbdev
+emulation), and I think explicit is what we want with be because it's
+become such an exception. Otherwise we'll just end up with more terrible
+cruft like the host endian hacks in the addfb compat code.
+-Daniel
 > 
-> So the only caller which passes in zero to 
-> intel_gt_retire_requests_timeout appears to be intel_gt_retire_requests 
-> and it eats the return value anyway so this patch is immaterial for that 
-> one.
-
-Right.
-
-> I guess it can change how intel_gt_wait_for_idle behaves with short-ish 
-> timeouts. In case this race is hit. But then wouldn't it make sense to 
-> follow up with a patch which addresses this race by re-checking the "is 
-> signaled" when timeout expires, 
-
-But inside intel_gt_retire_requests_timeout() we generally don't care if 
-fences have been signaled.  As long as user requested timeout hasn't expired, 
-we use dma_fence_wait_timeout() as an aid, otherwise we keep trying to retire 
-requests without waiting on fences. If the retirement succeeds then we return 
-0 (success) regardless of what the return value from the last called 
-dma_fence_wait_timeout() was.  If it was 0 then the only useful information is 
-that no more time has been left, and no matter if that 0 meant signaled or not 
-signaled, we must return an error if there are still some requests not 
-retired, I believe.
-
-> either in dma_fence_wait_timeout, or to 
-> intel_gt_retire_requests_timeout. Or if not that at least better 
-> document the dma_fence_wait_timeout and/or 
-> intel_gt_retire_requests_timeout. Makes sense?
-
-Documenting -- yes, as soon as we get into an agreement on what's the core of 
-this issue -- whether that potential weakness, or ambiguous kerneldoc, of 
-dma_fence_wait_timeout, dma_fence_default_wait and i915_request_wait_timeout, 
-as you've stated, that we have to address somehow, or potentially incorrect 
-direct use of the timeout variable, intended for storing time left to spend on 
-fence waits, as our return value when timeout has expired.  And if the former 
-then maybe we should also try to finally resolve that over a year old conflict 
-(whether 0 means signaled on not signaled) inside our implementation of 
-dma_fence_ops.wait, and simply use a wrapper around it for either our internal 
-use if we decide to follow the reference implementation, or for dma_fence_ops 
-use otherwise.  Or maybe the reference implementation should be fixed if 
-problematic.  I don't feel competent enough to decide.
-
-Thanks,
-Janusz
- 
+> [2] [PATCH 1/3] drm/fourcc: Add missing big-endian XRGB1555 and RGB565 formats
+> https://lore.kernel.org/all/0744671ac096a12f0d538906bd324efa71b11400.1657300532.git.geert@linux-m68k.org
 > 
-> Regards,
+> Gr{oetje,eeting}s,
 > 
-> Tvrtko
+>                         Geert
 > 
-> > 
-> >> If dma_fence_wait can indeed return 0 even when a request is signaled,
-> >> then how is timeout ?: -ETIME below correct? It isn't a chance for false
-> >> negative in its' callers?
-> > 
-> > The goal of intel_gt_retire_requests_timeout() is to retire requests.  When
-> > that goal has been reached, i.e., all requests have been retired, active count
-> > is 0, and 0 is correctly returned, regardless of timeout value.
-> > 
-> > The value of timeout is used only when there are still pending requests, which
-> > means that the goal hasn't been reached and the function hasn't succeeded.
-> > Then, no false negative is possible, unlike the false positive that we now
-> > have when we return 0  while some requests are still pending.
-> > 
-> > Thanks,
-> > Janusz
-> > 
-> >>
-> >> Regards,
-> >>
-> >> Tvrtko
-> >>
-> >>> Replace 0 with -ETIME before potentially using the timeout value as return
-> >>> code, so -ETIME is returned if there are still some requests not retired
-> >>> after timeout, 0 otherwise.
-> >>>
-> >>> v3: Use conditional expression, more compact but also better reflecting
-> >>>       intention standing behind the change.
-> >>>
-> >>> v2: Move the added lines down so flush_submission() is not affected.
-> >>>
-> >>> Fixes: f33a8a51602c ("drm/i915: Merge wait_for_timelines with retire_request")
-> >>> Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-> >>> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
-> >>> Cc: stable@vger.kernel.org # v5.5+
-> >>> ---
-> >>>    drivers/gpu/drm/i915/gt/intel_gt_requests.c | 2 +-
-> >>>    1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_requests.c b/drivers/gpu/drm/i915/gt/intel_gt_requests.c
-> >>> index edb881d756309..1dfd01668c79c 100644
-> >>> --- a/drivers/gpu/drm/i915/gt/intel_gt_requests.c
-> >>> +++ b/drivers/gpu/drm/i915/gt/intel_gt_requests.c
-> >>> @@ -199,7 +199,7 @@ out_active:	spin_lock(&timelines->lock);
-> >>>    	if (remaining_timeout)
-> >>>    		*remaining_timeout = timeout;
-> >>>    
-> >>> -	return active_count ? timeout : 0;
-> >>> +	return active_count ? timeout ?: -ETIME : 0;
-> >>>    }
-> >>>    
-> >>>    static void retire_work_handler(struct work_struct *work)
-> >>
-> > 
-> > 
-> > 
-> > 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 > 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
 
-
-
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
