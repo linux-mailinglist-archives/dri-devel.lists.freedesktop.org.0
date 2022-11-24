@@ -2,68 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C702636EE1
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 01:19:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA06A636F14
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 01:48:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB04A10E669;
-	Thu, 24 Nov 2022 00:19:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 647BB10E64E;
+	Thu, 24 Nov 2022 00:48:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
- [IPv6:2a00:1450:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25EF910E669
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Nov 2022 00:19:09 +0000 (UTC)
-Received: by mail-lj1-x236.google.com with SMTP id t10so334687ljj.0
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 16:19:09 -0800 (PST)
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E609A10E66A
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Nov 2022 00:48:05 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ t25-20020a1c7719000000b003cfa34ea516so3649292wmi.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Nov 2022 16:48:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ZejUihPyJi5uFCGHrBzNO4EWo8XFZCAns+rd9g32pUM=;
- b=ag7A48mm2QjXFmhFfCW63ch9xxLA5CtmlMvYIqCf7cDxzYvIFHNrYjNBcOrsfGC3T1
- /HjI/iMGmjY015iCLS9w2qU5xfXgZCyEXSi9zScgFHspswOPJNWhDjtxMqhiTtchfs4D
- tv2IzoAtJ+a6yN7V/RVQCcxL/y9ss+5sat5/2Goezm7DKQ3ch/0NDBbjf/haI/SIMj5T
- +X7vSbboU7xSL7szg2oofm99+i2tTKM033NkblzF7MmXLDtS0Ux0RJtOJf2eDUZXFdmw
- uxhJh7VpoxK4sKhoRZHHpYe+fguSINDGwMEmrDOnMmK4tsrnAUkuz7IAcIGB9sWfDVnz
- leCg==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=6YPFVF1eY9/ODmDT3NI20gj5TL4wvhdUoa/GdSB6uN4=;
+ b=xImOnWP2Who9GsW9wL7MuY5SPWwHsdXGlbna50GyteErWTOSAbyGsn3tezjS4/ck90
+ GnaFwjmMSkvh34UHnZK1NWBPojYS1lPgt9nxKR3hONxSTCLTxARB+HKMNnA1dL7cvDIZ
+ O+j95kq753YJ8pW28FA4SFvagHOk+MRGVu26bVoyCTbKMixaNh4066PbLD6bv2rtKPwv
+ fqbk2GOQzbxwEwSIl/QYo3vbhTHzPf4AvvPYgpwuoc98f/+fuQD1d1m0gXO5EbZ1mLqO
+ Hkg8q7oNlvfN+f4gwEZ2CLW8/ZOz5+DxRgzHdk1B1xcg6h1ETVarRldUuUi/XgPpLHJt
+ 3SxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ZejUihPyJi5uFCGHrBzNO4EWo8XFZCAns+rd9g32pUM=;
- b=MTod5dxkFCrnRDVrj6aMeqEQT2BgmTfidR1SlkGu/eiMn4TrASdr8kptIKdjZnKlLZ
- d6DnO9O5QKuMtj6yC5/3dRscP8NwDpmdplY4dVX358PkLmaKertB+2XkoQhsZYO5iAhw
- GsqQul4FTpQZavMZWLNutAgeityX56kP50GP/DFqkkKm0DMzyKHuzJwW3rLmQjxJfRMc
- w1rnx51BhRhOpGbgrrKRQMEGrUgTTaV9SBHDVbdLEKYmE+7PKCGyhQovZV0+qZmq61D1
- bUrGcQsDDGP1ahtXybgVgVIC6bCug3oapF48K45h9Bv1Jdm35fL/XWCclciUJzwC080G
- pbVQ==
-X-Gm-Message-State: ANoB5pnm6+zzY6Y14K9hCosvv+QMjZ7utcbizNI3hWvrjxBk/pNTtLfG
- AbQ9PZHhIdx++uC5RGF4DiFPaZ0fBD5cd1ra
-X-Google-Smtp-Source: AA0mqf5K//gFyF4qm5Al/mBOr1aB/eBQHMGuiDTzO6b6U30wsNJRexrsVmkzmS75Gg+iDuXCVjaTkw==
-X-Received: by 2002:a2e:9d4:0:b0:279:7ff6:3162 with SMTP id
- 203-20020a2e09d4000000b002797ff63162mr765357ljj.250.1669249147360; 
- Wed, 23 Nov 2022 16:19:07 -0800 (PST)
-Received: from [192.168.1.101] (95.49.32.48.neoplus.adsl.tpnet.pl.
- [95.49.32.48]) by smtp.gmail.com with ESMTPSA id
- a17-20020a2e9811000000b0026dc7b59d8esm2400057ljj.22.2022.11.23.16.19.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Nov 2022 16:19:06 -0800 (PST)
-Message-ID: <0b9cd489-572c-e29c-0fc1-4cb960500b68@linaro.org>
-Date: Thu, 24 Nov 2022 01:19:04 +0100
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=6YPFVF1eY9/ODmDT3NI20gj5TL4wvhdUoa/GdSB6uN4=;
+ b=4FotCKTR6vMIrOXc9AYqLqGqEZAerPUQSfYjKlgMOx/2keDTpJCu0ufoHDySG4XVVz
+ AvOrUtmyA1N7max+g7RjQk+2nz/7cMAQKpaYESoBL9tYQOiQp7wgJTALdu+irQ1zb6mO
+ AkIMiP23yE8zpSVCM8eVwwJ3UL0SJgxUTwthE0S+fipSNdNKsmvZKRe4N/j3h71Ziykm
+ O/xkBPonRAtlzyYyVCBPtfyGoTIunxR7x97jMtW4DJCbzWwUbBSYFqPAldQQv6vkV5I1
+ tUfSI1Tc7iKF4WkK6ENqUtchvk4ivOP1ZrxOD2qN/Agj5AFLKfTSurU1IbUFUdoshOEu
+ xf5w==
+X-Gm-Message-State: ANoB5pmcZFAQBVdctzJgSsy/z8HWC+B50ITQwdc/9CgkMG5GmOLxjES/
+ DxDzC6bnwxtR+ykZPxtLURSfww==
+X-Google-Smtp-Source: AA0mqf6/zD7eXqbSH9mq7KMYXonPKLW5ymPGsayC+jRgJPCp6lQRRjSgVHkc8u7NgQMmKGrIxMBHKA==
+X-Received: by 2002:a7b:cb83:0:b0:3cf:96da:3846 with SMTP id
+ m3-20020a7bcb83000000b003cf96da3846mr24532549wmi.10.1669250884374; 
+ Wed, 23 Nov 2022 16:48:04 -0800 (PST)
+Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie.
+ [188.141.3.169]) by smtp.gmail.com with ESMTPSA id
+ n38-20020a05600c3ba600b003c6bbe910fdsm5245076wms.9.2022.11.23.16.48.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Nov 2022 16:48:03 -0800 (PST)
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+Subject: [PATCH v3 00/18] mdss-dsi-ctrl binding and dts fixes
+Date: Thu, 24 Nov 2022 00:47:43 +0000
+Message-Id: <20221124004801.361232-1-bryan.odonoghue@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v2 2/2] drm/msm/disp/dpu1: add support for display on
- SM6115
-To: Adam Skladowski <a39.skl@gmail.com>
-References: <20221124001708.25720-1-a39.skl@gmail.com>
- <20221124001708.25720-3-a39.skl@gmail.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20221124001708.25720-3-a39.skl@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,217 +70,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Vinod Polimera <quic_vpolimer@quicinc.com>, phone-devel@vger.kernel.org,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Jason Wang <wangborong@cdjrlc.com>, Sean Paul <sean@poorly.run>,
- Kalyan Thota <quic_kalyant@quicinc.com>,
- Loic Poulain <loic.poulain@linaro.org>, Bjorn Andersson <andersson@kernel.org>,
- Douglas Anderson <dianders@chromium.org>, Vinod Koul <vkoul@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, ~postmarketos/upstreaming@lists.sr.ht
+Cc: dri-devel@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org,
+ sean@poorly.run, andersson@kernel.org, konrad.dybcio@somainline.org,
+ quic_abhinavk@quicinc.com, david@ixit.cz, dianders@chromium.org,
+ robh+dt@kernel.org, agross@kernel.org, dmitry.baryshkov@linaro.org,
+ bryan.odonoghue@linaro.org, swboyd@chromium.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+V3:
+- Moves declaration of mdss-dsi-ctrl into compat string declaration
+  patch - Krzysztof, Dmitry
+- Renames qcm-2290 compat string to agreed compat "qcom,socname-dsi-ctrl"
+  Dmirty, Krzysztof
+- Adds empty line after if clause in yaml control flow section - Dmirty
+- Adds Rb/Ack - Krzysztof, Dmitry, Doug, David
+- vdd*
+  Looking into this some more, I don't believe vdd, vdda, vddio ought to be
+  required properties. Its up to the PCB manufacturer and the panel in-use
+  how that panel is powered. Powering the panel is not something that
+  even necessarily needs to be done from the dsi-ctrl driver.
+  Originally marking vdd* as required in the .txt was an error, its not a
+  SoC level dtsi requirement.
+- clock-names
+  Rather than replicate the clock-name in each if block I listed them with
+  a specific description from a similar reference in usb/qcom,dwc3.yaml.
+ 
+https://lore.kernel.org/linux-arm-msm/eb80681f-2e0b-605f-0444-ec65562f74b8@linaro.org/
+
+V2:
+https://www.spinics.net/lists/linux-arm-msm/msg116326.html
+
+- Moves the DSI PHY changes to a different later series.
+  There are enough dsi-controller-main changes to justify its own
+  standalone series.
+
+- The original phy-name binding change given discussion with Rob and
+  Krzysztof became its own standalone series that has since been merged.
+  https://www.mail-archive.com/dri-devel@lists.freedesktop.org/msg403214.html
+
+- Retains the drop of power-domain from yaml as a required property.
+  I dug into the available dtsi. The apq8064 doesn't appear to have any
+  GDSC which can be attached as a power-domain, which means the
+  power-domain requirement is not universal across the various silicon
+  versions.
+
+- Adds Dmitry's RB to power-domain drop
+
+- For the clock declarations I've
+  * I noticed that the simple change I had worked for msm8939 but
+    subsquently broke other dtsi which drove a bigger change to document
+    the clocks on a per compatible basis.
+  * Added compat strings in yaml.
+  * Moved the allOf down later in the file to acomodate the if/then.
+  * Number of clocks validated on a per compatible basis
+  * The driver code which doesn't care about the number of clocks
+    can still operate on the mdss-dsi-ctrl compat but the dts checks will
+    validate against the compat string and yaml.
+
+- vdd descriptions
+  Took the previous text I missed from the .txt file - Krzysztof, Dmitry
+  Adds vdd, vdda and vddio to the required list. This exposes warnings in
+  existing dtsi but the previous .txt declared these regulators as
+  required. - Krzysztof
+ 
+V1:
+This series fixes up a number of dtbs checks which are being flagged adding
+in the msm8939 dtsi.
 
 
-On 24.11.2022 01:16, Adam Skladowski wrote:
-> Add required display hw catalog changes for SM6115.
-> 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Adam Skladowski <a39.skl@gmail.com>
-> ---
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+When converting from .txt to .yaml a number of the parameters for the older
+msm8916 silicon were not transmitted into the yaml.
 
-Konrad
->  .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 87 +++++++++++++++++++
->  .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  1 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  1 +
->  drivers/gpu/drm/msm/msm_mdss.c                |  5 ++
->  4 files changed, 94 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> index 3934d8976833..b4ca123d8e69 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> @@ -330,6 +330,18 @@ static const struct dpu_caps sc7180_dpu_caps = {
->  	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
->  };
->  
-> +static const struct dpu_caps sm6115_dpu_caps = {
-> +	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
-> +	.max_mixer_blendstages = 0x4,
-> +	.qseed_type = DPU_SSPP_SCALER_QSEED3LITE,
-> +	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2, /* TODO: v2.5 */
-> +	.ubwc_version = DPU_HW_UBWC_VER_20,
-> +	.has_dim_layer = true,
-> +	.has_idle_pc = true,
-> +	.max_linewidth = 2160,
-> +	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
-> +};
-> +
->  static const struct dpu_caps sm8150_dpu_caps = {
->  	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
->  	.max_mixer_blendstages = 0xb,
-> @@ -498,6 +510,19 @@ static const struct dpu_mdp_cfg sc8180x_mdp[] = {
->  	},
->  };
->  
-> +static const struct dpu_mdp_cfg sm6115_mdp[] = {
-> +	{
-> +	.name = "top_0", .id = MDP_TOP,
-> +	.base = 0x0, .len = 0x494,
-> +	.features = 0,
-> +	.highest_bank_bit = 0x1,
-> +	.clk_ctrls[DPU_CLK_CTRL_VIG0] = {
-> +		.reg_off = 0x2ac, .bit_off = 0},
-> +	.clk_ctrls[DPU_CLK_CTRL_DMA0] = {
-> +		.reg_off = 0x2ac, .bit_off = 8},
-> +	},
-> +};
-> +
->  static const struct dpu_mdp_cfg sm8250_mdp[] = {
->  	{
->  	.name = "top_0", .id = MDP_TOP,
-> @@ -941,6 +966,16 @@ static const struct dpu_sspp_cfg sc7180_sspp[] = {
->  		sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1),
->  };
->  
-> +static const struct dpu_sspp_sub_blks sm6115_vig_sblk_0 =
-> +				_VIG_SBLK("0", 2, DPU_SSPP_SCALER_QSEED3LITE);
-> +
-> +static const struct dpu_sspp_cfg sm6115_sspp[] = {
-> +	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SM8250_MASK,
-> +		sm6115_vig_sblk_0, 0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
-> +	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK,
-> +		sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
-> +};
-> +
->  static const struct dpu_sspp_sub_blks sm8250_vig_sblk_0 =
->  				_VIG_SBLK("0", 5, DPU_SSPP_SCALER_QSEED3LITE);
->  static const struct dpu_sspp_sub_blks sm8250_vig_sblk_1 =
-> @@ -1757,6 +1792,35 @@ static const struct dpu_perf_cfg sc7180_perf_data = {
->  	.bw_inefficiency_factor = 120,
->  };
->  
-> +static const struct dpu_perf_cfg sm6115_perf_data = {
-> +	.max_bw_low = 3100000,
-> +	.max_bw_high = 4000000,
-> +	.min_core_ib = 2400000,
-> +	.min_llcc_ib = 800000,
-> +	.min_dram_ib = 800000,
-> +	.min_prefill_lines = 24,
-> +	.danger_lut_tbl = {0xff, 0xffff, 0x0},
-> +	.safe_lut_tbl = {0xfff0, 0xff00, 0xffff},
-> +	.qos_lut_tbl = {
-> +		{.nentry = ARRAY_SIZE(sc7180_qos_linear),
-> +		.entries = sc7180_qos_linear
-> +		},
-> +		{.nentry = ARRAY_SIZE(sc7180_qos_macrotile),
-> +		.entries = sc7180_qos_macrotile
-> +		},
-> +		{.nentry = ARRAY_SIZE(sc7180_qos_nrt),
-> +		.entries = sc7180_qos_nrt
-> +		},
-> +		/* TODO: macrotile-qseed is different from macrotile */
-> +	},
-> +	.cdp_cfg = {
-> +		{.rd_enable = 1, .wr_enable = 1},
-> +		{.rd_enable = 1, .wr_enable = 0}
-> +	},
-> +	.clk_inefficiency_factor = 105,
-> +	.bw_inefficiency_factor = 120,
-> +};
-> +
->  static const struct dpu_perf_cfg sm8150_perf_data = {
->  	.max_bw_low = 12800000,
->  	.max_bw_high = 12800000,
-> @@ -1998,6 +2062,28 @@ static const struct dpu_mdss_cfg sc7180_dpu_cfg = {
->  	.mdss_irqs = IRQ_SC7180_MASK,
->  };
->  
-> +static const struct dpu_mdss_cfg sm6115_dpu_cfg = {
-> +	.caps = &sm6115_dpu_caps,
-> +	.mdp_count = ARRAY_SIZE(sm6115_mdp),
-> +	.mdp = sm6115_mdp,
-> +	.ctl_count = ARRAY_SIZE(qcm2290_ctl),
-> +	.ctl = qcm2290_ctl,
-> +	.sspp_count = ARRAY_SIZE(sm6115_sspp),
-> +	.sspp = sm6115_sspp,
-> +	.mixer_count = ARRAY_SIZE(qcm2290_lm),
-> +	.mixer = qcm2290_lm,
-> +	.dspp_count = ARRAY_SIZE(qcm2290_dspp),
-> +	.dspp = qcm2290_dspp,
-> +	.pingpong_count = ARRAY_SIZE(qcm2290_pp),
-> +	.pingpong = qcm2290_pp,
-> +	.intf_count = ARRAY_SIZE(qcm2290_intf),
-> +	.intf = qcm2290_intf,
-> +	.vbif_count = ARRAY_SIZE(sdm845_vbif),
-> +	.vbif = sdm845_vbif,
-> +	.perf = &sm6115_perf_data,
-> +	.mdss_irqs = IRQ_SC7180_MASK,
-> +};
-> +
->  static const struct dpu_mdss_cfg sm8150_dpu_cfg = {
->  	.caps = &sm8150_dpu_caps,
->  	.mdp_count = ARRAY_SIZE(sdm845_mdp),
-> @@ -2158,6 +2244,7 @@ static const struct dpu_mdss_hw_cfg_handler cfg_handler[] = {
->  	{ .hw_rev = DPU_HW_VER_510, .dpu_cfg = &sc8180x_dpu_cfg},
->  	{ .hw_rev = DPU_HW_VER_600, .dpu_cfg = &sm8250_dpu_cfg},
->  	{ .hw_rev = DPU_HW_VER_620, .dpu_cfg = &sc7180_dpu_cfg},
-> +	{ .hw_rev = DPU_HW_VER_630, .dpu_cfg = &sm6115_dpu_cfg},
->  	{ .hw_rev = DPU_HW_VER_650, .dpu_cfg = &qcm2290_dpu_cfg},
->  	{ .hw_rev = DPU_HW_VER_720, .dpu_cfg = &sc7280_dpu_cfg},
->  	{ .hw_rev = DPU_HW_VER_810, .dpu_cfg = &sm8450_dpu_cfg},
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> index aa6c9ca99221..29e7ea5840a2 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> @@ -44,6 +44,7 @@
->  #define DPU_HW_VER_510	DPU_HW_VER(5, 1, 1) /* sc8180 */
->  #define DPU_HW_VER_600	DPU_HW_VER(6, 0, 0) /* sm8250 */
->  #define DPU_HW_VER_620	DPU_HW_VER(6, 2, 0) /* sc7180 v1.0 */
-> +#define DPU_HW_VER_630	DPU_HW_VER(6, 3, 0) /* sm6115|sm4250 */
->  #define DPU_HW_VER_650	DPU_HW_VER(6, 5, 0) /* qcm2290|sm4125 */
->  #define DPU_HW_VER_720	DPU_HW_VER(7, 2, 0) /* sc7280 */
->  #define DPU_HW_VER_810	DPU_HW_VER(8, 1, 0) /* sm8450 */
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index 69a86e87685c..38e63b19d930 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -1299,6 +1299,7 @@ static const struct of_device_id dpu_dt_match[] = {
->  	{ .compatible = "qcom,sc7180-dpu", },
->  	{ .compatible = "qcom,sc7280-dpu", },
->  	{ .compatible = "qcom,sc8180x-dpu", },
-> +	{ .compatible = "qcom,sm6115-dpu", },
->  	{ .compatible = "qcom,sm8150-dpu", },
->  	{ .compatible = "qcom,sm8250-dpu", },
->  	{ .compatible = "qcom,sm8450-dpu", },
-> diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-> index 5602fbaf6e0e..144c8dd82be1 100644
-> --- a/drivers/gpu/drm/msm/msm_mdss.c
-> +++ b/drivers/gpu/drm/msm/msm_mdss.c
-> @@ -280,6 +280,10 @@ static int msm_mdss_enable(struct msm_mdss *msm_mdss)
->  		/* UBWC_2_0 */
->  		msm_mdss_setup_ubwc_dec_20(msm_mdss, 0x1e);
->  		break;
-> +	case DPU_HW_VER_630:
-> +		/* UBWC_2_0 */
-> +		msm_mdss_setup_ubwc_dec_20(msm_mdss, 0x11f);
-> +		break;
->  	case DPU_HW_VER_720:
->  		msm_mdss_setup_ubwc_dec_40(msm_mdss, UBWC_3_0, 6, 1, 1, 1);
->  		break;
-> @@ -513,6 +517,7 @@ static const struct of_device_id mdss_dt_match[] = {
->  	{ .compatible = "qcom,sc7180-mdss" },
->  	{ .compatible = "qcom,sc7280-mdss" },
->  	{ .compatible = "qcom,sc8180x-mdss" },
-> +	{ .compatible = "qcom,sm6115-mdss" },
->  	{ .compatible = "qcom,sm8150-mdss" },
->  	{ .compatible = "qcom,sm8250-mdss" },
->  	{ .compatible = "qcom,sm8450-mdss" },
+Adding in the msm8939 which is a near 1:1 copy of the msm8916 in terms of
+dtsi triggers a rake of dtbs checks as a result.
+
+https://www.mail-archive.com/dri-devel@lists.freedesktop.org/msg403211.html
+
+Bryan O'Donoghue (18):
+  dt-bindings: msm: dsi-controller-main: Fix operating-points-v2
+    constraint
+  dt-bindings: msm: dsi-controller-main: Fix power-domain constraint
+  dt-bindings: msm: dsi-controller-main: Rename qcom,dsi-ctrl-6g-qcm2290
+    to qcom,qcm2290-dsi-ctrl
+  dt-bindings: msm: dsi-controller-main: Add compatible strings for
+    every current SoC
+  dt-bindings: msm: dsi-controller-main: Document clocks on a per
+    compatible basis
+  dt-bindings: msm: dsi-controller-main: Fix description of core clock
+  dt-bindings: msm: dsi-controller-main: Fix clock declarations
+  dt-bindings: msm: dsi-controller-main: Add vdd* descriptions back in
+  ARM: dts: qcom: apq8064: add compat qcom,apq8064-dsi-ctrl
+  ARM: dts: qcom: msm8974: Add compat qcom,msm8974-dsi-ctrl
+  arm64: dts: qcom: msm8916: Add compat qcom,msm8916-dsi-ctrl
+  arm64: dts: qcom: msm8996: Add compat qcom,msm8996-dsi-ctrl
+  arm64: dts: qcom: sc7180: Add compat qcom,sc7180-dsi-ctrl
+  arm64: dts: qcom: sc7280: Add compat qcom,sc7280-dsi-ctrl
+  arm64: dts: qcom: sdm630: Add compat qcom,sdm630-dsi-ctrl
+  arm64: dts: qcom: sdm660: Add compat qcom,sdm660-dsi-ctrl
+  arm64: dts: qcom: sdm845: Add compat qcom,sdm845-dsi-ctrl
+  arm64: dts: qcom: sm8250: Add compat qcom,sm8250-dsi-ctrl
+
+ .../display/msm/dsi-controller-main.yaml      | 205 ++++++++++++++++--
+ arch/arm/boot/dts/qcom-apq8064.dtsi           |   3 +-
+ arch/arm/boot/dts/qcom-msm8974.dtsi           |   3 +-
+ arch/arm64/boot/dts/qcom/msm8916.dtsi         |   3 +-
+ arch/arm64/boot/dts/qcom/msm8996.dtsi         |   6 +-
+ arch/arm64/boot/dts/qcom/sc7180.dtsi          |   3 +-
+ arch/arm64/boot/dts/qcom/sc7280.dtsi          |   3 +-
+ arch/arm64/boot/dts/qcom/sdm630.dtsi          |   3 +-
+ arch/arm64/boot/dts/qcom/sdm660.dtsi          |   3 +-
+ arch/arm64/boot/dts/qcom/sdm845.dtsi          |   6 +-
+ arch/arm64/boot/dts/qcom/sm8250.dtsi          |   6 +-
+ 11 files changed, 208 insertions(+), 36 deletions(-)
+
+-- 
+2.38.1
+
