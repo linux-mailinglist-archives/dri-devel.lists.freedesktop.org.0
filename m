@@ -1,49 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB57E637DBD
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 17:51:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D66E637E87
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 18:47:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F96610E13A;
-	Thu, 24 Nov 2022 16:51:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DF3410E26B;
+	Thu, 24 Nov 2022 17:47:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02CF410E122;
- Thu, 24 Nov 2022 16:51:00 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 8C67AB8284C;
- Thu, 24 Nov 2022 16:50:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17275C433D6;
- Thu, 24 Nov 2022 16:50:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1669308658;
- bh=LqTeO6gNFJ8QzpGc7p1Ojhk4LXQvlTeE1H7lbaBY37I=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=R6PpUCqscN7vv03f6DE3nnqQRkJ5f7xJXkmEn1/A6TX2DB2jIzeVWC2nrmvuWnfd7
- v7d/Yxm+73wnzbXxeL7wmPULHybcYkWnkKeSihr0wl0qqWQayeDcQXX5Plsk4JlVZf
- pC9MmgxljQ0mbjIMW/uvP7uVvf7+a34eFOaarpWpQzFfsIMl36agB7P2ytbY6xMWbX
- PRvmi2dKf/gZHmT9aBf0lfpKaGEHkN9PsIlityYeq4SMlFJ2DicV58Du5BA7g1Xyjw
- GDbE4j4Rn+s6BbSg5oY3azaJ3+UEGiSGasyggnfi1XzZW20JeuTUQy4bJydpxw86Jv
- AbI0OjCWy4hvg==
-Date: Thu, 24 Nov 2022 11:50:56 -0500
-From: Sasha Levin <sashal@kernel.org>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH AUTOSEL 6.0 38/44] drm/amdgpu: Unlock bo_list_mutex after
- error handling
-Message-ID: <Y3+g8KpFuNG/SqaR@sashalap>
-References: <20221119021124.1773699-1-sashal@kernel.org>
- <20221119021124.1773699-38-sashal@kernel.org>
- <e08c0d60-45d1-85a6-9c55-38c8e87b56c3@mailbox.org>
- <0916abd9-265d-e4ed-819b-9dfa05e8d746@amd.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B41410E6B6
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Nov 2022 08:54:55 +0000 (UTC)
+X-UUID: e1b7fc8b92984f0fa217638546b67cf1-20221124
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=81wfVrFGa0F5KGBMwUe92UrzpoG4Khjj+9dv7Pe3cgc=; 
+ b=kB4Qv7ibiO9k/frbhoqa7DgVCF89awdOxRkSP2zROwQ2WicpCMu7e7TUfqHthkWqjsM+Kxw8awRbNs7YKMbS4UQpsI10ArRoJmotb+HXn+Z5kEp8f2HoBxLy/wwFVRF/fZuRl6+KKtn5EnLmrNl2UOnQLSAe2vcL4sSGeVxC5tU=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.14, REQID:1fedf52b-3988-48a4-9aba-8a4b487942be, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:dcaaed0, CLOUDID:4df031f9-3a34-4838-abcf-dfedf9dd068e,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:1,EDM:-3,IP:nil,U
+ RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: e1b7fc8b92984f0fa217638546b67cf1-20221124
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw02.mediatek.com (envelope-from <jiaxin.yu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 12059189; Thu, 24 Nov 2022 16:54:40 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Thu, 24 Nov 2022 16:54:38 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via
+ Frontend Transport; Thu, 24 Nov 2022 16:54:37 +0800
+From: Jiaxin Yu <jiaxin.yu@mediatek.com>
+To: <broonie@kernel.org>, <andrzej.hajda@intel.com>,
+ <neil.armstrong@linaro.org>, <robert.foss@linaro.org>,
+ <Laurent.pinchart@ideasonboard.com>, <kuninori.morimoto.gx@renesas.com>,
+ <angelogioacchino.delregno@collabora.com>, <nfraprado@collabora.com>
+Subject: [PATCH 0/3] ASoC: mediatek:mt8186: fix both the speaker and hdmi
+Date: Thu, 24 Nov 2022 16:54:33 +0800
+Message-ID: <20221124085436.24900-1-jiaxin.yu@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <0916abd9-265d-e4ed-819b-9dfa05e8d746@amd.com>
+Content-Type: text/plain
+X-MTK: N
+X-Mailman-Approved-At: Thu, 24 Nov 2022 17:47:02 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,70 +65,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Philip Yang <Philip.Yang@amd.com>,
- Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>,
- dri-devel@lists.freedesktop.org, Xinhui.Pan@amd.com,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- luben.tuikov@amd.com, stable@vger.kernel.org,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: alsa-devel@alsa-project.org, chunxu.li@mediatek.com,
+ allen-kh.cheng@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, Jiaxin Yu <jiaxin.yu@mediatek.com>,
+ ajye_huang@compal.corp-partner.google.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 21, 2022 at 12:07:40PM +0100, Christian König wrote:
->Am 21.11.22 um 10:57 schrieb Michel Dänzer:
->>On 11/19/22 03:11, Sasha Levin wrote:
->>>From: Philip Yang <Philip.Yang@amd.com>
->>>
->>>[ Upstream commit 64f65135c41a75f933d3bca236417ad8e9eb75de ]
->>>
->>>Get below kernel WARNING backtrace when pressing ctrl-C to kill kfdtest
->>>application.
->>>
->>>If amdgpu_cs_parser_bos returns error after taking bo_list_mutex, as
->>>caller amdgpu_cs_ioctl will not unlock bo_list_mutex, this generates the
->>>kernel WARNING.
->>>
->>>Add unlock bo_list_mutex after amdgpu_cs_parser_bos error handling to
->>>cleanup bo_list userptr bo.
->>>
->>>  WARNING: kfdtest/2930 still has locks held!
->>>  1 lock held by kfdtest/2930:
->>>   (&list->bo_list_mutex){+.+.}-{3:3}, at: amdgpu_cs_ioctl+0xce5/0x1f10 [amdgpu]
->>>   stack backtrace:
->>>    dump_stack_lvl+0x44/0x57
->>>    get_signal+0x79f/0xd00
->>>    arch_do_signal_or_restart+0x36/0x7b0
->>>    exit_to_user_mode_prepare+0xfd/0x1b0
->>>    syscall_exit_to_user_mode+0x19/0x40
->>>    do_syscall_64+0x40/0x80
->>>
->>>Signed-off-by: Philip Yang <Philip.Yang@amd.com>
->>>Reviewed-by: Christian König <christian.koenig@amd.com>
->>>Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
->>>Signed-off-by: Sasha Levin <sashal@kernel.org>
->>>---
->>>  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 1 +
->>>  1 file changed, 1 insertion(+)
->>>
->>>diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
->>>index b7bae833c804..9d59f83c8faa 100644
->>>--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
->>>+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
->>>@@ -655,6 +655,7 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_parser *p,
->>>  		}
->>>  		mutex_unlock(&p->bo_list->bo_list_mutex);
->>>  	}
->>>+	mutex_unlock(&p->bo_list->bo_list_mutex);
->>>  	return r;
->>>  }
->>Looks doubtful that this is a correct backport — there's an identical mutex_unlock call just above.
->
->
->Oh, yes good point. This patch doesn't needs to be backported at all 
->because it just fixes a problem introduced in the same cycle:
+The speaker and hdmi of mt8186 platform are shared the same port of I2S,
+when connect the external display, use build-in speakers to play audio,
+they both playback at the same time. So we want to manage the playback
+device through DAPM events.
 
-Dropping it, thanks!
+Jiaxin Yu (3):
+  drm: bridge: it6505: bridge to hdmi-codec
+  ASoC: hdmi-codec: Add event handler for hdmi TX
+  ASoC: mediatek: mt8186: correct the HDMI widgets
+
+ drivers/gpu/drm/bridge/ite-it6505.c           | 36 +++++++++++++++---
+ include/sound/hdmi-codec.h                    |  6 +++
+ sound/soc/codecs/hdmi-codec.c                 | 37 +++++++++++++++++--
+ .../mt8186/mt8186-mt6366-da7219-max98357.c    |  2 +-
+ .../mt8186/mt8186-mt6366-rt1019-rt5682s.c     |  2 +-
+ 5 files changed, 71 insertions(+), 12 deletions(-)
 
 -- 
-Thanks,
-Sasha
+2.18.0
+
