@@ -2,59 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6563A637A14
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 14:40:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B13B4637AED
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 15:01:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDF1810E077;
-	Thu, 24 Nov 2022 13:39:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45E2B10E0BE;
+	Thu, 24 Nov 2022 14:01:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23F1A10E01F;
- Thu, 24 Nov 2022 13:39:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202112;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=YwGIb+ZMz0VBwzNNqfdvn12/MOc6eqkpW0OnNa0NbJc=; b=GQfGkevNoEMy1ayya0G6zV5KXu
- Uu+8D5ZQljH4/FMGR10VoXwIhyFpgwYnL/T/BAhQltcKGKx8cD6dB4fB5+tPJ31epgmzcbQYe5yiR
- J3u0cP9bvbv3otXYzE50euxkNSizLlYX9F0swrsOtM6ikyETKuoeL++WWSG+k+nVr4fr5J5smXDFY
- pLRwrnnV4GkqriXpfOipwOTyFZ/1IuEFctpDiX8/9ZTS9bMCCWmI9natYNHxDr+U8u+Yw8V/tV95y
- G8acGM4PpbCVo08/WYMRXXsH3BiLz3SIDgDvaVY42f4grYOgMqdXwLwZVqDADujf8PXH12hsDYcAJ
- BE9EgNXw==;
-Received: from [2a01:799:95e:1700:6395:ccbd:d000:d42b] (port=54180)
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1oyCSC-0006kb-Ph; Thu, 24 Nov 2022 14:39:48 +0100
-Message-ID: <a3380bb8-65c7-9dd9-12ac-8558d03ff5c8@tronnes.org>
-Date: Thu, 24 Nov 2022 14:39:45 +0100
+Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
+ [64.147.123.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C2EA10E26D
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Nov 2022 14:01:12 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id 10C032B06842;
+ Thu, 24 Nov 2022 09:01:06 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Thu, 24 Nov 2022 09:01:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1669298466; x=
+ 1669305666; bh=4jIAn2lueWeOwVkOG/WC5OUeXxRyuqGWxy80FbSFYkU=; b=e
+ qE3tHPPtqSf2ZlRLKRvMe8490eUorbxIPbR0H4ULV8nQghhKqp5ss/9vTme8mymX
+ Wa3py471Rdh+fPeIAzMVkoQl6aeMBnfzjwQFfmit3QF0c0tpDpOImZXbCmkvYpqH
+ 0Mgh+v2jXIpsIhJ2kuRbfTwJ5OpmdaDdnugMwWgjP6RbGOcH0dKgu0q2txkgDEUA
+ YvcogazJb1A/8UAuHke2hu4dbEfN+BJz7QoK/h3OPExqr19VR7oXa8bfSl+2eu+E
+ 8nw3hafR0oekv2iU1RwuNptkZycN/KvvC6RTAtHTDLBJHUrk8tG3RAf/NETJwYbu
+ 3+DqHJoEWbVAyFO9ceiGQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1669298466; x=
+ 1669305666; bh=4jIAn2lueWeOwVkOG/WC5OUeXxRyuqGWxy80FbSFYkU=; b=l
+ T/mRiRFHe9A8a30ZwTwRCn7Atjq0eCn00PtFaChL5BXbD1p2ENm1wDe21wcAksFs
+ auGh1enyGhzlnelBo3eNDJ/uOpMX9J7tZYgRt/nAPlONro6RUYbhccaaXtzH1JCS
+ tNomDb+/7p9NVkzhX4q4xrvcnHo3rSKNvC8Kqv2dvMeP72TG8Hi33RrYo4iPlVQf
+ 0Rw+qlK9SEYrojPSnFEOOZmhPRDc/BVN6IsGgOp6x0Q3Q1tqvCZUTKZh2VdD5yYX
+ Uiz8Mf5s8/XhZDbZ8ZnTIPD8A7UDSKlBTXyNx8tHLlINbYpknGbuveNLDrkXeTPl
+ QZ1nWcu2JE5j3/iErJSYw==
+X-ME-Sender: <xms:IXl_Y8j8Pe5Kk__SG2mhP6Ann5BycT9QheZVDYH0GgCUUz1-S3PoIw>
+ <xme:IXl_Y1Bt1uFmB6JyuOfMwn6vEA3YAiWsGT7JkPaH5ohuANNBfvlK25MaXKQTtlgJr
+ janSOgWnauP2n6XCWU>
+X-ME-Received: <xmr:IXl_Y0HDout03brAXwQ6rGHhIWie8H1A4aEUjHEsrRDck1m_dtNePnHLK1fnb2v4QWzN6-8JB5qZ1R4k2NU_cCLPtXy8gV0PZJWQWbOKeB_Yyg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrieefgdeitdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeeitdeuffevieeufedtuddvffffffegfffgkeeihfelleektdelhfevhfdu
+ udfhgfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
+ eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
+ hh
+X-ME-Proxy: <xmx:IXl_Y9T0iDI5dOBpGDqiUte33CYb-6DYmvKVj6GMWZvMZq_q6Slzgg>
+ <xmx:IXl_Y5x6-leO15H1x3BYXERG-NZ1OIul1ZuFOsSHXaUf-ev4qS7_oA>
+ <xmx:IXl_Y774hFD8EI4QojFjc2Ebo_3IkTfGg2cRx-NYbi3kHg_rZ6DQ7g>
+ <xmx:Inl_Yy9vQHMkcwqNo4mOrRhHdbYgg7s5FDAU5jV92omxMq0_BXkDnnVR5m8>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 24 Nov 2022 09:01:04 -0500 (EST)
+Date: Thu, 24 Nov 2022 15:01:03 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: David Gow <davidgow@google.com>
+Subject: Re: [PATCH 00/24] drm: Introduce Kunit Tests to VC4
+Message-ID: <20221124140103.saf2fyal75dscoot@houat>
+References: <20221123-rpi-kunit-tests-v1-0-051a0bb60a16@cerno.tech>
+ <CABVgOSmtiPMd+GB40_o=eDPg3cKVA3qPNbbYFoRJvJRxQBDj5A@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v10 06/19] drm/modes: Add a function to generate analog
- display modes
-To: Maxime Ripard <maxime@cerno.tech>, Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Ben Skeggs <bskeggs@redhat.com>,
- Chen-Yu Tsai <wens@csie.org>, David Airlie <airlied@linux.ie>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20220728-rpi-analog-tv-properties-v10-0-256dad125326@cerno.tech>
- <20220728-rpi-analog-tv-properties-v10-6-256dad125326@cerno.tech>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v10-6-256dad125326@cerno.tech>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CABVgOSmtiPMd+GB40_o=eDPg3cKVA3qPNbbYFoRJvJRxQBDj5A@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,42 +86,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>,
+Cc: linux-kselftest@vger.kernel.org,
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>,
+ Thomas Zimmermann <tzimmermann@suse.de>, kunit-dev@googlegroups.com,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi David,
 
+On Thu, Nov 24, 2022 at 04:31:14PM +0800, David Gow wrote:
+> On Wed, Nov 23, 2022 at 11:28 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> >
+> > Hi,
+> >
+> > This series introduce Kunit tests to the vc4 KMS driver, but unlike wha=
+t we
+> > have been doing so far in KMS, it actually tests the atomic modesetting=
+ code.
+> >
+> > In order to do so, I've had to improve a fair bit on the Kunit helpers =
+already
+> > found in the tree in order to register a full blown and somewhat functi=
+onal KMS
+> > driver.
+> >
+> > It's of course relying on a mock so that we can test it anywhere. The m=
+ocking
+> > approach created a number of issues, the main one being that we need to=
+ create
+> > a decent mock in the first place, see patch 22. The basic idea is that I
+> > created some structures to provide a decent approximation of the actual
+> > hardware, and that would support both major architectures supported by =
+vc4.
+> >
+> > This is of course meant to evolve over time and support more tests, but=
+ I've
+> > focused on testing the HVS FIFO assignment code which is fairly tricky =
+(and the
+> > tests have actually revealed one more bug with our current implementati=
+on). I
+> > used to have a userspace implementation of those tests, where I would c=
+opy and
+> > paste the kernel code and run the tests on a regular basis. It's was ob=
+viously
+> > fairly suboptimal, so it seemed like the perfect testbed for that serie=
+s.
+>
+> Thanks very much for this! I'm really excited to see these sorts of
+> tests being written.
+>=20
+> I was able to successfully run these under qemu with:
+> ./tools/testing/kunit/kunit.py run --kunitconfig
+> drivers/gpu/drm/vc4/tests --arch arm64
+> --cross_compile=3Daarch64-linux-gnu-
+> (and also with clang, using --make_options LLVM=3D1 instead of the
+> --cross_compile flag)
+>=20
+> On the other hand, they don't compile as a module:
+> ERROR: modpost: missing MODULE_LICENSE() in drivers/gpu/drm/vc4/tests/vc4=
+_mock.o
+> ERROR: modpost: missing MODULE_LICENSE() in
+> drivers/gpu/drm/vc4/tests/vc4_mock_crtc.o
+> ERROR: modpost: missing MODULE_LICENSE() in
+> drivers/gpu/drm/vc4/tests/vc4_mock_output.o
+> ERROR: modpost: missing MODULE_LICENSE() in
+> drivers/gpu/drm/vc4/tests/vc4_mock_plane.o
+> ERROR: modpost: missing MODULE_LICENSE() in
+> drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.o
+> ERROR: modpost: missing MODULE_LICENSE() in
+> drivers/gpu/drm/tests/drm_managed_test.o
+> ERROR: modpost: "vc4_drm_driver"
+> [drivers/gpu/drm/vc4/tests/vc4_mock.ko] undefined!
+> ERROR: modpost: "vc5_drm_driver"
+> [drivers/gpu/drm/vc4/tests/vc4_mock.ko] undefined!
+> ERROR: modpost: "drm_kunit_helper_alloc_device"
+> [drivers/gpu/drm/vc4/tests/vc4_mock.ko] undefined!
+> ERROR: modpost: "__drm_kunit_helper_alloc_drm_device_with_driver"
+> [drivers/gpu/drm/vc4/tests/vc4_mock.ko] undefined!
+> ERROR: modpost: "__vc4_hvs_alloc"
+> [drivers/gpu/drm/vc4/tests/vc4_mock.ko] undefined!
+> ERROR: modpost: "vc4_dummy_plane"
+> [drivers/gpu/drm/vc4/tests/vc4_mock.ko] undefined!
+> ERROR: modpost: "vc4_mock_pv" [drivers/gpu/drm/vc4/tests/vc4_mock.ko] und=
+efined!
+> ERROR: modpost: "vc4_dummy_output"
+> [drivers/gpu/drm/vc4/tests/vc4_mock.ko] undefined!
+> ERROR: modpost: "vc4_kms_load" [drivers/gpu/drm/vc4/tests/vc4_mock.ko]
+> undefined!
+> ERROR: modpost: "vc4_txp_crtc_data"
+> [drivers/gpu/drm/vc4/tests/vc4_mock.ko] undefined!
+> WARNING: modpost: suppressed 17 unresolved symbol warnings because
+> there were too many)
 
-Den 17.11.2022 10.28, skrev Maxime Ripard:
-> Multiple drivers (meson, vc4, sun4i) define analog TV 525-lines and
-> 625-lines modes in their drivers.
-> 
-> Since those modes are fairly standard, and that we'll need to use them
-> in more places in the future, it makes sense to move their definition
-> into the core framework.
-> 
-> However, analog display usually have fairly loose timings requirements,
-> the only discrete parameters being the total number of lines and pixel
-> clock frequency. Thus, we created a function that will create a display
-> mode from the standard, the pixel frequency and the active area.
-> 
-> Tested-by: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> 
-> ---
+Thanks I'll fix it
 
-I'm no domain expert so apart from the timing details which I can't
-comment on, it looks fine. I personally advocated for a much simpler
-solution for these NTSC and PAL modes, but AIUI this is part of a
-grander plan to support devices with other timings.
+> Most of those are just the need to export some symbols. There's some
+> work underway to support conditionally exporting symbols only if KUnit
+> is enabled, which may help:
+> https://lore.kernel.org/linux-kselftest/20221102175959.2921063-1-rmoar@go=
+ogle.com/
 
-Acked-by: Noralf Trønnes <noralf@tronnes.org>
+That's awesome :)
+
+The current solution to include the test implementation is not ideal, so
+it's great to see a nicer solution being worked on.
+
+> Otherwise, I suspect the better short-term solution would just be to
+> require that the tests are built-in (or at least compiled into
+> whatever of the drm/vc4 modules makes most sense).
+>=20
+> The only other thing which has me a little confused is the naming of
+> some of the functions, specifically with the __ prefix. Is it just for
+> internal functions (many of them aren't static, but maybe they could
+> use the VISIBLE_IF_KUNIT macro if that makes sense), or for versions
+> of functions which accept extra arguments?
+
+It was for internal functions that would definitely benefit from
+VISIBLE_IF_KUNIT indeed
+
+> Not a big deal (and maybe it's a DRM naming convention I'm ignorant
+> of), but I couldn't quite find a pattern on my first read through.
+>=20
+> But on the whole, these look good from a KUnit point-of-view. It's
+> really to see some solid mocking and driver testing, too. There would
+> be ways to avoid passing the 'struct kunit' around in more places (or
+> to store extra data as a kunit_resource), but I think it's better
+> overall to pass it around like you have in this case -- it's certainly
+> more compatible with things which might span threads (e.g. the
+> workqueues).
+
+One thing I'm really unsure about and would like your input on is
+basically the entire device instantiation code in drm_kunit_helpers.c
+
+It's a little fishy since it will allocate a platform_device while the
+driver might expect some other bus device. And the code to bind the
+driver based around probe and workqueues seems like a hack.
+
+This is something that would benefit from having proper functions in
+kunit to allocate a proper device for a given test. This is already
+something that other unit test suites seems to get wrong, and I'm sure
+there's some bugs somewhere in the helpers I did for DRM. What do you
+think?
+
+Maxime
