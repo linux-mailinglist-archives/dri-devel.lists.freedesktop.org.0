@@ -1,79 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B13B4637AED
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 15:01:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09D7F637AFA
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 15:02:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45E2B10E0BE;
-	Thu, 24 Nov 2022 14:01:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B51A710E0B1;
+	Thu, 24 Nov 2022 14:02:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
- [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C2EA10E26D
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Nov 2022 14:01:12 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id 10C032B06842;
- Thu, 24 Nov 2022 09:01:06 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Thu, 24 Nov 2022 09:01:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1669298466; x=
- 1669305666; bh=4jIAn2lueWeOwVkOG/WC5OUeXxRyuqGWxy80FbSFYkU=; b=e
- qE3tHPPtqSf2ZlRLKRvMe8490eUorbxIPbR0H4ULV8nQghhKqp5ss/9vTme8mymX
- Wa3py471Rdh+fPeIAzMVkoQl6aeMBnfzjwQFfmit3QF0c0tpDpOImZXbCmkvYpqH
- 0Mgh+v2jXIpsIhJ2kuRbfTwJ5OpmdaDdnugMwWgjP6RbGOcH0dKgu0q2txkgDEUA
- YvcogazJb1A/8UAuHke2hu4dbEfN+BJz7QoK/h3OPExqr19VR7oXa8bfSl+2eu+E
- 8nw3hafR0oekv2iU1RwuNptkZycN/KvvC6RTAtHTDLBJHUrk8tG3RAf/NETJwYbu
- 3+DqHJoEWbVAyFO9ceiGQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1669298466; x=
- 1669305666; bh=4jIAn2lueWeOwVkOG/WC5OUeXxRyuqGWxy80FbSFYkU=; b=l
- T/mRiRFHe9A8a30ZwTwRCn7Atjq0eCn00PtFaChL5BXbD1p2ENm1wDe21wcAksFs
- auGh1enyGhzlnelBo3eNDJ/uOpMX9J7tZYgRt/nAPlONro6RUYbhccaaXtzH1JCS
- tNomDb+/7p9NVkzhX4q4xrvcnHo3rSKNvC8Kqv2dvMeP72TG8Hi33RrYo4iPlVQf
- 0Rw+qlK9SEYrojPSnFEOOZmhPRDc/BVN6IsGgOp6x0Q3Q1tqvCZUTKZh2VdD5yYX
- Uiz8Mf5s8/XhZDbZ8ZnTIPD8A7UDSKlBTXyNx8tHLlINbYpknGbuveNLDrkXeTPl
- QZ1nWcu2JE5j3/iErJSYw==
-X-ME-Sender: <xms:IXl_Y8j8Pe5Kk__SG2mhP6Ann5BycT9QheZVDYH0GgCUUz1-S3PoIw>
- <xme:IXl_Y1Bt1uFmB6JyuOfMwn6vEA3YAiWsGT7JkPaH5ohuANNBfvlK25MaXKQTtlgJr
- janSOgWnauP2n6XCWU>
-X-ME-Received: <xmr:IXl_Y0HDout03brAXwQ6rGHhIWie8H1A4aEUjHEsrRDck1m_dtNePnHLK1fnb2v4QWzN6-8JB5qZ1R4k2NU_cCLPtXy8gV0PZJWQWbOKeB_Yyg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrieefgdeitdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeeitdeuffevieeufedtuddvffffffegfffgkeeihfelleektdelhfevhfdu
- udfhgfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
- eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
- hh
-X-ME-Proxy: <xmx:IXl_Y9T0iDI5dOBpGDqiUte33CYb-6DYmvKVj6GMWZvMZq_q6Slzgg>
- <xmx:IXl_Y5x6-leO15H1x3BYXERG-NZ1OIul1ZuFOsSHXaUf-ev4qS7_oA>
- <xmx:IXl_Y774hFD8EI4QojFjc2Ebo_3IkTfGg2cRx-NYbi3kHg_rZ6DQ7g>
- <xmx:Inl_Yy9vQHMkcwqNo4mOrRhHdbYgg7s5FDAU5jV92omxMq0_BXkDnnVR5m8>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 24 Nov 2022 09:01:04 -0500 (EST)
-Date: Thu, 24 Nov 2022 15:01:03 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: David Gow <davidgow@google.com>
-Subject: Re: [PATCH 00/24] drm: Introduce Kunit Tests to VC4
-Message-ID: <20221124140103.saf2fyal75dscoot@houat>
-References: <20221123-rpi-kunit-tests-v1-0-051a0bb60a16@cerno.tech>
- <CABVgOSmtiPMd+GB40_o=eDPg3cKVA3qPNbbYFoRJvJRxQBDj5A@mail.gmail.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AFD110E0B1
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Nov 2022 14:02:36 +0000 (UTC)
+Received: from [192.168.231.135] (unknown [213.194.153.7])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: rcn)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id F01DA6602B2B;
+ Thu, 24 Nov 2022 14:02:34 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1669298555;
+ bh=jYWBVPfoJa/8wmjQK1buZr4pR+CcoqUbbwsVWP00PxI=;
+ h=Date:To:Cc:From:Subject:From;
+ b=iS1wEfTG8Ik2tqZV2eG97YsBx4zk9f42G8iI8zKFC7FP1mnO0M5TDByZybmufbyA0
+ s9zZKDzwCaMd5VwI9al1IkY97ExWMlVgtKVXHfws5nCnzUJ4zAx12xeRgZLNzhjzIm
+ T6LhtKe2vnOoyxi87B9OHeiK9Cbd0kMNvhe/VNhJ04SSCTSV+MMTYaNVwPLLGHoYvS
+ aylm+muKOLdNv4oQa7eLUyaaAr0aZ8xAo35Wn19jdAzl4V+3czjYvA1zhBzr6LNW7o
+ GenwcSzUQECqDg5ZAkWSCjCVY76od5RNwnnf2fJKqNkKWH40N42jyIguoKzLRgQdXL
+ tbbd+t2POVXcQ==
+Message-ID: <b306388d-080e-3599-c43d-4299888bef1f@collabora.com>
+Date: Thu, 24 Nov 2022 15:02:32 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CABVgOSmtiPMd+GB40_o=eDPg3cKVA3qPNbbYFoRJvJRxQBDj5A@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Content-Language: en-US
+To: hjc@rock-chips.com
+From: =?UTF-8?Q?Ricardo_Ca=c3=b1uelo?= <ricardo.canuelo@collabora.com>
+Subject: igt-kms-rockchip regressions since v6.0-rc1
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,152 +51,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kselftest@vger.kernel.org,
- Brendan Higgins <brendan.higgins@linux.dev>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>,
- Thomas Zimmermann <tzimmermann@suse.de>, kunit-dev@googlegroups.com,
- linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi David,
+Hi Sandy,
 
-On Thu, Nov 24, 2022 at 04:31:14PM +0800, David Gow wrote:
-> On Wed, Nov 23, 2022 at 11:28 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> >
-> > Hi,
-> >
-> > This series introduce Kunit tests to the vc4 KMS driver, but unlike wha=
-t we
-> > have been doing so far in KMS, it actually tests the atomic modesetting=
- code.
-> >
-> > In order to do so, I've had to improve a fair bit on the Kunit helpers =
-already
-> > found in the tree in order to register a full blown and somewhat functi=
-onal KMS
-> > driver.
-> >
-> > It's of course relying on a mock so that we can test it anywhere. The m=
-ocking
-> > approach created a number of issues, the main one being that we need to=
- create
-> > a decent mock in the first place, see patch 22. The basic idea is that I
-> > created some structures to provide a decent approximation of the actual
-> > hardware, and that would support both major architectures supported by =
-vc4.
-> >
-> > This is of course meant to evolve over time and support more tests, but=
- I've
-> > focused on testing the HVS FIFO assignment code which is fairly tricky =
-(and the
-> > tests have actually revealed one more bug with our current implementati=
-on). I
-> > used to have a userspace implementation of those tests, where I would c=
-opy and
-> > paste the kernel code and run the tests on a regular basis. It's was ob=
-viously
-> > fairly suboptimal, so it seemed like the perfect testbed for that serie=
-s.
->
-> Thanks very much for this! I'm really excited to see these sorts of
-> tests being written.
->=20
-> I was able to successfully run these under qemu with:
-> ./tools/testing/kunit/kunit.py run --kunitconfig
-> drivers/gpu/drm/vc4/tests --arch arm64
-> --cross_compile=3Daarch64-linux-gnu-
-> (and also with clang, using --make_options LLVM=3D1 instead of the
-> --cross_compile flag)
->=20
-> On the other hand, they don't compile as a module:
-> ERROR: modpost: missing MODULE_LICENSE() in drivers/gpu/drm/vc4/tests/vc4=
-_mock.o
-> ERROR: modpost: missing MODULE_LICENSE() in
-> drivers/gpu/drm/vc4/tests/vc4_mock_crtc.o
-> ERROR: modpost: missing MODULE_LICENSE() in
-> drivers/gpu/drm/vc4/tests/vc4_mock_output.o
-> ERROR: modpost: missing MODULE_LICENSE() in
-> drivers/gpu/drm/vc4/tests/vc4_mock_plane.o
-> ERROR: modpost: missing MODULE_LICENSE() in
-> drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.o
-> ERROR: modpost: missing MODULE_LICENSE() in
-> drivers/gpu/drm/tests/drm_managed_test.o
-> ERROR: modpost: "vc4_drm_driver"
-> [drivers/gpu/drm/vc4/tests/vc4_mock.ko] undefined!
-> ERROR: modpost: "vc5_drm_driver"
-> [drivers/gpu/drm/vc4/tests/vc4_mock.ko] undefined!
-> ERROR: modpost: "drm_kunit_helper_alloc_device"
-> [drivers/gpu/drm/vc4/tests/vc4_mock.ko] undefined!
-> ERROR: modpost: "__drm_kunit_helper_alloc_drm_device_with_driver"
-> [drivers/gpu/drm/vc4/tests/vc4_mock.ko] undefined!
-> ERROR: modpost: "__vc4_hvs_alloc"
-> [drivers/gpu/drm/vc4/tests/vc4_mock.ko] undefined!
-> ERROR: modpost: "vc4_dummy_plane"
-> [drivers/gpu/drm/vc4/tests/vc4_mock.ko] undefined!
-> ERROR: modpost: "vc4_mock_pv" [drivers/gpu/drm/vc4/tests/vc4_mock.ko] und=
-efined!
-> ERROR: modpost: "vc4_dummy_output"
-> [drivers/gpu/drm/vc4/tests/vc4_mock.ko] undefined!
-> ERROR: modpost: "vc4_kms_load" [drivers/gpu/drm/vc4/tests/vc4_mock.ko]
-> undefined!
-> ERROR: modpost: "vc4_txp_crtc_data"
-> [drivers/gpu/drm/vc4/tests/vc4_mock.ko] undefined!
-> WARNING: modpost: suppressed 17 unresolved symbol warnings because
-> there were too many)
+Going though the KernelCI results I noticed that the v6.0-rc1
+kernel introduced a number of regressions in the igt-kms-rockchip
+tests:
+https://groups.io/g/kernelci-results/message/34239?p=%2C%2C%2C20%2C0%2C0%2C0%3A%3ACreated%2C%2Cigt-kms-rockchip%2C20%2C1%2C80%2C95118839
 
-Thanks I'll fix it
+I don't know if anyone is taking a look at this, so I figured out
+you could be interested.
 
-> Most of those are just the need to export some symbols. There's some
-> work underway to support conditionally exporting symbols only if KUnit
-> is enabled, which may help:
-> https://lore.kernel.org/linux-kselftest/20221102175959.2921063-1-rmoar@go=
-ogle.com/
-
-That's awesome :)
-
-The current solution to include the test implementation is not ideal, so
-it's great to see a nicer solution being worked on.
-
-> Otherwise, I suspect the better short-term solution would just be to
-> require that the tests are built-in (or at least compiled into
-> whatever of the drm/vc4 modules makes most sense).
->=20
-> The only other thing which has me a little confused is the naming of
-> some of the functions, specifically with the __ prefix. Is it just for
-> internal functions (many of them aren't static, but maybe they could
-> use the VISIBLE_IF_KUNIT macro if that makes sense), or for versions
-> of functions which accept extra arguments?
-
-It was for internal functions that would definitely benefit from
-VISIBLE_IF_KUNIT indeed
-
-> Not a big deal (and maybe it's a DRM naming convention I'm ignorant
-> of), but I couldn't quite find a pattern on my first read through.
->=20
-> But on the whole, these look good from a KUnit point-of-view. It's
-> really to see some solid mocking and driver testing, too. There would
-> be ways to avoid passing the 'struct kunit' around in more places (or
-> to store extra data as a kunit_resource), but I think it's better
-> overall to pass it around like you have in this case -- it's certainly
-> more compatible with things which might span threads (e.g. the
-> workqueues).
-
-One thing I'm really unsure about and would like your input on is
-basically the entire device instantiation code in drm_kunit_helpers.c
-
-It's a little fishy since it will allocate a platform_device while the
-driver might expect some other bus device. And the code to bind the
-driver based around probe and workqueues seems like a hack.
-
-This is something that would benefit from having proper functions in
-kunit to allocate a proper device for a given test. This is already
-something that other unit test suites seems to get wrong, and I'm sure
-there's some bugs somewhere in the helpers I did for DRM. What do you
-think?
-
-Maxime
+Thanks,
+Ricardo
