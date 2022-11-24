@@ -2,74 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66DD56372F4
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 08:38:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20376637303
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 08:46:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA05210E68F;
-	Thu, 24 Nov 2022 07:38:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD6F610E69A;
+	Thu, 24 Nov 2022 07:46:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
- [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0153D10E68F
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Nov 2022 07:38:01 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 5845B5C01D5;
- Thu, 24 Nov 2022 02:37:58 -0500 (EST)
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CA1910E6A2;
+ Thu, 24 Nov 2022 07:46:18 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 902AD580301;
+ Thu, 24 Nov 2022 02:46:17 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Thu, 24 Nov 2022 02:37:58 -0500
+ by compute3.internal (MEProxy); Thu, 24 Nov 2022 02:46:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1669275478; x=1669361878; bh=ULupW01s0G
- yXcaEPcW42CI/HH+9rrYUZSnaM3DQOOKg=; b=KCW2Jrup+P6nHLvAfPsvuBQ2xm
- eMX0irHWHsn6bEawQy49UU7T809ocClS41+Wc7xzFbZrUA04OO93b5Hrvvk7yu71
- xof8EHJH1qoAqc3ltJBUhg7gs5R8ZVdWH9UNCVJ1+G/AIkHZ0RTkgYeMRW/Dbk2a
- FOg6hh1acCRCka6N053pXByo7iGu67hDzRu4dy4RhPp9h7N3IWWrS1NjM2ckecNB
- Qr86MLTY2hVT50gv74j38xjEuJ+1kH+BC8ybhbzr+T1NW+GWe7UTby3QxcYaSEdI
- dh6EXe8CZhAMNnXzWlQChMDF9k1ro66DbngilWuYV3jXb1MYbdESYLcHhljQ==
+ :cc:content-type:date:date:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to; s=fm2; t=
+ 1669275977; x=1669283177; bh=KisEiFDMMhs9iBXJNi8EggNl/VY/12faNug
+ 7qu1eLHk=; b=ICdTw3ExO3MIWfIea3P1BFcLBu7U7nxhInDGo9JL2R/fZKSCNlg
+ 9jMALSpd7TCJj049Uq1iBYZhskvi0X5FAyF7LzKEy3ip+cVKj0rqIE1a5bHsvoae
+ DSKA4+zROfsJCey/qnUt2QXzcTDCruRkUiOD1Qocimh1RPhQmsgpHar/06JAORhc
+ HHyHhOwpGIwKC17pitWDpxbTB0ClHBZg+WgDspKf/QdL9kR3BAB/oqfa5i+Xglzt
+ tJjt9zIqRGUHvK7ebJFHmxH+YAG7CbL5Q5E5aqCmuBsYgInsb2zLKPTTT+DgR/YD
+ BInCP/QUVrp0Rdcwg14+MjDxZrabsQFfZTw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1669275478; x=1669361878; bh=ULupW01s0GyXcaEPcW42CI/HH+9r
- rYUZSnaM3DQOOKg=; b=nmNQQYWJqKKDMXFO3lkPMyj46vpOzz7NiHuzVhPQRcrZ
- ML41sWG5etm7xhXzX0JW32HxjIfWX79CIHuDX31vxH+dXnkHPDs5p6WuLy+nRbQA
- PCREHFfSvllIfdgO94kSJMO3w0U15p5ir9/U7nqHco7nct5rCkdaJnIA8uq10/zl
- Skr14KlKmjeMn3hPDm7EUz60yxXiOHq/mQP4+BhyeciTGckt6W+veF7Nt9BMb7ds
- lIMqSR03eKiJM7KKfLYou8StAmpnV1dq4enkYN1fsIqMHH4VBxY16//ghouYgXyj
- QuHa7yXO58s6t7rUiJp/NKXW4n5vyalucJHbvOSr4w==
-X-ME-Sender: <xms:VR9_Yw1rcZRoIPU_OFyfxOxMj9-VNy5vQG6dIpoHomLAfIpbbClEkQ>
- <xme:VR9_Y7FealhffGhXmolE262x1fiFggGOvaUDc78X_HVnIdiD_42JxCBiyKLaxsfcm
- rT1rKSAg6zYuvz8IwM>
-X-ME-Received: <xmr:VR9_Y46v6fZya7AZRmAQ8bNQJeD9yJmT9Cde196LB_uCJrG0WO07M-JTY7VHdWciBXgOZLT-caxRoeJTEsgj1RPSp5ziahj2KIeM2up58rEbFA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedriedvgddutdeiucetufdoteggodetrfdotf
+ :feedback-id:from:from:in-reply-to:message-id:mime-version
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1669275977; x=
+ 1669283177; bh=KisEiFDMMhs9iBXJNi8EggNl/VY/12faNug7qu1eLHk=; b=e
+ yRG6kJF6jmAvOKC7PmNWlUZ6Ga5g421xy4EGMaC4rNsn6HVgs2detjIvHK4NxvV9
+ SKOlb6xUKfQmn+1McojJ843mUl5DnULAvlpuZSSjSkKYGFYOwflY9OS1XKa9A08Y
+ 0KEt2IVAvMJfk5j2g3uzBpO8TolvtLkVYvAEGupTnFiSCrWZidpYEYgPn/l3RQYc
+ ig3DlDEOWi7cXzG1Za46UZ4OCNiwEl9ahdj+wqNpwmZhh4UszWSaJdNIpJekPmWQ
+ PdWKRdTklhhFAToeTECdtEGfNN/qG5hewKj+iLGOnAWBA69f/wM/raUxcmYbw2K3
+ A1vZUm1zCzbY44WRiOteg==
+X-ME-Sender: <xms:SSF_Y3XO24cE_Mp2WhkK21mx0EuRaf782rGSwTuV5VYvBh24wNNjXA>
+ <xme:SSF_Y_kh5mX-C8OFw2PhhF7gbaFU-vdwjgYMwrhokcg0roEIDJrSN_GKoChLoyqiA
+ PQdP_VgfrOol0myicY>
+X-ME-Received: <xmr:SSF_YzaFblyG65o9zu6E7--Rzxat0entnZYYwilYbO_ZaI3Qxhz7FA1rPrpHs7K6bljdLJeJ4x84OYpVPyXKsrce4yLVWMnSe_4G5mIad_ccFw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedriedvgddutdekucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
- hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:VR9_Y52_BFUGLr5yM67G-IogY_JzVwNQeNqInWeXYjyY1oC3E0xlVw>
- <xmx:VR9_YzFoLH4eJg_Pqr-cN_ilPcK_fSwuEueywgNv9qLPtGQsSZ_qdA>
- <xmx:VR9_Yy__lqon6xTCHy5x2t5zVrd3ocvAePD4CiNC8_xY7jqTXroEpg>
- <xmx:Vh9_Y80PgpLnYU_CE2sbVCHNOcHYIKXDLcmPKVm3rSEVCSTrvG1XCA>
+ cujfgurhepfffhvfevuffkgggtugesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeeuieehjefhieevtdehudfftdetgfdtuedvvdeugeetgfevgeevudegffduveej
+ ieenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvghruf
+ hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdr
+ thgvtghh
+X-ME-Proxy: <xmx:SSF_YyWoaI0qxjtu3dnqP0_3l3XYhRJzh3BtAv5KplXvjkNtS9xk3w>
+ <xmx:SSF_YxmaAJHRW-7fEp0myC2PsCcXQdROUX8krOdFUIb0Li6ZHTrfqw>
+ <xmx:SSF_Y_eupoX3BeKP2EA6tn2LE4ELpS3SYn7qN_-82WJhyWqAb8fHBw>
+ <xmx:SSF_YzVHKqIGBnzp4Yr7aX58W_Ef7g1CqV6FbY_LmIDIxdMLaLn5Tg>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 24 Nov 2022 02:37:56 -0500 (EST)
-Date: Thu, 24 Nov 2022 08:37:55 +0100
+ 24 Nov 2022 02:46:16 -0500 (EST)
+Date: Thu, 24 Nov 2022 08:46:15 +0100
 From: Maxime Ripard <maxime@cerno.tech>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] drm/fourcc: Document open source user waiver
-Message-ID: <20221124073755.2rgqsvcgn3dujn4p@houat>
-References: <20221123192437.1065826-1-daniel.vetter@ffwll.ch>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-next
+Message-ID: <20221124074615.ahflw5q5ktfdsr7k@houat>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="6qeff5fitdggd2om"
+ protocol="application/pgp-signature"; boundary="h4obmk5bs2yftcsp"
 Content-Disposition: inline
-In-Reply-To: <20221123192437.1065826-1-daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,51 +81,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Trevett <ntrevett@nvidia.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>, Jason Ekstrand <jason@jlekstrand.net>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---6qeff5fitdggd2om
+--h4obmk5bs2yftcsp
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 23, 2022 at 08:24:37PM +0100, Daniel Vetter wrote:
-> It's a bit a FAQ, and we really can't claim to be the authoritative
-> source for allocating these numbers used in many standard extensions
-> if we tell closed source or vendor stacks in general to go away.
->=20
-> Iirc this was already clarified in some vulkan discussions, but I
-> can't find that anywhere anymore. At least not in a public link.
->=20
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Alex Deucher <alexdeucher@gmail.com>
-> Cc: Daniel Stone <daniel@fooishbar.org>
-> Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-> Cc: Jason Ekstrand <jason@jlekstrand.net>
-> Cc: Neil Trevett <ntrevett@nvidia.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Hi Daniel, Dave,
 
-Acked-by: Maxime Ripard <maxime@cerno.tech>
+We might be fairly late for a drm-misc-next PR by now, but I chose to
+send it anyway because we might have an -rc8, and this is almost
+exclusively fixes that should go in anyway. This will be the last
+drm-misc-next PR for this cycle
 
 Maxime
 
---6qeff5fitdggd2om
+drm-misc-next-2022-11-24:
+drm-misc-next for 6.2:
+
+UAPI Changes:
+
+Cross-subsystem Changes:
+- fbdev: Make fb_modesetting_disabled() static
+- udmabuf: Add vmap and vunmap methods to udmabuf_ops
+
+Core Changes:
+- doc: make drm-uapi igt-tests more readable
+- fb-helper: Revert of the damage worker removal
+- fourcc: Add missing big-endian XRGB1555 and RGB565 formats
+- gem-shmem: Fix for resource leakage in __drm_gem_shmem_create()
+- scheduler: Fix lockup in drm_sched_entity_kill()
+
+Driver Changes:
+The following changes since commit 35c3a2d02f0dc153a5f2f304ba33e1436b6a8d8f:
+
+  drm/tests: helpers: Add SPDX header (2022-11-17 09:25:38 +0100)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2022-11-24
+
+for you to fetch changes up to 6fb6c979ca628583d4d0c59a0f8ff977e581ecc0:
+
+  drm/fourcc: Add missing big-endian XRGB1555 and RGB565 formats (2022-11-23 20:34:46 +0100)
+
+----------------------------------------------------------------
+drm-misc-next for 6.2:
+
+UAPI Changes:
+
+Cross-subsystem Changes:
+- fbdev: Make fb_modesetting_disabled() static
+- udmabuf: Add vmap and vunmap methods to udmabuf_ops
+
+Core Changes:
+- doc: make drm-uapi igt-tests more readable
+- fb-helper: Revert of the damage worker removal
+- fourcc: Add missing big-endian XRGB1555 and RGB565 formats
+- gem-shmem: Fix for resource leakage in __drm_gem_shmem_create()
+- scheduler: Fix lockup in drm_sched_entity_kill()
+
+Driver Changes:
+
+----------------------------------------------------------------
+ChunyouTang (1):
+      drm/gem-shmem: When drm_gem_object_init failed, should release object
+
+Dmitry Osipenko (1):
+      drm/scheduler: Fix lockup in drm_sched_entity_kill()
+
+Geert Uytterhoeven (1):
+      drm/fourcc: Add missing big-endian XRGB1555 and RGB565 formats
+
+Lukasz Wiecaszek (1):
+      udmabuf: add vmap and vunmap methods to udmabuf_ops
+
+Randy Dunlap (1):
+      drm/doc: make drm-uapi igt-tests more readable
+
+Shang XiaoJing (1):
+      drm: Fix potential null-ptr-deref due to drmm_mode_config_init()
+
+Thomas Zimmermann (4):
+      fbdev: Make fb_modesetting_disabled() static inline
+      Revert "drm/fb-helper: Remove damage worker"
+      Revert "drm/fb-helper: Schedule deferred-I/O worker after writing to framebuffer"
+      Revert "drm/fb-helper: Perform damage handling in deferred-I/O helper"
+
+ Documentation/gpu/drm-uapi.rst           | 12 ++++++------
+ drivers/dma-buf/udmabuf.c                | 28 ++++++++++++++++++++++++++++
+ drivers/gpu/drm/drm_fb_helper.c          | 30 +++++++++++++-----------------
+ drivers/gpu/drm/drm_fourcc.c             |  4 ++++
+ drivers/gpu/drm/drm_gem.c                | 19 ++++++++++++++++---
+ drivers/gpu/drm/drm_gem_shmem_helper.c   |  4 +++-
+ drivers/gpu/drm/drm_mode_config.c        |  8 +++++++-
+ drivers/gpu/drm/scheduler/sched_entity.c |  2 +-
+ drivers/gpu/drm/scheduler/sched_main.c   |  4 ++--
+ drivers/video/fbdev/core/fb_defio.c      | 16 ----------------
+ include/drm/drm_fb_helper.h              |  2 ++
+ include/drm/drm_gem.h                    |  1 +
+ include/linux/fb.h                       |  3 +--
+ 13 files changed, 84 insertions(+), 49 deletions(-)
+
+--h4obmk5bs2yftcsp
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY38fSAAKCRDj7w1vZxhR
-xVDEAP9dI1eV1VTse1zxlQs4jV81uwGRL6ORwmIUTyjHXVKRNgD/act/Zb8DjPKK
-o+Jui9TI1ByiYgsZ52e3260pt3QI/gk=
-=A73g
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY38hRwAKCRDj7w1vZxhR
+xYMUAQCQ2utE5S+FiuNVJNirReX6RDfFoxmWTKHQEFGtgFSIHgD/Xnq0u+o2Jg5r
+omFcmiGn1l5uDeFxzWB/Nb7FXCfC0gg=
+=OZUH
 -----END PGP SIGNATURE-----
 
---6qeff5fitdggd2om--
+--h4obmk5bs2yftcsp--
