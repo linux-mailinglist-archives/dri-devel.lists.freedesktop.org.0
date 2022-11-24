@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24ED3637E6B
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 18:39:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A882637E67
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 18:39:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEEA010E1B3;
-	Thu, 24 Nov 2022 17:39:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A167510E162;
+	Thu, 24 Nov 2022 17:39:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com
- [209.85.166.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8984810E1B3
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Nov 2022 17:39:35 +0000 (UTC)
-Received: by mail-io1-f44.google.com with SMTP id 11so1641560iou.0
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Nov 2022 09:39:35 -0800 (PST)
+Received: from mail-il1-f182.google.com (mail-il1-f182.google.com
+ [209.85.166.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9AA310E162;
+ Thu, 24 Nov 2022 17:39:27 +0000 (UTC)
+Received: by mail-il1-f182.google.com with SMTP id d12so1041479ilv.4;
+ Thu, 24 Nov 2022 09:39:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=date:subject:message-id:references:in-reply-to:cc:to:from
  :mime-version:content-transfer-encoding:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=IoktBuMa4PVRuI5/Wo0/xDwZpz9ewe3rcWXZGPg/Ou4=;
- b=MkPzcUj7ux74A1u4b1SCPIE+Jt/9/XtmbxylHYAa73VKDoYCmkiJT/Hzi+pPACB6Hy
- eUKC+a/2dXUMO8wPepBHM4kq+jSH74+XFyk2v9njfzSrMTjzU1V0LLPc9eYsesrzwZuq
- r2/GmdoY+5PQcXs2pDM5nF4WyGLkvdXvj+X2vYG6HvObGJ71yu7iEp9IkXgAkcCUyopi
- ZY4BHCcK8rnUm9+wAmSyhYnjfCvZcV3sDE4s8uGM8xm93gCjVUdWB3JKgJ+y3ttBPXWo
- yl1pPj7SDsTIQC6GN4pTerBKh/RPCxQ2W2qw/P6cKEq0gpahR8uqq9x9S96KgDAFto/L
- o+/g==
-X-Gm-Message-State: ANoB5pnKCuiNH+uw5gzkvSXszFa5sLjP2iVVvB9v52lwmQGP9xLOZLla
- JQMdCMyQ9EoGjKP/msmVOg==
-X-Google-Smtp-Source: AA0mqf6u4sFD+aGrlSoj75GanwIIheHbWEuFFhr8HAzTVS6PxR/piCFthw25bzyO3jj4ay7YIeMfaw==
-X-Received: by 2002:a02:6309:0:b0:375:4dbf:6ca4 with SMTP id
- j9-20020a026309000000b003754dbf6ca4mr6392316jac.315.1669311574693; 
- Thu, 24 Nov 2022 09:39:34 -0800 (PST)
+ bh=GUtAsbJjtVstvd/b0ZGms/6XAruxEAzhFNxybJwuAKI=;
+ b=MyxI/M6KeLFhUcENaD3HldesHB8H6iBzw9URcpF11jkB9+nEXImIq9J9wfL+8foj2g
+ jfSJW2hZWfNIGUE5TKZK2uPFq3WmBDbsFFGo9dC8omJ2Q5j2MirjRwyULmNSbQ5Vnz+H
+ z3maaGFLxns8NGgBZjM/nBZwAPGhaK5sCLac5mZpyWVlFyHwCpN4KJ+pOlulRh2DTpWn
+ 4UFfOJQJamHN7NPHYqDRb1M6chw3zB4yptBEmsBElimlOxXPNJhL4MiKf5EW+dNiDCvI
+ rOr87lLGkg9QRjGlqaV3W64OezEegjMqqn2j7a06E3Hghm1hUjlszRa20T7ajL7qjbl4
+ h4Wg==
+X-Gm-Message-State: ANoB5pkSDEw5BeuQXvTwjvaPLKZQkW1wtwc+FJWQlS0RTtSc1WHBl/w8
+ afujj5gbfzKhsBLkirhiXA==
+X-Google-Smtp-Source: AA0mqf5LnzuB0Q7FUVU6kDolp5fz6a9D/ptnXBsEj4VJRjUHp9cPfRVI5EbQBTT+LdQ+G2TVumuDcw==
+X-Received: by 2002:a05:6e02:1d17:b0:302:9392:5a01 with SMTP id
+ i23-20020a056e021d1700b0030293925a01mr6314525ila.268.1669311566801; 
+ Thu, 24 Nov 2022 09:39:26 -0800 (PST)
 Received: from robh_at_kernel.org ([64.188.179.252])
  by smtp.gmail.com with ESMTPSA id
- g6-20020a02a086000000b003754033c6aesm593628jah.155.2022.11.24.09.39.32
+ s193-20020a0251ca000000b00375b5370314sm617539jaa.62.2022.11.24.09.39.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Nov 2022 09:39:34 -0800 (PST)
-Received: (nullmailer pid 4182342 invoked by uid 1000);
+ Thu, 24 Nov 2022 09:39:26 -0800 (PST)
+Received: (nullmailer pid 4182339 invoked by uid 1000);
  Thu, 24 Nov 2022 17:39:27 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
 From: Rob Herring <robh@kernel.org>
-To: Pin-yen Lin <treapking@chromium.org>
-In-Reply-To: <20221124102056.393220-4-treapking@chromium.org>
-References: <20221124102056.393220-1-treapking@chromium.org>
- <20221124102056.393220-4-treapking@chromium.org>
-Message-Id: <166930150025.3946612.5757271936642172776.robh@kernel.org>
-Subject: Re: [PATCH v6 3/7] dt-bindings: drm/bridge: anx7625: Add mode-switch
- support
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20221124004801.361232-5-bryan.odonoghue@linaro.org>
+References: <20221124004801.361232-1-bryan.odonoghue@linaro.org>
+ <20221124004801.361232-5-bryan.odonoghue@linaro.org>
+Message-Id: <166930149919.3946571.17568259975526028936.robh@kernel.org>
+Subject: Re: [PATCH v3 04/18] dt-bindings: msm: dsi-controller-main: Add
+ compatible strings for every current SoC
 Date: Thu, 24 Nov 2022 11:39:27 -0600
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,71 +64,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Guenter Roeck <groeck@chromium.org>,
- Marek Vasut <marex@denx.de>, chrome-platform@lists.linux.dev,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
- devicetree@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>,
- =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
- Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>, ",
- Andy Shevchenko" <andriy.shevchenko@linux.intel.com>,
- Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Robert Foss <robert.foss@linaro.org>, Daniel Scally <djrscally@gmail.com>,
- Prashant Malani <pmalani@chromium.org>
+Cc: devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ quic_abhinavk@quicinc.com, konrad.dybcio@somainline.org,
+ freedreno@lists.freedesktop.org, dianders@chromium.org, david@ixit.cz,
+ linux-kernel@vger.kernel.org, robh+dt@kernel.org, agross@kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ dmitry.baryshkov@linaro.org, swboyd@chromium.org, sean@poorly.run,
+ andersson@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Thu, 24 Nov 2022 18:20:52 +0800, Pin-yen Lin wrote:
-> Analogix 7625 can be used in systems to switch the DP traffic between
-> two downstreams, which can be USB Type-C DisplayPort alternate mode
-> lane or regular DisplayPort output ports.
+On Thu, 24 Nov 2022 00:47:47 +0000, Bryan O'Donoghue wrote:
+> Currently we do not differentiate between the various users of the
+> qcom,mdss-dsi-ctrl. The driver is flexible enough to operate from one
+> compatible string but, the hardware does have some significant differences
+> in the number of clocks.
 > 
-> Update the binding to accommodate this usage by introducing a
-> data-lanes and a mode-switch property on endpoints.
+> To facilitate documenting the clocks add the following compatible strings
 > 
-> Also include the link to the product brief in the bindings.
+> - qcom,apq8064-dsi-ctrl
+> - qcom,msm8916-dsi-ctrl
+> - qcom,msm8974-dsi-ctrl
+> - qcom,msm8996-dsi-ctrl
+> - qcom,sc7180-dsi-ctrl
+> - qcom,sc7280-dsi-ctrl
+> - qcom,sdm630-dsi-ctrl
+> - qcom,sdm660-dsi-ctrl
+> - qcom,sdm845-dsi-ctrl
+> - qcom,sm8250-dsi-ctrl
 > 
-> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+> Each SoC dtsi should declare "qcom,socname-dsi-ctrl", "qcom,mdss-dsi-ctrl";
 > 
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > ---
-> 
-> Changes in v6:
-> - Remove switches node and use endpoints and data-lanes property to
->   describe the connections.
-> 
->  .../display/bridge/analogix,anx7625.yaml      | 73 ++++++++++++++++++-
->  1 file changed, 71 insertions(+), 2 deletions(-)
+>  .../display/msm/dsi-controller-main.yaml        | 17 ++++++++++++++---
+>  1 file changed, 14 insertions(+), 3 deletions(-)
 > 
 
 My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
 on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
 yamllint warnings/errors:
-./Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml:218:1: [error] syntax error: found character '\t' that cannot start any token (syntax)
 
 dtschema/dtc warnings/errors:
-make[1]: *** Deleting file 'Documentation/devicetree/bindings/display/bridge/analogix,anx7625.example.dts'
-Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml:218:1: found character '\t' that cannot start any token
-make[1]: *** [Documentation/devicetree/bindings/Makefile:26: Documentation/devicetree/bindings/display/bridge/analogix,anx7625.example.dts] Error 1
-make[1]: *** Waiting for unfinished jobs....
-./Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml:218:1: found character '\t' that cannot start any token
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml: ignoring, error parsing file
-make: *** [Makefile:1492: dt_binding_check] Error 2
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/dsi-controller-main.example.dtb: dsi@ae94000: compatible:0: 'qcom,mdss-dsi-ctrl' is not one of ['qcom,apq8064-dsi-ctrl', 'qcom,msm8916-dsi-ctrl', 'qcom,msm8974-dsi-ctrl', 'qcom,msm8996-dsi-ctrl', 'qcom,qcm2290-dsi-ctrl', 'qcom,sc7180-dsi-ctrl', 'qcom,sc7280-dsi-ctrl', 'qcom,sdm630-dsi-ctrl', 'qcom,sdm660-dsi-ctrl', 'qcom,sdm845-dsi-ctrl', 'qcom,sm8250-dsi-ctrl']
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/dsi-controller-main.example.dtb: dsi@ae94000: compatible: ['qcom,mdss-dsi-ctrl'] is too short
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
 
 doc reference errors (make refcheckdocs):
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20221124102056.393220-4-treapking@chromium.org
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20221124004801.361232-5-bryan.odonoghue@linaro.org
 
 This check can fail if there are any dependencies. The base for a patch
 series is generally the most recent rc1.
