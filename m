@@ -2,57 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09B386373F1
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 09:31:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2065963741A
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 09:36:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B706F10E6A8;
-	Thu, 24 Nov 2022 08:31:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 160D810E6AE;
+	Thu, 24 Nov 2022 08:36:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe31.google.com (mail-vs1-xe31.google.com
- [IPv6:2607:f8b0:4864:20::e31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5132F10E6A8
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Nov 2022 08:31:27 +0000 (UTC)
-Received: by mail-vs1-xe31.google.com with SMTP id v128so864807vsb.13
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Nov 2022 00:31:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=nqkIoTahfJM/Upg/gdOrONhqr0PADZSJNncZsa4RrEQ=;
- b=hWZOlaGP9Qo2AI3Fe5dexE/3lmY/Kwo7K2MpIiNVbpVlSuEtkcv2oVyQQbrnlojM6j
- vnH/pD0F1JmX3qbvtbHGk6rpbVh/e02n1d/1XLw6ZlLZ26xINQPjBgG3+zQRj8iv2kr8
- vpNvLSTv2xtvH3VGQ55Uy6+3fqxJhdncU8hkPSXzbJkvTQoRnum4hEP4pNQI9JSDeHnI
- wqWmztPvEmq/7A529fYvvAppduKXDd3I6WPW3cHGoJx6SHPgR5U+tBSQwdowxC24MXgc
- UGwhfN9XHL8jpcjw0hZmRG1FT+K/DD530PqDC69m4XwdcJw3gHC7hD+RMFwpwfuGQwxW
- CS5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=nqkIoTahfJM/Upg/gdOrONhqr0PADZSJNncZsa4RrEQ=;
- b=0Bo1LCNvZYmxNyg6xBuXsfO6fnKC/tzZC9dXOPiDqrtvEX1VMktuJba47fMrKqmNOb
- VuQYHph8gHxEAtT3CCCQ4fAQKKJX0mWcqIlnPne/DowB4xuSSXgwXVzXVHYUawU34ok8
- rtE+FfT0jdRwxqMhL/9G1HRHRiJPsGD3USknSmJF5qIHsNvXHFStEsSY4lDXUqFcWeI7
- SmDdELryl/BJ9lYM4B86gRiYRLrwiZfSfRABA8GUgkzXtT55vDNLF90PF/re0nfqVwK8
- fEq2kQwmpu47aWGFUgPW7Y/J6jCpRPQa3S1jR5hxKW40yvKN5P7S5VVcuodMw7Gq9gg8
- iRVA==
-X-Gm-Message-State: ANoB5plnh+p3BCFHiqOw2XeWJGvD6t2k80oIscHdNqTgryFJNH33jG2v
- 28mJ0bibLVmu6YljrrjHUrFbNcRqMIvoYLj3ntlFKA==
-X-Google-Smtp-Source: AA0mqf5HLXx/+xnIsJ4INeKyRQRDw5F+3IFrspoENoyTgQ/Vw1VXQ/wbPnCZCJA9sF+cNiML7lSO0r7e+9DGFoqK77M=
-X-Received: by 2002:a05:6102:c0d:b0:3af:2b1c:9908 with SMTP id
- x13-20020a0561020c0d00b003af2b1c9908mr19487383vss.18.1669278686319; Thu, 24
- Nov 2022 00:31:26 -0800 (PST)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFA0010E6AE
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Nov 2022 08:36:19 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id F317662038;
+ Thu, 24 Nov 2022 08:36:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 800B3C433D7;
+ Thu, 24 Nov 2022 08:36:15 +0000 (UTC)
+Message-ID: <3ecd7c3d-b013-18b8-ea12-ca3c673de22c@xs4all.nl>
+Date: Thu, 24 Nov 2022 09:36:14 +0100
 MIME-Version: 1.0
-References: <20221123-rpi-kunit-tests-v1-0-051a0bb60a16@cerno.tech>
-In-Reply-To: <20221123-rpi-kunit-tests-v1-0-051a0bb60a16@cerno.tech>
-From: David Gow <davidgow@google.com>
-Date: Thu, 24 Nov 2022 16:31:14 +0800
-Message-ID: <CABVgOSmtiPMd+GB40_o=eDPg3cKVA3qPNbbYFoRJvJRxQBDj5A@mail.gmail.com>
-Subject: Re: [PATCH 00/24] drm: Introduce Kunit Tests to VC4
-To: Maxime Ripard <maxime@cerno.tech>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="000000000000256ca905ee333bcf"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH 00/23] Add Tegra20 parallel video input capture
+Content-Language: en-US
+To: luca.ceresoli@bootlin.com, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Osipenko <digetx@gmail.com>
+References: <20221109141852.729246-1-luca.ceresoli@bootlin.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20221109141852.729246-1-luca.ceresoli@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,234 +53,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kselftest@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Brendan Higgins <brendan.higgins@linux.dev>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org,
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <mairacanal@riseup.net>,
- dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
- linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-tegra@vger.kernel.org,
+ Richard Leitner <richard.leitner@skidata.com>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000256ca905ee333bcf
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Luca,
 
-On Wed, Nov 23, 2022 at 11:28 PM Maxime Ripard <maxime@cerno.tech> wrote:
->
-> Hi,
->
-> This series introduce Kunit tests to the vc4 KMS driver, but unlike what =
-we
-> have been doing so far in KMS, it actually tests the atomic modesetting c=
-ode.
->
-> In order to do so, I've had to improve a fair bit on the Kunit helpers al=
-ready
-> found in the tree in order to register a full blown and somewhat function=
-al KMS
-> driver.
->
-> It's of course relying on a mock so that we can test it anywhere. The moc=
-king
-> approach created a number of issues, the main one being that we need to c=
-reate
-> a decent mock in the first place, see patch 22. The basic idea is that I
-> created some structures to provide a decent approximation of the actual
-> hardware, and that would support both major architectures supported by vc=
-4.
->
-> This is of course meant to evolve over time and support more tests, but I=
-'ve
-> focused on testing the HVS FIFO assignment code which is fairly tricky (a=
-nd the
-> tests have actually revealed one more bug with our current implementation=
-). I
-> used to have a userspace implementation of those tests, where I would cop=
-y and
-> paste the kernel code and run the tests on a regular basis. It's was obvi=
-ously
-> fairly suboptimal, so it seemed like the perfect testbed for that series.
->
-> Let me know what you think,
-> Maxime
->
-> To: David Airlie <airlied@gmail.com>
-> To: Daniel Vetter <daniel@ffwll.ch>
-> To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> To: Maxime Ripard <mripard@kernel.org>
-> To: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Ma=C3=ADra Canal <mairacanal@riseup.net>
-> Cc: Brendan Higgins <brendan.higgins@linux.dev>
-> Cc: David Gow <davidgow@google.com>
-> Cc: linux-kselftest@vger.kernel.org
-> Cc: kunit-dev@googlegroups.com
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->
-> ---
+On 09/11/2022 15:18, luca.ceresoli@bootlin.com wrote:
+> From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> 
+> Tegra20 and other Tegra SoCs have a video input (VI) peripheral that can
+> receive from either MIPI CSI-2 or parallel video (called respectively "CSI"
+> and "VIP" in the documentation). The kernel currently has a staging driver
+> for Tegra210 CSI capture. This patch set adds support for Tegra20 VIP
+> capture.
+> 
+> Unfortunately I had no real documentation available to base this work on,
+> and I started from a working downstream 3.1 kernel, that I have heavily
+> reworked to fit into the existing tegra-video driver. The existing code
+> appears written with the intent of being modular and allow adding new input
+> mechanisms and new SoCs while keeping a unique VI core module. However its
+> modularity and extensibility was not enough to add Tegra20 VIP support, so
+> I added some hooks to turn hard-coded behaviour into per-SoC or per-bus
+> customizable code. There are also some fixes, some generic cleanups and DT
+> bindings.
 
-Hi Maxime,
+I plan on testing this series (esp. making sure it keeps working on non-tegra210
+hardware), but I have to find time for that. This is on my TODO list, so I will
+get to it, but it might time.
 
-Thanks very much for this! I'm really excited to see these sorts of
-tests being written.
+In the meantime, don't hesitate to post new versions (I saw comments on the
+bindings), when I have time for testing I'll pick the latest version you post.
+In other words, don't let lack of review comments from me stop you from working
+on this :-)
 
-I was able to successfully run these under qemu with:
-./tools/testing/kunit/kunit.py run --kunitconfig
-drivers/gpu/drm/vc4/tests --arch arm64
---cross_compile=3Daarch64-linux-gnu-
-(and also with clang, using --make_options LLVM=3D1 instead of the
---cross_compile flag)
+Regards,
 
-On the other hand, they don't compile as a module:
-ERROR: modpost: missing MODULE_LICENSE() in drivers/gpu/drm/vc4/tests/vc4_m=
-ock.o
-ERROR: modpost: missing MODULE_LICENSE() in
-drivers/gpu/drm/vc4/tests/vc4_mock_crtc.o
-ERROR: modpost: missing MODULE_LICENSE() in
-drivers/gpu/drm/vc4/tests/vc4_mock_output.o
-ERROR: modpost: missing MODULE_LICENSE() in
-drivers/gpu/drm/vc4/tests/vc4_mock_plane.o
-ERROR: modpost: missing MODULE_LICENSE() in
-drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.o
-ERROR: modpost: missing MODULE_LICENSE() in
-drivers/gpu/drm/tests/drm_managed_test.o
-ERROR: modpost: "vc4_drm_driver"
-[drivers/gpu/drm/vc4/tests/vc4_mock.ko] undefined!
-ERROR: modpost: "vc5_drm_driver"
-[drivers/gpu/drm/vc4/tests/vc4_mock.ko] undefined!
-ERROR: modpost: "drm_kunit_helper_alloc_device"
-[drivers/gpu/drm/vc4/tests/vc4_mock.ko] undefined!
-ERROR: modpost: "__drm_kunit_helper_alloc_drm_device_with_driver"
-[drivers/gpu/drm/vc4/tests/vc4_mock.ko] undefined!
-ERROR: modpost: "__vc4_hvs_alloc"
-[drivers/gpu/drm/vc4/tests/vc4_mock.ko] undefined!
-ERROR: modpost: "vc4_dummy_plane"
-[drivers/gpu/drm/vc4/tests/vc4_mock.ko] undefined!
-ERROR: modpost: "vc4_mock_pv" [drivers/gpu/drm/vc4/tests/vc4_mock.ko] undef=
-ined!
-ERROR: modpost: "vc4_dummy_output"
-[drivers/gpu/drm/vc4/tests/vc4_mock.ko] undefined!
-ERROR: modpost: "vc4_kms_load" [drivers/gpu/drm/vc4/tests/vc4_mock.ko]
-undefined!
-ERROR: modpost: "vc4_txp_crtc_data"
-[drivers/gpu/drm/vc4/tests/vc4_mock.ko] undefined!
-WARNING: modpost: suppressed 17 unresolved symbol warnings because
-there were too many)
+	Hans
 
-Most of those are just the need to export some symbols. There's some
-work underway to support conditionally exporting symbols only if KUnit
-is enabled, which may help:
-https://lore.kernel.org/linux-kselftest/20221102175959.2921063-1-rmoar@goog=
-le.com/
+> 
+> Quick tour of the patches:
+> 
+>  * Device tree bindings and minor DTS improvements
+> 
+>    01. dt-bindings: display: tegra: add bindings for Tegra20 VIP
+>    02. dt-bindings: display: tegra: vi: add 'vip' property and example
+>    03. ARM: dts: tegra20: add label to nvidia,tegra20-vi node
+>    04. ARM: dts: tegra20-tamonten: add label to avdd_vdac regulator
+> 
+>  * A fix
+> 
+>    05. staging: media: tegra-video: fix .vidioc_enum_fmt_vid_cap to return all formats
+> 
+>  * Minor improvements to logging, comments, cleanups
+> 
+>    06. staging: media: tegra-video: improve documentation of tegra_video_format fields
+>    07. staging: media: tegra-video: document tegra_channel_get_remote_source_subdev
+>    08. staging: media: tegra-video: fix typos in comment
+>    09. staging: media: tegra-video: improve error messages
+>    10. staging: media: tegra-video: slightly simplify cleanup on errors
+>    11. staging: media: tegra-video: move private struct declaration to C file
+>    12. staging: media: tegra-video: remove unneeded include
+> 
+>  * Preparation to make the VI module generic enough to host Tegra20 and VIP
+> 
+>    13. staging: media: tegra-video: Kconfig: allow TPG only on Tegra210
+>    14. staging: media: tegra-video: move tegra_channel_fmt_align to a per-soc op
+>    15. staging: media: tegra-video: move default format to soc-specific data
+>    16. staging: media: tegra-video: move MIPI calibration calls from VI to CSI
+>    17. staging: media: tegra-video: add a per-soc enable/disable op
+>    18. staging: media: tegra-video: move syncpt init/free to a per-soc op
+>    19. staging: media: tegra-video: add syncpts for Tegra20 to struct tegra_vi
+>    20. staging: media: tegra-video: add hooks for planar YUV and H/V flip
+>    21. staging: media: tegra-video: add H/V flip controls
+> 
+>  * Implementation of VIP and Tegra20
+> 
+>    22. staging: media: tegra-video: add support for VIP (parallel video input)
+>    23. staging: media: tegra-video: add tegra20 variant
+> 
+> Enjoy!
+> 
+> Luca
+> 
+> Luca Ceresoli (23):
+>   dt-bindings: display: tegra: add bindings for Tegra20 VIP
+>   dt-bindings: display: tegra: vi: add 'vip' property and example
+>   ARM: dts: tegra20: add label to nvidia,tegra20-vi node
+>   ARM: dts: tegra20-tamonten: add label to avdd_vdac regulator
+>   staging: media: tegra-video: fix .vidioc_enum_fmt_vid_cap to return
+>     all formats
+>   staging: media: tegra-video: improve documentation of
+>     tegra_video_format fields
+>   staging: media: tegra-video: document
+>     tegra_channel_get_remote_source_subdev
+>   staging: media: tegra-video: fix typos in comment
+>   staging: media: tegra-video: improve error messages
+>   staging: media: tegra-video: slightly simplify cleanup on errors
+>   staging: media: tegra-video: move private struct declaration to C file
+>   staging: media: tegra-video: remove unneeded include
+>   staging: media: tegra-video: Kconfig: allow TPG only on Tegra210
+>   staging: media: tegra-video: move tegra_channel_fmt_align to a per-soc
+>     op
+>   staging: media: tegra-video: move default format to soc-specific data
+>   staging: media: tegra-video: move MIPI calibration calls from VI to
+>     CSI
+>   staging: media: tegra-video: add a per-soc enable/disable op
+>   staging: media: tegra-video: move syncpt init/free to a per-soc op
+>   staging: media: tegra-video: add syncpts for Tegra20 to struct
+>     tegra_vi
+>   staging: media: tegra-video: add hooks for planar YUV and H/V flip
+>   staging: media: tegra-video: add H/V flip controls
+>   staging: media: tegra-video: add support for VIP (parallel video
+>     input)
+>   staging: media: tegra-video: add tegra20 variant
+> 
+>  .../display/tegra/nvidia,tegra20-vi.yaml      |  68 ++
+>  .../display/tegra/nvidia,tegra20-vip.yaml     |  64 ++
+>  MAINTAINERS                                   |  10 +
+>  arch/arm/boot/dts/tegra20-tamonten.dtsi       |   2 +-
+>  arch/arm/boot/dts/tegra20.dtsi                |   2 +-
+>  drivers/staging/media/tegra-video/Kconfig     |   1 +
+>  drivers/staging/media/tegra-video/Makefile    |   2 +
+>  drivers/staging/media/tegra-video/csi.c       |  44 ++
+>  drivers/staging/media/tegra-video/tegra20.c   | 649 ++++++++++++++++++
+>  drivers/staging/media/tegra-video/tegra210.c  |  97 ++-
+>  drivers/staging/media/tegra-video/vi.c        | 321 ++-------
+>  drivers/staging/media/tegra-video/vi.h        |  76 +-
+>  drivers/staging/media/tegra-video/video.c     |   5 +
+>  drivers/staging/media/tegra-video/video.h     |   2 +-
+>  drivers/staging/media/tegra-video/vip.c       | 298 ++++++++
+>  drivers/staging/media/tegra-video/vip.h       |  72 ++
+>  16 files changed, 1425 insertions(+), 288 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
+>  create mode 100644 drivers/staging/media/tegra-video/tegra20.c
+>  create mode 100644 drivers/staging/media/tegra-video/vip.c
+>  create mode 100644 drivers/staging/media/tegra-video/vip.h
+> 
 
-Otherwise, I suspect the better short-term solution would just be to
-require that the tests are built-in (or at least compiled into
-whatever of the drm/vc4 modules makes most sense).
-
-The only other thing which has me a little confused is the naming of
-some of the functions, specifically with the __ prefix. Is it just for
-internal functions (many of them aren't static, but maybe they could
-use the VISIBLE_IF_KUNIT macro if that makes sense), or for versions
-of functions which accept extra arguments? Not a big deal (and maybe
-it's a DRM naming convention I'm ignorant of), but I couldn't quite
-find a pattern on my first read through.
-
-But on the whole, these look good from a KUnit point-of-view. It's
-really to see some solid mocking and driver testing, too. There would
-be ways to avoid passing the 'struct kunit' around in more places (or
-to store extra data as a kunit_resource), but I think it's better
-overall to pass it around like you have in this case -- it's certainly
-more compatible with things which might span threads (e.g. the
-workqueues).
-
-Thanks a bunch,
--- David
-
---000000000000256ca905ee333bcf
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
-VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
-AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
-AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
-IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
-dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
-6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
-c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
-I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
-AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
-BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
-CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
-AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
-MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
-My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
-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
-N0A3bgltvER3q1cGraQJMEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
-dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
-AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
-c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
-LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
-LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
-Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQAxS21FdvRtCQVc
-jgEj+xxSnUr0N9reJlI5J9zRiBCWGxm5yhz965IDka3XVFEbj+beJj/gyHoxbaTGf2AjOufpcMqy
-p4mtqc2l4Csudl8QeiBaOUDx4VKADbgxqpjvwD5zRpSKVj4S9y3BJi9xrRdPOm1Z2ZZYxRUxUz7d
-2MXoxQsFucGJO5a4CwDBaGgJAqvwCXU5Q64rKVIUBk6mtcd3cDwX+PXqx4QrhHFGq6b6oi37YQ8B
-+bhlXqlkLrbPlPFk+4Rh4EaW92iD5g8kvtXCOwvIIvs+15Io0dbpIe2W5UKo2OcyDDFvrOACmUOE
-/GuEkhENcyDVyEs/4/N2u9WYMYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
-R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
-MDIwAhABj4peqtakTCOMXLZ2mEqRMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCCW
-zdSv/PfuQvDHwNdZH2ByM6r5vevZTQHxen9TwIF1ETAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
-MBwGCSqGSIb3DQEJBTEPFw0yMjExMjQwODMxMjZaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
-BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
-CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAbeZea/NihYTOj34Ng0Wq
-dWCUJjwUNnljtMPBNPYf7sxoZZEPHg7vdPB5W2bwmRlaqe2H42b0g5wTLbDpqXJ6PFrMqAKmRW+l
-oRVHsq92VjvBA1An1VYAyw7ieJ9rlDh6URPMb9e4d4M7T7dnzY9lI7aBB0g2wYzluTxIUxjUU+2N
-zLSExF2ESOUgOeMgVz7OAGtBwI8yA/eUck6X6jG6/H1VX+Z7A0lgdkOBu+cb8IrcWjjT3m7TQPXJ
-7MN42EG2TXu1XA6Q5ZS9enNYfCQUZ5Wqk/1RdntNZyhcNpqCSKKO9xdCigLJtNwgG2WGqekG99uq
-JnfgkUYK29LD+3Q1sw==
---000000000000256ca905ee333bcf--
