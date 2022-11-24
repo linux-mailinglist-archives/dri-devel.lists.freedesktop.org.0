@@ -1,62 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29E746375DA
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 11:03:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF2DB6375DF
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 11:03:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C48FE10E6BC;
-	Thu, 24 Nov 2022 10:03:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F12C710E6C2;
+	Thu, 24 Nov 2022 10:03:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
- [IPv6:2a00:1450:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3F0B10E6BC;
- Thu, 24 Nov 2022 10:02:56 +0000 (UTC)
-Received: by mail-ed1-x52f.google.com with SMTP id f7so1855664edc.6;
- Thu, 24 Nov 2022 02:02:56 -0800 (PST)
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF97E10E6BF;
+ Thu, 24 Nov 2022 10:02:57 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id m19so617615edj.8;
+ Thu, 24 Nov 2022 02:02:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=DT10+AQ/j/4DvlFjT8UnEtNOMNUpt6M8DZNmbpzF/A0=;
- b=WFqwyYUyhxbL3lFsqrxUHpNo0eaH//hHIoFKnMaV21L6U0PXIJt+CEFFcy+++Q8sO6
- Qkt3N3T8dwdRaXsPlvpFup7L8T6f8TKKp2VrtLB58o2O593lciFnPWlN3ZSVJuPDojWu
- GZxa6KHL8tjCjp6FFBNOOuica+AZhSh8XUVqQTkry4TMKtffZNkC4Y+KsI7XL5vGvRHC
- 3XqvPLIlTUXHC173R4qpF5aAEz+HjI1opmS7kruy4Di9ICFgJPq9QlkG6xUdsdc87BOa
- 8E5PTNFPrkRQGsmXUsUer+yfiWEWkGZ7obeB8IQv47fhM97ARidTogfrF6fzxBcIwMnW
- IJEQ==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=DvwAqYih0xMYu99f2rWcvtNJO6gVq+yaho5oL0bMyFk=;
+ b=b4EFYM9JWJKKff590imBv3Y8DfVdtCVE/UyIg1UvuQU8nZVDjTG4viQQiYKM3cxXN0
+ t2xFlkdrelELUahogAzrCsOHXJXUwR5GRIDLgOn8qCg088HIPhV4ptfiNfM/2CGByGaU
+ i1i//wrcxaE5H4FqWO56Q3RZP9hozY1WPAokfWdLddjpg+NN1ch5QmnKQLRmMKqzsXwV
+ xLp5OURrqn8lJUssSRtyT3/XUDnFNbw/J/L7L/QJDlGuIKq0EvvOx/u8vUeNWTRJ9fQZ
+ kinQmKMYWYZ+uNVUYRriEeiwKbXsiI+o9aOJzxr6FNi1iq9DA0FlQCULLeRv3e9313G3
+ lyPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=DT10+AQ/j/4DvlFjT8UnEtNOMNUpt6M8DZNmbpzF/A0=;
- b=HDE2LVSGNKRMqs/ooIhBoelgpDEt4XMG59hIwcY10FBF++1KlU7BOELBkb5NrKimfm
- v4qjSczx3f+FbSFykHF777EMqemy11qIEKBsgwKC/AGLZeBFCn9Yy9F1/uPp7kxRKCGm
- U/TAamn4sdVhLlHnD2Q9jJEm9/wQY/O/gTcPdGGN3PHijfsCkc9zQFDTOheiOQYvtFHj
- Q0rzLtNsNHZvSlfwcV2xDPFsAlpcrZNUnA7xQTUwQvfXxRYfxqCIoFKCGvh1xemi1otp
- ej93ZvbcyBW++fMO3qWwSntRiTX8eQFLaxe9jzUxI/HboMxOvHcAIqzm4SJFKB8R2TDU
- fe+g==
-X-Gm-Message-State: ANoB5pmTKecZ2j/hLDDTvEsvNrpy8CaKtNR90YcRdedDsdTXlbX/4XR7
- t2rv3sfxBQILaCG+soNfPkY=
-X-Google-Smtp-Source: AA0mqf52Ks63ZCGsp25loumAzgQn8HAaA/1r3X1TbLtPsSVW2css9G+RrWeM1RF8Ju/r0U+pZOaXjg==
-X-Received: by 2002:aa7:dd0f:0:b0:46a:40f5:aca with SMTP id
- i15-20020aa7dd0f000000b0046a40f50acamr5011361edv.427.1669284175074; 
- Thu, 24 Nov 2022 02:02:55 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=DvwAqYih0xMYu99f2rWcvtNJO6gVq+yaho5oL0bMyFk=;
+ b=avdIpi35FHX7SrPwpDANVEZE65TPOdByWV2xU4bwzy1Ksrw6TLTWvtC85obANbU9SU
+ PqQ2vkcaa/bSqGruL8cgzFKlkm1Gv7j54SCyNa9MT3pIa3UHoskqk0LOaFOkfz7CbRAT
+ jslpcaaZb8YEgDiR0njLDGRZj9nSimMErkpLvQb38ApofjRcIFMe/x0zppvMBPTVTNaF
+ NHz0HcoMOCwG+2W9RPznfl4+J6ERyA5UcH9aQJVu59+VRVjmvq2F+ngSIYv94J2mBRk8
+ e2iL6Q7tLsh56m05uOu1T7Amz1ZNhqYseWybiHi6QVp3XTDcfiKQBO7+Qe7oknXlvSfQ
+ iSqA==
+X-Gm-Message-State: ANoB5pl0mFEFoQApsX9JPGCgLLY6TZ5K6x1HYzPgSG9NFfaDhawESW7K
+ AOcZPaorNAzzGTNYpHkVMlNoYCBFTiI=
+X-Google-Smtp-Source: AA0mqf6Re/CGAtZy1nEqK/3xKlcMkygKQZSf4iHWwsQRMf/eFISLeBFXlO7vsgHDeUQVjXD0iIElYw==
+X-Received: by 2002:a05:6402:4286:b0:458:7489:34ea with SMTP id
+ g6-20020a056402428600b00458748934eamr16037622edc.264.1669284176442; 
+ Thu, 24 Nov 2022 02:02:56 -0800 (PST)
 Received: from able.fritz.box (p5b0ea229.dip0.t-ipconnect.de. [91.14.162.41])
  by smtp.gmail.com with ESMTPSA id
- ey3-20020a0564022a0300b00461816beef9sm328907edb.14.2022.11.24.02.02.53
+ ey3-20020a0564022a0300b00461816beef9sm328907edb.14.2022.11.24.02.02.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Nov 2022 02:02:54 -0800 (PST)
+ Thu, 24 Nov 2022 02:02:55 -0800 (PST)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: Alexander.Deucher@amd.com, Marek.Olsak@amd.com,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/3] drm/ttm: remove ttm_bo_(un)lock_delayed_workqueue
-Date: Thu, 24 Nov 2022 11:02:50 +0100
-Message-Id: <20221124100252.2744-1-christian.koenig@amd.com>
+Subject: [PATCH 2/3] drm/ttm: use per BO cleanup workers
+Date: Thu, 24 Nov 2022 11:02:51 +0100
+Message-Id: <20221124100252.2744-2-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221124100252.2744-1-christian.koenig@amd.com>
+References: <20221124100252.2744-1-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -76,174 +79,363 @@ Cc: Amaranath.Somalapuram@amd.com, Arunpravin.PaneerSelvam@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Those functions never worked correctly since it is still perfectly
-possible that a buffer object is released and the background worker
-restarted even after calling them.
+Instead of a single worker going over the list of delete BOs in regular
+intervals use a per BO worker which blocks for the resv object and
+locking of the BO.
+
+This not only simplifies the handling massively, but also results in
+much better response time when cleaning up buffers.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c |  6 +-----
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c  |  4 +---
- drivers/gpu/drm/radeon/radeon_device.c      |  5 -----
- drivers/gpu/drm/radeon/radeon_pm.c          |  4 +---
- drivers/gpu/drm/ttm/ttm_bo.c                | 14 --------------
- include/drm/ttm/ttm_bo_api.h                | 16 ----------------
- 6 files changed, 3 insertions(+), 46 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |   2 +-
+ drivers/gpu/drm/i915/i915_gem.c            |   2 +-
+ drivers/gpu/drm/i915/intel_region_ttm.c    |   2 +-
+ drivers/gpu/drm/ttm/ttm_bo.c               | 112 ++++++++-------------
+ drivers/gpu/drm/ttm/ttm_bo_util.c          |   1 -
+ drivers/gpu/drm/ttm/ttm_device.c           |  24 ++---
+ include/drm/ttm/ttm_bo_api.h               |  18 +---
+ include/drm/ttm/ttm_device.h               |   7 +-
+ 8 files changed, 57 insertions(+), 111 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-index de61a85c4b02..8c57a5b7ecba 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-@@ -1717,7 +1717,7 @@ static void amdgpu_ib_preempt_mark_partial_job(struct amdgpu_ring *ring)
- 
- static int amdgpu_debugfs_ib_preempt(void *data, u64 val)
- {
--	int r, resched, length;
-+	int r, length;
- 	struct amdgpu_ring *ring;
- 	struct dma_fence **fences = NULL;
- 	struct amdgpu_device *adev = (struct amdgpu_device *)data;
-@@ -1747,8 +1747,6 @@ static int amdgpu_debugfs_ib_preempt(void *data, u64 val)
- 	/* stop the scheduler */
- 	kthread_park(ring->sched.thread);
- 
--	resched = ttm_bo_lock_delayed_workqueue(&adev->mman.bdev);
--
- 	/* preempt the IB */
- 	r = amdgpu_ring_preempt_ib(ring);
- 	if (r) {
-@@ -1785,8 +1783,6 @@ static int amdgpu_debugfs_ib_preempt(void *data, u64 val)
- 
- 	up_read(&adev->reset_domain->sem);
- 
--	ttm_bo_unlock_delayed_workqueue(&adev->mman.bdev, resched);
--
- pro_end:
- 	kfree(fences);
- 
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index cc65df9f2419..ff2ae0be2c28 100644
+index ff2ae0be2c28..05f458d67eb8 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -3965,10 +3965,8 @@ void amdgpu_device_fini_hw(struct amdgpu_device *adev)
- 	}
+@@ -3966,7 +3966,7 @@ void amdgpu_device_fini_hw(struct amdgpu_device *adev)
  	amdgpu_fence_driver_hw_fini(adev);
  
--	if (adev->mman.initialized) {
-+	if (adev->mman.initialized)
- 		flush_delayed_work(&adev->mman.bdev.wq);
--		ttm_bo_lock_delayed_workqueue(&adev->mman.bdev);
--	}
+ 	if (adev->mman.initialized)
+-		flush_delayed_work(&adev->mman.bdev.wq);
++		drain_workqueue(adev->mman.bdev.wq);
  
  	if (adev->pm_sysfs_en)
  		amdgpu_pm_sysfs_fini(adev);
-diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/radeon/radeon_device.c
-index a556b6be1137..ea10306809cf 100644
---- a/drivers/gpu/drm/radeon/radeon_device.c
-+++ b/drivers/gpu/drm/radeon/radeon_device.c
-@@ -1768,7 +1768,6 @@ int radeon_gpu_reset(struct radeon_device *rdev)
- 	bool saved = false;
- 
- 	int i, r;
--	int resched;
- 
- 	down_write(&rdev->exclusive_lock);
- 
-@@ -1780,8 +1779,6 @@ int radeon_gpu_reset(struct radeon_device *rdev)
- 	atomic_inc(&rdev->gpu_reset_counter);
- 
- 	radeon_save_bios_scratch_regs(rdev);
--	/* block TTM */
--	resched = ttm_bo_lock_delayed_workqueue(&rdev->mman.bdev);
- 	radeon_suspend(rdev);
- 	radeon_hpd_fini(rdev);
- 
-@@ -1840,8 +1837,6 @@ int radeon_gpu_reset(struct radeon_device *rdev)
- 	/* reset hpd state */
- 	radeon_hpd_init(rdev);
- 
--	ttm_bo_unlock_delayed_workqueue(&rdev->mman.bdev, resched);
--
- 	rdev->in_reset = true;
- 	rdev->needs_reset = false;
- 
-diff --git a/drivers/gpu/drm/radeon/radeon_pm.c b/drivers/gpu/drm/radeon/radeon_pm.c
-index 04c693ca419a..cbc554928bcc 100644
---- a/drivers/gpu/drm/radeon/radeon_pm.c
-+++ b/drivers/gpu/drm/radeon/radeon_pm.c
-@@ -1853,11 +1853,10 @@ static bool radeon_pm_debug_check_in_vbl(struct radeon_device *rdev, bool finish
- static void radeon_dynpm_idle_work_handler(struct work_struct *work)
+diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
+index 299f94a9fb87..413c9dbe5be1 100644
+--- a/drivers/gpu/drm/i915/i915_gem.c
++++ b/drivers/gpu/drm/i915/i915_gem.c
+@@ -1099,7 +1099,7 @@ void i915_gem_drain_freed_objects(struct drm_i915_private *i915)
  {
- 	struct radeon_device *rdev;
--	int resched;
-+
- 	rdev = container_of(work, struct radeon_device,
- 				pm.dynpm_idle_work.work);
- 
--	resched = ttm_bo_lock_delayed_workqueue(&rdev->mman.bdev);
- 	mutex_lock(&rdev->pm.mutex);
- 	if (rdev->pm.dynpm_state == DYNPM_STATE_ACTIVE) {
- 		int not_processed = 0;
-@@ -1908,7 +1907,6 @@ static void radeon_dynpm_idle_work_handler(struct work_struct *work)
- 				      msecs_to_jiffies(RADEON_IDLE_LOOP_MS));
+ 	while (atomic_read(&i915->mm.free_count)) {
+ 		flush_work(&i915->mm.free_work);
+-		flush_delayed_work(&i915->bdev.wq);
++		drain_workqueue(i915->bdev.wq);
+ 		rcu_barrier();
  	}
- 	mutex_unlock(&rdev->pm.mutex);
--	ttm_bo_unlock_delayed_workqueue(&rdev->mman.bdev, resched);
+ }
+diff --git a/drivers/gpu/drm/i915/intel_region_ttm.c b/drivers/gpu/drm/i915/intel_region_ttm.c
+index cf89d0c2a2d9..657bbc16a48a 100644
+--- a/drivers/gpu/drm/i915/intel_region_ttm.c
++++ b/drivers/gpu/drm/i915/intel_region_ttm.c
+@@ -132,7 +132,7 @@ int intel_region_ttm_fini(struct intel_memory_region *mem)
+ 			break;
+ 
+ 		msleep(20);
+-		flush_delayed_work(&mem->i915->bdev.wq);
++		drain_workqueue(mem->i915->bdev.wq);
+ 	}
+ 
+ 	/* If we leaked objects, Don't free the region causing use after free */
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index b77262a623e0..4749b65bedc4 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -280,14 +280,13 @@ static int ttm_bo_cleanup_refs(struct ttm_buffer_object *bo,
+ 		ret = 0;
+ 	}
+ 
+-	if (ret || unlikely(list_empty(&bo->ddestroy))) {
++	if (ret) {
+ 		if (unlock_resv)
+ 			dma_resv_unlock(bo->base.resv);
+ 		spin_unlock(&bo->bdev->lru_lock);
+ 		return ret;
+ 	}
+ 
+-	list_del_init(&bo->ddestroy);
+ 	spin_unlock(&bo->bdev->lru_lock);
+ 	ttm_bo_cleanup_memtype_use(bo);
+ 
+@@ -300,47 +299,21 @@ static int ttm_bo_cleanup_refs(struct ttm_buffer_object *bo,
  }
  
  /*
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index c3f4b33136e5..b77262a623e0 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -418,20 +418,6 @@ void ttm_bo_put(struct ttm_buffer_object *bo)
- }
- EXPORT_SYMBOL(ttm_bo_put);
- 
--int ttm_bo_lock_delayed_workqueue(struct ttm_device *bdev)
--{
--	return cancel_delayed_work_sync(&bdev->wq);
--}
--EXPORT_SYMBOL(ttm_bo_lock_delayed_workqueue);
+- * Traverse the delayed list, and call ttm_bo_cleanup_refs on all
+- * encountered buffers.
++ * Block for the dma_resv object to become idle, lock the buffer and clean up
++ * the resource and tt object.
+  */
+-bool ttm_bo_delayed_delete(struct ttm_device *bdev, bool remove_all)
++static void ttm_bo_delayed_delete(struct work_struct *work)
+ {
+-	struct list_head removed;
+-	bool empty;
 -
--void ttm_bo_unlock_delayed_workqueue(struct ttm_device *bdev, int resched)
+-	INIT_LIST_HEAD(&removed);
+-
+-	spin_lock(&bdev->lru_lock);
+-	while (!list_empty(&bdev->ddestroy)) {
+-		struct ttm_buffer_object *bo;
+-
+-		bo = list_first_entry(&bdev->ddestroy, struct ttm_buffer_object,
+-				      ddestroy);
+-		list_move_tail(&bo->ddestroy, &removed);
+-		if (!ttm_bo_get_unless_zero(bo))
+-			continue;
+-
+-		if (remove_all || bo->base.resv != &bo->base._resv) {
+-			spin_unlock(&bdev->lru_lock);
+-			dma_resv_lock(bo->base.resv, NULL);
+-
+-			spin_lock(&bdev->lru_lock);
+-			ttm_bo_cleanup_refs(bo, false, !remove_all, true);
+-
+-		} else if (dma_resv_trylock(bo->base.resv)) {
+-			ttm_bo_cleanup_refs(bo, false, !remove_all, true);
+-		} else {
+-			spin_unlock(&bdev->lru_lock);
+-		}
++	struct ttm_buffer_object *bo;
+ 
+-		ttm_bo_put(bo);
+-		spin_lock(&bdev->lru_lock);
+-	}
+-	list_splice_tail(&removed, &bdev->ddestroy);
+-	empty = list_empty(&bdev->ddestroy);
+-	spin_unlock(&bdev->lru_lock);
++	bo = container_of(work, typeof(*bo), delayed_delete);
+ 
+-	return empty;
++	dma_resv_wait_timeout(bo->base.resv, DMA_RESV_USAGE_BOOKKEEP, false,
++			      MAX_SCHEDULE_TIMEOUT);
++	dma_resv_lock(bo->base.resv, NULL);
++	ttm_bo_cleanup_memtype_use(bo);
++	dma_resv_unlock(bo->base.resv);
++	ttm_bo_put(bo);
+ }
+ 
+ static void ttm_bo_release(struct kref *kref)
+@@ -369,44 +342,40 @@ static void ttm_bo_release(struct kref *kref)
+ 
+ 		drm_vma_offset_remove(bdev->vma_manager, &bo->base.vma_node);
+ 		ttm_mem_io_free(bdev, bo->resource);
+-	}
+-
+-	if (!dma_resv_test_signaled(bo->base.resv, DMA_RESV_USAGE_BOOKKEEP) ||
+-	    !dma_resv_trylock(bo->base.resv)) {
+-		/* The BO is not idle, resurrect it for delayed destroy */
+-		ttm_bo_flush_all_fences(bo);
+-		bo->deleted = true;
+ 
+-		spin_lock(&bo->bdev->lru_lock);
++		if (!dma_resv_test_signaled(bo->base.resv,
++					    DMA_RESV_USAGE_BOOKKEEP) ||
++		    !dma_resv_trylock(bo->base.resv)) {
++			/* The BO is not idle, resurrect it for delayed destroy */
++			ttm_bo_flush_all_fences(bo);
++			bo->deleted = true;
+ 
+-		/*
+-		 * Make pinned bos immediately available to
+-		 * shrinkers, now that they are queued for
+-		 * destruction.
+-		 *
+-		 * FIXME: QXL is triggering this. Can be removed when the
+-		 * driver is fixed.
+-		 */
+-		if (bo->pin_count) {
+-			bo->pin_count = 0;
+-			ttm_resource_move_to_lru_tail(bo->resource);
+-		}
++			spin_lock(&bo->bdev->lru_lock);
+ 
+-		kref_init(&bo->kref);
+-		list_add_tail(&bo->ddestroy, &bdev->ddestroy);
+-		spin_unlock(&bo->bdev->lru_lock);
++			/*
++			 * Make pinned bos immediately available to
++			 * shrinkers, now that they are queued for
++			 * destruction.
++			 *
++			 * FIXME: QXL is triggering this. Can be removed when the
++			 * driver is fixed.
++			 */
++			if (bo->pin_count) {
++				bo->pin_count = 0;
++				ttm_resource_move_to_lru_tail(bo->resource);
++			}
+ 
+-		schedule_delayed_work(&bdev->wq,
+-				      ((HZ / 100) < 1) ? 1 : HZ / 100);
+-		return;
+-	}
++			kref_init(&bo->kref);
++			spin_unlock(&bo->bdev->lru_lock);
+ 
+-	spin_lock(&bo->bdev->lru_lock);
+-	list_del(&bo->ddestroy);
+-	spin_unlock(&bo->bdev->lru_lock);
++			INIT_WORK(&bo->delayed_delete, ttm_bo_delayed_delete);
++			queue_work(bdev->wq, &bo->delayed_delete);
++			return;
++		}
+ 
+-	ttm_bo_cleanup_memtype_use(bo);
+-	dma_resv_unlock(bo->base.resv);
++		ttm_bo_cleanup_memtype_use(bo);
++		dma_resv_unlock(bo->base.resv);
++	}
+ 
+ 	atomic_dec(&ttm_glob.bo_count);
+ 	bo->destroy(bo);
+@@ -946,7 +915,6 @@ int ttm_bo_init_reserved(struct ttm_device *bdev, struct ttm_buffer_object *bo,
+ 	int ret;
+ 
+ 	kref_init(&bo->kref);
+-	INIT_LIST_HEAD(&bo->ddestroy);
+ 	bo->bdev = bdev;
+ 	bo->type = type;
+ 	bo->page_alignment = alignment;
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+index ba3aa0a0fc43..ae4b7922ee1a 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo_util.c
++++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+@@ -230,7 +230,6 @@ static int ttm_buffer_object_transfer(struct ttm_buffer_object *bo,
+ 	 */
+ 
+ 	atomic_inc(&ttm_glob.bo_count);
+-	INIT_LIST_HEAD(&fbo->base.ddestroy);
+ 	drm_vma_node_reset(&fbo->base.base.vma_node);
+ 
+ 	kref_init(&fbo->base.kref);
+diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
+index e7147e304637..e9bedca4dfdc 100644
+--- a/drivers/gpu/drm/ttm/ttm_device.c
++++ b/drivers/gpu/drm/ttm/ttm_device.c
+@@ -175,16 +175,6 @@ int ttm_device_swapout(struct ttm_device *bdev, struct ttm_operation_ctx *ctx,
+ }
+ EXPORT_SYMBOL(ttm_device_swapout);
+ 
+-static void ttm_device_delayed_workqueue(struct work_struct *work)
 -{
--	if (resched)
+-	struct ttm_device *bdev =
+-		container_of(work, struct ttm_device, wq.work);
+-
+-	if (!ttm_bo_delayed_delete(bdev, false))
 -		schedule_delayed_work(&bdev->wq,
 -				      ((HZ / 100) < 1) ? 1 : HZ / 100);
 -}
--EXPORT_SYMBOL(ttm_bo_unlock_delayed_workqueue);
--
- static int ttm_bo_bounce_temp_buffer(struct ttm_buffer_object *bo,
- 				     struct ttm_resource **mem,
- 				     struct ttm_operation_ctx *ctx,
-diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
-index 44a538ee5e2a..7758347c461c 100644
---- a/include/drm/ttm/ttm_bo_api.h
-+++ b/include/drm/ttm/ttm_bo_api.h
-@@ -290,22 +290,6 @@ void ttm_bo_move_to_lru_tail(struct ttm_buffer_object *bo);
- void ttm_bo_set_bulk_move(struct ttm_buffer_object *bo,
- 			  struct ttm_lru_bulk_move *bulk);
- 
--/**
-- * ttm_bo_lock_delayed_workqueue
-- *
-- * Prevent the delayed workqueue from running.
-- * Returns
-- * True if the workqueue was queued at the time
-- */
--int ttm_bo_lock_delayed_workqueue(struct ttm_device *bdev);
--
--/**
-- * ttm_bo_unlock_delayed_workqueue
-- *
-- * Allows the delayed workqueue to run.
-- */
--void ttm_bo_unlock_delayed_workqueue(struct ttm_device *bdev, int resched);
 -
  /**
-  * ttm_bo_eviction_valuable
+  * ttm_device_init
   *
+@@ -215,15 +205,19 @@ int ttm_device_init(struct ttm_device *bdev, struct ttm_device_funcs *funcs,
+ 	if (ret)
+ 		return ret;
+ 
++	bdev->wq = alloc_workqueue("ttm", WQ_MEM_RECLAIM | WQ_HIGHPRI, 16);
++	if (!bdev->wq) {
++		ttm_global_release();
++		return -ENOMEM;
++	}
++
+ 	bdev->funcs = funcs;
+ 
+ 	ttm_sys_man_init(bdev);
+ 	ttm_pool_init(&bdev->pool, dev, use_dma_alloc, use_dma32);
+ 
+ 	bdev->vma_manager = vma_manager;
+-	INIT_DELAYED_WORK(&bdev->wq, ttm_device_delayed_workqueue);
+ 	spin_lock_init(&bdev->lru_lock);
+-	INIT_LIST_HEAD(&bdev->ddestroy);
+ 	INIT_LIST_HEAD(&bdev->pinned);
+ 	bdev->dev_mapping = mapping;
+ 	mutex_lock(&ttm_global_mutex);
+@@ -247,10 +241,8 @@ void ttm_device_fini(struct ttm_device *bdev)
+ 	list_del(&bdev->device_list);
+ 	mutex_unlock(&ttm_global_mutex);
+ 
+-	cancel_delayed_work_sync(&bdev->wq);
+-
+-	if (ttm_bo_delayed_delete(bdev, true))
+-		pr_debug("Delayed destroy list was clean\n");
++	drain_workqueue(bdev->wq);
++	destroy_workqueue(bdev->wq);
+ 
+ 	spin_lock(&bdev->lru_lock);
+ 	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
+diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
+index 7758347c461c..69e62bbb01e3 100644
+--- a/include/drm/ttm/ttm_bo_api.h
++++ b/include/drm/ttm/ttm_bo_api.h
+@@ -92,7 +92,6 @@ struct ttm_tt;
+  * @ttm: TTM structure holding system pages.
+  * @evicted: Whether the object was evicted without user-space knowing.
+  * @deleted: True if the object is only a zombie and already deleted.
+- * @ddestroy: List head for the delayed destroy list.
+  * @swap: List head for swap LRU list.
+  * @offset: The current GPU offset, which can have different meanings
+  * depending on the memory type. For SYSTEM type memory, it should be 0.
+@@ -135,19 +134,14 @@ struct ttm_buffer_object {
+ 	struct ttm_tt *ttm;
+ 	bool deleted;
+ 	struct ttm_lru_bulk_move *bulk_move;
++	unsigned priority;
++	unsigned pin_count;
+ 
+ 	/**
+-	 * Members protected by the bdev::lru_lock.
+-	 */
+-
+-	struct list_head ddestroy;
+-
+-	/**
+-	 * Members protected by a bo reservation.
++	 * @delayed_delete: Work item used when we can't delete the BO
++	 * immediately
+ 	 */
+-
+-	unsigned priority;
+-	unsigned pin_count;
++	struct work_struct delayed_delete;
+ 
+ 	/**
+ 	 * Special members that are protected by the reserve lock
+@@ -448,8 +442,6 @@ void ttm_bo_vm_close(struct vm_area_struct *vma);
+ 
+ int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
+ 		     void *buf, int len, int write);
+-bool ttm_bo_delayed_delete(struct ttm_device *bdev, bool remove_all);
+-
+ vm_fault_t ttm_bo_vm_dummy_page(struct vm_fault *vmf, pgprot_t prot);
+ 
+ #endif
+diff --git a/include/drm/ttm/ttm_device.h b/include/drm/ttm/ttm_device.h
+index 95b3c04b1ab9..4f3e81eac6f3 100644
+--- a/include/drm/ttm/ttm_device.h
++++ b/include/drm/ttm/ttm_device.h
+@@ -251,11 +251,6 @@ struct ttm_device {
+ 	 */
+ 	spinlock_t lru_lock;
+ 
+-	/**
+-	 * @ddestroy: Destroyed but not yet cleaned up buffer objects.
+-	 */
+-	struct list_head ddestroy;
+-
+ 	/**
+ 	 * @pinned: Buffer objects which are pinned and so not on any LRU list.
+ 	 */
+@@ -270,7 +265,7 @@ struct ttm_device {
+ 	/**
+ 	 * @wq: Work queue structure for the delayed delete workqueue.
+ 	 */
+-	struct delayed_work wq;
++	struct workqueue_struct *wq;
+ };
+ 
+ int ttm_global_swapout(struct ttm_operation_ctx *ctx, gfp_t gfp_flags);
 -- 
 2.34.1
 
