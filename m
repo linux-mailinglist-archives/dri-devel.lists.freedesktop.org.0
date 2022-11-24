@@ -1,53 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D66E637E87
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 18:47:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C1B1637E85
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 18:47:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DF3410E26B;
-	Thu, 24 Nov 2022 17:47:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31E7710E26A;
+	Thu, 24 Nov 2022 17:47:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B41410E6B6
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Nov 2022 08:54:55 +0000 (UTC)
-X-UUID: e1b7fc8b92984f0fa217638546b67cf1-20221124
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EBD110E6B4
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Nov 2022 08:54:45 +0000 (UTC)
+X-UUID: 4eec1624fe3e4ac1bd1052dd37f46a9b-20221124
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=81wfVrFGa0F5KGBMwUe92UrzpoG4Khjj+9dv7Pe3cgc=; 
- b=kB4Qv7ibiO9k/frbhoqa7DgVCF89awdOxRkSP2zROwQ2WicpCMu7e7TUfqHthkWqjsM+Kxw8awRbNs7YKMbS4UQpsI10ArRoJmotb+HXn+Z5kEp8f2HoBxLy/wwFVRF/fZuRl6+KKtn5EnLmrNl2UOnQLSAe2vcL4sSGeVxC5tU=;
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
+ bh=Se93twhCnANzbyfAp19LflQ7H378k9rkCrI1fa1AgUY=; 
+ b=kaE5lrXdlSx/NNQjmuyyQJ7mZv2iZcS635v/rxTauMCA/80UDzSNnVpPucgo7AJXsPuck7eaWhnC9RhND4RbsIwvwLuHawXEmuEEYSOfy1a0708AunRnAL0+tmHnMEcRl8P1wRajLKZn7k/8YbZQ8joNfIdgAwmhrItkXahRLWg=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.14, REQID:1fedf52b-3988-48a4-9aba-8a4b487942be, IP:0,
+X-CID-O-INFO: VERSION:1.1.14, REQID:016c2cf5-489e-4d9c-939f-472d708d3b4a, IP:0,
  U
  RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
  release,TS:0
-X-CID-META: VersionHash:dcaaed0, CLOUDID:4df031f9-3a34-4838-abcf-dfedf9dd068e,
+X-CID-META: VersionHash:dcaaed0, CLOUDID:7bc4b52f-2938-482e-aafd-98d66723b8a9,
  B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:1,EDM:-3,IP:nil,U
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
  RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: e1b7fc8b92984f0fa217638546b67cf1-20221124
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw02.mediatek.com (envelope-from <jiaxin.yu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 12059189; Thu, 24 Nov 2022 16:54:40 +0800
+X-UUID: 4eec1624fe3e4ac1bd1052dd37f46a9b-20221124
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw01.mediatek.com (envelope-from <jiaxin.yu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 177122599; Thu, 24 Nov 2022 16:54:41 +0800
 Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Thu, 24 Nov 2022 16:54:38 +0800
+ 15.2.792.15; Thu, 24 Nov 2022 16:54:39 +0800
 Received: from localhost.localdomain (10.17.3.154) by mtkmbs11n2.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via
- Frontend Transport; Thu, 24 Nov 2022 16:54:37 +0800
+ Frontend Transport; Thu, 24 Nov 2022 16:54:38 +0800
 From: Jiaxin Yu <jiaxin.yu@mediatek.com>
 To: <broonie@kernel.org>, <andrzej.hajda@intel.com>,
  <neil.armstrong@linaro.org>, <robert.foss@linaro.org>,
  <Laurent.pinchart@ideasonboard.com>, <kuninori.morimoto.gx@renesas.com>,
  <angelogioacchino.delregno@collabora.com>, <nfraprado@collabora.com>
-Subject: [PATCH 0/3] ASoC: mediatek:mt8186: fix both the speaker and hdmi
-Date: Thu, 24 Nov 2022 16:54:33 +0800
-Message-ID: <20221124085436.24900-1-jiaxin.yu@mediatek.com>
+Subject: [PATCH 1/3] drm: bridge: it6505: bridge to hdmi-codec
+Date: Thu, 24 Nov 2022 16:54:34 +0800
+Message-ID: <20221124085436.24900-2-jiaxin.yu@mediatek.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20221124085436.24900-1-jiaxin.yu@mediatek.com>
+References: <20221124085436.24900-1-jiaxin.yu@mediatek.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -75,23 +77,78 @@ Cc: alsa-devel@alsa-project.org, chunxu.li@mediatek.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The speaker and hdmi of mt8186 platform are shared the same port of I2S,
-when connect the external display, use build-in speakers to play audio,
-they both playback at the same time. So we want to manage the playback
-device through DAPM events.
+1. Bridge to hdmi-codec to support audio feature. At the same time,
+   the function of automatically detecting audio is removed.
+2. It is observed that some DP-to-HDMI dongles will get into bad
+   states if sending InfoFrame without audio data. Defer to enable
+   it6505's audio feature when PCM triggers START or RESUME.
 
-Jiaxin Yu (3):
-  drm: bridge: it6505: bridge to hdmi-codec
-  ASoC: hdmi-codec: Add event handler for hdmi TX
-  ASoC: mediatek: mt8186: correct the HDMI widgets
+Signed-off-by: Jiaxin Yu <jiaxin.yu@mediatek.com>
+---
+ drivers/gpu/drm/bridge/ite-it6505.c | 36 ++++++++++++++++++++++++-----
+ 1 file changed, 30 insertions(+), 6 deletions(-)
 
- drivers/gpu/drm/bridge/ite-it6505.c           | 36 +++++++++++++++---
- include/sound/hdmi-codec.h                    |  6 +++
- sound/soc/codecs/hdmi-codec.c                 | 37 +++++++++++++++++--
- .../mt8186/mt8186-mt6366-da7219-max98357.c    |  2 +-
- .../mt8186/mt8186-mt6366-rt1019-rt5682s.c     |  2 +-
- 5 files changed, 71 insertions(+), 12 deletions(-)
-
+diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
+index dfe4351c9bdd..f4e1a1d94ed8 100644
+--- a/drivers/gpu/drm/bridge/ite-it6505.c
++++ b/drivers/gpu/drm/bridge/ite-it6505.c
+@@ -2159,7 +2159,6 @@ static void it6505_stop_link_train(struct it6505 *it6505)
+ 
+ static void it6505_link_train_ok(struct it6505 *it6505)
+ {
+-	struct device *dev = &it6505->client->dev;
+ 
+ 	it6505->link_state = LINK_OK;
+ 	/* disalbe mute enable avi info frame */
+@@ -2167,11 +2166,6 @@ static void it6505_link_train_ok(struct it6505 *it6505)
+ 	it6505_set_bits(it6505, REG_INFOFRAME_CTRL,
+ 			EN_VID_CTRL_PKT, EN_VID_CTRL_PKT);
+ 
+-	if (it6505_audio_input(it6505)) {
+-		DRM_DEV_DEBUG_DRIVER(dev, "Enable audio!");
+-		it6505_enable_audio(it6505);
+-	}
+-
+ 	if (it6505->hdcp_desired)
+ 		it6505_start_hdcp(it6505);
+ }
+@@ -2823,6 +2817,36 @@ static void __maybe_unused it6505_audio_shutdown(struct device *dev, void *data)
+ 		it6505_disable_audio(it6505);
+ }
+ 
++static int __maybe_unused it6505_audio_setup_trigger(struct it6505 *it6505, int cmd)
++{
++	struct device *dev = &it6505->client->dev;
++
++	DRM_DEV_DEBUG_DRIVER(dev, "event: %d", cmd);
++
++	switch (cmd) {
++	case SNDRV_PCM_TRIGGER_START:
++	case SNDRV_PCM_TRIGGER_RESUME:
++		queue_delayed_work(system_wq, &it6505->delayed_audio,
++				   msecs_to_jiffies(180));
++		break;
++	case SNDRV_PCM_TRIGGER_STOP:
++	case SNDRV_PCM_TRIGGER_SUSPEND:
++		cancel_delayed_work(&it6505->delayed_audio);
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int __maybe_unused it6505_audio_trigger(struct device *dev, int cmd)
++{
++	struct it6505 *it6505 = dev_get_drvdata(dev);
++
++	return it6505_audio_setup_trigger(it6505, cmd);
++}
++
+ static int __maybe_unused it6505_audio_hook_plugged_cb(struct device *dev,
+ 						       void *data,
+ 						       hdmi_codec_plugged_cb fn,
 -- 
 2.18.0
 
