@@ -1,95 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E25F6377F8
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 12:50:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B5B363784B
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Nov 2022 13:01:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E114510E031;
-	Thu, 24 Nov 2022 11:49:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE4DE10E6F0;
+	Thu, 24 Nov 2022 12:01:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7742D10E031;
- Thu, 24 Nov 2022 11:49:53 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id C2B395802A8;
- Thu, 24 Nov 2022 06:49:49 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Thu, 24 Nov 2022 06:49:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1669290589; x=1669297789; bh=OHFx68nmnn
- /ceAUAI4qgZcV6iBa2E8isOTaxL9ONytc=; b=HJiPVgLyhrcSJIoI5oHBuPCtif
- 7TkeOKloNPGFr9G7HpxETWIMqUwKFx7SL0JFIN+tCq7qTefMU73nDb1kgWY9jEvg
- jju8MAnU/W05uYdGIOo0suZbsbnlpf6AARruwbjhh7i0zHTNROi8w9fsLR+/J+uI
- f2k5Yn79Z5tPdt/6/Tx5DUQUAY3F5CNLACZt2EWIfOpA2BxKKAkED9sTiNGG8t9j
- Ox5M/iBawaCECjHYxKQvyUSfQyE/k6FerKXCxUwZkCogrOqHhSOaKWZH4RLP+9tU
- K9c2QGBt55ntYGJaWExIy1fpWtiPMjl7R3S+X29r22VUVBPgRlMssonXNFcQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1669290589; x=1669297789; bh=OHFx68nmnn/ceAUAI4qgZcV6iBa2
- E8isOTaxL9ONytc=; b=J0uwUwXhLVqUyKTozkwlimGquvlzDQkdPFAmgu6P/Gva
- zBEet87p11qgTrBX3XIePgLUa6o0iKWmbAijtdFm3m6jX3sFI2A+XANbsS1ziNUc
- lB1dYIjGgsVTV4IIPiOiEDdo72Kist/8YrNKcpBaW+cALs27xmBxozD8SL6UYZNs
- +PSczmcvdsS5ZGV6QwesmFhMwp3QdWmxb1SNwavWw6LKO74i71QmKgTebKxG2UrZ
- bivRxY+dD9UYez5vVu3mFzjEzKc3lHRmhR9f9T8XucrUoG0/WclxpqyBYZIRslpn
- HvOE5Y2B8QvhuF7QywZXFyxGQuKjkQUdc6NGRTprMg==
-X-ME-Sender: <xms:XFp_YxcMrWb8n-7P5fAeiUYAsgh26CSiWBsgCf3KrLVVASwV4u0iUw>
- <xme:XFp_Y_PrtI9LCp8UWiNwOa49Qea0CFSD10inJjTBFPprJ2vvNM_wRZmpq4SL8m5tt
- sM5WCZDIZ5sSWH-AKA>
-X-ME-Received: <xmr:XFp_Y6ggafGBm88t5XNCsk2-eoh9GC_OwW-s8w-5lBh1bq9dDqWfplLg7ibOTVoI0H_65Q4nKRdDkUOEjJ_-lxEvRwZlMZzfzdKhur7M7v13fg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrieefgdefgecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
- udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
- igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:XFp_Y69D3UxIMiHcjBhcNgGcI_vtmaXUBKR1J3I1LFHX9YAowc5Z3w>
- <xmx:XFp_Y9vPnOgjw_XUJ0TgWbXcJMELQ1lNGpIcQBbNvNcSq2anOAWENg>
- <xmx:XFp_Y5HeTfb_pHMpSfPaCgvSzqwRBDN3n-KJSdN2d39Ch-L8LltJ2Q>
- <xmx:XVp_Y_vwd2w_-Jrg_wGS8bAYZv791C3i0PIK5SIB19VZ2BGQc-TwGQ>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 24 Nov 2022 06:49:47 -0500 (EST)
-Date: Thu, 24 Nov 2022 12:49:45 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Ben Skeggs <bskeggs@redhat.com>, Chen-Yu Tsai <wens@csie.org>,
- David Airlie <airlied@linux.ie>, Jani Nikula <jani.nikula@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>,	Thomas Zimmermann <tzimmermann@suse.de>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Hans de Goede <hdegoede@redhat.com>, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
- dri-devel@lists.freedesktop.org,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, Dom Cobley <dom@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v10 00/19] drm: Analog TV Improvements
-Message-ID: <20221124114945.oqilsc7zjth4jwso@houat>
-References: <20220728-rpi-analog-tv-properties-v10-0-256dad125326@cerno.tech>
- <Y3uQbuQotGxh+XPS@phenom.ffwll.local>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC17D10E6EB;
+ Thu, 24 Nov 2022 12:01:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1669291275; x=1700827275;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=kTr6HYcTwWUQvPtmQnpS+jHvO7CnzNkycnjetlUV/U0=;
+ b=CJqwecre4l4VGO+prGRx2q/yU9NPqmb2PiuXAWLq8X7WB6qTAuxcUTEc
+ siVc/NgTRRg03tRvJCCkBZVVvwTLF4jws+kvm+W/H3s+k2jqUrqRdjvJx
+ HVYL9odfqTmqCU4n9wIMM3Y3dWgBo6CQPnWbnZ3VRBoyD57x7PpLrVTBi
+ WIVDdTBWMor7VZsuZdwjvZt4pDjZNIXTB3OtRjZZ0qQhtqJ8QP2V4pvsx
+ 33az8wDgJ84IPZyX3uVm4+RR4vpmawc6gk1LdA9Q5LfrPgJA+kTpGBINH
+ QzrtG89uWXtaaSdxMJaceSXHiPSDurdtIdwgyXKvrrhwlckGgbC4kbVTl g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="294672199"
+X-IronPort-AV: E=Sophos;i="5.96,190,1665471600"; d="scan'208";a="294672199"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Nov 2022 04:01:15 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="642325590"
+X-IronPort-AV: E=Sophos;i="5.96,190,1665471600"; d="scan'208";a="642325590"
+Received: from smurr10x-mobl1.amr.corp.intel.com (HELO [10.213.209.98])
+ ([10.213.209.98])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Nov 2022 04:01:12 -0800
+Message-ID: <d009a434-d348-32c5-07eb-128d1d9fc36b@linux.intel.com>
+Date: Thu, 24 Nov 2022 12:01:10 +0000
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="apvrjccnplb3u7fu"
-Content-Disposition: inline
-In-Reply-To: <Y3uQbuQotGxh+XPS@phenom.ffwll.local>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [Intel-gfx] [PATCH v2 2/4] drm/i915: Introduce guard pages to
+ i915_vma
+Content-Language: en-US
+To: Andi Shyti <andi.shyti@linux.intel.com>
+References: <20221122185737.96459-1-andi.shyti@linux.intel.com>
+ <20221122185737.96459-3-andi.shyti@linux.intel.com>
+ <a579e9a5-0bd4-d439-3193-64dc52e05997@linux.intel.com>
+ <Y35sXXLiAmwulDRU@ashyti-mobl2.lan>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <Y35sXXLiAmwulDRU@ashyti-mobl2.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,110 +65,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>,
+ dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---apvrjccnplb3u7fu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 23/11/2022 18:54, Andi Shyti wrote:
+> Hi Tvrtko,
+> 
+> [...]
+> 
+>>> @@ -768,6 +768,9 @@ i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+>>>    	GEM_BUG_ON(!IS_ALIGNED(alignment, I915_GTT_MIN_ALIGNMENT));
+>>>    	GEM_BUG_ON(!is_power_of_2(alignment));
+>>> +	guard = vma->guard; /* retain guard across rebinds */
+>>> +	guard = ALIGN(guard, alignment);
+>>
+>> Why does guard area needs the same alignment as the requested mapping? What about the fact on 32-bit builds guard is 32-bit and alignment u64?
+> 
+> I guess this just to round up/down guard to something, not
+> necessarily to that alignment.
+> 
+> Shall I remove it?
 
-On Mon, Nov 21, 2022 at 03:51:26PM +0100, Daniel Vetter wrote:
-> On Thu, Nov 17, 2022 at 10:28:43AM +0100, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > Here's a series aiming at improving the command line named modes suppor=
-t,
-> > and more importantly how we deal with all the analog TV variants.
-> >=20
-> > The named modes support were initially introduced to allow to specify t=
-he
-> > analog TV mode to be used.
-> >=20
-> > However, this was causing multiple issues:
-> >=20
-> >   * The mode name parsed on the command line was passed directly to the
-> >     driver, which had to figure out which mode it was suppose to match;
-> >=20
-> >   * Figuring that out wasn't really easy, since the video=3D argument o=
-r what
-> >     the userspace might not even have a name in the first place, but
-> >     instead could have passed a mode with the same timings;
-> >=20
-> >   * The fallback to matching on the timings was mostly working as long =
-as
-> >     we were supporting one 525 lines (most likely NSTC) and one 625 lin=
-es
-> >     (PAL), but couldn't differentiate between two modes with the same
-> >     timings (NTSC vs PAL-M vs NSTC-J for example);
-> >=20
-> >   * There was also some overlap with the tv mode property registered by
-> >     drm_mode_create_tv_properties(), but named modes weren't interacting
-> >     with that property at all.
-> >=20
-> >   * Even though that property was generic, its possible values were
-> >     specific to each drivers, which made some generic support difficult.
-> >=20
-> > Thus, I chose to tackle in multiple steps:
-> >=20
-> >   * A new TV mode property was introduced, with generic values, each dr=
-iver
-> >     reporting through a bitmask what standard it supports to the usersp=
-ace;
-> >=20
-> >   * This option was added to the command line parsing code to be able to
-> >     specify it on the kernel command line, and new atomic_check and res=
-et
-> >     helpers were created to integrate properly into atomic KMS;
-> >=20
-> >   * The named mode parsing code is now creating a proper display mode f=
-or
-> >     the given named mode, and the TV standard will thus be part of the
-> >     connector state;
-> >=20
-> >   * Two drivers were converted and tested for now (vc4 and sun4i), with
-> >     some backward compatibility code to translate the old TV mode to the
-> >     new TV mode;
-> >=20
-> > Unit tests were created along the way.
-> >=20
-> > One can switch from NTSC to PAL now using (on vc4)
-> >=20
-> > modetest -M vc4  -s 53:720x480i -w 53:'TV mode':1 # NTSC
-> > modetest -M vc4  -s 53:720x576i -w 53:'TV mode':4 # PAL
-> >=20
-> > Let me know what you think,
-> > Maxime
->=20
-> Maxime asked me to drop an Ack-in-principle on this, and I'm not sure I
-> have any useful input here with my utter lack of understanding for TV
-> things (I never even had one in my entire life, that's how much I don't
-> care). But it seems to check all the design boxes around solving annoying
-> uapi/kms-config issues properly, so
->=20
-> Acked-in-principle-or-something-like-that-by: Daniel Vetter <daniel.vette=
-r@ffwll.ch>
+Don't know, initially I thought it maybe needs a comment on what's it 
+doing and why. If it is about aligning to "something" then should it be 
+I915_GTT_MIN_ALIGNMENT?
 
-Thanks!
+>>> @@ -777,6 +780,7 @@ i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+>>>    	if (flags & PIN_ZONE_4G)
+>>>    		end = min_t(u64, end, (1ULL << 32) - I915_GTT_PAGE_SIZE);
+>>>    	GEM_BUG_ON(!IS_ALIGNED(end, I915_GTT_PAGE_SIZE));
+>>> +	GEM_BUG_ON(2 * guard > end);
+>>
+>> End is the size of relevant VA area at this point so what and why is this checking?
+> 
+> I think because we want to make sure the padding is at least not
+> bigger that the size. What is actually wrong with this.
 
-I jumped the gun a bit too fast and forgot to amend the TV property
-commit message before pushing it out.
+Same as above - if there is subtle special meaning please add a comment. 
+Otherwise, for the whole object and not just the guards, it is covered by:
 
-For the record though, that property is usable through xrandr, xorg.conf
-or any equivalent compositor mechanism
++	if (size > end - 2 * guard) {
 
-Maxime
+I don't follow what is the point on only checking the guards.
 
---apvrjccnplb3u7fu
-Content-Type: application/pgp-signature; name="signature.asc"
+> 
+> [...]
+> 
+>>> @@ -855,6 +869,7 @@ i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+>>>    	GEM_BUG_ON(!i915_gem_valid_gtt_space(vma, color));
+>>>    	list_move_tail(&vma->vm_link, &vma->vm->bound_list);
+>>> +	vma->guard = guard;
+>>
+>> unsigned long into u32 - what guarantees no truncation?
+> 
+> we are missing here this part above:
+> 
+> 	guard = vma->guard; /* retain guard across rebinds */
+> 	if (flags & PIN_OFFSET_GUARD) {
+> 		GEM_BUG_ON(overflows_type(flags & PIN_OFFSET_MASK, u32));
+> 		guard = max_t(u32, guard, flags & PIN_OFFSET_MASK);
+> 	}
+> 
+> that should make sure that we fit into 32 bits.
 
------BEGIN PGP SIGNATURE-----
+Hm okay. I guess the u64 alignment and that "guard = ALIGN(guard, 
+alignment);" is what is bothering me to begin with. In other words with 
+that there is a chance to overflow vma->guard with a small guard and 
+large alignment.
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY39aWQAKCRDj7w1vZxhR
-xacgAP9NPkwQFyz0CvvFS5SzvELVnj6t9GBuTq/qrHpTLaRyaAD9GJpLyjLeg7Jy
-Z0pnBngL2vXGtvYVUCMQy5VhVkMtuAg=
-=fhxt
------END PGP SIGNATURE-----
+> 
+> [...]
+> 
+>>> @@ -197,14 +197,15 @@ struct i915_vma {
+>>>    	struct i915_fence_reg *fence;
+>>>    	u64 size;
+>>> -	u64 display_alignment;
+>>>    	struct i915_page_sizes page_sizes;
+>>>    	/* mmap-offset associated with fencing for this vma */
+>>>    	struct i915_mmap_offset	*mmo;
+>>> +	u32 guard; /* padding allocated around vma->pages within the node */
+>>>    	u32 fence_size;
+>>>    	u32 fence_alignment;
+>>> +	u32 display_alignment;
+>>
+>> u64 -> u32 for display_alignment looks unrelated change.
+>>
+>> ./display/intel_fb_pin.c:       vma->display_alignment = max_t(u64, vma->display_alignment, alignment);
+>> ./gem/i915_gem_domain.c:        vma->display_alignment = max_t(u64, vma->display_alignment, alignment);
+>>
+>> These two sites need to be changed not to use u64.
+>>
+>> Do this part in a separate patch?
+> 
+> Right! will remove it.
 
---apvrjccnplb3u7fu--
+Okay, to be clear, refactoring of vma->display_alignemnt to be u32 as a 
+separate patch in the series. Thanks!
+
+Regards,
+
+Tvrtko
+
+> 
+>>>    	/**
+>>>    	 * Count of the number of times this vma has been opened by different
+>>
+>> Regards,
+> 
+> Thanks,
+> Andi
+> 
+>> Tvrtko
