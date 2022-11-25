@@ -2,56 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 658C96382F0
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 04:58:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9261C638399
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 06:45:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6E8F10E291;
-	Fri, 25 Nov 2022 03:58:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E9FA10E295;
+	Fri, 25 Nov 2022 05:45:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A289710E290
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 03:58:29 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id v8so4785380edi.3
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Nov 2022 19:58:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=qG1EXeCBFcyO3EVAf0VFxb1QU3GfLO5BAHKXK8QXU44=;
- b=cZ/iUq/8Ac4sXum6PlSkHb/8lyC1wBkmt7ce4NtB1gel3ZSjx7+/j9VGw3mOb3qQ75
- z6OPVvh42cBseSf3c90EAdRkVfv5lG9N/kDoZLZEIPvPbhbLOrcU+xTYq7do2H3H1j12
- XG72/gjTaeyAUuMMhwn3+Bt4Rity7g86DEFAY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=qG1EXeCBFcyO3EVAf0VFxb1QU3GfLO5BAHKXK8QXU44=;
- b=4u1mVxO0NkjI5OD5gL4AP1YMvFFikPLwujkmu4cbeFSCaddjrSj6Ncl+Kd4F/ZsEPs
- /JHNVQOq+Pm5fZBoC3HLgGVMsy1RhsA9b8Hqv7EwpU66JMHOp6WdD3M1oEbP78cf/ki2
- CZ62Ai7LlQS4tGue45/AGlg5z6hORBuq7xbS3b3reCjMFYweElzRp3Xy10zmAfbsTncA
- P/rjGH2Q8ZwqqoyfIdwonf2c178hSjWwcpClBTZp7glV2QHhTPMW7yHxsjTQBWIaFHwm
- 8V5T7Nld92vuU5rBQk1JcNLhChTACOUGl46k0ljKnaZvK5tr6zvcJSe3/EvKu6KpRh6h
- o8hQ==
-X-Gm-Message-State: ANoB5plstX8ICqDRIJoDUnxvAyG7LRcfpWAR/sEv2m6+rXt5ot+HVjaO
- tYBN61P+5y9Od/I3AGy/FiB5uQUPBaEYpxR9WTiRMw==
-X-Google-Smtp-Source: AA0mqf60CqwQOnre/TZIa/ZhVJ8FaIC4IKsOt/yGrHCUPoKZRFRMA3X+qFsKNmLvAyf46Xo33hjWsB1M1Hyr48/9OyU=
-X-Received: by 2002:a05:6402:3895:b0:468:15f1:54b5 with SMTP id
- fd21-20020a056402389500b0046815f154b5mr14693061edb.8.1669348708173; Thu, 24
- Nov 2022 19:58:28 -0800 (PST)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF9E910E009;
+ Fri, 25 Nov 2022 05:45:31 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2AP5Ja6p015245; Fri, 25 Nov 2022 05:45:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=OHoP7nR4YoC1qhRGDdPjoPvEv7PB1v3pP9D8BsXyQh4=;
+ b=fdKqR0eVdxW+PCmtbwwZ3xm6kASZDIjVmG8RQFyvEIfLsBqn96CGD8ko30lCA6wwhXVH
+ /Gad0lOjDgbbKHRC8BZYK8Nda/82pZzX+v9GKHVRIgOWHXvbiBGW0a8rgqmDqTOw59zS
+ ESTJandldY4kK7LROnrCGeSMuk0LqD/GXMxZsEHaYmsooGdh2/3i2q1G2YA/Lz8a5Dsd
+ 8fHN0pGQZd3TV+B3Ck5YhYKVwwF2zsIvGSGdK0UtaflW2Wds8Tbkh1X+XzcugGiWlDoC
+ L9hxA76Atss5IrTvWLiH7MePEJOWvSfIo1QfvB+BpEEJofTU5HvDfbW3Q7nUUtwqDDI6 Lw== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3m1gxepju4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 25 Nov 2022 05:45:25 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2AP5jO9o011192
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 25 Nov 2022 05:45:24 GMT
+Received: from [10.216.38.33] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Thu, 24 Nov
+ 2022 21:45:21 -0800
+Message-ID: <dc44d8f1-c782-452b-5928-57538250dade@quicinc.com>
+Date: Thu, 24 Nov 2022 21:45:17 -0800
 MIME-Version: 1.0
-References: <20221124102056.393220-1-treapking@chromium.org>
- <20221124102056.393220-7-treapking@chromium.org>
- <166930150123.3946649.3725588692267123167.robh@kernel.org>
-In-Reply-To: <166930150123.3946649.3725588692267123167.robh@kernel.org>
-From: Pin-yen Lin <treapking@chromium.org>
-Date: Fri, 25 Nov 2022 11:58:17 +0800
-Message-ID: <CAEXTbpfFN=HKCNpQc6wrKozK-X14ky1jrw8GBnkk4rPm1LWoXA@mail.gmail.com>
-Subject: Re: [PATCH v6 6/7] dt/bindings: drm/bridge: it6505: Add mode-switch
- support
-To: Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH] drm/msm/mdp5: fix reading hw revision on db410c platform
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20221125000213.252115-1-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20221125000213.252115-1-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 9jEJLg3hPrEVQtakL0CjtQIaVxaJfRYB
+X-Proofpoint-ORIG-GUID: 9jEJLg3hPrEVQtakL0CjtQIaVxaJfRYB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-25_02,2022-11-24_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ suspectscore=0 adultscore=0 mlxlogscore=999 malwarescore=0
+ lowpriorityscore=0 spamscore=0 impostorscore=0 phishscore=0 bulkscore=0
+ mlxscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211250046
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,83 +83,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Guenter Roeck <groeck@chromium.org>, Marek Vasut <marex@denx.de>,
- chrome-platform@lists.linux.dev, Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
- devicetree@vger.kernel.org,
- =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
- Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Robert Foss <robert.foss@linaro.org>, Daniel Scally <djrscally@gmail.com>,
- Prashant Malani <pmalani@chromium.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sorry for accidentally using the tab characters. Will fix this in v7.
 
-On Fri, Nov 25, 2022 at 1:39 AM Rob Herring <robh@kernel.org> wrote:
->
->
-> On Thu, 24 Nov 2022 18:20:55 +0800, Pin-yen Lin wrote:
-> > ITE IT6505 can be used in systems to switch the DP traffic between
-> > two downstreams, which can be USB Type-C DisplayPort alternate mode
-> > lane or regular DisplayPort output ports.
-> >
-> > Update the binding to accommodate this usage by introducing a
-> > data-lanes and a mode-switch property on endpoints.
-> >
-> > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
-> >
-> > ---
-> >
-> > Changes in v6:
-> > - Remove switches node and use endpoints and data-lanes property to
-> >   describe the connections.
-> >
-> >  .../bindings/display/bridge/ite,it6505.yaml   | 94 ++++++++++++++++++-
-> >  1 file changed, 90 insertions(+), 4 deletions(-)
-> >
->
-> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-> on your patch (DT_CHECKER_FLAGS is new in v5.13):
->
-> yamllint warnings/errors:
-> ./Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml:99:1: [error] syntax error: found character '\t' that cannot start any token (syntax)
->
-> dtschema/dtc warnings/errors:
-> make[1]: *** Deleting file 'Documentation/devicetree/bindings/display/bridge/ite,it6505.example.dts'
-> Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml:99:1: found character '\t' that cannot start any token
-> make[1]: *** [Documentation/devicetree/bindings/Makefile:26: Documentation/devicetree/bindings/display/bridge/ite,it6505.example.dts] Error 1
-> make[1]: *** Waiting for unfinished jobs....
-> ./Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml:99:1: found character '\t' that cannot start any token
-> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml: ignoring, error parsing file
-> make: *** [Makefile:1492: dt_binding_check] Error 2
->
-> doc reference errors (make refcheckdocs):
->
-> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20221124102056.393220-7-treapking@chromium.org
->
-> This check can fail if there are any dependencies. The base for a patch
-> series is generally the most recent rc1.
->
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure 'yamllint' is installed and dt-schema is up to
-> date:
->
-> pip3 install dtschema --upgrade
->
-> Please check and re-submit after running the above command.
->
+
+On 11/24/2022 4:02 PM, Dmitry Baryshkov wrote:
+> Since the commit commit c6122688f265 ("drm/msm/mdp5: stop overriding
+> drvdata") reading the MDP5 hw revision on db410c will crash the board
+> as the MDSS_GDSC is not enabled. Revert a part of the offending commit
+> (moving rpm enablement) and set priv->kms earlier. This make it possible
+> to use pm_runtime_get_sync() during read_mdp_hw_revision(), which will
+> power up both the MDP5 and MDSS devices.
+> 
+
+This is the exact concern I had even when c6122688f265 was pushed.
+
+https://patchwork.freedesktop.org/patch/508334/#comment_917689
+
+Was the response given that time not correct then?
+
+https://patchwork.freedesktop.org/patch/508334/#comment_917713
+> Fixes: c6122688f265 ("drm/msm/mdp5: stop overriding drvdata")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c | 17 ++++++++---------
+>   1 file changed, 8 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
+> index b46f983f2b46..29ae5c9613f3 100644
+> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
+> @@ -519,10 +519,9 @@ static void read_mdp_hw_revision(struct mdp5_kms *mdp5_kms,
+>   	struct device *dev = &mdp5_kms->pdev->dev;
+>   	u32 version;
+>   
+> -	/* Manually enable the MDP5, as pm runtime isn't usable yet. */
+> -	mdp5_enable(mdp5_kms);
+> +	pm_runtime_get_sync(dev);
+>   	version = mdp5_read(mdp5_kms, REG_MDP5_HW_VERSION);
+> -	mdp5_disable(mdp5_kms);
+> +	pm_runtime_put_sync(dev);
+>   
+>   	*major = FIELD(version, MDP5_HW_VERSION_MAJOR);
+>   	*minor = FIELD(version, MDP5_HW_VERSION_MINOR);
+> @@ -839,6 +838,12 @@ static int mdp5_init(struct platform_device *pdev, struct drm_device *dev)
+>   	 */
+>   	clk_set_rate(mdp5_kms->core_clk, 200000000);
+>   
+> +	/* set uninit-ed kms */
+> +	priv->kms = &mdp5_kms->base.base;
+> +
+> +	pm_runtime_enable(&pdev->dev);
+> +	mdp5_kms->rpm_enabled = true;
+> +
+>   	read_mdp_hw_revision(mdp5_kms, &major, &minor);
+>   
+>   	mdp5_kms->cfg = mdp5_cfg_init(mdp5_kms, major, minor);
+> @@ -887,12 +892,6 @@ static int mdp5_init(struct platform_device *pdev, struct drm_device *dev)
+>   	if (ret)
+>   		goto fail;
+>   
+> -	/* set uninit-ed kms */
+> -	priv->kms = &mdp5_kms->base.base;
+> -
+> -	pm_runtime_enable(&pdev->dev);
+> -	mdp5_kms->rpm_enabled = true;
+> -
+>   	return 0;
+>   fail:
+>   	if (mdp5_kms)
