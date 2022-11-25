@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A90616383A7
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 06:53:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E5FB6383AD
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 06:53:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF94610E009;
-	Fri, 25 Nov 2022 05:52:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EE8E10E296;
+	Fri, 25 Nov 2022 05:53:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
- [IPv6:2a00:1450:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FC9310E009
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 05:52:49 +0000 (UTC)
-Received: by mail-ed1-x52f.google.com with SMTP id b8so4969352edf.11
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Nov 2022 21:52:48 -0800 (PST)
+Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
+ [IPv6:2607:f8b0:4864:20::72d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C37C210E296
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 05:53:47 +0000 (UTC)
+Received: by mail-qk1-x72d.google.com with SMTP id d7so2089976qkk.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Nov 2022 21:53:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=RzN4h3qOAvIsS9Ytm8ViCV9LTXDRNYxBOrbT9kwa+z4=;
- b=oEaPYaoWVwjCvCRl0HhYzkfATCZulKO7O6FroIlJirLXfGB0mUMNQ1vzzo0lRHG88h
- cNaSmIx/Wju99aMFImQwYB8ffU35MFqJyO6o81ePWIivDyODyXWsv9bQogJMB23kCZrX
- ZuFBm7OSJUcNIYbcpI9E72DmIeVVa15mZVqnY=
+ bh=sJO4CKtz6uCVjlMUGm3BSASo1KZZ4zekB4W49uCXr0Q=;
+ b=GEQWK1zMTOaNgc6Jsw7BvrlA2RvLaRBKdutwd2mWXuN32GcN/F/lh7Do+jJwhu/lKf
+ eUQzy4v825QJ8od3gmSFrmEbBs06XRTg2khVxN2jX2t/NUFG68evKAZHk2uGyqoEdH/l
+ BYs68ifkf0D5ULeS+KO0T9nvkikk56lTOVFYw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=RzN4h3qOAvIsS9Ytm8ViCV9LTXDRNYxBOrbT9kwa+z4=;
- b=wggZtM+5gk2PP4P0DR0GvmiyXcwxKUaYWlMPwbFWXnBVeXbKklUoSCEMVEDvwFjHsN
- jHIwDDQDucEH89QNiKw0SF5ytgY5/6TZF7EOFTTHG/yW9R3RPCgDhnJVmGMV6M0QogRJ
- w0gLebaXWGoDUyBb0LoYO/zUDRFJzpDQjMDjuCalN4ttCfE0ldK51ZfJfGiDo2q837gw
- czLaYhPofXAvOnkHuBn1iASZszM81lLPa/S6mq6bop12zfPeLblffcP3loAIiUpBs8rv
- yDH/ssRJwK2SZnXUlL/Dg5VLbydJPHhWQkLEuGN3ahPTUT4phVi/dxSb7xihmm8EVL86
- FCCQ==
-X-Gm-Message-State: ANoB5pkkkd0FdjjkQnfpc3bapjlluagEBEiqwetCkYBGSAvWlia6wTRy
- V1CwwBStXIwF4rKfaKLyOp/sMe3xz7Sy/sIncT6Lhw==
-X-Google-Smtp-Source: AA0mqf4swfPzjKVkl1scJTqiUbIDnuAEsouyb52592fG1trV+h5bVVpbQlj0dZBKZjpXqLgzGBJ89YmbylZKTLb1eqs=
-X-Received: by 2002:a05:6402:1397:b0:467:78f2:d81f with SMTP id
- b23-20020a056402139700b0046778f2d81fmr16227783edv.88.1669355567575; Thu, 24
- Nov 2022 21:52:47 -0800 (PST)
+ bh=sJO4CKtz6uCVjlMUGm3BSASo1KZZ4zekB4W49uCXr0Q=;
+ b=3BdOE87H1QvAJCev6offsnkBZnADQMfEMBUJ0wyzvWHsEY7QAzi5GWFX9AjxXqVT5d
+ cfuRdAnVhq2y6wKJK/SrVgDzlFgos97mqg8CV0ll47H0veWNGr1OQ4bgoMUsiRtbHXMQ
+ O9HrMF8dyWxP3yloB64mC1OyaWo5e5yRaFKDWmYk6gPHhaLPriH5NCka+StCe/RZG5rs
+ eLpk6HhDyiua0Cjuj5hSO/9goyXOInAvPG+nZoZ3SvG12suKzQfSnmdUPMe4ShX0SMiT
+ KE8FVv5kPXa012n2lK/gMlCUQNajr37nDr26Te5tl07YjCpgIwF7X2TYhU2yNIrDRj9P
+ yolA==
+X-Gm-Message-State: ANoB5pnaUjYD3UgU6LrBQZS5rWA8n6mK727v8L4O++WbG6aRBDXgsjA2
+ v46eZnTn2uapaivcvvhF+YUK1f3vxKOgu+1NJ6zgwA==
+X-Google-Smtp-Source: AA0mqf6knSu6QR92mZ0wCOhRti8BSXDFhhs9fIvKI9CaT08+1NzMdooQC08kJNAEDw9GfohzPzP4gUJ+R3xq6VWqYa4=
+X-Received: by 2002:a05:620a:31a5:b0:6fb:ff0f:e7e0 with SMTP id
+ bi37-20020a05620a31a500b006fbff0fe7e0mr19622315qkb.747.1669355626882; Thu, 24
+ Nov 2022 21:53:46 -0800 (PST)
 MIME-Version: 1.0
 References: <20221124102056.393220-1-treapking@chromium.org>
  <20221124102056.393220-3-treapking@chromium.org>
  <Y39ikbcqx5/pEc64@smile.fi.intel.com>
 In-Reply-To: <Y39ikbcqx5/pEc64@smile.fi.intel.com>
-From: Pin-yen Lin <treapking@chromium.org>
-Date: Fri, 25 Nov 2022 13:52:36 +0800
-Message-ID: <CAEXTbpcbQEyYfuCssENiFQxwe3t11HtHnpJHgjq+=GziNfUk-g@mail.gmail.com>
+From: Prashant Malani <pmalani@chromium.org>
+Date: Thu, 24 Nov 2022 21:53:35 -0800
+Message-ID: <CACeCKaewXJYUJCyGyh==dsA6wsU4OESXFXJRiKm9AWPECS_ZBA@mail.gmail.com>
 Subject: Re: [PATCH v6 2/7] platform/chrome: cros_ec_typec: Purge blocking
  switch devlinks
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
@@ -75,41 +75,25 @@ Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
  devicetree@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>,
  =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
  Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
- Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
+ Stephen Boyd <swboyd@chromium.org>, Pin-yen Lin <treapking@chromium.org>,
+ Rob Herring <robh+dt@kernel.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Xin Ji <xji@analogixsemi.com>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  Neil Armstrong <neil.armstrong@linaro.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Robert Foss <robert.foss@linaro.org>, Daniel Scally <djrscally@gmail.com>,
- Prashant Malani <pmalani@chromium.org>
+ Robert Foss <robert.foss@linaro.org>, Daniel Scally <djrscally@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Andy,
 
-On Thu, Nov 24, 2022 at 8:25 PM Andy Shevchenko
+Thanks for taking a look at this patch.
+
+Pin-Yen beat me to the punch with comment responses, but I'll add mine anyway.
+
+On Thu, Nov 24, 2022 at 4:25 AM Andy Shevchenko
 <andriy.shevchenko@linux.intel.com> wrote:
->
-> On Thu, Nov 24, 2022 at 06:20:51PM +0800, Pin-yen Lin wrote:
-> > From: Prashant Malani <pmalani@chromium.org>
-> >
-> > When using OF graph, the fw_devlink code will create links between the
-> > individual port driver (cros-ec-typec here) and the parent device for
-> > a Type-C switch (like mode-switch). Since the mode-switch will in turn
-> > have the usb-c-connector (i.e the child of the port driver) as a
-> > supplier, fw_devlink will not be able to resolve the cyclic dependency
-> > correctly.
-> >
-> > As a result, the mode-switch driver probe() never runs, so mode-switches
-> > are never registered. Because of that, the port driver probe constantly
-> > fails with -EPROBE_DEFER, because the Type-C connector class requires all
-> > switch devices to be registered prior to port registration.
-> >
-> > To break this deadlock and allow the mode-switch registration to occur,
-> > purge all the usb-c-connector nodes' absent suppliers. This eliminates
-> > the connector as a supplier for a switch and allows it to be probed.
->
 > ...
 >
 > > +     /*
@@ -120,26 +104,21 @@ On Thu, Nov 24, 2022 at 8:25 PM Andy Shevchenko
 >
 > A bit too long lines...
 
-I'll fix this in v7.
+They are within the 100 character limit [1] which is followed
+elsewhere in the driver; has something
+changed recently to make that invalid?
 
 >
 > > +     if (dev->of_node)
 >
 > Why do you need this check?
 
-We use this check to make sure only platforms using OF have their
-links purged. I'm not sure if this should also be done on x86
-platforms.
+This issue only arises when using DT for this device. So the rationale
+is we don't need to
+perform this step on systems that don't use DT.
 
 Best regards,
-Pin-yen
 
->
-> > +             device_for_each_child_node(dev, fwnode)
-> > +                     fw_devlink_purge_absent_suppliers(fwnode);
->
-> --
-> With Best Regards,
-> Andy Shevchenko
->
->
+-Prashant
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=bdc48fa11e46f867ea4d75fa59ee87a7f48be144
