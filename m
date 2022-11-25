@@ -2,77 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B66C96388BB
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 12:29:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18ADA6388C2
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 12:30:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BBC210E733;
-	Fri, 25 Nov 2022 11:29:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A928110E738;
+	Fri, 25 Nov 2022 11:30:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4205210E733
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 11:29:35 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0919710E738
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 11:30:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669375774;
+ s=mimecast20190719; t=1669375834;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=s7B+glXPiHunh65c3ikcxd5Un328udBU6gxH6BbvNec=;
- b=H3hkf7lab06TqZchFM1lTAcFieHf1ZZi+7V+Z0mHqVnvY1Wf87XkBghAq51+531TTL9Kyh
- HEuIqZq6PULPlu5wAHDOh5wrGx1RPFBgTk0OMJ6lTFN07l4B6o7v/SeJ93LItk5/gEVbUl
- NrIUfO0OEA4Uijwt9txcy+KmeUxnllY=
+ bh=0NAIt6DmSH0rxYc10/Lncuu2fhazNaRFZIsHf4ynJeo=;
+ b=LosUu0sQXoMCT7DerQKRcE5GfxcBo50McXrKnJGFGo6NkoyPF6Ijtpd1cB7B1bnWFaHlgL
+ +PeYg07TPBakCKgbb2+y2lW0OvdONnTjCQYnqLZderviAV19Z84g5Ndmmq5qIrHcmVICSa
+ 4HLz9cwhmfoGQDlvgS+CEAA6jWEbtnw=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-659-74co_BEMNHmVoiNeEVQefA-1; Fri, 25 Nov 2022 06:29:33 -0500
-X-MC-Unique: 74co_BEMNHmVoiNeEVQefA-1
+ us-mta-274-FnQ6e6HHP9K0Mb7KxVC2dg-1; Fri, 25 Nov 2022 06:30:33 -0500
+X-MC-Unique: FnQ6e6HHP9K0Mb7KxVC2dg-1
 Received: by mail-wm1-f69.google.com with SMTP id
- v125-20020a1cac83000000b003cfa148576dso2309698wme.3
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 03:29:32 -0800 (PST)
+ j2-20020a05600c1c0200b003cf7397fc9bso2307406wms.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 03:30:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=s7B+glXPiHunh65c3ikcxd5Un328udBU6gxH6BbvNec=;
- b=8BlznuDKUlfpsBRJR/zFhTMgHJuHHAKrGlc7Z+86wamZH0q0+bnyosdTVt9OrT1IpG
- fBXM0JSOoEPTx7dJf+rw1BTbFAj9W3/2dQ/LaEdrqT9SpBlnM75Ov4gMNPGY9FWYqsyH
- YH62A7EInTlw8n7+GeStiw/I+MayGRa4RIjhGglBzs+758beiRDjE2P+mmU/VpvfDGW2
- N69XAzHpSGjvEbJhpe/xSTvvLU4XtUcV+HOWMU3XPfK5XeZFbnD41IMKcAFqPB0JDleM
- KxqnW4o+Y1hu0LM8zWtSF6gC7SA/6H5ZuidiKcmxPp3OJuUOGGbLXCSDvCh1yp4HUve3
- IogQ==
-X-Gm-Message-State: ANoB5pkbZ9Iw11AxBWXKsU7gyync2rpb+Yzz30R6GhHswSUW8/anpHeA
- V++b/ZSgDLh9ndJqud+DQLl/GR8URFMCMnFgZRvJh6TUTSz3H6CmEuf2+1ZtUxS6uLvDbQqT/ss
- z7Hl+rCQcZiwGo71VY19SLIASkFxv
-X-Received: by 2002:a1c:4c0c:0:b0:3cf:9881:e9d9 with SMTP id
- z12-20020a1c4c0c000000b003cf9881e9d9mr27524183wmf.6.1669375772041; 
- Fri, 25 Nov 2022 03:29:32 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4tA122+galS8pDRgP2Y6iWuz67WbLgxFBL4oNYp0k+u30rTmKQtH54GX28s3piYeICYXfz4g==
-X-Received: by 2002:a1c:4c0c:0:b0:3cf:9881:e9d9 with SMTP id
- z12-20020a1c4c0c000000b003cf9881e9d9mr27524167wmf.6.1669375771857; 
- Fri, 25 Nov 2022 03:29:31 -0800 (PST)
+ bh=0NAIt6DmSH0rxYc10/Lncuu2fhazNaRFZIsHf4ynJeo=;
+ b=l80rbhC9hlJjIZw8jQ73Z7lCtbSjqsNPYEepIk5qWB1D1EMcR2lsAACjGSPagzU37U
+ /v/MKmH2QMSVYoY4y0LFDIEUkwF5SFDJVD26LpN73lNZUTqYi70+zI87enUNp4rRCPbk
+ GnfeuV0yxyA2TgFMO8KU0hQYXOzE2liFRB8sarwFfSwq7ggkJAHxrz01PFfjcxRLpGFW
+ o4dilauqOFBw0Ck0uV6d1Qj2uPDLz0P/ZhWMw9FmAC5Q45JWS7dj5rB6LyMwGApR5hZD
+ 5uWhgfhaNB5n7BjSndaJOjzCDJVngtqclTJnENCqV42kfuRA0W3+ZDAWc/QKnMeF2nAe
+ SPMw==
+X-Gm-Message-State: ANoB5pnkP4wQnf1cpmOz136zihM6Y7BWshrtit/TZJUY3RZdq7v35sLI
+ 23n9BwpuJhhBkOAlTG4TITAIrd373pyZfCwGjbS6wBWcLu5wT5chUGOnmAagIyC0/29vVLc7rJY
+ 7S2jNjZpwQviXJNx44nqj0c+Toun1
+X-Received: by 2002:adf:f782:0:b0:236:73fa:c56e with SMTP id
+ q2-20020adff782000000b0023673fac56emr16927458wrp.432.1669375831768; 
+ Fri, 25 Nov 2022 03:30:31 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5BqcPogGv74wKCFoPNLhym/zSZ5Ydptut3F8lISznnnvwUd9+tWysN/KklB3LvI2knnu0JgQ==
+X-Received: by 2002:adf:f782:0:b0:236:73fa:c56e with SMTP id
+ q2-20020adff782000000b0023673fac56emr16927439wrp.432.1669375831561; 
+ Fri, 25 Nov 2022 03:30:31 -0800 (PST)
 Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- r14-20020a5d4e4e000000b002366ded5864sm3471722wrt.116.2022.11.25.03.29.29
+ z4-20020a05600c0a0400b003c70191f267sm9996825wmp.39.2022.11.25.03.30.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Nov 2022 03:29:30 -0800 (PST)
-Message-ID: <05e6a16f-ee7f-1b9a-0ab8-5b042d60c86d@redhat.com>
-Date: Fri, 25 Nov 2022 12:29:29 +0100
+ Fri, 25 Nov 2022 03:30:30 -0800 (PST)
+Message-ID: <323c8e02-4085-c46f-61cc-b9edbd902544@redhat.com>
+Date: Fri, 25 Nov 2022 12:30:28 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH 18/24] drm/vc4: crtc: Introduce a lower-level crtc init
- helper
+Subject: Re: [PATCH 19/24] drm/vc4: crtc: Make encoder lookup helper public
 To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
  Thomas Zimmermann <tzimmermann@suse.de>
 References: <20221123-rpi-kunit-tests-v1-0-051a0bb60a16@cerno.tech>
- <20221123-rpi-kunit-tests-v1-18-051a0bb60a16@cerno.tech>
+ <20221123-rpi-kunit-tests-v1-19-051a0bb60a16@cerno.tech>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221123-rpi-kunit-tests-v1-18-051a0bb60a16@cerno.tech>
+In-Reply-To: <20221123-rpi-kunit-tests-v1-19-051a0bb60a16@cerno.tech>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -102,12 +101,9 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 11/23/22 16:26, Maxime Ripard wrote:
-> The current vc4_crtc_init() helper assumes that we will be using
-> hardware planes and calls vc4_plane_init().
-> 
-> While it's a reasonable assumption, we'll want to mock the plane and
-> thus provide our own. Let's create a helper that will take the plane as
-> an argument.
+> We'll need a function that looks up an encoder by its vc4_encoder_type.
+> Such a function is already present in the CRTC code, so let's make it
+> public so that we can reuse it in the unit tests.
 > 
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > ---
