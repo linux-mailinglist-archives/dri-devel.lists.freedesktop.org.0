@@ -1,83 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DFDD638863
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 12:13:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A9F363886B
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 12:14:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C11810E72A;
-	Fri, 25 Nov 2022 11:13:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF45E10E732;
+	Fri, 25 Nov 2022 11:14:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAE9810E72A
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 11:13:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669374821;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qFx/VXqLp/Ia7vJAw9Cj+XP8sI/+0/nuoQb7QGji8jU=;
- b=ShdxCAOqrb0btQ/Fb1bDGRHk+CkzcdIbOGlX9TxH4wGrKKhRTUaRUKZFaQaeTwIR5tzQz4
- dO4BImZk1L35DaKcfd1IpFSgZfnDuIG64JCp7HiOfztF3LGHNnQSDdtgpcbpDbDMMIh4V+
- 8C1DbQvqJMBjR27FX+m83X9b8W6YE34=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-487-HNRMQjjMOWOAXE_2OCBpSw-1; Fri, 25 Nov 2022 06:13:40 -0500
-X-MC-Unique: HNRMQjjMOWOAXE_2OCBpSw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- h2-20020adfa4c2000000b00241cf936619so775847wrb.9
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 03:13:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qFx/VXqLp/Ia7vJAw9Cj+XP8sI/+0/nuoQb7QGji8jU=;
- b=ion1dFIMoNa+Bommx1eOfsumgc8iyefZxt7MLCCfh6fFGe+6aA0YB5J+qz9t3jBm81
- m0IUMHh7UmmJHZHxxIjbb73b8ocu9PJ4lb82xxdqZKlH4TlGpARmz2vbfAONIucVqlO2
- LLQNLRVpT8iPci81d5EXWRXBSvg3yu3dPMXmzQ0GUTvpEW3HSKYRDHfcl8jdHJ838WUk
- oxkW3aUzF3CVLdstDRkIy2i2QYRZSjuTfbYokfAV3pncTU7QpvfoiHdC+1XEPG7aRzTz
- /z2rJ3s8kLrt+vqrc+rEhFlG+i3lc9yiuGODbum0UiG6x+4vBg+qzZ9LtnuiTHVhr0BT
- mMpA==
-X-Gm-Message-State: ANoB5pkZgwEgMkOu3KnbojJCNWWUakjy5Drtrwov9gOdZca7ALiGIU2C
- Y2Tgl/YStdqGLsIJNgb3EBcs6+3lMYwRZbwktLztDkxqOULok+WQ+qu9waNp1YY/vMZFi69sW3Y
- GVp6Lnfw8Gtw8bv+ujbLEY8Mhd5Au
-X-Received: by 2002:a05:600c:4113:b0:3cf:a3e0:73e4 with SMTP id
- j19-20020a05600c411300b003cfa3e073e4mr14008544wmi.21.1669374819684; 
- Fri, 25 Nov 2022 03:13:39 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4QbRaGQmx0lzXwDi9UpdtUdoe4KD8bKMgqn+J5cd47t76yI/i28tjLFg1hYaguZbzcAUiqhw==
-X-Received: by 2002:a05:600c:4113:b0:3cf:a3e0:73e4 with SMTP id
- j19-20020a05600c411300b003cfa3e073e4mr14008533wmi.21.1669374819497; 
- Fri, 25 Nov 2022 03:13:39 -0800 (PST)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- e3-20020a5d65c3000000b002383edcde09sm3440822wrw.59.2022.11.25.03.13.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Nov 2022 03:13:39 -0800 (PST)
-Message-ID: <2405809e-8183-e353-1259-94e16ebe8204@redhat.com>
-Date: Fri, 25 Nov 2022 12:13:38 +0100
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E50DD10E72C;
+ Fri, 25 Nov 2022 11:14:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1669374887; x=1700910887;
+ h=message-id:date:mime-version:subject:to:references:from:
+ in-reply-to:content-transfer-encoding;
+ bh=6vQDUUCmN97OeyrTkEtUVUUPMl1l0TNrYP591bjYOJs=;
+ b=HEC2rmH0nXZJEiKB69E/ywYwPQ4mjCRd5NygK7PRne6bCn3f7GHCv8cD
+ 4kdDj4i0wKtxlc987IG/jK8hm8t9IPXyl3n1cG/7oWkrktKBxRorbE1Ij
+ Xgw0NTEvWR0XF9t5p2qQbZ+znwi2vgZxv7FdvQWTnRw+JEeejqZWeQsQg
+ RxxzkWqqYTGHYRI1Gs9hb+TcR5ByZhRTn/sGkCuyNy6NMl3iAMKaWVvAH
+ FV9Zm5mhFnpgIr71qzF3GMoyvefSwjeH6wswgIzZ5FovIeKzOzRTbalbX
+ TNHn5l6RfHvaqwRjfHNgAQkZ6Kl5NINHf6Y3a2Sohlwm0h0VDz6SJuVeH g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10541"; a="376607627"
+X-IronPort-AV: E=Sophos;i="5.96,193,1665471600"; d="scan'208";a="376607627"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Nov 2022 03:14:46 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10541"; a="620310984"
+X-IronPort-AV: E=Sophos;i="5.96,193,1665471600"; d="scan'208";a="620310984"
+Received: from jbrophy1-mobl1.amr.corp.intel.com (HELO [10.213.194.13])
+ ([10.213.194.13])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Nov 2022 03:14:44 -0800
+Message-ID: <d92312af-3c84-8bd9-108b-719fb1ec3a6b@linux.intel.com>
+Date: Fri, 25 Nov 2022 11:14:41 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH 17/24] drm/vc4: crtc: Pass the device and data in
- vc4_crtc_init
-To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-References: <20221123-rpi-kunit-tests-v1-0-051a0bb60a16@cerno.tech>
- <20221123-rpi-kunit-tests-v1-17-051a0bb60a16@cerno.tech>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221123-rpi-kunit-tests-v1-17-051a0bb60a16@cerno.tech>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/102.4.2
+Subject: Re: [Intel-gfx] [PATCH 7/9] drm/i915: stop using ttm_bo_wait
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Matthew Auld <matthew.auld@intel.com>
+References: <20221125102137.1801-1-christian.koenig@amd.com>
+ <20221125102137.1801-7-christian.koenig@amd.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20221125102137.1801-7-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,31 +65,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Gow <davidgow@google.com>,
- Brendan Higgins <brendan.higgins@linux.dev>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>,
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
- linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/23/22 16:25, Maxime Ripard wrote:
-> Both users of vc4_crtc_init need the same extra initialization to set
-> the pointer to the platform_device and the CRTC data. Since it's
-> mandatory, let's make them both arguments of vc4_crtc_init().
+
++ Matt
+
+On 25/11/2022 10:21, Christian König wrote:
+> TTM is just wrapping core DMA functionality here, remove the mid-layer.
+> No functional change.
 > 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> Signed-off-by: Christian König <christian.koenig@amd.com>
 > ---
+>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 9 ++++++---
+>   1 file changed, 6 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> index 5247d88b3c13..d409a77449a3 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> @@ -599,13 +599,16 @@ i915_ttm_resource_get_st(struct drm_i915_gem_object *obj,
+>   static int i915_ttm_truncate(struct drm_i915_gem_object *obj)
+>   {
+>   	struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
+> -	int err;
+> +	long err;
+>   
+>   	WARN_ON_ONCE(obj->mm.madv == I915_MADV_WILLNEED);
+>   
+> -	err = ttm_bo_wait(bo, true, false);
+> -	if (err)
+> +	err = dma_resv_wait_timeout(bo->base.resv, DMA_RESV_USAGE_BOOKKEEP,
+> +				    true, 15 * HZ);
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+This 15 second stuck out a bit for me and then on a slightly deeper look 
+it seems this timeout will "leak" into a few of i915 code paths. If we 
+look at the difference between the legacy shmem and ttm backend I am not 
+sure if the legacy one is blocking or not - but if it can block I don't 
+think it would have an arbitrary timeout like this. Matt your thoughts?
 
--- 
-Best regards,
+Regards,
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+Tvrtko
 
+> +	if (err < 0)
+>   		return err;
+> +	if (err == 0)
+> +		return -EBUSY;
+>   
+>   	err = i915_ttm_move_notify(bo);
+>   	if (err)
