@@ -2,17 +2,17 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A2BB638EC1
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 18:05:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8CEA638F3A
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 18:39:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BD1E10E76B;
-	Fri, 25 Nov 2022 17:05:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6058010E13B;
+	Fri, 25 Nov 2022 17:39:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp.domeneshop.no (smtp.domeneshop.no
  [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7004A10E76B
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 17:05:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88EC210E13B
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 17:39:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
  ; s=ds202112;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -20,31 +20,31 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=pATJkeyZnotQ8rpA/v8VOmJi/HAhovO9x7uZ3qwZ0zo=; b=Sexc4UYddbvJIBie7vCWE6Oqcr
- lwQx8uax8p+AXtXOqiSAq7mX+lJJg/D2tVt+y8PaFQPfpZvdIy46aolXx4vpGEZc90zBoaOcAZCrR
- tGsivR1BD4/IO3sk5zZMhp/fHf7ds/icw72Ej/CaKBx11UUZAUSzlfRaCA+Jipn6MtdpGGDT8a6W9
- hFyhVZo1Lh3s5TUORy0/mJXrML6wvlRvzIGxM6drCDxJ+t0g9BveXnflLL0teJOwVnpGJ3stV8QcO
- Uh8bhmmHR2DgPqeZxyp7n/M66ZllhHD37kg3WbgX/1EZWveCHYqsibDs1mrIZU7WCxyy4QMl8BqMx
- Vp41jvlg==;
-Received: from [2a01:799:95e:1700:6395:ccbd:d000:d42b] (port=64532)
+ bh=ueHhJK7sZ0n4TQlTpBfY9VByWZk5VUCW7KaAmYapaF8=; b=sVALEj6jwVC0pObB0qntGopkPC
+ vMh9OAcIp1RpGQClY6aFen26r006sKQg0EZhtMlk+JkpKgjtZtH8DiBaUaDxt1eXhcEKkVHX9Urcy
+ JtPKHVOs58E3Oji2kPMIiRmKa3UhiWVEpc8hwRjvKhhnkeXW6npfhg0wyHb6qPg54Yhdxh5hYU+Cn
+ e7f8w9RhVSbiD8UZ2IDBj+2diWR9S7/RC2cYtQrIS0H1tt57p1pk+u08dFCXMlBJSL6zHYvt7G0UG
+ jAy/xBUk6YP1F38XLLYetZ+ysdKDHiOrauTMemR/s86R5+xlrpGoDqXpPJfrd351UK22SAIADq+yg
+ 1qCnXHFw==;
+Received: from [2a01:799:95e:1700:6395:ccbd:d000:d42b] (port=65413)
  by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1oyc8a-00022L-Pr; Fri, 25 Nov 2022 18:05:16 +0100
-Message-ID: <bb7b35b5-088d-e141-adf7-b718c16d30fb@tronnes.org>
-Date: Fri, 25 Nov 2022 18:05:13 +0100
+ id 1oycfO-0006tW-8x; Fri, 25 Nov 2022 18:39:10 +0100
+Message-ID: <4e1b19de-04b1-3fa5-6aaa-72a4ad694b64@tronnes.org>
+Date: Fri, 25 Nov 2022 18:39:07 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
-Subject: Re: [PATCH 4/8] drm/mipi-dbi: Initialize default driver functions
- with macro
+Subject: Re: [PATCH 5/8] drm/mipi-dbi: Prepare framebuffer copy operation in
+ pipe-update helpers
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
  thierry.reding@gmail.com, sam@ravnborg.org, emma@anholt.net,
  david@lechnology.com, kamlesh.gurudasani@gmail.com, javierm@redhat.com
 References: <20221121104532.8301-1-tzimmermann@suse.de>
- <20221121104532.8301-5-tzimmermann@suse.de>
+ <20221121104532.8301-6-tzimmermann@suse.de>
 From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20221121104532.8301-5-tzimmermann@suse.de>
+In-Reply-To: <20221121104532.8301-6-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,43 +67,398 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Den 21.11.2022 11.45, skrev Thomas Zimmermann:
-> Introduce DRM_MIPI_DBI_SIMPLE_DISPLAY_PIPE_FUNCS to initialize MIPI-DBI
-> helpers to default values and convert drivers. The prepare_fb function
-> set by some drivers is called implicitly by simple-kms helpers, so leave
-> it out.
+> Move the vmap/vunmap blocks from the inner fb_dirty helpers into the
+> MIPI DBI update helpers. The function calls can result in waiting and/or
+> processing overhead. Reduce the penalties by executing the functions once
+> in the outer-most function of the pipe update.
+> 
+> This change also prepares for MIPI DBI for shadow-plane helpers. With
+> shadow-plane helpers, transfer source buffers are mapped into kernel
+> address space automatically.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
+>  drivers/gpu/drm/drm_mipi_dbi.c | 60 +++++++++++++++++++---------------
+>  drivers/gpu/drm/tiny/ili9225.c | 31 ++++++++++++++----
+>  drivers/gpu/drm/tiny/st7586.c  | 28 +++++++++++-----
+>  include/drm/drm_mipi_dbi.h     |  6 ++--
+>  4 files changed, 81 insertions(+), 44 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
+> index a6ac565808765..40e59a3a6481e 100644
+> --- a/drivers/gpu/drm/drm_mipi_dbi.c
+> +++ b/drivers/gpu/drm/drm_mipi_dbi.c
+> @@ -192,6 +192,7 @@ EXPORT_SYMBOL(mipi_dbi_command_stackbuf);
+>  /**
+>   * mipi_dbi_buf_copy - Copy a framebuffer, transforming it if necessary
+>   * @dst: The destination buffer
+> + * @src: The source buffer
+>   * @fb: The source framebuffer
+>   * @clip: Clipping rectangle of the area to be copied
+>   * @swap: When true, swap MSB/LSB of 16-bit values
+> @@ -199,12 +200,13 @@ EXPORT_SYMBOL(mipi_dbi_command_stackbuf);
+>   * Returns:
+>   * Zero on success, negative error code on failure.
+>   */
+> -int mipi_dbi_buf_copy(void *dst, struct drm_framebuffer *fb,
+> +int mipi_dbi_buf_copy(void *dst, struct iosys_map *src, struct drm_framebuffer *fb,
+>  		      struct drm_rect *clip, bool swap)
+>  {
+>  	struct drm_gem_object *gem = drm_gem_fb_get_obj(fb, 0);
+> -	struct iosys_map map[DRM_FORMAT_MAX_PLANES];
+> -	struct iosys_map data[DRM_FORMAT_MAX_PLANES];
+> +	struct iosys_map data[DRM_FORMAT_MAX_PLANES] = {
+> +		*src,
+> +	};
 
->  static const struct drm_simple_display_pipe_funcs hx8357d_pipe_funcs = {
-> -	.mode_valid = mipi_dbi_pipe_mode_valid,
-> -	.enable = yx240qv29_enable,
-> -	.disable = mipi_dbi_pipe_disable,
-> -	.update = mipi_dbi_pipe_update,
-> +	DRM_MIPI_DBI_SIMPLE_DISPLAY_PIPE_FUNCS(yx240qv29_enable),
->  };
+I would prefer that you used src directly when calling the drm_fb_*
+functions, data can be anything and to me it isn't clear what that
+contains when I see it (ofc now I know, but next year I've forgotten).
+And is the array necessary, this helper will only ever support one color
+plane after all?
 
->  static const struct drm_simple_display_pipe_funcs ili9163_pipe_funcs = {
-> -	.mode_valid = mipi_dbi_pipe_mode_valid,
-> -	.enable = yx240qv29_enable,
-> -	.disable = mipi_dbi_pipe_disable,
-> -	.update = mipi_dbi_pipe_update,
-> +	DRM_MIPI_DBI_SIMPLE_DISPLAY_PIPE_FUNCS(yx240qv29_enable),
->  };
+>  	struct iosys_map dst_map = IOSYS_MAP_INIT_VADDR(dst);
+>  	int ret;
+>  
+> @@ -212,10 +214,6 @@ int mipi_dbi_buf_copy(void *dst, struct drm_framebuffer *fb,
+>  	if (ret)
+>  		return ret;
+>  
+> -	ret = drm_gem_fb_vmap(fb, map, data);
+> -	if (ret)
+> -		goto out_drm_gem_fb_end_cpu_access;
+> -
+>  	switch (fb->format->format) {
+>  	case DRM_FORMAT_RGB565:
+>  		if (swap)
+> @@ -232,8 +230,6 @@ int mipi_dbi_buf_copy(void *dst, struct drm_framebuffer *fb,
+>  		ret = -EINVAL;
+>  	}
+>  
+> -	drm_gem_fb_vunmap(fb, map);
+> -out_drm_gem_fb_end_cpu_access:
+>  	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
+>  
+>  	return ret;
+> @@ -257,10 +253,9 @@ static void mipi_dbi_set_window_address(struct mipi_dbi_dev *dbidev,
+>  			 ys & 0xff, (ye >> 8) & 0xff, ye & 0xff);
+>  }
+>  
+> -static void mipi_dbi_fb_dirty(struct drm_framebuffer *fb, struct drm_rect *rect)
+> +static void mipi_dbi_fb_dirty(struct iosys_map *src, struct drm_framebuffer *fb,
+> +			      struct drm_rect *rect)
+>  {
+> -	struct iosys_map map[DRM_FORMAT_MAX_PLANES];
+> -	struct iosys_map data[DRM_FORMAT_MAX_PLANES];
+>  	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(fb->dev);
+>  	unsigned int height = rect->y2 - rect->y1;
+>  	unsigned int width = rect->x2 - rect->x1;
+> @@ -270,16 +265,9 @@ static void mipi_dbi_fb_dirty(struct drm_framebuffer *fb, struct drm_rect *rect)
+>  	bool full;
+>  	void *tr;
+>  
+> -	if (WARN_ON(!fb))
+> -		return;
+> -
+>  	if (!drm_dev_enter(fb->dev, &idx))
+>  		return;
+>  
+> -	ret = drm_gem_fb_vmap(fb, map, data);
+> -	if (ret)
+> -		goto err_drm_dev_exit;
+> -
+>  	full = width == fb->width && height == fb->height;
+>  
+>  	DRM_DEBUG_KMS("Flushing [FB:%d] " DRM_RECT_FMT "\n", fb->base.id, DRM_RECT_ARG(rect));
+> @@ -287,11 +275,11 @@ static void mipi_dbi_fb_dirty(struct drm_framebuffer *fb, struct drm_rect *rect)
+>  	if (!dbi->dc || !full || swap ||
+>  	    fb->format->format == DRM_FORMAT_XRGB8888) {
+>  		tr = dbidev->tx_buf;
+> -		ret = mipi_dbi_buf_copy(dbidev->tx_buf, fb, rect, swap);
+> +		ret = mipi_dbi_buf_copy(tr, src, fb, rect, swap);
+>  		if (ret)
+>  			goto err_msg;
+>  	} else {
+> -		tr = data[0].vaddr; /* TODO: Use mapping abstraction properly */
+> +		tr = src->vaddr; /* TODO: Use mapping abstraction properly */
+>  	}
+>  
+>  	mipi_dbi_set_window_address(dbidev, rect->x1, rect->x2 - 1, rect->y1,
+> @@ -303,9 +291,6 @@ static void mipi_dbi_fb_dirty(struct drm_framebuffer *fb, struct drm_rect *rect)
+>  	if (ret)
+>  		drm_err_once(fb->dev, "Failed to update display %d\n", ret);
+>  
+> -	drm_gem_fb_vunmap(fb, map);
+> -
+> -err_drm_dev_exit:
+>  	drm_dev_exit(idx);
+>  }
+>  
+> @@ -338,14 +323,27 @@ EXPORT_SYMBOL(mipi_dbi_pipe_mode_valid);
+>  void mipi_dbi_pipe_update(struct drm_simple_display_pipe *pipe,
+>  			  struct drm_plane_state *old_state)
+>  {
+> +	struct iosys_map map[DRM_FORMAT_MAX_PLANES];
+> +	struct iosys_map data[DRM_FORMAT_MAX_PLANES];
 
->  static const struct drm_simple_display_pipe_funcs ili9341_pipe_funcs = {
-> -	.mode_valid = mipi_dbi_pipe_mode_valid,
-> -	.enable = yx240qv29_enable,
-> -	.disable = mipi_dbi_pipe_disable,
-> -	.update = mipi_dbi_pipe_update,
-> +	DRM_MIPI_DBI_SIMPLE_DISPLAY_PIPE_FUNCS(yx240qv29_enable),
->  };
+These should have been zeroed to avoid UBSAN complaint, but you'll
+remove these later so not so important.
 
-3 drivers have the same enable function name, ili9163 and hx8357d has
-clearly copied from ili9341 which actually supports the yx240qv29 panel.
-At least hx8357d managed to update the display mode variable name,
-ili9163 didn't. It's not unlikely that I reviewed these drivers...
+>  	struct drm_plane_state *state = pipe->plane.state;
+> +	struct drm_framebuffer *fb = state->fb;
+>  	struct drm_rect rect;
+> +	int ret;
+>  
+>  	if (!pipe->crtc.state->active)
+>  		return;
+>  
+> +	if (WARN_ON(!fb))
+> +		return;
+> +
+> +	ret = drm_gem_fb_vmap(fb, map, data);
+> +	if (ret)
+> +		return;
+> +
+>  	if (drm_atomic_helper_damage_merged(old_state, state, &rect))
+> -		mipi_dbi_fb_dirty(state->fb, &rect);
+> +		mipi_dbi_fb_dirty(&data[0], fb, &rect);
+> +
+> +	drm_gem_fb_vunmap(fb, map);
+>  }
+>  EXPORT_SYMBOL(mipi_dbi_pipe_update);
+>  
+> @@ -373,14 +371,22 @@ void mipi_dbi_enable_flush(struct mipi_dbi_dev *dbidev,
+>  		.y1 = 0,
+>  		.y2 = fb->height,
+>  	};
+> -	int idx;
+> +	struct iosys_map map[DRM_FORMAT_MAX_PLANES];
+> +	struct iosys_map data[DRM_FORMAT_MAX_PLANES];
+> +	int idx, ret;
+>  
+>  	if (!drm_dev_enter(&dbidev->drm, &idx))
+>  		return;
+>  
+> -	mipi_dbi_fb_dirty(fb, &rect);
+> +	ret = drm_gem_fb_vmap(fb, map, data);
+> +	if (ret)
+> +		goto err_drm_dev_exit;
+> +
+> +	mipi_dbi_fb_dirty(&data[0], fb, &rect);
+>  	backlight_enable(dbidev->backlight);
+>  
+> +	drm_gem_fb_vunmap(fb, map);
+> +err_drm_dev_exit:
+>  	drm_dev_exit(idx);
+>  }
+>  EXPORT_SYMBOL(mipi_dbi_enable_flush);
+> diff --git a/drivers/gpu/drm/tiny/ili9225.c b/drivers/gpu/drm/tiny/ili9225.c
+> index f05a2d25866c1..0115c4090f9e7 100644
+> --- a/drivers/gpu/drm/tiny/ili9225.c
+> +++ b/drivers/gpu/drm/tiny/ili9225.c
+> @@ -25,6 +25,7 @@
+>  #include <drm/drm_framebuffer.h>
+>  #include <drm/drm_gem_atomic_helper.h>
+>  #include <drm/drm_gem_dma_helper.h>
+> +#include <drm/drm_gem_framebuffer_helper.h>
+>  #include <drm/drm_managed.h>
+>  #include <drm/drm_mipi_dbi.h>
+>  #include <drm/drm_rect.h>
+> @@ -76,9 +77,9 @@ static inline int ili9225_command(struct mipi_dbi *dbi, u8 cmd, u16 data)
+>  	return mipi_dbi_command_buf(dbi, cmd, par, 2);
+>  }
+>  
+> -static void ili9225_fb_dirty(struct drm_framebuffer *fb, struct drm_rect *rect)
+> +static void ili9225_fb_dirty(struct iosys_map *src, struct drm_framebuffer *fb,
+> +			     struct drm_rect *rect)
+>  {
+> -	struct drm_gem_dma_object *dma_obj = drm_fb_dma_get_gem_obj(fb, 0);
+>  	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(fb->dev);
+>  	unsigned int height = rect->y2 - rect->y1;
+>  	unsigned int width = rect->x2 - rect->x1;
+> @@ -100,11 +101,11 @@ static void ili9225_fb_dirty(struct drm_framebuffer *fb, struct drm_rect *rect)
+>  	if (!dbi->dc || !full || swap ||
+>  	    fb->format->format == DRM_FORMAT_XRGB8888) {
+>  		tr = dbidev->tx_buf;
+> -		ret = mipi_dbi_buf_copy(dbidev->tx_buf, fb, rect, swap);
+> +		ret = mipi_dbi_buf_copy(tr, src, fb, rect, swap);
+>  		if (ret)
+>  			goto err_msg;
+>  	} else {
+> -		tr = dma_obj->vaddr;
+> +		tr = src->vaddr; /* TODO: Use mapping abstraction properly */
+>  	}
+>  
+>  	switch (dbidev->rotation) {
+> @@ -162,14 +163,24 @@ static void ili9225_fb_dirty(struct drm_framebuffer *fb, struct drm_rect *rect)
+>  static void ili9225_pipe_update(struct drm_simple_display_pipe *pipe,
+>  				struct drm_plane_state *old_state)
+>  {
+> +	struct iosys_map map[DRM_FORMAT_MAX_PLANES];
+> +	struct iosys_map data[DRM_FORMAT_MAX_PLANES];
+>  	struct drm_plane_state *state = pipe->plane.state;
+> +	struct drm_framebuffer *fb = state->fb;
+>  	struct drm_rect rect;
+> +	int ret;
+>  
+>  	if (!pipe->crtc.state->active)
+>  		return;
+>  
+> +	ret = drm_gem_fb_vmap(fb, map, data);
+> +	if (ret)
+> +		return;
+> +
+>  	if (drm_atomic_helper_damage_merged(old_state, state, &rect))
+> -		ili9225_fb_dirty(state->fb, &rect);
+> +		ili9225_fb_dirty(&data[0], fb, &rect);
+> +
+> +	drm_gem_fb_vunmap(fb, map);
+>  }
+>  
+>  static void ili9225_pipe_enable(struct drm_simple_display_pipe *pipe,
+> @@ -186,6 +197,8 @@ static void ili9225_pipe_enable(struct drm_simple_display_pipe *pipe,
+>  		.y1 = 0,
+>  		.y2 = fb->height,
+>  	};
+> +	struct iosys_map map[DRM_FORMAT_MAX_PLANES];
+> +	struct iosys_map data[DRM_FORMAT_MAX_PLANES];
+>  	int ret, idx;
+>  	u8 am_id;
+>  
+> @@ -276,7 +289,13 @@ static void ili9225_pipe_enable(struct drm_simple_display_pipe *pipe,
+>  
+>  	ili9225_command(dbi, ILI9225_DISPLAY_CONTROL_1, 0x1017);
+>  
+> -	ili9225_fb_dirty(fb, &rect);
+> +	ret = drm_gem_fb_vmap(fb, map, data);
+> +	if (ret)
+> +		goto out_exit;
+> +
+> +	ili9225_fb_dirty(&data[0], fb, &rect);
+> +
+> +	drm_gem_fb_vunmap(fb, map);
+>  out_exit:
+>  	drm_dev_exit(idx);
+>  }
+> diff --git a/drivers/gpu/drm/tiny/st7586.c b/drivers/gpu/drm/tiny/st7586.c
+> index 6bdd23e2a47c7..e773b1f2fd5f3 100644
+> --- a/drivers/gpu/drm/tiny/st7586.c
+> +++ b/drivers/gpu/drm/tiny/st7586.c
+> @@ -92,25 +92,24 @@ static void st7586_xrgb8888_to_gray332(u8 *dst, void *vaddr,
+>  	kfree(buf);
+>  }
+>  
+> -static int st7586_buf_copy(void *dst, struct drm_framebuffer *fb,
+> +static int st7586_buf_copy(void *dst, struct iosys_map *src, struct drm_framebuffer *fb,
+>  			   struct drm_rect *clip)
+>  {
+> -	struct drm_gem_dma_object *dma_obj = drm_fb_dma_get_gem_obj(fb, 0);
+> -	void *src = dma_obj->vaddr;
+> -	int ret = 0;
+> +	int ret;
+>  
+>  	ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
+>  	if (ret)
+>  		return ret;
+>  
+> -	st7586_xrgb8888_to_gray332(dst, src, fb, clip);
+> +	st7586_xrgb8888_to_gray332(dst, src->vaddr, fb, clip);
+>  
+>  	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
+>  
+>  	return 0;
+>  }
+>  
+> -static void st7586_fb_dirty(struct drm_framebuffer *fb, struct drm_rect *rect)
+> +static void st7586_fb_dirty(struct iosys_map *src, struct drm_framebuffer *fb,
+> +			    struct drm_rect *rect)
+>  {
+>  	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(fb->dev);
+>  	struct mipi_dbi *dbi = &dbidev->dbi;
+> @@ -125,7 +124,7 @@ static void st7586_fb_dirty(struct drm_framebuffer *fb, struct drm_rect *rect)
+>  
+>  	DRM_DEBUG_KMS("Flushing [FB:%d] " DRM_RECT_FMT "\n", fb->base.id, DRM_RECT_ARG(rect));
+>  
+> -	ret = st7586_buf_copy(dbidev->tx_buf, fb, rect);
+> +	ret = st7586_buf_copy(dbidev->tx_buf, src, fb, rect);
+>  	if (ret)
+>  		goto err_msg;
+>  
+> @@ -154,13 +153,19 @@ static void st7586_pipe_update(struct drm_simple_display_pipe *pipe,
+>  			       struct drm_plane_state *old_state)
+>  {
+>  	struct drm_plane_state *state = pipe->plane.state;
+> +	struct drm_framebuffer *fb = state->fb;
+> +	struct drm_gem_dma_object *dma_obj;
+> +	struct iosys_map src;
+>  	struct drm_rect rect;
+>  
+>  	if (!pipe->crtc.state->active)
+>  		return;
+>  
+> +	dma_obj = drm_fb_dma_get_gem_obj(fb, 0);
+> +	iosys_map_set_vaddr(&src, dma_obj->vaddr);
+> +
 
-But that has nothing to do with this patch:
+You use drm_gem_fb_vmap() in the other places but here you access the
+object directly (and in the next hunk), but again not so important since
+it goes away in a later patch.
+
+With the comments considered:
 
 Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
+
+>  	if (drm_atomic_helper_damage_merged(old_state, state, &rect))
+> -		st7586_fb_dirty(state->fb, &rect);
+> +		st7586_fb_dirty(&src, fb, &rect);
+>  }
+>  
+>  static void st7586_pipe_enable(struct drm_simple_display_pipe *pipe,
+> @@ -176,6 +181,8 @@ static void st7586_pipe_enable(struct drm_simple_display_pipe *pipe,
+>  		.y1 = 0,
+>  		.y2 = fb->height,
+>  	};
+> +	struct drm_gem_dma_object *dma_obj;
+> +	struct iosys_map src;
+>  	int idx, ret;
+>  	u8 addr_mode;
+>  
+> @@ -235,7 +242,10 @@ static void st7586_pipe_enable(struct drm_simple_display_pipe *pipe,
+>  
+>  	msleep(100);
+>  
+> -	st7586_fb_dirty(fb, &rect);
+> +	dma_obj = drm_fb_dma_get_gem_obj(fb, 0);
+> +	iosys_map_set_vaddr(&src, dma_obj->vaddr);
+> +
+> +	st7586_fb_dirty(&src, fb, &rect);
+>  
+>  	mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_ON);
+>  out_exit:
+> diff --git a/include/drm/drm_mipi_dbi.h b/include/drm/drm_mipi_dbi.h
+> index 8c4ea7956d61d..36ac8495566b0 100644
+> --- a/include/drm/drm_mipi_dbi.h
+> +++ b/include/drm/drm_mipi_dbi.h
+> @@ -13,9 +13,10 @@
+>  #include <drm/drm_simple_kms_helper.h>
+>  
+>  struct drm_rect;
+> -struct spi_device;
+>  struct gpio_desc;
+> +struct iosys_map;
+>  struct regulator;
+> +struct spi_device;
+>  
+>  /**
+>   * struct mipi_dbi - MIPI DBI interface
+> @@ -176,8 +177,9 @@ int mipi_dbi_command_read(struct mipi_dbi *dbi, u8 cmd, u8 *val);
+>  int mipi_dbi_command_buf(struct mipi_dbi *dbi, u8 cmd, u8 *data, size_t len);
+>  int mipi_dbi_command_stackbuf(struct mipi_dbi *dbi, u8 cmd, const u8 *data,
+>  			      size_t len);
+> -int mipi_dbi_buf_copy(void *dst, struct drm_framebuffer *fb,
+> +int mipi_dbi_buf_copy(void *dst, struct iosys_map *src, struct drm_framebuffer *fb,
+>  		      struct drm_rect *clip, bool swap);
+> +
+>  /**
+>   * mipi_dbi_command - MIPI DCS command with optional parameter(s)
+>   * @dbi: MIPI DBI structure
