@@ -1,48 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CB6D63915B
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 23:24:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FEAC63916D
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 23:30:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5871010E0C9;
-	Fri, 25 Nov 2022 22:24:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B4D010E134;
+	Fri, 25 Nov 2022 22:30:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D885810E0C9
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 22:24:09 +0000 (UTC)
-Received: from notapiano (unknown
- [IPv6:2600:4041:5b1a:cd00:524d:e95d:1a9c:492a])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- (Authenticated sender: nfraprado)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 169BD6602B6F;
- Fri, 25 Nov 2022 22:24:06 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1669415048;
- bh=n/JLhB9y1lHTrAqStH1aXYwPM6mB/oILrr8xuIpUxBM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hL1D4Rz9csbBTpf1Zc8BME8cRYbNoiwVf+91duBmWBmSu3hj0B/x0mxj9IayaaEIF
- ZuRYN0f0bP4uheKt2VXEj61N1VnnDAzSmNKXfudty00OIalGaLuSTbLN/Hkgt23QOQ
- Lkd0dCcu5gqhI3S7O5m+O4ePoMFPq2dV4ybUNFRuVJIOLHiQUJ4NXJOrrGySa78inN
- ke/aQ/9ywGMunB4khwu9lr2l6PyFcvejc9M2a5d+4t7xePZKCqbNez4bkA/zopnbVZ
- eLjJySiDFw+mxFZW2jVoiFaXV8VW7/YY3jktdQ8LKTnULKmrPAMYL5tSmFXvTxp6+c
- KxtGmHbs3kcZQ==
-Date: Fri, 25 Nov 2022 17:24:02 -0500
-From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
-To: "Nancy.Lin" <nancy.lin@mediatek.com>
-Subject: Re: [PATCH v28 6/7] drm/mediatek: add drm ovl_adaptor sub driver for
- MT8195
-Message-ID: <20221125222402.u4qiolkqi2nsv7ae@notapiano>
-References: <20221107072413.16178-1-nancy.lin@mediatek.com>
- <20221107072413.16178-7-nancy.lin@mediatek.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC99910E134;
+ Fri, 25 Nov 2022 22:30:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1669415443; x=1700951443;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Z8o8z3I6H87aqo6fjslU8AMvnKn2XG5c9BhfFRIHHCY=;
+ b=dSFmuxpF4CzmU6kA8AjFle6ptCEOK+1QXr+5BwHZTs+2MiLN4vqVzHAi
+ OaOhRnNHr64NeH74PwmI6zi5gTEFlr2S3VBQ7qUx8yoo91Ma2P7WTBH09
+ jXamibJgg54yAv9ohiEl+xwvd3cEEIsiINd8wZQizKPC1TU57OqJ3u8ZN
+ efm0A/6Jn5udn1h1MAtehVSMdcD84GEpbRQ0RhMFqxW57Tj/K3NAq0wCp
+ il7aY5B1QCrYL19+wNEZ0JTVrRT8cSNr2PsZE/uWMPiBdNRQYcI0xab4o
+ HbIVC088F7iTd07/BT6E86tBPdoNU7WZReSdYt6t4S74SAWWQP0Ngh0Ae w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10542"; a="315703124"
+X-IronPort-AV: E=Sophos;i="5.96,194,1665471600"; d="scan'208";a="315703124"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Nov 2022 14:30:42 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10542"; a="767467358"
+X-IronPort-AV: E=Sophos;i="5.96,194,1665471600"; d="scan'208";a="767467358"
+Received: from ncataldi-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.252.50.225])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Nov 2022 14:30:39 -0800
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v3 0/5] Add guard padding around i915_vma
+Date: Fri, 25 Nov 2022 23:30:24 +0100
+Message-Id: <20221125223029.323339-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221107072413.16178-7-nancy.lin@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,74 +57,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Project_Global_Chrome_Upstream_Group@mediatek.com, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
- singo.chang@mediatek.com, llvm@lists.linux.dev,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Yongqiang Niu <yongqiang.niu@mediatek.com>,
- Nathan Chancellor <nathan@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, wim@linux-watchdog.org,
- linux@roeck-us.net,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Andi Shyti <andi@etezian.org>, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>, Matthew Auld <matthew.auld@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Shawn Lee <shawn.c.lee@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 07, 2022 at 03:24:12PM +0800, Nancy.Lin wrote:
-> Add drm ovl_adaptor sub driver. Bring up ovl_adaptor sub driver if
-> the component exists in the path.
-> 
-> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Reviewed-by: CK Hu <ck.hu@mediatek.com>
-> Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Tested-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-> Tested-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-> ---
-[..]
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> index 30dcb65d8a5a..ce5617ad04cb 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-[..]
-> @@ -897,22 +906,18 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
->  		crtc_i++;
->  
->  	for (i = 0; i < path_len; i++) {
-> -		enum mtk_ddp_comp_id comp_id = path[i];
-> +		unsigned int comp_id = path[i];
->  		struct device_node *node;
-> -		struct mtk_ddp_comp *comp;
->  
->  		node = priv->comp_node[comp_id];
-> -		comp = &priv->ddp_comp[comp_id];
-> -
-> -		if (!node) {
-> -			dev_info(dev,
-> -				 "Not creating crtc %d because component %d is disabled or missing\n",
-> -				 crtc_i, comp_id);
-> -			return 0;
-> -		}
->  
-> -		if (!comp->dev) {
-> -			dev_err(dev, "Component %pOF not initialized\n", node);
-> +		/* Not all drm components have a DTS device node, such as ovl_adaptor,
-> +		 * which is the drm bring up sub driver
-> +		 */
-> +		if (!node && comp_id != DDP_COMPONENT_DRM_OVL_ADAPTOR) {
-> +			dev_err(dev,
-> +				"Not creating crtc %d because component %d is disabled, missing or not initialized\n",
-> +				crtc_i, comp_id);
->  			return -ENODEV;
+Hi,
 
-Why do you change the behavior here? If !node, the return should be 0, because
-there are two separate data streams, for internal and external display, and they
-are optional. It should be possible to for example have the nodes for external
-display disabled in DT and still have the driver probe and have a working
-internal display. But with this change you're breaking that. Also, this message
-should stay as dev_info and not mention "not initialized", so basically it
-should stay the same as before the change.
+This series adds guards around vma's but setting a pages at the
+beginning and at the end that work as padding.
 
-Thanks,
-Nícolas
+The first user of the vma guard are scanout objects which don't
+need anymore to add scratch to all the unused ggtt's and speeding
+up up considerably the boot and resume by several hundreds of
+milliseconds up to over a full second in slower machines.
+
+Because of this we don't need anymore 2ef6efa79fec ("drm/i915:
+Improve on suspend / resume time with VT-d enabled") which gets
+reverted.
+
+Thanks Tvrtko for the review.
+
+Andi
+
+Changelog
+=========
+v2 -> v3:
+ - fix Tvrtko's comments: explain in a comment why the guard is
+   is alligned as the vma and remove a GEM_BUG_ON() in case the
+   the total padding was exceeding the size of the va.
+ - the display_alignment is declared as u32 instead of a u64 in
+   a separate patch.
+
+v1 -> v2:
+ - Revert 2ef6efa79fec ("drm/i915: Improve on suspend / resume
+   time with VT-d enabled")
+
+Andi Shyti (2):
+  Revert "drm/i915: Improve on suspend / resume time with VT-d enabled"
+  drm/i915: Limit the display memory alignment to 32 bit instead of 64
+
+Chris Wilson (3):
+  drm/i915: Wrap all access to i915_vma.node.start|size
+  drm/i915: Introduce guard pages to i915_vma
+  drm/i915: Refine VT-d scanout workaround
+
+ drivers/gpu/drm/i915/display/intel_fb_pin.c   |   2 +-
+ drivers/gpu/drm/i915/display/intel_fbdev.c    |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_domain.c    |  15 ++-
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  33 +++---
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c      |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_shrinker.c  |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_tiling.c    |   4 +-
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |   2 +-
+ .../i915/gem/selftests/i915_gem_client_blt.c  |  23 ++--
+ .../drm/i915/gem/selftests/i915_gem_context.c |  15 ++-
+ .../drm/i915/gem/selftests/i915_gem_mman.c    |   2 +-
+ .../drm/i915/gem/selftests/igt_gem_utils.c    |   7 +-
+ drivers/gpu/drm/i915/gt/gen7_renderclear.c    |   2 +-
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          | 108 ++++--------------
+ drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c  |   3 +-
+ drivers/gpu/drm/i915/gt/intel_gtt.h           |  24 ----
+ drivers/gpu/drm/i915/gt/intel_renderstate.c   |   2 +-
+ .../gpu/drm/i915/gt/intel_ring_submission.c   |   2 +-
+ drivers/gpu/drm/i915/gt/selftest_engine_cs.c  |   8 +-
+ drivers/gpu/drm/i915/gt/selftest_execlists.c  |  18 +--
+ drivers/gpu/drm/i915/gt/selftest_hangcheck.c  |  15 +--
+ drivers/gpu/drm/i915/gt/selftest_lrc.c        |  16 +--
+ .../drm/i915/gt/selftest_ring_submission.c    |   2 +-
+ drivers/gpu/drm/i915/gt/selftest_rps.c        |  12 +-
+ .../gpu/drm/i915/gt/selftest_workarounds.c    |   8 +-
+ drivers/gpu/drm/i915/i915_cmd_parser.c        |   4 +-
+ drivers/gpu/drm/i915/i915_debugfs.c           |   2 +-
+ drivers/gpu/drm/i915/i915_driver.c            |  16 ---
+ drivers/gpu/drm/i915/i915_gem_gtt.h           |   3 +-
+ drivers/gpu/drm/i915/i915_perf.c              |   2 +-
+ drivers/gpu/drm/i915/i915_vma.c               |  66 ++++++++---
+ drivers/gpu/drm/i915/i915_vma.h               |  52 ++++++++-
+ drivers/gpu/drm/i915/i915_vma_resource.c      |   4 +-
+ drivers/gpu/drm/i915/i915_vma_resource.h      |  17 ++-
+ drivers/gpu/drm/i915/i915_vma_types.h         |   3 +-
+ drivers/gpu/drm/i915/selftests/i915_request.c |  20 ++--
+ drivers/gpu/drm/i915/selftests/igt_spinner.c  |   8 +-
+ 37 files changed, 267 insertions(+), 259 deletions(-)
+
+-- 
+2.38.1
+
