@@ -2,53 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D413D638BA1
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 14:54:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02543638BB6
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 14:58:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01C6710E0DB;
-	Fri, 25 Nov 2022 13:54:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E97C10E7B9;
+	Fri, 25 Nov 2022 13:58:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3340D10E0DB;
- Fri, 25 Nov 2022 13:54:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669384450; x=1700920450;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=vrs5C/ZesKC4+QbZiU7e035GDgOIShjPL6jQHflzGpU=;
- b=DCqCd8UnGgxOzZ2EE2lhKzSSHdFaryY/IdNVltRe8kYmi2xn/DCMsFVM
- 9auKfGN0Yqis5/GfcsV1hxkmwuKAQkzR9Atsq4eZ5wcjCnIbCinLKsssx
- DkfZLEXF6eMlbExkAnhSDAD7EsBab539gfPfs7PV4S4gtYZnjUzdKJoO0
- ubVh5HnNgHfv0TPI1Kc7KibQt6F+G6FBXcvsMt+dxnV2iA9pwdAjZ6A3b
- 3dc61xBC5VC2ahlwcMDysUUQ6ka9nGj55jMVNdXXwqhXneiAnm3NT00K4
- 5mi2DRhAwxkiO08eDLWbabIPoJU47dvAo04nAM2tVjeT4v0HYrYq/urdb w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10542"; a="314521165"
-X-IronPort-AV: E=Sophos;i="5.96,193,1665471600"; d="scan'208";a="314521165"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Nov 2022 05:54:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10542"; a="971577672"
-X-IronPort-AV: E=Sophos;i="5.96,193,1665471600"; d="scan'208";a="971577672"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
- by fmsmga005.fm.intel.com with SMTP; 25 Nov 2022 05:54:04 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 25 Nov 2022 15:54:02 +0200
-Date: Fri, 25 Nov 2022 15:54:02 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Subject: Re: [PATCH] drm/i915/huc: fix leak of debug object in huc load fence
- on driver unload
-Message-ID: <Y4DI+gq1rVQXDRbg@intel.com>
-References: <20221111005651.4160369-1-daniele.ceraolospurio@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221111005651.4160369-1-daniele.ceraolospurio@intel.com>
-X-Patchwork-Hint: comment
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8028510E7B3;
+ Fri, 25 Nov 2022 13:58:18 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 0B0A65C00EE;
+ Fri, 25 Nov 2022 08:58:16 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+ by compute3.internal (MEProxy); Fri, 25 Nov 2022 08:58:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1669384696; x=1669471096; bh=HZFW0Q6ily
+ rDold9b9ca9gHjKB3WJYu7yBNi/OLlm4s=; b=KGJZiKitRl3OE1rk8bBGc/1ZQ3
+ Ma4nnuK/qC4S+Z7c21rN3BBkmmsOTu1iSi306GclQlD1aLoZAI7bxy/Zyf2WWL/c
+ T9YvWuOmeJrBE27O8hLQcZnBIRtt9zF029V8GJQjvRIz05T4SrutfObIB2+ecPmU
+ aBmXNBORU+7plARbIQUQSQ5mPoXPc7wapieq5aUFQwuQ3c9l+7X8Di1Tkd2WkPey
+ JXi606GY2/woLA7wakeS7nNMMWQZj5pAhDMaidzPb4bOqwDKNFBbYuTD93yeC7H7
+ nYJlejZXEmApA5wxfE4OEZtGDMbpTAe+VgMh0H2DdXH/wJsvYNw8sBVsSGiw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1669384696; x=1669471096; bh=HZFW0Q6ilyrDold9b9ca9gHjKB3W
+ JYu7yBNi/OLlm4s=; b=WCy1IAOAaD2q1pazTB73ladozixKckhwGuvVzqadnlJP
+ 8J01lU3w9VknC9kPGp3I7gOJrs8GiLfpRxTIkKd6S5jJAjCWwHIQhYJNTTJSZTEz
+ i3nXo0D2H947sSrNaGRGnq5Kp8vW1eQ1zBUysveDTiTrDXCVrwt/ul8GqKybWKtD
+ 7V/BtIkBcO16XL/6LR4PoTIzudeUJeTt85YvzVW28dvqxomIk2wSGU5DV1WHXU3H
+ ZWgvNxf3+yDutaJgJ/WYFSUUhTJYy/wuxE/IPkXCtHQMWBNM1T3RQXY8C1aaSYps
+ 39J8LX+2CdwIwUPL7WGG4cv2wSM6DmRkvi8McvKdtg==
+X-ME-Sender: <xms:98mAYwTQQTPGZUCY5Ecf99OxN3NiVm8yFLqj-xE3583Zb1FwbQfQdQ>
+ <xme:98mAY9xFj3fZePOmQeLVotqhpGpJT82FlInXycwbBhS05dxL7D2bG8b9TqWBgvUHn
+ mZ3bCgl9dGb2ra3WG4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrieehgdehlecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+ ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+ gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
+ ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
+ hnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:98mAY92-9MacwOWeuopHJrwvwn8LiAnzE5Y0q9lTofBIjOxjSE_S2Q>
+ <xmx:98mAY0A-T3hqUI6pt_PcBXnOum7WDdCLnvk4tFP0rF6WahVCDRCXwQ>
+ <xmx:98mAY5jF7orPhyh-LUci3Lcj-EVZkKEk81Hfz_gu9sIAR7uraz74FA>
+ <xmx:-MmAYyZ2dEuifH96GuYTNE97AmSuYSQT7jhv1i24XaZPX_o4hKDJ7A>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 90CCFB60086; Fri, 25 Nov 2022 08:58:15 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1115-g8b801eadce-fm-20221102.001-g8b801ead
+Mime-Version: 1.0
+Message-Id: <347df991-4755-4f11-b530-4d0e3994a9db@app.fastmail.com>
+In-Reply-To: <Y4DFx20YXDLcuVJm@google.com>
+References: <20221125120750.3537134-1-lee@kernel.org>
+ <20221125120750.3537134-3-lee@kernel.org> <Y4DFx20YXDLcuVJm@google.com>
+Date: Fri, 25 Nov 2022 14:57:55 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Lee Jones" <lee@kernel.org>, "Andrew Morton" <akpm@linux-foundation.org>, 
+ "Nathan Chancellor" <nathan@kernel.org>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, mripard@kernel.org,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "Dave Airlie" <airlied@gmail.com>, 
+ "Daniel Vetter" <daniel@ffwll.ch>,
+ "Nick Desaulniers" <ndesaulniers@google.com>, "Tom Rix" <trix@redhat.com>,
+ "Harry Wentland" <harry.wentland@amd.com>, "Leo Li" <sunpeng.li@amd.com>,
+ "Rodrigo Siqueira" <Rodrigo.Siqueira@amd.com>,
+ "Alex Deucher" <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Xinhui.Pan@amd.com
+Subject: Re: [PATCH v2 2/2] Kconfig.debug: Provide a little extra FRAME_WARN
+ leeway when KASAN is enabled
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,84 +93,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
- intel-gfx@lists.freedesktop.org, Brian Norris <briannorris@chromium.org>,
- dri-devel@lists.freedesktop.org, John Harrison <John.C.Harrison@intel.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 10, 2022 at 04:56:51PM -0800, Daniele Ceraolo Spurio wrote:
-> The fence is always initialized in huc_init_early, but the cleanup in
-> huc_fini is only being run if HuC is enabled. This causes a leaking of
-> the debug object when HuC is disabled/not supported, which can in turn
-> trigger a warning if we try to register a new debug offset at the same
-> address on driver reload.
-> 
-> To fix the issue, make sure to always run the cleanup code.
+On Fri, Nov 25, 2022, at 14:40, Lee Jones wrote:
+> On Fri, 25 Nov 2022, Lee Jones wrote:
+>
+>> When enabled, KASAN enlarges function's stack-frames.  Pushing quite a
+>> few over the current threshold.  This can mainly be seen on 32-bit
+>> architectures where the present limit (when !GCC) is a lowly
+>> 1024-Bytes.
+>> 
+>> Signed-off-by: Lee Jones <lee@kernel.org>
+>> ---
+>>  lib/Kconfig.debug | 1 +
+>>  1 file changed, 1 insertion(+)
+>> 
+>> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+>> index c3c0b077ade33..82d475168db95 100644
+>> --- a/lib/Kconfig.debug
+>> +++ b/lib/Kconfig.debug
+>> @@ -399,6 +399,7 @@ config FRAME_WARN
+>>  	default 2048 if GCC_PLUGIN_LATENT_ENTROPY
+>>  	default 2048 if PARISC
+>>  	default 1536 if (!64BIT && XTENSA)
+>> +	default 1280 if KASAN && !64BIT
+>>  	default 1024 if !64BIT
+>>  	default 2048 if 64BIT
+>>  	help
+>
+> Note this also fixes 61 warnings when
+>
+>   (GCC && !GCC_PLUGIN_LATENT_ENTROPY)
+>
+> ... which as Arnd says should not be enabled by default.  We'll
+> address that issue once this set has been applied.
 
-This oopsing in ci now. Somehow the patchwork run did not
-hit that oops.
+Thanks a lot for checking this!
 
-> 
-> Reported-by: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> Reported-by: Brian Norris <briannorris@chromium.org>
-> Fixes: 27536e03271d ("drm/i915/huc: track delayed HuC load with a fence")
-> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> Cc: Brian Norris <briannorris@chromium.org>
-> Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
-> Cc: John Harrison <John.C.Harrison@Intel.com>
-> ---
-> 
-> Note: I didn't manage to repro the reported warning, but I did confirm
-> that we weren't correctly calling i915_sw_fence_fini and that this patch
-> fixes that.
-> 
->  drivers/gpu/drm/i915/gt/uc/intel_huc.c | 12 +++++++-----
->  drivers/gpu/drm/i915/gt/uc/intel_uc.c  |  1 +
->  2 files changed, 8 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-> index fbc8bae14f76..83735a1528fe 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-> @@ -300,13 +300,15 @@ int intel_huc_init(struct intel_huc *huc)
->  
->  void intel_huc_fini(struct intel_huc *huc)
->  {
-> -	if (!intel_uc_fw_is_loadable(&huc->fw))
-> -		return;
-> -
-> +	/*
-> +	 * the fence is initialized in init_early, so we need to clean it up
-> +	 * even if HuC loading is off.
-> +	 */
->  	delayed_huc_load_complete(huc);
-> -
->  	i915_sw_fence_fini(&huc->delayed_load.fence);
-> -	intel_uc_fw_fini(&huc->fw);
-> +
-> +	if (intel_uc_fw_is_loadable(&huc->fw))
-> +		intel_uc_fw_fini(&huc->fw);
->  }
->  
->  void intel_huc_suspend(struct intel_huc *huc)
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> index dbd048b77e19..41f08b55790e 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> @@ -718,6 +718,7 @@ int intel_uc_runtime_resume(struct intel_uc *uc)
->  
->  static const struct intel_uc_ops uc_ops_off = {
->  	.init_hw = __uc_check_hw,
-> +	.fini = __uc_fini, /* to clean-up the init_early initialization */
->  };
->  
->  static const struct intel_uc_ops uc_ops_on = {
-> -- 
-> 2.37.3
-
--- 
-Ville Syrjälä
-Intel
+Reviewed-by: Arnd Bergmann <arnd@arndb.de>
