@@ -1,82 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD65863873E
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 11:19:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A80C63874E
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 11:22:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A934E10E601;
-	Fri, 25 Nov 2022 10:19:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF9AE10E693;
+	Fri, 25 Nov 2022 10:21:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EDC810E609
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 10:19:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669371587;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bY19rPV8ppg6ZUdn2yxRqF47aTG2fFJ0ZNtqig4Q8uo=;
- b=ZYfzqq2+mOvrwfpxjaf04lQXHf/vLre39iedt2XH8yd3YL6Ux361DnYdTjhmdPzZP+WyMQ
- Sr7qmLpNoCj/dI7NYjJD3AuNNjMXY9tv0JHofGeF214Ng+jlfWkXNES2spivhWLAPmqCK6
- CFuUOjCh3/zRClPvdK3fK4zYbH7EJCM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-253-hZ2FBBqfP6CA73Fm5BqKPA-1; Fri, 25 Nov 2022 05:19:43 -0500
-X-MC-Unique: hZ2FBBqfP6CA73Fm5BqKPA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 187-20020a1c02c4000000b003d016c210f7so3976937wmc.6
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 02:19:42 -0800 (PST)
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E68A510E607;
+ Fri, 25 Nov 2022 10:21:40 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id n7so6034815wrr.13;
+ Fri, 25 Nov 2022 02:21:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ew8M0PkxgyobeEwJ5uJ+RaPpgEkLlL9vZ8bbzJQpK5g=;
+ b=X6xsPsWINWOSAfY9hPpBorv7Z0WCK8r5TrALjl4x9wyjMeN1+VVmmtPo3vU0f5I4wK
+ jdVorSyh/AWuallSiiEOwxxwhcyI4ojYSFbIpcjg261sH3oasNhmUjCwfzUCwj6ebEbQ
+ vISeT83wmwsyrFyMrWXqslevhIUsI+CUGJyTOOLfhLgV00dzUlHJh1Gpc75LFcp71cql
+ aXBVJi2/PJFhe5Ms92B2CFi1eh1N5/VnrYQEPlxRdZlaxKaPSRdEVLBa5cC3OJqX80II
+ IrAfwMvv7hKYFM8hK99AOrRZPtEjAmSguRINf/lTAVTNDn7kx559UzGTVaMldLTRJuOp
+ +M+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bY19rPV8ppg6ZUdn2yxRqF47aTG2fFJ0ZNtqig4Q8uo=;
- b=S/xSrtTVwYPUtCmtT2TFfafpTaUTVp6QM5LT5y0MyttB0NXoOe1ziB1LEpmFhW/VQg
- s3eydIrf+5xJk264ll+iVKOteeTFriGADLUQjl4mh7NotP9nUF3gVViDEziH4LoXMNfE
- BlKISUJjodScmveOYQwILn9Cp0rxF2GIvRbnqaSRV0aEXu66lXjnhNLSSbcBdze2iQN6
- AHKOGPvXc5YCgwm7oVy35KcKln2sQttHPzL3cGuFqnEfAg2Xx8acOSc18QqRhfCpcoNt
- hWQWqC422h7x2OJecfsiInSC9NGeG4uKV4aQJ8X9NrVKwh9KnhFueEx9NknolSlWomTA
- z2Eg==
-X-Gm-Message-State: ANoB5pmAvI0xzRLwRzBeHb7uEaH5HC8fB0y/z6lo/khtW+TaXboU+8iJ
- VZS827aWZ+eQSsU/ssfTIL7Rv/TDFVLcjQGrh6RH6a5DZag3EjDK33/pcGHHCdI95BlL5w0IBMP
- +YJjUNnhfT1qFd1OXSF2FbUcuAwU9
-X-Received: by 2002:adf:f189:0:b0:241:bc9e:a238 with SMTP id
- h9-20020adff189000000b00241bc9ea238mr12437039wro.558.1669371581919; 
- Fri, 25 Nov 2022 02:19:41 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf733o27EIhWoSlUjNsa9tcFhysJWN14yjguQxBT++y7CLSBTY7xXokXb5BEj/8z8JRbucHxIA==
-X-Received: by 2002:adf:f189:0:b0:241:bc9e:a238 with SMTP id
- h9-20020adff189000000b00241bc9ea238mr12437025wro.558.1669371581684; 
- Fri, 25 Nov 2022 02:19:41 -0800 (PST)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- u10-20020a05600c19ca00b003c5571c27a1sm6216386wmq.32.2022.11.25.02.19.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Nov 2022 02:19:41 -0800 (PST)
-Message-ID: <68ad39a2-e47c-ffcb-34ad-ea680beac59c@redhat.com>
-Date: Fri, 25 Nov 2022 11:19:39 +0100
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ew8M0PkxgyobeEwJ5uJ+RaPpgEkLlL9vZ8bbzJQpK5g=;
+ b=WH+0mZVSdRq14Lje4VJLzxSGjtR/z03eyJvCxGvrDRHoC4Lyo7e5DEfm6rffHlua+c
+ Ve1/jO24s5JsCdq56QAeiSjDqOa3Qbuc3inDkKOCSvgqMxahQnB6xbbojt4roensMfEQ
+ j487n+MgDrWa4y8IfQ2QxNgdyYQLPtaSFpVN/m9wgN+7RJ0sD7rX6s1X+c728bXynkdz
+ r9HG1WhfKERyY7rXkKAeh0tqC2MqxJt27GtkVAQ9EPKCNfqvS4ZbyGmxy9HXJvEi5s5K
+ +MVG6/wcJRC135TBQhQp5Z729kFmLRHRZF8j4uf05dAaOI8mTvQL3j0ro84PYSLaUnrK
+ 0nNQ==
+X-Gm-Message-State: ANoB5pmOazNpXC6Uurd5ADC3UZ8X7aX84J7N3xM7zHIxF8fj7xYBiWkl
+ ROQ3CYQsKb+u8h7RF3hkZQgioEZjj6Q=
+X-Google-Smtp-Source: AA0mqf6g1+4ACRi0mg/NkSnOj4jRe/IFu2qMW4OULjNf0AjDL4JFFzD0XfinhDL8/d7XYd20hJ0Tcw==
+X-Received: by 2002:a5d:620e:0:b0:241:e32f:8371 with SMTP id
+ y14-20020a5d620e000000b00241e32f8371mr9827636wru.156.1669371699275; 
+ Fri, 25 Nov 2022 02:21:39 -0800 (PST)
+Received: from able.fritz.box (p5b0ea229.dip0.t-ipconnect.de. [91.14.162.41])
+ by smtp.gmail.com with ESMTPSA id
+ u2-20020a056000038200b00241cfe6e286sm3351193wrf.98.2022.11.25.02.21.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Nov 2022 02:21:38 -0800 (PST)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Subject: [PATCH 1/9] drm/amdgpu: generally allow over-commit during BO
+ allocation
+Date: Fri, 25 Nov 2022 11:21:29 +0100
+Message-Id: <20221125102137.1801-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH 05/24] drm/tests: helpers: Make sure the device is bound
-To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-References: <20221123-rpi-kunit-tests-v1-0-051a0bb60a16@cerno.tech>
- <20221123-rpi-kunit-tests-v1-5-051a0bb60a16@cerno.tech>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221123-rpi-kunit-tests-v1-5-051a0bb60a16@cerno.tech>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,42 +72,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Gow <davidgow@google.com>,
- Brendan Higgins <brendan.higgins@linux.dev>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>,
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
- linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/23/22 16:25, Maxime Ripard wrote:
-> The device managed resources are freed when the device is detached, so
-> it has to be bound in the first place.
-> 
-> Let's create a fake driver that we will bind to our fake device to
-> benefit from the device managed cleanups in our tests.
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
->  drivers/gpu/drm/tests/drm_kunit_helpers.c | 60 +++++++++++++++++++++++++++++++
->  1 file changed, 60 insertions(+)
->
+We already fallback to a dummy BO with no backing store when we
+allocate GDS,GWS and OA resources and to GTT when we allocate VRAM.
 
-If I understood the platform core code correctly, the probe is always sync in
-the case of platform drivers. Unless .probe_type = PROBE_PREFER_ASYNCHRONOUS is
-set or a module is loaded using with the "async_probe=1" parameter. So I believe
-the wait queue won't be needed. The only DRM driver that forces an async probe is
-drivers/gpu/drm/hyperv/hyperv_drm_drv.c AFAICT.
+Drop all those workarounds and generalize this for GTT as well. This
+fixes ENOMEM issues with runaway applications which try to allocate/free
+GTT in a loop and are otherwise only limited by the CPU speed.
 
-So I would drop this patch from the set for now.
+The CS will wait for the cleanup of freed up BOs to satisfy the
+various domain specific limits and so effectively throttle those
+buggy applications down to a sane allocation behavior again.
 
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c    | 16 +++-------------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c |  6 +-----
+ 2 files changed, 4 insertions(+), 18 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+index a0780a4e3e61..62e98f1ad770 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+@@ -113,7 +113,7 @@ int amdgpu_gem_object_create(struct amdgpu_device *adev, unsigned long size,
+ 	bp.resv = resv;
+ 	bp.preferred_domain = initial_domain;
+ 	bp.flags = flags;
+-	bp.domain = initial_domain;
++	bp.domain = initial_domain | AMDGPU_GEM_DOMAIN_CPU;
+ 	bp.bo_ptr_size = sizeof(struct amdgpu_bo);
+ 
+ 	r = amdgpu_bo_create_user(adev, &bp, &ubo);
+@@ -332,20 +332,10 @@ int amdgpu_gem_create_ioctl(struct drm_device *dev, void *data,
+ 	}
+ 
+ 	initial_domain = (u32)(0xffffffff & args->in.domains);
+-retry:
+ 	r = amdgpu_gem_object_create(adev, size, args->in.alignment,
+-				     initial_domain,
+-				     flags, ttm_bo_type_device, resv, &gobj);
++				     initial_domain, flags, ttm_bo_type_device,
++				     resv, &gobj);
+ 	if (r && r != -ERESTARTSYS) {
+-		if (flags & AMDGPU_GEM_CREATE_CPU_ACCESS_REQUIRED) {
+-			flags &= ~AMDGPU_GEM_CREATE_CPU_ACCESS_REQUIRED;
+-			goto retry;
+-		}
+-
+-		if (initial_domain == AMDGPU_GEM_DOMAIN_VRAM) {
+-			initial_domain |= AMDGPU_GEM_DOMAIN_GTT;
+-			goto retry;
+-		}
+ 		DRM_DEBUG("Failed to allocate GEM object (%llu, %d, %llu, %d)\n",
+ 				size, initial_domain, args->in.alignment, r);
+ 	}
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+index 974e85d8b6cc..919bbea2e3ac 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+@@ -581,11 +581,7 @@ int amdgpu_bo_create(struct amdgpu_device *adev,
+ 		bo->flags |= AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE;
+ 
+ 	bo->tbo.bdev = &adev->mman.bdev;
+-	if (bp->domain & (AMDGPU_GEM_DOMAIN_GWS | AMDGPU_GEM_DOMAIN_OA |
+-			  AMDGPU_GEM_DOMAIN_GDS))
+-		amdgpu_bo_placement_from_domain(bo, AMDGPU_GEM_DOMAIN_CPU);
+-	else
+-		amdgpu_bo_placement_from_domain(bo, bp->domain);
++	amdgpu_bo_placement_from_domain(bo, bp->domain);
+ 	if (bp->type == ttm_bo_type_kernel)
+ 		bo->tbo.priority = 1;
+ 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+2.34.1
 
