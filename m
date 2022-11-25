@@ -1,48 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF34638993
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 13:19:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08AA4638995
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 13:19:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CB1810E098;
-	Fri, 25 Nov 2022 12:19:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 311C110E073;
+	Fri, 25 Nov 2022 12:19:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA82A10E098
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 12:19:10 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 3D647B82985;
- Fri, 25 Nov 2022 12:19:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59DE8C433B5;
- Fri, 25 Nov 2022 12:19:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1669378748;
- bh=mZOp0vsvzRrNngwKyz7HgmROJmugzd6BQQN4kzDGk24=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=G5wlKNylGWwR6ccZnV/INSMAmpV0EY9BkrXiiJe/AQR0G5sNqfMBGGACQyjqJUA91
- WQQJpKRH91kDEgfcIP8P1MnpMeDgzSLbZ1m3fc/5nqmVx0NrTQw0WCIm2PQPLCG26Z
- bsYrl4UMvlHkFGB41Lqgs2Z/Dy9okY7qAotKMH1vvBDGSx2LTUaF3I0ieN7VTwWHx2
- i1Nw+hxV+2g6R0dw44LxzAs+X8zw2uppIAi+zggmEC4W8zMX8dt1Qc7ZcrQtiuCYSw
- zqJ6lKysbpar/wNHQoF2+hoBADLgTFJe/JEu5P+dHV8n+OwVcGTsc48biZoyqRl6tM
- P8Cq6ZRKhRidA==
-Date: Fri, 25 Nov 2022 12:18:58 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Jiaxin Yu <jiaxin.yu@mediatek.com>
-Subject: Re: [PATCH v2 1/3] ASoC: hdmi-codec: Add event handler for hdmi TX
-Message-ID: <Y4Cysgk5Gic5ae9B@sirena.org.uk>
-References: <20221125094413.4940-1-jiaxin.yu@mediatek.com>
- <20221125094413.4940-2-jiaxin.yu@mediatek.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 939B510E073;
+ Fri, 25 Nov 2022 12:19:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1669378773; x=1700914773;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=0WtpDVWBG+zhh3Y4Q6BftP2unUL5fItEvjAQ+XxkdzM=;
+ b=DW4A2Mc0OmhH0zbhcZG1skcm5WELxqBq028PnD4xX0625ixDlGu8uTam
+ p88UdfCJP4MCao2rEgwcTO+UPNI77bXOxZdNHvnQ/34jPMTe0BiIyR2Kb
+ 2GefoTk+sZFcV/AeCb2Pi/gnJEVqhkYekPxDNKUG6uMLDfRVxAGyfI+47
+ UUa49NhKyI4MrB8YJCiQtUyrxsnULWnbpU5MTQkM5e189ieS/V5AvEPs3
+ SPercP3+DMGK/08CtXdZ+uQkkOfp/rwu0WA/5sCLkz5Fh5NDUEtMySuCF
+ 8NA7FDItWz3b7xIqX1ruHn69qD2/LTE6y0ICJDS80KyBKO5EHV7W46DDX w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10541"; a="313171321"
+X-IronPort-AV: E=Sophos;i="5.96,193,1665471600"; d="scan'208";a="313171321"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Nov 2022 04:19:33 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10541"; a="642690318"
+X-IronPort-AV: E=Sophos;i="5.96,193,1665471600"; d="scan'208";a="642690318"
+Received: from kbielowk-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.249.128.177])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Nov 2022 04:19:30 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Subject: Re: [RFC 0/2] drm/connector: connector iterator with filtering
+In-Reply-To: <cover.1664966047.git.jani.nikula@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1664966047.git.jani.nikula@intel.com>
+Date: Fri, 25 Nov 2022 14:19:27 +0200
+Message-ID: <87wn7j446o.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="kNT+QONpsQiODP63"
-Content-Disposition: inline
-In-Reply-To: <20221125094413.4940-2-jiaxin.yu@mediatek.com>
-X-Cookie: Time and tide wait for no man.
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,62 +58,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, alsa-devel@alsa-project.org,
- chunxu.li@mediatek.com, nfraprado@collabora.com,
- kuninori.morimoto.gx@renesas.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, robert.foss@linaro.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, Laurent.pinchart@ideasonboard.com,
- andrzej.hajda@intel.com, allen-kh.cheng@mediatek.com,
- ajye_huang@compal.corp-partner.google.com,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+Cc: Suraj Kandpal <suraj.kandpal@intel.com>,
+ Arun R Murthy <arun.r.murthy@intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 05 Oct 2022, Jani Nikula <jani.nikula@intel.com> wrote:
+> Currently i915 assumes all drm_connectors it encounters are embedded in
+> intel_connectors that i915 allocated. The drm_writeback_connector forces
+> a design where this is not the case; we can't provide our own connector,
+> and writeback embeds the drm_connector it initializes itself.
+>
+> To use drm writeback, none of the i915 connector iteration could assume
+> the drm connector is embedded in intel_connector. Checking this is
+> tedious, and would require an intermediate step with
+> drm_connector. Here's an idea I came up with; filtering at the drm
+> connector iterator level with a caller supplied function. Not too much
+> code, and could be used for other things as well.
+>
+> Mind you, we'd still much rather modify drm writeback to allow passing
+> the connector i915 allocated, instead of the current midlayer design
+> that forces drivers to a certain model. Working around this is a bunch
+> of error prone and tedious code that we really could do without.
 
---kNT+QONpsQiODP63
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Any feedback on this one?
 
-On Fri, Nov 25, 2022 at 05:44:11PM +0800, Jiaxin Yu wrote:
+BR,
+Jani.
 
-> +	/*
-> +	 * PCM trigger callback.
-> +	 * Mandatory
-> +	 */
-> +	int (*trigger)(struct device *dev, int cmd);
-> +
+>
+>
+> BR,
+> Jani.
+>
+>
+> Cc: Arun R Murthy <arun.r.murthy@intel.com>
+> Cc: Dave Airlie <airlied@gmail.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Suraj Kandpal <suraj.kandpal@intel.com>
+> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+>
+> Jani Nikula (2):
+>   drm/connector: add connector list iteration with filtering
+>   drm/i915: iterate intel_connectors only
+>
+>  drivers/gpu/drm/drm_connector.c               | 57 +++++++++++++++----
+>  drivers/gpu/drm/i915/display/intel_display.c  |  3 +-
+>  .../drm/i915/display/intel_display_types.h    |  7 +++
+>  drivers/gpu/drm/i915/display/intel_dp.c       |  6 +-
+>  drivers/gpu/drm/i915/display/intel_dp_mst.c   |  3 +-
+>  drivers/gpu/drm/i915/display/intel_hdcp.c     |  3 +-
+>  drivers/gpu/drm/i915/display/intel_hotplug.c  | 12 ++--
+>  .../drm/i915/display/intel_modeset_setup.c    |  6 +-
+>  drivers/gpu/drm/i915/display/intel_opregion.c |  9 ++-
+>  include/drm/drm_connector.h                   |  9 +++
+>  10 files changed, 89 insertions(+), 26 deletions(-)
 
-Making this mandatory would break all existing users, though...
-
-> +	switch (event) {
-> +	case SND_SOC_DAPM_PRE_PMU:
-> +		if (hcp->hcd.ops->trigger)
-> +			hcp->hcd.ops->trigger(component->dev->parent, SNDRV_PCM_TRIGGER_START);
-
-...it's not actually mandatory so it's just the comment that's wrong.
-I'm a little unclear why this is being implemented as a DAPM operation
-rather than having the driver forward the PCM trigger op if it's needed?
-Or alternatively if a DAPM callback is needed why not provide one
-directly rather than hooking into the trigger function - that's going to
-be called out of sequence with the rest of DAPM and be potentially
-confusing given the very different environments that trigger and DAPM
-operations run in.  A quick glance at the it6505 driver suggests it'd be
-happier with a DAPM callback.
-
---kNT+QONpsQiODP63
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmOAsrEACgkQJNaLcl1U
-h9CCdgf+JzEvQcOa+cudwzO1Ok98aky4qGZCuKQnnWtkrCayv8eiu7wd7w5G9dpU
-VciYfLQ8bgQ3UOImbANerH2+FJhMtldcF8Vn5FJCG1eXpJGMRbWrjguA15/n88uT
-bQ2wEInMii6ecKtSyULg3ie9tuLseZfS3jJHOwJeYFANRmaef0UUAQyPkHnnVsj8
-luaShk6424tDgSWY1es5RVtOOzPH/JpBXK1DKuCEBI7DFYuAJtmqgXXIZvfwNPHe
-sCV/N6DVZNU152PRSiyAX3Y8/x3NzYiSs6BXexv10OlCq44sCPYZ+HdbgY7qQL4y
-w7JwiNOcmvN0sbAhK0jjSKmJ3/spKw==
-=ReC2
------END PGP SIGNATURE-----
-
---kNT+QONpsQiODP63--
+--=20
+Jani Nikula, Intel Open Source Graphics Center
