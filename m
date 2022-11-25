@@ -2,76 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80B33638820
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 12:02:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A642638836
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 12:05:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C8F610E725;
-	Fri, 25 Nov 2022 11:01:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A84610E06F;
+	Fri, 25 Nov 2022 11:04:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74C2F10E725
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 11:01:54 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7FFE10E06F
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 11:04:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669374113;
+ s=mimecast20190719; t=1669374290;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TfA9A7l0JYE/L8ETH4uO/o+2VqeJpw2uLOXbWd1Oacg=;
- b=CvYH19UJaMPJqGoLIoAUHp0HMz57MuFdBt2ncJWc0neAYZbYbpMR013kfVpqFyqkKxgcd0
- qRIQ1MRj7ZW6WRoNKNIKwyuzX6zrg8UxAXiks7O83j2RosYenoDxZtSKgAX3LRr4sISw05
- pVv1/fhOqb66S5ZWoAqXrgDqYyghU4Y=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=EIsNFOFnhjxNTgJU/2vZA8CiSz+sEWLC1ebQetbQ8TI=;
+ b=R5ybHP+mIGURzD9d5Y0jYGlFJQPyZ94PZ92B3XscNBVwFU3qf1txswQ9NV/CoUPveA1Ef1
+ Nc7Fu+Uw0nw6PlkTPRhImKEpMcSWYZX8O2pbUPKwGvWBb2gS7mXM+y22eFk421Y4dqHZ9S
+ cbDy2vbS4eecO2aTN2tgCdlUxfu0hz0=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-335-dUzpEYZFO1ySl6TnkTAHsg-1; Fri, 25 Nov 2022 06:01:52 -0500
-X-MC-Unique: dUzpEYZFO1ySl6TnkTAHsg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- h2-20020adfa4c2000000b00241cf936619so768476wrb.9
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 03:01:52 -0800 (PST)
+ us-mta-340-ZLYisogWOUWUHaSIzl4MMA-1; Fri, 25 Nov 2022 06:04:49 -0500
+X-MC-Unique: ZLYisogWOUWUHaSIzl4MMA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ l32-20020a05600c1d2000b003cfefa531c9so3940457wms.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 03:04:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TfA9A7l0JYE/L8ETH4uO/o+2VqeJpw2uLOXbWd1Oacg=;
- b=yM7/1AS3Glsg1XfP2XiH3ZKFwAV6RnWGvBuWb3zEUeJ6VWXXTeJwCRGaW4SrTLBboN
- 6JILlOVLhI9CIZ7Rapd6S7gsXDjuB4SLmnExNba97UJoCMSH4Ul1XePVXeBPuJpy+59K
- bTJ/riVkMUhK9Z4QEIyrO3LbH6PbWeWV6S7wzq8AJ6/YBtMYe0Bpi2DKUzDwGcDOV/IF
- gZkTSQX/bLxchnahHFaSVJKj3nGcZMhASm1vPIRUF109pF82VGa2pKymjWMCEZkuEzLJ
- BntEN+V0JAGPFoYXyY15YHecKSMcaG8oIIAeIAiyTRfBdiyd/uIwIH4WOhXySeAjYqZz
- XxqA==
-X-Gm-Message-State: ANoB5pmcDu2LUAlvaw60+6Wu/ctXtOdVyPm51NudyBAJXFWGyOaidXD2
- D64oOheu/4FTH7BvxEdWNTbpSxdHim35/S0C76oBFCEd1mMo1nRL3ZwmN63N7eIACDevYJI1Oy2
- rt8MZU46SOJiZgRmC5sasffZy8XUl
-X-Received: by 2002:a7b:c456:0:b0:3a5:f600:502e with SMTP id
- l22-20020a7bc456000000b003a5f600502emr18311883wmi.39.1669374111319; 
- Fri, 25 Nov 2022 03:01:51 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf54zF2uRxU4RbTU39UVEvJ1RZet14YgzdlvBFjd7gpCV0KEEizmQ7IkJumuXXzHwnc2Bml0/Q==
-X-Received: by 2002:a7b:c456:0:b0:3a5:f600:502e with SMTP id
- l22-20020a7bc456000000b003a5f600502emr18311846wmi.39.1669374111092; 
- Fri, 25 Nov 2022 03:01:51 -0800 (PST)
+ bh=EIsNFOFnhjxNTgJU/2vZA8CiSz+sEWLC1ebQetbQ8TI=;
+ b=SmBMIgvQP3+qrzCIkkFH9WY21hUwN4HfkLd5/fdL3sew/lsvMV5wGP/tFr1lBkMAhC
+ OWuiqYb8j4DWe4Z0T6G+AIHlLSK6COmMusRJWX2pr4kkK0LAquC7eTllX5PNsz1YyifV
+ +vwBT69FfukqY3CQLuzyZbTdmtUvhmduHXkO6gjDeXMbLOb6zLWrBKiLspJM94yndkfN
+ iK/s4ilRxWfm3XaDEi7MMXD6+rkshzdn288QucOWdQx6V/hOb4A5OwEy29faGq2JlJr8
+ m7FLEdVBqT6Vx4R9J+Vwhv0vBlIIyf3jBsyqFw0iuqWkDxHQSVvPXSghKzLXBrbEcpN6
+ PX2A==
+X-Gm-Message-State: ANoB5plw9JY7vDTBG9yU5WcMLgEAqnKctdutWwLMO3EdMhIHf4GKQNIv
+ hCmQnE4SovyPdvmcfmSspehq2jmiKzgGNRRTOI1Z1nR/RfsXtKQjKbo+/X1q+SWuFw7xKDD95GV
+ KfpOV1Qiiyoc2h6R6CqvHvR57D5vp
+X-Received: by 2002:adf:f6d1:0:b0:241:e2af:444f with SMTP id
+ y17-20020adff6d1000000b00241e2af444fmr10706101wrp.676.1669374287047; 
+ Fri, 25 Nov 2022 03:04:47 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4ai6UB7oIeeI+sRTVyelphEoAhUUiZPfWL2SD5YRQotSiu7iQrCPjltzySG4CbRwXoVo/zjA==
+X-Received: by 2002:adf:f6d1:0:b0:241:e2af:444f with SMTP id
+ y17-20020adff6d1000000b00241e2af444fmr10706084wrp.676.1669374286732; 
+ Fri, 25 Nov 2022 03:04:46 -0800 (PST)
 Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- r11-20020a05600c35cb00b003a84375d0d1sm9723651wmq.44.2022.11.25.03.01.49
+ f14-20020a05600c154e00b003c6f3e5ba42sm10164544wmg.46.2022.11.25.03.04.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Nov 2022 03:01:50 -0800 (PST)
-Message-ID: <8df31d1d-1ed9-eb6e-80bd-1f82adfb0185@redhat.com>
-Date: Fri, 25 Nov 2022 12:01:49 +0100
+ Fri, 25 Nov 2022 03:04:45 -0800 (PST)
+Message-ID: <d5451d30-be68-c492-6ec8-41681db400e2@redhat.com>
+Date: Fri, 25 Nov 2022 12:04:44 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH 11/24] drm/vc4: Constify container_of wrappers
+Subject: Re: [PATCH 12/24] drm/vc4: Move HVS state to main header
 To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
  Thomas Zimmermann <tzimmermann@suse.de>
 References: <20221123-rpi-kunit-tests-v1-0-051a0bb60a16@cerno.tech>
- <20221123-rpi-kunit-tests-v1-11-051a0bb60a16@cerno.tech>
+ <20221123-rpi-kunit-tests-v1-12-051a0bb60a16@cerno.tech>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221123-rpi-kunit-tests-v1-11-051a0bb60a16@cerno.tech>
+In-Reply-To: <20221123-rpi-kunit-tests-v1-12-051a0bb60a16@cerno.tech>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -101,10 +101,11 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 11/23/22 16:25, Maxime Ripard wrote:
-> None of our wrappers around container_of to access our objects from the
-> DRM object pointer actually modify the latter.
+> In order to introduce unit tests for the HVS state computation, we'll
+> need access to the vc4_hvs_state struct definition and its associated
+> helpers.
 > 
-> Let's make them const.
+> Let's move them in our driver header.
 > 
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > ---
