@@ -1,77 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 765656387F9
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 11:54:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33220638816
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 12:00:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3022810E720;
-	Fri, 25 Nov 2022 10:54:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C83E10E721;
+	Fri, 25 Nov 2022 11:00:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8163810E720
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 10:54:08 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7A6C10E721
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 11:00:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669373647;
+ s=mimecast20190719; t=1669374048;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9tvd04/iu26771wlB7WciR/DkQpotQap05SOjl7Y+To=;
- b=IFO8O5CCbjGtmhQgqNuDDRkyEspYsmnx8s5Gmb51qDl3pWMB9sXL7HVH3/zISByJXCkQ7I
- VV4NAtp9Kl9LBBJ5eUseklz1viXCoob8rU7b4WgBD0uMAj6os50VUflohTaelRBmmLKPfM
- WGXaRm1I6yMKSmmD9YpiXxfK7Q3GgEY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=H/ZkLtm8A9FTaUIt1krh1NXQg3mdZeQrz9lNHvK9Ra0=;
+ b=DtzlBBkf+51d4EnyQoopC36sUkcY/ttW7tFFXAYOpVrUTUmGTDgJ7QB2DU6MjbB9oOB3/C
+ G5gGlxcJfvzQBpqCrx6D3Egt7hVix2BuvmA658vZNZpPJdpJYr4uNQNHEpLgTehHY6O+1/
+ FdexgqtUYMsE+gcKOvP4KL2d/4NRbZ8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-491-9S7SqgFDMCSkbZPp6ibJIA-1; Fri, 25 Nov 2022 05:54:06 -0500
-X-MC-Unique: 9S7SqgFDMCSkbZPp6ibJIA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- h9-20020a1c2109000000b003cfd37aec58so2273584wmh.1
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 02:54:06 -0800 (PST)
+ us-mta-106-WopJfYPiOlWkdFw39LoFEg-1; Fri, 25 Nov 2022 06:00:47 -0500
+X-MC-Unique: WopJfYPiOlWkdFw39LoFEg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ f1-20020a1cc901000000b003cf703a4f08so1679937wmb.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 03:00:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9tvd04/iu26771wlB7WciR/DkQpotQap05SOjl7Y+To=;
- b=AosOgVFSljX6LdjLGpp3ElSFZo+BBlfLuA/dnTm2JrpeujdtEet4Xn8XW+aX3TlSxj
- Cax91JKS1a1WjgnwLjufP0hXjuAZJNiGTSp9Em4R9zYXclB0KuGF1qPQi71VRphGbdps
- yG7H9o1x1VJVsj+O7C7LxBv18JpRILjFP4yYHIXlwU6SQpoRws/khEET3MnArWyGBxuN
- 45L1eTAGrOxoTVrQajc7mS1j1tiCT1S3kyaRCXAYhdWQ93eAL3Oy/p/04LCLdpsAa4HB
- 53j7P3K8MhECBoME3q+ee846731rFkMkOTL8+yp25p1z1mP8vrlE+kzyFfMc8BvL1bah
- JOBg==
-X-Gm-Message-State: ANoB5pkILO0mCxtcLsa0EolW5OxypN5UpLYg90wJTiTGpFdgwof4D98q
- J7DCdt4PvfhZG3/ZsdeTCjqIAUoFTla5UikfUfRKwTGn+tX7l4FhY/SbxA/VhwtzvX2yWGtUzaw
- a1uEXwEeVsbvfZJNX/omkqdP+IgH3
-X-Received: by 2002:adf:e94c:0:b0:236:6d79:b312 with SMTP id
- m12-20020adfe94c000000b002366d79b312mr22866562wrn.699.1669373645075; 
- Fri, 25 Nov 2022 02:54:05 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4MhXPJaPoTEfI4yng3ZY2kweBGK0CbbycrpZOheo/dL+NoYUdJpT+aQbCzIEhJ5+Sz9WdagQ==
-X-Received: by 2002:adf:e94c:0:b0:236:6d79:b312 with SMTP id
- m12-20020adfe94c000000b002366d79b312mr22866536wrn.699.1669373644817; 
- Fri, 25 Nov 2022 02:54:04 -0800 (PST)
+ bh=H/ZkLtm8A9FTaUIt1krh1NXQg3mdZeQrz9lNHvK9Ra0=;
+ b=oo2x/LuFsW6Z7xJXTHt/YDCvj9IPfTEytHePJ2ZXGOLdAr+7uMoICVM4DALR8S+zVk
+ WNQt5rmswOVb7EEulqPy1iz3jterE6fYG2QHoKSB+LSITNkgMJiAieOGS6VqtDqy4Zq6
+ EVOsxZEh06yd/d/pQqqQA9G0eLI9CMob4ByOcfDqluHIDF31t3g2XezyBZgJ47IXkvg0
+ G5aLUvol/CwU9oAgTMVGbwyKLJmp6Bnx/6YAX6JoKxmX9E6CCSpmrAZzuDCY2oZZIBlU
+ Am0r2XLf1bgc90sYcninG43Y236t+IIDi72ge/F2iGX/14tZcJBN8Jbu20CClinQlGMT
+ nh6A==
+X-Gm-Message-State: ANoB5pkbmiSjgwHaRqCTJr4cXogWNIPlKF6EFky4cHKbDvrMsDvQy5MS
+ o93XY7wHAapFM3EusGaSTqgTjbZIyyXnLY5gRHGk0K4thJnTmml30+qAj/qMBcVZ/B+yyZEeZTR
+ mXfw+m9csnzXpqylL/gumvbJKbXkL
+X-Received: by 2002:adf:e508:0:b0:236:588f:b5d with SMTP id
+ j8-20020adfe508000000b00236588f0b5dmr11244630wrm.255.1669374046415; 
+ Fri, 25 Nov 2022 03:00:46 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7Xu/NP6mlFBtx0snOLhZERGkaY9p8k3uPMLjkAV/xFHCXfHC5Y76yhHYrvcopCb8lv41h+LQ==
+X-Received: by 2002:adf:e508:0:b0:236:588f:b5d with SMTP id
+ j8-20020adfe508000000b00236588f0b5dmr11244612wrm.255.1669374046175; 
+ Fri, 25 Nov 2022 03:00:46 -0800 (PST)
 Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- l11-20020a1c790b000000b003b4a699ce8esm8527114wme.6.2022.11.25.02.54.03
+ p1-20020a1c5441000000b003b4cba4ef71sm8531125wmi.41.2022.11.25.03.00.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Nov 2022 02:54:04 -0800 (PST)
-Message-ID: <1b0c23f4-eb5c-38d2-b1ff-541140ac32a0@redhat.com>
-Date: Fri, 25 Nov 2022 11:54:02 +0100
+ Fri, 25 Nov 2022 03:00:45 -0800 (PST)
+Message-ID: <2762e41f-0508-2e25-b787-7b68d5014a77@redhat.com>
+Date: Fri, 25 Nov 2022 12:00:44 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH 09/24] drm/atomic: Constify the old/new state accessors
+Subject: Re: [PATCH 10/24] drm/vc4: kms: Sort the CRTCs by output before
+ assigning them
 To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
  Thomas Zimmermann <tzimmermann@suse.de>
 References: <20221123-rpi-kunit-tests-v1-0-051a0bb60a16@cerno.tech>
- <20221123-rpi-kunit-tests-v1-9-051a0bb60a16@cerno.tech>
+ <20221123-rpi-kunit-tests-v1-10-051a0bb60a16@cerno.tech>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221123-rpi-kunit-tests-v1-9-051a0bb60a16@cerno.tech>
+In-Reply-To: <20221123-rpi-kunit-tests-v1-10-051a0bb60a16@cerno.tech>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -101,11 +102,58 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 11/23/22 16:25, Maxime Ripard wrote:
-> The drm_atomic_get_(old|new)_*_state don't modify the passed
-> drm_atomic_state, so we can make it const.
+> On the vc4 devices (and later), the blending is done by a single device
+> called the HVS. The HVS has three FIFO that can operate in parallel, and
+> route their output to 6 CRTCs and 7 encoders on the BCM2711.
 > 
+> Each of these CRTCs and encoders have some contraints on which FIFO they
+
+constraints.
+
+> can feed from, so we need some code to take all those constraints into
+> account and assign FIFOs to CRTCs.
+> 
+> The problem can be simplified by assigning those FIFOs to CRTCs by
+> ascending output index number. We had a comment mentioning it already,
+> but we were never actually enforcing it.
+> 
+> It was working still in most situations because the probe order is
+> roughly equivalent, except for the (optional, and fairly rarely used on
+> the Pi4) VEC which was last in the probe order sequence, but one of the
+> earliest device to assign.
+> 
+> This resulted in configurations that were rejected by our code but were
+> still valid with a different assignment.
+> 
+> We can fix this by making sure we assign CRTCs to FIFOs by ordering
+> them by ascending HVS output index.
+> 
+> Fixes: 87ebcd42fb7b ("drm/vc4: crtc: Assign output to channel automatically")
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > ---
+
+[...]
+
+>  
+> -	for_each_oldnew_crtc_in_state(state, crtc, old_crtc_state, new_crtc_state, i) {
+> -		struct vc4_crtc_state *old_vc4_crtc_state =
+> -			to_vc4_crtc_state(old_crtc_state);
+> -		struct vc4_crtc_state *new_vc4_crtc_state =
+> -			to_vc4_crtc_state(new_crtc_state);
+> -		struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
+> +	/*
+> +	 * The problem we have to solve here is that we have up to 7
+> +	 * encoders, connected to up to 6 CRTCs.
+> +	 *
+> +	 * Those CRTCs, depending on the instance, can be routed to 1, 2
+> +	 * or 3 HVS FIFOs, and we need to set the change the muxing
+
+This sentence sounds a little bit off to me. Did you mean:
+
+"we need to set the muxing between" or "we need to change the muxing" ?
+
+I'm not familiar with VC4 but the patch seems to do what the commit message
+says, so the changes look good to me.
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
