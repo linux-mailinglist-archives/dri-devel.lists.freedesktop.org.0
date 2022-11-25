@@ -1,52 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CBFE63917B
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 23:31:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72E746391AB
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 23:59:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38A2510E7BC;
-	Fri, 25 Nov 2022 22:31:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13BFC10E00B;
+	Fri, 25 Nov 2022 22:58:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F67710E7BC;
- Fri, 25 Nov 2022 22:31:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669415474; x=1700951474;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=GvXKeOHV66xn/CaKi+dZL1kW7UcAHgAn6ZGGG4zaliA=;
- b=gGfgDxtyV2hKfTS3AhpAG0YuxV3JMdCHJp7unXDGSEZFypFYoXQmnde7
- XgcsLLtSISlrpPGIVEXByx+mRLssgjFe/bzr7pJMIb/D/sg5Biw+Vy7Zy
- RIKIEJYPaYKgPFKqdz/hSoFeBiSGlGd00R9ZY5FLSY6jyhOl6SokszngB
- VPczFQCvGX6iVfFpcXWZjFMARzc2k7v6JLoJ7Hhe3lRv8FqYkj0eg5/C1
- DgEqM7LiQfPTR7rU/4fsw9gPsisJoxtydiqFTqqbiUe+8P7mhiJ01gIs+
- Mgm5qjUDgYJIqZCpAEmyOSwexhKF0g/EeO7wAik9BMN6m+aYZeot0hduJ g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10542"; a="400836019"
-X-IronPort-AV: E=Sophos;i="5.96,194,1665471600"; d="scan'208";a="400836019"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Nov 2022 14:31:13 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10542"; a="887798474"
-X-IronPort-AV: E=Sophos;i="5.96,194,1665471600"; d="scan'208";a="887798474"
-Received: from ncataldi-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.252.50.225])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Nov 2022 14:31:11 -0800
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 5/5] drm/i915: Limit the display memory alignment to 32 bit
- instead of 64
-Date: Fri, 25 Nov 2022 23:30:29 +0100
-Message-Id: <20221125223029.323339-6-andi.shyti@linux.intel.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221125223029.323339-1-andi.shyti@linux.intel.com>
-References: <20221125223029.323339-1-andi.shyti@linux.intel.com>
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 652C910E00B
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 22:58:54 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id v8so8122673edi.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 14:58:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=googlemail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=zrh33fKX0AFIpQoDMHBkz3JckH2DUhXrvzHY5NCN5no=;
+ b=mQdoKuKnzMEl3ts3gcoDtpsH6y8L7YdGJz9PaUC6jCAz9+M7NZkUnA6V6SqAhznP7Y
+ tSFx861pQR1oB+THa/q9XGELxGpmBvcUQmUyvfoFAlMjWclqOJDRddY3FyBqzZQmhMpV
+ 9pefcrcTsPH40Gman4KI9NLTs6tpUVgF3+lfJMMavgurXtira3YpuBzgwsJINgNYY00x
+ 1WIvktfNncDKhZXOODC7yW2xvwJBbrpRLNYGcIi5mTstd789NPUD4Y9hgC90cjfFgssJ
+ wUTe7DcnjEEwXUvKfzW3MBmGThfDDE04xy3diEaIcefXRqYa7/FREMt7YIEu4h9XvocU
+ GEaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=zrh33fKX0AFIpQoDMHBkz3JckH2DUhXrvzHY5NCN5no=;
+ b=aB6ZRiOCKyNkf/jgJrk/EdiXG84gPHICwbipadlhh5u7VPSGhX9Ps4dcdP3Hi2DG9M
+ Nlb4hLnfvQfvUwD5j56Y7/YaBnEUJfu9G0otDFn1DVUxudM17OIfChP4M6piCiAYZjUa
+ s4DcWtRE5eON4Aok7uEuur5Ba1buAeYbLgpx3JByCJN/pQGqCOw1/8UZEgM8vzFx39Z6
+ ci8R70VCNdO2s/MBMfhDQIAQgN1ToKKEYhvDHSPrw4NFR2jnE5FeYnVq1LeEXtiljNiE
+ YMGoZ+0PbL/n6Vcwp6FTLz1gkv0/PExAioqRkNumKhgpqUipSgfgLEgalldunY6k8s5o
+ e4fQ==
+X-Gm-Message-State: ANoB5pk7YlbmIKQuv+S3XGkDuYsHkjzc/DX3502czuhdj+uPEmB1UOWd
+ 6/GwS3jOcUG1TV1ONUBlb0GLUzJj2uw/NK5/do4=
+X-Google-Smtp-Source: AA0mqf4qEx0qk48E7n/igXoN/8ITAy2dKB3urhN+QYQA7vj8vY/aA7c4YoItihhZk+R2xjYeYeLMIUoiVHRlbku+l4c=
+X-Received: by 2002:a05:6402:3893:b0:461:b033:90ac with SMTP id
+ fd19-20020a056402389300b00461b03390acmr25787621edb.257.1669417132710; Fri, 25
+ Nov 2022 14:58:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1668602942.git.mazziesaccount@gmail.com>
+ <a2f0835e8d3b5f5768d887ce47a1575ae11b19f0.1668602942.git.mazziesaccount@gmail.com>
+In-Reply-To: <a2f0835e8d3b5f5768d887ce47a1575ae11b19f0.1668602942.git.mazziesaccount@gmail.com>
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Date: Fri, 25 Nov 2022 23:58:41 +0100
+Message-ID: <CAFBinCAxL1WapkjHo6B_FNj_r3Y0jZ6P7qmXPjWfGK-ivuT5+w@mail.gmail.com>
+Subject: Re: [PATCH RESEND v4 2/2] gpu: drm: meson: Use
+ devm_regulator_*get_enable*()
+To: Matti Vaittinen <mazziesaccount@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,76 +67,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Andi Shyti <andi@etezian.org>, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>, Matthew Auld <matthew.auld@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>, Shawn Lee <shawn.c.lee@intel.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Jerome Brunet <jbrunet@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Chris commit "drm/i915: Introduce guard pages to i915_vma" was
-"cunningly" changing display_alignment to u32 from u64. The
-reason is that the display GGTT is and will be limited o 4GB.
-
-Put it in a separate patch and use "max(...)" instead of
-"max_t(64, ...)" when asigning the value. We can safely use max
-as we know beforehand that the comparison is between two u32
-variables.
-
-Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
----
- drivers/gpu/drm/i915/display/intel_fb_pin.c | 2 +-
- drivers/gpu/drm/i915/gem/i915_gem_domain.c  | 2 +-
- drivers/gpu/drm/i915/i915_vma_types.h       | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_fb_pin.c b/drivers/gpu/drm/i915/display/intel_fb_pin.c
-index 6900acbb1381c..1aca7552a85d0 100644
---- a/drivers/gpu/drm/i915/display/intel_fb_pin.c
-+++ b/drivers/gpu/drm/i915/display/intel_fb_pin.c
-@@ -91,7 +91,7 @@ intel_pin_fb_obj_dpt(struct drm_framebuffer *fb,
- 		goto err;
- 	}
- 
--	vma->display_alignment = max_t(u64, vma->display_alignment, alignment);
-+	vma->display_alignment = max(vma->display_alignment, alignment);
- 
- 	i915_gem_object_flush_if_display(obj);
- 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_domain.c b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
-index 882b91519f92b..9969e687ad857 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_domain.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
-@@ -457,7 +457,7 @@ i915_gem_object_pin_to_display_plane(struct drm_i915_gem_object *obj,
- 	if (IS_ERR(vma))
- 		return vma;
- 
--	vma->display_alignment = max_t(u64, vma->display_alignment, alignment);
-+	vma->display_alignment = max(vma->display_alignment, alignment);
- 	i915_vma_mark_scanout(vma);
- 
- 	i915_gem_object_flush_if_display_locked(obj);
-diff --git a/drivers/gpu/drm/i915/i915_vma_types.h b/drivers/gpu/drm/i915/i915_vma_types.h
-index 46f5ce19d4a0a..77fda2244d161 100644
---- a/drivers/gpu/drm/i915/i915_vma_types.h
-+++ b/drivers/gpu/drm/i915/i915_vma_types.h
-@@ -197,7 +197,6 @@ struct i915_vma {
- 	struct i915_fence_reg *fence;
- 
- 	u64 size;
--	u64 display_alignment;
- 	struct i915_page_sizes page_sizes;
- 
- 	/* mmap-offset associated with fencing for this vma */
-@@ -206,6 +205,7 @@ struct i915_vma {
- 	u32 guard; /* padding allocated around vma->pages within the node */
- 	u32 fence_size;
- 	u32 fence_alignment;
-+	u32 display_alignment;
- 
- 	/**
- 	 * Count of the number of times this vma has been opened by different
--- 
-2.38.1
-
+On Wed, Nov 16, 2022 at 2:03 PM Matti Vaittinen
+<mazziesaccount@gmail.com> wrote:
+>
+> Simplify using the devm_regulator_get_enable_optional(). Also drop the
+> seemingly unused struct member 'hdmi_supply'.
+Personally I'd replace "seemingly" with "now" because hdmi_supply was
+used before (although only in this one function, which makes it a bit
+pointless).
+This is minor enough. So with or without that change this gets my:
+Acked-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
