@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC41E63861F
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 10:26:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8E6463861E
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 10:26:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A50910E23B;
-	Fri, 25 Nov 2022 09:26:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF3D910E5B8;
+	Fri, 25 Nov 2022 09:26:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A90410E23B;
- Fri, 25 Nov 2022 09:25:43 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7101610E23B;
+ Fri, 25 Nov 2022 09:25:45 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id B4C31B829DA;
- Fri, 25 Nov 2022 09:25:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88F61C433D7;
- Fri, 25 Nov 2022 09:25:36 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E442E62324;
+ Fri, 25 Nov 2022 09:25:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF938C43141;
+ Fri, 25 Nov 2022 09:25:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1669368340;
- bh=4rZWwSgzcPoyGbF2cU2dy6RGrUK8SvYQXJ5I/d301sE=;
+ s=k20201202; t=1669368344;
+ bh=gevkG6TfDd9z8LOLiUxeJy2lRLn2rHcp1JIJZyU3WcI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kVySWLD4bfgwzmU3EDuWXrOr5+9K7omnfIJNLSB17LnaTYkzqW0IHAhgguS/yAbKI
- keOD3799zsdbZXqEi9jshPBqql3X6oRcsBdUjjBfuOxRb3EA+mZFoMZnhfJdfxwgqF
- ouBSnIJy3vWuQV+5doxD8yZCaPbDERk181QPGhkvLNgrzLOMLgOgbrp5kalCc8rgKg
- hlLnCB9AKVF24plNhevg7MpSpznv+QsBfAFe4ILSV2JuK38V03NMNMIavkS1+ch1v3
- dmiTLMWVqHqIRUq23xNrqOYVBvCVKFUOdtFA0s2j21TR4yW9A33Lt0VxGewsjtwaEV
- 3VI8QO44l3Lbg==
+ b=jeb5Hfp8Dpk1F4ll8eAZeaT5bv5v2S3O9NzGmGFiWU+6Dpiamim6d1kqWNztvm8Lr
+ tgHdtWZ5r/zwCPBGrc38R/9FAr8if2RNQOtl4yX4RTeDcftYH0lAkRqKEeEOpksINV
+ 9UgGbrYJCUQ7J4pyG3FZU7Z41jZmdb4Y5bqqX4ppPiu05MqF454oowxMdwGnx688ka
+ q8xAaA/YPcFDD7sC39ETmBr2BP8S2ZBzT1bi7wVleeB77zHFDpZ5JMWKr/qzRVSqAm
+ mjH9CnZPSzLYNtzv+8PMNw7OLuhMLHduBwIE1CoYzEDcJ/FZJrVv3OD8WxXBa3k0Y0
+ Sl4p9Ap5aepqw==
 From: Lee Jones <lee@kernel.org>
 To: lee@kernel.org, arnd@arndb.de, akpm@linux-foundation.org,
  nathan@kernel.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
@@ -37,10 +37,10 @@ To: lee@kernel.org, arnd@arndb.de, akpm@linux-foundation.org,
  ndesaulniers@google.com, trix@redhat.com, harry.wentland@amd.com,
  sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, alexander.deucher@amd.com,
  christian.koenig@amd.com, Xinhui.Pan@amd.com
-Subject: [PATCH 2/3] drm/amdgpu: Temporarily disable broken Clang builds due
- to blown stack-frame
-Date: Fri, 25 Nov 2022 09:25:16 +0000
-Message-Id: <20221125092517.3074989-3-lee@kernel.org>
+Subject: [PATCH 3/3] Kconfig.debug: Provide a little extra FRAME_WARN leeway
+ when KASAN is enabled
+Date: Fri, 25 Nov 2022 09:25:17 +0000
+Message-Id: <20221125092517.3074989-4-lee@kernel.org>
 X-Mailer: git-send-email 2.38.1.584.g0f3c55d4c2-goog
 In-Reply-To: <20221125092517.3074989-1-lee@kernel.org>
 References: <20221125092517.3074989-1-lee@kernel.org>
@@ -64,43 +64,28 @@ Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-calculate_bandwidth() is presently broken on all !(X86_64 || SPARC64 || ARM64)
-architectures built with Clang (all released versions), whereby the stack
-frame gets blown up to well over 5k.  This would cause an immediate kernel
-panic on most architectures.  We'll revert this when the following bug report
-has been resolved: https://github.com/llvm/llvm-project/issues/41896.
+When enabled, KASAN enlarges function's stack-frames.  Pushing quite a
+few over the current threshold.  This can mainly be seen on 32-bit
+architectures where the present limit (when !GCC) is a lowly
+1024-Bytes.
 
-Suggested-by: Arnd Bergmann <arnd@arndb.de>
 Signed-off-by: Lee Jones <lee@kernel.org>
 ---
- drivers/gpu/drm/Kconfig | 7 +++++++
- 1 file changed, 7 insertions(+)
+ lib/Kconfig.debug | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 34f5a092c99e7..1fa7b9760adb8 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -265,6 +265,7 @@ source "drivers/gpu/drm/radeon/Kconfig"
- 
- config DRM_AMDGPU
- 	tristate "AMD GPU"
-+	depends on BROKEN || !CC_IS_CLANG || !(X86_64 || SPARC64 || ARM64)
- 	depends on DRM && PCI && MMU
- 	select FW_LOADER
- 	select DRM_DISPLAY_DP_HELPER
-@@ -289,6 +290,12 @@ config DRM_AMDGPU
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index c3c0b077ade33..82d475168db95 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -399,6 +399,7 @@ config FRAME_WARN
+ 	default 2048 if GCC_PLUGIN_LATENT_ENTROPY
+ 	default 2048 if PARISC
+ 	default 1536 if (!64BIT && XTENSA)
++	default 1280 if KASAN && !64BIT
+ 	default 1024 if !64BIT
+ 	default 2048 if 64BIT
  	help
- 	  Choose this option if you have a recent AMD Radeon graphics card.
- 
-+	  calculate_bandwidth() is presently broken on all !(X86_64 || SPARC64 || ARM64)
-+	  architectures built with Clang (all released versions), whereby the stack
-+	  frame gets blown up to well over 5k.  This would cause an immediate kernel
-+	  panic on most architectures.  We'll revert this when the following bug report
-+	  has been resolved: https://github.com/llvm/llvm-project/issues/41896.
-+
- 	  If M is selected, the module will be called amdgpu.
- 
- source "drivers/gpu/drm/amd/amdgpu/Kconfig"
 -- 
 2.38.1.584.g0f3c55d4c2-goog
 
