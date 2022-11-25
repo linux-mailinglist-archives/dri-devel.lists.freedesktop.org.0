@@ -1,62 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48B756397E8
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Nov 2022 20:01:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E23A6397E1
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Nov 2022 20:00:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF49F10E16F;
-	Sat, 26 Nov 2022 19:00:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D7E610E169;
+	Sat, 26 Nov 2022 19:00:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A5E210E772
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 17:32:00 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id f7so7258320edc.6
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 09:32:00 -0800 (PST)
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0614C10E772
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 17:44:22 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id x2so7315580edd.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 09:44:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:content-language:to:subject:from
- :user-agent:mime-version:date:message-id:from:to:cc:subject:date
- :message-id:reply-to;
- bh=BS344EZ01Swu2ynnOXhwyOBzth0IMIZXcxGTSI686xc=;
- b=XpcMQbiaFOJya7+qzk3tnkNJAE8KKxSFEXhrvtyFqav0cioW2lMSpRfguFb7I1aa4A
- lioHIqrmVRCYOUMFDWf61SAhSWxCIGfwgQfMjs0y6N5bBm9vjb2ts1xUJfKQ8//WATah
- LmIBVB9FqZj3yoLKuSrquIe4J+0V3dbXwcjlumFQLphwRAVsCq6R605AIPJbzLdJrxJ6
- P35u+du2aQakbPkN+M3/6G5t3Of8Hz/K74V3T4/3G75B9m1K8ssYpciBhJsAji53S0K5
- 9tOFtdLxxEXfDWS1/UuOv02+0L3ZGjs+EEh/lWKaaxX67keIAIVQKW7iF6GQrF4+gElx
- ZmEg==
+ h=content-transfer-encoding:autocrypt:to:content-language:subject
+ :from:user-agent:mime-version:date:message-id:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=LmTj6KBl4Q3qwIactzR8h7ojaUWUX5o+9sZ1ySt88z0=;
+ b=TaJSyGtfFhftQwH8zOLh7ZXLOt8XjoLqOL5D0Y4yoVTLAaBxC1uoqYf9eLaTmSjcU6
+ m81SHOxaq41k++R5WAYAYDEPpvCnc8xkB6MDA1MHFHL0z049XlZqjjqwJ8hMfBNTS8Pr
+ 8Yu1Fy0Wn+xzabUSOVp4CEs6wBTmVJ4N+AogW3Bpb1azDHDOl7Fesf9+zi19cKR8utmG
+ sS4WD+GbcMwQpDDd4o8qMkYJLSoS2KLU3YUUYOupM+ZafuJfe3lhpEpuHMM/0c/t71kg
+ jEekW0FZCsCYQ53GQYvkKGmDWD1T6xrT56a7r9oGogQQnliEl4QZNDo+3P+f9SKSb1bO
+ 92fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:content-language:to:subject:from
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=BS344EZ01Swu2ynnOXhwyOBzth0IMIZXcxGTSI686xc=;
- b=08GKxIFiPVrci3Gq6xm1SKF50XIGdTRMzLaKOINWGYilOgvexwp5hIyzfuS14Fj26z
- f/75E5Dzir1hHxismJ6cwEqCTT6V2KnyGmyqlj//DRNYwXCB9NmXm5XXaiawILxhZ/sp
- 1dplFLmJOUl3eEl9e8rWOZR/21jDzZ/P7clMxR3x3ysqye22dWaXtglq8vuOXMytCPdh
- dtkQIB94VDsG8AIEoRhuwtyXlL6u/Dc2Mj37UjnGIwyWHOPQ6A41wTtPAH4Fk9L7rrq2
- z2ivXu7ZRPi8lPvQ9aieiZO8j/Lqmo/kdDhQj3rUK3JntOMtAUC/wZx4bLuZrzg4nVsj
- EYtA==
-X-Gm-Message-State: ANoB5plYQnTy+PuEiFT8DdmMww6fNMHqIag1ElawAfBmwQm96RzqpAus
- 9pmptTk8xlZYWUbkc4JazNU=
-X-Google-Smtp-Source: AA0mqf4izwakw2gafJPDqWGogXbrDNIRO5y3QcetsRjPQBUysZcYUXpN2rDFH3P7EnbYBJUJ5FfGXw==
-X-Received: by 2002:a05:6402:1a28:b0:469:7546:60fe with SMTP id
- be8-20020a0564021a2800b00469754660femr21831195edb.408.1669397519015; 
- Fri, 25 Nov 2022 09:31:59 -0800 (PST)
+ h=content-transfer-encoding:autocrypt:to:content-language:subject
+ :from:user-agent:mime-version:date:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=LmTj6KBl4Q3qwIactzR8h7ojaUWUX5o+9sZ1ySt88z0=;
+ b=AtQQQYiUBcHzCYB+RS0JjjC0oPAkiixyZm4XO9ZPENYq7rDBXZIaikNfNF+YQwUq9f
+ VZl+zpW7+cdzEeqTm2fslVV8NuStEH5uMAm3QuAc98Pgnj14HqOnFBN4Id7ytmq056CV
+ mFozC5STlzFcGm+ERq2E/rXmo2oOLTNM+yeJBxE9+f2nLpTHIHz/fv0QRWndpGfAQbOf
+ WO7L60lTud2eXc66rDWIIwYO3iXt1rlO+fYvVn0FiteNETj0QzpgddGYHaMg6b3sDBxI
+ Wc85LH5pgLzd3pmhnRM0nwU0jjgEDbjFzScRSCO9EJ83wlbCwOsmuk3VFoIo+JhhrhVE
+ sn3Q==
+X-Gm-Message-State: ANoB5pnUCuTrgRUhQS58qJU6hO+o6N8iYgbNDV+jhtO+bNetGiYsVp4T
+ tfnLxAz8E/Q6ZYtjZott248=
+X-Google-Smtp-Source: AA0mqf5n4EPNMQoMcu0KuY79HY0sosyLL9NqQ02KkKq6jyn/vJaWHcAMhqZnI1izwHz1hU7sMUuUAg==
+X-Received: by 2002:aa7:c04f:0:b0:45c:f13b:4b96 with SMTP id
+ k15-20020aa7c04f000000b0045cf13b4b96mr1770602edo.129.1669398260431; 
+ Fri, 25 Nov 2022 09:44:20 -0800 (PST)
 Received: from [192.168.178.2]
  (dslb-092-072-004-196.092.072.pools.vodafone-ip.de. [92.72.4.196])
  by smtp.gmail.com with ESMTPSA id
- j9-20020a1709066dc900b007ba46867e6asm1823024ejt.16.2022.11.25.09.31.57
+ lb5-20020a170907784500b007b27aefc578sm1769251ejc.126.2022.11.25.09.44.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Nov 2022 09:31:58 -0800 (PST)
-Message-ID: <f5668d69-806a-f8c6-5279-7e84b824bd7a@gmail.com>
-Date: Fri, 25 Nov 2022 18:31:56 +0100
+ Fri, 25 Nov 2022 09:44:20 -0800 (PST)
+Message-ID: <3d778b47-afc0-8487-1df5-f68601b9a543@gmail.com>
+Date: Fri, 25 Nov 2022 18:44:18 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
 From: =?UTF-8?Q?Otto_Pfl=c3=bcger?= <affenull2345@gmail.com>
-Subject: [PATCH 1/4] drm/mipi-dbi: Support separate I/O regulator
+Subject: [PATCH 2/4] drm/tiny: Read separate I/O regulator from DT
+Content-Language: en-US
 To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
  Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
@@ -66,7 +67,40 @@ To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Content-Language: en-US
+Autocrypt: addr=affenull2345@gmail.com; keydata=
+ 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
+ Ywm6apB0M8rLLW1wrFnadKziONJM
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Sat, 26 Nov 2022 19:00:23 +0000
@@ -85,82 +119,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The MIPI DBI specification defines separate vdd (panel power) and
-vddi (I/O power) supplies. Displays that require different voltages
-for the different supplies do exist, so the supplies cannot be
-combined into one as they are now. Add a new io_regulator property to
-the mipi_dbi_dev struct which can be set by the panel driver along
-with the regulator property.
+Some platforms have a separate vddi supply for the panel I/O interface
+(as defined by the MIPI DBI specification), so one power-supply is not
+enough. Introduce a new "io-supply" property to set the vddi regulator.
+
+After getting the regulator specified the device tree, use the new
+io_regulator property of the DBI device so that the drm_mipi_dbi driver
+can enable it.
 
 Signed-off-by: Otto Pflüger <affenull2345@gmail.com>
 ---
-  drivers/gpu/drm/drm_mipi_dbi.c | 14 ++++++++++++++
-  include/drm/drm_mipi_dbi.h     |  7 ++++++-
-  2 files changed, 20 insertions(+), 1 deletion(-)
+  drivers/gpu/drm/tiny/panel-mipi-dbi.c | 5 +++++
+  1 file changed, 5 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
-index a6ac56580876..047cab93a041 100644
---- a/drivers/gpu/drm/drm_mipi_dbi.c
-+++ b/drivers/gpu/drm/drm_mipi_dbi.c
-@@ -427,6 +427,8 @@ void mipi_dbi_pipe_disable(struct 
-drm_simple_display_pipe *pipe)
+diff --git a/drivers/gpu/drm/tiny/panel-mipi-dbi.c 
+b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
+index 03a7d569cd56..b09d2a47a409 100644
+--- a/drivers/gpu/drm/tiny/panel-mipi-dbi.c
++++ b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
+@@ -297,6 +297,11 @@ static int panel_mipi_dbi_spi_probe(struct 
+spi_device *spi)
+  		return dev_err_probe(dev, PTR_ERR(dbidev->regulator),
+  				     "Failed to get regulator 'power'\n");
 
-  	if (dbidev->regulator)
-  		regulator_disable(dbidev->regulator);
-+	if (dbidev->io_regulator)
-+		regulator_disable(dbidev->io_regulator);
-  }
-  EXPORT_SYMBOL(mipi_dbi_pipe_disable);
-
-@@ -652,6 +654,16 @@ static int 
-mipi_dbi_poweron_reset_conditional(struct mipi_dbi_dev *dbidev, bool
-  		}
-  	}
-
-+	if (dbidev->io_regulator) {
-+		ret = regulator_enable(dbidev->io_regulator);
-+		if (ret) {
-+			DRM_DEV_ERROR(dev, "Failed to enable I/O regulator (%d)\n", ret);
-+			if (dbidev->regulator)
-+				regulator_disable(dbidev->regulator);
-+			return ret;
-+		}
-+	}
++	dbidev->io_regulator = devm_regulator_get(dev, "io");
++	if (IS_ERR(dbidev->io_regulator))
++		return dev_err_probe(dev, PTR_ERR(dbidev->io_regulator),
++				     "Failed to get regulator 'io'\n");
 +
-  	if (cond && mipi_dbi_display_is_on(dbi))
-  		return 1;
-
-@@ -661,6 +673,8 @@ static int mipi_dbi_poweron_reset_conditional(struct 
-mipi_dbi_dev *dbidev, bool
-  		DRM_DEV_ERROR(dev, "Failed to send reset command (%d)\n", ret);
-  		if (dbidev->regulator)
-  			regulator_disable(dbidev->regulator);
-+		if (dbidev->io_regulator)
-+			regulator_disable(dbidev->io_regulator);
-  		return ret;
-  	}
-
-diff --git a/include/drm/drm_mipi_dbi.h b/include/drm/drm_mipi_dbi.h
-index 14eaecb1825c..e4efbd8ffc9d 100644
---- a/include/drm/drm_mipi_dbi.h
-+++ b/include/drm/drm_mipi_dbi.h
-@@ -122,10 +122,15 @@ struct mipi_dbi_dev {
-  	struct backlight_device *backlight;
-
-  	/**
--	 * @regulator: power regulator (optional)
-+	 * @regulator: power regulator (Vdd) (optional)
-  	 */
-  	struct regulator *regulator;
-
-+	/**
-+	 * @io_regulator: I/O power regulator (Vddi) (optional)
-+	 */
-+	struct regulator *io_regulator;
-+
-  	/**
-  	 * @dbi: MIPI DBI interface
-  	 */
+  	dbidev->backlight = devm_of_find_backlight(dev);
+  	if (IS_ERR(dbidev->backlight))
+  		return dev_err_probe(dev, PTR_ERR(dbidev->backlight), "Failed to get 
+backlight\n");
 -- 
 2.30.2
 
