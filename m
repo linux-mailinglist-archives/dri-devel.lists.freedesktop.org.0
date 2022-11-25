@@ -2,51 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3306F638513
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 09:18:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A62C638581
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 09:50:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4885910E099;
-	Fri, 25 Nov 2022 08:18:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7578D10E05C;
+	Fri, 25 Nov 2022 08:50:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF62B10E099;
- Fri, 25 Nov 2022 08:18:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669364304; x=1700900304;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=hUfcDdsfSX5YjlGOWR2p6U6J07KOVONjwuqBLYRBav4=;
- b=bfhEQYGEqzxw3N37XtNJUINOLEs/LRMSwPpxnnjXAIRm7Tiebi7SCUTu
- YLLopRU2U06aky2ndpg4OX62dMIbCKqX+wWDLEIUh/SNsNqcxDZs8K1z1
- buF10t1mSEP2vgIR3GXXUala5eFjx5gSZi4JYP13CypbGPn++mSy416ck
- 9GEQt0EhqndquHtULJczoffzCOT9ZnQcQ/SkdP4oUBLlnYeY4SKfpmHcz
- BAhlbqCW696y+RuMVay/GQCllxmjSEqTU/UG3igH0o7/DvZjJnJg2L+XK
- Giin33oJ5cBxcneyvCAyKPOa/g0wEvvJ/gSmx2xq6Kh7TPwLqHZNAvHRV g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10541"; a="297793776"
-X-IronPort-AV: E=Sophos;i="5.96,192,1665471600"; d="scan'208";a="297793776"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Nov 2022 00:18:24 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10541"; a="644729418"
-X-IronPort-AV: E=Sophos;i="5.96,192,1665471600"; d="scan'208";a="644729418"
-Received: from dcliffo1-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.17.151])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Nov 2022 00:18:20 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Xia Fukun <xiafukun@huawei.com>, airlied@gmail.com, daniel@ffwll.ch,
- ville.syrjala@linux.intel.com, lucas.demarchi@intel.com,
- joonas.lahtinen@linux.intel.com
-Subject: Re: [PATCH] drm/i915/bios: fix a memory leak in generate_lfp_data_ptrs
-In-Reply-To: <20221125063428.69486-1-xiafukun@huawei.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20221125063428.69486-1-xiafukun@huawei.com>
-Date: Fri, 25 Nov 2022 10:18:18 +0200
-Message-ID: <875yf35tx1.fsf@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 595ED10E05C
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 08:50:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669366235;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZCa5X8lXlExaGphI0WGFeQw46HpXtfvTpixratHZyiE=;
+ b=B3Lh+NtPg/yvsm5mOnBrZzbuAWTquVHGKL5wg1PJiufqANb6kdhDa3iYRZsycsoqXK4+Ik
+ KkIM4uiGN3A4er9AiBRxiPlYtLr9PUMx/pEr3obNfGapjRFUAtMy+RlNBkYs7ld24FzeiX
+ HyNvdApubs6CW4gmG6Ivfm494iQOSus=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-251-e16dgo2GOCOUPzaJXdJwzA-1; Fri, 25 Nov 2022 03:50:34 -0500
+X-MC-Unique: e16dgo2GOCOUPzaJXdJwzA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ c187-20020a1c35c4000000b003cfee3c91cdso2119139wma.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 00:50:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZCa5X8lXlExaGphI0WGFeQw46HpXtfvTpixratHZyiE=;
+ b=R7I+//A90t1QDy2tHGjZO+1H6mWyK2vVXXYDiOXYFyvBw/y5MnbdntA0aicfRCezFW
+ zmIvpc4BQMcwUTogFokWE892lV7FB/2NX8RrXz1piFt0SeEVJD3askB9w7B/otjTBEAZ
+ b7Uo6sf71GY5ZtJT2dcAela9ZVN/RdH1p7iku6mW3Q7sXLfj2LjmYa1lPrh1M+gPltmz
+ N1Ml9yMMba8mrIHO+dtEzPghTOt4NaDQ1L/ykc7meMuESRIz7oYdbtiqdRiClyoshBfy
+ R1ahnqm5oAjT45O+ZSS6pJG03lsck9bSgG72UXp0m+uU58LndoSw5R9QGY4I3lKIcHsE
+ MQww==
+X-Gm-Message-State: ANoB5plKXlVP9HYlf/qZtCFqwEz95wGXGhqBawqmmuS3TbM9vV7LcaIm
+ ekrIql0+lU95IlYgEgeUK48uSpqMFmZ94Z1uHvCdL6y54cLsuT5dZMVtqctJTyPRNOXg28+aL4b
+ 9T884iH9NzHxcQqK69ELNW0U01ErC
+X-Received: by 2002:a5d:5305:0:b0:242:25e:e731 with SMTP id
+ e5-20020a5d5305000000b00242025ee731mr2642364wrv.48.1669366233208; 
+ Fri, 25 Nov 2022 00:50:33 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6mov6a1ABQsKCpweMfuKZj8FtStMvwn4E4x4v/bkoJJVxviE1bsUHgijhFDEI16xW3gYv3qw==
+X-Received: by 2002:a5d:5305:0:b0:242:25e:e731 with SMTP id
+ e5-20020a5d5305000000b00242025ee731mr2642344wrv.48.1669366232940; 
+ Fri, 25 Nov 2022 00:50:32 -0800 (PST)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ p11-20020a05600c468b00b003cfd10a33afsm8890236wmo.11.2022.11.25.00.50.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 25 Nov 2022 00:50:32 -0800 (PST)
+Message-ID: <2517016e-1b31-b821-df0c-8c0498f11719@redhat.com>
+Date: Fri, 25 Nov 2022 09:50:31 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH 01/24] drm/tests: helpers: Rename the device init helper
+To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+References: <20221123-rpi-kunit-tests-v1-0-051a0bb60a16@cerno.tech>
+ <20221123-rpi-kunit-tests-v1-1-051a0bb60a16@cerno.tech>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20221123-rpi-kunit-tests-v1-1-051a0bb60a16@cerno.tech>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,44 +89,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@linux.intel.com, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- rodrigo.vivi@intel.com, xiafukun@huawei.com
+Cc: David Gow <davidgow@google.com>,
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>,
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 25 Nov 2022, Xia Fukun <xiafukun@huawei.com> wrote:
-> When (size != 0 || ptrs->lvds_ entries != 3), the program tries to
-> free() the ptrs. However, the ptrs is not created by calling kzmalloc(),
-> but is obtained by pointer offset operation.
-> This may lead to memory leaks or undefined behavior.
-
-Yeah probably worse things will happen than just leak.
-
->
-> Fix this by replacing the arguments of kfree() with ptrs_block.
->
-> Fixes: a87d0a847607 ("drm/i915/bios: Generate LFP data table pointers if the VBT lacks them")
-> Signed-off-by: Xia Fukun <xiafukun@huawei.com>
-
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-
+On 11/23/22 16:25, Maxime Ripard wrote:
+> The name doesn't really fit the conventions for the other helpers in
+> DRM/KMS, so let's rename it to make it obvious that we allocate a new
+> DRM device.
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > ---
->  drivers/gpu/drm/i915/display/intel_bios.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_bios.c b/drivers/gpu/drm/i915/display/intel_bios.c
-> index 28bdb936cd1f..edbdb949b6ce 100644
-> --- a/drivers/gpu/drm/i915/display/intel_bios.c
-> +++ b/drivers/gpu/drm/i915/display/intel_bios.c
-> @@ -414,7 +414,7 @@ static void *generate_lfp_data_ptrs(struct drm_i915_private *i915,
->  		ptrs->lvds_entries++;
->  
->  	if (size != 0 || ptrs->lvds_entries != 3) {
-> -		kfree(ptrs);
-> +		kfree(ptrs_block);
->  		return NULL;
->  	}
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
