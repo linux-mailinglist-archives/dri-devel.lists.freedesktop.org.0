@@ -2,118 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A73E638259
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 03:23:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8432E6382D4
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 04:47:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD0C010E289;
-	Fri, 25 Nov 2022 02:23:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEF1210E28E;
+	Fri, 25 Nov 2022 03:47:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADE5F10E288;
- Fri, 25 Nov 2022 02:23:18 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hsAt/6FrYuCngndhVq+5VCfylgadPtDYh4A7RHatgCjVH8AdHr8UjwBmqJbPjBcXfkJx8suCZ7R3sPX1AAApS/g+/jfVtF6bxklJ3R+RH6KSgABNj9v86vHcgdUgxHYHmxTY22T4EOFYROCllQ3IqCj0OmtlwYOds5l4E2erl/FH0ql+ePpbXiadJSzuNHQoTqoE7Am2ASc6FnUs474fEOeeEfFc7bv/z30iYkOunJeC8h5/NNwnxdMTm4YG8273pBJIg5+7pJoD53WDaZIDcnFarE2YMkjAVmFhzhlHaA+zAjehMKfOY8NA6fNYzmfLEeLSHeAjsB/5mcwRp5e4qg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WFDsSCk8BY5UV005y1a6c5Kdpr0RFnlI/AQFVJE+WxE=;
- b=j+UWprP+D7X6+CEwMlH+uGi+ICrmq5h/Qr6A8pswVxTNctuRTME0SRyVb0FQd9sOVPv8Xn219kKJ+FRLg7ty8QRCS6f/YRXXZtpC0mGEIxwaHPzwB90GKHWEXo3UTKQswn566xLNi8t6X4ezqJuj9WjJshCJroBv3EaCd0Oo8+P64f9rxWY/B3r4U7Jcxi5jI+Lgs3YDP/QLwvSHTMZOzrAXvNDt+CRFVead8ykxRumKoDDunU1MpLlIKRou2uMlEF4EKbNvrEFWjEju9k8oqtrqahV+Ns92v2xg84NvxNcwXGzlW9NRGv4I+tP8tCBRpM1tf3zutwkO25zGrTB29Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WFDsSCk8BY5UV005y1a6c5Kdpr0RFnlI/AQFVJE+WxE=;
- b=b6HRu2ed7yHI9orT9iD6ltG7ojuRod2R5TdBnqSp4n9z2oGl3iC1OKKyNtVt1H3WIyBIQpDzThgO4vJt+Lv3JANuUHHKuoGNR0KiSUqS5fe2roYjImkFIUGfqADKs4/JIRB4zFLYCesaSwErSWqIfmJ8k6ohUbmsHow/Vlj3qvY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
- PH0PR12MB8152.namprd12.prod.outlook.com (2603:10b6:510:292::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.15; Fri, 25 Nov
- 2022 02:23:14 +0000
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::2fd1:bdaf:af05:e178]) by DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::2fd1:bdaf:af05:e178%3]) with mapi id 15.20.5857.018; Fri, 25 Nov 2022
- 02:23:14 +0000
-Message-ID: <0a747797-9b1c-ca60-569f-76eea19a08d3@amd.com>
-Date: Thu, 24 Nov 2022 21:23:11 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH] swsmu/amdgpu_smu: Fix the wrong if-condition
-Content-Language: en-CA
-To: "Quan, Evan" <Evan.Quan@amd.com>, Yu Songping <yusongping@huawei.com>,
- "airlied@gmail.com" <airlied@gmail.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>
-References: <20221124015237.172948-1-yusongping@huawei.com>
- <DM6PR12MB261939876DAFDBA3B25DEB17E40F9@DM6PR12MB2619.namprd12.prod.outlook.com>
-From: Luben Tuikov <luben.tuikov@amd.com>
-In-Reply-To: <DM6PR12MB261939876DAFDBA3B25DEB17E40F9@DM6PR12MB2619.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MN2PR10CA0031.namprd10.prod.outlook.com
- (2603:10b6:208:120::44) To DM6PR12MB3370.namprd12.prod.outlook.com
- (2603:10b6:5:38::25)
+Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com
+ [IPv6:2607:f8b0:4864:20::832])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00DBF10E28E
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 03:47:14 +0000 (UTC)
+Received: by mail-qt1-x832.google.com with SMTP id a27so1914232qtw.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Nov 2022 19:47:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=t9NwyYJGTST+adt/mtrpqqW4d1ie/BbqvDNLWrxadpI=;
+ b=Zrf6EXdxDNyOpH6XKy0gfGWjLcKgY3+Ve6JPX3RA5FKJXduEQ9E6F0DmfUsWX2iTcg
+ 7ngtKXSg+FIlbE3jIM8VnKPtMTBSV7ttdtTjv2Tpst2QgBVDWvb8+kp5d+OAdimqJA4Y
+ Vcmm9uvU6JJ4hqqmqV4X1XrR7eyg/knVbC3qRrotdESvnSRWduZK4Q4fsmMmkMp1j+6a
+ AazMhqq6DKwlkUPMvjd+rOPplyFHPLJ0t9RSvZOa5Dqeh2SNUoIsWLoYSf6ZglS0XP+5
+ pfzNROXMCtYBYBkWyd0djwiwe689ovhqMMqk+V5cLGfIkL0m2ox1LCGLzoG1Nz+2CzLJ
+ JoIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=t9NwyYJGTST+adt/mtrpqqW4d1ie/BbqvDNLWrxadpI=;
+ b=Av3Dw9XWFGz2oz968X4GOpqmbhUmliIIJzwyKJ7el0wTnQfQORgozj1IMac5GI3ikv
+ YL3dCBdd90n56VVVdMFFZUNjlu4hucFysnFhuLFaqIyiZagvUNGnl5vv/6/2LHs+fxvW
+ WPxBwIKlKWCo2cCJZHVCfTtFi9nUGNgpVHC/uDbzaLN0I2kEY/Q3ud0o7dHQZPRqJgxy
+ NYsEMU6ICkIYoTHbfOLXs3fXgVUNeKN0JTXbkvhu9qCB8P17dVdh9lrHIRjEVgucvJh1
+ 1t/uH0T+caL+43Go8pCJ95cs8uepDrl+YIHP+lla6JZhm9SsrHgORZO0xFE/wriwM6um
+ eDbg==
+X-Gm-Message-State: ANoB5plHg4NE2Vx9XJj4XI6SfiN2iIdizZ+nm9+ZbIhsKvIYogaZVN+Z
+ 2boWbdqMTC7YRqbKu63SnyZdCdldGMalvKmME5g=
+X-Google-Smtp-Source: AA0mqf4Zm6V5IOGUrLEQK6Qo5hd1oSjWnZBOwvpHGoC6L246q0GV1BjU62uEWuS+wDJqIuFl48D1ZYKVKa9S4eY/JCQ=
+X-Received: by 2002:ac8:7cbb:0:b0:399:83a8:c28b with SMTP id
+ z27-20020ac87cbb000000b0039983a8c28bmr21732081qtv.447.1669348033793; Thu, 24
+ Nov 2022 19:47:13 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|PH0PR12MB8152:EE_
-X-MS-Office365-Filtering-Correlation-Id: f5f62ea9-a468-4b63-19e6-08dace8c019a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dNe7ZOK+S6ELp9pAeoDjtF1Y/mJOaGX1C3P0vfXhrHst/diYpfW0MH9JIdRh0PpP1c01gSSa08ufcmQLmU0Eg1NJOkDZJ2REgDp6PhBPP93alUnFD5T/TOkHSiJOCe6aP+V3jOtrzs3VtuziopDBXl9T+BrOkUKsGBJSSDbhzrejSK6Xf83jTH3a0NK1T+70BTfnmPLXsSpXbq4rMpTOQKQZNmnM/hiVdWR8MwKOwrzrH6fTdzTKuPl6sf8bNMBTqVLynXPX1t3hiXFlxa1zsK6farZ32dRvSKrHjggeDbdAY+97OaSE13GCJVlgstlaw6zUhB4dq0lC5bMrtqnwTJ3JwBMv3GMm0QZAQR0ExjgJcvTOHn++vkZAird6k8V0Gj9OJ/qz+yKK8E3MTnz7qhfKFfz+K7IDmHo7X5dyLHxftVFkXUfSUuHuAvakwWrMHctWBRBdIibqOPJcSy8GEnc8wqNsBypbs56H5BNeosP8fijY1WivRgFO7TuH8iaV41flaSja24A9rkodvFc5oV/O8zdabIP3MyvXvFMFTgAEVpw6Ogu1mR0RrDifryOsX9LMgAv4ONCdLiKQKTCGVBcpBxs4rPyPwoKyMpH6E8Cna7CTQqJFVs/dCwCRIr2oPjYC7L9msPNRBcNwb5NZDrW1IXM62DL2i0thmsLhCp1cV0qbKZkTX/+o5iZH6nru6dH5CB64AE87liv5P8e9Vm/6eCnlb8a5YcWMEptXitQ=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB3370.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(396003)(136003)(366004)(39860400002)(376002)(346002)(451199015)(478600001)(6486002)(6506007)(53546011)(186003)(4001150100001)(110136005)(26005)(6666004)(36756003)(2906002)(6512007)(38100700002)(31696002)(86362001)(83380400001)(2616005)(8936002)(41300700001)(44832011)(66946007)(66556008)(66476007)(8676002)(31686004)(4326008)(5660300002)(54906003)(316002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NlBjaUpFVCtwTmQvL1ljQlVNU1cvVncvT2o5WElmZEM0VUdCR1MrZ3ZGYVcx?=
- =?utf-8?B?VlJqekZiZXlzek9XTnlQZCtGWjZJa2RpR2U1NndZeFREU2VjaXBLSlZ3Rkk4?=
- =?utf-8?B?czh0Z2JkMnBEQVRQeW41a1EyVDlYVUpzenRaN2tXc1RHbkV3NC8yWjJpbkd6?=
- =?utf-8?B?RHVucXByeFZaM2crQlFOVmlleGJHOUVYQWt2UStTSWttVHI2S2NQY2x0RnNL?=
- =?utf-8?B?dFh3UGRyc0dqS1BaV0lHam15MkFYMnd0Tk53Zmw5NWZjb29wZXlQeHltSkh5?=
- =?utf-8?B?bG9VeXNFNkM2MzRyZDQ2TEtkVzJxQm9tMzNZcnRyYUo4bW5oWXV6a05QbHln?=
- =?utf-8?B?UTA1UXVhQ1dDM3kvMmplU0oxcmZWOXlhZGpYSFJnZ0IyM3pWbndrSHE0YU1E?=
- =?utf-8?B?bWxVOStzdkVpUEx5Y25MZkdENWR0L3hFQ09ZZ3BZWDFNMHUreFcwcG55NHJI?=
- =?utf-8?B?RkN1cXQrQ01hZ0RlNlRmeGhpWHhnNjl4cGpuQ09SRlFKa25YSTI0RXYrU1d2?=
- =?utf-8?B?QUVLZWh1VHFmY1k0eFNKOC9JUk94RkN1M0l2YWVrTDdOMzNYRHpvV0JvWHZR?=
- =?utf-8?B?YnltbEVuZ25SdGYzNzlNUFppb0hGdHRURm85Mml1SENYaGUrdEhsZm1SdXVs?=
- =?utf-8?B?azZlVy92aXNTWE5peTlsc1RPRS9BYzdkdHJMZWtvZTY0NnZVUG1vcjRmK3RB?=
- =?utf-8?B?QTVGRHhEdWFCdUFJdkRUbDV0bXlPcTdNTXhmeXVTWFZZSGhjV2xPazRCZFF0?=
- =?utf-8?B?S3g1VVIrMjdKYVg2UHFwemlUUkI5dDFqQ0Z0bVlyZWRMaDhZb0lCbzdtRzFV?=
- =?utf-8?B?MTZkZHNCaTZkQVZpRHBQQnlSNFF2dXFmVnZYT2VKckFtbGdKVFZpVWJTSXUr?=
- =?utf-8?B?VVhtNEIwbk1BMnlGZThKNlJucUhaUmdOcmlUVlByUGlBNEdLY1VBRXp4VEZi?=
- =?utf-8?B?ckZHWk16M2JUVjRCZWpZM0Q5RkoxcGk0Mis2eHg2ZEdmS2NEUEdESFJjR2pF?=
- =?utf-8?B?Q0h3OGE0UEk2TTJDd1FvOTFST3VDdHRHVDR5UTJIdGhaTnNhOGdsOTZudmpM?=
- =?utf-8?B?K08yN294aC9pRFFvMEJCdHJJMTRhZVUwYXJzVHFGKzJhQ3FkMkxzRlRKd0li?=
- =?utf-8?B?Nk0zK3VWNTNJVGRKeUl0ZCtCTWlodC9YZEI4ZE9mZmMrUlZ1MU1VSUpIcFh2?=
- =?utf-8?B?bUhlSXpEc3I4TWRRWEpHa0JGUzlGR2pETFB1UVhqb2tQWVE1QnhKU2ZldGRx?=
- =?utf-8?B?anVDNkZ3UGw4RFd3aTJJQmJNbG9vczkyaWhrWTdMcHBVNXlpYnZ6RjF1S0xl?=
- =?utf-8?B?a2xiaTNkNklDaVlpc0Q3aCtqNGpVUEc0M1J1b0lXV1ZjaU94UTU1aXpkUjhV?=
- =?utf-8?B?NUNDNkVKVE5EZEFkRE1vWUgraEF5S1QvTE5XTG5WUXBOYXFMeXE0bzNCazlU?=
- =?utf-8?B?UjJtYWRMbldzN01qZUdkNEgwYVBRNGZGc2FyNHNneHV6aDFJQU9qTTBpVWZ4?=
- =?utf-8?B?bC9jVHllbzdESWFuZEZjMGNOUHV2bU1CTGdITlJlVDVTaHF2ZGwwZ1BJT096?=
- =?utf-8?B?aGI5STdJVk5RQjFYUi81ODdKbllHL29EUVJKaEhHOW50V0R4dW1GdEJKV1pG?=
- =?utf-8?B?RGcySHdZMy93N3hMaDhTRm9DWDNnMDV5N3lGU1hCbTAvcEhCQ3ROalVKME1z?=
- =?utf-8?B?RmdzbHBmUU42UXhqUEdCMVY1YitFajJleHc5a2JoR3FzQVZiTUJBY3lyc3Rn?=
- =?utf-8?B?aHkrUVZGWWQveE5BZ2dWVTR1VC94MlAwempoekMyeGdpWGlFREk4bDhtUkNj?=
- =?utf-8?B?RC8ySjU4QlpjWk0xbk13RytsS0d3MW0rUkZUK1R2UUk1TS9MdGgzcE5HaE56?=
- =?utf-8?B?ZDgrWmR3UHRsWXhNcGxSTXVaaHk1aDdXV1kvODZrSko5RTNZUEtuRW1KRzZJ?=
- =?utf-8?B?MWxpQWhTSjN3eG5QZFhCcmRKMmMyQXJ4bkZEcUllbUZNWlVHay9WTE5RQkhX?=
- =?utf-8?B?RnNxRjNpd1VOa29pYVQwc1pWSWI4MUc3T1crZER0NTV0Z05JR04vTDdpNndk?=
- =?utf-8?B?NWEvc3p1dlZXMjNyTFY1QjZPaTk2ODNaWFRSNFpxVWlIaG9ha2hkVWh0YXJw?=
- =?utf-8?Q?i8T/60xTIW5lbZTt1yNChBTrb?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f5f62ea9-a468-4b63-19e6-08dace8c019a
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2022 02:23:14.6465 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YjZyePlWopLAIpSbth4uzRU4Tjb9IPoR2iv3KN55Sym5L3d6UjZA+2P5VN1v9yi4
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8152
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 25 Nov 2022 13:47:02 +1000
+Message-ID: <CAPM=9tw-YJEmJFE0FaOa0SvjsPj=TW4rqD1RJBgsw_JzWu1vZw@mail.gmail.com>
+Subject: [git pull] drm fixes for 6.1-rc7
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,57 +64,228 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied!
+Hi Linus,
 
-Thanks,
-Luben
+Weekly fixes, amdgpu has not quite settled down. Most of the changes
+are small, and the non-amdgpu ones are all fine. There are a bunch of
+DP MST DSC fixes that fix some issues introduced in a previous larger
+MST rework.
 
-On 2022-11-24 05:10, Quan, Evan wrote:
-> [AMD Official Use Only - General]
-> 
-> Reviewed-by: Evan Quan <evan.quan@amd.com>
-> 
->> -----Original Message-----
->> From: amd-gfx <amd-gfx-bounces@lists.freedesktop.org> On Behalf Of Yu
->> Songping
->> Sent: Thursday, November 24, 2022 9:53 AM
->> To: airlied@gmail.com; daniel@ffwll.ch
->> Cc: dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org; linux-
->> kernel@vger.kernel.org
->> Subject: [PATCH] swsmu/amdgpu_smu: Fix the wrong if-condition
->>
->> The logical operator '&&' will make
->> smu->ppt_funcs->set_gfx_power_up_by_imu segment fault when
->> ppt_funcs is
->> smu->NULL.
->>
->> Signed-off-by: Yu Songping <yusongping@huawei.com>
->> ---
->>  drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
->> b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
->> index b880f4d7d67e..1cb728b0b7ee 100644
->> --- a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
->> +++ b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
->> @@ -161,7 +161,7 @@ int smu_get_dpm_freq_range(struct smu_context
->> *smu,
->>
->>  int smu_set_gfx_power_up_by_imu(struct smu_context *smu)  {
->> -     if (!smu->ppt_funcs && !smu->ppt_funcs-
->>> set_gfx_power_up_by_imu)
->> +     if (!smu->ppt_funcs || !smu->ppt_funcs-
->>> set_gfx_power_up_by_imu)
->>               return -EOPNOTSUPP;
->>
->>       return smu->ppt_funcs->set_gfx_power_up_by_imu(smu);
->> --
->> 2.17.1
+The biggest one is mainly propagating some error values properly
+instead of bool returns, and I think it just looks large but doesn't
+really change anything too much, except propagating errors that are
+required to avoid deadlocks. I've gone over it and a few others and
+they've had some decent testing over the last few weeks, but let me
+know if you think it's too problematic.
 
+Dave.
+
+
+drm-fixes-2022-11-25:
+drm fixes for 6.1-rc7
+
+amdgpu:
+- amdgpu gang submit fix.
+- DCN 3.1.4 fixes
+- DP MST DSC deadlock fixes
+- HMM userptr fixes
+- Fix Aldebaran CU occupancy reporting
+- GFX11 fixes
+- PSP suspend/resume fix
+- DCE12 KASAN fix
+- DCN 3.2.x fixes
+- Rotated cursor fix
+- SMU 13.x fix
+- DELL platform suspend/resume fixes
+- VCN4 SR-IOV fix
+- Display regression fix for polled connectors
+
+i915:
+- Fix GVT KVM reference count handling
+- Never purge busy TTM objects
+- Fix warn in intel_display_power_*_domain() functions
+
+dma-buf:
+- Use dma_fence_unwrap_for_each when importing sync files.
+- Fix race in dma_heap_add().
+
+fbcon:
+- Fix use of uninitialized memory in logo.
+The following changes since commit eb7081409f94a9a8608593d0fb63a1aa3d6f95d8=
+:
+
+  Linux 6.1-rc6 (2022-11-20 16:02:16 -0800)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-11-25
+
+for you to fetch changes up to e57702069b26b8601a33fdc0c9bbe40c6bb9c72f:
+
+  Merge tag 'amd-drm-fixes-6.1-2022-11-23' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes (2022-11-25
+10:55:23 +1000)
+
+----------------------------------------------------------------
+drm fixes for 6.1-rc7
+
+amdgpu:
+- amdgpu gang submit fix.
+- DCN 3.1.4 fixes
+- DP MST DSC deadlock fixes
+- HMM userptr fixes
+- Fix Aldebaran CU occupancy reporting
+- GFX11 fixes
+- PSP suspend/resume fix
+- DCE12 KASAN fix
+- DCN 3.2.x fixes
+- Rotated cursor fix
+- SMU 13.x fix
+- DELL platform suspend/resume fixes
+- VCN4 SR-IOV fix
+- Display regression fix for polled connectors
+
+i915:
+- Fix GVT KVM reference count handling
+- Never purge busy TTM objects
+- Fix warn in intel_display_power_*_domain() functions
+
+dma-buf:
+- Use dma_fence_unwrap_for_each when importing sync files.
+- Fix race in dma_heap_add().
+
+fbcon:
+- Fix use of uninitialized memory in logo.
+
+----------------------------------------------------------------
+Alex Deucher (2):
+      drm/amdgpu/psp: don't free PSP buffers on suspend
+      drm/amdgpu: Partially revert "drm/amdgpu: update
+drm_display_info correctly when the edid is read"
+
+Christian K=C3=B6nig (3):
+      drm/amdgpu: handle gang submit before VMID
+      drm/amdgpu: always register an MMU notifier for userptr
+      drm/amdgpu: fix userptr HMM range handling v2
+
+Dave Airlie (3):
+      Merge tag 'drm-misc-fixes-2022-11-24' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+      Merge tag 'drm-intel-fixes-2022-11-24' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
+      Merge tag 'amd-drm-fixes-6.1-2022-11-23' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+
+David Galiffi (1):
+      drm/amd/display: Fix rotated cursor offset calculation
+
+Dawei Li (1):
+      dma-buf: fix racing conflict of dma_heap_add()
+
+Dillon Varone (3):
+      drm/amd/display: Update soc bounding box for dcn32/dcn321
+      drm/amd/display: Use viewport height for subvp mall allocation size
+      drm/amd/display: Use new num clk levels struct for max mclk index
+
+Imre Deak (1):
+      drm/i915: Fix warn in intel_display_power_*_domain() functions
+
+Jack Xiao (1):
+      drm/amd/amdgpu: reserve vm invalidation engine for firmware
+
+Jane Jian (1):
+      drm/amdgpu/vcn: re-use original vcn0 doorbell value
+
+Jason Ekstrand (1):
+      dma-buf: Use dma_fence_unwrap_for_each when importing fences
+
+Lyude Paul (6):
+      drm/amdgpu/mst: Stop ignoring error codes and deadlocking
+      drm/display/dp_mst: Fix drm_dp_mst_add_affected_dsc_crtcs() return co=
+de
+      drm/amdgpu/dm/mst: Use the correct topology mgr pointer in
+amdgpu_dm_connector
+      drm/amdgpu/dm/dp_mst: Don't grab mst_mgr->lock when computing DSC sta=
+te
+      drm/amdgpu/dm/mst: Fix uninitialized var in
+pre_compute_mst_dsc_configs_for_state()
+      drm/amd/dc/dce120: Fix audio register mapping, stop triggering KASAN
+
+Matthew Auld (1):
+      drm/i915/ttm: never purge busy objects
+
+Ramesh Errabolu (1):
+      drm/amdgpu: Enable Aldebaran devices to report CU Occupancy
+
+Roman Li (1):
+      drm/amd/display: Align dcn314_smu logging with other DCNs
+
+Sean Christopherson (2):
+      drm/i915/gvt: Get reference to KVM iff attachment to VM is successful
+      drm/i915/gvt: Unconditionally put reference to KVM when detaching vGP=
+U
+
+Stanley.Yang (1):
+      drm/amdgpu: fix use-after-free during gpu recovery
+
+Taimur Hassan (1):
+      drm/amd/display: Avoid setting pixel rate divider to N/A
+
+Tetsuo Handa (1):
+      fbcon: Use kzalloc() in fbcon_prepare_logo()
+
+Tsung-hua Lin (1):
+      drm/amd/display: No display after resume from WB/CB
+
+Tvrtko Ursulin (1):
+      Merge tag 'gvt-fixes-2022-11-11' of
+https://github.com/intel/gvt-linux into drm-intel-fixes
+
+lyndonli (1):
+      drm/amd/pm: update driver if header for smu_13_0_7
+
+ drivers/dma-buf/dma-buf.c                          |  23 +-
+ drivers/dma-buf/dma-heap.c                         |  28 +--
+ .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_aldebaran.c   |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   |  12 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.c        |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.h        |   3 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c     |   1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c             |   8 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c            |  14 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c            |   6 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c            |  12 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            |  16 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |  53 ++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h            |  14 +-
+ drivers/gpu/drm/amd/amdgpu/mmsch_v4_0.h            |   1 -
+ drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c              |   9 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  55 ++++-
+ .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    | 254 +++++++++++------=
+----
+ .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.h    |  12 +-
+ .../drm/amd/display/dc/clk_mgr/dcn314/dcn314_smu.c |  11 +-
+ .../drm/amd/display/dc/dce120/dce120_resource.c    |   3 +-
+ drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp.c   |  34 ++-
+ drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hubp.c  |  28 ++-
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hubp.c  |  32 ++-
+ .../gpu/drm/amd/display/dc/dcn314/dcn314_dccg.c    |   7 +
+ .../gpu/drm/amd/display/dc/dcn314/dcn314_hwseq.c   |   6 +-
+ drivers/gpu/drm/amd/display/dc/dcn32/dcn32_dccg.c  |   4 +-
+ drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c |   4 +-
+ .../amd/display/dc/dcn32/dcn32_resource_helpers.c  |   2 +-
+ .../gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c   |   8 +-
+ .../gpu/drm/amd/display/dc/dml/dcn321/dcn321_fpu.c |   8 +-
+ .../pm/swsmu/inc/pmfw_if/smu13_driver_if_v13_0_7.h | 117 +++++++---
+ drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h       |   2 +-
+ drivers/gpu/drm/display/drm_dp_mst_topology.c      |   2 +-
+ drivers/gpu/drm/i915/display/intel_display_power.c |   8 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c            |   4 +
+ drivers/gpu/drm/i915/gvt/kvmgt.c                   |   8 +-
+ drivers/video/fbdev/core/fbcon.c                   |   2 +-
+ 38 files changed, 487 insertions(+), 326 deletions(-)
