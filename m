@@ -2,73 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C28F86397E7
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Nov 2022 20:01:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3581F6397E6
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Nov 2022 20:01:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F318010E170;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18BF910E167;
 	Sat, 26 Nov 2022 19:00:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A8E810E786
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 18:02:32 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id n20so12020146ejh.0
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 10:02:32 -0800 (PST)
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
+ [IPv6:2607:f8b0:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 774E410E789
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 18:16:53 +0000 (UTC)
+Received: by mail-pg1-x52c.google.com with SMTP id h193so4531911pgc.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 10:16:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:to:content-language:subject:from
- :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+ h=content-transfer-encoding:to:subject:message-id:date:from
+ :references:in-reply-to:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=K6RjLtrdo+ScGm7pjZK3Sr+Fc1zKiBe9mhxGw4UGkKk=;
- b=n+IYRZPLWxB7TLgHjJB945226UUM747+G75kptxXbOlV4wq9bEgqApLefT4+EtvqYD
- 3MkmP7gED/9MiD5GTB++vQwhDUd1howa8sCJqtwJBKHyoOYNh+rhkLdqg5EQdTA6YgF1
- TbXmUR9oJSh4bOdcLv9EcCIk8OCErnEwY8VBlPKrBsBV3oLrX2nHxdbDuR7JaLLPQFKj
- /J8HRh+NBXyuBjqLb3Agj5hWQ8jYRPaE/3UiCQUzVF+gLng6ktdeWKVZs1z9eh8EeHNq
- 276aemFu3yeHmOdlwlXYuPqEKu1Oz6Bn4CPlLxt03FJLdCfiFGz38qpn53Vui+AjYMo7
- Xptg==
+ bh=U61PbKW05jYz9l60M6WT1lvaamndgipieyYOdFsydYY=;
+ b=XIvESbp9tmgh1I3jE1Gn0K3Cf/iTfbhRmdysRGKWGWseHftrN36WvBEs5LtD03AiyT
+ tmQGKLv4u7jEUzxNnLXp4uOxR/5Y5UcK+7tjncYtbB5UUrbFNhSLdn36uqGiqdhLYhCC
+ 1q92EUpCrkxyjgTNbdh1dksrc5CPhatrv55Ydcfnz/S83blJpiSnvq+CyrmpQS8srls1
+ fNtrCr8Z+pBGTMXps8qn621aeoPqGaUOJmSqIfI/0Tyl8KWdxFuyl8PyYmnhp0k8yv4F
+ jaSE9lVfJNOZ4+psOAfq33BtRY+xsLKVupwB/3VTbxE5o4/D+FOZ1SkQ3DOglkgIG6pQ
+ Ryyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:to:content-language:subject:from
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=K6RjLtrdo+ScGm7pjZK3Sr+Fc1zKiBe9mhxGw4UGkKk=;
- b=uT00MM/3FHOJAtdKvlke+7mgwYR5AFZvyJqoUG7bGDwRN3ulEvO8lNyEhxid50p4i3
- cCeHnQmMEHi4R5N+99oh6IYGJLhAtF3Lz93awugR9Ynz4RlcHZhOo7yMhxw4Pspawpep
- 7Fu8UEmfm9UWPDH2AMIT5PK/3+B8Iw1Vd3vWGo+Wji5jvbAfScGhXQ7pqL13Zw/bVAtA
- lPEn2pcvY4R7EA2kvh6lcRTi9S0ZzcwBBrAwgZHSB8+KpmZpxjQZYH9JmsSyD5rCKTu9
- RU8JHewWylVHtGAXgt90OI5vt9axj9ewzqX4lUzXZLIxmnV5FZMBYyWlS0Bnt9FuT3wB
- nsHw==
-X-Gm-Message-State: ANoB5pmtUdpOTI7OrHUvJn4u0PYhYV5TiwIMX5ikAJzABABJqiXlWkDR
- aAECzDRfMZtqszVTzg62fWQ=
-X-Google-Smtp-Source: AA0mqf6u6ILP2rzOMm++8C87RFVzocSs3tw5fx8sFGo0Gq4MOLdpgPT/cqB4RuijdbGWbj2Wec1tjg==
-X-Received: by 2002:a17:907:9841:b0:7ae:c9d4:7073 with SMTP id
- jj1-20020a170907984100b007aec9d47073mr32793669ejc.711.1669399350879; 
- Fri, 25 Nov 2022 10:02:30 -0800 (PST)
-Received: from [192.168.178.2]
- (dslb-092-072-004-196.092.072.pools.vodafone-ip.de. [92.72.4.196])
- by smtp.gmail.com with ESMTPSA id
- eg23-20020a056402289700b004623028c594sm2039196edb.49.2022.11.25.10.02.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Nov 2022 10:02:30 -0800 (PST)
-Message-ID: <d8b00afb-8c60-fe9d-dad3-280a0e0254ef@gmail.com>
-Date: Fri, 25 Nov 2022 19:02:29 +0100
+ h=content-transfer-encoding:to:subject:message-id:date:from
+ :references:in-reply-to:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=U61PbKW05jYz9l60M6WT1lvaamndgipieyYOdFsydYY=;
+ b=nGK3WBjlbHZvyBkIe75RFakgmx633+XVJupc3DraJJVO6lREDyQJR4kZEqPlGNcC4o
+ vzVWZiYJUYNM03t/SQVhIOKwfuhXtpvF5Cj0CF672eto57r8rK13hqxPXbuWYVFrn9TS
+ KApfVPDXpLupATwQHsOF7t7ACOz9QD/cgoeCzwW+sJvS/1nDOdJHiVgKgGbbzyHkmgFh
+ mewQHY7GEJTrE0Ml/MFR68vJw3x7iuuDvVwaJBYY5331M9Fi6VpuqHYtPv75FwbqdD9t
+ 4M3NgDzSV0wMQSltpuQ5CMZbxg3wpZ+au5BhfpzGZBM872OH4ipoqfXh/7ydUMorZywJ
+ 2GVg==
+X-Gm-Message-State: ANoB5pmSHRev4fNTjOcWqUR/XK6DsBcZFx7uHP9NLJHjUyRYLljCtlnz
+ xIo78BOkh0tla4H3Cj35aRtEZM9sBKVY5nuErGc=
+X-Google-Smtp-Source: AA0mqf5pcMU+OZhibbISCZKF92d8A0KoAl8CBmbCbsg2q8d/AcA48BfdqIY7hQ3yIbrUTtAiNLgc2Da/ElBhX4Ww5fc=
+X-Received: by 2002:a05:6a00:2403:b0:572:698b:5f69 with SMTP id
+ z3-20020a056a00240300b00572698b5f69mr24258628pfh.54.1669400212937; Fri, 25
+ Nov 2022 10:16:52 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-From: =?UTF-8?Q?Otto_Pfl=c3=bcger?= <affenull2345@gmail.com>
-Subject: [PATCH 4/4] dt-bindings: display: panel: mipi-dbi-spi: Add io-supply
-Content-Language: en-US
-To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+Received: by 2002:a05:6a21:2d0b:b0:a6:57b6:b6d4 with HTTP; Fri, 25 Nov 2022
+ 10:16:52 -0800 (PST)
+In-Reply-To: <81722eba-3910-2117-8b07-bb030ab754dd@gmail.com>
+References: <43ccb0fb-119b-1afe-758b-e413729dd704@gmail.com>
+ <81722eba-3910-2117-8b07-bb030ab754dd@gmail.com>
+From: Affe null <affenull2345@gmail.com>
+Date: Fri, 25 Nov 2022 19:16:52 +0100
+Message-ID: <CACYkpDr204QaCEmfFfuVH_=CWxH6mRixeRoyv6QXav9T7YP-sQ@mail.gmail.com>
+Subject: Re: [PATCH 3/4] dt-bindings: display: panel: mipi-dbi-spi: Add
+ missing property
+To: =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, 
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Sat, 26 Nov 2022 19:00:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,45 +82,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the new io-supply property, which specifies the regulator for
-the I/O voltage supply on platforms where the panel panel power and
-I/O supplies are separate.
+Sorry for the spam, unfortunately I can use neither git-send-email nor
+Mutt with GMail, so I had to use Thunderbird for sending the patches.
 
-Signed-off-by: Otto Pflüger <affenull2345@gmail.com>
----
-  .../bindings/display/panel/panel-mipi-dbi-spi.yaml        | 8 +++++++-
-  1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git 
-a/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml 
-b/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
-index d55bf12ecead..68cbdfab5438 100644
---- 
-a/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
-+++ 
-b/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
-@@ -22,8 +22,9 @@ description: |
-    The standard defines the following interface signals for type C:
-    - Power:
-      - Vdd: Power supply for display module
-+      Called power-supply in this binding.
-      - Vddi: Logic level supply for interface signals
--    Combined into one in this binding called: power-supply
-+      Called io-supply in this binding.
-    - Interface:
-      - CSx: Chip select
-      - SCL: Serial clock
-@@ -80,6 +81,11 @@ properties:
-        Controller data/command selection (D/CX) in 4-line SPI mode.
-        If not set, the controller is in 3-line SPI mode.
-
-+  io-supply:
-+    description: |
-+      Logic level supply for interface signals (Vddi).
-+      No need to set if this is the same as power-supply.
-+
-    power-supply:
-      description: Power supply for the display module (Vdd).
-
--- 
-2.30.2
+Regards,
+Otto Pfl=C3=BCger
