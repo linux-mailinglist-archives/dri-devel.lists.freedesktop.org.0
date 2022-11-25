@@ -1,49 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9DBF638C10
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 15:24:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90F86638C41
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 15:33:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B03610E7D7;
-	Fri, 25 Nov 2022 14:24:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D817110E7DD;
+	Fri, 25 Nov 2022 14:33:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B67E510E7D7
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 14:24:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669386253; x=1700922253;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=Axf0ye+XEVUXI2xIQqtvgHyZ/gzOeg96So5RXJuA5+0=;
- b=eRe7IfQSPyLwmAL5OVg0+q/7pFHbMzA18aL9ozJtJQP1rap+5waCWP3Z
- GuFxqopsNLtkAyZCwPxGsHKtTQsYHMIRaloQ3oTh5SSuEMYyDAiRTNyNW
- u+uaF1fpFKJt3H02iTimRGBHNbNDOS/troZv8/e5SpbR85LPNX1Rskfny
- 77x9FHGJlM1WyQJhbQFFhBv0gacm9JP0EwTgEGmqJDTCtCAqNVcHjJRDk
- s5cBgBQs+AAVzxBnH5JiKTOmCpgUj1TQ/q+rGFlGEy3wGW968wWI4qHnj
- 94BU7e8RxmutBUyXC01+M5GnmHdYo8lGq7EpK8NB/XfxXHhlK91Y8E8jX w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10542"; a="315648225"
-X-IronPort-AV: E=Sophos;i="5.96,193,1665471600"; d="scan'208";a="315648225"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Nov 2022 06:24:13 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10542"; a="887709167"
-X-IronPort-AV: E=Sophos;i="5.96,193,1665471600"; d="scan'208";a="887709167"
-Received: from joe-255.igk.intel.com (HELO localhost) ([172.22.229.67])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Nov 2022 06:24:10 -0800
-Date: Fri, 25 Nov 2022 15:24:09 +0100
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: Gaosheng Cui <cuigaosheng1@huawei.com>
-Subject: Re: [PATCH] drm: Fix possible memleak and UAF in drm_addmap_core()
-Message-ID: <20221125142409.GA782501@linux.intel.com>
-References: <20221124010219.2653190-1-cuigaosheng1@huawei.com>
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11DFE10E7DD
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 14:33:42 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id DB89C5803E5;
+ Fri, 25 Nov 2022 09:33:41 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Fri, 25 Nov 2022 09:33:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; t=1669386821; x=1669394021; bh=M6MnU6LmiA
+ YmvlmzIoIefG1FuwFoAznyitukgUEcknw=; b=P6EcLVbnBM2XgS0pzWCe/1rIDW
+ LJpD0QMQb7FEm85MnUCRx0OIT/NTT0Iat6SeNrZQ33egH5CGd3JqkVO8TYdYlwJQ
+ vrAZjZTditwnXo9fRTQXz2sZJjZIuKiBmW3+jT06X9mylNcQCwaFiizcn8pK927+
+ PowVQgWtPcog16wDBa1OOVLvLoiTkSaujr/rs1lPblFCvGihAIYdCmtb7fXtD0P2
+ md8BrtBzQsGth02UVxQVwjifyrfoMwhQ9gHoqyPmbKx4ITw69RjgPiUz6/SeWqg7
+ MDTATCC27wthxBtYdMPsSjzxlEqeCUCq5KXEgiQBJA4DeHMWGiQEaeFpLgzQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1669386821; x=1669394021; bh=M6MnU6LmiAYmvlmzIoIefG1FuwFo
+ AznyitukgUEcknw=; b=j9jhcO81ZwRz1HzwCBRYdFInEE4Gu0n/iVzAkl1gjRN+
+ VGRNi0+3J29Zh/qZpFG0ZehU//Zf4eNGkPVyK7LvyTaAeql+jtWGuTm0U5zSF2TJ
+ I65Ug05FVmOx5AlurbYPPQOKTwdeTr+ZHTfMhIGV1y7VLu7Ihqu0BCUJnUlPbg8j
+ D/KC6mWK1oSrLQOzn/SIPpgfHvIWpMohK0dcPjC8x8UCP7T9nBmF3yUQc/DvUFTc
+ IW9etyFO5LVMrPdBpIjlfbK+kkny5z1BZkuqY1aO7eePY4sUV10ZVoM/LXWihz1E
+ 4tu0RokOn3atFsFWacXh+3KO8yLTeoM0cMPbbDCe1g==
+X-ME-Sender: <xms:RNKAY91dPIvOopiSBkTlZTlsBtawKib3krM6hYQ2iK4L1lPTo4bPeQ>
+ <xme:RNKAY0Ghuvp2N3Ox1NHKS_kkb5iP2fd-5EB0veQZR2dWgDOzLvHtnkp5wY50-6lTx
+ cKgosbve5HIzDWdblY>
+X-ME-Received: <xmr:RNKAY95mo2uSj7_xUAsiyOQQj3g5DtI5TMSGg_THRkHo-yUYGuzRKxShcXnMxm73TUjElj81GR6SIYFJf9XEEKdmovwouFEz8PfeQsIKJpALtg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrieehgdeiiecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepjeevfeehfeekieffgeevleevtefgffefkedtfeeuhfettdegjeehgfegudff
+ ffdunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:RNKAY62siUBO6VQir3UrNe22QwYWPBDHPrGpfl_P707sZD7N330bJg>
+ <xmx:RNKAYwG4gZ0CkAhklQIb1FQHTdJwtcroegQS-7D3xsd2MhrWUEgb-A>
+ <xmx:RNKAY7_aXptjD05fY78X0D8c9xuodR2S7HsyxLzHSB3A8wwTGHyjCA>
+ <xmx:RdKAY2R83jecd_63_yfenloFGvhBQCg2ePMGaB9yA5U_fVvwXbOMyg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 25 Nov 2022 09:33:39 -0500 (EST)
+Date: Fri, 25 Nov 2022 15:33:37 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>
+Subject: Re: [PATCH 01/24] drm/tests: helpers: Rename the device init helper
+Message-ID: <20221125143337.edzn53n6ackomhv5@houat>
+References: <20221123-rpi-kunit-tests-v1-0-051a0bb60a16@cerno.tech>
+ <20221123-rpi-kunit-tests-v1-1-051a0bb60a16@cerno.tech>
+ <6a817cad-df46-42ac-3c14-dbdce681cde6@riseup.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="acmx5lmtcx2n462u"
 Content-Disposition: inline
-In-Reply-To: <20221124010219.2653190-1-cuigaosheng1@huawei.com>
+In-Reply-To: <6a817cad-df46-42ac-3c14-dbdce681cde6@riseup.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,24 +84,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, airlied@linux.ie, chris@chris-wilson.co.uk,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com
+Cc: linux-kselftest@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>,
+ linux-media@vger.kernel.org, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 24, 2022 at 09:02:19AM +0800, Gaosheng Cui wrote:
-> The dma_free_coherent() should be called when memory fails to
-> be allocated for list, or drm_map_handle() fails, otherwise there
-> will be a memory leak, so add dma_free_coherent to fix it.
-> 
-> In addition, if drm_map_handle() fails in drm_addmap_core(), list
-> will be freed, but list->head will not be removed from dev->map_list,
-> then list traversal may cause UAF, fix it by removeing it from
-> dev->map_list before kfree().
-> 
-> Fixes: 8e4ff9b56957 ("drm: Remove the dma_alloc_coherent wrapper for internal usage")
-> Fixes: 8d153f7107ff ("drm: update user token hashing and map handles")
-> Signed-off-by: Gaosheng Cui <cuigaosheng1@huawei.com>
 
-Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+--acmx5lmtcx2n462u
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hi,
+
+On Fri, Nov 25, 2022 at 11:10:02AM -0300, Ma=EDra Canal wrote:
+> On 11/23/22 12:25, Maxime Ripard wrote:
+> > The name doesn't really fit the conventions for the other helpers in
+> > DRM/KMS, so let's rename it to make it obvious that we allocate a new
+> > DRM device.
+> >=20
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>=20
+> Although I believe using "drm_device" on the function name is a bit
+> redundant (maybe drm_kunit_helper_alloc_dev or drm_kunit_helper_alloc_dev=
+ice
+> would be cleaner),
+
+Yeah, I don't quite like the name either, but we'll need to also
+allocate a struct device in the next few patches so we need to make the
+distinction between a struct drm_device and a struct device.
+
+Maxime
+
+--acmx5lmtcx2n462u
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY4DSQQAKCRDj7w1vZxhR
+xeGkAPkBFLa3lV36E2W1jTknr7iiJBV/Zjt6EB2CqXA8txhT8AD/TvavUqFz4lG/
+jgViwFq+5i24QHZJ/YlXq5ZvEZ09pAI=
+=52Ai
+-----END PGP SIGNATURE-----
+
+--acmx5lmtcx2n462u--
