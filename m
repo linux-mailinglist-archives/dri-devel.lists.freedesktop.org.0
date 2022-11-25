@@ -1,51 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08AA4638995
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 13:19:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 135E36389F0
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 13:36:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 311C110E073;
-	Fri, 25 Nov 2022 12:19:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F7DE10E09E;
+	Fri, 25 Nov 2022 12:36:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 939B510E073;
- Fri, 25 Nov 2022 12:19:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669378773; x=1700914773;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=0WtpDVWBG+zhh3Y4Q6BftP2unUL5fItEvjAQ+XxkdzM=;
- b=DW4A2Mc0OmhH0zbhcZG1skcm5WELxqBq028PnD4xX0625ixDlGu8uTam
- p88UdfCJP4MCao2rEgwcTO+UPNI77bXOxZdNHvnQ/34jPMTe0BiIyR2Kb
- 2GefoTk+sZFcV/AeCb2Pi/gnJEVqhkYekPxDNKUG6uMLDfRVxAGyfI+47
- UUa49NhKyI4MrB8YJCiQtUyrxsnULWnbpU5MTQkM5e189ieS/V5AvEPs3
- SPercP3+DMGK/08CtXdZ+uQkkOfp/rwu0WA/5sCLkz5Fh5NDUEtMySuCF
- 8NA7FDItWz3b7xIqX1ruHn69qD2/LTE6y0ICJDS80KyBKO5EHV7W46DDX w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10541"; a="313171321"
-X-IronPort-AV: E=Sophos;i="5.96,193,1665471600"; d="scan'208";a="313171321"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Nov 2022 04:19:33 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10541"; a="642690318"
-X-IronPort-AV: E=Sophos;i="5.96,193,1665471600"; d="scan'208";a="642690318"
-Received: from kbielowk-mobl.ger.corp.intel.com (HELO localhost)
- ([10.249.128.177])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Nov 2022 04:19:30 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Subject: Re: [RFC 0/2] drm/connector: connector iterator with filtering
-In-Reply-To: <cover.1664966047.git.jani.nikula@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1664966047.git.jani.nikula@intel.com>
-Date: Fri, 25 Nov 2022 14:19:27 +0200
-Message-ID: <87wn7j446o.fsf@intel.com>
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1A4A10E09E
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 12:36:42 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id
+ ay14-20020a05600c1e0e00b003cf6ab34b61so6106637wmb.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 04:36:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=F8QEr1U+4DdwT5X6CEZxWsT4dF4Ejt6T8JypPrPO5rI=;
+ b=K1xi5tAQLXN9sLEIHr9BFO77DXOhF/h+p2Te8YWE54iOn1IeUtcnLo90aaRsxW20W5
+ rZVEcSEaRhabtLkuR0NeGOtMxgEZZotZzAzoHiA9UL2BZETO7Y4wWT8wDedQ9Z0YgHdu
+ n5PHhsvP51wHsF0Ysd5M7CCE7wpBlA9BgIN9e5xLPXWW8Iuy2NrnfFZX2KcB7lQhuMTb
+ ckk8NdpZ7uYvZGI3sP/hNvAuFcRVdVRIQfZ9rW3SLuDmGTygd6rAHWbfy5SEI9znwF+u
+ akM+qLLW7oSTGMNWAeNhmf+qlyHWx438NqeWmTvr8wVuaQEZDKpzVIvomFZQiG+yZrvi
+ RS6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=F8QEr1U+4DdwT5X6CEZxWsT4dF4Ejt6T8JypPrPO5rI=;
+ b=QXu+HE/WSOhRWgSjTS6fkGDaULpy6H8e5XzviBvDyft4xbJf5/TuSUtAVme3cQHxoj
+ oU+6Y4x+Xhm/iaB+jPzye0gbwFNtrsk4iDqctnCE5nQqkRKYLsMr5Fktw9KQb916LJ84
+ l9q/qjOAQyB9BSHsgVXQvvmSkXXCFwuYxwl/pbOKvCcQuOPsT3wJMTkLG5pY5LGb2p7y
+ lkB/UC1u9NebrKDBU4ghq1V9BvhZYx6mYMbBYtbhl8rxnkqyoVKVF5t1kRaT5qBXh86E
+ zpMrRcG0xca2kPEGHqxm26M+KUlLlmscZ8b71SXLKkGWHtWyG4XWi0022Dw70+dbD/kY
+ EJRw==
+X-Gm-Message-State: ANoB5pmzjf1p06P0jbIKpU1zU2MAR7MwHCNLVrn/BruAiFxIQEclVDOf
+ jZYqYYyHHRJGa2/ngrLWfNR//A==
+X-Google-Smtp-Source: AA0mqf7i/gSH7GGQvOSqsgv9xi7K0jb2aAWSKxgFmGXT6Puc65tmss7R9tmharjDtcFbJgZW8DFsoA==
+X-Received: by 2002:a05:600c:1e85:b0:3cf:84be:aaf9 with SMTP id
+ be5-20020a05600c1e8500b003cf84beaaf9mr14204871wmb.111.1669379800868; 
+ Fri, 25 Nov 2022 04:36:40 -0800 (PST)
+Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie.
+ [188.141.3.169]) by smtp.gmail.com with ESMTPSA id
+ k15-20020a5d6d4f000000b002366dd0e030sm3574111wri.68.2022.11.25.04.36.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Nov 2022 04:36:40 -0800 (PST)
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+Subject: [PATCH v4 00/18] mdss-dsi-ctrl binding and dts fixes
+Date: Fri, 25 Nov 2022 12:36:20 +0000
+Message-Id: <20221125123638.823261-1-bryan.odonoghue@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,62 +70,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Suraj Kandpal <suraj.kandpal@intel.com>,
- Arun R Murthy <arun.r.murthy@intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org,
+ sean@poorly.run, andersson@kernel.org, konrad.dybcio@somainline.org,
+ quic_abhinavk@quicinc.com, david@ixit.cz, dianders@chromium.org,
+ robh+dt@kernel.org, agross@kernel.org, dmitry.baryshkov@linaro.org,
+ bryan.odonoghue@linaro.org, swboyd@chromium.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 05 Oct 2022, Jani Nikula <jani.nikula@intel.com> wrote:
-> Currently i915 assumes all drm_connectors it encounters are embedded in
-> intel_connectors that i915 allocated. The drm_writeback_connector forces
-> a design where this is not the case; we can't provide our own connector,
-> and writeback embeds the drm_connector it initializes itself.
->
-> To use drm writeback, none of the i915 connector iteration could assume
-> the drm connector is embedded in intel_connector. Checking this is
-> tedious, and would require an intermediate step with
-> drm_connector. Here's an idea I came up with; filtering at the drm
-> connector iterator level with a caller supplied function. Not too much
-> code, and could be used for other things as well.
->
-> Mind you, we'd still much rather modify drm writeback to allow passing
-> the connector i915 allocated, instead of the current midlayer design
-> that forces drivers to a certain model. Working around this is a bunch
-> of error prone and tedious code that we really could do without.
+V4:
+- Moves the update of the example from patch #5 to patch #4
 
-Any feedback on this one?
+V3:
+- Moves declaration of mdss-dsi-ctrl into compat string declaration
+  patch - Krzysztof, Dmitry
+- Renames qcm-2290 compat string to agreed compat "qcom,socname-dsi-ctrl"
+  Dmirty, Krzysztof
+- Adds empty line after if clause in yaml control flow section - Dmirty
+- Adds Rb/Ack - Krzysztof, Dmitry, Doug, David
+- vdd*
+  Looking into this some more, I don't believe vdd, vdda, vddio ought to be
+  required properties. Its up to the PCB manufacturer and the panel in-use
+  how that panel is powered. Powering the panel is not something that
+  even necessarily needs to be done from the dsi-ctrl driver.
+  Originally marking vdd* as required in the .txt was an error, its not a
+  SoC level dtsi requirement.
+- clock-names
+  Rather than replicate the clock-name in each if block I listed them with
+  a specific description from a similar reference in usb/qcom,dwc3.yaml.
+ 
+https://lore.kernel.org/linux-arm-msm/eb80681f-2e0b-605f-0444-ec65562f74b8@linaro.org/
 
-BR,
-Jani.
+V2:
+https://www.spinics.net/lists/linux-arm-msm/msg116326.html
 
->
->
-> BR,
-> Jani.
->
->
-> Cc: Arun R Murthy <arun.r.murthy@intel.com>
-> Cc: Dave Airlie <airlied@gmail.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Suraj Kandpal <suraj.kandpal@intel.com>
-> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->
-> Jani Nikula (2):
->   drm/connector: add connector list iteration with filtering
->   drm/i915: iterate intel_connectors only
->
->  drivers/gpu/drm/drm_connector.c               | 57 +++++++++++++++----
->  drivers/gpu/drm/i915/display/intel_display.c  |  3 +-
->  .../drm/i915/display/intel_display_types.h    |  7 +++
->  drivers/gpu/drm/i915/display/intel_dp.c       |  6 +-
->  drivers/gpu/drm/i915/display/intel_dp_mst.c   |  3 +-
->  drivers/gpu/drm/i915/display/intel_hdcp.c     |  3 +-
->  drivers/gpu/drm/i915/display/intel_hotplug.c  | 12 ++--
->  .../drm/i915/display/intel_modeset_setup.c    |  6 +-
->  drivers/gpu/drm/i915/display/intel_opregion.c |  9 ++-
->  include/drm/drm_connector.h                   |  9 +++
->  10 files changed, 89 insertions(+), 26 deletions(-)
+- Moves the DSI PHY changes to a different later series.
+  There are enough dsi-controller-main changes to justify its own
+  standalone series.
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+- The original phy-name binding change given discussion with Rob and
+  Krzysztof became its own standalone series that has since been merged.
+  https://www.mail-archive.com/dri-devel@lists.freedesktop.org/msg403214.html
+
+- Retains the drop of power-domain from yaml as a required property.
+  I dug into the available dtsi. The apq8064 doesn't appear to have any
+  GDSC which can be attached as a power-domain, which means the
+  power-domain requirement is not universal across the various silicon
+  versions.
+
+- Adds Dmitry's RB to power-domain drop
+
+- For the clock declarations I've
+  * I noticed that the simple change I had worked for msm8939 but
+    subsquently broke other dtsi which drove a bigger change to document
+    the clocks on a per compatible basis.
+  * Added compat strings in yaml.
+  * Moved the allOf down later in the file to acomodate the if/then.
+  * Number of clocks validated on a per compatible basis
+  * The driver code which doesn't care about the number of clocks
+    can still operate on the mdss-dsi-ctrl compat but the dts checks will
+    validate against the compat string and yaml.
+
+- vdd descriptions
+  Took the previous text I missed from the .txt file - Krzysztof, Dmitry
+  Adds vdd, vdda and vddio to the required list. This exposes warnings in
+  existing dtsi but the previous .txt declared these regulators as
+  required. - Krzysztof
+ 
+V1:
+This series fixes up a number of dtbs checks which are being flagged adding
+in the msm8939 dtsi.
+
+
+When converting from .txt to .yaml a number of the parameters for the older
+msm8916 silicon were not transmitted into the yaml.
+
+Adding in the msm8939 which is a near 1:1 copy of the msm8916 in terms of
+dtsi triggers a rake of dtbs checks as a result.
+
+https://www.mail-archive.com/dri-devel@lists.freedesktop.org/msg403211.html
+
+Bryan O'Donoghue (18):
+  dt-bindings: msm: dsi-controller-main: Fix operating-points-v2
+    constraint
+  dt-bindings: msm: dsi-controller-main: Fix power-domain constraint
+  dt-bindings: msm: dsi-controller-main: Rename qcom,dsi-ctrl-6g-qcm2290
+    to qcom,qcm2290-dsi-ctrl
+  dt-bindings: msm: dsi-controller-main: Add compatible strings for
+    every current SoC
+  dt-bindings: msm: dsi-controller-main: Document clocks on a per
+    compatible basis
+  dt-bindings: msm: dsi-controller-main: Fix description of core clock
+  dt-bindings: msm: dsi-controller-main: Fix clock declarations
+  dt-bindings: msm: dsi-controller-main: Add vdd* descriptions back in
+  ARM: dts: qcom: apq8064: add compat qcom,apq8064-dsi-ctrl
+  ARM: dts: qcom: msm8974: Add compat qcom,msm8974-dsi-ctrl
+  arm64: dts: qcom: msm8916: Add compat qcom,msm8916-dsi-ctrl
+  arm64: dts: qcom: msm8996: Add compat qcom,msm8996-dsi-ctrl
+  arm64: dts: qcom: sc7180: Add compat qcom,sc7180-dsi-ctrl
+  arm64: dts: qcom: sc7280: Add compat qcom,sc7280-dsi-ctrl
+  arm64: dts: qcom: sdm630: Add compat qcom,sdm630-dsi-ctrl
+  arm64: dts: qcom: sdm660: Add compat qcom,sdm660-dsi-ctrl
+  arm64: dts: qcom: sdm845: Add compat qcom,sdm845-dsi-ctrl
+  arm64: dts: qcom: sm8250: Add compat qcom,sm8250-dsi-ctrl
+
+ .../display/msm/dsi-controller-main.yaml      | 205 ++++++++++++++++--
+ arch/arm/boot/dts/qcom-apq8064.dtsi           |   3 +-
+ arch/arm/boot/dts/qcom-msm8974.dtsi           |   3 +-
+ arch/arm64/boot/dts/qcom/msm8916.dtsi         |   3 +-
+ arch/arm64/boot/dts/qcom/msm8996.dtsi         |   6 +-
+ arch/arm64/boot/dts/qcom/sc7180.dtsi          |   3 +-
+ arch/arm64/boot/dts/qcom/sc7280.dtsi          |   3 +-
+ arch/arm64/boot/dts/qcom/sdm630.dtsi          |   3 +-
+ arch/arm64/boot/dts/qcom/sdm660.dtsi          |   3 +-
+ arch/arm64/boot/dts/qcom/sdm845.dtsi          |   6 +-
+ arch/arm64/boot/dts/qcom/sm8250.dtsi          |   6 +-
+ 11 files changed, 208 insertions(+), 36 deletions(-)
+
+-- 
+2.38.1
+
