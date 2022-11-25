@@ -1,63 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E23A6397E1
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Nov 2022 20:00:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09D346397DF
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Nov 2022 20:00:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D7E610E169;
-	Sat, 26 Nov 2022 19:00:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E3D410E164;
+	Sat, 26 Nov 2022 19:00:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
- [IPv6:2a00:1450:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0614C10E772
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 17:44:22 +0000 (UTC)
-Received: by mail-ed1-x531.google.com with SMTP id x2so7315580edd.2
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 09:44:21 -0800 (PST)
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E39F10E77F
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 17:51:38 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id bj12so11782834ejb.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 09:51:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:autocrypt:to:content-language:subject
- :from:user-agent:mime-version:date:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=LmTj6KBl4Q3qwIactzR8h7ojaUWUX5o+9sZ1ySt88z0=;
- b=TaJSyGtfFhftQwH8zOLh7ZXLOt8XjoLqOL5D0Y4yoVTLAaBxC1uoqYf9eLaTmSjcU6
- m81SHOxaq41k++R5WAYAYDEPpvCnc8xkB6MDA1MHFHL0z049XlZqjjqwJ8hMfBNTS8Pr
- 8Yu1Fy0Wn+xzabUSOVp4CEs6wBTmVJ4N+AogW3Bpb1azDHDOl7Fesf9+zi19cKR8utmG
- sS4WD+GbcMwQpDDd4o8qMkYJLSoS2KLU3YUUYOupM+ZafuJfe3lhpEpuHMM/0c/t71kg
- jEekW0FZCsCYQ53GQYvkKGmDWD1T6xrT56a7r9oGogQQnliEl4QZNDo+3P+f9SKSb1bO
- 92fw==
+ h=in-reply-to:from:to:references:content-language:subject:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=j3p7tT26N5nv9jwZTpAGLQVIuQF0syqGYeXV1inHrDo=;
+ b=HtErPB5aovCyUz7xbjLaZdhEe7kvddMmtEnHaZq2tjhMgrwqk5uNDghU/fJRPnx83j
+ 5TjqZma6dlP7l6DWyL8H4kWzRcs+Bu/P/z/2S1birSqDZH1Avu4XoL1IcpR4XcMCL40y
+ nn+xXsfu0mmmB2XDnRu1w8mhoekgALNX90FPHG3jiBPvaBeBTbZHR4sQLwyA7huK1dE/
+ iVdVKhCpJwQN9vgjyiL0O0NBMpDZLPkd4yyOfTXuv7Dd6ONPv9qRlxMrl/SeVOyUo1eK
+ CQy5hUdz8DVmpEEd6Bsmz2tZ9h8SSXH9CxFPzVbCTM8jBzPd+fSmn3yezbocCvkUlZ+5
+ o3CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:autocrypt:to:content-language:subject
- :from:user-agent:mime-version:date:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=LmTj6KBl4Q3qwIactzR8h7ojaUWUX5o+9sZ1ySt88z0=;
- b=AtQQQYiUBcHzCYB+RS0JjjC0oPAkiixyZm4XO9ZPENYq7rDBXZIaikNfNF+YQwUq9f
- VZl+zpW7+cdzEeqTm2fslVV8NuStEH5uMAm3QuAc98Pgnj14HqOnFBN4Id7ytmq056CV
- mFozC5STlzFcGm+ERq2E/rXmo2oOLTNM+yeJBxE9+f2nLpTHIHz/fv0QRWndpGfAQbOf
- WO7L60lTud2eXc66rDWIIwYO3iXt1rlO+fYvVn0FiteNETj0QzpgddGYHaMg6b3sDBxI
- Wc85LH5pgLzd3pmhnRM0nwU0jjgEDbjFzScRSCO9EJ83wlbCwOsmuk3VFoIo+JhhrhVE
- sn3Q==
-X-Gm-Message-State: ANoB5pnUCuTrgRUhQS58qJU6hO+o6N8iYgbNDV+jhtO+bNetGiYsVp4T
- tfnLxAz8E/Q6ZYtjZott248=
-X-Google-Smtp-Source: AA0mqf5n4EPNMQoMcu0KuY79HY0sosyLL9NqQ02KkKq6jyn/vJaWHcAMhqZnI1izwHz1hU7sMUuUAg==
-X-Received: by 2002:aa7:c04f:0:b0:45c:f13b:4b96 with SMTP id
- k15-20020aa7c04f000000b0045cf13b4b96mr1770602edo.129.1669398260431; 
- Fri, 25 Nov 2022 09:44:20 -0800 (PST)
+ h=in-reply-to:from:to:references:content-language:subject:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=j3p7tT26N5nv9jwZTpAGLQVIuQF0syqGYeXV1inHrDo=;
+ b=IjH4YUvRwhAlyZ5aQ1Ty/yk7/lSG1/XfHEIN63wSY2IFHJZNRu1cj+jO66GXcfrPLf
+ h/LNQVar1evspavCwrf7MUiN63plijYB7aRC8uHZ2pIjRIm+uc46qYSdI2Ltf7YpkX+i
+ 2zSfgJJS+QxU8D6YuiKAJISR68G4mb5nDNjGyefvXL3ZEEsgzLGg/Yh/TU209wNK2deS
+ LliYUdcCfCmK7XPPemDhqry4EZiE6svcWU8dvFbotH3HcriItHB3IoUlwC+8eVrf3ETd
+ LLaHgJtWsOyWg4/Iw5G7abxPDMBnimV97Ygt3Dn7HZAMJdgM2NSf/qxMCCD2X05SEKNO
+ HPYg==
+X-Gm-Message-State: ANoB5pkFMOw3KZGIZIqKoG2O2UMmn80psJ3d0ImsYwtA7CBYoujIC8ek
+ OXKl0ZqnZMhmkFiJ7aorJEE=
+X-Google-Smtp-Source: AA0mqf5lrhvySdY92a1w8yOZEP3Rkts9Tur2fgxotDyZ9u0Izr/4DXRq9UA8juSCo01HdCRZWKm07g==
+X-Received: by 2002:a17:907:8d1a:b0:7ae:6ffe:a118 with SMTP id
+ tc26-20020a1709078d1a00b007ae6ffea118mr32891503ejc.250.1669398697034; 
+ Fri, 25 Nov 2022 09:51:37 -0800 (PST)
 Received: from [192.168.178.2]
  (dslb-092-072-004-196.092.072.pools.vodafone-ip.de. [92.72.4.196])
  by smtp.gmail.com with ESMTPSA id
- lb5-20020a170907784500b007b27aefc578sm1769251ejc.126.2022.11.25.09.44.19
+ t14-20020a170906064e00b007305d408b3dsm1795457ejb.78.2022.11.25.09.51.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Nov 2022 09:44:20 -0800 (PST)
-Message-ID: <3d778b47-afc0-8487-1df5-f68601b9a543@gmail.com>
-Date: Fri, 25 Nov 2022 18:44:18 +0100
+ Fri, 25 Nov 2022 09:51:36 -0800 (PST)
+Content-Type: multipart/alternative;
+ boundary="------------E192SWiJ85NHfQDZMie3ejq0"
+Message-ID: <43ccb0fb-119b-1afe-758b-e413729dd704@gmail.com>
+Date: Fri, 25 Nov 2022 18:51:35 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
-From: =?UTF-8?Q?Otto_Pfl=c3=bcger?= <affenull2345@gmail.com>
-Subject: [PATCH 2/4] drm/tiny: Read separate I/O regulator from DT
+Subject: [PATCH 3/4] dt-bindings: display: panel: mipi-dbi-spi: Add missing
+ property
 Content-Language: en-US
+References: <f5668d69-806a-f8c6-5279-7e84b824bd7a@gmail.com>
 To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
  Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
@@ -67,42 +69,9 @@ To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Autocrypt: addr=affenull2345@gmail.com; keydata=
- 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
- Ywm6apB0M8rLLW1wrFnadKziONJM
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: =?UTF-8?Q?Otto_Pfl=c3=bcger?= <affenull2345@gmail.com>
+In-Reply-To: <f5668d69-806a-f8c6-5279-7e84b824bd7a@gmail.com>
+X-Forwarded-Message-Id: <f5668d69-806a-f8c6-5279-7e84b824bd7a@gmail.com>
 X-Mailman-Approved-At: Sat, 26 Nov 2022 19:00:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -119,38 +88,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some platforms have a separate vddi supply for the panel I/O interface
-(as defined by the MIPI DBI specification), so one power-supply is not
-enough. Introduce a new "io-supply" property to set the vddi regulator.
+This is a multi-part message in MIME format.
+--------------E192SWiJ85NHfQDZMie3ejq0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-After getting the regulator specified the device tree, use the new
-io_regulator property of the DBI device so that the drm_mipi_dbi driver
-can enable it.
+The power-supply property is currently only mentioned in the description 
+and not documented in the properties section as it should be. Add it 
+there. Signed-off-by: Otto Pflüger --- 
+.../devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml | 3 +++ 1 
+file changed, 3 insertions(+) diff --git 
+a/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml 
+b/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml 
+index c2df8d28aaf5..d55bf12ecead 100644 --- 
+a/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml+++ 
+b/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml 
+@@ -80,6 +80,9 @@ properties: Controller data/command selection (D/CX) 
+in 4-line SPI mode. If not set, the controller is in 3-line SPI mode. + 
+power-supply: + description: Power supply for the display module (Vdd). 
++ required: - compatible - reg -- 2.30.2
+--------------E192SWiJ85NHfQDZMie3ejq0
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Otto Pflüger <affenull2345@gmail.com>
----
-  drivers/gpu/drm/tiny/panel-mipi-dbi.c | 5 +++++
-  1 file changed, 5 insertions(+)
+<html>
+  <head>
 
-diff --git a/drivers/gpu/drm/tiny/panel-mipi-dbi.c 
-b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
-index 03a7d569cd56..b09d2a47a409 100644
---- a/drivers/gpu/drm/tiny/panel-mipi-dbi.c
-+++ b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
-@@ -297,6 +297,11 @@ static int panel_mipi_dbi_spi_probe(struct 
-spi_device *spi)
-  		return dev_err_probe(dev, PTR_ERR(dbidev->regulator),
-  				     "Failed to get regulator 'power'\n");
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    The power-supply property is currently only mentioned in the
+    description and not documented in the properties section as it
+    should
+    be. Add it there.
+    Signed-off-by: Otto Pflüger <affenull2345@gmail.com>
+      --- .../devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
+      | 3 +++ 1 file changed, 3 insertions(+)
+      diff --git
+a/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
+b/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
+      index c2df8d28aaf5..d55bf12ecead 100644
+      ---
+a/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml+++
+b/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
+      @@ -80,6 +80,9 @@ properties: Controller data/command selection
+      (D/CX) in 4-line SPI mode. If not set, the controller is in 3-line
+      SPI mode. + power-supply:
+      + description: Power supply for the display module (Vdd).
+      + required: - compatible - reg
+      -- 2.30.2
+    </affenull2345@gmail.com>
+  </body>
+</html>
 
-+	dbidev->io_regulator = devm_regulator_get(dev, "io");
-+	if (IS_ERR(dbidev->io_regulator))
-+		return dev_err_probe(dev, PTR_ERR(dbidev->io_regulator),
-+				     "Failed to get regulator 'io'\n");
-+
-  	dbidev->backlight = devm_of_find_backlight(dev);
-  	if (IS_ERR(dbidev->backlight))
-  		return dev_err_probe(dev, PTR_ERR(dbidev->backlight), "Failed to get 
-backlight\n");
--- 
-2.30.2
-
+--------------E192SWiJ85NHfQDZMie3ejq0--
