@@ -1,62 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D843063963B
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Nov 2022 14:40:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79736639686
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Nov 2022 15:36:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7C2810E05A;
-	Sat, 26 Nov 2022 13:40:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CA6310E0F1;
+	Sat, 26 Nov 2022 14:36:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1275F10E05A
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Nov 2022 13:40:42 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 1A2C221B3D;
- Sat, 26 Nov 2022 13:40:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1669470041; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BoGl6Fm7p2wFv2CwtdQxNHqKs/HFx08iy/uRCX9zFjU=;
- b=SIyt6qAciTDNvEAg09j748/wQATsUA/Uj85V8pa3X798Hb7CVGZYXJmBzTBPlvGd1ERn21
- Jo1hoFCv0CEpbCLESRyBHQoyg9TLmLcEulzdYD3+pYn7dnV6xrJuZX7prlLm9yC+OW3PqA
- ERg9P2ARB71DVcyHnT72oVHdAT8SBNM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1669470041;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BoGl6Fm7p2wFv2CwtdQxNHqKs/HFx08iy/uRCX9zFjU=;
- b=iXiYIYfZymLvkVxSItVy4pxnnMwc0LmU+cd++qbaXJUzKvdIyCBDd9FFUIVkuFjM7kLC4C
- zk1AZU+49bs0XgDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D7D411326E;
- Sat, 26 Nov 2022 13:40:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 4jGuM1gXgmO+EgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Sat, 26 Nov 2022 13:40:40 +0000
-Message-ID: <46e8cf0d-ab47-59b1-6c87-53d2d63a5bf6@suse.de>
-Date: Sat, 26 Nov 2022 14:40:40 +0100
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
+ [IPv6:2a00:1450:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 719E010E12D
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Nov 2022 14:36:39 +0000 (UTC)
+Received: by mail-lj1-x22e.google.com with SMTP id d3so8206948ljl.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Nov 2022 06:36:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=TlFReAZi452KKu7243poUVzcc36SKDtK5buSrZcN41s=;
+ b=DorUbsjYYdMtXqG8uYYRoi3VrC9zXVvjY0opQcp3A3zmx0YAIYYSz4W4hrFigdIEbz
+ xoWq+S5zgz6xfoGnxKxGECIFqfzz5y0onEZ3+cO0KEju2Tqcpa1QdXYZP1IgpQq/ZHeW
+ +uTJux2bDqSe3sSYpQQjw/24qcymzPpR3zVurTJYfwcfG5VJlDMCSEElTdUNMMf1gZVG
+ 2hL7vvNikjb4BYAQav+A/5eqqvtuJpVMSVvwPNMHrAzXRJxneilvjOZDKJsf3gr6K/Yo
+ cImEYzBvvqdcLzdws/U13nbJOyTNyotCdO5SXieAH7LkXuO7sCTkuChrN7jiWSx7mxOj
+ O/7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=TlFReAZi452KKu7243poUVzcc36SKDtK5buSrZcN41s=;
+ b=Bqz8ydXB2+EpJidP9M+dXoGh/vkZFBsx5GiAz+WKiL8CClWnlqIV+EDwFTYRvlyjPQ
+ a9LW50h21FtYR+xhmyL9tjG24PRMqsZLHOazfPOcfZAYA+MR/Bm7AhvFxwTlo68axfUv
+ XXAlthMIfljTjeT+MM9ItVgFiqXx7U9DdDDqMD+xyghAMbr+sEJDf9MCrbRCJWJnQvfG
+ /ue6xXmAU1VBar5lDP9ZmkoMToKlNiZugcsu+VSckqAQ9ta+MVyqTyPoRQI2W4J59jYC
+ iqIOnQTX9skWNbXnjRx7G/3Ncg7kc1ohjJ1yT4riJS11gJb6hA0uny/FE5B8MXt+x9Dt
+ ++xA==
+X-Gm-Message-State: ANoB5pn8Ya3+jZKx+WWy3YgWPRN8MXmCmhN/SG5EmwcaMxytpfYFehgQ
+ AVVkG6+PYoFSDGy8PqKS6T47kA==
+X-Google-Smtp-Source: AA0mqf6gn8Q7/ZynZ1o+yZj/px5dRRu0hgVNiyv5nl70fRpr5NXgnEbAQ+G0uTryw6wn2mtWrRyuqw==
+X-Received: by 2002:a05:651c:1108:b0:277:e8c:a5a4 with SMTP id
+ e8-20020a05651c110800b002770e8ca5a4mr9138752ljo.311.1669473397489; 
+ Sat, 26 Nov 2022 06:36:37 -0800 (PST)
+Received: from [192.168.0.20]
+ (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+ by smtp.gmail.com with ESMTPSA id
+ h5-20020ac24da5000000b0049480c8e7bcsm946797lfe.176.2022.11.26.06.36.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 26 Nov 2022 06:36:37 -0800 (PST)
+Message-ID: <4fd1500d-e3ca-45fd-1cc8-81783697b809@linaro.org>
+Date: Sat, 26 Nov 2022 15:36:35 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
-Subject: Re: [PATCH] fbdev: make offb driver tristate
-To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-References: <20221126000401.25302-1-rdunlap@infradead.org>
+Subject: Re: [PATCH v3 03/18] dt-bindings: msm: dsi-controller-main: Rename
+ qcom,dsi-ctrl-6g-qcm2290 to qcom,qcm2290-dsi-ctrl
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20221126000401.25302-1-rdunlap@infradead.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------Ki0pK44NuJYH6e0YyzbOqHJf"
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+References: <20221124004801.361232-1-bryan.odonoghue@linaro.org>
+ <20221124004801.361232-4-bryan.odonoghue@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221124004801.361232-4-bryan.odonoghue@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,96 +79,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- Masahiro Yamada <masahiroy@kernel.org>, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Michal_Such=c3=a1nek?= <msuchanek@suse.de>,
- linuxppc-dev@lists.ozlabs.org, Helge Deller <deller@gmx.de>
+Cc: dri-devel@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org,
+ sean@poorly.run, andersson@kernel.org, konrad.dybcio@somainline.org,
+ quic_abhinavk@quicinc.com, david@ixit.cz, dianders@chromium.org,
+ robh+dt@kernel.org, agross@kernel.org, dmitry.baryshkov@linaro.org,
+ swboyd@chromium.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------Ki0pK44NuJYH6e0YyzbOqHJf
-Content-Type: multipart/mixed; boundary="------------vJuoS16oKQcn9uhxcFoFCUdr";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc: Arnd Bergmann <arnd@arndb.de>, Masahiro Yamada <masahiroy@kernel.org>,
- =?UTF-8?Q?Michal_Such=c3=a1nek?= <msuchanek@suse.de>,
- linuxppc-dev@lists.ozlabs.org, Daniel Vetter <daniel@ffwll.ch>,
- Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Message-ID: <46e8cf0d-ab47-59b1-6c87-53d2d63a5bf6@suse.de>
-Subject: Re: [PATCH] fbdev: make offb driver tristate
-References: <20221126000401.25302-1-rdunlap@infradead.org>
-In-Reply-To: <20221126000401.25302-1-rdunlap@infradead.org>
+On 24/11/2022 01:47, Bryan O'Donoghue wrote:
+> We will add in a number of compat strings to dsi-controller-main.yaml in
+> the format "qcom,socname-dsi-ctrl" convert the currently unused
+> qcom,dsi-ctrl-6g-qcm2290 to qcom,qcm2290-dsi-ctrl.
 
---------------vJuoS16oKQcn9uhxcFoFCUdr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+It is used: drivers/gpu/drm/msm/dsi/dsi.c
 
-DQoNCkFtIDI2LjExLjIyIHVtIDAxOjA0IHNjaHJpZWIgUmFuZHkgRHVubGFwOg0KPiBNYWtl
-IHRoZSBvZmZiIChPcGVuIEZpcm13YXJlIGZyYW1lIGJ1ZmZlcikgZHJpdmVyIHRyaXN0YXRl
-LA0KPiBpLmUuLCBzbyB0aGF0IGl0IGNhbiBiZSBidWlsdCBhcyBhIGxvYWRhYmxlIG1vZHVs
-ZS4NCj4gDQo+IEhvd2V2ZXIsIGl0IHN0aWxsIGRlcGVuZHMgb24gdGhlIHNldHRpbmcgb2Yg
-RFJNX09GRFJNDQo+IHNvIHRoYXQgYm90aCBvZiB0aGVzZSBkcml2ZXJzIGNhbm5vdCBiZSBi
-dWlsdGluIGF0IHRoZSBzYW1lIHRpbWUNCj4gbm9yIGNhbiBvbmUgYmUgYnVpbHRpbiBhbmQg
-dGhlIG90aGVyIG9uZSBhIGxvYWRhYmxlIG1vZHVsZS4NCj4gDQo+IEJ1aWxkLXRlc3RlZCBz
-dWNjZXNzZnVsbHkgd2l0aCBhbGwgY29tYmluYXRpb24gb2YgRFJNX09GRFJNIGFuZCBGQl9P
-Ri4NCj4gDQo+IFRoaXMgZml4ZXMgYSBidWlsZCBpc3N1ZSB0aGF0IE1pY2hhbCByZXBvcnRl
-ZCB3aGVuIEZCX09GPXkgYW5kDQo+IERSTV9PRkRSTT1tOg0KPiANCj4gcG93ZXJwYzY0LWxp
-bnV4LWxkOiBkcml2ZXJzL3ZpZGVvL2ZiZGV2L29mZmIubzooLmRhdGEucmVsLnJvKzB4NTgp
-OiB1bmRlZmluZWQgcmVmZXJlbmNlIHRvIGBjZmJfZmlsbHJlY3QnDQo+IHBvd2VycGM2NC1s
-aW51eC1sZDogZHJpdmVycy92aWRlby9mYmRldi9vZmZiLm86KC5kYXRhLnJlbC5ybysweDYw
-KTogdW5kZWZpbmVkIHJlZmVyZW5jZSB0byBgY2ZiX2NvcHlhcmVhJw0KPiBwb3dlcnBjNjQt
-bGludXgtbGQ6IGRyaXZlcnMvdmlkZW8vZmJkZXYvb2ZmYi5vOiguZGF0YS5yZWwucm8rMHg2
-OCk6IHVuZGVmaW5lZCByZWZlcmVuY2UgdG8gYGNmYl9pbWFnZWJsaXQnDQo+IA0KPiBTaWdu
-ZWQtb2ZmLWJ5OiBSYW5keSBEdW5sYXAgPHJkdW5sYXBAaW5mcmFkZWFkLm9yZz4NCj4gU3Vn
-Z2VzdGVkLWJ5OiBBcm5kIEJlcmdtYW5uIDxhcm5kQGFybmRiLmRlPg0KPiBDYzogTWFzYWhp
-cm8gWWFtYWRhIDxtYXNhaGlyb3lAa2VybmVsLm9yZz4NCj4gQ2M6IFRob21hcyBaaW1tZXJt
-YW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPiBDYzogTWljaGFsIFN1Y2jDoW5layA8bXN1
-Y2hhbmVrQHN1c2UuZGU+DQo+IENjOiBsaW51eHBwYy1kZXZAbGlzdHMub3psYWJzLm9yZw0K
-PiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPg0KPiBDYzogSGVsZ2UgRGVs
-bGVyIDxkZWxsZXJAZ214LmRlPg0KPiBDYzogbGludXgtZmJkZXZAdmdlci5rZXJuZWwub3Jn
-DQo+IENjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQoNCkFja2VkLWJ5OiBU
-aG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCg0KPiANCj4gLS0tDQo+
-ICAgZHJpdmVycy92aWRlby9mYmRldi9LY29uZmlnIHwgICAgNCArKy0tDQo+ICAgMSBmaWxl
-IGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYg
-LS0gYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L0tjb25maWcgYi9kcml2ZXJzL3ZpZGVvL2ZiZGV2
-L0tjb25maWcNCj4gLS0tIGEvZHJpdmVycy92aWRlby9mYmRldi9LY29uZmlnDQo+ICsrKyBi
-L2RyaXZlcnMvdmlkZW8vZmJkZXYvS2NvbmZpZw0KPiBAQCAtNDU2LDggKzQ1Niw4IEBAIGNv
-bmZpZyBGQl9BVEFSSQ0KPiAgIAkgIGNoaXBzZXQgZm91bmQgaW4gQXRhcmlzLg0KPiAgIA0K
-PiAgIGNvbmZpZyBGQl9PRg0KPiAtCWJvb2wgIk9wZW4gRmlybXdhcmUgZnJhbWUgYnVmZmVy
-IGRldmljZSBzdXBwb3J0Ig0KPiAtCWRlcGVuZHMgb24gKEZCID0geSkgJiYgUFBDICYmICgh
-UFBDX1BTRVJJRVMgfHwgUENJKQ0KPiArCXRyaXN0YXRlICJPcGVuIEZpcm13YXJlIGZyYW1l
-IGJ1ZmZlciBkZXZpY2Ugc3VwcG9ydCINCj4gKwlkZXBlbmRzIG9uIEZCICYmIFBQQyAmJiAo
-IVBQQ19QU0VSSUVTIHx8IFBDSSkNCj4gICAJZGVwZW5kcyBvbiAhRFJNX09GRFJNDQo+ICAg
-CXNlbGVjdCBBUEVSVFVSRV9IRUxQRVJTDQo+ICAgCXNlbGVjdCBGQl9DRkJfRklMTFJFQ1QN
-Cg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0K
-U1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5
-MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdl
-c2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+> 
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>  .../devicetree/bindings/display/msm/dsi-controller-main.yaml    | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+> index cf782c5f5bdb0..67d08dc338925 100644
+> --- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+> @@ -16,7 +16,7 @@ properties:
+>    compatible:
+>      enum:
+>        - qcom,mdss-dsi-ctrl
+> -      - qcom,dsi-ctrl-6g-qcm2290
+> +      - qcom,qcm2290-dsi-ctrl
 
---------------vJuoS16oKQcn9uhxcFoFCUdr--
+That's a bit surprising. Did we discuss it? It breaks the ABI, so I
+doubt (driver/bindings were already upstreamed).
 
---------------Ki0pK44NuJYH6e0YyzbOqHJf
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Best regards,
+Krzysztof
 
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmOCF1gFAwAAAAAACgkQlh/E3EQov+CJ
-vw/+ONumJQjV+7LoEpcMdQywoYRDLqpBwO/cB5TlRWktE2eLaRwMG88S2rOde8UcNu++iKAndzYZ
-q6v9TbZGx2dFV6dWPxefOd6UxgZVuPVffPlzGs71iaaDmr33yoQXvA+XYMs62JX2RSLmxx9lW5lU
-BsloOKY15g7sh64e7UfL3V2nlC+I6nScpa8lmC+tOkX0pzEEpDlMmBa7QsNhfvf0oZ0VJFzvDoIL
-lMgxjVpBv5YAmhOaMf2pQXgjfHbJnEL18o4iRvWLWKaU0B12J46KxTqTafok/TmASdRugRH5NIP1
-wa5V7f1twwtJdczhLCfPzq1Iiv86JgD0CyN3af/LIBwN/FwZkI3LftRvWJtgU7ikD5FymPmhhc+a
-YcxjmVhwUcUnh4vhA0CuhA3zA77XJFbBdtrBP2gchSvA4tZ/vJqtZm1DOSVdzGt1xqwvdzamwUse
-mDome8RBkhqbbFmQZAjvJiAOxHkdtFaOy8NS0hYH7bgRCc34eccBz+t3vjtB9k/bcx3c9DASN5Rd
-uWcXN6yuRce4HuwVHTidZKWmclxRZiZYfwJmLGLEpf8ReJvTetBtuMmoJ7i0OG26K4Kh4Kmag8t3
-UjqXVYGVY4stIdA3/sq3H9u9h6hp6jSDJiWlq4Or5iNGuiL4wd/WZyAyODk2+HxXpx5SwIhll1Xi
-J9c=
-=nzHm
------END PGP SIGNATURE-----
-
---------------Ki0pK44NuJYH6e0YyzbOqHJf--
