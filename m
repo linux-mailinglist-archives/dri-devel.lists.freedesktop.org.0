@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C4C1639547
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Nov 2022 11:22:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D843063963B
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Nov 2022 14:40:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A843C10E142;
-	Sat, 26 Nov 2022 10:21:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7C2810E05A;
+	Sat, 26 Nov 2022 13:40:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56B4A10E143
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Nov 2022 10:21:46 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id bp15so10233770lfb.13
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Nov 2022 02:21:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=8VB00XXo9e3yriyeL24q/eXlYJsfaOLwJ8XWwhfhTqA=;
- b=ExrqDAugiXRgy91CLwarhGFEg2Ez0q7BZo8oDcUf6yydxWCnLgivBeF83eURzwfnpQ
- eZamHzh8pJzdNT6OFEIScF297q1xIh7HbwQBnm+fKsmfUO0AHjbnENPtLa4n4AuFRB6N
- WyZKoig3IW8sWKQIzwKlOzu3GNBnOBQXgRlqd+49jsXOS2KKmARVDog/weVhWdz2/cVI
- praGx1Hv7QjII2hUfqHmzjNXKtmwSaSfyAs7OXsiUKBo6TICm/ORSoaW2XuAHtQ6UeFr
- p7TKnBoThURtQAeoMEkD0euo2R19wexdqox9v0D/O9s5Jep+wNRgHxa8pBr4fzpj6dJh
- Eh3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8VB00XXo9e3yriyeL24q/eXlYJsfaOLwJ8XWwhfhTqA=;
- b=oqvNfencZ3DaD2Bax4u0UogUcFeHmf4HMvl1N2cth4dDtU5pgOmm942mHRGaUy8a5G
- 00oDeM+LQVP7TtFGPYh2utIMaNBc6gDCkkTXGjze9wZtuhPIrj7iCcwgQ0teNxWYd0SU
- BdrOuv/+IN4W3txNJEQQLp2/7b+7L0QPgHB3NQaVGLheSaYHcCEHLt8n8i3xg6GfHL7u
- pFa3aHSPZXGN6PmxPnowiERmrVqcn4KgMeioLieq7hDBlVYyC46viAWvIqUKYUnHKjNe
- 3wOt3LYJ6dnNMPvUg8hGfMVUifzBRx8+A0c9e2izsjLgAhGlQJ0R6C6jVTijvLFsM2cJ
- PCCg==
-X-Gm-Message-State: ANoB5pmnfDrhyeGff5GT0Wcd7B6crO0CbesxvZSpqGyW55aFipOrTJ5M
- nwEJkSXprSw9utJyynaIo/PNbA==
-X-Google-Smtp-Source: AA0mqf4biFG+SG+VDq69tcEYoguPGiqaqr8H2IKEfIUzcKZjPApuVbUInCBKJa5DsMyoifl9jz9ZAw==
-X-Received: by 2002:ac2:518c:0:b0:4a2:4560:61e7 with SMTP id
- u12-20020ac2518c000000b004a2456061e7mr14010516lfi.170.1669458104099; 
- Sat, 26 Nov 2022 02:21:44 -0800 (PST)
-Received: from eriador.lan ([2001:470:dd84:abc0::8a5])
- by smtp.gmail.com with ESMTPSA id
- q10-20020ac2528a000000b0048b003c4bf7sm875462lfm.169.2022.11.26.02.21.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 26 Nov 2022 02:21:43 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Subject: [pull] drm/msm: drm-msm-display-for-6.2
-Date: Sat, 26 Nov 2022 12:21:41 +0200
-Message-Id: <20221126102141.721353-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.35.1
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1275F10E05A
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Nov 2022 13:40:42 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 1A2C221B3D;
+ Sat, 26 Nov 2022 13:40:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1669470041; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BoGl6Fm7p2wFv2CwtdQxNHqKs/HFx08iy/uRCX9zFjU=;
+ b=SIyt6qAciTDNvEAg09j748/wQATsUA/Uj85V8pa3X798Hb7CVGZYXJmBzTBPlvGd1ERn21
+ Jo1hoFCv0CEpbCLESRyBHQoyg9TLmLcEulzdYD3+pYn7dnV6xrJuZX7prlLm9yC+OW3PqA
+ ERg9P2ARB71DVcyHnT72oVHdAT8SBNM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1669470041;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BoGl6Fm7p2wFv2CwtdQxNHqKs/HFx08iy/uRCX9zFjU=;
+ b=iXiYIYfZymLvkVxSItVy4pxnnMwc0LmU+cd++qbaXJUzKvdIyCBDd9FFUIVkuFjM7kLC4C
+ zk1AZU+49bs0XgDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D7D411326E;
+ Sat, 26 Nov 2022 13:40:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 4jGuM1gXgmO+EgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Sat, 26 Nov 2022 13:40:40 +0000
+Message-ID: <46e8cf0d-ab47-59b1-6c87-53d2d63a5bf6@suse.de>
+Date: Sat, 26 Nov 2022 14:40:40 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH] fbdev: make offb driver tristate
+To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+References: <20221126000401.25302-1-rdunlap@infradead.org>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20221126000401.25302-1-rdunlap@infradead.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------Ki0pK44NuJYH6e0YyzbOqHJf"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,213 +69,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Stephen Boyd <swboyd@chromium.org>
+Cc: linux-fbdev@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ Masahiro Yamada <masahiroy@kernel.org>, dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Michal_Such=c3=a1nek?= <msuchanek@suse.de>,
+ linuxppc-dev@lists.ozlabs.org, Helge Deller <deller@gmx.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------Ki0pK44NuJYH6e0YyzbOqHJf
+Content-Type: multipart/mixed; boundary="------------vJuoS16oKQcn9uhxcFoFCUdr";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc: Arnd Bergmann <arnd@arndb.de>, Masahiro Yamada <masahiroy@kernel.org>,
+ =?UTF-8?Q?Michal_Such=c3=a1nek?= <msuchanek@suse.de>,
+ linuxppc-dev@lists.ozlabs.org, Daniel Vetter <daniel@ffwll.ch>,
+ Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Message-ID: <46e8cf0d-ab47-59b1-6c87-53d2d63a5bf6@suse.de>
+Subject: Re: [PATCH] fbdev: make offb driver tristate
+References: <20221126000401.25302-1-rdunlap@infradead.org>
+In-Reply-To: <20221126000401.25302-1-rdunlap@infradead.org>
 
-As agreed with Rob Clark, a pull request for the non-GPU part of the drm/msm driver. Summary below.
+--------------vJuoS16oKQcn9uhxcFoFCUdr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-The following changes since commit 7f7a942c0a338c4a2a7b359bdb2b68e9896122ec:
+DQoNCkFtIDI2LjExLjIyIHVtIDAxOjA0IHNjaHJpZWIgUmFuZHkgRHVubGFwOg0KPiBNYWtl
+IHRoZSBvZmZiIChPcGVuIEZpcm13YXJlIGZyYW1lIGJ1ZmZlcikgZHJpdmVyIHRyaXN0YXRl
+LA0KPiBpLmUuLCBzbyB0aGF0IGl0IGNhbiBiZSBidWlsdCBhcyBhIGxvYWRhYmxlIG1vZHVs
+ZS4NCj4gDQo+IEhvd2V2ZXIsIGl0IHN0aWxsIGRlcGVuZHMgb24gdGhlIHNldHRpbmcgb2Yg
+RFJNX09GRFJNDQo+IHNvIHRoYXQgYm90aCBvZiB0aGVzZSBkcml2ZXJzIGNhbm5vdCBiZSBi
+dWlsdGluIGF0IHRoZSBzYW1lIHRpbWUNCj4gbm9yIGNhbiBvbmUgYmUgYnVpbHRpbiBhbmQg
+dGhlIG90aGVyIG9uZSBhIGxvYWRhYmxlIG1vZHVsZS4NCj4gDQo+IEJ1aWxkLXRlc3RlZCBz
+dWNjZXNzZnVsbHkgd2l0aCBhbGwgY29tYmluYXRpb24gb2YgRFJNX09GRFJNIGFuZCBGQl9P
+Ri4NCj4gDQo+IFRoaXMgZml4ZXMgYSBidWlsZCBpc3N1ZSB0aGF0IE1pY2hhbCByZXBvcnRl
+ZCB3aGVuIEZCX09GPXkgYW5kDQo+IERSTV9PRkRSTT1tOg0KPiANCj4gcG93ZXJwYzY0LWxp
+bnV4LWxkOiBkcml2ZXJzL3ZpZGVvL2ZiZGV2L29mZmIubzooLmRhdGEucmVsLnJvKzB4NTgp
+OiB1bmRlZmluZWQgcmVmZXJlbmNlIHRvIGBjZmJfZmlsbHJlY3QnDQo+IHBvd2VycGM2NC1s
+aW51eC1sZDogZHJpdmVycy92aWRlby9mYmRldi9vZmZiLm86KC5kYXRhLnJlbC5ybysweDYw
+KTogdW5kZWZpbmVkIHJlZmVyZW5jZSB0byBgY2ZiX2NvcHlhcmVhJw0KPiBwb3dlcnBjNjQt
+bGludXgtbGQ6IGRyaXZlcnMvdmlkZW8vZmJkZXYvb2ZmYi5vOiguZGF0YS5yZWwucm8rMHg2
+OCk6IHVuZGVmaW5lZCByZWZlcmVuY2UgdG8gYGNmYl9pbWFnZWJsaXQnDQo+IA0KPiBTaWdu
+ZWQtb2ZmLWJ5OiBSYW5keSBEdW5sYXAgPHJkdW5sYXBAaW5mcmFkZWFkLm9yZz4NCj4gU3Vn
+Z2VzdGVkLWJ5OiBBcm5kIEJlcmdtYW5uIDxhcm5kQGFybmRiLmRlPg0KPiBDYzogTWFzYWhp
+cm8gWWFtYWRhIDxtYXNhaGlyb3lAa2VybmVsLm9yZz4NCj4gQ2M6IFRob21hcyBaaW1tZXJt
+YW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPiBDYzogTWljaGFsIFN1Y2jDoW5layA8bXN1
+Y2hhbmVrQHN1c2UuZGU+DQo+IENjOiBsaW51eHBwYy1kZXZAbGlzdHMub3psYWJzLm9yZw0K
+PiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPg0KPiBDYzogSGVsZ2UgRGVs
+bGVyIDxkZWxsZXJAZ214LmRlPg0KPiBDYzogbGludXgtZmJkZXZAdmdlci5rZXJuZWwub3Jn
+DQo+IENjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQoNCkFja2VkLWJ5OiBU
+aG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCg0KPiANCj4gLS0tDQo+
+ICAgZHJpdmVycy92aWRlby9mYmRldi9LY29uZmlnIHwgICAgNCArKy0tDQo+ICAgMSBmaWxl
+IGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYg
+LS0gYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L0tjb25maWcgYi9kcml2ZXJzL3ZpZGVvL2ZiZGV2
+L0tjb25maWcNCj4gLS0tIGEvZHJpdmVycy92aWRlby9mYmRldi9LY29uZmlnDQo+ICsrKyBi
+L2RyaXZlcnMvdmlkZW8vZmJkZXYvS2NvbmZpZw0KPiBAQCAtNDU2LDggKzQ1Niw4IEBAIGNv
+bmZpZyBGQl9BVEFSSQ0KPiAgIAkgIGNoaXBzZXQgZm91bmQgaW4gQXRhcmlzLg0KPiAgIA0K
+PiAgIGNvbmZpZyBGQl9PRg0KPiAtCWJvb2wgIk9wZW4gRmlybXdhcmUgZnJhbWUgYnVmZmVy
+IGRldmljZSBzdXBwb3J0Ig0KPiAtCWRlcGVuZHMgb24gKEZCID0geSkgJiYgUFBDICYmICgh
+UFBDX1BTRVJJRVMgfHwgUENJKQ0KPiArCXRyaXN0YXRlICJPcGVuIEZpcm13YXJlIGZyYW1l
+IGJ1ZmZlciBkZXZpY2Ugc3VwcG9ydCINCj4gKwlkZXBlbmRzIG9uIEZCICYmIFBQQyAmJiAo
+IVBQQ19QU0VSSUVTIHx8IFBDSSkNCj4gICAJZGVwZW5kcyBvbiAhRFJNX09GRFJNDQo+ICAg
+CXNlbGVjdCBBUEVSVFVSRV9IRUxQRVJTDQo+ICAgCXNlbGVjdCBGQl9DRkJfRklMTFJFQ1QN
+Cg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0K
+U1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5
+MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdl
+c2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
-  Merge tag 'drm-next-20221025' of git://linuxtv.org/pinchartl/media into drm-next (2022-10-27 14:44:15 +1000)
+--------------vJuoS16oKQcn9uhxcFoFCUdr--
 
-are available in the Git repository at:
+--------------Ki0pK44NuJYH6e0YyzbOqHJf
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-  https://gitlab.freedesktop.org/lumag/msm.git tags/drm-msm-display-for-6.2
+-----BEGIN PGP SIGNATURE-----
 
-for you to fetch changes up to 8d1d17d47eaebe4466459846d07e4ba8953fa585:
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmOCF1gFAwAAAAAACgkQlh/E3EQov+CJ
+vw/+ONumJQjV+7LoEpcMdQywoYRDLqpBwO/cB5TlRWktE2eLaRwMG88S2rOde8UcNu++iKAndzYZ
+q6v9TbZGx2dFV6dWPxefOd6UxgZVuPVffPlzGs71iaaDmr33yoQXvA+XYMs62JX2RSLmxx9lW5lU
+BsloOKY15g7sh64e7UfL3V2nlC+I6nScpa8lmC+tOkX0pzEEpDlMmBa7QsNhfvf0oZ0VJFzvDoIL
+lMgxjVpBv5YAmhOaMf2pQXgjfHbJnEL18o4iRvWLWKaU0B12J46KxTqTafok/TmASdRugRH5NIP1
+wa5V7f1twwtJdczhLCfPzq1Iiv86JgD0CyN3af/LIBwN/FwZkI3LftRvWJtgU7ikD5FymPmhhc+a
+YcxjmVhwUcUnh4vhA0CuhA3zA77XJFbBdtrBP2gchSvA4tZ/vJqtZm1DOSVdzGt1xqwvdzamwUse
+mDome8RBkhqbbFmQZAjvJiAOxHkdtFaOy8NS0hYH7bgRCc34eccBz+t3vjtB9k/bcx3c9DASN5Rd
+uWcXN6yuRce4HuwVHTidZKWmclxRZiZYfwJmLGLEpf8ReJvTetBtuMmoJ7i0OG26K4Kh4Kmag8t3
+UjqXVYGVY4stIdA3/sq3H9u9h6hp6jSDJiWlq4Or5iNGuiL4wd/WZyAyODk2+HxXpx5SwIhll1Xi
+J9c=
+=nzHm
+-----END PGP SIGNATURE-----
 
-  Merge branches 'msm-next-lumag-core', 'msm-next-lumag-dpu', 'msm-next-lumag-dp', 'msm-next-lumag-dsi', 'msm-next-lumag-hdmi' and 'msm-next-lumag-mdp5' into msm-next-lumag (2022-11-26 12:06:29 +0200)
-
-----------------------------------------------------------------
-drm/msm updates for 6.2
-
-Core:
-- MSM_INFO_GET_FLAGS support
-- Cleaned up MSM IOMMU wrapper code
-
-DPU:
-- Added support for XR30 and P010 image formats
-- Reworked MDSS/DPU schema, added SM8250 MDSS bindings
-- Added Qualcomm SM6115 support
-
-DP:
-- Dropped unsane sanity checks
-
-DSI:
-- Fix calculation of DSC pps payload
-
-DSI PHY:
-- DSI PHY support for QCM2290
-
-HDMI:
-- Reworked dev init path
-
-----------------------------------------------------------------
-Adam Skladowski (2):
-      dt-bindings: display/msm: add support for SM6115
-      drm/msm/disp/dpu1: add support for display on SM6115
-
-Bryan O'Donoghue (1):
-      dt-bindings: msm: dsi-controller-main: Drop redundant phy-names
-
-Dan Carpenter (1):
-      drm/msm/hdmi: remove unnecessary NULL check
-
-Dmitry Baryshkov (25):
-      Merge remote-tracking branch 'msm/msm-fixes' into HEAD
-      drm/msm: less magic numbers in msm_mdss_enable
-      drm/msm/mdp5: stop overriding drvdata
-      dt-bindings: display/msm: split qcom, mdss bindings
-      dt-bindings: display/msm: add gcc-bus clock to dpu-smd845
-      dt-bindings: display/msm: add interconnects property to qcom, mdss-smd845
-      dt-bindings: display/msm: move common DPU properties to dpu-common.yaml
-      dt-bindings: display/msm: move common MDSS properties to mdss-common.yaml
-      dt-bindings: display/msm: split dpu-sc7180 into DPU and MDSS parts
-      dt-bindings: display/msm: split dpu-sc7280 into DPU and MDSS parts
-      dt-bindings: display/msm: split dpu-sdm845 into DPU and MDSS parts
-      dt-bindings: display/msm: split dpu-msm8998 into DPU and MDSS parts
-      dt-bindings: display/msm: split dpu-qcm2290 into DPU and MDSS parts
-      dt-bindings: display/msm: add missing device nodes to mdss-* schemas
-      dt-bindings: display/msm: add support for the display on SM8250
-      drm/msm/hdmi: use devres helper for runtime PM management
-      drm/msm/hdmi: drop constant resource names from platform config
-      drm/msm: move domain allocation into msm_iommu_new()
-      drm/msm: remove duplicated code from a6xx_create_address_space
-      drm/msm/hdmi: move resource allocation to probe function
-      drm/msm/hdmi: don't take extra reference on PHY device
-      drm/msm/hdmi: move msm_hdmi_get_phy() to msm_hdmi_dev_probe()
-      dt-bindings: display/msm/dsi-controller-main: allow defining opp-table
-      drm/msm/mdp5: fix reading hw revision on db410c platform
-      Merge branches 'msm-next-lumag-core', 'msm-next-lumag-dpu', 'msm-next-lumag-dp', 'msm-next-lumag-dsi', 'msm-next-lumag-hdmi' and 'msm-next-lumag-mdp5' into msm-next-lumag
-
-Jessica Zhang (2):
-      drm/msm/dpu: Add support for XR30 format
-      drm/msm/dpu: Add support for P010 format
-
-Johan Hovold (2):
-      drm/msm/dp: drop modeset sanity checks
-      drm/msm/dsi: drop modeset sanity checks
-
-Kuogee Hsieh (2):
-      drm/msm/dp: replace variable err with len at dp_aux_link_power_up()
-      drm/msm/dp: retry 3 times if set sink to D0 poweer state failed
-
-Liu Shixin (1):
-      drm/msm/dpu: use DEFINE_SHOW_ATTRIBUTE to simplify dpu_regset32
-
-Loic Poulain (2):
-      dt-bindings: display/msm: Add QCM2290 DSI phy
-      drm/msm/dsi: Add phy configuration for QCM2290
-
-Marijn Suijten (11):
-      drm/msm/dpu1: Account for DSC's bits_per_pixel having 4 fractional bits
-      drm/msm/dsi: Remove useless math in DSC calculations
-      drm/msm/dsi: Remove repeated calculation of slice_per_intf
-      drm/msm/dsi: Use DIV_ROUND_UP instead of conditional increment on modulo
-      drm/msm/dsi: Reuse earlier computed dsc->slice_chunk_size
-      drm/msm/dsi: Appropriately set dsc->mux_word_size based on bpc
-      drm/msm/dsi: Migrate to drm_dsc_compute_rc_parameters()
-      drm/msm/dsi: Account for DSC's bits_per_pixel having 4 fractional bits
-      drm/msm/dsi: Disallow 8 BPC DSC configuration for alternative BPC values
-      drm/msm/dpu1: Account for DSC's bits_per_pixel having 4 fractional bits
-      drm/msm/dsi: Prevent signed BPG offsets from bleeding into adjacent bits
-
-Rob Clark (1):
-      drm/msm: Add MSM_INFO_GET_FLAGS
-
-Robert Foss (1):
-      drm/msm/dpu: Refactor sc7280_pp location
-
- .../bindings/display/msm/dpu-common.yaml           |  52 +++
- .../bindings/display/msm/dpu-msm8998.yaml          | 223 -----------
- .../bindings/display/msm/dpu-qcm2290.yaml          | 222 -----------
- .../bindings/display/msm/dpu-sc7180.yaml           | 235 ------------
- .../bindings/display/msm/dpu-sc7280.yaml           | 239 ------------
- .../bindings/display/msm/dpu-sdm845.yaml           | 217 -----------
- .../bindings/display/msm/dsi-controller-main.yaml  |   5 +-
- .../bindings/display/msm/dsi-phy-14nm.yaml         |   1 +
- .../devicetree/bindings/display/msm/mdp5.txt       |  30 +-
- .../bindings/display/msm/mdss-common.yaml          |  83 ++++
- .../devicetree/bindings/display/msm/qcom,mdss.yaml | 196 ++++++++++
- .../bindings/display/msm/qcom,msm8998-dpu.yaml     |  95 +++++
- .../bindings/display/msm/qcom,msm8998-mdss.yaml    | 268 +++++++++++++
- .../bindings/display/msm/qcom,qcm2290-dpu.yaml     |  84 ++++
- .../bindings/display/msm/qcom,qcm2290-mdss.yaml    | 198 ++++++++++
- .../bindings/display/msm/qcom,sc7180-dpu.yaml      |  95 +++++
- .../bindings/display/msm/qcom,sc7180-mdss.yaml     | 304 +++++++++++++++
- .../bindings/display/msm/qcom,sc7280-dpu.yaml      |  98 +++++
- .../bindings/display/msm/qcom,sc7280-mdss.yaml     | 422 +++++++++++++++++++++
- .../bindings/display/msm/qcom,sdm845-dpu.yaml      |  90 +++++
- .../bindings/display/msm/qcom,sdm845-mdss.yaml     | 270 +++++++++++++
- .../bindings/display/msm/qcom,sm6115-dpu.yaml      |  94 +++++
- .../bindings/display/msm/qcom,sm6115-mdss.yaml     | 182 +++++++++
- .../bindings/display/msm/qcom,sm8250-dpu.yaml      |  92 +++++
- .../bindings/display/msm/qcom,sm8250-mdss.yaml     | 330 ++++++++++++++++
- drivers/gpu/drm/msm/Kconfig                        |   2 +-
- drivers/gpu/drm/msm/adreno/a3xx_gpu.c              |   2 +-
- drivers/gpu/drm/msm/adreno/a4xx_gpu.c              |   2 +-
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c              |   2 +-
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c              |  12 +-
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c              |  33 +-
- drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c        |  14 +-
- drivers/gpu/drm/msm/adreno/adreno_device.c         |  10 +-
- drivers/gpu/drm/msm/adreno/adreno_gpu.c            |  36 +-
- drivers/gpu/drm/msm/adreno/adreno_gpu.h            |   9 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c        |  24 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     | 104 ++++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c         |  11 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |  19 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c          |   2 +
- drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c           |  19 +-
- .../gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c    |   5 +-
- drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c           |  27 +-
- drivers/gpu/drm/msm/dp/dp_ctrl.c                   |  13 +-
- drivers/gpu/drm/msm/dp/dp_display.c                |  23 +-
- drivers/gpu/drm/msm/dp/dp_drm.c                    |  34 ++
- drivers/gpu/drm/msm/dp/dp_link.c                   |  21 +-
- drivers/gpu/drm/msm/dp/dp_parser.c                 |   6 +-
- drivers/gpu/drm/msm/dp/dp_parser.h                 |   5 +-
- drivers/gpu/drm/msm/dsi/dsi.c                      |   9 +-
- drivers/gpu/drm/msm/dsi/dsi_host.c                 | 121 ++----
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.c              |   2 +
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.h              |   1 +
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c         |  17 +
- drivers/gpu/drm/msm/hdmi/hdmi.c                    | 359 ++++++++----------
- drivers/gpu/drm/msm/hdmi/hdmi.h                    |   3 -
- drivers/gpu/drm/msm/msm_drv.c                      |  29 +-
- drivers/gpu/drm/msm/msm_gem_submit.c               |   9 +-
- drivers/gpu/drm/msm/msm_gpu.c                      |   2 +
- drivers/gpu/drm/msm/msm_gpu.h                      |   4 +
- drivers/gpu/drm/msm/msm_iommu.c                    |  20 +-
- drivers/gpu/drm/msm/msm_mdss.c                     |  85 ++++-
- drivers/gpu/drm/msm/msm_mmu.h                      |   3 +-
- drivers/gpu/drm/msm/msm_ringbuffer.c               |   3 +-
- include/uapi/drm/msm_drm.h                         |   1 +
- 66 files changed, 3602 insertions(+), 1627 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/msm/dpu-common.yaml
- delete mode 100644 Documentation/devicetree/bindings/display/msm/dpu-msm8998.yaml
- delete mode 100644 Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml
- delete mode 100644 Documentation/devicetree/bindings/display/msm/dpu-sc7180.yaml
- delete mode 100644 Documentation/devicetree/bindings/display/msm/dpu-sc7280.yaml
- delete mode 100644 Documentation/devicetree/bindings/display/msm/dpu-sdm845.yaml
- create mode 100644 Documentation/devicetree/bindings/display/msm/mdss-common.yaml
- create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml
- create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,msm8998-dpu.yaml
- create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,msm8998-mdss.yaml
- create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,qcm2290-dpu.yaml
- create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml
- create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sc7180-dpu.yaml
- create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sc7180-mdss.yaml
- create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sc7280-dpu.yaml
- create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sc7280-mdss.yaml
- create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sdm845-dpu.yaml
- create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml
- create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sm6115-dpu.yaml
- create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml
- create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sm8250-dpu.yaml
- create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sm8250-mdss.yaml
+--------------Ki0pK44NuJYH6e0YyzbOqHJf--
