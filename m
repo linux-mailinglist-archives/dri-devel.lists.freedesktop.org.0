@@ -1,60 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 162336397F3
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Nov 2022 20:03:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED10C6397F4
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Nov 2022 20:03:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FF1510E173;
-	Sat, 26 Nov 2022 19:03:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8518310E174;
+	Sat, 26 Nov 2022 19:03:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
- [IPv6:2607:f8b0:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82F2E10E168
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Nov 2022 19:03:02 +0000 (UTC)
-Received: by mail-pg1-x536.google.com with SMTP id f9so6476995pgf.7
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Nov 2022 11:03:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=schmorgal.com; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ORhYy+5RsRhtN/r0n/8d8XGwBuq0gn/E8Gc2XsetIZQ=;
- b=Z1FZXck/wingZVI+QM6vHDgxZx6YdzUkUiqs5tNsn8Q2aPzpW5Vb9AiD6RRrGeD/Z0
- KN44CxBiWmXu/Z7BZuzmuj5w+CobeOuXr3NmkX4H5PbLqjP5cQaUgwRQTKKy2cDFMxpC
- l9Gw57t4YRW4HiR9VuY+7YgcVLQMx2TOq7Z28=
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45EBA10E16B
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Nov 2022 19:01:46 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id s8so11528126lfc.8
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Nov 2022 11:01:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=npduQyctwPNwbrvgK5EV990wakFndbnwODmRKUwPZ0c=;
+ b=YYDXJrlDz5fAunQJeW2HJc+UnzJx/7HXQvjdVLpMqfp+JXxPYtLlQFHrlg6y7kRps6
+ IuglpHw3CwIRW9cheafiCbS0cQM7tPK9hLvxNxu2dJlFMcRG/ZsOfa+EyMu2An+INn+Y
+ nJXA7ftESS/os65D8GZ5hujNTqO1ykODmF1iSvkVtXN3a3ajQdtkK/VU+JOZzinjzcA5
+ oDxnog4o9hud04y8TNwvgQkyYAzC7vHiSmiFPcBan94w71ie+yTcgsxY2fNl9K9pC5yw
+ UDoIlGN4w17bVxjOLFTRV5T+lTKuzALe8j27brPecExBLVEfBknj9T0vlYTGADAUSCMN
+ 8Nbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ORhYy+5RsRhtN/r0n/8d8XGwBuq0gn/E8Gc2XsetIZQ=;
- b=oP+2AIHVkDGfnziZALaeLKGTIdV+HJC46eWlbpr1Ytwt1OwOzTg+U/pHyP3/ifoDaM
- U5frZr/yOaN7ROrhsDR8VWtflvs8VQHQHi+O7F4AJjVdqbP8vrp70XfSvd7XEYpsGlV0
- p1teNw5sKIYI46J6znyJ0dvFxEOdALl5DLv+N7K4v9vwPCBKumg3S4lCI6pQJq2eJY3u
- MR7ieKw+5L3+8OMcIgkCd5ic6rI4tGxMomJPSxJioVQdPWGxuj7iPAAA/OteB4T98UeA
- v/uDenrQYOKuP3sIL+XKwgVukO36bw2bYVa1vFTmii9LO0ISw0LP6Wlf8iWF063Rg0tS
- wOxQ==
-X-Gm-Message-State: ANoB5pl/WqT8vS61bPnS9TrwsVzz67zIFlrZw3uaPhjQykEL0afP8QyQ
- 4VJqnYH1cc7k5RT7stsa5SDhXg==
-X-Google-Smtp-Source: AA0mqf7fkWPorcp2eOnPH8suTjgmKJnv8X+ibGgbh2psbAPRCJQRVnPhxGIqzXQAg7eloxRjl1KzBA==
-X-Received: by 2002:a63:fc0a:0:b0:434:7885:6ade with SMTP id
- j10-20020a63fc0a000000b0043478856ademr25814393pgi.243.1669489381967; 
- Sat, 26 Nov 2022 11:03:01 -0800 (PST)
-Received: from doug-ryzen-5700G.. ([192.183.212.197])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=npduQyctwPNwbrvgK5EV990wakFndbnwODmRKUwPZ0c=;
+ b=RYG4v5Q81MflsSe+cAL6EtBkhrV6dVXamo/yCg9xKBnIp/3NyDt4wRDUJvA4207kO9
+ E/uMwgQj3eTcjE2puWab32Ja47SYhL7fH6FyQCwKAp42w1gP5zM0kmMgwbb57arKwZm5
+ GK/TwlbQgALf+Tly6rGkHIZfGoP4tZ66CHWNGqmj6e/pVhttJ3sblrzae2s+e83GODzE
+ Q8NKjziA3hF3vGL1c3/jC4MqsYd2+vP9nwjtIG2OW6DqckodILUblAg1qjr8tiTaJUac
+ WQ9y34lSnlDZtc6SWlgCqSyYNogguYDj26PVKuDfa46vdGwm4JZhjo9BImtu3F9c8k6s
+ /gMg==
+X-Gm-Message-State: ANoB5pm7gSC0/ahP3IkgYKeKiZ9LiPpdmmsIQpumPTXoxRFCbuhsQsav
+ PXukhuOh5WNUp6sTzKwWQkkWQw==
+X-Google-Smtp-Source: AA0mqf6tuqwwCF6uoWwBZbyez9jbdMM/tWE0H2vrRLPARhOE6xVIfLJNfMh/ndzgO9UGY1vq7OUfaw==
+X-Received: by 2002:a05:6512:2a89:b0:4b4:dffc:62a8 with SMTP id
+ dt9-20020a0565122a8900b004b4dffc62a8mr8007174lfb.585.1669489304609; 
+ Sat, 26 Nov 2022 11:01:44 -0800 (PST)
+Received: from [192.168.1.8] ([185.24.52.156])
  by smtp.gmail.com with ESMTPSA id
- j14-20020a17090a738e00b00218f5de49f4sm5678606pjg.1.2022.11.26.11.03.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 26 Nov 2022 11:03:01 -0800 (PST)
-From: Doug Brown <doug@schmorgal.com>
-To: Russell King <linux@armlinux.org.uk>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/armada: Fill in GEM object for each color plane
-Date: Sat, 26 Nov 2022 11:00:01 -0800
-Message-Id: <20221126190001.157800-1-doug@schmorgal.com>
-X-Mailer: git-send-email 2.34.1
+ o13-20020a056512052d00b004b48cc444ccsm1001380lfc.100.2022.11.26.11.01.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 26 Nov 2022 11:01:44 -0800 (PST)
+Message-ID: <a6a65a81-1f37-74b0-6bd4-df8ffc6d28ab@linaro.org>
+Date: Sat, 26 Nov 2022 21:01:43 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v4 14/18] arm64: dts: qcom: sc7280: Add compat
+ qcom,sc7280-dsi-ctrl
+Content-Language: en-GB
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+References: <20221125123638.823261-1-bryan.odonoghue@linaro.org>
+ <20221125123638.823261-15-bryan.odonoghue@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20221125123638.823261-15-bryan.odonoghue@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,59 +78,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Doug Brown <doug@schmorgal.com>, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org,
+ sean@poorly.run, andersson@kernel.org, konrad.dybcio@somainline.org,
+ quic_abhinavk@quicinc.com, david@ixit.cz, dianders@chromium.org,
+ robh+dt@kernel.org, agross@kernel.org, swboyd@chromium.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This driver uses a single GEM object even when there are multiple
-planes. Starting with commit 746b9c62cc86 ("drm/gem: Ignore color planes
-that are unused by framebuffer format"), multiple plane support was
-broken on armada because the object pointers for the additional planes
-were empty and drm_gem_plane_helper_prepare_fb was returning -EINVAL.
+On 25/11/2022 14:36, Bryan O'Donoghue wrote:
+> Add silicon specific compatible qcom,sc7280-dsi-ctrl to the
+> mdss-dsi-ctrl block. This allows us to differentiate the specific bindings
+> for sc7280 against the yaml documentation.
+> 
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>   arch/arm64/boot/dts/qcom/sc7280.dtsi | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 
-Restore functionality by pointing to the same GEM object on all planes.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Signed-off-by: Doug Brown <doug@schmorgal.com>
----
- drivers/gpu/drm/armada/armada_fb.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/armada/armada_fb.c b/drivers/gpu/drm/armada/armada_fb.c
-index b87c71703c85..341ad4d422de 100644
---- a/drivers/gpu/drm/armada/armada_fb.c
-+++ b/drivers/gpu/drm/armada/armada_fb.c
-@@ -21,9 +21,10 @@ static const struct drm_framebuffer_funcs armada_fb_funcs = {
- struct armada_framebuffer *armada_framebuffer_create(struct drm_device *dev,
- 	const struct drm_mode_fb_cmd2 *mode, struct armada_gem_object *obj)
- {
-+	const struct drm_format_info *info = drm_get_format_info(dev, mode);
- 	struct armada_framebuffer *dfb;
- 	uint8_t format, config;
--	int ret;
-+	int ret, i;
- 
- 	switch (mode->pixel_format) {
- #define FMT(drm, fmt, mod)		\
-@@ -63,7 +64,8 @@ struct armada_framebuffer *armada_framebuffer_create(struct drm_device *dev,
- 
- 	dfb->fmt = format;
- 	dfb->mod = config;
--	dfb->fb.obj[0] = &obj->obj;
-+	for (i = 0; i < info->num_planes; i++)
-+		dfb->fb.obj[i] = &obj->obj;
- 
- 	drm_helper_mode_fill_fb_struct(dev, &dfb->fb, mode);
- 
-@@ -79,7 +81,8 @@ struct armada_framebuffer *armada_framebuffer_create(struct drm_device *dev,
- 	 * the above call, but the caller will drop their reference
- 	 * to it.  Hence we need to take our own reference.
- 	 */
--	drm_gem_object_get(&obj->obj);
-+	for (i = 0; i < info->num_planes; i++)
-+		drm_gem_object_get(&obj->obj);
- 
- 	return dfb;
- }
 -- 
-2.34.1
+With best wishes
+Dmitry
 
