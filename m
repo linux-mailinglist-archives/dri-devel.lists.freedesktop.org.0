@@ -1,70 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBCCA639790
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Nov 2022 19:09:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F065C63979B
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Nov 2022 19:17:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4724810E06A;
-	Sat, 26 Nov 2022 18:09:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C69E10E121;
+	Sat, 26 Nov 2022 18:17:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18FE110E121
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Nov 2022 18:08:58 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id g12so10928433wrs.10
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Nov 2022 10:08:58 -0800 (PST)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 029A610E121
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Nov 2022 18:17:36 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id h11so3684508wrw.13
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Nov 2022 10:17:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=14HxlRV+SCHhU12Rhd+agDyzR52gxT5y8aPZsUnVBcQ=;
- b=JSUOpnXVUL/GtjGB+U5r8O3XJS4oO27vbjQDsLdJ/FGIJwOWh64sgz7OetrwgWMst1
- KrwUMvbwqF2PHIhNvMwFnwMJwvCh5oCq9NeTbMC0koYwiyCcUMUfFWMoNBgWQWIi2JbK
- KclHHIy1Bl2rI4igM/+Z0pkMB2rCxdjNgOr/NllrCeUSiSA+YGceRa5Z76k6Buc4lU5u
- y5iNQcvrw2ImTH9iCOLtAwOCuuuWrS2+AYNeNdF3amFmXCsGGX0GM01XcoyI6loLInRP
- uVsBJMKKeKn2nDwhkRwsy/Ba4ft5IAxbKs8jRxMXRKnmlbHVpo0zW8c/PPvtVotGuUlC
- U8Tg==
+ bh=2jWGZXUq/8NH1N5iaORK98xsLKjvX4aUS6R7xoBAWfQ=;
+ b=Yk5MtSvDrz2lDTvFv5gsRvSq/RqCktYOZF1CEjtsNASsLLFKNubrwQg2NYJnWnRITd
+ GL0KicO22ToPwOJU8pJ++LwRKSPJeznbWJW8bwGAMDvuO+r+z70M6BUMRw9X5D25JuY7
+ KlZKDKQaIWjcCt02MxOnTIRGb1asuP6swytqACX0niBGMj/nOQ1SMc5rlr4JAfi64P+C
+ zOPYariaXTC0f9gIvkl5oiATTQb8z4Txovjn6iivjX4CABwD5a3FBrjwrdgiLI0DiRR8
+ ss7NBDaDqzGFcsjXjEfZXYQiKx5MJSjV31Hg3txAe3xnWeYFfoOIEng0+K1uRrFBMH11
+ YsAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=14HxlRV+SCHhU12Rhd+agDyzR52gxT5y8aPZsUnVBcQ=;
- b=EYyWcWGjaXW8ghWKkzVt/khj6FOL7QIgyNbxOeTggnXqplX4z32/W+o4QQISJDSx+G
- zG7BIYAhViXAQmH+LIo54GvaloaGYCuViYGpTt8je10YBRh7UJ1pSZ6eWdTJGpMS7BBS
- bnkpYwuzvkKLATKCV41IYxrS60PvWHwDIMw446rmyz6+jfodbJogqNEjWtY9s4JXLbgf
- N7E26NK/+zMgN8TlKibvOQhVTdRnT0UJXz2YmJFbFiKHp/1wfEE01yhKK7ywD+1uags2
- /OLiJpb26gtP4jtKoz81Xfws/ICjraWX69SKjv4/y695evTlxzarjJvttn0Xd5aQGZpJ
- sfrg==
-X-Gm-Message-State: ANoB5pnb6L3FUvdUHLaOZCCxrcpAGaMAK6QQpJ4Zwy8S0ngYeAhrPD/2
- nQNgf2IVYZaJWIh170EdE3MwxQ==
-X-Google-Smtp-Source: AA0mqf46lNLHAVNwE5GbJ272Q83inWMEqFqLSYa4pDcNM0EpPB/YRth9LRxuNf6zHFVz4J8/8Pl5fQ==
-X-Received: by 2002:a05:6000:886:b0:241:b933:34a1 with SMTP id
- ca6-20020a056000088600b00241b93334a1mr17565403wrb.550.1669486137356; 
- Sat, 26 Nov 2022 10:08:57 -0800 (PST)
+ bh=2jWGZXUq/8NH1N5iaORK98xsLKjvX4aUS6R7xoBAWfQ=;
+ b=uhmsZGpXLvrDp0rVt7oXqWraGufwZAzQq5qpw+p4y5ka3HGFA5piEka9wYmGUnbM49
+ z58q/dDnKZW554kXCuburfvO47U6sH+ba/9GUeh9VZmSwN55gw9k3EwvIGHWCm4dlOWG
+ jLMfl7iEAthPxsq1LaPdCEKKJIkZ7l2laRFCuyFvOl0lpk2yTbbwEtW5YJ6B+FrO7mr+
+ Hr/+DipAo0KqCnAXR40SwOPTms08tG8AuYW3+H14ASR4MhUIPLRRTce10pMAH7vE/kFi
+ /rlZctgHTED9fKaWc71ONugRx85h8BahcaBCLBIz8EQ8NPFgLkbdl9FJ4eopYPWSzX0g
+ 04bw==
+X-Gm-Message-State: ANoB5pmhgaXjgZNKn5cXTTocXWsy3HDpWfb1TX2JRJCwIYchQBoI3LgB
+ hQC1mpqDccSbi1g8JD0toWHuZA==
+X-Google-Smtp-Source: AA0mqf7/vDq4XHW5zFgdG2Q9cyHchw3hTW3makpdYNiTuYZBdx1CLJjIc+CScDaZNEb+YfbJlhIJBQ==
+X-Received: by 2002:adf:f2d0:0:b0:242:7c:eb9c with SMTP id
+ d16-20020adff2d0000000b00242007ceb9cmr8035275wrp.178.1669486655181; 
+ Sat, 26 Nov 2022 10:17:35 -0800 (PST)
 Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
  by smtp.gmail.com with ESMTPSA id
- l11-20020a5d668b000000b00241bc4880fesm6383609wru.111.2022.11.26.10.08.55
+ t6-20020adfeb86000000b00241e5b917d0sm7604113wrn.36.2022.11.26.10.17.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 26 Nov 2022 10:08:56 -0800 (PST)
-Message-ID: <26f9ff51-b6ee-5d2b-fc8b-93f7778d99a4@linaro.org>
-Date: Sat, 26 Nov 2022 18:08:55 +0000
+ Sat, 26 Nov 2022 10:17:34 -0800 (PST)
+Message-ID: <bf70adbc-f52d-6355-6b7d-b19561fed731@linaro.org>
+Date: Sat, 26 Nov 2022 18:17:33 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v3 03/18] dt-bindings: msm: dsi-controller-main: Rename
- qcom,dsi-ctrl-6g-qcm2290 to qcom,qcm2290-dsi-ctrl
+Subject: Re: [PATCH v3 05/18] dt-bindings: msm: dsi-controller-main: Document
+ clocks on a per compatible basis
 Content-Language: en-US
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
  devicetree@vger.kernel.org
 References: <20221124004801.361232-1-bryan.odonoghue@linaro.org>
- <20221124004801.361232-4-bryan.odonoghue@linaro.org>
- <4fd1500d-e3ca-45fd-1cc8-81783697b809@linaro.org>
+ <20221124004801.361232-6-bryan.odonoghue@linaro.org>
+ <fb3f9ad7-7b6f-fe22-8787-5bfa1d7caf05@linaro.org>
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <4fd1500d-e3ca-45fd-1cc8-81783697b809@linaro.org>
+In-Reply-To: <fb3f9ad7-7b6f-fe22-8787-5bfa1d7caf05@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -87,13 +87,133 @@ Cc: dri-devel@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/11/2022 14:36, Krzysztof Kozlowski wrote:
-> That's a bit surprising. Did we discuss it? It breaks the ABI, so I
-> doubt (driver/bindings were already upstreamed).
+On 26/11/2022 14:44, Krzysztof Kozlowski wrote:
+> On 24/11/2022 01:47, Bryan O'Donoghue wrote:
+>> Each compatible has a different set of clocks which are associated with it.
+>> Add in the list of clocks for each compatible.
+>>
+>> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>> ---
+>>   .../display/msm/dsi-controller-main.yaml      | 154 ++++++++++++++++--
+>>   1 file changed, 143 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+>> index c4da7179999d2..88aac7d33555c 100644
+>> --- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+>> +++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+>> @@ -9,9 +9,6 @@ title: Qualcomm Display DSI controller
+>>   maintainers:
+>>     - Krishna Manikandan <quic_mkrishn@quicinc.com>
+>>   
+>> -allOf:
+>> -  - $ref: "../dsi-controller.yaml#"
+>> -
+>>   properties:
+>>     compatible:
+>>       items:
+>> @@ -48,13 +45,8 @@ properties:
+>>         - description: Display AXI clock
+>>   
+>>     clock-names:
+>> -    items:
+>> -      - const: byte
+>> -      - const: byte_intf
+>> -      - const: pixel
+>> -      - const: core
+>> -      - const: iface
+>> -      - const: bus
+>> +    minItems: 6
+>> +    maxItems: 9
+>>   
+>>     phys:
+>>       maxItems: 1
+>> @@ -147,6 +139,146 @@ required:
+>>     - assigned-clock-parents
+>>     - ports
+>>   
+>> +allOf:
+>> +  - $ref: "../dsi-controller.yaml#"
+>> +  - if:
+>> +      properties:
+>> +        compatible:
+>> +          contains:
+>> +            enum:
+>> +              - qcom,apq8064-dsi-ctrl
+>> +    then:
+>> +      properties:
+>> +        clocks:
+>> +          maxItems: 7
+>> +        clock-names:
+>> +          items:
+>> +            - const: iface
+>> +            - const: bus
+>> +            - const: core_mmss
+>> +            - const: src
+>> +            - const: byte
+>> +            - const: pixel
+>> +            - const: core
+>> +
+>> +  - if:
+>> +      properties:
+>> +        compatible:
+>> +          contains:
+>> +            enum:
+>> +              - qcom,msm8916-dsi-ctrl
+>> +    then:
+>> +      properties:
+>> +        clocks:
+>> +          maxItems: 6
+>> +        clock-names:
+>> +          items:
+>> +            - const: mdp_core
+>> +            - const: iface
+>> +            - const: bus
+>> +            - const: byte
+>> +            - const: pixel
+>> +            - const: core
+>> +
+>> +  - if:
+>> +      properties:
+>> +        compatible:
+>> +          contains:
+>> +            enum:
+>> +              - qcom,msm8974-dsi-ctrl
+>> +    then:
+>> +      properties:
+>> +        clocks:
+>> +          maxItems: 3
+>> +        clock-names:
+>> +          items:
+>> +            - const: iface
+>> +            - const: bus
+>> +            - const: vsync
 > 
-> Best regards,
-> Krzysztof
+> minItems are 6, so does it actually work?
 
-We did discuss it but, apparently didn't grep it.
+Hmm.
 
-I'll drop this
+I ran this using a recent version of dt-schema from github
+
+DT_DOC_CHECKER=~/Development/qualcomm/dt-schema/tools/dt-doc-validate
+DT_EXTRACT_EX=~/Development/qualcomm/dt-schema/tools/dt-extract-example
+DT_MK_SCHEMA=~/Development/qualcomm/dt-schema/tools/dt-mk-schema
+DT_CHECKER=~/Development/qualcomm/dt-schema/tools/dt-validate
+
+make DT_CHECKER_FLAGS=-m dt_binding_check O=$BUILDDIR 
+DT_DOC_CHECKER=$DT_DOC_CHECKER DT_EXTRACT_EX=$DT_EXTRACT_EX 
+DT_MK_SCHEMA=$DT_MK_SCHEMA DT_CHECKER=$DT_CHECKER 
+DT_SCHEMA_FILES=display/msm/dsi-controller-main.yaml -j `nproc`
+
+Neither of these throw an warning in my compile log
+
+arch/arm/boot/dts/qcom-msm8974-lge-nexus5-hammerhead.dts:&dsi0
+arch/arm/boot/dts/qcom-msm8974pro-samsung-klte.dts:&dsi0
+
+thanks for spotting
+
+>> -           compatible = "qcom,mdss-dsi-ctrl";
+>> +           compatible = "qcom,sc7180-dsi-ctrl", "qcom,mdss-dsi-ctrl";
+> 
+
+already dropped in v4
+
