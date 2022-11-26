@@ -1,60 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72E746391AB
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Nov 2022 23:59:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8529C63927C
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Nov 2022 01:04:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13BFC10E00B;
-	Fri, 25 Nov 2022 22:58:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8D7D10E13C;
+	Sat, 26 Nov 2022 00:04:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 652C910E00B
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 22:58:54 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id v8so8122673edi.3
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Nov 2022 14:58:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=zrh33fKX0AFIpQoDMHBkz3JckH2DUhXrvzHY5NCN5no=;
- b=mQdoKuKnzMEl3ts3gcoDtpsH6y8L7YdGJz9PaUC6jCAz9+M7NZkUnA6V6SqAhznP7Y
- tSFx861pQR1oB+THa/q9XGELxGpmBvcUQmUyvfoFAlMjWclqOJDRddY3FyBqzZQmhMpV
- 9pefcrcTsPH40Gman4KI9NLTs6tpUVgF3+lfJMMavgurXtira3YpuBzgwsJINgNYY00x
- 1WIvktfNncDKhZXOODC7yW2xvwJBbrpRLNYGcIi5mTstd789NPUD4Y9hgC90cjfFgssJ
- wUTe7DcnjEEwXUvKfzW3MBmGThfDDE04xy3diEaIcefXRqYa7/FREMt7YIEu4h9XvocU
- GEaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=zrh33fKX0AFIpQoDMHBkz3JckH2DUhXrvzHY5NCN5no=;
- b=aB6ZRiOCKyNkf/jgJrk/EdiXG84gPHICwbipadlhh5u7VPSGhX9Ps4dcdP3Hi2DG9M
- Nlb4hLnfvQfvUwD5j56Y7/YaBnEUJfu9G0otDFn1DVUxudM17OIfChP4M6piCiAYZjUa
- s4DcWtRE5eON4Aok7uEuur5Ba1buAeYbLgpx3JByCJN/pQGqCOw1/8UZEgM8vzFx39Z6
- ci8R70VCNdO2s/MBMfhDQIAQgN1ToKKEYhvDHSPrw4NFR2jnE5FeYnVq1LeEXtiljNiE
- YMGoZ+0PbL/n6Vcwp6FTLz1gkv0/PExAioqRkNumKhgpqUipSgfgLEgalldunY6k8s5o
- e4fQ==
-X-Gm-Message-State: ANoB5pk7YlbmIKQuv+S3XGkDuYsHkjzc/DX3502czuhdj+uPEmB1UOWd
- 6/GwS3jOcUG1TV1ONUBlb0GLUzJj2uw/NK5/do4=
-X-Google-Smtp-Source: AA0mqf4qEx0qk48E7n/igXoN/8ITAy2dKB3urhN+QYQA7vj8vY/aA7c4YoItihhZk+R2xjYeYeLMIUoiVHRlbku+l4c=
-X-Received: by 2002:a05:6402:3893:b0:461:b033:90ac with SMTP id
- fd19-20020a056402389300b00461b03390acmr25787621edb.257.1669417132710; Fri, 25
- Nov 2022 14:58:52 -0800 (PST)
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3BA610E0E1
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Nov 2022 00:04:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=fCEpozuQZzSMlmSX68RJLiCk4zrpL6chfzTq9T/Cx5k=; b=EsUHG75+oID3GB27Y6g35LNJqk
+ uHV7H16V2AyNE9Jjrx5LcQPqA/7lRSatnFyjSsmv79n+xloLV5EdP5ct+xZ8ruRygleiDumHWKfzK
+ S+rH5/exa9VjcJqkwLGnH5bXeUy2Ml//sDH2MHlDC/gr7vmLxer2HPFg8MXv0UNcqlpjPLnuXG6r7
+ 7fSvb5ynnF2yi9bVA3b4w+xqb27ZKPhojSap/CmdWytflOHw1QyNS2X8mSUzNBne+FEZPapvec5ZE
+ dVG2zaTgtidnqvc9J5awYuFTWkQ10LI6xLfBytJmpKoTvn4L6ytYKPXLHHkIXFvDSUoAb3Lru3zad
+ ll2nv8yA==;
+Received: from [2601:1c2:d80:3110::a2e7] (helo=casper.infradead.org)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1oyig1-00A0ud-R3; Sat, 26 Nov 2022 00:04:14 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] fbdev: make offb driver tristate
+Date: Fri, 25 Nov 2022 16:04:01 -0800
+Message-Id: <20221126000401.25302-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-References: <cover.1668602942.git.mazziesaccount@gmail.com>
- <a2f0835e8d3b5f5768d887ce47a1575ae11b19f0.1668602942.git.mazziesaccount@gmail.com>
-In-Reply-To: <a2f0835e8d3b5f5768d887ce47a1575ae11b19f0.1668602942.git.mazziesaccount@gmail.com>
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Fri, 25 Nov 2022 23:58:41 +0100
-Message-ID: <CAFBinCAxL1WapkjHo6B_FNj_r3Y0jZ6P7qmXPjWfGK-ivuT5+w@mail.gmail.com>
-Subject: Re: [PATCH RESEND v4 2/2] gpu: drm: meson: Use
- devm_regulator_*get_enable*()
-To: Matti Vaittinen <mazziesaccount@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,23 +47,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>,
- Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
- Liam Girdwood <lgirdwood@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Jerome Brunet <jbrunet@baylibre.com>
+Cc: linux-fbdev@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ Masahiro Yamada <masahiroy@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?q?Michal=20Such=C3=A1nek?= <msuchanek@suse.de>,
+ linuxppc-dev@lists.ozlabs.org, Helge Deller <deller@gmx.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 16, 2022 at 2:03 PM Matti Vaittinen
-<mazziesaccount@gmail.com> wrote:
->
-> Simplify using the devm_regulator_get_enable_optional(). Also drop the
-> seemingly unused struct member 'hdmi_supply'.
-Personally I'd replace "seemingly" with "now" because hdmi_supply was
-used before (although only in this one function, which makes it a bit
-pointless).
-This is minor enough. So with or without that change this gets my:
-Acked-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Make the offb (Open Firmware frame buffer) driver tristate,
+i.e., so that it can be built as a loadable module.
+
+However, it still depends on the setting of DRM_OFDRM
+so that both of these drivers cannot be builtin at the same time
+nor can one be builtin and the other one a loadable module.
+
+Build-tested successfully with all combination of DRM_OFDRM and FB_OF.
+
+This fixes a build issue that Michal reported when FB_OF=y and
+DRM_OFDRM=m:
+
+powerpc64-linux-ld: drivers/video/fbdev/offb.o:(.data.rel.ro+0x58): undefined reference to `cfb_fillrect'
+powerpc64-linux-ld: drivers/video/fbdev/offb.o:(.data.rel.ro+0x60): undefined reference to `cfb_copyarea'
+powerpc64-linux-ld: drivers/video/fbdev/offb.o:(.data.rel.ro+0x68): undefined reference to `cfb_imageblit'
+
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Suggested-by: Arnd Bergmann <arnd@arndb.de>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Michal Suchánek <msuchanek@suse.de>
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Helge Deller <deller@gmx.de>
+Cc: linux-fbdev@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+
+---
+ drivers/video/fbdev/Kconfig |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff -- a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
+--- a/drivers/video/fbdev/Kconfig
++++ b/drivers/video/fbdev/Kconfig
+@@ -456,8 +456,8 @@ config FB_ATARI
+ 	  chipset found in Ataris.
+ 
+ config FB_OF
+-	bool "Open Firmware frame buffer device support"
+-	depends on (FB = y) && PPC && (!PPC_PSERIES || PCI)
++	tristate "Open Firmware frame buffer device support"
++	depends on FB && PPC && (!PPC_PSERIES || PCI)
+ 	depends on !DRM_OFDRM
+ 	select APERTURE_HELPERS
+ 	select FB_CFB_FILLRECT
