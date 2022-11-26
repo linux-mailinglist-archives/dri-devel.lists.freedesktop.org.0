@@ -1,40 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8529C63927C
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Nov 2022 01:04:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9868639287
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Nov 2022 01:13:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8D7D10E13C;
-	Sat, 26 Nov 2022 00:04:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A06510E7B3;
+	Sat, 26 Nov 2022 00:13:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3BA610E0E1
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Nov 2022 00:04:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
- MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:In-Reply-To:References;
- bh=fCEpozuQZzSMlmSX68RJLiCk4zrpL6chfzTq9T/Cx5k=; b=EsUHG75+oID3GB27Y6g35LNJqk
- uHV7H16V2AyNE9Jjrx5LcQPqA/7lRSatnFyjSsmv79n+xloLV5EdP5ct+xZ8ruRygleiDumHWKfzK
- S+rH5/exa9VjcJqkwLGnH5bXeUy2Ml//sDH2MHlDC/gr7vmLxer2HPFg8MXv0UNcqlpjPLnuXG6r7
- 7fSvb5ynnF2yi9bVA3b4w+xqb27ZKPhojSap/CmdWytflOHw1QyNS2X8mSUzNBne+FEZPapvec5ZE
- dVG2zaTgtidnqvc9J5awYuFTWkQ10LI6xLfBytJmpKoTvn4L6ytYKPXLHHkIXFvDSUoAb3Lru3zad
- ll2nv8yA==;
-Received: from [2601:1c2:d80:3110::a2e7] (helo=casper.infradead.org)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1oyig1-00A0ud-R3; Sat, 26 Nov 2022 00:04:14 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] fbdev: make offb driver tristate
-Date: Fri, 25 Nov 2022 16:04:01 -0800
-Message-Id: <20221126000401.25302-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.38.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 155E110E7B3;
+ Sat, 26 Nov 2022 00:13:27 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 20D2F61151;
+ Sat, 26 Nov 2022 00:13:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6C5AC433C1;
+ Sat, 26 Nov 2022 00:13:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+ s=korg; t=1669421606;
+ bh=F2Iz4FmHG/F1E/NZVczN3uc6knKQCTCJz/o482AKOHI=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Xc82kQZsd+dQC/numsQShfrRl+O0J8DnCYj1NMIktTDjsGED0IanHoKaOvb7l6l9W
+ oyafUj9mcWJNEimTbhve+jbIwR6TknhuIP/fj2WgmMJHG9oI1T07xeHAmMfC/UNu6A
+ Uq12fxjx9eR+6SxN34H8xSMxLbYx+XtpzKU+ElTI=
+Date: Fri, 25 Nov 2022 16:13:25 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Lee Jones <lee@kernel.org>
+Subject: Re: [PATCH v2 0/2] Fix a bunch of allmodconfig errors
+Message-Id: <20221125161325.bed715211b887d0a298813de@linux-foundation.org>
+In-Reply-To: <20221125120750.3537134-1-lee@kernel.org>
+References: <20221125120750.3537134-1-lee@kernel.org>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,56 +50,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- Masahiro Yamada <masahiroy@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?q?Michal=20Such=C3=A1nek?= <msuchanek@suse.de>,
- linuxppc-dev@lists.ozlabs.org, Helge Deller <deller@gmx.de>
+Cc: llvm@lists.linux.dev, arnd@arndb.de, sunpeng.li@amd.com,
+ ndesaulniers@google.com, dri-devel@lists.freedesktop.org, Xinhui.Pan@amd.com,
+ linux-kernel@vger.kernel.org, nathan@kernel.org, amd-gfx@lists.freedesktop.org,
+ tzimmermann@suse.de, trix@redhat.com, alexander.deucher@amd.com,
+ Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make the offb (Open Firmware frame buffer) driver tristate,
-i.e., so that it can be built as a loadable module.
+On Fri, 25 Nov 2022 12:07:48 +0000 Lee Jones <lee@kernel.org> wrote:
 
-However, it still depends on the setting of DRM_OFDRM
-so that both of these drivers cannot be builtin at the same time
-nor can one be builtin and the other one a loadable module.
+> Since b339ec9c229aa ("kbuild: Only default to -Werror if COMPILE_TEST") WERROR 
+> now defaults to COMPILE_TEST meaning that it's enabled for allmodconfig        
+> builds.  This leads to some interesting failures, each resolved in this set.   
 
-Build-tested successfully with all combination of DRM_OFDRM and FB_OF.
+I'm not sure who this patchset is aimed at, so I'll take my usual
+approach of grabbing it and seeing who complains.
 
-This fixes a build issue that Michal reported when FB_OF=y and
-DRM_OFDRM=m:
+> With this set applied, I am able to obtain a successful allmodconfig Arm build.
 
-powerpc64-linux-ld: drivers/video/fbdev/offb.o:(.data.rel.ro+0x58): undefined reference to `cfb_fillrect'
-powerpc64-linux-ld: drivers/video/fbdev/offb.o:(.data.rel.ro+0x60): undefined reference to `cfb_copyarea'
-powerpc64-linux-ld: drivers/video/fbdev/offb.o:(.data.rel.ro+0x68): undefined reference to `cfb_imageblit'
+b339ec9c229aa is a year old and I've been doing arm allmodconfig for
+ever.  What am I missing here?
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Suggested-by: Arnd Bergmann <arnd@arndb.de>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Michal Suchánek <msuchanek@suse.de>
-Cc: linuxppc-dev@lists.ozlabs.org
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Helge Deller <deller@gmx.de>
-Cc: linux-fbdev@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
+A broken arm allmodconfig is pretty irritating - I'm thinking that a
+fix should be backported into -stable kernels.  But I'm clearly missing
+something here.
 
----
- drivers/video/fbdev/Kconfig |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff -- a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
---- a/drivers/video/fbdev/Kconfig
-+++ b/drivers/video/fbdev/Kconfig
-@@ -456,8 +456,8 @@ config FB_ATARI
- 	  chipset found in Ataris.
- 
- config FB_OF
--	bool "Open Firmware frame buffer device support"
--	depends on (FB = y) && PPC && (!PPC_PSERIES || PCI)
-+	tristate "Open Firmware frame buffer device support"
-+	depends on FB && PPC && (!PPC_PSERIES || PCI)
- 	depends on !DRM_OFDRM
- 	select APERTURE_HELPERS
- 	select FB_CFB_FILLRECT
