@@ -2,63 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E82E9639ABD
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Nov 2022 14:00:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2980639C3A
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Nov 2022 19:16:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BEA510E143;
-	Sun, 27 Nov 2022 13:00:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32FE410E0D2;
+	Sun, 27 Nov 2022 18:15:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8117810E143
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Nov 2022 13:00:26 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06CB010E0D2
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Nov 2022 18:15:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669572953;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ZWxUML+QfFgI9cILJbu0XNf+sTiRRwpIxoI1i4dB9n4=;
+ b=NZobQvGTN8Ik8iuEbV3Gz4iWQdvVtHHwyhgOB4OmPtMXj0Zw5rQjzEv7TipHi7nATRKmMQ
+ upihINkNUE6jRQMnSm4SzcwwOxLCdOt1EzJufSKLhG/51vq/mPlonDAR2QdafsgO52nGMT
+ zNxdxO+WEzKQBTgG+vYxH0Kolr2YwFA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-456-FyijCZ6nMgajiyYuB14-kA-1; Sun, 27 Nov 2022 13:15:50 -0500
+X-MC-Unique: FyijCZ6nMgajiyYuB14-kA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id AB8AAB80A49
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Nov 2022 13:00:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7688BC433D6
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Nov 2022 13:00:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1669554023;
- bh=S16sVIV2JnETHxOs+U1ABZZvpjgdddDttJQByU6ATRQ=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=qseK8XMhddkRAtLqZyeJKHKIRZJgzeNeNmlgkpXVdgTmHvTHwT2KUEM2fz9P6uzWB
- 1oo1M5MgWG/I35z7zxO2FNh3HINC0Esq1BXYW1+XL8aL6wIYoU/qP8nldl1o00qXyE
- W4BynuABj91SsbzaS1QaFuLiC0lz2J9WaCyJW73viOvMorsdDfAAUx+j5P6giXPqrc
- d05py3/GZCr2KwGIt1Otr46dpn+cQX4pJ15wkby2e5Eh/lBi/7rRIOOrcXUE5dXpYr
- nlLQi6wj2D3rOoYczmZ9N3PqkqnJaXzrsssR276PmfluyhhDVglTpSen9qyuMVzNlo
- 5uoQ0XNro4NiQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 63B87C433E7; Sun, 27 Nov 2022 13:00:23 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216745] Kernel 6.1 breaks Thinkpad T14 Gen 2 AMD connection to
- USB-C dock Gen 2 with kernel Null pointer
-Date: Sun, 27 Nov 2022 13:00:23 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: ezou@outlook.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-216745-2300-ZRYsJmMbvI@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216745-2300@https.bugzilla.kernel.org/>
-References: <bug-216745-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7A4D7811E67;
+ Sun, 27 Nov 2022 18:15:50 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.192.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8F36949BB61;
+ Sun, 27 Nov 2022 18:15:49 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH] drm: panel-orientation-quirks: Add quirk for Lenovo Yoga Tab
+ 3 X90F
+Date: Sun, 27 Nov 2022 19:15:39 +0100
+Message-Id: <20221127181539.104223-1-hdegoede@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,25 +61,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Hans de Goede <hdegoede@redhat.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216745
+The Lenovo Yoga Tab 3 X90F has a portrait 1600x2560 LCD used in
+landscape mode, add a quirk for this.
 
---- Comment #3 from Eric Zou (ezou@outlook.com) ---
-Sorry I should have specified that I didn't try 6.1-rc3 so I don't know if =
-that
-works. I started 6.1 on rc4.
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-No problem I will try rc-7 today.
+diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+index 52d8800a8ab8..739ce7b91780 100644
+--- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
++++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+@@ -127,6 +127,12 @@ static const struct drm_dmi_panel_orientation_data lcd1600x2560_leftside_up = {
+ 	.orientation = DRM_MODE_PANEL_ORIENTATION_LEFT_UP,
+ };
+ 
++static const struct drm_dmi_panel_orientation_data lcd1600x2560_rightside_up = {
++	.width = 1600,
++	.height = 2560,
++	.orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
++};
++
+ static const struct dmi_system_id orientation_data[] = {
+ 	{	/* Acer One 10 (S1003) */
+ 		.matches = {
+@@ -325,6 +331,13 @@ static const struct dmi_system_id orientation_data[] = {
+ 		 DMI_MATCH(DMI_BIOS_VERSION, "BLADE_21"),
+ 		},
+ 		.driver_data = (void *)&lcd1200x1920_rightside_up,
++	}, {	/* Lenovo Yoga Tab 3 X90F */
++		.matches = {
++		 DMI_MATCH(DMI_SYS_VENDOR, "Intel Corporation"),
++		 DMI_MATCH(DMI_PRODUCT_NAME, "CHERRYVIEW D1 PLATFORM"),
++		 DMI_MATCH(DMI_PRODUCT_VERSION, "Blade3-10A-001"),
++		},
++		.driver_data = (void *)&lcd1600x2560_rightside_up,
+ 	}, {	/* Nanote UMPC-01 */
+ 		.matches = {
+ 		 DMI_MATCH(DMI_SYS_VENDOR, "RWC CO.,LTD"),
+-- 
+2.38.1
 
-I also don't know exactly where to file bug report when I think it is relat=
-ed
-to DRM. I just "think" it may be DRI(Non intel) but I really don't know
-anything about it.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
