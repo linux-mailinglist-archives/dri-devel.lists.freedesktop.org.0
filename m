@@ -1,59 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3AAB63B2F8
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 21:23:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A09CA63B2FB
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 21:24:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A09810E330;
-	Mon, 28 Nov 2022 20:23:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5D5110E338;
+	Mon, 28 Nov 2022 20:24:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
- [IPv6:2607:f8b0:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75FCD10E34D;
- Mon, 28 Nov 2022 20:23:26 +0000 (UTC)
-Received: by mail-oi1-x22c.google.com with SMTP id t62so12862162oib.12;
- Mon, 28 Nov 2022 12:23:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=dCa69YdEtMn4spqO3MAiWVwYikmJqS2nm+0NXq6y6Ck=;
- b=Yc4MyIuW2yggdapxAdcen0pJDpU/eLlafTPt80WvP733RUnpDMNqpoY5ETncKVt0EB
- N9qM7f119WFnJRV4ANVDHKZyi/F8TcWSz+jbOHn49QmLz0NgT7BIOsIri3BAfBMyAKw1
- 5QC6Ov3Hh7HAowwolK8nIN+ZDe59lDcE5VTGd45Q0KYmHZbNlPPl832j2vlOAJOD8Rb9
- DvoeqKwWM8Ni+2xMFFAAhnNI8KWDPMnCdiUAv+mfkD/76psDAXrM4ecg+SNRk4Nbcb1v
- 7YOtUSJggoEeiegNwhjbxFB0Uq/63+mmNZ8DH7cSn02DoMH4GHbXFjeCN2N+94Oi0DIZ
- ZCOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=dCa69YdEtMn4spqO3MAiWVwYikmJqS2nm+0NXq6y6Ck=;
- b=kTvpqR9R26AmAPHLBzZHa9kPtR62XVlSgBAKVKkpcXJOAeiTP8flAzyRjQ/jHgqMW5
- bq8TT1zFJARfnOanyIDD8rI9TNrgCD3726/zFEypCmA7W013VbtHG+84vYkRGkzLn58b
- YuN91iw7xYGMJJziWulbAONJboxod7YQOeJ/glRRTAN98IFLbQNM/SvbiFgjQwSijclI
- Yo68lEAFIs+5MICcr/frS2lv3jjcoJB9/ACSt96IhvbBDueGe7fjUR3eDLqU9pEZ329v
- esDXAWVKrPOtgKclX/jLsBFZgegfKk2DwCCPBeWJVKHyiw90DkSBRtwhX/PQqIwg9XlX
- 3ang==
-X-Gm-Message-State: ANoB5pkm2LBLWFC/qsPxNDTZ+tTNUHODTzFpf1y+j/q7jJppwOYNOA2v
- wv70FEgs3GyAkEmsBO6W6vR64Zrpg2+Uu/7UC+djLTA1
-X-Google-Smtp-Source: AA0mqf6KOpkpp4yLsP+YGWSjXQZkjzqtYGUWdHBw22rjkoo5Mx5ec1jUOGue9xiXqjF0rVRwCM/EibS6SFlNovCm9r0=
-X-Received: by 2002:a05:6808:9b8:b0:34f:97ea:14d with SMTP id
- e24-20020a05680809b800b0034f97ea014dmr15773971oig.96.1669667005543; Mon, 28
- Nov 2022 12:23:25 -0800 (PST)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36E3810E337
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 20:24:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=QYXxZJSHFCQt3h/7y3A5kbbceUgmwfmV1IqjP3fxZUg=; b=LIik+9UMAQJCIDO+cZKWhn6+1H
+ EmYKSWMp0+GBdJqBPq2aLClaiBHFKKSjwdAK0s2gcSwt/quMlH0lTaNmW+X0U8fAZNydLQjyLaUAN
+ fRMltDkHl1RAaGoLhqFGbmguA0JpOni45hjzqYHJh1fn0XzVOrCOkpmSvCLFMFNoJk17Siz0VdNGX
+ DgeE1KMAF5pTpMpPs30bg/FbCkVsU7UwVW2bAP3WL0qT+fvZ9DWitOXUXmIU9w84op+gG0gSi27am
+ QG9sk1cSNXCNhcZ2KzJNRp7qi4YPemzGl/j+dQQ0A6zKgpdSGt50WTlabUCaEE8FrkOdwegCvCeKu
+ Awkg9jfg==;
+Received: from [177.34.169.227] (helo=[192.168.0.8])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1ozkfM-00AcTd-CO; Mon, 28 Nov 2022 21:23:48 +0100
+Message-ID: <2edc6568-fe43-5600-ef44-051026b4109f@igalia.com>
+Date: Mon, 28 Nov 2022 17:23:40 -0300
 MIME-Version: 1.0
-References: <20221125210055.16333-1-rdunlap@infradead.org>
-In-Reply-To: <20221125210055.16333-1-rdunlap@infradead.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 28 Nov 2022 15:23:14 -0500
-Message-ID: <CADnq5_NaHGrEM++_vRH0n3XKB-ON8ked4YMaFuPBYGv=PQ0xhA@mail.gmail.com>
-Subject: Re: [PATCH -next] drm/amdgpu: update docum. filename following rename
-To: Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v2 12/17] drm/vc4: crtc: Introduce a lower-level crtc init
+ helper
+Content-Language: en-US
+To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+References: <20221123-rpi-kunit-tests-v2-0-efe5ed518b63@cerno.tech>
+ <20221123-rpi-kunit-tests-v2-12-efe5ed518b63@cerno.tech>
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20221123-rpi-kunit-tests-v2-12-efe5ed518b63@cerno.tech>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,60 +59,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Corbet <corbet@lwn.net>, Felix Kuehling <Felix.Kuehling@amd.com>,
- linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-kselftest@vger.kernel.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
+ linaro-mm-sig@lists.linaro.org, Brendan Higgins <brendan.higgins@linux.dev>,
+ David Gow <davidgow@google.com>, linux-media@vger.kernel.org,
+ kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+On 11/28/22 11:53, Maxime Ripard wrote:
+> The current vc4_crtc_init() helper assumes that we will be using
+> hardware planes and calls vc4_plane_init().
+> 
+> While it's a reasonable assumption, we'll want to mock the plane and
+> thus provide our own. Let's create a helper that will take the plane as
+> an argument.
+> 
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-Alex
+Although the commit message explains a bit about why __vc4_crtc_init is
+being created, it would be nice to add a comment in the code explaining
+that __vc4_crtc_init can be used for tests as it allows mocking the
+plane. This way the distinction between vc4_crtc_init and
+__vc4_crtc_init will be cleaner to the reader.
 
-On Fri, Nov 25, 2022 at 4:01 PM Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> Fix documentation build errors for amdgpu: correct the filename.
->
-> Error: Cannot open file ../drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
-> Error: Cannot open file ../drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
-> Error: Cannot open file ../drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
->
-> WARNING: kernel-doc '../scripts/kernel-doc -rst -enable-lineno -sphinx-ve=
-rsion 5.3.0 -function MMU Notifier ../drivers/gpu/drm/amd/amdgpu/amdgpu_mn.=
-c' failed with return code 1
-> WARNING: kernel-doc '../scripts/kernel-doc -rst -enable-lineno -sphinx-ve=
-rsion 5.3.0 -internal ../drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c' failed wit=
-h return code 2
->
-> Fixes: d9483ecd327b ("drm/amdgpu: rename the files for HMM handling")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Felix Kuehling <Felix.Kuehling@amd.com>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org
+Reviewed-by: Maíra Canal <mcanal@igalia.com>
+
+Best Regards,
+- Maíra Canal
+
 > ---
->  Documentation/gpu/amdgpu/driver-core.rst |    4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff -- a/Documentation/gpu/amdgpu/driver-core.rst b/Documentation/gpu/am=
-dgpu/driver-core.rst
-> --- a/Documentation/gpu/amdgpu/driver-core.rst
-> +++ b/Documentation/gpu/amdgpu/driver-core.rst
-> @@ -148,10 +148,10 @@ PRIME Buffer Sharing
->  MMU Notifier
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
-> -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
-> +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c
->     :doc: MMU Notifier
->
-> -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
-> +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c
->     :internal:
->
->  AMDGPU Virtual Memory
+>  drivers/gpu/drm/vc4/vc4_crtc.c | 52 +++++++++++++++++++++++++++---------------
+>  drivers/gpu/drm/vc4/vc4_drv.h  |  6 +++++
+>  2 files changed, 39 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
+> index 333529ed3a0d..7a2c54efecb0 100644
+> --- a/drivers/gpu/drm/vc4/vc4_crtc.c
+> +++ b/drivers/gpu/drm/vc4/vc4_crtc.c
+> @@ -1286,31 +1286,20 @@ static void vc4_set_crtc_possible_masks(struct drm_device *drm,
+>  	}
+>  }
+>  
+> -int vc4_crtc_init(struct drm_device *drm, struct platform_device *pdev,
+> -		  struct vc4_crtc *vc4_crtc,
+> -		  const struct vc4_crtc_data *data,
+> -		  const struct drm_crtc_funcs *crtc_funcs,
+> -		  const struct drm_crtc_helper_funcs *crtc_helper_funcs,
+> -		  bool feeds_txp)
+> +int __vc4_crtc_init(struct drm_device *drm,
+> +		    struct platform_device *pdev,
+> +		    struct vc4_crtc *vc4_crtc,
+> +		    const struct vc4_crtc_data *data,
+> +		    struct drm_plane *primary_plane,
+> +		    const struct drm_crtc_funcs *crtc_funcs,
+> +		    const struct drm_crtc_helper_funcs *crtc_helper_funcs,
+> +		    bool feeds_txp)
+>  {
+>  	struct vc4_dev *vc4 = to_vc4_dev(drm);
+>  	struct drm_crtc *crtc = &vc4_crtc->base;
+> -	struct drm_plane *primary_plane;
+>  	unsigned int i;
+>  	int ret;
+>  
+> -	/* For now, we create just the primary and the legacy cursor
+> -	 * planes.  We should be able to stack more planes on easily,
+> -	 * but to do that we would need to compute the bandwidth
+> -	 * requirement of the plane configuration, and reject ones
+> -	 * that will take too much.
+> -	 */
+> -	primary_plane = vc4_plane_init(drm, DRM_PLANE_TYPE_PRIMARY, 0);
+> -	if (IS_ERR(primary_plane)) {
+> -		dev_err(drm->dev, "failed to construct primary plane\n");
+> -		return PTR_ERR(primary_plane);
+> -	}
+> -
+>  	vc4_crtc->data = data;
+>  	vc4_crtc->pdev = pdev;
+>  	vc4_crtc->feeds_txp = feeds_txp;
+> @@ -1342,6 +1331,31 @@ int vc4_crtc_init(struct drm_device *drm, struct platform_device *pdev,
+>  	return 0;
+>  }
+>  
+> +int vc4_crtc_init(struct drm_device *drm, struct platform_device *pdev,
+> +		  struct vc4_crtc *vc4_crtc,
+> +		  const struct vc4_crtc_data *data,
+> +		  const struct drm_crtc_funcs *crtc_funcs,
+> +		  const struct drm_crtc_helper_funcs *crtc_helper_funcs,
+> +		  bool feeds_txp)
+> +{
+> +	struct drm_plane *primary_plane;
+> +
+> +	/* For now, we create just the primary and the legacy cursor
+> +	 * planes.  We should be able to stack more planes on easily,
+> +	 * but to do that we would need to compute the bandwidth
+> +	 * requirement of the plane configuration, and reject ones
+> +	 * that will take too much.
+> +	 */
+> +	primary_plane = vc4_plane_init(drm, DRM_PLANE_TYPE_PRIMARY, 0);
+> +	if (IS_ERR(primary_plane)) {
+> +		dev_err(drm->dev, "failed to construct primary plane\n");
+> +		return PTR_ERR(primary_plane);
+> +	}
+> +
+> +	return __vc4_crtc_init(drm, pdev, vc4_crtc, data, primary_plane,
+> +			       crtc_funcs, crtc_helper_funcs, feeds_txp);
+> +}
+> +
+>  static int vc4_crtc_bind(struct device *dev, struct device *master, void *data)
+>  {
+>  	struct platform_device *pdev = to_platform_device(dev);
+> diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+> index 051c2e3b6d43..cd2002fff115 100644
+> --- a/drivers/gpu/drm/vc4/vc4_drv.h
+> +++ b/drivers/gpu/drm/vc4/vc4_drv.h
+> @@ -888,6 +888,12 @@ int vc4_bo_debugfs_init(struct drm_minor *minor);
+>  /* vc4_crtc.c */
+>  extern struct platform_driver vc4_crtc_driver;
+>  int vc4_crtc_disable_at_boot(struct drm_crtc *crtc);
+> +int __vc4_crtc_init(struct drm_device *drm, struct platform_device *pdev,
+> +		    struct vc4_crtc *vc4_crtc, const struct vc4_crtc_data *data,
+> +		    struct drm_plane *primary_plane,
+> +		    const struct drm_crtc_funcs *crtc_funcs,
+> +		    const struct drm_crtc_helper_funcs *crtc_helper_funcs,
+> +		    bool feeds_txp);
+>  int vc4_crtc_init(struct drm_device *drm, struct platform_device *pdev,
+>  		  struct vc4_crtc *vc4_crtc, const struct vc4_crtc_data *data,
+>  		  const struct drm_crtc_funcs *crtc_funcs,
+> 
