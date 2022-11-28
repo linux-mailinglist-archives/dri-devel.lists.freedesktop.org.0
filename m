@@ -2,47 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81B0063AEBB
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 18:18:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02A9D63AECE
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 18:25:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDEB510E300;
-	Mon, 28 Nov 2022 17:18:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED87410E30B;
+	Mon, 28 Nov 2022 17:24:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AFB910E300
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 17:18:38 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1ozhm2-0003Ke-DQ; Mon, 28 Nov 2022 18:18:30 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1ozhm0-000tAS-SR; Mon, 28 Nov 2022 18:18:29 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1ozhm1-0011Q7-0V; Mon, 28 Nov 2022 18:18:29 +0100
-Date: Mon, 28 Nov 2022 18:18:28 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v1] dt-bindings: display: Convert fsl,imx-fb.txt to
- dt-schema
-Message-ID: <20221128171828.2ouc64el6arlv3ag@pengutronix.de>
-References: <20221110094945.191100-1-u.kleine-koenig@pengutronix.de>
- <20221116172131.GA233356-robh@kernel.org>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A94D110E30A;
+ Mon, 28 Nov 2022 17:24:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1669656293; x=1701192293;
+ h=date:from:to:cc:subject:message-id:mime-version:
+ content-transfer-encoding;
+ bh=gIMxSjThOc3wgINTlCZhq7K2sOjoP/XFk+2wqF2Rc0o=;
+ b=Rj4yN/C27YSLBwhI8Lom3D9C+slSCL9Wf4e1GMF0vC/gYnms7fviQ3KR
+ ojISGtJC7ifP5LUHI89orb90Xlqgkr+tcYOFuSVwaaQrZE6TQvUBWXF77
+ 5P0Hxi9RiWmFcs7Wcx+ZngeU+SqLioY1R3SY7N6OyyPPO+wEu7X6JLc4q
+ SqJfO+QqNzDyjqN1xJ4fVQOtMv/v1zktkADY4Q3jtmiNmyG7N58YAa04B
+ zTxOgJ7tMq0V0zELmVuMqr/oIQdNfvFfC3za3iHzw4vGLUe0GQKXw+E2c
+ tf/LbPqP2ZgjaJ4/IWcfJDrbvHTvapcUjipxHoAREEpiqmEdeHK0jchLQ w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10545"; a="316730690"
+X-IronPort-AV: E=Sophos;i="5.96,200,1665471600"; d="scan'208";a="316730690"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Nov 2022 09:24:52 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10545"; a="768117946"
+X-IronPort-AV: E=Sophos;i="5.96,200,1665471600"; d="scan'208";a="768117946"
+Received: from lkp-server01.sh.intel.com (HELO 64a2d449c951) ([10.239.97.150])
+ by orsmga004.jf.intel.com with ESMTP; 28 Nov 2022 09:24:50 -0800
+Received: from kbuild by 64a2d449c951 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1ozhs9-0008B1-2O;
+ Mon, 28 Nov 2022 17:24:49 +0000
+Date: Tue, 29 Nov 2022 01:24:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Subject: [linux-next:master] BUILD REGRESSION
+ 15f2f20ccbf2d04cb14e3e7635aa0447208c71e7
+Message-ID: <6384eed7.JsneE+FPasGJScWk%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="psc2jqoxzihybe7l"
-Content-Disposition: inline
-In-Reply-To: <20221116172131.GA233356-robh@kernel.org>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,105 +59,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org,
- NXP Linux Team <linux-imx@nxp.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Shawn Guo <shawnguo@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ dri-devel@lists.freedesktop.org, linuxppc-dev@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 15f2f20ccbf2d04cb14e3e7635aa0447208c71e7  Add linux-next specific files for 20221128
 
---psc2jqoxzihybe7l
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Error/Warning reports:
 
-Hello,
+https://lore.kernel.org/oe-kbuild-all/202211041320.coq8EELJ-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202211080348.BOsishom-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202211090634.RyFKK0WS-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202211242120.MzZVGULn-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202211282102.QUr7HHrW-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202211282244.c1FaAVIO-lkp@intel.com
 
-On Wed, Nov 16, 2022 at 11:21:31AM -0600, Rob Herring wrote:
-> On Thu, Nov 10, 2022 at 10:49:45AM +0100, Uwe Kleine-K=F6nig wrote:
-> > This is a straight forward conversion. Note that fsl,imx-lcdc was picked
-> > as the new name as this is the compatible that should supersede the
-> > legacy fb binding.
-> >=20
-> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> > ---
-> > Hello,
-> >=20
-> > the eventual goal is to add drm support for this hardware. That one will
-> > use a different (and more sensible) binding. However fsl,imx*-fb won't
-> > go away directly, and Rob requested to describe both bindings in the
-> > same file given that it describes a single hardware type.
-> >=20
-> > As a first step I convert the old binding to yaml. I tried to put the
-> > new binding on top of that but I'm not sure about a few things in this
-> > patch and so post only this first patch and once it's accepted add the
-> > new binding which I guess is less overall work.
-> >=20
-> > What I'm unsure about is the description of the display node (Is there a
-> > better description? I didn't find a schema for that.)
->=20
-> That's going to be a challenge to describe because every panel binding=20
-> will need a reference to those custom properties. It's a similar problem=
-=20
-> that spi-peripheral-props.yaml solved. But here, there may not be enough=
-=20
-> instances to do such a general solution. Do the panels used even have=20
-> schemas yet?
+Error/Warning: (recently discovered and may have been fixed)
 
-Looking at the dts files in the tree[1] I only found sharp,lq035q7db03
-in simple-panel which might match the display used in
-arch/arm/boot/dts/imx27-phytec-phycore-rdk.dts.
+arch/arm/mach-s3c/devs.c:32:10: fatal error: linux/platform_data/dma-s3c24xx.h: No such file or directory
+arch/powerpc/kernel/kvm_emul.o: warning: objtool: kvm_template_end(): can't find starting instruction
+arch/powerpc/kernel/optprobes_head.o: warning: objtool: optprobe_template_end(): can't find starting instruction
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dp.c:5075:24: warning: implicit conversion from 'enum <anonymous>' to 'enum dc_status' [-Wenum-conversion]
+drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn201/irq_service_dcn201.c:40:20: warning: no previous prototype for 'to_dal_irq_source_dcn201' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c:451:1: warning: no previous prototype for 'gf100_fifo_nonstall_block' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c:34:1: warning: no previous prototype for 'nvkm_engn_cgrp_get' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c:210:1: warning: no previous prototype for 'tu102_gr_load' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/nvfw/acr.c:49:1: warning: no previous prototype for 'wpr_generic_header_dump' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:221:21: warning: variable 'loc' set but not used [-Wunused-but-set-variable]
+vmlinux.o: warning: objtool: __btrfs_map_block+0x21ad: unreachable instruction
+vmlinux.o: warning: objtool: btrfs_calc_avail_data_space+0x4f: unreachable instruction
 
-> It's kind of a separate problem. You could start with just creating a=20
-> schema just listing the custom properties.
+Error/Warning ids grouped by kconfigs:
 
-Understood that. Will try it.
-=20
-> > Further I didn't find documentation about additionalProperties and
-> > unevaluatedProperties. Did I pick the right one here?
->=20
-> example-schema.yaml talks about it some. In general, if there's a=20
-> $ref to other properties for a node not defined locally, then you need=20
-> unevaluatedProperties. Otherwise, additionalProperties is fine.
+gcc_recent_errors
+|-- alpha-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
+|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
+|-- alpha-randconfig-r031-20221128
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
+|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
+|-- arc-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
+|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
+|-- arc-randconfig-r024-20221127
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
+|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
+|-- arm-allyesconfig
+|   |-- arch-arm-mach-s3c-devs.c:fatal-error:linux-platform_data-dma-s3c24xx.h:No-such-file-or-directory
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
+|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
+|-- arm-defconfig
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
+|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
+|-- arm64-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+clang_recent_errors
+|-- powerpc-buildonly-randconfig-r003-20221128
+|   `-- arch-powerpc-kernel-kvm_emul.o:warning:objtool:kvm_template_end():can-t-find-starting-instruction
+|-- x86_64-randconfig-a013-20221128
+|   `-- vmlinux.o:warning:objtool:handle_bug:call-to-kmsan_unpoison_entry_regs()-leaves-.noinstr.text-section
+`-- x86_64-randconfig-a015-20221128
+    `-- vmlinux.o:warning:objtool:handle_bug:call-to-kmsan_unpoison_entry_regs()-leaves-.noinstr.text-section
 
-Not sure I got the complete picture. I'll stick to additionalProperties
-and rely on people and tools to tell me if I'm wrong :-)
+elapsed time: 729m
 
-Best regards and thanks for the feedback,
-Uwe
+configs tested: 50
+configs skipped: 2
 
-[1]
-	&wvga in arch/arm/boot/dts/imx25-pdk.dts
-	&cmo_qvga in arch/arm/boot/dts/imx25-eukrea-mbimxsd25-baseboard-cmo-qvga.d=
-ts
-	&dvi_svga in arch/arm/boot/dts/imx25-eukrea-mbimxsd25-baseboard-dvi-svga.d=
-ts
-	&dvi_vga in arch/arm/boot/dts/imx25-eukrea-mbimxsd25-baseboard-dvi-vga.dts
-	&display0 in arch/arm/boot/dts/imx27-eukrea-mbimxsd27-baseboard.dts
-	&display in arch/arm/boot/dts/imx27-apf27dev.dts
-	&display0 in arch/arm/boot/dts/imx27-eukrea-mbimxsd27-baseboard.dts
-	&display in arch/arm/boot/dts/imx27-phytec-phycard-s-rdk.dts
-	&display0 in arch/arm/boot/dts/imx27-phytec-phycore-rdk.dts
+gcc tested configs:
+um                             i386_defconfig
+um                           x86_64_defconfig
+i386                 randconfig-a002-20221128
+i386                 randconfig-a003-20221128
+i386                                defconfig
+i386                 randconfig-a001-20221128
+x86_64                          rhel-8.3-func
+x86_64                              defconfig
+x86_64                    rhel-8.3-kselftests
+i386                 randconfig-a005-20221128
+i386                 randconfig-a004-20221128
+i386                 randconfig-a006-20221128
+x86_64                         rhel-8.3-kunit
+x86_64               randconfig-a001-20221128
+x86_64               randconfig-a003-20221128
+x86_64               randconfig-a004-20221128
+x86_64               randconfig-a002-20221128
+x86_64               randconfig-a005-20221128
+x86_64               randconfig-a006-20221128
+powerpc                           allnoconfig
+arc                                 defconfig
+s390                             allmodconfig
+alpha                               defconfig
+s390                                defconfig
+s390                             allyesconfig
+x86_64                               rhel-8.3
+x86_64                           rhel-8.3-syz
+x86_64                           rhel-8.3-kvm
+x86_64                           allyesconfig
+arm                                 defconfig
+arm                              allyesconfig
+i386                             allyesconfig
+sh                               allmodconfig
+arm64                            allyesconfig
+mips                             allyesconfig
+m68k                             allyesconfig
+powerpc                          allmodconfig
+m68k                             allmodconfig
+arc                              allyesconfig
+alpha                            allyesconfig
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+clang tested configs:
+hexagon              randconfig-r041-20221128
+riscv                randconfig-r042-20221128
+s390                 randconfig-r044-20221128
+hexagon              randconfig-r045-20221128
+i386                 randconfig-a012-20221128
+i386                 randconfig-a011-20221128
+x86_64               randconfig-a016-20221128
+x86_64               randconfig-a015-20221128
+x86_64               randconfig-a014-20221128
+x86_64               randconfig-a013-20221128
 
---psc2jqoxzihybe7l
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmOE7WEACgkQwfwUeK3K
-7AlLNQf+LzuZZrTcNkZwbskiUIj9bOGjwETJriOUJ+WBwQlokUZQm7vqVXJ6iszI
-ihUXdsAXeCx/W2xsIfI/K/koIy6+E2CUxk+04CuJMUI+tWohpxjtCRD+CILaTL8i
-bE6c1IzG6KRGIDWJVWENDcyD2cxm24+LqfZmvjqoVESEj/7M/Qz/YCqTHmoYefT4
-hDZmIPGPGMMggP2YbRU2/Z5UdDkq9Si9Ivg7Ap5A1ZYHkF9MdDEA1LwOlT/vhyEV
-4BOuvz2bMGHbq2jqNbgMpDWik7gR4l60CsECkMnoYU3XUWgYedh0Rp0An4jPZrFy
-guBrF2ZubR5yx6vbOW69wpRJQ4QP7g==
-=1Mng
------END PGP SIGNATURE-----
-
---psc2jqoxzihybe7l--
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
