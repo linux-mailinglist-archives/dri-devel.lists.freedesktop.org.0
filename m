@@ -1,77 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8393F63A2F9
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 09:28:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57E2963A2FF
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 09:29:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40E2210E2B0;
-	Mon, 28 Nov 2022 08:28:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 278D810E2B3;
+	Mon, 28 Nov 2022 08:29:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
- [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3D3710E2B0
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 08:28:51 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 511A0580359;
- Mon, 28 Nov 2022 03:28:51 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Mon, 28 Nov 2022 03:28:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1669624131; x=1669631331; bh=eSw6zYZByW
- ByEDrCysf/g+5Jcl5hSRg/8bMKEi7byJA=; b=RK2iFwcTILH+rxCpDiolq8IuMD
- Se/mvVBHNiP9dtE38pmjN5VvqgAwUjcU7eCKpGJ1SC9zUHOLF39v5Nu+5gOnTy1F
- I13Dmrr+03vwmmLh0rgFa3Nyln5FZkl+bZsg7MBkpyuF15hIecHazX2UhADzKJnx
- 1XCJvL/27J8tdBMzk9KxevPSBHZgG8upFmWkZP+a8DO2Dl1VrJxUOfApmrU+oFxk
- jxEM+RMAwayqXtn8Djma7aiN2rU2rEdsa02GojTysuh1stw/AbMt04rZjRnjiS/k
- gdzmyCPsg9XPzTkAs6DYIl1SbRlphIbpNGOcE1WBzhp65EiSoGJCrv+ER24w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1669624131; x=1669631331; bh=eSw6zYZByWByEDrCysf/g+5Jcl5h
- SRg/8bMKEi7byJA=; b=goMhNEZKCeiZiKNWKEYSto86uSLDQOZQ8C6vsJjoOrNc
- 4hTtlWPbV9ioZ7GZ/m78y8mnrHjXz9FMVPvmJuTS3ZQy6uWbfkbPlhzewiUID0ul
- inqXeabvNva6YW4BBiNTPKpowPcZbQgUdmxTgfqHmqZULurR2XRohtC36kq5rkh6
- ka80c1ShwTqav5e5Yc5fLeovT+febBf52Z6Et2NKvsfir2BC2D+wR3lXPQtzE44I
- 93BgX7cOMPQQ9ZcxbGjTuHs12gJNbU5sBEAFEZV2ikDAvNCELBQT0XAgrgzwtbWQ
- EoE/yb3f8aKqmCegQrOCBB2PPwBlDIA85S/30bbS3Q==
-X-ME-Sender: <xms:QnGEY2AJPUgTwL-nWShZB4L-gSdEIDJ5UxgiQ7Vbb0yUBJTxovpNcg>
- <xme:QnGEYwha38SyklzSJwycmreaZpaJiNAHl84BJK_csHLM0bJOWPBSRS-2BKYxa0qGq
- wa2xraYwAQAbqXI8EE>
-X-ME-Received: <xmr:QnGEY5ndvGSvKlL3ei078S4p6VOzKM0bKxfOy8unWkLMpwl1pMJwHqNrn2Jfg0l68VOax0IXYpeBvNcdKkKWHdxEznWQ4Eh9hazoLoGKXh1o7A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrjedugdduvddvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
- hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:QnGEY0w8cc-fnQFD1xJkwpIya0fmt5MiJ1DiO---Yjf4tML_WbgI-Q>
- <xmx:QnGEY7S4tsmG9Sl8oZfcDr5es45j7LDN9U7p3iqPVb4C4aJc2yUqWg>
- <xmx:QnGEY_b4lOuqsTVGSjBVmzmMrsLVgLogjWfKvspbQkNh3YX4GHYZHA>
- <xmx:Q3GEY8TU3A90DfPutu-y6NNrEAT1SpQloi6bj4QWcA6c3QhgkIHxZA>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 28 Nov 2022 03:28:50 -0500 (EST)
-Date: Mon, 28 Nov 2022 09:28:49 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH/RFC 3/3] drm: atari: Add a DRM driver for Atari graphics
- hardware
-Message-ID: <20221128082849.jixumay2q5r3f23r@houat>
-References: <cover.1669406380.git.geert@linux-m68k.org>
- <9ef3ed30a45a367db0231ea2e98f6f37ba860b4c.1669406382.git.geert@linux-m68k.org>
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7465210E2B3
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 08:29:44 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id n3so15516985wrp.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 00:29:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:sender:from:to:cc:subject:date:message-id:reply-to;
+ bh=IOpIkVTZ1HCSepxMCiPIVLc3Du6eeySPU1lvrDaAkA0=;
+ b=iP2YYiwl9QvU5Fj9JzDa1Ner+PSjuXkcCMEmS9tW23BnczYppbVvnJU9HQsJRJDFNS
+ HZGopcus13C3caspnBXrNSgkN7Ofp4VoMRbERqTmkFgkdmRtkTLT6WoY7RMoq/jRUGCv
+ vLXOswkWlJEKu1Hyy0pOgM4fW9NcyhRx/KCsxN9lehS7MgaxFxnjENjvvO1kv/WI2S9d
+ k+q36KaGkqU7wTycEHYnKklfdJNfqs5rXFwBvKF9R2aa+qcM7CxT+KZAjTHmr/sD9S25
+ tE6J9yWHEhkDhFeHXd5X3qJCiBLzVZW2PI/+Ma07Rz8x6BR/OgIeJ1Hp4kPTGRy0NY0p
+ 0bJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:sender:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=IOpIkVTZ1HCSepxMCiPIVLc3Du6eeySPU1lvrDaAkA0=;
+ b=N7ivkiKDg5KXIZRqlSVXBRviRC2CnU9Ega1PRiRXrhrI7ebbNoU+VS0hXrZnI48R6H
+ edxJXfvZyMz+W8JecBskisOjgZTEfHdiH51PwJgi5JkcBcWQaLVGmlM0J5DSpOz20pP1
+ FR/HrI95w2RuZyssCt5QUZ49CwkiAEXzu7C3jFokiwdRYq4wwIesuZEHxwoE72fK8Aoq
+ kVR2tfIesIpBaVlchZ55UDoG64sakuLt3XdjpPOOziIWDKz7NDpasfgLRnkktd+WrpyY
+ DpcgRyhqhjfrHf6IXb9yb1Ecu+PcX4X3H93xBW4XzRKc/RygqPPdhbFXlXxCw8zrgVKM
+ XoPw==
+X-Gm-Message-State: ANoB5pkyrxZhjglJV9QbuyogOFBT6tvTkPJgXp7B9iB0jdJ6WudvmJwX
+ TAvBugMDLDTu88MjS6H0p/k=
+X-Google-Smtp-Source: AA0mqf5o3omyFNxLGgAAlS7h9m5pGaApcXCeWfag+9dMe/kyf/xcUF+n/HOzhL9shN+Mov9HNNGpdg==
+X-Received: by 2002:adf:d0c2:0:b0:242:a37:7abf with SMTP id
+ z2-20020adfd0c2000000b002420a377abfmr7101743wrh.190.1669624182677; 
+ Mon, 28 Nov 2022 00:29:42 -0800 (PST)
+Received: from ?IPV6:2a0e:41a:894f:0:78ad:176c:d7ef:5797?
+ ([2a0e:41a:894f:0:78ad:176c:d7ef:5797])
+ by smtp.gmail.com with ESMTPSA id
+ i17-20020adfe491000000b0022da3977ec5sm10020436wrm.113.2022.11.28.00.29.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Nov 2022 00:29:42 -0800 (PST)
+From: Carlo Caione <carlo@caione.org>
+X-Google-Original-From: Carlo Caione <ccaione@baylibre.com>
+Message-ID: <a896ab20-6a08-fc41-ff2b-250ef477d801@baylibre.com>
+Date: Mon, 28 Nov 2022 09:29:41 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="rsjyngjy5j33h3zh"
-Content-Disposition: inline
-In-Reply-To: <9ef3ed30a45a367db0231ea2e98f6f37ba860b4c.1669406382.git.geert@linux-m68k.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 0/2] Make ILI9486 driver working with 16-bits SPI
+ controllers
+Content-Language: en-US
+To: Mark Brown <broonie@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
+ Jerome Brunet <jbrunet@baylibre.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+References: <20221116-s905x_spi_ili9486-v2-0-084c6e3cd930@baylibre.com>
+In-Reply-To: <20221116-s905x_spi_ili9486-v2-0-084c6e3cd930@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,59 +84,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Schmitz <schmitzmic@gmail.com>, linux-fbdev@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Helge Deller <deller@gmx.de>,
- linux-m68k@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 21/11/2022 10:42, Carlo Caione wrote:
+> This patchset is trying to fix problems seen on S905X boards when interfacing
+> with an ILI9486 equipped SPI panel.
 
---rsjyngjy5j33h3zh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Gentle ping on this 2-patch set.
 
-Hi,
+Cheers,
 
-On Fri, Nov 25, 2022 at 09:31:10PM +0100, Geert Uytterhoeven wrote:
-> +// FIXME create dynamically from atari_drm_modes[]?
+--
+Carlo Caione
 
-Not necessarily, but they should have proper descriptors at the very least.
-
-> +static const struct drm_named_mode atari_drm_named_modes[] =
-> +{
-> +	{ .name = "st-low" },
-> +	{ .name = "st-mid" },
-> +	{ .name = "st-high" },
-> +	{ .name = "tt-low" },
-> +	{ .name = "tt-mid" },
-> +	{ .name = "tt-high" },
-> +	{ .name = "vga" },
-> +	{ .name = "vga70" },
-> +	{ .name = "qvga" },
-> +	{ .name = "hvga" },
-> +	{ .name = "falh" },
-> +	{ /* sentinel */ }
-> +};
-
-I'm really not convinced about per-driver named modes. This will only
-lead to each driver having its own set of undocumented and obscure mode
-names that will just make everything work.
-
-And some of them in that list are completely generic: VGA, QVGA, HVGA at
-least should definitely be part of the generic named modes.
-
-Maxime
-
---rsjyngjy5j33h3zh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY4RxQQAKCRDj7w1vZxhR
-xfMnAP93kyXjMFffjjRpWN5fHp8WKE3Jg4utXdhfbIjQtUx51gEAln73V6oGNd7N
-/JYs3SvDr/bqiGUDKjqbA2eGjCNfuwY=
-=wePj
------END PGP SIGNATURE-----
-
---rsjyngjy5j33h3zh--
