@@ -2,16 +2,16 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8271D63B2C4
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 21:09:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4964963B2D3
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 21:14:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1A4910E23A;
-	Mon, 28 Nov 2022 20:09:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB45A10E1F6;
+	Mon, 28 Nov 2022 20:14:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 121AF10E23A
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 20:09:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3326010E1F6
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 20:14:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -19,31 +19,31 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=0INozCygsrzYRHIPWCYY88aXHMGFfj1kNMWkQlBvxRM=; b=Z8qJhYlPU3DCTrelXjO2K07BcE
- On0eNgfVvJsermEmQ7OcZSA487+YB6k2mduXohpmL4e6a4kPJEzdBf8CUxL3Y7XiwLURBrzedamHJ
- oZ7sMQ7EveWpp0IUareCXQFd4wQyshUlb9kDtD/jH7ghK56LivS27fV8OfpSTgVuz4jtChapW1jSv
- R9afS9ayoWRufqgUXDVKKVaDg4AnMDv/olhafTFIT5m7IYrGhZ9T5VugJw4m2WmDqHiNwpR8UgrZY
- YogIzaPrtTuxEE7JDDTLfBMYaNoAyXo7IhrO8g1VW+070aYBEb4AoYmRJtW88jIvvOEPQcUZ0WMtE
- ubCjxwBg==;
+ bh=08/2Un2YGzJddEhSx7wn1daARTMK5OvPSBMOvCMzINI=; b=LqtalMNyuU4+k5RTvZu/mPL98S
+ o8GMW4mfahXsFshKuSALJ04tWQVB6919Y+DwyUVMW4FzDoaXGmaDae3SnWsCa34ugNaDwPfU0TA1g
+ x0B+OWKB5hW+KCcUcZ6W/WRwSamd1hmwt4v85UybVzZe32GveqRH5m7WnWKksjNl+fA7muEAqKkVP
+ mZPWh6QtnhxbOhVNgOAiUu08rVMyrWxtiPnr/2moN3KV4ZzBCNMn2IjTbf/RzRSXUzCWsX+/hJWql
+ 6raDkSqrNL5q1eeKxgTEAFNJDIUufD985vTjoD4uryoikaPRCE26ZKQOHRPmCtCdRMjwNJiot8Xic
+ 379Bak0w==;
 Received: from [177.34.169.227] (helo=[192.168.0.8])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1ozkRF-00AcE5-LC; Mon, 28 Nov 2022 21:09:15 +0100
-Message-ID: <dffe5d84-4acf-ccb5-dacc-98f691c30352@igalia.com>
-Date: Mon, 28 Nov 2022 17:09:06 -0300
+ id 1ozkWK-00AcJO-Rs; Mon, 28 Nov 2022 21:14:29 +0100
+Message-ID: <b48c4585-52b9-5311-5210-fd5679bda90f@igalia.com>
+Date: Mon, 28 Nov 2022 17:14:21 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
-Subject: Re: [PATCH v2 07/17] drm/tests: helpers: Make sure the device is bound
+Subject: Re: [PATCH v2 10/17] drm/tests: Add a test for DRM managed actions
 Content-Language: en-US
 To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter <daniel@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
  Thomas Zimmermann <tzimmermann@suse.de>
 References: <20221123-rpi-kunit-tests-v2-0-efe5ed518b63@cerno.tech>
- <20221123-rpi-kunit-tests-v2-7-efe5ed518b63@cerno.tech>
+ <20221123-rpi-kunit-tests-v2-10-efe5ed518b63@cerno.tech>
 From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20221123-rpi-kunit-tests-v2-7-efe5ed518b63@cerno.tech>
+In-Reply-To: <20221123-rpi-kunit-tests-v2-10-efe5ed518b63@cerno.tech>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,12 +69,10 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 11/28/22 11:53, Maxime Ripard wrote:
-> The device managed resources are freed when the device is detached, so
-> it has to be bound in the first place.
+> DRM-managed actions are supposed to be ran whenever the device is
+> released. Let's introduce a basic unit test to make sure it happens.
 > 
-> Let's create a fake driver that we will bind to our fake device to
-> benefit from the device managed cleanups in our tests.
-> 
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
 Reviewed-by: Maíra Canal <mcanal@igalia.com>
@@ -83,63 +81,97 @@ Best Regards,
 - Maíra Canal
 
 > ---
->  drivers/gpu/drm/tests/drm_kunit_helpers.c | 26 +++++++++++++++++++++++++-
->  1 file changed, 25 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/tests/Makefile           |  1 +
+>  drivers/gpu/drm/tests/drm_managed_test.c | 71 ++++++++++++++++++++++++++++++++
+>  2 files changed, 72 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/tests/drm_kunit_helpers.c b/drivers/gpu/drm/tests/drm_kunit_helpers.c
-> index 15678ab823b0..5d3e29353d1a 100644
-> --- a/drivers/gpu/drm/tests/drm_kunit_helpers.c
-> +++ b/drivers/gpu/drm/tests/drm_kunit_helpers.c
-> @@ -18,12 +18,32 @@ struct kunit_dev {
->  static const struct drm_mode_config_funcs drm_mode_config_funcs = {
->  };
->  
-> +static int fake_probe(struct platform_device *pdev)
-> +{
-> +	return 0;
-> +}
+> diff --git a/drivers/gpu/drm/tests/Makefile b/drivers/gpu/drm/tests/Makefile
+> index 94fe546d937d..486053052ba9 100644
+> --- a/drivers/gpu/drm/tests/Makefile
+> +++ b/drivers/gpu/drm/tests/Makefile
+> @@ -10,6 +10,7 @@ obj-$(CONFIG_DRM_KUNIT_TEST) += \
+>  	drm_format_test.o \
+>  	drm_framebuffer_test.o \
+>  	drm_kunit_helpers.o \
+> +	drm_managed_test.o \
+>  	drm_mm_test.o \
+>  	drm_modes_test.o \
+>  	drm_plane_helper_test.o \
+> diff --git a/drivers/gpu/drm/tests/drm_managed_test.c b/drivers/gpu/drm/tests/drm_managed_test.c
+> new file mode 100644
+> index 000000000000..1652dca11d30
+> --- /dev/null
+> +++ b/drivers/gpu/drm/tests/drm_managed_test.c
+> @@ -0,0 +1,71 @@
+> +// SPDX-License-Identifier: GPL-2.0
 > +
-> +static int fake_remove(struct platform_device *pdev)
-> +{
-> +	return 0;
-> +}
+> +#include <drm/drm_drv.h>
+> +#include <drm/drm_kunit_helpers.h>
+> +#include <drm/drm_managed.h>
 > +
-> +static struct platform_driver fake_platform_driver = {
-> +	.probe	= fake_probe,
-> +	.remove	= fake_remove,
-> +	.driver = {
-> +		.name	= KUNIT_DEVICE_NAME,
-> +	},
+> +#include <kunit/resource.h>
+> +
+> +#include <linux/device.h>
+> +
+> +/* Ought to be enough for anybody */
+> +#define TEST_TIMEOUT_MS	100
+> +
+> +struct managed_test_priv {
+> +	bool action_done;
+> +	wait_queue_head_t action_wq;
 > +};
 > +
->  /**
->   * drm_kunit_helper_alloc_device - Allocate a mock device for a KUnit test
->   * @test: The test context object
->   *
->   * This allocates a fake struct &device to create a mock for a Kunit
-> - * test.
-> + * test. The device will also be bound to a fake driver. It will thus be
-> + * able to leverage the usual infrastructure and most notably the
-> + * device-managed resources just like a "real" device.
->   *
->   * Callers need to make sure drm_kunit_helper_free_device() on the
->   * device when done.
-> @@ -36,6 +56,9 @@ struct device *drm_kunit_helper_alloc_device(struct kunit *test)
->  	struct platform_device *pdev;
->  	int ret;
->  
-> +	ret = platform_driver_register(&fake_platform_driver);
+> +static void drm_action(struct drm_device *drm, void *ptr)
+> +{
+> +	struct managed_test_priv *priv = ptr;
+> +
+> +	priv->action_done = true;
+> +	wake_up_interruptible(&priv->action_wq);
+> +}
+> +
+> +static void drm_test_managed_run_action(struct kunit *test)
+> +{
+> +	struct managed_test_priv *priv;
+> +	struct drm_device *drm;
+> +	struct device *dev;
+> +	int ret;
+> +
+> +	priv = kunit_kzalloc(test, sizeof(*priv), GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv);
+> +	init_waitqueue_head(&priv->action_wq);
+> +
+> +	dev = drm_kunit_helper_alloc_device(test);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
+> +
+> +	drm = __drm_kunit_helper_alloc_drm_device(test, dev, sizeof(*drm), 0, DRIVER_MODESET);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, drm);
+> +
+> +	ret = drmm_add_action_or_reset(drm, drm_action, priv);
+> +	KUNIT_EXPECT_EQ(test, ret, 0);
+> +
+> +	ret = drm_dev_register(drm, 0);
 > +	KUNIT_ASSERT_EQ(test, ret, 0);
 > +
->  	pdev = platform_device_alloc(KUNIT_DEVICE_NAME, PLATFORM_DEVID_NONE);
->  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, pdev);
->  
-> @@ -58,6 +81,7 @@ void drm_kunit_helper_free_device(struct kunit *test, struct device *dev)
->  	struct platform_device *pdev = to_platform_device(dev);
->  
->  	platform_device_unregister(pdev);
-> +	platform_driver_unregister(&fake_platform_driver);
->  }
->  EXPORT_SYMBOL(drm_kunit_helper_free_device);
->  
+> +	drm_dev_unregister(drm);
+> +	drm_kunit_helper_free_device(test, dev);
+> +
+> +	ret = wait_event_interruptible_timeout(priv->action_wq, priv->action_done,
+> +					       msecs_to_jiffies(TEST_TIMEOUT_MS));
+> +	KUNIT_EXPECT_GT(test, ret, 0);
+> +}
+> +
+> +static struct kunit_case drm_managed_tests[] = {
+> +	KUNIT_CASE(drm_test_managed_run_action),
+> +	{}
+> +};
+> +
+> +static struct kunit_suite drm_managed_test_suite = {
+> +	.name = "drm-test-managed",
+> +	.test_cases = drm_managed_tests
+> +};
+> +
+> +kunit_test_suite(drm_managed_test_suite);
+> +
+> +MODULE_AUTHOR("Maxime Ripard <maxime@cerno.tech>");
+> +MODULE_LICENSE("GPL");
 > 
