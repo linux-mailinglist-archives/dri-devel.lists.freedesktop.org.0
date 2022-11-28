@@ -1,77 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2245363A2BE
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 09:21:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD08563A2E6
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 09:26:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0175710E2A9;
-	Mon, 28 Nov 2022 08:21:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CF6310E2AB;
+	Mon, 28 Nov 2022 08:26:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
- [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CB3C10E2AA
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 08:21:11 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 420775802F7;
- Mon, 28 Nov 2022 03:21:10 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Mon, 28 Nov 2022 03:21:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1669623670; x=1669630870; bh=QrDmBmVcXX
- 6tVAPe5j+hdeIaostNrA78ZkYql/wyJkE=; b=gUkk4VUisc5QG0Im9OGlM+mwNJ
- FEbGfjekPQeBVEKlttoI3IpYx6+EotEYHDFW2wch9ldM1gB1hMSKIKu5DEnJxtzJ
- O+2C1I9BV2He0UxR/IlWUKBn7GcqLR2HFNNW40oyWfQzrY+qLuAkjTqN8xExQwMz
- dr3UpH3znp7t1VKNRpOfeObs5fhB1osGIGRJJie1rpmxfx9VfrT+/SVvt21a7am6
- deC2ZJMjaEpskb9liZGAraPPI0HdMWpJZzigA2+FWbrW+ESReNHvetAaK5jyWByb
- 2xfbZmZchAGbFqQRfpfBv2Z/WB6IM7DbcevX5N5IXKONmem+gaWBGidV9WNA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1669623670; x=1669630870; bh=QrDmBmVcXX6tVAPe5j+hdeIaostN
- rA78ZkYql/wyJkE=; b=KdY7OdawF7M0KnHmzKtvn+pmBsDEQBkjsr5a9ACWZU+l
- dgC+rN9erCOJuMmF/V0y3OKhfw365HlMionqpXzgk6CHZX9la0sVxZmsUJnU0qKu
- 1YSTOSCXDNvJugG4H87lw2wNPIEvnhSPi4/M4b8WnTy+AACNDJ44dReuubBfwsG6
- yX7WHg2H9bJgNycbrvABHZnNfegQ6MB4RKIyJOmOizfm305VlZpWodH2OsBD+o0v
- RM8nCG3yvIlylSyYhWzI9zl/SL0KkBTrNsyB0oDfgj3VmzGctJMjrJITLyB2Y7nd
- AWP2Uc3R+8+ev/nfcDXKy90TFkE6KqNI3Yerz15+ng==
-X-ME-Sender: <xms:dW-EY0JVYQ5R4oszEhIKAG0iyc_kXpqBDGKQ3Qwk8rgmScuIf9OJvA>
- <xme:dW-EY0K12K4WKXZLh7orNEjsImMGsF0HSLFKdbJlppe3QHSG57UpYuv2B-b8PriBg
- nVqEOaebZsZNYGNoqE>
-X-ME-Received: <xmr:dW-EY0vRVnHpqPi6v9Y8-xJCW8_gHPXOVdPXVv_LOYvyLx17WP-E6S1fFiRXyqMmnVvTOV8Jpst-DiU_cx4WWDjmMrL6e_7-G93SyZ8kkIvnfg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrjedugdduvdduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
- hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:dm-EYxbrB4J7vAjia3zbfe9RrA14_lpIKy1RkSFik1ggo0UNxTVtSg>
- <xmx:dm-EY7agIINg9FqtOoozgH8Ao12N8BXFyUeNgYnypis6ngmUec0CXg>
- <xmx:dm-EY9CN9qHNmP9qB8HjbYc8Z1rlbmCyryEcXErpUsRd5Go7Etezmw>
- <xmx:dm-EY1aCCEUzsBJAvOXEH4n8qJUqPTnoxSftIzygJF4R0kS7lfAAlg>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 28 Nov 2022 03:21:09 -0500 (EST)
-Date: Mon, 28 Nov 2022 09:21:08 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH/RFC 2/3] drm/simple-kms-helper: Add mode_fixup() to
- simple display pipe
-Message-ID: <20221128082108.ntjhevb4ku6lnvib@houat>
-References: <cover.1669406380.git.geert@linux-m68k.org>
- <3b0862187f1c8910089cb0d06a8669caa985042e.1669406382.git.geert@linux-m68k.org>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D1B210E2AB;
+ Mon, 28 Nov 2022 08:26:14 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7A51260F9E;
+ Mon, 28 Nov 2022 08:26:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75F8BC433D6;
+ Mon, 28 Nov 2022 08:26:05 +0000 (UTC)
+Message-ID: <0a52ed02-cf9d-eb67-8d68-e3d9dbe4e7b2@xs4all.nl>
+Date: Mon, 28 Nov 2022 09:26:04 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="zqy4xi2ywhixazqh"
-Content-Disposition: inline
-In-Reply-To: <3b0862187f1c8910089cb0d06a8669caa985042e.1669406382.git.geert@linux-m68k.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH mm-unstable v1 16/20] mm/frame-vector: remove FOLL_FORCE
+ usage
+Content-Language: en-US
+To: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>
+References: <20221116102659.70287-1-david@redhat.com>
+ <20221116102659.70287-17-david@redhat.com>
+ <81fb0fa3-2e06-b765-56ac-a7d981194e59@redhat.com>
+ <08b65ac6-6786-1080-18f8-d2be109c85fc@xs4all.nl>
+ <9d0bf98a-3d6a-1082-e992-1338e1525935@redhat.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <9d0bf98a-3d6a-1082-e992-1338e1525935@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,49 +51,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Schmitz <schmitzmic@gmail.com>, linux-fbdev@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Helge Deller <deller@gmx.de>,
- linux-m68k@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: linux-ia64@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ Nadav Amit <namit@vmware.com>, linux-kselftest@vger.kernel.org,
+ sparclinux@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Andrea Arcangeli <aarcange@redhat.com>, linux-samsung-soc@vger.kernel.org,
+ linux-rdma@vger.kernel.org, x86@kernel.org, Hugh Dickins <hughd@google.com>,
+ Matthew Wilcox <willy@infradead.org>, Christoph Hellwig <hch@infradead.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@suse.cz>,
+ linux-media@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ John Hubbard <jhubbard@nvidia.com>, linux-um@lists.infradead.org,
+ etnaviv@lists.freedesktop.org, Alex Williamson <alex.williamson@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Muchun Song <songmuchun@bytedance.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ Oded Gabbay <ogabbay@kernel.org>, linux-mips@vger.kernel.org,
+ Tomasz Figa <tfiga@chromium.org>, linux-perf-users@vger.kernel.org,
+ linux-security-module@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
+ Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 28/11/2022 09:18, David Hildenbrand wrote:
+> On 28.11.22 09:17, Hans Verkuil wrote:
+>> Hi David,
+>>
+>> On 27/11/2022 11:35, David Hildenbrand wrote:
+>>> On 16.11.22 11:26, David Hildenbrand wrote:
+>>>> FOLL_FORCE is really only for ptrace access. According to commit
+>>>> 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are always
+>>>> writable"), get_vaddr_frames() currently pins all pages writable as a
+>>>> workaround for issues with read-only buffers.
+>>>>
+>>>> FOLL_FORCE, however, seems to be a legacy leftover as it predates
+>>>> commit 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are
+>>>> always writable"). Let's just remove it.
+>>>>
+>>>> Once the read-only buffer issue has been resolved, FOLL_WRITE could
+>>>> again be set depending on the DMA direction.
+>>>>
+>>>> Cc: Hans Verkuil <hverkuil@xs4all.nl>
+>>>> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+>>>> Cc: Tomasz Figa <tfiga@chromium.org>
+>>>> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+>>>> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+>>>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>>>> ---
+>>>>    drivers/media/common/videobuf2/frame_vector.c | 2 +-
+>>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/media/common/videobuf2/frame_vector.c b/drivers/media/common/videobuf2/frame_vector.c
+>>>> index 542dde9d2609..062e98148c53 100644
+>>>> --- a/drivers/media/common/videobuf2/frame_vector.c
+>>>> +++ b/drivers/media/common/videobuf2/frame_vector.c
+>>>> @@ -50,7 +50,7 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
+>>>>        start = untagged_addr(start);
+>>>>          ret = pin_user_pages_fast(start, nr_frames,
+>>>> -                  FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM,
+>>>> +                  FOLL_WRITE | FOLL_LONGTERM,
+>>>>                      (struct page **)(vec->ptrs));
+>>>>        if (ret > 0) {
+>>>>            vec->got_ref = true;
+>>>
+>>>
+>>> Hi Andrew,
+>>>
+>>> see the discussion at [1] regarding a conflict and how to proceed with
+>>> upstreaming. The conflict would be easy to resolve, however, also
+>>> the patch description doesn't make sense anymore with [1].
+>>
+>> Might it be easier and less confusing if you post a v2 of this series
+>> with my patch first? That way it is clear that 1) my patch has to come
+>> first, and 2) that it is part of a single series and should be merged
+>> by the mm subsystem.
+>>
+>> Less chances of things going wrong that way.
+>>
+>> Just mention in the v2 cover letter that the first patch was added to
+>> make it easy to backport that fix without being hampered by merge
+>> conflicts if it was added after your frame_vector.c patch.
+> 
+> Yes, that's the way I would naturally do, it, however, Andrew prefers delta updates for minor changes.
+> 
+> @Andrew, whatever you prefer!
 
---zqy4xi2ywhixazqh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Andrew, I've resent my patch, this time with you CCed as well.
 
-Hi,
+Regards,
 
-On Fri, Nov 25, 2022 at 09:31:09PM +0100, Geert Uytterhoeven wrote:
-> From: Thomas Zimmermann <tzimmermann@suse.de>
->=20
-> The mode fix-up function for simple display helpers is equivalent to the
-> regular pipeline's CRTC mode fix-up function. It's called to adjust the
-> CRTC's display mode for the encoder. Add this function for DRM fbconv
-> helpers.
->=20
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+	Hans
 
-It's not clear to me why you'd need a mode_fixup in the first place.
-Like said in the documentation you added, atomic_check is usually the
-better option for the atomic modesetting drivers.
+> 
+> Thanks!
+> 
 
-So, why is it needed?
-
-Maxime
-
---zqy4xi2ywhixazqh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY4RvdAAKCRDj7w1vZxhR
-xb4VAQDcYvGXzV71avNSXjnI5sHfzoooq+kEtEPF6PujiPIf0wD8CTGXFvB1JBls
-QCJDVxr23M3Ch2byEX26PLsS/N5+FwY=
-=K4PV
------END PGP SIGNATURE-----
-
---zqy4xi2ywhixazqh--
