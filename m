@@ -1,77 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5690563BAEF
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 08:48:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F13AB63BAEE
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 08:48:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50B1B10E36B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BD5910E052;
 	Tue, 29 Nov 2022 07:48:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7235910E22B
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 10:42:08 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id ho10so24690939ejc.1
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 02:42:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=cHwI3XSCF9Xm/ixf9DTP//TAdCfsw6W1NfmGmHA5OdQ=;
- b=jFIMFlldtEvCwu8Q/gTU08imnzn/u59isuqigG5cB1thrAPA5enOekfgksDpNGCIjl
- RlE6WINsuSe1QttAPSF364HJKHx63RvdOxVYn2jwQnFRoLoHWYFBUP4zVSmzqEmtaOxi
- 83J3x5bWzv8et/sWtfW3pJfd1RGXQyL25rqdY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=cHwI3XSCF9Xm/ixf9DTP//TAdCfsw6W1NfmGmHA5OdQ=;
- b=1yKSyIFG/tAcPe4t/3gkJ4Ez+2MuY4LljJ+FV9JkXWWiqVBtvjz0WEZEBbGy2SzLaq
- 1xxRwtazGIunGsljYWymDspJWWri3PjmaqB6C76Efv4HrL+yapWTvTK+8/i8GxV0++Bb
- hwk3NkqjARixJ7g77CtlhXHLNk4LkKzXbjI4RhPqpn+wP5f1EIVTw4C4/MXfkQx0qJgX
- wxEaCEmT5qBibSRuJPKXs08MTYJQ/bA2lonpf/dOGzrM9LFtkmQSr2VQTb/m7kDOUPWu
- mptI74nl4bcJJqCRUi9qYlcXv7S5Wcb1wY/tqOhnuMBRioc3Wc6KvjiRhdvWBt5lxg+k
- 8l2w==
-X-Gm-Message-State: ANoB5pl12wQBqRg7SkxnoNnlcFw6yoid5hRq2UL1W3QRozzlzmPl434+
- vJeZR0EeOHXdNyRAbgIy2oq76Q==
-X-Google-Smtp-Source: AA0mqf42ArB0GBRjO9LWcoJg3tUHtZk7zSGSmz+eSpPHBPRTTeYGEtoeCsSCKZdAflmzETXsNYX5Gw==
-X-Received: by 2002:a17:906:4dc7:b0:76c:42b4:dea4 with SMTP id
- f7-20020a1709064dc700b0076c42b4dea4mr41621528ejw.515.1669632127028; 
- Mon, 28 Nov 2022 02:42:07 -0800 (PST)
-Received: from alco.roam.corp.google.com (80.71.134.83.ipv4.parknet.dk.
- [80.71.134.83]) by smtp.gmail.com with ESMTPSA id
- s5-20020aa7c545000000b00458dc7e8ecasm5016597edr.72.2022.11.28.02.42.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Nov 2022 02:42:06 -0800 (PST)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 28 Nov 2022 11:41:47 +0100
-Subject: [PATCH] drm/mediatek: Implement shutdown
+Received: from smtp-out-01.comm2000.it (smtp-out-01.comm2000.it [212.97.32.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5177B10E1F4
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 11:23:30 +0000 (UTC)
+Received: from francesco-nb.pivistrello.it (93-49-2-63.ip317.fastwebnet.it
+ [93.49.2.63])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: francesco@dolcini.it)
+ by smtp-out-01.comm2000.it (Postfix) with ESMTPSA id 81A2E8434BE;
+ Mon, 28 Nov 2022 12:23:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailserver.it;
+ s=mailsrv; t=1669634607;
+ bh=o1vqXSM72h+f8G6bBVWfHnJcH7nCL56jr3X5yawBKic=;
+ h=From:To:Cc:Subject:Date;
+ b=OgK1M/8nDln3IvgT8gEcscYiTgyaZyxpj0SYzsR31X1FbJXL+I8r1XTqaKin2j2vj
+ aige0anNUtfyLnp6/0sE7cEh3ErP3cIPHU9nUcj+nMlOzlIaN+RSYyoZ5nwi8N+9ZP
+ cr42dxw0ZrMh91/tBPB//w2vpi/7ohkLfUBhuMtFpMfz8o8ssnBaZ/ub5/pdz/42rK
+ +iYAvYZ3JRrnAp/gcaAa0Ki9wNNXDH5X/pHp2v2nuRoL8IiOV37N/zsW5pbzMEURwA
+ Nn9ZTToGGa13RXluquqEh+HaKp3UcKiHLy9lGyxQmOgjLqp0s0ijjx4AAHvgoEIbED
+ GLCWaBFBLCDhA==
+From: Francesco Dolcini <francesco@dolcini.it>
+To: Adrien Grassein <adrien.grassein@gmail.com>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH v1] drm/bridge: lt8912b: Add hot plug detection
+Date: Mon, 28 Nov 2022 12:23:20 +0100
+Message-Id: <20221128112320.25708-1-francesco@dolcini.it>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20221128-mtk-drm-v1-0-409e7f2352e4@chromium.org>
-To: Philipp Zabel <p.zabel@pengutronix.de>, Daniel Vetter <daniel@ffwll.ch>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, David Airlie <airlied@gmail.com>
-X-Mailer: b4 0.11.0-dev-696ae
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1665; i=ribalda@chromium.org; 
- h=from:subject:message-id;
- bh=D8I9JOrNxoD2noU7pEX1LXJY3rKJrpr+ZszgfEs/ju0=; 
- b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjhJBv4JRMG5RtbNGH7d2EK8qRddHPwpyqgEl8dB0w
- qgvWDvSJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY4SQbwAKCRDRN9E+zzrEiKhUD/
- 46D0NWufCT7WFLGRhWIEGihB2is5rM/hVfj14gKOm5QldGwqzlGHGgSfucN2P5UgNl4BgG0FoSMCec
- z9DA8sFbd5OM82xnz6X1Br6XrdeLQuYdH/3HP5zKC6Sbv6qb56m+i9BYOIEw6Ii6YwYrsvoVe19Bs8
- uTtwv/j4m7uSivKnlf7bh4vSldbnbOgsaVfvwArKpRH3few1WPMpCxsfHT8jOML94ppHCuF2yH70SC
- ykkb+4lSJAfo18CEgBCPBkcEds2g3IlF8DIrmd/ZaYLe6/hfNHbbWuZCMJ7q2Pd8QLlvlpJb3TP4m5
- 9VZRHwE3YZUk/az8KVfHziDjHCWOoJO2XyxqLVkHeQ+w83Msd19ZjIR6VckY7f8clKJcmmJrw/qWm1
- kwdl15//jHM1FD1JdFDyQZ2d03EXIzOf/Nk1HYkTb2oGWZD8JM1cYe6xttf/5fdPySaW5uSb0OeIBO
- nxdu1lMWPl4uwoHPOp7q2yDHw0uqYhnLmaQOLQHnOuQ1VA8+2DnB7hDwnv98SvVZipsjLzyc7iOEzn
- b9OluLsSYeM48PPTdM5B3LyqhKRxX/KFoxR5vBrJDGq3mUOGTLTQIZO/ZWefjFDwBN4uhc+b7E6jzB
- p1hnRnV3eIfB2eTmRVABxxMSabLlV0bX4rDoSS+bgU94gqvUhDEBSSpJYzUQ==
-X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
- fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Tue, 29 Nov 2022 07:48:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,60 +51,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Ricardo Ribalda <ribalda@chromium.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Stefan Eichenberger <stefan.eichenberger@toradex.com>,
+ Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Francesco Dolcini <francesco.dolcini@toradex.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Poweroff the device properly, otherwise the device will not come back
-from kexec().
+From: Stefan Eichenberger <stefan.eichenberger@toradex.com>
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-To: Philipp Zabel <p.zabel@pengutronix.de>
-To: David Airlie <airlied@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-To: Matthias Brugger <matthias.bgg@gmail.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-mediatek@lists.infradead.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org
----
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+Enable hot plug detection when it is available on the HDMI port.
+Without this connecting to a different monitor with incompatible timing
+before the 10 seconds poll period will lead to a broken display output.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 91f58db5915f..51dbd85796e9 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -829,6 +829,12 @@ static int mtk_drm_remove(struct platform_device *pdev)
+Fixes: 30e2ae943c26 ("drm/bridge: Introduce LT8912B DSI to HDMI bridge")
+Signed-off-by: Stefan Eichenberger <stefan.eichenberger@toradex.com>
+Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
+---
+ drivers/gpu/drm/bridge/lontium-lt8912b.c | 21 +++++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/lontium-lt8912b.c b/drivers/gpu/drm/bridge/lontium-lt8912b.c
+index a98efef0ba0e..5f0c9cd2a970 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt8912b.c
++++ b/drivers/gpu/drm/bridge/lontium-lt8912b.c
+@@ -517,14 +517,27 @@ static int lt8912_attach_dsi(struct lt8912 *lt)
  	return 0;
  }
  
-+static void mtk_drm_shutdown(struct platform_device *pdev)
++static void lt8912_bridge_hpd_cb(void *data, enum drm_connector_status status)
 +{
-+	component_master_del(&pdev->dev, &mtk_drm_ops);
-+	pm_runtime_disable(&pdev->dev);
++	struct lt8912 *lt = data;
++
++	if (lt->bridge.dev)
++		drm_helper_hpd_irq_event(lt->bridge.dev);
 +}
 +
- static int mtk_drm_sys_prepare(struct device *dev)
+ static int lt8912_bridge_connector_init(struct drm_bridge *bridge)
  {
- 	struct mtk_drm_private *private = dev_get_drvdata(dev);
-@@ -856,6 +862,7 @@ static const struct dev_pm_ops mtk_drm_pm_ops = {
- static struct platform_driver mtk_drm_platform_driver = {
- 	.probe	= mtk_drm_probe,
- 	.remove	= mtk_drm_remove,
-+	.shutdown = mtk_drm_shutdown,
- 	.driver	= {
- 		.name	= "mediatek-drm",
- 		.pm     = &mtk_drm_pm_ops,
-
----
-base-commit: 4312098baf37ee17a8350725e6e0d0e8590252d4
-change-id: 20221128-mtk-drm-ca6c5ac6b389
-
-Best regards,
+ 	int ret;
+ 	struct lt8912 *lt = bridge_to_lt8912(bridge);
+ 	struct drm_connector *connector = &lt->connector;
+ 
+-	connector->polled = DRM_CONNECTOR_POLL_CONNECT |
+-			    DRM_CONNECTOR_POLL_DISCONNECT;
++	if (lt->hdmi_port->ops & DRM_BRIDGE_OP_HPD) {
++		drm_bridge_hpd_enable(lt->hdmi_port, lt8912_bridge_hpd_cb, lt);
++		connector->polled = DRM_CONNECTOR_POLL_HPD;
++	} else {
++		connector->polled = DRM_CONNECTOR_POLL_CONNECT |
++				    DRM_CONNECTOR_POLL_DISCONNECT;
++	}
+ 
+ 	ret = drm_connector_init(bridge->dev, connector,
+ 				 &lt8912_connector_funcs,
+@@ -578,6 +591,10 @@ static void lt8912_bridge_detach(struct drm_bridge *bridge)
+ 
+ 	if (lt->is_attached) {
+ 		lt8912_hard_power_off(lt);
++
++		if (lt->hdmi_port->ops & DRM_BRIDGE_OP_HPD)
++			drm_bridge_hpd_disable(lt->hdmi_port);
++
+ 		drm_connector_unregister(&lt->connector);
+ 		drm_connector_cleanup(&lt->connector);
+ 	}
 -- 
-Ricardo Ribalda <ribalda@chromium.org>
+2.25.1
+
