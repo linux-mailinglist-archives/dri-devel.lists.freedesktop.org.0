@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1216563AF4D
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 18:40:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB68A63AF5B
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 18:41:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BFBD10E315;
-	Mon, 28 Nov 2022 17:40:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C7A489322;
+	Mon, 28 Nov 2022 17:41:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8022010E318;
- Mon, 28 Nov 2022 17:40:26 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2905810E31C
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 17:41:15 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 7184BB80E9D;
- Mon, 28 Nov 2022 17:40:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 881EBC433C1;
- Mon, 28 Nov 2022 17:40:21 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B1DDA612E9;
+ Mon, 28 Nov 2022 17:41:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7F01C433C1;
+ Mon, 28 Nov 2022 17:41:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1669657223;
- bh=lXZiz06nGUFjpl4Sg8z+2Fdo2Vj99GtqplC0GDDwru4=;
+ s=k20201202; t=1669657274;
+ bh=5S7Z5K0ymQBvmif+hmW/nos25uNTlzbP+ySOmHt7C4M=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZedoSuM8V4gtX2UuYy3Rw4gkTAKxSR1yvz4TmHV+IUFyjv7QmVfP0iz3D2Naae8vt
- KMfnYBNAxyzuGyoXPpedW1n4fVIv93KjrcWUkSrqDBTBCyN8huJA3jeBzMpryzn/dQ
- cHkubCfl3eLMGwbV+zugL5w8UHO/GPDo5I23u4KW0GxY1hW2PmyqWf5qr2RIPUxMMF
- O6RP3b/dRCa/ajflvQA0ijQgSQglToqAkldM9Y1cdCFEd0+x1UxLyQ6Odo+K2JoSS7
- AsCm8lyXzP6kqUS/O7dOOoKSRQR6aN2HGtCJ16maGKIwWvLE8gYIZwiWRiXeIhktp8
- f+rKsssPCpJ7Q==
+ b=KU4OBCR/EOnuvqCCmjbD6QUbnnZnoS1QiBhR8yOTCP4GPbJk3ooA4jdyy40vtMmQQ
+ PGEewj2DKLWOEwCUNEhFm6oREqpPbCbW0NT4GxeSW8t/DGjBHYsdPVUpiTDx7VgaJO
+ BDs9Wff3T1Dte/Hx/niVOCHhTRiNXOy53X84uVnzn35sBn8mUvqIawVhtkC398XSPm
+ TGtRbns8jWApHVx1G50Kq9HMW3lxIrJZnfdlO/A2J8AdK1KYDfbPqm6m2vLpWyqMg7
+ wiywX91wTdRT8SCSKidBdZT4+YIWP+71mFQjRzEiPcBN4ot0UH6aktonp61zz0GaHw
+ eK/uvwM/a75Xg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.0 39/39] drm/amdgpu: fix use-after-free during gpu
- recovery
-Date: Mon, 28 Nov 2022 12:36:19 -0500
-Message-Id: <20221128173642.1441232-39-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 21/24] fbcon: Use kzalloc() in
+ fbcon_prepare_logo()
+Date: Mon, 28 Nov 2022 12:40:21 -0500
+Message-Id: <20221128174027.1441921-21-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221128173642.1441232-1-sashal@kernel.org>
-References: <20221128173642.1441232-1-sashal@kernel.org>
+In-Reply-To: <20221128174027.1441921-1-sashal@kernel.org>
+References: <20221128174027.1441921-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -56,55 +56,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, andrey.grodzovsky@amd.com,
- Tao Zhou <tao.zhou1@amd.com>, strochuk@ispras.ru,
- dri-devel@lists.freedesktop.org, Xinhui.Pan@amd.com, YuBiao.Wang@amd.com,
- surbhi.kakarya@amd.com, "Stanley.Yang" <Stanley.Yang@amd.com>,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Likun.Gao@amd.com, christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
+ tzimmermann@suse.de, geert+renesas@glider.be,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, deller@gmx.de,
+ dri-devel@lists.freedesktop.org, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Stanley.Yang" <Stanley.Yang@amd.com>
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
 
-[ Upstream commit 3cb93f390453cde4d6afda1587aaa00e75e09617 ]
+[ Upstream commit a6a00d7e8ffd78d1cdb7a43f1278f081038c638f ]
 
-[Why]
-    [  754.862560] refcount_t: underflow; use-after-free.
-    [  754.862898] Call Trace:
-    [  754.862903]  <TASK>
-    [  754.862913]  amdgpu_job_free_cb+0xc2/0xe1 [amdgpu]
-    [  754.863543]  drm_sched_main.cold+0x34/0x39 [amd_sched]
+A kernel built with syzbot's config file reported that
 
-[How]
-    The fw_fence may be not init, check whether dma_fence_init
-    is performed before job free
+  scr_memcpyw(q, save, array3_size(logo_lines, new_cols, 2))
 
-Signed-off-by: Stanley.Yang <Stanley.Yang@amd.com>
-Reviewed-by: Tao Zhou <tao.zhou1@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+causes uninitialized "save" to be copied.
+
+  ----------
+  [drm] Initialized vgem 1.0.0 20120112 for vgem on minor 0
+  [drm] Initialized vkms 1.0.0 20180514 for vkms on minor 1
+  Console: switching to colour frame buffer device 128x48
+  =====================================================
+  BUG: KMSAN: uninit-value in do_update_region+0x4b8/0xba0
+   do_update_region+0x4b8/0xba0
+   update_region+0x40d/0x840
+   fbcon_switch+0x3364/0x35e0
+   redraw_screen+0xae3/0x18a0
+   do_bind_con_driver+0x1cb3/0x1df0
+   do_take_over_console+0x11cb/0x13f0
+   fbcon_fb_registered+0xacc/0xfd0
+   register_framebuffer+0x1179/0x1320
+   __drm_fb_helper_initial_config_and_unlock+0x23ad/0x2b40
+   drm_fbdev_client_hotplug+0xbea/0xda0
+   drm_fbdev_generic_setup+0x65e/0x9d0
+   vkms_init+0x9f3/0xc76
+   (...snipped...)
+
+  Uninit was stored to memory at:
+   fbcon_prepare_logo+0x143b/0x1940
+   fbcon_init+0x2c1b/0x31c0
+   visual_init+0x3e7/0x820
+   do_bind_con_driver+0x14a4/0x1df0
+   do_take_over_console+0x11cb/0x13f0
+   fbcon_fb_registered+0xacc/0xfd0
+   register_framebuffer+0x1179/0x1320
+   __drm_fb_helper_initial_config_and_unlock+0x23ad/0x2b40
+   drm_fbdev_client_hotplug+0xbea/0xda0
+   drm_fbdev_generic_setup+0x65e/0x9d0
+   vkms_init+0x9f3/0xc76
+   (...snipped...)
+
+  Uninit was created at:
+   __kmem_cache_alloc_node+0xb69/0x1020
+   __kmalloc+0x379/0x680
+   fbcon_prepare_logo+0x704/0x1940
+   fbcon_init+0x2c1b/0x31c0
+   visual_init+0x3e7/0x820
+   do_bind_con_driver+0x14a4/0x1df0
+   do_take_over_console+0x11cb/0x13f0
+   fbcon_fb_registered+0xacc/0xfd0
+   register_framebuffer+0x1179/0x1320
+   __drm_fb_helper_initial_config_and_unlock+0x23ad/0x2b40
+   drm_fbdev_client_hotplug+0xbea/0xda0
+   drm_fbdev_generic_setup+0x65e/0x9d0
+   vkms_init+0x9f3/0xc76
+   (...snipped...)
+
+  CPU: 2 PID: 1 Comm: swapper/0 Not tainted 6.1.0-rc4-00356-g8f2975c2bb4c #924
+  Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
+  ----------
+
+Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Link: https://patchwork.freedesktop.org/patch/msgid/cad03d25-0ea0-32c4-8173-fd1895314bce@I-love.SAKURA.ne.jp
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_job.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/video/fbdev/core/fbcon.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-index c2fd6f3076a6..e9583a58cce0 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-@@ -150,7 +150,11 @@ static void amdgpu_job_free_cb(struct drm_sched_job *s_job)
- 	amdgpu_sync_free(&job->sync);
- 	amdgpu_sync_free(&job->sched_sync);
- 
--	dma_fence_put(&job->hw_fence);
-+	/* only put the hw fence if has embedded fence */
-+	if (!job->hw_fence.ops)
-+		kfree(job);
-+	else
-+		dma_fence_put(&job->hw_fence);
- }
- 
- void amdgpu_job_free(struct amdgpu_job *job)
+diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+index e035a63bbe5b..1f37904b0405 100644
+--- a/drivers/video/fbdev/core/fbcon.c
++++ b/drivers/video/fbdev/core/fbcon.c
+@@ -601,7 +601,7 @@ static void fbcon_prepare_logo(struct vc_data *vc, struct fb_info *info,
+ 		if (scr_readw(r) != vc->vc_video_erase_char)
+ 			break;
+ 	if (r != q && new_rows >= rows + logo_lines) {
+-		save = kmalloc(array3_size(logo_lines, new_cols, 2),
++		save = kzalloc(array3_size(logo_lines, new_cols, 2),
+ 			       GFP_KERNEL);
+ 		if (save) {
+ 			int i = cols < new_cols ? cols : new_cols;
 -- 
 2.35.1
 
