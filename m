@@ -2,48 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9777463AF85
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 18:43:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D80963B007
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 18:48:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2283410E31C;
-	Mon, 28 Nov 2022 17:43:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB40310E0A3;
+	Mon, 28 Nov 2022 17:48:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C92A010E31C
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 17:43:01 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 7682BB80E56;
- Mon, 28 Nov 2022 17:43:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7FEFC433C1;
- Mon, 28 Nov 2022 17:42:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1669657379;
- bh=mbictxFnrB8hQp4pZs8liuotbQ0GOAJnYD3SqqbJ0No=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=t5pPLWpAbfw1j2xId+6yNsYFmArEd41hdlq8ihknTkVbatMLBsD3ete2jvDNFXViP
- ebqJPKaE28oaV7uVJqOJMIFhsjTp9SEv5zbUAGktaqldIYIyDA42XQ04fNioi5FUV1
- kDuCd+raoDQJPPMvwU98f7VPl+dbYiUXwotzENAOoK7XsnIQy5GAjMBKbABXQYB9g6
- +GBiyRTx52zAY+Xs/jBWTUlfIy7wrLXulR7uBfNEjjEtuhi2BXJetSrdQ8YO8Ml+cQ
- 2Iww14I3IZhuLYUC0v0iuEjKVfJ14moQ2GrWgo99n0RioafAwe5ewzoEuTKbKEGtkp
- 57V2y0Q1K5ruA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 10/12] fbcon: Use kzalloc() in
- fbcon_prepare_logo()
-Date: Mon, 28 Nov 2022 12:42:33 -0500
-Message-Id: <20221128174235.1442841-10-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221128174235.1442841-1-sashal@kernel.org>
-References: <20221128174235.1442841-1-sashal@kernel.org>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6049010E0A3
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 17:48:20 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1oziEl-0007sf-H2; Mon, 28 Nov 2022 18:48:11 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1oziEi-000tGc-UD; Mon, 28 Nov 2022 18:48:09 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1oziEi-0011WX-UO; Mon, 28 Nov 2022 18:48:08 +0100
+Date: Mon, 28 Nov 2022 18:48:08 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH v2] drm: Only select I2C_ALGOBIT for drivers that
+ actually need it
+Message-ID: <20221128174808.6nwikksxxho7ejjp@pengutronix.de>
+References: <20220912091505.149423-1-u.kleine-koenig@pengutronix.de>
+ <efad098d-f2b8-f8e2-571f-08dd6f4dbcb2@redhat.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="fgvj6fxtoj44k5j5"
+Content-Disposition: inline
+In-Reply-To: <efad098d-f2b8-f8e2-571f-08dd6f4dbcb2@redhat.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,99 +55,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
- tzimmermann@suse.de, geert+renesas@glider.be,
- Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, deller@gmx.de,
- dri-devel@lists.freedesktop.org, sam@ravnborg.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
 
-[ Upstream commit a6a00d7e8ffd78d1cdb7a43f1278f081038c638f ]
+--fgvj6fxtoj44k5j5
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-A kernel built with syzbot's config file reported that
+Hello Javier,
 
-  scr_memcpyw(q, save, array3_size(logo_lines, new_cols, 2))
+On Mon, Nov 28, 2022 at 05:54:32PM +0100, Javier Martinez Canillas wrote:
+> On 9/12/22 11:15, Uwe Kleine-K=F6nig wrote:
+> > diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> > index 198ba846d34b..593d7335b10a 100644
+> > --- a/drivers/gpu/drm/Kconfig
+> > +++ b/drivers/gpu/drm/Kconfig
+> > @@ -13,7 +13,6 @@ menuconfig DRM
+> >  	select HDMI
+> >  	select FB_CMDLINE
+> >  	select I2C
+>=20
+> Is I2C still required or was just a dependency of I2C_ALGOBIT ?
 
-causes uninitialized "save" to be copied.
+I didn't convince myself I2C can go away, but I would expect this to be
+an opportunity for another cleanup as I mentioned in the commit log.
+=20
+> I'll wait a few days in case others want to review this change too
+> and then can push this to drm-misc-next.=20
 
-  ----------
-  [drm] Initialized vgem 1.0.0 20120112 for vgem on minor 0
-  [drm] Initialized vkms 1.0.0 20180514 for vkms on minor 1
-  Console: switching to colour frame buffer device 128x48
-  =====================================================
-  BUG: KMSAN: uninit-value in do_update_region+0x4b8/0xba0
-   do_update_region+0x4b8/0xba0
-   update_region+0x40d/0x840
-   fbcon_switch+0x3364/0x35e0
-   redraw_screen+0xae3/0x18a0
-   do_bind_con_driver+0x1cb3/0x1df0
-   do_take_over_console+0x11cb/0x13f0
-   fbcon_fb_registered+0xacc/0xfd0
-   register_framebuffer+0x1179/0x1320
-   __drm_fb_helper_initial_config_and_unlock+0x23ad/0x2b40
-   drm_fbdev_client_hotplug+0xbea/0xda0
-   drm_fbdev_generic_setup+0x65e/0x9d0
-   vkms_init+0x9f3/0xc76
-   (...snipped...)
+I'm looking forward to all the people reviewing my patch now who missed
+the patch during the last 18 months but who will take the opportunity of
+these additional few days :-)
 
-  Uninit was stored to memory at:
-   fbcon_prepare_logo+0x143b/0x1940
-   fbcon_init+0x2c1b/0x31c0
-   visual_init+0x3e7/0x820
-   do_bind_con_driver+0x14a4/0x1df0
-   do_take_over_console+0x11cb/0x13f0
-   fbcon_fb_registered+0xacc/0xfd0
-   register_framebuffer+0x1179/0x1320
-   __drm_fb_helper_initial_config_and_unlock+0x23ad/0x2b40
-   drm_fbdev_client_hotplug+0xbea/0xda0
-   drm_fbdev_generic_setup+0x65e/0x9d0
-   vkms_init+0x9f3/0xc76
-   (...snipped...)
+Best regards
+Uwe
 
-  Uninit was created at:
-   __kmem_cache_alloc_node+0xb69/0x1020
-   __kmalloc+0x379/0x680
-   fbcon_prepare_logo+0x704/0x1940
-   fbcon_init+0x2c1b/0x31c0
-   visual_init+0x3e7/0x820
-   do_bind_con_driver+0x14a4/0x1df0
-   do_take_over_console+0x11cb/0x13f0
-   fbcon_fb_registered+0xacc/0xfd0
-   register_framebuffer+0x1179/0x1320
-   __drm_fb_helper_initial_config_and_unlock+0x23ad/0x2b40
-   drm_fbdev_client_hotplug+0xbea/0xda0
-   drm_fbdev_generic_setup+0x65e/0x9d0
-   vkms_init+0x9f3/0xc76
-   (...snipped...)
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-  CPU: 2 PID: 1 Comm: swapper/0 Not tainted 6.1.0-rc4-00356-g8f2975c2bb4c #924
-  Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
-  ----------
+--fgvj6fxtoj44k5j5
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Link: https://patchwork.freedesktop.org/patch/msgid/cad03d25-0ea0-32c4-8173-fd1895314bce@I-love.SAKURA.ne.jp
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/video/fbdev/core/fbcon.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+-----BEGIN PGP SIGNATURE-----
 
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index 417f4bcc1182..9fcd583b7835 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -579,7 +579,7 @@ static void fbcon_prepare_logo(struct vc_data *vc, struct fb_info *info,
- 		if (scr_readw(r) != vc->vc_video_erase_char)
- 			break;
- 	if (r != q && new_rows >= rows + logo_lines) {
--		save = kmalloc(array3_size(logo_lines, new_cols, 2),
-+		save = kzalloc(array3_size(logo_lines, new_cols, 2),
- 			       GFP_KERNEL);
- 		if (save) {
- 			int i = cols < new_cols ? cols : new_cols;
--- 
-2.35.1
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmOE9FUACgkQwfwUeK3K
+7AkE4wf/cG64izTfCNemGa4aSQge5ApyQi7z+rFU9p+nxtVHimcOYv1C/NogTcO2
+oJOLvhD1KlRYIvuG3kXvCCtkvKHCG3LUIl4QhCbMee3n/eDYy5mhRuIv5VHtDyPY
+KQJocdo9eV/EOjqPUCz3dH8JYTSOeW1ymOomJsVwawoTq3sMBQ/p5QmJrU6t8Ypc
+zVZGpotF6P2+h4W1UOm0WZdKByLYfpUDks16rWstaX58bve92/K7uS2kUG2QcOYC
+5TSqx4ZPCH+tIjHnvIoyGhNMgbKQg4AAp+AtVJO6eND7eL0WiKjFTMouxiCSxDTM
+l45nYdaPHDY8Eq/C1ar96+FfeRpGUg==
+=5DEl
+-----END PGP SIGNATURE-----
 
+--fgvj6fxtoj44k5j5--
