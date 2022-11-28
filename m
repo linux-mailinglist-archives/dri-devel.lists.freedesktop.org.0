@@ -2,47 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E3BB63A690
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 12:04:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4121F63A6A7
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 12:05:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D48E510E1FB;
-	Mon, 28 Nov 2022 11:04:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28FB089FCE;
+	Mon, 28 Nov 2022 11:05:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFEC710E1FB
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 11:04:38 +0000 (UTC)
-Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
- client-signature RSA-PSS (2048 bits) client-digest SHA256)
- (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx1.riseup.net (Postfix) with ESMTPS id 4NLN062s2qzDqyV;
- Mon, 28 Nov 2022 11:04:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1669633478; bh=6xiqaUlrv1tSJll8qg/RJX6Boig9Beo0/9kNabU4OSM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=c3cppmN+3X5nNrPyE+LCpsMWQQSaoSfdsZ1Pz3hKUANV9czK4ytFuPryGieHfIOVN
- u6vX+4ZTt7F1UQH2LjfBys1/JGuR8K+xWRDdPxM+/w8hbgEo4VuKNFQHT5lZQg24pB
- tAAhGIR6mEKu4CUOt6yl0VFI5+ejSvk8cUIsNLUQ=
-X-Riseup-User-ID: 566FD997C52B76760B96E4AF4D864D5517B9B26331072C5A3076A25F48510275
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews2.riseup.net (Postfix) with ESMTPSA id 4NLN036TrMz1yBb;
- Mon, 28 Nov 2022 11:04:35 +0000 (UTC)
-Message-ID: <47b35fa1-f7ac-1020-f689-4ee40a2331bf@riseup.net>
-Date: Mon, 28 Nov 2022 08:04:32 -0300
-MIME-Version: 1.0
-Subject: Re: [PATCH 3/3] drm/tests: helpers: Add missing export
-To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter
- <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE14D89FCE
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 11:05:09 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id C39835803D4;
+ Mon, 28 Nov 2022 06:05:06 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Mon, 28 Nov 2022 06:05:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1669633506; x=
+ 1669640706; bh=WRPoxqvq1slaZ94whCa6Kp30ZmhMsSXuWCZ/P62/9u4=; b=N
+ KyQd8EEmYfyqxuGSm+JxAzjwvTwk79Hg5Drb3hRh0eGmoA5MvmRObQIgjOz9uEZj
+ Mh7VBQ5XspvmnWxEi9EeWVNbPBekxRqpBa2v+VWAutxc9Bb2SLfOc9A4eQBa7DjO
+ /RazSAeJgEOtyCoI4q3nCtl3czfhW2w9y0Q7NC1kFbKsEvWcmaSgSY2h97QjhDKj
+ s4JOTwE3Kefy3cAZWmTQb1slyjzEmQNYt4wln++lK5PGapGAIqdDdz7MoDUDyPfy
+ vBeI9nvIu4aS+kaOHa4Ahh0E9/YXIzjj/uQxA5+HvyXf3sgohEHKgd2B9Iis2z5l
+ EWSwM3m61zO+tUO80FLpg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1669633506; x=
+ 1669640706; bh=WRPoxqvq1slaZ94whCa6Kp30ZmhMsSXuWCZ/P62/9u4=; b=h
+ UrX/JhfEsnC0G0ObofMPEW9u3ZHDUw2RDPJXmqPh9f1FzHTR6qQc3pdQyHLQH/Na
+ MdIZR0Sqd23hGb87vkgAZW+ws8S1cFdxJpNRg83usMK3TlalM5AkUsGKAiFjv1We
+ DTsr7ftsgdboYosASgTx0cZE7X56Kc6wz0jnOoWDB3+xKQxRXI1LApnlne8BkFof
+ 9qzHOVOFY9YLeqxCfvEXMA/2BK8KF775iFEnjW/ppdSA/BVfBtbVgrwPiLoUjiAn
+ Ei2XCsqBiHH1WGkFAlX9HvmeyUajw+F0NeShDqQmYCn2XpakjYbKIokVGL35LeXA
+ C14jT05GaxXw0mpsqZ6XA==
+X-ME-Sender: <xms:4ZWEYydJUvuclFXdOmuf2CCopFyVAz9R8ZC_yXSNAlf906BMsysREA>
+ <xme:4ZWEY8NLrHmKR1gMvW6nS8-fQqxVHG_DyHg9sQJeR3M9LZiQ3Hmg0eQvJKbZPhldu
+ a-Pj1MNHvN1m5PUEcw>
+X-ME-Received: <xmr:4ZWEYzjMkYPTgFEA5Phf-3C03DJ_EBZGEm9Qw4423_N9lTCJ_JL9CVb2U1GGgYhc7ByN4JgGku3rMSxyrI742iGBA8ud-K_GKGSHkn30izNNhA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrjedvgddvgecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvfevufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeeuieeggffhffffieefheduieeuvdetgeeufeffvefgtedvffehheekffev
+ udefieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:4pWEY_-vERustfYa2ipeEXJDgbiL17hI5LNNM9Pio_tWB4pT58aOKQ>
+ <xmx:4pWEY-vN_gf4YAkzE30rwy9J1qgX-JhvE4W4ZMn-QpAfHWR2PcKxNw>
+ <xmx:4pWEY2FrCXTx9wx-Cev3C4f9_zVPpzaSas-U5Qf-54qS9LlcldkeYA>
+ <xmx:4pWEY1M6BppK9qF-csh24VqpPHvJ5QRR_x_z0hUZqLLQXujxleCRFg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 28 Nov 2022 06:05:05 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-References: <20221128081938.742410-1-maxime@cerno.tech>
- <20221128081938.742410-3-maxime@cerno.tech>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>
-In-Reply-To: <20221128081938.742410-3-maxime@cerno.tech>
-Content-Type: text/plain; charset=UTF-8
+ Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>
+Subject: Re: (subset) [PATCH 09/24] drm/atomic: Constify the old/new state
+ accessors
+Date: Mon, 28 Nov 2022 12:04:53 +0100
+Message-Id: <166963342297.56696.37811222160355559.b4-ty@cerno.tech>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221123-rpi-kunit-tests-v1-9-051a0bb60a16@cerno.tech>
+References: <20221123-rpi-kunit-tests-v1-0-051a0bb60a16@cerno.tech>
+ <20221123-rpi-kunit-tests-v1-9-051a0bb60a16@cerno.tech>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,36 +89,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, dri-devel@lists.freedesktop.org
+Cc: linux-kselftest@vger.kernel.org,
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ =?UTF-8?q?Ma=EF=BF=BD=EF=BF=BDra=20Canal?= <mairacanal@riseup.net>,
+ David Gow <davidgow@google.com>, kunit-dev@googlegroups.com,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/28/22 05:19, Maxime Ripard wrote:
-> drm_kunit_device_init() is a public function meant to be used by other
-> tests, but isn't exported. This leads to modpost errors when the other
-> tests are compiled as module.
+On Wed, 23 Nov 2022 16:25:51 +0100, Maxime Ripard wrote:
+> The drm_atomic_get_(old|new)_*_state don't modify the passed
+> drm_atomic_state, so we can make it const.
 > 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-
-Reviewed-by: Maíra Canal <mairacanal@riseup.net>
-
-Best Regards,
-- Maíra Canal
-
-> ---
->  drivers/gpu/drm/tests/drm_kunit_helpers.c | 1 +
->  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/gpu/drm/tests/drm_kunit_helpers.c b/drivers/gpu/drm/tests/drm_kunit_helpers.c
-> index f1662091f250..8c738384a992 100644
-> --- a/drivers/gpu/drm/tests/drm_kunit_helpers.c
-> +++ b/drivers/gpu/drm/tests/drm_kunit_helpers.c
-> @@ -66,6 +66,7 @@ struct drm_device *drm_kunit_device_init(struct kunit *test, u32 features, char
->  
->  	return drm;
->  }
-> +EXPORT_SYMBOL(drm_kunit_device_init);
->  
->  MODULE_AUTHOR("Maxime Ripard <maxime@cerno.tech>");
->  MODULE_LICENSE("GPL");
+
+Applied to drm/drm-misc (drm-misc-next).
+
+Thanks!
+Maxime
