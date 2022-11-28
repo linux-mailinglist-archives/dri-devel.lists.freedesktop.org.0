@@ -2,17 +2,17 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B9B663A8E9
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 14:06:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DF0C63A8EC
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 14:07:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9543F10E0D3;
-	Mon, 28 Nov 2022 13:06:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40CCD893AB;
+	Mon, 28 Nov 2022 13:07:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp.domeneshop.no (smtp.domeneshop.no
  [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F69110E0D3
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 13:06:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8991F893AB
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 13:07:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
  ; s=ds202112;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -20,32 +20,30 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=s5roCnQXZ82cMzFQt9OVl7o+wCT/lz/TnH/6zm6nk5Q=; b=S7IletW2GmsBdEzeGqE70rhb4o
- HzHOHwdBFX/W1wfvMpMz4dwdlg5S4YIAD5obEPVMG8JlehjdAgsa0H7YJ6BLX7p3zPqGQGJ3mm3yN
- AGTD/tPqXUGMILcXfBlL0vIdeFs5MUr8B6tBeoXeiFdVKbXPTiSQGvzvifAdosMS3M6gL7odz6hm5
- 3j47sUcPduoYuIKIILl1Vu7ogDACGUfrtxO6YCM6qL0MbX0jYUmxkIiaLqahc8BSwlmntt0ajjGE3
- u9vL8EcK67ONd9Uh0vnxnQz7ddZp0MFEXsXeN+yN9Ts4IWAt5HWYikLjLbjXohS9ViLBciOzvigVb
- 1w/TVoMw==;
-Received: from [2a01:799:95e:1700:6395:ccbd:d000:d42b] (port=53784)
+ bh=UTBhGAIOGHL/FQAX1UNjDjwPHnycgGrWDnWFlcgTTKg=; b=TlhK5G2FKV6YQODUyc/DpAc264
+ amGehOnGaEkNMXtRVIIwDgd8GnveP1+OUxoB1yhB5HJpQ1WgkXx4Q71bTLqvMg6+HrZ+QSz4syxVC
+ XkSzZItVnjPzGzMS/QRwfB/CjOZAhppEOMtbgoeRePY6swSNEdd2S/n7KvwWVjcTSjSVBiQMpxUPv
+ kPn4j/DmY6TGTN0soMCaM/GM9IxOFHL+qXjdiXTRDcbGfzr+mtnvPivwAVFPV9IkECLRgTdLpFvBf
+ ajkk1y1a0on44wqNBmz69s0xHSxXGKGFo6On2E57dNJyfz8XnRg7/LXGs8bQeJdM1ru0+J7CbtjA3
+ t2QPnZOQ==;
+Received: from [2a01:799:95e:1700:6395:ccbd:d000:d42b] (port=53819)
  by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1ozdq0-0003Rr-4L; Mon, 28 Nov 2022 14:06:20 +0100
-Message-ID: <4d244445-446f-591f-55b4-765b84d76014@tronnes.org>
-Date: Mon, 28 Nov 2022 14:06:16 +0100
+ id 1ozdr3-0004Ja-7F; Mon, 28 Nov 2022 14:07:25 +0100
+Message-ID: <ec75650a-1617-7eee-90c8-7ceb11a00638@tronnes.org>
+Date: Mon, 28 Nov 2022 14:07:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
-Subject: Re: [PATCH 6/8] drm/mipi-dbi: Support shadow-plane state
+Subject: Re: [PATCH 7/8] drm/mipi-dbi: Use shadow-plane mappings
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
  thierry.reding@gmail.com, sam@ravnborg.org, emma@anholt.net,
  david@lechnology.com, kamlesh.gurudasani@gmail.com, javierm@redhat.com
 References: <20221121104532.8301-1-tzimmermann@suse.de>
- <20221121104532.8301-7-tzimmermann@suse.de>
- <8da60926-5c19-5198-72f0-efc6a633b1b5@tronnes.org>
- <3c33aa53-1eb1-d6de-e769-63819c03a13c@suse.de>
+ <20221121104532.8301-8-tzimmermann@suse.de>
 From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <3c33aa53-1eb1-d6de-e769-63819c03a13c@suse.de>
+In-Reply-To: <20221121104532.8301-8-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,300 +65,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-Den 28.11.2022 13.10, skrev Thomas Zimmermann:
-> Hi
+Den 21.11.2022 11.45, skrev Thomas Zimmermann:
+> Use the buffer mappings provided by shadow-plane helpers. As the
+> mappings are established while the commit can still fail, errors
+> are now reported correctly to callers.
 > 
-> Am 25.11.22 um 18:48 schrieb Noralf Trønnes:
->>
->>
->> Den 21.11.2022 11.45, skrev Thomas Zimmermann:
->>> Introduce struct drm_mipi_dbi_plane_state that contains state related to
->>> MIPI DBI. It currently only inherits from struct drm_shadow_plane_state,
->>> so that MIPI DBI drivers can use the vmap'ed GEM-buffer memory.
->>> Implement
->>> state helpers, the {begin,end}_fb_access helpers and wire up everything.
->>>
->>> With this commit, MIPI DBI drivers can access the GEM object's memory
->>> that is provided by shadow-plane state. The actual changes to drivers
->>> are implemented separately. The new struct drm_mipi_dbi_plane was added
->>> to avoid exposing struct drm_shadow_plane_state directly. The latter is
->>> a detail of the actual implementation and having it in the MIPI driver
->>> interface seems unintuitive.
->>
->> I don't understand this reasoning. The update functions still uses
->> drm_shadow_plane_state in order to access ->data[0]. If you want to
->> avoid exposing it, can't you add an accessor function for ->data[0]
->> instead? That would actually be useful to me at least since when I first
->> read the shadow plane code I didn't understand what data really was
->> referring to. fb_map would have been more clear to me.
-> 
-> There's nothing wrong with accessing shadow-plane state directly. I
-> simply found it non-intuitive to leave MIPI without it's own plane-state
-> structure.  From the perspective of a MIPI-based driver, up-casting to a
-> shadow-plane state feels arbitrary. Upcasting to a MIPI plane state
-> appears logical.
-> 
-> Anyway, if using the shadow-plane state without the mipi plane state is
-> preferred, I'll change the code accordingly.
-> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
 
-I prefer to drop this. When I see the subclassed plane state without any
-additional state members I'm left wondering why this is done and I start
-looking for a TODO.
-
-Noralf.
-
-> Best regards
-> Thomas
-> 
->>
->> Noralf.
->>
->>>
->>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>> ---
->>>   drivers/gpu/drm/drm_mipi_dbi.c | 113 +++++++++++++++++++++++++++++++++
->>>   drivers/gpu/drm/tiny/ili9225.c |   5 ++
->>>   drivers/gpu/drm/tiny/st7586.c  |   5 ++
->>>   include/drm/drm_mipi_dbi.h     |  30 ++++++++-
->>>   4 files changed, 152 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/drm_mipi_dbi.c
->>> b/drivers/gpu/drm/drm_mipi_dbi.c
->>> index 40e59a3a6481e..3030344d25b48 100644
->>> --- a/drivers/gpu/drm/drm_mipi_dbi.c
->>> +++ b/drivers/gpu/drm/drm_mipi_dbi.c
->>> @@ -436,6 +436,119 @@ void mipi_dbi_pipe_disable(struct
->>> drm_simple_display_pipe *pipe)
->>>   }
->>>   EXPORT_SYMBOL(mipi_dbi_pipe_disable);
->>>   +/**
->>> + * mipi_dbi_pipe_begin_fb_access - MIPI DBI pipe begin-access helper
->>> + * @pipe: Display pipe
->>> + * @plane_state: Plane state
->>> + *
->>> + * This function implements struct
->>> &drm_simple_display_funcs.begin_fb_access.
->>> + *
->>> + * See drm_gem_begin_shadow_fb_access() for details and
->>> mipi_dbi_pipe_cleanup_fb()
->>> + * for cleanup.
->>> + *
->>> + * Returns:
->>> + * 0 on success, or a negative errno code otherwise.
->>> + */
->>> +int mipi_dbi_pipe_begin_fb_access(struct drm_simple_display_pipe *pipe,
->>> +                  struct drm_plane_state *plane_state)
->>> +{
->>> +    return drm_gem_begin_shadow_fb_access(&pipe->plane, plane_state);
->>> +}
->>> +EXPORT_SYMBOL(mipi_dbi_pipe_begin_fb_access);
->>> +
->>> +/**
->>> + * mipi_dbi_pipe_end_fb_access - MIPI DBI pipe end-access helper
->>> + * @pipe: Display pipe
->>> + * @plane_state: Plane state
->>> + *
->>> + * This function implements struct
->>> &drm_simple_display_funcs.end_fb_access.
->>> + *
->>> + * See mipi_dbi_pipe_begin_fb_access().
->>> + */
->>> +void mipi_dbi_pipe_end_fb_access(struct drm_simple_display_pipe *pipe,
->>> +                 struct drm_plane_state *plane_state)
->>> +{
->>> +    drm_gem_end_shadow_fb_access(&pipe->plane, plane_state);
->>> +}
->>> +EXPORT_SYMBOL(mipi_dbi_pipe_end_fb_access);
->>> +
->>> +/**
->>> + * mipi_dbi_pipe_reset_plane - MIPI DBI plane-reset helper
->>> + * @pipe: Display pipe
->>> + *
->>> + * This function implements struct
->>> &drm_simple_display_funcs.reset_plane
->>> + * for MIPI DBI planes.
->>> + */
->>> +void mipi_dbi_pipe_reset_plane(struct drm_simple_display_pipe *pipe)
->>> +{
->>> +    struct drm_plane *plane = &pipe->plane;
->>> +    struct mipi_dbi_plane_state *mipi_dbi_plane_state;
->>> +
->>> +    if (plane->state) {
->>> +        mipi_dbi_pipe_destroy_plane_state(pipe, plane->state);
->>> +        plane->state = NULL; /* must be set to NULL here */
->>> +    }
->>> +
->>> +    mipi_dbi_plane_state = kzalloc(sizeof(*mipi_dbi_plane_state),
->>> GFP_KERNEL);
->>> +    if (!mipi_dbi_plane_state)
->>> +        return;
->>> +    __drm_gem_reset_shadow_plane(plane,
->>> &mipi_dbi_plane_state->shadow_plane_state);
->>> +}
->>> +EXPORT_SYMBOL(mipi_dbi_pipe_reset_plane);
->>> +
->>> +/**
->>> + * mipi_dbi_pipe_duplicate_plane_state - duplicates MIPI DBI plane
->>> state
->>> + * @pipe: Display pipe
->>> + *
->>> + * This function implements struct
->>> &drm_simple_display_funcs.duplicate_plane_state
->>> + * for MIPI DBI planes.
->>> + *
->>> + * See drm_gem_duplicate_shadow_plane_state() for additional details.
->>> + *
->>> + * Returns:
->>> + * A pointer to a new plane state on success, or NULL otherwise.
->>> + */
->>> +struct drm_plane_state *mipi_dbi_pipe_duplicate_plane_state(struct
->>> drm_simple_display_pipe *pipe)
->>> +{
->>> +    struct drm_plane *plane = &pipe->plane;
->>> +    struct drm_plane_state *plane_state = plane->state;
->>> +    struct mipi_dbi_plane_state *new_mipi_dbi_plane_state;
->>> +    struct drm_shadow_plane_state *new_shadow_plane_state;
->>> +
->>> +    if (!plane_state)
->>> +        return NULL;
->>> +
->>> +    new_mipi_dbi_plane_state =
->>> kzalloc(sizeof(*new_mipi_dbi_plane_state), GFP_KERNEL);
->>> +    if (!new_mipi_dbi_plane_state)
->>> +        return NULL;
->>> +    new_shadow_plane_state =
->>> &new_mipi_dbi_plane_state->shadow_plane_state;
->>> +
->>> +    __drm_gem_duplicate_shadow_plane_state(plane,
->>> new_shadow_plane_state);
->>> +
->>> +    return &new_shadow_plane_state->base;
->>> +}
->>> +EXPORT_SYMBOL(mipi_dbi_pipe_duplicate_plane_state);
->>> +
->>> +/**
->>> + * mipi_dbi_pipe_destroy_plane_state - cleans up MIPI DBI plane state
->>> + * @pipe: Display pipe
->>> + * @plane_state: Plane state
->>> + *
->>> + * This function implements struct
->>> drm_simple_display_funcs.destroy_plane_state
->>> + * for MIPI DBI planes.
->>> + *
->>> + * See drm_gem_destroy_shadow_plane_state() for additional details.
->>> + */
->>> +void mipi_dbi_pipe_destroy_plane_state(struct
->>> drm_simple_display_pipe *pipe,
->>> +                       struct drm_plane_state *plane_state)
->>> +{
->>> +    struct mipi_dbi_plane_state *mipi_dbi_plane_state =
->>> to_mipi_dbi_plane_state(plane_state);
->>> +
->>> +   
->>> __drm_gem_destroy_shadow_plane_state(&mipi_dbi_plane_state->shadow_plane_state);
->>> +    kfree(mipi_dbi_plane_state);
->>> +}
->>> +EXPORT_SYMBOL(mipi_dbi_pipe_destroy_plane_state);
->>> +
->>>   static int mipi_dbi_connector_get_modes(struct drm_connector
->>> *connector)
->>>   {
->>>       struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(connector->dev);
->>> diff --git a/drivers/gpu/drm/tiny/ili9225.c
->>> b/drivers/gpu/drm/tiny/ili9225.c
->>> index 0115c4090f9e7..9e55ce28b4552 100644
->>> --- a/drivers/gpu/drm/tiny/ili9225.c
->>> +++ b/drivers/gpu/drm/tiny/ili9225.c
->>> @@ -349,6 +349,11 @@ static const struct
->>> drm_simple_display_pipe_funcs ili9225_pipe_funcs = {
->>>       .enable        = ili9225_pipe_enable,
->>>       .disable    = ili9225_pipe_disable,
->>>       .update        = ili9225_pipe_update,
->>> +    .begin_fb_access = mipi_dbi_pipe_begin_fb_access,
->>> +    .end_fb_access    = mipi_dbi_pipe_end_fb_access,
->>> +    .reset_plane    = mipi_dbi_pipe_reset_plane,
->>> +    .duplicate_plane_state = mipi_dbi_pipe_duplicate_plane_state,
->>> +    .destroy_plane_state = mipi_dbi_pipe_destroy_plane_state,
->>>   };
->>>     static const struct drm_display_mode ili9225_mode = {
->>> diff --git a/drivers/gpu/drm/tiny/st7586.c
->>> b/drivers/gpu/drm/tiny/st7586.c
->>> index e773b1f2fd5f3..76b13cefc904f 100644
->>> --- a/drivers/gpu/drm/tiny/st7586.c
->>> +++ b/drivers/gpu/drm/tiny/st7586.c
->>> @@ -277,6 +277,11 @@ static const struct
->>> drm_simple_display_pipe_funcs st7586_pipe_funcs = {
->>>       .enable        = st7586_pipe_enable,
->>>       .disable    = st7586_pipe_disable,
->>>       .update        = st7586_pipe_update,
->>> +    .begin_fb_access = mipi_dbi_pipe_begin_fb_access,
->>> +    .end_fb_access    = mipi_dbi_pipe_end_fb_access,
->>> +    .reset_plane    = mipi_dbi_pipe_reset_plane,
->>> +    .duplicate_plane_state = mipi_dbi_pipe_duplicate_plane_state,
->>> +    .destroy_plane_state = mipi_dbi_pipe_destroy_plane_state,
->>>   };
->>>     static const struct drm_display_mode st7586_mode = {
->>> diff --git a/include/drm/drm_mipi_dbi.h b/include/drm/drm_mipi_dbi.h
->>> index 36ac8495566b0..0213d4aae0326 100644
->>> --- a/include/drm/drm_mipi_dbi.h
->>> +++ b/include/drm/drm_mipi_dbi.h
->>> @@ -10,6 +10,7 @@
->>>     #include <linux/mutex.h>
->>>   #include <drm/drm_device.h>
->>> +#include <drm/drm_gem_atomic_helper.h>
->>>   #include <drm/drm_simple_kms_helper.h>
->>>     struct drm_rect;
->>> @@ -18,6 +19,19 @@ struct iosys_map;
->>>   struct regulator;
->>>   struct spi_device;
->>>   +/**
->>> + * struct mipi_dbi_plane_state - MIPI DBI plane state
->>> + */
->>> +struct mipi_dbi_plane_state {
->>> +    struct drm_shadow_plane_state shadow_plane_state;
->>> +};
->>> +
->>> +static inline struct mipi_dbi_plane_state *
->>> +to_mipi_dbi_plane_state(struct drm_plane_state *plane_state)
->>> +{
->>> +    return container_of(plane_state, struct mipi_dbi_plane_state,
->>> shadow_plane_state.base);
->>> +}
->>> +
->>>   /**
->>>    * struct mipi_dbi - MIPI DBI interface
->>>    */
->>> @@ -164,6 +178,15 @@ void mipi_dbi_enable_flush(struct mipi_dbi_dev
->>> *dbidev,
->>>                  struct drm_crtc_state *crtc_state,
->>>                  struct drm_plane_state *plan_state);
->>>   void mipi_dbi_pipe_disable(struct drm_simple_display_pipe *pipe);
->>> +int mipi_dbi_pipe_begin_fb_access(struct drm_simple_display_pipe *pipe,
->>> +                  struct drm_plane_state *plane_state);
->>> +void mipi_dbi_pipe_end_fb_access(struct drm_simple_display_pipe *pipe,
->>> +                 struct drm_plane_state *plane_state);
->>> +void mipi_dbi_pipe_reset_plane(struct drm_simple_display_pipe *pipe);
->>> +struct drm_plane_state *mipi_dbi_pipe_duplicate_plane_state(struct
->>> drm_simple_display_pipe *pipe);
->>> +void mipi_dbi_pipe_destroy_plane_state(struct
->>> drm_simple_display_pipe *pipe,
->>> +                       struct drm_plane_state *plane_state);
->>> +
->>>   void mipi_dbi_hw_reset(struct mipi_dbi *dbi);
->>>   bool mipi_dbi_display_is_on(struct mipi_dbi *dbi);
->>>   int mipi_dbi_poweron_reset(struct mipi_dbi_dev *dbidev);
->>> @@ -223,6 +246,11 @@ static inline void mipi_dbi_debugfs_init(struct
->>> drm_minor *minor) {}
->>>       .mode_valid = mipi_dbi_pipe_mode_valid, \
->>>       .enable = (enable_), \
->>>       .disable = mipi_dbi_pipe_disable, \
->>> -    .update = mipi_dbi_pipe_update
->>> +    .update = mipi_dbi_pipe_update, \
->>> +    .begin_fb_access = mipi_dbi_pipe_begin_fb_access, \
->>> +    .end_fb_access = mipi_dbi_pipe_end_fb_access, \
->>> +    .reset_plane = mipi_dbi_pipe_reset_plane, \
->>> +    .duplicate_plane_state = mipi_dbi_pipe_duplicate_plane_state, \
->>> +    .destroy_plane_state = mipi_dbi_pipe_destroy_plane_state
->>>     #endif /* __LINUX_MIPI_DBI_H */
-> 
+Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
