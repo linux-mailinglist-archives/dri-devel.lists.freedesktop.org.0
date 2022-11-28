@@ -1,52 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02A9D63AECE
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 18:25:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA24363AF2D
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 18:39:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED87410E30B;
-	Mon, 28 Nov 2022 17:24:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D39E10E30D;
+	Mon, 28 Nov 2022 17:39:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A94D110E30A;
- Mon, 28 Nov 2022 17:24:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669656293; x=1701192293;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=gIMxSjThOc3wgINTlCZhq7K2sOjoP/XFk+2wqF2Rc0o=;
- b=Rj4yN/C27YSLBwhI8Lom3D9C+slSCL9Wf4e1GMF0vC/gYnms7fviQ3KR
- ojISGtJC7ifP5LUHI89orb90Xlqgkr+tcYOFuSVwaaQrZE6TQvUBWXF77
- 5P0Hxi9RiWmFcs7Wcx+ZngeU+SqLioY1R3SY7N6OyyPPO+wEu7X6JLc4q
- SqJfO+QqNzDyjqN1xJ4fVQOtMv/v1zktkADY4Q3jtmiNmyG7N58YAa04B
- zTxOgJ7tMq0V0zELmVuMqr/oIQdNfvFfC3za3iHzw4vGLUe0GQKXw+E2c
- tf/LbPqP2ZgjaJ4/IWcfJDrbvHTvapcUjipxHoAREEpiqmEdeHK0jchLQ w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10545"; a="316730690"
-X-IronPort-AV: E=Sophos;i="5.96,200,1665471600"; d="scan'208";a="316730690"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Nov 2022 09:24:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10545"; a="768117946"
-X-IronPort-AV: E=Sophos;i="5.96,200,1665471600"; d="scan'208";a="768117946"
-Received: from lkp-server01.sh.intel.com (HELO 64a2d449c951) ([10.239.97.150])
- by orsmga004.jf.intel.com with ESMTP; 28 Nov 2022 09:24:50 -0800
-Received: from kbuild by 64a2d449c951 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1ozhs9-0008B1-2O;
- Mon, 28 Nov 2022 17:24:49 +0000
-Date: Tue, 29 Nov 2022 01:24:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master] BUILD REGRESSION
- 15f2f20ccbf2d04cb14e3e7635aa0447208c71e7
-Message-ID: <6384eed7.JsneE+FPasGJScWk%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8C1C10E30D
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 17:39:28 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4A5DC612F3;
+ Mon, 28 Nov 2022 17:39:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80AAAC433D6;
+ Mon, 28 Nov 2022 17:39:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1669657167;
+ bh=nGObBFgcTEWTQYpOqe4OisMkkiZCofNclTJTWSQkVeo=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=E0ATYhqdFRZT34xWTnE/WqPHk0+WUU/gckJbLpraOgtBvm0uJWTGdA0m41GleGh+C
+ WbsZ1QBtcYUqI0/6CTnxKcz100ZZ1spFQu7twdq6jcbhZWDh2YD4l8s4mKdGaJBwAr
+ dywnZ79MXX5+G0ebXq9v3n/vXa1bN5IosPPjk7/8TbzJPVNudi6MTgYG4MpigJnZPk
+ EL8b3CZMtN1aOjfgyU4bkOywq3ZikUa6FlhQZ7y561CYjFuhdAmAhqty4sjyaSQSrq
+ 14Fd3MPchiNBxmeamRjOQZ1lxizUPouejDIttcC7Qq3Ne62dGeAmqzsr9MJfw+2wxf
+ eBRtgikdD+P8w==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.0 32/39] fbcon: Use kzalloc() in fbcon_prepare_logo()
+Date: Mon, 28 Nov 2022 12:36:12 -0500
+Message-Id: <20221128173642.1441232-32-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20221128173642.1441232-1-sashal@kernel.org>
+References: <20221128173642.1441232-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,160 +54,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Linux Memory Management List <linux-mm@kvack.org>,
- dri-devel@lists.freedesktop.org, linuxppc-dev@lists.ozlabs.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
+ tzimmermann@suse.de, geert+renesas@glider.be,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, deller@gmx.de,
+ dri-devel@lists.freedesktop.org, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: 15f2f20ccbf2d04cb14e3e7635aa0447208c71e7  Add linux-next specific files for 20221128
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
 
-Error/Warning reports:
+[ Upstream commit a6a00d7e8ffd78d1cdb7a43f1278f081038c638f ]
 
-https://lore.kernel.org/oe-kbuild-all/202211041320.coq8EELJ-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202211080348.BOsishom-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202211090634.RyFKK0WS-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202211242120.MzZVGULn-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202211282102.QUr7HHrW-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202211282244.c1FaAVIO-lkp@intel.com
+A kernel built with syzbot's config file reported that
 
-Error/Warning: (recently discovered and may have been fixed)
+  scr_memcpyw(q, save, array3_size(logo_lines, new_cols, 2))
 
-arch/arm/mach-s3c/devs.c:32:10: fatal error: linux/platform_data/dma-s3c24xx.h: No such file or directory
-arch/powerpc/kernel/kvm_emul.o: warning: objtool: kvm_template_end(): can't find starting instruction
-arch/powerpc/kernel/optprobes_head.o: warning: objtool: optprobe_template_end(): can't find starting instruction
-drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dp.c:5075:24: warning: implicit conversion from 'enum <anonymous>' to 'enum dc_status' [-Wenum-conversion]
-drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn201/irq_service_dcn201.c:40:20: warning: no previous prototype for 'to_dal_irq_source_dcn201' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c:451:1: warning: no previous prototype for 'gf100_fifo_nonstall_block' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c:34:1: warning: no previous prototype for 'nvkm_engn_cgrp_get' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c:210:1: warning: no previous prototype for 'tu102_gr_load' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/nvfw/acr.c:49:1: warning: no previous prototype for 'wpr_generic_header_dump' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:221:21: warning: variable 'loc' set but not used [-Wunused-but-set-variable]
-vmlinux.o: warning: objtool: __btrfs_map_block+0x21ad: unreachable instruction
-vmlinux.o: warning: objtool: btrfs_calc_avail_data_space+0x4f: unreachable instruction
+causes uninitialized "save" to be copied.
 
-Error/Warning ids grouped by kconfigs:
+  ----------
+  [drm] Initialized vgem 1.0.0 20120112 for vgem on minor 0
+  [drm] Initialized vkms 1.0.0 20180514 for vkms on minor 1
+  Console: switching to colour frame buffer device 128x48
+  =====================================================
+  BUG: KMSAN: uninit-value in do_update_region+0x4b8/0xba0
+   do_update_region+0x4b8/0xba0
+   update_region+0x40d/0x840
+   fbcon_switch+0x3364/0x35e0
+   redraw_screen+0xae3/0x18a0
+   do_bind_con_driver+0x1cb3/0x1df0
+   do_take_over_console+0x11cb/0x13f0
+   fbcon_fb_registered+0xacc/0xfd0
+   register_framebuffer+0x1179/0x1320
+   __drm_fb_helper_initial_config_and_unlock+0x23ad/0x2b40
+   drm_fbdev_client_hotplug+0xbea/0xda0
+   drm_fbdev_generic_setup+0x65e/0x9d0
+   vkms_init+0x9f3/0xc76
+   (...snipped...)
 
-gcc_recent_errors
-|-- alpha-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
-|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
-|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
-|-- alpha-randconfig-r031-20221128
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
-|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
-|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
-|-- arc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
-|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
-|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
-|-- arc-randconfig-r024-20221127
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
-|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
-|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
-|-- arm-allyesconfig
-|   |-- arch-arm-mach-s3c-devs.c:fatal-error:linux-platform_data-dma-s3c24xx.h:No-such-file-or-directory
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
-|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
-|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
-|-- arm-defconfig
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
-|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
-|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
-|-- arm64-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:implicit-conversion-from-enum-anonymous-to-enum-dc_status
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
-clang_recent_errors
-|-- powerpc-buildonly-randconfig-r003-20221128
-|   `-- arch-powerpc-kernel-kvm_emul.o:warning:objtool:kvm_template_end():can-t-find-starting-instruction
-|-- x86_64-randconfig-a013-20221128
-|   `-- vmlinux.o:warning:objtool:handle_bug:call-to-kmsan_unpoison_entry_regs()-leaves-.noinstr.text-section
-`-- x86_64-randconfig-a015-20221128
-    `-- vmlinux.o:warning:objtool:handle_bug:call-to-kmsan_unpoison_entry_regs()-leaves-.noinstr.text-section
+  Uninit was stored to memory at:
+   fbcon_prepare_logo+0x143b/0x1940
+   fbcon_init+0x2c1b/0x31c0
+   visual_init+0x3e7/0x820
+   do_bind_con_driver+0x14a4/0x1df0
+   do_take_over_console+0x11cb/0x13f0
+   fbcon_fb_registered+0xacc/0xfd0
+   register_framebuffer+0x1179/0x1320
+   __drm_fb_helper_initial_config_and_unlock+0x23ad/0x2b40
+   drm_fbdev_client_hotplug+0xbea/0xda0
+   drm_fbdev_generic_setup+0x65e/0x9d0
+   vkms_init+0x9f3/0xc76
+   (...snipped...)
 
-elapsed time: 729m
+  Uninit was created at:
+   __kmem_cache_alloc_node+0xb69/0x1020
+   __kmalloc+0x379/0x680
+   fbcon_prepare_logo+0x704/0x1940
+   fbcon_init+0x2c1b/0x31c0
+   visual_init+0x3e7/0x820
+   do_bind_con_driver+0x14a4/0x1df0
+   do_take_over_console+0x11cb/0x13f0
+   fbcon_fb_registered+0xacc/0xfd0
+   register_framebuffer+0x1179/0x1320
+   __drm_fb_helper_initial_config_and_unlock+0x23ad/0x2b40
+   drm_fbdev_client_hotplug+0xbea/0xda0
+   drm_fbdev_generic_setup+0x65e/0x9d0
+   vkms_init+0x9f3/0xc76
+   (...snipped...)
 
-configs tested: 50
-configs skipped: 2
+  CPU: 2 PID: 1 Comm: swapper/0 Not tainted 6.1.0-rc4-00356-g8f2975c2bb4c #924
+  Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
+  ----------
 
-gcc tested configs:
-um                             i386_defconfig
-um                           x86_64_defconfig
-i386                 randconfig-a002-20221128
-i386                 randconfig-a003-20221128
-i386                                defconfig
-i386                 randconfig-a001-20221128
-x86_64                          rhel-8.3-func
-x86_64                              defconfig
-x86_64                    rhel-8.3-kselftests
-i386                 randconfig-a005-20221128
-i386                 randconfig-a004-20221128
-i386                 randconfig-a006-20221128
-x86_64                         rhel-8.3-kunit
-x86_64               randconfig-a001-20221128
-x86_64               randconfig-a003-20221128
-x86_64               randconfig-a004-20221128
-x86_64               randconfig-a002-20221128
-x86_64               randconfig-a005-20221128
-x86_64               randconfig-a006-20221128
-powerpc                           allnoconfig
-arc                                 defconfig
-s390                             allmodconfig
-alpha                               defconfig
-s390                                defconfig
-s390                             allyesconfig
-x86_64                               rhel-8.3
-x86_64                           rhel-8.3-syz
-x86_64                           rhel-8.3-kvm
-x86_64                           allyesconfig
-arm                                 defconfig
-arm                              allyesconfig
-i386                             allyesconfig
-sh                               allmodconfig
-arm64                            allyesconfig
-mips                             allyesconfig
-m68k                             allyesconfig
-powerpc                          allmodconfig
-m68k                             allmodconfig
-arc                              allyesconfig
-alpha                            allyesconfig
+Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Link: https://patchwork.freedesktop.org/patch/msgid/cad03d25-0ea0-32c4-8173-fd1895314bce@I-love.SAKURA.ne.jp
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/video/fbdev/core/fbcon.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-clang tested configs:
-hexagon              randconfig-r041-20221128
-riscv                randconfig-r042-20221128
-s390                 randconfig-r044-20221128
-hexagon              randconfig-r045-20221128
-i386                 randconfig-a012-20221128
-i386                 randconfig-a011-20221128
-x86_64               randconfig-a016-20221128
-x86_64               randconfig-a015-20221128
-x86_64               randconfig-a014-20221128
-x86_64               randconfig-a013-20221128
-
+diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+index 098b62f7b701..c0143d38df83 100644
+--- a/drivers/video/fbdev/core/fbcon.c
++++ b/drivers/video/fbdev/core/fbcon.c
+@@ -577,7 +577,7 @@ static void fbcon_prepare_logo(struct vc_data *vc, struct fb_info *info,
+ 		if (scr_readw(r) != vc->vc_video_erase_char)
+ 			break;
+ 	if (r != q && new_rows >= rows + logo_lines) {
+-		save = kmalloc(array3_size(logo_lines, new_cols, 2),
++		save = kzalloc(array3_size(logo_lines, new_cols, 2),
+ 			       GFP_KERNEL);
+ 		if (save) {
+ 			int i = min(cols, new_cols);
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.35.1
+
