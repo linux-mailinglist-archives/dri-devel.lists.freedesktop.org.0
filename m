@@ -1,77 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CE4363A2AF
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 09:20:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2245363A2BE
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 09:21:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19FF210E2A8;
-	Mon, 28 Nov 2022 08:20:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0175710E2A9;
+	Mon, 28 Nov 2022 08:21:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB60910E2A3
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 08:19:47 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 21D5F5C00D0;
- Mon, 28 Nov 2022 03:19:47 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Mon, 28 Nov 2022 03:19:47 -0500
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CB3C10E2AA
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 08:21:11 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 420775802F7;
+ Mon, 28 Nov 2022 03:21:10 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Mon, 28 Nov 2022 03:21:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1669623587; x=1669709987; bh=YC
- Qih31h4phJIOL40JWML9l9DvEpKwZX8JQjgXcSSq0=; b=ONvU4Gunjx5Q2tarsy
- 3ZfhpyIY0hBBwoLbLPBnwZqCsdxlBd3dH1HSqybnUZNlZ4eruSW/6NGCL8uN5dPl
- GszYlOKlNXVFUuTmR/34H8rjM9jVbzRMH7OSG8szt8d9RgFND+xNNAfwsWPB712u
- JVYl9+mveQcD3FuW4yNEXsabE7WTnaGTuu1fRHN4XuibfzGhtDYV8yHW+1UkZSbZ
- MGz1MRUVFzT3M4DMzCxb66dHFQBQpKrzvaPdKkbK68Ta0GXS7H+2/gmKXFtpbLPD
- zxI56i2pCoBaEunk+j553ShsWOI4cNvcnb0/mR+sIoTsewGHOMLmW1rw5Wc5JdcY
- tMLw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1669623587; x=1669709987; bh=YCQih31h4phJI
- OL40JWML9l9DvEpKwZX8JQjgXcSSq0=; b=m/5vNSJZJMO6huHfXhuq6SC1fXOLx
- IC8jDX9ET9dz4VeiIgyunQr1VgMfnELGbEj78YJBoF3CZ1xNb2U7USG+qsUkHD75
- HedtJ8v1cuEqUEfHbwuiY6IO7cpazNbmq1KYW4TLxNi1BZ4u4ZjKWDPi8e+dKL+p
- OHkezFcqISqrgdqXpAz5cq+R+otm3FPmORH6UOnp1Qo/tDWP9aqmuIqsEpROGjPR
- tWXA+erJNScHe5bIX03jy8hIm1e7bjwoQXkNajA9qkQRLuAKazO3gD14wgug9ccL
- 79iiLdgbnFKhyUDbgpAEc9WoIucXmLesBI2C29FnzNYgB7nsMM8TkOqpg==
-X-ME-Sender: <xms:Im-EY3kcqbCc4ogi7pXz1cX9IkirnDHejVjosgIAWnDbG5SF6mzQpA>
- <xme:Im-EY63xF50quV3wgmIwnjPGP3IbVjDdH514vWFVTx6KEf--FSDPEVu7hXXfe6X2u
- 22nZGndZbtGJT5J92w>
-X-ME-Received: <xmr:Im-EY9qsLy-zRfb73rrKiAfAqx7qEPDgm9FBwiOT5rj_mShgwHXGuTPGosCIgJrA8NFagMhtQHkTRqzcx4jlAmjcrLUZcU8OZfwtS4I6xMq7Ug>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrjedugdduvddtucetufdoteggodetrfdotf
+ :subject:to:to; s=fm2; t=1669623670; x=1669630870; bh=QrDmBmVcXX
+ 6tVAPe5j+hdeIaostNrA78ZkYql/wyJkE=; b=gUkk4VUisc5QG0Im9OGlM+mwNJ
+ FEbGfjekPQeBVEKlttoI3IpYx6+EotEYHDFW2wch9ldM1gB1hMSKIKu5DEnJxtzJ
+ O+2C1I9BV2He0UxR/IlWUKBn7GcqLR2HFNNW40oyWfQzrY+qLuAkjTqN8xExQwMz
+ dr3UpH3znp7t1VKNRpOfeObs5fhB1osGIGRJJie1rpmxfx9VfrT+/SVvt21a7am6
+ deC2ZJMjaEpskb9liZGAraPPI0HdMWpJZzigA2+FWbrW+ESReNHvetAaK5jyWByb
+ 2xfbZmZchAGbFqQRfpfBv2Z/WB6IM7DbcevX5N5IXKONmem+gaWBGidV9WNA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1669623670; x=1669630870; bh=QrDmBmVcXX6tVAPe5j+hdeIaostN
+ rA78ZkYql/wyJkE=; b=KdY7OdawF7M0KnHmzKtvn+pmBsDEQBkjsr5a9ACWZU+l
+ dgC+rN9erCOJuMmF/V0y3OKhfw365HlMionqpXzgk6CHZX9la0sVxZmsUJnU0qKu
+ 1YSTOSCXDNvJugG4H87lw2wNPIEvnhSPi4/M4b8WnTy+AACNDJ44dReuubBfwsG6
+ yX7WHg2H9bJgNycbrvABHZnNfegQ6MB4RKIyJOmOizfm305VlZpWodH2OsBD+o0v
+ RM8nCG3yvIlylSyYhWzI9zl/SL0KkBTrNsyB0oDfgj3VmzGctJMjrJITLyB2Y7nd
+ AWP2Uc3R+8+ev/nfcDXKy90TFkE6KqNI3Yerz15+ng==
+X-ME-Sender: <xms:dW-EY0JVYQ5R4oszEhIKAG0iyc_kXpqBDGKQ3Qwk8rgmScuIf9OJvA>
+ <xme:dW-EY0K12K4WKXZLh7orNEjsImMGsF0HSLFKdbJlppe3QHSG57UpYuv2B-b8PriBg
+ nVqEOaebZsZNYGNoqE>
+X-ME-Received: <xmr:dW-EY0vRVnHpqPi6v9Y8-xJCW8_gHPXOVdPXVv_LOYvyLx17WP-E6S1fFiRXyqMmnVvTOV8Jpst-DiU_cx4WWDjmMrL6e_7-G93SyZ8kkIvnfg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrjedugdduvdduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
- vdejhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
+ hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:Im-EY_ngc5bJjVy5mSAopHLfaMZ0zeaP0EzYPjE1in6ZJ8EmTEouEw>
- <xmx:Im-EY11ERrsZFQz_TxD7son_aK4RgGsHUQcexlpPLR08QL2a5sWhGg>
- <xmx:Im-EY-tF-QpSdRiI8PTBcYK6FuQ6EBoOHinIbyXs6wjUdh2wqtaaXw>
- <xmx:I2-EYzPItHQJjdlVqMbjRLO0FuRWoT_eNcVt99Kaoe-gM_82LRhNxw>
+X-ME-Proxy: <xmx:dm-EYxbrB4J7vAjia3zbfe9RrA14_lpIKy1RkSFik1ggo0UNxTVtSg>
+ <xmx:dm-EY7agIINg9FqtOoozgH8Ao12N8BXFyUeNgYnypis6ngmUec0CXg>
+ <xmx:dm-EY9CN9qHNmP9qB8HjbYc8Z1rlbmCyryEcXErpUsRd5Go7Etezmw>
+ <xmx:dm-EY1aCCEUzsBJAvOXEH4n8qJUqPTnoxSftIzygJF4R0kS7lfAAlg>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 28 Nov 2022 03:19:46 -0500 (EST)
+ 28 Nov 2022 03:21:09 -0500 (EST)
+Date: Mon, 28 Nov 2022 09:21:08 +0100
 From: Maxime Ripard <maxime@cerno.tech>
-To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 3/3] drm/tests: helpers: Add missing export
-Date: Mon, 28 Nov 2022 09:19:38 +0100
-Message-Id: <20221128081938.742410-3-maxime@cerno.tech>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221128081938.742410-1-maxime@cerno.tech>
-References: <20221128081938.742410-1-maxime@cerno.tech>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH/RFC 2/3] drm/simple-kms-helper: Add mode_fixup() to
+ simple display pipe
+Message-ID: <20221128082108.ntjhevb4ku6lnvib@houat>
+References: <cover.1669406380.git.geert@linux-m68k.org>
+ <3b0862187f1c8910089cb0d06a8669caa985042e.1669406382.git.geert@linux-m68k.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="zqy4xi2ywhixazqh"
+Content-Disposition: inline
+In-Reply-To: <3b0862187f1c8910089cb0d06a8669caa985042e.1669406382.git.geert@linux-m68k.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,32 +84,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, dri-devel@lists.freedesktop.org
+Cc: Michael Schmitz <schmitzmic@gmail.com>, linux-fbdev@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Helge Deller <deller@gmx.de>,
+ linux-m68k@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_kunit_device_init() is a public function meant to be used by other
-tests, but isn't exported. This leads to modpost errors when the other
-tests are compiled as module.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/tests/drm_kunit_helpers.c | 1 +
- 1 file changed, 1 insertion(+)
+--zqy4xi2ywhixazqh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/tests/drm_kunit_helpers.c b/drivers/gpu/drm/tests/drm_kunit_helpers.c
-index f1662091f250..8c738384a992 100644
---- a/drivers/gpu/drm/tests/drm_kunit_helpers.c
-+++ b/drivers/gpu/drm/tests/drm_kunit_helpers.c
-@@ -66,6 +66,7 @@ struct drm_device *drm_kunit_device_init(struct kunit *test, u32 features, char
- 
- 	return drm;
- }
-+EXPORT_SYMBOL(drm_kunit_device_init);
- 
- MODULE_AUTHOR("Maxime Ripard <maxime@cerno.tech>");
- MODULE_LICENSE("GPL");
--- 
-2.38.1
+Hi,
 
+On Fri, Nov 25, 2022 at 09:31:09PM +0100, Geert Uytterhoeven wrote:
+> From: Thomas Zimmermann <tzimmermann@suse.de>
+>=20
+> The mode fix-up function for simple display helpers is equivalent to the
+> regular pipeline's CRTC mode fix-up function. It's called to adjust the
+> CRTC's display mode for the encoder. Add this function for DRM fbconv
+> helpers.
+>=20
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+
+It's not clear to me why you'd need a mode_fixup in the first place.
+Like said in the documentation you added, atomic_check is usually the
+better option for the atomic modesetting drivers.
+
+So, why is it needed?
+
+Maxime
+
+--zqy4xi2ywhixazqh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY4RvdAAKCRDj7w1vZxhR
+xb4VAQDcYvGXzV71avNSXjnI5sHfzoooq+kEtEPF6PujiPIf0wD8CTGXFvB1JBls
+QCJDVxr23M3Ch2byEX26PLsS/N5+FwY=
+=K4PV
+-----END PGP SIGNATURE-----
+
+--zqy4xi2ywhixazqh--
