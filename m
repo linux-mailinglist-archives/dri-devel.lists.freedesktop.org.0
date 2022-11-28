@@ -2,85 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 862DD63A29E
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 09:19:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AC2063A2A4
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 09:19:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71EC710E2A2;
-	Mon, 28 Nov 2022 08:19:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63BA310E2A3;
+	Mon, 28 Nov 2022 08:19:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C08D110E2A2
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 08:18:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669623533;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ueiNL/RrPlD3vRod9MDAxJpgFwmJj0Jyg8USWk7yPz8=;
- b=S+oFkjKVP3mckzd7VBbvH1QuZTZol0q9wTWffdsPiXu+2nmhjaLmPhu8ziCyV0KCioRPJI
- 5JQ7Ka6QTT7w/TcDd4C3+oasgr3fATIDGVWRdSU8qp6A71RrRGJewLWoV59J4JHfMOQ3z1
- 2VHUt/gcI6faTsrG8illEYtRpXcU/30=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-371-HNE5cGRrMYejrAP2KXVT2Q-1; Mon, 28 Nov 2022 03:18:51 -0500
-X-MC-Unique: HNE5cGRrMYejrAP2KXVT2Q-1
-Received: by mail-wm1-f72.google.com with SMTP id
- e8-20020a05600c218800b003cf634f5280so3470231wme.8
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 00:18:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ueiNL/RrPlD3vRod9MDAxJpgFwmJj0Jyg8USWk7yPz8=;
- b=4pmaYVgl3QReLi+ke4wDQ7ofNONWUx48xQ1Tgj87siakkWuLDY+68aChgJkxOayhhZ
- NhuIWS/6E+PdkVL2pMR4BNPodkPo4jOejG8H5763uuwqODsa5ewMyLzI6NxZwg45nL89
- Aouio3NGtcje3rAzrmCkb+nv6bNbilMCO2rNL6e3pYF+pDIEpW3IjnN7rtyhOi7H/5Un
- rp0129lK7rmM8y0cXGEdCJwmhmj5qpP3DGD1IxZKdl2Ku0AwI4ps+lazNI7F1e9KZJqL
- gK2Mvj8vLxioijFTlAFCA/PxWUW3/5Kik0gCCZ1Bg2aC5vpl16QCMiDPU7ODVTp4+95w
- Fadw==
-X-Gm-Message-State: ANoB5pnhw9Elrbt25WXBa52+EGtUEQ7IEfyfxhYYkvVcLIUvwyyU8KGd
- /myGBefhNi7p150qm5Ec95hhdfzYCaODaepZXTGgpteDnvJR1HMjLhKMSnW6itm6SctvVuOeUhm
- fjgnkdowU8Dw1w9m+xtkTJwfh8ULk
-X-Received: by 2002:a05:600c:3587:b0:3cf:a9c2:2b04 with SMTP id
- p7-20020a05600c358700b003cfa9c22b04mr36262272wmq.152.1669623530573; 
- Mon, 28 Nov 2022 00:18:50 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5KFgnMS9OgeX6iNUgB1p0xskb3yOxviUW4FnLaUffslFm3du7Shktyf0rRUHCATZ7f+3nFJA==
-X-Received: by 2002:a05:600c:3587:b0:3cf:a9c2:2b04 with SMTP id
- p7-20020a05600c358700b003cfa9c22b04mr36262220wmq.152.1669623530122; 
- Mon, 28 Nov 2022 00:18:50 -0800 (PST)
-Received: from ?IPV6:2003:cb:c702:9000:3d6:e434:f8b4:80cf?
- (p200300cbc702900003d6e434f8b480cf.dip0.t-ipconnect.de.
- [2003:cb:c702:9000:3d6:e434:f8b4:80cf])
- by smtp.gmail.com with ESMTPSA id
- g14-20020a05600c310e00b003a2f2bb72d5sm22518102wmo.45.2022.11.28.00.18.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Nov 2022 00:18:49 -0800 (PST)
-Message-ID: <9d0bf98a-3d6a-1082-e992-1338e1525935@redhat.com>
-Date: Mon, 28 Nov 2022 09:18:47 +0100
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+ [66.111.4.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BD9010E2A4
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 08:19:45 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id C32335C013B;
+ Mon, 28 Nov 2022 03:19:42 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Mon, 28 Nov 2022 03:19:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:date:date:from:from:in-reply-to
+ :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+ s=fm2; t=1669623582; x=1669709982; bh=3N/SfcTOuzx4Y/m8hSni9Wofv
+ 8VWO9oPL6Rhphkdkqg=; b=DxYWV0u2Eu63lNQhHJyEKqpWitxipjGYDxo2IKeCx
+ L3es6Rz5hcGM3wCd+KrEqoTZBi76+M9PPbTGs9u8ohP64Ncti1Pha4Ra+6V+3O5Q
+ mxlx3ahx179ytEggkmhxBPbXhyl/9No2pAH9zPR92Sbv+oO9KBzsCr06LDXC1ChO
+ tOfdylUJeJOeAQnsqfzA9Xxpzzm0RO6coy4MSiXxrJ7vZBWXCgMgxLSWIEiJ+16B
+ 2c+qNohxatMPZZihOnMFmVQCmrTElU6r8+hRyhM57h52ro9gl6SmlXw4OAAs6acJ
+ /e0OB1Wk2y2TNAWGEelRBDUOsICjgnb3yRBrCKOD5Prhg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+ 1669623582; x=1669709982; bh=3N/SfcTOuzx4Y/m8hSni9Wofv8VWO9oPL6R
+ hphkdkqg=; b=a0rH2qF+OnzNDNQa5/8ihimBR/uRfSvR9aXzMhhcqu40nmmu5p4
+ 2xtrC3jM30sRhr5tBltaAUpDVoKXCGuoSVmrXG4IskAtkUu0rGR++43OrbGdBS82
+ HP1w66mNp2BSH/WwQiyZgkMn1Ip7wd2xH6dteHWCTpBmk5jGz55EdRXJV3PIA+46
+ ax/Kyxl+SO5Kk4SraOFTo2hly6T12wBj5FPeB91arxMMyReB7ka6eOQ5PLDNQtFn
+ NM26WyAURewWUm1m8yB0pUBOAgOh5iZqvY2M3Zff3KGDCz5gfc1Y3vvXrqFzaNxQ
+ +NkzQYjNuO4R/6mIKFNlALAatbrnbTXYzTg==
+X-ME-Sender: <xms:Hm-EY9u6MoUpKpEaflRBT_4ObtomBsuvK0BrjlJ_ELUb3IFrBvInkg>
+ <xme:Hm-EY2dtVL6b-rjJr7kJ5IhU0HJ-LOTWbEfiu7IJKO6yFwmUf77W6UuLuFra-8dUC
+ wqUXHVq4CG7KIIHu8I>
+X-ME-Received: <xmr:Hm-EYwx3kQi8MoVETWVRrMheQuHFVYtOk4H54w6kDmiOFFSiCbizqFrIooX89oz1KZ8ippCbTNyTXKTVgOMuAOBzxXHFhXILiyfMtiHxC4YozQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrjedugdduvddtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeektedujeeijeefhfejuedtudegtdejffffvdettdeigeekffeileelgeevgfdv
+ vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:Hm-EY0Pk18LPslsjPaycZNGLcn290fMwgk3PSVXi8OehkCNwzvX9zw>
+ <xmx:Hm-EY98mCLF-Vwlmtun9Lo7qYXtjsYCmXXfCYKoxbCu3mDz3I-agvg>
+ <xmx:Hm-EY0WD32v9dIDBJEwaK99_CSqt2rpEiyr2FJxpZnpkv9d-By7KGg>
+ <xmx:Hm-EYwU8sROM7KtVz4D88g5sKMhrBmvddLcNCNUtsLLrz42ZlfcZxw>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 28 Nov 2022 03:19:41 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
+Subject: [PATCH 1/3] drm/doc: Fix title underline length
+Date: Mon, 28 Nov 2022 09:19:36 +0100
+Message-Id: <20221128081938.742410-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH mm-unstable v1 16/20] mm/frame-vector: remove FOLL_FORCE
- usage
-To: Hans Verkuil <hverkuil@xs4all.nl>, linux-kernel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>
-References: <20221116102659.70287-1-david@redhat.com>
- <20221116102659.70287-17-david@redhat.com>
- <81fb0fa3-2e06-b765-56ac-a7d981194e59@redhat.com>
- <08b65ac6-6786-1080-18f8-d2be109c85fc@xs4all.nl>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <08b65ac6-6786-1080-18f8-d2be109c85fc@xs4all.nl>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -94,96 +81,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-ia64@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- Nadav Amit <namit@vmware.com>, linux-kselftest@vger.kernel.org,
- sparclinux@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Andrea Arcangeli <aarcange@redhat.com>, linux-samsung-soc@vger.kernel.org,
- linux-rdma@vger.kernel.org, x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Matthew Wilcox <willy@infradead.org>, Christoph Hellwig <hch@infradead.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@suse.cz>,
- linux-media@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- John Hubbard <jhubbard@nvidia.com>, linux-um@lists.infradead.org,
- etnaviv@lists.freedesktop.org, Alex Williamson <alex.williamson@redhat.com>,
- Peter Xu <peterx@redhat.com>, Muchun Song <songmuchun@bytedance.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
- Oded Gabbay <ogabbay@kernel.org>, linux-mips@vger.kernel.org,
- Tomasz Figa <tfiga@chromium.org>, linux-perf-users@vger.kernel.org,
- linux-security-module@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
- Mike Kravetz <mike.kravetz@oracle.com>
+Cc: kernel test robot <lkp@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28.11.22 09:17, Hans Verkuil wrote:
-> Hi David,
-> 
-> On 27/11/2022 11:35, David Hildenbrand wrote:
->> On 16.11.22 11:26, David Hildenbrand wrote:
->>> FOLL_FORCE is really only for ptrace access. According to commit
->>> 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are always
->>> writable"), get_vaddr_frames() currently pins all pages writable as a
->>> workaround for issues with read-only buffers.
->>>
->>> FOLL_FORCE, however, seems to be a legacy leftover as it predates
->>> commit 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are
->>> always writable"). Let's just remove it.
->>>
->>> Once the read-only buffer issue has been resolved, FOLL_WRITE could
->>> again be set depending on the DMA direction.
->>>
->>> Cc: Hans Verkuil <hverkuil@xs4all.nl>
->>> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
->>> Cc: Tomasz Figa <tfiga@chromium.org>
->>> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
->>> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
->>> Signed-off-by: David Hildenbrand <david@redhat.com>
->>> ---
->>>    drivers/media/common/videobuf2/frame_vector.c | 2 +-
->>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/media/common/videobuf2/frame_vector.c b/drivers/media/common/videobuf2/frame_vector.c
->>> index 542dde9d2609..062e98148c53 100644
->>> --- a/drivers/media/common/videobuf2/frame_vector.c
->>> +++ b/drivers/media/common/videobuf2/frame_vector.c
->>> @@ -50,7 +50,7 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
->>>        start = untagged_addr(start);
->>>          ret = pin_user_pages_fast(start, nr_frames,
->>> -                  FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM,
->>> +                  FOLL_WRITE | FOLL_LONGTERM,
->>>                      (struct page **)(vec->ptrs));
->>>        if (ret > 0) {
->>>            vec->got_ref = true;
->>
->>
->> Hi Andrew,
->>
->> see the discussion at [1] regarding a conflict and how to proceed with
->> upstreaming. The conflict would be easy to resolve, however, also
->> the patch description doesn't make sense anymore with [1].
-> 
-> Might it be easier and less confusing if you post a v2 of this series
-> with my patch first? That way it is clear that 1) my patch has to come
-> first, and 2) that it is part of a single series and should be merged
-> by the mm subsystem.
-> 
-> Less chances of things going wrong that way.
-> 
-> Just mention in the v2 cover letter that the first patch was added to
-> make it easy to backport that fix without being hampered by merge
-> conflicts if it was added after your frame_vector.c patch.
+The underline length for the new Analog TV properties section doesn't
+match the title length, resulting in a warning.
 
-Yes, that's the way I would naturally do, it, however, Andrew prefers 
-delta updates for minor changes.
+Fixes: 7d63cd8526f1 ("drm/connector: Add TV standard property")
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ Documentation/gpu/drm-kms.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-@Andrew, whatever you prefer!
-
-Thanks!
-
+diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+index 321f2f582c64..c92d425cb2dd 100644
+--- a/Documentation/gpu/drm-kms.rst
++++ b/Documentation/gpu/drm-kms.rst
+@@ -521,7 +521,7 @@ HDMI Specific Connector Properties
+    :doc: HDMI connector properties
+ 
+ Analog TV Specific Connector Properties
+-----------------------------------
++---------------------------------------
+ 
+ .. kernel-doc:: drivers/gpu/drm/drm_connector.c
+    :doc: Analog TV Connector Properties
 -- 
-Thanks,
-
-David / dhildenb
+2.38.1
 
