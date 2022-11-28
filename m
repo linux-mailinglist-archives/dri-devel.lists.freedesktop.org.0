@@ -1,45 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF21163B5E2
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 00:30:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2A0763B5E3
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 00:30:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6D3410E347;
-	Mon, 28 Nov 2022 23:30:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FA7F10E34A;
+	Mon, 28 Nov 2022 23:30:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4C3010E344;
- Mon, 28 Nov 2022 23:30:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91C1510E346;
+ Mon, 28 Nov 2022 23:30:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669678220; x=1701214220;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=0p/m7KGRokmaJXRofyrPbcr8CIOcr5Zrnq35c2CMFd4=;
- b=JuY9yuyeKYXfcmytiAEhhTRrX0MjOvt0DnLoZTKD6kpzfjAIuFxXdRF4
- i14iJL7AQ9IOL03SXRUeLR4SdVPtl21h5/kO0T3IUGS+ydkAznY4Li87y
- iVVR0+7X8MFBVQJCZXi1NPo49JmUbBbjZ7wt7orlYFlb4KFtVf7YwTpFF
- 6V0aqY6RfEuiXZsztWEuCHCSPEB5j1iN4SVdMcWzcAzUrk7zTQbMAHCTp
- ol8dex3IyjZJxgB+fLqPIsRX2PNCObFHxB8d9ZlVQhO6ckjxyA2AUYJJK
- i8YuXu44wzRLab173c8HL5dz7XzEBG8Asohyx334AgePEKPMkmv02Mv++ Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10545"; a="302556662"
-X-IronPort-AV: E=Sophos;i="5.96,201,1665471600"; d="scan'208";a="302556662"
+ t=1669678223; x=1701214223;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=awQ2n/Ud7CtZyl2Lym+ycmv+VNKC5OMB2RlaX2/DgEQ=;
+ b=TKaJn4ucrZk6JFAFj7HB847tvU6IS6F0gC635CSzB30qB7PHZ9kb4RKI
+ hIndaGpmrX8zu6tk9a6t4u+RQOLhBAvO4dMGbrTlq312mU6stJqVUM+dD
+ nMKw/VMwUq/tyTvGJ1yaWrabuSM0vKiS06JJsQTaAXKXVE+tt5MSqgrcz
+ xJLRDXmTU14klIDx0wRw8l40FptCZ5zG6A2xXvZ22WsAhu/ieAi3pf7MV
+ UNM3djdZSMws2wB64I7/UTkFcJ7W3A8QpPugj4FFA/5rz5mu8ujM/yz9i
+ 7XCR2uFRtUUtMUKPS3nsopD7o/dUPeMhCBkmdjLcZ/nv20s0IbsMQjHuD A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10545"; a="302556670"
+X-IronPort-AV: E=Sophos;i="5.96,201,1665471600"; d="scan'208";a="302556670"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Nov 2022 15:30:20 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10545"; a="706982224"
-X-IronPort-AV: E=Sophos;i="5.96,201,1665471600"; d="scan'208";a="706982224"
+ 28 Nov 2022 15:30:23 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10545"; a="706982245"
+X-IronPort-AV: E=Sophos;i="5.96,201,1665471600"; d="scan'208";a="706982245"
 Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Nov 2022 15:30:19 -0800
+ 28 Nov 2022 15:30:23 -0800
 From: Matt Roper <matthew.d.roper@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 0/5] i915: dedicated MCR locking and hardware semaphore
-Date: Mon, 28 Nov 2022 15:30:09 -0800
-Message-Id: <20221128233014.4000136-1-matthew.d.roper@intel.com>
+Subject: [PATCH v2 1/5] drm/i915/gt: Correct kerneldoc for
+ intel_gt_mcr_wait_for_reg()
+Date: Mon, 28 Nov 2022 15:30:10 -0800
+Message-Id: <20221128233014.4000136-2-matthew.d.roper@intel.com>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221128233014.4000136-1-matthew.d.roper@intel.com>
+References: <20221128233014.4000136-1-matthew.d.roper@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -54,52 +57,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>,
- Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: kernel test robot <lkp@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We've been overloading uncore->lock to protect access to the MCR
-steering register.  That's not really what uncore->lock is intended for,
-and it would be better if we didn't need to hold such a high-traffic
-spinlock for the whole sequence of (apply steering, access MCR register,
-restore steering).  Switch to a dedicated MCR lock to protect the
-steering control register over this critical section and stop relying on
-the high-traffic uncore->lock.  On pre-MTL platforms the dedicated MCR
-lock is just another software lock, but on MTL and beyond we also
-utilize the hardware-provided STEER_SEMAPHORE that allows us to
-synchronize with external hardware and firmware agents.
+The kerneldoc function name was not updated when this function was
+converted to a non-fw form.
 
-v2:
- - Use irqsave/irqrestore locking; on platforms that use execlist
-   submission instead of GuC, MCR accesses can happen in interrupt
-   context (tasklet) during reset -> error dump.
- - Extend timeout for hardware semaphore and CI taint if we ever
-   encounter it (this implies a hardware/firmware problem).  (Mika)
- - Add an extra patch optimizing xehp_setup_private_ppat by holding
-   forcewake & mcr lock over the sequence of register writes.  (Bala)
+Fixes: 192bb40f030a ("drm/i915/gt: Manage uncore->lock while waiting on MCR register")
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_gt_mcr.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
-Cc: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
-
-Matt Roper (5):
-  drm/i915/gt: Correct kerneldoc for intel_gt_mcr_wait_for_reg()
-  drm/i915/gt: Pass gt rather than uncore to lowest-level reads/writes
-  drm/i915/gt: Add dedicated MCR lock
-  drm/i915/mtl: Add hardware-level lock for steering
-  drm/i915/mtl: Hold forcewake and MCR lock over PPAT setup
-
- drivers/gpu/drm/i915/gt/intel_gt.c          |   7 +-
- drivers/gpu/drm/i915/gt/intel_gt_mcr.c      | 129 ++++++++++++++++++--
- drivers/gpu/drm/i915/gt/intel_gt_mcr.h      |   2 +
- drivers/gpu/drm/i915/gt/intel_gt_regs.h     |   1 +
- drivers/gpu/drm/i915/gt/intel_gt_types.h    |   8 ++
- drivers/gpu/drm/i915/gt/intel_gtt.c         |  27 ++--
- drivers/gpu/drm/i915/gt/intel_mocs.c        |   3 +
- drivers/gpu/drm/i915/gt/intel_workarounds.c |  12 +-
- 8 files changed, 162 insertions(+), 27 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+index d9a8ff9e5e57..ea86c1ab5dc5 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+@@ -702,7 +702,7 @@ void intel_gt_mcr_get_ss_steering(struct intel_gt *gt, unsigned int dss,
+ }
+ 
+ /**
+- * intel_gt_mcr_wait_for_reg_fw - wait until MCR register matches expected state
++ * intel_gt_mcr_wait_for_reg - wait until MCR register matches expected state
+  * @gt: GT structure
+  * @reg: the register to read
+  * @mask: mask to apply to register value
 -- 
 2.38.1
 
