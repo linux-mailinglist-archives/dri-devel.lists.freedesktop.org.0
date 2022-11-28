@@ -2,46 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEEC963B518
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 23:59:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEDF363B5BB
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 00:17:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E71D10E24A;
-	Mon, 28 Nov 2022 22:59:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B9B910E246;
+	Mon, 28 Nov 2022 23:16:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9ED5110E24A;
- Mon, 28 Nov 2022 22:59:34 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 7ACDFCE109D;
- Mon, 28 Nov 2022 22:59:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A99DC433D6;
- Mon, 28 Nov 2022 22:59:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
- s=korg; t=1669676369;
- bh=8eUsQnXrojDc3xf/FA0TCQqqadaNCz4PLnjHT4xDE/M=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=p/c6sfRX9un7PSA9WHRKHQPKKlq0P4NHxZWk+3LaBZS7DQenvFmjKk0jQBgH6o535
- rwsyByROkiEJmDN58P/Z53hmZWo4xmybXT0VaPtvGqyQZyuQQjThzncIMjLPHHFdpc
- 3v4hl13h6A47jhJOM5850oDp2I/9vqahh0Q1uqps=
-Date: Mon, 28 Nov 2022 14:59:27 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH mm-unstable v1 16/20] mm/frame-vector: remove FOLL_FORCE
- usage
-Message-Id: <20221128145927.df895bf1966cfa125cae9668@linux-foundation.org>
-In-Reply-To: <9d0bf98a-3d6a-1082-e992-1338e1525935@redhat.com>
-References: <20221116102659.70287-1-david@redhat.com>
- <20221116102659.70287-17-david@redhat.com>
- <81fb0fa3-2e06-b765-56ac-a7d981194e59@redhat.com>
- <08b65ac6-6786-1080-18f8-d2be109c85fc@xs4all.nl>
- <9d0bf98a-3d6a-1082-e992-1338e1525935@redhat.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com
+ [IPv6:2607:f8b0:4864:20::729])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BB1E10E246;
+ Mon, 28 Nov 2022 23:16:55 +0000 (UTC)
+Received: by mail-qk1-x729.google.com with SMTP id k2so8542394qkk.7;
+ Mon, 28 Nov 2022 15:16:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=6Upw7lQqiVx/fr3nWphxIGp9C7tYgYrqcf0scuftCi8=;
+ b=USh1anbVPA/RntHaxXkxsHBxj+Iqjt1j1HlESMZAgJjMYg9OfK1aXy9c0W6si3rt3c
+ dSxAfBHFa/58DgzhbWA4uuE0KdVLzwF1BPiB9bRMhSwKEMQIaWbeZMOoDNK8K7UXiKEG
+ 49VQyfG8SzZDMpRDtTd1BYh5pj1f7J5m3IB5OIdZx05xikUoLetvPh3ugfYPmf0AD2cH
+ QSLrY/4JQRgZ3enJzsHP9/WU6wiv6QQgCWWYEvi/sXBpyS1ZUflhWq/4B/G36NHRA0mm
+ /ZW8jonYCEDzvOUPt2XkrTp4zb61daw/gWRSwql8M5tqaUZBt141596uEJC9NaQFYWAa
+ rEkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=6Upw7lQqiVx/fr3nWphxIGp9C7tYgYrqcf0scuftCi8=;
+ b=qdBO9asPXjjl3Job3eXDVSMIH+i+uTsaGyfdJrRvUNWYc1RHrr/AOut2ohf9zmw2Gn
+ 8nnzPvgoiRlk0LNI688aZSP2xUVuoaQpr072s9IRPjk3a9lxRvwNq4ozBUajUY20IlqD
+ 488HJE2Q1C6G7bbneSXMthKgf3V9N0COS5Yg+5dIdg4ga93WPdkpX4DmdfuCYahRs2vS
+ 0t/UfnYlYmazdA4o752nMnGh52Jl5X1O9ayJeD7aES6s8PXYRXfYcHRJhpdPRam7JRSI
+ MmOD7oi//l2IP6DxlahCyGtiyC5Zmwlv+3ElBcI8X20+HxsH8Us7Xb7zV07M1ykZJNAe
+ 2dmQ==
+X-Gm-Message-State: ANoB5pkJuCQ0KtkrJTPwfQc+nKUF3vuUtju6Usp8IqOq8gJWazgC6bD3
+ Rb31fjTRgCzoOWN8hsHePdrk4nE9KpRQMDa9YX0=
+X-Google-Smtp-Source: AA0mqf7NB+x6ZWhWFLJtJLbEqe1OnV1EtsLih5NOSKOZcitPIEAvM6OcdXVpRA//4/NarOa8gxCnHCJopzzq+FbCqJM=
+X-Received: by 2002:a05:620a:1313:b0:6fa:35d5:eb25 with SMTP id
+ o19-20020a05620a131300b006fa35d5eb25mr47035704qkj.400.1669677414281; Mon, 28
+ Nov 2022 15:16:54 -0800 (PST)
+MIME-Version: 1.0
+References: <CABXGCsOeQ7VYm98jRVaYp6KaNsFVsAnSb33ZT8JvZxcTcEGW0w@mail.gmail.com>
+ <a67598e8-c826-2740-03bb-33d37c8c8e4b@amd.com>
+ <CABXGCsNvFvJz4=N=JKYSGVcd=dKfQ3Nv_zOssMb0Z6oK79xZ7g@mail.gmail.com>
+ <a537212d-4b42-4ba4-7707-1e397234c8b7@amd.com>
+ <CABXGCsMCfACsJRDPqZDYQGMpaA_6LKhQ0XqAmDN04GSMeetXnA@mail.gmail.com>
+ <ca6c98eb-fdb0-5fee-3925-5b697e3e6b50@gmail.com>
+ <CABXGCsPJFvNXfbdR=_sb4gLdd2E30aRN9usSiZc2XYmZNSKBcQ@mail.gmail.com>
+ <dc802bd0-ed77-d268-25e2-1cf162202912@gmail.com>
+ <c5c4f572-4720-04ff-3c70-30bba9c37202@amd.com>
+ <CABXGCsMW7+dWU0S8ePUygWkkvmLBiHU8gSBKZcSMsBCE_gv4Ew@mail.gmail.com>
+ <dcf71c8d-aab1-e1ab-72ad-6822a7450257@amd.com>
+In-Reply-To: <dcf71c8d-aab1-e1ab-72ad-6822a7450257@amd.com>
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Date: Tue, 29 Nov 2022 04:16:43 +0500
+Message-ID: <CABXGCsNsY+iK8F9oecO5xTDcRPaBUZJ2S0C=8qiRCcaVjdriAA@mail.gmail.com>
+Subject: Re: [6.1][regression] after commit
+ dd80d9c8eecac8c516da5b240d01a35660ba6cb6
+ some games (Cyberpunk 2077, Forza Horizon 4/5) hang at start
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,49 +78,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-ia64@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- Hans Verkuil <hverkuil@xs4all.nl>, linux-mm@kvack.org,
- Nadav Amit <namit@vmware.com>, linux-kselftest@vger.kernel.org,
- sparclinux@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Andrea Arcangeli <aarcange@redhat.com>, linux-samsung-soc@vger.kernel.org,
- linux-rdma@vger.kernel.org, x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Matthew Wilcox <willy@infradead.org>, Christoph Hellwig <hch@infradead.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@suse.cz>,
- linux-media@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- John Hubbard <jhubbard@nvidia.com>, linux-um@lists.infradead.org,
- etnaviv@lists.freedesktop.org, Alex Williamson <alex.williamson@redhat.com>,
- Peter Xu <peterx@redhat.com>, Muchun Song <songmuchun@bytedance.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
- Oded Gabbay <ogabbay@kernel.org>, linux-kernel@vger.kernel.org,
- Tomasz Figa <tfiga@chromium.org>, linux-perf-users@vger.kernel.org,
- linux-security-module@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
- Mike Kravetz <mike.kravetz@oracle.com>
+Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 28 Nov 2022 09:18:47 +0100 David Hildenbrand <david@redhat.com> wrote:
+On Tue, Nov 22, 2022 at 12:16 PM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> Ah, thanks a lot for this. I've already pushed the patches into our
+> internal branch, but getting this confirmation is still great!
+>
+> This was quite some fundamental bug in the handling and I hope to get
+> this completely reworked at some point since it is currently only mitigat=
+ed.
 
-> > Less chances of things going wrong that way.
-> > 
-> > Just mention in the v2 cover letter that the first patch was added to
-> > make it easy to backport that fix without being hampered by merge
-> > conflicts if it was added after your frame_vector.c patch.
-> 
-> Yes, that's the way I would naturally do, it, however, Andrew prefers 
-> delta updates for minor changes.
-> 
-> @Andrew, whatever you prefer!
+Looks like the final version of this patch successfully merged in 6.1-rc7.
+Big thanks, all games work again!
 
-I'm inclined to let things sit as they are.  Cross-tree conflicts
-happen, and Linus handles them.  I'll flag this (very simple) conflict
-in the pull request, if MM merges second.  If v4l merges second then
-hopefully they will do the same.  But this one is so simple that Linus
-hardly needs our help.
+> No idea what that could be. Modesetting is not something I work on.
+>
+> The best advice I can give you is to maybe ping Harry and our other
+> display people, they should know that stuff better than I do.
 
-But Linus won't be editing changelogs so that the changelog makes more
-sense after both trees are joined.  I'm inclined to let the changelog
-sit as it is as well.
+Unfortunately Harry didn't answer. I hope my email wasn't marked as spam.
+
+--=20
+Best Regards,
+Mike Gavrilov.
