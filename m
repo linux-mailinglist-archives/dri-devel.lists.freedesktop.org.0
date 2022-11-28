@@ -1,44 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48B6F63AF71
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 18:42:04 +0100 (CET)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D6C063AF7C
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 18:42:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 823EE10E319;
-	Mon, 28 Nov 2022 17:42:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B914A10E31A;
+	Mon, 28 Nov 2022 17:42:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F039B10E319
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 17:41:56 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B59BE10E31A
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 17:42:32 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id A17B7B80D1A;
- Mon, 28 Nov 2022 17:41:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35A8DC433C1;
- Mon, 28 Nov 2022 17:41:53 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 3EFCD61302;
+ Mon, 28 Nov 2022 17:42:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 148D4C433D6;
+ Mon, 28 Nov 2022 17:42:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1669657314;
- bh=3XCvpEUAde9L5rOVYJiM7GSuh5V/A6GXuarnYLuqMH0=;
+ s=k20201202; t=1669657351;
+ bh=dveRpISKQkJLWLShsA1cxUOfEv49ruwMA12/Y9PcmJ8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=i4k2UIrdRHo47FJJZRcvXMFrbguXYA2QUjyI1r0LkmEU3+hRZNvMM3C1yLaGifHuv
- +aWLBpoYM+FmreaSWGa9zGUY9hNQhJHBe+MmE1jRiBgsL0Ul8uHC+Z9uDUXFF+y/W8
- KPYugzAMwDN7ZaD0AILur9WD+Rq/9UJy2B/nkzrEeBywqtpNAankdN9KOiqutUCVE1
- 7Zhg0Ra8ZvNGIfPXua8vZ/OdEuYUEPNUMHO5UbXSNf8K1hzFmmeIt93dJxHd3jGgnY
- VT8NMXl6X7yCVVxA8wESN+gHSD/tm+MXtql1krtD4hYYSuzuRWJIAkJcqGdAOcj78M
- aG404APd6G0Yw==
+ b=X1Xu36tiG+fer2n6CM/k1YC7/YEHZReddTpOfv28pOid8fl6teCxs6VyO8g9pC6DX
+ MoTIXQmAFWDseL7pVv7B9aahuWTBCsLBamdEC3greg2kFIHjTNUSwaNnBm4b/Kz+bC
+ dTFMN3caqL9o/rol7Z/03qu4Kq746/HoD5Ou4+u98ipkzXOWylo3giYTAhgQSSPmNF
+ EOhHvtpqSmxT4p526TDXDX2MzveJS162Fs/u50jbjypMxT73JyN5ChGKZ2bVAsz4I2
+ czxL9zj8+HoJ7QAt4DnK4sMaeN7IZW1cqM1AaUNNtU/1Lr3/dPKowYtAwOlwdXFk1Q
+ 0S+HQ2w8Uz+Bg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 16/19] fbcon: Use kzalloc() in
- fbcon_prepare_logo()
-Date: Mon, 28 Nov 2022 12:41:16 -0500
-Message-Id: <20221128174120.1442235-16-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 14/16] fbcon: Use kzalloc() in fbcon_prepare_logo()
+Date: Mon, 28 Nov 2022 12:41:57 -0500
+Message-Id: <20221128174201.1442499-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221128174120.1442235-1-sashal@kernel.org>
-References: <20221128174120.1442235-1-sashal@kernel.org>
+In-Reply-To: <20221128174201.1442499-1-sashal@kernel.org>
+References: <20221128174201.1442499-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -136,10 +135,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index 2618d3beef64..27828435dd4f 100644
+index 4a544e1e2038..673af5937489 100644
 --- a/drivers/video/fbdev/core/fbcon.c
 +++ b/drivers/video/fbdev/core/fbcon.c
-@@ -609,7 +609,7 @@ static void fbcon_prepare_logo(struct vc_data *vc, struct fb_info *info,
+@@ -604,7 +604,7 @@ static void fbcon_prepare_logo(struct vc_data *vc, struct fb_info *info,
  		if (scr_readw(r) != vc->vc_video_erase_char)
  			break;
  	if (r != q && new_rows >= rows + logo_lines) {
