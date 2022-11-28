@@ -1,62 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CBC163AB60
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 15:44:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F28963AB94
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 15:51:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38EB110E1CE;
-	Mon, 28 Nov 2022 14:43:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54A9110E1ED;
+	Mon, 28 Nov 2022 14:51:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com
- [IPv6:2607:f8b0:4864:20::d32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF49710E1CE
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 14:43:48 +0000 (UTC)
-Received: by mail-io1-xd32.google.com with SMTP id r81so7720201iod.2
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 06:43:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
+ [IPv6:2607:f8b0:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8113610E1EB;
+ Mon, 28 Nov 2022 14:51:02 +0000 (UTC)
+Received: by mail-oi1-x22d.google.com with SMTP id v81so11791197oie.5;
+ Mon, 28 Nov 2022 06:51:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=S6L8RhRfV8VSXtRPH3xyzuQhldpf9D/TJSFNTl5XmzE=;
- b=CVJh8kUzolx1OUJGGpdg/lJPM96XGU/QBR/WAdFT6BsPewiq/a5tcwjVEjiuVeN9pb
- u+9flehiW4qFqTMbyORly/V20CeNK1R+k9RgTKNi35G4GtdW41hUkX4HjJWTCbEEwM/0
- aqzE6cOIJClwC+UdGPn9Ma0QLvh0bsKJgKFNc=
+ bh=BAhpgkWtb27JDtIM4e/PkuR3x636EOTJL8nQoLk+Uhk=;
+ b=aigTvy3KjmwUBIq0FoMsCdBItS1XdrRKOAbMxw7ewkc2VCZfNFguHxQKiTuxzWu2OQ
+ AQxLCqlxs0omEV1wNs8UfkdONjhXlKt50noagFx9LowJa4e1Xr/cyN7vwq0thqduIpLm
+ Up98KjvAMe2th89U0lQW5b15akHC6vrVbkxnLsazr6vT0AiGOeVJ/fENaLv7FdRk3VrE
+ 47cy4IqLT5aGNyrXsZNZNEyNERAfRWionWXldyvsQYbp0aVVIxWSClr5hhDJpsVJr/wb
+ uKURK246AMNyXiEQWpH9yWy+OM/C6qIkBfDxggLAHzgs31ZWGefd1uBpox04/mfQ8yPY
+ HZDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=S6L8RhRfV8VSXtRPH3xyzuQhldpf9D/TJSFNTl5XmzE=;
- b=FvwrJE6nJSewMokYw6m1qlCsnyECwXDh7h5h38+asmtK0/U6NXaCGdRm2EyGu6ZLTs
- gbrmrLoP3fCEKaz5tvLZL6pvg81tRWqkzSrm4gzqWNY9nUqXhVXgTNJo2idrXGM5trCC
- +IycmZidwXbLSyDFuDn8FJ39kkEET00HWDqSQMVmt7r9PR+YXsHfz0b/o+jwcWXr6+lE
- Ex14nia0ckHZue+uZQ4xmLlZYCtryps7Ggt6noxmY0wpTSkNX66fAk2CBKw0zlw7feFX
- O6kV18Cyt7LLqCFFLf6eUkmFTI4qqq6njkThxOBCRpi6e9gBTCayAnqAeLJUU4Q526TN
- Oung==
-X-Gm-Message-State: ANoB5plbIArAIpfC531CQWvPGrkXNgPGiXI3MapNdImKbC6T1kEe+C9y
- vDaXVIgj6gmP3YgCZyUNY5zxa/jUh+SJMy2/Gbd6qg==
-X-Google-Smtp-Source: AA0mqf5vRJvkAFzH7VGIyHUjlGgAv2lBjTLz5hLmAadd9Rhl1puEWwY2LuzVLPv0D1h21eak04UMa1TAgyxKU74rp+M=
-X-Received: by 2002:a05:6638:5aa:b0:363:bd7e:ce1c with SMTP id
- b10-20020a05663805aa00b00363bd7ece1cmr24944670jar.37.1669646627876; Mon, 28
- Nov 2022 06:43:47 -0800 (PST)
+ bh=BAhpgkWtb27JDtIM4e/PkuR3x636EOTJL8nQoLk+Uhk=;
+ b=0vUj/Ccn2usnaQ+bVUp7xbHD1zEp/Wh7MsGjP+mG/cYpVGfNID+WmIYwiqYY58g4wB
+ 7NsVCRw/lq2fmDS2KZk3xRWbsOhMNo7CzccIjLxgDfKM9YxlqwHEpTf086tjmv171+I/
+ AMVoFKS7jTIBAMJ2RhY1CF/mrb2uDUhtnivEslzLhh5OACAPZQ5cPHDMQ1RQd8klix/P
+ gpylazf18KQ4Ss4XEqGaP9N/Tf9VisUfJT9yWpO+VyaInvGSRjSZBR49vuwlI2uALkay
+ J08pqF/22JX2MkTw9dHpULOZK2K1RMdV89k+rY1Zos7dtZa9/xWqQ6Ia5URlOSq4XWqZ
+ DEfw==
+X-Gm-Message-State: ANoB5pnrkbIMUUg6cJtg6NmoPst9seeMlk/ELxV/XQfIOhsD2bdKv2Ae
+ XeL0orH4zdfowdXbh5VxoC1IYX3zgvXrCzKsIKwJbOnc
+X-Google-Smtp-Source: AA0mqf48AL1I4hFx/jyrt29KGiP2osdLGUitNy8F+Ahyzm5aat9b+ux3F5Il1tvN4v12K94/a0sulMbnkSB7dnCRdfU=
+X-Received: by 2002:a05:6808:9b8:b0:34f:97ea:14d with SMTP id
+ e24-20020a05680809b800b0034f97ea014dmr14834951oig.96.1669647061772; Mon, 28
+ Nov 2022 06:51:01 -0800 (PST)
 MIME-Version: 1.0
-References: <20221110183853.3678209-1-jagan@amarulasolutions.com>
- <20221110183853.3678209-7-jagan@amarulasolutions.com>
- <CGME20221117045817eucas1p1778503aa62ef18ef5ee0502d2189cd15@eucas1p1.samsung.com>
- <04fb17e2-1b55-fbd9-d846-da3e3da4edb8@denx.de>
- <f33142de-862e-9775-b1c9-b871bb9a243c@samsung.com>
- <b66b44fc-5d4c-d3a8-8538-79003b14691e@denx.de>
- <CAMty3ZBfAY86fp7XxS9frrBiT9FRkJaNSRY-4CVpqGOvdpn1fw@mail.gmail.com>
- <58671662-9242-c7ef-53ef-60f9cdc3399a@denx.de>
-In-Reply-To: <58671662-9242-c7ef-53ef-60f9cdc3399a@denx.de>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Mon, 28 Nov 2022 20:13:36 +0530
-Message-ID: <CAMty3ZDVZJ6TjKjtq9wSHudmeD+7O1vB_j0V1xKjYGWnwMKa6Q@mail.gmail.com>
-Subject: Re: [PATCH v8 06/14] drm: bridge: samsung-dsim: Handle proper DSI
- host initialization
-To: Marek Vasut <marex@denx.de>, Marek Szyprowski <m.szyprowski@samsung.com>
+References: <20220423193145.3301ed06@desktop>
+ <CADnq5_PXgFBXZ03LXE8qOdimzfKYGhzX1JnycJQcHWcMZdgJug@mail.gmail.com>
+ <Y4TGOb3UGmDslyYF@sqrt.uni.cx>
+In-Reply-To: <Y4TGOb3UGmDslyYF@sqrt.uni.cx>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 28 Nov 2022 09:50:50 -0500
+Message-ID: <CADnq5_NTyvZR16_N0TzMo3f9Mg6EwOuwuBgYzDA=U7tur7Fmnw@mail.gmail.com>
+Subject: Re: Screen corruption using radeon kernel driver
+To: Mikhail Krylov <sqarert@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,147 +66,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, Neil Armstrong <narmstrong@linaro.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Matteo Lisi <matteo.lisi@engicam.com>, Robert Foss <robert.foss@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, NXP Linux Team <linux-imx@nxp.com>,
- Fancy Fang <chen.fang@nxp.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-,On Sat, Nov 26, 2022 at 3:44 AM Marek Vasut <marex@denx.de> wrote:
+On Mon, Nov 28, 2022 at 9:31 AM Mikhail Krylov <sqarert@gmail.com> wrote:
 >
-> On 11/23/22 21:09, Jagan Teki wrote:
-> > On Sat, Nov 19, 2022 at 7:45 PM Marek Vasut <marex@denx.de> wrote:
-> >>
-> >> On 11/17/22 14:04, Marek Szyprowski wrote:
-> >>> On 17.11.2022 05:58, Marek Vasut wrote:
-> >>>> On 11/10/22 19:38, Jagan Teki wrote:
-> >>>>> DSI host initialization handling in previous exynos dsi driver has
-> >>>>> some pitfalls. It initializes the host during host transfer() hook
-> >>>>> that is indeed not the desired call flow for I2C and any other DSI
-> >>>>> configured downstream bridges.
-> >>>>>
-> >>>>> Host transfer() is usually triggered for downstream DSI panels or
-> >>>>> bridges and I2C-configured-DSI bridges miss these host initialization
-> >>>>> as these downstream bridges use bridge operations hooks like pre_enable,
-> >>>>> and enable in order to initialize or set up the host.
-> >>>>>
-> >>>>> This patch is trying to handle the host init handler to satisfy all
-> >>>>> downstream panels and bridges. Added the DSIM_STATE_REINITIALIZED state
-> >>>>> flag to ensure that host init is also done on first cmd transfer, this
-> >>>>> helps existing DSI panels work on exynos platform (form Marek
-> >>>>> Szyprowski).
-> >>>>>
-> >>>>> v8, v7, v6, v5:
-> >>>>> * none
-> >>>>>
-> >>>>> v4:
-> >>>>> * update init handling to ensure host init done on first cmd transfer
-> >>>>>
-> >>>>> v3:
-> >>>>> * none
-> >>>>>
-> >>>>> v2:
-> >>>>> * check initialized state in samsung_dsim_init
-> >>>>>
-> >>>>> v1:
-> >>>>> * keep DSI init in host transfer
-> >>>>>
-> >>>>> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> >>>>> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> >>>>> ---
-> >>>>>     drivers/gpu/drm/bridge/samsung-dsim.c | 25 +++++++++++++++++--------
-> >>>>>     include/drm/bridge/samsung-dsim.h     |  5 +++--
-> >>>>>     2 files changed, 20 insertions(+), 10 deletions(-)
-> >>>>>
-> >>>>> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c
-> >>>>> b/drivers/gpu/drm/bridge/samsung-dsim.c
-> >>>>> index bb1f45fd5a88..ec7e01ae02ea 100644
-> >>>>> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
-> >>>>> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-> >>>>> @@ -1234,12 +1234,17 @@ static void samsung_dsim_disable_irq(struct
-> >>>>> samsung_dsim *dsi)
-> >>>>>         disable_irq(dsi->irq);
-> >>>>>     }
-> >>>>>     -static int samsung_dsim_init(struct samsung_dsim *dsi)
-> >>>>> +static int samsung_dsim_init(struct samsung_dsim *dsi, unsigned int
-> >>>>> flag)
-> >>>>>     {
-> >>>>>         const struct samsung_dsim_driver_data *driver_data =
-> >>>>> dsi->driver_data;
-> >>>>>     +    if (dsi->state & flag)
-> >>>>> +        return 0;
-> >>>>> +
-> >>>>>         samsung_dsim_reset(dsi);
-> >>>>> -    samsung_dsim_enable_irq(dsi);
-> >>>>> +
-> >>>>> +    if (!(dsi->state & DSIM_STATE_INITIALIZED))
-> >>>>> +        samsung_dsim_enable_irq(dsi);
-> >>>>>           if (driver_data->reg_values[RESET_TYPE] == DSIM_FUNCRST)
-> >>>>>             samsung_dsim_enable_lane(dsi, BIT(dsi->lanes) - 1);
-> >>>>> @@ -1250,6 +1255,8 @@ static int samsung_dsim_init(struct
-> >>>>> samsung_dsim *dsi)
-> >>>>>         samsung_dsim_set_phy_ctrl(dsi);
-> >>>>>         samsung_dsim_init_link(dsi);
-> >>>>>     +    dsi->state |= flag;
-> >>>>> +
-> >>>>>         return 0;
-> >>>>>     }
-> >>>>>     @@ -1269,6 +1276,10 @@ static void
-> >>>>> samsung_dsim_atomic_pre_enable(struct drm_bridge *bridge,
-> >>>>>         }
-> >>>>>           dsi->state |= DSIM_STATE_ENABLED;
-> >>>>> +
-> >>>>> +    ret = samsung_dsim_init(dsi, DSIM_STATE_INITIALIZED);
-> >>>>> +    if (ret)
-> >>>>> +        return;
-> >>>>>     }
-> >>>>>       static void samsung_dsim_atomic_enable(struct drm_bridge *bridge,
-> >>>>> @@ -1458,12 +1469,9 @@ static ssize_t
-> >>>>> samsung_dsim_host_transfer(struct mipi_dsi_host *host,
-> >>>>>         if (!(dsi->state & DSIM_STATE_ENABLED))
-> >>>>>             return -EINVAL;
-> >>>>>     -    if (!(dsi->state & DSIM_STATE_INITIALIZED)) {
-> >>>>> -        ret = samsung_dsim_init(dsi);
-> >>>>> -        if (ret)
-> >>>>> -            return ret;
-> >>>>> -        dsi->state |= DSIM_STATE_INITIALIZED;
-> >>>>> -    }
-> >>>>> +    ret = samsung_dsim_init(dsi, DSIM_STATE_REINITIALIZED);
-> >>>>
-> >>>> This triggers full controller reset and reprogramming upon first
-> >>>> command transfer, is such heavy handed reload really necessary ?
-> >>>
-> >>> Yes it is, otherwise the proper DSI panels doesn't work with Exynos DRM
-> >>> DSI. If this is a real issue for you, then maybe the driver could do the
-> >>> initialization conditionally, in prepare() callback in case of IMX and
-> >>> on the first transfer in case of Exynos?
-> >>
-> >> That's odd , it does actually break panel support for me, without this
-> >> double reset the panel works again. But I have to wonder, why would such
-> >> a full reset be necessary at all , even on the exynos ?
+> On Mon, Apr 25, 2022 at 01:22:04PM -0400, Alex Deucher wrote:
+> > + dri-devel
 > >
-> > Is it breaking samsung_dsim_reset from host_transfer? maybe checking
-> > whether a reset is required before calling it might fix the issue.  I
-> > agree with double initialization is odd but it seems it is required on
-> > some panels in Exynos, I think tweaking them and adjusting the panel
-> > code might resolve this discrepancy.
+> > On Mon, Apr 25, 2022 at 3:33 AM Krylov Michael <sqarert@gmail.com> wrote:
+> > >
+> > > Hello!
+> > >
+> > > After updating my Linux kernel from version 4.19 (Debian 10 version) to
+> > > 5.10 (packaged with Debian 11), I've noticed that the image
+> > > displayed on my older computer, 32-bit Pentium 4 using ATI Radeon X1950
+> > > AGP video card is severely corrupted in the graphical (Xorg and Wayland)
+> > > mode: all kinds of black and white stripes across the screen, some
+> > > letters missing, etc.
+> > >
+> > > I've checked several options (Xorg drivers, Wayland instead of
+> > > Xorg, radeon.agpmode=-1 in kernel command line and so on), but the
+> > > problem persisted. I've managed to find that the problem was in the
+> > > kernel, as everything worked well with 4.19 kernel with everything
+> > > else being from Debian 11.
+> > >
+> > > I have managed to find the culprit of that corruption, that is the
+> > > commit 33b3ad3788aba846fc8b9a065fe2685a0b64f713 on the linux kernel.
+> > > Reverting this commit and building the kernel with that commit reverted
+> > > fixes the problem. Disabling HIMEM also gets rid of that problem. But it
+> > > also leaves the system with less that 1G of RAM, which is, of course,
+> > > undesirable.
+> > >
+> > > Apparently this problem is somewhat known, as I can tell after googling
+> > > for the commit id, see this link for example:
+> > > https://lkml.org/lkml/2020/1/9/518
+> > >
+> > > Mageia distro, for example, reverted this commit in the kernel they are
+> > > building:
+> > >
+> > > http://sophie.zarb.org/distrib/Mageia/7/i586/by-pkgid/b9193a4f85192bc57f4d770fb9bb399c/files/32
+> > >
+> > > I've reported this bug to Debian bugtracker, checked the recent verion
+> > > of the kernel (5.17), bug still persists. Here's a link to the Debian
+> > > bug page:
+> > >
+> > > https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=993670
+> > >
+> > > I'm not sure if reverting this commit is the correct way to go, so if
+> > > you need to check any changes/patches that I could apply and test on
+> > > the real hardware, I'll be glad to do that (but please keep in mind
+> > > that testing could take some time, I don't have access to this computer
+> > > 24/7, but I'll do my best to respond ASAP).
+> >
+> > I would be happy to revert that commit.  I attempted to revert it a
+> > year or so ago, but Christoph didn't want to.  He was going to look
+> > further into it.  I was not able to repro the issue.  It seemed to be
+> > related to highmem support.  You might try disabling that.  Here is
+> > the previous thread for reference:
+> > https://lists.freedesktop.org/archives/amd-gfx/2020-September/053922.html
+> >
+> > Alex
 >
-> Can someone provide further details on the exynos problem ?
+> So, is there any progress on this issue? I do understand it's not a high
+> priority one, and today I've checked it on 6.0 kernel, and
+> unfortunately, it still persists...
+>
+> I'm considering writing a patch that will allow user to override
+> need_dma32/dma_bits setting with a module parameter. I'll have some time
+> after the New Year for that.
+>
+> Is it at all possible that such a patch will be merged into kernel?
 
-If I'm correct this sequence is required in order to work the existing
-panel/bridges on exynos. Adjusting these panel/bridge codes can
-possibly fix the sequence further.
+Unless someone familiar with HIMEM can figure out what is going wrong
+we should just revert the patch.
 
-Marek Szyprowski, please add if you have anything.
-
-Jagan.
+Alex
