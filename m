@@ -1,50 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BE7863B3AB
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 21:48:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEEC963B518
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 23:59:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48A8A10E33C;
-	Mon, 28 Nov 2022 20:48:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E71D10E24A;
+	Mon, 28 Nov 2022 22:59:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69BD010E33C
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 20:48:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Jz2hvAT/K6kCHF/STG2fHRhRhklQMEYtVkKxZL0G/yU=; b=ZNh1cCs+OiKgGuoJs5FtQ/uRs5
- hVRJoqFiqAPIHwkJvEstX0NjVH85b+in8BuqEhg5H6wrrm7NyilFdlV2xnWJXKYZtuuVxriI7wexm
- dDL11fSvBT8hhLmBgJLrmn8Pj6ZjMLNLKKywJK+l4SDW6SvGtcAZfdjarNnrN75zeYdqGexm7XNdA
- HS8AcxKqDpuHdUoujTpZ6zcVX1BGib3UgVFcRZJhwmDGQbx4gfa24oCd1QPt2ZaOBglpf55SZYuRh
- zpUV4hC/JMvYU+XczsOekT86Mrll6hv86e1RFBqMLRl9RS7S0DJoVRPBaddiihnOtTZVped+TX70j
- yp7h0p6g==;
-Received: from [177.34.169.227] (helo=[192.168.0.8])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1ozl2x-00AcwT-CJ; Mon, 28 Nov 2022 21:48:11 +0100
-Message-ID: <9b321967-917c-0afd-0483-7c5d72479f0e@igalia.com>
-Date: Mon, 28 Nov 2022 17:48:02 -0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v2 00/17] drm: Introduce Kunit Tests to VC4
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-References: <20221123-rpi-kunit-tests-v2-0-efe5ed518b63@cerno.tech>
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20221123-rpi-kunit-tests-v2-0-efe5ed518b63@cerno.tech>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9ED5110E24A;
+ Mon, 28 Nov 2022 22:59:34 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 7ACDFCE109D;
+ Mon, 28 Nov 2022 22:59:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A99DC433D6;
+ Mon, 28 Nov 2022 22:59:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+ s=korg; t=1669676369;
+ bh=8eUsQnXrojDc3xf/FA0TCQqqadaNCz4PLnjHT4xDE/M=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=p/c6sfRX9un7PSA9WHRKHQPKKlq0P4NHxZWk+3LaBZS7DQenvFmjKk0jQBgH6o535
+ rwsyByROkiEJmDN58P/Z53hmZWo4xmybXT0VaPtvGqyQZyuQQjThzncIMjLPHHFdpc
+ 3v4hl13h6A47jhJOM5850oDp2I/9vqahh0Q1uqps=
+Date: Mon, 28 Nov 2022 14:59:27 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH mm-unstable v1 16/20] mm/frame-vector: remove FOLL_FORCE
+ usage
+Message-Id: <20221128145927.df895bf1966cfa125cae9668@linux-foundation.org>
+In-Reply-To: <9d0bf98a-3d6a-1082-e992-1338e1525935@redhat.com>
+References: <20221116102659.70287-1-david@redhat.com>
+ <20221116102659.70287-17-david@redhat.com>
+ <81fb0fa3-2e06-b765-56ac-a7d981194e59@redhat.com>
+ <08b65ac6-6786-1080-18f8-d2be109c85fc@xs4all.nl>
+ <9d0bf98a-3d6a-1082-e992-1338e1525935@redhat.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,140 +54,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Gow <davidgow@google.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Brendan Higgins <brendan.higgins@linux.dev>, linux-kselftest@vger.kernel.org,
- kunit-dev@googlegroups.com, linux-media@vger.kernel.org
+Cc: linux-ia64@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ Hans Verkuil <hverkuil@xs4all.nl>, linux-mm@kvack.org,
+ Nadav Amit <namit@vmware.com>, linux-kselftest@vger.kernel.org,
+ sparclinux@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Andrea Arcangeli <aarcange@redhat.com>, linux-samsung-soc@vger.kernel.org,
+ linux-rdma@vger.kernel.org, x86@kernel.org, Hugh Dickins <hughd@google.com>,
+ Matthew Wilcox <willy@infradead.org>, Christoph Hellwig <hch@infradead.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@suse.cz>,
+ linux-media@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ John Hubbard <jhubbard@nvidia.com>, linux-um@lists.infradead.org,
+ etnaviv@lists.freedesktop.org, Alex Williamson <alex.williamson@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Muchun Song <songmuchun@bytedance.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ Oded Gabbay <ogabbay@kernel.org>, linux-kernel@vger.kernel.org,
+ Tomasz Figa <tfiga@chromium.org>, linux-perf-users@vger.kernel.org,
+ linux-security-module@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
+ Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/28/22 11:53, Maxime Ripard wrote:
-> Hi,
-> 
-> This series introduce Kunit tests to the vc4 KMS driver, but unlike what we
-> have been doing so far in KMS, it actually tests the atomic modesetting code.
-> 
-> In order to do so, I've had to improve a fair bit on the Kunit helpers already
-> found in the tree in order to register a full blown and somewhat functional KMS
-> driver.
-> 
-> It's of course relying on a mock so that we can test it anywhere. The mocking
-> approach created a number of issues, the main one being that we need to create
-> a decent mock in the first place, see patch 22. The basic idea is that I
-> created some structures to provide a decent approximation of the actual
-> hardware, and that would support both major architectures supported by vc4.
-> 
-> This is of course meant to evolve over time and support more tests, but I've
-> focused on testing the HVS FIFO assignment code which is fairly tricky (and the
-> tests have actually revealed one more bug with our current implementation). I
-> used to have a userspace implementation of those tests, where I would copy and
-> paste the kernel code and run the tests on a regular basis. It's was obviously
-> fairly suboptimal, so it seemed like the perfect testbed for that series.
-> 
-> It can be run using:
-> ./tools/testing/kunit/kunit.py run \
->         --kunitconfig=drivers/gpu/drm/vc4/tests/.kunitconfig \
->         --cross_compile aarch64-linux-gnu- --arch arm64
-> 
-> Let me know what you think,
-> Maxime
+On Mon, 28 Nov 2022 09:18:47 +0100 David Hildenbrand <david@redhat.com> wrote:
 
-Hi Maxime,
+> > Less chances of things going wrong that way.
+> > 
+> > Just mention in the v2 cover letter that the first patch was added to
+> > make it easy to backport that fix without being hampered by merge
+> > conflicts if it was added after your frame_vector.c patch.
+> 
+> Yes, that's the way I would naturally do, it, however, Andrew prefers 
+> delta updates for minor changes.
+> 
+> @Andrew, whatever you prefer!
 
-It is great to see some device mocking with KUnit! Other than the
-comments that I pointed out in the series, I believe that a small entry
-on the VC4 documentation would be nice to cover how to run the tests and
-also what the tests are currently covering.
+I'm inclined to let things sit as they are.  Cross-tree conflicts
+happen, and Linus handles them.  I'll flag this (very simple) conflict
+in the pull request, if MM merges second.  If v4l merges second then
+hopefully they will do the same.  But this one is so simple that Linus
+hardly needs our help.
 
-Best Regards,
-- Maíra Canal
-
-> 
-> To: David Airlie <airlied@gmail.com>
-> To: Daniel Vetter <daniel@ffwll.ch>
-> To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> To: Maxime Ripard <mripard@kernel.org>
-> To: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Maíra Canal <mairacanal@riseup.net>
-> Cc: Brendan Higgins <brendan.higgins@linux.dev>
-> Cc: David Gow <davidgow@google.com>
-> Cc: linux-kselftest@vger.kernel.org
-> Cc: kunit-dev@googlegroups.com
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> 
-> ---
-> Changes in v2:
-> - Added some documentation for public functions
-> - Removed the fake device probe/remove workqueue 
-> - Made sure the tests could be compiled as modules
-> - Moved the vc4 tests in the vc4 module
-> - Applied some of the preliminary patches
-> - Rebased on top of current drm-misc-next branch
-> - Fixed checkpatch issues
-> - Introduced BCM2835 (Pi0-3) tests for muxing
-> - Introduced tests to cover past bugs we had
-> - Link to v1: https://lore.kernel.org/r/20221123-rpi-kunit-tests-v1-0-051a0bb60a16@cerno.tech
-> 
-> ---
-> Maxime Ripard (17):
->       drm/tests: helpers: Move the helper header to include/drm
->       drm/tests: helpers: Document drm_kunit_device_init()
->       drm/tests: helpers: Rename the device init helper
->       drm/tests: helpers: Remove the name parameter
->       drm/tests: helpers: Create the device in another function
->       drm/tests: helpers: Switch to a platform_device
->       drm/tests: helpers: Make sure the device is bound
->       drm/tests: helpers: Allow for a custom device struct to be allocated
->       drm/tests: helpers: Allow to pass a custom drm_driver
->       drm/tests: Add a test for DRM managed actions
->       drm/vc4: Move HVS state to main header
->       drm/vc4: crtc: Introduce a lower-level crtc init helper
->       drm/vc4: crtc: Make encoder lookup helper public
->       drm/vc4: hvs: Provide a function to initialize the HVS structure
->       drm/vc4: tests: Introduce a mocking infrastructure
->       drm/vc4: tests: Fail the current test if we access a register
->       drm/vc4: tests: Add unit test suite for the PV muxing
-> 
->  drivers/gpu/drm/tests/Makefile                  |    1 +
->  drivers/gpu/drm/tests/drm_client_modeset_test.c |   19 +-
->  drivers/gpu/drm/tests/drm_kunit_helpers.c       |  106 ++-
->  drivers/gpu/drm/tests/drm_kunit_helpers.h       |   11 -
->  drivers/gpu/drm/tests/drm_managed_test.c        |   71 ++
->  drivers/gpu/drm/tests/drm_modes_test.c          |   19 +-
->  drivers/gpu/drm/tests/drm_probe_helper_test.c   |   20 +-
->  drivers/gpu/drm/vc4/Kconfig                     |   15 +
->  drivers/gpu/drm/vc4/Makefile                    |    7 +
->  drivers/gpu/drm/vc4/tests/.kunitconfig          |   14 +
->  drivers/gpu/drm/vc4/tests/vc4_mock.c            |  200 +++++
->  drivers/gpu/drm/vc4/tests/vc4_mock.h            |   63 ++
->  drivers/gpu/drm/vc4/tests/vc4_mock_crtc.c       |   41 +
->  drivers/gpu/drm/vc4/tests/vc4_mock_output.c     |  138 +++
->  drivers/gpu/drm/vc4/tests/vc4_mock_plane.c      |   47 +
->  drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c  | 1039 +++++++++++++++++++++++
->  drivers/gpu/drm/vc4/vc4_crtc.c                  |  102 ++-
->  drivers/gpu/drm/vc4/vc4_dpi.c                   |   13 +-
->  drivers/gpu/drm/vc4/vc4_drv.c                   |    4 +-
->  drivers/gpu/drm/vc4/vc4_drv.h                   |   91 +-
->  drivers/gpu/drm/vc4/vc4_dsi.c                   |    9 +-
->  drivers/gpu/drm/vc4/vc4_hdmi_regs.h             |    4 +
->  drivers/gpu/drm/vc4/vc4_hvs.c                   |   81 +-
->  drivers/gpu/drm/vc4/vc4_kms.c                   |   25 +-
->  drivers/gpu/drm/vc4/vc4_txp.c                   |   15 +-
->  drivers/gpu/drm/vc4/vc4_vec.c                   |   13 +-
->  include/drm/drm_kunit_helpers.h                 |   91 ++
->  27 files changed, 2087 insertions(+), 172 deletions(-)
-> ---
-> base-commit: 199557fab92548f8e9d5207e385097213abe0cab
-> change-id: 20221123-rpi-kunit-tests-87a388492a73
-> 
-> Best regards,
+But Linus won't be editing changelogs so that the changelog makes more
+sense after both trees are joined.  I'm inclined to let the changelog
+sit as it is as well.
