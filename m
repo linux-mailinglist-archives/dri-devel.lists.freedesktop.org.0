@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8057163ABAE
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 15:57:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8936563ABB0
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 15:57:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54E7210E1F2;
-	Mon, 28 Nov 2022 14:56:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCB0810E1FE;
+	Mon, 28 Nov 2022 14:57:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com
  [64.147.123.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC52A10E1F2
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 14:56:47 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id D85892B04FDA;
- Mon, 28 Nov 2022 09:56:43 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A0E010E1FD
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 14:56:54 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.west.internal (Postfix) with ESMTP id 78E8E2B05E69;
+ Mon, 28 Nov 2022 09:56:50 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 28 Nov 2022 09:56:47 -0500
+ by compute3.internal (MEProxy); Mon, 28 Nov 2022 09:56:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1669647403; x=
- 1669654603; bh=bR9fIsm10MS5O+pzDM9Ri2oe+3Jilb/0tnPd4bxLFgk=; b=D
- 0CLvOrtBphX47ypRLkLRwWwJubLgoi0ZzUrIHRZJhINsyWDT50Cl05Dp8gXkBcNl
- 4qT0DdzI1SclQhpl8z3DJHM0hT7f8gdS27A4rvzeoMQpaKzCH3AUX8UT51Y+1QFM
- aROJfbJbzG8f0bfqLP1YxcjTWk36ZYx4bovZA7Jcqi8eSsXC6K/o5/GiG/sjZ4tL
- aH8e7r9DcXSgL+8oSGWHbcXcc6MqbTL7nAHhsHR1wHJ4euvXooV5IEJG8zBmrToP
- tQu/4QWNg8QkgXOtRIj/+Zi7hc6eR5yilXxgR1KzOXo41Bd3DdOG6m2s4UUpMrB8
- DTC61vgtVSTRetfu9cVMA==
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1669647409; x=
+ 1669654609; bh=r4wyq7sl8aa6ItiwQGpdBwUH7JyunxFI+HYhTKhPSZg=; b=T
+ 8cfvyz2yszH5gWAp4dxgINOEhmIsggAMo534a5tBcGxhSnlxsslQPpkFPYqx0509
+ YxzGF26XAiUPW4FzlkJpb3ORFTHetPKgljSdK9MLHdub+ZMhd9119zdk+h7Ax20u
+ o1U1sNScOni0y8jWSuvN6zFz6Sx3J8d8tWwzyy1lNRxDC/MP/w/JIgSNlWt6Qewc
+ /fdOaQqn2jZpnWlOLttL0pdwhQn98U/3I1wKMu7fCoG0ZgbBDJErcn3rkMCMMc2b
+ I+KYzjXKNg004hLs3OTeRt1G1c+DtsNaibBHXhwvNLNY79KCDc35zMKCU4Pw1Hfy
+ yJd/JN4GnIWeIAGEtznhQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1669647403; x=
- 1669654603; bh=bR9fIsm10MS5O+pzDM9Ri2oe+3Jilb/0tnPd4bxLFgk=; b=w
- wIbc55G2fID3SU+U7tVxScuIBjDMwRFCYuP3uSs3YHEv6f/THPEs/YfwqINKFVFk
- S+lcM9Y32fo9roan8YxgXTVKbn1xy2Ag2NR4lr9q7SB9SqZjL/khSdf6U15CJRDb
- +fcvQ7SgWSXci6If37zkT7dd79F+sM5+ZF7MIAO913ZVVhXHoR31BJ1ctM5VBhBI
- BeU5IVHk5QkYodpFbOxP5PZzCx0dPheMMFQvJEuhn1VOSS7oT79TXRh1G90gCfQC
- W5YqO0XilOs4BLTFtG+iUxaTB0xUwEPiP9QsDI0sNWsxg6i35e1rix0hzoyOgFUU
- qplA/X0xPdpp4PU78YZBA==
-X-ME-Sender: <xms:K8yEY8ehu3jn0GxHz3kntWF_5b9fJCEM4SKPGFmuQCTWDARnZhzofg>
- <xme:K8yEY-PHpvgQpDl0fFaFos06Sy0gmjNmWvVIHiqAHCBIZ3LdGZwqwyo8I2inVQ87p
- 7nsyBttiawKLwvnnEs>
-X-ME-Received: <xmr:K8yEY9hlPc2y5us4ecgxhxfRu7NnG-1HBY85fmT8ofm0bCbllih9VePbnTYrwXQBK481d3Xyibz93E3MUTJSHQkTPus70i9ODzWyFkrZ0gUi1w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrjedvgdejudcutefuodetggdotefrodftvf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1669647409; x=
+ 1669654609; bh=r4wyq7sl8aa6ItiwQGpdBwUH7JyunxFI+HYhTKhPSZg=; b=o
+ WV4BSDT2eqIM/vI60kW4jfU9eQy49V/7WsuV7OJywS0gciY3ntrDOUYhxVtSoAJj
+ wcBxKHx7mNAzlYWkQF6aHi1pXXpDPHB1helhRguKxVXnqOnkI/pwXoO53ViuR/OT
+ XDlgtLLW7uw8rH7DLVmBUsmRsZAv6ZHTz8zt7aLYZRGmPUXy0585NUqY4v4v+ILF
+ ZIluCgDH+WApOQEyup/NA581vogQC7yWOV0Lk1B37A/0i3ONVJrPDJtrnxjoBqu7
+ VM5aHDs1Cvajqjfu+nQyJMv85FcwkASQn1CDRA7vQfqdTB76WfoaGE3+BC3B/DMx
+ HHd/3M6SD/NXOXPN5gmsA==
+X-ME-Sender: <xms:McyEY7zHcqAfWHH-dOfCj0G50I6V4wHNOgO6AeUevzXV0bPf65-L9g>
+ <xme:McyEYzQPmOEOTZwZjsanRwg88r6Awj1jYNPsnrcdTKum3IOszpvLWWdP3v9XrPVsA
+ -oClq14WBNENNIy8rE>
+X-ME-Received: <xmr:McyEY1WJt77jClAmtxhHQepc4BikiWOeBG3lXUL41o_hA2HtyZBtK_9JRAJ7WDZgU8foSneBcgs355_VE0Prkqacv-TKyKXKRXLIYykrOcHyTg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrjedvgdejvdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhfffugggtgffkfhgjvfevofesthekredtredtjeenucfhrhhomhepofgrgihi
@@ -54,20 +54,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrjedvgdejudcutefuodetggdote
  htthgvrhhnpeduudduhfevjeetfeegvdffvdevvdejudegudekjeehtdelhfffveethfej
  ledtveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:K8yEYx_ZpwRVNyJt6b7Xe4Ovh1rEvUrc4HnX-0vs7pO7f0J0VgwqpQ>
- <xmx:K8yEY4sQYQ88Y9nXEx2CwH5moKziM5T7qP21Z3kzqUWhb9c3Nyd-vA>
- <xmx:K8yEY4GJOwyLdGB__hFOHlLzJCIGdT8eynYfkxC4pGlxA4QHqoiLgA>
- <xmx:K8yEY_MAkq3GjNWuLbvamdcgxNcx_JUacjd8cADDxlskce6z-qXtVNfl5NM>
+X-ME-Proxy: <xmx:McyEY1hDx64a-ik3wmbDyaRW83N2mNvACCs4TQ_04fpUQ5JHw3Enaw>
+ <xmx:McyEY9CAvBK93PaowwskdR_DfVEyxutSdfsx-sT_-qUOpcsqyi3X6w>
+ <xmx:McyEY-JUpPZOytMRGFWAYUdfqi9y2JSKHcqzH8LxyKesa5aMtDMz1w>
+ <xmx:McyEY1grSGLi7L7lIOMaS3gt4DCm-WAnbQubxqR9RHWVSRcLKO0g_fPJCWU>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 28 Nov 2022 09:56:42 -0500 (EST)
+ 28 Nov 2022 09:56:48 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Mon, 28 Nov 2022 15:53:31 +0100
-Subject: [PATCH v2 02/17] drm/tests: helpers: Document drm_kunit_device_init()
+Date: Mon, 28 Nov 2022 15:53:32 +0100
+Subject: [PATCH v2 03/17] drm/tests: helpers: Rename the device init helper
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20221123-rpi-kunit-tests-v2-2-efe5ed518b63@cerno.tech>
+Message-Id: <20221123-rpi-kunit-tests-v2-3-efe5ed518b63@cerno.tech>
 References: <20221123-rpi-kunit-tests-v2-0-efe5ed518b63@cerno.tech>
 In-Reply-To: <20221123-rpi-kunit-tests-v2-0-efe5ed518b63@cerno.tech>
 To: Daniel Vetter <daniel@ffwll.ch>,
@@ -75,11 +75,11 @@ To: Daniel Vetter <daniel@ffwll.ch>,
  Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
  Thomas Zimmermann <tzimmermann@suse.de>
 X-Mailer: b4 0.11.0-dev-d416f
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1506; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=OBe11HrZ3kVuHpwrCmupAo/u8B+NBmoTDXYW339k0v0=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMktp0sD0i50/c/btf6Eos0PC66UcJ6C656PPpfffvokjauc
- Y8nNjhIWBjEuBlkxRZYYYfMlcadmve5k45sHM4eVCWQIAxenAEykSofhx5q5NlZCEjrKH9xfzzX8mb
- iPOzxjoeKyXWaMIUsipbn8GP6HCBTPOLlj09XlyZsSp7s9e/T2sDb3IYuec2rfe8x2FnLyAAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4490; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=vD5DXkQ3GnI3dQltbk4BAkZD+MnCCMo6MRogkmsmCWk=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMktp8v4NT4XW8xzXNQ39WJ07OunfyW2/u6aJKxSwPNjnaFc
+ 8oy5HaUsDGJcDLJiiiwxwuZL4k7Net3JxjcPZg4rE8gQBi5OAZiI+V9GhvsTXFq7Leb3TrKYFbFi+s
+ 6KF49rtd+vtP/zwfZb6KtT2zcz/BXUsbrPIKjTNYF1HdvanPOBirZd77e0Ju9de+rtK462D1wA
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -98,43 +98,111 @@ Cc: David Gow <davidgow@google.com>, Maíra Canal <mairacanal@riseup.net>, Greg 
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 44a3928324e9 ("drm/tests: Add Kunit Helpers") introduced the
-drm_kunit_device_init() function but didn't document it properly. Add
-that documentation.
+The name doesn't really fit the conventions for the other helpers in
+DRM/KMS, so let's rename it to make it obvious that we allocate a new
+DRM device.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/tests/drm_kunit_helpers.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ drivers/gpu/drm/tests/drm_client_modeset_test.c | 3 ++-
+ drivers/gpu/drm/tests/drm_kunit_helpers.c       | 8 +++++---
+ drivers/gpu/drm/tests/drm_modes_test.c          | 3 ++-
+ drivers/gpu/drm/tests/drm_probe_helper_test.c   | 5 +++--
+ include/drm/drm_kunit_helpers.h                 | 5 ++++-
+ 5 files changed, 16 insertions(+), 8 deletions(-)
 
+diff --git a/drivers/gpu/drm/tests/drm_client_modeset_test.c b/drivers/gpu/drm/tests/drm_client_modeset_test.c
+index ed2f62e92fea..6cdf08f582ce 100644
+--- a/drivers/gpu/drm/tests/drm_client_modeset_test.c
++++ b/drivers/gpu/drm/tests/drm_client_modeset_test.c
+@@ -59,7 +59,8 @@ static int drm_client_modeset_test_init(struct kunit *test)
+ 
+ 	test->priv = priv;
+ 
+-	priv->drm = drm_kunit_device_init(test, DRIVER_MODESET, "drm-client-modeset-test");
++	priv->drm = drm_kunit_helper_alloc_drm_device(test, DRIVER_MODESET,
++						      "drm-client-modeset-test");
+ 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv->drm);
+ 
+ 	ret = drmm_connector_init(priv->drm, &priv->connector,
 diff --git a/drivers/gpu/drm/tests/drm_kunit_helpers.c b/drivers/gpu/drm/tests/drm_kunit_helpers.c
-index 6600a4db3158..46a68c2fd80c 100644
+index 46a68c2fd80c..2f67f6cf78d0 100644
 --- a/drivers/gpu/drm/tests/drm_kunit_helpers.c
 +++ b/drivers/gpu/drm/tests/drm_kunit_helpers.c
-@@ -35,6 +35,23 @@ static void dev_free(struct kunit_resource *res)
- 	root_device_unregister(dev);
+@@ -36,7 +36,7 @@ static void dev_free(struct kunit_resource *res)
  }
  
-+/**
-+ * drm_kunit_device_init - Allocates a mock DRM device for Kunit tests
-+ * @test: The test context object
-+ * @features: Mocked DRM device driver features
-+ * @name: Name of the struct &device to allocate
-+ *
-+ * This function allocates a new struct &device, creates a struct
-+ * &drm_driver and will create a struct &drm_device using both.
-+ *
-+ * The device and driver are tied to the @test context and will get
-+ * cleaned at the end of the test. The drm_device is allocated through
-+ * devm_drm_dev_alloc() and will thus be freed through a device-managed
-+ * resource.
-+ *
-+ * Returns:
-+ * A pointer to the new drm_device, or an ERR_PTR() otherwise.
-+ */
- struct drm_device *drm_kunit_device_init(struct kunit *test, u32 features, char *name)
+ /**
+- * drm_kunit_device_init - Allocates a mock DRM device for Kunit tests
++ * drm_kunit_helper_alloc_drm_device - Allocates a mock DRM device for Kunit tests
+  * @test: The test context object
+  * @features: Mocked DRM device driver features
+  * @name: Name of the struct &device to allocate
+@@ -52,7 +52,9 @@ static void dev_free(struct kunit_resource *res)
+  * Returns:
+  * A pointer to the new drm_device, or an ERR_PTR() otherwise.
+  */
+-struct drm_device *drm_kunit_device_init(struct kunit *test, u32 features, char *name)
++struct drm_device *
++drm_kunit_helper_alloc_drm_device(struct kunit *test,
++				  u32 features, char *name)
  {
  	struct kunit_dev *kdev;
+ 	struct drm_device *drm;
+@@ -82,7 +84,7 @@ struct drm_device *drm_kunit_device_init(struct kunit *test, u32 features, char
+ 
+ 	return drm;
+ }
+-EXPORT_SYMBOL(drm_kunit_device_init);
++EXPORT_SYMBOL(drm_kunit_helper_alloc_drm_device);
+ 
+ MODULE_AUTHOR("Maxime Ripard <maxime@cerno.tech>");
+ MODULE_LICENSE("GPL");
+diff --git a/drivers/gpu/drm/tests/drm_modes_test.c b/drivers/gpu/drm/tests/drm_modes_test.c
+index 3953e478c4d0..6723089dff9f 100644
+--- a/drivers/gpu/drm/tests/drm_modes_test.c
++++ b/drivers/gpu/drm/tests/drm_modes_test.c
+@@ -22,7 +22,8 @@ static int drm_test_modes_init(struct kunit *test)
+ 	priv = kunit_kzalloc(test, sizeof(*priv), GFP_KERNEL);
+ 	KUNIT_ASSERT_NOT_NULL(test, priv);
+ 
+-	priv->drm = drm_kunit_device_init(test, DRIVER_MODESET, "drm-modes-test");
++	priv->drm = drm_kunit_helper_alloc_drm_device(test, DRIVER_MODESET,
++						      "drm-modes-test");
+ 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv->drm);
+ 
+ 	test->priv = priv;
+diff --git a/drivers/gpu/drm/tests/drm_probe_helper_test.c b/drivers/gpu/drm/tests/drm_probe_helper_test.c
+index 1f3941c150ae..85236ff4744f 100644
+--- a/drivers/gpu/drm/tests/drm_probe_helper_test.c
++++ b/drivers/gpu/drm/tests/drm_probe_helper_test.c
+@@ -39,8 +39,9 @@ static int drm_probe_helper_test_init(struct kunit *test)
+ 	KUNIT_ASSERT_NOT_NULL(test, priv);
+ 	test->priv = priv;
+ 
+-	priv->drm = drm_kunit_device_init(test, DRIVER_MODESET | DRIVER_ATOMIC,
+-					  "drm-probe-helper-test");
++	priv->drm = drm_kunit_helper_alloc_drm_device(test,
++						      DRIVER_MODESET | DRIVER_ATOMIC,
++						      "drm-probe-helper-test");
+ 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv->drm);
+ 
+ 	connector = &priv->connector;
+diff --git a/include/drm/drm_kunit_helpers.h b/include/drm/drm_kunit_helpers.h
+index 20ab6eec4c89..e9870c7911fe 100644
+--- a/include/drm/drm_kunit_helpers.h
++++ b/include/drm/drm_kunit_helpers.h
+@@ -6,6 +6,9 @@
+ struct drm_device;
+ struct kunit;
+ 
+-struct drm_device *drm_kunit_device_init(struct kunit *test, u32 features, char *name);
++struct drm_device *
++drm_kunit_helper_alloc_drm_device(struct kunit *test,
++				  u32 features,
++				  char *name);
+ 
+ #endif // DRM_KUNIT_HELPERS_H_
 
 -- 
 2.38.1-b4-0.11.0-dev-d416f
