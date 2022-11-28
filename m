@@ -1,59 +1,86 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F28963AB94
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 15:51:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1278063ABAA
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 15:56:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54A9110E1ED;
-	Mon, 28 Nov 2022 14:51:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CD3610E1F1;
+	Mon, 28 Nov 2022 14:56:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
- [IPv6:2607:f8b0:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8113610E1EB;
- Mon, 28 Nov 2022 14:51:02 +0000 (UTC)
-Received: by mail-oi1-x22d.google.com with SMTP id v81so11791197oie.5;
- Mon, 28 Nov 2022 06:51:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=BAhpgkWtb27JDtIM4e/PkuR3x636EOTJL8nQoLk+Uhk=;
- b=aigTvy3KjmwUBIq0FoMsCdBItS1XdrRKOAbMxw7ewkc2VCZfNFguHxQKiTuxzWu2OQ
- AQxLCqlxs0omEV1wNs8UfkdONjhXlKt50noagFx9LowJa4e1Xr/cyN7vwq0thqduIpLm
- Up98KjvAMe2th89U0lQW5b15akHC6vrVbkxnLsazr6vT0AiGOeVJ/fENaLv7FdRk3VrE
- 47cy4IqLT5aGNyrXsZNZNEyNERAfRWionWXldyvsQYbp0aVVIxWSClr5hhDJpsVJr/wb
- uKURK246AMNyXiEQWpH9yWy+OM/C6qIkBfDxggLAHzgs31ZWGefd1uBpox04/mfQ8yPY
- HZDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=BAhpgkWtb27JDtIM4e/PkuR3x636EOTJL8nQoLk+Uhk=;
- b=0vUj/Ccn2usnaQ+bVUp7xbHD1zEp/Wh7MsGjP+mG/cYpVGfNID+WmIYwiqYY58g4wB
- 7NsVCRw/lq2fmDS2KZk3xRWbsOhMNo7CzccIjLxgDfKM9YxlqwHEpTf086tjmv171+I/
- AMVoFKS7jTIBAMJ2RhY1CF/mrb2uDUhtnivEslzLhh5OACAPZQ5cPHDMQ1RQd8klix/P
- gpylazf18KQ4Ss4XEqGaP9N/Tf9VisUfJT9yWpO+VyaInvGSRjSZBR49vuwlI2uALkay
- J08pqF/22JX2MkTw9dHpULOZK2K1RMdV89k+rY1Zos7dtZa9/xWqQ6Ia5URlOSq4XWqZ
- DEfw==
-X-Gm-Message-State: ANoB5pnrkbIMUUg6cJtg6NmoPst9seeMlk/ELxV/XQfIOhsD2bdKv2Ae
- XeL0orH4zdfowdXbh5VxoC1IYX3zgvXrCzKsIKwJbOnc
-X-Google-Smtp-Source: AA0mqf48AL1I4hFx/jyrt29KGiP2osdLGUitNy8F+Ahyzm5aat9b+ux3F5Il1tvN4v12K94/a0sulMbnkSB7dnCRdfU=
-X-Received: by 2002:a05:6808:9b8:b0:34f:97ea:14d with SMTP id
- e24-20020a05680809b800b0034f97ea014dmr14834951oig.96.1669647061772; Mon, 28
- Nov 2022 06:51:01 -0800 (PST)
+Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com
+ [64.147.123.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E00E10E1F1
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 14:56:37 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.west.internal (Postfix) with ESMTP id 7C2DA2B04FDA;
+ Mon, 28 Nov 2022 09:56:31 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Mon, 28 Nov 2022 09:56:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to; s=fm2; t=1669647390; x=1669654590; bh=aieeswS2ub
+ zxcYdTOR9CWF5pSt1Hc0WFcbPhHOr9AOI=; b=Wqk9Zvdg7ui5E+ylAyTe8D3woE
+ fpYe4Ff/Rtk8z1Jk2tIGTn4IK3RQ5EVdMLU6RVMIvn2flsaLgQyIO3Gd0LmYZlkQ
+ 6XFAu3lgmBybMMNGWL+oGFvzCc9gn2D4MOmR4xODTb+PXWL0OtDDMYDxR0x24nnn
+ vMA1WO9JQzMrIMFzNKzWQlKTJznJK8Do0CdnNXRG2J2ZgtpUTZxPmZyojDnDZgL4
+ VvBpyhYQCaYWgLD49F0+L27weoBzsJKfsK7/KszcX/Cm8aDTc7TqlgcC1FrCC+Y5
+ eMEf7AfOL+3qldRNilJR/G+5yxxJQrdsxpfJB6g2nGze0FOwGBbR8p0dtYqA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; t=1669647390; x=1669654590; bh=aieeswS2ubzxc
+ YdTOR9CWF5pSt1Hc0WFcbPhHOr9AOI=; b=aiiGEPbJdvrli967D33dR27TymkVa
+ Ie4sCI5IihSXucEZAM0QheSixCf/WXKM3U/PBpbLq3sxB1T35iv3vpDervjN0n93
+ xsPlxzgXVc6YWyq/5uvXknw7iPrMz0AbBHJO+EqT6i9q0/Jr5SabuA2ozjHBuOHW
+ 3LdQobMfpYysOsuQQUck372u01DT3EsPjHbIdLOP9YvAjhPNParPIpwd7GrGoXTV
+ YVdz5tBAq1dJv+BlwIjNNEnzT+fRC/M+iRGOZeFfCn065izQp6W6epaBVCbI4Bxb
+ sSbq/zbZd/GrXxD2ldHTDxT2L0klXyA47PIntDBSfghuRAFjRSD9NSuMw==
+X-ME-Sender: <xms:HcyEY0rhQ2tRS7IyicYFYUrKxFMLSMYcetHBskRMhGVSUZVbpPJw0w>
+ <xme:HcyEY6qEfcxJY78C00l4cDHnVGzVlQWiP6rkDwPFAgLn3IexhRoYaqAMnj02MVi5_
+ WQeSPO40bTzelIk4g4>
+X-ME-Received: <xmr:HcyEY5OQuoansM6QUWpHohC2HIBz1-0E1NYnOC2GqeM--hdxwChr9VmRf57RVSe0pndojHf6Q3uy1SqRo4GWJV8fnXhRrQAiSCxFe44H2_O6Sg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrjedvgdejudcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefugggtgffhfffkvfevofesthekredtredtjeenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeelueevteetffdvveelgfffleegudeufeelveefvddugeehkeefkeehjeeikeeg
+ udenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+ enucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:HcyEY74MuwEOoJt49N5hckjLWSPQREb3Q5mDisGOJrI7JsH1IHrObQ>
+ <xmx:HcyEYz7lgomuOaQAveczXqoAUWwXKmxuh0FSnXOY0mkgyzDKj-8w1g>
+ <xmx:HcyEY7jrv8C8SqnDbg8WvhLft4E9TKhFxR2VASHp5KOwPGxL5h2cXw>
+ <xmx:HsyEY4YerRA0sVSX_UP7sG0YMlnxx7_A4zV_lqHmE5lie8yELtYCxLpXv0c>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 28 Nov 2022 09:56:28 -0500 (EST)
+Subject: [PATCH v2 00/17] drm: Introduce Kunit Tests to VC4
 MIME-Version: 1.0
-References: <20220423193145.3301ed06@desktop>
- <CADnq5_PXgFBXZ03LXE8qOdimzfKYGhzX1JnycJQcHWcMZdgJug@mail.gmail.com>
- <Y4TGOb3UGmDslyYF@sqrt.uni.cx>
-In-Reply-To: <Y4TGOb3UGmDslyYF@sqrt.uni.cx>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 28 Nov 2022 09:50:50 -0500
-Message-ID: <CADnq5_NTyvZR16_N0TzMo3f9Mg6EwOuwuBgYzDA=U7tur7Fmnw@mail.gmail.com>
-Subject: Re: Screen corruption using radeon kernel driver
-To: Mikhail Krylov <sqarert@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-b4-tracking: H4sIAGnLhGMC/3WNwQrCMBBEf6Xk7EqSahs9+R/iYVMXs1jSkk0LUvrvLt49DW/gzWxGqDCJuTabKb
+ Sy8JQV/KExQ8L8IuCnsvHWe+d8C2VmeC+ZK1SSKhB6bEM4XTz2rVErohDEgnlI6uVlHLVMLHUqn9/L
+ 6jTu/wdXBxbs2aGNsbPouttAJU/HSrr42Pf9CyOQTo60AAAA
+From: Maxime Ripard <maxime@cerno.tech>
+Date: Mon, 28 Nov 2022 15:53:29 +0100
+Message-Id: <20221123-rpi-kunit-tests-v2-0-efe5ed518b63@cerno.tech>
+To: Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+X-Mailer: b4 0.11.0-dev-d416f
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5626; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=TSOHW4fhDzzCbXUc46KOlaw5DmHmSvadYwAM9WVHvHc=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMktp0uPijp6lRm33Ko00xJ25JqslWY6p7Vd+nlw022vmX0V
+ M7M7SlkYxLgYZMUUWWKEzZfEnZr1upONbx7MHFYmkCEMXJwCMBFbP4b/DhMDm2eqppQcfDfnU3VLwV
+ /rP2x7opQnvmzaP/nC2V3fzzEy3HkUsyrk1nz+k8fXHWZZfPOw+qqL78IyPcqPbf/euaO6jw8A
+X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,81 +93,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: David Gow <davidgow@google.com>, Maíra Canal <mairacanal@riseup.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linaro-mm-sig@lists.linaro.org, Brendan Higgins <brendan.higgins@linux.dev>, Maxime Ripard <maxime@cerno.tech>, linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 28, 2022 at 9:31 AM Mikhail Krylov <sqarert@gmail.com> wrote:
->
-> On Mon, Apr 25, 2022 at 01:22:04PM -0400, Alex Deucher wrote:
-> > + dri-devel
-> >
-> > On Mon, Apr 25, 2022 at 3:33 AM Krylov Michael <sqarert@gmail.com> wrote:
-> > >
-> > > Hello!
-> > >
-> > > After updating my Linux kernel from version 4.19 (Debian 10 version) to
-> > > 5.10 (packaged with Debian 11), I've noticed that the image
-> > > displayed on my older computer, 32-bit Pentium 4 using ATI Radeon X1950
-> > > AGP video card is severely corrupted in the graphical (Xorg and Wayland)
-> > > mode: all kinds of black and white stripes across the screen, some
-> > > letters missing, etc.
-> > >
-> > > I've checked several options (Xorg drivers, Wayland instead of
-> > > Xorg, radeon.agpmode=-1 in kernel command line and so on), but the
-> > > problem persisted. I've managed to find that the problem was in the
-> > > kernel, as everything worked well with 4.19 kernel with everything
-> > > else being from Debian 11.
-> > >
-> > > I have managed to find the culprit of that corruption, that is the
-> > > commit 33b3ad3788aba846fc8b9a065fe2685a0b64f713 on the linux kernel.
-> > > Reverting this commit and building the kernel with that commit reverted
-> > > fixes the problem. Disabling HIMEM also gets rid of that problem. But it
-> > > also leaves the system with less that 1G of RAM, which is, of course,
-> > > undesirable.
-> > >
-> > > Apparently this problem is somewhat known, as I can tell after googling
-> > > for the commit id, see this link for example:
-> > > https://lkml.org/lkml/2020/1/9/518
-> > >
-> > > Mageia distro, for example, reverted this commit in the kernel they are
-> > > building:
-> > >
-> > > http://sophie.zarb.org/distrib/Mageia/7/i586/by-pkgid/b9193a4f85192bc57f4d770fb9bb399c/files/32
-> > >
-> > > I've reported this bug to Debian bugtracker, checked the recent verion
-> > > of the kernel (5.17), bug still persists. Here's a link to the Debian
-> > > bug page:
-> > >
-> > > https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=993670
-> > >
-> > > I'm not sure if reverting this commit is the correct way to go, so if
-> > > you need to check any changes/patches that I could apply and test on
-> > > the real hardware, I'll be glad to do that (but please keep in mind
-> > > that testing could take some time, I don't have access to this computer
-> > > 24/7, but I'll do my best to respond ASAP).
-> >
-> > I would be happy to revert that commit.  I attempted to revert it a
-> > year or so ago, but Christoph didn't want to.  He was going to look
-> > further into it.  I was not able to repro the issue.  It seemed to be
-> > related to highmem support.  You might try disabling that.  Here is
-> > the previous thread for reference:
-> > https://lists.freedesktop.org/archives/amd-gfx/2020-September/053922.html
-> >
-> > Alex
->
-> So, is there any progress on this issue? I do understand it's not a high
-> priority one, and today I've checked it on 6.0 kernel, and
-> unfortunately, it still persists...
->
-> I'm considering writing a patch that will allow user to override
-> need_dma32/dma_bits setting with a module parameter. I'll have some time
-> after the New Year for that.
->
-> Is it at all possible that such a patch will be merged into kernel?
+Hi,
 
-Unless someone familiar with HIMEM can figure out what is going wrong
-we should just revert the patch.
+This series introduce Kunit tests to the vc4 KMS driver, but unlike what we
+have been doing so far in KMS, it actually tests the atomic modesetting code.
 
-Alex
+In order to do so, I've had to improve a fair bit on the Kunit helpers already
+found in the tree in order to register a full blown and somewhat functional KMS
+driver.
+
+It's of course relying on a mock so that we can test it anywhere. The mocking
+approach created a number of issues, the main one being that we need to create
+a decent mock in the first place, see patch 22. The basic idea is that I
+created some structures to provide a decent approximation of the actual
+hardware, and that would support both major architectures supported by vc4.
+
+This is of course meant to evolve over time and support more tests, but I've
+focused on testing the HVS FIFO assignment code which is fairly tricky (and the
+tests have actually revealed one more bug with our current implementation). I
+used to have a userspace implementation of those tests, where I would copy and
+paste the kernel code and run the tests on a regular basis. It's was obviously
+fairly suboptimal, so it seemed like the perfect testbed for that series.
+
+It can be run using:
+./tools/testing/kunit/kunit.py run \
+        --kunitconfig=drivers/gpu/drm/vc4/tests/.kunitconfig \
+        --cross_compile aarch64-linux-gnu- --arch arm64
+
+Let me know what you think,
+Maxime
+
+To: David Airlie <airlied@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Maíra Canal <mairacanal@riseup.net>
+Cc: Brendan Higgins <brendan.higgins@linux.dev>
+Cc: David Gow <davidgow@google.com>
+Cc: linux-kselftest@vger.kernel.org
+Cc: kunit-dev@googlegroups.com
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+
+---
+Changes in v2:
+- Added some documentation for public functions
+- Removed the fake device probe/remove workqueue 
+- Made sure the tests could be compiled as modules
+- Moved the vc4 tests in the vc4 module
+- Applied some of the preliminary patches
+- Rebased on top of current drm-misc-next branch
+- Fixed checkpatch issues
+- Introduced BCM2835 (Pi0-3) tests for muxing
+- Introduced tests to cover past bugs we had
+- Link to v1: https://lore.kernel.org/r/20221123-rpi-kunit-tests-v1-0-051a0bb60a16@cerno.tech
+
+---
+Maxime Ripard (17):
+      drm/tests: helpers: Move the helper header to include/drm
+      drm/tests: helpers: Document drm_kunit_device_init()
+      drm/tests: helpers: Rename the device init helper
+      drm/tests: helpers: Remove the name parameter
+      drm/tests: helpers: Create the device in another function
+      drm/tests: helpers: Switch to a platform_device
+      drm/tests: helpers: Make sure the device is bound
+      drm/tests: helpers: Allow for a custom device struct to be allocated
+      drm/tests: helpers: Allow to pass a custom drm_driver
+      drm/tests: Add a test for DRM managed actions
+      drm/vc4: Move HVS state to main header
+      drm/vc4: crtc: Introduce a lower-level crtc init helper
+      drm/vc4: crtc: Make encoder lookup helper public
+      drm/vc4: hvs: Provide a function to initialize the HVS structure
+      drm/vc4: tests: Introduce a mocking infrastructure
+      drm/vc4: tests: Fail the current test if we access a register
+      drm/vc4: tests: Add unit test suite for the PV muxing
+
+ drivers/gpu/drm/tests/Makefile                  |    1 +
+ drivers/gpu/drm/tests/drm_client_modeset_test.c |   19 +-
+ drivers/gpu/drm/tests/drm_kunit_helpers.c       |  106 ++-
+ drivers/gpu/drm/tests/drm_kunit_helpers.h       |   11 -
+ drivers/gpu/drm/tests/drm_managed_test.c        |   71 ++
+ drivers/gpu/drm/tests/drm_modes_test.c          |   19 +-
+ drivers/gpu/drm/tests/drm_probe_helper_test.c   |   20 +-
+ drivers/gpu/drm/vc4/Kconfig                     |   15 +
+ drivers/gpu/drm/vc4/Makefile                    |    7 +
+ drivers/gpu/drm/vc4/tests/.kunitconfig          |   14 +
+ drivers/gpu/drm/vc4/tests/vc4_mock.c            |  200 +++++
+ drivers/gpu/drm/vc4/tests/vc4_mock.h            |   63 ++
+ drivers/gpu/drm/vc4/tests/vc4_mock_crtc.c       |   41 +
+ drivers/gpu/drm/vc4/tests/vc4_mock_output.c     |  138 +++
+ drivers/gpu/drm/vc4/tests/vc4_mock_plane.c      |   47 +
+ drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c  | 1039 +++++++++++++++++++++++
+ drivers/gpu/drm/vc4/vc4_crtc.c                  |  102 ++-
+ drivers/gpu/drm/vc4/vc4_dpi.c                   |   13 +-
+ drivers/gpu/drm/vc4/vc4_drv.c                   |    4 +-
+ drivers/gpu/drm/vc4/vc4_drv.h                   |   91 +-
+ drivers/gpu/drm/vc4/vc4_dsi.c                   |    9 +-
+ drivers/gpu/drm/vc4/vc4_hdmi_regs.h             |    4 +
+ drivers/gpu/drm/vc4/vc4_hvs.c                   |   81 +-
+ drivers/gpu/drm/vc4/vc4_kms.c                   |   25 +-
+ drivers/gpu/drm/vc4/vc4_txp.c                   |   15 +-
+ drivers/gpu/drm/vc4/vc4_vec.c                   |   13 +-
+ include/drm/drm_kunit_helpers.h                 |   91 ++
+ 27 files changed, 2087 insertions(+), 172 deletions(-)
+---
+base-commit: 199557fab92548f8e9d5207e385097213abe0cab
+change-id: 20221123-rpi-kunit-tests-87a388492a73
+
+Best regards,
+-- 
+Maxime Ripard <maxime@cerno.tech>
