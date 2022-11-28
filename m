@@ -2,63 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB7AA63A6FD
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 12:18:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5025463A6F0
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Nov 2022 12:18:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFECC10E203;
-	Mon, 28 Nov 2022 11:18:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 261E210E201;
+	Mon, 28 Nov 2022 11:17:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91F8510E203;
- Mon, 28 Nov 2022 11:18:06 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id o30so8205344wms.2;
- Mon, 28 Nov 2022 03:18:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
- :message-id:reply-to;
- bh=j/wAlj9+lbLEBeIqsdF+yfeUS1s2V84+JTVk1VCdcTE=;
- b=eLtpnITDJBZ4eC9WuN+NwFAZ7Z6Q9wtGvKkEguievQ+59Mk2Ve17OmAit8TaOcxvKM
- 9ZVS4Ku1Nbf2k5IO7W8uxcSf/xPiLO/HtBHmKUuAPB48FVoe7n0eO2FwZD5M1i94g2FS
- afj8vKngWtKaGuxQQ59gHYv0zRK6ZGxdOVzWZA2sYo4g87HI3JnSqci+zlw/ZzoSyfWz
- o79Ua3SmWjCeMIkSmoyJYckXE1qH8nQRbGgNFMmC+JQPfN91W26JPbkdF5+b1h+NyUCD
- ovpRky4zA4/Tt+nO4cQ56RGCL94I9sx9n0gEHo/QXuuVIQCPX1VYYfcgkbuPt+FJFFHS
- 1J6Q==
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A5C110E203
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 11:17:50 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id s8so16803557lfc.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Nov 2022 03:17:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=tBmx5gM1HUSGFAXNgKvH4/Z5Wwc3nSXAxC+/qB18ydM=;
+ b=d8P29DNgM6zk6DvP7foPnQjFiGLcCG93PrYsmwjoD8PgpUNBVhDBgt0/jB4jfO5EqJ
+ zwd5pAIcXybs3emROmpUpWQa4JcAKQSq6m5VejGtL7+pS/AcM6C7HlCmgqBx4X+hdpI6
+ NccIZqwOZln0jwHauWRITUW7BT1RwqzurcDPm+3RPqxlnoilCG2lMwc+2PHcjyQ8PIs3
+ c3zGNfyCh0oI/aYqSzENtxM4vSeOC9F+AiZo3cdMbDzS6ccdXf4aIhMtbfJvWl6zOdp2
+ LI4mxl4i0qUpKXtOZ/fgSKHIkicqaXcp7AlonvlUHTorWvcbLk2UOPLIc4nKCwo/GxJX
+ RilQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:sender:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=j/wAlj9+lbLEBeIqsdF+yfeUS1s2V84+JTVk1VCdcTE=;
- b=7ZtnQpZkb2gNjvy96fYzjnglEDx5PUVC/AnsYFFM/Xa+Hx4ZP8vYQd0Gs3yhbtZVx3
- unuMngIxQiJZPuEWHCIYpxdUmbuGltA/0BqzIg+sGT5dIJMq7wj6EnVKe2qU3fCSQlxg
- oOaA4KBWw/j9HgkJhHJAQSrjo7wJoh3jxDxFXrolMMbpEJIn96r8TW+5sWJ/BFZku1fb
- yHJpRzkWS7S3KU1EpzLpqRLzsi5nYO+rDE97ghrT9ZfmcxvSVP76qwsucaEyWMd6F7mx
- a3UuDUonKYlvIPxDFVBOWtm5x6I56y4SQmvCHhhWsHt9YJ8jOW3Nm8ZOja9bnOmeF1ea
- B2LA==
-X-Gm-Message-State: ANoB5pnFmQVr9UzcFQMWlMW6mjmuhNkNJAbPeA62yk7S45ORA7nUuA9o
- c9MJJiUJBrQrBArP8ZFX1Fs=
-X-Google-Smtp-Source: AA0mqf69eWYyZgMKdOGsUq0UPtisowcqx0w0ysK/Ur6civ9KWMfHY8SUYDhnxbdliyF6bhrfjnFrfQ==
-X-Received: by 2002:a05:600c:3d94:b0:3d0:552e:8d86 with SMTP id
- bi20-20020a05600c3d9400b003d0552e8d86mr4812413wmb.112.1669634284975; 
- Mon, 28 Nov 2022 03:18:04 -0800 (PST)
-Received: from cizrna.home (cst-prg-44-69.cust.vodafone.cz. [46.135.44.69])
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=tBmx5gM1HUSGFAXNgKvH4/Z5Wwc3nSXAxC+/qB18ydM=;
+ b=aoJRDAYCntUPG3QzomCXybfYArd4MbKeKUVne29npLH/RY+r+LD5XSQkj+8C5Rm92g
+ eqOS3tUsQzYvduoedzvObKFAcDLn/mOE61rFW/0b/crWjDFva9tzBlGJRFIQuSFDtuJr
+ TebZmmJnQ2T5bdVDEzjGYYusx0mbtcSfF13j3tu/XgvogQxCfQMfSAvwUOIWYEWRq4Us
+ th6h2CDVNw8fZFQEOQ9dDhE+Ao8R1X9KlTJBVUr5g30Wk686sr6BNWOQeGYGNTYX93DO
+ bnKyc1ISxEifb7Q59nYtbkguWlGxLrKkI+3N8/AC97iPkiQEeIkYMbTAKaEdCKbbSpQG
+ qe2g==
+X-Gm-Message-State: ANoB5pm/oafWbuEa2Lq/JOKzGcfcg8EXoLbb1VkOk0Z62in/TKYNMoO7
+ CYg+SHBVmvrx7P6y7bxAaexDJQ==
+X-Google-Smtp-Source: AA0mqf58DjNRcqLx332BX2KbrAmcyHS1EHrpnKwFkJJpWTuwx5iOEtDmizl4E6ASsmL2TwdG887eYg==
+X-Received: by 2002:ac2:4189:0:b0:4b1:2447:6971 with SMTP id
+ z9-20020ac24189000000b004b124476971mr11783136lfh.83.1669634268446; 
+ Mon, 28 Nov 2022 03:17:48 -0800 (PST)
+Received: from [192.168.0.20]
+ (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
  by smtp.gmail.com with ESMTPSA id
- g3-20020adffc83000000b0024207ed4ce0sm7711817wrr.58.2022.11.28.03.18.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Nov 2022 03:18:04 -0800 (PST)
-From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-To: 
-Subject: [PATCH v2 5/5] drm/etnaviv: add HWDB entry for VIPNano-QI.7120.0055
-Date: Mon, 28 Nov 2022 12:17:38 +0100
-Message-Id: <20221128111740.39003-6-tomeu.vizoso@collabora.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221128111740.39003-1-tomeu.vizoso@collabora.com>
-References: <20221128111740.39003-1-tomeu.vizoso@collabora.com>
+ h16-20020ac250d0000000b00498fe38ea0fsm1691138lfm.174.2022.11.28.03.17.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Nov 2022 03:17:47 -0800 (PST)
+Message-ID: <f244d3c1-e52d-8226-0d6f-58f6b5503f47@linaro.org>
+Date: Mon, 28 Nov 2022 12:17:46 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v5 04/10] dt-bindings: display/msm: add support for the
+ display on SM8450
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20221123210403.3593366-1-dmitry.baryshkov@linaro.org>
+ <20221123210403.3593366-5-dmitry.baryshkov@linaro.org>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221123210403.3593366-5-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,69 +82,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, italonicola@collabora.com,
- "moderated list:DRM DRIVERS FOR VIVANTE GPU IP"
- <etnaviv@lists.freedesktop.org>,
- "open list:DRM DRIVERS FOR VIVANTE GPU IP" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a compute-only module marketed towards AI and vision
-acceleration. This particular version can be found on the Amlogic A311D
-SoC.
+On 23/11/2022 22:03, Dmitry Baryshkov wrote:
+> Add DPU and MDSS schemas to describe MDSS and DPU blocks on the Qualcomm
+> SM8450 platform.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  .../bindings/display/msm/qcom,sm8450-dpu.yaml | 139 +++++++
+>  .../display/msm/qcom,sm8450-mdss.yaml         | 343 ++++++++++++++++++
+>  2 files changed, 482 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sm8450-dpu.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml
+> 
 
-The feature bits are taken from the Khadas downstream kernel driver
-6.4.4.3.310723AAA.
 
-Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
----
- drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 31 ++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-index f2fc645c7956..3f6fd9a3c088 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-@@ -130,6 +130,37 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
- 		.minor_features10 = 0x90044250,
- 		.minor_features11 = 0x00000024,
- 	},
-+	{
-+		.model = 0x8000,
-+		.revision = 0x7120,
-+		.product_id = 0x45080009,
-+		.customer_id = 0x88,
-+		.eco_id = 0,
-+		.stream_count = 8,
-+		.register_max = 64,
-+		.thread_count = 256,
-+		.shader_core_count = 1,
-+		.vertex_cache_size = 16,
-+		.vertex_output_buffer_size = 1024,
-+		.pixel_pipes = 1,
-+		.instruction_count = 512,
-+		.num_constants = 320,
-+		.buffer_size = 0,
-+		.varyings_count = 16,
-+		.features = 0xe0287cac,
-+		.minor_features0 = 0xc1799eff,
-+		.minor_features1 = 0xfefbfadb,
-+		.minor_features2 = 0xeb9d6fbf,
-+		.minor_features3 = 0xedfffced,
-+		.minor_features4 = 0xd30dafc7,
-+		.minor_features5 = 0x7b5ac333,
-+		.minor_features6 = 0xfc8ee200,
-+		.minor_features7 = 0x03fffa6f,
-+		.minor_features8 = 0x00fe0ef0,
-+		.minor_features9 = 0x0088003c,
-+		.minor_features10 = 0x108048c0,
-+		.minor_features11 = 0x00000010,
-+	},
- };
- 
- bool etnaviv_fill_identity_from_hwdb(struct etnaviv_gpu *gpu)
--- 
-2.38.1
+Best regards,
+Krzysztof
 
