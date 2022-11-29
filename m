@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C72163C7F1
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 20:18:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AEB763C7F3
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 20:18:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A05E710E220;
-	Tue, 29 Nov 2022 19:18:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBE5910E211;
+	Tue, 29 Nov 2022 19:18:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A01B10E211
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 19:18:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FF7A10E211
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 19:18:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1669749470; h=from:from:sender:reply-to:subject:subject:date:date:
+ s=mail; t=1669749471; h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dIthVPfRqMzRLHonB9Z3+9yNKc8FhZTyJnewRLDcrPs=;
- b=v6cI95cKHZF7JRsW6yCZyviPrYgL1hUQg6mGKb3+uSwSQT68AJ3ZblHdt2FXdYjVdF2lxU
- YhUSzbi1grVPHthQtkb3JWgqIRU8fEVCYtMlY3+3ITbHhcGY6uZfFk5LsBbEBlxgN4TgmX
- 0FTfc9J1QbkFBazrASWsvhNoZ8uol00=
+ bh=bRwIBP3Bd5yyj8tKvu5xEITLhoIAEXi+VXTuD8Wv1kk=;
+ b=LIYDR5EdYELj9tAH4IuzuOM34Lt9KwUFjWmnyL2ak9lFDTvcYqbLtlj8VsqXP1bXZfRWeD
+ rns4LoHYtbq2AR5UPz7tQDJBGBgx93ELO4GKjErLZHroxhGXxC851HhhBoI1A5RYzrpBlP
+ Mdv1vzV1x+ZlR21rdec8icpTZR6gL6s=
 From: Paul Cercueil <paul@crapouillou.net>
 To: David Airlie <airlied@gmail.com>,
 	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 02/26] drm: bochs: Define and use generic PM ops
-Date: Tue, 29 Nov 2022 19:17:09 +0000
-Message-Id: <20221129191733.137897-3-paul@crapouillou.net>
+Subject: [PATCH v2 03/26] drm: imx: Define and use generic PM ops
+Date: Tue, 29 Nov 2022 19:17:10 +0000
+Message-Id: <20221129191733.137897-4-paul@crapouillou.net>
 In-Reply-To: <20221129191733.137897-1-paul@crapouillou.net>
 References: <20221129191733.137897-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -43,9 +43,11 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Cercueil <paul@crapouillou.net>,
- virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sascha Hauer <s.hauer@pengutronix.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Paul Cercueil <paul@crapouillou.net>,
+ NXP Linux Team <linux-imx@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -58,40 +60,42 @@ v2: Use the DEFINE_DRM_MODE_CONFIG_HELPER_PM_OPS() macro instead of an
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: virtualization@lists.linux-foundation.org
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: NXP Linux Team <linux-imx@nxp.com>
+Cc: linux-arm-kernel@lists.infradead.org
 ---
- drivers/gpu/drm/tiny/bochs.c | 29 ++++-------------------------
- 1 file changed, 4 insertions(+), 25 deletions(-)
+ drivers/gpu/drm/imx/imx-drm-core.c | 23 ++++-------------------
+ 1 file changed, 4 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
-index 024346054c70..598488905607 100644
---- a/drivers/gpu/drm/tiny/bochs.c
-+++ b/drivers/gpu/drm/tiny/bochs.c
-@@ -2,6 +2,7 @@
- 
+diff --git a/drivers/gpu/drm/imx/imx-drm-core.c b/drivers/gpu/drm/imx/imx-drm-core.c
+index e060fa6cbcb9..1992934034e0 100644
+--- a/drivers/gpu/drm/imx/imx-drm-core.c
++++ b/drivers/gpu/drm/imx/imx-drm-core.c
+@@ -10,6 +10,7 @@
+ #include <linux/dma-buf.h>
  #include <linux/module.h>
- #include <linux/pci.h>
+ #include <linux/platform_device.h>
 +#include <linux/pm.h>
  
- #include <drm/drm_aperture.h>
- #include <drm/drm_atomic_helper.h>
-@@ -610,30 +611,6 @@ static const struct drm_driver bochs_driver = {
- 	DRM_GEM_VRAM_DRIVER,
- };
+ #include <video/imx-ipu-v3.h>
  
--/* ---------------------------------------------------------------------- */
--/* pm interface                                                           */
--
+@@ -298,36 +299,20 @@ static int imx_drm_platform_remove(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
 -#ifdef CONFIG_PM_SLEEP
--static int bochs_pm_suspend(struct device *dev)
+-static int imx_drm_suspend(struct device *dev)
 -{
 -	struct drm_device *drm_dev = dev_get_drvdata(dev);
 -
 -	return drm_mode_config_helper_suspend(drm_dev);
 -}
 -
--static int bochs_pm_resume(struct device *dev)
+-static int imx_drm_resume(struct device *dev)
 -{
 -	struct drm_device *drm_dev = dev_get_drvdata(dev);
 -
@@ -99,30 +103,26 @@ index 024346054c70..598488905607 100644
 -}
 -#endif
 -
--static const struct dev_pm_ops bochs_pm_ops = {
--	SET_SYSTEM_SLEEP_PM_OPS(bochs_pm_suspend,
--				bochs_pm_resume)
--};
+-static SIMPLE_DEV_PM_OPS(imx_drm_pm_ops, imx_drm_suspend, imx_drm_resume);
 -
- /* ---------------------------------------------------------------------- */
- /* pci interface                                                          */
- 
-@@ -716,12 +693,14 @@ static const struct pci_device_id bochs_pci_tbl[] = {
- 	{ /* end of list */ }
+ static const struct of_device_id imx_drm_dt_ids[] = {
+ 	{ .compatible = "fsl,imx-display-subsystem", },
+ 	{ /* sentinel */ },
  };
+ MODULE_DEVICE_TABLE(of, imx_drm_dt_ids);
  
-+DEFINE_DRM_MODE_CONFIG_HELPER_PM_OPS(bochs_pm_ops);
++DEFINE_DRM_MODE_CONFIG_HELPER_PM_OPS(imx_pm_ops);
 +
- static struct pci_driver bochs_pci_driver = {
- 	.name =		"bochs-drm",
- 	.id_table =	bochs_pci_tbl,
- 	.probe =	bochs_pci_probe,
- 	.remove =	bochs_pci_remove,
--	.driver.pm =    &bochs_pm_ops,
-+	.driver.pm =    pm_sleep_ptr(&bochs_pm_ops),
+ static struct platform_driver imx_drm_pdrv = {
+ 	.probe		= imx_drm_platform_probe,
+ 	.remove		= imx_drm_platform_remove,
+ 	.driver		= {
+ 		.name	= "imx-drm",
+-		.pm	= &imx_drm_pm_ops,
++		.pm	= pm_sleep_ptr(&imx_pm_ops),
+ 		.of_match_table = imx_drm_dt_ids,
+ 	},
  };
- 
- /* ---------------------------------------------------------------------- */
 -- 
 2.35.1
 
