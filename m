@@ -1,60 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AC1363CAEC
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 23:06:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69B4063CB0C
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 23:29:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8747A10E0F6;
-	Tue, 29 Nov 2022 22:06:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73D438825E;
+	Tue, 29 Nov 2022 22:28:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5711C10E265
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 22:06:05 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id ho10so37151937ejc.1
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 14:06:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=DMH+jK52f/JBcmbWcLJ3LSzlbnPFw6Ahm/0k3pfL+/s=;
- b=f2yg33inXJblUS67/eLUD0A2s+q1tBH/7hs/tfDh/O1rkrx6zLChIZC7JIxaJa4Ppp
- 4Y//Nu/ell5Scmi4bHK3MhVIM7f4jyEuD4Gz4VFlpGlEkmtfjm23aZDJ2QH/gSuebEC4
- zTQzYdjqFKcGQi2PQLtuT2/qyvxe3YnLGgizXMhmtrPeomOI4pidWZD9sCtwbFSrKvwT
- B+sm6L5pHmvheMKtoeXVW6OW/T1GThARmIb0yWEJXqzNNp7NbwO8YHZxHE2NaGMB28hM
- tSRqmrsyUgPeaCRAV1xE+g8AP9hXukM3nvNe5CCeDAIru+eeGYtdwLcw+66AKysURz02
- Pyhw==
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F410D10E09C
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 22:28:47 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id vv4so37249935ejc.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 14:28:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Cv5P4YKVke8Uiqx6Xk3+EHcpUQ/fZJSaam81ASeevJA=;
+ b=JtnZr6UpSwQNFk6kIu4r9vijUTEsHUkw/JsvAF1ZXWJOpbtaJ0XJwfED9HLlRrtcTK
+ qOV7Phcu9KCrk8HFsBJtK4bGa6axQ6qUZIL8lgQCewFA4X/UvjYX6kr4HAAdEWROPkCv
+ URe7yoen5FEW9c4UDnFv5upSl5zNAZXMbKYsw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=DMH+jK52f/JBcmbWcLJ3LSzlbnPFw6Ahm/0k3pfL+/s=;
- b=XxDQpe7HGyVKPeDEzMhemaoHo12sxw7ibm1Cn2z2gO+AsDcp2ECoGf0Ru0H7vtJdGC
- kEowaRtcVR9EYuRf1ZxMheJ3zqX6MlCmpwtCxN2strHdHltCBYYNnZ6fD79gK5rEU4bu
- 8XtZmvFoF4JlewdFrt2cTDK875ggqi+ncoS0O1jabM+BcqZKvpfGgldPDr0kSt9iuxdw
- remw5yh9UAgmfnGs9M6hgaOfCOxMo9S8owBraTQekcfXkBYixVld/H7kBw/GcMODVdXy
- GhssFxFcj4NxBOu3nrWDjOpI1c2lTV2Wj9g9YUuq094LKo/k6VWBqnLzApcmTSwbKOYr
- QaIw==
-X-Gm-Message-State: ANoB5pkhko8IVYnZEsc4l3BQ0xTbelHFd3VhWLaa6Z17jLs8kwUugXU4
- 2hTSLzpKG0zjKnNpaTM5UcB+/YUmVncRB+FSoTA=
-X-Google-Smtp-Source: AA0mqf7xa0+2/Tx8OYaQ6SSGkVq3h1RxYdH2hKEbXCYn+xr094/8L0JLSGIoTmf4QlGkSA3a0MqNyxcp6fih/wH47yU=
-X-Received: by 2002:a17:906:6093:b0:78d:b37c:83d9 with SMTP id
- t19-20020a170906609300b0078db37c83d9mr33727650ejj.637.1669759563741; Tue, 29
- Nov 2022 14:06:03 -0800 (PST)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Cv5P4YKVke8Uiqx6Xk3+EHcpUQ/fZJSaam81ASeevJA=;
+ b=1FDYNfd2JFz8L8NLmtit/y/v60HTwiNrXPxs/HdJoyqFdd9tdve+lEtJFJtzS2lnP3
+ /FDGEzcvRoQqAKvUocTp/aCcIDJWI6jrNU4LCSQulUwDhgVT1/iQD5aHL2/y+y9QrQ+7
+ DbPLJNvUk8WO2P3tpvgglh687pFtJ9E230JrSN4u92XmTpLpDfsloKqhp7BVzOKDuy6O
+ BVzjxBHwAsooXw7M1YeKSIflnSR9fvSs3W2VB1tpgnEC84JGMESY4IGIp01h96XVOBMI
+ yljkGq36lVIjuh7Lrpcbx1QXBWrqmJYkTK9qkKI2df+g/mO3orkLz8V523sjuDNFT8O9
+ b3Wg==
+X-Gm-Message-State: ANoB5pnLaDlnE30GnxcDDsQyqQ7kNqnF8CdeBbAoa2CG2AC3yYmsj1fI
+ r/2LKSS3lxqk6B/mvKU0YmYOUJikM8/1AaAG
+X-Google-Smtp-Source: AA0mqf7SQN/2kRmQkfutNNYDyOg+IukSHRDGzXbygQqDZpWX1pwtx0yxQsrImwwqvAp8N1DjE2b6yQ==
+X-Received: by 2002:a17:906:19d7:b0:7b2:b782:e1df with SMTP id
+ h23-20020a17090619d700b007b2b782e1dfmr45137494ejd.308.1669760926166; 
+ Tue, 29 Nov 2022 14:28:46 -0800 (PST)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com.
+ [209.85.128.49]) by smtp.gmail.com with ESMTPSA id
+ la26-20020a170907781a00b007bed316a6d9sm3847075ejc.18.2022.11.29.14.28.45
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 29 Nov 2022 14:28:45 -0800 (PST)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 83-20020a1c0256000000b003d0683389e1so72657wmc.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 14:28:45 -0800 (PST)
+X-Received: by 2002:a7b:c4d8:0:b0:3cf:b0ed:de9d with SMTP id
+ g24-20020a7bc4d8000000b003cfb0edde9dmr29570493wmk.188.1669760924865; Tue, 29
+ Nov 2022 14:28:44 -0800 (PST)
 MIME-Version: 1.0
-References: <20221128112320.25708-1-francesco@dolcini.it>
- <CAG3jFysnd9S2b4WCmHqKzJPhO=3sOLWHEExrsGPBn-e_6F5p6g@mail.gmail.com>
-In-Reply-To: <CAG3jFysnd9S2b4WCmHqKzJPhO=3sOLWHEExrsGPBn-e_6F5p6g@mail.gmail.com>
-From: Adrien Grassein <adrien.grassein@gmail.com>
-Date: Tue, 29 Nov 2022 23:05:52 +0100
-Message-ID: <CABkfQAECEFT_cJkVEHxSiYdo14r-dE-d80ZF3DpzGf4einKZkQ@mail.gmail.com>
-Subject: Re: [PATCH v1] drm/bridge: lt8912b: Add hot plug detection
-To: Robert Foss <robert.foss@linaro.org>
+References: <20221117133655.1.I51639dc112bbbe27259df6bdad56dbabd655d91a@changeid>
+ <CAD=FV=XFsSoUqkk8zhta1V-oT2AGGvUz=0qFWAcXiJ7m+nnATA@mail.gmail.com>
+In-Reply-To: <CAD=FV=XFsSoUqkk8zhta1V-oT2AGGvUz=0qFWAcXiJ7m+nnATA@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 29 Nov 2022 14:28:32 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=WfFNssxLRHKv3OUgAZsfme=k27TaFN1M8hFw2xug+eLQ@mail.gmail.com>
+Message-ID: <CAD=FV=WfFNssxLRHKv3OUgAZsfme=k27TaFN1M8hFw2xug+eLQ@mail.gmail.com>
+Subject: Re: [PATCH 1/5] drm/panel-edp: Use ktime_get_boottime for delays
+To: Drew Davenport <ddavenport@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,92 +75,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Francesco Dolcini <francesco@dolcini.it>, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org,
- Stefan Eichenberger <stefan.eichenberger@toradex.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Francesco Dolcini <francesco.dolcini@toradex.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le mar. 29 nov. 2022 =C3=A0 12:15, Robert Foss <robert.foss@linaro.org> a =
-=C3=A9crit :
+Hi,
+
+On Thu, Nov 17, 2022 at 1:14 PM Doug Anderson <dianders@chromium.org> wrote:
 >
-> On Mon, 28 Nov 2022 at 12:23, Francesco Dolcini <francesco@dolcini.it> wr=
-ote:
+> Hi,
+>
+> On Thu, Nov 17, 2022 at 12:39 PM Drew Davenport <ddavenport@chromium.org> wrote:
 > >
-> > From: Stefan Eichenberger <stefan.eichenberger@toradex.com>
+> > ktime_get is based on CLOCK_MONOTONIC which stops on suspend. On
+> > suspend, the time that the panel was powerd off is recorded with
+> > ktime_get, and on resume this time is compared to the current ktime_get
+> > time to determine if the driver should wait for the panel to power down
+> > completely before re-enabling it.
 > >
-> > Enable hot plug detection when it is available on the HDMI port.
-> > Without this connecting to a different monitor with incompatible timing
-> > before the 10 seconds poll period will lead to a broken display output.
+> > Because we're using ktime_get, this delay doesn't account for the time
+> > that the device is suspended, during which the power down delay may have
+> > already elapsed.
 > >
-> > Fixes: 30e2ae943c26 ("drm/bridge: Introduce LT8912B DSI to HDMI bridge"=
-)
-> > Signed-off-by: Stefan Eichenberger <stefan.eichenberger@toradex.com>
-> > Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
+> > Change to use ktime_get_boottime throughout, which uses CLOCK_BOOTTIME
+> > which does not stop when suspended. This ensures that the resume path
+> > will not be delayed if the power off delay has already been met while
+> > the device is suspended.
+> >
+> > Signed-off-by: Drew Davenport <ddavenport@chromium.org>
+> >
 > > ---
-> >  drivers/gpu/drm/bridge/lontium-lt8912b.c | 21 +++++++++++++++++++--
-> >  1 file changed, 19 insertions(+), 2 deletions(-)
 > >
-> > diff --git a/drivers/gpu/drm/bridge/lontium-lt8912b.c b/drivers/gpu/drm=
-/bridge/lontium-lt8912b.c
-> > index a98efef0ba0e..5f0c9cd2a970 100644
-> > --- a/drivers/gpu/drm/bridge/lontium-lt8912b.c
-> > +++ b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-> > @@ -517,14 +517,27 @@ static int lt8912_attach_dsi(struct lt8912 *lt)
-> >         return 0;
-> >  }
-> >
-> > +static void lt8912_bridge_hpd_cb(void *data, enum drm_connector_status=
- status)
-> > +{
-> > +       struct lt8912 *lt =3D data;
-> > +
-> > +       if (lt->bridge.dev)
-> > +               drm_helper_hpd_irq_event(lt->bridge.dev);
-> > +}
-> > +
-> >  static int lt8912_bridge_connector_init(struct drm_bridge *bridge)
-> >  {
-> >         int ret;
-> >         struct lt8912 *lt =3D bridge_to_lt8912(bridge);
-> >         struct drm_connector *connector =3D &lt->connector;
-> >
-> > -       connector->polled =3D DRM_CONNECTOR_POLL_CONNECT |
-> > -                           DRM_CONNECTOR_POLL_DISCONNECT;
-> > +       if (lt->hdmi_port->ops & DRM_BRIDGE_OP_HPD) {
-> > +               drm_bridge_hpd_enable(lt->hdmi_port, lt8912_bridge_hpd_=
-cb, lt);
-> > +               connector->polled =3D DRM_CONNECTOR_POLL_HPD;
-> > +       } else {
-> > +               connector->polled =3D DRM_CONNECTOR_POLL_CONNECT |
-> > +                                   DRM_CONNECTOR_POLL_DISCONNECT;
-> > +       }
-> >
-> >         ret =3D drm_connector_init(bridge->dev, connector,
-> >                                  &lt8912_connector_funcs,
-> > @@ -578,6 +591,10 @@ static void lt8912_bridge_detach(struct drm_bridge=
- *bridge)
-> >
-> >         if (lt->is_attached) {
-> >                 lt8912_hard_power_off(lt);
-> > +
-> > +               if (lt->hdmi_port->ops & DRM_BRIDGE_OP_HPD)
-> > +                       drm_bridge_hpd_disable(lt->hdmi_port);
-> > +
-> >                 drm_connector_unregister(&lt->connector);
-> >                 drm_connector_cleanup(&lt->connector);
-> >         }
-> > --
-> > 2.25.1
-> >
+> >  drivers/gpu/drm/panel/panel-edp.c | 8 ++++----
+> >  1 file changed, 4 insertions(+), 4 deletions(-)
 >
->
-> Reviewed-by: Robert Foss <robert.foss@linaro.org>
-Reviewed-by: Adrien Grassein <adrien.grassein@gmail.com>
->
-> Snoozing this patch, will apply it in a few days if no issues are found.
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+
+Pushed to drm-misc-next:
+
+fa8e91b12697 drm/panel-edp: Use ktime_get_boottime for delays
