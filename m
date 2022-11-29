@@ -2,64 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0C2B63C3A7
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 16:24:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57FA063C3BC
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 16:28:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 750EF10E0B7;
-	Tue, 29 Nov 2022 15:24:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60FF510E0E4;
+	Tue, 29 Nov 2022 15:28:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
- [IPv6:2607:f8b0:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 678C010E050;
- Tue, 29 Nov 2022 15:24:23 +0000 (UTC)
-Received: by mail-ot1-x32b.google.com with SMTP id
- cn2-20020a056830658200b0066c74617e3dso9311582otb.2; 
- Tue, 29 Nov 2022 07:24:23 -0800 (PST)
+Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
+ [IPv6:2607:f8b0:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5519010E0E4;
+ Tue, 29 Nov 2022 15:28:07 +0000 (UTC)
+Received: by mail-ot1-x335.google.com with SMTP id
+ m7-20020a9d6447000000b0066da0504b5eso9288763otl.13; 
+ Tue, 29 Nov 2022 07:28:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=heqDo1SemRKJ38s2oaglUe868ZlxEolBPvviw9Bv8Jo=;
- b=ByQIRxoI3He+gK+MZv8IFgDJWmR5Vy19GBauIg6ZAFFTn2k58vHLYITHKDCP/V6V48
- iNEzCxZsMFfeG7rVLCtY372wZs4jcMPu9IbFnx+Vw8CAdWA6b9Xq+OU5hzDszEoXamwG
- QHDgG6RhTU/Rl+kkwZ2KtaWPWZ5gAQGpv4QWvoG9ojp5tPEE+M1Z/BvuaCRTWJRWkCHT
- DtxODIxJ+GGQVTNAAOy6pE7KA3dSpsgoMaKvf6D5g6STOvc640L2G3nJuRZKtbKqFJWM
- RagRGTmBUUaxjm8twJOgZnoufya8CGo5chb9Sft4+8C9OOxi+WtmyHjBQ+7mv5O4FTRX
- hVZg==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Xptklll5ySe4mf0oAhiOF1wKRg+/HTC07bmb7I7+5uA=;
+ b=LBZsWpUxQd4nLd6eepDn7LKWLJi6vrXqyiHqAPb4mRTSa84FkXJX85RPkq0FAEuEYn
+ +B2P/1I7DFCKwdUk4U16crmx4jAbSRVu5mL66uJDiDhHa8I6fnXAI/UHhnA7H+kt1Nwh
+ mezeuNZsViAa6SYwzKeDCNeGBDw42qN4BGJPcAu+3mNhj2V/3KhhGKboU9vpC7f4Qo/s
+ bhMT00HWQ6FStKqZi/oTPjCfaxQP957UPgp/OXD2njXoOl6tKPusyD9qPRe6sUvHhM+T
+ IZpjXOuer4VczDkAY2Kit8xQpazDQJOE0cOBLDgyXEUqRs6+I1TK3am/2NNpaaFtUaGD
+ M3ZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=heqDo1SemRKJ38s2oaglUe868ZlxEolBPvviw9Bv8Jo=;
- b=nKztW09vfDzpI5dOj2nziXIU2TldGtwJkoh6wG8F9XS+M01kg5+G0uatrMGnG5UOv+
- Rt3K2MNGfIMh44KIHldhC07G0iFT7KVKleXI04/a2glk6OkAsKYdlYKfpVCNihdi1HSH
- 1lyqyF0wJIkErOpmjnkCKrsqLBUlcG6bI4aAe7WZXRiqBCay4Q/HNZ8DsXprY2M8lwXY
- audeIgnyDfVCphmOI4niWEQYXuYwf9escG/eZhOcjG1CmqduypSXWFSQT2uJ9EUWNII2
- sv2Kq0XBEN3S2lv09HtgAoiE8Xv1ZV/f+WYAa0rBFxx/yqeBG2GqJOOZjyz/N1Vezzjo
- saag==
-X-Gm-Message-State: ANoB5pmata1GkeFmPFlTPCyOFsag6OESLbcLtpKrs+1xHFUd75iRcAU2
- dqTW96dqeXRHvB0707i6B9RF1uilV4LQCGg9IIE=
-X-Google-Smtp-Source: AA0mqf501V19/0cKPFiEfx+BFWiPWHLnpu61P98cAI4LEC+oEECnLTWdJ6qFeaJ1dtEeEtZIW3JlNl+8OtHDs2NicQA=
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Xptklll5ySe4mf0oAhiOF1wKRg+/HTC07bmb7I7+5uA=;
+ b=a16xmBk/BqNHRI7ER/2k9e28YK6lS7MC7Ua+/SC+6EvzgU2QEY6CBsTNd1c31XT5Gr
+ qR1KhOVABBbR1Ixr4RnMbwrruclXtRt1rannbkeMY5hRMo8jWPFjEM1fwSAQDJyZM1sc
+ wT44rkY4DY1kofjIzgWs+/P4CeZOx7wp8sv5rfwOrfYRGV19d6K0FxNLgW7CixJSLu0D
+ U9xeB+xuDyXW4+cs08ncAu9C0yfomeYBvx/R/y2PLzIeoX3/Ib2y1d01/LCzy88n2FHe
+ HHfzn6HZ91VHNLANobYtY32RrmJFv7NfpMCaqikY4Tzk2LyX8D/U0uG45THJefWxd822
+ gvdA==
+X-Gm-Message-State: ANoB5pn777wAvp23EbrZG/QE+Ms1A/5iCu7G2cKFwMXCmfcT3wLjQcO6
+ 9RLZb4f1RAtoEcxYfa8zziWEbFuHWzWpKNUR9S1g4CYm
+X-Google-Smtp-Source: AA0mqf4fcK1eVs08bvLTT2+22WNGQCsB4Vccc9/sQ6g0MuvqF8nn/ObUUcoGF0S3XEqgekDednOyDP92G6TQrcrtrOQ=
 X-Received: by 2002:a9d:628b:0:b0:66c:6afa:5006 with SMTP id
- x11-20020a9d628b000000b0066c6afa5006mr22125669otk.233.1669735462613; Tue, 29
- Nov 2022 07:24:22 -0800 (PST)
+ x11-20020a9d628b000000b0066c6afa5006mr22132233otk.233.1669735686740; Tue, 29
+ Nov 2022 07:28:06 -0800 (PST)
 MIME-Version: 1.0
-References: <Y4Mz0glMNwDPaFPO@itl-email>
- <CADnq5_NfupG-DzNDJfntg+uSWH2m_8mLfj=ddkMdnNYNRhXWUw@mail.gmail.com>
- <Y4Vngz5tTA74Qr8L@itl-email>
- <CADnq5_P8kuSsSFatMq4g0r2yE3TW0Rqzm07+Kpv9wKTi0GGS-Q@mail.gmail.com>
- <Y4Yh/gyt48zoIOyL@mail-itl>
-In-Reply-To: <Y4Yh/gyt48zoIOyL@mail-itl>
+References: <20221129071032.2154949-1-konstantin.meskhidze@huawei.com>
+In-Reply-To: <20221129071032.2154949-1-konstantin.meskhidze@huawei.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 29 Nov 2022 10:24:10 -0500
-Message-ID: <CADnq5_PD9vn8pc15_kO=8JvfVU6sWidmi+Ku5poi7WsUTMpKFQ@mail.gmail.com>
-Subject: Re: AMD GPU problems under Xen
-To: =?UTF-8?Q?Marek_Marczykowski=2DG=C3=B3recki?=
- <marmarek@invisiblethingslab.com>
+Date: Tue, 29 Nov 2022 10:27:55 -0500
+Message-ID: <CADnq5_OkpKY25gPQJWVGb859EJrG2uqL4J9DW_Yiut9iN6AhKQ@mail.gmail.com>
+Subject: Re: [PATCH] drm: amdgpu: Fix logic error
+To: Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,135 +65,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Demi Marie Obenour <demi@invisiblethingslab.com>,
- Xen developer discussion <xen-devel@lists.xenproject.org>,
- amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org
+Cc: yifan1.zhang@amd.com, Xinhui.Pan@amd.com, yusongping@huawei.com,
+ guchun.chen@amd.com, lijo.lazar@amd.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, mdaenzer@redhat.com, nirmoy.das@amd.com,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
+ hukeping@huawei.com, evan.quan@amd.com, artem.kuzin@huawei.com,
+ christian.koenig@amd.com, Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 29, 2022 at 10:15 AM Marek Marczykowski-G=C3=B3recki
-<marmarek@invisiblethingslab.com> wrote:
->
-> On Tue, Nov 29, 2022 at 09:32:54AM -0500, Alex Deucher wrote:
-> > On Mon, Nov 28, 2022 at 8:59 PM Demi Marie Obenour
-> > <demi@invisiblethingslab.com> wrote:
-> > >
-> > > On Mon, Nov 28, 2022 at 11:18:00AM -0500, Alex Deucher wrote:
-> > > > On Mon, Nov 28, 2022 at 2:18 AM Demi Marie Obenour
-> > > > <demi@invisiblethingslab.com> wrote:
-> > > > >
-> > > > > Dear Christian:
-> > > > >
-> > > > > What is the status of the AMDGPU work for Xen dom0?  That was men=
-tioned in
-> > > > > https://lore.kernel.org/dri-devel/b2dec9b3-03a7-e7ac-306e-1da024a=
-f8982@amd.com/
-> > > > > and there have been bug reports to Qubes OS about problems with A=
-MDGPU
-> > > > > under Xen (such as https://github.com/QubesOS/qubes-issues/issues=
-/7648).
-> > > >
-> > > > I would say it's a work in progress.  It depends what GPU  you have
-> > > > and what type of xen setup you are using (PV vs PVH, etc.).
-> > >
-> > > The current situation is:
-> > >
-> > > - dom0 is PV.
-> > > - VMs with assigned PCI devices are HVM and use a Linux-based stubdom=
-ain
-> > >   QEMU does not run in dom0.
-> > > - Everything else is PVH.
-> > >
-> > > In the future, I believe the goal is to move away from PV and HVM in
-> > > favor of PVH, though HVM support will remain for compatibility with
-> > > guests (such as Windows) that need emulated devices.
-> > >
-> > > > In general, your best bet currently is dGPU add in boards because t=
-hey
-> > > > are largely self contained.
-> > >
-> > > The main problem is that for the trusted GUI to work, there needs to
-> > > be at least one GPU attached to a trusted VM, such as the host or a
-> > > dedicated GUI VM.  That VM will typically not be running graphics-
-> > > intensive workloads, so the compute power of a dGPU is largely wasted=
-.
-> > > SR-IOV support would help with that, but the only GPU vendor with ope=
-n
-> > > source SR-IOV support is Intel and it is still not upstream.  I am al=
-so
-> > > not certain if the support extends to Arc dGPUs.
-> >
-> > Can you elaborate on this?  Why wouldn't you just want to pass-through
-> > a dGPU to a domU to use directly in the guest?
->
-> You can do that, but if that's your only GPU in the system, you'll lose
-> graphical interface for other guests.
-> But yes, simply pass-through of a dGPU is enough in some setups.
->
-> > Are you sure?  I didn't think intel's GVT solution was actually
-> > SR-IOV.  I think GVT is just a paravirtualized solution.
->
-> Yes, it's a paravirtualized solution, with device emulation done in dom0
-> kernel. This, besides being rather unusual approach in Xen world
-> (emulators, aka IOREQ servers usually live in userspace) puts rather
-> complex piece of code that interacts with untrusted data (instructions
-> from guests) in almost the most privileged system component, without
-> ability to sandbox it in any way. We consider it too risky for Qubes OS,
-> especially since the kernel patches were never accepted upstream and the
-> Xen support is not maintained anymore.
->
-> The SR-IOV approach Demi is talking about is newer development,
-> supported since Adler Lake (technically, IGD in Tiger Lake presents
-> SR-IOV capability too, but officially it's supported since ADL). The driv=
-er
-> for managing it is in the process of upstreaming. Some links here:
-> https://github.com/intel/linux-intel-lts/issues/33
-> (I have not tried it, yet)
->
-> >  That aside,
-> > we are working on enabling virtio gpu with our GPUs on xen in addition
-> > to domU passthrough.
->
-> That's interesting development. Please note, Linux recently (part of
-> 6.1) gained support to use grant tables with virtio. This allows having
-> backends without full access to guest's memory. The work is done in
-> generic way, so a driver using proper APIs (including DMA) should work
-> out in such setup out of the box. Please try to not break it :)
->
-> > >
-> > > > APUs and platforms with integrated dGPUs
-> > > > are a bit more complicated as they tend to have more platform
-> > > > dependencies like ACPI tables and methods in order for the driver t=
-o
-> > > > be able to initialize the hardware properly.
-> > >
-> > > Is Xen dom0/domU support for such GPUs being worked on?  Is there an
-> > > estimate as to when the needed support will be available upstream?  T=
-his
-> > > is mostly directed at Christian and other people who work for hardwar=
-e
-> > > vendors.
-> >
-> > Yes, there are some minor fixes in the driver required which we'll be
-> > sending out soon and we had to add some ACPI tables to the whitelist
-> > in xen, but unfortunately the ACPI tables are AMD platform specific so
-> > there has been pushback from the xen maintainers on accepting them
-> > because they are not an official part of the ACPI spec.
->
-> Can the driver work without them? Such dependency, as you noted above,
-> make things rather complicated for pass-through (specific ACPI tables
-> can probably be made available to the guest, but usually guest wouldn't
-> see all the resources they talk about anyway).
-
-Not really for APUs and dGPUs that are integrated into a platform.
-For some of them the ACPI tables are just data tables which contain a
-copy of the vbios image which the driver needs for enumerating board
-and platform specific data like the display connector topology, i2c
-buses, clocks and voltages, etc.  However there are ACPI methods
-required for other things related to the platform like power budgets,
-GPU power, etc.  If you don't set them up correctly the system may not
-operate correctly or you may not be able to put the device into its
-lowest power state.
+Applied.  Thanks!
 
 Alex
+
+On Tue, Nov 29, 2022 at 2:49 AM Konstantin Meskhidze
+<konstantin.meskhidze@huawei.com> wrote:
+>
+> This commit fixes logic error in function 'amdgpu_hw_ip_info':
+>        - value 'uvd' might be 'vcn'.
+>
+> Signed-off-by: Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> index fe23e09eec98..28752a6a92c4 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> @@ -424,7 +424,7 @@ static int amdgpu_hw_ip_info(struct amdgpu_device *adev,
+>         case AMDGPU_HW_IP_VCN_DEC:
+>                 type = AMD_IP_BLOCK_TYPE_VCN;
+>                 for (i = 0; i < adev->vcn.num_vcn_inst; i++) {
+> -                       if (adev->uvd.harvest_config & (1 << i))
+> +                       if (adev->vcn.harvest_config & (1 << i))
+>                                 continue;
+>
+>                         if (adev->vcn.inst[i].ring_dec.sched.ready)
+> @@ -436,7 +436,7 @@ static int amdgpu_hw_ip_info(struct amdgpu_device *adev,
+>         case AMDGPU_HW_IP_VCN_ENC:
+>                 type = AMD_IP_BLOCK_TYPE_VCN;
+>                 for (i = 0; i < adev->vcn.num_vcn_inst; i++) {
+> -                       if (adev->uvd.harvest_config & (1 << i))
+> +                       if (adev->vcn.harvest_config & (1 << i))
+>                                 continue;
+>
+>                         for (j = 0; j < adev->vcn.num_enc_rings; j++)
+> --
+> 2.25.1
+>
