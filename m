@@ -2,32 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DC8E63C7EF
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 20:18:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C72163C7F1
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 20:18:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9486310E1DD;
-	Tue, 29 Nov 2022 19:18:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A05E710E220;
+	Tue, 29 Nov 2022 19:18:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFD0B10E1DD
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 19:18:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A01B10E211
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 19:18:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1669749469; h=from:from:sender:reply-to:subject:subject:date:date:
+ s=mail; t=1669749470; h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7gAnxaoVqEWoM5vi/BaBgxdiGzKVxjjTsGqnEeIglYs=;
- b=Lb3U8DMaMv86BzMM+cDyhB6ZOmgECsaSU4wa2llVOeq8427YF/e+LM6bLEc1eB2cFI1SR4
- cHxQpiRDgnycev9zdcpVoeoXS8zV88XDwRPGji+L3Mg5C3mOXy4zBHGWVfl5/M/4DS7Aw9
- BVcFIFgpdnmmm+0yq9xtiNKl35K8Sfs=
+ bh=dIthVPfRqMzRLHonB9Z3+9yNKc8FhZTyJnewRLDcrPs=;
+ b=v6cI95cKHZF7JRsW6yCZyviPrYgL1hUQg6mGKb3+uSwSQT68AJ3ZblHdt2FXdYjVdF2lxU
+ YhUSzbi1grVPHthQtkb3JWgqIRU8fEVCYtMlY3+3ITbHhcGY6uZfFk5LsBbEBlxgN4TgmX
+ 0FTfc9J1QbkFBazrASWsvhNoZ8uol00=
 From: Paul Cercueil <paul@crapouillou.net>
 To: David Airlie <airlied@gmail.com>,
 	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 01/26] drm: modeset-helper: Add
- DEFINE_DRM_MODE_CONFIG_HELPER_PM_OPS macro
-Date: Tue, 29 Nov 2022 19:17:08 +0000
-Message-Id: <20221129191733.137897-2-paul@crapouillou.net>
+Subject: [PATCH v2 02/26] drm: bochs: Define and use generic PM ops
+Date: Tue, 29 Nov 2022 19:17:09 +0000
+Message-Id: <20221129191733.137897-3-paul@crapouillou.net>
 In-Reply-To: <20221129191733.137897-1-paul@crapouillou.net>
 References: <20221129191733.137897-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -44,84 +43,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Cercueil <paul@crapouillou.net>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Paul Cercueil <paul@crapouillou.net>,
+ virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This macro can be used with simple drivers, which have their
-"struct drm_device" registered as their "struct device"'s drvdata, and
-only call drm_mode_config_pm_{suspend,resume}.
+Use the new DEFINE_DRM_MODE_CONFIG_HELPER_PM_OPS() macro to create a
+"struct dev_pm_ops" that can be used by this driver, instead of using
+custom PM callbacks with the same behaviour.
 
-The macro will define a "struct dev_pm_ops" with the name passed as
-argument. This object cannot be referenced directly; instead, the
-pm_sleep_ptr() macro should be used, like this:
-
-DEFINE_DRM_MODE_CONFIG_HELPER_PM_OPS(foo_pm_ops);
-
-static struct platform_driver foo_driver = {
-    .driver.pm = pm_sleep_ptr(&foo_pm_ops),
-    ...
-};
-
-This ensures that the generated code will be dropped by the compiler in
-the case where CONFIG_PM has been disabled in the config.
-
-v2: instead of exporting a dev_pm_ops, introduce the
-    DEFINE_DRM_MODE_CONFIG_HELPER_PM_OPS() macro.
+v2: Use the DEFINE_DRM_MODE_CONFIG_HELPER_PM_OPS() macro instead of an
+    exported dev_pm_ops.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- include/drm/drm_modeset_helper.h | 38 ++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: virtualization@lists.linux-foundation.org
+---
+ drivers/gpu/drm/tiny/bochs.c | 29 ++++-------------------------
+ 1 file changed, 4 insertions(+), 25 deletions(-)
 
-diff --git a/include/drm/drm_modeset_helper.h b/include/drm/drm_modeset_helper.h
-index 995fd981cab0..2ecf0e5c2e16 100644
---- a/include/drm/drm_modeset_helper.h
-+++ b/include/drm/drm_modeset_helper.h
-@@ -41,4 +41,42 @@ int drm_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
- int drm_mode_config_helper_suspend(struct drm_device *dev);
- int drm_mode_config_helper_resume(struct drm_device *dev);
+diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
+index 024346054c70..598488905607 100644
+--- a/drivers/gpu/drm/tiny/bochs.c
++++ b/drivers/gpu/drm/tiny/bochs.c
+@@ -2,6 +2,7 @@
  
-+/**
-+ * DEFINE_DRM_MODE_CONFIG_HELPER_PM_OPS - Generate simple PM callbacks
-+ *
-+ * This macro can be used by simple drivers that would otherwise only call
-+ * drm_mode_config_helper_suspend / drm_mode_config_helper_resume in their PM
-+ * callbacks. It will generate a struct dev_pm_ops of the given name, that can
-+ * then be referenced in the device_driver structure.
-+ *
-+ * Note that it is only valid if the driver's drm_device has been registered as
-+ * the struct device's drvdata.
-+ *
-+ * Additionally, the generated dev_pm_ops structure should not be referenced
-+ * directly; instead, the pm_sleep_ptr() macro should be used, like this:
-+ *
-+ * DEFINE_DRM_MODE_CONFIG_HELPER_PM_OPS(foo_pm_ops);
-+ *
-+ * static struct platform_driver foo_driver = {
-+ *	.driver.pm = pm_sleep_ptr(&foo_pm_ops),
-+ *	...
-+ * };
-+ *
-+ * This ensures that the generated code will be dropped by the compiler in the
-+ * case where CONFIG_PM has been disabled in the config.
-++ */
+ #include <linux/module.h>
+ #include <linux/pci.h>
++#include <linux/pm.h>
+ 
+ #include <drm/drm_aperture.h>
+ #include <drm/drm_atomic_helper.h>
+@@ -610,30 +611,6 @@ static const struct drm_driver bochs_driver = {
+ 	DRM_GEM_VRAM_DRIVER,
+ };
+ 
+-/* ---------------------------------------------------------------------- */
+-/* pm interface                                                           */
+-
+-#ifdef CONFIG_PM_SLEEP
+-static int bochs_pm_suspend(struct device *dev)
+-{
+-	struct drm_device *drm_dev = dev_get_drvdata(dev);
+-
+-	return drm_mode_config_helper_suspend(drm_dev);
+-}
+-
+-static int bochs_pm_resume(struct device *dev)
+-{
+-	struct drm_device *drm_dev = dev_get_drvdata(dev);
+-
+-	return drm_mode_config_helper_resume(drm_dev);
+-}
+-#endif
+-
+-static const struct dev_pm_ops bochs_pm_ops = {
+-	SET_SYSTEM_SLEEP_PM_OPS(bochs_pm_suspend,
+-				bochs_pm_resume)
+-};
+-
+ /* ---------------------------------------------------------------------- */
+ /* pci interface                                                          */
+ 
+@@ -716,12 +693,14 @@ static const struct pci_device_id bochs_pci_tbl[] = {
+ 	{ /* end of list */ }
+ };
+ 
++DEFINE_DRM_MODE_CONFIG_HELPER_PM_OPS(bochs_pm_ops);
 +
-+#define DEFINE_DRM_MODE_CONFIG_HELPER_PM_OPS(_name) \
-+	static int __##_name##_drm_mode_config_pm_suspend(struct device *dev) \
-+	{ \
-+		return drm_mode_config_helper_suspend(dev_get_drvdata(dev)); \
-+	} \
-+	static int __##_name##_drm_mode_config_pm_resume(struct device *dev) \
-+	{ \
-+		return drm_mode_config_helper_resume(dev_get_drvdata(dev)); \
-+	} \
-+	static DEFINE_SIMPLE_DEV_PM_OPS(_name, \
-+					__##_name##_drm_mode_config_pm_suspend, \
-+					__##_name##_drm_mode_config_pm_resume)
-+
- #endif
+ static struct pci_driver bochs_pci_driver = {
+ 	.name =		"bochs-drm",
+ 	.id_table =	bochs_pci_tbl,
+ 	.probe =	bochs_pci_probe,
+ 	.remove =	bochs_pci_remove,
+-	.driver.pm =    &bochs_pm_ops,
++	.driver.pm =    pm_sleep_ptr(&bochs_pm_ops),
+ };
+ 
+ /* ---------------------------------------------------------------------- */
 -- 
 2.35.1
 
