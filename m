@@ -2,41 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFF1B63BDEE
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 11:25:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BED763BE2E
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 11:42:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E59BE10E3A2;
-	Tue, 29 Nov 2022 10:25:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E339889919;
+	Tue, 29 Nov 2022 10:42:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CC1710E07B;
- Tue, 29 Nov 2022 10:25:09 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9503C4DA;
- Tue, 29 Nov 2022 11:25:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1669717507;
- bh=om7r0sduDJqSW0WtlP69E0nQOrIR73cGRiFJsSrIhRc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ik5F7vRSd2MPAeA6CjMVV7FCaI6zgCIzg7fMty1DCCF2KxCbNJoWtOwqhZUxmZVSA
- BvV7wT0+1dJ0SNoC7vEPgPl9Swm/seOPaHDr/R1cgkR1J9I77y4yACzRPK1rJJqixg
- gzMvVBQAsDj1w1ldDkaDBNKiC0FOpo/3F8eXZPuM=
-Date: Tue, 29 Nov 2022 12:24:51 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [RFC 0/2] drm/connector: connector iterator with filtering
-Message-ID: <Y4Xd85DUzrijeyXW@pendragon.ideasonboard.com>
-References: <cover.1664966047.git.jani.nikula@intel.com>
- <7af346ec-8473-2a37-0fb4-220a42529a1e@amd.com>
- <87iliy3y7q.fsf@intel.com>
+Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com
+ [IPv6:2607:f8b0:4864:20::1130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD64C89919
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 10:42:35 +0000 (UTC)
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-3b5d9050e48so131788097b3.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 02:42:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=qiuHOBfLm8xDKPr5NpNi5uPMZ9QumzIsq4ugxTPstn0=;
+ b=p050Ok3UGwXLXE9hFcZfGx5Mm2QsWRICxByxDR/1u4QZnbfvFG6psV+emVzskfbk5z
+ 89tYazSs4E6fwabgM0W6TmEDHClbFJtHSFhF17gcnpdPZS9JRhwCD4sfbWjdpBUVDvE/
+ u2MBnXLQuSH1Q7YPq/ELFwZM+RC5st12uCHwg3aflM9OcA4A1oHN3SBT+SzUZYpH1fae
+ 5Pe4nEYvKmx5YNIpSXyJeyDZ7P7/SxdxnWcN/6yil7BGC9vs426mxusG24I9ipq3Qi5/
+ T/j5+TNGI6ORutVEK309xwiJA4pakZDRpDdJpKhCwJt8i1VpsOg9UfGN8bOg2WVeTREb
+ 0L/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qiuHOBfLm8xDKPr5NpNi5uPMZ9QumzIsq4ugxTPstn0=;
+ b=jJUes4lRIzAnPjkr4xcYIlofVFlAvAQBAVGjZbGozUT2tS27YO87Z5ZyDnyZx82U2K
+ a4nn1YVwNrh2Klv5fHrYUVEJlblaPMGnRmNlezwrZAzAoaqPRMQaWcO6LAMPJXELwuBv
+ pFq38ELKxWrmDbnocopUcPN4NVBElpUeAwpJ3IDwhLYg9mlwQn/sx0wxnxXqmzG4lOAr
+ qhLx15MKsBLEX8bZ2+Gv8TEyY9aancpG3R8m4htKxLqaFf1oro7qKAgVK13chiuSHaic
+ vM0FScUi3FRFbjZTuO74Ud4JKQViVOJev3lbc7tgAxwv2o1K8X6wDhApyO7mnpjU6MEt
+ G5hQ==
+X-Gm-Message-State: ANoB5pld0lo0LBYDDvixDwlg/DqW1eMSg7fHUuIz/5mdqzaijy7gqxxs
+ oRrnoXBdlHM9kp/hkovvPLFn1s9w4ByVr3tuhxtQlQ==
+X-Google-Smtp-Source: AA0mqf6wCMf4LDoq0RWeKfC+T4s70dw2fPJdqZS8dpYQD0aDkLZtEaTaRNMR16bUd5fUPv1By3TVsd4xYQae6EVqobc=
+X-Received: by 2002:a81:fc5:0:b0:3c3:5496:49f3 with SMTP id
+ 188-20020a810fc5000000b003c3549649f3mr11914670ywp.510.1669718554975; Tue, 29
+ Nov 2022 02:42:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87iliy3y7q.fsf@intel.com>
+References: <20221129101030.57499-1-randy.li@synaptics.com>
+In-Reply-To: <20221129101030.57499-1-randy.li@synaptics.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Tue, 29 Nov 2022 10:42:24 +0000
+Message-ID: <CAPj87rOiLoGCnOio7=g9wd4auMuwSQV8PesD3Svf=gOWJAzwOg@mail.gmail.com>
+Subject: Re: [RFC] drm/fourcc: Add a modifier for contiguous memory
+To: Hsia-Jun Li <randy.li@synaptics.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,89 +66,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Suraj Kandpal <suraj.kandpal@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, "Mahfooz, Hamza" <Hamza.Mahfooz@amd.com>,
- Arun R Murthy <arun.r.murthy@intel.com>
+Cc: ayaka@soulik.info, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, nicolas@ndufresne.ca, hverkuil@xs4all.nl,
+ tzimmermann@suse.de, tfiga@chromium.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jani,
+Hi Randy,
 
-On Tue, Nov 29, 2022 at 11:29:45AM +0200, Jani Nikula wrote:
-> On Fri, 25 Nov 2022, Harry Wentland <harry.wentland@amd.com> wrote:
-> > On 10/5/22 06:51, Jani Nikula wrote:
-> >> Currently i915 assumes all drm_connectors it encounters are embedded in
-> >> intel_connectors that i915 allocated. The drm_writeback_connector forces
-> >> a design where this is not the case; we can't provide our own connector,
-> >> and writeback embeds the drm_connector it initializes itself.
-> >> 
-> >> To use drm writeback, none of the i915 connector iteration could assume
-> >> the drm connector is embedded in intel_connector. Checking this is
-> >> tedious, and would require an intermediate step with
-> >> drm_connector. Here's an idea I came up with; filtering at the drm
-> >> connector iterator level with a caller supplied function. Not too much
-> >> code, and could be used for other things as well.
-> >> 
-> >
-> > We've been trying to hook up drm_writeback_connector in amdgpu and
-> > this would be really helpful. I've had to do liberal sprinkling
-> > of "!= DRM_MODE_CONNECTOR_WRITEBACK" all over the place.
-> >
-> >> Mind you, we'd still much rather modify drm writeback to allow passing
-> >> the connector i915 allocated, instead of the current midlayer design
-> >> that forces drivers to a certain model. Working around this is a bunch
-> >> of error prone and tedious code that we really could do without.
-> >
-> > I think this would be even better but also be much more work and impact
-> > every driver that implements writeback. FWIW, there was no way for me
-> > to add writeback connector handling without KASAN. Interpreting the
-> > connector wrong in one place leads to memory corruption and
-> > undefined behavior and is almost impossible to spot without KASAN.
-> 
-> Laurent, I once again plead - could we please reconsider this and give
-> drivers the option to allocate and provide the drm_connector to
-> writeback themselves?
-> 
-> All things considered I think that would be the safer option.
+On Tue, 29 Nov 2022 at 10:11, Hsia-Jun Li <randy.li@synaptics.com> wrote:
+> Currently, we assume all the pixel formats are multiple planes, devices
+> could support each component has its own memory plane.
+> But that may not apply for any device in the world. We could have a
+> device without IOMMU then this is not impossible.
+>
+> Besides, when we export an handle through the PRIME, the upstream
+> device(likes a capture card or camera) may not support non-contiguous
+> memory. It would be better to allocate the handle in contiguous memory
+> at the first time.
+>
+> We may think the memory allocation is done in user space, we could do
+> the trick there. But the dumb_create() sometimes is not the right API
+> for that.
+>
+> "Note that userspace is not allowed to use such objects for render
+> acceleration - drivers must create their own private ioctls for such a
+> use case."
+> "Note that dumb objects may not be used for gpu acceleration, as has
+> been attempted on some ARM embedded platforms. Such drivers really must
+> have a hardware-specific ioctl to allocate suitable buffer objects."
+>
+> We need to relay on those device custom APIs then. It would be helpful
+> for their library to calculate the right size for contiguous memory. It
+> would be useful for the driver supports rendering dumb buffer as well.
 
-I do think all this stems from the decision of using connectors for
-writeback, and we're paying the price for it now. It's painful in
-drivers, and that's why I would prefer hiding it from drivers and
-handling it completely in the DRM core. Ideally the connector
-enumeration API exposed to drivers should not even enumerate the
-writeback connectors by default.
+As a buffer can only have a single modifier, this isn't practical.
+Contiguous needs to be negotiated separately and out of band. See e.g.
+dma-heaps for this.
 
-I'm just a contributor to the subsystem, so I don't make the call. If
-there's a general consensus it's better to require all drivers to handle
-writeback connectors explicitly everywhere (Daniel and Dave may want to
-chime in here), I can be overruled, like anybody else.
-
-> > This series is
-> > Acked-by: Harry Wentland <harry.wentland@amd.com>
-> >
-> >> Cc: Arun R Murthy <arun.r.murthy@intel.com>
-> >> Cc: Dave Airlie <airlied@gmail.com>
-> >> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >> Cc: Suraj Kandpal <suraj.kandpal@intel.com>
-> >> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> >> 
-> >> Jani Nikula (2):
-> >>   drm/connector: add connector list iteration with filtering
-> >>   drm/i915: iterate intel_connectors only
-> >> 
-> >>  drivers/gpu/drm/drm_connector.c               | 57 +++++++++++++++----
-> >>  drivers/gpu/drm/i915/display/intel_display.c  |  3 +-
-> >>  .../drm/i915/display/intel_display_types.h    |  7 +++
-> >>  drivers/gpu/drm/i915/display/intel_dp.c       |  6 +-
-> >>  drivers/gpu/drm/i915/display/intel_dp_mst.c   |  3 +-
-> >>  drivers/gpu/drm/i915/display/intel_hdcp.c     |  3 +-
-> >>  drivers/gpu/drm/i915/display/intel_hotplug.c  | 12 ++--
-> >>  .../drm/i915/display/intel_modeset_setup.c    |  6 +-
-> >>  drivers/gpu/drm/i915/display/intel_opregion.c |  9 ++-
-> >>  include/drm/drm_connector.h                   |  9 +++
-> >>  10 files changed, 89 insertions(+), 26 deletions(-)
-
--- 
-Regards,
-
-Laurent Pinchart
+Cheers,
+Daniel
