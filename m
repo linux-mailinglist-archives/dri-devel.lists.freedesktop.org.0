@@ -2,41 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3918B63BFB4
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 13:06:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0965863BFBF
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 13:08:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 070AF10E061;
-	Tue, 29 Nov 2022 12:06:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41A7C10E3C8;
+	Tue, 29 Nov 2022 12:07:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E18C510E061
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 12:05:57 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 01FAD4E6;
- Tue, 29 Nov 2022 13:05:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1669723556;
- bh=MEw3m7pk4uWB4rCM1JjUTMkF2WzfwXDZdkwyK+9Ra1M=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kSBM1oHHldmnkRBHuzJnDMmEWA8ITsTO+spE8/5eKNkep97A91eHJnsri7cSQg3Ld
- m7bM97xtlqhZfTKyKw/RDcIVZzOLh1jVMnUVOcSXocUHbBJeRTFHjC671UYE608wHP
- nOEt/v2RtGLB8E/xHXf4iC3RZUVfiE9bMIoLw0tc=
-Date: Tue, 29 Nov 2022 14:05:40 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Subject: Re: [PATCH v2 7/7] drm: rcar-du: dsi: Add r8a779g0 support
-Message-ID: <Y4X1lEh8Sca4NCP2@pendragon.ideasonboard.com>
-References: <20221123065946.40415-1-tomi.valkeinen+renesas@ideasonboard.com>
- <20221123065946.40415-8-tomi.valkeinen+renesas@ideasonboard.com>
- <Y4VlHIpS9UnvWwt/@pendragon.ideasonboard.com>
- <d11033df-e103-e33c-c61a-a0725f7098b1@ideasonboard.com>
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2058.outbound.protection.outlook.com [40.107.92.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54A3C10E3C5;
+ Tue, 29 Nov 2022 12:07:52 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bqb3pRQOFj8WNa9OzN+0LuBiTbud1xBYoeZIOGgIORmMTNHF2b+Ci+1PX47BfkLOa1K0ruBZv061wMso7Ryy7wXENHCeNBPohrrCYKgqq7xf/LkkPvK49gLnZ4Z07sGp5eTmotk7k2YBTjkE5kW9Bttm6xr+IEjsM6QENvH7NVip2+k/8iR60A3hkM36VeLT5Y/rbNrvuYvoZ0t+0E4c7XWsiAlwIW6OlTp+Ai+HwdP8/QuKTVFd4AwSCTF3OWRT2Ac2pTx6/fYG+6ISjZHx2hP6WqZo5t9CJTzGC3RtrUAKiFYysLggvjxuUwoTOL2cnc3/l1lmeb83f6pun6ZXOA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fhuc1l7CUHV4DxPqVA92IroD520wmBqtTwhR+v5JUm4=;
+ b=N511HV/qJxBC8nfKjlyQxTYoCIFBm8MfBcUbSca7gwyeTxTpPSH6lbKbV0cnWc78M8rUBq/3XoKjnoeYl3k9aWQx0adC91WjfKTz+ViUxhOXWoL5KHGP7Eny3yBmpEsyQJPlcd6/WXa5l+dgYJT9t1t6u9ql8bLZcP6+kmSTFjd86VzOz7QwEZNb1LbxnvSv7qytNItAlZvZsrkODb7qH5l6kxFdwmdvjKenAumzhw/AJ+d41WzdOrFnZ+G1n8xHGpUqM+WOlBSV4Ap65niJVOL4hrSNXAFDsUTp1vtT/nDPkmiUiVePnlP0Qsa48l/p0XvFklRJxb4yFTVdpRnVVw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fhuc1l7CUHV4DxPqVA92IroD520wmBqtTwhR+v5JUm4=;
+ b=JfP5WCpkxWLxLvd2o07PkMvqcOqwwNoGn5Ctym6/lbqIuE+upIE7CCBae/eDjkPkddqOWZwIUXMW8zP/amCF6HA6WrRCYKn94ExU4Zo3P31tAdSIp7wcDWuQnOgkH+lPEPmeDRdqszBcXhGl+k6VEJ8VPdxQuoYbBSMl5DEEvV4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by PH0PR12MB7885.namprd12.prod.outlook.com (2603:10b6:510:28f::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.19; Tue, 29 Nov
+ 2022 12:07:49 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::7d43:3f30:4caf:7421]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::7d43:3f30:4caf:7421%7]) with mapi id 15.20.5857.023; Tue, 29 Nov 2022
+ 12:07:49 +0000
+Message-ID: <d35db289-2d82-1fad-49e0-f41daea460ab@amd.com>
+Date: Tue, 29 Nov 2022 13:07:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: =?UTF-8?B?UmU6IOWbnuWkjTogW1BBVENIIHY0XSBkcm06IE9wdGltaXNlIGZvciBj?=
+ =?UTF-8?Q?ontinuous_memory_allocation?=
+Content-Language: en-US
+To: "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
+References: <20221129105655.125571-1-xinhui.pan@amd.com>
+ <fe127690-9dbb-797f-c0c3-f1e05657293f@amd.com>
+ <DM4PR12MB51650DA0960F7E13F3F64E9687129@DM4PR12MB5165.namprd12.prod.outlook.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <DM4PR12MB51650DA0960F7E13F3F64E9687129@DM4PR12MB5165.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0052.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:93::15) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <d11033df-e103-e33c-c61a-a0725f7098b1@ideasonboard.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|PH0PR12MB7885:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2e982c81-4539-45cb-c89f-08dad2025595
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1qe8MJjh3isONq6/mI5Q1NpUwBFOgQZCeTn8oVaebCvWtiKEzfQIrY/3uxjM5hHYKkcW85iaB0OR1WYMNhSiQslS+ebJwVdlT1GnnaxV8DUBe2FbbDsWezGdd9Jwz0ccmZQEcAGvhiq31U9NS7Po2wtRqunmfASjBt6wT9sefMu/TGwuu2Igcuu4TF1Xb/52V2x1Ru1n7dKpbVRxonpFcvzG/BASxqxf6TFtRKoZzQUf3PzobDYSYWdQ3WJQFQr5idToGNCJvqomL3E8rhjV16znGRsS8UKnCtZkUwnvPe4IlFQj77MerLOMnGPgtxPCoPq6SDtC1odUga6DA43Ydd4QgfilyCZZ3ZO3m9e71Dr4mpPVUwEvKfTAAXDwxt6YEM6uzZtm0lyq2JVqirKTEYKaEwwj8cFCeB6g7jNkvqq+GY+b2hZX+tIy8b9RltVGBB102yI2RxTwDOy8LFW+VV2cz2nc2n3f2emTJSmc+WUk608eTfnQtLkmMi4D1BrNj/1jrkk0qAQzhOpvVPeQRn9qInogsMqz5KZlchcqt7b0b0sjstO4bljdZZD0Q3/CxULwoRZaR2yxQBLuKYyvklYsMXaLQqEfdC7VEmsj/mdepy53UnJSHDoT5O3tHzsLwyQQ0ftycFe7v/qSY4HIFy8VvWymE9oKzC0fbchvS3Bp0NPGsLtIoAG6YS8dNktQ5j0NhdUSC09/prsciPN4Efof7VRGMGpRN/Yq2Zazrcc=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(376002)(136003)(366004)(346002)(396003)(39860400002)(451199015)(31686004)(66899015)(224303003)(8936002)(6506007)(5660300002)(41300700001)(2906002)(4326008)(31696002)(86362001)(36756003)(66946007)(316002)(110136005)(54906003)(478600001)(6486002)(38100700002)(66556008)(83380400001)(2616005)(6666004)(66476007)(186003)(6512007)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZXJVR1ZuSXpQaWNoVkhFRjdrWDNMS3FPZWJNcjN3QnJSTGdHVm0ybVdiQzQx?=
+ =?utf-8?B?emI0bnpURVRWazN0ZldRV2tpR1ljTFVLS2w5NXlaTDJkL0kwcnMxekFaVFha?=
+ =?utf-8?B?WGVJbTZjcDlKMjhSVTVacUNlaXUzMGQreTVzejBUL01DRkZ3T29oVThTKzlE?=
+ =?utf-8?B?M2J3RXVFLzdsUmc2dk9UTmpiaUg1YTRNWi93RDJhWXRCNHd1MFBlMkJGZEtE?=
+ =?utf-8?B?Qm9OdE1KcjQyRkh2V0xZeER2TnA3MEl3WFZ0QUdvMFRHRWVNdEY3RHhKQWg5?=
+ =?utf-8?B?WHZ4MWRsRVkvTlVlRHNacGd0K3AzdFRHN0s5NU9SLzhzalZHSVQrbStKZDNG?=
+ =?utf-8?B?YiszTlE5Qm9zV2dhcVhZR0JVdnYxM0xHNW9TWTVEYUhmay9KZVoyMittaUZO?=
+ =?utf-8?B?OVdiNERocWpYMUNMS2wwZEhKL3cvQVluYjN1TTU5ZXBaR0I3RjIyUkhneit6?=
+ =?utf-8?B?Q3ZLeFBNYU5CWStLWTlnVDJjcUhXU041MTdTN0NLZ2JWem9UTUhYeWpvOU15?=
+ =?utf-8?B?clpBdDJ2SWp4R25oZ1ZTcHo1Vm1YWTVVVWVNTFRlS0ZDNnJGR1czQUdObkJP?=
+ =?utf-8?B?ZUZ3UFpRQmpBUG1IeWFiWHZRckFOTGFtd0Y2dHBzeFJDbHhNQ0ZxSjA4QldD?=
+ =?utf-8?B?MnlBWklnQTk5YkdQMmsxWXRQS09sMjYxTnBFaG5BdHk3Z2lZMFVEbGl1TUpQ?=
+ =?utf-8?B?eG94bTlYRzRmM1lCZU5rbFVlbXFLcnVZUnhzQjBzNUtvemFWeUV0WnNHSVR5?=
+ =?utf-8?B?NEVkaFZxcHZYRnFwcWx1N2VoWDN4em40Y21jZkJBaktxU0JpeHJpSFVDWHZj?=
+ =?utf-8?B?VDQvS2pMVzB6aGxiK2dwRkg5NW80Q2JMQy9WNFpERHAxSHhOOGRFaHgyTGFy?=
+ =?utf-8?B?WFB3WnBENlBmYUFuc1MzVm5jUVdLUTBqWUtWNXZRTGdndW8xNDZiUnFyUWR0?=
+ =?utf-8?B?UWFST1RVaFoyUUU4S0pQc3M5OHBiQVJUL1h2WWtPWTZrOWUrL2FGbTIwOEE3?=
+ =?utf-8?B?L21oRjROdEpUTkJoSXVpa05JOFpPait1NG1aZFFoT3M1V1JDMzhscWUvUGRv?=
+ =?utf-8?B?ZE9BYlZCa1BwUTRKR1RrUGRzbngwVml3aWlUTGlDTDVBbUJLNklhSU1wRGo2?=
+ =?utf-8?B?dUVraDEzSXNVM2o2SFlCUnpqam1GM2lrSkdrNmlWNkpCYjdkbm1kdk9JTVpl?=
+ =?utf-8?B?Q2ZRM1dGU2VZUE5iTC95ZXludDF2Q0pydlRQUE45ZU1ERDU0R29XUjZZcFZD?=
+ =?utf-8?B?RHJESG9zaUQ5Zys4THArM0tYSVhPdE9tcW8zWVVWaU5tdTJKWnhSeVJPSmFs?=
+ =?utf-8?B?dTlQQWJJWEtxaVB0RjgwWWIwOUhzcFp4cEtTOWFQeFVjclhaZE5LY2hzbytx?=
+ =?utf-8?B?STJOcjdpejhkM2Exa2dSWGJacWlvWUg3NS80UGVjOW5SRlAvaW00SUpmZURI?=
+ =?utf-8?B?WnZaUDhKUk5BS1k4RlJabklYNW5nRnM5OWZ0c044VnhDVXFHcXF5RzNtTjE2?=
+ =?utf-8?B?UTBoVG0wenRLQUV3NlVMNDFoMDBUTDU2SERINXQra3plNGV5MjFxMWp6YkNp?=
+ =?utf-8?B?bkRFa3VPR1hERFZXUUFKK2N3dUVmdnhWWkVRRFJIYUNaWTBXVjE0cHJKQmFq?=
+ =?utf-8?B?NGhQVUEvSHVUOUFjbGhpbkoxL0N6OTZZVWozNjBhU1lTdUhHeUpWaE5EbFRE?=
+ =?utf-8?B?c29uYldmR2NseDNtcUtaTm50S253OVZxYmQybmFzOExYVGZNNlB0cWt6TS9D?=
+ =?utf-8?B?dGQzbTZiaG1sSHVXVXVlRFY0OVo0MUdVelQ5NitaQ2kzWURCeUNITUxRQUJK?=
+ =?utf-8?B?cFlIcEFOZXAybDR4UC9WQ2NlQkxuS2VzOEVEeHRtQmZRYlNIR3d5MnBEQjVs?=
+ =?utf-8?B?bzh2MEM2c044bTR4NFlTSTdNY0w2dHAyc1NaSXprM0RTWVdHYzlCTW1vQlZT?=
+ =?utf-8?B?WmdvQ2VLNVhSWW0rRG00bndzc1I3Zm5RTC85YkRXaVVqMkNrdFJvSGJINFJ3?=
+ =?utf-8?B?V2JldnVGRmw5aW5VNEN3MlNMTmxKaThZRklNeVRGajh2S0MxU0lrR2s2Y2RN?=
+ =?utf-8?B?bW9xeGJFSm1jeFJobVQxOUdya1VSV1ZvZEZMTmZkVnJZNlBPeVZwaFdQQzhp?=
+ =?utf-8?B?b1c4cUQ1M2g5dis5OXNyM1ZKdVRJbW5mamxYNzhnMFEwam0vQXMydTl4U2tF?=
+ =?utf-8?Q?aiw6ZvhFSZ96UAd9UzLCyHobIMqS3PiC/mogTGc07/d9?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2e982c81-4539-45cb-c89f-08dad2025595
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Nov 2022 12:07:49.6181 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QjMOU9/jjfpr2fJPUS7COHIR53J1aPoUXE98pc4yXyesnbZUpsRMjssK+jCi6SqN
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7885
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,741 +129,281 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <neil.armstrong@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
- Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Robert Foss <robert.foss@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: "Paneer Selvam, Arunpravin" <Arunpravin.PaneerSelvam@amd.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "matthew.auld@intel.com" <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
+Am 29.11.22 um 12:54 schrieb Pan, Xinhui:
+> [AMD Official Use Only - General]
+>
+> comments inline.
+>
+> ________________________________________
+> 发件人: Koenig, Christian <Christian.Koenig@amd.com>
+> 发送时间: 2022年11月29日 19:32
+> 收件人: Pan, Xinhui; amd-gfx@lists.freedesktop.org
+> 抄送: daniel@ffwll.ch; matthew.auld@intel.com; dri-devel@lists.freedesktop.org; linux-kernel@vger.kernel.org; Paneer Selvam, Arunpravin; intel-gfx@lists.freedesktop.org
+> 主题: Re: [PATCH v4] drm: Optimise for continuous memory allocation
+>
+> Am 29.11.22 um 11:56 schrieb xinhui pan:
+>> Currently drm-buddy does not have full knowledge of continuous memory.
+>>
+>> Lets consider scenario below.
+>> order 1:    L             R
+>> order 0: LL   LR      RL      RR
+>> for order 1 allocation, it can offer L or R or LR+RL.
+>>
+>> For now, we only implement L or R case for continuous memory allocation.
+>> So this patch aims to implement the rest cases.
+>>
+>> Adding a new member leaf_link which links all leaf blocks in asceding
+>> order. Now we can find more than 2 sub-order blocks easier.
+>> Say, order 4 can be combined with corresponding order 4, 2+2, 1+2+1,
+>> 0+1+2+0, 0+2+1+0.
+> Well that description is a bit confusing and doesn't make to much sense
+> to me.
+>
+> When you have two adjacent free order 0 blocks then those should be
+> automatically combined into an order 1. This is a fundamental property
+> of the buddy allocator, otherwise the whole algorithm won't work.
+>
+> [xh] sorry, The order above is not 4, should be 3.
+> order 3 can be combined with corresponding order 3, 2+2, 1+2+1, 0+1+2+0, 0+2+1+0
+> the order 0 + 1 + 2 + 0 case does not have two same order 0 adjacent. they are in different tree.
+> looks like below
+> order 3:                            L3                                               R3
+> order 2:            L2                              (R2)*                    L2*
+> order 1:    L1             (R1)                                         L1
+> order 0: L0   (R0)                                                 (L0)
+> R0 + R1+R2 +L0 with () around combined to be order 3.
+> R2 + L2 with * followed combined to be order 3.
+> etc....
+>
+> When you have the case of a free order 1 block with two adjacent free
+> order 0 blocks then we a fragmented address space. In this case the best
+> approach is to fail the allocation and start to swap things out.
+>
+> [xh] Eviction is expensive.
 
-On Tue, Nov 29, 2022 at 01:30:04PM +0200, Tomi Valkeinen wrote:
-> On 29/11/2022 03:49, Laurent Pinchart wrote:
-> > On Wed, Nov 23, 2022 at 08:59:46AM +0200, Tomi Valkeinen wrote:
-> >> Add DSI support for r8a779g0. The main differences to r8a779a0 are in
-> >> the PLL and PHTW setups.
-> >>
-> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> >> ---
-> >>   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c      | 484 +++++++++++++++----
-> >>   drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h |   6 +-
-> >>   2 files changed, 384 insertions(+), 106 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> >> index a7f2b7f66a17..723c35726c38 100644
-> >> --- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> >> +++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> >> @@ -9,6 +9,7 @@
-> >>   #include <linux/delay.h>
-> >>   #include <linux/io.h>
-> >>   #include <linux/iopoll.h>
-> >> +#include <linux/math64.h>
-> >>   #include <linux/module.h>
-> >>   #include <linux/of.h>
-> >>   #include <linux/of_device.h>
-> >> @@ -28,6 +29,20 @@
-> >>   #include "rcar_mipi_dsi.h"
-> >>   #include "rcar_mipi_dsi_regs.h"
-> >>   
-> >> +#define MHZ(v) ((v) * 1000000u)
-> > 
-> > Isn't the U suffix usually spelled in uppercase ? Same below.
-> 
-> I couldn't find any coding style guidelines on that. I like the lower 
-> case visually. The suffix stands out much clearer on 10000000u than on 
-> 10000000U. But I can change it if you feel otherwise.
+No, it isn't. Eviction is part of the algorithm to clean this up.
 
-The driver uses U already and I like consistency. You can change all of
-them to u if you want :-)
+When we can't find any free room then evicting and moving things back in 
+is the best we can do to de-fragment the address space.
 
-> >> +
-> >> +enum rcar_mipi_dsi_hw_model {
-> >> +	RCAR_DSI_R8A779A0,
-> >> +	RCAR_DSI_R8A779G0,
-> >> +};
-> >> +
-> >> +struct rcar_mipi_dsi_device_info {
-> >> +	enum rcar_mipi_dsi_hw_model model;
-> >> +	const struct dsi_clk_config *clk_cfg;
-> >> +	u8 clockset2_m_offset;
-> >> +	u8 clockset2_n_offset;
-> >> +};
-> >> +
-> >>   struct rcar_mipi_dsi {
-> >>   	struct device *dev;
-> >>   	const struct rcar_mipi_dsi_device_info *info;
-> >> @@ -50,6 +65,17 @@ struct rcar_mipi_dsi {
-> >>   	unsigned int lanes;
-> >>   };
-> >>   
-> >> +struct dsi_setup_info {
-> >> +	unsigned long hsfreq;
-> >> +	u16 hsfreqrange;
-> >> +
-> >> +	unsigned long fout;
-> >> +	u16 m;
-> >> +	u16 n;
-> >> +	u16 vclk_divider;
-> >> +	const struct dsi_clk_config *clkset;
-> >> +};
-> >> +
-> >>   static inline struct rcar_mipi_dsi *
-> >>   bridge_to_rcar_mipi_dsi(struct drm_bridge *bridge)
-> >>   {
-> >> @@ -62,22 +88,6 @@ host_to_rcar_mipi_dsi(struct mipi_dsi_host *host)
-> >>   	return container_of(host, struct rcar_mipi_dsi, host);
-> >>   }
-> >>   
-> >> -static const u32 phtw[] = {
-> >> -	0x01020114, 0x01600115, /* General testing */
-> >> -	0x01030116, 0x0102011d, /* General testing */
-> >> -	0x011101a4, 0x018601a4, /* 1Gbps testing */
-> >> -	0x014201a0, 0x010001a3, /* 1Gbps testing */
-> >> -	0x0101011f,		/* 1Gbps testing */
-> >> -};
-> >> -
-> >> -static const u32 phtw2[] = {
-> >> -	0x010c0130, 0x010c0140, /* General testing */
-> >> -	0x010c0150, 0x010c0180, /* General testing */
-> >> -	0x010c0190,
-> >> -	0x010a0160, 0x010a0170,
-> >> -	0x01800164, 0x01800174,	/* 1Gbps testing */
-> >> -};
-> >> -
-> >>   static const u32 hsfreqrange_table[][2] = {
-> >>   	{ 80000000U,   0x00 }, { 90000000U,   0x10 }, { 100000000U,  0x20 },
-> >>   	{ 110000000U,  0x30 }, { 120000000U,  0x01 }, { 130000000U,  0x11 },
-> >> @@ -103,24 +113,53 @@ static const u32 hsfreqrange_table[][2] = {
-> >>   	{ /* sentinel */ },
-> >>   };
-> >>   
-> >> -struct vco_cntrl_value {
-> >> +struct dsi_clk_config {
-> >>   	u32 min_freq;
-> >>   	u32 max_freq;
-> >> -	u16 value;
-> >> +	u8 vco_cntrl;
-> >> +	u8 cpbias_cntrl;
-> >> +	u8 gmp_cntrl;
-> >> +	u8 int_cntrl;
-> >> +	u8 prop_cntrl;
-> >>   };
-> >>   
-> >> -static const struct vco_cntrl_value vco_cntrl_table[] = {
-> >> -	{ .min_freq = 40000000U,   .max_freq = 55000000U,   .value = 0x3f },
-> >> -	{ .min_freq = 52500000U,   .max_freq = 80000000U,   .value = 0x39 },
-> >> -	{ .min_freq = 80000000U,   .max_freq = 110000000U,  .value = 0x2f },
-> >> -	{ .min_freq = 105000000U,  .max_freq = 160000000U,  .value = 0x29 },
-> >> -	{ .min_freq = 160000000U,  .max_freq = 220000000U,  .value = 0x1f },
-> >> -	{ .min_freq = 210000000U,  .max_freq = 320000000U,  .value = 0x19 },
-> >> -	{ .min_freq = 320000000U,  .max_freq = 440000000U,  .value = 0x0f },
-> >> -	{ .min_freq = 420000000U,  .max_freq = 660000000U,  .value = 0x09 },
-> >> -	{ .min_freq = 630000000U,  .max_freq = 1149000000U, .value = 0x03 },
-> >> -	{ .min_freq = 1100000000U, .max_freq = 1152000000U, .value = 0x01 },
-> >> -	{ .min_freq = 1150000000U, .max_freq = 1250000000U, .value = 0x01 },
-> >> +static const struct dsi_clk_config dsi_clk_cfg_r8a779a0[] = {
-> >> +	{   40000000u,   55000000u, 0x3f, 0x10, 0x01, 0x00, 0x0b },
-> >> +	{   52500000u,   80000000u, 0x39, 0x10, 0x01, 0x00, 0x0b },
-> > 
-> > Would MHZ(52.5) do the right thing ? If so, I'd use the macro through
-> > those tables.
-> 
-> That's a great idea. It had never occurred to me that we can use floats 
-> in the kernel code, as long as we convert to ints when the preprocessor 
-> is done.
-> 
-> >> +	{   80000000u,  110000000u, 0x2f, 0x10, 0x01, 0x00, 0x0b },
-> >> +	{  105000000u,  160000000u, 0x29, 0x10, 0x01, 0x00, 0x0b },
-> >> +	{  160000000u,  220000000u, 0x1f, 0x10, 0x01, 0x00, 0x0b },
-> >> +	{  210000000u,  320000000u, 0x19, 0x10, 0x01, 0x00, 0x0b },
-> >> +	{  320000000u,  440000000u, 0x0f, 0x10, 0x01, 0x00, 0x0b },
-> >> +	{  420000000u,  660000000u, 0x09, 0x10, 0x01, 0x00, 0x0b },
-> >> +	{  630000000u, 1149000000u, 0x03, 0x10, 0x01, 0x00, 0x0b },
-> >> +	{ 1100000000u, 1152000000u, 0x01, 0x10, 0x01, 0x00, 0x0b },
-> >> +	{ 1150000000u, 1250000000u, 0x01, 0x10, 0x01, 0x00, 0x0c },
-> >> +	{ /* sentinel */ },
-> >> +};
-> >> +
-> >> +static const struct dsi_clk_config dsi_clk_cfg_r8a779g0[] = {
-> >> +	{   40000000u,   45310000u, 0x2b, 0x00, 0x00, 0x08, 0x0a },
-> >> +	{   45310000u,   54660000u, 0x28, 0x00, 0x00, 0x08, 0x0a },
-> >> +	{   54660000u,   62500000u, 0x28, 0x00, 0x00, 0x08, 0x0a },
-> >> +	{   62500000u,   75000000u, 0x27, 0x00, 0x00, 0x08, 0x0a },
-> >> +	{   75000000u,   90630000u, 0x23, 0x00, 0x00, 0x08, 0x0a },
-> >> +	{   90630000u,  109370000u, 0x20, 0x00, 0x00, 0x08, 0x0a },
-> >> +	{  109370000u,  125000000u, 0x20, 0x00, 0x00, 0x08, 0x0a },
-> >> +	{  125000000u,  150000000u, 0x1f, 0x00, 0x00, 0x08, 0x0a },
-> >> +	{  150000000u,  181250000u, 0x1b, 0x00, 0x00, 0x08, 0x0a },
-> >> +	{  181250000u,  218750000u, 0x18, 0x00, 0x00, 0x08, 0x0a },
-> >> +	{  218750000u,  250000000u, 0x18, 0x00, 0x00, 0x08, 0x0a },
-> >> +	{  250000000u,  300000000u, 0x17, 0x00, 0x00, 0x08, 0x0a },
-> >> +	{  300000000u,  362500000u, 0x13, 0x00, 0x00, 0x08, 0x0a },
-> >> +	{  362500000u,  455480000u, 0x10, 0x00, 0x00, 0x08, 0x0a },
-> >> +	{  455480000u,  500000000u, 0x10, 0x00, 0x00, 0x08, 0x0a },
-> >> +	{  500000000u,  600000000u, 0x0f, 0x00, 0x00, 0x08, 0x0a },
-> >> +	{  600000000u,  725000000u, 0x0b, 0x00, 0x00, 0x08, 0x0a },
-> >> +	{  725000000u,  875000000u, 0x08, 0x00, 0x00, 0x08, 0x0a },
-> >> +	{  875000000u, 1000000000u, 0x08, 0x00, 0x00, 0x08, 0x0a },
-> >> +	{ 1000000000u, 1200000000u, 0x07, 0x00, 0x00, 0x08, 0x0a },
-> >> +	{ 1200000000u, 1250000000u, 0x03, 0x00, 0x00, 0x08, 0x0a },
-> >>   	{ /* sentinel */ },
-> >>   };
-> >>   
-> >> @@ -144,7 +183,7 @@ static void rcar_mipi_dsi_set(struct rcar_mipi_dsi *dsi, u32 reg, u32 set)
-> >>   	rcar_mipi_dsi_write(dsi, reg, rcar_mipi_dsi_read(dsi, reg) | set);
-> >>   }
-> >>   
-> >> -static int rcar_mipi_dsi_phtw_test(struct rcar_mipi_dsi *dsi, u32 phtw)
-> >> +static int rcar_mipi_dsi_write_phtw(struct rcar_mipi_dsi *dsi, u32 phtw)
-> >>   {
-> >>   	u32 status;
-> >>   	int ret;
-> >> @@ -163,32 +202,231 @@ static int rcar_mipi_dsi_phtw_test(struct rcar_mipi_dsi *dsi, u32 phtw)
-> >>   	return ret;
-> >>   }
-> >>   
-> >> +static int rcar_mipi_dsi_write_phtw_arr(struct rcar_mipi_dsi *dsi,
-> >> +					const u32 *phtw, unsigned int size)
-> >> +{
-> >> +	for (unsigned int i = 0; i < size; i++) {
-> >> +		int ret = rcar_mipi_dsi_write_phtw(dsi, phtw[i]);
-> >> +
-> >> +		if (ret < 0)
-> >> +			return ret;
-> >> +	}
-> >> +
-> >> +	return 0;
-> >> +}
-> >> +
-> >> +#define WRITE_PHTW(...)                                               \
-> >> +	({                                                            \
-> >> +		static const u32 phtw[] = { __VA_ARGS__ };            \
-> >> +		int ret;                                              \
-> >> +		ret = rcar_mipi_dsi_write_phtw_arr(dsi, phtw,         \
-> >> +						   ARRAY_SIZE(phtw)); \
-> >> +		ret;                                                  \
-> >> +	})
-> >> +
-> >> +static int rcar_mipi_dsi_init_phtw_v3u(struct rcar_mipi_dsi *dsi)
-> > 
-> > You're mixing the R8A779* names and the short names. I'd use one of the
-> > two and stick to it, probably the short name (up to you).
-> 
-> Hmm that's true. The short names are easier to distinguish visually, so 
-> I'll use those.
-> 
-> >> +{
-> >> +	return WRITE_PHTW(0x01020114, 0x01600115, 0x01030116, 0x0102011d,
-> >> +			  0x011101a4, 0x018601a4, 0x014201a0, 0x010001a3,
-> >> +			  0x0101011f);
-> >> +}
-> >> +
-> >> +static int rcar_mipi_dsi_post_init_phtw_v3u(struct rcar_mipi_dsi *dsi)
-> >> +{
-> >> +	return WRITE_PHTW(0x010c0130, 0x010c0140, 0x010c0150, 0x010c0180,
-> >> +			  0x010c0190, 0x010a0160, 0x010a0170, 0x01800164,
-> >> +			  0x01800174);
-> >> +}
-> >> +
-> >> +static int rcar_mipi_dsi_init_phtw_v4h(struct rcar_mipi_dsi *dsi,
-> >> +				       const struct dsi_setup_info *setup_info)
-> >> +{
-> >> +	int ret;
-> >> +
-> >> +	if (setup_info->hsfreq < MHZ(450)) {
-> >> +		ret = WRITE_PHTW(0x01010100, 0x011b01ac);
-> >> +		if (ret)
-> >> +			return ret;
-> >> +	}
-> >> +
-> >> +	ret = WRITE_PHTW(0x01010100, 0x01030173, 0x01000174, 0x01500175,
-> >> +			 0x01030176, 0x01040166, 0x010201ad);
-> >> +	if (ret)
-> >> +		return ret;
-> >> +
-> >> +	if (setup_info->hsfreq <= MHZ(1000))
-> >> +		ret = WRITE_PHTW(0x01020100, 0x01910170, 0x01020171,
-> >> +				 0x01110172);
-> >> +	else if (setup_info->hsfreq <= MHZ(1500))
-> >> +		ret = WRITE_PHTW(0x01020100, 0x01980170, 0x01030171,
-> >> +				 0x01100172);
-> >> +	else if (setup_info->hsfreq <= MHZ(2500))
-> >> +		ret = WRITE_PHTW(0x01020100, 0x0144016b, 0x01000172);
-> >> +	else
-> >> +		return -EINVAL;
-> >> +
-> >> +	if (ret)
-> >> +		return ret;
-> >> +
-> >> +	if (dsi->lanes <= 1) {
-> >> +		ret = WRITE_PHTW(0x01070100, 0x010e010b);
-> >> +		if (ret)
-> >> +			return ret;
-> >> +	}
-> >> +
-> >> +	if (dsi->lanes <= 2) {
-> >> +		ret = WRITE_PHTW(0x01090100, 0x010e010b);
-> >> +		if (ret)
-> >> +			return ret;
-> >> +	}
-> >> +
-> >> +	if (dsi->lanes <= 3) {
-> >> +		ret = WRITE_PHTW(0x010b0100, 0x010e010b);
-> >> +		if (ret)
-> >> +			return ret;
-> >> +	}
-> >> +
-> >> +	if (setup_info->hsfreq <= MHZ(1500)) {
-> >> +		ret = WRITE_PHTW(0x01010100, 0x01c0016e);
-> >> +		if (ret)
-> >> +			return ret;
-> >> +	}
-> >> +
-> >> +	return 0;
-> >> +}
-> >> +
-> >> +static int
-> >> +rcar_mipi_dsi_post_init_phtw_v4h(struct rcar_mipi_dsi *dsi,
-> >> +				 const struct dsi_setup_info *setup_info)
-> >> +{
-> >> +	u32 status;
-> >> +	int ret;
-> >> +
-> >> +	if (setup_info->hsfreq <= MHZ(1500)) {
-> >> +		WRITE_PHTW(0x01020100, 0x00000180);
-> >> +
-> >> +		ret = read_poll_timeout(rcar_mipi_dsi_read, status,
-> >> +					status & PHTR_TEST, 2000, 10000, false,
-> >> +					dsi, PHTR);
-> >> +		if (ret < 0) {
-> >> +			dev_err(dsi->dev, "failed to test PHTR\n");
-> >> +			return ret;
-> >> +		}
-> >> +
-> >> +		WRITE_PHTW(0x01010100, 0x0100016e);
-> >> +	}
-> >> +
-> >> +	return 0;
-> >> +}
-> >> +
-> >>   /* -----------------------------------------------------------------------------
-> >>    * Hardware Setup
-> >>    */
-> >>   
-> >> -struct dsi_setup_info {
-> >> -	unsigned long fout;
-> >> -	u16 vco_cntrl;
-> >> -	u16 prop_cntrl;
-> >> -	u16 hsfreqrange;
-> >> -	u16 div;
-> >> -	unsigned int m;
-> >> -	unsigned int n;
-> >> -};
-> >> +static void rcar_mipi_dsi_pll_calc_r8a779a0(struct rcar_mipi_dsi *dsi,
-> >> +					    struct clk *clk,
-> >> +					    unsigned long fout_target,
-> >> +					    struct dsi_setup_info *setup_info)
-> >> +{
-> >> +	unsigned int best_err = -1;
-> >> +	unsigned long fin;
-> >> +
-> >> +	fin = clk_get_rate(clk);
-> >> +
-> >> +	for (unsigned int n = 3; n <= 8; n++) {
-> >> +		unsigned long fpfd;
-> >> +
-> >> +		fpfd = fin / n;
-> >> +
-> >> +		if (fpfd < MHZ(2) || fpfd > MHZ(8))
-> >> +			continue;
-> >> +
-> >> +		for (unsigned int m = 64; m <= 625; m++) {
-> >> +			unsigned int err;
-> >> +			u64 fout;
-> >> +
-> >> +			fout = (u64)fpfd * m;
-> >> +
-> >> +			if (fout < MHZ(320) || fout > MHZ(1250))
-> >> +				continue;
-> >> +
-> >> +			fout = div64_u64(fout, setup_info->vclk_divider);
-> >> +
-> >> +			if (fout < setup_info->clkset->min_freq ||
-> >> +			    fout > setup_info->clkset->max_freq)
-> >> +				continue;
-> >> +
-> >> +			err = abs((long)(fout - fout_target) * 10000 /
-> >> +				  (long)fout_target);
-> >> +
-> >> +			if (err < best_err) {
-> >> +				setup_info->m = m;
-> >> +				setup_info->n = n;
-> >> +				setup_info->fout = (unsigned long)fout;
-> >> +				best_err = err;
-> >> +
-> >> +				if (err == 0)
-> >> +					return;
-> >> +			}
-> >> +		}
-> >> +	}
-> >> +}
-> >> +
-> >> +static void rcar_mipi_dsi_pll_calc_r8a779g0(struct rcar_mipi_dsi *dsi,
-> >> +					    struct clk *clk,
-> >> +					    unsigned long fout_target,
-> >> +					    struct dsi_setup_info *setup_info)
-> >> +{
-> >> +	unsigned int best_err = -1;
-> >> +	unsigned long fin;
-> >> +
-> >> +	fin = clk_get_rate(clk);
-> > 
-> > This could move to the caller.
-> 
-> Ok.
-> 
-> >> +
-> >> +	for (unsigned int n = 1; n <= 8; n++) {
-> >> +		unsigned long fpfd;
-> >> +
-> >> +		fpfd = fin / n;
-> >> +
-> >> +		if (fpfd < MHZ(8) || fpfd > MHZ(24))
-> >> +			continue;
-> >> +
-> >> +		for (unsigned int m = 167; m <= 1000; m++) {
-> >> +			unsigned int err;
-> >> +			u64 fout;
-> >> +
-> >> +			fout = div64_u64((u64)fpfd * m, 2);
-> >> +
-> >> +			if (fout < MHZ(2000) || fout > MHZ(4000))
-> >> +				continue;
-> >> +
-> >> +			fout = div64_u64(fout, setup_info->vclk_divider);
-> >> +
-> >> +			if (fout < setup_info->clkset->min_freq ||
-> >> +			    fout > setup_info->clkset->max_freq)
-> >> +				continue;
-> >> +
-> >> +			err = abs((long)(fout - fout_target) * 10000 /
-> >> +				  (long)fout_target);
-> > 
-> > Add a blank line here, or remove it from the previous function.
-> 
-> Ok.
-> 
-> >> +			if (err < best_err) {
-> >> +				setup_info->m = m;
-> >> +				setup_info->n = n;
-> >> +				setup_info->fout = (unsigned long)fout;
-> >> +				best_err = err;
-> >> +
-> >> +				if (err == 0)
-> >> +					return;
-> >> +			}
-> >> +		}
-> >> +	}
-> >> +}
-> > 
-> > This function could be parameterized, up to you.
-> 
-> I thought about it, but it would somewhat obfuscate the code. Now it's 
-> easier to look at the HW docs and read the function. If we get more PLL 
-> versions, then I think we'll have to create a parametrized version...
-> 
-> >>   
-> >>   static void rcar_mipi_dsi_parameters_calc(struct rcar_mipi_dsi *dsi,
-> >>   					  struct clk *clk, unsigned long target,
-> >>   					  struct dsi_setup_info *setup_info)
-> >>   {
-> >>   
-> >> -	const struct vco_cntrl_value *vco_cntrl;
-> >> +	const struct dsi_clk_config *clkset;
-> >>   	unsigned long fout_target;
-> >> -	unsigned long fin, fout;
-> >> -	unsigned long hsfreq;
-> >> -	unsigned int best_err = -1;
-> >> -	unsigned int divider;
-> >> -	unsigned int n;
-> >>   	unsigned int i;
-> >>   	unsigned int err;
-> >>   
-> >> @@ -198,70 +436,53 @@ static void rcar_mipi_dsi_parameters_calc(struct rcar_mipi_dsi *dsi,
-> >>   	 */
-> >>   	fout_target = target * mipi_dsi_pixel_format_to_bpp(dsi->format)
-> >>   		    / (2 * dsi->lanes);
-> >> -	if (fout_target < 40000000 || fout_target > 1250000000)
-> >> +	if (fout_target < MHZ(40) || fout_target > MHZ(1250))
-> >>   		return;
-> >>   
-> >>   	/* Find vco_cntrl */
-> >> -	for (vco_cntrl = vco_cntrl_table; vco_cntrl->min_freq != 0; vco_cntrl++) {
-> >> -		if (fout_target > vco_cntrl->min_freq &&
-> >> -		    fout_target <= vco_cntrl->max_freq) {
-> >> -			setup_info->vco_cntrl = vco_cntrl->value;
-> >> -			if (fout_target >= 1150000000)
-> >> -				setup_info->prop_cntrl = 0x0c;
-> >> -			else
-> >> -				setup_info->prop_cntrl = 0x0b;
-> >> +	for (clkset = dsi->info->clk_cfg; clkset->min_freq != 0; clkset++) {
-> >> +		if (fout_target > clkset->min_freq &&
-> >> +		    fout_target <= clkset->max_freq) {
-> >> +			setup_info->clkset = clkset;
-> >>   			break;
-> >>   		}
-> >>   	}
-> >>   
-> >> -	/* Add divider */
-> >> -	setup_info->div = (setup_info->vco_cntrl & 0x30) >> 4;
-> >> +	switch (dsi->info->model) {
-> >> +	case RCAR_DSI_R8A779A0:
-> >> +		setup_info->vclk_divider = 1 << ((clkset->vco_cntrl >> 4) & 0x3);
-> > 
-> > If you stored (clkset->vco_cntrl >> 4) & 0x3 in setup_info->vclk_divider
-> > you wouldn't have to use __ffs() in rcar_mipi_dsi_startup(). You could
-> > also drop the - 1 there, which would allow dropping one of the
-> > switch(dsi->info->model). You can store the real divider value in
-> > setup_info separately for rcar_mipi_dsi_pll_calc_r8a779a0(), or pass it
-> > to the function.
-> > 
-> >> +		rcar_mipi_dsi_pll_calc_r8a779a0(dsi, clk, fout_target, setup_info);
-> >> +		break;
-> >> +
-> >> +	case RCAR_DSI_R8A779G0:
-> >> +		setup_info->vclk_divider = 1 << (((clkset->vco_cntrl >> 3) & 0x7) + 1);
-> >> +		rcar_mipi_dsi_pll_calc_r8a779g0(dsi, clk, fout_target, setup_info);
-> >> +		break;
-> >> +
-> >> +	default:
-> >> +		return;
-> >> +	}
-> >>   
-> >>   	/* Find hsfreqrange */
-> >> -	hsfreq = fout_target * 2;
-> >> +	setup_info->hsfreq = setup_info->fout * 2;
-> >>   	for (i = 0; i < ARRAY_SIZE(hsfreqrange_table); i++) {
-> >> -		if (hsfreqrange_table[i][0] >= hsfreq) {
-> >> +		if (hsfreqrange_table[i][0] >= setup_info->hsfreq) {
-> >>   			setup_info->hsfreqrange = hsfreqrange_table[i][1];
-> >>   			break;
-> >>   		}
-> >>   	}
-> >>   
-> >> -	/*
-> >> -	 * Calculate n and m for PLL clock
-> >> -	 * Following the HW manual the ranges of n and m are
-> >> -	 * n = [3-8] and m = [64-625]
-> >> -	 */
-> > 
-> > I'd keep the comment in rcar_mipi_dsi_pll_calc_r8a779a0(), and add a
-> > similar comment in rcar_mipi_dsi_pll_calc_r8a779g0().
-> 
-> Well, I dropped the comment as it's just pointing the obvious: we are 
-> calculating PLL config, and the n and m ranges are easily visible in the 
-> code below. I can add them if you think they are useful.
+This is expected behavior.
 
-Up to you.
-
-> >> -	fin = clk_get_rate(clk);
-> >> -	divider = 1 << setup_info->div;
-> >> -	for (n = 3; n < 9; n++) {
-> >> -		unsigned long fpfd;
-> >> -		unsigned int m;
-> >> -
-> >> -		fpfd = fin / n;
-> >> -
-> >> -		for (m = 64; m < 626; m++) {
-> >> -			fout = fpfd * m / divider;
-> >> -			err = abs((long)(fout - fout_target) * 10000 /
-> >> -				  (long)fout_target);
-> >> -			if (err < best_err) {
-> >> -				setup_info->m = m - 2;
-> >> -				setup_info->n = n - 1;
-> >> -				setup_info->fout = fout;
-> >> -				best_err = err;
-> >> -				if (err == 0)
-> >> -					goto done;
-> >> -			}
-> >> -		}
-> >> -	}
-> >> +	err = abs((long)(setup_info->fout - fout_target) * 10000 / (long)fout_target);
-> >>   
-> >> -done:
-> >>   	dev_dbg(dsi->dev,
-> >> -		"%pC %lu Hz -> Fout %lu Hz (target %lu Hz, error %d.%02u%%), PLL M/N/DIV %u/%u/%u\n",
-> >> -		clk, fin, setup_info->fout, fout_target, best_err / 100,
-> >> -		best_err % 100, setup_info->m, setup_info->n, setup_info->div);
-> >> +		"Fout = %u * %lu / (2 * %u * %u) = %lu (target %lu Hz, error %d.%02u%%)\n",
-> > 
-> > Is the "2 *" valid on V3U too ?
-> 
-> Good catch. It is not.
-> 
-> >> +		setup_info->m, clk_get_rate(clk), setup_info->n, setup_info->vclk_divider,
-> > 
-> > If you keep the clk_get_rate() call in this function you wouldn't have
-> > to call it again here.
-> 
-> Yep.
-> 
-> >> +		setup_info->fout, fout_target,
-> >> +		err / 100, err % 100);
-> >> +
-> >>   	dev_dbg(dsi->dev,
-> >>   		"vco_cntrl = 0x%x\tprop_cntrl = 0x%x\thsfreqrange = 0x%x\n",
-> >> -		setup_info->vco_cntrl, setup_info->prop_cntrl,
-> >> +		clkset->vco_cntrl, clkset->prop_cntrl,
-> >>   		setup_info->hsfreqrange);
-> >>   }
-> >>   
-> >> @@ -324,7 +545,7 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
-> >>   {
-> >>   	struct dsi_setup_info setup_info = {};
-> >>   	unsigned int timeout;
-> >> -	int ret, i;
-> >> +	int ret;
-> >>   	int dsi_format;
-> >>   	u32 phy_setup;
-> >>   	u32 clockset2, clockset3;
-> >> @@ -360,10 +581,21 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
-> >>   	phy_setup |= PHYSETUP_HSFREQRANGE(setup_info.hsfreqrange);
-> >>   	rcar_mipi_dsi_write(dsi, PHYSETUP, phy_setup);
-> >>   
-> >> -	for (i = 0; i < ARRAY_SIZE(phtw); i++) {
-> >> -		ret = rcar_mipi_dsi_phtw_test(dsi, phtw[i]);
-> >> +	switch (dsi->info->model) {
-> >> +	case RCAR_DSI_R8A779A0:
-> >> +		ret = rcar_mipi_dsi_init_phtw_v3u(dsi);
-> >> +		if (ret < 0)
-> >> +			return ret;
-> >> +		break;
-> >> +
-> >> +	case RCAR_DSI_R8A779G0:
-> >> +		ret = rcar_mipi_dsi_init_phtw_v4h(dsi, &setup_info);
-> >>   		if (ret < 0)
-> >>   			return ret;
-> >> +		break;
-> >> +
-> >> +	default:
-> >> +		return -ENODEV;
-> > 
-> > This can't happen. Same below.
-> 
-> I thought the compiler would warn about it, but at least mine doesn't, 
-> so I'll drop the default cases.
-
-smatch or other static checkers may complain. You can add a default case
-to one of the labels to avoid that.
-
-> >>   	}
-> >>   
-> >>   	/* PLL Clock Setting */
-> >> @@ -371,12 +603,13 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
-> >>   	rcar_mipi_dsi_set(dsi, CLOCKSET1, CLOCKSET1_SHADOW_CLEAR);
-> >>   	rcar_mipi_dsi_clr(dsi, CLOCKSET1, CLOCKSET1_SHADOW_CLEAR);
-> >>   
-> >> -	clockset2 = CLOCKSET2_M(setup_info.m) | CLOCKSET2_N(setup_info.n)
-> >> -		  | CLOCKSET2_VCO_CNTRL(setup_info.vco_cntrl);
-> >> -	clockset3 = CLOCKSET3_PROP_CNTRL(setup_info.prop_cntrl)
-> >> -		  | CLOCKSET3_INT_CNTRL(0)
-> >> -		  | CLOCKSET3_CPBIAS_CNTRL(0x10)
-> >> -		  | CLOCKSET3_GMP_CNTRL(1);
-> >> +	clockset2 = CLOCKSET2_M(setup_info.m - dsi->info->clockset2_m_offset)
-> >> +		  | CLOCKSET2_N(setup_info.n - dsi->info->clockset2_n_offset)
-> >> +		  | CLOCKSET2_VCO_CNTRL(setup_info.clkset->vco_cntrl);
-> >> +	clockset3 = CLOCKSET3_PROP_CNTRL(setup_info.clkset->prop_cntrl)
-> >> +		  | CLOCKSET3_INT_CNTRL(setup_info.clkset->int_cntrl)
-> >> +		  | CLOCKSET3_CPBIAS_CNTRL(setup_info.clkset->cpbias_cntrl)
-> >> +		  | CLOCKSET3_GMP_CNTRL(setup_info.clkset->gmp_cntrl);
-> >>   	rcar_mipi_dsi_write(dsi, CLOCKSET2, clockset2);
-> >>   	rcar_mipi_dsi_write(dsi, CLOCKSET3, clockset3);
-> >>   
-> >> @@ -407,10 +640,21 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
-> >>   		return -ETIMEDOUT;
-> >>   	}
-> >>   
-> >> -	for (i = 0; i < ARRAY_SIZE(phtw2); i++) {
-> >> -		ret = rcar_mipi_dsi_phtw_test(dsi, phtw2[i]);
-> >> +	switch (dsi->info->model) {
-> >> +	case RCAR_DSI_R8A779A0:
-> >> +		ret = rcar_mipi_dsi_post_init_phtw_v3u(dsi);
-> >>   		if (ret < 0)
-> >>   			return ret;
-> >> +		break;
-> >> +
-> >> +	case RCAR_DSI_R8A779G0:
-> >> +		ret = rcar_mipi_dsi_post_init_phtw_v4h(dsi, &setup_info);
-> >> +		if (ret < 0)
-> >> +			return ret;
-> >> +		break;
-> >> +
-> >> +	default:
-> >> +		return -ENODEV;
-> >>   	}
-> >>   
-> >>   	/* Enable DOT clock */
-> >> @@ -427,8 +671,21 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
-> >>   		dev_warn(dsi->dev, "unsupported format");
-> >>   		return -EINVAL;
-> >>   	}
-> >> -	vclkset |= VCLKSET_COLOR_RGB | VCLKSET_DIV(setup_info.div)
-> >> -		|  VCLKSET_LANE(dsi->lanes - 1);
-> >> +
-> >> +	vclkset |= VCLKSET_COLOR_RGB | VCLKSET_LANE(dsi->lanes - 1);
-> >> +
-> >> +	switch (dsi->info->model) {
-> >> +	case RCAR_DSI_R8A779A0:
-> >> +		vclkset |= VCLKSET_DIV_R8A779A0(__ffs(setup_info.vclk_divider));
-> >> +		break;
-> >> +
-> >> +	case RCAR_DSI_R8A779G0:
-> >> +		vclkset |= VCLKSET_DIV_R8A779G0(__ffs(setup_info.vclk_divider) - 1);
-> >> +		break;
-> >> +
-> >> +	default:
-> >> +		return -ENODEV;
-> >> +	}
-> >>   
-> >>   	rcar_mipi_dsi_write(dsi, VCLKSET, vclkset);
-> >>   
-> >> @@ -841,8 +1098,25 @@ static int rcar_mipi_dsi_remove(struct platform_device *pdev)
-> >>   	return 0;
-> >>   }
-> >>   
-> >> +static const struct rcar_mipi_dsi_device_info r8a779a0_data = {
-> >> +	.model = RCAR_DSI_R8A779A0,
-> >> +	.clk_cfg = dsi_clk_cfg_r8a779a0,
-> >> +	.clockset2_m_offset = 2,
-> >> +	.clockset2_n_offset = 1,
-> >> +
-> > 
-> > Extra blank line.
-> 
-> Yep.
-> 
-> >> +};
-> >> +
-> >> +static const struct rcar_mipi_dsi_device_info r8a779g0_data = {
-> >> +	.model = RCAR_DSI_R8A779G0,
-> >> +	.clk_cfg = dsi_clk_cfg_r8a779g0,
-> >> +	.clockset2_m_offset = 0,
-> >> +	.clockset2_n_offset = 1,
-> > 
-> > You could possibly drop clockset2_n_offset as it's identical for the two
-> > variants, and there's no indication it would be different in another
-> > version of the IP core.
-> 
-> Yep, I think that's fine.
-
--- 
 Regards,
+Christian.
 
-Laurent Pinchart
+> And if it still fails to find the continuous memory with this approach, then let's evict.
+>
+> So what exactly is the goal here?
+>
+> Regards,
+> Christian.
+>
+>> Signed-off-by: xinhui pan <xinhui.pan@amd.com>
+>> ---
+>> change from v3:
+>> reworked totally. adding leaf_link.
+>>
+>> change from v2:
+>> search continuous block in nearby root if needed
+>>
+>> change from v1:
+>> implement top-down continuous allocation
+>> ---
+>>    drivers/gpu/drm/drm_buddy.c | 108 +++++++++++++++++++++++++++++++++---
+>>    include/drm/drm_buddy.h     |   1 +
+>>    2 files changed, 102 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+>> index 11bb59399471..8edafb99b02c 100644
+>> --- a/drivers/gpu/drm/drm_buddy.c
+>> +++ b/drivers/gpu/drm/drm_buddy.c
+>> @@ -80,6 +80,7 @@ int drm_buddy_init(struct drm_buddy *mm, u64 size, u64 chunk_size)
+>>    {
+>>        unsigned int i;
+>>        u64 offset;
+>> +     LIST_HEAD(leaf);
+>>
+>>        if (size < chunk_size)
+>>                return -EINVAL;
+>> @@ -136,6 +137,7 @@ int drm_buddy_init(struct drm_buddy *mm, u64 size, u64 chunk_size)
+>>                        goto out_free_roots;
+>>
+>>                mark_free(mm, root);
+>> +             list_add_tail(&root->leaf_link, &leaf);
+>>
+>>                BUG_ON(i > mm->max_order);
+>>                BUG_ON(drm_buddy_block_size(mm, root) < chunk_size);
+>> @@ -147,6 +149,7 @@ int drm_buddy_init(struct drm_buddy *mm, u64 size, u64 chunk_size)
+>>                i++;
+>>        } while (size);
+>>
+>> +     list_del(&leaf);
+>>        return 0;
+>>
+>>    out_free_roots:
+>> @@ -205,6 +208,9 @@ static int split_block(struct drm_buddy *mm,
+>>        mark_free(mm, block->left);
+>>        mark_free(mm, block->right);
+>>
+>> +     list_add(&block->right->leaf_link, &block->leaf_link);
+>> +     list_add(&block->left->leaf_link, &block->leaf_link);
+>> +     list_del(&block->leaf_link);
+>>        mark_split(block);
+>>
+>>        return 0;
+>> @@ -256,6 +262,9 @@ static void __drm_buddy_free(struct drm_buddy *mm,
+>>                        break;
+>>
+>>                list_del(&buddy->link);
+>> +             list_add(&parent->leaf_link, &block->leaf_link);
+>> +             list_del(&buddy->leaf_link);
+>> +             list_del(&block->leaf_link);
+>>
+>>                drm_block_free(mm, block);
+>>                drm_block_free(mm, buddy);
+>> @@ -386,6 +395,78 @@ alloc_range_bias(struct drm_buddy *mm,
+>>        return ERR_PTR(err);
+>>    }
+>>
+>> +static struct drm_buddy_block *
+>> +find_continuous_blocks(struct drm_buddy *mm,
+>> +                    int order,
+>> +                    unsigned long flags,
+>> +                    struct drm_buddy_block **rblock)
+>> +{
+>> +     struct list_head *head = &mm->free_list[order];
+>> +     struct drm_buddy_block *free_block, *max_block = NULL, *end, *begin;
+>> +     u64 pages = BIT(order + 1);
+>> +     u64 cur_pages;
+>> +
+>> +     list_for_each_entry(free_block, head, link) {
+>> +             if (max_block) {
+>> +                     if (!(flags & DRM_BUDDY_TOPDOWN_ALLOCATION))
+>> +                             break;
+>> +
+>> +                     if (drm_buddy_block_offset(free_block) <
+>> +                         drm_buddy_block_offset(max_block))
+>> +                             continue;
+>> +             }
+>> +
+>> +             cur_pages = BIT(order);
+>> +             begin = end = free_block;
+>> +             while (true) {
+>> +                     struct drm_buddy_block *prev, *next;
+>> +                     int prev_order, next_order;
+>> +
+>> +                     prev = list_prev_entry(begin, leaf_link);
+>> +                     if (!drm_buddy_block_is_free(prev) ||
+>> +                         drm_buddy_block_offset(prev) >
+>> +                         drm_buddy_block_offset(begin)) {
+>> +                             prev = NULL;
+>> +                     }
+>> +                     next = list_next_entry(end, leaf_link);
+>> +                     if (!drm_buddy_block_is_free(next) ||
+>> +                         drm_buddy_block_offset(next) <
+>> +                         drm_buddy_block_offset(end)) {
+>> +                             next = NULL;
+>> +                     }
+>> +                     if (!prev && !next)
+>> +                             break;
+>> +
+>> +                     prev_order = prev ? drm_buddy_block_order(prev) : -1;
+>> +                     next_order = next ? drm_buddy_block_order(next) : -1;
+>> +                     if (next_order >= prev_order) {
+>> +                             BUG_ON(drm_buddy_block_offset(end) +
+>> +                                    drm_buddy_block_size(mm, end) !=
+>> +                                    drm_buddy_block_offset(next));
+>> +                             end = next;
+>> +                             cur_pages += BIT(drm_buddy_block_order(next));
+>> +                     }
+>> +                     if (prev_order >= next_order) {
+>> +                             BUG_ON(drm_buddy_block_offset(prev) +
+>> +                                    drm_buddy_block_size(mm, prev) !=
+>> +                                    drm_buddy_block_offset(begin));
+>> +                             begin = prev;
+>> +                             cur_pages += BIT(drm_buddy_block_order(prev));
+>> +                     }
+>> +                     if (pages == cur_pages)
+>> +                             break;
+>> +                     BUG_ON(pages < cur_pages);
+>> +             }
+>> +
+>> +             if (pages > cur_pages)
+>> +                     continue;
+>> +
+>> +             *rblock = end;
+>> +             max_block = begin;
+>> +     }
+>> +     return max_block;
+>> +}
+>> +
+>>    static struct drm_buddy_block *
+>>    get_maxblock(struct list_head *head)
+>>    {
+>> @@ -637,7 +718,7 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+>>                           struct list_head *blocks,
+>>                           unsigned long flags)
+>>    {
+>> -     struct drm_buddy_block *block = NULL;
+>> +     struct drm_buddy_block *block = NULL, *rblock = NULL;
+>>        unsigned int min_order, order;
+>>        unsigned long pages;
+>>        LIST_HEAD(allocated);
+>> @@ -689,17 +770,30 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+>>                                break;
+>>
+>>                        if (order-- == min_order) {
+>> +                             if (!(flags & DRM_BUDDY_RANGE_ALLOCATION) &&
+>> +                                 min_order != 0 && pages == BIT(order + 1)) {
+>> +                                     block = find_continuous_blocks(mm,
+>> +                                                                    order,
+>> +                                                                    flags,
+>> +                                                                    &rblock);
+>> +                                     if (block)
+>> +                                             break;
+>> +                             }
+>>                                err = -ENOSPC;
+>>                                goto err_free;
+>>                        }
+>>                } while (1);
+>>
+>> -             mark_allocated(block);
+>> -             mm->avail -= drm_buddy_block_size(mm, block);
+>> -             kmemleak_update_trace(block);
+>> -             list_add_tail(&block->link, &allocated);
+>> -
+>> -             pages -= BIT(order);
+>> +             do {
+>> +                     mark_allocated(block);
+>> +                     mm->avail -= drm_buddy_block_size(mm, block);
+>> +                     kmemleak_update_trace(block);
+>> +                     list_add_tail(&block->link, &allocated);
+>> +                     pages -= BIT(drm_buddy_block_order(block));
+>> +                     if (block == rblock || !rblock)
+>> +                             break;
+>> +                     block = list_next_entry(block, leaf_link);
+>> +             } while (true);
+>>
+>>                if (!pages)
+>>                        break;
+>> diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h
+>> index 572077ff8ae7..c5437bd4f4f3 100644
+>> --- a/include/drm/drm_buddy.h
+>> +++ b/include/drm/drm_buddy.h
+>> @@ -50,6 +50,7 @@ struct drm_buddy_block {
+>>         */
+>>        struct list_head link;
+>>        struct list_head tmp_link;
+>> +     struct list_head leaf_link;
+>>    };
+>>
+>>    /* Order-zero must be at least PAGE_SIZE */
+
