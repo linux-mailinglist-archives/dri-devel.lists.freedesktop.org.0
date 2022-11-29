@@ -1,61 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBD2663C704
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 19:06:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4301963C744
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 19:37:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE7D410E26A;
-	Tue, 29 Nov 2022 18:06:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF9BD10E0BA;
+	Tue, 29 Nov 2022 18:37:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
- [IPv6:2a00:1450:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07A7F10E162;
- Tue, 29 Nov 2022 18:06:01 +0000 (UTC)
-Received: by mail-lj1-x22e.google.com with SMTP id l8so18164573ljh.13;
- Tue, 29 Nov 2022 10:06:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ktoCdLOEXvDeL8nI5kNqf7cn55qCyvAnCAeJvtAxnhg=;
- b=lv+oHwLjLv/d3xkHy6lru5Bw2/JyPSgOstOWzNGVJxQYJ8M1oPQ1Lg9iRdp/Glc2Jm
- bau41WOyLD0BAaCCZJ5SpO11pB7JGTQlq15cCiem4K80Psg3xxTKjtUeLHSO/p/qjrZa
- EZMrhwjJThD3YhVh1ohU2oUI1/Z1CiwmGuXhEAuZUe9Vy78PUCJDeVDZwkysuMTiXrub
- dlluxgWn46NasMyUzzHTNNFcV8t7rpkhKxtqGiJKlXNngQmvhX+oUMHCojn7FMaHqyPe
- x1LbSXBiRxeIXd1uyKKuFRne9pY4RzqfxoWDtjZRDRKdI4x3Zqv4ETlygzkXjOGtUgT4
- hunQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ktoCdLOEXvDeL8nI5kNqf7cn55qCyvAnCAeJvtAxnhg=;
- b=PPUOheBNDfO/0N7He7P8B3WfpUbP2pMox3KM4mHtkRMgFDLqBsR7B9WdDazoyEoKlW
- oVMLrVYmld1CIwK6yLBVFZ/BgSZdybGaHDUI/sSbycnqJh4vBYbFhZ9ba6o2gLO/rRXF
- Gd0wCez0K+U9zxcmDwfpsay594OEI01KVhPiA0m6ijCg4TppTncubIUXVGGxlqE23dxc
- 45luN0s+98KesMeFUWyDLMONGe6+tDcuLWbYPJNt/90GzAs0WhoCtsPL7AitZfq6tkaV
- iEj5+D1BsNBVCqjnLYXQzc0aL3pHdhcs3aJ9gmVfFEzDrm4Cs1u20dS7EON+xbHE1xBs
- vILw==
-X-Gm-Message-State: ANoB5plYt2lsh8u/DJb/dadrSyE8JDDG1kFIfDZFY+lVLfhXA+zswc6A
- tBPPLscQ8Jrv+F3SkDHXbWdS/yHJkO8V4v5NebM=
-X-Google-Smtp-Source: AA0mqf7RgfvwfKVQnEGeh/r2Yu4av5iPaS7DfCSB2DTdH6pPbqg3cUZi75LG0B5cpPLqENhd7M08I3H9MvceCn2YQEM=
-X-Received: by 2002:a2e:8ecd:0:b0:277:6d79:8936 with SMTP id
- e13-20020a2e8ecd000000b002776d798936mr16434721ljl.362.1669745159235; Tue, 29
- Nov 2022 10:05:59 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1700F10E0BA
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 18:37:20 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 675F34E6;
+ Tue, 29 Nov 2022 19:37:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1669747038;
+ bh=3C282rs/M6cufMmFfreJo8WgpZ1XT79xEF6JkXEVIyE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=FgWj6JiSG3T7+Ibw4+2mMAFWesaGtmwnKq2dIILWeB9WCJ6AYhqSpVt/6DsE/STvp
+ Mfwm38iXFg51VJhaL5cjRsQoK/YxUDhoZKlpxUm1AqaUhwsM4WWw7LsG2I5udQ4sw3
+ TUeo+XK20rcY+u9QRKqC0ChbV+lhvdosB5WUxkIo=
+Date: Tue, 29 Nov 2022 20:37:02 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: =?utf-8?B?SsO2cmc=?= Quinten <abugsworstnightmare@gmail.com>
+Subject: Re: [PATCH v2 3/7] media: uapi: add MEDIA_BUS_FMT_BGR666_1X24_CPADHI
+Message-ID: <Y4ZRTjeoMbKnDP3u@pendragon.ideasonboard.com>
+References: <20221013-rpi-dpi-improvements-v2-0-7691903fb9c8@cerno.tech>
+ <20221013-rpi-dpi-improvements-v2-3-7691903fb9c8@cerno.tech>
+ <Y4X9KY5ZqRUOGnJE@pendragon.ideasonboard.com>
+ <CACfkkaMX8jVU1OJNCwYKWWHRuXpAXNauZ8OvZs6d1ty24K+8kA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20221125102137.1801-1-christian.koenig@amd.com>
- <20221125102137.1801-7-christian.koenig@amd.com>
- <d92312af-3c84-8bd9-108b-719fb1ec3a6b@linux.intel.com>
-In-Reply-To: <d92312af-3c84-8bd9-108b-719fb1ec3a6b@linux.intel.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Tue, 29 Nov 2022 18:05:32 +0000
-Message-ID: <CAM0jSHMKBb3orp8Ez4sC8TNcjPZF9y-4e12Jy6SPqbJonhYVhw@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 7/9] drm/i915: stop using ttm_bo_wait
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACfkkaMX8jVU1OJNCwYKWWHRuXpAXNauZ8OvZs6d1ty24K+8kA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,74 +50,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Matthew Auld <matthew.auld@intel.com>
+Cc: Chris Morgan <macromorgan@hotmail.com>, Emma Anholt <emma@anholt.net>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Eric Anholt <eric@anholt.net>,
+ Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 25 Nov 2022 at 11:14, Tvrtko Ursulin
-<tvrtko.ursulin@linux.intel.com> wrote:
->
->
-> + Matt
->
-> On 25/11/2022 10:21, Christian K=C3=B6nig wrote:
-> > TTM is just wrapping core DMA functionality here, remove the mid-layer.
-> > No functional change.
-> >
-> > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > ---
-> >   drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 9 ++++++---
-> >   1 file changed, 6 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/=
-i915/gem/i915_gem_ttm.c
-> > index 5247d88b3c13..d409a77449a3 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> > @@ -599,13 +599,16 @@ i915_ttm_resource_get_st(struct drm_i915_gem_obje=
-ct *obj,
-> >   static int i915_ttm_truncate(struct drm_i915_gem_object *obj)
-> >   {
-> >       struct ttm_buffer_object *bo =3D i915_gem_to_ttm(obj);
-> > -     int err;
-> > +     long err;
-> >
-> >       WARN_ON_ONCE(obj->mm.madv =3D=3D I915_MADV_WILLNEED);
-> >
-> > -     err =3D ttm_bo_wait(bo, true, false);
-> > -     if (err)
-> > +     err =3D dma_resv_wait_timeout(bo->base.resv, DMA_RESV_USAGE_BOOKK=
-EEP,
-> > +                                 true, 15 * HZ);
->
-> This 15 second stuck out a bit for me and then on a slightly deeper look
-> it seems this timeout will "leak" into a few of i915 code paths. If we
-> look at the difference between the legacy shmem and ttm backend I am not
-> sure if the legacy one is blocking or not - but if it can block I don't
-> think it would have an arbitrary timeout like this. Matt your thoughts?
+Hi Jörg,
 
-Not sure what is meant by leak here, but the legacy shmem must also
-wait/block when unbinding each VMA, before calling truncate. It's the
-same story for the ttm backend, except slightly more complicated in
-that there might be no currently bound VMA, and yet the GPU could
-still be accessing the pages due to async unbinds, kernel moves etc,
-which the wait here (and in i915_ttm_shrink) is meant to protect
-against. If the wait times out it should just fail gracefully. I guess
-we could just use MAX_SCHEDULE_TIMEOUT here? Not sure if it really
-matters though.
+On Tue, Nov 29, 2022 at 03:52:45PM +0100, Jörg Quinten wrote:
+> Hi Laurent,
+> 
+> looks like linux/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> doesn't correlate at all to the arrangement and numbering in
+> linux/include/uapi/linux/media-bus-format.h .
 
->
-> Regards,
->
-> Tvrtko
->
-> > +     if (err < 0)
-> >               return err;
-> > +     if (err =3D=3D 0)
-> > +             return -EBUSY;
+Looking at the RGB group in include/uapi/linux/media-bus-format.h in the
+mainline kernel, if you exclude the LVDS formats that are documented
+separately, and the MEDIA_BUS_FMT_RGB888_3X8_DELTA format that appears
+to be undocumented, the formats are ordered in the same way as in
+subdev-formats.rst (see
+https://linuxtv.org/downloads/v4l-dvb-apis/userspace-api/v4l/subdev-formats.html#v4l2-mbus-pixelcode for an HTML version).
+
+> Which sources do you want me to check?
+> 
+> Looking at https://github.com/raspberrypi/linux/tree/rpi-6.1.y btw.
+> 
+> Rgds
+> Joerg
+> 
+> 
+> 
+> 
+> Am Di., 29. Nov. 2022 um 13:38 Uhr schrieb Laurent Pinchart <
+> laurent.pinchart@ideasonboard.com>:
+> 
+> > Hi Maxime and Joerg,
 > >
-> >       err =3D i915_ttm_move_notify(bo);
-> >       if (err)
+> > Thank you for the patch.
+> >
+> > On Thu, Oct 20, 2022 at 10:30:47AM +0200, Maxime Ripard wrote:
+> > > From: Joerg Quinten <aBUGSworstnightmare@gmail.com>
+> > >
+> > > Add the BGR666 format MEDIA_BUS_FMT_BGR666_1X24_CPADHI supported by the
+> > > RaspberryPi.
+> > >
+> > > Signed-off-by: Joerg Quinten <aBUGSworstnightmare@gmail.com>
+> > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > > ---
+> > >  .../userspace-api/media/v4l/subdev-formats.rst     | 37
+> > ++++++++++++++++++++++
+> > >  include/uapi/linux/media-bus-format.h              |  3 +-
+> > >  2 files changed, 39 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > > index 68f8d7d37984..604a30e2f890 100644
+> > > --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > > +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > > @@ -1023,6 +1023,43 @@ The following tables list existing packed RGB
+> > formats.
+> > >        - g\ :sub:`2`
+> > >        - g\ :sub:`1`
+> > >        - g\ :sub:`0`
+> > > +    * .. _MEDIA-BUS-FMT-BGR666-1X24_CPADHI:
+> >
+> > I would move this just below MEDIA_BUS_FMT_RGB565_1X24_CPADHI. Actually,
+> > could you check 1/7 and 2/7 to make sure the formats are sorted in the
+> > documentation in the same order as in the header ?
+> >
+> > > +
+> > > +      - MEDIA_BUS_FMT_BGR666_1X24_CPADHI
+> > > +      - 0x1024
+> > > +      -
+> > > +      -
+> > > +      -
+> > > +      -
+> > > +      -
+> > > +      -
+> > > +      -
+> > > +      -
+> > > +      -
+> > > +      - 0
+> > > +      - 0
+> > > +      - b\ :sub:`5`
+> > > +      - b\ :sub:`4`
+> > > +      - b\ :sub:`3`
+> > > +      - b\ :sub:`2`
+> > > +      - b\ :sub:`1`
+> > > +      - b\ :sub:`0`
+> > > +      - 0
+> > > +      - 0
+> > > +      - g\ :sub:`5`
+> > > +      - g\ :sub:`4`
+> > > +      - g\ :sub:`3`
+> > > +      - g\ :sub:`2`
+> > > +      - g\ :sub:`1`
+> > > +      - g\ :sub:`0`
+> > > +      - 0
+> > > +      - 0
+> > > +      - r\ :sub:`5`
+> > > +      - r\ :sub:`4`
+> > > +      - r\ :sub:`3`
+> > > +      - r\ :sub:`2`
+> > > +      - r\ :sub:`1`
+> > > +      - r\ :sub:`0`
+> > >      * .. _MEDIA-BUS-FMT-RGB565-1X24_CPADHI:
+> > >
+> > >        - MEDIA_BUS_FMT_RGB565_1X24_CPADHI
+> > > diff --git a/include/uapi/linux/media-bus-format.h
+> > b/include/uapi/linux/media-bus-format.h
+> > > index 2ee0b38c0a71..d4228d038b54 100644
+> > > --- a/include/uapi/linux/media-bus-format.h
+> > > +++ b/include/uapi/linux/media-bus-format.h
+> > > @@ -34,7 +34,7 @@
+> > >
+> > >  #define MEDIA_BUS_FMT_FIXED                  0x0001
+> > >
+> > > -/* RGB - next is     0x1024 */
+> > > +/* RGB - next is     0x1025 */
+> > >  #define MEDIA_BUS_FMT_RGB444_1X12            0x1016
+> > >  #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE    0x1001
+> > >  #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_LE    0x1002
+> > > @@ -49,6 +49,7 @@
+> > >  #define MEDIA_BUS_FMT_BGR666_1X18            0x1023
+> > >  #define MEDIA_BUS_FMT_RGB666_1X18            0x1009
+> > >  #define MEDIA_BUS_FMT_RBG888_1X24            0x100e
+> > > +#define MEDIA_BUS_FMT_BGR666_1X24_CPADHI     0x1024
+> > >  #define MEDIA_BUS_FMT_RGB666_1X24_CPADHI     0x1015
+> > >  #define MEDIA_BUS_FMT_RGB666_1X7X3_SPWG              0x1010
+> > >  #define MEDIA_BUS_FMT_BGR888_1X24            0x1013
+> > >
+
+-- 
+Regards,
+
+Laurent Pinchart
