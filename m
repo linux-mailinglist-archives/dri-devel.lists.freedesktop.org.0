@@ -1,38 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABACD63C838
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 20:21:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A6B363C8B1
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 20:44:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5E0210E345;
-	Tue, 29 Nov 2022 19:21:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86E6510E334;
+	Tue, 29 Nov 2022 19:44:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7FF510E336;
- Tue, 29 Nov 2022 19:21:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1669749653; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LJ8DQbIPu45uJFi2+s89p8C8So0glLs+3UhV12NFAG4=;
- b=1bld4QEX0BAnu3Z14gTXZpmFtmvXP8F67tDurl3HqD8RxcF4B8CIQ8VC5WPwwqd6Ktn/EK
- 1KedmnMleBUB/U3DHVlgwJJIMabuy87w9VHSnZQvPy0xvKXHrNXFEHxq4WnlMT2wPzUTiZ
- a4WsVlCqWMxNe2ZKCZHvbzdWNBpO9Uc=
-From: Paul Cercueil <paul@crapouillou.net>
-To: David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 26/26] drm/i915/gt: Remove #ifdef guards for PM related
- functions
-Date: Tue, 29 Nov 2022 19:19:42 +0000
-Message-Id: <20221129191942.138244-13-paul@crapouillou.net>
-In-Reply-To: <20221129191942.138244-1-paul@crapouillou.net>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 083E810E334
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 19:44:10 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8C8364E6;
+ Tue, 29 Nov 2022 20:44:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1669751047;
+ bh=pUu+g5t3BnVNUh+Ojo6e6Lwl1K0PG+/VdnlmN/8ik+U=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=aeRIvdSC4NFh/T3Ubi8FCUtqi/tUYQH1c3ZwlAd7UTNpMRYKJdRORyDXTyroKaLE+
+ R2ERdl+K6v9BL8Z+W/Sw5XjwjvqDilv/RUrk86kIkXK0Vv45T1JoeUSMYSsEUgIO02
+ oRkymguTTUmcY8aePq66PydpxDYIEopsTdN2WrrM=
+Date: Tue, 29 Nov 2022 21:43:51 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v2 17/26] drm: rcar-du: Remove #ifdef guards for PM
+ related functions
+Message-ID: <Y4Zg9yg7KP0yCPIL@pendragon.ideasonboard.com>
 References: <20221129191733.137897-1-paul@crapouillou.net>
  <20221129191942.138244-1-paul@crapouillou.net>
+ <20221129191942.138244-4-paul@crapouillou.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221129191942.138244-4-paul@crapouillou.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,66 +49,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Paul Cercueil <paul@crapouillou.net>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of defining two versions of intel_sysfs_rc6_init(), one for each
-value of CONFIG_PM, add a check on !IS_ENABLED(CONFIG_PM) early in the
-function. This will allow the compiler to automatically drop the dead
-code when CONFIG_PM is disabled, without having to use #ifdef guards.
+Hi Paul,
 
-This has the advantage of always compiling these functions in,
-independently of any Kconfig option. Thanks to that, bugs and other
-regressions are subsequently easier to catch.
+Thank you for the patch.
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
----
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org
----
- drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+On Tue, Nov 29, 2022 at 07:19:33PM +0000, Paul Cercueil wrote:
+> Use the DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr() macros to handle
+> the .suspend/.resume callbacks.
+> 
+> These macros allow the suspend and resume functions to be automatically
+> dropped by the compiler when CONFIG_SUSPEND is disabled, without having
+> to use #ifdef guards.
+> 
+> This has the advantage of always compiling these functions in,
+> independently of any Kconfig option. Thanks to that, bugs and other
+> regressions are subsequently easier to catch.
+> 
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
-index cf71305ad586..09b9365ededd 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
-@@ -164,7 +164,6 @@ sysfs_gt_attribute_r_func(struct kobject *kobj, struct attribute *attr,
- 								 NULL);			\
- 	INTEL_GT_ATTR_RO(_name)
- 
--#ifdef CONFIG_PM
- static u32 get_residency(struct intel_gt *gt, enum intel_rc6_res_type id)
- {
- 	intel_wakeref_t wakeref;
-@@ -300,7 +299,7 @@ static void intel_sysfs_rc6_init(struct intel_gt *gt, struct kobject *kobj)
- {
- 	int ret;
- 
--	if (!HAS_RC6(gt->i915))
-+	if (!IS_ENABLED(CONFIG_PM) || !HAS_RC6(gt->i915))
- 		return;
- 
- 	ret = __intel_gt_sysfs_create_group(kobj, rc6_attr_group);
-@@ -329,11 +328,6 @@ static void intel_sysfs_rc6_init(struct intel_gt *gt, struct kobject *kobj)
- 				 gt->info.id, ERR_PTR(ret));
- 	}
- }
--#else
--static void intel_sysfs_rc6_init(struct intel_gt *gt, struct kobject *kobj)
--{
--}
--#endif /* CONFIG_PM */
- 
- static u32 __act_freq_mhz_show(struct intel_gt *gt)
- {
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+Will you get this whole series merged in one go in drm-misc, or do you
+expect me to take this patch in my tree ? I'd prefer the first option if
+possible (less work for me :-)).
+
+> ---
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> index d003e8d9e7a2..eeec1e02446f 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> @@ -599,7 +599,6 @@ static const struct drm_driver rcar_du_driver = {
+>   * Power management
+>   */
+>  
+> -#ifdef CONFIG_PM_SLEEP
+>  static int rcar_du_pm_suspend(struct device *dev)
+>  {
+>  	struct rcar_du_device *rcdu = dev_get_drvdata(dev);
+> @@ -613,11 +612,9 @@ static int rcar_du_pm_resume(struct device *dev)
+>  
+>  	return drm_mode_config_helper_resume(&rcdu->ddev);
+>  }
+> -#endif
+>  
+> -static const struct dev_pm_ops rcar_du_pm_ops = {
+> -	SET_SYSTEM_SLEEP_PM_OPS(rcar_du_pm_suspend, rcar_du_pm_resume)
+> -};
+> +static DEFINE_SIMPLE_DEV_PM_OPS(rcar_du_pm_ops,
+> +				rcar_du_pm_suspend, rcar_du_pm_resume);
+>  
+>  /* -----------------------------------------------------------------------------
+>   * Platform driver
+> @@ -712,7 +709,7 @@ static struct platform_driver rcar_du_platform_driver = {
+>  	.shutdown	= rcar_du_shutdown,
+>  	.driver		= {
+>  		.name	= "rcar-du",
+> -		.pm	= &rcar_du_pm_ops,
+> +		.pm	= pm_sleep_ptr(&rcar_du_pm_ops),
+>  		.of_match_table = rcar_du_of_table,
+>  	},
+>  };
+
 -- 
-2.35.1
+Regards,
 
+Laurent Pinchart
