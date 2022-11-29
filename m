@@ -1,61 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B94463C6A1
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 18:43:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CF3963C6A8
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 18:44:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C11A10E0A7;
-	Tue, 29 Nov 2022 17:43:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7ADDB10E122;
+	Tue, 29 Nov 2022 17:44:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
- [IPv6:2607:f8b0:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3347810E0A7
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 17:43:40 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id 4so14165887pli.0
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 09:43:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=iXCWILef2PDcL9sLeguo1E8rwfZJ6oNabKhO5H8Gxiw=;
- b=ZjD8MZVqQwGAMlT9t2izaMXVJU8jMqvIKuBePdb/fltwaex9aK3k0K8d5CtmYAz0oZ
- Gd4jdz46JxqNygZsNz6S4b+QNLWJye/YbdS0LdoNT8mqHc1Nfrum+jrRPAx5EIqux9IG
- Pc0zyGudAO5hqgWlNNl9liAX3ezO7n3sVyZn8OubwAHBVY/zjwi7+d+l9akgFsHSKrxl
- TKW7OZ1VTC05I96JDWw5aNhktRLGiDUci7iS/qPAwwJqoI8odrJQxdry9ItLS98eUfI5
- AmORBuSvMHZGSR6s67R/CqdEg+nXn2EJPRgmCMWl6tjFhqN6Bxg7Doz/yJAVbVcoSnMT
- d8pA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=iXCWILef2PDcL9sLeguo1E8rwfZJ6oNabKhO5H8Gxiw=;
- b=kI4M7kReNtc9mu3u+4mRjK6sAWSQ3vKX6LCtage4QM0Qti5Mk0EwAbEZ58jWECQf2G
- gFOWntQ38LsRhEQxPBE7hk1IbuBkxCh17or9HZOESECdzN35L0l0h9p/XVt+Tvi2l/CQ
- LFz5Jh6dyULdpCMPL3aQ/0nBqt7TJMEeasNfeRPyJ+JT6gYyOnmDuTHueRhMgXGGtrKU
- yIMqge2qN8HLaMzJ+TFC+8HKXPn5hfEqokvNaUYQojF73ZET5lo6WggxvRPS+mLu2sbs
- uhfynj9jpRzY6VH9faBWdbmWIoh+Jy0KfT8shS6kvH3xTj2WMB+A/6zwhAtIBVAu9LBf
- BfGw==
-X-Gm-Message-State: ANoB5plCrn56FgQ3AgPMQNjUj+qporew2Q9HxAXsMCo3Ts+YRf573rVB
- xaqrRyDsoMH/bmVBwER/oYWIxGhqamo=
-X-Google-Smtp-Source: AA0mqf7+2AEstG2zQZWqQIE3UtBcDlP+tNxEcHG7VqwJTz3I0h+3H54yM8gaQDgA2qDzQbmuZ1wi+g==
-X-Received: by 2002:a17:90b:2690:b0:213:f2c9:ce71 with SMTP id
- pl16-20020a17090b269000b00213f2c9ce71mr60558650pjb.62.1669743819324; 
- Tue, 29 Nov 2022 09:43:39 -0800 (PST)
-Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
- by smtp.gmail.com with ESMTPSA id
- x29-20020aa78f1d000000b00575a578a717sm1522947pfr.206.2022.11.29.09.43.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Nov 2022 09:43:38 -0800 (PST)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/virtio: Spiff out cmd queue/response traces
-Date: Tue, 29 Nov 2022 09:43:30 -0800
-Message-Id: <20221129174330.262751-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.38.1
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 204E110E122
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 17:44:37 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 52D334E6;
+ Tue, 29 Nov 2022 18:44:34 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1669743874;
+ bh=NyOCGBO6avzVnhg1vfxVpGI+x0dMdknk01c7j/v4a2k=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Ar+RwAeZSwmkF4YwTNXjAn9V7p+1QSvuU7i8Pwod2Wz89Cj7jIv2TWGNc/aFdTrOQ
+ TxKjJuHvQM60AX5Gk9RZq4JEQBP3Lho2sbdjlbaDNDLYRA6wx3OetN61rnvKNw+cRU
+ e2IiLwr75wLq8I0gyfZPEoKjeh8Kqd4ZdwzjxH+U=
+Date: Tue, 29 Nov 2022 19:44:18 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Subject: Re: [PATCH v3 7/7] drm: rcar-du: dsi: Add r8A779g0 support
+Message-ID: <Y4ZE8gcH7E3Pad68@pendragon.ideasonboard.com>
+References: <20221123065946.40415-8-tomi.valkeinen+renesas@ideasonboard.com>
+ <20221129134138.375411-1-tomi.valkeinen+renesas@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221129134138.375411-1-tomi.valkeinen+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,149 +47,725 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- open list <linux-kernel@vger.kernel.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- David Airlie <airlied@redhat.com>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+Hi Tomi,
 
-Add a sequence # for more easily matching up cmd/resp, and the # of free
-slots in the virtqueue to more easily see starvation issues.
+Thank you for the patch.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/virtio/virtgpu_drv.h   |  3 +++
- drivers/gpu/drm/virtio/virtgpu_trace.h | 20 ++++++++++++--------
- drivers/gpu/drm/virtio/virtgpu_vq.c    | 13 ++++++++++---
- 3 files changed, 25 insertions(+), 11 deletions(-)
+On Tue, Nov 29, 2022 at 03:41:38PM +0200, Tomi Valkeinen wrote:
+> Add DSI support for r8a779g0. The main differences to r8a779a0 are in
+> the PLL and PHTW setups.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> ---
+> Changes to v2:
+> - Use MHZ() in the tables, with floating point values as inputs
+> - Use V3U/V4H names instead of R8A779A0/R8A779G0
+> - PLL diffs between V3U and V4H are now described in struct
+>   rcar_mipi_dsi_device_info, and we have a single function to calculate
+>   the pll settings.
+> - Refactor fin_rate to outside the pll calc functions.
+> - Fixed the PLL config debug print.
+> - Dropped clockset2_n_offset, which is always 1
+> 
+>  drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c      | 499 ++++++++++++++-----
+>  drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h |   6 +-
+>  2 files changed, 377 insertions(+), 128 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+> index a7f2b7f66a17..3b812ec034fe 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+> @@ -9,6 +9,7 @@
+>  #include <linux/delay.h>
+>  #include <linux/io.h>
+>  #include <linux/iopoll.h>
+> +#include <linux/math64.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+>  #include <linux/of_device.h>
+> @@ -28,6 +29,31 @@
+>  #include "rcar_mipi_dsi.h"
+>  #include "rcar_mipi_dsi_regs.h"
+>  
+> +#define MHZ(v) ((u32)((v) * 1000000U))
+> +
+> +enum rcar_mipi_dsi_hw_model {
+> +	RCAR_DSI_V3U,
+> +	RCAR_DSI_V4H,
+> +};
+> +
+> +struct rcar_mipi_dsi_device_info {
+> +	enum rcar_mipi_dsi_hw_model model;
+> +
+> +	const struct dsi_clk_config *clk_cfg;
+> +
+> +	u8 clockset2_m_offset;
+> +
+> +	u8 n_min;
+> +	u8 n_max;
+> +	u8 n_mul;
+> +	unsigned long fpfd_min;
+> +	unsigned long fpfd_max;
+> +	u16 m_min;
+> +	u16 m_max;
+> +	unsigned long fout_min;
+> +	unsigned long fout_max;
+> +};
+> +
+>  struct rcar_mipi_dsi {
+>  	struct device *dev;
+>  	const struct rcar_mipi_dsi_device_info *info;
+> @@ -50,6 +76,17 @@ struct rcar_mipi_dsi {
+>  	unsigned int lanes;
+>  };
+>  
+> +struct dsi_setup_info {
+> +	unsigned long hsfreq;
+> +	u16 hsfreqrange;
+> +
+> +	unsigned long fout;
+> +	u16 m;
+> +	u16 n;
+> +	u16 vclk_divider;
+> +	const struct dsi_clk_config *clkset;
+> +};
+> +
+>  static inline struct rcar_mipi_dsi *
+>  bridge_to_rcar_mipi_dsi(struct drm_bridge *bridge)
+>  {
+> @@ -62,65 +99,78 @@ host_to_rcar_mipi_dsi(struct mipi_dsi_host *host)
+>  	return container_of(host, struct rcar_mipi_dsi, host);
+>  }
+>  
+> -static const u32 phtw[] = {
+> -	0x01020114, 0x01600115, /* General testing */
+> -	0x01030116, 0x0102011d, /* General testing */
+> -	0x011101a4, 0x018601a4, /* 1Gbps testing */
+> -	0x014201a0, 0x010001a3, /* 1Gbps testing */
+> -	0x0101011f,		/* 1Gbps testing */
+> -};
+> -
+> -static const u32 phtw2[] = {
+> -	0x010c0130, 0x010c0140, /* General testing */
+> -	0x010c0150, 0x010c0180, /* General testing */
+> -	0x010c0190,
+> -	0x010a0160, 0x010a0170,
+> -	0x01800164, 0x01800174,	/* 1Gbps testing */
+> -};
+> -
+>  static const u32 hsfreqrange_table[][2] = {
+> -	{ 80000000U,   0x00 }, { 90000000U,   0x10 }, { 100000000U,  0x20 },
+> -	{ 110000000U,  0x30 }, { 120000000U,  0x01 }, { 130000000U,  0x11 },
+> -	{ 140000000U,  0x21 }, { 150000000U,  0x31 }, { 160000000U,  0x02 },
+> -	{ 170000000U,  0x12 }, { 180000000U,  0x22 }, { 190000000U,  0x32 },
+> -	{ 205000000U,  0x03 }, { 220000000U,  0x13 }, { 235000000U,  0x23 },
+> -	{ 250000000U,  0x33 }, { 275000000U,  0x04 }, { 300000000U,  0x14 },
+> -	{ 325000000U,  0x25 }, { 350000000U,  0x35 }, { 400000000U,  0x05 },
+> -	{ 450000000U,  0x16 }, { 500000000U,  0x26 }, { 550000000U,  0x37 },
+> -	{ 600000000U,  0x07 }, { 650000000U,  0x18 }, { 700000000U,  0x28 },
+> -	{ 750000000U,  0x39 }, { 800000000U,  0x09 }, { 850000000U,  0x19 },
+> -	{ 900000000U,  0x29 }, { 950000000U,  0x3a }, { 1000000000U, 0x0a },
+> -	{ 1050000000U, 0x1a }, { 1100000000U, 0x2a }, { 1150000000U, 0x3b },
+> -	{ 1200000000U, 0x0b }, { 1250000000U, 0x1b }, { 1300000000U, 0x2b },
+> -	{ 1350000000U, 0x3c }, { 1400000000U, 0x0c }, { 1450000000U, 0x1c },
+> -	{ 1500000000U, 0x2c }, { 1550000000U, 0x3d }, { 1600000000U, 0x0d },
+> -	{ 1650000000U, 0x1d }, { 1700000000U, 0x2e }, { 1750000000U, 0x3e },
+> -	{ 1800000000U, 0x0e }, { 1850000000U, 0x1e }, { 1900000000U, 0x2f },
+> -	{ 1950000000U, 0x3f }, { 2000000000U, 0x0f }, { 2050000000U, 0x40 },
+> -	{ 2100000000U, 0x41 }, { 2150000000U, 0x42 }, { 2200000000U, 0x43 },
+> -	{ 2250000000U, 0x44 }, { 2300000000U, 0x45 }, { 2350000000U, 0x46 },
+> -	{ 2400000000U, 0x47 }, { 2450000000U, 0x48 }, { 2500000000U, 0x49 },
+> +	{   MHZ(80), 0x00 }, {   MHZ(90), 0x10 }, {  MHZ(100), 0x20 },
+> +	{  MHZ(110), 0x30 }, {  MHZ(120), 0x01 }, {  MHZ(130), 0x11 },
+> +	{  MHZ(140), 0x21 }, {  MHZ(150), 0x31 }, {  MHZ(160), 0x02 },
+> +	{  MHZ(170), 0x12 }, {  MHZ(180), 0x22 }, {  MHZ(190), 0x32 },
+> +	{  MHZ(205), 0x03 }, {  MHZ(220), 0x13 }, {  MHZ(235), 0x23 },
+> +	{  MHZ(250), 0x33 }, {  MHZ(275), 0x04 }, {  MHZ(300), 0x14 },
+> +	{  MHZ(325), 0x25 }, {  MHZ(350), 0x35 }, {  MHZ(400), 0x05 },
+> +	{  MHZ(450), 0x16 }, {  MHZ(500), 0x26 }, {  MHZ(550), 0x37 },
+> +	{  MHZ(600), 0x07 }, {  MHZ(650), 0x18 }, {  MHZ(700), 0x28 },
+> +	{  MHZ(750), 0x39 }, {  MHZ(800), 0x09 }, {  MHZ(850), 0x19 },
+> +	{  MHZ(900), 0x29 }, {  MHZ(950), 0x3a }, { MHZ(1000), 0x0a },
+> +	{ MHZ(1050), 0x1a }, { MHZ(1100), 0x2a }, { MHZ(1150), 0x3b },
+> +	{ MHZ(1200), 0x0b }, { MHZ(1250), 0x1b }, { MHZ(1300), 0x2b },
+> +	{ MHZ(1350), 0x3c }, { MHZ(1400), 0x0c }, { MHZ(1450), 0x1c },
+> +	{ MHZ(1500), 0x2c }, { MHZ(1550), 0x3d }, { MHZ(1600), 0x0d },
+> +	{ MHZ(1650), 0x1d }, { MHZ(1700), 0x2e }, { MHZ(1750), 0x3e },
+> +	{ MHZ(1800), 0x0e }, { MHZ(1850), 0x1e }, { MHZ(1900), 0x2f },
+> +	{ MHZ(1950), 0x3f }, { MHZ(2000), 0x0f }, { MHZ(2050), 0x40 },
+> +	{ MHZ(2100), 0x41 }, { MHZ(2150), 0x42 }, { MHZ(2200), 0x43 },
+> +	{ MHZ(2250), 0x44 }, { MHZ(2300), 0x45 }, { MHZ(2350), 0x46 },
+> +	{ MHZ(2400), 0x47 }, { MHZ(2450), 0x48 }, { MHZ(2500), 0x49 },
+>  	{ /* sentinel */ },
+>  };
+>  
+> -struct vco_cntrl_value {
+> +struct dsi_clk_config {
+>  	u32 min_freq;
+>  	u32 max_freq;
+> -	u16 value;
+> +	u8 vco_cntrl;
+> +	u8 cpbias_cntrl;
+> +	u8 gmp_cntrl;
+> +	u8 int_cntrl;
+> +	u8 prop_cntrl;
+>  };
+>  
+> -static const struct vco_cntrl_value vco_cntrl_table[] = {
+> -	{ .min_freq = 40000000U,   .max_freq = 55000000U,   .value = 0x3f },
+> -	{ .min_freq = 52500000U,   .max_freq = 80000000U,   .value = 0x39 },
+> -	{ .min_freq = 80000000U,   .max_freq = 110000000U,  .value = 0x2f },
+> -	{ .min_freq = 105000000U,  .max_freq = 160000000U,  .value = 0x29 },
+> -	{ .min_freq = 160000000U,  .max_freq = 220000000U,  .value = 0x1f },
+> -	{ .min_freq = 210000000U,  .max_freq = 320000000U,  .value = 0x19 },
+> -	{ .min_freq = 320000000U,  .max_freq = 440000000U,  .value = 0x0f },
+> -	{ .min_freq = 420000000U,  .max_freq = 660000000U,  .value = 0x09 },
+> -	{ .min_freq = 630000000U,  .max_freq = 1149000000U, .value = 0x03 },
+> -	{ .min_freq = 1100000000U, .max_freq = 1152000000U, .value = 0x01 },
+> -	{ .min_freq = 1150000000U, .max_freq = 1250000000U, .value = 0x01 },
+> +static const struct dsi_clk_config dsi_clk_cfg_v3u[] = {
+> +	{   MHZ(40),    MHZ(55), 0x3f, 0x10, 0x01, 0x00, 0x0b },
+> +	{   MHZ(52.5),  MHZ(80), 0x39, 0x10, 0x01, 0x00, 0x0b },
+> +	{   MHZ(80),   MHZ(110), 0x2f, 0x10, 0x01, 0x00, 0x0b },
+> +	{  MHZ(105),   MHZ(160), 0x29, 0x10, 0x01, 0x00, 0x0b },
+> +	{  MHZ(160),   MHZ(220), 0x1f, 0x10, 0x01, 0x00, 0x0b },
+> +	{  MHZ(210),   MHZ(320), 0x19, 0x10, 0x01, 0x00, 0x0b },
+> +	{  MHZ(320),   MHZ(440), 0x0f, 0x10, 0x01, 0x00, 0x0b },
+> +	{  MHZ(420),   MHZ(660), 0x09, 0x10, 0x01, 0x00, 0x0b },
+> +	{  MHZ(630),  MHZ(1149), 0x03, 0x10, 0x01, 0x00, 0x0b },
+> +	{ MHZ(1100),  MHZ(1152), 0x01, 0x10, 0x01, 0x00, 0x0b },
+> +	{ MHZ(1150),  MHZ(1250), 0x01, 0x10, 0x01, 0x00, 0x0c },
+> +	{ /* sentinel */ },
+> +};
+> +
+> +static const struct dsi_clk_config dsi_clk_cfg_v4h[] = {
+> +	{   MHZ(40),    MHZ(45.31),  0x2b, 0x00, 0x00, 0x08, 0x0a },
+> +	{   MHZ(45.31), MHZ(54.66),  0x28, 0x00, 0x00, 0x08, 0x0a },
+> +	{   MHZ(54.66), MHZ(62.5),   0x28, 0x00, 0x00, 0x08, 0x0a },
+> +	{   MHZ(62.5),  MHZ(75),     0x27, 0x00, 0x00, 0x08, 0x0a },
+> +	{   MHZ(75),    MHZ(90.63),  0x23, 0x00, 0x00, 0x08, 0x0a },
+> +	{   MHZ(90.63), MHZ(109.37), 0x20, 0x00, 0x00, 0x08, 0x0a },
+> +	{  MHZ(109.37), MHZ(125),    0x20, 0x00, 0x00, 0x08, 0x0a },
+> +	{  MHZ(125),    MHZ(150),    0x1f, 0x00, 0x00, 0x08, 0x0a },
+> +	{  MHZ(150),    MHZ(181.25), 0x1b, 0x00, 0x00, 0x08, 0x0a },
+> +	{  MHZ(181.25), MHZ(218.75), 0x18, 0x00, 0x00, 0x08, 0x0a },
+> +	{  MHZ(218.75), MHZ(250),    0x18, 0x00, 0x00, 0x08, 0x0a },
+> +	{  MHZ(250),    MHZ(300),    0x17, 0x00, 0x00, 0x08, 0x0a },
+> +	{  MHZ(300),    MHZ(362.5),  0x13, 0x00, 0x00, 0x08, 0x0a },
+> +	{  MHZ(362.5),  MHZ(455.48), 0x10, 0x00, 0x00, 0x08, 0x0a },
+> +	{  MHZ(455.48), MHZ(500),    0x10, 0x00, 0x00, 0x08, 0x0a },
+> +	{  MHZ(500),    MHZ(600),    0x0f, 0x00, 0x00, 0x08, 0x0a },
+> +	{  MHZ(600),    MHZ(725),    0x0b, 0x00, 0x00, 0x08, 0x0a },
+> +	{  MHZ(725),    MHZ(875),    0x08, 0x00, 0x00, 0x08, 0x0a },
+> +	{  MHZ(875),   MHZ(1000),    0x08, 0x00, 0x00, 0x08, 0x0a },
+> +	{ MHZ(1000),   MHZ(1200),    0x07, 0x00, 0x00, 0x08, 0x0a },
+> +	{ MHZ(1200),   MHZ(1250),    0x03, 0x00, 0x00, 0x08, 0x0a },
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 9b98470593b0..cdc208d9238c 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -166,6 +166,8 @@ struct virtio_gpu_vbuffer {
- 
- 	struct virtio_gpu_object_array *objs;
- 	struct list_head list;
-+
-+	uint32_t seqno;
- };
- 
- struct virtio_gpu_output {
-@@ -195,6 +197,7 @@ struct virtio_gpu_queue {
- 	spinlock_t qlock;
- 	wait_queue_head_t ack_queue;
- 	struct work_struct dequeue_work;
-+	uint32_t seqno;
- };
- 
- struct virtio_gpu_drv_capset {
-diff --git a/drivers/gpu/drm/virtio/virtgpu_trace.h b/drivers/gpu/drm/virtio/virtgpu_trace.h
-index 711ecc2bd241..087e860a66f7 100644
---- a/drivers/gpu/drm/virtio/virtgpu_trace.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_trace.h
-@@ -9,8 +9,8 @@
- #define TRACE_INCLUDE_FILE virtgpu_trace
- 
- DECLARE_EVENT_CLASS(virtio_gpu_cmd,
--	TP_PROTO(struct virtqueue *vq, struct virtio_gpu_ctrl_hdr *hdr),
--	TP_ARGS(vq, hdr),
-+	TP_PROTO(struct virtqueue *vq, struct virtio_gpu_ctrl_hdr *hdr, u32 seqno),
-+	TP_ARGS(vq, hdr, seqno),
- 	TP_STRUCT__entry(
- 			 __field(int, dev)
- 			 __field(unsigned int, vq)
-@@ -19,6 +19,8 @@ DECLARE_EVENT_CLASS(virtio_gpu_cmd,
- 			 __field(u32, flags)
- 			 __field(u64, fence_id)
- 			 __field(u32, ctx_id)
-+			 __field(u32, num_free)
-+			 __field(u32, seqno)
- 			 ),
- 	TP_fast_assign(
- 		       __entry->dev = vq->vdev->index;
-@@ -28,21 +30,23 @@ DECLARE_EVENT_CLASS(virtio_gpu_cmd,
- 		       __entry->flags = le32_to_cpu(hdr->flags);
- 		       __entry->fence_id = le64_to_cpu(hdr->fence_id);
- 		       __entry->ctx_id = le32_to_cpu(hdr->ctx_id);
-+		       __entry->num_free = vq->num_free;
-+		       __entry->seqno = seqno;
- 		       ),
--	TP_printk("vdev=%d vq=%u name=%s type=0x%x flags=0x%x fence_id=%llu ctx_id=%u",
-+	TP_printk("vdev=%d vq=%u name=%s type=0x%x flags=0x%x fence_id=%llu ctx_id=%u num_free=%u seqno=%u",
- 		  __entry->dev, __entry->vq, __entry->name,
- 		  __entry->type, __entry->flags, __entry->fence_id,
--		  __entry->ctx_id)
-+		  __entry->ctx_id, __entry->num_free, __entry->seqno)
- );
- 
- DEFINE_EVENT(virtio_gpu_cmd, virtio_gpu_cmd_queue,
--	TP_PROTO(struct virtqueue *vq, struct virtio_gpu_ctrl_hdr *hdr),
--	TP_ARGS(vq, hdr)
-+	TP_PROTO(struct virtqueue *vq, struct virtio_gpu_ctrl_hdr *hdr, u32 seqno),
-+	TP_ARGS(vq, hdr, seqno)
- );
- 
- DEFINE_EVENT(virtio_gpu_cmd, virtio_gpu_cmd_response,
--	TP_PROTO(struct virtqueue *vq, struct virtio_gpu_ctrl_hdr *hdr),
--	TP_ARGS(vq, hdr)
-+	TP_PROTO(struct virtqueue *vq, struct virtio_gpu_ctrl_hdr *hdr, u32 seqno),
-+	TP_ARGS(vq, hdr, seqno)
- );
- 
- #endif
-diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-index 9ff8660b50ad..a04a9b20896d 100644
---- a/drivers/gpu/drm/virtio/virtgpu_vq.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-@@ -215,7 +215,7 @@ void virtio_gpu_dequeue_ctrl_func(struct work_struct *work)
- 	list_for_each_entry(entry, &reclaim_list, list) {
- 		resp = (struct virtio_gpu_ctrl_hdr *)entry->resp_buf;
- 
--		trace_virtio_gpu_cmd_response(vgdev->ctrlq.vq, resp);
-+		trace_virtio_gpu_cmd_response(vgdev->ctrlq.vq, resp, entry->seqno);
- 
- 		if (resp->type != cpu_to_le32(VIRTIO_GPU_RESP_OK_NODATA)) {
- 			if (le32_to_cpu(resp->type) >= VIRTIO_GPU_RESP_ERR_UNSPEC) {
-@@ -261,6 +261,10 @@ void virtio_gpu_dequeue_cursor_func(struct work_struct *work)
- 	spin_unlock(&vgdev->cursorq.qlock);
- 
- 	list_for_each_entry_safe(entry, tmp, &reclaim_list, list) {
-+		struct virtio_gpu_ctrl_hdr *resp =
-+			(struct virtio_gpu_ctrl_hdr *)entry->resp_buf;
-+
-+		trace_virtio_gpu_cmd_response(vgdev->cursorq.vq, resp, entry->seqno);
- 		list_del(&entry->list);
- 		free_vbuf(vgdev, entry);
- 	}
-@@ -353,7 +357,8 @@ static int virtio_gpu_queue_ctrl_sgs(struct virtio_gpu_device *vgdev,
- 	ret = virtqueue_add_sgs(vq, sgs, outcnt, incnt, vbuf, GFP_ATOMIC);
- 	WARN_ON(ret);
- 
--	trace_virtio_gpu_cmd_queue(vq, virtio_gpu_vbuf_ctrl_hdr(vbuf));
-+	vbuf->seqno = ++vgdev->ctrlq.seqno;
-+	trace_virtio_gpu_cmd_queue(vq, virtio_gpu_vbuf_ctrl_hdr(vbuf), vbuf->seqno);
- 
- 	atomic_inc(&vgdev->pending_commands);
- 
-@@ -465,8 +470,10 @@ static void virtio_gpu_queue_cursor(struct virtio_gpu_device *vgdev,
- 		spin_lock(&vgdev->cursorq.qlock);
- 		goto retry;
- 	} else {
-+		vbuf->seqno = ++vgdev->cursorq.seqno;
- 		trace_virtio_gpu_cmd_queue(vq,
--			virtio_gpu_vbuf_ctrl_hdr(vbuf));
-+			virtio_gpu_vbuf_ctrl_hdr(vbuf),
-+			vbuf->seqno);
- 
- 		notify = virtqueue_kick_prepare(vq);
- 	}
+That's nicer :-)
+
+>  	{ /* sentinel */ },
+>  };
+>  
+> @@ -144,7 +194,7 @@ static void rcar_mipi_dsi_set(struct rcar_mipi_dsi *dsi, u32 reg, u32 set)
+>  	rcar_mipi_dsi_write(dsi, reg, rcar_mipi_dsi_read(dsi, reg) | set);
+>  }
+>  
+> -static int rcar_mipi_dsi_phtw_test(struct rcar_mipi_dsi *dsi, u32 phtw)
+> +static int rcar_mipi_dsi_write_phtw(struct rcar_mipi_dsi *dsi, u32 phtw)
+>  {
+>  	u32 status;
+>  	int ret;
+> @@ -163,32 +213,181 @@ static int rcar_mipi_dsi_phtw_test(struct rcar_mipi_dsi *dsi, u32 phtw)
+>  	return ret;
+>  }
+>  
+> +static int rcar_mipi_dsi_write_phtw_arr(struct rcar_mipi_dsi *dsi,
+> +					const u32 *phtw, unsigned int size)
+> +{
+> +	for (unsigned int i = 0; i < size; i++) {
+> +		int ret = rcar_mipi_dsi_write_phtw(dsi, phtw[i]);
+> +
+> +		if (ret < 0)
+> +			return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +#define WRITE_PHTW(...)                                               \
+> +	({                                                            \
+> +		static const u32 phtw[] = { __VA_ARGS__ };            \
+> +		int ret;                                              \
+> +		ret = rcar_mipi_dsi_write_phtw_arr(dsi, phtw,         \
+> +						   ARRAY_SIZE(phtw)); \
+> +		ret;                                                  \
+> +	})
+> +
+> +static int rcar_mipi_dsi_init_phtw_v3u(struct rcar_mipi_dsi *dsi)
+> +{
+> +	return WRITE_PHTW(0x01020114, 0x01600115, 0x01030116, 0x0102011d,
+> +			  0x011101a4, 0x018601a4, 0x014201a0, 0x010001a3,
+> +			  0x0101011f);
+> +}
+> +
+> +static int rcar_mipi_dsi_post_init_phtw_v3u(struct rcar_mipi_dsi *dsi)
+> +{
+> +	return WRITE_PHTW(0x010c0130, 0x010c0140, 0x010c0150, 0x010c0180,
+> +			  0x010c0190, 0x010a0160, 0x010a0170, 0x01800164,
+> +			  0x01800174);
+> +}
+> +
+> +static int rcar_mipi_dsi_init_phtw_v4h(struct rcar_mipi_dsi *dsi,
+> +				       const struct dsi_setup_info *setup_info)
+> +{
+> +	int ret;
+> +
+> +	if (setup_info->hsfreq < MHZ(450)) {
+> +		ret = WRITE_PHTW(0x01010100, 0x011b01ac);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	ret = WRITE_PHTW(0x01010100, 0x01030173, 0x01000174, 0x01500175,
+> +			 0x01030176, 0x01040166, 0x010201ad);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (setup_info->hsfreq <= MHZ(1000))
+> +		ret = WRITE_PHTW(0x01020100, 0x01910170, 0x01020171,
+> +				 0x01110172);
+> +	else if (setup_info->hsfreq <= MHZ(1500))
+> +		ret = WRITE_PHTW(0x01020100, 0x01980170, 0x01030171,
+> +				 0x01100172);
+> +	else if (setup_info->hsfreq <= MHZ(2500))
+> +		ret = WRITE_PHTW(0x01020100, 0x0144016b, 0x01000172);
+> +	else
+> +		return -EINVAL;
+> +
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (dsi->lanes <= 1) {
+> +		ret = WRITE_PHTW(0x01070100, 0x010e010b);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	if (dsi->lanes <= 2) {
+> +		ret = WRITE_PHTW(0x01090100, 0x010e010b);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	if (dsi->lanes <= 3) {
+> +		ret = WRITE_PHTW(0x010b0100, 0x010e010b);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	if (setup_info->hsfreq <= MHZ(1500)) {
+> +		ret = WRITE_PHTW(0x01010100, 0x01c0016e);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int
+> +rcar_mipi_dsi_post_init_phtw_v4h(struct rcar_mipi_dsi *dsi,
+> +				 const struct dsi_setup_info *setup_info)
+> +{
+> +	u32 status;
+> +	int ret;
+> +
+> +	if (setup_info->hsfreq <= MHZ(1500)) {
+> +		WRITE_PHTW(0x01020100, 0x00000180);
+> +
+> +		ret = read_poll_timeout(rcar_mipi_dsi_read, status,
+> +					status & PHTR_TEST, 2000, 10000, false,
+> +					dsi, PHTR);
+> +		if (ret < 0) {
+> +			dev_err(dsi->dev, "failed to test PHTR\n");
+> +			return ret;
+> +		}
+> +
+> +		WRITE_PHTW(0x01010100, 0x0100016e);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  /* -----------------------------------------------------------------------------
+>   * Hardware Setup
+>   */
+>  
+> -struct dsi_setup_info {
+> -	unsigned long fout;
+> -	u16 vco_cntrl;
+> -	u16 prop_cntrl;
+> -	u16 hsfreqrange;
+> -	u16 div;
+> -	unsigned int m;
+> -	unsigned int n;
+> -};
+> +static void rcar_mipi_dsi_pll_calc(struct rcar_mipi_dsi *dsi,
+> +				   unsigned long fin_rate,
+> +				   unsigned long fout_target,
+> +				   struct dsi_setup_info *setup_info)
+> +{
+> +	unsigned int best_err = -1;
+> +	const struct rcar_mipi_dsi_device_info *info = dsi->info;
+> +
+> +	for (unsigned int n = info->n_min; n <= info->n_max; n++) {
+> +		unsigned long fpfd;
+> +
+> +		fpfd = fin_rate / n;
+> +
+> +		if (fpfd < info->fpfd_min || fpfd > info->fpfd_max)
+> +			continue;
+> +
+> +		for (unsigned int m = info->m_min; m <= info->m_max; m++) {
+> +			unsigned int err;
+> +			u64 fout;
+> +
+> +			fout = div64_u64((u64)fpfd * m, dsi->info->n_mul);
+> +
+> +			if (fout < info->fout_min || fout > info->fout_max)
+> +				continue;
+> +
+> +			fout = div64_u64(fout, setup_info->vclk_divider);
+> +
+> +			if (fout < setup_info->clkset->min_freq ||
+> +			    fout > setup_info->clkset->max_freq)
+> +				continue;
+> +
+> +			err = abs((long)(fout - fout_target) * 10000 /
+> +				  (long)fout_target);
+> +			if (err < best_err) {
+> +				setup_info->m = m;
+> +				setup_info->n = n;
+> +				setup_info->fout = (unsigned long)fout;
+> +				best_err = err;
+> +
+> +				if (err == 0)
+> +					return;
+> +			}
+> +		}
+> +	}
+
+This is potentially a large number of iterations, it would be nice to
+optimize it, but not now.
+
+> +}
+>  
+>  static void rcar_mipi_dsi_parameters_calc(struct rcar_mipi_dsi *dsi,
+>  					  struct clk *clk, unsigned long target,
+>  					  struct dsi_setup_info *setup_info)
+>  {
+>  
+> -	const struct vco_cntrl_value *vco_cntrl;
+> +	const struct dsi_clk_config *clk_cfg;
+>  	unsigned long fout_target;
+> -	unsigned long fin, fout;
+> -	unsigned long hsfreq;
+> -	unsigned int best_err = -1;
+> -	unsigned int divider;
+> -	unsigned int n;
+> +	unsigned long fin_rate;
+>  	unsigned int i;
+>  	unsigned int err;
+>  
+> @@ -198,70 +397,55 @@ static void rcar_mipi_dsi_parameters_calc(struct rcar_mipi_dsi *dsi,
+>  	 */
+>  	fout_target = target * mipi_dsi_pixel_format_to_bpp(dsi->format)
+>  		    / (2 * dsi->lanes);
+> -	if (fout_target < 40000000 || fout_target > 1250000000)
+> +	if (fout_target < MHZ(40) || fout_target > MHZ(1250))
+>  		return;
+>  
+> -	/* Find vco_cntrl */
+> -	for (vco_cntrl = vco_cntrl_table; vco_cntrl->min_freq != 0; vco_cntrl++) {
+> -		if (fout_target > vco_cntrl->min_freq &&
+> -		    fout_target <= vco_cntrl->max_freq) {
+> -			setup_info->vco_cntrl = vco_cntrl->value;
+> -			if (fout_target >= 1150000000)
+> -				setup_info->prop_cntrl = 0x0c;
+> -			else
+> -				setup_info->prop_cntrl = 0x0b;
+> +	/* Find PLL settings */
+> +	for (clk_cfg = dsi->info->clk_cfg; clk_cfg->min_freq != 0; clk_cfg++) {
+> +		if (fout_target > clk_cfg->min_freq &&
+> +		    fout_target <= clk_cfg->max_freq) {
+> +			setup_info->clkset = clk_cfg;
+>  			break;
+>  		}
+>  	}
+>  
+> -	/* Add divider */
+> -	setup_info->div = (setup_info->vco_cntrl & 0x30) >> 4;
+> +	fin_rate = clk_get_rate(clk);
+> +
+> +	switch (dsi->info->model) {
+> +	case RCAR_DSI_V3U:
+> +		setup_info->vclk_divider = 1 << ((clk_cfg->vco_cntrl >> 4) & 0x3);
+> +		break;
+> +
+> +	case RCAR_DSI_V4H:
+> +		setup_info->vclk_divider = 1 << (((clk_cfg->vco_cntrl >> 3) & 0x7) + 1);
+> +		break;
+> +
+> +	default:
+> +		return;
+
+Can't happen, I'd add the default label to one of the V3U or V4H label
+to keep the compiler and static analyzers happy.
+
+> +	}
+> +
+> +	rcar_mipi_dsi_pll_calc(dsi, fin_rate, fout_target, setup_info);
+>  
+>  	/* Find hsfreqrange */
+> -	hsfreq = fout_target * 2;
+> +	setup_info->hsfreq = setup_info->fout * 2;
+>  	for (i = 0; i < ARRAY_SIZE(hsfreqrange_table); i++) {
+> -		if (hsfreqrange_table[i][0] >= hsfreq) {
+> +		if (hsfreqrange_table[i][0] >= setup_info->hsfreq) {
+>  			setup_info->hsfreqrange = hsfreqrange_table[i][1];
+>  			break;
+>  		}
+>  	}
+>  
+> -	/*
+> -	 * Calculate n and m for PLL clock
+> -	 * Following the HW manual the ranges of n and m are
+> -	 * n = [3-8] and m = [64-625]
+> -	 */
+> -	fin = clk_get_rate(clk);
+> -	divider = 1 << setup_info->div;
+> -	for (n = 3; n < 9; n++) {
+> -		unsigned long fpfd;
+> -		unsigned int m;
+> -
+> -		fpfd = fin / n;
+> -
+> -		for (m = 64; m < 626; m++) {
+> -			fout = fpfd * m / divider;
+> -			err = abs((long)(fout - fout_target) * 10000 /
+> -				  (long)fout_target);
+> -			if (err < best_err) {
+> -				setup_info->m = m - 2;
+> -				setup_info->n = n - 1;
+> -				setup_info->fout = fout;
+> -				best_err = err;
+> -				if (err == 0)
+> -					goto done;
+> -			}
+> -		}
+> -	}
+> +	err = abs((long)(setup_info->fout - fout_target) * 10000 / (long)fout_target);
+>  
+> -done:
+>  	dev_dbg(dsi->dev,
+> -		"%pC %lu Hz -> Fout %lu Hz (target %lu Hz, error %d.%02u%%), PLL M/N/DIV %u/%u/%u\n",
+> -		clk, fin, setup_info->fout, fout_target, best_err / 100,
+> -		best_err % 100, setup_info->m, setup_info->n, setup_info->div);
+> +		"Fout = %u * %lu / (%u * %u * %u) = %lu (target %lu Hz, error %d.%02u%%)\n",
+> +		setup_info->m, fin_rate, dsi->info->n_mul, setup_info->n,
+> +		setup_info->vclk_divider, setup_info->fout, fout_target,
+> +		err / 100, err % 100);
+> +
+>  	dev_dbg(dsi->dev,
+>  		"vco_cntrl = 0x%x\tprop_cntrl = 0x%x\thsfreqrange = 0x%x\n",
+> -		setup_info->vco_cntrl, setup_info->prop_cntrl,
+> +		clk_cfg->vco_cntrl, clk_cfg->prop_cntrl,
+>  		setup_info->hsfreqrange);
+>  }
+>  
+> @@ -324,7 +508,7 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
+>  {
+>  	struct dsi_setup_info setup_info = {};
+>  	unsigned int timeout;
+> -	int ret, i;
+> +	int ret;
+>  	int dsi_format;
+>  	u32 phy_setup;
+>  	u32 clockset2, clockset3;
+> @@ -360,10 +544,18 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
+>  	phy_setup |= PHYSETUP_HSFREQRANGE(setup_info.hsfreqrange);
+>  	rcar_mipi_dsi_write(dsi, PHYSETUP, phy_setup);
+>  
+> -	for (i = 0; i < ARRAY_SIZE(phtw); i++) {
+> -		ret = rcar_mipi_dsi_phtw_test(dsi, phtw[i]);
+> +	switch (dsi->info->model) {
+> +	case RCAR_DSI_V3U:
+> +		ret = rcar_mipi_dsi_init_phtw_v3u(dsi);
+> +		if (ret < 0)
+> +			return ret;
+> +		break;
+> +
+> +	case RCAR_DSI_V4H:
+> +		ret = rcar_mipi_dsi_init_phtw_v4h(dsi, &setup_info);
+>  		if (ret < 0)
+>  			return ret;
+> +		break;
+>  	}
+>  
+>  	/* PLL Clock Setting */
+> @@ -371,12 +563,13 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
+>  	rcar_mipi_dsi_set(dsi, CLOCKSET1, CLOCKSET1_SHADOW_CLEAR);
+>  	rcar_mipi_dsi_clr(dsi, CLOCKSET1, CLOCKSET1_SHADOW_CLEAR);
+>  
+> -	clockset2 = CLOCKSET2_M(setup_info.m) | CLOCKSET2_N(setup_info.n)
+> -		  | CLOCKSET2_VCO_CNTRL(setup_info.vco_cntrl);
+> -	clockset3 = CLOCKSET3_PROP_CNTRL(setup_info.prop_cntrl)
+> -		  | CLOCKSET3_INT_CNTRL(0)
+> -		  | CLOCKSET3_CPBIAS_CNTRL(0x10)
+> -		  | CLOCKSET3_GMP_CNTRL(1);
+> +	clockset2 = CLOCKSET2_M(setup_info.m - dsi->info->clockset2_m_offset)
+> +		  | CLOCKSET2_N(setup_info.n - 1)
+> +		  | CLOCKSET2_VCO_CNTRL(setup_info.clkset->vco_cntrl);
+> +	clockset3 = CLOCKSET3_PROP_CNTRL(setup_info.clkset->prop_cntrl)
+> +		  | CLOCKSET3_INT_CNTRL(setup_info.clkset->int_cntrl)
+> +		  | CLOCKSET3_CPBIAS_CNTRL(setup_info.clkset->cpbias_cntrl)
+> +		  | CLOCKSET3_GMP_CNTRL(setup_info.clkset->gmp_cntrl);
+>  	rcar_mipi_dsi_write(dsi, CLOCKSET2, clockset2);
+>  	rcar_mipi_dsi_write(dsi, CLOCKSET3, clockset3);
+>  
+> @@ -407,10 +600,18 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
+>  		return -ETIMEDOUT;
+>  	}
+>  
+> -	for (i = 0; i < ARRAY_SIZE(phtw2); i++) {
+> -		ret = rcar_mipi_dsi_phtw_test(dsi, phtw2[i]);
+> +	switch (dsi->info->model) {
+> +	case RCAR_DSI_V3U:
+> +		ret = rcar_mipi_dsi_post_init_phtw_v3u(dsi);
+>  		if (ret < 0)
+>  			return ret;
+> +		break;
+> +
+> +	case RCAR_DSI_V4H:
+> +		ret = rcar_mipi_dsi_post_init_phtw_v4h(dsi, &setup_info);
+> +		if (ret < 0)
+> +			return ret;
+> +		break;
+>  	}
+>  
+>  	/* Enable DOT clock */
+> @@ -427,8 +628,21 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
+>  		dev_warn(dsi->dev, "unsupported format");
+>  		return -EINVAL;
+>  	}
+> -	vclkset |= VCLKSET_COLOR_RGB | VCLKSET_DIV(setup_info.div)
+> -		|  VCLKSET_LANE(dsi->lanes - 1);
+> +
+> +	vclkset |= VCLKSET_COLOR_RGB | VCLKSET_LANE(dsi->lanes - 1);
+> +
+> +	switch (dsi->info->model) {
+> +	case RCAR_DSI_V3U:
+> +		vclkset |= VCLKSET_DIV_V3U(__ffs(setup_info.vclk_divider));
+> +		break;
+> +
+> +	case RCAR_DSI_V4H:
+> +		vclkset |= VCLKSET_DIV_V4H(__ffs(setup_info.vclk_divider) - 1);
+> +		break;
+> +
+> +	default:
+> +		return -ENODEV;
+
+Can't happen, merge the default label with one of the two labels above
+(or drop it).
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+I'll let you post a v4 with the minor issues addressed, and will then
+merge it in my tree.
+
+> +	}
+>  
+>  	rcar_mipi_dsi_write(dsi, VCLKSET, vclkset);
+>  
+> @@ -841,8 +1055,39 @@ static int rcar_mipi_dsi_remove(struct platform_device *pdev)
+>  	return 0;
+>  }
+>  
+> +static const struct rcar_mipi_dsi_device_info v3u_data = {
+> +	.model = RCAR_DSI_V3U,
+> +	.clk_cfg = dsi_clk_cfg_v3u,
+> +	.clockset2_m_offset = 2,
+> +	.n_min = 3,
+> +	.n_max = 8,
+> +	.n_mul = 1,
+> +	.fpfd_min = MHZ(2),
+> +	.fpfd_max = MHZ(8),
+> +	.m_min = 64,
+> +	.m_max = 625,
+> +	.fout_min = MHZ(320),
+> +	.fout_max = MHZ(1250),
+> +};
+> +
+> +static const struct rcar_mipi_dsi_device_info v4h_data = {
+> +	.model = RCAR_DSI_V4H,
+> +	.clk_cfg = dsi_clk_cfg_v4h,
+> +	.clockset2_m_offset = 0,
+> +	.n_min = 1,
+> +	.n_max = 8,
+> +	.n_mul = 2,
+> +	.fpfd_min = MHZ(8),
+> +	.fpfd_max = MHZ(24),
+> +	.m_min = 167,
+> +	.m_max = 1000,
+> +	.fout_min = MHZ(2000),
+> +	.fout_max = MHZ(4000),
+> +};
+> +
+>  static const struct of_device_id rcar_mipi_dsi_of_table[] = {
+> -	{ .compatible = "renesas,r8a779a0-dsi-csi2-tx" },
+> +	{ .compatible = "renesas,r8a779a0-dsi-csi2-tx", .data = &v3u_data },
+> +	{ .compatible = "renesas,r8a779g0-dsi-csi2-tx", .data = &v4h_data },
+>  	{ }
+>  };
+>  
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h
+> index 2eaca54636f3..f8114d11f2d1 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h
+> +++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h
+> @@ -122,7 +122,8 @@
+>  #define VCLKSET_CKEN			(1 << 16)
+>  #define VCLKSET_COLOR_RGB		(0 << 8)
+>  #define VCLKSET_COLOR_YCC		(1 << 8)
+> -#define VCLKSET_DIV(x)			(((x) & 0x3) << 4)
+> +#define VCLKSET_DIV_V3U(x)		(((x) & 0x3) << 4)
+> +#define VCLKSET_DIV_V4H(x)		(((x) & 0x7) << 4)
+>  #define VCLKSET_BPP_16			(0 << 2)
+>  #define VCLKSET_BPP_18			(1 << 2)
+>  #define VCLKSET_BPP_18L			(2 << 2)
+> @@ -166,6 +167,9 @@
+>  #define PHTW_CWEN			(1 << 8)
+>  #define PHTW_TESTDIN_CODE(x)		(((x) & 0xff) << 0)
+>  
+> +#define PHTR				0x1038
+> +#define PHTR_TEST			(1 << 16)
+> +
+>  #define PHTC				0x103c
+>  #define PHTC_TESTCLR			(1 << 0)
+>  
+
 -- 
-2.38.1
+Regards,
 
+Laurent Pinchart
