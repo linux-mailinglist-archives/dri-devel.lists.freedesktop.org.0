@@ -1,53 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EEBB63C1FF
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 15:10:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67B8C63C29E
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 15:33:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2C8710E08E;
-	Tue, 29 Nov 2022 14:10:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A48B10E0A8;
+	Tue, 29 Nov 2022 14:33:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 598A510E08E
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 14:10:47 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id BB04861758
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 14:10:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DFA3C43470
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 14:10:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1669731046;
- bh=yjeoowMISp8ZXjbYeM1VeAqgNGGG8tdL1ZXS1nEMcIw=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=iUi9i5TA9EKgTUtDjQ4qnNjuh0KfmmX7CBS/ILiXLr3Uj6m8toeXp8J2liUoFZimf
- 5t/aOsxAbZj6/LT3/ZEe8iEqYqYP8AO/kNuhHuwic3OXKq57Yu6iT7GV9c64WDiAYj
- 2NSEu3NJKzjIbqbHFMnnAy5ftsV8HVRF4UaR7f6nUDYCQWMCIUa/i91Jp/60AoFesu
- e7u5dKjmM1J0fXkWEvou9+FUTsrPdwM02Npfolv7Yzu40XyZpVw1qkSVlTBFgfAbci
- TNkrfPosnDrbQClrlmd4b+X4rsypZfEte7uFIf3ajoAYMPybFvIhORYMfg0LMYgCAw
- aA9N0j/1F73/Q==
-Received: by mail-ed1-f52.google.com with SMTP id r26so17832364edc.10
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 06:10:46 -0800 (PST)
-X-Gm-Message-State: ANoB5plkqt5W5CSBIa4DFSyaM5uRH5omiRr5BoBS5eT3u/7jJYER0gES
- gKW1fAvvLxWvxatqMQHhw+On7hf9aNJ+pP7jJNc=
-X-Google-Smtp-Source: AA0mqf7QjiamBW+KE/Z8uZbmanCe+55uA1tljNSDFV7FahyhBBzvSmbUSlYsCKjPBBIvFRP+/cSfYR+FVUYixBHntFc=
-X-Received: by 2002:a05:6402:2b91:b0:457:23cb:20ab with SMTP id
- fj17-20020a0564022b9100b0045723cb20abmr37470283edb.254.1669731044805; Tue, 29
- Nov 2022 06:10:44 -0800 (PST)
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
+ [IPv6:2607:f8b0:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0D6F10E068;
+ Tue, 29 Nov 2022 14:33:07 +0000 (UTC)
+Received: by mail-oi1-x229.google.com with SMTP id v13so579721oie.3;
+ Tue, 29 Nov 2022 06:33:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=AlmTEqK3obGypOIeoBM6UEH5n1+C5l9b9H7iWEpLH6A=;
+ b=T/LZqpzYOLPC+SZBUJ97PsVPVerwBk1U08wSBBHEf59T/BeIJk7uDC6xo9oqgB+kk8
+ jKRa0UFcCdD0RXnXzE+hKzXSTggvAkErCA/ygSqBkdWPTBzdMA7lMTUI0ahU9ywh7fmv
+ EMxzwIpJ4uMOzUXjIE7u+QeSNQBjIfVEYDMNYL796FCjAjgIxCNz6ejxPALDvqwK6hCZ
+ vizWC3c+uMBTdBXWX1YdDSxogjWCFcJXqXTr1JkV7IY1Jp9PaOh/1ClELRuwDaUJvF7C
+ Tq/j64LLphVJBbhZwuvpOQl8VNrDWHqFCAV0rIlLaai7wzmvgPYfjrPsMOjlasP2KBb7
+ SPtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=AlmTEqK3obGypOIeoBM6UEH5n1+C5l9b9H7iWEpLH6A=;
+ b=r8+ppRWd5ovhhBI4fminG1jcA9tyCwBmFBmQOGL+km5yCJPqH81iqntzeZj8XBYls2
+ aiZiUX6ehqzDly1TUJ3ckjHM7mglPOeebaBbLyeMe4hi4ZWvz5LKyMFJEK0miNtRwYE4
+ f7p7DOY48RJoJhuswPjnAcqvqdcg863WjzvyKF9PFzVl9raBZC96Sba1ZMVy86N5vGLw
+ EB5JkADJidVby9gg7SKs8TwYfy73B5LwHzUMHwlQmWFwQNdh2l9ckHqwJAv1IuqxoX7P
+ 7YHEjkNBPjkqfI4JwzpVc6/XeqK5BVX40fFc5QnhkQDg0430bGapem6lb7Yl7rwH4pTo
+ CVmA==
+X-Gm-Message-State: ANoB5pmQXih/UPCG0S1tLzCwgabV5NMzapG/+M3WqPqqvmiml6uJ5nQJ
+ gmDZ+WqOLFthjNePONIr/dKcaoSK85kUEGjAG4U=
+X-Google-Smtp-Source: AA0mqf7wcKy4cktH/5nqgVCvLUDw6AoK1wuY7UTYnVx4X7TPkCjyyLY89WuLCnrPeXqUh/OBJXIaTNio8vMumqL4bVw=
+X-Received: by 2002:aca:d17:0:b0:35b:c9e7:b124 with SMTP id
+ 23-20020aca0d17000000b0035bc9e7b124mr730939oin.46.1669732386601; Tue, 29 Nov
+ 2022 06:33:06 -0800 (PST)
 MIME-Version: 1.0
-References: <20220704011704.1418055-1-chenhuacai@loongson.cn>
-In-Reply-To: <20220704011704.1418055-1-chenhuacai@loongson.cn>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Tue, 29 Nov 2022 22:10:32 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H5mwVc5b_dHvkqyCWsTa8eTj6pWF8oC=-4hQNoKwg3A9w@mail.gmail.com>
-Message-ID: <CAAhV-H5mwVc5b_dHvkqyCWsTa8eTj6pWF8oC=-4hQNoKwg3A9w@mail.gmail.com>
-Subject: Re: [PATCH V3] drivers/firmware: Move sysfb_init() from
- device_initcall to subsys_initcall_sync
-To: Huacai Chen <chenhuacai@loongson.cn>
+References: <Y4Mz0glMNwDPaFPO@itl-email>
+ <CADnq5_NfupG-DzNDJfntg+uSWH2m_8mLfj=ddkMdnNYNRhXWUw@mail.gmail.com>
+ <Y4Vngz5tTA74Qr8L@itl-email>
+In-Reply-To: <Y4Vngz5tTA74Qr8L@itl-email>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 29 Nov 2022 09:32:54 -0500
+Message-ID: <CADnq5_P8kuSsSFatMq4g0r2yE3TW0Rqzm07+Kpv9wKTi0GGS-Q@mail.gmail.com>
+Subject: Re: AMD GPU problems under Xen
+To: Demi Marie Obenour <demi@invisiblethingslab.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,58 +66,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Xen developer discussion <xen-devel@lists.xenproject.org>,
+ amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
+ dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Marek_Marczykowski=2DG=C3=B3recki?=
+ <marmarek@invisiblethingslab.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ping?
+On Mon, Nov 28, 2022 at 8:59 PM Demi Marie Obenour
+<demi@invisiblethingslab.com> wrote:
+>
+> On Mon, Nov 28, 2022 at 11:18:00AM -0500, Alex Deucher wrote:
+> > On Mon, Nov 28, 2022 at 2:18 AM Demi Marie Obenour
+> > <demi@invisiblethingslab.com> wrote:
+> > >
+> > > Dear Christian:
+> > >
+> > > What is the status of the AMDGPU work for Xen dom0?  That was mentioned in
+> > > https://lore.kernel.org/dri-devel/b2dec9b3-03a7-e7ac-306e-1da024af8982@amd.com/
+> > > and there have been bug reports to Qubes OS about problems with AMDGPU
+> > > under Xen (such as https://github.com/QubesOS/qubes-issues/issues/7648).
+> >
+> > I would say it's a work in progress.  It depends what GPU  you have
+> > and what type of xen setup you are using (PV vs PVH, etc.).
+>
+> The current situation is:
+>
+> - dom0 is PV.
+> - VMs with assigned PCI devices are HVM and use a Linux-based stubdomain
+>   QEMU does not run in dom0.
+> - Everything else is PVH.
+>
+> In the future, I believe the goal is to move away from PV and HVM in
+> favor of PVH, though HVM support will remain for compatibility with
+> guests (such as Windows) that need emulated devices.
+>
+> > In general, your best bet currently is dGPU add in boards because they
+> > are largely self contained.
+>
+> The main problem is that for the trusted GUI to work, there needs to
+> be at least one GPU attached to a trusted VM, such as the host or a
+> dedicated GUI VM.  That VM will typically not be running graphics-
+> intensive workloads, so the compute power of a dGPU is largely wasted.
+> SR-IOV support would help with that, but the only GPU vendor with open
+> source SR-IOV support is Intel and it is still not upstream.  I am also
+> not certain if the support extends to Arc dGPUs.
 
-On Tue, Jul 5, 2022 at 12:22 AM Huacai Chen <chenhuacai@loongson.cn> wrote:
+Can you elaborate on this?  Why wouldn't you just want to pass-through
+a dGPU to a domU to use directly in the guest?
+Are you sure?  I didn't think intel's GVT solution was actually
+SR-IOV.  I think GVT is just a paravirtualized solution.  That aside,
+we are working on enabling virtio gpu with our GPUs on xen in addition
+to domU passthrough.
+
 >
-> Consider a configuration like this:
-> 1, efifb (or simpledrm) is built-in;
-> 2, a native display driver (such as radeon) is also built-in.
+> > APUs and platforms with integrated dGPUs
+> > are a bit more complicated as they tend to have more platform
+> > dependencies like ACPI tables and methods in order for the driver to
+> > be able to initialize the hardware properly.
 >
-> As Javier said, this is not a common configuration (the native display
-> driver is usually built as a module), but it can happen and cause some
-> trouble.
+> Is Xen dom0/domU support for such GPUs being worked on?  Is there an
+> estimate as to when the needed support will be available upstream?  This
+> is mostly directed at Christian and other people who work for hardware
+> vendors.
+
+Yes, there are some minor fixes in the driver required which we'll be
+sending out soon and we had to add some ACPI tables to the whitelist
+in xen, but unfortunately the ACPI tables are AMD platform specific so
+there has been pushback from the xen maintainers on accepting them
+because they are not an official part of the ACPI spec.
+
+Alex
+
 >
-> In this case, since efifb, radeon and sysfb are all in device_initcall()
-> level, the order in practise is like this:
+> > Additionally, GPUs map a
+> > lot of system memory so bounce buffers aren't really viable.  You'll
+> > really need IOMMU,
 >
-> efifb registered at first, but no "efi-framebuffer" device yet. radeon
-> registered later, and /dev/fb0 created. sysfb_init() comes at last, it
-> registers "efi-framebuffer" and then causes an error message "efifb: a
-> framebuffer is already registered". Make sysfb_init() to be subsys_
-> initcall_sync() can avoid this. And Javier Martinez Canillas is trying
-> to make a more general solution in commit 873eb3b11860 ("fbdev: Disable
-> sysfb device registration when removing conflicting FBs").
->
-> However, this patch still makes sense because it can make the screen
-> display as early as possible (We cannot move to subsys_initcall, since
-> sysfb_init() should be executed after PCI enumeration).
->
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
-> ---
-> V2: Update commit message.
-> V3: Update commit message again.
->
->  drivers/firmware/sysfb.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/firmware/sysfb.c b/drivers/firmware/sysfb.c
-> index 2bfbb05f7d89..aecf91517e54 100644
-> --- a/drivers/firmware/sysfb.c
-> +++ b/drivers/firmware/sysfb.c
-> @@ -80,4 +80,4 @@ static __init int sysfb_init(void)
->  }
->
->  /* must execute after PCI subsystem for EFI quirks */
-> -device_initcall(sysfb_init);
-> +subsys_initcall_sync(sysfb_init);
+> Qubes OS already needs an IOMMU so that is not a concern.
 > --
-> 2.27.0
->
+> Sincerely,
+> Demi Marie Obenour (she/her/hers)
+> Invisible Things Lab
