@@ -2,49 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F31D63C656
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 18:22:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E3AA63C66B
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 18:29:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BBB310E0F4;
-	Tue, 29 Nov 2022 17:22:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 045B810E0FA;
+	Tue, 29 Nov 2022 17:29:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74D4B10E0F4
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 17:22:12 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C9C3E6185F;
- Tue, 29 Nov 2022 17:22:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCC4EC433D6;
- Tue, 29 Nov 2022 17:22:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1669742531;
- bh=Lb4SESpHMOhPIMCGrj+WFGcavPsOts6fRzahyn7Voxg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PjTj6DhMx9pbN6mtsEBac0RpBaIgx0ceKlawxs+e723Pfw3jj6mOMdV77XaMIhWfg
- hMb7PgKA0m0sm0En1h6+9dw4XaBiiNvZVmKq07dAcGOWUGrcgeJ2QqpNHHoGUlrQu9
- r9eDvvbD5OUdP0M940aNyZA+36L2jgE70sgKTYXzQ2sOxiFDH2SEJSG8OpWSz64NIE
- UipxIbRQ5UAihMlMTwBWPd4RJCIC3wrwGEikJjdG+i/cw3ILVrc0ylT6SbE9ErI9CM
- BrElCNX+gkrCcjvJGwSZnuiPFUkKNY+rdzX5hV72TeJw81iawEU2UyEGTM0v5ZySqv
- RkfuEDuUxjSpg==
-Date: Tue, 29 Nov 2022 17:22:04 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Jiaxin Yu =?utf-8?B?KOS/nuWutumRqyk=?= <Jiaxin.Yu@mediatek.com>
-Subject: Re: [PATCH v2 1/3] ASoC: hdmi-codec: Add event handler for hdmi TX
-Message-ID: <Y4Y/vEWe3dw0FPQH@sirena.org.uk>
-References: <20221125094413.4940-1-jiaxin.yu@mediatek.com>
- <20221125094413.4940-2-jiaxin.yu@mediatek.com>
- <Y4Cysgk5Gic5ae9B@sirena.org.uk>
- <18c82f6f723cd97a9d6b9a7ff16c6ed62fd005d6.camel@mediatek.com>
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
+ [IPv6:2607:f8b0:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADD8810E0BC
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 17:29:19 +0000 (UTC)
+Received: by mail-oi1-x231.google.com with SMTP id n205so15999770oib.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 09:29:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=f2fUUZn0aoFEsmYmJGpqswKr9XlltrM/1Tq7myxFbEo=;
+ b=pMTFKCWeddhphuFu+2lium0VJo1My+WfoNoG1c3WaRjvANnb1qwB8gUo6mmUVxtgN4
+ nmuTLphHOcxXRWY2rFQlQLk8oSQji9BxR3EQt+/LmDQyVvBahxyS8P/AsRkwAgD2xYTc
+ QCmD8owzu5TI9PG0JAVaFFbbOpMoEFLqTZLCu9LqMgHxjWo24TrSFxGcw7s2Ze2tToZ0
+ /F+K7zScalVtV7e3nVdqxhqJp+OETdKtyeBgnnd8yHdBrO6zGDJN8oyE4WRJW0QFIapN
+ IB3KwNwZnVCFcEb4HB/ZdwHwiN+d6UwPcmDy1WlT27+PlXgmJM1c6/DKvKck026YMCer
+ rLrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=f2fUUZn0aoFEsmYmJGpqswKr9XlltrM/1Tq7myxFbEo=;
+ b=hj10WSvmneLXnIrZka/jSVuOsy0f3/cR5PE+hiM899KiPd6SR80T9MBKeDkZ7s8B0J
+ hXWLwSCXQX6RWTSLs8945WkB5RuNlYLrGSJtBgiFoGI4OrHvuymBZpco1D95Kf2l53kH
+ FVB2GEjmGsci4olJDRQyASIi7JKEGiLmNbmXRBlEpuQuEvwkZ2gpGKx2at+mFUgwJGxR
+ 9sq9JfYx4oenf8gD7YhDHbpA7BWkKPZOZYZWaJObejF2beJN+iIuvtSGnFqXXgND62Dm
+ x/trWs0pzjn5jOc09rtcZpBjlfaZWt480Lgx17Y4y0zGkYyvV1sq0laf0n7DdGSk6RdN
+ 3s/A==
+X-Gm-Message-State: ANoB5pkQv+3a9mEPIeoNdJEQ1NWhzY+sZEpJMnPLNq2JBGyfJu5kbvV0
+ ClMDv5jgUTrAGE/J2axOpjY=
+X-Google-Smtp-Source: AA0mqf74Qj2PRqoyEpMHvimi1mm2R46hlahU4dfBqeInpE4pUhmN0O/bAhzHiHGjLB2Vt8C2X9WomA==
+X-Received: by 2002:a05:6808:7:b0:35b:758e:1cda with SMTP id
+ u7-20020a056808000700b0035b758e1cdamr15320949oic.148.1669742958926; 
+ Tue, 29 Nov 2022 09:29:18 -0800 (PST)
+Received: from localhost.localdomain
+ (76-244-6-13.lightspeed.rcsntx.sbcglobal.net. [76.244.6.13])
+ by smtp.gmail.com with ESMTPSA id
+ l26-20020a9d709a000000b00661b46cc26bsm6224546otj.9.2022.11.29.09.29.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Nov 2022 09:29:18 -0800 (PST)
+From: Chris Morgan <macroalpha82@gmail.com>
+To: linux-rockchip@lists.infradead.org
+Subject: [PATCH V4 0/3] drm/panel: Add Samsung AMS495QA01 Panel
+Date: Tue, 29 Nov 2022 11:29:09 -0600
+Message-Id: <20221129172912.9576-1-macroalpha82@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="qzMUDJamuQN8FqwP"
-Content-Disposition: inline
-In-Reply-To: <18c82f6f723cd97a9d6b9a7ff16c6ed62fd005d6.camel@mediatek.com>
-X-Cookie: An apple a day makes 365 apples a year.
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,86 +69,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
- "nfraprado@collabora.com" <nfraprado@collabora.com>,
- Chunxu Li =?utf-8?B?KOadjuaYpeaXrSk=?= <Chunxu.Li@mediatek.com>,
- Allen-KH Cheng =?utf-8?B?KOeoi+WGoOWLsyk=?= <Allen-KH.Cheng@mediatek.com>,
- "kuninori.morimoto.gx@renesas.com" <kuninori.morimoto.gx@renesas.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "robert.foss@linaro.org" <robert.foss@linaro.org>,
- "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>,
- "ajye_huang@compal.corp-partner.google.com"
- <ajye_huang@compal.corp-partner.google.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>
+Cc: devicetree@vger.kernel.org, sam@ravnborg.org,
+ Chris Morgan <macromorgan@hotmail.com>, dri-devel@lists.freedesktop.org,
+ robh+dt@kernel.org, thierry.reding@gmail.com,
+ krzysztof.kozlowski+dt@linaro.org, maccraft123mc@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Chris Morgan <macromorgan@hotmail.com>
 
---qzMUDJamuQN8FqwP
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Add the Samsung AMS495QA01 panel as found on the Anbernic RG503. This
+panel uses DSI to receive video signals, but 3-wire SPI to receive
+command signals.
 
-On Mon, Nov 28, 2022 at 03:07:22PM +0000, Jiaxin Yu (=E4=BF=9E=E5=AE=B6=E9=
-=91=AB) wrote:
-> On Fri, 2022-11-25 at 12:18 +0000, Mark Brown wrote:
-> > On Fri, Nov 25, 2022 at 05:44:11PM +0800, Jiaxin Yu wrote:
+Changes since V3:
+ - Updated documentation to add spi-peripheral-props.yaml per updates
+   made for similar devices. Note that I removed a "Reviewed-by" tag
+   from Rob Herring since this change probably needs to be confirmed.
+ - Added binding for RG503, since this device is now accepted with this
+   request: https://lore.kernel.org/linux-rockchip/166274831283.21181.6861718157177507544.b4-ty@sntech.de/
 
-> > I'm a little unclear why this is being implemented as a DAPM
-> > operation
-> > rather than having the driver forward the PCM trigger op if it's
-> > needed?
-> > Or alternatively if a DAPM callback is needed why not provide one
-> > directly rather than hooking into the trigger function - that's going
-> > to
-> > be called out of sequence with the rest of DAPM and be potentially
-> > confusing given the very different environments that trigger and DAPM
-> > operations run in.  A quick glance at the it6505 driver suggests it'd
-> > be
-> > happier with a DAPM callback.
+Changes since V2:
+ - Added 50hz mode at request of userspace devs.
+ - Renamed "dupa" to panel name. Good catch Maya.
+ - Added Maya's Signed-off-by.
+ - Removed check for max backlight, since it is already done by
+   backlight_device_set_brightness.
+ - Fixed minor formatting issues on devicetree binding documentation
+   and added port to provided example.
 
-> Let me describe the hardware connection about mt8186 with it6505(hdmi)
-> and rt1015p(speakers).
+Changes since V1:
+ - Removed errant reference to backlight in documentation. This is an
+   OLED panel.
+ - Made elvss regulator optional. In my case its hard wired and not
+   controllable.
+ - Added "prepared" enum to track panel status to prevent unbalanced
+   regulator enable/disable.
 
->                        =3D=3D>it6505=20
->                      =3D=20
-> DL1(FE) =3D=3D>I2S3(BE) =3D
->                      =3D
->                        =3D=3D>rt1015p
+Chris Morgan (3):
+  dt-bindings: display: panel: Add Samsung AMS495QA01
+  drm/panel: Add Samsung AMS495QA01 MIPI-DSI LCD panel
+  arm64: dts: rockchip: add display to RG503
 
-> They shared the same one i2s port, but we'd like to control them
-> separately. So if hdmi-codec use the PCM trigger op, whne we turn on
-> the speaker, hdmi-codec's PCM trigger op is also executed, resulting in
-> sound on both devices.
-> Is there another way to control them separately? Thank you.
+ .../display/panel/samsung,ams495qa01.yaml     |  57 ++
+ .../dts/rockchip/rk3566-anbernic-rg503.dts    |  61 ++
+ drivers/gpu/drm/panel/Kconfig                 |  10 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ .../gpu/drm/panel/panel-samsung-ams495qa01.c  | 547 ++++++++++++++++++
+ 5 files changed, 676 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,ams495qa01.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-samsung-ams495qa01.c
 
-If you just need power control for one or both devices then the machine
-driver can add a _PIN_SWITCH() on the output of the device, that'll
-cause DAPM to keep the device powered down when not in use.  That should
-work well with the suggestion to provide a DAPM callback instead of a a
-trigger operation.
+-- 
+2.25.1
 
---qzMUDJamuQN8FqwP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmOGP7wACgkQJNaLcl1U
-h9DZ8gf+PisMggrT6FuPtNTRpRKtS7VgpBbYiJRYI4/X3DFs3Vlj30D150dJWC/g
-WqIhVaoDn6R5wsvhGw9YmtJKNT/A2SKeoUGksnstpvkd9KXkCeaKgfiFL877s9mK
-+YHxZOH6Eb/w5XFAEo+3TEr+LEDj6ooKflpE/DEXs1rfcVPr0wwVdLoXp1I7b6jw
-jQkRxRPfPSaszug+TYwzb6aXlXl2iAerXKo8pSkjSYI/GbLSEUb7Od/tCgoIXOmz
-hP2ksKt/u+NNptKSgXMv6ZMDTyRcioBZPUZgDhBrOWQ6hwxEDD9XioMA/6tSRqtE
-zRqubSrRrmnLXC2AeI1DJ0NKBo1gjQ==
-=qgcp
------END PGP SIGNATURE-----
-
---qzMUDJamuQN8FqwP--
