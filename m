@@ -1,57 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3AB163CF7A
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 08:02:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 779DD63D13A
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 09:59:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3DE310E415;
-	Wed, 30 Nov 2022 07:02:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A30810E424;
+	Wed, 30 Nov 2022 08:59:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com
- [IPv6:2607:f8b0:4864:20::f36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0AEB10E411;
- Wed, 30 Nov 2022 07:02:08 +0000 (UTC)
-Received: by mail-qv1-xf36.google.com with SMTP id e18so10006151qvs.1;
- Tue, 29 Nov 2022 23:02:08 -0800 (PST)
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
+ [IPv6:2607:f8b0:4864:20::102e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FFB910E07A
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 09:45:59 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id
+ b13-20020a17090a5a0d00b0021906102d05so11374594pjd.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 01:45:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=MX8+ScqgMkNWVVKFC1541ti9ztTE5Za3sJFUouR4qhY=;
- b=GPb7sIK3zjeOjR3Rf2GsiQsE/ZQMZWlzSOh5AHm2ncvQ3K+L3L92jcR4MvedIVNrIE
- lKNaF3GRiJtZGILICEG+4ZxoRRNGgaPfuFxMgiZENRu6zUn0HA4E5vs5+uxxM2qD4D//
- azPFlmk5hhWxXTXdH5dh0naxwlEnW5kUH88p4u89LtFbRset/bhOg3Q4/yblTdogl1nz
- lZWfY+l0L1XAyx7YH2d/2YWXzXqJD5fpdgYsGlu8UafoS62RVHcahfPMGV9Y2cKYfPLm
- p4cuy1Lt49joKIHP0r6eKluyxvW3Fk1PjiSMZw+ds3DtT/H0005jo4/Shea/32OaAqXc
- bZbA==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ko+qbf+b0Yv7gj3x+dmqgXT2t4VmwkOjBb0uMWb0qeo=;
+ b=QMTGc8dATSuNa3qa2tdoi28432ZIGdXhepGsvXVGCtpTOLz41a16mSV6pjjVIeEsO9
+ PJrhktRoFkYYeAO5E8N+9SXNKvsJBnpVmZY0oDEWaVJ4nC37dthNqFz+2bX0NyoPb7ji
+ D3/HxVLjkt5GkrZw/CysGVyK3EGEpKo/THJR8Y4wpL092B6BWaFSmqNMjXwB4mWqoEUN
+ jR4GhjSo6zgxjIkYcZt9OQr8ijnL/KwAbKvTjac/uMZE1ZFsFmqlIY33esnYdKCmgngv
+ BTvsjNSh5Vp/JawszvH9dXG0Y2xfdA0UHyun1wvwR0r5/DDXMLHnOiXxFgnUwonl+OPZ
+ ecjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=MX8+ScqgMkNWVVKFC1541ti9ztTE5Za3sJFUouR4qhY=;
- b=8Ak5PIkcgIALflCANnEUB5ehX+lLpJ0kr54vB80ccUgZ6XhclhLOBzSlTA0CvjvlpW
- Kgd3UwzxrAtiUpqX325qFWxp5znw8rRI8OPYjsPRW0PtvpcXlD5iTeyL+qKmgu95BkOl
- IZWb8uXbcN7FKUtFH2cqaS1Bec9l5v6DYUrHft+dBi4tTHRihut7HKaGTh5Jn0ntSQ2N
- nKutb8r0eJkPyELhjEUOZbFxlebty63jfKVsR8N98ffGqdW10M1gyKLXy+GCPgmDf4tI
- UBXVFPATNSpG+vDoBKZimQE16ynfu6VqcuhTMEqFmTZbUdcaa2bDUqOnmofnte98oESf
- TeKQ==
-X-Gm-Message-State: ANoB5pnWRoKkrfsi8U0MWDohB5vjRfwONO1E3HpC8xfAKjJoGLbMRBTE
- s019iWOVvvknG3tU0cIXdCLhlE096w1Y0Cu4ZkE=
-X-Google-Smtp-Source: AA0mqf687Y7b39WvvKHXpsOxzFT/gd8jGoPGBJwgVqWIe7XdK0x0dkkSbIBzQwKC9SDUl6CKWQ9HtgR1llNM1r4VeJ4=
-X-Received: by 2002:a05:6214:3712:b0:4bb:9358:2a1e with SMTP id
- np18-20020a056214371200b004bb93582a1emr24147726qvb.97.1669791727574; Tue, 29
- Nov 2022 23:02:07 -0800 (PST)
+ bh=Ko+qbf+b0Yv7gj3x+dmqgXT2t4VmwkOjBb0uMWb0qeo=;
+ b=yIw3L2a0fTHlyZUb8s6vTjNNJAimcsBRtijPm7AlkB/GSygGKrKFokeVuCpI1dmQxD
+ qR/tDDlDhwcyhnktZ0f/75uo/TlAyazneUsixug/ZqMhvponDuzUyJf+TiSCI7uWgTQr
+ VeQPZ+r73fdTf4IhwYFSFJI+yD1mLvVEz5TePJniqSTUq+qg3O03ILRBhcWH7eaNd35t
+ DVxChpte40Tp/C7d1lYiaR98c/lG0/6kSDVquTDHXDws/UPyu2byFhyy8EH9AzvkjUMl
+ KS3zrBkVDPSy/uv+X5cPdDIpPqhTzEK/HygGG+UkjSjiFblEZ/FpXfaxBOESu/0u1I/S
+ ae9Q==
+X-Gm-Message-State: ANoB5plt5u+vkKR5ny43adVc/9EZJL0IczEOw2SxPhH8daHVilPb1eb5
+ zPFNTi565yfi2uLI6roug38=
+X-Google-Smtp-Source: AA0mqf4Ne7K6UCo3LviuEHHi1Ldd3jeDKdUSANZrcIYdiQ5jgjAkHiE15SlUMXjD5rBe+tGAb5h5og==
+X-Received: by 2002:a17:90a:4302:b0:20a:e469:dc7d with SMTP id
+ q2-20020a17090a430200b0020ae469dc7dmr56845748pjg.97.1669715158916; 
+ Tue, 29 Nov 2022 01:45:58 -0800 (PST)
+Received: from localhost.localdomain ([43.132.141.9])
+ by smtp.gmail.com with ESMTPSA id
+ h7-20020a170902680700b001895b2d48a1sm8259266plk.253.2022.11.29.01.45.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Nov 2022 01:45:58 -0800 (PST)
+From: zys.zljxml@gmail.com
+To: thierry.reding@gmail.com, airlied@gmail.com, daniel@ffwll.ch,
+ jonathanh@nvidia.com, sumit.semwal@linaro.org, christian.koenig@amd.com
+Subject: [PATCH] drm/tegra: Remove redundant null checks before kfree
+Date: Tue, 29 Nov 2022 17:45:46 +0800
+Message-Id: <20221129094546.197424-1-zys.zljxml@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20221126102141.721353-1-dmitry.baryshkov@linaro.org>
-In-Reply-To: <20221126102141.721353-1-dmitry.baryshkov@linaro.org>
-From: Dave Airlie <airlied@gmail.com>
-Date: Wed, 30 Nov 2022 17:01:56 +1000
-Message-ID: <CAPM=9tyjMCOY3-tJASxNg6dFizfaivqfSrhSG1otFTvfuSg=dQ@mail.gmail.com>
-Subject: Re: [pull] drm/msm: drm-msm-display-for-6.2
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Wed, 30 Nov 2022 08:58:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,71 +71,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: Yushan Zhou <katrinzhou@tencent.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-tegra@vger.kernel.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 26 Nov 2022 at 20:21, Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> Hi Dave,
->
-> As agreed with Rob Clark, a pull request for the non-GPU part of the drm/msm driver. Summary below.
->
-> The following changes since commit 7f7a942c0a338c4a2a7b359bdb2b68e9896122ec:
->
->   Merge tag 'drm-next-20221025' of git://linuxtv.org/pinchartl/media into drm-next (2022-10-27 14:44:15 +1000)
->
-> are available in the Git repository at:
->
->   https://gitlab.freedesktop.org/lumag/msm.git tags/drm-msm-display-for-6.2
->
-> for you to fetch changes up to 8d1d17d47eaebe4466459846d07e4ba8953fa585:
->
->   Merge branches 'msm-next-lumag-core', 'msm-next-lumag-dpu', 'msm-next-lumag-dp', 'msm-next-lumag-dsi', 'msm-next-lumag-hdmi' and 'msm-next-lumag-mdp5' into msm-next-lumag (2022-11-26 12:06:29 +0200)
->
-> ----------------------------------------------------------------
-> drm/msm updates for 6.2
->
-> Core:
-> - MSM_INFO_GET_FLAGS support
-> - Cleaned up MSM IOMMU wrapper code
->
-> DPU:
-> - Added support for XR30 and P010 image formats
-> - Reworked MDSS/DPU schema, added SM8250 MDSS bindings
-> - Added Qualcomm SM6115 support
->
-> DP:
-> - Dropped unsane sanity checks
->
-> DSI:
-> - Fix calculation of DSC pps payload
->
-> DSI PHY:
-> - DSI PHY support for QCM2290
->
-> HDMI:
-> - Reworked dev init path
->
-> ----------------------------------------------------------------
-> Adam Skladowski (2):
->       dt-bindings: display/msm: add support for SM6115
->       drm/msm/disp/dpu1: add support for display on SM6115
->
-> Bryan O'Donoghue (1):
->       dt-bindings: msm: dsi-controller-main: Drop redundant phy-names
->
-> Dan Carpenter (1):
->       drm/msm/hdmi: remove unnecessary NULL check
->
-> Dmitry Baryshkov (25):
->       Merge remote-tracking branch 'msm/msm-fixes' into HEAD
+From: Yushan Zhou <katrinzhou@tencent.com>
 
-This commit has no justification or signed off by line, I'll let it
-slide this once, but no backmerges without justification and please
-sign off merges.
+Fix the following coccicheck warning:
+./drivers/gpu/drm/tegra/submit.c:689:2-7: WARNING:
+NULL check before some freeing functions is not needed.
 
-Dave.
+Signed-off-by: Yushan Zhou <katrinzhou@tencent.com>
+---
+ drivers/gpu/drm/tegra/submit.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/tegra/submit.c b/drivers/gpu/drm/tegra/submit.c
+index b24738bdf3df..df34c5daa400 100644
+--- a/drivers/gpu/drm/tegra/submit.c
++++ b/drivers/gpu/drm/tegra/submit.c
+@@ -685,8 +685,7 @@ int tegra_drm_ioctl_channel_submit(struct drm_device *drm, void *data,
+ 		kfree(job_data->used_mappings);
+ 	}
+ 
+-	if (job_data)
+-		kfree(job_data);
++	kfree(job_data);
+ put_bo:
+ 	gather_bo_put(&bo->base);
+ unlock:
+-- 
+2.27.0
+
