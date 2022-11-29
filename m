@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC2CD63C9C8
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 21:47:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39D0163C9CC
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 21:47:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BBD810E3E6;
-	Tue, 29 Nov 2022 20:47:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AD1610E3BE;
+	Tue, 29 Nov 2022 20:47:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 648DC10E09D;
- Tue, 29 Nov 2022 20:46:58 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id d6so23888356lfs.10;
- Tue, 29 Nov 2022 12:46:58 -0800 (PST)
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
+ [IPv6:2a00:1450:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B001610E388;
+ Tue, 29 Nov 2022 20:47:00 +0000 (UTC)
+Received: by mail-lj1-x234.google.com with SMTP id q7so18632969ljp.9;
+ Tue, 29 Nov 2022 12:47:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=L0asAoMqwEnbLM8XD1/hLqCKMeXNAQ5meWtedT2j2eo=;
- b=mC4SrMSQU9Ksm7Z9Zz4jeSxnSoYtCEjCxvFktqIAj+LxH95z+9D/kcRn/sivbsj0pJ
- m6Ef20QJ3hJyPV0SpJr8TSDW0iofCGBAHDv+HSRNVa9CKihjvv6DQlXDRkP3olec+3iZ
- AxyBeHJcfmXbdDZrzOn5AaGQTga/gLhTz62cOY75YE0ftZypE9KiTXIJae8IggVONOl/
- 2rx7e5gD9MvqzMaSNEWba2lUja6yHzCHFb5ptxvvShDAfHGIGobYrW0D6IK24q+rv5cY
- JgG44YqwSbFbhA4htr5UgOCHOAjhzoIZRdHlHLo8HPi9rdJdFUbMbPEJvy2f+LbtvZ3Z
- iW2A==
+ bh=tSu1txevdRDvf+sjHpSwkWYMoyBAXs2clWWE081Dl98=;
+ b=k4BZ95Py3bK6fYlB1MFLHgwl9yftQvPDe7FUCSwJx9NQx9uYWGh2Nziw+P2NhPKGya
+ Z5zHfkIB9YbpADkcqcowkrxPJ+oVd6yHlvjUDbqEhDjUi8jzfVIm/jfrFBK7mNs5aTHC
+ 9meg/WDqrTCZO+Ty6MprnrssnMy5RcK/VSagXAMtMMgo/df0Sr4c8K4+sWZ0lLuOTqQS
+ gm4gyRPHU7Zg7wwfZzG+7BCxrh3M2Vf+8P+MXZPOQiHNy1Gcrj689hKYVCLHs9qyeT+s
+ KaeVmMq8JTxedXK3T5f0Pw7SqhuZJeNUYfiMQw7hYzf5I35gbXmU3OXMmRcOI1qeVq0j
+ D10Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=L0asAoMqwEnbLM8XD1/hLqCKMeXNAQ5meWtedT2j2eo=;
- b=7HpbNkdAcOuD7WASctREmQzuYmwCl19hfUiDN4o/zOu8PowCZpconLLNdAYiZOJmwv
- WlCRBYCeuUsK1IEuy8wVUl8ayU6jUCG5HoqNVEhdGsaCrs3Fx/v1br0n3YNeXdaHGDum
- t+zzFPu5FQ1qwVZNjNegk8x2Ipvptdu+Hayt0Zd7rApjHVSyWrGfCRZhlRqbSWVyvRqE
- UxIKfEC7c73I7P2B+hKc3sfwftWJiubsFjoq3W9uuSX/RulMvynWDqzv+GYtOHH25hXJ
- HFlPTfDljP9mII+a9JcYB/duSjV6+sFnGqDiSBtRhCoR66xTcQ/vCgzotTou8dnI0U+S
- /bWg==
-X-Gm-Message-State: ANoB5plWhNPOpiGY7TPoXx4V0XVL7yLRKrmVdMdyH+WYy99BUNZa3Zch
- ZAXS1R9i5h9YJtveiEcUKvY=
-X-Google-Smtp-Source: AA0mqf4sjfz5XraQ8YjoH//addmVdAEiibnccbFxPDlqD/xvyEbpMKoICP3OOzm3EoNjkzLiIeTwEg==
-X-Received: by 2002:a19:674a:0:b0:4b1:3931:af with SMTP id
- e10-20020a19674a000000b004b1393100afmr15582699lfj.394.1669754816507; 
- Tue, 29 Nov 2022 12:46:56 -0800 (PST)
+ bh=tSu1txevdRDvf+sjHpSwkWYMoyBAXs2clWWE081Dl98=;
+ b=ztdgG2mnQ5I6OcjXBOnSy3gcHLzCNTKxR3OIGUVEk5vU+QoqTlGUUZqoa0mon0QBNi
+ NoL8JBH5NpWTYAeNkcUdEnmOzmXHpgAe8Sia/nmQjXY2TPLmqqdbSPCCgQ/oJbWdJJmB
+ o6whc5JW+aTK4sVUkRgzRMpNVb3z+qXA2NBpJWIwUqaoJea/UoePnI+iNaEWEPbsFzAA
+ lowK5P76cEtpdxyZsH9xaI9yvgj466IpXeFYQMAWIlsV9YYFpFisiBEOt9a1FE7EXqwV
+ 1X0qSPGGT4jLdhxhifVGpH5bWiOM1reK69Rriv/+4D/eO/VLxXr9M8UlTmxB3r4mlYcx
+ kcbA==
+X-Gm-Message-State: ANoB5pnxv02ZjS+qDi0kzwx99JJxKEw0qcxGd0mlQ2fMUun8/LWRi5++
+ CGO1EVkAsVwH4THua08hnG2W0X4hsBo=
+X-Google-Smtp-Source: AA0mqf6b4m0gfYTm1LbzzS6QI5kunJ/QHByp8GuyhrqWdvKwvyEVcGMVdWoL+KA45eTUcnkhZEpDGA==
+X-Received: by 2002:a2e:8619:0:b0:279:88ce:468f with SMTP id
+ a25-20020a2e8619000000b0027988ce468fmr9177924lji.312.1669754818712; 
+ Tue, 29 Nov 2022 12:46:58 -0800 (PST)
 Received: from localhost.localdomain (ccy110.neoplus.adsl.tpnet.pl.
  [83.30.148.110]) by smtp.gmail.com with ESMTPSA id
- o11-20020ac24e8b000000b004ae24368195sm2325620lfr.233.2022.11.29.12.46.54
+ o11-20020ac24e8b000000b004ae24368195sm2325620lfr.233.2022.11.29.12.46.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Nov 2022 12:46:56 -0800 (PST)
+ Tue, 29 Nov 2022 12:46:58 -0800 (PST)
 From: Adam Skladowski <a39.skl@gmail.com>
 To: 
-Subject: [PATCH 02/12] dt-bindings: thermal: tsens: Add SM6115 compatible
-Date: Tue, 29 Nov 2022 21:46:06 +0100
-Message-Id: <20221129204616.47006-3-a39.skl@gmail.com>
+Subject: [PATCH 03/12] arm64: dts: qcom: sm6115: Add cpufreq-hw support
+Date: Tue, 29 Nov 2022 21:46:07 +0100
+Message-Id: <20221129204616.47006-4-a39.skl@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221129204616.47006-1-a39.skl@gmail.com>
 References: <20221129204616.47006-1-a39.skl@gmail.com>
@@ -88,26 +88,36 @@ Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Amit Kucheria <amitk@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document compatible for tsens on Qualcomm SM6115 platform
-according to downstream dts it ship v2.4 of IP
+Add cpufreq-hw node and assign qcom,freq-domain properties
+to CPUs to enable CPU clock scaling.
 
 Signed-off-by: Adam Skladowski <a39.skl@gmail.com>
 ---
- Documentation/devicetree/bindings/thermal/qcom-tsens.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/boot/dts/qcom/sm6115.dtsi | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/thermal/qcom-tsens.yaml b/Documentation/devicetree/bindings/thermal/qcom-tsens.yaml
-index 038d81338fcf..c41fcf404117 100644
---- a/Documentation/devicetree/bindings/thermal/qcom-tsens.yaml
-+++ b/Documentation/devicetree/bindings/thermal/qcom-tsens.yaml
-@@ -53,6 +53,7 @@ properties:
-               - qcom,sc8280xp-tsens
-               - qcom,sdm630-tsens
-               - qcom,sdm845-tsens
-+              - qcom,sm6115-tsens
-               - qcom,sm6350-tsens
-               - qcom,sm8150-tsens
-               - qcom,sm8250-tsens
+diff --git a/arch/arm64/boot/dts/qcom/sm6115.dtsi b/arch/arm64/boot/dts/qcom/sm6115.dtsi
+index 0340ed21be05..2003a2519a54 100644
+--- a/arch/arm64/boot/dts/qcom/sm6115.dtsi
++++ b/arch/arm64/boot/dts/qcom/sm6115.dtsi
+@@ -842,6 +842,17 @@ intc: interrupt-controller@f200000 {
+ 			redistributor-stride = <0x0 0x20000>;
+ 			interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_HIGH>;
+ 		};
++
++		cpufreq_hw: cpufreq@f521000 {
++			compatible = "qcom,cpufreq-hw";
++			reg = <0x0f521000 0x1000>, <0x0f523000 0x1000>;
++
++			reg-names = "freq-domain0", "freq-domain1";
++			clocks = <&rpmcc RPM_SMD_XO_CLK_SRC>, <&gcc GPLL0>;
++			clock-names = "xo", "alternate";
++
++			#freq-domain-cells = <1>;
++		};
+ 	};
+ 
+ 	timer {
 -- 
 2.25.1
 
