@@ -1,60 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28F9D63BF3D
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 12:41:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC53163BF46
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 12:46:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EF0A10E3BD;
-	Tue, 29 Nov 2022 11:41:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B9C010E3BC;
+	Tue, 29 Nov 2022 11:46:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
- [IPv6:2607:f8b0:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23AE310E3BD
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 11:41:00 +0000 (UTC)
-Received: by mail-oi1-x231.google.com with SMTP id e205so14818767oif.11
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 03:41:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=wRBJVGXEEydPy15o9BfUymcFFCTYtN6bX+VkTxDz6DA=;
- b=ZtzSaQbySs/pAjxZTutitahbTVDtd/jS038Oi6XjEvEzQgHt48K6+yaAuf83eyBXxJ
- LiOy8xw9VP/8fDPR4qRstuKfwi+pYrwkH1SMocqhVNH6UFJgs54SyzyUGd4KkkF691XF
- zzljPnXM2pJqiTxr6mhupGPx6BLogN2E1c35N4YIb22PkPDg6/3xdwQnl1JCH9poAB8d
- ZwiXK60rX2aMNFQbQc4IyjTcGjqnSbeUuuB4etFh0EkDBI5C7DtHplo1n2lgMR0KbXmT
- 1V20M8WfCSB2pVHt3JDvTgv6LavkNPIycIeIu/+8wqw/5lNHl3UpO4PhR2IdSiIyWkYR
- 54ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=wRBJVGXEEydPy15o9BfUymcFFCTYtN6bX+VkTxDz6DA=;
- b=OV4Qw9CtTnvX5GEwnmmFD4+ob3T/G66QDOyI9xba+hW7qmdJ3p8eiMSg7Nw8qDqa5a
- 7EVk0qLBzi5pI9QTA8ucvkAozE3bmn62U4m4aKD0Xvb83O6s0aGVmwqK8RBRply5CZyY
- CxRETQFkT3DuoERKhTXGmxoTZZWjsyTI9VApFSM/dXqGF/MXeP7yyZue6MV4hyIgj1WI
- rzm2EdCxX8ofx3kKO2v3P7TmXf+ovKqa+H5OFZM6jjJP/zPd0cvwINxp7CUo1EjO9amV
- y4SNhHikh/JF5JUHE02eJixf5tGaKpySiZWvShgj3lMlvqZLwx8TFjbLJYQvzoE/NozE
- HkBw==
-X-Gm-Message-State: ANoB5pnkpjtZLPoIC6fbSjgT4KAd8fBdooshKeN5E2baFGZqawfbJDi7
- N2wx2CmXFqCwAedx4GKMlJz3mIKMK5NmSAsGF0tLRQ==
-X-Google-Smtp-Source: AA0mqf6cqugvAspHK6FlIB5f+xXbkfgkMm7ZkSjFBfy0VNWdRbl5zp+JxkqN8gTblWm5oqpPBTrQCLq3ApK/fVjF0kQ=
-X-Received: by 2002:aca:5bc4:0:b0:35a:7056:4f9c with SMTP id
- p187-20020aca5bc4000000b0035a70564f9cmr30907203oib.72.1669722059192; Tue, 29
- Nov 2022 03:40:59 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8744710E3BC
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 11:46:03 +0000 (UTC)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi
+ [91.154.32.225])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6EF437F8;
+ Tue, 29 Nov 2022 12:46:01 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1669722362;
+ bh=Ovz0LB8la76yzk7QtN0fJ3MeKeUVniHAK4oNq/JmhdU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=cLGhsYUKh9UxJ+SJCJ77f75GAT+BO/2VeNTJDLA6jN0v0YKY0s6duz4qL0jE4gETV
+ legWS57dkl03uxvEbeD/Ctk3fty413sM5R65EsIBYcpaLrbWxM6+7zffRmfvHHs87O
+ vSovZANSTSvoqL5M2HILleRXIVk472OCzyI5f4eA=
+Message-ID: <34c2e9c8-9e3d-129c-8295-18ff440f1f84@ideasonboard.com>
+Date: Tue, 29 Nov 2022 13:45:58 +0200
 MIME-Version: 1.0
-References: <20221115133105.980877-1-robert.foss@linaro.org>
- <20221115133105.980877-7-robert.foss@linaro.org>
- <fed78af8-015b-e57d-76c7-68c8ba317952@linaro.org>
-In-Reply-To: <fed78af8-015b-e57d-76c7-68c8ba317952@linaro.org>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Tue, 29 Nov 2022 12:40:48 +0100
-Message-ID: <CAG3jFysNPr70duSwmagS-d2Fs=61iSVgcCMVKuLAKiUtsUZMfA@mail.gmail.com>
-Subject: Re: [PATCH v2 06/12] drm/msm: Add support for SM8350
-To: Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Fix output polarity setting bug
+Content-Language: en-US
+To: Doug Anderson <dianders@chromium.org>,
+ Qiqi Zhang <eddy.zhang@rock-chips.com>
+References: <20221125104558.84616-1-eddy.zhang@rock-chips.com>
+ <CAD=FV=XAU8qQ1tFV9_4FF9Rd7ouT5ORzt6JUnQ4KqJgRsEXqHw@mail.gmail.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <CAD=FV=XAU8qQ1tFV9_4FF9Rd7ouT5ORzt6JUnQ4KqJgRsEXqHw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,59 +51,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
- bjorn.andersson@linaro.org, krzysztof.kozlowski+dt@linaro.org,
- angelogioacchino.delregno@somainline.org, quic_vpolimer@quicinc.com,
- vinod.koul@linaro.org, Jonathan Marek <jonathan@marek.ca>,
- quic_khsieh@quicinc.com, agross@kernel.org, quic_jesszhan@quicinc.com,
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, swboyd@chromium.org, robh+dt@kernel.org,
- sean@poorly.run, quic_kalyant@quicinc.com, loic.poulain@linaro.org,
- andersson@kernel.org, dianders@chromium.org, linux-kernel@vger.kernel.org,
- vkoul@kernel.org, freedreno@lists.freedesktop.org
+Cc: neil.armstrong@linaro.org, jonas@kwiboo.se, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, jernej.skrabec@gmail.com, robert.foss@linaro.org,
+ andrzej.hajda@intel.com, Laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 15 Nov 2022 at 14:42, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
->
->
->
-> On 15/11/2022 14:30, Robert Foss wrote:
-> > Add compatibles string, "qcom,sm8350-mdss", for the multimedia display
-> > subsystem unit used on Qualcomm SM8350 platform.
-> >
-> > Signed-off-by: Robert Foss <robert.foss@linaro.org>
-> > ---
-> >   drivers/gpu/drm/msm/msm_mdss.c | 4 ++++
-> >   1 file changed, 4 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-> > index a2264fb517a1..39746b972cdd 100644
-> > --- a/drivers/gpu/drm/msm/msm_mdss.c
-> > +++ b/drivers/gpu/drm/msm/msm_mdss.c
-> > @@ -293,6 +293,9 @@ static int msm_mdss_enable(struct msm_mdss *msm_mdss)
-> >               /* UBWC_2_0 */
-> >               msm_mdss_setup_ubwc_dec_20(msm_mdss, 0x1e);
-> >               break;
-> > +     case DPU_HW_VER_700:
-> > +             msm_mdss_setup_ubwc_dec_40(msm_mdss, UBWC_4_0, 6, 1, 1, 1);
-> > +             break;
-> Shouldn't the second-last argument be 2 or 3 depending on DDR type?
+On 29/11/2022 03:13, Doug Anderson wrote:
+> Hi,
+> 
+> On Fri, Nov 25, 2022 at 2:54 AM Qiqi Zhang <eddy.zhang@rock-chips.com> wrote:
+>>
+>> According to the description in ti-sn65dsi86's datasheet:
+>>
+>> CHA_HSYNC_POLARITY:
+>> 0 = Active High Pulse. Synchronization signal is high for the sync
+>> pulse width. (default)
+>> 1 = Active Low Pulse. Synchronization signal is low for the sync
+>> pulse width.
+>>
+>> CHA_VSYNC_POLARITY:
+>> 0 = Active High Pulse. Synchronization signal is high for the sync
+>> pulse width. (Default)
+>> 1 = Active Low Pulse. Synchronization signal is low for the sync
+>> pulse width.
+>>
+>> We should only set these bits when the polarity is negative.
+>> Signed-off-by: Qiqi Zhang <eddy.zhang@rock-chips.com>
+>> ---
+>>   drivers/gpu/drm/bridge/ti-sn65dsi86.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+>> index 3c3561942eb6..eb24322df721 100644
+>> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+>> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+>> @@ -931,9 +931,9 @@ static void ti_sn_bridge_set_video_timings(struct ti_sn65dsi86 *pdata)
+>>                  &pdata->bridge.encoder->crtc->state->adjusted_mode;
+>>          u8 hsync_polarity = 0, vsync_polarity = 0;
+>>
+>> -       if (mode->flags & DRM_MODE_FLAG_PHSYNC)
+>> +       if (mode->flags & DRM_MODE_FLAG_NHSYNC)
+>>                  hsync_polarity = CHA_HSYNC_POLARITY;
+>> -       if (mode->flags & DRM_MODE_FLAG_PVSYNC)
+>> +       if (mode->flags & DRM_MODE_FLAG_NVSYNC)
+>>                  vsync_polarity = CHA_VSYNC_POLARITY;
+> 
+> Looks right to me.
+> 
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> 
+> I've never seen the polarity matter for any eDP panels I've worked
+> with, which presumably explains why this was wrong for so long. As far
 
-Dmitry, can I get your input on this? I'm a little bit unsure of which
-dts properties some of these
-values are derived from.
+Afaik, DP doesn't have sync polarity as such (neither does DSI), and the 
+sync polarity is just "metadata". So if you're in full-DP domain, I 
+don't see why it would matter. I guess it becomes relevant when you 
+convert from DP to some other bus format.
 
->
-> Konrad
-> >       case DPU_HW_VER_720:
-> >               msm_mdss_setup_ubwc_dec_40(msm_mdss, UBWC_3_0, 6, 1, 1, 1);
-> >               break;
-> > @@ -530,6 +533,7 @@ static const struct of_device_id mdss_dt_match[] = {
-> >       { .compatible = "qcom,sc8180x-mdss" },
-> >       { .compatible = "qcom,sm8150-mdss" },
-> >       { .compatible = "qcom,sm8250-mdss" },
-> > +     { .compatible = "qcom,sm8350-mdss" },
-> >       { .compatible = "qcom,sm8450-mdss" },
-> >       {}
-> >   };
+> as I can tell, it's been wrong since the start. Probably you should
+> have:
+> 
+> Fixes: a095f15c00e2 ("drm/bridge: add support for sn65dsi86 bridge driver")
+> 
+> I put this on a sc7180-trogdor-lazor device and it didn't make
+> anything worse. Since the sync polarity never mattered to begin with,
+> I guess this isn't a surprise. ...so I guess that's a weak tested-by:
+> 
+> Tested-by: Douglas Anderson <dianders@chromium.org>
+> 
+> I'm happy to land this patch, but sounds like we're hoping to get
+> extra testing so I'll hold off for now.
+
+Looks fine to me and works for me with my DP monitor.
+
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
+  Tomi
+
