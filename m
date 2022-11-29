@@ -2,75 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBB2F63BBDB
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 09:41:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8E6963BBFB
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 09:48:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C5F910E231;
-	Tue, 29 Nov 2022 08:41:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDEBD10E255;
+	Tue, 29 Nov 2022 08:48:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6609B10E231
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 08:41:12 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id
- a11-20020a05600c2d4b00b003cf6f5fd9f1so10235534wmg.2
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 00:41:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=b8jAZNW2iOrLRrd89DhxXzx+Yq1CmREwG3nJKgbZlYM=;
- b=HgRHogOxcbeptq7RdOpeE8mcOwl1JyZNgPIEwFYHa49N2cJBwZIixiVeHMT3EPsacS
- 00qm3C6yORFC3DBXXt9z2ncLXW0RJR0QPQjYp0WdlQKDr9Aw59PCAXHPKFSh8IPzmXgs
- yI2qU/PgLouCiwpBMTTUz2jvWaueGSPp2rRFb+LSiG9tPW5mKcMQEYHLpkwbBMlnaieZ
- TXc1+eBaRrceP3qTGERv4lbbMHtHVNINkN96Xr+JNgIg9jMXPMlZbyJdgGPOwmNiUyGd
- edtXf1ZHIaWKLWXTs68cklQv3HWJiR6oyO9pxSwuT3H1CYecI1Xee97h3gEwzqhULQSx
- Y48w==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7F6C10E255
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 08:48:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669711720;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+9/SG262uJs5aEn47977HgvoOkAGZaXesrmlGYL/QQU=;
+ b=i6fffV4iyglSBfw+Eusn5TIdEBkpkBIPrcw5XLFT3D3fg173kzlVSvLg9wQY2xxixwNJde
+ jjTdliXMPn2s2laFFb/pJLooMZz1T1E6dyGh4akDaWCSnbsA79OnBYoDMP58d1AWnAYWEC
+ 3wqawrhv1Mc2ax/79kumXfSwuchntPY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-97-2mDr7cnKPBOy1guMrJ5kIQ-1; Tue, 29 Nov 2022 03:48:37 -0500
+X-MC-Unique: 2mDr7cnKPBOy1guMrJ5kIQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ v188-20020a1cacc5000000b003cf76c4ae66so9859561wme.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 00:48:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=b8jAZNW2iOrLRrd89DhxXzx+Yq1CmREwG3nJKgbZlYM=;
- b=rstpIELOmDt910t/nVpblgrlaPXXUrf1YozJ8XqN5L0a1sQX8ZngmGvHgItZfLsyvH
- KHeR1xEx7aOY+X0xvG48LEjrJWraQXNS8lr/ShIFK8rTGc/VYVe/5/muy3X4ayiRl+1C
- cA932ZvXyVEKbk2oVjlUwZZQmonMgBDJVgWLnzR0MwUvXoFTj9eSITBZfU0HwvO7lZtB
- Jf+TRThxiMe8OxQq0SPDXlzWUbL3/wE/xQBoxQruKMpF0xKxpUKrAsh4VMWFGV4oJFM4
- krMAONrum8pniIb27Wyto3yLw4bExvLq8ppxf5cf2/ph1YkUTEpa+NmtyIRb3vh/ZD04
- HrCA==
-X-Gm-Message-State: ANoB5pnnMvDlJvLP5quMQwqjKMcoOrcFbvKJHGn36fuf1nXR3DyiSanS
- /i7PW0SWRSjs5rjtp1cufwuo2g==
-X-Google-Smtp-Source: AA0mqf7YTNMTlGF7UPjXTQ7a9Xy432X20Jg5O2T11AKVzsSOE9h3KXWpsSiHCxHF5JkDuBZpndPs4w==
-X-Received: by 2002:a05:600c:3d1b:b0:3cf:670e:63cc with SMTP id
- bh27-20020a05600c3d1b00b003cf670e63ccmr45587752wmb.150.1669711270809; 
- Tue, 29 Nov 2022 00:41:10 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:2f85:a28c:5df7:9cd2?
- ([2a01:e0a:982:cbb0:2f85:a28c:5df7:9cd2])
+ bh=+9/SG262uJs5aEn47977HgvoOkAGZaXesrmlGYL/QQU=;
+ b=BCFch1ibjAq+NRGBAxUQcXiZEY1VfHFNrQdikMAjRC25wptQFHdQlfcTWL3Yv1R9f1
+ cOhhNvaOm5ma+Zkx2xQDnWvzjPhy5+d/FKpC62OOjrsgL5y2tmHp3cfekWN7xgiEvOvO
+ A6Z/A24o7b/RXuRtqVdRSTQ3CX7ObPzesxyXLqyxfwo9l+KBWdUUQEQ88yBNbwCaeRzT
+ IMAryUTYy3XN/vJ7Uk5L5ien21ub/FrSZJeXOR8NpB0Ny/c0gnYtEuabDDFa8h6IWM2T
+ KxenCGFblrNbvcJ0E0rwFp+e4IM065Xm6LyPmrQ7LaarACbF4FAhCT2dPMRH233VEqpi
+ +ggA==
+X-Gm-Message-State: ANoB5pkijsfFHsOEHnSbOx9c1F6fb+Rgc+TFSoNxyqWxOEsk26lvbv2l
+ jyeqnUZwms1LL3VvUhsZxFt6NxEbDNRh28iXRR+5JJcXw62kXsrMvd76yTIcfVRlrYKEHit86pZ
+ qZY2nnn3UR4r9yJ0bKp2Mkafnh9S0
+X-Received: by 2002:adf:ed86:0:b0:236:4930:2468 with SMTP id
+ c6-20020adfed86000000b0023649302468mr27266643wro.221.1669711716556; 
+ Tue, 29 Nov 2022 00:48:36 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5WObKFiHoIvjAvSDGoBWk7nZS9J8pydo8v+yQ7WbXm3jibFRxv0v14chgZsAxfMxQqYFXPxw==
+X-Received: by 2002:adf:ed86:0:b0:236:4930:2468 with SMTP id
+ c6-20020adfed86000000b0023649302468mr27266600wro.221.1669711716176; 
+ Tue, 29 Nov 2022 00:48:36 -0800 (PST)
+Received: from ?IPV6:2003:cb:c705:ca00:3fb8:c253:3bf7:b60e?
+ (p200300cbc705ca003fb8c2533bf7b60e.dip0.t-ipconnect.de.
+ [2003:cb:c705:ca00:3fb8:c253:3bf7:b60e])
  by smtp.gmail.com with ESMTPSA id
- j5-20020a5d5645000000b00225307f43fbsm13038696wrw.44.2022.11.29.00.41.09
+ j5-20020a5d5645000000b00225307f43fbsm13057331wrw.44.2022.11.29.00.48.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Nov 2022 00:41:10 -0800 (PST)
-Message-ID: <81e5bd05-b081-8072-b09d-30e32834163e@linaro.org>
-Date: Tue, 29 Nov 2022 09:41:11 +0100
+ Tue, 29 Nov 2022 00:48:35 -0800 (PST)
+Message-ID: <22b1107b-0acc-5772-a883-8f3c4682eb1b@redhat.com>
+Date: Tue, 29 Nov 2022 09:48:33 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v2 2/2] drm/tiny: ili9486: Do not assume 8-bit only SPI
- controllers
+ Thunderbird/102.4.1
+Subject: Re: [PATCH mm-unstable v1 16/20] mm/frame-vector: remove FOLL_FORCE
+ usage
+To: Andrew Morton <akpm@linux-foundation.org>
+References: <20221116102659.70287-1-david@redhat.com>
+ <20221116102659.70287-17-david@redhat.com>
+ <81fb0fa3-2e06-b765-56ac-a7d981194e59@redhat.com>
+ <08b65ac6-6786-1080-18f8-d2be109c85fc@xs4all.nl>
+ <9d0bf98a-3d6a-1082-e992-1338e1525935@redhat.com>
+ <20221128145927.df895bf1966cfa125cae9668@linux-foundation.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20221128145927.df895bf1966cfa125cae9668@linux-foundation.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Carlo Caione <ccaione@baylibre.com>, Mark Brown <broonie@kernel.org>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Kevin Hilman <khilman@baylibre.com>,
- Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
- Jerome Brunet <jbrunet@baylibre.com>
-References: <20221116-s905x_spi_ili9486-v2-0-084c6e3cd930@baylibre.com>
- <20221116-s905x_spi_ili9486-v2-2-084c6e3cd930@baylibre.com>
-Organization: Linaro Developer Services
-In-Reply-To: <20221116-s905x_spi_ili9486-v2-2-084c6e3cd930@baylibre.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,82 +95,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: linux-ia64@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ Hans Verkuil <hverkuil@xs4all.nl>, linux-mm@kvack.org,
+ Nadav Amit <namit@vmware.com>, linux-kselftest@vger.kernel.org,
+ sparclinux@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Andrea Arcangeli <aarcange@redhat.com>, linux-samsung-soc@vger.kernel.org,
+ linux-rdma@vger.kernel.org, x86@kernel.org, Hugh Dickins <hughd@google.com>,
+ Matthew Wilcox <willy@infradead.org>, Christoph Hellwig <hch@infradead.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@suse.cz>,
+ linux-media@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ John Hubbard <jhubbard@nvidia.com>, linux-um@lists.infradead.org,
+ etnaviv@lists.freedesktop.org, Alex Williamson <alex.williamson@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Muchun Song <songmuchun@bytedance.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ Oded Gabbay <ogabbay@kernel.org>, linux-kernel@vger.kernel.org,
+ Tomasz Figa <tfiga@chromium.org>, linux-perf-users@vger.kernel.org,
+ linux-security-module@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
+ Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/11/2022 10:42, Carlo Caione wrote:
-> The pixel data for the ILI9486 is always 16-bits wide and it must be
-> sent over the SPI bus. When the controller is only able to deal with
-> 8-bit transfers, this 16-bits data needs to be swapped before the
-> sending to account for the big endian bus, this is on the contrary not
-> needed when the SPI controller already supports 16-bits transfers.
+On 28.11.22 23:59, Andrew Morton wrote:
+> On Mon, 28 Nov 2022 09:18:47 +0100 David Hildenbrand <david@redhat.com> wrote:
 > 
-> The decision about swapping the pixel data or not is taken in the MIPI
-> DBI code by probing the controller capabilities: if the controller only
-> suppors 8-bit transfers the data is swapped, otherwise it is not.
+>>> Less chances of things going wrong that way.
+>>>
+>>> Just mention in the v2 cover letter that the first patch was added to
+>>> make it easy to backport that fix without being hampered by merge
+>>> conflicts if it was added after your frame_vector.c patch.
+>>
+>> Yes, that's the way I would naturally do, it, however, Andrew prefers
+>> delta updates for minor changes.
+>>
+>> @Andrew, whatever you prefer!
 > 
-> This swapping/non-swapping is relying on the assumption that when the
-> controller does support 16-bit transactions then the data is sent
-> unswapped in 16-bits-per-word over SPI.
+> I'm inclined to let things sit as they are.  Cross-tree conflicts
+> happen, and Linus handles them.  I'll flag this (very simple) conflict
+> in the pull request, if MM merges second.  If v4l merges second then
+> hopefully they will do the same.  But this one is so simple that Linus
+> hardly needs our help.
 > 
-> The problem with the ILI9486 driver is that it is forcing 8-bit
-> transactions also for controllers supporting 16-bits, violating the
-> assumption and corrupting the pixel data.
-> 
-> Align the driver to what is done in the MIPI DBI code by adjusting the
-> tranfer size to the maximum allowed by the SPI controller.
-> 
-> Signed-off-by: Carlo Caione <ccaione@baylibre.com>
-> ---
->   drivers/gpu/drm/tiny/ili9486.c | 13 +++++++++----
->   1 file changed, 9 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/tiny/ili9486.c b/drivers/gpu/drm/tiny/ili9486.c
-> index bd37dfe8dd05..4d80a413338f 100644
-> --- a/drivers/gpu/drm/tiny/ili9486.c
-> +++ b/drivers/gpu/drm/tiny/ili9486.c
-> @@ -43,6 +43,7 @@ static int waveshare_command(struct mipi_dbi *mipi, u8 *cmd, u8 *par,
->   			     size_t num)
->   {
->   	struct spi_device *spi = mipi->spi;
-> +	unsigned int bpw = 8;
->   	void *data = par;
->   	u32 speed_hz;
->   	int i, ret;
-> @@ -56,8 +57,6 @@ static int waveshare_command(struct mipi_dbi *mipi, u8 *cmd, u8 *par,
->   	 * The displays are Raspberry Pi HATs and connected to the 8-bit only
->   	 * SPI controller, so 16-bit command and parameters need byte swapping
->   	 * before being transferred as 8-bit on the big endian SPI bus.
-> -	 * Pixel data bytes have already been swapped before this function is
-> -	 * called.
->   	 */
->   	buf[0] = cpu_to_be16(*cmd);
->   	gpiod_set_value_cansleep(mipi->dc, 0);
-> @@ -71,12 +70,18 @@ static int waveshare_command(struct mipi_dbi *mipi, u8 *cmd, u8 *par,
->   		for (i = 0; i < num; i++)
->   			buf[i] = cpu_to_be16(par[i]);
->   		num *= 2;
-> -		speed_hz = mipi_dbi_spi_cmd_max_speed(spi, num);
->   		data = buf;
->   	}
->   
-> +	/*
-> +	 * Check whether pixel data bytes needs to be swapped or not
-> +	 */
-> +	if (*cmd == MIPI_DCS_WRITE_MEMORY_START && !mipi->swap_bytes)
-> +		bpw = 16;
-> +
->   	gpiod_set_value_cansleep(mipi->dc, 1);
-> -	ret = mipi_dbi_spi_transfer(spi, speed_hz, 8, data, num);
-> +	speed_hz = mipi_dbi_spi_cmd_max_speed(spi, num);
-> +	ret = mipi_dbi_spi_transfer(spi, speed_hz, bpw, data, num);
->    free:
->   	kfree(buf);
->   
-> Looks fine, but should somehow be tested on an RPi first
-to check if the 8bit fallback still works.
+> But Linus won't be editing changelogs so that the changelog makes more
+> sense after both trees are joined.  I'm inclined to let the changelog
+> sit as it is as well.
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Works for me. Thanks Andrew!
+
+-- 
+Thanks,
+
+David / dhildenb
+
