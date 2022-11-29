@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EF4963CB11
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 23:29:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E97963CB0E
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 23:29:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6EDC10E272;
-	Tue, 29 Nov 2022 22:29:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79A9910E09C;
+	Tue, 29 Nov 2022 22:29:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
- [IPv6:2a00:1450:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E1A710E09C
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 22:28:55 +0000 (UTC)
-Received: by mail-ed1-x531.google.com with SMTP id e13so21730330edj.7
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 14:28:55 -0800 (PST)
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB5C410E09C
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 22:29:00 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id x2so21761146edd.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 14:29:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Z6DufAiLbikmJOcyvk/dpsDJdo2Yt6A4Va3UXdp6vn4=;
- b=bSbgHd7hgJCYLmAci5POgq7c9xzACAr/4CJtpAngdgrdC6coYb8uiZu2XqhLPmbQXT
- A7Azk3Hr3Y/t/ycCWOsv4JwIcmu4zG7GiR/cpPTpXl4AEw53lgECOhpbLTQ+zR5Da3se
- TdJURnDO7SI7EL6/spaUEq/f30sbEP7S4gDAc=
+ bh=6TrUzytMxBgpuzK57XjYnA/tMg3rSbk1sqf4aWr+LLU=;
+ b=eW+60F5ZaNSC2vEWF64zkR5vH38+E1w332c473FboCrBKMdYPCULVkM1vLD2EUZaFX
+ 6SOjRXQZffEKd3kUKL7JfsONN9tZY9FK1LGnH4GJCJ0XsqM3CJ4Wsxh7XDVz9egSx93F
+ /IuBBwVFWzHypybwJ9Kp+s91qbenBEmwrD5Qg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Z6DufAiLbikmJOcyvk/dpsDJdo2Yt6A4Va3UXdp6vn4=;
- b=zx9OWzLZwwOkW+WjcbOw6Y+vsetuSEenFHxVfPnYdEfkfkjpXGV3eMjuaIk8/ukZN+
- Obd/6Jn4MaR6m/d8gJ+NTAob6G3KVgSBXimeE38Sbwdna7CCFqbPDyG4scYXcNbmyOMq
- X0jJdGeYxqBPZEIKidAtefiag3qqw9y7znNP+0jF2UHwdOnoV7liZtGH6Y5WaxB2Mw2f
- 4qMGPvzIPBjXGhvy0UwSsyP34+GmAlBmhX9verPEgunbpXcxQ1sNlVFWLXsoHhax/DZd
- 9qvk88w5GLPGbgojQ4qdZgR5gD4DFq2h8CZHmp+3VVQexuNDCL80xixDlbJGNH5h3Wwk
- eUxA==
-X-Gm-Message-State: ANoB5pkt5f8jHaR413mI2koxjPjGyKIvSZL6Gxh/wcv6X6Ce1wZsy/S1
- 9J1Z8ClmJuPaxWM9sJ/1byh+nRo6U0POfC1z
-X-Google-Smtp-Source: AA0mqf74nhgDKYm8CX8/AscmCezXW4AopHqxKF2+TJF6KVz/gsdsRX+ylbxb/eOuSJo9vH3heDU0Xg==
-X-Received: by 2002:a05:6402:114f:b0:462:1e07:1dd7 with SMTP id
- g15-20020a056402114f00b004621e071dd7mr54412943edw.293.1669760933659; 
- Tue, 29 Nov 2022 14:28:53 -0800 (PST)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com.
- [209.85.128.51]) by smtp.gmail.com with ESMTPSA id
- g10-20020a17090604ca00b007828150a2f1sm5033813eja.36.2022.11.29.14.28.52
+ bh=6TrUzytMxBgpuzK57XjYnA/tMg3rSbk1sqf4aWr+LLU=;
+ b=SjyWae2nM4brJb0W0utQ30lE2Lcknwr2GiKDmnkd+cCXzX81ZeVpU6q9R0kNSTQgFD
+ e/KNv8EumoWBdi18ey5p+2tylH/0ZK966ulLjxPQ1CXOwPdwN/nyOzFIrerZozpDpIc6
+ 1h4/AUKpp1L+PSz8yLVMDFHL3qOyhkNTOYMqi/6nGAVVBzZWDRKCnfO4giaeLYDxVLmY
+ aGXAXNAgkR1z5wK2oPYqxe3Q5era7S7rr+t7yEjO/F9nJjUhu4lA4xOtAKgvb8WiO8+p
+ moxFwoLos9dYz0kyaFwbNT4v9+mkurrvIKRI3ToW8X8aWeeaSrHHtJ6ZqDmGcRzfxtCq
+ WM5A==
+X-Gm-Message-State: ANoB5pm09ulndBW8uWKj52LmDjQ8IAT8rg4QUN/YenZ4Pyk/vCplPwYp
+ sAO81NiBmucvaK415HzPptlDfPhqI/iXPSgW
+X-Google-Smtp-Source: AA0mqf5C590iD2B7h67wFYBk/57+87+S8bsnjB6ONdDLFTpuE6CGsHaUpQSKM6aCRo7BpSiqbhTTyA==
+X-Received: by 2002:a05:6402:2b8c:b0:468:ebc8:7476 with SMTP id
+ fj12-20020a0564022b8c00b00468ebc87476mr36314222edb.223.1669760939002; 
+ Tue, 29 Nov 2022 14:28:59 -0800 (PST)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com.
+ [209.85.128.48]) by smtp.gmail.com with ESMTPSA id
+ i25-20020a056402055900b0046730154ccbsm6737368edx.42.2022.11.29.14.28.57
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Nov 2022 14:28:52 -0800 (PST)
-Received: by mail-wm1-f51.google.com with SMTP id m19so2835665wms.5
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 14:28:52 -0800 (PST)
-X-Received: by 2002:a05:600c:3109:b0:3cf:5731:53db with SMTP id
- g9-20020a05600c310900b003cf573153dbmr47280161wmo.85.1669760931831; Tue, 29
- Nov 2022 14:28:51 -0800 (PST)
+ Tue, 29 Nov 2022 14:28:57 -0800 (PST)
+Received: by mail-wm1-f48.google.com with SMTP id
+ p13-20020a05600c468d00b003cf8859ed1bso96852wmo.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 14:28:57 -0800 (PST)
+X-Received: by 2002:a05:600c:3c8e:b0:3d0:69f4:d3d0 with SMTP id
+ bg14-20020a05600c3c8e00b003d069f4d3d0mr2921033wmb.93.1669760937284; Tue, 29
+ Nov 2022 14:28:57 -0800 (PST)
 MIME-Version: 1.0
 References: <20221117133655.1.I51639dc112bbbe27259df6bdad56dbabd655d91a@changeid>
- <20221117133655.2.Iebd9f79aba0a62015fd2383fe6986c2d6fe12cfd@changeid>
- <CAD=FV=XzzS-kygLun7u7XMDVqLdtBtxfhdHP0YFQo4TxCTPkSA@mail.gmail.com>
-In-Reply-To: <CAD=FV=XzzS-kygLun7u7XMDVqLdtBtxfhdHP0YFQo4TxCTPkSA@mail.gmail.com>
+ <20221117133655.3.Iebd9f79aba0a62015fd2383fe6986c2d6fe12cfd@changeid>
+ <CAD=FV=Wna4BXgr2CyGGe=m+crf3WMy6y8-dp_CH1Ga-Q8TQD7g@mail.gmail.com>
+In-Reply-To: <CAD=FV=Wna4BXgr2CyGGe=m+crf3WMy6y8-dp_CH1Ga-Q8TQD7g@mail.gmail.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 29 Nov 2022 14:28:39 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=XGQr9iMBoTPRmaiV3rnK2QNJEZ5C9DhgVuWvVJ8mBGmQ@mail.gmail.com>
-Message-ID: <CAD=FV=XGQr9iMBoTPRmaiV3rnK2QNJEZ5C9DhgVuWvVJ8mBGmQ@mail.gmail.com>
-Subject: Re: [PATCH 2/5] drm/panel-samsung-atna33xc20: Use ktime_get_boottime
- for delays
+Date: Tue, 29 Nov 2022 14:28:45 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=U9HwRRHo_Q9EQVMFM9kdPyyjzibdV-44+seJRXzLYRkw@mail.gmail.com>
+Message-ID: <CAD=FV=U9HwRRHo_Q9EQVMFM9kdPyyjzibdV-44+seJRXzLYRkw@mail.gmail.com>
+Subject: Re: [PATCH 3/5] drm/panel-simple: Use ktime_get_boottime for delays
 To: Drew Davenport <ddavenport@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -96,18 +96,11 @@ On Thu, Nov 17, 2022 at 1:14 PM Doug Anderson <dianders@chromium.org> wrote:
 > > Signed-off-by: Drew Davenport <ddavenport@chromium.org>
 > > ---
 > >
-> >  drivers/gpu/drm/panel/panel-samsung-atna33xc20.c | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> You could have carried over from v1 [1]:
->
-> ...which I guess also means that technically this series should have
-> been marked v2, but not a huge deal.
+> >  drivers/gpu/drm/panel/panel-simple.c | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
 >
 > Reviewed-by: Douglas Anderson <dianders@chromium.org>
->
-> [1] https://lore.kernel.org/r/20221110145102.1.I51639dc112bbbe27259df6bdad56dbabd655d91a@changeid
 
 Pushed to drm-misc-next:
 
-62e43673ca84 drm/panel-samsung-atna33xc20: Use ktime_get_boottime for delays
+7e682946db98 drm/panel-simple: Use ktime_get_boottime for delays
