@@ -1,64 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F82C63C671
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 18:29:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B94463C6A1
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 18:43:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A5DF10E114;
-	Tue, 29 Nov 2022 17:29:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C11A10E0A7;
+	Tue, 29 Nov 2022 17:43:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
- [IPv6:2607:f8b0:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9557C10E0F5
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 17:29:22 +0000 (UTC)
-Received: by mail-ot1-x332.google.com with SMTP id
- db10-20020a0568306b0a00b0066d43e80118so9570369otb.1
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 09:29:22 -0800 (PST)
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
+ [IPv6:2607:f8b0:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3347810E0A7
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 17:43:40 +0000 (UTC)
+Received: by mail-pl1-x636.google.com with SMTP id 4so14165887pli.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 09:43:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fnrU/S9jrTo7VMkSItxfe7rQNqEwCFm0vszgPLvFvNM=;
- b=FMuZUNvNuprAFguviKR51jVrDAzZLGUbDQOtZNexD2xXwNxzNHQ63ay2m4eYEODfYH
- Vw5VfMDlwMd5w+Kawaujb4SSHVrenwVnHwa+gXBzg8bH7dzpPLP8G13oF4kH2DBS3YOU
- qRHHKSq2EeSSOmsE7aWaAYUci/uFIW4M4srljDLfJkHLAhULKrjARc0LGDIdhqqFbCPL
- fvaxcxHqS+6UQkTtkbvA1UaaSxxGpUmPwEeuMEySUI4SIOFUZd4MNvbnuIs187Nca9Ma
- 8rRbLWJ7K048+wtP2BHjMDii4Tqzrl9Wab7XsRtTIQM5fS78iIiY48voYS7+l6IedHJR
- 7Vjg==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=iXCWILef2PDcL9sLeguo1E8rwfZJ6oNabKhO5H8Gxiw=;
+ b=ZjD8MZVqQwGAMlT9t2izaMXVJU8jMqvIKuBePdb/fltwaex9aK3k0K8d5CtmYAz0oZ
+ Gd4jdz46JxqNygZsNz6S4b+QNLWJye/YbdS0LdoNT8mqHc1Nfrum+jrRPAx5EIqux9IG
+ Pc0zyGudAO5hqgWlNNl9liAX3ezO7n3sVyZn8OubwAHBVY/zjwi7+d+l9akgFsHSKrxl
+ TKW7OZ1VTC05I96JDWw5aNhktRLGiDUci7iS/qPAwwJqoI8odrJQxdry9ItLS98eUfI5
+ AmORBuSvMHZGSR6s67R/CqdEg+nXn2EJPRgmCMWl6tjFhqN6Bxg7Doz/yJAVbVcoSnMT
+ d8pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=fnrU/S9jrTo7VMkSItxfe7rQNqEwCFm0vszgPLvFvNM=;
- b=xf3QNZrKt2iIR3PkhvV9utVJyo7oKXZ7pbP8LVtRvpfok+LOztgux044umNklqQVFY
- psmwyAO20+O4xxstOur+szmlTb5R0G7rgg2eLFFiLpuvtUcepgP4aPoGTopdKnFlcvJw
- mYfmIUzuA/apGDEVDj5RMPETz3Qcl5VOICWCU3Pyf19pEBayiQKF+EIw6oM8UKFJKSHH
- Qx5BQul/Ga4eBw5lu9tOU3ijaVI/dAusoyRczay3dGeg0IFpDt72L7nAEncNOSNr2PEE
- KPQeI3jnscauDmbNtTOtI0vKxldnZb/aP3HEeGeIWvzQwY0g+QgIvJCvUMBqtW9uGZZG
- AHog==
-X-Gm-Message-State: ANoB5plEOyhG7y8Idcj181zqAdJY0KnBAUxbEy6TW9nFvlvRk8vstvTk
- AxiO5LtE7xxrtQ7p0XtgolM=
-X-Google-Smtp-Source: AA0mqf5HcnIQkAF9BdufN5q1s2cozIdu6aBXSB91VDBMW6tg6Xl5I2gKp8jDb3SVdelMdCKx9aUNcA==
-X-Received: by 2002:a9d:5d04:0:b0:66b:85b7:ac37 with SMTP id
- b4-20020a9d5d04000000b0066b85b7ac37mr21802163oti.363.1669742962229; 
- Tue, 29 Nov 2022 09:29:22 -0800 (PST)
-Received: from localhost.localdomain
- (76-244-6-13.lightspeed.rcsntx.sbcglobal.net. [76.244.6.13])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=iXCWILef2PDcL9sLeguo1E8rwfZJ6oNabKhO5H8Gxiw=;
+ b=kI4M7kReNtc9mu3u+4mRjK6sAWSQ3vKX6LCtage4QM0Qti5Mk0EwAbEZ58jWECQf2G
+ gFOWntQ38LsRhEQxPBE7hk1IbuBkxCh17or9HZOESECdzN35L0l0h9p/XVt+Tvi2l/CQ
+ LFz5Jh6dyULdpCMPL3aQ/0nBqt7TJMEeasNfeRPyJ+JT6gYyOnmDuTHueRhMgXGGtrKU
+ yIMqge2qN8HLaMzJ+TFC+8HKXPn5hfEqokvNaUYQojF73ZET5lo6WggxvRPS+mLu2sbs
+ uhfynj9jpRzY6VH9faBWdbmWIoh+Jy0KfT8shS6kvH3xTj2WMB+A/6zwhAtIBVAu9LBf
+ BfGw==
+X-Gm-Message-State: ANoB5plCrn56FgQ3AgPMQNjUj+qporew2Q9HxAXsMCo3Ts+YRf573rVB
+ xaqrRyDsoMH/bmVBwER/oYWIxGhqamo=
+X-Google-Smtp-Source: AA0mqf7+2AEstG2zQZWqQIE3UtBcDlP+tNxEcHG7VqwJTz3I0h+3H54yM8gaQDgA2qDzQbmuZ1wi+g==
+X-Received: by 2002:a17:90b:2690:b0:213:f2c9:ce71 with SMTP id
+ pl16-20020a17090b269000b00213f2c9ce71mr60558650pjb.62.1669743819324; 
+ Tue, 29 Nov 2022 09:43:39 -0800 (PST)
+Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
  by smtp.gmail.com with ESMTPSA id
- l26-20020a9d709a000000b00661b46cc26bsm6224546otj.9.2022.11.29.09.29.21
+ x29-20020aa78f1d000000b00575a578a717sm1522947pfr.206.2022.11.29.09.43.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Nov 2022 09:29:21 -0800 (PST)
-From: Chris Morgan <macroalpha82@gmail.com>
-To: linux-rockchip@lists.infradead.org
-Subject: [PATCH V4 3/3] arm64: dts: rockchip: add display to RG503
-Date: Tue, 29 Nov 2022 11:29:12 -0600
-Message-Id: <20221129172912.9576-4-macroalpha82@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221129172912.9576-1-macroalpha82@gmail.com>
-References: <20221129172912.9576-1-macroalpha82@gmail.com>
+ Tue, 29 Nov 2022 09:43:38 -0800 (PST)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/virtio: Spiff out cmd queue/response traces
+Date: Tue, 29 Nov 2022 09:43:30 -0800
+Message-Id: <20221129174330.262751-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,113 +68,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, sam@ravnborg.org,
- Chris Morgan <macromorgan@hotmail.com>, dri-devel@lists.freedesktop.org,
- robh+dt@kernel.org, thierry.reding@gmail.com,
- krzysztof.kozlowski+dt@linaro.org, maccraft123mc@gmail.com
+Cc: Rob Clark <robdclark@chromium.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ David Airlie <airlied@redhat.com>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Morgan <macromorgan@hotmail.com>
+From: Rob Clark <robdclark@chromium.org>
 
-Add Samsung AMS495QA01 panel to RG503.
+Add a sequence # for more easily matching up cmd/resp, and the # of free
+slots in the virtqueue to more easily see starvation issues.
 
-Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
+Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- .../dts/rockchip/rk3566-anbernic-rg503.dts    | 61 +++++++++++++++++++
- 1 file changed, 61 insertions(+)
+ drivers/gpu/drm/virtio/virtgpu_drv.h   |  3 +++
+ drivers/gpu/drm/virtio/virtgpu_trace.h | 20 ++++++++++++--------
+ drivers/gpu/drm/virtio/virtgpu_vq.c    | 13 ++++++++++---
+ 3 files changed, 25 insertions(+), 11 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg503.dts b/arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg503.dts
-index 5dafcc86296b..23442e38a751 100644
---- a/arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg503.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg503.dts
-@@ -47,6 +47,22 @@ gpio_spi: spi {
- 		mosi-gpios = <&gpio4 RK_PB0 GPIO_ACTIVE_HIGH>;
- 		cs-gpios = <&gpio4 RK_PA7 GPIO_ACTIVE_HIGH>;
- 		num-chipselects = <0>;
-+
-+		panel@0 {
-+			compatible = "samsung,ams495qa01";
-+			reg = <0>;
-+			enable-gpios = <&gpio4 RK_PB7 GPIO_ACTIVE_HIGH>;
-+			pinctrl-names = "default";
-+			pinctrl-0 = <&lcd_enable>, <&lcd_reset>;
-+			reset-gpios = <&gpio4 RK_PA0 GPIO_ACTIVE_LOW>;
-+			vdd-supply = <&vcc3v3_lcd0_n>;
-+
-+			port {
-+				mipi_in_panel: endpoint {
-+					remote-endpoint = <&mipi_out_panel>;
-+				};
-+			};
-+		};
- 	};
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+index 9b98470593b0..cdc208d9238c 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.h
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+@@ -166,6 +166,8 @@ struct virtio_gpu_vbuffer {
  
- 	/* Channels reversed for both headphones and speakers. */
-@@ -94,6 +110,32 @@ &cru {
- 	assigned-clock-rates = <1200000000>, <200000000>, <500000000>;
+ 	struct virtio_gpu_object_array *objs;
+ 	struct list_head list;
++
++	uint32_t seqno;
  };
  
-+&dsi_dphy0 {
-+	status = "okay";
-+};
-+
-+&dsi0 {
-+	status = "okay";
-+
-+	ports {
-+		dsi0_in: port@0 {
-+			reg = <0>;
-+
-+			dsi0_in_vp1: endpoint {
-+				remote-endpoint = <&vp1_out_dsi0>;
-+			};
-+		};
-+
-+		dsi0_out: port@1 {
-+			reg = <1>;
-+
-+			mipi_out_panel: endpoint {
-+				remote-endpoint = <&mipi_in_panel>;
-+			};
-+		};
-+	};
-+};
-+
- &gpio_keys_control {
- 	button-a {
- 		gpios = <&gpio3 RK_PC1 GPIO_ACTIVE_LOW>;
-@@ -146,6 +188,18 @@ spk_amp_enable_h: spk-amp-enable-h {
- 		};
- 	};
- 
-+	gpio-lcd {
-+		lcd_enable: lcd-enable {
-+			rockchip,pins =
-+				<4 RK_PB7 RK_FUNC_GPIO &pcfg_pull_none>;
-+		};
-+
-+		lcd_reset: lcd-reset {
-+			rockchip,pins =
-+				<4 RK_PA0 RK_FUNC_GPIO &pcfg_pull_none>;
-+		};
-+	};
-+
- 	gpio-spi {
- 		spi_pins: spi-pins {
- 			rockchip,pins =
-@@ -164,3 +218,10 @@ rk817_charger: charger {
- 		rockchip,sleep-filter-current-microamp = <100000>;
- 	};
+ struct virtio_gpu_output {
+@@ -195,6 +197,7 @@ struct virtio_gpu_queue {
+ 	spinlock_t qlock;
+ 	wait_queue_head_t ack_queue;
+ 	struct work_struct dequeue_work;
++	uint32_t seqno;
  };
+ 
+ struct virtio_gpu_drv_capset {
+diff --git a/drivers/gpu/drm/virtio/virtgpu_trace.h b/drivers/gpu/drm/virtio/virtgpu_trace.h
+index 711ecc2bd241..087e860a66f7 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_trace.h
++++ b/drivers/gpu/drm/virtio/virtgpu_trace.h
+@@ -9,8 +9,8 @@
+ #define TRACE_INCLUDE_FILE virtgpu_trace
+ 
+ DECLARE_EVENT_CLASS(virtio_gpu_cmd,
+-	TP_PROTO(struct virtqueue *vq, struct virtio_gpu_ctrl_hdr *hdr),
+-	TP_ARGS(vq, hdr),
++	TP_PROTO(struct virtqueue *vq, struct virtio_gpu_ctrl_hdr *hdr, u32 seqno),
++	TP_ARGS(vq, hdr, seqno),
+ 	TP_STRUCT__entry(
+ 			 __field(int, dev)
+ 			 __field(unsigned int, vq)
+@@ -19,6 +19,8 @@ DECLARE_EVENT_CLASS(virtio_gpu_cmd,
+ 			 __field(u32, flags)
+ 			 __field(u64, fence_id)
+ 			 __field(u32, ctx_id)
++			 __field(u32, num_free)
++			 __field(u32, seqno)
+ 			 ),
+ 	TP_fast_assign(
+ 		       __entry->dev = vq->vdev->index;
+@@ -28,21 +30,23 @@ DECLARE_EVENT_CLASS(virtio_gpu_cmd,
+ 		       __entry->flags = le32_to_cpu(hdr->flags);
+ 		       __entry->fence_id = le64_to_cpu(hdr->fence_id);
+ 		       __entry->ctx_id = le32_to_cpu(hdr->ctx_id);
++		       __entry->num_free = vq->num_free;
++		       __entry->seqno = seqno;
+ 		       ),
+-	TP_printk("vdev=%d vq=%u name=%s type=0x%x flags=0x%x fence_id=%llu ctx_id=%u",
++	TP_printk("vdev=%d vq=%u name=%s type=0x%x flags=0x%x fence_id=%llu ctx_id=%u num_free=%u seqno=%u",
+ 		  __entry->dev, __entry->vq, __entry->name,
+ 		  __entry->type, __entry->flags, __entry->fence_id,
+-		  __entry->ctx_id)
++		  __entry->ctx_id, __entry->num_free, __entry->seqno)
+ );
+ 
+ DEFINE_EVENT(virtio_gpu_cmd, virtio_gpu_cmd_queue,
+-	TP_PROTO(struct virtqueue *vq, struct virtio_gpu_ctrl_hdr *hdr),
+-	TP_ARGS(vq, hdr)
++	TP_PROTO(struct virtqueue *vq, struct virtio_gpu_ctrl_hdr *hdr, u32 seqno),
++	TP_ARGS(vq, hdr, seqno)
+ );
+ 
+ DEFINE_EVENT(virtio_gpu_cmd, virtio_gpu_cmd_response,
+-	TP_PROTO(struct virtqueue *vq, struct virtio_gpu_ctrl_hdr *hdr),
+-	TP_ARGS(vq, hdr)
++	TP_PROTO(struct virtqueue *vq, struct virtio_gpu_ctrl_hdr *hdr, u32 seqno),
++	TP_ARGS(vq, hdr, seqno)
+ );
+ 
+ #endif
+diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
+index 9ff8660b50ad..a04a9b20896d 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_vq.c
++++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
+@@ -215,7 +215,7 @@ void virtio_gpu_dequeue_ctrl_func(struct work_struct *work)
+ 	list_for_each_entry(entry, &reclaim_list, list) {
+ 		resp = (struct virtio_gpu_ctrl_hdr *)entry->resp_buf;
+ 
+-		trace_virtio_gpu_cmd_response(vgdev->ctrlq.vq, resp);
++		trace_virtio_gpu_cmd_response(vgdev->ctrlq.vq, resp, entry->seqno);
+ 
+ 		if (resp->type != cpu_to_le32(VIRTIO_GPU_RESP_OK_NODATA)) {
+ 			if (le32_to_cpu(resp->type) >= VIRTIO_GPU_RESP_ERR_UNSPEC) {
+@@ -261,6 +261,10 @@ void virtio_gpu_dequeue_cursor_func(struct work_struct *work)
+ 	spin_unlock(&vgdev->cursorq.qlock);
+ 
+ 	list_for_each_entry_safe(entry, tmp, &reclaim_list, list) {
++		struct virtio_gpu_ctrl_hdr *resp =
++			(struct virtio_gpu_ctrl_hdr *)entry->resp_buf;
 +
-+&vp1 {
-+	vp1_out_dsi0: endpoint@ROCKCHIP_VOP2_EP_MIPI0 {
-+		reg = <ROCKCHIP_VOP2_EP_MIPI0>;
-+		remote-endpoint = <&dsi0_in_vp1>;
-+	};
-+};
++		trace_virtio_gpu_cmd_response(vgdev->cursorq.vq, resp, entry->seqno);
+ 		list_del(&entry->list);
+ 		free_vbuf(vgdev, entry);
+ 	}
+@@ -353,7 +357,8 @@ static int virtio_gpu_queue_ctrl_sgs(struct virtio_gpu_device *vgdev,
+ 	ret = virtqueue_add_sgs(vq, sgs, outcnt, incnt, vbuf, GFP_ATOMIC);
+ 	WARN_ON(ret);
+ 
+-	trace_virtio_gpu_cmd_queue(vq, virtio_gpu_vbuf_ctrl_hdr(vbuf));
++	vbuf->seqno = ++vgdev->ctrlq.seqno;
++	trace_virtio_gpu_cmd_queue(vq, virtio_gpu_vbuf_ctrl_hdr(vbuf), vbuf->seqno);
+ 
+ 	atomic_inc(&vgdev->pending_commands);
+ 
+@@ -465,8 +470,10 @@ static void virtio_gpu_queue_cursor(struct virtio_gpu_device *vgdev,
+ 		spin_lock(&vgdev->cursorq.qlock);
+ 		goto retry;
+ 	} else {
++		vbuf->seqno = ++vgdev->cursorq.seqno;
+ 		trace_virtio_gpu_cmd_queue(vq,
+-			virtio_gpu_vbuf_ctrl_hdr(vbuf));
++			virtio_gpu_vbuf_ctrl_hdr(vbuf),
++			vbuf->seqno);
+ 
+ 		notify = virtqueue_kick_prepare(vq);
+ 	}
 -- 
-2.25.1
+2.38.1
 
