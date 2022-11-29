@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB3C763C5D6
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 17:59:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E929263C611
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 18:03:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DE9488867;
-	Tue, 29 Nov 2022 16:58:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9233210E059;
+	Tue, 29 Nov 2022 17:03:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com
- [IPv6:2001:4860:4864:20::30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99DFC10E059
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 16:58:47 +0000 (UTC)
-Received: by mail-oa1-x30.google.com with SMTP id
- 586e51a60fabf-141ca09c2fbso17759033fac.6
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 08:58:47 -0800 (PST)
+Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com
+ [IPv6:2001:4860:4864:20::36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5B1510E059
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 17:03:37 +0000 (UTC)
+Received: by mail-oa1-x36.google.com with SMTP id
+ 586e51a60fabf-12c8312131fso17794903fac.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 09:03:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=NDCEJ8MtsSrGnFzSJ2QsS4ewiP1eUO+hWxDdtF/1ZeM=;
- b=C0Yy9a7ovNze7RTz2ZD/VrSjTHesa7ChIlzgYseTiAlYh38+iXjc72z0+hi4WWCg22
- fZ0OyQ9qTYtiV8tuuXvtr+JwE7rFdERgN4nQu5WYLTR+PKMfqBl/e+UCTMl2tnCnDO3T
- Gwta1LnpA3rqZP8FY+ZmJPhCBWjP3FOPDch1GNWEgyYfna9kIuvt6QurkWTsKeGd2NMx
- 8lJgbDt54+HZgqYW9PEJlRFYYgMpjabOtk6EvfrjHqxOMsoIk8C2kpULiDjsW5Eqs+VH
- POs50boBxa4nW30n9GvtwhwFQDlbScVVDJV6Gp6O6UE1BhU2s9Z499AENEaf4F3SyPCC
- DLLQ==
+ bh=bAXWficdb5Gh5FzYn9UMAwDhZ8CYJoMoqCIJ7//eDF4=;
+ b=ljTM73sTaDXWg3oaSywePDjqX298nSKxGHlaRqrv/LsDQrh3Mk9juSNxGkuzLumWxy
+ /O1+AvGM4FAywdTpyxCQGuYt9iKWmSXYzMbOF8AqODsFHqIaEIKHAcDeYgoOxqm3Fr4o
+ TBRSen1aQi9VAoZMPuBILu+kBDk8UQm+R3FRy3pdzsmnDkxBuftdOqpEmxAanK+Th54j
+ b8OVtjKBlDakl7FEtLr3q1dHi6yezL2+/uByMQUdbFwTiXZVM3v9O0eFVdNSo9ZoknNt
+ vw3QrBqFV9EaNlDr4769W5eAGUfmEToEGJFnua/uUW+Qw2+N1owsFPR77QI/qPD9Wf6L
+ rAGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=NDCEJ8MtsSrGnFzSJ2QsS4ewiP1eUO+hWxDdtF/1ZeM=;
- b=zijtW2jui+zS9kob1QHVYl9TsM4fZ7XXLgH/ArdNsJQQiFXlnt8/PFFfrCFYmy3Ge6
- XMKRa+2DkX97+hnmkJwspAuGdEfrv8WSjRPTN2jKeI26MO/+c2kMV2oHATWTz4KN+BFC
- iCCdaywdC7zTayGcgHr9LAGrFRy96MwrMMjOACfYoqQvefArAWu/kynwQK+YohoN0fE8
- Fy7o4jUd39b8Fg16A0my1LoAYw0WQu8wNipxTp3g4AJdj6+ChIe7A5sOeRRsbSL4H5qO
- 1krWjXSEEWru+Zgi3ylSwmm4Ji737of3Eo+Z4aHJ1SRx8FSo2u4p/LJv1q8BvmBjr1IV
- uefg==
-X-Gm-Message-State: ANoB5pnW3amZRYe8za6s32cvjUI+J/jfxfefSW2ypUxSgREggpDG1xPR
- g7mZhd1/sGyHmLKmUnZVLgYL73Q6MgUoTy8xKQwEnw==
-X-Google-Smtp-Source: AA0mqf64R9k+dGqKk0zXELlMiTgXLEetr/9SmX7uiDOvQg19cqM7R56b/QO/qctguZIPNMGvXMnUaTqbebksFJQTKLQ=
+ bh=bAXWficdb5Gh5FzYn9UMAwDhZ8CYJoMoqCIJ7//eDF4=;
+ b=urVlqHNqJ5KN/1P1zI/MJ3cpRvzV8BYdPMxjcXbZsTub3U0odxsa9W+TbTRtxv7kgR
+ MVHeJTidpde0YZq29At6snOb3ywcs/3/GeEdO2VdiVa4TtvZWsAfsGbvXnpBwlmEdfbo
+ 91FTiOd2KgSzdnsSGfPAV4X+AedxJhkffBTUsX9yTNlSiTdGCqU9v/93gqW8uhDuyWhR
+ EktGvUTnisqNA6xnTrFHQ19GjimboDIWrI/3XDyDwDTbKHsjlxZMAJiUMLhqynHnNwld
+ FsWLoGIxiW6FrymNvrIhvu69wuLmmpZ6YGek2PfbaqUJHLcw25kKZupEljShdZ4V25MW
+ aThg==
+X-Gm-Message-State: ANoB5plfRlX51/uTWMDcLYJ6o/IQiMGx46JpBXT5HZNkLcUp4sxglQnv
+ VP/mpklf1KGA8fs3LFLiSnJJPqMbm052mmTaeW+4vQ==
+X-Google-Smtp-Source: AA0mqf6Tdo6X8IWcObQq2o/3ErG6HPcwPrWCjYttmbMFTp3CWvG1wKOXHHCA+4UMzfOIMYG1UrxXlV2FAe3l3HjF3RI=
 X-Received: by 2002:a05:6870:7988:b0:13c:84e6:96d2 with SMTP id
- he8-20020a056870798800b0013c84e696d2mr36782703oab.72.1669741126654; Tue, 29
- Nov 2022 08:58:46 -0800 (PST)
+ he8-20020a056870798800b0013c84e696d2mr36802093oab.72.1669741416887; Tue, 29
+ Nov 2022 09:03:36 -0800 (PST)
 MIME-Version: 1.0
-References: <20221108091226.114524-1-yuancan@huawei.com>
- <20221123064017.GA4408@zoo6.em.health.ge.com>
-In-Reply-To: <20221123064017.GA4408@zoo6.em.health.ge.com>
+References: <20221124085436.24900-1-jiaxin.yu@mediatek.com>
+ <20221124085436.24900-3-jiaxin.yu@mediatek.com>
+In-Reply-To: <20221124085436.24900-3-jiaxin.yu@mediatek.com>
 From: Robert Foss <robert.foss@linaro.org>
-Date: Tue, 29 Nov 2022 17:58:36 +0100
-Message-ID: <CAG3jFyuQFNaxa+gvD4k5Wp0tho-q5wKDX0TZn=G3=k3Fj6Snog@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/bridge: megachips: Fix error handling in
- i2c_register_driver()
-To: Ian Ray <ian.ray@ge.com>
+Date: Tue, 29 Nov 2022 18:03:26 +0100
+Message-ID: <CAG3jFyvLAHfxtKVoFFUOwUacO+t+FC3x5J9Eg-qWOUVBnU8JfQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] ASoC: hdmi-codec: Add event handler for hdmi TX
+To: Jiaxin Yu <jiaxin.yu@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,79 +66,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, architt@codeaurora.org,
- martyn.welch@collabora.co.uk, jonas@kwiboo.se, dri-devel@lists.freedesktop.org,
- peter.senna@gmail.com, Yuan Can <yuancan@huawei.com>, jernej.skrabec@gmail.com,
- Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
- martin.donnelly@ge.com
+Cc: neil.armstrong@linaro.org, alsa-devel@alsa-project.org,
+ chunxu.li@mediatek.com, nfraprado@collabora.com,
+ kuninori.morimoto.gx@renesas.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com, broonie@kernel.org,
+ linux-mediatek@lists.infradead.org, Laurent.pinchart@ideasonboard.com,
+ andrzej.hajda@intel.com, allen-kh.cheng@mediatek.com,
+ ajye_huang@compal.corp-partner.google.com,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 23 Nov 2022 at 07:40, Ian Ray <ian.ray@ge.com> wrote:
+On Thu, 24 Nov 2022 at 09:54, Jiaxin Yu <jiaxin.yu@mediatek.com> wrote:
 >
-> On Tue, Nov 08, 2022 at 09:12:26AM +0000, Yuan Can wrote:
-> >
-> > A problem about insmod megachips-stdpxxxx-ge-b850v3-fw.ko failed is
-> > triggered with the following log given:
-> >
-> > [ 4497.981497] Error: Driver 'stdp4028-ge-b850v3-fw' is already registered, aborting...
-> > insmod: ERROR: could not insert module megachips-stdpxxxx-ge-b850v3-fw.ko: Device or resource busy
-> >
-> > The reason is that stdpxxxx_ge_b850v3_init() returns i2c_add_driver()
-> > directly without checking its return value, if i2c_add_driver() failed,
-> > it returns without calling i2c_del_driver() on the previous i2c driver,
-> > resulting the megachips-stdpxxxx-ge-b850v3-fw can never be installed
-> > later.
-> > A simple call graph is shown as below:
-> >
-> >  stdpxxxx_ge_b850v3_init()
-> >    i2c_add_driver(&stdp4028_ge_b850v3_fw_driver)
-> >    i2c_add_driver(&stdp2690_ge_b850v3_fw_driver)
-> >      i2c_register_driver()
-> >        driver_register()
-> >          bus_add_driver()
-> >            priv = kzalloc(...) # OOM happened
-> >    # return without delete stdp4028_ge_b850v3_fw_driver
-> >
-> > Fix by calling i2c_del_driver() on stdp4028_ge_b850v3_fw_driver when
-> > i2c_add_driver() returns error.
-> >
+> If the speaker and hdmi are connect to the same port of I2S,
+> when try to switch to speaker playback, we will find that hdmi
+> is always turned on automatically. The way of switching is
+> through SOC_DAPM_PIN_SWITCH, however, such events can not be
+> handled in hdmi-codec driver.
 >
-> Thank you!
+> So add event handler for hdmi TX to solve the above issue.
 >
-> > Fixes: fcfa0ddc18ed ("drm/bridge: Drivers for megachips-stdpxxxx-ge-b850v3-fw (LVDS-DP++)")
-> > Signed-off-by: Yuan Can <yuancan@huawei.com>
-> > Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> Signed-off-by: Jiaxin Yu <jiaxin.yu@mediatek.com>
+> ---
+>  include/sound/hdmi-codec.h    |  6 ++++++
+>  sound/soc/codecs/hdmi-codec.c | 37 +++++++++++++++++++++++++++++++----
+>  2 files changed, 39 insertions(+), 4 deletions(-)
 >
-> Tested-by: Ian Ray <ian.ray@ge.com>
+> diff --git a/include/sound/hdmi-codec.h b/include/sound/hdmi-codec.h
+> index 48ad33aba393..dcbc09254144 100644
+> --- a/include/sound/hdmi-codec.h
+> +++ b/include/sound/hdmi-codec.h
+> @@ -81,6 +81,12 @@ struct hdmi_codec_ops {
+>                        struct hdmi_codec_daifmt *fmt,
+>                        struct hdmi_codec_params *hparms);
 >
-> > ---
-> > Changes in v2:
-> > - Add Andrzej's Reviewed-by
-> > - Change to the new error return style suggested by Andrzej
-> >
-> >  drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c | 6 +++++-
-> >  1 file changed, 5 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-> > index 97359f807bfc..cbfa05a6767b 100644
-> > --- a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-> > +++ b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-> > @@ -440,7 +440,11 @@ static int __init stdpxxxx_ge_b850v3_init(void)
-> >       if (ret)
-> >               return ret;
-> >
-> > -     return i2c_add_driver(&stdp2690_ge_b850v3_fw_driver);
-> > +     ret = i2c_add_driver(&stdp2690_ge_b850v3_fw_driver);
-> > +     if (ret)
-> > +             i2c_del_driver(&stdp4028_ge_b850v3_fw_driver);
-> > +
-> > +     return ret;
-> >  }
-> >  module_init(stdpxxxx_ge_b850v3_init);
-> >
-> > --
-> > 2.17.1
-> >
+> +       /*
+> +        * PCM trigger callback.
+> +        * Mandatory
+> +        */
+> +       int (*trigger)(struct device *dev, int cmd);
+> +
+>         /*
+>          * Shuts down the audio stream.
+>          * Mandatory
+> diff --git a/sound/soc/codecs/hdmi-codec.c b/sound/soc/codecs/hdmi-codec.c
+> index 0b1cdb2d6049..cb4479372e09 100644
+> --- a/sound/soc/codecs/hdmi-codec.c
+> +++ b/sound/soc/codecs/hdmi-codec.c
+> @@ -276,7 +276,31 @@ struct hdmi_codec_priv {
+>         u8 iec_status[AES_IEC958_STATUS_SIZE];
+>  };
+>
+> +static int hdmi_tx_event(struct snd_soc_dapm_widget *w,
+> +               struct snd_kcontrol *kcontrol, int event)
 
-Applied to drm-misc-next.
+checkpatch --strict caught this alignment issue.
+
+ASoC: hdmi-codec: Add event handler for hdmi TX
+-:44: CHECK:PARENTHESIS_ALIGNMENT: Alignment should match open parenthesis
+#44: FILE: sound/soc/codecs/hdmi-codec.c:280:
++static int hdmi_tx_event(struct snd_soc_dapm_widget *w,
++        struct snd_kcontrol *kcontrol, int event)
+
+
+
+> +{
+> +       struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
+> +       struct hdmi_codec_priv *hcp = snd_soc_component_get_drvdata(component);
+> +
+> +       switch (event) {
+> +       case SND_SOC_DAPM_PRE_PMU:
+> +               if (hcp->hcd.ops->trigger)
+> +                       hcp->hcd.ops->trigger(component->dev->parent, SNDRV_PCM_TRIGGER_START);
+> +               break;
+> +       case SND_SOC_DAPM_POST_PMD:
+> +               if (hcp->hcd.ops->trigger)
+> +                       hcp->hcd.ops->trigger(component->dev->parent, SNDRV_PCM_TRIGGER_STOP);
+> +               break;
+> +       default:
+> +               break;
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+>  static const struct snd_soc_dapm_widget hdmi_widgets[] = {
+> +       SND_SOC_DAPM_OUT_DRV_E("SDB", SND_SOC_NOPM, 0, 0, NULL, 0, hdmi_tx_event,
+> +                              SND_SOC_DAPM_POST_PMD | SND_SOC_DAPM_PRE_PMU),
+>         SND_SOC_DAPM_OUTPUT("TX"),
+>         SND_SOC_DAPM_OUTPUT("RX"),
+>  };
+> @@ -808,18 +832,23 @@ static int hdmi_dai_probe(struct snd_soc_dai *dai)
+>         struct hdmi_codec_daifmt *daifmt;
+>         struct snd_soc_dapm_route route[] = {
+>                 {
+> -                       .sink = "TX",
+> +                       .sink = dai->driver->capture.stream_name,
+> +                       .source = "RX",
+> +               },
+> +               {
+> +                       .sink = "SDB",
+>                         .source = dai->driver->playback.stream_name,
+>                 },
+>                 {
+> -                       .sink = dai->driver->capture.stream_name,
+> -                       .source = "RX",
+> +                       .sink = "TX",
+> +                       .source = "SDB",
+>                 },
+> +
+>         };
+>         int ret;
+>
+>         dapm = snd_soc_component_get_dapm(dai->component);
+> -       ret = snd_soc_dapm_add_routes(dapm, route, 2);
+> +       ret = snd_soc_dapm_add_routes(dapm, route, ARRAY_SIZE(route));
+>         if (ret)
+>                 return ret;
+>
+> --
+> 2.18.0
+>
