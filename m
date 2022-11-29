@@ -2,44 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99BCB63CA77
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 22:25:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B8CA63CA88
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 22:37:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8811410E0ED;
-	Tue, 29 Nov 2022 21:25:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0582610E259;
+	Tue, 29 Nov 2022 21:37:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21E8710E0ED
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 21:25:11 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id D00644DA;
- Tue, 29 Nov 2022 22:25:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1669757109;
- bh=u5VM/EgB7yQMqQjQKF0CcQgsCgj+ZZXX6KbdTtfkuT0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=g3ZwjqkriwYHCxMWesQ0ByzkNYfTLdWCm8tmyxfMGUqIiqevMVNbn9uiCrhD6YX5P
- 9Vd11qKuBj3PzzokNrDjLjrA2bVQZ19vfDqcp6hjwKaLwNDa12GES+BkirgRAHstCZ
- v6jveB3IkZWPYC7gUKVgBnq+efaNOjJGNovYt3jY=
-Date: Tue, 29 Nov 2022 23:24:53 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v2 17/26] drm: rcar-du: Remove #ifdef guards for PM
- related functions
-Message-ID: <Y4Z4pSFrVL9D1gnI@pendragon.ideasonboard.com>
-References: <20221129191733.137897-1-paul@crapouillou.net>
- <20221129191942.138244-1-paul@crapouillou.net>
- <20221129191942.138244-4-paul@crapouillou.net>
- <Y4Zg9yg7KP0yCPIL@pendragon.ideasonboard.com>
- <bc6ece2831188a6041a2956f5efb6a7c3a5b4a18.camel@crapouillou.net>
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 436B910E259
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 21:37:06 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id vp12so35702950ejc.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 13:37:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=pWF9gOd/OY/hKO0R1X+AR0OfRDJ2mDFKtPhWMv/Y0Hg=;
+ b=C3cqCKNZvB+oxs2Z7PiDFvl3m4uH+qKJOwduAl71kmF3MfYto97m5S60Fz47UIGVVE
+ kTnLFuPBp8XqzvmLdO2DhSNSd+/QRot4t0KXV7WJ9AAzeTkf/suAR3qs6xkayDF5L3T2
+ b8ycGwfFGvOZxsfqaidTxUR3UbGtV59MiZFj4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=pWF9gOd/OY/hKO0R1X+AR0OfRDJ2mDFKtPhWMv/Y0Hg=;
+ b=ZaX/bpoaf1uJi7N4NxCKtTs7LoQt9jL3ALDiVAEPzBu6T2sVOWftcVvGvAerRIa3Bc
+ 1hH1RmyIth3RWDig4/ZJPuWp4KnBIJg6IDCilCKl8tqXXGl9QzV3kUeHjyPHxofQJzLQ
+ lziphFm1dtoIFoaO4byZAvYdeJ5kswEIM/f3itkjwsNXZtLi8tpGZiKyd/1PO/rhNem8
+ Gos1JeT0YHHrfevLYRO1Gxp/zu8rkTNQKN0WQJzYzOVZFfqrPbM7v03tSiaNgYMYcuJ5
+ h+9eskjSCbk7AcPnv0/yY0nF6YlrkwMbs0YBQalI3gt8/fBSBiZ0a2z8wpcvp/cyEW9e
+ esAw==
+X-Gm-Message-State: ANoB5pkEj/P13IQ/a5sKq4+B48UmsDPXdfubxdvzqbMVOyMwIIBJ76hf
+ 9hGHLa/RrjjAtX8JRnUrg2jKY5pd67mynVGl
+X-Google-Smtp-Source: AA0mqf44zg9iCJ7lbr2IpAPYphFzjz771NadljgE+o7BMGhhUICXRAsKgTgPNBhBlG5NtG2koKcg4Q==
+X-Received: by 2002:a17:906:4e46:b0:7ae:129b:2d3a with SMTP id
+ g6-20020a1709064e4600b007ae129b2d3amr49727530ejw.552.1669757824476; 
+ Tue, 29 Nov 2022 13:37:04 -0800 (PST)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com.
+ [209.85.221.42]) by smtp.gmail.com with ESMTPSA id
+ j14-20020aa7de8e000000b004616b006871sm6677944edv.82.2022.11.29.13.37.02
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 29 Nov 2022 13:37:03 -0800 (PST)
+Received: by mail-wr1-f42.google.com with SMTP id w15so10984662wrl.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 13:37:02 -0800 (PST)
+X-Received: by 2002:adf:fd89:0:b0:242:1f81:7034 with SMTP id
+ d9-20020adffd89000000b002421f817034mr4218482wrr.617.1669757822248; Tue, 29
+ Nov 2022 13:37:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <bc6ece2831188a6041a2956f5efb6a7c3a5b4a18.camel@crapouillou.net>
+References: <20221118224540.619276-1-uwe@kleine-koenig.org>
+ <20221118224540.619276-37-uwe@kleine-koenig.org>
+In-Reply-To: <20221118224540.619276-37-uwe@kleine-koenig.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 29 Nov 2022 13:36:50 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=VFuDRpkGPazE+xqwAj=0J8GO4EDU_fu+W72E+HQchLsQ@mail.gmail.com>
+Message-ID: <CAD=FV=VFuDRpkGPazE+xqwAj=0J8GO4EDU_fu+W72E+HQchLsQ@mail.gmail.com>
+Subject: Re: [PATCH 036/606] drm/bridge: ti-sn65dsi86: Convert to i2c's
+ .probe_new()
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <uwe@kleine-koenig.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,98 +77,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Robert Foss <robert.foss@linaro.org>, Wolfram Sang <wsa@kernel.org>,
+ Angel Iglesias <ang.iglesiasg@gmail.com>, linux-i2c@vger.kernel.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Grant Likely <grant.likely@linaro.org>, Lee Jones <lee.jones@linaro.org>,
+ kernel@pengutronix.de, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Paul,
+Hi,
 
-On Tue, Nov 29, 2022 at 09:05:49PM +0000, Paul Cercueil wrote:
-> Le mardi 29 novembre 2022 à 21:43 +0200, Laurent Pinchart a écrit :
-> > On Tue, Nov 29, 2022 at 07:19:33PM +0000, Paul Cercueil wrote:
-> > > Use the DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr() macros to handle
-> > > the .suspend/.resume callbacks.
-> > > 
-> > > These macros allow the suspend and resume functions to be automatically
-> > > dropped by the compiler when CONFIG_SUSPEND is disabled, without having
-> > > to use #ifdef guards.
-> > > 
-> > > This has the advantage of always compiling these functions in,
-> > > independently of any Kconfig option. Thanks to that, bugs and other
-> > > regressions are subsequently easier to catch.
-> > > 
-> > > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> > > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > 
-> > Will you get this whole series merged in one go in drm-misc, or do you
-> > expect me to take this patch in my tree ? I'd prefer the first option if
-> > possible (less work for me :-)).
-> 
-> I actually answered that in my cover letter ;)
+On Fri, Nov 18, 2022 at 2:46 PM Uwe Kleine-K=C3=B6nig <uwe@kleine-koenig.or=
+g> wrote:
+>
+> From: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+>
+> The probe function doesn't make use of the i2c_device_id * parameter so i=
+t
+> can be trivially converted.
+>
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> ---
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
 
-Oops. I read until "V2" and didn't notice the last paragraph, sorry.
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-> However I assumed it had to go through drm-next, if you think it can go
-> through drm-misc-next, I can apply it myself.
+As per request in the cover letter (and no countermands in the replies
+to the cover), I'm landing this myself. Pushed to
+drm-misc/drm-misc-next with my review and Laurent's.
 
-This seems like a good candidate for drm-misc to me.
-
-> > > ---
-> > > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > > Cc: linux-renesas-soc@vger.kernel.org
-> > > ---
-> > >  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 9 +++------
-> > >  1 file changed, 3 insertions(+), 6 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > > b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > > index d003e8d9e7a2..eeec1e02446f 100644
-> > > --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > > +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > > @@ -599,7 +599,6 @@ static const struct drm_driver rcar_du_driver =
-> > > {
-> > >   * Power management
-> > >   */
-> > >  
-> > > -#ifdef CONFIG_PM_SLEEP
-> > >  static int rcar_du_pm_suspend(struct device *dev)
-> > >  {
-> > >         struct rcar_du_device *rcdu = dev_get_drvdata(dev);
-> > > @@ -613,11 +612,9 @@ static int rcar_du_pm_resume(struct device
-> > > *dev)
-> > >  
-> > >         return drm_mode_config_helper_resume(&rcdu->ddev);
-> > >  }
-> > > -#endif
-> > >  
-> > > -static const struct dev_pm_ops rcar_du_pm_ops = {
-> > > -       SET_SYSTEM_SLEEP_PM_OPS(rcar_du_pm_suspend,
-> > > rcar_du_pm_resume)
-> > > -};
-> > > +static DEFINE_SIMPLE_DEV_PM_OPS(rcar_du_pm_ops,
-> > > +                               rcar_du_pm_suspend,
-> > > rcar_du_pm_resume);
-> > >  
-> > >  /* ---------------------------------------------------------------
-> > > --------------
-> > >   * Platform driver
-> > > @@ -712,7 +709,7 @@ static struct platform_driver
-> > > rcar_du_platform_driver = {
-> > >         .shutdown       = rcar_du_shutdown,
-> > >         .driver         = {
-> > >                 .name   = "rcar-du",
-> > > -               .pm     = &rcar_du_pm_ops,
-> > > +               .pm     = pm_sleep_ptr(&rcar_du_pm_ops),
-> > >                 .of_match_table = rcar_du_of_table,
-> > >         },
-> > >  };
-
--- 
-Regards,
-
-Laurent Pinchart
+de86815b3730 drm/bridge: ti-sn65dsi86: Convert to i2c's .probe_new()
