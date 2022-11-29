@@ -2,66 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6FF263CB10
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 23:29:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFADB63CB14
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 23:29:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A160810E271;
-	Tue, 29 Nov 2022 22:29:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 595D910E26E;
+	Tue, 29 Nov 2022 22:29:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 522BF10E09C
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 22:29:09 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id ha10so37273386ejb.3
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 14:29:09 -0800 (PST)
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 568D910E26E
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 22:29:14 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id b8so21693919edf.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 14:29:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=zLpCy3698Bc23bcTbA/ZXvSN9t0RpVO+Zbfm9nGrSiQ=;
- b=k2drZtEJBQIQoPR/xGtfnQRDFEFcN0kLvOBnFCVQEMz95pKx1E4a4hbRKLApx+IkEf
- JGfd6zOp4IkKQzXt5/Ou4pqNzf9f+90PafF2m+3MYiGyG9nncqHP4u8DrPnmyo6U9qGL
- +5VwJoq3+DaBLcVeb0ozJQWwt4Z6OjHrqFRe4=
+ bh=1gKZClLZmEiVOIk1j7cicwzi+DjtZJzvayZlsThxfFA=;
+ b=PDQHwMDxqw96E4BjZGoYCNxOxYiUPtBJOTGKZ0b9ugbOYqSmE6ZA0sMsTaMNaew/N3
+ 6+0JgyBhmhBew5dmm9B/lacTYS4E6x5LeKeHID5zLpYeDKVtNal7+3DKrK0YxVrC6EuG
+ TZIs/Pw9H9xFba7BY2ZgWUa93/4soo2uZ3Z6k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=zLpCy3698Bc23bcTbA/ZXvSN9t0RpVO+Zbfm9nGrSiQ=;
- b=6utmsN5Ax+URGZL5McSdsi6XDUis1xM03ULFDUp4RsWQqC2sW3gCsQTpOuSdqiUtpE
- 2kvmvklXNyoJK4pzgjAMgtLRBtrkiH6JyjUvNxadIMAXL/jrpLlBaMydw86Xsx4X05pO
- k606BwMTHEaO+r5Maf9OaK7j/owcHQXfldUcDTJ2Pfy2xlmmaLVa0aa5zAlt9L3+r2OV
- 9KyKQQtG9UVC/6xHVaWU+ien/yccmdHtEjk2CQKJZoYRJ2S5D3t53UyoKcwA+iX5F1Dm
- lPuHUUfMlrkcerzsNNNUeGjnkajP8/jn7hLorCjOU8qNzdl2JNFSH0iaAsFErOqLNgzm
- KoPg==
-X-Gm-Message-State: ANoB5plWY5vmuPNwBY90xfPaRM2ph3pz+T2k4MkSvvbP6h+9gPdG+2JF
- mmvpg5c0WJI0aj/BZ2bEoFMrbnTlYXhKLTwe
-X-Google-Smtp-Source: AA0mqf4Hf8/uYD8WrQQeAWSgQfQZ0e3ENFOxIA30WmvIENO26d59VsyZJBc1KR6aKxldOhgYySWhqw==
-X-Received: by 2002:a17:906:694a:b0:7c0:9d50:5144 with SMTP id
- c10-20020a170906694a00b007c09d505144mr466128ejs.590.1669760947571; 
- Tue, 29 Nov 2022 14:29:07 -0800 (PST)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com.
- [209.85.128.45]) by smtp.gmail.com with ESMTPSA id
- l16-20020aa7c3d0000000b00468f7bb4895sm6770996edr.43.2022.11.29.14.29.06
+ bh=1gKZClLZmEiVOIk1j7cicwzi+DjtZJzvayZlsThxfFA=;
+ b=5nqvVtK26uAguB7c2JfA7XbrKOk5NfhECihNWTfMukD1JteXyiMqBOaY1C5BFxboS5
+ Is5n6OzAbJTvUlaq2NRAA0tqTn08GKwSYLdtYPLcbM3ptg6wwpEYf0sebn/XLm2AwpH0
+ UqI+SBJjZiek8ReRlZNrtI0ML/QRIJGNiVXWi5JJrIxpXxtoWlDEni94TS7TxPANOFBt
+ p97PE/Ce0kQLzKhFR4181T/xkuSNfNJpubDiI9CTWNeMi0S4r4rFItdK60Y64HnCTpqe
+ GpkHXUtYg0eOpTuMd3Q495lqoI0R/Zt7iRdxW7zSKjUYcyhYW3jHd6xyXh6IzfnGHJuR
+ eyrg==
+X-Gm-Message-State: ANoB5pkdA+onvKs+xDsZ94gAGdFCsbBqoQRhQPcvFKveVsp2Gm0mJgnw
+ 3gOpHurMJuuuWjxWLrW6ogjRm2Kui+7M7Nq1
+X-Google-Smtp-Source: AA0mqf6fii6Mt3J6gXkYM/kF0VZtx283T0Dd06pONQe+uO4CwKc7WI7LIW7fNPL6c19UiYhqZIjIng==
+X-Received: by 2002:a05:6402:550b:b0:45f:9526:e35a with SMTP id
+ fi11-20020a056402550b00b0045f9526e35amr54191805edb.256.1669760952503; 
+ Tue, 29 Nov 2022 14:29:12 -0800 (PST)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com.
+ [209.85.221.44]) by smtp.gmail.com with ESMTPSA id
+ a1-20020a05640213c100b0044ef2ac2650sm6677396edx.90.2022.11.29.14.29.11
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Nov 2022 14:29:06 -0800 (PST)
-Received: by mail-wm1-f45.google.com with SMTP id
- o7-20020a05600c510700b003cffc0b3374so116896wms.0
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 14:29:06 -0800 (PST)
-X-Received: by 2002:a1c:cc04:0:b0:3cf:7716:8954 with SMTP id
- h4-20020a1ccc04000000b003cf77168954mr43045048wmb.57.1669760946142; Tue, 29
- Nov 2022 14:29:06 -0800 (PST)
+ Tue, 29 Nov 2022 14:29:11 -0800 (PST)
+Received: by mail-wr1-f44.google.com with SMTP id bs21so24357423wrb.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 14:29:11 -0800 (PST)
+X-Received: by 2002:adf:fd89:0:b0:242:1f81:7034 with SMTP id
+ d9-20020adffd89000000b002421f817034mr4295062wrr.617.1669760950923; Tue, 29
+ Nov 2022 14:29:10 -0800 (PST)
 MIME-Version: 1.0
 References: <20221117133655.1.I51639dc112bbbe27259df6bdad56dbabd655d91a@changeid>
- <20221117133655.4.If6153da69ec4bc9e83d5f095ef6e6b07283940a5@changeid>
- <CAD=FV=VvhzEgjQidvF3DVokNyiQ1hRkqGShCoNbM5ytma3gZYQ@mail.gmail.com>
-In-Reply-To: <CAD=FV=VvhzEgjQidvF3DVokNyiQ1hRkqGShCoNbM5ytma3gZYQ@mail.gmail.com>
+ <20221117133655.5.I96ce2a565ff893eddcbee70174c991179311a3ae@changeid>
+ <CAD=FV=W_P3BbxRsPH0vQ4qRW_fiyM+u7RzRj+i0N9G3_4Zhtcw@mail.gmail.com>
+In-Reply-To: <CAD=FV=W_P3BbxRsPH0vQ4qRW_fiyM+u7RzRj+i0N9G3_4Zhtcw@mail.gmail.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 29 Nov 2022 14:28:53 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=X-jPz=8z2eXr4mOd6p=qtPSWJmxRvxvmVnOzURN31mHA@mail.gmail.com>
-Message-ID: <CAD=FV=X-jPz=8z2eXr4mOd6p=qtPSWJmxRvxvmVnOzURN31mHA@mail.gmail.com>
-Subject: Re: [PATCH 4/5] drm/bridge/parade-ps8640: Extend autosuspend
+Date: Tue, 29 Nov 2022 14:28:59 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=XbHX5Cz6LLS1eNgjQ6qo6mzDtndeM6BxiXGF=6HtpkXw@mail.gmail.com>
+Message-ID: <CAD=FV=XbHX5Cz6LLS1eNgjQ6qo6mzDtndeM6BxiXGF=6HtpkXw@mail.gmail.com>
+Subject: Re: [PATCH 5/5] drm/panel-samsung-atna33xc20: Extend autosuspend delay
 To: Drew Davenport <ddavenport@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,37 +75,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- Robert Foss <robert.foss@linaro.org>, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Thu, Nov 17, 2022 at 1:14 PM Doug Anderson <dianders@chromium.org> wrote:
+On Thu, Nov 17, 2022 at 1:15 PM Doug Anderson <dianders@chromium.org> wrote:
 >
 > Hi,
 >
 > On Thu, Nov 17, 2022 at 12:39 PM Drew Davenport <ddavenport@chromium.org> wrote:
 > >
-> > Same change as done for panel-samsung-atna33xc20. Extend the autosuspend
-> > delay to avoid oscillating between power status during boot.
+> > Avoid the panel oscillating on and off during boot. In some cases it
+> > will be more than 1000ms between powering the panel to read the EDID early
+> > during boot, and enabling the panel for display. Extending the
+> > autosuspend delay avoids autosuspending during this interval.
 > >
 > > Signed-off-by: Drew Davenport <ddavenport@chromium.org>
+> >
 > > ---
 > >
-> >  drivers/gpu/drm/bridge/parade-ps8640.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> This seems fine to me. Not 100% sure what changed in the probing /
-> booting to make it need 2 seconds now, but this really shouldn't cause
-> any issues and it's nice to avoid those slow power cycles.
+> >  drivers/gpu/drm/panel/panel-samsung-atna33xc20.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
 > Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
 Pushed to drm-misc-next:
 
-b1d2751c2f23 drm/bridge/parade-ps8640: Extend autosuspend
+8d5d063fd669 drm/panel-samsung-atna33xc20: Extend autosuspend delay
