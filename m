@@ -2,64 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC46763C2BB
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 15:35:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B217E63C2ED
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 15:44:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A17CE10E3AE;
-	Tue, 29 Nov 2022 14:35:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F17510E08A;
+	Tue, 29 Nov 2022 14:44:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46F1E10E01F
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 14:35:24 +0000 (UTC)
-X-UUID: f6fbf72d6b4947a8878112f0a7c9454f-20221129
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=lqfRy5e9ro2d5Kb0Jmi4JweUbzy0TrTsnYS016Ki7WA=; 
- b=qU5v8GqtFpGshUazIOA0kKo3FGi/XR0xOux/Hz/zQqJxMtlmIk9WPeslJK3jAQiyIs+ZkGW1XKkcgpd3pWEZaBnLwUCSiZBU5YWSo2Wd+mwBCeY15QNk5VpAwjAmGqsGBb5DT2V4o2JnKOtAycVnIH7Kgz2yjb6CZvky/1jKz2Y=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.14, REQID:c5710c33-2845-46fd-889c-aef7623ae09d, IP:0,
- U
- RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
- N:release,TS:90
-X-CID-INFO: VERSION:1.1.14, REQID:c5710c33-2845-46fd-889c-aef7623ae09d, IP:0,
- URL
- :0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTIO
- N:quarantine,TS:90
-X-CID-META: VersionHash:dcaaed0, CLOUDID:d50ea31e-5e1d-4ab5-ab8e-3e04efc02b30,
- B
- ulkID:221129223521FJBINPIS,BulkQuantity:0,Recheck:0,SF:38|28|17|19|48,TC:n
- il,Content:0,EDM:-3,IP:nil,URL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: f6fbf72d6b4947a8878112f0a7c9454f-20221129
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw02.mediatek.com (envelope-from <nathan.lu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1107437510; Tue, 29 Nov 2022 22:35:21 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Tue, 29 Nov 2022 22:35:19 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.15 via Frontend Transport; Tue, 29 Nov 2022 22:35:19 +0800
-From: nathan.lu <nathan.lu@mediatek.com>
-To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Matthias Brugger
- <matthias.bgg@gmail.com>
-Subject: [PATCH v3 6/6] drm/mediatek: add mediatek-drm of vdosys0 support for
- mt8188
-Date: Tue, 29 Nov 2022 22:35:03 +0800
-Message-ID: <20221129143503.16638-7-nathan.lu@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20221129143503.16638-1-nathan.lu@mediatek.com>
-References: <20221129143503.16638-1-nathan.lu@mediatek.com>
+Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com
+ [IPv6:2001:4860:4864:20::33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1465E10E08A;
+ Tue, 29 Nov 2022 14:44:31 +0000 (UTC)
+Received: by mail-oa1-x33.google.com with SMTP id
+ 586e51a60fabf-14279410bf4so17250737fac.8; 
+ Tue, 29 Nov 2022 06:44:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=GTT71fzhlAVQrxanQsYv6n1IH/tvy5re3/N8VyfEuuk=;
+ b=gdzpsJj/s9xkVg/MfDoGp+K9C13k0tezbx4E77bOWZt2B1LW42rAgO6qMN+XltV0Dr
+ KpEJIFvb4S9LHDwDkzIFTdhGNKfDEgowAGSSGLa1N58tJwYVWHj918AwlCyqFqrVKrKe
+ mgqRsCJRnX7b2mQdFFoy/6honFmfUf8FvozjJLJkskmbCEAMrttwQQvQaxUVkeV/h1Ah
+ N+76Y9ZiGF/lSH22f1j06wGeMqC4Dp2IaArA26/zO85NlbSy2juKCDKHMK6QgfKt0083
+ P8jgQKKARms97GDa8CHJYoqZOGapsGylseW10VBJVu/KQ2VnHn4TkLZCuT6/14Qt1Xhm
+ nuuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=GTT71fzhlAVQrxanQsYv6n1IH/tvy5re3/N8VyfEuuk=;
+ b=LhV6bEXQ9Fgv1ib7tRVUB4oikJEwY5tQ8ppVAlfqdB0oqABWsX+9VysF/HC5qlerAn
+ LsjeUL3V/Vm14VvDL0oMzwWY00iior09nhX1C0uB/F1PZZg8gNopPT81Hn1e3i0yqnBW
+ 71SW1DsFfVR3P+AwCd9UEMMqTffsa74gNIhvXAFI+rGKTJSRn6KnJLp/gOU9u9QZvp4Y
+ AZtHCe+cM+0z0bVzkvi2anWOaPNSYlqRA+OIgXEPivLctBBAOKWXI2yc028fhBk81ts9
+ gRGmzO38NpdqqesU482s5iook/hzQufXgcNgwC+UcidhC4xeFpsoIUtuOdhvwVOqg1Zn
+ HKlg==
+X-Gm-Message-State: ANoB5plYfLo+IXHTHJGPKTL2LrlSyAbCW36Yd6C236+dlyH6q+5FGkhs
+ bM2HP1vTXuRiOMAkshBDyFHSRVFsJ7/osH78hRuO9wtl
+X-Google-Smtp-Source: AA0mqf7ilLd/qqCUgbGPXMZjoiYaX1jIh0rZdDUb5Xh4T3vCc6dLAk1OSaF3skdpF8XOnlFw00xvxu2eJ66ZTHUUscM=
+X-Received: by 2002:a05:6870:7a0c:b0:143:8a81:116c with SMTP id
+ hf12-20020a0568707a0c00b001438a81116cmr9158747oab.96.1669733070358; Tue, 29
+ Nov 2022 06:44:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+References: <20220423193145.3301ed06@desktop>
+ <CADnq5_PXgFBXZ03LXE8qOdimzfKYGhzX1JnycJQcHWcMZdgJug@mail.gmail.com>
+ <Y4TGOb3UGmDslyYF@sqrt.uni.cx>
+ <CADnq5_NTyvZR16_N0TzMo3f9Mg6EwOuwuBgYzDA=U7tur7Fmnw@mail.gmail.com>
+ <Y4UelMnRkY7/0G6U@sqrt.uni.cx>
+In-Reply-To: <Y4UelMnRkY7/0G6U@sqrt.uni.cx>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 29 Nov 2022 09:44:19 -0500
+Message-ID: <CADnq5_MactA_n4sTKZ_-TpYFZnOfEeygHF3r+zH94By2Dm86cA@mail.gmail.com>
+Subject: Re: Screen corruption using radeon kernel driver
+To: Mikhail Krylov <sqarert@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,81 +69,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nathan Lu <nathan.lu@mediatek.com>, devicetree@vger.kernel.org,
- "jason-jh . lin" <jason-jh.lin@mediatek.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com, Rex-BC
- Chen <rex-bc.chen@mediatek.com>, Moudy Ho <moudy.ho@mediatek.com>,
- linux-mediatek@lists.infradead.org, lancelot.wu@mediatek.com,
- amy zhang <Amy.Zhang@mediatek.com>, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nathan Lu <nathan.lu@mediatek.com>
+On Mon, Nov 28, 2022 at 3:48 PM Mikhail Krylov <sqarert@gmail.com> wrote:
+>
+> On Mon, Nov 28, 2022 at 09:50:50AM -0500, Alex Deucher wrote:
+>
+> >>> [excessive quoting removed]
+>
+> >> So, is there any progress on this issue? I do understand it's not a high
+> >> priority one, and today I've checked it on 6.0 kernel, and
+> >> unfortunately, it still persists...
+> >>
+> >> I'm considering writing a patch that will allow user to override
+> >> need_dma32/dma_bits setting with a module parameter. I'll have some time
+> >> after the New Year for that.
+> >>
+> >> Is it at all possible that such a patch will be merged into kernel?
+> >>
+> > On Mon, Nov 28, 2022 at 9:31 AM Mikhail Krylov <sqarert@gmail.com> wrote:
+> > Unless someone familiar with HIMEM can figure out what is going wrong
+> > we should just revert the patch.
+> >
+> > Alex
+>
+>
+> Okay, I was suggesting that mostly because
+>
+> a) it works for me with dma_bits = 40 (I understand that's what it is
+> without the original patch applied);
+>
+> b) there's a hint of uncertainity on this line
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/gpu/drm/radeon/radeon_device.c#n1359
+> saying that for AGP dma_bits = 32 is the safest option, so apparently there are
+> setups, unlike mine, where dma_bits = 32 is better than 40.
+>
+> But I'm in no position to argue, just wanted to make myself clear.
+> I'm okay with rebuilding the kernel for my machine until the original
+> patch is reverted or any other fix is applied.
 
-add driver data of mt8188 vdosys0 to mediatek-drm and the sub driver.
+What GPU do you have and is it AGP?  If it is AGP, does setting
+radeon.agpmode=-1 also fix it?
 
-Signed-off-by: amy zhang <Amy.Zhang@mediatek.com>
-Signed-off-by: Nathan Lu <nathan.lu@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index b12e5b977c50..8058a5ec2f1d 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -176,6 +176,18 @@ static const enum mtk_ddp_comp_id mt8186_mtk_ddp_ext[] = {
- 	DDP_COMPONENT_DPI0,
- };
- 
-+static const enum mtk_ddp_comp_id mt8188_mtk_ddp_main[] = {
-+	DDP_COMPONENT_OVL0,
-+	DDP_COMPONENT_RDMA0,
-+	DDP_COMPONENT_COLOR0,
-+	DDP_COMPONENT_CCORR,
-+	DDP_COMPONENT_AAL0,
-+	DDP_COMPONENT_GAMMA,
-+	DDP_COMPONENT_POSTMASK0,
-+	DDP_COMPONENT_DITHER0,
-+	DDP_COMPONENT_DP_INTF0,
-+};
-+
- static const enum mtk_ddp_comp_id mt8192_mtk_ddp_main[] = {
- 	DDP_COMPONENT_OVL0,
- 	DDP_COMPONENT_OVL_2L0,
-@@ -259,6 +271,11 @@ static const struct mtk_mmsys_driver_data mt8186_mmsys_driver_data = {
- 	.ext_len = ARRAY_SIZE(mt8186_mtk_ddp_ext),
- };
- 
-+static const struct mtk_mmsys_driver_data mt8188_vdosys0_driver_data = {
-+	.main_path = mt8188_mtk_ddp_main,
-+	.main_len = ARRAY_SIZE(mt8188_mtk_ddp_main),
-+};
-+
- static const struct mtk_mmsys_driver_data mt8192_mmsys_driver_data = {
- 	.main_path = mt8192_mtk_ddp_main,
- 	.main_len = ARRAY_SIZE(mt8192_mtk_ddp_main),
-@@ -516,6 +533,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
- 	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt8186-disp-mutex",
- 	  .data = (void *)MTK_DISP_MUTEX },
-+	{ .compatible = "mediatek,mt8188-disp-mutex",
-+	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt8192-disp-mutex",
- 	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt8195-disp-mutex",
-@@ -600,6 +619,8 @@ static const struct of_device_id mtk_drm_of_ids[] = {
- 	  .data = &mt8183_mmsys_driver_data},
- 	{ .compatible = "mediatek,mt8186-mmsys",
- 	  .data = &mt8186_mmsys_driver_data},
-+	{ .compatible = "mediatek,mt8188-vdosys0",
-+	  .data = &mt8188_vdosys0_driver_data},
- 	{ .compatible = "mediatek,mt8192-mmsys",
- 	  .data = &mt8192_mmsys_driver_data},
- 	{ .compatible = "mediatek,mt8195-mmsys",
--- 
-2.18.0
-
+Alex
