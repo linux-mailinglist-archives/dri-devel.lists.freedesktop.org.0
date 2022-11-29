@@ -1,41 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EF6C63BCCE
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 10:21:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D51763BCF2
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 10:30:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D80410E306;
-	Tue, 29 Nov 2022 09:21:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 391C410E263;
+	Tue, 29 Nov 2022 09:29:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61F1510E306
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 09:21:38 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1ozwo3-0001ed-Mr; Tue, 29 Nov 2022 10:21:35 +0100
-Message-ID: <ce69ab2c95e500ab94ab9ebc186c351a605ada89.camel@pengutronix.de>
-Subject: Re: [PATCH v3 5/5] drm/etnaviv: add HWDB entry for
- VIPNano-QI.7120.0055
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-Date: Tue, 29 Nov 2022 10:21:33 +0100
-In-Reply-To: <20221129085047.49813-6-tomeu.vizoso@collabora.com>
-References: <20221129085047.49813-1-tomeu.vizoso@collabora.com>
- <20221129085047.49813-6-tomeu.vizoso@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FD9110E3A0;
+ Tue, 29 Nov 2022 09:29:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1669714191; x=1701250191;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=qqx6B/8RP8z7aH+i5nv1CeOqwhQdYf0WKoZWORVYLEU=;
+ b=XJ9I9z47t8KNAdHP096tPU9T9IU/Yk1HTYzkUAZfwqnXk5mslhioRMQb
+ aIVaWuOfKZG42OvSJAJu/99qBzlQLa3Pzw4x3uHGwV+QYgyI4PXpj5BEY
+ /+RGJG3vgjAVmplCLE1bP8ApOUJCw7IiVqfbX/vroVavwDViT2Bshh9/A
+ zEs+qSlGwtAqcXRc3XyhAxNmjNEQ143z4mO9eqoQhs+R4DxiiznxO9VJX
+ RdJkjEdmTxzTh9rB97RAxIT3Io/LsM9Yid0TJg8O87p5cs5wrSDsnXCMi
+ YBzTN6FGHfLkAi9qCiVJoA2vOyrXEIVtgPHRzfBp5hEPdQ9yK3ETMAAoH Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10545"; a="294760043"
+X-IronPort-AV: E=Sophos;i="5.96,202,1665471600"; d="scan'208";a="294760043"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Nov 2022 01:29:50 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10545"; a="645832586"
+X-IronPort-AV: E=Sophos;i="5.96,202,1665471600"; d="scan'208";a="645832586"
+Received: from lclaesso-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.53.28])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Nov 2022 01:29:48 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Harry Wentland <harry.wentland@amd.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Subject: Re: [RFC 0/2] drm/connector: connector iterator with filtering
+In-Reply-To: <7af346ec-8473-2a37-0fb4-220a42529a1e@amd.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1664966047.git.jani.nikula@intel.com>
+ <7af346ec-8473-2a37-0fb4-220a42529a1e@amd.com>
+Date: Tue, 29 Nov 2022 11:29:45 +0200
+Message-ID: <87iliy3y7q.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,84 +60,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: italonicola@collabora.com, "moderated list:DRM DRIVERS FOR VIVANTE GPU
- IP" <etnaviv@lists.freedesktop.org>, "open list:DRM DRIVERS FOR VIVANTE GPU
- IP" <dri-devel@lists.freedesktop.org>, open list <linux-kernel@vger.kernel.org>,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: "Mahfooz, Hamza" <Hamza.Mahfooz@amd.com>,
+ Suraj Kandpal <suraj.kandpal@intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Arun R Murthy <arun.r.murthy@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomeu,
+On Fri, 25 Nov 2022, Harry Wentland <harry.wentland@amd.com> wrote:
+> On 10/5/22 06:51, Jani Nikula wrote:
+>> Currently i915 assumes all drm_connectors it encounters are embedded in
+>> intel_connectors that i915 allocated. The drm_writeback_connector forces
+>> a design where this is not the case; we can't provide our own connector,
+>> and writeback embeds the drm_connector it initializes itself.
+>>=20
+>> To use drm writeback, none of the i915 connector iteration could assume
+>> the drm connector is embedded in intel_connector. Checking this is
+>> tedious, and would require an intermediate step with
+>> drm_connector. Here's an idea I came up with; filtering at the drm
+>> connector iterator level with a caller supplied function. Not too much
+>> code, and could be used for other things as well.
+>>=20
+>
+> We've been trying to hook up drm_writeback_connector in amdgpu and
+> this would be really helpful. I've had to do liberal sprinkling
+> of "!=3D DRM_MODE_CONNECTOR_WRITEBACK" all over the place.
+>
+>> Mind you, we'd still much rather modify drm writeback to allow passing
+>> the connector i915 allocated, instead of the current midlayer design
+>> that forces drivers to a certain model. Working around this is a bunch
+>> of error prone and tedious code that we really could do without.
+>>=20
+>
+> I think this would be even better but also be much more work and impact
+> every driver that implements writeback. FWIW, there was no way for me
+> to add writeback connector handling without KASAN. Interpreting the
+> connector wrong in one place leads to memory corruption and
+> undefined behavior and is almost impossible to spot without KASAN.
 
-Am Dienstag, dem 29.11.2022 um 09:50 +0100 schrieb Tomeu Vizoso:
-> This is a compute-only module marketed towards AI and vision
-> acceleration. This particular version can be found on the Amlogic A311D
-> SoC.
-> 
-> The feature bits are taken from the Khadas downstream kernel driver
-> 6.4.4.3.310723AAA.
-> 
-Since the downstream driver uses NNCoreCount or the TP_Engine feature
-bit to tell if a core is a NPU, I think we should add the NNCoreCount
-field to the HWDB to be able to do the same.
+Laurent, I once again plead - could we please reconsider this and give
+drivers the option to allocate and provide the drm_connector to
+writeback themselves?
 
-Also I would like to see a notice printed into the kernel log that we
-instantiated the driver on a NPU core and show it as experimental, as
-I'm not sure if our UAPI covers all things that are needed for NPU
-operation. I wouldn't want to break our basic assumption that the
-kernel driver is in charge of cleaning write caches when switching
-contexts and event management, which might require some UAPI additions
-to work with the NPU accelerator programming model.
-
-Regards,
-Lucas
-
-> Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 31 ++++++++++++++++++++++++++
->  1 file changed, 31 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-> index f2fc645c7956..3f6fd9a3c088 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-> @@ -130,6 +130,37 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
->  		.minor_features10 = 0x90044250,
->  		.minor_features11 = 0x00000024,
->  	},
-> +	{
-> +		.model = 0x8000,
-> +		.revision = 0x7120,
-> +		.product_id = 0x45080009,
-> +		.customer_id = 0x88,
-> +		.eco_id = 0,
-> +		.stream_count = 8,
-> +		.register_max = 64,
-> +		.thread_count = 256,
-> +		.shader_core_count = 1,
-> +		.vertex_cache_size = 16,
-> +		.vertex_output_buffer_size = 1024,
-> +		.pixel_pipes = 1,
-> +		.instruction_count = 512,
-> +		.num_constants = 320,
-> +		.buffer_size = 0,
-> +		.varyings_count = 16,
-> +		.features = 0xe0287cac,
-> +		.minor_features0 = 0xc1799eff,
-> +		.minor_features1 = 0xfefbfadb,
-> +		.minor_features2 = 0xeb9d6fbf,
-> +		.minor_features3 = 0xedfffced,
-> +		.minor_features4 = 0xd30dafc7,
-> +		.minor_features5 = 0x7b5ac333,
-> +		.minor_features6 = 0xfc8ee200,
-> +		.minor_features7 = 0x03fffa6f,
-> +		.minor_features8 = 0x00fe0ef0,
-> +		.minor_features9 = 0x0088003c,
-> +		.minor_features10 = 0x108048c0,
-> +		.minor_features11 = 0x00000010,
-> +	},
->  };
->  
->  bool etnaviv_fill_identity_from_hwdb(struct etnaviv_gpu *gpu)
+All things considered I think that would be the safer option.
 
 
+BR,
+Jani.
+
+>
+> This series is
+> Acked-by: Harry Wentland <harry.wentland@amd.com>
+>
+> Harry
+>
+>>=20
+>> BR,
+>> Jani.
+>>=20
+>>=20
+>> Cc: Arun R Murthy <arun.r.murthy@intel.com>
+>> Cc: Dave Airlie <airlied@gmail.com>
+>> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> Cc: Suraj Kandpal <suraj.kandpal@intel.com>
+>> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+>>=20
+>> Jani Nikula (2):
+>>   drm/connector: add connector list iteration with filtering
+>>   drm/i915: iterate intel_connectors only
+>>=20
+>>  drivers/gpu/drm/drm_connector.c               | 57 +++++++++++++++----
+>>  drivers/gpu/drm/i915/display/intel_display.c  |  3 +-
+>>  .../drm/i915/display/intel_display_types.h    |  7 +++
+>>  drivers/gpu/drm/i915/display/intel_dp.c       |  6 +-
+>>  drivers/gpu/drm/i915/display/intel_dp_mst.c   |  3 +-
+>>  drivers/gpu/drm/i915/display/intel_hdcp.c     |  3 +-
+>>  drivers/gpu/drm/i915/display/intel_hotplug.c  | 12 ++--
+>>  .../drm/i915/display/intel_modeset_setup.c    |  6 +-
+>>  drivers/gpu/drm/i915/display/intel_opregion.c |  9 ++-
+>>  include/drm/drm_connector.h                   |  9 +++
+>>  10 files changed, 89 insertions(+), 26 deletions(-)
+>>=20
+>
+
+--=20
+Jani Nikula, Intel Open Source Graphics Center
