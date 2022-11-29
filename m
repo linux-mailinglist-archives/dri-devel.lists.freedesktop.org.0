@@ -1,40 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B43BA63D145
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 10:00:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5032163D130
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 09:58:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 307AC10E427;
-	Wed, 30 Nov 2022 09:00:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE35310E41D;
+	Wed, 30 Nov 2022 08:58:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3FEC89711
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 15:18:26 +0000 (UTC)
-Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.53])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4NM5Yh4Z1Wz15MyW;
- Tue, 29 Nov 2022 23:17:44 +0800 (CST)
-Received: from huawei.com (10.67.175.21) by kwepemi500012.china.huawei.com
- (7.221.188.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Tue, 29 Nov
- 2022 23:18:22 +0800
-From: Li Zetao <lizetao1@huawei.com>
-To: <lizetao1@huawei.com>
-Subject: [PATCH v2 5/5] drm/virtio: Fix probe failed when modprobe virtio_gpu
-Date: Wed, 30 Nov 2022 00:06:15 +0800
-Message-ID: <20221129160615.3343036-6-lizetao1@huawei.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221129160615.3343036-1-lizetao1@huawei.com>
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
+ [IPv6:2607:f8b0:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 018F210E0A1
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 17:08:33 +0000 (UTC)
+Received: by mail-pg1-x533.google.com with SMTP id q71so13602137pgq.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 09:08:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=cfz3Mcgxkqb1OqUShW9AvM1bJWJ5IVPUimuhgnHTUfM=;
+ b=aB+ZuGMOzbK18zkd0jlC4zEUTSM38tp9K/bCtuVmGeRWETnLRpEwg6Cfsis6G/o8YB
+ 2HqB7jorwoOw6h/LjLMxu5ed5EZE92927W/9yhpp/QruynXSUNxJp0OMoVkixJnRoaDz
+ PSuOZAOkF9I4gSS32lclTss+2DBuTn/ncV2ntYH8YMzg9PF3tm8qf0hVKILYBg2UDCmD
+ wbUFp/1Fi7NjOLDWJsNeD/wtnDvCVPYo4knWim39AeNTc1EFLvMkEGW6VYwyktGtW5Qx
+ +UBWGG0y4yJft2CYMgbAUi9qHrNg41pvQg2NXxZ0NdMCIm2c1JLzlQ89YLhdvsbn7Bys
+ PI7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=cfz3Mcgxkqb1OqUShW9AvM1bJWJ5IVPUimuhgnHTUfM=;
+ b=qvKS4zpyDRdpD1hINuCkoq+0yxwajuGp1ib2emCMKpKNktR6JWVMLTWJ85X8+o7Ev+
+ F2wNK6x2yclJILGjVWIm8CoDG1QMjqfrTf3U1nB+RrSq668ka4/SS5Zh4tpdgT2Phzo1
+ dDxc6ksW+wmM3CkJ2Ap0ufHmEA1grJJ4qmhb+NpLxxNgk1WpLiyvG4wbuetVcC1qcg2B
+ +uV5Y2Ix40F79R9enTW5K0JLx4003Odde+AzJsryHzZMoCXo6vu4ctEQMIRRnhiTd5Js
+ W7Q8aNm0GFsKCiIAzdXs9en+hiMe1aMiPI11TjBYa3vRdzyTPExe0EJ3Axfr+E3UAllZ
+ 6kCg==
+X-Gm-Message-State: ANoB5pnnO5mZdH9CDLJhqYA2aSUaMRFOfmAZMbapFdzsOP4DFyA+nyA1
+ fIb1FrCRZ7g9kYQeCCFJfSM+5g==
+X-Google-Smtp-Source: AA0mqf5swFLksPgiEDo6TRTvtGl0tdoW1L9fhbh0pRyA3vgdzDg/DHK7jSPhCQbx1VNNnHFBlq3wIw==
+X-Received: by 2002:a63:ce58:0:b0:473:e2bb:7fc0 with SMTP id
+ r24-20020a63ce58000000b00473e2bb7fc0mr33307253pgi.604.1669741713274; 
+ Tue, 29 Nov 2022 09:08:33 -0800 (PST)
+Received: from [192.168.1.136] ([198.8.77.157])
+ by smtp.gmail.com with ESMTPSA id
+ h23-20020a63e157000000b00434272fe870sm8633883pgk.88.2022.11.29.09.08.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 29 Nov 2022 09:08:32 -0800 (PST)
+Message-ID: <9044e2b7-193f-ade4-b4a3-69e40b12088a@kernel.dk>
+Date: Tue, 29 Nov 2022 10:08:30 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v2 0/5] Fix probe failed when modprobe modules
+Content-Language: en-US
+To: Li Zetao <lizetao1@huawei.com>
 References: <20221128021005.232105-1-lizetao1@huawei.com>
  <20221129160615.3343036-1-lizetao1@huawei.com>
-MIME-Version: 1.0
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20221129160615.3343036-1-lizetao1@huawei.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.67.175.21]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- kwepemi500012.china.huawei.com (7.221.188.12)
-X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Wed, 30 Nov 2022 08:58:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,74 +84,30 @@ Cc: lucho@ionkov.net, david@redhat.com, jasowang@redhat.com,
  asmadeus@codewreck.org, st@redhat.com, ericvh@gmail.com, rusty@rustcorp.com.au,
  linux-block@vger.kernel.org, v9fs-developer@lists.sourceforge.net,
  stefanha@redhat.com, airlied@redhat.com, cornelia.huck@de.ibm.com,
- virtualization@lists.linux-foundation.org, axboe@kernel.dk,
- pankaj.gupta.linux@gmail.com, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, pbonzini@redhat.com, davem@davemloft.net
+ virtualization@lists.linux-foundation.org, pankaj.gupta.linux@gmail.com,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, pbonzini@redhat.com,
+ davem@davemloft.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When doing the following test steps, an error was found:
-  step 1: modprobe virtio_gpu succeeded
-    # modprobe virtio_gpu      <-- OK
+On 11/29/22 9:06 AM, Li Zetao wrote:
+> This patchset fixes similar issue, the root cause of the
+> problem is that the virtqueues are not stopped on error
+> handling path.
 
-  step 2: fault injection in virtio_gpu_alloc_vbufs()
-    # modprobe -r virtio_gpu   <-- OK
-    # ...
-      CPU: 0 PID: 1714 Comm: modprobe Not tainted 6.1.0-rc7-dirty
-      Hardware name: QEMU Standard PC (i440FX + PIIX, 1996)
-      Call Trace:
-       <TASK>
-       should_fail_ex.cold+0x1a/0x1f
-       ...
-       kmem_cache_create+0x12/0x20
-       virtio_gpu_alloc_vbufs+0x2f/0x90 [virtio_gpu]
-       virtio_gpu_init.cold+0x659/0xcad [virtio_gpu]
-       virtio_gpu_probe+0x14f/0x260 [virtio_gpu]
-       virtio_dev_probe+0x608/0xae0
-       ?...
-       </TASK>
-      kmem_cache_create_usercopy(virtio-gpu-vbufs) failed with error -12
+Not related to just this patchset, but guys, Huawei really *REALLY* need
+to get the email situation sorted. I'm digging whole/half patchsets out
+of spam every morning.
 
-  step 3: modprobe virtio_gpu failed
-    # modprobe virtio_gpu       <-- failed
-      failed to find virt queues
-      virtio_gpu: probe of virtio6 failed with error -2
+This has been brought up in the past. And no, the cloud variant of
+the email also doesn't work properly.
 
-The root cause of the problem is that the virtqueues are not
-stopped on the error handling path when virtio_gpu_alloc_vbufs()
-fails in virtio_gpu_init(), resulting in an error "-ENOENT"
-returned in the next modprobe call in setup_vq().
+Talk to your IT department, get this sorted once and for all. You risk
+your patches being dumped on the floor because people don't see them,
+or only see small parts of a patchset. And it's really annoying to have
+to deal with as a recipient.
 
-virtio_pci_modern_device uses virtqueues to send or
-receive message, and "queue_enable" records whether the
-queues are available. In vp_modern_find_vqs(), all queues
-will be selected and activated, but once queues are enabled
-there is no way to go back except reset.
-
-Fix it by reset virtio device on error handling path. After
-virtio_find_vqs() succeeded, all virtqueues should be stopped
-on error handling path.
-
-Fixes: dc5698e80cf7 ("Add virtio gpu driver.")
-Signed-off-by: Li Zetao <lizetao1@huawei.com>
----
-v1 -> v2: patch is new.
-
- drivers/gpu/drm/virtio/virtgpu_kms.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index 27b7f14dae89..1a03e8e13b5b 100644
---- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-@@ -255,6 +255,7 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
- err_scanouts:
- 	virtio_gpu_free_vbufs(vgdev);
- err_vbufs:
-+	virtio_reset_device(vgdev->vdev);
- 	vgdev->vdev->config->del_vqs(vgdev->vdev);
- err_vqs:
- 	dev->dev_private = NULL;
 -- 
-2.25.1
+Jens Axboe
+
 
