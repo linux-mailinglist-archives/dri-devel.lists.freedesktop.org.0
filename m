@@ -1,60 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B8BA63C558
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 17:40:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EE6E63C560
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 17:42:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67C8D10E0C5;
-	Tue, 29 Nov 2022 16:40:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8289A10E038;
+	Tue, 29 Nov 2022 16:42:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
- [IPv6:2607:f8b0:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75AF010E038
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 16:40:43 +0000 (UTC)
-Received: by mail-ot1-x32d.google.com with SMTP id
- g51-20020a9d12b6000000b0066dbea0d203so9451498otg.6
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 08:40:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=K78waBDJGkif7za6gqKCFTtsu32p8+QANMOHhvDlwsw=;
- b=nSB5KCiZI7DAGDSJaDYZqmduGMY2KQVyAFKkhuk3fFegPUfW1cDr+c1iUFeyyJz/of
- gIWXnGnR80+eiA1FXqAvuTvQFwSGl32+QZIarxtgRB1b06ZV8BJSTW3MakSo1H1ldSmX
- vzIooVJwV5nLyqyf/vSwBCdafTX4Ltdwjdf1ZrjQy7SXEFleHcvIuE/MwVSk+lV2k63+
- ibOed6JWKqfobTPF/hiIb5IY5u6nMCD5qA5qLJDwlPdNUaRyoGrvROGiYm1aS64qJoG9
- chgwMiLL4DBl11hNz6JjP1H75mAeEECPuwTwuzX5Kcx0nZAiIcxP6iQpuvq4LuPme1lC
- likA==
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0EF010E038
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 16:42:02 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id b3so22937939lfv.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 08:42:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=XWZiFupZmDV7/chy9twlz/bKtxk28a/BQ1OZ+FIK00Q=;
+ b=j3EsDtkRr80dfR/xeJF6gwYP1e2sFcIhQ0oQxLHTXGRJMj/Bmz6c7p2NFqU7z7QWo1
+ biaxP/5qvxiT1oMtwIETJvlry+NdYKhI1LiZsQlnXQlVpDfGYzKbfFbjXGbJ2vmfUOxm
+ YhOJGMmSCtbXYaw5JSVRR2qWhbjifompBrqmVbMvW6H8L9SrVWDZagp5r2/LzDK7B5EG
+ xUOAPKWgj3Zunrr3jWYwAzeV9cF4+rJqeRWkkh+4nwTHSgJQjUkOtHs2oI21xd0xZsJK
+ YLW6LWbjiecVovrgfTN1M+dkkMEeztmHmxD3b1t5rp3+wvMwamvASvUsASBPUvcReqLI
+ njNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=K78waBDJGkif7za6gqKCFTtsu32p8+QANMOHhvDlwsw=;
- b=VWHmyK+TYiVaj8JJElCxcAfSwSn09SNwIniPFR+UN1GfgftdW7L9vbfNU3YH0fF2T0
- CT6YtFx81ghZi0N5ro9NUKfnkoZ53cS8kXYUfdhkKGLZ9ntsMG37TwK7B6Px1rtBY6mv
- VYppYuUuQoQziFeCtS+Vj8QJekl+HULcoiylUObn2MhQAwJ+xAwrnNRWvHGksuLJ7ilI
- 3uXbUY/KvLhI8oJ9NXqgvfmVYXgvSVSJq3e6yKvktzdXva28AL0uCQSG/CoICaI1+wxc
- EnrAlnZ+aF6OgfULq2DJrKCgnHzcKxJD9CEyN9Qs8ZMoiNBuvwUrrnSwV9hIIZoIxVUv
- faJQ==
-X-Gm-Message-State: ANoB5pnJLJn4TmQ6ytAx8ek46oPwaOBBRltBpltZbg9O57zpyIYD9Xgo
- Aj40kEs8kbbhjgmWdg8xHF8N95KomXCp4wwneHk=
-X-Google-Smtp-Source: AA0mqf6QNn+q3W6OtufOMJC0QkPzO9jSHQOngL9Jsl3MZqmgQD8IOdpUGysoS6cLjUDNBXcPEr/LpqoksrOxBBV2mwI=
-X-Received: by 2002:a9d:75d5:0:b0:667:7361:7db5 with SMTP id
- c21-20020a9d75d5000000b0066773617db5mr21623192otl.22.1669740042594; Tue, 29
- Nov 2022 08:40:42 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=XWZiFupZmDV7/chy9twlz/bKtxk28a/BQ1OZ+FIK00Q=;
+ b=OWTBriyYR6n36lqCQ3ZTwlY31IylvLrq1VA+acx0Na3V7nQjIfZkZyoorxAuQKjeyT
+ CmfF8JXLTHA+6m6mo7yprpClSCyVT1UPqiDIeV9a3K35dzZCOgbKNdqbdCNNpby9y4fK
+ GEJDbTTMJhBZwh28SSnfIs/4nZtfVRu5taCaNunpDBtWgPMSdz3oHoS4f6mZ9S7zNS+b
+ l8LG+xuu+wWt0VqPJzvrf8GjIRWHcGYgoByAC1TLPC4rQhiQWvcpw37qIoneGvL8BI26
+ FVC+O6j295yIsqJS1OFm26xE7arOjcaF+jVNtjNvYSKgi8/1EiZ+sd+lQ9uLO+Rnzp9s
+ fdoA==
+X-Gm-Message-State: ANoB5pn2iAYO2mcWTW1v8F4hOBkkFNmB6lRfN80m4AYZsQRmUjrBV3u5
+ 3Hvo3kX64LtTXIC1KlusTaF3Kg==
+X-Google-Smtp-Source: AA0mqf6bs+MHPq8y/pL1cJ9bImpeUwmQ9PU7zQoTQbWZQI9Y71CuCT3zsDhIG8N1gXr1WdkMo53Jlw==
+X-Received: by 2002:ac2:4e82:0:b0:4ac:9f25:21c2 with SMTP id
+ o2-20020ac24e82000000b004ac9f2521c2mr16017549lfr.519.1669740120942; 
+ Tue, 29 Nov 2022 08:42:00 -0800 (PST)
+Received: from [192.168.0.20]
+ (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+ by smtp.gmail.com with ESMTPSA id
+ d13-20020ac244cd000000b004b48e0f619asm2271574lfm.48.2022.11.29.08.41.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 29 Nov 2022 08:42:00 -0800 (PST)
+Message-ID: <4299d2eb-7724-ced4-dd68-0f0734725e6b@linaro.org>
+Date: Tue, 29 Nov 2022 17:41:58 +0100
 MIME-Version: 1.0
-References: <20221123025723.695075-1-dmitry.osipenko@collabora.com>
- <20221123025723.695075-2-dmitry.osipenko@collabora.com>
-In-Reply-To: <20221123025723.695075-2-dmitry.osipenko@collabora.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 29 Nov 2022 08:40:33 -0800
-Message-ID: <CAF6AEGv832O8m-7pP8qaDChA3=Y6TmBZrwf-NYwvHkvH6sVMkw@mail.gmail.com>
-Subject: Re: [PATCH v9 01/11] drm/msm/gem: Prevent blocking within shrinker
- loop
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v3 2/6] dt-bindings: mediatek: modify VDOSYS0 mmsys device
+ tree Documentations for MT8188
+Content-Language: en-US
+To: "nathan.lu" <nathan.lu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Matthias Brugger <matthias.bgg@gmail.com>
+References: <20221129143503.16638-1-nathan.lu@mediatek.com>
+ <20221129143503.16638-3-nathan.lu@mediatek.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221129143503.16638-3-nathan.lu@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,144 +83,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Almeida <daniel.almeida@collabora.com>,
- dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, kernel@collabora.com,
- Sumit Semwal <sumit.semwal@linaro.org>, Steven Price <steven.price@arm.com>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- virtualization@lists.linux-foundation.org, Sean Paul <sean@poorly.run>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, linux-kernel@vger.kernel.org,
- Qiang Yu <yuq825@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: devicetree@vger.kernel.org, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Rex-BC Chen <rex-bc.chen@mediatek.com>, Moudy Ho <moudy.ho@mediatek.com>,
+ linux-mediatek@lists.infradead.org, lancelot.wu@mediatek.com,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 22, 2022 at 7:00 PM Dmitry Osipenko
-<dmitry.osipenko@collabora.com> wrote:
->
-> Consider this scenario:
->
-> 1. APP1 continuously creates lots of small GEMs
-> 2. APP2 triggers `drop_caches`
-> 3. Shrinker starts to evict APP1 GEMs, while APP1 produces new purgeable
->    GEMs
-> 4. msm_gem_shrinker_scan() returns non-zero number of freed pages
->    and causes shrinker to try shrink more
-> 5. msm_gem_shrinker_scan() returns non-zero number of freed pages again,
->    goto 4
-> 6. The APP2 is blocked in `drop_caches` until APP1 stops producing
->    purgeable GEMs
->
-> To prevent this blocking scenario, check number of remaining pages
-> that GPU shrinker couldn't release due to a GEM locking contention
-> or shrinking rejection. If there are no remaining pages left to shrink,
-> then there is no need to free up more pages and shrinker may break out
-> from the loop.
->
-> This problem was found during shrinker/madvise IOCTL testing of
-> virtio-gpu driver. The MSM driver is affected in the same way.
->
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-
-Reviewed-by: Rob Clark <robdclark@gmail.com>
-
+On 29/11/2022 15:34, nathan.lu wrote:
+> From: Nathan Lu <nathan.lu@mediatek.com>
+> 
+> modify VDOSYS0 mmsys device tree Documentations for MT8188.
+> 
+> Signed-off-by: Nathan Lu <nathan.lu@mediatek.com>
 > ---
->  drivers/gpu/drm/drm_gem.c              | 9 +++++++--
->  drivers/gpu/drm/msm/msm_gem_shrinker.c | 8 ++++++--
->  include/drm/drm_gem.h                  | 4 +++-
->  3 files changed, 16 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index b8db675e7fb5..299bca1390aa 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -1375,10 +1375,13 @@ EXPORT_SYMBOL(drm_gem_lru_move_tail);
->   *
->   * @lru: The LRU to scan
->   * @nr_to_scan: The number of pages to try to reclaim
-> + * @remaining: The number of pages left to reclaim
->   * @shrink: Callback to try to shrink/reclaim the object.
->   */
->  unsigned long
-> -drm_gem_lru_scan(struct drm_gem_lru *lru, unsigned nr_to_scan,
-> +drm_gem_lru_scan(struct drm_gem_lru *lru,
-> +                unsigned int nr_to_scan,
-> +                unsigned long *remaining,
->                  bool (*shrink)(struct drm_gem_object *obj))
->  {
->         struct drm_gem_lru still_in_lru;
-> @@ -1417,8 +1420,10 @@ drm_gem_lru_scan(struct drm_gem_lru *lru, unsigned nr_to_scan,
->                  * hit shrinker in response to trying to get backing pages
->                  * for this obj (ie. while it's lock is already held)
->                  */
-> -               if (!dma_resv_trylock(obj->resv))
-> +               if (!dma_resv_trylock(obj->resv)) {
-> +                       *remaining += obj->size >> PAGE_SHIFT;
->                         goto tail;
-> +               }
->
->                 if (shrink(obj)) {
->                         freed += obj->size >> PAGE_SHIFT;
-> diff --git a/drivers/gpu/drm/msm/msm_gem_shrinker.c b/drivers/gpu/drm/msm/msm_gem_shrinker.c
-> index 1de14e67f96b..4c8b0ab61ce4 100644
-> --- a/drivers/gpu/drm/msm/msm_gem_shrinker.c
-> +++ b/drivers/gpu/drm/msm/msm_gem_shrinker.c
-> @@ -116,12 +116,14 @@ msm_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
->         };
->         long nr = sc->nr_to_scan;
->         unsigned long freed = 0;
-> +       unsigned long remaining = 0;
->
->         for (unsigned i = 0; (nr > 0) && (i < ARRAY_SIZE(stages)); i++) {
->                 if (!stages[i].cond)
->                         continue;
->                 stages[i].freed =
-> -                       drm_gem_lru_scan(stages[i].lru, nr, stages[i].shrink);
-> +                       drm_gem_lru_scan(stages[i].lru, nr, &remaining,
-> +                                        stages[i].shrink);
->                 nr -= stages[i].freed;
->                 freed += stages[i].freed;
->         }
-> @@ -132,7 +134,7 @@ msm_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
->                                      stages[3].freed);
->         }
->
-> -       return (freed > 0) ? freed : SHRINK_STOP;
-> +       return (freed > 0 && remaining > 0) ? freed : SHRINK_STOP;
->  }
->
->  #ifdef CONFIG_DEBUG_FS
-> @@ -182,10 +184,12 @@ msm_gem_shrinker_vmap(struct notifier_block *nb, unsigned long event, void *ptr)
->                 NULL,
->         };
->         unsigned idx, unmapped = 0;
-> +       unsigned long remaining = 0;
->
->         for (idx = 0; lrus[idx] && unmapped < vmap_shrink_limit; idx++) {
->                 unmapped += drm_gem_lru_scan(lrus[idx],
->                                              vmap_shrink_limit - unmapped,
-> +                                            &remaining,
->                                              vmap_shrink);
->         }
->
-> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> index a17c2f903f81..b46ade812443 100644
-> --- a/include/drm/drm_gem.h
-> +++ b/include/drm/drm_gem.h
-> @@ -475,7 +475,9 @@ int drm_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
->  void drm_gem_lru_init(struct drm_gem_lru *lru, struct mutex *lock);
->  void drm_gem_lru_remove(struct drm_gem_object *obj);
->  void drm_gem_lru_move_tail(struct drm_gem_lru *lru, struct drm_gem_object *obj);
-> -unsigned long drm_gem_lru_scan(struct drm_gem_lru *lru, unsigned nr_to_scan,
-> +unsigned long drm_gem_lru_scan(struct drm_gem_lru *lru,
-> +                              unsigned int nr_to_scan,
-> +                              unsigned long *remaining,
->                                bool (*shrink)(struct drm_gem_object *obj));
->
->  #endif /* __DRM_GEM_H__ */
-> --
-> 2.38.1
->
+>  .../devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml      | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+> index 0711f1834fbd..3e7fb33201c5 100644
+> --- a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+> +++ b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+> @@ -47,6 +47,10 @@ properties:
+>            - const: mediatek,mt2701-mmsys
+>            - const: syscon
+>  
+> +      - items:
+> +          - const: mediatek,mt8188-vdosys0
+
+Why this is not part of previous enum?
+
+Best regards,
+Krzysztof
+
