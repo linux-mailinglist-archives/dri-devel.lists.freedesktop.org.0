@@ -1,146 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CC4363B9EA
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 07:46:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F15463BA0B
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 07:57:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB4E010E36D;
-	Tue, 29 Nov 2022 06:45:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC1BB10E37A;
+	Tue, 29 Nov 2022 06:57:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05B2810E368;
- Tue, 29 Nov 2022 06:45:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669704351; x=1701240351;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=QsmmAlKuEZJ4Ny8ky2I5Qy2kmE4Ps2Dmz79MZ3rvuwE=;
- b=c1zcaL72L2t5cS6NBBot8AfgLUYiHUneeJ1L90RjSgDzYoeC3oWHJYqi
- AEU/9O3LfYl+ddErCz3jksTCvqpYIuCkNJl5iDoOkhPbfRnsQTBU0+T0Q
- bQeB36l9+uOgidVd/81V0CHyFLlu0OdePrznFH8XjGqGkr9QXwzRwTum1
- AfRMDpHQX4+/wCI25eZ4SepnX9CdLeNTmBkhQhiIVjnvKtM1zfW4vTc2T
- oyW5WhikYtNZjEuRqqIaXAvjRRVHNbQj7Q2cjPszbr16nLok6eJbbyzJE
- oZTzvCtL40/QSe3heDNNr/m7CXsC15oKLnEyyW5+5jS1spygJuv9nfDOX Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10545"; a="312664037"
-X-IronPort-AV: E=Sophos;i="5.96,202,1665471600"; d="scan'208";a="312664037"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Nov 2022 22:45:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10545"; a="712261331"
-X-IronPort-AV: E=Sophos;i="5.96,202,1665471600"; d="scan'208";a="712261331"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by fmsmga004.fm.intel.com with ESMTP; 28 Nov 2022 22:45:36 -0800
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Mon, 28 Nov 2022 22:45:36 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Mon, 28 Nov 2022 22:45:35 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Mon, 28 Nov 2022 22:45:35 -0800
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.46) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Mon, 28 Nov 2022 22:45:35 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HXjBLvuVhTVQ18nNNOGHRd+17RFqexvBpg+4ic7WCbkR3UXQDjnnFMNo6W6EwzxC4LZLSkQw8HDJBDkLvkpGZWiivob7XNsibHTeH+Qgtncq4ujGhLUAXRZRvnF7Y0+3OBazBGelhMAWp0hZpsxiKnipJBHeZuFcDk0ctEfHT+niXllEUylKKwy5UqIs5sJoJLKTTlMQAu2VUhCvz570vUYeas6bSdYyJaMFBRpYrvjk1F6dtPIWsx8j/1lPWTRvfLAyQEQYK9u7oBnSpR2PXX8H8OT1B2BJcTesPKfuu9rlCeanA+k8PcarGu6OMOjtr439dRiWdjjZfmsMXyBigQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4ty02CQP7LEDKaauk7fTLypI8BWMINnQKxextyp1OsY=;
- b=Md7Q46jWMcokBOXM0sHGzoN7dXs2lrZx4twP1BUd7nTfvIpzehc/PNbL8938R/PaOxlzycqmcaAApvdM2u6Z5LqOrFiyYWSHwjGN0vdGimZa7HWBjCm7wtoJc5QMBarwu1MN6F7scKkZl4WQUM0zpXcRQqKIuIQlQktqfr6rSXV2ViHa4m9c1lHUshqeHeo/cw9Sk4dkod4dIDBv+PKHWAANUDdW+cSaWJ1o+4fqxnA4Bu1aZGSBeyL5JwgBrSAhEe4l1AnKY62ICG3tUIgskSeX853osbyEFuTXvnGGpDnL12O4diW6KQdsA2AqjIMxm0fcMS3DW5auJY6+O4BKmQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by PH8PR11MB6561.namprd11.prod.outlook.com (2603:10b6:510:1c0::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.23; Tue, 29 Nov
- 2022 06:45:33 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::22:fdef:cea5:e8f3]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::22:fdef:cea5:e8f3%3]) with mapi id 15.20.5857.022; Tue, 29 Nov 2022
- 06:45:33 +0000
-Date: Mon, 28 Nov 2022 22:45:31 -0800
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: "Iddamsetty, Aravind" <aravind.iddamsetty@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v4] drm/i915/mtl: Media GT and Render GT
- share common GGTT
-Message-ID: <20221129064531.rlvay7lpijdusrkr@ldmartin-desk2.lan>
-References: <20221122070126.4813-1-aravind.iddamsetty@intel.com>
- <Y31iW0lCuUcx4pNg@mdroper-desk1.amr.corp.intel.com>
- <a6f3f20a-3d03-acce-965a-604a43639d0d@intel.com>
- <20221129055428.r3we3kkjettlwyc6@ldmartin-desk2.lan>
- <ebb5b596-6e87-9782-8127-2eaf517c0359@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ebb5b596-6e87-9782-8127-2eaf517c0359@intel.com>
-X-ClientProxiedBy: SJ0PR05CA0041.namprd05.prod.outlook.com
- (2603:10b6:a03:33f::16) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33C9710E36C
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 06:57:27 +0000 (UTC)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi
+ [91.154.32.225])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 34F084E6;
+ Tue, 29 Nov 2022 07:57:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1669705045;
+ bh=vqYAPjX4L0Lpd1Hustsv+7M/fVdbiqhmvzWIRdIsQh4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=dL7EvI/ApNm6meBWW9aMjLqVS3EtrDkqyQBTz+hsv80UTLV9NBrd9fDcfD6COPzqI
+ fzCp/wPzSeE65hJyloeIo2SNX8+f3DI/y1Lkw/BSgcxdVcoYUChof0JgxfPHUJtLm2
+ UkLZxmtKdFNduqBLCSZ/2FZdG0vNeslV6SOuNyBc=
+Message-ID: <05c4b73b-388f-7101-3aed-7e21c34a9dc7@ideasonboard.com>
+Date: Tue, 29 Nov 2022 08:57:21 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|PH8PR11MB6561:EE_
-X-MS-Office365-Filtering-Correlation-Id: c1518923-6795-4712-3a3c-08dad1d5507b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Y1c8COlwhOBXk9HpyXPPSKRR6bhoDSln//Dd6boA2Kw6FyLkAtOMCdWlXpQTq0Yoz6V3Jw4jfqK3WLRyZW+mfoC9//O/ui3wFPlal6U0kSmIlI2ySzOM1pSMu/cAREk9YavBe4XU01dW4+TAD3OG40RNcDSTCGoFGtcUq8d0/uZJ/nSdaqNFr7p8AD5RT4siODuoN2fAQIF5ytaeQW3b0bHUj5EixZbBpPZ6fFQMS/ZQhBHhgVzQxHUxUiE25vfTFxvVfQWATBgPVu5zSqEmNEZqirKidvH9M1hdRPmvVc7LKrcDBgSDsb5L9OqFFxWZIKu7NU0tfnPhduUpwe1TwY9y4QeQwMq5U4PYB46nyaTmujCVcp0br+Brn60bF4710zq3aWS8Rp6+c8H4aYS8ezLr4upfkHyv2Rosmjam/KAOlqJoSQu9RgCwKTqlI6h8HIUzijDQZedE2Eh2LetWWrXM1uGQhosqARUILZka/Eskw/7WPe1ssYX50puH+69caj36C4lOWdDQt6KkaSx1p+e9OSdyK75yrrMRSrABuw2unr73oiYLSAnO4i/h6eilBbFJu5094HYgfABTRdouDIdSIKjDOcBITtvxcFBmJTUZ3/hxHgl6TPSr293AHyyuKl/k7n4J3GtDgN1mmB2BeQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(39860400002)(376002)(136003)(346002)(396003)(366004)(451199015)(38100700002)(82960400001)(2906002)(41300700001)(86362001)(83380400001)(66556008)(8676002)(6636002)(450100002)(6486002)(1076003)(316002)(66476007)(36756003)(478600001)(66946007)(4326008)(26005)(8936002)(6862004)(5660300002)(186003)(9686003)(53546011)(6506007)(6512007);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?OkLzLEoDo1xchI00Onz0h45bayJPZirzo9Ls5hZK26A06sK80r+vB/dlNv?=
- =?iso-8859-1?Q?NBro9F2aIge+YPUs4RnLfTY5BVlFQWMWteGkg9yp1anGIOCvbGF6n4HduL?=
- =?iso-8859-1?Q?VryqneHAigG9akCbPgB9HXI2na1CLYddm+cG2tjPCJ2NpZif9bMx12oXLh?=
- =?iso-8859-1?Q?nrt5W3/1r6+jAoEQbyqDf1q02KNdcNGORmFu9VaL8C+fTfwGbrlhxm6jNb?=
- =?iso-8859-1?Q?72HxCj2Kl8sLFFgAcpZtWbgABxNA+mCdUmn4iZmFPj8LMpyW5lMbBmNe24?=
- =?iso-8859-1?Q?0oFvgyMupk8EZ9SJqY5fmXdvLQGPjFNr0Y2i9XdZCR5l4xTVREe38KZw3P?=
- =?iso-8859-1?Q?CCi13Q5/f1DpiwHI8G/+jPhj/8ChKgf2nKMUIASdPoIZJcGWcILYNjgJkG?=
- =?iso-8859-1?Q?xRAAQ+7keb6gdbXOPi0Jw0ESpuy6Ni9YXuolbmyZJ4dPJlnkMQGbS0IaNy?=
- =?iso-8859-1?Q?r6cwyOwh6ybFqaX8AOpBp0OA0tPvalo9lIb81o+HG0tpZOb4mrxNWmsog0?=
- =?iso-8859-1?Q?LoArjjVODbAclcCDS91ji0wOlPlm3DKmZG7W9bqMHZvRF5eIAqiebKcTYI?=
- =?iso-8859-1?Q?kFICd3CWOmMww47lLb1RMHXqcO1ICCJOVnIkntMIqRGP0Bcy37q78HObbd?=
- =?iso-8859-1?Q?H2MSKGOK5hSiFoHXvUlBbTZgtt4UoJWSZPAuzNk1h35x4NFmygJ6dAOuAj?=
- =?iso-8859-1?Q?mtkLl4H5FGHqp99qFAHTsP7AEVFReSLG45URUJvMHtKFfXfEqBOjvfHvwR?=
- =?iso-8859-1?Q?WdlQMr9PEUYKdHeyxm2B7LOgGGD0W0Npc7l0+/S842DtNkkW2pnSqRlqdE?=
- =?iso-8859-1?Q?P+panY6+YvAQr7kmi2fY9BRWvLvwT43d2zFKeHb2E/Zjo/62kkOD4WTGHK?=
- =?iso-8859-1?Q?5BLQHaugJI493OUhmsYjOQogdI/eOQjWf/gpG9n/yn7yiX4j71cPA8k1Pu?=
- =?iso-8859-1?Q?/rLlFRofUhxdLeC20SUb3fGpcx44kqc/BN0PeBb0vMNBEEgRvQrfoI+dhC?=
- =?iso-8859-1?Q?xMx+pkcVUMqR4bR78uRM2RuUUIl4hpBrab+/WErr0Ggmv0M5l6UAPU1+rS?=
- =?iso-8859-1?Q?qP+nfpPUvdV/3S3OlfTqS5mvnUsPiGqxY20l6NlTRJiSISDmhy7Nj98zr+?=
- =?iso-8859-1?Q?awLgYy/YFBiPvpt/+0z2NeB719dEsu/mF/cqoFEpFyQ003v9YvbiRyejCY?=
- =?iso-8859-1?Q?CHJU1OLeWDvDK8ckMoeps+4hNJIMAp/iYUHYanhvA+5dhpVEPtvLXdNTZY?=
- =?iso-8859-1?Q?ID4fp1qKJq9OMTswju4Q7zLbHwnbkO2743ulnv5hNfhMRH9kY9kIIc24X6?=
- =?iso-8859-1?Q?oK/q/VJiNgDNPXrH0dh2FRJN06mt9ailqp5BaWvGJOUeEjxtKmUyzDX+nO?=
- =?iso-8859-1?Q?jzABSaiHfE1AurvaMj7/80nBZH2kYFwy7kVVqh/pLErB4s3ttgye27oRry?=
- =?iso-8859-1?Q?WjvMg9/4vJde23B5DncxianxMCyAvR1rEG3XSCtTtnwSnOfJAA66rAT4qn?=
- =?iso-8859-1?Q?2Lx2V+TwsQmWLxWzRLutmCRwVKUvOp1J2LMkYXZ156lhgOOHyJBDU2n7iJ?=
- =?iso-8859-1?Q?qS5lsB8gZauGyVhMscD9ORlAUeq/oPBS7Q4/GCPGQbEWOkjxSAJzIY/QVk?=
- =?iso-8859-1?Q?hZ6dyfbR42VaALmQ+d0zfgNlxITobC4NBuHkawm+tR68PZ7qUuzk5ccg?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c1518923-6795-4712-3a3c-08dad1d5507b
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Nov 2022 06:45:33.6089 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: a/oHHu9azzVTpMY+0WYOBNXI1cIMM0gvMZS0FJEX+gIVRPdQBD4XXX4aesoHgNxAuitKsYzc2MmdDnmM6GwuxjPjdQ8GbjMYeDzzaJMnO7U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6561
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v1 7/8] drm: rcar-du: dsi: Add r8A779g0 support
+Content-Language: en-US
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20221117122547.809644-1-tomi.valkeinen@ideasonboard.com>
+ <20221117122547.809644-8-tomi.valkeinen@ideasonboard.com>
+ <166869996543.50677.17182739414507530884@Monstersaurus>
+ <4481a3fe-63a9-39d5-5394-a2f2639f1bcc@ideasonboard.com>
+ <Y4VVy3WAim4x0Z/c@pendragon.ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <Y4VVy3WAim4x0Z/c@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,155 +53,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Jonas Karlman <jonas@kwiboo.se>, Rob Herring <robh+dt@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 29, 2022 at 11:33:15AM +0530, Iddamsetty, Aravind wrote:
->
->
->On 29-11-2022 11:24, Lucas De Marchi wrote:
->> On Wed, Nov 23, 2022 at 09:47:03AM +0530, Iddamsetty, Aravind wrote:
->>>
->>>
->>> On 23-11-2022 05:29, Matt Roper wrote:
->>>> On Tue, Nov 22, 2022 at 12:31:26PM +0530, Aravind Iddamsetty wrote:
->>>>> On XE_LPM+ platforms the media engines are carved out into a separate
->>>>> GT but have a common GGTMMADR address range which essentially makes
->>>>> the GGTT address space to be shared between media and render GT. As a
->>>>> result any updates in GGTT shall invalidate TLB of GTs sharing it and
->>>>> similarly any operation on GGTT requiring an action on a GT will
->>>>> have to
->>>>> involve all GTs sharing it. setup_private_pat was being done on a per
->>>>> GGTT based as that doesn't touch any GGTT structures moved it to per GT
->>>>> based.
->>>>>
->>>>> BSPEC: 63834
->>>>>
->>>>> v2:
->>>>> 1. Add details to commit msg
->>>>> 2. includes fix for failure to add item to ggtt->gt_list, as suggested
->>>>> by Lucas
->>>>> 3. as ggtt_flush() is used only for ggtt drop i915_is_ggtt check within
->>>>> it.
->>>>> 4. setup_private_pat moved out of intel_gt_tiles_init
->>>>>
->>>>> v3:
->>>>> 1. Move out for_each_gt from i915_driver.c (Jani Nikula)
->>>>>
->>>>> v4: drop using RCU primitives on ggtt->gt_list as it is not an RCU list
->>>>> (Matt Roper)
->>>>>
->>>>> Cc: Matt Roper <matthew.d.roper@intel.com>
->>>>> Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
+On 29/11/2022 02:43, Laurent Pinchart wrote:
+> On Tue, Nov 22, 2022 at 10:50:30AM +0200, Tomi Valkeinen wrote:
+>> On 17/11/2022 17:46, Kieran Bingham wrote:
+>>> Quoting Tomi Valkeinen (2022-11-17 12:25:46)
+>>>> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 >>>>
->>>> Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
->>>
->>> Thanks Matt, could you also help with merging the change.
->>>
->>> Regards,
->>> Aravind.
+>>>> Add DSI support for r8a779g0. The main differences to r8a779a0 are in
+>>>> the PLL and PHTW setups.
 >>>>
->>>>> ---
->>>>>  drivers/gpu/drm/i915/gt/intel_ggtt.c      | 54 +++++++++++++++++------
->>>>>  drivers/gpu/drm/i915/gt/intel_gt.c        | 13 +++++-
->>>>>  drivers/gpu/drm/i915/gt/intel_gt_types.h  |  3 ++
->>>>>  drivers/gpu/drm/i915/gt/intel_gtt.h       |  4 ++
->>>>>  drivers/gpu/drm/i915/i915_driver.c        | 12 ++---
->>>>>  drivers/gpu/drm/i915/i915_gem.c           |  2 +
->>>>>  drivers/gpu/drm/i915/i915_gem_evict.c     | 51 +++++++++++++++------
->>>>>  drivers/gpu/drm/i915/i915_vma.c           |  5 ++-
->>>>>  drivers/gpu/drm/i915/selftests/i915_gem.c |  2 +
->>>>>  9 files changed, 111 insertions(+), 35 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c
->>>>> b/drivers/gpu/drm/i915/gt/intel_ggtt.c
->>>>> index 8145851ad23d..7644738b9cdb 100644
->>>>> --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
->>>>> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
->>>>> @@ -8,6 +8,7 @@
->>>>>  #include <linux/types.h>
->>>>>  #include <linux/stop_machine.h>
->>>>>
->>>>> +#include <drm/drm_managed.h>
->>>>>  #include <drm/i915_drm.h>
->>>>>  #include <drm/intel-gtt.h>
->>>>>
->>>>> @@ -196,10 +197,13 @@ void i915_ggtt_suspend_vm(struct
->>>>> i915_address_space *vm)
->>>>>
->>>>>  void i915_ggtt_suspend(struct i915_ggtt *ggtt)
->>>>>  {
->>>>> +    struct intel_gt *gt;
->>>>> +
->>>>>      i915_ggtt_suspend_vm(&ggtt->vm);
->>>>>      ggtt->invalidate(ggtt);
->>>>>
->>>>> -    intel_gt_check_and_clear_faults(ggtt->vm.gt);
->>>>> +    list_for_each_entry(gt, &ggtt->gt_list, ggtt_link)
->>>>> +        intel_gt_check_and_clear_faults(gt);
->>>>>  }
->>>>>
->>>>>  void gen6_ggtt_invalidate(struct i915_ggtt *ggtt)
->>>>> @@ -225,16 +229,21 @@ static void gen8_ggtt_invalidate(struct
->>>>> i915_ggtt *ggtt)
->>>>>
->>>>>  static void guc_ggtt_invalidate(struct i915_ggtt *ggtt)
->>>>>  {
->>>>> -    struct intel_uncore *uncore = ggtt->vm.gt->uncore;
->>>>>      struct drm_i915_private *i915 = ggtt->vm.i915;
->>>>>
->>>>>      gen8_ggtt_invalidate(ggtt);
->>>>>
->>>>> -    if (GRAPHICS_VER(i915) >= 12)
->>>>> -        intel_uncore_write_fw(uncore, GEN12_GUC_TLB_INV_CR,
->>>>> -                      GEN12_GUC_TLB_INV_CR_INVALIDATE);
->>>>> -    else
->>>>> -        intel_uncore_write_fw(uncore, GEN8_GTCR,
->>>>> GEN8_GTCR_INVALIDATE);
->>>>> +    if (GRAPHICS_VER(i915) >= 12) {
->>>>> +        struct intel_gt *gt;
->>>>> +
->>>>> +        list_for_each_entry(gt, &ggtt->gt_list, ggtt_link)
->>>>> +            intel_uncore_write_fw(gt->uncore,
->>>>> +                          GEN12_GUC_TLB_INV_CR,
->>>>> +                          GEN12_GUC_TLB_INV_CR_INVALIDATE);
->>>>> +    } else {
->>>>> +        intel_uncore_write_fw(ggtt->vm.gt->uncore,
->>>>> +                      GEN8_GTCR, GEN8_GTCR_INVALIDATE);
->>>>> +    }
->>>>>  }
->>>>>
->>>>>  u64 gen8_ggtt_pte_encode(dma_addr_t addr,
->>>>> @@ -986,8 +995,6 @@ static int gen8_gmch_probe(struct i915_ggtt *ggtt)
->>>>>
->>>>>      ggtt->vm.pte_encode = gen8_ggtt_pte_encode;
->>>>>
->>>>> -    setup_private_pat(ggtt->vm.gt);
->>>>> -
->>>>>      return ggtt_probe_common(ggtt, size);
->>>>>  }
->>>>>
->>>>> @@ -1196,7 +1203,14 @@ static int ggtt_probe_hw(struct i915_ggtt
->>>>> *ggtt, struct intel_gt *gt)
->>>>>   */
->>>>>  int i915_ggtt_probe_hw(struct drm_i915_private *i915)
->>>>>  {
->>>>> -    int ret;
->>>>> +    struct intel_gt *gt;
->>>>> +    int ret, i;
->>>>> +
->>>>> +    for_each_gt(gt, i915, i) {
->>>>> +        ret = intel_gt_assign_ggtt(gt);
+>>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>>>> ---
+>>>>    drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c      | 484 +++++++++++++++----
+>>>>    drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h |   6 +-
+>>>>    2 files changed, 384 insertions(+), 106 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+>>>> index a7f2b7f66a17..723c35726c38 100644
+>>>> --- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+>>>> +++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+>>>> @@ -9,6 +9,7 @@
+>>>>    #include <linux/delay.h>
+>>>>    #include <linux/io.h>
+>>>>    #include <linux/iopoll.h>
+>>>> +#include <linux/math64.h>
+>>>>    #include <linux/module.h>
+>>>>    #include <linux/of.h>
+>>>>    #include <linux/of_device.h>
+>>>> @@ -28,6 +29,20 @@
+>>>>    #include "rcar_mipi_dsi.h"
+>>>>    #include "rcar_mipi_dsi_regs.h"
+>>>>    
+>>>> +#define MHZ(v) ((v) * 1000000u)
+>>>> +
+>>>> +enum rcar_mipi_dsi_hw_model {
+>>>> +       RCAR_DSI_R8A779A0,
+>>>> +       RCAR_DSI_R8A779G0,
+>>>> +};
+>>>> +
+>>>> +struct rcar_mipi_dsi_device_info {
+>>>> +       enum rcar_mipi_dsi_hw_model model;
+>>>> +       const struct dsi_clk_config *clk_cfg;
+>>>> +       u8 clockset2_m_offset;
+>>>> +       u8 clockset2_n_offset;
+>>>> +};
+>>>> +
+>>>>    struct rcar_mipi_dsi {
+>>>>           struct device *dev;
+>>>>           const struct rcar_mipi_dsi_device_info *info;
+>>>> @@ -50,6 +65,17 @@ struct rcar_mipi_dsi {
+>>>>           unsigned int lanes;
+>>>>    };
+>>>>    
+>>>> +struct dsi_setup_info {
+>>>> +       unsigned long hsfreq;
+>>>> +       u16 hsfreqrange;
+>>>> +
+>>>> +       unsigned long fout;
+>>>> +       u16 m;
+>>>> +       u16 n;
+>>>> +       u16 vclk_divider;
+>>>> +       const struct dsi_clk_config *clkset;
+>>>> +};
+>>>> +
+>>>>    static inline struct rcar_mipi_dsi *
+>>>>    bridge_to_rcar_mipi_dsi(struct drm_bridge *bridge)
+>>>>    {
+>>>> @@ -62,22 +88,6 @@ host_to_rcar_mipi_dsi(struct mipi_dsi_host *host)
+>>>>           return container_of(host, struct rcar_mipi_dsi, host);
+>>>>    }
+>>>>    
+>>>> -static const u32 phtw[] = {
+>>>> -       0x01020114, 0x01600115, /* General testing */
+>>>> -       0x01030116, 0x0102011d, /* General testing */
+>>>> -       0x011101a4, 0x018601a4, /* 1Gbps testing */
+>>>> -       0x014201a0, 0x010001a3, /* 1Gbps testing */
+>>>> -       0x0101011f,             /* 1Gbps testing */
+>>>> -};
+>>>> -
+>>>> -static const u32 phtw2[] = {
+>>>> -       0x010c0130, 0x010c0140, /* General testing */
+>>>> -       0x010c0150, 0x010c0180, /* General testing */
+>>>> -       0x010c0190,
+>>>> -       0x010a0160, 0x010a0170,
+>>>> -       0x01800164, 0x01800174, /* 1Gbps testing */
+>>>> -};
+>>>> -
+>>>>    static const u32 hsfreqrange_table[][2] = {
+>>>>           { 80000000U,   0x00 }, { 90000000U,   0x10 }, { 100000000U,  0x20 },
+>>>>           { 110000000U,  0x30 }, { 120000000U,  0x01 }, { 130000000U,  0x11 },
+>>>> @@ -103,24 +113,53 @@ static const u32 hsfreqrange_table[][2] = {
+>>>>           { /* sentinel */ },
+>>>>    };
+>>>>    
+>>>> -struct vco_cntrl_value {
+>>>> +struct dsi_clk_config {
+>>>>           u32 min_freq;
+>>>>           u32 max_freq;
+>>>> -       u16 value;
+>>>> +       u8 vco_cntrl;
+>>>> +       u8 cpbias_cntrl;
+>>>> +       u8 gmp_cntrl;
+>>>> +       u8 int_cntrl;
+>>>> +       u8 prop_cntrl;
+>>>>    };
+>>>>    
+>>>> -static const struct vco_cntrl_value vco_cntrl_table[] = {
+>>>> -       { .min_freq = 40000000U,   .max_freq = 55000000U,   .value = 0x3f },
+>>>> -       { .min_freq = 52500000U,   .max_freq = 80000000U,   .value = 0x39 },
+>>>> -       { .min_freq = 80000000U,   .max_freq = 110000000U,  .value = 0x2f },
+>>>> -       { .min_freq = 105000000U,  .max_freq = 160000000U,  .value = 0x29 },
+>>>> -       { .min_freq = 160000000U,  .max_freq = 220000000U,  .value = 0x1f },
+>>>> -       { .min_freq = 210000000U,  .max_freq = 320000000U,  .value = 0x19 },
+>>>> -       { .min_freq = 320000000U,  .max_freq = 440000000U,  .value = 0x0f },
+>>>> -       { .min_freq = 420000000U,  .max_freq = 660000000U,  .value = 0x09 },
+>>>> -       { .min_freq = 630000000U,  .max_freq = 1149000000U, .value = 0x03 },
+>>>> -       { .min_freq = 1100000000U, .max_freq = 1152000000U, .value = 0x01 },
+>>>> -       { .min_freq = 1150000000U, .max_freq = 1250000000U, .value = 0x01 },
+>>>> +static const struct dsi_clk_config dsi_clk_cfg_r8a779a0[] = {
+>>>> +       {   40000000u,   55000000u, 0x3f, 0x10, 0x01, 0x00, 0x0b },
+>>>> +       {   52500000u,   80000000u, 0x39, 0x10, 0x01, 0x00, 0x0b },
+>>>> +       {   80000000u,  110000000u, 0x2f, 0x10, 0x01, 0x00, 0x0b },
+>>>> +       {  105000000u,  160000000u, 0x29, 0x10, 0x01, 0x00, 0x0b },
+>>>> +       {  160000000u,  220000000u, 0x1f, 0x10, 0x01, 0x00, 0x0b },
+>>>> +       {  210000000u,  320000000u, 0x19, 0x10, 0x01, 0x00, 0x0b },
+>>>> +       {  320000000u,  440000000u, 0x0f, 0x10, 0x01, 0x00, 0x0b },
+>>>> +       {  420000000u,  660000000u, 0x09, 0x10, 0x01, 0x00, 0x0b },
+>>>> +       {  630000000u, 1149000000u, 0x03, 0x10, 0x01, 0x00, 0x0b },
+>>>> +       { 1100000000u, 1152000000u, 0x01, 0x10, 0x01, 0x00, 0x0b },
+>>>> +       { 1150000000u, 1250000000u, 0x01, 0x10, 0x01, 0x00, 0x0c },
+>>>
+>>> Sigh ... is it this one 0x0c value that means we need to keep all these
+>>> entries repeated ? :-S
+>>>
+>>> If it weren't for that, it seems we could keep just two sets of
+>>>> +       u8 cpbias_cntrl;
+>>>> +       u8 gmp_cntrl;
+>>>> +       u8 int_cntrl;
+>>>> +       u8 prop_cntrl;
+>>>
+>>> One for each of the 9a0, and the 9g0...
+>>>
+>>> But this is fine, and I guess the implication is there may be other
+>>> future differences to come in other platforms.
+>>>
+>>> It could be refactored then when we have more visibility.
 >>
->> in v3 the intel_gt_assign_ggtt() call is not in i915_driver.c anymore but
->> rather moved here. We could make i915_ggtt_create() static, doing the
->> allocation here and intel_gt_assign_ggtt() would be in charge of just
->> assigning the ggtt. Not very important though and can be done later.
->
->well we call intel_gt_assign_ggtt in i915_gem_gtt_mock_selftests but not
->i915_ggtt_probe_hw.
+>> Yes, it's not so nice. And afaiu some of these values should really be
+>> solved dynamically in the code. But the docs list these tables and don't
+>> explain how to come up with those values, so... I think having these
+>> tables is the safest way.
+> 
+> We could drop the cpbias_cntrl, gmp_cntrl and int_cntrl fields and set
+> them based on the IP version.
 
-makes sense, let's leave it as is.
+We could, but I have no idea what those do, and don't know if there may 
+be a case (for a future SoC or if the optimal values are updated for 
+current ones) where multiple values are used on a single soc. So I 
+thought that it's better to keep them aligned to the HW docs (i.e. 
+together in a table).
 
-Lucas De Marchi
+  Tomi
+
