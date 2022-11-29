@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A6B363C8B1
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 20:44:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7297463C8B4
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 20:44:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86E6510E334;
-	Tue, 29 Nov 2022 19:44:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8586810E35A;
+	Tue, 29 Nov 2022 19:44:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 083E810E334
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 19:44:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCEBC10E35A
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 19:44:36 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
  [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8C8364E6;
- Tue, 29 Nov 2022 20:44:07 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6E5AE4E6;
+ Tue, 29 Nov 2022 20:44:35 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1669751047;
- bh=pUu+g5t3BnVNUh+Ojo6e6Lwl1K0PG+/VdnlmN/8ik+U=;
+ s=mail; t=1669751075;
+ bh=aHIt+6NDi7uH8L6lePtklr/vuY7T4z1pKPkbs4NNDs0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=aeRIvdSC4NFh/T3Ubi8FCUtqi/tUYQH1c3ZwlAd7UTNpMRYKJdRORyDXTyroKaLE+
- R2ERdl+K6v9BL8Z+W/Sw5XjwjvqDilv/RUrk86kIkXK0Vv45T1JoeUSMYSsEUgIO02
- oRkymguTTUmcY8aePq66PydpxDYIEopsTdN2WrrM=
-Date: Tue, 29 Nov 2022 21:43:51 +0200
+ b=E3Tb/H2SvQuscr1bRlR1L9qFPSdfBe6is3t6ZXMGKnnyH8t6xvhcNkbJapLC2dqeX
+ oy5vefn2eMtvS59RLg31hp2m8CDEX/xO938Z+NFfM01iYh7OPZP4anvxwUTJfJgPYu
+ +nj6V9ed1sbDmWOmduEbViEQnh9cOmZOXOfjV4lM=
+Date: Tue, 29 Nov 2022 21:44:19 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v2 17/26] drm: rcar-du: Remove #ifdef guards for PM
+Subject: Re: [PATCH v2 19/26] drm: shmobile: Remove #ifdef guards for PM
  related functions
-Message-ID: <Y4Zg9yg7KP0yCPIL@pendragon.ideasonboard.com>
+Message-ID: <Y4ZhE4vVJC5ewhnl@pendragon.ideasonboard.com>
 References: <20221129191733.137897-1-paul@crapouillou.net>
  <20221129191942.138244-1-paul@crapouillou.net>
- <20221129191942.138244-4-paul@crapouillou.net>
+ <20221129191942.138244-6-paul@crapouillou.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221129191942.138244-4-paul@crapouillou.net>
+In-Reply-To: <20221129191942.138244-6-paul@crapouillou.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,7 +59,7 @@ Hi Paul,
 
 Thank you for the patch.
 
-On Tue, Nov 29, 2022 at 07:19:33PM +0000, Paul Cercueil wrote:
+On Tue, Nov 29, 2022 at 07:19:35PM +0000, Paul Cercueil wrote:
 > Use the DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr() macros to handle
 > the .suspend/.resume callbacks.
 > 
@@ -76,53 +76,49 @@ On Tue, Nov 29, 2022 at 07:19:33PM +0000, Paul Cercueil wrote:
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-Will you get this whole series merged in one go in drm-misc, or do you
-expect me to take this patch in my tree ? I'd prefer the first option if
-possible (less work for me :-)).
-
 > ---
 > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 > Cc: linux-renesas-soc@vger.kernel.org
 > ---
->  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 9 +++------
+>  drivers/gpu/drm/shmobile/shmob_drm_drv.c | 9 +++------
 >  1 file changed, 3 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> index d003e8d9e7a2..eeec1e02446f 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> @@ -599,7 +599,6 @@ static const struct drm_driver rcar_du_driver = {
+> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+> index 3d511fa38913..337040fa6438 100644
+> --- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+> +++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+> @@ -143,7 +143,6 @@ static const struct drm_driver shmob_drm_driver = {
 >   * Power management
 >   */
 >  
 > -#ifdef CONFIG_PM_SLEEP
->  static int rcar_du_pm_suspend(struct device *dev)
+>  static int shmob_drm_pm_suspend(struct device *dev)
 >  {
->  	struct rcar_du_device *rcdu = dev_get_drvdata(dev);
-> @@ -613,11 +612,9 @@ static int rcar_du_pm_resume(struct device *dev)
->  
->  	return drm_mode_config_helper_resume(&rcdu->ddev);
+>  	struct shmob_drm_device *sdev = dev_get_drvdata(dev);
+> @@ -165,11 +164,9 @@ static int shmob_drm_pm_resume(struct device *dev)
+>  	drm_kms_helper_poll_enable(sdev->ddev);
+>  	return 0;
 >  }
 > -#endif
 >  
-> -static const struct dev_pm_ops rcar_du_pm_ops = {
-> -	SET_SYSTEM_SLEEP_PM_OPS(rcar_du_pm_suspend, rcar_du_pm_resume)
+> -static const struct dev_pm_ops shmob_drm_pm_ops = {
+> -	SET_SYSTEM_SLEEP_PM_OPS(shmob_drm_pm_suspend, shmob_drm_pm_resume)
 > -};
-> +static DEFINE_SIMPLE_DEV_PM_OPS(rcar_du_pm_ops,
-> +				rcar_du_pm_suspend, rcar_du_pm_resume);
+> +static DEFINE_SIMPLE_DEV_PM_OPS(shmob_drm_pm_ops,
+> +				shmob_drm_pm_suspend, shmob_drm_pm_resume);
 >  
 >  /* -----------------------------------------------------------------------------
 >   * Platform driver
-> @@ -712,7 +709,7 @@ static struct platform_driver rcar_du_platform_driver = {
->  	.shutdown	= rcar_du_shutdown,
+> @@ -292,7 +289,7 @@ static struct platform_driver shmob_drm_platform_driver = {
+>  	.remove		= shmob_drm_remove,
 >  	.driver		= {
->  		.name	= "rcar-du",
-> -		.pm	= &rcar_du_pm_ops,
-> +		.pm	= pm_sleep_ptr(&rcar_du_pm_ops),
->  		.of_match_table = rcar_du_of_table,
+>  		.name	= "shmob-drm",
+> -		.pm	= &shmob_drm_pm_ops,
+> +		.pm	= pm_sleep_ptr(&shmob_drm_pm_ops),
 >  	},
 >  };
+>  
 
 -- 
 Regards,
