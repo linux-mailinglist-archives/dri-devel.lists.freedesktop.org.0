@@ -2,59 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7BF263BC89
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 10:07:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0567B63BC90
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 10:09:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE92A10E342;
-	Tue, 29 Nov 2022 09:07:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F79810E3A1;
+	Tue, 29 Nov 2022 09:08:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com
- [209.85.160.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32D0110E342
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 09:07:40 +0000 (UTC)
-Received: by mail-qt1-f180.google.com with SMTP id h16so8480784qtu.2
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 01:07:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=pRTrs4STHN19HAaWZ6G6ImvhRFTGcXTwtf66lKxgXXI=;
- b=Q23e3hjzVfXD5bTEqTkqCfSGtsnzzbrbP3JLFWMKKeEXh7mC0NLbw1N4lo8CLqDXpi
- 7NVpuEJ7NzgrWDUnmV7i/b9+kikdCzY9ZtaRJ6NJvtLWb+PRKeaMSFIntpOqi5SdYjje
- 2OjYG8srNtpEWMSZRettkxImkT2wEUCz9h2anTvev7wQ90GXWFU+2dlzED4koNN2kuaf
- OO5PryuFiuxw1Q4EpDxFPzLONXlr8rP1CpNM2g0A4pIY2Q4b07BTsIa4+v+da6sop+XT
- oaG+WMmEXi4AmS1DD0BxPBdBc48LM1U4H9+3er/xVcFcixTeSKgtdPFC+3vCyY4QU1mc
- iMEA==
-X-Gm-Message-State: ANoB5pnr/uPU2DKyS1w/3UHW+z54Af8QInIMbzizp3FxDJFpSii4QcKv
- woNP2n7nLUlv0U7rCGx2MwhcXULP+u9aPA==
-X-Google-Smtp-Source: AA0mqf51DB5AJzh6QZzRhDY6++VallOXk2V9rCDkQuqfmBFtz2l+7aXenfTOgmWjBlTOSvY9wrZniA==
-X-Received: by 2002:ac8:678e:0:b0:3a6:847d:637e with SMTP id
- b14-20020ac8678e000000b003a6847d637emr803629qtp.447.1669712858903; 
- Tue, 29 Nov 2022 01:07:38 -0800 (PST)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com.
- [209.85.219.177]) by smtp.gmail.com with ESMTPSA id
- c14-20020ac8518e000000b003a611cb2a95sm7406533qtn.9.2022.11.29.01.07.37
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Nov 2022 01:07:37 -0800 (PST)
-Received: by mail-yb1-f177.google.com with SMTP id y83so16606954yby.12
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 01:07:37 -0800 (PST)
-X-Received: by 2002:a25:7408:0:b0:6f2:49a7:38ef with SMTP id
- p8-20020a257408000000b006f249a738efmr20678381ybc.365.1669712857595; Tue, 29
- Nov 2022 01:07:37 -0800 (PST)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CC2689B57;
+ Tue, 29 Nov 2022 09:08:52 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 82AE4615E9;
+ Tue, 29 Nov 2022 09:08:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EBBAC433D6;
+ Tue, 29 Nov 2022 09:08:43 +0000 (UTC)
+Message-ID: <c2681582-1e24-7ed9-e4fb-e2dd17a93aed@xs4all.nl>
+Date: Tue, 29 Nov 2022 10:08:41 +0100
 MIME-Version: 1.0
-References: <20221128105844.315bb58a@canb.auug.org.au>
-In-Reply-To: <20221128105844.315bb58a@canb.auug.org.au>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 29 Nov 2022 10:07:26 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXkDOn+J-Tjd_nDpkAKYXBhHVtNWSrLrkiGjpvYYXJkEg@mail.gmail.com>
-Message-ID: <CAMuHMdXkDOn+J-Tjd_nDpkAKYXBhHVtNWSrLrkiGjpvYYXJkEg@mail.gmail.com>
-Subject: Re: linux-next: manual merge of the drm tree with Linus' tree
-To: Dave Airlie <airlied@redhat.com>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH mm-unstable v1 16/20] mm/frame-vector: remove FOLL_FORCE
+ usage
+Content-Language: en-US
+To: David Hildenbrand <david@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+References: <20221116102659.70287-1-david@redhat.com>
+ <20221116102659.70287-17-david@redhat.com>
+ <81fb0fa3-2e06-b765-56ac-a7d981194e59@redhat.com>
+ <08b65ac6-6786-1080-18f8-d2be109c85fc@xs4all.nl>
+ <9d0bf98a-3d6a-1082-e992-1338e1525935@redhat.com>
+ <20221128145927.df895bf1966cfa125cae9668@linux-foundation.org>
+ <22b1107b-0acc-5772-a883-8f3c4682eb1b@redhat.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <22b1107b-0acc-5772-a883-8f3c4682eb1b@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,56 +52,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- "Stanley.Yang" <Stanley.Yang@amd.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>
+Cc: linux-ia64@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, Nadav Amit <namit@vmware.com>,
+ linux-kselftest@vger.kernel.org, sparclinux@vger.kernel.org,
+ Shuah Khan <shuah@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Andrea Arcangeli <aarcange@redhat.com>, linux-samsung-soc@vger.kernel.org,
+ linux-rdma@vger.kernel.org, x86@kernel.org, Hugh Dickins <hughd@google.com>,
+ Matthew Wilcox <willy@infradead.org>, Christoph Hellwig <hch@infradead.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@suse.cz>,
+ linux-media@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ John Hubbard <jhubbard@nvidia.com>, linux-um@lists.infradead.org,
+ etnaviv@lists.freedesktop.org, Alex Williamson <alex.williamson@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Muchun Song <songmuchun@bytedance.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ Oded Gabbay <ogabbay@kernel.org>, linux-mips@vger.kernel.org,
+ Tomasz Figa <tfiga@chromium.org>, linux-perf-users@vger.kernel.org,
+ linux-security-module@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
+ Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi DRm people,
+On 29/11/2022 09:48, David Hildenbrand wrote:
+> On 28.11.22 23:59, Andrew Morton wrote:
+>> On Mon, 28 Nov 2022 09:18:47 +0100 David Hildenbrand <david@redhat.com> wrote:
+>>
+>>>> Less chances of things going wrong that way.
+>>>>
+>>>> Just mention in the v2 cover letter that the first patch was added to
+>>>> make it easy to backport that fix without being hampered by merge
+>>>> conflicts if it was added after your frame_vector.c patch.
+>>>
+>>> Yes, that's the way I would naturally do, it, however, Andrew prefers
+>>> delta updates for minor changes.
+>>>
+>>> @Andrew, whatever you prefer!
+>>
+>> I'm inclined to let things sit as they are.  Cross-tree conflicts
+>> happen, and Linus handles them.  I'll flag this (very simple) conflict
+>> in the pull request, if MM merges second.  If v4l merges second then
+>> hopefully they will do the same.  But this one is so simple that Linus
+>> hardly needs our help.
 
-On Mon, Nov 28, 2022 at 1:02 AM Stephen Rothwell <sfr@canb.auug.org.au> wrote:
-> Today's linux-next merge of the drm tree got a conflict in:
->
->   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
->
-> between commits:
->
->   3cb93f390453 ("drm/amdgpu: fix use-after-free during gpu recovery")
->   b09d6acba1d9 ("drm/amdgpu: handle gang submit before VMID")
->
-> from Linus' tree and commits:
->
->   1b2d5eda5ad7 ("drm/amdgpu: move explicit sync check into the CS")
->   1728baa7e4e6 ("drm/amdgpu: use scheduler dependencies for CS")
->   c5093cddf56b ("drm/amdgpu: drop the fence argument from amdgpu_vmid_grab")
->   940ca22b7ea9 ("drm/amdgpu: drop amdgpu_sync from amdgpu_vmid_grab v2")
->   1b2d5eda5ad7 ("drm/amdgpu: move explicit sync check into the CS")
->   1728baa7e4e6 ("drm/amdgpu: use scheduler dependencies for CS")
->
-> from the drm tree.
->
-> I fixed it up (see below) and can carry the fix as necessary. This
-> is now fixed as far as linux-next is concerned, but any non trivial
-> conflicts should be mentioned to your upstream maintainer when your tree
-> is submitted for merging.  You may also want to consider cooperating
-> with the maintainer of the conflicting tree to minimise any particularly
-> complex conflicts.
+It's not about cross-tree conflicts, it's about the fact that my patch is
+a fix that needs to be backported to older kernels. It should apply cleanly
+to those older kernels if my patch goes in first, but if it is the other way
+around I would have to make a new patch for the stable kernels.
 
-Have you considered merging drm-fixes into drm-next, so not everyone
-who consumes your trees needs to resolve the same merge conflicts?
+Also, the updated changelog in David's patch that sits on top of mine
+makes a lot more sense.
 
-Thanks!
+If you really don't want to take my patch as part of this, then let me know
+and I'll take it through the media subsystem and hope for the best :-)
 
-Gr{oetje,eeting}s,
+Regards,
 
-                        Geert
+	Hans
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>>
+>> But Linus won't be editing changelogs so that the changelog makes more
+>> sense after both trees are joined.  I'm inclined to let the changelog
+>> sit as it is as well.
+> 
+> Works for me. Thanks Andrew!
+> 
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
