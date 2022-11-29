@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE23663BEA3
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 12:09:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 562E563BEB4
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 12:16:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA93810E3AF;
-	Tue, 29 Nov 2022 11:09:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7094510E264;
+	Tue, 29 Nov 2022 11:16:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
- [IPv6:2607:f8b0:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE36A10E3AF
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 11:09:30 +0000 (UTC)
-Received: by mail-oi1-x233.google.com with SMTP id e205so14737690oif.11
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 03:09:30 -0800 (PST)
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
+ [IPv6:2607:f8b0:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0797C10E264
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 11:15:58 +0000 (UTC)
+Received: by mail-oi1-x231.google.com with SMTP id s206so14795271oie.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 03:15:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=cf9n2jaa6cYTVOklMuNk4qObbBfb+M49DmHuLPAMaG8=;
- b=EQGj1OluD1poCYCp847EqljBv2Ad7K/1G88aFPNPKXsuhiJcjMGoVE4O/IpTOi6grs
- DqYZyeMry7IkWAxmOVsObvHrdr/u4CHzPmyaVR8QTymd3X6LWpY0Dsxs/yLDVDP1VhaP
- tp0sWFghX2mKmvsrtbfPRU8FGxdMLOhH/VuekVTXfdKSaPfa9ZuHJakPCobD31IXWdp4
- +BqClWFUs/lL6XEYozaaPgS+KbkB5k3abcZ8TgF8IvK/p2du9FDw8FXQNZaIfLD9s93T
- 2FlZyEzDBvaZtz6FcmRkxwdCpMNAMLiNpNr518cQA9GbdBTia3NupXIlr8ygDt2EeL6l
- ITAw==
+ bh=PDXPonnT0zeNWUqR818AQzT6+Peln13kiO+qN6JF9cA=;
+ b=E3ezopdOKhQKFLS3lehcWyRCe+HPEUSLcCyCR81ge62lnW1XQ0igSa5Lqc+VnIAlPs
+ DTcqQskHJTIhDNI164z9pEQR7OBlnYWzczziZUu2q3sEbPPSmQ+rqWYA/646KM2a2WXM
+ onbUn/U+nNF8HDjB8UlIvsGrjSG21PeRbBr33aJlgCYrAcfzGX/Ct7cPhh+7yAgA/swg
+ EnvKt0X8bP1sDJllws2rRlWzIIR//Sh4/8Oc0IScaT+PkBqbKq5CXkqCo6qOV1QjHd9l
+ tmXEgUpYvzOZTiZUrMqNcmlWgHBobJ3CZvTbE1dit2pZ1C84vk/wCGVZlJ3AMQ765GLB
+ FHPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=cf9n2jaa6cYTVOklMuNk4qObbBfb+M49DmHuLPAMaG8=;
- b=WhioJkFEf3HTB1UIIeIvgafKIJa2acbH/PE3PW8IwEuvgQo1lfTyCb8ZlPFVf2AgYG
- YaCe9el0sz66xbC6ogUEwanBQlFbAAjHw7/eVeoktMq7l24MrltP97huVxhc3qyaBl47
- W4qxTc5rpuaAIeKW5WDsCVzM6tYw3VbMVLt9luVWT6jTe8ujODeETXPzE7Z/GFQ55S/4
- XDY6ZKdEdfB73NB5m0s+IjJPDmg23pehhzx42qHDoDRnwVf1LDzUgLuWsnbCcuaWUlxm
- n2YdYnDhyEMBJCDDxjOncGszajgLpfcpB9e2uFVeHg/F/RjZmhs9fUvG5xOxG/53xTDf
- Anhw==
-X-Gm-Message-State: ANoB5plAvJXO3b3SSc4ptlZhNmHssKyjfm/BuU6SGSoRPg2xoN0hasmS
- nByjzWkjvn+9CRVTl2UtLKs4cuhxRnNdp11rxk+cRQ==
-X-Google-Smtp-Source: AA0mqf5fbP4ZbObgYQ/PNpZohM7nKX0Xg43wC7ljqPSKkxNSoLuBv0Tby+XmsYnndNx6Rfpcz+xVv2PD+1lW35gFnFY=
-X-Received: by 2002:aca:5bc4:0:b0:35a:7056:4f9c with SMTP id
- p187-20020aca5bc4000000b0035a70564f9cmr30858789oib.72.1669720170072; Tue, 29
- Nov 2022 03:09:30 -0800 (PST)
+ bh=PDXPonnT0zeNWUqR818AQzT6+Peln13kiO+qN6JF9cA=;
+ b=mbNrpDmwG2JqHJQHzl4vwqxJoTxD/SmTYQWWlE64aC6zW+6XssG8E/7Miz/YTa/+tr
+ PEy857kZdC4RHdyuEyNtyNxWxegPnXLT6Nhu/X6KfspguciFY1zbqKjEUjlHqMhuyNwI
+ 8uentjJWi3jS+9DIX65+1kMty6wXbum5NPF74GPvbtcS14wYWlB3KZOH8waujeXGez9m
+ xLrAqjlSK7mLblC6YR5g9zxUBYKypVdYpp7+z9IVYBOIiQuPtF318tadje7tPqu0QUrR
+ WQHFa8aGuor1nLcDYEQ/2ZKXFYf/RSyRHnvqLf0kWUHA9XQlVMJJnAMU/cToqrMMX4NY
+ kolg==
+X-Gm-Message-State: ANoB5pmBAhs/Pkf1EMrsLAD+QD/LbwSSI8fDRNu3RytAMnW3ji+dS84E
+ nVXk2y5J68I53j30UKOF1DpeLbm0LUsJyiG2DKOIuA==
+X-Google-Smtp-Source: AA0mqf70TY6BZg6lhmChcsi/9xBVTiyv6MAEsViNzOhIb+BZ3ZBCmKOTlVSKyMF94GAllbTaMX6gw84HeiBz97aO1SI=
+X-Received: by 2002:aca:2801:0:b0:35a:13f4:d875 with SMTP id
+ 1-20020aca2801000000b0035a13f4d875mr29605804oix.190.1669720557113; Tue, 29
+ Nov 2022 03:15:57 -0800 (PST)
 MIME-Version: 1.0
-References: <20221116143523.2126-1-the.cheaterman@gmail.com>
-In-Reply-To: <20221116143523.2126-1-the.cheaterman@gmail.com>
+References: <20221128112320.25708-1-francesco@dolcini.it>
+In-Reply-To: <20221128112320.25708-1-francesco@dolcini.it>
 From: Robert Foss <robert.foss@linaro.org>
-Date: Tue, 29 Nov 2022 12:09:19 +0100
-Message-ID: <CAG3jFytyzmRnpj8pzSUitLhAHQM9b0zhkc2cbfVmgKStfHpwVA@mail.gmail.com>
-Subject: Re: [PATCH] drm: bridge: dw_hdmi: fix preference of RGB modes over
- YUV420
-To: Guillaume BRUN <the.cheaterman@gmail.com>
+Date: Tue, 29 Nov 2022 12:15:46 +0100
+Message-ID: <CAG3jFysnd9S2b4WCmHqKzJPhO=3sOLWHEExrsGPBn-e_6F5p6g@mail.gmail.com>
+Subject: Re: [PATCH v1] drm/bridge: lt8912b: Add hot plug detection
+To: Francesco Dolcini <francesco@dolcini.it>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,58 +64,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, Christian Hewitt <christianshewitt@gmail.com>,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, linux-amlogic@lists.infradead.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org,
+ Stefan Eichenberger <stefan.eichenberger@toradex.com>,
+ Adrien Grassein <adrien.grassein@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Francesco Dolcini <francesco.dolcini@toradex.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 16 Nov 2022 at 15:35, Guillaume BRUN <the.cheaterman@gmail.com> wrote:
+On Mon, 28 Nov 2022 at 12:23, Francesco Dolcini <francesco@dolcini.it> wrote:
 >
-> Cheap monitors sometimes advertise YUV modes they don't really have
-> (HDMI specification mandates YUV support so even monitors without actual
-> support will often wrongfully advertise it) which results in YUV matches
-> and user forum complaints of a red tint to light colour display areas in
-> common desktop environments.
+> From: Stefan Eichenberger <stefan.eichenberger@toradex.com>
 >
-> Moving the default RGB fall-back before YUV selection results in RGB
-> mode matching in most cases, reducing complaints.
+> Enable hot plug detection when it is available on the HDMI port.
+> Without this connecting to a different monitor with incompatible timing
+> before the 10 seconds poll period will lead to a broken display output.
 >
-> Fixes: 6c3c719936da ("drm/bridge: synopsys: dw-hdmi: add bus format negociation")
-> Signed-off-by: Guillaume BRUN <the.cheaterman@gmail.com>
-> Tested-by: Christian Hewitt <christianshewitt@gmail.com>
+> Fixes: 30e2ae943c26 ("drm/bridge: Introduce LT8912B DSI to HDMI bridge")
+> Signed-off-by: Stefan Eichenberger <stefan.eichenberger@toradex.com>
+> Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
 > ---
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/bridge/lontium-lt8912b.c | 21 +++++++++++++++++++--
+>  1 file changed, 19 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index 40d8ca37f5bc..aa51c61a78c7 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -2720,6 +2720,9 @@ static u32 *dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
->          * if supported. In any case the default RGB888 format is added
->          */
+> diff --git a/drivers/gpu/drm/bridge/lontium-lt8912b.c b/drivers/gpu/drm/bridge/lontium-lt8912b.c
+> index a98efef0ba0e..5f0c9cd2a970 100644
+> --- a/drivers/gpu/drm/bridge/lontium-lt8912b.c
+> +++ b/drivers/gpu/drm/bridge/lontium-lt8912b.c
+> @@ -517,14 +517,27 @@ static int lt8912_attach_dsi(struct lt8912 *lt)
+>         return 0;
+>  }
 >
-> +       /* Default 8bit RGB fallback */
-> +       output_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
+> +static void lt8912_bridge_hpd_cb(void *data, enum drm_connector_status status)
+> +{
+> +       struct lt8912 *lt = data;
 > +
->         if (max_bpc >= 16 && info->bpc == 16) {
->                 if (info->color_formats & DRM_COLOR_FORMAT_YCBCR444)
->                         output_fmts[i++] = MEDIA_BUS_FMT_YUV16_1X48;
-> @@ -2753,9 +2756,6 @@ static u32 *dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
->         if (info->color_formats & DRM_COLOR_FORMAT_YCBCR444)
->                 output_fmts[i++] = MEDIA_BUS_FMT_YUV8_1X24;
+> +       if (lt->bridge.dev)
+> +               drm_helper_hpd_irq_event(lt->bridge.dev);
+> +}
+> +
+>  static int lt8912_bridge_connector_init(struct drm_bridge *bridge)
+>  {
+>         int ret;
+>         struct lt8912 *lt = bridge_to_lt8912(bridge);
+>         struct drm_connector *connector = &lt->connector;
 >
-> -       /* Default 8bit RGB fallback */
-> -       output_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
-> -
->         *num_output_fmts = i;
+> -       connector->polled = DRM_CONNECTOR_POLL_CONNECT |
+> -                           DRM_CONNECTOR_POLL_DISCONNECT;
+> +       if (lt->hdmi_port->ops & DRM_BRIDGE_OP_HPD) {
+> +               drm_bridge_hpd_enable(lt->hdmi_port, lt8912_bridge_hpd_cb, lt);
+> +               connector->polled = DRM_CONNECTOR_POLL_HPD;
+> +       } else {
+> +               connector->polled = DRM_CONNECTOR_POLL_CONNECT |
+> +                                   DRM_CONNECTOR_POLL_DISCONNECT;
+> +       }
 >
->         return output_fmts;
+>         ret = drm_connector_init(bridge->dev, connector,
+>                                  &lt8912_connector_funcs,
+> @@ -578,6 +591,10 @@ static void lt8912_bridge_detach(struct drm_bridge *bridge)
+>
+>         if (lt->is_attached) {
+>                 lt8912_hard_power_off(lt);
+> +
+> +               if (lt->hdmi_port->ops & DRM_BRIDGE_OP_HPD)
+> +                       drm_bridge_hpd_disable(lt->hdmi_port);
+> +
+>                 drm_connector_unregister(&lt->connector);
+>                 drm_connector_cleanup(&lt->connector);
+>         }
 > --
-> 2.37.3
+> 2.25.1
 >
 
+
 Reviewed-by: Robert Foss <robert.foss@linaro.org>
+
+Snoozing this patch, will apply it in a few days if no issues are found.
