@@ -1,61 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8D1763C1DC
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 15:07:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EEBB63C1FF
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 15:10:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8647C10E03F;
-	Tue, 29 Nov 2022 14:07:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2C8710E08E;
+	Tue, 29 Nov 2022 14:10:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com
- [IPv6:2001:4860:4864:20::2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 416CB10E03F;
- Tue, 29 Nov 2022 14:07:35 +0000 (UTC)
-Received: by mail-oa1-x2e.google.com with SMTP id
- 586e51a60fabf-14279410bf4so17109897fac.8; 
- Tue, 29 Nov 2022 06:07:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=n+Gx0LMLOcjHUeGcLpNChIem5hR5zVu45lf2JDHJKUo=;
- b=Nrys2ATlqgKSV5/iunJeF2MPgpIgrsVsMfo/q5YlIhfPupHgOyuiTlt7PmeZse4IiM
- rCqXxkaOv+eU+Nl6Jzyd+kyXweW0FMNe2omP3/cabCaUYu5LkfPFIjG0tGszf4SLEeoo
- uLZQvaW3rE29aPwK1miJ+ERe/gVynNlIwb2V5fT/V1UTESmivNoOm4AppAUhFvTDJJ0h
- h5lldDnUJIhty+h9HifTc0MnBEaUpf71n2gRFJv8qhHoS+wPFshbyp8ORLSCVS5ONjc2
- StqiMGsAOx16nJcadqwLNMFOkfAZWTCtPdRLkQiDI/iDjo0XR6b5gAq90JY54Wg1YLCa
- 9u+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=n+Gx0LMLOcjHUeGcLpNChIem5hR5zVu45lf2JDHJKUo=;
- b=47mrAzu93MUME0S7TYy2OGU2M7TvVfn6ka5lWKtMwSlnholJGb2NkG5ifVZj/8UjWF
- zPXrKKe6DGYWMnMzSpuVfUcXJvJwc4bsxZWvRKVZiqSPHIKN0fujDI+s+WGy72E8X8DX
- EVHmaj2AmgYVTyqknMZLeEPGcWmKfKtt2q2l61vprZCeTzjjmWWvJG0Wqa89nZNOZ6lK
- tQ9SX5v7WcrL1898JGH9I1rsGzfuKJJdoihUUybLrVFq1sE+zalOUXuyICp5eMZwXZMj
- cBjcVt4AzMAviNKIzJWvfhiLHmIHCnGJLGRW18EMJkDEr0OGprdFPICi/ac3tKbRvdVm
- 58bg==
-X-Gm-Message-State: ANoB5pk9Vxy6qoOgzdrc2E6YdabK8+dgfDdW6vlh2Ys5ZeCKKDjKK0cK
- WNNgthsWvtWzGMF6YqPeImHKlYiKNSdRIWgYMgLwYXJLCW4=
-X-Google-Smtp-Source: AA0mqf6X7/2sjENwUXQ9/pOfiqzb/aJ0jK/F8dQAxVZWQXnl7KiktOV2Rzd6QwDYbbSZ8yXa9YGuwDNiRf4bSWGH2gk=
-X-Received: by 2002:a05:6870:2b05:b0:12d:58c1:33f9 with SMTP id
- ld5-20020a0568702b0500b0012d58c133f9mr21990892oab.46.1669730854511; Tue, 29
- Nov 2022 06:07:34 -0800 (PST)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 598A510E08E
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 14:10:47 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id BB04861758
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 14:10:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DFA3C43470
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 14:10:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1669731046;
+ bh=yjeoowMISp8ZXjbYeM1VeAqgNGGG8tdL1ZXS1nEMcIw=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=iUi9i5TA9EKgTUtDjQ4qnNjuh0KfmmX7CBS/ILiXLr3Uj6m8toeXp8J2liUoFZimf
+ 5t/aOsxAbZj6/LT3/ZEe8iEqYqYP8AO/kNuhHuwic3OXKq57Yu6iT7GV9c64WDiAYj
+ 2NSEu3NJKzjIbqbHFMnnAy5ftsV8HVRF4UaR7f6nUDYCQWMCIUa/i91Jp/60AoFesu
+ e7u5dKjmM1J0fXkWEvou9+FUTsrPdwM02Npfolv7Yzu40XyZpVw1qkSVlTBFgfAbci
+ TNkrfPosnDrbQClrlmd4b+X4rsypZfEte7uFIf3ajoAYMPybFvIhORYMfg0LMYgCAw
+ aA9N0j/1F73/Q==
+Received: by mail-ed1-f52.google.com with SMTP id r26so17832364edc.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 06:10:46 -0800 (PST)
+X-Gm-Message-State: ANoB5plkqt5W5CSBIa4DFSyaM5uRH5omiRr5BoBS5eT3u/7jJYER0gES
+ gKW1fAvvLxWvxatqMQHhw+On7hf9aNJ+pP7jJNc=
+X-Google-Smtp-Source: AA0mqf7QjiamBW+KE/Z8uZbmanCe+55uA1tljNSDFV7FahyhBBzvSmbUSlYsCKjPBBIvFRP+/cSfYR+FVUYixBHntFc=
+X-Received: by 2002:a05:6402:2b91:b0:457:23cb:20ab with SMTP id
+ fj17-20020a0564022b9100b0045723cb20abmr37470283edb.254.1669731044805; Tue, 29
+ Nov 2022 06:10:44 -0800 (PST)
 MIME-Version: 1.0
-References: <20221125175203.52481-1-andrealmeid@igalia.com>
- <20221125175203.52481-2-andrealmeid@igalia.com>
-In-Reply-To: <20221125175203.52481-2-andrealmeid@igalia.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 29 Nov 2022 09:07:23 -0500
-Message-ID: <CADnq5_MxQd5RDeAFe4j5J14Czk5YB7e-1=JFWxQAD=z-vFuQ-w@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] drm: Add GPU reset sysfs event
-To: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+References: <20220704011704.1418055-1-chenhuacai@loongson.cn>
+In-Reply-To: <20220704011704.1418055-1-chenhuacai@loongson.cn>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Tue, 29 Nov 2022 22:10:32 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H5mwVc5b_dHvkqyCWsTa8eTj6pWF8oC=-4hQNoKwg3A9w@mail.gmail.com>
+Message-ID: <CAAhV-H5mwVc5b_dHvkqyCWsTa8eTj6pWF8oC=-4hQNoKwg3A9w@mail.gmail.com>
+Subject: Re: [PATCH V3] drivers/firmware: Move sysfb_init() from
+ device_initcall to subsys_initcall_sync
+To: Huacai Chen <chenhuacai@loongson.cn>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,138 +61,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com, contactshashanksharma@gmail.com,
- kernel-dev@igalia.com, =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- Andrey Grodzovsky <andrey.grodzovsky@amd.com>, amaranath.somalapuram@amd.com,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Pekka Paalanen <ppaalanen@gmail.com>, dri-devel@lists.freedesktop.org,
- alexander.deucher@amd.com, Shashank Sharma <shashank.sharma@amd.com>,
- christian.koenig@amd.com,
- "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 25, 2022 at 12:52 PM Andr=C3=A9 Almeida <andrealmeid@igalia.com=
-> wrote:
+Ping?
+
+On Tue, Jul 5, 2022 at 12:22 AM Huacai Chen <chenhuacai@loongson.cn> wrote:
 >
-> From: Shashank Sharma <shashank.sharma@amd.com>
+> Consider a configuration like this:
+> 1, efifb (or simpledrm) is built-in;
+> 2, a native display driver (such as radeon) is also built-in.
 >
-> Add a sysfs event to notify userspace about GPU resets providing:
-> - PID that triggered the GPU reset, if any. Resets can happen from
->   kernel threads as well, in that case no PID is provided
-> - Information about the reset (e.g. was VRAM lost?)
+> As Javier said, this is not a common configuration (the native display
+> driver is usually built as a module), but it can happen and cause some
+> trouble.
 >
-> Co-developed-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
-> Signed-off-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
-> Signed-off-by: Shashank Sharma <shashank.sharma@amd.com>
+> In this case, since efifb, radeon and sysfb are all in device_initcall()
+> level, the order in practise is like this:
+>
+> efifb registered at first, but no "efi-framebuffer" device yet. radeon
+> registered later, and /dev/fb0 created. sysfb_init() comes at last, it
+> registers "efi-framebuffer" and then causes an error message "efifb: a
+> framebuffer is already registered". Make sysfb_init() to be subsys_
+> initcall_sync() can avoid this. And Javier Martinez Canillas is trying
+> to make a more general solution in commit 873eb3b11860 ("fbdev: Disable
+> sysfb device registration when removing conflicting FBs").
+>
+> However, this patch still makes sense because it can make the screen
+> display as early as possible (We cannot move to subsys_initcall, since
+> sysfb_init() should be executed after PCI enumeration).
+>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
 > ---
+> V2: Update commit message.
+> V3: Update commit message again.
 >
-> V3:
->    - Reduce information to just PID and flags
->    - Use pid pointer instead of just pid number
->    - BUG() if no reset info is provided
+>  drivers/firmware/sysfb.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> V2:
->    - Addressed review comments from Christian and Amar
->    - move the reset information structure to DRM layer
->    - drop _ctx from struct name
->    - make pid 32 bit(than 64)
->    - set flag when VRAM invalid (than valid)
->    - add process name as well (Amar)
-> ---
->  drivers/gpu/drm/drm_sysfs.c | 26 ++++++++++++++++++++++++++
->  include/drm/drm_sysfs.h     | 13 +++++++++++++
->  2 files changed, 39 insertions(+)
->
-> diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
-> index 430e00b16eec..85777abf4194 100644
-> --- a/drivers/gpu/drm/drm_sysfs.c
-> +++ b/drivers/gpu/drm/drm_sysfs.c
-> @@ -409,6 +409,32 @@ void drm_sysfs_hotplug_event(struct drm_device *dev)
+> diff --git a/drivers/firmware/sysfb.c b/drivers/firmware/sysfb.c
+> index 2bfbb05f7d89..aecf91517e54 100644
+> --- a/drivers/firmware/sysfb.c
+> +++ b/drivers/firmware/sysfb.c
+> @@ -80,4 +80,4 @@ static __init int sysfb_init(void)
 >  }
->  EXPORT_SYMBOL(drm_sysfs_hotplug_event);
 >
-> +/**
-> + * drm_sysfs_reset_event - generate a DRM uevent to indicate GPU reset
-> + * @dev: DRM device
-> + * @reset_info: The contextual information about the reset (like PID, fl=
-ags)
-> + *
-> + * Send a uevent for the DRM device specified by @dev. This informs
-> + * user that a GPU reset has occurred, so that an interested client
-> + * can take any recovery or profiling measure.
-> + */
-> +void drm_sysfs_reset_event(struct drm_device *dev, struct drm_reset_even=
-t_info *reset_info)
-> +{
-> +       unsigned char pid_str[13];
-> +       unsigned char flags_str[18];
-> +       unsigned char reset_str[] =3D "RESET=3D1";
-> +       char *envp[] =3D { reset_str, pid_str, flags_str, NULL };
-> +
-> +       DRM_DEBUG("generating reset event\n");
-> +
-> +       BUG_ON(!reset_info);
-> +
-> +       snprintf(pid_str, sizeof(pid_str), "PID=3D%u", pid_vnr(reset_info=
-->pid));
-> +       snprintf(flags_str, sizeof(flags_str), "FLAGS=3D0x%llx", reset_in=
-fo->flags);
-> +       kobject_uevent_env(&dev->primary->kdev->kobj, KOBJ_CHANGE, envp);
-> +}
-> +EXPORT_SYMBOL(drm_sysfs_reset_event);
-> +
->  /**
->   * drm_sysfs_connector_hotplug_event - generate a DRM uevent for any con=
-nector
->   * change
-> diff --git a/include/drm/drm_sysfs.h b/include/drm/drm_sysfs.h
-> index 6273cac44e47..dbb0ac6230b8 100644
-> --- a/include/drm/drm_sysfs.h
-> +++ b/include/drm/drm_sysfs.h
-> @@ -2,15 +2,28 @@
->  #ifndef _DRM_SYSFS_H_
->  #define _DRM_SYSFS_H_
->
-> +#define DRM_RESET_EVENT_VRAM_LOST (1 << 0)
-
-I was thinking about this a bit more last night, and I think we should add:
-DRM_RESET_EVENT_APP_ROBUSTNESS
-When an application that supports robustness extensions starts, the
-UMD can set a flag when it creates the context with the KMD.  That way
-if the app causes a GPU hang, the reset daemon would see this flag if
-the guilty app supports robustness and adjust it's behavior as
-appropriate.  E.g., rather than killing the app, it might let it run
-or set some grace period, etc.
-
-Alex
-
-
-> +
->  struct drm_device;
->  struct device;
->  struct drm_connector;
->  struct drm_property;
->
-> +/**
-> + * struct drm_reset_event_info - Information about a GPU reset event
-> + * @pid: Process that triggered the reset, if any
-> + * @flags: Extra information around the reset event (e.g. is VRAM lost?)
-> + */
-> +struct drm_reset_event_info {
-> +       struct pid *pid;
-> +       uint64_t flags;
-> +};
-> +
->  int drm_class_device_register(struct device *dev);
->  void drm_class_device_unregister(struct device *dev);
->
->  void drm_sysfs_hotplug_event(struct drm_device *dev);
-> +void drm_sysfs_reset_event(struct drm_device *dev, struct drm_reset_even=
-t_info *reset_info);
->  void drm_sysfs_connector_hotplug_event(struct drm_connector *connector);
->  void drm_sysfs_connector_status_event(struct drm_connector *connector,
->                                       struct drm_property *property);
+>  /* must execute after PCI subsystem for EFI quirks */
+> -device_initcall(sysfb_init);
+> +subsys_initcall_sync(sysfb_init);
 > --
-> 2.38.1
+> 2.27.0
 >
