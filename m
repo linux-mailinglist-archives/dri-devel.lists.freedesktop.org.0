@@ -1,51 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6840263BAC0
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 08:29:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86A5963BBD1
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Nov 2022 09:38:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D2B710E38E;
-	Tue, 29 Nov 2022 07:29:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C8C410E2EB;
+	Tue, 29 Nov 2022 08:38:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A06E210E37C;
- Tue, 29 Nov 2022 07:26:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669706809; x=1701242809;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=U3Pmno8MwAj6RcGJY6OORDcSspf5nmrR0ODH5qYIn0U=;
- b=eFzBO0BIZd2UVdYubLy7Oxv2bsBrjxc0ft+2Mf4oMAkOmRTIC5t7mFFd
- 86F5giWHisWZ04SuW8A2oK2ZD1CIE7n0fRog9Ys3VWrOd/ZWRawkTTUTu
- rme/lu/JGF4WwAqZXjHPZqr1a1vZBW/82rUj2tcilgqtfdHejVs6+cudz
- YgCD2LMmKBe5lasNE2YxaUwV6WBVLYd5WuQS0Tqpy8H7OtjFN6NVQjqJj
- zeLfxi9F3Ywvz3gzy1fNefQH3XKR4i+rvmZK+Kfmng66YCYhjKKeEPvJN
- 5TylYPAx44MxVIu1ncEXf8n+8Y14+by+h/ZdkobEXaeSUFreTulNAZkyv A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10545"; a="295418397"
-X-IronPort-AV: E=Sophos;i="5.96,202,1665471600"; d="scan'208";a="295418397"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Nov 2022 23:26:48 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10545"; a="674525620"
-X-IronPort-AV: E=Sophos;i="5.96,202,1665471600"; d="scan'208";a="674525620"
-Received: from nvishwa1-desk.sc.intel.com ([172.25.29.76])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Nov 2022 23:26:48 -0800
-From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v8 22/22] drm/i915/vm_bind: Support capture of persistent
- mappings
-Date: Mon, 28 Nov 2022 23:26:35 -0800
-Message-Id: <20221129072635.847-23-niranjana.vishwanathapura@intel.com>
-X-Mailer: git-send-email 2.21.0.rc0.32.g243a4c7e27
-In-Reply-To: <20221129072635.847-1-niranjana.vishwanathapura@intel.com>
-References: <20221129072635.847-1-niranjana.vishwanathapura@intel.com>
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FFD410E2EB
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 08:38:42 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id 5so10296421wmo.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 00:38:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=XgU2Me36pWpv5WapeJ4LPJ3zFhHMt8NlKreZ17SiFYI=;
+ b=eSdL13nPAAE9KfbRzj2fCIepGM6/yyMJRSpSbtV+qTcW929EIa4OABn8vS5yE4KwVN
+ dhRF4IKu30cR5LMLlmnwFaoBLqN6SL02TGXbzQ2W5eSrWzlbUg6YlFcsxI9lNfHS/059
+ DZ0ZaUVAH7k73aSGu7vA0WjbHCO04rV1d4G6qVx6TAu1tcGB1lDkzpb8Ie3s2i5OUilh
+ H+NL5OQ7fZAfnVi55MvfEYE8R+DjKIxT//YNB2CU6jdZ8SAnvQ2mY4+OlXalRpVC3gKm
+ xyOx2am5t9bgULDwET1sl91wGzsVBZ4U2AUWsm8RyNtTa+xfK1h0uQa6JROUKj9i6fjJ
+ jhdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=XgU2Me36pWpv5WapeJ4LPJ3zFhHMt8NlKreZ17SiFYI=;
+ b=5dZC3r67bBSUg3hJ9tAtZ7J3xgL/CD3i2fVtPyFU3bGxDyN8PJjHrSsJGkUSoPO7hM
+ crgHPRyQduJIO5qZFq4STKNXOqF+6IuOmFNCvxxoyuCvLnKQvq0S2kGi9hG4/1Nx/GtE
+ oLkOCCJzCqzav4cJVGL8eayOm7whl9d51HVJ0x8+GsgKeh3++2emaN9uRiOy5fQIpor3
+ bs4lCwKheARc512ixlKvxkKLDmMhMLMt3xYAJtq7yzyUFWFP5bF6IYvpd+uT+uoXOAOr
+ 8ls5arHXCDB9cmEf1PSsitlcZp8JnKH8lppbmbpx42U4OM2BtSU1bKZlQIg7MzAQzYXL
+ 9PGg==
+X-Gm-Message-State: ANoB5pmTVZsxDdty25+Ug7341dG31O8uqbopoVkoZ1Cn4m4Q0UNpnUNy
+ J7x/w+wwfv6vTfJ8c+n+Y2T+YA==
+X-Google-Smtp-Source: AA0mqf6OAhXAHg9j5+BXVKjL+Xc8gtMngAEKoiv4eF9a4BzThu69gyqxyX8YzEQPD1iPsmDy+DbTAg==
+X-Received: by 2002:a7b:c00a:0:b0:3cf:e8f0:ad11 with SMTP id
+ c10-20020a7bc00a000000b003cfe8f0ad11mr44668145wmb.65.1669711120927; 
+ Tue, 29 Nov 2022 00:38:40 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:2f85:a28c:5df7:9cd2?
+ ([2a01:e0a:982:cbb0:2f85:a28c:5df7:9cd2])
+ by smtp.gmail.com with ESMTPSA id
+ p7-20020a5d4587000000b0022ae0965a8asm12835842wrq.24.2022.11.29.00.38.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 29 Nov 2022 00:38:40 -0800 (PST)
+Message-ID: <fbe945cb-036f-b405-901f-0d625e8bfcbd@linaro.org>
+Date: Tue, 29 Nov 2022 09:38:41 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v2 1/2] drm/tiny: rpi-lcd-35: Enable driver module
+ autoloading
+Content-Language: en-US
+To: Carlo Caione <ccaione@baylibre.com>, Mark Brown <broonie@kernel.org>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
+ Jerome Brunet <jbrunet@baylibre.com>
+References: <20221116-s905x_spi_ili9486-v2-0-084c6e3cd930@baylibre.com>
+ <20221116-s905x_spi_ili9486-v2-1-084c6e3cd930@baylibre.com>
+Organization: Linaro Developer Services
+In-Reply-To: <20221116-s905x_spi_ili9486-v2-1-084c6e3cd930@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,162 +84,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
- jani.nikula@intel.com, lionel.g.landwerlin@intel.com,
- thomas.hellstrom@intel.com, matthew.auld@intel.com, jason@jlekstrand.net,
- andi.shyti@linux.intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
+Reply-To: neil.armstrong@linaro.org
+Cc: linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Support dump capture of persistent mappings upon user request.
+On 21/11/2022 10:42, Carlo Caione wrote:
+> SPI devices use the spi_device_id for module autoloading even on
+> systems using device tree.
+> 
+> Add the spi_device_id entry to enable autoloading for the 3.5inch RPi
+> Display (rpi-lcd-35).
+> 
+> Signed-off-by: Carlo Caione <ccaione@baylibre.com>
+> ---
+>   drivers/gpu/drm/tiny/ili9486.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/tiny/ili9486.c b/drivers/gpu/drm/tiny/ili9486.c
+> index 1bb847466b10..bd37dfe8dd05 100644
+> --- a/drivers/gpu/drm/tiny/ili9486.c
+> +++ b/drivers/gpu/drm/tiny/ili9486.c
+> @@ -183,6 +183,7 @@ MODULE_DEVICE_TABLE(of, ili9486_of_match);
+>   
+>   static const struct spi_device_id ili9486_id[] = {
+>   	{ "ili9486", 0 },
+> +	{ "rpi-lcd-35", 0 },
 
-Signed-off-by: Brian Welty <brian.welty@intel.com>
-Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
----
- .../drm/i915/gem/i915_gem_vm_bind_object.c    | 11 +++++++++++
- drivers/gpu/drm/i915/gt/intel_gtt.c           |  3 +++
- drivers/gpu/drm/i915/gt/intel_gtt.h           |  5 +++++
- drivers/gpu/drm/i915/i915_gpu_error.c         | 19 +++++++++++++++++++
- drivers/gpu/drm/i915/i915_vma.c               |  1 +
- drivers/gpu/drm/i915/i915_vma_types.h         |  2 ++
- include/uapi/drm/i915_drm.h                   |  3 ++-
- 7 files changed, 43 insertions(+), 1 deletion(-)
+It should also contain "piscreen" then.
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
-index 78e7c0642c5f..50969613daf6 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
-@@ -88,6 +88,11 @@ static void i915_gem_vm_bind_remove(struct i915_vma *vma, bool release_obj)
- {
- 	lockdep_assert_held(&vma->vm->vm_bind_lock);
- 
-+	spin_lock(&vma->vm->vm_capture_lock);
-+	if (!list_empty(&vma->vm_capture_link))
-+		list_del_init(&vma->vm_capture_link);
-+	spin_unlock(&vma->vm->vm_capture_lock);
-+
- 	spin_lock(&vma->vm->vm_rebind_lock);
- 	if (!list_empty(&vma->vm_rebind_link))
- 		list_del_init(&vma->vm_rebind_link);
-@@ -357,6 +362,12 @@ static int i915_gem_vm_bind_obj(struct i915_address_space *vm,
- 				continue;
- 		}
- 
-+		if (va->flags & I915_GEM_VM_BIND_CAPTURE) {
-+			spin_lock(&vm->vm_capture_lock);
-+			list_add_tail(&vma->vm_capture_link, &vm->vm_capture_list);
-+			spin_unlock(&vm->vm_capture_lock);
-+		}
-+
- 		list_add_tail(&vma->vm_bind_link, &vm->vm_bound_list);
- 		i915_vm_bind_it_insert(vma, &vm->va);
- 		if (!obj->priv_root)
-diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
-index ebf6830574a0..bdabe13fc30e 100644
---- a/drivers/gpu/drm/i915/gt/intel_gtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
-@@ -297,6 +297,9 @@ void i915_address_space_init(struct i915_address_space *vm, int subclass)
- 	spin_lock_init(&vm->vm_rebind_lock);
- 	spin_lock_init(&vm->userptr_invalidated_lock);
- 	INIT_LIST_HEAD(&vm->userptr_invalidated_list);
-+
-+	INIT_LIST_HEAD(&vm->vm_capture_list);
-+	spin_lock_init(&vm->vm_capture_lock);
- }
- 
- void *__px_vaddr(struct drm_i915_gem_object *p)
-diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
-index 87e5b6568a00..8e4ddd073348 100644
---- a/drivers/gpu/drm/i915/gt/intel_gtt.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
-@@ -281,6 +281,11 @@ struct i915_address_space {
- 	/** @root_obj: root object for dma-resv sharing by private objects */
- 	struct drm_i915_gem_object *root_obj;
- 
-+	/* @vm_capture_list: list of vm captures */
-+	struct list_head vm_capture_list;
-+	/* @vm_capture_lock: protects vm_capture_list */
-+	spinlock_t vm_capture_lock;
-+
- 	/* Global GTT */
- 	bool is_ggtt:1;
- 
-diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
-index 9d5d5a397b64..3b2b12a739f7 100644
---- a/drivers/gpu/drm/i915/i915_gpu_error.c
-+++ b/drivers/gpu/drm/i915/i915_gpu_error.c
-@@ -1460,6 +1460,22 @@ capture_vma(struct intel_engine_capture_vma *next,
- 	return next;
- }
- 
-+static struct intel_engine_capture_vma *
-+capture_user_vm(struct intel_engine_capture_vma *capture,
-+		struct i915_address_space *vm, gfp_t gfp)
-+{
-+	struct i915_vma *vma;
-+
-+	spin_lock(&vm->vm_capture_lock);
-+	/* vma->resource must be valid here as persistent vmas are bound */
-+	list_for_each_entry(vma, &vm->vm_capture_list, vm_capture_link)
-+		capture = capture_vma_snapshot(capture, vma->resource,
-+					       gfp, "user");
-+	spin_unlock(&vm->vm_capture_lock);
-+
-+	return capture;
-+}
-+
- static struct intel_engine_capture_vma *
- capture_user(struct intel_engine_capture_vma *capture,
- 	     const struct i915_request *rq,
-@@ -1471,6 +1487,9 @@ capture_user(struct intel_engine_capture_vma *capture,
- 		capture = capture_vma_snapshot(capture, c->vma_res, gfp,
- 					       "user");
- 
-+	capture = capture_user_vm(capture, rq->context->vm,
-+				  GFP_NOWAIT | __GFP_NOWARN);
-+
- 	return capture;
- }
- 
-diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-index 68a9ac77b4f2..0244864e94f7 100644
---- a/drivers/gpu/drm/i915/i915_vma.c
-+++ b/drivers/gpu/drm/i915/i915_vma.c
-@@ -248,6 +248,7 @@ vma_create(struct drm_i915_gem_object *obj,
- 	INIT_LIST_HEAD(&vma->non_priv_vm_bind_link);
- 	INIT_LIST_HEAD(&vma->vm_rebind_link);
- 	INIT_LIST_HEAD(&vma->userptr_invalidated_link);
-+	INIT_LIST_HEAD(&vma->vm_capture_link);
- 	return vma;
- 
- err_unlock:
-diff --git a/drivers/gpu/drm/i915/i915_vma_types.h b/drivers/gpu/drm/i915/i915_vma_types.h
-index 90471dc0b235..10ae9f739d57 100644
---- a/drivers/gpu/drm/i915/i915_vma_types.h
-+++ b/drivers/gpu/drm/i915/i915_vma_types.h
-@@ -309,6 +309,8 @@ struct i915_vma {
- 	struct list_head vm_rebind_link; /* Link in vm_rebind_list */
- 	/** @userptr_invalidated_link: link to the vm->userptr_invalidated_list */
- 	struct list_head userptr_invalidated_link;
-+	/* @vm_capture_link: link to the captureable VMA list */
-+	struct list_head vm_capture_link;
- 
- 	/** Timeline fence for vm_bind completion notification */
- 	struct {
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index b9167f950327..0744651ad5b0 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -3930,7 +3930,8 @@ struct drm_i915_gem_vm_bind {
- 	 * Note that @fence carries its own flags.
- 	 */
- 	__u64 flags;
--#define __I915_GEM_VM_BIND_UNKNOWN_FLAGS (~0ull)
-+#define I915_GEM_VM_BIND_CAPTURE           (1 << 0)
-+#define __I915_GEM_VM_BIND_UNKNOWN_FLAGS   (-(I915_GEM_VM_BIND_CAPTURE << 1))
- 
- 	/** @rsvd: Reserved, MBZ */
- 	__u64 rsvd[2];
--- 
-2.21.0.rc0.32.g243a4c7e27
+Anyway:
+
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+
+>   	{ }
+>   };
+>   MODULE_DEVICE_TABLE(spi, ili9486_id);
+> 
 
