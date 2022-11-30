@@ -1,71 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0439963D144
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 10:00:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 010EC63D146
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 10:00:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A45E10E42B;
-	Wed, 30 Nov 2022 09:00:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 215F610E42E;
+	Wed, 30 Nov 2022 09:00:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A620910E0A1;
- Tue, 29 Nov 2022 17:11:34 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id a7so18010579ljq.12;
- Tue, 29 Nov 2022 09:11:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=6SteAwUAUCgIRYXNNmtZkw/nMqCarAX3ZBQIfUV2s5s=;
- b=pjNINGpRvxyUiXVXmfnb/wNr0bYZ6AzQGLG3v89Vv6jpCKBd/yWZZbucH5nRaaLurg
- CAYjnYhalu6Wzaj6wceb/G0kao5blSHJQb9DjmQNdUmaFed6LqmCOFEWJz3nNzGVSIW3
- rPVDNHKG8B63HgTUc1Z1Tk0w0naN/3P4eTKwv49HjInEe2RVUgcYXNwPtWpgV4Yc9UwT
- HXcmxAVllayB43I0HFXPMGkXzbArQSxMmkx7FXPO8rNkqbesf2CLCzhlvkp0mWm61S9F
- X7FyC0/igPHtDuaomnWS/4Z0DSujtVVj9zHYjlxUykG/3z3cymEL8ys/YK5A+gt10dyM
- uKpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6SteAwUAUCgIRYXNNmtZkw/nMqCarAX3ZBQIfUV2s5s=;
- b=jbbI3IcpPzqUb72IwDIrOJO2oljFmzmhwxfhYmb+3l7ZZV0qHxQ4gzTAgreUPLt/rA
- 9NdX1ZcRhTGuHVnUyxCTUjBNEdzjJHMeEsKHpTeMZnJ9RBG5qC8rCSXOYxmCDnq57tBR
- eSUuz1SJEK1pULxuJYospdTqAb2mWUVN4NScyfwF4TO1cacsBASjEOlaB8YpCij+CCO6
- 4yP5k4Yx18g76wThQbGft5gHxwX67U/l76E1uG2/9bp6MIbyb6eSw79JcP9v0t9Gjutl
- fIcWQplksdBUE1n5Pzr4DuXzWL9fJLAz7yvwD7WANNKQO4DWMSvI8HIO7+lKwBDzX+6e
- CBCA==
-X-Gm-Message-State: ANoB5plhtYTjOCjzJHQXs1xIwccc/s0YWxHhGxT2Usdiq1SIHECYQn+g
- LU/AeIZPWm2Otod2bdK2PtpI3i2mXA==
-X-Google-Smtp-Source: AA0mqf4rA3Cz5Wta+szAsI8J8dMV0Stkg+e73CKnI1bZwe27t8CYpA+LWst8FrVrRVprm+9XWjb2Ug==
-X-Received: by 2002:a2e:9806:0:b0:279:97ef:c1ee with SMTP id
- a6-20020a2e9806000000b0027997efc1eemr6150070ljj.165.1669741892827; 
- Tue, 29 Nov 2022 09:11:32 -0800 (PST)
-Received: from sqrt.uni.cx (0854358661.static.corbina.ru. [95.31.0.167])
- by smtp.gmail.com with ESMTPSA id
- c13-20020a2e9d8d000000b0026dd4be2290sm1586553ljj.90.2022.11.29.09.11.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Nov 2022 09:11:32 -0800 (PST)
-Date: Tue, 29 Nov 2022 20:11:36 +0300
-From: Mikhail Krylov <sqarert@gmail.com>
-To: Alex Deucher <alexdeucher@gmail.com>
-Subject: Re: Screen corruption using radeon kernel driver
-Message-ID: <Y4Y9SJC7gtUxP4+R@sqrt.uni.cx>
-References: <20220423193145.3301ed06@desktop>
- <CADnq5_PXgFBXZ03LXE8qOdimzfKYGhzX1JnycJQcHWcMZdgJug@mail.gmail.com>
- <Y4TGOb3UGmDslyYF@sqrt.uni.cx>
- <CADnq5_NTyvZR16_N0TzMo3f9Mg6EwOuwuBgYzDA=U7tur7Fmnw@mail.gmail.com>
- <Y4UelMnRkY7/0G6U@sqrt.uni.cx>
- <CADnq5_MactA_n4sTKZ_-TpYFZnOfEeygHF3r+zH94By2Dm86cA@mail.gmail.com>
- <Y4YsWo8MPAeg9DRQ@sqrt.uni.cx>
- <CADnq5_MNmOHVuszVfCZ8Ajm85Wb5roe4-20BEXXzsEVpAC_Rkg@mail.gmail.com>
+Received: from mail-m11880.qiye.163.com (mail-m11880.qiye.163.com
+ [115.236.118.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77C2310E28A
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 05:46:56 +0000 (UTC)
+Received: from localhost.localdomain (unknown [103.29.142.67])
+ by mail-m11880.qiye.163.com (Hmail) with ESMTPA id BB3AE202EB;
+ Wed, 30 Nov 2022 13:46:44 +0800 (CST)
+From: Qiqi Zhang <eddy.zhang@rock-chips.com>
+To: tomi.valkeinen@ideasonboard.com,
+	dianders@chromium.org
+Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Fix output polarity setting bug
+Date: Wed, 30 Nov 2022 13:45:51 +0800
+Message-Id: <20221130054551.112944-1-eddy.zhang@rock-chips.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <34c2e9c8-9e3d-129c-8295-18ff440f1f84@ideasonboard.com>
+References: <34c2e9c8-9e3d-129c-8295-18ff440f1f84@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="XglWa2+FEr8HAz/a"
-Content-Disposition: inline
-In-Reply-To: <CADnq5_MNmOHVuszVfCZ8Ajm85Wb5roe4-20BEXXzsEVpAC_Rkg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZHUlKVkhKTUodGB0fSBgfQlUTARMWGhIXJBQOD1
+ lXWRgSC1lBWUpLSFVJQlVKT0lVTUxZV1kWGg8SFR0UWUFZT0tIVUpKS0hKQ1VKS0tVS1kG
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MVE6ERw6Aj0tNBIJHQo9OAIQ
+ GAEaFBhVSlVKTU1CTENMSUtNSk5CVTMWGhIXVR4fHwJVARMaFRw7CRQYEFYYExILCFUYFBZFWVdZ
+ EgtZQVlKS0hVSUJVSk9JVU1MWVdZCAFZQU9MTE83Bg++
+X-HM-Tid: 0a84c712bfdc2eb6kusnbb3ae202eb
 X-Mailman-Approved-At: Wed, 30 Nov 2022 08:58:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,97 +47,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: neil.armstrong@linaro.org, andrzej.hajda@intel.com, jonas@kwiboo.se,
+ robert.foss@linaro.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, jernej.skrabec@gmail.com,
+ Laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
---XglWa2+FEr8HAz/a
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+on Nov. 29, 2022, 11:45 a.m. Tomi wrote:
+>On 29/11/2022 03:13, Doug Anderson wrote:
+>> Hi,
+>>
+>> On Fri, Nov 25, 2022 at 2:54 AM Qiqi Zhang <eddy.zhang@rock-chips.com> wrote:
+>>>
+>>> According to the description in ti-sn65dsi86's datasheet:
+>>>
+>>> CHA_HSYNC_POLARITY:
+>>> 0 = Active High Pulse. Synchronization signal is high for the sync
+>>> pulse width. (default)
+>>> 1 = Active Low Pulse. Synchronization signal is low for the sync
+>>> pulse width.
+>>>
+>>> CHA_VSYNC_POLARITY:
+>>> 0 = Active High Pulse. Synchronization signal is high for the sync
+>>> pulse width. (Default)
+>>> 1 = Active Low Pulse. Synchronization signal is low for the sync
+>>> pulse width.
+>>>
+>>> We should only set these bits when the polarity is negative.
+>>> Signed-off-by: Qiqi Zhang <eddy.zhang@rock-chips.com>
+>>> ---
+>>>   drivers/gpu/drm/bridge/ti-sn65dsi86.c | 4 ++--
+>>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+>>> index 3c3561942eb6..eb24322df721 100644
+>>> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+>>> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+>>> @@ -931,9 +931,9 @@ static void ti_sn_bridge_set_video_timings(struct ti_sn65dsi86 *pdata)
+>>>                  &pdata->bridge.encoder->crtc->state->adjusted_mode;
+>>>          u8 hsync_polarity = 0, vsync_polarity = 0;
+>>>
+>>> -       if (mode->flags & DRM_MODE_FLAG_PHSYNC)
+>>> +       if (mode->flags & DRM_MODE_FLAG_NHSYNC)
+>>>                  hsync_polarity = CHA_HSYNC_POLARITY;
+>>> -       if (mode->flags & DRM_MODE_FLAG_PVSYNC)
+>>> +       if (mode->flags & DRM_MODE_FLAG_NVSYNC)
+>>>                  vsync_polarity = CHA_VSYNC_POLARITY;
+>>
+>> Looks right to me.
+>>
+>> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+>>
+>> I've never seen the polarity matter for any eDP panels I've worked
+>> with, which presumably explains why this was wrong for so long. As far
+>
+>Afaik, DP doesn't have sync polarity as such (neither does DSI), and the
+>sync polarity is just "metadata". So if you're in full-DP domain, I
+>don't see why it would matter. I guess it becomes relevant when you
+>convert from DP to some other bus format.
 
-On Tue, Nov 29, 2022 at 11:05:28AM -0500, Alex Deucher wrote:
-> On Tue, Nov 29, 2022 at 10:59 AM Mikhail Krylov <sqarert@gmail.com> wrote:
-> >
-> > On Tue, Nov 29, 2022 at 09:44:19AM -0500, Alex Deucher wrote:
-> > > On Mon, Nov 28, 2022 at 3:48 PM Mikhail Krylov <sqarert@gmail.com> wr=
-ote:
-> > > >
-> > > > On Mon, Nov 28, 2022 at 09:50:50AM -0500, Alex Deucher wrote:
-> > > >
-> > > > >>> [excessive quoting removed]
-> > > >
-> > > > >> So, is there any progress on this issue? I do understand it's no=
-t a high
-> > > > >> priority one, and today I've checked it on 6.0 kernel, and
-> > > > >> unfortunately, it still persists...
-> > > > >>
-> > > > >> I'm considering writing a patch that will allow user to override
-> > > > >> need_dma32/dma_bits setting with a module parameter. I'll have s=
-ome time
-> > > > >> after the New Year for that.
-> > > > >>
-> > > > >> Is it at all possible that such a patch will be merged into kern=
-el?
-> > > > >>
-> > > > > On Mon, Nov 28, 2022 at 9:31 AM Mikhail Krylov <sqarert@gmail.com=
-> wrote:
-> > > > > Unless someone familiar with HIMEM can figure out what is going w=
-rong
-> > > > > we should just revert the patch.
-> > > > >
-> > > > > Alex
-> > > >
-> > > >
-> > > > Okay, I was suggesting that mostly because
-> > > >
-> > > > a) it works for me with dma_bits =3D 40 (I understand that's what i=
-t is
-> > > > without the original patch applied);
-> > > >
-> > > > b) there's a hint of uncertainity on this line
-> > > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/=
-tree/drivers/gpu/drm/radeon/radeon_device.c#n1359
-> > > > saying that for AGP dma_bits =3D 32 is the safest option, so appare=
-ntly there are
-> > > > setups, unlike mine, where dma_bits =3D 32 is better than 40.
-> > > >
-> > > > But I'm in no position to argue, just wanted to make myself clear.
-> > > > I'm okay with rebuilding the kernel for my machine until the origin=
-al
-> > > > patch is reverted or any other fix is applied.
-> > >
-> > > What GPU do you have and is it AGP?  If it is AGP, does setting
-> > > radeon.agpmode=3D-1 also fix it?
-> > >
-> > > Alex
-> >
-> > That is ATI Radeon X1950, and, unfortunately, radeon.agpmode=3D-1 doesn=
-'t
-> > help, it just makes 3D acceleration in games such as OpenArena stop
-> > working.
->=20
-> Just to confirm, is the board AGP or PCIe?
->=20
-> Alex
+Just like Tomi said, the wrong polarity worked fine on my eDP panel(LP079QX1)
+and standard DP monitor, I didn't notice the polarity configuration problem
+here until my customer used the following solution and got a abnormal display:
+GPU->mipi->eDP->DP->lvds->panel.
 
-It is AGP. That's an old machine.
+>> as I can tell, it's been wrong since the start. Probably you should
+>> have:
+>>
+>> Fixes: a095f15c00e2 ("drm/bridge: add support for sn65dsi86 bridge driver")
 
---XglWa2+FEr8HAz/a
-Content-Type: application/pgp-signature; name="signature.asc"
+Doug you mean I need to update my commit message? It's my first time using
+kernel list and I'm a little confused about this.
 
------BEGIN PGP SIGNATURE-----
+>>
+>> I put this on a sc7180-trogdor-lazor device and it didn't make
+>> anything worse. Since the sync polarity never mattered to begin with,
+>> I guess this isn't a surprise. ...so I guess that's a weak tested-by:
+>>
+>> Tested-by: Douglas Anderson <dianders@chromium.org>
+>>
+>> I'm happy to land this patch, but sounds like we're hoping to get
+>> extra testing so I'll hold off for now.
+>
+>Looks fine to me and works for me with my DP monitor.
+>
+>Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-iQEzBAABCgAdFiEEq9zNqT9shXHTn/gRzNfc0dbmrQAFAmOGPUgACgkQzNfc0dbm
-rQCzHgf9Fh8dzbPLCyANDpCP91JuB5vQnGyYEAy9YuSuIWyUIjSzv+8sP5yISpJr
-5HqQYxDCag4+AF5Cnr9TceFX/0X4LmeCcrgVn9hh+gB3YmRyBaeuajLPXibNa7Uc
-bGIYeyF3YuANWHhvfeVJY7JINGtwCS/AUR8L37PTTm7DwmYzuLBwO8AaPlP6ZYRe
-yS4V1NWz0ZDt2rlrLPH7r2ObEBuZh11b8VsNfiF0fOqTwdWoBalKwcL2R2ZFYSbb
-7Lhvre/cUXUAwqMsWYSlZrRZdixfEhzhVTzpkeCKDTKaBHkNQqGJk7QC3UvAY6gh
-Bk4xDrEWlpwAix4DtHmqtl7bmTTwgg==
-=5sCM
------END PGP SIGNATURE-----
-
---XglWa2+FEr8HAz/a--
+-Eddy
