@@ -2,77 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F26FA63D2D5
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 11:10:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C62C63D2F7
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 11:15:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6195589117;
-	Wed, 30 Nov 2022 10:10:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 133C710E0E7;
+	Wed, 30 Nov 2022 10:15:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEB1289117
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 10:10:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83BD510E0E7
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 10:15:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1669803003;
+ s=mimecast20190719; t=1669803349;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NoPdGdP1XN2IHlWy3xzG7ljlYAvy6qLxs9MsnW+HAEQ=;
- b=ZlZdyiD78BGnR/7hjwAEKvQuX3EWxeCxZAEK1un/gXLY11oC2oLzTipH7O2gQvjAkNXSfl
- VWCLswQXrsJ0DeE4uElLYmxNPYlFjF7gMIja7EsP/eBVb8zgPxM2525nGISImPvjh3nbLQ
- xTmuQ3MdMBKlw/dgan7AxN2Yc7Qd600=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=CxbB2FEXTvRF2CzuUkTWE4rFXxyela8ryo1CFsrhtF4=;
+ b=Ilu7a2SO+i0LeScqUcu5bN0e6oxFILp0xY6uymxsTrxrpiTnJ3CHSsWePUwMJcX+APlU/V
+ sEeNAV0H0ndS8XoOle4arHS3ICzg8w7QhZKQa+6aIn9aiBY+DTLTdYWljaMRTWfo3ansnz
+ ZwX0zckvG+Z9J8+gMKzZl0k85YSEq08=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-563-lCP0ejvnN5mUkp_oiBAZrg-1; Wed, 30 Nov 2022 05:10:02 -0500
-X-MC-Unique: lCP0ejvnN5mUkp_oiBAZrg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- c1-20020a7bc001000000b003cfe40fca79so459566wmb.6
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 02:10:01 -0800 (PST)
+ us-mta-629-EUivZbl-Nt-cIsP-Z9YiAw-1; Wed, 30 Nov 2022 05:15:48 -0500
+X-MC-Unique: EUivZbl-Nt-cIsP-Z9YiAw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ z18-20020a05600c221200b003cf7fcc286aso471004wml.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 02:15:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NoPdGdP1XN2IHlWy3xzG7ljlYAvy6qLxs9MsnW+HAEQ=;
- b=OYkDdFIjx0XHHUczlGBETV54lJdOoLbr7PUddIAJcA4vFRNswYDxd7SMsVwQyOGNEy
- vqBvtWcmyBBOE/nDMcCBog94QgcZ5oZezUWWwcbd8UU1uEnndfODrLcKyLrLikuELMqR
- ZUZ3LZ5AkTsRxCofflU/ozVDZ0jYTvqcT2uwpYAf7zAKKA4Zm+qmGejuZEtd/WP89/7d
- lNloCEhn0xI1zM1sD7bsBd0ArPM+UIA18UQ3BNO0P5V2ILczDm11o5fsWPgCZCJJzOMa
- KNWpPhXlSK4Ii+8GAMQfoR/GAKEMsWdZ1OKvgrD8AIrNqr1xcozTokShyWkWhJijr6/7
- Z28g==
-X-Gm-Message-State: ANoB5pkpXjnh8LgB5ero8JkkFVlkuM1OvSHqyYRu58qPPCBHmQIjqIrk
- dXMpdD8Wo7/M1gWm3WWmztbjNyoWv4HHstw1oy8dNyn4PrwPf0Ld/D15afYTxR6arfa5WaxJKnc
- 3UY7E+X5E5eWEh1h9PScVbwezDFVk
-X-Received: by 2002:a5d:504d:0:b0:242:246c:2f89 with SMTP id
- h13-20020a5d504d000000b00242246c2f89mr3758393wrt.108.1669803000956; 
- Wed, 30 Nov 2022 02:10:00 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5FkWQT/k1GHgrsZnt54cNcc31t/15SG2tVARml33QGcmHm1VSq1hvfrPDi51V6Qbq5abMc4Q==
-X-Received: by 2002:a5d:504d:0:b0:242:246c:2f89 with SMTP id
- h13-20020a5d504d000000b00242246c2f89mr3758377wrt.108.1669803000781; 
- Wed, 30 Nov 2022 02:10:00 -0800 (PST)
+ bh=CxbB2FEXTvRF2CzuUkTWE4rFXxyela8ryo1CFsrhtF4=;
+ b=awqYiUd87w2lJ/Gq46wiqAWkXE8jGo8xChEsMLeRYb/J/EuuPbthNAgy2nSVcqgo6Q
+ zrvWtOxp5ynm2026U8NqyKbKCSWL8zWfQCWCMrMgjq2GENXyeOP8bZILy7NGPvW2nykp
+ SkQL1gAwtdlyMzV3oIYuzih2k1J2vPiirkIRB9eC/gBqep+zFrw8NcZY5gOhdpmGpeZX
+ a8ppWQJyZGIFmjcYP8Z/aVvt4DydfOG2rsCPfpXfISFnsN/lhceRnDuE6CgCTMn7kOgp
+ aOL/t7DRx1IeaUONEMrgN7Tacp/13UKXJybahnJHVpiSPDdq91utFUx2EdP+0zyJW5L6
+ 54Qg==
+X-Gm-Message-State: ANoB5pklHRQ6Rjbd8nBIv5pK2asD9cq0BbePJtsORm+Q3WyRQPoxNGg9
+ GupUE8nxs+4A3VRXBVedv6K4FEX7yrN3aI0VXjUQj151TDnzlXenDB8lywmI24PKF1NzlnNh5QJ
+ OvI1OpEJjIcSY/0tymFSH+OMNrWGL
+X-Received: by 2002:a05:6000:71e:b0:241:df3f:f5d6 with SMTP id
+ bs30-20020a056000071e00b00241df3ff5d6mr25887786wrb.288.1669803347043; 
+ Wed, 30 Nov 2022 02:15:47 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf489Ao4FvIZrt2NmdFFZZC3lnncO3vTH3xWCwvBSPnOhZqxpghPRCNXtDB4BiPRHtQZXu9P+w==
+X-Received: by 2002:a05:6000:71e:b0:241:df3f:f5d6 with SMTP id
+ bs30-20020a056000071e00b00241df3ff5d6mr25887772wrb.288.1669803346802; 
+ Wed, 30 Nov 2022 02:15:46 -0800 (PST)
 Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- b18-20020a5d5512000000b0023c8026841csm514653wrv.23.2022.11.30.02.09.59
+ l11-20020a1ced0b000000b003b3307fb98fsm1397702wmh.24.2022.11.30.02.15.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Nov 2022 02:10:00 -0800 (PST)
-Message-ID: <31351d94-91ba-b0fe-cb20-3dcc8254fb66@redhat.com>
-Date: Wed, 30 Nov 2022 11:09:59 +0100
+ Wed, 30 Nov 2022 02:15:46 -0800 (PST)
+Message-ID: <6222f13a-a03f-cf20-343a-e885f80cc4ed@redhat.com>
+Date: Wed, 30 Nov 2022 11:15:45 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH v2 16/17] drm/vc4: tests: Fail the current test if we
- access a register
+Subject: Re: [PATCH v2 17/17] drm/vc4: tests: Add unit test suite for the PV
+ muxing
 To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter <daniel@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
  Thomas Zimmermann <tzimmermann@suse.de>
 References: <20221123-rpi-kunit-tests-v2-0-efe5ed518b63@cerno.tech>
- <20221123-rpi-kunit-tests-v2-16-efe5ed518b63@cerno.tech>
+ <20221123-rpi-kunit-tests-v2-17-efe5ed518b63@cerno.tech>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221123-rpi-kunit-tests-v2-16-efe5ed518b63@cerno.tech>
+In-Reply-To: <20221123-rpi-kunit-tests-v2-17-efe5ed518b63@cerno.tech>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -101,35 +101,16 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 11/28/22 15:53, Maxime Ripard wrote:
-> Accessing a register when running under kunit is a bad idea since our
-> device is completely mocked.
+> The HVS to PixelValve muxing code is fairly error prone and has a bunch
+> of arbitrary constraints due to the hardware setup.
 > 
-> Fail the current test if we ever access any of our hardware registers.
+> Let's create a test suite that makes sure that the possible combinations
+> work and the invalid ones don't.
 > 
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > ---
 
-[...]
-
-> -#define CRTC_WRITE(offset, val) writel(val, vc4_crtc->regs + (offset))
-> -#define CRTC_READ(offset) readl(vc4_crtc->regs + (offset))
-> +#define CRTC_WRITE(offset, val)								\
-> +	do {										\
-> +		kunit_fail_current_test("Accessing a register in a unit test!\n");	\
-> +		writel(val, vc4_crtc->regs + (offset));					\
-> +	} while (0)
-> +
-> +#define CRTC_READ(offset)								\
-> +	({										\
-> +		kunit_fail_current_test("Accessing a register in a unit test!\n");	\
-> +		readl(vc4_crtc->regs + (offset));					\
-> +	})
-> 
-
-Should this be made conditional on whether DRM_VC4_KUNIT_TEST is enabled ? 
-
-That is, just define the simpler macros when is disabled? The kunit_fail_current_test()
-is just a no-op if CONFIG_KUNIT isn't enabled, but I think my question still stands.
+Thanks for this patch. It shows how powerful KUnit can be for testing drivers. 
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
