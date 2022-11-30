@@ -1,67 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0701F63D8A0
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 15:58:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8845463D8AB
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 15:59:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F063510E486;
-	Wed, 30 Nov 2022 14:58:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FCBD10E47A;
+	Wed, 30 Nov 2022 14:59:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CAFF10E478
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 14:58:22 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id td2so27860733ejc.5
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 06:58:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=iUf7tHbOiTNFxm9NG1RAoNmYcPKyh2MOWhQXpw+Jkiw=;
- b=A8aEOTll3/YjbHk0UTM1xHykcTPnT60aMQD4cX4BswRSwu55TFbnZ2y7phFBPvFEgR
- ad+ilkzGeMWMJ7yH5g0KEF5FaAq+zAM/qCpNs3tPjD/7spSo9QMLEMzlMZfYi4DNaVlz
- 5zujILxnGiBtxNbxGsUyWoM6YSqVtP1TwDUA4=
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBAC910E475
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 14:59:43 +0000 (UTC)
+Received: by mail-lj1-x231.google.com with SMTP id z24so21172526ljn.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 06:59:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=+bZZiGsvCviYgOuFBF7njmiF2RANtTpinOFAwCnqSCA=;
+ b=eg9BgddOl8Bn4tGtBcVcfYO7bUO8yd1eBz2ZBDcugmKd6hMl5F1Llxm5IXX9Dv37Qp
+ 4fNhHLmZBMoeGOrw9YHbvCeFDXo5jEO92pvUDdDbGWBdo7O7dkmmnp+L+d5eolfh4L2J
+ 0m1JJbT19p2jdk17CsxeU0zygr9t66ARMOIQ42/8xVeduVQLsoXIM3o9gbzsSgJKsF3W
+ RiHtiLFF85+Qcjw/L2wh7IWX0xHh17uHZFqqpnbhi/BhjTaauIA2YfWmh9e9KMrU67TS
+ 2PCT3n8HR/0I1vzTCHssMYTdVB0opZqF+TTFcUHKetDK7FLcPMwZg/mXAVRlqUpq3Kq+
+ pVkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=iUf7tHbOiTNFxm9NG1RAoNmYcPKyh2MOWhQXpw+Jkiw=;
- b=5NFo9UADgaGRgeTX9eoV0fGCBb7CxgCtRTcQGEyAkdX++BJJuzqiPPux7Od1FHUr39
- XjAOKzkRd44s+hdCyy5baweATze7PbxR62G64eyzCfuyPpl93+YaqzjhTNFPsqLHZF/1
- EYOBYd0cyYniqfFyUtvqmIBOxTfY72jI/dRqPbd/iFHolLpEK1q3CA7Jd3eN1wgwjlG8
- LDaErgM5ilnC8minye2s5usLRTTQEan280EL1qscYvYd2C1lFT/+1iyvLfm+Dz6WPpT5
- 0fxw7Ckd62Zghlz/0mq5byiOVO4DrfTw+PwJRlGwd8vgyRa9aGUYGg8ju5jsHgiEdo6H
- aQiQ==
-X-Gm-Message-State: ANoB5pnOunD1qE0iIK2B+Q+3R7eYEff8MYDzh33CjCFWaHqPZ8bvK4bk
- auPJXWujhaBkdqUS5kqrEaHMWyAAZ1moOlqP
-X-Google-Smtp-Source: AA0mqf75j/HY9f3Nf2gH156QgrLb185/YVZyRradaNGOVAdjardL/Lg/9oUT0eYanngKHd5BtlprPw==
-X-Received: by 2002:a17:906:3982:b0:7ad:8bc6:46e7 with SMTP id
- h2-20020a170906398200b007ad8bc646e7mr55046113eje.28.1669820300668; 
- Wed, 30 Nov 2022 06:58:20 -0800 (PST)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com.
- [209.85.221.49]) by smtp.gmail.com with ESMTPSA id
- l2-20020a1709063d2200b0073c8d4c9f38sm724791ejf.177.2022.11.30.06.58.19
- for <dri-devel@lists.freedesktop.org>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+bZZiGsvCviYgOuFBF7njmiF2RANtTpinOFAwCnqSCA=;
+ b=S1LOPRoBmyJWYhtPzxH2+4bTPONBJmzubmVznonrj1bt/I4DjEp41SYFkFnZInmIbu
+ GntRKqC2WluKRN2yDkHgXNtt8muPz42rIfGBgXchHTZrWQB6k4taqusYG9mlwhlCuoSV
+ PKYe8mT+YBJoW+ukVHj03F6lR8eM6RK7hKc4d2AIw0E/Ox69KLqpW3FyIp4i1mz+XGNY
+ 6aA79EVEv4HyPDC6tkGi6ViD20NextysBsMCc/mTM9dRpCH3k0Z5HIs/AoKYnulwzJVc
+ erLKMcdtdRXnvP2/GJSywDYZiOmWVhsWuFklepz25JCLV0t02RzfiFjs2KO62DHE/w8K
+ Hwhw==
+X-Gm-Message-State: ANoB5pnjjST9WcBGuV3gt9GPQnutU8ENiPU+e5U8CwwOWFkYG1CR2bTN
+ um+lTNpy/r7CHPWJDJyAVRwopg==
+X-Google-Smtp-Source: AA0mqf4QWLRswl+fzVjdtAM1h2hdO9aXmxVDwI9Rklz7Of6iQt/IqJOKUAFZJPhb5iE093B2/PPRTA==
+X-Received: by 2002:a05:651c:1101:b0:279:73ba:8719 with SMTP id
+ e1-20020a05651c110100b0027973ba8719mr12448536ljo.294.1669820382117; 
+ Wed, 30 Nov 2022 06:59:42 -0800 (PST)
+Received: from [192.168.0.20]
+ (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+ by smtp.gmail.com with ESMTPSA id
+ s12-20020a056512202c00b004b4cbc942a3sm286091lfs.127.2022.11.30.06.59.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Nov 2022 06:58:19 -0800 (PST)
-Received: by mail-wr1-f49.google.com with SMTP id z4so27537511wrr.3
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 06:58:19 -0800 (PST)
-X-Received: by 2002:a5d:6409:0:b0:241:f7ae:b1dd with SMTP id
- z9-20020a5d6409000000b00241f7aeb1ddmr21393491wru.138.1669820299103; Wed, 30
- Nov 2022 06:58:19 -0800 (PST)
+ Wed, 30 Nov 2022 06:59:41 -0800 (PST)
+Message-ID: <99671b3a-e99a-0a94-38f2-1ffa70339a15@linaro.org>
+Date: Wed, 30 Nov 2022 15:59:40 +0100
 MIME-Version: 1.0
-References: <34c2e9c8-9e3d-129c-8295-18ff440f1f84@ideasonboard.com>
- <20221130054551.112944-1-eddy.zhang@rock-chips.com>
-In-Reply-To: <20221130054551.112944-1-eddy.zhang@rock-chips.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 30 Nov 2022 06:58:06 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=WRbg=VyNHfteBBuijC-uhx5Oyc2TX40BEQ2SHv6s=puQ@mail.gmail.com>
-Message-ID: <CAD=FV=WRbg=VyNHfteBBuijC-uhx5Oyc2TX40BEQ2SHv6s=puQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Fix output polarity setting bug
-To: Qiqi Zhang <eddy.zhang@rock-chips.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH] dt-bindings: msm/dsi: Don't require vcca-supply on 14nm
+ PHY
+Content-Language: en-US
+To: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
+ andersson@kernel.org, krzysztof.kozlowski+dt@linaro.org
+References: <20221130135807.45028-1-konrad.dybcio@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221130135807.45028-1-konrad.dybcio@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,89 +77,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, jernej.skrabec@gmail.com,
- andrzej.hajda@intel.com, jonas@kwiboo.se, tomi.valkeinen@ideasonboard.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Laurent.pinchart@ideasonboard.com, robert.foss@linaro.org
+Cc: freedreno@lists.freedesktop.org, patches@linaro.org,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, devicetree@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Tue, Nov 29, 2022 at 9:46 PM Qiqi Zhang <eddy.zhang@rock-chips.com> wrote:
->
-> Hi,
->
-> on Nov. 29, 2022, 11:45 a.m. Tomi wrote:
-> >On 29/11/2022 03:13, Doug Anderson wrote:
-> >> Hi,
-> >>
-> >> On Fri, Nov 25, 2022 at 2:54 AM Qiqi Zhang <eddy.zhang@rock-chips.com> wrote:
-> >>>
-> >>> According to the description in ti-sn65dsi86's datasheet:
-> >>>
-> >>> CHA_HSYNC_POLARITY:
-> >>> 0 = Active High Pulse. Synchronization signal is high for the sync
-> >>> pulse width. (default)
-> >>> 1 = Active Low Pulse. Synchronization signal is low for the sync
-> >>> pulse width.
-> >>>
-> >>> CHA_VSYNC_POLARITY:
-> >>> 0 = Active High Pulse. Synchronization signal is high for the sync
-> >>> pulse width. (Default)
-> >>> 1 = Active Low Pulse. Synchronization signal is low for the sync
-> >>> pulse width.
-> >>>
-> >>> We should only set these bits when the polarity is negative.
-> >>> Signed-off-by: Qiqi Zhang <eddy.zhang@rock-chips.com>
-> >>> ---
-> >>>   drivers/gpu/drm/bridge/ti-sn65dsi86.c | 4 ++--
-> >>>   1 file changed, 2 insertions(+), 2 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> >>> index 3c3561942eb6..eb24322df721 100644
-> >>> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> >>> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> >>> @@ -931,9 +931,9 @@ static void ti_sn_bridge_set_video_timings(struct ti_sn65dsi86 *pdata)
-> >>>                  &pdata->bridge.encoder->crtc->state->adjusted_mode;
-> >>>          u8 hsync_polarity = 0, vsync_polarity = 0;
-> >>>
-> >>> -       if (mode->flags & DRM_MODE_FLAG_PHSYNC)
-> >>> +       if (mode->flags & DRM_MODE_FLAG_NHSYNC)
-> >>>                  hsync_polarity = CHA_HSYNC_POLARITY;
-> >>> -       if (mode->flags & DRM_MODE_FLAG_PVSYNC)
-> >>> +       if (mode->flags & DRM_MODE_FLAG_NVSYNC)
-> >>>                  vsync_polarity = CHA_VSYNC_POLARITY;
-> >>
-> >> Looks right to me.
-> >>
-> >> Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> >>
-> >> I've never seen the polarity matter for any eDP panels I've worked
-> >> with, which presumably explains why this was wrong for so long. As far
-> >
-> >Afaik, DP doesn't have sync polarity as such (neither does DSI), and the
-> >sync polarity is just "metadata". So if you're in full-DP domain, I
-> >don't see why it would matter. I guess it becomes relevant when you
-> >convert from DP to some other bus format.
->
-> Just like Tomi said, the wrong polarity worked fine on my eDP panel(LP079QX1)
-> and standard DP monitor, I didn't notice the polarity configuration problem
-> here until my customer used the following solution and got a abnormal display:
-> GPU->mipi->eDP->DP->lvds->panel.
-
-Wow, that's convoluted, but makes sense. I think this fully explains
-why this is a problem for you but wasn't in the past.
+On 30/11/2022 14:58, Konrad Dybcio wrote:
+> On some SoCs (hello SM6115) vcca-supply is not wired to any smd-rpm
+> or rpmh regulator, but instead powered by the VDD_MX line, which is
+> voted for in the DSI ctrl node.
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
 
-> >> as I can tell, it's been wrong since the start. Probably you should
-> >> have:
-> >>
-> >> Fixes: a095f15c00e2 ("drm/bridge: add support for sn65dsi86 bridge driver")
->
-> Doug you mean I need to update my commit message? It's my first time using
-> kernel list and I'm a little confused about this.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Nah, I'll add it in and land it. OK, pushed to drm-misc-fixes:
+Best regards,
+Krzysztof
 
-8c115864501f drm/bridge: ti-sn65dsi86: Fix output polarity setting bug
