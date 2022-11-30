@@ -1,68 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 898B263DA32
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 17:07:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0F6563DB0E
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 17:53:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DB7110E49D;
-	Wed, 30 Nov 2022 16:07:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6595A10E0DF;
+	Wed, 30 Nov 2022 16:53:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com
- [IPv6:2001:4860:4864:20::36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7917510E4AC;
- Wed, 30 Nov 2022 16:07:45 +0000 (UTC)
-Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-143ffc8c2b2so2706133fac.2; 
- Wed, 30 Nov 2022 08:07:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=TNA66VD1dhly+3dtftGrh+5H4e0DR5KYMxxoToOp0Zs=;
- b=j4pr7BkdEWAIJQ8tveBM/v58XDkS3tIH0kRwbbcNsFv8/WT++r9Y3r2TDlxofrhz0V
- 5nty/74r5uNyASNsicy3gHRi1J9O9hhjFFGrwBHRxczNnLhluinCbRdV4MOrJDGWA8gc
- 1zVGtRbp/KwoRn16DZpv4ANjfRewaDc1P0xfb8IxB/xKFwSAdJnOW/lsoIVuq3AyHV73
- f+RMc6zHLcOVf2q2jYoxrZZbq9SMaJagLWuKcpAJHmnv2DS1pHxzbUB9/xaBYVjvFEBI
- CdvTklSLG2ECJC6fwkaGqne24Qh9FOW1M0pjkPQawWmyxfWvsc4DlBAsYjS5SLpJmMsw
- i83w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=TNA66VD1dhly+3dtftGrh+5H4e0DR5KYMxxoToOp0Zs=;
- b=ii6ZDkzHw/Lz7HcFkIWuhyEUpcA59O9fAIvI1xdGfwFNdG16cAqTD9o0n+eavpnfy0
- m51MKSqpGsal3RA3uYC6OZeTSseRbxu5lbuHOAYaCmvPMP5QdHSnPIDoE3b+IdwUMRt5
- rfwV0z2n7eNbgh3wEPnQEPHnHkCvi3tKYn2tpLpTlKtIoSaYFLCt7llfF96UPchjrvm9
- yDWPCJL4sE6Hbh1EG4MHWCjX06br8+8jnnlIO9hzm/VMgR7fOwtsbCKs2Bo4YONbW6PZ
- g33wCHIbR8ne1BB/JzNKgdF2lPqK/diuOB7GLsViM1ZqLVgtO+zAsEv4ZFw6wjvhMtIk
- v1LQ==
-X-Gm-Message-State: ANoB5pmUgtqJNZsGAtqX3fPulWEpKhG7t6vGclZTu0jLEJIJHvMAo7QP
- Q0HmnoaJDQRzFOBHIJDfY5uiJXy3MTskHx0ptfZuoGzw3dQ=
-X-Google-Smtp-Source: AA0mqf6N9o/4LXhyLGNuKrX32ebqnuhQGZViJ2Ow29ShP7StLFINnqRGYeCU3ZVKWZveYNCWr/E92nbD7buN6fNjXAc=
-X-Received: by 2002:a05:6870:2b05:b0:12d:58c1:33f9 with SMTP id
- ld5-20020a0568702b0500b0012d58c133f9mr25152318oab.46.1669824464662; Wed, 30
- Nov 2022 08:07:44 -0800 (PST)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D544D10E0DF;
+ Wed, 30 Nov 2022 16:53:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1669827216; x=1701363216;
+ h=date:from:to:cc:subject:message-id:mime-version:
+ content-transfer-encoding;
+ bh=2CWqfYWjz0j8ooZ46ClrtGPt6u4hsbMa9B6BtMjzhTI=;
+ b=XKQZs+gld+wd5pIdzQOYamtfeADtU8rRlxJ0NWKQDtewgkPaoWHI6N/D
+ YE4TxWE2GPzhvpnuRDLDk9bRcZHS9/PEoHzF45uOP2DtdblcWCS6c6jax
+ IAsorsl9GDTWnJeQ23zUv1C1jrLifsu+e/PIjW763Hm6W+3WCJ0iohnZN
+ SxTieJfs3vt6D00P5zeMd2u+fZidEmzILfr9fT2E51SAuYGgK2bBtOZ+7
+ RHjIVaU882YK1G6hF8f5bwi275Bl6+Ysea033ex3ALxU7tM7r0/SinkZq
+ CGWiKPJNYpjaN1jFEtIiwbxBzyR0AzDdNi1nre49uuLsXHSEbGI5qw5gQ g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10547"; a="317296537"
+X-IronPort-AV: E=Sophos;i="5.96,207,1665471600"; d="scan'208";a="317296537"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Nov 2022 08:53:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10547"; a="750417452"
+X-IronPort-AV: E=Sophos;i="5.96,207,1665471600"; d="scan'208";a="750417452"
+Received: from lkp-server01.sh.intel.com (HELO 64a2d449c951) ([10.239.97.150])
+ by fmsmga002.fm.intel.com with ESMTP; 30 Nov 2022 08:53:31 -0800
+Received: from kbuild by 64a2d449c951 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1p0QKw-000BT1-18;
+ Wed, 30 Nov 2022 16:53:30 +0000
+Date: Thu, 01 Dec 2022 00:52:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Subject: [linux-next:master] BUILD REGRESSION
+ 700e0cd3a5ce6a2cb90d9a2aab729b52f092a7d6
+Message-ID: <63878a69.MJgnxRPRAUz4LkuC%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-References: <20220423193145.3301ed06@desktop>
- <CADnq5_PXgFBXZ03LXE8qOdimzfKYGhzX1JnycJQcHWcMZdgJug@mail.gmail.com>
- <Y4TGOb3UGmDslyYF@sqrt.uni.cx>
- <CADnq5_NTyvZR16_N0TzMo3f9Mg6EwOuwuBgYzDA=U7tur7Fmnw@mail.gmail.com>
- <Y4UelMnRkY7/0G6U@sqrt.uni.cx>
- <CADnq5_MactA_n4sTKZ_-TpYFZnOfEeygHF3r+zH94By2Dm86cA@mail.gmail.com>
- <Y4YsWo8MPAeg9DRQ@sqrt.uni.cx>
- <CADnq5_MNmOHVuszVfCZ8Ajm85Wb5roe4-20BEXXzsEVpAC_Rkg@mail.gmail.com>
- <Y4Y9SJC7gtUxP4+R@sqrt.uni.cx> <a5f73cfa-bd2a-3ab8-1e5c-253cfd832ea7@arm.com>
- <CADnq5_M5ScTd0AYddRBRiEupxRsV16eHFnLnZ3QYzE5gyMPqhw@mail.gmail.com>
- <adf4a9b2-c30d-1e74-9848-7a63b3e0c674@arm.com>
-In-Reply-To: <adf4a9b2-c30d-1e74-9848-7a63b3e0c674@arm.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 30 Nov 2022 11:07:32 -0500
-Message-ID: <CADnq5_PCGVhpk0TpnJKBx7BODV8xWk4hAyXM27tCxBpyS2y9gw@mail.gmail.com>
-Subject: Re: Screen corruption using radeon kernel driver
-To: Robin Murphy <robin.murphy@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,96 +59,212 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mikhail Krylov <sqarert@gmail.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>
+Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Linux Memory Management List <linux-mm@kvack.org>, coreteam@netfilter.org,
+ netfilter-devel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 30, 2022 at 10:42 AM Robin Murphy <robin.murphy@arm.com> wrote:
->
-> On 2022-11-30 14:28, Alex Deucher wrote:
-> > On Wed, Nov 30, 2022 at 7:54 AM Robin Murphy <robin.murphy@arm.com> wrote:
-> >>
-> >> On 2022-11-29 17:11, Mikhail Krylov wrote:
-> >>> On Tue, Nov 29, 2022 at 11:05:28AM -0500, Alex Deucher wrote:
-> >>>> On Tue, Nov 29, 2022 at 10:59 AM Mikhail Krylov <sqarert@gmail.com> wrote:
-> >>>>>
-> >>>>> On Tue, Nov 29, 2022 at 09:44:19AM -0500, Alex Deucher wrote:
-> >>>>>> On Mon, Nov 28, 2022 at 3:48 PM Mikhail Krylov <sqarert@gmail.com> wrote:
-> >>>>>>>
-> >>>>>>> On Mon, Nov 28, 2022 at 09:50:50AM -0500, Alex Deucher wrote:
-> >>>>>>>
-> >>>>>>>>>> [excessive quoting removed]
-> >>>>>>>
-> >>>>>>>>> So, is there any progress on this issue? I do understand it's not a high
-> >>>>>>>>> priority one, and today I've checked it on 6.0 kernel, and
-> >>>>>>>>> unfortunately, it still persists...
-> >>>>>>>>>
-> >>>>>>>>> I'm considering writing a patch that will allow user to override
-> >>>>>>>>> need_dma32/dma_bits setting with a module parameter. I'll have some time
-> >>>>>>>>> after the New Year for that.
-> >>>>>>>>>
-> >>>>>>>>> Is it at all possible that such a patch will be merged into kernel?
-> >>>>>>>>>
-> >>>>>>>> On Mon, Nov 28, 2022 at 9:31 AM Mikhail Krylov <sqarert@gmail.com> wrote:
-> >>>>>>>> Unless someone familiar with HIMEM can figure out what is going wrong
-> >>>>>>>> we should just revert the patch.
-> >>>>>>>>
-> >>>>>>>> Alex
-> >>>>>>>
-> >>>>>>>
-> >>>>>>> Okay, I was suggesting that mostly because
-> >>>>>>>
-> >>>>>>> a) it works for me with dma_bits = 40 (I understand that's what it is
-> >>>>>>> without the original patch applied);
-> >>>>>>>
-> >>>>>>> b) there's a hint of uncertainity on this line
-> >>>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/gpu/drm/radeon/radeon_device.c#n1359
-> >>>>>>> saying that for AGP dma_bits = 32 is the safest option, so apparently there are
-> >>>>>>> setups, unlike mine, where dma_bits = 32 is better than 40.
-> >>>>>>>
-> >>>>>>> But I'm in no position to argue, just wanted to make myself clear.
-> >>>>>>> I'm okay with rebuilding the kernel for my machine until the original
-> >>>>>>> patch is reverted or any other fix is applied.
-> >>>>>>
-> >>>>>> What GPU do you have and is it AGP?  If it is AGP, does setting
-> >>>>>> radeon.agpmode=-1 also fix it?
-> >>>>>>
-> >>>>>> Alex
-> >>>>>
-> >>>>> That is ATI Radeon X1950, and, unfortunately, radeon.agpmode=-1 doesn't
-> >>>>> help, it just makes 3D acceleration in games such as OpenArena stop
-> >>>>> working.
-> >>>>
-> >>>> Just to confirm, is the board AGP or PCIe?
-> >>>>
-> >>>> Alex
-> >>>
-> >>> It is AGP. That's an old machine.
-> >>
-> >> Can you check whether dma_addressing_limited() is actually returning the
-> >> expected result at the point of radeon_ttm_init()? Disabling highmem is
-> >> presumably just hiding whatever problem exists, by throwing away all
-> >>   >32-bit RAM such that use_dma32 doesn't matter.
-> >
-> > The device in question only supports a 32 bit DMA mask so
-> > dma_addressing_limited() should return true.  Bounce buffers are not
-> > really usable on GPUs because they map so much memory.  If
-> > dma_addressing_limited() returns false, that would explain it.
->
-> Right, it appears to be the only part of the offending commit that
-> *could* reasonably make any difference, so I'm primarily wondering if
-> dma_get_required_mask() somehow gets confused.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 700e0cd3a5ce6a2cb90d9a2aab729b52f092a7d6  Add linux-next specific files for 20221130
 
-Mikhail,
+Error/Warning reports:
 
-Can you see that dma_addressing_limited() and dma_get_required_mask()
-return in this case?
+https://lore.kernel.org/oe-kbuild-all/202211090634.RyFKK0WS-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202211110149.0ETIfpy6-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202211242021.FDZRFNA8-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202211242120.MzZVGULn-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202211282102.QUr7HHrW-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202211301622.RXGmFGTv-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202211301634.cejLlTJP-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202211301840.y7rROb13-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202211302059.vIaoimsf-lkp@intel.com
 
-Alex
+Error/Warning: (recently discovered and may have been fixed)
 
+arch/arm/mach-s3c/devs.c:32:10: fatal error: linux/platform_data/dma-s3c24xx.h: No such file or directory
+arch/powerpc/kernel/kvm_emul.o: warning: objtool: kvm_template_end(): can't find starting instruction
+arch/powerpc/kernel/optprobes_head.o: warning: objtool: optprobe_template_end(): can't find starting instruction
+drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn201/irq_service_dcn201.c:40:20: warning: no previous prototype for 'to_dal_irq_source_dcn201' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c:451:1: warning: no previous prototype for 'gf100_fifo_nonstall_block' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c:451:1: warning: no previous prototype for function 'gf100_fifo_nonstall_block' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c:34:1: warning: no previous prototype for 'nvkm_engn_cgrp_get' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c:34:1: warning: no previous prototype for function 'nvkm_engn_cgrp_get' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c:210:1: warning: no previous prototype for 'tu102_gr_load' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c:210:1: warning: no previous prototype for function 'tu102_gr_load' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/nvfw/acr.c:49:1: warning: no previous prototype for 'wpr_generic_header_dump' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/nvfw/acr.c:49:1: warning: no previous prototype for function 'wpr_generic_header_dump' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:221:21: warning: variable 'loc' set but not used [-Wunused-but-set-variable]
+drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:1474:38: warning: unused variable 'mt8173_jpeg_drvdata' [-Wunused-const-variable]
+drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:1489:38: warning: unused variable 'mtk_jpeg_drvdata' [-Wunused-const-variable]
+drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:1890:38: warning: unused variable 'mtk8195_jpegdec_drvdata' [-Wunused-const-variable]
+drivers/regulator/tps65219-regulator.c:310:60: warning: parameter 'dev' set but not used [-Wunused-but-set-parameter]
+drivers/regulator/tps65219-regulator.c:370:26: warning: ordered comparison of pointer with integer zero [-Wextra]
+include/linux/hugetlb.h:1240:33: error: 'VM_MAYSHARE' undeclared (first use in this function)
+include/linux/hugetlb.h:1240:47: error: 'VM_SHARED' undeclared (first use in this function); did you mean 'MNT_SHARED'?
+include/linux/hugetlb.h:1262:56: error: invalid use of undefined type 'struct hugetlb_vma_lock'
+net/netfilter/nf_conntrack_netlink.c:2674:6: warning: unused variable 'mark' [-Wunused-variable]
+vmlinux.o: warning: objtool: __btrfs_map_block+0x1d77: unreachable instruction
 
->
-> Thanks,
-> Robin.
+Unverified Error/Warning (likely false positive, please contact us if interested):
+
+drivers/media/i2c/ov9282.c:470:3: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- alpha-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
+|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
+|-- arc-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
+|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
+|-- arm-allyesconfig
+|   |-- arch-arm-mach-s3c-devs.c:fatal-error:linux-platform_data-dma-s3c24xx.h:No-such-file-or-directory
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
+|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
+|-- arm-defconfig
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
+|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
+|-- arm64-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
+|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
+|-- i386-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
+|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
+|-- i386-randconfig-r004-20221128
+|   `-- include-linux-hugetlb.h:error:invalid-use-of-undefined-type-struct-hugetlb_vma_lock
+|-- ia64-allmodconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
+|-- mips-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+clang_recent_errors
+|-- arm-randconfig-c002-20221128
+|   `-- drivers-media-i2c-ov9282.c:warning:Value-stored-to-ret-is-never-read-clang-analyzer-deadcode.DeadStores
+|-- arm64-buildonly-randconfig-r006-20221129
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-function-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-function-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-function-tu102_gr_load
+|   `-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-function-wpr_generic_header_dump
+|-- arm64-randconfig-r021-20221128
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-function-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-function-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-function-tu102_gr_load
+|   `-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-function-wpr_generic_header_dump
+|-- hexagon-randconfig-r041-20221128
+|   |-- drivers-media-platform-mediatek-jpeg-mtk_jpeg_core.c:warning:unused-variable-mt8173_jpeg_drvdata
+|   |-- drivers-media-platform-mediatek-jpeg-mtk_jpeg_core.c:warning:unused-variable-mtk8195_jpegdec_drvdata
+|   `-- drivers-media-platform-mediatek-jpeg-mtk_jpeg_core.c:warning:unused-variable-mtk_jpeg_drvdata
+|-- i386-randconfig-a014-20221128
+|   `-- net-netfilter-nf_conntrack_netlink.c:warning:unused-variable-mark
+|-- powerpc-randconfig-r026-20221128
+|   |-- arch-powerpc-kernel-btext.o:warning:objtool:btext_prepare_BAT:unannotated-intra-function-call
+|   |-- arch-powerpc-kernel-kvm_emul.o:warning:objtool:kvm_template_end():can-t-find-starting-instruction
+|   |-- arch-powerpc-kernel-prom_init.o:warning:objtool:prom_init:unannotated-intra-function-call
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-function-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-function-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-function-tu102_gr_load
+|   `-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-function-wpr_generic_header_dump
+`-- s390-randconfig-r044-20221128
+    |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-function-gf100_fifo_nonstall_block
+    |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-function-nvkm_engn_cgrp_get
+    |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-function-tu102_gr_load
+    `-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-function-wpr_generic_header_dump
+
+elapsed time: 730m
+
+configs tested: 58
+configs skipped: 2
+
+gcc tested configs:
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                              defconfig
+arc                                 defconfig
+i386                                defconfig
+alpha                               defconfig
+powerpc                           allnoconfig
+x86_64                        randconfig-a013
+x86_64                        randconfig-a011
+arm                                 defconfig
+x86_64                        randconfig-a015
+x86_64                               rhel-8.3
+s390                             allmodconfig
+sh                               allmodconfig
+s390                                defconfig
+arc                  randconfig-r043-20221128
+ia64                             allmodconfig
+x86_64                           rhel-8.3-syz
+mips                             allyesconfig
+m68k                             allmodconfig
+arm                              allyesconfig
+powerpc                          allmodconfig
+x86_64                    rhel-8.3-kselftests
+x86_64                         rhel-8.3-kunit
+arc                              allyesconfig
+x86_64                           allyesconfig
+arm64                            allyesconfig
+s390                             allyesconfig
+x86_64                           rhel-8.3-kvm
+x86_64                          rhel-8.3-func
+i386                 randconfig-a002-20221128
+alpha                            allyesconfig
+x86_64                        randconfig-a004
+i386                             allyesconfig
+m68k                             allyesconfig
+x86_64                        randconfig-a002
+i386                 randconfig-a003-20221128
+x86_64                        randconfig-a006
+i386                 randconfig-a001-20221128
+i386                 randconfig-a005-20221128
+i386                 randconfig-a006-20221128
+i386                 randconfig-a004-20221128
+
+clang tested configs:
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+hexagon              randconfig-r045-20221128
+hexagon              randconfig-r041-20221128
+riscv                randconfig-r042-20221128
+s390                 randconfig-r044-20221128
+x86_64                        randconfig-a001
+x86_64                        randconfig-a003
+x86_64                        randconfig-a005
+i386                 randconfig-a012-20221128
+i386                 randconfig-a011-20221128
+i386                 randconfig-a013-20221128
+i386                 randconfig-a015-20221128
+i386                 randconfig-a016-20221128
+i386                 randconfig-a014-20221128
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
