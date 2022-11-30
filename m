@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4AE863E2FB
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 22:56:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94C3F63E2FE
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 22:56:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA60310E4E5;
-	Wed, 30 Nov 2022 21:56:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1053810E0DD;
+	Wed, 30 Nov 2022 21:56:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from casper.infradead.org (casper.infradead.org
  [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE06210E0DD
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 21:55:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DD2D10E0DD
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 21:56:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
  MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
  Content-Description:In-Reply-To:References;
- bh=IYRKxi+onLBFbh4zY0bg9jQRkT3TX2p808M3H7FEIdk=; b=goeggzxiVtspFRe1gCJYV2AjAY
- 3Ien6lK0K0BV9wiAGtv//wzGWz+O8fXUKPwpErcqh4Hc6va6uoVte449UkPeVtdFBUyvgfz1CBA3h
- WupqZvb7OgIQcJ3wjHdpYFVenXpiwYuYrQ+l9BRsQqbZjWQRJaptQaYsgH3WqLWeiWEJnPLEOBcE2
- cJfLGab+Am3K/zwPuvgF/nkLtN1lnsFmdyi5fSWpGDDKkM3523z4ASMf/QcQ+tuiXzAprfodEI+Qf
- Ix0WXRT0AG4kIZnHJnSzyVCRWbLkmAZlngq3lZ4WCsNSzwoV9vtu2K8SizYZkDWZe/Wb0iRRc0qh2
- qVUd31gA==;
+ bh=9ue0uGD9yX/1sJHyqmcNOU+aIhb/LFzhG5X5H+uhnGw=; b=eYuFdnVEKQN3qRV/BGXQG0Mxyd
+ fFwZQ1O+epwDYpg5jkS8lEjMUV9QQCveIntrqBrGceCtOokWuJOQw2se3juK0d2RzfVaLpfJgu0PD
+ 7NsUelo2lxiHlGAnjkd3/kEFelkcxhp5ddwK6gP829fPi4D1YqYB6Ev3V6hBjHb4b5ldwXLjzcWpR
+ M8wcPUQ+bwxU2jyd/KRF6uC7yaYmuBGnOi6HMeJnKkhe2JcBV75ccO/KiDnymTY/62qqZeGZWLsGB
+ G5IIKQxENka/H3M061749bTb0qfMQGufCDpR9NraJM9CGU+5/+zMiTSa3BXAPujRHFFsYmtQY3nks
+ TB2gcCQA==;
 Received: from [2601:1c2:d80:3110::a2e7] (helo=casper.infradead.org)
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1p0V3d-00FKCY-3n; Wed, 30 Nov 2022 21:55:57 +0000
+ id 1p0V3s-00FKDQ-Io; Wed, 30 Nov 2022 21:56:13 +0000
 From: Randy Dunlap <rdunlap@infradead.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] fbdev: geode: don't build on UML
-Date: Wed, 30 Nov 2022 13:55:44 -0800
-Message-Id: <20221130215544.28497-1-rdunlap@infradead.org>
+Subject: [PATCH 2/2] fbdev: uvesafb: don't build on UML
+Date: Wed, 30 Nov 2022 13:55:59 -0800
+Message-Id: <20221130215559.28969-1-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -49,37 +49,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-fbdev@vger.kernel.org, Richard Weinberger <richard@nod.at>,
  Helge Deller <deller@gmx.de>, Randy Dunlap <rdunlap@infradead.org>,
- linux-um@lists.infradead.org, linux-geode@lists.infradead.org,
- dri-devel@lists.freedesktop.org, Andres Salomon <dilinger@queued.net>,
+ linux-um@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Michal Januszewski <spock@gentoo.org>,
  Johannes Berg <johannes@sipsolutions.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The geode fbdev driver uses struct cpuinfo fields that are not present
-on ARCH=um, so don't allow this driver to be built on UML.
+The uvesafb fbdev driver uses memory management information that is not
+available on ARCH=um, so don't allow this driver to be built on UML.
 
 Prevents these build errors:
 
-In file included from ../arch/x86/include/asm/olpc.h:7:0,
-                 from ../drivers/mfd/cs5535-mfd.c:17:
-../arch/x86/include/asm/geode.h: In function ‘is_geode_gx’:
-../arch/x86/include/asm/geode.h:16:24: error: ‘struct cpuinfo_um’ has no member named ‘x86_vendor’
-  return ((boot_cpu_data.x86_vendor == X86_VENDOR_NSC) &&
-../arch/x86/include/asm/geode.h:16:39: error: ‘X86_VENDOR_NSC’ undeclared (first use in this function); did you mean ‘X86_VENDOR_ANY’?
-  return ((boot_cpu_data.x86_vendor == X86_VENDOR_NSC) &&
-../arch/x86/include/asm/geode.h:17:17: error: ‘struct cpuinfo_um’ has no member named ‘x86’
-   (boot_cpu_data.x86 == 5) &&
-../arch/x86/include/asm/geode.h:18:17: error: ‘struct cpuinfo_um’ has no member named ‘x86_model’
-   (boot_cpu_data.x86_model == 5));
-../arch/x86/include/asm/geode.h: In function ‘is_geode_lx’:
-../arch/x86/include/asm/geode.h:23:24: error: ‘struct cpuinfo_um’ has no member named ‘x86_vendor’
-  return ((boot_cpu_data.x86_vendor == X86_VENDOR_AMD) &&
-../arch/x86/include/asm/geode.h:23:39: error: ‘X86_VENDOR_AMD’ undeclared (first use in this function); did you mean ‘X86_VENDOR_ANY’?
-  return ((boot_cpu_data.x86_vendor == X86_VENDOR_AMD) &&
-../arch/x86/include/asm/geode.h:24:17: error: ‘struct cpuinfo_um’ has no member named ‘x86’
-   (boot_cpu_data.x86 == 5) &&
-../arch/x86/include/asm/geode.h:25:17: error: ‘struct cpuinfo_um’ has no member named ‘x86_model’
-   (boot_cpu_data.x86_model == 10));
+../drivers/video/fbdev/uvesafb.c: In function ‘uvesafb_vbe_init’:
+../drivers/video/fbdev/uvesafb.c:807:21: error: ‘__supported_pte_mask’ undeclared (first use in this function)
+  807 |                 if (__supported_pte_mask & _PAGE_NX) {
+../drivers/video/fbdev/uvesafb.c:807:44: error: ‘_PAGE_NX’ undeclared (first use in this function)
+  807 |                 if (__supported_pte_mask & _PAGE_NX) {
 
 Fixes: 68f5d3f3b654 ("um: add PCI over virtio emulation driver")
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
@@ -90,20 +75,19 @@ Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: Helge Deller <deller@gmx.de>
 Cc: linux-fbdev@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
-Cc: Andres Salomon <dilinger@queued.net>
-Cc: linux-geode@lists.infradead.org
+Cc: Michal Januszewski <spock@gentoo.org>
 ---
- drivers/video/fbdev/geode/Kconfig |    1 +
+ drivers/video/fbdev/Kconfig |    1 +
  1 file changed, 1 insertion(+)
 
-diff -- a/drivers/video/fbdev/geode/Kconfig b/drivers/video/fbdev/geode/Kconfig
---- a/drivers/video/fbdev/geode/Kconfig
-+++ b/drivers/video/fbdev/geode/Kconfig
-@@ -5,6 +5,7 @@
- config FB_GEODE
- 	bool "AMD Geode family framebuffer support"
- 	depends on FB && PCI && (X86_32 || (X86 && COMPILE_TEST))
+diff -- a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
+--- a/drivers/video/fbdev/Kconfig
++++ b/drivers/video/fbdev/Kconfig
+@@ -609,6 +609,7 @@ config FB_TGA
+ config FB_UVESA
+ 	tristate "Userspace VESA VGA graphics support"
+ 	depends on FB && CONNECTOR
 +	depends on !UML
- 	help
- 	  Say 'Y' here to allow you to select framebuffer drivers for
- 	  the AMD Geode family of processors.
+ 	select FB_CFB_FILLRECT
+ 	select FB_CFB_COPYAREA
+ 	select FB_CFB_IMAGEBLIT
