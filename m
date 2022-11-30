@@ -1,67 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 978F863D1B9
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 10:23:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E59B663D1BD
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 10:23:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA9C510E43D;
-	Wed, 30 Nov 2022 09:23:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A8A010E216;
+	Wed, 30 Nov 2022 09:23:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9531210E43D
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 09:23:07 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id x11so1120911ljh.7
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 01:23:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=yGai96t0pVD49z2Oe24kTckJ4TAh6OnuSc06LTgbBHs=;
- b=go472kIN5B1Uc+NA0wAic0hCbPCGr8DEEK4Ux8xipfXkD91wky5WY40pHPX1jcHOI5
- JhBAR8KL+7g1Q5ubS7962T/ToIxdQA9IZoFbZknAOflR3Mm6ojHloqIGWj4FTEBLkIdt
- p47glaUsIVE69a/LkSVoX2BZ6IlIQICilLCIP1p61fedXPHQP8u4UK0+J7AcuXsP4kbB
- msDLcrBd+bY/I1IOMpPpO0C3sM2YKO2GwqzJ7bkaBUEfFo4rsIq5aU4/eBh94ip1fiOR
- /NiCJFfXEE1uS6WJf2oi3KxHZ+p9jU4B/t9g2NIW0kLQAUKAir2ezlU1w9DvKsAhuGFr
- C9FQ==
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
+ [IPv6:2607:f8b0:4864:20::b2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6649510E43E
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 09:23:49 +0000 (UTC)
+Received: by mail-yb1-xb2a.google.com with SMTP id n196so786851yba.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 01:23:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Io0nMOCW8iv7C49ek7QosikEfryx1Mcozl2/XH3V0Ys=;
+ b=khEWx9lfrWvp89T043eZD6ERveqt4wO+YC+qtJJEgowPCNksgMASbx2w5juuA1QJfW
+ xzfa6R57wEYrj63BCKjGDeo78fdo4pudjo0qr3KIf+0l4jM/460zHOSPxNvBJjv+BfJJ
+ KCCDtzW8YiPu/q894Brfyi4YJ39Y4UXvgCEsruXea6YhZ3DWgWl6oKzt1NAbE3REd/6m
+ BKiLEFhPp8hCuAmV9c/X28X0Tn/8uJl6DcC6lqEDuxBbM0H4+cmXSmJuJ4LHQpGG4Iyb
+ ighRJJyOwJcUgbeiUSMt1NAOYKlEZzvSH9G771paKQwK4iOv+NXB9JLL4qxsSBcnUVKk
+ ov+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yGai96t0pVD49z2Oe24kTckJ4TAh6OnuSc06LTgbBHs=;
- b=wXccriaaqPbJM1QTZy25Tz343p9gqRg3oLPyjgwk4kEnjkgVcxeC+qHT5ovQBdjzKN
- NKhdhCeYTjp8yBEIRIKyQZrLzq+e1mqcNNfBPTBdjckrgVWw4/O3Fe28CFDRh5vcrDFs
- k3ZTuKlvaFGXeAEbWyl4bfACPKlQbTunQU+v0EH+bnoiMKpPbNbppZJo/+53F13cZa02
- 5JA4mgSjK8IOOoGG5zja3eI1giY5kDimm9/vCQrQZTEJ1O+Wr0oEkLwQ6hEfwS6/Hvin
- NdM+KtNPAQ87ElBmxK29UGy4ohe+l55jBP599HHFJq1wuT71qkuYItrhluD62YYwEKUY
- RqJw==
-X-Gm-Message-State: ANoB5pm8coJHuEldI89aeCumJs+yQ21tct61TM6K7ImAn9gO5NTLaan/
- SuANI8I5da2lCaqDqaAHTGs=
-X-Google-Smtp-Source: AA0mqf6QzfIZXii01B5TmgIaVGOx8hXf2IofQ7Fvz/NTck20aLOkGH6AnMjK33uAlAASv3csnyEC7Q==
-X-Received: by 2002:a2e:8750:0:b0:279:9466:9355 with SMTP id
- q16-20020a2e8750000000b0027994669355mr7804106ljj.253.1669800185798; 
- Wed, 30 Nov 2022 01:23:05 -0800 (PST)
-Received: from dc75zzyyyyyyyyyyyyygt-3.rev.dnainternet.fi
- (dc75zzyyyyyyyyyyyyygt-3.rev.dnainternet.fi. [2001:14ba:16f3:4a00::b])
- by smtp.gmail.com with ESMTPSA id
- t27-20020ac2549b000000b0049a4862966fsm182793lfk.146.2022.11.30.01.23.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Nov 2022 01:23:04 -0800 (PST)
-Date: Wed, 30 Nov 2022 11:23:00 +0200
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-To: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
- Matti Vaittinen <mazziesaccount@gmail.com>
-Subject: [PATCH RESEND2 v4 2/2] drm/meson: dw-hdmi: Use
- devm_regulator_*get_enable*()
-Message-ID: <df0096b5aea2a18d1540cde379c5abf589ccd7c4.1669799805.git.mazziesaccount@gmail.com>
-References: <cover.1669799805.git.mazziesaccount@gmail.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Io0nMOCW8iv7C49ek7QosikEfryx1Mcozl2/XH3V0Ys=;
+ b=5r/qGH/qzoIxnOWXbkgVZNz47IzWyjrd7QBfvsVWb5v/wNGVRVI7y5IcY384DimoBe
+ MqTX8xGN4kNfyByr1h1/2kYkjl8znEAyR6Z2r4U64vuejyuMz59y7kriK+CbIk0Us3x6
+ Vou6ba4BSK/d3O175IUyNY9E0wU0R8Gh2bRS7QA54wuFdlAQbRTO08htY+5KSw8KCA3C
+ /mSCxCD3agZjWTwS3GU7UWyP3AIwgQJgPJwLysDi72k9AqUaMLnKkiPKzxbrsndiioVV
+ S9dEriupuPGql/rf3CFTIaN5NdqfBvDELOoMuSLLxjXBENy8gneOODTVWCT37ixMRMio
+ 4DNw==
+X-Gm-Message-State: ANoB5pkd+Ju4UsySNqekjy81IgXPb6YG+hxaxZ/xJbim8wy5p2I1GLZ2
+ ek73uB9p+qurNn/LgMlP+TtknPuoz6Q/yilgbA2xwA==
+X-Google-Smtp-Source: AA0mqf4uTlRldLTHNX9Oy3lllFzfrO81W9GITTh4EKjh0UYYdSLL/UJzmCpC2WM9mGacYzXPaMI7WE8830cjJzkNgmU=
+X-Received: by 2002:a25:cf4b:0:b0:6f4:6cd2:501b with SMTP id
+ f72-20020a25cf4b000000b006f46cd2501bmr21007224ybg.194.1669800228605; Wed, 30
+ Nov 2022 01:23:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="+FpHG9ThwonLOArJ"
-Content-Disposition: inline
-In-Reply-To: <cover.1669799805.git.mazziesaccount@gmail.com>
+References: <1669767131-13854-1-git-send-email-quic_khsieh@quicinc.com>
+ <1669767131-13854-4-git-send-email-quic_khsieh@quicinc.com>
+In-Reply-To: <1669767131-13854-4-git-send-email-quic_khsieh@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 30 Nov 2022 11:23:37 +0200
+Message-ID: <CAA8EJppAPCLj0JZf7v8ThFq1C=Ngx3AdzReatRwGC-_jhrANFA@mail.gmail.com>
+Subject: Re: [PATCH v5 3/3] drm/msm/dp: add support of max dp link rate
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,118 +65,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, Jerome Brunet <jbrunet@baylibre.com>
+Cc: quic_sbillaka@quicinc.com, quic_abhinavk@quicinc.com, airlied@linux.ie,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ dianders@chromium.org, vkoul@kernel.org, agross@kernel.org,
+ bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org, swboyd@chromium.org,
+ sean@poorly.run, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 30 Nov 2022 at 02:12, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+>
+> By default, HBR2 (5.4G) is the max link link be supported. This patch add
+> the capability to support max link rate at HBR3 (8.1G).
+>
+> Changes in v2:
+> -- add max link rate from dtsi
+>
+> Changes in v3:
+> -- parser max_data_lanes and max_dp_link_rate from dp_out endpoint
+>
+> Changes in v4:
+> -- delete unnecessary pr_err
+>
+> Changes in v5:
+> -- split parser function into different patch
+>
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/dp/dp_display.c | 4 ++++
+>  drivers/gpu/drm/msm/dp/dp_panel.c   | 7 ++++---
+>  drivers/gpu/drm/msm/dp/dp_panel.h   | 1 +
+>  3 files changed, 9 insertions(+), 3 deletions(-)
 
---+FpHG9ThwonLOArJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Simplify using the devm_regulator_get_enable_optional(). Also drop the
-now unused struct member 'hdmi_supply'.
-
-Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
-Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-
----
-v4 resend 2:
-Respinning unchanged code with the commit title changed as wa suggested
-by Robert Foss and commit message changed as was suggested by Martin.
-
-I am doing a clean-up for my local git and encountered this one.
-Respinning as it seems this one fell through the cracks.
----
- drivers/gpu/drm/meson/meson_dw_hdmi.c | 23 +++--------------------
- 1 file changed, 3 insertions(+), 20 deletions(-)
-
-diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/meson/=
-meson_dw_hdmi.c
-index 5cd2b2ebbbd3..7642f740272b 100644
---- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
-+++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-@@ -140,7 +140,6 @@ struct meson_dw_hdmi {
- 	struct reset_control *hdmitx_apb;
- 	struct reset_control *hdmitx_ctrl;
- 	struct reset_control *hdmitx_phy;
--	struct regulator *hdmi_supply;
- 	u32 irq_stat;
- 	struct dw_hdmi *hdmi;
- 	struct drm_bridge *bridge;
-@@ -665,11 +664,6 @@ static void meson_dw_hdmi_init(struct meson_dw_hdmi *m=
-eson_dw_hdmi)
-=20
- }
-=20
--static void meson_disable_regulator(void *data)
--{
--	regulator_disable(data);
--}
--
- static void meson_disable_clk(void *data)
- {
- 	clk_disable_unprepare(data);
-@@ -723,20 +717,9 @@ static int meson_dw_hdmi_bind(struct device *dev, stru=
-ct device *master,
- 	meson_dw_hdmi->data =3D match;
- 	dw_plat_data =3D &meson_dw_hdmi->dw_plat_data;
-=20
--	meson_dw_hdmi->hdmi_supply =3D devm_regulator_get_optional(dev, "hdmi");
--	if (IS_ERR(meson_dw_hdmi->hdmi_supply)) {
--		if (PTR_ERR(meson_dw_hdmi->hdmi_supply) =3D=3D -EPROBE_DEFER)
--			return -EPROBE_DEFER;
--		meson_dw_hdmi->hdmi_supply =3D NULL;
--	} else {
--		ret =3D regulator_enable(meson_dw_hdmi->hdmi_supply);
--		if (ret)
--			return ret;
--		ret =3D devm_add_action_or_reset(dev, meson_disable_regulator,
--					       meson_dw_hdmi->hdmi_supply);
--		if (ret)
--			return ret;
--	}
-+	ret =3D devm_regulator_get_enable_optional(dev, "hdmi");
-+	if (ret !=3D -ENODEV)
-+		return ret;
-=20
- 	meson_dw_hdmi->hdmitx_apb =3D devm_reset_control_get_exclusive(dev,
- 						"hdmitx_apb");
---=20
-2.38.1
-
-
---=20
-Matti Vaittinen, Linux device drivers
-ROHM Semiconductors, Finland SWDC
-Kiviharjunlenkki 1E
-90220 OULU
-FINLAND
-
-~~~ "I don't think so," said Rene Descartes. Just then he vanished ~~~
-Simon says - in Latin please.
-~~~ "non cogito me" dixit Rene Descarte, deinde evanescavit ~~~
-Thanks to Simon Glass for the translation =3D]=20
-
---+FpHG9ThwonLOArJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmOHIPMACgkQeFA3/03a
-ocWCtwf/SqqXk1TmF3RIampIzoVrQFshZ9dfdQ6qZa4jPxhDGGo8ciDcfn5T85on
-kokvVj+hJXDVO4y7RdOCkAHgrpsfpkeP/D0lpuweheJI4D+vQamC7w4IXawx+A1R
-4/ep6+L1m/e9IvNDN5wjzonI0tHiiLk/9hevkphEa6ub4+SQJth/D8Lki+MthGn5
-7WZlwzG9uZe2dfZBCZf/AlimWeiZffPO4MpG5qDWoX8Ww5c0522DTk9Ve5uDXGzY
-B5mi24ZGT7drjnC+tma7tIC11wnFSzm5146qoGIdLN4WM4D9kYFjzNooDHGcGIvG
-too31/Cs5RBF1g4dMEGRL1lbeuTMcw==
-=cZNk
------END PGP SIGNATURE-----
-
---+FpHG9ThwonLOArJ--
+-- 
+With best wishes
+Dmitry
