@@ -1,73 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1366763D4A0
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 12:30:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A56C163D60A
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 13:55:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44AED10E06F;
-	Wed, 30 Nov 2022 11:30:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3C9389FA5;
+	Wed, 30 Nov 2022 12:54:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FDD610E06F
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 11:30:49 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id bg10so58151wmb.1
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 03:30:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=4abusOcnTWcYiz6maXQH1YPT40DZgw56TQZW9VHybd4=;
- b=WKj0j4jysik5wdQCAkoDKJVQYX0buM/n4Na0EISlg4QBBP16I4eeLkFYpQg+lGdZMS
- oavTPa1L42D3PnFuKD2jGCHHXdcKJKSolowcVXn9G/7QNV+a8N/CCOLF+F5xRPFytN9F
- rPBIFfp+nOphNHBnGg/ONF7IsIU8XicSU6x6A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4abusOcnTWcYiz6maXQH1YPT40DZgw56TQZW9VHybd4=;
- b=T55bZOOcm1GXxJ70P4bqxUzIOurOtkar/3Hab1IXwNoMzFh29QiISfAfLKhsc25Jq1
- qFkTaeJZWXj9wWQE2wEkie3d3WhWdGHDBPywoM7e60OUkC6Y1rk0jOuy+zaptQpW6Yvg
- X7rmfZ5yMtJHydIDrBYPSFiX13DUAWDWhvBA2zTZ146smPt1QBedbtQzI94tsM8HMhHx
- KGVrFTDAG5NeHHIERwtmDWCRpnQ69VEex8Ss0AMfHLdtT4jZmJC9hsU/wZOTX0zWTLsl
- zSEpkqEngb7TS9QB85Zg1hCcbFMjTifVdX/jrIoTWu1BG9r9teUQln7Ag85eZ7Q/Ct/q
- ePtg==
-X-Gm-Message-State: ANoB5pn05W1iVWu/c4FOnIufzwr0LRRNGlUv8AsmFIj/XK8Rc/bQiEyK
- xBtwfM+isEA/h2HhfvCg4uVLAQ==
-X-Google-Smtp-Source: AA0mqf5/6pFEpEVZ8cuAHWpWi5MJb0amF7qqtIA6StIT+vCHu8WQLwRuihsmdXUccFqoI5K6zStKsw==
-X-Received: by 2002:a05:600c:4a9a:b0:3c6:d811:6cff with SMTP id
- b26-20020a05600c4a9a00b003c6d8116cffmr48907043wmp.43.1669807847926; 
- Wed, 30 Nov 2022 03:30:47 -0800 (PST)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- u16-20020adff890000000b0024165454262sm1323268wrp.11.2022.11.30.03.30.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Nov 2022 03:30:47 -0800 (PST)
-Date: Wed, 30 Nov 2022 12:30:45 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Hsia-Jun Li <randy.li@synaptics.com>
-Subject: Re: [PATCH v5 1/2] drm/fourcc: Add Synaptics VideoSmart tiled
- modifiers
-Message-ID: <Y4c+5f3qZd6Epd1C@phenom.ffwll.local>
-Mail-Followup-To: Hsia-Jun Li <randy.li@synaptics.com>,
- dri-devel@lists.freedesktop.org, nicolas@ndufresne.ca,
- sakari.ailus@linux.intel.com, airlied@linux.ie, ayaka@soulik.info,
- linux-kernel@vger.kernel.org, tfiga@chromium.org,
- helen.koike@collabora.com, linux-media@vger.kernel.org,
- ezequiel@vanguardiasur.com.ar, tzimmermann@suse.de,
- ribalda@chromium.org, sebastian.hesselbarth@gmail.com,
- mchehab@kernel.org, linux-arm-kernel@lists.infradead.org,
- laurent.pinchart@ideasonboard.com
-References: <20221130092149.102788-1-randy.li@synaptics.com>
- <20221130092149.102788-2-randy.li@synaptics.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 59A6610E096;
+ Wed, 30 Nov 2022 12:54:51 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6B102D6E;
+ Wed, 30 Nov 2022 04:54:57 -0800 (PST)
+Received: from [10.57.71.118] (unknown [10.57.71.118])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 17D8E3F73D;
+ Wed, 30 Nov 2022 04:54:49 -0800 (PST)
+Message-ID: <a5f73cfa-bd2a-3ab8-1e5c-253cfd832ea7@arm.com>
+Date: Wed, 30 Nov 2022 12:54:49 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221130092149.102788-2-randy.li@synaptics.com>
-X-Operating-System: Linux phenom 5.19.0-2-amd64 
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: Screen corruption using radeon kernel driver
+Content-Language: en-GB
+To: Mikhail Krylov <sqarert@gmail.com>, Alex Deucher <alexdeucher@gmail.com>
+References: <20220423193145.3301ed06@desktop>
+ <CADnq5_PXgFBXZ03LXE8qOdimzfKYGhzX1JnycJQcHWcMZdgJug@mail.gmail.com>
+ <Y4TGOb3UGmDslyYF@sqrt.uni.cx>
+ <CADnq5_NTyvZR16_N0TzMo3f9Mg6EwOuwuBgYzDA=U7tur7Fmnw@mail.gmail.com>
+ <Y4UelMnRkY7/0G6U@sqrt.uni.cx>
+ <CADnq5_MactA_n4sTKZ_-TpYFZnOfEeygHF3r+zH94By2Dm86cA@mail.gmail.com>
+ <Y4YsWo8MPAeg9DRQ@sqrt.uni.cx>
+ <CADnq5_MNmOHVuszVfCZ8Ajm85Wb5roe4-20BEXXzsEVpAC_Rkg@mail.gmail.com>
+ <Y4Y9SJC7gtUxP4+R@sqrt.uni.cx>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <Y4Y9SJC7gtUxP4+R@sqrt.uni.cx>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,135 +51,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mchehab@kernel.org, laurent.pinchart@ideasonboard.com, tzimmermann@suse.de,
- airlied@linux.ie, ayaka@soulik.info, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, nicolas@ndufresne.ca,
- helen.koike@collabora.com, ezequiel@vanguardiasur.com.ar,
- sakari.ailus@linux.intel.com, ribalda@chromium.org,
- sebastian.hesselbarth@gmail.com, tfiga@chromium.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 30, 2022 at 05:21:48PM +0800, Hsia-Jun Li wrote:
-> From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
+On 2022-11-29 17:11, Mikhail Krylov wrote:
+> On Tue, Nov 29, 2022 at 11:05:28AM -0500, Alex Deucher wrote:
+>> On Tue, Nov 29, 2022 at 10:59 AM Mikhail Krylov <sqarert@gmail.com> wrote:
+>>>
+>>> On Tue, Nov 29, 2022 at 09:44:19AM -0500, Alex Deucher wrote:
+>>>> On Mon, Nov 28, 2022 at 3:48 PM Mikhail Krylov <sqarert@gmail.com> wrote:
+>>>>>
+>>>>> On Mon, Nov 28, 2022 at 09:50:50AM -0500, Alex Deucher wrote:
+>>>>>
+>>>>>>>> [excessive quoting removed]
+>>>>>
+>>>>>>> So, is there any progress on this issue? I do understand it's not a high
+>>>>>>> priority one, and today I've checked it on 6.0 kernel, and
+>>>>>>> unfortunately, it still persists...
+>>>>>>>
+>>>>>>> I'm considering writing a patch that will allow user to override
+>>>>>>> need_dma32/dma_bits setting with a module parameter. I'll have some time
+>>>>>>> after the New Year for that.
+>>>>>>>
+>>>>>>> Is it at all possible that such a patch will be merged into kernel?
+>>>>>>>
+>>>>>> On Mon, Nov 28, 2022 at 9:31 AM Mikhail Krylov <sqarert@gmail.com> wrote:
+>>>>>> Unless someone familiar with HIMEM can figure out what is going wrong
+>>>>>> we should just revert the patch.
+>>>>>>
+>>>>>> Alex
+>>>>>
+>>>>>
+>>>>> Okay, I was suggesting that mostly because
+>>>>>
+>>>>> a) it works for me with dma_bits = 40 (I understand that's what it is
+>>>>> without the original patch applied);
+>>>>>
+>>>>> b) there's a hint of uncertainity on this line
+>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/gpu/drm/radeon/radeon_device.c#n1359
+>>>>> saying that for AGP dma_bits = 32 is the safest option, so apparently there are
+>>>>> setups, unlike mine, where dma_bits = 32 is better than 40.
+>>>>>
+>>>>> But I'm in no position to argue, just wanted to make myself clear.
+>>>>> I'm okay with rebuilding the kernel for my machine until the original
+>>>>> patch is reverted or any other fix is applied.
+>>>>
+>>>> What GPU do you have and is it AGP?  If it is AGP, does setting
+>>>> radeon.agpmode=-1 also fix it?
+>>>>
+>>>> Alex
+>>>
+>>> That is ATI Radeon X1950, and, unfortunately, radeon.agpmode=-1 doesn't
+>>> help, it just makes 3D acceleration in games such as OpenArena stop
+>>> working.
+>>
+>> Just to confirm, is the board AGP or PCIe?
+>>
+>> Alex
 > 
-> Those modifiers only record the parameters would effort pixel
-> layout or memory layout. Whether physical memory page mapping
-> is used is not a part of format.
-> 
-> Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com>
-> ---
->  include/uapi/drm/drm_fourcc.h | 76 +++++++++++++++++++++++++++++++++++
->  1 file changed, 76 insertions(+)
-> 
-> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-> index bc056f2d537d..e0905f573f43 100644
-> --- a/include/uapi/drm/drm_fourcc.h
-> +++ b/include/uapi/drm/drm_fourcc.h
-> @@ -407,6 +407,7 @@ extern "C" {
->  #define DRM_FORMAT_MOD_VENDOR_ARM     0x08
->  #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
->  #define DRM_FORMAT_MOD_VENDOR_AMLOGIC 0x0a
-> +#define DRM_FORMAT_MOD_VENDOR_SYNAPTICS 0x0b
->  
->  /* add more to the end as needed */
->  
-> @@ -1507,6 +1508,81 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
->  #define AMD_FMT_MOD_CLEAR(field) \
->  	(~((__u64)AMD_FMT_MOD_##field##_MASK << AMD_FMT_MOD_##field##_SHIFT))
->  
-> +/*
-> + * Synaptics VideoSmart modifiers
-> + *
-> + * Tiles could be arranged in Groups of Tiles (GOTs), it is a small tile
-> + * within a tile. GOT size and layout varies based on platform and
-> + * performance concern.
-> + *
-> + * Besides, an 8 length 4 bytes arrary (32 bytes) would be need to store
-> + * some compression parameters for a compression metadata plane.
-> + *
-> + * Further information can be found in
-> + * Documentation/gpu/synaptics.rst
-> + *
-> + *       Macro
-> + * Bits  Param Description
-> + * ----  ----- -----------------------------------------------------------------
-> + *
-> + *  7:0  f     Scan direction description.
-> + *
-> + *               0 = Invalid
-> + *               1 = V4, the scan would always start from vertical for 4 pixel
-> + *                   then move back to the start pixel of the next horizontal
-> + *                   direction.
-> + *               2 = Reserved for future use.
-> + *
-> + * 15:8  m     The times of pattern repeat in the right angle direction from
-> + *             the first scan direction.
-> + *
-> + * 19:16 p     The padding bits after the whole scan, could be zero.
-> + *
-> + * 20:20 g     GOT packing flag.
-> + *
-> + * 23:21 -     Reserved for future use.  Must be zero.
+> It is AGP. That's an old machine.
 
-Can you pls fold all the future use reservations into the top end? Also I
-think it'd be good to at least reserve maybe the top 8 bits or so for a
-synaptics specific format indicator, so that it's easier to extend this in
-the future ...
--Daniel
+Can you check whether dma_addressing_limited() is actually returning the 
+expected result at the point of radeon_ttm_init()? Disabling highmem is 
+presumably just hiding whatever problem exists, by throwing away all 
+ >32-bit RAM such that use_dma32 doesn't matter.
 
-
-> + *
-> + * 27:24 h     log2(horizontal) of pixels, in GOTs.
-> + *
-> + * 31:28 v     log2(vertical) of pixels, in GOTs.
-> + *
-> + * 35:32 -     Reserved for future use.  Must be zero.
-> + *
-> + * 36:36 c     Compression flag.
-> + *
-> + * 55:37 -     Reserved for future use.  Must be zero.
-> + *
-> + */
-> +
-> +#define DRM_FORMAT_MOD_SYNA_V4_TILED		fourcc_mod_code(SYNAPTICS, 1)
-> +
-> +#define DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(f, m, p, g, h, v, c) \
-> +	fourcc_mod_code(SYNAPTICS, ((__u64)((f) & 0xff) | \
-> +				 ((__u64)((m) & 0xff) << 8) | \
-> +				 ((__u64)((p) & 0xf) << 16) | \
-> +				 ((__u64)((g) & 0x1) << 20) | \
-> +				 ((__u64)((h) & 0xf) << 24) | \
-> +				 ((__u64)((v) & 0xf) << 28) | \
-> +				 ((__u64)((c) & 0x1) << 36)))
-> +
-> +#define DRM_FORMAT_MOD_SYNA_V4H1 \
-> +	DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 1, 0, 0, 0, 0, 0)
-> +
-> +#define DRM_FORMAT_MOD_SYNA_V4H3P8 \
-> +	DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 3, 8, 0, 0, 0, 0)
-> +
-> +#define DRM_FORMAT_MOD_SYNA_V4H1_64L4_COMPRESSED \
-> +	DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 1, 0, 1, 6, 2, 1)
-> +
-> +#define DRM_FORMAT_MOD_SYNA_V4H3P8_64L4_COMPRESSED \
-> +	DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 3, 8, 1, 6, 2, 1)
-> +
-> +#define DRM_FORMAT_MOD_SYNA_V4H1_128L128_COMPRESSED \
-> +	DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 1, 0, 1, 7, 7, 1)
-> +
-> +#define DRM_FORMAT_MOD_SYNA_V4H3P8_128L128_COMPRESSED \
-> +	DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 3, 8, 1, 7, 7, 1)
-> +
->  #if defined(__cplusplus)
->  }
->  #endif
-> -- 
-> 2.37.3
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Robin.
