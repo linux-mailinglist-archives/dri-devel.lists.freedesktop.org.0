@@ -1,51 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E1DB63D6D2
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 14:35:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4F5763D706
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 14:43:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18EC310E453;
-	Wed, 30 Nov 2022 13:35:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E18510E458;
+	Wed, 30 Nov 2022 13:43:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF55D89349
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 13:34:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669815297; x=1701351297;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=IvMcEiS/LzUxeNgiMv+XdefdV+f2Kh26SddrsjcqN1k=;
- b=RA9J0Ob9+oTNMTT+xWGESoPvQIwtp2O9POd6zbimced/ZQ9aDZzhPux0
- mtFg7035EFH7DQDl/bis6fxeU0Jz/XyDSurcu18XFpHzFtzYCh3dxRtqs
- Dg3kMcuQSyh6MjR1y142sQTzMh6vINS0Y9HW/WvdHBlFnjUdUPsddCAuk
- rmZZfXq5D3ZvekUDQj7VY3UsKcTaxj+pfELwvFYpO44bpg/28qxJ2zIiN
- eSNYimllpElgW2FdNiIggvz+z4OiL5WJwQBurDNYqadnwGzo7wJ+8Tx36
- nXpWKSJGOv6PZUX8YnObSrhrqtjCozlfV/syycdMTQJOf0PrA1PNZxq/6 A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10546"; a="295091371"
-X-IronPort-AV: E=Sophos;i="5.96,206,1665471600"; d="scan'208";a="295091371"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Nov 2022 05:34:55 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10546"; a="973105198"
-X-IronPort-AV: E=Sophos;i="5.96,206,1665471600"; d="scan'208";a="973105198"
-Received: from hpvpnmu01.ger.corp.intel.com (HELO localhost.localdomain)
- ([10.213.197.198])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Nov 2022 05:34:32 -0800
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [RFC 3/3] drm: Update file owner during use
-Date: Wed, 30 Nov 2022 13:34:07 +0000
-Message-Id: <20221130133407.2689864-4-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221130133407.2689864-1-tvrtko.ursulin@linux.intel.com>
-References: <20221130133407.2689864-1-tvrtko.ursulin@linux.intel.com>
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+ [66.111.4.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBE2210E455;
+ Wed, 30 Nov 2022 13:43:06 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 35F955C016A;
+ Wed, 30 Nov 2022 08:43:04 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 30 Nov 2022 08:43:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; t=1669815784; x=1669902184; bh=hNL9XAfnBy
+ feKoCvN7QcpcdwSt8m+s07CRc5Eq/WC1M=; b=ibtyhgw0EALKmRY93kaMfz4MnF
+ MBb4WJ0819Py5dUaUKSGXJW7/GqQQwZOdcMjQOcHTrmg1MfVjT5FMwKECV75t81u
+ nam+BwYP4pMi6+p2LQqU501vfP4QusqkNIuP1K11I8SkELz9MFjMKsI1OkzdkJIK
+ E6IuUqZAkMEzsw/Lkq5zbQZ3+nyaopbUBNobVR7KNpfUM7VerqtVqovvCd9UnMbA
+ gUXf8UZGAh3jkFThPStDHUPe8ybJYuO40XWSDMj5zSMCuPhqVarCegKxRZ0X4YEK
+ c7KiNiVGKA4Fz69gqu+kBcdIUXFgxClEDU5cSjYEKBAekrq+cuDJchDeto3A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1669815784; x=1669902184; bh=hNL9XAfnByfeKoCvN7QcpcdwSt8m
+ +s07CRc5Eq/WC1M=; b=fshVi6JzF/4+vTSPApDytEw/dUo5k4rKKtmSowD3/F+N
+ rnD9YfMpe3SWGACxYVHtQb1nTgJufei0mJp0aoQbNbAZfS7P2EBvpgTG4Qboyh8n
+ q21fDqJV+okNcT65RdOZPwPltTBKXYyNQcJ2ZAFCmo57CJjrilNWmv5s0Blp0+Cd
+ HQPVsUEGOLCDkAwP7hTr2sUxjjIN6k5PxPZFl04QPOzL2aI1t4woCfwniCTQUGV5
+ K1tt8ee3VTCDgPE4IjVoVcA5TIpcNkgRIiqLQyXGHySOV1U7E2oiKqeWcg90pwkQ
+ avfhD6QKn54+e47Y+Ln3qq7ZJNHSvuQHv4oPWqeqfQ==
+X-ME-Sender: <xms:512HY_4XzQYbj2jJg7_QQR8tN7R2roCv4krkUbPUTHPs96WnqU3NcA>
+ <xme:512HY06H_9LoGNLiHEW4rE7P4h6Rf94jxwvaDxW7xSjkX6VmAujhCFxCkNAEIm7cH
+ YPOvsdblSw9hQwYB68>
+X-ME-Received: <xmr:512HY2cIpcGPM3Ju5_Ln60_OKp67dTu1BIiVAwn6QTvVMRZF6vOTmhe51mm-1_IvwZpm3-sg06p-b35Vf1cKKGvu6sMIcwivStfquC0qrSYJsQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrtdefgdehfecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheehfffh
+ vedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:512HYwKKqA4lD51ObpfIKd1gP1j_MUCz_3rSDfLQPoBVSZCOUtxNjg>
+ <xmx:512HYzJT3NueOyK_RclF-hFCM3VjHi8AuJO0F-XFUj-DfZRdN4l23A>
+ <xmx:512HY5z0jB6nl6z23mr3p4_W2DrU-8LAeszliEEWQd4qh62FC-NaOQ>
+ <xmx:6F2HY4DH1xlYxaI0-qMC6RG3dQfNeWl9pN8j_OI2INUTgumVqHkuKA>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 30 Nov 2022 08:43:03 -0500 (EST)
+Date: Wed, 30 Nov 2022 14:43:01 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: Re: [PULL] drm-misc-fixes
+Message-ID: <20221130134301.ia2vhzmupwer5auo@houat>
+References: <b37af070-21f9-fa40-89f5-5a1be6aaa20b@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="hxgrt5lyrpaa5ebq"
+Content-Disposition: inline
+In-Reply-To: <b37af070-21f9-fa40-89f5-5a1be6aaa20b@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,235 +82,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-With the typical model where the display server opends the file descriptor
-and then hands it over to the client we were showing stale data in
-debugfs.
+--hxgrt5lyrpaa5ebq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Fix it by updating the drm_file->pid on ioctl access from a different
-process.
+Hi Maarten
 
-The field is also made RCU protected to allow for lockless readers. Update
-side is protected with dev->filelist_mutex.
+On Wed, Nov 30, 2022 at 02:16:05PM +0100, Maarten Lankhorst wrote:
+> A single fix to vmwgfx mks-guest-stats ioctl.
+> I lost my internet connection when pushing the tag, so I put together this mail
+> manually. I hope you remember where drm-misc is hosted. :)
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: "Christian König" <christian.koenig@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c |  6 +++--
- drivers/gpu/drm/drm_auth.c              |  3 ++-
- drivers/gpu/drm/drm_debugfs.c           | 10 ++++----
- drivers/gpu/drm/drm_file.c              | 32 ++++++++++++++++++++++++-
- drivers/gpu/drm/drm_ioctl.c             |  3 +++
- drivers/gpu/drm/nouveau/nouveau_drm.c   |  5 +++-
- drivers/gpu/drm/vmwgfx/vmwgfx_gem.c     |  6 +++--
- include/drm/drm_file.h                  | 13 ++++++++--
- 8 files changed, 65 insertions(+), 13 deletions(-)
+For reference, you can generate the mail content after the fact by using something like:
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-index 30e24da1f398..385deb044058 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-@@ -959,6 +959,7 @@ static int amdgpu_debugfs_gem_info_show(struct seq_file *m, void *unused)
- 	list_for_each_entry(file, &dev->filelist, lhead) {
- 		struct task_struct *task;
- 		struct drm_gem_object *gobj;
-+		struct pid *pid;
- 		int id;
- 
- 		/*
-@@ -968,8 +969,9 @@ static int amdgpu_debugfs_gem_info_show(struct seq_file *m, void *unused)
- 		 * Therefore, we need to protect this ->comm access using RCU.
- 		 */
- 		rcu_read_lock();
--		task = pid_task(file->pid, PIDTYPE_TGID);
--		seq_printf(m, "pid %8d command %s:\n", pid_nr(file->pid),
-+		pid = rcu_dereference(file->pid);
-+		task = pid_task(pid, PIDTYPE_TGID);
-+		seq_printf(m, "pid %8d command %s:\n", pid_nr(pid),
- 			   task ? task->comm : "<unknown>");
- 		rcu_read_unlock();
- 
-diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-index cf92a9ae8034..2ed2585ded37 100644
---- a/drivers/gpu/drm/drm_auth.c
-+++ b/drivers/gpu/drm/drm_auth.c
-@@ -235,7 +235,8 @@ static int drm_new_set_master(struct drm_device *dev, struct drm_file *fpriv)
- static int
- drm_master_check_perm(struct drm_device *dev, struct drm_file *file_priv)
- {
--	if (file_priv->pid == task_pid(current) && file_priv->was_master)
-+	if (file_priv->was_master &&
-+	    rcu_access_pointer(file_priv->pid) == task_pid(current))
- 		return 0;
- 
- 	if (!capable(CAP_SYS_ADMIN))
-diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-index 42f657772025..9d4e3146a2b8 100644
---- a/drivers/gpu/drm/drm_debugfs.c
-+++ b/drivers/gpu/drm/drm_debugfs.c
-@@ -90,15 +90,17 @@ static int drm_clients_info(struct seq_file *m, void *data)
- 	 */
- 	mutex_lock(&dev->filelist_mutex);
- 	list_for_each_entry_reverse(priv, &dev->filelist, lhead) {
--		struct task_struct *task;
- 		bool is_current_master = drm_is_current_master(priv);
-+		struct task_struct *task;
-+		struct pid *pid;
- 
--		rcu_read_lock(); /* locks pid_task()->comm */
--		task = pid_task(priv->pid, PIDTYPE_TGID);
-+		rcu_read_lock(); /* Locks priv->pid and pid_task()->comm! */
-+		pid = rcu_dereference(priv->pid);
-+		task = pid_task(pid, PIDTYPE_TGID);
- 		uid = task ? __task_cred(task)->euid : GLOBAL_ROOT_UID;
- 		seq_printf(m, "%20s %5d %3d   %c    %c %5d %10u\n",
- 			   task ? task->comm : "<unknown>",
--			   pid_vnr(priv->pid),
-+			   pid_vnr(pid),
- 			   priv->minor->index,
- 			   is_current_master ? 'y' : 'n',
- 			   priv->authenticated ? 'y' : 'n',
-diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index 20a9aef2b398..3433f9610dba 100644
---- a/drivers/gpu/drm/drm_file.c
-+++ b/drivers/gpu/drm/drm_file.c
-@@ -156,7 +156,7 @@ struct drm_file *drm_file_alloc(struct drm_minor *minor)
- 	if (!file)
- 		return ERR_PTR(-ENOMEM);
- 
--	file->pid = get_pid(task_tgid(current));
-+	rcu_assign_pointer(file->pid, get_pid(task_tgid(current)));
- 	file->minor = minor;
- 
- 	/* for compatibility root is always authenticated */
-@@ -502,6 +502,36 @@ int drm_release(struct inode *inode, struct file *filp)
- }
- EXPORT_SYMBOL(drm_release);
- 
-+void drm_file_update_pid(struct drm_file *filp)
-+{
-+	struct drm_device *dev;
-+	struct pid *pid, *old;
-+
-+	/* Master nodes are not expected to be passed between processes. */
-+	if (filp->was_master)
-+		return;
-+
-+	pid = task_tgid(current);
-+
-+	/*
-+	 * Quick unlocked check since the model is a single handover followed by
-+	 * exclusive repeated use.
-+	 */
-+	if (pid == rcu_access_pointer(filp->pid))
-+		return;
-+
-+	dev = filp->minor->dev;
-+	mutex_lock(&dev->filelist_mutex);
-+	old = rcu_replace_pointer(filp->pid, pid, 1);
-+	mutex_unlock(&dev->filelist_mutex);
-+
-+	if (pid != old) {
-+		get_pid(pid);
-+		synchronize_rcu();
-+		put_pid(old);
-+	}
-+}
-+
- /**
-  * drm_release_noglobal - release method for DRM file
-  * @inode: device inode
-diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-index 7c9d66ee917d..305b18d9d7b6 100644
---- a/drivers/gpu/drm/drm_ioctl.c
-+++ b/drivers/gpu/drm/drm_ioctl.c
-@@ -775,6 +775,9 @@ long drm_ioctl_kernel(struct file *file, drm_ioctl_t *func, void *kdata,
- 	struct drm_device *dev = file_priv->minor->dev;
- 	int retcode;
- 
-+	/* Update drm_file owner if fd was passed along. */
-+	drm_file_update_pid(file_priv);
-+
- 	if (drm_dev_is_unplugged(dev))
- 		return -ENODEV;
- 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
-index 80f154b6adab..a763d3ee61fb 100644
---- a/drivers/gpu/drm/nouveau/nouveau_drm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-@@ -1097,7 +1097,10 @@ nouveau_drm_open(struct drm_device *dev, struct drm_file *fpriv)
- 	}
- 
- 	get_task_comm(tmpname, current);
--	snprintf(name, sizeof(name), "%s[%d]", tmpname, pid_nr(fpriv->pid));
-+	rcu_read_lock();
-+	snprintf(name, sizeof(name), "%s[%d]",
-+		 tmpname, pid_nr(rcu_dereference(fpriv->pid)));
-+	rcu_read_unlock();
- 
- 	if (!(cli = kzalloc(sizeof(*cli), GFP_KERNEL))) {
- 		ret = -ENOMEM;
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-index f2985337aa53..3853d9bb9ab8 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-@@ -251,6 +251,7 @@ static int vmw_debugfs_gem_info_show(struct seq_file *m, void *unused)
- 	list_for_each_entry(file, &dev->filelist, lhead) {
- 		struct task_struct *task;
- 		struct drm_gem_object *gobj;
-+		struct pid *pid;
- 		int id;
- 
- 		/*
-@@ -260,8 +261,9 @@ static int vmw_debugfs_gem_info_show(struct seq_file *m, void *unused)
- 		 * Therefore, we need to protect this ->comm access using RCU.
- 		 */
- 		rcu_read_lock();
--		task = pid_task(file->pid, PIDTYPE_TGID);
--		seq_printf(m, "pid %8d command %s:\n", pid_nr(file->pid),
-+		pid = rcu_dereference(file->pid);
-+		task = pid_task(pid, PIDTYPE_TGID);
-+		seq_printf(m, "pid %8d command %s:\n", pid_nr(pid),
- 			   task ? task->comm : "<unknown>");
- 		rcu_read_unlock();
- 
-diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-index 0d1f853092ab..27d545131d4a 100644
---- a/include/drm/drm_file.h
-+++ b/include/drm/drm_file.h
-@@ -255,8 +255,15 @@ struct drm_file {
- 	/** @master_lookup_lock: Serializes @master. */
- 	spinlock_t master_lookup_lock;
- 
--	/** @pid: Process that opened this file. */
--	struct pid *pid;
-+	/**
-+	 * @pid: Process that is using this file.
-+	 *
-+	 * Must only be dereferenced under a rcu_read_lock or equivalent.
-+	 *
-+	 * Updates are guarded with dev->filelist_mutex and reference must be
-+	 * dropped after a RCU grace period to accommodate lockless readers.
-+	 */
-+	struct pid __rcu *pid;
- 
- 	/** @magic: Authentication magic, see @authenticated. */
- 	drm_magic_t magic;
-@@ -415,6 +422,8 @@ static inline bool drm_is_accel_client(const struct drm_file *file_priv)
- 	return file_priv->minor->type == DRM_MINOR_ACCEL;
- }
- 
-+void drm_file_update_pid(struct drm_file *);
-+
- int drm_open(struct inode *inode, struct file *filp);
- int drm_open_helper(struct file *filp, struct drm_minor *minor);
- ssize_t drm_read(struct file *filp, char __user *buffer,
--- 
-2.34.1
+git request-pull drm/fixes drm-misc drm-misc-fixes-2022-11-30
 
+Maxime
+
+--hxgrt5lyrpaa5ebq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY4dd5QAKCRDj7w1vZxhR
+xT38AP97/kjie0lzK0D21RrWe7hW7RCgIL0SvzyVFEsvXl/OTgEAt0WOsDWlolMw
+1z/kUFp4HeizCE2JQ0LbFxoyAaDEoQw=
+=mZY3
+-----END PGP SIGNATURE-----
+
+--hxgrt5lyrpaa5ebq--
