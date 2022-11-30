@@ -1,36 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0554563E00D
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 19:53:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5834C63E05A
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 19:58:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2BA610E4A3;
-	Wed, 30 Nov 2022 18:53:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66D5C10E4AF;
+	Wed, 30 Nov 2022 18:57:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0086510E4A3
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 18:53:06 +0000 (UTC)
-Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
- by metis.ext.pengutronix.de with esmtp (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1p0SCd-0004kZ-Fy; Wed, 30 Nov 2022 19:53:03 +0100
-From: Lucas Stach <l.stach@pengutronix.de>
-To: etnaviv@lists.freedesktop.org,
- Christian Gmeiner <christian.gmeiner@gmail.com>
-Subject: [PATCH] drm/etnaviv: print MMU exception cause
-Date: Wed, 30 Nov 2022 19:53:03 +0100
-Message-Id: <20221130185303.2025810-1-l.stach@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
+ [IPv6:2607:f8b0:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18E5510E4AF
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 18:57:55 +0000 (UTC)
+Received: by mail-pl1-x62e.google.com with SMTP id k7so17586254pll.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 10:57:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=z9DRDfpuTxto0btyiBvLDBo0aAmHRlVAsle+L4IM7HE=;
+ b=PNKkuryiCC03qi+nHXcczRpXoF+nnLD7QfK0NQGrVsLuscMwK3SS/+uPmUEr4pihne
+ 6ziHKGf3eqaB7fhkicVYQ9juKQeuQLPXHGgJqd2H6Fdu42vH43vrhkWyjAhR8Uoqfy2B
+ yheasy/gYoQtCuBXKCb50oRutjSO53IBmuWM1ovrTYsf+tKYbhtsp7XiiL2rqcoXBsza
+ b8DONcpKHUaPu8oG9L826eoSdO6GwP/0t2n9v5w9zDPUSUcaYwVnpGuT22ialgvsvReD
+ eQX9wmLQjzit7nhIzaX7BAVxZy2OGc+nLFG7t5ZHcAWkT9uWEKciIvwgkZuFYBY2zstD
+ pflA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=z9DRDfpuTxto0btyiBvLDBo0aAmHRlVAsle+L4IM7HE=;
+ b=O48ibvSVWlgEf8g/nm1+P5uK0GsKjniMonmjbNBq2sSaxk67gXmEZepWQM9yBhrZEP
+ TGnWhgVWTWmonIRwJS9qYMMgp+OXrO8/AJXVsUeiIKLAMmoTfkClZ66hkMyOdrl9XY0y
+ mqvPbZ7WVUWLRCoBt7poLHYIoiLFoVuYsb4dp3ALmLxeqTbdyVmLNkmb6kuDBVGf7mkb
+ dAvXfPVNNs5Lr21ka3fsRxPhNKnZ0jaAPxH+SwPNgHlgfE2B7+rhAIVk4ypb0OId8wR4
+ tvrfpPCcg+qR3V4K5hl3oIBQYhBf+h4Ml3Y/3nfYWTOe7qNyMTG8DWR6vQNBlSgegysD
+ grVw==
+X-Gm-Message-State: ANoB5pnxM/OQkL06WUDhWe50Vp2ZGhj2DxsbM5Ak0uCSz/EaN1n4Uv6j
+ ywy4w/d/vaZu/Nqm0/YAn9iWFkn9Xb0=
+X-Google-Smtp-Source: AA0mqf42JG08PNHd3GskrjsNXuBk82rU6G24g+oLq5XewpXThxHwnd2fOBjGFYoRFhoBajyJ4p6Puw==
+X-Received: by 2002:a17:902:e351:b0:189:6623:4c09 with SMTP id
+ p17-20020a170902e35100b0018966234c09mr28576736plc.150.1669834674433; 
+ Wed, 30 Nov 2022 10:57:54 -0800 (PST)
+Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
+ by smtp.gmail.com with ESMTPSA id
+ y6-20020a170902b48600b0018982bf03b4sm1826768plr.117.2022.11.30.10.57.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Nov 2022 10:57:53 -0800 (PST)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 0/2] drm/shmem-helper: Fix a couple of error path bugs
+Date: Wed, 30 Nov 2022 10:57:46 -0800
+Message-Id: <20221130185748.357410-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,77 +68,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: patchwork-lst@pengutronix.de, kernel@pengutronix.de,
- dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Rob Clark <robdclark@chromium.org>,
+ open list <linux-kernel@vger.kernel.org>, Eric Anholt <eric@anholt.net>,
+ =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
+From: Rob Clark <robdclark@chromium.org>
 
-The MMU tells us the fault status. While the raw register value is
-already printed, it's a bit more user friendly to translate the
-fault reasons into human readable format.
+A couple fixes for error paths that userspace could manage to trigger.
 
-Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
----
-I've rewritten parts of the patch to properly cover multiple
-MMUs and squashed the reason into the existing message. Christian,
-please tell me if you are fine with having your name attached to
-this patch.
----
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 22 +++++++++++++++++++---
- 1 file changed, 19 insertions(+), 3 deletions(-)
+Rob Clark (2):
+  drm/shmem-helper: Remove errant put in error path
+  drm/shmem-helper: Avoid vm_open error paths
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 37018bc55810..f79203b774d9 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1426,6 +1426,15 @@ static void sync_point_worker(struct work_struct *work)
- 
- static void dump_mmu_fault(struct etnaviv_gpu *gpu)
- {
-+	static const char *fault_reasons[] = {
-+		"slave not present",
-+		"page not present",
-+		"write violation",
-+		"out of bounds",
-+		"read security violation",
-+		"write security violation",
-+	};
-+
- 	u32 status_reg, status;
- 	int i;
- 
-@@ -1438,18 +1447,25 @@ static void dump_mmu_fault(struct etnaviv_gpu *gpu)
- 	dev_err_ratelimited(gpu->dev, "MMU fault status 0x%08x\n", status);
- 
- 	for (i = 0; i < 4; i++) {
-+		const char *reason = "unknown";
- 		u32 address_reg;
-+		u32 mmu_status;
- 
--		if (!(status & (VIVS_MMUv2_STATUS_EXCEPTION0__MASK << (i * 4))))
-+		mmu_status = (status >> (i * 4)) & VIVS_MMUv2_STATUS_EXCEPTION0__MASK;
-+		if (!mmu_status)
- 			continue;
- 
-+		if ((mmu_status - 1) < ARRAY_SIZE(fault_reasons))
-+			reason = fault_reasons[mmu_status - 1];
-+
- 		if (gpu->sec_mode == ETNA_SEC_NONE)
- 			address_reg = VIVS_MMUv2_EXCEPTION_ADDR(i);
- 		else
- 			address_reg = VIVS_MMUv2_SEC_EXCEPTION_ADDR;
- 
--		dev_err_ratelimited(gpu->dev, "MMU %d fault addr 0x%08x\n", i,
--				    gpu_read(gpu, address_reg));
-+		dev_err_ratelimited(gpu->dev,
-+				    "MMU %d fault (%s) addr 0x%08x\n",
-+				    i, reason, gpu_read(gpu, address_reg));
- 	}
- }
- 
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
+
 -- 
-2.30.2
+2.38.1
 
