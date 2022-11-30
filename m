@@ -1,59 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F83963D937
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 16:22:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1C0763D95B
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 16:24:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79AC310E0CF;
-	Wed, 30 Nov 2022 15:22:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E6CC10E489;
+	Wed, 30 Nov 2022 15:24:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 036AF10E0CF
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 15:22:00 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1p0OuL-00009w-Qz; Wed, 30 Nov 2022 16:21:57 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1p0OuK-001Lda-Cq; Wed, 30 Nov 2022 16:21:57 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1p0OuK-001Vqi-81; Wed, 30 Nov 2022 16:21:56 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH v2 03/11] drm/bridge: ti-sn65dsi86: Propagate errors in
- .get_state() to the caller
-Date: Wed, 30 Nov 2022 16:21:40 +0100
-Message-Id: <20221130152148.2769768-4-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
-References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED5B410E48C;
+ Wed, 30 Nov 2022 15:24:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=oQ9dPsuO3NH7LD/dPayMRzr2bJuPWc28ti+5YXyo6Lo=; b=h6hMWKg1nF8fxST1CkhnfvYovh
+ ufRy684CUnMt5QyuAmcYo14AF5YDB2vyNT3O42Y2fKH3Q5GISG6rqCI2F2uaQQyTjkgg4F5hfT0rN
+ AqEX9MH+8uyV/K6AYPa177HqQBd1+gAcIlkcHi9V5/LP69UppHI4YcS1ldcG6v8XEYuA0jQmyQrvV
+ KOV5ZtWRl/nprilkrGXDr0LbaXCkIiTY0YAsg+3qFD99cefkB5WTRQ6j8shE87MNfmdYij4h5J2F2
+ Wes50rDCDJBtwWKV8XVn9aJN8jPs8Qa0B+3fgkvOqfUdA43xW5JDhmp5CSbcziKlhyRqVfX+RZDxw
+ t9Ci+U7w==;
+Received: from 200-207-99-62.dsl.telesp.net.br ([200.207.99.62]
+ helo=[192.168.1.111]) by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1p0OwH-00BgmO-9q; Wed, 30 Nov 2022 16:23:57 +0100
+Message-ID: <2dbf222e-7694-ea5e-c35d-663011c16e84@igalia.com>
+Date: Wed, 30 Nov 2022 12:23:35 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1185;
- i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=Tgtxe/BUdvILgFtR8LySgRChmx3a2vIX4EDaNnWT4D4=;
- b=owGbwMvMwMV48I9IxdpTbzgZT6slMSS3l7zQ7Nnbbcl7OCle/0dc/hIrjrAHhmm/7SrO1fgW/1rH
- xhPSyWjMwsDIxSArpshSV6QlNkFizX+7kiXcMINYmUCmMHBxCsBE0s9wMMzxq9l9RjNzwe+EwrfJl+
- f18e0N4520t3iq63yrN/xSR8Ndn0grBEeKLZusEzeP48y0i9X+01zO30nS7Z2xNU9KJ9KHvZTL2VxQ
- LP3M17LtzA01b6MSNh+vvM2ruPBBJsOPLW6sJ/wYTU8x5DNvVl+RXy8+fW3a3j+VVY7dPZ0Lmx6qz1
- p3JdH18r4Ye2nj9ReWzfm/LZfP3fFE8aa6n/laC9pzf33Q/1WtICvnIv6jvGWBe9PejJSfHo+sq1n1
- Ozak8Xtbixbf+/xwcmaw9b073wv7/my/urbGluXIHbXl+s623veat/gopvEd9L7F32RzmvPBirn+ms
- Gvag4cXpW5cqfGl9aKlf4tHZcUAA==
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
- fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v3 0/2] drm: Add GPU reset sysfs
+Content-Language: en-US
+To: Simon Ser <contact@emersion.fr>, Pekka Paalanen <ppaalanen@gmail.com>
+References: <20221125175203.52481-1-andrealmeid@igalia.com>
+ <20221128112528.1206b1f5@eldfell>
+ <584UdQAqoPr4vSxCTJg70LFQm--HpHH-EhnAo78lRAZ89OnrDkUeKlTnDGT_DMzDT3PeEtmXNsrqB6GuiV4TsZv3pBU8kFWjyPLWGrevIMw=@emersion.fr>
+From: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>
+In-Reply-To: <584UdQAqoPr4vSxCTJg70LFQm--HpHH-EhnAo78lRAZ89OnrDkUeKlTnDGT_DMzDT3PeEtmXNsrqB6GuiV4TsZv3pBU8kFWjyPLWGrevIMw=@emersion.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,47 +56,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org
+Cc: pierre-eric.pelloux-prayer@amd.com,
+ =?UTF-8?B?J01hcmVrIE9sxaHDoWsn?= <maraeo@gmail.com>,
+ Andrey Grodzovsky <andrey.grodzovsky@amd.com>, amaranath.somalapuram@amd.com,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
+ alexander.deucher@amd.com, contactshashanksharma@gmail.com,
+ christian.koenig@amd.com,
+ "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-.get_state() can return an error indication. Make use of it to propagate
-failing hardware accesses.
+On 11/28/22 06:30, Simon Ser wrote:
+> The PID is racy, the user-space daemon could end up killing an
+> unrelated process… Is there any way we could use a pidfd instead?
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Is the PID race condition something that really happens or rather 
+something theoretical?
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index 6826d2423ae9..9671071490d8 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -1512,19 +1512,19 @@ static int ti_sn_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
- 
- 	ret = regmap_read(pdata->regmap, SN_PWM_EN_INV_REG, &pwm_en_inv);
- 	if (ret)
--		return 0;
-+		return ret;
- 
- 	ret = ti_sn65dsi86_read_u16(pdata, SN_BACKLIGHT_SCALE_REG, &scale);
- 	if (ret)
--		return 0;
-+		return ret;
- 
- 	ret = ti_sn65dsi86_read_u16(pdata, SN_BACKLIGHT_REG, &backlight);
- 	if (ret)
--		return 0;
-+		return ret;
- 
- 	ret = regmap_read(pdata->regmap, SN_PWM_PRE_DIV_REG, &pre_div);
- 	if (ret)
--		return 0;
-+		return ret;
- 
- 	state->enabled = FIELD_GET(SN_PWM_EN_MASK, pwm_en_inv);
- 	if (FIELD_GET(SN_PWM_INV_MASK, pwm_en_inv))
--- 
-2.38.1
+Anyway, I can't see how pidfd and uevent would work together. Since 
+uevent it's kind of a broadcast and pidfd is an anon file, it wouldn't 
+be possible to say to userspace which is the fd to be used giving that 
+file descriptors are per process resources.
 
+On the other hand, this interface could be converted to be an ioctl that 
+userspace would block waiting for a reset notification, then the kernel 
+could create a pidfd and give to the blocked process the right fd. We 
+would probably need a queue to make sure no event is lost.
+
+Thanks
+	André
