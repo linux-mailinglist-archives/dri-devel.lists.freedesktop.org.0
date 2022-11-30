@@ -1,54 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77A5663D0A3
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 09:30:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 308FA63D12C
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 09:56:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C4C010E04A;
-	Wed, 30 Nov 2022 08:30:23 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64C3589DFF;
- Wed, 30 Nov 2022 08:30:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669797020; x=1701333020;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=FgwvNs9IxTLjKqRckJCScAIPHNKsebQaEETDyrIIwjA=;
- b=KrPi5ErAFv54hTiEI7j26h62N3ouP3iCuglQCRmIhFYqjbyUDx/9wf5V
- ZL+SJVjcssWe5qmCMBaksP8zr7tQ9QmoJyo0e6fqvpIBj9KLkJMD7EOdX
- Z/eJ084M0geiHNISuRx7/X2hr56oRhccd3+NIzw+TSc/xR1cvIlSZM3r5
- 562GXAXK3AeeDdVzhmeG29a3YbS5tzzVGMEK7UqoKH2A3B4L3oMUTRNwi
- 21yTDOs/7eIP1MzeeUQVWj4gd6UHpotjSmfV8Ctbit0jXJ5EEDbxyOml+
- lc9LaF2WZ2AAUwwxxbhhxUpmkPXwX6SPtRSVMEIS+5E3isM/6r+ku7hOW A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10546"; a="312956455"
-X-IronPort-AV: E=Sophos;i="5.96,205,1665471600"; d="scan'208";a="312956455"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Nov 2022 00:30:19 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10546"; a="646244481"
-X-IronPort-AV: E=Sophos;i="5.96,205,1665471600"; d="scan'208";a="646244481"
-Received: from hpvpnmu01.ger.corp.intel.com (HELO [10.213.197.198])
- ([10.213.197.198])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Nov 2022 00:30:18 -0800
-Message-ID: <17ba580d-556b-c963-703c-b80e74c050f9@linux.intel.com>
-Date: Wed, 30 Nov 2022 08:30:16 +0000
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4CED10E41B;
+	Wed, 30 Nov 2022 08:56:19 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 971FE10E41B
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 08:56:17 +0000 (UTC)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi
+ [91.154.32.225])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5A59955A;
+ Wed, 30 Nov 2022 09:56:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1669798576;
+ bh=P+QWGX/RuFzHin2xHy5lZrSKi8lf7M6oOuqsIDQL71s=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=iinw8v1TZlf82C3F6KLpPTT4awQuoJ0TuhLJB+QL6FKLdSXFIxK1AAJfK1BulEGl9
+ 4Oi61qc1iN5g5eRa/GgwWr6uEHjK/fkZMgx8hl8VaNsyDSQsAmyE8qTqbePGTohuHA
+ 2rz7x3iKC9LrXNJzAZIqwcLgsnflmdmESBHqeoJY=
+Message-ID: <58cff9e3-2488-5119-40ba-070ae930906d@ideasonboard.com>
+Date: Wed, 30 Nov 2022 10:56:12 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [Intel-gfx] [PATCH 2/2] drm/i915/guc: Look for a guilty context
- when an engine reset fails
+Subject: Re: [PATCH] drm/bridge: cdns-dsi: Fix issue with phy init
 Content-Language: en-US
-To: John.C.Harrison@Intel.com, Intel-GFX@Lists.FreeDesktop.Org
-References: <20221129211253.3183480-1-John.C.Harrison@Intel.com>
- <20221129211253.3183480-3-John.C.Harrison@Intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20221129211253.3183480-3-John.C.Harrison@Intel.com>
+To: Rahul T R <r-ravikumar@ti.com>, dri-devel@lists.freedesktop.org
+References: <20221115083918.23192-1-r-ravikumar@ti.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20221115083918.23192-1-r-ravikumar@ti.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,67 +49,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI-Devel@Lists.FreeDesktop.Org
+Cc: neil.armstrong@linaro.org, jonas@kwiboo.se, jpawar@cadence.com,
+ linux-kernel@vger.kernel.org, jernej.skrabec@gmail.com, robert.foss@linaro.org,
+ andrzej.hajda@intel.com, sjakhade@cadence.com,
+ Laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-On 29/11/2022 21:12, John.C.Harrison@Intel.com wrote:
-> From: John Harrison <John.C.Harrison@Intel.com>
+On 15/11/2022 10:39, Rahul T R wrote:
+> Phy is not being initialized after suspend resume. Fix this by setting
+> phy_initialized flag to false in suspend callback
 > 
-> Engine resets are supposed to never happen. But in the case when one
-
-Engine resets or engine reset failures? Hopefully the latter.
-
-> does (due to unknwon reasons that normally come down to a missing
-> w/a), it is useful to get as much information out of the system as
-> possible. Given that the GuC effectively dies on such a situation, it
-> is not possible to get a guilty context notification back. So do a
-> manual search instead. Given that GuC is dead, this is safe because
-> GuC won't be changing the engine state asynchronously.
-> 
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> Signed-off-by: Rahul T R <r-ravikumar@ti.com>
 > ---
->   drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 15 ++++++++++++++-
->   1 file changed, 14 insertions(+), 1 deletion(-)
+>   drivers/gpu/drm/bridge/cdns-dsi.c | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index 0a42f1807f52c..c82730804a1c4 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -4751,11 +4751,24 @@ static void reset_fail_worker_func(struct work_struct *w)
->   	guc->submission_state.reset_fail_mask = 0;
->   	spin_unlock_irqrestore(&guc->submission_state.lock, flags);
->   
-> -	if (likely(reset_fail_mask))
-> +	if (likely(reset_fail_mask)) {
-> +		struct intel_engine_cs *engine;
-> +		enum intel_engine_id id;
-> +
-> +		/*
-> +		 * GuC is toast at this point - it dead loops after sending the failed
-> +		 * reset notification. So need to manually determine the guilty context.
-> +		 * Note that it should be safe/reliable to do this here because the GuC
-> +		 * is toast and will not be scheduling behind the KMD's back.
-> +		 */
-> +		for_each_engine_masked(engine, gt, reset_fail_mask, id)
-> +			intel_guc_find_hung_context(engine);
-> +
->   		intel_gt_handle_error(gt, reset_fail_mask,
->   				      I915_ERROR_CAPTURE,
->   				      "GuC failed to reset engine mask=0x%x\n",
->   				      reset_fail_mask);
-
-If GuC is defined by ABI contract to be dead, should the flow be 
-attempting to do a full GPU reset here, or maybe it happens somewhere 
-else as a consequence anyway? (In which case is the engine reset here 
-even needed?)
-
-Regards,
-
-Tvrtko
-
-> +	}
+> diff --git a/drivers/gpu/drm/bridge/cdns-dsi.c b/drivers/gpu/drm/bridge/cdns-dsi.c
+> index 20bece84ff8c..1a988f53424a 100644
+> --- a/drivers/gpu/drm/bridge/cdns-dsi.c
+> +++ b/drivers/gpu/drm/bridge/cdns-dsi.c
+> @@ -1187,6 +1187,7 @@ static int __maybe_unused cdns_dsi_suspend(struct device *dev)
+>   	clk_disable_unprepare(dsi->dsi_p_clk);
+>   	reset_control_assert(dsi->dsi_p_rst);
+>   	dsi->link_initialized = false;
+> +	dsi->phy_initialized = false;
+>   	return 0;
 >   }
 >   
->   int intel_guc_engine_failure_process_msg(struct intel_guc *guc,
+
+I'm not familiar with the IP, but the code related to enable/disable 
+looks a bit odd.
+
+Why does cdns_dsi_bridge_enable() do:
+	cdns_dsi_hs_init(dsi);
+	cdns_dsi_init_link(dsi);
+but then in cdns_dsi_bridge_pre_enable():
+	cdns_dsi_init_link(dsi);
+	cdns_dsi_hs_init(dsi);
+
+Doesn't the order matter? Why are the same functions called in both places?
+
+cdns_dsi_hs_init() seems to do enabling, like locking the PLL. But 
+there's no counterpart, hs_uninit(). I see cdns_dsi_bridge_disable() 
+doing some clearing of the registers, so perhaps that's where the 
+disabling happens. But cdns_dsi_hs_init() is called from the pre-enable, 
+and post-disable doesn't do anything else but pm_runtime_put().
+
+More or less the same comments apply to cdns_dsi_init_link(), but it's a 
+bit worse as it's also called in cdns_dsi_transfer(), and then there's 
+no uninit counterpart that I can see.
+
+Well, maybe both functions are only doing configuration, not enabling 
+this as such, and so it's fine to just turn off the IP without any 
+uninit step. If that's the case, then probably this patch is fine.
+
+  Tomi
+
