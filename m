@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71B5F63E14C
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 21:10:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2B6D63E152
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 21:11:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D666110E4E2;
-	Wed, 30 Nov 2022 20:10:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8F3A10E4E4;
+	Wed, 30 Nov 2022 20:10:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
- [IPv6:2a00:1450:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D01F10E4DA;
- Wed, 30 Nov 2022 20:10:16 +0000 (UTC)
-Received: by mail-lj1-x22a.google.com with SMTP id r8so22173476ljn.8;
- Wed, 30 Nov 2022 12:10:16 -0800 (PST)
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57BA610E4D7;
+ Wed, 30 Nov 2022 20:10:18 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id x11so3099777ljh.7;
+ Wed, 30 Nov 2022 12:10:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=l55ZSpBSaEScUKVcaRYy5noOFCbwMf6AS4fim9mYDzU=;
- b=hX9Qc/69PdTYELzcvIONcTmgLCM1MCfDI8JC5rXsA12fgwJi8rJ/GgV8Anv3/iwMjO
- CGp8W8/Fg4RGFOwA1y3NTdq7sxLks1VQhAWeg737e2KRB6981vduvpwKAn8LcTkB37pr
- 0U2W9/gdvRbJwdpjW9b+mcMLT0tT+l6A/tqVo4IDV56QRMVvqgiUO6tpqaTrhpkvRQzE
- BzfFQJ+3xj3fs1h2dwDDofVpmfCRp21MnTxKRFnGcqcawvbdXLHuOWDaWRlC1c4Gk1Mx
- 6Vm51bA4Kdr7ORaVUtBAKaegltoZeApXfmTnrHDnOpn9CWLp4PV/2fUQOtniDo454NhW
- qxTg==
+ bh=UeKUFuMBGeOpjtNWu+0ecey1vuODCAFUa80H0ilPD38=;
+ b=m5Ymrb6lcOlQCFUPyS5dDFiWk7h0coEC1hEjEdmkCwdJNcaKdcG8E+ngDKWyXDm3jR
+ y5C5dH8/GkOIPG12tjyl1Tk96HFLmLmoVOQjhQVBTHMb7i0MY/vJjLCN1y8mYIbjsKXF
+ uZciS35mrj85YYytZiW4tnAS/pFj/vFUDYGAQI8MZhV6xtTnQESTp2d9dnIOHLk3/vDy
+ dtfyIqbC56gZJVf18ARwejyPuN3kqr6r38CkH/+4K1yXqpcYBnDvXJwvQHs1auRYnAsF
+ feY2fPm9uO3YsBlsuBDlF8sozflt0fJ6rs/+fmfb5s7Y9OgoU3DxPWjN2dSOX0PBCk7Z
+ YWiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=l55ZSpBSaEScUKVcaRYy5noOFCbwMf6AS4fim9mYDzU=;
- b=UigdDgrmmMttMALa+7uy5nDtx4rA2Jp4p1vz5cCNQ/MqYQBUaID5JDCxImv/gdcnTp
- 6iJkjgJLqa4Dwpg5dtzyvBoEJ69n5pouXlGIDBSqRtMiC8/iGYrrObe9tvMCUXDxENry
- ZbI+ipK8FEcVFMj//ZASLl5bcAEY66NIIExd2LSa8tuNTu9h4Uj7XIeF12RzSa5HJft8
- /o/VimK/59CHvS0BjVFngQQNcBUdjkZXMxN0jlmifV1fYr/8KSz3/APetzjsuxch745M
- zGFWzy/ezNwy3zXZXVBnME1xqDUEP3w2cquQJh632AmDkLaO64bKwVvcQZLPdjJy9Mvd
- 4OYw==
-X-Gm-Message-State: ANoB5pnbQebCtjRvauhRgBvqr0FjFBxZMwEEH2bfEfnq4R0/iyE83MRJ
- B3loiq7X0n2vEvjVd7Z8WoM=
-X-Google-Smtp-Source: AA0mqf4N1MjwsUqz/qkPXY6Rb3zUqkrXqdkjaerUFav9rNOyY5/vWSnsxuY0T/WDHWeX58U2Kr+D0w==
-X-Received: by 2002:a05:651c:1590:b0:279:dfe:897a with SMTP id
- h16-20020a05651c159000b002790dfe897amr21130009ljq.365.1669839014480; 
- Wed, 30 Nov 2022 12:10:14 -0800 (PST)
+ bh=UeKUFuMBGeOpjtNWu+0ecey1vuODCAFUa80H0ilPD38=;
+ b=A/oxuqihd9bYGN1GnPVKvdR9rQnifvqzaiUVlRRDT4C6usTOdAES6fXaETz1z6mznq
+ cfEX+0O2LrYudAf+1Ru7T/iX8tGM9SLh4KcHo2A1LbBOYagMc/S7POyITdSBXjDAzKvV
+ G3G5Rr5a48wIAf+v30HJNWg38cNOdXxV0aTir0t4Lo/CHVZvxx2Z5lhN66Z5nne/85w2
+ dW05LOMntVSTt7WY6hZajwd+Ph1ustsj4gghsJT7xPI3nw5S8aIUoByy9CXCWaoNBbWD
+ 4EyZLCcHiOFABVXHNbnSq2HuEAi4je5SAeAjqZldal7qU62FC+8puIsimVXwBxWAJcPU
+ ghkw==
+X-Gm-Message-State: ANoB5pl0GAcgBOS3qEwUHQDvsNo0vdoV9MLt/lCE3/sKVuTgs8eRyEGW
+ M0OVLpPZZ1GZCg4en5EtDo4=
+X-Google-Smtp-Source: AA0mqf7EL8CUTw6gdGplX8YzU89iQEAEQ3gnLjh5BmUir1uGwe/Ke0v01HN+zvn9r7ueoZc51+RHBQ==
+X-Received: by 2002:a05:651c:503:b0:277:dba:2f65 with SMTP id
+ o3-20020a05651c050300b002770dba2f65mr15966645ljp.201.1669839016715; 
+ Wed, 30 Nov 2022 12:10:16 -0800 (PST)
 Received: from localhost.localdomain (ccy110.neoplus.adsl.tpnet.pl.
  [83.30.148.110]) by smtp.gmail.com with ESMTPSA id
- a25-20020a056512201900b004b4e9580b1asm369754lfb.66.2022.11.30.12.10.12
+ a25-20020a056512201900b004b4e9580b1asm369754lfb.66.2022.11.30.12.10.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Nov 2022 12:10:14 -0800 (PST)
+ Wed, 30 Nov 2022 12:10:16 -0800 (PST)
 From: Adam Skladowski <a39.skl@gmail.com>
 To: 
-Subject: [PATCH v2 08/12] arm64: dts: qcom: sm6115: Add mdss/dpu node
-Date: Wed, 30 Nov 2022 21:09:46 +0100
-Message-Id: <20221130200950.144618-9-a39.skl@gmail.com>
+Subject: [PATCH v2 09/12] arm64: dts: qcom: sm6115: Add GPI DMA
+Date: Wed, 30 Nov 2022 21:09:47 +0100
+Message-Id: <20221130200950.144618-10-a39.skl@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221130200950.144618-1-a39.skl@gmail.com>
 References: <20221130200950.144618-1-a39.skl@gmail.com>
@@ -88,208 +88,45 @@ Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Amit Kucheria <amitk@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add mdss and dpu node to enable display support on SM6115.
+Add GPI DMA node which will be wired to i2c/spi/uart.
 
 Signed-off-by: Adam Skladowski <a39.skl@gmail.com>
 Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/sm6115.dtsi | 183 +++++++++++++++++++++++++++
- 1 file changed, 183 insertions(+)
+ arch/arm64/boot/dts/qcom/sm6115.dtsi | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/sm6115.dtsi b/arch/arm64/boot/dts/qcom/sm6115.dtsi
-index 6e0699649257..c476b5ecb62b 100644
+index c476b5ecb62b..b30a5485671d 100644
 --- a/arch/arm64/boot/dts/qcom/sm6115.dtsi
 +++ b/arch/arm64/boot/dts/qcom/sm6115.dtsi
-@@ -726,6 +726,189 @@ usb_1_dwc3: usb@4e00000 {
+@@ -681,6 +681,26 @@ ufs_mem_phy_lanes: phy@4807400 {
  			};
  		};
  
-+		mdss: display-subsystem@5e00000 {
-+			compatible = "qcom,sm6115-mdss";
-+			reg = <0x05e00000 0x1000>;
-+			reg-names = "mdss";
-+
-+			power-domains = <&dispcc MDSS_GDSC>;
-+
-+			clocks = <&gcc GCC_DISP_AHB_CLK>,
-+				 <&gcc GCC_DISP_HF_AXI_CLK>,
-+				 <&dispcc DISP_CC_MDSS_MDP_CLK>;
-+
-+			interrupts = <GIC_SPI 186 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-controller;
-+			#interrupt-cells = <1>;
-+
-+			iommus = <&apps_smmu 0x420 0x2>,
-+				 <&apps_smmu 0x421 0x0>;
-+
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+			ranges;
-+
++		gpi_dma0: dma-controller@4a00000 {
++			compatible = "qcom,sm6115-gpi-dma", "qcom,sm6350-gpi-dma";
++			reg = <0x04a00000 0x60000>;
++			interrupts = <GIC_SPI 335 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 336 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 337 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 338 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 339 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 340 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 341 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 342 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 343 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 344 IRQ_TYPE_LEVEL_HIGH>;
++			dma-channels =  <10>;
++			dma-channel-mask = <0xf>;
++			iommus = <&apps_smmu 0xf6 0x0>;
++			#dma-cells = <3>;
 +			status = "disabled";
-+
-+			mdp: display-controller@5e01000 {
-+				compatible = "qcom,sm6115-dpu";
-+				reg = <0x05e01000 0x8f000>,
-+				      <0x05eb0000 0x2008>;
-+				reg-names = "mdp", "vbif";
-+
-+				clocks = <&gcc GCC_DISP_HF_AXI_CLK>,
-+					 <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+					 <&dispcc DISP_CC_MDSS_MDP_CLK>,
-+					 <&dispcc DISP_CC_MDSS_MDP_LUT_CLK>,
-+					 <&dispcc DISP_CC_MDSS_ROT_CLK>,
-+					 <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
-+				clock-names = "bus",
-+					      "iface",
-+					      "core",
-+					      "lut",
-+					      "rot",
-+					      "vsync";
-+
-+				operating-points-v2 = <&mdp_opp_table>;
-+				power-domains = <&rpmpd SM6115_VDDCX>;
-+
-+				interrupt-parent = <&mdss>;
-+				interrupts = <0>;
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					port@0 {
-+						reg = <0>;
-+						dpu_intf1_out: endpoint {
-+							remote-endpoint = <&dsi0_in>;
-+						};
-+					};
-+				};
-+
-+				mdp_opp_table: opp-table {
-+					compatible = "operating-points-v2";
-+
-+					opp-19200000 {
-+						opp-hz = /bits/ 64 <19200000>;
-+						required-opps = <&rpmpd_opp_min_svs>;
-+					};
-+
-+					opp-192000000 {
-+						opp-hz = /bits/ 64 <192000000>;
-+						required-opps = <&rpmpd_opp_low_svs>;
-+					};
-+
-+					opp-256000000 {
-+						opp-hz = /bits/ 64 <256000000>;
-+						required-opps = <&rpmpd_opp_svs>;
-+					};
-+
-+					opp-307200000 {
-+						opp-hz = /bits/ 64 <307200000>;
-+						required-opps = <&rpmpd_opp_svs_plus>;
-+					};
-+
-+					opp-384000000 {
-+						opp-hz = /bits/ 64 <384000000>;
-+						required-opps = <&rpmpd_opp_nom>;
-+					};
-+				};
-+			};
-+
-+			dsi0: dsi@5e94000 {
-+				compatible = "qcom,dsi-ctrl-6g-qcm2290";
-+				reg = <0x05e94000 0x400>;
-+				reg-names = "dsi_ctrl";
-+
-+				interrupt-parent = <&mdss>;
-+				interrupts = <4>;
-+
-+				clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK>,
-+					 <&dispcc DISP_CC_MDSS_BYTE0_INTF_CLK>,
-+					 <&dispcc DISP_CC_MDSS_PCLK0_CLK>,
-+					 <&dispcc DISP_CC_MDSS_ESC0_CLK>,
-+					 <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+					 <&gcc GCC_DISP_HF_AXI_CLK>;
-+				clock-names = "byte",
-+					      "byte_intf",
-+					      "pixel",
-+					      "core",
-+					      "iface",
-+					      "bus";
-+
-+				assigned-clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK_SRC>,
-+						  <&dispcc DISP_CC_MDSS_PCLK0_CLK_SRC>;
-+				assigned-clock-parents = <&dsi0_phy 0>, <&dsi0_phy 1>;
-+
-+				operating-points-v2 = <&dsi_opp_table>;
-+				power-domains = <&rpmpd SM6115_VDDCX>;
-+				phys = <&dsi0_phy>;
-+
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				status = "disabled";
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					port@0 {
-+						reg = <0>;
-+						dsi0_in: endpoint {
-+							remote-endpoint = <&dpu_intf1_out>;
-+						};
-+					};
-+
-+					port@1 {
-+						reg = <1>;
-+						dsi0_out: endpoint {
-+						};
-+					};
-+				};
-+
-+				dsi_opp_table: opp-table {
-+					compatible = "operating-points-v2";
-+
-+					opp-19200000 {
-+						opp-hz = /bits/ 64 <19200000>;
-+						required-opps = <&rpmpd_opp_min_svs>;
-+					};
-+
-+					opp-164000000 {
-+						opp-hz = /bits/ 64 <164000000>;
-+						required-opps = <&rpmpd_opp_low_svs>;
-+					};
-+
-+					opp-187500000 {
-+						opp-hz = /bits/ 64 <187500000>;
-+						required-opps = <&rpmpd_opp_svs>;
-+					};
-+				};
-+			};
-+
-+			dsi0_phy: phy@5e94400 {
-+				compatible = "qcom,dsi-phy-14nm-2290";
-+				reg = <0x05e94400 0x100>,
-+				      <0x05e94500 0x300>,
-+				      <0x05e94800 0x188>;
-+				reg-names = "dsi_phy",
-+					    "dsi_phy_lane",
-+					    "dsi_pll";
-+
-+				#clock-cells = <1>;
-+				#phy-cells = <0>;
-+
-+				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+					 <&rpmcc RPM_SMD_XO_CLK_SRC>;
-+				clock-names = "iface", "ref";
-+
-+				status = "disabled";
-+			};
 +		};
 +
- 		dispcc: clock-controller@5f00000 {
- 			compatible = "qcom,sm6115-dispcc";
- 			reg = <0x05f00000 0x20000>;
+ 		usb_1: usb@4ef8800 {
+ 			compatible = "qcom,sm6115-dwc3", "qcom,dwc3";
+ 			reg = <0x04ef8800 0x400>;
 -- 
 2.25.1
 
