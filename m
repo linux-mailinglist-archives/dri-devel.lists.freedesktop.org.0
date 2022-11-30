@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8845463D8AB
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 15:59:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A77E363D8D2
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 16:08:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FCBD10E47A;
-	Wed, 30 Nov 2022 14:59:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0930C10E47B;
+	Wed, 30 Nov 2022 15:08:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
- [IPv6:2a00:1450:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBAC910E475
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 14:59:43 +0000 (UTC)
-Received: by mail-lj1-x231.google.com with SMTP id z24so21172526ljn.4
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 06:59:43 -0800 (PST)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FF9210E479
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 15:07:58 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id j4so27443901lfk.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 07:07:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=+bZZiGsvCviYgOuFBF7njmiF2RANtTpinOFAwCnqSCA=;
- b=eg9BgddOl8Bn4tGtBcVcfYO7bUO8yd1eBz2ZBDcugmKd6hMl5F1Llxm5IXX9Dv37Qp
- 4fNhHLmZBMoeGOrw9YHbvCeFDXo5jEO92pvUDdDbGWBdo7O7dkmmnp+L+d5eolfh4L2J
- 0m1JJbT19p2jdk17CsxeU0zygr9t66ARMOIQ42/8xVeduVQLsoXIM3o9gbzsSgJKsF3W
- RiHtiLFF85+Qcjw/L2wh7IWX0xHh17uHZFqqpnbhi/BhjTaauIA2YfWmh9e9KMrU67TS
- 2PCT3n8HR/0I1vzTCHssMYTdVB0opZqF+TTFcUHKetDK7FLcPMwZg/mXAVRlqUpq3Kq+
- pVkg==
+ bh=cJqrClHiZPXq+FVkSMKW0Xw+s2okc9K9A5evAAtGTUc=;
+ b=RPnc/lltAqPuUJR2we1iwIcV3yGPf/+Rq00frStCStqEAEPC2KiqlNAK0E+USCVdMR
+ AdX5iqF2ljKhuWEZ3zFTsU3qwhArQrMRIVVZR2mnLpuoUo7/8kUNqx6FSinAXd+qvcY+
+ USy9Q3fxaysmVgNgtEU8UoYrPgfzphMi3vPzxDen/c8xafkFwI9ryL/3sq3dKJQBu1kx
+ pdv9nv2tu9K0vNgFA4FoEbrP5hKNXR01xhyECNeR+HC+Mlf03gW3dInsD1j2IsdbERKi
+ ajd9/SXttFzRZIQtoBlPOktOaqH92jE96L+8OfcYpe5NN6kFsxKAtdMZJe8yVVLA+TDU
+ 6UDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+bZZiGsvCviYgOuFBF7njmiF2RANtTpinOFAwCnqSCA=;
- b=S1LOPRoBmyJWYhtPzxH2+4bTPONBJmzubmVznonrj1bt/I4DjEp41SYFkFnZInmIbu
- GntRKqC2WluKRN2yDkHgXNtt8muPz42rIfGBgXchHTZrWQB6k4taqusYG9mlwhlCuoSV
- PKYe8mT+YBJoW+ukVHj03F6lR8eM6RK7hKc4d2AIw0E/Ox69KLqpW3FyIp4i1mz+XGNY
- 6aA79EVEv4HyPDC6tkGi6ViD20NextysBsMCc/mTM9dRpCH3k0Z5HIs/AoKYnulwzJVc
- erLKMcdtdRXnvP2/GJSywDYZiOmWVhsWuFklepz25JCLV0t02RzfiFjs2KO62DHE/w8K
- Hwhw==
-X-Gm-Message-State: ANoB5pnjjST9WcBGuV3gt9GPQnutU8ENiPU+e5U8CwwOWFkYG1CR2bTN
- um+lTNpy/r7CHPWJDJyAVRwopg==
-X-Google-Smtp-Source: AA0mqf4QWLRswl+fzVjdtAM1h2hdO9aXmxVDwI9Rklz7Of6iQt/IqJOKUAFZJPhb5iE093B2/PPRTA==
-X-Received: by 2002:a05:651c:1101:b0:279:73ba:8719 with SMTP id
- e1-20020a05651c110100b0027973ba8719mr12448536ljo.294.1669820382117; 
- Wed, 30 Nov 2022 06:59:42 -0800 (PST)
+ bh=cJqrClHiZPXq+FVkSMKW0Xw+s2okc9K9A5evAAtGTUc=;
+ b=fAnfyUuNnmgqSK8mL6u7YQsbe/3O0UDAP0M9UekowXCyXvCM48C709a8WI+p2m5NN7
+ 4O4dW9zJoQv3IarAZOxtrPAyRqQpIm0IWsVVsEOqVihx/UiI4be+Vt25u8K6E0Rzeojr
+ 8c9x+t3jRHyaCGm7t7FMdeP10x78D88OxuXG09jPh1P4E9MGss1vQsDn+j5PUHIrZ8RH
+ kBoZM8/mkxxtoiJIruJFuN8TngN+zJyWBj1VQwI6EJdBkv/8qT1PdCVwPZQX5oSYbSUX
+ yRD11s2hYidGp0QAm9d/1c5XVNnkpbydLl1tXzCS9FSC9N8D6KSXEtCYdmxbakFQ2/ID
+ hd/g==
+X-Gm-Message-State: ANoB5pmDV7ZgeKSa779foWCeW7AA3nZ0wYMKYPpEAdHOWs43jmZ8JE0S
+ 4bi3Wy5loe5V0/hVHTd9vJK0vw==
+X-Google-Smtp-Source: AA0mqf734sY6ZDYeK/G5AR3EnvJhvF9S6ueO3jz/KPo7tyikas7hMGIGuMUsj5L17EBc21tQpzfyNQ==
+X-Received: by 2002:a19:6717:0:b0:4b4:e13f:6a17 with SMTP id
+ b23-20020a196717000000b004b4e13f6a17mr15560450lfc.372.1669820876997; 
+ Wed, 30 Nov 2022 07:07:56 -0800 (PST)
 Received: from [192.168.0.20]
  (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
  by smtp.gmail.com with ESMTPSA id
- s12-20020a056512202c00b004b4cbc942a3sm286091lfs.127.2022.11.30.06.59.40
+ q16-20020a2e9150000000b00277045dcb5bsm155073ljg.97.2022.11.30.07.07.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Nov 2022 06:59:41 -0800 (PST)
-Message-ID: <99671b3a-e99a-0a94-38f2-1ffa70339a15@linaro.org>
-Date: Wed, 30 Nov 2022 15:59:40 +0100
+ Wed, 30 Nov 2022 07:07:56 -0800 (PST)
+Message-ID: <502a28b2-e77d-37aa-4f14-10917fca18b2@linaro.org>
+Date: Wed, 30 Nov 2022 16:07:54 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
-Subject: Re: [PATCH] dt-bindings: msm/dsi: Don't require vcca-supply on 14nm
- PHY
+Subject: Re: [PATCH 01/12] dt-bindings: display: msm: Replace mdss with
+ display-subsystem
 Content-Language: en-US
-To: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
- andersson@kernel.org, krzysztof.kozlowski+dt@linaro.org
-References: <20221130135807.45028-1-konrad.dybcio@linaro.org>
+To: Adam Skladowski <a39.skl@gmail.com>
+References: <20221129204616.47006-1-a39.skl@gmail.com>
+ <20221129204616.47006-2-a39.skl@gmail.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221130135807.45028-1-konrad.dybcio@linaro.org>
+In-Reply-To: <20221129204616.47006-2-a39.skl@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,24 +77,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, patches@linaro.org,
- Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, devicetree@vger.kernel.org
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+ Thara Gopinath <thara.gopinath@gmail.com>, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ phone-devel@vger.kernel.org, Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Andy Gross <agross@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+ devicetree@vger.kernel.org, Amit Kucheria <amitk@kernel.org>,
+ linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>,
+ Loic Poulain <loic.poulain@linaro.org>, Bjorn Andersson <andersson@kernel.org>,
+ linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/11/2022 14:58, Konrad Dybcio wrote:
-> On some SoCs (hello SM6115) vcca-supply is not wired to any smd-rpm
-> or rpmh regulator, but instead powered by the VDD_MX line, which is
-> voted for in the DSI ctrl node.
+On 29/11/2022 21:46, Adam Skladowski wrote:
+> Follow other YAMLs and replace mdss name.
+
+That's really not explaining what you are doing here. Your commit msg
+and subject suggest you rename mdss. But you don't. You touch only examples.
+
 > 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-
-
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Adam Skladowski <a39.skl@gmail.com>
+> ---
+>  .../devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml      | 2 +-
+>  .../devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml       | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
 
 Best regards,
 Krzysztof
