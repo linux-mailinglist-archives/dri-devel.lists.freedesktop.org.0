@@ -2,68 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CA6163D8EA
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 16:10:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2AF563D942
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 16:22:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B68B10E47F;
-	Wed, 30 Nov 2022 15:10:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0ECE210E482;
+	Wed, 30 Nov 2022 15:22:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00A3310E47F
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 15:10:25 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id d6so27415071lfs.10
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 07:10:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=J3Su5v2vdmDewKthBrtRFm+e13oXU523NmM0FV1oQU8=;
- b=UGdY4Ll7FF8qoI0YeGrA0rIaaXlaaFuBei4wsmZtPINCSzvnUJT+90MuRpjxmRuSGT
- J8EXutfubxLaShHq7c6BnttwGrHh0GFfnrxBd+XCqOBzIbwGYygrRgMcaqjYTvm3oqob
- Zvh7Kezr1vz2P6+B8KuRr3LWEJyWyNDg93grQSncIaOzm6swZKOXDMO/W9kMIQbzJrZz
- lTYqPBBvl66dq1HJqzZESIl4DrkAOONcD0ZqhAKof6+e8OwT35HaoLZ2+nYFpWOGlDY9
- sT7ecbB2956MLqPOrQbHValv6E7l1G1BtJurm6zZhqCmCjHx90DIU5oCuFuAMVcY7Ra2
- PDmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=J3Su5v2vdmDewKthBrtRFm+e13oXU523NmM0FV1oQU8=;
- b=bxTUSPXlFk0Gc4FrKFwNHj4DUWYbncD2Ae9lSjmMpQW5A4D/lbFbilcp7n9N1CKEme
- JbS1eTFOBgY2p+BkWmslIPEPvgtZ4NC/YjnK8J0OPgmFNfMT67GEZFE2iqBVcFXxfFYL
- TdSevQCnGvYZTtpIIClCIUzbNhxzjUBlzeH9GYwcoQJbILQWlbndw12Wdyw3MfXnqh+c
- D7dH5w6glzNCjIsH7cHLZv7sgQzBHVTu/AH/06exwfwdfNZwUM8vbQOVgNHgpaWGB7Ck
- Yw+7JC+6TmV5EbgKFK4kbLUUovCclTFpf+JD83ItgaY6fO7KHoZzB3+ygt5mFpOYjif3
- AOQQ==
-X-Gm-Message-State: ANoB5pm3TQDCLoW+mrRVS894UyiGeTFnA7sPLLdXuA1BJbGhZ3/PDBIh
- Mhq8DyQMNbkQ1nyDwa/9kLUSdQ==
-X-Google-Smtp-Source: AA0mqf6H4COlxILbroNSMWuDH3SQhpzqcaGSWYKTuKDUwWXh9jsj1UxAf2lYa04YY2JuGCwkbkTyUA==
-X-Received: by 2002:a05:6512:131b:b0:4b5:1ae4:f234 with SMTP id
- x27-20020a056512131b00b004b51ae4f234mr5110099lfu.391.1669821024300; 
- Wed, 30 Nov 2022 07:10:24 -0800 (PST)
-Received: from [192.168.0.20]
- (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
- by smtp.gmail.com with ESMTPSA id
- n9-20020ac242c9000000b00494942bec60sm294211lfl.17.2022.11.30.07.10.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Nov 2022 07:10:23 -0800 (PST)
-Message-ID: <b3c4fa2a-4904-f16e-52e4-a534f4555455@linaro.org>
-Date: Wed, 30 Nov 2022 16:10:22 +0100
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DE1510E482
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 15:22:43 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1p0OuS-00009r-WF; Wed, 30 Nov 2022 16:22:05 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1p0OuI-001LdM-Fl; Wed, 30 Nov 2022 16:21:55 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1p0OuI-001VqY-Bk; Wed, 30 Nov 2022 16:21:54 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Thierry Reding <thierry.reding@gmail.com>
+Subject: [PATCH v2 00/11] pwm: Allow .get_state to fail
+Date: Wed, 30 Nov 2022 16:21:37 +0100
+Message-Id: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH 10/12] arm64: dts: qcom: sm6115: Add i2c/spi nodes
-Content-Language: en-US
-To: Adam Skladowski <a39.skl@gmail.com>
-References: <20221129204616.47006-1-a39.skl@gmail.com>
- <20221129204616.47006-11-a39.skl@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221129204616.47006-11-a39.skl@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4201;
+ i=u.kleine-koenig@pengutronix.de; h=from:subject;
+ bh=OJndCEVt3aO3P0WDGIcSb4svVqFYr4L7BRkc05e7KK8=;
+ b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBjh3TeeKE42zO/dADA8GIRueUo9ayiBLrzlu5BRvEE
+ w4nESiyJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCY4d03gAKCRDB/BR4rcrsCSMiB/
+ 9P92eEh5i/ykm3IhBfm7shzbMkb/wG7nDkc+vvv70Z73UbyxFvKLzsJ+xK5VXqTCLlo8DUkfo9BJPh
+ gr8T1RvP6HUtOELqCuQE6ruqv9wlN28AYIytMCoO+QvOqLdbM84LW89W1fK1B6ImECmggYrGw60CXE
+ f7Rv+b9z4cETy+dLsOSVyQ0zsix7/7HyoqlinRbwr3R1SJewjSjU++PJ6H8LCe6DcYMwdJkpBaC2Ol
+ hVLwWlo1eF82Cow8M5bd0+XSEZXpG5oFaf6CebgL+JYlfUHRWLzOpJpq6RAXCmfilUqisk0cROhhop
+ q2OYuXh1amqkiMJYz8hRni9/YulIOt
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
+ fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,60 +63,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
- Thara Gopinath <thara.gopinath@gmail.com>, dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- phone-devel@vger.kernel.org, Daniel Lezcano <daniel.lezcano@linaro.org>,
- Andy Gross <agross@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
- devicetree@vger.kernel.org, Amit Kucheria <amitk@kernel.org>,
- linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>,
- Loic Poulain <loic.poulain@linaro.org>, Bjorn Andersson <andersson@kernel.org>,
- linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Conor Dooley <conor.dooley@microchip.com>,
+ Satya Priya <quic_c_skakit@quicinc.com>, Pavel Machek <pavel@ucw.cz>,
+ Guenter Roeck <groeck@chromium.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+ linux-riscv@lists.infradead.org, linux-leds@vger.kernel.org,
+ Jerome Brunet <jbrunet@baylibre.com>, chrome-platform@lists.linux.dev,
+ Florian Fainelli <f.fainelli@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ Sean Anderson <sean.anderson@seco.com>, Kevin Hilman <khilman@baylibre.com>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Michal Simek <michal.simek@xilinx.com>,
+ linux-stm32@st-md-mailman.stormreply.com, Hammer Hsieh <hammerh0314@gmail.com>,
+ linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
+ Matthias Kaehlcke <mka@chromium.org>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
+ linux-sunxi@lists.linux.dev, linux-pwm@vger.kernel.org,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Ray Jui <rjui@broadcom.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Steven Rostedt <rostedt@goodmis.org>, Stephen Boyd <swboyd@chromium.org>,
+ linux-gpio@vger.kernel.org, Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+ linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, Scott Branden <sbranden@broadcom.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Douglas Anderson <dianders@chromium.org>, Michael Walle <michael@walle.cc>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29/11/2022 21:46, Adam Skladowski wrote:
-> Add I2C/SPI nodes for SM6115.
-> 
-> Signed-off-by: Adam Skladowski <a39.skl@gmail.com>
-> ---
->  arch/arm64/boot/dts/qcom/sm6115.dtsi | 287 +++++++++++++++++++++++++++
->  1 file changed, 287 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/sm6115.dtsi b/arch/arm64/boot/dts/qcom/sm6115.dtsi
-> index e9de7aa1efdd..d14a4595be8a 100644
-> --- a/arch/arm64/boot/dts/qcom/sm6115.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sm6115.dtsi
-> @@ -6,6 +6,7 @@
->  #include <dt-bindings/clock/qcom,gcc-sm6115.h>
->  #include <dt-bindings/clock/qcom,sm6115-dispcc.h>
->  #include <dt-bindings/clock/qcom,rpmcc.h>
-> +#include <dt-bindings/dma/qcom-gpi.h>
->  #include <dt-bindings/gpio/gpio.h>
->  #include <dt-bindings/interrupt-controller/arm-gic.h>
->  #include <dt-bindings/power/qcom-rpmpd.h>
-> @@ -357,6 +358,90 @@ tlmm: pinctrl@500000 {
->  			interrupt-controller;
->  			#interrupt-cells = <2>;
->  
-> +			qup_i2c0_default: qup-i2c0-default {
+Hello,
 
-Does not look like you tested the bindings. Please run `make
-dt_binding_check` (see
-Documentation/devicetree/bindings/writing-schema.rst for instructions).
+I forgot about this series and was remembered when I talked to Conor
+Dooley about how .get_state() should behave in an error case.
 
-Missing -state suffix. Same in other places.
+Compared to (implicit) v1, sent with Message-Id: 20220916151506.298488-1-u.kleine-koenig@pengutronix.de
+I changed:
 
-> +				pins = "gpio0", "gpio1";
-> +				function = "qup0";
-> +				drive-strength = <2>;
-> +				bias-pull-up;
-> +			};
+ - Patch #1 which does the prototype change now just adds "return 0" to
+   all implementations and so gets simpler and doesn't change behaviour.
+   The adaptions to the different .get_state() implementations are split
+   out into individual patches to ease review.
+ - One minor inconsistency fixed in "pwm: Handle .get_state() failures"
+   that I noticed while looking into this patch.
+ - I skipped changing sun4i.c as I don't know how to handle the error
+   there. Someone might want to have a look. (That's not ideal, but it's
+   not worse than the same issue before this series.)
 
-Best regards,
-Krzysztof
+In v1 Thierry had the concern:
+
+| That raises the question about what to do in these cases. If we return
+| an error, that could potentially throw off consumers. So perhaps the
+| closest would be to return a disabled PWM? Or perhaps it'd be up to the
+| consumer to provide some fallback configuration for invalidly configured
+| or unconfigured PWMs.
+
+.get_state() is only called in pwm_device_request on a pwm_state that a
+consumer might see. Before my series a consumer might have seen a
+partial modified pwm_state (because .get_state() might have modified
+.period, then stumbled and returned silently). The last patch ensures
+that this partial modification isn't given out to the consumer. Instead
+they now see the same as if .get_state wasn't implemented at all.
+
+Best regards
+Uwe
+
+Uwe Kleine-König (11):
+  pwm: Make .get_state() callback return an error code
+  pwm/tracing: Also record trace events for failed API calls
+  drm/bridge: ti-sn65dsi86: Propagate errors in .get_state() to the
+    caller
+  leds: qcom-lpg: Propagate errors in .get_state() to the caller
+  pwm: crc: Propagate errors in .get_state() to the caller
+  pwm: cros-ec: Propagate errors in .get_state() to the caller
+  pwm: imx27: Propagate errors in .get_state() to the caller
+  pwm: mtk-disp: Propagate errors in .get_state() to the caller
+  pwm: rockchip: Propagate errors in .get_state() to the caller
+  pwm: sprd: Propagate errors in .get_state() to the caller
+  pwm: Handle .get_state() failures
+
+ drivers/gpio/gpio-mvebu.c             |  9 ++++++---
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 14 ++++++++------
+ drivers/leds/rgb/leds-qcom-lpg.c      | 14 ++++++++------
+ drivers/pwm/core.c                    | 28 +++++++++++++++++----------
+ drivers/pwm/pwm-atmel.c               |  6 ++++--
+ drivers/pwm/pwm-bcm-iproc.c           |  8 +++++---
+ drivers/pwm/pwm-crc.c                 | 10 ++++++----
+ drivers/pwm/pwm-cros-ec.c             |  8 +++++---
+ drivers/pwm/pwm-dwc.c                 |  6 ++++--
+ drivers/pwm/pwm-hibvt.c               |  6 ++++--
+ drivers/pwm/pwm-imx-tpm.c             |  8 +++++---
+ drivers/pwm/pwm-imx27.c               |  8 +++++---
+ drivers/pwm/pwm-intel-lgm.c           |  6 ++++--
+ drivers/pwm/pwm-iqs620a.c             |  6 ++++--
+ drivers/pwm/pwm-keembay.c             |  6 ++++--
+ drivers/pwm/pwm-lpss.c                |  6 ++++--
+ drivers/pwm/pwm-meson.c               |  8 +++++---
+ drivers/pwm/pwm-mtk-disp.c            | 12 +++++++-----
+ drivers/pwm/pwm-pca9685.c             |  8 +++++---
+ drivers/pwm/pwm-raspberrypi-poe.c     |  8 +++++---
+ drivers/pwm/pwm-rockchip.c            | 12 +++++++-----
+ drivers/pwm/pwm-sifive.c              |  6 ++++--
+ drivers/pwm/pwm-sl28cpld.c            |  8 +++++---
+ drivers/pwm/pwm-sprd.c                |  8 +++++---
+ drivers/pwm/pwm-stm32-lp.c            |  8 +++++---
+ drivers/pwm/pwm-sun4i.c               | 12 +++++++-----
+ drivers/pwm/pwm-sunplus.c             |  6 ++++--
+ drivers/pwm/pwm-visconti.c            |  6 ++++--
+ drivers/pwm/pwm-xilinx.c              |  8 +++++---
+ include/linux/pwm.h                   |  4 ++--
+ include/trace/events/pwm.h            | 20 +++++++++----------
+ 31 files changed, 174 insertions(+), 109 deletions(-)
+
+
+base-commit: 50315945d178eebec4e8e2c50c265767ddb926eb
+-- 
+2.38.1
 
