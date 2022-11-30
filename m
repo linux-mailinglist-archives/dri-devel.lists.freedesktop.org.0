@@ -1,155 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E870663CBFC
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 00:49:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 616D063CC43
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 01:09:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9B3610E069;
-	Tue, 29 Nov 2022 23:48:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7018A10E3F7;
+	Wed, 30 Nov 2022 00:08:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6055E10E069;
- Tue, 29 Nov 2022 23:48:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669765735; x=1701301735;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=g/aaXeBwU8ye11amhYRFiwZmTd2Tn3+N+j+/8XdI2rM=;
- b=GYdfFLO1LC8aJY4Hqyd5Rk+KlGHF0gqGvo4Iq2FrXri+1sB4bEr77wVd
- xb+qadu2SaZBLeQfYxd9r30jm85T36mh1+sX8KIfc4+OcIcsHmY4e5j2+
- fTHPX8sDKeUkx9eBDWE0V2HNmsj2OKw513hDek4s4llifyZS66XUhfc0+
- dd2GIIrZ4CEjDQD7/PyRZMpe5KbrXCMfpUA+37MrAM9cQw81gNgUYpMGi
- 8Ta7BFllnBIqxW4s/Gn5sDd+p3zAw+AEN/40EdhTL8AIIWpYRRHciKiH7
- DNc4gQhXiR0gei3z9PVdjZVqV95613sfmrFy6y87KPc+9Y1cx+5yZRo3m Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10546"; a="342180838"
-X-IronPort-AV: E=Sophos;i="5.96,204,1665471600"; d="scan'208";a="342180838"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Nov 2022 15:48:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10546"; a="768620696"
-X-IronPort-AV: E=Sophos;i="5.96,204,1665471600"; d="scan'208";a="768620696"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by orsmga004.jf.intel.com with ESMTP; 29 Nov 2022 15:48:54 -0800
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Tue, 29 Nov 2022 15:48:53 -0800
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Tue, 29 Nov 2022 15:48:53 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Tue, 29 Nov 2022 15:48:53 -0800
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Tue, 29 Nov 2022 15:48:52 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WSsl+lmNOL4aQmy5Wz/klJli7AxV0jW082g2IOAtgXCjHPp0Q6NhydAewgQXu91ZoTU1SBpCbiD0irmqNzD3EhB0giGRLkqIifnDgnMr/+FyTTo8rXrIX840GL1rSNEx1Czd+sGyV+5oy5ZjiowcZ/JsBRWn76Lxs1dcmvPVfWBb7bw05SMCBhv0t8LExHWPCvxIYpo2HXtAn/ftLqiwrM+IsZmwnv6j9y2BjzhuPo/DzD4dpmEOLSSu05JDG3YUXaCCkzLuGBsTPmp765qTpWS48kwaBTW7BF4bAe1nW4uiOlzH+yRecC/QCG5O/rb9Y87yuTOjuZVlqScd8Gj42Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=g/aaXeBwU8ye11amhYRFiwZmTd2Tn3+N+j+/8XdI2rM=;
- b=Lh85JJgn6NSFrJjQwX69pkY6i0lPz9NPXbZpp8SRoSuJm+xD+wiMpt0BGuZ1FRZUWPbfgc3jQ4h1O15NIXoYBFz0jBLssQBFlwjuvsCVN8PlxVbQaHaoC/DdVkLJvyuveCRjCej9ZewidlsStaJjU7iks/T/Zu5nMr4SZTtuiGgl3RQRhKAElwlqqKJxuTefRlCC/KoO9g0XuBdvu/7nVJPqmxhkx7XX3NkLvVUS/vnq7bn/XdGAFUK3IXXZmXwttug45cgC3NTuW+CVMd8bVHfJCEiaySEuwAL9EfS9APmz53+NNjwHwz5WFXq+Mxs/RWJUCNT0P3bXx4CpgLGOyQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM8PR11MB5751.namprd11.prod.outlook.com (2603:10b6:8:12::16) by
- DM4PR11MB7278.namprd11.prod.outlook.com (2603:10b6:8:10a::5) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5857.23; Tue, 29 Nov 2022 23:48:50 +0000
-Received: from DM8PR11MB5751.namprd11.prod.outlook.com
- ([fe80::6894:1dbc:4681:66b6]) by DM8PR11MB5751.namprd11.prod.outlook.com
- ([fe80::6894:1dbc:4681:66b6%3]) with mapi id 15.20.5857.023; Tue, 29 Nov 2022
- 23:48:50 +0000
-From: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>
-To: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: Re: [PATCH 1/6] drm/i915/uc: Introduce GSC FW
-Thread-Topic: [PATCH 1/6] drm/i915/uc: Introduce GSC FW
-Thread-Index: AQHY/f7KLuhpPzDm/k2blOyLe6I9Ha5WnvSA
-Date: Tue, 29 Nov 2022 23:48:49 +0000
-Message-ID: <80c9553796505e78d56c8704be115c44bbfa1aa3.camel@intel.com>
-References: <20221121231617.1110329-1-daniele.ceraolospurio@intel.com>
- <20221121231617.1110329-2-daniele.ceraolospurio@intel.com>
-In-Reply-To: <20221121231617.1110329-2-daniele.ceraolospurio@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.44.4-0ubuntu1 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR11MB5751:EE_|DM4PR11MB7278:EE_
-x-ms-office365-filtering-correlation-id: 2751e984-2b76-416e-a3b4-08dad26443b3
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 7sPF3a3RK6T0fVHPLszQGS611TSvMzYm1rNISLY/5YBNARUSBWPjlqnmCEQHbfHh8h+ddieb8ae7Q8SxZXG0T8YCnuRfptpAMrSnQmZRJ0A9APOLOmyKr3cskZ/9tKg2MRz0lGUwZ1rqdQ98qi2tmEXr7d47W8NSNnrxV4fIRCrck6mEg5xOswszdUm3ZOvWYtKv9U9i5k8Yc/NPvS/+CGNmAwmx49jcciC2ln+5pgXQjfvU5T41HFa/Qjv/YwHqE1JgBD9b6UetIT432WvA0P5wDKCi1PWSd3mtRXnXrbqCKkRA5Q5d3f3KuxoAHcvvzVcbsoo6Ur7NUmxu9ItZMT4BKyTenkGyuOrsHu8wmEruFxD5NSEm+Emrug6O4CwwDHitc6XdKTVQlBo1bLadHDekMyloiMyEXioKHJ4TIcQbV/RbEKuin7Ud6w1VClRD5PYNMcZe9VVRU61JG/+PrNF19xKURqyE5aSQDcWktIFdEIRgf/s1+eCm8dU0eW3N2pe/jUnv9xx9yf4DSA/tFEl+/hzvEqhr/mHVzJWMuudpGN2c3FpBIA871n6XNPNiB8gWVxTCQlJwEQd1pbSvhPNz+nFiOJqcD79YwLLS/6KgHaGiCIbtsrCLy+YzDe4VxnM83EajgrQ2NXOlG9fs1r6VdLKS4qnqdE5UEwImSoeiy7qrTaM86uvzVG0hRaf1Dh4pwhYTKAaCdPanLkuz8Q==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM8PR11MB5751.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(396003)(39860400002)(366004)(376002)(346002)(136003)(451199015)(6506007)(91956017)(450100002)(6486002)(107886003)(478600001)(71200400001)(66946007)(2616005)(66476007)(8936002)(4326008)(76116006)(64756008)(66446008)(66556008)(186003)(8676002)(4744005)(5660300002)(2906002)(4001150100001)(41300700001)(86362001)(38100700002)(122000001)(26005)(6512007)(38070700005)(54906003)(316002)(110136005)(36756003)(82960400001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?L2pRWG1vek9sT3VWbWgvdS94WFl0c29jRWFxL2puMGNvMjdhOWxMU3c1NE5h?=
- =?utf-8?B?L0NwcG94aGEwcXA3MGlBYjVvR1o3dTVoWmlyeVdseHNsMnJDS0ZRNjJuNFJQ?=
- =?utf-8?B?Q3RJUjVraDdrajhKM0ZrL1hrT1BKNmdnM0U2eDFYb2thcEhETDd4YmJJMWFV?=
- =?utf-8?B?T3pvSS9IQkI4dnhuVFE4cU5WQnI2QzczSUU1VXFZUDVmRFRnODhTVDYxN095?=
- =?utf-8?B?M2NidXlJWEZSbVhETUx6cDdZRWtEU1R4SERxK0JmRGJJVDRKWmRyQ0FXRnhD?=
- =?utf-8?B?WmlRckFUa1ZyMHg3TnIxUlZtbmwwbEt3M0t3bFI0TmRiQ1NPUDlXUklFKzNI?=
- =?utf-8?B?dnI0eHhIbmhVNUxFTnZTN1duaS9TTCs1Ump4SUNuT0R3dVBJVWpUcXhqcW9j?=
- =?utf-8?B?dmpRZmpVcFR4SmVsdEZpdG9BT1U5ZUtRRDJrL0pnWVhKaXJYbHl2V2lYakkr?=
- =?utf-8?B?aWd1NnlqaTNxSkdwVExTa0lidXF0ekQ4cnZzdjg2YStyVWI2d0dBcmdhTHZl?=
- =?utf-8?B?Vkhhd1dGTU5CRzNFeHdnaFZkakJnM1NWQlp1MWlBYUZ3R2RmRERka09ZTmtv?=
- =?utf-8?B?cUNGa0g1RFNZdHZyYkVLOTVwWlR2ZlF0SGlYd0xUbWJRcFlqZkg4cG9kSkpW?=
- =?utf-8?B?d0hJdURnYk93UU9sTzBsR2pncDZIWmFlSTFDOHRmS1FoRHlxYTJ2Z3U3RWFT?=
- =?utf-8?B?aGxMc2lZdzllMElUZnQ1aGRDKzZOZEdxNkdSb1JEdzdDN29JbzJDdkxSL210?=
- =?utf-8?B?bHVFRWNaeFNYdXRMNEpRczlrWVF5SzE5cHdmZDRyWXYwK200bmFRNVk1OXdO?=
- =?utf-8?B?eit5VjlnSlg4ZkZCZEdPQmc2TVFEWmFNM3c5alUrMXJ1d25rYTZSWUlFeVZj?=
- =?utf-8?B?ak5sZzRERUZNaC9lY09SYTFoL2JGenpTR2IwYXNOUm5QQ0ZRNk1nb3hqb2xs?=
- =?utf-8?B?M1hqN0RtYjVidDlhUlNCWTJaeGNVQUlmOEc4VkhmU1M1cGxtOEJZVWlwY0pK?=
- =?utf-8?B?WS9aZzRmMUgxL3ZvVlY1RGl0NWtiNm9TUmFmSmNmRDRwWG9CWlc0MWVIUUEz?=
- =?utf-8?B?SnVOSkpkdWFwbUsxdUdmcnhIQkNvT1JDeUxxTStaVXVoNWV0NXQ0SGd1YVB2?=
- =?utf-8?B?cU9UR0RFUW9UbVpWTDdRNzVKalQ2ZklTVytNVjltbWEwb0dabEd0MHBtdlZk?=
- =?utf-8?B?Z1B0YnZueGYyL3VGRFNQejVsT1ovMjBmU2FaL3NMTVBFMWdpUVg1a0xleGE1?=
- =?utf-8?B?VlUzQkt6L3lvWFF2YUJzTnR2dXliSHdXMnZPL0s4UXl4UDU2QXJaL0tzT0sv?=
- =?utf-8?B?ZlBRNTlLU29IYTMrK2podllGR1lmYktoRE1idHM2Z241Z3pjTjVVdVJCdUc4?=
- =?utf-8?B?WmFlQzZPbHdVVlFqbVoyeDVBdlhRdy9FSTdMazlyZGlMRE9ZSWppbVFWQW5v?=
- =?utf-8?B?b2RSamlkOTFTWmxvRStxQlY0WWlRczJ5V3MzL1VnT0J6SEZqdWQ0bTdkd1JB?=
- =?utf-8?B?MjdvcjQ3OUNWZ0psUElzZGZlWkNvNEdvVCtDM293OEZUMXBJSytZZUlXRjNs?=
- =?utf-8?B?bkUwQ1E1QlBwKzFPMjlwNllVV0xSZHBWbVBVM1lybXZoR2JEWWQxWk1pR2hS?=
- =?utf-8?B?a3pDbkpFOGowWEZvYXRqeFJTVTBoSVBzQnpuMUpEMDc0aVRwK05iaUR3UEN6?=
- =?utf-8?B?Vys3TU5uaVdUSkxnUkFFY3J4c0pEcG9ML2cyclJXQkw0RXZMVGd0bGphT09q?=
- =?utf-8?B?L292NGs3c1lwcWhEYUNvNDRKWXFWNmo5ZWJXS0prWTlJckZ1NGdZNDlUUHpj?=
- =?utf-8?B?N1pKZWNHUkpPUW8wcnBFNXR2d2I0Zmlqb1Q2VEthSDVDS2ZPNm9kTDBzMGtP?=
- =?utf-8?B?WjRIM3dzY0QyeXQxZHJZK2lPSGY5d3JwUEx3ZjdFWnJmTmNXeG1uQ2hxUHpV?=
- =?utf-8?B?R2NRd0h3VUVDeXN5Wnl5QXlDK3ZuY3BRM0NCekp5dFdoMGM2V1lSZlJmZnY0?=
- =?utf-8?B?ZlB2UTBnVVBhVDVQQzlLVjg1WDkyV0RoT2JqK0Z1RTNYVkRvZjhmQW9ON29y?=
- =?utf-8?B?YWxxRkdaQWt2d2djcE0rN214dlhiQndhNGtmREZYY05xUEs3TUJpYVNLR0ZV?=
- =?utf-8?B?dTVlU21mNWhvVmtyT3YyWnlkWUpsb1B3dE1Mbkc1SFdDUk5XbHRWaCsrOFdY?=
- =?utf-8?Q?2YKXbeMGZsUbfHX8O2Ej5IQ=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <450A0E1A58B83F4FB81106EBD17B3568@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44EF910E3F3;
+ Wed, 30 Nov 2022 00:08:52 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2ATNtRlv027019; Wed, 30 Nov 2022 00:08:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=cMfhvGu8gnk240Ky57fJE8zipaaLCQWGyZdEWoo56WU=;
+ b=lfmFeiUjHSU4VnPokT92OegpYJ6LxL5N0EN5aC3qhilhYJdIbvM4TVMZ7fRjYcAMD41C
+ Ym1d9uPCj0Y6FmUykJJrJ7lSmmHxmIw7qq5QrvzV9hvfSFGYJrCghhVyORIeKIDNTBCM
+ yyNHUfD3eZOoHqcc8hyb1/oCYpaTTPOYNN6u13N1bwLo+P/o/Ul/8mHeDJWtIr1P3eCs
+ SJZM2XubrFQNJqGV20l5uHz27Su9LVmmJ0Xhy25oj+O3Oqsi2DfAyGThBT+vBf5dAebK
+ +xcMqMaPOcxQBr9rLdOJpvLwhE7PpU9qaeH6OpD9HJOBzVGLsM+kLATqBTp1ctUzzfnq Kg== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3m5bnh2rnr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 30 Nov 2022 00:08:46 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2AU08iqK011654
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 30 Nov 2022 00:08:44 GMT
+Received: from [10.110.20.134] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Tue, 29 Nov
+ 2022 16:08:43 -0800
+Message-ID: <0bd08349-d6ec-bec4-e1bd-6f98d1af5968@quicinc.com>
+Date: Tue, 29 Nov 2022 16:08:35 -0800
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5751.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2751e984-2b76-416e-a3b4-08dad26443b3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Nov 2022 23:48:50.0287 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 2pDK0YnngM8tM2tBQ0pPoprHZll9U+gZXVYuGcuOWAA9zOiolfYqtgd9zdLlQKaCl2e9bRrTAaWMFmXGmUQBQeQIBgSmYrFjAGeBs0iyQPnEfyEcH/Vz674BKC63k2EK
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB7278
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v3 2/2] drm/msm/dp: add support of max dp link rate
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
+ <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
+ <vkoul@kernel.org>, <daniel@ffwll.ch>, <agross@kernel.org>
+References: <1668725369-6331-1-git-send-email-quic_khsieh@quicinc.com>
+ <1668725369-6331-3-git-send-email-quic_khsieh@quicinc.com>
+ <8d75f389-9698-891f-5eff-2b76ddecad2b@linaro.org>
+Content-Language: en-US
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <8d75f389-9698-891f-5eff-2b76ddecad2b@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: OqjB7sBk9zUjl1Yj4zduLECGR8_MPi2d
+X-Proofpoint-GUID: OqjB7sBk9zUjl1Yj4zduLECGR8_MPi2d
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-29_13,2022-11-29_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ phishscore=0 adultscore=0 lowpriorityscore=0 mlxlogscore=999
+ suspectscore=0 malwarescore=0 bulkscore=0 impostorscore=0 mlxscore=0
+ spamscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211290145
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,24 +87,205 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Harrison, John C" <john.c.harrison@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: linux-arm-msm@vger.kernel.org, quic_sbillaka@quicinc.com,
+ freedreno@lists.freedesktop.org, quic_abhinavk@quicinc.com,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QmVzaWRlcyB0aGUgbml0IGJlbG93LCBqdXN0IHdvdWxkIGxpa2UgdG8gZWNobyB0aGUgc2FtZSB0
-aGluZyBOaWt1bGEgc2FpZCBhYm91dCBub3QgaW5jbHVkaW5nIHRoZSB0eXBlIGRlZmluaXRpb24g
-aW4gdGhlDQptYWluIHVjIGhlYWRlciAod2hpY2ggaSBrbm93IGNhbiBiZSBhIGJpdCBtb3JlIHdv
-cmsgZXNwZWNpYWxseSBpZiB3ZSBnbyB3aXRoIGFsbG9jYXRpb24gb2YgdGhlIHN0cnVjdHVyZSBh
-dCBpbml0IHRpbWUNCmFuZCB1c2luZyBhIHB0ciBpbiB0aGUgdWMgc3RydWN0dXJlKS4gDQoNClRo
-YXQgc2FpZCwNClJldmlld2VkLWJ5OiBBbGFuIFByZXZpbiA8YWxhbi5wcmV2aW4udGVyZXMuYWxl
-eGlzQGludGVsLmNvbT4NCg0KT24gTW9uLCAyMDIyLTExLTIxIGF0IDE1OjE2IC0wODAwLCBDZXJh
-b2xvIFNwdXJpbywgRGFuaWVsZSB3cm90ZToNCj4gT24gTVRMIHRoZSBHU0MgRlcgbmVlZHMgdG8g
-YmUgbG9hZGVkIG9uIHRoZSBtZWRpYSBHVCBieSB0aGUgZ3JhcGhpY3MNCj4gDQo+IA0KPiBAQCAt
-MjQ2LDYgKzI1MywxMCBAQCBfX3VjX2Z3X2F1dG9fc2VsZWN0KHN0cnVjdCBkcm1faTkxNV9wcml2
-YXRlICppOTE1LCBzdHJ1Y3QgaW50ZWxfdWNfZncgKnVjX2Z3KQ0KPiAgCWludCBpOw0KPiAgCWJv
-b2wgZm91bmQ7DQo+ICANCj4gKwkvKiBGVyBpcyBub3QgZGVmaW5lZCB1bnRpbCBhbGwgdGhlIHN1
-cHBvcnQgaXMgaW4gcGxhY2UgKi8NCk5pdDogcGVyaGFwcyBhIGxpdHRsZSBiaXQgbW9yZSBleHBs
-YW5hdGlvbiB3b3VsZCBiZSBiZXR0ZXIgaGVyZSBmb3IgZm9sa3MgcmVhZGluZyB0aHJ1IHRoZSBj
-b2Rlcw0KPiArCWlmICh1Y19mdy0+dHlwZSA9PSBJTlRFTF9VQ19GV19UWVBFX0dTQykNCj4gKwkJ
-cmV0dXJuOw0KPiArDQoNCg0K
+
+On 11/18/2022 3:04 AM, Dmitry Baryshkov wrote:
+> On 18/11/2022 01:49, Kuogee Hsieh wrote:
+>> dp_out endpoint contains both data-lanes and link-frequencies 
+>> properties.
+>> This patch parser dp_out endpoint properties and acquire dp_max_lanes 
+>> and
+>> dp_max_link_rate from respective property. Finally, comparing them 
+>> against
+>> both data lane and link rate read back from sink to ensure both data 
+>> lane
+>> and link rate are supported by platform.
+>> In the case there is no data-lanes or link-frequencies property 
+>> defined at
+>> dp_out endpoint, the default value are 4 data lanes with 5.4 Ghz link 
+>> rate.
+>>
+>> Changes in v2:
+>> -- add max link rate from dtsi
+>>
+>> Changes in v3:
+>> -- parser max_data_lanes and max_dp_link_rate from dp_out endpoint
+>>
+>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>> ---
+>>   arch/arm64/boot/dts/qcom/sc7280.dtsi |  1 +
+>
+> Should not be a part of this patch.
+>
+>>   drivers/gpu/drm/msm/dp/dp_display.c  | 4 ++++
+>>   drivers/gpu/drm/msm/dp/dp_panel.c    |  7 ++++---
+>>   drivers/gpu/drm/msm/dp/dp_panel.h    |  1 +
+>>   drivers/gpu/drm/msm/dp/dp_parser.c   | 30 
+>> ++++++++++++++++++++++--------
+>>   drivers/gpu/drm/msm/dp/dp_parser.h   |  2 ++
+>>   6 files changed, 34 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi 
+>> b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+>> index 4afe53b..d456e76 100644
+>> --- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
+>> +++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+>> @@ -3897,6 +3897,7 @@
+>>                           reg = <0>;
+>>                           dp_in: endpoint {
+>>                               remote-endpoint = <&dpu_intf0_out>;
+>> +                            data-lanes = <0 1 2 3>;
+>>                           };
+>>                       };
+>>                   };
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c 
+>> b/drivers/gpu/drm/msm/dp/dp_display.c
+>> index 29c9845..4fe2092 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+>> @@ -390,6 +390,10 @@ static int dp_display_process_hpd_high(struct 
+>> dp_display_private *dp)
+>>       struct edid *edid;
+>>         dp->panel->max_dp_lanes = dp->parser->max_dp_lanes;
+>> +    dp->panel->max_dp_link_rate = dp->parser->max_dp_link_rate;
+>> +
+>> +    drm_dbg_dp(dp->drm_dev, "max_lanes=%d max_link_rate=%d\n",
+>> +        dp->panel->max_dp_lanes, dp->panel->max_dp_link_rate);
+>>         rc = dp_panel_read_sink_caps(dp->panel, 
+>> dp->dp_display.connector);
+>>       if (rc)
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c 
+>> b/drivers/gpu/drm/msm/dp/dp_panel.c
+>> index 5149ceb..933fa9c 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_panel.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_panel.c
+>> @@ -75,12 +75,13 @@ static int dp_panel_read_dpcd(struct dp_panel 
+>> *dp_panel)
+>>       link_info->rate = 
+>> drm_dp_bw_code_to_link_rate(dpcd[DP_MAX_LINK_RATE]);
+>>       link_info->num_lanes = dpcd[DP_MAX_LANE_COUNT] & 
+>> DP_MAX_LANE_COUNT_MASK;
+>>   +    /* Limit data lanes from data-lanes of endpoint properity of 
+>> dtsi */
+>>       if (link_info->num_lanes > dp_panel->max_dp_lanes)
+>>           link_info->num_lanes = dp_panel->max_dp_lanes;
+>>   -    /* Limit support upto HBR2 until HBR3 support is added */
+>> -    if (link_info->rate >= 
+>> (drm_dp_bw_code_to_link_rate(DP_LINK_BW_5_4)))
+>> -        link_info->rate = drm_dp_bw_code_to_link_rate(DP_LINK_BW_5_4);
+>> +    /* Limit link rate from link-frequencies of endpoint properity 
+>> of dtsi */
+>> +    if (link_info->rate > dp_panel->max_dp_link_rate)
+>> +        link_info->rate = dp_panel->max_dp_link_rate;
+>>         drm_dbg_dp(panel->drm_dev, "version: %d.%d\n", major, minor);
+>>       drm_dbg_dp(panel->drm_dev, "link_rate=%d\n", link_info->rate);
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.h 
+>> b/drivers/gpu/drm/msm/dp/dp_panel.h
+>> index d861197a..f04d021 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_panel.h
+>> +++ b/drivers/gpu/drm/msm/dp/dp_panel.h
+>> @@ -50,6 +50,7 @@ struct dp_panel {
+>>         u32 vic;
+>>       u32 max_dp_lanes;
+>> +    u32 max_dp_link_rate;
+>>         u32 max_bw_code;
+>>   };
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c 
+>> b/drivers/gpu/drm/msm/dp/dp_parser.c
+>> index dd73221..667981e 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_parser.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_parser.c
+>> @@ -94,16 +94,30 @@ static int dp_parser_ctrl_res(struct dp_parser 
+>> *parser)
+>>   static int dp_parser_misc(struct dp_parser *parser)
+>>   {
+>>       struct device_node *of_node = parser->pdev->dev.of_node;
+>> -    int len;
+>> -
+>> -    len = drm_of_get_data_lanes_count(of_node, 1, DP_MAX_NUM_DP_LANES);
+>> -    if (len < 0) {
+>> -        DRM_WARN("Invalid property \"data-lanes\", default max DP 
+>> lanes = %d\n",
+>> -             DP_MAX_NUM_DP_LANES);
+>> -        len = DP_MAX_NUM_DP_LANES;
+>> +    struct device_node *endpoint;
+>> +    int cnt;
+>> +    u32 frequence = 0;
+>> +
+>> +    endpoint = of_graph_get_endpoint_by_regs(of_node, 1, 0);
+>> +
+>> +    if (endpoint) {
+>> +        cnt = of_property_count_u32_elems(endpoint, "data-lanes");
+>> +        if (cnt < 0)
+>> +            parser->max_dp_lanes = DP_MAX_NUM_DP_LANES; /* 4 lanes */
+>> +        else
+>> +            parser->max_dp_lanes = cnt;
+>
+> This should be a separate patch. And now what, 
+> drm_of_get_data_lanes_count() can be used here too. Why are you 
+> dropping the generic function for the sake of your custom implementatoin.
+drm_of_get_data_lanes_count() expect the parent node of endpoint.
+
+It will locate endpoint first and call of_property_count_u32_elems() to 
+retrieve count of elements and there is no similar function for 
+link-frequencies.
+
+To get link-frequencies we have to locate endpoint already. so why not 
+use same endpoint for both data-lanes and link-frequencies.
+
+So that consistent way are used  to retrieve both data-lanes and 
+link-frequencies.
+
+
+
+
+>
+>> +
+>> +        cnt = of_property_count_u32_elems(endpoint, 
+>> "link-frequencies");
+>> +        if (cnt < 0) {
+>> +            parser->max_dp_link_rate = DP_LINK_FREQUENCY_HBR2; /* 
+>> 54000 khz */
+>> +        } else {
+>> +            of_property_read_u32_array(endpoint, "link-frequencies", 
+>> &frequence, 1);
+>
+> link-frequencies is u64 array.
+>
+>> +            parser->max_dp_link_rate = frequence;
+>> +        }
+>>       }
+>>   -    parser->max_dp_lanes = len;
+>> +    pr_err("%s: kuogee, lane=%d frequency=%d\n", __func__, 
+>> parser->max_dp_lanes, parser->max_dp_link_rate);
+>> +
+>
+> Leftover?
+>
+>>       return 0;
+>>   }
+>>   diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h 
+>> b/drivers/gpu/drm/msm/dp/dp_parser.h
+>> index 866c1a8..76ddb751 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_parser.h
+>> +++ b/drivers/gpu/drm/msm/dp/dp_parser.h
+>> @@ -15,6 +15,7 @@
+>>   #define DP_LABEL "MDSS DP DISPLAY"
+>>   #define DP_MAX_PIXEL_CLK_KHZ    675000
+>>   #define DP_MAX_NUM_DP_LANES    4
+>> +#define DP_LINK_FREQUENCY_HBR2    540000
+>>     enum dp_pm_type {
+>>       DP_CORE_PM,
+>> @@ -119,6 +120,7 @@ struct dp_parser {
+>>       struct dp_io io;
+>>       struct dp_display_data disp_data;
+>>       u32 max_dp_lanes;
+>> +    u32 max_dp_link_rate;
+>>       struct drm_bridge *next_bridge;
+>>         int (*parse)(struct dp_parser *parser);
+>
