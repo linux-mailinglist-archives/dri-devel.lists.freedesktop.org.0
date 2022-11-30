@@ -2,57 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B28C63DFD7
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 19:51:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0554563E00D
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 19:53:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47E7110E11C;
-	Wed, 30 Nov 2022 18:51:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2BA610E4A3;
+	Wed, 30 Nov 2022 18:53:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A095510E11C
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 18:50:57 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 43F32B81CB3;
- Wed, 30 Nov 2022 18:50:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23760C43144;
- Wed, 30 Nov 2022 18:50:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1669834255;
- bh=7rchmQwwpf0qyHWnrfpjZ55imPhKUM7g/iOAEeSrAZY=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=SGWXV98zY7hb6M2PfO82HH5l/bJFjmNx97q7L9XtTtr4/PTvg9AKJWsVkIm7JJJlm
- +4ZOWjxJqopTH9DJaqplGyGpfkBtW9e5gdjshMCBc0jyL+Pa4AGKCx8d1IgkvpVGAd
- H6m1Ti55DJEGnfmh98KtUszTPBdFWFhzEs1ygDj2VgitynaV3BG8A2w1iTdSWNX/a9
- AgfwZkiupO/npHVgsoL1ImM4hgUgngAKgZyTZkC2CdWlhcAEpv4ndYNlj4F9eQ8m5p
- HDp8KsdPJFp5JQxdjloimKhYhY4HLMe2HOdM0+IjtSGIcWktmgL40BPtTBw8/oGoeK
- kVxkeFL7T2xLg==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Russell King <linux@armlinux.org.uk>
-Subject: [PATCH v1 2/2] drm: tda99x: Don't advertise non-existent capture
- support
-Date: Wed, 30 Nov 2022 18:46:44 +0000
-Message-Id: <20221130184644.464820-3-broonie@kernel.org>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0086510E4A3
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 18:53:06 +0000 (UTC)
+Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1p0SCd-0004kZ-Fy; Wed, 30 Nov 2022 19:53:03 +0100
+From: Lucas Stach <l.stach@pengutronix.de>
+To: etnaviv@lists.freedesktop.org,
+ Christian Gmeiner <christian.gmeiner@gmail.com>
+Subject: [PATCH] drm/etnaviv: print MMU exception cause
+Date: Wed, 30 Nov 2022 19:53:03 +0100
+Message-Id: <20221130185303.2025810-1-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221130184644.464820-1-broonie@kernel.org>
-References: <20221130184644.464820-1-broonie@kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=798; i=broonie@kernel.org;
- h=from:subject; bh=7rchmQwwpf0qyHWnrfpjZ55imPhKUM7g/iOAEeSrAZY=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBjh6UTedNv0xVqTR7Dw1xzmjfKdGNa9K5/CBent9LN
- wMp7dAKJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCY4elEwAKCRAk1otyXVSH0AYqB/
- 46oFKO98t1TlWfUOCgLyoWn4Cvg8+vjFQwPlheEw48l55Du9rYCeD2gp9R9KFle+DjuvrSNQzfXx3k
- sQYSLWy471HwAMVtpiyNdBy9WyDlve/KJmP9motnF8gk0y0Tpsjo9DkNrc1ib1iy6y3/Ji8TRDjova
- GzpVz0DYBCEsC7tSW9yWUdBkNJ1GEg2hqllztZvO+SBZ3gq4bGKr7b0SJ7KD2dsgXkUYRz8qT0wJLY
- 4vwumBp+nPwaP9bOX65TjCc9QW1bhjwEsbqtaMRQ4Dh5IA1lPGb8B57wODdnHaJ3YU9vdav1X4vj7+
- +IIRUmfdRSs0Bugt51pOlis80t9Ydt
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,32 +43,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>,
- dri-devel@lists.freedesktop.org
+Cc: patchwork-lst@pengutronix.de, kernel@pengutronix.de,
+ dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As far as I can tell none of the tda998x devices support audio capture so
-don't advertise support for it, ensuring that we don't confuse userspace.
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
+The MMU tells us the fault status. While the raw register value is
+already printed, it's a bit more user friendly to translate the
+fault reasons into human readable format.
+
+Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 ---
- drivers/gpu/drm/i2c/tda998x_drv.c | 2 ++
- 1 file changed, 2 insertions(+)
+I've rewritten parts of the patch to properly cover multiple
+MMUs and squashed the reason into the existing message. Christian,
+please tell me if you are fine with having your name attached to
+this patch.
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 22 +++++++++++++++++++---
+ 1 file changed, 19 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/i2c/tda998x_drv.c
-index d444e7fffb54..a14d2896aebb 100644
---- a/drivers/gpu/drm/i2c/tda998x_drv.c
-+++ b/drivers/gpu/drm/i2c/tda998x_drv.c
-@@ -1174,6 +1174,8 @@ static int tda998x_audio_codec_init(struct tda998x_priv *priv,
- 	struct hdmi_codec_pdata codec_data = {
- 		.ops = &audio_codec_ops,
- 		.max_i2s_channels = 2,
-+		.no_i2s_capture = 1,
-+		.no_spdif_capture = 1,
- 	};
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index 37018bc55810..f79203b774d9 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -1426,6 +1426,15 @@ static void sync_point_worker(struct work_struct *work)
  
- 	if (priv->audio_port_enable[AUDIO_ROUTE_I2S])
+ static void dump_mmu_fault(struct etnaviv_gpu *gpu)
+ {
++	static const char *fault_reasons[] = {
++		"slave not present",
++		"page not present",
++		"write violation",
++		"out of bounds",
++		"read security violation",
++		"write security violation",
++	};
++
+ 	u32 status_reg, status;
+ 	int i;
+ 
+@@ -1438,18 +1447,25 @@ static void dump_mmu_fault(struct etnaviv_gpu *gpu)
+ 	dev_err_ratelimited(gpu->dev, "MMU fault status 0x%08x\n", status);
+ 
+ 	for (i = 0; i < 4; i++) {
++		const char *reason = "unknown";
+ 		u32 address_reg;
++		u32 mmu_status;
+ 
+-		if (!(status & (VIVS_MMUv2_STATUS_EXCEPTION0__MASK << (i * 4))))
++		mmu_status = (status >> (i * 4)) & VIVS_MMUv2_STATUS_EXCEPTION0__MASK;
++		if (!mmu_status)
+ 			continue;
+ 
++		if ((mmu_status - 1) < ARRAY_SIZE(fault_reasons))
++			reason = fault_reasons[mmu_status - 1];
++
+ 		if (gpu->sec_mode == ETNA_SEC_NONE)
+ 			address_reg = VIVS_MMUv2_EXCEPTION_ADDR(i);
+ 		else
+ 			address_reg = VIVS_MMUv2_SEC_EXCEPTION_ADDR;
+ 
+-		dev_err_ratelimited(gpu->dev, "MMU %d fault addr 0x%08x\n", i,
+-				    gpu_read(gpu, address_reg));
++		dev_err_ratelimited(gpu->dev,
++				    "MMU %d fault (%s) addr 0x%08x\n",
++				    i, reason, gpu_read(gpu, address_reg));
+ 	}
+ }
+ 
 -- 
 2.30.2
 
