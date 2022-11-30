@@ -2,41 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3469A63CD85
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 03:51:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF8D763CE11
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 04:45:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B147310E06B;
-	Wed, 30 Nov 2022 02:51:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E3A310E286;
+	Wed, 30 Nov 2022 03:45:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
- [185.176.79.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84FD810E06B;
- Wed, 30 Nov 2022 02:50:59 +0000 (UTC)
-Received: from fraeml714-chm.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NMNtN3964z6H76J;
- Wed, 30 Nov 2022 10:48:12 +0800 (CST)
-Received: from lhrpeml500004.china.huawei.com (7.191.163.9) by
- fraeml714-chm.china.huawei.com (10.206.15.33) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 30 Nov 2022 03:50:56 +0100
-Received: from mscphis00759.huawei.com (10.123.66.134) by
- lhrpeml500004.china.huawei.com (7.191.163.9) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Wed, 30 Nov 2022 02:50:54 +0000
-From: Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
-To: <harry.wentland@amd.com>
-Subject: [PATCH] drm: amd: display: Fix memory leakage
-Date: Wed, 30 Nov 2022 10:50:46 +0800
-Message-ID: <20221130025046.2667372-1-konstantin.meskhidze@huawei.com>
-X-Mailer: git-send-email 2.25.1
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B14F10E285;
+ Wed, 30 Nov 2022 03:45:25 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4NMQ8J3lyhz4x2c;
+ Wed, 30 Nov 2022 14:45:20 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1669779921;
+ bh=vSCNP20jNNU9PanNmKcpDhBYBAb0zoaX2BjWN9zjp8Q=;
+ h=Date:From:To:Cc:Subject:From;
+ b=EggiB4QBby6xt8qBr+gBbH2sXkvQP9bjyc/LTIFP8iG/+vB6/eyJPGlAMIwcSPdpc
+ t4z7/ztJBxJsqmM/dMV0wvigarvRcay9xkk22MdZivxjYru1sOabYIRQEYclYPPQHM
+ x6WE6DqxGhmOYj1s983OyqIXJOFGNiW+7KiOiByZaSVr6Z453Kcc1wnfkdyPc6a8Dl
+ 3UQv3skB0h6kSxN44dZONYlSrcDZ+7lti01L7MG134V7d9uqlvsHARFKqdQtUmvVf7
+ dvLN6AL5BAuknHgwDEn+w/prfeu4uYSj22cX9zbqCDGr7pC+8Jq5Ce4f/CqXLLL5/W
+ 5YcGSs8SqBnSw==
+Date: Wed, 30 Nov 2022 14:45:19 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
+ <dri-devel@lists.freedesktop.org>
+Subject: linux-next: build warning after merge of the drm-intel tree
+Message-ID: <20221130144519.59596e5b@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.123.66.134]
-X-ClientProxiedBy: mscpeml500002.china.huawei.com (7.188.26.138) To
- lhrpeml500004.china.huawei.com (7.191.163.9)
-X-CFilter-Loop: Reflected
+Content-Type: multipart/signed; boundary="Sig_/hunDUK8tw9XrB0Hir.D4Y4b";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,35 +53,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dillon.Varone@amd.com, yusongping@huawei.com, sunpeng.li@amd.com,
- wenjing.liu@amd.com, dri-devel@lists.freedesktop.org, Xinhui.Pan@amd.com,
- Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, meenakshikumar.somasundaram@amd.com,
- alex.hung@amd.com, hukeping@huawei.com, Alvin.Lee2@amd.com,
- martin.leung@amd.com, alexander.deucher@amd.com, artem.kuzin@huawei.com,
- Jun.Lei@amd.com, christian.koenig@amd.com
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This commit fixes memory leakage in dc_construct_ctx() function.
+--Sig_/hunDUK8tw9XrB0Hir.D4Y4b
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
----
- drivers/gpu/drm/amd/display/dc/core/dc.c | 1 +
- 1 file changed, 1 insertion(+)
+Hi all,
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
-index 997ab031f816..359e28d3567e 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
-@@ -878,6 +878,7 @@ static bool dc_construct_ctx(struct dc *dc,
- 
- 	dc_ctx->perf_trace = dc_perf_trace_create();
- 	if (!dc_ctx->perf_trace) {
-+		kfree(dc_ctx);
- 		ASSERT_CRITICAL(false);
- 		return false;
- 	}
--- 
-2.25.1
+After merging the drm-intel tree, today's linux-next build (htmldocs)
+produced this warning:
 
+drivers/gpu/drm/i915/gt/intel_gt_mcr.c:739: warning: expecting prototype fo=
+r intel_gt_mcr_wait_for_reg_fw(). Prototype was for intel_gt_mcr_wait_for_r=
+eg() instead
+
+Introduced by commit
+
+  41f425adbce9 ("drm/i915/gt: Manage uncore->lock while waiting on MCR regi=
+ster")
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/hunDUK8tw9XrB0Hir.D4Y4b
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmOG0c8ACgkQAVBC80lX
+0GzAawgAo5N+eKZzCqCdPTAqjZTB9m1NxOOAMDsO4vl3UFio6Nmnbh9acmofcyO4
+y9tIkCfYbSzyJtQ3y5lPhK145ZXnIXgPXGT3Fmc8AwAdu7YeQ0jYcnIuKFwZGJ8F
+0obnxzEPM94Z+OiI5m5vvcnf77TogOZFyt0FRJGuWmnHwDAG/UIPr/thz0dSTTfs
+qglSQIDbr5QO5HODIbDmByqRRuUdnM2B9tq55CjyKkwCEaNeNaItq59a6malAGmG
+5BXRxsX5lO9fZrCsgYO3JEXR9loZW+SvjYEM9uYx+VtFMaUIyWiehXOg6NJvDPTQ
+lVzxG0NiEypb9BDiP08xpFAndSxyQQ==
+=+OkD
+-----END PGP SIGNATURE-----
+
+--Sig_/hunDUK8tw9XrB0Hir.D4Y4b--
