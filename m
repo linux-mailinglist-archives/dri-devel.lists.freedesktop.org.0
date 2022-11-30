@@ -2,56 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B692363E0FC
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 20:46:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C80263E11F
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 21:08:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCC0A10E4CB;
-	Wed, 30 Nov 2022 19:46:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E60E910E4D0;
+	Wed, 30 Nov 2022 20:07:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF34B10E4CB;
- Wed, 30 Nov 2022 19:46:31 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id d1so28835587wrs.12;
- Wed, 30 Nov 2022 11:46:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=S32eNcmKc8BsmSbNdo6lcSB9y3EoyZdyaRpNrZM6V6w=;
- b=UUC+BzboTsI/n8m9fvee51hT11xqTpN47g5tWD6UNGEd0OskMBYqwsFGs+nlqrHxOV
- BALt2Er3U+8TaK2n9tMbS/fAfkCj+hgqrO+alT8s+LMQYk5yimS7kZN2CR89RPoY4uhc
- cQHJmo0wolfI7WM3+OYlzqzf2j21B28uz8u3NBJbsAK5PW+ruOOMvYC3tlcqE4af10wD
- 4TjzpFRTZwbi8F845S9wOe99qbWANR+cxFohuUNS1Wqr6G1ZK6t0dgfZi1wQC37RFJEW
- c0XNawXhOUoNJ9MBGTTLrZB2bizUd2E4n7ou5BnZGCLL42p+vxiweDzll9tLfzVwShVY
- 268g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=S32eNcmKc8BsmSbNdo6lcSB9y3EoyZdyaRpNrZM6V6w=;
- b=7pTmRrzsJhnmw3mBQA/WWUHgMkBVz1l9G9uYzazMT/AC4ZA9+YCzl1Brf3wnLW0e+G
- jpCSrpMfnfgPgLCXO2qVxoziyRsxot6fwXDD8P4cZ+4HfrkuNHjv2WRe1z5kIeH7W+j1
- QpD4LSrTzOuZEvOtT4Io5Uj4TJrqt+o1IIWaZKIoI9CZ1UM3fcatDH0Vg79rixxovyuM
- wQBVNM6JdgQ8FKnql730Lo4ZsIX6aMdYScZDfZ8U4erWNazQVlYmItPjq+nAdu3TY3Et
- In3cecbMcM77UeJo6cP4rvzes5TWcesrM7DrNImJca+lpFrVjleMJOVCbKHjFnKvHqQi
- Cetg==
-X-Gm-Message-State: ANoB5plBAaj1/XlNzABbHtUL+qiJJXBZWBEDwpnM7blTWovUUFPd+wSX
- MeDPkNuXIlAN2dXH1QmucYCb8gYUF0VYJAX7XAo=
-X-Google-Smtp-Source: AA0mqf4PKRUbif6CgUNomAtwiz3jn7Z3YoJwcbdsvCiOBKRH/bmt2dSlVK8lTZQ72Sy4tBtIjHo0ep7oKlFsqMxqhKA=
-X-Received: by 2002:adf:e68a:0:b0:242:1926:7838 with SMTP id
- r10-20020adfe68a000000b0024219267838mr9824800wrm.200.1669837590039; Wed, 30
- Nov 2022 11:46:30 -0800 (PST)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5F2F10E4D0;
+ Wed, 30 Nov 2022 20:07:45 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 6C069B81CD5;
+ Wed, 30 Nov 2022 20:07:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D56FBC433D6;
+ Wed, 30 Nov 2022 20:07:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1669838863;
+ bh=7+AZ/AGCKZtG91XadBL5ljZgYXCyQsHOIz9tdN8lLaU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=CHpsvWzNvGaGEwLZ3ChSHJX0ewNB+1hY8j1sBe19XSoOePTwc/IoyhsI/t2DHIq8O
+ QCfQ8dnlWPVZHRwnhIJooNM651FAf4zsn7+nwJ1gjLJVXgSrGq6wcUqIMnQf5NrVhs
+ L2a0LzrRj3U+5AoDPB4EU8VgLd8U0zd5/34q68X1zLYkRiX//tb7tLeYaPnRbFEdgr
+ CYMe/GGb+Lxxu8VqALf38KaGu1suBI+c96mMMwPM6ow/ONQBPEWP1klVP0sn3COjPL
+ RREeOfejrGMMsP6KfnLvr5CFiV4COKEau0LhkSN8eiK0lnwSx7Cth8PkMRv+xeEtPS
+ WVzkisNbj20+A==
+Date: Wed, 30 Nov 2022 14:07:39 -0600
+From: Bjorn Andersson <andersson@kernel.org>
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Subject: Re: [PATCH v3 10/12] arm64: dts: qcom: sc8280xp: Define some of the
+ display blocks
+Message-ID: <20221130200739.ube7hvobythkbhuy@builder.lan>
+References: <20221026032624.30871-1-quic_bjorande@quicinc.com>
+ <20221026032624.30871-11-quic_bjorande@quicinc.com>
+ <528e0921-73d7-655e-c3dc-ac3ebb3a5979@quicinc.com>
 MIME-Version: 1.0
-References: <20221130185303.2025810-1-l.stach@pengutronix.de>
-In-Reply-To: <20221130185303.2025810-1-l.stach@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Wed, 30 Nov 2022 20:46:17 +0100
-Message-ID: <CAH9NwWcR1hxHY83UiyyR=J30CMsi=Qd=KbTmrGAuO6K+ptrwSw@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: print MMU exception cause
-To: Lucas Stach <l.stach@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <528e0921-73d7-655e-c3dc-ac3ebb3a5979@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,38 +54,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, patchwork-lst@pengutronix.de,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: freedreno@lists.freedesktop.org,
+ Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ Bjorn Andersson <quic_bjorande@quicinc.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Johan Hovold <johan@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lucas
+On Fri, Nov 18, 2022 at 03:15:25PM -0800, Kuogee Hsieh wrote:
+> 
+> On 10/25/2022 8:26 PM, Bjorn Andersson wrote:
+[..]
+> > +		mdss0: display-subsystem@ae00000 {
+[..]
+> > +
+> just curious, where are mdss0_dp0 and mdss0_dp1?. Are two dp/usb combo phys
+> not going used?
 
-Am Mi., 30. Nov. 2022 um 19:53 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
->
-> From: Christian Gmeiner <christian.gmeiner@gmail.com>
->
-> The MMU tells us the fault status. While the raw register value is
-> already printed, it's a bit more user friendly to translate the
-> fault reasons into human readable format.
->
-> Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> ---
-> I've rewritten parts of the patch to properly cover multiple
-> MMUs and squashed the reason into the existing message. Christian,
-> please tell me if you are fine with having your name attached to
-> this patch.
-> ---
+They are, but at the time of posting this, the QMP nodes was still being
+reworked to support expressing the DP-part of things.
 
-Uff.. and old patch I forgot to send an updated version - sorry for
-that. I am happy to
-finally see this patch with your improvements landing - thanks!
+Now that the rework is in place I will include them as I respin this
+series.
 
--- 
-greets
---
-Christian Gmeiner, MSc
-
-https://christian-gmeiner.info/privacypolicy
+Regards,
+Bjorn
