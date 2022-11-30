@@ -2,59 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4B6E63D278
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 10:51:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDFCF63D2A3
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 10:59:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6744710E273;
-	Wed, 30 Nov 2022 09:51:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82D2A10E443;
+	Wed, 30 Nov 2022 09:59:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com
- [IPv6:2607:f8b0:4864:20::1132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC82A10E214
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 09:50:59 +0000 (UTC)
-Received: by mail-yw1-x1132.google.com with SMTP id
- 00721157ae682-3b10392c064so165910317b3.0
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 01:50:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=85CBpe8h6suPlC2YlUqV3pCbiuyIDeu7NL7tAzWSq04=;
- b=WMQHbII59gMQ0BlEfRQu/mx7qNJjrPJO7OqapZERyzpNTOsYZeo79HPXvNUQb2WH/g
- IsVteDPqxVox+ZFHzsroABU1M9JcDSi9MSNK0CmQpoLfJlERObQjoZlYfyCXinMQBfK4
- Iys+Lm0Fp4z5uqFibE++OQPIYgruCqrIIfoonVqw+S5Jwr13dyHJjwXmZykNsxMwUB4E
- S7h1Xhfo8AlwrrLbn876IzrNOITSfHH20iPy6R1kSMirhzHRdOMuNVF+/tUBGGY6JFIn
- Gbn2SoJ+Gkhud76kOUhRyP3c7q6ZuM9HJ1V2QQUn67MAqC5gVATxLXOacvAs2Gd/oKeg
- 4ZKg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7B9F10E449
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 09:59:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669802381;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=i9YloUXR8YgxG0RXDuEgcRvlMcfIOaju0pjadJIoBw0=;
+ b=d4Ilwr7g/zJvmsCiZvucpqZjmSLCWrR/B1F6Ut3oXrLvmEJYpA5BkHxy6k8Msuer1g4MfC
+ NSavCopL8nx66MyJmoosOCtmMxfc7UnBQ2JJbi6D6N3TMWE2f8UWEcu8T/ALWokBeZsAl2
+ ElnhhjAXlvAObReivvtvwa8TLZL2xXU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-422-1gndlIHROKia5sSrrYZENg-1; Wed, 30 Nov 2022 04:59:40 -0500
+X-MC-Unique: 1gndlIHROKia5sSrrYZENg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ e8-20020a05600c218800b003cf634f5280so448356wme.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 01:59:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=85CBpe8h6suPlC2YlUqV3pCbiuyIDeu7NL7tAzWSq04=;
- b=cfUHUz+Yz+PDV2BGa/HHjWgnjpZbk0BM7kAQuyBcGgBaSk5Ypnxx2uZvTBolNRs5Gp
- l3plx4IrxtmedrmwT6h5Za5mtO1Ji+dkorK1ys7lmx8yNsWeEkrfdj3gG3bclcX00nIp
- DyQrCdY4Grn6ZpBF2yjPfZj5eChom/N5R1TUnb/X0694dPfILTMtZQfBqUyC1rTFUT8K
- Qi0lLwiPR4DnF21BOVjHRy1B2/Yv1l5fsIzFE41JNr9WXPjh6KrmVgUu09ycTkllnk+T
- vn5VG3DYxubwFj5Kec0r44f/8kNsBS2gSl5lodar/q0yjr+P07DvpRm08k2CYwrCiKU+
- MqyA==
-X-Gm-Message-State: ANoB5pmODcxhpQH7Nh5zheoZrrqsIVZjaHe9Lzbvmlqu3OIwY4QkECH7
- I/7esXOuf4VvNZFS8+NeTPjJ6eMpKAxkVr4kAPmAhw==
-X-Google-Smtp-Source: AA0mqf5nA1N+rUMCNTWTlTmneC+iJIjUIdYRscTuKjxKx6GwENB0YR1xBSvYfk36+SLH/PPzg8wy1CB+3xgKhh7YJcA=
-X-Received: by 2002:a0d:db15:0:b0:3d6:2151:4038 with SMTP id
- d21-20020a0ddb15000000b003d621514038mr1132331ywe.418.1669801858887; Wed, 30
- Nov 2022 01:50:58 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=i9YloUXR8YgxG0RXDuEgcRvlMcfIOaju0pjadJIoBw0=;
+ b=Woor2jV98RPTzPMeUxXaIAIh+EMAIzK56HCBmWpFhmwaPuonulNH2Uo8Hm68lFCkiT
+ GdrIQ5dwUuoQwekIJLgtHd4QbqWKHzZ6QLwi2XbtFBe1ZFOqmV1UbrH+84kyuGVyiIw4
+ jiGM+0wS3l3kWIY9h3jv0YPDzvppR8fmOV7UG3P33SZW2JB7dEd67ZBEtmVk4LmtqY1G
+ 3K52y7VQVO/pNuK2SGUtFgfmshDyGl0b62GuKb/t4FsHCZMZrOQMY7vrhzIFduZhov4+
+ xPI4BEX5ITuGGoKJXqPCw38RPfVPJG+Eky/LSffwQdlRIk9ItK/f6Uo6ZJ9WvJyZ0cQe
+ 0dhg==
+X-Gm-Message-State: ANoB5pmfembSZuomY/0oWhB32+mjMGb61SROwxyJXVRQ4UM+G50psz60
+ r3nADg8lSecUgKP0bui+rMgW60Kr4tjlf7fUzejFPhWh2O844vfM+Pcgojv2K2HmQh+BhQHatNV
+ nTww7Fjk6RVVJwz15NGENOXtzMfzw
+X-Received: by 2002:a1c:ed04:0:b0:3cf:d08d:3eb2 with SMTP id
+ l4-20020a1ced04000000b003cfd08d3eb2mr44719688wmh.129.1669802379217; 
+ Wed, 30 Nov 2022 01:59:39 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf79VoYVflQvJw4f+0ufZcLu3pjWScxDx/iG55eOd/S6Dqx9Zr87reES7FRBY59uRsQEURml4w==
+X-Received: by 2002:a1c:ed04:0:b0:3cf:d08d:3eb2 with SMTP id
+ l4-20020a1ced04000000b003cfd08d3eb2mr44719668wmh.129.1669802379003; 
+ Wed, 30 Nov 2022 01:59:39 -0800 (PST)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ fc13-20020a05600c524d00b003d04e4ed873sm5840399wmb.22.2022.11.30.01.59.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 30 Nov 2022 01:59:38 -0800 (PST)
+Message-ID: <98d47486-d04c-b81a-6ae4-fa7f62828a0e@redhat.com>
+Date: Wed, 30 Nov 2022 10:59:37 +0100
 MIME-Version: 1.0
-References: <1669767131-13854-1-git-send-email-quic_khsieh@quicinc.com>
- <1669767131-13854-3-git-send-email-quic_khsieh@quicinc.com>
-In-Reply-To: <1669767131-13854-3-git-send-email-quic_khsieh@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 30 Nov 2022 11:50:48 +0200
-Message-ID: <CAA8EJppEHrPeoCxZUerf4MjDVkYEm7EvTcsm8eTAQBUVMqc_cA@mail.gmail.com>
-Subject: Re: [PATCH v5 2/3] drm/msm/dp: parser data-lanes and link-frequencies
- from endpoint node
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v2 15/17] drm/vc4: tests: Introduce a mocking
+ infrastructure
+To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+References: <20221123-rpi-kunit-tests-v2-0-efe5ed518b63@cerno.tech>
+ <20221123-rpi-kunit-tests-v2-15-efe5ed518b63@cerno.tech>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20221123-rpi-kunit-tests-v2-15-efe5ed518b63@cerno.tech>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,136 +90,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, quic_abhinavk@quicinc.com, airlied@linux.ie,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- dianders@chromium.org, vkoul@kernel.org, agross@kernel.org,
- bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org, swboyd@chromium.org,
- sean@poorly.run, linux-kernel@vger.kernel.org
+Cc: David Gow <davidgow@google.com>,
+ =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Brendan Higgins <brendan.higgins@linux.dev>, linux-kselftest@vger.kernel.org,
+ kunit-dev@googlegroups.com, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 30 Nov 2022 at 02:12, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
->
-> Both data-lanes and link-frequencies are property of endpoint. This
-> patch parser endpoint to retrieve max data lanes and max link rate
-> supported specified at dp_out endpoint. In the case where no endpoint
-> specified, then 4 data lanes with HBR2 link rate (5.4G) will be the
-> default link configuration.
-
-So, you have two changes in a single patch.
-1) Moving the data-lanes to the endpoint
-2) Adding link-frequencies.
-
-Please split the patch accordingly. Also keep in mind that you have to
-provide backwards compatibility for the data-lanes property.
-
->
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+On 11/28/22 15:53, Maxime Ripard wrote:
+> In order to test the current atomic_check hooks we need to have a DRM
+> device that has roughly the same capabilities and layout that the actual
+> hardware. We'll also need a bunch of functions to create arbitrary
+> atomic states.
+> 
+> Let's create some helpers to create a device that behaves like the real
+> one, and some helpers to maintain the atomic state we want to check.
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > ---
->  drivers/gpu/drm/msm/dp/dp_parser.c | 34 ++++++++++++++++++++++++++--------
->  drivers/gpu/drm/msm/dp/dp_parser.h |  2 ++
->  2 files changed, 28 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c b/drivers/gpu/drm/msm/dp/dp_parser.c
-> index dd73221..9367f8c 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_parser.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_parser.c
-> @@ -94,16 +94,34 @@ static int dp_parser_ctrl_res(struct dp_parser *parser)
->  static int dp_parser_misc(struct dp_parser *parser)
->  {
->         struct device_node *of_node = parser->pdev->dev.of_node;
-> -       int len;
-> -
-> -       len = drm_of_get_data_lanes_count(of_node, 1, DP_MAX_NUM_DP_LANES);
-> -       if (len < 0) {
-> -               DRM_WARN("Invalid property \"data-lanes\", default max DP lanes = %d\n",
-> -                        DP_MAX_NUM_DP_LANES);
-> -               len = DP_MAX_NUM_DP_LANES;
-> +       struct device_node *endpoint;
-> +       int cnt;
-> +       u64 frequence[4];
 
-frequency
+[...]
 
 > +
-> +       endpoint = of_graph_get_endpoint_by_regs(of_node, 1, 0); /* port@1 */
-> +       if (endpoint) {
-> +               cnt = of_property_count_u32_elems(endpoint, "data-lanes");
-> +               if (cnt < 0)
-> +                       parser->max_dp_lanes = DP_MAX_NUM_DP_LANES; /* 4 lanes */
-> +               else
-> +                       parser->max_dp_lanes = cnt;
+> +config DRM_VC4_KUNIT_TEST
+> +	bool "KUnit tests for VC4" if !KUNIT_ALL_TESTS
+> +	depends on DRM_VC4 && KUNIT
+
+shouldn't this depend on DRM_KUNIT_TEST instead ?
+
+[...]
+
+> +static struct vc4_dev *__mock_device(struct kunit *test, bool is_vc5)
+> +{
+> +	struct drm_device *drm;
+> +	const struct drm_driver *drv = is_vc5 ? &vc5_drm_driver : &vc4_drm_driver;
+> +	const struct vc4_mock_desc *desc = is_vc5 ? &vc5_mock : &vc4_mock;
+> +	struct vc4_dev *vc4;
+
+Since it could be vc4 or vc5, maybe can be renamed to just struct vc_dev *vc ?
+
+> +struct vc4_dummy_plane *vc4_dummy_plane(struct kunit *test,
+> +					struct drm_device *drm,
+> +					enum drm_plane_type type)
+> +{
+> +	struct vc4_dummy_plane *dummy_plane;
+> +	struct drm_plane *plane;
 > +
-> +               cnt = of_property_count_u64_elems(endpoint, "link-frequencies");
-> +               if (cnt < 0) {
-> +                       parser->max_dp_link_rate = DP_LINK_FREQUENCY_HBR2; /* 54000 khz */
+> +	dummy_plane = drmm_universal_plane_alloc(drm,
+> +						 struct vc4_dummy_plane, plane.base,
+> +						 0,
+> +						 &vc4_dummy_plane_funcs,
+> +						 vc4_dummy_plane_formats,
+> +						 ARRAY_SIZE(vc4_dummy_plane_formats),
+> +						 NULL,
+> +						 DRM_PLANE_TYPE_PRIMARY,
+> +						 NULL);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dummy_plane);
+> +
+> +	plane = &dummy_plane->plane.base;
+> +	drm_plane_helper_add(plane, &vc4_dummy_plane_helper_funcs);
+> +
+> +	return dummy_plane;
+> +}
 
-Wrong number of zeroes
+I guess many of these helpers could grow to be generic, like this one since
+most drivers support the DRM_FORMAT_XRGB8888 format for their primary plane.
 
-> +               } else {
-> +                       if (cnt > 4)    /* 4 frequency at most */
-> +                               cnt = 4;
+[...]
 
-'4 frequencies'. Not to mention that magic '4' should be defined
-somewhere. Or removed completely. See below.
+>  
+> +extern const struct vc4_pv_data bcm2835_pv0_data;
+> +extern const struct vc4_pv_data bcm2835_pv1_data;
+> +extern const struct vc4_pv_data bcm2835_pv2_data;
+> +extern const struct vc4_pv_data bcm2711_pv0_data;
+> +extern const struct vc4_pv_data bcm2711_pv1_data;
+> +extern const struct vc4_pv_data bcm2711_pv2_data;
+> +extern const struct vc4_pv_data bcm2711_pv3_data;
+> +extern const struct vc4_pv_data bcm2711_pv4_data;
+> +
 
-> +                       of_property_read_u64_array(endpoint, "link-frequencies", frequence, cnt);
+Maybe the driver could expose a helper function to get the pixelvalve data
+and avoid having to expose all of these variables? For example you could
+define an enum vc4_pixelvalve type and have something like the following:
 
-Can you please use of_property_read_u64_index() instead? It also has a
-nice feature of modifying the out_value only if the proper data was
-found. So you can set the default and then override it with the
-of_property_read function. And then divide it by 1000 to get the value
-in KHz.
+const struct vc4_pv_data *vc4_crtc_get_pixelvalve_data(enum vc4_pixelvalve pv);
 
-> +                       parser->max_dp_link_rate = (u32)frequence[cnt  -1];
-> +                       parser->max_dp_link_rate /= 1000;       /* khz */
+All these are small nits though, the patch looks great to me and I think is
+awesome to have this level of testing with KUnit. Hope other drivers follow
+your lead.
 
-The HDR3 rate is 8100 Mb/s. 8 100 000 000. This doesn't fit into u32
-(U32_MAX = 4 294 967 295).
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-> +               }
-> +       } else {
-> +               /* default */
-> +               parser->max_dp_lanes = DP_MAX_NUM_DP_LANES; /* 4 lanes */
-> +               parser->max_dp_link_rate = DP_LINK_FREQUENCY_HBR2; /* 54000 khz */
+-- 
+Best regards,
 
-Wrong number of zeroes. Better use Mb/s or Gb/s directly. Also it is a
-rate, not a frequency, so the define should also use 'RATE' in its
-name.
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
->         }
->
-> -       parser->max_dp_lanes = len;
->         return 0;
->  }
->
-> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h b/drivers/gpu/drm/msm/dp/dp_parser.h
-> index 866c1a8..76ddb751 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_parser.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_parser.h
-> @@ -15,6 +15,7 @@
->  #define DP_LABEL "MDSS DP DISPLAY"
->  #define DP_MAX_PIXEL_CLK_KHZ   675000
->  #define DP_MAX_NUM_DP_LANES    4
-> +#define DP_LINK_FREQUENCY_HBR2 540000
->
->  enum dp_pm_type {
->         DP_CORE_PM,
-> @@ -119,6 +120,7 @@ struct dp_parser {
->         struct dp_io io;
->         struct dp_display_data disp_data;
->         u32 max_dp_lanes;
-> +       u32 max_dp_link_rate;
->         struct drm_bridge *next_bridge;
->
->         int (*parse)(struct dp_parser *parser);
-> --
-> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-> a Linux Foundation Collaborative Project
->
-
-
---
-With best wishes
-
-Dmitry
