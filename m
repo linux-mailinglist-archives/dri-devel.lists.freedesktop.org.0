@@ -2,39 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 010EC63D146
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 10:00:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D8C063CFA1
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 08:19:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 215F610E42E;
-	Wed, 30 Nov 2022 09:00:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 612CF10E417;
+	Wed, 30 Nov 2022 07:19:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m11880.qiye.163.com (mail-m11880.qiye.163.com
- [115.236.118.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77C2310E28A
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 05:46:56 +0000 (UTC)
-Received: from localhost.localdomain (unknown [103.29.142.67])
- by mail-m11880.qiye.163.com (Hmail) with ESMTPA id BB3AE202EB;
- Wed, 30 Nov 2022 13:46:44 +0800 (CST)
-From: Qiqi Zhang <eddy.zhang@rock-chips.com>
-To: tomi.valkeinen@ideasonboard.com,
-	dianders@chromium.org
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Fix output polarity setting bug
-Date: Wed, 30 Nov 2022 13:45:51 +0800
-Message-Id: <20221130054551.112944-1-eddy.zhang@rock-chips.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <34c2e9c8-9e3d-129c-8295-18ff440f1f84@ideasonboard.com>
-References: <34c2e9c8-9e3d-129c-8295-18ff440f1f84@ideasonboard.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B7AA10E417
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 07:19:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669792758;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=b3I/EwWIvIzdfCE7yazGJlpRrHI2l7KvFB8IYsvJouI=;
+ b=UqdOc6A7MOkfCyg7frMPYfgWU/PRx7oesGnBHJBTf1n1o6Qd6dLX0Qr/c4lPwP4EFghXSa
+ WaxmJ3idgVGl0MoMGTc8Pn9Hin1OMQefnPVyVEZQ9xW5Nnv47dNmpOo1r/qYaibPm4ON9N
+ O2/J3/916Z+gBYQE+7mIwe7JIU7Z7b0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-206-y6Rj1mIDODiE6LBa9vcyVQ-1; Wed, 30 Nov 2022 02:19:16 -0500
+X-MC-Unique: y6Rj1mIDODiE6LBa9vcyVQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ bi19-20020a05600c3d9300b003cf9d6c4016so593324wmb.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Nov 2022 23:19:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=b3I/EwWIvIzdfCE7yazGJlpRrHI2l7KvFB8IYsvJouI=;
+ b=BFFx1rAHVzrawBAyx11lifI0XdpJFfcJcx87z6gyAjzaHz7PKwTiJLU2av994EnKTX
+ EQVyOoh2lv1rDcxmnXoToFoASOssBbNoi4DUTbp8tzFA9GL8My2yXyy1uq1zCAnCPp1u
+ LzJEfjCSmtZpPaBPR1Don85n8q+XXoV+Qqbxw1QoS4BsX+lVYKo3S55LuSs0MHlujPoF
+ HSQdFT2tuNH3YKMKUF3FggJBl2kv8Ph0K6lRkB9WwrNfVDDrTFFrO5mF4DTlDe7lsOhT
+ eITEnSOvottTUTZO7TwwNTLQITOYbrdHVewrZT1PElKQNG+YtrLPbWMzotL616Hg+LCJ
+ Da3Q==
+X-Gm-Message-State: ANoB5pn3Ks3ky9d1/uU7AOVU4e7okc0MWgWwdraCp54gpCMcgy20b5Ff
+ 4Ip/KU+4P6aCgsMugB5ibH2gi53DbTUz5NQFYBxJMBAVa3j84Rve4bkXIChVPsFon9xe4KCGppk
+ roKK76lxxwwUlB6KBCssKwyai8E7I
+X-Received: by 2002:a5d:6745:0:b0:242:7e6:a0a0 with SMTP id
+ l5-20020a5d6745000000b0024207e6a0a0mr14503980wrw.512.1669792755231; 
+ Tue, 29 Nov 2022 23:19:15 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5Zk7aXs5vfGV8dfY5nRClnqik0D4x6p3lTiaL7OzFnsCeKm2wXlrhnwJBvlKzba4gRcHkdbg==
+X-Received: by 2002:a5d:6745:0:b0:242:7e6:a0a0 with SMTP id
+ l5-20020a5d6745000000b0024207e6a0a0mr14503963wrw.512.1669792754953; 
+ Tue, 29 Nov 2022 23:19:14 -0800 (PST)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ e15-20020a5d530f000000b002420dba6447sm626294wrv.59.2022.11.29.23.19.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 29 Nov 2022 23:19:14 -0800 (PST)
+Message-ID: <15eeb225-0b3f-3bc6-134b-264c2a58c907@redhat.com>
+Date: Wed, 30 Nov 2022 08:19:13 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZHUlKVkhKTUodGB0fSBgfQlUTARMWGhIXJBQOD1
- lXWRgSC1lBWUpLSFVJQlVKT0lVTUxZV1kWGg8SFR0UWUFZT0tIVUpKS0hKQ1VKS0tVS1kG
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MVE6ERw6Aj0tNBIJHQo9OAIQ
- GAEaFBhVSlVKTU1CTENMSUtNSk5CVTMWGhIXVR4fHwJVARMaFRw7CRQYEFYYExILCFUYFBZFWVdZ
- EgtZQVlKS0hVSUJVSk9JVU1MWVdZCAFZQU9MTE83Bg++
-X-HM-Tid: 0a84c712bfdc2eb6kusnbb3ae202eb
-X-Mailman-Approved-At: Wed, 30 Nov 2022 08:58:34 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH 0/8] drm/mipi-dbi: Convert to shadow-plane helpers
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ thierry.reding@gmail.com, sam@ravnborg.org, emma@anholt.net,
+ david@lechnology.com, kamlesh.gurudasani@gmail.com, noralf@tronnes.org
+References: <20221121104532.8301-1-tzimmermann@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20221121104532.8301-1-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,93 +88,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, andrzej.hajda@intel.com, jonas@kwiboo.se,
- robert.foss@linaro.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, jernej.skrabec@gmail.com,
- Laurent.pinchart@ideasonboard.com
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hello Thomas,
 
-on Nov. 29, 2022, 11:45 a.m. Tomi wrote:
->On 29/11/2022 03:13, Doug Anderson wrote:
->> Hi,
->>
->> On Fri, Nov 25, 2022 at 2:54 AM Qiqi Zhang <eddy.zhang@rock-chips.com> wrote:
->>>
->>> According to the description in ti-sn65dsi86's datasheet:
->>>
->>> CHA_HSYNC_POLARITY:
->>> 0 = Active High Pulse. Synchronization signal is high for the sync
->>> pulse width. (default)
->>> 1 = Active Low Pulse. Synchronization signal is low for the sync
->>> pulse width.
->>>
->>> CHA_VSYNC_POLARITY:
->>> 0 = Active High Pulse. Synchronization signal is high for the sync
->>> pulse width. (Default)
->>> 1 = Active Low Pulse. Synchronization signal is low for the sync
->>> pulse width.
->>>
->>> We should only set these bits when the polarity is negative.
->>> Signed-off-by: Qiqi Zhang <eddy.zhang@rock-chips.com>
->>> ---
->>>   drivers/gpu/drm/bridge/ti-sn65dsi86.c | 4 ++--
->>>   1 file changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
->>> index 3c3561942eb6..eb24322df721 100644
->>> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
->>> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
->>> @@ -931,9 +931,9 @@ static void ti_sn_bridge_set_video_timings(struct ti_sn65dsi86 *pdata)
->>>                  &pdata->bridge.encoder->crtc->state->adjusted_mode;
->>>          u8 hsync_polarity = 0, vsync_polarity = 0;
->>>
->>> -       if (mode->flags & DRM_MODE_FLAG_PHSYNC)
->>> +       if (mode->flags & DRM_MODE_FLAG_NHSYNC)
->>>                  hsync_polarity = CHA_HSYNC_POLARITY;
->>> -       if (mode->flags & DRM_MODE_FLAG_PVSYNC)
->>> +       if (mode->flags & DRM_MODE_FLAG_NVSYNC)
->>>                  vsync_polarity = CHA_VSYNC_POLARITY;
->>
->> Looks right to me.
->>
->> Reviewed-by: Douglas Anderson <dianders@chromium.org>
->>
->> I've never seen the polarity matter for any eDP panels I've worked
->> with, which presumably explains why this was wrong for so long. As far
->
->Afaik, DP doesn't have sync polarity as such (neither does DSI), and the
->sync polarity is just "metadata". So if you're in full-DP domain, I
->don't see why it would matter. I guess it becomes relevant when you
->convert from DP to some other bus format.
+On 11/21/22 11:45, Thomas Zimmermann wrote:
+> Convert the MIPI-DBI-based drivers to shadow-plane helpers. The
+> drivers vmap/vunmap GEM buffer memory during the atomic commit.
+> Shadow-plane helpers automate this process.
+> 
+> Patches 1 to 4 prepare the MIPI code for the change and simplify
+> the restof the patchset.
+> 
+> Patches 5 to 7 rework the vmap code in the MIPI-DBI drivers and add
+> shadow-plane helpers. Most of the affected drivers call MIPI-DBI
+> helpers and get the update automatically. Only ili9225 and st7586
+> require changes to their source code.
+> 
+> Patch 8 simplifies drm_dev_enter() and _exit(). It's not strictly
+> needed, but streamlines the driver code and make sense overall.
+> 
+> Testing is welcome, as I don't have any hardware to test these
+> changes myself.
+> 
+> Thomas Zimmermann (8):
+>   drm/simple-kms: Remove drm_gem_simple_display_pipe_prepare_fb()
+>   drm/ili9225: Call MIPI DBI mode_valid helper
+>   drm/st7586: Call MIPI DBI mode_valid helper
+>   drm/mipi-dbi: Initialize default driver functions with macro
+>   drm/mipi-dbi: Prepare framebuffer copy operation in pipe-update
+>     helpers
+>   drm/mipi-dbi: Support shadow-plane state
+>   drm/mipi-dbi: Use shadow-plane mappings
+>   drm/mipi-dbi: Move drm_dev_{enter,exit}() out from fb_dirty functions
+> 
 
-Just like Tomi said, the wrong polarity worked fine on my eDP panel(LP079QX1)
-and standard DP monitor, I didn't notice the polarity configuration problem
-here until my customer used the following solution and got a abnormal display:
-GPU->mipi->eDP->DP->lvds->panel.
+Sorry for the delay. I've tested now this series with the st7735r driver
+and everything seems to works correctly.
 
->> as I can tell, it's been wrong since the start. Probably you should
->> have:
->>
->> Fixes: a095f15c00e2 ("drm/bridge: add support for sn65dsi86 bridge driver")
+Tested-by: Javier Martinez Canillas <javierm@redhat.com>
 
-Doug you mean I need to update my commit message? It's my first time using
-kernel list and I'm a little confused about this.
+-- 
+Best regards,
 
->>
->> I put this on a sc7180-trogdor-lazor device and it didn't make
->> anything worse. Since the sync polarity never mattered to begin with,
->> I guess this isn't a surprise. ...so I guess that's a weak tested-by:
->>
->> Tested-by: Douglas Anderson <dianders@chromium.org>
->>
->> I'm happy to land this patch, but sounds like we're hoping to get
->> extra testing so I'll hold off for now.
->
->Looks fine to me and works for me with my DP monitor.
->
->Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
--Eddy
