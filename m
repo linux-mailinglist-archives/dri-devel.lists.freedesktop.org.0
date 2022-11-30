@@ -2,65 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6822C63D808
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 15:29:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F415863D88A
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 15:53:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9DE210E472;
-	Wed, 30 Nov 2022 14:28:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D781410E477;
+	Wed, 30 Nov 2022 14:53:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com
- [IPv6:2001:4860:4864:20::34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 472E410E472;
- Wed, 30 Nov 2022 14:28:51 +0000 (UTC)
-Received: by mail-oa1-x34.google.com with SMTP id
- 586e51a60fabf-13bd2aea61bso21219801fac.0; 
- Wed, 30 Nov 2022 06:28:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=sPziP1VTbVne2ERE0izFy4+kdIPJFuarGbYLKiGJn0o=;
- b=V+uxTm1z8VwczhY08G908ZKtyI2GM3PWjScULyFpKSXQtPewkxwpPawEEanZycWlrw
- OJ9Zl4lmWKWHIsOqPk2WGS5sRHoGI2odBSxEYZMmt/6Zq8VKZQCPidcC3p+4v7z4BE+7
- 3GlJqwFI9wZ9wStrJXZTTbVtMxg2voe6wDmyRUV0IxqfQYoJ5tzD6cCFHzSzALEAy3/w
- qy1okXQRNKpIeF12LsFq0k3GIW+8FkVaT0eikJF7iXWaIefSg2C/wsFyk5F6G1PZPYDm
- iRXdjtUcvpUhPP27zGfW+/8VqeSHfq4zl3rLw5PdIU85JkXzVkUGIxOsWS+idVyRG4iF
- j/SQ==
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com
+ [209.85.161.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2230F10E477
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 14:53:16 +0000 (UTC)
+Received: by mail-oo1-f52.google.com with SMTP id
+ n42-20020a4a956d000000b004a047b3964fso1791038ooi.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 06:53:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=sPziP1VTbVne2ERE0izFy4+kdIPJFuarGbYLKiGJn0o=;
- b=jtkvDynhNF6T8wRHnnhLQrNJAlNlG3EsefjwJa7sKr4N2UKzQCvQ0382PZ3A4e3tV5
- r9Bx5eO88GgblAJe2mq75gGd+Wnb78ILvLmUI4CrLztAipJidaF756qT1ivGebIqsROD
- SlzK3bpEmyxU8Zb87MycxRi3LAWSiQNua3FfCdfLvDzBFrz8LJ+Fay+1edrDZy1eXfyU
- vJ2KFWsn4fCWO+9YghdzYemkJF2RFbpn3J075kPE7RR4OIBDEvnDuFc1XwxGWVdIBgAw
- 6FokO+3Mw0ujg1Fj0FueL22hF8IF8JoTzBJgDamW7lDJqAJn2nPQy9m6EfK3u4t/VPaz
- 5TRQ==
-X-Gm-Message-State: ANoB5pk/V8T3wLSwSS3ChdgoEIZAS/CLLQd8JlPWfmsY9MZScyFe84Pn
- +JzzySO4imYCVZ+XhgRwPwTdX3142rg8dqc+B3s=
-X-Google-Smtp-Source: AA0mqf7wtnXJwIX1cHau9u8G7eHZiXsKTHDs+GrOgLBRPMbYEk6OdSJ0DF1nJfF+KwWbacRWbtq6f0Ua36TNosvj7oo=
-X-Received: by 2002:a05:6870:2b05:b0:12d:58c1:33f9 with SMTP id
- ld5-20020a0568702b0500b0012d58c133f9mr24867377oab.46.1669818530485; Wed, 30
- Nov 2022 06:28:50 -0800 (PST)
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=REIiF+IHKEdfg19HkfHRcF1uyzuS1Xm7d1N/QWRQLpo=;
+ b=z606LfHgbi/zA2MR6hIjN41L220fYAIapFeE8um8HtZ4rGlFjfEnjsIZA2Nf22swcJ
+ iQdAWb9x+jiuu/jrwgiByjszM9tJxlRiMy4ngDGJ20ocW5JmwdOPdCbZ8R/gqPvRRa75
+ wMUd8X09DnG5xBXdGpI6mNnPLc+BAqdB1mozdoNYITAk9jeMyGIHr7IJQTa+dvZ1a2ZH
+ wnLMzX3Pulb+If9Rq4Pv52AA8cYQRP73+ICTJqUdngwJHac1NneXl0Jpj0sFBJZ3j3tQ
+ 33P8rbpIa6khASKqswEexJyKRhewcXN8mwM8enQfGH2JyT8pdhTzMd48l8wQ34TrMpAR
+ 9a+A==
+X-Gm-Message-State: ANoB5pkfjf1XwvRzlZN0fkbGruXMijtp0+ukbJLRKn5pfuse3vNQwBM0
+ vvzQynBx8rMj+MhnGNLXmQ==
+X-Google-Smtp-Source: AA0mqf4A3UKt5YjqsiMHmLTVVhMRJco14AAte09ey1sJuWNn1ZlD5n7GKJ9dP52ZCNcCttoEfxEJUg==
+X-Received: by 2002:a4a:52c3:0:b0:480:8a5d:5962 with SMTP id
+ d186-20020a4a52c3000000b004808a5d5962mr26343923oob.29.1669819995163; 
+ Wed, 30 Nov 2022 06:53:15 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ i9-20020a9d6249000000b00668953207b2sm961986otk.80.2022.11.30.06.53.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Nov 2022 06:53:14 -0800 (PST)
+Received: (nullmailer pid 2148056 invoked by uid 1000);
+ Wed, 30 Nov 2022 14:53:13 -0000
+Date: Wed, 30 Nov 2022 08:53:13 -0600
+From: Rob Herring <robh@kernel.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH v2] dt-bindings: display: Convert fsl,imx-fb.txt to
+ dt-schema
+Message-ID: <166981984923.2144677.14979016393841570972.robh@kernel.org>
+References: <20221129180414.2729091-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-References: <20220423193145.3301ed06@desktop>
- <CADnq5_PXgFBXZ03LXE8qOdimzfKYGhzX1JnycJQcHWcMZdgJug@mail.gmail.com>
- <Y4TGOb3UGmDslyYF@sqrt.uni.cx>
- <CADnq5_NTyvZR16_N0TzMo3f9Mg6EwOuwuBgYzDA=U7tur7Fmnw@mail.gmail.com>
- <Y4UelMnRkY7/0G6U@sqrt.uni.cx>
- <CADnq5_MactA_n4sTKZ_-TpYFZnOfEeygHF3r+zH94By2Dm86cA@mail.gmail.com>
- <Y4YsWo8MPAeg9DRQ@sqrt.uni.cx>
- <CADnq5_MNmOHVuszVfCZ8Ajm85Wb5roe4-20BEXXzsEVpAC_Rkg@mail.gmail.com>
- <Y4Y9SJC7gtUxP4+R@sqrt.uni.cx> <a5f73cfa-bd2a-3ab8-1e5c-253cfd832ea7@arm.com>
-In-Reply-To: <a5f73cfa-bd2a-3ab8-1e5c-253cfd832ea7@arm.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 30 Nov 2022 09:28:39 -0500
-Message-ID: <CADnq5_M5ScTd0AYddRBRiEupxRsV16eHFnLnZ3QYzE5gyMPqhw@mail.gmail.com>
-Subject: Re: Screen corruption using radeon kernel driver
-To: Robin Murphy <robin.murphy@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221129180414.2729091-1-u.kleine-koenig@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,79 +65,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mikhail Krylov <sqarert@gmail.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>
+Cc: devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 30, 2022 at 7:54 AM Robin Murphy <robin.murphy@arm.com> wrote:
->
-> On 2022-11-29 17:11, Mikhail Krylov wrote:
-> > On Tue, Nov 29, 2022 at 11:05:28AM -0500, Alex Deucher wrote:
-> >> On Tue, Nov 29, 2022 at 10:59 AM Mikhail Krylov <sqarert@gmail.com> wrote:
-> >>>
-> >>> On Tue, Nov 29, 2022 at 09:44:19AM -0500, Alex Deucher wrote:
-> >>>> On Mon, Nov 28, 2022 at 3:48 PM Mikhail Krylov <sqarert@gmail.com> wrote:
-> >>>>>
-> >>>>> On Mon, Nov 28, 2022 at 09:50:50AM -0500, Alex Deucher wrote:
-> >>>>>
-> >>>>>>>> [excessive quoting removed]
-> >>>>>
-> >>>>>>> So, is there any progress on this issue? I do understand it's not a high
-> >>>>>>> priority one, and today I've checked it on 6.0 kernel, and
-> >>>>>>> unfortunately, it still persists...
-> >>>>>>>
-> >>>>>>> I'm considering writing a patch that will allow user to override
-> >>>>>>> need_dma32/dma_bits setting with a module parameter. I'll have some time
-> >>>>>>> after the New Year for that.
-> >>>>>>>
-> >>>>>>> Is it at all possible that such a patch will be merged into kernel?
-> >>>>>>>
-> >>>>>> On Mon, Nov 28, 2022 at 9:31 AM Mikhail Krylov <sqarert@gmail.com> wrote:
-> >>>>>> Unless someone familiar with HIMEM can figure out what is going wrong
-> >>>>>> we should just revert the patch.
-> >>>>>>
-> >>>>>> Alex
-> >>>>>
-> >>>>>
-> >>>>> Okay, I was suggesting that mostly because
-> >>>>>
-> >>>>> a) it works for me with dma_bits = 40 (I understand that's what it is
-> >>>>> without the original patch applied);
-> >>>>>
-> >>>>> b) there's a hint of uncertainity on this line
-> >>>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/gpu/drm/radeon/radeon_device.c#n1359
-> >>>>> saying that for AGP dma_bits = 32 is the safest option, so apparently there are
-> >>>>> setups, unlike mine, where dma_bits = 32 is better than 40.
-> >>>>>
-> >>>>> But I'm in no position to argue, just wanted to make myself clear.
-> >>>>> I'm okay with rebuilding the kernel for my machine until the original
-> >>>>> patch is reverted or any other fix is applied.
-> >>>>
-> >>>> What GPU do you have and is it AGP?  If it is AGP, does setting
-> >>>> radeon.agpmode=-1 also fix it?
-> >>>>
-> >>>> Alex
-> >>>
-> >>> That is ATI Radeon X1950, and, unfortunately, radeon.agpmode=-1 doesn't
-> >>> help, it just makes 3D acceleration in games such as OpenArena stop
-> >>> working.
-> >>
-> >> Just to confirm, is the board AGP or PCIe?
-> >>
-> >> Alex
-> >
-> > It is AGP. That's an old machine.
->
-> Can you check whether dma_addressing_limited() is actually returning the
-> expected result at the point of radeon_ttm_init()? Disabling highmem is
-> presumably just hiding whatever problem exists, by throwing away all
->  >32-bit RAM such that use_dma32 doesn't matter.
 
-The device in question only supports a 32 bit DMA mask so
-dma_addressing_limited() should return true.  Bounce buffers are not
-really usable on GPUs because they map so much memory.  If
-dma_addressing_limited() returns false, that would explain it.
+On Tue, 29 Nov 2022 19:04:14 +0100, Uwe Kleine-König wrote:
+> Compared to the txt description this adds clocks and clock-names to
+> match reality.
+> 
+> Note that fsl,imx-lcdc was picked as the new name as this is the actual
+> hardware's name. There will be a new binding implementing the saner drm
+> concept that is supposed to supersede this legacy fb binding
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> ---
+> Changes since v1, sent with Message-Id:
+>  - mention clock stuff being added (Philipp)
+>  - dropped some quotes (Rob)
+>  - fix specification of compatible
+>    (I kept claiming though that imx21 isn't compatible to imx1. While
+>    that might be true, I don't have an i.MX1 to check the details and
+>    currently the imx*.dtsi don't claim that compatibility.)
+> 
+> I tried to implement the suggestion by Rob to formalize the display
+> binding. But I learned that this doesn't change how the display property
+> is formalized in the fsl,imx-lcdc.yaml (which is just a phandle without
+> means to specify that it should point to a node which fulfills a certain
+> binding.)
+> 
+> Best regards
+> Uwe
+> 
+>  .../bindings/display/imx/fsl,imx-fb.txt       |  57 ----------
+>  .../bindings/display/imx/fsl,imx-lcdc.yaml    | 102 ++++++++++++++++++
+>  2 files changed, 102 insertions(+), 57 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx-fb.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx-lcdc.yaml
+> 
 
-Alex
+Applied, thanks!
