@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4A8263E147
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 21:10:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A704F63E13F
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 21:10:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4D9E10E4E1;
-	Wed, 30 Nov 2022 20:10:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDE1F10E4DA;
+	Wed, 30 Nov 2022 20:10:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B573710E4D3;
- Wed, 30 Nov 2022 20:10:07 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id s8so28649250lfc.8;
- Wed, 30 Nov 2022 12:10:07 -0800 (PST)
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FC1B10E4D3;
+ Wed, 30 Nov 2022 20:10:09 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id p8so28633486lfu.11;
+ Wed, 30 Nov 2022 12:10:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4hbF3gZ7kPvhXmdkKwDqNUnpoPNqBtEugPC+3rCNF/M=;
- b=UfLONb8EyGAqcc9/JHngFeCMpe5K1TtJ2QUC+LzT+ytubcXUjVy5P5YG1mv3sl5XBA
- JYzxhEY4chT0YFVe1YlX4o5frzK/7O43CsCLnMHrSmP2LS/PiWr7JnpCmxTbXSTib3r8
- X9GoOZ5VRCQ1x1KaJXAu2QEFm6S1BQ30rZXbPmA8kU2P4dohvq1nlQ8N8OevstO4q2DU
- g2iUnMzsZdlcyHlcI8fPWRvAmNb9Rv8IH/4ega0IaGd9Gx4Z0yYpYSQC13tEAaWWTOkt
- crrXobk1bnqOtwrv0Lyw0T+e2JqvSqrCKYfEeoPDjRDaVtiS8TrQGxS0DA02YTelaNFF
- Diwg==
+ bh=pzD7os1oJWrCvebMO8GXHUfDeNhMiacSWupEc4fuFFA=;
+ b=QnJ+vVMOFzp8a0jFKo+gCEpS6x8aMNyR9uo+trjRcjKqNgIr+R0ElC2RHVjYQpGOwq
+ d77HwxlmyEox3Dgk/aMoSIpINtcmSsrrEHCqvCd/B/K7Hy6jzJhgfUk0KDedMeS3C7LX
+ +6mpblslw6FnBOZcL+T/oSaazMOl+6xQT9IzYtaHYhiA3kuc8NxjONSkLm+8gf5W68JA
+ TXceDOADJLLxJGiFgMt7mX251pTQKJQzd4XJYs7UwMMeHiJ6I6vvyIWJNXcFIWEDKiUs
+ CWI51GNVD6rMtJb12ieXHqBLIl7uqQwdi2LfM1G74bBeGYFjK9H0Tencrh/1NE7VVwdq
+ miiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4hbF3gZ7kPvhXmdkKwDqNUnpoPNqBtEugPC+3rCNF/M=;
- b=QLnakVrXrFkDNMzoZ6a1jWPb3m2RtSmyEy82ia3rDCtbybBrF/P2GbwqB2noACiouu
- GWAStBgxTN0fS615ih2XIE8GkhanTRzdkoqxN1lZ105QikVIIBt8oBBREeB7kpG6rtZq
- +EqMjrBYqfKrWcz0eXvvT/5GznDQY8a8O1b8waM/dPYRAuR6LZrHcs2P9AZMd9ohB/Kp
- aUaq5udlchrQZFkXPZt24P/9d8GzrvZj3UrEvrdvUiGU+ds6Zj2rhSMR19l05sXj5C7r
- tC9J16p+225QLOulCY/UX+3a7FPTZC6yN/4eY9XFja1Ui6vFONJle9DAn+iXuEXZM8Av
- lEUg==
-X-Gm-Message-State: ANoB5ploYzCMc6L/bB3AxRdZYkUkmNzSPXCyuFG/91YO5ANWVcLK4KzG
- zb6cki2ItsxflJ5yi2WHi0M=
-X-Google-Smtp-Source: AA0mqf4UT8S7EhO1mnlZSwwZpalSw7bUYoEnFAfBQs5kQ2jOZ9T8Zn1lX/HJJv/f953zpWAAhpBIxQ==
-X-Received: by 2002:a05:6512:2a98:b0:4b1:4612:6d06 with SMTP id
- dt24-20020a0565122a9800b004b146126d06mr20173084lfb.683.1669839005450; 
- Wed, 30 Nov 2022 12:10:05 -0800 (PST)
+ bh=pzD7os1oJWrCvebMO8GXHUfDeNhMiacSWupEc4fuFFA=;
+ b=s9/96S1byy29AhnG9+hXftRDhIlEUfh9EdFBRFxR7lbH84gpmpei+jjaQ5JTcazR/R
+ eP8lwKkf3jJNt7XeOWbAxZrZN6L/fA0hSIblpdtqe3uU66Ro3DtHb+XJJue6e71qONve
+ GAD6keGxH6dw++CWv4Hu/AlYoCxe0TdO9PE98/3+ld72dEXYWey9FZ1bPy/DhFCn+9Wx
+ IWa8SPaV+mmn0rB+Zh9OL5OmAX2mG+cm7Mu2C3HHbGacDeR75hfmSx5L94F4R8fKxWIH
+ ohaXS/ZITDy2AXkO5dvMwtzLntNTX6IwbBP8keXjDtQ0tIj/OAWUBJ22k4OUWpmKhMLw
+ mgzw==
+X-Gm-Message-State: ANoB5plKQD/+aCt1pQt7vyavgoWpW2oUdIphDOj4s6qUd9TyqErNU99c
+ PgoHdk+yOuWCKHPTZkeqojA=
+X-Google-Smtp-Source: AA0mqf4LbHHujIm1MRFMjViBtA0LkeUiEaUyGqRj8qITqoI1Es3DWJCLZVLzB0RQwO+ut6NVczotDQ==
+X-Received: by 2002:a19:6b1a:0:b0:4b4:3313:feaf with SMTP id
+ d26-20020a196b1a000000b004b43313feafmr20707007lfa.365.1669839007666; 
+ Wed, 30 Nov 2022 12:10:07 -0800 (PST)
 Received: from localhost.localdomain (ccy110.neoplus.adsl.tpnet.pl.
  [83.30.148.110]) by smtp.gmail.com with ESMTPSA id
- a25-20020a056512201900b004b4e9580b1asm369754lfb.66.2022.11.30.12.10.03
+ a25-20020a056512201900b004b4e9580b1asm369754lfb.66.2022.11.30.12.10.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Nov 2022 12:10:05 -0800 (PST)
+ Wed, 30 Nov 2022 12:10:07 -0800 (PST)
 From: Adam Skladowski <a39.skl@gmail.com>
 To: 
-Subject: [PATCH v2 04/12] arm64: dts: qcom: sm6115: Add TSENS node
-Date: Wed, 30 Nov 2022 21:09:42 +0100
-Message-Id: <20221130200950.144618-5-a39.skl@gmail.com>
+Subject: [PATCH v2 05/12] arm64: dts: qcom: sm6115: Add PRNG node
+Date: Wed, 30 Nov 2022 21:09:43 +0100
+Message-Id: <20221130200950.144618-6-a39.skl@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221130200950.144618-1-a39.skl@gmail.com>
 References: <20221130200950.144618-1-a39.skl@gmail.com>
@@ -88,36 +88,33 @@ Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Amit Kucheria <amitk@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add nodes required for TSENS block using the common qcom,tsens-v2 binding.
+Add a node for the PRNG to enable hw-accelerated pseudo-random number
+generation.
 
 Signed-off-by: Adam Skladowski <a39.skl@gmail.com>
 Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/sm6115.dtsi | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ arch/arm64/boot/dts/qcom/sm6115.dtsi | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/sm6115.dtsi b/arch/arm64/boot/dts/qcom/sm6115.dtsi
-index 2a55087b103e..a2ac06f4693b 100644
+index a2ac06f4693b..6f4c36f3da40 100644
 --- a/arch/arm64/boot/dts/qcom/sm6115.dtsi
 +++ b/arch/arm64/boot/dts/qcom/sm6115.dtsi
-@@ -523,6 +523,17 @@ spmi_bus: spmi@1c40000 {
- 			#interrupt-cells = <4>;
+@@ -505,6 +505,13 @@ qusb2_hstx_trim: hstx-trim@25b {
+ 			};
  		};
  
-+		tsens0: thermal-sensor@4410000 {
-+			compatible = "qcom,sm6115-tsens", "qcom,tsens-v2";
-+			reg = <0x04411000 0x1ff>, /* TM */
-+			      <0x04410000 0x8>; /* SROT */
-+			#qcom,sensors = <16>;
-+			interrupts = <GIC_SPI 275 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 190 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "uplow", "critical";
-+			#thermal-sensor-cells = <1>;
++		rng: rng@1b53000 {
++			compatible = "qcom,prng-ee";
++			reg = <0x01b53000 0x1000>;
++			clocks = <&gcc GCC_PRNG_AHB_CLK>;
++			clock-names = "core";
 +		};
 +
- 		rpm_msg_ram: sram@45f0000 {
- 			compatible = "qcom,rpm-msg-ram";
- 			reg = <0x045f0000 0x7000>;
+ 		spmi_bus: spmi@1c40000 {
+ 			compatible = "qcom,spmi-pmic-arb";
+ 			reg = <0x01c40000 0x1100>,
 -- 
 2.25.1
 
