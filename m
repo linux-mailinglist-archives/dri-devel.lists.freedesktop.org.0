@@ -1,52 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51C2163D721
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 14:49:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDD5C63D726
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Nov 2022 14:49:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2E7710E454;
-	Wed, 30 Nov 2022 13:49:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4A9F10E45B;
+	Wed, 30 Nov 2022 13:49:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 152D610E459;
- Wed, 30 Nov 2022 13:49:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 580E310E455;
+ Wed, 30 Nov 2022 13:49:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669816150; x=1701352150;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=EyJFPG6PhV/AwdfzlcYIAHQ0QmtsikwhVNregiJywak=;
- b=W6k2S1Pgs1JtmKpFI2qJvzwzACxulY1RmXNqcm0O432WGIjGJiTwpTCm
- 3qoKfHEdNRtiMMRQGecDTwMUvH5V5W5iamVmmwMwr5G2QW2J5g/hTe+0N
- My3LmaUn2/a0sLhNO0/KiyjXGYcshaYI4HMjDXdpvvXkl8sSMo2Ko9nAX
- q5v8u4IOJti8jGo8qwRy+7l9HT/P721xThXq5cVJVoA/9pAIetyt80oz3
- 1GK+tcFM/n+QzSsKWh5he2UFdDVsnF2Veob2/hksuqbUpAX5yoHpozUrg
- lk806IluZOfM2L4iUMP/H9+h//MOf/EAr/B6YXLDCC0yfvFQ3WQUyl1sQ w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10547"; a="298769785"
-X-IronPort-AV: E=Sophos;i="5.96,206,1665471600"; d="scan'208";a="298769785"
+ t=1669816149; x=1701352149;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=IUyB0aYfzgdGPjnanaYtbllUXw0rFzNVl+2IWpnEV3s=;
+ b=MYaysl11tfLfOGPwdsmDPAfwFvstdyP1eGKWX317Oyip8T7g1paqNNdw
+ qd6qpImaAKOLRJyFAyedkSrJcto/t2vkDs7iV3D0tz6m6lLe1/z72bi9U
+ vbwb2ogmnqsZG3Lhs3Deuag50Riba6YwjOcCK3fenXZTowF0A3F3tZRC6
+ Ii6IM9omgLr6ZwBO8c7w3w9L2WHYzTIFgIUrwqEQv9Rl5D63c6nHr+PfT
+ Ofj/Vknvji4YW269GNkNC7zPbpuAlRhfwOV6j8IxzTFWmojpNNr96Ulnl
+ 5zTLMhRJ3HTmoTLL5b/8Z/NSyfd9vOi5qubHCRWiLSwpX1vnutH3/yfC4 Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10547"; a="298769768"
+X-IronPort-AV: E=Sophos;i="5.96,206,1665471600"; d="scan'208";a="298769768"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  30 Nov 2022 05:48:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10546"; a="676825898"
-X-IronPort-AV: E=Sophos;i="5.96,206,1665471600"; d="scan'208";a="676825898"
+X-IronPort-AV: E=McAfee;i="6500,9779,10546"; a="676825894"
+X-IronPort-AV: E=Sophos;i="5.96,206,1665471600"; d="scan'208";a="676825894"
 Received: from black.fi.intel.com ([10.237.72.28])
  by orsmga001.jf.intel.com with ESMTP; 30 Nov 2022 05:48:12 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1003)
- id 89D29179; Wed, 30 Nov 2022 15:48:39 +0200 (EET)
+ id 984BA10E; Wed, 30 Nov 2022 15:48:39 +0200 (EET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Mathias Nyman <mathias.nyman@linux.intel.com>,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [PATCH v5 1/4] i915: Move list_count() to list.h as
- list_count_nodes() for broader use
-Date: Wed, 30 Nov 2022 15:48:35 +0200
-Message-Id: <20221130134838.23805-1-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v5 2/4] usb: gadget: hid: Convert to use list_count_nodes()
+Date: Wed, 30 Nov 2022 15:48:36 +0200
+Message-Id: <20221130134838.23805-2-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20221130134838.23805-1-andriy.shevchenko@linux.intel.com>
+References: <20221130134838.23805-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,87 +64,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  Kevin Cernekee <cernekee@gmail.com>, Mathias Nyman <mathias.nyman@intel.com>,
- Jani Nikula <jani.nikula@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some of the existing users, and definitely will be new ones, want to
-count existing nodes in the list. Provide a generic API for that by
-moving code from i915 to list.h.
+The list API provides the list_count_nodes() to help with counting
+existing nodes in the list. Utilise it.
 
-Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
-Acked-by: Jani Nikula <jani.nikula@intel.com>
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
-v5: added tag (Lucas), renamed API to list_count_nodes() (LKP)
-v4: fixed prototype when converting to static inline
-v3: added tag (Jani), changed to be static inline (Mike)
-v2: dropped the duplicate code in i915 (LKP)
- drivers/gpu/drm/i915/gt/intel_engine_cs.c | 15 ++-------------
- include/linux/list.h                      | 15 +++++++++++++++
- 2 files changed, 17 insertions(+), 13 deletions(-)
+v5: used renamed API (LKP)
+v4: no change
+v3: fixed typo in the commit message (Fabio)                                                                     
+v2: no change
+ drivers/usb/gadget/legacy/hid.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-index 1f7188129cd1..370164363b0d 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-@@ -2004,17 +2004,6 @@ static void print_request_ring(struct drm_printer *m, struct i915_request *rq)
- 	}
- }
- 
--static unsigned long list_count(struct list_head *list)
--{
--	struct list_head *pos;
--	unsigned long count = 0;
--
--	list_for_each(pos, list)
--		count++;
--
--	return count;
--}
--
- static unsigned long read_ul(void *p, size_t x)
+diff --git a/drivers/usb/gadget/legacy/hid.c b/drivers/usb/gadget/legacy/hid.c
+index 1187ee4f316a..133daf88162e 100644
+--- a/drivers/usb/gadget/legacy/hid.c
++++ b/drivers/usb/gadget/legacy/hid.c
+@@ -133,14 +133,11 @@ static struct usb_configuration config_driver = {
+ static int hid_bind(struct usb_composite_dev *cdev)
  {
- 	return *(unsigned long *)(p + x);
-@@ -2189,8 +2178,8 @@ void intel_engine_dump(struct intel_engine_cs *engine,
- 	spin_lock_irqsave(&engine->sched_engine->lock, flags);
- 	engine_dump_active_requests(engine, m);
+ 	struct usb_gadget *gadget = cdev->gadget;
+-	struct list_head *tmp;
+ 	struct hidg_func_node *n = NULL, *m, *iter_n;
+ 	struct f_hid_opts *hid_opts;
+-	int status, funcs = 0;
+-
+-	list_for_each(tmp, &hidg_func_list)
+-		funcs++;
++	int status, funcs;
  
--	drm_printf(m, "\tOn hold?: %lu\n",
--		   list_count(&engine->sched_engine->hold));
-+	drm_printf(m, "\tOn hold?: %zu\n",
-+		   list_count_nodes(&engine->sched_engine->hold));
- 	spin_unlock_irqrestore(&engine->sched_engine->lock, flags);
++	funcs = list_count_nodes(&hidg_func_list);
+ 	if (!funcs)
+ 		return -ENODEV;
  
- 	drm_printf(m, "\tMMIO base:  0x%08x\n", engine->mmio_base);
-diff --git a/include/linux/list.h b/include/linux/list.h
-index 61762054b4be..f10344dbad4d 100644
---- a/include/linux/list.h
-+++ b/include/linux/list.h
-@@ -655,6 +655,21 @@ static inline void list_splice_tail_init(struct list_head *list,
- 	     !list_is_head(pos, (head)); \
- 	     pos = n, n = pos->prev)
- 
-+/**
-+ * list_count_nodes - count nodes in the list
-+ * @head:	the head for your list.
-+ */
-+static inline size_t list_count_nodes(struct list_head *head)
-+{
-+	struct list_head *pos;
-+	size_t count = 0;
-+
-+	list_for_each(pos, head)
-+		count++;
-+
-+	return count;
-+}
-+
- /**
-  * list_entry_is_head - test if the entry points to the head of the list
-  * @pos:	the type * to cursor
 -- 
 2.35.1
 
