@@ -2,73 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE9F463F376
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 16:15:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3F2663F37F
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 16:16:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF7F510E60B;
-	Thu,  1 Dec 2022 15:15:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 362B710E62E;
+	Thu,  1 Dec 2022 15:15:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
  [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E97410E60F
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 15:15:14 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id C5A81580381;
- Thu,  1 Dec 2022 10:15:13 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 01 Dec 2022 10:15:13 -0500
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39D5110E5FF
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 15:15:17 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 8D0215803A4;
+ Thu,  1 Dec 2022 10:15:16 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Thu, 01 Dec 2022 10:15:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1669907713; x=
- 1669914913; bh=oDB2afXY6lkHKaqUoi0wRi3hiF2Hi8xv6xcV2kl0XgE=; b=J
- J1+70pDODrFN9p104zfK4+W64oGRpxJRZ4Fq4+sDfdOD0yHesjMFSS5p6SvYVrY4
- XoSaV1sif8A52rkgBkF/eR/5fuboUhPb/TehhuRgLYXyskhOci2B1+w6WtIvCNH7
- wE6qPPxzwQI5DKw7kgiP10UGdIGeilHwXFHJISFyEhDqPm3zVzvxaM3fdgxNIu+j
- lfiza8Cr/uBSsjTAzGqkLa6Vm6XW5mi2pLh64VOCMLiZ1g8P363MibSOqvQYBWrd
- gOWNmPwRYmSAeP53xxYCgfdS/sSBezoBOOYd3gd5AY1uJtt4T8Jm2yX1wqVNmmKY
- tzIwPPHfbxwbTalTKDb7A==
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1669907716; x=
+ 1669914916; bh=5wSvW/DZx0aI6uP1+7/AFBFIuW+waBnmd9lfUJ/y8M8=; b=g
+ ybvHvVqlnFvZ6msmZXOcssmsa5KOeB227L+9sg68rT1AtmWWXKEbSX3lCJIOLQu2
+ Q8k7v8jzgkU0pdf8TMbYeOmGxaYWjGx0FERuaIETm23ssC6vEy2cH5m2vMYNxdlD
+ N5J8W3a1srB3v56psR15zIn5uHHn9ModU/vAet+7Ifa7yl+hxkO8Ft/enIRPlAic
+ UhN/F/qw/BDLlmaErxMC6BIH2EYo58qbeTX36QAaUhnCP6EGno4uJqr6qDHkuSSv
+ WT4TzMYD1mlNlM3iFnBB6elTWsTJIih8DSPDcR/CCSLu2z1cMolD7fFudeRfmo1J
+ FNApVy5N2+GgCzlKJ0vlw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1669907713; x=
- 1669914913; bh=oDB2afXY6lkHKaqUoi0wRi3hiF2Hi8xv6xcV2kl0XgE=; b=l
- uZR/L5+9wXpouuqXjTHLl6i7VBR3EFftgIM6wLf9GTwjbuH2eFyqo0aazVTf6fnO
- rBBwgfHWOlO1rFgx3Wh55zobGbOhFbWSnuV0YAJrtGOjSr1x9fra2KPs3GIygxcr
- 6gneChCAfUpMR48eGnKFuuJV6NzFj9PXvaIfkR/m0vvfCAFwkhjzdNoegWZl6ppJ
- 7l1+yweykLfNJSB6FVnjFuEbAYhDCojA3wn13kteLqsQxStuxtYe6VnHmgI8LBLK
- tmSVleRy3tT0IbeDBGNwMp5sHNoLzUI3j4NaV2G4epWRpHrBzFVHRD7mRYsWa+DD
- Sy2HDeYYkNOyTFJPsWwiQ==
-X-ME-Sender: <xms:AcWIY3AUzxmNVJQmqT2Y5NyEMOkFFPcODhUWPrcTbEJ4KHVxAoNLzA>
- <xme:AcWIY9hvvkiY_ACAZJC1edFywIT9mBe0cK4WPuq25xviK2KgRC3kfUOIb07I8Z6e9
- 7XMtPcBisxIqukrw-E>
-X-ME-Received: <xmr:AcWIYykHEnSvBW1QTWuJQbkn7lnFKSpxcmU7v7AisVBRb-lVm37Rx_IY1xaLvDckzXJQlIqbJ6Zbjf1-m7dn6eQQH5cqxVVfzujh_HU1ML8ttg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrtdehgdejgecutefuodetggdotefrodftvf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1669907716; x=
+ 1669914916; bh=5wSvW/DZx0aI6uP1+7/AFBFIuW+waBnmd9lfUJ/y8M8=; b=R
+ xn5GcImQQ5PITwjW/nIVSSv/NFiTcb8LODJwUDNu8mHtUtt06bJrfudWOsKC3A7h
+ q0VjLjh31c6tuC7io4afHRZmCdb0/nvfAk8jVgPznx3fh9iCopASToIR+vFmkq29
+ c5MVx6s8ecC7JVNxdGG+FGaw47PPNndnjoHJpnXUXj4yifLIjYslbckTRccY+33G
+ 33WAcb85GqzLQ1nbqm9iJyW8NRzExM9JW7tDz8+TBVzKG2RMNHHmToXxpamgO8iZ
+ ymlg2jbHZCxfmHqlTuoefGYtj4qzxOohcQYUSzprFnVQachNsUaFIvI/XKDx9lI3
+ fzvROsWRA6+ZBbNRm0Icw==
+X-ME-Sender: <xms:BMWIY0nCfEnHuNF70ZAQhW3DyqW1aIaLELKaQJR3UKnKm95bsb6UFg>
+ <xme:BMWIYz1r7hHVlQ9t5hC5KzMm0tGu3rZuEB5fUBrXw2I9myW-r7l1HyQ_ok0bjiiI3
+ 2qZr9zQdxhkkaL1aDo>
+X-ME-Received: <xmr:BMWIYyrPeJBW5b3Lw6Juw3xSa8Z3J1dtbbi62q9BXQ8KalZSMTW71dsupp4vl2seo3RuuPANKPCowPFrvJHI9tQRQAHkqCbnGPA6bt7ut1WdgA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrtdehgdejhecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhfffuggfgtgfkfhgjvfevofesthekredtredtjeenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpedvgfevjefhtdetveevhfelieeuueetgfdvgeevkeegudejffegfffgtedt
- leelhfenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ leelhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:AcWIY5xOywpVkoFQYlZfzGZ-L22bAK0fXaZtFi9r2dE9MD-pqPrk2g>
- <xmx:AcWIY8RkRD1Dxz09SXRJWCEMtWge7LxRosMiiG6rH1lcEQ7cCV0-xQ>
- <xmx:AcWIY8abPeYNGe5rbjjOT5EH15ecjyTaKTY-oN-RQVX5d15rhZS47A>
- <xmx:AcWIY0znQN4yWD1VqgHmvnOt95M0jeQMBx9yTvWqZRk4vWZeJio7rQ>
+X-ME-Proxy: <xmx:BMWIYwldK7ngUebqAchEjJHgnKUQ0ZcOxP4YurwvO44cQdXSPvDVsw>
+ <xmx:BMWIYy13nJs_WRwGpehymofYE-MYIwN68t98RJY4t5A1d0yeII3Cxg>
+ <xmx:BMWIY3vIEznS1SCgeNmp_pSxlhqszELlXUSeOCqbTfRDoOLthHCwvA>
+ <xmx:BMWIY_3rcvDo7_AaAbrcoSnVWcsKHv7TZtzZ2fQxX6RD7USX-KxjEw>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 1 Dec 2022 10:15:12 -0500 (EST)
+ 1 Dec 2022 10:15:14 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Thu, 01 Dec 2022 16:11:45 +0100
-Subject: [PATCH v3 14/20] drm/vc4: crtc: Introduce a lower-level crtc init
- helper
+Date: Thu, 01 Dec 2022 16:11:46 +0100
+Subject: [PATCH v3 15/20] drm/vc4: crtc: Make encoder lookup helper public
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20221123-rpi-kunit-tests-v3-14-4615a663a84a@cerno.tech>
+Message-Id: <20221123-rpi-kunit-tests-v3-15-4615a663a84a@cerno.tech>
 References: <20221123-rpi-kunit-tests-v3-0-4615a663a84a@cerno.tech>
 In-Reply-To: <20221123-rpi-kunit-tests-v3-0-4615a663a84a@cerno.tech>
 To: Maxime Ripard <mripard@kernel.org>,
@@ -76,11 +75,11 @@ To: Maxime Ripard <mripard@kernel.org>,
  Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>
 X-Mailer: b4 0.10.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5028; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=PmLbO4zADFTtSdsuPA9IBUCP4WoMg3nPuUuT2WyMo0I=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMkdRzQe8t9Qz25Q1+exubuM5VLgrydKvn96ZCvKmWpPRaQ1
- fSrpKGVhEONikBVTZIkRNl8Sd2rW6042vnkwc1iZQIYwcHEKwES+XGFkmO3c2td+7JlKwNHz72MKGF
- dxvhLrW5aX+TDD9zfv2UX8XowM39YqZZ5T2bW+aGXJ5p0MdxtcdXOSpz1Qm7c27p7d/Bc2fAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2364; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=5RCNFvFyyWlLaGm7Yfw8HK8YEA+rYifInFFZfiFrkV4=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMkdRzTuVE93ZVqdckBi0sqHPOsEGRa9zObbuXPZnQlXV92/
+ lHRWrKOUhUGMi0FWTJElRth8SdypWa872fjmwcxhZQIZwsDFKQATKa1iZFjmx1mbx+OzeXZjo53K2l
+ DfdbfV6ya/YlzZs7Jg5j4FjpkMv5hvTp3JEjI70tOg50Zgep7ThRWXHaeJck8TUghaybJnOQsA
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -99,132 +98,80 @@ Cc: David Gow <davidgow@google.com>, Dave Stevenson <dave.stevenson@raspberrypi.
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current vc4_crtc_init() helper assumes that we will be using
-hardware planes and calls vc4_plane_init().
-
-While it's a reasonable assumption, we'll want to mock the plane and
-thus provide our own. Let's create a helper that will take the plane as
-an argument.
+We'll need a function that looks up an encoder by its vc4_encoder_type.
+Such a function is already present in the CRTC code, so let's make it
+public so that we can reuse it in the unit tests.
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 Reviewed-by: Maíra Canal <mcanal@igalia.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_crtc.c | 70 ++++++++++++++++++++++++++++++------------
- drivers/gpu/drm/vc4/vc4_drv.h  |  6 ++++
- 2 files changed, 57 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/vc4/vc4_crtc.c | 17 +----------------
+ drivers/gpu/drm/vc4/vc4_drv.h  | 16 ++++++++++++++++
+ 2 files changed, 17 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index 333529ed3a0d..5f7f50add46e 100644
+index 5f7f50add46e..195d2b61839d 100644
 --- a/drivers/gpu/drm/vc4/vc4_crtc.c
 +++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -1286,31 +1286,38 @@ static void vc4_set_crtc_possible_masks(struct drm_device *drm,
- 	}
- }
- 
--int vc4_crtc_init(struct drm_device *drm, struct platform_device *pdev,
--		  struct vc4_crtc *vc4_crtc,
--		  const struct vc4_crtc_data *data,
--		  const struct drm_crtc_funcs *crtc_funcs,
--		  const struct drm_crtc_helper_funcs *crtc_helper_funcs,
--		  bool feeds_txp)
-+/**
-+ * __vc4_crtc_init - Initializes a CRTC
-+ * @drm: DRM Device
-+ * @pdev: CRTC Platform Device
-+ * @vc4_crtc: CRTC Object to Initialize
-+ * @data: Configuration data associated with this CRTC
-+ * @primary_plane: Primary plane for CRTC
-+ * @crtc_funcs: Callbacks for the new CRTC
-+ * @crtc_helper_funcs: Helper Callbacks for the new CRTC
-+ * @feeds_txp: Is this CRTC connected to the TXP?
-+ *
-+ * Initializes our private CRTC structure. This function is mostly
-+ * relevant for KUnit testing, all other users should use
-+ * vc4_crtc_init() instead.
-+ *
-+ * Returns:
-+ * 0 on success, a negative error code on failure.
-+ */
-+int __vc4_crtc_init(struct drm_device *drm,
-+		    struct platform_device *pdev,
-+		    struct vc4_crtc *vc4_crtc,
-+		    const struct vc4_crtc_data *data,
-+		    struct drm_plane *primary_plane,
-+		    const struct drm_crtc_funcs *crtc_funcs,
-+		    const struct drm_crtc_helper_funcs *crtc_helper_funcs,
-+		    bool feeds_txp)
- {
- 	struct vc4_dev *vc4 = to_vc4_dev(drm);
- 	struct drm_crtc *crtc = &vc4_crtc->base;
--	struct drm_plane *primary_plane;
- 	unsigned int i;
- 	int ret;
- 
--	/* For now, we create just the primary and the legacy cursor
--	 * planes.  We should be able to stack more planes on easily,
--	 * but to do that we would need to compute the bandwidth
--	 * requirement of the plane configuration, and reject ones
--	 * that will take too much.
--	 */
--	primary_plane = vc4_plane_init(drm, DRM_PLANE_TYPE_PRIMARY, 0);
--	if (IS_ERR(primary_plane)) {
--		dev_err(drm->dev, "failed to construct primary plane\n");
--		return PTR_ERR(primary_plane);
--	}
--
- 	vc4_crtc->data = data;
- 	vc4_crtc->pdev = pdev;
- 	vc4_crtc->feeds_txp = feeds_txp;
-@@ -1342,6 +1349,31 @@ int vc4_crtc_init(struct drm_device *drm, struct platform_device *pdev,
+@@ -486,21 +486,6 @@ static int vc4_crtc_disable(struct drm_crtc *crtc,
  	return 0;
  }
  
-+int vc4_crtc_init(struct drm_device *drm, struct platform_device *pdev,
-+		  struct vc4_crtc *vc4_crtc,
-+		  const struct vc4_crtc_data *data,
-+		  const struct drm_crtc_funcs *crtc_funcs,
-+		  const struct drm_crtc_helper_funcs *crtc_helper_funcs,
-+		  bool feeds_txp)
-+{
-+	struct drm_plane *primary_plane;
-+
-+	/* For now, we create just the primary and the legacy cursor
-+	 * planes.  We should be able to stack more planes on easily,
-+	 * but to do that we would need to compute the bandwidth
-+	 * requirement of the plane configuration, and reject ones
-+	 * that will take too much.
-+	 */
-+	primary_plane = vc4_plane_init(drm, DRM_PLANE_TYPE_PRIMARY, 0);
-+	if (IS_ERR(primary_plane)) {
-+		dev_err(drm->dev, "failed to construct primary plane\n");
-+		return PTR_ERR(primary_plane);
-+	}
-+
-+	return __vc4_crtc_init(drm, pdev, vc4_crtc, data, primary_plane,
-+			       crtc_funcs, crtc_helper_funcs, feeds_txp);
-+}
-+
- static int vc4_crtc_bind(struct device *dev, struct device *master, void *data)
+-static struct drm_encoder *vc4_crtc_get_encoder_by_type(struct drm_crtc *crtc,
+-							enum vc4_encoder_type type)
+-{
+-	struct drm_encoder *encoder;
+-
+-	drm_for_each_encoder(encoder, crtc->dev) {
+-		struct vc4_encoder *vc4_encoder = to_vc4_encoder(encoder);
+-
+-		if (vc4_encoder->type == type)
+-			return encoder;
+-	}
+-
+-	return NULL;
+-}
+-
+ int vc4_crtc_disable_at_boot(struct drm_crtc *crtc)
  {
- 	struct platform_device *pdev = to_platform_device(dev);
+ 	struct drm_device *drm = crtc->dev;
+@@ -536,7 +521,7 @@ int vc4_crtc_disable_at_boot(struct drm_crtc *crtc)
+ 
+ 	pv_data = vc4_crtc_to_vc4_pv_data(vc4_crtc);
+ 	encoder_type = pv_data->encoder_types[encoder_sel];
+-	encoder = vc4_crtc_get_encoder_by_type(crtc, encoder_type);
++	encoder = vc4_find_encoder_by_type(drm, encoder_type);
+ 	if (WARN_ON(!encoder))
+ 		return 0;
+ 
 diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index 051c2e3b6d43..cd2002fff115 100644
+index cd2002fff115..54352db48476 100644
 --- a/drivers/gpu/drm/vc4/vc4_drv.h
 +++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -888,6 +888,12 @@ int vc4_bo_debugfs_init(struct drm_minor *minor);
- /* vc4_crtc.c */
- extern struct platform_driver vc4_crtc_driver;
- int vc4_crtc_disable_at_boot(struct drm_crtc *crtc);
-+int __vc4_crtc_init(struct drm_device *drm, struct platform_device *pdev,
-+		    struct vc4_crtc *vc4_crtc, const struct vc4_crtc_data *data,
-+		    struct drm_plane *primary_plane,
-+		    const struct drm_crtc_funcs *crtc_funcs,
-+		    const struct drm_crtc_helper_funcs *crtc_helper_funcs,
-+		    bool feeds_txp);
- int vc4_crtc_init(struct drm_device *drm, struct platform_device *pdev,
- 		  struct vc4_crtc *vc4_crtc, const struct vc4_crtc_data *data,
- 		  const struct drm_crtc_funcs *crtc_funcs,
+@@ -495,6 +495,22 @@ to_vc4_encoder(const struct drm_encoder *encoder)
+ 	return container_of(encoder, struct vc4_encoder, base);
+ }
+ 
++static inline
++struct drm_encoder *vc4_find_encoder_by_type(struct drm_device *drm,
++					     enum vc4_encoder_type type)
++{
++	struct drm_encoder *encoder;
++
++	drm_for_each_encoder(encoder, drm) {
++		struct vc4_encoder *vc4_encoder = to_vc4_encoder(encoder);
++
++		if (vc4_encoder->type == type)
++			return encoder;
++	}
++
++	return NULL;
++}
++
+ struct vc4_crtc_data {
+ 	const char *name;
+ 
 
 -- 
 b4 0.10.1
