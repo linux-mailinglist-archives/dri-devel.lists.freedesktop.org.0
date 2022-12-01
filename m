@@ -2,40 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9FF463E7A1
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 03:18:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7974363E7CE
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 03:24:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FB5510E524;
-	Thu,  1 Dec 2022 02:18:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F079110E525;
+	Thu,  1 Dec 2022 02:24:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 777E910E524
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 02:18:29 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4NN09Z4my0z4xG6;
- Thu,  1 Dec 2022 13:18:26 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1669861107;
- bh=kEd/xZARf6Mr8dAYiKlsLt6883mfgikoGzqEeJFFmT8=;
- h=Date:From:To:Cc:Subject:From;
- b=uWy8prUs1+224MpFaqu8Ev2Y62sxe1Ol0PjThnSnEVy2yB6Z6z6acA3/BOFWQfZmp
- FmcUspNlV3uER/N7VAKYdq3qCmYfFSKrl4V1JukwBn2CxTWH8DpuwwHrssqXKknX8w
- kpMesnuPI60FizQ9oe+HtcO/gD3LBxbD07mx/KQJY1kK5deSuwVHl2U68CRqBEWP4j
- 6J6dgxyqGdBaDd9+NWBhhXrYjYWL8GOfjAjQmQfJNTQyZOfXiTNb7JOJhTPArGPW0n
- MIBAAkkIAE6mE1du0vPjSrt57qr8+/n8Wu28FTwnIdGjmn/tW0+H3QKIIEt/sQBzo/
- 6GJPIIvB3pfxA==
-Date: Thu, 1 Dec 2022 13:18:25 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Greg KH <greg@kroah.com>, Dave Airlie <airlied@redhat.com>
-Subject: linux-next: build failure after merge of the driver-core tree
-Message-ID: <20221201131825.701fb3f5@canb.auug.org.au>
-MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/.8EklvJ2jx7ZkOzHVWLYcUu";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D77D610E525
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 02:24:34 +0000 (UTC)
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mxhk.zte.com.cn (FangMail) with ESMTPS id 4NN0JZ3zMJz4xVnR;
+ Thu,  1 Dec 2022 10:24:30 +0800 (CST)
+Received: from xaxapp01.zte.com.cn ([10.88.40.50])
+ by mse-fl2.zte.com.cn with SMTP id 2B12OKOH091870;
+ Thu, 1 Dec 2022 10:24:20 +0800 (+08)
+ (envelope-from ye.xingchen@zte.com.cn)
+Received: from mapi (xaxapp01[null]) by mapi (Zmail) with MAPI id mid31;
+ Thu, 1 Dec 2022 10:24:21 +0800 (CST)
+Date: Thu, 1 Dec 2022 10:24:21 +0800 (CST)
+X-Zmail-TransId: 2af963881055fffffffff8fd5203
+X-Mailer: Zmail v1.0
+Message-ID: <202212011024212258022@zte.com.cn>
+Mime-Version: 1.0
+From: <ye.xingchen@zte.com.cn>
+To: <alexander.deucher@amd.com>
+Subject: =?UTF-8?B?W1BBVENIXSBkcm0vYW1kZ3B1OiB1c2Ugc3lzZnNfZW1pdCgpIHRvIGluc3RlYWQgb2Ygc2NucHJpbnRmKCk=?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL: mse-fl2.zte.com.cn 2B12OKOH091870
+X-Fangmail-Gw-Spam-Type: 0
+X-FangMail-Miltered: at cgslv5.04-192.168.250.138.novalocal with ID
+ 6388105E.001 by FangMail milter!
+X-FangMail-Envelope: 1669861470/4NN0JZ3zMJz4xVnR/6388105E.001/10.5.228.133/[10.5.228.133]/mse-fl2.zte.com.cn/<ye.xingchen@zte.com.cn>
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 6388105E.001/4NN0JZ3zMJz4xVnR
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,87 +52,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Oded Gabbay <ogabbay@kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>
+Cc: xinhui.pan@amd.com, john.clements@amd.com, tao.zhou1@amd.com,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ yipeng.chai@amd.com, stanley.yang@amd.com, dri-devel@lists.freedesktop.org,
+ christian.koenig@amd.com, hawking.zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/.8EklvJ2jx7ZkOzHVWLYcUu
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+From: ye xingchen <ye.xingchen@zte.com.cn>
 
-Hi all,
+Replace the open-code with sysfs_emit() to simplify the code.
 
-After merging the driver-core tree, today's linux-next build (x86_64
-allmodconfig) failed like this:
-
-drivers/gpu/drm/../../accel/drm_accel.c: In function 'accel_sysfs_init':
-drivers/gpu/drm/../../accel/drm_accel.c:41:30: error: assignment to 'char *=
- (*)(const struct device *, umode_t *)' {aka 'char * (*)(const struct devic=
-e *, short unsigned int *)'} from incompatible pointer type 'char * (*)(str=
-uct device *, umode_t *)' {aka 'char * (*)(struct device *, short unsigned =
-int *)'} [-Werror=3Dincompatible-pointer-types]
-   41 |         accel_class->devnode =3D accel_devnode;
-      |                              ^
-
-Caused by commit
-
-  ff62b8e6588f ("driver core: make struct class.devnode() take a const *")
-
-interacting with commit
-
-  8bf4889762a8 ("drivers/accel: define kconfig and register a new major")
-
-from the drm tree.
-
-I have applied the following merge resolution patch.
-
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-Date: Thu, 1 Dec 2022 13:08:06 +1100
-Subject: [PATCH] fix up for "drivers/accel: define kconfig and register a n=
-ew major"
-
-Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
 ---
- drivers/accel/drm_accel.c | 2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/accel/drm_accel.c b/drivers/accel/drm_accel.c
-index a5ee84a4017a..1b69824286fd 100644
---- a/drivers/accel/drm_accel.c
-+++ b/drivers/accel/drm_accel.c
-@@ -27,7 +27,7 @@ static struct device_type accel_sysfs_device_minor =3D {
- 	.name =3D "accel_minor"
- };
-=20
--static char *accel_devnode(struct device *dev, umode_t *mode)
-+static char *accel_devnode(const struct device *dev, umode_t *mode)
- {
- 	return kasprintf(GFP_KERNEL, "accel/%s", dev_name(dev));
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+index 077404a9c935..ad490c1e2f57 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+@@ -1267,7 +1267,7 @@ static ssize_t amdgpu_ras_sysfs_features_read(struct device *dev,
+ 	struct amdgpu_ras *con =
+ 		container_of(attr, struct amdgpu_ras, features_attr);
+
+-	return scnprintf(buf, PAGE_SIZE, "feature mask: 0x%x\n", con->features);
++	return sysfs_emit(buf, "feature mask: 0x%x\n", con->features);
  }
---=20
-2.35.1
 
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/.8EklvJ2jx7ZkOzHVWLYcUu
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmOIDvEACgkQAVBC80lX
-0Gxx2gf/XA+fAqxqjyAf1I4t3IUjS0OgCPGJGGg21g4mKcEtRS63zQAr/TM8z5Af
-kR+vX9j3b+B/iUNy8WnlvEx/utkenW+qKZGckyBL7ryuihpjLoJkKztFcwz/tRe+
-U5nfjM9sXlvX5WTQVPnZQrVryadA22SaU+PJvReqRJi0cqHkpoV82LAUSTuevr0C
-jTYI2i0y5yIV/XJRj+dxoYTQYdgJTUjVGq1cTQJmnXq35tZcvCjxFRZKArE4jqMz
-2qfXQKHLjQj8eAYdoT1zsMVawfHvLfgcJo0YlvZ2hT7DfeOdPRqoVrt0dAMlnTxD
-bhTZfXnAXoi1wpF1oPb74Ow4ZCWyLA==
-=ddvj
------END PGP SIGNATURE-----
-
---Sig_/.8EklvJ2jx7ZkOzHVWLYcUu--
+ static void amdgpu_ras_sysfs_remove_bad_page_node(struct amdgpu_device *adev)
+-- 
+2.25.1
