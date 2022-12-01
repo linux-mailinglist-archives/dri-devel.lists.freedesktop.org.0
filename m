@@ -2,56 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A12D63F1C2
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 14:36:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A249563F1BB
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 14:35:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5D3C10E5E3;
-	Thu,  1 Dec 2022 13:36:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEF0B10E5E2;
+	Thu,  1 Dec 2022 13:34:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 424 seconds by postgrey-1.36 at gabe;
- Thu, 01 Dec 2022 13:36:27 UTC
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
- [68.232.154.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF61610E5E3
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 13:36:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1669901787; x=1701437787;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=uzYyfpe5ovcmHtziruShrAihFDRO3ojyXNM6UnYgYzM=;
- b=EZwV+ahF73ZkA508WO0T629QX+ZNvCmSr9Vtl+JZyAf1hU291bJ5+ooF
- toratOF24b1YKyJHOcilpqRgGZtUiWjLd/5BlhWTjcKDAWQXI3zAEMENd
- sPO4iJbW0CkeEuvGL+O9Eoi9wY1XN4GKOiPDluFoIA3NJ9L8AX0E0zzme
- UXzaKiXzHl7stoywDJ1q7fJ4UqO3SZn2KzKX4n0D0S4Lz0GXdNEWfbCOq
- gDJx63kS/efgAIEH5SIuxo5Y0Jbz5PJ+kOma+QPJdsKPPDuY8EN2sfW1E
- EKRkPFVLhyZiNBpc7+OOJ2094lB33+Q4ydhgTosvJs5oAaylaVDLYwVG4 Q==;
-X-IronPort-AV: E=Sophos;i="5.96,209,1665471600"; d="scan'208";a="125998122"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256;
- 01 Dec 2022 06:29:21 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.12; Thu, 1 Dec 2022 06:29:09 -0700
-Received: from wendy (10.10.115.15) by chn-vm-ex01.mchp-main.com
- (10.10.85.143) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12 via Frontend
- Transport; Thu, 1 Dec 2022 06:29:01 -0700
-Date: Thu, 1 Dec 2022 13:28:42 +0000
-From: Conor Dooley <conor.dooley@microchip.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH v2 00/11] pwm: Allow .get_state to fail
-Message-ID: <Y4isCnKP9pTacksl@wendy>
-References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
- <Y4iL9xf5bJM5pyeR@wendy>
- <20221201131907.bmrenldnua7uaeab@pengutronix.de>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E82910E5E2
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 13:34:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669901687;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=00jxYf1q3fxGkE8vzDP/kmUB4+CIeLC98DKRmKHBSEw=;
+ b=X3VbclHZzUZoZzHlB8SQfZ6/TuVdMnEHxPKeneupoL6+Ak34WUEKZlzeGTTrdAEuHrRZ6r
+ eotus2TmxnrC1Twrr7CoOKJ9mBP9biIMD6gSsVM5k0Eopwx6c/5yDrsuZGHrR6ZGuL5IlY
+ Zv+SHu95MPLyPkPHQg3BmWL5gpYl1ks=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-650-hmNoSCIPN0az4_qeHP5gIg-1; Thu, 01 Dec 2022 08:34:44 -0500
+X-MC-Unique: hmNoSCIPN0az4_qeHP5gIg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ m34-20020a05600c3b2200b003cf549cb32bso2561033wms.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Dec 2022 05:34:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=00jxYf1q3fxGkE8vzDP/kmUB4+CIeLC98DKRmKHBSEw=;
+ b=t1pnqDQLT+JsZnHqt1nQk0aA3o/hh3k4uKggnNBcY/mN20kHd0dv+XbC66w7vFyggI
+ kS8aRz/gdQ6YHjZh/bB94Qhmkh9XfgGwkH7zOcTCwWn669+sqQpdruYKhxyCmLnOj7Lg
+ aOdB2sbmIWBRVTKL/38s/hxI7F4admR2NO2vRIv8Gion4/ULmhr36qDeNdE5qjilRgy5
+ fyACv0Jd0SY6uc2IGlhkmSzWjW2fAnn47AvmM7s59ctgqnHuZk3K8jHd/fcaygyAXUv9
+ c3XC8jJ0o+CzEBGzVz2xeSXmCqgLVmcFNvtDCA/NgXPVwuoCXV8IaYikgsS+AGNHtd+e
+ 9xGA==
+X-Gm-Message-State: ANoB5png38EDfs39w9GHc1HfoIAa7m8tVGiWJbpV/0V8hudZ3PB9gc2/
+ bJ6l8fxnxU622SVVFXRFOAJOEQQksx1LWzZ8qI25uOTruw1EJjXJAnMOSI5EAlAY/kW9a1A9Z0c
+ MzQdcbTy8mfzODxdhJecszKoVYLYo
+X-Received: by 2002:a7b:c4d8:0:b0:3cf:9bcd:5009 with SMTP id
+ g24-20020a7bc4d8000000b003cf9bcd5009mr41039328wmk.196.1669901683018; 
+ Thu, 01 Dec 2022 05:34:43 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6a1UceeJ8fuUb2jb/nO/ppeJaHDF1cSo6k7XADI/2XvITfAPjrofctw68A+B8wCYDc36oeZg==
+X-Received: by 2002:a7b:c4d8:0:b0:3cf:9bcd:5009 with SMTP id
+ g24-20020a7bc4d8000000b003cf9bcd5009mr41039315wmk.196.1669901682750; 
+ Thu, 01 Dec 2022 05:34:42 -0800 (PST)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ v24-20020a05600c4d9800b003cfbe1da539sm5152014wmp.36.2022.12.01.05.34.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Dec 2022 05:34:42 -0800 (PST)
+Message-ID: <e57deac6-5344-3f81-8ef5-55dd28b8c363@redhat.com>
+Date: Thu, 1 Dec 2022 14:34:41 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221201131907.bmrenldnua7uaeab@pengutronix.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v2 0/6] drm/gud: Use the shadow plane helper
+To: Greg KH <gregkh@linuxfoundation.org>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
+ <noralf@tronnes.org>
+References: <20221122-gud-shadow-plane-v2-0-435037990a83@tronnes.org>
+ <Y4hB5odv9IGaq3Di@kroah.com>
+ <1cb40762-5f0a-1739-1670-155f59ec7110@tronnes.org>
+ <Y4iaODY6hMVNsfP1@kroah.com>
+ <4e75582c-b3d6-fb0e-19b4-e4fd58c6bf55@tronnes.org>
+ <Y4iqR94aGFa3NahQ@kroah.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <Y4iqR94aGFa3NahQ@kroah.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,62 +91,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, Nicolas Ferre <nicolas.ferre@microchip.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Satya Priya <quic_c_skakit@quicinc.com>, Pavel Machek <pavel@ucw.cz>,
- Guenter Roeck <groeck@chromium.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
- linux-stm32@st-md-mailman.stormreply.com, linux-leds@vger.kernel.org,
- Jerome Brunet <jbrunet@baylibre.com>, chrome-platform@lists.linux.dev,
- Florian Fainelli <f.fainelli@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Sean Anderson <sean.anderson@seco.com>, Kevin Hilman <khilman@baylibre.com>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Michal Simek <michal.simek@xilinx.com>,
- linux-riscv@lists.infradead.org, Hammer Hsieh <hammerh0314@gmail.com>,
- linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
- Matthias Kaehlcke <mka@chromium.org>, Broadcom internal
- kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- NXP Linux Team <linux-imx@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
- linux-sunxi@lists.linux.dev, linux-pwm@vger.kernel.org,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Ray Jui <rjui@broadcom.com>, Sascha
- Hauer <s.hauer@pengutronix.de>, Steven Rostedt <rostedt@goodmis.org>,
- Stephen Boyd <swboyd@chromium.org>, linux-gpio@vger.kernel.org,
- Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
- linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, Scott Branden <sbranden@broadcom.com>,
- Bjorn Andersson <andersson@kernel.org>, Douglas
- Anderson <dianders@chromium.org>, Michael
- Walle <michael@walle.cc>, Palmer Dabbelt <palmer@dabbelt.com>, Masami
- Hiramatsu <mhiramat@kernel.org>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, Chunyan Zhang <zhang.lyra@gmail.com>,
- Shawn Guo <shawnguo@kernel.org>, Claudiu Beznea <claudiu.beznea@microchip.com>
+Cc: tools@linux.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Konstantin Ryabitsev <konstantin@linuxfoundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 01, 2022 at 02:19:07PM +0100, Uwe Kleine-König wrote:
-> Hello Conor,
+Hello Greg,
+
+On 12/1/22 14:21, Greg KH wrote:
+
+[...]
+
+>>>> This patchset was sent using the b4 tool and I can't control this
+>>>> aspect. Everyone mentioned in the patches gets the whole set.
+>>>
+>>> Fair enough, but watch out, bots will report this as being a problem as
+>>> they can't always read through all patches in a series to notice this...
+>>>
+>>
+>> Konstantin,
+>>
+>> Can you add a rule in b4 to exclude stable@vger.kernel.org
+>> (stable@kernel.org as well?) from getting the whole patchset?
 > 
-> On Thu, Dec 01, 2022 at 11:11:51AM +0000, Conor Dooley wrote:
-> > TL;DR, I quite like the ability to return an error and not mislead the
-> > caller.
+> stable@kernel.org is a pipe to /dev/null so that's not needed to be
+> messed with.
 > 
-> Is this an Ack?
+> As for this needing special casing in b4, it's rare that you send out a
+> patch series and only want 1 or 2 of them in stable, right?
+>
 
-It is if you want it to be! I didn't really feel qualified to do so
-which is why I gave some context etc.
+Not really, it's very common for a patch-series to contain fixes (that could
+go to stable if applicable) and change that are not suitable for stable. The
+problem as Noralf mentioned is that the b4 tool doesn't seem to allow Cc'ing
+individual patches to different recipients, and everyone get the whole set.
 
-I did check out the callsites for the non-void returning op, and it
-looked good to me, so sure, why not:
+So either b4 needs to have this support, exclude stable@vger.kernel.org when
+sending a set or stable@vger.kernel.org ignore patches without a Fixes: tag.
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+-- 
+Best regards,
 
-Thanks,
-Conor.
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
