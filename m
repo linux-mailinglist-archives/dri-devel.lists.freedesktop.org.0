@@ -1,73 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E137763EAFC
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 09:26:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 416D263EB43
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 09:38:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FE7010E02F;
-	Thu,  1 Dec 2022 08:26:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0825910E56F;
+	Thu,  1 Dec 2022 08:38:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2820010E02F
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 08:26:14 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id m14so1443159wrh.7
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Dec 2022 00:26:14 -0800 (PST)
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A1F310E55E
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 08:38:29 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id
+ j5-20020a05600c410500b003cfa9c0ea76so908763wmi.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Dec 2022 00:38:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=pFqLP9k0bT0Mt44DPB2mvhK9vHSamghHlQLp/vyzST8=;
- b=U4NmYdKBUx9QdKiyriy5EwHSu8ZdemV5FMZ0WZoeSDd/MeA3b0sg6tfj0CpFSguPFW
- +U6A6+Vdcha3723PsWPhkeMWkMIkSsHDkDcjT5MU8q1X4MH36b50tWzqtzk/lqy5knMF
- zBplGMWWnsa3Eg+wFewWUQmhq9gAYJRThFp3rXiJkobm4wJ2R+YpKq6b2zcpyB/fWCGx
- wcRJXL43lcJQivcPG+EYQdSiUayYl0qIj+HTFlb53Iq6AE47P/rq6YkPQhl745qtYPgo
- auvpMyt7QPZAwEXytAfeKETc7pelQLqr4Rp5Scsj0mU639NkHNVw1i2U4IjrXlukyLU7
- JG2Q==
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=KiIz3+tb5zv7p7JFple9ARBjQPwBUaGHUgkQfj8cO3Y=;
+ b=G0uvG+UozMloOv4hJ2f4eRDg2VXq9xUMtPyoelMSC/3wCA1HAoHAMYHzLZZUfOYI0z
+ 7ms6BGLp5zKK7TW7Aklt14VVxMcsAWJvoS8UEZpfqX9TVNcQExVmUlqyFGQXoVP4b7cO
+ ILsYLXREzwL3vYwHCNVjMOtsxMaAKXk4kMR23EJ8eYLzxxd75lrwmIyz9BSu4ETNvZTu
+ NTEjl+hreNOUAu7aMvc1etdC6jmMKcUEezYelGnpD5dPE+AxwtVf5cEkHmHKd4XBHtzf
+ qgJpHNSxrUsVwBOiWs2v5bUB8UPcFoKBKKEwSSgUC9hmWRVZj5PIriG2HHfFINs1zEp0
+ /2Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=pFqLP9k0bT0Mt44DPB2mvhK9vHSamghHlQLp/vyzST8=;
- b=OOcXGVCW6w5vZobYpO3WHEQC8ifivkqsOqdnR4QF1PQuMjgidl1AsK596MpJBGEDHl
- aea7Lx/yVl5yIMsU0OasBB54MkDGKoCdksj7CPpVtrftJ2eN61QrPApire3nZKSdUFvB
- fyAtNjpiDF1EaQq+iJ6AjkfSfH6GlIN75L6v/XvXzd0dZLH+2eLsOz+tPNr/JLWtIOyp
- aYZP2UUvnEnIEEL3SeiA0MUU1w6j+52Yg5J7Y+9avIm5OJM5urDtLa5ndVIBj/7IAMfe
- kiYgqZzKnaS18CUwYLyDdN1jhrl746R/YgXW3/YsyCwJirkM5ynNEQpqFZLPQvqCKftc
- yRQA==
-X-Gm-Message-State: ANoB5pkIzGpYofbHWGQwrjw5jQRNN6sXM262a7GLZxXJWIjsFBuBrgpa
- P8QjBTtEgejsQ/BpMhjRjUVNTg==
-X-Google-Smtp-Source: AA0mqf4a5Z0PH/UgvFikZjY+k5KPvJuMO75nsDbR3SRjCEInYm+8Ie9RFm4XdT39bhTe30ft+HlBSQ==
-X-Received: by 2002:a5d:4887:0:b0:242:1b2e:a8c3 with SMTP id
- g7-20020a5d4887000000b002421b2ea8c3mr11002249wrq.296.1669883172607; 
- Thu, 01 Dec 2022 00:26:12 -0800 (PST)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=KiIz3+tb5zv7p7JFple9ARBjQPwBUaGHUgkQfj8cO3Y=;
+ b=iS+wCQDCxi9HWb39LiVBuY/goazqNR6wzODmHDrW4E3NX7O7IidsYpb5/210IeYyid
+ VpGUKfU+lDR4GgCYItiey2Xv/XbGp+U32uXiAg4tftDoAQadc5jNSJH5EzwGgwamixit
+ B2P/hjfuSUWc/nrUfCbqa/pxmcmC1tSVvTO7HXBKDbkYUhppa3rQTCCgTqCKghlWtrhE
+ ceQAX2dUsmRKrovMOWfFFUpAxbwYftbeC9zLvmXqHHwfhbRq60QT/vt7bdPBkCq5VTcn
+ yWBiyNIHZrSsr9aFRYhmwqNslZ0E8W8VwI7mk+UvzpCz03WifTW0XE/8UNSAlVh5fdMh
+ lSow==
+X-Gm-Message-State: ANoB5pkKbt6CbkGrhWTmKnbwgGspn5byOeu/Cefb+KFEwgaF6ALY1W/F
+ 4cYsSDs61Y4W7epKJcOsdSiJpw==
+X-Google-Smtp-Source: AA0mqf6vKwxrLoekKlS7jsHZjr1A/9hOVYcrZDL6KM2Yio2b2pW7B7Keg7XYP+2wYu9j+JJollwTBA==
+X-Received: by 2002:a05:600c:548b:b0:3cf:b0e4:30d9 with SMTP id
+ iv11-20020a05600c548b00b003cfb0e430d9mr40406640wmb.66.1669883907845; 
+ Thu, 01 Dec 2022 00:38:27 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:bec0:73a:70e1:228f?
+ ([2a01:e0a:982:cbb0:bec0:73a:70e1:228f])
  by smtp.gmail.com with ESMTPSA id
- m9-20020a5d6249000000b002302dc43d77sm3756176wrv.115.2022.12.01.00.26.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Dec 2022 00:26:12 -0800 (PST)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel@vger.kernel.org, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Guillaume BRUN <the.cheaterman@gmail.com>, 
- Robert Foss <robert.foss@linaro.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
- linux-amlogic@lists.infradead.org
-In-Reply-To: <20221116143523.2126-1-the.cheaterman@gmail.com>
-References: <20221116143523.2126-1-the.cheaterman@gmail.com>
-Subject: Re: [PATCH] drm: bridge: dw_hdmi: fix preference of RGB modes over
- YUV420
-Message-Id: <166988317174.1947573.2294084268751804752.b4-ty@linaro.org>
-Date: Thu, 01 Dec 2022 09:26:11 +0100
+ m188-20020a1c26c5000000b003c83465ccbfsm7551042wmm.35.2022.12.01.00.38.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Dec 2022 00:38:27 -0800 (PST)
+Message-ID: <7b7a7e34-af6a-cb09-e094-e42e45f45b8b@linaro.org>
+Date: Thu, 1 Dec 2022 09:38:26 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.10.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH RESEND2 v4 2/2] drm/meson: dw-hdmi: Use
+ devm_regulator_*get_enable*()
+Content-Language: en-US
+To: Matti Vaittinen <mazziesaccount@gmail.com>,
+ Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+References: <cover.1669799805.git.mazziesaccount@gmail.com>
+ <df0096b5aea2a18d1540cde379c5abf589ccd7c4.1669799805.git.mazziesaccount@gmail.com>
+Organization: Linaro Developer Services
+In-Reply-To: <df0096b5aea2a18d1540cde379c5abf589ccd7c4.1669799805.git.mazziesaccount@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,28 +81,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian Hewitt <christianshewitt@gmail.com>
+Reply-To: neil.armstrong@linaro.org
+Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, Jerome Brunet <jbrunet@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Wed, 16 Nov 2022 15:35:23 +0100, Guillaume BRUN wrote:
-> Cheap monitors sometimes advertise YUV modes they don't really have
-> (HDMI specification mandates YUV support so even monitors without actual
-> support will often wrongfully advertise it) which results in YUV matches
-> and user forum complaints of a red tint to light colour display areas in
-> common desktop environments.
+On 30/11/2022 10:23, Matti Vaittinen wrote:
+> Simplify using the devm_regulator_get_enable_optional(). Also drop the
+> now unused struct member 'hdmi_supply'.
 > 
-> Moving the default RGB fall-back before YUV selection results in RGB
-> mode matching in most cases, reducing complaints.
-> 
-> [...]
+> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+> Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 
-Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-fixes)
+Missing Acked-by, I'll add it while applying.
 
-[1/1] drm: bridge: dw_hdmi: fix preference of RGB modes over YUV420
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=d3d6b1bf85aefe0ebc0624574b3bb62f0693914c
-
--- 
 Neil
+
+> 
+> ---
+> v4 resend 2:
+> Respinning unchanged code with the commit title changed as wa suggested
+> by Robert Foss and commit message changed as was suggested by Martin.
+> 
+> I am doing a clean-up for my local git and encountered this one.
+> Respinning as it seems this one fell through the cracks.
+> ---
+>   drivers/gpu/drm/meson/meson_dw_hdmi.c | 23 +++--------------------
+>   1 file changed, 3 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/meson/meson_dw_hdmi.c
+> index 5cd2b2ebbbd3..7642f740272b 100644
+> --- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
+> +++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
+> @@ -140,7 +140,6 @@ struct meson_dw_hdmi {
+>   	struct reset_control *hdmitx_apb;
+>   	struct reset_control *hdmitx_ctrl;
+>   	struct reset_control *hdmitx_phy;
+> -	struct regulator *hdmi_supply;
+>   	u32 irq_stat;
+>   	struct dw_hdmi *hdmi;
+>   	struct drm_bridge *bridge;
+> @@ -665,11 +664,6 @@ static void meson_dw_hdmi_init(struct meson_dw_hdmi *meson_dw_hdmi)
+>   
+>   }
+>   
+> -static void meson_disable_regulator(void *data)
+> -{
+> -	regulator_disable(data);
+> -}
+> -
+>   static void meson_disable_clk(void *data)
+>   {
+>   	clk_disable_unprepare(data);
+> @@ -723,20 +717,9 @@ static int meson_dw_hdmi_bind(struct device *dev, struct device *master,
+>   	meson_dw_hdmi->data = match;
+>   	dw_plat_data = &meson_dw_hdmi->dw_plat_data;
+>   
+> -	meson_dw_hdmi->hdmi_supply = devm_regulator_get_optional(dev, "hdmi");
+> -	if (IS_ERR(meson_dw_hdmi->hdmi_supply)) {
+> -		if (PTR_ERR(meson_dw_hdmi->hdmi_supply) == -EPROBE_DEFER)
+> -			return -EPROBE_DEFER;
+> -		meson_dw_hdmi->hdmi_supply = NULL;
+> -	} else {
+> -		ret = regulator_enable(meson_dw_hdmi->hdmi_supply);
+> -		if (ret)
+> -			return ret;
+> -		ret = devm_add_action_or_reset(dev, meson_disable_regulator,
+> -					       meson_dw_hdmi->hdmi_supply);
+> -		if (ret)
+> -			return ret;
+> -	}
+> +	ret = devm_regulator_get_enable_optional(dev, "hdmi");
+> +	if (ret != -ENODEV)
+> +		return ret;
+>   
+>   	meson_dw_hdmi->hdmitx_apb = devm_reset_control_get_exclusive(dev,
+>   						"hdmitx_apb");
+
