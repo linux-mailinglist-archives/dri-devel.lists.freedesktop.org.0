@@ -1,71 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A358063E5E3
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 00:58:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 099FA63E622
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 01:07:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F35D810E134;
-	Wed, 30 Nov 2022 23:58:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AC6A10E511;
+	Thu,  1 Dec 2022 00:07:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CD4E10E134
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 23:58:15 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id x11so75267ljh.7
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 15:58:15 -0800 (PST)
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3505110E50E
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 00:07:05 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id f13so29355292lfa.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 16:07:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=jO8nXDV58mXkso9ZU1/d1ihgDXy7YP60Vhf2BkvzF7w=;
- b=XxxJfDWdCxAhpELeMOamNXvu9KcKqStzqg/qwaA1hN8IvqgHqv6LfFB1ANWrVfkZU+
- bRFhHHnHGqc/bD99ukBp2WxIa87RaF4EWP38sIjoZu9ZbU0ZM8ld4q46YYTW8jZ6PDWz
- 9oUwMicFBQ5/bm1DREbqHZonoxek7/iGwjI2AwV7aNT0RmC6QIgbypD1lZINNG5LToY8
- EfrHZNlPVmawBXC5txAtMzRBFcQzntYSRrcdR68Bxg6AXMDYUEUff9Ya2GuL/0HA8ftc
- UPwWLI55uGjeuJCsb4t2B5g56ztxZHsuXz9gEJFpbeEYRE++k6RLSFEfI7iwSEZgXjzv
- qXCQ==
+ bh=WPrD93pLoHJDHfqU7iF0kkDXNwOLW25TnHPn7r3B0pg=;
+ b=PbwrQ+zNQO06RoSt28/h+Fo+ZAGGkUX+1xRMtY3NFaVNuHM4s5AL9l0nVM2y2WqdQJ
+ 5o993rjsVbuk5utuGKFYe+IZgBxb136GclFy3Tn6jpNoEPRNVZDQLdxWT5jiaCO8SsGi
+ GkL1grn9ye0cli9iHmZpOW2Aa3bjOr4DUoiA9B6tyeR67d36aaMQHZCIqJvrDmLAN49a
+ 6An2unYmCwRTBthslSxGE+Tn2N4qrMoti6UwLm5iMnvzFTDb8Eteb66kTVPNsy27EmGm
+ BAe8rlAHbyAg/jVsq/APY0il3qemUDJ+gfNVOanlwjEOQQ6Tlvb4kMuhtjLxwtDD4Riz
+ OVQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jO8nXDV58mXkso9ZU1/d1ihgDXy7YP60Vhf2BkvzF7w=;
- b=fouvtueOlMFQ8yE6NOZTrKbzM3JIN69x1H31NcAhu3NY4lrOe7JZErvLv2eeeJ42V0
- Ba3ZFQg4GYj5KFzDK5Tb34Z3PJHzbbXD+DZ0uu6qMddWj+8sSdT0lssJN9HRPMo4Mplq
- zhAqNUCWJGEqJVgmhGEX4NZUbDp1e3Y2Gzn5RCWxPtTfiBKwzLzIy2fSQGMmRg61Gsr1
- g9RxMayzkuzC7N78N2UIUo+woE0DHwM9xtYDsyMqFpi14R5z6ZD/XW21sBY8jeGU5YD/
- lDM/95Z3kdsG0ICc0F+HqfSHwijO0Iuohd4kosVCK7sSwpS60pwlks6XRq+NBbyKR6Fs
- 13hw==
-X-Gm-Message-State: ANoB5pm3NqCkFg/C/thKqEbi8+Zwxs4VZNsSdzz9kbV6fD6s1BHKg7ko
- ScuYU44hR/d7MyDQviEacUGgWw==
-X-Google-Smtp-Source: AA0mqf4CRsX1JYhgTQ1nD8I3uKIXrcY4b5xxYBCLdMzNHNgsIkpPn1zxR/eMXR0GKObqz2JgnTgh0Q==
-X-Received: by 2002:a2e:a375:0:b0:277:7c00:e130 with SMTP id
- i21-20020a2ea375000000b002777c00e130mr13190727ljn.268.1669852693637; 
- Wed, 30 Nov 2022 15:58:13 -0800 (PST)
+ bh=WPrD93pLoHJDHfqU7iF0kkDXNwOLW25TnHPn7r3B0pg=;
+ b=HbtDQ3sV+ujeTYciIqVVvQKcHMfIhq1dXZJQHCwJu/IZJri7iSuUTVUs7Stlyj/LWo
+ QGquhaSoE6CoShQBYdJ2999X9Y4o8+vJVf9tbkwG7qDiJlSRA4Y1lCxcZzZL8OPPzo2D
+ S/tqTIX9rEdFjlTI5UG6iQeumBBvjF9Tnt1i5pXjtoyhBSP+iY7ZT8uH/X5alfh1zl/3
+ yWlbtNhHqOtwnTsIf1UEqtMXymjs+Gkzb0ywV1mIyagXT+iOAPpuORhHZEjCKUJf6M0j
+ k04qD1qssYd65OyIUl3M1w27z4BhEQLLDTrcg7hKSo9WZBBIOxVeFB3hOhfsiIfiKC7M
+ E+Sg==
+X-Gm-Message-State: ANoB5pmIslN1TbEDpRrXDPRpebUTRpT533G9shL/40bibPKFRJ2IDavp
+ URt7f4F+O60m2iTtk0y20hC8bA==
+X-Google-Smtp-Source: AA0mqf5YORHL5xhY4w8QqEjEt6mP1L5AvXuK5wuAdacXYewzC1TfB6Hz/F541WQCWirzdXPkyQskLA==
+X-Received: by 2002:a19:7b0f:0:b0:4a2:3bed:2008 with SMTP id
+ w15-20020a197b0f000000b004a23bed2008mr22732329lfc.88.1669853223337; 
+ Wed, 30 Nov 2022 16:07:03 -0800 (PST)
 Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
  (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
  by smtp.gmail.com with ESMTPSA id
- f33-20020a0565123b2100b00494643db68fsm423005lfv.81.2022.11.30.15.58.12
+ d10-20020a0565123d0a00b004b4b90a6992sm426023lfv.95.2022.11.30.16.07.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Nov 2022 15:58:13 -0800 (PST)
-Message-ID: <50405292-d6c1-d9ee-20fe-46f4feee6d9c@linaro.org>
-Date: Thu, 1 Dec 2022 01:58:12 +0200
+ Wed, 30 Nov 2022 16:07:03 -0800 (PST)
+Message-ID: <7bf73466-e476-4a1d-5dc0-1b63ea742226@linaro.org>
+Date: Thu, 1 Dec 2022 02:07:02 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
-Subject: Re: [PATCH v6 2/4] drm/msm/dp: parser data-lanes as property of
- dp_out endpoint
+Subject: Re: [PATCH v6 1/4] arm64: dts: qcom: add data-lanes and
+ link-freuencies into dp_out endpoint
 Content-Language: en-GB
 To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
  robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
  dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@linux.ie,
  agross@kernel.org, bjorn.andersson@linaro.org
 References: <1669852310-22360-1-git-send-email-quic_khsieh@quicinc.com>
- <1669852310-22360-3-git-send-email-quic_khsieh@quicinc.com>
+ <1669852310-22360-2-git-send-email-quic_khsieh@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1669852310-22360-3-git-send-email-quic_khsieh@quicinc.com>
+In-Reply-To: <1669852310-22360-2-git-send-email-quic_khsieh@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -87,78 +87,120 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 01/12/2022 01:51, Kuogee Hsieh wrote:
-> Add capability to parser data-lanes as property of dp_out endpoint.
-> Also retain the original capability to parser data-lanes as property
-> of mdss_dp node to handle legacy case.
+> Move data-lanes property from mdss_dp node to dp_out endpoint. Also
+> add link-frequencies property into dp_out endpoint as well. The last
+> frequency specified at link-frequencies will be the max link rate
+> supported by DP.
+> 
+> Changes in v5:
+> -- revert changes at sc7180.dtsi and sc7280.dtsi
+> -- add &dp_out to sc7180-trogdor.dtsi and sc7280-herobrine.dtsi
 > 
 > Changes in v6:
-> -- first patch after split parser patch into two
+> -- add data-lanes and link-frequencies to yaml
 > 
 > Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 > ---
->   drivers/gpu/drm/msm/dp/dp_parser.c | 30 +++++++++++++++++++++++-------
->   1 file changed, 23 insertions(+), 7 deletions(-)
+>   .../devicetree/bindings/display/msm/dp-controller.yaml  | 17 +++++++++++++++++
+
+Separate patch. Also you didn't check the get_maintainers output, so 
+required parties were not included into the distribution.
+
+Also as you'd check the get_maintainers output, please fix other email 
+addresses too.
+
+>   arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi            |  6 +++++-
+>   arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi          |  6 +++++-
+>   3 files changed, 27 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c b/drivers/gpu/drm/msm/dp/dp_parser.c
-> index dd73221..b06ff60 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_parser.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_parser.c
-> @@ -94,16 +94,32 @@ static int dp_parser_ctrl_res(struct dp_parser *parser)
->   static int dp_parser_misc(struct dp_parser *parser)
->   {
->   	struct device_node *of_node = parser->pdev->dev.of_node;
-> -	int len;
-> +	struct device_node *endpoint;
-> +	int cnt;
+> diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> index 94bc6e1..af70343 100644
+> --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> @@ -90,6 +90,20 @@ properties:
+>           $ref: /schemas/graph.yaml#/properties/port
+>           description: Output endpoint of the controller
+>   
+> +        properties:
+> +          endpoint:
+> +            $ref: /schemas/media/video-interfaces.yaml#
 > +
-> +	/*
-> +	 * legacy code, data-lanes is the property of mdss_dp node
-> +	 */
-> +	cnt = drm_of_get_data_lanes_count(of_node, 1, DP_MAX_NUM_DP_LANES);
-> +	if (cnt > 0) {
-> +		parser->max_dp_lanes = cnt;
-> +		return 0;
-> +	}
+> +          properties:
+> +            link-frequencies: true
+> +            data-lanes: true
+
+No. Use $ref for both of them.
+
+> +
+> +          required:
+> +            - link-frequencies
+> +            - data-lanes
+
+No, they are not required.
+
+> +
+> +          additionalProperties: false
+> +
+
+deprecation of old data-lanes property?
+
+>   required:
+>     - compatible
+>     - reg
+> @@ -158,6 +172,9 @@ examples:
+>                   reg = <1>;
+>                   endpoint {
+>                       remote-endpoint = <&typec>;
+> +                    data-lanes = <1 2>;
+> +                    link-frequencies = /bits/ 64 <160000000 270000000
+> +                                                  540000000 810000000>;
+
+I guess the number of zeroes is wrong here. This is 160 MHz ... 810 Mhz, 
+rather than 1.6 GHz ... 8.1 GHz
+
+>                   };
+>               };
+>           };
+> diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
+> index 754d2d6..39f0844 100644
+> --- a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
+> @@ -812,7 +812,11 @@ hp_i2c: &i2c9 {
+>   	status = "okay";
+>   	pinctrl-names = "default";
+>   	pinctrl-0 = <&dp_hot_plug_det>;
+> -	data-lanes = <0 1>;
+> +};
+> +
+> +&dp_out {
+> +    data-lanes = <0  1>;
+> +    link-frequencies = /bits/ 64 <160000000 270000000 540000000>;
+
+Same comment here.
+
+>   };
 >   
-> -	len = drm_of_get_data_lanes_count(of_node, 1, DP_MAX_NUM_DP_LANES);
-> -	if (len < 0) {
-> -		DRM_WARN("Invalid property \"data-lanes\", default max DP lanes = %d\n",
-> -			 DP_MAX_NUM_DP_LANES);
-> -		len = DP_MAX_NUM_DP_LANES;
-> +	/*
-> +	 * data-lanes is the property of dp_out endpoint
-> +	 */
-> +	endpoint = of_graph_get_endpoint_by_regs(of_node, 1, 0); /* port@1 */
-> +	if (endpoint) {
-> +		cnt = of_property_count_u32_elems(endpoint, "data-lanes");
+>   &pm6150_adc {
+> diff --git a/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi b/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi
+> index 93e39fc..b7c343d 100644
+> --- a/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi
+> @@ -440,7 +440,11 @@ ap_i2c_tpm: &i2c14 {
+>   	status = "okay";
+>   	pinctrl-names = "default";
+>   	pinctrl-0 = <&dp_hot_plug_det>;
+> -	data-lanes = <0 1>;
+> +};
+> +
+> +&dp_out {
+> +	data-lanes = <0  1>;
+> +	link-frequencies = /bits/ 64 <160000000 270000000 540000000 810000000>;
 
-drm_of_get_data_lanes_count(), or better drm_of_get_data_lanes_count_ep().
+And here.
 
-Also please check new property first, then check the legacy one.
-
-So it would be:
-
-cnt = drm_of_get_data_lanes_count_ep();
-if (cnt < 0)
-     cnt = drm_of_get_data_lanes_count();
-if (cnt < 0) {
-     DRM_WARN(...);
-     cnt = DP_MAX_NUM_DP_LANES;
-}
-
-
-> +		if (cnt < 0)
-> +			parser->max_dp_lanes = DP_MAX_NUM_DP_LANES; /* 4 lanes */
-> +		else
-> +			parser->max_dp_lanes = cnt;
-> +	} else {
-> +		parser->max_dp_lanes = DP_MAX_NUM_DP_LANES; /* 4 lanes */
->   	}
+>   };
 >   
-> -	parser->max_dp_lanes = len;
->   	return 0;
->   }
->   
+>   &mdss_mdp {
 
 -- 
 With best wishes
