@@ -2,57 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 711BC63F52E
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 17:24:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48C4B63F549
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 17:29:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EAB910E63C;
-	Thu,  1 Dec 2022 16:24:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E4EA10E64D;
+	Thu,  1 Dec 2022 16:29:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com
- [IPv6:2001:4860:4864:20::29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1544710E63C;
- Thu,  1 Dec 2022 16:24:00 +0000 (UTC)
-Received: by mail-oa1-x29.google.com with SMTP id
- 586e51a60fabf-143ffc8c2b2so2731481fac.2; 
- Thu, 01 Dec 2022 08:24:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=KltAmapYpz63pHSS934XDuUCup563TiM194vCjhuy8E=;
- b=dhMBGMgjjGXudG2yJwPHJvjiMm0oe89iSDLss674ttuPG014RRPaD/1saawpqsgOb5
- B64o1My4Desw43I5WLnXYoUACE/NXEBDnUuB+nQqjwcOj/aK/qtivktSjg2f6QsmHAHp
- 5X9rjSj/2zwV///VjVRgX3w2a6tI5zJIp8Mm1iVw74WIMXWjM9dmOhlvNnsmVaLvkkPj
- S/o6tseLe82RugnCpWGBDXCitczR9e677/J/AAwhzMeSNOV7ngR+PtyWSvy6bLJHoUiQ
- ZhXJQpDFO9aWK90f/H2Ia1PE4u8tl0arXqYGskA2nizwQQyXJa1Uqp3Ln2bD0m28kh/C
- r9OQ==
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
+ [IPv6:2607:f8b0:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E957710E64D
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 16:28:57 +0000 (UTC)
+Received: by mail-pl1-x634.google.com with SMTP id b21so2117936plc.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Dec 2022 08:28:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=NULJjkkDDbdSsERAnRzT9LcMntrNe+itV9GHWWcAHGQ=;
+ b=jHxe8o7IqQYicrtapYsO4cQW0mO4p2391gxBZl79pyoKMM5DkCLDBcMBIqq7V7eIte
+ yw1fU1+7VSM5hqSJtlvMobcTOFS0Top53OEUigrrXa5P9LLf7GleFino7JevqufDR8Tr
+ ZlYt+5q6f2mQdwiInOoUj/IfvYXLOi2oRrNnU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=KltAmapYpz63pHSS934XDuUCup563TiM194vCjhuy8E=;
- b=ppAtC1RcD51dS7ML6vb9oQDTIeQgmkgmeKe4X2dTRgfqkNvHYr7XBsBgybO5MTDZgH
- fsWbm5iKXH0WDrRY/VvcyXLha1k1lM63APvkIzVp9ZJjlavrgXSkW3g+vTQga4MXQWk+
- uwjh4R7schmjwyiNU+ptUHlusxi9HcDZJejHleIGdIcoCWjXjKMAa0mnxufhV/u31i+z
- lHai2jVa3TMZt4wPpPhXyPYiVvOqQvv/qUgTUsX3T4cqlg/3LrpZ49dFzeaUWzv8Brie
- nBD+G3uWtcB0hOone/Y0XQZvmNm14HrhuyfmAyaFuO4VzH/A/4hM/qJkzLF9zKsyBZE9
- J1Zg==
-X-Gm-Message-State: ANoB5pn0vwJKhG2GAo1ex5Ki8bvvyqmbocE5ao28GiRfBJ225t5drQLP
- 0nTsjkiQLrog7VAaQo023ONlfLn56+8Kuqf+QOw=
-X-Google-Smtp-Source: AA0mqf7BBlikq4JHSEmVYt/WMn5IrbEFJXCqnlubbwten9TagjFWlXEEC/8TM5xBSFPYMY1B5j1ut1/j0/EerkW9IPk=
-X-Received: by 2002:a05:6870:2b05:b0:12d:58c1:33f9 with SMTP id
- ld5-20020a0568702b0500b0012d58c133f9mr28251793oab.46.1669911839290; Thu, 01
- Dec 2022 08:23:59 -0800 (PST)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NULJjkkDDbdSsERAnRzT9LcMntrNe+itV9GHWWcAHGQ=;
+ b=VwIr9yPHg/XoLpnxqKDBkmwfOtbG+xr6za14Ak8//iFqsRGKrJoqSn/lJdDcyuRBKe
+ DKS1o3ViBmfggV/APO3wJbTz6ZLkuW1/hIjdGCYdv5pfVi7APxkxbf8f8gSuAu99Iw1L
+ nNCS/n2Cpcr4k3VQWwBJCO7cX/yYDt21jQQHLNPoP/2AMaKLmuq5mkl6dgSfpU2xYvqN
+ AGf6LgrOSi5KBnFEflKJMpHs0zSv/aUtSGjH1S3PRa4xddXhNNXcDXrOJvIG35QI3oZ0
+ h0Xm+y6lfloEf81zf1dLsqfxLbn+zd1SpFJa5UePkKIwxRdjmhpkRiBxu62xqh+QdSWA
+ LvsQ==
+X-Gm-Message-State: ANoB5pmLoDeiaOLUhA2axO5LuHHj/C8Xms9MPkVxyxZifSGAobz+aihx
+ BxeJa7vMs2Ekj9uZScJL2PbzRA==
+X-Google-Smtp-Source: AA0mqf4TLkw8RXvISjBOYP98PMb+ndRd0Outhscrt55nV9R+iQT82xnY2zvdTWJuRyWLu8XZkppRqw==
+X-Received: by 2002:a17:903:452:b0:189:65c5:4508 with SMTP id
+ iw18-20020a170903045200b0018965c54508mr34400927plb.66.1669912137469; 
+ Thu, 01 Dec 2022 08:28:57 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id
+ a23-20020a63e417000000b00476c9df11fesm2719089pgi.68.2022.12.01.08.28.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Dec 2022 08:28:56 -0800 (PST)
+Date: Thu, 1 Dec 2022 08:28:55 -0800
+From: Kees Cook <keescook@chromium.org>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH 2/3] drm/modes: Use strscpy() to copy command-line mode
+ name
+Message-ID: <202212010828.CB164AA700@keescook>
+References: <20221128081938.742410-1-maxime@cerno.tech>
+ <20221128081938.742410-2-maxime@cerno.tech>
 MIME-Version: 1.0
-References: <20221201153820.257570-1-bellosilicio@gmail.com>
-In-Reply-To: <20221201153820.257570-1-bellosilicio@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 1 Dec 2022 11:23:47 -0500
-Message-ID: <CADnq5_NN08omJKjJC3rCSYY4oLzBJpJwhbf-wgfeHUAZ+BMbnw@mail.gmail.com>
-Subject: Re: [PATCH 0/3] amdgpu/drm: Documentation updates
-To: Peter Maucher <bellosilicio@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221128081938.742410-2-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,36 +69,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-doc@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied patches 1 and 3.  Patch 2 is not exactly correct, I'll send
-out an improved version of patch 2.
+On Mon, Nov 28, 2022 at 09:19:37AM +0100, Maxime Ripard wrote:
+> The mode name in struct drm_cmdline_mode can hold 32 characters at most,
+> which can easily get overrun. Switch to strscpy() to prevent such a
+> thing.
+> 
+> Reported-by: coverity-bot <keescook+coverity-bot@chromium.org>
+> Addresses-Coverity-ID: 1527354 ("Security best practices violations")
+> Fixes: a7ab155397dd ("drm/modes: Switch to named mode descriptors")
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-Thanks!
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-Alex
-
-On Thu, Dec 1, 2022 at 10:38 AM Peter Maucher <bellosilicio@gmail.com> wrote:
->
-> Explain difference between gttsize and gartsize
-> module parameters, and amend related documentation.
-> Also, amdgpu does support RDNA GPUs.
->
->
-> Peter Maucher (3):
->   drm/amdgpu: improve GART and GTT documentation
->   drm/amdgpu: add GART and GTT to glossary
->   drm/amdgpu: mention RDNA support in docu
->
->  Documentation/gpu/amdgpu/amdgpu-glossary.rst |  6 ++++++
->  Documentation/gpu/amdgpu/index.rst           |  2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c      | 11 ++++++-----
->  3 files changed, 13 insertions(+), 6 deletions(-)
->
-> --
-> 2.38.1
->
+-- 
+Kees Cook
