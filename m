@@ -1,55 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A23B463F970
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 21:52:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 953A663F97D
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 21:59:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2F7010E15F;
-	Thu,  1 Dec 2022 20:52:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC0A510E165;
+	Thu,  1 Dec 2022 20:59:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA9A610E15F
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 20:52:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202112;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Iw4M20rqbNVbmQFKPo6bE6N49hfuMUJ9mnmSv6HBv9U=; b=dG/fKXvoDMLcx0VcxBIANH6SDH
- SQEytzRP2PqabDUPlBfd5Bc8gf5Jwa3aMrEV+2crFMDG25RkaZNN0gBtZQvSVVHQuHf8//Ir55mLm
- EhTa0Mqj6dZdp01/DbhQmXxgscLH0vqXbR889zdWMTEqcUi8eKLImN2Ng3fn3me5F5kxPUI3VaGJw
- zjOskKZ4og8y+9nUjX3tkkc5p1poEVphZ9mjPmcKHYQAtCyEBorg3JtH0Kr5yRnF15G3iPs4x7p8u
- 5hr+B0oZJrPQfYWlcIQeaHR2m/W0Hu5hwpB+hYiRyCq1EndGViptnsG/Xh0FyGphgkC0QrEVlTGzf
- CvMdaY8w==;
-Received: from [2a01:799:95e:1700:6395:ccbd:d000:d42b] (port=53059)
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1p0qXX-0002sW-NP; Thu, 01 Dec 2022 21:52:15 +0100
-Message-ID: <568aa7a3-2b23-a2d9-5be2-859227be02a7@tronnes.org>
-Date: Thu, 1 Dec 2022 21:52:12 +0100
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1940210E165;
+ Thu,  1 Dec 2022 20:59:49 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2B1IvkNo002451; Thu, 1 Dec 2022 20:59:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=XDgYg3w9shpU1glhcMgxaWYoqR5vgNCgIMuxjynzP7o=;
+ b=R+ms/Ci2pyX8uyiIZoHVv7bJYDBKzVte/W8xeeyAc3R+XLmeOPAIo67YqQqLf0NUEnAA
+ KVkVa0s3WynAo1aOxlxGNYP7i8a3XZPZWxsRU3PSwgBt8nXsCIWQNnPOk10Att3pENSt
+ +NkVgQoecNJrP2PG8F4t0rtieuZRqwqn+5AaZckZMGAkSbB3PR4MymHMvH7JScfL4OMf
+ lzLaZZ8lr6WZ5NrKCQH+7wOxii+/+qeIYQS8SwipQ8HoLOl8LSlW1WyVFaDBMWocctIN
+ Gyse8Bs9I+hHd1VAbFtOfzWJqf4DA6Ot4N2pPpM8XfLJJj+/biUNm+zIMWy0xAwzpPGI NQ== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3m6k6jum8c-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 01 Dec 2022 20:59:42 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2B1Kxfvp022383
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 1 Dec 2022 20:59:41 GMT
+Received: from [10.110.18.228] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Thu, 1 Dec 2022
+ 12:59:39 -0800
+Message-ID: <ba417e4f-d80f-aa7b-6d0a-ee9d72be4e65@quicinc.com>
+Date: Thu, 1 Dec 2022 12:59:39 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
-Subject: Re: [PATCH v2 0/6] drm/gud: Use the shadow plane helper
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
- Javier Martinez Canillas <javierm@redhat.com>
-References: <20221122-gud-shadow-plane-v2-0-435037990a83@tronnes.org>
- <Y4hB5odv9IGaq3Di@kroah.com>
- <1cb40762-5f0a-1739-1670-155f59ec7110@tronnes.org>
- <Y4iaODY6hMVNsfP1@kroah.com>
- <4e75582c-b3d6-fb0e-19b4-e4fd58c6bf55@tronnes.org>
- <Y4iqR94aGFa3NahQ@kroah.com>
- <e57deac6-5344-3f81-8ef5-55dd28b8c363@redhat.com>
- <20221201141642.uvonbrny4rhuacl5@meerkat.local>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20221201141642.uvonbrny4rhuacl5@meerkat.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v6 1/4] arm64: dts: qcom: add data-lanes and
+ link-freuencies into dp_out endpoint
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
+ <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
+ <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@linux.ie>,
+ <agross@kernel.org>, <bjorn.andersson@linaro.org>
+References: <1669852310-22360-1-git-send-email-quic_khsieh@quicinc.com>
+ <1669852310-22360-2-git-send-email-quic_khsieh@quicinc.com>
+ <7bf73466-e476-4a1d-5dc0-1b63ea742226@linaro.org>
+ <29d12e26-b3c8-dbf6-de1f-5c6ae4a5a705@linaro.org>
+ <f03233b4-2850-c206-724c-0b6568b6a876@quicinc.com>
+ <4ff2a5f9-1fc9-a431-b5f1-f65df7e47caa@linaro.org>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <4ff2a5f9-1fc9-a431-b5f1-f65df7e47caa@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: XEN-oko8Avm_18G1lCVZuKLmUNVTrzGX
+X-Proofpoint-GUID: XEN-oko8Avm_18G1lCVZuKLmUNVTrzGX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-01_14,2022-12-01_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 malwarescore=0
+ phishscore=0 clxscore=1015 priorityscore=1501 mlxscore=0 suspectscore=0
+ lowpriorityscore=0 impostorscore=0 spamscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212010161
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,50 +92,177 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- tools@linux.kernel.org
+Cc: linux-arm-msm@vger.kernel.org, quic_sbillaka@quicinc.com,
+ freedreno@lists.freedesktop.org, quic_abhinavk@quicinc.com,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-
-Den 01.12.2022 15.16, skrev Konstantin Ryabitsev:
-> On Thu, Dec 01, 2022 at 02:34:41PM +0100, Javier Martinez Canillas wrote:
->>>> Konstantin,
+On 12/1/2022 9:49 AM, Dmitry Baryshkov wrote:
+> On 01/12/2022 19:32, Kuogee Hsieh wrote:
+>>
+>> On 11/30/2022 4:21 PM, Dmitry Baryshkov wrote:
+>>> On 01/12/2022 02:07, Dmitry Baryshkov wrote:
+>>>> On 01/12/2022 01:51, Kuogee Hsieh wrote:
+>>>>> Move data-lanes property from mdss_dp node to dp_out endpoint. Also
+>>>>> add link-frequencies property into dp_out endpoint as well. The last
+>>>>> frequency specified at link-frequencies will be the max link rate
+>>>>> supported by DP.
+>>>>>
+>>>>> Changes in v5:
+>>>>> -- revert changes at sc7180.dtsi and sc7280.dtsi
+>>>>> -- add &dp_out to sc7180-trogdor.dtsi and sc7280-herobrine.dtsi
+>>>>>
+>>>>> Changes in v6:
+>>>>> -- add data-lanes and link-frequencies to yaml
+>>>>>
+>>>>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>>>>> ---
+>>>>>   .../devicetree/bindings/display/msm/dp-controller.yaml | 17 
+>>>>> +++++++++++++++++
 >>>>
->>>> Can you add a rule in b4 to exclude stable@vger.kernel.org
->>>> (stable@kernel.org as well?) from getting the whole patchset?
+>>>> Separate patch. Also you didn't check the get_maintainers output, 
+>>>> so required parties were not included into the distribution.
+>>>>
+>>>> Also as you'd check the get_maintainers output, please fix other 
+>>>> email addresses too.
+>>>>
+>>>>> arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi |  6 +++++-
+>>>>>   arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi |  6 +++++-
+>>>>>   3 files changed, 27 insertions(+), 2 deletions(-)
+>>>>>
+>>>>> diff --git 
+>>>>> a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml 
+>>>>> b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+>>>>> index 94bc6e1..af70343 100644
+>>>>> --- 
+>>>>> a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+>>>>> +++ 
+>>>>> b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+>>>>> @@ -90,6 +90,20 @@ properties:
+>>>>>           $ref: /schemas/graph.yaml#/properties/port
+>>>>>           description: Output endpoint of the controller
+>>>>> +        properties:
+>>>>> +          endpoint:
+>>>>> +            $ref: /schemas/media/video-interfaces.yaml#
+>>>>> +
+>>>>> +          properties:
+>>>>> +            link-frequencies: true
+>>>>> +            data-lanes: true
+>>>>
+>>>> No. Use $ref for both of them.
+>>>>
+>>>>> +
+>>>>> +          required:
+>>>>> +            - link-frequencies
+>>>>> +            - data-lanes
+>>>>
+>>>> No, they are not required.
+>>>>
+>>>>> +
+>>>>> +          additionalProperties: false
+>>>>> +
+>>>>
+>>>> deprecation of old data-lanes property?
+>>>>
+>>>>>   required:
+>>>>>     - compatible
+>>>>>     - reg
+>>>>> @@ -158,6 +172,9 @@ examples:
+>>>>>                   reg = <1>;
+>>>>>                   endpoint {
+>>>>>                       remote-endpoint = <&typec>;
+>>>>> +                    data-lanes = <1 2>;
+>>>>> +                    link-frequencies = /bits/ 64 <160000000 
+>>>>> 270000000
 >>>
->>> stable@kernel.org is a pipe to /dev/null so that's not needed to be
->>> messed with.
+>>> s/1600/1620
 >>>
->>> As for this needing special casing in b4, it's rare that you send out a
->>> patch series and only want 1 or 2 of them in stable, right?
+>>>>> + 540000000 810000000>;
+>>>>
+>>>> I guess the number of zeroes is wrong here. This is 160 MHz ... 810 
+>>>> Mhz, rather than 1.6 GHz ... 8.1 GHz
 >>>
+>>> Ok, I was wrong here. The old code definitely defaults to 570 
+>>> mega-something. Now I'd really like to read your description for the 
+>>> link-frequencies property, because the 
+>>> phy_configure_opts_dp::link_rate is clearly specified in Mb/s and it 
+>>> takes a fixed set of values from 1.62 Gb/s up to 8.1 Gb/s.
+>>>
+>>> I think the drm_dp_bw_code_to_link_rate() function is incorrect by 
+>>> itself, as it multiplies with 27000 (27 Mbps) rather than 270000 
+>>> (0.27 Gbps) as required by the standard. So first, we should fix the 
+>>> function, then all the rates would become logical.
 >>
->> Not really, it's very common for a patch-series to contain fixes (that could
->> go to stable if applicable) and change that are not suitable for stable. The
->> problem as Noralf mentioned is that the b4 tool doesn't seem to allow Cc'ing
->> individual patches to different recipients, and everyone get the whole set.
+>> no, drm_dp_bw_code_to_link_rate() is correct and should not be 
+>> changes since it impact to other dp drivers too.
 >>
->> So either b4 needs to have this support, exclude stable@vger.kernel.org when
->> sending a set or stable@vger.kernel.org ignore patches without a Fixes: tag.
-> 
-> I think what I can do is a special logic for Cc: trailers:
-> 
-> - Any Cc: trailers we find in the cover letter receive the entire series
-> - Any Cc: trailers in individual patches only receive these individual patches
-> 
+>> 0.27Gbps/lane is specified at DP spec.
+>>
+>> DP use 8b/10b coding rule (10 bits symbol contains 8 bits data).
+>
+> At least it should get documentation that it returns Kylo-bytes per 
+> second.
+>
+> But, getting back to link-frequencies. The documentation clearly says 
+> that it should be allowed data bus _frequencies_. And frequencies are 
+> measured in Hz, not in bits/sec or bytes/sec.
 
-That should cover my use cases. I can now do 'b4 prep --auto-to-cc' and
-then trim down the cc list in the cover letter if necessary.
+ok, in the case, we can specify link frequency (symbol rate), such as 
+81000000000 (8.1G hz), at dtsi to match link-frequencies cocumentation.
 
-> Thank you for being patient -- we'll get this right, I promise.
-> 
+then at parser, we have to divided by 10 to convert back to link rate 
+and then divided by 1000 to  convert to kb.
 
-Thanks for getting it right. b4 can replace parts of my own tooling and
-do it smoother so I think I'll continue to use it.
+is this work for you?
 
-Noralf.
+>
+>
+>>>>>                   };
+>>>>>               };
+>>>>>           };
+>>>>> diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi 
+>>>>> b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
+>>>>> index 754d2d6..39f0844 100644
+>>>>> --- a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
+>>>>> +++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
+>>>>> @@ -812,7 +812,11 @@ hp_i2c: &i2c9 {
+>>>>>       status = "okay";
+>>>>>       pinctrl-names = "default";
+>>>>>       pinctrl-0 = <&dp_hot_plug_det>;
+>>>>> -    data-lanes = <0 1>;
+>>>>> +};
+>>>>> +
+>>>>> +&dp_out {
+>>>>> +    data-lanes = <0  1>;
+>>>>> +    link-frequencies = /bits/ 64 <160000000 270000000 540000000>;
+>>>>
+>>>> Same comment here.
+>>>>
+>>>>>   };
+>>>>>   &pm6150_adc {
+>>>>> diff --git a/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi 
+>>>>> b/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi
+>>>>> index 93e39fc..b7c343d 100644
+>>>>> --- a/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi
+>>>>> +++ b/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi
+>>>>> @@ -440,7 +440,11 @@ ap_i2c_tpm: &i2c14 {
+>>>>>       status = "okay";
+>>>>>       pinctrl-names = "default";
+>>>>>       pinctrl-0 = <&dp_hot_plug_det>;
+>>>>> -    data-lanes = <0 1>;
+>>>>> +};
+>>>>> +
+>>>>> +&dp_out {
+>>>>> +    data-lanes = <0  1>;
+>>>>> +    link-frequencies = /bits/ 64 <160000000 270000000 540000000 
+>>>>> 810000000>;
+>>>>
+>>>> And here.
+>>>>
+>>>>>   };
+>>>>>   &mdss_mdp {
+>>>>
+>>>
+>
