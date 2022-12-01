@@ -2,75 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A91E63ECA5
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 10:39:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1499163ECC5
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 10:45:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8129C10E582;
-	Thu,  1 Dec 2022 09:39:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5857A10E59B;
+	Thu,  1 Dec 2022 09:45:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61AD610E582
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 09:38:58 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id z92so1632653ede.1
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Dec 2022 01:38:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=7t9ZrLLQSDRq9AIwJu2BnegciMpPDsrwOM0+JjQaOx4=;
- b=iYjBDHGhNsgUIDWZGS0eXyNBSD8Mbuho5BHya7TYoNRdWarQxDVa89hNx8hCWauYNR
- eDFqfyrt9/RVUkpvqB+HP5TX9TGl6V0PiJfXMm+4236qMirCRSfDWI1FTU0A9wuOK3Nc
- rZFlcDIyT2i57NTyuT6M5CKeHkjxQ6vt2MpDw=
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com
+ [209.85.160.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB76310E59B
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 09:45:19 +0000 (UTC)
+Received: by mail-qt1-f173.google.com with SMTP id h24so611085qta.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Dec 2022 01:45:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=7t9ZrLLQSDRq9AIwJu2BnegciMpPDsrwOM0+JjQaOx4=;
- b=scvxymTLC9O9g9PhuPmPkEyrYn/x9dCXGQXNqq4XzY0xRzsTd39b5HkRaoL0FdM735
- 255mLwoXXM3mjoP2E/80tdyRALyaFTnkGRgUUfL8aT9+DmgTZXfXVX/VN/fsY4s9Kvy6
- 7LBOCqxFuj/NI4wd0CXbg1yoWk58w5ocn4FMBxVlaHoTN0iREbhOC0L9JSzVaj9Ske8N
- L3SDTTdCm82TM3KyC3afJ4wXz3uCZhG76Uqco203qKKWwQ5uMi+fEguwcxG9owpLT5Lx
- +/Fxxv5ODvUp4ywqeYHwDIIe0nzwrYV+X8FG64HljKbtH5tb/8M7YoifoSbbTbEtr/C9
- IZQw==
-X-Gm-Message-State: ANoB5pkSdd4h1N96ojN/P4T6aDcGRfR9jDR8UkygfLI9lbxRtUu34iuh
- dAGTLWNajFLOAlkDg9KuDjk0kQ==
-X-Google-Smtp-Source: AA0mqf4VXxeyQi4gb01ntcYKaFqwkjzYT1Z7Koygl2V0WNI6eZBrixP7Xx5zTR3IBO8OneObHs3zmA==
-X-Received: by 2002:a05:6402:f91:b0:469:82f7:5013 with SMTP id
- eh17-20020a0564020f9100b0046982f75013mr47621369edb.234.1669887536443; 
- Thu, 01 Dec 2022 01:38:56 -0800 (PST)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- oz36-20020a1709077da400b0078d21574986sm1566185ejc.203.2022.12.01.01.38.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Dec 2022 01:38:54 -0800 (PST)
-Date: Thu, 1 Dec 2022 10:38:52 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Randy Li <ranl@synaptics.com>
-Subject: Re: [PATCH v5 1/2] drm/fourcc: Add Synaptics VideoSmart tiled
- modifiers
-Message-ID: <Y4h2LFfDLZjC+JVc@phenom.ffwll.local>
-Mail-Followup-To: Randy Li <ranl@synaptics.com>,
- Hsia-Jun Li <randy.li@synaptics.com>,
- dri-devel@lists.freedesktop.org, nicolas@ndufresne.ca,
- sakari.ailus@linux.intel.com, airlied@linux.ie, ayaka@soulik.info,
- linux-kernel@vger.kernel.org, tfiga@chromium.org,
- helen.koike@collabora.com, linux-media@vger.kernel.org,
- ezequiel@vanguardiasur.com.ar, tzimmermann@suse.de,
- ribalda@chromium.org, sebastian.hesselbarth@gmail.com,
- mchehab@kernel.org, linux-arm-kernel@lists.infradead.org,
- laurent.pinchart@ideasonboard.com
-References: <Y4c+5f3qZd6Epd1C@phenom.ffwll.local>
- <0D62976C-77E2-4748-AA90-C50D5E2CA48C@synaptics.com>
+ bh=DVLegIJETL5mJ+MPOGcfKwPn4HailtVISKdkup4URCc=;
+ b=Um318GeOVqspiBa3mayGGgVgfTfblsWMb+NjUrfq8nB+Ix0LeTu4c/+U4wvyC7hKuw
+ QtfDw6zxEIm7eMbXQsZ/EN81mCkdqqxuFmIG2cotMDHYE1BD7bdhoTJUpkNcDBVC6DnA
+ wBojIO1YQmatD0mmAN8F4f3FzAzNjSMPp1R+sdgZXvBA/d+C303VHIDPlrOJTCTXegse
+ eHRT7ZOpiygOtXxeU8FKakXLMppn/84Iv2IL1e/2lSGUlj1KfmCAnslaqBvIsUybjH5k
+ jm0j2t7/t0lvWGn+gRStLSXqOSUe1MvXvXgtBYSFFJcMzO5ObK149nKR0NBys0sPyCeP
+ tsvQ==
+X-Gm-Message-State: ANoB5pkfc41N4oZiKvbDMHfrhOFF7H3XmJ7ZULc7OL16dqS671aHT4r6
+ Z0zt0rcdKn6BSqDho6CW8fhRVCaUcUY1rw==
+X-Google-Smtp-Source: AA0mqf5eebhxIfoY78Q3NACTgQHJC1uYs+/YeH+P2/rGPT/rFzWaBGYSBIzigP2VlbmY2Qq68/6/jg==
+X-Received: by 2002:a05:622a:174b:b0:3a5:8668:988b with SMTP id
+ l11-20020a05622a174b00b003a58668988bmr46018605qtk.184.1669887918751; 
+ Thu, 01 Dec 2022 01:45:18 -0800 (PST)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com.
+ [209.85.128.175]) by smtp.gmail.com with ESMTPSA id
+ w3-20020ac87183000000b0039cd4d87aacsm2281996qto.15.2022.12.01.01.45.17
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Dec 2022 01:45:17 -0800 (PST)
+Received: by mail-yw1-f175.google.com with SMTP id
+ 00721157ae682-3c090251d59so11604387b3.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Dec 2022 01:45:17 -0800 (PST)
+X-Received: by 2002:a81:f80f:0:b0:38e:e541:d8ca with SMTP id
+ z15-20020a81f80f000000b0038ee541d8camr59315565ywm.283.1669887917015; Thu, 01
+ Dec 2022 01:45:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0D62976C-77E2-4748-AA90-C50D5E2CA48C@synaptics.com>
-X-Operating-System: Linux phenom 5.19.0-2-amd64 
+References: <20221123065946.40415-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20221123065946.40415-4-tomi.valkeinen+renesas@ideasonboard.com>
+ <CAMuHMdUjCS6q44XmTanu=R68GyuVECLa0B-1AFg1CUD_oV4DuA@mail.gmail.com>
+ <5598c7f8-b47e-338d-e2e3-f62a44903634@ideasonboard.com>
+In-Reply-To: <5598c7f8-b47e-338d-e2e3-f62a44903634@ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 1 Dec 2022 10:45:05 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXbnPZSxGjk=9GXRj7mxqbNoaJ_jtiJHEq5cLwMshy3uw@mail.gmail.com>
+Message-ID: <CAMuHMdXbnPZSxGjk=9GXRj7mxqbNoaJ_jtiJHEq5cLwMshy3uw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/7] clk: renesas: r8a779g0: Add display related clocks
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,172 +70,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mchehab@kernel.org, laurent.pinchart@ideasonboard.com, airlied@linux.ie,
- tzimmermann@suse.de, ayaka@soulik.info, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, nicolas@ndufresne.ca,
- Hsia-Jun Li <randy.li@synaptics.com>, helen.koike@collabora.com,
- ezequiel@vanguardiasur.com.ar, sakari.ailus@linux.intel.com,
- ribalda@chromium.org, sebastian.hesselbarth@gmail.com, tfiga@chromium.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>, dri-devel@lists.freedesktop.org,
+ Jonas Karlman <jonas@kwiboo.se>, Magnus Damm <magnus.damm@gmail.com>,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 01, 2022 at 12:49:16AM +0800, Randy Li wrote:
-> 
-> 
-> Sent from my iPad
-> 
-> > On Nov 30, 2022, at 7:30 PM, Daniel Vetter <daniel@ffwll.ch> wrote:
-> > 
-> > ﻿CAUTION: Email originated externally, do not click links or open attachments unless you recognize the sender and know the content is safe.
-> > 
-> > 
-> >> On Wed, Nov 30, 2022 at 05:21:48PM +0800, Hsia-Jun Li wrote:
-> >> From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
-> >> 
-> >> Those modifiers only record the parameters would effort pixel
-> >> layout or memory layout. Whether physical memory page mapping
-> >> is used is not a part of format.
-> >> 
-> >> Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com>
-> >> ---
-> >> include/uapi/drm/drm_fourcc.h | 76 +++++++++++++++++++++++++++++++++++
-> >> 1 file changed, 76 insertions(+)
-> >> 
-> >> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-> >> index bc056f2d537d..e0905f573f43 100644
-> >> --- a/include/uapi/drm/drm_fourcc.h
-> >> +++ b/include/uapi/drm/drm_fourcc.h
-> >> @@ -407,6 +407,7 @@ extern "C" {
-> >> #define DRM_FORMAT_MOD_VENDOR_ARM     0x08
-> >> #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
-> >> #define DRM_FORMAT_MOD_VENDOR_AMLOGIC 0x0a
-> >> +#define DRM_FORMAT_MOD_VENDOR_SYNAPTICS 0x0b
-> >> 
-> >> /* add more to the end as needed */
-> >> 
-> >> @@ -1507,6 +1508,81 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
-> >> #define AMD_FMT_MOD_CLEAR(field) \
-> >>      (~((__u64)AMD_FMT_MOD_##field##_MASK << AMD_FMT_MOD_##field##_SHIFT))
-> >> 
-> >> +/*
-> >> + * Synaptics VideoSmart modifiers
-> >> + *
-> >> + * Tiles could be arranged in Groups of Tiles (GOTs), it is a small tile
-> >> + * within a tile. GOT size and layout varies based on platform and
-> >> + * performance concern.
-> >> + *
-> >> + * Besides, an 8 length 4 bytes arrary (32 bytes) would be need to store
-> >> + * some compression parameters for a compression metadata plane.
-> >> + *
-> >> + * Further information can be found in
-> >> + * Documentation/gpu/synaptics.rst
-> >> + *
-> >> + *       Macro
-> >> + * Bits  Param Description
-> >> + * ----  ----- -----------------------------------------------------------------
-> >> + *
-> >> + *  7:0  f     Scan direction description.
-> >> + *
-> >> + *               0 = Invalid
-> >> + *               1 = V4, the scan would always start from vertical for 4 pixel
-> >> + *                   then move back to the start pixel of the next horizontal
-> >> + *                   direction.
-> >> + *               2 = Reserved for future use.
-> >> + *
-> >> + * 15:8  m     The times of pattern repeat in the right angle direction from
-> >> + *             the first scan direction.
-> >> + *
-> >> + * 19:16 p     The padding bits after the whole scan, could be zero.
-> >> + *
-> >> + * 20:20 g     GOT packing flag.
-> >> + *
-> >> + * 23:21 -     Reserved for future use.  Must be zero.
-> > 
-> > Can you pls fold all the future use reservations into the top end?
-> You see we could put more related flag in each of reserved area.
-> Here is for the group of tiles flag.
-> Bit 35 to 32 could be used for describing the dimension of the group of tiles.
+Hi Tomi,
 
-Oh also on the dimension thing, this is the tile size and has nothing to
-do with the overall buffer size, right? Because the overall buffer size is
-meant to be carried in separate metadata (like the drm_framebuffer
-structure or ADDFB2 ioctl data). drm fourcc/modifier assume that height,
-width, offset and stride are specified per plane already (unless the
-auxiary plane has a fixed layout and is not tracked as a separate plane
-for this format).
+On Thu, Dec 1, 2022 at 10:26 AM Tomi Valkeinen
+<tomi.valkeinen+renesas@ideasonboard.com> wrote:
+> On 30/11/2022 21:18, Geert Uytterhoeven wrote:
+> > On Wed, Nov 23, 2022 at 8:00 AM Tomi Valkeinen
+> > <tomi.valkeinen+renesas@ideasonboard.com> wrote:
+> >> Add clocks related to display which are needed to get the DSI output
+> >> working.
+> >>
+> >> Extracted from Renesas BSP tree.
+> >>
+> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> >> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> >> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> > Also I
-> > think it'd be good to at least reserve maybe the top 8 bits or so for a
-> > synaptics specific format indicator, so that it's easier to extend this in
-> > the future ...
-> I think the  bit 56 to 63 are used for storing the vendor id. That is why I didn’t include them below. Or you mean the bit 7 to 0?
-> Do yo
+> >> --- a/drivers/clk/renesas/r8a779g0-cpg-mssr.c
+> >> +++ b/drivers/clk/renesas/r8a779g0-cpg-mssr.c
 
-Yeah there's 8 bit vendor id, but you could reserve another 8 bit at the
-top (so 48:55 or something like that) to enumerate within the synaptics
-space. Just to future proof the schema, because experience says that hw
-engineers absolutely do love to change this stuff eventually.
--Daniel
+> >> +       DEF_MOD("dis0",                 411,    R8A779G0_CLK_S0D3),
+> >
+> > I doubt this parent clock is correct.
+> > Based on Table 8.1.4e ("Lists of CPG clocks generated from PLL5"),
+> > this should be one of the VIOBUS clocks.
+> > VIOBUSD2 has the same rate as S0D3, so I'd use that one.
+> >
+> >> +       DEF_MOD("dsitxlink0",           415,    R8A779G0_CLK_DSIREF),
+> >> +       DEF_MOD("dsitxlink1",           416,    R8A779G0_CLK_DSIREF),
+>
+> Now that you started questioning about the clocks, I started to wonder
+> about the DSI clocks. They don't quite make sense to me, but here also I
+> just assumed it's "fine" as I copied it and it works.
+>
+> The VIOBUS & VIOBUSD2 are marked to as going to the DSI. But we don't
+> actually mark any of the DSI clocks as coming from those sources.
+>
+> DSIREF is quite clear, it's the source for DSI PLL.
+>
+> DSIEXT goes to the DSI PHY and is also marked to be used for LP-TX.
+>
+> In the DT we have now:
+>
+> clocks = <&cpg CPG_MOD 415>,
+>          <&cpg CPG_CORE R8A779G0_CLK_DSIEXT>,
+>          <&cpg CPG_CORE R8A779G0_CLK_DSIREF>;
+> clock-names = "fck", "dsi", "pll";
+>
+> The "dsi" clock name is a bit vague, but maybe it's "not fclk, not pll,
+> but still needed for dsi"? =)
+>
+> Is it ok to refer to DSIEXT & DSIREF like that, or should they be in the
 
-> > -Daniel
-> > 
-> > 
-> >> + *
-> >> + * 27:24 h     log2(horizontal) of pixels, in GOTs.
-> >> + *
-> >> + * 31:28 v     log2(vertical) of pixels, in GOTs.
-> >> + *
-> >> + * 35:32 -     Reserved for future use.  Must be zero.
-> >> + *
-> >> + * 36:36 c     Compression flag.
-> >> + *
-> >> + * 55:37 -     Reserved for future use.  Must be zero.
-> >> + *
-> >> + */
-> >> +
-> >> +#define DRM_FORMAT_MOD_SYNA_V4_TILED         fourcc_mod_code(SYNAPTICS, 1)
-> >> +
-> >> +#define DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(f, m, p, g, h, v, c) \
-> >> +     fourcc_mod_code(SYNAPTICS, ((__u64)((f) & 0xff) | \
-> >> +                              ((__u64)((m) & 0xff) << 8) | \
-> >> +                              ((__u64)((p) & 0xf) << 16) | \
-> >> +                              ((__u64)((g) & 0x1) << 20) | \
-> >> +                              ((__u64)((h) & 0xf) << 24) | \
-> >> +                              ((__u64)((v) & 0xf) << 28) | \
-> >> +                              ((__u64)((c) & 0x1) << 36)))
-> >> +
-> >> +#define DRM_FORMAT_MOD_SYNA_V4H1 \
-> >> +     DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 1, 0, 0, 0, 0, 0)
-> >> +
-> >> +#define DRM_FORMAT_MOD_SYNA_V4H3P8 \
-> >> +     DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 3, 8, 0, 0, 0, 0)
-> >> +
-> >> +#define DRM_FORMAT_MOD_SYNA_V4H1_64L4_COMPRESSED \
-> >> +     DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 1, 0, 1, 6, 2, 1)
-> >> +
-> >> +#define DRM_FORMAT_MOD_SYNA_V4H3P8_64L4_COMPRESSED \
-> >> +     DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 3, 8, 1, 6, 2, 1)
-> >> +
-> >> +#define DRM_FORMAT_MOD_SYNA_V4H1_128L128_COMPRESSED \
-> >> +     DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 1, 0, 1, 7, 7, 1)
-> >> +
-> >> +#define DRM_FORMAT_MOD_SYNA_V4H3P8_128L128_COMPRESSED \
-> >> +     DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 3, 8, 1, 7, 7, 1)
-> >> +
-> >> #if defined(__cplusplus)
-> >> }
-> >> #endif
-> >> --
-> >> 2.37.3
-> >> 
-> > 
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > https://urldefense.proofpoint.com/v2/url?u=http-3A__blog.ffwll.ch&d=DwIBAg&c=7dfBJ8cXbWjhc0BhImu8wVIoUFmBzj1s88r8EGyM0UY&r=P4xb2_7biqBxD4LGGPrSV6j-jf3C3xlR7PXU-mLTeZE&m=d1mgHWc-ItDXK9dSnz0WGYs9xoXTTk9LqbifMtn2LOxmaHHsc4ieCoE78BFkHI1i&s=8ptqPzTUwb3X3fBSyQA6nVAA6DchubUUsMRgmLIp1lY&e=
+Sounds fine to me.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> r8a779g0_mod_clks list? Or is that list for fclks only?
+
+That list is only for clocks which have a bit in an MSTPCR (module
+stop control register, Section 9.2.3).  These are typically controlled
+through the Clock Domain and Runtime PM (but not for the DU, as there
+is always only a single node in DT, even when the DU has multiple module
+clocks on R-Car Gen2/3).
+
+Actually our abstraction may be a bit off: sometimes that bit may gate
+multiple clocks leading to the module, but as that was never documented
+well, we settled on a single functional clock only, which is the most
+common case.
+
+> So the fclk in the dts is mod clock 415 (416 for the second dsi), which
+> is dsitxlink0 or dsitxlink1. Well, those names don't quite make sense if
+> it's a fclk.
+>
+> I would rename those clocks to "dsi0" and "dsi1", and source them from
+> R8A779G0_CLK_VIOBUSD2, similarly to the other video clocks.
+>
+> Does the above make sense?
+
+Please keep the names, as that's how they are called in Section 9.2.3.5
+("Module Stop Control Register 4 (MSTPCR4)").
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
