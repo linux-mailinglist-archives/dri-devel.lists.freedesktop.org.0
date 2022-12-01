@@ -1,65 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3893363EBAE
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 09:57:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B13A263EBBD
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 09:59:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D842E10E580;
-	Thu,  1 Dec 2022 08:57:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4227810E584;
+	Thu,  1 Dec 2022 08:59:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1D1910E580
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 08:57:44 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 61FAF1FD68;
- Thu,  1 Dec 2022 08:57:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1669885063; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=r3r/G118yWCUCKMAvV3TdBpIoB0vv3ug7jR2Uk6MT5M=;
- b=OD1qUak9GxsaQ+65Q35AbhFI/DmDbKqe3l+nrgbAsGhr/6gisCqyXuTSUB7s53yyzT7HSZ
- C6EheKapWtqT6GLo0cuTE3D8UybLChJEyUN084wP1tXusv/iSoCh5YbZO0WTp8WEEYPKRJ
- E8zzUTNeqn8gaphIkuARgZYAuJ7KoTk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1669885063;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=r3r/G118yWCUCKMAvV3TdBpIoB0vv3ug7jR2Uk6MT5M=;
- b=83dPlarRkbyBG10ReJuYsbKMRTmh6HPH8kp6peJB3rYv+C2uGCRtwQIwCZIu3MpeBHhmUq
- Qr8ZAX3/zcc9lWCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 40E7813B4A;
- Thu,  1 Dec 2022 08:57:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id h7TYDodsiGPtHgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 01 Dec 2022 08:57:43 +0000
-Message-ID: <0d3d4f86-456e-636f-3346-ced0fda70d09@suse.de>
-Date: Thu, 1 Dec 2022 09:57:42 +0100
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF5AE10E581;
+ Thu,  1 Dec 2022 08:59:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1669885188; x=1701421188;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=EKD1YnzkqOLL7mBRovOv+zLNtSaiR1pNPy8W6bFg7ws=;
+ b=K4SXrtBptsmXVfpuw5FW2/wsRIqA2lb8Y9zie7P0z5hcGcbMTs1mriXF
+ KZ2T56EHvwesUYw3IerRPf2zcp5xvgfeCbo096EIE8Q2kQwuVz9Fvi1VC
+ B2zQNH2bucBIK5ioQrV5S/pTyO5f/Trk/+S2aWPTcEy8FHU33IHdSrDBz
+ 0+AFH/tH8PgGCfu0LZ9DadOuCxv4SK5l3LlGtTsrJ/QiMtt+uDiJw2m40
+ VcIkmYb6sxvNIgHrbNUt0f6m1LBTmwylU7u53eg7edDQIX2aHjKcDecwn
+ 1/xyEvj1JW752GC4sw8KEYa/pBVYEa0TIRYr7NghhAl8ilCu3QSxcT9zf A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10547"; a="295990580"
+X-IronPort-AV: E=Sophos;i="5.96,209,1665471600"; d="scan'208";a="295990580"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Dec 2022 00:59:48 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10547"; a="818969737"
+X-IronPort-AV: E=Sophos;i="5.96,209,1665471600"; d="scan'208";a="818969737"
+Received: from aguefor-mobl.ger.corp.intel.com (HELO [10.213.229.22])
+ ([10.213.229.22])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Dec 2022 00:59:45 -0800
+Message-ID: <4f73fed7-9333-6450-e389-fd2b64a8f0e7@linux.intel.com>
+Date: Thu, 1 Dec 2022 08:59:43 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v2 6/6] drm/gud: Enable synchronous flushing by default
+ Thunderbird/102.4.2
+Subject: Re: [Intel-gfx] [PATCH v4 3/5] drm/i915: Introduce guard pages to
+ i915_vma
 Content-Language: en-US
-To: noralf@tronnes.org, Javier Martinez Canillas <javierm@redhat.com>,
- dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- stable@kernel.org
-References: <20221122-gud-shadow-plane-v2-0-435037990a83@tronnes.org>
- <20221122-gud-shadow-plane-v2-6-435037990a83@tronnes.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20221122-gud-shadow-plane-v2-6-435037990a83@tronnes.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------d4k2JfWaSjVHdrZfAy2Ag7ji"
+To: Andi Shyti <andi.shyti@linux.intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+References: <20221130235805.221010-1-andi.shyti@linux.intel.com>
+ <20221130235805.221010-4-andi.shyti@linux.intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20221130235805.221010-4-andi.shyti@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,96 +64,322 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------d4k2JfWaSjVHdrZfAy2Ag7ji
-Content-Type: multipart/mixed; boundary="------------nntQqSrxCqN4Dg4Wu4kPm0ou";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: noralf@tronnes.org, Javier Martinez Canillas <javierm@redhat.com>,
- dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- stable@kernel.org
-Message-ID: <0d3d4f86-456e-636f-3346-ced0fda70d09@suse.de>
-Subject: Re: [PATCH v2 6/6] drm/gud: Enable synchronous flushing by default
-References: <20221122-gud-shadow-plane-v2-0-435037990a83@tronnes.org>
- <20221122-gud-shadow-plane-v2-6-435037990a83@tronnes.org>
-In-Reply-To: <20221122-gud-shadow-plane-v2-6-435037990a83@tronnes.org>
 
---------------nntQqSrxCqN4Dg4Wu4kPm0ou
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On 30/11/2022 23:58, Andi Shyti wrote:
+> From: Chris Wilson <chris@chris-wilson.co.uk>
+> 
+> Introduce the concept of padding the i915_vma with guard pages before
+> and after. The major consequence is that all ordinary uses of i915_vma
+> must use i915_vma_offset/i915_vma_size and not i915_vma.node.start/size
+> directly, as the drm_mm_node will include the guard pages that surround
+> our object.
+> 
+> The biggest connundrum is how exactly to mix requesting a fixed address
+> with guard pages, particularly through the existing uABI. The user does
+> not know about guard pages, so such must be transparent to the user, and
+> so the execobj.offset must be that of the object itself excluding the
+> guard. So a PIN_OFFSET_FIXED must then be exclusive of the guard pages.
+> The caveat is that some placements will be impossible with guard pages,
+> as wrap arounds need to be avoided, and the vma itself will require a
+> larger node. We must not report EINVAL but ENOSPC as these are unavailable
+> locations within the GTT rather than conflicting user requirements.
+> 
+> In the next patch, we start using guard pages for scanout objects. While
+> these are limited to GGTT vma, on a few platforms these vma (or at least
+> an alias of the vma) is shared with userspace, so we may leak the
+> existence of such guards if we are not careful to ensure that the
+> execobj.offset is transparent and excludes the guards. (On such platforms
+> like ivb, without full-ppgtt, userspace has to use relocations so the
+> presence of more untouchable regions within its GTT such be of no further
+> issue.)
+> 
+> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> Signed-off-by: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/intel_ggtt.c     | 14 ++++++---
+>   drivers/gpu/drm/i915/i915_gem_gtt.h      |  3 +-
+>   drivers/gpu/drm/i915/i915_vma.c          | 40 +++++++++++++++++++-----
+>   drivers/gpu/drm/i915/i915_vma.h          |  5 +--
+>   drivers/gpu/drm/i915/i915_vma_resource.c |  4 +--
+>   drivers/gpu/drm/i915/i915_vma_resource.h |  7 ++++-
+>   drivers/gpu/drm/i915/i915_vma_types.h    |  1 +
+>   7 files changed, 57 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> index 7644738b9cdbe..784d4a8c43ba9 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> @@ -296,8 +296,11 @@ static void gen8_ggtt_insert_entries(struct i915_address_space *vm,
+>   	 */
+>   
+>   	gte = (gen8_pte_t __iomem *)ggtt->gsm;
+> -	gte += vma_res->start / I915_GTT_PAGE_SIZE;
+> -	end = gte + vma_res->node_size / I915_GTT_PAGE_SIZE;
+> +	gte += (vma_res->start - vma_res->guard) / I915_GTT_PAGE_SIZE;
+> +	end = gte + vma_res->guard / I915_GTT_PAGE_SIZE;
+> +	while (gte < end)
+> +		gen8_set_pte(gte++, vm->scratch[0]->encode);
+> +	end += (vma_res->node_size + vma_res->guard) / I915_GTT_PAGE_SIZE;
+>   
+>   	for_each_sgt_daddr(addr, iter, vma_res->bi.pages)
+>   		gen8_set_pte(gte++, pte_encode | addr);
+> @@ -347,9 +350,12 @@ static void gen6_ggtt_insert_entries(struct i915_address_space *vm,
+>   	dma_addr_t addr;
+>   
+>   	gte = (gen6_pte_t __iomem *)ggtt->gsm;
+> -	gte += vma_res->start / I915_GTT_PAGE_SIZE;
+> -	end = gte + vma_res->node_size / I915_GTT_PAGE_SIZE;
+> +	gte += (vma_res->start - vma_res->guard) / I915_GTT_PAGE_SIZE;
+>   
+> +	end = gte + vma_res->guard / I915_GTT_PAGE_SIZE;
+> +	while (gte < end)
+> +		iowrite32(vm->scratch[0]->encode, gte++);
+> +	end += (vma_res->node_size + vma_res->guard) / I915_GTT_PAGE_SIZE;
+>   	for_each_sgt_daddr(addr, iter, vma_res->bi.pages)
+>   		iowrite32(vm->pte_encode(addr, level, flags), gte++);
+>   	GEM_BUG_ON(gte > end);
+> diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.h b/drivers/gpu/drm/i915/i915_gem_gtt.h
+> index 8c2f57eb5ddaa..2434197830523 100644
+> --- a/drivers/gpu/drm/i915/i915_gem_gtt.h
+> +++ b/drivers/gpu/drm/i915/i915_gem_gtt.h
+> @@ -44,7 +44,8 @@ int i915_gem_gtt_insert(struct i915_address_space *vm,
+>   #define PIN_HIGH		BIT_ULL(5)
+>   #define PIN_OFFSET_BIAS		BIT_ULL(6)
+>   #define PIN_OFFSET_FIXED	BIT_ULL(7)
+> -#define PIN_VALIDATE		BIT_ULL(8) /* validate placement only, no need to call unpin() */
+> +#define PIN_OFFSET_GUARD	BIT_ULL(8)
+> +#define PIN_VALIDATE		BIT_ULL(9) /* validate placement only, no need to call unpin() */
+>   
+>   #define PIN_GLOBAL		BIT_ULL(10) /* I915_VMA_GLOBAL_BIND */
+>   #define PIN_USER		BIT_ULL(11) /* I915_VMA_LOCAL_BIND */
+> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+> index fefee5fef38d3..3877847179710 100644
+> --- a/drivers/gpu/drm/i915/i915_vma.c
+> +++ b/drivers/gpu/drm/i915/i915_vma.c
+> @@ -419,7 +419,7 @@ i915_vma_resource_init_from_vma(struct i915_vma_resource *vma_res,
+>   			       obj->mm.rsgt, i915_gem_object_is_readonly(obj),
+>   			       i915_gem_object_is_lmem(obj), obj->mm.region,
+>   			       vma->ops, vma->private, __i915_vma_offset(vma),
+> -			       __i915_vma_size(vma), vma->size);
+> +			       __i915_vma_size(vma), vma->size, vma->guard);
+>   }
+>   
+>   /**
+> @@ -677,6 +677,10 @@ bool i915_vma_misplaced(const struct i915_vma *vma,
+>   	    i915_vma_offset(vma) != (flags & PIN_OFFSET_MASK))
+>   		return true;
+>   
+> +	if (flags & PIN_OFFSET_GUARD &&
+> +	    vma->guard < (flags & PIN_OFFSET_MASK))
+> +		return true;
+> +
+>   	return false;
+>   }
+>   
+> @@ -749,15 +753,16 @@ static int
+>   i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+>   		u64 size, u64 alignment, u64 flags)
+>   {
+> -	unsigned long color;
+> +	unsigned long color, guard;
+>   	u64 start, end;
+>   	int ret;
+>   
+>   	GEM_BUG_ON(i915_vma_is_bound(vma, I915_VMA_GLOBAL_BIND | I915_VMA_LOCAL_BIND));
+>   	GEM_BUG_ON(drm_mm_node_allocated(&vma->node));
+> +	GEM_BUG_ON(hweight64(flags & (PIN_OFFSET_GUARD | PIN_OFFSET_FIXED | PIN_OFFSET_BIAS)) > 1);
+>   
+>   	size = max(size, vma->size);
+> -	alignment = max(alignment, vma->display_alignment);
+> +	alignment = max_t(typeof(alignment), alignment, vma->display_alignment);
+>   	if (flags & PIN_MAPPABLE) {
+>   		size = max_t(typeof(size), size, vma->fence_size);
+>   		alignment = max_t(typeof(alignment),
+> @@ -768,8 +773,17 @@ i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+>   	GEM_BUG_ON(!IS_ALIGNED(alignment, I915_GTT_MIN_ALIGNMENT));
+>   	GEM_BUG_ON(!is_power_of_2(alignment));
+>   
+> +	guard = vma->guard; /* retain guard across rebinds */
+> +	if (flags & PIN_OFFSET_GUARD) {
+> +		GEM_BUG_ON(overflows_type(flags & PIN_OFFSET_MASK, u32));
+> +		guard = max_t(u32, guard, flags & PIN_OFFSET_MASK);
+> +	}
+> +	roundup(guard, BIT(vma->vm->scratch_order + PAGE_SHIFT));
 
-DQoNCkFtIDMwLjExLjIyIHVtIDIwOjI2IHNjaHJpZWIgTm9yYWxmIFRyw7hubmVzIHZpYSBC
-NCBTdWJtaXNzaW9uIEVuZHBvaW50Og0KPiBGcm9tOiBOb3JhbGYgVHLDuG5uZXMgPG5vcmFs
-ZkB0cm9ubmVzLm9yZz4NCj4gDQo+IGd1ZCBoYXMgYSBtb2R1bGUgcGFyYW1ldGVyIHRoYXQg
-Y29udHJvbHMgd2hldGhlciBmcmFtZWJ1ZmZlciBmbHVzaGluZw0KPiBoYXBwZW5zIHN5bmNo
-cm9ub3VzbHkgZHVyaW5nIHRoZSBjb21taXQgb3IgYXN5bmNocm9ub3VzbHkgaW4gYSB3b3Jr
-ZXIuDQo+IA0KPiBHTk9NRSBiZWZvcmUgdmVyc2lvbiAzLjM4IGhhbmRsZWQgYWxsIGRpc3Bs
-YXlzIGluIHRoZSBzYW1lIHJlbmRlcmluZyBsb29wLg0KPiBUaGlzIGxlYWQgdG8gZ3VkIHNs
-b3dpbmcgZG93biB0aGUgcmVmcmVzaCByYXRlIGZvciBhIGZhc3RlciBtb25pdG9yLiBUaGlz
-DQo+IGhhcyBub3cgYmVlbiBmaXhlZCBzbyBsZXRzIGNoYW5nZSB0aGUgZGVmYXVsdC4NCj4g
-DQo+IFRoZSBwbGFuIGlzIHRvIHJlbW92ZSBhc3luYyBmbHVzaGluZyBpbiB0aGUgZnV0dXJl
-LiBUaGUgY29kZSBpcyBub3cNCj4gc3RydWN0dXJlZCBpbiBhIHdheSB0aGF0IG1ha2VzIGl0
-IGVhc3kgdG8gZG8gdGhpcy4NCj4gDQo+IExpbms6IGh0dHBzOi8vYmxvZ3MuZ25vbWUub3Jn
-L3NoZWxsLWRldi8yMDIwLzA3LzAyL3NwbGl0dGluZy11cC10aGUtZnJhbWUtY2xvY2svDQo+
-IFN1Z2dlc3RlZC1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+
-DQo+IFNpZ25lZC1vZmYtYnk6IE5vcmFsZiBUcsO4bm5lcyA8bm9yYWxmQHRyb25uZXMub3Jn
-Pg0KDQpSZXZpZXdlZC1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2Uu
-ZGU+DQoNCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL2d1ZC9ndWRfcGlwZS5jIHwgMTIg
-KysrKy0tLS0tLS0tDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgOCBk
-ZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZ3VkL2d1
-ZF9waXBlLmMgYi9kcml2ZXJzL2dwdS9kcm0vZ3VkL2d1ZF9waXBlLmMNCj4gaW5kZXggOTIx
-ODk0NzRhN2VkLi42MmM0M2QzNjMyZDQgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS9ndWQvZ3VkX3BpcGUuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZ3VkL2d1ZF9waXBl
-LmMNCj4gQEAgLTI1LDE3ICsyNSwxMyBAQA0KPiAgICNpbmNsdWRlICJndWRfaW50ZXJuYWwu
-aCINCj4gICANCj4gICAvKg0KPiAtICogU29tZSB1c2Vyc3BhY2UgcmVuZGVyaW5nIGxvb3Bz
-IHJ1bnMgYWxsIGRpc3BsYXlzIGluIHRoZSBzYW1lIGxvb3AuDQo+ICsgKiBTb21lIHVzZXJz
-cGFjZSByZW5kZXJpbmcgbG9vcHMgcnVuIGFsbCBkaXNwbGF5cyBpbiB0aGUgc2FtZSBsb29w
-Lg0KPiAgICAqIFRoaXMgbWVhbnMgdGhhdCBhIGZhc3QgZGlzcGxheSB3aWxsIGhhdmUgdG8g
-d2FpdCBmb3IgYSBzbG93IG9uZS4NCj4gLSAqIEZvciB0aGlzIHJlYXNvbiBndWQgZG9lcyBm
-bHVzaGluZyBhc3luY2hyb25vdXMgYnkgZGVmYXVsdC4NCj4gLSAqIFRoZSBkb3duIHNpZGUg
-aXMgdGhhdCBpbiBlLmcuIGEgc2luZ2xlIGRpc3BsYXkgc2V0dXAgdXNlcnNwYWNlIHRoaW5r
-cw0KPiAtICogdGhlIGRpc3BsYXkgaXMgaW5zYW5lbHkgZmFzdCBzaW5jZSB0aGUgZHJpdmVy
-IHJlcG9ydHMgYmFjayBpbW1lZGlhdGVseQ0KPiAtICogdGhhdCB0aGUgZmx1c2gvcGFnZWZs
-aXAgaXMgZG9uZS4gVGhpcyB3YXN0ZXMgQ1BVIGFuZCBwb3dlci4NCj4gLSAqIFN1Y2ggdXNl
-cnMgbWlnaHQgd2FudCB0byBzZXQgdGhpcyBtb2R1bGUgcGFyYW1ldGVyIHRvIGZhbHNlLg0K
-PiArICogU3VjaCB1c2VycyBtaWdodCB3YW50IHRvIGVuYWJsZSB0aGlzIG1vZHVsZSBwYXJh
-bWV0ZXIuDQo+ICAgICovDQo+IC1zdGF0aWMgYm9vbCBndWRfYXN5bmNfZmx1c2ggPSB0cnVl
-Ow0KPiArc3RhdGljIGJvb2wgZ3VkX2FzeW5jX2ZsdXNoOw0KPiAgIG1vZHVsZV9wYXJhbV9u
-YW1lZChhc3luY19mbHVzaCwgZ3VkX2FzeW5jX2ZsdXNoLCBib29sLCAwNjQ0KTsNCj4gLU1P
-RFVMRV9QQVJNX0RFU0MoYXN5bmNfZmx1c2gsICJFbmFibGUgYXN5bmNocm9ub3VzIGZsdXNo
-aW5nIFtkZWZhdWx0PXRydWVdIik7DQo+ICtNT0RVTEVfUEFSTV9ERVNDKGFzeW5jX2ZsdXNo
-LCAiRW5hYmxlIGFzeW5jaHJvbm91cyBmbHVzaGluZyBbZGVmYXVsdD0wXSIpOw0KPiAgIA0K
-PiAgIC8qDQo+ICAgICogRklYTUU6IFRoZSBkcml2ZXIgaXMgcHJvYmFibHkgYnJva2VuIG9u
-IEJpZyBFbmRpYW4gbWFjaGluZXMuDQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpH
-cmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJt
-YW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhS
-QiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+roundup = ?
 
+Lets have a comment here as well.
 
---------------nntQqSrxCqN4Dg4Wu4kPm0ou--
+/*
+  * Be efficient with PTE use by using the native size for the guard.
+  */
 
---------------d4k2JfWaSjVHdrZfAy2Ag7ji
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Would that be accurate?
 
------BEGIN PGP SIGNATURE-----
+> +
+>   	start = flags & PIN_OFFSET_BIAS ? flags & PIN_OFFSET_MASK : 0;
+>   	GEM_BUG_ON(!IS_ALIGNED(start, I915_GTT_PAGE_SIZE));
+> +	/* We need to be sure we do not ecceed the va area */
+> +	GEM_BUG_ON(2 * guard > end);
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmOIbIYFAwAAAAAACgkQlh/E3EQov+Dh
-0A/+IT/UaD1KGNgq0nyJFzJySfpcz2lRJEukqEH0d2RCcU2V0EBast8xZsqygaXwVRZFDMKWl5Oj
-iEmEF63ahWErAzcDRxb3oS2VakbKhcJsh7NhLz+b0nr3su7rWbwXRnCtFkPYxeiv0+ObHh/lkoNC
-sAp0c5mIQ8ZsfL8Ihz4UpcX2RMtzHsMT3yHkPf7i2qBiPRHw3fX58eS8KBh/DDbNiBQfWFpwHKkA
-SfjNcO69ofb6nmxqoBcSse8m5fG/uQmIUZrXGPqRmSU/EobmzUHzwA5231NbwlRljfJHF/kWgxPg
-tU+D6lWIeHLapiGdJUiOxxa7/TYLzyO+QPEje4LVFYUK70DkqEf0sKiTn0RrEJNP4il7K3a31uht
-wN0H7WBWmK+N2rnjQTqkZ4PoFBGIzVN503d39vyUFl2CRDyF7ghWBbIVBiqCPJmOx0Evqghn++xA
-ZXkcl+1Yij6fy7NUTAM3lrNl1QVyYK6UR+P8zvwsLW25UJpqEPymQjU1++JBhEoW9YbOPrYGcThN
-uCI9dHqLdPha8QWHRMNI7Qhdms545rMiREYNZuOA+U+MAXBE7pd3CF7mc7dVlryr8jZ+JkjppTbR
-vWa/o0Gj8bz7Rm9hyDa9aiZNCplvpTPa9xkkLDTTY4MtjmDds+MiU7noGj8w6QEiu/XKkWTeZaQW
-ef4=
-=oqky
------END PGP SIGNATURE-----
+"exceed" but haven't we said this is not needed?
 
---------------d4k2JfWaSjVHdrZfAy2Ag7ji--
+Regards,
+
+Tvrtko
+
+>   
+>   	end = vma->vm->total;
+>   	if (flags & PIN_MAPPABLE)
+> @@ -780,11 +794,12 @@ i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+>   
+>   	alignment = max(alignment, i915_vm_obj_min_alignment(vma->vm, vma->obj));
+>   
+> -	/* If binding the object/GGTT view requires more space than the entire
+> +	/*
+> +	 * If binding the object/GGTT view requires more space than the entire
+>   	 * aperture has, reject it early before evicting everything in a vain
+>   	 * attempt to find space.
+>   	 */
+> -	if (size > end) {
+> +	if (size > end - 2 * guard) {
+>   		drm_dbg(&to_i915(vma->obj->base.dev)->drm,
+>   			"Attempting to bind an object larger than the aperture: request=%llu > %s aperture=%llu\n",
+>   			size, flags & PIN_MAPPABLE ? "mappable" : "total", end);
+> @@ -801,13 +816,23 @@ i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+>   		if (!IS_ALIGNED(offset, alignment) ||
+>   		    range_overflows(offset, size, end))
+>   			return -EINVAL;
+> +		/*
+> +		 * The caller knows not of the guard added by others and
+> +		 * requests for the offset of the start of its buffer
+> +		 * to be fixed, which may not be the same as the position
+> +		 * of the vma->node due to the guard pages.
+> +		 */
+> +		if (offset < guard || offset + size > end - guard)
+> +			return -ENOSPC;
+>   
+>   		ret = i915_gem_gtt_reserve(vma->vm, ww, &vma->node,
+> -					   size, offset, color,
+> -					   flags);
+> +					   size + 2 * guard,
+> +					   offset - guard,
+> +					   color, flags);
+>   		if (ret)
+>   			return ret;
+>   	} else {
+> +		size += 2 * guard;
+>   		/*
+>   		 * We only support huge gtt pages through the 48b PPGTT,
+>   		 * however we also don't want to force any alignment for
+> @@ -855,6 +880,7 @@ i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+>   	GEM_BUG_ON(!i915_gem_valid_gtt_space(vma, color));
+>   
+>   	list_move_tail(&vma->vm_link, &vma->vm->bound_list);
+> +	vma->guard = guard;
+>   
+>   	return 0;
+>   }
+> diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
+> index 3fd4512b1f65f..ed5c9d682a1b2 100644
+> --- a/drivers/gpu/drm/i915/i915_vma.h
+> +++ b/drivers/gpu/drm/i915/i915_vma.h
+> @@ -128,7 +128,7 @@ static inline bool i915_vma_is_closed(const struct i915_vma *vma)
+>   /* Internal use only. */
+>   static inline u64 __i915_vma_size(const struct i915_vma *vma)
+>   {
+> -	return vma->node.size;
+> +	return vma->node.size - 2 * vma->guard;
+>   }
+>   
+>   /**
+> @@ -150,7 +150,8 @@ static inline u64 i915_vma_size(const struct i915_vma *vma)
+>   /* Internal use only. */
+>   static inline u64 __i915_vma_offset(const struct i915_vma *vma)
+>   {
+> -	return vma->node.start;
+> +	/* The actual start of the vma->pages is after the guard pages. */
+> +	return vma->node.start + vma->guard;
+>   }
+>   
+>   /**
+> diff --git a/drivers/gpu/drm/i915/i915_vma_resource.c b/drivers/gpu/drm/i915/i915_vma_resource.c
+> index de1342dbfa128..6ba7a7feceba1 100644
+> --- a/drivers/gpu/drm/i915/i915_vma_resource.c
+> +++ b/drivers/gpu/drm/i915/i915_vma_resource.c
+> @@ -34,8 +34,8 @@ static struct kmem_cache *slab_vma_resources;
+>    * and removal of fences increases as O(ln(pending_unbinds)) instead of
+>    * O(1) for a single fence without interval tree.
+>    */
+> -#define VMA_RES_START(_node) ((_node)->start)
+> -#define VMA_RES_LAST(_node) ((_node)->start + (_node)->node_size - 1)
+> +#define VMA_RES_START(_node) ((_node)->start - (_node)->guard)
+> +#define VMA_RES_LAST(_node) ((_node)->start + (_node)->node_size + (_node)->guard - 1)
+>   INTERVAL_TREE_DEFINE(struct i915_vma_resource, rb,
+>   		     u64, __subtree_last,
+>   		     VMA_RES_START, VMA_RES_LAST, static, vma_res_itree);
+> diff --git a/drivers/gpu/drm/i915/i915_vma_resource.h b/drivers/gpu/drm/i915/i915_vma_resource.h
+> index 54edf3739ca0b..c1864e3d0b43e 100644
+> --- a/drivers/gpu/drm/i915/i915_vma_resource.h
+> +++ b/drivers/gpu/drm/i915/i915_vma_resource.h
+> @@ -57,6 +57,7 @@ struct i915_page_sizes {
+>    * @node_size: Size of the allocated range manager node with padding
+>    * subtracted.
+>    * @vma_size: Bind size.
+> + * @guard: The size of guard area preceding and trailing the bind.
+>    * @page_sizes_gtt: Resulting page sizes from the bind operation.
+>    * @bound_flags: Flags indicating binding status.
+>    * @allocated: Backend private data. TODO: Should move into @private.
+> @@ -115,6 +116,7 @@ struct i915_vma_resource {
+>   	u64 start;
+>   	u64 node_size;
+>   	u64 vma_size;
+> +	u32 guard;
+>   	u32 page_sizes_gtt;
+>   
+>   	u32 bound_flags;
+> @@ -179,6 +181,7 @@ static inline void i915_vma_resource_put(struct i915_vma_resource *vma_res)
+>    * @start: Offset into the address space of bind range start after padding.
+>    * @node_size: Size of the allocated range manager node minus padding.
+>    * @size: Bind size.
+> + * @guard: The size of the guard area preceding and trailing the bind.
+>    *
+>    * Initializes a vma resource allocated using i915_vma_resource_alloc().
+>    * The reason for having separate allocate and initialize function is that
+> @@ -197,7 +200,8 @@ static inline void i915_vma_resource_init(struct i915_vma_resource *vma_res,
+>   					  void *private,
+>   					  u64 start,
+>   					  u64 node_size,
+> -					  u64 size)
+> +					  u64 size,
+> +					  u32 guard)
+>   {
+>   	__i915_vma_resource_init(vma_res);
+>   	vma_res->vm = vm;
+> @@ -215,6 +219,7 @@ static inline void i915_vma_resource_init(struct i915_vma_resource *vma_res,
+>   	vma_res->start = start;
+>   	vma_res->node_size = node_size;
+>   	vma_res->vma_size = size;
+> +	vma_res->guard = guard;
+>   }
+>   
+>   static inline void i915_vma_resource_fini(struct i915_vma_resource *vma_res)
+> diff --git a/drivers/gpu/drm/i915/i915_vma_types.h b/drivers/gpu/drm/i915/i915_vma_types.h
+> index 0375812792b9c..77fda2244d161 100644
+> --- a/drivers/gpu/drm/i915/i915_vma_types.h
+> +++ b/drivers/gpu/drm/i915/i915_vma_types.h
+> @@ -202,6 +202,7 @@ struct i915_vma {
+>   	/* mmap-offset associated with fencing for this vma */
+>   	struct i915_mmap_offset	*mmo;
+>   
+> +	u32 guard; /* padding allocated around vma->pages within the node */
+>   	u32 fence_size;
+>   	u32 fence_alignment;
+>   	u32 display_alignment;
