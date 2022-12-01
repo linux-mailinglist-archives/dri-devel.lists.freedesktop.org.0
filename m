@@ -1,85 +1,142 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 953A663F97D
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 21:59:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9831063F989
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 22:02:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC0A510E165;
-	Thu,  1 Dec 2022 20:59:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0CC510E167;
+	Thu,  1 Dec 2022 21:02:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1940210E165;
- Thu,  1 Dec 2022 20:59:49 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2B1IvkNo002451; Thu, 1 Dec 2022 20:59:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=XDgYg3w9shpU1glhcMgxaWYoqR5vgNCgIMuxjynzP7o=;
- b=R+ms/Ci2pyX8uyiIZoHVv7bJYDBKzVte/W8xeeyAc3R+XLmeOPAIo67YqQqLf0NUEnAA
- KVkVa0s3WynAo1aOxlxGNYP7i8a3XZPZWxsRU3PSwgBt8nXsCIWQNnPOk10Att3pENSt
- +NkVgQoecNJrP2PG8F4t0rtieuZRqwqn+5AaZckZMGAkSbB3PR4MymHMvH7JScfL4OMf
- lzLaZZ8lr6WZ5NrKCQH+7wOxii+/+qeIYQS8SwipQ8HoLOl8LSlW1WyVFaDBMWocctIN
- Gyse8Bs9I+hHd1VAbFtOfzWJqf4DA6Ot4N2pPpM8XfLJJj+/biUNm+zIMWy0xAwzpPGI NQ== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3m6k6jum8c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 01 Dec 2022 20:59:42 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2B1Kxfvp022383
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 1 Dec 2022 20:59:41 GMT
-Received: from [10.110.18.228] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Thu, 1 Dec 2022
- 12:59:39 -0800
-Message-ID: <ba417e4f-d80f-aa7b-6d0a-ee9d72be4e65@quicinc.com>
-Date: Thu, 1 Dec 2022 12:59:39 -0800
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4826810E160;
+ Thu,  1 Dec 2022 21:02:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1669928520; x=1701464520;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=Gn3EZAXS6mlfM91zpfdLYqRCU8C5X0HY/TWoueCglyE=;
+ b=EULZJBtBk6HDoaiYdklsxYJB1FrT4FX5ldjRFz8v/QlbCD+xFZmbpNEZ
+ rEIfLGwXZxJeJizP/LGTF7tMOrJwdrUX2dUA79StBgfRym73JS6v92MVT
+ TTqcjCp1gqa64ZPn/L9CTEG1kpC3ZAYpqq2/LsTkYYDEYkqlenIBv9Ifm
+ bk3h3A47qx2GfB0uD6rNl+ialQdZHd9+oyBurUpCuXlmogvhtl41JQE4I
+ 5vSrLJZNIdGLu8YE1r1xrBuNWfc/G1R1Nyw6UPqG4HnagxWVYZltTbxQQ
+ gKMj9xAWZTUECsXLU0QtYlL3F0sTSldjk7t7Zrvl3h3eyIgCIdZ+2GJzf w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="380087704"
+X-IronPort-AV: E=Sophos;i="5.96,210,1665471600"; d="scan'208";a="380087704"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Dec 2022 13:01:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="973668369"
+X-IronPort-AV: E=Sophos;i="5.96,210,1665471600"; d="scan'208";a="973668369"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by fmsmga005.fm.intel.com with ESMTP; 01 Dec 2022 13:01:45 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Thu, 1 Dec 2022 13:01:44 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Thu, 1 Dec 2022 13:01:44 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Thu, 1 Dec 2022 13:01:44 -0800
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.170)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Thu, 1 Dec 2022 13:01:43 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GH8Qm6UDXxdUiRRaxsYmh8LxhH8LW5nwMa/j92qmcqn7t3mZ6j0T6QPqOHgYD9RHmHMBX1VeMja0vtX+47jEPcPs/1oXF6NVm7iqJI/abvSieI5vbRahK235Q1M1M+dCCxLBKb9fFT33Ny0DlbjvKUuJi3k8u5dzq/j2upD6Rl5PS3DF2nxH6TzYW7dDfJDncJbLvwq4NqhqkMaPTjZmr/MgeBSxsP+yfqAJ5vlHFS8vx2VHa82ATQqoZIpi43pqaEzFahI9KlhzaNEQbb5w8hvD+K8YJ3Zr1HR9F1GzDwTkgBLXEvYET9xmYss7nEUlnzLbC85wjQihvf44Kla5WA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=r+fDzp5BrNOm4ORRpe3P5u9d60Vz4L2pW85rFB6d58E=;
+ b=VxrRx5uG4NCpufboO7ByV/vrOwwjavX54D4trzvMHVMo6rjLtdVNBUWCdOJ0peC2s5b+kkIcgKyGSU0IfeJkzhuZILzw7b3dTWGDb1XnmqsU8qTxLzAIS9+yX2q8lKkpzV0JPulLGKFTSg9UZFHWSkW/0MroxOLCpCGA1TzvOn7UidVwgaLFVrWKtbdlxD++Y4zPC4wswHQLkK1LpTfTbp7V7HRjFV8LzmDkrBX3km2kBkd754EbFaQTREaIYPNT7yAnkndLstBfHcp/N6zQBC+CMJQtgJVHaSFE3gHSTQtGnkAOhrvz21xyChxeG6mfEipLGgQ6X1O/FP2AkeOTyg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MWHPR11MB1632.namprd11.prod.outlook.com (2603:10b6:301:11::11)
+ by MW4PR11MB5774.namprd11.prod.outlook.com (2603:10b6:303:182::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.23; Thu, 1 Dec
+ 2022 21:01:42 +0000
+Received: from MWHPR11MB1632.namprd11.prod.outlook.com
+ ([fe80::48b8:5304:2638:3475]) by MWHPR11MB1632.namprd11.prod.outlook.com
+ ([fe80::48b8:5304:2638:3475%7]) with mapi id 15.20.5880.008; Thu, 1 Dec 2022
+ 21:01:42 +0000
+Date: Thu, 1 Dec 2022 13:01:40 -0800
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
+Subject: Re: [PATCH v3 5/5] drm/i915/mtl: Hold forcewake and MCR lock over
+ PPAT setup
+Message-ID: <Y4kWNDh5PGNmMocS@mdroper-desk1.amr.corp.intel.com>
+References: <Y4d76483JRj5d4RL@bala-ubuntu>
+ <20221130155852.19601-1-matthew.d.roper@intel.com>
+ <Y4hzRs1LY1dnlEgr@bala-ubuntu>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <Y4hzRs1LY1dnlEgr@bala-ubuntu>
+X-ClientProxiedBy: BY5PR17CA0051.namprd17.prod.outlook.com
+ (2603:10b6:a03:167::28) To MWHPR11MB1632.namprd11.prod.outlook.com
+ (2603:10b6:301:11::11)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v6 1/4] arm64: dts: qcom: add data-lanes and
- link-freuencies into dp_out endpoint
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@linux.ie>,
- <agross@kernel.org>, <bjorn.andersson@linaro.org>
-References: <1669852310-22360-1-git-send-email-quic_khsieh@quicinc.com>
- <1669852310-22360-2-git-send-email-quic_khsieh@quicinc.com>
- <7bf73466-e476-4a1d-5dc0-1b63ea742226@linaro.org>
- <29d12e26-b3c8-dbf6-de1f-5c6ae4a5a705@linaro.org>
- <f03233b4-2850-c206-724c-0b6568b6a876@quicinc.com>
- <4ff2a5f9-1fc9-a431-b5f1-f65df7e47caa@linaro.org>
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <4ff2a5f9-1fc9-a431-b5f1-f65df7e47caa@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: XEN-oko8Avm_18G1lCVZuKLmUNVTrzGX
-X-Proofpoint-GUID: XEN-oko8Avm_18G1lCVZuKLmUNVTrzGX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-01_14,2022-12-01_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 malwarescore=0
- phishscore=0 clxscore=1015 priorityscore=1501 mlxscore=0 suspectscore=0
- lowpriorityscore=0 impostorscore=0 spamscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2212010161
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWHPR11MB1632:EE_|MW4PR11MB5774:EE_
+X-MS-Office365-Filtering-Correlation-Id: d7f23bd1-0191-4cc9-f232-08dad3df3f80
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Mwa0CTHmEB6X/S9hT8I9T2ZvuoVVFO3NrsHcnqk1KK0CzYzy+pSuvY8EtccNUJRGYBDPi6rogYLBmaSuwiaWCHv+q4S9Py5cgWHWTS4pLo+CmhzX61ubUtkZ/RhpdGywsryNdQcpoNmGxbBAGO6ARKTFTHA1OziTe+8XAtn2l0OrZZpYVaWvSuV1YsyxtPT+I9U8QhKMrhyDHiKvp68OVCLXSChXlBEg1zTiD6jqfSL28reNa9lUJ7jfuVSQCeolVR6slktdDFZd7rI020YQAsTwEHIg2I/aXVJu42bD02wIQ6UERVrTbtoNvpLzqnQAFj+dxE8z6VfpEbe8CSZak9lN/3e32zL9pzKsALl7TWjadhkFs2B2DOUlOow4VPzfEgpvjSpBxN55qehpneWRjD47odGQHi4f76TLP9mRaFobdn2L7qZdrhAo4zqplWRfaNYhfdpFT3I1z0k3CKrp6sAE/R0pE1qcC1w5ZVDT+1hrzAd397SyHedy9c1jy5MvSn11GJi11S/d4MUKiJYOSdanlrvSODuX2BxVxsy3/P7leavRMRhmk9Njm6i7O5ncH5qXIDgfZVGeL958KjZAtNY2O39ZKj14g6L0BjmosMFDwpO5BlHBHpN5KokAPGtRsP/ag8AT5JLAA/Uq/wwLzQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR11MB1632.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(136003)(396003)(346002)(366004)(376002)(39860400002)(451199015)(478600001)(83380400001)(6486002)(53546011)(2906002)(82960400001)(38100700002)(6636002)(5660300002)(41300700001)(6862004)(26005)(66556008)(8936002)(6506007)(86362001)(66476007)(4326008)(8676002)(6512007)(450100002)(66946007)(316002)(186003);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?35U9nPpMOWpQnKs3wQJaiGEHv/J/sJbNfXtvl9lKa9csf1/WYPhTylOv5Ypm?=
+ =?us-ascii?Q?H8u+Wym+L+lRRxmZs7rgDKoaOYFhmVaf4fpKc5w6jgN9Gipqi9xHti/TCuws?=
+ =?us-ascii?Q?BcvuNz6H119l2xa3GZbXxYlqygGEwpy2AvmYmJ18lO7zdxl83pAwZkY3H4km?=
+ =?us-ascii?Q?d6JeX3lVIYl0LXmqqCbv32USx1AlfTMwPVEr8BckXp3VBQuDNMWnyIVXDf9l?=
+ =?us-ascii?Q?9nbxONEfHUg08FzlZlxwLEQJMuceLJmS3cWlX3YPnfE/GYPOMgqBuZQ5URjx?=
+ =?us-ascii?Q?l5UcTK9lkMT0JzxMOtEWIdO+Ifxd0XBR37EpbGaHMJhTPP2sl7JZThiclVue?=
+ =?us-ascii?Q?UptKMOJGHiMRBNBPUdcKlYwB7KgwYkxPVXwPcM0L36DY8R1CL/fklqvNPqgf?=
+ =?us-ascii?Q?RXHPuqT46m7rZUQXtqwLtiibwTRIqplfc6T4brBbdKByIlO2JO5uZDLDGKSG?=
+ =?us-ascii?Q?RL0aXEUr7v0w8TjaRrSxxF6Wm9t1ONpordR+gUGr2OoU4sdgrGpD9YKRUzO9?=
+ =?us-ascii?Q?K45ZZY3vh2ynnHi1noixejuBQvAschE6ObpiBDdVFlROlwwb53pISE1xgM3d?=
+ =?us-ascii?Q?SPfa5/4lbBjFbrq9a1Y5MnO6CGylyfoyCH34DhkF1Bp0k30xFKXDGlknXQMJ?=
+ =?us-ascii?Q?DQplc6QfCmI4D+uwrELr2y4s7nBTuS9TmUL5b8EQlSyMr7E+PxU66bHuORIc?=
+ =?us-ascii?Q?TxKpF3x7Vx9CnVUk8F9hyXoID94BRjAdgjdd1JpMj3YcIivHJ09sxjb3qz0F?=
+ =?us-ascii?Q?lLTDMTB1sFMTLpRVEowIj5gTF8695M7Z5farMOptoMybZNOJ60ajbrCdEEIO?=
+ =?us-ascii?Q?5wXC/tJathHS+giUJI2aP3Jbfk2eQpo1w3qtcqQiuoejtSxu/zptyqohN5/+?=
+ =?us-ascii?Q?rWVsaqL4hVPYLTUZ+ff+STjKwza430U23OjWeSVOnLrY28uZNF7tGHOZ0NRp?=
+ =?us-ascii?Q?pXDJYmQHOCMBo/iIwuYFEKl6E4PMuotZDk7BSAkbxro/u1v3CYMMQd+E7sy7?=
+ =?us-ascii?Q?HziPROaQR+k2TzCfEDhosjHqxm+NifJCYNbi4bz4qUca2mlf9I2R5ZKBAMh/?=
+ =?us-ascii?Q?F2NtPiuEBXLMGyf8y449uuc7GlfpiGGp5Nf8ev+qiZ+hQlqb5vNM+9sXRkmH?=
+ =?us-ascii?Q?0qPEg9pfQNgFWDG+8pvuAI+18nj/IpPA8b1/OjH/p71tTCuIeWqueI6q9cza?=
+ =?us-ascii?Q?+JxqQoQbUOQnEZe9iukiYJhBQFycOK/Jqwdd4z1wDpjxlAjabSiN5h/69fbI?=
+ =?us-ascii?Q?3PC9rVHbD3sLGEA1xTZSoQlNsbcIawynXkMpqEUyXmTvSIB89qcRMsVMkggY?=
+ =?us-ascii?Q?zv3rknz3/xkV4bh7XTp2P0iJMCyF7VTDUDNHwxqUs+Pj3apr/3BxBUZWzWNJ?=
+ =?us-ascii?Q?7w6SeN63RBqTdcBCRDJPWcicSiAJe+kOi1qH7+Dt4DUwV9vsGg7T8xOvsDGV?=
+ =?us-ascii?Q?uFnlQ9nGYhFJpD11dgFqoVFfGNnhgX5wbLuITNLJsPPGZd+fr/J3rM4d6Q2T?=
+ =?us-ascii?Q?pbCtQWIvEi5sUMWTJcxUj5H2qJkf7DqYwZ8u7cCOs7QJGHhYJtxcTpQ9zSGf?=
+ =?us-ascii?Q?UQ/P/ObVvSFgNofFR6yAuq8ZwPNJjq67jXAAfSRErhvZxBurcbn2XARtXO+2?=
+ =?us-ascii?Q?Cg=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: d7f23bd1-0191-4cc9-f232-08dad3df3f80
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1632.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2022 21:01:42.4491 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Cp+t62fxeIaagY8ME7hMvTiYQC3VpKbVVTZBhg/a1rgp8Oe/1tbANNwj2iRUXvIFuVLD0xcUMG//VHxmaX0J42mcvhc/oLkHGjEZ0SGDST4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB5774
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,177 +149,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, quic_sbillaka@quicinc.com,
- freedreno@lists.freedesktop.org, quic_abhinavk@quicinc.com,
- linux-kernel@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Dec 01, 2022 at 02:56:30PM +0530, Balasubramani Vivekanandan wrote:
+> On 30.11.2022 07:58, Matt Roper wrote:
+> > PPAT setup involves a series of multicast writes.  This can be optimized
+> > slightly be acquiring forcewake and the steering lock just once for the
+> > entire sequence.
+> > 
+> > v2:
+> >  - We should use FW_REG_WRITE instead of FW_REG_READ.  (Bala)
+> > 
+> > Suggested-by: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
+> > Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+> 
+> Reviewed-by: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
 
-On 12/1/2022 9:49 AM, Dmitry Baryshkov wrote:
-> On 01/12/2022 19:32, Kuogee Hsieh wrote:
->>
->> On 11/30/2022 4:21 PM, Dmitry Baryshkov wrote:
->>> On 01/12/2022 02:07, Dmitry Baryshkov wrote:
->>>> On 01/12/2022 01:51, Kuogee Hsieh wrote:
->>>>> Move data-lanes property from mdss_dp node to dp_out endpoint. Also
->>>>> add link-frequencies property into dp_out endpoint as well. The last
->>>>> frequency specified at link-frequencies will be the max link rate
->>>>> supported by DP.
->>>>>
->>>>> Changes in v5:
->>>>> -- revert changes at sc7180.dtsi and sc7280.dtsi
->>>>> -- add &dp_out to sc7180-trogdor.dtsi and sc7280-herobrine.dtsi
->>>>>
->>>>> Changes in v6:
->>>>> -- add data-lanes and link-frequencies to yaml
->>>>>
->>>>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
->>>>> ---
->>>>>   .../devicetree/bindings/display/msm/dp-controller.yaml | 17 
->>>>> +++++++++++++++++
->>>>
->>>> Separate patch. Also you didn't check the get_maintainers output, 
->>>> so required parties were not included into the distribution.
->>>>
->>>> Also as you'd check the get_maintainers output, please fix other 
->>>> email addresses too.
->>>>
->>>>> arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi |  6 +++++-
->>>>>   arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi |  6 +++++-
->>>>>   3 files changed, 27 insertions(+), 2 deletions(-)
->>>>>
->>>>> diff --git 
->>>>> a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml 
->>>>> b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
->>>>> index 94bc6e1..af70343 100644
->>>>> --- 
->>>>> a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
->>>>> +++ 
->>>>> b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
->>>>> @@ -90,6 +90,20 @@ properties:
->>>>>           $ref: /schemas/graph.yaml#/properties/port
->>>>>           description: Output endpoint of the controller
->>>>> +        properties:
->>>>> +          endpoint:
->>>>> +            $ref: /schemas/media/video-interfaces.yaml#
->>>>> +
->>>>> +          properties:
->>>>> +            link-frequencies: true
->>>>> +            data-lanes: true
->>>>
->>>> No. Use $ref for both of them.
->>>>
->>>>> +
->>>>> +          required:
->>>>> +            - link-frequencies
->>>>> +            - data-lanes
->>>>
->>>> No, they are not required.
->>>>
->>>>> +
->>>>> +          additionalProperties: false
->>>>> +
->>>>
->>>> deprecation of old data-lanes property?
->>>>
->>>>>   required:
->>>>>     - compatible
->>>>>     - reg
->>>>> @@ -158,6 +172,9 @@ examples:
->>>>>                   reg = <1>;
->>>>>                   endpoint {
->>>>>                       remote-endpoint = <&typec>;
->>>>> +                    data-lanes = <1 2>;
->>>>> +                    link-frequencies = /bits/ 64 <160000000 
->>>>> 270000000
->>>
->>> s/1600/1620
->>>
->>>>> + 540000000 810000000>;
->>>>
->>>> I guess the number of zeroes is wrong here. This is 160 MHz ... 810 
->>>> Mhz, rather than 1.6 GHz ... 8.1 GHz
->>>
->>> Ok, I was wrong here. The old code definitely defaults to 570 
->>> mega-something. Now I'd really like to read your description for the 
->>> link-frequencies property, because the 
->>> phy_configure_opts_dp::link_rate is clearly specified in Mb/s and it 
->>> takes a fixed set of values from 1.62 Gb/s up to 8.1 Gb/s.
->>>
->>> I think the drm_dp_bw_code_to_link_rate() function is incorrect by 
->>> itself, as it multiplies with 27000 (27 Mbps) rather than 270000 
->>> (0.27 Gbps) as required by the standard. So first, we should fix the 
->>> function, then all the rates would become logical.
->>
->> no, drm_dp_bw_code_to_link_rate() is correct and should not be 
->> changes since it impact to other dp drivers too.
->>
->> 0.27Gbps/lane is specified at DP spec.
->>
->> DP use 8b/10b coding rule (10 bits symbol contains 8 bits data).
->
-> At least it should get documentation that it returns Kylo-bytes per 
-> second.
->
-> But, getting back to link-frequencies. The documentation clearly says 
-> that it should be allowed data bus _frequencies_. And frequencies are 
-> measured in Hz, not in bits/sec or bytes/sec.
+Thanks.  Since this patch is independent of patch #4 (the only one that
+hasn't been reviewed yet), I went ahead and pushed this one to
+drm-intel-gt-next.  BTW, I noticed I wrote "mtl" in the patch title
+where I actually meant to have "mcr" (this isn't a MTL-specific change),
+so I corrected that typo while pushing as well.
 
-ok, in the case, we can specify link frequency (symbol rate), such as 
-81000000000 (8.1G hz), at dtsi to match link-frequencies cocumentation.
 
-then at parser, we have to divided by 10 to convert back to link rate 
-and then divided by 1000 to  convert to kb.
+Matt
 
-is this work for you?
+> 
+> Regards,
+> Bala
+> 
+> > ---
+> >  drivers/gpu/drm/i915/gt/intel_gtt.c | 27 +++++++++++++++++++--------
+> >  1 file changed, 19 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
+> > index 2ba3983984b9..e37164a60d37 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_gtt.c
+> > +++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
+> > @@ -482,14 +482,25 @@ static void tgl_setup_private_ppat(struct intel_uncore *uncore)
+> >  
+> >  static void xehp_setup_private_ppat(struct intel_gt *gt)
+> >  {
+> > -	intel_gt_mcr_multicast_write(gt, XEHP_PAT_INDEX(0), GEN8_PPAT_WB);
+> > -	intel_gt_mcr_multicast_write(gt, XEHP_PAT_INDEX(1), GEN8_PPAT_WC);
+> > -	intel_gt_mcr_multicast_write(gt, XEHP_PAT_INDEX(2), GEN8_PPAT_WT);
+> > -	intel_gt_mcr_multicast_write(gt, XEHP_PAT_INDEX(3), GEN8_PPAT_UC);
+> > -	intel_gt_mcr_multicast_write(gt, XEHP_PAT_INDEX(4), GEN8_PPAT_WB);
+> > -	intel_gt_mcr_multicast_write(gt, XEHP_PAT_INDEX(5), GEN8_PPAT_WB);
+> > -	intel_gt_mcr_multicast_write(gt, XEHP_PAT_INDEX(6), GEN8_PPAT_WB);
+> > -	intel_gt_mcr_multicast_write(gt, XEHP_PAT_INDEX(7), GEN8_PPAT_WB);
+> > +	enum forcewake_domains fw;
+> > +	unsigned long flags;
+> > +
+> > +	fw = intel_uncore_forcewake_for_reg(gt->uncore, _MMIO(XEHP_PAT_INDEX(0).reg),
+> > +					    FW_REG_WRITE);
+> > +	intel_uncore_forcewake_get(gt->uncore, fw);
+> > +
+> > +	intel_gt_mcr_lock(gt, &flags);
+> > +	intel_gt_mcr_multicast_write_fw(gt, XEHP_PAT_INDEX(0), GEN8_PPAT_WB);
+> > +	intel_gt_mcr_multicast_write_fw(gt, XEHP_PAT_INDEX(1), GEN8_PPAT_WC);
+> > +	intel_gt_mcr_multicast_write_fw(gt, XEHP_PAT_INDEX(2), GEN8_PPAT_WT);
+> > +	intel_gt_mcr_multicast_write_fw(gt, XEHP_PAT_INDEX(3), GEN8_PPAT_UC);
+> > +	intel_gt_mcr_multicast_write_fw(gt, XEHP_PAT_INDEX(4), GEN8_PPAT_WB);
+> > +	intel_gt_mcr_multicast_write_fw(gt, XEHP_PAT_INDEX(5), GEN8_PPAT_WB);
+> > +	intel_gt_mcr_multicast_write_fw(gt, XEHP_PAT_INDEX(6), GEN8_PPAT_WB);
+> > +	intel_gt_mcr_multicast_write_fw(gt, XEHP_PAT_INDEX(7), GEN8_PPAT_WB);
+> > +	intel_gt_mcr_unlock(gt, flags);
+> > +
+> > +	intel_uncore_forcewake_put(gt->uncore, fw);
+> >  }
+> >  
+> >  static void icl_setup_private_ppat(struct intel_uncore *uncore)
+> > -- 
+> > 2.38.1
+> > 
 
->
->
->>>>>                   };
->>>>>               };
->>>>>           };
->>>>> diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi 
->>>>> b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
->>>>> index 754d2d6..39f0844 100644
->>>>> --- a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
->>>>> +++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
->>>>> @@ -812,7 +812,11 @@ hp_i2c: &i2c9 {
->>>>>       status = "okay";
->>>>>       pinctrl-names = "default";
->>>>>       pinctrl-0 = <&dp_hot_plug_det>;
->>>>> -    data-lanes = <0 1>;
->>>>> +};
->>>>> +
->>>>> +&dp_out {
->>>>> +    data-lanes = <0  1>;
->>>>> +    link-frequencies = /bits/ 64 <160000000 270000000 540000000>;
->>>>
->>>> Same comment here.
->>>>
->>>>>   };
->>>>>   &pm6150_adc {
->>>>> diff --git a/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi 
->>>>> b/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi
->>>>> index 93e39fc..b7c343d 100644
->>>>> --- a/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi
->>>>> +++ b/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi
->>>>> @@ -440,7 +440,11 @@ ap_i2c_tpm: &i2c14 {
->>>>>       status = "okay";
->>>>>       pinctrl-names = "default";
->>>>>       pinctrl-0 = <&dp_hot_plug_det>;
->>>>> -    data-lanes = <0 1>;
->>>>> +};
->>>>> +
->>>>> +&dp_out {
->>>>> +    data-lanes = <0  1>;
->>>>> +    link-frequencies = /bits/ 64 <160000000 270000000 540000000 
->>>>> 810000000>;
->>>>
->>>> And here.
->>>>
->>>>>   };
->>>>>   &mdss_mdp {
->>>>
->>>
->
+-- 
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
