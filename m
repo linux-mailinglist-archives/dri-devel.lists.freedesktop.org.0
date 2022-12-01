@@ -1,41 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C87763EC2C
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 10:18:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46CA563EC3A
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 10:21:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5B0710E588;
-	Thu,  1 Dec 2022 09:18:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9875210E58A;
+	Thu,  1 Dec 2022 09:21:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF44610E59F
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 09:17:56 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1p0fhX-0005A8-Fd; Thu, 01 Dec 2022 10:17:51 +0100
-Message-ID: <cfe79acef967b26b6071ac712b42f28716aa4025.camel@pengutronix.de>
-Subject: Re: [PATCH] drm/etnaviv: print MMU exception cause
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Philipp Zabel <p.zabel@pengutronix.de>, etnaviv@lists.freedesktop.org, 
- Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Thu, 01 Dec 2022 10:17:50 +0100
-In-Reply-To: <d5d5ef3c8e4a1ca075ced3af4eeab1da8d86c338.camel@pengutronix.de>
-References: <20221130185303.2025810-1-l.stach@pengutronix.de>
- <d5d5ef3c8e4a1ca075ced3af4eeab1da8d86c338.camel@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
+ [209.85.160.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AB9410E58A
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 09:21:03 +0000 (UTC)
+Received: by mail-qt1-f174.google.com with SMTP id c15so586910qtw.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Dec 2022 01:21:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=6fSb3KNzIEE0W7AdsV0sBOucQCqOQ/fqMgUl4ol27wc=;
+ b=djnsVwxq5KZUUn5olgtxajqU8c/NltdIs5sKCejIaz1zb666479eez6wz8D9Nc1SRk
+ ++CpWX8jNs/jSuU6QJ02XSTuSyNFcET7oeG55xOAna8g7tF6QaxbeHJsSQEtGxheKAAk
+ y+ePPWc7lsl6baJ93kQazcIJK2FoAluwoBN0oqeB0qjy5eI88ZRada4vVeOHi0oZ+v4l
+ 973bkiG4b1yZMMFglWYOvtnU6ToWc56j7tf2T4t+G7BV3aAU0W9TIKwy9yobSQ2H5x/w
+ bRyNZNu8ar8mLIPj8Ip3ZbJqI3QLwDsJn8qmipTCp2/N16VxCqreOslh1QFeuiy2GNnM
+ 8Ggg==
+X-Gm-Message-State: ANoB5pmN8qMWXfiCelZb81k9KBHzkJwdT5+335SMcoUgdT0tlT3qUMNA
+ jrZCbPIoiQ8/JsT2l3D25yQbfXM9mA3dYg==
+X-Google-Smtp-Source: AA0mqf7H7/jkhuohuM5kvIN9H9XkEoaDLAsvJ0d3JuNr7G8O+yFbslKVK964cUBTxRGckMhwsoBrww==
+X-Received: by 2002:ac8:1019:0:b0:3a5:42b9:d7aa with SMTP id
+ z25-20020ac81019000000b003a542b9d7aamr59709298qti.58.1669886462059; 
+ Thu, 01 Dec 2022 01:21:02 -0800 (PST)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com.
+ [209.85.128.182]) by smtp.gmail.com with ESMTPSA id
+ u19-20020a05620a0c5300b006fa84082b6dsm2961122qki.128.2022.12.01.01.21.00
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Dec 2022 01:21:01 -0800 (PST)
+Received: by mail-yw1-f182.google.com with SMTP id
+ 00721157ae682-3b48b139b46so10786697b3.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Dec 2022 01:21:00 -0800 (PST)
+X-Received: by 2002:a81:a148:0:b0:3b4:8af5:48e with SMTP id
+ y69-20020a81a148000000b003b48af5048emr33977890ywg.383.1669886460726; Thu, 01
+ Dec 2022 01:21:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+References: <20221123065946.40415-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20221123065946.40415-5-tomi.valkeinen+renesas@ideasonboard.com>
+In-Reply-To: <20221123065946.40415-5-tomi.valkeinen+renesas@ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 1 Dec 2022 10:20:49 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWAPZHLxgQioNBw1HhZpvAN5WFydc-bbMkpfH5pdc1vNg@mail.gmail.com>
+Message-ID: <CAMuHMdWAPZHLxgQioNBw1HhZpvAN5WFydc-bbMkpfH5pdc1vNg@mail.gmail.com>
+Subject: Re: [PATCH v2 4/7] arm64: dts: renesas: r8a779g0: Add display related
+ nodes
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,86 +69,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
- dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
- patchwork-lst@pengutronix.de
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Philipp,
+On Wed, Nov 23, 2022 at 8:00 AM Tomi Valkeinen
+<tomi.valkeinen+renesas@ideasonboard.com> wrote:
+> Add DT nodes for components needed to get the DSI output working:
+> - FCPv
+> - VSPd
+> - DU
+> - DSI
+>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Am Donnerstag, dem 01.12.2022 um 09:40 +0100 schrieb Philipp Zabel:
-> On Mi, 2022-11-30 at 19:53 +0100, Lucas Stach wrote:
-> From: Christian Gmeiner <christian.gmeiner@gmail.com>
-> 
-> The MMU tells us the fault status. While the raw register value is
-> already printed, it's a bit more user friendly to translate the
-> fault reasons into human readable format.
-> 
-> Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> ---
-> I've rewritten parts of the patch to properly cover multiple
-> MMUs and squashed the reason into the existing message. Christian,
-> please tell me if you are fine with having your name attached to
-> this patch.
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 22 +++++++++++++++++++---
->  1 file changed, 19 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> index 37018bc55810..f79203b774d9 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -1426,6 +1426,15 @@ static void sync_point_worker(struct work_struct *work)
->  
-> 
->  static void dump_mmu_fault(struct etnaviv_gpu *gpu)
->  {
-> +	static const char *fault_reasons[] = {
-> +		"slave not present",
-> +		"page not present",
-> +		"write violation",
-> +		"out of bounds",
-> +		"read security violation",
-> +		"write security violation",
-> +	};
-> +
->  	u32 status_reg, status;
->  	int i;
->  
-> 
-> @@ -1438,18 +1447,25 @@ static void dump_mmu_fault(struct etnaviv_gpu *gpu)
->  	dev_err_ratelimited(gpu->dev, "MMU fault status 0x%08x\n", status);
->  
-> 
->  	for (i = 0; i < 4; i++) {
-> +		const char *reason = "unknown";
->  		u32 address_reg;
-> +		u32 mmu_status;
->  
-> 
-> -		if (!(status & (VIVS_MMUv2_STATUS_EXCEPTION0__MASK << (i * 4))))
-> +		mmu_status = (status >> (i * 4)) & VIVS_MMUv2_STATUS_EXCEPTION0__MASK;
-> 
-> VIVS_MMUv2_STATUS_EXCEPTION0__MASK is 0x3 ...
-> 
-> +		if (!mmu_status)
->  			continue;
->  
-> 
-> +		if ((mmu_status - 1) < ARRAY_SIZE(fault_reasons))
-> +			reason = fault_reasons[mmu_status - 1];
-> 
-Your mail quoting seems to be broken, again.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.3.
 
-> ... so (mmu_status - 1) can be 2 at most. This leaves me wondering how
-> "out of bounds" and the "security violation" errors can be reached. I
-> think this requires the exception bitfield masks to be extended to 0x7.
+Gr{oetje,eeting}s,
 
-Good catch! That's a inconsistency in rnndb, where we claim to be able
-to stuff the full exception enum into 2 bits. Will fix!
+                        Geert
 
-Regards,
-Lucas
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
