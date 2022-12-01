@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9469763ED76
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 11:18:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BE2263ED77
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 11:18:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEDE410E5A3;
-	Thu,  1 Dec 2022 10:18:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF2B010E5A6;
+	Thu,  1 Dec 2022 10:18:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
  [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63D1A10E5A3
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 10:18:19 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 8557F5C0187;
- Thu,  1 Dec 2022 05:18:18 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2256810E065
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 10:18:21 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 74ED15C0187;
+ Thu,  1 Dec 2022 05:18:20 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 01 Dec 2022 05:18:18 -0500
+ by compute5.internal (MEProxy); Thu, 01 Dec 2022 05:18:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1669889898; x=
- 1669976298; bh=MWSrBvl/UW9ZbSLAN/MFFkSUKxOl0WiQ6KDpmIUnOcI=; b=F
- fsQ+eQ/DDHPOrCYgluPVVPoQtj1DFKMS4TB2JqujnYdwY6e1FFXWnhXHef8awEbn
- O01Psl8oYuSjwRy9LeARJ589EzPxVhpzYdH5PzemXRjS5JUWlQ8BIdqw1oneqbsZ
- 3PyZauRHzTDSBPomBI1GZKEtHn/dLGFVyXW/x6/KRGivaTlDn6TRhZ6ZOVRxoDk/
- qyDFjnjWBIZsA/fPgb+1dV6/EL6TWIY5PkMFpg0tb+5LS283f1dQpAccfAsCPhGt
- ccvf+f6HXysWPl5MqwSX08US6Tnzouo32dqnRnNz2W2AwN4CWbAVlu/HVb5iluQ1
- Ozcr4J+maEoqpWdA+di9A==
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1669889900; x=
+ 1669976300; bh=SQDPbuBrjKSSl9BTe/dmiBNvmgZm3jOOEi7z1W5nu7A=; b=F
+ FK6+4M7WrL/93flav3ziB+H7ncsO+tipMyQRej8ghmhi14l5pvB5Fn2h5AAwt4Jk
+ 0vQZ4ZaVnmGh1PrQbVI6P8pDPJZPsv3sznYs7XG9pHr/2CHg0Jp75Ut2q/QfzmE3
+ 6T0Wl//KBFmjNb/X3ewJCRDVcF2vJJlrkoY1wgahIzFKsZE0Hs0z17Zm+3j3AJzm
+ afZSdHcs/rqUmNcX66lFAxkgZexPWGT/p7zA9PJK+9rnW+l4UJyX76QR0dOSZJbI
+ lcCAYadsKhospBhJgdW0Xtrz4uGX7F7dP2Of2HwprTZ1doqimBakQz3Al7qHbiCR
+ ck85SXftoocGaT+JruA/w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1669889898; x=
- 1669976298; bh=MWSrBvl/UW9ZbSLAN/MFFkSUKxOl0WiQ6KDpmIUnOcI=; b=d
- RjpnAbRSK7pS58wduLTPLGDFjRFytIEH7uvF6L3OBeV4ZH2RBxv1U1vx8FNLebCe
- cyqiI2X6EEchvlHRnkq1ODw6JCQJViletEYijpbFiX14BclDgAR0+wvnLnfnWiuK
- jBv7Wvp003OMTdvVOR78NgDi/PKZnGKYNVqWO2oK+pAIGLWbw7cHOnnZG+1xOd+j
- JZrUL05lYa4gp34c5I/9YcRdYEe1pSmgqZXytf4naft02rdfFOimsaf/bRXabJn8
- WnX1gk5NcuRArkvfz1Q4SNISj9nti7GGEhRDZSkN2SOwi+7PpO9Oa2yEay9yotLL
- XOjNZzKWMbzf7aTJBy/5w==
-X-ME-Sender: <xms:an-IY5ttoqb8i00ZTYdRTcX35BhG86cFczsFl4j7VUn8QveUjkAkZg>
- <xme:an-IYycJfJ4hx82odTf7UirMAHvftCHyb4TW8Zx5j7m6fKtig66TVX705Z72-A4XA
- BBLrkJ7x0P9-2MIH4I>
-X-ME-Received: <xmr:an-IY8xHXSROwEKOEG9068iULJaUbbsL-p0dcw5MDKiFqAZKjIBqt24l3jtjilmYy5cC6tIf3sTSIDCCmxZ5mb4R9aMFOxaBLx-BVYsChLNo5w>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1669889900; x=
+ 1669976300; bh=SQDPbuBrjKSSl9BTe/dmiBNvmgZm3jOOEi7z1W5nu7A=; b=J
+ tVINV7aOOP7O3SzjKfHh4mlAGi0jS3VGEJD9rZGsi5zu2mYfI7wndBf1Tk+PVz7d
+ DM9BTIBoSxwKembXyXo2hFrrPMzCI6F4zEmV9DlEoEEWGIy8Tk8mDn//6cIY1qYK
+ 3vX5t509MTzDgzuT6KPyp04UgvbdCgC/moB9IyZ+ho+4xrkAqU41wChSolCw9IoD
+ fmpAI51lVq8aBCg+ZLaw7BD0hKyCSwB4sVHQE58WkUknv9dPXqctH0+8UWPxi3wS
+ E2QJkVFoC/Y7efrC5AX9KySWpXKkfPY9xGRf+nUf/2HU1wiL18y/QlkDqkMGIwkE
+ Fr/IbOCKFXNRV3ebnqt4g==
+X-ME-Sender: <xms:bH-IY_nefTlgKl44-rArxUDOTATtxXlbA4d9RFmaSiSUuWpbwHAUlA>
+ <xme:bH-IYy3CbVRi9EIada97ekrtOYtP0kDPIjmSWmeZpEYPjYc8ENkZv_I1lvQsXI5dA
+ VYOXQeuBNqalAuRke8>
+X-ME-Received: <xmr:bH-IY1pzDI7nagQpT7splvm2mKwh2Pjc-YCYMtwl0uesRLmezo6yAa1xZZaRd8B6sVKlhnyiZAxExSpjEY0cg_z2eej3uNSLsDUQkoyhN0-o9Q>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrtdehgddugecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -54,23 +54,24 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrtdehgddugecutefuodetggdote
  htthgvrhhnpeeuieeggffhffffieefheduieeuvdetgeeufeffvefgtedvffehheekffev
  udefieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:an-IYwNGLKfZf1iXwqDWMfQxp7gwDXGfhdZ4jb6Zo1vGZ-WPDgXhag>
- <xmx:an-IY59FyFWDfLf6l4cwpIs4iUccrU0Pyw7ihfep0Xb8FOPFdKm74g>
- <xmx:an-IYwUbTQbrNO2ptuvLE4mcEyLDLS2gkP2Tom7WFLOEtuGScRzyXA>
- <xmx:an-IY8UI8rZSEekM6NxSWAA75IaqQLgUhhT1E6uagXHTnhOPIRLaeQ>
+X-ME-Proxy: <xmx:bH-IY3lly1LFekQGEET9Yt9KfaoS-nRFriSq9L9jL2UXvZXghD7Mpw>
+ <xmx:bH-IY92ulLP4KsuycHZWGfUxuuV3iO5YI10fV8KEE3FX1v0je8vR5A>
+ <xmx:bH-IY2ueC2adYzdHSKbElMvnpLg42zfkvcxuab_KOqgbDLD9Z7V0Mw>
+ <xmx:bH-IYxLFnfGdcthYMrHDiSmCymw9n5HC6V7bphhPawLUy5XJ-RVRuQ>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 1 Dec 2022 05:18:17 -0500 (EST)
+ 1 Dec 2022 05:18:19 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
-To: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <maxime@cerno.tech>, Daniel Vetter <daniel.vetter@intel.com>
-Subject: Re: [PATCH] drm/tests: probe_helper: Fix unitialized variable
-Date: Thu,  1 Dec 2022 11:18:10 +0100
-Message-Id: <166988985776.410916.4574339381986293754.b4-ty@cerno.tech>
+To: David Airlie <airlied@linux.ie>, Maxime Ripard <maxime@cerno.tech>,
+ Maxime Ripard <mripard@kernel.org>, Emma Anholt <emma@anholt.net>,
+ Eric Anholt <eric@anholt.net>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v3 0/7] drm/vc4: dpi: Various improvements
+Date: Thu,  1 Dec 2022 11:18:11 +0100
+Message-Id: <166988985776.410916.3768232487459584873.b4-ty@cerno.tech>
 X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221201090736.290935-1-maxime@cerno.tech>
-References: <20221201090736.290935-1-maxime@cerno.tech>
+In-Reply-To: <20221013-rpi-dpi-improvements-v3-0-eb76e26a772d@cerno.tech>
+References: <20221013-rpi-dpi-improvements-v3-0-eb76e26a772d@cerno.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -86,14 +87,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, dri-devel@lists.freedesktop.org
+Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Joerg Quinten <aBUGSworstnightmare@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Chris Morgan <macromorgan@hotmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 1 Dec 2022 10:07:36 +0100, Maxime Ripard wrote:
-> The len variable is used while uninitialized. Initialize it.
+On Thu, 01 Dec 2022 09:42:45 +0100, Maxime Ripard wrote:
+> Those patches have been in the downstream RaspberryPi tree for a while and help
+> to support more DPI displays.
+> 
+> Let me know what you think,
+> Maxime
 > 
 > 
+> [...]
 
 Applied to drm/drm-misc (drm-misc-next).
 
