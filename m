@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6217163F16E
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 14:19:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6A3363F174
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 14:21:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06E9810E5CF;
-	Thu,  1 Dec 2022 13:19:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D49D910E5DD;
+	Thu,  1 Dec 2022 13:21:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6810810E5DE
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 13:19:15 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1p0jT6-0005zw-Lz; Thu, 01 Dec 2022 14:19:12 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1p0jT1-001alJ-Sp; Thu, 01 Dec 2022 14:19:08 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1p0jT1-001ng9-TI; Thu, 01 Dec 2022 14:19:07 +0100
-Date: Thu, 1 Dec 2022 14:19:07 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH v2 00/11] pwm: Allow .get_state to fail
-Message-ID: <20221201131907.bmrenldnua7uaeab@pengutronix.de>
-References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
- <Y4iL9xf5bJM5pyeR@wendy>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3616710E5DD
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 13:21:15 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 5F8B86200F;
+ Thu,  1 Dec 2022 13:21:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE4E5C433D6;
+ Thu,  1 Dec 2022 13:21:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1669900874;
+ bh=3Q0nqM/0El/JdGglB4N55DCT/z+HmXOFsWcr+k7N5A0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=1vjc336rGPJFMCRw/GbQPdyQ9hBEG3PR+0ADeDQQOXNPyUxXjMyJV9cIQMAjNok45
+ +1LsfQAdo3RwXXqHE9lnN6gKfTqeVUN6PFGQi5YFKJfyKU7dHo02Y/3ObEvw7AT2A+
+ LGLMGXyNoHQpwQw61HZ0HgdiMSc3Vm5j5DLSLH7M=
+Date: Thu, 1 Dec 2022 14:21:11 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
+Subject: Re: [PATCH v2 0/6] drm/gud: Use the shadow plane helper
+Message-ID: <Y4iqR94aGFa3NahQ@kroah.com>
+References: <20221122-gud-shadow-plane-v2-0-435037990a83@tronnes.org>
+ <Y4hB5odv9IGaq3Di@kroah.com>
+ <1cb40762-5f0a-1739-1670-155f59ec7110@tronnes.org>
+ <Y4iaODY6hMVNsfP1@kroah.com>
+ <4e75582c-b3d6-fb0e-19b4-e4fd58c6bf55@tronnes.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="twdnam2bj5te67tc"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <Y4iL9xf5bJM5pyeR@wendy>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4e75582c-b3d6-fb0e-19b4-e4fd58c6bf55@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,78 +54,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Satya Priya <quic_c_skakit@quicinc.com>, Pavel Machek <pavel@ucw.cz>,
- Guenter Roeck <groeck@chromium.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
- linux-riscv@lists.infradead.org, linux-leds@vger.kernel.org,
- Jerome Brunet <jbrunet@baylibre.com>, chrome-platform@lists.linux.dev,
- Florian Fainelli <f.fainelli@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Sean Anderson <sean.anderson@seco.com>, Kevin Hilman <khilman@baylibre.com>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Michal Simek <michal.simek@xilinx.com>,
- linux-stm32@st-md-mailman.stormreply.com, Hammer Hsieh <hammerh0314@gmail.com>,
- linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
- Matthias Kaehlcke <mka@chromium.org>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- NXP Linux Team <linux-imx@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
- linux-sunxi@lists.linux.dev, linux-pwm@vger.kernel.org,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Ray Jui <rjui@broadcom.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Steven Rostedt <rostedt@goodmis.org>, Stephen Boyd <swboyd@chromium.org>,
- linux-gpio@vger.kernel.org, Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
- linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, Scott Branden <sbranden@broadcom.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>, Michael Walle <michael@walle.cc>,
- Palmer Dabbelt <palmer@dabbelt.com>, Masami Hiramatsu <mhiramat@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
- Claudiu Beznea <claudiu.beznea@microchip.com>
+Cc: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, tools@linux.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Dec 01, 2022 at 02:14:42PM +0100, Noralf Trønnes wrote:
+> 
+> 
+> Den 01.12.2022 13.12, skrev Greg KH:
+> > On Thu, Dec 01, 2022 at 11:00:44AM +0100, Noralf Trønnes wrote:
+> >>
+> >>
+> >> Den 01.12.2022 06.55, skrev Greg KH:
+> >>> On Wed, Nov 30, 2022 at 08:26:48PM +0100, Noralf Trønnes via B4 Submission Endpoint wrote:
+> >>>> Hi,
+> >>>>
+> >>>> I have started to look at igt for testing and want to use CRC tests. To
+> >>>> implement support for this I need to move away from the simple kms
+> >>>> helper.
+> >>>>
+> >>>> When looking around for examples I came across Thomas' nice shadow
+> >>>> helper and thought, yes this is perfect for drm/gud. So I'll switch to
+> >>>> that before I move away from the simple kms helper.
+> >>>>
+> >>>> The async framebuffer flushing code path now uses a shadow buffer and
+> >>>> doesn't touch the framebuffer when it shouldn't. I have also taken the
+> >>>> opportunity to inline the synchronous flush code path and make this the
+> >>>> default flushing stategy.
+> >>>>
+> >>>> Noralf.
+> >>>>
+> >>>> Cc: Maxime Ripard <mripard@kernel.org>
+> >>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> >>>> Cc: dri-devel@lists.freedesktop.org
+> >>>> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
+> >>>>
+> >>>> ---
+> >>>> Changes in v2:
+> >>>> - Drop patch (Thomas):
+> >>>>   drm/gem: shadow_fb_access: Prepare imported buffers for CPU access
+> >>>> - Use src as variable name for iosys_map (Thomas)
+> >>>> - Prepare imported buffer for CPU access in the driver (Thomas)
+> >>>> - New patch: make sync flushing the default (Thomas)
+> >>>> - Link to v1: https://lore.kernel.org/r/20221122-gud-shadow-plane-v1-0-9de3afa3383e@tronnes.org
+> >>>
+> >>> <formletter>
+> >>>
+> >>> This is not the correct way to submit patches for inclusion in the
+> >>> stable kernel tree.  Please read:
+> >>>     https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+> >>> for how to do this properly.
+> >>>
+> >>> </formletter>
+> >>
+> >> Care to elaborate?
+> >> Is it because stable got the whole patchset and not just the one fix
+> >> patch that cc'ed stable?
+> > 
+> > That is what triggered this, yes.
+> > 
+> >> This patchset was sent using the b4 tool and I can't control this
+> >> aspect. Everyone mentioned in the patches gets the whole set.
+> > 
+> > Fair enough, but watch out, bots will report this as being a problem as
+> > they can't always read through all patches in a series to notice this...
+> > 
+> 
+> Konstantin,
+> 
+> Can you add a rule in b4 to exclude stable@vger.kernel.org
+> (stable@kernel.org as well?) from getting the whole patchset?
 
---twdnam2bj5te67tc
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+stable@kernel.org is a pipe to /dev/null so that's not needed to be
+messed with.
 
-Hello Conor,
+As for this needing special casing in b4, it's rare that you send out a
+patch series and only want 1 or 2 of them in stable, right?
 
-On Thu, Dec 01, 2022 at 11:11:51AM +0000, Conor Dooley wrote:
-> TL;DR, I quite like the ability to return an error and not mislead the
-> caller.
+thanks,
 
-Is this an Ack?
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---twdnam2bj5te67tc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmOIqcgACgkQwfwUeK3K
-7Am3+gf9HQlrVI1DS5daIvtH5ajPj10gQCf7wUVcwdDqDzHuJW7mEQVvG1vEEaVC
-1sZxg13cFekIRhMzVMDj6JMG7MCuBqT0KWFDrstMLC2g7ot2+xZ6iJXXJL/3AQSm
-pf/UiOQYYN7VXn0Wpf8L2FkfFuTglAuZE6bLdE2t1/+pQnp9oR81aoPWJgZ8vhax
-WOkQYiH16UpgLNbhu7dV4133nkA6dfsSG+DrZjPy9vDdjCyDXUpxPnldpcHu+KCh
-zRNQ9gX0bYT60vQejp9169VriwhcHhts0uT6AnSYVw/MzYrwx/pJu9bdq+iq86Uc
-bMsdCWzzY9XerANJF7JdTMcJrfah8w==
-=luMq
------END PGP SIGNATURE-----
-
---twdnam2bj5te67tc--
+greg k-h
