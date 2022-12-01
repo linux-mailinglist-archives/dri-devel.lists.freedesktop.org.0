@@ -1,41 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B6B863ECE2
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 10:48:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FFA863ECE4
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 10:49:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EC2C10E5A0;
-	Thu,  1 Dec 2022 09:48:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1377410E59A;
+	Thu,  1 Dec 2022 09:49:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BA7610E59E
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 09:48:29 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1p0gB9-00014v-6n; Thu, 01 Dec 2022 10:48:27 +0100
-Message-ID: <22044896a2cbb1aae3c05facd367d29177c2448e.camel@pengutronix.de>
-Subject: Re: [PATCH v4 5/7] drm/etnaviv: add HWDB entry for
- VIPNano-QI.7120.0055
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-Date: Thu, 01 Dec 2022 10:48:25 +0100
-In-Reply-To: <20221201092131.62867-6-tomeu.vizoso@collabora.com>
-References: <20221201092131.62867-1-tomeu.vizoso@collabora.com>
- <20221201092131.62867-6-tomeu.vizoso@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DE7910E59A
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 09:49:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1669888161;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0tjYb+QjhYO0Jf+UCcwSKrQ6b4DpV+1uYKldtLZLA1E=;
+ b=Rb4cKAG6wRqUFFUQRdcRguBiO6xsioxgHr0smZTQuq8XEvjnligg2rvrkp2AyATpLZEFXA
+ IA5Yu6X5yUuAO+T1dU37djlITXNEvVlYATHd4IcX0wo6a/Yl8ymgCgZRYtRgBKq1E3AjeH
+ dKCVMXV12xu1Ge0Yg2VAG0Jv5agCKM8=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-262-gGp8AYuNMwKdky7fim6qqA-1; Thu, 01 Dec 2022 04:49:19 -0500
+X-MC-Unique: gGp8AYuNMwKdky7fim6qqA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ j29-20020adfb31d000000b0024237066261so246190wrd.14
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Dec 2022 01:49:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=0tjYb+QjhYO0Jf+UCcwSKrQ6b4DpV+1uYKldtLZLA1E=;
+ b=fuswfEc5Er9Xla2A6Bb+yLdA2CiZ3gxhQsljTnt79CK+nc7wxT4Z+Q2wVcJPp+x/Gi
+ T3KhU/vk+sJHDPaX2/iXyEtpnLFHKRthDcVkAyCnxRKIPW7V+YCD22O3R/KUW2nC/yaM
+ m3FvKMcvozSobExm6YoJvGkamTPI6wE3kheqqFpDthJhGVuUp6bXbZSsqUK3+n5uXuVN
+ kZMbpbfScGFDUB3GDT/UC2OvZyZW6bCpGGzqmCgnB8/6PIJm7J8bO1yFQc7QvVEADAbJ
+ eBclTtF3E/NkMeMtZFfzWsUnlpBSfVngEBbG9wHiYPAWiilJfTge/N7BT+qlGv9g8XXX
+ M3/w==
+X-Gm-Message-State: ANoB5pmh4juhb50IcZdKVmX1sCzlsdbhyg6zhaHaL5LDAtQ+pOhBR+De
+ ycRAKvUsj9CVtR1vzO803XaTTM/hu0sVFt8KyqZFQ94u4ZLR0JJ5r/LRQrWfm796k4NG8NitKIv
+ aSwOthjNSu3pxPt1UEL+GD+39UWru
+X-Received: by 2002:adf:db4f:0:b0:242:1bbc:9f03 with SMTP id
+ f15-20020adfdb4f000000b002421bbc9f03mr10844256wrj.377.1669888158931; 
+ Thu, 01 Dec 2022 01:49:18 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4rhZ7DIZm4LHtXDGAOMrpRGhtPMuCN6cbbJgEBFAMkvaCv7H/7p6oFWDNhx3Lf97ZhiEVIdA==
+X-Received: by 2002:adf:db4f:0:b0:242:1bbc:9f03 with SMTP id
+ f15-20020adfdb4f000000b002421bbc9f03mr10844243wrj.377.1669888158692; 
+ Thu, 01 Dec 2022 01:49:18 -0800 (PST)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ h4-20020a5d5044000000b00241bc4880fesm3896103wrt.111.2022.12.01.01.49.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Dec 2022 01:49:18 -0800 (PST)
+Message-ID: <df84bd2e-5522-a08e-b1c1-70d5b65559c5@redhat.com>
+Date: Thu, 1 Dec 2022 10:49:17 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH 1/3] drm/doc: Fix title underline length
+To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter
+ <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+References: <20221128081938.742410-1-maxime@cerno.tech>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20221128081938.742410-1-maxime@cerno.tech>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,82 +88,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: italonicola@collabora.com, "moderated list:DRM DRIVERS FOR VIVANTE GPU
- IP" <etnaviv@lists.freedesktop.org>, "open list:DRM DRIVERS FOR VIVANTE GPU
- IP" <dri-devel@lists.freedesktop.org>, open list <linux-kernel@vger.kernel.org>,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: kernel test robot <lkp@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomeu,
-
-the changes itself look good to me now, I was just very confused about
-the ordering of the patches.
-
-I would have expected them to be in this order:
-1. Add NN cores to chip identities struct (set to 0 for all existing
-entries in HWDB)
-2. Add UAPI warning
-3. Add HWDB entry for VIPNano-QI.7120.0055 (having NN cores set to
-correct value, so you don't touch the entry twice in the same series)
-
-Regards,
-Lucas
-
-Am Donnerstag, dem 01.12.2022 um 10:21 +0100 schrieb Tomeu Vizoso:
-> This is a compute-only module marketed towards AI and vision
-> acceleration. This particular version can be found on the Amlogic A311D
-> SoC.
+On 11/28/22 09:19, Maxime Ripard wrote:
+> The underline length for the new Analog TV properties section doesn't
+> match the title length, resulting in a warning.
 > 
-> The feature bits are taken from the Khadas downstream kernel driver
-> 6.4.4.3.310723AAA.
-> 
-> Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+> Fixes: 7d63cd8526f1 ("drm/connector: Add TV standard property")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > ---
->  drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 31 ++++++++++++++++++++++++++
->  1 file changed, 31 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-> index f2fc645c7956..3f6fd9a3c088 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-> @@ -130,6 +130,37 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
->  		.minor_features10 = 0x90044250,
->  		.minor_features11 = 0x00000024,
->  	},
-> +	{
-> +		.model = 0x8000,
-> +		.revision = 0x7120,
-> +		.product_id = 0x45080009,
-> +		.customer_id = 0x88,
-> +		.eco_id = 0,
-> +		.stream_count = 8,
-> +		.register_max = 64,
-> +		.thread_count = 256,
-> +		.shader_core_count = 1,
-> +		.vertex_cache_size = 16,
-> +		.vertex_output_buffer_size = 1024,
-> +		.pixel_pipes = 1,
-> +		.instruction_count = 512,
-> +		.num_constants = 320,
-> +		.buffer_size = 0,
-> +		.varyings_count = 16,
-> +		.features = 0xe0287cac,
-> +		.minor_features0 = 0xc1799eff,
-> +		.minor_features1 = 0xfefbfadb,
-> +		.minor_features2 = 0xeb9d6fbf,
-> +		.minor_features3 = 0xedfffced,
-> +		.minor_features4 = 0xd30dafc7,
-> +		.minor_features5 = 0x7b5ac333,
-> +		.minor_features6 = 0xfc8ee200,
-> +		.minor_features7 = 0x03fffa6f,
-> +		.minor_features8 = 0x00fe0ef0,
-> +		.minor_features9 = 0x0088003c,
-> +		.minor_features10 = 0x108048c0,
-> +		.minor_features11 = 0x00000010,
-> +	},
->  };
->  
->  bool etnaviv_fill_identity_from_hwdb(struct etnaviv_gpu *gpu)
 
+Ah, I wasn't aware that this would lead to a kernel-doc warning.
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
