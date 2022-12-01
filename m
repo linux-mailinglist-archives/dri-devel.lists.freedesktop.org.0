@@ -2,71 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 559F963FA69
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 23:18:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26E8563FA71
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 23:22:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F36BB10E68C;
-	Thu,  1 Dec 2022 22:17:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D37D610E683;
+	Thu,  1 Dec 2022 22:22:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B794610E67A;
- Thu,  1 Dec 2022 22:17:51 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2B1KvGFj011191; Thu, 1 Dec 2022 22:17:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=qcppdkim1;
- bh=BsIhV61f48a1exBvKZpEkb+RMgLqTQbvrtEGK9lnO6E=;
- b=Z5aY9eltsy2loUrzGQpYB5MR9GxpflTxTGY2wUIWDX0s5zuQs3lGDseaL49XUpU+tFfN
- s+G1JXaU+5gB+E3uY6lmcDpDH3+Mgjeqgof53D4EgSWfX/4ZyhMmYUyjgmQd1wG6wZZO
- IlVVjEEvEg2t0i12dWCKxQS8e0TuWWXlRm3wJ4mj2okTjEOUgEWIs4Lh0s4VTrtQcplB
- Tv9/1DfFSbQNtr8IXWg7Wsu7rjZwdPvYCL/6McwTmQE7Yh47pVHTYQm5tUXKJwvkH/Qi
- 36ceVT3GZr8uRifsFJy09SumP7qgjHPh00bx+2uDc1U/FrRQl73X6Jr92RgwftejyqOT Qw== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3m6k83b2r6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 01 Dec 2022 22:17:41 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2B1MHdGH009964
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 1 Dec 2022 22:17:39 GMT
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Thu, 1 Dec 2022 14:17:39 -0800
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
- <dianders@chromium.org>, <vkoul@kernel.org>, <daniel@ffwll.ch>,
- <airlied@linux.ie>, <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
- <bjorn.andersson@linaro.org>
-Subject: [PATCH v7 0/5] Add data-lanes and link-frequencies to dp_out endpoint
-Date: Thu, 1 Dec 2022 14:17:29 -0800
-Message-ID: <1669933049-13106-1-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECF9A10E67A;
+ Thu,  1 Dec 2022 22:22:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1669933337; x=1701469337;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=d0z0quau9HIEizO84HgGpDbmGG7MEuJVApnfXdw69rY=;
+ b=X/QrI3I88inI8UEBkKmNttT2wa5qdMSbNbFeIshkgXwq8Y6Qrc9WShwc
+ IDcC58U8LvaTfIRTM6beMvsimfhFw6mxsauWOl7vJb1GSXTCh595UwOnq
+ Ar12BTqLVCMB6dZPXQwbEogml4Cnlo92JEX18zdirX6BOPw4VmRrLTVvL
+ 5x+KFJgvNxu6U63f8fAcRHv/GcCedVuyQ/AGtHs8x5YVD9bY/QQQdPwZn
+ TsFqBVattSYpYD21qp64PJg2Q3kPV+/wYhkFwaNyXgoX2B9Lclxg8ADp7
+ VeasKQRbYvVAz1zlYH2ZC1lf2wKTD6KPoyvqSIMae6CfUqg5JceFu8nTB Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="303416359"
+X-IronPort-AV: E=Sophos;i="5.96,210,1665471600"; d="scan'208";a="303416359"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Dec 2022 14:22:16 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="677380323"
+X-IronPort-AV: E=Sophos;i="5.96,210,1665471600"; d="scan'208";a="677380323"
+Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Dec 2022 14:22:15 -0800
+From: Matt Roper <matthew.d.roper@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915/gen12: Apply recommended L3 hashing mask
+Date: Thu,  1 Dec 2022 14:22:10 -0800
+Message-Id: <20221201222210.344152-1-matthew.d.roper@intel.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: H733NCmQIkZSeZjNRvNBUUWoKOd61LG1
-X-Proofpoint-ORIG-GUID: H733NCmQIkZSeZjNRvNBUUWoKOd61LG1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-01_14,2022-12-01_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 malwarescore=0
- priorityscore=1501 suspectscore=0 phishscore=0 lowpriorityscore=0
- mlxscore=0 adultscore=0 impostorscore=0 clxscore=1015 mlxlogscore=862
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2212010171
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,35 +54,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- quic_khsieh@quicinc.com, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add DP both data-lanes and link-frequencies property to dp_out endpoint and support
-functions to DP driver.
+The TGL/RKL/DG1/ADL performance tuning guide suggests programming a
+literal value of 0x2FC0100F for this register.  The register's hardware
+default value is 0x2FC0108F, so this translates to just clearing one
+bit.
 
-Kuogee Hsieh (5):
-  arm64: dts: qcom: add data-lanes and link-freuencies into dp_out
-    endpoint
-  dt-bindings: msm/dp: add data-lanes and link-frequencies property
-  drm/msm/dp: parser data-lanes as property of dp_out endpoint
-  drm/msm/dp: parser link-frequencies as property of dp_out endpoint
-  drm/msm/dp: add support of max dp link rate
+Take this opportunity to also clean up the register definition and
+re-write its existing bits/fields in the preferred notation.
 
- .../bindings/display/msm/dp-controller.yaml        | 22 +++++++++----
- arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi       |  6 +++-
- arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi     |  6 +++-
- drivers/gpu/drm/msm/dp/dp_display.c                |  4 +++
- drivers/gpu/drm/msm/dp/dp_panel.c                  |  7 ++--
- drivers/gpu/drm/msm/dp/dp_panel.h                  |  1 +
- drivers/gpu/drm/msm/dp/dp_parser.c                 | 38 ++++++++++++++++++----
- drivers/gpu/drm/msm/dp/dp_parser.h                 |  2 ++
- 8 files changed, 68 insertions(+), 18 deletions(-)
+Bspec: 31870
+Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h     | 9 +++++----
+ drivers/gpu/drm/i915/gt/intel_workarounds.c | 4 ++++
+ 2 files changed, 9 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+index 61a5c9a83b1b..f8eb807b56f9 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+@@ -958,10 +958,11 @@
+ #define   GEN7_DISABLE_SAMPLER_PREFETCH		(1 << 30)
+ 
+ #define GEN8_GARBCNTL				_MMIO(0xb004)
+-#define   GEN9_GAPS_TSV_CREDIT_DISABLE		(1 << 7)
+-#define   GEN11_ARBITRATION_PRIO_ORDER_MASK	(0x3f << 22)
+-#define   GEN11_HASH_CTRL_EXCL_MASK		(0x7f << 0)
+-#define   GEN11_HASH_CTRL_EXCL_BIT0		(1 << 0)
++#define   GEN11_ARBITRATION_PRIO_ORDER_MASK	REG_GENMASK(27, 22)
++#define   GEN12_BUS_HASH_CTL_BIT_EXC		REG_BIT(7)
++#define   GEN9_GAPS_TSV_CREDIT_DISABLE		REG_BIT(7)
++#define   GEN11_HASH_CTRL_EXCL_MASK		REG_GENMASK(6, 0)
++#define   GEN11_HASH_CTRL_EXCL_BIT0		REG_FIELD_PREP(GEN11_HASH_CTRL_EXCL_MASK, 0x1)
+ 
+ #define GEN9_SCRATCH_LNCF1			_MMIO(0xb008)
+ #define   GEN9_LNCF_NONIA_COHERENT_ATOMICS_ENABLE	REG_BIT(0)
+diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+index 85822ebb0d64..2f13a92f77d3 100644
+--- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
++++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+@@ -2937,6 +2937,10 @@ add_render_compute_tuning_settings(struct drm_i915_private *i915,
+ 	if (INTEL_INFO(i915)->tuning_thread_rr_after_dep)
+ 		wa_mcr_masked_field_set(wal, GEN9_ROW_CHICKEN4, THREAD_EX_ARB_MODE,
+ 					THREAD_EX_ARB_MODE_RR_AFTER_DEP);
++
++	if (GRAPHICS_VER(i915) == 12 && GRAPHICS_VER_FULL(i915) < IP_VER(12, 50)) {
++		wa_write_clr(wal, GEN8_GARBCNTL, GEN12_BUS_HASH_CTL_BIT_EXC);
++	}
+ }
+ 
+ /*
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+2.38.1
 
