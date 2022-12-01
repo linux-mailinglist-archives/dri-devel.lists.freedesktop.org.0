@@ -1,158 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FC9063F807
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 20:20:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18C3863F85D
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 20:34:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FC0310E153;
-	Thu,  1 Dec 2022 19:20:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FA0110E156;
+	Thu,  1 Dec 2022 19:33:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABFA710E153;
- Thu,  1 Dec 2022 19:20:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669922414; x=1701458414;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=wTaWH+iea7CtqzLVMYcEhoE6IJxqrBsQg7urc+kvmnY=;
- b=jZFnEY2Mf2+Q1xQXbC3Gk8fgNY00/nzrAET29tszZLfmPGxJJ2SbQ68L
- IPWEocce09ePfVp72qrfZfOptmJE8XZ4942GZQpPSDdp5oEd6DrKhcUWc
- lOx0mn//Tschyk1Yez3A+HC/KO5L/8ErPg6djRkG7XnLlcoxTS1hg65rz
- o52XZxqVbQlOv7RNxiT81wO3M/jstFrnumuAqWGk5b4vnHfeQWOxYv9g+
- rIA8Gs1rC4N3tWna/sm+FYYvH5D15NRunNNYwmhZlV85eoGiKgqFLV59Z
- lk3UB5vBkzLwYYyPvmsHv3ILaMDGy5Uubv7Tlw1fqcIxNO9IBiRMPaFNr g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="295472001"
-X-IronPort-AV: E=Sophos;i="5.96,210,1665471600"; d="scan'208";a="295472001"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2022 11:20:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="819166215"
-X-IronPort-AV: E=Sophos;i="5.96,210,1665471600"; d="scan'208";a="819166215"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by orsmga005.jf.intel.com with ESMTP; 01 Dec 2022 11:20:13 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 1 Dec 2022 11:20:12 -0800
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 1 Dec 2022 11:20:12 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Thu, 1 Dec 2022 11:20:12 -0800
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.108)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Thu, 1 Dec 2022 11:20:12 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JLLTkGLNQZyoCTFY1x8HOSpYbfcRqAGOlLx4OL8txmQ1GUoEEDtCkXQ8K0OA/z/5l9XAwUKc9GyPQ2gdw5AC3+WQAZ54NB7DBrfd0IR2MFL0c8+XCoCh8z/GZEezoEaNoZ6IAZpvR6pB/CjN395Y4fXdgdLrYj99vEKo6jGeQ+BqByuHrWhbCsExy771ZdTcHxE8dTHd473PsachKQGoa7HFX9/na6gcvrx3QojaRC9Ad7NcmO6I7yz+YXqsSl/f5ZVAbEWuT2ls+haNVgihnThdHSZLN9xhfsP/D6CJ9NirTq75Ijx99Ux0zcrBMm6zhdl0SCIHB0voNzUeskqEnQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wTaWH+iea7CtqzLVMYcEhoE6IJxqrBsQg7urc+kvmnY=;
- b=OTDmfMYKsQfccLbP2ngz/EEW3aasHgDrwdbSUz5ErgfrEBNegwk6we6BhA6+ERvs9L/Bg1oIIRIDnO6yo6w31+7D/2fwbpHikjaevvBit8D1SCVeQqvxyFp2WdXDDawAEpkYrZIdSPmCrXE3iPI8/TvJ03AuVbVFyNc5WyOH/LFHjYAgLTUZXE+LcjVHEc5ZLBuTB1OMsyt0MLqYSOykytsOLeSDN2yKvqAzmR7WBdRacrzyaESXTgu3tqOBI+STwM1jH40TNr0IPpUtFHsMQ4hG43Qh8tkm4nP4iqy2s9WTz+9OV43+UyFv3SNJSTwtRMRBKC+aKbkKNUeBubTFSQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM8PR11MB5751.namprd11.prod.outlook.com (2603:10b6:8:12::16) by
- DM4PR11MB6384.namprd11.prod.outlook.com (2603:10b6:8:8a::11) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5857.23; Thu, 1 Dec 2022 19:20:08 +0000
-Received: from DM8PR11MB5751.namprd11.prod.outlook.com
- ([fe80::6894:1dbc:4681:66b6]) by DM8PR11MB5751.namprd11.prod.outlook.com
- ([fe80::6894:1dbc:4681:66b6%4]) with mapi id 15.20.5880.008; Thu, 1 Dec 2022
- 19:20:08 +0000
-From: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>
-To: "Vivi, Rodrigo" <rodrigo.vivi@intel.com>, "Roper, Matthew D"
- <matthew.d.roper@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v6 1/1] drm/i915/pxp: Promote pxp subsystem to
- top-level of i915
-Thread-Topic: [Intel-gfx] [PATCH v6 1/1] drm/i915/pxp: Promote pxp subsystem
- to top-level of i915
-Thread-Index: AQHZBF+GpXTTTK3BYE6Y7lb4YlTCSK5XuqOAgAAC0wCAAa5UAA==
-Date: Thu, 1 Dec 2022 19:20:08 +0000
-Message-ID: <860bdb16f2aa72423d5ffcdc81810f6918dabf96.camel@intel.com>
-References: <20221130020245.3909555-1-alan.previn.teres.alexis@intel.com>
- <Y4eTobptLTXXfqGF@mdroper-desk1.amr.corp.intel.com>
- <1c4cd3873756ee417391d0354f2646a031cdf2b6.camel@intel.com>
-In-Reply-To: <1c4cd3873756ee417391d0354f2646a031cdf2b6.camel@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.44.4-0ubuntu1 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR11MB5751:EE_|DM4PR11MB6384:EE_
-x-ms-office365-filtering-correlation-id: 0032ea76-0808-417c-49a7-08dad3d10f86
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 0/vi1T2heSm7Q55+R8Wp7b3gbTtGI/JsR6BsuTFiP1PWpYlgw/PMb2Zy34UK9QhllfAabBWEp2S22KUUcBX6SA+OWuLoH5aT9tBCKAjUWhhRPiDgdHgqfitMEaUss0pFKShV0oeT5G90fe2FHEEMr8xFUQ53HlblaQ8AEzKjfhZvVHaL+NosAXmlf4Y02vf6owr1o9vRrAxCVknCUkyixO/TOOCnU36HorcAnDDn/k6/ov92GVQxww5uLFBgXJCfHbkWi8jrJ1WzSwdsB86QrCrRqtf2xfKCILXUutOzJJLd9BxNxIbvfykQO+ayrcr9FAasJHJm6g3vBn7dTa53MuKpiANa/EM2MZJqrs5w9+WmfEiKCOpBQOfCcW0prpnReQDsrGsfOQJGwpG5bXwVfS/iZpxdrNMj6yVyTTwonzg8J9NPQissnfsyNrvMkNrC31qHlljYjMnK86iwQJA8+0C4FySkf02bEDJ5bq7qeGFBUwLHMpKIJXzbBnYJHJka0jYtEjgTdXG7aSnqWloVghVOL1+X9YUhCidq8DduqR47EIW/f3E+q28CDtWj2oXE8lfGofKoF74Y5l63t8q6XSIQhUQNN31baPfKjFQPlPwTeTYDB00Ho48w+J79IuiYAgUUx4Mhv9Glr8/IRj3Na1BudtnAiAVF2wyO6LqDOxkBvVntRalAkM53eL9LmVxyzGb7vrpUN/+qES/fpTlvcA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM8PR11MB5751.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(39860400002)(346002)(136003)(396003)(366004)(376002)(451199015)(478600001)(6486002)(4001150100001)(83380400001)(2906002)(86362001)(71200400001)(5660300002)(54906003)(6636002)(122000001)(38100700002)(110136005)(38070700005)(66946007)(66556008)(36756003)(8936002)(66446008)(6506007)(41300700001)(2616005)(66476007)(8676002)(4326008)(82960400001)(64756008)(26005)(450100002)(91956017)(76116006)(6512007)(316002)(186003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UGc3UCtXYkJ4RG9KdUpYNll5Y01QMkxRZnhOdVlqVWJJeisyMGlINmZYbCsv?=
- =?utf-8?B?Sm43c24zT0ZrN0hIL0RiZm9PTm9TbS9IWFZ5OEZCVm13VGx6eFFLRzNpb0lG?=
- =?utf-8?B?a3kvUCs1RkZIckNvcHhLazdIemJ3dXJ5TXhLYXBjcEZINjVYYmhjOGQ1RUNI?=
- =?utf-8?B?OWFRUkIzcGp4TndZNnVDQk51NHg3b1IrbWt6MGk1WlAreWdDa1o4cm9vWmVv?=
- =?utf-8?B?MFNBaDF0cG1vRTJ1SEh5YVlzbC9Ma3ZTeUR0Z1RMQm1IWlhEOVN3bWxvZnYz?=
- =?utf-8?B?cHZZTzd4YURydHU2cmUwTm1vOWJmajRaQUlPdHRyYUtvcThXRVY5OUNUcHpV?=
- =?utf-8?B?WkdVVjdxN3ZrYUJJbFFYVDVFZlE5ZmZJWTlYaGxuRllITGNSd0Jqbkg0aVhC?=
- =?utf-8?B?MHErd0VUU25MK2FWTVZMMjBlWWxETUVlNUs5V1YvM0lBU3NuUzVjaTd0RERS?=
- =?utf-8?B?WXdJMXVTY0ZEbDlrY0lXZXhUSnVVRGJmNlVJS2g5UGFKZGZBR3RYMlFOS29h?=
- =?utf-8?B?RStXT2hvcEFlSjlFNlVxanpscDZqaFFqZlNEWmZsVFV6ZXlPOWljK3c0a1dJ?=
- =?utf-8?B?VW5wN29ZaWI4dW1VOHVMYlR5MERaTzNtUlJLdnFDRWhVdGRXcGNaNW9aMm1x?=
- =?utf-8?B?TWk2WTFCSzFKd0krSVZCeUpDZmN5OENrS0hteVlQU1lPT1dMaWxoeE5QalFh?=
- =?utf-8?B?dkZnNHBtdkJySHBLY1RQdkVNa3pOcENyVzl1NjdoTjRKOWRoYmI4VlZSR1Zk?=
- =?utf-8?B?VG9EOTNOemFCK1ZLYjJHWEtlRVJ1N1YvNzNzMU54VVR4TFMzTFdoWXIrcVAz?=
- =?utf-8?B?RGc4QjJRQ2RLdlF5UlhaVWY2QzM4UldYMzFra21JYzl5azBQRzlEd2tLVVIz?=
- =?utf-8?B?Wm96eWhEVVR0ZjJnVWxVQ2RSamFTaXJDUFdQeVMxRFlZeVJMMUFZZ0JBMEJV?=
- =?utf-8?B?cGcwL0hwSmtlb05QRVc1NmJjdHY3dlNRckVzZUp2UmI1WitIVUF0Q25KdkRK?=
- =?utf-8?B?ZFozc0FNdllQL3EyMi9vNmorSmlWTTFCYjVhb2NQQjZaQXkrS0pBUlpDeWpi?=
- =?utf-8?B?Vm9YajNoRjhBV0QzQUQxRXE0L2RuSDkzcjRKdXNqa2JmU0NpbFNhV3NmMmFM?=
- =?utf-8?B?aGJ6RHNwVEJuQmsvV1FEdGU0T1F2aUNqSHBiODRieC92N2hBN043MExVcUJ4?=
- =?utf-8?B?N0x1U1hZSWp5aDRhV05JWGMycDgwTlBSVCtNQjRiYzdFTzVzV1pwVS9SbFVq?=
- =?utf-8?B?c2pGdHRkVGNXR1c3ZXA1bjB3cUZJdE5XbU14cXRLeXJpMFgvdE5hMVRqV2xT?=
- =?utf-8?B?eUxzVUE4RlY3OWVKMzZTakpBamM3UERnODR3ZWdMN3VyU1dvK21GclBLbmhU?=
- =?utf-8?B?TjhaaVNpYVJiSXpnMnhWeFFZQVZEekZDNU94Z0Z1ZkhubEhtRmE3VFd6VnNn?=
- =?utf-8?B?NmpUUVFHbHExQWE4b1dXejRtYjZkZHVhVmZTRjdLK202SkVZbEhYdk96T0oz?=
- =?utf-8?B?UFNsSktuTHZhaEFiR21NRDJXMzh5bjZaY0VsTklPQ1hkNHV5VkF4YlZhdzVr?=
- =?utf-8?B?YmNFNWR0Qjl0bWlabkFhNVNPellLQm0va0s2V1NxbEsyOUJlMFErRGp4aEVW?=
- =?utf-8?B?ckxhTDh1T0NRc3ErTkNvUTBYd2pScTI3ekZ6SEJJTnNQcUhjZThYcHowWURs?=
- =?utf-8?B?M0V0cVN0MGwzTXQyM0lzY2NMUkYyYklBU3R6WHpyK29FSjQ0RG1tSU5EZURV?=
- =?utf-8?B?Z3FnZ1FOQ2lrRE5wWXZLdUdWOCtqcVZRSmw4ZGhUZE9CYW9rUjUxRkt3QTdp?=
- =?utf-8?B?UnB2bmovdExHRktYK3NMUDdtQWx1bDJON0VFTWc0ZFY3OCtMMXAyYzZxcERh?=
- =?utf-8?B?WW1obnNuVUtwNHNycnVEU0lrRHc5MUNNc2IzamovRUl0MTBSQVNuNHZlRW9m?=
- =?utf-8?B?clFmS2VEdlI0cDE0TXZNOTFJOHVuSFEwL0UreUlQN3RpbVc5bDMwdFJIVnJK?=
- =?utf-8?B?Sk96ZEpuYjZFYjZwaGdJZmFyRGUwdUVaSThvcklwSVhhblVJWXdDSFg2Y3dP?=
- =?utf-8?B?SjI0SmJtb0NFZEFObXhDRXlKcE4zeFVOdGJJK002cnZDNzJlK1R3a2hSRjUx?=
- =?utf-8?B?ZTBVL05COXFnRGtUMlRZNnBlYlEvSFVaRCt5Y0xaK1llYVFqL000cnhudUhl?=
- =?utf-8?Q?nfNW9UDy3pVaJSc/0tD82Wo=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <21B6CBC5AE5BE24192AA263C9B2FF77A@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com
+ [IPv6:2001:4860:4864:20::33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73BB010E155;
+ Thu,  1 Dec 2022 19:33:49 +0000 (UTC)
+Received: by mail-oa1-x33.google.com with SMTP id
+ 586e51a60fabf-1433ef3b61fso3287787fac.10; 
+ Thu, 01 Dec 2022 11:33:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=VPkQQERyjiDmblFdMpvetG3Txhv1fALmSUiNK4uispU=;
+ b=JIVTb6kVxC2+GkogklTf3iO7DdD+uMRGAWgl1zuxAMxh7CuiezggfqAOEft6c/q8eW
+ RJLqfbNwTaiLr3hJaXKVcu91q0hjddR3wiaXAUojE/zXibeNisE9YFCIV6F6JTV9ClHW
+ YNWBOrfFh0xZarYfsulryI7QCQJ/04teja9lHFjLB6w0YTLDhiPctaZpMoDUwsyOn6Zn
+ NyP/dwmmWZDQcEh54JVmq0JV5UGQD5s9g15X8MIpt6Y9ur1MGU2B1L2g7muF1jku24Ap
+ DZS/aSJ+FRrTBJ1VBsf3tRZypBAFZteumLCs6GvgAl1iHbfZjxl/iKXOHF9PTRYbtnqQ
+ nc9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=VPkQQERyjiDmblFdMpvetG3Txhv1fALmSUiNK4uispU=;
+ b=j3M8EgicUhP0q5hjnP5LpotBA0+In1lJi3rY05i6UtkFzN0Ny13eErojrp7TMWeajs
+ zhFWvCWrW8viDh+ijEOKZc7ibnWNIi8SoCJPPoxpb0YNaNealV2OyJJbtAD+2rWNEb1e
+ OCsnRUyvAvaMBsMhAbMIRs10gaP7dXFnHKdU5tMkp3NB+EjFQqoRs3J8v5o97UWrtNwp
+ VOgb4TKBf9ZgqGX8qJoizp+qx8p1O2VQ4T4gsWXE+K1/Sm+q8bCrC3J/mSQyhOb0Gu7y
+ IdT1y3FDybPpLmZh79k3C2Vh0OXtgZYhXSqx5ZFXGdQSo4n2VX5/R17k4hgOn8rQLvJb
+ juUw==
+X-Gm-Message-State: ANoB5plsVr/S1xY23zGhYgLhHQ0i3MGKtKx1X3Iyg6cCgyM9yA1UBdRc
+ tnGm+cPSRi7OXgqGURXt1zwi0qB9l0f2nvU+U9Q=
+X-Google-Smtp-Source: AA0mqf5Y1FCdimrFaHTrU8Rv9VYLNayXBm6wkTjy2CMyzp5Sfd1yy5/UTaWmVF4ZZMuRF85ezZkOgwQrLlHPdjOhg84=
+X-Received: by 2002:a05:6870:b01e:b0:131:f559:461b with SMTP id
+ y30-20020a056870b01e00b00131f559461bmr37615734oae.38.1669923228590; Thu, 01
+ Dec 2022 11:33:48 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5751.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0032ea76-0808-417c-49a7-08dad3d10f86
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Dec 2022 19:20:08.7962 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: FiCRI+RAoez78poEVgpt3sOawdLG0pH2iekYzngfZlD8rHORVTjHoRNpdHVyjWUt9kzNgc/WRfBraJW1evCDc587RZpv5u3LJKxgeCS5eyc2ZLiY+eHN3NLYDuvXwoMw
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6384
-X-OriginatorOrg: intel.com
+References: <20221111194957.4046771-1-joel@joelfernandes.org>
+ <20221111194957.4046771-2-joel@joelfernandes.org>
+ <899db0f8-7b8a-ed8f-30b8-4f630da1298d@quicinc.com>
+ <CAF6AEGtEswqCRXkrd+tWKb_1N1UXgQ=EVMTZAgxxpNcD2vYGHQ@mail.gmail.com>
+ <CAEXW_YSKBsVKBqJHB=9dQYV9XboTnsNb10ESJk1S_ia0gyKbuw@mail.gmail.com>
+In-Reply-To: <CAEXW_YSKBsVKBqJHB=9dQYV9XboTnsNb10ESJk1S_ia0gyKbuw@mail.gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 1 Dec 2022 11:33:40 -0800
+Message-ID: <CAF6AEGv9nOy6+_xgs3oF5GUKi+JZazS0G0fcviShGCpqzM9eEg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] adreno: Detect shutdown during get_param()
+To: Joel Fernandes <joel@joelfernandes.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,38 +69,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: Rob Clark <robdclark@chromium.org>, Emma Anholt <emma@anholt.net>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>, linux-kernel@vger.kernel.org,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ dri-devel@lists.freedesktop.org, Ross Zwisler <zwisler@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DQoNCk9uIFdlZCwgMjAyMi0xMS0zMCBhdCAxNzo0MiArMDAwMCwgVml2aSwgUm9kcmlnbyB3cm90
-ZToNCj4gT24gV2VkLCAyMDIyLTExLTMwIGF0IDA5OjMyIC0wODAwLCBNYXR0IFJvcGVyIHdyb3Rl
-Og0KPiA+IE9uIFR1ZSwgTm92IDI5LCAyMDIyIGF0IDA2OjAyOjQ1UE0gLTA4MDAsIEFsYW4gUHJl
-dmluIHdyb3RlOg0KPiA+ID4gU3RhcnRpbmcgd2l0aCBNVEwsIHRoZXJlIHdpbGwgYmUgdHdvIEdU
-LXRpbGVzLCBhIHJlbmRlciBhbmQgbWVkaWENCj4gPiA+IHRpbGUuIFBYUCBhcyBhIHNlcnZpY2Ug
-Zm9yIHN1cHBvcnRpbmcgd29ya2xvYWRzIHdpdGggcHJvdGVjdGVkDQo+ID4gDQo+ID4gRHJpdmUt
-YnkgY29tbWVudDrCoCB3ZSd2ZSBiZWVuIGEgYml0IGluY29uc2lzdGVudCBhYm91dCB0ZXJtaW5v
-bG9neSBpbg0KPiA+IHRoZSBwYXN0LCBidXQgbXkgdW5kZXJzdGFuZGluZyBpcyB0aGF0IHdlJ3Jl
-IHRyeWluZyB0byBzdGFuZGFyZGl6ZSBvbg0KPiA+ICJHVCIgZm9yIHRoZSB1bml0IHRoYXQgTVRM
-IGhhcyB0d28gb2YsIGFuZCBrZWVwaW5nIHRoZSB0ZXJtICJ0aWxlIg0KPiA+IGZvcg0KPiA+IHRo
-ZSBQVkMtc3R5bGUgdW5pdCB0aGF0IGlzIGEgY29tYmluYXRpb24gb2YgKEdUK2xtZW0pLg0KPiAN
-Cj4gSSBhZ3JlZSB0aGF0IHRoaXMgZ2V0cyByZWFsbHkgY29uZnVzaW5nLi4uIGJ1dCBpdCB3aWxs
-IGJlIGhhcmQgdG8NCj4gc3RhbmRhcmRpemUgdGhpcyBJJ20gYWZyYWlkLiBTcGVjaWFsbHkgd2hl
-biB3ZSBkbyB0aGUgUFZDLXN0eWxlLXRpbGUgYQ0KPiBpbnRlbF9ndCBzdHJ1Y3QgYW5kIHdlIGFw
-cGFyZW50bHkgYXJlIGRvaW5nIHRoZSBzYW1lIG9uIE1UTCwgbm8/IQ0KPiANCj4gU28sIHVubGVz
-cyB0aGUgdG9wb2xvZ3kgZ2V0cyBvcmdhbml6ZWQgaW4gdGhlIGNvZGUgd2l0aCBhIHN0YW5kYXJk
-DQo+IG5hbWUsIGl0IGlzIGhhcmQgdG8gZGVtYW5kIGV2ZXJ5b25lIHRvIHVzZSB0aGUgc2FtZSBv
-bmUuDQo+IA0KPiBCZXNpZGVzIHRoYXQgd2hlbmV2ZXIgd2Ugd2VyZSBkaXNjdXNzaW5nIHRoZSBw
-dmMncyBvbmUgd2UgYWxsIGhhZA0KPiBhZ3JlZWQgdGhhdCB0aGUgdGVybSAidGlsZSIgd2FzIGJh
-ZCwgaGVuY2Ugd2UgZm9jdXNlZCBvbiBrZWVwIHRoZQ0KPiBpbnRlbF9ndCByZWFkeSBmb3IgdGhh
-dC4NCj4gDQo+IFdoZW5ldmVyIEkgaGVhciB0aWxlIEkgdGhpbmsgb2YgdGhlIGRpc3BsYXkgYnVm
-ZmVyIG9yZ2FuaXphdGlvbi4uLg0KPiBhbmQgdGhlcmUgYXJlIG90aGVyICJ0aWxlcyIgZXhhbXBs
-ZXMgaWlyYy4NCj4gDQo+IA0KWWVhaC4uLiBHUFUgaXMgc28gY29tcGxleCB0aGVzZSBkYXlzLCBh
-IHNpbmdsZSBzdWJzc3l0ZW0gaXMgbGlrZSBhIHdob2xlIFNPQyBiYWNrIGluIHRoZSBkYXkgLi4u
-IGJlc2lkZSBkaXNwbGF5IHRpbGluZw0KZm9ybWF0cywgbWVkaWEncyBIRVZDIGhhcyAidGlsZXMi
-IHRoYXQgaXMga2luZGEgbGlrZSBtYWNyby1ibG9ja3MgYW5kIHdobyBjYW4gZm9yZ2V0IHJlbmRl
-cidzIHRpbGVkLXJlbmRlcmluZyAoYWxsIDMNCnNpbWlsYXIgYnV0IGNhbiBiZSBjb21wbGV0ZWx5
-IG9ydGhvZ29uYWwgZGVwZW5kaW5nIG9uIHRoZSBodyBjb25maWcgLyBidWZmZXIgc3RhdGUgLyB1
-c2FnZSkuIEknbSBhc3N1bWluZyB0aGlzDQpjb252ZXJzYXRpb24gaXMgYSBuaXQuIFBsZWFzZSBj
-b3JyZWN0IG1lIG90aGVyd2lzZS4NCg==
+On Thu, Dec 1, 2022 at 10:42 AM Joel Fernandes <joel@joelfernandes.org> wrote:
+>
+> On Sat, Nov 12, 2022 at 6:35 PM Rob Clark <robdclark@gmail.com> wrote:
+> >
+> > On Fri, Nov 11, 2022 at 1:28 PM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+> > >
+> > > On 11/12/2022 1:19 AM, Joel Fernandes (Google) wrote:
+> > > > Even though the GPU is shut down, during kexec reboot we can have userspace
+> > > > still running. This is especially true if KEXEC_JUMP is not enabled, because we
+> > > > do not freeze userspace in this case.
+> > > >
+> > > > To prevent crashes, track that the GPU is shutdown and prevent get_param() from
+> > > > accessing GPU resources if we find it shutdown.
+> > > >
+> > > > This fixes the following crash during kexec reboot on an ARM64 device with adreno GPU:
+> > > >
+> > > > [  292.534314] Kernel panic - not syncing: Asynchronous SError Interrupt
+> > > > [  292.534323] Hardware name: Google Lazor (rev3 - 8) with LTE (DT)
+> > > > [  292.534326] Call trace:
+> > > > [  292.534328]  dump_backtrace+0x0/0x1d4
+> > > > [  292.534337]  show_stack+0x20/0x2c
+> > > > [  292.534342]  dump_stack_lvl+0x60/0x78
+> > > > [  292.534347]  dump_stack+0x18/0x38
+> > > > [  292.534352]  panic+0x148/0x3b0
+> > > > [  292.534357]  nmi_panic+0x80/0x94
+> > > > [  292.534364]  arm64_serror_panic+0x70/0x7c
+> > > > [  292.534369]  do_serror+0x0/0x7c
+> > > > [  292.534372]  do_serror+0x54/0x7c
+> > > > [  292.534377]  el1h_64_error_handler+0x34/0x4c
+> > > > [  292.534381]  el1h_64_error+0x7c/0x80
+> > > > [  292.534386]  el1_interrupt+0x20/0x58
+> > > > [  292.534389]  el1h_64_irq_handler+0x18/0x24
+> > > > [  292.534395]  el1h_64_irq+0x7c/0x80
+> > > > [  292.534399]  local_daif_inherit+0x10/0x18
+> > > > [  292.534405]  el1h_64_sync_handler+0x48/0xb4
+> > > > [  292.534410]  el1h_64_sync+0x7c/0x80
+> > > > [  292.534414]  a6xx_gmu_set_oob+0xbc/0x1fc
+> > > > [  292.534422]  a6xx_get_timestamp+0x40/0xb4
+> > > > [  292.534426]  adreno_get_param+0x12c/0x1e0
+> > > > [  292.534433]  msm_ioctl_get_param+0x64/0x70
+> > > > [  292.534440]  drm_ioctl_kernel+0xe8/0x158
+> > > > [  292.534448]  drm_ioctl+0x208/0x320
+> > > > [  292.534453]  __arm64_sys_ioctl+0x98/0xd0
+> > > > [  292.534461]  invoke_syscall+0x4c/0x118
+> > > > [  292.534467]  el0_svc_common+0x98/0x104
+> > > > [  292.534473]  do_el0_svc+0x30/0x80
+> > > > [  292.534478]  el0_svc+0x20/0x50
+> > > > [  292.534481]  el0t_64_sync_handler+0x78/0x108
+> > > > [  292.534485]  el0t_64_sync+0x1a4/0x1a8
+> > > > [  292.534632] Kernel Offset: 0x1a5f800000 from 0xffffffc008000000
+> > > > [  292.534635] PHYS_OFFSET: 0x80000000
+> > > > [  292.534638] CPU features: 0x40018541,a3300e42
+> > > > [  292.534644] Memory Limit: none
+> > > >
+> > > > Cc: Rob Clark <robdclark@chromium.org>
+> > > > Cc: Steven Rostedt <rostedt@goodmis.org>
+> > > > Cc: Ricardo Ribalda <ribalda@chromium.org>
+> > > > Cc: Ross Zwisler <zwisler@kernel.org>
+> > > > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > > > ---
+> > > >   drivers/gpu/drm/msm/adreno/adreno_device.c | 1 +
+> > > >   drivers/gpu/drm/msm/adreno/adreno_gpu.c    | 2 +-
+> > > >   drivers/gpu/drm/msm/msm_gpu.h              | 3 +++
+> > > >   3 files changed, 5 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> > > > index f0cff62812c3..03d912dc0130 100644
+> > > > --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+> > > > +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> > > > @@ -612,6 +612,7 @@ static void adreno_shutdown(struct platform_device *pdev)
+> > > >   {
+> > > >       struct msm_gpu *gpu = dev_to_gpu(&pdev->dev);
+> > > >
+> > > > +     gpu->is_shutdown = true;
+> > > >       WARN_ON_ONCE(adreno_system_suspend(&pdev->dev));
+> > > >   }
+> > > >
+> > > > diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> > > > index 382fb7f9e497..6903c6892469 100644
+> > > > --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> > > > +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> > > > @@ -251,7 +251,7 @@ int adreno_get_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
+> > > >       struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+> > > >
+> > > >       /* No pointer params yet */
+> > > > -     if (*len != 0)
+> > > > +     if (*len != 0 || gpu->is_shutdown)
+> > > >               return -EINVAL;
+> > > This will race with shutdown. Probably, propagating back the return
+> > > value of pm_runtime_get() in every possible ioctl call path is the right
+> > > thing to do.
+> > >
+> > > I have never thought about this scenario. Do you know why userspace is
+> > > not freezed before kexec?
+> >
+> > So userspace not being frozen seems like the root issue, and is likely
+> > to cause all sorts of other whack-a-mole problems.  I guess I'd like
+> > to know if this is the expected behavior?
+>
+> We tried that. Freezing before kexec seems to cause issues for ALSA as
+> Ricardo found:
+> https://lore.kernel.org/lkml/202211281209.mnBLzQ2I-lkp@intel.com/T/
+>
+> That patch is still TBD due to disagreement on the right approach to
+> fix, so I don't think freezing before shutting down devices is viable
+> at the moment.
+>
+> I am checking Ricardo if we can do something like util-linux's
+> shutdown code which sends SIGTERM to all processes:
+> https://kernel.googlesource.com/pub/scm/utils/util-linux/util-linux/+/v2.8/login-utils/shutdown.c#273
+> , before issuing the kexec-reboot.
+>
+> Maybe, a more graceful shutdown from kexec-lite, will prevent the
+> kexec-reboot it does from crashing? Though in my view that would still
+> be a small copout instead of fixing the real issue, which is the
+> kernel crashing for any reason.
+
+The problem is that pm_runtime_force_suspend() yanks the rug out from
+under the driver from a runpm PoV.. generally this is ok (as long as
+scheduler kthread is parked) because we don't have to worry about
+userspace ;-)
+
+> > If so, we should probably look at
+> > drm_dev_is_unplugged()/drm_dev_unplug()/etc rather than trying to NIH
+> > that mechanism.  We would need to sprinkle drm_dev_is_unplugged()
+> > checks more widely, and also ensure that the scheduler kthread(s) gets
+> > parked.  But it would be nice to know first if we are just trying to
+> > paper over a kexec bug.
+>
+> Agreed. I think we still patch 1/2 whether the SIGTERM trick mentioned
+> above, works or not. I will await discussions with Ricardo before
+> reposting that one.
+
+Yeah, I think I'm waiting on a v2 of that one ;-)
+
+BR,
+-R
+
+> Cheers,
+>
+>  -- Joel
