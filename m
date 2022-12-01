@@ -2,61 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B9363EFFE
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 12:57:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C58763F002
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 12:58:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 361FE10E5C2;
-	Thu,  1 Dec 2022 11:56:51 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3C0310E5BA;
- Thu,  1 Dec 2022 11:56:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669895803; x=1701431803;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=iRczP64AbWI4hitoAC9wENxQQm4xKMuLE9TfL6ur+hY=;
- b=iC+ndUnpUYqUS+hUZW7x62MKu7vHq+8TRzQAwkyaXtrg4+jkGKS/cQlj
- uBaNPGq0nxYODjxAkUILlcMoAXZtyjwPO48OgAttRYeztXSEqDH1Vplu4
- Mc27elGY3N65lAGBYVyxDCbXKewziyQwEtayKC0HimtYGe+maq19EGXf3
- SPCivd+9Q9AQJxzywY9dlvSyWSnADaejrjmnSBn9yjWEuxS7wn3yAdh97
- 9WiUTwEFZBIN6V0jV9G+DvNubBv91NKIsEfiy2xXnExXu48b7fVQ1WUEr
- Yv+VEuSgQXsbZhWEvgvT6zZIgBSOMYPvluN1zAZJS6Atq9gjqeyQ8ztcj g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10547"; a="295359153"
-X-IronPort-AV: E=Sophos;i="5.96,209,1665471600"; d="scan'208";a="295359153"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2022 03:56:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10547"; a="769207992"
-X-IronPort-AV: E=Sophos;i="5.96,209,1665471600"; d="scan'208";a="769207992"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
- by orsmga004.jf.intel.com with ESMTP; 01 Dec 2022 03:56:41 -0800
-Received: from [10.249.130.135] (mwajdecz-MOBL.ger.corp.intel.com
- [10.249.130.135])
- by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
- 2B1BueLU027720; Thu, 1 Dec 2022 11:56:41 GMT
-Message-ID: <9a5a84be-a5ae-7be2-f522-5e976511e4e1@intel.com>
-Date: Thu, 1 Dec 2022 12:56:40 +0100
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69F7C10E5C1;
+	Thu,  1 Dec 2022 11:58:16 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E738110E5BA
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 11:58:10 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id D8A6A33F;
+ Thu,  1 Dec 2022 12:58:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1669895889;
+ bh=KJmB+wIYKe89E6QIvDEUW6f6A7+RVLFXbefEFZdDJT0=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=Q2y0mPHyikVG2MuJB6c4+GdyvAjuKGB2cTbtmCKQpgKrRkn8is9OuA2Jpo1KOHDja
+ FsFN67ADNHmE9SsXFemhN3/8hh1kvOvtIiulnQW3iGgou2tyyTUKOrAsub+chfc1HV
+ 42qceos0f3xYaUUYFTD8Jj9w5QDs6MrwAFco0Loo=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.5.0
-Subject: Re: [Intel-gfx] [PATCH v2 4/5] drm/i915/guc: Add GuC CT specific
- debug print wrappers
-Content-Language: en-US
-To: John Harrison <john.c.harrison@intel.com>, Intel-GFX@Lists.FreeDesktop.Org
-References: <20221118015858.2548106-1-John.C.Harrison@Intel.com>
- <20221118015858.2548106-5-John.C.Harrison@Intel.com>
- <48f594de-9682-4b60-f934-9420d02b405e@intel.com>
- <dd9559e8-7d65-d7bb-ea1a-d169a1c7eec3@intel.com>
- <4579b7e8-eae7-b760-66aa-b01273d18aab@intel.com>
- <d658f8fa-a063-aa0c-48ff-14f32cb6b339@intel.com>
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-In-Reply-To: <d658f8fa-a063-aa0c-48ff-14f32cb6b339@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20221201095631.89448-8-tomi.valkeinen+renesas@ideasonboard.com>
+References: <20221201095631.89448-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20221201095631.89448-8-tomi.valkeinen+renesas@ideasonboard.com>
+Subject: Re: [PATCH v5 7/7] drm: rcar-du: dsi: Add r8A779g0 support
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Date: Thu, 01 Dec 2022 11:58:05 +0000
+Message-ID: <166989588582.3691396.6485025437895328342@Monstersaurus>
+User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,684 +54,763 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI-Devel@Lists.FreeDesktop.Org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Quoting Tomi Valkeinen (2022-12-01 09:56:31)
+> Add DSI support for r8a779g0. The main differences to r8a779a0 are in
+> the PLL and PHTW setups.
+>=20
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+Now that the differences I saw about the PHTW values are understood, I'm
+happy.
+
+I like the MHZ() macro for readability too.
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
 
-On 01.12.2022 01:41, John Harrison wrote:
-> On 11/23/2022 12:45, Michal Wajdeczko wrote:
->> On 23.11.2022 02:25, John Harrison wrote:
->>> On 11/22/2022 09:54, Michal Wajdeczko wrote:
->>>> On 18.11.2022 02:58, John.C.Harrison@Intel.com wrote:
->>>>> From: John Harrison <John.C.Harrison@Intel.com>
->>>>>
->>>>> Re-work the existing GuC CT printers and extend as required to match
->>>>> the new wrapping scheme.
->>>>>
->>>>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
->>>>> ---
->>>>>    drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 222
->>>>> +++++++++++-----------
->>>>>    1 file changed, 113 insertions(+), 109 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
->>>>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
->>>>> index 2b22065e87bf9..9d404fb377637 100644
->>>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
->>>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
->>>>> @@ -18,31 +18,49 @@ static inline struct intel_guc *ct_to_guc(struct
->>>>> intel_guc_ct *ct)
->>>>>        return container_of(ct, struct intel_guc, ct);
->>>>>    }
->>>>>    -static inline struct intel_gt *ct_to_gt(struct intel_guc_ct *ct)
->>>>> -{
->>>>> -    return guc_to_gt(ct_to_guc(ct));
->>>>> -}
->>>>> -
->>>>>    static inline struct drm_i915_private *ct_to_i915(struct
->>>>> intel_guc_ct *ct)
->>>>>    {
->>>>> -    return ct_to_gt(ct)->i915;
->>>>> -}
->>>>> +    struct intel_guc *guc = ct_to_guc(ct);
->>>>> +    struct intel_gt *gt = guc_to_gt(guc);
->>>>>    -static inline struct drm_device *ct_to_drm(struct intel_guc_ct
->>>>> *ct)
->>>>> -{
->>>>> -    return &ct_to_i915(ct)->drm;
->>>>> +    return gt->i915;
->>>>>    }
->>>>>    -#define CT_ERROR(_ct, _fmt, ...) \
->>>>> -    drm_err(ct_to_drm(_ct), "CT: " _fmt, ##__VA_ARGS__)
->>>>> +#define ct_err(_ct, _fmt, ...) \
->>>>> +    guc_err(ct_to_guc(_ct), "CT " _fmt, ##__VA_ARGS__)
->>>>> +
->>>>> +#define ct_warn(_ct, _fmt, ...) \
->>>>> +    guc_warn(ct_to_guc(_ct), "CT " _fmt, ##__VA_ARGS__)
->>>>> +
->>>>> +#define ct_notice(_ct, _fmt, ...) \
->>>>> +    guc_notice(ct_to_guc(_ct), "CT " _fmt, ##__VA_ARGS__)
->>>>> +
->>>>> +#define ct_info(_ct, _fmt, ...) \
->>>>> +    guc_info(ct_to_guc(_ct), "CT " _fmt, ##__VA_ARGS__)
->>>>> +
->>>>>    #ifdef CONFIG_DRM_I915_DEBUG_GUC
->>>>> -#define CT_DEBUG(_ct, _fmt, ...) \
->>>>> -    drm_dbg(ct_to_drm(_ct), "CT: " _fmt, ##__VA_ARGS__)
->>>>> +#define ct_dbg(_ct, _fmt, ...) \
->>>>> +    guc_dbg(ct_to_guc(_ct), "CT " _fmt, ##__VA_ARGS__)
->>>>>    #else
->>>>> -#define CT_DEBUG(...)    do { } while (0)
->>>>> +#define ct_dbg(...)    do { } while (0)
->>>>>    #endif
->>>>> -#define CT_PROBE_ERROR(_ct, _fmt, ...) \
->>>>> -    i915_probe_error(ct_to_i915(ct), "CT: " _fmt, ##__VA_ARGS__)
->>>>> +
->>>>> +#define ct_probe_error(_ct, _fmt, ...) \
->>>>> +    do { \
->>>>> +        if (i915_error_injected()) \
->>>>> +            ct_dbg(_ct, _fmt, ##__VA_ARGS__); \
->>>>> +        else \
->>>>> +            ct_err(_ct, _fmt, ##__VA_ARGS__); \
->>>>> +    } while (0)
->>>> guc_probe_error ?
->>>>
->>>>> +
->>>>> +#define ct_WARN_ON(_ct, _condition) \
->>>>> +    ct_WARN(_ct, _condition, "%s", "ct_WARN_ON("
->>>>> __stringify(_condition) ")")
->>>>> +
->>>>> +#define ct_WARN(_ct, _condition, _fmt, ...) \
->>>>> +    guc_WARN(ct_to_guc(_ct), _condition, "CT " _fmt, ##__VA_ARGS__)
->>>>> +
->>>>> +#define ct_WARN_ONCE(_ct, _condition, _fmt, ...) \
->>>>> +    guc_WARN_ONCE(ct_to_guc(_ct), _condition, "CT " _fmt,
->>>>> ##__VA_ARGS__)
->>>>>      /**
->>>>>     * DOC: CTB Blob
->>>>> @@ -170,7 +188,7 @@ static int ct_control_enable(struct intel_guc_ct
->>>>> *ct, bool enable)
->>>>>        err = guc_action_control_ctb(ct_to_guc(ct), enable ?
->>>>>                         GUC_CTB_CONTROL_ENABLE :
->>>>> GUC_CTB_CONTROL_DISABLE);
->>>>>        if (unlikely(err))
->>>>> -        CT_PROBE_ERROR(ct, "Failed to control/%s CTB (%pe)\n",
->>>>> +        ct_probe_error(ct, "Failed to control/%s CTB (%pe)\n",
->>>>>                       str_enable_disable(enable), ERR_PTR(err));
->>>> btw, shouldn't we change all messages to start with lowercase ?
->>>>
->>>> was:
->>>>      "CT0: Failed to control/%s CTB (%pe)"
->>>> is:
->>>>      "GT0: GuC CT Failed to control/%s CTB (%pe)"
->>>>
->>>> unless we keep colon (as suggested by Tvrtko) as then:
->>>>
->>>>      "GT0: GuC CT: Failed to control/%s CTB (%pe)"
->>> Blanket added the colon makes it messy when a string actually wants to
->>> start with the prefix. The rule I've been using is lower case word when
->>> the prefix was part of the string, upper case word when the prefix is
->> Hmm, I'm not sure that we should attempt to have such a flexible rule as
->> we shouldn't rely too much on actual format of the prefix as it could be
->> changed any time.  All we should know about final log message is that it
->> _will_ properly identify the "GT" or "GuC" that this log is related to.
->>
->> So I would suggest to be just consistent and probably always start with
->> upper case, as that seems to be mostly used in kernel error logs, and
->> just make sure that any prefix will honor that (by including colon, or
->> braces), so this will always work like:
->>
->> "[drm] *ERROR* GT0: Failed to foo (-EIO)"
->> "[drm] *ERROR* GT0: GUC: Failed to foo (-EIO)"
->> "[drm] *ERROR* GT0: GUC: CT: Failed to foo (-EIO)"
->>
->> or
->>
->> "[drm] *ERROR* GT0: Failed to foo (-EIO)"
->> "[drm] *ERROR* GT0: [GUC] Failed to foo (-EIO)"
->> "[drm] *ERROR* GT0: [GUC] CT: Failed to foo (-EIO)"
->>
->> and even for:
->>
->> "[drm] *ERROR* GT(root) Failed to foo (-EIO)"
->> "[drm] *ERROR* GuC(media) Failed to foo (-EIO)"
->> "[drm] *ERROR* GT0 [GuC:CT] Failed to foo (-EIO)"
-> All of which are hideous/complex/verbose/inconsistent. 'GT0: GUC: CT:'?
-> Really? Or 'GT0: [GUC] CT:'? Why the random mix of separators? And how
-> would you implement '[GUC:CT]' without having a CT definition that is
-> entirely self contained and does chain on to the GuC level version?
-
-you missed the point, as those were just examples of different possible
-prefixes that one could define, to show that actual message shall not
-make any assumption how such prefix will look like or how it will end
-(like with or w/o colon, with "GuC" or "GT" tag or whatever)
-
-> 
-> This is pointless bikeshedding. If you want to re-write every single
-> debug print (yet again) and invent much more complicated macro
-
-the opposite, I want clear understanding how messages should be written
-to *avoid* rewriting them if (for some reason) we decide to change or
-update the prefix in the future
-
-> definitions then feel free to take over the patch set. If not can we
-> just approve the v3 version and move on to doing some actual work?
-
-if everyone is happy that there is inconsistency in use between gt_xxx
-messages where we shall be using messages starting with upper case
-(since prefix ends with colon) and guc/ct_xxx messages where we shall be
-using lower case message (since there is a known prefix without colon,
-either "GuC" or "CT") then I'll be also fine, but for now that bothers
-me a little, hence asking for clarifications/agreement
-
-and while for dbg level messages it doesn't matter, I assume we should
-be consistent for err/warn/info messages (as those will eventually show
-up to the end user) so let maintainers decide here what is expectation here
-
-> 
-> John.
-> 
-> 
->>
->>
->>> just being added as a prefix. I originally just had the prefix as raw
->>> with no trailing space, so the individual print could decide to add a
->>> colon, a space, or whatever as appropriate. But that just makes for
->>> messy code with some files having every string look like ": Stuff
->>> happened" and other files have every string look like " failed to ...".
->>> The current version seems to be the most readable from the point of view
->>> of writing the code and of reading the dmesg results.
->>>
->>> And to be clear, the 'CT0' you have in your 'was' example only exists in
->>> the internal tree. It never made it to upstream. It is also just plain
->>> wrong. Each GT has two CTs - send and receive. So having 'CT1' meaning
->>> some random CT on GT1 (as opposed to the read channel on GT0, for
->>> example) was very confusing.
->> I don't think I was wrong, it might be you confusing CT with CTB.
->>
->> Note that we only support _single_ CT (Command Transport) and this
->> single CT includes _pair_ of CTBs (Command Transport Buffers).
->>
->> And logs/macros are CT oriented, not CTB.
-> The GuC spec does not make any distinction. In fact, there is no CT in
-
-but "CT" concept is already there, we do have intel_guc_ct, right?
-
-https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h#L22
-
-https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h#L56
-
-> the spec. There is just CTB. So at best it is ambiguous as to what CT0 /
-> CT1 refers to.
-> 
->>
->> Regarding those my internal changes that were printing "CT%u": they were
->> added exactly for the same reason as your series: to know which GT
->> traffic we are tracing.  And were done locally on CT level only as there
->> was no helpers that would automatically append "GT%u" prefix - helpers
->> that you're defining right now ;)
->>
->> Michal
->>
->>> John.
->>>
->>>
->>>> Michal
->>>>
->>>>>          return err;
->>>>> @@ -201,7 +219,7 @@ static int ct_register_buffer(struct intel_guc_ct
->>>>> *ct, bool send,
->>>>>                       size);
->>>>>        if (unlikely(err))
->>>>>    failed:
->>>>> -        CT_PROBE_ERROR(ct, "Failed to register %s buffer (%pe)\n",
->>>>> +        ct_probe_error(ct, "Failed to register %s buffer (%pe)\n",
->>>>>                       send ? "SEND" : "RECV", ERR_PTR(err));
->>>>>          return err;
->>>>> @@ -235,21 +253,21 @@ int intel_guc_ct_init(struct intel_guc_ct *ct)
->>>>>        blob_size = 2 * CTB_DESC_SIZE + CTB_H2G_BUFFER_SIZE +
->>>>> CTB_G2H_BUFFER_SIZE;
->>>>>        err = intel_guc_allocate_and_map_vma(guc, blob_size, &ct->vma,
->>>>> &blob);
->>>>>        if (unlikely(err)) {
->>>>> -        CT_PROBE_ERROR(ct, "Failed to allocate %u for CTB data
->>>>> (%pe)\n",
->>>>> +        ct_probe_error(ct, "Failed to allocate %u for CTB data
->>>>> (%pe)\n",
->>>>>                       blob_size, ERR_PTR(err));
->>>>>            return err;
->>>>>        }
->>>>>    -    CT_DEBUG(ct, "base=%#x size=%u\n", intel_guc_ggtt_offset(guc,
->>>>> ct->vma), blob_size);
->>>>> +    ct_dbg(ct, "base=%#x size=%u\n", intel_guc_ggtt_offset(guc,
->>>>> ct->vma), blob_size);
->>>>>          /* store pointers to desc and cmds for send ctb */
->>>>>        desc = blob;
->>>>>        cmds = blob + 2 * CTB_DESC_SIZE;
->>>>>        cmds_size = CTB_H2G_BUFFER_SIZE;
->>>>>        resv_space = 0;
->>>>> -    CT_DEBUG(ct, "%s desc %#tx cmds %#tx size %u/%u\n", "send",
->>>>> -         ptrdiff(desc, blob), ptrdiff(cmds, blob), cmds_size,
->>>>> -         resv_space);
->>>>> +    ct_dbg(ct, "%s desc %#tx cmds %#tx size %u/%u\n", "send",
->>>>> +           ptrdiff(desc, blob), ptrdiff(cmds, blob), cmds_size,
->>>>> +           resv_space);
->>>>>          guc_ct_buffer_init(&ct->ctbs.send, desc, cmds, cmds_size,
->>>>> resv_space);
->>>>>    @@ -258,9 +276,9 @@ int intel_guc_ct_init(struct intel_guc_ct *ct)
->>>>>        cmds = blob + 2 * CTB_DESC_SIZE + CTB_H2G_BUFFER_SIZE;
->>>>>        cmds_size = CTB_G2H_BUFFER_SIZE;
->>>>>        resv_space = G2H_ROOM_BUFFER_SIZE;
->>>>> -    CT_DEBUG(ct, "%s desc %#tx cmds %#tx size %u/%u\n", "recv",
->>>>> -         ptrdiff(desc, blob), ptrdiff(cmds, blob), cmds_size,
->>>>> -         resv_space);
->>>>> +    ct_dbg(ct, "%s desc %#tx cmds %#tx size %u/%u\n", "recv",
->>>>> +           ptrdiff(desc, blob), ptrdiff(cmds, blob), cmds_size,
->>>>> +           resv_space);
->>>>>          guc_ct_buffer_init(&ct->ctbs.recv, desc, cmds, cmds_size,
->>>>> resv_space);
->>>>>    @@ -338,7 +356,7 @@ int intel_guc_ct_enable(struct intel_guc_ct
->>>>> *ct)
->>>>>        return 0;
->>>>>      err_out:
->>>>> -    CT_PROBE_ERROR(ct, "Failed to enable CTB (%pe)\n", ERR_PTR(err));
->>>>> +    ct_probe_error(ct, "Failed to enable CTB (%pe)\n", ERR_PTR(err));
->>>>>        return err;
->>>>>    }
->>>>>    @@ -387,14 +405,12 @@ static int ct_write(struct intel_guc_ct *ct,
->>>>>      #ifdef CONFIG_DRM_I915_DEBUG_GUC
->>>>>        if (unlikely(tail != READ_ONCE(desc->tail))) {
->>>>> -        CT_ERROR(ct, "Tail was modified %u != %u\n",
->>>>> -             desc->tail, tail);
->>>>> +        ct_err(ct, "Tail was modified %u != %u\n", desc->tail, tail);
->>>>>            desc->status |= GUC_CTB_STATUS_MISMATCH;
->>>>>            goto corrupted;
->>>>>        }
->>>>>        if (unlikely(READ_ONCE(desc->head) >= size)) {
->>>>> -        CT_ERROR(ct, "Invalid head offset %u >= %u)\n",
->>>>> -             desc->head, size);
->>>>> +        ct_err(ct, "Invalid head offset %u >= %u)\n", desc->head,
->>>>> size);
->>>>>            desc->status |= GUC_CTB_STATUS_OVERFLOW;
->>>>>            goto corrupted;
->>>>>        }
->>>>> @@ -415,8 +431,8 @@ static int ct_write(struct intel_guc_ct *ct,
->>>>>            FIELD_PREP(GUC_HXG_EVENT_MSG_0_ACTION |
->>>>>                   GUC_HXG_EVENT_MSG_0_DATA0, action[0]);
->>>>>    -    CT_DEBUG(ct, "writing (tail %u) %*ph %*ph %*ph\n",
->>>>> -         tail, 4, &header, 4, &hxg, 4 * (len - 1), &action[1]);
->>>>> +    ct_dbg(ct, "writing (tail %u) %*ph %*ph %*ph\n",
->>>>> +           tail, 4, &header, 4, &hxg, 4 * (len - 1), &action[1]);
->>>>>          cmds[tail] = header;
->>>>>        tail = (tail + 1) % size;
->>>>> @@ -447,8 +463,8 @@ static int ct_write(struct intel_guc_ct *ct,
->>>>>        return 0;
->>>>>      corrupted:
->>>>> -    CT_ERROR(ct, "Corrupted descriptor head=%u tail=%u status=%#x\n",
->>>>> -         desc->head, desc->tail, desc->status);
->>>>> +    ct_err(ct, "Corrupted descriptor on write head=%u tail=%u
->>>>> status=%#x\n",
->>>>> +           desc->head, desc->tail, desc->status);
->>>>>        ctb->broken = true;
->>>>>        return -EPIPE;
->>>>>    }
->>>>> @@ -507,17 +523,14 @@ static inline bool ct_deadlocked(struct
->>>>> intel_guc_ct *ct)
->>>>>            struct guc_ct_buffer_desc *send = ct->ctbs.send.desc;
->>>>>            struct guc_ct_buffer_desc *recv = ct->ctbs.send.desc;
->>>>>    -        CT_ERROR(ct, "Communication stalled for %lld ms, desc
->>>>> status=%#x,%#x\n",
->>>>> -             ktime_ms_delta(ktime_get(), ct->stall_time),
->>>>> -             send->status, recv->status);
->>>>> -        CT_ERROR(ct, "H2G Space: %u (Bytes)\n",
->>>>> -             atomic_read(&ct->ctbs.send.space) * 4);
->>>>> -        CT_ERROR(ct, "Head: %u (Dwords)\n",
->>>>> ct->ctbs.send.desc->head);
->>>>> -        CT_ERROR(ct, "Tail: %u (Dwords)\n",
->>>>> ct->ctbs.send.desc->tail);
->>>>> -        CT_ERROR(ct, "G2H Space: %u (Bytes)\n",
->>>>> -             atomic_read(&ct->ctbs.recv.space) * 4);
->>>>> -        CT_ERROR(ct, "Head: %u\n (Dwords)",
->>>>> ct->ctbs.recv.desc->head);
->>>>> -        CT_ERROR(ct, "Tail: %u\n (Dwords)",
->>>>> ct->ctbs.recv.desc->tail);
->>>>> +        ct_err(ct, "Communication stalled for %lld ms, desc
->>>>> status=%#x,%#x\n",
->>>>> +               ktime_ms_delta(ktime_get(), ct->stall_time),
->>>>> send->status, recv->status);
->>>>> +        ct_err(ct, "H2G Space: %u (Bytes)\n",
->>>>> atomic_read(&ct->ctbs.send.space) * 4);
->>>>> +        ct_err(ct, "Head: %u (Dwords)\n", ct->ctbs.send.desc->head);
->>>>> +        ct_err(ct, "Tail: %u (Dwords)\n", ct->ctbs.send.desc->tail);
->>>>> +        ct_err(ct, "G2H Space: %u (Bytes)\n",
->>>>> atomic_read(&ct->ctbs.recv.space) * 4);
->>>>> +        ct_err(ct, "Head: %u\n (Dwords)", ct->ctbs.recv.desc->head);
->>>>> +        ct_err(ct, "Tail: %u\n (Dwords)", ct->ctbs.recv.desc->tail);
->>>>>              ct->ctbs.send.broken = true;
->>>>>        }
->>>>> @@ -563,8 +576,7 @@ static inline bool h2g_has_room(struct
->>>>> intel_guc_ct *ct, u32 len_dw)
->>>>>          head = READ_ONCE(desc->head);
->>>>>        if (unlikely(head > ctb->size)) {
->>>>> -        CT_ERROR(ct, "Invalid head offset %u >= %u)\n",
->>>>> -             head, ctb->size);
->>>>> +        ct_err(ct, "Invalid head offset %u >= %u)\n", head,
->>>>> ctb->size);
->>>>>            desc->status |= GUC_CTB_STATUS_OVERFLOW;
->>>>>            ctb->broken = true;
->>>>>            return false;
->>>>> @@ -715,17 +727,17 @@ static int ct_send(struct intel_guc_ct *ct,
->>>>>                /* wait_for_ct_request_update returns -ENODEV on
->>>>> reset/suspend in progress.
->>>>>                 * In this case, output is debug rather than error info
->>>>>                 */
->>>>> -            CT_DEBUG(ct, "Request %#x (fence %u) cancelled as CTB is
->>>>> disabled\n",
->>>>> -                 action[0], request.fence);
->>>>> +            ct_dbg(ct, "Request %#x (fence %u) cancelled as CTB is
->>>>> disabled\n",
->>>>> +                   action[0], request.fence);
->>>>>            else
->>>>> -            CT_ERROR(ct, "No response for request %#x (fence %u)\n",
->>>>> -                 action[0], request.fence);
->>>>> +            ct_err(ct, "No response for request %#x (fence %u)\n",
->>>>> +                   action[0], request.fence);
->>>>>            goto unlink;
->>>>>        }
->>>>>          if (FIELD_GET(GUC_HXG_MSG_0_TYPE, *status) ==
->>>>> GUC_HXG_TYPE_NO_RESPONSE_RETRY) {
->>>>> -        CT_DEBUG(ct, "retrying request %#x (%u)\n", *action,
->>>>> -             FIELD_GET(GUC_HXG_RETRY_MSG_0_REASON, *status));
->>>>> +        ct_dbg(ct, "retrying request %#x (%u)\n", *action,
->>>>> +               FIELD_GET(GUC_HXG_RETRY_MSG_0_REASON, *status));
->>>>>            send_again = true;
->>>>>            goto unlink;
->>>>>        }
->>>>> @@ -737,12 +749,12 @@ static int ct_send(struct intel_guc_ct *ct,
->>>>>          if (response_buf) {
->>>>>            /* There shall be no data in the status */
->>>>> -        WARN_ON(FIELD_GET(GUC_HXG_RESPONSE_MSG_0_DATA0,
->>>>> request.status));
->>>>> +        ct_WARN_ON(ct, FIELD_GET(GUC_HXG_RESPONSE_MSG_0_DATA0,
->>>>> request.status));
->>>>>            /* Return actual response len */
->>>>>            err = request.response_len;
->>>>>        } else {
->>>>>            /* There shall be no response payload */
->>>>> -        WARN_ON(request.response_len);
->>>>> +        ct_WARN_ON(ct, request.response_len);
->>>>>            /* Return data decoded from the status dword */
->>>>>            err = FIELD_GET(GUC_HXG_RESPONSE_MSG_0_DATA0, *status);
->>>>>        }
->>>>> @@ -771,7 +783,7 @@ int intel_guc_ct_send(struct intel_guc_ct *ct,
->>>>> const u32 *action, u32 len,
->>>>>            struct intel_guc *guc = ct_to_guc(ct);
->>>>>            struct intel_uc *uc = container_of(guc, struct intel_uc,
->>>>> guc);
->>>>>    -        WARN(!uc->reset_in_progress, "Unexpected send:
->>>>> action=%#x\n", *action);
->>>>> +        ct_WARN(ct, !uc->reset_in_progress, "Unexpected send:
->>>>> action=%#x\n", *action);
->>>>>            return -ENODEV;
->>>>>        }
->>>>>    @@ -784,11 +796,11 @@ int intel_guc_ct_send(struct intel_guc_ct
->>>>> *ct, const u32 *action, u32 len,
->>>>>        ret = ct_send(ct, action, len, response_buf, response_buf_size,
->>>>> &status);
->>>>>        if (unlikely(ret < 0)) {
->>>>>            if (ret != -ENODEV)
->>>>> -            CT_ERROR(ct, "Sending action %#x failed (%pe)
->>>>> status=%#X\n",
->>>>> -                 action[0], ERR_PTR(ret), status);
->>>>> +            ct_err(ct, "sending action %#x failed (%pe)
->>>>> status=%#X\n",
->>>>> +                   action[0], ERR_PTR(ret), status);
->>>>>        } else if (unlikely(ret)) {
->>>>> -        CT_DEBUG(ct, "send action %#x returned %d (%#x)\n",
->>>>> -             action[0], ret, ret);
->>>>> +        ct_dbg(ct, "send action %#x returned %d (%#x)\n",
->>>>> +               action[0], ret, ret);
->>>>>        }
->>>>>          return ret;
->>>>> @@ -838,7 +850,7 @@ static int ct_read(struct intel_guc_ct *ct,
->>>>> struct ct_incoming_msg **msg)
->>>>>                 * contexts/engines being reset. But should never
->>>>> happen as
->>>>>                 * no contexts should be active when CLIENT_RESET is
->>>>> sent.
->>>>>                 */
->>>>> -            CT_ERROR(ct, "Unexpected G2H after GuC has stopped!\n");
->>>>> +            ct_err(ct, "Unexpected G2H after GuC has stopped!\n");
->>>>>                status &= ~GUC_CTB_STATUS_UNUSED;
->>>>>            }
->>>>>    @@ -850,15 +862,13 @@ static int ct_read(struct intel_guc_ct *ct,
->>>>> struct ct_incoming_msg **msg)
->>>>>      #ifdef CONFIG_DRM_I915_DEBUG_GUC
->>>>>        if (unlikely(head != READ_ONCE(desc->head))) {
->>>>> -        CT_ERROR(ct, "Head was modified %u != %u\n",
->>>>> -             desc->head, head);
->>>>> +        ct_err(ct, "Head was modified %u != %u\n", desc->head, head);
->>>>>            desc->status |= GUC_CTB_STATUS_MISMATCH;
->>>>>            goto corrupted;
->>>>>        }
->>>>>    #endif
->>>>>        if (unlikely(tail >= size)) {
->>>>> -        CT_ERROR(ct, "Invalid tail offset %u >= %u)\n",
->>>>> -             tail, size);
->>>>> +        ct_err(ct, "Invalid tail offset %u >= %u)\n", tail, size);
->>>>>            desc->status |= GUC_CTB_STATUS_OVERFLOW;
->>>>>            goto corrupted;
->>>>>        }
->>>>> @@ -873,7 +883,7 @@ static int ct_read(struct intel_guc_ct *ct,
->>>>> struct ct_incoming_msg **msg)
->>>>>        /* beware of buffer wrap case */
->>>>>        if (unlikely(available < 0))
->>>>>            available += size;
->>>>> -    CT_DEBUG(ct, "available %d (%u:%u:%u)\n", available, head, tail,
->>>>> size);
->>>>> +    ct_dbg(ct, "read available %d (%u:%u:%u)\n", available, head,
->>>>> tail, size);
->>>>>        GEM_BUG_ON(available < 0);
->>>>>          header = cmds[head];
->>>>> @@ -882,24 +892,24 @@ static int ct_read(struct intel_guc_ct *ct,
->>>>> struct ct_incoming_msg **msg)
->>>>>        /* message len with header */
->>>>>        len = FIELD_GET(GUC_CTB_MSG_0_NUM_DWORDS, header) +
->>>>> GUC_CTB_MSG_MIN_LEN;
->>>>>        if (unlikely(len > (u32)available)) {
->>>>> -        CT_ERROR(ct, "Incomplete message %*ph %*ph %*ph\n",
->>>>> -             4, &header,
->>>>> -             4 * (head + available - 1 > size ?
->>>>> -                  size - head : available - 1), &cmds[head],
->>>>> -             4 * (head + available - 1 > size ?
->>>>> -                  available - 1 - size + head : 0), &cmds[0]);
->>>>> +        ct_err(ct, "Incomplete message %*ph %*ph %*ph\n",
->>>>> +               4, &header,
->>>>> +               4 * (head + available - 1 > size ?
->>>>> +                size - head : available - 1), &cmds[head],
->>>>> +               4 * (head + available - 1 > size ?
->>>>> +                available - 1 - size + head : 0), &cmds[0]);
->>>>>            desc->status |= GUC_CTB_STATUS_UNDERFLOW;
->>>>>            goto corrupted;
->>>>>        }
->>>>>          *msg = ct_alloc_msg(len);
->>>>>        if (!*msg) {
->>>>> -        CT_ERROR(ct, "No memory for message %*ph %*ph %*ph\n",
->>>>> -             4, &header,
->>>>> -             4 * (head + available - 1 > size ?
->>>>> -                  size - head : available - 1), &cmds[head],
->>>>> -             4 * (head + available - 1 > size ?
->>>>> -                  available - 1 - size + head : 0), &cmds[0]);
->>>>> +        ct_err(ct, "No memory for message %*ph %*ph %*ph\n",
->>>>> +               4, &header,
->>>>> +               4 * (head + available - 1 > size ?
->>>>> +                size - head : available - 1), &cmds[head],
->>>>> +               4 * (head + available - 1 > size ?
->>>>> +                available - 1 - size + head : 0), &cmds[0]);
->>>>>            return available;
->>>>>        }
->>>>>    @@ -909,7 +919,7 @@ static int ct_read(struct intel_guc_ct *ct,
->>>>> struct ct_incoming_msg **msg)
->>>>>            (*msg)->msg[i] = cmds[head];
->>>>>            head = (head + 1) % size;
->>>>>        }
->>>>> -    CT_DEBUG(ct, "received %*ph\n", 4 * len, (*msg)->msg);
->>>>> +    ct_dbg(ct, "received %*ph\n", 4 * len, (*msg)->msg);
->>>>>          /* update local copies */
->>>>>        ctb->head = head;
->>>>> @@ -920,8 +930,8 @@ static int ct_read(struct intel_guc_ct *ct,
->>>>> struct ct_incoming_msg **msg)
->>>>>        return available - len;
->>>>>      corrupted:
->>>>> -    CT_ERROR(ct, "Corrupted descriptor head=%u tail=%u status=%#x\n",
->>>>> -         desc->head, desc->tail, desc->status);
->>>>> +    ct_err(ct, "Corrupted descriptor on read head=%u tail=%u
->>>>> status=%#x\n",
->>>>> +           desc->head, desc->tail, desc->status);
->>>>>        ctb->broken = true;
->>>>>        return -EPIPE;
->>>>>    }
->>>>> @@ -944,18 +954,17 @@ static int ct_handle_response(struct
->>>>> intel_guc_ct *ct, struct ct_incoming_msg *r
->>>>>               FIELD_GET(GUC_HXG_MSG_0_TYPE, hxg[0]) !=
->>>>> GUC_HXG_TYPE_NO_RESPONSE_RETRY &&
->>>>>               FIELD_GET(GUC_HXG_MSG_0_TYPE, hxg[0]) !=
->>>>> GUC_HXG_TYPE_RESPONSE_FAILURE);
->>>>>    -    CT_DEBUG(ct, "response fence %u status %#x\n", fence, hxg[0]);
->>>>> +    ct_dbg(ct, "response fence %u status %#x\n", fence, hxg[0]);
->>>>>          spin_lock_irqsave(&ct->requests.lock, flags);
->>>>>        list_for_each_entry(req, &ct->requests.pending, link) {
->>>>>            if (unlikely(fence != req->fence)) {
->>>>> -            CT_DEBUG(ct, "request %u awaits response\n",
->>>>> -                 req->fence);
->>>>> +            ct_dbg(ct, "request %u awaits response\n", req->fence);
->>>>>                continue;
->>>>>            }
->>>>>            if (unlikely(datalen > req->response_len)) {
->>>>> -            CT_ERROR(ct, "Response %u too long (datalen %u > %u)\n",
->>>>> -                 req->fence, datalen, req->response_len);
->>>>> +            ct_err(ct, "response %u too long (datalen %u > %u)\n",
->>>>> +                   req->fence, datalen, req->response_len);
->>>>>                datalen = min(datalen, req->response_len);
->>>>>                err = -EMSGSIZE;
->>>>>            }
->>>>> @@ -967,12 +976,11 @@ static int ct_handle_response(struct
->>>>> intel_guc_ct *ct, struct ct_incoming_msg *r
->>>>>            break;
->>>>>        }
->>>>>        if (!found) {
->>>>> -        CT_ERROR(ct, "Unsolicited response (fence %u)\n", fence);
->>>>> -        CT_ERROR(ct, "Could not find fence=%u, last_fence=%u\n",
->>>>> fence,
->>>>> -             ct->requests.last_fence);
->>>>> +        ct_err(ct, "Unsolicited response (fence %u)\n", fence);
->>>>> +        ct_err(ct, "Could not find fence=%u, last_fence=%u\n", fence,
->>>>> +               ct->requests.last_fence);
->>>>>            list_for_each_entry(req, &ct->requests.pending, link)
->>>>> -            CT_ERROR(ct, "request %u awaits response\n",
->>>>> -                 req->fence);
->>>>> +            ct_err(ct, "request %u awaits response\n", req->fence);
->>>>>            err = -ENOKEY;
->>>>>        }
->>>>>        spin_unlock_irqrestore(&ct->requests.lock, flags);
->>>>> @@ -998,7 +1006,7 @@ static int ct_process_request(struct
->>>>> intel_guc_ct *ct, struct ct_incoming_msg *r
->>>>>        action = FIELD_GET(GUC_HXG_EVENT_MSG_0_ACTION, hxg[0]);
->>>>>        len = hxg_len - GUC_HXG_MSG_MIN_LEN;
->>>>>    -    CT_DEBUG(ct, "request %x %*ph\n", action, 4 * len, payload);
->>>>> +    ct_dbg(ct, "request %x %*ph\n", action, 4 * len, payload);
->>>>>          switch (action) {
->>>>>        case INTEL_GUC_ACTION_DEFAULT:
->>>>> @@ -1016,9 +1024,6 @@ static int ct_process_request(struct
->>>>> intel_guc_ct *ct, struct ct_incoming_msg *r
->>>>>            break;
->>>>>        case INTEL_GUC_ACTION_STATE_CAPTURE_NOTIFICATION:
->>>>>            ret = intel_guc_error_capture_process_msg(guc, payload,
->>>>> len);
->>>>> -        if (unlikely(ret))
->>>>> -            CT_ERROR(ct, "error capture notification failed %x
->>>>> %*ph\n",
->>>>> -                 action, 4 * len, payload);
->>>>>            break;
->>>>>        case INTEL_GUC_ACTION_ENGINE_FAILURE_NOTIFICATION:
->>>>>            ret = intel_guc_engine_failure_process_msg(guc, payload,
->>>>> len);
->>>>> @@ -1028,11 +1033,11 @@ static int ct_process_request(struct
->>>>> intel_guc_ct *ct, struct ct_incoming_msg *r
->>>>>            ret = 0;
->>>>>            break;
->>>>>        case INTEL_GUC_ACTION_NOTIFY_CRASH_DUMP_POSTED:
->>>>> -        CT_ERROR(ct, "Received GuC crash dump notification!\n");
->>>>> +        guc_err(guc, "notification: Crash dump!\n");
->>>>>            ret = 0;
->>>>>            break;
->>>>>        case INTEL_GUC_ACTION_NOTIFY_EXCEPTION:
->>>>> -        CT_ERROR(ct, "Received GuC exception notification!\n");
->>>>> +        guc_err(guc, "notification: Exception!\n");
->>>>>            ret = 0;
->>>>>            break;
->>>>>        default:
->>>>> @@ -1041,8 +1046,7 @@ static int ct_process_request(struct
->>>>> intel_guc_ct *ct, struct ct_incoming_msg *r
->>>>>        }
->>>>>          if (unlikely(ret)) {
->>>>> -        CT_ERROR(ct, "Failed to process request %04x (%pe)\n",
->>>>> -             action, ERR_PTR(ret));
->>>>> +        ct_err(ct, "Failed to process request %04x (%pe)\n", action,
->>>>> ERR_PTR(ret));
->>>>>            return ret;
->>>>>        }
->>>>>    @@ -1070,8 +1074,8 @@ static bool
->>>>> ct_process_incoming_requests(struct intel_guc_ct *ct)
->>>>>          err = ct_process_request(ct, request);
->>>>>        if (unlikely(err)) {
->>>>> -        CT_ERROR(ct, "Failed to process CT message (%pe) %*ph\n",
->>>>> -             ERR_PTR(err), 4 * request->size, request->msg);
->>>>> +        ct_err(ct, "Failed to process message (%pe) %*ph\n",
->>>>> +               ERR_PTR(err), 4 * request->size, request->msg);
->>>>>            ct_free_msg(request);
->>>>>        }
->>>>>    @@ -1149,8 +1153,8 @@ static int ct_handle_hxg(struct intel_guc_ct
->>>>> *ct, struct ct_incoming_msg *msg)
->>>>>          if (unlikely(err)) {
->>>>>    failed:
->>>>> -        CT_ERROR(ct, "Failed to handle HXG message (%pe) %*ph\n",
->>>>> -             ERR_PTR(err), 4 * GUC_HXG_MSG_MIN_LEN, hxg);
->>>>> +        ct_err(ct, "Failed to handle HXG message (%pe) %*ph\n",
->>>>> +               ERR_PTR(err), 4 * GUC_HXG_MSG_MIN_LEN, hxg);
->>>>>        }
->>>>>        return err;
->>>>>    }
->>>>> @@ -1166,8 +1170,8 @@ static void ct_handle_msg(struct intel_guc_ct
->>>>> *ct, struct ct_incoming_msg *msg)
->>>>>            err = -EOPNOTSUPP;
->>>>>          if (unlikely(err)) {
->>>>> -        CT_ERROR(ct, "Failed to process CT message (%pe) %*ph\n",
->>>>> -             ERR_PTR(err), 4 * msg->size, msg->msg);
->>>>> +        ct_err(ct, "Failed to handle message (%pe) %*ph\n",
->>>>> +               ERR_PTR(err), 4 * msg->size, msg->msg);
->>>>>            ct_free_msg(msg);
->>>>>        }
->>>>>    }
->>>>> @@ -1198,7 +1202,7 @@ static void ct_try_receive_message(struct
->>>>> intel_guc_ct *ct)
->>>>>    {
->>>>>        int ret;
->>>>>    -    if (GEM_WARN_ON(!ct->enabled))
->>>>> +    if (ct_WARN_ON(ct, !ct->enabled))
->>>>>            return;
->>>>>          ret = ct_receive(ct);
->>>>> @@ -1220,7 +1224,7 @@ static void ct_receive_tasklet_func(struct
->>>>> tasklet_struct *t)
->>>>>    void intel_guc_ct_event_handler(struct intel_guc_ct *ct)
->>>>>    {
->>>>>        if (unlikely(!ct->enabled)) {
->>>>> -        WARN(1, "Unexpected GuC event received while CT
->>>>> disabled!\n");
->>>>> +        ct_warn(ct, "Unexpected event received while disabled!\n");
->>>>>            return;
->>>>>        }
->>>>>    
-> 
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c      | 497 ++++++++++++++-----
+>  drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h |   6 +-
+>  2 files changed, 375 insertions(+), 128 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rc=
+ar-du/rcar_mipi_dsi.c
+> index a7f2b7f66a17..e10e4d4b89a2 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+> @@ -9,6 +9,7 @@
+>  #include <linux/delay.h>
+>  #include <linux/io.h>
+>  #include <linux/iopoll.h>
+> +#include <linux/math64.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+>  #include <linux/of_device.h>
+> @@ -28,6 +29,31 @@
+>  #include "rcar_mipi_dsi.h"
+>  #include "rcar_mipi_dsi_regs.h"
+> =20
+> +#define MHZ(v) ((u32)((v) * 1000000U))
+> +
+> +enum rcar_mipi_dsi_hw_model {
+> +       RCAR_DSI_V3U,
+> +       RCAR_DSI_V4H,
+> +};
+> +
+> +struct rcar_mipi_dsi_device_info {
+> +       enum rcar_mipi_dsi_hw_model model;
+> +
+> +       const struct dsi_clk_config *clk_cfg;
+> +
+> +       u8 clockset2_m_offset;
+> +
+> +       u8 n_min;
+> +       u8 n_max;
+> +       u8 n_mul;
+> +       unsigned long fpfd_min;
+> +       unsigned long fpfd_max;
+> +       u16 m_min;
+> +       u16 m_max;
+> +       unsigned long fout_min;
+> +       unsigned long fout_max;
+> +};
+> +
+>  struct rcar_mipi_dsi {
+>         struct device *dev;
+>         const struct rcar_mipi_dsi_device_info *info;
+> @@ -50,6 +76,17 @@ struct rcar_mipi_dsi {
+>         unsigned int lanes;
+>  };
+> =20
+> +struct dsi_setup_info {
+> +       unsigned long hsfreq;
+> +       u16 hsfreqrange;
+> +
+> +       unsigned long fout;
+> +       u16 m;
+> +       u16 n;
+> +       u16 vclk_divider;
+> +       const struct dsi_clk_config *clkset;
+> +};
+> +
+>  static inline struct rcar_mipi_dsi *
+>  bridge_to_rcar_mipi_dsi(struct drm_bridge *bridge)
+>  {
+> @@ -62,65 +99,78 @@ host_to_rcar_mipi_dsi(struct mipi_dsi_host *host)
+>         return container_of(host, struct rcar_mipi_dsi, host);
+>  }
+> =20
+> -static const u32 phtw[] =3D {
+> -       0x01020114, 0x01600115, /* General testing */
+> -       0x01030116, 0x0102011d, /* General testing */
+> -       0x011101a4, 0x018601a4, /* 1Gbps testing */
+> -       0x014201a0, 0x010001a3, /* 1Gbps testing */
+> -       0x0101011f,             /* 1Gbps testing */
+> -};
+> -
+> -static const u32 phtw2[] =3D {
+> -       0x010c0130, 0x010c0140, /* General testing */
+> -       0x010c0150, 0x010c0180, /* General testing */
+> -       0x010c0190,
+> -       0x010a0160, 0x010a0170,
+> -       0x01800164, 0x01800174, /* 1Gbps testing */
+> -};
+> -
+>  static const u32 hsfreqrange_table[][2] =3D {
+> -       { 80000000U,   0x00 }, { 90000000U,   0x10 }, { 100000000U,  0x20=
+ },
+> -       { 110000000U,  0x30 }, { 120000000U,  0x01 }, { 130000000U,  0x11=
+ },
+> -       { 140000000U,  0x21 }, { 150000000U,  0x31 }, { 160000000U,  0x02=
+ },
+> -       { 170000000U,  0x12 }, { 180000000U,  0x22 }, { 190000000U,  0x32=
+ },
+> -       { 205000000U,  0x03 }, { 220000000U,  0x13 }, { 235000000U,  0x23=
+ },
+> -       { 250000000U,  0x33 }, { 275000000U,  0x04 }, { 300000000U,  0x14=
+ },
+> -       { 325000000U,  0x25 }, { 350000000U,  0x35 }, { 400000000U,  0x05=
+ },
+> -       { 450000000U,  0x16 }, { 500000000U,  0x26 }, { 550000000U,  0x37=
+ },
+> -       { 600000000U,  0x07 }, { 650000000U,  0x18 }, { 700000000U,  0x28=
+ },
+> -       { 750000000U,  0x39 }, { 800000000U,  0x09 }, { 850000000U,  0x19=
+ },
+> -       { 900000000U,  0x29 }, { 950000000U,  0x3a }, { 1000000000U, 0x0a=
+ },
+> -       { 1050000000U, 0x1a }, { 1100000000U, 0x2a }, { 1150000000U, 0x3b=
+ },
+> -       { 1200000000U, 0x0b }, { 1250000000U, 0x1b }, { 1300000000U, 0x2b=
+ },
+> -       { 1350000000U, 0x3c }, { 1400000000U, 0x0c }, { 1450000000U, 0x1c=
+ },
+> -       { 1500000000U, 0x2c }, { 1550000000U, 0x3d }, { 1600000000U, 0x0d=
+ },
+> -       { 1650000000U, 0x1d }, { 1700000000U, 0x2e }, { 1750000000U, 0x3e=
+ },
+> -       { 1800000000U, 0x0e }, { 1850000000U, 0x1e }, { 1900000000U, 0x2f=
+ },
+> -       { 1950000000U, 0x3f }, { 2000000000U, 0x0f }, { 2050000000U, 0x40=
+ },
+> -       { 2100000000U, 0x41 }, { 2150000000U, 0x42 }, { 2200000000U, 0x43=
+ },
+> -       { 2250000000U, 0x44 }, { 2300000000U, 0x45 }, { 2350000000U, 0x46=
+ },
+> -       { 2400000000U, 0x47 }, { 2450000000U, 0x48 }, { 2500000000U, 0x49=
+ },
+> +       {   MHZ(80), 0x00 }, {   MHZ(90), 0x10 }, {  MHZ(100), 0x20 },
+> +       {  MHZ(110), 0x30 }, {  MHZ(120), 0x01 }, {  MHZ(130), 0x11 },
+> +       {  MHZ(140), 0x21 }, {  MHZ(150), 0x31 }, {  MHZ(160), 0x02 },
+> +       {  MHZ(170), 0x12 }, {  MHZ(180), 0x22 }, {  MHZ(190), 0x32 },
+> +       {  MHZ(205), 0x03 }, {  MHZ(220), 0x13 }, {  MHZ(235), 0x23 },
+> +       {  MHZ(250), 0x33 }, {  MHZ(275), 0x04 }, {  MHZ(300), 0x14 },
+> +       {  MHZ(325), 0x25 }, {  MHZ(350), 0x35 }, {  MHZ(400), 0x05 },
+> +       {  MHZ(450), 0x16 }, {  MHZ(500), 0x26 }, {  MHZ(550), 0x37 },
+> +       {  MHZ(600), 0x07 }, {  MHZ(650), 0x18 }, {  MHZ(700), 0x28 },
+> +       {  MHZ(750), 0x39 }, {  MHZ(800), 0x09 }, {  MHZ(850), 0x19 },
+> +       {  MHZ(900), 0x29 }, {  MHZ(950), 0x3a }, { MHZ(1000), 0x0a },
+> +       { MHZ(1050), 0x1a }, { MHZ(1100), 0x2a }, { MHZ(1150), 0x3b },
+> +       { MHZ(1200), 0x0b }, { MHZ(1250), 0x1b }, { MHZ(1300), 0x2b },
+> +       { MHZ(1350), 0x3c }, { MHZ(1400), 0x0c }, { MHZ(1450), 0x1c },
+> +       { MHZ(1500), 0x2c }, { MHZ(1550), 0x3d }, { MHZ(1600), 0x0d },
+> +       { MHZ(1650), 0x1d }, { MHZ(1700), 0x2e }, { MHZ(1750), 0x3e },
+> +       { MHZ(1800), 0x0e }, { MHZ(1850), 0x1e }, { MHZ(1900), 0x2f },
+> +       { MHZ(1950), 0x3f }, { MHZ(2000), 0x0f }, { MHZ(2050), 0x40 },
+> +       { MHZ(2100), 0x41 }, { MHZ(2150), 0x42 }, { MHZ(2200), 0x43 },
+> +       { MHZ(2250), 0x44 }, { MHZ(2300), 0x45 }, { MHZ(2350), 0x46 },
+> +       { MHZ(2400), 0x47 }, { MHZ(2450), 0x48 }, { MHZ(2500), 0x49 },
+>         { /* sentinel */ },
+>  };
+> =20
+> -struct vco_cntrl_value {
+> +struct dsi_clk_config {
+>         u32 min_freq;
+>         u32 max_freq;
+> -       u16 value;
+> +       u8 vco_cntrl;
+> +       u8 cpbias_cntrl;
+> +       u8 gmp_cntrl;
+> +       u8 int_cntrl;
+> +       u8 prop_cntrl;
+>  };
+> =20
+> -static const struct vco_cntrl_value vco_cntrl_table[] =3D {
+> -       { .min_freq =3D 40000000U,   .max_freq =3D 55000000U,   .value =
+=3D 0x3f },
+> -       { .min_freq =3D 52500000U,   .max_freq =3D 80000000U,   .value =
+=3D 0x39 },
+> -       { .min_freq =3D 80000000U,   .max_freq =3D 110000000U,  .value =
+=3D 0x2f },
+> -       { .min_freq =3D 105000000U,  .max_freq =3D 160000000U,  .value =
+=3D 0x29 },
+> -       { .min_freq =3D 160000000U,  .max_freq =3D 220000000U,  .value =
+=3D 0x1f },
+> -       { .min_freq =3D 210000000U,  .max_freq =3D 320000000U,  .value =
+=3D 0x19 },
+> -       { .min_freq =3D 320000000U,  .max_freq =3D 440000000U,  .value =
+=3D 0x0f },
+> -       { .min_freq =3D 420000000U,  .max_freq =3D 660000000U,  .value =
+=3D 0x09 },
+> -       { .min_freq =3D 630000000U,  .max_freq =3D 1149000000U, .value =
+=3D 0x03 },
+> -       { .min_freq =3D 1100000000U, .max_freq =3D 1152000000U, .value =
+=3D 0x01 },
+> -       { .min_freq =3D 1150000000U, .max_freq =3D 1250000000U, .value =
+=3D 0x01 },
+> +static const struct dsi_clk_config dsi_clk_cfg_v3u[] =3D {
+> +       {   MHZ(40),    MHZ(55), 0x3f, 0x10, 0x01, 0x00, 0x0b },
+> +       {   MHZ(52.5),  MHZ(80), 0x39, 0x10, 0x01, 0x00, 0x0b },
+> +       {   MHZ(80),   MHZ(110), 0x2f, 0x10, 0x01, 0x00, 0x0b },
+> +       {  MHZ(105),   MHZ(160), 0x29, 0x10, 0x01, 0x00, 0x0b },
+> +       {  MHZ(160),   MHZ(220), 0x1f, 0x10, 0x01, 0x00, 0x0b },
+> +       {  MHZ(210),   MHZ(320), 0x19, 0x10, 0x01, 0x00, 0x0b },
+> +       {  MHZ(320),   MHZ(440), 0x0f, 0x10, 0x01, 0x00, 0x0b },
+> +       {  MHZ(420),   MHZ(660), 0x09, 0x10, 0x01, 0x00, 0x0b },
+> +       {  MHZ(630),  MHZ(1149), 0x03, 0x10, 0x01, 0x00, 0x0b },
+> +       { MHZ(1100),  MHZ(1152), 0x01, 0x10, 0x01, 0x00, 0x0b },
+> +       { MHZ(1150),  MHZ(1250), 0x01, 0x10, 0x01, 0x00, 0x0c },
+> +       { /* sentinel */ },
+> +};
+> +
+> +static const struct dsi_clk_config dsi_clk_cfg_v4h[] =3D {
+> +       {   MHZ(40),    MHZ(45.31),  0x2b, 0x00, 0x00, 0x08, 0x0a },
+> +       {   MHZ(45.31), MHZ(54.66),  0x28, 0x00, 0x00, 0x08, 0x0a },
+> +       {   MHZ(54.66), MHZ(62.5),   0x28, 0x00, 0x00, 0x08, 0x0a },
+> +       {   MHZ(62.5),  MHZ(75),     0x27, 0x00, 0x00, 0x08, 0x0a },
+> +       {   MHZ(75),    MHZ(90.63),  0x23, 0x00, 0x00, 0x08, 0x0a },
+> +       {   MHZ(90.63), MHZ(109.37), 0x20, 0x00, 0x00, 0x08, 0x0a },
+> +       {  MHZ(109.37), MHZ(125),    0x20, 0x00, 0x00, 0x08, 0x0a },
+> +       {  MHZ(125),    MHZ(150),    0x1f, 0x00, 0x00, 0x08, 0x0a },
+> +       {  MHZ(150),    MHZ(181.25), 0x1b, 0x00, 0x00, 0x08, 0x0a },
+> +       {  MHZ(181.25), MHZ(218.75), 0x18, 0x00, 0x00, 0x08, 0x0a },
+> +       {  MHZ(218.75), MHZ(250),    0x18, 0x00, 0x00, 0x08, 0x0a },
+> +       {  MHZ(250),    MHZ(300),    0x17, 0x00, 0x00, 0x08, 0x0a },
+> +       {  MHZ(300),    MHZ(362.5),  0x13, 0x00, 0x00, 0x08, 0x0a },
+> +       {  MHZ(362.5),  MHZ(455.48), 0x10, 0x00, 0x00, 0x08, 0x0a },
+> +       {  MHZ(455.48), MHZ(500),    0x10, 0x00, 0x00, 0x08, 0x0a },
+> +       {  MHZ(500),    MHZ(600),    0x0f, 0x00, 0x00, 0x08, 0x0a },
+> +       {  MHZ(600),    MHZ(725),    0x0b, 0x00, 0x00, 0x08, 0x0a },
+> +       {  MHZ(725),    MHZ(875),    0x08, 0x00, 0x00, 0x08, 0x0a },
+> +       {  MHZ(875),   MHZ(1000),    0x08, 0x00, 0x00, 0x08, 0x0a },
+> +       { MHZ(1000),   MHZ(1200),    0x07, 0x00, 0x00, 0x08, 0x0a },
+> +       { MHZ(1200),   MHZ(1250),    0x03, 0x00, 0x00, 0x08, 0x0a },
+>         { /* sentinel */ },
+>  };
+> =20
+> @@ -144,7 +194,7 @@ static void rcar_mipi_dsi_set(struct rcar_mipi_dsi *d=
+si, u32 reg, u32 set)
+>         rcar_mipi_dsi_write(dsi, reg, rcar_mipi_dsi_read(dsi, reg) | set);
+>  }
+> =20
+> -static int rcar_mipi_dsi_phtw_test(struct rcar_mipi_dsi *dsi, u32 phtw)
+> +static int rcar_mipi_dsi_write_phtw(struct rcar_mipi_dsi *dsi, u32 phtw)
+>  {
+>         u32 status;
+>         int ret;
+> @@ -163,32 +213,181 @@ static int rcar_mipi_dsi_phtw_test(struct rcar_mip=
+i_dsi *dsi, u32 phtw)
+>         return ret;
+>  }
+> =20
+> +static int rcar_mipi_dsi_write_phtw_arr(struct rcar_mipi_dsi *dsi,
+> +                                       const u32 *phtw, unsigned int siz=
+e)
+> +{
+> +       for (unsigned int i =3D 0; i < size; i++) {
+> +               int ret =3D rcar_mipi_dsi_write_phtw(dsi, phtw[i]);
+> +
+> +               if (ret < 0)
+> +                       return ret;
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +#define WRITE_PHTW(...)                                               \
+> +       ({                                                            \
+> +               static const u32 phtw[] =3D { __VA_ARGS__ };            \
+> +               int ret;                                              \
+> +               ret =3D rcar_mipi_dsi_write_phtw_arr(dsi, phtw,         \
+> +                                                  ARRAY_SIZE(phtw)); \
+> +               ret;                                                  \
+> +       })
+> +
+> +static int rcar_mipi_dsi_init_phtw_v3u(struct rcar_mipi_dsi *dsi)
+> +{
+> +       return WRITE_PHTW(0x01020114, 0x01600115, 0x01030116, 0x0102011d,
+> +                         0x011101a4, 0x018601a4, 0x014201a0, 0x010001a3,
+> +                         0x0101011f);
+> +}
+> +
+> +static int rcar_mipi_dsi_post_init_phtw_v3u(struct rcar_mipi_dsi *dsi)
+> +{
+> +       return WRITE_PHTW(0x010c0130, 0x010c0140, 0x010c0150, 0x010c0180,
+> +                         0x010c0190, 0x010a0160, 0x010a0170, 0x01800164,
+> +                         0x01800174);
+> +}
+> +
+> +static int rcar_mipi_dsi_init_phtw_v4h(struct rcar_mipi_dsi *dsi,
+> +                                      const struct dsi_setup_info *setup=
+_info)
+> +{
+> +       int ret;
+> +
+> +       if (setup_info->hsfreq < MHZ(450)) {
+> +               ret =3D WRITE_PHTW(0x01010100, 0x011b01ac);
+> +               if (ret)
+> +                       return ret;
+> +       }
+> +
+> +       ret =3D WRITE_PHTW(0x01010100, 0x01030173, 0x01000174, 0x01500175,
+> +                        0x01030176, 0x01040166, 0x010201ad);
+> +       if (ret)
+> +               return ret;
+> +
+> +       if (setup_info->hsfreq <=3D MHZ(1000))
+> +               ret =3D WRITE_PHTW(0x01020100, 0x01910170, 0x01020171,
+> +                                0x01110172);
+> +       else if (setup_info->hsfreq <=3D MHZ(1500))
+> +               ret =3D WRITE_PHTW(0x01020100, 0x01980170, 0x01030171,
+> +                                0x01100172);
+> +       else if (setup_info->hsfreq <=3D MHZ(2500))
+> +               ret =3D WRITE_PHTW(0x01020100, 0x0144016b, 0x01000172);
+> +       else
+> +               return -EINVAL;
+> +
+> +       if (ret)
+> +               return ret;
+> +
+> +       if (dsi->lanes <=3D 1) {
+> +               ret =3D WRITE_PHTW(0x01070100, 0x010e010b);
+> +               if (ret)
+> +                       return ret;
+> +       }
+> +
+> +       if (dsi->lanes <=3D 2) {
+> +               ret =3D WRITE_PHTW(0x01090100, 0x010e010b);
+> +               if (ret)
+> +                       return ret;
+> +       }
+> +
+> +       if (dsi->lanes <=3D 3) {
+> +               ret =3D WRITE_PHTW(0x010b0100, 0x010e010b);
+> +               if (ret)
+> +                       return ret;
+> +       }
+> +
+> +       if (setup_info->hsfreq <=3D MHZ(1500)) {
+> +               ret =3D WRITE_PHTW(0x01010100, 0x01c0016e);
+> +               if (ret)
+> +                       return ret;
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static int
+> +rcar_mipi_dsi_post_init_phtw_v4h(struct rcar_mipi_dsi *dsi,
+> +                                const struct dsi_setup_info *setup_info)
+> +{
+> +       u32 status;
+> +       int ret;
+> +
+> +       if (setup_info->hsfreq <=3D MHZ(1500)) {
+> +               WRITE_PHTW(0x01020100, 0x00000180);
+> +
+> +               ret =3D read_poll_timeout(rcar_mipi_dsi_read, status,
+> +                                       status & PHTR_TEST, 2000, 10000, =
+false,
+> +                                       dsi, PHTR);
+> +               if (ret < 0) {
+> +                       dev_err(dsi->dev, "failed to test PHTR\n");
+> +                       return ret;
+> +               }
+> +
+> +               WRITE_PHTW(0x01010100, 0x0100016e);
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+>  /* ---------------------------------------------------------------------=
+--------
+>   * Hardware Setup
+>   */
+> =20
+> -struct dsi_setup_info {
+> -       unsigned long fout;
+> -       u16 vco_cntrl;
+> -       u16 prop_cntrl;
+> -       u16 hsfreqrange;
+> -       u16 div;
+> -       unsigned int m;
+> -       unsigned int n;
+> -};
+> +static void rcar_mipi_dsi_pll_calc(struct rcar_mipi_dsi *dsi,
+> +                                  unsigned long fin_rate,
+> +                                  unsigned long fout_target,
+> +                                  struct dsi_setup_info *setup_info)
+> +{
+> +       unsigned int best_err =3D -1;
+> +       const struct rcar_mipi_dsi_device_info *info =3D dsi->info;
+> +
+> +       for (unsigned int n =3D info->n_min; n <=3D info->n_max; n++) {
+> +               unsigned long fpfd;
+> +
+> +               fpfd =3D fin_rate / n;
+> +
+> +               if (fpfd < info->fpfd_min || fpfd > info->fpfd_max)
+> +                       continue;
+> +
+> +               for (unsigned int m =3D info->m_min; m <=3D info->m_max; =
+m++) {
+> +                       unsigned int err;
+> +                       u64 fout;
+> +
+> +                       fout =3D div64_u64((u64)fpfd * m, dsi->info->n_mu=
+l);
+> +
+> +                       if (fout < info->fout_min || fout > info->fout_ma=
+x)
+> +                               continue;
+> +
+> +                       fout =3D div64_u64(fout, setup_info->vclk_divider=
+);
+> +
+> +                       if (fout < setup_info->clkset->min_freq ||
+> +                           fout > setup_info->clkset->max_freq)
+> +                               continue;
+> +
+> +                       err =3D abs((long)(fout - fout_target) * 10000 /
+> +                                 (long)fout_target);
+> +                       if (err < best_err) {
+> +                               setup_info->m =3D m;
+> +                               setup_info->n =3D n;
+> +                               setup_info->fout =3D (unsigned long)fout;
+> +                               best_err =3D err;
+> +
+> +                               if (err =3D=3D 0)
+> +                                       return;
+> +                       }
+> +               }
+> +       }
+> +}
+> =20
+>  static void rcar_mipi_dsi_parameters_calc(struct rcar_mipi_dsi *dsi,
+>                                           struct clk *clk, unsigned long =
+target,
+>                                           struct dsi_setup_info *setup_in=
+fo)
+>  {
+> =20
+> -       const struct vco_cntrl_value *vco_cntrl;
+> +       const struct dsi_clk_config *clk_cfg;
+>         unsigned long fout_target;
+> -       unsigned long fin, fout;
+> -       unsigned long hsfreq;
+> -       unsigned int best_err =3D -1;
+> -       unsigned int divider;
+> -       unsigned int n;
+> +       unsigned long fin_rate;
+>         unsigned int i;
+>         unsigned int err;
+> =20
+> @@ -198,70 +397,53 @@ static void rcar_mipi_dsi_parameters_calc(struct rc=
+ar_mipi_dsi *dsi,
+>          */
+>         fout_target =3D target * mipi_dsi_pixel_format_to_bpp(dsi->format)
+>                     / (2 * dsi->lanes);
+> -       if (fout_target < 40000000 || fout_target > 1250000000)
+> +       if (fout_target < MHZ(40) || fout_target > MHZ(1250))
+>                 return;
+> =20
+> -       /* Find vco_cntrl */
+> -       for (vco_cntrl =3D vco_cntrl_table; vco_cntrl->min_freq !=3D 0; v=
+co_cntrl++) {
+> -               if (fout_target > vco_cntrl->min_freq &&
+> -                   fout_target <=3D vco_cntrl->max_freq) {
+> -                       setup_info->vco_cntrl =3D vco_cntrl->value;
+> -                       if (fout_target >=3D 1150000000)
+> -                               setup_info->prop_cntrl =3D 0x0c;
+> -                       else
+> -                               setup_info->prop_cntrl =3D 0x0b;
+> +       /* Find PLL settings */
+> +       for (clk_cfg =3D dsi->info->clk_cfg; clk_cfg->min_freq !=3D 0; cl=
+k_cfg++) {
+> +               if (fout_target > clk_cfg->min_freq &&
+> +                   fout_target <=3D clk_cfg->max_freq) {
+> +                       setup_info->clkset =3D clk_cfg;
+>                         break;
+>                 }
+>         }
+> =20
+> -       /* Add divider */
+> -       setup_info->div =3D (setup_info->vco_cntrl & 0x30) >> 4;
+> +       fin_rate =3D clk_get_rate(clk);
+> +
+> +       switch (dsi->info->model) {
+> +       case RCAR_DSI_V3U:
+> +       default:
+> +               setup_info->vclk_divider =3D 1 << ((clk_cfg->vco_cntrl >>=
+ 4) & 0x3);
+> +               break;
+> +
+> +       case RCAR_DSI_V4H:
+> +               setup_info->vclk_divider =3D 1 << (((clk_cfg->vco_cntrl >=
+> 3) & 0x7) + 1);
+> +               break;
+> +       }
+> +
+> +       rcar_mipi_dsi_pll_calc(dsi, fin_rate, fout_target, setup_info);
+> =20
+>         /* Find hsfreqrange */
+> -       hsfreq =3D fout_target * 2;
+> +       setup_info->hsfreq =3D setup_info->fout * 2;
+>         for (i =3D 0; i < ARRAY_SIZE(hsfreqrange_table); i++) {
+> -               if (hsfreqrange_table[i][0] >=3D hsfreq) {
+> +               if (hsfreqrange_table[i][0] >=3D setup_info->hsfreq) {
+>                         setup_info->hsfreqrange =3D hsfreqrange_table[i][=
+1];
+>                         break;
+>                 }
+>         }
+> =20
+> -       /*
+> -        * Calculate n and m for PLL clock
+> -        * Following the HW manual the ranges of n and m are
+> -        * n =3D [3-8] and m =3D [64-625]
+> -        */
+> -       fin =3D clk_get_rate(clk);
+> -       divider =3D 1 << setup_info->div;
+> -       for (n =3D 3; n < 9; n++) {
+> -               unsigned long fpfd;
+> -               unsigned int m;
+> -
+> -               fpfd =3D fin / n;
+> -
+> -               for (m =3D 64; m < 626; m++) {
+> -                       fout =3D fpfd * m / divider;
+> -                       err =3D abs((long)(fout - fout_target) * 10000 /
+> -                                 (long)fout_target);
+> -                       if (err < best_err) {
+> -                               setup_info->m =3D m - 2;
+> -                               setup_info->n =3D n - 1;
+> -                               setup_info->fout =3D fout;
+> -                               best_err =3D err;
+> -                               if (err =3D=3D 0)
+> -                                       goto done;
+> -                       }
+> -               }
+> -       }
+> +       err =3D abs((long)(setup_info->fout - fout_target) * 10000 / (lon=
+g)fout_target);
+> =20
+> -done:
+>         dev_dbg(dsi->dev,
+> -               "%pC %lu Hz -> Fout %lu Hz (target %lu Hz, error %d.%02u%=
+%), PLL M/N/DIV %u/%u/%u\n",
+> -               clk, fin, setup_info->fout, fout_target, best_err / 100,
+> -               best_err % 100, setup_info->m, setup_info->n, setup_info-=
+>div);
+> +               "Fout =3D %u * %lu / (%u * %u * %u) =3D %lu (target %lu H=
+z, error %d.%02u%%)\n",
+> +               setup_info->m, fin_rate, dsi->info->n_mul, setup_info->n,
+> +               setup_info->vclk_divider, setup_info->fout, fout_target,
+> +               err / 100, err % 100);
+> +
+>         dev_dbg(dsi->dev,
+>                 "vco_cntrl =3D 0x%x\tprop_cntrl =3D 0x%x\thsfreqrange =3D=
+ 0x%x\n",
+> -               setup_info->vco_cntrl, setup_info->prop_cntrl,
+> +               clk_cfg->vco_cntrl, clk_cfg->prop_cntrl,
+>                 setup_info->hsfreqrange);
+>  }
+> =20
+> @@ -324,7 +506,7 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi=
+ *dsi,
+>  {
+>         struct dsi_setup_info setup_info =3D {};
+>         unsigned int timeout;
+> -       int ret, i;
+> +       int ret;
+>         int dsi_format;
+>         u32 phy_setup;
+>         u32 clockset2, clockset3;
+> @@ -360,10 +542,19 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_d=
+si *dsi,
+>         phy_setup |=3D PHYSETUP_HSFREQRANGE(setup_info.hsfreqrange);
+>         rcar_mipi_dsi_write(dsi, PHYSETUP, phy_setup);
+> =20
+> -       for (i =3D 0; i < ARRAY_SIZE(phtw); i++) {
+> -               ret =3D rcar_mipi_dsi_phtw_test(dsi, phtw[i]);
+> +       switch (dsi->info->model) {
+> +       case RCAR_DSI_V3U:
+> +       default:
+> +               ret =3D rcar_mipi_dsi_init_phtw_v3u(dsi);
+>                 if (ret < 0)
+>                         return ret;
+> +               break;
+> +
+> +       case RCAR_DSI_V4H:
+> +               ret =3D rcar_mipi_dsi_init_phtw_v4h(dsi, &setup_info);
+> +               if (ret < 0)
+> +                       return ret;
+> +               break;
+>         }
+> =20
+>         /* PLL Clock Setting */
+> @@ -371,12 +562,13 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_d=
+si *dsi,
+>         rcar_mipi_dsi_set(dsi, CLOCKSET1, CLOCKSET1_SHADOW_CLEAR);
+>         rcar_mipi_dsi_clr(dsi, CLOCKSET1, CLOCKSET1_SHADOW_CLEAR);
+> =20
+> -       clockset2 =3D CLOCKSET2_M(setup_info.m) | CLOCKSET2_N(setup_info.=
+n)
+> -                 | CLOCKSET2_VCO_CNTRL(setup_info.vco_cntrl);
+> -       clockset3 =3D CLOCKSET3_PROP_CNTRL(setup_info.prop_cntrl)
+> -                 | CLOCKSET3_INT_CNTRL(0)
+> -                 | CLOCKSET3_CPBIAS_CNTRL(0x10)
+> -                 | CLOCKSET3_GMP_CNTRL(1);
+> +       clockset2 =3D CLOCKSET2_M(setup_info.m - dsi->info->clockset2_m_o=
+ffset)
+> +                 | CLOCKSET2_N(setup_info.n - 1)
+> +                 | CLOCKSET2_VCO_CNTRL(setup_info.clkset->vco_cntrl);
+> +       clockset3 =3D CLOCKSET3_PROP_CNTRL(setup_info.clkset->prop_cntrl)
+> +                 | CLOCKSET3_INT_CNTRL(setup_info.clkset->int_cntrl)
+> +                 | CLOCKSET3_CPBIAS_CNTRL(setup_info.clkset->cpbias_cntr=
+l)
+> +                 | CLOCKSET3_GMP_CNTRL(setup_info.clkset->gmp_cntrl);
+>         rcar_mipi_dsi_write(dsi, CLOCKSET2, clockset2);
+>         rcar_mipi_dsi_write(dsi, CLOCKSET3, clockset3);
+> =20
+> @@ -407,10 +599,19 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_d=
+si *dsi,
+>                 return -ETIMEDOUT;
+>         }
+> =20
+> -       for (i =3D 0; i < ARRAY_SIZE(phtw2); i++) {
+> -               ret =3D rcar_mipi_dsi_phtw_test(dsi, phtw2[i]);
+> +       switch (dsi->info->model) {
+> +       case RCAR_DSI_V3U:
+> +       default:
+> +               ret =3D rcar_mipi_dsi_post_init_phtw_v3u(dsi);
+> +               if (ret < 0)
+> +                       return ret;
+> +               break;
+> +
+> +       case RCAR_DSI_V4H:
+> +               ret =3D rcar_mipi_dsi_post_init_phtw_v4h(dsi, &setup_info=
+);
+>                 if (ret < 0)
+>                         return ret;
+> +               break;
+>         }
+> =20
+>         /* Enable DOT clock */
+> @@ -427,8 +628,19 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_ds=
+i *dsi,
+>                 dev_warn(dsi->dev, "unsupported format");
+>                 return -EINVAL;
+>         }
+> -       vclkset |=3D VCLKSET_COLOR_RGB | VCLKSET_DIV(setup_info.div)
+> -               |  VCLKSET_LANE(dsi->lanes - 1);
+> +
+> +       vclkset |=3D VCLKSET_COLOR_RGB | VCLKSET_LANE(dsi->lanes - 1);
+> +
+> +       switch (dsi->info->model) {
+> +       case RCAR_DSI_V3U:
+> +       default:
+> +               vclkset |=3D VCLKSET_DIV_V3U(__ffs(setup_info.vclk_divide=
+r));
+> +               break;
+> +
+> +       case RCAR_DSI_V4H:
+> +               vclkset |=3D VCLKSET_DIV_V4H(__ffs(setup_info.vclk_divide=
+r) - 1);
+> +               break;
+> +       }
+> =20
+>         rcar_mipi_dsi_write(dsi, VCLKSET, vclkset);
+> =20
+> @@ -841,8 +1053,39 @@ static int rcar_mipi_dsi_remove(struct platform_dev=
+ice *pdev)
+>         return 0;
+>  }
+> =20
+> +static const struct rcar_mipi_dsi_device_info v3u_data =3D {
+> +       .model =3D RCAR_DSI_V3U,
+> +       .clk_cfg =3D dsi_clk_cfg_v3u,
+> +       .clockset2_m_offset =3D 2,
+> +       .n_min =3D 3,
+> +       .n_max =3D 8,
+> +       .n_mul =3D 1,
+> +       .fpfd_min =3D MHZ(2),
+> +       .fpfd_max =3D MHZ(8),
+> +       .m_min =3D 64,
+> +       .m_max =3D 625,
+> +       .fout_min =3D MHZ(320),
+> +       .fout_max =3D MHZ(1250),
+> +};
+> +
+> +static const struct rcar_mipi_dsi_device_info v4h_data =3D {
+> +       .model =3D RCAR_DSI_V4H,
+> +       .clk_cfg =3D dsi_clk_cfg_v4h,
+> +       .clockset2_m_offset =3D 0,
+> +       .n_min =3D 1,
+> +       .n_max =3D 8,
+> +       .n_mul =3D 2,
+> +       .fpfd_min =3D MHZ(8),
+> +       .fpfd_max =3D MHZ(24),
+> +       .m_min =3D 167,
+> +       .m_max =3D 1000,
+> +       .fout_min =3D MHZ(2000),
+> +       .fout_max =3D MHZ(4000),
+> +};
+> +
+>  static const struct of_device_id rcar_mipi_dsi_of_table[] =3D {
+> -       { .compatible =3D "renesas,r8a779a0-dsi-csi2-tx" },
+> +       { .compatible =3D "renesas,r8a779a0-dsi-csi2-tx", .data =3D &v3u_=
+data },
+> +       { .compatible =3D "renesas,r8a779g0-dsi-csi2-tx", .data =3D &v4h_=
+data },
+>         { }
+>  };
+> =20
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/d=
+rm/rcar-du/rcar_mipi_dsi_regs.h
+> index 2eaca54636f3..f8114d11f2d1 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h
+> +++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h
+> @@ -122,7 +122,8 @@
+>  #define VCLKSET_CKEN                   (1 << 16)
+>  #define VCLKSET_COLOR_RGB              (0 << 8)
+>  #define VCLKSET_COLOR_YCC              (1 << 8)
+> -#define VCLKSET_DIV(x)                 (((x) & 0x3) << 4)
+> +#define VCLKSET_DIV_V3U(x)             (((x) & 0x3) << 4)
+> +#define VCLKSET_DIV_V4H(x)             (((x) & 0x7) << 4)
+>  #define VCLKSET_BPP_16                 (0 << 2)
+>  #define VCLKSET_BPP_18                 (1 << 2)
+>  #define VCLKSET_BPP_18L                        (2 << 2)
+> @@ -166,6 +167,9 @@
+>  #define PHTW_CWEN                      (1 << 8)
+>  #define PHTW_TESTDIN_CODE(x)           (((x) & 0xff) << 0)
+> =20
+> +#define PHTR                           0x1038
+> +#define PHTR_TEST                      (1 << 16)
+> +
+>  #define PHTC                           0x103c
+>  #define PHTC_TESTCLR                   (1 << 0)
+> =20
+> --=20
+> 2.34.1
+>
