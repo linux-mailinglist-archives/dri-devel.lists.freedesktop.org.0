@@ -1,71 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC3E263F42E
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 16:38:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E03B63F437
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 16:38:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F34C510E12D;
-	Thu,  1 Dec 2022 15:37:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBD7F10E620;
+	Thu,  1 Dec 2022 15:38:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DC7710E12D
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 15:37:55 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id s12so2860560edd.5
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Dec 2022 07:37:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=qs63CknEsiv/WVfdwhEf+CjJpYFuCYS7MFFgd+vKinI=;
- b=S5Cph6OJnAgWEqs4wshrH9YtIgA9gzbuit6FFWjRz5kQkGt/lnkopP+J02/qQQf6N/
- I8Rg81mjT6pSpWVksuoQEc7iStoxnWkcplJhRXI+4UjVA9A6yboKWZX/vvcS7W8GxPnn
- o/lcQs66XO4njeb4jo90uhC/oe6GRw0VCvzH0=
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5C1910E620;
+ Thu,  1 Dec 2022 15:38:48 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id f18so3302147wrj.5;
+ Thu, 01 Dec 2022 07:38:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=kIaQOgfMcE/GO6nbKr8PgFmDaCwOiD/COdGZXSFPO3M=;
+ b=E3geviGqKB2TzYiRvQ/grhwJZrK6KFqLZIp05t0haGJET64z82MLT+1yuZXlRebIv/
+ Awss+4bqdFtJ0O6w0GDKVLHe5yhkmhxfAUFYuzq78lhbY9a5/Ox+7rscSqdKFIkii6S7
+ GnzTh1/tvJCdzNEVBraZJcaxVZBXaA8J2182usY+yKeigIAgog/id+4u/8KVIxI6+x5K
+ +QxP50LSWrpC6r1IJisjte42Ookkx3z8ao7cVYuIoVVL55UdAOIQWC+9JuBR1A0dMMsF
+ vswhKpzAdW8bQziBwqkiDeCKpui/siNW98btnRDADIsdb3KNGJQPkfSJI/PKuaTOLS07
+ EhQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=qs63CknEsiv/WVfdwhEf+CjJpYFuCYS7MFFgd+vKinI=;
- b=iFwENlS/B9N1ACKHWbhCgUbppb8/EeGkqy1zv103shebZ3GTXs7nKf9J8pvDt0LAPP
- NKy98ErLcBnA2RBNV94dISI0n8Tnr7QmYJo1XLb/66wkSaEt4NnuLVT+VPJqohhg4wqC
- wiIx3K5ZUEuKJMBRkVCfnfyK1Fw3LvsvujigqKhiilFjP3zta85tzDZF7gEtIoRoYVi1
- KneI0Xx/g4rJ7yPwSQ59McEHNbMT9Cm5SagZQTlIsGZ+f8agNPeuNC7bYyRbRxyl1whV
- Y7S0MjfaTnZda0V5f2731MsIuPgaCSR0t6V2JO2PMA34Yh+l/0EHUfC06c7ssch2Accz
- CI3g==
-X-Gm-Message-State: ANoB5pmTYwooEN1SRtXM2H9eZ9t1IBHtaTK4MvHSMRUZpGkU0xNuim3O
- /wa02y4atsdh13/IrbDFyE2puGEg0bTaDzrt
-X-Google-Smtp-Source: AA0mqf5Ooi2EMQypCKAx3IRALR0TIcn0n4z8LSRQ35KIKy9yNEh2HmGre2I2K1dMqkuiDv/WJueR2A==
-X-Received: by 2002:a05:6402:146:b0:46a:c132:3e23 with SMTP id
- s6-20020a056402014600b0046ac1323e23mr6287155edu.133.1669909073439; 
- Thu, 01 Dec 2022 07:37:53 -0800 (PST)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com.
- [209.85.128.41]) by smtp.gmail.com with ESMTPSA id
- km9-20020a1709079a8900b0078b83968ad4sm1910080ejc.24.2022.12.01.07.37.52
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Dec 2022 07:37:52 -0800 (PST)
-Received: by mail-wm1-f41.google.com with SMTP id
- ay14-20020a05600c1e0e00b003cf6ab34b61so4199412wmb.2
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Dec 2022 07:37:52 -0800 (PST)
-X-Received: by 2002:a05:600c:1e12:b0:3cf:9ad3:a20e with SMTP id
- ay18-20020a05600c1e1200b003cf9ad3a20emr38995897wmb.151.1669909071906; Thu, 01
- Dec 2022 07:37:51 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=kIaQOgfMcE/GO6nbKr8PgFmDaCwOiD/COdGZXSFPO3M=;
+ b=c2jdnDo/mhVpvHBHArZDkTfopOes9szeqN5cYX5D7jjoM87Rw6XdwseNXubJKSycD2
+ dFVY4l0J2L+DaBBwYjbv9UtuuhsFn3hwVlRnks/4fA+Of8+N2ThUitB0J7Wz2uk5e9QZ
+ wEK/dZUgpujgNiAZduXmW63tQK8OJ8ouoYWOA4LHtj3OvJCjeWkZHUjUiU9ZG0hvbORZ
+ 77iuakjm5wEvMioU5HheHdgzhXtqtz8glxWJKUqzcQ5sZwmY+saxiaJQwSkucGTgFfGe
+ DtowdLlOsImgnOZbepb7O0WriYfpTeYrM6+0CN1AkZnry4EUQF9hh0PvK2Tp+Bfc+QJL
+ +QmQ==
+X-Gm-Message-State: ANoB5pkw9aBv6vdDBJRCSTkaM9cpyqPB5556OeZyhXbr4DIDIBeHo4/r
+ YJzk2u9gGVrUCWHUuWX8/tY=
+X-Google-Smtp-Source: AA0mqf5ysOVW/Kh9k2qAFFRO9E3GopXIGKrpSXH9FsDqiC/hwM1sNXt1+Gei6ZSSMh8u0cUZy9H63Q==
+X-Received: by 2002:a05:6000:1208:b0:236:4838:515d with SMTP id
+ e8-20020a056000120800b002364838515dmr40090363wrx.541.1669909127076; 
+ Thu, 01 Dec 2022 07:38:47 -0800 (PST)
+Received: from wlan-cl-kit-cs-172-17-20-201.scc.kit.edu
+ ([2a00:1398:9:fb03:6341:588f:5b6d:9173])
+ by smtp.gmail.com with ESMTPSA id
+ fn7-20020a05600c688700b003c6b70a4d69sm5523597wmb.42.2022.12.01.07.38.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Dec 2022 07:38:46 -0800 (PST)
+From: Peter Maucher <bellosilicio@gmail.com>
+To: alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] amdgpu/drm: Documentation updates
+Date: Thu,  1 Dec 2022 16:38:18 +0100
+Message-Id: <20221201153820.257570-1-bellosilicio@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
- <20221130152148.2769768-4-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20221130152148.2769768-4-u.kleine-koenig@pengutronix.de>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 1 Dec 2022 07:37:38 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=Uoy6fg2qDeU-Zz+3UhVdWEQzf9XWFrZzmoUyJ4=_U3VA@mail.gmail.com>
-Message-ID: <CAD=FV=Uoy6fg2qDeU-Zz+3UhVdWEQzf9XWFrZzmoUyJ4=_U3VA@mail.gmail.com>
-Subject: Re: [PATCH v2 03/11] drm/bridge: ti-sn65dsi86: Propagate errors in
- .get_state() to the caller
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,22 +71,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: Peter Maucher <bellosilicio@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Explain difference between gttsize and gartsize
+module parameters, and amend related documentation.
+Also, amdgpu does support RDNA GPUs.
 
-On Wed, Nov 30, 2022 at 7:22 AM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@pengutronix.de> wrote:
->
-> .get_state() can return an error indication. Make use of it to propagate
-> failing hardware accesses.
->
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-> ---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
 
-Acked-by: Douglas Anderson <dianders@chromium.org>
+Peter Maucher (3):
+  drm/amdgpu: improve GART and GTT documentation
+  drm/amdgpu: add GART and GTT to glossary
+  drm/amdgpu: mention RDNA support in docu
+
+ Documentation/gpu/amdgpu/amdgpu-glossary.rst |  6 ++++++
+ Documentation/gpu/amdgpu/index.rst           |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c      | 11 ++++++-----
+ 3 files changed, 13 insertions(+), 6 deletions(-)
+
+-- 
+2.38.1
+
