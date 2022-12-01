@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87E8063EC4D
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 10:22:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DED8F63EC55
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 10:22:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C763510E593;
-	Thu,  1 Dec 2022 09:22:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE55910E595;
+	Thu,  1 Dec 2022 09:22:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D23A10E58E;
- Thu,  1 Dec 2022 09:22:07 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id fy37so2671542ejc.11;
- Thu, 01 Dec 2022 01:22:07 -0800 (PST)
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2C1A10E594;
+ Thu,  1 Dec 2022 09:22:08 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id s5so1477706edc.12;
+ Thu, 01 Dec 2022 01:22:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
  :message-id:reply-to;
- bh=j/wAlj9+lbLEBeIqsdF+yfeUS1s2V84+JTVk1VCdcTE=;
- b=AEJ5Dr7zB416GNoTNHNKS9rh5+Y2xhjAKHwoZGCbN23KANzvgKbjQsTMwcHfU9//gc
- 7eEuqNfoarSzqd6Hub73JzuxHzfZ3zuKU8KbpyRTmxVxZ8jxQLHg56ngi90cCF+1I+IA
- ETujKamyy5Lki/kXzCCBzo3ZCdibteSRokDjyYZX6sa+sYTcCUzC47vjDpeOoHjJTFgi
- LldbFFMwGZoiqaX8LPCS0KrhY+dGHtSyCwpi8DfDbiKu4JcKUTRiGGW0qYhoXcVNL1xz
- C1ymFTKcSVgFRNt9TI20M1niY9gxYghKhHzmRWDYslmPMfNQ9FTKs+DyFqKxnbtnlWCx
- 997A==
+ bh=ZxpUnfBd0p8vcBE3KJWC/GuBXuBQqcwTN9Z0iX5mpvg=;
+ b=HD5y/WXR910sg83kjV2BWWD+qL/7BH8Xo4u7soFHYUr5CtSS9XJJU6O7ZscoquM91K
+ 6i8CKACWUqe/EphfLVNL2AHfOvDiEB044SEXeiwUHAsO2Jug0lRYot3mwxw96t79SLgK
+ 2iqa6epHYKcFXijhbisR/YZ3N9lhnp//SQWLMlTdL958FSj2WhAvDdmJIWdcfV7iFcP8
+ tTj8SjoHaM4lifnQ1ICKCqtYfDBJitNjdgyn11dBfVbHqs2Dh+PsU617DNKiLxHj7vXx
+ ASv/A9z6YvKKX9AVQwdse0/25qgPMFHyAACGc+tmr8vfUArHhK+A/P+quLM8po7jBoq3
+ IwMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:sender:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=j/wAlj9+lbLEBeIqsdF+yfeUS1s2V84+JTVk1VCdcTE=;
- b=pv32yiNwzd7J+jni0NoqPQfQonBgH2apurHi+UepgvowHHElbP8alu0F8oSJFJiBT0
- tNIKGWZON8aVz4l/gm5KtLuashgkTJScpvaaIAsniDlUdJITw6fBsteywPk0KTVomVX6
- Kdo7Vl0h+Ftb4g5gnDiuDHLoltHZz9hu0ikOllQHVlmTMRLfr9b87tnaM+zfqDtUvjRN
- yKAxZpRVdH78yo+b6kIGJzv17KlGZ96t/zJETCtFty5zLg5gqMiNF76zs12AhxDhxckS
- Dfm3YN9KPCAk80w6yXBh2D2h63b3O0fxzCrE/vAQQgv1Lvkez8ehBDgAXQMp7rHgs4ao
- hAxA==
-X-Gm-Message-State: ANoB5pnk6aAPikA3PDzVuocoDoi4GKPeI2wMZGR0jxOHAof8B6Exmz9k
- v6aT9R2HAk7e+IiZtXQA35c=
-X-Google-Smtp-Source: AA0mqf4U7Jfjt9v07Np5vCGzYbUwDTHC1Yq1KbW+C75UIdsapP471QhHYnSvQepDZC4sLwYcl3Z1lw==
-X-Received: by 2002:a17:906:1ecf:b0:7ad:902c:d1d6 with SMTP id
- m15-20020a1709061ecf00b007ad902cd1d6mr43010098ejj.143.1669886525782; 
- Thu, 01 Dec 2022 01:22:05 -0800 (PST)
+ bh=ZxpUnfBd0p8vcBE3KJWC/GuBXuBQqcwTN9Z0iX5mpvg=;
+ b=uLufjz04DCZU2K+Yvz9+RfR9EVLVj6dsOkD/WKHh7qtpxvZ9CPhe0OUe93O7z0dNjw
+ o/muyVJ9VOGNyJnMs5/thQbeC96rtXLt9Fz2/agwESo7o8c8NXn1zRc0xZIHgVEo1Qz7
+ OIKCGWF5epZkICFobKs19oPSd0FBd412YET89SGO1FEpbgTsonOCylYplu7dO3pUOMAx
+ qlFsKDi1PHQymgrOTUoHcV8W19Y1RaoxsWK0eKBEQfTYLUUTkjcN0J7DWB8ddwgf2xGb
+ UagaflBnKv6JlNinzao/XYUddhM0jrsHt4BqE/2CW/zLkJUO3/5HZW0jYt5VgECM1YGT
+ N5bQ==
+X-Gm-Message-State: ANoB5pmEEtvBo7/0BYuTkbKyk/w1rIMisbXWSNAFIjKJ1tHzDro/AMZF
+ PieVbhhXCE1ruLjPSQxSn2I=
+X-Google-Smtp-Source: AA0mqf4/z8IWZm6GF+afL3r9Qn6kOIeqai5lAdazdtaxlhi3u/3DQBDzJbdDNAkDm3voiXgaDjvn1g==
+X-Received: by 2002:aa7:c042:0:b0:462:2f5a:8618 with SMTP id
+ k2-20020aa7c042000000b004622f5a8618mr59546512edo.42.1669886527062; 
+ Thu, 01 Dec 2022 01:22:07 -0800 (PST)
 Received: from cizrna.home (cst-prg-44-69.cust.vodafone.cz. [46.135.44.69])
  by smtp.gmail.com with ESMTPSA id
- 18-20020a170906211200b007b29eb8a4dbsm1587879ejt.13.2022.12.01.01.22.04
+ 18-20020a170906211200b007b29eb8a4dbsm1587879ejt.13.2022.12.01.01.22.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Dec 2022 01:22:05 -0800 (PST)
+ Thu, 01 Dec 2022 01:22:06 -0800 (PST)
 From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
 To: 
-Subject: [PATCH v4 5/7] drm/etnaviv: add HWDB entry for VIPNano-QI.7120.0055
-Date: Thu,  1 Dec 2022 10:21:26 +0100
-Message-Id: <20221201092131.62867-6-tomeu.vizoso@collabora.com>
+Subject: [PATCH v4 6/7] drm/etnaviv: Add nn_core_count to chip feature struct
+Date: Thu,  1 Dec 2022 10:21:27 +0100
+Message-Id: <20221201092131.62867-7-tomeu.vizoso@collabora.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221201092131.62867-1-tomeu.vizoso@collabora.com>
 References: <20221201092131.62867-1-tomeu.vizoso@collabora.com>
@@ -80,60 +80,73 @@ Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, italonicola@collabora.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a compute-only module marketed towards AI and vision
-acceleration. This particular version can be found on the Amlogic A311D
-SoC.
-
-The feature bits are taken from the Khadas downstream kernel driver
-6.4.4.3.310723AAA.
+We will use these for differentiating between GPUs and NPUs, as the
+downstream driver does.
 
 Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 31 ++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h  | 3 +++
+ drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 5 +++++
+ 2 files changed, 8 insertions(+)
 
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+index 85eddd492774..c8f3ad2031ce 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+@@ -50,6 +50,9 @@ struct etnaviv_chip_identity {
+ 	/* Number of shader cores. */
+ 	u32 shader_core_count;
+ 
++	/* Number of Neural Network cores. */
++	u32 nn_core_count;
++
+ 	/* Size of the vertex cache. */
+ 	u32 vertex_cache_size;
+ 
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-index f2fc645c7956..3f6fd9a3c088 100644
+index 3f6fd9a3c088..9fc5223299e4 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-@@ -130,6 +130,37 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
- 		.minor_features10 = 0x90044250,
- 		.minor_features11 = 0x00000024,
- 	},
-+	{
-+		.model = 0x8000,
-+		.revision = 0x7120,
-+		.product_id = 0x45080009,
-+		.customer_id = 0x88,
-+		.eco_id = 0,
-+		.stream_count = 8,
-+		.register_max = 64,
-+		.thread_count = 256,
-+		.shader_core_count = 1,
-+		.vertex_cache_size = 16,
-+		.vertex_output_buffer_size = 1024,
-+		.pixel_pipes = 1,
-+		.instruction_count = 512,
-+		.num_constants = 320,
-+		.buffer_size = 0,
-+		.varyings_count = 16,
-+		.features = 0xe0287cac,
-+		.minor_features0 = 0xc1799eff,
-+		.minor_features1 = 0xfefbfadb,
-+		.minor_features2 = 0xeb9d6fbf,
-+		.minor_features3 = 0xedfffced,
-+		.minor_features4 = 0xd30dafc7,
-+		.minor_features5 = 0x7b5ac333,
-+		.minor_features6 = 0xfc8ee200,
-+		.minor_features7 = 0x03fffa6f,
-+		.minor_features8 = 0x00fe0ef0,
-+		.minor_features9 = 0x0088003c,
-+		.minor_features10 = 0x108048c0,
-+		.minor_features11 = 0x00000010,
-+	},
- };
- 
- bool etnaviv_fill_identity_from_hwdb(struct etnaviv_gpu *gpu)
+@@ -16,6 +16,7 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ 		.register_max = 64,
+ 		.thread_count = 128,
+ 		.shader_core_count = 1,
++		.nn_core_count = 0,
+ 		.vertex_cache_size = 8,
+ 		.vertex_output_buffer_size = 1024,
+ 		.pixel_pipes = 1,
+@@ -47,6 +48,7 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ 		.register_max = 64,
+ 		.thread_count = 512,
+ 		.shader_core_count = 2,
++		.nn_core_count = 0,
+ 		.vertex_cache_size = 16,
+ 		.vertex_output_buffer_size = 1024,
+ 		.pixel_pipes = 1,
+@@ -78,6 +80,7 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ 		.register_max = 64,
+ 		.thread_count = 512,
+ 		.shader_core_count = 2,
++		.nn_core_count = 0,
+ 		.vertex_cache_size = 16,
+ 		.vertex_output_buffer_size = 1024,
+ 		.pixel_pipes = 1,
+@@ -109,6 +112,7 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ 		.register_max = 64,
+ 		.thread_count = 1024,
+ 		.shader_core_count = 4,
++		.nn_core_count = 0,
+ 		.vertex_cache_size = 16,
+ 		.vertex_output_buffer_size = 1024,
+ 		.pixel_pipes = 2,
+@@ -140,6 +144,7 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ 		.register_max = 64,
+ 		.thread_count = 256,
+ 		.shader_core_count = 1,
++		.nn_core_count = 8,
+ 		.vertex_cache_size = 16,
+ 		.vertex_output_buffer_size = 1024,
+ 		.pixel_pipes = 1,
 -- 
 2.38.1
 
