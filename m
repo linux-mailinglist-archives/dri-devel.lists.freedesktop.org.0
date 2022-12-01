@@ -2,67 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6693963F280
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 15:16:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 339BD63F289
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 15:17:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3EF510E5F5;
-	Thu,  1 Dec 2022 14:16:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7F1110E5F8;
+	Thu,  1 Dec 2022 14:17:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com
- [IPv6:2607:f8b0:4864:20::829])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9115010E5F5
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 14:16:45 +0000 (UTC)
-Received: by mail-qt1-x829.google.com with SMTP id h16so1054063qtu.2
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Dec 2022 06:16:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linuxfoundation.org; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ByBUzDvzM4j/gp90rEVsVwRt5tlydokLLLhC4JKYf6Q=;
- b=ALKYG2D/tADzmmrBG2F3xseeZLU9Pndwb16fHF0A/f7XQgK5jyMFTwdCUz0xY9OoVp
- cREeQQ3+FW0jrwzLfQ/2wqFV6IBhYQF7vbaPcJwfsNL060cwpUnIhYMg0wAgvWz45uBc
- N7bAvldEO4GvHVLo0aBH48ATa64osjZndwqLU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ByBUzDvzM4j/gp90rEVsVwRt5tlydokLLLhC4JKYf6Q=;
- b=hGuS7Vq+spvKEUCtCwfzAHcGuO+4KDy2HwrBqkJdR8P8n9DJvuiYCE8/oUCZ6BYN2G
- lDc2F03d3hos/A7NvTGEQPFOh+ihflsr2f+bAePLTg5z3KSCRyrwHKA5baeeya2hgyOi
- cqflsG+ZbROQdKobd+9EeC2OjSbwQVDx/G2ypng533pJfKNIE0oNSNOe2VORb0M9EMRf
- PPVp3//wW6AG2x/14H79HwHmShSnlUELYAX7mpjaP2KBKJAXWk0vgX4/Xw1SBp/Ls2A5
- hFoZ2Et+dsJvDql9MakfOMgY2nUtqQkN20kvRcivCv9TrFk01xRC0tNUKrRJ4vDBnpTb
- T+Tg==
-X-Gm-Message-State: ANoB5pnqg2pcYv+rXbXwQzhwe2FEzURxwgKxjBDvLqiadaYLdNmfnmTk
- owFooHIRKLlRbn7Mm5fi8phTSA==
-X-Google-Smtp-Source: AA0mqf4sje8Z+QezshaWc/1aH17c3fAMaRO7YFMGMDGpOgxLC6kxNdCsPxqps85W5A5wbu9nD4HftA==
-X-Received: by 2002:a05:622a:4114:b0:3a6:94b4:bb11 with SMTP id
- cc20-20020a05622a411400b003a694b4bb11mr1505998qtb.539.1669904204490; 
- Thu, 01 Dec 2022 06:16:44 -0800 (PST)
-Received: from meerkat.local
- (bras-base-mtrlpq5031w-grc-33-142-113-79-147.dsl.bell.ca. [142.113.79.147])
- by smtp.gmail.com with ESMTPSA id
- bi13-20020a05620a318d00b006fb0e638f12sm3554530qkb.4.2022.12.01.06.16.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Dec 2022 06:16:44 -0800 (PST)
-Date: Thu, 1 Dec 2022 09:16:42 -0500
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v2 0/6] drm/gud: Use the shadow plane helper
-Message-ID: <20221201141642.uvonbrny4rhuacl5@meerkat.local>
-References: <20221122-gud-shadow-plane-v2-0-435037990a83@tronnes.org>
- <Y4hB5odv9IGaq3Di@kroah.com>
- <1cb40762-5f0a-1739-1670-155f59ec7110@tronnes.org>
- <Y4iaODY6hMVNsfP1@kroah.com>
- <4e75582c-b3d6-fb0e-19b4-e4fd58c6bf55@tronnes.org>
- <Y4iqR94aGFa3NahQ@kroah.com>
- <e57deac6-5344-3f81-8ef5-55dd28b8c363@redhat.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E34CF10E5F8
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 14:17:16 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1BED1D6E;
+ Thu,  1 Dec 2022 06:17:23 -0800 (PST)
+Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D0F8B3F73D;
+ Thu,  1 Dec 2022 06:17:09 -0800 (PST)
+Date: Thu, 1 Dec 2022 14:17:07 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH v2 01/11] pwm: Make .get_state() callback return an
+ error code
+Message-ID: <20221201141707.28af0d1d@donnerap.cambridge.arm.com>
+In-Reply-To: <20221201131604.beq4l22d42tjy6dm@pengutronix.de>
+References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
+ <20221130152148.2769768-2-u.kleine-koenig@pengutronix.de>
+ <20221201102252.52ace284@donnerap.cambridge.arm.com>
+ <20221201131604.beq4l22d42tjy6dm@pengutronix.de>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <e57deac6-5344-3f81-8ef5-55dd28b8c363@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,39 +47,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- tools@linux.kernel.org
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Conor Dooley <conor.dooley@microchip.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Satya Priya <quic_c_skakit@quicinc.com>, Pavel Machek <pavel@ucw.cz>,
+ Guenter Roeck <groeck@chromium.org>,
+ Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+ linux-riscv@lists.infradead.org, linux-leds@vger.kernel.org,
+ Jerome Brunet <jbrunet@baylibre.com>, chrome-platform@lists.linux.dev,
+ Florian Fainelli <f.fainelli@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ Sean Anderson <sean.anderson@seco.com>, Kevin Hilman <khilman@baylibre.com>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Michal Simek <michal.simek@xilinx.com>,
+ linux-stm32@st-md-mailman.stormreply.com, Hammer Hsieh <hammerh0314@gmail.com>,
+ linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
+ Matthias Kaehlcke <mka@chromium.org>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
+ linux-sunxi@lists.linux.dev, linux-pwm@vger.kernel.org,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Ray Jui <rjui@broadcom.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Stephen Boyd <swboyd@chromium.org>, linux-gpio@vger.kernel.org,
+ Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+ linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, Scott Branden <sbranden@broadcom.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Douglas Anderson <dianders@chromium.org>, Michael Walle <michael@walle.cc>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 01, 2022 at 02:34:41PM +0100, Javier Martinez Canillas wrote:
-> >> Konstantin,
-> >>
-> >> Can you add a rule in b4 to exclude stable@vger.kernel.org
-> >> (stable@kernel.org as well?) from getting the whole patchset?
-> > 
-> > stable@kernel.org is a pipe to /dev/null so that's not needed to be
-> > messed with.
-> > 
-> > As for this needing special casing in b4, it's rare that you send out a
-> > patch series and only want 1 or 2 of them in stable, right?
-> >
-> 
-> Not really, it's very common for a patch-series to contain fixes (that could
-> go to stable if applicable) and change that are not suitable for stable. The
-> problem as Noralf mentioned is that the b4 tool doesn't seem to allow Cc'ing
-> individual patches to different recipients, and everyone get the whole set.
-> 
-> So either b4 needs to have this support, exclude stable@vger.kernel.org when
-> sending a set or stable@vger.kernel.org ignore patches without a Fixes: tag.
+On Thu, 1 Dec 2022 14:16:04 +0100
+Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de> wrote:
 
-I think what I can do is a special logic for Cc: trailers:
+Hi Uwe,
 
-- Any Cc: trailers we find in the cover letter receive the entire series
-- Any Cc: trailers in individual patches only receive these individual patches
+> Hello Andre,
+>=20
+> On Thu, Dec 01, 2022 at 10:22:52AM +0000, Andre Przywara wrote:
+> > Just one comment: I don't see a sunxi specific patch later in the serie=
+s,
+> > though it seems we have at least one error error exit (see prescaler =
+=3D=3D 0
+> > above). Plus potentially another exit if clk_get_rate() (at the very
+> > beginning) fails.
+> > Shall I send a patch for that? =20
+>=20
+> That would we very welcome. I mentioned that shortly in the cover
+> letter, I wasn't entirely sure how to handle that prescaler =3D 0 case.
 
-Thank you for being patient -- we'll get this right, I promise.
+Ah right, sorry, I missed that.
+So the Allwinner manual somehow marks those prescaler encodings as reserved
+or invalid (it's just a "/" in there), and we never set those values in the
+driver (there is an explicit check). So it could only be a leftover from
+firmware/bootloader, or someone poking at this register behind our back.
+I am tempted to just return some -EINVAL. As the current code stands, we
+don't manipulate any state flags before that check, so it doesn't
+really matter, but would be best practise, at least.
 
--K
+Cheers,
+Andre
