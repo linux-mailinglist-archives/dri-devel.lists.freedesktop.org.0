@@ -2,78 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BE2263ED77
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 11:18:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DB6663ED87
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 11:21:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF2B010E5A6;
-	Thu,  1 Dec 2022 10:18:26 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2256810E065
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 10:18:21 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 74ED15C0187;
- Thu,  1 Dec 2022 05:18:20 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Thu, 01 Dec 2022 05:18:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1669889900; x=
- 1669976300; bh=SQDPbuBrjKSSl9BTe/dmiBNvmgZm3jOOEi7z1W5nu7A=; b=F
- FK6+4M7WrL/93flav3ziB+H7ncsO+tipMyQRej8ghmhi14l5pvB5Fn2h5AAwt4Jk
- 0vQZ4ZaVnmGh1PrQbVI6P8pDPJZPsv3sznYs7XG9pHr/2CHg0Jp75Ut2q/QfzmE3
- 6T0Wl//KBFmjNb/X3ewJCRDVcF2vJJlrkoY1wgahIzFKsZE0Hs0z17Zm+3j3AJzm
- afZSdHcs/rqUmNcX66lFAxkgZexPWGT/p7zA9PJK+9rnW+l4UJyX76QR0dOSZJbI
- lcCAYadsKhospBhJgdW0Xtrz4uGX7F7dP2Of2HwprTZ1doqimBakQz3Al7qHbiCR
- ck85SXftoocGaT+JruA/w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1669889900; x=
- 1669976300; bh=SQDPbuBrjKSSl9BTe/dmiBNvmgZm3jOOEi7z1W5nu7A=; b=J
- tVINV7aOOP7O3SzjKfHh4mlAGi0jS3VGEJD9rZGsi5zu2mYfI7wndBf1Tk+PVz7d
- DM9BTIBoSxwKembXyXo2hFrrPMzCI6F4zEmV9DlEoEEWGIy8Tk8mDn//6cIY1qYK
- 3vX5t509MTzDgzuT6KPyp04UgvbdCgC/moB9IyZ+ho+4xrkAqU41wChSolCw9IoD
- fmpAI51lVq8aBCg+ZLaw7BD0hKyCSwB4sVHQE58WkUknv9dPXqctH0+8UWPxi3wS
- E2QJkVFoC/Y7efrC5AX9KySWpXKkfPY9xGRf+nUf/2HU1wiL18y/QlkDqkMGIwkE
- Fr/IbOCKFXNRV3ebnqt4g==
-X-ME-Sender: <xms:bH-IY_nefTlgKl44-rArxUDOTATtxXlbA4d9RFmaSiSUuWpbwHAUlA>
- <xme:bH-IYy3CbVRi9EIada97ekrtOYtP0kDPIjmSWmeZpEYPjYc8ENkZv_I1lvQsXI5dA
- VYOXQeuBNqalAuRke8>
-X-ME-Received: <xmr:bH-IY1pzDI7nagQpT7splvm2mKwh2Pjc-YCYMtwl0uesRLmezo6yAa1xZZaRd8B6sVKlhnyiZAxExSpjEY0cg_z2eej3uNSLsDUQkoyhN0-o9Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrtdehgddugecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvfevufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeeuieeggffhffffieefheduieeuvdetgeeufeffvefgtedvffehheekffev
- udefieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:bH-IY3lly1LFekQGEET9Yt9KfaoS-nRFriSq9L9jL2UXvZXghD7Mpw>
- <xmx:bH-IY92ulLP4KsuycHZWGfUxuuV3iO5YI10fV8KEE3FX1v0je8vR5A>
- <xmx:bH-IY2ueC2adYzdHSKbElMvnpLg42zfkvcxuab_KOqgbDLD9Z7V0Mw>
- <xmx:bH-IYxLFnfGdcthYMrHDiSmCymw9n5HC6V7bphhPawLUy5XJ-RVRuQ>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 1 Dec 2022 05:18:19 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: David Airlie <airlied@linux.ie>, Maxime Ripard <maxime@cerno.tech>,
- Maxime Ripard <mripard@kernel.org>, Emma Anholt <emma@anholt.net>,
- Eric Anholt <eric@anholt.net>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v3 0/7] drm/vc4: dpi: Various improvements
-Date: Thu,  1 Dec 2022 11:18:11 +0100
-Message-Id: <166988985776.410916.3768232487459584873.b4-ty@cerno.tech>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221013-rpi-dpi-improvements-v3-0-eb76e26a772d@cerno.tech>
-References: <20221013-rpi-dpi-improvements-v3-0-eb76e26a772d@cerno.tech>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85FCA10E5A7;
+	Thu,  1 Dec 2022 10:21:16 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8478C10E5A7;
+ Thu,  1 Dec 2022 10:21:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1669890073; x=1701426073;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=AtSjWmDqrb8yFKbawclbG90tt56e83BXXimlO11WBGo=;
+ b=a9+iX+l3NTdN+2/1b8nnNGwqqgAguyAjpz6hleI2ZpFdTuKKEI6cPz5e
+ Y5gffLLdjraDJRjfACSoPLW2tj/uPqAgV5XVjY7tDrE9MFsvC5QNDueBw
+ 3Fnb9uIoq1OTS+Z40JTb6sysxBAOC0wNlYprIjBuTQcE1YVhI8mh6NWKN
+ rEtyYO+gPWeChMZhj4KZb99jR2OeZEsrqp4wrA2SrimpGDrv+tMnalB7N
+ xN/hDV7TCb8sjvn20QxeBSgqGCwK5uSuPHFm88iSwfo55CabmJWm72/bE
+ 8uSk6QdTonIMqM4pCU8KKLRzhZdcYdEob1WVhWoxil+5BRa+JS7KBzeYU A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10547"; a="295341258"
+X-IronPort-AV: E=Sophos;i="5.96,209,1665471600"; d="scan'208";a="295341258"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Dec 2022 02:21:07 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10547"; a="638341004"
+X-IronPort-AV: E=Sophos;i="5.96,209,1665471600"; d="scan'208";a="638341004"
+Received: from aguefor-mobl.ger.corp.intel.com (HELO [10.213.229.22])
+ ([10.213.229.22])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Dec 2022 02:21:04 -0800
+Message-ID: <032d85dc-8f03-f638-a3d1-10fb45fe3bad@linux.intel.com>
+Date: Thu, 1 Dec 2022 10:21:02 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [Intel-gfx] [PATCH 2/2] drm/i915/guc: Look for a guilty context
+ when an engine reset fails
+Content-Language: en-US
+To: John Harrison <john.c.harrison@intel.com>, Intel-GFX@Lists.FreeDesktop.Org
+References: <20221129211253.3183480-1-John.C.Harrison@Intel.com>
+ <20221129211253.3183480-3-John.C.Harrison@Intel.com>
+ <17ba580d-556b-c963-703c-b80e74c050f9@linux.intel.com>
+ <751f5d84-b7c4-e459-957a-06ad47d4b1de@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <751f5d84-b7c4-e459-957a-06ad47d4b1de@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,25 +65,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Joerg Quinten <aBUGSworstnightmare@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Chris Morgan <macromorgan@hotmail.com>
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 01 Dec 2022 09:42:45 +0100, Maxime Ripard wrote:
-> Those patches have been in the downstream RaspberryPi tree for a while and help
-> to support more DPI displays.
-> 
-> Let me know what you think,
-> Maxime
-> 
-> 
-> [...]
 
-Applied to drm/drm-misc (drm-misc-next).
+On 30/11/2022 21:04, John Harrison wrote:
+> On 11/30/2022 00:30, Tvrtko Ursulin wrote:
+>> On 29/11/2022 21:12, John.C.Harrison@Intel.com wrote:
+>>> From: John Harrison <John.C.Harrison@Intel.com>
+>>>
+>>> Engine resets are supposed to never happen. But in the case when one
+>>
+>> Engine resets or engine reset failures? Hopefully the latter.
+>>
+> Oops. Yes, that was meant to say "engine resets are never supposed to 
+> fail."
+> 
+>>> does (due to unknwon reasons that normally come down to a missing
+> unknwon -> unknown
+> 
+>>> w/a), it is useful to get as much information out of the system as
+>>> possible. Given that the GuC effectively dies on such a situation, it
+>>> is not possible to get a guilty context notification back. So do a
+>>> manual search instead. Given that GuC is dead, this is safe because
+>>> GuC won't be changing the engine state asynchronously.
+>>>
+>>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+>>> ---
+>>>   drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 15 ++++++++++++++-
+>>>   1 file changed, 14 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c 
+>>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> index 0a42f1807f52c..c82730804a1c4 100644
+>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> @@ -4751,11 +4751,24 @@ static void reset_fail_worker_func(struct 
+>>> work_struct *w)
+>>>       guc->submission_state.reset_fail_mask = 0;
+>>>       spin_unlock_irqrestore(&guc->submission_state.lock, flags);
+>>>   -    if (likely(reset_fail_mask))
+>>> +    if (likely(reset_fail_mask)) {
+>>> +        struct intel_engine_cs *engine;
+>>> +        enum intel_engine_id id;
+>>> +
+>>> +        /*
+>>> +         * GuC is toast at this point - it dead loops after sending 
+>>> the failed
+>>> +         * reset notification. So need to manually determine the 
+>>> guilty context.
+>>> +         * Note that it should be safe/reliable to do this here 
+>>> because the GuC
+>>> +         * is toast and will not be scheduling behind the KMD's back.
+>>> +         */
+>>> +        for_each_engine_masked(engine, gt, reset_fail_mask, id)
+>>> +            intel_guc_find_hung_context(engine);
+>>> +
+>>>           intel_gt_handle_error(gt, reset_fail_mask,
+>>>                         I915_ERROR_CAPTURE,
+>>>                         "GuC failed to reset engine mask=0x%x\n",
+>>>                         reset_fail_mask);
+>>
+>> If GuC is defined by ABI contract to be dead, should the flow be 
+>> attempting to do a full GPU reset here, or maybe it happens somewhere 
+>> else as a consequence anyway? (In which case is the engine reset here 
+>> even needed?)
+> This is a full GT reset. i915 is not allowed to perform an engine reset 
+> when using GuC submission. Those can only be done by GuC. So any forced 
+> reset by i915 will be escalated to full GT internally.
 
-Thanks!
-Maxime
+Okay, I saw passing in of the engine mask and drew the wrong conclusion.
+
+Regards,
+
+Tvrtko
