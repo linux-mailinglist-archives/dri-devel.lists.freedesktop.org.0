@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0DC363F375
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 16:15:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A493B63F374
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 16:15:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9A1010E60F;
-	Thu,  1 Dec 2022 15:15:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BE9A10E5FF;
+	Thu,  1 Dec 2022 15:15:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
  [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 139EF10E604
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 15:15:10 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 6EAC558039C;
- Thu,  1 Dec 2022 10:15:09 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Thu, 01 Dec 2022 10:15:09 -0500
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FDAD10E604
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 15:15:12 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 942DD580393;
+ Thu,  1 Dec 2022 10:15:11 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Thu, 01 Dec 2022 10:15:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1669907709; x=
- 1669914909; bh=4qyLjNj9I2PgaCEUKxaTESctL+iP/Fgu4safJAulzr8=; b=h
- RdhfTMROoBbPs8839WQ0SWSjNFTS9vGwidZWm4ZEtSdUxyYC88tdJC/8ytD2kc7x
- m5aHgpO+5QjWtwc95aUf3wsVPjCmXTJgHrug9tigVH27VkGbXl+c6z3/oDbtZj/a
- 4QcMXlyPxaBSzHWkqfdD/uE09pmzS5E3UCJ/TyyOm0yFQVx2DaCFk0kLA4XMOLfg
- UJxRYQ6xygwujLbguaHCRdlcCVbNaZ/67Q4+mr76NyVRjCVWog8B3nQmvfAu8lwG
- ork8dePz1MHU8yUDytRY+RumLfvB7NPKUZ3LiYJPpfTYNW1OkUykPTnWVtKmGWMY
- dlMqBN7sfdgm5OXuV/+cQ==
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1669907711; x=
+ 1669914911; bh=OdgoG4N5gu0zfihZXh28QKTMeemISz3VOG7TcMtDnEw=; b=i
+ 48U7oSkHcApmfKvmsRtF3+pKGOv+GDbNbFlPnnk8OuF3+PKfsK3/xG0CphWKQY8D
+ JB+D8/5/ng1lghgHQkzrRUKUy8JttJgF2nF2yYJvetrGjELeQqLUP2/MAWAAAev5
+ JudquaSadAaj9PehORf8ns9AYjn6SlLstk91or/J3fa1urDTgnRvDk9aXc+nbjWj
+ NyZerxhm3l4+xKSwrrIVtFh3231U9MIXunnANay2uo3IAv+En9tBSw18/w9zv1GU
+ 8aR5t2O7LPDCtzFMHlm0Hg2gYDJpDbAiy9y6vgcEJ0qlWU2idG5xPhjIHXrn7dOM
+ e0lyaU/ZPCsG6L57aFCyg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1669907709; x=
- 1669914909; bh=4qyLjNj9I2PgaCEUKxaTESctL+iP/Fgu4safJAulzr8=; b=m
- 5vVkZv+YF2cF5cvuSZF2XewNsLmU4p/2V26fdCC7/HPA3g78kynlcyL5oeLCVurj
- iVSgt/0QQ6ekSyk6SAI35XPpmXZkLKsXzSPjb/6AZUSf0Je7XRJ0ZWG77lDAFuhb
- JEGPiUYXxGQXTLv6ElVYuu+T5rOXQ9vgEz5KxxZGdU4w/n8nTEffttUJrUAngdzp
- nvSiZyuQbR8XjXMxQwlRg4ughUxleS8FXuN58XUOViCmLm9W38ALPfEPAzZu4im8
- LR3prZOs6mWvrQIAezG6JiUPrG+E2+2yF1ydcI1u589JvRBPjVfO8YQLz0CvbPsy
- DUHxht2Rjm+QpmvRa2/Ig==
-X-ME-Sender: <xms:-8SIY6KY7xaaDsbxd7uUJ6dvRGcvv7Z5OvkuV6rkYv7PaxBTlbjo1g>
- <xme:-8SIYyKlc4Dr5PbzDF4fYsLjLEPO87AZLuUEyRV_yakwACfHQD9OJxB63Iw-MkEnF
- 7XIDDwVVD5IGygYEmc>
-X-ME-Received: <xmr:-8SIY6szUkYIzlWEHCDJtrTsW1JMKJt7dcG9fATX3VhiMsm3ceZRB5bV3viCizMN3uHUK9dL4RjshK4R5u7nohtbYfbI3Un6rkKfh5Tix9ssyQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrtdehgdejhecutefuodetggdotefrodftvf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1669907711; x=
+ 1669914911; bh=OdgoG4N5gu0zfihZXh28QKTMeemISz3VOG7TcMtDnEw=; b=w
+ AnxWaECLk3vrcCAtgW0eIpZDGP/6eTQIbVXbuWMKHik2t3NSSbPykDvWFyj9mdNL
+ V2ZvOP7eRbhLEyDyQlELWxH8y9DJq1gO3p1HooESQ591qj78Xs6EE6PClMnKAqC7
+ gVzV7Yz7eb+pdoOEvOOQFXnDFpx8gR2+kMKHtsTSIu95V0F9RW2BOXhaMZC8Z3nA
+ nkx1nvurP2ULsd+nSs990HlOH69snOyo6exskc2o+Rf0V9wxZdu07XxrJUgyf2Dw
+ OUviPvxESyOXkERF2Hli0gQtcqBAJ+k+Q9IiRxXgu1KX2J7Wb6/IdID1G+2VEklp
+ aZH0ywjhrgTSSpJmyTZbg==
+X-ME-Sender: <xms:_8SIY2iWpJitYzB7o7V_HB_fQbQgOMOE0N8YhpvFWd959sZmaccO2A>
+ <xme:_8SIY3CWC_0Itn4AhCNr-MyA7rxI2XvOSouD8CFD0r1Gw_qxliNnOhSvUlWGfRWgO
+ 5_Ss3vsCUpmsEmcTxI>
+X-ME-Received: <xmr:_8SIY-EFuO35kWfmKwOrGAWiXN5Vwrmr6NZYB3YcnN1DBC6859eKIHH1cPudATsEn-iY35X5Qvv7CMRsn3th5yBNaiNfMnqkyO3aXCojmlTvRg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrtdehgdejgecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhfffuggfgtgfkfhgjvfevofesthekredtredtjeenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpedvgfevjefhtdetveevhfelieeuueetgfdvgeevkeegudejffegfffgtedt
- leelhfenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ leelhfenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:-8SIY_YN8_v2rxUEZTfO40En_UWPeCc0-aPCJs6e83fEI1ROstRKXg>
- <xmx:-8SIYxa6ExQtbKu_UOgm92JeDe06rWfzeUQTqoZDoIaFT9_i6NhDjQ>
- <xmx:-8SIY7CbxGY_R5FocKFMIBeFR8V4TS96zHVlXe-y_3pAGkSMRtix2Q>
- <xmx:_cSIYy4lUQIavrd6aQ451EZWo1ubCrsothpFmt2OCLAQSwBR-O7rFw>
+X-ME-Proxy: <xmx:_8SIY_QS8lrwO7_1O4RE2nVzDrUoFW18yySr0eMWS6T-O2pIKx5Q5Q>
+ <xmx:_8SIYzwOTYMydZZgZpuIO5nlG-2zXF7Kn0bt4qAkHXQsRTqypPMVWA>
+ <xmx:_8SIY96Tz8osMWHlYO97uvlN694Pcc1XIJLqhsy0HcDJ8ySSEvP9Mg>
+ <xmx:_8SIY4QkzS22DMpikE7v8FcHipvtWC1NflJY5s0BvUtuOiGQ-QukGw>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 1 Dec 2022 10:15:06 -0500 (EST)
+ 1 Dec 2022 10:15:10 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Thu, 01 Dec 2022 16:11:43 +0100
-Subject: [PATCH v3 12/20] drm/tests: Add a test for DRM managed actions
+Date: Thu, 01 Dec 2022 16:11:44 +0100
+Subject: [PATCH v3 13/20] drm/vc4: Move HVS state to main header
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20221123-rpi-kunit-tests-v3-12-4615a663a84a@cerno.tech>
+Message-Id: <20221123-rpi-kunit-tests-v3-13-4615a663a84a@cerno.tech>
 References: <20221123-rpi-kunit-tests-v3-0-4615a663a84a@cerno.tech>
 In-Reply-To: <20221123-rpi-kunit-tests-v3-0-4615a663a84a@cerno.tech>
 To: Maxime Ripard <mripard@kernel.org>,
@@ -75,11 +75,11 @@ To: Maxime Ripard <mripard@kernel.org>,
  Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>
 X-Mailer: b4 0.10.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3018; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=Av6gZFakHRoxX8sJF2gVpTz9tFILeIP7wlDUh3ydDfM=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMkdRzSYklY0LNCfMfewxvSCMq/6LkmNA0ZG9pLeNxcZ74kO
- lHvWUcrCIMbFICumyBIjbL4k7tSs151sfPNg5rAygQxh4OIUgIlYeTMydBSruR94OKPgvlIbz+tbXb
- Vrr7u6v71tmDaf6ymP+84UM0aG7iwrprVTu4W7duvsePtixuJ1/j+422Qj3kreLrxW8a2MFQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3564; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=2AYcDp+EnzY9rhv9f3Uik8fq8QACKSwbsm6PRjFyHGM=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMkdRzQCdzuZ7r4XWCtzXPjy9M8V0a1Xwr/7+u2+anG89K9/
+ 4wvljlIWBjEuBlkxRZYYYfMlcadmve5k45sHM4eVCWQIAxenAEzkERcjwxwGJ8X6a5+0e88rO0w9+f
+ au7yMRzb2v3TfOXWwi/+K6y35Ght05LkFrvu9O195/YZbpW+emH+dMnmjkh+84sSck81JGBQcA
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -98,106 +98,118 @@ Cc: David Gow <davidgow@google.com>, Dave Stevenson <dave.stevenson@raspberrypi.
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DRM-managed actions are supposed to be ran whenever the device is
-released. Let's introduce a basic unit test to make sure it happens.
+In order to introduce unit tests for the HVS state computation, we'll
+need access to the vc4_hvs_state struct definition and its associated
+helpers.
+
+Let's move them in our driver header.
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 Reviewed-by: Maíra Canal <mcanal@igalia.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/tests/Makefile           |  1 +
- drivers/gpu/drm/tests/drm_managed_test.c | 71 ++++++++++++++++++++++++++++++++
- 2 files changed, 72 insertions(+)
+ drivers/gpu/drm/vc4/vc4_drv.h | 23 +++++++++++++++++++++++
+ drivers/gpu/drm/vc4/vc4_kms.c | 25 +++----------------------
+ 2 files changed, 26 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/gpu/drm/tests/Makefile b/drivers/gpu/drm/tests/Makefile
-index ef14bd481139..aaf357e29c65 100644
---- a/drivers/gpu/drm/tests/Makefile
-+++ b/drivers/gpu/drm/tests/Makefile
-@@ -12,6 +12,7 @@ obj-$(CONFIG_DRM_KUNIT_TEST) += \
- 	drm_format_helper_test.o \
- 	drm_format_test.o \
- 	drm_framebuffer_test.o \
-+	drm_managed_test.o \
- 	drm_mm_test.o \
- 	drm_modes_test.o \
- 	drm_plane_helper_test.o \
-diff --git a/drivers/gpu/drm/tests/drm_managed_test.c b/drivers/gpu/drm/tests/drm_managed_test.c
-new file mode 100644
-index 000000000000..1652dca11d30
---- /dev/null
-+++ b/drivers/gpu/drm/tests/drm_managed_test.c
-@@ -0,0 +1,71 @@
-+// SPDX-License-Identifier: GPL-2.0
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+index 6af615c2eb65..051c2e3b6d43 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.h
++++ b/drivers/gpu/drm/vc4/vc4_drv.h
+@@ -355,6 +355,29 @@ struct vc4_hvs {
+ 	bool vc5_hdmi_enable_4096by2160;
+ };
+ 
++#define HVS_NUM_CHANNELS 3
 +
-+#include <drm/drm_drv.h>
-+#include <drm/drm_kunit_helpers.h>
-+#include <drm/drm_managed.h>
++struct vc4_hvs_state {
++	struct drm_private_state base;
++	unsigned long core_clock_rate;
 +
-+#include <kunit/resource.h>
-+
-+#include <linux/device.h>
-+
-+/* Ought to be enough for anybody */
-+#define TEST_TIMEOUT_MS	100
-+
-+struct managed_test_priv {
-+	bool action_done;
-+	wait_queue_head_t action_wq;
++	struct {
++		unsigned in_use: 1;
++		unsigned long fifo_load;
++		struct drm_crtc_commit *pending_commit;
++	} fifo_state[HVS_NUM_CHANNELS];
 +};
 +
-+static void drm_action(struct drm_device *drm, void *ptr)
++static inline struct vc4_hvs_state *
++to_vc4_hvs_state(const struct drm_private_state *priv)
 +{
-+	struct managed_test_priv *priv = ptr;
-+
-+	priv->action_done = true;
-+	wake_up_interruptible(&priv->action_wq);
++	return container_of(priv, struct vc4_hvs_state, base);
 +}
 +
-+static void drm_test_managed_run_action(struct kunit *test)
-+{
-+	struct managed_test_priv *priv;
-+	struct drm_device *drm;
-+	struct device *dev;
-+	int ret;
++struct vc4_hvs_state *vc4_hvs_get_global_state(struct drm_atomic_state *state);
++struct vc4_hvs_state *vc4_hvs_get_old_global_state(const struct drm_atomic_state *state);
++struct vc4_hvs_state *vc4_hvs_get_new_global_state(const struct drm_atomic_state *state);
 +
-+	priv = kunit_kzalloc(test, sizeof(*priv), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv);
-+	init_waitqueue_head(&priv->action_wq);
-+
-+	dev = drm_kunit_helper_alloc_device(test);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
-+
-+	drm = __drm_kunit_helper_alloc_drm_device(test, dev, sizeof(*drm), 0, DRIVER_MODESET);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, drm);
-+
-+	ret = drmm_add_action_or_reset(drm, drm_action, priv);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+
-+	ret = drm_dev_register(drm, 0);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	drm_dev_unregister(drm);
-+	drm_kunit_helper_free_device(test, dev);
-+
-+	ret = wait_event_interruptible_timeout(priv->action_wq, priv->action_done,
-+					       msecs_to_jiffies(TEST_TIMEOUT_MS));
-+	KUNIT_EXPECT_GT(test, ret, 0);
-+}
-+
-+static struct kunit_case drm_managed_tests[] = {
-+	KUNIT_CASE(drm_test_managed_run_action),
-+	{}
-+};
-+
-+static struct kunit_suite drm_managed_test_suite = {
-+	.name = "drm-test-managed",
-+	.test_cases = drm_managed_tests
-+};
-+
-+kunit_test_suite(drm_managed_test_suite);
-+
-+MODULE_AUTHOR("Maxime Ripard <maxime@cerno.tech>");
-+MODULE_LICENSE("GPL");
+ struct vc4_plane {
+ 	struct drm_plane base;
+ };
+diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
+index 7282545c54a1..53d9f30460cf 100644
+--- a/drivers/gpu/drm/vc4/vc4_kms.c
++++ b/drivers/gpu/drm/vc4/vc4_kms.c
+@@ -25,8 +25,6 @@
+ #include "vc4_drv.h"
+ #include "vc4_regs.h"
+ 
+-#define HVS_NUM_CHANNELS 3
+-
+ struct vc4_ctm_state {
+ 	struct drm_private_state base;
+ 	struct drm_color_ctm *ctm;
+@@ -39,23 +37,6 @@ to_vc4_ctm_state(const struct drm_private_state *priv)
+ 	return container_of(priv, struct vc4_ctm_state, base);
+ }
+ 
+-struct vc4_hvs_state {
+-	struct drm_private_state base;
+-	unsigned long core_clock_rate;
+-
+-	struct {
+-		unsigned in_use: 1;
+-		unsigned long fifo_load;
+-		struct drm_crtc_commit *pending_commit;
+-	} fifo_state[HVS_NUM_CHANNELS];
+-};
+-
+-static struct vc4_hvs_state *
+-to_vc4_hvs_state(const struct drm_private_state *priv)
+-{
+-	return container_of(priv, struct vc4_hvs_state, base);
+-}
+-
+ struct vc4_load_tracker_state {
+ 	struct drm_private_state base;
+ 	u64 hvs_load;
+@@ -191,7 +172,7 @@ vc4_ctm_commit(struct vc4_dev *vc4, struct drm_atomic_state *state)
+ 		  VC4_SET_FIELD(ctm_state->fifo, SCALER_OLEDOFFS_DISPFIFO));
+ }
+ 
+-static struct vc4_hvs_state *
++struct vc4_hvs_state *
+ vc4_hvs_get_new_global_state(const struct drm_atomic_state *state)
+ {
+ 	struct vc4_dev *vc4 = to_vc4_dev(state->dev);
+@@ -204,7 +185,7 @@ vc4_hvs_get_new_global_state(const struct drm_atomic_state *state)
+ 	return to_vc4_hvs_state(priv_state);
+ }
+ 
+-static struct vc4_hvs_state *
++struct vc4_hvs_state *
+ vc4_hvs_get_old_global_state(const struct drm_atomic_state *state)
+ {
+ 	struct vc4_dev *vc4 = to_vc4_dev(state->dev);
+@@ -217,7 +198,7 @@ vc4_hvs_get_old_global_state(const struct drm_atomic_state *state)
+ 	return to_vc4_hvs_state(priv_state);
+ }
+ 
+-static struct vc4_hvs_state *
++struct vc4_hvs_state *
+ vc4_hvs_get_global_state(struct drm_atomic_state *state)
+ {
+ 	struct vc4_dev *vc4 = to_vc4_dev(state->dev);
 
 -- 
 b4 0.10.1
