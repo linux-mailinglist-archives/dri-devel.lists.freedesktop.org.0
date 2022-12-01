@@ -1,57 +1,155 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8E9563F327
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 15:52:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1E9D63F351
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 16:06:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4692D10E5FC;
-	Thu,  1 Dec 2022 14:51:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01A4C10E0F1;
+	Thu,  1 Dec 2022 15:06:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD16010E0AC;
- Thu,  1 Dec 2022 14:51:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669906310; x=1701442310;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=zQuEeVHDueJ5SrwBer2CA7bvvZd/+hfk/B9gYWQM42Y=;
- b=XKXKBwRxSgb9G1+6SVI4uCLHtWbUEPHooVv3DVSCUG1cKMfPVrTVXbJq
- jnms5f0F+m9K+SbSZfbltkNTsqox2jqcIfKwaZfA6iE/KKRNKHQm96FKo
- oe38/OYq9UD1dbMUOZDxZgjDP3v7R7VVdQPFGDu0LzLe2NLNRU6Kn21gl
- deMi/Tdnwc4SMdGjZ4i4sLpPT6Kt907Lf7ZDkgw+pl5ul/pQFSbLHRY8H
- 8JO8cdPX/qxJ5g8AOM9zZ4v9/OuAgGLERnQQdD/dcCypIk+D1MQ1Nlo2g
- eRTVIWxe4mk4KTia+T646AzOO6fdwcr1qRFZHX2Rq/R2BP4oNDIrhKc0G g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="295394684"
-X-IronPort-AV: E=Sophos;i="5.96,209,1665471600"; d="scan'208";a="295394684"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2022 06:51:50 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="644666126"
-X-IronPort-AV: E=Sophos;i="5.96,209,1665471600"; d="scan'208";a="644666126"
-Received: from aguefor-mobl.ger.corp.intel.com (HELO [10.213.229.22])
- ([10.213.229.22])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2022 06:51:48 -0800
-Message-ID: <8440b45c-a459-0de2-cc3b-753e55010221@linux.intel.com>
-Date: Thu, 1 Dec 2022 14:51:46 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [Intel-gfx] [PATCH v5 3/5] drm/i915: Introduce guard pages to
- i915_vma
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E3EA10E0F1
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 15:06:23 +0000 (UTC)
+X-UUID: 8c71f7104b174439b7ecb799bc77122c-20221201
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
+ bh=H1zw+pNWsbufok/tiADq3S/tQw9nopftRRAnQ3SSGIc=; 
+ b=UgipTsF9/nxJzCRUALYkILmNTSGbUbJFED/ibznP2ZDQn+dorD/Py0cIn4uPVbVPRP/E3CZdSZfzQvCyGWF8rqQYoQLjqzd+GyV9kegF4zG0MSIGhnJ0zybBqU0YrsOqBKZQTn6aBLKvLr3juvtfCF3PxcLi6tEWEDo6goKtmXo=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.14, REQID:0905283a-c126-47d0-ab85-721f9e28eb6c, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:-5
+X-CID-INFO: VERSION:1.1.14, REQID:0905283a-c126-47d0-ab85-721f9e28eb6c, IP:0,
+ URL
+ :0,TC:0,Content:0,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+ elease,TS:-5
+X-CID-META: VersionHash:dcaaed0, CLOUDID:9839496c-41fe-47b6-8eb4-ec192dedaf7d,
+ B
+ ulkID:2212012306081BH7HKS4,BulkQuantity:0,Recheck:0,SF:17|19|102,TC:nil,Co
+ ntent:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 8c71f7104b174439b7ecb799bc77122c-20221201
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+ (envelope-from <jiaxin.yu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 300069479; Thu, 01 Dec 2022 23:06:07 +0800
+Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Thu, 1 Dec 2022 23:06:06 +0800
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (172.21.101.239)
+ by mtkmbs10n1.mediatek.com (172.21.101.34) with Microsoft SMTP
+ Server id
+ 15.2.792.15 via Frontend Transport; Thu, 1 Dec 2022 23:06:06 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nbAue+Wyv56gau8wtLapUZ2pRN7k4qNwJqe60OhFmU+TzZ0ZemlAahWL7tWbuDZesk9pga/W6rzhLe4KVb/6PfjWSlZMuCcysWq2v7Y3gbKFBxjFLE3dAy69TKWkxqsq4Ey/6Lg4fAzFUJuMniVPbKHpb7+Ng26Qr7Kh4VsLKLHuQ/XRDTpY9XQ6xpbLdsVkOhq61/oO9fuXFBd0QVEIkmHW/N93dWTyxdniIDY5sI98WbGRvAqE4hm+FDV9kUIfsVB8JRMc12I4nvEeaoUQbvNswzj6jGoEPA09LYf87bDmLMrXadV1jZ8bODMh372SSlJmCCWSS0gTDO7WJxiL3w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iSr8vUQt9odo2676/SKdw2IGKJMww5VWWIit8HjUads=;
+ b=kd1UgrwKOYR5OMHXJG3VHeFgnjryQUwOfSMxHMjA10tdpMgX2LRgWTVR+IZK6afzkFhX8JHp6hQxGNhiTz4tyVH095/QiNhjF0zGkAkf54+5gj4JDbCY+ndUZ6lQQZj+lWKzDyICajGrU/6KCHKlrnBb1EAd6Wpc5qW3qTBIrvHwJ7KfiOz3R4QMaVQDtv4pvojZy4Im1JZfawVjDtqrQXbm/O1iFGfvNnI34y/GUd9giodxFcTURCRhtniJAyE01Z8MFwooZRGRXJyeWU43kIVKesHaOJzSBdAXtkbdD+lCo4LEa/0dXhbtPwfyT/NVqHloNjdsqDSfMnZAJWlabw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iSr8vUQt9odo2676/SKdw2IGKJMww5VWWIit8HjUads=;
+ b=Xrs3dED5h3HxoCfY4OpnZTjQTzU5ouM6Wwui1/JLLGAXbIXRSh9ywPurlSqwjREjXRF1JmLvu5J/rfRcXOw4KDd/lKaRt1OzWGHb12haBte5Vw/gbW87eFktcuzFzu2YxpfhVMLoUJfUTmBMBOX/dwmlyXM/oWV23Ey/sDslPIA=
+Received: from PS1PR03MB3384.apcprd03.prod.outlook.com (2603:1096:803:49::13)
+ by TY0PR03MB6473.apcprd03.prod.outlook.com (2603:1096:400:1bf::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.23; Thu, 1 Dec
+ 2022 15:06:04 +0000
+Received: from PS1PR03MB3384.apcprd03.prod.outlook.com
+ ([fe80::2e82:cce2:3b26:ab6f]) by PS1PR03MB3384.apcprd03.prod.outlook.com
+ ([fe80::2e82:cce2:3b26:ab6f%7]) with mapi id 15.20.5857.023; Thu, 1 Dec 2022
+ 15:06:04 +0000
+From: =?utf-8?B?SmlheGluIFl1ICjkv57lrrbpkasp?= <Jiaxin.Yu@mediatek.com>
+To: "broonie@kernel.org" <broonie@kernel.org>
+Subject: Re: [PATCH v2 1/3] ASoC: hdmi-codec: Add event handler for hdmi TX
+Thread-Topic: [PATCH v2 1/3] ASoC: hdmi-codec: Add event handler for hdmi TX
+Thread-Index: AQHZALKPLtjy9JnSM0qA0l4xMT7+Dq5PjsoAgATmBQCAAbf+AIAC/qmA
+Date: Thu, 1 Dec 2022 15:06:04 +0000
+Message-ID: <cf9ea98a3263ffb8fc8b542888ad0ad680facfc7.camel@mediatek.com>
+References: <20221125094413.4940-1-jiaxin.yu@mediatek.com>
+ <20221125094413.4940-2-jiaxin.yu@mediatek.com>
+ <Y4Cysgk5Gic5ae9B@sirena.org.uk>
+ <18c82f6f723cd97a9d6b9a7ff16c6ed62fd005d6.camel@mediatek.com>
+ <Y4Y/vEWe3dw0FPQH@sirena.org.uk>
+In-Reply-To: <Y4Y/vEWe3dw0FPQH@sirena.org.uk>
+Accept-Language: en-US
 Content-Language: en-US
-To: Andi Shyti <andi.shyti@linux.intel.com>, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-References: <20221130235805.221010-4-andi.shyti@linux.intel.com>
- <20221201144446.333776-1-andi.shyti@linux.intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20221201144446.333776-1-andi.shyti@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PS1PR03MB3384:EE_|TY0PR03MB6473:EE_
+x-ms-office365-filtering-correlation-id: f5859384-579a-4eac-045b-08dad3ad9119
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: gxoGTxIKhJuSTkEUuBXlG6CFuj3s/Rsed5dI2m/RIBlmq+7COVBPJtJ8zlFVU2aVBFa0zfQqtP9xXIspPl4U2EWOVey2nOHroq1fr3XI5ZNESv6Bqsz7SjdbIzA1obRe11B0hciDWAW9aSrJBQkHQf68lHBJbT8wPvORr2iW3+6X/BSbThjjrJOj7nLFF6Zxw7g86C0cpQf9QBHrYcrxsH/F08fsnr7vwqvGPtmyAHM81MZwuk8vsjvPKqFNGpm0CvZwKdCGcykoLr8YM0jG9eAyO2nEbBzS7/mpsRkj0VgvQEawwfx4Hyu5dFjkbVC3LuJ8vehlVskzmX0Ycp4E5KMSFHIPZFZYeatkoUDUQkcKpY55mCacTL9cRzqqnq+wLVaVtC0scD9GvoqpxmLi40vonkyre0WOT/pJroD27y9D7/pz2esGQyr42Rl4Qt/1XNgEXor1i5E5oL6RiE9mCoxxVOg+fVCnTb6qml0pr5376A4a3wAQIylahEPTEZrvAngKCRRb/LLKxaUWEyd3JmaW5sY5c1uBL1Sk+HRR/UcYXIfhf+D2v4M1Ih5BWCnxJotAQffvoFRbtGYgB/yjwtEm8QlMz2GwzTnR9PqOaUlDTYI72lpzazVZXZ5XXKQc+uwRd67mu/mTNeMAyQlMAG1orCm+AVO1Yj1W0lzWA1sWl6a/om4yS6sYtQqzdvUIvvNqV1nRT3jN6fIhzuLaykPOwphaQEF6e9odtsNOihUhaCXrzupwSQtWcP/s+nFp
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PS1PR03MB3384.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(396003)(366004)(346002)(376002)(39860400002)(136003)(451199015)(316002)(66946007)(64756008)(36756003)(85182001)(186003)(6486002)(6916009)(4326008)(2616005)(66556008)(2906002)(122000001)(66446008)(8936002)(4001150100001)(86362001)(91956017)(38100700002)(41300700001)(66476007)(8676002)(54906003)(7416002)(5660300002)(6506007)(6512007)(71200400001)(76116006)(38070700005)(26005)(478600001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RTg2bTBxNGc1OENTN25sVkdXZEVXUFBnR3U5M0l2RktjWWhGMjl5RGlGUWRI?=
+ =?utf-8?B?bWJLQWxVWkNkeUhsa0pXWVNOM1ZYUXUxNElRdjF5VFpQb2k0OWo4Y3dDRnpx?=
+ =?utf-8?B?QzlPOWVYeFVhcWp6RXdWcklSbnI5TzZtZXhZVmNSWmtqeEVMd1FEeHhNamVW?=
+ =?utf-8?B?WmlsWmNtTHVycjViZ2gwTThTK0F4UExsSTBIbXU0VmdIU1FFNEx2S2hSeHFQ?=
+ =?utf-8?B?QXBOaS95RzVVaS9uTm55Qi9hM21pK2RpNVlRSWtheG01cFE5NHMzS0ZFNU55?=
+ =?utf-8?B?clM0Y3R4THp6UlJJZnBqa0owcWt1cUUwR1RqUXkva29LbHRYcUdpbkhpSWM3?=
+ =?utf-8?B?Z1pTdUdvOW9pVEhRbm5VZzFublJSc0ZuMHZEblBpL0x3MXdIQVRhT2s0RE14?=
+ =?utf-8?B?Z1ZJa3F4dnZpL3piQ29OSlVsQk1pL00wMkJ5bjRDK2I3MlRFOVVHY3Rlamtm?=
+ =?utf-8?B?TFRPdXBUaTBCQ2lCN2tRdWw0a2c3QkNUeTluL3RUenRxRVVSZGxDSnlIcS8v?=
+ =?utf-8?B?KzdmN1FobXBoM1l4c0QrRmk4Y1J0MEVVeEhMMHpyYTdnaWVpQmlMTWRVb2Nj?=
+ =?utf-8?B?ak1Walk1dzFKSThteXZOaWxJd2pScHhqQWlhREJ0NUdPL3F4Y0g2eDY4MFhn?=
+ =?utf-8?B?WE82c0wwQURYelNtK2gxeW15cGR3L1N1ejlTd1pBRFUxM1lUNE1CNHFvK1Rq?=
+ =?utf-8?B?ZHExQ0tTODR6TEpFWE80VUs5WVZjV0w0dUt1cmp2MDVuQmJPMVJuVDcxOWQy?=
+ =?utf-8?B?RWxFZm1VRmlRY1hWYzVraWhJb2t3enlHeUx6ckxaemZpSjlxWXRFd3V4bjFO?=
+ =?utf-8?B?a3BoQ1JPZG5IdXpYVithN1FTMUVnZXpocHFmcm9NZ01KSExaTzhWbURwcFg2?=
+ =?utf-8?B?WmlYZUhxWllTVXZNRDZaTk4wek5TYlh3MWprSDRMZ1Vnb2VRTUNzblljK2F3?=
+ =?utf-8?B?RnA5TjVTOHkvR2s4dkhPMjNyeEk2RURFcEZkdzV5RkgrKzZvVFdCWWRURnR5?=
+ =?utf-8?B?YzdoRGlGR2h2ZlQ0cWFWM2dzRENVRHhtditUM0paVjNVMDhoempjdE5GaHdU?=
+ =?utf-8?B?eVJOWExSSlNpb3ZSOUNEZU4yOTlxQThRR3IxeTJnS2hXNWhyd216cFFZRG94?=
+ =?utf-8?B?Ui9ibW55TkFlSDhIb1hBcXFhQUlHNk5pVXhML2VHRlFJL2VkczdaSjZ3VDIr?=
+ =?utf-8?B?Nk42L1pyWmdMSVJHb01QZkpVaHlxK0VhMm1DbUltRllXVWJjRWhlQ2FXNzhB?=
+ =?utf-8?B?N28xL0lOaHZONCs5ci8yY1ZVdDg0RC9VWUQ3WlNJTkpwNXdZNnNWdi9kY0h4?=
+ =?utf-8?B?RzNZMFdEMlFBMG1sOGxPL0U3a29wZjRkdG5UQWJ2di9tWWwxT3ltL2pLcXV0?=
+ =?utf-8?B?Q0MzanJzdlpWNFlDc3NVVjZFR2UySVduTnVlVWJsRGt5OFVwSVViWWhwOWND?=
+ =?utf-8?B?UGZpS1ZTZkpBRlZSZjhpTUM2WUJkV3ZPQzlDYlNQUUk3SUFNL1krR2M5aWI4?=
+ =?utf-8?B?L3RSUXgwUytSZGFRazVWeS9FN0VXRE5TK2dVK3V1M3VDUThMdEk2U054WjAw?=
+ =?utf-8?B?M2w1dXdwNDVWanN1UG55L2dVTDR6Kys1UElJTW1LRDMvSFhpWXQ0SUt2ZjBU?=
+ =?utf-8?B?RUJXc2g1ZTZqWHlHbVh0UmpSNDlmNVdTSzZhZ0ZPS3psbXlRdFNrTDk3V2lp?=
+ =?utf-8?B?S1NPU1RXL08zdm10YWdQK3FZR3ZMQUpWaWNiMGxTYytlTERRSHRlRlVrbWV2?=
+ =?utf-8?B?Nnc2elF3UlV0cnVLa2xiMzhCeWVXVnZmVTBCMHdmcDlzcW9NcU14R0RKSGlX?=
+ =?utf-8?B?ZTA3ZjJpRUlFU01lYys2Z09pNXMwSE9reDFSRUwwZkxYQTlZYjg1TGJiQ3Jx?=
+ =?utf-8?B?WS93TmtSay9kSFgybjF5SkdxdERnOE05MzRYd3Jwb1Ixd09vaWJSUjJnWDJj?=
+ =?utf-8?B?MnVoWUZma1RHdE1JSFlnbzRvR29qK2FGN2ZwUkpyMzFFUCtKTE1GN1Q1YjE0?=
+ =?utf-8?B?OG1jeE81QmQ5MEFJWkVZWktIR21JU2hMMVc1ZUFLSHNhR2FNY243OTJ1MWd1?=
+ =?utf-8?B?K2JxMVFGTFhYZ2laTndvbloxUXJpODAyUk9PalRyTm02MkJOeFNJVExJWUFR?=
+ =?utf-8?B?dkpCbXY0MjhxS211OGRhN2RhT29xU1JRYVRUQ1JxTUQ1UFVTVVNyS2JZTVUw?=
+ =?utf-8?B?cGc9PQ==?=
+Content-ID: <23CBC476A39C8F4EB180859135AA44EC@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PS1PR03MB3384.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f5859384-579a-4eac-045b-08dad3ad9119
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Dec 2022 15:06:04.3016 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: SYv382bDx72uuFwmLTuECKB34wuqjrRjoLRhwDhDUsw1dUmRcPg7th1cFl4DBRrF7ZD4JE96StD7E3aIoQicMA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR03MB6473
+Content-Type: multipart/alternative;
+ boundary="__=_Part_Boundary_006_1019321776.94632443"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,325 +162,181 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Matthew Auld <matthew.auld@intel.com>, Chris Wilson <chris@chris-wilson.co.uk>
+Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+ "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
+ "nfraprado@collabora.com" <nfraprado@collabora.com>,
+ =?utf-8?B?Q2h1bnh1IExpICjmnY7mmKXml60p?= <Chunxu.Li@mediatek.com>,
+ =?utf-8?B?QWxsZW4tS0ggQ2hlbmcgKOeoi+WGoOWLsyk=?= <Allen-KH.Cheng@mediatek.com>,
+ "kuninori.morimoto.gx@renesas.com" <kuninori.morimoto.gx@renesas.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "robert.foss@linaro.org" <robert.foss@linaro.org>,
+ "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>,
+ "ajye_huang@compal.corp-partner.google.com"
+ <ajye_huang@compal.corp-partner.google.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--__=_Part_Boundary_006_1019321776.94632443
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 01/12/2022 14:44, Andi Shyti wrote:
-> From: Chris Wilson <chris@chris-wilson.co.uk>
-> 
-> Introduce the concept of padding the i915_vma with guard pages before
-> and after. The major consequence is that all ordinary uses of i915_vma
-> must use i915_vma_offset/i915_vma_size and not i915_vma.node.start/size
-> directly, as the drm_mm_node will include the guard pages that surround
-> our object.
-> 
-> The biggest connundrum is how exactly to mix requesting a fixed address
-> with guard pages, particularly through the existing uABI. The user does
-> not know about guard pages, so such must be transparent to the user, and
-> so the execobj.offset must be that of the object itself excluding the
-> guard. So a PIN_OFFSET_FIXED must then be exclusive of the guard pages.
-> The caveat is that some placements will be impossible with guard pages,
-> as wrap arounds need to be avoided, and the vma itself will require a
-> larger node. We must not report EINVAL but ENOSPC as these are unavailable
-> locations within the GTT rather than conflicting user requirements.
-> 
-> In the next patch, we start using guard pages for scanout objects. While
-> these are limited to GGTT vma, on a few platforms these vma (or at least
-> an alias of the vma) is shared with userspace, so we may leak the
-> existence of such guards if we are not careful to ensure that the
-> execobj.offset is transparent and excludes the guards. (On such platforms
-> like ivb, without full-ppgtt, userspace has to use relocations so the
-> presence of more untouchable regions within its GTT such be of no further
-> issue.)
-> 
-> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-> Signed-off-by: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> ---
-> Hi,
-> 
-> this the v5 changelog, the overall changelog is in the v4 cover letter:
-> 
-> v4 -> v5:
->   - remove again the GEM_BUG_ON()
->   - fix an oversight where the rounding was called without assigning the
->     value to the guard.
-> 
-> Thanks Tvrtko for the reviews.
+PHByZT4NCk9uJiMzMjtUdWUsJiMzMjsyMDIyLTExLTI5JiMzMjthdCYjMzI7MTc6MjImIzMyOysw
+MDAwLCYjMzI7TWFyayYjMzI7QnJvd24mIzMyO3dyb3RlOg0KJmd0OyYjMzI7T24mIzMyO01vbiwm
+IzMyO05vdiYjMzI7MjgsJiMzMjsyMDIyJiMzMjthdCYjMzI7MDM6MDc6MjJQTSYjMzI7KzAwMDAs
+JiMzMjtKaWF4aW4mIzMyO1l1JiMzMjsoJiMyMDQ0NjsmIzIzNDc4OyYjMzc5OTU7KSYjMzI7d3Jv
+dGU6DQomZ3Q7JiMzMjsmZ3Q7JiMzMjtPbiYjMzI7RnJpLCYjMzI7MjAyMi0xMS0yNSYjMzI7YXQm
+IzMyOzEyOjE4JiMzMjsrMDAwMCwmIzMyO01hcmsmIzMyO0Jyb3duJiMzMjt3cm90ZToNCiZndDsm
+IzMyOyZndDsmIzMyOyZndDsmIzMyO09uJiMzMjtGcmksJiMzMjtOb3YmIzMyOzI1LCYjMzI7MjAy
+MiYjMzI7YXQmIzMyOzA1OjQ0OjExUE0mIzMyOyswODAwLCYjMzI7SmlheGluJiMzMjtZdSYjMzI7
+d3JvdGU6DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjtJJiMzOTttJiMzMjthJiMzMjtsaXR0
+bGUmIzMyO3VuY2xlYXImIzMyO3doeSYjMzI7dGhpcyYjMzI7aXMmIzMyO2JlaW5nJiMzMjtpbXBs
+ZW1lbnRlZCYjMzI7YXMmIzMyO2EmIzMyO0RBUE0NCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMy
+O29wZXJhdGlvbg0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7cmF0aGVyJiMzMjt0aGFuJiMz
+MjtoYXZpbmcmIzMyO3RoZSYjMzI7ZHJpdmVyJiMzMjtmb3J3YXJkJiMzMjt0aGUmIzMyO1BDTSYj
+MzI7dHJpZ2dlciYjMzI7b3AmIzMyO2lmJiMzMjtpdCYjMzk7cw0KJmd0OyYjMzI7Jmd0OyYjMzI7
+Jmd0OyYjMzI7bmVlZGVkJiM2MzsNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyO09yJiMzMjth
+bHRlcm5hdGl2ZWx5JiMzMjtpZiYjMzI7YSYjMzI7REFQTSYjMzI7Y2FsbGJhY2smIzMyO2lzJiMz
+MjtuZWVkZWQmIzMyO3doeSYjMzI7bm90JiMzMjtwcm92aWRlJiMzMjtvbmUNCiZndDsmIzMyOyZn
+dDsmIzMyOyZndDsmIzMyO2RpcmVjdGx5JiMzMjtyYXRoZXImIzMyO3RoYW4mIzMyO2hvb2tpbmcm
+IzMyO2ludG8mIzMyO3RoZSYjMzI7dHJpZ2dlciYjMzI7ZnVuY3Rpb24mIzMyOy0mIzMyO3RoYXQm
+IzM5O3MNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyO2dvaW5nDQomZ3Q7JiMzMjsmZ3Q7JiMz
+MjsmZ3Q7JiMzMjt0bw0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7YmUmIzMyO2NhbGxlZCYj
+MzI7b3V0JiMzMjtvZiYjMzI7c2VxdWVuY2UmIzMyO3dpdGgmIzMyO3RoZSYjMzI7cmVzdCYjMzI7
+b2YmIzMyO0RBUE0mIzMyO2FuZCYjMzI7YmUNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyO3Bv
+dGVudGlhbGx5DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjtjb25mdXNpbmcmIzMyO2dpdmVu
+JiMzMjt0aGUmIzMyO3ZlcnkmIzMyO2RpZmZlcmVudCYjMzI7ZW52aXJvbm1lbnRzJiMzMjt0aGF0
+JiMzMjt0cmlnZ2VyJiMzMjthbmQNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyO0RBUE0NCiZn
+dDsmIzMyOyZndDsmIzMyOyZndDsmIzMyO29wZXJhdGlvbnMmIzMyO3J1biYjMzI7aW4uJiMzMjsm
+IzMyO0EmIzMyO3F1aWNrJiMzMjtnbGFuY2UmIzMyO2F0JiMzMjt0aGUmIzMyO2l0NjUwNSYjMzI7
+ZHJpdmVyJiMzMjtzdWdnZXN0cw0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7aXQmIzM5O2QN
+CiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyO2JlDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMz
+MjtoYXBwaWVyJiMzMjt3aXRoJiMzMjthJiMzMjtEQVBNJiMzMjtjYWxsYmFjay4NCiZndDsmIzMy
+OyZndDsmIzMyO0xldCYjMzI7bWUmIzMyO2Rlc2NyaWJlJiMzMjt0aGUmIzMyO2hhcmR3YXJlJiMz
+Mjtjb25uZWN0aW9uJiMzMjthYm91dCYjMzI7bXQ4MTg2JiMzMjt3aXRoDQomZ3Q7JiMzMjsmZ3Q7
+JiMzMjtpdDY1MDUoaGRtaSkNCiZndDsmIzMyOyZndDsmIzMyO2FuZCYjMzI7cnQxMDE1cChzcGVh
+a2VycykuDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
+IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
+MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7PT0mZ3Q7aXQ2NTA1JiMzMjsNCiZndDsmIzMyOyZn
+dDsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
+JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOz0m
+IzMyOw0KJmd0OyYjMzI7Jmd0OyYjMzI7REwxKEZFKSYjMzI7PT0mZ3Q7STJTMyhCRSkmIzMyOz0N
+CiZndDsmIzMyOyZndDsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
+MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
+JiMzMjsmIzMyOz0NCiZndDsmIzMyOyZndDsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
+IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
+MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjs9PSZndDtydDEwMTVwDQomZ3Q7JiMzMjsm
+Z3Q7JiMzMjtUaGV5JiMzMjtzaGFyZWQmIzMyO3RoZSYjMzI7c2FtZSYjMzI7b25lJiMzMjtpMnMm
+IzMyO3BvcnQsJiMzMjtidXQmIzMyO3dlJiMzOTtkJiMzMjtsaWtlJiMzMjt0byYjMzI7Y29udHJv
+bCYjMzI7dGhlbQ0KJmd0OyYjMzI7Jmd0OyYjMzI7c2VwYXJhdGVseS4mIzMyO1NvJiMzMjtpZiYj
+MzI7aGRtaS1jb2RlYyYjMzI7dXNlJiMzMjt0aGUmIzMyO1BDTSYjMzI7dHJpZ2dlciYjMzI7b3As
+JiMzMjt3aG5lJiMzMjt3ZSYjMzI7dHVybg0KJmd0OyYjMzI7Jmd0OyYjMzI7b24NCiZndDsmIzMy
+OyZndDsmIzMyO3RoZSYjMzI7c3BlYWtlciwmIzMyO2hkbWktY29kZWMmIzM5O3MmIzMyO1BDTSYj
+MzI7dHJpZ2dlciYjMzI7b3AmIzMyO2lzJiMzMjthbHNvJiMzMjtleGVjdXRlZCwNCiZndDsmIzMy
+OyZndDsmIzMyO3Jlc3VsdGluZyYjMzI7aW4NCiZndDsmIzMyOyZndDsmIzMyO3NvdW5kJiMzMjtv
+biYjMzI7Ym90aCYjMzI7ZGV2aWNlcy4NCiZndDsmIzMyOyZndDsmIzMyO0lzJiMzMjt0aGVyZSYj
+MzI7YW5vdGhlciYjMzI7d2F5JiMzMjt0byYjMzI7Y29udHJvbCYjMzI7dGhlbSYjMzI7c2VwYXJh
+dGVseSYjNjM7JiMzMjtUaGFuayYjMzI7eW91Lg0KJmd0OyYjMzI7DQomZ3Q7JiMzMjtJZiYjMzI7
+eW91JiMzMjtqdXN0JiMzMjtuZWVkJiMzMjtwb3dlciYjMzI7Y29udHJvbCYjMzI7Zm9yJiMzMjtv
+bmUmIzMyO29yJiMzMjtib3RoJiMzMjtkZXZpY2VzJiMzMjt0aGVuJiMzMjt0aGUNCiZndDsmIzMy
+O21hY2hpbmUNCiZndDsmIzMyO2RyaXZlciYjMzI7Y2FuJiMzMjthZGQmIzMyO2EmIzMyO19QSU5f
+U1dJVENIKCkmIzMyO29uJiMzMjt0aGUmIzMyO291dHB1dCYjMzI7b2YmIzMyO3RoZSYjMzI7ZGV2
+aWNlLCYjMzI7dGhhdCYjMzk7bGwNCiZndDsmIzMyO2NhdXNlJiMzMjtEQVBNJiMzMjt0byYjMzI7
+a2VlcCYjMzI7dGhlJiMzMjtkZXZpY2UmIzMyO3Bvd2VyZWQmIzMyO2Rvd24mIzMyO3doZW4mIzMy
+O25vdCYjMzI7aW4mIzMyO3VzZS4mIzMyOyYjMzI7VGhhdA0KJmd0OyYjMzI7c2hvdWxkDQomZ3Q7
+JiMzMjt3b3JrJiMzMjt3ZWxsJiMzMjt3aXRoJiMzMjt0aGUmIzMyO3N1Z2dlc3Rpb24mIzMyO3Rv
+JiMzMjtwcm92aWRlJiMzMjthJiMzMjtEQVBNJiMzMjtjYWxsYmFjayYjMzI7aW5zdGVhZCYjMzI7
+b2YmIzMyO2ENCiZndDsmIzMyO2ENCiZndDsmIzMyO3RyaWdnZXImIzMyO29wZXJhdGlvbi4NCg0K
+WWVzLCYjMzI7d2UmIzMyO2RvJiMzMjt1c2UmIzMyO2EmIzMyO19QSU5fU1dJVENIKCkmIzMyO29u
+JiMzMjt0aGUmIzMyO291dG91dCYjMzI7b2YmIzMyO3RoZSYjMzI7ZGV2aWNlOg0KDQomZ3Q7JiMz
+MjsmIzMyO3N0YXRpYyYjMzI7Y29uc3QmIzMyO3N0cnVjdCYjMzI7c25kX2tjb250cm9sX25ldw0K
+Jmd0OyYjMzI7JiMzMjttdDgxODZfbXQ2MzY2X3J0MTAxOV9ydDU2ODJzX2NvbnRyb2xzW10mIzMy
+Oz0mIzMyO3sNCiZndDsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
+MjsmIzMyO1NPQ19EQVBNX1BJTl9TV0lUQ0goJnF1b3Q7U3BlYWtlcnMmcXVvdDspLA0KJmd0OyYj
+MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7U09DX0RBUE1f
+UElOX1NXSVRDSCgmcXVvdDtIZWFkcGhvbmUmcXVvdDspLA0KJmd0OyYjMzI7JiMzMjsmIzMyOyYj
+MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7U09DX0RBUE1fUElOX1NXSVRDSCgmcXVv
+dDtIZWFkc2V0JiMzMjtNaWMmcXVvdDspLA0KJmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
+IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7U09DX0RBUE1fUElOX1NXSVRDSCgmcXVvdDtIRE1JMSZx
+dW90OyksDQomZ3Q7JiMzMjsmIzMyO307DQoNCldoaWNoJiMzMjtvcGVyYXRpb24mIzMyO3Nob3Vs
+ZCYjMzI7SSYjMzI7dXNlJiMzMjt0byYjMzI7aW5mb3JtJiMzMjticmlkZ2UmIzMyO2RyaXZlciYj
+MzI7dG8mIzMyO2NvbnRyb2wmIzMyO2F1ZGlvDQpvbiYjMzI7b3ImIzMyO29mZiYjNjM7JiMzMjtJ
+JiMzOTttJiMzMjtjdXJpb3VzJiMzMjt3aHkmIzMyO0kmIzMyO2RvbiYjMzk7dCYjMzI7c2VlJiMz
+MjsudHJpZ2dlciYjMzI7aW4mIzMyO3RoZSYjMzI7c3RydWN0dXJlDQpoZG1pX2NvZGVjX29wcyYj
+MzI7Y29tcGFyZWQmIzMyO3RvJiMzMjt0aGUmIzMyO3N0cnVjdHVyZSYjMzI7c25kX3NvY19kYWlf
+b3BzJiM2MzsNCg0KDQoNCg0KDQoNCjwvcHJlPjwhLS10eXBlOnRleHQtLT48IS0tey0tPjxwcmU+
+KioqKioqKioqKioqKiBNRURJQVRFSyBDb25maWRlbnRpYWxpdHkgTm90aWNlDQogKioqKioqKioq
+KioqKioqKioqKioNClRoZSBpbmZvcm1hdGlvbiBjb250YWluZWQgaW4gdGhpcyBlLW1haWwgbWVz
+c2FnZSAoaW5jbHVkaW5nIGFueSANCmF0dGFjaG1lbnRzKSBtYXkgYmUgY29uZmlkZW50aWFsLCBw
+cm9wcmlldGFyeSwgcHJpdmlsZWdlZCwgb3Igb3RoZXJ3aXNlDQpleGVtcHQgZnJvbSBkaXNjbG9z
+dXJlIHVuZGVyIGFwcGxpY2FibGUgbGF3cy4gSXQgaXMgaW50ZW5kZWQgdG8gYmUgDQpjb252ZXll
+ZCBvbmx5IHRvIHRoZSBkZXNpZ25hdGVkIHJlY2lwaWVudChzKS4gQW55IHVzZSwgZGlzc2VtaW5h
+dGlvbiwgDQpkaXN0cmlidXRpb24sIHByaW50aW5nLCByZXRhaW5pbmcgb3IgY29weWluZyBvZiB0
+aGlzIGUtbWFpbCAoaW5jbHVkaW5nIGl0cyANCmF0dGFjaG1lbnRzKSBieSB1bmludGVuZGVkIHJl
+Y2lwaWVudChzKSBpcyBzdHJpY3RseSBwcm9oaWJpdGVkIGFuZCBtYXkgDQpiZSB1bmxhd2Z1bC4g
+SWYgeW91IGFyZSBub3QgYW4gaW50ZW5kZWQgcmVjaXBpZW50IG9mIHRoaXMgZS1tYWlsLCBvciBi
+ZWxpZXZlDQogDQp0aGF0IHlvdSBoYXZlIHJlY2VpdmVkIHRoaXMgZS1tYWlsIGluIGVycm9yLCBw
+bGVhc2Ugbm90aWZ5IHRoZSBzZW5kZXIgDQppbW1lZGlhdGVseSAoYnkgcmVwbHlpbmcgdG8gdGhp
+cyBlLW1haWwpLCBkZWxldGUgYW55IGFuZCBhbGwgY29waWVzIG9mIA0KdGhpcyBlLW1haWwgKGlu
+Y2x1ZGluZyBhbnkgYXR0YWNobWVudHMpIGZyb20geW91ciBzeXN0ZW0sIGFuZCBkbyBub3QNCmRp
+c2Nsb3NlIHRoZSBjb250ZW50IG9mIHRoaXMgZS1tYWlsIHRvIGFueSBvdGhlciBwZXJzb24uIFRo
+YW5rIHlvdSENCjwvcHJlPjwhLS19LS0+
 
-I think that was the last open I had so LGTM now. Thanks for the respins!
+--__=_Part_Boundary_006_1019321776.94632443
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+T24gVHVlLCAyMDIyLTExLTI5IGF0IDE3OjIyICswMDAwLCBNYXJrIEJyb3duIHdyb3RlOg0KPiBP
+biBNb24sIE5vdiAyOCwgMjAyMiBhdCAwMzowNzoyMlBNICswMDAwLCBKaWF4aW4gWXUgKOS/nuWu
+tumRqykgd3JvdGU6DQo+ID4gT24gRnJpLCAyMDIyLTExLTI1IGF0IDEyOjE4ICswMDAwLCBNYXJr
+IEJyb3duIHdyb3RlOg0KPiA+ID4gT24gRnJpLCBOb3YgMjUsIDIwMjIgYXQgMDU6NDQ6MTFQTSAr
+MDgwMCwgSmlheGluIFl1IHdyb3RlOg0KPiA+ID4gSSdtIGEgbGl0dGxlIHVuY2xlYXIgd2h5IHRo
+aXMgaXMgYmVpbmcgaW1wbGVtZW50ZWQgYXMgYSBEQVBNDQo+ID4gPiBvcGVyYXRpb24NCj4gPiA+
+IHJhdGhlciB0aGFuIGhhdmluZyB0aGUgZHJpdmVyIGZvcndhcmQgdGhlIFBDTSB0cmlnZ2VyIG9w
+IGlmIGl0J3MNCj4gPiA+IG5lZWRlZD8NCj4gPiA+IE9yIGFsdGVybmF0aXZlbHkgaWYgYSBEQVBN
+IGNhbGxiYWNrIGlzIG5lZWRlZCB3aHkgbm90IHByb3ZpZGUgb25lDQo+ID4gPiBkaXJlY3RseSBy
+YXRoZXIgdGhhbiBob29raW5nIGludG8gdGhlIHRyaWdnZXIgZnVuY3Rpb24gLSB0aGF0J3MNCj4g
+PiA+IGdvaW5nDQo+ID4gPiB0bw0KPiA+ID4gYmUgY2FsbGVkIG91dCBvZiBzZXF1ZW5jZSB3aXRo
+IHRoZSByZXN0IG9mIERBUE0gYW5kIGJlDQo+ID4gPiBwb3RlbnRpYWxseQ0KPiA+ID4gY29uZnVz
+aW5nIGdpdmVuIHRoZSB2ZXJ5IGRpZmZlcmVudCBlbnZpcm9ubWVudHMgdGhhdCB0cmlnZ2VyIGFu
+ZA0KPiA+ID4gREFQTQ0KPiA+ID4gb3BlcmF0aW9ucyBydW4gaW4uICBBIHF1aWNrIGdsYW5jZSBh
+dCB0aGUgaXQ2NTA1IGRyaXZlciBzdWdnZXN0cw0KPiA+ID4gaXQnZA0KPiA+ID4gYmUNCj4gPiA+
+IGhhcHBpZXIgd2l0aCBhIERBUE0gY2FsbGJhY2suDQo+ID4gTGV0IG1lIGRlc2NyaWJlIHRoZSBo
+YXJkd2FyZSBjb25uZWN0aW9uIGFib3V0IG10ODE4NiB3aXRoDQo+ID4gaXQ2NTA1KGhkbWkpDQo+
+ID4gYW5kIHJ0MTAxNXAoc3BlYWtlcnMpLg0KPiA+ICAgICAgICAgICAgICAgICAgICAgICAgPT0+
+aXQ2NTA1IA0KPiA+ICAgICAgICAgICAgICAgICAgICAgID0gDQo+ID4gREwxKEZFKSA9PT5JMlMz
+KEJFKSA9DQo+ID4gICAgICAgICAgICAgICAgICAgICAgPQ0KPiA+ICAgICAgICAgICAgICAgICAg
+ICAgICAgPT0+cnQxMDE1cA0KPiA+IFRoZXkgc2hhcmVkIHRoZSBzYW1lIG9uZSBpMnMgcG9ydCwg
+YnV0IHdlJ2QgbGlrZSB0byBjb250cm9sIHRoZW0NCj4gPiBzZXBhcmF0ZWx5LiBTbyBpZiBoZG1p
+LWNvZGVjIHVzZSB0aGUgUENNIHRyaWdnZXIgb3AsIHdobmUgd2UgdHVybg0KPiA+IG9uDQo+ID4g
+dGhlIHNwZWFrZXIsIGhkbWktY29kZWMncyBQQ00gdHJpZ2dlciBvcCBpcyBhbHNvIGV4ZWN1dGVk
+LA0KPiA+IHJlc3VsdGluZyBpbg0KPiA+IHNvdW5kIG9uIGJvdGggZGV2aWNlcy4NCj4gPiBJcyB0
+aGVyZSBhbm90aGVyIHdheSB0byBjb250cm9sIHRoZW0gc2VwYXJhdGVseT8gVGhhbmsgeW91Lg0K
+PiANCj4gSWYgeW91IGp1c3QgbmVlZCBwb3dlciBjb250cm9sIGZvciBvbmUgb3IgYm90aCBkZXZp
+Y2VzIHRoZW4gdGhlDQo+IG1hY2hpbmUNCj4gZHJpdmVyIGNhbiBhZGQgYSBfUElOX1NXSVRDSCgp
+IG9uIHRoZSBvdXRwdXQgb2YgdGhlIGRldmljZSwgdGhhdCdsbA0KPiBjYXVzZSBEQVBNIHRvIGtl
+ZXAgdGhlIGRldmljZSBwb3dlcmVkIGRvd24gd2hlbiBub3QgaW4gdXNlLiAgVGhhdA0KPiBzaG91
+bGQNCj4gd29yayB3ZWxsIHdpdGggdGhlIHN1Z2dlc3Rpb24gdG8gcHJvdmlkZSBhIERBUE0gY2Fs
+bGJhY2sgaW5zdGVhZCBvZiBhDQo+IGENCj4gdHJpZ2dlciBvcGVyYXRpb24uDQoNClllcywgd2Ug
+ZG8gdXNlIGEgX1BJTl9TV0lUQ0goKSBvbiB0aGUgb3V0b3V0IG9mIHRoZSBkZXZpY2U6DQoNCj4g
+IHN0YXRpYyBjb25zdCBzdHJ1Y3Qgc25kX2tjb250cm9sX25ldw0KPiAgbXQ4MTg2X210NjM2Nl9y
+dDEwMTlfcnQ1Njgyc19jb250cm9sc1tdID0gew0KPiAgICAgICAgICBTT0NfREFQTV9QSU5fU1dJ
+VENIKCJTcGVha2VycyIpLA0KPiAgICAgICAgICBTT0NfREFQTV9QSU5fU1dJVENIKCJIZWFkcGhv
+bmUiKSwNCj4gICAgICAgICAgU09DX0RBUE1fUElOX1NXSVRDSCgiSGVhZHNldCBNaWMiKSwNCj4g
+ICAgICAgICAgU09DX0RBUE1fUElOX1NXSVRDSCgiSERNSTEiKSwNCj4gIH07DQoNCldoaWNoIG9w
+ZXJhdGlvbiBzaG91bGQgSSB1c2UgdG8gaW5mb3JtIGJyaWRnZSBkcml2ZXIgdG8gY29udHJvbCBh
+dWRpbw0Kb24gb3Igb2ZmPyBJJ20gY3VyaW91cyB3aHkgSSBkb24ndCBzZWUgLnRyaWdnZXIgaW4g
+dGhlIHN0cnVjdHVyZQ0KaGRtaV9jb2RlY19vcHMgY29tcGFyZWQgdG8gdGhlIHN0cnVjdHVyZSBz
+bmRfc29jX2RhaV9vcHM/DQoNCg0KDQoNCg0K
 
-Regards,
+--__=_Part_Boundary_006_1019321776.94632443--
 
-Tvrtko
-
-> Thanks,
-> Andi
-> 
->   drivers/gpu/drm/i915/gt/intel_ggtt.c     | 14 +++++---
->   drivers/gpu/drm/i915/i915_gem_gtt.h      |  3 +-
->   drivers/gpu/drm/i915/i915_vma.c          | 41 ++++++++++++++++++++----
->   drivers/gpu/drm/i915/i915_vma.h          |  5 +--
->   drivers/gpu/drm/i915/i915_vma_resource.c |  4 +--
->   drivers/gpu/drm/i915/i915_vma_resource.h |  7 +++-
->   drivers/gpu/drm/i915/i915_vma_types.h    |  1 +
->   7 files changed, 58 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> index 7644738b9cdbe..784d4a8c43ba9 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> @@ -296,8 +296,11 @@ static void gen8_ggtt_insert_entries(struct i915_address_space *vm,
->   	 */
->   
->   	gte = (gen8_pte_t __iomem *)ggtt->gsm;
-> -	gte += vma_res->start / I915_GTT_PAGE_SIZE;
-> -	end = gte + vma_res->node_size / I915_GTT_PAGE_SIZE;
-> +	gte += (vma_res->start - vma_res->guard) / I915_GTT_PAGE_SIZE;
-> +	end = gte + vma_res->guard / I915_GTT_PAGE_SIZE;
-> +	while (gte < end)
-> +		gen8_set_pte(gte++, vm->scratch[0]->encode);
-> +	end += (vma_res->node_size + vma_res->guard) / I915_GTT_PAGE_SIZE;
->   
->   	for_each_sgt_daddr(addr, iter, vma_res->bi.pages)
->   		gen8_set_pte(gte++, pte_encode | addr);
-> @@ -347,9 +350,12 @@ static void gen6_ggtt_insert_entries(struct i915_address_space *vm,
->   	dma_addr_t addr;
->   
->   	gte = (gen6_pte_t __iomem *)ggtt->gsm;
-> -	gte += vma_res->start / I915_GTT_PAGE_SIZE;
-> -	end = gte + vma_res->node_size / I915_GTT_PAGE_SIZE;
-> +	gte += (vma_res->start - vma_res->guard) / I915_GTT_PAGE_SIZE;
->   
-> +	end = gte + vma_res->guard / I915_GTT_PAGE_SIZE;
-> +	while (gte < end)
-> +		iowrite32(vm->scratch[0]->encode, gte++);
-> +	end += (vma_res->node_size + vma_res->guard) / I915_GTT_PAGE_SIZE;
->   	for_each_sgt_daddr(addr, iter, vma_res->bi.pages)
->   		iowrite32(vm->pte_encode(addr, level, flags), gte++);
->   	GEM_BUG_ON(gte > end);
-> diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.h b/drivers/gpu/drm/i915/i915_gem_gtt.h
-> index 8c2f57eb5ddaa..2434197830523 100644
-> --- a/drivers/gpu/drm/i915/i915_gem_gtt.h
-> +++ b/drivers/gpu/drm/i915/i915_gem_gtt.h
-> @@ -44,7 +44,8 @@ int i915_gem_gtt_insert(struct i915_address_space *vm,
->   #define PIN_HIGH		BIT_ULL(5)
->   #define PIN_OFFSET_BIAS		BIT_ULL(6)
->   #define PIN_OFFSET_FIXED	BIT_ULL(7)
-> -#define PIN_VALIDATE		BIT_ULL(8) /* validate placement only, no need to call unpin() */
-> +#define PIN_OFFSET_GUARD	BIT_ULL(8)
-> +#define PIN_VALIDATE		BIT_ULL(9) /* validate placement only, no need to call unpin() */
->   
->   #define PIN_GLOBAL		BIT_ULL(10) /* I915_VMA_GLOBAL_BIND */
->   #define PIN_USER		BIT_ULL(11) /* I915_VMA_LOCAL_BIND */
-> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-> index fefee5fef38d3..cda90c7818af3 100644
-> --- a/drivers/gpu/drm/i915/i915_vma.c
-> +++ b/drivers/gpu/drm/i915/i915_vma.c
-> @@ -419,7 +419,7 @@ i915_vma_resource_init_from_vma(struct i915_vma_resource *vma_res,
->   			       obj->mm.rsgt, i915_gem_object_is_readonly(obj),
->   			       i915_gem_object_is_lmem(obj), obj->mm.region,
->   			       vma->ops, vma->private, __i915_vma_offset(vma),
-> -			       __i915_vma_size(vma), vma->size);
-> +			       __i915_vma_size(vma), vma->size, vma->guard);
->   }
->   
->   /**
-> @@ -677,6 +677,10 @@ bool i915_vma_misplaced(const struct i915_vma *vma,
->   	    i915_vma_offset(vma) != (flags & PIN_OFFSET_MASK))
->   		return true;
->   
-> +	if (flags & PIN_OFFSET_GUARD &&
-> +	    vma->guard < (flags & PIN_OFFSET_MASK))
-> +		return true;
-> +
->   	return false;
->   }
->   
-> @@ -749,15 +753,16 @@ static int
->   i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
->   		u64 size, u64 alignment, u64 flags)
->   {
-> -	unsigned long color;
-> +	unsigned long color, guard;
->   	u64 start, end;
->   	int ret;
->   
->   	GEM_BUG_ON(i915_vma_is_bound(vma, I915_VMA_GLOBAL_BIND | I915_VMA_LOCAL_BIND));
->   	GEM_BUG_ON(drm_mm_node_allocated(&vma->node));
-> +	GEM_BUG_ON(hweight64(flags & (PIN_OFFSET_GUARD | PIN_OFFSET_FIXED | PIN_OFFSET_BIAS)) > 1);
->   
->   	size = max(size, vma->size);
-> -	alignment = max(alignment, vma->display_alignment);
-> +	alignment = max_t(typeof(alignment), alignment, vma->display_alignment);
->   	if (flags & PIN_MAPPABLE) {
->   		size = max_t(typeof(size), size, vma->fence_size);
->   		alignment = max_t(typeof(alignment),
-> @@ -768,6 +773,16 @@ i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
->   	GEM_BUG_ON(!IS_ALIGNED(alignment, I915_GTT_MIN_ALIGNMENT));
->   	GEM_BUG_ON(!is_power_of_2(alignment));
->   
-> +	guard = vma->guard; /* retain guard across rebinds */
-> +	if (flags & PIN_OFFSET_GUARD) {
-> +		GEM_BUG_ON(overflows_type(flags & PIN_OFFSET_MASK, u32));
-> +		guard = max_t(u32, guard, flags & PIN_OFFSET_MASK);
-> +	}
-> +	/*
-> +	 * Be efficient with PTE use by using the native size for the guard.
-> +	 */
-> +	guard = roundup(guard, BIT(vma->vm->scratch_order + PAGE_SHIFT));
-> +
->   	start = flags & PIN_OFFSET_BIAS ? flags & PIN_OFFSET_MASK : 0;
->   	GEM_BUG_ON(!IS_ALIGNED(start, I915_GTT_PAGE_SIZE));
->   
-> @@ -780,11 +795,12 @@ i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
->   
->   	alignment = max(alignment, i915_vm_obj_min_alignment(vma->vm, vma->obj));
->   
-> -	/* If binding the object/GGTT view requires more space than the entire
-> +	/*
-> +	 * If binding the object/GGTT view requires more space than the entire
->   	 * aperture has, reject it early before evicting everything in a vain
->   	 * attempt to find space.
->   	 */
-> -	if (size > end) {
-> +	if (size > end - 2 * guard) {
->   		drm_dbg(&to_i915(vma->obj->base.dev)->drm,
->   			"Attempting to bind an object larger than the aperture: request=%llu > %s aperture=%llu\n",
->   			size, flags & PIN_MAPPABLE ? "mappable" : "total", end);
-> @@ -801,13 +817,23 @@ i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
->   		if (!IS_ALIGNED(offset, alignment) ||
->   		    range_overflows(offset, size, end))
->   			return -EINVAL;
-> +		/*
-> +		 * The caller knows not of the guard added by others and
-> +		 * requests for the offset of the start of its buffer
-> +		 * to be fixed, which may not be the same as the position
-> +		 * of the vma->node due to the guard pages.
-> +		 */
-> +		if (offset < guard || offset + size > end - guard)
-> +			return -ENOSPC;
->   
->   		ret = i915_gem_gtt_reserve(vma->vm, ww, &vma->node,
-> -					   size, offset, color,
-> -					   flags);
-> +					   size + 2 * guard,
-> +					   offset - guard,
-> +					   color, flags);
->   		if (ret)
->   			return ret;
->   	} else {
-> +		size += 2 * guard;
->   		/*
->   		 * We only support huge gtt pages through the 48b PPGTT,
->   		 * however we also don't want to force any alignment for
-> @@ -855,6 +881,7 @@ i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
->   	GEM_BUG_ON(!i915_gem_valid_gtt_space(vma, color));
->   
->   	list_move_tail(&vma->vm_link, &vma->vm->bound_list);
-> +	vma->guard = guard;
->   
->   	return 0;
->   }
-> diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
-> index 3fd4512b1f65f..ed5c9d682a1b2 100644
-> --- a/drivers/gpu/drm/i915/i915_vma.h
-> +++ b/drivers/gpu/drm/i915/i915_vma.h
-> @@ -128,7 +128,7 @@ static inline bool i915_vma_is_closed(const struct i915_vma *vma)
->   /* Internal use only. */
->   static inline u64 __i915_vma_size(const struct i915_vma *vma)
->   {
-> -	return vma->node.size;
-> +	return vma->node.size - 2 * vma->guard;
->   }
->   
->   /**
-> @@ -150,7 +150,8 @@ static inline u64 i915_vma_size(const struct i915_vma *vma)
->   /* Internal use only. */
->   static inline u64 __i915_vma_offset(const struct i915_vma *vma)
->   {
-> -	return vma->node.start;
-> +	/* The actual start of the vma->pages is after the guard pages. */
-> +	return vma->node.start + vma->guard;
->   }
->   
->   /**
-> diff --git a/drivers/gpu/drm/i915/i915_vma_resource.c b/drivers/gpu/drm/i915/i915_vma_resource.c
-> index de1342dbfa128..6ba7a7feceba1 100644
-> --- a/drivers/gpu/drm/i915/i915_vma_resource.c
-> +++ b/drivers/gpu/drm/i915/i915_vma_resource.c
-> @@ -34,8 +34,8 @@ static struct kmem_cache *slab_vma_resources;
->    * and removal of fences increases as O(ln(pending_unbinds)) instead of
->    * O(1) for a single fence without interval tree.
->    */
-> -#define VMA_RES_START(_node) ((_node)->start)
-> -#define VMA_RES_LAST(_node) ((_node)->start + (_node)->node_size - 1)
-> +#define VMA_RES_START(_node) ((_node)->start - (_node)->guard)
-> +#define VMA_RES_LAST(_node) ((_node)->start + (_node)->node_size + (_node)->guard - 1)
->   INTERVAL_TREE_DEFINE(struct i915_vma_resource, rb,
->   		     u64, __subtree_last,
->   		     VMA_RES_START, VMA_RES_LAST, static, vma_res_itree);
-> diff --git a/drivers/gpu/drm/i915/i915_vma_resource.h b/drivers/gpu/drm/i915/i915_vma_resource.h
-> index 54edf3739ca0b..c1864e3d0b43e 100644
-> --- a/drivers/gpu/drm/i915/i915_vma_resource.h
-> +++ b/drivers/gpu/drm/i915/i915_vma_resource.h
-> @@ -57,6 +57,7 @@ struct i915_page_sizes {
->    * @node_size: Size of the allocated range manager node with padding
->    * subtracted.
->    * @vma_size: Bind size.
-> + * @guard: The size of guard area preceding and trailing the bind.
->    * @page_sizes_gtt: Resulting page sizes from the bind operation.
->    * @bound_flags: Flags indicating binding status.
->    * @allocated: Backend private data. TODO: Should move into @private.
-> @@ -115,6 +116,7 @@ struct i915_vma_resource {
->   	u64 start;
->   	u64 node_size;
->   	u64 vma_size;
-> +	u32 guard;
->   	u32 page_sizes_gtt;
->   
->   	u32 bound_flags;
-> @@ -179,6 +181,7 @@ static inline void i915_vma_resource_put(struct i915_vma_resource *vma_res)
->    * @start: Offset into the address space of bind range start after padding.
->    * @node_size: Size of the allocated range manager node minus padding.
->    * @size: Bind size.
-> + * @guard: The size of the guard area preceding and trailing the bind.
->    *
->    * Initializes a vma resource allocated using i915_vma_resource_alloc().
->    * The reason for having separate allocate and initialize function is that
-> @@ -197,7 +200,8 @@ static inline void i915_vma_resource_init(struct i915_vma_resource *vma_res,
->   					  void *private,
->   					  u64 start,
->   					  u64 node_size,
-> -					  u64 size)
-> +					  u64 size,
-> +					  u32 guard)
->   {
->   	__i915_vma_resource_init(vma_res);
->   	vma_res->vm = vm;
-> @@ -215,6 +219,7 @@ static inline void i915_vma_resource_init(struct i915_vma_resource *vma_res,
->   	vma_res->start = start;
->   	vma_res->node_size = node_size;
->   	vma_res->vma_size = size;
-> +	vma_res->guard = guard;
->   }
->   
->   static inline void i915_vma_resource_fini(struct i915_vma_resource *vma_res)
-> diff --git a/drivers/gpu/drm/i915/i915_vma_types.h b/drivers/gpu/drm/i915/i915_vma_types.h
-> index 0375812792b9c..77fda2244d161 100644
-> --- a/drivers/gpu/drm/i915/i915_vma_types.h
-> +++ b/drivers/gpu/drm/i915/i915_vma_types.h
-> @@ -202,6 +202,7 @@ struct i915_vma {
->   	/* mmap-offset associated with fencing for this vma */
->   	struct i915_mmap_offset	*mmo;
->   
-> +	u32 guard; /* padding allocated around vma->pages within the node */
->   	u32 fence_size;
->   	u32 fence_alignment;
->   	u32 display_alignment;
