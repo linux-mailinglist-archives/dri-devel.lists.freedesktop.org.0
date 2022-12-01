@@ -1,58 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DB6663ED87
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 11:21:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBA7563ED90
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 11:22:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85FCA10E5A7;
-	Thu,  1 Dec 2022 10:21:16 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8478C10E5A7;
- Thu,  1 Dec 2022 10:21:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669890073; x=1701426073;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=AtSjWmDqrb8yFKbawclbG90tt56e83BXXimlO11WBGo=;
- b=a9+iX+l3NTdN+2/1b8nnNGwqqgAguyAjpz6hleI2ZpFdTuKKEI6cPz5e
- Y5gffLLdjraDJRjfACSoPLW2tj/uPqAgV5XVjY7tDrE9MFsvC5QNDueBw
- 3Fnb9uIoq1OTS+Z40JTb6sysxBAOC0wNlYprIjBuTQcE1YVhI8mh6NWKN
- rEtyYO+gPWeChMZhj4KZb99jR2OeZEsrqp4wrA2SrimpGDrv+tMnalB7N
- xN/hDV7TCb8sjvn20QxeBSgqGCwK5uSuPHFm88iSwfo55CabmJWm72/bE
- 8uSk6QdTonIMqM4pCU8KKLRzhZdcYdEob1WVhWoxil+5BRa+JS7KBzeYU A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10547"; a="295341258"
-X-IronPort-AV: E=Sophos;i="5.96,209,1665471600"; d="scan'208";a="295341258"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2022 02:21:07 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10547"; a="638341004"
-X-IronPort-AV: E=Sophos;i="5.96,209,1665471600"; d="scan'208";a="638341004"
-Received: from aguefor-mobl.ger.corp.intel.com (HELO [10.213.229.22])
- ([10.213.229.22])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2022 02:21:04 -0800
-Message-ID: <032d85dc-8f03-f638-a3d1-10fb45fe3bad@linux.intel.com>
-Date: Thu, 1 Dec 2022 10:21:02 +0000
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF2E010E5A8;
+	Thu,  1 Dec 2022 10:22:12 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
+ [IPv6:2607:f8b0:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9EF910E5A8
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 10:22:09 +0000 (UTC)
+Received: by mail-pl1-x62d.google.com with SMTP id jl24so1204872plb.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Dec 2022 02:22:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=OI/9P086FlFXQcoskOlRhWzBPG93qoSMuWBLNBVt0Hk=;
+ b=cz9Hvi/VslbiMd/9z6zO4e0a4+rsirsX9HCh5pxa8+Xo4jv6YBwtJT6Rd8Me12rv1e
+ nDrzLl0tZBC/dbj13zqAXFEN9lDOneqOMdXP4vtV+WiiQwgQCaPBpCno+tK9D1hjc++h
+ aBrGTznx5/m92CxTJwUOOhex+y8hBh+2NTk9E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=OI/9P086FlFXQcoskOlRhWzBPG93qoSMuWBLNBVt0Hk=;
+ b=iW0Cvy0KHuyYCFWyHzMOGXGEhqDD84yLQXbgMsChGc8c71ch32GLgxBaUKryfOjLwd
+ mjzhgj2RJMPFYM+l5K1IjwqlZfFj64ENKWVBMV9SIJq9wrX7Q2CNHIN+jr09JrJoeQtS
+ XUYLw5aFXxiq1oaYF44ZcT2nVV5uP1g71f3ES55Yxb3puIRS1dWuBObJ4M+6ayf60qyj
+ 5SOevujdnRXUI1KEYCqOIIWKWom3+A2jgvtvgHUs5ZiUeeJPHyitvvYbPIFEbv15vIxi
+ xf5Bv2FG9uDHbfRDPWqGIUq2XuA6Vl+g0xoRs2/uQ1wAeKDhzHHK29y5jGapoWA2ETAd
+ mLmg==
+X-Gm-Message-State: ANoB5plQzjpjqeBWIBhLqTytwmKhhZH1k9d8I63+PlME9xHs4FvAoLZv
+ +AVnm77wvz0MDtm51yg52I78o9u/W+TgOSz2gNENXBEXR6Q3rA==
+X-Google-Smtp-Source: AA0mqf6YUtzgO550Zg5+/tlaD0TlIZmPxWDgJACym4Qo/sP1IbLAZz9v/H9HeW6CGuB9pBJaJk7HzmYOnyPBbTQpH0I=
+X-Received: by 2002:a17:902:d192:b0:189:8867:9bd4 with SMTP id
+ m18-20020a170902d19200b0018988679bd4mr21126303plb.68.1669890129088; Thu, 01
+ Dec 2022 02:22:09 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [Intel-gfx] [PATCH 2/2] drm/i915/guc: Look for a guilty context
- when an engine reset fails
-Content-Language: en-US
-To: John Harrison <john.c.harrison@intel.com>, Intel-GFX@Lists.FreeDesktop.Org
-References: <20221129211253.3183480-1-John.C.Harrison@Intel.com>
- <20221129211253.3183480-3-John.C.Harrison@Intel.com>
- <17ba580d-556b-c963-703c-b80e74c050f9@linux.intel.com>
- <751f5d84-b7c4-e459-957a-06ad47d4b1de@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <751f5d84-b7c4-e459-957a-06ad47d4b1de@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20221123192437.1065826-1-daniel.vetter@ffwll.ch>
+ <Y4h85n6krZ3CVkQp@phenom.ffwll.local>
+In-Reply-To: <Y4h85n6krZ3CVkQp@phenom.ffwll.local>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Thu, 1 Dec 2022 11:21:57 +0100
+Message-ID: <CAKMK7uErF0THyGHcke=AizGhJkaoQpN6PzjykbFFCX6eJ6DoJQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/fourcc: Document open source user waiver
+To: DRI Development <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,78 +63,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI-Devel@Lists.FreeDesktop.Org
+Cc: Neil Trevett <ntrevett@nvidia.com>, Jason Ekstrand <jason@jlekstrand.net>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, 1 Dec 2022 at 11:07, Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Wed, Nov 23, 2022 at 08:24:37PM +0100, Daniel Vetter wrote:
+> > It's a bit a FAQ, and we really can't claim to be the authoritative
+> > source for allocating these numbers used in many standard extensions
+> > if we tell closed source or vendor stacks in general to go away.
+> >
+> > Iirc this was already clarified in some vulkan discussions, but I
+> > can't find that anywhere anymore. At least not in a public link.
+> >
+> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Cc: Maxime Ripard <mripard@kernel.org>
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: David Airlie <airlied@gmail.com>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: Alex Deucher <alexdeucher@gmail.com>
+> > Cc: Daniel Stone <daniel@fooishbar.org>
+> > Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+> > Cc: Jason Ekstrand <jason@jlekstrand.net>
+> > Cc: Neil Trevett <ntrevett@nvidia.com>
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+>
+> From irc:
+>
+> <airlied> danvet: ack from me
 
-On 30/11/2022 21:04, John Harrison wrote:
-> On 11/30/2022 00:30, Tvrtko Ursulin wrote:
->> On 29/11/2022 21:12, John.C.Harrison@Intel.com wrote:
->>> From: John Harrison <John.C.Harrison@Intel.com>
->>>
->>> Engine resets are supposed to never happen. But in the case when one
->>
->> Engine resets or engine reset failures? Hopefully the latter.
->>
-> Oops. Yes, that was meant to say "engine resets are never supposed to 
-> fail."
-> 
->>> does (due to unknwon reasons that normally come down to a missing
-> unknwon -> unknown
-> 
->>> w/a), it is useful to get as much information out of the system as
->>> possible. Given that the GuC effectively dies on such a situation, it
->>> is not possible to get a guilty context notification back. So do a
->>> manual search instead. Given that GuC is dead, this is safe because
->>> GuC won't be changing the engine state asynchronously.
->>>
->>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
->>> ---
->>>   drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 15 ++++++++++++++-
->>>   1 file changed, 14 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c 
->>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->>> index 0a42f1807f52c..c82730804a1c4 100644
->>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->>> @@ -4751,11 +4751,24 @@ static void reset_fail_worker_func(struct 
->>> work_struct *w)
->>>       guc->submission_state.reset_fail_mask = 0;
->>>       spin_unlock_irqrestore(&guc->submission_state.lock, flags);
->>>   -    if (likely(reset_fail_mask))
->>> +    if (likely(reset_fail_mask)) {
->>> +        struct intel_engine_cs *engine;
->>> +        enum intel_engine_id id;
->>> +
->>> +        /*
->>> +         * GuC is toast at this point - it dead loops after sending 
->>> the failed
->>> +         * reset notification. So need to manually determine the 
->>> guilty context.
->>> +         * Note that it should be safe/reliable to do this here 
->>> because the GuC
->>> +         * is toast and will not be scheduling behind the KMD's back.
->>> +         */
->>> +        for_each_engine_masked(engine, gt, reset_fail_mask, id)
->>> +            intel_guc_find_hung_context(engine);
->>> +
->>>           intel_gt_handle_error(gt, reset_fail_mask,
->>>                         I915_ERROR_CAPTURE,
->>>                         "GuC failed to reset engine mask=0x%x\n",
->>>                         reset_fail_mask);
->>
->> If GuC is defined by ABI contract to be dead, should the flow be 
->> attempting to do a full GPU reset here, or maybe it happens somewhere 
->> else as a consequence anyway? (In which case is the engine reset here 
->> even needed?)
-> This is a full GT reset. i915 is not allowed to perform an engine reset 
-> when using GuC submission. Those can only be done by GuC. So any forced 
-> reset by i915 will be escalated to full GT internally.
+Also from irc:
 
-Okay, I saw passing in of the engine mask and drew the wrong conclusion.
+<mareko> danvet: Acked
 
-Regards,
+-Daniel
 
-Tvrtko
+> > ---
+> >  include/uapi/drm/drm_fourcc.h | 12 ++++++++++++
+> >  1 file changed, 12 insertions(+)
+> >
+> > diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> > index bc056f2d537d..de703c6be969 100644
+> > --- a/include/uapi/drm/drm_fourcc.h
+> > +++ b/include/uapi/drm/drm_fourcc.h
+> > @@ -88,6 +88,18 @@ extern "C" {
+> >   *
+> >   * The authoritative list of format modifier codes is found in
+> >   * `include/uapi/drm/drm_fourcc.h`
+> > + *
+> > + * Open Source User Waiver
+> > + * -----------------------
+> > + *
+> > + * Because this is the authoritative source for pixel formats and modifiers
+> > + * referenced by GL, Vulkan extensions and other standards and hence used both
+> > + * by open source and closed source driver stacks, the usual requirement for an
+> > + * upstream in-kernel or open source userspace user does not apply.
+> > + *
+> > + * To ensure, as much as feasible, compatibility across stacks and avoid
+> > + * confusion with incompatible enumerations stakeholders for all relevant driver
+> > + * stacks should approve additions.
+> >   */
+> >
+> >  #define fourcc_code(a, b, c, d) ((__u32)(a) | ((__u32)(b) << 8) | \
+> > --
+> > 2.37.2
+> >
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
