@@ -2,46 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6A3363F174
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 14:21:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A12D63F1C2
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 14:36:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D49D910E5DD;
-	Thu,  1 Dec 2022 13:21:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5D3C10E5E3;
+	Thu,  1 Dec 2022 13:36:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3616710E5DD
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 13:21:15 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5F8B86200F;
- Thu,  1 Dec 2022 13:21:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE4E5C433D6;
- Thu,  1 Dec 2022 13:21:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1669900874;
- bh=3Q0nqM/0El/JdGglB4N55DCT/z+HmXOFsWcr+k7N5A0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=1vjc336rGPJFMCRw/GbQPdyQ9hBEG3PR+0ADeDQQOXNPyUxXjMyJV9cIQMAjNok45
- +1LsfQAdo3RwXXqHE9lnN6gKfTqeVUN6PFGQi5YFKJfyKU7dHo02Y/3ObEvw7AT2A+
- LGLMGXyNoHQpwQw61HZ0HgdiMSc3Vm5j5DLSLH7M=
-Date: Thu, 1 Dec 2022 14:21:11 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
-Subject: Re: [PATCH v2 0/6] drm/gud: Use the shadow plane helper
-Message-ID: <Y4iqR94aGFa3NahQ@kroah.com>
-References: <20221122-gud-shadow-plane-v2-0-435037990a83@tronnes.org>
- <Y4hB5odv9IGaq3Di@kroah.com>
- <1cb40762-5f0a-1739-1670-155f59ec7110@tronnes.org>
- <Y4iaODY6hMVNsfP1@kroah.com>
- <4e75582c-b3d6-fb0e-19b4-e4fd58c6bf55@tronnes.org>
+X-Greylist: delayed 424 seconds by postgrey-1.36 at gabe;
+ Thu, 01 Dec 2022 13:36:27 UTC
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
+ [68.232.154.123])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF61610E5E3
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 13:36:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+ t=1669901787; x=1701437787;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=uzYyfpe5ovcmHtziruShrAihFDRO3ojyXNM6UnYgYzM=;
+ b=EZwV+ahF73ZkA508WO0T629QX+ZNvCmSr9Vtl+JZyAf1hU291bJ5+ooF
+ toratOF24b1YKyJHOcilpqRgGZtUiWjLd/5BlhWTjcKDAWQXI3zAEMENd
+ sPO4iJbW0CkeEuvGL+O9Eoi9wY1XN4GKOiPDluFoIA3NJ9L8AX0E0zzme
+ UXzaKiXzHl7stoywDJ1q7fJ4UqO3SZn2KzKX4n0D0S4Lz0GXdNEWfbCOq
+ gDJx63kS/efgAIEH5SIuxo5Y0Jbz5PJ+kOma+QPJdsKPPDuY8EN2sfW1E
+ EKRkPFVLhyZiNBpc7+OOJ2094lB33+Q4ydhgTosvJs5oAaylaVDLYwVG4 Q==;
+X-IronPort-AV: E=Sophos;i="5.96,209,1665471600"; d="scan'208";a="125998122"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+ by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256;
+ 01 Dec 2022 06:29:21 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.12; Thu, 1 Dec 2022 06:29:09 -0700
+Received: from wendy (10.10.115.15) by chn-vm-ex01.mchp-main.com
+ (10.10.85.143) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12 via Frontend
+ Transport; Thu, 1 Dec 2022 06:29:01 -0700
+Date: Thu, 1 Dec 2022 13:28:42 +0000
+From: Conor Dooley <conor.dooley@microchip.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH v2 00/11] pwm: Allow .get_state to fail
+Message-ID: <Y4isCnKP9pTacksl@wendy>
+References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
+ <Y4iL9xf5bJM5pyeR@wendy>
+ <20221201131907.bmrenldnua7uaeab@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <4e75582c-b3d6-fb0e-19b4-e4fd58c6bf55@tronnes.org>
+In-Reply-To: <20221201131907.bmrenldnua7uaeab@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,85 +64,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, tools@linux.kernel.org
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Satya Priya <quic_c_skakit@quicinc.com>, Pavel Machek <pavel@ucw.cz>,
+ Guenter Roeck <groeck@chromium.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-leds@vger.kernel.org,
+ Jerome Brunet <jbrunet@baylibre.com>, chrome-platform@lists.linux.dev,
+ Florian Fainelli <f.fainelli@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ Sean Anderson <sean.anderson@seco.com>, Kevin Hilman <khilman@baylibre.com>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Michal Simek <michal.simek@xilinx.com>,
+ linux-riscv@lists.infradead.org, Hammer Hsieh <hammerh0314@gmail.com>,
+ linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
+ Matthias Kaehlcke <mka@chromium.org>, Broadcom internal
+ kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
+ linux-sunxi@lists.linux.dev, linux-pwm@vger.kernel.org,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Ray Jui <rjui@broadcom.com>, Sascha
+ Hauer <s.hauer@pengutronix.de>, Steven Rostedt <rostedt@goodmis.org>,
+ Stephen Boyd <swboyd@chromium.org>, linux-gpio@vger.kernel.org,
+ Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+ linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, Scott Branden <sbranden@broadcom.com>,
+ Bjorn Andersson <andersson@kernel.org>, Douglas
+ Anderson <dianders@chromium.org>, Michael
+ Walle <michael@walle.cc>, Palmer Dabbelt <palmer@dabbelt.com>, Masami
+ Hiramatsu <mhiramat@kernel.org>, Pengutronix
+ Kernel Team <kernel@pengutronix.de>, Chunyan Zhang <zhang.lyra@gmail.com>,
+ Shawn Guo <shawnguo@kernel.org>, Claudiu Beznea <claudiu.beznea@microchip.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 01, 2022 at 02:14:42PM +0100, Noralf Trønnes wrote:
+On Thu, Dec 01, 2022 at 02:19:07PM +0100, Uwe Kleine-König wrote:
+> Hello Conor,
 > 
+> On Thu, Dec 01, 2022 at 11:11:51AM +0000, Conor Dooley wrote:
+> > TL;DR, I quite like the ability to return an error and not mislead the
+> > caller.
 > 
-> Den 01.12.2022 13.12, skrev Greg KH:
-> > On Thu, Dec 01, 2022 at 11:00:44AM +0100, Noralf Trønnes wrote:
-> >>
-> >>
-> >> Den 01.12.2022 06.55, skrev Greg KH:
-> >>> On Wed, Nov 30, 2022 at 08:26:48PM +0100, Noralf Trønnes via B4 Submission Endpoint wrote:
-> >>>> Hi,
-> >>>>
-> >>>> I have started to look at igt for testing and want to use CRC tests. To
-> >>>> implement support for this I need to move away from the simple kms
-> >>>> helper.
-> >>>>
-> >>>> When looking around for examples I came across Thomas' nice shadow
-> >>>> helper and thought, yes this is perfect for drm/gud. So I'll switch to
-> >>>> that before I move away from the simple kms helper.
-> >>>>
-> >>>> The async framebuffer flushing code path now uses a shadow buffer and
-> >>>> doesn't touch the framebuffer when it shouldn't. I have also taken the
-> >>>> opportunity to inline the synchronous flush code path and make this the
-> >>>> default flushing stategy.
-> >>>>
-> >>>> Noralf.
-> >>>>
-> >>>> Cc: Maxime Ripard <mripard@kernel.org>
-> >>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> >>>> Cc: dri-devel@lists.freedesktop.org
-> >>>> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
-> >>>>
-> >>>> ---
-> >>>> Changes in v2:
-> >>>> - Drop patch (Thomas):
-> >>>>   drm/gem: shadow_fb_access: Prepare imported buffers for CPU access
-> >>>> - Use src as variable name for iosys_map (Thomas)
-> >>>> - Prepare imported buffer for CPU access in the driver (Thomas)
-> >>>> - New patch: make sync flushing the default (Thomas)
-> >>>> - Link to v1: https://lore.kernel.org/r/20221122-gud-shadow-plane-v1-0-9de3afa3383e@tronnes.org
-> >>>
-> >>> <formletter>
-> >>>
-> >>> This is not the correct way to submit patches for inclusion in the
-> >>> stable kernel tree.  Please read:
-> >>>     https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
-> >>> for how to do this properly.
-> >>>
-> >>> </formletter>
-> >>
-> >> Care to elaborate?
-> >> Is it because stable got the whole patchset and not just the one fix
-> >> patch that cc'ed stable?
-> > 
-> > That is what triggered this, yes.
-> > 
-> >> This patchset was sent using the b4 tool and I can't control this
-> >> aspect. Everyone mentioned in the patches gets the whole set.
-> > 
-> > Fair enough, but watch out, bots will report this as being a problem as
-> > they can't always read through all patches in a series to notice this...
-> > 
-> 
-> Konstantin,
-> 
-> Can you add a rule in b4 to exclude stable@vger.kernel.org
-> (stable@kernel.org as well?) from getting the whole patchset?
+> Is this an Ack?
 
-stable@kernel.org is a pipe to /dev/null so that's not needed to be
-messed with.
+It is if you want it to be! I didn't really feel qualified to do so
+which is why I gave some context etc.
 
-As for this needing special casing in b4, it's rare that you send out a
-patch series and only want 1 or 2 of them in stable, right?
+I did check out the callsites for the non-void returning op, and it
+looked good to me, so sure, why not:
 
-thanks,
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-greg k-h
+Thanks,
+Conor.
+
