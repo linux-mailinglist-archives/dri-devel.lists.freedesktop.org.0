@@ -1,27 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5D0963F4BF
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 17:06:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BB8563F4C5
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 17:06:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A7FD10E643;
-	Thu,  1 Dec 2022 16:06:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 645A010E648;
+	Thu,  1 Dec 2022 16:06:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from srv01.abscue.de (abscue.de [89.58.28.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F9CA10E643
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 16:05:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF6A410E647
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 16:06:49 +0000 (UTC)
 Received: from srv01.abscue.de (localhost [127.0.0.1])
- by spamfilter.srv.local (Postfix) with ESMTP id 2E2591C004C;
- Thu,  1 Dec 2022 17:05:56 +0100 (CET)
+ by spamfilter.srv.local (Postfix) with ESMTP id 8F9CA1C004C;
+ Thu,  1 Dec 2022 17:06:48 +0100 (CET)
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on srv01.abscue.de
 X-Spam-Level: 
 X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED autolearn=ham
  autolearn_force=no version=3.4.6
 Received: from srv01.abscue.de (abscue.de [89.58.28.240])
- by srv01.abscue.de (Postfix) with ESMTPSA id 199441C004B;
- Thu,  1 Dec 2022 17:05:56 +0100 (CET)
+ by srv01.abscue.de (Postfix) with ESMTPSA id 7FFB21C004B;
+ Thu,  1 Dec 2022 17:06:48 +0100 (CET)
 From: =?UTF-8?q?Otto=20Pfl=C3=BCger?= <otto.pflueger@abscue.de>
 To: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
  Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
@@ -32,9 +32,9 @@ To: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/3] drm/mipi-dbi: Support separate I/O regulator
-Date: Thu,  1 Dec 2022 17:02:43 +0100
-Message-Id: <20221201160245.2093816-2-otto.pflueger@abscue.de>
+Subject: [PATCH v2 2/3] drm/tiny: panel-mipi-dbi: Read I/O supply from DT
+Date: Thu,  1 Dec 2022 17:02:44 +0100
+Message-Id: <20221201160245.2093816-3-otto.pflueger@abscue.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221201160245.2093816-1-otto.pflueger@abscue.de>
 References: <20221201160245.2093816-1-otto.pflueger@abscue.de>
@@ -57,78 +57,31 @@ Cc: =?UTF-8?q?Otto=20Pfl=C3=BCger?= <otto.pflueger@abscue.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The MIPI DBI specification defines separate vdd (panel power) and
-vddi (I/O voltage) supplies. Displays that require different voltages
-for the different supplies do exist, so the supplies cannot be
-combined into one as they are now. Add a new io_regulator property to
-the mipi_dbi_dev struct which can be set by the panel driver along
-with the regulator property.
+To support platforms with a separate I/O voltage supply, set the new
+io_regulator property along with the regulator property of the DBI
+device. Read the I/O supply from a new "io-supply" device tree
+property.
 
 Signed-off-by: Otto Pflüger <otto.pflueger@abscue.de>
 ---
- drivers/gpu/drm/drm_mipi_dbi.c | 14 ++++++++++++++
- include/drm/drm_mipi_dbi.h     |  7 ++++++-
- 2 files changed, 20 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/tiny/panel-mipi-dbi.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
-index a6ac56580876..047cab93a041 100644
---- a/drivers/gpu/drm/drm_mipi_dbi.c
-+++ b/drivers/gpu/drm/drm_mipi_dbi.c
-@@ -427,6 +427,8 @@ void mipi_dbi_pipe_disable(struct drm_simple_display_pipe *pipe)
+diff --git a/drivers/gpu/drm/tiny/panel-mipi-dbi.c b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
+index 955a61d628e7..353356ee0397 100644
+--- a/drivers/gpu/drm/tiny/panel-mipi-dbi.c
++++ b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
+@@ -297,6 +297,11 @@ static int panel_mipi_dbi_spi_probe(struct spi_device *spi)
+ 		return dev_err_probe(dev, PTR_ERR(dbidev->regulator),
+ 				     "Failed to get regulator 'power'\n");
  
- 	if (dbidev->regulator)
- 		regulator_disable(dbidev->regulator);
-+	if (dbidev->io_regulator)
-+		regulator_disable(dbidev->io_regulator);
- }
- EXPORT_SYMBOL(mipi_dbi_pipe_disable);
- 
-@@ -652,6 +654,16 @@ static int mipi_dbi_poweron_reset_conditional(struct mipi_dbi_dev *dbidev, bool
- 		}
- 	}
- 
-+	if (dbidev->io_regulator) {
-+		ret = regulator_enable(dbidev->io_regulator);
-+		if (ret) {
-+			DRM_DEV_ERROR(dev, "Failed to enable I/O regulator (%d)\n", ret);
-+			if (dbidev->regulator)
-+				regulator_disable(dbidev->regulator);
-+			return ret;
-+		}
-+	}
++	dbidev->io_regulator = devm_regulator_get(dev, "io");
++	if (IS_ERR(dbidev->io_regulator))
++		return dev_err_probe(dev, PTR_ERR(dbidev->io_regulator),
++				     "Failed to get regulator 'io'\n");
 +
- 	if (cond && mipi_dbi_display_is_on(dbi))
- 		return 1;
- 
-@@ -661,6 +673,8 @@ static int mipi_dbi_poweron_reset_conditional(struct mipi_dbi_dev *dbidev, bool
- 		DRM_DEV_ERROR(dev, "Failed to send reset command (%d)\n", ret);
- 		if (dbidev->regulator)
- 			regulator_disable(dbidev->regulator);
-+		if (dbidev->io_regulator)
-+			regulator_disable(dbidev->io_regulator);
- 		return ret;
- 	}
- 
-diff --git a/include/drm/drm_mipi_dbi.h b/include/drm/drm_mipi_dbi.h
-index 14eaecb1825c..e4efbd8ffc9d 100644
---- a/include/drm/drm_mipi_dbi.h
-+++ b/include/drm/drm_mipi_dbi.h
-@@ -122,10 +122,15 @@ struct mipi_dbi_dev {
- 	struct backlight_device *backlight;
- 
- 	/**
--	 * @regulator: power regulator (optional)
-+	 * @regulator: power regulator (Vdd) (optional)
- 	 */
- 	struct regulator *regulator;
- 
-+	/**
-+	 * @io_regulator: I/O power regulator (Vddi) (optional)
-+	 */
-+	struct regulator *io_regulator;
-+
- 	/**
- 	 * @dbi: MIPI DBI interface
- 	 */
+ 	dbidev->backlight = devm_of_find_backlight(dev);
+ 	if (IS_ERR(dbidev->backlight))
+ 		return dev_err_probe(dev, PTR_ERR(dbidev->backlight), "Failed to get backlight\n");
 -- 
 2.30.2
