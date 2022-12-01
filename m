@@ -2,55 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBA7563ED90
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 11:22:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19D1463ED98
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 11:23:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF2E010E5A8;
-	Thu,  1 Dec 2022 10:22:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECC1910E5AB;
+	Thu,  1 Dec 2022 10:23:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
- [IPv6:2607:f8b0:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9EF910E5A8
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 10:22:09 +0000 (UTC)
-Received: by mail-pl1-x62d.google.com with SMTP id jl24so1204872plb.8
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Dec 2022 02:22:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=OI/9P086FlFXQcoskOlRhWzBPG93qoSMuWBLNBVt0Hk=;
- b=cz9Hvi/VslbiMd/9z6zO4e0a4+rsirsX9HCh5pxa8+Xo4jv6YBwtJT6Rd8Me12rv1e
- nDrzLl0tZBC/dbj13zqAXFEN9lDOneqOMdXP4vtV+WiiQwgQCaPBpCno+tK9D1hjc++h
- aBrGTznx5/m92CxTJwUOOhex+y8hBh+2NTk9E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=OI/9P086FlFXQcoskOlRhWzBPG93qoSMuWBLNBVt0Hk=;
- b=iW0Cvy0KHuyYCFWyHzMOGXGEhqDD84yLQXbgMsChGc8c71ch32GLgxBaUKryfOjLwd
- mjzhgj2RJMPFYM+l5K1IjwqlZfFj64ENKWVBMV9SIJq9wrX7Q2CNHIN+jr09JrJoeQtS
- XUYLw5aFXxiq1oaYF44ZcT2nVV5uP1g71f3ES55Yxb3puIRS1dWuBObJ4M+6ayf60qyj
- 5SOevujdnRXUI1KEYCqOIIWKWom3+A2jgvtvgHUs5ZiUeeJPHyitvvYbPIFEbv15vIxi
- xf5Bv2FG9uDHbfRDPWqGIUq2XuA6Vl+g0xoRs2/uQ1wAeKDhzHHK29y5jGapoWA2ETAd
- mLmg==
-X-Gm-Message-State: ANoB5plQzjpjqeBWIBhLqTytwmKhhZH1k9d8I63+PlME9xHs4FvAoLZv
- +AVnm77wvz0MDtm51yg52I78o9u/W+TgOSz2gNENXBEXR6Q3rA==
-X-Google-Smtp-Source: AA0mqf6YUtzgO550Zg5+/tlaD0TlIZmPxWDgJACym4Qo/sP1IbLAZz9v/H9HeW6CGuB9pBJaJk7HzmYOnyPBbTQpH0I=
-X-Received: by 2002:a17:902:d192:b0:189:8867:9bd4 with SMTP id
- m18-20020a170902d19200b0018988679bd4mr21126303plb.68.1669890129088; Thu, 01
- Dec 2022 02:22:09 -0800 (PST)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3393E10E5AB
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 10:23:03 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 175C1D6E;
+ Thu,  1 Dec 2022 02:23:09 -0800 (PST)
+Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D4DF93F67D;
+ Thu,  1 Dec 2022 02:22:55 -0800 (PST)
+Date: Thu, 1 Dec 2022 10:22:52 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH v2 01/11] pwm: Make .get_state() callback return an
+ error code
+Message-ID: <20221201102252.52ace284@donnerap.cambridge.arm.com>
+In-Reply-To: <20221130152148.2769768-2-u.kleine-koenig@pengutronix.de>
+References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
+ <20221130152148.2769768-2-u.kleine-koenig@pengutronix.de>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 MIME-Version: 1.0
-References: <20221123192437.1065826-1-daniel.vetter@ffwll.ch>
- <Y4h85n6krZ3CVkQp@phenom.ffwll.local>
-In-Reply-To: <Y4h85n6krZ3CVkQp@phenom.ffwll.local>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Thu, 1 Dec 2022 11:21:57 +0100
-Message-ID: <CAKMK7uErF0THyGHcke=AizGhJkaoQpN6PzjykbFFCX6eJ6DoJQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/fourcc: Document open source user waiver
-To: DRI Development <dri-devel@lists.freedesktop.org>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,83 +45,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Trevett <ntrevett@nvidia.com>, Jason Ekstrand <jason@jlekstrand.net>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
+ Conor Dooley <conor.dooley@microchip.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Satya Priya <quic_c_skakit@quicinc.com>, Pavel Machek <pavel@ucw.cz>,
+ Guenter Roeck <groeck@chromium.org>,
+ Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+ linux-riscv@lists.infradead.org, linux-leds@vger.kernel.org,
+ Jerome Brunet <jbrunet@baylibre.com>, chrome-platform@lists.linux.dev,
+ Florian Fainelli <f.fainelli@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ Sean Anderson <sean.anderson@seco.com>, Kevin Hilman <khilman@baylibre.com>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Michal Simek <michal.simek@xilinx.com>,
+ linux-stm32@st-md-mailman.stormreply.com, Hammer Hsieh <hammerh0314@gmail.com>,
+ linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
+ Matthias Kaehlcke <mka@chromium.org>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
+ linux-sunxi@lists.linux.dev, linux-pwm@vger.kernel.org,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Ray Jui <rjui@broadcom.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Stephen Boyd <swboyd@chromium.org>, linux-gpio@vger.kernel.org,
+ Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+ linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, Scott Branden <sbranden@broadcom.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, Michael Walle <michael@walle.cc>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 1 Dec 2022 at 11:07, Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Wed, Nov 23, 2022 at 08:24:37PM +0100, Daniel Vetter wrote:
-> > It's a bit a FAQ, and we really can't claim to be the authoritative
-> > source for allocating these numbers used in many standard extensions
-> > if we tell closed source or vendor stacks in general to go away.
-> >
-> > Iirc this was already clarified in some vulkan discussions, but I
-> > can't find that anywhere anymore. At least not in a public link.
-> >
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: David Airlie <airlied@gmail.com>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: Alex Deucher <alexdeucher@gmail.com>
-> > Cc: Daniel Stone <daniel@fooishbar.org>
-> > Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-> > Cc: Jason Ekstrand <jason@jlekstrand.net>
-> > Cc: Neil Trevett <ntrevett@nvidia.com>
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
->
-> From irc:
->
-> <airlied> danvet: ack from me
+On Wed, 30 Nov 2022 16:21:38 +0100
+Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de> wrote:
 
-Also from irc:
+Hi,
 
-<mareko> danvet: Acked
+> .get_state() might fail in some cases. To make it possible that a driver
+> signals such a failure change the prototype of .get_state() to return an
+> error code.
+>=20
+> This patch was created using coccinelle and the following semantic patch:
+>=20
+> @p1@
+> identifier getstatefunc;
+> identifier driver;
+> @@
+>  struct pwm_ops driver =3D {
+>         ...,
+>         .get_state =3D getstatefunc
+>         ,...
+>  };
+>=20
+> @p2@
+> identifier p1.getstatefunc;
+> identifier chip, pwm, state;
+> @@
+> -void
+> +int
+>  getstatefunc(struct pwm_chip *chip, struct pwm_device *pwm, struct pwm_s=
+tate *state)
+>  {
+>    ...
+> -  return;
+> +  return 0;
+>    ...
+>  }
+>=20
+> plus the actual change of the prototype in include/linux/pwm.h (plus some
+> manual fixing of indentions and empty lines).
+>=20
+> So for now all drivers return success unconditionally. They are adapted
+> in the following patches to make the changes easier reviewable.
+>=20
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> ---
+>  drivers/gpio/gpio-mvebu.c             |  9 ++++++---
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 14 ++++++++------
+>  drivers/leds/rgb/leds-qcom-lpg.c      | 14 ++++++++------
+>  drivers/pwm/pwm-atmel.c               |  6 ++++--
+>  drivers/pwm/pwm-bcm-iproc.c           |  8 +++++---
+>  drivers/pwm/pwm-crc.c                 | 10 ++++++----
+>  drivers/pwm/pwm-cros-ec.c             |  8 +++++---
+>  drivers/pwm/pwm-dwc.c                 |  6 ++++--
+>  drivers/pwm/pwm-hibvt.c               |  6 ++++--
+>  drivers/pwm/pwm-imx-tpm.c             |  8 +++++---
+>  drivers/pwm/pwm-imx27.c               |  8 +++++---
+>  drivers/pwm/pwm-intel-lgm.c           |  6 ++++--
+>  drivers/pwm/pwm-iqs620a.c             |  6 ++++--
+>  drivers/pwm/pwm-keembay.c             |  6 ++++--
+>  drivers/pwm/pwm-lpss.c                |  6 ++++--
+>  drivers/pwm/pwm-meson.c               |  8 +++++---
+>  drivers/pwm/pwm-mtk-disp.c            | 12 +++++++-----
+>  drivers/pwm/pwm-pca9685.c             |  8 +++++---
+>  drivers/pwm/pwm-raspberrypi-poe.c     |  8 +++++---
+>  drivers/pwm/pwm-rockchip.c            | 12 +++++++-----
+>  drivers/pwm/pwm-sifive.c              |  6 ++++--
+>  drivers/pwm/pwm-sl28cpld.c            |  8 +++++---
+>  drivers/pwm/pwm-sprd.c                |  8 +++++---
+>  drivers/pwm/pwm-stm32-lp.c            |  8 +++++---
+>  drivers/pwm/pwm-sun4i.c               | 12 +++++++-----
+>  drivers/pwm/pwm-sunplus.c             |  6 ++++--
+>  drivers/pwm/pwm-visconti.c            |  6 ++++--
+>  drivers/pwm/pwm-xilinx.c              |  8 +++++---
+>  include/linux/pwm.h                   |  4 ++--
+>  29 files changed, 146 insertions(+), 89 deletions(-)
+>=20
 
--Daniel
+[ ... ]
+> diff --git a/drivers/pwm/pwm-sun4i.c b/drivers/pwm/pwm-sun4i.c
+> index c8445b0a3339..37d75e252d4e 100644
+> --- a/drivers/pwm/pwm-sun4i.c
+> +++ b/drivers/pwm/pwm-sun4i.c
+> @@ -108,9 +108,9 @@ static inline void sun4i_pwm_writel(struct sun4i_pwm_=
+chip *chip,
+>  	writel(val, chip->base + offset);
+>  }
+> =20
+> -static void sun4i_pwm_get_state(struct pwm_chip *chip,
+> -				struct pwm_device *pwm,
+> -				struct pwm_state *state)
+> +static int sun4i_pwm_get_state(struct pwm_chip *chip,
+> +			       struct pwm_device *pwm,
+> +			       struct pwm_state *state)
+>  {
+>  	struct sun4i_pwm_chip *sun4i_pwm =3D to_sun4i_pwm_chip(chip);
+>  	u64 clk_rate, tmp;
+> @@ -132,7 +132,7 @@ static void sun4i_pwm_get_state(struct pwm_chip *chip,
+>  		state->duty_cycle =3D DIV_ROUND_UP_ULL(state->period, 2);
+>  		state->polarity =3D PWM_POLARITY_NORMAL;
+>  		state->enabled =3D true;
+> -		return;
+> +		return 0;
+>  	}
+> =20
+>  	if ((PWM_REG_PRESCAL(val, pwm->hwpwm) =3D=3D PWM_PRESCAL_MASK) &&
+> @@ -142,7 +142,7 @@ static void sun4i_pwm_get_state(struct pwm_chip *chip,
+>  		prescaler =3D prescaler_table[PWM_REG_PRESCAL(val, pwm->hwpwm)];
+> =20
+>  	if (prescaler =3D=3D 0)
+> -		return;
+> +		return 0;
+> =20
+>  	if (val & BIT_CH(PWM_ACT_STATE, pwm->hwpwm))
+>  		state->polarity =3D PWM_POLARITY_NORMAL;
+> @@ -162,6 +162,8 @@ static void sun4i_pwm_get_state(struct pwm_chip *chip,
+> =20
+>  	tmp =3D (u64)prescaler * NSEC_PER_SEC * PWM_REG_PRD(val);
+>  	state->period =3D DIV_ROUND_CLOSEST_ULL(tmp, clk_rate);
+> +
+> +	return 0;
+>  }
+> =20
+>  static int sun4i_pwm_calculate(struct sun4i_pwm_chip *sun4i_pwm,
 
-> > ---
-> >  include/uapi/drm/drm_fourcc.h | 12 ++++++++++++
-> >  1 file changed, 12 insertions(+)
-> >
-> > diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-> > index bc056f2d537d..de703c6be969 100644
-> > --- a/include/uapi/drm/drm_fourcc.h
-> > +++ b/include/uapi/drm/drm_fourcc.h
-> > @@ -88,6 +88,18 @@ extern "C" {
-> >   *
-> >   * The authoritative list of format modifier codes is found in
-> >   * `include/uapi/drm/drm_fourcc.h`
-> > + *
-> > + * Open Source User Waiver
-> > + * -----------------------
-> > + *
-> > + * Because this is the authoritative source for pixel formats and modifiers
-> > + * referenced by GL, Vulkan extensions and other standards and hence used both
-> > + * by open source and closed source driver stacks, the usual requirement for an
-> > + * upstream in-kernel or open source userspace user does not apply.
-> > + *
-> > + * To ensure, as much as feasible, compatibility across stacks and avoid
-> > + * confusion with incompatible enumerations stakeholders for all relevant driver
-> > + * stacks should approve additions.
-> >   */
-> >
-> >  #define fourcc_code(a, b, c, d) ((__u32)(a) | ((__u32)(b) << 8) | \
-> > --
-> > 2.37.2
-> >
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+For sunxi:
+
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Just one comment: I don't see a sunxi specific patch later in the series,
+though it seems we have at least one error error exit (see prescaler =3D=3D=
+ 0
+above). Plus potentially another exit if clk_get_rate() (at the very
+beginning) fails.
+Shall I send a patch for that?
+
+Cheers,
+Andre.
 
 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
