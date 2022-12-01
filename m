@@ -2,36 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABE6664050D
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Dec 2022 11:48:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E394640514
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Dec 2022 11:48:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C218010E195;
-	Fri,  2 Dec 2022 10:48:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E08FE10E6C8;
+	Fri,  2 Dec 2022 10:48:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEEE310E586
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 09:06:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78E3010E012
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 09:26:28 +0000 (UTC)
 Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi
  [91.154.32.225])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id ED43B33F;
- Thu,  1 Dec 2022 10:06:51 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 318D22D9;
+ Thu,  1 Dec 2022 10:26:26 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1669885612;
- bh=ND7XGuKlUkPBHeU5Bp0ctgaJsNefKn67OU0NpJ8J3JA=;
+ s=mail; t=1669886787;
+ bh=xt+nYBG9p2F7Ov7TXjZkZafslLalNsVFj5Rxf5PFRAA=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=pwHcQVuCQf27Lg+oqOF9F3quGy4Gc2wMv385LqQ7RhEHRD3DbmsGHjHg/McZSh0vS
- uv6mDgZUkwkVrlsmmdp0NpHybsU95O2w7YMCZIVzoXtoB7sxZF70v6arYNoY8oO++G
- 2gZr5UF8lbu+ikaZ4hTd+g3xc589sDlUgYSy1sJE=
-Message-ID: <cb85e1f4-2292-19d4-2b7e-f16c1b43d29f@ideasonboard.com>
-Date: Thu, 1 Dec 2022 11:06:48 +0200
+ b=hmgrznQNc+PJ5JstFF7M7yPl/IOGPw19T3IfwFXPzGYcdWYn3PwF07QFofkeYOOgA
+ CROgul+H8b2jnVWm2HsAMVn76gytOVSjYN+AxlDF0oZUQYZnVsepUzbBy5ChjzGJtK
+ /msJnOvdo2z/xw5LugwihELPWCFboauYcceHxXQ8=
+Message-ID: <5598c7f8-b47e-338d-e2e3-f62a44903634@ideasonboard.com>
+Date: Thu, 1 Dec 2022 11:26:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
 Subject: Re: [PATCH v2 3/7] clk: renesas: r8a779g0: Add display related clocks
 Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 References: <20221123065946.40415-1-tomi.valkeinen+renesas@ideasonboard.com>
  <20221123065946.40415-4-tomi.valkeinen+renesas@ideasonboard.com>
  <CAMuHMdUjCS6q44XmTanu=R68GyuVECLa0B-1AFg1CUD_oV4DuA@mail.gmail.com>
@@ -55,18 +56,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <robert.foss@linaro.org>, dri-devel@lists.freedesktop.org,
- Jonas Karlman <jonas@kwiboo.se>, Magnus Damm <magnus.damm@gmail.com>,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- linux-renesas-soc@vger.kernel.org,
+ Neil Armstrong <neil.armstrong@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Robert Foss <robert.foss@linaro.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Geert, Laurent,
 
 On 30/11/2022 21:18, Geert Uytterhoeven wrote:
 > Hi Tomi,
@@ -102,10 +102,6 @@ On 30/11/2022 21:18, Geert Uytterhoeven wrote:
 >> +
 > 
 > Weird horizontal and vertical spacing below...
-
-Yep. I added those to keep the lines more visible for me while working 
-on this, but forgot to remove.
-
 > 
 >> +       DEF_MOD("dis0",                 411,    R8A779G0_CLK_S0D3),
 > 
@@ -113,52 +109,42 @@ on this, but forgot to remove.
 > Based on Table 8.1.4e ("Lists of CPG clocks generated from PLL5"),
 > this should be one of the VIOBUS clocks.
 > VIOBUSD2 has the same rate as S0D3, so I'd use that one.
-
-I'm pretty clueless about Renesas clocks, and I can't find a nice 
-clock-tree picture from the docs, but looking at the table, what you say 
-makes sense.
-
-Both VIOBUS and VIOBUSD2 are marked to go to the video IPs, but with a 
-bit of browsing, I can't find any more info about the clocking. Afaik, 
-we don't care about the dis0 rate in the driver, so... Basically any 
-clock will work here =). I'll pick VIOBUSD2 as you suggest (why would 
-there be a /2 clock if it's not used...).
-
+> 
 >> +       DEF_MOD("dsitxlink0",           415,    R8A779G0_CLK_DSIREF),
 >> +       DEF_MOD("dsitxlink1",           416,    R8A779G0_CLK_DSIREF),
->> +
->> +       DEF_MOD("fcpvd0",               508,    R8A779G0_CLK_S0D3),
->> +       DEF_MOD("fcpvd1",               509,    R8A779G0_CLK_S0D3),
-> 
-> Likewise.
 
-Ack.
+Now that you started questioning about the clocks, I started to wonder 
+about the DSI clocks. They don't quite make sense to me, but here also I 
+just assumed it's "fine" as I copied it and it works.
 
->> +
->>          DEF_MOD("hscif0",       514,    R8A779G0_CLK_SASYNCPERD1),
->>          DEF_MOD("hscif1",       515,    R8A779G0_CLK_SASYNCPERD1),
->>          DEF_MOD("hscif2",       516,    R8A779G0_CLK_SASYNCPERD1),
->> @@ -193,6 +203,10 @@ static const struct mssr_mod_clk r8a779g0_mod_clks[] __initconst = {
->>          DEF_MOD("tmu3",         716,    R8A779G0_CLK_SASYNCPERD2),
->>          DEF_MOD("tmu4",         717,    R8A779G0_CLK_SASYNCPERD2),
->>          DEF_MOD("tpu0",         718,    R8A779G0_CLK_SASYNCPERD4),
->> +
->> +       DEF_MOD("vspd0",                830,    R8A779G0_CLK_S0D1_VIO),
->> +       DEF_MOD("vspd1",                831,    R8A779G0_CLK_S0D1_VIO),
-> 
-> While S0D1_VIO is a VIO clock, it is clocked from PLL1, which supports
-> spread-spectrum, unlike PLL5.
-> Again, based on Table 8.1.4e ("Lists of CPG clocks generated from
-> PLL5"), this should be one of the VIOBUS clocks.
+The VIOBUS & VIOBUSD2 are marked to as going to the DSI. But we don't 
+actually mark any of the DSI clocks as coming from those sources.
 
-Yep.
+DSIREF is quite clear, it's the source for DSI PLL.
 
-> Not that all of this matters a lot: all of these parents are always-on,
-> and I think "dis0" is the only clock where we care about the actual
-> clock rate?
-No, of the clocks added above, in the drivers we only care about the 
-dsiref rate. That's used for the DSI PLL, and that PLL is used as the 
-DU's pclk.
+DSIEXT goes to the DSI PHY and is also marked to be used for LP-TX.
+
+In the DT we have now:
+
+clocks = <&cpg CPG_MOD 415>,
+	 <&cpg CPG_CORE R8A779G0_CLK_DSIEXT>,
+	 <&cpg CPG_CORE R8A779G0_CLK_DSIREF>;
+clock-names = "fck", "dsi", "pll";
+
+The "dsi" clock name is a bit vague, but maybe it's "not fclk, not pll, 
+but still needed for dsi"? =)
+
+Is it ok to refer to DSIEXT & DSIREF like that, or should they be in the 
+r8a779g0_mod_clks list? Or is that list for fclks only?
+
+So the fclk in the dts is mod clock 415 (416 for the second dsi), which 
+is dsitxlink0 or dsitxlink1. Well, those names don't quite make sense if 
+it's a fclk.
+
+I would rename those clocks to "dsi0" and "dsi1", and source them from 
+R8A779G0_CLK_VIOBUSD2, similarly to the other video clocks.
+
+Does the above make sense?
 
   Tomi
 
