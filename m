@@ -1,30 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6F3963F662
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 18:44:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C36D763F6C6
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 18:49:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0384610E65C;
-	Thu,  1 Dec 2022 17:43:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A208B10E660;
+	Thu,  1 Dec 2022 17:48:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 225C810E658
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 17:43:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFEE710E65E
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 17:48:50 +0000 (UTC)
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1p0nbE-000057-TP; Thu, 01 Dec 2022 18:43:52 +0100
+ id 1p0nfz-0000lh-9w; Thu, 01 Dec 2022 18:48:47 +0100
 From: Lucas Stach <l.stach@pengutronix.de>
 To: etnaviv@lists.freedesktop.org
-Subject: [PATCH v2 2/2] drm/etnaviv: print MMU exception cause
-Date: Thu,  1 Dec 2022 18:43:51 +0100
-Message-Id: <20221201174351.2731785-2-l.stach@pengutronix.de>
+Subject: [PATCH 1/2] drm/etnaviv: split fence lock
+Date: Thu,  1 Dec 2022 18:48:45 +0100
+Message-Id: <20221201174846.2732578-1-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221201174351.2731785-1-l.stach@pengutronix.de>
-References: <20221201174351.2731785-1-l.stach@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
@@ -49,67 +47,111 @@ Cc: patchwork-lst@pengutronix.de, kernel@pengutronix.de,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
+The fence lock currently protects two distinct things. It protects the fence
+IDR from concurrent inserts and removes and also keeps drm_sched_job_arm and
+drm_sched_entity_push_job in one atomic section to guarantee the fence seqno
+monotonicity. Split the lock into those two functions.
 
-The MMU tells us the fault status. While the raw register value is
-already printed, it's a bit more user friendly to translate the
-fault reasons into human readable format.
-
-Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
 Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 22 +++++++++++++++++++---
- 1 file changed, 19 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c |  4 ++--
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c        |  3 ++-
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h        |  3 ++-
+ drivers/gpu/drm/etnaviv/etnaviv_sched.c      | 11 +++++++----
+ 4 files changed, 13 insertions(+), 8 deletions(-)
 
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+index 1ac916b24891..2337b24b05b0 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+@@ -394,9 +394,9 @@ static void submit_cleanup(struct kref *kref)
+ 
+ 	if (submit->out_fence) {
+ 		/* first remove from IDR, so fence can not be found anymore */
+-		mutex_lock(&submit->gpu->fence_lock);
++		mutex_lock(&submit->gpu->idr_lock);
+ 		idr_remove(&submit->gpu->fence_idr, submit->out_fence_id);
+-		mutex_unlock(&submit->gpu->fence_lock);
++		mutex_unlock(&submit->gpu->idr_lock);
+ 		dma_fence_put(submit->out_fence);
+ 	}
+ 	kfree(submit->pmrs);
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 37018bc55810..f79203b774d9 100644
+index 37018bc55810..30d7c1d8d6c0 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1426,6 +1426,15 @@ static void sync_point_worker(struct work_struct *work)
+@@ -1786,7 +1786,8 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
  
- static void dump_mmu_fault(struct etnaviv_gpu *gpu)
+ 	gpu->dev = &pdev->dev;
+ 	mutex_init(&gpu->lock);
+-	mutex_init(&gpu->fence_lock);
++	mutex_init(&gpu->sched_lock);
++	mutex_init(&gpu->idr_lock);
+ 
+ 	/* Map registers: */
+ 	gpu->mmio = devm_platform_ioremap_resource(pdev, 0);
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+index 85eddd492774..267d8ec97f11 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+@@ -99,6 +99,7 @@ struct etnaviv_gpu {
+ 	struct etnaviv_chip_identity identity;
+ 	enum etnaviv_sec_mode sec_mode;
+ 	struct workqueue_struct *wq;
++	struct mutex sched_lock;
+ 	struct drm_gpu_scheduler sched;
+ 	bool initialized;
+ 	bool fe_running;
+@@ -116,7 +117,7 @@ struct etnaviv_gpu {
+ 	u32 idle_mask;
+ 
+ 	/* Fencing support */
+-	struct mutex fence_lock;
++	struct mutex idr_lock;
+ 	struct idr fence_idr;
+ 	u32 next_fence;
+ 	u32 completed_fence;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+index 72e2553fbc98..27448431a45c 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+@@ -97,21 +97,24 @@ static const struct drm_sched_backend_ops etnaviv_sched_ops = {
+ 
+ int etnaviv_sched_push_job(struct etnaviv_gem_submit *submit)
  {
-+	static const char *fault_reasons[] = {
-+		"slave not present",
-+		"page not present",
-+		"write violation",
-+		"out of bounds",
-+		"read security violation",
-+		"write security violation",
-+	};
-+
- 	u32 status_reg, status;
- 	int i;
++	struct etnaviv_gpu *gpu = submit->gpu;
+ 	int ret = 0;
  
-@@ -1438,18 +1447,25 @@ static void dump_mmu_fault(struct etnaviv_gpu *gpu)
- 	dev_err_ratelimited(gpu->dev, "MMU fault status 0x%08x\n", status);
+ 	/*
+-	 * Hold the fence lock across the whole operation to avoid jobs being
++	 * Hold the sched lock across the whole operation to avoid jobs being
+ 	 * pushed out of order with regard to their sched fence seqnos as
+ 	 * allocated in drm_sched_job_arm.
+ 	 */
+-	mutex_lock(&submit->gpu->fence_lock);
++	mutex_lock(&gpu->sched_lock);
  
- 	for (i = 0; i < 4; i++) {
-+		const char *reason = "unknown";
- 		u32 address_reg;
-+		u32 mmu_status;
+ 	drm_sched_job_arm(&submit->sched_job);
  
--		if (!(status & (VIVS_MMUv2_STATUS_EXCEPTION0__MASK << (i * 4))))
-+		mmu_status = (status >> (i * 4)) & VIVS_MMUv2_STATUS_EXCEPTION0__MASK;
-+		if (!mmu_status)
- 			continue;
+ 	submit->out_fence = dma_fence_get(&submit->sched_job.s_fence->finished);
+-	submit->out_fence_id = idr_alloc_cyclic(&submit->gpu->fence_idr,
++	mutex_lock(&gpu->idr_lock);
++	submit->out_fence_id = idr_alloc_cyclic(&gpu->fence_idr,
+ 						submit->out_fence, 0,
+ 						INT_MAX, GFP_KERNEL);
++	mutex_unlock(&gpu->idr_lock);
+ 	if (submit->out_fence_id < 0) {
+ 		drm_sched_job_cleanup(&submit->sched_job);
+ 		ret = -ENOMEM;
+@@ -124,7 +127,7 @@ int etnaviv_sched_push_job(struct etnaviv_gem_submit *submit)
+ 	drm_sched_entity_push_job(&submit->sched_job);
  
-+		if ((mmu_status - 1) < ARRAY_SIZE(fault_reasons))
-+			reason = fault_reasons[mmu_status - 1];
-+
- 		if (gpu->sec_mode == ETNA_SEC_NONE)
- 			address_reg = VIVS_MMUv2_EXCEPTION_ADDR(i);
- 		else
- 			address_reg = VIVS_MMUv2_SEC_EXCEPTION_ADDR;
+ out_unlock:
+-	mutex_unlock(&submit->gpu->fence_lock);
++	mutex_unlock(&gpu->sched_lock);
  
--		dev_err_ratelimited(gpu->dev, "MMU %d fault addr 0x%08x\n", i,
--				    gpu_read(gpu, address_reg));
-+		dev_err_ratelimited(gpu->dev,
-+				    "MMU %d fault (%s) addr 0x%08x\n",
-+				    i, reason, gpu_read(gpu, address_reg));
- 	}
+ 	return ret;
  }
- 
 -- 
 2.30.2
 
