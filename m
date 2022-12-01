@@ -2,73 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6130B63F63B
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 18:36:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAD8063F665
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 18:44:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1CC110E659;
-	Thu,  1 Dec 2022 17:36:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB3AC10E658;
+	Thu,  1 Dec 2022 17:44:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1301710E65A
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 17:36:23 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id z24so2699746ljn.4
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Dec 2022 09:36:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=+IDJJ8iwQKSOrOee0LUttztO1ikmBHL9eZbYNjvPa90=;
- b=CPTun7yXSFFql3odJhnl0fPjTYcZ8kerJP9q4Z21pwC89aNVu0qNrS+acMT7ChawGD
- tCofOMdVuf+0TA7eIZlQQAqH7Ff/DnHR5RAXnXHH8wOsiEvOhupLvbz4sAxhxNUgZM/g
- v/EYQxiYv5hmqyDxK/MOwIOtUkbVzjgG5Z5duPGaZBB2pO3tktv7JQKh8LV7drH2wa96
- tOuGUuOM5igjpV6TxAXOJN4Ylho0uTnxUFg+Bwioylg8+PLuV1Uq8tmEB8s6fyc28Oks
- Tm+b8TziA/VJOPU6C07f8gRHFbFWJgyC0QejSAIlciH6v/1N6w2epoDK4beh+Jo+kKpO
- DLBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+IDJJ8iwQKSOrOee0LUttztO1ikmBHL9eZbYNjvPa90=;
- b=NegWZUnLvCyO9CKapv577RvZDo6iZSALcCTXslV4eSCsa815tq7qbvBfpmDxl2IOVF
- RWO2zMkClg7UOHiTp5xNOrdPPm98QvucmGahXlOxma3DcLfnSpMRKatOzs6wtjwki25J
- 8/MZZll160P1w8xqW4Jk82+8Iset8luywrnKTi3jwRLL2CqOit3YcY6dsCPkSMAoeT+6
- 0wmQ6H1zYVn4XLfHUGBWLMio5OO5mQ1rwK9ab5mqGu/RYVcXO2rV1LSgb3xxJcH591wI
- xF/m59nprGYiQ0r5b2WamSD/4/xgT3MqwQ4hNC3linbrTXC7YITMNOae61M2M3wCxv2L
- iEFA==
-X-Gm-Message-State: ANoB5plldbEqXVtta2qRujxzq/gDlf7rZV3Vgxro+TWg6Ch+aQu7MlnS
- V+gRaaKgaDtRC4UnAtLhfge5Qg==
-X-Google-Smtp-Source: AA0mqf4oCjlx3y5ZA0TAXj6HqUdJYdc4tWeuZdaW4wxvDH0jzSoqOnNb8fLgjpLvWyShJHOJ55hCXA==
-X-Received: by 2002:a2e:a90b:0:b0:277:794:ae09 with SMTP id
- j11-20020a2ea90b000000b002770794ae09mr21149541ljq.286.1669916181166; 
- Thu, 01 Dec 2022 09:36:21 -0800 (PST)
-Received: from [10.10.15.130] ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- d23-20020a194f17000000b0049482adb3basm715458lfb.63.2022.12.01.09.36.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Dec 2022 09:36:20 -0800 (PST)
-Message-ID: <64107527-ff02-6743-cfb2-aedb4241d531@linaro.org>
-Date: Thu, 1 Dec 2022 19:36:20 +0200
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 001D710E06D
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 17:43:55 +0000 (UTC)
+Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1p0nbE-000057-JG; Thu, 01 Dec 2022 18:43:52 +0100
+From: Lucas Stach <l.stach@pengutronix.de>
+To: etnaviv@lists.freedesktop.org
+Subject: [PATCH v2 1/2] drm/etnaviv: update hardware headers from rnndb
+Date: Thu,  1 Dec 2022 18:43:50 +0100
+Message-Id: <20221201174351.2731785-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v6 1/4] arm64: dts: qcom: add data-lanes and
- link-freuencies into dp_out endpoint
-Content-Language: en-GB
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
- robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
- dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@linux.ie,
- agross@kernel.org, bjorn.andersson@linaro.org
-References: <1669852310-22360-1-git-send-email-quic_khsieh@quicinc.com>
- <1669852310-22360-2-git-send-email-quic_khsieh@quicinc.com>
- <7bf73466-e476-4a1d-5dc0-1b63ea742226@linaro.org>
- <edf6735c-9903-a3c1-fb6f-22a76b11604e@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <edf6735c-9903-a3c1-fb6f-22a76b11604e@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,84 +42,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, quic_sbillaka@quicinc.com,
- freedreno@lists.freedesktop.org, quic_abhinavk@quicinc.com,
- linux-kernel@vger.kernel.org
+Cc: patchwork-lst@pengutronix.de, kernel@pengutronix.de,
+ dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/12/2022 19:34, Kuogee Hsieh wrote:
-> 
-> On 11/30/2022 4:07 PM, Dmitry Baryshkov wrote:
->> On 01/12/2022 01:51, Kuogee Hsieh wrote:
->>> Move data-lanes property from mdss_dp node to dp_out endpoint. Also
->>> add link-frequencies property into dp_out endpoint as well. The last
->>> frequency specified at link-frequencies will be the max link rate
->>> supported by DP.
->>>
->>> Changes in v5:
->>> -- revert changes at sc7180.dtsi and sc7280.dtsi
->>> -- add &dp_out to sc7180-trogdor.dtsi and sc7280-herobrine.dtsi
->>>
->>> Changes in v6:
->>> -- add data-lanes and link-frequencies to yaml
->>>
->>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
->>> ---
->>>   .../devicetree/bindings/display/msm/dp-controller.yaml  | 17 
->>> +++++++++++++++++
->>
->> Separate patch. Also you didn't check the get_maintainers output, so 
->> required parties were not included into the distribution.
->>
->> Also as you'd check the get_maintainers output, please fix other email 
->> addresses too.
->>
->>> arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi            |  6 +++++-
->>>   arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi          |  6 +++++-
->>>   3 files changed, 27 insertions(+), 2 deletions(-)
->>>
->>> diff --git 
->>> a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml 
->>> b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
->>> index 94bc6e1..af70343 100644
->>> --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
->>> +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
->>> @@ -90,6 +90,20 @@ properties:
->>>           $ref: /schemas/graph.yaml#/properties/port
->>>           description: Output endpoint of the controller
->>>   +        properties:
->>> +          endpoint:
->>> +            $ref: /schemas/media/video-interfaces.yaml#
->>> +
->>> +          properties:
->>> +            link-frequencies: true
->>> +            data-lanes: true
->>
->> No. Use $ref for both of them.
->>
->>> +
->>> +          required:
->>> +            - link-frequencies
->>> +            - data-lanes
->>
->> No, they are not required.
->>
->>> +
->>> +          additionalProperties: false
->>> +
->>
->> deprecation of old data-lanes property?
-> there is no old data-lanes property.
+Update the state HI header from the rnndb commit
+5bf18f7d9a97 ("rnndb: expand MMU exception bitfields").
 
-There is one:
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+---
+ drivers/gpu/drm/etnaviv/state_hi.xml.h | 86 +++++++++++++++++++++-----
+ 1 file changed, 70 insertions(+), 16 deletions(-)
 
-$ grep -n data-lanes 
-Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-82:  data-lanes:
-
-
+diff --git a/drivers/gpu/drm/etnaviv/state_hi.xml.h b/drivers/gpu/drm/etnaviv/state_hi.xml.h
+index deaaa99fa654..138adb8eb68e 100644
+--- a/drivers/gpu/drm/etnaviv/state_hi.xml.h
++++ b/drivers/gpu/drm/etnaviv/state_hi.xml.h
+@@ -8,17 +8,17 @@ This file was generated by the rules-ng-ng headergen tool in this git repository
+ git clone git://0x04.net/rules-ng-ng
+ 
+ The rules-ng-ng source files this header was generated from are:
+-- state.xml     (  26666 bytes, from 2019-12-20 21:20:35)
+-- common.xml    (  35468 bytes, from 2018-02-10 13:09:26)
+-- common_3d.xml (  15058 bytes, from 2019-12-28 20:02:03)
+-- state_hi.xml  (  30552 bytes, from 2019-12-28 20:02:48)
+-- copyright.xml (   1597 bytes, from 2018-02-10 13:09:26)
+-- state_2d.xml  (  51552 bytes, from 2018-02-10 13:09:26)
+-- state_3d.xml  (  83098 bytes, from 2019-12-28 20:02:03)
+-- state_blt.xml (  14252 bytes, from 2019-10-20 19:59:15)
+-- state_vg.xml  (   5975 bytes, from 2018-02-10 13:09:26)
+-
+-Copyright (C) 2012-2019 by the following authors:
++- state.xml     (  27198 bytes, from 2022-04-22 10:35:24)
++- common.xml    (  35468 bytes, from 2020-10-28 12:56:03)
++- common_3d.xml (  15058 bytes, from 2020-10-28 12:56:03)
++- state_hi.xml  (  34804 bytes, from 2022-12-01 09:25:17)
++- copyright.xml (   1597 bytes, from 2020-10-28 12:56:03)
++- state_2d.xml  (  51552 bytes, from 2020-10-28 12:56:03)
++- state_3d.xml  (  84445 bytes, from 2022-11-15 15:59:38)
++- state_blt.xml (  14424 bytes, from 2022-11-07 11:18:41)
++- state_vg.xml  (   5975 bytes, from 2020-10-28 12:56:03)
++
++Copyright (C) 2012-2022 by the following authors:
+ - Wladimir J. van der Laan <laanwj@gmail.com>
+ - Christian Gmeiner <christian.gmeiner@gmail.com>
+ - Lucas Stach <l.stach@pengutronix.de>
+@@ -321,16 +321,16 @@ DEALINGS IN THE SOFTWARE.
+ #define VIVS_MMUv2_CONFIGURATION_ADDRESS(x)			(((x) << VIVS_MMUv2_CONFIGURATION_ADDRESS__SHIFT) & VIVS_MMUv2_CONFIGURATION_ADDRESS__MASK)
+ 
+ #define VIVS_MMUv2_STATUS					0x00000188
+-#define VIVS_MMUv2_STATUS_EXCEPTION0__MASK			0x00000003
++#define VIVS_MMUv2_STATUS_EXCEPTION0__MASK			0x0000000f
+ #define VIVS_MMUv2_STATUS_EXCEPTION0__SHIFT			0
+ #define VIVS_MMUv2_STATUS_EXCEPTION0(x)				(((x) << VIVS_MMUv2_STATUS_EXCEPTION0__SHIFT) & VIVS_MMUv2_STATUS_EXCEPTION0__MASK)
+-#define VIVS_MMUv2_STATUS_EXCEPTION1__MASK			0x00000030
++#define VIVS_MMUv2_STATUS_EXCEPTION1__MASK			0x000000f0
+ #define VIVS_MMUv2_STATUS_EXCEPTION1__SHIFT			4
+ #define VIVS_MMUv2_STATUS_EXCEPTION1(x)				(((x) << VIVS_MMUv2_STATUS_EXCEPTION1__SHIFT) & VIVS_MMUv2_STATUS_EXCEPTION1__MASK)
+-#define VIVS_MMUv2_STATUS_EXCEPTION2__MASK			0x00000300
++#define VIVS_MMUv2_STATUS_EXCEPTION2__MASK			0x00000f00
+ #define VIVS_MMUv2_STATUS_EXCEPTION2__SHIFT			8
+ #define VIVS_MMUv2_STATUS_EXCEPTION2(x)				(((x) << VIVS_MMUv2_STATUS_EXCEPTION2__SHIFT) & VIVS_MMUv2_STATUS_EXCEPTION2__MASK)
+-#define VIVS_MMUv2_STATUS_EXCEPTION3__MASK			0x00003000
++#define VIVS_MMUv2_STATUS_EXCEPTION3__MASK			0x0000f000
+ #define VIVS_MMUv2_STATUS_EXCEPTION3__SHIFT			12
+ #define VIVS_MMUv2_STATUS_EXCEPTION3(x)				(((x) << VIVS_MMUv2_STATUS_EXCEPTION3__SHIFT) & VIVS_MMUv2_STATUS_EXCEPTION3__MASK)
+ 
+@@ -465,7 +465,13 @@ DEALINGS IN THE SOFTWARE.
+ #define VIVS_MC_PROFILE_CONFIG0					0x00000470
+ #define VIVS_MC_PROFILE_CONFIG0_FE__MASK			0x000000ff
+ #define VIVS_MC_PROFILE_CONFIG0_FE__SHIFT			0
++#define VIVS_MC_PROFILE_CONFIG0_FE_DRAW_COUNT			0x0000000a
++#define VIVS_MC_PROFILE_CONFIG0_FE_OUT_VERTEX_COUNT		0x0000000b
++#define VIVS_MC_PROFILE_CONFIG0_FE_CACHE_MISS_COUNT		0x0000000c
+ #define VIVS_MC_PROFILE_CONFIG0_FE_RESET			0x0000000f
++#define VIVS_MC_PROFILE_CONFIG0_FE_CACHE_LK_COUNT		0x00000010
++#define VIVS_MC_PROFILE_CONFIG0_FE_STALL_COUNT			0x00000011
++#define VIVS_MC_PROFILE_CONFIG0_FE_PROCESS_COUNT		0x00000012
+ #define VIVS_MC_PROFILE_CONFIG0_DE__MASK			0x0000ff00
+ #define VIVS_MC_PROFILE_CONFIG0_DE__SHIFT			8
+ #define VIVS_MC_PROFILE_CONFIG0_DE_RESET			0x00000f00
+@@ -499,11 +505,14 @@ DEALINGS IN THE SOFTWARE.
+ #define VIVS_MC_PROFILE_CONFIG1_PA_DEPTH_CLIPPED_COUNTER	0x00000006
+ #define VIVS_MC_PROFILE_CONFIG1_PA_TRIVIAL_REJECTED_COUNTER	0x00000007
+ #define VIVS_MC_PROFILE_CONFIG1_PA_CULLED_COUNTER		0x00000008
++#define VIVS_MC_PROFILE_CONFIG1_PA_DROPED_PRIM_COUNTER		0x00000009
++#define VIVS_MC_PROFILE_CONFIG1_PA_FRUSTUM_CLIPPED_PRIM_COUNTER	0x0000000a
+ #define VIVS_MC_PROFILE_CONFIG1_PA_RESET			0x0000000f
+ #define VIVS_MC_PROFILE_CONFIG1_SE__MASK			0x0000ff00
+ #define VIVS_MC_PROFILE_CONFIG1_SE__SHIFT			8
+ #define VIVS_MC_PROFILE_CONFIG1_SE_CULLED_TRIANGLE_COUNT	0x00000000
+ #define VIVS_MC_PROFILE_CONFIG1_SE_CULLED_LINES_COUNT		0x00000100
++#define VIVS_MC_PROFILE_CONFIG1_SE_TRIVIAL_REJECTED_LINE_COUNT	0x00000400
+ #define VIVS_MC_PROFILE_CONFIG1_SE_RESET			0x00000f00
+ #define VIVS_MC_PROFILE_CONFIG1_RA__MASK			0x00ff0000
+ #define VIVS_MC_PROFILE_CONFIG1_RA__SHIFT			16
+@@ -515,6 +524,8 @@ DEALINGS IN THE SOFTWARE.
+ #define VIVS_MC_PROFILE_CONFIG1_RA_PREFETCH_CACHE_MISS_COUNTER	0x000a0000
+ #define VIVS_MC_PROFILE_CONFIG1_RA_CULLED_QUAD_COUNT		0x000b0000
+ #define VIVS_MC_PROFILE_CONFIG1_RA_RESET			0x000f0000
++#define VIVS_MC_PROFILE_CONFIG1_RA_PIPE_HZ_CACHE_MISS_COUNTER	0x00110000
++#define VIVS_MC_PROFILE_CONFIG1_RA_PREFETCH_HZ_CACHE_MISS_COUNTER	0x00120000
+ #define VIVS_MC_PROFILE_CONFIG1_TX__MASK			0xff000000
+ #define VIVS_MC_PROFILE_CONFIG1_TX__SHIFT			24
+ #define VIVS_MC_PROFILE_CONFIG1_TX_TOTAL_BILINEAR_REQUESTS	0x00000000
+@@ -535,13 +546,48 @@ DEALINGS IN THE SOFTWARE.
+ #define VIVS_MC_PROFILE_CONFIG2_MC_TOTAL_READ_REQ_8B_FROM_PIPELINE	0x00000001
+ #define VIVS_MC_PROFILE_CONFIG2_MC_TOTAL_READ_REQ_8B_FROM_IP	0x00000002
+ #define VIVS_MC_PROFILE_CONFIG2_MC_TOTAL_WRITE_REQ_8B_FROM_PIPELINE	0x00000003
+-#define VIVS_MC_PROFILE_CONFIG2_MC_RESET			0x0000000f
++#define VIVS_MC_PROFILE_CONFIG2_MC_TOTAL_READ_REQ_SENTOUT_FROM_COLORPIPE	0x00000004
++#define VIVS_MC_PROFILE_CONFIG2_MC_TOTAL_WRITE_REQ_FROM_COLORPIPE	0x00000005
++#define VIVS_MC_PROFILE_CONFIG2_MC_TOTAL_READ_REQ_8B_FROM_DEPTHPIPE	0x00000007
++#define VIVS_MC_PROFILE_CONFIG2_MC_TOTAL_READ_REQ_8B_SENTOUT_FROM_DEPTHPIPE	0x00000008
++#define VIVS_MC_PROFILE_CONFIG2_MC_TOTAL_WRITE_REQ_8B_FROM_DEPTHPIPE	0x00000009
++#define VIVS_MC_PROFILE_CONFIG2_MC_TOTAL_READ_REQ_SENTOUT_FROM_DEPTHPIPE	0x0000000a
++#define VIVS_MC_PROFILE_CONFIG2_MC_TOTAL_WRITE_REQ_FROM_DEPTHPIPE	0x0000000b
++#define VIVS_MC_PROFILE_CONFIG2_MC_TOTAL_READ_REQ_8B_FROM_OTHERS	0x0000000c
++#define VIVS_MC_PROFILE_CONFIG2_MC_TOTAL_WRITE_REQ_8B_FROM_OTHERS	0x0000000d
++#define VIVS_MC_PROFILE_CONFIG2_MC_TOTAL_READ_REQ_FROM_OTHERS	0x0000000e
++#define VIVS_MC_PROFILE_CONFIG2_MC_TOTAL_WRITE_REQ_FROM_OTHERS	0x0000000f
++#define VIVS_MC_PROFILE_CONFIG2_MC_FE_READ_BANDWIDTH		0x00000015
++#define VIVS_MC_PROFILE_CONFIG2_MC_MMU_READ_BANDWIDTH		0x00000016
++#define VIVS_MC_PROFILE_CONFIG2_MC_BLT_READ_BANDWIDTH		0x00000017
++#define VIVS_MC_PROFILE_CONFIG2_MC_SH0_READ_BANDWIDTH		0x00000018
++#define VIVS_MC_PROFILE_CONFIG2_MC_SH1_READ_BANDWIDTH		0x00000019
++#define VIVS_MC_PROFILE_CONFIG2_MC_PE_WRITE_BANDWIDTH		0x0000001a
++#define VIVS_MC_PROFILE_CONFIG2_MC_BLT_WRITE_BANDWIDTH		0x0000001b
++#define VIVS_MC_PROFILE_CONFIG2_MC_SH0_WRITE_BANDWIDTH		0x0000001c
++#define VIVS_MC_PROFILE_CONFIG2_MC_SH1_WRITE_BANDWIDTH		0x0000001d
+ #define VIVS_MC_PROFILE_CONFIG2_HI__MASK			0x0000ff00
+ #define VIVS_MC_PROFILE_CONFIG2_HI__SHIFT			8
+ #define VIVS_MC_PROFILE_CONFIG2_HI_AXI_CYCLES_READ_REQUEST_STALLED	0x00000000
+ #define VIVS_MC_PROFILE_CONFIG2_HI_AXI_CYCLES_WRITE_REQUEST_STALLED	0x00000100
+ #define VIVS_MC_PROFILE_CONFIG2_HI_AXI_CYCLES_WRITE_DATA_STALLED	0x00000200
+ #define VIVS_MC_PROFILE_CONFIG2_HI_RESET			0x00000f00
++#define VIVS_MC_PROFILE_CONFIG2_L2__MASK			0x00ff0000
++#define VIVS_MC_PROFILE_CONFIG2_L2__SHIFT			16
++#define VIVS_MC_PROFILE_CONFIG2_L2_TOTAL_AXI0_READ_REQUEST_COUNT	0x00000000
++#define VIVS_MC_PROFILE_CONFIG2_L2_TOTAL_AXI0_WRITE_REQUEST_COUNT	0x00040000
++#define VIVS_MC_PROFILE_CONFIG2_L2_TOTAL_AXI1_WRITE_REQUEST_COUNT	0x00050000
++#define VIVS_MC_PROFILE_CONFIG2_L2_TOTAL_READ_TRANSACTIONS_REQUEST_BY_AXI0	0x00080000
++#define VIVS_MC_PROFILE_CONFIG2_L2_TOTAL_READ_TRANSACTIONS_REQUEST_BY_AXI1	0x00090000
++#define VIVS_MC_PROFILE_CONFIG2_L2_TOTAL_WRITE_TRANSACTIONS_REQUEST_BY_AXI0	0x000c0000
++#define VIVS_MC_PROFILE_CONFIG2_L2_TOTAL_WRITE_TRANSACTIONS_REQUEST_BY_AXI1	0x000d0000
++#define VIVS_MC_PROFILE_CONFIG2_L2_RESET			0x000f0000
++#define VIVS_MC_PROFILE_CONFIG2_L2_AXI0_MINMAX_LATENCY		0x00100000
++#define VIVS_MC_PROFILE_CONFIG2_L2_AXI0_TOTAL_LATENCY		0x00110000
++#define VIVS_MC_PROFILE_CONFIG2_L2_AXI0_TOTAL_REQUEST_COUNT	0x00120000
++#define VIVS_MC_PROFILE_CONFIG2_L2_AXI1_MINMAX_LATENCY		0x00130000
++#define VIVS_MC_PROFILE_CONFIG2_L2_AXI1_TOTAL_LATENCY		0x00140000
++#define VIVS_MC_PROFILE_CONFIG2_L2_AXI0_TOTAL_REQUEST_COUNT	0x00150000
+ #define VIVS_MC_PROFILE_CONFIG2_BLT__MASK			0xff000000
+ #define VIVS_MC_PROFILE_CONFIG2_BLT__SHIFT			24
+ #define VIVS_MC_PROFILE_CONFIG2_BLT_UNK0			0x00000000
+@@ -566,5 +612,13 @@ DEALINGS IN THE SOFTWARE.
+ 
+ #define VIVS_MC_PROFILE_L2_READ					0x00000564
+ 
++#define VIVS_MC_MC_LATENCY_RESET				0x00000568
++
++#define VIVS_MC_MC_AXI_MAX_MIN_LATENCY				0x0000056c
++
++#define VIVS_MC_MC_AXI_TOTAL_LATENCY				0x00000570
++
++#define VIVS_MC_MC_AXI_SAMPLE_COUNT				0x00000574
++
+ 
+ #endif /* STATE_HI_XML */
 -- 
-With best wishes
-Dmitry
+2.30.2
 
