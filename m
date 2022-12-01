@@ -2,57 +2,143 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A5D763F7A0
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 19:42:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16CA463F7AE
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 19:43:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87EFA10E66D;
-	Thu,  1 Dec 2022 18:42:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D17C10E61D;
+	Thu,  1 Dec 2022 18:43:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
- [IPv6:2a00:1450:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40F9810E12F
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 18:42:33 +0000 (UTC)
-Received: by mail-lj1-x231.google.com with SMTP id d3so2922505ljl.1
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Dec 2022 10:42:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=joelfernandes.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=1CLbb6gTftbtF04ieLZupgrbYGtIY4aNewsRQHGXS6s=;
- b=dsvo2cqfA/yq8gXZkDeCq0csmaMzd28okmfLdJz/BTzyZVPeRJhidpo3VrmNeuYbjF
- E9CvUjhxBZB6bxMl9x7/AlWP58UVZZ015Dfj5bj0LS0ihq7tnZ/J51SBNt+V9uwtu12p
- jd/VFmVjrbBXK+34fz51MYy0DzmPcKpeHcODg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=1CLbb6gTftbtF04ieLZupgrbYGtIY4aNewsRQHGXS6s=;
- b=yQKKf6Ow2e96P9PUm7oPfT4SpcUMA6cL8DQmp+TK0NJ/c5Js2DhLd7ZfVnnwD+LFWz
- ikss2H2FDcxnHCl9RQ8a8JLncgH+BqUcazuskmh4uwih8Co6ZiHnke8aJUiAH9sQRYD6
- yITsGXfcczOQoSWL/gclY6kNq8xJ62K0zk4Xrwju6Vf1DBkWJ3f5wFuwfBmb680E4WEb
- icmCcN0tv7sHNKOSiwPOZ2/lnfQOqi0JPV71yPzGkUa8eI1ZClkVfxwXls5ABIkdyUnJ
- OQjP8D7Y0DZKA3CzP4pUeZQu8tBJDIzlJ3BaS8WVPLdR4qDsgAFKtTAdql6cf4Uk6z28
- UA7g==
-X-Gm-Message-State: ANoB5pnBxzw/lv7xkcs3F/QGMdVyoq12QI3BWHNj1mST7jW/LXtwqnI9
- 2n86EDyO5zujNVcVVxkAtctGmn9ISxlS+sc/O9pXUA==
-X-Google-Smtp-Source: AA0mqf4fvcwVwiyOPO0pR1jsWW+malSFBhqOGx6XKlbbPNc/fFRtj0pXjbzI6sMxRmJDPvQ07LOAJWr7sDPUxWd9Mfc=
-X-Received: by 2002:a05:651c:1a2b:b0:277:5545:2ee5 with SMTP id
- by43-20020a05651c1a2b00b0027755452ee5mr17328949ljb.313.1669920151465; Thu, 01
- Dec 2022 10:42:31 -0800 (PST)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7E2D10E12F;
+ Thu,  1 Dec 2022 18:43:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1669920211; x=1701456211;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=DqVSo8kyGrFCyEK9VKRm2PQzPyWC4aWGTYzOW2oLJZc=;
+ b=hg/YCm4CBMfvpWMqYccg7SY1vTPqAICa58yceVKj25HK7hoReb35qNAx
+ /56d5lVDQWfF6S2nqjtQUGuoq6I6iQL5SFPA8Q6dEZkgK0cC7JsTE4UNU
+ LXAML+y7IzSuwX5B6ryDDZipT0vMRyNBxRoDKz8UtaJolO88026GVtdGn
+ HN8zwk7E5P8Ynd+UTwpVNONZhA0ngDFFBxJSjQnUij5rY6jmZHegnIYtl
+ yM2IufpQBhXJO/0b+IHSIAL0sqeomT/6OOmn/q8enrPirU68qUlwGWqRD
+ gUbYvfS2H0Brhnqqr9o0cyR7CrlTyKAg5tdKPZ4M842VKWp0UVMTTZbQw w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="303372639"
+X-IronPort-AV: E=Sophos;i="5.96,210,1665471600"; d="scan'208";a="303372639"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Dec 2022 10:43:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="675546322"
+X-IronPort-AV: E=Sophos;i="5.96,210,1665471600"; d="scan'208";a="675546322"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga008.jf.intel.com with ESMTP; 01 Dec 2022 10:43:30 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Thu, 1 Dec 2022 10:43:30 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Thu, 1 Dec 2022 10:43:29 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Thu, 1 Dec 2022 10:43:29 -0800
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Thu, 1 Dec 2022 10:43:29 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TKuGEpr1InUjYNfOisEPDwxHOymuCoNzgmYSf+Fk5UBBpHcwLYOJnyy0uApjQNPyvvFmeHG+cE7Ec0RnFH7b3rV00NC/pSDjQPS13uLMsiUhjlyymQhcf6tpMAnzS0mBCoRtQj7TnHWuhLZ+xKpTPCEhSdtlHRgWLmEiDQY2TqJb+7JWiYExFlvi9a2ncAy+pVuMgNsFf13ARqAPjfl5dfMLHSmltWvonYJbTiBh0GDwxvVtL2zo798teUDJCaByuLd+Y23AoAoX1oRfTA0s6JI0Krltv+GvqrgV9QkO8G04wCRZUZjtR+hp4xdgQegiSxgLTuZ/HZxBUay/Hsiwuw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bl0Il9S8z5XpefbV2mqj9QIASihhJya24pmtT5AekTM=;
+ b=OQsTNF4dY5G4yjhgBnrWD88xpu6wlqVfMhRieXB2dgb03x2jNFPA8S6VCLY3YcehR/sdIN9nxkTfwPuiNXMfBGRdXUCRPKXG6oCGlXKBTXL413jmYiUGd6mXKRLp8whZbfHUd+HU5APSGA1O2jzOAFA9H7o+i2gQS0F/OEs8ZYojjHk2g89lPrK1xmdU5JrdVqTJPW0E80GrNPjzmN9NRXg1fydy0e7ZHBpehjIvR9Ey+GRZZGCQtOJjO0H26+A+4pS/0GocozteXlC7oFdQ/xTgZ1jT8XBt/3Ii17lY2VH1ei7l1XjuvsTgwZya1X3y+nXINrJIm96MZohklGLpug==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH8PR11MB6952.namprd11.prod.outlook.com (2603:10b6:510:224::13)
+ by BL1PR11MB5464.namprd11.prod.outlook.com (2603:10b6:208:319::6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.8; Thu, 1 Dec
+ 2022 18:43:23 +0000
+Received: from PH8PR11MB6952.namprd11.prod.outlook.com
+ ([fe80::d060:bf4d:10ad:3713]) by PH8PR11MB6952.namprd11.prod.outlook.com
+ ([fe80::d060:bf4d:10ad:3713%3]) with mapi id 15.20.5857.023; Thu, 1 Dec 2022
+ 18:43:23 +0000
+Date: Thu, 1 Dec 2022 10:43:15 -0800
+From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+To: Matthew Auld <matthew.auld@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v8 22/22] drm/i915/vm_bind: Support capture
+ of persistent mappings
+Message-ID: <Y4j1w8KoN9ASjJxu@nvishwa1-DESK>
+References: <20221129072635.847-1-niranjana.vishwanathapura@intel.com>
+ <20221129072635.847-23-niranjana.vishwanathapura@intel.com>
+ <dbbd19e4-4354-bd11-a68d-435f59150fc8@intel.com>
+ <Y4jH4297KUGrYTr6@nvishwa1-DESK>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Disposition: inline
+In-Reply-To: <Y4jH4297KUGrYTr6@nvishwa1-DESK>
+X-ClientProxiedBy: SJ0PR05CA0168.namprd05.prod.outlook.com
+ (2603:10b6:a03:339::23) To PH8PR11MB6952.namprd11.prod.outlook.com
+ (2603:10b6:510:224::13)
 MIME-Version: 1.0
-References: <20221111194957.4046771-1-joel@joelfernandes.org>
- <20221111194957.4046771-2-joel@joelfernandes.org>
- <899db0f8-7b8a-ed8f-30b8-4f630da1298d@quicinc.com>
- <CAF6AEGtEswqCRXkrd+tWKb_1N1UXgQ=EVMTZAgxxpNcD2vYGHQ@mail.gmail.com>
-In-Reply-To: <CAF6AEGtEswqCRXkrd+tWKb_1N1UXgQ=EVMTZAgxxpNcD2vYGHQ@mail.gmail.com>
-From: Joel Fernandes <joel@joelfernandes.org>
-Date: Thu, 1 Dec 2022 18:42:20 +0000
-Message-ID: <CAEXW_YSKBsVKBqJHB=9dQYV9XboTnsNb10ESJk1S_ia0gyKbuw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] adreno: Detect shutdown during get_param()
-To: Rob Clark <robdclark@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR11MB6952:EE_|BL1PR11MB5464:EE_
+X-MS-Office365-Filtering-Correlation-Id: 15504a6f-1b05-4231-9076-08dad3cbecc0
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Se0OkRvkhNZA/HNm1SIRQ0sdPr1raDrDL2RoJh+Y/0f4SWvlig1t42TM5J58fKjJSQBvFda00vJs3QOU9B1sAK3AHc1PNupezsnGcy7fHEP/e4GM+YUi+LYn9Fq3aEm3mmBUgXuoy4T4R5ayjWHjL9Z6rZTYcDqjBjIt2QnwDlzlpOLoioyK7nHi4lkANK49udC9OaMABZV2mvXC0gLDPus5WbjEpxPVjSiKer1sMcFLlM2G6X/p3jG4R0ojpux8ryCns8f2irGltFB6DvJ4jdjap2B9Awxe4vSLUuzaa+GBbCKsDAh3cpYR6ZCubmHJ+afx/w807hqVkM7tZXA92exuwN3LKxAqND4rqUvbD9NqAl+B5KSjCgyJ4yLVmn8OeN1zPrDQWzM50xzYWr/OlKxsR6GT8tkf/VaCLG3sikJfgVTS0NanqP8KqJID1MT5o9bRfYRqJHYH2nlY+9WIMvPDTr3ECEkCYKFD+Wtj3o2K+jXTMwO/sirVRUsYH1hU/+234RD2WVBlFH+t11R7i6ncm8qtzC7+QmeXhlEJv5GzTFxiIUB1/EODrf2lAR/Q9tupIwrZTQ4j02Z5XklOOklfwbYU2GR0Xb8K/C781uw3lW2ODHQ9spc2ju+ePzoxpl4z7xQMcM7RHV2fDQycNA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH8PR11MB6952.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(7916004)(396003)(376002)(366004)(39860400002)(346002)(136003)(451199015)(86362001)(41300700001)(186003)(66946007)(66556008)(66476007)(4326008)(8676002)(44832011)(6862004)(8936002)(5660300002)(6666004)(6506007)(6486002)(478600001)(316002)(6636002)(9686003)(26005)(6512007)(82960400001)(38100700002)(33716001)(83380400001)(2906002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?deP3m67JeWdKicodkbn69yq1YNbGhg/XxBtT0Z0ndcFyE5QPIviPoZScg7jT?=
+ =?us-ascii?Q?N6HaZ1NkTcc2eVZJDt1xBStf3rE7Mb04fsuT4A3Z6vY2wc1JhObhLbuUQ9DA?=
+ =?us-ascii?Q?8daB3dFhd0wVTm7JJxeOW8IwE0PjrXRZb7CsMYHLyxLucirlWnKmuZX/CQcM?=
+ =?us-ascii?Q?WBKo8j/nWAqQsdKO1pLBAIN3+8pqVFnhBPa1H0VXQaLA/ghcWgyLtdkQNW99?=
+ =?us-ascii?Q?8oSlx59PQd2+o9lLE3qsPx3i2FKlejqYtBn53WIG+gT8KyFKkM0vbr4I3/4X?=
+ =?us-ascii?Q?CgDEtQzeW+LWnHtcoW1ZbbJyy6rOP07l+w40f8gvpvpJEo2N1kR+sUPYxm7U?=
+ =?us-ascii?Q?HFU07hSgoshHBme7Rv+FfpJ0tFEnbnMztEnCY4mru8Psrka/YYctmbbTWawp?=
+ =?us-ascii?Q?0Z8qU08itIfUA/haUFfF/a05QhmxpDflWiCmN0y0Hpalx0bdQ29umni2MRNe?=
+ =?us-ascii?Q?E7GSA8cMg1pbWMxuvNTUmvsUsywzZO0ISLCVjG2XbUc3pxoJl/oNY1YcR/eM?=
+ =?us-ascii?Q?hhvh9mRXUMQkcoJFKKmggMNNuStZ6G/HBI8lDuSzZv6SSVL4bNhS/RKpPYVW?=
+ =?us-ascii?Q?oR1uKyjUeqyVfExvzty1g2eX2gPNJF3o7UTHOy8yaJqbAfmCQvhy1WaTnRlG?=
+ =?us-ascii?Q?D9EiOOlLToIHz17xvc+7TIYqOKNRhssOyh4q52XblR507O2E+I4qzq2WCVgT?=
+ =?us-ascii?Q?0dVvqERtxRdv7Gwww8bvBvM96wq39VMcRHauH0ystasmw63+iz9pHllOduF8?=
+ =?us-ascii?Q?QOmJwSxYIeG/J6StHrdyu+BESMGPLrX4aOxSGQxjQ7NbL8t/xIa7llQtrbCs?=
+ =?us-ascii?Q?J1phnh3QAAD+H/cLmju40EnKcYZr6gYreB7ge9RBEN0UJfiD+ihK1Zl5jsl3?=
+ =?us-ascii?Q?TOJXHG2YjvJxpirhcfdTEE3FcyRRmL3cbZrIndX08w1QU82TEE7n7V8o83B0?=
+ =?us-ascii?Q?+3eIZm8WdxqnZtdz30ZNfr5E4iOi1PiYZaqJoaZVKgAoVJrxf0jFU97G0YvN?=
+ =?us-ascii?Q?CxxPcLu07xudf6TdBiSlJDBvQS7bLk3FYlXtjguZYByYM+OKTOKV9wwhgXgK?=
+ =?us-ascii?Q?wSt7AL7DXgZmGdxQP8Kwd1MNfs75sXnQuGT5JVGS4TJbmsM7+E7Cz1SxOXyJ?=
+ =?us-ascii?Q?xConvLEslrloTIIe7h5aOgQ1aIW8VXhrucaDYTUnUgBXl+b6XhCZBqJEuZUJ?=
+ =?us-ascii?Q?FcsFSm4y4PmJZghIkIDpG34uJgqZR1lEItrZYHl9jTwTzlmcD61J08miz0Er?=
+ =?us-ascii?Q?9PSlv/B1U2d++zci0nh1p7983yBZcIb+wkklQRhYdbNBh2qWB9HoNYU6sWbL?=
+ =?us-ascii?Q?PiH7C1Fic3pGmuGpplA7LM5UjdxjSp3Slue05xXBK7sE3MLBtTdRwj+kxWAE?=
+ =?us-ascii?Q?tVX56w5IevbOc6Q01KLBPWGN0e0VWLC9DxswTavpN7k0B5lXNmV2egYTIH42?=
+ =?us-ascii?Q?VHT//NHePQwWIXKiBM8hhYRTcafmx3M/FF2HmyAyGeLgzWN3a1JHFmKSoCGw?=
+ =?us-ascii?Q?eBvd0NsL7OVgpEGvPhQgtr6F65wvZzDZKw4Guvj1hCbQFkL2YVZMlsvuXHV5?=
+ =?us-ascii?Q?jpv1RqvYu4+nzKxic4IzN4K9snYh1rTNGvzFHFwS2j4BKb8Zv+vdKtgY/UNS?=
+ =?us-ascii?Q?Nbdq2j8uItHP1eONIDaUKg0=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 15504a6f-1b05-4231-9076-08dad3cbecc0
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB6952.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2022 18:43:23.1616 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4EzBGbJw27PXiORn0JwO2lP084mPJQ508nCql8xu+DIord2cAsGxQf2+w4Nzmo8olYRfUOjG+H/oZnqPMbzS0sLmaDIoiR5bOmb01qECCCG/FZpk2Oyem1jFPH8YFvaI
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5464
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,143 +151,200 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Emma Anholt <emma@anholt.net>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, freedreno@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>,
- Vladimir Lypak <vladimir.lypak@gmail.com>, linux-kernel@vger.kernel.org,
- Steven Rostedt <rostedt@goodmis.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- dri-devel@lists.freedesktop.org, Ross Zwisler <zwisler@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: paulo.r.zanoni@intel.com, jani.nikula@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ thomas.hellstrom@intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Nov 12, 2022 at 6:35 PM Rob Clark <robdclark@gmail.com> wrote:
+On Thu, Dec 01, 2022 at 07:27:31AM -0800, Niranjana Vishwanathapura wrote:
+>On Thu, Dec 01, 2022 at 10:49:15AM +0000, Matthew Auld wrote:
+>>On 29/11/2022 07:26, Niranjana Vishwanathapura wrote:
+>>>Support dump capture of persistent mappings upon user request.
+>>>
+>>>Signed-off-by: Brian Welty <brian.welty@intel.com>
+>>>Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+>>>---
+>>> .../drm/i915/gem/i915_gem_vm_bind_object.c    | 11 +++++++++++
+>>> drivers/gpu/drm/i915/gt/intel_gtt.c           |  3 +++
+>>> drivers/gpu/drm/i915/gt/intel_gtt.h           |  5 +++++
+>>> drivers/gpu/drm/i915/i915_gpu_error.c         | 19 +++++++++++++++++++
+>>> drivers/gpu/drm/i915/i915_vma.c               |  1 +
+>>> drivers/gpu/drm/i915/i915_vma_types.h         |  2 ++
+>>> include/uapi/drm/i915_drm.h                   |  3 ++-
+>>> 7 files changed, 43 insertions(+), 1 deletion(-)
+>>>
+>>>diff --git a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+>>>index 78e7c0642c5f..50969613daf6 100644
+>>>--- a/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+>>>+++ b/drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+>>>@@ -88,6 +88,11 @@ static void i915_gem_vm_bind_remove(struct i915_vma *vma, bool release_obj)
+>>> {
+>>> 	lockdep_assert_held(&vma->vm->vm_bind_lock);
+>>>+	spin_lock(&vma->vm->vm_capture_lock);
+>>>+	if (!list_empty(&vma->vm_capture_link))
+>>>+		list_del_init(&vma->vm_capture_link);
+>>>+	spin_unlock(&vma->vm->vm_capture_lock);
+>>>+
+>>> 	spin_lock(&vma->vm->vm_rebind_lock);
+>>> 	if (!list_empty(&vma->vm_rebind_link))
+>>> 		list_del_init(&vma->vm_rebind_link);
+>>>@@ -357,6 +362,12 @@ static int i915_gem_vm_bind_obj(struct i915_address_space *vm,
+>>> 				continue;
+>>> 		}
+>>>+		if (va->flags & I915_GEM_VM_BIND_CAPTURE) {
+>>>+			spin_lock(&vm->vm_capture_lock);
+>>>+			list_add_tail(&vma->vm_capture_link, &vm->vm_capture_list);
+>>>+			spin_unlock(&vm->vm_capture_lock);
+>>>+		}
+>>>+
+>>> 		list_add_tail(&vma->vm_bind_link, &vm->vm_bound_list);
+>>> 		i915_vm_bind_it_insert(vma, &vm->va);
+>>> 		if (!obj->priv_root)
+>>>diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
+>>>index ebf6830574a0..bdabe13fc30e 100644
+>>>--- a/drivers/gpu/drm/i915/gt/intel_gtt.c
+>>>+++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
+>>>@@ -297,6 +297,9 @@ void i915_address_space_init(struct i915_address_space *vm, int subclass)
+>>> 	spin_lock_init(&vm->vm_rebind_lock);
+>>> 	spin_lock_init(&vm->userptr_invalidated_lock);
+>>> 	INIT_LIST_HEAD(&vm->userptr_invalidated_list);
+>>>+
+>>>+	INIT_LIST_HEAD(&vm->vm_capture_list);
+>>>+	spin_lock_init(&vm->vm_capture_lock);
+>>> }
+>>> void *__px_vaddr(struct drm_i915_gem_object *p)
+>>>diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
+>>>index 87e5b6568a00..8e4ddd073348 100644
+>>>--- a/drivers/gpu/drm/i915/gt/intel_gtt.h
+>>>+++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
+>>>@@ -281,6 +281,11 @@ struct i915_address_space {
+>>> 	/** @root_obj: root object for dma-resv sharing by private objects */
+>>> 	struct drm_i915_gem_object *root_obj;
+>>>+	/* @vm_capture_list: list of vm captures */
+>>>+	struct list_head vm_capture_list;
+>>>+	/* @vm_capture_lock: protects vm_capture_list */
+>>>+	spinlock_t vm_capture_lock;
+>>>+
+>>> 	/* Global GTT */
+>>> 	bool is_ggtt:1;
+>>>diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
+>>>index 9d5d5a397b64..3b2b12a739f7 100644
+>>>--- a/drivers/gpu/drm/i915/i915_gpu_error.c
+>>>+++ b/drivers/gpu/drm/i915/i915_gpu_error.c
+>>>@@ -1460,6 +1460,22 @@ capture_vma(struct intel_engine_capture_vma *next,
+>>> 	return next;
+>>> }
+>>>+static struct intel_engine_capture_vma *
+>>>+capture_user_vm(struct intel_engine_capture_vma *capture,
+>>>+		struct i915_address_space *vm, gfp_t gfp)
+>>>+{
+>>>+	struct i915_vma *vma;
+>>>+
+>>>+	spin_lock(&vm->vm_capture_lock);
+>>
+>>Does it make sense to move this into the eb3 submission stage, like 
+>>we do for eb2? IIRC the gfp flags here are quite limiting due to 
+>>potentially being in a fence critical section. If we can use 
+>>rq->capture_list for eb3, we shouldn't need to change much here?
+>>
 >
-> On Fri, Nov 11, 2022 at 1:28 PM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
-> >
-> > On 11/12/2022 1:19 AM, Joel Fernandes (Google) wrote:
-> > > Even though the GPU is shut down, during kexec reboot we can have userspace
-> > > still running. This is especially true if KEXEC_JUMP is not enabled, because we
-> > > do not freeze userspace in this case.
-> > >
-> > > To prevent crashes, track that the GPU is shutdown and prevent get_param() from
-> > > accessing GPU resources if we find it shutdown.
-> > >
-> > > This fixes the following crash during kexec reboot on an ARM64 device with adreno GPU:
-> > >
-> > > [  292.534314] Kernel panic - not syncing: Asynchronous SError Interrupt
-> > > [  292.534323] Hardware name: Google Lazor (rev3 - 8) with LTE (DT)
-> > > [  292.534326] Call trace:
-> > > [  292.534328]  dump_backtrace+0x0/0x1d4
-> > > [  292.534337]  show_stack+0x20/0x2c
-> > > [  292.534342]  dump_stack_lvl+0x60/0x78
-> > > [  292.534347]  dump_stack+0x18/0x38
-> > > [  292.534352]  panic+0x148/0x3b0
-> > > [  292.534357]  nmi_panic+0x80/0x94
-> > > [  292.534364]  arm64_serror_panic+0x70/0x7c
-> > > [  292.534369]  do_serror+0x0/0x7c
-> > > [  292.534372]  do_serror+0x54/0x7c
-> > > [  292.534377]  el1h_64_error_handler+0x34/0x4c
-> > > [  292.534381]  el1h_64_error+0x7c/0x80
-> > > [  292.534386]  el1_interrupt+0x20/0x58
-> > > [  292.534389]  el1h_64_irq_handler+0x18/0x24
-> > > [  292.534395]  el1h_64_irq+0x7c/0x80
-> > > [  292.534399]  local_daif_inherit+0x10/0x18
-> > > [  292.534405]  el1h_64_sync_handler+0x48/0xb4
-> > > [  292.534410]  el1h_64_sync+0x7c/0x80
-> > > [  292.534414]  a6xx_gmu_set_oob+0xbc/0x1fc
-> > > [  292.534422]  a6xx_get_timestamp+0x40/0xb4
-> > > [  292.534426]  adreno_get_param+0x12c/0x1e0
-> > > [  292.534433]  msm_ioctl_get_param+0x64/0x70
-> > > [  292.534440]  drm_ioctl_kernel+0xe8/0x158
-> > > [  292.534448]  drm_ioctl+0x208/0x320
-> > > [  292.534453]  __arm64_sys_ioctl+0x98/0xd0
-> > > [  292.534461]  invoke_syscall+0x4c/0x118
-> > > [  292.534467]  el0_svc_common+0x98/0x104
-> > > [  292.534473]  do_el0_svc+0x30/0x80
-> > > [  292.534478]  el0_svc+0x20/0x50
-> > > [  292.534481]  el0t_64_sync_handler+0x78/0x108
-> > > [  292.534485]  el0t_64_sync+0x1a4/0x1a8
-> > > [  292.534632] Kernel Offset: 0x1a5f800000 from 0xffffffc008000000
-> > > [  292.534635] PHYS_OFFSET: 0x80000000
-> > > [  292.534638] CPU features: 0x40018541,a3300e42
-> > > [  292.534644] Memory Limit: none
-> > >
-> > > Cc: Rob Clark <robdclark@chromium.org>
-> > > Cc: Steven Rostedt <rostedt@goodmis.org>
-> > > Cc: Ricardo Ribalda <ribalda@chromium.org>
-> > > Cc: Ross Zwisler <zwisler@kernel.org>
-> > > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > > ---
-> > >   drivers/gpu/drm/msm/adreno/adreno_device.c | 1 +
-> > >   drivers/gpu/drm/msm/adreno/adreno_gpu.c    | 2 +-
-> > >   drivers/gpu/drm/msm/msm_gpu.h              | 3 +++
-> > >   3 files changed, 5 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > > index f0cff62812c3..03d912dc0130 100644
-> > > --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > > +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > > @@ -612,6 +612,7 @@ static void adreno_shutdown(struct platform_device *pdev)
-> > >   {
-> > >       struct msm_gpu *gpu = dev_to_gpu(&pdev->dev);
-> > >
-> > > +     gpu->is_shutdown = true;
-> > >       WARN_ON_ONCE(adreno_system_suspend(&pdev->dev));
-> > >   }
-> > >
-> > > diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> > > index 382fb7f9e497..6903c6892469 100644
-> > > --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> > > +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> > > @@ -251,7 +251,7 @@ int adreno_get_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
-> > >       struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-> > >
-> > >       /* No pointer params yet */
-> > > -     if (*len != 0)
-> > > +     if (*len != 0 || gpu->is_shutdown)
-> > >               return -EINVAL;
-> > This will race with shutdown. Probably, propagating back the return
-> > value of pm_runtime_get() in every possible ioctl call path is the right
-> > thing to do.
-> >
-> > I have never thought about this scenario. Do you know why userspace is
-> > not freezed before kexec?
+>But that will add latency on submission path as we will have to iterate
+>over capture_list in each submission. Besides, unlike eb2 case, we can't
+>just transfer the list to rq->capture_list as we will have to do this
+>for each submission. It was discussed long time back and decided not to
+>bother the fast path (submision) scenario with this error capture which
+>is only required upon gpu hang (slow path).
 >
-> So userspace not being frozen seems like the root issue, and is likely
-> to cause all sorts of other whack-a-mole problems.  I guess I'd like
-> to know if this is the expected behavior?
+>>Also there is the existing CONFIG_DRM_I915_CAPTURE_ERROR. Should we 
+>>take that into account?
+>>
+>
+>Ok, will fix.
+>
+>>>+	/* vma->resource must be valid here as persistent vmas are bound */
+>>>+	list_for_each_entry(vma, &vm->vm_capture_list, vm_capture_link)
+>>>+		capture = capture_vma_snapshot(capture, vma->resource,
+>>>+					       gfp, "user");
+>>>+	spin_unlock(&vm->vm_capture_lock);
+>>>+
+>>>+	return capture;
+>>>+}
+>>>+
+>>> static struct intel_engine_capture_vma *
+>>> capture_user(struct intel_engine_capture_vma *capture,
+>>> 	     const struct i915_request *rq,
+>>>@@ -1471,6 +1487,9 @@ capture_user(struct intel_engine_capture_vma *capture,
+>>> 		capture = capture_vma_snapshot(capture, c->vma_res, gfp,
+>>> 					       "user");
+>>>+	capture = capture_user_vm(capture, rq->context->vm,
+>>>+				  GFP_NOWAIT | __GFP_NOWARN);
+>>
+>>And this should maybe use the passed in gfp?
+>>
+>
+>Ok, will fix
+>
 
-We tried that. Freezing before kexec seems to cause issues for ALSA as
-Ricardo found:
-https://lore.kernel.org/lkml/202211281209.mnBLzQ2I-lkp@intel.com/T/
+Acutally in one path (capture_engine), it is called with non-blocking gfp,
+in other path (execlists_capture_work), it is called with blocking gfp.
+I chose to override it here as we use spinlock (vm_capture_lock) and we
+are using MAYFAIL version in somepaths anyhow.I can add documentation
+for this override here. We can switch to a mutex here (instead of spinlock)
+for vm_capture_lock, but not sure it is worth it or if in anyway we endup
+here with atomic context. What do you think?
 
-That patch is still TBD due to disagreement on the right approach to
-fix, so I don't think freezing before shutting down devices is viable
-at the moment.
+Thanks,
+Niranjana
 
-I am checking Ricardo if we can do something like util-linux's
-shutdown code which sends SIGTERM to all processes:
-https://kernel.googlesource.com/pub/scm/utils/util-linux/util-linux/+/v2.8/login-utils/shutdown.c#273
-, before issuing the kexec-reboot.
-
-Maybe, a more graceful shutdown from kexec-lite, will prevent the
-kexec-reboot it does from crashing? Though in my view that would still
-be a small copout instead of fixing the real issue, which is the
-kernel crashing for any reason.
-
-> If so, we should probably look at
-> drm_dev_is_unplugged()/drm_dev_unplug()/etc rather than trying to NIH
-> that mechanism.  We would need to sprinkle drm_dev_is_unplugged()
-> checks more widely, and also ensure that the scheduler kthread(s) gets
-> parked.  But it would be nice to know first if we are just trying to
-> paper over a kexec bug.
-
-Agreed. I think we still patch 1/2 whether the SIGTERM trick mentioned
-above, works or not. I will await discussions with Ricardo before
-reposting that one.
-
-Cheers,
-
- -- Joel
+>>>+
+>>> 	return capture;
+>>> }
+>>>diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+>>>index 68a9ac77b4f2..0244864e94f7 100644
+>>>--- a/drivers/gpu/drm/i915/i915_vma.c
+>>>+++ b/drivers/gpu/drm/i915/i915_vma.c
+>>>@@ -248,6 +248,7 @@ vma_create(struct drm_i915_gem_object *obj,
+>>> 	INIT_LIST_HEAD(&vma->non_priv_vm_bind_link);
+>>> 	INIT_LIST_HEAD(&vma->vm_rebind_link);
+>>> 	INIT_LIST_HEAD(&vma->userptr_invalidated_link);
+>>>+	INIT_LIST_HEAD(&vma->vm_capture_link);
+>>> 	return vma;
+>>> err_unlock:
+>>>diff --git a/drivers/gpu/drm/i915/i915_vma_types.h b/drivers/gpu/drm/i915/i915_vma_types.h
+>>>index 90471dc0b235..10ae9f739d57 100644
+>>>--- a/drivers/gpu/drm/i915/i915_vma_types.h
+>>>+++ b/drivers/gpu/drm/i915/i915_vma_types.h
+>>>@@ -309,6 +309,8 @@ struct i915_vma {
+>>> 	struct list_head vm_rebind_link; /* Link in vm_rebind_list */
+>>> 	/** @userptr_invalidated_link: link to the vm->userptr_invalidated_list */
+>>> 	struct list_head userptr_invalidated_link;
+>>>+	/* @vm_capture_link: link to the captureable VMA list */
+>>>+	struct list_head vm_capture_link;
+>>> 	/** Timeline fence for vm_bind completion notification */
+>>> 	struct {
+>>>diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+>>>index b9167f950327..0744651ad5b0 100644
+>>>--- a/include/uapi/drm/i915_drm.h
+>>>+++ b/include/uapi/drm/i915_drm.h
+>>>@@ -3930,7 +3930,8 @@ struct drm_i915_gem_vm_bind {
+>>> 	 * Note that @fence carries its own flags.
+>>> 	 */
+>>> 	__u64 flags;
+>>>-#define __I915_GEM_VM_BIND_UNKNOWN_FLAGS (~0ull)
+>>>+#define I915_GEM_VM_BIND_CAPTURE           (1 << 0)
+>>
+>>1ull << 0
+>>
+>>Worried about what the value of UNKNOWN_FLAGS might be otherwise? 
+>>Also needs some kernel-doc.
+>>
+>
+>Ok, will fix and add kernel-doc.
+>
+>Thanks,
+>Niranjana
+>
+>>>+#define __I915_GEM_VM_BIND_UNKNOWN_FLAGS   (-(I915_GEM_VM_BIND_CAPTURE << 1))
+>>> 	/** @rsvd: Reserved, MBZ */
+>>> 	__u64 rsvd[2];
