@@ -1,68 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE86D63EDFF
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 11:37:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFBEE63EE05
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 11:38:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6055C10E115;
-	Thu,  1 Dec 2022 10:37:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBA5C10E130;
+	Thu,  1 Dec 2022 10:38:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
- [IPv6:2a00:1450:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B47C710E129
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 10:37:33 +0000 (UTC)
-Received: by mail-lj1-x22f.google.com with SMTP id d3so1403238ljl.1
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Dec 2022 02:37:33 -0800 (PST)
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2566F10E129
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 10:38:19 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id d6so1807784lfs.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Dec 2022 02:38:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=CIit3J5M4bcdITVWI6ie/I3FGXLXgR6m6GwfusmdrJE=;
- b=oRuEXXERKZYYDV9WimFhxi+n+W16yYt2dtOc7P5QG08IRUKnts1REggwWcSWA2K7GS
- CFWqZfYbNsg/vcgWQQ6gDHeVl1xTmW6BEWAWnS5pbY+gqcMzZsnq8L7hVPgEOrI+27Hw
- SPbvb6eW8+fT07BwkeFkFtubmtV5KF3Jvsky2iUBjMnzlpMQycRNe3Ezvx7xJEAcUhNG
- +Lgp1rl1ekNfciXbfK+C+cv2ofczu6yn0K8XW9aEDCNpWEGEK8awHimGAY5/lhZxjwwj
- 5mTVf+6Jg1X0Nm1Krh54WT05EljJ43fEtjcKBJ7mDa00Sxbyc6tQuE766VVTCZjfEOXZ
- igYQ==
+ bh=ir3uvErgUob4NFVyXZ4JMzbDFyUKCFAp6JFwnKMpYXU=;
+ b=sDiCfmTwLAL+IKSK6fOyjJI03hKdZIxAwTN23mUq3iwImjKp2FQBCLSi5GOXxBPsHz
+ BdYaxRl6VVlyvlU6jG9NE6ZG8rv3Yj0JnmFXHJTRlzsuIL78G6czmw1vTpU9BjChZF3M
+ rmMJqL65R3fZNXf0/E6oOy/hBWLN3/iir5072tqA+HRaWY7fBEiO0FbK5YJ6YijcnQ8a
+ +mTJELLZsdyHs4cGNDjena94bfmGvZYxnw5jMqOsrOF0BvuaxqpN8pcLqOkR+sqcjRqy
+ tsqki7IGeJr9MY0ED0VxJTG89l+ku1voRYszZZ+iJsbbJXKsZ69oEGGy6biAIZwn2wYU
+ wjLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CIit3J5M4bcdITVWI6ie/I3FGXLXgR6m6GwfusmdrJE=;
- b=r2wMj7HdOg4AykqDp7m9v7mpPJo1tett+bRQyq5Lb57IhsFQZQRKzPWUdCgNP5xsnw
- rzVpwEscnlEIDpjWeRXr58qjq6OxOdSrgvWnYMl/pQxzrdnq034TyOBnZpNqnBdnvMgx
- PR01VVal7hzHYocUWJBfgUG7p4bneaeuUYlLVH/1Y+Y3IEKH4CFJcqryzG3S6F7Bv/3h
- 6E7R+TdT8AE6WZulBHThMiCob/+Dg4sg+DbLFAUOFUBi6CWfqAD+vZEGYMIjiDaHkd+G
- twZO3Zd2GfwxsuE1d/v5F07J/ep1ZvH93P4H/V2D3IUyrGRgb51lJfUuySojCQWuT+66
- y4oQ==
-X-Gm-Message-State: ANoB5pl5TFNCTDvQzZWgbpf4JmxrroQYTHhJIIEU3SP1xINip7bJWyfO
- 529EP0AZKZAnULg3dWksw2M5jA==
-X-Google-Smtp-Source: AA0mqf7ynKkshYTZoTQ3GRH//Z1ZR04OWdvwe5TEjKbt7pYwLviofbMpiBkGttO94vlLg2DiroAsTg==
-X-Received: by 2002:a2e:940f:0:b0:277:5df:9728 with SMTP id
- i15-20020a2e940f000000b0027705df9728mr14128145ljh.337.1669891050977; 
- Thu, 01 Dec 2022 02:37:30 -0800 (PST)
+ bh=ir3uvErgUob4NFVyXZ4JMzbDFyUKCFAp6JFwnKMpYXU=;
+ b=KAazfOJukLb6abM27sw3nsQiblmx4iymGO7J5uFy4/ZrdTj0IZZuVRySfZNw1ayODF
+ IVtr62c6f62idENxNQmkzvB1pIDD3/HvKTcxDlpvNhUgrpmF/lFYwHvEdjO+ZMjPyFuv
+ TEFXkdVc0Ri6LNhFclaxj+3aY9SjsEQmBuVlgcG3vNYtIEkNOktn8XYX/Ut2MRogFVDP
+ O3M4hIhcAoQDi6YWcRxiJeEFd9uczzT5e5vwLEbe0aZyhA2ITBsPWxQfSfZVPO2k17EO
+ PpDh7CfmI8hIz7lzx71eHv620Y+1ICD+wIHSEJVeMgkY0Osufc9ozCygoRO5+PfDnJ0+
+ xQmw==
+X-Gm-Message-State: ANoB5pkVaGv8qrcOiVogJY3v3aT7ITk8EY6JBkOn81vxJXR4XDHZWs1o
+ z5opzUiwmT8lcf0CgWlBRVPtMw==
+X-Google-Smtp-Source: AA0mqf5fOBE5NhPN7Xd+BTF4xDsWEodGVKp8iN4/HOQ8OyxhgwJEhznyaRqPwZeYHiXu0T46gbRvmQ==
+X-Received: by 2002:a05:6512:3983:b0:4b4:f88:90d3 with SMTP id
+ j3-20020a056512398300b004b40f8890d3mr23278296lfu.37.1669891098347; 
+ Thu, 01 Dec 2022 02:38:18 -0800 (PST)
 Received: from [192.168.0.20]
  (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
  by smtp.gmail.com with ESMTPSA id
- s21-20020a056512203500b004ab98cd5644sm601503lfs.182.2022.12.01.02.37.28
+ k29-20020a192d1d000000b004b5138d82b3sm601559lfj.76.2022.12.01.02.38.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Dec 2022 02:37:30 -0800 (PST)
-Message-ID: <dfd2d1b5-4d1b-2381-ad11-5ea9e6654a55@linaro.org>
-Date: Thu, 1 Dec 2022 11:37:27 +0100
+ Thu, 01 Dec 2022 02:38:17 -0800 (PST)
+Message-ID: <382df687-c535-4dd6-125a-5f3b6022cbd2@linaro.org>
+Date: Thu, 1 Dec 2022 11:38:16 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
-Subject: Re: [PATCH v2 01/12] dt-bindings: display: msm: Rename mdss node name
- in example
+Subject: Re: [PATCH v2 11/12] arm64: dts: qcom: sm6115: Add WCN node.
 Content-Language: en-US
 To: Adam Skladowski <a39.skl@gmail.com>
 References: <20221130200950.144618-1-a39.skl@gmail.com>
- <20221130200950.144618-2-a39.skl@gmail.com>
+ <20221130200950.144618-12-a39.skl@gmail.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221130200950.144618-2-a39.skl@gmail.com>
+In-Reply-To: <20221130200950.144618-12-a39.skl@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -94,12 +93,10 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 30/11/2022 21:09, Adam Skladowski wrote:
-> Follow other YAMLs and replace mdss name into display-subystem.
+> Add WCN node to allow using wifi module.
 > 
-> Signed-off-by: Adam Skladowski <a39.skl@gmail.com>
 
-
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+A nit: Drop full stop from commit subject.
 
 Best regards,
 Krzysztof
