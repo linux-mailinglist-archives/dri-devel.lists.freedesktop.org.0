@@ -2,62 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CDBF63EACC
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 09:06:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 601A663EAFE
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Dec 2022 09:26:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4E7D10E551;
-	Thu,  1 Dec 2022 08:06:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F43B10E144;
+	Thu,  1 Dec 2022 08:26:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
- [IPv6:2607:f8b0:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E10610E00E
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 01:55:36 +0000 (UTC)
-Received: by mail-pf1-x434.google.com with SMTP id h28so496080pfq.9
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Nov 2022 17:55:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=C8hpJ+dhKLwcq6yGKXl9JYCXBoLbIiY9R+toMXs7xSY=;
- b=PXW7kMdCN3ai+CI0xhP8dUH6+O2YzxU2IhSV5eUBFDR4EwrNFfWs9iu7/OUr82Un6v
- Xf2FxRIXxOn71D8Csqze226LrlxI2ZYZgVWHq8dAdMV0Yr3bRyOZ3UbFb7rA0qIdsFHi
- SKiZSi5nqW4qutJZNdS9mLQZykYBw+dVCuW3lFaN4P+n8nvRhHBnAo5t7BnJeMlX0P7p
- vNxhz5gBRw/Qwhol3ns2Y4F1VMvh6Qg7GefnnMVokuX+Lo3UTT72XDF/yqHTLJogFzSl
- VRzU5lLsVhFSl0PojqcwKhDkrjQEXpRdONrkgc+bD27rsP26wYC2DJxHIn7jC7CiOUE9
- iD5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=C8hpJ+dhKLwcq6yGKXl9JYCXBoLbIiY9R+toMXs7xSY=;
- b=cYBN0Sa0WL0d8d0jK1g0IF489c7rt5DAEcf9hDSMgbBsSCXHEf5iLzTX00oZxfhSss
- OUdmLecxpCs0Fie+74hd3w8zK+NracPgoe0hp+4XQnMt+5Mpz1+rluidE5WYacbzBRxO
- FoYXJxG0doPXinoleMlreh38H9IVzfPSYLkgPC85FCRFfUu2eNJ5zm18tU6VDPOclR+2
- T3fiMBYJn2b+uwRHJBXGX9bsBtY4VNEXXDwbk+yz89gdbND3pmNtoWTwya/lBCVvK8yz
- VjIjvpWBUeyUjK7jKUoP+HPF0+PjDsj8IdbSdMsHOwH9p4wy+obmt7JeWqBtebbZW7Ot
- Movg==
-X-Gm-Message-State: ANoB5pnHpNbcspGaHnlNWuTjCW87IMRYcOu3Ek97KBd0QfIDwx92527r
- IF7WMDpz0wV3vvLTZAfq6xo=
-X-Google-Smtp-Source: AA0mqf7W++ZGlAQng+eeRI1JZVWPEnuY6Xb3IZoLdPXSTzOLfDjzAs7B0Z6Sl0DCk+ll7W7tSZa5qA==
-X-Received: by 2002:a62:8446:0:b0:574:8c08:6c15 with SMTP id
- k67-20020a628446000000b005748c086c15mr34168668pfd.82.1669859736108; 
- Wed, 30 Nov 2022 17:55:36 -0800 (PST)
-Received: from localhost.localdomain ([43.132.141.8])
- by smtp.gmail.com with ESMTPSA id
- x9-20020aa79a49000000b0056e0ff577edsm2013079pfj.43.2022.11.30.17.55.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Nov 2022 17:55:35 -0800 (PST)
-From: zys.zljxml@gmail.com
-To: thierry.reding@gmail.com, airlied@gmail.com, daniel@ffwll.ch,
- sumit.semwal@linaro.org, christian.koenig@amd.com
-Subject: [PATCH] gpu: host1x: Remove redundant null checks before kfree
-Date: Thu,  1 Dec 2022 09:55:21 +0800
-Message-Id: <20221201015522.38163-1-zys.zljxml@gmail.com>
-X-Mailer: git-send-email 2.27.0
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E0A310E144
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Dec 2022 08:26:33 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 93138B81E5D;
+ Thu,  1 Dec 2022 08:26:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA0E3C433C1;
+ Thu,  1 Dec 2022 08:26:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1669883190;
+ bh=dGT/GVf3mSAKxaqt9pZa5vRYe7VO1uBv54gKbJHA68A=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=UPWMGpyARNMhdBUuXg5y5vNdXnBbNjmf1kbDDbJWdj+k1Z2QK4mLlk8jrcR0pjNXh
+ 5CjZ2UrM3jzR2teQ3LdcFdX4nAKuBjBpxzh338ImpyXPJdESt3bjbsYjmKicmIFWOG
+ DBUI/cx+M+X31vwEI5YySYogk+k/OkaV3h+6T8q0=
+Date: Thu, 1 Dec 2022 06:55:50 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: noralf@tronnes.org
+Subject: Re: [PATCH v2 0/6] drm/gud: Use the shadow plane helper
+Message-ID: <Y4hB5odv9IGaq3Di@kroah.com>
+References: <20221122-gud-shadow-plane-v2-0-435037990a83@tronnes.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Thu, 01 Dec 2022 08:06:25 +0000
+In-Reply-To: <20221122-gud-shadow-plane-v2-0-435037990a83@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,37 +49,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yushan Zhou <katrinzhou@tencent.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-tegra@vger.kernel.org, linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, stable@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Yushan Zhou <katrinzhou@tencent.com>
+On Wed, Nov 30, 2022 at 08:26:48PM +0100, Noralf Trønnes via B4 Submission Endpoint wrote:
+> Hi,
+> 
+> I have started to look at igt for testing and want to use CRC tests. To
+> implement support for this I need to move away from the simple kms
+> helper.
+> 
+> When looking around for examples I came across Thomas' nice shadow
+> helper and thought, yes this is perfect for drm/gud. So I'll switch to
+> that before I move away from the simple kms helper.
+> 
+> The async framebuffer flushing code path now uses a shadow buffer and
+> doesn't touch the framebuffer when it shouldn't. I have also taken the
+> opportunity to inline the synchronous flush code path and make this the
+> default flushing stategy.
+> 
+> Noralf.
+> 
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
+> 
+> ---
+> Changes in v2:
+> - Drop patch (Thomas):
+>   drm/gem: shadow_fb_access: Prepare imported buffers for CPU access
+> - Use src as variable name for iosys_map (Thomas)
+> - Prepare imported buffer for CPU access in the driver (Thomas)
+> - New patch: make sync flushing the default (Thomas)
+> - Link to v1: https://lore.kernel.org/r/20221122-gud-shadow-plane-v1-0-9de3afa3383e@tronnes.org
 
-Fix the following coccicheck warning:
-./drivers/gpu/host1x/fence.c:97:2-7: WARNING:
-NULL check before some freeing functions is not needed.
+<formletter>
 
-Signed-off-by: Yushan Zhou <katrinzhou@tencent.com>
----
- drivers/gpu/host1x/fence.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+This is not the correct way to submit patches for inclusion in the
+stable kernel tree.  Please read:
+    https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+for how to do this properly.
 
-diff --git a/drivers/gpu/host1x/fence.c b/drivers/gpu/host1x/fence.c
-index ecab72882192..05b36bfc8b74 100644
---- a/drivers/gpu/host1x/fence.c
-+++ b/drivers/gpu/host1x/fence.c
-@@ -93,8 +93,7 @@ static void host1x_syncpt_fence_release(struct dma_fence *f)
- {
- 	struct host1x_syncpt_fence *sf = to_host1x_fence(f);
- 
--	if (sf->waiter)
--		kfree(sf->waiter);
-+	kfree(sf->waiter);
- 
- 	dma_fence_free(f);
- }
--- 
-2.27.0
-
+</formletter>
