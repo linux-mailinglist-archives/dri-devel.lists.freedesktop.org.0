@@ -2,53 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73F046406B1
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Dec 2022 13:22:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B12126406F2
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Dec 2022 13:38:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7381810E0CA;
-	Fri,  2 Dec 2022 12:22:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 363F710E188;
+	Fri,  2 Dec 2022 12:38:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97EED10E0CA
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Dec 2022 12:22:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202112;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Goos7h1txFFVlYtk5+lVhvf2k4pyk3ADIcTiJ5dO1/E=; b=HQsorja1Agklr//cWSfZ7lK9GW
- ICsLaMcJgjKpoeoeOg4+Kd/qp+WG6Hdu4XiOZduiKEmuemmgfvYaKQutuxVJKkQytJ941oSvXRzc2
- 5Wpm7IoMFa6EfsjMFwX6S7vhFTQnYIbCeWVa5EcWZejT9aHU8Mcf9RuhCahS35etDtP/ZC+hnafXu
- zNc8HssRZ3iPsPGl+U9XTut7d1kTWT2VWnmtaJMFUJ6jNn913lWuHqizUeXPaRZ6Q3lRwW4hxk/UC
- /6gE/SkUBHiCa99jReNHuqUHWHABBcRJQmrkqHNiBWK6+fR/alEeDF2qd4nqAwX+uu42hZNaShY27
- QG9op8qQ==;
-Received: from [2a01:799:95e:1700:6395:ccbd:d000:d42b] (port=63984)
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1p153d-0001jo-3j; Fri, 02 Dec 2022 13:22:21 +0100
-Message-ID: <c6afdf2a-ef58-d5fd-9f99-b61c9e38d471@tronnes.org>
-Date: Fri, 2 Dec 2022 13:22:18 +0100
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E744A10E6E3;
+ Fri,  2 Dec 2022 12:38:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1669984716; x=1701520716;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=9YP/9ZcHz3tEC4PSjp6JBrVKRvDaVTB1z5m2auiLJlM=;
+ b=M4Qw3XO32hlp2S1ebZt15uCdcuSUvyizNziJGtcrKlLUjldGYNshqZdO
+ BVNAMG13GFn1vfPQJ3mF+4OljsR5gkY1a5A00zzxtoXEfwikG84jYX/y8
+ AGCpd/8Q2kJ5wuP7QVop/Nkv8YJ+XsBA7Y/pMayyOo3EY4l3s5enw2Pmf
+ ujXF62FdlgobRVrtPbkftXdlLVO33VqsB3y8AHXroqUF/4zRutSxTTAnU
+ bSY5NxIeBHU0vanqEcNFqvXz9j0vVT4oqlF2oE3C3dirNQNcYwf713uMC
+ lH807N9rz84UeyMz3J86rPp3NW86N0FSYh5hXy7Ju9Gci0rtj+PtKmnKL Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="296299292"
+X-IronPort-AV: E=Sophos;i="5.96,212,1665471600"; d="scan'208";a="296299292"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Dec 2022 04:38:36 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="647155619"
+X-IronPort-AV: E=Sophos;i="5.96,212,1665471600"; d="scan'208";a="647155619"
+Received: from macematx-mobl1.ger.corp.intel.com (HELO [10.213.211.34])
+ ([10.213.211.34])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Dec 2022 04:38:34 -0800
+Message-ID: <170ec9a0-10e2-9413-31de-7694854e903f@linux.intel.com>
+Date: Fri, 2 Dec 2022 12:38:32 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH 5/8] drm/mipi-dbi: Prepare framebuffer copy operation in
- pipe-update helpers
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- thierry.reding@gmail.com, sam@ravnborg.org, emma@anholt.net,
- david@lechnology.com, kamlesh.gurudasani@gmail.com, javierm@redhat.com
-References: <20221121104532.8301-1-tzimmermann@suse.de>
- <20221121104532.8301-6-tzimmermann@suse.de>
- <4e1b19de-04b1-3fa5-6aaa-72a4ad694b64@tronnes.org>
- <9b42a348-bad0-2615-8690-b7973375af02@suse.de>
- <7916346d-a3bb-3027-6598-ea6455b6a81b@suse.de>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <7916346d-a3bb-3027-6598-ea6455b6a81b@suse.de>
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [Intel-gfx] [PATCH v6 3/5] drm/i915: Introduce guard pages to
+ i915_vma
+Content-Language: en-US
+To: Andi Shyti <andi.shyti@linux.intel.com>
+References: <20221201144446.333776-1-andi.shyti@linux.intel.com>
+ <20221201203912.346110-1-andi.shyti@linux.intel.com>
+ <8a8152b6-a7f9-7ecb-4e5b-2b961f8e3ee2@linux.intel.com>
+ <Y4ndYv5C6K39C8PP@ashyti-mobl2.lan>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <Y4ndYv5C6K39C8PP@ashyti-mobl2.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,40 +65,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- dri-devel@lists.freedesktop.org
+Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>,
+ dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-
-Den 02.12.2022 12.50, skrev Thomas Zimmermann:
+On 02/12/2022 11:11, Andi Shyti wrote:
+> Hi Tvrtko,
 > 
->>>
->>> You use drm_gem_fb_vmap() in the other places but here you access the
->>> object directly (and in the next hunk), but again not so important since
->>> it goes away in a later patch.
+> On Fri, Dec 02, 2022 at 10:20:11AM +0000, Tvrtko Ursulin wrote:
 >>
->> I'll update this patch to use drm_gem_fb_vmap() consistently.
+>> On 01/12/2022 20:39, Andi Shyti wrote:
+>>> From: Chris Wilson <chris@chris-wilson.co.uk>
+>>>
+>>> Introduce the concept of padding the i915_vma with guard pages before
+>>> and after. The major consequence is that all ordinary uses of i915_vma
+>>> must use i915_vma_offset/i915_vma_size and not i915_vma.node.start/size
+>>> directly, as the drm_mm_node will include the guard pages that surround
+>>> our object.
+>>>
+>>> The biggest connundrum is how exactly to mix requesting a fixed address
+>>> with guard pages, particularly through the existing uABI. The user does
+>>> not know about guard pages, so such must be transparent to the user, and
+>>> so the execobj.offset must be that of the object itself excluding the
+>>> guard. So a PIN_OFFSET_FIXED must then be exclusive of the guard pages.
+>>> The caveat is that some placements will be impossible with guard pages,
+>>> as wrap arounds need to be avoided, and the vma itself will require a
+>>> larger node. We must not report EINVAL but ENOSPC as these are unavailable
+>>> locations within the GTT rather than conflicting user requirements.
+>>>
+>>> In the next patch, we start using guard pages for scanout objects. While
+>>> these are limited to GGTT vma, on a few platforms these vma (or at least
+>>> an alias of the vma) is shared with userspace, so we may leak the
+>>> existence of such guards if we are not careful to ensure that the
+>>> execobj.offset is transparent and excludes the guards. (On such platforms
+>>> like ivb, without full-ppgtt, userspace has to use relocations so the
+>>> presence of more untouchable regions within its GTT such be of no further
+>>> issue.)
+>>>
+>>> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+>>> Signed-off-by: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
+>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+>>> ---
+>>> Hi Tvrtko,
+>>>
+>>> I removed your r-b in this version because I restored the original value
+>>> of the guard being aligned with the vma size alignment. Turns out that
+>>> CI failed with the latest version because the guard was becoming too big
+>>> (we would have hit the GEM_BUG_ON)[*].
+>>>
+>>> The reason why now the guard is aligned with the vma alignment is that
+>>> the area is already aligned and if we use as a starting address start +
+>>> guard, guard needs to be aligned, otherwise we screw up all the memory
+>>> alignment.
+>>>
+>>> Let me know if it makes sense to you.
+>>
+>> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>
+>> Conditional to promise of a prioritised follow up improvement, if it turns
+>> out GGTT wastage due a bit over zealous guard size comes to bite.
 > 
-> And after looking at the impact and churn, I rather go with the existing
-> code that initializes from the GEM DMA object.
+> Sure! I'll be alert!
 > 
-> Noralf, is there a reason why most of MIPI DBI uses DMA helpers? In
-> terms of flexibility and resource consumption, wouldn't SHMEM helpers be
-> a better fit?
-> 
+> There are some unrelated failures from CI, just to be sure I sent
+> last night a trybot run.
 
-The SHMEM helper didn't exist at the time. The SPI subsystem doesn't
-have an interface for scatter/gather transfers and DMA is needed in
-order to run at full speed. SPI does convert an is_vmalloc_addr() buffer
-to an sg list of pages in spi_map_buf() so it solves the missing
-interface that way.
+Trybot looked okay, and I just pressed re-test for the intel-gfx series 
+so lets see that too.
 
-I have never tried to pass a shmem buffer to spi_sync() so I don't know
-if it works, but I guess that it will work.
+Regards,
 
-Bare in mind that theses buffers are at most 400k in size so I'm not
-sure there's much to gain in term of resources at least.
-
-Noralf.
+Tvrtko
