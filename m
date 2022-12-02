@@ -2,36 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 471BE640640
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Dec 2022 12:59:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C2C7640656
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Dec 2022 13:04:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2371B10E6E0;
-	Fri,  2 Dec 2022 11:58:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7553610E6E7;
+	Fri,  2 Dec 2022 12:04:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out2.migadu.com (out2.migadu.com [188.165.223.204])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D98E210E6E3
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Dec 2022 11:58:51 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1669982330;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=qU6V1zC0ubiasGJw0DuyU+aIJG0zbseMSw+1CvsGzIg=;
- b=FXe4zJBnhoNRbs3MH3iG+lFAIKKUMxN9nUgVRZeU76Hc1ARyiOAp1+O2dNotBNvzeYEuyB
- e90UjUxl4SUCyhlIq3wB9O329rSPTe1KsXiOg1M3r3A1eCGo7uJhaHx5E+SHh8/uSjv2HV
- L/GX5gK7MW85qzmSu+zd4IZGddb8cAo=
-From: Cai Huoqing <cai.huoqing@linux.dev>
-To: cai.huoqing@linux.dev
-Subject: [RESEND PATCH linux-next 1/2] MAINTAINERS: Remove some obsolete drm
- drivers(tdfx, mga, i810, savage, r128, sis)
-Date: Fri,  2 Dec 2022 19:57:31 +0800
-Message-Id: <20221202115837.19475-1-cai.huoqing@linux.dev>
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34D3410E6E7
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Dec 2022 12:04:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=CiyckMu2coaqEUEz/RilYM4hLRM5FYqvwJC4/xa9Mwc=; b=j13QZWsSmEL7Jou4tuzYUX7iYb
+ 1D/S+zy32rfO95L2ZoSA1I+vuUdINxXFUnlbR4/2sq/yPoMd7v5eZpdfLUs1d5+X9urtOsgpOUdUH
+ i25g0c0pZZFaPy7nHFwmIZEqf7CmDe6LZdw0LbBar5nsne7TL7v63TgL3cw3+rBW4EiItYFN456u4
+ kZGK/GZQIzmsAFB8aYgCn6UzNW2syCfroAAwwkd5XkYiipayppd6lDA4cWieIK4gBIE/rqFocpjQ6
+ rjzoAJdTwrMaYzKmUyL1ArkLd/Y1so4xnNVSAkH71HxZQsXmjg4tfFuRA2VWcUHk9WCkvhblVp3Eq
+ j0mDnHRQ==;
+Received: from [2a01:799:95e:1700:6395:ccbd:d000:d42b] (port=62865)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1p14m6-0002D8-Fj; Fri, 02 Dec 2022 13:04:14 +0100
+Message-ID: <6aeb596a-65b9-8c87-b4de-97256e3a8576@tronnes.org>
+Date: Fri, 2 Dec 2022 13:04:11 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH 5/8] drm/mipi-dbi: Prepare framebuffer copy operation in
+ pipe-update helpers
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ thierry.reding@gmail.com, sam@ravnborg.org, emma@anholt.net,
+ david@lechnology.com, kamlesh.gurudasani@gmail.com, javierm@redhat.com
+References: <20221121104532.8301-1-tzimmermann@suse.de>
+ <20221121104532.8301-6-tzimmermann@suse.de>
+ <4e1b19de-04b1-3fa5-6aaa-72a4ad694b64@tronnes.org>
+ <9b42a348-bad0-2615-8690-b7973375af02@suse.de>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <9b42a348-bad0-2615-8690-b7973375af02@suse.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,107 +61,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
- Danilo Krummrich <dakr@redhat.com>, dri-devel@lists.freedesktop.org,
- Borislav Petkov <bp@suse.de>
+Cc: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 399516ab0fee ("MAINTAINERS: Add a bunch of legacy (UMS) DRM drivers")
-marked these drivers obsolete 7 years ago.
-And the mesa UMD of these drm drivers already in deprecated list
-in the link: https://docs.mesa3d.org/systems.html
 
-3dfx Glide-->driver/gpu/drm/tdfx
-Matrox-->driver/gpu/drm/mga
-Intel i810-->driver/gpu/drm/i810
-S3 Savage-->drivers/gpu/drm/savage/
-ATI Rage 128->drivers/gpu/drm/r128/
-Silicon Integrated Systems->drivers/gpu/drm/sis/
 
-It's time to remove these.
+Den 02.12.2022 12.27, skrev Thomas Zimmermann:
+> Hi
+> 
+> Am 25.11.22 um 18:39 schrieb Noralf Trønnes:
+>>
+>>
+>> Den 21.11.2022 11.45, skrev Thomas Zimmermann:
+>>> Move the vmap/vunmap blocks from the inner fb_dirty helpers into the
+>>> MIPI DBI update helpers. The function calls can result in waiting and/or
+>>> processing overhead. Reduce the penalties by executing the functions
+>>> once
+>>> in the outer-most function of the pipe update.
+>>>
+>>> This change also prepares for MIPI DBI for shadow-plane helpers. With
+>>> shadow-plane helpers, transfer source buffers are mapped into kernel
+>>> address space automatically.
+>>>
+>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>> ---
 
-Signed-off-by: Cai Huoqing <cai.huoqing@linux.dev>
----
- MAINTAINERS | 29 -----------------------------
- 1 file changed, 29 deletions(-)
+>>> @@ -303,9 +291,6 @@ static void mipi_dbi_fb_dirty(struct
+>>> drm_framebuffer *fb, struct drm_rect *rect)
+>>>       if (ret)
+>>>           drm_err_once(fb->dev, "Failed to update display %d\n", ret);
+>>>   -    drm_gem_fb_vunmap(fb, map);
+>>> -
+>>> -err_drm_dev_exit:
+>>>       drm_dev_exit(idx);
+>>>   }
+>>>   @@ -338,14 +323,27 @@ EXPORT_SYMBOL(mipi_dbi_pipe_mode_valid);
+>>>   void mipi_dbi_pipe_update(struct drm_simple_display_pipe *pipe,
+>>>                 struct drm_plane_state *old_state)
+>>>   {
+>>> +    struct iosys_map map[DRM_FORMAT_MAX_PLANES];
+>>> +    struct iosys_map data[DRM_FORMAT_MAX_PLANES];
+>>
+>> These should have been zeroed to avoid UBSAN complaint, but you'll
+>> remove these later so not so important.
+> 
+> Will be fixed.
+> 
+> But do you know how these warnings happen? I went through the helpers
+> before and changed them to only access the format-info's relevant
+> planes. No unintialized memory access should be reported.
+> 
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3583c5f6889d..44c4f2d46cfa 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6569,11 +6569,6 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
- F:	Documentation/devicetree/bindings/display/ilitek,ili9486.yaml
- F:	drivers/gpu/drm/tiny/ili9486.c
- 
--DRM DRIVER FOR INTEL I810 VIDEO CARDS
--S:	Orphan / Obsolete
--F:	drivers/gpu/drm/i810/
--F:	include/uapi/drm/i810_drm.h
--
- DRM DRIVER FOR JADARD JD9365DA-H3 MIPI-DSI LCD PANELS
- M:	Jagan Teki <jagan@edgeble.ai>
- S:	Maintained
-@@ -6602,11 +6597,6 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/display/panel/mantix,mlaf057we51-x.yaml
- F:	drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
- 
--DRM DRIVER FOR MATROX G200/G400 GRAPHICS CARDS
--S:	Orphan / Obsolete
--F:	drivers/gpu/drm/mga/
--F:	include/uapi/drm/mga_drm.h
--
- DRM DRIVER FOR MGA G200 GRAPHICS CHIPS
- M:	Dave Airlie <airlied@redhat.com>
- R:	Thomas Zimmermann <tzimmermann@suse.de>
-@@ -6725,11 +6715,6 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
- F:	drivers/gpu/drm/qxl/
- F:	include/uapi/drm/qxl_drm.h
- 
--DRM DRIVER FOR RAGE 128 VIDEO CARDS
--S:	Orphan / Obsolete
--F:	drivers/gpu/drm/r128/
--F:	include/uapi/drm/r128_drm.h
--
- DRM DRIVER FOR RAYDIUM RM67191 PANELS
- M:	Robert Chiras <robert.chiras@nxp.com>
- S:	Maintained
-@@ -6757,11 +6742,6 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml
- F:	drivers/gpu/drm/panel/panel-sitronix-st7703.c
- 
--DRM DRIVER FOR SAVAGE VIDEO CARDS
--S:	Orphan / Obsolete
--F:	drivers/gpu/drm/savage/
--F:	include/uapi/drm/savage_drm.h
--
- DRM DRIVER FOR FIRMWARE FRAMEBUFFERS
- M:	Thomas Zimmermann <tzimmermann@suse.de>
- M:	Javier Martinez Canillas <javierm@redhat.com>
-@@ -6777,11 +6757,6 @@ F:	include/drm/drm_aperture.h
- F:	include/linux/aperture.h
- F:	include/video/nomodeset.h
- 
--DRM DRIVER FOR SIS VIDEO CARDS
--S:	Orphan / Obsolete
--F:	drivers/gpu/drm/sis/
--F:	include/uapi/drm/sis_drm.h
--
- DRM DRIVER FOR SITRONIX ST7586 PANELS
- M:	David Lechner <david@lechnology.com>
- S:	Maintained
-@@ -6809,10 +6784,6 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
- F:	Documentation/devicetree/bindings/display/ste,mcde.yaml
- F:	drivers/gpu/drm/mcde/
- 
--DRM DRIVER FOR TDFX VIDEO CARDS
--S:	Orphan / Obsolete
--F:	drivers/gpu/drm/tdfx/
--
- DRM DRIVER FOR TI DLPC3433 MIPI DSI TO DMD BRIDGE
- M:	Jagan Teki <jagan@amarulasolutions.com>
- S:	Maintained
--- 
-2.25.1
+It happens with imported buffers, iosys_map_clear() looks at the
+uninitialized boolean variable ->is_iomem:
 
+drm_gem_fb_vmap -> ... -> dma_buf_vmap -> iosys_map_clear
+
+static inline void iosys_map_clear(struct iosys_map *map)
+{
+	if (map->is_iomem) {
+		map->vaddr_iomem = NULL;
+		map->is_iomem = false;
+	} else {
+		map->vaddr = NULL;
+	}
+}
+
+Noralf.
