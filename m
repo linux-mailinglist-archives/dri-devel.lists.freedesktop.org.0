@@ -2,56 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEB10640472
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Dec 2022 11:20:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C0C2640523
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Dec 2022 11:49:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D37910E6B6;
-	Fri,  2 Dec 2022 10:20:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A886D10E6D3;
+	Fri,  2 Dec 2022 10:49:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BC1810E6B6;
- Fri,  2 Dec 2022 10:20:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669976417; x=1701512417;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=E2kquVLkURRInlaaUZInJ9jDXt63fJnFUKCOpPPea3Q=;
- b=QPAM4WxX0/iyMMRS9FYQfg3EX6mPyyU4wMB/kOZtYgPZllIcj0845Ken
- u6uGJ5UzawkLFm4GpNSNeuO0Q588hDO9iiBdPBAU9JoSWlEdyjd/0g3ul
- iTQYce09rv0aYbypTI2Y8EE+rYEvG9JXj4iILzpyM1nbd4ahSXU3ajFs0
- 6vIG7EFVLxO0RlzcS5cmddM6DEpWy2Y2CWdzlABwYXLFfLyIyqDN8T/PC
- 7dULtQGDknH6CbB8dJehlCPY9X/knHts9/3EJmsSeOAVwQFSE+rOmERl7
- a6ZOSL+uaKiGCScch6u/G8HEJ1UYmMN8CIS7sLdIkMSvJiCUUKPZ8SnKs Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="380213959"
-X-IronPort-AV: E=Sophos;i="5.96,212,1665471600"; d="scan'208";a="380213959"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Dec 2022 02:20:16 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="622652314"
-X-IronPort-AV: E=Sophos;i="5.96,212,1665471600"; d="scan'208";a="622652314"
-Received: from macematx-mobl1.ger.corp.intel.com (HELO [10.213.211.34])
- ([10.213.211.34])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Dec 2022 02:20:14 -0800
-Message-ID: <8a8152b6-a7f9-7ecb-4e5b-2b961f8e3ee2@linux.intel.com>
-Date: Fri, 2 Dec 2022 10:20:11 +0000
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7965110E6D3
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Dec 2022 10:49:53 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1p13c7-0003mG-UB; Fri, 02 Dec 2022 11:49:51 +0100
+Message-ID: <f876ba1f1c1db7fc6ffdb1efc76adecd029e2ea6.camel@pengutronix.de>
+Subject: Re: [PATCH] [RFC] drm/etnaviv: Disable softpin
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
+Date: Fri, 02 Dec 2022 11:49:50 +0100
+In-Reply-To: <d063b82d-7557-8f97-114e-3e7828c6dfb8@denx.de>
+References: <20221201232100.221606-1-marex@denx.de>
+ <6dc1400c0f39849ca5ba675e25e26e5f4a663e78.camel@pengutronix.de>
+ <d063b82d-7557-8f97-114e-3e7828c6dfb8@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [Intel-gfx] [PATCH v6 3/5] drm/i915: Introduce guard pages to
- i915_vma
-Content-Language: en-US
-To: Andi Shyti <andi.shyti@linux.intel.com>, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-References: <20221201144446.333776-1-andi.shyti@linux.intel.com>
- <20221201203912.346110-1-andi.shyti@linux.intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20221201203912.346110-1-andi.shyti@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,346 +48,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Matthew Auld <matthew.auld@intel.com>, Chris Wilson <chris@chris-wilson.co.uk>
+Cc: David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Am Freitag, dem 02.12.2022 um 11:20 +0100 schrieb Marek Vasut:
+> On 12/2/22 09:59, Lucas Stach wrote:
+> > Am Freitag, dem 02.12.2022 um 00:21 +0100 schrieb Marek Vasut:
+> > > Currently softpin suffers from assorted race conditions exposed by newer
+> > > versions of mesa 22.2.y and 22.3.y . Those races are difficult to fix in
+> > > older kernel versions due to massive amount of backports necessary to do
+> > > so. Disable softpin by default until Linux 6.1.y is out, which contains
+> > > the necessary fixes to make softpin work reliably.
+> > > 
+> > Sorry, but that's a NACK. The userspace driver depends on softpin for
+> > GPUs with texture descriptors, so this introduces a hard functional
+> > regression for those GPUs. I.e. they would go from "require race fixes
+> > that are already on the way to upstream" to not working at all.
+> 
+> I expected that NAK.
+> 
+> But then, what options do we have here, except for a massive convoluted 
+> backport, which might bring bugs of its own ?
 
-On 01/12/2022 20:39, Andi Shyti wrote:
-> From: Chris Wilson <chris@chris-wilson.co.uk>
-> 
-> Introduce the concept of padding the i915_vma with guard pages before
-> and after. The major consequence is that all ordinary uses of i915_vma
-> must use i915_vma_offset/i915_vma_size and not i915_vma.node.start/size
-> directly, as the drm_mm_node will include the guard pages that surround
-> our object.
-> 
-> The biggest connundrum is how exactly to mix requesting a fixed address
-> with guard pages, particularly through the existing uABI. The user does
-> not know about guard pages, so such must be transparent to the user, and
-> so the execobj.offset must be that of the object itself excluding the
-> guard. So a PIN_OFFSET_FIXED must then be exclusive of the guard pages.
-> The caveat is that some placements will be impossible with guard pages,
-> as wrap arounds need to be avoided, and the vma itself will require a
-> larger node. We must not report EINVAL but ENOSPC as these are unavailable
-> locations within the GTT rather than conflicting user requirements.
-> 
-> In the next patch, we start using guard pages for scanout objects. While
-> these are limited to GGTT vma, on a few platforms these vma (or at least
-> an alias of the vma) is shared with userspace, so we may leak the
-> existence of such guards if we are not careful to ensure that the
-> execobj.offset is transparent and excludes the guards. (On such platforms
-> like ivb, without full-ppgtt, userspace has to use relocations so the
-> presence of more untouchable regions within its GTT such be of no further
-> issue.)
-> 
-> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-> Signed-off-by: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> ---
-> Hi Tvrtko,
-> 
-> I removed your r-b in this version because I restored the original value
-> of the guard being aligned with the vma size alignment. Turns out that
-> CI failed with the latest version because the guard was becoming too big
-> (we would have hit the GEM_BUG_ON)[*].
-> 
-> The reason why now the guard is aligned with the vma alignment is that
-> the area is already aligned and if we use as a starting address start +
-> guard, guard needs to be aligned, otherwise we screw up all the memory
-> alignment.
-> 
-> Let me know if it makes sense to you.
-
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-
-Conditional to promise of a prioritised follow up improvement, if it 
-turns out GGTT wastage due a bit over zealous guard size comes to bite.
+There is no other option. The kernel driver in the LTS releases does
+have a buggy softpin implementation. If someone cares about being able
+to keep their system on the LTS kernel, then that someone either needs
+to carry out the backports of the fixes with the necessary diligence or
+sponsor someone to do it.
 
 Regards,
+Lucas
 
-Tvrtko
-
-> 
-> Thanks,
-> Andi
-> 
-> Changelog
-> =========
-> v5 -> v6:
->   - restore the original alignment of guard so that it's aligned
->     coherently with the vma area's alignment.
-> v4 -> v5:
->   - remove again the GEM_BUG_ON()
->   - fix an oversight where the rounding was called without assigning the
->     value to the guard.
-> v1 -> v4:
->   - refer to the cover letter.
-> 
-> [*] https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_110720v5/fi-rkl-11600/igt@i915_module_load@load.html#dmesg-warnings300
-> 
->   drivers/gpu/drm/i915/gt/intel_ggtt.c     | 14 +++++---
->   drivers/gpu/drm/i915/i915_gem_gtt.h      |  3 +-
->   drivers/gpu/drm/i915/i915_vma.c          | 43 ++++++++++++++++++++----
->   drivers/gpu/drm/i915/i915_vma.h          |  5 +--
->   drivers/gpu/drm/i915/i915_vma_resource.c |  4 +--
->   drivers/gpu/drm/i915/i915_vma_resource.h |  7 +++-
->   drivers/gpu/drm/i915/i915_vma_types.h    |  1 +
->   7 files changed, 60 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> index 7644738b9cdbe..784d4a8c43ba9 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> @@ -296,8 +296,11 @@ static void gen8_ggtt_insert_entries(struct i915_address_space *vm,
->   	 */
->   
->   	gte = (gen8_pte_t __iomem *)ggtt->gsm;
-> -	gte += vma_res->start / I915_GTT_PAGE_SIZE;
-> -	end = gte + vma_res->node_size / I915_GTT_PAGE_SIZE;
-> +	gte += (vma_res->start - vma_res->guard) / I915_GTT_PAGE_SIZE;
-> +	end = gte + vma_res->guard / I915_GTT_PAGE_SIZE;
-> +	while (gte < end)
-> +		gen8_set_pte(gte++, vm->scratch[0]->encode);
-> +	end += (vma_res->node_size + vma_res->guard) / I915_GTT_PAGE_SIZE;
->   
->   	for_each_sgt_daddr(addr, iter, vma_res->bi.pages)
->   		gen8_set_pte(gte++, pte_encode | addr);
-> @@ -347,9 +350,12 @@ static void gen6_ggtt_insert_entries(struct i915_address_space *vm,
->   	dma_addr_t addr;
->   
->   	gte = (gen6_pte_t __iomem *)ggtt->gsm;
-> -	gte += vma_res->start / I915_GTT_PAGE_SIZE;
-> -	end = gte + vma_res->node_size / I915_GTT_PAGE_SIZE;
-> +	gte += (vma_res->start - vma_res->guard) / I915_GTT_PAGE_SIZE;
->   
-> +	end = gte + vma_res->guard / I915_GTT_PAGE_SIZE;
-> +	while (gte < end)
-> +		iowrite32(vm->scratch[0]->encode, gte++);
-> +	end += (vma_res->node_size + vma_res->guard) / I915_GTT_PAGE_SIZE;
->   	for_each_sgt_daddr(addr, iter, vma_res->bi.pages)
->   		iowrite32(vm->pte_encode(addr, level, flags), gte++);
->   	GEM_BUG_ON(gte > end);
-> diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.h b/drivers/gpu/drm/i915/i915_gem_gtt.h
-> index 8c2f57eb5ddaa..2434197830523 100644
-> --- a/drivers/gpu/drm/i915/i915_gem_gtt.h
-> +++ b/drivers/gpu/drm/i915/i915_gem_gtt.h
-> @@ -44,7 +44,8 @@ int i915_gem_gtt_insert(struct i915_address_space *vm,
->   #define PIN_HIGH		BIT_ULL(5)
->   #define PIN_OFFSET_BIAS		BIT_ULL(6)
->   #define PIN_OFFSET_FIXED	BIT_ULL(7)
-> -#define PIN_VALIDATE		BIT_ULL(8) /* validate placement only, no need to call unpin() */
-> +#define PIN_OFFSET_GUARD	BIT_ULL(8)
-> +#define PIN_VALIDATE		BIT_ULL(9) /* validate placement only, no need to call unpin() */
->   
->   #define PIN_GLOBAL		BIT_ULL(10) /* I915_VMA_GLOBAL_BIND */
->   #define PIN_USER		BIT_ULL(11) /* I915_VMA_LOCAL_BIND */
-> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-> index fefee5fef38d3..34f0e6c923c26 100644
-> --- a/drivers/gpu/drm/i915/i915_vma.c
-> +++ b/drivers/gpu/drm/i915/i915_vma.c
-> @@ -419,7 +419,7 @@ i915_vma_resource_init_from_vma(struct i915_vma_resource *vma_res,
->   			       obj->mm.rsgt, i915_gem_object_is_readonly(obj),
->   			       i915_gem_object_is_lmem(obj), obj->mm.region,
->   			       vma->ops, vma->private, __i915_vma_offset(vma),
-> -			       __i915_vma_size(vma), vma->size);
-> +			       __i915_vma_size(vma), vma->size, vma->guard);
->   }
->   
->   /**
-> @@ -677,6 +677,10 @@ bool i915_vma_misplaced(const struct i915_vma *vma,
->   	    i915_vma_offset(vma) != (flags & PIN_OFFSET_MASK))
->   		return true;
->   
-> +	if (flags & PIN_OFFSET_GUARD &&
-> +	    vma->guard < (flags & PIN_OFFSET_MASK))
-> +		return true;
-> +
->   	return false;
->   }
->   
-> @@ -749,15 +753,16 @@ static int
->   i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
->   		u64 size, u64 alignment, u64 flags)
->   {
-> -	unsigned long color;
-> +	unsigned long color, guard;
->   	u64 start, end;
->   	int ret;
->   
->   	GEM_BUG_ON(i915_vma_is_bound(vma, I915_VMA_GLOBAL_BIND | I915_VMA_LOCAL_BIND));
->   	GEM_BUG_ON(drm_mm_node_allocated(&vma->node));
-> +	GEM_BUG_ON(hweight64(flags & (PIN_OFFSET_GUARD | PIN_OFFSET_FIXED | PIN_OFFSET_BIAS)) > 1);
->   
->   	size = max(size, vma->size);
-> -	alignment = max(alignment, vma->display_alignment);
-> +	alignment = max_t(typeof(alignment), alignment, vma->display_alignment);
->   	if (flags & PIN_MAPPABLE) {
->   		size = max_t(typeof(size), size, vma->fence_size);
->   		alignment = max_t(typeof(alignment),
-> @@ -768,6 +773,18 @@ i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
->   	GEM_BUG_ON(!IS_ALIGNED(alignment, I915_GTT_MIN_ALIGNMENT));
->   	GEM_BUG_ON(!is_power_of_2(alignment));
->   
-> +	guard = vma->guard; /* retain guard across rebinds */
-> +	if (flags & PIN_OFFSET_GUARD) {
-> +		GEM_BUG_ON(overflows_type(flags & PIN_OFFSET_MASK, u32));
-> +		guard = max_t(u32, guard, flags & PIN_OFFSET_MASK);
-> +	}
-> +	/*
-> +	 * As we align the node upon insertion, but the hardware gets
-> +	 * node.start + guard, the easiest way to make that work is
-> +	 * to make the guard a multiple of the alignment size.
-> +	 */
-> +	guard = ALIGN(guard, alignment);
-> +
->   	start = flags & PIN_OFFSET_BIAS ? flags & PIN_OFFSET_MASK : 0;
->   	GEM_BUG_ON(!IS_ALIGNED(start, I915_GTT_PAGE_SIZE));
->   
-> @@ -780,11 +797,12 @@ i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
->   
->   	alignment = max(alignment, i915_vm_obj_min_alignment(vma->vm, vma->obj));
->   
-> -	/* If binding the object/GGTT view requires more space than the entire
-> +	/*
-> +	 * If binding the object/GGTT view requires more space than the entire
->   	 * aperture has, reject it early before evicting everything in a vain
->   	 * attempt to find space.
->   	 */
-> -	if (size > end) {
-> +	if (size > end - 2 * guard) {
->   		drm_dbg(&to_i915(vma->obj->base.dev)->drm,
->   			"Attempting to bind an object larger than the aperture: request=%llu > %s aperture=%llu\n",
->   			size, flags & PIN_MAPPABLE ? "mappable" : "total", end);
-> @@ -801,13 +819,23 @@ i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
->   		if (!IS_ALIGNED(offset, alignment) ||
->   		    range_overflows(offset, size, end))
->   			return -EINVAL;
-> +		/*
-> +		 * The caller knows not of the guard added by others and
-> +		 * requests for the offset of the start of its buffer
-> +		 * to be fixed, which may not be the same as the position
-> +		 * of the vma->node due to the guard pages.
-> +		 */
-> +		if (offset < guard || offset + size > end - guard)
-> +			return -ENOSPC;
->   
->   		ret = i915_gem_gtt_reserve(vma->vm, ww, &vma->node,
-> -					   size, offset, color,
-> -					   flags);
-> +					   size + 2 * guard,
-> +					   offset - guard,
-> +					   color, flags);
->   		if (ret)
->   			return ret;
->   	} else {
-> +		size += 2 * guard;
->   		/*
->   		 * We only support huge gtt pages through the 48b PPGTT,
->   		 * however we also don't want to force any alignment for
-> @@ -855,6 +883,7 @@ i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
->   	GEM_BUG_ON(!i915_gem_valid_gtt_space(vma, color));
->   
->   	list_move_tail(&vma->vm_link, &vma->vm->bound_list);
-> +	vma->guard = guard;
->   
->   	return 0;
->   }
-> diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
-> index 3fd4512b1f65f..ed5c9d682a1b2 100644
-> --- a/drivers/gpu/drm/i915/i915_vma.h
-> +++ b/drivers/gpu/drm/i915/i915_vma.h
-> @@ -128,7 +128,7 @@ static inline bool i915_vma_is_closed(const struct i915_vma *vma)
->   /* Internal use only. */
->   static inline u64 __i915_vma_size(const struct i915_vma *vma)
->   {
-> -	return vma->node.size;
-> +	return vma->node.size - 2 * vma->guard;
->   }
->   
->   /**
-> @@ -150,7 +150,8 @@ static inline u64 i915_vma_size(const struct i915_vma *vma)
->   /* Internal use only. */
->   static inline u64 __i915_vma_offset(const struct i915_vma *vma)
->   {
-> -	return vma->node.start;
-> +	/* The actual start of the vma->pages is after the guard pages. */
-> +	return vma->node.start + vma->guard;
->   }
->   
->   /**
-> diff --git a/drivers/gpu/drm/i915/i915_vma_resource.c b/drivers/gpu/drm/i915/i915_vma_resource.c
-> index de1342dbfa128..6ba7a7feceba1 100644
-> --- a/drivers/gpu/drm/i915/i915_vma_resource.c
-> +++ b/drivers/gpu/drm/i915/i915_vma_resource.c
-> @@ -34,8 +34,8 @@ static struct kmem_cache *slab_vma_resources;
->    * and removal of fences increases as O(ln(pending_unbinds)) instead of
->    * O(1) for a single fence without interval tree.
->    */
-> -#define VMA_RES_START(_node) ((_node)->start)
-> -#define VMA_RES_LAST(_node) ((_node)->start + (_node)->node_size - 1)
-> +#define VMA_RES_START(_node) ((_node)->start - (_node)->guard)
-> +#define VMA_RES_LAST(_node) ((_node)->start + (_node)->node_size + (_node)->guard - 1)
->   INTERVAL_TREE_DEFINE(struct i915_vma_resource, rb,
->   		     u64, __subtree_last,
->   		     VMA_RES_START, VMA_RES_LAST, static, vma_res_itree);
-> diff --git a/drivers/gpu/drm/i915/i915_vma_resource.h b/drivers/gpu/drm/i915/i915_vma_resource.h
-> index 54edf3739ca0b..c1864e3d0b43e 100644
-> --- a/drivers/gpu/drm/i915/i915_vma_resource.h
-> +++ b/drivers/gpu/drm/i915/i915_vma_resource.h
-> @@ -57,6 +57,7 @@ struct i915_page_sizes {
->    * @node_size: Size of the allocated range manager node with padding
->    * subtracted.
->    * @vma_size: Bind size.
-> + * @guard: The size of guard area preceding and trailing the bind.
->    * @page_sizes_gtt: Resulting page sizes from the bind operation.
->    * @bound_flags: Flags indicating binding status.
->    * @allocated: Backend private data. TODO: Should move into @private.
-> @@ -115,6 +116,7 @@ struct i915_vma_resource {
->   	u64 start;
->   	u64 node_size;
->   	u64 vma_size;
-> +	u32 guard;
->   	u32 page_sizes_gtt;
->   
->   	u32 bound_flags;
-> @@ -179,6 +181,7 @@ static inline void i915_vma_resource_put(struct i915_vma_resource *vma_res)
->    * @start: Offset into the address space of bind range start after padding.
->    * @node_size: Size of the allocated range manager node minus padding.
->    * @size: Bind size.
-> + * @guard: The size of the guard area preceding and trailing the bind.
->    *
->    * Initializes a vma resource allocated using i915_vma_resource_alloc().
->    * The reason for having separate allocate and initialize function is that
-> @@ -197,7 +200,8 @@ static inline void i915_vma_resource_init(struct i915_vma_resource *vma_res,
->   					  void *private,
->   					  u64 start,
->   					  u64 node_size,
-> -					  u64 size)
-> +					  u64 size,
-> +					  u32 guard)
->   {
->   	__i915_vma_resource_init(vma_res);
->   	vma_res->vm = vm;
-> @@ -215,6 +219,7 @@ static inline void i915_vma_resource_init(struct i915_vma_resource *vma_res,
->   	vma_res->start = start;
->   	vma_res->node_size = node_size;
->   	vma_res->vma_size = size;
-> +	vma_res->guard = guard;
->   }
->   
->   static inline void i915_vma_resource_fini(struct i915_vma_resource *vma_res)
-> diff --git a/drivers/gpu/drm/i915/i915_vma_types.h b/drivers/gpu/drm/i915/i915_vma_types.h
-> index 0375812792b9c..77fda2244d161 100644
-> --- a/drivers/gpu/drm/i915/i915_vma_types.h
-> +++ b/drivers/gpu/drm/i915/i915_vma_types.h
-> @@ -202,6 +202,7 @@ struct i915_vma {
->   	/* mmap-offset associated with fencing for this vma */
->   	struct i915_mmap_offset	*mmo;
->   
-> +	u32 guard; /* padding allocated around vma->pages within the node */
->   	u32 fence_size;
->   	u32 fence_alignment;
->   	u32 display_alignment;
