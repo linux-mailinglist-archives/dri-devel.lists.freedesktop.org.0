@@ -2,35 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 549C6641EEE
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Dec 2022 19:35:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC539641EE5
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Dec 2022 19:34:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B79910E06C;
-	Sun,  4 Dec 2022 18:35:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 322FA10E050;
+	Sun,  4 Dec 2022 18:34:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 383 seconds by postgrey-1.36 at gabe;
- Fri, 02 Dec 2022 11:53:39 UTC
 Received: from out2.migadu.com (out2.migadu.com [188.165.223.204])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8487A10E6EA
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Dec 2022 11:53:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5766210E6E8
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Dec 2022 12:02:40 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1669981633;
+ t=1669982558;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=5/D3xnlk/9NlaC/udWPD+XLQglOeV/LcCrDlC/DiZf8=;
- b=jyZJ/kqwNdvgYN8vEsd5I4CxKVWrxOeSs4zXbM3YQz8n+Qmw3jco0MfdrEwQaoueZTs2qS
- +RTCizleDq+4p3zxflgR7Bhgi0HFy4YGrOj5GYgcjKgaCCoek9cp0FcwNcQu9w3KCY9d+A
- BsWuaan4Ft9iPBQSeNIz3xO0S+dIi4Q=
+ bh=XM1eLSqwl0g8R0Nvq1zVvX+v55M56OQ0eCGbGphB+bI=;
+ b=O4Eex9PxQ3j/6XBEjRzUerMYpfaQPNH1z0jLhriV7N3tKZYfBNC+oozi6VTr/ANkxd3EpZ
+ vUxhhTPi5J+0AkKs/eyVhKST92TwmLJj1J3+Blk73tY/6WIj0vKWUs4PB3xDynjRluEHBz
+ T98KMWNYyjNw7I7h5THtpld0Idg2aFU=
 From: Cai Huoqing <cai.huoqing@linux.dev>
 To: cai.huoqing@linux.dev
-Subject: [PATCH 1/2] drm: Remove some obsolete drivers(tdfx, mga, i810, savage,
- r128, sis)
-Date: Fri,  2 Dec 2022 19:45:48 +0800
-Message-Id: <20221202114659.16669-1-cai.huoqing@linux.dev>
+Subject: [RESEND PATCH linux-next 2/2] drm: Remove some obsolete drivers(tdfx,
+ mga, i810, savage, r128, sis)
+Date: Fri,  2 Dec 2022 20:01:21 +0800
+Message-Id: <20221202120230.20264-1-cai.huoqing@linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -55,8 +53,7 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 399516ab0fee ("MAINTAINERS: Add a bunch of legacy (UMS)
-DRM drivers")
+Commit 399516ab0fee ("MAINTAINERS: Add a bunch of legacy (UMS) DRM drivers")
 marked these drivers obsolete 7 years ago.
 And the mesa UMD of these drm drivers already in deprecated list
 in the link: https://docs.mesa3d.org/systems.html
