@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6290E6401A1
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Dec 2022 09:11:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 931E86401A2
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Dec 2022 09:11:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E1548826D;
-	Fri,  2 Dec 2022 08:11:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A5D210E6AA;
+	Fri,  2 Dec 2022 08:11:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
- [IPv6:2001:4b98:dc4:8::225])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAD748826D
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Dec 2022 08:11:14 +0000 (UTC)
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net
+ [IPv6:2001:4b98:dc4:8::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7848810E6AA
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Dec 2022 08:11:25 +0000 (UTC)
 Received: from booty (unknown [77.244.183.192])
  (Authenticated sender: luca.ceresoli@bootlin.com)
- by mail.gandi.net (Postfix) with ESMTPSA id A93C11C0007;
- Fri,  2 Dec 2022 08:11:09 +0000 (UTC)
+ by mail.gandi.net (Postfix) with ESMTPSA id AAE54240005;
+ Fri,  2 Dec 2022 08:11:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1669968672;
+ t=1669968681;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3FRgB5fOfGPmedW428TvFCtP0/QrMozmnJseWIpuk7A=;
- b=a//fnsh5+JyreJYDyDTikySU4J9EpX5psA+Cjwlklv/RaKg7TDsrvAEcGmhM4hp5vs6WHw
- gIZzeMTHZjznvSMUy2X6BLGCWQn0fYb4ann0a685qwnuD4ZVrb30qVpPDnmWjAGogzd85M
- mgutn9ghLSfx+9lazos999ygFgzLHIrme9jRJw6kscmrUemRC0ow1l4dgFIR8gk28a+Ih9
- cjykEEOcVsVTGk4bUO1on5Ug3HKwn5xTZsbKzTfbpshUpJuqeCKRVuKNaMngEqhMyIMCNl
- Zv4v0jJT35BFM5ckjTuZWA1fR4ycYl+7WVuzrNchNOw3lChUT2yHpJtikprYXQ==
-Date: Fri, 2 Dec 2022 09:11:08 +0100
+ bh=PAptEfvYgIwFK8ngkctQU/JTtGEWZC2Koz9VlQAcRkA=;
+ b=kstJhwEO+cLVVec3Sk9Sa/uvB4r26XymgSL33QXP8njtUT0BOxFIWIvPdYUnPHe+NQ9YnV
+ 8v32TN8SCY7ufUMPXXrCfRJHlIQm8PlGtwD4KSJ1q+A2/NR42Zd0+HWuJQRET6uDEIpf/v
+ /vMIijMbtujIVkMZtWkARcIL2Wax80uO+EEn6wGnkEawZMpXyyCb7UTIq23yz8HZhqEruq
+ sTVeVu0bO793DjT3K4Wql5mZvpZyHc9mlzTN/SJEgzIuhMuiCmqR6IROge5OD3ws1YnU5Q
+ lujAdDH/jD7nAhFgQhWBUp9+T9UPjn7wDdKaRu32IH4cta0RDt+nFQvtdawnUg==
+Date: Fri, 2 Dec 2022 09:11:17 +0100
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>
-Subject: Re: [PATCH v2 01/21] dt-bindings: display: tegra: add Tegra20 VIP
-Message-ID: <20221202091108.5f492d6f@booty>
-In-Reply-To: <20221201231936.GB1660613-robh@kernel.org>
+ <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v2 02/21] dt-bindings: display: tegra: vi: add 'vip'
+ property and example
+Message-ID: <20221202091117.52a9a8f0@booty>
+In-Reply-To: <20221201231636.GA1660613-robh@kernel.org>
 References: <20221128152336.133953-1-luca.ceresoli@bootlin.com>
- <20221128152336.133953-2-luca.ceresoli@bootlin.com>
- <20221201231936.GB1660613-robh@kernel.org>
+ <20221128152336.133953-3-luca.ceresoli@bootlin.com>
+ <20221201231636.GA1660613-robh@kernel.org>
 Organization: Bootlin
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
@@ -56,14 +57,15 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Richard Leitner <richard.leitner@skidata.com>,
+Cc: devicetree@vger.kernel.org, Richard Leitner <richard.leitner@skidata.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Jonathan Hunter <jonathanh@nvidia.com>,
  Paul Kocialkowski <paul.kocialkowski@bootlin.com>, linux-tegra@vger.kernel.org,
  Thierry Reding <thierry.reding@gmail.com>,
  Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Hans Verkuil <hverkuil-cisco@xs4all.nl>, Dmitry Osipenko <digetx@gmail.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -71,104 +73,57 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hello Rob,
 
-Thanks for your review.
-
-On Thu, 1 Dec 2022 17:19:36 -0600
+On Thu, 1 Dec 2022 17:16:36 -0600
 Rob Herring <robh@kernel.org> wrote:
 
-> On Mon, Nov 28, 2022 at 04:23:16PM +0100, Luca Ceresoli wrote:
-> > VIP is the parallel video capture component within the video input
-> > subsystem of Tegra20 (and other Tegra chips, apparently).
+> On Mon, Nov 28, 2022 at 04:23:17PM +0100, Luca Ceresoli wrote:
+> > The Tegra20 VI peripheral can receive parallel input from the VIP parallel
+> > input module. Add it to the allowed properties and augment the existing
+> > nvidia,tegra20-vi example to show a 'vip' property.
 > > 
+> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 > > 
 > > ---
 > > 
 > > Changed in v2 (suggested by Krzysztof Kozlowski):
-> > - remove redundant "bindings" from subject line
-> > - remove $nodename
-> > - add channel@0 description
-> > - add reg: const: 0
+> > - rename "i2c3" -> "ic2"
+> > - add review tag
 > > ---
-> >  .../display/tegra/nvidia,tegra20-vip.yaml     | 63 +++++++++++++++++++
-> >  MAINTAINERS                                   |  7 +++
-> >  2 files changed, 70 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
+> >  .../display/tegra/nvidia,tegra20-vi.yaml      | 68 +++++++++++++++++++
+> >  MAINTAINERS                                   |  1 +
+> >  2 files changed, 69 insertions(+)
 > > 
-> > diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
-> > new file mode 100644
-> > index 000000000000..44be2e16c9b4
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
-> > @@ -0,0 +1,63 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-vip.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
+> > index 782a4b10150a..5b5583c2b562 100644
+> > --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
+> > +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
+> > @@ -74,6 +74,22 @@ properties:
+> >    avdd-dsi-csi-supply:
+> >      description: DSI/CSI power supply. Must supply 1.2 V.
+> >  
+> > +  vip:
+> > +    $ref: /schemas/display/tegra/nvidia,tegra20-vip.yaml
 > > +
-> > +title: NVIDIA Tegra VIP (parallel video capture) controller
-> > +
-> > +maintainers:
-> > +  - Luca Ceresoli <luca.ceresoli@bootlin.com>
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - nvidia,tegra20-vip
-> > +
-> > +  "#address-cells":
-> > +    const: 1
-> > +
-> > +  "#size-cells":
-> > +    const: 0
-> > +
-> > +  channel@0:  
-> 
-> Kind of odd there is only 1 channel with a unit-address. Are more 
-> channels coming? Please make the binding as complete as possible even if 
-> no driver support yet.
-
-This was discussed in v1 with Krzysztof and the outcome was that it's
-OK because it's likely that other SoCs have more, but the documentation
-is not public so I cannot add examples.
-
-Full discussion (pretty short indeed):
-
-https://lore.kernel.org/linux-devicetree/5292cc1b-c951-c5c5-b2ef-c154baf6d7fd@linaro.org/
-
-Do you agree that the unit-address should be kept?
-
-> > +    description: parallel video capture interface for the VI
-> > +    type: object
+> > +  ports:
+> > +    $ref: /schemas/graph.yaml#/properties/ports
 > > +
 > > +    properties:
-> > +      reg:
-> > +        const: 0
-> > +
-> > +      ports:
-> > +        $ref: /schemas/graph.yaml#/properties/ports
+> > +      port@0:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description:
+> > +          Input from the VIP (parallel input capture) module
 > > +
 > > +        properties:
-> > +          port@0:
-> > +            $ref: /schemas/graph.yaml#/properties/port
-> > +            description:
-> > +              Port receiving the video stream from the sensor
-> > +
-> > +          port@1:
-> > +            $ref: /schemas/graph.yaml#/properties/port
-> > +            description:
-> > +              Port sending the video stream to the VI
-> > +
-> > +        required:
-> > +          - port@0
-> > +          - port@1
-> > +
-> > +    additionalProperties: false  
+> > +          endpoint:
+> > +            $ref: /schemas/graph.yaml#/properties/endpoint  
 > 
-> A bit easier to read the indented cases if this is above 'properties'.
+> You can drop 'endpoint'. You only need port nodes if there's no extra 
+> properties in the endpoints.
 
-Sure, will do in v3.
+Oh, nice, will remove in v3.
+
+Krzysztof, can I keep your Reviewed-by after this change?
 
 -- 
 Luca Ceresoli, Bootlin
