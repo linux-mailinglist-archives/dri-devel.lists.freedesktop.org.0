@@ -2,63 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89C2F64062A
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Dec 2022 12:53:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 471BE640640
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Dec 2022 12:59:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A65B10E704;
-	Fri,  2 Dec 2022 11:52:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2371B10E6E0;
+	Fri,  2 Dec 2022 11:58:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
- [IPv6:2a00:1450:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 970EE10E6DF;
- Fri,  2 Dec 2022 11:52:46 +0000 (UTC)
-Received: by mail-ej1-x62c.google.com with SMTP id fy37so10953666ejc.11;
- Fri, 02 Dec 2022 03:52:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Q2njBXO/jcTn1hW9BCGP1JQWTyTb5ivQ7E5VaL+5F8g=;
- b=PGqEPPKLMPgV0vs1JO0S4lzeqt1JVLn2xyAx1A9+XqqmsQA4aW7b2OGtkWZTtYA3Eg
- Z0+OCjTBDGEUvJZVWwBhd4GXirMMRQWepVJWj/kIkaFdxGN+0cyEeAOP4CaqICWSop+5
- MhGsjaaGZUC02+BGwqJO78pXzl3AeZS+nSd5P8SiZAMc0ekU8MnPvuR36J3dJrJeUihs
- TlZjIuRUSmjtDzZorkt5kjUVuaspXtG+JM7dVqZNvCLb4YSjE3/fFfBfUYgFPwAHCPx1
- xqXOSZ7Ud8M8UwiehMREoc+zKjdd6BdHaTn2sP6dtAoUTzIuFgAnPJGWLXVYc6Mg9oe3
- W06Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:sender:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=Q2njBXO/jcTn1hW9BCGP1JQWTyTb5ivQ7E5VaL+5F8g=;
- b=gSps517bysJvgJmLciKwsn6YJs+vu8jQbHR2ZcivJ6zzC6HuyGTYZII7e1mxdOwSPj
- DyE/qdEpvbR1Uuc31oOizIANgvVB/h+b4TfB6USm4ozpnyj2Wqzb+BKMydxCWv+wc+So
- vWrOpeFz3FcYeF/j5jQMy9MhAwyc2m+pK/gMKu9/O9tVySxROvSI/azpem15cQc+IGXo
- N8J+ZTqwMRVnuX4OTGIih5k9Gyab5/EY+TUjCFgHIwMqA+SUfOB3VnaYDhBf6PkqNl5m
- yvITmpI+dKjCnq8A8V1PvGSPURBsOWZgCbtmWAJp5arN/gc8+/PoLxWB62+3RevYCsLg
- tbrw==
-X-Gm-Message-State: ANoB5pmL9l2TEOWeK3NxsfzPZiWv/fyz9YzLF84Epa1D6QXaywzXgEB2
- 3E/JNYXthVlE/3zA+M5qbOQ=
-X-Google-Smtp-Source: AA0mqf4fSMzOzi3Zl9q8HAMPixjYiZvqfbProtvQ+lQZi/7zRZUXdlor2DZsqaqo4HlonrVcIFxykg==
-X-Received: by 2002:a17:906:d0da:b0:7ad:9891:8756 with SMTP id
- bq26-20020a170906d0da00b007ad98918756mr60667631ejb.203.1669981964923; 
- Fri, 02 Dec 2022 03:52:44 -0800 (PST)
-Received: from cizrna.home (cst-prg-44-69.cust.vodafone.cz. [46.135.44.69])
- by smtp.gmail.com with ESMTPSA id
- ha7-20020a170906a88700b007c0bb571da5sm1206762ejb.41.2022.12.02.03.52.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Dec 2022 03:52:44 -0800 (PST)
-From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-To: 
-Subject: [PATCH v6 7/8] drm/etnaviv: add HWDB entry for VIPNano-QI.7120.0055
-Date: Fri,  2 Dec 2022 12:52:19 +0100
-Message-Id: <20221202115223.39051-8-tomeu.vizoso@collabora.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221202115223.39051-1-tomeu.vizoso@collabora.com>
-References: <20221202115223.39051-1-tomeu.vizoso@collabora.com>
+Received: from out2.migadu.com (out2.migadu.com [188.165.223.204])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D98E210E6E3
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Dec 2022 11:58:51 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1669982330;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=qU6V1zC0ubiasGJw0DuyU+aIJG0zbseMSw+1CvsGzIg=;
+ b=FXe4zJBnhoNRbs3MH3iG+lFAIKKUMxN9nUgVRZeU76Hc1ARyiOAp1+O2dNotBNvzeYEuyB
+ e90UjUxl4SUCyhlIq3wB9O329rSPTe1KsXiOg1M3r3A1eCGo7uJhaHx5E+SHh8/uSjv2HV
+ L/GX5gK7MW85qzmSu+zd4IZGddb8cAo=
+From: Cai Huoqing <cai.huoqing@linux.dev>
+To: cai.huoqing@linux.dev
+Subject: [RESEND PATCH linux-next 1/2] MAINTAINERS: Remove some obsolete drm
+ drivers(tdfx, mga, i810, savage, r128, sis)
+Date: Fri,  2 Dec 2022 19:57:31 +0800
+Message-Id: <20221202115837.19475-1-cai.huoqing@linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,69 +44,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, italonicola@collabora.com,
- "moderated list:DRM DRIVERS FOR VIVANTE GPU IP"
- <etnaviv@lists.freedesktop.org>,
- "open list:DRM DRIVERS FOR VIVANTE GPU IP" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+ Danilo Krummrich <dakr@redhat.com>, dri-devel@lists.freedesktop.org,
+ Borislav Petkov <bp@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a compute-only module marketed towards AI and vision
-acceleration. This particular version can be found on the Amlogic A311D
-SoC.
+Commit 399516ab0fee ("MAINTAINERS: Add a bunch of legacy (UMS) DRM drivers")
+marked these drivers obsolete 7 years ago.
+And the mesa UMD of these drm drivers already in deprecated list
+in the link: https://docs.mesa3d.org/systems.html
 
-The feature bits are taken from the Khadas downstream kernel driver
-6.4.4.3.310723AAA.
+3dfx Glide-->driver/gpu/drm/tdfx
+Matrox-->driver/gpu/drm/mga
+Intel i810-->driver/gpu/drm/i810
+S3 Savage-->drivers/gpu/drm/savage/
+ATI Rage 128->drivers/gpu/drm/r128/
+Silicon Integrated Systems->drivers/gpu/drm/sis/
 
-Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+It's time to remove these.
+
+Signed-off-by: Cai Huoqing <cai.huoqing@linux.dev>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 31 ++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+ MAINTAINERS | 29 -----------------------------
+ 1 file changed, 29 deletions(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-index 44df273a5aae..66b8ad6c7d26 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-@@ -134,6 +134,37 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
- 		.minor_features10 = 0x90044250,
- 		.minor_features11 = 0x00000024,
- 	},
-+	{
-+		.model = 0x8000,
-+		.revision = 0x7120,
-+		.product_id = 0x45080009,
-+		.customer_id = 0x88,
-+		.eco_id = 0,
-+		.stream_count = 8,
-+		.register_max = 64,
-+		.thread_count = 256,
-+		.shader_core_count = 1,
-+		.vertex_cache_size = 16,
-+		.vertex_output_buffer_size = 1024,
-+		.pixel_pipes = 1,
-+		.instruction_count = 512,
-+		.num_constants = 320,
-+		.buffer_size = 0,
-+		.varyings_count = 16,
-+		.features = 0xe0287cac,
-+		.minor_features0 = 0xc1799eff,
-+		.minor_features1 = 0xfefbfadb,
-+		.minor_features2 = 0xeb9d6fbf,
-+		.minor_features3 = 0xedfffced,
-+		.minor_features4 = 0xd30dafc7,
-+		.minor_features5 = 0x7b5ac333,
-+		.minor_features6 = 0xfc8ee200,
-+		.minor_features7 = 0x03fffa6f,
-+		.minor_features8 = 0x00fe0ef0,
-+		.minor_features9 = 0x0088003c,
-+		.minor_features10 = 0x108048c0,
-+		.minor_features11 = 0x00000010,
-+	},
- };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3583c5f6889d..44c4f2d46cfa 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6569,11 +6569,6 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
+ F:	Documentation/devicetree/bindings/display/ilitek,ili9486.yaml
+ F:	drivers/gpu/drm/tiny/ili9486.c
  
- bool etnaviv_fill_identity_from_hwdb(struct etnaviv_gpu *gpu)
+-DRM DRIVER FOR INTEL I810 VIDEO CARDS
+-S:	Orphan / Obsolete
+-F:	drivers/gpu/drm/i810/
+-F:	include/uapi/drm/i810_drm.h
+-
+ DRM DRIVER FOR JADARD JD9365DA-H3 MIPI-DSI LCD PANELS
+ M:	Jagan Teki <jagan@edgeble.ai>
+ S:	Maintained
+@@ -6602,11 +6597,6 @@ S:	Maintained
+ F:	Documentation/devicetree/bindings/display/panel/mantix,mlaf057we51-x.yaml
+ F:	drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
+ 
+-DRM DRIVER FOR MATROX G200/G400 GRAPHICS CARDS
+-S:	Orphan / Obsolete
+-F:	drivers/gpu/drm/mga/
+-F:	include/uapi/drm/mga_drm.h
+-
+ DRM DRIVER FOR MGA G200 GRAPHICS CHIPS
+ M:	Dave Airlie <airlied@redhat.com>
+ R:	Thomas Zimmermann <tzimmermann@suse.de>
+@@ -6725,11 +6715,6 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
+ F:	drivers/gpu/drm/qxl/
+ F:	include/uapi/drm/qxl_drm.h
+ 
+-DRM DRIVER FOR RAGE 128 VIDEO CARDS
+-S:	Orphan / Obsolete
+-F:	drivers/gpu/drm/r128/
+-F:	include/uapi/drm/r128_drm.h
+-
+ DRM DRIVER FOR RAYDIUM RM67191 PANELS
+ M:	Robert Chiras <robert.chiras@nxp.com>
+ S:	Maintained
+@@ -6757,11 +6742,6 @@ S:	Maintained
+ F:	Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml
+ F:	drivers/gpu/drm/panel/panel-sitronix-st7703.c
+ 
+-DRM DRIVER FOR SAVAGE VIDEO CARDS
+-S:	Orphan / Obsolete
+-F:	drivers/gpu/drm/savage/
+-F:	include/uapi/drm/savage_drm.h
+-
+ DRM DRIVER FOR FIRMWARE FRAMEBUFFERS
+ M:	Thomas Zimmermann <tzimmermann@suse.de>
+ M:	Javier Martinez Canillas <javierm@redhat.com>
+@@ -6777,11 +6757,6 @@ F:	include/drm/drm_aperture.h
+ F:	include/linux/aperture.h
+ F:	include/video/nomodeset.h
+ 
+-DRM DRIVER FOR SIS VIDEO CARDS
+-S:	Orphan / Obsolete
+-F:	drivers/gpu/drm/sis/
+-F:	include/uapi/drm/sis_drm.h
+-
+ DRM DRIVER FOR SITRONIX ST7586 PANELS
+ M:	David Lechner <david@lechnology.com>
+ S:	Maintained
+@@ -6809,10 +6784,6 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
+ F:	Documentation/devicetree/bindings/display/ste,mcde.yaml
+ F:	drivers/gpu/drm/mcde/
+ 
+-DRM DRIVER FOR TDFX VIDEO CARDS
+-S:	Orphan / Obsolete
+-F:	drivers/gpu/drm/tdfx/
+-
+ DRM DRIVER FOR TI DLPC3433 MIPI DSI TO DMD BRIDGE
+ M:	Jagan Teki <jagan@amarulasolutions.com>
+ S:	Maintained
 -- 
-2.38.1
+2.25.1
 
