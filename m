@@ -1,69 +1,128 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDB0A6408CD
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Dec 2022 15:55:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B60C7640959
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Dec 2022 16:27:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E3C210E086;
-	Fri,  2 Dec 2022 14:55:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FB8710E6FD;
+	Fri,  2 Dec 2022 15:27:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x92e.google.com (mail-ua1-x92e.google.com
- [IPv6:2607:f8b0:4864:20::92e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EECC110E086
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Dec 2022 14:55:23 +0000 (UTC)
-Received: by mail-ua1-x92e.google.com with SMTP id y15so1740197uan.6
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Dec 2022 06:55:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=5DIEAfr9d518HvW1FSiaubDLh03ZD86HLPj22EhRASA=;
- b=MgMBJ7WIDH5uBn/FJmbn3JvpaNJXzjUsN/yoTbYt9iwGWdLJLFuD4gn2kZLqtbfqq2
- YQgVY11UCEi/Lxex0dtDvmeEOO4C1GhpPIIqZlQ/Z9MXPK8EgYcDZR9CB9mdP2tnjRZS
- nO5uc/GoesNi1F5J2kPXj6IBid0bLH36qa/8KRg/JzXi9AL3eUOx6fjfH2yGS8pBnmyL
- TSdqFN6Spb7H/uZ9orilhwA8kK7mJOkD9l10giw/6eI9Lio+YX88eBE5Q5PMpK9Gu21N
- feaviY/Zts4+MPfxxIatBQYjOoIVWIBLtes2Ar692W8ZhmHXmK6wX2jDS0ZTDfH1TN1m
- hu/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=5DIEAfr9d518HvW1FSiaubDLh03ZD86HLPj22EhRASA=;
- b=BealKObNx7bNOw4gf3O4/8GBZryFsLqlJnW5QNB2XXPIBVU8R4Il6XfFRnFcTlOqC2
- 421V9aExxvoxkVWYLZY7LZvLf4ibBqUFjaRTpyh2A4SF+c2S7xq9E9hZTjjWCyv9pFw8
- wYjxx7HnvvMFD6TbpkhA7w5eFMVjckxGybTT2SQ+ncpToxCf4i53HeQkwjMwo5JusRoP
- e2Iza2U5zw1yji8Xet2FXhpVkosQZSoA8RucxH6EJhAzaRvUALYF3LjJI6BDunWq8Rh6
- F51IMiZC7hW9Cyd1ZCVS7UbK2iU45sxcDVmYMdh1MiM7zZCNHMGwyhweJgMyyczwfy5I
- kmHw==
-X-Gm-Message-State: ANoB5pn5Jx7/87vQlLQFRJOrYye72RYgM628fY9kPeQojc3xIMqZEVu1
- zGbRNzLaFrbmPW88Y0mXLDR7cABXnHtFsNZJ+728UA==
-X-Google-Smtp-Source: AA0mqf6K/loWDf6gEPPD+6VjHJZXYXH+Uqz6mfdnqU8g7iBWzsO3dLs+71EfuwIEbormn4UvaaFDfTRHeGU7vVhXFCA=
-X-Received: by 2002:ab0:1432:0:b0:418:d13c:f3a4 with SMTP id
- b47-20020ab01432000000b00418d13cf3a4mr34683049uae.105.1669992922723; Fri, 02
- Dec 2022 06:55:22 -0800 (PST)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on20605.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7e88::605])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA3ED10E6FC
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Dec 2022 15:27:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=O2hTy2vUfBVq8O9mp06DG9qtNIhhMIjzqxF0thLZJNbzWQv+YSN9rCaszmH8tkwNFjBs/q6LmsZAUXfPHG9VTueL7g3J8Zh9GfqroAqJEdGKG/50bj8owgMI0ObcY/tB/BcD+slnAty+KwLxe61KLyCxRERqhbYWKCzUDoojsTDpda230wE/K6docQXgYczFSNKjX5haIVF5Ur9vWowPX8xcs0VwanlEO+2QFPy49bQ6ORPRusNF06MQMS/hKm0YmyPZ8xkGZRaSFh4+5/rToQi7bFy++HfbI758TdP0KEzMKDRo4LJANxzBA1RHSSDgL16ayS3Y1Qcw0oXI0w1atw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/6/T41cufqScErBNRsJJ522pVjWCwKnJqFN7ZXboSpw=;
+ b=P9j55mhdx4u86RifeJtC0lWV4u9YtJjp22z8W2+CA2jFD0sUwOOoQ0EfZpDvF6N8qKGTqSnY8S5lkHMtzUAsqjb4ePLXgkgUX0xkVrO4GSH25rsO5dDGeEGJ9ZPf9GYNH6qQUSytHkrLiOPkjMxIsIAUDA+4/qionzD2QPV01rzlWvdmj9fieQo2vKpg2kBIz2v99TzWIh6ozA3Xpd3Hna9oJbWN86fKcU173OZXuJh0T5nQiiwzrvM9NVmP8g0ToxHYVKxqdkOFFlbZCuCb970FtEiu/QNil2pjc/r2WJn98Og5feLPKpymoY/huLSruo7TngQB2hDZnBTs4emasw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/6/T41cufqScErBNRsJJ522pVjWCwKnJqFN7ZXboSpw=;
+ b=IgpXW59d52PyPr5/p0fsJ7XtuQsS4UfVHglm0EcqPlyszHsfE3S50s4bS/hyWLpgsLLwgAro6KQAe/ekOg61piZ8DcfcHt7WY/l5Oehjm//qGJ3T9p3wbp6SnKYw/qqzrq2tj4mrNz7WgNuIc0VtrLq9bQGFUfGArtjWeiL6ujQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by DS7PR12MB6359.namprd12.prod.outlook.com (2603:10b6:8:94::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.23; Fri, 2 Dec
+ 2022 15:27:13 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::7d43:3f30:4caf:7421]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::7d43:3f30:4caf:7421%7]) with mapi id 15.20.5880.010; Fri, 2 Dec 2022
+ 15:27:13 +0000
+Message-ID: <24b660e2-ea38-7038-c182-156e1371fdcb@amd.com>
+Date: Fri, 2 Dec 2022 16:27:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: Try to address the DMA-buf coherency problem
+Content-Language: en-US
+To: Daniel Vetter <daniel@ffwll.ch>, Nicolas Dufresne <nicolas@ndufresne.ca>
+References: <1e2a6750-9849-e9ee-69d6-e4bfdcfb64f3@gmail.com>
+ <CAAFQd5B+VHs62M5Wf2L-xOw=_PoaXT+akAySkeZc75HeA3d0jQ@mail.gmail.com>
+ <b2dec9b3-03a7-e7ac-306e-1da024af8982@amd.com>
+ <346d6ad023ef8697aafd93ac1b100890f3637e44.camel@ndufresne.ca>
+ <CAF6AEGuqgWi0T=B9cb+Uy7aoWBPGQmZ3JbwFcK_45GbkY2nHPg@mail.gmail.com>
+ <Y3zeYnufgXJHQAbN@phenom.ffwll.local>
+ <ae9ba9ba-3ad3-af23-be66-1540862bf571@amd.com>
+ <20221123103338.238571e1@eldfell> <Y35LcspZ385IC4lJ@phenom.ffwll.local>
+ <ba6e42f04c436d93bfa71d5dee7fd35ef2245073.camel@ndufresne.ca>
+ <Y4cw36MUO+ftP468@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <Y4cw36MUO+ftP468@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0113.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a3::12) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-References: <20221110183853.3678209-1-jagan@amarulasolutions.com>
- <20221110183853.3678209-7-jagan@amarulasolutions.com>
- <CGME20221117045817eucas1p1778503aa62ef18ef5ee0502d2189cd15@eucas1p1.samsung.com>
- <04fb17e2-1b55-fbd9-d846-da3e3da4edb8@denx.de>
- <f33142de-862e-9775-b1c9-b871bb9a243c@samsung.com>
- <b66b44fc-5d4c-d3a8-8538-79003b14691e@denx.de>
- <CAMty3ZBfAY86fp7XxS9frrBiT9FRkJaNSRY-4CVpqGOvdpn1fw@mail.gmail.com>
- <58671662-9242-c7ef-53ef-60f9cdc3399a@denx.de>
- <CAMty3ZDVZJ6TjKjtq9wSHudmeD+7O1vB_j0V1xKjYGWnwMKa6Q@mail.gmail.com>
- <9f08a902-049c-1c00-7fed-3d7ee18b3d2c@samsung.com>
- <2ef1aae1-8ff9-22bc-9817-69d1eae8b485@denx.de>
-In-Reply-To: <2ef1aae1-8ff9-22bc-9817-69d1eae8b485@denx.de>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 2 Dec 2022 14:55:06 +0000
-Message-ID: <CAPY8ntDH7QgLfg_MsXSeyD4uwiG7EHMd75qQA6SbDbO1P6ftow@mail.gmail.com>
-Subject: Re: [PATCH v8 06/14] drm: bridge: samsung-dsim: Handle proper DSI
- host initialization
-To: Marek Vasut <marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DS7PR12MB6359:EE_
+X-MS-Office365-Filtering-Correlation-Id: dbeb40b7-f000-4788-7bbc-08dad479afea
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7F3iFuf4ct+id2++ncHgb0O0205V20FDNdmm01ePVusHpOk3beZN0eXRja6g4WMc3Yo/qsgk5NSftBRQ8Mcf9pGrrY/RGFJ82RzEKiV7gENpDnHSovUrsRjuMSbMJLdT600Lv0rP4m+Qu8Ok2gamwPHD/5W6P4Y+pX5OJMMwYFaJ1yKNeN/bMaJPJY3Az05BrYmsV/eQczhzJQsnO/qE1w2NonmhTHToOjncHIlL6ow1S3Jz0+GyVWw3jzSWJIP+nWmHrRJqaxddENfa1ry0Jv1RMkpQcPHqrZQA/8b6MCe0iqhOuNCuWzYu5PNrBeVzO0X38OP1cDjJl+wV+4FZkUWTNra3x8/Oz+x8ANmWPWbXLhyPUNp0gqHuz5exHdgu4ENcuQ3JlyN6mQ9oJ+H2HxRBqiQmZwDMXlexsQJ5NPkpcEeOBtv0ZSzn+Uqzq2VeljnTWhGNEUiNZiTu0IWbw/D9zZ2PewJImyTnQxhfHAtxtVuk0Pno8/xfnlg78fbhTXtz3kRAQXVptmsjvPFlOtUYEWjuCc63xzITOv11RDIsHCfNcaqxiaPXVTB+BcKrzHWI4yGoEuvO7P6UGKFDo5QXF6dsdqsB3RkrEsbZUGImUbLpS0pBHjk4LPxJZnvrfWaz6y/l5mF5izLfS1NXG1KUM/qrEy6I0nRX1xe4vJxi6Uleh6gMuE0j1MuQn2Nzke154w+ilBUEcOQjbAqmgou1Pa7ajuGk8oP86sOMmdFARYADzUfqjdSmI2EMnBkm
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(39860400002)(366004)(136003)(396003)(376002)(346002)(451199015)(316002)(966005)(6666004)(6486002)(478600001)(5660300002)(7416002)(36756003)(45080400002)(8936002)(2906002)(6512007)(38100700002)(6506007)(66574015)(2616005)(186003)(54906003)(110136005)(31696002)(31686004)(4326008)(8676002)(41300700001)(86362001)(66556008)(66946007)(66476007)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WEgrWkNrQzFMS2ZySWpiU2wxWWQyL1hhU1JiY0FvS2NLUGpOWmpKZDlyR2o3?=
+ =?utf-8?B?d21INVRNWWJhL3Z3ZW9mSXZoM014ek5RWlV2S1V5dXQ1Ym9PeFlEOFdRT3dx?=
+ =?utf-8?B?QjJvOFNGdkhYUktqN1Z3S05Ick8xRjlTZ0tkZ2Vrc3BtOWJLVENkTGhwS3Ew?=
+ =?utf-8?B?d2RWUSs1ODcxMXlJeEE1dVVuTjNCK0J5bzY5b0tCTmNpblRURUlTNHRWUzhm?=
+ =?utf-8?B?NG5MMFlsNmM0bk0xMDJKbjNrWThIOTY4UzNJdHlGeFhEeVNGSUIrUTdBNUdZ?=
+ =?utf-8?B?aEs1SGw4SCtXWW82N2R1Mkp2ZTRTME1QU2dRdjF0S2QycEJhZTNZbmRjcFlx?=
+ =?utf-8?B?dXJ3VXlGZitsTzVXYyt6MFlZZmN2QTRwMkQwWCtFT2p3MVV3YXZVcG5LVzF3?=
+ =?utf-8?B?bmFDTm9FY2Fka0g5aG84RFJyNzlIckdXc240czJMK2JWcThLVm5mTWU3WnRq?=
+ =?utf-8?B?VkZpQTQxd0wxaWRSRGx0NEVQcGR2OFRSSWFlVXY0ZVFqbkdFY3R2N1gyd1hR?=
+ =?utf-8?B?dElvdzBodjFtTkZmQ0dQeEFjWnF3c0kydnYxWEM0am9QSTh1MW5TTVQ0NzlP?=
+ =?utf-8?B?UzlHc0hqMmxxNGsycTlqUVhieVJrUk9QZ1RyamJIN3lkS3lINjNVejY2OWtB?=
+ =?utf-8?B?eU9Ga1JObHBWbXJnUkJET2NoMVovYkRlbTV3ZWtJaTdNa3B6a2o5RHFvd1lj?=
+ =?utf-8?B?RFd3eEQ5VWwvUU1GamE1bG5tSzJXYVpnZFA3clFUdjg4RHBvN1pMdHFSaU5Q?=
+ =?utf-8?B?dHJOL1JRT2hJM2dNL3dmZkhNcUQwVnpVenpVRGdScnFiNEVKSkE5WDR2VWRD?=
+ =?utf-8?B?cEt2TWloRWFqMDNXNmI1MWsvL0xadUtzSExhd0xWTm02aTlTYVUxZlZQMHFp?=
+ =?utf-8?B?RjdWUTFVbWZRcVZrYS9SWGQyejByYWFabGNJbHRYclFJbUplcTVDRVJwQXZK?=
+ =?utf-8?B?UDBoMFpDR0RXek43aFc5YVBkRVZLZUFvMkI0SkdwY1B3alRWY2lvTlV3VVRS?=
+ =?utf-8?B?YVZybUdSRXZhdlZ4bzlneHAzYkxMZ3IyTkUxYVJPc2pZcEpod2lRQVQyN0Jr?=
+ =?utf-8?B?TTlQZjFTWGdYUTBSOHY2M3RuZUl2dENDOHBySkRJUFA1ZUdHeW1UaW5TbEtx?=
+ =?utf-8?B?WlBtSmQ3TmFzQ1pLL096dEtvY2dFYVBKUzdyWHRjOFdvNThxUW1tbFdJeHFq?=
+ =?utf-8?B?a1NjT2NZbWUvOEdGM2M1YnA4TTQ0cENSOWJpalIvLy9GOWdnT1lxTFVMS25I?=
+ =?utf-8?B?OWxmODJTZGdFaEcvblBiZFZMaFlUMEtTTTBaM20yRjVuZEVrUTZ2UGtGMmtY?=
+ =?utf-8?B?RTJpSU9ibm9FNkdrb1lMY2lvellxK0ZKb0pJTHFPMjhLdTVJSWZtY3JqUVN4?=
+ =?utf-8?B?MnFVWTJhNmpJdC9wYmdJbGhrV0hsaHdmTzZkNkZQWG5LeDU5aUhqaTZQV1VE?=
+ =?utf-8?B?T0JHWjZST3g4Zng3MzIrQ29yVVBjSXcxOVh4QkM5R0cxcTBaZi8rT3JxaXhm?=
+ =?utf-8?B?TUlnalZCaFZmQnZzVmNFeWw2ZEErUGtTaHNMYVVoQlREdmxWb1BRNi9MRldR?=
+ =?utf-8?B?RzdOU1dIb3drNnRObFBUZXNWbFRUQU56K0lUVUlxaFZMUVhhK203SDJUN3JL?=
+ =?utf-8?B?NSs3Vjcza1B5a2xOVnpreWZBSE9rTkR1WlJUT3hBQm42bWhPWEFHSHFEelVo?=
+ =?utf-8?B?b0NXcGpTckRsOEluSnJDbldoR0FSMFV3aVFXVnpNSUl6ZXNPNjNYSGNIODZ0?=
+ =?utf-8?B?bXFQdjl4SWI0K1VwSEd4YWc3ektWVWhpY3RmTlpIOFMyUXNFMVVlbTJLdk03?=
+ =?utf-8?B?cFVSZ2R2clhwTGNBTU1RQmFYU2wxQ2JuMXpoL3d4K1YxUVNEUjdwTG9lSzIx?=
+ =?utf-8?B?TGZNQjNsYXVwMTJadENmUHVQZGQzWUh3YTF3eXJxRzVzM2JiWWlCYmtGclhx?=
+ =?utf-8?B?ZnhKKzdrcDRUZC9DYjhJVm1VV3hSU0E5U3UzMllYZUViNGRBaks1NUF3d2Rh?=
+ =?utf-8?B?K1NrUitON29HS0pJT3JWV2hsalk0VVRla3FybVF1ZEVZZlB6U01PYkZJSEk4?=
+ =?utf-8?B?bDFjTWxqRUw0blIzK2ZQR0dnaU9pdldFcFhVWXV2SXFKZmxIYW5CNnZaQzhR?=
+ =?utf-8?B?aXp4WVZhcXVpMHNqYWlrNnFOSXNubXovNjBIcWlzUUVTUVg4dll5RUtHSHBN?=
+ =?utf-8?Q?h8k3bCQLy8VhoTJGlXRj4RA1Jg1xCHc6BO8pLehUcxpD?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dbeb40b7-f000-4788-7bbc-08dad479afea
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2022 15:27:13.6826 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SYT5Fqp43cNOSylF871+ESTcsIHzMLKKnpjhZgH2Yw4bX3+0Q5CiLGJ9kx9CbVTU
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6359
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,192 +135,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Fancy Fang <chen.fang@nxp.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, linux-samsung-soc@vger.kernel.org,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Neil Armstrong <narmstrong@linaro.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- NXP Linux Team <linux-imx@nxp.com>, Matteo Lisi <matteo.lisi@engicam.com>,
- Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Seung-Woo Kim <sw0312.kim@samsung.com>, Robert Foss <robert.foss@linaro.org>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>
+Cc: Tomasz Figa <tfiga@chromium.org>, linaro-mm-sig@lists.linaro.org,
+ Pekka Paalanen <ppaalanen@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, sumit.semwal@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek
-
-On Fri, 2 Dec 2022 at 12:21, Marek Vasut <marex@denx.de> wrote:
+Am 30.11.22 um 11:30 schrieb Daniel Vetter:
+> On Fri, Nov 25, 2022 at 11:40:04AM -0500, Nicolas Dufresne wrote:
+>> Le mercredi 23 novembre 2022 à 17:33 +0100, Daniel Vetter a écrit :
+>>> On Wed, Nov 23, 2022 at 10:33:38AM +0200, Pekka Paalanen wrote:
+>>>> On Tue, 22 Nov 2022 18:33:59 +0100
+>>>> Christian König <christian.koenig@amd.com> wrote:
+>>>>
+>>>>> We should have come up with dma-heaps earlier and make it clear that
+>>>>> exporting a DMA-buf from a device gives you something device specific
+>>>>> which might or might not work with others.
+>>>>>
+>>>>> Apart from that I agree, DMA-buf should be capable of handling this.
+>>>>> Question left is what documentation is missing to make it clear how
+>>>>> things are supposed to work?
+>>>> Perhaps somewhat related from Daniel Stone that seems to have been
+>>>> forgotten:
+>>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fdri-devel%2F20210905122742.86029-1-daniels%40collabora.com%2F&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7C45786a08e6dc4af2816508dad2bdf957%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638054011293521624%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=GjsoJGNoPozTS2SWeeirURzQatI5vfl9%2B%2BfzoavgTbw%3D&amp;reserved=0
+>>>>
+>>>> It aimed mostly at userspace, but sounds to me like the coherency stuff
+>>>> could use a section of its own there?
+>>> Hm yeah it would be great to land that and then eventually extend. Daniel?
+>> There is a lot of things documented in this document that have been said to be
+>> completely wrong user-space behaviour in this thread. But it seems to pre-date
+>> the DMA Heaps. The document also assume that DMA Heaps completely solves the CMA
+>> vs system memory issue. But it also underline a very important aspect, that
+>> userland is not aware which one to use. What this document suggest though seems
+>> more realist then what has been said here.
+>>
+>> Its overall a great document, it unfortunate that it only makes it into the DRM
+>> mailing list.
+> The doc is more about document the current status quo/best practices,
+> which is very much not using dma-heaps.
 >
-> On 12/2/22 11:52, Marek Szyprowski wrote:
-> > Hi,
-> >
-> > Sorry for delay, I was on a sick leave last 2 weeks.
-> >
-> > On 28.11.2022 15:43, Jagan Teki wrote:
-> >> ,On Sat, Nov 26, 2022 at 3:44 AM Marek Vasut <marex@denx.de> wrote:
-> >>> On 11/23/22 21:09, Jagan Teki wrote:
-> >>>> On Sat, Nov 19, 2022 at 7:45 PM Marek Vasut <marex@denx.de> wrote:
-> >>>>> On 11/17/22 14:04, Marek Szyprowski wrote:
-> >>>>>> On 17.11.2022 05:58, Marek Vasut wrote:
-> >>>>>>> On 11/10/22 19:38, Jagan Teki wrote:
-> >>>>>>>> DSI host initialization handling in previous exynos dsi driver has
-> >>>>>>>> some pitfalls. It initializes the host during host transfer() hook
-> >>>>>>>> that is indeed not the desired call flow for I2C and any other DSI
-> >>>>>>>> configured downstream bridges.
-> >>>>>>>>
-> >>>>>>>> Host transfer() is usually triggered for downstream DSI panels or
-> >>>>>>>> bridges and I2C-configured-DSI bridges miss these host initialization
-> >>>>>>>> as these downstream bridges use bridge operations hooks like pre_enable,
-> >>>>>>>> and enable in order to initialize or set up the host.
-> >>>>>>>>
-> >>>>>>>> This patch is trying to handle the host init handler to satisfy all
-> >>>>>>>> downstream panels and bridges. Added the DSIM_STATE_REINITIALIZED state
-> >>>>>>>> flag to ensure that host init is also done on first cmd transfer, this
-> >>>>>>>> helps existing DSI panels work on exynos platform (form Marek
-> >>>>>>>> Szyprowski).
-> >>>>>>>>
-> >>>>>>>> v8, v7, v6, v5:
-> >>>>>>>> * none
-> >>>>>>>>
-> >>>>>>>> v4:
-> >>>>>>>> * update init handling to ensure host init done on first cmd transfer
-> >>>>>>>>
-> >>>>>>>> v3:
-> >>>>>>>> * none
-> >>>>>>>>
-> >>>>>>>> v2:
-> >>>>>>>> * check initialized state in samsung_dsim_init
-> >>>>>>>>
-> >>>>>>>> v1:
-> >>>>>>>> * keep DSI init in host transfer
-> >>>>>>>>
-> >>>>>>>> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> >>>>>>>> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> >>>>>>>> ---
-> >>>>>>>>       drivers/gpu/drm/bridge/samsung-dsim.c | 25 +++++++++++++++++--------
-> >>>>>>>>       include/drm/bridge/samsung-dsim.h     |  5 +++--
-> >>>>>>>>       2 files changed, 20 insertions(+), 10 deletions(-)
-> >>>>>>>>
-> >>>>>>>> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c
-> >>>>>>>> b/drivers/gpu/drm/bridge/samsung-dsim.c
-> >>>>>>>> index bb1f45fd5a88..ec7e01ae02ea 100644
-> >>>>>>>> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
-> >>>>>>>> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-> >>>>>>>> @@ -1234,12 +1234,17 @@ static void samsung_dsim_disable_irq(struct
-> >>>>>>>> samsung_dsim *dsi)
-> >>>>>>>>           disable_irq(dsi->irq);
-> >>>>>>>>       }
-> >>>>>>>>       -static int samsung_dsim_init(struct samsung_dsim *dsi)
-> >>>>>>>> +static int samsung_dsim_init(struct samsung_dsim *dsi, unsigned int
-> >>>>>>>> flag)
-> >>>>>>>>       {
-> >>>>>>>>           const struct samsung_dsim_driver_data *driver_data =
-> >>>>>>>> dsi->driver_data;
-> >>>>>>>>       +    if (dsi->state & flag)
-> >>>>>>>> +        return 0;
-> >>>>>>>> +
-> >>>>>>>>           samsung_dsim_reset(dsi);
-> >>>>>>>> -    samsung_dsim_enable_irq(dsi);
-> >>>>>>>> +
-> >>>>>>>> +    if (!(dsi->state & DSIM_STATE_INITIALIZED))
-> >>>>>>>> +        samsung_dsim_enable_irq(dsi);
-> >>>>>>>>             if (driver_data->reg_values[RESET_TYPE] == DSIM_FUNCRST)
-> >>>>>>>>               samsung_dsim_enable_lane(dsi, BIT(dsi->lanes) - 1);
-> >>>>>>>> @@ -1250,6 +1255,8 @@ static int samsung_dsim_init(struct
-> >>>>>>>> samsung_dsim *dsi)
-> >>>>>>>>           samsung_dsim_set_phy_ctrl(dsi);
-> >>>>>>>>           samsung_dsim_init_link(dsi);
-> >>>>>>>>       +    dsi->state |= flag;
-> >>>>>>>> +
-> >>>>>>>>           return 0;
-> >>>>>>>>       }
-> >>>>>>>>       @@ -1269,6 +1276,10 @@ static void
-> >>>>>>>> samsung_dsim_atomic_pre_enable(struct drm_bridge *bridge,
-> >>>>>>>>           }
-> >>>>>>>>             dsi->state |= DSIM_STATE_ENABLED;
-> >>>>>>>> +
-> >>>>>>>> +    ret = samsung_dsim_init(dsi, DSIM_STATE_INITIALIZED);
-> >>>>>>>> +    if (ret)
-> >>>>>>>> +        return;
-> >>>>>>>>       }
-> >>>>>>>>         static void samsung_dsim_atomic_enable(struct drm_bridge *bridge,
-> >>>>>>>> @@ -1458,12 +1469,9 @@ static ssize_t
-> >>>>>>>> samsung_dsim_host_transfer(struct mipi_dsi_host *host,
-> >>>>>>>>           if (!(dsi->state & DSIM_STATE_ENABLED))
-> >>>>>>>>               return -EINVAL;
-> >>>>>>>>       -    if (!(dsi->state & DSIM_STATE_INITIALIZED)) {
-> >>>>>>>> -        ret = samsung_dsim_init(dsi);
-> >>>>>>>> -        if (ret)
-> >>>>>>>> -            return ret;
-> >>>>>>>> -        dsi->state |= DSIM_STATE_INITIALIZED;
-> >>>>>>>> -    }
-> >>>>>>>> +    ret = samsung_dsim_init(dsi, DSIM_STATE_REINITIALIZED);
-> >>>>>>> This triggers full controller reset and reprogramming upon first
-> >>>>>>> command transfer, is such heavy handed reload really necessary ?
-> >>>>>> Yes it is, otherwise the proper DSI panels doesn't work with Exynos DRM
-> >>>>>> DSI. If this is a real issue for you, then maybe the driver could do the
-> >>>>>> initialization conditionally, in prepare() callback in case of IMX and
-> >>>>>> on the first transfer in case of Exynos?
-> >>>>> That's odd , it does actually break panel support for me, without this
-> >>>>> double reset the panel works again. But I have to wonder, why would such
-> >>>>> a full reset be necessary at all , even on the exynos ?
-> >>>> Is it breaking samsung_dsim_reset from host_transfer? maybe checking
-> >>>> whether a reset is required before calling it might fix the issue.  I
-> >>>> agree with double initialization is odd but it seems it is required on
-> >>>> some panels in Exynos, I think tweaking them and adjusting the panel
-> >>>> code might resolve this discrepancy.
-> >>> Can someone provide further details on the exynos problem ?
-> >> If I'm correct this sequence is required in order to work the existing
-> >> panel/bridges on exynos. Adjusting these panel/bridge codes can
-> >> possibly fix the sequence further.
-> >>
-> >> Marek Szyprowski, please add if you have anything.
-> >
-> >
-> > Well, frankly speaking the double initialization is not a correct
-> > sequence, but this is the only one that actually works on Exynos based
-> > boards with DSI panels after moving the initialization to bridge's
-> > .prepare() callback.
+> The issue there is that currently userspace has no idea which dma-heap to
+> use for shared buffers, plus not all allocators are exposed through heaps
+> to begin with. We had this noted as a todo item (add some device->heap
+> sysfs links was the idea), until that's done all you can do is hardcode
+> the right heaps for the right usage in userspace, which is what android
+> does. Plus android doesn't have dgpu, so doesn't need the missing ttm
+> heap.
+
+Hui? Why do you think we should have a TTM heap in the first place?
+
+As far as I can see we need three different ways of allocation:
+1. Normal system memory.
+2. CMA based.
+3. Device specific.
+
+When any of the participating devices needs CMA then user space must use 
+the CMA heap, when any of the participating devices needs device 
+specific memory then user space must use device specific memory (from 
+that device).
+
+It still can be that two devices can't talk with each other because both 
+needs the buffer to be allocated from device specific memory for a 
+particular use case, but at least all the cases for both none CPU cache 
+coherent ARM devices as well as device specific memory for scanout 
+should be handled with this.
+
+Regards,
+Christian.
+
 >
-> Somehow, I suspect this is related to the LP11 mode handling, which
-> differs for different panels, right ? I think the RPi people worked on
-> fixing that.
->
-> +CC Dave
+> But yeah the long-term aspiration also hasn't changed, because the
+> dma-heap todo list is also very, very old by now :-/
+> -Daniel
 
-Yes. I've just sent out a v3 of that patch set.
-
-Hopefully setting the pre_enable_prev_first flag on your peripheral's
-drm_bridge, or prepare_prev_first if a drm_panel, will result in a
-more sensible initialisation order for your panel.
-
-Note that host_transfer should ensure that the host is initialised, as
-it is valid to call it with the host in any state. If it has to
-initialise, then it should deinitialise once the transfer has
-completed.
-
-Dave
-
-> > I've already explained this and shared the results
-> > of my investigation in my replies to the previous versions of this
-> > patchset. The original Exynos DSI driver does the initialization on the
-> > first DSI command. This however doesn't work for Jagan with I2C
-> > controlled panels/bridges, so he moved the initialization to the
-> > .prepare() callback, what broke the Exynos case (in-short - all tested
-> > panels works fine only if the DSI host initialization is done AFTER
-> > turning the panel's power on). For more information, see this thread:
-> > https://lore.kernel.org/all/e96197f9-948a-997e-5453-9f9d179b5f5a@samsung.com/
-> >
-> > Now, the more I think of it, the more I'm convinced that we simply
-> > should add a hack based on the HW type: do the initialization in
-> > .prepare() for non-Exynos case and before the first transfer for the
-> > Exynos case, as there is no way to detect the panel/next bridge type
-> > (I2C or DSI controlled).
->
-> Let's see what Dave has to say about this, maybe there is some further help.
