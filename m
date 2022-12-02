@@ -1,130 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EDB1641E08
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Dec 2022 17:47:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 549C6641EEE
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Dec 2022 19:35:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBC1E10E00C;
-	Sun,  4 Dec 2022 16:47:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B79910E06C;
+	Sun,  4 Dec 2022 18:35:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9C0410E00C
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Dec 2022 16:47:10 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id d3so11015254ljl.1
- for <dri-devel@lists.freedesktop.org>; Sun, 04 Dec 2022 08:47:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id:from
- :to:cc:subject:date:message-id:reply-to;
- bh=IBSaaBdFn+BP+xzbg2xAiyjV0AjU3IsjmFiKfeCqqvI=;
- b=wJTrVXJOn+oqKMcWQtvULX7ulDXWLrtPzSQaCY4aUPic6EJRnTU8lpjcSCs4NXujGa
- 5B/GwS81kHr5ShQHFdRjt18fi0NXOrNAxrT32DzlDZqRkiOO5QiTijH3HjRfEmwPz/hA
- 1XRsGbRqG4MCscTzmETpOCXB8HlJc04gBwdTPqQUbctpbJDffiaNKZ5OjZmS+oaGNOEw
- k4gP18xu7u1DfYB80LqsTWgMRMj2XnMS8u/wnDxGaqKvhZQc4/fOU45+Lhn+N04UZVc6
- IJlhricGMUAFHmurSmdMVqg9SwBN3M2FwtGiSoFgVVS5Ly1wTyC/jXRj8agENVJkzVw+
- KPiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=IBSaaBdFn+BP+xzbg2xAiyjV0AjU3IsjmFiKfeCqqvI=;
- b=c04wUQKNRM4d9+HZeph9tM58jDyekmJ1EBtlDNv4iUzkjGZk4gRYGCJOkraF4w6bAW
- w9y91N5JPzP2L+XfnisIKmwub+xcvIg1bsXEZIxTNG0AG/23y+qJqq3XJ+zkk1S1CS4e
- lEA0csQQ68pz0vR/vVusdmBehSDmZwzUyo2gt0rbm1u2RQB6Kyq/9qdNh/inpXglVQD1
- CrSb8Gs13/xBuuxSCPQExHXx/bfXyOpoAI4+/HvT7itrvnbY3E5PEjp4QaB88X0BhwmF
- oXQKwQmvOKYHU3BkZJzZZlkgujT9ONr1uJ4doDvSmibUiB5jHJYnjIhrp/VsAw0+y7VE
- xNQA==
-X-Gm-Message-State: ANoB5pmxRZX2mhTlmbPFm0zX25Q1ORalP1FG827sJpUCfwG/XUtaU4yi
- o3ME5HdkJ9JCocYun3QulOcpUA==
-X-Google-Smtp-Source: AA0mqf4kBdTo6SDQ4Um37LTIlSLql9Lw0iLy1FQ9H6KpXZOkmUBpkamfuV9PNogA/0JeVQ7HB2Tjjw==
-X-Received: by 2002:a05:651c:1510:b0:277:75fb:1fc5 with SMTP id
- e16-20020a05651c151000b0027775fb1fc5mr24664380ljf.405.1670172429042; 
- Sun, 04 Dec 2022 08:47:09 -0800 (PST)
-Received: from [192.168.0.20]
- (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
- by smtp.gmail.com with ESMTPSA id
- b13-20020a0565120b8d00b004b373f61a60sm1828538lfv.96.2022.12.04.08.47.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 04 Dec 2022 08:47:08 -0800 (PST)
-Message-ID: <7c258f71-23d0-36bd-8abf-b227d2522267@linaro.org>
-Date: Sun, 4 Dec 2022 17:47:05 +0100
+X-Greylist: delayed 383 seconds by postgrey-1.36 at gabe;
+ Fri, 02 Dec 2022 11:53:39 UTC
+Received: from out2.migadu.com (out2.migadu.com [188.165.223.204])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8487A10E6EA
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Dec 2022 11:53:39 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1669981633;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=5/D3xnlk/9NlaC/udWPD+XLQglOeV/LcCrDlC/DiZf8=;
+ b=jyZJ/kqwNdvgYN8vEsd5I4CxKVWrxOeSs4zXbM3YQz8n+Qmw3jco0MfdrEwQaoueZTs2qS
+ +RTCizleDq+4p3zxflgR7Bhgi0HFy4YGrOj5GYgcjKgaCCoek9cp0FcwNcQu9w3KCY9d+A
+ BsWuaan4Ft9iPBQSeNIz3xO0S+dIi4Q=
+From: Cai Huoqing <cai.huoqing@linux.dev>
+To: cai.huoqing@linux.dev
+Subject: [PATCH 1/2] drm: Remove some obsolete drivers(tdfx, mga, i810, savage,
+ r128, sis)
+Date: Fri,  2 Dec 2022 19:45:48 +0800
+Message-Id: <20221202114659.16669-1-cai.huoqing@linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH 2/3] ASoC: dt-bindings: Reference common DAI properties
-To: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Ban Tao <fengzheng923@gmail.com>,
- =?UTF-8?Q?Martin_Povi=c5=a1er?= <povik+lin@cutebit.org>,
- James Schulman <james.schulman@cirrus.com>,
- David Rhodes <david.rhodes@cirrus.com>,
- Lucas Tanure <tanureal@opensource.cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Peter Ujfalusi <peter.ujfalusi@gmail.com>,
- Cheng-Yi Chiang <cychiang@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
- Guenter Roeck <groeck@chromium.org>, Benson Leung <bleung@chromium.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Stephan Gerhold
- <stephan@gerhold.net>, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Banajit Goswami <bgoswami@quicinc.com>, Heiko Stuebner <heiko@sntech.de>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- Fabio Estevam <festevam@gmail.com>,
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Olivier Moysan <olivier.moysan@foss.st.com>,
- Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.om>,
- Lars-Peter Clausen <lars@metafoo.de>,
- Bogdan Togorean <bogdan.togorean@analog.com>, =?UTF-8?Q?Nuno_S=c3=a1?=
- <nuno.sa@analog.com>, Vincent Knecht <vincent.knecht@mailoo.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Maxime Ripard <mripard@kernel.org>,
- Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>,
- - <patches@opensource.cirrus.com>, Jayesh Choudhary <j-choudhary@ti.com>,
- Daniel Drake <drake@endlessm.com>, Katsuhiro Suzuki
- <katsuhiro@katsuster.net>, Shengjiu Wang <shengjiu.wang@nxp.com>,
- Paul Cercueil <paul@crapouillou.net>, Jee Heng <jee.heng.sia@intel.com>,
- Lubomir Rintel <lkundrak@v3.sk>,
- Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
- Mohan Kumar <mkumard@nvidia.com>, Sameer Pujar <spujar@nvidia.com>,
- Rohit kumar <rohitkr@codeaurora.org>, Derek Fang <derek.fang@realtek.com>,
- Biju Das <biju.das.jz@bp.renesas.com>, ChiYuan Huang <cy_huang@richtek.com>,
- Jose Abreu <joabreu@synopsys.com>, Andrew Davis <afd@ti.com>,
- Shi Fu <shifu0704@thundersoft.com>, Shenghao Ding <shenghao-ding@ti.com>,
- Matt Flax <flatmax@flatmax.com>, Ricard Wanderlof <ricardw@axis.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
- linux-sunxi@lists.linux.dev, asahi@lists.linux.dev,
- chrome-platform@lists.linux.dev, linux-tegra@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com
-References: <20221203160442.69594-1-krzysztof.kozlowski@linaro.org>
- <20221203160442.69594-2-krzysztof.kozlowski@linaro.org>
- <2251607.XGVbBG2WQu@archbook>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <2251607.XGVbBG2WQu@archbook>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
+X-Mailman-Approved-At: Sun, 04 Dec 2022 18:34:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,35 +48,13114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+ Danilo Krummrich <dakr@redhat.com>, dri-devel@lists.freedesktop.org,
+ Borislav Petkov <bp@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/12/2022 17:09, Nicolas Frattaroli wrote:
-> On Samstag, 3. Dezember 2022 17:04:41 CET Krzysztof Kozlowski wrote:
->> Reference in all sound components which have '#sound-dai-cells' the
->> dai-common.yaml schema, which allows to use 'sound-name-prefix'
->> property.
->>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>
->> ---
->>
->> This is an output of discussion here:
->> https://lore.kernel.org/all/Y255C+TGNVJ9fs8A@sirena.org.uk/
->>
->> This patch supersedes previous WSA883x one.
->> ---
-> 
-> Hello,
-> 
-> for rockchip,i2s-tdm, we get some (new?) warnings with W=1:
-> 
->     /home/fratti/Projekte/linux/arch/arm64/boot/dts/rockchip/rk3566-pinenote-v1.1.dtb: i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
->             From schema: /home/fratti/Projekte/linux/Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.yaml
+Commit 399516ab0fee ("MAINTAINERS: Add a bunch of legacy (UMS)
+DRM drivers")
+marked these drivers obsolete 7 years ago.
+And the mesa UMD of these drm drivers already in deprecated list
+in the link: https://docs.mesa3d.org/systems.html
 
-I did not touch reset names, so are you sure these are not old warnings?
+3dfx Glide-->driver/gpu/drm/tdfx
+Matrox-->driver/gpu/drm/mga
+Intel i810-->driver/gpu/drm/i810
+S3 Savage-->drivers/gpu/drm/savage/
+ATI Rage 128->drivers/gpu/drm/r128/
+Silicon Integrated Systems->drivers/gpu/drm/sis/
 
+It's time to remove these.
 
-Best regards,
-Krzysztof
+Signed-off-by: Cai Huoqing <cai.huoqing@linux.dev>
+---
+ drivers/gpu/drm/Kconfig               |   50 -
+ drivers/gpu/drm/Makefile              |    6 -
+ drivers/gpu/drm/i810/Makefile         |    8 -
+ drivers/gpu/drm/i810/i810_dma.c       | 1266 -------------------
+ drivers/gpu/drm/i810/i810_drv.c       |  101 --
+ drivers/gpu/drm/i810/i810_drv.h       |  246 ----
+ drivers/gpu/drm/mga/Makefile          |   11 -
+ drivers/gpu/drm/mga/mga_dma.c         | 1168 ------------------
+ drivers/gpu/drm/mga/mga_drv.c         |  104 --
+ drivers/gpu/drm/mga/mga_drv.h         |  685 -----------
+ drivers/gpu/drm/mga/mga_ioc32.c       |  197 ---
+ drivers/gpu/drm/mga/mga_irq.c         |  169 ---
+ drivers/gpu/drm/mga/mga_state.c       | 1099 -----------------
+ drivers/gpu/drm/mga/mga_warp.c        |  167 ---
+ drivers/gpu/drm/r128/Makefile         |   10 -
+ drivers/gpu/drm/r128/ati_pcigart.c    |  228 ----
+ drivers/gpu/drm/r128/ati_pcigart.h    |   31 -
+ drivers/gpu/drm/r128/r128_cce.c       |  944 --------------
+ drivers/gpu/drm/r128/r128_drv.c       |  116 --
+ drivers/gpu/drm/r128/r128_drv.h       |  544 --------
+ drivers/gpu/drm/r128/r128_ioc32.c     |  199 ---
+ drivers/gpu/drm/r128/r128_irq.c       |  118 --
+ drivers/gpu/drm/r128/r128_state.c     | 1641 -------------------------
+ drivers/gpu/drm/savage/Makefile       |    9 -
+ drivers/gpu/drm/savage/savage_bci.c   | 1082 ----------------
+ drivers/gpu/drm/savage/savage_drv.c   |   91 --
+ drivers/gpu/drm/savage/savage_drv.h   |  580 ---------
+ drivers/gpu/drm/savage/savage_state.c | 1169 ------------------
+ drivers/gpu/drm/sis/Makefile          |   10 -
+ drivers/gpu/drm/sis/sis_drv.c         |  143 ---
+ drivers/gpu/drm/sis/sis_drv.h         |   80 --
+ drivers/gpu/drm/sis/sis_mm.c          |  363 ------
+ drivers/gpu/drm/tdfx/Makefile         |    8 -
+ drivers/gpu/drm/tdfx/tdfx_drv.c       |   90 --
+ drivers/gpu/drm/tdfx/tdfx_drv.h       |   47 -
+ 35 files changed, 12780 deletions(-)
+ delete mode 100644 drivers/gpu/drm/i810/Makefile
+ delete mode 100644 drivers/gpu/drm/i810/i810_dma.c
+ delete mode 100644 drivers/gpu/drm/i810/i810_drv.c
+ delete mode 100644 drivers/gpu/drm/i810/i810_drv.h
+ delete mode 100644 drivers/gpu/drm/mga/Makefile
+ delete mode 100644 drivers/gpu/drm/mga/mga_dma.c
+ delete mode 100644 drivers/gpu/drm/mga/mga_drv.c
+ delete mode 100644 drivers/gpu/drm/mga/mga_drv.h
+ delete mode 100644 drivers/gpu/drm/mga/mga_ioc32.c
+ delete mode 100644 drivers/gpu/drm/mga/mga_irq.c
+ delete mode 100644 drivers/gpu/drm/mga/mga_state.c
+ delete mode 100644 drivers/gpu/drm/mga/mga_warp.c
+ delete mode 100644 drivers/gpu/drm/r128/Makefile
+ delete mode 100644 drivers/gpu/drm/r128/ati_pcigart.c
+ delete mode 100644 drivers/gpu/drm/r128/ati_pcigart.h
+ delete mode 100644 drivers/gpu/drm/r128/r128_cce.c
+ delete mode 100644 drivers/gpu/drm/r128/r128_drv.c
+ delete mode 100644 drivers/gpu/drm/r128/r128_drv.h
+ delete mode 100644 drivers/gpu/drm/r128/r128_ioc32.c
+ delete mode 100644 drivers/gpu/drm/r128/r128_irq.c
+ delete mode 100644 drivers/gpu/drm/r128/r128_state.c
+ delete mode 100644 drivers/gpu/drm/savage/Makefile
+ delete mode 100644 drivers/gpu/drm/savage/savage_bci.c
+ delete mode 100644 drivers/gpu/drm/savage/savage_drv.c
+ delete mode 100644 drivers/gpu/drm/savage/savage_drv.h
+ delete mode 100644 drivers/gpu/drm/savage/savage_state.c
+ delete mode 100644 drivers/gpu/drm/sis/Makefile
+ delete mode 100644 drivers/gpu/drm/sis/sis_drv.c
+ delete mode 100644 drivers/gpu/drm/sis/sis_drv.h
+ delete mode 100644 drivers/gpu/drm/sis/sis_mm.c
+ delete mode 100644 drivers/gpu/drm/tdfx/Makefile
+ delete mode 100644 drivers/gpu/drm/tdfx/tdfx_drv.c
+ delete mode 100644 drivers/gpu/drm/tdfx/tdfx_drv.h
+
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index 315cbdf61979..a70a87798894 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -392,49 +392,6 @@ menuconfig DRM_LEGACY
+ 
+ if DRM_LEGACY
+ 
+-config DRM_TDFX
+-	tristate "3dfx Banshee/Voodoo3+"
+-	depends on DRM && PCI
+-	help
+-	  Choose this option if you have a 3dfx Banshee or Voodoo3 (or later),
+-	  graphics card.  If M is selected, the module will be called tdfx.
+-
+-config DRM_R128
+-	tristate "ATI Rage 128"
+-	depends on DRM && PCI
+-	select FW_LOADER
+-	help
+-	  Choose this option if you have an ATI Rage 128 graphics card.  If M
+-	  is selected, the module will be called r128.  AGP support for
+-	  this card is strongly suggested (unless you have a PCI version).
+-
+-config DRM_I810
+-	tristate "Intel I810"
+-	# !PREEMPTION because of missing ioctl locking
+-	depends on DRM && AGP && AGP_INTEL && (!PREEMPTION || BROKEN)
+-	help
+-	  Choose this option if you have an Intel I810 graphics card.  If M is
+-	  selected, the module will be called i810.  AGP support is required
+-	  for this driver to work.
+-
+-config DRM_MGA
+-	tristate "Matrox g200/g400"
+-	depends on DRM && PCI
+-	select FW_LOADER
+-	help
+-	  Choose this option if you have a Matrox G200, G400 or G450 graphics
+-	  card.  If M is selected, the module will be called mga.  AGP
+-	  support is required for this driver to work.
+-
+-config DRM_SIS
+-	tristate "SiS video cards"
+-	depends on DRM && AGP
+-	depends on FB_SIS || FB_SIS=n
+-	help
+-	  Choose this option if you have a SiS 630 or compatible video
+-	  chipset. If M is selected the module will be called sis. AGP
+-	  support is required for this driver to work.
+-
+ config DRM_VIA
+ 	tristate "Via unichrome video cards"
+ 	depends on DRM && PCI
+@@ -442,13 +399,6 @@ config DRM_VIA
+ 	  Choose this option if you have a Via unichrome or compatible video
+ 	  chipset. If M is selected the module will be called via.
+ 
+-config DRM_SAVAGE
+-	tristate "Savage video cards"
+-	depends on DRM && PCI
+-	help
+-	  Choose this option if you have a Savage3D/4/SuperSavage/Pro/Twister
+-	  chipset. If M is selected the module will be called savage.
+-
+ endif # DRM_LEGACY
+ 
+ config DRM_EXPORT_FOR_TESTS
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index cc637343d87b..489fadf19507 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -134,19 +134,13 @@ obj-y			+= arm/
+ obj-y			+= display/
+ obj-$(CONFIG_DRM_TTM)	+= ttm/
+ obj-$(CONFIG_DRM_SCHED)	+= scheduler/
+-obj-$(CONFIG_DRM_TDFX)	+= tdfx/
+-obj-$(CONFIG_DRM_R128)	+= r128/
+ obj-$(CONFIG_DRM_RADEON)+= radeon/
+ obj-$(CONFIG_DRM_AMDGPU)+= amd/amdgpu/
+-obj-$(CONFIG_DRM_MGA)	+= mga/
+-obj-$(CONFIG_DRM_I810)	+= i810/
+ obj-$(CONFIG_DRM_I915)	+= i915/
+ obj-$(CONFIG_DRM_KMB_DISPLAY)  += kmb/
+ obj-$(CONFIG_DRM_MGAG200) += mgag200/
+ obj-$(CONFIG_DRM_V3D)  += v3d/
+ obj-$(CONFIG_DRM_VC4)  += vc4/
+-obj-$(CONFIG_DRM_SIS)   += sis/
+-obj-$(CONFIG_DRM_SAVAGE)+= savage/
+ obj-$(CONFIG_DRM_VMWGFX)+= vmwgfx/
+ obj-$(CONFIG_DRM_VIA)	+=via/
+ obj-$(CONFIG_DRM_VGEM)	+= vgem/
+diff --git a/drivers/gpu/drm/i810/Makefile b/drivers/gpu/drm/i810/Makefile
+deleted file mode 100644
+index c181f8528c5c..000000000000
+--- a/drivers/gpu/drm/i810/Makefile
++++ /dev/null
+@@ -1,8 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0-only
+-#
+-# Makefile for the drm device driver.  This driver provides support for the
+-# Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
+-
+-i810-y := i810_drv.o i810_dma.o
+-
+-obj-$(CONFIG_DRM_I810)	+= i810.o
+diff --git a/drivers/gpu/drm/i810/i810_dma.c b/drivers/gpu/drm/i810/i810_dma.c
+deleted file mode 100644
+index 9fb4dd63342f..000000000000
+--- a/drivers/gpu/drm/i810/i810_dma.c
++++ /dev/null
+@@ -1,1266 +0,0 @@
+-/* i810_dma.c -- DMA support for the i810 -*- linux-c -*-
+- * Created: Mon Dec 13 01:50:01 1999 by jhartmann@precisioninsight.com
+- *
+- * Copyright 1999 Precision Insight, Inc., Cedar Park, Texas.
+- * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
+- * All Rights Reserved.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the next
+- * paragraph) shall be included in all copies or substantial portions of the
+- * Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+- * PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+- * DEALINGS IN THE SOFTWARE.
+- *
+- * Authors: Rickard E. (Rik) Faith <faith@valinux.com>
+- *	    Jeff Hartmann <jhartmann@valinux.com>
+- *          Keith Whitwell <keith@tungstengraphics.com>
+- *
+- */
+-
+-#include <linux/delay.h>
+-#include <linux/mman.h>
+-#include <linux/pci.h>
+-
+-#include <drm/drm_device.h>
+-#include <drm/drm_drv.h>
+-#include <drm/drm_file.h>
+-#include <drm/drm_ioctl.h>
+-#include <drm/drm_print.h>
+-#include <drm/i810_drm.h>
+-
+-#include "i810_drv.h"
+-
+-#define I810_BUF_FREE		2
+-#define I810_BUF_CLIENT		1
+-#define I810_BUF_HARDWARE	0
+-
+-#define I810_BUF_UNMAPPED 0
+-#define I810_BUF_MAPPED   1
+-
+-static struct drm_buf *i810_freelist_get(struct drm_device * dev)
+-{
+-	struct drm_device_dma *dma = dev->dma;
+-	int i;
+-	int used;
+-
+-	/* Linear search might not be the best solution */
+-
+-	for (i = 0; i < dma->buf_count; i++) {
+-		struct drm_buf *buf = dma->buflist[i];
+-		drm_i810_buf_priv_t *buf_priv = buf->dev_private;
+-		/* In use is already a pointer */
+-		used = cmpxchg(buf_priv->in_use, I810_BUF_FREE,
+-			       I810_BUF_CLIENT);
+-		if (used == I810_BUF_FREE)
+-			return buf;
+-	}
+-	return NULL;
+-}
+-
+-/* This should only be called if the buffer is not sent to the hardware
+- * yet, the hardware updates in use for us once its on the ring buffer.
+- */
+-
+-static int i810_freelist_put(struct drm_device *dev, struct drm_buf *buf)
+-{
+-	drm_i810_buf_priv_t *buf_priv = buf->dev_private;
+-	int used;
+-
+-	/* In use is already a pointer */
+-	used = cmpxchg(buf_priv->in_use, I810_BUF_CLIENT, I810_BUF_FREE);
+-	if (used != I810_BUF_CLIENT) {
+-		DRM_ERROR("Freeing buffer thats not in use : %d\n", buf->idx);
+-		return -EINVAL;
+-	}
+-
+-	return 0;
+-}
+-
+-static int i810_mmap_buffers(struct file *filp, struct vm_area_struct *vma)
+-{
+-	struct drm_file *priv = filp->private_data;
+-	struct drm_device *dev;
+-	drm_i810_private_t *dev_priv;
+-	struct drm_buf *buf;
+-	drm_i810_buf_priv_t *buf_priv;
+-
+-	dev = priv->minor->dev;
+-	dev_priv = dev->dev_private;
+-	buf = dev_priv->mmap_buffer;
+-	buf_priv = buf->dev_private;
+-
+-	vma->vm_flags |= VM_DONTCOPY;
+-
+-	buf_priv->currently_mapped = I810_BUF_MAPPED;
+-
+-	if (io_remap_pfn_range(vma, vma->vm_start,
+-			       vma->vm_pgoff,
+-			       vma->vm_end - vma->vm_start, vma->vm_page_prot))
+-		return -EAGAIN;
+-	return 0;
+-}
+-
+-static const struct file_operations i810_buffer_fops = {
+-	.open = drm_open,
+-	.release = drm_release,
+-	.unlocked_ioctl = drm_ioctl,
+-	.mmap = i810_mmap_buffers,
+-	.compat_ioctl = drm_compat_ioctl,
+-	.llseek = noop_llseek,
+-};
+-
+-static int i810_map_buffer(struct drm_buf *buf, struct drm_file *file_priv)
+-{
+-	struct drm_device *dev = file_priv->minor->dev;
+-	drm_i810_buf_priv_t *buf_priv = buf->dev_private;
+-	drm_i810_private_t *dev_priv = dev->dev_private;
+-	const struct file_operations *old_fops;
+-	int retcode = 0;
+-
+-	if (buf_priv->currently_mapped == I810_BUF_MAPPED)
+-		return -EINVAL;
+-
+-	/* This is all entirely broken */
+-	old_fops = file_priv->filp->f_op;
+-	file_priv->filp->f_op = &i810_buffer_fops;
+-	dev_priv->mmap_buffer = buf;
+-	buf_priv->virtual = (void *)vm_mmap(file_priv->filp, 0, buf->total,
+-					    PROT_READ | PROT_WRITE,
+-					    MAP_SHARED, buf->bus_address);
+-	dev_priv->mmap_buffer = NULL;
+-	file_priv->filp->f_op = old_fops;
+-	if (IS_ERR(buf_priv->virtual)) {
+-		/* Real error */
+-		DRM_ERROR("mmap error\n");
+-		retcode = PTR_ERR(buf_priv->virtual);
+-		buf_priv->virtual = NULL;
+-	}
+-
+-	return retcode;
+-}
+-
+-static int i810_unmap_buffer(struct drm_buf *buf)
+-{
+-	drm_i810_buf_priv_t *buf_priv = buf->dev_private;
+-	int retcode = 0;
+-
+-	if (buf_priv->currently_mapped != I810_BUF_MAPPED)
+-		return -EINVAL;
+-
+-	retcode = vm_munmap((unsigned long)buf_priv->virtual,
+-			    (size_t) buf->total);
+-
+-	buf_priv->currently_mapped = I810_BUF_UNMAPPED;
+-	buf_priv->virtual = NULL;
+-
+-	return retcode;
+-}
+-
+-static int i810_dma_get_buffer(struct drm_device *dev, drm_i810_dma_t *d,
+-			       struct drm_file *file_priv)
+-{
+-	struct drm_buf *buf;
+-	drm_i810_buf_priv_t *buf_priv;
+-	int retcode = 0;
+-
+-	buf = i810_freelist_get(dev);
+-	if (!buf) {
+-		retcode = -ENOMEM;
+-		DRM_DEBUG("retcode=%d\n", retcode);
+-		return retcode;
+-	}
+-
+-	retcode = i810_map_buffer(buf, file_priv);
+-	if (retcode) {
+-		i810_freelist_put(dev, buf);
+-		DRM_ERROR("mapbuf failed, retcode %d\n", retcode);
+-		return retcode;
+-	}
+-	buf->file_priv = file_priv;
+-	buf_priv = buf->dev_private;
+-	d->granted = 1;
+-	d->request_idx = buf->idx;
+-	d->request_size = buf->total;
+-	d->virtual = buf_priv->virtual;
+-
+-	return retcode;
+-}
+-
+-static int i810_dma_cleanup(struct drm_device *dev)
+-{
+-	struct drm_device_dma *dma = dev->dma;
+-
+-	/* Make sure interrupts are disabled here because the uninstall ioctl
+-	 * may not have been called from userspace and after dev_private
+-	 * is freed, it's too late.
+-	 */
+-	if (drm_core_check_feature(dev, DRIVER_HAVE_IRQ) && dev->irq_enabled)
+-		drm_legacy_irq_uninstall(dev);
+-
+-	if (dev->dev_private) {
+-		int i;
+-		drm_i810_private_t *dev_priv =
+-		    (drm_i810_private_t *) dev->dev_private;
+-
+-		if (dev_priv->ring.virtual_start)
+-			drm_legacy_ioremapfree(&dev_priv->ring.map, dev);
+-		if (dev_priv->hw_status_page) {
+-			dma_free_coherent(dev->dev, PAGE_SIZE,
+-					  dev_priv->hw_status_page,
+-					  dev_priv->dma_status_page);
+-		}
+-		kfree(dev->dev_private);
+-		dev->dev_private = NULL;
+-
+-		for (i = 0; i < dma->buf_count; i++) {
+-			struct drm_buf *buf = dma->buflist[i];
+-			drm_i810_buf_priv_t *buf_priv = buf->dev_private;
+-
+-			if (buf_priv->kernel_virtual && buf->total)
+-				drm_legacy_ioremapfree(&buf_priv->map, dev);
+-		}
+-	}
+-	return 0;
+-}
+-
+-static int i810_wait_ring(struct drm_device *dev, int n)
+-{
+-	drm_i810_private_t *dev_priv = dev->dev_private;
+-	drm_i810_ring_buffer_t *ring = &(dev_priv->ring);
+-	int iters = 0;
+-	unsigned long end;
+-	unsigned int last_head = I810_READ(LP_RING + RING_HEAD) & HEAD_ADDR;
+-
+-	end = jiffies + (HZ * 3);
+-	while (ring->space < n) {
+-		ring->head = I810_READ(LP_RING + RING_HEAD) & HEAD_ADDR;
+-		ring->space = ring->head - (ring->tail + 8);
+-		if (ring->space < 0)
+-			ring->space += ring->Size;
+-
+-		if (ring->head != last_head) {
+-			end = jiffies + (HZ * 3);
+-			last_head = ring->head;
+-		}
+-
+-		iters++;
+-		if (time_before(end, jiffies)) {
+-			DRM_ERROR("space: %d wanted %d\n", ring->space, n);
+-			DRM_ERROR("lockup\n");
+-			goto out_wait_ring;
+-		}
+-		udelay(1);
+-	}
+-
+-out_wait_ring:
+-	return iters;
+-}
+-
+-static void i810_kernel_lost_context(struct drm_device *dev)
+-{
+-	drm_i810_private_t *dev_priv = dev->dev_private;
+-	drm_i810_ring_buffer_t *ring = &(dev_priv->ring);
+-
+-	ring->head = I810_READ(LP_RING + RING_HEAD) & HEAD_ADDR;
+-	ring->tail = I810_READ(LP_RING + RING_TAIL);
+-	ring->space = ring->head - (ring->tail + 8);
+-	if (ring->space < 0)
+-		ring->space += ring->Size;
+-}
+-
+-static int i810_freelist_init(struct drm_device *dev, drm_i810_private_t *dev_priv)
+-{
+-	struct drm_device_dma *dma = dev->dma;
+-	int my_idx = 24;
+-	u32 *hw_status = (u32 *) (dev_priv->hw_status_page + my_idx);
+-	int i;
+-
+-	if (dma->buf_count > 1019) {
+-		/* Not enough space in the status page for the freelist */
+-		return -EINVAL;
+-	}
+-
+-	for (i = 0; i < dma->buf_count; i++) {
+-		struct drm_buf *buf = dma->buflist[i];
+-		drm_i810_buf_priv_t *buf_priv = buf->dev_private;
+-
+-		buf_priv->in_use = hw_status++;
+-		buf_priv->my_use_idx = my_idx;
+-		my_idx += 4;
+-
+-		*buf_priv->in_use = I810_BUF_FREE;
+-
+-		buf_priv->map.offset = buf->bus_address;
+-		buf_priv->map.size = buf->total;
+-		buf_priv->map.type = _DRM_AGP;
+-		buf_priv->map.flags = 0;
+-		buf_priv->map.mtrr = 0;
+-
+-		drm_legacy_ioremap(&buf_priv->map, dev);
+-		buf_priv->kernel_virtual = buf_priv->map.handle;
+-
+-	}
+-	return 0;
+-}
+-
+-static int i810_dma_initialize(struct drm_device *dev,
+-			       drm_i810_private_t *dev_priv,
+-			       drm_i810_init_t *init)
+-{
+-	struct drm_map_list *r_list;
+-	memset(dev_priv, 0, sizeof(drm_i810_private_t));
+-
+-	list_for_each_entry(r_list, &dev->maplist, head) {
+-		if (r_list->map &&
+-		    r_list->map->type == _DRM_SHM &&
+-		    r_list->map->flags & _DRM_CONTAINS_LOCK) {
+-			dev_priv->sarea_map = r_list->map;
+-			break;
+-		}
+-	}
+-	if (!dev_priv->sarea_map) {
+-		dev->dev_private = (void *)dev_priv;
+-		i810_dma_cleanup(dev);
+-		DRM_ERROR("can not find sarea!\n");
+-		return -EINVAL;
+-	}
+-	dev_priv->mmio_map = drm_legacy_findmap(dev, init->mmio_offset);
+-	if (!dev_priv->mmio_map) {
+-		dev->dev_private = (void *)dev_priv;
+-		i810_dma_cleanup(dev);
+-		DRM_ERROR("can not find mmio map!\n");
+-		return -EINVAL;
+-	}
+-	dev->agp_buffer_token = init->buffers_offset;
+-	dev->agp_buffer_map = drm_legacy_findmap(dev, init->buffers_offset);
+-	if (!dev->agp_buffer_map) {
+-		dev->dev_private = (void *)dev_priv;
+-		i810_dma_cleanup(dev);
+-		DRM_ERROR("can not find dma buffer map!\n");
+-		return -EINVAL;
+-	}
+-
+-	dev_priv->sarea_priv = (drm_i810_sarea_t *)
+-	    ((u8 *) dev_priv->sarea_map->handle + init->sarea_priv_offset);
+-
+-	dev_priv->ring.Start = init->ring_start;
+-	dev_priv->ring.End = init->ring_end;
+-	dev_priv->ring.Size = init->ring_size;
+-
+-	dev_priv->ring.map.offset = dev->agp->base + init->ring_start;
+-	dev_priv->ring.map.size = init->ring_size;
+-	dev_priv->ring.map.type = _DRM_AGP;
+-	dev_priv->ring.map.flags = 0;
+-	dev_priv->ring.map.mtrr = 0;
+-
+-	drm_legacy_ioremap(&dev_priv->ring.map, dev);
+-
+-	if (dev_priv->ring.map.handle == NULL) {
+-		dev->dev_private = (void *)dev_priv;
+-		i810_dma_cleanup(dev);
+-		DRM_ERROR("can not ioremap virtual address for"
+-			  " ring buffer\n");
+-		return -ENOMEM;
+-	}
+-
+-	dev_priv->ring.virtual_start = dev_priv->ring.map.handle;
+-
+-	dev_priv->ring.tail_mask = dev_priv->ring.Size - 1;
+-
+-	dev_priv->w = init->w;
+-	dev_priv->h = init->h;
+-	dev_priv->pitch = init->pitch;
+-	dev_priv->back_offset = init->back_offset;
+-	dev_priv->depth_offset = init->depth_offset;
+-	dev_priv->front_offset = init->front_offset;
+-
+-	dev_priv->overlay_offset = init->overlay_offset;
+-	dev_priv->overlay_physical = init->overlay_physical;
+-
+-	dev_priv->front_di1 = init->front_offset | init->pitch_bits;
+-	dev_priv->back_di1 = init->back_offset | init->pitch_bits;
+-	dev_priv->zi1 = init->depth_offset | init->pitch_bits;
+-
+-	/* Program Hardware Status Page */
+-	dev_priv->hw_status_page =
+-		dma_alloc_coherent(dev->dev, PAGE_SIZE,
+-				   &dev_priv->dma_status_page, GFP_KERNEL);
+-	if (!dev_priv->hw_status_page) {
+-		dev->dev_private = (void *)dev_priv;
+-		i810_dma_cleanup(dev);
+-		DRM_ERROR("Can not allocate hardware status page\n");
+-		return -ENOMEM;
+-	}
+-	DRM_DEBUG("hw status page @ %p\n", dev_priv->hw_status_page);
+-
+-	I810_WRITE(0x02080, dev_priv->dma_status_page);
+-	DRM_DEBUG("Enabled hardware status page\n");
+-
+-	/* Now we need to init our freelist */
+-	if (i810_freelist_init(dev, dev_priv) != 0) {
+-		dev->dev_private = (void *)dev_priv;
+-		i810_dma_cleanup(dev);
+-		DRM_ERROR("Not enough space in the status page for"
+-			  " the freelist\n");
+-		return -ENOMEM;
+-	}
+-	dev->dev_private = (void *)dev_priv;
+-
+-	return 0;
+-}
+-
+-static int i810_dma_init(struct drm_device *dev, void *data,
+-			 struct drm_file *file_priv)
+-{
+-	drm_i810_private_t *dev_priv;
+-	drm_i810_init_t *init = data;
+-	int retcode = 0;
+-
+-	switch (init->func) {
+-	case I810_INIT_DMA_1_4:
+-		DRM_INFO("Using v1.4 init.\n");
+-		dev_priv = kmalloc(sizeof(drm_i810_private_t), GFP_KERNEL);
+-		if (dev_priv == NULL)
+-			return -ENOMEM;
+-		retcode = i810_dma_initialize(dev, dev_priv, init);
+-		break;
+-
+-	case I810_CLEANUP_DMA:
+-		DRM_INFO("DMA Cleanup\n");
+-		retcode = i810_dma_cleanup(dev);
+-		break;
+-	default:
+-		return -EINVAL;
+-	}
+-
+-	return retcode;
+-}
+-
+-/* Most efficient way to verify state for the i810 is as it is
+- * emitted.  Non-conformant state is silently dropped.
+- *
+- * Use 'volatile' & local var tmp to force the emitted values to be
+- * identical to the verified ones.
+- */
+-static void i810EmitContextVerified(struct drm_device *dev,
+-				    volatile unsigned int *code)
+-{
+-	drm_i810_private_t *dev_priv = dev->dev_private;
+-	int i, j = 0;
+-	unsigned int tmp;
+-	RING_LOCALS;
+-
+-	BEGIN_LP_RING(I810_CTX_SETUP_SIZE);
+-
+-	OUT_RING(GFX_OP_COLOR_FACTOR);
+-	OUT_RING(code[I810_CTXREG_CF1]);
+-
+-	OUT_RING(GFX_OP_STIPPLE);
+-	OUT_RING(code[I810_CTXREG_ST1]);
+-
+-	for (i = 4; i < I810_CTX_SETUP_SIZE; i++) {
+-		tmp = code[i];
+-
+-		if ((tmp & (7 << 29)) == (3 << 29) &&
+-		    (tmp & (0x1f << 24)) < (0x1d << 24)) {
+-			OUT_RING(tmp);
+-			j++;
+-		} else
+-			printk("constext state dropped!!!\n");
+-	}
+-
+-	if (j & 1)
+-		OUT_RING(0);
+-
+-	ADVANCE_LP_RING();
+-}
+-
+-static void i810EmitTexVerified(struct drm_device *dev, volatile unsigned int *code)
+-{
+-	drm_i810_private_t *dev_priv = dev->dev_private;
+-	int i, j = 0;
+-	unsigned int tmp;
+-	RING_LOCALS;
+-
+-	BEGIN_LP_RING(I810_TEX_SETUP_SIZE);
+-
+-	OUT_RING(GFX_OP_MAP_INFO);
+-	OUT_RING(code[I810_TEXREG_MI1]);
+-	OUT_RING(code[I810_TEXREG_MI2]);
+-	OUT_RING(code[I810_TEXREG_MI3]);
+-
+-	for (i = 4; i < I810_TEX_SETUP_SIZE; i++) {
+-		tmp = code[i];
+-
+-		if ((tmp & (7 << 29)) == (3 << 29) &&
+-		    (tmp & (0x1f << 24)) < (0x1d << 24)) {
+-			OUT_RING(tmp);
+-			j++;
+-		} else
+-			printk("texture state dropped!!!\n");
+-	}
+-
+-	if (j & 1)
+-		OUT_RING(0);
+-
+-	ADVANCE_LP_RING();
+-}
+-
+-/* Need to do some additional checking when setting the dest buffer.
+- */
+-static void i810EmitDestVerified(struct drm_device *dev,
+-				 volatile unsigned int *code)
+-{
+-	drm_i810_private_t *dev_priv = dev->dev_private;
+-	unsigned int tmp;
+-	RING_LOCALS;
+-
+-	BEGIN_LP_RING(I810_DEST_SETUP_SIZE + 2);
+-
+-	tmp = code[I810_DESTREG_DI1];
+-	if (tmp == dev_priv->front_di1 || tmp == dev_priv->back_di1) {
+-		OUT_RING(CMD_OP_DESTBUFFER_INFO);
+-		OUT_RING(tmp);
+-	} else
+-		DRM_DEBUG("bad di1 %x (allow %x or %x)\n",
+-			  tmp, dev_priv->front_di1, dev_priv->back_di1);
+-
+-	/* invarient:
+-	 */
+-	OUT_RING(CMD_OP_Z_BUFFER_INFO);
+-	OUT_RING(dev_priv->zi1);
+-
+-	OUT_RING(GFX_OP_DESTBUFFER_VARS);
+-	OUT_RING(code[I810_DESTREG_DV1]);
+-
+-	OUT_RING(GFX_OP_DRAWRECT_INFO);
+-	OUT_RING(code[I810_DESTREG_DR1]);
+-	OUT_RING(code[I810_DESTREG_DR2]);
+-	OUT_RING(code[I810_DESTREG_DR3]);
+-	OUT_RING(code[I810_DESTREG_DR4]);
+-	OUT_RING(0);
+-
+-	ADVANCE_LP_RING();
+-}
+-
+-static void i810EmitState(struct drm_device *dev)
+-{
+-	drm_i810_private_t *dev_priv = dev->dev_private;
+-	drm_i810_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	unsigned int dirty = sarea_priv->dirty;
+-
+-	DRM_DEBUG("%x\n", dirty);
+-
+-	if (dirty & I810_UPLOAD_BUFFERS) {
+-		i810EmitDestVerified(dev, sarea_priv->BufferState);
+-		sarea_priv->dirty &= ~I810_UPLOAD_BUFFERS;
+-	}
+-
+-	if (dirty & I810_UPLOAD_CTX) {
+-		i810EmitContextVerified(dev, sarea_priv->ContextState);
+-		sarea_priv->dirty &= ~I810_UPLOAD_CTX;
+-	}
+-
+-	if (dirty & I810_UPLOAD_TEX0) {
+-		i810EmitTexVerified(dev, sarea_priv->TexState[0]);
+-		sarea_priv->dirty &= ~I810_UPLOAD_TEX0;
+-	}
+-
+-	if (dirty & I810_UPLOAD_TEX1) {
+-		i810EmitTexVerified(dev, sarea_priv->TexState[1]);
+-		sarea_priv->dirty &= ~I810_UPLOAD_TEX1;
+-	}
+-}
+-
+-/* need to verify
+- */
+-static void i810_dma_dispatch_clear(struct drm_device *dev, int flags,
+-				    unsigned int clear_color,
+-				    unsigned int clear_zval)
+-{
+-	drm_i810_private_t *dev_priv = dev->dev_private;
+-	drm_i810_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	int nbox = sarea_priv->nbox;
+-	struct drm_clip_rect *pbox = sarea_priv->boxes;
+-	int pitch = dev_priv->pitch;
+-	int cpp = 2;
+-	int i;
+-	RING_LOCALS;
+-
+-	if (dev_priv->current_page == 1) {
+-		unsigned int tmp = flags;
+-
+-		flags &= ~(I810_FRONT | I810_BACK);
+-		if (tmp & I810_FRONT)
+-			flags |= I810_BACK;
+-		if (tmp & I810_BACK)
+-			flags |= I810_FRONT;
+-	}
+-
+-	i810_kernel_lost_context(dev);
+-
+-	if (nbox > I810_NR_SAREA_CLIPRECTS)
+-		nbox = I810_NR_SAREA_CLIPRECTS;
+-
+-	for (i = 0; i < nbox; i++, pbox++) {
+-		unsigned int x = pbox->x1;
+-		unsigned int y = pbox->y1;
+-		unsigned int width = (pbox->x2 - x) * cpp;
+-		unsigned int height = pbox->y2 - y;
+-		unsigned int start = y * pitch + x * cpp;
+-
+-		if (pbox->x1 > pbox->x2 ||
+-		    pbox->y1 > pbox->y2 ||
+-		    pbox->x2 > dev_priv->w || pbox->y2 > dev_priv->h)
+-			continue;
+-
+-		if (flags & I810_FRONT) {
+-			BEGIN_LP_RING(6);
+-			OUT_RING(BR00_BITBLT_CLIENT | BR00_OP_COLOR_BLT | 0x3);
+-			OUT_RING(BR13_SOLID_PATTERN | (0xF0 << 16) | pitch);
+-			OUT_RING((height << 16) | width);
+-			OUT_RING(start);
+-			OUT_RING(clear_color);
+-			OUT_RING(0);
+-			ADVANCE_LP_RING();
+-		}
+-
+-		if (flags & I810_BACK) {
+-			BEGIN_LP_RING(6);
+-			OUT_RING(BR00_BITBLT_CLIENT | BR00_OP_COLOR_BLT | 0x3);
+-			OUT_RING(BR13_SOLID_PATTERN | (0xF0 << 16) | pitch);
+-			OUT_RING((height << 16) | width);
+-			OUT_RING(dev_priv->back_offset + start);
+-			OUT_RING(clear_color);
+-			OUT_RING(0);
+-			ADVANCE_LP_RING();
+-		}
+-
+-		if (flags & I810_DEPTH) {
+-			BEGIN_LP_RING(6);
+-			OUT_RING(BR00_BITBLT_CLIENT | BR00_OP_COLOR_BLT | 0x3);
+-			OUT_RING(BR13_SOLID_PATTERN | (0xF0 << 16) | pitch);
+-			OUT_RING((height << 16) | width);
+-			OUT_RING(dev_priv->depth_offset + start);
+-			OUT_RING(clear_zval);
+-			OUT_RING(0);
+-			ADVANCE_LP_RING();
+-		}
+-	}
+-}
+-
+-static void i810_dma_dispatch_swap(struct drm_device *dev)
+-{
+-	drm_i810_private_t *dev_priv = dev->dev_private;
+-	drm_i810_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	int nbox = sarea_priv->nbox;
+-	struct drm_clip_rect *pbox = sarea_priv->boxes;
+-	int pitch = dev_priv->pitch;
+-	int cpp = 2;
+-	int i;
+-	RING_LOCALS;
+-
+-	DRM_DEBUG("swapbuffers\n");
+-
+-	i810_kernel_lost_context(dev);
+-
+-	if (nbox > I810_NR_SAREA_CLIPRECTS)
+-		nbox = I810_NR_SAREA_CLIPRECTS;
+-
+-	for (i = 0; i < nbox; i++, pbox++) {
+-		unsigned int w = pbox->x2 - pbox->x1;
+-		unsigned int h = pbox->y2 - pbox->y1;
+-		unsigned int dst = pbox->x1 * cpp + pbox->y1 * pitch;
+-		unsigned int start = dst;
+-
+-		if (pbox->x1 > pbox->x2 ||
+-		    pbox->y1 > pbox->y2 ||
+-		    pbox->x2 > dev_priv->w || pbox->y2 > dev_priv->h)
+-			continue;
+-
+-		BEGIN_LP_RING(6);
+-		OUT_RING(BR00_BITBLT_CLIENT | BR00_OP_SRC_COPY_BLT | 0x4);
+-		OUT_RING(pitch | (0xCC << 16));
+-		OUT_RING((h << 16) | (w * cpp));
+-		if (dev_priv->current_page == 0)
+-			OUT_RING(dev_priv->front_offset + start);
+-		else
+-			OUT_RING(dev_priv->back_offset + start);
+-		OUT_RING(pitch);
+-		if (dev_priv->current_page == 0)
+-			OUT_RING(dev_priv->back_offset + start);
+-		else
+-			OUT_RING(dev_priv->front_offset + start);
+-		ADVANCE_LP_RING();
+-	}
+-}
+-
+-static void i810_dma_dispatch_vertex(struct drm_device *dev,
+-				     struct drm_buf *buf, int discard, int used)
+-{
+-	drm_i810_private_t *dev_priv = dev->dev_private;
+-	drm_i810_buf_priv_t *buf_priv = buf->dev_private;
+-	drm_i810_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	struct drm_clip_rect *box = sarea_priv->boxes;
+-	int nbox = sarea_priv->nbox;
+-	unsigned long address = (unsigned long)buf->bus_address;
+-	unsigned long start = address - dev->agp->base;
+-	int i = 0;
+-	RING_LOCALS;
+-
+-	i810_kernel_lost_context(dev);
+-
+-	if (nbox > I810_NR_SAREA_CLIPRECTS)
+-		nbox = I810_NR_SAREA_CLIPRECTS;
+-
+-	if (used < 0 || used > 4 * 1024)
+-		used = 0;
+-
+-	if (sarea_priv->dirty)
+-		i810EmitState(dev);
+-
+-	if (buf_priv->currently_mapped == I810_BUF_MAPPED) {
+-		unsigned int prim = (sarea_priv->vertex_prim & PR_MASK);
+-
+-		*(u32 *) buf_priv->kernel_virtual =
+-		    ((GFX_OP_PRIMITIVE | prim | ((used / 4) - 2)));
+-
+-		if (used & 4) {
+-			*(u32 *) ((char *) buf_priv->kernel_virtual + used) = 0;
+-			used += 4;
+-		}
+-
+-		i810_unmap_buffer(buf);
+-	}
+-
+-	if (used) {
+-		do {
+-			if (i < nbox) {
+-				BEGIN_LP_RING(4);
+-				OUT_RING(GFX_OP_SCISSOR | SC_UPDATE_SCISSOR |
+-					 SC_ENABLE);
+-				OUT_RING(GFX_OP_SCISSOR_INFO);
+-				OUT_RING(box[i].x1 | (box[i].y1 << 16));
+-				OUT_RING((box[i].x2 -
+-					  1) | ((box[i].y2 - 1) << 16));
+-				ADVANCE_LP_RING();
+-			}
+-
+-			BEGIN_LP_RING(4);
+-			OUT_RING(CMD_OP_BATCH_BUFFER);
+-			OUT_RING(start | BB1_PROTECTED);
+-			OUT_RING(start + used - 4);
+-			OUT_RING(0);
+-			ADVANCE_LP_RING();
+-
+-		} while (++i < nbox);
+-	}
+-
+-	if (discard) {
+-		dev_priv->counter++;
+-
+-		(void)cmpxchg(buf_priv->in_use, I810_BUF_CLIENT,
+-			      I810_BUF_HARDWARE);
+-
+-		BEGIN_LP_RING(8);
+-		OUT_RING(CMD_STORE_DWORD_IDX);
+-		OUT_RING(20);
+-		OUT_RING(dev_priv->counter);
+-		OUT_RING(CMD_STORE_DWORD_IDX);
+-		OUT_RING(buf_priv->my_use_idx);
+-		OUT_RING(I810_BUF_FREE);
+-		OUT_RING(CMD_REPORT_HEAD);
+-		OUT_RING(0);
+-		ADVANCE_LP_RING();
+-	}
+-}
+-
+-static void i810_dma_dispatch_flip(struct drm_device *dev)
+-{
+-	drm_i810_private_t *dev_priv = dev->dev_private;
+-	int pitch = dev_priv->pitch;
+-	RING_LOCALS;
+-
+-	DRM_DEBUG("page=%d pfCurrentPage=%d\n",
+-		  dev_priv->current_page,
+-		  dev_priv->sarea_priv->pf_current_page);
+-
+-	i810_kernel_lost_context(dev);
+-
+-	BEGIN_LP_RING(2);
+-	OUT_RING(INST_PARSER_CLIENT | INST_OP_FLUSH | INST_FLUSH_MAP_CACHE);
+-	OUT_RING(0);
+-	ADVANCE_LP_RING();
+-
+-	BEGIN_LP_RING(I810_DEST_SETUP_SIZE + 2);
+-	/* On i815 at least ASYNC is buggy */
+-	/* pitch<<5 is from 11.2.8 p158,
+-	   its the pitch / 8 then left shifted 8,
+-	   so (pitch >> 3) << 8 */
+-	OUT_RING(CMD_OP_FRONTBUFFER_INFO | (pitch << 5) /*| ASYNC_FLIP */ );
+-	if (dev_priv->current_page == 0) {
+-		OUT_RING(dev_priv->back_offset);
+-		dev_priv->current_page = 1;
+-	} else {
+-		OUT_RING(dev_priv->front_offset);
+-		dev_priv->current_page = 0;
+-	}
+-	OUT_RING(0);
+-	ADVANCE_LP_RING();
+-
+-	BEGIN_LP_RING(2);
+-	OUT_RING(CMD_OP_WAIT_FOR_EVENT | WAIT_FOR_PLANE_A_FLIP);
+-	OUT_RING(0);
+-	ADVANCE_LP_RING();
+-
+-	/* Increment the frame counter.  The client-side 3D driver must
+-	 * throttle the framerate by waiting for this value before
+-	 * performing the swapbuffer ioctl.
+-	 */
+-	dev_priv->sarea_priv->pf_current_page = dev_priv->current_page;
+-
+-}
+-
+-static void i810_dma_quiescent(struct drm_device *dev)
+-{
+-	drm_i810_private_t *dev_priv = dev->dev_private;
+-	RING_LOCALS;
+-
+-	i810_kernel_lost_context(dev);
+-
+-	BEGIN_LP_RING(4);
+-	OUT_RING(INST_PARSER_CLIENT | INST_OP_FLUSH | INST_FLUSH_MAP_CACHE);
+-	OUT_RING(CMD_REPORT_HEAD);
+-	OUT_RING(0);
+-	OUT_RING(0);
+-	ADVANCE_LP_RING();
+-
+-	i810_wait_ring(dev, dev_priv->ring.Size - 8);
+-}
+-
+-static void i810_flush_queue(struct drm_device *dev)
+-{
+-	drm_i810_private_t *dev_priv = dev->dev_private;
+-	struct drm_device_dma *dma = dev->dma;
+-	int i;
+-	RING_LOCALS;
+-
+-	i810_kernel_lost_context(dev);
+-
+-	BEGIN_LP_RING(2);
+-	OUT_RING(CMD_REPORT_HEAD);
+-	OUT_RING(0);
+-	ADVANCE_LP_RING();
+-
+-	i810_wait_ring(dev, dev_priv->ring.Size - 8);
+-
+-	for (i = 0; i < dma->buf_count; i++) {
+-		struct drm_buf *buf = dma->buflist[i];
+-		drm_i810_buf_priv_t *buf_priv = buf->dev_private;
+-
+-		int used = cmpxchg(buf_priv->in_use, I810_BUF_HARDWARE,
+-				   I810_BUF_FREE);
+-
+-		if (used == I810_BUF_HARDWARE)
+-			DRM_DEBUG("reclaimed from HARDWARE\n");
+-		if (used == I810_BUF_CLIENT)
+-			DRM_DEBUG("still on client\n");
+-	}
+-
+-	return;
+-}
+-
+-/* Must be called with the lock held */
+-void i810_driver_reclaim_buffers(struct drm_device *dev,
+-				 struct drm_file *file_priv)
+-{
+-	struct drm_device_dma *dma = dev->dma;
+-	int i;
+-
+-	if (!dma)
+-		return;
+-	if (!dev->dev_private)
+-		return;
+-	if (!dma->buflist)
+-		return;
+-
+-	i810_flush_queue(dev);
+-
+-	for (i = 0; i < dma->buf_count; i++) {
+-		struct drm_buf *buf = dma->buflist[i];
+-		drm_i810_buf_priv_t *buf_priv = buf->dev_private;
+-
+-		if (buf->file_priv == file_priv && buf_priv) {
+-			int used = cmpxchg(buf_priv->in_use, I810_BUF_CLIENT,
+-					   I810_BUF_FREE);
+-
+-			if (used == I810_BUF_CLIENT)
+-				DRM_DEBUG("reclaimed from client\n");
+-			if (buf_priv->currently_mapped == I810_BUF_MAPPED)
+-				buf_priv->currently_mapped = I810_BUF_UNMAPPED;
+-		}
+-	}
+-}
+-
+-static int i810_flush_ioctl(struct drm_device *dev, void *data,
+-			    struct drm_file *file_priv)
+-{
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	i810_flush_queue(dev);
+-	return 0;
+-}
+-
+-static int i810_dma_vertex(struct drm_device *dev, void *data,
+-			   struct drm_file *file_priv)
+-{
+-	struct drm_device_dma *dma = dev->dma;
+-	drm_i810_private_t *dev_priv = (drm_i810_private_t *) dev->dev_private;
+-	u32 *hw_status = dev_priv->hw_status_page;
+-	drm_i810_sarea_t *sarea_priv = (drm_i810_sarea_t *)
+-	    dev_priv->sarea_priv;
+-	drm_i810_vertex_t *vertex = data;
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	DRM_DEBUG("idx %d used %d discard %d\n",
+-		  vertex->idx, vertex->used, vertex->discard);
+-
+-	if (vertex->idx < 0 || vertex->idx >= dma->buf_count)
+-		return -EINVAL;
+-
+-	i810_dma_dispatch_vertex(dev,
+-				 dma->buflist[vertex->idx],
+-				 vertex->discard, vertex->used);
+-
+-	sarea_priv->last_enqueue = dev_priv->counter - 1;
+-	sarea_priv->last_dispatch = (int)hw_status[5];
+-
+-	return 0;
+-}
+-
+-static int i810_clear_bufs(struct drm_device *dev, void *data,
+-			   struct drm_file *file_priv)
+-{
+-	drm_i810_clear_t *clear = data;
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	/* GH: Someone's doing nasty things... */
+-	if (!dev->dev_private)
+-		return -EINVAL;
+-
+-	i810_dma_dispatch_clear(dev, clear->flags,
+-				clear->clear_color, clear->clear_depth);
+-	return 0;
+-}
+-
+-static int i810_swap_bufs(struct drm_device *dev, void *data,
+-			  struct drm_file *file_priv)
+-{
+-	DRM_DEBUG("\n");
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	i810_dma_dispatch_swap(dev);
+-	return 0;
+-}
+-
+-static int i810_getage(struct drm_device *dev, void *data,
+-		       struct drm_file *file_priv)
+-{
+-	drm_i810_private_t *dev_priv = (drm_i810_private_t *) dev->dev_private;
+-	u32 *hw_status = dev_priv->hw_status_page;
+-	drm_i810_sarea_t *sarea_priv = (drm_i810_sarea_t *)
+-	    dev_priv->sarea_priv;
+-
+-	sarea_priv->last_dispatch = (int)hw_status[5];
+-	return 0;
+-}
+-
+-static int i810_getbuf(struct drm_device *dev, void *data,
+-		       struct drm_file *file_priv)
+-{
+-	int retcode = 0;
+-	drm_i810_dma_t *d = data;
+-	drm_i810_private_t *dev_priv = (drm_i810_private_t *) dev->dev_private;
+-	u32 *hw_status = dev_priv->hw_status_page;
+-	drm_i810_sarea_t *sarea_priv = (drm_i810_sarea_t *)
+-	    dev_priv->sarea_priv;
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	d->granted = 0;
+-
+-	retcode = i810_dma_get_buffer(dev, d, file_priv);
+-
+-	DRM_DEBUG("i810_dma: %d returning %d, granted = %d\n",
+-		  task_pid_nr(current), retcode, d->granted);
+-
+-	sarea_priv->last_dispatch = (int)hw_status[5];
+-
+-	return retcode;
+-}
+-
+-static int i810_copybuf(struct drm_device *dev, void *data,
+-			struct drm_file *file_priv)
+-{
+-	/* Never copy - 2.4.x doesn't need it */
+-	return 0;
+-}
+-
+-static int i810_docopy(struct drm_device *dev, void *data,
+-			struct drm_file *file_priv)
+-{
+-	/* Never copy - 2.4.x doesn't need it */
+-	return 0;
+-}
+-
+-static void i810_dma_dispatch_mc(struct drm_device *dev, struct drm_buf *buf, int used,
+-				 unsigned int last_render)
+-{
+-	drm_i810_private_t *dev_priv = dev->dev_private;
+-	drm_i810_buf_priv_t *buf_priv = buf->dev_private;
+-	drm_i810_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	unsigned long address = (unsigned long)buf->bus_address;
+-	unsigned long start = address - dev->agp->base;
+-	int u;
+-	RING_LOCALS;
+-
+-	i810_kernel_lost_context(dev);
+-
+-	u = cmpxchg(buf_priv->in_use, I810_BUF_CLIENT, I810_BUF_HARDWARE);
+-	if (u != I810_BUF_CLIENT)
+-		DRM_DEBUG("MC found buffer that isn't mine!\n");
+-
+-	if (used < 0 || used > 4 * 1024)
+-		used = 0;
+-
+-	sarea_priv->dirty = 0x7f;
+-
+-	DRM_DEBUG("addr 0x%lx, used 0x%x\n", address, used);
+-
+-	dev_priv->counter++;
+-	DRM_DEBUG("dispatch counter : %ld\n", dev_priv->counter);
+-	DRM_DEBUG("start : %lx\n", start);
+-	DRM_DEBUG("used : %d\n", used);
+-	DRM_DEBUG("start + used - 4 : %ld\n", start + used - 4);
+-
+-	if (buf_priv->currently_mapped == I810_BUF_MAPPED) {
+-		if (used & 4) {
+-			*(u32 *) ((char *) buf_priv->virtual + used) = 0;
+-			used += 4;
+-		}
+-
+-		i810_unmap_buffer(buf);
+-	}
+-	BEGIN_LP_RING(4);
+-	OUT_RING(CMD_OP_BATCH_BUFFER);
+-	OUT_RING(start | BB1_PROTECTED);
+-	OUT_RING(start + used - 4);
+-	OUT_RING(0);
+-	ADVANCE_LP_RING();
+-
+-	BEGIN_LP_RING(8);
+-	OUT_RING(CMD_STORE_DWORD_IDX);
+-	OUT_RING(buf_priv->my_use_idx);
+-	OUT_RING(I810_BUF_FREE);
+-	OUT_RING(0);
+-
+-	OUT_RING(CMD_STORE_DWORD_IDX);
+-	OUT_RING(16);
+-	OUT_RING(last_render);
+-	OUT_RING(0);
+-	ADVANCE_LP_RING();
+-}
+-
+-static int i810_dma_mc(struct drm_device *dev, void *data,
+-		       struct drm_file *file_priv)
+-{
+-	struct drm_device_dma *dma = dev->dma;
+-	drm_i810_private_t *dev_priv = (drm_i810_private_t *) dev->dev_private;
+-	u32 *hw_status = dev_priv->hw_status_page;
+-	drm_i810_sarea_t *sarea_priv = (drm_i810_sarea_t *)
+-	    dev_priv->sarea_priv;
+-	drm_i810_mc_t *mc = data;
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	if (mc->idx >= dma->buf_count || mc->idx < 0)
+-		return -EINVAL;
+-
+-	i810_dma_dispatch_mc(dev, dma->buflist[mc->idx], mc->used,
+-			     mc->last_render);
+-
+-	sarea_priv->last_enqueue = dev_priv->counter - 1;
+-	sarea_priv->last_dispatch = (int)hw_status[5];
+-
+-	return 0;
+-}
+-
+-static int i810_rstatus(struct drm_device *dev, void *data,
+-			struct drm_file *file_priv)
+-{
+-	drm_i810_private_t *dev_priv = (drm_i810_private_t *) dev->dev_private;
+-
+-	return (int)(((u32 *) (dev_priv->hw_status_page))[4]);
+-}
+-
+-static int i810_ov0_info(struct drm_device *dev, void *data,
+-			 struct drm_file *file_priv)
+-{
+-	drm_i810_private_t *dev_priv = (drm_i810_private_t *) dev->dev_private;
+-	drm_i810_overlay_t *ov = data;
+-
+-	ov->offset = dev_priv->overlay_offset;
+-	ov->physical = dev_priv->overlay_physical;
+-
+-	return 0;
+-}
+-
+-static int i810_fstatus(struct drm_device *dev, void *data,
+-			struct drm_file *file_priv)
+-{
+-	drm_i810_private_t *dev_priv = (drm_i810_private_t *) dev->dev_private;
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-	return I810_READ(0x30008);
+-}
+-
+-static int i810_ov0_flip(struct drm_device *dev, void *data,
+-			 struct drm_file *file_priv)
+-{
+-	drm_i810_private_t *dev_priv = (drm_i810_private_t *) dev->dev_private;
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	/* Tell the overlay to update */
+-	I810_WRITE(0x30000, dev_priv->overlay_physical | 0x80000000);
+-
+-	return 0;
+-}
+-
+-/* Not sure why this isn't set all the time:
+- */
+-static void i810_do_init_pageflip(struct drm_device *dev)
+-{
+-	drm_i810_private_t *dev_priv = dev->dev_private;
+-
+-	DRM_DEBUG("\n");
+-	dev_priv->page_flipping = 1;
+-	dev_priv->current_page = 0;
+-	dev_priv->sarea_priv->pf_current_page = dev_priv->current_page;
+-}
+-
+-static int i810_do_cleanup_pageflip(struct drm_device *dev)
+-{
+-	drm_i810_private_t *dev_priv = dev->dev_private;
+-
+-	DRM_DEBUG("\n");
+-	if (dev_priv->current_page != 0)
+-		i810_dma_dispatch_flip(dev);
+-
+-	dev_priv->page_flipping = 0;
+-	return 0;
+-}
+-
+-static int i810_flip_bufs(struct drm_device *dev, void *data,
+-			  struct drm_file *file_priv)
+-{
+-	drm_i810_private_t *dev_priv = dev->dev_private;
+-
+-	DRM_DEBUG("\n");
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	if (!dev_priv->page_flipping)
+-		i810_do_init_pageflip(dev);
+-
+-	i810_dma_dispatch_flip(dev);
+-	return 0;
+-}
+-
+-int i810_driver_load(struct drm_device *dev, unsigned long flags)
+-{
+-	struct pci_dev *pdev = to_pci_dev(dev->dev);
+-
+-	dev->agp = drm_legacy_agp_init(dev);
+-	if (dev->agp) {
+-		dev->agp->agp_mtrr = arch_phys_wc_add(
+-			dev->agp->agp_info.aper_base,
+-			dev->agp->agp_info.aper_size *
+-			1024 * 1024);
+-	}
+-
+-	/* Our userspace depends upon the agp mapping support. */
+-	if (!dev->agp)
+-		return -EINVAL;
+-
+-	pci_set_master(pdev);
+-
+-	return 0;
+-}
+-
+-void i810_driver_lastclose(struct drm_device *dev)
+-{
+-	i810_dma_cleanup(dev);
+-}
+-
+-void i810_driver_preclose(struct drm_device *dev, struct drm_file *file_priv)
+-{
+-	if (dev->dev_private) {
+-		drm_i810_private_t *dev_priv = dev->dev_private;
+-		if (dev_priv->page_flipping)
+-			i810_do_cleanup_pageflip(dev);
+-	}
+-
+-	if (file_priv->master && file_priv->master->lock.hw_lock) {
+-		drm_legacy_idlelock_take(&file_priv->master->lock);
+-		i810_driver_reclaim_buffers(dev, file_priv);
+-		drm_legacy_idlelock_release(&file_priv->master->lock);
+-	} else {
+-		/* master disappeared, clean up stuff anyway and hope nothing
+-		 * goes wrong */
+-		i810_driver_reclaim_buffers(dev, file_priv);
+-	}
+-
+-}
+-
+-int i810_driver_dma_quiescent(struct drm_device *dev)
+-{
+-	i810_dma_quiescent(dev);
+-	return 0;
+-}
+-
+-const struct drm_ioctl_desc i810_ioctls[] = {
+-	DRM_IOCTL_DEF_DRV(I810_INIT, i810_dma_init, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY|DRM_UNLOCKED),
+-	DRM_IOCTL_DEF_DRV(I810_VERTEX, i810_dma_vertex, DRM_AUTH|DRM_UNLOCKED),
+-	DRM_IOCTL_DEF_DRV(I810_CLEAR, i810_clear_bufs, DRM_AUTH|DRM_UNLOCKED),
+-	DRM_IOCTL_DEF_DRV(I810_FLUSH, i810_flush_ioctl, DRM_AUTH|DRM_UNLOCKED),
+-	DRM_IOCTL_DEF_DRV(I810_GETAGE, i810_getage, DRM_AUTH|DRM_UNLOCKED),
+-	DRM_IOCTL_DEF_DRV(I810_GETBUF, i810_getbuf, DRM_AUTH|DRM_UNLOCKED),
+-	DRM_IOCTL_DEF_DRV(I810_SWAP, i810_swap_bufs, DRM_AUTH|DRM_UNLOCKED),
+-	DRM_IOCTL_DEF_DRV(I810_COPY, i810_copybuf, DRM_AUTH|DRM_UNLOCKED),
+-	DRM_IOCTL_DEF_DRV(I810_DOCOPY, i810_docopy, DRM_AUTH|DRM_UNLOCKED),
+-	DRM_IOCTL_DEF_DRV(I810_OV0INFO, i810_ov0_info, DRM_AUTH|DRM_UNLOCKED),
+-	DRM_IOCTL_DEF_DRV(I810_FSTATUS, i810_fstatus, DRM_AUTH|DRM_UNLOCKED),
+-	DRM_IOCTL_DEF_DRV(I810_OV0FLIP, i810_ov0_flip, DRM_AUTH|DRM_UNLOCKED),
+-	DRM_IOCTL_DEF_DRV(I810_MC, i810_dma_mc, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY|DRM_UNLOCKED),
+-	DRM_IOCTL_DEF_DRV(I810_RSTATUS, i810_rstatus, DRM_AUTH|DRM_UNLOCKED),
+-	DRM_IOCTL_DEF_DRV(I810_FLIP, i810_flip_bufs, DRM_AUTH|DRM_UNLOCKED),
+-};
+-
+-int i810_max_ioctl = ARRAY_SIZE(i810_ioctls);
+diff --git a/drivers/gpu/drm/i810/i810_drv.c b/drivers/gpu/drm/i810/i810_drv.c
+deleted file mode 100644
+index 0e53a066d4db..000000000000
+--- a/drivers/gpu/drm/i810/i810_drv.c
++++ /dev/null
+@@ -1,101 +0,0 @@
+-/* i810_drv.c -- I810 driver -*- linux-c -*-
+- * Created: Mon Dec 13 01:56:22 1999 by jhartmann@precisioninsight.com
+- *
+- * Copyright 1999 Precision Insight, Inc., Cedar Park, Texas.
+- * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
+- * All Rights Reserved.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the next
+- * paragraph) shall be included in all copies or substantial portions of the
+- * Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+- * VA LINUX SYSTEMS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+- * OTHER DEALINGS IN THE SOFTWARE.
+- *
+- * Authors:
+- *    Rickard E. (Rik) Faith <faith@valinux.com>
+- *    Jeff Hartmann <jhartmann@valinux.com>
+- *    Gareth Hughes <gareth@valinux.com>
+- */
+-
+-#include "i810_drv.h"
+-
+-#include <linux/module.h>
+-#include <linux/pci.h>
+-
+-#include <drm/drm_drv.h>
+-#include <drm/drm_file.h>
+-#include <drm/drm_pciids.h>
+-#include <drm/i810_drm.h>
+-
+-
+-static struct pci_device_id pciidlist[] = {
+-	i810_PCI_IDS
+-};
+-
+-static const struct file_operations i810_driver_fops = {
+-	.owner = THIS_MODULE,
+-	.open = drm_open,
+-	.release = drm_release,
+-	.unlocked_ioctl = drm_ioctl,
+-	.mmap = drm_legacy_mmap,
+-	.poll = drm_poll,
+-	.compat_ioctl = drm_compat_ioctl,
+-	.llseek = noop_llseek,
+-};
+-
+-static struct drm_driver driver = {
+-	.driver_features = DRIVER_USE_AGP | DRIVER_HAVE_DMA | DRIVER_LEGACY,
+-	.dev_priv_size = sizeof(drm_i810_buf_priv_t),
+-	.load = i810_driver_load,
+-	.lastclose = i810_driver_lastclose,
+-	.preclose = i810_driver_preclose,
+-	.dma_quiescent = i810_driver_dma_quiescent,
+-	.ioctls = i810_ioctls,
+-	.fops = &i810_driver_fops,
+-	.name = DRIVER_NAME,
+-	.desc = DRIVER_DESC,
+-	.date = DRIVER_DATE,
+-	.major = DRIVER_MAJOR,
+-	.minor = DRIVER_MINOR,
+-	.patchlevel = DRIVER_PATCHLEVEL,
+-};
+-
+-static struct pci_driver i810_pci_driver = {
+-	.name = DRIVER_NAME,
+-	.id_table = pciidlist,
+-};
+-
+-static int __init i810_init(void)
+-{
+-	if (num_possible_cpus() > 1) {
+-		pr_err("drm/i810 does not support SMP\n");
+-		return -EINVAL;
+-	}
+-	driver.num_ioctls = i810_max_ioctl;
+-	return drm_legacy_pci_init(&driver, &i810_pci_driver);
+-}
+-
+-static void __exit i810_exit(void)
+-{
+-	drm_legacy_pci_exit(&driver, &i810_pci_driver);
+-}
+-
+-module_init(i810_init);
+-module_exit(i810_exit);
+-
+-MODULE_AUTHOR(DRIVER_AUTHOR);
+-MODULE_DESCRIPTION(DRIVER_DESC);
+-MODULE_LICENSE("GPL and additional rights");
+diff --git a/drivers/gpu/drm/i810/i810_drv.h b/drivers/gpu/drm/i810/i810_drv.h
+deleted file mode 100644
+index 9df3981ffc66..000000000000
+--- a/drivers/gpu/drm/i810/i810_drv.h
++++ /dev/null
+@@ -1,246 +0,0 @@
+-/* i810_drv.h -- Private header for the Matrox g200/g400 driver -*- linux-c -*-
+- * Created: Mon Dec 13 01:50:01 1999 by jhartmann@precisioninsight.com
+- *
+- * Copyright 1999 Precision Insight, Inc., Cedar Park, Texas.
+- * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
+- * All rights reserved.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the next
+- * paragraph) shall be included in all copies or substantial portions of the
+- * Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+- * PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+- * DEALINGS IN THE SOFTWARE.
+- *
+- * Authors: Rickard E. (Rik) Faith <faith@valinux.com>
+- *	    Jeff Hartmann <jhartmann@valinux.com>
+- *
+- */
+-
+-#ifndef _I810_DRV_H_
+-#define _I810_DRV_H_
+-
+-#include <drm/drm_ioctl.h>
+-#include <drm/drm_legacy.h>
+-#include <drm/i810_drm.h>
+-
+-/* General customization:
+- */
+-
+-#define DRIVER_AUTHOR		"VA Linux Systems Inc."
+-
+-#define DRIVER_NAME		"i810"
+-#define DRIVER_DESC		"Intel i810"
+-#define DRIVER_DATE		"20030605"
+-
+-/* Interface history
+- *
+- * 1.1   - XFree86 4.1
+- * 1.2   - XvMC interfaces
+- *       - XFree86 4.2
+- * 1.2.1 - Disable copying code (leave stub ioctls for backwards compatibility)
+- *       - Remove requirement for interrupt (leave stubs again)
+- * 1.3   - Add page flipping.
+- * 1.4   - fix DRM interface
+- */
+-#define DRIVER_MAJOR		1
+-#define DRIVER_MINOR		4
+-#define DRIVER_PATCHLEVEL	0
+-
+-typedef struct drm_i810_buf_priv {
+-	u32 *in_use;
+-	int my_use_idx;
+-	int currently_mapped;
+-	void *virtual;
+-	void *kernel_virtual;
+-	drm_local_map_t map;
+-} drm_i810_buf_priv_t;
+-
+-typedef struct _drm_i810_ring_buffer {
+-	int tail_mask;
+-	unsigned long Start;
+-	unsigned long End;
+-	unsigned long Size;
+-	u8 *virtual_start;
+-	int head;
+-	int tail;
+-	int space;
+-	drm_local_map_t map;
+-} drm_i810_ring_buffer_t;
+-
+-typedef struct drm_i810_private {
+-	struct drm_local_map *sarea_map;
+-	struct drm_local_map *mmio_map;
+-
+-	drm_i810_sarea_t *sarea_priv;
+-	drm_i810_ring_buffer_t ring;
+-
+-	void *hw_status_page;
+-	unsigned long counter;
+-
+-	dma_addr_t dma_status_page;
+-
+-	struct drm_buf *mmap_buffer;
+-
+-	u32 front_di1, back_di1, zi1;
+-
+-	int back_offset;
+-	int depth_offset;
+-	int overlay_offset;
+-	int overlay_physical;
+-	int w, h;
+-	int pitch;
+-	int back_pitch;
+-	int depth_pitch;
+-
+-	int do_boxes;
+-	int dma_used;
+-
+-	int current_page;
+-	int page_flipping;
+-
+-	wait_queue_head_t irq_queue;
+-	atomic_t irq_received;
+-	atomic_t irq_emitted;
+-
+-	int front_offset;
+-} drm_i810_private_t;
+-
+-				/* i810_dma.c */
+-extern int i810_driver_dma_quiescent(struct drm_device *dev);
+-void i810_driver_reclaim_buffers(struct drm_device *dev,
+-			         struct drm_file *file_priv);
+-extern int i810_driver_load(struct drm_device *, unsigned long flags);
+-extern void i810_driver_lastclose(struct drm_device *dev);
+-extern void i810_driver_preclose(struct drm_device *dev,
+-				 struct drm_file *file_priv);
+-
+-extern long i810_ioctl(struct file *file, unsigned int cmd, unsigned long arg);
+-extern const struct drm_ioctl_desc i810_ioctls[];
+-extern int i810_max_ioctl;
+-
+-#define I810_BASE(reg)		((unsigned long) \
+-				dev_priv->mmio_map->handle)
+-#define I810_ADDR(reg)		(I810_BASE(reg) + reg)
+-#define I810_DEREF(reg)		(*(__volatile__ int *)I810_ADDR(reg))
+-#define I810_READ(reg)		I810_DEREF(reg)
+-#define I810_WRITE(reg, val)	do { I810_DEREF(reg) = val; } while (0)
+-#define I810_DEREF16(reg)	(*(__volatile__ u16 *)I810_ADDR(reg))
+-#define I810_READ16(reg)	I810_DEREF16(reg)
+-#define I810_WRITE16(reg, val)	do { I810_DEREF16(reg) = val; } while (0)
+-
+-#define I810_VERBOSE 0
+-#define RING_LOCALS	unsigned int outring, ringmask; \
+-			volatile char *virt;
+-
+-#define BEGIN_LP_RING(n) do {					\
+-	if (I810_VERBOSE)					\
+-		DRM_DEBUG("BEGIN_LP_RING(%d)\n", n);		\
+-	if (dev_priv->ring.space < n*4)				\
+-		i810_wait_ring(dev, n*4);			\
+-	dev_priv->ring.space -= n*4;				\
+-	outring = dev_priv->ring.tail;				\
+-	ringmask = dev_priv->ring.tail_mask;			\
+-	virt = dev_priv->ring.virtual_start;			\
+-} while (0)
+-
+-#define ADVANCE_LP_RING() do {					\
+-	if (I810_VERBOSE)					\
+-		DRM_DEBUG("ADVANCE_LP_RING\n");			\
+-	dev_priv->ring.tail = outring;				\
+-	I810_WRITE(LP_RING + RING_TAIL, outring);		\
+-} while (0)
+-
+-#define OUT_RING(n) do {					\
+-	if (I810_VERBOSE)					\
+-		DRM_DEBUG("   OUT_RING %x\n", (int)(n));	\
+-	*(volatile unsigned int *)(virt + outring) = n;		\
+-	outring += 4;						\
+-	outring &= ringmask;					\
+-} while (0)
+-
+-#define GFX_OP_USER_INTERRUPT		((0<<29)|(2<<23))
+-#define GFX_OP_BREAKPOINT_INTERRUPT	((0<<29)|(1<<23))
+-#define CMD_REPORT_HEAD			(7<<23)
+-#define CMD_STORE_DWORD_IDX		((0x21<<23) | 0x1)
+-#define CMD_OP_BATCH_BUFFER  ((0x0<<29)|(0x30<<23)|0x1)
+-
+-#define INST_PARSER_CLIENT   0x00000000
+-#define INST_OP_FLUSH        0x02000000
+-#define INST_FLUSH_MAP_CACHE 0x00000001
+-
+-#define BB1_START_ADDR_MASK   (~0x7)
+-#define BB1_PROTECTED         (1<<0)
+-#define BB1_UNPROTECTED       (0<<0)
+-#define BB2_END_ADDR_MASK     (~0x7)
+-
+-#define I810REG_HWSTAM		0x02098
+-#define I810REG_INT_IDENTITY_R	0x020a4
+-#define I810REG_INT_MASK_R	0x020a8
+-#define I810REG_INT_ENABLE_R	0x020a0
+-
+-#define LP_RING			0x2030
+-#define HP_RING			0x2040
+-#define RING_TAIL		0x00
+-#define TAIL_ADDR		0x000FFFF8
+-#define RING_HEAD		0x04
+-#define HEAD_WRAP_COUNT		0xFFE00000
+-#define HEAD_WRAP_ONE		0x00200000
+-#define HEAD_ADDR		0x001FFFFC
+-#define RING_START		0x08
+-#define START_ADDR		0x00FFFFF8
+-#define RING_LEN		0x0C
+-#define RING_NR_PAGES		0x000FF000
+-#define RING_REPORT_MASK	0x00000006
+-#define RING_REPORT_64K		0x00000002
+-#define RING_REPORT_128K	0x00000004
+-#define RING_NO_REPORT		0x00000000
+-#define RING_VALID_MASK		0x00000001
+-#define RING_VALID		0x00000001
+-#define RING_INVALID		0x00000000
+-
+-#define GFX_OP_SCISSOR         ((0x3<<29)|(0x1c<<24)|(0x10<<19))
+-#define SC_UPDATE_SCISSOR       (0x1<<1)
+-#define SC_ENABLE_MASK          (0x1<<0)
+-#define SC_ENABLE               (0x1<<0)
+-
+-#define GFX_OP_SCISSOR_INFO    ((0x3<<29)|(0x1d<<24)|(0x81<<16)|(0x1))
+-#define SCI_YMIN_MASK      (0xffff<<16)
+-#define SCI_XMIN_MASK      (0xffff<<0)
+-#define SCI_YMAX_MASK      (0xffff<<16)
+-#define SCI_XMAX_MASK      (0xffff<<0)
+-
+-#define GFX_OP_COLOR_FACTOR      ((0x3<<29)|(0x1d<<24)|(0x1<<16)|0x0)
+-#define GFX_OP_STIPPLE           ((0x3<<29)|(0x1d<<24)|(0x83<<16))
+-#define GFX_OP_MAP_INFO          ((0x3<<29)|(0x1d<<24)|0x2)
+-#define GFX_OP_DESTBUFFER_VARS   ((0x3<<29)|(0x1d<<24)|(0x85<<16)|0x0)
+-#define GFX_OP_DRAWRECT_INFO     ((0x3<<29)|(0x1d<<24)|(0x80<<16)|(0x3))
+-#define GFX_OP_PRIMITIVE         ((0x3<<29)|(0x1f<<24))
+-
+-#define CMD_OP_Z_BUFFER_INFO     ((0x0<<29)|(0x16<<23))
+-#define CMD_OP_DESTBUFFER_INFO   ((0x0<<29)|(0x15<<23))
+-#define CMD_OP_FRONTBUFFER_INFO  ((0x0<<29)|(0x14<<23))
+-#define CMD_OP_WAIT_FOR_EVENT    ((0x0<<29)|(0x03<<23))
+-
+-#define BR00_BITBLT_CLIENT   0x40000000
+-#define BR00_OP_COLOR_BLT    0x10000000
+-#define BR00_OP_SRC_COPY_BLT 0x10C00000
+-#define BR13_SOLID_PATTERN   0x80000000
+-
+-#define WAIT_FOR_PLANE_A_SCANLINES (1<<1)
+-#define WAIT_FOR_PLANE_A_FLIP      (1<<2)
+-#define WAIT_FOR_VBLANK (1<<3)
+-
+-#endif
+diff --git a/drivers/gpu/drm/mga/Makefile b/drivers/gpu/drm/mga/Makefile
+deleted file mode 100644
+index db07c7fcc996..000000000000
+--- a/drivers/gpu/drm/mga/Makefile
++++ /dev/null
+@@ -1,11 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0-only
+-#
+-# Makefile for the drm device driver.  This driver provides support for the
+-# Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
+-
+-mga-y := mga_drv.o mga_dma.o mga_state.o mga_warp.o mga_irq.o
+-
+-mga-$(CONFIG_COMPAT) += mga_ioc32.o
+-
+-obj-$(CONFIG_DRM_MGA)	+= mga.o
+-
+diff --git a/drivers/gpu/drm/mga/mga_dma.c b/drivers/gpu/drm/mga/mga_dma.c
+deleted file mode 100644
+index 331c2f0da57a..000000000000
+--- a/drivers/gpu/drm/mga/mga_dma.c
++++ /dev/null
+@@ -1,1168 +0,0 @@
+-/* mga_dma.c -- DMA support for mga g200/g400 -*- linux-c -*-
+- * Created: Mon Dec 13 01:50:01 1999 by jhartmann@precisioninsight.com
+- *
+- * Copyright 1999 Precision Insight, Inc., Cedar Park, Texas.
+- * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
+- * All Rights Reserved.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the next
+- * paragraph) shall be included in all copies or substantial portions of the
+- * Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+- * PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+- * DEALINGS IN THE SOFTWARE.
+- */
+-
+-/*
+- * \file mga_dma.c
+- * DMA support for MGA G200 / G400.
+- *
+- * \author Rickard E. (Rik) Faith <faith@valinux.com>
+- * \author Jeff Hartmann <jhartmann@valinux.com>
+- * \author Keith Whitwell <keith@tungstengraphics.com>
+- * \author Gareth Hughes <gareth@valinux.com>
+- */
+-
+-#include <linux/delay.h>
+-
+-#include "mga_drv.h"
+-
+-#define MGA_DEFAULT_USEC_TIMEOUT	10000
+-#define MGA_FREELIST_DEBUG		0
+-
+-#define MINIMAL_CLEANUP 0
+-#define FULL_CLEANUP 1
+-static int mga_do_cleanup_dma(struct drm_device *dev, int full_cleanup);
+-
+-/* ================================================================
+- * Engine control
+- */
+-
+-int mga_do_wait_for_idle(drm_mga_private_t *dev_priv)
+-{
+-	u32 status = 0;
+-	int i;
+-	DRM_DEBUG("\n");
+-
+-	for (i = 0; i < dev_priv->usec_timeout; i++) {
+-		status = MGA_READ(MGA_STATUS) & MGA_ENGINE_IDLE_MASK;
+-		if (status == MGA_ENDPRDMASTS) {
+-			MGA_WRITE8(MGA_CRTC_INDEX, 0);
+-			return 0;
+-		}
+-		udelay(1);
+-	}
+-
+-#if MGA_DMA_DEBUG
+-	DRM_ERROR("failed!\n");
+-	DRM_INFO("   status=0x%08x\n", status);
+-#endif
+-	return -EBUSY;
+-}
+-
+-static int mga_do_dma_reset(drm_mga_private_t *dev_priv)
+-{
+-	drm_mga_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	drm_mga_primary_buffer_t *primary = &dev_priv->prim;
+-
+-	DRM_DEBUG("\n");
+-
+-	/* The primary DMA stream should look like new right about now.
+-	 */
+-	primary->tail = 0;
+-	primary->space = primary->size;
+-	primary->last_flush = 0;
+-
+-	sarea_priv->last_wrap = 0;
+-
+-	/* FIXME: Reset counters, buffer ages etc...
+-	 */
+-
+-	/* FIXME: What else do we need to reinitialize?  WARP stuff?
+-	 */
+-
+-	return 0;
+-}
+-
+-/* ================================================================
+- * Primary DMA stream
+- */
+-
+-void mga_do_dma_flush(drm_mga_private_t *dev_priv)
+-{
+-	drm_mga_primary_buffer_t *primary = &dev_priv->prim;
+-	u32 head, tail;
+-	u32 status = 0;
+-	int i;
+-	DMA_LOCALS;
+-	DRM_DEBUG("\n");
+-
+-	/* We need to wait so that we can do an safe flush */
+-	for (i = 0; i < dev_priv->usec_timeout; i++) {
+-		status = MGA_READ(MGA_STATUS) & MGA_ENGINE_IDLE_MASK;
+-		if (status == MGA_ENDPRDMASTS)
+-			break;
+-		udelay(1);
+-	}
+-
+-	if (primary->tail == primary->last_flush) {
+-		DRM_DEBUG("   bailing out...\n");
+-		return;
+-	}
+-
+-	tail = primary->tail + dev_priv->primary->offset;
+-
+-	/* We need to pad the stream between flushes, as the card
+-	 * actually (partially?) reads the first of these commands.
+-	 * See page 4-16 in the G400 manual, middle of the page or so.
+-	 */
+-	BEGIN_DMA(1);
+-
+-	DMA_BLOCK(MGA_DMAPAD, 0x00000000,
+-		  MGA_DMAPAD, 0x00000000,
+-		  MGA_DMAPAD, 0x00000000, MGA_DMAPAD, 0x00000000);
+-
+-	ADVANCE_DMA();
+-
+-	primary->last_flush = primary->tail;
+-
+-	head = MGA_READ(MGA_PRIMADDRESS);
+-
+-	if (head <= tail)
+-		primary->space = primary->size - primary->tail;
+-	else
+-		primary->space = head - tail;
+-
+-	DRM_DEBUG("   head = 0x%06lx\n", (unsigned long)(head - dev_priv->primary->offset));
+-	DRM_DEBUG("   tail = 0x%06lx\n", (unsigned long)(tail - dev_priv->primary->offset));
+-	DRM_DEBUG("  space = 0x%06x\n", primary->space);
+-
+-	mga_flush_write_combine();
+-	MGA_WRITE(MGA_PRIMEND, tail | dev_priv->dma_access);
+-
+-	DRM_DEBUG("done.\n");
+-}
+-
+-void mga_do_dma_wrap_start(drm_mga_private_t *dev_priv)
+-{
+-	drm_mga_primary_buffer_t *primary = &dev_priv->prim;
+-	u32 head, tail;
+-	DMA_LOCALS;
+-	DRM_DEBUG("\n");
+-
+-	BEGIN_DMA_WRAP();
+-
+-	DMA_BLOCK(MGA_DMAPAD, 0x00000000,
+-		  MGA_DMAPAD, 0x00000000,
+-		  MGA_DMAPAD, 0x00000000, MGA_DMAPAD, 0x00000000);
+-
+-	ADVANCE_DMA();
+-
+-	tail = primary->tail + dev_priv->primary->offset;
+-
+-	primary->tail = 0;
+-	primary->last_flush = 0;
+-	primary->last_wrap++;
+-
+-	head = MGA_READ(MGA_PRIMADDRESS);
+-
+-	if (head == dev_priv->primary->offset)
+-		primary->space = primary->size;
+-	else
+-		primary->space = head - dev_priv->primary->offset;
+-
+-	DRM_DEBUG("   head = 0x%06lx\n", (unsigned long)(head - dev_priv->primary->offset));
+-	DRM_DEBUG("   tail = 0x%06x\n", primary->tail);
+-	DRM_DEBUG("   wrap = %d\n", primary->last_wrap);
+-	DRM_DEBUG("  space = 0x%06x\n", primary->space);
+-
+-	mga_flush_write_combine();
+-	MGA_WRITE(MGA_PRIMEND, tail | dev_priv->dma_access);
+-
+-	set_bit(0, &primary->wrapped);
+-	DRM_DEBUG("done.\n");
+-}
+-
+-void mga_do_dma_wrap_end(drm_mga_private_t *dev_priv)
+-{
+-	drm_mga_primary_buffer_t *primary = &dev_priv->prim;
+-	drm_mga_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	u32 head = dev_priv->primary->offset;
+-	DRM_DEBUG("\n");
+-
+-	sarea_priv->last_wrap++;
+-	DRM_DEBUG("   wrap = %d\n", sarea_priv->last_wrap);
+-
+-	mga_flush_write_combine();
+-	MGA_WRITE(MGA_PRIMADDRESS, head | MGA_DMA_GENERAL);
+-
+-	clear_bit(0, &primary->wrapped);
+-	DRM_DEBUG("done.\n");
+-}
+-
+-/* ================================================================
+- * Freelist management
+- */
+-
+-#define MGA_BUFFER_USED		(~0)
+-#define MGA_BUFFER_FREE		0
+-
+-#if MGA_FREELIST_DEBUG
+-static void mga_freelist_print(struct drm_device *dev)
+-{
+-	drm_mga_private_t *dev_priv = dev->dev_private;
+-	drm_mga_freelist_t *entry;
+-
+-	DRM_INFO("\n");
+-	DRM_INFO("current dispatch: last=0x%x done=0x%x\n",
+-		 dev_priv->sarea_priv->last_dispatch,
+-		 (unsigned int)(MGA_READ(MGA_PRIMADDRESS) -
+-				dev_priv->primary->offset));
+-	DRM_INFO("current freelist:\n");
+-
+-	for (entry = dev_priv->head->next; entry; entry = entry->next) {
+-		DRM_INFO("   %p   idx=%2d  age=0x%x 0x%06lx\n",
+-			 entry, entry->buf->idx, entry->age.head,
+-			 (unsigned long)(entry->age.head - dev_priv->primary->offset));
+-	}
+-	DRM_INFO("\n");
+-}
+-#endif
+-
+-static int mga_freelist_init(struct drm_device *dev, drm_mga_private_t *dev_priv)
+-{
+-	struct drm_device_dma *dma = dev->dma;
+-	struct drm_buf *buf;
+-	drm_mga_buf_priv_t *buf_priv;
+-	drm_mga_freelist_t *entry;
+-	int i;
+-	DRM_DEBUG("count=%d\n", dma->buf_count);
+-
+-	dev_priv->head = kzalloc(sizeof(drm_mga_freelist_t), GFP_KERNEL);
+-	if (dev_priv->head == NULL)
+-		return -ENOMEM;
+-
+-	SET_AGE(&dev_priv->head->age, MGA_BUFFER_USED, 0);
+-
+-	for (i = 0; i < dma->buf_count; i++) {
+-		buf = dma->buflist[i];
+-		buf_priv = buf->dev_private;
+-
+-		entry = kzalloc(sizeof(drm_mga_freelist_t), GFP_KERNEL);
+-		if (entry == NULL)
+-			return -ENOMEM;
+-
+-		entry->next = dev_priv->head->next;
+-		entry->prev = dev_priv->head;
+-		SET_AGE(&entry->age, MGA_BUFFER_FREE, 0);
+-		entry->buf = buf;
+-
+-		if (dev_priv->head->next != NULL)
+-			dev_priv->head->next->prev = entry;
+-		if (entry->next == NULL)
+-			dev_priv->tail = entry;
+-
+-		buf_priv->list_entry = entry;
+-		buf_priv->discard = 0;
+-		buf_priv->dispatched = 0;
+-
+-		dev_priv->head->next = entry;
+-	}
+-
+-	return 0;
+-}
+-
+-static void mga_freelist_cleanup(struct drm_device *dev)
+-{
+-	drm_mga_private_t *dev_priv = dev->dev_private;
+-	drm_mga_freelist_t *entry;
+-	drm_mga_freelist_t *next;
+-	DRM_DEBUG("\n");
+-
+-	entry = dev_priv->head;
+-	while (entry) {
+-		next = entry->next;
+-		kfree(entry);
+-		entry = next;
+-	}
+-
+-	dev_priv->head = dev_priv->tail = NULL;
+-}
+-
+-#if 0
+-/* FIXME: Still needed?
+- */
+-static void mga_freelist_reset(struct drm_device *dev)
+-{
+-	struct drm_device_dma *dma = dev->dma;
+-	struct drm_buf *buf;
+-	drm_mga_buf_priv_t *buf_priv;
+-	int i;
+-
+-	for (i = 0; i < dma->buf_count; i++) {
+-		buf = dma->buflist[i];
+-		buf_priv = buf->dev_private;
+-		SET_AGE(&buf_priv->list_entry->age, MGA_BUFFER_FREE, 0);
+-	}
+-}
+-#endif
+-
+-static struct drm_buf *mga_freelist_get(struct drm_device * dev)
+-{
+-	drm_mga_private_t *dev_priv = dev->dev_private;
+-	drm_mga_freelist_t *next;
+-	drm_mga_freelist_t *prev;
+-	drm_mga_freelist_t *tail = dev_priv->tail;
+-	u32 head, wrap;
+-	DRM_DEBUG("\n");
+-
+-	head = MGA_READ(MGA_PRIMADDRESS);
+-	wrap = dev_priv->sarea_priv->last_wrap;
+-
+-	DRM_DEBUG("   tail=0x%06lx %d\n",
+-		  tail->age.head ?
+-		  (unsigned long)(tail->age.head - dev_priv->primary->offset) : 0,
+-		  tail->age.wrap);
+-	DRM_DEBUG("   head=0x%06lx %d\n",
+-		  (unsigned long)(head - dev_priv->primary->offset), wrap);
+-
+-	if (TEST_AGE(&tail->age, head, wrap)) {
+-		prev = dev_priv->tail->prev;
+-		next = dev_priv->tail;
+-		prev->next = NULL;
+-		next->prev = next->next = NULL;
+-		dev_priv->tail = prev;
+-		SET_AGE(&next->age, MGA_BUFFER_USED, 0);
+-		return next->buf;
+-	}
+-
+-	DRM_DEBUG("returning NULL!\n");
+-	return NULL;
+-}
+-
+-int mga_freelist_put(struct drm_device *dev, struct drm_buf *buf)
+-{
+-	drm_mga_private_t *dev_priv = dev->dev_private;
+-	drm_mga_buf_priv_t *buf_priv = buf->dev_private;
+-	drm_mga_freelist_t *head, *entry, *prev;
+-
+-	DRM_DEBUG("age=0x%06lx wrap=%d\n",
+-		  (unsigned long)(buf_priv->list_entry->age.head -
+-				  dev_priv->primary->offset),
+-		  buf_priv->list_entry->age.wrap);
+-
+-	entry = buf_priv->list_entry;
+-	head = dev_priv->head;
+-
+-	if (buf_priv->list_entry->age.head == MGA_BUFFER_USED) {
+-		SET_AGE(&entry->age, MGA_BUFFER_FREE, 0);
+-		prev = dev_priv->tail;
+-		prev->next = entry;
+-		entry->prev = prev;
+-		entry->next = NULL;
+-	} else {
+-		prev = head->next;
+-		head->next = entry;
+-		prev->prev = entry;
+-		entry->prev = head;
+-		entry->next = prev;
+-	}
+-
+-	return 0;
+-}
+-
+-/* ================================================================
+- * DMA initialization, cleanup
+- */
+-
+-int mga_driver_load(struct drm_device *dev, unsigned long flags)
+-{
+-	struct pci_dev *pdev = to_pci_dev(dev->dev);
+-	drm_mga_private_t *dev_priv;
+-	int ret;
+-
+-	/* There are PCI versions of the G450.  These cards have the
+-	 * same PCI ID as the AGP G450, but have an additional PCI-to-PCI
+-	 * bridge chip.  We detect these cards, which are not currently
+-	 * supported by this driver, by looking at the device ID of the
+-	 * bus the "card" is on.  If vendor is 0x3388 (Hint Corp) and the
+-	 * device is 0x0021 (HB6 Universal PCI-PCI bridge), we reject the
+-	 * device.
+-	 */
+-	if ((pdev->device == 0x0525) && pdev->bus->self
+-	    && (pdev->bus->self->vendor == 0x3388)
+-	    && (pdev->bus->self->device == 0x0021)
+-	    && dev->agp) {
+-		/* FIXME: This should be quirked in the pci core, but oh well
+-		 * the hw probably stopped existing. */
+-		arch_phys_wc_del(dev->agp->agp_mtrr);
+-		kfree(dev->agp);
+-		dev->agp = NULL;
+-	}
+-	dev_priv = kzalloc(sizeof(drm_mga_private_t), GFP_KERNEL);
+-	if (!dev_priv)
+-		return -ENOMEM;
+-
+-	dev->dev_private = (void *)dev_priv;
+-
+-	dev_priv->usec_timeout = MGA_DEFAULT_USEC_TIMEOUT;
+-	dev_priv->chipset = flags;
+-
+-	pci_set_master(pdev);
+-
+-	dev_priv->mmio_base = pci_resource_start(pdev, 1);
+-	dev_priv->mmio_size = pci_resource_len(pdev, 1);
+-
+-	ret = drm_vblank_init(dev, 1);
+-
+-	if (ret) {
+-		(void) mga_driver_unload(dev);
+-		return ret;
+-	}
+-
+-	return 0;
+-}
+-
+-#if IS_ENABLED(CONFIG_AGP)
+-/*
+- * Bootstrap the driver for AGP DMA.
+- *
+- * \todo
+- * Investigate whether there is any benefit to storing the WARP microcode in
+- * AGP memory.  If not, the microcode may as well always be put in PCI
+- * memory.
+- *
+- * \todo
+- * This routine needs to set dma_bs->agp_mode to the mode actually configured
+- * in the hardware.  Looking just at the Linux AGP driver code, I don't see
+- * an easy way to determine this.
+- *
+- * \sa mga_do_dma_bootstrap, mga_do_pci_dma_bootstrap
+- */
+-static int mga_do_agp_dma_bootstrap(struct drm_device *dev,
+-				    drm_mga_dma_bootstrap_t *dma_bs)
+-{
+-	drm_mga_private_t *const dev_priv =
+-	    (drm_mga_private_t *) dev->dev_private;
+-	unsigned int warp_size = MGA_WARP_UCODE_SIZE;
+-	int err;
+-	unsigned offset;
+-	const unsigned secondary_size = dma_bs->secondary_bin_count
+-	    * dma_bs->secondary_bin_size;
+-	const unsigned agp_size = (dma_bs->agp_size << 20);
+-	struct drm_buf_desc req;
+-	struct drm_agp_mode mode;
+-	struct drm_agp_info info;
+-	struct drm_agp_buffer agp_req;
+-	struct drm_agp_binding bind_req;
+-
+-	/* Acquire AGP. */
+-	err = drm_legacy_agp_acquire(dev);
+-	if (err) {
+-		DRM_ERROR("Unable to acquire AGP: %d\n", err);
+-		return err;
+-	}
+-
+-	err = drm_legacy_agp_info(dev, &info);
+-	if (err) {
+-		DRM_ERROR("Unable to get AGP info: %d\n", err);
+-		return err;
+-	}
+-
+-	mode.mode = (info.mode & ~0x07) | dma_bs->agp_mode;
+-	err = drm_legacy_agp_enable(dev, mode);
+-	if (err) {
+-		DRM_ERROR("Unable to enable AGP (mode = 0x%lx)\n", mode.mode);
+-		return err;
+-	}
+-
+-	/* In addition to the usual AGP mode configuration, the G200 AGP cards
+-	 * need to have the AGP mode "manually" set.
+-	 */
+-
+-	if (dev_priv->chipset == MGA_CARD_TYPE_G200) {
+-		if (mode.mode & 0x02)
+-			MGA_WRITE(MGA_AGP_PLL, MGA_AGP2XPLL_ENABLE);
+-		else
+-			MGA_WRITE(MGA_AGP_PLL, MGA_AGP2XPLL_DISABLE);
+-	}
+-
+-	/* Allocate and bind AGP memory. */
+-	agp_req.size = agp_size;
+-	agp_req.type = 0;
+-	err = drm_legacy_agp_alloc(dev, &agp_req);
+-	if (err) {
+-		dev_priv->agp_size = 0;
+-		DRM_ERROR("Unable to allocate %uMB AGP memory\n",
+-			  dma_bs->agp_size);
+-		return err;
+-	}
+-
+-	dev_priv->agp_size = agp_size;
+-	dev_priv->agp_handle = agp_req.handle;
+-
+-	bind_req.handle = agp_req.handle;
+-	bind_req.offset = 0;
+-	err = drm_legacy_agp_bind(dev, &bind_req);
+-	if (err) {
+-		DRM_ERROR("Unable to bind AGP memory: %d\n", err);
+-		return err;
+-	}
+-
+-	/* Make drm_legacy_addbufs happy by not trying to create a mapping for
+-	 * less than a page.
+-	 */
+-	if (warp_size < PAGE_SIZE)
+-		warp_size = PAGE_SIZE;
+-
+-	offset = 0;
+-	err = drm_legacy_addmap(dev, offset, warp_size,
+-				_DRM_AGP, _DRM_READ_ONLY, &dev_priv->warp);
+-	if (err) {
+-		DRM_ERROR("Unable to map WARP microcode: %d\n", err);
+-		return err;
+-	}
+-
+-	offset += warp_size;
+-	err = drm_legacy_addmap(dev, offset, dma_bs->primary_size,
+-				_DRM_AGP, _DRM_READ_ONLY, &dev_priv->primary);
+-	if (err) {
+-		DRM_ERROR("Unable to map primary DMA region: %d\n", err);
+-		return err;
+-	}
+-
+-	offset += dma_bs->primary_size;
+-	err = drm_legacy_addmap(dev, offset, secondary_size,
+-				_DRM_AGP, 0, &dev->agp_buffer_map);
+-	if (err) {
+-		DRM_ERROR("Unable to map secondary DMA region: %d\n", err);
+-		return err;
+-	}
+-
+-	(void)memset(&req, 0, sizeof(req));
+-	req.count = dma_bs->secondary_bin_count;
+-	req.size = dma_bs->secondary_bin_size;
+-	req.flags = _DRM_AGP_BUFFER;
+-	req.agp_start = offset;
+-
+-	err = drm_legacy_addbufs_agp(dev, &req);
+-	if (err) {
+-		DRM_ERROR("Unable to add secondary DMA buffers: %d\n", err);
+-		return err;
+-	}
+-
+-	{
+-		struct drm_map_list *_entry;
+-		unsigned long agp_token = 0;
+-
+-		list_for_each_entry(_entry, &dev->maplist, head) {
+-			if (_entry->map == dev->agp_buffer_map)
+-				agp_token = _entry->user_token;
+-		}
+-		if (!agp_token)
+-			return -EFAULT;
+-
+-		dev->agp_buffer_token = agp_token;
+-	}
+-
+-	offset += secondary_size;
+-	err = drm_legacy_addmap(dev, offset, agp_size - offset,
+-				_DRM_AGP, 0, &dev_priv->agp_textures);
+-	if (err) {
+-		DRM_ERROR("Unable to map AGP texture region %d\n", err);
+-		return err;
+-	}
+-
+-	drm_legacy_ioremap(dev_priv->warp, dev);
+-	drm_legacy_ioremap(dev_priv->primary, dev);
+-	drm_legacy_ioremap(dev->agp_buffer_map, dev);
+-
+-	if (!dev_priv->warp->handle ||
+-	    !dev_priv->primary->handle || !dev->agp_buffer_map->handle) {
+-		DRM_ERROR("failed to ioremap agp regions! (%p, %p, %p)\n",
+-			  dev_priv->warp->handle, dev_priv->primary->handle,
+-			  dev->agp_buffer_map->handle);
+-		return -ENOMEM;
+-	}
+-
+-	dev_priv->dma_access = MGA_PAGPXFER;
+-	dev_priv->wagp_enable = MGA_WAGP_ENABLE;
+-
+-	DRM_INFO("Initialized card for AGP DMA.\n");
+-	return 0;
+-}
+-#else
+-static int mga_do_agp_dma_bootstrap(struct drm_device *dev,
+-				    drm_mga_dma_bootstrap_t *dma_bs)
+-{
+-	return -EINVAL;
+-}
+-#endif
+-
+-/*
+- * Bootstrap the driver for PCI DMA.
+- *
+- * \todo
+- * The algorithm for decreasing the size of the primary DMA buffer could be
+- * better.  The size should be rounded up to the nearest page size, then
+- * decrease the request size by a single page each pass through the loop.
+- *
+- * \todo
+- * Determine whether the maximum address passed to drm_pci_alloc is correct.
+- * The same goes for drm_legacy_addbufs_pci.
+- *
+- * \sa mga_do_dma_bootstrap, mga_do_agp_dma_bootstrap
+- */
+-static int mga_do_pci_dma_bootstrap(struct drm_device *dev,
+-				    drm_mga_dma_bootstrap_t *dma_bs)
+-{
+-	drm_mga_private_t *const dev_priv =
+-	    (drm_mga_private_t *) dev->dev_private;
+-	unsigned int warp_size = MGA_WARP_UCODE_SIZE;
+-	unsigned int primary_size;
+-	unsigned int bin_count;
+-	int err;
+-	struct drm_buf_desc req;
+-
+-	if (dev->dma == NULL) {
+-		DRM_ERROR("dev->dma is NULL\n");
+-		return -EFAULT;
+-	}
+-
+-	/* Make drm_legacy_addbufs happy by not trying to create a mapping for
+-	 * less than a page.
+-	 */
+-	if (warp_size < PAGE_SIZE)
+-		warp_size = PAGE_SIZE;
+-
+-	/* The proper alignment is 0x100 for this mapping */
+-	err = drm_legacy_addmap(dev, 0, warp_size, _DRM_CONSISTENT,
+-				_DRM_READ_ONLY, &dev_priv->warp);
+-	if (err != 0) {
+-		DRM_ERROR("Unable to create mapping for WARP microcode: %d\n",
+-			  err);
+-		return err;
+-	}
+-
+-	/* Other than the bottom two bits being used to encode other
+-	 * information, there don't appear to be any restrictions on the
+-	 * alignment of the primary or secondary DMA buffers.
+-	 */
+-
+-	for (primary_size = dma_bs->primary_size; primary_size != 0;
+-	     primary_size >>= 1) {
+-		/* The proper alignment for this mapping is 0x04 */
+-		err = drm_legacy_addmap(dev, 0, primary_size, _DRM_CONSISTENT,
+-					_DRM_READ_ONLY, &dev_priv->primary);
+-		if (!err)
+-			break;
+-	}
+-
+-	if (err != 0) {
+-		DRM_ERROR("Unable to allocate primary DMA region: %d\n", err);
+-		return -ENOMEM;
+-	}
+-
+-	if (dev_priv->primary->size != dma_bs->primary_size) {
+-		DRM_INFO("Primary DMA buffer size reduced from %u to %u.\n",
+-			 dma_bs->primary_size,
+-			 (unsigned)dev_priv->primary->size);
+-		dma_bs->primary_size = dev_priv->primary->size;
+-	}
+-
+-	for (bin_count = dma_bs->secondary_bin_count; bin_count > 0;
+-	     bin_count--) {
+-		(void)memset(&req, 0, sizeof(req));
+-		req.count = bin_count;
+-		req.size = dma_bs->secondary_bin_size;
+-
+-		err = drm_legacy_addbufs_pci(dev, &req);
+-		if (!err)
+-			break;
+-	}
+-
+-	if (bin_count == 0) {
+-		DRM_ERROR("Unable to add secondary DMA buffers: %d\n", err);
+-		return err;
+-	}
+-
+-	if (bin_count != dma_bs->secondary_bin_count) {
+-		DRM_INFO("Secondary PCI DMA buffer bin count reduced from %u "
+-			 "to %u.\n", dma_bs->secondary_bin_count, bin_count);
+-
+-		dma_bs->secondary_bin_count = bin_count;
+-	}
+-
+-	dev_priv->dma_access = 0;
+-	dev_priv->wagp_enable = 0;
+-
+-	dma_bs->agp_mode = 0;
+-
+-	DRM_INFO("Initialized card for PCI DMA.\n");
+-	return 0;
+-}
+-
+-static int mga_do_dma_bootstrap(struct drm_device *dev,
+-				drm_mga_dma_bootstrap_t *dma_bs)
+-{
+-	const int is_agp = (dma_bs->agp_mode != 0) && dev->agp;
+-	int err;
+-	drm_mga_private_t *const dev_priv =
+-	    (drm_mga_private_t *) dev->dev_private;
+-
+-	dev_priv->used_new_dma_init = 1;
+-
+-	/* The first steps are the same for both PCI and AGP based DMA.  Map
+-	 * the cards MMIO registers and map a status page.
+-	 */
+-	err = drm_legacy_addmap(dev, dev_priv->mmio_base, dev_priv->mmio_size,
+-				_DRM_REGISTERS, _DRM_READ_ONLY,
+-				&dev_priv->mmio);
+-	if (err) {
+-		DRM_ERROR("Unable to map MMIO region: %d\n", err);
+-		return err;
+-	}
+-
+-	err = drm_legacy_addmap(dev, 0, SAREA_MAX, _DRM_SHM,
+-				_DRM_READ_ONLY | _DRM_LOCKED | _DRM_KERNEL,
+-			 &dev_priv->status);
+-	if (err) {
+-		DRM_ERROR("Unable to map status region: %d\n", err);
+-		return err;
+-	}
+-
+-	/* The DMA initialization procedure is slightly different for PCI and
+-	 * AGP cards.  AGP cards just allocate a large block of AGP memory and
+-	 * carve off portions of it for internal uses.  The remaining memory
+-	 * is returned to user-mode to be used for AGP textures.
+-	 */
+-	if (is_agp)
+-		err = mga_do_agp_dma_bootstrap(dev, dma_bs);
+-
+-	/* If we attempted to initialize the card for AGP DMA but failed,
+-	 * clean-up any mess that may have been created.
+-	 */
+-
+-	if (err)
+-		mga_do_cleanup_dma(dev, MINIMAL_CLEANUP);
+-
+-	/* Not only do we want to try and initialized PCI cards for PCI DMA,
+-	 * but we also try to initialized AGP cards that could not be
+-	 * initialized for AGP DMA.  This covers the case where we have an AGP
+-	 * card in a system with an unsupported AGP chipset.  In that case the
+-	 * card will be detected as AGP, but we won't be able to allocate any
+-	 * AGP memory, etc.
+-	 */
+-
+-	if (!is_agp || err)
+-		err = mga_do_pci_dma_bootstrap(dev, dma_bs);
+-
+-	return err;
+-}
+-
+-int mga_dma_bootstrap(struct drm_device *dev, void *data,
+-		      struct drm_file *file_priv)
+-{
+-	drm_mga_dma_bootstrap_t *bootstrap = data;
+-	int err;
+-	static const int modes[] = { 0, 1, 2, 2, 4, 4, 4, 4 };
+-	const drm_mga_private_t *const dev_priv =
+-		(drm_mga_private_t *) dev->dev_private;
+-
+-	err = mga_do_dma_bootstrap(dev, bootstrap);
+-	if (err) {
+-		mga_do_cleanup_dma(dev, FULL_CLEANUP);
+-		return err;
+-	}
+-
+-	if (dev_priv->agp_textures != NULL) {
+-		bootstrap->texture_handle = dev_priv->agp_textures->offset;
+-		bootstrap->texture_size = dev_priv->agp_textures->size;
+-	} else {
+-		bootstrap->texture_handle = 0;
+-		bootstrap->texture_size = 0;
+-	}
+-
+-	bootstrap->agp_mode = modes[bootstrap->agp_mode & 0x07];
+-
+-	return err;
+-}
+-
+-static int mga_do_init_dma(struct drm_device *dev, drm_mga_init_t *init)
+-{
+-	drm_mga_private_t *dev_priv;
+-	int ret;
+-	DRM_DEBUG("\n");
+-
+-	dev_priv = dev->dev_private;
+-
+-	if (init->sgram)
+-		dev_priv->clear_cmd = MGA_DWGCTL_CLEAR | MGA_ATYPE_BLK;
+-	else
+-		dev_priv->clear_cmd = MGA_DWGCTL_CLEAR | MGA_ATYPE_RSTR;
+-	dev_priv->maccess = init->maccess;
+-
+-	dev_priv->fb_cpp = init->fb_cpp;
+-	dev_priv->front_offset = init->front_offset;
+-	dev_priv->front_pitch = init->front_pitch;
+-	dev_priv->back_offset = init->back_offset;
+-	dev_priv->back_pitch = init->back_pitch;
+-
+-	dev_priv->depth_cpp = init->depth_cpp;
+-	dev_priv->depth_offset = init->depth_offset;
+-	dev_priv->depth_pitch = init->depth_pitch;
+-
+-	/* FIXME: Need to support AGP textures...
+-	 */
+-	dev_priv->texture_offset = init->texture_offset[0];
+-	dev_priv->texture_size = init->texture_size[0];
+-
+-	dev_priv->sarea = drm_legacy_getsarea(dev);
+-	if (!dev_priv->sarea) {
+-		DRM_ERROR("failed to find sarea!\n");
+-		return -EINVAL;
+-	}
+-
+-	if (!dev_priv->used_new_dma_init) {
+-
+-		dev_priv->dma_access = MGA_PAGPXFER;
+-		dev_priv->wagp_enable = MGA_WAGP_ENABLE;
+-
+-		dev_priv->status = drm_legacy_findmap(dev, init->status_offset);
+-		if (!dev_priv->status) {
+-			DRM_ERROR("failed to find status page!\n");
+-			return -EINVAL;
+-		}
+-		dev_priv->mmio = drm_legacy_findmap(dev, init->mmio_offset);
+-		if (!dev_priv->mmio) {
+-			DRM_ERROR("failed to find mmio region!\n");
+-			return -EINVAL;
+-		}
+-		dev_priv->warp = drm_legacy_findmap(dev, init->warp_offset);
+-		if (!dev_priv->warp) {
+-			DRM_ERROR("failed to find warp microcode region!\n");
+-			return -EINVAL;
+-		}
+-		dev_priv->primary = drm_legacy_findmap(dev, init->primary_offset);
+-		if (!dev_priv->primary) {
+-			DRM_ERROR("failed to find primary dma region!\n");
+-			return -EINVAL;
+-		}
+-		dev->agp_buffer_token = init->buffers_offset;
+-		dev->agp_buffer_map =
+-		    drm_legacy_findmap(dev, init->buffers_offset);
+-		if (!dev->agp_buffer_map) {
+-			DRM_ERROR("failed to find dma buffer region!\n");
+-			return -EINVAL;
+-		}
+-
+-		drm_legacy_ioremap(dev_priv->warp, dev);
+-		drm_legacy_ioremap(dev_priv->primary, dev);
+-		drm_legacy_ioremap(dev->agp_buffer_map, dev);
+-	}
+-
+-	dev_priv->sarea_priv =
+-	    (drm_mga_sarea_t *) ((u8 *) dev_priv->sarea->handle +
+-				 init->sarea_priv_offset);
+-
+-	if (!dev_priv->warp->handle ||
+-	    !dev_priv->primary->handle ||
+-	    ((dev_priv->dma_access != 0) &&
+-	     ((dev->agp_buffer_map == NULL) ||
+-	      (dev->agp_buffer_map->handle == NULL)))) {
+-		DRM_ERROR("failed to ioremap agp regions!\n");
+-		return -ENOMEM;
+-	}
+-
+-	ret = mga_warp_install_microcode(dev_priv);
+-	if (ret < 0) {
+-		DRM_ERROR("failed to install WARP ucode!: %d\n", ret);
+-		return ret;
+-	}
+-
+-	ret = mga_warp_init(dev_priv);
+-	if (ret < 0) {
+-		DRM_ERROR("failed to init WARP engine!: %d\n", ret);
+-		return ret;
+-	}
+-
+-	dev_priv->prim.status = (u32 *) dev_priv->status->handle;
+-
+-	mga_do_wait_for_idle(dev_priv);
+-
+-	/* Init the primary DMA registers.
+-	 */
+-	MGA_WRITE(MGA_PRIMADDRESS, dev_priv->primary->offset | MGA_DMA_GENERAL);
+-#if 0
+-	MGA_WRITE(MGA_PRIMPTR, virt_to_bus((void *)dev_priv->prim.status) | MGA_PRIMPTREN0 |	/* Soft trap, SECEND, SETUPEND */
+-		  MGA_PRIMPTREN1);	/* DWGSYNC */
+-#endif
+-
+-	dev_priv->prim.start = (u8 *) dev_priv->primary->handle;
+-	dev_priv->prim.end = ((u8 *) dev_priv->primary->handle
+-			      + dev_priv->primary->size);
+-	dev_priv->prim.size = dev_priv->primary->size;
+-
+-	dev_priv->prim.tail = 0;
+-	dev_priv->prim.space = dev_priv->prim.size;
+-	dev_priv->prim.wrapped = 0;
+-
+-	dev_priv->prim.last_flush = 0;
+-	dev_priv->prim.last_wrap = 0;
+-
+-	dev_priv->prim.high_mark = 256 * DMA_BLOCK_SIZE;
+-
+-	dev_priv->prim.status[0] = dev_priv->primary->offset;
+-	dev_priv->prim.status[1] = 0;
+-
+-	dev_priv->sarea_priv->last_wrap = 0;
+-	dev_priv->sarea_priv->last_frame.head = 0;
+-	dev_priv->sarea_priv->last_frame.wrap = 0;
+-
+-	if (mga_freelist_init(dev, dev_priv) < 0) {
+-		DRM_ERROR("could not initialize freelist\n");
+-		return -ENOMEM;
+-	}
+-
+-	return 0;
+-}
+-
+-static int mga_do_cleanup_dma(struct drm_device *dev, int full_cleanup)
+-{
+-	int err = 0;
+-	DRM_DEBUG("\n");
+-
+-	/* Make sure interrupts are disabled here because the uninstall ioctl
+-	 * may not have been called from userspace and after dev_private
+-	 * is freed, it's too late.
+-	 */
+-	if (dev->irq_enabled)
+-		drm_legacy_irq_uninstall(dev);
+-
+-	if (dev->dev_private) {
+-		drm_mga_private_t *dev_priv = dev->dev_private;
+-
+-		if ((dev_priv->warp != NULL)
+-		    && (dev_priv->warp->type != _DRM_CONSISTENT))
+-			drm_legacy_ioremapfree(dev_priv->warp, dev);
+-
+-		if ((dev_priv->primary != NULL)
+-		    && (dev_priv->primary->type != _DRM_CONSISTENT))
+-			drm_legacy_ioremapfree(dev_priv->primary, dev);
+-
+-		if (dev->agp_buffer_map != NULL)
+-			drm_legacy_ioremapfree(dev->agp_buffer_map, dev);
+-
+-		if (dev_priv->used_new_dma_init) {
+-#if IS_ENABLED(CONFIG_AGP)
+-			if (dev_priv->agp_handle != 0) {
+-				struct drm_agp_binding unbind_req;
+-				struct drm_agp_buffer free_req;
+-
+-				unbind_req.handle = dev_priv->agp_handle;
+-				drm_legacy_agp_unbind(dev, &unbind_req);
+-
+-				free_req.handle = dev_priv->agp_handle;
+-				drm_legacy_agp_free(dev, &free_req);
+-
+-				dev_priv->agp_textures = NULL;
+-				dev_priv->agp_size = 0;
+-				dev_priv->agp_handle = 0;
+-			}
+-
+-			if ((dev->agp != NULL) && dev->agp->acquired)
+-				err = drm_legacy_agp_release(dev);
+-#endif
+-		}
+-
+-		dev_priv->warp = NULL;
+-		dev_priv->primary = NULL;
+-		dev_priv->sarea = NULL;
+-		dev_priv->sarea_priv = NULL;
+-		dev->agp_buffer_map = NULL;
+-
+-		if (full_cleanup) {
+-			dev_priv->mmio = NULL;
+-			dev_priv->status = NULL;
+-			dev_priv->used_new_dma_init = 0;
+-		}
+-
+-		memset(&dev_priv->prim, 0, sizeof(dev_priv->prim));
+-		dev_priv->warp_pipe = 0;
+-		memset(dev_priv->warp_pipe_phys, 0,
+-		       sizeof(dev_priv->warp_pipe_phys));
+-
+-		if (dev_priv->head != NULL)
+-			mga_freelist_cleanup(dev);
+-	}
+-
+-	return err;
+-}
+-
+-int mga_dma_init(struct drm_device *dev, void *data,
+-		 struct drm_file *file_priv)
+-{
+-	drm_mga_init_t *init = data;
+-	int err;
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	switch (init->func) {
+-	case MGA_INIT_DMA:
+-		err = mga_do_init_dma(dev, init);
+-		if (err)
+-			(void)mga_do_cleanup_dma(dev, FULL_CLEANUP);
+-		return err;
+-	case MGA_CLEANUP_DMA:
+-		return mga_do_cleanup_dma(dev, FULL_CLEANUP);
+-	}
+-
+-	return -EINVAL;
+-}
+-
+-/* ================================================================
+- * Primary DMA stream management
+- */
+-
+-int mga_dma_flush(struct drm_device *dev, void *data,
+-		  struct drm_file *file_priv)
+-{
+-	drm_mga_private_t *dev_priv = (drm_mga_private_t *) dev->dev_private;
+-	struct drm_lock *lock = data;
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	DRM_DEBUG("%s%s%s\n",
+-		  (lock->flags & _DRM_LOCK_FLUSH) ? "flush, " : "",
+-		  (lock->flags & _DRM_LOCK_FLUSH_ALL) ? "flush all, " : "",
+-		  (lock->flags & _DRM_LOCK_QUIESCENT) ? "idle, " : "");
+-
+-	WRAP_WAIT_WITH_RETURN(dev_priv);
+-
+-	if (lock->flags & (_DRM_LOCK_FLUSH | _DRM_LOCK_FLUSH_ALL))
+-		mga_do_dma_flush(dev_priv);
+-
+-	if (lock->flags & _DRM_LOCK_QUIESCENT) {
+-#if MGA_DMA_DEBUG
+-		int ret = mga_do_wait_for_idle(dev_priv);
+-		if (ret < 0)
+-			DRM_INFO("-EBUSY\n");
+-		return ret;
+-#else
+-		return mga_do_wait_for_idle(dev_priv);
+-#endif
+-	} else {
+-		return 0;
+-	}
+-}
+-
+-int mga_dma_reset(struct drm_device *dev, void *data,
+-		  struct drm_file *file_priv)
+-{
+-	drm_mga_private_t *dev_priv = (drm_mga_private_t *) dev->dev_private;
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	return mga_do_dma_reset(dev_priv);
+-}
+-
+-/* ================================================================
+- * DMA buffer management
+- */
+-
+-static int mga_dma_get_buffers(struct drm_device *dev,
+-			       struct drm_file *file_priv, struct drm_dma *d)
+-{
+-	struct drm_buf *buf;
+-	int i;
+-
+-	for (i = d->granted_count; i < d->request_count; i++) {
+-		buf = mga_freelist_get(dev);
+-		if (!buf)
+-			return -EAGAIN;
+-
+-		buf->file_priv = file_priv;
+-
+-		if (copy_to_user(&d->request_indices[i],
+-				     &buf->idx, sizeof(buf->idx)))
+-			return -EFAULT;
+-		if (copy_to_user(&d->request_sizes[i],
+-				     &buf->total, sizeof(buf->total)))
+-			return -EFAULT;
+-
+-		d->granted_count++;
+-	}
+-	return 0;
+-}
+-
+-int mga_dma_buffers(struct drm_device *dev, void *data,
+-		    struct drm_file *file_priv)
+-{
+-	struct drm_device_dma *dma = dev->dma;
+-	drm_mga_private_t *dev_priv = (drm_mga_private_t *) dev->dev_private;
+-	struct drm_dma *d = data;
+-	int ret = 0;
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	/* Please don't send us buffers.
+-	 */
+-	if (d->send_count != 0) {
+-		DRM_ERROR("Process %d trying to send %d buffers via drmDMA\n",
+-			  task_pid_nr(current), d->send_count);
+-		return -EINVAL;
+-	}
+-
+-	/* We'll send you buffers.
+-	 */
+-	if (d->request_count < 0 || d->request_count > dma->buf_count) {
+-		DRM_ERROR("Process %d trying to get %d buffers (of %d max)\n",
+-			  task_pid_nr(current), d->request_count,
+-			  dma->buf_count);
+-		return -EINVAL;
+-	}
+-
+-	WRAP_TEST_WITH_RETURN(dev_priv);
+-
+-	d->granted_count = 0;
+-
+-	if (d->request_count)
+-		ret = mga_dma_get_buffers(dev, file_priv, d);
+-
+-	return ret;
+-}
+-
+-/*
+- * Called just before the module is unloaded.
+- */
+-void mga_driver_unload(struct drm_device *dev)
+-{
+-	kfree(dev->dev_private);
+-	dev->dev_private = NULL;
+-}
+-
+-/*
+- * Called when the last opener of the device is closed.
+- */
+-void mga_driver_lastclose(struct drm_device *dev)
+-{
+-	mga_do_cleanup_dma(dev, FULL_CLEANUP);
+-}
+-
+-int mga_driver_dma_quiescent(struct drm_device *dev)
+-{
+-	drm_mga_private_t *dev_priv = dev->dev_private;
+-	return mga_do_wait_for_idle(dev_priv);
+-}
+diff --git a/drivers/gpu/drm/mga/mga_drv.c b/drivers/gpu/drm/mga/mga_drv.c
+deleted file mode 100644
+index 71128e6f6ae9..000000000000
+--- a/drivers/gpu/drm/mga/mga_drv.c
++++ /dev/null
+@@ -1,104 +0,0 @@
+-/* mga_drv.c -- Matrox G200/G400 driver -*- linux-c -*-
+- * Created: Mon Dec 13 01:56:22 1999 by jhartmann@precisioninsight.com
+- *
+- * Copyright 1999 Precision Insight, Inc., Cedar Park, Texas.
+- * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
+- * All Rights Reserved.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the next
+- * paragraph) shall be included in all copies or substantial portions of the
+- * Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+- * VA LINUX SYSTEMS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+- * OTHER DEALINGS IN THE SOFTWARE.
+- *
+- * Authors:
+- *    Rickard E. (Rik) Faith <faith@valinux.com>
+- *    Gareth Hughes <gareth@valinux.com>
+- */
+-
+-#include <linux/module.h>
+-
+-#include <drm/drm_drv.h>
+-#include <drm/drm_pciids.h>
+-
+-#include "mga_drv.h"
+-
+-static struct pci_device_id pciidlist[] = {
+-	mga_PCI_IDS
+-};
+-
+-static const struct file_operations mga_driver_fops = {
+-	.owner = THIS_MODULE,
+-	.open = drm_open,
+-	.release = drm_release,
+-	.unlocked_ioctl = drm_ioctl,
+-	.mmap = drm_legacy_mmap,
+-	.poll = drm_poll,
+-#ifdef CONFIG_COMPAT
+-	.compat_ioctl = mga_compat_ioctl,
+-#endif
+-	.llseek = noop_llseek,
+-};
+-
+-static struct drm_driver driver = {
+-	.driver_features =
+-	    DRIVER_USE_AGP | DRIVER_PCI_DMA | DRIVER_LEGACY |
+-	    DRIVER_HAVE_DMA | DRIVER_HAVE_IRQ,
+-	.dev_priv_size = sizeof(drm_mga_buf_priv_t),
+-	.load = mga_driver_load,
+-	.unload = mga_driver_unload,
+-	.lastclose = mga_driver_lastclose,
+-	.dma_quiescent = mga_driver_dma_quiescent,
+-	.get_vblank_counter = mga_get_vblank_counter,
+-	.enable_vblank = mga_enable_vblank,
+-	.disable_vblank = mga_disable_vblank,
+-	.irq_preinstall = mga_driver_irq_preinstall,
+-	.irq_postinstall = mga_driver_irq_postinstall,
+-	.irq_uninstall = mga_driver_irq_uninstall,
+-	.irq_handler = mga_driver_irq_handler,
+-	.ioctls = mga_ioctls,
+-	.dma_ioctl = mga_dma_buffers,
+-	.fops = &mga_driver_fops,
+-	.name = DRIVER_NAME,
+-	.desc = DRIVER_DESC,
+-	.date = DRIVER_DATE,
+-	.major = DRIVER_MAJOR,
+-	.minor = DRIVER_MINOR,
+-	.patchlevel = DRIVER_PATCHLEVEL,
+-};
+-
+-static struct pci_driver mga_pci_driver = {
+-	.name = DRIVER_NAME,
+-	.id_table = pciidlist,
+-};
+-
+-static int __init mga_init(void)
+-{
+-	driver.num_ioctls = mga_max_ioctl;
+-	return drm_legacy_pci_init(&driver, &mga_pci_driver);
+-}
+-
+-static void __exit mga_exit(void)
+-{
+-	drm_legacy_pci_exit(&driver, &mga_pci_driver);
+-}
+-
+-module_init(mga_init);
+-module_exit(mga_exit);
+-
+-MODULE_AUTHOR(DRIVER_AUTHOR);
+-MODULE_DESCRIPTION(DRIVER_DESC);
+-MODULE_LICENSE("GPL and additional rights");
+diff --git a/drivers/gpu/drm/mga/mga_drv.h b/drivers/gpu/drm/mga/mga_drv.h
+deleted file mode 100644
+index f61401c70b90..000000000000
+--- a/drivers/gpu/drm/mga/mga_drv.h
++++ /dev/null
+@@ -1,685 +0,0 @@
+-/* mga_drv.h -- Private header for the Matrox G200/G400 driver -*- linux-c -*-
+- * Created: Mon Dec 13 01:50:01 1999 by jhartmann@precisioninsight.com
+- *
+- * Copyright 1999 Precision Insight, Inc., Cedar Park, Texas.
+- * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
+- * All rights reserved.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the next
+- * paragraph) shall be included in all copies or substantial portions of the
+- * Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+- * VA LINUX SYSTEMS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+- * OTHER DEALINGS IN THE SOFTWARE.
+- *
+- * Authors:
+- *    Gareth Hughes <gareth@valinux.com>
+- */
+-
+-#ifndef __MGA_DRV_H__
+-#define __MGA_DRV_H__
+-
+-#include <linux/irqreturn.h>
+-#include <linux/pci.h>
+-#include <linux/slab.h>
+-
+-#include <drm/drm_device.h>
+-#include <drm/drm_file.h>
+-#include <drm/drm_ioctl.h>
+-#include <drm/drm_legacy.h>
+-#include <drm/drm_print.h>
+-#include <drm/drm_sarea.h>
+-#include <drm/drm_vblank.h>
+-#include <drm/mga_drm.h>
+-
+-/* General customization:
+- */
+-
+-#define DRIVER_AUTHOR		"Gareth Hughes, VA Linux Systems Inc."
+-
+-#define DRIVER_NAME		"mga"
+-#define DRIVER_DESC		"Matrox G200/G400"
+-#define DRIVER_DATE		"20051102"
+-
+-#define DRIVER_MAJOR		3
+-#define DRIVER_MINOR		2
+-#define DRIVER_PATCHLEVEL	1
+-
+-typedef struct drm_mga_primary_buffer {
+-	u8 *start;
+-	u8 *end;
+-	int size;
+-
+-	u32 tail;
+-	int space;
+-	volatile long wrapped;
+-
+-	volatile u32 *status;
+-
+-	u32 last_flush;
+-	u32 last_wrap;
+-
+-	u32 high_mark;
+-} drm_mga_primary_buffer_t;
+-
+-typedef struct drm_mga_freelist {
+-	struct drm_mga_freelist *next;
+-	struct drm_mga_freelist *prev;
+-	drm_mga_age_t age;
+-	struct drm_buf *buf;
+-} drm_mga_freelist_t;
+-
+-typedef struct {
+-	drm_mga_freelist_t *list_entry;
+-	int discard;
+-	int dispatched;
+-} drm_mga_buf_priv_t;
+-
+-typedef struct drm_mga_private {
+-	drm_mga_primary_buffer_t prim;
+-	drm_mga_sarea_t *sarea_priv;
+-
+-	drm_mga_freelist_t *head;
+-	drm_mga_freelist_t *tail;
+-
+-	unsigned int warp_pipe;
+-	unsigned long warp_pipe_phys[MGA_MAX_WARP_PIPES];
+-
+-	int chipset;
+-	int usec_timeout;
+-
+-	/**
+-	 * If set, the new DMA initialization sequence was used.  This is
+-	 * primarilly used to select how the driver should uninitialized its
+-	 * internal DMA structures.
+-	 */
+-	int used_new_dma_init;
+-
+-	/**
+-	 * If AGP memory is used for DMA buffers, this will be the value
+-	 * \c MGA_PAGPXFER.  Otherwise, it will be zero (for a PCI transfer).
+-	 */
+-	u32 dma_access;
+-
+-	/**
+-	 * If AGP memory is used for DMA buffers, this will be the value
+-	 * \c MGA_WAGP_ENABLE.  Otherwise, it will be zero (for a PCI
+-	 * transfer).
+-	 */
+-	u32 wagp_enable;
+-
+-	/**
+-	 * \name MMIO region parameters.
+-	 *
+-	 * \sa drm_mga_private_t::mmio
+-	 */
+-	/*@{ */
+-	resource_size_t mmio_base;	   /**< Bus address of base of MMIO. */
+-	resource_size_t mmio_size;	   /**< Size of the MMIO region. */
+-	/*@} */
+-
+-	u32 clear_cmd;
+-	u32 maccess;
+-
+-	atomic_t vbl_received;          /**< Number of vblanks received. */
+-	wait_queue_head_t fence_queue;
+-	atomic_t last_fence_retired;
+-	u32 next_fence_to_post;
+-
+-	unsigned int fb_cpp;
+-	unsigned int front_offset;
+-	unsigned int front_pitch;
+-	unsigned int back_offset;
+-	unsigned int back_pitch;
+-
+-	unsigned int depth_cpp;
+-	unsigned int depth_offset;
+-	unsigned int depth_pitch;
+-
+-	unsigned int texture_offset;
+-	unsigned int texture_size;
+-
+-	drm_local_map_t *sarea;
+-	drm_local_map_t *mmio;
+-	drm_local_map_t *status;
+-	drm_local_map_t *warp;
+-	drm_local_map_t *primary;
+-	drm_local_map_t *agp_textures;
+-
+-	unsigned long agp_handle;
+-	unsigned int agp_size;
+-} drm_mga_private_t;
+-
+-extern const struct drm_ioctl_desc mga_ioctls[];
+-extern int mga_max_ioctl;
+-
+-				/* mga_dma.c */
+-extern int mga_dma_bootstrap(struct drm_device *dev, void *data,
+-			     struct drm_file *file_priv);
+-extern int mga_dma_init(struct drm_device *dev, void *data,
+-			struct drm_file *file_priv);
+-extern int mga_getparam(struct drm_device *dev, void *data,
+-			struct drm_file *file_priv);
+-extern int mga_dma_flush(struct drm_device *dev, void *data,
+-			 struct drm_file *file_priv);
+-extern int mga_dma_reset(struct drm_device *dev, void *data,
+-			 struct drm_file *file_priv);
+-extern int mga_dma_buffers(struct drm_device *dev, void *data,
+-			   struct drm_file *file_priv);
+-extern int mga_driver_load(struct drm_device *dev, unsigned long flags);
+-extern void mga_driver_unload(struct drm_device *dev);
+-extern void mga_driver_lastclose(struct drm_device *dev);
+-extern int mga_driver_dma_quiescent(struct drm_device *dev);
+-
+-extern int mga_do_wait_for_idle(drm_mga_private_t *dev_priv);
+-
+-extern void mga_do_dma_flush(drm_mga_private_t *dev_priv);
+-extern void mga_do_dma_wrap_start(drm_mga_private_t *dev_priv);
+-extern void mga_do_dma_wrap_end(drm_mga_private_t *dev_priv);
+-
+-extern int mga_freelist_put(struct drm_device *dev, struct drm_buf *buf);
+-
+-				/* mga_warp.c */
+-extern int mga_warp_install_microcode(drm_mga_private_t *dev_priv);
+-extern int mga_warp_init(drm_mga_private_t *dev_priv);
+-
+-				/* mga_irq.c */
+-extern int mga_enable_vblank(struct drm_device *dev, unsigned int pipe);
+-extern void mga_disable_vblank(struct drm_device *dev, unsigned int pipe);
+-extern u32 mga_get_vblank_counter(struct drm_device *dev, unsigned int pipe);
+-extern void mga_driver_fence_wait(struct drm_device *dev, unsigned int *sequence);
+-extern int mga_driver_vblank_wait(struct drm_device *dev, unsigned int *sequence);
+-extern irqreturn_t mga_driver_irq_handler(int irq, void *arg);
+-extern void mga_driver_irq_preinstall(struct drm_device *dev);
+-extern int mga_driver_irq_postinstall(struct drm_device *dev);
+-extern void mga_driver_irq_uninstall(struct drm_device *dev);
+-extern long mga_compat_ioctl(struct file *filp, unsigned int cmd,
+-			     unsigned long arg);
+-
+-#define mga_flush_write_combine()	wmb()
+-
+-#define MGA_READ8(reg) \
+-	readb(((void __iomem *)dev_priv->mmio->handle) + (reg))
+-#define MGA_READ(reg) \
+-	readl(((void __iomem *)dev_priv->mmio->handle) + (reg))
+-#define MGA_WRITE8(reg, val) \
+-	writeb(val, ((void __iomem *)dev_priv->mmio->handle) + (reg))
+-#define MGA_WRITE(reg, val) \
+-	writel(val, ((void __iomem *)dev_priv->mmio->handle) + (reg))
+-
+-#define DWGREG0		0x1c00
+-#define DWGREG0_END	0x1dff
+-#define DWGREG1		0x2c00
+-#define DWGREG1_END	0x2dff
+-
+-#define ISREG0(r)	(r >= DWGREG0 && r <= DWGREG0_END)
+-#define DMAREG0(r)	(u8)((r - DWGREG0) >> 2)
+-#define DMAREG1(r)	(u8)(((r - DWGREG1) >> 2) | 0x80)
+-#define DMAREG(r)	(ISREG0(r) ? DMAREG0(r) : DMAREG1(r))
+-
+-/* ================================================================
+- * Helper macross...
+- */
+-
+-#define MGA_EMIT_STATE(dev_priv, dirty)					\
+-do {									\
+-	if ((dirty) & ~MGA_UPLOAD_CLIPRECTS) {				\
+-		if (dev_priv->chipset >= MGA_CARD_TYPE_G400)		\
+-			mga_g400_emit_state(dev_priv);			\
+-		else							\
+-			mga_g200_emit_state(dev_priv);			\
+-	}								\
+-} while (0)
+-
+-#define WRAP_TEST_WITH_RETURN(dev_priv)					\
+-do {									\
+-	if (test_bit(0, &dev_priv->prim.wrapped)) {			\
+-		if (mga_is_idle(dev_priv)) {				\
+-			mga_do_dma_wrap_end(dev_priv);			\
+-		} else if (dev_priv->prim.space <			\
+-			   dev_priv->prim.high_mark) {			\
+-			if (MGA_DMA_DEBUG)				\
+-				DRM_INFO("wrap...\n");			\
+-			return -EBUSY;					\
+-		}							\
+-	}								\
+-} while (0)
+-
+-#define WRAP_WAIT_WITH_RETURN(dev_priv)					\
+-do {									\
+-	if (test_bit(0, &dev_priv->prim.wrapped)) {			\
+-		if (mga_do_wait_for_idle(dev_priv) < 0) {		\
+-			if (MGA_DMA_DEBUG)				\
+-				DRM_INFO("wrap...\n");			\
+-			return -EBUSY;					\
+-		}							\
+-		mga_do_dma_wrap_end(dev_priv);				\
+-	}								\
+-} while (0)
+-
+-/* ================================================================
+- * Primary DMA command stream
+- */
+-
+-#define MGA_VERBOSE	0
+-
+-#define DMA_LOCALS	unsigned int write; volatile u8 *prim;
+-
+-#define DMA_BLOCK_SIZE	(5 * sizeof(u32))
+-
+-#define BEGIN_DMA(n)							\
+-do {									\
+-	if (MGA_VERBOSE) {						\
+-		DRM_INFO("BEGIN_DMA(%d)\n", (n));			\
+-		DRM_INFO("   space=0x%x req=0x%zx\n",			\
+-			 dev_priv->prim.space, (n) * DMA_BLOCK_SIZE);	\
+-	}								\
+-	prim = dev_priv->prim.start;					\
+-	write = dev_priv->prim.tail;					\
+-} while (0)
+-
+-#define BEGIN_DMA_WRAP()						\
+-do {									\
+-	if (MGA_VERBOSE) {						\
+-		DRM_INFO("BEGIN_DMA()\n");				\
+-		DRM_INFO("   space=0x%x\n", dev_priv->prim.space);	\
+-	}								\
+-	prim = dev_priv->prim.start;					\
+-	write = dev_priv->prim.tail;					\
+-} while (0)
+-
+-#define ADVANCE_DMA()							\
+-do {									\
+-	dev_priv->prim.tail = write;					\
+-	if (MGA_VERBOSE)						\
+-		DRM_INFO("ADVANCE_DMA() tail=0x%05x sp=0x%x\n",		\
+-			 write, dev_priv->prim.space);			\
+-} while (0)
+-
+-#define FLUSH_DMA()							\
+-do {									\
+-	if (0) {							\
+-		DRM_INFO("\n");						\
+-		DRM_INFO("   tail=0x%06x head=0x%06lx\n",		\
+-			 dev_priv->prim.tail,				\
+-			 (unsigned long)(MGA_READ(MGA_PRIMADDRESS) -	\
+-					 dev_priv->primary->offset));	\
+-	}								\
+-	if (!test_bit(0, &dev_priv->prim.wrapped)) {			\
+-		if (dev_priv->prim.space < dev_priv->prim.high_mark)	\
+-			mga_do_dma_wrap_start(dev_priv);		\
+-		else							\
+-			mga_do_dma_flush(dev_priv);			\
+-	}								\
+-} while (0)
+-
+-/* Never use this, always use DMA_BLOCK(...) for primary DMA output.
+- */
+-#define DMA_WRITE(offset, val)						\
+-do {									\
+-	if (MGA_VERBOSE)						\
+-		DRM_INFO("   DMA_WRITE( 0x%08x ) at 0x%04zx\n",		\
+-			 (u32)(val), write + (offset) * sizeof(u32));	\
+-	*(volatile u32 *)(prim + write + (offset) * sizeof(u32)) = val;	\
+-} while (0)
+-
+-#define DMA_BLOCK(reg0, val0, reg1, val1, reg2, val2, reg3, val3)	\
+-do {									\
+-	DMA_WRITE(0, ((DMAREG(reg0) << 0) |				\
+-		      (DMAREG(reg1) << 8) |				\
+-		      (DMAREG(reg2) << 16) |				\
+-		      (DMAREG(reg3) << 24)));				\
+-	DMA_WRITE(1, val0);						\
+-	DMA_WRITE(2, val1);						\
+-	DMA_WRITE(3, val2);						\
+-	DMA_WRITE(4, val3);						\
+-	write += DMA_BLOCK_SIZE;					\
+-} while (0)
+-
+-/* Buffer aging via primary DMA stream head pointer.
+- */
+-
+-#define SET_AGE(age, h, w)						\
+-do {									\
+-	(age)->head = h;						\
+-	(age)->wrap = w;						\
+-} while (0)
+-
+-#define TEST_AGE(age, h, w)		((age)->wrap < w ||		\
+-					 ((age)->wrap == w &&		\
+-					  (age)->head < h))
+-
+-#define AGE_BUFFER(buf_priv)						\
+-do {									\
+-	drm_mga_freelist_t *entry = (buf_priv)->list_entry;		\
+-	if ((buf_priv)->dispatched) {					\
+-		entry->age.head = (dev_priv->prim.tail +		\
+-				   dev_priv->primary->offset);		\
+-		entry->age.wrap = dev_priv->sarea_priv->last_wrap;	\
+-	} else {							\
+-		entry->age.head = 0;					\
+-		entry->age.wrap = 0;					\
+-	}								\
+-} while (0)
+-
+-#define MGA_ENGINE_IDLE_MASK		(MGA_SOFTRAPEN |		\
+-					 MGA_DWGENGSTS |		\
+-					 MGA_ENDPRDMASTS)
+-#define MGA_DMA_IDLE_MASK		(MGA_SOFTRAPEN |		\
+-					 MGA_ENDPRDMASTS)
+-
+-#define MGA_DMA_DEBUG			0
+-
+-/* A reduced set of the mga registers.
+- */
+-#define MGA_CRTC_INDEX			0x1fd4
+-#define MGA_CRTC_DATA			0x1fd5
+-
+-/* CRTC11 */
+-#define MGA_VINTCLR			(1 << 4)
+-#define MGA_VINTEN			(1 << 5)
+-
+-#define MGA_ALPHACTRL			0x2c7c
+-#define MGA_AR0				0x1c60
+-#define MGA_AR1				0x1c64
+-#define MGA_AR2				0x1c68
+-#define MGA_AR3				0x1c6c
+-#define MGA_AR4				0x1c70
+-#define MGA_AR5				0x1c74
+-#define MGA_AR6				0x1c78
+-
+-#define MGA_CXBNDRY			0x1c80
+-#define MGA_CXLEFT			0x1ca0
+-#define MGA_CXRIGHT			0x1ca4
+-
+-#define MGA_DMAPAD			0x1c54
+-#define MGA_DSTORG			0x2cb8
+-#define MGA_DWGCTL			0x1c00
+-#	define MGA_OPCOD_MASK			(15 << 0)
+-#	define MGA_OPCOD_TRAP			(4 << 0)
+-#	define MGA_OPCOD_TEXTURE_TRAP		(6 << 0)
+-#	define MGA_OPCOD_BITBLT			(8 << 0)
+-#	define MGA_OPCOD_ILOAD			(9 << 0)
+-#	define MGA_ATYPE_MASK			(7 << 4)
+-#	define MGA_ATYPE_RPL			(0 << 4)
+-#	define MGA_ATYPE_RSTR			(1 << 4)
+-#	define MGA_ATYPE_ZI			(3 << 4)
+-#	define MGA_ATYPE_BLK			(4 << 4)
+-#	define MGA_ATYPE_I			(7 << 4)
+-#	define MGA_LINEAR			(1 << 7)
+-#	define MGA_ZMODE_MASK			(7 << 8)
+-#	define MGA_ZMODE_NOZCMP			(0 << 8)
+-#	define MGA_ZMODE_ZE			(2 << 8)
+-#	define MGA_ZMODE_ZNE			(3 << 8)
+-#	define MGA_ZMODE_ZLT			(4 << 8)
+-#	define MGA_ZMODE_ZLTE			(5 << 8)
+-#	define MGA_ZMODE_ZGT			(6 << 8)
+-#	define MGA_ZMODE_ZGTE			(7 << 8)
+-#	define MGA_SOLID			(1 << 11)
+-#	define MGA_ARZERO			(1 << 12)
+-#	define MGA_SGNZERO			(1 << 13)
+-#	define MGA_SHIFTZERO			(1 << 14)
+-#	define MGA_BOP_MASK			(15 << 16)
+-#	define MGA_BOP_ZERO			(0 << 16)
+-#	define MGA_BOP_DST			(10 << 16)
+-#	define MGA_BOP_SRC			(12 << 16)
+-#	define MGA_BOP_ONE			(15 << 16)
+-#	define MGA_TRANS_SHIFT			20
+-#	define MGA_TRANS_MASK			(15 << 20)
+-#	define MGA_BLTMOD_MASK			(15 << 25)
+-#	define MGA_BLTMOD_BMONOLEF		(0 << 25)
+-#	define MGA_BLTMOD_BMONOWF		(4 << 25)
+-#	define MGA_BLTMOD_PLAN			(1 << 25)
+-#	define MGA_BLTMOD_BFCOL			(2 << 25)
+-#	define MGA_BLTMOD_BU32BGR		(3 << 25)
+-#	define MGA_BLTMOD_BU32RGB		(7 << 25)
+-#	define MGA_BLTMOD_BU24BGR		(11 << 25)
+-#	define MGA_BLTMOD_BU24RGB		(15 << 25)
+-#	define MGA_PATTERN			(1 << 29)
+-#	define MGA_TRANSC			(1 << 30)
+-#	define MGA_CLIPDIS			(1 << 31)
+-#define MGA_DWGSYNC			0x2c4c
+-
+-#define MGA_FCOL			0x1c24
+-#define MGA_FIFOSTATUS			0x1e10
+-#define MGA_FOGCOL			0x1cf4
+-#define MGA_FXBNDRY			0x1c84
+-#define MGA_FXLEFT			0x1ca8
+-#define MGA_FXRIGHT			0x1cac
+-
+-#define MGA_ICLEAR			0x1e18
+-#	define MGA_SOFTRAPICLR			(1 << 0)
+-#	define MGA_VLINEICLR			(1 << 5)
+-#define MGA_IEN				0x1e1c
+-#	define MGA_SOFTRAPIEN			(1 << 0)
+-#	define MGA_VLINEIEN			(1 << 5)
+-
+-#define MGA_LEN				0x1c5c
+-
+-#define MGA_MACCESS			0x1c04
+-
+-#define MGA_PITCH			0x1c8c
+-#define MGA_PLNWT			0x1c1c
+-#define MGA_PRIMADDRESS			0x1e58
+-#	define MGA_DMA_GENERAL			(0 << 0)
+-#	define MGA_DMA_BLIT			(1 << 0)
+-#	define MGA_DMA_VECTOR			(2 << 0)
+-#	define MGA_DMA_VERTEX			(3 << 0)
+-#define MGA_PRIMEND			0x1e5c
+-#	define MGA_PRIMNOSTART			(1 << 0)
+-#	define MGA_PAGPXFER			(1 << 1)
+-#define MGA_PRIMPTR			0x1e50
+-#	define MGA_PRIMPTREN0			(1 << 0)
+-#	define MGA_PRIMPTREN1			(1 << 1)
+-
+-#define MGA_RST				0x1e40
+-#	define MGA_SOFTRESET			(1 << 0)
+-#	define MGA_SOFTEXTRST			(1 << 1)
+-
+-#define MGA_SECADDRESS			0x2c40
+-#define MGA_SECEND			0x2c44
+-#define MGA_SETUPADDRESS		0x2cd0
+-#define MGA_SETUPEND			0x2cd4
+-#define MGA_SGN				0x1c58
+-#define MGA_SOFTRAP			0x2c48
+-#define MGA_SRCORG			0x2cb4
+-#	define MGA_SRMMAP_MASK			(1 << 0)
+-#	define MGA_SRCMAP_FB			(0 << 0)
+-#	define MGA_SRCMAP_SYSMEM		(1 << 0)
+-#	define MGA_SRCACC_MASK			(1 << 1)
+-#	define MGA_SRCACC_PCI			(0 << 1)
+-#	define MGA_SRCACC_AGP			(1 << 1)
+-#define MGA_STATUS			0x1e14
+-#	define MGA_SOFTRAPEN			(1 << 0)
+-#	define MGA_VSYNCPEN			(1 << 4)
+-#	define MGA_VLINEPEN			(1 << 5)
+-#	define MGA_DWGENGSTS			(1 << 16)
+-#	define MGA_ENDPRDMASTS			(1 << 17)
+-#define MGA_STENCIL			0x2cc8
+-#define MGA_STENCILCTL			0x2ccc
+-
+-#define MGA_TDUALSTAGE0			0x2cf8
+-#define MGA_TDUALSTAGE1			0x2cfc
+-#define MGA_TEXBORDERCOL		0x2c5c
+-#define MGA_TEXCTL			0x2c30
+-#define MGA_TEXCTL2			0x2c3c
+-#	define MGA_DUALTEX			(1 << 7)
+-#	define MGA_G400_TC2_MAGIC		(1 << 15)
+-#	define MGA_MAP1_ENABLE			(1 << 31)
+-#define MGA_TEXFILTER			0x2c58
+-#define MGA_TEXHEIGHT			0x2c2c
+-#define MGA_TEXORG			0x2c24
+-#	define MGA_TEXORGMAP_MASK		(1 << 0)
+-#	define MGA_TEXORGMAP_FB			(0 << 0)
+-#	define MGA_TEXORGMAP_SYSMEM		(1 << 0)
+-#	define MGA_TEXORGACC_MASK		(1 << 1)
+-#	define MGA_TEXORGACC_PCI		(0 << 1)
+-#	define MGA_TEXORGACC_AGP		(1 << 1)
+-#define MGA_TEXORG1			0x2ca4
+-#define MGA_TEXORG2			0x2ca8
+-#define MGA_TEXORG3			0x2cac
+-#define MGA_TEXORG4			0x2cb0
+-#define MGA_TEXTRANS			0x2c34
+-#define MGA_TEXTRANSHIGH		0x2c38
+-#define MGA_TEXWIDTH			0x2c28
+-
+-#define MGA_WACCEPTSEQ			0x1dd4
+-#define MGA_WCODEADDR			0x1e6c
+-#define MGA_WFLAG			0x1dc4
+-#define MGA_WFLAG1			0x1de0
+-#define MGA_WFLAGNB			0x1e64
+-#define MGA_WFLAGNB1			0x1e08
+-#define MGA_WGETMSB			0x1dc8
+-#define MGA_WIADDR			0x1dc0
+-#define MGA_WIADDR2			0x1dd8
+-#	define MGA_WMODE_SUSPEND		(0 << 0)
+-#	define MGA_WMODE_RESUME			(1 << 0)
+-#	define MGA_WMODE_JUMP			(2 << 0)
+-#	define MGA_WMODE_START			(3 << 0)
+-#	define MGA_WAGP_ENABLE			(1 << 2)
+-#define MGA_WMISC			0x1e70
+-#	define MGA_WUCODECACHE_ENABLE		(1 << 0)
+-#	define MGA_WMASTER_ENABLE		(1 << 1)
+-#	define MGA_WCACHEFLUSH_ENABLE		(1 << 3)
+-#define MGA_WVRTXSZ			0x1dcc
+-
+-#define MGA_YBOT			0x1c9c
+-#define MGA_YDST			0x1c90
+-#define MGA_YDSTLEN			0x1c88
+-#define MGA_YDSTORG			0x1c94
+-#define MGA_YTOP			0x1c98
+-
+-#define MGA_ZORG			0x1c0c
+-
+-/* This finishes the current batch of commands
+- */
+-#define MGA_EXEC			0x0100
+-
+-/* AGP PLL encoding (for G200 only).
+- */
+-#define MGA_AGP_PLL			0x1e4c
+-#	define MGA_AGP2XPLL_DISABLE		(0 << 0)
+-#	define MGA_AGP2XPLL_ENABLE		(1 << 0)
+-
+-/* Warp registers
+- */
+-#define MGA_WR0				0x2d00
+-#define MGA_WR1				0x2d04
+-#define MGA_WR2				0x2d08
+-#define MGA_WR3				0x2d0c
+-#define MGA_WR4				0x2d10
+-#define MGA_WR5				0x2d14
+-#define MGA_WR6				0x2d18
+-#define MGA_WR7				0x2d1c
+-#define MGA_WR8				0x2d20
+-#define MGA_WR9				0x2d24
+-#define MGA_WR10			0x2d28
+-#define MGA_WR11			0x2d2c
+-#define MGA_WR12			0x2d30
+-#define MGA_WR13			0x2d34
+-#define MGA_WR14			0x2d38
+-#define MGA_WR15			0x2d3c
+-#define MGA_WR16			0x2d40
+-#define MGA_WR17			0x2d44
+-#define MGA_WR18			0x2d48
+-#define MGA_WR19			0x2d4c
+-#define MGA_WR20			0x2d50
+-#define MGA_WR21			0x2d54
+-#define MGA_WR22			0x2d58
+-#define MGA_WR23			0x2d5c
+-#define MGA_WR24			0x2d60
+-#define MGA_WR25			0x2d64
+-#define MGA_WR26			0x2d68
+-#define MGA_WR27			0x2d6c
+-#define MGA_WR28			0x2d70
+-#define MGA_WR29			0x2d74
+-#define MGA_WR30			0x2d78
+-#define MGA_WR31			0x2d7c
+-#define MGA_WR32			0x2d80
+-#define MGA_WR33			0x2d84
+-#define MGA_WR34			0x2d88
+-#define MGA_WR35			0x2d8c
+-#define MGA_WR36			0x2d90
+-#define MGA_WR37			0x2d94
+-#define MGA_WR38			0x2d98
+-#define MGA_WR39			0x2d9c
+-#define MGA_WR40			0x2da0
+-#define MGA_WR41			0x2da4
+-#define MGA_WR42			0x2da8
+-#define MGA_WR43			0x2dac
+-#define MGA_WR44			0x2db0
+-#define MGA_WR45			0x2db4
+-#define MGA_WR46			0x2db8
+-#define MGA_WR47			0x2dbc
+-#define MGA_WR48			0x2dc0
+-#define MGA_WR49			0x2dc4
+-#define MGA_WR50			0x2dc8
+-#define MGA_WR51			0x2dcc
+-#define MGA_WR52			0x2dd0
+-#define MGA_WR53			0x2dd4
+-#define MGA_WR54			0x2dd8
+-#define MGA_WR55			0x2ddc
+-#define MGA_WR56			0x2de0
+-#define MGA_WR57			0x2de4
+-#define MGA_WR58			0x2de8
+-#define MGA_WR59			0x2dec
+-#define MGA_WR60			0x2df0
+-#define MGA_WR61			0x2df4
+-#define MGA_WR62			0x2df8
+-#define MGA_WR63			0x2dfc
+-#	define MGA_G400_WR_MAGIC		(1 << 6)
+-#	define MGA_G400_WR56_MAGIC		0x46480000	/* 12800.0f */
+-
+-#define MGA_ILOAD_ALIGN		64
+-#define MGA_ILOAD_MASK		(MGA_ILOAD_ALIGN - 1)
+-
+-#define MGA_DWGCTL_FLUSH	(MGA_OPCOD_TEXTURE_TRAP |		\
+-				 MGA_ATYPE_I |				\
+-				 MGA_ZMODE_NOZCMP |			\
+-				 MGA_ARZERO |				\
+-				 MGA_SGNZERO |				\
+-				 MGA_BOP_SRC |				\
+-				 (15 << MGA_TRANS_SHIFT))
+-
+-#define MGA_DWGCTL_CLEAR	(MGA_OPCOD_TRAP |			\
+-				 MGA_ZMODE_NOZCMP |			\
+-				 MGA_SOLID |				\
+-				 MGA_ARZERO |				\
+-				 MGA_SGNZERO |				\
+-				 MGA_SHIFTZERO |			\
+-				 MGA_BOP_SRC |				\
+-				 (0 << MGA_TRANS_SHIFT) |		\
+-				 MGA_BLTMOD_BMONOLEF |			\
+-				 MGA_TRANSC |				\
+-				 MGA_CLIPDIS)
+-
+-#define MGA_DWGCTL_COPY		(MGA_OPCOD_BITBLT |			\
+-				 MGA_ATYPE_RPL |			\
+-				 MGA_SGNZERO |				\
+-				 MGA_SHIFTZERO |			\
+-				 MGA_BOP_SRC |				\
+-				 (0 << MGA_TRANS_SHIFT) |		\
+-				 MGA_BLTMOD_BFCOL |			\
+-				 MGA_CLIPDIS)
+-
+-/* Simple idle test.
+- */
+-static __inline__ int mga_is_idle(drm_mga_private_t *dev_priv)
+-{
+-	u32 status = MGA_READ(MGA_STATUS) & MGA_ENGINE_IDLE_MASK;
+-	return (status == MGA_ENDPRDMASTS);
+-}
+-
+-#endif
+diff --git a/drivers/gpu/drm/mga/mga_ioc32.c b/drivers/gpu/drm/mga/mga_ioc32.c
+deleted file mode 100644
+index 894472921c30..000000000000
+--- a/drivers/gpu/drm/mga/mga_ioc32.c
++++ /dev/null
+@@ -1,197 +0,0 @@
+-/*
+- * \file mga_ioc32.c
+- *
+- * 32-bit ioctl compatibility routines for the MGA DRM.
+- *
+- * \author Dave Airlie <airlied@linux.ie> with code from patches by Egbert Eich
+- *
+- *
+- * Copyright (C) Paul Mackerras 2005
+- * Copyright (C) Egbert Eich 2003,2004
+- * Copyright (C) Dave Airlie 2005
+- * All Rights Reserved.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the next
+- * paragraph) shall be included in all copies or substantial portions of the
+- * Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+- * THE AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+- * IN THE SOFTWARE.
+- */
+-
+-#include <linux/compat.h>
+-
+-#include "mga_drv.h"
+-
+-typedef struct drm32_mga_init {
+-	int func;
+-	u32 sarea_priv_offset;
+-	struct_group(always32bit,
+-		int chipset;
+-		int sgram;
+-		unsigned int maccess;
+-		unsigned int fb_cpp;
+-		unsigned int front_offset, front_pitch;
+-		unsigned int back_offset, back_pitch;
+-		unsigned int depth_cpp;
+-		unsigned int depth_offset, depth_pitch;
+-		unsigned int texture_offset[MGA_NR_TEX_HEAPS];
+-		unsigned int texture_size[MGA_NR_TEX_HEAPS];
+-	);
+-	u32 fb_offset;
+-	u32 mmio_offset;
+-	u32 status_offset;
+-	u32 warp_offset;
+-	u32 primary_offset;
+-	u32 buffers_offset;
+-} drm_mga_init32_t;
+-
+-static int compat_mga_init(struct file *file, unsigned int cmd,
+-			   unsigned long arg)
+-{
+-	drm_mga_init32_t init32;
+-	drm_mga_init_t init;
+-
+-	if (copy_from_user(&init32, (void __user *)arg, sizeof(init32)))
+-		return -EFAULT;
+-
+-	init.func = init32.func;
+-	init.sarea_priv_offset = init32.sarea_priv_offset;
+-	memcpy(&init.always32bit, &init32.always32bit,
+-	       sizeof(init32.always32bit));
+-	init.fb_offset = init32.fb_offset;
+-	init.mmio_offset = init32.mmio_offset;
+-	init.status_offset = init32.status_offset;
+-	init.warp_offset = init32.warp_offset;
+-	init.primary_offset = init32.primary_offset;
+-	init.buffers_offset = init32.buffers_offset;
+-
+-	return drm_ioctl_kernel(file, mga_dma_init, &init,
+-				DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY);
+-}
+-
+-typedef struct drm_mga_getparam32 {
+-	int param;
+-	u32 value;
+-} drm_mga_getparam32_t;
+-
+-static int compat_mga_getparam(struct file *file, unsigned int cmd,
+-			       unsigned long arg)
+-{
+-	drm_mga_getparam32_t getparam32;
+-	drm_mga_getparam_t getparam;
+-
+-	if (copy_from_user(&getparam32, (void __user *)arg, sizeof(getparam32)))
+-		return -EFAULT;
+-
+-	getparam.param = getparam32.param;
+-	getparam.value = compat_ptr(getparam32.value);
+-	return drm_ioctl_kernel(file, mga_getparam, &getparam, DRM_AUTH);
+-}
+-
+-typedef struct drm_mga_drm_bootstrap32 {
+-	u32 texture_handle;
+-	u32 texture_size;
+-	u32 primary_size;
+-	u32 secondary_bin_count;
+-	u32 secondary_bin_size;
+-	u32 agp_mode;
+-	u8 agp_size;
+-} drm_mga_dma_bootstrap32_t;
+-
+-static int compat_mga_dma_bootstrap(struct file *file, unsigned int cmd,
+-				    unsigned long arg)
+-{
+-	drm_mga_dma_bootstrap32_t dma_bootstrap32;
+-	drm_mga_dma_bootstrap_t dma_bootstrap;
+-	int err;
+-
+-	if (copy_from_user(&dma_bootstrap32, (void __user *)arg,
+-			   sizeof(dma_bootstrap32)))
+-		return -EFAULT;
+-
+-	dma_bootstrap.texture_handle = dma_bootstrap32.texture_handle;
+-	dma_bootstrap.texture_size = dma_bootstrap32.texture_size;
+-	dma_bootstrap.primary_size = dma_bootstrap32.primary_size;
+-	dma_bootstrap.secondary_bin_count = dma_bootstrap32.secondary_bin_count;
+-	dma_bootstrap.secondary_bin_size = dma_bootstrap32.secondary_bin_size;
+-	dma_bootstrap.agp_mode = dma_bootstrap32.agp_mode;
+-	dma_bootstrap.agp_size = dma_bootstrap32.agp_size;
+-
+-	err = drm_ioctl_kernel(file, mga_dma_bootstrap, &dma_bootstrap,
+-				DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY);
+-	if (err)
+-		return err;
+-
+-	dma_bootstrap32.texture_handle = dma_bootstrap.texture_handle;
+-	dma_bootstrap32.texture_size = dma_bootstrap.texture_size;
+-	dma_bootstrap32.primary_size = dma_bootstrap.primary_size;
+-	dma_bootstrap32.secondary_bin_count = dma_bootstrap.secondary_bin_count;
+-	dma_bootstrap32.secondary_bin_size = dma_bootstrap.secondary_bin_size;
+-	dma_bootstrap32.agp_mode = dma_bootstrap.agp_mode;
+-	dma_bootstrap32.agp_size = dma_bootstrap.agp_size;
+-	if (copy_to_user((void __user *)arg, &dma_bootstrap32,
+-			 sizeof(dma_bootstrap32)))
+-		return -EFAULT;
+-
+-	return 0;
+-}
+-
+-static struct {
+-	drm_ioctl_compat_t *fn;
+-	char *name;
+-} mga_compat_ioctls[] = {
+-#define DRM_IOCTL32_DEF(n, f)[DRM_##n] = {.fn = f, .name = #n}
+-	DRM_IOCTL32_DEF(MGA_INIT, compat_mga_init),
+-	DRM_IOCTL32_DEF(MGA_GETPARAM, compat_mga_getparam),
+-	DRM_IOCTL32_DEF(MGA_DMA_BOOTSTRAP, compat_mga_dma_bootstrap),
+-};
+-
+-/**
+- * mga_compat_ioctl - Called whenever a 32-bit process running under
+- *                    a 64-bit kernel performs an ioctl on /dev/dri/card<n>.
+- *
+- * @filp: file pointer.
+- * @cmd:  command.
+- * @arg:  user argument.
+- * return: zero on success or negative number on failure.
+- */
+-long mga_compat_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+-{
+-	unsigned int nr = DRM_IOCTL_NR(cmd);
+-	struct drm_file *file_priv = filp->private_data;
+-	drm_ioctl_compat_t *fn = NULL;
+-	int ret;
+-
+-	if (nr < DRM_COMMAND_BASE)
+-		return drm_compat_ioctl(filp, cmd, arg);
+-
+-	if (nr >= DRM_COMMAND_BASE + ARRAY_SIZE(mga_compat_ioctls))
+-		return drm_ioctl(filp, cmd, arg);
+-
+-	fn = mga_compat_ioctls[nr - DRM_COMMAND_BASE].fn;
+-	if (!fn)
+-		return drm_ioctl(filp, cmd, arg);
+-
+-	DRM_DEBUG("pid=%d, dev=0x%lx, auth=%d, %s\n",
+-		  task_pid_nr(current),
+-		  (long)old_encode_dev(file_priv->minor->kdev->devt),
+-		  file_priv->authenticated,
+-		  mga_compat_ioctls[nr - DRM_COMMAND_BASE].name);
+-	ret = (*fn) (filp, cmd, arg);
+-	if (ret)
+-		DRM_DEBUG("ret = %d\n", ret);
+-	return ret;
+-}
+diff --git a/drivers/gpu/drm/mga/mga_irq.c b/drivers/gpu/drm/mga/mga_irq.c
+deleted file mode 100644
+index a7e6ffc80a78..000000000000
+--- a/drivers/gpu/drm/mga/mga_irq.c
++++ /dev/null
+@@ -1,169 +0,0 @@
+-/* mga_irq.c -- IRQ handling for radeon -*- linux-c -*-
+- */
+-/*
+- * Copyright (C) The Weather Channel, Inc.  2002.  All Rights Reserved.
+- *
+- * The Weather Channel (TM) funded Tungsten Graphics to develop the
+- * initial release of the Radeon 8500 driver under the XFree86 license.
+- * This notice must be preserved.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the next
+- * paragraph) shall be included in all copies or substantial portions of the
+- * Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+- * PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+- * DEALINGS IN THE SOFTWARE.
+- *
+- * Authors:
+- *    Keith Whitwell <keith@tungstengraphics.com>
+- *    Eric Anholt <anholt@FreeBSD.org>
+- */
+-
+-#include "mga_drv.h"
+-
+-u32 mga_get_vblank_counter(struct drm_device *dev, unsigned int pipe)
+-{
+-	const drm_mga_private_t *const dev_priv =
+-		(drm_mga_private_t *) dev->dev_private;
+-
+-	if (pipe != 0)
+-		return 0;
+-
+-	return atomic_read(&dev_priv->vbl_received);
+-}
+-
+-
+-irqreturn_t mga_driver_irq_handler(int irq, void *arg)
+-{
+-	struct drm_device *dev = (struct drm_device *) arg;
+-	drm_mga_private_t *dev_priv = (drm_mga_private_t *) dev->dev_private;
+-	int status;
+-	int handled = 0;
+-
+-	status = MGA_READ(MGA_STATUS);
+-
+-	/* VBLANK interrupt */
+-	if (status & MGA_VLINEPEN) {
+-		MGA_WRITE(MGA_ICLEAR, MGA_VLINEICLR);
+-		atomic_inc(&dev_priv->vbl_received);
+-		drm_handle_vblank(dev, 0);
+-		handled = 1;
+-	}
+-
+-	/* SOFTRAP interrupt */
+-	if (status & MGA_SOFTRAPEN) {
+-		const u32 prim_start = MGA_READ(MGA_PRIMADDRESS);
+-		const u32 prim_end = MGA_READ(MGA_PRIMEND);
+-
+-
+-		MGA_WRITE(MGA_ICLEAR, MGA_SOFTRAPICLR);
+-
+-		/* In addition to clearing the interrupt-pending bit, we
+-		 * have to write to MGA_PRIMEND to re-start the DMA operation.
+-		 */
+-		if ((prim_start & ~0x03) != (prim_end & ~0x03))
+-			MGA_WRITE(MGA_PRIMEND, prim_end);
+-
+-		atomic_inc(&dev_priv->last_fence_retired);
+-		wake_up(&dev_priv->fence_queue);
+-		handled = 1;
+-	}
+-
+-	if (handled)
+-		return IRQ_HANDLED;
+-	return IRQ_NONE;
+-}
+-
+-int mga_enable_vblank(struct drm_device *dev, unsigned int pipe)
+-{
+-	drm_mga_private_t *dev_priv = (drm_mga_private_t *) dev->dev_private;
+-
+-	if (pipe != 0) {
+-		DRM_ERROR("tried to enable vblank on non-existent crtc %u\n",
+-			  pipe);
+-		return 0;
+-	}
+-
+-	MGA_WRITE(MGA_IEN, MGA_VLINEIEN | MGA_SOFTRAPEN);
+-	return 0;
+-}
+-
+-
+-void mga_disable_vblank(struct drm_device *dev, unsigned int pipe)
+-{
+-	if (pipe != 0) {
+-		DRM_ERROR("tried to disable vblank on non-existent crtc %u\n",
+-			  pipe);
+-	}
+-
+-	/* Do *NOT* disable the vertical refresh interrupt.  MGA doesn't have
+-	 * a nice hardware counter that tracks the number of refreshes when
+-	 * the interrupt is disabled, and the kernel doesn't know the refresh
+-	 * rate to calculate an estimate.
+-	 */
+-	/* MGA_WRITE(MGA_IEN, MGA_VLINEIEN | MGA_SOFTRAPEN); */
+-}
+-
+-void mga_driver_fence_wait(struct drm_device *dev, unsigned int *sequence)
+-{
+-	drm_mga_private_t *dev_priv = (drm_mga_private_t *) dev->dev_private;
+-	unsigned int cur_fence;
+-
+-	/* Assume that the user has missed the current sequence number
+-	 * by about a day rather than she wants to wait for years
+-	 * using fences.
+-	 */
+-	wait_event_timeout(dev_priv->fence_queue,
+-		    (((cur_fence = atomic_read(&dev_priv->last_fence_retired))
+-		      - *sequence) <= (1 << 23)),
+-		    msecs_to_jiffies(3000));
+-
+-	*sequence = cur_fence;
+-}
+-
+-void mga_driver_irq_preinstall(struct drm_device *dev)
+-{
+-	drm_mga_private_t *dev_priv = (drm_mga_private_t *) dev->dev_private;
+-
+-	/* Disable *all* interrupts */
+-	MGA_WRITE(MGA_IEN, 0);
+-	/* Clear bits if they're already high */
+-	MGA_WRITE(MGA_ICLEAR, ~0);
+-}
+-
+-int mga_driver_irq_postinstall(struct drm_device *dev)
+-{
+-	drm_mga_private_t *dev_priv = (drm_mga_private_t *) dev->dev_private;
+-
+-	init_waitqueue_head(&dev_priv->fence_queue);
+-
+-	/* Turn on soft trap interrupt.  Vertical blank interrupts are enabled
+-	 * in mga_enable_vblank.
+-	 */
+-	MGA_WRITE(MGA_IEN, MGA_SOFTRAPEN);
+-	return 0;
+-}
+-
+-void mga_driver_irq_uninstall(struct drm_device *dev)
+-{
+-	drm_mga_private_t *dev_priv = (drm_mga_private_t *) dev->dev_private;
+-	if (!dev_priv)
+-		return;
+-
+-	/* Disable *all* interrupts */
+-	MGA_WRITE(MGA_IEN, 0);
+-
+-	dev->irq_enabled = false;
+-}
+diff --git a/drivers/gpu/drm/mga/mga_state.c b/drivers/gpu/drm/mga/mga_state.c
+deleted file mode 100644
+index 5b7247b58451..000000000000
+--- a/drivers/gpu/drm/mga/mga_state.c
++++ /dev/null
+@@ -1,1099 +0,0 @@
+-/* mga_state.c -- State support for MGA G200/G400 -*- linux-c -*-
+- * Created: Thu Jan 27 02:53:43 2000 by jhartmann@precisioninsight.com
+- *
+- * Copyright 1999 Precision Insight, Inc., Cedar Park, Texas.
+- * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
+- * All Rights Reserved.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the next
+- * paragraph) shall be included in all copies or substantial portions of the
+- * Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+- * VA LINUX SYSTEMS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+- * OTHER DEALINGS IN THE SOFTWARE.
+- *
+- * Authors:
+- *    Jeff Hartmann <jhartmann@valinux.com>
+- *    Keith Whitwell <keith@tungstengraphics.com>
+- *
+- * Rewritten by:
+- *    Gareth Hughes <gareth@valinux.com>
+- */
+-
+-#include "mga_drv.h"
+-
+-/* ================================================================
+- * DMA hardware state programming functions
+- */
+-
+-static void mga_emit_clip_rect(drm_mga_private_t *dev_priv,
+-			       struct drm_clip_rect *box)
+-{
+-	drm_mga_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	drm_mga_context_regs_t *ctx = &sarea_priv->context_state;
+-	unsigned int pitch = dev_priv->front_pitch;
+-	DMA_LOCALS;
+-
+-	BEGIN_DMA(2);
+-
+-	/* Force reset of DWGCTL on G400 (eliminates clip disable bit).
+-	 */
+-	if (dev_priv->chipset >= MGA_CARD_TYPE_G400) {
+-		DMA_BLOCK(MGA_DWGCTL, ctx->dwgctl,
+-			  MGA_LEN + MGA_EXEC, 0x80000000,
+-			  MGA_DWGCTL, ctx->dwgctl,
+-			  MGA_LEN + MGA_EXEC, 0x80000000);
+-	}
+-	DMA_BLOCK(MGA_DMAPAD, 0x00000000,
+-		  MGA_CXBNDRY, ((box->x2 - 1) << 16) | box->x1,
+-		  MGA_YTOP, box->y1 * pitch, MGA_YBOT, (box->y2 - 1) * pitch);
+-
+-	ADVANCE_DMA();
+-}
+-
+-static __inline__ void mga_g200_emit_context(drm_mga_private_t *dev_priv)
+-{
+-	drm_mga_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	drm_mga_context_regs_t *ctx = &sarea_priv->context_state;
+-	DMA_LOCALS;
+-
+-	BEGIN_DMA(3);
+-
+-	DMA_BLOCK(MGA_DSTORG, ctx->dstorg,
+-		  MGA_MACCESS, ctx->maccess,
+-		  MGA_PLNWT, ctx->plnwt, MGA_DWGCTL, ctx->dwgctl);
+-
+-	DMA_BLOCK(MGA_ALPHACTRL, ctx->alphactrl,
+-		  MGA_FOGCOL, ctx->fogcolor,
+-		  MGA_WFLAG, ctx->wflag, MGA_ZORG, dev_priv->depth_offset);
+-
+-	DMA_BLOCK(MGA_FCOL, ctx->fcol,
+-		  MGA_DMAPAD, 0x00000000,
+-		  MGA_DMAPAD, 0x00000000, MGA_DMAPAD, 0x00000000);
+-
+-	ADVANCE_DMA();
+-}
+-
+-static __inline__ void mga_g400_emit_context(drm_mga_private_t *dev_priv)
+-{
+-	drm_mga_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	drm_mga_context_regs_t *ctx = &sarea_priv->context_state;
+-	DMA_LOCALS;
+-
+-	BEGIN_DMA(4);
+-
+-	DMA_BLOCK(MGA_DSTORG, ctx->dstorg,
+-		  MGA_MACCESS, ctx->maccess,
+-		  MGA_PLNWT, ctx->plnwt, MGA_DWGCTL, ctx->dwgctl);
+-
+-	DMA_BLOCK(MGA_ALPHACTRL, ctx->alphactrl,
+-		  MGA_FOGCOL, ctx->fogcolor,
+-		  MGA_WFLAG, ctx->wflag, MGA_ZORG, dev_priv->depth_offset);
+-
+-	DMA_BLOCK(MGA_WFLAG1, ctx->wflag,
+-		  MGA_TDUALSTAGE0, ctx->tdualstage0,
+-		  MGA_TDUALSTAGE1, ctx->tdualstage1, MGA_FCOL, ctx->fcol);
+-
+-	DMA_BLOCK(MGA_STENCIL, ctx->stencil,
+-		  MGA_STENCILCTL, ctx->stencilctl,
+-		  MGA_DMAPAD, 0x00000000, MGA_DMAPAD, 0x00000000);
+-
+-	ADVANCE_DMA();
+-}
+-
+-static __inline__ void mga_g200_emit_tex0(drm_mga_private_t *dev_priv)
+-{
+-	drm_mga_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	drm_mga_texture_regs_t *tex = &sarea_priv->tex_state[0];
+-	DMA_LOCALS;
+-
+-	BEGIN_DMA(4);
+-
+-	DMA_BLOCK(MGA_TEXCTL2, tex->texctl2,
+-		  MGA_TEXCTL, tex->texctl,
+-		  MGA_TEXFILTER, tex->texfilter,
+-		  MGA_TEXBORDERCOL, tex->texbordercol);
+-
+-	DMA_BLOCK(MGA_TEXORG, tex->texorg,
+-		  MGA_TEXORG1, tex->texorg1,
+-		  MGA_TEXORG2, tex->texorg2, MGA_TEXORG3, tex->texorg3);
+-
+-	DMA_BLOCK(MGA_TEXORG4, tex->texorg4,
+-		  MGA_TEXWIDTH, tex->texwidth,
+-		  MGA_TEXHEIGHT, tex->texheight, MGA_WR24, tex->texwidth);
+-
+-	DMA_BLOCK(MGA_WR34, tex->texheight,
+-		  MGA_TEXTRANS, 0x0000ffff,
+-		  MGA_TEXTRANSHIGH, 0x0000ffff, MGA_DMAPAD, 0x00000000);
+-
+-	ADVANCE_DMA();
+-}
+-
+-static __inline__ void mga_g400_emit_tex0(drm_mga_private_t *dev_priv)
+-{
+-	drm_mga_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	drm_mga_texture_regs_t *tex = &sarea_priv->tex_state[0];
+-	DMA_LOCALS;
+-
+-/*	printk("mga_g400_emit_tex0 %x %x %x\n", tex->texorg, */
+-/*	       tex->texctl, tex->texctl2); */
+-
+-	BEGIN_DMA(6);
+-
+-	DMA_BLOCK(MGA_TEXCTL2, tex->texctl2 | MGA_G400_TC2_MAGIC,
+-		  MGA_TEXCTL, tex->texctl,
+-		  MGA_TEXFILTER, tex->texfilter,
+-		  MGA_TEXBORDERCOL, tex->texbordercol);
+-
+-	DMA_BLOCK(MGA_TEXORG, tex->texorg,
+-		  MGA_TEXORG1, tex->texorg1,
+-		  MGA_TEXORG2, tex->texorg2, MGA_TEXORG3, tex->texorg3);
+-
+-	DMA_BLOCK(MGA_TEXORG4, tex->texorg4,
+-		  MGA_TEXWIDTH, tex->texwidth,
+-		  MGA_TEXHEIGHT, tex->texheight, MGA_WR49, 0x00000000);
+-
+-	DMA_BLOCK(MGA_WR57, 0x00000000,
+-		  MGA_WR53, 0x00000000,
+-		  MGA_WR61, 0x00000000, MGA_WR52, MGA_G400_WR_MAGIC);
+-
+-	DMA_BLOCK(MGA_WR60, MGA_G400_WR_MAGIC,
+-		  MGA_WR54, tex->texwidth | MGA_G400_WR_MAGIC,
+-		  MGA_WR62, tex->texheight | MGA_G400_WR_MAGIC,
+-		  MGA_DMAPAD, 0x00000000);
+-
+-	DMA_BLOCK(MGA_DMAPAD, 0x00000000,
+-		  MGA_DMAPAD, 0x00000000,
+-		  MGA_TEXTRANS, 0x0000ffff, MGA_TEXTRANSHIGH, 0x0000ffff);
+-
+-	ADVANCE_DMA();
+-}
+-
+-static __inline__ void mga_g400_emit_tex1(drm_mga_private_t *dev_priv)
+-{
+-	drm_mga_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	drm_mga_texture_regs_t *tex = &sarea_priv->tex_state[1];
+-	DMA_LOCALS;
+-
+-/*	printk("mga_g400_emit_tex1 %x %x %x\n", tex->texorg,  */
+-/*	       tex->texctl, tex->texctl2); */
+-
+-	BEGIN_DMA(5);
+-
+-	DMA_BLOCK(MGA_TEXCTL2, (tex->texctl2 |
+-				MGA_MAP1_ENABLE |
+-				MGA_G400_TC2_MAGIC),
+-		  MGA_TEXCTL, tex->texctl,
+-		  MGA_TEXFILTER, tex->texfilter,
+-		  MGA_TEXBORDERCOL, tex->texbordercol);
+-
+-	DMA_BLOCK(MGA_TEXORG, tex->texorg,
+-		  MGA_TEXORG1, tex->texorg1,
+-		  MGA_TEXORG2, tex->texorg2, MGA_TEXORG3, tex->texorg3);
+-
+-	DMA_BLOCK(MGA_TEXORG4, tex->texorg4,
+-		  MGA_TEXWIDTH, tex->texwidth,
+-		  MGA_TEXHEIGHT, tex->texheight, MGA_WR49, 0x00000000);
+-
+-	DMA_BLOCK(MGA_WR57, 0x00000000,
+-		  MGA_WR53, 0x00000000,
+-		  MGA_WR61, 0x00000000,
+-		  MGA_WR52, tex->texwidth | MGA_G400_WR_MAGIC);
+-
+-	DMA_BLOCK(MGA_WR60, tex->texheight | MGA_G400_WR_MAGIC,
+-		  MGA_TEXTRANS, 0x0000ffff,
+-		  MGA_TEXTRANSHIGH, 0x0000ffff,
+-		  MGA_TEXCTL2, tex->texctl2 | MGA_G400_TC2_MAGIC);
+-
+-	ADVANCE_DMA();
+-}
+-
+-static __inline__ void mga_g200_emit_pipe(drm_mga_private_t *dev_priv)
+-{
+-	drm_mga_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	unsigned int pipe = sarea_priv->warp_pipe;
+-	DMA_LOCALS;
+-
+-	BEGIN_DMA(3);
+-
+-	DMA_BLOCK(MGA_WIADDR, MGA_WMODE_SUSPEND,
+-		  MGA_WVRTXSZ, 0x00000007,
+-		  MGA_WFLAG, 0x00000000, MGA_WR24, 0x00000000);
+-
+-	DMA_BLOCK(MGA_WR25, 0x00000100,
+-		  MGA_WR34, 0x00000000,
+-		  MGA_WR42, 0x0000ffff, MGA_WR60, 0x0000ffff);
+-
+-	/* Padding required due to hardware bug.
+-	 */
+-	DMA_BLOCK(MGA_DMAPAD, 0xffffffff,
+-		  MGA_DMAPAD, 0xffffffff,
+-		  MGA_DMAPAD, 0xffffffff,
+-		  MGA_WIADDR, (dev_priv->warp_pipe_phys[pipe] |
+-			       MGA_WMODE_START | dev_priv->wagp_enable));
+-
+-	ADVANCE_DMA();
+-}
+-
+-static __inline__ void mga_g400_emit_pipe(drm_mga_private_t *dev_priv)
+-{
+-	drm_mga_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	unsigned int pipe = sarea_priv->warp_pipe;
+-	DMA_LOCALS;
+-
+-/*	printk("mga_g400_emit_pipe %x\n", pipe); */
+-
+-	BEGIN_DMA(10);
+-
+-	DMA_BLOCK(MGA_WIADDR2, MGA_WMODE_SUSPEND,
+-		  MGA_DMAPAD, 0x00000000,
+-		  MGA_DMAPAD, 0x00000000, MGA_DMAPAD, 0x00000000);
+-
+-	if (pipe & MGA_T2) {
+-		DMA_BLOCK(MGA_WVRTXSZ, 0x00001e09,
+-			  MGA_DMAPAD, 0x00000000,
+-			  MGA_DMAPAD, 0x00000000, MGA_DMAPAD, 0x00000000);
+-
+-		DMA_BLOCK(MGA_WACCEPTSEQ, 0x00000000,
+-			  MGA_WACCEPTSEQ, 0x00000000,
+-			  MGA_WACCEPTSEQ, 0x00000000,
+-			  MGA_WACCEPTSEQ, 0x1e000000);
+-	} else {
+-		if (dev_priv->warp_pipe & MGA_T2) {
+-			/* Flush the WARP pipe */
+-			DMA_BLOCK(MGA_YDST, 0x00000000,
+-				  MGA_FXLEFT, 0x00000000,
+-				  MGA_FXRIGHT, 0x00000001,
+-				  MGA_DWGCTL, MGA_DWGCTL_FLUSH);
+-
+-			DMA_BLOCK(MGA_LEN + MGA_EXEC, 0x00000001,
+-				  MGA_DWGSYNC, 0x00007000,
+-				  MGA_TEXCTL2, MGA_G400_TC2_MAGIC,
+-				  MGA_LEN + MGA_EXEC, 0x00000000);
+-
+-			DMA_BLOCK(MGA_TEXCTL2, (MGA_DUALTEX |
+-						MGA_G400_TC2_MAGIC),
+-				  MGA_LEN + MGA_EXEC, 0x00000000,
+-				  MGA_TEXCTL2, MGA_G400_TC2_MAGIC,
+-				  MGA_DMAPAD, 0x00000000);
+-		}
+-
+-		DMA_BLOCK(MGA_WVRTXSZ, 0x00001807,
+-			  MGA_DMAPAD, 0x00000000,
+-			  MGA_DMAPAD, 0x00000000, MGA_DMAPAD, 0x00000000);
+-
+-		DMA_BLOCK(MGA_WACCEPTSEQ, 0x00000000,
+-			  MGA_WACCEPTSEQ, 0x00000000,
+-			  MGA_WACCEPTSEQ, 0x00000000,
+-			  MGA_WACCEPTSEQ, 0x18000000);
+-	}
+-
+-	DMA_BLOCK(MGA_WFLAG, 0x00000000,
+-		  MGA_WFLAG1, 0x00000000,
+-		  MGA_WR56, MGA_G400_WR56_MAGIC, MGA_DMAPAD, 0x00000000);
+-
+-	DMA_BLOCK(MGA_WR49, 0x00000000,	/* tex0              */
+-		  MGA_WR57, 0x00000000,	/* tex0              */
+-		  MGA_WR53, 0x00000000,	/* tex1              */
+-		  MGA_WR61, 0x00000000);	/* tex1              */
+-
+-	DMA_BLOCK(MGA_WR54, MGA_G400_WR_MAGIC,	/* tex0 width        */
+-		  MGA_WR62, MGA_G400_WR_MAGIC,	/* tex0 height       */
+-		  MGA_WR52, MGA_G400_WR_MAGIC,	/* tex1 width        */
+-		  MGA_WR60, MGA_G400_WR_MAGIC);	/* tex1 height       */
+-
+-	/* Padding required due to hardware bug */
+-	DMA_BLOCK(MGA_DMAPAD, 0xffffffff,
+-		  MGA_DMAPAD, 0xffffffff,
+-		  MGA_DMAPAD, 0xffffffff,
+-		  MGA_WIADDR2, (dev_priv->warp_pipe_phys[pipe] |
+-				MGA_WMODE_START | dev_priv->wagp_enable));
+-
+-	ADVANCE_DMA();
+-}
+-
+-static void mga_g200_emit_state(drm_mga_private_t *dev_priv)
+-{
+-	drm_mga_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	unsigned int dirty = sarea_priv->dirty;
+-
+-	if (sarea_priv->warp_pipe != dev_priv->warp_pipe) {
+-		mga_g200_emit_pipe(dev_priv);
+-		dev_priv->warp_pipe = sarea_priv->warp_pipe;
+-	}
+-
+-	if (dirty & MGA_UPLOAD_CONTEXT) {
+-		mga_g200_emit_context(dev_priv);
+-		sarea_priv->dirty &= ~MGA_UPLOAD_CONTEXT;
+-	}
+-
+-	if (dirty & MGA_UPLOAD_TEX0) {
+-		mga_g200_emit_tex0(dev_priv);
+-		sarea_priv->dirty &= ~MGA_UPLOAD_TEX0;
+-	}
+-}
+-
+-static void mga_g400_emit_state(drm_mga_private_t *dev_priv)
+-{
+-	drm_mga_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	unsigned int dirty = sarea_priv->dirty;
+-	int multitex = sarea_priv->warp_pipe & MGA_T2;
+-
+-	if (sarea_priv->warp_pipe != dev_priv->warp_pipe) {
+-		mga_g400_emit_pipe(dev_priv);
+-		dev_priv->warp_pipe = sarea_priv->warp_pipe;
+-	}
+-
+-	if (dirty & MGA_UPLOAD_CONTEXT) {
+-		mga_g400_emit_context(dev_priv);
+-		sarea_priv->dirty &= ~MGA_UPLOAD_CONTEXT;
+-	}
+-
+-	if (dirty & MGA_UPLOAD_TEX0) {
+-		mga_g400_emit_tex0(dev_priv);
+-		sarea_priv->dirty &= ~MGA_UPLOAD_TEX0;
+-	}
+-
+-	if ((dirty & MGA_UPLOAD_TEX1) && multitex) {
+-		mga_g400_emit_tex1(dev_priv);
+-		sarea_priv->dirty &= ~MGA_UPLOAD_TEX1;
+-	}
+-}
+-
+-/* ================================================================
+- * SAREA state verification
+- */
+-
+-/* Disallow all write destinations except the front and backbuffer.
+- */
+-static int mga_verify_context(drm_mga_private_t *dev_priv)
+-{
+-	drm_mga_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	drm_mga_context_regs_t *ctx = &sarea_priv->context_state;
+-
+-	if (ctx->dstorg != dev_priv->front_offset &&
+-	    ctx->dstorg != dev_priv->back_offset) {
+-		DRM_ERROR("*** bad DSTORG: %x (front %x, back %x)\n\n",
+-			  ctx->dstorg, dev_priv->front_offset,
+-			  dev_priv->back_offset);
+-		ctx->dstorg = 0;
+-		return -EINVAL;
+-	}
+-
+-	return 0;
+-}
+-
+-/* Disallow texture reads from PCI space.
+- */
+-static int mga_verify_tex(drm_mga_private_t *dev_priv, int unit)
+-{
+-	drm_mga_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	drm_mga_texture_regs_t *tex = &sarea_priv->tex_state[unit];
+-	unsigned int org;
+-
+-	org = tex->texorg & (MGA_TEXORGMAP_MASK | MGA_TEXORGACC_MASK);
+-
+-	if (org == (MGA_TEXORGMAP_SYSMEM | MGA_TEXORGACC_PCI)) {
+-		DRM_ERROR("*** bad TEXORG: 0x%x, unit %d\n", tex->texorg, unit);
+-		tex->texorg = 0;
+-		return -EINVAL;
+-	}
+-
+-	return 0;
+-}
+-
+-static int mga_verify_state(drm_mga_private_t *dev_priv)
+-{
+-	drm_mga_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	unsigned int dirty = sarea_priv->dirty;
+-	int ret = 0;
+-
+-	if (sarea_priv->nbox > MGA_NR_SAREA_CLIPRECTS)
+-		sarea_priv->nbox = MGA_NR_SAREA_CLIPRECTS;
+-
+-	if (dirty & MGA_UPLOAD_CONTEXT)
+-		ret |= mga_verify_context(dev_priv);
+-
+-	if (dirty & MGA_UPLOAD_TEX0)
+-		ret |= mga_verify_tex(dev_priv, 0);
+-
+-	if (dev_priv->chipset >= MGA_CARD_TYPE_G400) {
+-		if (dirty & MGA_UPLOAD_TEX1)
+-			ret |= mga_verify_tex(dev_priv, 1);
+-
+-		if (dirty & MGA_UPLOAD_PIPE)
+-			ret |= (sarea_priv->warp_pipe > MGA_MAX_G400_PIPES);
+-	} else {
+-		if (dirty & MGA_UPLOAD_PIPE)
+-			ret |= (sarea_priv->warp_pipe > MGA_MAX_G200_PIPES);
+-	}
+-
+-	return (ret == 0);
+-}
+-
+-static int mga_verify_iload(drm_mga_private_t *dev_priv,
+-			    unsigned int dstorg, unsigned int length)
+-{
+-	if (dstorg < dev_priv->texture_offset ||
+-	    dstorg + length > (dev_priv->texture_offset +
+-			       dev_priv->texture_size)) {
+-		DRM_ERROR("*** bad iload DSTORG: 0x%x\n", dstorg);
+-		return -EINVAL;
+-	}
+-
+-	if (length & MGA_ILOAD_MASK) {
+-		DRM_ERROR("*** bad iload length: 0x%x\n",
+-			  length & MGA_ILOAD_MASK);
+-		return -EINVAL;
+-	}
+-
+-	return 0;
+-}
+-
+-static int mga_verify_blit(drm_mga_private_t *dev_priv,
+-			   unsigned int srcorg, unsigned int dstorg)
+-{
+-	if ((srcorg & 0x3) == (MGA_SRCACC_PCI | MGA_SRCMAP_SYSMEM) ||
+-	    (dstorg & 0x3) == (MGA_SRCACC_PCI | MGA_SRCMAP_SYSMEM)) {
+-		DRM_ERROR("*** bad blit: src=0x%x dst=0x%x\n", srcorg, dstorg);
+-		return -EINVAL;
+-	}
+-	return 0;
+-}
+-
+-/* ================================================================
+- *
+- */
+-
+-static void mga_dma_dispatch_clear(struct drm_device *dev, drm_mga_clear_t *clear)
+-{
+-	drm_mga_private_t *dev_priv = dev->dev_private;
+-	drm_mga_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	drm_mga_context_regs_t *ctx = &sarea_priv->context_state;
+-	struct drm_clip_rect *pbox = sarea_priv->boxes;
+-	int nbox = sarea_priv->nbox;
+-	int i;
+-	DMA_LOCALS;
+-	DRM_DEBUG("\n");
+-
+-	BEGIN_DMA(1);
+-
+-	DMA_BLOCK(MGA_DMAPAD, 0x00000000,
+-		  MGA_DMAPAD, 0x00000000,
+-		  MGA_DWGSYNC, 0x00007100, MGA_DWGSYNC, 0x00007000);
+-
+-	ADVANCE_DMA();
+-
+-	for (i = 0; i < nbox; i++) {
+-		struct drm_clip_rect *box = &pbox[i];
+-		u32 height = box->y2 - box->y1;
+-
+-		DRM_DEBUG("   from=%d,%d to=%d,%d\n",
+-			  box->x1, box->y1, box->x2, box->y2);
+-
+-		if (clear->flags & MGA_FRONT) {
+-			BEGIN_DMA(2);
+-
+-			DMA_BLOCK(MGA_DMAPAD, 0x00000000,
+-				  MGA_PLNWT, clear->color_mask,
+-				  MGA_YDSTLEN, (box->y1 << 16) | height,
+-				  MGA_FXBNDRY, (box->x2 << 16) | box->x1);
+-
+-			DMA_BLOCK(MGA_DMAPAD, 0x00000000,
+-				  MGA_FCOL, clear->clear_color,
+-				  MGA_DSTORG, dev_priv->front_offset,
+-				  MGA_DWGCTL + MGA_EXEC, dev_priv->clear_cmd);
+-
+-			ADVANCE_DMA();
+-		}
+-
+-		if (clear->flags & MGA_BACK) {
+-			BEGIN_DMA(2);
+-
+-			DMA_BLOCK(MGA_DMAPAD, 0x00000000,
+-				  MGA_PLNWT, clear->color_mask,
+-				  MGA_YDSTLEN, (box->y1 << 16) | height,
+-				  MGA_FXBNDRY, (box->x2 << 16) | box->x1);
+-
+-			DMA_BLOCK(MGA_DMAPAD, 0x00000000,
+-				  MGA_FCOL, clear->clear_color,
+-				  MGA_DSTORG, dev_priv->back_offset,
+-				  MGA_DWGCTL + MGA_EXEC, dev_priv->clear_cmd);
+-
+-			ADVANCE_DMA();
+-		}
+-
+-		if (clear->flags & MGA_DEPTH) {
+-			BEGIN_DMA(2);
+-
+-			DMA_BLOCK(MGA_DMAPAD, 0x00000000,
+-				  MGA_PLNWT, clear->depth_mask,
+-				  MGA_YDSTLEN, (box->y1 << 16) | height,
+-				  MGA_FXBNDRY, (box->x2 << 16) | box->x1);
+-
+-			DMA_BLOCK(MGA_DMAPAD, 0x00000000,
+-				  MGA_FCOL, clear->clear_depth,
+-				  MGA_DSTORG, dev_priv->depth_offset,
+-				  MGA_DWGCTL + MGA_EXEC, dev_priv->clear_cmd);
+-
+-			ADVANCE_DMA();
+-		}
+-
+-	}
+-
+-	BEGIN_DMA(1);
+-
+-	/* Force reset of DWGCTL */
+-	DMA_BLOCK(MGA_DMAPAD, 0x00000000,
+-		  MGA_DMAPAD, 0x00000000,
+-		  MGA_PLNWT, ctx->plnwt, MGA_DWGCTL, ctx->dwgctl);
+-
+-	ADVANCE_DMA();
+-
+-	FLUSH_DMA();
+-}
+-
+-static void mga_dma_dispatch_swap(struct drm_device *dev)
+-{
+-	drm_mga_private_t *dev_priv = dev->dev_private;
+-	drm_mga_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	drm_mga_context_regs_t *ctx = &sarea_priv->context_state;
+-	struct drm_clip_rect *pbox = sarea_priv->boxes;
+-	int nbox = sarea_priv->nbox;
+-	int i;
+-	DMA_LOCALS;
+-	DRM_DEBUG("\n");
+-
+-	sarea_priv->last_frame.head = dev_priv->prim.tail;
+-	sarea_priv->last_frame.wrap = dev_priv->prim.last_wrap;
+-
+-	BEGIN_DMA(4 + nbox);
+-
+-	DMA_BLOCK(MGA_DMAPAD, 0x00000000,
+-		  MGA_DMAPAD, 0x00000000,
+-		  MGA_DWGSYNC, 0x00007100, MGA_DWGSYNC, 0x00007000);
+-
+-	DMA_BLOCK(MGA_DSTORG, dev_priv->front_offset,
+-		  MGA_MACCESS, dev_priv->maccess,
+-		  MGA_SRCORG, dev_priv->back_offset,
+-		  MGA_AR5, dev_priv->front_pitch);
+-
+-	DMA_BLOCK(MGA_DMAPAD, 0x00000000,
+-		  MGA_DMAPAD, 0x00000000,
+-		  MGA_PLNWT, 0xffffffff, MGA_DWGCTL, MGA_DWGCTL_COPY);
+-
+-	for (i = 0; i < nbox; i++) {
+-		struct drm_clip_rect *box = &pbox[i];
+-		u32 height = box->y2 - box->y1;
+-		u32 start = box->y1 * dev_priv->front_pitch;
+-
+-		DRM_DEBUG("   from=%d,%d to=%d,%d\n",
+-			  box->x1, box->y1, box->x2, box->y2);
+-
+-		DMA_BLOCK(MGA_AR0, start + box->x2 - 1,
+-			  MGA_AR3, start + box->x1,
+-			  MGA_FXBNDRY, ((box->x2 - 1) << 16) | box->x1,
+-			  MGA_YDSTLEN + MGA_EXEC, (box->y1 << 16) | height);
+-	}
+-
+-	DMA_BLOCK(MGA_DMAPAD, 0x00000000,
+-		  MGA_PLNWT, ctx->plnwt,
+-		  MGA_SRCORG, dev_priv->front_offset, MGA_DWGCTL, ctx->dwgctl);
+-
+-	ADVANCE_DMA();
+-
+-	FLUSH_DMA();
+-
+-	DRM_DEBUG("... done.\n");
+-}
+-
+-static void mga_dma_dispatch_vertex(struct drm_device *dev, struct drm_buf *buf)
+-{
+-	drm_mga_private_t *dev_priv = dev->dev_private;
+-	drm_mga_buf_priv_t *buf_priv = buf->dev_private;
+-	drm_mga_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	u32 address = (u32) buf->bus_address;
+-	u32 length = (u32) buf->used;
+-	int i = 0;
+-	DMA_LOCALS;
+-	DRM_DEBUG("buf=%d used=%d\n", buf->idx, buf->used);
+-
+-	if (buf->used) {
+-		buf_priv->dispatched = 1;
+-
+-		MGA_EMIT_STATE(dev_priv, sarea_priv->dirty);
+-
+-		do {
+-			if (i < sarea_priv->nbox) {
+-				mga_emit_clip_rect(dev_priv,
+-						   &sarea_priv->boxes[i]);
+-			}
+-
+-			BEGIN_DMA(1);
+-
+-			DMA_BLOCK(MGA_DMAPAD, 0x00000000,
+-				  MGA_DMAPAD, 0x00000000,
+-				  MGA_SECADDRESS, (address |
+-						   MGA_DMA_VERTEX),
+-				  MGA_SECEND, ((address + length) |
+-					       dev_priv->dma_access));
+-
+-			ADVANCE_DMA();
+-		} while (++i < sarea_priv->nbox);
+-	}
+-
+-	if (buf_priv->discard) {
+-		AGE_BUFFER(buf_priv);
+-		buf->pending = 0;
+-		buf->used = 0;
+-		buf_priv->dispatched = 0;
+-
+-		mga_freelist_put(dev, buf);
+-	}
+-
+-	FLUSH_DMA();
+-}
+-
+-static void mga_dma_dispatch_indices(struct drm_device *dev, struct drm_buf *buf,
+-				     unsigned int start, unsigned int end)
+-{
+-	drm_mga_private_t *dev_priv = dev->dev_private;
+-	drm_mga_buf_priv_t *buf_priv = buf->dev_private;
+-	drm_mga_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	u32 address = (u32) buf->bus_address;
+-	int i = 0;
+-	DMA_LOCALS;
+-	DRM_DEBUG("buf=%d start=%d end=%d\n", buf->idx, start, end);
+-
+-	if (start != end) {
+-		buf_priv->dispatched = 1;
+-
+-		MGA_EMIT_STATE(dev_priv, sarea_priv->dirty);
+-
+-		do {
+-			if (i < sarea_priv->nbox) {
+-				mga_emit_clip_rect(dev_priv,
+-						   &sarea_priv->boxes[i]);
+-			}
+-
+-			BEGIN_DMA(1);
+-
+-			DMA_BLOCK(MGA_DMAPAD, 0x00000000,
+-				  MGA_DMAPAD, 0x00000000,
+-				  MGA_SETUPADDRESS, address + start,
+-				  MGA_SETUPEND, ((address + end) |
+-						 dev_priv->dma_access));
+-
+-			ADVANCE_DMA();
+-		} while (++i < sarea_priv->nbox);
+-	}
+-
+-	if (buf_priv->discard) {
+-		AGE_BUFFER(buf_priv);
+-		buf->pending = 0;
+-		buf->used = 0;
+-		buf_priv->dispatched = 0;
+-
+-		mga_freelist_put(dev, buf);
+-	}
+-
+-	FLUSH_DMA();
+-}
+-
+-/* This copies a 64 byte aligned agp region to the frambuffer with a
+- * standard blit, the ioctl needs to do checking.
+- */
+-static void mga_dma_dispatch_iload(struct drm_device *dev, struct drm_buf *buf,
+-				   unsigned int dstorg, unsigned int length)
+-{
+-	drm_mga_private_t *dev_priv = dev->dev_private;
+-	drm_mga_buf_priv_t *buf_priv = buf->dev_private;
+-	drm_mga_context_regs_t *ctx = &dev_priv->sarea_priv->context_state;
+-	u32 srcorg =
+-	    buf->bus_address | dev_priv->dma_access | MGA_SRCMAP_SYSMEM;
+-	u32 y2;
+-	DMA_LOCALS;
+-	DRM_DEBUG("buf=%d used=%d\n", buf->idx, buf->used);
+-
+-	y2 = length / 64;
+-
+-	BEGIN_DMA(5);
+-
+-	DMA_BLOCK(MGA_DMAPAD, 0x00000000,
+-		  MGA_DMAPAD, 0x00000000,
+-		  MGA_DWGSYNC, 0x00007100, MGA_DWGSYNC, 0x00007000);
+-
+-	DMA_BLOCK(MGA_DSTORG, dstorg,
+-		  MGA_MACCESS, 0x00000000, MGA_SRCORG, srcorg, MGA_AR5, 64);
+-
+-	DMA_BLOCK(MGA_PITCH, 64,
+-		  MGA_PLNWT, 0xffffffff,
+-		  MGA_DMAPAD, 0x00000000, MGA_DWGCTL, MGA_DWGCTL_COPY);
+-
+-	DMA_BLOCK(MGA_AR0, 63,
+-		  MGA_AR3, 0,
+-		  MGA_FXBNDRY, (63 << 16) | 0, MGA_YDSTLEN + MGA_EXEC, y2);
+-
+-	DMA_BLOCK(MGA_PLNWT, ctx->plnwt,
+-		  MGA_SRCORG, dev_priv->front_offset,
+-		  MGA_PITCH, dev_priv->front_pitch, MGA_DWGSYNC, 0x00007000);
+-
+-	ADVANCE_DMA();
+-
+-	AGE_BUFFER(buf_priv);
+-
+-	buf->pending = 0;
+-	buf->used = 0;
+-	buf_priv->dispatched = 0;
+-
+-	mga_freelist_put(dev, buf);
+-
+-	FLUSH_DMA();
+-}
+-
+-static void mga_dma_dispatch_blit(struct drm_device *dev, drm_mga_blit_t *blit)
+-{
+-	drm_mga_private_t *dev_priv = dev->dev_private;
+-	drm_mga_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	drm_mga_context_regs_t *ctx = &sarea_priv->context_state;
+-	struct drm_clip_rect *pbox = sarea_priv->boxes;
+-	int nbox = sarea_priv->nbox;
+-	u32 scandir = 0, i;
+-	DMA_LOCALS;
+-	DRM_DEBUG("\n");
+-
+-	BEGIN_DMA(4 + nbox);
+-
+-	DMA_BLOCK(MGA_DMAPAD, 0x00000000,
+-		  MGA_DMAPAD, 0x00000000,
+-		  MGA_DWGSYNC, 0x00007100, MGA_DWGSYNC, 0x00007000);
+-
+-	DMA_BLOCK(MGA_DWGCTL, MGA_DWGCTL_COPY,
+-		  MGA_PLNWT, blit->planemask,
+-		  MGA_SRCORG, blit->srcorg, MGA_DSTORG, blit->dstorg);
+-
+-	DMA_BLOCK(MGA_SGN, scandir,
+-		  MGA_MACCESS, dev_priv->maccess,
+-		  MGA_AR5, blit->ydir * blit->src_pitch,
+-		  MGA_PITCH, blit->dst_pitch);
+-
+-	for (i = 0; i < nbox; i++) {
+-		int srcx = pbox[i].x1 + blit->delta_sx;
+-		int srcy = pbox[i].y1 + blit->delta_sy;
+-		int dstx = pbox[i].x1 + blit->delta_dx;
+-		int dsty = pbox[i].y1 + blit->delta_dy;
+-		int h = pbox[i].y2 - pbox[i].y1;
+-		int w = pbox[i].x2 - pbox[i].x1 - 1;
+-		int start;
+-
+-		if (blit->ydir == -1)
+-			srcy = blit->height - srcy - 1;
+-
+-		start = srcy * blit->src_pitch + srcx;
+-
+-		DMA_BLOCK(MGA_AR0, start + w,
+-			  MGA_AR3, start,
+-			  MGA_FXBNDRY, ((dstx + w) << 16) | (dstx & 0xffff),
+-			  MGA_YDSTLEN + MGA_EXEC, (dsty << 16) | h);
+-	}
+-
+-	/* Do something to flush AGP?
+-	 */
+-
+-	/* Force reset of DWGCTL */
+-	DMA_BLOCK(MGA_DMAPAD, 0x00000000,
+-		  MGA_PLNWT, ctx->plnwt,
+-		  MGA_PITCH, dev_priv->front_pitch, MGA_DWGCTL, ctx->dwgctl);
+-
+-	ADVANCE_DMA();
+-}
+-
+-/* ================================================================
+- *
+- */
+-
+-static int mga_dma_clear(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	drm_mga_private_t *dev_priv = dev->dev_private;
+-	drm_mga_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	drm_mga_clear_t *clear = data;
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	if (sarea_priv->nbox > MGA_NR_SAREA_CLIPRECTS)
+-		sarea_priv->nbox = MGA_NR_SAREA_CLIPRECTS;
+-
+-	WRAP_TEST_WITH_RETURN(dev_priv);
+-
+-	mga_dma_dispatch_clear(dev, clear);
+-
+-	/* Make sure we restore the 3D state next time.
+-	 */
+-	dev_priv->sarea_priv->dirty |= MGA_UPLOAD_CONTEXT;
+-
+-	return 0;
+-}
+-
+-static int mga_dma_swap(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	drm_mga_private_t *dev_priv = dev->dev_private;
+-	drm_mga_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	if (sarea_priv->nbox > MGA_NR_SAREA_CLIPRECTS)
+-		sarea_priv->nbox = MGA_NR_SAREA_CLIPRECTS;
+-
+-	WRAP_TEST_WITH_RETURN(dev_priv);
+-
+-	mga_dma_dispatch_swap(dev);
+-
+-	/* Make sure we restore the 3D state next time.
+-	 */
+-	dev_priv->sarea_priv->dirty |= MGA_UPLOAD_CONTEXT;
+-
+-	return 0;
+-}
+-
+-static int mga_dma_vertex(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	drm_mga_private_t *dev_priv = dev->dev_private;
+-	struct drm_device_dma *dma = dev->dma;
+-	struct drm_buf *buf;
+-	drm_mga_buf_priv_t *buf_priv;
+-	drm_mga_vertex_t *vertex = data;
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	if (vertex->idx < 0 || vertex->idx > dma->buf_count)
+-		return -EINVAL;
+-	buf = dma->buflist[vertex->idx];
+-	buf_priv = buf->dev_private;
+-
+-	buf->used = vertex->used;
+-	buf_priv->discard = vertex->discard;
+-
+-	if (!mga_verify_state(dev_priv)) {
+-		if (vertex->discard) {
+-			if (buf_priv->dispatched == 1)
+-				AGE_BUFFER(buf_priv);
+-			buf_priv->dispatched = 0;
+-			mga_freelist_put(dev, buf);
+-		}
+-		return -EINVAL;
+-	}
+-
+-	WRAP_TEST_WITH_RETURN(dev_priv);
+-
+-	mga_dma_dispatch_vertex(dev, buf);
+-
+-	return 0;
+-}
+-
+-static int mga_dma_indices(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	drm_mga_private_t *dev_priv = dev->dev_private;
+-	struct drm_device_dma *dma = dev->dma;
+-	struct drm_buf *buf;
+-	drm_mga_buf_priv_t *buf_priv;
+-	drm_mga_indices_t *indices = data;
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	if (indices->idx < 0 || indices->idx > dma->buf_count)
+-		return -EINVAL;
+-
+-	buf = dma->buflist[indices->idx];
+-	buf_priv = buf->dev_private;
+-
+-	buf_priv->discard = indices->discard;
+-
+-	if (!mga_verify_state(dev_priv)) {
+-		if (indices->discard) {
+-			if (buf_priv->dispatched == 1)
+-				AGE_BUFFER(buf_priv);
+-			buf_priv->dispatched = 0;
+-			mga_freelist_put(dev, buf);
+-		}
+-		return -EINVAL;
+-	}
+-
+-	WRAP_TEST_WITH_RETURN(dev_priv);
+-
+-	mga_dma_dispatch_indices(dev, buf, indices->start, indices->end);
+-
+-	return 0;
+-}
+-
+-static int mga_dma_iload(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	struct drm_device_dma *dma = dev->dma;
+-	drm_mga_private_t *dev_priv = dev->dev_private;
+-	struct drm_buf *buf;
+-	drm_mga_iload_t *iload = data;
+-	DRM_DEBUG("\n");
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-#if 0
+-	if (mga_do_wait_for_idle(dev_priv) < 0) {
+-		if (MGA_DMA_DEBUG)
+-			DRM_INFO("-EBUSY\n");
+-		return -EBUSY;
+-	}
+-#endif
+-	if (iload->idx < 0 || iload->idx > dma->buf_count)
+-		return -EINVAL;
+-
+-	buf = dma->buflist[iload->idx];
+-
+-	if (mga_verify_iload(dev_priv, iload->dstorg, iload->length)) {
+-		mga_freelist_put(dev, buf);
+-		return -EINVAL;
+-	}
+-
+-	WRAP_TEST_WITH_RETURN(dev_priv);
+-
+-	mga_dma_dispatch_iload(dev, buf, iload->dstorg, iload->length);
+-
+-	/* Make sure we restore the 3D state next time.
+-	 */
+-	dev_priv->sarea_priv->dirty |= MGA_UPLOAD_CONTEXT;
+-
+-	return 0;
+-}
+-
+-static int mga_dma_blit(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	drm_mga_private_t *dev_priv = dev->dev_private;
+-	drm_mga_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	drm_mga_blit_t *blit = data;
+-	DRM_DEBUG("\n");
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	if (sarea_priv->nbox > MGA_NR_SAREA_CLIPRECTS)
+-		sarea_priv->nbox = MGA_NR_SAREA_CLIPRECTS;
+-
+-	if (mga_verify_blit(dev_priv, blit->srcorg, blit->dstorg))
+-		return -EINVAL;
+-
+-	WRAP_TEST_WITH_RETURN(dev_priv);
+-
+-	mga_dma_dispatch_blit(dev, blit);
+-
+-	/* Make sure we restore the 3D state next time.
+-	 */
+-	dev_priv->sarea_priv->dirty |= MGA_UPLOAD_CONTEXT;
+-
+-	return 0;
+-}
+-
+-int mga_getparam(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	drm_mga_private_t *dev_priv = dev->dev_private;
+-	drm_mga_getparam_t *param = data;
+-	struct pci_dev *pdev = to_pci_dev(dev->dev);
+-	int value;
+-
+-	if (!dev_priv) {
+-		DRM_ERROR("called with no initialization\n");
+-		return -EINVAL;
+-	}
+-
+-	DRM_DEBUG("pid=%d\n", task_pid_nr(current));
+-
+-	switch (param->param) {
+-	case MGA_PARAM_IRQ_NR:
+-		value = pdev->irq;
+-		break;
+-	case MGA_PARAM_CARD_TYPE:
+-		value = dev_priv->chipset;
+-		break;
+-	default:
+-		return -EINVAL;
+-	}
+-
+-	if (copy_to_user(param->value, &value, sizeof(int))) {
+-		DRM_ERROR("copy_to_user\n");
+-		return -EFAULT;
+-	}
+-
+-	return 0;
+-}
+-
+-static int mga_set_fence(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	drm_mga_private_t *dev_priv = dev->dev_private;
+-	u32 *fence = data;
+-	DMA_LOCALS;
+-
+-	if (!dev_priv) {
+-		DRM_ERROR("called with no initialization\n");
+-		return -EINVAL;
+-	}
+-
+-	DRM_DEBUG("pid=%d\n", task_pid_nr(current));
+-
+-	/* I would normal do this assignment in the declaration of fence,
+-	 * but dev_priv may be NULL.
+-	 */
+-
+-	*fence = dev_priv->next_fence_to_post;
+-	dev_priv->next_fence_to_post++;
+-
+-	BEGIN_DMA(1);
+-	DMA_BLOCK(MGA_DMAPAD, 0x00000000,
+-		  MGA_DMAPAD, 0x00000000,
+-		  MGA_DMAPAD, 0x00000000, MGA_SOFTRAP, 0x00000000);
+-	ADVANCE_DMA();
+-
+-	return 0;
+-}
+-
+-static int mga_wait_fence(struct drm_device *dev, void *data, struct drm_file *
+-file_priv)
+-{
+-	drm_mga_private_t *dev_priv = dev->dev_private;
+-	u32 *fence = data;
+-
+-	if (!dev_priv) {
+-		DRM_ERROR("called with no initialization\n");
+-		return -EINVAL;
+-	}
+-
+-	DRM_DEBUG("pid=%d\n", task_pid_nr(current));
+-
+-	mga_driver_fence_wait(dev, fence);
+-	return 0;
+-}
+-
+-const struct drm_ioctl_desc mga_ioctls[] = {
+-	DRM_IOCTL_DEF_DRV(MGA_INIT, mga_dma_init, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
+-	DRM_IOCTL_DEF_DRV(MGA_FLUSH, mga_dma_flush, DRM_AUTH),
+-	DRM_IOCTL_DEF_DRV(MGA_RESET, mga_dma_reset, DRM_AUTH),
+-	DRM_IOCTL_DEF_DRV(MGA_SWAP, mga_dma_swap, DRM_AUTH),
+-	DRM_IOCTL_DEF_DRV(MGA_CLEAR, mga_dma_clear, DRM_AUTH),
+-	DRM_IOCTL_DEF_DRV(MGA_VERTEX, mga_dma_vertex, DRM_AUTH),
+-	DRM_IOCTL_DEF_DRV(MGA_INDICES, mga_dma_indices, DRM_AUTH),
+-	DRM_IOCTL_DEF_DRV(MGA_ILOAD, mga_dma_iload, DRM_AUTH),
+-	DRM_IOCTL_DEF_DRV(MGA_BLIT, mga_dma_blit, DRM_AUTH),
+-	DRM_IOCTL_DEF_DRV(MGA_GETPARAM, mga_getparam, DRM_AUTH),
+-	DRM_IOCTL_DEF_DRV(MGA_SET_FENCE, mga_set_fence, DRM_AUTH),
+-	DRM_IOCTL_DEF_DRV(MGA_WAIT_FENCE, mga_wait_fence, DRM_AUTH),
+-	DRM_IOCTL_DEF_DRV(MGA_DMA_BOOTSTRAP, mga_dma_bootstrap, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
+-};
+-
+-int mga_max_ioctl = ARRAY_SIZE(mga_ioctls);
+diff --git a/drivers/gpu/drm/mga/mga_warp.c b/drivers/gpu/drm/mga/mga_warp.c
+deleted file mode 100644
+index b5ef1d2c8b1c..000000000000
+--- a/drivers/gpu/drm/mga/mga_warp.c
++++ /dev/null
+@@ -1,167 +0,0 @@
+-/* mga_warp.c -- Matrox G200/G400 WARP engine management -*- linux-c -*-
+- * Created: Thu Jan 11 21:29:32 2001 by gareth@valinux.com
+- *
+- * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
+- * All Rights Reserved.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the next
+- * paragraph) shall be included in all copies or substantial portions of the
+- * Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+- * VA LINUX SYSTEMS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+- * OTHER DEALINGS IN THE SOFTWARE.
+- *
+- * Authors:
+- *    Gareth Hughes <gareth@valinux.com>
+- */
+-
+-#include <linux/firmware.h>
+-#include <linux/ihex.h>
+-#include <linux/module.h>
+-#include <linux/platform_device.h>
+-
+-#include "mga_drv.h"
+-
+-#define FIRMWARE_G200 "matrox/g200_warp.fw"
+-#define FIRMWARE_G400 "matrox/g400_warp.fw"
+-
+-MODULE_FIRMWARE(FIRMWARE_G200);
+-MODULE_FIRMWARE(FIRMWARE_G400);
+-
+-#define MGA_WARP_CODE_ALIGN		256	/* in bytes */
+-
+-#define WARP_UCODE_SIZE(size)		ALIGN(size, MGA_WARP_CODE_ALIGN)
+-
+-int mga_warp_install_microcode(drm_mga_private_t *dev_priv)
+-{
+-	unsigned char *vcbase = dev_priv->warp->handle;
+-	unsigned long pcbase = dev_priv->warp->offset;
+-	const char *firmware_name;
+-	struct platform_device *pdev;
+-	const struct firmware *fw = NULL;
+-	const struct ihex_binrec *rec;
+-	unsigned int size;
+-	int n_pipes, where;
+-	int rc = 0;
+-
+-	switch (dev_priv->chipset) {
+-	case MGA_CARD_TYPE_G400:
+-	case MGA_CARD_TYPE_G550:
+-		firmware_name = FIRMWARE_G400;
+-		n_pipes = MGA_MAX_G400_PIPES;
+-		break;
+-	case MGA_CARD_TYPE_G200:
+-		firmware_name = FIRMWARE_G200;
+-		n_pipes = MGA_MAX_G200_PIPES;
+-		break;
+-	default:
+-		return -EINVAL;
+-	}
+-
+-	pdev = platform_device_register_simple("mga_warp", 0, NULL, 0);
+-	if (IS_ERR(pdev)) {
+-		DRM_ERROR("mga: Failed to register microcode\n");
+-		return PTR_ERR(pdev);
+-	}
+-	rc = request_ihex_firmware(&fw, firmware_name, &pdev->dev);
+-	platform_device_unregister(pdev);
+-	if (rc) {
+-		DRM_ERROR("mga: Failed to load microcode \"%s\"\n",
+-			  firmware_name);
+-		return rc;
+-	}
+-
+-	size = 0;
+-	where = 0;
+-	for (rec = (const struct ihex_binrec *)fw->data;
+-	     rec;
+-	     rec = ihex_next_binrec(rec)) {
+-		size += WARP_UCODE_SIZE(be16_to_cpu(rec->len));
+-		where++;
+-	}
+-
+-	if (where != n_pipes) {
+-		DRM_ERROR("mga: Invalid microcode \"%s\"\n", firmware_name);
+-		rc = -EINVAL;
+-		goto out;
+-	}
+-	size = PAGE_ALIGN(size);
+-	DRM_DEBUG("MGA ucode size = %d bytes\n", size);
+-	if (size > dev_priv->warp->size) {
+-		DRM_ERROR("microcode too large! (%u > %lu)\n",
+-			  size, dev_priv->warp->size);
+-		rc = -ENOMEM;
+-		goto out;
+-	}
+-
+-	memset(dev_priv->warp_pipe_phys, 0, sizeof(dev_priv->warp_pipe_phys));
+-
+-	where = 0;
+-	for (rec = (const struct ihex_binrec *)fw->data;
+-	     rec;
+-	     rec = ihex_next_binrec(rec)) {
+-		unsigned int src_size, dst_size;
+-
+-		DRM_DEBUG(" pcbase = 0x%08lx  vcbase = %p\n", pcbase, vcbase);
+-		dev_priv->warp_pipe_phys[where] = pcbase;
+-		src_size = be16_to_cpu(rec->len);
+-		dst_size = WARP_UCODE_SIZE(src_size);
+-		memcpy(vcbase, rec->data, src_size);
+-		pcbase += dst_size;
+-		vcbase += dst_size;
+-		where++;
+-	}
+-
+-out:
+-	release_firmware(fw);
+-	return rc;
+-}
+-
+-#define WMISC_EXPECTED		(MGA_WUCODECACHE_ENABLE | MGA_WMASTER_ENABLE)
+-
+-int mga_warp_init(drm_mga_private_t *dev_priv)
+-{
+-	u32 wmisc;
+-
+-	/* FIXME: Get rid of these damned magic numbers...
+-	 */
+-	switch (dev_priv->chipset) {
+-	case MGA_CARD_TYPE_G400:
+-	case MGA_CARD_TYPE_G550:
+-		MGA_WRITE(MGA_WIADDR2, MGA_WMODE_SUSPEND);
+-		MGA_WRITE(MGA_WGETMSB, 0x00000E00);
+-		MGA_WRITE(MGA_WVRTXSZ, 0x00001807);
+-		MGA_WRITE(MGA_WACCEPTSEQ, 0x18000000);
+-		break;
+-	case MGA_CARD_TYPE_G200:
+-		MGA_WRITE(MGA_WIADDR, MGA_WMODE_SUSPEND);
+-		MGA_WRITE(MGA_WGETMSB, 0x1606);
+-		MGA_WRITE(MGA_WVRTXSZ, 7);
+-		break;
+-	default:
+-		return -EINVAL;
+-	}
+-
+-	MGA_WRITE(MGA_WMISC, (MGA_WUCODECACHE_ENABLE |
+-			      MGA_WMASTER_ENABLE | MGA_WCACHEFLUSH_ENABLE));
+-	wmisc = MGA_READ(MGA_WMISC);
+-	if (wmisc != WMISC_EXPECTED) {
+-		DRM_ERROR("WARP engine config failed! 0x%x != 0x%x\n",
+-			  wmisc, WMISC_EXPECTED);
+-		return -EINVAL;
+-	}
+-
+-	return 0;
+-}
+diff --git a/drivers/gpu/drm/r128/Makefile b/drivers/gpu/drm/r128/Makefile
+deleted file mode 100644
+index c07a069533ef..000000000000
+--- a/drivers/gpu/drm/r128/Makefile
++++ /dev/null
+@@ -1,10 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0-only
+-#
+-# Makefile for the drm device driver.  This driver provides support for the
+-# Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
+-
+-r128-y   := r128_drv.o r128_cce.o r128_state.o r128_irq.o ati_pcigart.o
+-
+-r128-$(CONFIG_COMPAT)   += r128_ioc32.o
+-
+-obj-$(CONFIG_DRM_R128)	+= r128.o
+diff --git a/drivers/gpu/drm/r128/ati_pcigart.c b/drivers/gpu/drm/r128/ati_pcigart.c
+deleted file mode 100644
+index dde0501aea68..000000000000
+--- a/drivers/gpu/drm/r128/ati_pcigart.c
++++ /dev/null
+@@ -1,228 +0,0 @@
+-/*
+- * \file ati_pcigart.c
+- * ATI PCI GART support
+- *
+- * \author Gareth Hughes <gareth@valinux.com>
+- */
+-
+-/*
+- * Created: Wed Dec 13 21:52:19 2000 by gareth@valinux.com
+- *
+- * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
+- * All Rights Reserved.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the next
+- * paragraph) shall be included in all copies or substantial portions of the
+- * Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+- * PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+- * DEALINGS IN THE SOFTWARE.
+- */
+-
+-#include <linux/export.h>
+-#include <linux/pci.h>
+-
+-#include <drm/drm_device.h>
+-#include <drm/drm_legacy.h>
+-#include <drm/drm_print.h>
+-
+-#include "ati_pcigart.h"
+-
+-# define ATI_PCIGART_PAGE_SIZE		4096	/**< PCI GART page size */
+-
+-static int drm_ati_alloc_pcigart_table(struct drm_device *dev,
+-				       struct drm_ati_pcigart_info *gart_info)
+-{
+-	drm_dma_handle_t *dmah = kmalloc(sizeof(drm_dma_handle_t), GFP_KERNEL);
+-
+-	if (!dmah)
+-		return -ENOMEM;
+-
+-	dmah->size = gart_info->table_size;
+-	dmah->vaddr = dma_alloc_coherent(dev->dev,
+-					 dmah->size,
+-					 &dmah->busaddr,
+-					 GFP_KERNEL);
+-
+-	if (!dmah->vaddr) {
+-		kfree(dmah);
+-		return -ENOMEM;
+-	}
+-
+-	gart_info->table_handle = dmah;
+-	return 0;
+-}
+-
+-static void drm_ati_free_pcigart_table(struct drm_device *dev,
+-				       struct drm_ati_pcigart_info *gart_info)
+-{
+-	drm_dma_handle_t *dmah = gart_info->table_handle;
+-
+-	dma_free_coherent(dev->dev, dmah->size, dmah->vaddr, dmah->busaddr);
+-	kfree(dmah);
+-
+-	gart_info->table_handle = NULL;
+-}
+-
+-int drm_ati_pcigart_cleanup(struct drm_device *dev, struct drm_ati_pcigart_info *gart_info)
+-{
+-	struct drm_sg_mem *entry = dev->sg;
+-	struct pci_dev *pdev = to_pci_dev(dev->dev);
+-	unsigned long pages;
+-	int i;
+-	int max_pages;
+-
+-	/* we need to support large memory configurations */
+-	if (!entry) {
+-		DRM_ERROR("no scatter/gather memory!\n");
+-		return 0;
+-	}
+-
+-	if (gart_info->bus_addr) {
+-
+-		max_pages = (gart_info->table_size / sizeof(u32));
+-		pages = (entry->pages <= max_pages)
+-		  ? entry->pages : max_pages;
+-
+-		for (i = 0; i < pages; i++) {
+-			if (!entry->busaddr[i])
+-				break;
+-			dma_unmap_page(&pdev->dev, entry->busaddr[i],
+-				       PAGE_SIZE, DMA_BIDIRECTIONAL);
+-		}
+-
+-		if (gart_info->gart_table_location == DRM_ATI_GART_MAIN)
+-			gart_info->bus_addr = 0;
+-	}
+-
+-	if (gart_info->gart_table_location == DRM_ATI_GART_MAIN &&
+-	    gart_info->table_handle) {
+-		drm_ati_free_pcigart_table(dev, gart_info);
+-	}
+-
+-	return 1;
+-}
+-
+-int drm_ati_pcigart_init(struct drm_device *dev, struct drm_ati_pcigart_info *gart_info)
+-{
+-	struct drm_local_map *map = &gart_info->mapping;
+-	struct drm_sg_mem *entry = dev->sg;
+-	struct pci_dev *pdev = to_pci_dev(dev->dev);
+-	void *address = NULL;
+-	unsigned long pages;
+-	u32 *pci_gart = NULL, page_base, gart_idx;
+-	dma_addr_t bus_address = 0;
+-	int i, j, ret = -ENOMEM;
+-	int max_ati_pages, max_real_pages;
+-
+-	if (!entry) {
+-		DRM_ERROR("no scatter/gather memory!\n");
+-		goto done;
+-	}
+-
+-	if (gart_info->gart_table_location == DRM_ATI_GART_MAIN) {
+-		DRM_DEBUG("PCI: no table in VRAM: using normal RAM\n");
+-
+-		if (dma_set_mask(&pdev->dev, gart_info->table_mask)) {
+-			DRM_ERROR("fail to set dma mask to 0x%Lx\n",
+-				  (unsigned long long)gart_info->table_mask);
+-			ret = -EFAULT;
+-			goto done;
+-		}
+-
+-		ret = drm_ati_alloc_pcigart_table(dev, gart_info);
+-		if (ret) {
+-			DRM_ERROR("cannot allocate PCI GART page!\n");
+-			goto done;
+-		}
+-
+-		pci_gart = gart_info->table_handle->vaddr;
+-		address = gart_info->table_handle->vaddr;
+-		bus_address = gart_info->table_handle->busaddr;
+-	} else {
+-		address = gart_info->addr;
+-		bus_address = gart_info->bus_addr;
+-		DRM_DEBUG("PCI: Gart Table: VRAM %08LX mapped at %08lX\n",
+-			  (unsigned long long)bus_address,
+-			  (unsigned long)address);
+-	}
+-
+-
+-	max_ati_pages = (gart_info->table_size / sizeof(u32));
+-	max_real_pages = max_ati_pages / (PAGE_SIZE / ATI_PCIGART_PAGE_SIZE);
+-	pages = (entry->pages <= max_real_pages)
+-	    ? entry->pages : max_real_pages;
+-
+-	if (gart_info->gart_table_location == DRM_ATI_GART_MAIN) {
+-		memset(pci_gart, 0, max_ati_pages * sizeof(u32));
+-	} else {
+-		memset_io((void __iomem *)map->handle, 0, max_ati_pages * sizeof(u32));
+-	}
+-
+-	gart_idx = 0;
+-	for (i = 0; i < pages; i++) {
+-		/* we need to support large memory configurations */
+-		entry->busaddr[i] = dma_map_page(&pdev->dev, entry->pagelist[i],
+-						 0, PAGE_SIZE, DMA_BIDIRECTIONAL);
+-		if (dma_mapping_error(&pdev->dev, entry->busaddr[i])) {
+-			DRM_ERROR("unable to map PCIGART pages!\n");
+-			drm_ati_pcigart_cleanup(dev, gart_info);
+-			address = NULL;
+-			bus_address = 0;
+-			ret = -ENOMEM;
+-			goto done;
+-		}
+-		page_base = (u32) entry->busaddr[i];
+-
+-		for (j = 0; j < (PAGE_SIZE / ATI_PCIGART_PAGE_SIZE); j++) {
+-			u32 offset;
+-			u32 val;
+-
+-			switch(gart_info->gart_reg_if) {
+-			case DRM_ATI_GART_IGP:
+-				val = page_base | 0xc;
+-				break;
+-			case DRM_ATI_GART_PCIE:
+-				val = (page_base >> 8) | 0xc;
+-				break;
+-			default:
+-			case DRM_ATI_GART_PCI:
+-				val = page_base;
+-				break;
+-			}
+-			if (gart_info->gart_table_location ==
+-			    DRM_ATI_GART_MAIN) {
+-				pci_gart[gart_idx] = cpu_to_le32(val);
+-			} else {
+-				offset = gart_idx * sizeof(u32);
+-				writel(val, (void __iomem *)map->handle + offset);
+-			}
+-			gart_idx++;
+-			page_base += ATI_PCIGART_PAGE_SIZE;
+-		}
+-	}
+-	ret = 0;
+-
+-#ifdef CONFIG_X86
+-	wbinvd();
+-#else
+-	mb();
+-#endif
+-
+-      done:
+-	gart_info->addr = address;
+-	gart_info->bus_addr = bus_address;
+-	return ret;
+-}
+diff --git a/drivers/gpu/drm/r128/ati_pcigart.h b/drivers/gpu/drm/r128/ati_pcigart.h
+deleted file mode 100644
+index a728a1364e66..000000000000
+--- a/drivers/gpu/drm/r128/ati_pcigart.h
++++ /dev/null
+@@ -1,31 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-#ifndef DRM_ATI_PCIGART_H
+-#define DRM_ATI_PCIGART_H
+-
+-#include <drm/drm_legacy.h>
+-
+-/* location of GART table */
+-#define DRM_ATI_GART_MAIN 1
+-#define DRM_ATI_GART_FB   2
+-
+-#define DRM_ATI_GART_PCI 1
+-#define DRM_ATI_GART_PCIE 2
+-#define DRM_ATI_GART_IGP 3
+-
+-struct drm_ati_pcigart_info {
+-	int gart_table_location;
+-	int gart_reg_if;
+-	void *addr;
+-	dma_addr_t bus_addr;
+-	dma_addr_t table_mask;
+-	struct drm_dma_handle *table_handle;
+-	struct drm_local_map mapping;
+-	int table_size;
+-};
+-
+-extern int drm_ati_pcigart_init(struct drm_device *dev,
+-				struct drm_ati_pcigart_info * gart_info);
+-extern int drm_ati_pcigart_cleanup(struct drm_device *dev,
+-				   struct drm_ati_pcigart_info * gart_info);
+-
+-#endif
+diff --git a/drivers/gpu/drm/r128/r128_cce.c b/drivers/gpu/drm/r128/r128_cce.c
+deleted file mode 100644
+index c04d84a69dd2..000000000000
+--- a/drivers/gpu/drm/r128/r128_cce.c
++++ /dev/null
+@@ -1,944 +0,0 @@
+-/* r128_cce.c -- ATI Rage 128 driver -*- linux-c -*-
+- * Created: Wed Apr  5 19:24:19 2000 by kevin@precisioninsight.com
+- */
+-/*
+- * Copyright 2000 Precision Insight, Inc., Cedar Park, Texas.
+- * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
+- * All Rights Reserved.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the next
+- * paragraph) shall be included in all copies or substantial portions of the
+- * Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+- * PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+- * DEALINGS IN THE SOFTWARE.
+- *
+- * Authors:
+- *    Gareth Hughes <gareth@valinux.com>
+- */
+-
+-#include <linux/delay.h>
+-#include <linux/dma-mapping.h>
+-#include <linux/firmware.h>
+-#include <linux/module.h>
+-#include <linux/platform_device.h>
+-#include <linux/slab.h>
+-#include <linux/uaccess.h>
+-
+-#include <drm/drm_device.h>
+-#include <drm/drm_file.h>
+-#include <drm/drm_legacy.h>
+-#include <drm/drm_print.h>
+-#include <drm/r128_drm.h>
+-
+-#include "r128_drv.h"
+-
+-#define R128_FIFO_DEBUG		0
+-
+-#define FIRMWARE_NAME		"r128/r128_cce.bin"
+-
+-MODULE_FIRMWARE(FIRMWARE_NAME);
+-
+-static int R128_READ_PLL(struct drm_device *dev, int addr)
+-{
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-
+-	R128_WRITE8(R128_CLOCK_CNTL_INDEX, addr & 0x1f);
+-	return R128_READ(R128_CLOCK_CNTL_DATA);
+-}
+-
+-#if R128_FIFO_DEBUG
+-static void r128_status(drm_r128_private_t *dev_priv)
+-{
+-	printk("GUI_STAT           = 0x%08x\n",
+-	       (unsigned int)R128_READ(R128_GUI_STAT));
+-	printk("PM4_STAT           = 0x%08x\n",
+-	       (unsigned int)R128_READ(R128_PM4_STAT));
+-	printk("PM4_BUFFER_DL_WPTR = 0x%08x\n",
+-	       (unsigned int)R128_READ(R128_PM4_BUFFER_DL_WPTR));
+-	printk("PM4_BUFFER_DL_RPTR = 0x%08x\n",
+-	       (unsigned int)R128_READ(R128_PM4_BUFFER_DL_RPTR));
+-	printk("PM4_MICRO_CNTL     = 0x%08x\n",
+-	       (unsigned int)R128_READ(R128_PM4_MICRO_CNTL));
+-	printk("PM4_BUFFER_CNTL    = 0x%08x\n",
+-	       (unsigned int)R128_READ(R128_PM4_BUFFER_CNTL));
+-}
+-#endif
+-
+-/* ================================================================
+- * Engine, FIFO control
+- */
+-
+-static int r128_do_pixcache_flush(drm_r128_private_t *dev_priv)
+-{
+-	u32 tmp;
+-	int i;
+-
+-	tmp = R128_READ(R128_PC_NGUI_CTLSTAT) | R128_PC_FLUSH_ALL;
+-	R128_WRITE(R128_PC_NGUI_CTLSTAT, tmp);
+-
+-	for (i = 0; i < dev_priv->usec_timeout; i++) {
+-		if (!(R128_READ(R128_PC_NGUI_CTLSTAT) & R128_PC_BUSY))
+-			return 0;
+-		udelay(1);
+-	}
+-
+-#if R128_FIFO_DEBUG
+-	DRM_ERROR("failed!\n");
+-#endif
+-	return -EBUSY;
+-}
+-
+-static int r128_do_wait_for_fifo(drm_r128_private_t *dev_priv, int entries)
+-{
+-	int i;
+-
+-	for (i = 0; i < dev_priv->usec_timeout; i++) {
+-		int slots = R128_READ(R128_GUI_STAT) & R128_GUI_FIFOCNT_MASK;
+-		if (slots >= entries)
+-			return 0;
+-		udelay(1);
+-	}
+-
+-#if R128_FIFO_DEBUG
+-	DRM_ERROR("failed!\n");
+-#endif
+-	return -EBUSY;
+-}
+-
+-static int r128_do_wait_for_idle(drm_r128_private_t *dev_priv)
+-{
+-	int i, ret;
+-
+-	ret = r128_do_wait_for_fifo(dev_priv, 64);
+-	if (ret)
+-		return ret;
+-
+-	for (i = 0; i < dev_priv->usec_timeout; i++) {
+-		if (!(R128_READ(R128_GUI_STAT) & R128_GUI_ACTIVE)) {
+-			r128_do_pixcache_flush(dev_priv);
+-			return 0;
+-		}
+-		udelay(1);
+-	}
+-
+-#if R128_FIFO_DEBUG
+-	DRM_ERROR("failed!\n");
+-#endif
+-	return -EBUSY;
+-}
+-
+-/* ================================================================
+- * CCE control, initialization
+- */
+-
+-/* Load the microcode for the CCE */
+-static int r128_cce_load_microcode(drm_r128_private_t *dev_priv)
+-{
+-	struct platform_device *pdev;
+-	const struct firmware *fw;
+-	const __be32 *fw_data;
+-	int rc, i;
+-
+-	DRM_DEBUG("\n");
+-
+-	pdev = platform_device_register_simple("r128_cce", 0, NULL, 0);
+-	if (IS_ERR(pdev)) {
+-		pr_err("r128_cce: Failed to register firmware\n");
+-		return PTR_ERR(pdev);
+-	}
+-	rc = request_firmware(&fw, FIRMWARE_NAME, &pdev->dev);
+-	platform_device_unregister(pdev);
+-	if (rc) {
+-		pr_err("r128_cce: Failed to load firmware \"%s\"\n",
+-		       FIRMWARE_NAME);
+-		return rc;
+-	}
+-
+-	if (fw->size != 256 * 8) {
+-		pr_err("r128_cce: Bogus length %zu in firmware \"%s\"\n",
+-		       fw->size, FIRMWARE_NAME);
+-		rc = -EINVAL;
+-		goto out_release;
+-	}
+-
+-	r128_do_wait_for_idle(dev_priv);
+-
+-	fw_data = (const __be32 *)fw->data;
+-	R128_WRITE(R128_PM4_MICROCODE_ADDR, 0);
+-	for (i = 0; i < 256; i++) {
+-		R128_WRITE(R128_PM4_MICROCODE_DATAH,
+-			   be32_to_cpup(&fw_data[i * 2]));
+-		R128_WRITE(R128_PM4_MICROCODE_DATAL,
+-			   be32_to_cpup(&fw_data[i * 2 + 1]));
+-	}
+-
+-out_release:
+-	release_firmware(fw);
+-	return rc;
+-}
+-
+-/* Flush any pending commands to the CCE.  This should only be used just
+- * prior to a wait for idle, as it informs the engine that the command
+- * stream is ending.
+- */
+-static void r128_do_cce_flush(drm_r128_private_t *dev_priv)
+-{
+-	u32 tmp;
+-
+-	tmp = R128_READ(R128_PM4_BUFFER_DL_WPTR) | R128_PM4_BUFFER_DL_DONE;
+-	R128_WRITE(R128_PM4_BUFFER_DL_WPTR, tmp);
+-}
+-
+-/* Wait for the CCE to go idle.
+- */
+-int r128_do_cce_idle(drm_r128_private_t *dev_priv)
+-{
+-	int i;
+-
+-	for (i = 0; i < dev_priv->usec_timeout; i++) {
+-		if (GET_RING_HEAD(dev_priv) == dev_priv->ring.tail) {
+-			int pm4stat = R128_READ(R128_PM4_STAT);
+-			if (((pm4stat & R128_PM4_FIFOCNT_MASK) >=
+-			     dev_priv->cce_fifo_size) &&
+-			    !(pm4stat & (R128_PM4_BUSY |
+-					 R128_PM4_GUI_ACTIVE))) {
+-				return r128_do_pixcache_flush(dev_priv);
+-			}
+-		}
+-		udelay(1);
+-	}
+-
+-#if R128_FIFO_DEBUG
+-	DRM_ERROR("failed!\n");
+-	r128_status(dev_priv);
+-#endif
+-	return -EBUSY;
+-}
+-
+-/* Start the Concurrent Command Engine.
+- */
+-static void r128_do_cce_start(drm_r128_private_t *dev_priv)
+-{
+-	r128_do_wait_for_idle(dev_priv);
+-
+-	R128_WRITE(R128_PM4_BUFFER_CNTL,
+-		   dev_priv->cce_mode | dev_priv->ring.size_l2qw
+-		   | R128_PM4_BUFFER_CNTL_NOUPDATE);
+-	R128_READ(R128_PM4_BUFFER_ADDR);	/* as per the sample code */
+-	R128_WRITE(R128_PM4_MICRO_CNTL, R128_PM4_MICRO_FREERUN);
+-
+-	dev_priv->cce_running = 1;
+-}
+-
+-/* Reset the Concurrent Command Engine.  This will not flush any pending
+- * commands, so you must wait for the CCE command stream to complete
+- * before calling this routine.
+- */
+-static void r128_do_cce_reset(drm_r128_private_t *dev_priv)
+-{
+-	R128_WRITE(R128_PM4_BUFFER_DL_WPTR, 0);
+-	R128_WRITE(R128_PM4_BUFFER_DL_RPTR, 0);
+-	dev_priv->ring.tail = 0;
+-}
+-
+-/* Stop the Concurrent Command Engine.  This will not flush any pending
+- * commands, so you must flush the command stream and wait for the CCE
+- * to go idle before calling this routine.
+- */
+-static void r128_do_cce_stop(drm_r128_private_t *dev_priv)
+-{
+-	R128_WRITE(R128_PM4_MICRO_CNTL, 0);
+-	R128_WRITE(R128_PM4_BUFFER_CNTL,
+-		   R128_PM4_NONPM4 | R128_PM4_BUFFER_CNTL_NOUPDATE);
+-
+-	dev_priv->cce_running = 0;
+-}
+-
+-/* Reset the engine.  This will stop the CCE if it is running.
+- */
+-static int r128_do_engine_reset(struct drm_device *dev)
+-{
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-	u32 clock_cntl_index, mclk_cntl, gen_reset_cntl;
+-
+-	r128_do_pixcache_flush(dev_priv);
+-
+-	clock_cntl_index = R128_READ(R128_CLOCK_CNTL_INDEX);
+-	mclk_cntl = R128_READ_PLL(dev, R128_MCLK_CNTL);
+-
+-	R128_WRITE_PLL(R128_MCLK_CNTL,
+-		       mclk_cntl | R128_FORCE_GCP | R128_FORCE_PIPE3D_CP);
+-
+-	gen_reset_cntl = R128_READ(R128_GEN_RESET_CNTL);
+-
+-	/* Taken from the sample code - do not change */
+-	R128_WRITE(R128_GEN_RESET_CNTL, gen_reset_cntl | R128_SOFT_RESET_GUI);
+-	R128_READ(R128_GEN_RESET_CNTL);
+-	R128_WRITE(R128_GEN_RESET_CNTL, gen_reset_cntl & ~R128_SOFT_RESET_GUI);
+-	R128_READ(R128_GEN_RESET_CNTL);
+-
+-	R128_WRITE_PLL(R128_MCLK_CNTL, mclk_cntl);
+-	R128_WRITE(R128_CLOCK_CNTL_INDEX, clock_cntl_index);
+-	R128_WRITE(R128_GEN_RESET_CNTL, gen_reset_cntl);
+-
+-	/* Reset the CCE ring */
+-	r128_do_cce_reset(dev_priv);
+-
+-	/* The CCE is no longer running after an engine reset */
+-	dev_priv->cce_running = 0;
+-
+-	/* Reset any pending vertex, indirect buffers */
+-	r128_freelist_reset(dev);
+-
+-	return 0;
+-}
+-
+-static void r128_cce_init_ring_buffer(struct drm_device *dev,
+-				      drm_r128_private_t *dev_priv)
+-{
+-	u32 ring_start;
+-	u32 tmp;
+-
+-	DRM_DEBUG("\n");
+-
+-	/* The manual (p. 2) says this address is in "VM space".  This
+-	 * means it's an offset from the start of AGP space.
+-	 */
+-#if IS_ENABLED(CONFIG_AGP)
+-	if (!dev_priv->is_pci)
+-		ring_start = dev_priv->cce_ring->offset - dev->agp->base;
+-	else
+-#endif
+-		ring_start = dev_priv->cce_ring->offset -
+-		    (unsigned long)dev->sg->virtual;
+-
+-	R128_WRITE(R128_PM4_BUFFER_OFFSET, ring_start | R128_AGP_OFFSET);
+-
+-	R128_WRITE(R128_PM4_BUFFER_DL_WPTR, 0);
+-	R128_WRITE(R128_PM4_BUFFER_DL_RPTR, 0);
+-
+-	/* Set watermark control */
+-	R128_WRITE(R128_PM4_BUFFER_WM_CNTL,
+-		   ((R128_WATERMARK_L / 4) << R128_WMA_SHIFT)
+-		   | ((R128_WATERMARK_M / 4) << R128_WMB_SHIFT)
+-		   | ((R128_WATERMARK_N / 4) << R128_WMC_SHIFT)
+-		   | ((R128_WATERMARK_K / 64) << R128_WB_WM_SHIFT));
+-
+-	/* Force read.  Why?  Because it's in the examples... */
+-	R128_READ(R128_PM4_BUFFER_ADDR);
+-
+-	/* Turn on bus mastering */
+-	tmp = R128_READ(R128_BUS_CNTL) & ~R128_BUS_MASTER_DIS;
+-	R128_WRITE(R128_BUS_CNTL, tmp);
+-}
+-
+-static int r128_do_init_cce(struct drm_device *dev, drm_r128_init_t *init)
+-{
+-	drm_r128_private_t *dev_priv;
+-	int rc;
+-
+-	DRM_DEBUG("\n");
+-
+-	if (dev->dev_private) {
+-		DRM_DEBUG("called when already initialized\n");
+-		return -EINVAL;
+-	}
+-
+-	dev_priv = kzalloc(sizeof(drm_r128_private_t), GFP_KERNEL);
+-	if (dev_priv == NULL)
+-		return -ENOMEM;
+-
+-	dev_priv->is_pci = init->is_pci;
+-
+-	if (dev_priv->is_pci && !dev->sg) {
+-		DRM_ERROR("PCI GART memory not allocated!\n");
+-		dev->dev_private = (void *)dev_priv;
+-		r128_do_cleanup_cce(dev);
+-		return -EINVAL;
+-	}
+-
+-	dev_priv->usec_timeout = init->usec_timeout;
+-	if (dev_priv->usec_timeout < 1 ||
+-	    dev_priv->usec_timeout > R128_MAX_USEC_TIMEOUT) {
+-		DRM_DEBUG("TIMEOUT problem!\n");
+-		dev->dev_private = (void *)dev_priv;
+-		r128_do_cleanup_cce(dev);
+-		return -EINVAL;
+-	}
+-
+-	dev_priv->cce_mode = init->cce_mode;
+-
+-	/* GH: Simple idle check.
+-	 */
+-	atomic_set(&dev_priv->idle_count, 0);
+-
+-	/* We don't support anything other than bus-mastering ring mode,
+-	 * but the ring can be in either AGP or PCI space for the ring
+-	 * read pointer.
+-	 */
+-	if ((init->cce_mode != R128_PM4_192BM) &&
+-	    (init->cce_mode != R128_PM4_128BM_64INDBM) &&
+-	    (init->cce_mode != R128_PM4_64BM_128INDBM) &&
+-	    (init->cce_mode != R128_PM4_64BM_64VCBM_64INDBM)) {
+-		DRM_DEBUG("Bad cce_mode!\n");
+-		dev->dev_private = (void *)dev_priv;
+-		r128_do_cleanup_cce(dev);
+-		return -EINVAL;
+-	}
+-
+-	switch (init->cce_mode) {
+-	case R128_PM4_NONPM4:
+-		dev_priv->cce_fifo_size = 0;
+-		break;
+-	case R128_PM4_192PIO:
+-	case R128_PM4_192BM:
+-		dev_priv->cce_fifo_size = 192;
+-		break;
+-	case R128_PM4_128PIO_64INDBM:
+-	case R128_PM4_128BM_64INDBM:
+-		dev_priv->cce_fifo_size = 128;
+-		break;
+-	case R128_PM4_64PIO_128INDBM:
+-	case R128_PM4_64BM_128INDBM:
+-	case R128_PM4_64PIO_64VCBM_64INDBM:
+-	case R128_PM4_64BM_64VCBM_64INDBM:
+-	case R128_PM4_64PIO_64VCPIO_64INDPIO:
+-		dev_priv->cce_fifo_size = 64;
+-		break;
+-	}
+-
+-	switch (init->fb_bpp) {
+-	case 16:
+-		dev_priv->color_fmt = R128_DATATYPE_RGB565;
+-		break;
+-	case 32:
+-	default:
+-		dev_priv->color_fmt = R128_DATATYPE_ARGB8888;
+-		break;
+-	}
+-	dev_priv->front_offset = init->front_offset;
+-	dev_priv->front_pitch = init->front_pitch;
+-	dev_priv->back_offset = init->back_offset;
+-	dev_priv->back_pitch = init->back_pitch;
+-
+-	switch (init->depth_bpp) {
+-	case 16:
+-		dev_priv->depth_fmt = R128_DATATYPE_RGB565;
+-		break;
+-	case 24:
+-	case 32:
+-	default:
+-		dev_priv->depth_fmt = R128_DATATYPE_ARGB8888;
+-		break;
+-	}
+-	dev_priv->depth_offset = init->depth_offset;
+-	dev_priv->depth_pitch = init->depth_pitch;
+-	dev_priv->span_offset = init->span_offset;
+-
+-	dev_priv->front_pitch_offset_c = (((dev_priv->front_pitch / 8) << 21) |
+-					  (dev_priv->front_offset >> 5));
+-	dev_priv->back_pitch_offset_c = (((dev_priv->back_pitch / 8) << 21) |
+-					 (dev_priv->back_offset >> 5));
+-	dev_priv->depth_pitch_offset_c = (((dev_priv->depth_pitch / 8) << 21) |
+-					  (dev_priv->depth_offset >> 5) |
+-					  R128_DST_TILE);
+-	dev_priv->span_pitch_offset_c = (((dev_priv->depth_pitch / 8) << 21) |
+-					 (dev_priv->span_offset >> 5));
+-
+-	dev_priv->sarea = drm_legacy_getsarea(dev);
+-	if (!dev_priv->sarea) {
+-		DRM_ERROR("could not find sarea!\n");
+-		dev->dev_private = (void *)dev_priv;
+-		r128_do_cleanup_cce(dev);
+-		return -EINVAL;
+-	}
+-
+-	dev_priv->mmio = drm_legacy_findmap(dev, init->mmio_offset);
+-	if (!dev_priv->mmio) {
+-		DRM_ERROR("could not find mmio region!\n");
+-		dev->dev_private = (void *)dev_priv;
+-		r128_do_cleanup_cce(dev);
+-		return -EINVAL;
+-	}
+-	dev_priv->cce_ring = drm_legacy_findmap(dev, init->ring_offset);
+-	if (!dev_priv->cce_ring) {
+-		DRM_ERROR("could not find cce ring region!\n");
+-		dev->dev_private = (void *)dev_priv;
+-		r128_do_cleanup_cce(dev);
+-		return -EINVAL;
+-	}
+-	dev_priv->ring_rptr = drm_legacy_findmap(dev, init->ring_rptr_offset);
+-	if (!dev_priv->ring_rptr) {
+-		DRM_ERROR("could not find ring read pointer!\n");
+-		dev->dev_private = (void *)dev_priv;
+-		r128_do_cleanup_cce(dev);
+-		return -EINVAL;
+-	}
+-	dev->agp_buffer_token = init->buffers_offset;
+-	dev->agp_buffer_map = drm_legacy_findmap(dev, init->buffers_offset);
+-	if (!dev->agp_buffer_map) {
+-		DRM_ERROR("could not find dma buffer region!\n");
+-		dev->dev_private = (void *)dev_priv;
+-		r128_do_cleanup_cce(dev);
+-		return -EINVAL;
+-	}
+-
+-	if (!dev_priv->is_pci) {
+-		dev_priv->agp_textures =
+-		    drm_legacy_findmap(dev, init->agp_textures_offset);
+-		if (!dev_priv->agp_textures) {
+-			DRM_ERROR("could not find agp texture region!\n");
+-			dev->dev_private = (void *)dev_priv;
+-			r128_do_cleanup_cce(dev);
+-			return -EINVAL;
+-		}
+-	}
+-
+-	dev_priv->sarea_priv =
+-	    (drm_r128_sarea_t *) ((u8 *) dev_priv->sarea->handle +
+-				  init->sarea_priv_offset);
+-
+-#if IS_ENABLED(CONFIG_AGP)
+-	if (!dev_priv->is_pci) {
+-		drm_legacy_ioremap_wc(dev_priv->cce_ring, dev);
+-		drm_legacy_ioremap_wc(dev_priv->ring_rptr, dev);
+-		drm_legacy_ioremap_wc(dev->agp_buffer_map, dev);
+-		if (!dev_priv->cce_ring->handle ||
+-		    !dev_priv->ring_rptr->handle ||
+-		    !dev->agp_buffer_map->handle) {
+-			DRM_ERROR("Could not ioremap agp regions!\n");
+-			dev->dev_private = (void *)dev_priv;
+-			r128_do_cleanup_cce(dev);
+-			return -ENOMEM;
+-		}
+-	} else
+-#endif
+-	{
+-		dev_priv->cce_ring->handle =
+-			(void *)(unsigned long)dev_priv->cce_ring->offset;
+-		dev_priv->ring_rptr->handle =
+-			(void *)(unsigned long)dev_priv->ring_rptr->offset;
+-		dev->agp_buffer_map->handle =
+-			(void *)(unsigned long)dev->agp_buffer_map->offset;
+-	}
+-
+-#if IS_ENABLED(CONFIG_AGP)
+-	if (!dev_priv->is_pci)
+-		dev_priv->cce_buffers_offset = dev->agp->base;
+-	else
+-#endif
+-		dev_priv->cce_buffers_offset = (unsigned long)dev->sg->virtual;
+-
+-	dev_priv->ring.start = (u32 *) dev_priv->cce_ring->handle;
+-	dev_priv->ring.end = ((u32 *) dev_priv->cce_ring->handle
+-			      + init->ring_size / sizeof(u32));
+-	dev_priv->ring.size = init->ring_size;
+-	dev_priv->ring.size_l2qw = order_base_2(init->ring_size / 8);
+-
+-	dev_priv->ring.tail_mask = (dev_priv->ring.size / sizeof(u32)) - 1;
+-
+-	dev_priv->ring.high_mark = 128;
+-
+-	dev_priv->sarea_priv->last_frame = 0;
+-	R128_WRITE(R128_LAST_FRAME_REG, dev_priv->sarea_priv->last_frame);
+-
+-	dev_priv->sarea_priv->last_dispatch = 0;
+-	R128_WRITE(R128_LAST_DISPATCH_REG, dev_priv->sarea_priv->last_dispatch);
+-
+-#if IS_ENABLED(CONFIG_AGP)
+-	if (dev_priv->is_pci) {
+-#endif
+-		dev_priv->gart_info.table_mask = DMA_BIT_MASK(32);
+-		dev_priv->gart_info.gart_table_location = DRM_ATI_GART_MAIN;
+-		dev_priv->gart_info.table_size = R128_PCIGART_TABLE_SIZE;
+-		dev_priv->gart_info.addr = NULL;
+-		dev_priv->gart_info.bus_addr = 0;
+-		dev_priv->gart_info.gart_reg_if = DRM_ATI_GART_PCI;
+-		rc = drm_ati_pcigart_init(dev, &dev_priv->gart_info);
+-		if (rc) {
+-			DRM_ERROR("failed to init PCI GART!\n");
+-			dev->dev_private = (void *)dev_priv;
+-			r128_do_cleanup_cce(dev);
+-			return rc;
+-		}
+-		R128_WRITE(R128_PCI_GART_PAGE, dev_priv->gart_info.bus_addr);
+-#if IS_ENABLED(CONFIG_AGP)
+-	}
+-#endif
+-
+-	r128_cce_init_ring_buffer(dev, dev_priv);
+-	rc = r128_cce_load_microcode(dev_priv);
+-
+-	dev->dev_private = (void *)dev_priv;
+-
+-	r128_do_engine_reset(dev);
+-
+-	if (rc) {
+-		DRM_ERROR("Failed to load firmware!\n");
+-		r128_do_cleanup_cce(dev);
+-	}
+-
+-	return rc;
+-}
+-
+-int r128_do_cleanup_cce(struct drm_device *dev)
+-{
+-
+-	/* Make sure interrupts are disabled here because the uninstall ioctl
+-	 * may not have been called from userspace and after dev_private
+-	 * is freed, it's too late.
+-	 */
+-	if (dev->irq_enabled)
+-		drm_legacy_irq_uninstall(dev);
+-
+-	if (dev->dev_private) {
+-		drm_r128_private_t *dev_priv = dev->dev_private;
+-
+-#if IS_ENABLED(CONFIG_AGP)
+-		if (!dev_priv->is_pci) {
+-			if (dev_priv->cce_ring != NULL)
+-				drm_legacy_ioremapfree(dev_priv->cce_ring, dev);
+-			if (dev_priv->ring_rptr != NULL)
+-				drm_legacy_ioremapfree(dev_priv->ring_rptr, dev);
+-			if (dev->agp_buffer_map != NULL) {
+-				drm_legacy_ioremapfree(dev->agp_buffer_map, dev);
+-				dev->agp_buffer_map = NULL;
+-			}
+-		} else
+-#endif
+-		{
+-			if (dev_priv->gart_info.bus_addr)
+-				if (!drm_ati_pcigart_cleanup(dev,
+-							&dev_priv->gart_info))
+-					DRM_ERROR
+-					    ("failed to cleanup PCI GART!\n");
+-		}
+-
+-		kfree(dev->dev_private);
+-		dev->dev_private = NULL;
+-	}
+-
+-	return 0;
+-}
+-
+-int r128_cce_init(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	drm_r128_init_t *init = data;
+-
+-	DRM_DEBUG("\n");
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	switch (init->func) {
+-	case R128_INIT_CCE:
+-		return r128_do_init_cce(dev, init);
+-	case R128_CLEANUP_CCE:
+-		return r128_do_cleanup_cce(dev);
+-	}
+-
+-	return -EINVAL;
+-}
+-
+-int r128_cce_start(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-	DRM_DEBUG("\n");
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	DEV_INIT_TEST_WITH_RETURN(dev_priv);
+-
+-	if (dev_priv->cce_running || dev_priv->cce_mode == R128_PM4_NONPM4) {
+-		DRM_DEBUG("while CCE running\n");
+-		return 0;
+-	}
+-
+-	r128_do_cce_start(dev_priv);
+-
+-	return 0;
+-}
+-
+-/* Stop the CCE.  The engine must have been idled before calling this
+- * routine.
+- */
+-int r128_cce_stop(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-	drm_r128_cce_stop_t *stop = data;
+-	int ret;
+-	DRM_DEBUG("\n");
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	DEV_INIT_TEST_WITH_RETURN(dev_priv);
+-
+-	/* Flush any pending CCE commands.  This ensures any outstanding
+-	 * commands are exectuted by the engine before we turn it off.
+-	 */
+-	if (stop->flush)
+-		r128_do_cce_flush(dev_priv);
+-
+-	/* If we fail to make the engine go idle, we return an error
+-	 * code so that the DRM ioctl wrapper can try again.
+-	 */
+-	if (stop->idle) {
+-		ret = r128_do_cce_idle(dev_priv);
+-		if (ret)
+-			return ret;
+-	}
+-
+-	/* Finally, we can turn off the CCE.  If the engine isn't idle,
+-	 * we will get some dropped triangles as they won't be fully
+-	 * rendered before the CCE is shut down.
+-	 */
+-	r128_do_cce_stop(dev_priv);
+-
+-	/* Reset the engine */
+-	r128_do_engine_reset(dev);
+-
+-	return 0;
+-}
+-
+-/* Just reset the CCE ring.  Called as part of an X Server engine reset.
+- */
+-int r128_cce_reset(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-	DRM_DEBUG("\n");
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	DEV_INIT_TEST_WITH_RETURN(dev_priv);
+-
+-	r128_do_cce_reset(dev_priv);
+-
+-	/* The CCE is no longer running after an engine reset */
+-	dev_priv->cce_running = 0;
+-
+-	return 0;
+-}
+-
+-int r128_cce_idle(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-	DRM_DEBUG("\n");
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	DEV_INIT_TEST_WITH_RETURN(dev_priv);
+-
+-	if (dev_priv->cce_running)
+-		r128_do_cce_flush(dev_priv);
+-
+-	return r128_do_cce_idle(dev_priv);
+-}
+-
+-int r128_engine_reset(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	DRM_DEBUG("\n");
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	DEV_INIT_TEST_WITH_RETURN(dev->dev_private);
+-
+-	return r128_do_engine_reset(dev);
+-}
+-
+-int r128_fullscreen(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	return -EINVAL;
+-}
+-
+-/* ================================================================
+- * Freelist management
+- */
+-#define R128_BUFFER_USED	0xffffffff
+-#define R128_BUFFER_FREE	0
+-
+-#if 0
+-static int r128_freelist_init(struct drm_device *dev)
+-{
+-	struct drm_device_dma *dma = dev->dma;
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-	struct drm_buf *buf;
+-	drm_r128_buf_priv_t *buf_priv;
+-	drm_r128_freelist_t *entry;
+-	int i;
+-
+-	dev_priv->head = kzalloc(sizeof(drm_r128_freelist_t), GFP_KERNEL);
+-	if (dev_priv->head == NULL)
+-		return -ENOMEM;
+-
+-	dev_priv->head->age = R128_BUFFER_USED;
+-
+-	for (i = 0; i < dma->buf_count; i++) {
+-		buf = dma->buflist[i];
+-		buf_priv = buf->dev_private;
+-
+-		entry = kmalloc(sizeof(drm_r128_freelist_t), GFP_KERNEL);
+-		if (!entry)
+-			return -ENOMEM;
+-
+-		entry->age = R128_BUFFER_FREE;
+-		entry->buf = buf;
+-		entry->prev = dev_priv->head;
+-		entry->next = dev_priv->head->next;
+-		if (!entry->next)
+-			dev_priv->tail = entry;
+-
+-		buf_priv->discard = 0;
+-		buf_priv->dispatched = 0;
+-		buf_priv->list_entry = entry;
+-
+-		dev_priv->head->next = entry;
+-
+-		if (dev_priv->head->next)
+-			dev_priv->head->next->prev = entry;
+-	}
+-
+-	return 0;
+-
+-}
+-#endif
+-
+-static struct drm_buf *r128_freelist_get(struct drm_device * dev)
+-{
+-	struct drm_device_dma *dma = dev->dma;
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-	drm_r128_buf_priv_t *buf_priv;
+-	struct drm_buf *buf;
+-	int i, t;
+-
+-	/* FIXME: Optimize -- use freelist code */
+-
+-	for (i = 0; i < dma->buf_count; i++) {
+-		buf = dma->buflist[i];
+-		buf_priv = buf->dev_private;
+-		if (!buf->file_priv)
+-			return buf;
+-	}
+-
+-	for (t = 0; t < dev_priv->usec_timeout; t++) {
+-		u32 done_age = R128_READ(R128_LAST_DISPATCH_REG);
+-
+-		for (i = 0; i < dma->buf_count; i++) {
+-			buf = dma->buflist[i];
+-			buf_priv = buf->dev_private;
+-			if (buf->pending && buf_priv->age <= done_age) {
+-				/* The buffer has been processed, so it
+-				 * can now be used.
+-				 */
+-				buf->pending = 0;
+-				return buf;
+-			}
+-		}
+-		udelay(1);
+-	}
+-
+-	DRM_DEBUG("returning NULL!\n");
+-	return NULL;
+-}
+-
+-void r128_freelist_reset(struct drm_device *dev)
+-{
+-	struct drm_device_dma *dma = dev->dma;
+-	int i;
+-
+-	for (i = 0; i < dma->buf_count; i++) {
+-		struct drm_buf *buf = dma->buflist[i];
+-		drm_r128_buf_priv_t *buf_priv = buf->dev_private;
+-		buf_priv->age = 0;
+-	}
+-}
+-
+-/* ================================================================
+- * CCE command submission
+- */
+-
+-int r128_wait_ring(drm_r128_private_t *dev_priv, int n)
+-{
+-	drm_r128_ring_buffer_t *ring = &dev_priv->ring;
+-	int i;
+-
+-	for (i = 0; i < dev_priv->usec_timeout; i++) {
+-		r128_update_ring_snapshot(dev_priv);
+-		if (ring->space >= n)
+-			return 0;
+-		udelay(1);
+-	}
+-
+-	/* FIXME: This is being ignored... */
+-	DRM_ERROR("failed!\n");
+-	return -EBUSY;
+-}
+-
+-static int r128_cce_get_buffers(struct drm_device *dev,
+-				struct drm_file *file_priv,
+-				struct drm_dma *d)
+-{
+-	int i;
+-	struct drm_buf *buf;
+-
+-	for (i = d->granted_count; i < d->request_count; i++) {
+-		buf = r128_freelist_get(dev);
+-		if (!buf)
+-			return -EAGAIN;
+-
+-		buf->file_priv = file_priv;
+-
+-		if (copy_to_user(&d->request_indices[i], &buf->idx,
+-				     sizeof(buf->idx)))
+-			return -EFAULT;
+-		if (copy_to_user(&d->request_sizes[i], &buf->total,
+-				     sizeof(buf->total)))
+-			return -EFAULT;
+-
+-		d->granted_count++;
+-	}
+-	return 0;
+-}
+-
+-int r128_cce_buffers(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	struct drm_device_dma *dma = dev->dma;
+-	int ret = 0;
+-	struct drm_dma *d = data;
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	/* Please don't send us buffers.
+-	 */
+-	if (d->send_count != 0) {
+-		DRM_ERROR("Process %d trying to send %d buffers via drmDMA\n",
+-			  task_pid_nr(current), d->send_count);
+-		return -EINVAL;
+-	}
+-
+-	/* We'll send you buffers.
+-	 */
+-	if (d->request_count < 0 || d->request_count > dma->buf_count) {
+-		DRM_ERROR("Process %d trying to get %d buffers (of %d max)\n",
+-			  task_pid_nr(current), d->request_count, dma->buf_count);
+-		return -EINVAL;
+-	}
+-
+-	d->granted_count = 0;
+-
+-	if (d->request_count)
+-		ret = r128_cce_get_buffers(dev, file_priv, d);
+-
+-	return ret;
+-}
+diff --git a/drivers/gpu/drm/r128/r128_drv.c b/drivers/gpu/drm/r128/r128_drv.c
+deleted file mode 100644
+index e35a3a1449bd..000000000000
+--- a/drivers/gpu/drm/r128/r128_drv.c
++++ /dev/null
+@@ -1,116 +0,0 @@
+-/* r128_drv.c -- ATI Rage 128 driver -*- linux-c -*-
+- * Created: Mon Dec 13 09:47:27 1999 by faith@precisioninsight.com
+- *
+- * Copyright 1999 Precision Insight, Inc., Cedar Park, Texas.
+- * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
+- * All Rights Reserved.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the next
+- * paragraph) shall be included in all copies or substantial portions of the
+- * Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+- * VA LINUX SYSTEMS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+- * OTHER DEALINGS IN THE SOFTWARE.
+- *
+- * Authors:
+- *    Rickard E. (Rik) Faith <faith@valinux.com>
+- *    Gareth Hughes <gareth@valinux.com>
+- */
+-
+-#include <linux/module.h>
+-#include <linux/pci.h>
+-
+-#include <drm/drm_drv.h>
+-#include <drm/drm_file.h>
+-#include <drm/drm_pciids.h>
+-#include <drm/drm_vblank.h>
+-#include <drm/r128_drm.h>
+-
+-#include "r128_drv.h"
+-
+-static struct pci_device_id pciidlist[] = {
+-	r128_PCI_IDS
+-};
+-
+-static const struct file_operations r128_driver_fops = {
+-	.owner = THIS_MODULE,
+-	.open = drm_open,
+-	.release = drm_release,
+-	.unlocked_ioctl = drm_ioctl,
+-	.mmap = drm_legacy_mmap,
+-	.poll = drm_poll,
+-#ifdef CONFIG_COMPAT
+-	.compat_ioctl = r128_compat_ioctl,
+-#endif
+-	.llseek = noop_llseek,
+-};
+-
+-static struct drm_driver driver = {
+-	.driver_features =
+-	    DRIVER_USE_AGP | DRIVER_PCI_DMA | DRIVER_SG | DRIVER_LEGACY |
+-	    DRIVER_HAVE_DMA | DRIVER_HAVE_IRQ,
+-	.dev_priv_size = sizeof(drm_r128_buf_priv_t),
+-	.load = r128_driver_load,
+-	.preclose = r128_driver_preclose,
+-	.lastclose = r128_driver_lastclose,
+-	.get_vblank_counter = r128_get_vblank_counter,
+-	.enable_vblank = r128_enable_vblank,
+-	.disable_vblank = r128_disable_vblank,
+-	.irq_preinstall = r128_driver_irq_preinstall,
+-	.irq_postinstall = r128_driver_irq_postinstall,
+-	.irq_uninstall = r128_driver_irq_uninstall,
+-	.irq_handler = r128_driver_irq_handler,
+-	.ioctls = r128_ioctls,
+-	.dma_ioctl = r128_cce_buffers,
+-	.fops = &r128_driver_fops,
+-	.name = DRIVER_NAME,
+-	.desc = DRIVER_DESC,
+-	.date = DRIVER_DATE,
+-	.major = DRIVER_MAJOR,
+-	.minor = DRIVER_MINOR,
+-	.patchlevel = DRIVER_PATCHLEVEL,
+-};
+-
+-int r128_driver_load(struct drm_device *dev, unsigned long flags)
+-{
+-	struct pci_dev *pdev = to_pci_dev(dev->dev);
+-
+-	pci_set_master(pdev);
+-	return drm_vblank_init(dev, 1);
+-}
+-
+-static struct pci_driver r128_pci_driver = {
+-	.name = DRIVER_NAME,
+-	.id_table = pciidlist,
+-};
+-
+-static int __init r128_init(void)
+-{
+-	driver.num_ioctls = r128_max_ioctl;
+-
+-	return drm_legacy_pci_init(&driver, &r128_pci_driver);
+-}
+-
+-static void __exit r128_exit(void)
+-{
+-	drm_legacy_pci_exit(&driver, &r128_pci_driver);
+-}
+-
+-module_init(r128_init);
+-module_exit(r128_exit);
+-
+-MODULE_AUTHOR(DRIVER_AUTHOR);
+-MODULE_DESCRIPTION(DRIVER_DESC);
+-MODULE_LICENSE("GPL and additional rights");
+diff --git a/drivers/gpu/drm/r128/r128_drv.h b/drivers/gpu/drm/r128/r128_drv.h
+deleted file mode 100644
+index 970e192b0d51..000000000000
+--- a/drivers/gpu/drm/r128/r128_drv.h
++++ /dev/null
+@@ -1,544 +0,0 @@
+-/* r128_drv.h -- Private header for r128 driver -*- linux-c -*-
+- * Created: Mon Dec 13 09:51:11 1999 by faith@precisioninsight.com
+- */
+-/*
+- * Copyright 1999 Precision Insight, Inc., Cedar Park, Texas.
+- * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
+- * All rights reserved.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the next
+- * paragraph) shall be included in all copies or substantial portions of the
+- * Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+- * PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+- * DEALINGS IN THE SOFTWARE.
+- *
+- * Authors:
+- *    Rickard E. (Rik) Faith <faith@valinux.com>
+- *    Kevin E. Martin <martin@valinux.com>
+- *    Gareth Hughes <gareth@valinux.com>
+- *    Michel Dänzer <daenzerm@student.ethz.ch>
+- */
+-
+-#ifndef __R128_DRV_H__
+-#define __R128_DRV_H__
+-
+-#include <linux/delay.h>
+-#include <linux/io.h>
+-#include <linux/irqreturn.h>
+-
+-#include <drm/drm_ioctl.h>
+-#include <drm/drm_legacy.h>
+-#include <drm/r128_drm.h>
+-
+-#include "ati_pcigart.h"
+-
+-/* General customization:
+- */
+-#define DRIVER_AUTHOR		"Gareth Hughes, VA Linux Systems Inc."
+-
+-#define DRIVER_NAME		"r128"
+-#define DRIVER_DESC		"ATI Rage 128"
+-#define DRIVER_DATE		"20030725"
+-
+-/* Interface history:
+- *
+- * ??  - ??
+- * 2.4 - Add support for ycbcr textures (no new ioctls)
+- * 2.5 - Add FLIP ioctl, disable FULLSCREEN.
+- */
+-#define DRIVER_MAJOR		2
+-#define DRIVER_MINOR		5
+-#define DRIVER_PATCHLEVEL	0
+-
+-#define GET_RING_HEAD(dev_priv)		R128_READ(R128_PM4_BUFFER_DL_RPTR)
+-
+-typedef struct drm_r128_freelist {
+-	unsigned int age;
+-	struct drm_buf *buf;
+-	struct drm_r128_freelist *next;
+-	struct drm_r128_freelist *prev;
+-} drm_r128_freelist_t;
+-
+-typedef struct drm_r128_ring_buffer {
+-	u32 *start;
+-	u32 *end;
+-	int size;
+-	int size_l2qw;
+-
+-	u32 tail;
+-	u32 tail_mask;
+-	int space;
+-
+-	int high_mark;
+-} drm_r128_ring_buffer_t;
+-
+-typedef struct drm_r128_private {
+-	drm_r128_ring_buffer_t ring;
+-	drm_r128_sarea_t *sarea_priv;
+-
+-	int cce_mode;
+-	int cce_fifo_size;
+-	int cce_running;
+-
+-	drm_r128_freelist_t *head;
+-	drm_r128_freelist_t *tail;
+-
+-	int usec_timeout;
+-	int is_pci;
+-	unsigned long cce_buffers_offset;
+-
+-	atomic_t idle_count;
+-
+-	int page_flipping;
+-	int current_page;
+-	u32 crtc_offset;
+-	u32 crtc_offset_cntl;
+-
+-	atomic_t vbl_received;
+-
+-	u32 color_fmt;
+-	unsigned int front_offset;
+-	unsigned int front_pitch;
+-	unsigned int back_offset;
+-	unsigned int back_pitch;
+-
+-	u32 depth_fmt;
+-	unsigned int depth_offset;
+-	unsigned int depth_pitch;
+-	unsigned int span_offset;
+-
+-	u32 front_pitch_offset_c;
+-	u32 back_pitch_offset_c;
+-	u32 depth_pitch_offset_c;
+-	u32 span_pitch_offset_c;
+-
+-	drm_local_map_t *sarea;
+-	drm_local_map_t *mmio;
+-	drm_local_map_t *cce_ring;
+-	drm_local_map_t *ring_rptr;
+-	drm_local_map_t *agp_textures;
+-	struct drm_ati_pcigart_info gart_info;
+-} drm_r128_private_t;
+-
+-typedef struct drm_r128_buf_priv {
+-	u32 age;
+-	int prim;
+-	int discard;
+-	int dispatched;
+-	drm_r128_freelist_t *list_entry;
+-} drm_r128_buf_priv_t;
+-
+-extern const struct drm_ioctl_desc r128_ioctls[];
+-extern int r128_max_ioctl;
+-
+-				/* r128_cce.c */
+-extern int r128_cce_init(struct drm_device *dev, void *data, struct drm_file *file_priv);
+-extern int r128_cce_start(struct drm_device *dev, void *data, struct drm_file *file_priv);
+-extern int r128_cce_stop(struct drm_device *dev, void *data, struct drm_file *file_priv);
+-extern int r128_cce_reset(struct drm_device *dev, void *data, struct drm_file *file_priv);
+-extern int r128_cce_idle(struct drm_device *dev, void *data, struct drm_file *file_priv);
+-extern int r128_engine_reset(struct drm_device *dev, void *data, struct drm_file *file_priv);
+-extern int r128_fullscreen(struct drm_device *dev, void *data, struct drm_file *file_priv);
+-extern int r128_cce_buffers(struct drm_device *dev, void *data, struct drm_file *file_priv);
+-
+-extern int r128_cce_stipple(struct drm_device *dev, void *data, struct drm_file *file_priv);
+-extern int r128_cce_depth(struct drm_device *dev, void *data, struct drm_file *file_priv);
+-extern int r128_getparam(struct drm_device *dev, void *data, struct drm_file *file_priv);
+-
+-extern void r128_freelist_reset(struct drm_device *dev);
+-
+-extern int r128_wait_ring(drm_r128_private_t *dev_priv, int n);
+-
+-extern int r128_do_cce_idle(drm_r128_private_t *dev_priv);
+-extern int r128_do_cleanup_cce(struct drm_device *dev);
+-
+-extern int r128_enable_vblank(struct drm_device *dev, unsigned int pipe);
+-extern void r128_disable_vblank(struct drm_device *dev, unsigned int pipe);
+-extern u32 r128_get_vblank_counter(struct drm_device *dev, unsigned int pipe);
+-extern irqreturn_t r128_driver_irq_handler(int irq, void *arg);
+-extern void r128_driver_irq_preinstall(struct drm_device *dev);
+-extern int r128_driver_irq_postinstall(struct drm_device *dev);
+-extern void r128_driver_irq_uninstall(struct drm_device *dev);
+-extern void r128_driver_lastclose(struct drm_device *dev);
+-extern int r128_driver_load(struct drm_device *dev, unsigned long flags);
+-extern void r128_driver_preclose(struct drm_device *dev,
+-				 struct drm_file *file_priv);
+-
+-extern long r128_compat_ioctl(struct file *filp, unsigned int cmd,
+-			      unsigned long arg);
+-
+-/* Register definitions, register access macros and drmAddMap constants
+- * for Rage 128 kernel driver.
+- */
+-
+-#define R128_AUX_SC_CNTL		0x1660
+-#	define R128_AUX1_SC_EN			(1 << 0)
+-#	define R128_AUX1_SC_MODE_OR		(0 << 1)
+-#	define R128_AUX1_SC_MODE_NAND		(1 << 1)
+-#	define R128_AUX2_SC_EN			(1 << 2)
+-#	define R128_AUX2_SC_MODE_OR		(0 << 3)
+-#	define R128_AUX2_SC_MODE_NAND		(1 << 3)
+-#	define R128_AUX3_SC_EN			(1 << 4)
+-#	define R128_AUX3_SC_MODE_OR		(0 << 5)
+-#	define R128_AUX3_SC_MODE_NAND		(1 << 5)
+-#define R128_AUX1_SC_LEFT		0x1664
+-#define R128_AUX1_SC_RIGHT		0x1668
+-#define R128_AUX1_SC_TOP		0x166c
+-#define R128_AUX1_SC_BOTTOM		0x1670
+-#define R128_AUX2_SC_LEFT		0x1674
+-#define R128_AUX2_SC_RIGHT		0x1678
+-#define R128_AUX2_SC_TOP		0x167c
+-#define R128_AUX2_SC_BOTTOM		0x1680
+-#define R128_AUX3_SC_LEFT		0x1684
+-#define R128_AUX3_SC_RIGHT		0x1688
+-#define R128_AUX3_SC_TOP		0x168c
+-#define R128_AUX3_SC_BOTTOM		0x1690
+-
+-#define R128_BRUSH_DATA0		0x1480
+-#define R128_BUS_CNTL			0x0030
+-#	define R128_BUS_MASTER_DIS		(1 << 6)
+-
+-#define R128_CLOCK_CNTL_INDEX		0x0008
+-#define R128_CLOCK_CNTL_DATA		0x000c
+-#	define R128_PLL_WR_EN			(1 << 7)
+-#define R128_CONSTANT_COLOR_C		0x1d34
+-#define R128_CRTC_OFFSET		0x0224
+-#define R128_CRTC_OFFSET_CNTL		0x0228
+-#	define R128_CRTC_OFFSET_FLIP_CNTL	(1 << 16)
+-
+-#define R128_DP_GUI_MASTER_CNTL		0x146c
+-#       define R128_GMC_SRC_PITCH_OFFSET_CNTL	(1    <<  0)
+-#       define R128_GMC_DST_PITCH_OFFSET_CNTL	(1    <<  1)
+-#	define R128_GMC_BRUSH_SOLID_COLOR	(13   <<  4)
+-#	define R128_GMC_BRUSH_NONE		(15   <<  4)
+-#	define R128_GMC_DST_16BPP		(4    <<  8)
+-#	define R128_GMC_DST_24BPP		(5    <<  8)
+-#	define R128_GMC_DST_32BPP		(6    <<  8)
+-#       define R128_GMC_DST_DATATYPE_SHIFT	8
+-#	define R128_GMC_SRC_DATATYPE_COLOR	(3    << 12)
+-#	define R128_DP_SRC_SOURCE_MEMORY	(2    << 24)
+-#	define R128_DP_SRC_SOURCE_HOST_DATA	(3    << 24)
+-#	define R128_GMC_CLR_CMP_CNTL_DIS	(1    << 28)
+-#	define R128_GMC_AUX_CLIP_DIS		(1    << 29)
+-#	define R128_GMC_WR_MSK_DIS		(1    << 30)
+-#	define R128_ROP3_S			0x00cc0000
+-#	define R128_ROP3_P			0x00f00000
+-#define R128_DP_WRITE_MASK		0x16cc
+-#define R128_DST_PITCH_OFFSET_C		0x1c80
+-#	define R128_DST_TILE			(1 << 31)
+-
+-#define R128_GEN_INT_CNTL		0x0040
+-#	define R128_CRTC_VBLANK_INT_EN		(1 <<  0)
+-#define R128_GEN_INT_STATUS		0x0044
+-#	define R128_CRTC_VBLANK_INT		(1 <<  0)
+-#	define R128_CRTC_VBLANK_INT_AK		(1 <<  0)
+-#define R128_GEN_RESET_CNTL		0x00f0
+-#	define R128_SOFT_RESET_GUI		(1 <<  0)
+-
+-#define R128_GUI_SCRATCH_REG0		0x15e0
+-#define R128_GUI_SCRATCH_REG1		0x15e4
+-#define R128_GUI_SCRATCH_REG2		0x15e8
+-#define R128_GUI_SCRATCH_REG3		0x15ec
+-#define R128_GUI_SCRATCH_REG4		0x15f0
+-#define R128_GUI_SCRATCH_REG5		0x15f4
+-
+-#define R128_GUI_STAT			0x1740
+-#	define R128_GUI_FIFOCNT_MASK		0x0fff
+-#	define R128_GUI_ACTIVE			(1 << 31)
+-
+-#define R128_MCLK_CNTL			0x000f
+-#	define R128_FORCE_GCP			(1 << 16)
+-#	define R128_FORCE_PIPE3D_CP		(1 << 17)
+-#	define R128_FORCE_RCP			(1 << 18)
+-
+-#define R128_PC_GUI_CTLSTAT		0x1748
+-#define R128_PC_NGUI_CTLSTAT		0x0184
+-#	define R128_PC_FLUSH_GUI		(3 << 0)
+-#	define R128_PC_RI_GUI			(1 << 2)
+-#	define R128_PC_FLUSH_ALL		0x00ff
+-#	define R128_PC_BUSY			(1 << 31)
+-
+-#define R128_PCI_GART_PAGE		0x017c
+-#define R128_PRIM_TEX_CNTL_C		0x1cb0
+-
+-#define R128_SCALE_3D_CNTL		0x1a00
+-#define R128_SEC_TEX_CNTL_C		0x1d00
+-#define R128_SEC_TEXTURE_BORDER_COLOR_C	0x1d3c
+-#define R128_SETUP_CNTL			0x1bc4
+-#define R128_STEN_REF_MASK_C		0x1d40
+-
+-#define R128_TEX_CNTL_C			0x1c9c
+-#	define R128_TEX_CACHE_FLUSH		(1 << 23)
+-
+-#define R128_WAIT_UNTIL			0x1720
+-#	define R128_EVENT_CRTC_OFFSET		(1 << 0)
+-#define R128_WINDOW_XY_OFFSET		0x1bcc
+-
+-/* CCE registers
+- */
+-#define R128_PM4_BUFFER_OFFSET		0x0700
+-#define R128_PM4_BUFFER_CNTL		0x0704
+-#	define R128_PM4_MASK			(15 << 28)
+-#	define R128_PM4_NONPM4			(0  << 28)
+-#	define R128_PM4_192PIO			(1  << 28)
+-#	define R128_PM4_192BM			(2  << 28)
+-#	define R128_PM4_128PIO_64INDBM		(3  << 28)
+-#	define R128_PM4_128BM_64INDBM		(4  << 28)
+-#	define R128_PM4_64PIO_128INDBM		(5  << 28)
+-#	define R128_PM4_64BM_128INDBM		(6  << 28)
+-#	define R128_PM4_64PIO_64VCBM_64INDBM	(7  << 28)
+-#	define R128_PM4_64BM_64VCBM_64INDBM	(8U  << 28)
+-#	define R128_PM4_64PIO_64VCPIO_64INDPIO	(15U << 28)
+-#	define R128_PM4_BUFFER_CNTL_NOUPDATE	(1  << 27)
+-
+-#define R128_PM4_BUFFER_WM_CNTL		0x0708
+-#	define R128_WMA_SHIFT			0
+-#	define R128_WMB_SHIFT			8
+-#	define R128_WMC_SHIFT			16
+-#	define R128_WB_WM_SHIFT			24
+-
+-#define R128_PM4_BUFFER_DL_RPTR_ADDR	0x070c
+-#define R128_PM4_BUFFER_DL_RPTR		0x0710
+-#define R128_PM4_BUFFER_DL_WPTR		0x0714
+-#	define R128_PM4_BUFFER_DL_DONE		(1 << 31)
+-
+-#define R128_PM4_VC_FPU_SETUP		0x071c
+-
+-#define R128_PM4_IW_INDOFF		0x0738
+-#define R128_PM4_IW_INDSIZE		0x073c
+-
+-#define R128_PM4_STAT			0x07b8
+-#	define R128_PM4_FIFOCNT_MASK		0x0fff
+-#	define R128_PM4_BUSY			(1 << 16)
+-#	define R128_PM4_GUI_ACTIVE		(1 << 31)
+-
+-#define R128_PM4_MICROCODE_ADDR		0x07d4
+-#define R128_PM4_MICROCODE_RADDR	0x07d8
+-#define R128_PM4_MICROCODE_DATAH	0x07dc
+-#define R128_PM4_MICROCODE_DATAL	0x07e0
+-
+-#define R128_PM4_BUFFER_ADDR		0x07f0
+-#define R128_PM4_MICRO_CNTL		0x07fc
+-#	define R128_PM4_MICRO_FREERUN		(1 << 30)
+-
+-#define R128_PM4_FIFO_DATA_EVEN		0x1000
+-#define R128_PM4_FIFO_DATA_ODD		0x1004
+-
+-/* CCE command packets
+- */
+-#define R128_CCE_PACKET0		0x00000000
+-#define R128_CCE_PACKET1		0x40000000
+-#define R128_CCE_PACKET2		0x80000000
+-#define R128_CCE_PACKET3		0xC0000000
+-#	define R128_CNTL_HOSTDATA_BLT		0x00009400
+-#	define R128_CNTL_PAINT_MULTI		0x00009A00
+-#	define R128_CNTL_BITBLT_MULTI		0x00009B00
+-#	define R128_3D_RNDR_GEN_INDX_PRIM	0x00002300
+-
+-#define R128_CCE_PACKET_MASK		0xC0000000
+-#define R128_CCE_PACKET_COUNT_MASK	0x3fff0000
+-#define R128_CCE_PACKET0_REG_MASK	0x000007ff
+-#define R128_CCE_PACKET1_REG0_MASK	0x000007ff
+-#define R128_CCE_PACKET1_REG1_MASK	0x003ff800
+-
+-#define R128_CCE_VC_CNTL_PRIM_TYPE_NONE		0x00000000
+-#define R128_CCE_VC_CNTL_PRIM_TYPE_POINT	0x00000001
+-#define R128_CCE_VC_CNTL_PRIM_TYPE_LINE		0x00000002
+-#define R128_CCE_VC_CNTL_PRIM_TYPE_POLY_LINE	0x00000003
+-#define R128_CCE_VC_CNTL_PRIM_TYPE_TRI_LIST	0x00000004
+-#define R128_CCE_VC_CNTL_PRIM_TYPE_TRI_FAN	0x00000005
+-#define R128_CCE_VC_CNTL_PRIM_TYPE_TRI_STRIP	0x00000006
+-#define R128_CCE_VC_CNTL_PRIM_TYPE_TRI_TYPE2	0x00000007
+-#define R128_CCE_VC_CNTL_PRIM_WALK_IND		0x00000010
+-#define R128_CCE_VC_CNTL_PRIM_WALK_LIST		0x00000020
+-#define R128_CCE_VC_CNTL_PRIM_WALK_RING		0x00000030
+-#define R128_CCE_VC_CNTL_NUM_SHIFT		16
+-
+-#define R128_DATATYPE_VQ		0
+-#define R128_DATATYPE_CI4		1
+-#define R128_DATATYPE_CI8		2
+-#define R128_DATATYPE_ARGB1555		3
+-#define R128_DATATYPE_RGB565		4
+-#define R128_DATATYPE_RGB888		5
+-#define R128_DATATYPE_ARGB8888		6
+-#define R128_DATATYPE_RGB332		7
+-#define R128_DATATYPE_Y8		8
+-#define R128_DATATYPE_RGB8		9
+-#define R128_DATATYPE_CI16		10
+-#define R128_DATATYPE_YVYU422		11
+-#define R128_DATATYPE_VYUY422		12
+-#define R128_DATATYPE_AYUV444		14
+-#define R128_DATATYPE_ARGB4444		15
+-
+-/* Constants */
+-#define R128_AGP_OFFSET			0x02000000
+-
+-#define R128_WATERMARK_L		16
+-#define R128_WATERMARK_M		8
+-#define R128_WATERMARK_N		8
+-#define R128_WATERMARK_K		128
+-
+-#define R128_MAX_USEC_TIMEOUT		100000	/* 100 ms */
+-
+-#define R128_LAST_FRAME_REG		R128_GUI_SCRATCH_REG0
+-#define R128_LAST_DISPATCH_REG		R128_GUI_SCRATCH_REG1
+-#define R128_MAX_VB_AGE			0x7fffffff
+-#define R128_MAX_VB_VERTS		(0xffff)
+-
+-#define R128_RING_HIGH_MARK		128
+-
+-#define R128_PERFORMANCE_BOXES		0
+-
+-#define R128_PCIGART_TABLE_SIZE         32768
+-
+-#define R128_READ(reg)		readl(((void __iomem *)dev_priv->mmio->handle) + (reg))
+-#define R128_WRITE(reg, val)	writel(val, ((void __iomem *)dev_priv->mmio->handle) + (reg))
+-#define R128_READ8(reg)		readb(((void __iomem *)dev_priv->mmio->handle) + (reg))
+-#define R128_WRITE8(reg, val)	writeb(val, ((void __iomem *)dev_priv->mmio->handle) + (reg))
+-
+-#define R128_WRITE_PLL(addr, val)					\
+-do {									\
+-	R128_WRITE8(R128_CLOCK_CNTL_INDEX,				\
+-		    ((addr) & 0x1f) | R128_PLL_WR_EN);			\
+-	R128_WRITE(R128_CLOCK_CNTL_DATA, (val));			\
+-} while (0)
+-
+-#define CCE_PACKET0(reg, n)		(R128_CCE_PACKET0 |		\
+-					 ((n) << 16) | ((reg) >> 2))
+-#define CCE_PACKET1(reg0, reg1)		(R128_CCE_PACKET1 |		\
+-					 (((reg1) >> 2) << 11) | ((reg0) >> 2))
+-#define CCE_PACKET2()			(R128_CCE_PACKET2)
+-#define CCE_PACKET3(pkt, n)		(R128_CCE_PACKET3 |		\
+-					 (pkt) | ((n) << 16))
+-
+-static __inline__ void r128_update_ring_snapshot(drm_r128_private_t *dev_priv)
+-{
+-	drm_r128_ring_buffer_t *ring = &dev_priv->ring;
+-	ring->space = (GET_RING_HEAD(dev_priv) - ring->tail) * sizeof(u32);
+-	if (ring->space <= 0)
+-		ring->space += ring->size;
+-}
+-
+-/* ================================================================
+- * Misc helper macros
+- */
+-
+-#define DEV_INIT_TEST_WITH_RETURN(_dev_priv)				\
+-do {									\
+-	if (!_dev_priv) {						\
+-		DRM_ERROR("called with no initialization\n");		\
+-		return -EINVAL;						\
+-	}								\
+-} while (0)
+-
+-#define RING_SPACE_TEST_WITH_RETURN(dev_priv)				\
+-do {									\
+-	drm_r128_ring_buffer_t *ring = &dev_priv->ring; int i;		\
+-	if (ring->space < ring->high_mark) {				\
+-		for (i = 0 ; i < dev_priv->usec_timeout ; i++) {	\
+-			r128_update_ring_snapshot(dev_priv);		\
+-			if (ring->space >= ring->high_mark)		\
+-				goto __ring_space_done;			\
+-			udelay(1);					\
+-		}							\
+-		DRM_ERROR("ring space check failed!\n");		\
+-		return -EBUSY;						\
+-	}								\
+- __ring_space_done:							\
+-	;								\
+-} while (0)
+-
+-#define VB_AGE_TEST_WITH_RETURN(dev_priv)				\
+-do {									\
+-	drm_r128_sarea_t *sarea_priv = dev_priv->sarea_priv;		\
+-	if (sarea_priv->last_dispatch >= R128_MAX_VB_AGE) {		\
+-		int __ret = r128_do_cce_idle(dev_priv);			\
+-		if (__ret)						\
+-			return __ret;					\
+-		sarea_priv->last_dispatch = 0;				\
+-		r128_freelist_reset(dev);				\
+-	}								\
+-} while (0)
+-
+-#define R128_WAIT_UNTIL_PAGE_FLIPPED() do {				\
+-	OUT_RING(CCE_PACKET0(R128_WAIT_UNTIL, 0));			\
+-	OUT_RING(R128_EVENT_CRTC_OFFSET);				\
+-} while (0)
+-
+-/* ================================================================
+- * Ring control
+- */
+-
+-#define R128_VERBOSE	0
+-
+-#define RING_LOCALS							\
+-	int write, _nr; unsigned int tail_mask; volatile u32 *ring;
+-
+-#define BEGIN_RING(n) do {						\
+-	if (R128_VERBOSE)						\
+-		DRM_INFO("BEGIN_RING(%d)\n", (n));			\
+-	if (dev_priv->ring.space <= (n) * sizeof(u32)) {		\
+-		COMMIT_RING();						\
+-		r128_wait_ring(dev_priv, (n) * sizeof(u32));		\
+-	}								\
+-	_nr = n; dev_priv->ring.space -= (n) * sizeof(u32);		\
+-	ring = dev_priv->ring.start;					\
+-	write = dev_priv->ring.tail;					\
+-	tail_mask = dev_priv->ring.tail_mask;				\
+-} while (0)
+-
+-/* You can set this to zero if you want.  If the card locks up, you'll
+- * need to keep this set.  It works around a bug in early revs of the
+- * Rage 128 chipset, where the CCE would read 32 dwords past the end of
+- * the ring buffer before wrapping around.
+- */
+-#define R128_BROKEN_CCE	1
+-
+-#define ADVANCE_RING() do {						\
+-	if (R128_VERBOSE)						\
+-		DRM_INFO("ADVANCE_RING() wr=0x%06x tail=0x%06x\n",	\
+-			 write, dev_priv->ring.tail);			\
+-	if (R128_BROKEN_CCE && write < 32)				\
+-		memcpy(dev_priv->ring.end,				\
+-		       dev_priv->ring.start,				\
+-		       write * sizeof(u32));				\
+-	if (((dev_priv->ring.tail + _nr) & tail_mask) != write)		\
+-		DRM_ERROR(						\
+-			"ADVANCE_RING(): mismatch: nr: %x write: %x line: %d\n",	\
+-			((dev_priv->ring.tail + _nr) & tail_mask),	\
+-			write, __LINE__);				\
+-	else								\
+-		dev_priv->ring.tail = write;				\
+-} while (0)
+-
+-#define COMMIT_RING() do {						\
+-	if (R128_VERBOSE)						\
+-		DRM_INFO("COMMIT_RING() tail=0x%06x\n",			\
+-			 dev_priv->ring.tail);				\
+-	mb();						\
+-	R128_WRITE(R128_PM4_BUFFER_DL_WPTR, dev_priv->ring.tail);	\
+-	R128_READ(R128_PM4_BUFFER_DL_WPTR);				\
+-} while (0)
+-
+-#define OUT_RING(x) do {						\
+-	if (R128_VERBOSE)						\
+-		DRM_INFO("   OUT_RING( 0x%08x ) at 0x%x\n",		\
+-			 (unsigned int)(x), write);			\
+-	ring[write++] = cpu_to_le32(x);					\
+-	write &= tail_mask;						\
+-} while (0)
+-
+-#endif				/* __R128_DRV_H__ */
+diff --git a/drivers/gpu/drm/r128/r128_ioc32.c b/drivers/gpu/drm/r128/r128_ioc32.c
+deleted file mode 100644
+index cdeb1db87222..000000000000
+--- a/drivers/gpu/drm/r128/r128_ioc32.c
++++ /dev/null
+@@ -1,199 +0,0 @@
+-/*
+- * \file r128_ioc32.c
+- *
+- * 32-bit ioctl compatibility routines for the R128 DRM.
+- *
+- * \author Dave Airlie <airlied@linux.ie> with code from patches by Egbert Eich
+- *
+- * Copyright (C) Paul Mackerras 2005
+- * Copyright (C) Egbert Eich 2003,2004
+- * Copyright (C) Dave Airlie 2005
+- * All Rights Reserved.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the next
+- * paragraph) shall be included in all copies or substantial portions of the
+- * Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+- * THE AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+- * IN THE SOFTWARE.
+- */
+-
+-#include <linux/compat.h>
+-
+-#include <drm/r128_drm.h>
+-
+-#include "r128_drv.h"
+-
+-typedef struct drm_r128_init32 {
+-	int func;
+-	unsigned int sarea_priv_offset;
+-	int is_pci;
+-	int cce_mode;
+-	int cce_secure;
+-	int ring_size;
+-	int usec_timeout;
+-
+-	unsigned int fb_bpp;
+-	unsigned int front_offset, front_pitch;
+-	unsigned int back_offset, back_pitch;
+-	unsigned int depth_bpp;
+-	unsigned int depth_offset, depth_pitch;
+-	unsigned int span_offset;
+-
+-	unsigned int fb_offset;
+-	unsigned int mmio_offset;
+-	unsigned int ring_offset;
+-	unsigned int ring_rptr_offset;
+-	unsigned int buffers_offset;
+-	unsigned int agp_textures_offset;
+-} drm_r128_init32_t;
+-
+-static int compat_r128_init(struct file *file, unsigned int cmd,
+-			    unsigned long arg)
+-{
+-	drm_r128_init32_t init32;
+-	drm_r128_init_t init;
+-
+-	if (copy_from_user(&init32, (void __user *)arg, sizeof(init32)))
+-		return -EFAULT;
+-
+-	init.func = init32.func;
+-	init.sarea_priv_offset = init32.sarea_priv_offset;
+-	init.is_pci = init32.is_pci;
+-	init.cce_mode = init32.cce_mode;
+-	init.cce_secure = init32.cce_secure;
+-	init.ring_size = init32.ring_size;
+-	init.usec_timeout = init32.usec_timeout;
+-	init.fb_bpp = init32.fb_bpp;
+-	init.front_offset = init32.front_offset;
+-	init.front_pitch = init32.front_pitch;
+-	init.back_offset = init32.back_offset;
+-	init.back_pitch = init32.back_pitch;
+-	init.depth_bpp = init32.depth_bpp;
+-	init.depth_offset = init32.depth_offset;
+-	init.depth_pitch = init32.depth_pitch;
+-	init.span_offset = init32.span_offset;
+-	init.fb_offset = init32.fb_offset;
+-	init.mmio_offset = init32.mmio_offset;
+-	init.ring_offset = init32.ring_offset;
+-	init.ring_rptr_offset = init32.ring_rptr_offset;
+-	init.buffers_offset = init32.buffers_offset;
+-	init.agp_textures_offset = init32.agp_textures_offset;
+-
+-	return drm_ioctl_kernel(file, r128_cce_init, &init,
+-			DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY);
+-}
+-
+-typedef struct drm_r128_depth32 {
+-	int func;
+-	int n;
+-	u32 x;
+-	u32 y;
+-	u32 buffer;
+-	u32 mask;
+-} drm_r128_depth32_t;
+-
+-static int compat_r128_depth(struct file *file, unsigned int cmd,
+-			     unsigned long arg)
+-{
+-	drm_r128_depth32_t depth32;
+-	drm_r128_depth_t depth;
+-
+-	if (copy_from_user(&depth32, (void __user *)arg, sizeof(depth32)))
+-		return -EFAULT;
+-
+-	depth.func = depth32.func;
+-	depth.n = depth32.n;
+-	depth.x = compat_ptr(depth32.x);
+-	depth.y = compat_ptr(depth32.y);
+-	depth.buffer = compat_ptr(depth32.buffer);
+-	depth.mask = compat_ptr(depth32.mask);
+-
+-	return drm_ioctl_kernel(file, r128_cce_depth, &depth, DRM_AUTH);
+-}
+-
+-typedef struct drm_r128_stipple32 {
+-	u32 mask;
+-} drm_r128_stipple32_t;
+-
+-static int compat_r128_stipple(struct file *file, unsigned int cmd,
+-			       unsigned long arg)
+-{
+-	drm_r128_stipple32_t stipple32;
+-	drm_r128_stipple_t stipple;
+-
+-	if (copy_from_user(&stipple32, (void __user *)arg, sizeof(stipple32)))
+-		return -EFAULT;
+-
+-	stipple.mask = compat_ptr(stipple32.mask);
+-
+-	return drm_ioctl_kernel(file, r128_cce_stipple, &stipple, DRM_AUTH);
+-}
+-
+-typedef struct drm_r128_getparam32 {
+-	int param;
+-	u32 value;
+-} drm_r128_getparam32_t;
+-
+-static int compat_r128_getparam(struct file *file, unsigned int cmd,
+-				unsigned long arg)
+-{
+-	drm_r128_getparam32_t getparam32;
+-	drm_r128_getparam_t getparam;
+-
+-	if (copy_from_user(&getparam32, (void __user *)arg, sizeof(getparam32)))
+-		return -EFAULT;
+-
+-	getparam.param = getparam32.param;
+-	getparam.value = compat_ptr(getparam32.value);
+-
+-	return drm_ioctl_kernel(file, r128_getparam, &getparam, DRM_AUTH);
+-}
+-
+-drm_ioctl_compat_t *r128_compat_ioctls[] = {
+-	[DRM_R128_INIT] = compat_r128_init,
+-	[DRM_R128_DEPTH] = compat_r128_depth,
+-	[DRM_R128_STIPPLE] = compat_r128_stipple,
+-	[DRM_R128_GETPARAM] = compat_r128_getparam,
+-};
+-
+-/**
+- * r128_compat_ioctl - Called whenever a 32-bit process running under
+- *                     a 64-bit kernel performs an ioctl on /dev/dri/card<n>.
+- *
+- * @filp: file pointer.
+- * @cmd: command.
+- * @arg: user argument.
+- * return: zero on success or negative number on failure.
+- */
+-long r128_compat_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+-{
+-	unsigned int nr = DRM_IOCTL_NR(cmd);
+-	drm_ioctl_compat_t *fn = NULL;
+-	int ret;
+-
+-	if (nr < DRM_COMMAND_BASE)
+-		return drm_compat_ioctl(filp, cmd, arg);
+-
+-	if (nr < DRM_COMMAND_BASE + ARRAY_SIZE(r128_compat_ioctls))
+-		fn = r128_compat_ioctls[nr - DRM_COMMAND_BASE];
+-
+-	if (fn != NULL)
+-		ret = (*fn) (filp, cmd, arg);
+-	else
+-		ret = drm_ioctl(filp, cmd, arg);
+-
+-	return ret;
+-}
+diff --git a/drivers/gpu/drm/r128/r128_irq.c b/drivers/gpu/drm/r128/r128_irq.c
+deleted file mode 100644
+index d84e9c96e20a..000000000000
+--- a/drivers/gpu/drm/r128/r128_irq.c
++++ /dev/null
+@@ -1,118 +0,0 @@
+-/* r128_irq.c -- IRQ handling for radeon -*- linux-c -*- */
+-/*
+- * Copyright (C) The Weather Channel, Inc.  2002.  All Rights Reserved.
+- *
+- * The Weather Channel (TM) funded Tungsten Graphics to develop the
+- * initial release of the Radeon 8500 driver under the XFree86 license.
+- * This notice must be preserved.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the next
+- * paragraph) shall be included in all copies or substantial portions of the
+- * Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+- * PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+- * DEALINGS IN THE SOFTWARE.
+- *
+- * Authors:
+- *    Keith Whitwell <keith@tungstengraphics.com>
+- *    Eric Anholt <anholt@FreeBSD.org>
+- */
+-
+-#include <drm/drm_device.h>
+-#include <drm/drm_print.h>
+-#include <drm/drm_vblank.h>
+-#include <drm/r128_drm.h>
+-
+-#include "r128_drv.h"
+-
+-u32 r128_get_vblank_counter(struct drm_device *dev, unsigned int pipe)
+-{
+-	const drm_r128_private_t *dev_priv = dev->dev_private;
+-
+-	if (pipe != 0)
+-		return 0;
+-
+-	return atomic_read(&dev_priv->vbl_received);
+-}
+-
+-irqreturn_t r128_driver_irq_handler(int irq, void *arg)
+-{
+-	struct drm_device *dev = (struct drm_device *) arg;
+-	drm_r128_private_t *dev_priv = (drm_r128_private_t *) dev->dev_private;
+-	int status;
+-
+-	status = R128_READ(R128_GEN_INT_STATUS);
+-
+-	/* VBLANK interrupt */
+-	if (status & R128_CRTC_VBLANK_INT) {
+-		R128_WRITE(R128_GEN_INT_STATUS, R128_CRTC_VBLANK_INT_AK);
+-		atomic_inc(&dev_priv->vbl_received);
+-		drm_handle_vblank(dev, 0);
+-		return IRQ_HANDLED;
+-	}
+-	return IRQ_NONE;
+-}
+-
+-int r128_enable_vblank(struct drm_device *dev, unsigned int pipe)
+-{
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-
+-	if (pipe != 0) {
+-		DRM_ERROR("%s:  bad crtc %u\n", __func__, pipe);
+-		return -EINVAL;
+-	}
+-
+-	R128_WRITE(R128_GEN_INT_CNTL, R128_CRTC_VBLANK_INT_EN);
+-	return 0;
+-}
+-
+-void r128_disable_vblank(struct drm_device *dev, unsigned int pipe)
+-{
+-	if (pipe != 0)
+-		DRM_ERROR("%s:  bad crtc %u\n", __func__, pipe);
+-
+-	/*
+-	 * FIXME: implement proper interrupt disable by using the vblank
+-	 * counter register (if available)
+-	 *
+-	 * R128_WRITE(R128_GEN_INT_CNTL,
+-	 *            R128_READ(R128_GEN_INT_CNTL) & ~R128_CRTC_VBLANK_INT_EN);
+-	 */
+-}
+-
+-void r128_driver_irq_preinstall(struct drm_device *dev)
+-{
+-	drm_r128_private_t *dev_priv = (drm_r128_private_t *) dev->dev_private;
+-
+-	/* Disable *all* interrupts */
+-	R128_WRITE(R128_GEN_INT_CNTL, 0);
+-	/* Clear vblank bit if it's already high */
+-	R128_WRITE(R128_GEN_INT_STATUS, R128_CRTC_VBLANK_INT_AK);
+-}
+-
+-int r128_driver_irq_postinstall(struct drm_device *dev)
+-{
+-	return 0;
+-}
+-
+-void r128_driver_irq_uninstall(struct drm_device *dev)
+-{
+-	drm_r128_private_t *dev_priv = (drm_r128_private_t *) dev->dev_private;
+-	if (!dev_priv)
+-		return;
+-
+-	/* Disable *all* interrupts */
+-	R128_WRITE(R128_GEN_INT_CNTL, 0);
+-}
+diff --git a/drivers/gpu/drm/r128/r128_state.c b/drivers/gpu/drm/r128/r128_state.c
+deleted file mode 100644
+index ac13fc2a0214..000000000000
+--- a/drivers/gpu/drm/r128/r128_state.c
++++ /dev/null
+@@ -1,1641 +0,0 @@
+-/* r128_state.c -- State support for r128 -*- linux-c -*-
+- * Created: Thu Jan 27 02:53:43 2000 by gareth@valinux.com
+- */
+-/*
+- * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
+- * All Rights Reserved.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the next
+- * paragraph) shall be included in all copies or substantial portions of the
+- * Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+- * PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+- * DEALINGS IN THE SOFTWARE.
+- *
+- * Authors:
+- *    Gareth Hughes <gareth@valinux.com>
+- */
+-
+-#include <linux/pci.h>
+-#include <linux/slab.h>
+-#include <linux/uaccess.h>
+-
+-#include <drm/drm_device.h>
+-#include <drm/drm_file.h>
+-#include <drm/drm_print.h>
+-#include <drm/r128_drm.h>
+-
+-#include "r128_drv.h"
+-
+-/* ================================================================
+- * CCE hardware state programming functions
+- */
+-
+-static void r128_emit_clip_rects(drm_r128_private_t *dev_priv,
+-				 struct drm_clip_rect *boxes, int count)
+-{
+-	u32 aux_sc_cntl = 0x00000000;
+-	RING_LOCALS;
+-	DRM_DEBUG("\n");
+-
+-	BEGIN_RING((count < 3 ? count : 3) * 5 + 2);
+-
+-	if (count >= 1) {
+-		OUT_RING(CCE_PACKET0(R128_AUX1_SC_LEFT, 3));
+-		OUT_RING(boxes[0].x1);
+-		OUT_RING(boxes[0].x2 - 1);
+-		OUT_RING(boxes[0].y1);
+-		OUT_RING(boxes[0].y2 - 1);
+-
+-		aux_sc_cntl |= (R128_AUX1_SC_EN | R128_AUX1_SC_MODE_OR);
+-	}
+-	if (count >= 2) {
+-		OUT_RING(CCE_PACKET0(R128_AUX2_SC_LEFT, 3));
+-		OUT_RING(boxes[1].x1);
+-		OUT_RING(boxes[1].x2 - 1);
+-		OUT_RING(boxes[1].y1);
+-		OUT_RING(boxes[1].y2 - 1);
+-
+-		aux_sc_cntl |= (R128_AUX2_SC_EN | R128_AUX2_SC_MODE_OR);
+-	}
+-	if (count >= 3) {
+-		OUT_RING(CCE_PACKET0(R128_AUX3_SC_LEFT, 3));
+-		OUT_RING(boxes[2].x1);
+-		OUT_RING(boxes[2].x2 - 1);
+-		OUT_RING(boxes[2].y1);
+-		OUT_RING(boxes[2].y2 - 1);
+-
+-		aux_sc_cntl |= (R128_AUX3_SC_EN | R128_AUX3_SC_MODE_OR);
+-	}
+-
+-	OUT_RING(CCE_PACKET0(R128_AUX_SC_CNTL, 0));
+-	OUT_RING(aux_sc_cntl);
+-
+-	ADVANCE_RING();
+-}
+-
+-static __inline__ void r128_emit_core(drm_r128_private_t *dev_priv)
+-{
+-	drm_r128_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	drm_r128_context_regs_t *ctx = &sarea_priv->context_state;
+-	RING_LOCALS;
+-	DRM_DEBUG("\n");
+-
+-	BEGIN_RING(2);
+-
+-	OUT_RING(CCE_PACKET0(R128_SCALE_3D_CNTL, 0));
+-	OUT_RING(ctx->scale_3d_cntl);
+-
+-	ADVANCE_RING();
+-}
+-
+-static __inline__ void r128_emit_context(drm_r128_private_t *dev_priv)
+-{
+-	drm_r128_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	drm_r128_context_regs_t *ctx = &sarea_priv->context_state;
+-	RING_LOCALS;
+-	DRM_DEBUG("\n");
+-
+-	BEGIN_RING(13);
+-
+-	OUT_RING(CCE_PACKET0(R128_DST_PITCH_OFFSET_C, 11));
+-	OUT_RING(ctx->dst_pitch_offset_c);
+-	OUT_RING(ctx->dp_gui_master_cntl_c);
+-	OUT_RING(ctx->sc_top_left_c);
+-	OUT_RING(ctx->sc_bottom_right_c);
+-	OUT_RING(ctx->z_offset_c);
+-	OUT_RING(ctx->z_pitch_c);
+-	OUT_RING(ctx->z_sten_cntl_c);
+-	OUT_RING(ctx->tex_cntl_c);
+-	OUT_RING(ctx->misc_3d_state_cntl_reg);
+-	OUT_RING(ctx->texture_clr_cmp_clr_c);
+-	OUT_RING(ctx->texture_clr_cmp_msk_c);
+-	OUT_RING(ctx->fog_color_c);
+-
+-	ADVANCE_RING();
+-}
+-
+-static __inline__ void r128_emit_setup(drm_r128_private_t *dev_priv)
+-{
+-	drm_r128_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	drm_r128_context_regs_t *ctx = &sarea_priv->context_state;
+-	RING_LOCALS;
+-	DRM_DEBUG("\n");
+-
+-	BEGIN_RING(3);
+-
+-	OUT_RING(CCE_PACKET1(R128_SETUP_CNTL, R128_PM4_VC_FPU_SETUP));
+-	OUT_RING(ctx->setup_cntl);
+-	OUT_RING(ctx->pm4_vc_fpu_setup);
+-
+-	ADVANCE_RING();
+-}
+-
+-static __inline__ void r128_emit_masks(drm_r128_private_t *dev_priv)
+-{
+-	drm_r128_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	drm_r128_context_regs_t *ctx = &sarea_priv->context_state;
+-	RING_LOCALS;
+-	DRM_DEBUG("\n");
+-
+-	BEGIN_RING(5);
+-
+-	OUT_RING(CCE_PACKET0(R128_DP_WRITE_MASK, 0));
+-	OUT_RING(ctx->dp_write_mask);
+-
+-	OUT_RING(CCE_PACKET0(R128_STEN_REF_MASK_C, 1));
+-	OUT_RING(ctx->sten_ref_mask_c);
+-	OUT_RING(ctx->plane_3d_mask_c);
+-
+-	ADVANCE_RING();
+-}
+-
+-static __inline__ void r128_emit_window(drm_r128_private_t *dev_priv)
+-{
+-	drm_r128_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	drm_r128_context_regs_t *ctx = &sarea_priv->context_state;
+-	RING_LOCALS;
+-	DRM_DEBUG("\n");
+-
+-	BEGIN_RING(2);
+-
+-	OUT_RING(CCE_PACKET0(R128_WINDOW_XY_OFFSET, 0));
+-	OUT_RING(ctx->window_xy_offset);
+-
+-	ADVANCE_RING();
+-}
+-
+-static __inline__ void r128_emit_tex0(drm_r128_private_t *dev_priv)
+-{
+-	drm_r128_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	drm_r128_context_regs_t *ctx = &sarea_priv->context_state;
+-	drm_r128_texture_regs_t *tex = &sarea_priv->tex_state[0];
+-	int i;
+-	RING_LOCALS;
+-	DRM_DEBUG("\n");
+-
+-	BEGIN_RING(7 + R128_MAX_TEXTURE_LEVELS);
+-
+-	OUT_RING(CCE_PACKET0(R128_PRIM_TEX_CNTL_C,
+-			     2 + R128_MAX_TEXTURE_LEVELS));
+-	OUT_RING(tex->tex_cntl);
+-	OUT_RING(tex->tex_combine_cntl);
+-	OUT_RING(ctx->tex_size_pitch_c);
+-	for (i = 0; i < R128_MAX_TEXTURE_LEVELS; i++)
+-		OUT_RING(tex->tex_offset[i]);
+-
+-	OUT_RING(CCE_PACKET0(R128_CONSTANT_COLOR_C, 1));
+-	OUT_RING(ctx->constant_color_c);
+-	OUT_RING(tex->tex_border_color);
+-
+-	ADVANCE_RING();
+-}
+-
+-static __inline__ void r128_emit_tex1(drm_r128_private_t *dev_priv)
+-{
+-	drm_r128_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	drm_r128_texture_regs_t *tex = &sarea_priv->tex_state[1];
+-	int i;
+-	RING_LOCALS;
+-	DRM_DEBUG("\n");
+-
+-	BEGIN_RING(5 + R128_MAX_TEXTURE_LEVELS);
+-
+-	OUT_RING(CCE_PACKET0(R128_SEC_TEX_CNTL_C, 1 + R128_MAX_TEXTURE_LEVELS));
+-	OUT_RING(tex->tex_cntl);
+-	OUT_RING(tex->tex_combine_cntl);
+-	for (i = 0; i < R128_MAX_TEXTURE_LEVELS; i++)
+-		OUT_RING(tex->tex_offset[i]);
+-
+-	OUT_RING(CCE_PACKET0(R128_SEC_TEXTURE_BORDER_COLOR_C, 0));
+-	OUT_RING(tex->tex_border_color);
+-
+-	ADVANCE_RING();
+-}
+-
+-static void r128_emit_state(drm_r128_private_t *dev_priv)
+-{
+-	drm_r128_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	unsigned int dirty = sarea_priv->dirty;
+-
+-	DRM_DEBUG("dirty=0x%08x\n", dirty);
+-
+-	if (dirty & R128_UPLOAD_CORE) {
+-		r128_emit_core(dev_priv);
+-		sarea_priv->dirty &= ~R128_UPLOAD_CORE;
+-	}
+-
+-	if (dirty & R128_UPLOAD_CONTEXT) {
+-		r128_emit_context(dev_priv);
+-		sarea_priv->dirty &= ~R128_UPLOAD_CONTEXT;
+-	}
+-
+-	if (dirty & R128_UPLOAD_SETUP) {
+-		r128_emit_setup(dev_priv);
+-		sarea_priv->dirty &= ~R128_UPLOAD_SETUP;
+-	}
+-
+-	if (dirty & R128_UPLOAD_MASKS) {
+-		r128_emit_masks(dev_priv);
+-		sarea_priv->dirty &= ~R128_UPLOAD_MASKS;
+-	}
+-
+-	if (dirty & R128_UPLOAD_WINDOW) {
+-		r128_emit_window(dev_priv);
+-		sarea_priv->dirty &= ~R128_UPLOAD_WINDOW;
+-	}
+-
+-	if (dirty & R128_UPLOAD_TEX0) {
+-		r128_emit_tex0(dev_priv);
+-		sarea_priv->dirty &= ~R128_UPLOAD_TEX0;
+-	}
+-
+-	if (dirty & R128_UPLOAD_TEX1) {
+-		r128_emit_tex1(dev_priv);
+-		sarea_priv->dirty &= ~R128_UPLOAD_TEX1;
+-	}
+-
+-	/* Turn off the texture cache flushing */
+-	sarea_priv->context_state.tex_cntl_c &= ~R128_TEX_CACHE_FLUSH;
+-
+-	sarea_priv->dirty &= ~R128_REQUIRE_QUIESCENCE;
+-}
+-
+-#if R128_PERFORMANCE_BOXES
+-/* ================================================================
+- * Performance monitoring functions
+- */
+-
+-static void r128_clear_box(drm_r128_private_t *dev_priv,
+-			   int x, int y, int w, int h, int r, int g, int b)
+-{
+-	u32 pitch, offset;
+-	u32 fb_bpp, color;
+-	RING_LOCALS;
+-
+-	switch (dev_priv->fb_bpp) {
+-	case 16:
+-		fb_bpp = R128_GMC_DST_16BPP;
+-		color = (((r & 0xf8) << 8) |
+-			 ((g & 0xfc) << 3) | ((b & 0xf8) >> 3));
+-		break;
+-	case 24:
+-		fb_bpp = R128_GMC_DST_24BPP;
+-		color = ((r << 16) | (g << 8) | b);
+-		break;
+-	case 32:
+-		fb_bpp = R128_GMC_DST_32BPP;
+-		color = (((0xff) << 24) | (r << 16) | (g << 8) | b);
+-		break;
+-	default:
+-		return;
+-	}
+-
+-	offset = dev_priv->back_offset;
+-	pitch = dev_priv->back_pitch >> 3;
+-
+-	BEGIN_RING(6);
+-
+-	OUT_RING(CCE_PACKET3(R128_CNTL_PAINT_MULTI, 4));
+-	OUT_RING(R128_GMC_DST_PITCH_OFFSET_CNTL |
+-		 R128_GMC_BRUSH_SOLID_COLOR |
+-		 fb_bpp |
+-		 R128_GMC_SRC_DATATYPE_COLOR |
+-		 R128_ROP3_P |
+-		 R128_GMC_CLR_CMP_CNTL_DIS | R128_GMC_AUX_CLIP_DIS);
+-
+-	OUT_RING((pitch << 21) | (offset >> 5));
+-	OUT_RING(color);
+-
+-	OUT_RING((x << 16) | y);
+-	OUT_RING((w << 16) | h);
+-
+-	ADVANCE_RING();
+-}
+-
+-static void r128_cce_performance_boxes(drm_r128_private_t *dev_priv)
+-{
+-	if (atomic_read(&dev_priv->idle_count) == 0)
+-		r128_clear_box(dev_priv, 64, 4, 8, 8, 0, 255, 0);
+-	else
+-		atomic_set(&dev_priv->idle_count, 0);
+-}
+-
+-#endif
+-
+-/* ================================================================
+- * CCE command dispatch functions
+- */
+-
+-static void r128_print_dirty(const char *msg, unsigned int flags)
+-{
+-	DRM_INFO("%s: (0x%x) %s%s%s%s%s%s%s%s%s\n",
+-		 msg,
+-		 flags,
+-		 (flags & R128_UPLOAD_CORE) ? "core, " : "",
+-		 (flags & R128_UPLOAD_CONTEXT) ? "context, " : "",
+-		 (flags & R128_UPLOAD_SETUP) ? "setup, " : "",
+-		 (flags & R128_UPLOAD_TEX0) ? "tex0, " : "",
+-		 (flags & R128_UPLOAD_TEX1) ? "tex1, " : "",
+-		 (flags & R128_UPLOAD_MASKS) ? "masks, " : "",
+-		 (flags & R128_UPLOAD_WINDOW) ? "window, " : "",
+-		 (flags & R128_UPLOAD_CLIPRECTS) ? "cliprects, " : "",
+-		 (flags & R128_REQUIRE_QUIESCENCE) ? "quiescence, " : "");
+-}
+-
+-static void r128_cce_dispatch_clear(struct drm_device *dev,
+-				    drm_r128_clear_t *clear)
+-{
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-	drm_r128_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	int nbox = sarea_priv->nbox;
+-	struct drm_clip_rect *pbox = sarea_priv->boxes;
+-	unsigned int flags = clear->flags;
+-	int i;
+-	RING_LOCALS;
+-	DRM_DEBUG("\n");
+-
+-	if (dev_priv->page_flipping && dev_priv->current_page == 1) {
+-		unsigned int tmp = flags;
+-
+-		flags &= ~(R128_FRONT | R128_BACK);
+-		if (tmp & R128_FRONT)
+-			flags |= R128_BACK;
+-		if (tmp & R128_BACK)
+-			flags |= R128_FRONT;
+-	}
+-
+-	for (i = 0; i < nbox; i++) {
+-		int x = pbox[i].x1;
+-		int y = pbox[i].y1;
+-		int w = pbox[i].x2 - x;
+-		int h = pbox[i].y2 - y;
+-
+-		DRM_DEBUG("dispatch clear %d,%d-%d,%d flags 0x%x\n",
+-			  pbox[i].x1, pbox[i].y1, pbox[i].x2,
+-			  pbox[i].y2, flags);
+-
+-		if (flags & (R128_FRONT | R128_BACK)) {
+-			BEGIN_RING(2);
+-
+-			OUT_RING(CCE_PACKET0(R128_DP_WRITE_MASK, 0));
+-			OUT_RING(clear->color_mask);
+-
+-			ADVANCE_RING();
+-		}
+-
+-		if (flags & R128_FRONT) {
+-			BEGIN_RING(6);
+-
+-			OUT_RING(CCE_PACKET3(R128_CNTL_PAINT_MULTI, 4));
+-			OUT_RING(R128_GMC_DST_PITCH_OFFSET_CNTL |
+-				 R128_GMC_BRUSH_SOLID_COLOR |
+-				 (dev_priv->color_fmt << 8) |
+-				 R128_GMC_SRC_DATATYPE_COLOR |
+-				 R128_ROP3_P |
+-				 R128_GMC_CLR_CMP_CNTL_DIS |
+-				 R128_GMC_AUX_CLIP_DIS);
+-
+-			OUT_RING(dev_priv->front_pitch_offset_c);
+-			OUT_RING(clear->clear_color);
+-
+-			OUT_RING((x << 16) | y);
+-			OUT_RING((w << 16) | h);
+-
+-			ADVANCE_RING();
+-		}
+-
+-		if (flags & R128_BACK) {
+-			BEGIN_RING(6);
+-
+-			OUT_RING(CCE_PACKET3(R128_CNTL_PAINT_MULTI, 4));
+-			OUT_RING(R128_GMC_DST_PITCH_OFFSET_CNTL |
+-				 R128_GMC_BRUSH_SOLID_COLOR |
+-				 (dev_priv->color_fmt << 8) |
+-				 R128_GMC_SRC_DATATYPE_COLOR |
+-				 R128_ROP3_P |
+-				 R128_GMC_CLR_CMP_CNTL_DIS |
+-				 R128_GMC_AUX_CLIP_DIS);
+-
+-			OUT_RING(dev_priv->back_pitch_offset_c);
+-			OUT_RING(clear->clear_color);
+-
+-			OUT_RING((x << 16) | y);
+-			OUT_RING((w << 16) | h);
+-
+-			ADVANCE_RING();
+-		}
+-
+-		if (flags & R128_DEPTH) {
+-			BEGIN_RING(6);
+-
+-			OUT_RING(CCE_PACKET3(R128_CNTL_PAINT_MULTI, 4));
+-			OUT_RING(R128_GMC_DST_PITCH_OFFSET_CNTL |
+-				 R128_GMC_BRUSH_SOLID_COLOR |
+-				 (dev_priv->depth_fmt << 8) |
+-				 R128_GMC_SRC_DATATYPE_COLOR |
+-				 R128_ROP3_P |
+-				 R128_GMC_CLR_CMP_CNTL_DIS |
+-				 R128_GMC_AUX_CLIP_DIS | R128_GMC_WR_MSK_DIS);
+-
+-			OUT_RING(dev_priv->depth_pitch_offset_c);
+-			OUT_RING(clear->clear_depth);
+-
+-			OUT_RING((x << 16) | y);
+-			OUT_RING((w << 16) | h);
+-
+-			ADVANCE_RING();
+-		}
+-	}
+-}
+-
+-static void r128_cce_dispatch_swap(struct drm_device *dev)
+-{
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-	drm_r128_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	int nbox = sarea_priv->nbox;
+-	struct drm_clip_rect *pbox = sarea_priv->boxes;
+-	int i;
+-	RING_LOCALS;
+-	DRM_DEBUG("\n");
+-
+-#if R128_PERFORMANCE_BOXES
+-	/* Do some trivial performance monitoring...
+-	 */
+-	r128_cce_performance_boxes(dev_priv);
+-#endif
+-
+-	for (i = 0; i < nbox; i++) {
+-		int x = pbox[i].x1;
+-		int y = pbox[i].y1;
+-		int w = pbox[i].x2 - x;
+-		int h = pbox[i].y2 - y;
+-
+-		BEGIN_RING(7);
+-
+-		OUT_RING(CCE_PACKET3(R128_CNTL_BITBLT_MULTI, 5));
+-		OUT_RING(R128_GMC_SRC_PITCH_OFFSET_CNTL |
+-			 R128_GMC_DST_PITCH_OFFSET_CNTL |
+-			 R128_GMC_BRUSH_NONE |
+-			 (dev_priv->color_fmt << 8) |
+-			 R128_GMC_SRC_DATATYPE_COLOR |
+-			 R128_ROP3_S |
+-			 R128_DP_SRC_SOURCE_MEMORY |
+-			 R128_GMC_CLR_CMP_CNTL_DIS |
+-			 R128_GMC_AUX_CLIP_DIS | R128_GMC_WR_MSK_DIS);
+-
+-		/* Make this work even if front & back are flipped:
+-		 */
+-		if (dev_priv->current_page == 0) {
+-			OUT_RING(dev_priv->back_pitch_offset_c);
+-			OUT_RING(dev_priv->front_pitch_offset_c);
+-		} else {
+-			OUT_RING(dev_priv->front_pitch_offset_c);
+-			OUT_RING(dev_priv->back_pitch_offset_c);
+-		}
+-
+-		OUT_RING((x << 16) | y);
+-		OUT_RING((x << 16) | y);
+-		OUT_RING((w << 16) | h);
+-
+-		ADVANCE_RING();
+-	}
+-
+-	/* Increment the frame counter.  The client-side 3D driver must
+-	 * throttle the framerate by waiting for this value before
+-	 * performing the swapbuffer ioctl.
+-	 */
+-	dev_priv->sarea_priv->last_frame++;
+-
+-	BEGIN_RING(2);
+-
+-	OUT_RING(CCE_PACKET0(R128_LAST_FRAME_REG, 0));
+-	OUT_RING(dev_priv->sarea_priv->last_frame);
+-
+-	ADVANCE_RING();
+-}
+-
+-static void r128_cce_dispatch_flip(struct drm_device *dev)
+-{
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-	RING_LOCALS;
+-	DRM_DEBUG("page=%d pfCurrentPage=%d\n",
+-		  dev_priv->current_page, dev_priv->sarea_priv->pfCurrentPage);
+-
+-#if R128_PERFORMANCE_BOXES
+-	/* Do some trivial performance monitoring...
+-	 */
+-	r128_cce_performance_boxes(dev_priv);
+-#endif
+-
+-	BEGIN_RING(4);
+-
+-	R128_WAIT_UNTIL_PAGE_FLIPPED();
+-	OUT_RING(CCE_PACKET0(R128_CRTC_OFFSET, 0));
+-
+-	if (dev_priv->current_page == 0)
+-		OUT_RING(dev_priv->back_offset);
+-	else
+-		OUT_RING(dev_priv->front_offset);
+-
+-	ADVANCE_RING();
+-
+-	/* Increment the frame counter.  The client-side 3D driver must
+-	 * throttle the framerate by waiting for this value before
+-	 * performing the swapbuffer ioctl.
+-	 */
+-	dev_priv->sarea_priv->last_frame++;
+-	dev_priv->sarea_priv->pfCurrentPage = dev_priv->current_page =
+-	    1 - dev_priv->current_page;
+-
+-	BEGIN_RING(2);
+-
+-	OUT_RING(CCE_PACKET0(R128_LAST_FRAME_REG, 0));
+-	OUT_RING(dev_priv->sarea_priv->last_frame);
+-
+-	ADVANCE_RING();
+-}
+-
+-static void r128_cce_dispatch_vertex(struct drm_device *dev, struct drm_buf *buf)
+-{
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-	drm_r128_buf_priv_t *buf_priv = buf->dev_private;
+-	drm_r128_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	int format = sarea_priv->vc_format;
+-	int offset = buf->bus_address;
+-	int size = buf->used;
+-	int prim = buf_priv->prim;
+-	int i = 0;
+-	RING_LOCALS;
+-	DRM_DEBUG("buf=%d nbox=%d\n", buf->idx, sarea_priv->nbox);
+-
+-	if (0)
+-		r128_print_dirty("dispatch_vertex", sarea_priv->dirty);
+-
+-	if (buf->used) {
+-		buf_priv->dispatched = 1;
+-
+-		if (sarea_priv->dirty & ~R128_UPLOAD_CLIPRECTS)
+-			r128_emit_state(dev_priv);
+-
+-		do {
+-			/* Emit the next set of up to three cliprects */
+-			if (i < sarea_priv->nbox) {
+-				r128_emit_clip_rects(dev_priv,
+-						     &sarea_priv->boxes[i],
+-						     sarea_priv->nbox - i);
+-			}
+-
+-			/* Emit the vertex buffer rendering commands */
+-			BEGIN_RING(5);
+-
+-			OUT_RING(CCE_PACKET3(R128_3D_RNDR_GEN_INDX_PRIM, 3));
+-			OUT_RING(offset);
+-			OUT_RING(size);
+-			OUT_RING(format);
+-			OUT_RING(prim | R128_CCE_VC_CNTL_PRIM_WALK_LIST |
+-				 (size << R128_CCE_VC_CNTL_NUM_SHIFT));
+-
+-			ADVANCE_RING();
+-
+-			i += 3;
+-		} while (i < sarea_priv->nbox);
+-	}
+-
+-	if (buf_priv->discard) {
+-		buf_priv->age = dev_priv->sarea_priv->last_dispatch;
+-
+-		/* Emit the vertex buffer age */
+-		BEGIN_RING(2);
+-
+-		OUT_RING(CCE_PACKET0(R128_LAST_DISPATCH_REG, 0));
+-		OUT_RING(buf_priv->age);
+-
+-		ADVANCE_RING();
+-
+-		buf->pending = 1;
+-		buf->used = 0;
+-		/* FIXME: Check dispatched field */
+-		buf_priv->dispatched = 0;
+-	}
+-
+-	dev_priv->sarea_priv->last_dispatch++;
+-
+-	sarea_priv->dirty &= ~R128_UPLOAD_CLIPRECTS;
+-	sarea_priv->nbox = 0;
+-}
+-
+-static void r128_cce_dispatch_indirect(struct drm_device *dev,
+-				       struct drm_buf *buf, int start, int end)
+-{
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-	drm_r128_buf_priv_t *buf_priv = buf->dev_private;
+-	RING_LOCALS;
+-	DRM_DEBUG("indirect: buf=%d s=0x%x e=0x%x\n", buf->idx, start, end);
+-
+-	if (start != end) {
+-		int offset = buf->bus_address + start;
+-		int dwords = (end - start + 3) / sizeof(u32);
+-
+-		/* Indirect buffer data must be an even number of
+-		 * dwords, so if we've been given an odd number we must
+-		 * pad the data with a Type-2 CCE packet.
+-		 */
+-		if (dwords & 1) {
+-			u32 *data = (u32 *)
+-			    ((char *)dev->agp_buffer_map->handle
+-			     + buf->offset + start);
+-			data[dwords++] = cpu_to_le32(R128_CCE_PACKET2);
+-		}
+-
+-		buf_priv->dispatched = 1;
+-
+-		/* Fire off the indirect buffer */
+-		BEGIN_RING(3);
+-
+-		OUT_RING(CCE_PACKET0(R128_PM4_IW_INDOFF, 1));
+-		OUT_RING(offset);
+-		OUT_RING(dwords);
+-
+-		ADVANCE_RING();
+-	}
+-
+-	if (buf_priv->discard) {
+-		buf_priv->age = dev_priv->sarea_priv->last_dispatch;
+-
+-		/* Emit the indirect buffer age */
+-		BEGIN_RING(2);
+-
+-		OUT_RING(CCE_PACKET0(R128_LAST_DISPATCH_REG, 0));
+-		OUT_RING(buf_priv->age);
+-
+-		ADVANCE_RING();
+-
+-		buf->pending = 1;
+-		buf->used = 0;
+-		/* FIXME: Check dispatched field */
+-		buf_priv->dispatched = 0;
+-	}
+-
+-	dev_priv->sarea_priv->last_dispatch++;
+-}
+-
+-static void r128_cce_dispatch_indices(struct drm_device *dev,
+-				      struct drm_buf *buf,
+-				      int start, int end, int count)
+-{
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-	drm_r128_buf_priv_t *buf_priv = buf->dev_private;
+-	drm_r128_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	int format = sarea_priv->vc_format;
+-	int offset = dev->agp_buffer_map->offset - dev_priv->cce_buffers_offset;
+-	int prim = buf_priv->prim;
+-	u32 *data;
+-	int dwords;
+-	int i = 0;
+-	RING_LOCALS;
+-	DRM_DEBUG("indices: s=%d e=%d c=%d\n", start, end, count);
+-
+-	if (0)
+-		r128_print_dirty("dispatch_indices", sarea_priv->dirty);
+-
+-	if (start != end) {
+-		buf_priv->dispatched = 1;
+-
+-		if (sarea_priv->dirty & ~R128_UPLOAD_CLIPRECTS)
+-			r128_emit_state(dev_priv);
+-
+-		dwords = (end - start + 3) / sizeof(u32);
+-
+-		data = (u32 *) ((char *)dev->agp_buffer_map->handle
+-				+ buf->offset + start);
+-
+-		data[0] = cpu_to_le32(CCE_PACKET3(R128_3D_RNDR_GEN_INDX_PRIM,
+-						  dwords - 2));
+-
+-		data[1] = cpu_to_le32(offset);
+-		data[2] = cpu_to_le32(R128_MAX_VB_VERTS);
+-		data[3] = cpu_to_le32(format);
+-		data[4] = cpu_to_le32((prim | R128_CCE_VC_CNTL_PRIM_WALK_IND |
+-				       (count << 16)));
+-
+-		if (count & 0x1) {
+-#ifdef __LITTLE_ENDIAN
+-			data[dwords - 1] &= 0x0000ffff;
+-#else
+-			data[dwords - 1] &= 0xffff0000;
+-#endif
+-		}
+-
+-		do {
+-			/* Emit the next set of up to three cliprects */
+-			if (i < sarea_priv->nbox) {
+-				r128_emit_clip_rects(dev_priv,
+-						     &sarea_priv->boxes[i],
+-						     sarea_priv->nbox - i);
+-			}
+-
+-			r128_cce_dispatch_indirect(dev, buf, start, end);
+-
+-			i += 3;
+-		} while (i < sarea_priv->nbox);
+-	}
+-
+-	if (buf_priv->discard) {
+-		buf_priv->age = dev_priv->sarea_priv->last_dispatch;
+-
+-		/* Emit the vertex buffer age */
+-		BEGIN_RING(2);
+-
+-		OUT_RING(CCE_PACKET0(R128_LAST_DISPATCH_REG, 0));
+-		OUT_RING(buf_priv->age);
+-
+-		ADVANCE_RING();
+-
+-		buf->pending = 1;
+-		/* FIXME: Check dispatched field */
+-		buf_priv->dispatched = 0;
+-	}
+-
+-	dev_priv->sarea_priv->last_dispatch++;
+-
+-	sarea_priv->dirty &= ~R128_UPLOAD_CLIPRECTS;
+-	sarea_priv->nbox = 0;
+-}
+-
+-static int r128_cce_dispatch_blit(struct drm_device *dev,
+-				  struct drm_file *file_priv,
+-				  drm_r128_blit_t *blit)
+-{
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-	struct drm_device_dma *dma = dev->dma;
+-	struct drm_buf *buf;
+-	drm_r128_buf_priv_t *buf_priv;
+-	u32 *data;
+-	int dword_shift, dwords;
+-	RING_LOCALS;
+-	DRM_DEBUG("\n");
+-
+-	/* The compiler won't optimize away a division by a variable,
+-	 * even if the only legal values are powers of two.  Thus, we'll
+-	 * use a shift instead.
+-	 */
+-	switch (blit->format) {
+-	case R128_DATATYPE_ARGB8888:
+-		dword_shift = 0;
+-		break;
+-	case R128_DATATYPE_ARGB1555:
+-	case R128_DATATYPE_RGB565:
+-	case R128_DATATYPE_ARGB4444:
+-	case R128_DATATYPE_YVYU422:
+-	case R128_DATATYPE_VYUY422:
+-		dword_shift = 1;
+-		break;
+-	case R128_DATATYPE_CI8:
+-	case R128_DATATYPE_RGB8:
+-		dword_shift = 2;
+-		break;
+-	default:
+-		DRM_ERROR("invalid blit format %d\n", blit->format);
+-		return -EINVAL;
+-	}
+-
+-	/* Flush the pixel cache, and mark the contents as Read Invalid.
+-	 * This ensures no pixel data gets mixed up with the texture
+-	 * data from the host data blit, otherwise part of the texture
+-	 * image may be corrupted.
+-	 */
+-	BEGIN_RING(2);
+-
+-	OUT_RING(CCE_PACKET0(R128_PC_GUI_CTLSTAT, 0));
+-	OUT_RING(R128_PC_RI_GUI | R128_PC_FLUSH_GUI);
+-
+-	ADVANCE_RING();
+-
+-	/* Dispatch the indirect buffer.
+-	 */
+-	buf = dma->buflist[blit->idx];
+-	buf_priv = buf->dev_private;
+-
+-	if (buf->file_priv != file_priv) {
+-		DRM_ERROR("process %d using buffer owned by %p\n",
+-			  task_pid_nr(current), buf->file_priv);
+-		return -EINVAL;
+-	}
+-	if (buf->pending) {
+-		DRM_ERROR("sending pending buffer %d\n", blit->idx);
+-		return -EINVAL;
+-	}
+-
+-	buf_priv->discard = 1;
+-
+-	dwords = (blit->width * blit->height) >> dword_shift;
+-
+-	data = (u32 *) ((char *)dev->agp_buffer_map->handle + buf->offset);
+-
+-	data[0] = cpu_to_le32(CCE_PACKET3(R128_CNTL_HOSTDATA_BLT, dwords + 6));
+-	data[1] = cpu_to_le32((R128_GMC_DST_PITCH_OFFSET_CNTL |
+-			       R128_GMC_BRUSH_NONE |
+-			       (blit->format << 8) |
+-			       R128_GMC_SRC_DATATYPE_COLOR |
+-			       R128_ROP3_S |
+-			       R128_DP_SRC_SOURCE_HOST_DATA |
+-			       R128_GMC_CLR_CMP_CNTL_DIS |
+-			       R128_GMC_AUX_CLIP_DIS | R128_GMC_WR_MSK_DIS));
+-
+-	data[2] = cpu_to_le32((blit->pitch << 21) | (blit->offset >> 5));
+-	data[3] = cpu_to_le32(0xffffffff);
+-	data[4] = cpu_to_le32(0xffffffff);
+-	data[5] = cpu_to_le32((blit->y << 16) | blit->x);
+-	data[6] = cpu_to_le32((blit->height << 16) | blit->width);
+-	data[7] = cpu_to_le32(dwords);
+-
+-	buf->used = (dwords + 8) * sizeof(u32);
+-
+-	r128_cce_dispatch_indirect(dev, buf, 0, buf->used);
+-
+-	/* Flush the pixel cache after the blit completes.  This ensures
+-	 * the texture data is written out to memory before rendering
+-	 * continues.
+-	 */
+-	BEGIN_RING(2);
+-
+-	OUT_RING(CCE_PACKET0(R128_PC_GUI_CTLSTAT, 0));
+-	OUT_RING(R128_PC_FLUSH_GUI);
+-
+-	ADVANCE_RING();
+-
+-	return 0;
+-}
+-
+-/* ================================================================
+- * Tiled depth buffer management
+- *
+- * FIXME: These should all set the destination write mask for when we
+- * have hardware stencil support.
+- */
+-
+-static int r128_cce_dispatch_write_span(struct drm_device *dev,
+-					drm_r128_depth_t *depth)
+-{
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-	int count, x, y;
+-	u32 *buffer;
+-	u8 *mask;
+-	int i, buffer_size, mask_size;
+-	RING_LOCALS;
+-	DRM_DEBUG("\n");
+-
+-	count = depth->n;
+-	if (count > 4096 || count <= 0)
+-		return -EMSGSIZE;
+-
+-	if (copy_from_user(&x, depth->x, sizeof(x)))
+-		return -EFAULT;
+-	if (copy_from_user(&y, depth->y, sizeof(y)))
+-		return -EFAULT;
+-
+-	buffer_size = depth->n * sizeof(u32);
+-	buffer = memdup_user(depth->buffer, buffer_size);
+-	if (IS_ERR(buffer))
+-		return PTR_ERR(buffer);
+-
+-	mask_size = depth->n;
+-	if (depth->mask) {
+-		mask = memdup_user(depth->mask, mask_size);
+-		if (IS_ERR(mask)) {
+-			kfree(buffer);
+-			return PTR_ERR(mask);
+-		}
+-
+-		for (i = 0; i < count; i++, x++) {
+-			if (mask[i]) {
+-				BEGIN_RING(6);
+-
+-				OUT_RING(CCE_PACKET3(R128_CNTL_PAINT_MULTI, 4));
+-				OUT_RING(R128_GMC_DST_PITCH_OFFSET_CNTL |
+-					 R128_GMC_BRUSH_SOLID_COLOR |
+-					 (dev_priv->depth_fmt << 8) |
+-					 R128_GMC_SRC_DATATYPE_COLOR |
+-					 R128_ROP3_P |
+-					 R128_GMC_CLR_CMP_CNTL_DIS |
+-					 R128_GMC_WR_MSK_DIS);
+-
+-				OUT_RING(dev_priv->depth_pitch_offset_c);
+-				OUT_RING(buffer[i]);
+-
+-				OUT_RING((x << 16) | y);
+-				OUT_RING((1 << 16) | 1);
+-
+-				ADVANCE_RING();
+-			}
+-		}
+-
+-		kfree(mask);
+-	} else {
+-		for (i = 0; i < count; i++, x++) {
+-			BEGIN_RING(6);
+-
+-			OUT_RING(CCE_PACKET3(R128_CNTL_PAINT_MULTI, 4));
+-			OUT_RING(R128_GMC_DST_PITCH_OFFSET_CNTL |
+-				 R128_GMC_BRUSH_SOLID_COLOR |
+-				 (dev_priv->depth_fmt << 8) |
+-				 R128_GMC_SRC_DATATYPE_COLOR |
+-				 R128_ROP3_P |
+-				 R128_GMC_CLR_CMP_CNTL_DIS |
+-				 R128_GMC_WR_MSK_DIS);
+-
+-			OUT_RING(dev_priv->depth_pitch_offset_c);
+-			OUT_RING(buffer[i]);
+-
+-			OUT_RING((x << 16) | y);
+-			OUT_RING((1 << 16) | 1);
+-
+-			ADVANCE_RING();
+-		}
+-	}
+-
+-	kfree(buffer);
+-
+-	return 0;
+-}
+-
+-static int r128_cce_dispatch_write_pixels(struct drm_device *dev,
+-					  drm_r128_depth_t *depth)
+-{
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-	int count, *x, *y;
+-	u32 *buffer;
+-	u8 *mask;
+-	int i, xbuf_size, ybuf_size, buffer_size, mask_size;
+-	RING_LOCALS;
+-	DRM_DEBUG("\n");
+-
+-	count = depth->n;
+-	if (count > 4096 || count <= 0)
+-		return -EMSGSIZE;
+-
+-	xbuf_size = count * sizeof(*x);
+-	ybuf_size = count * sizeof(*y);
+-	x = memdup_user(depth->x, xbuf_size);
+-	if (IS_ERR(x))
+-		return PTR_ERR(x);
+-	y = memdup_user(depth->y, ybuf_size);
+-	if (IS_ERR(y)) {
+-		kfree(x);
+-		return PTR_ERR(y);
+-	}
+-	buffer_size = depth->n * sizeof(u32);
+-	buffer = memdup_user(depth->buffer, buffer_size);
+-	if (IS_ERR(buffer)) {
+-		kfree(x);
+-		kfree(y);
+-		return PTR_ERR(buffer);
+-	}
+-
+-	if (depth->mask) {
+-		mask_size = depth->n;
+-		mask = memdup_user(depth->mask, mask_size);
+-		if (IS_ERR(mask)) {
+-			kfree(x);
+-			kfree(y);
+-			kfree(buffer);
+-			return PTR_ERR(mask);
+-		}
+-
+-		for (i = 0; i < count; i++) {
+-			if (mask[i]) {
+-				BEGIN_RING(6);
+-
+-				OUT_RING(CCE_PACKET3(R128_CNTL_PAINT_MULTI, 4));
+-				OUT_RING(R128_GMC_DST_PITCH_OFFSET_CNTL |
+-					 R128_GMC_BRUSH_SOLID_COLOR |
+-					 (dev_priv->depth_fmt << 8) |
+-					 R128_GMC_SRC_DATATYPE_COLOR |
+-					 R128_ROP3_P |
+-					 R128_GMC_CLR_CMP_CNTL_DIS |
+-					 R128_GMC_WR_MSK_DIS);
+-
+-				OUT_RING(dev_priv->depth_pitch_offset_c);
+-				OUT_RING(buffer[i]);
+-
+-				OUT_RING((x[i] << 16) | y[i]);
+-				OUT_RING((1 << 16) | 1);
+-
+-				ADVANCE_RING();
+-			}
+-		}
+-
+-		kfree(mask);
+-	} else {
+-		for (i = 0; i < count; i++) {
+-			BEGIN_RING(6);
+-
+-			OUT_RING(CCE_PACKET3(R128_CNTL_PAINT_MULTI, 4));
+-			OUT_RING(R128_GMC_DST_PITCH_OFFSET_CNTL |
+-				 R128_GMC_BRUSH_SOLID_COLOR |
+-				 (dev_priv->depth_fmt << 8) |
+-				 R128_GMC_SRC_DATATYPE_COLOR |
+-				 R128_ROP3_P |
+-				 R128_GMC_CLR_CMP_CNTL_DIS |
+-				 R128_GMC_WR_MSK_DIS);
+-
+-			OUT_RING(dev_priv->depth_pitch_offset_c);
+-			OUT_RING(buffer[i]);
+-
+-			OUT_RING((x[i] << 16) | y[i]);
+-			OUT_RING((1 << 16) | 1);
+-
+-			ADVANCE_RING();
+-		}
+-	}
+-
+-	kfree(x);
+-	kfree(y);
+-	kfree(buffer);
+-
+-	return 0;
+-}
+-
+-static int r128_cce_dispatch_read_span(struct drm_device *dev,
+-				       drm_r128_depth_t *depth)
+-{
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-	int count, x, y;
+-	RING_LOCALS;
+-	DRM_DEBUG("\n");
+-
+-	count = depth->n;
+-	if (count > 4096 || count <= 0)
+-		return -EMSGSIZE;
+-
+-	if (copy_from_user(&x, depth->x, sizeof(x)))
+-		return -EFAULT;
+-	if (copy_from_user(&y, depth->y, sizeof(y)))
+-		return -EFAULT;
+-
+-	BEGIN_RING(7);
+-
+-	OUT_RING(CCE_PACKET3(R128_CNTL_BITBLT_MULTI, 5));
+-	OUT_RING(R128_GMC_SRC_PITCH_OFFSET_CNTL |
+-		 R128_GMC_DST_PITCH_OFFSET_CNTL |
+-		 R128_GMC_BRUSH_NONE |
+-		 (dev_priv->depth_fmt << 8) |
+-		 R128_GMC_SRC_DATATYPE_COLOR |
+-		 R128_ROP3_S |
+-		 R128_DP_SRC_SOURCE_MEMORY |
+-		 R128_GMC_CLR_CMP_CNTL_DIS | R128_GMC_WR_MSK_DIS);
+-
+-	OUT_RING(dev_priv->depth_pitch_offset_c);
+-	OUT_RING(dev_priv->span_pitch_offset_c);
+-
+-	OUT_RING((x << 16) | y);
+-	OUT_RING((0 << 16) | 0);
+-	OUT_RING((count << 16) | 1);
+-
+-	ADVANCE_RING();
+-
+-	return 0;
+-}
+-
+-static int r128_cce_dispatch_read_pixels(struct drm_device *dev,
+-					 drm_r128_depth_t *depth)
+-{
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-	int count, *x, *y;
+-	int i, xbuf_size, ybuf_size;
+-	RING_LOCALS;
+-	DRM_DEBUG("\n");
+-
+-	count = depth->n;
+-	if (count > 4096 || count <= 0)
+-		return -EMSGSIZE;
+-
+-	if (count > dev_priv->depth_pitch)
+-		count = dev_priv->depth_pitch;
+-
+-	xbuf_size = count * sizeof(*x);
+-	ybuf_size = count * sizeof(*y);
+-	x = kmalloc(xbuf_size, GFP_KERNEL);
+-	if (x == NULL)
+-		return -ENOMEM;
+-	y = kmalloc(ybuf_size, GFP_KERNEL);
+-	if (y == NULL) {
+-		kfree(x);
+-		return -ENOMEM;
+-	}
+-	if (copy_from_user(x, depth->x, xbuf_size)) {
+-		kfree(x);
+-		kfree(y);
+-		return -EFAULT;
+-	}
+-	if (copy_from_user(y, depth->y, ybuf_size)) {
+-		kfree(x);
+-		kfree(y);
+-		return -EFAULT;
+-	}
+-
+-	for (i = 0; i < count; i++) {
+-		BEGIN_RING(7);
+-
+-		OUT_RING(CCE_PACKET3(R128_CNTL_BITBLT_MULTI, 5));
+-		OUT_RING(R128_GMC_SRC_PITCH_OFFSET_CNTL |
+-			 R128_GMC_DST_PITCH_OFFSET_CNTL |
+-			 R128_GMC_BRUSH_NONE |
+-			 (dev_priv->depth_fmt << 8) |
+-			 R128_GMC_SRC_DATATYPE_COLOR |
+-			 R128_ROP3_S |
+-			 R128_DP_SRC_SOURCE_MEMORY |
+-			 R128_GMC_CLR_CMP_CNTL_DIS | R128_GMC_WR_MSK_DIS);
+-
+-		OUT_RING(dev_priv->depth_pitch_offset_c);
+-		OUT_RING(dev_priv->span_pitch_offset_c);
+-
+-		OUT_RING((x[i] << 16) | y[i]);
+-		OUT_RING((i << 16) | 0);
+-		OUT_RING((1 << 16) | 1);
+-
+-		ADVANCE_RING();
+-	}
+-
+-	kfree(x);
+-	kfree(y);
+-
+-	return 0;
+-}
+-
+-/* ================================================================
+- * Polygon stipple
+- */
+-
+-static void r128_cce_dispatch_stipple(struct drm_device *dev, u32 *stipple)
+-{
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-	int i;
+-	RING_LOCALS;
+-	DRM_DEBUG("\n");
+-
+-	BEGIN_RING(33);
+-
+-	OUT_RING(CCE_PACKET0(R128_BRUSH_DATA0, 31));
+-	for (i = 0; i < 32; i++)
+-		OUT_RING(stipple[i]);
+-
+-	ADVANCE_RING();
+-}
+-
+-/* ================================================================
+- * IOCTL functions
+- */
+-
+-static int r128_cce_clear(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-	drm_r128_sarea_t *sarea_priv;
+-	drm_r128_clear_t *clear = data;
+-	DRM_DEBUG("\n");
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	DEV_INIT_TEST_WITH_RETURN(dev_priv);
+-
+-	RING_SPACE_TEST_WITH_RETURN(dev_priv);
+-
+-	sarea_priv = dev_priv->sarea_priv;
+-
+-	if (sarea_priv->nbox > R128_NR_SAREA_CLIPRECTS)
+-		sarea_priv->nbox = R128_NR_SAREA_CLIPRECTS;
+-
+-	r128_cce_dispatch_clear(dev, clear);
+-	COMMIT_RING();
+-
+-	/* Make sure we restore the 3D state next time.
+-	 */
+-	dev_priv->sarea_priv->dirty |= R128_UPLOAD_CONTEXT | R128_UPLOAD_MASKS;
+-
+-	return 0;
+-}
+-
+-static int r128_do_init_pageflip(struct drm_device *dev)
+-{
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-	DRM_DEBUG("\n");
+-
+-	dev_priv->crtc_offset = R128_READ(R128_CRTC_OFFSET);
+-	dev_priv->crtc_offset_cntl = R128_READ(R128_CRTC_OFFSET_CNTL);
+-
+-	R128_WRITE(R128_CRTC_OFFSET, dev_priv->front_offset);
+-	R128_WRITE(R128_CRTC_OFFSET_CNTL,
+-		   dev_priv->crtc_offset_cntl | R128_CRTC_OFFSET_FLIP_CNTL);
+-
+-	dev_priv->page_flipping = 1;
+-	dev_priv->current_page = 0;
+-	dev_priv->sarea_priv->pfCurrentPage = dev_priv->current_page;
+-
+-	return 0;
+-}
+-
+-static int r128_do_cleanup_pageflip(struct drm_device *dev)
+-{
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-	DRM_DEBUG("\n");
+-
+-	R128_WRITE(R128_CRTC_OFFSET, dev_priv->crtc_offset);
+-	R128_WRITE(R128_CRTC_OFFSET_CNTL, dev_priv->crtc_offset_cntl);
+-
+-	if (dev_priv->current_page != 0) {
+-		r128_cce_dispatch_flip(dev);
+-		COMMIT_RING();
+-	}
+-
+-	dev_priv->page_flipping = 0;
+-	return 0;
+-}
+-
+-/* Swapping and flipping are different operations, need different ioctls.
+- * They can & should be intermixed to support multiple 3d windows.
+- */
+-
+-static int r128_cce_flip(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-	DRM_DEBUG("\n");
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	DEV_INIT_TEST_WITH_RETURN(dev_priv);
+-
+-	RING_SPACE_TEST_WITH_RETURN(dev_priv);
+-
+-	if (!dev_priv->page_flipping)
+-		r128_do_init_pageflip(dev);
+-
+-	r128_cce_dispatch_flip(dev);
+-
+-	COMMIT_RING();
+-	return 0;
+-}
+-
+-static int r128_cce_swap(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-	drm_r128_sarea_t *sarea_priv = dev_priv->sarea_priv;
+-	DRM_DEBUG("\n");
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	DEV_INIT_TEST_WITH_RETURN(dev_priv);
+-
+-	RING_SPACE_TEST_WITH_RETURN(dev_priv);
+-
+-	if (sarea_priv->nbox > R128_NR_SAREA_CLIPRECTS)
+-		sarea_priv->nbox = R128_NR_SAREA_CLIPRECTS;
+-
+-	r128_cce_dispatch_swap(dev);
+-	dev_priv->sarea_priv->dirty |= (R128_UPLOAD_CONTEXT |
+-					R128_UPLOAD_MASKS);
+-
+-	COMMIT_RING();
+-	return 0;
+-}
+-
+-static int r128_cce_vertex(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-	struct drm_device_dma *dma = dev->dma;
+-	struct drm_buf *buf;
+-	drm_r128_buf_priv_t *buf_priv;
+-	drm_r128_vertex_t *vertex = data;
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	DEV_INIT_TEST_WITH_RETURN(dev_priv);
+-
+-	DRM_DEBUG("pid=%d index=%d count=%d discard=%d\n",
+-		  task_pid_nr(current), vertex->idx, vertex->count, vertex->discard);
+-
+-	if (vertex->idx < 0 || vertex->idx >= dma->buf_count) {
+-		DRM_ERROR("buffer index %d (of %d max)\n",
+-			  vertex->idx, dma->buf_count - 1);
+-		return -EINVAL;
+-	}
+-	if (vertex->prim < 0 ||
+-	    vertex->prim > R128_CCE_VC_CNTL_PRIM_TYPE_TRI_TYPE2) {
+-		DRM_ERROR("buffer prim %d\n", vertex->prim);
+-		return -EINVAL;
+-	}
+-
+-	RING_SPACE_TEST_WITH_RETURN(dev_priv);
+-	VB_AGE_TEST_WITH_RETURN(dev_priv);
+-
+-	buf = dma->buflist[vertex->idx];
+-	buf_priv = buf->dev_private;
+-
+-	if (buf->file_priv != file_priv) {
+-		DRM_ERROR("process %d using buffer owned by %p\n",
+-			  task_pid_nr(current), buf->file_priv);
+-		return -EINVAL;
+-	}
+-	if (buf->pending) {
+-		DRM_ERROR("sending pending buffer %d\n", vertex->idx);
+-		return -EINVAL;
+-	}
+-
+-	buf->used = vertex->count;
+-	buf_priv->prim = vertex->prim;
+-	buf_priv->discard = vertex->discard;
+-
+-	r128_cce_dispatch_vertex(dev, buf);
+-
+-	COMMIT_RING();
+-	return 0;
+-}
+-
+-static int r128_cce_indices(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-	struct drm_device_dma *dma = dev->dma;
+-	struct drm_buf *buf;
+-	drm_r128_buf_priv_t *buf_priv;
+-	drm_r128_indices_t *elts = data;
+-	int count;
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	DEV_INIT_TEST_WITH_RETURN(dev_priv);
+-
+-	DRM_DEBUG("pid=%d buf=%d s=%d e=%d d=%d\n", task_pid_nr(current),
+-		  elts->idx, elts->start, elts->end, elts->discard);
+-
+-	if (elts->idx < 0 || elts->idx >= dma->buf_count) {
+-		DRM_ERROR("buffer index %d (of %d max)\n",
+-			  elts->idx, dma->buf_count - 1);
+-		return -EINVAL;
+-	}
+-	if (elts->prim < 0 ||
+-	    elts->prim > R128_CCE_VC_CNTL_PRIM_TYPE_TRI_TYPE2) {
+-		DRM_ERROR("buffer prim %d\n", elts->prim);
+-		return -EINVAL;
+-	}
+-
+-	RING_SPACE_TEST_WITH_RETURN(dev_priv);
+-	VB_AGE_TEST_WITH_RETURN(dev_priv);
+-
+-	buf = dma->buflist[elts->idx];
+-	buf_priv = buf->dev_private;
+-
+-	if (buf->file_priv != file_priv) {
+-		DRM_ERROR("process %d using buffer owned by %p\n",
+-			  task_pid_nr(current), buf->file_priv);
+-		return -EINVAL;
+-	}
+-	if (buf->pending) {
+-		DRM_ERROR("sending pending buffer %d\n", elts->idx);
+-		return -EINVAL;
+-	}
+-
+-	count = (elts->end - elts->start) / sizeof(u16);
+-	elts->start -= R128_INDEX_PRIM_OFFSET;
+-
+-	if (elts->start & 0x7) {
+-		DRM_ERROR("misaligned buffer 0x%x\n", elts->start);
+-		return -EINVAL;
+-	}
+-	if (elts->start < buf->used) {
+-		DRM_ERROR("no header 0x%x - 0x%x\n", elts->start, buf->used);
+-		return -EINVAL;
+-	}
+-
+-	buf->used = elts->end;
+-	buf_priv->prim = elts->prim;
+-	buf_priv->discard = elts->discard;
+-
+-	r128_cce_dispatch_indices(dev, buf, elts->start, elts->end, count);
+-
+-	COMMIT_RING();
+-	return 0;
+-}
+-
+-static int r128_cce_blit(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	struct drm_device_dma *dma = dev->dma;
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-	drm_r128_blit_t *blit = data;
+-	int ret;
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	DEV_INIT_TEST_WITH_RETURN(dev_priv);
+-
+-	DRM_DEBUG("pid=%d index=%d\n", task_pid_nr(current), blit->idx);
+-
+-	if (blit->idx < 0 || blit->idx >= dma->buf_count) {
+-		DRM_ERROR("buffer index %d (of %d max)\n",
+-			  blit->idx, dma->buf_count - 1);
+-		return -EINVAL;
+-	}
+-
+-	RING_SPACE_TEST_WITH_RETURN(dev_priv);
+-	VB_AGE_TEST_WITH_RETURN(dev_priv);
+-
+-	ret = r128_cce_dispatch_blit(dev, file_priv, blit);
+-
+-	COMMIT_RING();
+-	return ret;
+-}
+-
+-int r128_cce_depth(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-	drm_r128_depth_t *depth = data;
+-	int ret;
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	DEV_INIT_TEST_WITH_RETURN(dev_priv);
+-
+-	RING_SPACE_TEST_WITH_RETURN(dev_priv);
+-
+-	ret = -EINVAL;
+-	switch (depth->func) {
+-	case R128_WRITE_SPAN:
+-		ret = r128_cce_dispatch_write_span(dev, depth);
+-		break;
+-	case R128_WRITE_PIXELS:
+-		ret = r128_cce_dispatch_write_pixels(dev, depth);
+-		break;
+-	case R128_READ_SPAN:
+-		ret = r128_cce_dispatch_read_span(dev, depth);
+-		break;
+-	case R128_READ_PIXELS:
+-		ret = r128_cce_dispatch_read_pixels(dev, depth);
+-		break;
+-	}
+-
+-	COMMIT_RING();
+-	return ret;
+-}
+-
+-int r128_cce_stipple(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-	drm_r128_stipple_t *stipple = data;
+-	u32 mask[32];
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	DEV_INIT_TEST_WITH_RETURN(dev_priv);
+-
+-	if (copy_from_user(&mask, stipple->mask, 32 * sizeof(u32)))
+-		return -EFAULT;
+-
+-	RING_SPACE_TEST_WITH_RETURN(dev_priv);
+-
+-	r128_cce_dispatch_stipple(dev, mask);
+-
+-	COMMIT_RING();
+-	return 0;
+-}
+-
+-static int r128_cce_indirect(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-	struct drm_device_dma *dma = dev->dma;
+-	struct drm_buf *buf;
+-	drm_r128_buf_priv_t *buf_priv;
+-	drm_r128_indirect_t *indirect = data;
+-#if 0
+-	RING_LOCALS;
+-#endif
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	DEV_INIT_TEST_WITH_RETURN(dev_priv);
+-
+-	DRM_DEBUG("idx=%d s=%d e=%d d=%d\n",
+-		  indirect->idx, indirect->start, indirect->end,
+-		  indirect->discard);
+-
+-	if (indirect->idx < 0 || indirect->idx >= dma->buf_count) {
+-		DRM_ERROR("buffer index %d (of %d max)\n",
+-			  indirect->idx, dma->buf_count - 1);
+-		return -EINVAL;
+-	}
+-
+-	buf = dma->buflist[indirect->idx];
+-	buf_priv = buf->dev_private;
+-
+-	if (buf->file_priv != file_priv) {
+-		DRM_ERROR("process %d using buffer owned by %p\n",
+-			  task_pid_nr(current), buf->file_priv);
+-		return -EINVAL;
+-	}
+-	if (buf->pending) {
+-		DRM_ERROR("sending pending buffer %d\n", indirect->idx);
+-		return -EINVAL;
+-	}
+-
+-	if (indirect->start < buf->used) {
+-		DRM_ERROR("reusing indirect: start=0x%x actual=0x%x\n",
+-			  indirect->start, buf->used);
+-		return -EINVAL;
+-	}
+-
+-	RING_SPACE_TEST_WITH_RETURN(dev_priv);
+-	VB_AGE_TEST_WITH_RETURN(dev_priv);
+-
+-	buf->used = indirect->end;
+-	buf_priv->discard = indirect->discard;
+-
+-#if 0
+-	/* Wait for the 3D stream to idle before the indirect buffer
+-	 * containing 2D acceleration commands is processed.
+-	 */
+-	BEGIN_RING(2);
+-	RADEON_WAIT_UNTIL_3D_IDLE();
+-	ADVANCE_RING();
+-#endif
+-
+-	/* Dispatch the indirect buffer full of commands from the
+-	 * X server.  This is insecure and is thus only available to
+-	 * privileged clients.
+-	 */
+-	r128_cce_dispatch_indirect(dev, buf, indirect->start, indirect->end);
+-
+-	COMMIT_RING();
+-	return 0;
+-}
+-
+-int r128_getparam(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	drm_r128_private_t *dev_priv = dev->dev_private;
+-	drm_r128_getparam_t *param = data;
+-	struct pci_dev *pdev = to_pci_dev(dev->dev);
+-	int value;
+-
+-	DEV_INIT_TEST_WITH_RETURN(dev_priv);
+-
+-	DRM_DEBUG("pid=%d\n", task_pid_nr(current));
+-
+-	switch (param->param) {
+-	case R128_PARAM_IRQ_NR:
+-		value = pdev->irq;
+-		break;
+-	default:
+-		return -EINVAL;
+-	}
+-
+-	if (copy_to_user(param->value, &value, sizeof(int))) {
+-		DRM_ERROR("copy_to_user\n");
+-		return -EFAULT;
+-	}
+-
+-	return 0;
+-}
+-
+-void r128_driver_preclose(struct drm_device *dev, struct drm_file *file_priv)
+-{
+-	if (dev->dev_private) {
+-		drm_r128_private_t *dev_priv = dev->dev_private;
+-		if (dev_priv->page_flipping)
+-			r128_do_cleanup_pageflip(dev);
+-	}
+-}
+-void r128_driver_lastclose(struct drm_device *dev)
+-{
+-	r128_do_cleanup_cce(dev);
+-}
+-
+-const struct drm_ioctl_desc r128_ioctls[] = {
+-	DRM_IOCTL_DEF_DRV(R128_INIT, r128_cce_init, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
+-	DRM_IOCTL_DEF_DRV(R128_CCE_START, r128_cce_start, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
+-	DRM_IOCTL_DEF_DRV(R128_CCE_STOP, r128_cce_stop, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
+-	DRM_IOCTL_DEF_DRV(R128_CCE_RESET, r128_cce_reset, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
+-	DRM_IOCTL_DEF_DRV(R128_CCE_IDLE, r128_cce_idle, DRM_AUTH),
+-	DRM_IOCTL_DEF_DRV(R128_RESET, r128_engine_reset, DRM_AUTH),
+-	DRM_IOCTL_DEF_DRV(R128_FULLSCREEN, r128_fullscreen, DRM_AUTH),
+-	DRM_IOCTL_DEF_DRV(R128_SWAP, r128_cce_swap, DRM_AUTH),
+-	DRM_IOCTL_DEF_DRV(R128_FLIP, r128_cce_flip, DRM_AUTH),
+-	DRM_IOCTL_DEF_DRV(R128_CLEAR, r128_cce_clear, DRM_AUTH),
+-	DRM_IOCTL_DEF_DRV(R128_VERTEX, r128_cce_vertex, DRM_AUTH),
+-	DRM_IOCTL_DEF_DRV(R128_INDICES, r128_cce_indices, DRM_AUTH),
+-	DRM_IOCTL_DEF_DRV(R128_BLIT, r128_cce_blit, DRM_AUTH),
+-	DRM_IOCTL_DEF_DRV(R128_DEPTH, r128_cce_depth, DRM_AUTH),
+-	DRM_IOCTL_DEF_DRV(R128_STIPPLE, r128_cce_stipple, DRM_AUTH),
+-	DRM_IOCTL_DEF_DRV(R128_INDIRECT, r128_cce_indirect, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
+-	DRM_IOCTL_DEF_DRV(R128_GETPARAM, r128_getparam, DRM_AUTH),
+-};
+-
+-int r128_max_ioctl = ARRAY_SIZE(r128_ioctls);
+diff --git a/drivers/gpu/drm/savage/Makefile b/drivers/gpu/drm/savage/Makefile
+deleted file mode 100644
+index 3e520763d259..000000000000
+--- a/drivers/gpu/drm/savage/Makefile
++++ /dev/null
+@@ -1,9 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0-only
+-#
+-# Makefile for the drm device driver.  This driver provides support for the
+-# Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
+-
+-savage-y := savage_drv.o savage_bci.o savage_state.o
+-
+-obj-$(CONFIG_DRM_SAVAGE)+= savage.o
+-
+diff --git a/drivers/gpu/drm/savage/savage_bci.c b/drivers/gpu/drm/savage/savage_bci.c
+deleted file mode 100644
+index e33385dfe3ed..000000000000
+--- a/drivers/gpu/drm/savage/savage_bci.c
++++ /dev/null
+@@ -1,1082 +0,0 @@
+-/* savage_bci.c -- BCI support for Savage
+- *
+- * Copyright 2004  Felix Kuehling
+- * All Rights Reserved.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sub license,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the
+- * next paragraph) shall be included in all copies or substantial portions
+- * of the Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+- * NON-INFRINGEMENT. IN NO EVENT SHALL FELIX KUEHLING BE LIABLE FOR
+- * ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+- * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+- */
+-
+-#include <linux/delay.h>
+-#include <linux/pci.h>
+-#include <linux/slab.h>
+-#include <linux/uaccess.h>
+-
+-#include <drm/drm_device.h>
+-#include <drm/drm_file.h>
+-#include <drm/drm_print.h>
+-#include <drm/savage_drm.h>
+-
+-#include "savage_drv.h"
+-
+-/* Need a long timeout for shadow status updates can take a while
+- * and so can waiting for events when the queue is full. */
+-#define SAVAGE_DEFAULT_USEC_TIMEOUT	1000000	/* 1s */
+-#define SAVAGE_EVENT_USEC_TIMEOUT	5000000	/* 5s */
+-#define SAVAGE_FREELIST_DEBUG		0
+-
+-static int savage_do_cleanup_bci(struct drm_device *dev);
+-
+-static int
+-savage_bci_wait_fifo_shadow(drm_savage_private_t * dev_priv, unsigned int n)
+-{
+-	uint32_t mask = dev_priv->status_used_mask;
+-	uint32_t threshold = dev_priv->bci_threshold_hi;
+-	uint32_t status;
+-	int i;
+-
+-#if SAVAGE_BCI_DEBUG
+-	if (n > dev_priv->cob_size + SAVAGE_BCI_FIFO_SIZE - threshold)
+-		DRM_ERROR("Trying to emit %d words "
+-			  "(more than guaranteed space in COB)\n", n);
+-#endif
+-
+-	for (i = 0; i < SAVAGE_DEFAULT_USEC_TIMEOUT; i++) {
+-		mb();
+-		status = dev_priv->status_ptr[0];
+-		if ((status & mask) < threshold)
+-			return 0;
+-		udelay(1);
+-	}
+-
+-#if SAVAGE_BCI_DEBUG
+-	DRM_ERROR("failed!\n");
+-	DRM_INFO("   status=0x%08x, threshold=0x%08x\n", status, threshold);
+-#endif
+-	return -EBUSY;
+-}
+-
+-static int
+-savage_bci_wait_fifo_s3d(drm_savage_private_t * dev_priv, unsigned int n)
+-{
+-	uint32_t maxUsed = dev_priv->cob_size + SAVAGE_BCI_FIFO_SIZE - n;
+-	uint32_t status;
+-	int i;
+-
+-	for (i = 0; i < SAVAGE_DEFAULT_USEC_TIMEOUT; i++) {
+-		status = SAVAGE_READ(SAVAGE_STATUS_WORD0);
+-		if ((status & SAVAGE_FIFO_USED_MASK_S3D) <= maxUsed)
+-			return 0;
+-		udelay(1);
+-	}
+-
+-#if SAVAGE_BCI_DEBUG
+-	DRM_ERROR("failed!\n");
+-	DRM_INFO("   status=0x%08x\n", status);
+-#endif
+-	return -EBUSY;
+-}
+-
+-static int
+-savage_bci_wait_fifo_s4(drm_savage_private_t * dev_priv, unsigned int n)
+-{
+-	uint32_t maxUsed = dev_priv->cob_size + SAVAGE_BCI_FIFO_SIZE - n;
+-	uint32_t status;
+-	int i;
+-
+-	for (i = 0; i < SAVAGE_DEFAULT_USEC_TIMEOUT; i++) {
+-		status = SAVAGE_READ(SAVAGE_ALT_STATUS_WORD0);
+-		if ((status & SAVAGE_FIFO_USED_MASK_S4) <= maxUsed)
+-			return 0;
+-		udelay(1);
+-	}
+-
+-#if SAVAGE_BCI_DEBUG
+-	DRM_ERROR("failed!\n");
+-	DRM_INFO("   status=0x%08x\n", status);
+-#endif
+-	return -EBUSY;
+-}
+-
+-/*
+- * Waiting for events.
+- *
+- * The BIOSresets the event tag to 0 on mode changes. Therefore we
+- * never emit 0 to the event tag. If we find a 0 event tag we know the
+- * BIOS stomped on it and return success assuming that the BIOS waited
+- * for engine idle.
+- *
+- * Note: if the Xserver uses the event tag it has to follow the same
+- * rule. Otherwise there may be glitches every 2^16 events.
+- */
+-static int
+-savage_bci_wait_event_shadow(drm_savage_private_t * dev_priv, uint16_t e)
+-{
+-	uint32_t status;
+-	int i;
+-
+-	for (i = 0; i < SAVAGE_EVENT_USEC_TIMEOUT; i++) {
+-		mb();
+-		status = dev_priv->status_ptr[1];
+-		if ((((status & 0xffff) - e) & 0xffff) <= 0x7fff ||
+-		    (status & 0xffff) == 0)
+-			return 0;
+-		udelay(1);
+-	}
+-
+-#if SAVAGE_BCI_DEBUG
+-	DRM_ERROR("failed!\n");
+-	DRM_INFO("   status=0x%08x, e=0x%04x\n", status, e);
+-#endif
+-
+-	return -EBUSY;
+-}
+-
+-static int
+-savage_bci_wait_event_reg(drm_savage_private_t * dev_priv, uint16_t e)
+-{
+-	uint32_t status;
+-	int i;
+-
+-	for (i = 0; i < SAVAGE_EVENT_USEC_TIMEOUT; i++) {
+-		status = SAVAGE_READ(SAVAGE_STATUS_WORD1);
+-		if ((((status & 0xffff) - e) & 0xffff) <= 0x7fff ||
+-		    (status & 0xffff) == 0)
+-			return 0;
+-		udelay(1);
+-	}
+-
+-#if SAVAGE_BCI_DEBUG
+-	DRM_ERROR("failed!\n");
+-	DRM_INFO("   status=0x%08x, e=0x%04x\n", status, e);
+-#endif
+-
+-	return -EBUSY;
+-}
+-
+-uint16_t savage_bci_emit_event(drm_savage_private_t * dev_priv,
+-			       unsigned int flags)
+-{
+-	uint16_t count;
+-	BCI_LOCALS;
+-
+-	if (dev_priv->status_ptr) {
+-		/* coordinate with Xserver */
+-		count = dev_priv->status_ptr[1023];
+-		if (count < dev_priv->event_counter)
+-			dev_priv->event_wrap++;
+-	} else {
+-		count = dev_priv->event_counter;
+-	}
+-	count = (count + 1) & 0xffff;
+-	if (count == 0) {
+-		count++;	/* See the comment above savage_wait_event_*. */
+-		dev_priv->event_wrap++;
+-	}
+-	dev_priv->event_counter = count;
+-	if (dev_priv->status_ptr)
+-		dev_priv->status_ptr[1023] = (uint32_t) count;
+-
+-	if ((flags & (SAVAGE_WAIT_2D | SAVAGE_WAIT_3D))) {
+-		unsigned int wait_cmd = BCI_CMD_WAIT;
+-		if ((flags & SAVAGE_WAIT_2D))
+-			wait_cmd |= BCI_CMD_WAIT_2D;
+-		if ((flags & SAVAGE_WAIT_3D))
+-			wait_cmd |= BCI_CMD_WAIT_3D;
+-		BEGIN_BCI(2);
+-		BCI_WRITE(wait_cmd);
+-	} else {
+-		BEGIN_BCI(1);
+-	}
+-	BCI_WRITE(BCI_CMD_UPDATE_EVENT_TAG | (uint32_t) count);
+-
+-	return count;
+-}
+-
+-/*
+- * Freelist management
+- */
+-static int savage_freelist_init(struct drm_device * dev)
+-{
+-	drm_savage_private_t *dev_priv = dev->dev_private;
+-	struct drm_device_dma *dma = dev->dma;
+-	struct drm_buf *buf;
+-	drm_savage_buf_priv_t *entry;
+-	int i;
+-	DRM_DEBUG("count=%d\n", dma->buf_count);
+-
+-	dev_priv->head.next = &dev_priv->tail;
+-	dev_priv->head.prev = NULL;
+-	dev_priv->head.buf = NULL;
+-
+-	dev_priv->tail.next = NULL;
+-	dev_priv->tail.prev = &dev_priv->head;
+-	dev_priv->tail.buf = NULL;
+-
+-	for (i = 0; i < dma->buf_count; i++) {
+-		buf = dma->buflist[i];
+-		entry = buf->dev_private;
+-
+-		SET_AGE(&entry->age, 0, 0);
+-		entry->buf = buf;
+-
+-		entry->next = dev_priv->head.next;
+-		entry->prev = &dev_priv->head;
+-		dev_priv->head.next->prev = entry;
+-		dev_priv->head.next = entry;
+-	}
+-
+-	return 0;
+-}
+-
+-static struct drm_buf *savage_freelist_get(struct drm_device * dev)
+-{
+-	drm_savage_private_t *dev_priv = dev->dev_private;
+-	drm_savage_buf_priv_t *tail = dev_priv->tail.prev;
+-	uint16_t event;
+-	unsigned int wrap;
+-	DRM_DEBUG("\n");
+-
+-	UPDATE_EVENT_COUNTER();
+-	if (dev_priv->status_ptr)
+-		event = dev_priv->status_ptr[1] & 0xffff;
+-	else
+-		event = SAVAGE_READ(SAVAGE_STATUS_WORD1) & 0xffff;
+-	wrap = dev_priv->event_wrap;
+-	if (event > dev_priv->event_counter)
+-		wrap--;		/* hardware hasn't passed the last wrap yet */
+-
+-	DRM_DEBUG("   tail=0x%04x %d\n", tail->age.event, tail->age.wrap);
+-	DRM_DEBUG("   head=0x%04x %d\n", event, wrap);
+-
+-	if (tail->buf && (TEST_AGE(&tail->age, event, wrap) || event == 0)) {
+-		drm_savage_buf_priv_t *next = tail->next;
+-		drm_savage_buf_priv_t *prev = tail->prev;
+-		prev->next = next;
+-		next->prev = prev;
+-		tail->next = tail->prev = NULL;
+-		return tail->buf;
+-	}
+-
+-	DRM_DEBUG("returning NULL, tail->buf=%p!\n", tail->buf);
+-	return NULL;
+-}
+-
+-void savage_freelist_put(struct drm_device * dev, struct drm_buf * buf)
+-{
+-	drm_savage_private_t *dev_priv = dev->dev_private;
+-	drm_savage_buf_priv_t *entry = buf->dev_private, *prev, *next;
+-
+-	DRM_DEBUG("age=0x%04x wrap=%d\n", entry->age.event, entry->age.wrap);
+-
+-	if (entry->next != NULL || entry->prev != NULL) {
+-		DRM_ERROR("entry already on freelist.\n");
+-		return;
+-	}
+-
+-	prev = &dev_priv->head;
+-	next = prev->next;
+-	prev->next = entry;
+-	next->prev = entry;
+-	entry->prev = prev;
+-	entry->next = next;
+-}
+-
+-/*
+- * Command DMA
+- */
+-static int savage_dma_init(drm_savage_private_t * dev_priv)
+-{
+-	unsigned int i;
+-
+-	dev_priv->nr_dma_pages = dev_priv->cmd_dma->size /
+-	    (SAVAGE_DMA_PAGE_SIZE * 4);
+-	dev_priv->dma_pages = kmalloc_array(dev_priv->nr_dma_pages,
+-					    sizeof(drm_savage_dma_page_t),
+-					    GFP_KERNEL);
+-	if (dev_priv->dma_pages == NULL)
+-		return -ENOMEM;
+-
+-	for (i = 0; i < dev_priv->nr_dma_pages; ++i) {
+-		SET_AGE(&dev_priv->dma_pages[i].age, 0, 0);
+-		dev_priv->dma_pages[i].used = 0;
+-		dev_priv->dma_pages[i].flushed = 0;
+-	}
+-	SET_AGE(&dev_priv->last_dma_age, 0, 0);
+-
+-	dev_priv->first_dma_page = 0;
+-	dev_priv->current_dma_page = 0;
+-
+-	return 0;
+-}
+-
+-void savage_dma_reset(drm_savage_private_t * dev_priv)
+-{
+-	uint16_t event;
+-	unsigned int wrap, i;
+-	event = savage_bci_emit_event(dev_priv, 0);
+-	wrap = dev_priv->event_wrap;
+-	for (i = 0; i < dev_priv->nr_dma_pages; ++i) {
+-		SET_AGE(&dev_priv->dma_pages[i].age, event, wrap);
+-		dev_priv->dma_pages[i].used = 0;
+-		dev_priv->dma_pages[i].flushed = 0;
+-	}
+-	SET_AGE(&dev_priv->last_dma_age, event, wrap);
+-	dev_priv->first_dma_page = dev_priv->current_dma_page = 0;
+-}
+-
+-void savage_dma_wait(drm_savage_private_t * dev_priv, unsigned int page)
+-{
+-	uint16_t event;
+-	unsigned int wrap;
+-
+-	/* Faked DMA buffer pages don't age. */
+-	if (dev_priv->cmd_dma == &dev_priv->fake_dma)
+-		return;
+-
+-	UPDATE_EVENT_COUNTER();
+-	if (dev_priv->status_ptr)
+-		event = dev_priv->status_ptr[1] & 0xffff;
+-	else
+-		event = SAVAGE_READ(SAVAGE_STATUS_WORD1) & 0xffff;
+-	wrap = dev_priv->event_wrap;
+-	if (event > dev_priv->event_counter)
+-		wrap--;		/* hardware hasn't passed the last wrap yet */
+-
+-	if (dev_priv->dma_pages[page].age.wrap > wrap ||
+-	    (dev_priv->dma_pages[page].age.wrap == wrap &&
+-	     dev_priv->dma_pages[page].age.event > event)) {
+-		if (dev_priv->wait_evnt(dev_priv,
+-					dev_priv->dma_pages[page].age.event)
+-		    < 0)
+-			DRM_ERROR("wait_evnt failed!\n");
+-	}
+-}
+-
+-uint32_t *savage_dma_alloc(drm_savage_private_t * dev_priv, unsigned int n)
+-{
+-	unsigned int cur = dev_priv->current_dma_page;
+-	unsigned int rest = SAVAGE_DMA_PAGE_SIZE -
+-	    dev_priv->dma_pages[cur].used;
+-	unsigned int nr_pages = (n - rest + SAVAGE_DMA_PAGE_SIZE - 1) /
+-	    SAVAGE_DMA_PAGE_SIZE;
+-	uint32_t *dma_ptr;
+-	unsigned int i;
+-
+-	DRM_DEBUG("cur=%u, cur->used=%u, n=%u, rest=%u, nr_pages=%u\n",
+-		  cur, dev_priv->dma_pages[cur].used, n, rest, nr_pages);
+-
+-	if (cur + nr_pages < dev_priv->nr_dma_pages) {
+-		dma_ptr = (uint32_t *) dev_priv->cmd_dma->handle +
+-		    cur * SAVAGE_DMA_PAGE_SIZE + dev_priv->dma_pages[cur].used;
+-		if (n < rest)
+-			rest = n;
+-		dev_priv->dma_pages[cur].used += rest;
+-		n -= rest;
+-		cur++;
+-	} else {
+-		dev_priv->dma_flush(dev_priv);
+-		nr_pages =
+-		    (n + SAVAGE_DMA_PAGE_SIZE - 1) / SAVAGE_DMA_PAGE_SIZE;
+-		for (i = cur; i < dev_priv->nr_dma_pages; ++i) {
+-			dev_priv->dma_pages[i].age = dev_priv->last_dma_age;
+-			dev_priv->dma_pages[i].used = 0;
+-			dev_priv->dma_pages[i].flushed = 0;
+-		}
+-		dma_ptr = (uint32_t *) dev_priv->cmd_dma->handle;
+-		dev_priv->first_dma_page = cur = 0;
+-	}
+-	for (i = cur; nr_pages > 0; ++i, --nr_pages) {
+-#if SAVAGE_DMA_DEBUG
+-		if (dev_priv->dma_pages[i].used) {
+-			DRM_ERROR("unflushed page %u: used=%u\n",
+-				  i, dev_priv->dma_pages[i].used);
+-		}
+-#endif
+-		if (n > SAVAGE_DMA_PAGE_SIZE)
+-			dev_priv->dma_pages[i].used = SAVAGE_DMA_PAGE_SIZE;
+-		else
+-			dev_priv->dma_pages[i].used = n;
+-		n -= SAVAGE_DMA_PAGE_SIZE;
+-	}
+-	dev_priv->current_dma_page = --i;
+-
+-	DRM_DEBUG("cur=%u, cur->used=%u, n=%u\n",
+-		  i, dev_priv->dma_pages[i].used, n);
+-
+-	savage_dma_wait(dev_priv, dev_priv->current_dma_page);
+-
+-	return dma_ptr;
+-}
+-
+-static void savage_dma_flush(drm_savage_private_t * dev_priv)
+-{
+-	unsigned int first = dev_priv->first_dma_page;
+-	unsigned int cur = dev_priv->current_dma_page;
+-	uint16_t event;
+-	unsigned int wrap, pad, align, len, i;
+-	unsigned long phys_addr;
+-	BCI_LOCALS;
+-
+-	if (first == cur &&
+-	    dev_priv->dma_pages[cur].used == dev_priv->dma_pages[cur].flushed)
+-		return;
+-
+-	/* pad length to multiples of 2 entries
+-	 * align start of next DMA block to multiles of 8 entries */
+-	pad = -dev_priv->dma_pages[cur].used & 1;
+-	align = -(dev_priv->dma_pages[cur].used + pad) & 7;
+-
+-	DRM_DEBUG("first=%u, cur=%u, first->flushed=%u, cur->used=%u, "
+-		  "pad=%u, align=%u\n",
+-		  first, cur, dev_priv->dma_pages[first].flushed,
+-		  dev_priv->dma_pages[cur].used, pad, align);
+-
+-	/* pad with noops */
+-	if (pad) {
+-		uint32_t *dma_ptr = (uint32_t *) dev_priv->cmd_dma->handle +
+-		    cur * SAVAGE_DMA_PAGE_SIZE + dev_priv->dma_pages[cur].used;
+-		dev_priv->dma_pages[cur].used += pad;
+-		while (pad != 0) {
+-			*dma_ptr++ = BCI_CMD_WAIT;
+-			pad--;
+-		}
+-	}
+-
+-	mb();
+-
+-	/* do flush ... */
+-	phys_addr = dev_priv->cmd_dma->offset +
+-	    (first * SAVAGE_DMA_PAGE_SIZE +
+-	     dev_priv->dma_pages[first].flushed) * 4;
+-	len = (cur - first) * SAVAGE_DMA_PAGE_SIZE +
+-	    dev_priv->dma_pages[cur].used - dev_priv->dma_pages[first].flushed;
+-
+-	DRM_DEBUG("phys_addr=%lx, len=%u\n",
+-		  phys_addr | dev_priv->dma_type, len);
+-
+-	BEGIN_BCI(3);
+-	BCI_SET_REGISTERS(SAVAGE_DMABUFADDR, 1);
+-	BCI_WRITE(phys_addr | dev_priv->dma_type);
+-	BCI_DMA(len);
+-
+-	/* fix alignment of the start of the next block */
+-	dev_priv->dma_pages[cur].used += align;
+-
+-	/* age DMA pages */
+-	event = savage_bci_emit_event(dev_priv, 0);
+-	wrap = dev_priv->event_wrap;
+-	for (i = first; i < cur; ++i) {
+-		SET_AGE(&dev_priv->dma_pages[i].age, event, wrap);
+-		dev_priv->dma_pages[i].used = 0;
+-		dev_priv->dma_pages[i].flushed = 0;
+-	}
+-	/* age the current page only when it's full */
+-	if (dev_priv->dma_pages[cur].used == SAVAGE_DMA_PAGE_SIZE) {
+-		SET_AGE(&dev_priv->dma_pages[cur].age, event, wrap);
+-		dev_priv->dma_pages[cur].used = 0;
+-		dev_priv->dma_pages[cur].flushed = 0;
+-		/* advance to next page */
+-		cur++;
+-		if (cur == dev_priv->nr_dma_pages)
+-			cur = 0;
+-		dev_priv->first_dma_page = dev_priv->current_dma_page = cur;
+-	} else {
+-		dev_priv->first_dma_page = cur;
+-		dev_priv->dma_pages[cur].flushed = dev_priv->dma_pages[i].used;
+-	}
+-	SET_AGE(&dev_priv->last_dma_age, event, wrap);
+-
+-	DRM_DEBUG("first=cur=%u, cur->used=%u, cur->flushed=%u\n", cur,
+-		  dev_priv->dma_pages[cur].used,
+-		  dev_priv->dma_pages[cur].flushed);
+-}
+-
+-static void savage_fake_dma_flush(drm_savage_private_t * dev_priv)
+-{
+-	unsigned int i, j;
+-	BCI_LOCALS;
+-
+-	if (dev_priv->first_dma_page == dev_priv->current_dma_page &&
+-	    dev_priv->dma_pages[dev_priv->current_dma_page].used == 0)
+-		return;
+-
+-	DRM_DEBUG("first=%u, cur=%u, cur->used=%u\n",
+-		  dev_priv->first_dma_page, dev_priv->current_dma_page,
+-		  dev_priv->dma_pages[dev_priv->current_dma_page].used);
+-
+-	for (i = dev_priv->first_dma_page;
+-	     i <= dev_priv->current_dma_page && dev_priv->dma_pages[i].used;
+-	     ++i) {
+-		uint32_t *dma_ptr = (uint32_t *) dev_priv->cmd_dma->handle +
+-		    i * SAVAGE_DMA_PAGE_SIZE;
+-#if SAVAGE_DMA_DEBUG
+-		/* Sanity check: all pages except the last one must be full. */
+-		if (i < dev_priv->current_dma_page &&
+-		    dev_priv->dma_pages[i].used != SAVAGE_DMA_PAGE_SIZE) {
+-			DRM_ERROR("partial DMA page %u: used=%u",
+-				  i, dev_priv->dma_pages[i].used);
+-		}
+-#endif
+-		BEGIN_BCI(dev_priv->dma_pages[i].used);
+-		for (j = 0; j < dev_priv->dma_pages[i].used; ++j) {
+-			BCI_WRITE(dma_ptr[j]);
+-		}
+-		dev_priv->dma_pages[i].used = 0;
+-	}
+-
+-	/* reset to first page */
+-	dev_priv->first_dma_page = dev_priv->current_dma_page = 0;
+-}
+-
+-int savage_driver_load(struct drm_device *dev, unsigned long chipset)
+-{
+-	struct pci_dev *pdev = to_pci_dev(dev->dev);
+-	drm_savage_private_t *dev_priv;
+-
+-	dev_priv = kzalloc(sizeof(drm_savage_private_t), GFP_KERNEL);
+-	if (dev_priv == NULL)
+-		return -ENOMEM;
+-
+-	dev->dev_private = (void *)dev_priv;
+-
+-	dev_priv->chipset = (enum savage_family)chipset;
+-
+-	pci_set_master(pdev);
+-
+-	return 0;
+-}
+-
+-
+-/*
+- * Initialize mappings. On Savage4 and SavageIX the alignment
+- * and size of the aperture is not suitable for automatic MTRR setup
+- * in drm_legacy_addmap. Therefore we add them manually before the maps are
+- * initialized, and tear them down on last close.
+- */
+-int savage_driver_firstopen(struct drm_device *dev)
+-{
+-	drm_savage_private_t *dev_priv = dev->dev_private;
+-	struct pci_dev *pdev = to_pci_dev(dev->dev);
+-	unsigned long mmio_base, fb_base, fb_size, aperture_base;
+-	int ret = 0;
+-
+-	if (S3_SAVAGE3D_SERIES(dev_priv->chipset)) {
+-		fb_base = pci_resource_start(pdev, 0);
+-		fb_size = SAVAGE_FB_SIZE_S3;
+-		mmio_base = fb_base + SAVAGE_FB_SIZE_S3;
+-		aperture_base = fb_base + SAVAGE_APERTURE_OFFSET;
+-		/* this should always be true */
+-		if (pci_resource_len(pdev, 0) == 0x08000000) {
+-			/* Don't make MMIO write-cobining! We need 3
+-			 * MTRRs. */
+-			dev_priv->mtrr_handles[0] =
+-				arch_phys_wc_add(fb_base, 0x01000000);
+-			dev_priv->mtrr_handles[1] =
+-				arch_phys_wc_add(fb_base + 0x02000000,
+-						 0x02000000);
+-			dev_priv->mtrr_handles[2] =
+-				arch_phys_wc_add(fb_base + 0x04000000,
+-						0x04000000);
+-		} else {
+-			DRM_ERROR("strange pci_resource_len %08llx\n",
+-				  (unsigned long long)
+-				  pci_resource_len(pdev, 0));
+-		}
+-	} else if (dev_priv->chipset != S3_SUPERSAVAGE &&
+-		   dev_priv->chipset != S3_SAVAGE2000) {
+-		mmio_base = pci_resource_start(pdev, 0);
+-		fb_base = pci_resource_start(pdev, 1);
+-		fb_size = SAVAGE_FB_SIZE_S4;
+-		aperture_base = fb_base + SAVAGE_APERTURE_OFFSET;
+-		/* this should always be true */
+-		if (pci_resource_len(pdev, 1) == 0x08000000) {
+-			/* Can use one MTRR to cover both fb and
+-			 * aperture. */
+-			dev_priv->mtrr_handles[0] =
+-				arch_phys_wc_add(fb_base,
+-						 0x08000000);
+-		} else {
+-			DRM_ERROR("strange pci_resource_len %08llx\n",
+-				  (unsigned long long)
+-				  pci_resource_len(pdev, 1));
+-		}
+-	} else {
+-		mmio_base = pci_resource_start(pdev, 0);
+-		fb_base = pci_resource_start(pdev, 1);
+-		fb_size = pci_resource_len(pdev, 1);
+-		aperture_base = pci_resource_start(pdev, 2);
+-		/* Automatic MTRR setup will do the right thing. */
+-	}
+-
+-	ret = drm_legacy_addmap(dev, mmio_base, SAVAGE_MMIO_SIZE,
+-				_DRM_REGISTERS, _DRM_READ_ONLY,
+-				&dev_priv->mmio);
+-	if (ret)
+-		return ret;
+-
+-	ret = drm_legacy_addmap(dev, fb_base, fb_size, _DRM_FRAME_BUFFER,
+-				_DRM_WRITE_COMBINING, &dev_priv->fb);
+-	if (ret)
+-		return ret;
+-
+-	ret = drm_legacy_addmap(dev, aperture_base, SAVAGE_APERTURE_SIZE,
+-				_DRM_FRAME_BUFFER, _DRM_WRITE_COMBINING,
+-				&dev_priv->aperture);
+-	return ret;
+-}
+-
+-/*
+- * Delete MTRRs and free device-private data.
+- */
+-void savage_driver_lastclose(struct drm_device *dev)
+-{
+-	drm_savage_private_t *dev_priv = dev->dev_private;
+-	int i;
+-
+-	for (i = 0; i < 3; ++i) {
+-		arch_phys_wc_del(dev_priv->mtrr_handles[i]);
+-		dev_priv->mtrr_handles[i] = 0;
+-	}
+-}
+-
+-void savage_driver_unload(struct drm_device *dev)
+-{
+-	drm_savage_private_t *dev_priv = dev->dev_private;
+-
+-	kfree(dev_priv);
+-}
+-
+-static int savage_do_init_bci(struct drm_device * dev, drm_savage_init_t * init)
+-{
+-	drm_savage_private_t *dev_priv = dev->dev_private;
+-
+-	if (init->fb_bpp != 16 && init->fb_bpp != 32) {
+-		DRM_ERROR("invalid frame buffer bpp %d!\n", init->fb_bpp);
+-		return -EINVAL;
+-	}
+-	if (init->depth_bpp != 16 && init->depth_bpp != 32) {
+-		DRM_ERROR("invalid depth buffer bpp %d!\n", init->fb_bpp);
+-		return -EINVAL;
+-	}
+-	if (init->dma_type != SAVAGE_DMA_AGP &&
+-	    init->dma_type != SAVAGE_DMA_PCI) {
+-		DRM_ERROR("invalid dma memory type %d!\n", init->dma_type);
+-		return -EINVAL;
+-	}
+-
+-	dev_priv->cob_size = init->cob_size;
+-	dev_priv->bci_threshold_lo = init->bci_threshold_lo;
+-	dev_priv->bci_threshold_hi = init->bci_threshold_hi;
+-	dev_priv->dma_type = init->dma_type;
+-
+-	dev_priv->fb_bpp = init->fb_bpp;
+-	dev_priv->front_offset = init->front_offset;
+-	dev_priv->front_pitch = init->front_pitch;
+-	dev_priv->back_offset = init->back_offset;
+-	dev_priv->back_pitch = init->back_pitch;
+-	dev_priv->depth_bpp = init->depth_bpp;
+-	dev_priv->depth_offset = init->depth_offset;
+-	dev_priv->depth_pitch = init->depth_pitch;
+-
+-	dev_priv->texture_offset = init->texture_offset;
+-	dev_priv->texture_size = init->texture_size;
+-
+-	dev_priv->sarea = drm_legacy_getsarea(dev);
+-	if (!dev_priv->sarea) {
+-		DRM_ERROR("could not find sarea!\n");
+-		savage_do_cleanup_bci(dev);
+-		return -EINVAL;
+-	}
+-	if (init->status_offset != 0) {
+-		dev_priv->status = drm_legacy_findmap(dev, init->status_offset);
+-		if (!dev_priv->status) {
+-			DRM_ERROR("could not find shadow status region!\n");
+-			savage_do_cleanup_bci(dev);
+-			return -EINVAL;
+-		}
+-	} else {
+-		dev_priv->status = NULL;
+-	}
+-	if (dev_priv->dma_type == SAVAGE_DMA_AGP && init->buffers_offset) {
+-		dev->agp_buffer_token = init->buffers_offset;
+-		dev->agp_buffer_map = drm_legacy_findmap(dev,
+-						       init->buffers_offset);
+-		if (!dev->agp_buffer_map) {
+-			DRM_ERROR("could not find DMA buffer region!\n");
+-			savage_do_cleanup_bci(dev);
+-			return -EINVAL;
+-		}
+-		drm_legacy_ioremap(dev->agp_buffer_map, dev);
+-		if (!dev->agp_buffer_map->handle) {
+-			DRM_ERROR("failed to ioremap DMA buffer region!\n");
+-			savage_do_cleanup_bci(dev);
+-			return -ENOMEM;
+-		}
+-	}
+-	if (init->agp_textures_offset) {
+-		dev_priv->agp_textures =
+-		    drm_legacy_findmap(dev, init->agp_textures_offset);
+-		if (!dev_priv->agp_textures) {
+-			DRM_ERROR("could not find agp texture region!\n");
+-			savage_do_cleanup_bci(dev);
+-			return -EINVAL;
+-		}
+-	} else {
+-		dev_priv->agp_textures = NULL;
+-	}
+-
+-	if (init->cmd_dma_offset) {
+-		if (S3_SAVAGE3D_SERIES(dev_priv->chipset)) {
+-			DRM_ERROR("command DMA not supported on "
+-				  "Savage3D/MX/IX.\n");
+-			savage_do_cleanup_bci(dev);
+-			return -EINVAL;
+-		}
+-		if (dev->dma && dev->dma->buflist) {
+-			DRM_ERROR("command and vertex DMA not supported "
+-				  "at the same time.\n");
+-			savage_do_cleanup_bci(dev);
+-			return -EINVAL;
+-		}
+-		dev_priv->cmd_dma = drm_legacy_findmap(dev, init->cmd_dma_offset);
+-		if (!dev_priv->cmd_dma) {
+-			DRM_ERROR("could not find command DMA region!\n");
+-			savage_do_cleanup_bci(dev);
+-			return -EINVAL;
+-		}
+-		if (dev_priv->dma_type == SAVAGE_DMA_AGP) {
+-			if (dev_priv->cmd_dma->type != _DRM_AGP) {
+-				DRM_ERROR("AGP command DMA region is not a "
+-					  "_DRM_AGP map!\n");
+-				savage_do_cleanup_bci(dev);
+-				return -EINVAL;
+-			}
+-			drm_legacy_ioremap(dev_priv->cmd_dma, dev);
+-			if (!dev_priv->cmd_dma->handle) {
+-				DRM_ERROR("failed to ioremap command "
+-					  "DMA region!\n");
+-				savage_do_cleanup_bci(dev);
+-				return -ENOMEM;
+-			}
+-		} else if (dev_priv->cmd_dma->type != _DRM_CONSISTENT) {
+-			DRM_ERROR("PCI command DMA region is not a "
+-				  "_DRM_CONSISTENT map!\n");
+-			savage_do_cleanup_bci(dev);
+-			return -EINVAL;
+-		}
+-	} else {
+-		dev_priv->cmd_dma = NULL;
+-	}
+-
+-	dev_priv->dma_flush = savage_dma_flush;
+-	if (!dev_priv->cmd_dma) {
+-		DRM_DEBUG("falling back to faked command DMA.\n");
+-		dev_priv->fake_dma.offset = 0;
+-		dev_priv->fake_dma.size = SAVAGE_FAKE_DMA_SIZE;
+-		dev_priv->fake_dma.type = _DRM_SHM;
+-		dev_priv->fake_dma.handle = kmalloc(SAVAGE_FAKE_DMA_SIZE,
+-						    GFP_KERNEL);
+-		if (!dev_priv->fake_dma.handle) {
+-			DRM_ERROR("could not allocate faked DMA buffer!\n");
+-			savage_do_cleanup_bci(dev);
+-			return -ENOMEM;
+-		}
+-		dev_priv->cmd_dma = &dev_priv->fake_dma;
+-		dev_priv->dma_flush = savage_fake_dma_flush;
+-	}
+-
+-	dev_priv->sarea_priv =
+-	    (drm_savage_sarea_t *) ((uint8_t *) dev_priv->sarea->handle +
+-				    init->sarea_priv_offset);
+-
+-	/* setup bitmap descriptors */
+-	{
+-		unsigned int color_tile_format;
+-		unsigned int depth_tile_format;
+-		unsigned int front_stride, back_stride, depth_stride;
+-		if (dev_priv->chipset <= S3_SAVAGE4) {
+-			color_tile_format = dev_priv->fb_bpp == 16 ?
+-			    SAVAGE_BD_TILE_16BPP : SAVAGE_BD_TILE_32BPP;
+-			depth_tile_format = dev_priv->depth_bpp == 16 ?
+-			    SAVAGE_BD_TILE_16BPP : SAVAGE_BD_TILE_32BPP;
+-		} else {
+-			color_tile_format = SAVAGE_BD_TILE_DEST;
+-			depth_tile_format = SAVAGE_BD_TILE_DEST;
+-		}
+-		front_stride = dev_priv->front_pitch / (dev_priv->fb_bpp / 8);
+-		back_stride = dev_priv->back_pitch / (dev_priv->fb_bpp / 8);
+-		depth_stride =
+-		    dev_priv->depth_pitch / (dev_priv->depth_bpp / 8);
+-
+-		dev_priv->front_bd = front_stride | SAVAGE_BD_BW_DISABLE |
+-		    (dev_priv->fb_bpp << SAVAGE_BD_BPP_SHIFT) |
+-		    (color_tile_format << SAVAGE_BD_TILE_SHIFT);
+-
+-		dev_priv->back_bd = back_stride | SAVAGE_BD_BW_DISABLE |
+-		    (dev_priv->fb_bpp << SAVAGE_BD_BPP_SHIFT) |
+-		    (color_tile_format << SAVAGE_BD_TILE_SHIFT);
+-
+-		dev_priv->depth_bd = depth_stride | SAVAGE_BD_BW_DISABLE |
+-		    (dev_priv->depth_bpp << SAVAGE_BD_BPP_SHIFT) |
+-		    (depth_tile_format << SAVAGE_BD_TILE_SHIFT);
+-	}
+-
+-	/* setup status and bci ptr */
+-	dev_priv->event_counter = 0;
+-	dev_priv->event_wrap = 0;
+-	dev_priv->bci_ptr = (volatile uint32_t *)
+-	    ((uint8_t *) dev_priv->mmio->handle + SAVAGE_BCI_OFFSET);
+-	if (S3_SAVAGE3D_SERIES(dev_priv->chipset)) {
+-		dev_priv->status_used_mask = SAVAGE_FIFO_USED_MASK_S3D;
+-	} else {
+-		dev_priv->status_used_mask = SAVAGE_FIFO_USED_MASK_S4;
+-	}
+-	if (dev_priv->status != NULL) {
+-		dev_priv->status_ptr =
+-		    (volatile uint32_t *)dev_priv->status->handle;
+-		dev_priv->wait_fifo = savage_bci_wait_fifo_shadow;
+-		dev_priv->wait_evnt = savage_bci_wait_event_shadow;
+-		dev_priv->status_ptr[1023] = dev_priv->event_counter;
+-	} else {
+-		dev_priv->status_ptr = NULL;
+-		if (S3_SAVAGE3D_SERIES(dev_priv->chipset)) {
+-			dev_priv->wait_fifo = savage_bci_wait_fifo_s3d;
+-		} else {
+-			dev_priv->wait_fifo = savage_bci_wait_fifo_s4;
+-		}
+-		dev_priv->wait_evnt = savage_bci_wait_event_reg;
+-	}
+-
+-	/* cliprect functions */
+-	if (S3_SAVAGE3D_SERIES(dev_priv->chipset))
+-		dev_priv->emit_clip_rect = savage_emit_clip_rect_s3d;
+-	else
+-		dev_priv->emit_clip_rect = savage_emit_clip_rect_s4;
+-
+-	if (savage_freelist_init(dev) < 0) {
+-		DRM_ERROR("could not initialize freelist\n");
+-		savage_do_cleanup_bci(dev);
+-		return -ENOMEM;
+-	}
+-
+-	if (savage_dma_init(dev_priv) < 0) {
+-		DRM_ERROR("could not initialize command DMA\n");
+-		savage_do_cleanup_bci(dev);
+-		return -ENOMEM;
+-	}
+-
+-	return 0;
+-}
+-
+-static int savage_do_cleanup_bci(struct drm_device * dev)
+-{
+-	drm_savage_private_t *dev_priv = dev->dev_private;
+-
+-	if (dev_priv->cmd_dma == &dev_priv->fake_dma) {
+-		kfree(dev_priv->fake_dma.handle);
+-	} else if (dev_priv->cmd_dma && dev_priv->cmd_dma->handle &&
+-		   dev_priv->cmd_dma->type == _DRM_AGP &&
+-		   dev_priv->dma_type == SAVAGE_DMA_AGP)
+-		drm_legacy_ioremapfree(dev_priv->cmd_dma, dev);
+-
+-	if (dev_priv->dma_type == SAVAGE_DMA_AGP &&
+-	    dev->agp_buffer_map && dev->agp_buffer_map->handle) {
+-		drm_legacy_ioremapfree(dev->agp_buffer_map, dev);
+-		/* make sure the next instance (which may be running
+-		 * in PCI mode) doesn't try to use an old
+-		 * agp_buffer_map. */
+-		dev->agp_buffer_map = NULL;
+-	}
+-
+-	kfree(dev_priv->dma_pages);
+-
+-	return 0;
+-}
+-
+-static int savage_bci_init(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	drm_savage_init_t *init = data;
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	switch (init->func) {
+-	case SAVAGE_INIT_BCI:
+-		return savage_do_init_bci(dev, init);
+-	case SAVAGE_CLEANUP_BCI:
+-		return savage_do_cleanup_bci(dev);
+-	}
+-
+-	return -EINVAL;
+-}
+-
+-static int savage_bci_event_emit(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	drm_savage_private_t *dev_priv = dev->dev_private;
+-	drm_savage_event_emit_t *event = data;
+-
+-	DRM_DEBUG("\n");
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	event->count = savage_bci_emit_event(dev_priv, event->flags);
+-	event->count |= dev_priv->event_wrap << 16;
+-
+-	return 0;
+-}
+-
+-static int savage_bci_event_wait(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	drm_savage_private_t *dev_priv = dev->dev_private;
+-	drm_savage_event_wait_t *event = data;
+-	unsigned int event_e, hw_e;
+-	unsigned int event_w, hw_w;
+-
+-	DRM_DEBUG("\n");
+-
+-	UPDATE_EVENT_COUNTER();
+-	if (dev_priv->status_ptr)
+-		hw_e = dev_priv->status_ptr[1] & 0xffff;
+-	else
+-		hw_e = SAVAGE_READ(SAVAGE_STATUS_WORD1) & 0xffff;
+-	hw_w = dev_priv->event_wrap;
+-	if (hw_e > dev_priv->event_counter)
+-		hw_w--;		/* hardware hasn't passed the last wrap yet */
+-
+-	event_e = event->count & 0xffff;
+-	event_w = event->count >> 16;
+-
+-	/* Don't need to wait if
+-	 * - event counter wrapped since the event was emitted or
+-	 * - the hardware has advanced up to or over the event to wait for.
+-	 */
+-	if (event_w < hw_w || (event_w == hw_w && event_e <= hw_e))
+-		return 0;
+-	else
+-		return dev_priv->wait_evnt(dev_priv, event_e);
+-}
+-
+-/*
+- * DMA buffer management
+- */
+-
+-static int savage_bci_get_buffers(struct drm_device *dev,
+-				  struct drm_file *file_priv,
+-				  struct drm_dma *d)
+-{
+-	struct drm_buf *buf;
+-	int i;
+-
+-	for (i = d->granted_count; i < d->request_count; i++) {
+-		buf = savage_freelist_get(dev);
+-		if (!buf)
+-			return -EAGAIN;
+-
+-		buf->file_priv = file_priv;
+-
+-		if (copy_to_user(&d->request_indices[i],
+-				     &buf->idx, sizeof(buf->idx)))
+-			return -EFAULT;
+-		if (copy_to_user(&d->request_sizes[i],
+-				     &buf->total, sizeof(buf->total)))
+-			return -EFAULT;
+-
+-		d->granted_count++;
+-	}
+-	return 0;
+-}
+-
+-int savage_bci_buffers(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	struct drm_device_dma *dma = dev->dma;
+-	struct drm_dma *d = data;
+-	int ret = 0;
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	/* Please don't send us buffers.
+-	 */
+-	if (d->send_count != 0) {
+-		DRM_ERROR("Process %d trying to send %d buffers via drmDMA\n",
+-			  task_pid_nr(current), d->send_count);
+-		return -EINVAL;
+-	}
+-
+-	/* We'll send you buffers.
+-	 */
+-	if (d->request_count < 0 || d->request_count > dma->buf_count) {
+-		DRM_ERROR("Process %d trying to get %d buffers (of %d max)\n",
+-			  task_pid_nr(current), d->request_count, dma->buf_count);
+-		return -EINVAL;
+-	}
+-
+-	d->granted_count = 0;
+-
+-	if (d->request_count) {
+-		ret = savage_bci_get_buffers(dev, file_priv, d);
+-	}
+-
+-	return ret;
+-}
+-
+-void savage_reclaim_buffers(struct drm_device *dev, struct drm_file *file_priv)
+-{
+-	struct drm_device_dma *dma = dev->dma;
+-	drm_savage_private_t *dev_priv = dev->dev_private;
+-	int release_idlelock = 0;
+-	int i;
+-
+-	if (!dma)
+-		return;
+-	if (!dev_priv)
+-		return;
+-	if (!dma->buflist)
+-		return;
+-
+-	if (file_priv->master && file_priv->master->lock.hw_lock) {
+-		drm_legacy_idlelock_take(&file_priv->master->lock);
+-		release_idlelock = 1;
+-	}
+-
+-	for (i = 0; i < dma->buf_count; i++) {
+-		struct drm_buf *buf = dma->buflist[i];
+-		drm_savage_buf_priv_t *buf_priv = buf->dev_private;
+-
+-		if (buf->file_priv == file_priv && buf_priv &&
+-		    buf_priv->next == NULL && buf_priv->prev == NULL) {
+-			uint16_t event;
+-			DRM_DEBUG("reclaimed from client\n");
+-			event = savage_bci_emit_event(dev_priv, SAVAGE_WAIT_3D);
+-			SET_AGE(&buf_priv->age, event, dev_priv->event_wrap);
+-			savage_freelist_put(dev, buf);
+-		}
+-	}
+-
+-	if (release_idlelock)
+-		drm_legacy_idlelock_release(&file_priv->master->lock);
+-}
+-
+-const struct drm_ioctl_desc savage_ioctls[] = {
+-	DRM_IOCTL_DEF_DRV(SAVAGE_BCI_INIT, savage_bci_init, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
+-	DRM_IOCTL_DEF_DRV(SAVAGE_BCI_CMDBUF, savage_bci_cmdbuf, DRM_AUTH),
+-	DRM_IOCTL_DEF_DRV(SAVAGE_BCI_EVENT_EMIT, savage_bci_event_emit, DRM_AUTH),
+-	DRM_IOCTL_DEF_DRV(SAVAGE_BCI_EVENT_WAIT, savage_bci_event_wait, DRM_AUTH),
+-};
+-
+-int savage_max_ioctl = ARRAY_SIZE(savage_ioctls);
+diff --git a/drivers/gpu/drm/savage/savage_drv.c b/drivers/gpu/drm/savage/savage_drv.c
+deleted file mode 100644
+index 799bd11adb9c..000000000000
+--- a/drivers/gpu/drm/savage/savage_drv.c
++++ /dev/null
+@@ -1,91 +0,0 @@
+-/* savage_drv.c -- Savage driver for Linux
+- *
+- * Copyright 2004  Felix Kuehling
+- * All Rights Reserved.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sub license,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the
+- * next paragraph) shall be included in all copies or substantial portions
+- * of the Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+- * NON-INFRINGEMENT. IN NO EVENT SHALL FELIX KUEHLING BE LIABLE FOR
+- * ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+- * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+- */
+-
+-#include <linux/module.h>
+-#include <linux/pci.h>
+-
+-#include <drm/drm_drv.h>
+-#include <drm/drm_file.h>
+-#include <drm/drm_pciids.h>
+-
+-#include "savage_drv.h"
+-
+-static struct pci_device_id pciidlist[] = {
+-	savage_PCI_IDS
+-};
+-
+-static const struct file_operations savage_driver_fops = {
+-	.owner = THIS_MODULE,
+-	.open = drm_open,
+-	.release = drm_release,
+-	.unlocked_ioctl = drm_ioctl,
+-	.mmap = drm_legacy_mmap,
+-	.poll = drm_poll,
+-	.compat_ioctl = drm_compat_ioctl,
+-	.llseek = noop_llseek,
+-};
+-
+-static struct drm_driver driver = {
+-	.driver_features =
+-	    DRIVER_USE_AGP | DRIVER_HAVE_DMA | DRIVER_PCI_DMA | DRIVER_LEGACY,
+-	.dev_priv_size = sizeof(drm_savage_buf_priv_t),
+-	.load = savage_driver_load,
+-	.firstopen = savage_driver_firstopen,
+-	.preclose = savage_reclaim_buffers,
+-	.lastclose = savage_driver_lastclose,
+-	.unload = savage_driver_unload,
+-	.ioctls = savage_ioctls,
+-	.dma_ioctl = savage_bci_buffers,
+-	.fops = &savage_driver_fops,
+-	.name = DRIVER_NAME,
+-	.desc = DRIVER_DESC,
+-	.date = DRIVER_DATE,
+-	.major = DRIVER_MAJOR,
+-	.minor = DRIVER_MINOR,
+-	.patchlevel = DRIVER_PATCHLEVEL,
+-};
+-
+-static struct pci_driver savage_pci_driver = {
+-	.name = DRIVER_NAME,
+-	.id_table = pciidlist,
+-};
+-
+-static int __init savage_init(void)
+-{
+-	driver.num_ioctls = savage_max_ioctl;
+-	return drm_legacy_pci_init(&driver, &savage_pci_driver);
+-}
+-
+-static void __exit savage_exit(void)
+-{
+-	drm_legacy_pci_exit(&driver, &savage_pci_driver);
+-}
+-
+-module_init(savage_init);
+-module_exit(savage_exit);
+-
+-MODULE_AUTHOR(DRIVER_AUTHOR);
+-MODULE_DESCRIPTION(DRIVER_DESC);
+-MODULE_LICENSE("GPL and additional rights");
+diff --git a/drivers/gpu/drm/savage/savage_drv.h b/drivers/gpu/drm/savage/savage_drv.h
+deleted file mode 100644
+index b0081bb64776..000000000000
+--- a/drivers/gpu/drm/savage/savage_drv.h
++++ /dev/null
+@@ -1,580 +0,0 @@
+-/* savage_drv.h -- Private header for the savage driver */
+-/*
+- * Copyright 2004  Felix Kuehling
+- * All Rights Reserved.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sub license,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the
+- * next paragraph) shall be included in all copies or substantial portions
+- * of the Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+- * NON-INFRINGEMENT. IN NO EVENT SHALL FELIX KUEHLING BE LIABLE FOR
+- * ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+- * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+- */
+-
+-#ifndef __SAVAGE_DRV_H__
+-#define __SAVAGE_DRV_H__
+-
+-#include <linux/io.h>
+-
+-#include <drm/drm_ioctl.h>
+-#include <drm/drm_legacy.h>
+-#include <drm/savage_drm.h>
+-
+-#define DRIVER_AUTHOR	"Felix Kuehling"
+-
+-#define DRIVER_NAME	"savage"
+-#define DRIVER_DESC	"Savage3D/MX/IX, Savage4, SuperSavage, Twister, ProSavage[DDR]"
+-#define DRIVER_DATE	"20050313"
+-
+-#define DRIVER_MAJOR		2
+-#define DRIVER_MINOR		4
+-#define DRIVER_PATCHLEVEL	1
+-/* Interface history:
+- *
+- * 1.x   The DRM driver from the VIA/S3 code drop, basically a dummy
+- * 2.0   The first real DRM
+- * 2.1   Scissors registers managed by the DRM, 3D operations clipped by
+- *       cliprects of the cmdbuf ioctl
+- * 2.2   Implemented SAVAGE_CMD_DMA_IDX and SAVAGE_CMD_VB_IDX
+- * 2.3   Event counters used by BCI_EVENT_EMIT/WAIT ioctls are now 32 bits
+- *       wide and thus very long lived (unlikely to ever wrap). The size
+- *       in the struct was 32 bits before, but only 16 bits were used
+- * 2.4   Implemented command DMA. Now drm_savage_init_t.cmd_dma_offset is
+- *       actually used
+- */
+-
+-typedef struct drm_savage_age {
+-	uint16_t event;
+-	unsigned int wrap;
+-} drm_savage_age_t;
+-
+-typedef struct drm_savage_buf_priv {
+-	struct drm_savage_buf_priv *next;
+-	struct drm_savage_buf_priv *prev;
+-	drm_savage_age_t age;
+-	struct drm_buf *buf;
+-} drm_savage_buf_priv_t;
+-
+-typedef struct drm_savage_dma_page {
+-	drm_savage_age_t age;
+-	unsigned int used, flushed;
+-} drm_savage_dma_page_t;
+-#define SAVAGE_DMA_PAGE_SIZE 1024	/* in dwords */
+-/* Fake DMA buffer size in bytes. 4 pages. Allows a maximum command
+- * size of 16kbytes or 4k entries. Minimum requirement would be
+- * 10kbytes for 255 40-byte vertices in one drawing command. */
+-#define SAVAGE_FAKE_DMA_SIZE (SAVAGE_DMA_PAGE_SIZE*4*4)
+-
+-/* interesting bits of hardware state that are saved in dev_priv */
+-typedef union {
+-	struct drm_savage_common_state {
+-		uint32_t vbaddr;
+-	} common;
+-	struct {
+-		unsigned char pad[sizeof(struct drm_savage_common_state)];
+-		uint32_t texctrl, texaddr;
+-		uint32_t scstart, new_scstart;
+-		uint32_t scend, new_scend;
+-	} s3d;
+-	struct {
+-		unsigned char pad[sizeof(struct drm_savage_common_state)];
+-		uint32_t texdescr, texaddr0, texaddr1;
+-		uint32_t drawctrl0, new_drawctrl0;
+-		uint32_t drawctrl1, new_drawctrl1;
+-	} s4;
+-} drm_savage_state_t;
+-
+-/* these chip tags should match the ones in the 2D driver in savage_regs.h. */
+-enum savage_family {
+-	S3_UNKNOWN = 0,
+-	S3_SAVAGE3D,
+-	S3_SAVAGE_MX,
+-	S3_SAVAGE4,
+-	S3_PROSAVAGE,
+-	S3_TWISTER,
+-	S3_PROSAVAGEDDR,
+-	S3_SUPERSAVAGE,
+-	S3_SAVAGE2000,
+-	S3_LAST
+-};
+-
+-extern const struct drm_ioctl_desc savage_ioctls[];
+-extern int savage_max_ioctl;
+-
+-#define S3_SAVAGE3D_SERIES(chip)  ((chip>=S3_SAVAGE3D) && (chip<=S3_SAVAGE_MX))
+-
+-#define S3_SAVAGE4_SERIES(chip)  ((chip==S3_SAVAGE4)            \
+-                                  || (chip==S3_PROSAVAGE)       \
+-                                  || (chip==S3_TWISTER)         \
+-                                  || (chip==S3_PROSAVAGEDDR))
+-
+-#define	S3_SAVAGE_MOBILE_SERIES(chip)	((chip==S3_SAVAGE_MX) || (chip==S3_SUPERSAVAGE))
+-
+-#define S3_SAVAGE_SERIES(chip)    ((chip>=S3_SAVAGE3D) && (chip<=S3_SAVAGE2000))
+-
+-#define S3_MOBILE_TWISTER_SERIES(chip)   ((chip==S3_TWISTER)    \
+-                                          ||(chip==S3_PROSAVAGEDDR))
+-
+-/* flags */
+-#define SAVAGE_IS_AGP 1
+-
+-typedef struct drm_savage_private {
+-	drm_savage_sarea_t *sarea_priv;
+-
+-	drm_savage_buf_priv_t head, tail;
+-
+-	/* who am I? */
+-	enum savage_family chipset;
+-
+-	unsigned int cob_size;
+-	unsigned int bci_threshold_lo, bci_threshold_hi;
+-	unsigned int dma_type;
+-
+-	/* frame buffer layout */
+-	unsigned int fb_bpp;
+-	unsigned int front_offset, front_pitch;
+-	unsigned int back_offset, back_pitch;
+-	unsigned int depth_bpp;
+-	unsigned int depth_offset, depth_pitch;
+-
+-	/* bitmap descriptors for swap and clear */
+-	unsigned int front_bd, back_bd, depth_bd;
+-
+-	/* local textures */
+-	unsigned int texture_offset;
+-	unsigned int texture_size;
+-
+-	/* memory regions in physical memory */
+-	drm_local_map_t *sarea;
+-	drm_local_map_t *mmio;
+-	drm_local_map_t *fb;
+-	drm_local_map_t *aperture;
+-	drm_local_map_t *status;
+-	drm_local_map_t *agp_textures;
+-	drm_local_map_t *cmd_dma;
+-	drm_local_map_t fake_dma;
+-
+-	int mtrr_handles[3];
+-
+-	/* BCI and status-related stuff */
+-	volatile uint32_t *status_ptr, *bci_ptr;
+-	uint32_t status_used_mask;
+-	uint16_t event_counter;
+-	unsigned int event_wrap;
+-
+-	/* Savage4 command DMA */
+-	drm_savage_dma_page_t *dma_pages;
+-	unsigned int nr_dma_pages, first_dma_page, current_dma_page;
+-	drm_savage_age_t last_dma_age;
+-
+-	/* saved hw state for global/local check on S3D */
+-	uint32_t hw_draw_ctrl, hw_zbuf_ctrl;
+-	/* and for scissors (global, so don't emit if not changed) */
+-	uint32_t hw_scissors_start, hw_scissors_end;
+-
+-	drm_savage_state_t state;
+-
+-	/* after emitting a wait cmd Savage3D needs 63 nops before next DMA */
+-	unsigned int waiting;
+-
+-	/* config/hardware-dependent function pointers */
+-	int (*wait_fifo) (struct drm_savage_private * dev_priv, unsigned int n);
+-	int (*wait_evnt) (struct drm_savage_private * dev_priv, uint16_t e);
+-	/* Err, there is a macro wait_event in include/linux/wait.h.
+-	 * Avoid unwanted macro expansion. */
+-	void (*emit_clip_rect) (struct drm_savage_private * dev_priv,
+-				const struct drm_clip_rect * pbox);
+-	void (*dma_flush) (struct drm_savage_private * dev_priv);
+-} drm_savage_private_t;
+-
+-/* ioctls */
+-extern int savage_bci_cmdbuf(struct drm_device *dev, void *data, struct drm_file *file_priv);
+-extern int savage_bci_buffers(struct drm_device *dev, void *data, struct drm_file *file_priv);
+-
+-/* BCI functions */
+-extern uint16_t savage_bci_emit_event(drm_savage_private_t * dev_priv,
+-				      unsigned int flags);
+-extern void savage_freelist_put(struct drm_device * dev, struct drm_buf * buf);
+-extern void savage_dma_reset(drm_savage_private_t * dev_priv);
+-extern void savage_dma_wait(drm_savage_private_t * dev_priv, unsigned int page);
+-extern uint32_t *savage_dma_alloc(drm_savage_private_t * dev_priv,
+-				  unsigned int n);
+-extern int savage_driver_load(struct drm_device *dev, unsigned long chipset);
+-extern int savage_driver_firstopen(struct drm_device *dev);
+-extern void savage_driver_lastclose(struct drm_device *dev);
+-extern void savage_driver_unload(struct drm_device *dev);
+-extern void savage_reclaim_buffers(struct drm_device *dev,
+-				   struct drm_file *file_priv);
+-
+-/* state functions */
+-extern void savage_emit_clip_rect_s3d(drm_savage_private_t * dev_priv,
+-				      const struct drm_clip_rect * pbox);
+-extern void savage_emit_clip_rect_s4(drm_savage_private_t * dev_priv,
+-				     const struct drm_clip_rect * pbox);
+-
+-#define SAVAGE_FB_SIZE_S3	0x01000000	/*  16MB */
+-#define SAVAGE_FB_SIZE_S4	0x02000000	/*  32MB */
+-#define SAVAGE_MMIO_SIZE        0x00080000	/* 512kB */
+-#define SAVAGE_APERTURE_OFFSET  0x02000000	/*  32MB */
+-#define SAVAGE_APERTURE_SIZE    0x05000000	/* 5 tiled surfaces, 16MB each */
+-
+-#define SAVAGE_BCI_OFFSET       0x00010000	/* offset of the BCI region
+-						 * inside the MMIO region */
+-#define SAVAGE_BCI_FIFO_SIZE	32	/* number of entries in on-chip
+-					 * BCI FIFO */
+-
+-/*
+- * MMIO registers
+- */
+-#define SAVAGE_STATUS_WORD0		0x48C00
+-#define SAVAGE_STATUS_WORD1		0x48C04
+-#define SAVAGE_ALT_STATUS_WORD0 	0x48C60
+-
+-#define SAVAGE_FIFO_USED_MASK_S3D	0x0001ffff
+-#define SAVAGE_FIFO_USED_MASK_S4	0x001fffff
+-
+-/* Copied from savage_bci.h in the 2D driver with some renaming. */
+-
+-/* Bitmap descriptors */
+-#define SAVAGE_BD_STRIDE_SHIFT 0
+-#define SAVAGE_BD_BPP_SHIFT   16
+-#define SAVAGE_BD_TILE_SHIFT  24
+-#define SAVAGE_BD_BW_DISABLE  (1<<28)
+-/* common: */
+-#define	SAVAGE_BD_TILE_LINEAR		0
+-/* savage4, MX, IX, 3D */
+-#define	SAVAGE_BD_TILE_16BPP		2
+-#define	SAVAGE_BD_TILE_32BPP		3
+-/* twister, prosavage, DDR, supersavage, 2000 */
+-#define	SAVAGE_BD_TILE_DEST		1
+-#define	SAVAGE_BD_TILE_TEXTURE		2
+-/* GBD - BCI enable */
+-/* savage4, MX, IX, 3D */
+-#define SAVAGE_GBD_BCI_ENABLE                    8
+-/* twister, prosavage, DDR, supersavage, 2000 */
+-#define SAVAGE_GBD_BCI_ENABLE_TWISTER            0
+-
+-#define SAVAGE_GBD_BIG_ENDIAN                    4
+-#define SAVAGE_GBD_LITTLE_ENDIAN                 0
+-#define SAVAGE_GBD_64                            1
+-
+-/*  Global Bitmap Descriptor */
+-#define SAVAGE_BCI_GLB_BD_LOW             0x8168
+-#define SAVAGE_BCI_GLB_BD_HIGH            0x816C
+-
+-/*
+- * BCI registers
+- */
+-/* Savage4/Twister/ProSavage 3D registers */
+-#define SAVAGE_DRAWLOCALCTRL_S4		0x1e
+-#define SAVAGE_TEXPALADDR_S4		0x1f
+-#define SAVAGE_TEXCTRL0_S4		0x20
+-#define SAVAGE_TEXCTRL1_S4		0x21
+-#define SAVAGE_TEXADDR0_S4		0x22
+-#define SAVAGE_TEXADDR1_S4		0x23
+-#define SAVAGE_TEXBLEND0_S4		0x24
+-#define SAVAGE_TEXBLEND1_S4		0x25
+-#define SAVAGE_TEXXPRCLR_S4		0x26	/* never used */
+-#define SAVAGE_TEXDESCR_S4		0x27
+-#define SAVAGE_FOGTABLE_S4		0x28
+-#define SAVAGE_FOGCTRL_S4		0x30
+-#define SAVAGE_STENCILCTRL_S4		0x31
+-#define SAVAGE_ZBUFCTRL_S4		0x32
+-#define SAVAGE_ZBUFOFF_S4		0x33
+-#define SAVAGE_DESTCTRL_S4		0x34
+-#define SAVAGE_DRAWCTRL0_S4		0x35
+-#define SAVAGE_DRAWCTRL1_S4		0x36
+-#define SAVAGE_ZWATERMARK_S4		0x37
+-#define SAVAGE_DESTTEXRWWATERMARK_S4	0x38
+-#define SAVAGE_TEXBLENDCOLOR_S4		0x39
+-/* Savage3D/MX/IX 3D registers */
+-#define SAVAGE_TEXPALADDR_S3D		0x18
+-#define SAVAGE_TEXXPRCLR_S3D		0x19	/* never used */
+-#define SAVAGE_TEXADDR_S3D		0x1A
+-#define SAVAGE_TEXDESCR_S3D		0x1B
+-#define SAVAGE_TEXCTRL_S3D		0x1C
+-#define SAVAGE_FOGTABLE_S3D		0x20
+-#define SAVAGE_FOGCTRL_S3D		0x30
+-#define SAVAGE_DRAWCTRL_S3D		0x31
+-#define SAVAGE_ZBUFCTRL_S3D		0x32
+-#define SAVAGE_ZBUFOFF_S3D		0x33
+-#define SAVAGE_DESTCTRL_S3D		0x34
+-#define SAVAGE_SCSTART_S3D		0x35
+-#define SAVAGE_SCEND_S3D		0x36
+-#define SAVAGE_ZWATERMARK_S3D		0x37
+-#define SAVAGE_DESTTEXRWWATERMARK_S3D	0x38
+-/* common stuff */
+-#define SAVAGE_VERTBUFADDR		0x3e
+-#define SAVAGE_BITPLANEWTMASK		0xd7
+-#define SAVAGE_DMABUFADDR		0x51
+-
+-/* texture enable bits (needed for tex addr checking) */
+-#define SAVAGE_TEXCTRL_TEXEN_MASK	0x00010000	/* S3D */
+-#define SAVAGE_TEXDESCR_TEX0EN_MASK	0x02000000	/* S4 */
+-#define SAVAGE_TEXDESCR_TEX1EN_MASK	0x04000000	/* S4 */
+-
+-/* Global fields in Savage4/Twister/ProSavage 3D registers:
+- *
+- * All texture registers and DrawLocalCtrl are local. All other
+- * registers are global. */
+-
+-/* Global fields in Savage3D/MX/IX 3D registers:
+- *
+- * All texture registers are local. DrawCtrl and ZBufCtrl are
+- * partially local. All other registers are global.
+- *
+- * DrawCtrl global fields: cullMode, alphaTestCmpFunc, alphaTestEn, alphaRefVal
+- * ZBufCtrl global fields: zCmpFunc, zBufEn
+- */
+-#define SAVAGE_DRAWCTRL_S3D_GLOBAL	0x03f3c00c
+-#define SAVAGE_ZBUFCTRL_S3D_GLOBAL	0x00000027
+-
+-/* Masks for scissor bits (drawCtrl[01] on s4, scissorStart/End on s3d)
+- */
+-#define SAVAGE_SCISSOR_MASK_S4		0x00fff7ff
+-#define SAVAGE_SCISSOR_MASK_S3D		0x07ff07ff
+-
+-/*
+- * BCI commands
+- */
+-#define BCI_CMD_NOP                  0x40000000
+-#define BCI_CMD_RECT                 0x48000000
+-#define BCI_CMD_RECT_XP              0x01000000
+-#define BCI_CMD_RECT_YP              0x02000000
+-#define BCI_CMD_SCANLINE             0x50000000
+-#define BCI_CMD_LINE                 0x5C000000
+-#define BCI_CMD_LINE_LAST_PIXEL      0x58000000
+-#define BCI_CMD_BYTE_TEXT            0x63000000
+-#define BCI_CMD_NT_BYTE_TEXT         0x67000000
+-#define BCI_CMD_BIT_TEXT             0x6C000000
+-#define BCI_CMD_GET_ROP(cmd)         (((cmd) >> 16) & 0xFF)
+-#define BCI_CMD_SET_ROP(cmd, rop)    ((cmd) |= ((rop & 0xFF) << 16))
+-#define BCI_CMD_SEND_COLOR           0x00008000
+-
+-#define BCI_CMD_CLIP_NONE            0x00000000
+-#define BCI_CMD_CLIP_CURRENT         0x00002000
+-#define BCI_CMD_CLIP_LR              0x00004000
+-#define BCI_CMD_CLIP_NEW             0x00006000
+-
+-#define BCI_CMD_DEST_GBD             0x00000000
+-#define BCI_CMD_DEST_PBD             0x00000800
+-#define BCI_CMD_DEST_PBD_NEW         0x00000C00
+-#define BCI_CMD_DEST_SBD             0x00001000
+-#define BCI_CMD_DEST_SBD_NEW         0x00001400
+-
+-#define BCI_CMD_SRC_TRANSPARENT      0x00000200
+-#define BCI_CMD_SRC_SOLID            0x00000000
+-#define BCI_CMD_SRC_GBD              0x00000020
+-#define BCI_CMD_SRC_COLOR            0x00000040
+-#define BCI_CMD_SRC_MONO             0x00000060
+-#define BCI_CMD_SRC_PBD_COLOR        0x00000080
+-#define BCI_CMD_SRC_PBD_MONO         0x000000A0
+-#define BCI_CMD_SRC_PBD_COLOR_NEW    0x000000C0
+-#define BCI_CMD_SRC_PBD_MONO_NEW     0x000000E0
+-#define BCI_CMD_SRC_SBD_COLOR        0x00000100
+-#define BCI_CMD_SRC_SBD_MONO         0x00000120
+-#define BCI_CMD_SRC_SBD_COLOR_NEW    0x00000140
+-#define BCI_CMD_SRC_SBD_MONO_NEW     0x00000160
+-
+-#define BCI_CMD_PAT_TRANSPARENT      0x00000010
+-#define BCI_CMD_PAT_NONE             0x00000000
+-#define BCI_CMD_PAT_COLOR            0x00000002
+-#define BCI_CMD_PAT_MONO             0x00000003
+-#define BCI_CMD_PAT_PBD_COLOR        0x00000004
+-#define BCI_CMD_PAT_PBD_MONO         0x00000005
+-#define BCI_CMD_PAT_PBD_COLOR_NEW    0x00000006
+-#define BCI_CMD_PAT_PBD_MONO_NEW     0x00000007
+-#define BCI_CMD_PAT_SBD_COLOR        0x00000008
+-#define BCI_CMD_PAT_SBD_MONO         0x00000009
+-#define BCI_CMD_PAT_SBD_COLOR_NEW    0x0000000A
+-#define BCI_CMD_PAT_SBD_MONO_NEW     0x0000000B
+-
+-#define BCI_BD_BW_DISABLE            0x10000000
+-#define BCI_BD_TILE_MASK             0x03000000
+-#define BCI_BD_TILE_NONE             0x00000000
+-#define BCI_BD_TILE_16               0x02000000
+-#define BCI_BD_TILE_32               0x03000000
+-#define BCI_BD_GET_BPP(bd)           (((bd) >> 16) & 0xFF)
+-#define BCI_BD_SET_BPP(bd, bpp)      ((bd) |= (((bpp) & 0xFF) << 16))
+-#define BCI_BD_GET_STRIDE(bd)        ((bd) & 0xFFFF)
+-#define BCI_BD_SET_STRIDE(bd, st)    ((bd) |= ((st) & 0xFFFF))
+-
+-#define BCI_CMD_SET_REGISTER            0x96000000
+-
+-#define BCI_CMD_WAIT                    0xC0000000
+-#define BCI_CMD_WAIT_3D                 0x00010000
+-#define BCI_CMD_WAIT_2D                 0x00020000
+-
+-#define BCI_CMD_UPDATE_EVENT_TAG        0x98000000
+-
+-#define BCI_CMD_DRAW_PRIM               0x80000000
+-#define BCI_CMD_DRAW_INDEXED_PRIM       0x88000000
+-#define BCI_CMD_DRAW_CONT               0x01000000
+-#define BCI_CMD_DRAW_TRILIST            0x00000000
+-#define BCI_CMD_DRAW_TRISTRIP           0x02000000
+-#define BCI_CMD_DRAW_TRIFAN             0x04000000
+-#define BCI_CMD_DRAW_SKIPFLAGS          0x000000ff
+-#define BCI_CMD_DRAW_NO_Z		0x00000001
+-#define BCI_CMD_DRAW_NO_W		0x00000002
+-#define BCI_CMD_DRAW_NO_CD		0x00000004
+-#define BCI_CMD_DRAW_NO_CS		0x00000008
+-#define BCI_CMD_DRAW_NO_U0		0x00000010
+-#define BCI_CMD_DRAW_NO_V0		0x00000020
+-#define BCI_CMD_DRAW_NO_UV0		0x00000030
+-#define BCI_CMD_DRAW_NO_U1		0x00000040
+-#define BCI_CMD_DRAW_NO_V1		0x00000080
+-#define BCI_CMD_DRAW_NO_UV1		0x000000c0
+-
+-#define BCI_CMD_DMA			0xa8000000
+-
+-#define BCI_W_H(w, h)                ((((h) << 16) | (w)) & 0x0FFF0FFF)
+-#define BCI_X_Y(x, y)                ((((y) << 16) | (x)) & 0x0FFF0FFF)
+-#define BCI_X_W(x, y)                ((((w) << 16) | (x)) & 0x0FFF0FFF)
+-#define BCI_CLIP_LR(l, r)            ((((r) << 16) | (l)) & 0x0FFF0FFF)
+-#define BCI_CLIP_TL(t, l)            ((((t) << 16) | (l)) & 0x0FFF0FFF)
+-#define BCI_CLIP_BR(b, r)            ((((b) << 16) | (r)) & 0x0FFF0FFF)
+-
+-#define BCI_LINE_X_Y(x, y)           (((y) << 16) | ((x) & 0xFFFF))
+-#define BCI_LINE_STEPS(diag, axi)    (((axi) << 16) | ((diag) & 0xFFFF))
+-#define BCI_LINE_MISC(maj, ym, xp, yp, err) \
+-	(((maj) & 0x1FFF) | \
+-	((ym) ? 1<<13 : 0) | \
+-	((xp) ? 1<<14 : 0) | \
+-	((yp) ? 1<<15 : 0) | \
+-	((err) << 16))
+-
+-/*
+- * common commands
+- */
+-#define BCI_SET_REGISTERS( first, n )			\
+-	BCI_WRITE(BCI_CMD_SET_REGISTER |		\
+-		  ((uint32_t)(n) & 0xff) << 16 |	\
+-		  ((uint32_t)(first) & 0xffff))
+-#define DMA_SET_REGISTERS( first, n )			\
+-	DMA_WRITE(BCI_CMD_SET_REGISTER |		\
+-		  ((uint32_t)(n) & 0xff) << 16 |	\
+-		  ((uint32_t)(first) & 0xffff))
+-
+-#define BCI_DRAW_PRIMITIVE(n, type, skip)         \
+-        BCI_WRITE(BCI_CMD_DRAW_PRIM | (type) | (skip) | \
+-		  ((n) << 16))
+-#define DMA_DRAW_PRIMITIVE(n, type, skip)         \
+-        DMA_WRITE(BCI_CMD_DRAW_PRIM | (type) | (skip) | \
+-		  ((n) << 16))
+-
+-#define BCI_DRAW_INDICES_S3D(n, type, i0)         \
+-        BCI_WRITE(BCI_CMD_DRAW_INDEXED_PRIM | (type) |  \
+-		  ((n) << 16) | (i0))
+-
+-#define BCI_DRAW_INDICES_S4(n, type, skip)        \
+-        BCI_WRITE(BCI_CMD_DRAW_INDEXED_PRIM | (type) |  \
+-                  (skip) | ((n) << 16))
+-
+-#define BCI_DMA(n)	\
+-	BCI_WRITE(BCI_CMD_DMA | (((n) >> 1) - 1))
+-
+-/*
+- * access to MMIO
+- */
+-#define SAVAGE_READ(reg) \
+-       readl(((void __iomem *)dev_priv->mmio->handle) + (reg))
+-#define SAVAGE_WRITE(reg) \
+-	writel(val, ((void __iomem *)dev_priv->mmio->handle) + (reg))
+-
+-/*
+- * access to the burst command interface (BCI)
+- */
+-#define SAVAGE_BCI_DEBUG 1
+-
+-#define BCI_LOCALS    volatile uint32_t *bci_ptr;
+-
+-#define BEGIN_BCI( n ) do {			\
+-	dev_priv->wait_fifo(dev_priv, (n));	\
+-	bci_ptr = dev_priv->bci_ptr;		\
+-} while(0)
+-
+-#define BCI_WRITE( val ) *bci_ptr++ = (uint32_t)(val)
+-
+-/*
+- * command DMA support
+- */
+-#define SAVAGE_DMA_DEBUG 1
+-
+-#define DMA_LOCALS   uint32_t *dma_ptr;
+-
+-#define BEGIN_DMA( n ) do {						\
+-	unsigned int cur = dev_priv->current_dma_page;			\
+-	unsigned int rest = SAVAGE_DMA_PAGE_SIZE -			\
+-		dev_priv->dma_pages[cur].used;				\
+-	if ((n) > rest) {						\
+-		dma_ptr = savage_dma_alloc(dev_priv, (n));		\
+-	} else { /* fast path for small allocations */			\
+-		dma_ptr = (uint32_t *)dev_priv->cmd_dma->handle +	\
+-			cur * SAVAGE_DMA_PAGE_SIZE +			\
+-			dev_priv->dma_pages[cur].used;			\
+-		if (dev_priv->dma_pages[cur].used == 0)			\
+-			savage_dma_wait(dev_priv, cur);			\
+-		dev_priv->dma_pages[cur].used += (n);			\
+-	}								\
+-} while(0)
+-
+-#define DMA_WRITE( val ) *dma_ptr++ = (uint32_t)(val)
+-
+-#define DMA_COPY(src, n) do {					\
+-	memcpy(dma_ptr, (src), (n)*4);				\
+-	dma_ptr += n;						\
+-} while(0)
+-
+-#if SAVAGE_DMA_DEBUG
+-#define DMA_COMMIT() do {						\
+-	unsigned int cur = dev_priv->current_dma_page;			\
+-	uint32_t *expected = (uint32_t *)dev_priv->cmd_dma->handle +	\
+-			cur * SAVAGE_DMA_PAGE_SIZE +			\
+-			dev_priv->dma_pages[cur].used;			\
+-	if (dma_ptr != expected) {					\
+-		DRM_ERROR("DMA allocation and use don't match: "	\
+-			  "%p != %p\n", expected, dma_ptr);		\
+-		savage_dma_reset(dev_priv);				\
+-	}								\
+-} while(0)
+-#else
+-#define DMA_COMMIT() do {/* nothing */} while(0)
+-#endif
+-
+-#define DMA_FLUSH() dev_priv->dma_flush(dev_priv)
+-
+-/* Buffer aging via event tag
+- */
+-
+-#define UPDATE_EVENT_COUNTER( ) do {			\
+-	if (dev_priv->status_ptr) {			\
+-		uint16_t count;				\
+-		/* coordinate with Xserver */		\
+-		count = dev_priv->status_ptr[1023];	\
+-		if (count < dev_priv->event_counter)	\
+-			dev_priv->event_wrap++;		\
+-		dev_priv->event_counter = count;	\
+-	}						\
+-} while(0)
+-
+-#define SET_AGE( age, e, w ) do {	\
+-	(age)->event = e;		\
+-	(age)->wrap = w;		\
+-} while(0)
+-
+-#define TEST_AGE( age, e, w )				\
+-	( (age)->wrap < (w) || ( (age)->wrap == (w) && (age)->event <= (e) ) )
+-
+-#endif				/* __SAVAGE_DRV_H__ */
+diff --git a/drivers/gpu/drm/savage/savage_state.c b/drivers/gpu/drm/savage/savage_state.c
+deleted file mode 100644
+index e0d40ae67d54..000000000000
+--- a/drivers/gpu/drm/savage/savage_state.c
++++ /dev/null
+@@ -1,1169 +0,0 @@
+-/* savage_state.c -- State and drawing support for Savage
+- *
+- * Copyright 2004  Felix Kuehling
+- * All Rights Reserved.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sub license,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the
+- * next paragraph) shall be included in all copies or substantial portions
+- * of the Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+- * NON-INFRINGEMENT. IN NO EVENT SHALL FELIX KUEHLING BE LIABLE FOR
+- * ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+- * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+- */
+-
+-#include <linux/slab.h>
+-#include <linux/uaccess.h>
+-
+-#include <drm/drm_device.h>
+-#include <drm/drm_file.h>
+-#include <drm/drm_print.h>
+-#include <drm/savage_drm.h>
+-
+-#include "savage_drv.h"
+-
+-void savage_emit_clip_rect_s3d(drm_savage_private_t * dev_priv,
+-			       const struct drm_clip_rect * pbox)
+-{
+-	uint32_t scstart = dev_priv->state.s3d.new_scstart;
+-	uint32_t scend = dev_priv->state.s3d.new_scend;
+-	scstart = (scstart & ~SAVAGE_SCISSOR_MASK_S3D) |
+-	    ((uint32_t) pbox->x1 & 0x000007ff) |
+-	    (((uint32_t) pbox->y1 << 16) & 0x07ff0000);
+-	scend = (scend & ~SAVAGE_SCISSOR_MASK_S3D) |
+-	    (((uint32_t) pbox->x2 - 1) & 0x000007ff) |
+-	    ((((uint32_t) pbox->y2 - 1) << 16) & 0x07ff0000);
+-	if (scstart != dev_priv->state.s3d.scstart ||
+-	    scend != dev_priv->state.s3d.scend) {
+-		DMA_LOCALS;
+-		BEGIN_DMA(4);
+-		DMA_WRITE(BCI_CMD_WAIT | BCI_CMD_WAIT_3D);
+-		DMA_SET_REGISTERS(SAVAGE_SCSTART_S3D, 2);
+-		DMA_WRITE(scstart);
+-		DMA_WRITE(scend);
+-		dev_priv->state.s3d.scstart = scstart;
+-		dev_priv->state.s3d.scend = scend;
+-		dev_priv->waiting = 1;
+-		DMA_COMMIT();
+-	}
+-}
+-
+-void savage_emit_clip_rect_s4(drm_savage_private_t * dev_priv,
+-			      const struct drm_clip_rect * pbox)
+-{
+-	uint32_t drawctrl0 = dev_priv->state.s4.new_drawctrl0;
+-	uint32_t drawctrl1 = dev_priv->state.s4.new_drawctrl1;
+-	drawctrl0 = (drawctrl0 & ~SAVAGE_SCISSOR_MASK_S4) |
+-	    ((uint32_t) pbox->x1 & 0x000007ff) |
+-	    (((uint32_t) pbox->y1 << 12) & 0x00fff000);
+-	drawctrl1 = (drawctrl1 & ~SAVAGE_SCISSOR_MASK_S4) |
+-	    (((uint32_t) pbox->x2 - 1) & 0x000007ff) |
+-	    ((((uint32_t) pbox->y2 - 1) << 12) & 0x00fff000);
+-	if (drawctrl0 != dev_priv->state.s4.drawctrl0 ||
+-	    drawctrl1 != dev_priv->state.s4.drawctrl1) {
+-		DMA_LOCALS;
+-		BEGIN_DMA(4);
+-		DMA_WRITE(BCI_CMD_WAIT | BCI_CMD_WAIT_3D);
+-		DMA_SET_REGISTERS(SAVAGE_DRAWCTRL0_S4, 2);
+-		DMA_WRITE(drawctrl0);
+-		DMA_WRITE(drawctrl1);
+-		dev_priv->state.s4.drawctrl0 = drawctrl0;
+-		dev_priv->state.s4.drawctrl1 = drawctrl1;
+-		dev_priv->waiting = 1;
+-		DMA_COMMIT();
+-	}
+-}
+-
+-static int savage_verify_texaddr(drm_savage_private_t * dev_priv, int unit,
+-				 uint32_t addr)
+-{
+-	if ((addr & 6) != 2) {	/* reserved bits */
+-		DRM_ERROR("bad texAddr%d %08x (reserved bits)\n", unit, addr);
+-		return -EINVAL;
+-	}
+-	if (!(addr & 1)) {	/* local */
+-		addr &= ~7;
+-		if (addr < dev_priv->texture_offset ||
+-		    addr >= dev_priv->texture_offset + dev_priv->texture_size) {
+-			DRM_ERROR
+-			    ("bad texAddr%d %08x (local addr out of range)\n",
+-			     unit, addr);
+-			return -EINVAL;
+-		}
+-	} else {		/* AGP */
+-		if (!dev_priv->agp_textures) {
+-			DRM_ERROR("bad texAddr%d %08x (AGP not available)\n",
+-				  unit, addr);
+-			return -EINVAL;
+-		}
+-		addr &= ~7;
+-		if (addr < dev_priv->agp_textures->offset ||
+-		    addr >= (dev_priv->agp_textures->offset +
+-			     dev_priv->agp_textures->size)) {
+-			DRM_ERROR
+-			    ("bad texAddr%d %08x (AGP addr out of range)\n",
+-			     unit, addr);
+-			return -EINVAL;
+-		}
+-	}
+-	return 0;
+-}
+-
+-#define SAVE_STATE(reg,where)			\
+-	if(start <= reg && start+count > reg)	\
+-		dev_priv->state.where = regs[reg - start]
+-#define SAVE_STATE_MASK(reg,where,mask) do {			\
+-	if(start <= reg && start+count > reg) {			\
+-		uint32_t tmp;					\
+-		tmp = regs[reg - start];			\
+-		dev_priv->state.where = (tmp & (mask)) |	\
+-			(dev_priv->state.where & ~(mask));	\
+-	}							\
+-} while (0)
+-
+-static int savage_verify_state_s3d(drm_savage_private_t * dev_priv,
+-				   unsigned int start, unsigned int count,
+-				   const uint32_t *regs)
+-{
+-	if (start < SAVAGE_TEXPALADDR_S3D ||
+-	    start + count - 1 > SAVAGE_DESTTEXRWWATERMARK_S3D) {
+-		DRM_ERROR("invalid register range (0x%04x-0x%04x)\n",
+-			  start, start + count - 1);
+-		return -EINVAL;
+-	}
+-
+-	SAVE_STATE_MASK(SAVAGE_SCSTART_S3D, s3d.new_scstart,
+-			~SAVAGE_SCISSOR_MASK_S3D);
+-	SAVE_STATE_MASK(SAVAGE_SCEND_S3D, s3d.new_scend,
+-			~SAVAGE_SCISSOR_MASK_S3D);
+-
+-	/* if any texture regs were changed ... */
+-	if (start <= SAVAGE_TEXCTRL_S3D &&
+-	    start + count > SAVAGE_TEXPALADDR_S3D) {
+-		/* ... check texture state */
+-		SAVE_STATE(SAVAGE_TEXCTRL_S3D, s3d.texctrl);
+-		SAVE_STATE(SAVAGE_TEXADDR_S3D, s3d.texaddr);
+-		if (dev_priv->state.s3d.texctrl & SAVAGE_TEXCTRL_TEXEN_MASK)
+-			return savage_verify_texaddr(dev_priv, 0,
+-						dev_priv->state.s3d.texaddr);
+-	}
+-
+-	return 0;
+-}
+-
+-static int savage_verify_state_s4(drm_savage_private_t * dev_priv,
+-				  unsigned int start, unsigned int count,
+-				  const uint32_t *regs)
+-{
+-	int ret = 0;
+-
+-	if (start < SAVAGE_DRAWLOCALCTRL_S4 ||
+-	    start + count - 1 > SAVAGE_TEXBLENDCOLOR_S4) {
+-		DRM_ERROR("invalid register range (0x%04x-0x%04x)\n",
+-			  start, start + count - 1);
+-		return -EINVAL;
+-	}
+-
+-	SAVE_STATE_MASK(SAVAGE_DRAWCTRL0_S4, s4.new_drawctrl0,
+-			~SAVAGE_SCISSOR_MASK_S4);
+-	SAVE_STATE_MASK(SAVAGE_DRAWCTRL1_S4, s4.new_drawctrl1,
+-			~SAVAGE_SCISSOR_MASK_S4);
+-
+-	/* if any texture regs were changed ... */
+-	if (start <= SAVAGE_TEXDESCR_S4 &&
+-	    start + count > SAVAGE_TEXPALADDR_S4) {
+-		/* ... check texture state */
+-		SAVE_STATE(SAVAGE_TEXDESCR_S4, s4.texdescr);
+-		SAVE_STATE(SAVAGE_TEXADDR0_S4, s4.texaddr0);
+-		SAVE_STATE(SAVAGE_TEXADDR1_S4, s4.texaddr1);
+-		if (dev_priv->state.s4.texdescr & SAVAGE_TEXDESCR_TEX0EN_MASK)
+-			ret |= savage_verify_texaddr(dev_priv, 0,
+-						dev_priv->state.s4.texaddr0);
+-		if (dev_priv->state.s4.texdescr & SAVAGE_TEXDESCR_TEX1EN_MASK)
+-			ret |= savage_verify_texaddr(dev_priv, 1,
+-						dev_priv->state.s4.texaddr1);
+-	}
+-
+-	return ret;
+-}
+-
+-#undef SAVE_STATE
+-#undef SAVE_STATE_MASK
+-
+-static int savage_dispatch_state(drm_savage_private_t * dev_priv,
+-				 const drm_savage_cmd_header_t * cmd_header,
+-				 const uint32_t *regs)
+-{
+-	unsigned int count = cmd_header->state.count;
+-	unsigned int start = cmd_header->state.start;
+-	unsigned int count2 = 0;
+-	unsigned int bci_size;
+-	int ret;
+-	DMA_LOCALS;
+-
+-	if (!count)
+-		return 0;
+-
+-	if (S3_SAVAGE3D_SERIES(dev_priv->chipset)) {
+-		ret = savage_verify_state_s3d(dev_priv, start, count, regs);
+-		if (ret != 0)
+-			return ret;
+-		/* scissor regs are emitted in savage_dispatch_draw */
+-		if (start < SAVAGE_SCSTART_S3D) {
+-			if (start + count > SAVAGE_SCEND_S3D + 1)
+-				count2 = count - (SAVAGE_SCEND_S3D + 1 - start);
+-			if (start + count > SAVAGE_SCSTART_S3D)
+-				count = SAVAGE_SCSTART_S3D - start;
+-		} else if (start <= SAVAGE_SCEND_S3D) {
+-			if (start + count > SAVAGE_SCEND_S3D + 1) {
+-				count -= SAVAGE_SCEND_S3D + 1 - start;
+-				start = SAVAGE_SCEND_S3D + 1;
+-			} else
+-				return 0;
+-		}
+-	} else {
+-		ret = savage_verify_state_s4(dev_priv, start, count, regs);
+-		if (ret != 0)
+-			return ret;
+-		/* scissor regs are emitted in savage_dispatch_draw */
+-		if (start < SAVAGE_DRAWCTRL0_S4) {
+-			if (start + count > SAVAGE_DRAWCTRL1_S4 + 1)
+-				count2 = count -
+-					 (SAVAGE_DRAWCTRL1_S4 + 1 - start);
+-			if (start + count > SAVAGE_DRAWCTRL0_S4)
+-				count = SAVAGE_DRAWCTRL0_S4 - start;
+-		} else if (start <= SAVAGE_DRAWCTRL1_S4) {
+-			if (start + count > SAVAGE_DRAWCTRL1_S4 + 1) {
+-				count -= SAVAGE_DRAWCTRL1_S4 + 1 - start;
+-				start = SAVAGE_DRAWCTRL1_S4 + 1;
+-			} else
+-				return 0;
+-		}
+-	}
+-
+-	bci_size = count + (count + 254) / 255 + count2 + (count2 + 254) / 255;
+-
+-	if (cmd_header->state.global) {
+-		BEGIN_DMA(bci_size + 1);
+-		DMA_WRITE(BCI_CMD_WAIT | BCI_CMD_WAIT_3D);
+-		dev_priv->waiting = 1;
+-	} else {
+-		BEGIN_DMA(bci_size);
+-	}
+-
+-	do {
+-		while (count > 0) {
+-			unsigned int n = count < 255 ? count : 255;
+-			DMA_SET_REGISTERS(start, n);
+-			DMA_COPY(regs, n);
+-			count -= n;
+-			start += n;
+-			regs += n;
+-		}
+-		start += 2;
+-		regs += 2;
+-		count = count2;
+-		count2 = 0;
+-	} while (count);
+-
+-	DMA_COMMIT();
+-
+-	return 0;
+-}
+-
+-static int savage_dispatch_dma_prim(drm_savage_private_t * dev_priv,
+-				    const drm_savage_cmd_header_t * cmd_header,
+-				    const struct drm_buf * dmabuf)
+-{
+-	unsigned char reorder = 0;
+-	unsigned int prim = cmd_header->prim.prim;
+-	unsigned int skip = cmd_header->prim.skip;
+-	unsigned int n = cmd_header->prim.count;
+-	unsigned int start = cmd_header->prim.start;
+-	unsigned int i;
+-	BCI_LOCALS;
+-
+-	if (!dmabuf) {
+-		DRM_ERROR("called without dma buffers!\n");
+-		return -EINVAL;
+-	}
+-
+-	if (!n)
+-		return 0;
+-
+-	switch (prim) {
+-	case SAVAGE_PRIM_TRILIST_201:
+-		reorder = 1;
+-		prim = SAVAGE_PRIM_TRILIST;
+-		fallthrough;
+-	case SAVAGE_PRIM_TRILIST:
+-		if (n % 3 != 0) {
+-			DRM_ERROR("wrong number of vertices %u in TRILIST\n",
+-				  n);
+-			return -EINVAL;
+-		}
+-		break;
+-	case SAVAGE_PRIM_TRISTRIP:
+-	case SAVAGE_PRIM_TRIFAN:
+-		if (n < 3) {
+-			DRM_ERROR
+-			    ("wrong number of vertices %u in TRIFAN/STRIP\n",
+-			     n);
+-			return -EINVAL;
+-		}
+-		break;
+-	default:
+-		DRM_ERROR("invalid primitive type %u\n", prim);
+-		return -EINVAL;
+-	}
+-
+-	if (S3_SAVAGE3D_SERIES(dev_priv->chipset)) {
+-		if (skip != 0) {
+-			DRM_ERROR("invalid skip flags 0x%04x for DMA\n", skip);
+-			return -EINVAL;
+-		}
+-	} else {
+-		unsigned int size = 10 - (skip & 1) - (skip >> 1 & 1) -
+-		    (skip >> 2 & 1) - (skip >> 3 & 1) - (skip >> 4 & 1) -
+-		    (skip >> 5 & 1) - (skip >> 6 & 1) - (skip >> 7 & 1);
+-		if (skip > SAVAGE_SKIP_ALL_S4 || size != 8) {
+-			DRM_ERROR("invalid skip flags 0x%04x for DMA\n", skip);
+-			return -EINVAL;
+-		}
+-		if (reorder) {
+-			DRM_ERROR("TRILIST_201 used on Savage4 hardware\n");
+-			return -EINVAL;
+-		}
+-	}
+-
+-	if (start + n > dmabuf->total / 32) {
+-		DRM_ERROR("vertex indices (%u-%u) out of range (0-%u)\n",
+-			  start, start + n - 1, dmabuf->total / 32);
+-		return -EINVAL;
+-	}
+-
+-	/* Vertex DMA doesn't work with command DMA at the same time,
+-	 * so we use BCI_... to submit commands here. Flush buffered
+-	 * faked DMA first. */
+-	DMA_FLUSH();
+-
+-	if (dmabuf->bus_address != dev_priv->state.common.vbaddr) {
+-		BEGIN_BCI(2);
+-		BCI_SET_REGISTERS(SAVAGE_VERTBUFADDR, 1);
+-		BCI_WRITE(dmabuf->bus_address | dev_priv->dma_type);
+-		dev_priv->state.common.vbaddr = dmabuf->bus_address;
+-	}
+-	if (S3_SAVAGE3D_SERIES(dev_priv->chipset) && dev_priv->waiting) {
+-		/* Workaround for what looks like a hardware bug. If a
+-		 * WAIT_3D_IDLE was emitted some time before the
+-		 * indexed drawing command then the engine will lock
+-		 * up. There are two known workarounds:
+-		 * WAIT_IDLE_EMPTY or emit at least 63 NOPs. */
+-		BEGIN_BCI(63);
+-		for (i = 0; i < 63; ++i)
+-			BCI_WRITE(BCI_CMD_WAIT);
+-		dev_priv->waiting = 0;
+-	}
+-
+-	prim <<= 25;
+-	while (n != 0) {
+-		/* Can emit up to 255 indices (85 triangles) at once. */
+-		unsigned int count = n > 255 ? 255 : n;
+-		if (reorder) {
+-			/* Need to reorder indices for correct flat
+-			 * shading while preserving the clock sense
+-			 * for correct culling. Only on Savage3D. */
+-			int reorder[3] = { -1, -1, -1 };
+-			reorder[start % 3] = 2;
+-
+-			BEGIN_BCI((count + 1 + 1) / 2);
+-			BCI_DRAW_INDICES_S3D(count, prim, start + 2);
+-
+-			for (i = start + 1; i + 1 < start + count; i += 2)
+-				BCI_WRITE((i + reorder[i % 3]) |
+-					  ((i + 1 +
+-					    reorder[(i + 1) % 3]) << 16));
+-			if (i < start + count)
+-				BCI_WRITE(i + reorder[i % 3]);
+-		} else if (S3_SAVAGE3D_SERIES(dev_priv->chipset)) {
+-			BEGIN_BCI((count + 1 + 1) / 2);
+-			BCI_DRAW_INDICES_S3D(count, prim, start);
+-
+-			for (i = start + 1; i + 1 < start + count; i += 2)
+-				BCI_WRITE(i | ((i + 1) << 16));
+-			if (i < start + count)
+-				BCI_WRITE(i);
+-		} else {
+-			BEGIN_BCI((count + 2 + 1) / 2);
+-			BCI_DRAW_INDICES_S4(count, prim, skip);
+-
+-			for (i = start; i + 1 < start + count; i += 2)
+-				BCI_WRITE(i | ((i + 1) << 16));
+-			if (i < start + count)
+-				BCI_WRITE(i);
+-		}
+-
+-		start += count;
+-		n -= count;
+-
+-		prim |= BCI_CMD_DRAW_CONT;
+-	}
+-
+-	return 0;
+-}
+-
+-static int savage_dispatch_vb_prim(drm_savage_private_t * dev_priv,
+-				   const drm_savage_cmd_header_t * cmd_header,
+-				   const uint32_t *vtxbuf, unsigned int vb_size,
+-				   unsigned int vb_stride)
+-{
+-	unsigned char reorder = 0;
+-	unsigned int prim = cmd_header->prim.prim;
+-	unsigned int skip = cmd_header->prim.skip;
+-	unsigned int n = cmd_header->prim.count;
+-	unsigned int start = cmd_header->prim.start;
+-	unsigned int vtx_size;
+-	unsigned int i;
+-	DMA_LOCALS;
+-
+-	if (!n)
+-		return 0;
+-
+-	switch (prim) {
+-	case SAVAGE_PRIM_TRILIST_201:
+-		reorder = 1;
+-		prim = SAVAGE_PRIM_TRILIST;
+-		fallthrough;
+-	case SAVAGE_PRIM_TRILIST:
+-		if (n % 3 != 0) {
+-			DRM_ERROR("wrong number of vertices %u in TRILIST\n",
+-				  n);
+-			return -EINVAL;
+-		}
+-		break;
+-	case SAVAGE_PRIM_TRISTRIP:
+-	case SAVAGE_PRIM_TRIFAN:
+-		if (n < 3) {
+-			DRM_ERROR
+-			    ("wrong number of vertices %u in TRIFAN/STRIP\n",
+-			     n);
+-			return -EINVAL;
+-		}
+-		break;
+-	default:
+-		DRM_ERROR("invalid primitive type %u\n", prim);
+-		return -EINVAL;
+-	}
+-
+-	if (S3_SAVAGE3D_SERIES(dev_priv->chipset)) {
+-		if (skip > SAVAGE_SKIP_ALL_S3D) {
+-			DRM_ERROR("invalid skip flags 0x%04x\n", skip);
+-			return -EINVAL;
+-		}
+-		vtx_size = 8;	/* full vertex */
+-	} else {
+-		if (skip > SAVAGE_SKIP_ALL_S4) {
+-			DRM_ERROR("invalid skip flags 0x%04x\n", skip);
+-			return -EINVAL;
+-		}
+-		vtx_size = 10;	/* full vertex */
+-	}
+-
+-	vtx_size -= (skip & 1) + (skip >> 1 & 1) +
+-	    (skip >> 2 & 1) + (skip >> 3 & 1) + (skip >> 4 & 1) +
+-	    (skip >> 5 & 1) + (skip >> 6 & 1) + (skip >> 7 & 1);
+-
+-	if (vtx_size > vb_stride) {
+-		DRM_ERROR("vertex size greater than vb stride (%u > %u)\n",
+-			  vtx_size, vb_stride);
+-		return -EINVAL;
+-	}
+-
+-	if (start + n > vb_size / (vb_stride * 4)) {
+-		DRM_ERROR("vertex indices (%u-%u) out of range (0-%u)\n",
+-			  start, start + n - 1, vb_size / (vb_stride * 4));
+-		return -EINVAL;
+-	}
+-
+-	prim <<= 25;
+-	while (n != 0) {
+-		/* Can emit up to 255 vertices (85 triangles) at once. */
+-		unsigned int count = n > 255 ? 255 : n;
+-		if (reorder) {
+-			/* Need to reorder vertices for correct flat
+-			 * shading while preserving the clock sense
+-			 * for correct culling. Only on Savage3D. */
+-			int reorder[3] = { -1, -1, -1 };
+-			reorder[start % 3] = 2;
+-
+-			BEGIN_DMA(count * vtx_size + 1);
+-			DMA_DRAW_PRIMITIVE(count, prim, skip);
+-
+-			for (i = start; i < start + count; ++i) {
+-				unsigned int j = i + reorder[i % 3];
+-				DMA_COPY(&vtxbuf[vb_stride * j], vtx_size);
+-			}
+-
+-			DMA_COMMIT();
+-		} else {
+-			BEGIN_DMA(count * vtx_size + 1);
+-			DMA_DRAW_PRIMITIVE(count, prim, skip);
+-
+-			if (vb_stride == vtx_size) {
+-				DMA_COPY(&vtxbuf[vb_stride * start],
+-					 vtx_size * count);
+-			} else {
+-				for (i = start; i < start + count; ++i) {
+-					DMA_COPY(&vtxbuf [vb_stride * i],
+-						 vtx_size);
+-				}
+-			}
+-
+-			DMA_COMMIT();
+-		}
+-
+-		start += count;
+-		n -= count;
+-
+-		prim |= BCI_CMD_DRAW_CONT;
+-	}
+-
+-	return 0;
+-}
+-
+-static int savage_dispatch_dma_idx(drm_savage_private_t * dev_priv,
+-				   const drm_savage_cmd_header_t * cmd_header,
+-				   const uint16_t *idx,
+-				   const struct drm_buf * dmabuf)
+-{
+-	unsigned char reorder = 0;
+-	unsigned int prim = cmd_header->idx.prim;
+-	unsigned int skip = cmd_header->idx.skip;
+-	unsigned int n = cmd_header->idx.count;
+-	unsigned int i;
+-	BCI_LOCALS;
+-
+-	if (!dmabuf) {
+-		DRM_ERROR("called without dma buffers!\n");
+-		return -EINVAL;
+-	}
+-
+-	if (!n)
+-		return 0;
+-
+-	switch (prim) {
+-	case SAVAGE_PRIM_TRILIST_201:
+-		reorder = 1;
+-		prim = SAVAGE_PRIM_TRILIST;
+-		fallthrough;
+-	case SAVAGE_PRIM_TRILIST:
+-		if (n % 3 != 0) {
+-			DRM_ERROR("wrong number of indices %u in TRILIST\n", n);
+-			return -EINVAL;
+-		}
+-		break;
+-	case SAVAGE_PRIM_TRISTRIP:
+-	case SAVAGE_PRIM_TRIFAN:
+-		if (n < 3) {
+-			DRM_ERROR
+-			    ("wrong number of indices %u in TRIFAN/STRIP\n", n);
+-			return -EINVAL;
+-		}
+-		break;
+-	default:
+-		DRM_ERROR("invalid primitive type %u\n", prim);
+-		return -EINVAL;
+-	}
+-
+-	if (S3_SAVAGE3D_SERIES(dev_priv->chipset)) {
+-		if (skip != 0) {
+-			DRM_ERROR("invalid skip flags 0x%04x for DMA\n", skip);
+-			return -EINVAL;
+-		}
+-	} else {
+-		unsigned int size = 10 - (skip & 1) - (skip >> 1 & 1) -
+-		    (skip >> 2 & 1) - (skip >> 3 & 1) - (skip >> 4 & 1) -
+-		    (skip >> 5 & 1) - (skip >> 6 & 1) - (skip >> 7 & 1);
+-		if (skip > SAVAGE_SKIP_ALL_S4 || size != 8) {
+-			DRM_ERROR("invalid skip flags 0x%04x for DMA\n", skip);
+-			return -EINVAL;
+-		}
+-		if (reorder) {
+-			DRM_ERROR("TRILIST_201 used on Savage4 hardware\n");
+-			return -EINVAL;
+-		}
+-	}
+-
+-	/* Vertex DMA doesn't work with command DMA at the same time,
+-	 * so we use BCI_... to submit commands here. Flush buffered
+-	 * faked DMA first. */
+-	DMA_FLUSH();
+-
+-	if (dmabuf->bus_address != dev_priv->state.common.vbaddr) {
+-		BEGIN_BCI(2);
+-		BCI_SET_REGISTERS(SAVAGE_VERTBUFADDR, 1);
+-		BCI_WRITE(dmabuf->bus_address | dev_priv->dma_type);
+-		dev_priv->state.common.vbaddr = dmabuf->bus_address;
+-	}
+-	if (S3_SAVAGE3D_SERIES(dev_priv->chipset) && dev_priv->waiting) {
+-		/* Workaround for what looks like a hardware bug. If a
+-		 * WAIT_3D_IDLE was emitted some time before the
+-		 * indexed drawing command then the engine will lock
+-		 * up. There are two known workarounds:
+-		 * WAIT_IDLE_EMPTY or emit at least 63 NOPs. */
+-		BEGIN_BCI(63);
+-		for (i = 0; i < 63; ++i)
+-			BCI_WRITE(BCI_CMD_WAIT);
+-		dev_priv->waiting = 0;
+-	}
+-
+-	prim <<= 25;
+-	while (n != 0) {
+-		/* Can emit up to 255 indices (85 triangles) at once. */
+-		unsigned int count = n > 255 ? 255 : n;
+-
+-		/* check indices */
+-		for (i = 0; i < count; ++i) {
+-			if (idx[i] > dmabuf->total / 32) {
+-				DRM_ERROR("idx[%u]=%u out of range (0-%u)\n",
+-					  i, idx[i], dmabuf->total / 32);
+-				return -EINVAL;
+-			}
+-		}
+-
+-		if (reorder) {
+-			/* Need to reorder indices for correct flat
+-			 * shading while preserving the clock sense
+-			 * for correct culling. Only on Savage3D. */
+-			int reorder[3] = { 2, -1, -1 };
+-
+-			BEGIN_BCI((count + 1 + 1) / 2);
+-			BCI_DRAW_INDICES_S3D(count, prim, idx[2]);
+-
+-			for (i = 1; i + 1 < count; i += 2)
+-				BCI_WRITE(idx[i + reorder[i % 3]] |
+-					  (idx[i + 1 +
+-					   reorder[(i + 1) % 3]] << 16));
+-			if (i < count)
+-				BCI_WRITE(idx[i + reorder[i % 3]]);
+-		} else if (S3_SAVAGE3D_SERIES(dev_priv->chipset)) {
+-			BEGIN_BCI((count + 1 + 1) / 2);
+-			BCI_DRAW_INDICES_S3D(count, prim, idx[0]);
+-
+-			for (i = 1; i + 1 < count; i += 2)
+-				BCI_WRITE(idx[i] | (idx[i + 1] << 16));
+-			if (i < count)
+-				BCI_WRITE(idx[i]);
+-		} else {
+-			BEGIN_BCI((count + 2 + 1) / 2);
+-			BCI_DRAW_INDICES_S4(count, prim, skip);
+-
+-			for (i = 0; i + 1 < count; i += 2)
+-				BCI_WRITE(idx[i] | (idx[i + 1] << 16));
+-			if (i < count)
+-				BCI_WRITE(idx[i]);
+-		}
+-
+-		idx += count;
+-		n -= count;
+-
+-		prim |= BCI_CMD_DRAW_CONT;
+-	}
+-
+-	return 0;
+-}
+-
+-static int savage_dispatch_vb_idx(drm_savage_private_t * dev_priv,
+-				  const drm_savage_cmd_header_t * cmd_header,
+-				  const uint16_t *idx,
+-				  const uint32_t *vtxbuf,
+-				  unsigned int vb_size, unsigned int vb_stride)
+-{
+-	unsigned char reorder = 0;
+-	unsigned int prim = cmd_header->idx.prim;
+-	unsigned int skip = cmd_header->idx.skip;
+-	unsigned int n = cmd_header->idx.count;
+-	unsigned int vtx_size;
+-	unsigned int i;
+-	DMA_LOCALS;
+-
+-	if (!n)
+-		return 0;
+-
+-	switch (prim) {
+-	case SAVAGE_PRIM_TRILIST_201:
+-		reorder = 1;
+-		prim = SAVAGE_PRIM_TRILIST;
+-		fallthrough;
+-	case SAVAGE_PRIM_TRILIST:
+-		if (n % 3 != 0) {
+-			DRM_ERROR("wrong number of indices %u in TRILIST\n", n);
+-			return -EINVAL;
+-		}
+-		break;
+-	case SAVAGE_PRIM_TRISTRIP:
+-	case SAVAGE_PRIM_TRIFAN:
+-		if (n < 3) {
+-			DRM_ERROR
+-			    ("wrong number of indices %u in TRIFAN/STRIP\n", n);
+-			return -EINVAL;
+-		}
+-		break;
+-	default:
+-		DRM_ERROR("invalid primitive type %u\n", prim);
+-		return -EINVAL;
+-	}
+-
+-	if (S3_SAVAGE3D_SERIES(dev_priv->chipset)) {
+-		if (skip > SAVAGE_SKIP_ALL_S3D) {
+-			DRM_ERROR("invalid skip flags 0x%04x\n", skip);
+-			return -EINVAL;
+-		}
+-		vtx_size = 8;	/* full vertex */
+-	} else {
+-		if (skip > SAVAGE_SKIP_ALL_S4) {
+-			DRM_ERROR("invalid skip flags 0x%04x\n", skip);
+-			return -EINVAL;
+-		}
+-		vtx_size = 10;	/* full vertex */
+-	}
+-
+-	vtx_size -= (skip & 1) + (skip >> 1 & 1) +
+-	    (skip >> 2 & 1) + (skip >> 3 & 1) + (skip >> 4 & 1) +
+-	    (skip >> 5 & 1) + (skip >> 6 & 1) + (skip >> 7 & 1);
+-
+-	if (vtx_size > vb_stride) {
+-		DRM_ERROR("vertex size greater than vb stride (%u > %u)\n",
+-			  vtx_size, vb_stride);
+-		return -EINVAL;
+-	}
+-
+-	prim <<= 25;
+-	while (n != 0) {
+-		/* Can emit up to 255 vertices (85 triangles) at once. */
+-		unsigned int count = n > 255 ? 255 : n;
+-
+-		/* Check indices */
+-		for (i = 0; i < count; ++i) {
+-			if (idx[i] > vb_size / (vb_stride * 4)) {
+-				DRM_ERROR("idx[%u]=%u out of range (0-%u)\n",
+-					  i, idx[i], vb_size / (vb_stride * 4));
+-				return -EINVAL;
+-			}
+-		}
+-
+-		if (reorder) {
+-			/* Need to reorder vertices for correct flat
+-			 * shading while preserving the clock sense
+-			 * for correct culling. Only on Savage3D. */
+-			int reorder[3] = { 2, -1, -1 };
+-
+-			BEGIN_DMA(count * vtx_size + 1);
+-			DMA_DRAW_PRIMITIVE(count, prim, skip);
+-
+-			for (i = 0; i < count; ++i) {
+-				unsigned int j = idx[i + reorder[i % 3]];
+-				DMA_COPY(&vtxbuf[vb_stride * j], vtx_size);
+-			}
+-
+-			DMA_COMMIT();
+-		} else {
+-			BEGIN_DMA(count * vtx_size + 1);
+-			DMA_DRAW_PRIMITIVE(count, prim, skip);
+-
+-			for (i = 0; i < count; ++i) {
+-				unsigned int j = idx[i];
+-				DMA_COPY(&vtxbuf[vb_stride * j], vtx_size);
+-			}
+-
+-			DMA_COMMIT();
+-		}
+-
+-		idx += count;
+-		n -= count;
+-
+-		prim |= BCI_CMD_DRAW_CONT;
+-	}
+-
+-	return 0;
+-}
+-
+-static int savage_dispatch_clear(drm_savage_private_t * dev_priv,
+-				 const drm_savage_cmd_header_t * cmd_header,
+-				 const drm_savage_cmd_header_t *data,
+-				 unsigned int nbox,
+-				 const struct drm_clip_rect *boxes)
+-{
+-	unsigned int flags = cmd_header->clear0.flags;
+-	unsigned int clear_cmd;
+-	unsigned int i, nbufs;
+-	DMA_LOCALS;
+-
+-	if (nbox == 0)
+-		return 0;
+-
+-	clear_cmd = BCI_CMD_RECT | BCI_CMD_RECT_XP | BCI_CMD_RECT_YP |
+-	    BCI_CMD_SEND_COLOR | BCI_CMD_DEST_PBD_NEW;
+-	BCI_CMD_SET_ROP(clear_cmd, 0xCC);
+-
+-	nbufs = ((flags & SAVAGE_FRONT) ? 1 : 0) +
+-	    ((flags & SAVAGE_BACK) ? 1 : 0) + ((flags & SAVAGE_DEPTH) ? 1 : 0);
+-	if (nbufs == 0)
+-		return 0;
+-
+-	if (data->clear1.mask != 0xffffffff) {
+-		/* set mask */
+-		BEGIN_DMA(2);
+-		DMA_SET_REGISTERS(SAVAGE_BITPLANEWTMASK, 1);
+-		DMA_WRITE(data->clear1.mask);
+-		DMA_COMMIT();
+-	}
+-	for (i = 0; i < nbox; ++i) {
+-		unsigned int x, y, w, h;
+-		unsigned int buf;
+-		x = boxes[i].x1, y = boxes[i].y1;
+-		w = boxes[i].x2 - boxes[i].x1;
+-		h = boxes[i].y2 - boxes[i].y1;
+-		BEGIN_DMA(nbufs * 6);
+-		for (buf = SAVAGE_FRONT; buf <= SAVAGE_DEPTH; buf <<= 1) {
+-			if (!(flags & buf))
+-				continue;
+-			DMA_WRITE(clear_cmd);
+-			switch (buf) {
+-			case SAVAGE_FRONT:
+-				DMA_WRITE(dev_priv->front_offset);
+-				DMA_WRITE(dev_priv->front_bd);
+-				break;
+-			case SAVAGE_BACK:
+-				DMA_WRITE(dev_priv->back_offset);
+-				DMA_WRITE(dev_priv->back_bd);
+-				break;
+-			case SAVAGE_DEPTH:
+-				DMA_WRITE(dev_priv->depth_offset);
+-				DMA_WRITE(dev_priv->depth_bd);
+-				break;
+-			}
+-			DMA_WRITE(data->clear1.value);
+-			DMA_WRITE(BCI_X_Y(x, y));
+-			DMA_WRITE(BCI_W_H(w, h));
+-		}
+-		DMA_COMMIT();
+-	}
+-	if (data->clear1.mask != 0xffffffff) {
+-		/* reset mask */
+-		BEGIN_DMA(2);
+-		DMA_SET_REGISTERS(SAVAGE_BITPLANEWTMASK, 1);
+-		DMA_WRITE(0xffffffff);
+-		DMA_COMMIT();
+-	}
+-
+-	return 0;
+-}
+-
+-static int savage_dispatch_swap(drm_savage_private_t * dev_priv,
+-				unsigned int nbox, const struct drm_clip_rect *boxes)
+-{
+-	unsigned int swap_cmd;
+-	unsigned int i;
+-	DMA_LOCALS;
+-
+-	if (nbox == 0)
+-		return 0;
+-
+-	swap_cmd = BCI_CMD_RECT | BCI_CMD_RECT_XP | BCI_CMD_RECT_YP |
+-	    BCI_CMD_SRC_PBD_COLOR_NEW | BCI_CMD_DEST_GBD;
+-	BCI_CMD_SET_ROP(swap_cmd, 0xCC);
+-
+-	for (i = 0; i < nbox; ++i) {
+-		BEGIN_DMA(6);
+-		DMA_WRITE(swap_cmd);
+-		DMA_WRITE(dev_priv->back_offset);
+-		DMA_WRITE(dev_priv->back_bd);
+-		DMA_WRITE(BCI_X_Y(boxes[i].x1, boxes[i].y1));
+-		DMA_WRITE(BCI_X_Y(boxes[i].x1, boxes[i].y1));
+-		DMA_WRITE(BCI_W_H(boxes[i].x2 - boxes[i].x1,
+-				  boxes[i].y2 - boxes[i].y1));
+-		DMA_COMMIT();
+-	}
+-
+-	return 0;
+-}
+-
+-static int savage_dispatch_draw(drm_savage_private_t * dev_priv,
+-				const drm_savage_cmd_header_t *start,
+-				const drm_savage_cmd_header_t *end,
+-				const struct drm_buf * dmabuf,
+-				const unsigned int *vtxbuf,
+-				unsigned int vb_size, unsigned int vb_stride,
+-				unsigned int nbox,
+-				const struct drm_clip_rect *boxes)
+-{
+-	unsigned int i, j;
+-	int ret;
+-
+-	for (i = 0; i < nbox; ++i) {
+-		const drm_savage_cmd_header_t *cmdbuf;
+-		dev_priv->emit_clip_rect(dev_priv, &boxes[i]);
+-
+-		cmdbuf = start;
+-		while (cmdbuf < end) {
+-			drm_savage_cmd_header_t cmd_header;
+-			cmd_header = *cmdbuf;
+-			cmdbuf++;
+-			switch (cmd_header.cmd.cmd) {
+-			case SAVAGE_CMD_DMA_PRIM:
+-				ret = savage_dispatch_dma_prim(
+-					dev_priv, &cmd_header, dmabuf);
+-				break;
+-			case SAVAGE_CMD_VB_PRIM:
+-				ret = savage_dispatch_vb_prim(
+-					dev_priv, &cmd_header,
+-					vtxbuf, vb_size, vb_stride);
+-				break;
+-			case SAVAGE_CMD_DMA_IDX:
+-				j = (cmd_header.idx.count + 3) / 4;
+-				/* j was check in savage_bci_cmdbuf */
+-				ret = savage_dispatch_dma_idx(dev_priv,
+-					&cmd_header, (const uint16_t *)cmdbuf,
+-					dmabuf);
+-				cmdbuf += j;
+-				break;
+-			case SAVAGE_CMD_VB_IDX:
+-				j = (cmd_header.idx.count + 3) / 4;
+-				/* j was check in savage_bci_cmdbuf */
+-				ret = savage_dispatch_vb_idx(dev_priv,
+-					&cmd_header, (const uint16_t *)cmdbuf,
+-					(const uint32_t *)vtxbuf, vb_size,
+-					vb_stride);
+-				cmdbuf += j;
+-				break;
+-			default:
+-				/* What's the best return code? EFAULT? */
+-				DRM_ERROR("IMPLEMENTATION ERROR: "
+-					  "non-drawing-command %d\n",
+-					  cmd_header.cmd.cmd);
+-				return -EINVAL;
+-			}
+-
+-			if (ret != 0)
+-				return ret;
+-		}
+-	}
+-
+-	return 0;
+-}
+-
+-int savage_bci_cmdbuf(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	drm_savage_private_t *dev_priv = dev->dev_private;
+-	struct drm_device_dma *dma = dev->dma;
+-	struct drm_buf *dmabuf;
+-	drm_savage_cmdbuf_t *cmdbuf = data;
+-	drm_savage_cmd_header_t *kcmd_addr = NULL;
+-	drm_savage_cmd_header_t *first_draw_cmd;
+-	unsigned int *kvb_addr = NULL;
+-	struct drm_clip_rect *kbox_addr = NULL;
+-	unsigned int i, j;
+-	int ret = 0;
+-
+-	DRM_DEBUG("\n");
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	if (dma && dma->buflist) {
+-		if (cmdbuf->dma_idx >= dma->buf_count) {
+-			DRM_ERROR
+-			    ("vertex buffer index %u out of range (0-%u)\n",
+-			     cmdbuf->dma_idx, dma->buf_count - 1);
+-			return -EINVAL;
+-		}
+-		dmabuf = dma->buflist[cmdbuf->dma_idx];
+-	} else {
+-		dmabuf = NULL;
+-	}
+-
+-	/* Copy the user buffers into kernel temporary areas.  This hasn't been
+-	 * a performance loss compared to VERIFYAREA_READ/
+-	 * COPY_FROM_USER_UNCHECKED when done in other drivers, and is correct
+-	 * for locking on FreeBSD.
+-	 */
+-	if (cmdbuf->size) {
+-		kcmd_addr = kmalloc_array(cmdbuf->size, 8, GFP_KERNEL);
+-		if (kcmd_addr == NULL)
+-			return -ENOMEM;
+-
+-		if (copy_from_user(kcmd_addr, cmdbuf->cmd_addr,
+-				       cmdbuf->size * 8))
+-		{
+-			kfree(kcmd_addr);
+-			return -EFAULT;
+-		}
+-		cmdbuf->cmd_addr = kcmd_addr;
+-	}
+-	if (cmdbuf->vb_size) {
+-		kvb_addr = memdup_user(cmdbuf->vb_addr, cmdbuf->vb_size);
+-		if (IS_ERR(kvb_addr)) {
+-			ret = PTR_ERR(kvb_addr);
+-			kvb_addr = NULL;
+-			goto done;
+-		}
+-		cmdbuf->vb_addr = kvb_addr;
+-	}
+-	if (cmdbuf->nbox) {
+-		kbox_addr = kmalloc_array(cmdbuf->nbox, sizeof(struct drm_clip_rect),
+-					  GFP_KERNEL);
+-		if (kbox_addr == NULL) {
+-			ret = -ENOMEM;
+-			goto done;
+-		}
+-
+-		if (copy_from_user(kbox_addr, cmdbuf->box_addr,
+-				       cmdbuf->nbox * sizeof(struct drm_clip_rect))) {
+-			ret = -EFAULT;
+-			goto done;
+-		}
+-	cmdbuf->box_addr = kbox_addr;
+-	}
+-
+-	/* Make sure writes to DMA buffers are finished before sending
+-	 * DMA commands to the graphics hardware. */
+-	mb();
+-
+-	/* Coming from user space. Don't know if the Xserver has
+-	 * emitted wait commands. Assuming the worst. */
+-	dev_priv->waiting = 1;
+-
+-	i = 0;
+-	first_draw_cmd = NULL;
+-	while (i < cmdbuf->size) {
+-		drm_savage_cmd_header_t cmd_header;
+-		cmd_header = *(drm_savage_cmd_header_t *)cmdbuf->cmd_addr;
+-		cmdbuf->cmd_addr++;
+-		i++;
+-
+-		/* Group drawing commands with same state to minimize
+-		 * iterations over clip rects. */
+-		j = 0;
+-		switch (cmd_header.cmd.cmd) {
+-		case SAVAGE_CMD_DMA_IDX:
+-		case SAVAGE_CMD_VB_IDX:
+-			j = (cmd_header.idx.count + 3) / 4;
+-			if (i + j > cmdbuf->size) {
+-				DRM_ERROR("indexed drawing command extends "
+-					  "beyond end of command buffer\n");
+-				DMA_FLUSH();
+-				ret = -EINVAL;
+-				goto done;
+-			}
+-			fallthrough;
+-		case SAVAGE_CMD_DMA_PRIM:
+-		case SAVAGE_CMD_VB_PRIM:
+-			if (!first_draw_cmd)
+-				first_draw_cmd = cmdbuf->cmd_addr - 1;
+-			cmdbuf->cmd_addr += j;
+-			i += j;
+-			break;
+-		default:
+-			if (first_draw_cmd) {
+-				ret = savage_dispatch_draw(
+-				      dev_priv, first_draw_cmd,
+-				      cmdbuf->cmd_addr - 1,
+-				      dmabuf, cmdbuf->vb_addr, cmdbuf->vb_size,
+-				      cmdbuf->vb_stride,
+-				      cmdbuf->nbox, cmdbuf->box_addr);
+-				if (ret != 0)
+-					goto done;
+-				first_draw_cmd = NULL;
+-			}
+-		}
+-		if (first_draw_cmd)
+-			continue;
+-
+-		switch (cmd_header.cmd.cmd) {
+-		case SAVAGE_CMD_STATE:
+-			j = (cmd_header.state.count + 1) / 2;
+-			if (i + j > cmdbuf->size) {
+-				DRM_ERROR("command SAVAGE_CMD_STATE extends "
+-					  "beyond end of command buffer\n");
+-				DMA_FLUSH();
+-				ret = -EINVAL;
+-				goto done;
+-			}
+-			ret = savage_dispatch_state(dev_priv, &cmd_header,
+-				(const uint32_t *)cmdbuf->cmd_addr);
+-			cmdbuf->cmd_addr += j;
+-			i += j;
+-			break;
+-		case SAVAGE_CMD_CLEAR:
+-			if (i + 1 > cmdbuf->size) {
+-				DRM_ERROR("command SAVAGE_CMD_CLEAR extends "
+-					  "beyond end of command buffer\n");
+-				DMA_FLUSH();
+-				ret = -EINVAL;
+-				goto done;
+-			}
+-			ret = savage_dispatch_clear(dev_priv, &cmd_header,
+-						    cmdbuf->cmd_addr,
+-						    cmdbuf->nbox,
+-						    cmdbuf->box_addr);
+-			cmdbuf->cmd_addr++;
+-			i++;
+-			break;
+-		case SAVAGE_CMD_SWAP:
+-			ret = savage_dispatch_swap(dev_priv, cmdbuf->nbox,
+-						   cmdbuf->box_addr);
+-			break;
+-		default:
+-			DRM_ERROR("invalid command 0x%x\n",
+-				  cmd_header.cmd.cmd);
+-			DMA_FLUSH();
+-			ret = -EINVAL;
+-			goto done;
+-		}
+-
+-		if (ret != 0) {
+-			DMA_FLUSH();
+-			goto done;
+-		}
+-	}
+-
+-	if (first_draw_cmd) {
+-		ret = savage_dispatch_draw (
+-			dev_priv, first_draw_cmd, cmdbuf->cmd_addr, dmabuf,
+-			cmdbuf->vb_addr, cmdbuf->vb_size, cmdbuf->vb_stride,
+-			cmdbuf->nbox, cmdbuf->box_addr);
+-		if (ret != 0) {
+-			DMA_FLUSH();
+-			goto done;
+-		}
+-	}
+-
+-	DMA_FLUSH();
+-
+-	if (dmabuf && cmdbuf->discard) {
+-		drm_savage_buf_priv_t *buf_priv = dmabuf->dev_private;
+-		uint16_t event;
+-		event = savage_bci_emit_event(dev_priv, SAVAGE_WAIT_3D);
+-		SET_AGE(&buf_priv->age, event, dev_priv->event_wrap);
+-		savage_freelist_put(dev, dmabuf);
+-	}
+-
+-done:
+-	/* If we didn't need to allocate them, these'll be NULL */
+-	kfree(kcmd_addr);
+-	kfree(kvb_addr);
+-	kfree(kbox_addr);
+-
+-	return ret;
+-}
+diff --git a/drivers/gpu/drm/sis/Makefile b/drivers/gpu/drm/sis/Makefile
+deleted file mode 100644
+index 02b0253fda93..000000000000
+--- a/drivers/gpu/drm/sis/Makefile
++++ /dev/null
+@@ -1,10 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0-only
+-#
+-# Makefile for the drm device driver.  This driver provides support for the
+-# Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
+-
+-sis-y := sis_drv.o sis_mm.o
+-
+-obj-$(CONFIG_DRM_SIS)   += sis.o
+-
+-
+diff --git a/drivers/gpu/drm/sis/sis_drv.c b/drivers/gpu/drm/sis/sis_drv.c
+deleted file mode 100644
+index 6173020a9bf5..000000000000
+--- a/drivers/gpu/drm/sis/sis_drv.c
++++ /dev/null
+@@ -1,143 +0,0 @@
+-/* sis.c -- sis driver -*- linux-c -*-
+- *
+- * Copyright 1999 Precision Insight, Inc., Cedar Park, Texas.
+- * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
+- * All Rights Reserved.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the next
+- * paragraph) shall be included in all copies or substantial portions of the
+- * Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+- * PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+- * DEALINGS IN THE SOFTWARE.
+- *
+- */
+-
+-#include <linux/module.h>
+-#include <linux/pci.h>
+-
+-#include <drm/drm_drv.h>
+-#include <drm/drm_file.h>
+-#include <drm/drm_pciids.h>
+-#include <drm/sis_drm.h>
+-
+-#include "sis_drv.h"
+-
+-static struct pci_device_id pciidlist[] = {
+-	sisdrv_PCI_IDS
+-};
+-
+-static int sis_driver_load(struct drm_device *dev, unsigned long chipset)
+-{
+-	struct pci_dev *pdev = to_pci_dev(dev->dev);
+-	drm_sis_private_t *dev_priv;
+-
+-	pci_set_master(pdev);
+-
+-	dev_priv = kzalloc(sizeof(drm_sis_private_t), GFP_KERNEL);
+-	if (dev_priv == NULL)
+-		return -ENOMEM;
+-
+-	idr_init_base(&dev_priv->object_idr, 1);
+-	dev->dev_private = (void *)dev_priv;
+-	dev_priv->chipset = chipset;
+-
+-	return 0;
+-}
+-
+-static void sis_driver_unload(struct drm_device *dev)
+-{
+-	drm_sis_private_t *dev_priv = dev->dev_private;
+-
+-	idr_destroy(&dev_priv->object_idr);
+-
+-	kfree(dev_priv);
+-}
+-
+-static const struct file_operations sis_driver_fops = {
+-	.owner = THIS_MODULE,
+-	.open = drm_open,
+-	.release = drm_release,
+-	.unlocked_ioctl = drm_ioctl,
+-	.mmap = drm_legacy_mmap,
+-	.poll = drm_poll,
+-	.compat_ioctl = drm_compat_ioctl,
+-	.llseek = noop_llseek,
+-};
+-
+-static int sis_driver_open(struct drm_device *dev, struct drm_file *file)
+-{
+-	struct sis_file_private *file_priv;
+-
+-	DRM_DEBUG_DRIVER("\n");
+-	file_priv = kmalloc(sizeof(*file_priv), GFP_KERNEL);
+-	if (!file_priv)
+-		return -ENOMEM;
+-
+-	file->driver_priv = file_priv;
+-
+-	INIT_LIST_HEAD(&file_priv->obj_list);
+-
+-	return 0;
+-}
+-
+-static void sis_driver_postclose(struct drm_device *dev, struct drm_file *file)
+-{
+-	struct sis_file_private *file_priv = file->driver_priv;
+-
+-	kfree(file_priv);
+-}
+-
+-static struct drm_driver driver = {
+-	.driver_features = DRIVER_USE_AGP | DRIVER_LEGACY,
+-	.load = sis_driver_load,
+-	.unload = sis_driver_unload,
+-	.open = sis_driver_open,
+-	.preclose = sis_reclaim_buffers_locked,
+-	.postclose = sis_driver_postclose,
+-	.dma_quiescent = sis_idle,
+-	.lastclose = sis_lastclose,
+-	.ioctls = sis_ioctls,
+-	.fops = &sis_driver_fops,
+-	.name = DRIVER_NAME,
+-	.desc = DRIVER_DESC,
+-	.date = DRIVER_DATE,
+-	.major = DRIVER_MAJOR,
+-	.minor = DRIVER_MINOR,
+-	.patchlevel = DRIVER_PATCHLEVEL,
+-};
+-
+-static struct pci_driver sis_pci_driver = {
+-	.name = DRIVER_NAME,
+-	.id_table = pciidlist,
+-};
+-
+-static int __init sis_init(void)
+-{
+-	driver.num_ioctls = sis_max_ioctl;
+-	return drm_legacy_pci_init(&driver, &sis_pci_driver);
+-}
+-
+-static void __exit sis_exit(void)
+-{
+-	drm_legacy_pci_exit(&driver, &sis_pci_driver);
+-}
+-
+-module_init(sis_init);
+-module_exit(sis_exit);
+-
+-MODULE_AUTHOR(DRIVER_AUTHOR);
+-MODULE_DESCRIPTION(DRIVER_DESC);
+-MODULE_LICENSE("GPL and additional rights");
+diff --git a/drivers/gpu/drm/sis/sis_drv.h b/drivers/gpu/drm/sis/sis_drv.h
+deleted file mode 100644
+index 81339443b3b1..000000000000
+--- a/drivers/gpu/drm/sis/sis_drv.h
++++ /dev/null
+@@ -1,80 +0,0 @@
+-/* sis_drv.h -- Private header for sis driver -*- linux-c -*- */
+-/*
+- * Copyright 1999 Precision Insight, Inc., Cedar Park, Texas.
+- * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
+- * All rights reserved.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the next
+- * paragraph) shall be included in all copies or substantial portions of the
+- * Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+- * PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+- * DEALINGS IN THE SOFTWARE.
+- *
+- */
+-
+-#ifndef _SIS_DRV_H_
+-#define _SIS_DRV_H_
+-
+-#include <drm/drm_ioctl.h>
+-#include <drm/drm_legacy.h>
+-#include <drm/drm_mm.h>
+-
+-/* General customization:
+- */
+-
+-#define DRIVER_AUTHOR		"SIS, Tungsten Graphics"
+-#define DRIVER_NAME		"sis"
+-#define DRIVER_DESC		"SIS 300/630/540 and XGI V3XE/V5/V8"
+-#define DRIVER_DATE		"20070626"
+-#define DRIVER_MAJOR		1
+-#define DRIVER_MINOR		3
+-#define DRIVER_PATCHLEVEL	0
+-
+-enum sis_family {
+-	SIS_OTHER = 0,
+-	SIS_CHIP_315 = 1,
+-};
+-
+-#define SIS_READ(reg)         readl(((void __iomem *)dev_priv->mmio->handle) + (reg))
+-#define SIS_WRITE(reg, val)   writel(val, ((void __iomem *)dev_priv->mmio->handle) + (reg))
+-
+-typedef struct drm_sis_private {
+-	drm_local_map_t *mmio;
+-	unsigned int idle_fault;
+-	unsigned int chipset;
+-	int vram_initialized;
+-	int agp_initialized;
+-	unsigned long vram_offset;
+-	unsigned long agp_offset;
+-	struct drm_mm vram_mm;
+-	struct drm_mm agp_mm;
+-	/** Mapping of userspace keys to mm objects */
+-	struct idr object_idr;
+-} drm_sis_private_t;
+-
+-struct sis_file_private {
+-	struct list_head obj_list;
+-};
+-
+-extern int sis_idle(struct drm_device *dev);
+-extern void sis_reclaim_buffers_locked(struct drm_device *dev,
+-				       struct drm_file *file_priv);
+-extern void sis_lastclose(struct drm_device *dev);
+-
+-extern const struct drm_ioctl_desc sis_ioctls[];
+-extern int sis_max_ioctl;
+-
+-#endif
+diff --git a/drivers/gpu/drm/sis/sis_mm.c b/drivers/gpu/drm/sis/sis_mm.c
+deleted file mode 100644
+index e51d4289a3d0..000000000000
+--- a/drivers/gpu/drm/sis/sis_mm.c
++++ /dev/null
+@@ -1,363 +0,0 @@
+-/**************************************************************************
+- *
+- * Copyright 2006 Tungsten Graphics, Inc., Bismarck, ND., USA.
+- * All Rights Reserved.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the
+- * "Software"), to deal in the Software without restriction, including
+- * without limitation the rights to use, copy, modify, merge, publish,
+- * distribute, sub license, and/or sell copies of the Software, and to
+- * permit persons to whom the Software is furnished to do so, subject to
+- * the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the
+- * next paragraph) shall be included in all copies or substantial portions
+- * of the Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
+- * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
+- * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+- * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+- * USE OR OTHER DEALINGS IN THE SOFTWARE.
+- *
+- *
+- **************************************************************************/
+-
+-/*
+- * Authors:
+- *    Thomas Hellström <thomas-at-tungstengraphics-dot-com>
+- */
+-
+-#include <video/sisfb.h>
+-
+-#include <drm/drm_device.h>
+-#include <drm/drm_file.h>
+-#include <drm/sis_drm.h>
+-
+-#include "sis_drv.h"
+-
+-
+-#define VIDEO_TYPE 0
+-#define AGP_TYPE 1
+-
+-
+-struct sis_memblock {
+-	struct drm_mm_node mm_node;
+-	struct sis_memreq req;
+-	struct list_head owner_list;
+-};
+-
+-#if defined(CONFIG_FB_SIS) || defined(CONFIG_FB_SIS_MODULE)
+-/* fb management via fb device */
+-
+-#define SIS_MM_ALIGN_SHIFT 0
+-#define SIS_MM_ALIGN_MASK 0
+-
+-#else /* CONFIG_FB_SIS[_MODULE] */
+-
+-#define SIS_MM_ALIGN_SHIFT 4
+-#define SIS_MM_ALIGN_MASK ((1 << SIS_MM_ALIGN_SHIFT) - 1)
+-
+-#endif /* CONFIG_FB_SIS[_MODULE] */
+-
+-static int sis_fb_init(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	drm_sis_private_t *dev_priv = dev->dev_private;
+-	drm_sis_fb_t *fb = data;
+-
+-	mutex_lock(&dev->struct_mutex);
+-	/* Unconditionally init the drm_mm, even though we don't use it when the
+-	 * fb sis driver is available - make cleanup easier. */
+-	drm_mm_init(&dev_priv->vram_mm, 0, fb->size >> SIS_MM_ALIGN_SHIFT);
+-
+-	dev_priv->vram_initialized = 1;
+-	dev_priv->vram_offset = fb->offset;
+-
+-	mutex_unlock(&dev->struct_mutex);
+-	DRM_DEBUG("offset = %lu, size = %lu\n", fb->offset, fb->size);
+-
+-	return 0;
+-}
+-
+-static int sis_drm_alloc(struct drm_device *dev, struct drm_file *file,
+-			 void *data, int pool)
+-{
+-	drm_sis_private_t *dev_priv = dev->dev_private;
+-	drm_sis_mem_t *mem = data;
+-	int retval = 0, user_key;
+-	struct sis_memblock *item;
+-	struct sis_file_private *file_priv = file->driver_priv;
+-	unsigned long offset;
+-
+-	mutex_lock(&dev->struct_mutex);
+-
+-	if (0 == ((pool == 0) ? dev_priv->vram_initialized :
+-		      dev_priv->agp_initialized)) {
+-		DRM_ERROR
+-		    ("Attempt to allocate from uninitialized memory manager.\n");
+-		mutex_unlock(&dev->struct_mutex);
+-		return -EINVAL;
+-	}
+-
+-	item = kzalloc(sizeof(*item), GFP_KERNEL);
+-	if (!item) {
+-		retval = -ENOMEM;
+-		goto fail_alloc;
+-	}
+-
+-	mem->size = (mem->size + SIS_MM_ALIGN_MASK) >> SIS_MM_ALIGN_SHIFT;
+-	if (pool == AGP_TYPE) {
+-		retval = drm_mm_insert_node(&dev_priv->agp_mm,
+-					    &item->mm_node,
+-					    mem->size);
+-		offset = item->mm_node.start;
+-	} else {
+-#if defined(CONFIG_FB_SIS) || defined(CONFIG_FB_SIS_MODULE)
+-		item->req.size = mem->size;
+-		sis_malloc(&item->req);
+-		if (item->req.size == 0)
+-			retval = -ENOMEM;
+-		offset = item->req.offset;
+-#else
+-		retval = drm_mm_insert_node(&dev_priv->vram_mm,
+-					    &item->mm_node,
+-					    mem->size);
+-		offset = item->mm_node.start;
+-#endif
+-	}
+-	if (retval)
+-		goto fail_alloc;
+-
+-	retval = idr_alloc(&dev_priv->object_idr, item, 1, 0, GFP_KERNEL);
+-	if (retval < 0)
+-		goto fail_idr;
+-	user_key = retval;
+-
+-	list_add(&item->owner_list, &file_priv->obj_list);
+-	mutex_unlock(&dev->struct_mutex);
+-
+-	mem->offset = ((pool == 0) ?
+-		      dev_priv->vram_offset : dev_priv->agp_offset) +
+-	    (offset << SIS_MM_ALIGN_SHIFT);
+-	mem->free = user_key;
+-	mem->size = mem->size << SIS_MM_ALIGN_SHIFT;
+-
+-	return 0;
+-
+-fail_idr:
+-	drm_mm_remove_node(&item->mm_node);
+-fail_alloc:
+-	kfree(item);
+-	mutex_unlock(&dev->struct_mutex);
+-
+-	mem->offset = 0;
+-	mem->size = 0;
+-	mem->free = 0;
+-
+-	DRM_DEBUG("alloc %d, size = %ld, offset = %ld\n", pool, mem->size,
+-		  mem->offset);
+-
+-	return retval;
+-}
+-
+-static int sis_drm_free(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	drm_sis_private_t *dev_priv = dev->dev_private;
+-	drm_sis_mem_t *mem = data;
+-	struct sis_memblock *obj;
+-
+-	mutex_lock(&dev->struct_mutex);
+-	obj = idr_find(&dev_priv->object_idr, mem->free);
+-	if (obj == NULL) {
+-		mutex_unlock(&dev->struct_mutex);
+-		return -EINVAL;
+-	}
+-
+-	idr_remove(&dev_priv->object_idr, mem->free);
+-	list_del(&obj->owner_list);
+-	if (drm_mm_node_allocated(&obj->mm_node))
+-		drm_mm_remove_node(&obj->mm_node);
+-#if defined(CONFIG_FB_SIS) || defined(CONFIG_FB_SIS_MODULE)
+-	else
+-		sis_free(obj->req.offset);
+-#endif
+-	kfree(obj);
+-	mutex_unlock(&dev->struct_mutex);
+-	DRM_DEBUG("free = 0x%lx\n", mem->free);
+-
+-	return 0;
+-}
+-
+-static int sis_fb_alloc(struct drm_device *dev, void *data,
+-			struct drm_file *file_priv)
+-{
+-	return sis_drm_alloc(dev, file_priv, data, VIDEO_TYPE);
+-}
+-
+-static int sis_ioctl_agp_init(struct drm_device *dev, void *data,
+-			      struct drm_file *file_priv)
+-{
+-	drm_sis_private_t *dev_priv = dev->dev_private;
+-	drm_sis_agp_t *agp = data;
+-	dev_priv = dev->dev_private;
+-
+-	mutex_lock(&dev->struct_mutex);
+-	drm_mm_init(&dev_priv->agp_mm, 0, agp->size >> SIS_MM_ALIGN_SHIFT);
+-
+-	dev_priv->agp_initialized = 1;
+-	dev_priv->agp_offset = agp->offset;
+-	mutex_unlock(&dev->struct_mutex);
+-
+-	DRM_DEBUG("offset = %lu, size = %lu\n", agp->offset, agp->size);
+-	return 0;
+-}
+-
+-static int sis_ioctl_agp_alloc(struct drm_device *dev, void *data,
+-			       struct drm_file *file_priv)
+-{
+-
+-	return sis_drm_alloc(dev, file_priv, data, AGP_TYPE);
+-}
+-
+-static drm_local_map_t *sis_reg_init(struct drm_device *dev)
+-{
+-	struct drm_map_list *entry;
+-	drm_local_map_t *map;
+-
+-	list_for_each_entry(entry, &dev->maplist, head) {
+-		map = entry->map;
+-		if (!map)
+-			continue;
+-		if (map->type == _DRM_REGISTERS)
+-			return map;
+-	}
+-	return NULL;
+-}
+-
+-int sis_idle(struct drm_device *dev)
+-{
+-	drm_sis_private_t *dev_priv = dev->dev_private;
+-	uint32_t idle_reg;
+-	unsigned long end;
+-	int i;
+-
+-	if (dev_priv->idle_fault)
+-		return 0;
+-
+-	if (dev_priv->mmio == NULL) {
+-		dev_priv->mmio = sis_reg_init(dev);
+-		if (dev_priv->mmio == NULL) {
+-			DRM_ERROR("Could not find register map.\n");
+-			return 0;
+-		}
+-	}
+-
+-	/*
+-	 * Implement a device switch here if needed
+-	 */
+-
+-	if (dev_priv->chipset != SIS_CHIP_315)
+-		return 0;
+-
+-	/*
+-	 * Timeout after 3 seconds. We cannot use DRM_WAIT_ON here
+-	 * because its polling frequency is too low.
+-	 */
+-
+-	end = jiffies + (HZ * 3);
+-
+-	for (i = 0; i < 4; ++i) {
+-		do {
+-			idle_reg = SIS_READ(0x85cc);
+-		} while (!time_after_eq(jiffies, end) &&
+-			  ((idle_reg & 0x80000000) != 0x80000000));
+-	}
+-
+-	if (time_after_eq(jiffies, end)) {
+-		DRM_ERROR("Graphics engine idle timeout. "
+-			  "Disabling idle check\n");
+-		dev_priv->idle_fault = 1;
+-	}
+-
+-	/*
+-	 * The caller never sees an error code. It gets trapped
+-	 * in libdrm.
+-	 */
+-
+-	return 0;
+-}
+-
+-
+-void sis_lastclose(struct drm_device *dev)
+-{
+-	drm_sis_private_t *dev_priv = dev->dev_private;
+-
+-	if (!dev_priv)
+-		return;
+-
+-	mutex_lock(&dev->struct_mutex);
+-	if (dev_priv->vram_initialized) {
+-		drm_mm_takedown(&dev_priv->vram_mm);
+-		dev_priv->vram_initialized = 0;
+-	}
+-	if (dev_priv->agp_initialized) {
+-		drm_mm_takedown(&dev_priv->agp_mm);
+-		dev_priv->agp_initialized = 0;
+-	}
+-	dev_priv->mmio = NULL;
+-	mutex_unlock(&dev->struct_mutex);
+-}
+-
+-void sis_reclaim_buffers_locked(struct drm_device *dev,
+-				struct drm_file *file)
+-{
+-	struct sis_file_private *file_priv = file->driver_priv;
+-	struct sis_memblock *entry, *next;
+-
+-	if (!(dev->master && file->master->lock.hw_lock))
+-		return;
+-
+-	drm_legacy_idlelock_take(&file->master->lock);
+-
+-	mutex_lock(&dev->struct_mutex);
+-	if (list_empty(&file_priv->obj_list)) {
+-		mutex_unlock(&dev->struct_mutex);
+-		drm_legacy_idlelock_release(&file->master->lock);
+-
+-		return;
+-	}
+-
+-	sis_idle(dev);
+-
+-
+-	list_for_each_entry_safe(entry, next, &file_priv->obj_list,
+-				 owner_list) {
+-		list_del(&entry->owner_list);
+-		if (drm_mm_node_allocated(&entry->mm_node))
+-			drm_mm_remove_node(&entry->mm_node);
+-#if defined(CONFIG_FB_SIS) || defined(CONFIG_FB_SIS_MODULE)
+-		else
+-			sis_free(entry->req.offset);
+-#endif
+-		kfree(entry);
+-	}
+-	mutex_unlock(&dev->struct_mutex);
+-
+-	drm_legacy_idlelock_release(&file->master->lock);
+-
+-	return;
+-}
+-
+-const struct drm_ioctl_desc sis_ioctls[] = {
+-	DRM_IOCTL_DEF_DRV(SIS_FB_ALLOC, sis_fb_alloc, DRM_AUTH),
+-	DRM_IOCTL_DEF_DRV(SIS_FB_FREE, sis_drm_free, DRM_AUTH),
+-	DRM_IOCTL_DEF_DRV(SIS_AGP_INIT, sis_ioctl_agp_init, DRM_AUTH | DRM_MASTER | DRM_ROOT_ONLY),
+-	DRM_IOCTL_DEF_DRV(SIS_AGP_ALLOC, sis_ioctl_agp_alloc, DRM_AUTH),
+-	DRM_IOCTL_DEF_DRV(SIS_AGP_FREE, sis_drm_free, DRM_AUTH),
+-	DRM_IOCTL_DEF_DRV(SIS_FB_INIT, sis_fb_init, DRM_AUTH | DRM_MASTER | DRM_ROOT_ONLY),
+-};
+-
+-int sis_max_ioctl = ARRAY_SIZE(sis_ioctls);
+diff --git a/drivers/gpu/drm/tdfx/Makefile b/drivers/gpu/drm/tdfx/Makefile
+deleted file mode 100644
+index 03b7d0f087b0..000000000000
+--- a/drivers/gpu/drm/tdfx/Makefile
++++ /dev/null
+@@ -1,8 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0-only
+-#
+-# Makefile for the drm device driver.  This driver provides support for the
+-# Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
+-
+-tdfx-y := tdfx_drv.o
+-
+-obj-$(CONFIG_DRM_TDFX)	+= tdfx.o
+diff --git a/drivers/gpu/drm/tdfx/tdfx_drv.c b/drivers/gpu/drm/tdfx/tdfx_drv.c
+deleted file mode 100644
+index 58c185c299f4..000000000000
+--- a/drivers/gpu/drm/tdfx/tdfx_drv.c
++++ /dev/null
+@@ -1,90 +0,0 @@
+-/* tdfx_drv.c -- tdfx driver -*- linux-c -*-
+- * Created: Thu Oct  7 10:38:32 1999 by faith@precisioninsight.com
+- *
+- * Copyright 1999 Precision Insight, Inc., Cedar Park, Texas.
+- * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
+- * All Rights Reserved.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the next
+- * paragraph) shall be included in all copies or substantial portions of the
+- * Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+- * PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+- * DEALINGS IN THE SOFTWARE.
+- *
+- * Authors:
+- *    Rickard E. (Rik) Faith <faith@valinux.com>
+- *    Daryll Strauss <daryll@valinux.com>
+- *    Gareth Hughes <gareth@valinux.com>
+- */
+-
+-#include <linux/module.h>
+-#include <linux/pci.h>
+-
+-#include <drm/drm_drv.h>
+-#include <drm/drm_file.h>
+-#include <drm/drm_ioctl.h>
+-#include <drm/drm_legacy.h>
+-#include <drm/drm_pciids.h>
+-
+-#include "tdfx_drv.h"
+-
+-static struct pci_device_id pciidlist[] = {
+-	tdfx_PCI_IDS
+-};
+-
+-static const struct file_operations tdfx_driver_fops = {
+-	.owner = THIS_MODULE,
+-	.open = drm_open,
+-	.release = drm_release,
+-	.unlocked_ioctl = drm_ioctl,
+-	.mmap = drm_legacy_mmap,
+-	.poll = drm_poll,
+-	.compat_ioctl = drm_compat_ioctl,
+-	.llseek = noop_llseek,
+-};
+-
+-static const struct drm_driver driver = {
+-	.driver_features = DRIVER_LEGACY,
+-	.fops = &tdfx_driver_fops,
+-	.name = DRIVER_NAME,
+-	.desc = DRIVER_DESC,
+-	.date = DRIVER_DATE,
+-	.major = DRIVER_MAJOR,
+-	.minor = DRIVER_MINOR,
+-	.patchlevel = DRIVER_PATCHLEVEL,
+-};
+-
+-static struct pci_driver tdfx_pci_driver = {
+-	.name = DRIVER_NAME,
+-	.id_table = pciidlist,
+-};
+-
+-static int __init tdfx_init(void)
+-{
+-	return drm_legacy_pci_init(&driver, &tdfx_pci_driver);
+-}
+-
+-static void __exit tdfx_exit(void)
+-{
+-	drm_legacy_pci_exit(&driver, &tdfx_pci_driver);
+-}
+-
+-module_init(tdfx_init);
+-module_exit(tdfx_exit);
+-
+-MODULE_AUTHOR(DRIVER_AUTHOR);
+-MODULE_DESCRIPTION(DRIVER_DESC);
+-MODULE_LICENSE("GPL and additional rights");
+diff --git a/drivers/gpu/drm/tdfx/tdfx_drv.h b/drivers/gpu/drm/tdfx/tdfx_drv.h
+deleted file mode 100644
+index 84204ec1b046..000000000000
+--- a/drivers/gpu/drm/tdfx/tdfx_drv.h
++++ /dev/null
+@@ -1,47 +0,0 @@
+-/* tdfx.h -- 3dfx DRM template customization -*- linux-c -*-
+- * Created: Wed Feb 14 12:32:32 2001 by gareth@valinux.com
+- */
+-/*
+- * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
+- * All Rights Reserved.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the next
+- * paragraph) shall be included in all copies or substantial portions of the
+- * Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+- * VA LINUX SYSTEMS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+- * OTHER DEALINGS IN THE SOFTWARE.
+- *
+- * Authors:
+- *    Gareth Hughes <gareth@valinux.com>
+- */
+-
+-#ifndef __TDFX_H__
+-#define __TDFX_H__
+-
+-/* General customization:
+- */
+-
+-#define DRIVER_AUTHOR		"VA Linux Systems Inc."
+-
+-#define DRIVER_NAME		"tdfx"
+-#define DRIVER_DESC		"3dfx Banshee/Voodoo3+"
+-#define DRIVER_DATE		"20010216"
+-
+-#define DRIVER_MAJOR		1
+-#define DRIVER_MINOR		0
+-#define DRIVER_PATCHLEVEL	0
+-
+-#endif
+-- 
+2.25.1
 
