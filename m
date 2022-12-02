@@ -1,69 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BF1C640613
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Dec 2022 12:50:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C778864061F
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Dec 2022 12:52:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A558E10E0E3;
-	Fri,  2 Dec 2022 11:50:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D60DC10E6DE;
+	Fri,  2 Dec 2022 11:52:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BAF510E0E3
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Dec 2022 11:50:40 +0000 (UTC)
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 78DD421C23;
- Fri,  2 Dec 2022 11:50:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1669981838; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=4lLQ8rCftxe1uiexJU58/Bmp5PZ/x4JZykjDfyY4E5M=;
- b=QtXgifW2HJWxZ8No466/iIdhkLXQ3bWkkLBjSCkBjCha3lNt2JhAgHKnqjJUw6Ybxe0t3m
- 20ZSiXiEAy6mm+yhtloHsTfqZ2o7OJKCAfVJgQ4abNQ7/LmDi2F+j1GXVC3OMuoGWxy2AT
- cFfZojKXqBhVFodNy+YV94GhVmtUyr0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1669981838;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=4lLQ8rCftxe1uiexJU58/Bmp5PZ/x4JZykjDfyY4E5M=;
- b=Wuss4bmD/sVmcLP29AuFkraNBnVGq2KYksE1RdWq6TPlLGgrLu7hR+M4UcpMHfT5KKlnua
- kmPcqxM1KkgoYnDw==
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 3836D13644;
- Fri,  2 Dec 2022 11:50:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap1.suse-dmz.suse.de with ESMTPSA id m6hnDI7miWNPGQAAGKfGzw
- (envelope-from <tzimmermann@suse.de>); Fri, 02 Dec 2022 11:50:38 +0000
-Message-ID: <7916346d-a3bb-3027-6598-ea6455b6a81b@suse.de>
-Date: Fri, 2 Dec 2022 12:50:37 +0100
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18A0410E6DD;
+ Fri,  2 Dec 2022 11:52:36 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id x2so6204245edd.2;
+ Fri, 02 Dec 2022 03:52:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
+ bh=V7DGE39pLfDtpE6nfiaaKVKzntw4VUS/Inc+Ohx4WpQ=;
+ b=SwYGBT2S6+aQVfMDUC6h/9BMQR7Aa/rv/nZKofiHLvTU/0Q4vEdenr2xH0AK90Iu3N
+ Q3c4Rzoy1RPYQPbuhxIHjA2D6XXPWzkdpKFqM8lSRvv9+Ts7pEVAbvC0ujDR3hSQ5ZxN
+ vD3uurUCf7q8gTLZVVLJ+a+GBp5jmkXigxdaU6jT1DHYEUuZHb5oDdpzCP5CgF6Z7B5O
+ u7NAxl3AwQzRLkzS/byhochh/uO28yZGlEcUMh6vQnzjLqxrytmc3WlVT4i235L7vWAd
+ 0gGeloQm/h47sHWQc73VFtu7SAPAB5bpqEY5keAo9pYSeCsiCSyH8qJzZFh0BdC5Wlh+
+ A8gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:sender:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=V7DGE39pLfDtpE6nfiaaKVKzntw4VUS/Inc+Ohx4WpQ=;
+ b=wJaGHQJki7FsjRnq07WxDmNu2YVMUz+MxzefIr6LaB+XqOygD3QolFPJZKHQPfGugU
+ gZEXUshuhpudPcRuvaR/AJdL1zHD4xNjxd5U9934kEQ2nFFOQfwLwQ2k4/nzFzXVEviq
+ cpKJZ1sR0NG7R6+jCoIpiBs0VFHDl9KdlaZJmjALAl9+EBpAXQxdrcoEv1b9xD2RPfMu
+ NSDf3fUqlBoTzGE27jgZuPVxdNn6rIKvYxuh89slgGsUQ4BPMRYApnWWOJ1nxpRivCHm
+ FvJFMUHaCrP0s56tiRAxnz3PQk7jydjBUPLPZ6TCtHO/bVyvrKzCSgR8yZjnQ7N6IG6X
+ 9gfg==
+X-Gm-Message-State: ANoB5pnWe9KLtsUIQCcwWh1E12VmJaB2lj8+nzELm/cxjzVs1cwA1ftE
+ Zx8Y56a3imWiYerAgRtjGbo=
+X-Google-Smtp-Source: AA0mqf4pKF+GIFOv0aOMCQp58IrKzGzJId6KW1UCp0ZSXlFh3tlc5fcL6ng1NZL1EdK19TM8zWr5uA==
+X-Received: by 2002:a05:6402:24a0:b0:458:ad54:20d5 with SMTP id
+ q32-20020a05640224a000b00458ad5420d5mr62176585eda.86.1669981954534; 
+ Fri, 02 Dec 2022 03:52:34 -0800 (PST)
+Received: from cizrna.home (cst-prg-44-69.cust.vodafone.cz. [46.135.44.69])
+ by smtp.gmail.com with ESMTPSA id
+ ha7-20020a170906a88700b007c0bb571da5sm1206762ejb.41.2022.12.02.03.52.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 02 Dec 2022 03:52:33 -0800 (PST)
+From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+To: 
+Subject: [PATCH v6 0/8] Support for the NPU in Vim3
+Date: Fri,  2 Dec 2022 12:52:12 +0100
+Message-Id: <20221202115223.39051-1-tomeu.vizoso@collabora.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH 5/8] drm/mipi-dbi: Prepare framebuffer copy operation in
- pipe-update helpers
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>, daniel@ffwll.ch,
- airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- thierry.reding@gmail.com, sam@ravnborg.org, emma@anholt.net,
- david@lechnology.com, kamlesh.gurudasani@gmail.com, javierm@redhat.com
-References: <20221121104532.8301-1-tzimmermann@suse.de>
- <20221121104532.8301-6-tzimmermann@suse.de>
- <4e1b19de-04b1-3fa5-6aaa-72a4ad694b64@tronnes.org>
- <9b42a348-bad0-2615-8690-b7973375af02@suse.de>
-In-Reply-To: <9b42a348-bad0-2615-8690-b7973375af02@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------EfsmymUDKZjVLi7z0ya4ftcc"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,114 +68,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Kevin Hilman <khilman@baylibre.com>, italonicola@collabora.com,
+ "moderated list:DRM DRIVERS FOR VIVANTE GPU IP"
+ <etnaviv@lists.freedesktop.org>,
+ "open list:DRM DRIVERS FOR VIVANTE GPU IP" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ "open list:ARM/Amlogic Meson SoC support" <linux-amlogic@lists.infradead.org>,
+ "moderated list:ARM/Amlogic Meson SoC support"
+ <linux-arm-kernel@lists.infradead.org>, Jerome Brunet <jbrunet@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------EfsmymUDKZjVLi7z0ya4ftcc
-Content-Type: multipart/mixed; boundary="------------h6d0PIVo0EnidjlidrP702J7";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>, daniel@ffwll.ch,
- airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- thierry.reding@gmail.com, sam@ravnborg.org, emma@anholt.net,
- david@lechnology.com, kamlesh.gurudasani@gmail.com, javierm@redhat.com
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <7916346d-a3bb-3027-6598-ea6455b6a81b@suse.de>
-Subject: Re: [PATCH 5/8] drm/mipi-dbi: Prepare framebuffer copy operation in
- pipe-update helpers
-References: <20221121104532.8301-1-tzimmermann@suse.de>
- <20221121104532.8301-6-tzimmermann@suse.de>
- <4e1b19de-04b1-3fa5-6aaa-72a4ad694b64@tronnes.org>
- <9b42a348-bad0-2615-8690-b7973375af02@suse.de>
-In-Reply-To: <9b42a348-bad0-2615-8690-b7973375af02@suse.de>
+Hi,
 
---------------h6d0PIVo0EnidjlidrP702J7
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+This series adds support for the Verisilicon VIPNano-QI NPU in the A311D
+as in the VIM3 board.
 
-DQo+Pg0KPj4gWW91IHVzZSBkcm1fZ2VtX2ZiX3ZtYXAoKSBpbiB0aGUgb3RoZXIgcGxhY2Vz
-IGJ1dCBoZXJlIHlvdSBhY2Nlc3MgdGhlDQo+PiBvYmplY3QgZGlyZWN0bHkgKGFuZCBpbiB0
-aGUgbmV4dCBodW5rKSwgYnV0IGFnYWluIG5vdCBzbyBpbXBvcnRhbnQgc2luY2UNCj4+IGl0
-IGdvZXMgYXdheSBpbiBhIGxhdGVyIHBhdGNoLg0KPiANCj4gSSdsbCB1cGRhdGUgdGhpcyBw
-YXRjaCB0byB1c2UgZHJtX2dlbV9mYl92bWFwKCkgY29uc2lzdGVudGx5Lg0KDQpBbmQgYWZ0
-ZXIgbG9va2luZyBhdCB0aGUgaW1wYWN0IGFuZCBjaHVybiwgSSByYXRoZXIgZ28gd2l0aCB0
-aGUgZXhpc3RpbmcgDQpjb2RlIHRoYXQgaW5pdGlhbGl6ZXMgZnJvbSB0aGUgR0VNIERNQSBv
-YmplY3QuDQoNCk5vcmFsZiwgaXMgdGhlcmUgYSByZWFzb24gd2h5IG1vc3Qgb2YgTUlQSSBE
-QkkgdXNlcyBETUEgaGVscGVycz8gSW4gDQp0ZXJtcyBvZiBmbGV4aWJpbGl0eSBhbmQgcmVz
-b3VyY2UgY29uc3VtcHRpb24sIHdvdWxkbid0IFNITUVNIGhlbHBlcnMgYmUgDQphIGJldHRl
-ciBmaXQ/DQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+Pg0KPj4gV2l0aCB0aGUg
-Y29tbWVudHMgY29uc2lkZXJlZDoNCj4+DQo+PiBSZXZpZXdlZC1ieTogTm9yYWxmIFRyw7hu
-bmVzIDxub3JhbGZAdHJvbm5lcy5vcmc+DQo+IA0KPiBUaGFua3MuDQo+IA0KPiBCZXN0IHJl
-Z2FyZHMNCj4gVGhvbWFzDQo+IA0KPj4NCj4+PiDCoMKgwqDCoMKgIGlmIChkcm1fYXRvbWlj
-X2hlbHBlcl9kYW1hZ2VfbWVyZ2VkKG9sZF9zdGF0ZSwgc3RhdGUsICZyZWN0KSkNCj4+PiAt
-wqDCoMKgwqDCoMKgwqAgc3Q3NTg2X2ZiX2RpcnR5KHN0YXRlLT5mYiwgJnJlY3QpOw0KPj4+
-ICvCoMKgwqDCoMKgwqDCoCBzdDc1ODZfZmJfZGlydHkoJnNyYywgZmIsICZyZWN0KTsNCj4+
-PiDCoCB9DQo+Pj4gwqAgc3RhdGljIHZvaWQgc3Q3NTg2X3BpcGVfZW5hYmxlKHN0cnVjdCBk
-cm1fc2ltcGxlX2Rpc3BsYXlfcGlwZSAqcGlwZSwNCj4+PiBAQCAtMTc2LDYgKzE4MSw4IEBA
-IHN0YXRpYyB2b2lkIHN0NzU4Nl9waXBlX2VuYWJsZShzdHJ1Y3QgDQo+Pj4gZHJtX3NpbXBs
-ZV9kaXNwbGF5X3BpcGUgKnBpcGUsDQo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgIC55MSA9IDAs
-DQo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgIC55MiA9IGZiLT5oZWlnaHQsDQo+Pj4gwqDCoMKg
-wqDCoCB9Ow0KPj4+ICvCoMKgwqAgc3RydWN0IGRybV9nZW1fZG1hX29iamVjdCAqZG1hX29i
-ajsNCj4+PiArwqDCoMKgIHN0cnVjdCBpb3N5c19tYXAgc3JjOw0KPj4+IMKgwqDCoMKgwqAg
-aW50IGlkeCwgcmV0Ow0KPj4+IMKgwqDCoMKgwqAgdTggYWRkcl9tb2RlOw0KPj4+IEBAIC0y
-MzUsNyArMjQyLDEwIEBAIHN0YXRpYyB2b2lkIHN0NzU4Nl9waXBlX2VuYWJsZShzdHJ1Y3Qg
-DQo+Pj4gZHJtX3NpbXBsZV9kaXNwbGF5X3BpcGUgKnBpcGUsDQo+Pj4gwqDCoMKgwqDCoCBt
-c2xlZXAoMTAwKTsNCj4+PiAtwqDCoMKgIHN0NzU4Nl9mYl9kaXJ0eShmYiwgJnJlY3QpOw0K
-Pj4+ICvCoMKgwqAgZG1hX29iaiA9IGRybV9mYl9kbWFfZ2V0X2dlbV9vYmooZmIsIDApOw0K
-Pj4+ICvCoMKgwqAgaW9zeXNfbWFwX3NldF92YWRkcigmc3JjLCBkbWFfb2JqLT52YWRkcik7
-DQo+Pj4gKw0KPj4+ICvCoMKgwqAgc3Q3NTg2X2ZiX2RpcnR5KCZzcmMsIGZiLCAmcmVjdCk7
-DQo+Pj4gwqDCoMKgwqDCoCBtaXBpX2RiaV9jb21tYW5kKGRiaSwgTUlQSV9EQ1NfU0VUX0RJ
-U1BMQVlfT04pOw0KPj4+IMKgIG91dF9leGl0Og0KPj4+IGRpZmYgLS1naXQgYS9pbmNsdWRl
-L2RybS9kcm1fbWlwaV9kYmkuaCBiL2luY2x1ZGUvZHJtL2RybV9taXBpX2RiaS5oDQo+Pj4g
-aW5kZXggOGM0ZWE3OTU2ZDYxZC4uMzZhYzg0OTU1NjZiMCAxMDA2NDQNCj4+PiAtLS0gYS9p
-bmNsdWRlL2RybS9kcm1fbWlwaV9kYmkuaA0KPj4+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9t
-aXBpX2RiaS5oDQo+Pj4gQEAgLTEzLDkgKzEzLDEwIEBADQo+Pj4gwqAgI2luY2x1ZGUgPGRy
-bS9kcm1fc2ltcGxlX2ttc19oZWxwZXIuaD4NCj4+PiDCoCBzdHJ1Y3QgZHJtX3JlY3Q7DQo+
-Pj4gLXN0cnVjdCBzcGlfZGV2aWNlOw0KPj4+IMKgIHN0cnVjdCBncGlvX2Rlc2M7DQo+Pj4g
-K3N0cnVjdCBpb3N5c19tYXA7DQo+Pj4gwqAgc3RydWN0IHJlZ3VsYXRvcjsNCj4+PiArc3Ry
-dWN0IHNwaV9kZXZpY2U7DQo+Pj4gwqAgLyoqDQo+Pj4gwqDCoCAqIHN0cnVjdCBtaXBpX2Ri
-aSAtIE1JUEkgREJJIGludGVyZmFjZQ0KPj4+IEBAIC0xNzYsOCArMTc3LDkgQEAgaW50IG1p
-cGlfZGJpX2NvbW1hbmRfcmVhZChzdHJ1Y3QgbWlwaV9kYmkgKmRiaSwgDQo+Pj4gdTggY21k
-LCB1OCAqdmFsKTsNCj4+PiDCoCBpbnQgbWlwaV9kYmlfY29tbWFuZF9idWYoc3RydWN0IG1p
-cGlfZGJpICpkYmksIHU4IGNtZCwgdTggKmRhdGEsIA0KPj4+IHNpemVfdCBsZW4pOw0KPj4+
-IMKgIGludCBtaXBpX2RiaV9jb21tYW5kX3N0YWNrYnVmKHN0cnVjdCBtaXBpX2RiaSAqZGJp
-LCB1OCBjbWQsIGNvbnN0IA0KPj4+IHU4ICpkYXRhLA0KPj4+IMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgIHNpemVfdCBsZW4pOw0KPj4+IC1pbnQgbWlwaV9kYmlf
-YnVmX2NvcHkodm9pZCAqZHN0LCBzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYiwNCj4+PiAr
-aW50IG1pcGlfZGJpX2J1Zl9jb3B5KHZvaWQgKmRzdCwgc3RydWN0IGlvc3lzX21hcCAqc3Jj
-LCBzdHJ1Y3QgDQo+Pj4gZHJtX2ZyYW1lYnVmZmVyICpmYiwNCj4+PiDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgc3RydWN0IGRybV9yZWN0ICpjbGlwLCBib29sIHN3YXApOw0K
-Pj4+ICsNCj4+PiDCoCAvKioNCj4+PiDCoMKgICogbWlwaV9kYmlfY29tbWFuZCAtIE1JUEkg
-RENTIGNvbW1hbmQgd2l0aCBvcHRpb25hbCBwYXJhbWV0ZXIocykNCj4+PiDCoMKgICogQGRi
-aTogTUlQSSBEQkkgc3RydWN0dXJlDQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpH
-cmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJt
-YW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhS
-QiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+The IP is very closely based on previous Vivante GPUs, so the etnaviv
+kernel driver works basically unchanged.
 
+The userspace part of the driver is being reviewed at:
 
---------------h6d0PIVo0EnidjlidrP702J7--
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/18986
 
---------------EfsmymUDKZjVLi7z0ya4ftcc
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+v2: Move reference to RESET_NNA to npu node (Neil)
+v3: Fix indentation mistake (Neil)
+v4: Add warning when etnaviv probes on a NPU (Lucas)
+v5: Reorder HWDB commit to be the last (Lucas)
+v6: Add patch to move the power domain to the SoC-specific dtsi (Neil)
 
------BEGIN PGP SIGNATURE-----
+Regards,
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmOJ5o0FAwAAAAAACgkQlh/E3EQov+Bv
-XBAAi618Uuz5jLhB2/4doU1OaHxS3JkzD2YC55iMWSnqcaSRk50u/9dnym8JBMWgKj3Kr372gF39
-Z8A6B0UUka9Qx4AN891DBdcwe95izhTxd0lojlz08bHwkBsBbkUCXW1gHlRyUaOHCiheVjHb/DVI
-20jZTOhJcV51rI9dFKNNYlyuCvByci7nNW8HwQLJon1feuzLYJnJ8Jg5x4xi82LpUisZ4g1JXhL0
-Qn2siCDpRfku04cd8fkNaEBCGBODkK1hcsDk03T9Rq+DdP3rPK8Supth4sm9Vv8o5G7aPzN+KcMN
-ITCkCYJvXNnnXqK8uoaZPkQXyA11/EdYR2Iv+hfFGWacRezj5/0vGOnMBSu4CGz43WvdRsSoBpxg
-V9JDyPaYjtMU6SMw6HR8aGXQ38wflm5TaygVrQHWjY2o6sY0VZPE44gscCB0rztYDn39+/o0zygb
-2i8WN39/IpA6mwdxo3Uig5H9vlcDidYRRy1CIv28dDVGyGroPRZ37MfQFIwHrwd0UsL8vMBVyRyo
-av91DtiTLMXdxIUQgq8WtDkNP6fWwhprs9tcPVhjKRzmiuTY9duDevDHStGjMorIurzTXjD72uG0
-PMSFb+uq3F+Yb4trdtioiu6yamYatTH6mjMupqQ1qqkhWfMKP0VYUgHAB/9OJR+sqHjm6oTrRZjR
-wfg=
-=fbZ7
------END PGP SIGNATURE-----
+Tomeu
 
---------------EfsmymUDKZjVLi7z0ya4ftcc--
+Tomeu Vizoso (8):
+  dt-bindings: reset: meson-g12a: Add missing NNA reset
+  dt-bindings: power: Add G12A NNA power domain
+  soc: amlogic: meson-pwrc: Add NNA power domain for A311D
+  arm64: dts: Add DT node for the VIPNano-QI on the A311D
+  drm/etnaviv: Add nn_core_count to chip feature struct
+  drm/etnaviv: Warn when probing on NPUs
+  drm/etnaviv: add HWDB entry for VIPNano-QI.7120.0055
+  arm64: dts: Fix NPU power domain references in Amlogic G12-based SoCs
+
+ .../boot/dts/amlogic/meson-g12-common.dtsi    |  9 +++++
+ .../amlogic/meson-g12b-a311d-khadas-vim3.dts  |  4 +++
+ arch/arm64/boot/dts/amlogic/meson-g12b.dtsi   |  4 +++
+ arch/arm64/boot/dts/amlogic/meson-sm1.dtsi    |  4 +++
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c         |  4 +++
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h         |  3 ++
+ drivers/gpu/drm/etnaviv/etnaviv_hwdb.c        | 35 +++++++++++++++++++
+ drivers/soc/amlogic/meson-ee-pwrc.c           | 17 +++++++++
+ include/dt-bindings/power/meson-g12a-power.h  |  1 +
+ .../reset/amlogic,meson-g12a-reset.h          |  4 ++-
+ 10 files changed, 84 insertions(+), 1 deletion(-)
+
+-- 
+2.38.1
+
