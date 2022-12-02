@@ -2,55 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18223640C98
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Dec 2022 18:52:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D704640CCF
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Dec 2022 19:06:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A893E10E19E;
-	Fri,  2 Dec 2022 17:52:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 537C510E71C;
+	Fri,  2 Dec 2022 18:06:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAC7C10E19E
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Dec 2022 17:52:27 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 2B2HqDt4013855;
- Fri, 2 Dec 2022 11:52:13 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1670003533;
- bh=1OG3smuC37RqNdYlEMCo4ORzNBg03hc1dJ9bK3UC26Q=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=WT8xujmjIvrWqYGtgOu5UdLJ2xI/hCcOy5xhkpUuiQPf2fFVOzsIjbkTi/EFT4OPk
- OhYtVClMOtl4vngouNYhbBnf/sDHD5QIn8LVZ0o3doO8oFWdheWWSG1Ks5XyNKqpdF
- Ocs68kjTg+q/AQ9/k5JSAr54vf+iAqx+I+QGE/LM=
-Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 2B2HqDob047625
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 2 Dec 2022 11:52:13 -0600
-Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Fri, 2
- Dec 2022 11:52:13 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE101.ent.ti.com
- (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
- Frontend Transport; Fri, 2 Dec 2022 11:52:13 -0600
-Received: from [10.250.38.44] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 2B2HqCPF006857;
- Fri, 2 Dec 2022 11:52:12 -0600
-Message-ID: <49761fcd-7cef-9c41-185a-0a6d7e2b4a5e@ti.com>
-Date: Fri, 2 Dec 2022 11:52:12 -0600
+Received: from mail-vs1-xe29.google.com (mail-vs1-xe29.google.com
+ [IPv6:2607:f8b0:4864:20::e29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 174E710E71C
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Dec 2022 18:06:11 +0000 (UTC)
+Received: by mail-vs1-xe29.google.com with SMTP id 128so5359871vsz.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Dec 2022 10:06:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Bd9XMM2xXc5d3WaSzcwmX5OfPJpMdrj/2STZxWIDP30=;
+ b=sM4FgIAUd6W7+jfR0yRPLsNWlmTGQwc8SJHWA5BATk8XXJfPwBnkpfbTl16l0gI6BQ
+ 36s7vZ7he9pEooG86WDpLHqQ+XBPJFlSNUX77RVVACcubKwWQyjkRZD8hbQ+WHstEAo/
+ tJaDugHTDYqAHmOVQsmBldAWSHhlvU6OAdix4Wc3o2VhUsapaArGFCcakOeUO5uYuJsk
+ y0ucGNdRxnJDBUEDDGJvWEENuQdMOKxZSlAGTjGF0ruVEAKZHmNxBtCMv8L7wylCnvBA
+ 7yWstQwv04UUhrEKxUGh9ug/UcxjJ76aXhXzBupCI+PrIXvseopRhBrPEfUZcFHc7KvV
+ b+4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Bd9XMM2xXc5d3WaSzcwmX5OfPJpMdrj/2STZxWIDP30=;
+ b=SMnqxmDWuUVbW8TY3JBxrygb7lfyRGFhBL2iTm+rNQGbvgxIFuXyOj6uzTV4APWjw6
+ q2CMs/lO0nAnOfYOo8rXZfNqwVswlN+rsA4sSmkg9hh+hR3IjxWBoinlqj5Cd95Ccy/c
+ 2wfyxth9WFGrGLO/Ifyb/xXCBPJkqCkjkXrfyZbaU6VhSUqg+FjuZKKqlGpdSESfGSmb
+ 6ke8g/BVHVmjiD0rjuE9KiJtaymAWDBmFaHn7EoENJBcnzdJYKBQqmFdUiA1S9AcvH62
+ B8aGrT7YzKTMTgCE7d7DJ9tJWMRRNS+YC3hJe73A5A1H7qXUZOuAbro4pYcy+Ykq2ZgE
+ qLig==
+X-Gm-Message-State: ANoB5pmnpZz1VOhV/lWJCXzkYXn6x//wnIMKGFKfhq42XfGQtzW8TLwZ
+ 1CDr6bCo7MjFwLmqPrsUbxFln7fkY2RG8K+lpfDU
+X-Google-Smtp-Source: AA0mqf59/7uddfiskq46h96rpMnKsZl1n1l57s68PalSPgdgl9iK9BhoY3POPuXf+ocA/0kF0aAQxQ1b1RFC56X+nUM=
+X-Received: by 2002:a67:f88d:0:b0:3b0:8797:46d0 with SMTP id
+ h13-20020a67f88d000000b003b0879746d0mr22697162vso.57.1670004370024; Fri, 02
+ Dec 2022 10:06:10 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] drm: tidss: Fix pixel format definition
-To: Randolph Sapp <rs@ti.com>, <jyri.sarha@iki.fi>, <tomba@kernel.org>
-References: <20221202001803.1765805-1-rs@ti.com>
-Content-Language: en-US
-From: Andrew Davis <afd@ti.com>
-In-Reply-To: <20221202001803.1765805-1-rs@ti.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20221202082028.11454-1-shangxiaojing@huawei.com>
+In-Reply-To: <20221202082028.11454-1-shangxiaojing@huawei.com>
+From: John Stultz <jstultz@google.com>
+Date: Fri, 2 Dec 2022 10:05:57 -0800
+Message-ID: <CANDhNCpW47nwVc=oXUkmpEL=2+SiwM8R4zFAgoD5u3CRUyr2RA@mail.gmail.com>
+Subject: Re: [PATCH] drm: kirin: Fix missing clk_disable_unprepare in
+ ade_power_up()
+To: Shang XiaoJing <shangxiaojing@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,40 +65,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: a-bhatia1@ti.com, dri-devel@lists.freedesktop.org
+Cc: architt@codeaurora.org, xinliang.liu@linaro.org, puck.chen@hisilicon.com,
+ dri-devel@lists.freedesktop.org, kong.kongxinwei@hisilicon.com,
+ Yongqin Liu <yongqin.liu@linaro.org>, tiantao6@hisilicon.com,
+ Sumit Semwal <sumit.semwal@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/1/22 6:18 PM, Randolph Sapp wrote:
-> There was a long-standing bug from a typo that created 2 ARGB1555 and
-> ABGR1555 pixel format entries. Weston 10 has a sanity check that alerted
-> me to this issue.
-> 
-> According to the Supported Pixel Data formats table we have the later
-> entries should have been for Alpha-X instead.
-> 
+On Fri, Dec 2, 2022 at 12:22 AM Shang XiaoJing <shangxiaojing@huawei.com> wrote:
+>
+> The clk_disable_unprepare() should be called in the error handling of
+> ade_power_up(). So as reset_control_assert().
+>
+> Fixes: 783ad972c9a0 ("drm/hisilicon: Add crtc driver for ADE")
+> Signed-off-by: Shang XiaoJing <shangxiaojing@huawei.com>
 
-Fixes 32a1795f57eecc
+Looks reasonable to me. Thanks for sending this out!
+CC'ing YongQin and Sumit as they have hardware to test against.
 
-Acked-by: Andrew Davis <afd@ti.com>
+Acked-by: John Stultz <jstultz@google.com>
 
-> Signed-off-by: Randolph Sapp <rs@ti.com>
+
 > ---
->   drivers/gpu/drm/tidss/tidss_dispc.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
-> index ad93acc9abd2..16301bdfead1 100644
-> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
-> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
-> @@ -1858,8 +1858,8 @@ static const struct {
->   	{ DRM_FORMAT_XBGR4444, 0x21, },
->   	{ DRM_FORMAT_RGBX4444, 0x22, },
->   
-> -	{ DRM_FORMAT_ARGB1555, 0x25, },
-> -	{ DRM_FORMAT_ABGR1555, 0x26, },
-> +	{ DRM_FORMAT_XRGB1555, 0x25, },
-> +	{ DRM_FORMAT_XBGR1555, 0x26, },
->   
->   	{ DRM_FORMAT_XRGB8888, 0x27, },
->   	{ DRM_FORMAT_XBGR8888, 0x28, },
+>  drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
+> index 871f79a6b17e..439e87923bcf 100644
+> --- a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
+> +++ b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
+> @@ -229,12 +229,15 @@ static int ade_power_up(struct ade_hw_ctx *ctx)
+>         ret = reset_control_deassert(ctx->reset);
+>         if (ret) {
+>                 DRM_ERROR("failed to deassert reset\n");
+> +               clk_disable_unprepare(ctx->media_noc_clk);
+>                 return ret;
+>         }
+>
+>         ret = clk_prepare_enable(ctx->ade_core_clk);
+>         if (ret) {
+>                 DRM_ERROR("failed to enable ade_core_clk (%d)\n", ret);
+> +               reset_control_assert(ctx->reset);
+> +               clk_disable_unprepare(ctx->media_noc_clk);
+>                 return ret;
+>         }
+>
+> --
+> 2.17.1
+>
