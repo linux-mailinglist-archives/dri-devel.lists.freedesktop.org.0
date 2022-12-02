@@ -1,58 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B12126406F2
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Dec 2022 13:38:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3EF4640742
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Dec 2022 13:57:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 363F710E188;
-	Fri,  2 Dec 2022 12:38:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3679610E6E8;
+	Fri,  2 Dec 2022 12:56:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E744A10E6E3;
- Fri,  2 Dec 2022 12:38:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1669984716; x=1701520716;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=9YP/9ZcHz3tEC4PSjp6JBrVKRvDaVTB1z5m2auiLJlM=;
- b=M4Qw3XO32hlp2S1ebZt15uCdcuSUvyizNziJGtcrKlLUjldGYNshqZdO
- BVNAMG13GFn1vfPQJ3mF+4OljsR5gkY1a5A00zzxtoXEfwikG84jYX/y8
- AGCpd/8Q2kJ5wuP7QVop/Nkv8YJ+XsBA7Y/pMayyOo3EY4l3s5enw2Pmf
- ujXF62FdlgobRVrtPbkftXdlLVO33VqsB3y8AHXroqUF/4zRutSxTTAnU
- bSY5NxIeBHU0vanqEcNFqvXz9j0vVT4oqlF2oE3C3dirNQNcYwf713uMC
- lH807N9rz84UeyMz3J86rPp3NW86N0FSYh5hXy7Ju9Gci0rtj+PtKmnKL Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="296299292"
-X-IronPort-AV: E=Sophos;i="5.96,212,1665471600"; d="scan'208";a="296299292"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Dec 2022 04:38:36 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="647155619"
-X-IronPort-AV: E=Sophos;i="5.96,212,1665471600"; d="scan'208";a="647155619"
-Received: from macematx-mobl1.ger.corp.intel.com (HELO [10.213.211.34])
- ([10.213.211.34])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Dec 2022 04:38:34 -0800
-Message-ID: <170ec9a0-10e2-9413-31de-7694854e903f@linux.intel.com>
-Date: Fri, 2 Dec 2022 12:38:32 +0000
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D836310E6E5
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Dec 2022 12:56:47 +0000 (UTC)
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 125361F88C;
+ Fri,  2 Dec 2022 12:56:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1669985806; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=fAKthM6/5EMGleHV7ZW4XH97O3jNSq8hOzGKbprDnVY=;
+ b=uQ4CfnZESqZnk+/xVIr6Co1YHFPpHq2DYc0ME+tyR0AiKITblkMSV5JK3eLOfdP++7l8dO
+ aAseq0861R1UcXFtxuBiyjoGQwqreN3aME7U/i9vGa4X68KA/OnsfvqdSvYR3jzGTwcLUu
+ j6SW4UnyC1wDQb2o8iYcSDjhz/42SKI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1669985806;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=fAKthM6/5EMGleHV7ZW4XH97O3jNSq8hOzGKbprDnVY=;
+ b=T9xh/K46N7jP5bdidhb+2jB4S6cfEOAg8qAGYsoz5F0RQuBd8EgDbiS4DbAT61n2jimYUJ
+ y7px3PIcYf5/XkAg==
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id CA37B133DE;
+ Fri,  2 Dec 2022 12:56:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap1.suse-dmz.suse.de with ESMTPSA id rAmKMA32iWOhOwAAGKfGzw
+ (envelope-from <tzimmermann@suse.de>); Fri, 02 Dec 2022 12:56:45 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, thierry.reding@gmail.com,
+ sam@ravnborg.org, emma@anholt.net, david@lechnology.com,
+ kamlesh.gurudasani@gmail.com, noralf@tronnes.org, javierm@redhat.com
+Subject: [PATCH v2 0/8] drm/mipi-dbi: Convert to shadow-plane helpers
+Date: Fri,  2 Dec 2022 13:56:36 +0100
+Message-Id: <20221202125644.7917-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [Intel-gfx] [PATCH v6 3/5] drm/i915: Introduce guard pages to
- i915_vma
-Content-Language: en-US
-To: Andi Shyti <andi.shyti@linux.intel.com>
-References: <20221201144446.333776-1-andi.shyti@linux.intel.com>
- <20221201203912.346110-1-andi.shyti@linux.intel.com>
- <8a8152b6-a7f9-7ecb-4e5b-2b961f8e3ee2@linux.intel.com>
- <Y4ndYv5C6K39C8PP@ashyti-mobl2.lan>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <Y4ndYv5C6K39C8PP@ashyti-mobl2.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,78 +67,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>,
- dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Convert the MIPI-DBI-based drivers to shadow-plane helpers. The
+drivers vmap/vunmap GEM buffer memory during the atomic commit.
+Shadow-plane helpers automate this process.
 
-On 02/12/2022 11:11, Andi Shyti wrote:
-> Hi Tvrtko,
-> 
-> On Fri, Dec 02, 2022 at 10:20:11AM +0000, Tvrtko Ursulin wrote:
->>
->> On 01/12/2022 20:39, Andi Shyti wrote:
->>> From: Chris Wilson <chris@chris-wilson.co.uk>
->>>
->>> Introduce the concept of padding the i915_vma with guard pages before
->>> and after. The major consequence is that all ordinary uses of i915_vma
->>> must use i915_vma_offset/i915_vma_size and not i915_vma.node.start/size
->>> directly, as the drm_mm_node will include the guard pages that surround
->>> our object.
->>>
->>> The biggest connundrum is how exactly to mix requesting a fixed address
->>> with guard pages, particularly through the existing uABI. The user does
->>> not know about guard pages, so such must be transparent to the user, and
->>> so the execobj.offset must be that of the object itself excluding the
->>> guard. So a PIN_OFFSET_FIXED must then be exclusive of the guard pages.
->>> The caveat is that some placements will be impossible with guard pages,
->>> as wrap arounds need to be avoided, and the vma itself will require a
->>> larger node. We must not report EINVAL but ENOSPC as these are unavailable
->>> locations within the GTT rather than conflicting user requirements.
->>>
->>> In the next patch, we start using guard pages for scanout objects. While
->>> these are limited to GGTT vma, on a few platforms these vma (or at least
->>> an alias of the vma) is shared with userspace, so we may leak the
->>> existence of such guards if we are not careful to ensure that the
->>> execobj.offset is transparent and excludes the guards. (On such platforms
->>> like ivb, without full-ppgtt, userspace has to use relocations so the
->>> presence of more untouchable regions within its GTT such be of no further
->>> issue.)
->>>
->>> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
->>> Signed-off-by: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
->>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
->>> ---
->>> Hi Tvrtko,
->>>
->>> I removed your r-b in this version because I restored the original value
->>> of the guard being aligned with the vma size alignment. Turns out that
->>> CI failed with the latest version because the guard was becoming too big
->>> (we would have hit the GEM_BUG_ON)[*].
->>>
->>> The reason why now the guard is aligned with the vma alignment is that
->>> the area is already aligned and if we use as a starting address start +
->>> guard, guard needs to be aligned, otherwise we screw up all the memory
->>> alignment.
->>>
->>> Let me know if it makes sense to you.
->>
->> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>
->> Conditional to promise of a prioritised follow up improvement, if it turns
->> out GGTT wastage due a bit over zealous guard size comes to bite.
-> 
-> Sure! I'll be alert!
-> 
-> There are some unrelated failures from CI, just to be sure I sent
-> last night a trybot run.
+Patches 1 to 4 prepare the MIPI code for the change and simplify
+the rest of the patchset.
 
-Trybot looked okay, and I just pressed re-test for the intel-gfx series 
-so lets see that too.
+Patches 5 to 7 rework the vmap code in the MIPI-DBI drivers and add
+shadow-plane helpers. Most of the affected drivers call MIPI-DBI
+helpers and get the update automatically. Only ili9225 and st7586
+require changes to their source code.
 
-Regards,
+Patch 8 simplifies drm_dev_enter() and _exit(). It's not strictly
+needed, but streamlines the driver code and make sense overall.
 
-Tvrtko
+Testing is welcome, as I don't have any hardware to test these
+changes myself.
+
+v2:
+	* fix vmap()/vaddr confusion (Noralf)
+	* drop struct mipi_dbi_plane_state (Noralf)
+
+Thomas Zimmermann (8):
+  drm/simple-kms: Remove drm_gem_simple_display_pipe_prepare_fb()
+  drm/ili9225: Call MIPI DBI mode_valid helper
+  drm/st7586: Call MIPI DBI mode_valid helper
+  drm/mipi-dbi: Initialize default driver functions with macro
+  drm/mipi-dbi: Prepare framebuffer copy operation in pipe-update
+    helpers
+  drm/mipi-dbi: Support shadow-plane state
+  drm/mipi-dbi: Use shadow-plane mappings
+  drm/mipi-dbi: Move drm_dev_{enter,exit}() out from fb_dirty functions
+
+ drivers/gpu/drm/drm_gem_atomic_helper.c      |  31 +---
+ drivers/gpu/drm/drm_mipi_dbi.c               | 144 ++++++++++++++-----
+ drivers/gpu/drm/drm_simple_kms_helper.c      |   2 +-
+ drivers/gpu/drm/panel/panel-ilitek-ili9341.c |   6 +-
+ drivers/gpu/drm/tiny/hx8357d.c               |   5 +-
+ drivers/gpu/drm/tiny/ili9163.c               |   6 +-
+ drivers/gpu/drm/tiny/ili9225.c               |  36 +++--
+ drivers/gpu/drm/tiny/ili9341.c               |   5 +-
+ drivers/gpu/drm/tiny/ili9486.c               |   5 +-
+ drivers/gpu/drm/tiny/mi0283qt.c              |   5 +-
+ drivers/gpu/drm/tiny/panel-mipi-dbi.c        |   5 +-
+ drivers/gpu/drm/tiny/st7586.c                |  39 +++--
+ drivers/gpu/drm/tiny/st7735r.c               |   5 +-
+ include/drm/drm_gem_atomic_helper.h          |   2 -
+ include/drm/drm_mipi_dbi.h                   |  36 ++++-
+ include/drm/drm_plane.h                      |   4 +-
+ include/drm/drm_simple_kms_helper.h          |   4 +-
+ 17 files changed, 205 insertions(+), 135 deletions(-)
+
+
+base-commit: ad232f8a0287b805a7a167eddad30fe33fbec9d5
+-- 
+2.38.1
+
