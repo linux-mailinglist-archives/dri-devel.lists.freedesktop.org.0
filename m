@@ -2,46 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E501F6403B5
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Dec 2022 10:49:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4424E640484
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Dec 2022 11:23:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E22210E6BE;
-	Fri,  2 Dec 2022 09:49:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EF2410E6C0;
+	Fri,  2 Dec 2022 10:23:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AE7110E1A4
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Dec 2022 09:49:19 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <pza@pengutronix.de>)
- id 1p12fU-0003ma-OC; Fri, 02 Dec 2022 10:49:16 +0100
-Received: from pza by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <pza@pengutronix.de>)
- id 1p12fU-00018Z-6C; Fri, 02 Dec 2022 10:49:16 +0100
-Date: Fri, 2 Dec 2022 10:49:16 +0100
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Lucas Stach <l.stach@pengutronix.de>
-Subject: Re: [PATCH 2/2] drm/etnaviv: convert user fence tracking to XArray
-Message-ID: <20221202094916.GC29573@pengutronix.de>
-References: <20221201174846.2732578-1-l.stach@pengutronix.de>
- <20221201174846.2732578-2-l.stach@pengutronix.de>
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9429910E6C0;
+ Fri,  2 Dec 2022 10:23:09 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id C17C08363D;
+ Fri,  2 Dec 2022 11:23:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1669976587;
+ bh=BwmYnpAE/FuI0vsVxqQn5tgbDKF0peigsicSl1VO268=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=KjKiMsIspZfOhX6tKcmgZC3UHGj2pIR3/5yz84KMApZ9JFU1QwocDfTzfWwWZm7TE
+ jRIVaDdOgbACFV8/lM2UgWOcnP7oP6vmRzeR1xLShtJTqgZqgfZM+6IJLm6WgOVKFe
+ DMrxFQ1RmEJ8kIDMQSVjT9eRWoRnMwBFL4enVS0L9P5j81Z7DP7RIrRsg9Iivg6X4r
+ MEHdh2S10+URTJmoTz/n6Lbk8Y3XZODyiLXN+ktkiC/LICWcXIttkiKZDPQZ8VKXC8
+ 5suJS70bEcI8JKa7IWzHC2W6gOdd1fsHfDoNMldIw6dk6petilwehBWDn8S1i/cWV/
+ H98CfmykVE1pw==
+Message-ID: <d063b82d-7557-8f97-114e-3e7828c6dfb8@denx.de>
+Date: Fri, 2 Dec 2022 11:20:08 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221201174846.2732578-2-l.stach@pengutronix.de>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: pza@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH] [RFC] drm/etnaviv: Disable softpin
+To: Lucas Stach <l.stach@pengutronix.de>, dri-devel@lists.freedesktop.org
+References: <20221201232100.221606-1-marex@denx.de>
+ <6dc1400c0f39849ca5ba675e25e26e5f4a663e78.camel@pengutronix.de>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <6dc1400c0f39849ca5ba675e25e26e5f4a663e78.camel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,20 +56,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- patchwork-lst@pengutronix.de, kernel@pengutronix.de,
+Cc: David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
  Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 01, 2022 at 06:48:46PM +0100, Lucas Stach wrote:
-> This simplifies the driver code a bit, as XArray already provides
-> internal locking. IDRs are implemented using XArrays anyways, so
-> this drops one level of unneeded abstraction.
-> 
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+On 12/2/22 09:59, Lucas Stach wrote:
+> Am Freitag, dem 02.12.2022 um 00:21 +0100 schrieb Marek Vasut:
+>> Currently softpin suffers from assorted race conditions exposed by newer
+>> versions of mesa 22.2.y and 22.3.y . Those races are difficult to fix in
+>> older kernel versions due to massive amount of backports necessary to do
+>> so. Disable softpin by default until Linux 6.1.y is out, which contains
+>> the necessary fixes to make softpin work reliably.
+>>
+> Sorry, but that's a NACK. The userspace driver depends on softpin for
+> GPUs with texture descriptors, so this introduces a hard functional
+> regression for those GPUs. I.e. they would go from "require race fixes
+> that are already on the way to upstream" to not working at all.
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+I expected that NAK.
 
-regards
-Philipp
+But then, what options do we have here, except for a massive convoluted 
+backport, which might bring bugs of its own ?
