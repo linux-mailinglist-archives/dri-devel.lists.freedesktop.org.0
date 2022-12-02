@@ -2,57 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33AE6640743
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Dec 2022 13:57:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 025E8640749
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Dec 2022 13:57:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0234A10E6F2;
-	Fri,  2 Dec 2022 12:56:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8157910E6F8;
+	Fri,  2 Dec 2022 12:56:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40E5210E6E8
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FC0510E6EC
  for <dri-devel@lists.freedesktop.org>; Fri,  2 Dec 2022 12:56:49 +0000 (UTC)
 Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id DCF6E1FD97;
- Fri,  2 Dec 2022 12:56:47 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 245651FDA1;
+ Fri,  2 Dec 2022 12:56:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1669985807; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1669985808; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oU7Z0abhKFKj2LO8lx8mJvtRy68uBtIKFUDN0DSRH3U=;
- b=ez9GBS0QFOH0MyxyP+odPlvnow5i8/8eSzLIwc+mw/G1Rl9CmteKkvcq69ZgYEllCjS4zW
- ZRV0VFIecs9RaSQrzhBbKgbx5lTGlL4GHnESpfws0AGwFfF+PVSUolYmOkh/tsCLbeRvFf
- ZCBWcNnxH4JBtPsYh/IYQqxH6YqeMYs=
+ bh=Xf9usDUnqnzApL5OnmvkLaCNIRoJvOlqyg855iwOD7s=;
+ b=R+CTvf0moepwb9BThoFcK0Nwo+GOd+aDMoXYT2QGEsbRiUtNmUHpEhNKtaYGmdwvAFQHQc
+ HJmaytbN1yFJmvk1MBWhzyGvoBjtdUBIQkB9902Yzk/bs9yrVwknpikiJVA9Eg9bwZoWjh
+ bsk5/rzgKjFc52zdPFQxNZHvX+d91Ls=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1669985807;
+ s=susede2_ed25519; t=1669985808;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oU7Z0abhKFKj2LO8lx8mJvtRy68uBtIKFUDN0DSRH3U=;
- b=kcXk2+MPod2PtwiEuZMlN72WhwqKO8FCFyYeqs7dhEXQAgev7IuKHdEFiA3UpZEZL3sKIi
- L8As8PtOgGo0f9Ag==
+ bh=Xf9usDUnqnzApL5OnmvkLaCNIRoJvOlqyg855iwOD7s=;
+ b=UhbTul3mhlXCpOzoMIkIod4RTuEnsTkzK9ej8m5+DRgE1+PX0I0/mvKz9wiYvN1Qhcze/i
+ PCkgNEj7BybvXlDA==
 Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id A2145133DE;
+ by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id E03A213649;
  Fri,  2 Dec 2022 12:56:47 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap1.suse-dmz.suse.de with ESMTPSA id mKPAJg/2iWOhOwAAGKfGzw
+ by imap1.suse-dmz.suse.de with ESMTPSA id QDrwNQ/2iWOhOwAAGKfGzw
  (envelope-from <tzimmermann@suse.de>); Fri, 02 Dec 2022 12:56:47 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com, thierry.reding@gmail.com,
  sam@ravnborg.org, emma@anholt.net, david@lechnology.com,
  kamlesh.gurudasani@gmail.com, noralf@tronnes.org, javierm@redhat.com
-Subject: [PATCH v2 7/8] drm/mipi-dbi: Use shadow-plane mappings
-Date: Fri,  2 Dec 2022 13:56:43 +0100
-Message-Id: <20221202125644.7917-8-tzimmermann@suse.de>
+Subject: [PATCH v2 8/8] drm/mipi-dbi: Move drm_dev_{enter,
+ exit}() out from fb_dirty functions
+Date: Fri,  2 Dec 2022 13:56:44 +0100
+Message-Id: <20221202125644.7917-9-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221202125644.7917-1-tzimmermann@suse.de>
 References: <20221202125644.7917-1-tzimmermann@suse.de>
@@ -75,200 +76,161 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the buffer mappings provided by shadow-plane helpers. As the
-mappings are established while the commit can still fail, errors
-are now reported correctly to callers.
-
-v2:
-	* use shadow-plane state directly (Noralf)
+Call drm_dev_enter() and drm_dev_exit() in the outer-most callbacks
+of the modesetting pipeline. If drm_dev_enter() fails, the driver can
+thus avoid unnecessary work.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
 Tested-by: Javier Martinez Canillas <javierm@redhat.com>
 Tested-by: Noralf Trønnes <noralf@tronnes.org> # drm/tiny/mi0283qt
 ---
- drivers/gpu/drm/drm_mipi_dbi.c | 25 +++++--------------------
- drivers/gpu/drm/tiny/ili9225.c | 16 ++++------------
- drivers/gpu/drm/tiny/st7586.c  | 16 ++++------------
- 3 files changed, 13 insertions(+), 44 deletions(-)
+ drivers/gpu/drm/drm_mipi_dbi.c | 13 +++++++------
+ drivers/gpu/drm/tiny/ili9225.c | 13 +++++++------
+ drivers/gpu/drm/tiny/st7586.c  | 13 +++++++------
+ 3 files changed, 21 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
-index b808de61c5bc..0ef5e81ba5e1 100644
+index 0ef5e81ba5e1..eb27d000bcfb 100644
 --- a/drivers/gpu/drm/drm_mipi_dbi.c
 +++ b/drivers/gpu/drm/drm_mipi_dbi.c
-@@ -321,12 +321,10 @@ EXPORT_SYMBOL(mipi_dbi_pipe_mode_valid);
- void mipi_dbi_pipe_update(struct drm_simple_display_pipe *pipe,
- 			  struct drm_plane_state *old_state)
- {
--	struct iosys_map map[DRM_FORMAT_MAX_PLANES] = { };
--	struct iosys_map data[DRM_FORMAT_MAX_PLANES] = { };
- 	struct drm_plane_state *state = pipe->plane.state;
-+	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(state);
+@@ -259,13 +259,10 @@ static void mipi_dbi_fb_dirty(struct iosys_map *src, struct drm_framebuffer *fb,
+ 	unsigned int width = rect->x2 - rect->x1;
+ 	struct mipi_dbi *dbi = &dbidev->dbi;
+ 	bool swap = dbi->swap_bytes;
+-	int idx, ret = 0;
++	int ret = 0;
+ 	bool full;
+ 	void *tr;
+ 
+-	if (!drm_dev_enter(fb->dev, &idx))
+-		return;
+-
+ 	full = width == fb->width && height == fb->height;
+ 
+ 	DRM_DEBUG_KMS("Flushing [FB:%d] " DRM_RECT_FMT "\n", fb->base.id, DRM_RECT_ARG(rect));
+@@ -288,8 +285,6 @@ static void mipi_dbi_fb_dirty(struct iosys_map *src, struct drm_framebuffer *fb,
+ err_msg:
+ 	if (ret)
+ 		drm_err_once(fb->dev, "Failed to update display %d\n", ret);
+-
+-	drm_dev_exit(idx);
+ }
+ 
+ /**
+@@ -325,6 +320,7 @@ void mipi_dbi_pipe_update(struct drm_simple_display_pipe *pipe,
+ 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(state);
  	struct drm_framebuffer *fb = state->fb;
  	struct drm_rect rect;
--	int ret;
++	int idx;
  
  	if (!pipe->crtc.state->active)
  		return;
-@@ -334,14 +332,8 @@ void mipi_dbi_pipe_update(struct drm_simple_display_pipe *pipe,
+@@ -332,8 +328,13 @@ void mipi_dbi_pipe_update(struct drm_simple_display_pipe *pipe,
  	if (WARN_ON(!fb))
  		return;
  
--	ret = drm_gem_fb_vmap(fb, map, data);
--	if (ret)
--		return;
--
++	if (!drm_dev_enter(fb->dev, &idx))
++		return;
++
  	if (drm_atomic_helper_damage_merged(old_state, state, &rect))
--		mipi_dbi_fb_dirty(&data[0], fb, &rect);
--
--	drm_gem_fb_vunmap(fb, map);
-+		mipi_dbi_fb_dirty(&shadow_plane_state->data[0], fb, &rect);
+ 		mipi_dbi_fb_dirty(&shadow_plane_state->data[0], fb, &rect);
++
++	drm_dev_exit(idx);
  }
  EXPORT_SYMBOL(mipi_dbi_pipe_update);
  
-@@ -362,6 +354,7 @@ void mipi_dbi_enable_flush(struct mipi_dbi_dev *dbidev,
- 			   struct drm_crtc_state *crtc_state,
- 			   struct drm_plane_state *plane_state)
- {
-+	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
- 	struct drm_framebuffer *fb = plane_state->fb;
- 	struct drm_rect rect = {
- 		.x1 = 0,
-@@ -369,22 +362,14 @@ void mipi_dbi_enable_flush(struct mipi_dbi_dev *dbidev,
- 		.y1 = 0,
- 		.y2 = fb->height,
- 	};
--	struct iosys_map map[DRM_FORMAT_MAX_PLANES] = { };
--	struct iosys_map data[DRM_FORMAT_MAX_PLANES] = { };
--	int idx, ret;
-+	int idx;
- 
- 	if (!drm_dev_enter(&dbidev->drm, &idx))
- 		return;
- 
--	ret = drm_gem_fb_vmap(fb, map, data);
--	if (ret)
--		goto err_drm_dev_exit;
--
--	mipi_dbi_fb_dirty(&data[0], fb, &rect);
-+	mipi_dbi_fb_dirty(&shadow_plane_state->data[0], fb, &rect);
- 	backlight_enable(dbidev->backlight);
- 
--	drm_gem_fb_vunmap(fb, map);
--err_drm_dev_exit:
- 	drm_dev_exit(idx);
- }
- EXPORT_SYMBOL(mipi_dbi_enable_flush);
 diff --git a/drivers/gpu/drm/tiny/ili9225.c b/drivers/gpu/drm/tiny/ili9225.c
-index a69aec8402bc..0ba5177deca7 100644
+index 0ba5177deca7..077c6ff5a2e1 100644
 --- a/drivers/gpu/drm/tiny/ili9225.c
 +++ b/drivers/gpu/drm/tiny/ili9225.c
-@@ -164,19 +164,15 @@ static void ili9225_pipe_update(struct drm_simple_display_pipe *pipe,
- 				struct drm_plane_state *old_state)
- {
- 	struct drm_plane_state *state = pipe->plane.state;
-+	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(state);
+@@ -87,13 +87,10 @@ static void ili9225_fb_dirty(struct iosys_map *src, struct drm_framebuffer *fb,
+ 	bool swap = dbi->swap_bytes;
+ 	u16 x_start, y_start;
+ 	u16 x1, x2, y1, y2;
+-	int idx, ret = 0;
++	int ret = 0;
+ 	bool full;
+ 	void *tr;
+ 
+-	if (!drm_dev_enter(fb->dev, &idx))
+-		return;
+-
+ 	full = width == fb->width && height == fb->height;
+ 
+ 	DRM_DEBUG_KMS("Flushing [FB:%d] " DRM_RECT_FMT "\n", fb->base.id, DRM_RECT_ARG(rect));
+@@ -156,8 +153,6 @@ static void ili9225_fb_dirty(struct iosys_map *src, struct drm_framebuffer *fb,
+ err_msg:
+ 	if (ret)
+ 		dev_err_once(fb->dev->dev, "Failed to update display %d\n", ret);
+-
+-	drm_dev_exit(idx);
+ }
+ 
+ static void ili9225_pipe_update(struct drm_simple_display_pipe *pipe,
+@@ -167,12 +162,18 @@ static void ili9225_pipe_update(struct drm_simple_display_pipe *pipe,
+ 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(state);
  	struct drm_framebuffer *fb = state->fb;
--	struct drm_gem_dma_object *dma_obj;
--	struct iosys_map src;
  	struct drm_rect rect;
++	int idx;
  
  	if (!pipe->crtc.state->active)
  		return;
  
--	dma_obj = drm_fb_dma_get_gem_obj(fb, 0);
--	iosys_map_set_vaddr(&src, dma_obj->vaddr);
--
++	if (!drm_dev_enter(fb->dev, &idx))
++		return;
++
  	if (drm_atomic_helper_damage_merged(old_state, state, &rect))
--		ili9225_fb_dirty(&src, fb, &rect);
-+		ili9225_fb_dirty(&shadow_plane_state->data[0], fb, &rect);
+ 		ili9225_fb_dirty(&shadow_plane_state->data[0], fb, &rect);
++
++	drm_dev_exit(idx);
  }
  
  static void ili9225_pipe_enable(struct drm_simple_display_pipe *pipe,
-@@ -184,6 +180,7 @@ static void ili9225_pipe_enable(struct drm_simple_display_pipe *pipe,
- 				struct drm_plane_state *plane_state)
- {
- 	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
-+	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
- 	struct drm_framebuffer *fb = plane_state->fb;
- 	struct device *dev = pipe->crtc.dev->dev;
- 	struct mipi_dbi *dbi = &dbidev->dbi;
-@@ -193,8 +190,6 @@ static void ili9225_pipe_enable(struct drm_simple_display_pipe *pipe,
- 		.y1 = 0,
- 		.y2 = fb->height,
- 	};
--	struct drm_gem_dma_object *dma_obj;
--	struct iosys_map src;
- 	int ret, idx;
- 	u8 am_id;
- 
-@@ -285,10 +280,7 @@ static void ili9225_pipe_enable(struct drm_simple_display_pipe *pipe,
- 
- 	ili9225_command(dbi, ILI9225_DISPLAY_CONTROL_1, 0x1017);
- 
--	dma_obj = drm_fb_dma_get_gem_obj(fb, 0);
--	iosys_map_set_vaddr(&src, dma_obj->vaddr);
--
--	ili9225_fb_dirty(&src, fb, &rect);
-+	ili9225_fb_dirty(&shadow_plane_state->data[0], fb, &rect);
- 
- out_exit:
- 	drm_dev_exit(idx);
 diff --git a/drivers/gpu/drm/tiny/st7586.c b/drivers/gpu/drm/tiny/st7586.c
-index 76b13cefc904..53dca9272d4d 100644
+index 53dca9272d4d..3cf4eec16a81 100644
 --- a/drivers/gpu/drm/tiny/st7586.c
 +++ b/drivers/gpu/drm/tiny/st7586.c
-@@ -153,19 +153,15 @@ static void st7586_pipe_update(struct drm_simple_display_pipe *pipe,
- 			       struct drm_plane_state *old_state)
+@@ -113,10 +113,7 @@ static void st7586_fb_dirty(struct iosys_map *src, struct drm_framebuffer *fb,
  {
- 	struct drm_plane_state *state = pipe->plane.state;
-+	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(state);
+ 	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(fb->dev);
+ 	struct mipi_dbi *dbi = &dbidev->dbi;
+-	int start, end, idx, ret = 0;
+-
+-	if (!drm_dev_enter(fb->dev, &idx))
+-		return;
++	int start, end, ret = 0;
+ 
+ 	/* 3 pixels per byte, so grow clip to nearest multiple of 3 */
+ 	rect->x1 = rounddown(rect->x1, 3);
+@@ -145,8 +142,6 @@ static void st7586_fb_dirty(struct iosys_map *src, struct drm_framebuffer *fb,
+ err_msg:
+ 	if (ret)
+ 		dev_err_once(fb->dev->dev, "Failed to update display %d\n", ret);
+-
+-	drm_dev_exit(idx);
+ }
+ 
+ static void st7586_pipe_update(struct drm_simple_display_pipe *pipe,
+@@ -156,12 +151,18 @@ static void st7586_pipe_update(struct drm_simple_display_pipe *pipe,
+ 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(state);
  	struct drm_framebuffer *fb = state->fb;
--	struct drm_gem_dma_object *dma_obj;
--	struct iosys_map src;
  	struct drm_rect rect;
++	int idx;
  
  	if (!pipe->crtc.state->active)
  		return;
  
--	dma_obj = drm_fb_dma_get_gem_obj(fb, 0);
--	iosys_map_set_vaddr(&src, dma_obj->vaddr);
--
++	if (!drm_dev_enter(fb->dev, &idx))
++		return;
++
  	if (drm_atomic_helper_damage_merged(old_state, state, &rect))
--		st7586_fb_dirty(&src, fb, &rect);
-+		st7586_fb_dirty(&shadow_plane_state->data[0], fb, &rect);
+ 		st7586_fb_dirty(&shadow_plane_state->data[0], fb, &rect);
++
++	drm_dev_exit(idx);
  }
  
  static void st7586_pipe_enable(struct drm_simple_display_pipe *pipe,
-@@ -173,6 +169,7 @@ static void st7586_pipe_enable(struct drm_simple_display_pipe *pipe,
- 			       struct drm_plane_state *plane_state)
- {
- 	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
-+	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
- 	struct drm_framebuffer *fb = plane_state->fb;
- 	struct mipi_dbi *dbi = &dbidev->dbi;
- 	struct drm_rect rect = {
-@@ -181,8 +178,6 @@ static void st7586_pipe_enable(struct drm_simple_display_pipe *pipe,
- 		.y1 = 0,
- 		.y2 = fb->height,
- 	};
--	struct drm_gem_dma_object *dma_obj;
--	struct iosys_map src;
- 	int idx, ret;
- 	u8 addr_mode;
- 
-@@ -242,10 +237,7 @@ static void st7586_pipe_enable(struct drm_simple_display_pipe *pipe,
- 
- 	msleep(100);
- 
--	dma_obj = drm_fb_dma_get_gem_obj(fb, 0);
--	iosys_map_set_vaddr(&src, dma_obj->vaddr);
--
--	st7586_fb_dirty(&src, fb, &rect);
-+	st7586_fb_dirty(&shadow_plane_state->data[0], fb, &rect);
- 
- 	mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_ON);
- out_exit:
 -- 
 2.38.1
 
