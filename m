@@ -1,50 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B419640807
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Dec 2022 14:55:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B873640846
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Dec 2022 15:21:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57EEF10E109;
-	Fri,  2 Dec 2022 13:55:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BC6810E05D;
+	Fri,  2 Dec 2022 14:21:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk
- [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48F1110E0C0
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Dec 2022 13:55:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
- MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=kvxrxBCW4GJgYGlNptg0Jo2kSacfwxWOJC7wYSfaQ+M=; b=n9y4h+lBKpjvC+qcxZ9QUWJvJF
- C3/9TSDciRShHSITeTUQjoRDls71w1M6DnuAkECGHxajU2yczLVbAq/B24xdWQW7+uxokkygLfLPb
- sY/8IPccPc4kTlVxa12eoT+BW7UsPs8TEXaM3vkaINYe2eT54UroYGy+hAUZrP6ekBvhZUl6VPSS8
- 8x0L6fA+7UrYeOjphSSYOrovyHpYSlyN07ElRmMH+uG12kpjcdzrrqYwNF/MZQfnjDpcuAPK364yD
- 8oFDyMZQTGNKvnR2MRwxJQ1NINoKFcUeM/HUVyefJr51sb1H1HKeHLAO1qFiYZgdGy1xGbLhSUI13
- +60svlVQ==;
-Received: from shell.armlinux.org.uk
- ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35530)
- by pandora.armlinux.org.uk with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <linux@armlinux.org.uk>)
- id 1p16Vr-0004AX-B6; Fri, 02 Dec 2022 13:55:35 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
- (envelope-from <linux@shell.armlinux.org.uk>)
- id 1p16Vo-0004Rk-Em; Fri, 02 Dec 2022 13:55:32 +0000
-Date: Fri, 2 Dec 2022 13:55:32 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH v1 0/2] ASoC/tda998x: Fix reporting of nonexistent
- capture streams
-Message-ID: <Y4oD1Of4wfN0dMGi@shell.armlinux.org.uk>
-References: <20221130184644.464820-1-broonie@kernel.org>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2F2710E05D
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Dec 2022 14:20:56 +0000 (UTC)
+Received: from localhost.localdomain (unknown
+ [IPv6:2a02:2f08:4503:c400:e6b9:7aff:febb:e612])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: mvlad)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id C58536602BC2;
+ Fri,  2 Dec 2022 14:20:54 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1669990855;
+ bh=JwDOxpdwp4ybLptjJG370wNtc5u0F8yOKAMa4QzPeWs=;
+ h=From:To:Cc:Subject:Date:From;
+ b=aDDakGbBcss4/bcli0EtdKenaVSwycBU2h1AusOW6+eizJ0C60/ZdQzXHy4LIZVNS
+ Ovz7aDPuM+m0Bomm/JxT/Oyadx6LkLHLggkM/hKOzb5QtutRrsN3REPDoVLNcNIS9P
+ 492Mv0tJ8kZEluMrN6coSpN6vzysYJnCQ+5vEpfnKgpMv0BtfNEwj/q13FpO6dSk0K
+ IReXj5z00tmz3p2zaiBUHsQEtxp6k8ib/QQSQCb4+YfCe7micDUEBzFhhxmrRhAmk7
+ HXhQxLYZcvn2KWEi1SQXeOMUXBHz2EOgC1GwG3/sL6O2ATCy+mqFy/KapNCH5e68Xg
+ aicaKJmRjkM7w==
+From: Marius Vlad <marius.vlad@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/2] vkms: Add support for multiple connectors
+Date: Fri,  2 Dec 2022 16:20:49 +0200
+Message-Id: <20221202142051.136651-1-marius.vlad@collabora.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221130184644.464820-1-broonie@kernel.org>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,42 +50,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, Liam Girdwood <lgirdwood@gmail.com>,
- dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>
+Cc: mwen@igalia.com, rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
+ marius.vlad@collabora.com, igormtorrente@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 30, 2022 at 06:46:42PM +0000, Mark Brown wrote:
-> The recently added pcm-test selftest has pointed out that systems with
-> the tda998x driver end up advertising that they support capture when in
-> reality as far as I can see the tda998x devices are transmit only.  The
-> DAIs registered through hdmi-codec are bidirectional, meaning that for
-> I2S systems when combined with a typical bidrectional CPU DAI the
-> overall capability of the PCM is bidirectional.  In most cases the I2S
-> links will clock OK but no useful audio will be returned which isn't so
-> bad but we should still not advertise the useless capability, and some
-> systems may notice problems for example due to pinmux management.
-> 
-> This is happening due to the hdmi-codec helpers not providing any
-> mechanism for indicating unidirectional audio so add one and use it in
-> the tda998x driver.  It is likely other hdmi-codec users are also
-> affected but I don't have those systems to hand.
-> 
-> Mark Brown (2):
->   ASoC: hdmi-codec: Allow playback and capture to be disabled
->   drm: tda99x: Don't advertise non-existent capture support
-> 
->  drivers/gpu/drm/i2c/tda998x_drv.c |  2 ++
->  include/sound/hdmi-codec.h        |  4 ++++
->  sound/soc/codecs/hdmi-codec.c     | 30 +++++++++++++++++++++++++-----
->  3 files changed, 31 insertions(+), 5 deletions(-)
+With multiple outputs available we can perform management of outputs at
+a more granular level, such that we're able to turn off or on, several
+outputs at a time, or combinations that arise from doing that. 
 
-Looks sane.
+The Weston project use VKMS when running its test suite in CI, and we
+have now uses cases which would need to ability to set-up the outputs
+DPMS/state individually, rather than globally -- which would affect all
+outputs. This an attempt on fixing that by giving the possibility to
+create more than one output, and thus allowing to run tests that could
+exercise code paths in the compositor related to management of outputs.
 
-Reviewed-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+Marius Vlad (2):
+  vkms: Pass the correct bitmask for possible crtcs
+  vkms: Add support for multiple connectors
 
-Thanks.
+ drivers/gpu/drm/vkms/vkms_crtc.c      |  3 +--
+ drivers/gpu/drm/vkms/vkms_drv.c       | 26 ++++++++++++++++++++++----
+ drivers/gpu/drm/vkms/vkms_drv.h       |  8 +++++---
+ drivers/gpu/drm/vkms/vkms_output.c    |  7 +++----
+ drivers/gpu/drm/vkms/vkms_writeback.c | 18 ++++++++----------
+ 5 files changed, 39 insertions(+), 23 deletions(-)
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+2.35.1
+
