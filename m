@@ -2,41 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64185640849
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Dec 2022 15:21:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E41D26408B4
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Dec 2022 15:47:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5EA110E196;
-	Fri,  2 Dec 2022 14:21:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E78C910E0C0;
+	Fri,  2 Dec 2022 14:47:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9197A10E05D
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Dec 2022 14:20:58 +0000 (UTC)
-Received: from localhost.localdomain (unknown
- [IPv6:2a02:2f08:4503:c400:e6b9:7aff:febb:e612])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: mvlad)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 2201D6602BC5;
- Fri,  2 Dec 2022 14:20:56 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1669990856;
- bh=B4RckKr7JPFvQwcSgcJb1mtt9L7jT4pjP2W1Iopm810=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Uewn2owRi5hYD6UGdSBSjbnhEdWrNnfzDuevrsLUcvkeyhuUpgvl7V8yJ6e77qbaP
- yzZ2h8wSJQjrmZaReXEpY1rgUKdpzfu0WCfUmWY686hzgyTK6Yo+/LZ+qmJ2GAa5kD
- scsiSTgskPYLY85d/1ZgJ7NDEGLpPvPwy9umdJYPzCzPtM/7kMcuJ3bbIaJga1eOfX
- MS9TA3/WHK/ykKTM5nSU6CmeSiepxxKVB2NmIaK0B3ppCMqPlauP2jLlTw2bMTtHaw
- QpPBHmYMa9LEpjUBhjsBRu6iZlQBulagyC8FJbn4V19EF9ejJM4F8TLEUrHgEwbejT
- wUNKJE6FmoPiw==
-From: Marius Vlad <marius.vlad@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] vkms: Add support for multiple connectors
-Date: Fri,  2 Dec 2022 16:20:51 +0200
-Message-Id: <20221202142051.136651-3-marius.vlad@collabora.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221202142051.136651-1-marius.vlad@collabora.com>
-References: <20221202142051.136651-1-marius.vlad@collabora.com>
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2097D10E143
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Dec 2022 14:47:30 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id
+ ay14-20020a05600c1e0e00b003cf6ab34b61so6624842wmb.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Dec 2022 06:47:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Je/MlxqhkzO2j7i49SS0WUbHgkx+oTQ3UEcXkxEVADg=;
+ b=YmyEuIvTY2uuchL86i9KOKeXihiopY1ASIGDauZJ9AqaOYxIzG4am9HdvjUTGCC9rX
+ KuySJ0m8a+6IbNu4axXQnZg05qZ/p3WJCM4d1x/XXxRdhVX9h7pqcnE6WR6bJ3s5JMgI
+ lf6cQzoTyK4VwZRBJ54XCryh3RP2bFHHK7bQZEHV0aOqWDIlK4+iqxVtAmXlJtUmIuud
+ 07zBGcsAjrP4bgPelqa6vGJfciPNUOS0vij1+/pNSnhtI8SDs/9Z/VWBHW5asTs7EBKt
+ mWGa7jHOpw412zNDi2k4j0Rkv9xGWX8OyjE0GKEEn7mzouP4WbXqk+abmLFbHTIFD4Nj
+ AJ1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Je/MlxqhkzO2j7i49SS0WUbHgkx+oTQ3UEcXkxEVADg=;
+ b=ncJojjrjQJEV/8pNJ3/E+8vamunZ5BgKOFHhsarm1QwKR83kbjOUyk64jralTeXd2p
+ IW3AVkNKUM4sQKHu8P01YMLNYZVfmT44/FOh7OMKLeJNbdXqJnNdWRHpfxCXidvs0opM
+ m/0ekTXg45Zi/ehFCRkyJkDa20/Cr+Is684MqCDe+tCl0chuZ4jJOFhAOOj122Lb7eOs
+ bSDI5TEJZ7clsYKlCaIzHA3YmPZbXRk7muXQrnbxy/U3vd3oFkCha12H1c6oGwFIhnAH
+ saRZg1C1dbyCeWiEZBhU3JNWqafu6RvcoyjEleJmjjXsZUCk1X8YN+jcQsErkcGapkYv
+ /+sw==
+X-Gm-Message-State: ANoB5pkUJxZT7BXNZDVp+3ZJbp6VT/y7dRn+uUtMtTKJDXXuC0II1akY
+ B9gqTKj6fYUG667EUXI7lqMmUw==
+X-Google-Smtp-Source: AA0mqf6Uw1gMuqvZufwrAJB9M6RRah4spsqEAekZwF79JSI2U0yBJwATdI2O1VxSFCVuYxvaQ/z78Q==
+X-Received: by 2002:a05:600c:3514:b0:3cf:a985:7692 with SMTP id
+ h20-20020a05600c351400b003cfa9857692mr45433268wmq.104.1669992448589; 
+ Fri, 02 Dec 2022 06:47:28 -0800 (PST)
+Received: from dave-Ubuntu2204.pitowers.org ([93.93.133.154])
+ by smtp.googlemail.com with ESMTPSA id
+ n29-20020a05600c3b9d00b003c21ba7d7d6sm10700152wms.44.2022.12.02.06.47.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 02 Dec 2022 06:47:28 -0800 (PST)
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
+Subject: [PATCH v3 0/5] DSI host and peripheral initialisation ordering
+Date: Fri,  2 Dec 2022 14:28:11 +0000
+Message-Id: <20221202142816.860381-1-dave.stevenson@raspberrypi.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -51,251 +73,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mwen@igalia.com, rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
- marius.vlad@collabora.com, igormtorrente@gmail.com
+Cc: Marek Vasut <marex@denx.de>, Jonas Karlman <jonas@kwiboo.se>,
+ Robert Foss <robert.foss@linaro.org>, Neil Armstrong <narmstrong@baylibre.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, andrzej.hajda@gmail.com,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds support for creating multiple virtual connectors, in
-case one would need it. Use module parameters to specify how many,
-defaulting to just one, allocating from the start, a maximum of 4
-possible outputs.
+Hi All
 
-This is of particular importance when testing out the DRM backend in
-compositors, but also to be able to independently handle multiple
-outputs/connectors, like setting one to off/sleep on while the others
-are on, and combinations that arise from that.
+Changes from v2 (sorry it's taken me a while to get around to these):
+- Added Sam's patches to drop drm_bridge_chain functions
+- Renamed upstream to previously (Sam)
+- Moved copying of panel->prepare_prev_first to bridge->pre_enable_prev_first
+  from drm_panel_bridge_add_typed to devm_drm_panel_bridge_add_typed (Jagan)
 
-Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
----
- drivers/gpu/drm/vkms/vkms_crtc.c      |  3 +--
- drivers/gpu/drm/vkms/vkms_drv.c       | 26 ++++++++++++++++++++++----
- drivers/gpu/drm/vkms/vkms_drv.h       |  8 +++++---
- drivers/gpu/drm/vkms/vkms_output.c    |  5 ++---
- drivers/gpu/drm/vkms/vkms_writeback.c | 18 ++++++++----------
- 5 files changed, 38 insertions(+), 22 deletions(-)
+Changes from v1:
+- New patch to refactor drm_bridge_chain_post_disable and drm_bridge_chain_pre_enable
+  to reuse drm_atomic_bridge_chain_post_disable / drm_atomic_bridge_chain_pre_enable
+  but with a NULL state.
+- New patch that adds a pre_enable_upstream_first to drm_panel.
+- changed from an OPS flag to a bool "pre_enable_upstream_first" in drm_bridge.
+- Followed Andrzej's suggestion of using continue in the main loop to avoid
+  needing 2 additional loops (one forward to find the last bridge wanting
+  upstream first, and the second backwards again).
+- Actioned Laurent's review comments on docs patch.
 
-diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-index 57bbd32e9beb..0b6c40ac80b6 100644
---- a/drivers/gpu/drm/vkms/vkms_crtc.c
-+++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-@@ -89,8 +89,7 @@ static bool vkms_get_vblank_timestamp(struct drm_crtc *crtc,
- {
- 	struct drm_device *dev = crtc->dev;
- 	unsigned int pipe = crtc->index;
--	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
--	struct vkms_output *output = &vkmsdev->output;
-+	struct vkms_output *output = drm_crtc_to_vkms_output(crtc);
- 	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
- 
- 	if (!READ_ONCE(vblank->enabled)) {
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index 0ffe5f0e33f7..205546dafc70 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -51,13 +51,19 @@ static bool enable_overlay;
- module_param_named(enable_overlay, enable_overlay, bool, 0444);
- MODULE_PARM_DESC(enable_overlay, "Enable/Disable overlay support");
- 
-+static int max_connectors = 1;
-+module_param_named(max_connectors, max_connectors, int, 0444);
-+MODULE_PARM_DESC(max_connectors, "Specify how many virtual connectors to create");
-+
- DEFINE_DRM_GEM_FOPS(vkms_driver_fops);
- 
- static void vkms_release(struct drm_device *dev)
- {
--	struct vkms_device *vkms = drm_device_to_vkms_device(dev);
-+	int i;
-+	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
- 
--	destroy_workqueue(vkms->output.composer_workq);
-+	for (i = 0; i < vkmsdev->config->max_connectors; i++)
-+		destroy_workqueue(vkmsdev->output[i].composer_workq);
- }
- 
- static void vkms_atomic_commit_tail(struct drm_atomic_state *old_state)
-@@ -98,6 +104,7 @@ static int vkms_config_show(struct seq_file *m, void *data)
- 	seq_printf(m, "writeback=%d\n", vkmsdev->config->writeback);
- 	seq_printf(m, "cursor=%d\n", vkmsdev->config->cursor);
- 	seq_printf(m, "overlay=%d\n", vkmsdev->config->overlay);
-+	seq_printf(m, "connectors=%d\n", vkmsdev->config->max_connectors);
- 
- 	return 0;
- }
-@@ -140,6 +147,7 @@ static const struct drm_mode_config_helper_funcs vkms_mode_config_helpers = {
- static int vkms_modeset_init(struct vkms_device *vkmsdev)
- {
- 	struct drm_device *dev = &vkmsdev->drm;
-+	int i, ret = 0;
- 
- 	drm_mode_config_init(dev);
- 	dev->mode_config.funcs = &vkms_mode_funcs;
-@@ -155,7 +163,14 @@ static int vkms_modeset_init(struct vkms_device *vkmsdev)
- 	dev->mode_config.preferred_depth = 0;
- 	dev->mode_config.helper_private = &vkms_mode_config_helpers;
- 
--	return vkms_output_init(vkmsdev, 0);
-+	for (i = 0; i < vkmsdev->config->max_connectors; i++) {
-+		ret = vkms_output_init(vkmsdev, i);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	drm_mode_config_reset(dev);
-+	return ret;
- }
- 
- static int vkms_create(struct vkms_config *config)
-@@ -191,7 +206,7 @@ static int vkms_create(struct vkms_config *config)
- 		goto out_devres;
- 	}
- 
--	ret = drm_vblank_init(&vkms_device->drm, 1);
-+	ret = drm_vblank_init(&vkms_device->drm, config->max_connectors);
- 	if (ret) {
- 		DRM_ERROR("Failed to vblank\n");
- 		goto out_devres;
-@@ -229,6 +244,9 @@ static int __init vkms_init(void)
- 	config->cursor = enable_cursor;
- 	config->writeback = enable_writeback;
- 	config->overlay = enable_overlay;
-+	config->max_connectors = max_connectors;
-+	if (config->max_connectors > NUM_MAX_CONNECTORS)
-+		config->max_connectors = NUM_MAX_CONNECTORS;
- 
- 	return vkms_create(config);
- }
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index 0a67b8073f7e..fdea37db3b1d 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -21,7 +21,8 @@
- #define XRES_MAX  8192
- #define YRES_MAX  8192
- 
--#define NUM_OVERLAY_PLANES 8
-+#define NUM_OVERLAY_PLANES	8
-+#define NUM_MAX_CONNECTORS	4
- 
- struct vkms_frame_info {
- 	struct drm_framebuffer *fb;
-@@ -113,6 +114,7 @@ struct vkms_config {
- 	bool writeback;
- 	bool cursor;
- 	bool overlay;
-+	int max_connectors;
- 	/* only set when instantiated */
- 	struct vkms_device *dev;
- };
-@@ -120,7 +122,7 @@ struct vkms_config {
- struct vkms_device {
- 	struct drm_device drm;
- 	struct platform_device *platform;
--	struct vkms_output output;
-+	struct vkms_output output[NUM_MAX_CONNECTORS];
- 	const struct vkms_config *config;
- };
- 
-@@ -157,6 +159,6 @@ void vkms_composer_worker(struct work_struct *work);
- void vkms_set_composer(struct vkms_output *out, bool enabled);
- 
- /* Writeback */
--int vkms_enable_writeback_connector(struct vkms_device *vkmsdev);
-+int vkms_enable_writeback_connector(struct vkms_device *vkmsdev, int index);
- 
- #endif /* _VKMS_DRV_H_ */
-diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-index ebb75ede65ab..c7b11d0a9753 100644
---- a/drivers/gpu/drm/vkms/vkms_output.c
-+++ b/drivers/gpu/drm/vkms/vkms_output.c
-@@ -50,7 +50,7 @@ static int vkms_add_overlay_plane(struct vkms_device *vkmsdev, int index,
- 
- int vkms_output_init(struct vkms_device *vkmsdev, int index)
- {
--	struct vkms_output *output = &vkmsdev->output;
-+	struct vkms_output *output = &vkmsdev->output[index];
- 	struct drm_device *dev = &vkmsdev->drm;
- 	struct drm_connector *connector = &output->connector;
- 	struct drm_encoder *encoder = &output->encoder;
-@@ -105,12 +105,11 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
- 	}
- 
- 	if (vkmsdev->config->writeback) {
--		writeback = vkms_enable_writeback_connector(vkmsdev);
-+		writeback = vkms_enable_writeback_connector(vkmsdev, index);
- 		if (writeback)
- 			DRM_ERROR("Failed to init writeback connector\n");
- 	}
- 
--	drm_mode_config_reset(dev);
- 
- 	return 0;
- 
-diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
-index 84a51cd281b9..002c374f634a 100644
---- a/drivers/gpu/drm/vkms/vkms_writeback.c
-+++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-@@ -101,17 +101,15 @@ static void vkms_wb_cleanup_job(struct drm_writeback_connector *connector,
- 				struct drm_writeback_job *job)
- {
- 	struct vkms_writeback_job *vkmsjob = job->priv;
--	struct vkms_device *vkmsdev;
--
-+	struct vkms_output *output = container_of(connector, struct vkms_output,
-+						  wb_connector);
- 	if (!job->fb)
- 		return;
- 
- 	drm_gem_fb_vunmap(job->fb, vkmsjob->wb_frame_info.map);
- 
- 	drm_framebuffer_put(vkmsjob->wb_frame_info.fb);
--
--	vkmsdev = drm_device_to_vkms_device(job->fb->dev);
--	vkms_set_composer(&vkmsdev->output, false);
-+	vkms_set_composer(output, false);
- 	kfree(vkmsjob);
- }
- 
-@@ -120,8 +118,7 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
- {
- 	struct drm_connector_state *connector_state = drm_atomic_get_new_connector_state(state,
- 											 conn);
--	struct vkms_device *vkmsdev = drm_device_to_vkms_device(conn->dev);
--	struct vkms_output *output = &vkmsdev->output;
-+	struct vkms_output *output = container_of(conn, struct vkms_output, connector);
- 	struct drm_writeback_connector *wb_conn = &output->wb_connector;
- 	struct drm_connector_state *conn_state = wb_conn->base.state;
- 	struct vkms_crtc_state *crtc_state = output->composer_state;
-@@ -135,7 +132,7 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
- 	if (!conn_state)
- 		return;
- 
--	vkms_set_composer(&vkmsdev->output, true);
-+	vkms_set_composer(output, true);
- 
- 	active_wb = conn_state->writeback_job->priv;
- 	wb_frame_info = &active_wb->wb_frame_info;
-@@ -147,6 +144,7 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
- 	wb_frame_info->cpp = fb->format->cpp[0];
- 	crtc_state->wb_pending = true;
- 	spin_unlock_irq(&output->composer_lock);
-+
- 	drm_writeback_queue_job(wb_conn, connector_state);
- 	active_wb->wb_write = get_line_to_frame_function(wb_format);
- 	drm_rect_init(&wb_frame_info->src, 0, 0, crtc_width, crtc_height);
-@@ -160,9 +158,9 @@ static const struct drm_connector_helper_funcs vkms_wb_conn_helper_funcs = {
- 	.atomic_commit = vkms_wb_atomic_commit,
- };
- 
--int vkms_enable_writeback_connector(struct vkms_device *vkmsdev)
-+int vkms_enable_writeback_connector(struct vkms_device *vkmsdev, int index)
- {
--	struct drm_writeback_connector *wb = &vkmsdev->output.wb_connector;
-+	struct drm_writeback_connector *wb = &vkmsdev->output[index].wb_connector;
- 
- 	drm_connector_helper_add(&wb->base, &vkms_wb_conn_helper_funcs);
- 
+Original cover letter:
+
+Hopefully I've cc'ed all those that have bashed this problem around previously,
+or are otherwise linked to DRM bridges.
+
+There have been numerous discussions around how DSI support is currently broken
+as it doesn't support initialising the PHY to LP-11 and potentially the clock
+lane to HS prior to configuring the DSI peripheral. There is no op where the
+interface is initialised but HS video isn't also being sent.
+Currently you have:
+- peripheral pre_enable (host not initialised yet)
+- host pre_enable
+- encoder enable
+- host enable
+- peripheral enable (video already running)
+
+vc4 and exynos currently implement the DSI host as an encoder, and split the
+bridge_chain. This fails if you want to switch to being a bridge and/or use
+atomic calls as the state of all the elements split off are not added by
+drm_atomic_add_encoder_bridges.
+
+dw-mipi-dsi[1] and now msm[2] use the mode_set hook to initialise the PHY, so
+the bridge/panel pre_enable can send commands. In their post_disable they then
+call the downstream bridge/panel post_disable op manually so that shutdown
+commands can be sent before shutting down the PHY. Nothing handles that fact,
+so the framework then continues down the bridge chain and calls the post_disable
+again, so we get unbalanced panel prepare/unprepare calls being reported [3].
+
+There have been patches[4] proposing reversing the entire direction of
+pre_enable and post_disable, but that risks driving voltage into devices that
+have yet to be powered up.
+There have been discussions about adding either a pre_pre_enable, or adding a
+DSI host_op to initialise the host[5]. Both require significant reworking to all
+existing drivers in moving initialisation phases.
+We have patches that look like they may well be addressing race conditions in
+starting up a DSI peripheral[6].
+
+This patch takes a hybrid of the two: an optional reversing of the order for
+specific links within the bridge chain within pre_enable and post_disable done
+within the drm_bridge framework.
+I'm more than happy to move where the flag exists in structures (currently as
+DRM_BRIDGE_OP_UPSTREAM_FIRST in drm_bridge_ops, but it isn't an op), but does
+this solve the problem posed? If not, then can you describe the actual scenario
+it doesn't cover?
+A DSI peripheral can set the flag to get the DSI host initialised first, and
+therefore it has a stable LP-11 state before pre_enable. Likewise the peripheral
+can still send shutdown commands prior to the DSI host being shut down in
+post_disable. It also handles the case where there are multiple devices in the
+chain that all want their upstream bridge enabled first, so should there be a
+DSI mux between host and peripheral, then it can still get the host to the
+correct state.
+
+An example tree is at [7] which is drm-misc-next with these patches and then a
+conversion of vc4_dsi to use the atomic bridge functions (will be upstreamed
+once we're over this hurdle). It is working happily with the Toshiba TC358762 on
+a Raspberry Pi 7" panel.
+The same approach but on our vendor 5.15 tree[8] has also been tested
+successfully on a TI SN65DSI83 and LVDS panel.
+
+Whilst here, I've also documented the expected behaviour of DSI hosts and
+peripherals to aid those who come along after.
+
+Thanks
+  Dave
+
+[1] https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c#L940
+[2] https://lists.freedesktop.org/archives/dri-devel/2022-January/337769.html
+[3] https://lists.freedesktop.org/archives/dri-devel/2021-December/333908.html
+[4] https://lists.freedesktop.org/archives/dri-devel/2021-October/328476.html
+[5] https://lists.freedesktop.org/archives/dri-devel/2021-October/325853.html
+[6] https://lists.freedesktop.org/archives/dri-devel/2022-February/341852.html
+[7] https://github.com/6by9/linux/tree/drm-misc-next-vc4_dsi
+[8] https://github.com/6by9/linux/tree/rpi-5.15.y-sn65dsi83
+
+Dave Stevenson (3):
+  drm/bridge: Introduce pre_enable_prev_first to alter bridge init order
+  drm/panel: Add prepare_prev_first flag to drm_panel
+  drm/bridge: Document the expected behaviour of DSI host controllers
+
+Sam Ravnborg (2):
+  drm/bridge: ps8640: Use atomic variants of drm_bridge_funcs
+  drm/bridge: Drop unused drm_bridge_chain functions
+
+ Documentation/gpu/drm-kms-helpers.rst  |   7 +
+ drivers/gpu/drm/bridge/panel.c         |   2 +
+ drivers/gpu/drm/bridge/parade-ps8640.c |  18 +-
+ drivers/gpu/drm/drm_bridge.c           | 293 ++++++++++++++-----------
+ include/drm/drm_bridge.h               |  36 +--
+ include/drm/drm_panel.h                |  10 +
+ 6 files changed, 198 insertions(+), 168 deletions(-)
+
 -- 
-2.35.1
+2.34.1
 
