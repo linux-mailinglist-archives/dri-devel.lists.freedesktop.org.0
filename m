@@ -2,50 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A696641744
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Dec 2022 15:23:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBA3A641776
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Dec 2022 16:15:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E722810E0D2;
-	Sat,  3 Dec 2022 14:23:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D90DF10E0EF;
+	Sat,  3 Dec 2022 15:15:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35D4310E0D2
- for <dri-devel@lists.freedesktop.org>; Sat,  3 Dec 2022 14:23:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202112;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=m4XXX74otc6JGzkTgR2BS7qwSV/8ukkgsWu5x3oojS4=; b=G7Tza+GQOAVMyIOIrtxug1Oc76
- 2zJ2Z/5LJ5GlPUoXY5KuMOg/v6rNH84wzu1kohZc6IpLKoK0TFYvpoQMBQYIN/9yF64qqzX1mGLuW
- v7WTUF/UNXPtjy3se5i63sgFXmEAR4aQsnK5hWVWkwNfTGvRxa20yTHqNSywq8l+wiI6VlkgPqAHq
- L3TRb6FFZI3xy5xcDyqbR34fo6P0xflAqG0ZjIeNYVnE5GxAI2h7IMOgMOIn+bhLvOLzNB+nX+V/4
- FzkJ/AQF4Ke/TiNHGtP357q86MxbHzcRRYvcyuIYEz+nMabDvkXp/g7QZVnftVWiHXe/DBKCpHEbM
- ZPLO8OHA==;
-Received: from [2a01:799:95e:1700:6395:ccbd:d000:d42b] (port=49553)
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1p1TQP-0000bA-2O; Sat, 03 Dec 2022 15:23:29 +0100
-Message-ID: <6ebeabc4-1b3b-bc1e-6f7c-f4a5c1bb6b14@tronnes.org>
-Date: Sat, 3 Dec 2022 15:23:25 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH v2 6/8] drm/mipi-dbi: Support shadow-plane state
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- thierry.reding@gmail.com, sam@ravnborg.org, emma@anholt.net,
- david@lechnology.com, kamlesh.gurudasani@gmail.com, javierm@redhat.com
-References: <20221202125644.7917-1-tzimmermann@suse.de>
- <20221202125644.7917-7-tzimmermann@suse.de>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20221202125644.7917-7-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2049.outbound.protection.outlook.com [40.107.93.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03C4710E0EF
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Dec 2022 15:15:08 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YEFazOz/ybXhrqWDMD9+d5nwEAPlV6fbo9e0IfyimTMXTdXsuDPx4gcwGm4ZzVwhm9AvzDT9w6+6OYZ4A9eRVAKKnmJVYtzRXlPNOIfvjBqLVmLsvYB1CLYUccfJMxU0MloYbHlNoBX5NtV7qYouhonaf65SR1WiE7TFCHdEYtZSau1FgXvVUA0RUMtamqI0hhcNI1VbZxMNJjBoCUVjCrmDQblRCPMPPvi34GeXVCaxbwfk62qBWE6A5dCgvCBz6jPme6XfEMO3FaDd2VA4jwbJHbxDT/uKZ62hRakjsQw1B4e9nOCxzflYr66QaI8WCuMkRwapYNLAyCzUhWZf4g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lQh0oTcQNs5hszR8v76miAb2s59UAMgvm1oTMqQo348=;
+ b=CFeSWQJbri2d2m8LnDtcAwZGcjMiDUdWJXq1nDlrEBSjNtta2P+eJiWkNnaBH2wlbiyJrL2mnPdeT5S3PhZ+YB/sd5mdSsZQZHDTqqWPJrHMEpzMgsG59cD4ZiXxecD6pENNkyI29E3l8lMiya5HGyM2BmWauix5fPUmQc8CKk5f0muS8meIJ5JVMhpCdkNMpszNp2wOApVGbXXyaIoeY91R26f7lPad1+yV1H5saBK8uV8qKU+X6+k7X/FbOcLPXHeGakakscieeORMRrBTUlMvJUMXEdfgRHZVuH1hUv3Gnd7fxhP0yKr5ZqAy8ap31A4WXHNdVVmoG77xj59WjQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lQh0oTcQNs5hszR8v76miAb2s59UAMgvm1oTMqQo348=;
+ b=K2hhiYdi5pvYOBmzZW+g7sCnfbvh+uIkc1e9Yj3iWOb0VFyuMyETrJsUDWVHCkJFyn7+wfcZ/q/0JWGU9Vt3t7HLlGBQHX9xiWZQDnCDHWAaLeO9tZ4E+kfQ85hJIuCNVZ7qPSM4jskLtVDr66yx5sNuJht/t24Up+ClRH1ESXg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by MN0PR12MB6221.namprd12.prod.outlook.com (2603:10b6:208:3c3::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.11; Sat, 3 Dec
+ 2022 15:15:05 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::7d43:3f30:4caf:7421]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::7d43:3f30:4caf:7421%7]) with mapi id 15.20.5880.010; Sat, 3 Dec 2022
+ 15:15:05 +0000
+Message-ID: <ccc81e11-e1e1-557b-6777-c1ed109c0e83@amd.com>
+Date: Sat, 3 Dec 2022 16:15:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] Revert "drm/sched: Use parent fence instead of finished"
+Content-Language: en-US
+To: Arvind Yadav <Arvind.Yadav@amd.com>, andrey.grodzovsky@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Andy.Dong@amd.com
+References: <20221202172330.39219-1-Arvind.Yadav@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20221202172330.39219-1-Arvind.Yadav@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0163.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:99::6) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|MN0PR12MB6221:EE_
+X-MS-Office365-Filtering-Correlation-Id: df498334-a6ad-4f46-d3a6-08dad5412862
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Z96MuehnEHKMkDHAXb0sAuQdLAI3QlltuAIdsbGduvRs8nUKvGaEf1FSAplUJEXFJyiHG9utFIwGoxRSkxaLQbi6BvbTrM7xT8fylogRrh8frFxgASyvrRrzUiBvkZ4AKtxq0WCcJZH1BZdVqhTJOl5P/TTve9RdnaY3gbDK22ETnmCyXoWsdUduSiEbv7FMOcOlrclxreiJIWVqzjFhOryBacyXGVH3SsmVOXpU3EerJhOjVS8I6SMzecxbOcvOPZ9QvvSJbS8a3wgRpVCg1zzva1KnKBfpWw9BTdbRUFSrkgGPtq4jDkqM8gvw+7/C3yr39XPCwVScwli9t7VSaBM2m7evhDM57hN2UPWEmsC1Qd08fWKCl43KxQ+3smCTe+c0MYT1gZktkmbCGlRv86OA4iAa9R6p5nIwH+JFmp63w3cquF6XUH33EC2Ta/HRD1SdwxRY8gVkcncQ+ojl8VF1yQsEKS7dIPz2V9kilkdzPbs90+6mZ+MCEnLyDKDKoFIrH6oiHkxvNGtPOv1G0Iacc7bTb1XTICOZmMsjePIK2gbGgtXtMv7pQCYV6yz34+Pm+fGuWj1eusmG+HM0fYwEBfLDoeiaFzARjoj+OfcbqZtguTxfzm04pjqskNDb0z3WC2KTTvv7VGef+P15A6sN2+RsNBUl6v1XvH5aqoGT+YA97ENXDY8mRvix7RvMfubjFlUaWAnw7tmnwkG5pBpFh9AtCZ4gL677wf5GOO8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(39860400002)(366004)(136003)(396003)(376002)(346002)(451199015)(2616005)(31696002)(2906002)(186003)(86362001)(5660300002)(6506007)(6666004)(38100700002)(36756003)(316002)(6486002)(478600001)(8936002)(6636002)(6512007)(66574015)(31686004)(41300700001)(83380400001)(66556008)(66476007)(8676002)(66946007)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b2Q2bWZoUUUzcmt1QVY0dVhCUkZuYXMwOG50c0l1SnVrZXltZDRQQXpXWUhu?=
+ =?utf-8?B?YXRZaFpoUlBLNmhJS2x6U0xnRG5uMXZQSWVmUnYzTWc0S21Bd1Y4ejl6MW9U?=
+ =?utf-8?B?bzVjd25XY0NLc2s4Q3l3N2hFRktaeDZyeURqR0toMndyVWFwQWZzM3NPalFw?=
+ =?utf-8?B?bmpEaEZSeTFoeTdua3p1bGtteG5CdWJaaXhtQk9hdDFZdUFZWkdSYlFTTHlZ?=
+ =?utf-8?B?NFdabVFObFBFb09RZkVmdWo3aFQ2c0FFeksrWmtMNXYzME0yNnBOOXlmdGFi?=
+ =?utf-8?B?VDJ3Q2hlVlNUU2JnUGt4Sk0zMWZuWWdJRjhMSGJMTmFuZkIvYUtBV1R6MXEw?=
+ =?utf-8?B?TlRnQzhLOHFmeDZnb3g2T3p3ejBNeTdvRm00UE82eHp1dFVDQWszN2M5TEU1?=
+ =?utf-8?B?VmdjY3l2WGdKSlJWRXlvQWdSakxibnN5aU42S2hzdUFJTjBLSVZNR1hBWk5m?=
+ =?utf-8?B?T3pia1ZScVh4T3ZaclNGU3RwVUFqemx3djZYVVNaZGV0V2Nmc1FuMmJzd3lO?=
+ =?utf-8?B?NmZqVlJqT3o2eHpUSFpzcXNRSmNDWUpzMGV0cVZVSTIrczZDR0JacTFEektL?=
+ =?utf-8?B?RDFzWDI3Qit4WSszSHRHeGdYcURkUUI3amtEUm9sZWdWNGNKSDFEbEo1TGwr?=
+ =?utf-8?B?NS9vUTdHdmErL3REbHN1M3RaNzZrRU12QkhUNTJJK05CbkM3UzNJaElHSUhS?=
+ =?utf-8?B?WHZXWWo2aFM3bmNvbU43em5oaG42V2lweGZPMFFhM0VuUjhDM2ZNRjN4ejV1?=
+ =?utf-8?B?UlRtRU1Rb0NrQ09jVGh1elRHVS9aMCtJTm44eThmTGRXb2V1WHFocFNnTytu?=
+ =?utf-8?B?a2xqQVZmdmhCbGQvY3FxVVViUlNvbGVBK0dWUkNadXR5ZlJaMnM3OFo0My94?=
+ =?utf-8?B?bXNXVTNwYjY5Y1hDMG1lYmZJS0w4SUJydTMrNDF0ZkRMSHg0SG5iWERqSDJN?=
+ =?utf-8?B?bnFJaHNIbUM5N2tBV0JHcVFJNGJQdDlVNnpkOHl0aC9XdG1CQ21sOEwxNXlq?=
+ =?utf-8?B?NHYxa3F1OFhYSU56d2lpMlRySFRkWjNqTWQ5WWRxemp2bjdQd09JUW1LUUww?=
+ =?utf-8?B?ZnYzdExjdHpuYVFMbWFCSmFKWjVTZjhncVFSYjhnblRNVUN5amNSTHh5anVn?=
+ =?utf-8?B?YWpVbmtZRWxWMHZQRFp2YU5NZFFDazdXVnNpVHIzM1JpekpZSWc1OWxTSHQ4?=
+ =?utf-8?B?Q2J5YmJmQmJLRCsvUzUyaEJhODFKYmczUHVVWmlsZDhrTE9RTEdUTWsxK2NL?=
+ =?utf-8?B?Y3cxWjFIZEh6TEhFQW5sSk9uT1g5RXErM0h1RGN0TVl0aWVMQkRXaWdpekVE?=
+ =?utf-8?B?RStrcmhyNWpoR0RXd1dXTGhlYlZvN1RYaEdZT2l4TkRpSDMwTnhzaDhGVito?=
+ =?utf-8?B?N0xnZXIzWGU4eVVnNk9TQnRyKzduNXdVc1g5K0p3SVhRTnFjZnVUZ3VVRUdL?=
+ =?utf-8?B?ZzVNdmpqV0s3NGNtZVB6Y2RZOVhiQngybXcydFBhUjJXVmFuM1c3Q2xOQi9x?=
+ =?utf-8?B?ZVlKcGVpM2xXU1Nkd0Nrem83Y1FGZjhqYkZBM0doUGxia2JyRHJ0THpVRTFr?=
+ =?utf-8?B?MUdNZUFMN3NiVUJDWEFCS0VHWXJINlNaUEhkK2VMSzh0Z3pkNnArQmhPejI4?=
+ =?utf-8?B?UFZuOGQyb3VnM0NPUm1MSk9CQVFmdXFzdlZUQ0R5UkU3OEtPeGhwNDlUNzdN?=
+ =?utf-8?B?L2FLbW9Vc0g2Rm1jNjkvc0FVN3pyOTJzYVpBbFA4amtqNC9vdkgzQnFzUno4?=
+ =?utf-8?B?cTZRYktxdDc0ZnhuclYxc0MrK0RwTVpKTk5ONUJMWE1IcFRiYUZ5bWE1R0FP?=
+ =?utf-8?B?S1J1a0VVaUxEV0U2UVVLNklKdTdrVDY5dnFWaVgwaTR6K2g2LzhiKzJCaXB3?=
+ =?utf-8?B?WGYzRFJObWtBckp4TUxXUUROK04veE9NaEcvNzlIRUJicFFSaHgzN1A1eVRQ?=
+ =?utf-8?B?dERWQVZFcjNqZi9rL2tKdU9vQmZ0TWJENUlwTC9SVWg5NitXN0Y3dkdCeFdN?=
+ =?utf-8?B?YVE2TGNQSWx6UEFOSVJSZEx4SmM3dFdqTkxNRSs5aWZTU21CVFZtejg0ODFr?=
+ =?utf-8?B?SEYxZm5MUEtXWFpmR1BvRlUrcFo1THhTeDRqTWxMU29HeHVPUkYzMXZBczRr?=
+ =?utf-8?B?aCtJZStHVktibGhjdWduMTU4RjVtTDRCdEYzd0pSMGEvbnNMUk9HS3VhZU9D?=
+ =?utf-8?Q?Fm0RkG4TvhR5FQNPRw4e92iOUqd4IRk7wK26ipKGktbv?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: df498334-a6ad-4f46-d3a6-08dad5412862
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2022 15:15:05.5064 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FlYJ6Dczbbu7F1M71uQrh0psL+SZAEwG5fxFpeDaYzdeAx9P/3Zwc6tQH8yQNo4S
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6221
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,205 +127,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Am 02.12.22 um 18:23 schrieb Arvind Yadav:
+> This reverts commit e4dc45b1848bc6bcac31eb1b4ccdd7f6718b3c86.
+>
+>      This is causing instability on Linus' desktop, and Observed System
+>      hung  when running MesaGL benchmark or VK CTS runs.
+>
+>      netconsole got me the following oops:
+>      [ 1234.778760] BUG: kernel NULL pointer dereference, address: 0000000000000088
+>      [ 1234.778782] #PF: supervisor read access in kernel mode
+>      [ 1234.778787] #PF: error_code(0x0000) - not-present page
+>      [ 1234.778791] PGD 0 P4D 0
+>      [ 1234.778798] Oops: 0000 [#1] PREEMPT SMP NOPTI
+>      [ 1234.778803] CPU: 7 PID: 805 Comm: systemd-journal Not tainted 6.0.0+ #2
+>      [ 1234.778809] Hardware name: System manufacturer System Product
+>      Name/PRIME X370-PRO, BIOS 5603 07/28/2020
+>      [ 1234.778813] RIP: 0010:drm_sched_job_done.isra.0+0xc/0x140 [gpu_sched]
+>      [ 1234.778828] Code: aa 0f 1d ce e9 57 ff ff ff 48 89 d7 e8 9d 8f 3f
+>      ce e9 4a ff ff ff 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 41 54 55 53
+>      48 89 fb <48> 8b af 88 00 00 00 f0 ff 8d f0 00 00 00 48 8b 85 80 01 00
+>      00 f0
+>      [ 1234.778834] RSP: 0000:ffffabe680380de0 EFLAGS: 00010087
+>      [ 1234.778839] RAX: ffffffffc04e9230 RBX: 0000000000000000 RCX: 0000000000000018
+>      [ 1234.778897] RDX: 00000ba278e8977a RSI: ffff953fb288b460 RDI: 0000000000000000
+>      [ 1234.778901] RBP: ffff953fb288b598 R08: 00000000000000e0 R09: ffff953fbd98b808
+>      [ 1234.778905] R10: 0000000000000000 R11: ffffabe680380ff8 R12: ffffabe680380e00
+>      [ 1234.778908] R13: 0000000000000001 R14: 00000000ffffffff R15: ffff953fbd9ec458
+>      [ 1234.778912] FS:  00007f35e7008580(0000) GS:ffff95428ebc0000(0000)
+>      knlGS:0000000000000000
+>      [ 1234.778916] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>      [ 1234.778919] CR2: 0000000000000088 CR3: 000000010147c000 CR4: 00000000003506e0
+>      [ 1234.778924] Call Trace:
+>      [ 1234.778981]  <IRQ>
+>      [ 1234.778989]  dma_fence_signal_timestamp_locked+0x6a/0xe0
+>      [ 1234.778999]  dma_fence_signal+0x2c/0x50
+>      [ 1234.779005]  amdgpu_fence_process+0xc8/0x140 [amdgpu]
+>      [ 1234.779234]  sdma_v3_0_process_trap_irq+0x70/0x80 [amdgpu]
+>      [ 1234.779395]  amdgpu_irq_dispatch+0xa9/0x1d0 [amdgpu]
+>      [ 1234.779609]  amdgpu_ih_process+0x80/0x100 [amdgpu]
+>      [ 1234.779783]  amdgpu_irq_handler+0x1f/0x60 [amdgpu]
+>      [ 1234.779940]  __handle_irq_event_percpu+0x46/0x190
+>      [ 1234.779946]  handle_irq_event+0x34/0x70
+>      [ 1234.779949]  handle_edge_irq+0x9f/0x240
+>      [ 1234.779954]  __common_interrupt+0x66/0x100
+>      [ 1234.779960]  common_interrupt+0xa0/0xc0
+>      [ 1234.779965]  </IRQ>
+>      [ 1234.779968]  <TASK>
+>      [ 1234.779971]  asm_common_interrupt+0x22/0x40
+>      [ 1234.779976] RIP: 0010:finish_mkwrite_fault+0x22/0x110
+>      [ 1234.779981] Code: 1f 84 00 00 00 00 00 90 0f 1f 44 00 00 41 55 41
+>      54 55 48 89 fd 53 48 8b 07 f6 40 50 08 0f 84 eb 00 00 00 48 8b 45 30
+>      48 8b 18 <48> 89 df e8 66 bd ff ff 48 85 c0 74 0d 48 89 c2 83 e2 01 48
+>      83 ea
+>      [ 1234.779985] RSP: 0000:ffffabe680bcfd78 EFLAGS: 00000202
+>
+>      Revert it for now and figure it out later.
+>
+> Signed-off-by: Arvind Yadav <Arvind.Yadav@amd.com>
 
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
-Den 02.12.2022 13.56, skrev Thomas Zimmermann:
-> Implement MIPI DBI planes with struct drm_shadow_plane_state, so that the
-> respective drivers can use the vmap'ed GEM-buffer memory. Implement state
-> helpers, the {begin,end}_fb_access helpers and wire up everything.
-> 
-> With this commit, MIPI DBI drivers can access the GEM object's memory
-> that is provided by shadow-plane state. The actual changes to drivers
-> are implemented separately.
-> 
-> v2:
-> 	* use shadow-plane state directly (Noralf)
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Tested-by: Javier Martinez Canillas <javierm@redhat.com>
-> Tested-by: Noralf Trønnes <noralf@tronnes.org> # drm/tiny/mi0283qt
 > ---
->  drivers/gpu/drm/drm_mipi_dbi.c | 85 ++++++++++++++++++++++++++++++++++
->  drivers/gpu/drm/tiny/ili9225.c |  5 ++
->  drivers/gpu/drm/tiny/st7586.c  |  5 ++
->  include/drm/drm_mipi_dbi.h     | 16 ++++++-
->  4 files changed, 110 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
-> index f58123327ed6..b808de61c5bc 100644
-> --- a/drivers/gpu/drm/drm_mipi_dbi.c
-> +++ b/drivers/gpu/drm/drm_mipi_dbi.c
-> @@ -21,6 +21,7 @@
->  #include <drm/drm_fourcc.h>
->  #include <drm/drm_framebuffer.h>
->  #include <drm/drm_gem.h>
-> +#include <drm/drm_gem_atomic_helper.h>
->  #include <drm/drm_gem_framebuffer_helper.h>
->  #include <drm/drm_mipi_dbi.h>
->  #include <drm/drm_modes.h>
-> @@ -433,6 +434,90 @@ void mipi_dbi_pipe_disable(struct drm_simple_display_pipe *pipe)
->  }
->  EXPORT_SYMBOL(mipi_dbi_pipe_disable);
->  
-> +/**
-> + * mipi_dbi_pipe_begin_fb_access - MIPI DBI pipe begin-access helper
-> + * @pipe: Display pipe
-> + * @plane_state: Plane state
-> + *
-> + * This function implements struct &drm_simple_display_funcs.begin_fb_access.
-> + *
-> + * See drm_gem_begin_shadow_fb_access() for details and mipi_dbi_pipe_cleanup_fb()
-> + * for cleanup.
-> + *
-> + * Returns:
-> + * 0 on success, or a negative errno code otherwise.
-> + */
-> +int mipi_dbi_pipe_begin_fb_access(struct drm_simple_display_pipe *pipe,
-> +				  struct drm_plane_state *plane_state)
-> +{
-> +	return drm_gem_begin_shadow_fb_access(&pipe->plane, plane_state);
-> +}
-> +EXPORT_SYMBOL(mipi_dbi_pipe_begin_fb_access);
-> +
-> +/**
-> + * mipi_dbi_pipe_end_fb_access - MIPI DBI pipe end-access helper
-> + * @pipe: Display pipe
-> + * @plane_state: Plane state
-> + *
-> + * This function implements struct &drm_simple_display_funcs.end_fb_access.
-> + *
-> + * See mipi_dbi_pipe_begin_fb_access().
-> + */
-> +void mipi_dbi_pipe_end_fb_access(struct drm_simple_display_pipe *pipe,
-> +				 struct drm_plane_state *plane_state)
-> +{
-> +	drm_gem_end_shadow_fb_access(&pipe->plane, plane_state);
-> +}
-> +EXPORT_SYMBOL(mipi_dbi_pipe_end_fb_access);
-> +
-> +/**
-> + * mipi_dbi_pipe_reset_plane - MIPI DBI plane-reset helper
-> + * @pipe: Display pipe
-> + *
-> + * This function implements struct &drm_simple_display_funcs.reset_plane
-> + * for MIPI DBI planes.
-> + */
-> +void mipi_dbi_pipe_reset_plane(struct drm_simple_display_pipe *pipe)
-> +{
-> +	drm_gem_reset_shadow_plane(&pipe->plane);
-> +}
-> +EXPORT_SYMBOL(mipi_dbi_pipe_reset_plane);
-> +
-> +/**
-> + * mipi_dbi_pipe_duplicate_plane_state - duplicates MIPI DBI plane state
-> + * @pipe: Display pipe
-> + *
-> + * This function implements struct &drm_simple_display_funcs.duplicate_plane_state
-> + * for MIPI DBI planes.
-> + *
-> + * See drm_gem_duplicate_shadow_plane_state() for additional details.
-> + *
-> + * Returns:
-> + * A pointer to a new plane state on success, or NULL otherwise.
-> + */
-> +struct drm_plane_state *mipi_dbi_pipe_duplicate_plane_state(struct drm_simple_display_pipe *pipe)
-> +{
-> +	return drm_gem_duplicate_shadow_plane_state(&pipe->plane);
-> +}
-> +EXPORT_SYMBOL(mipi_dbi_pipe_duplicate_plane_state);
-> +
-> +/**
-> + * mipi_dbi_pipe_destroy_plane_state - cleans up MIPI DBI plane state
-> + * @pipe: Display pipe
-> + * @plane_state: Plane state
-> + *
-> + * This function implements struct drm_simple_display_funcs.destroy_plane_state
-> + * for MIPI DBI planes.
-> + *
-> + * See drm_gem_destroy_shadow_plane_state() for additional details.
-> + */
-> +void mipi_dbi_pipe_destroy_plane_state(struct drm_simple_display_pipe *pipe,
-> +				       struct drm_plane_state *plane_state)
-> +{
-> +	drm_gem_destroy_shadow_plane_state(&pipe->plane, plane_state);
-> +}
-> +EXPORT_SYMBOL(mipi_dbi_pipe_destroy_plane_state);
-> +
->  static int mipi_dbi_connector_get_modes(struct drm_connector *connector)
->  {
->  	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(connector->dev);
-> diff --git a/drivers/gpu/drm/tiny/ili9225.c b/drivers/gpu/drm/tiny/ili9225.c
-> index ae94c74d0163..a69aec8402bc 100644
-> --- a/drivers/gpu/drm/tiny/ili9225.c
-> +++ b/drivers/gpu/drm/tiny/ili9225.c
-> @@ -343,6 +343,11 @@ static const struct drm_simple_display_pipe_funcs ili9225_pipe_funcs = {
->  	.enable		= ili9225_pipe_enable,
->  	.disable	= ili9225_pipe_disable,
->  	.update		= ili9225_pipe_update,
-> +	.begin_fb_access = mipi_dbi_pipe_begin_fb_access,
-> +	.end_fb_access	= mipi_dbi_pipe_end_fb_access,
-> +	.reset_plane	= mipi_dbi_pipe_reset_plane,
-> +	.duplicate_plane_state = mipi_dbi_pipe_duplicate_plane_state,
-> +	.destroy_plane_state = mipi_dbi_pipe_destroy_plane_state,
->  };
+>   drivers/gpu/drm/scheduler/sched_main.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 820c0c5544e1..ea7bfa99d6c9 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -790,7 +790,7 @@ drm_sched_get_cleanup_job(struct drm_gpu_scheduler *sched)
+>   	job = list_first_entry_or_null(&sched->pending_list,
+>   				       struct drm_sched_job, list);
+>   
+> -	if (job && dma_fence_is_signaled(job->s_fence->parent)) {
+> +	if (job && dma_fence_is_signaled(&job->s_fence->finished)) {
+>   		/* remove job from pending_list */
+>   		list_del_init(&job->list);
+>   
+> @@ -802,7 +802,7 @@ drm_sched_get_cleanup_job(struct drm_gpu_scheduler *sched)
+>   
+>   		if (next) {
+>   			next->s_fence->scheduled.timestamp =
+> -				job->s_fence->parent->timestamp;
+> +				job->s_fence->finished.timestamp;
+>   			/* start TO timer for next job */
+>   			drm_sched_start_timeout(sched);
+>   		}
 
-Why not just use DRM_GEM_SIMPLE_DISPLAY_PIPE_SHADOW_PLANE_FUNCS?
-
-Noralf.
-
->  
->  static const struct drm_display_mode ili9225_mode = {
-> diff --git a/drivers/gpu/drm/tiny/st7586.c b/drivers/gpu/drm/tiny/st7586.c
-> index e773b1f2fd5f..76b13cefc904 100644
-> --- a/drivers/gpu/drm/tiny/st7586.c
-> +++ b/drivers/gpu/drm/tiny/st7586.c
-> @@ -277,6 +277,11 @@ static const struct drm_simple_display_pipe_funcs st7586_pipe_funcs = {
->  	.enable		= st7586_pipe_enable,
->  	.disable	= st7586_pipe_disable,
->  	.update		= st7586_pipe_update,
-> +	.begin_fb_access = mipi_dbi_pipe_begin_fb_access,
-> +	.end_fb_access	= mipi_dbi_pipe_end_fb_access,
-> +	.reset_plane	= mipi_dbi_pipe_reset_plane,
-> +	.duplicate_plane_state = mipi_dbi_pipe_duplicate_plane_state,
-> +	.destroy_plane_state = mipi_dbi_pipe_destroy_plane_state,
->  };
->  
->  static const struct drm_display_mode st7586_mode = {
-> diff --git a/include/drm/drm_mipi_dbi.h b/include/drm/drm_mipi_dbi.h
-> index 36ac8495566b..304fbecdc66a 100644
-> --- a/include/drm/drm_mipi_dbi.h
-> +++ b/include/drm/drm_mipi_dbi.h
-> @@ -164,6 +164,15 @@ void mipi_dbi_enable_flush(struct mipi_dbi_dev *dbidev,
->  			   struct drm_crtc_state *crtc_state,
->  			   struct drm_plane_state *plan_state);
->  void mipi_dbi_pipe_disable(struct drm_simple_display_pipe *pipe);
-> +int mipi_dbi_pipe_begin_fb_access(struct drm_simple_display_pipe *pipe,
-> +				  struct drm_plane_state *plane_state);
-> +void mipi_dbi_pipe_end_fb_access(struct drm_simple_display_pipe *pipe,
-> +				 struct drm_plane_state *plane_state);
-> +void mipi_dbi_pipe_reset_plane(struct drm_simple_display_pipe *pipe);
-> +struct drm_plane_state *mipi_dbi_pipe_duplicate_plane_state(struct drm_simple_display_pipe *pipe);
-> +void mipi_dbi_pipe_destroy_plane_state(struct drm_simple_display_pipe *pipe,
-> +				       struct drm_plane_state *plane_state);
-> +
->  void mipi_dbi_hw_reset(struct mipi_dbi *dbi);
->  bool mipi_dbi_display_is_on(struct mipi_dbi *dbi);
->  int mipi_dbi_poweron_reset(struct mipi_dbi_dev *dbidev);
-> @@ -223,6 +232,11 @@ static inline void mipi_dbi_debugfs_init(struct drm_minor *minor) {}
->  	.mode_valid = mipi_dbi_pipe_mode_valid, \
->  	.enable = (enable_), \
->  	.disable = mipi_dbi_pipe_disable, \
-> -	.update = mipi_dbi_pipe_update
-> +	.update = mipi_dbi_pipe_update, \
-> +	.begin_fb_access = mipi_dbi_pipe_begin_fb_access, \
-> +	.end_fb_access = mipi_dbi_pipe_end_fb_access, \
-> +	.reset_plane = mipi_dbi_pipe_reset_plane, \
-> +	.duplicate_plane_state = mipi_dbi_pipe_duplicate_plane_state, \
-> +	.destroy_plane_state = mipi_dbi_pipe_destroy_plane_state
->  
->  #endif /* __LINUX_MIPI_DBI_H */
