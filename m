@@ -1,37 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D142641567
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Dec 2022 10:45:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08C86641599
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Dec 2022 11:14:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2FF310E1B8;
-	Sat,  3 Dec 2022 09:45:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75CBF10E1C1;
+	Sat,  3 Dec 2022 10:14:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 472 seconds by postgrey-1.36 at gabe;
- Sat, 03 Dec 2022 09:45:06 UTC
-Received: from out-194.mta0.migadu.com (out-194.mta0.migadu.com
- [IPv6:2001:41d0:1004:224b::c2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4DAB10E1B8
- for <dri-devel@lists.freedesktop.org>; Sat,  3 Dec 2022 09:45:06 +0000 (UTC)
+X-Greylist: delayed 80818 seconds by postgrey-1.36 at gabe;
+ Sat, 03 Dec 2022 10:14:16 UTC
+Received: from out2.migadu.com (out2.migadu.com [IPv6:2001:41d0:2:aacc::])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE74B10E1BE
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Dec 2022 10:14:16 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1670060232;
+ t=1670062454;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding;
  bh=TjMN80lVYmNgIjzL3qaQ3pSDtxrrc3ClLWCJhz9eCSk=;
- b=RAlvfzU9ZNsVEJPKxP80SZU5T92MFsRUDhIHpFg7QNW7Iw1bb3U1hBj3P0U59LBf4LJu6A
- MdH15atxUhx9rwRRbqRA75Ln0INAQWK6wym2yjcrsg4Gvvhs/1TRAZ/M4lVYmn2nfazPYc
- R/aeKDQYcGcFDvMGlQMgBb7MlSjetfc=
+ b=tL+xUt95KPyuWUHEouRgdIK+CYuCPUqWEWOUNX15bO4CWjG+baZULcziKoeIMfUvM+k/Ju
+ actbsFUwzrsZprsmDIkez2Cw4+oAWHza4Pf3Q4FNWV0LKkCv6UyJxGt67cBXWgXhpAi81w
+ gvdJQum52lBeOKl38cdYMESKo0U9PXE=
 From: Cai Huoqing <cai.huoqing@linux.dev>
 To: tzimmermann@suse.de
-Subject: [PATCH linux-next v2 00/10] drm: Remove some obsolete drivers(tdfx,
- mga, i810, savage, r128, sis, via)
-Date: Sat,  3 Dec 2022 17:35:36 +0800
-Message-Id: <20221203093700.34608-1-cai.huoqing@linux.dev>
+Subject: [RESEND PATCH linux-next v2 00/10] drm: Remove some obsolete
+ drivers(tdfx, mga, i810, savage, r128, sis, via)
+Date: Sat,  3 Dec 2022 18:12:44 +0800
+Message-Id: <20221203101408.38439-1-cai.huoqing@linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
