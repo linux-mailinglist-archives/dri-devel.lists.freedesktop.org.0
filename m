@@ -2,38 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FE0F6415CF
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Dec 2022 11:29:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C8E86415D5
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Dec 2022 11:30:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6219310E1D3;
-	Sat,  3 Dec 2022 10:29:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E128D10E1DB;
+	Sat,  3 Dec 2022 10:30:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out2.migadu.com (out2.migadu.com [188.165.223.204])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B3F210E1D3
- for <dri-devel@lists.freedesktop.org>; Sat,  3 Dec 2022 10:29:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 552F110E1DC
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Dec 2022 10:30:42 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1670063359;
+ t=1670063441;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4fQn8oTuWFqgmkn9Eu1W3H1joLuO0xn6BFQ3oX6FDcY=;
- b=bQc1pXeZe4v17Xqj8sl+UHkOxdFSSuGMvrOhjskq9531pV+/em4GZLTkF534Y84vQx0F6k
- X+sxDQXpUKLGaW2TFw2rRANDDv1SosxaHkAZUHUwxYgGrYw+aFcpyBdeIT3Fx1nQyl80I6
- LJXhTpW8Eix2iRiW+e670FuiewBLITE=
+ bh=vVLhdhZ9nRJNQDPXfdnYlVX2ECgq7/Boy+P19OuKFGo=;
+ b=m2VVrYpauX6k5pWTTx3YobEQt3SlKOii6g3sBXVFJf3oXC28NKTNf70UO6Oy4PH4IveGzb
+ FXF5X03QAjhiu3aAYqY3J1wyXxr1Zq9yvEhff08IgpmxpuzlA19JPHSWZoInMjB4cgDnEX
+ 1Vh/PU7qzCVVpYpvFr2RTbrJwRGAtTM=
 From: Cai Huoqing <cai.huoqing@linux.dev>
 To: tzimmermann@suse.de
-Subject: [RESEND PATCH linux-next v2 03/10] drm: Remove the obsolete
- driver-r128
-Date: Sat,  3 Dec 2022 18:22:54 +0800
-Message-Id: <20221203102502.3185-4-cai.huoqing@linux.dev>
+Subject: [RESEND PATCH linux-next v2 04/10] drm: Remove the obsolete
+ driver-savage
+Date: Sat,  3 Dec 2022 18:22:55 +0800
+Message-Id: <20221203102502.3185-5-cai.huoqing@linux.dev>
 In-Reply-To: <20221203102502.3185-1-cai.huoqing@linux.dev>
 References: <20221203102502.3185-1-cai.huoqing@linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -56,1270 +55,1079 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Commit 399516ab0fee ("MAINTAINERS: Add a bunch of legacy (UMS) DRM drivers")
-marked r128 driver obsolete 7 years ago.
+marked savage driver obsolete 7 years ago.
 And the mesa UMD of this drm driver already in deprecated list
 in the link: https://docs.mesa3d.org/systems.html
-ATI Rage 128->drivers/gpu/drm/r128
+S3 Savage-->drivers/gpu/drm/savage
 
 It's time to remove this driver.
 
 Signed-off-by: Cai Huoqing <cai.huoqing@linux.dev>
 ---
- drivers/gpu/drm/Kconfig            |    9 -
- drivers/gpu/drm/Makefile           |    1 -
- drivers/gpu/drm/r128/Makefile      |   10 -
- drivers/gpu/drm/r128/ati_pcigart.c |  228 ----
- drivers/gpu/drm/r128/ati_pcigart.h |   31 -
- drivers/gpu/drm/r128/r128_cce.c    |  944 ----------------
- drivers/gpu/drm/r128/r128_drv.c    |  116 --
- drivers/gpu/drm/r128/r128_drv.h    |  544 ---------
- drivers/gpu/drm/r128/r128_ioc32.c  |  199 ----
- drivers/gpu/drm/r128/r128_irq.c    |  118 --
- drivers/gpu/drm/r128/r128_state.c  | 1641 ----------------------------
- include/uapi/drm/r128_drm.h        |  336 ------
- 12 files changed, 4177 deletions(-)
- delete mode 100644 drivers/gpu/drm/r128/Makefile
- delete mode 100644 drivers/gpu/drm/r128/ati_pcigart.c
- delete mode 100644 drivers/gpu/drm/r128/ati_pcigart.h
- delete mode 100644 drivers/gpu/drm/r128/r128_cce.c
- delete mode 100644 drivers/gpu/drm/r128/r128_drv.c
- delete mode 100644 drivers/gpu/drm/r128/r128_drv.h
- delete mode 100644 drivers/gpu/drm/r128/r128_ioc32.c
- delete mode 100644 drivers/gpu/drm/r128/r128_irq.c
- delete mode 100644 drivers/gpu/drm/r128/r128_state.c
- delete mode 100644 include/uapi/drm/r128_drm.h
+ drivers/gpu/drm/Kconfig               |    7 -
+ drivers/gpu/drm/Makefile              |    1 -
+ drivers/gpu/drm/savage/Makefile       |    9 -
+ drivers/gpu/drm/savage/savage_bci.c   | 1082 -----------------------
+ drivers/gpu/drm/savage/savage_drv.c   |   91 --
+ drivers/gpu/drm/savage/savage_drv.h   |  580 ------------
+ drivers/gpu/drm/savage/savage_state.c | 1169 -------------------------
+ include/uapi/drm/savage_drm.h         |  220 -----
+ 8 files changed, 3159 deletions(-)
+ delete mode 100644 drivers/gpu/drm/savage/Makefile
+ delete mode 100644 drivers/gpu/drm/savage/savage_bci.c
+ delete mode 100644 drivers/gpu/drm/savage/savage_drv.c
+ delete mode 100644 drivers/gpu/drm/savage/savage_drv.h
+ delete mode 100644 drivers/gpu/drm/savage/savage_state.c
+ delete mode 100644 include/uapi/drm/savage_drm.h
 
 diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index fa17855ae23c..f9f6f79d023e 100644
+index f9f6f79d023e..57328ed79558 100644
 --- a/drivers/gpu/drm/Kconfig
 +++ b/drivers/gpu/drm/Kconfig
-@@ -399,15 +399,6 @@ config DRM_TDFX
- 	  Choose this option if you have a 3dfx Banshee or Voodoo3 (or later),
- 	  graphics card.  If M is selected, the module will be called tdfx.
+@@ -415,13 +415,6 @@ config DRM_VIA
+ 	  Choose this option if you have a Via unichrome or compatible video
+ 	  chipset. If M is selected the module will be called via.
  
--config DRM_R128
--	tristate "ATI Rage 128"
+-config DRM_SAVAGE
+-	tristate "Savage video cards"
 -	depends on DRM && PCI
--	select FW_LOADER
 -	help
--	  Choose this option if you have an ATI Rage 128 graphics card.  If M
--	  is selected, the module will be called r128.  AGP support for
--	  this card is strongly suggested (unless you have a PCI version).
+-	  Choose this option if you have a Savage3D/4/SuperSavage/Pro/Twister
+-	  chipset. If M is selected the module will be called savage.
 -
- config DRM_SIS
- 	tristate "SiS video cards"
- 	depends on DRM && AGP
+ endif # DRM_LEGACY
+ 
+ config DRM_EXPORT_FOR_TESTS
 diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 805fa32b60ba..c9e7a433b255 100644
+index c9e7a433b255..9df22bed5633 100644
 --- a/drivers/gpu/drm/Makefile
 +++ b/drivers/gpu/drm/Makefile
-@@ -135,7 +135,6 @@ obj-y			+= display/
- obj-$(CONFIG_DRM_TTM)	+= ttm/
- obj-$(CONFIG_DRM_SCHED)	+= scheduler/
- obj-$(CONFIG_DRM_TDFX)	+= tdfx/
--obj-$(CONFIG_DRM_R128)	+= r128/
- obj-$(CONFIG_DRM_RADEON)+= radeon/
- obj-$(CONFIG_DRM_AMDGPU)+= amd/amdgpu/
- obj-$(CONFIG_DRM_I915)	+= i915/
-diff --git a/drivers/gpu/drm/r128/Makefile b/drivers/gpu/drm/r128/Makefile
+@@ -143,7 +143,6 @@ obj-$(CONFIG_DRM_MGAG200) += mgag200/
+ obj-$(CONFIG_DRM_V3D)  += v3d/
+ obj-$(CONFIG_DRM_VC4)  += vc4/
+ obj-$(CONFIG_DRM_SIS)   += sis/
+-obj-$(CONFIG_DRM_SAVAGE)+= savage/
+ obj-$(CONFIG_DRM_VMWGFX)+= vmwgfx/
+ obj-$(CONFIG_DRM_VIA)	+=via/
+ obj-$(CONFIG_DRM_VGEM)	+= vgem/
+diff --git a/drivers/gpu/drm/savage/Makefile b/drivers/gpu/drm/savage/Makefile
 deleted file mode 100644
-index c07a069533ef..000000000000
---- a/drivers/gpu/drm/r128/Makefile
+index 3e520763d259..000000000000
+--- a/drivers/gpu/drm/savage/Makefile
 +++ /dev/null
-@@ -1,10 +0,0 @@
+@@ -1,9 +0,0 @@
 -# SPDX-License-Identifier: GPL-2.0-only
 -#
 -# Makefile for the drm device driver.  This driver provides support for the
 -# Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
 -
--r128-y   := r128_drv.o r128_cce.o r128_state.o r128_irq.o ati_pcigart.o
+-savage-y := savage_drv.o savage_bci.o savage_state.o
 -
--r128-$(CONFIG_COMPAT)   += r128_ioc32.o
+-obj-$(CONFIG_DRM_SAVAGE)+= savage.o
 -
--obj-$(CONFIG_DRM_R128)	+= r128.o
-diff --git a/drivers/gpu/drm/r128/ati_pcigart.c b/drivers/gpu/drm/r128/ati_pcigart.c
+diff --git a/drivers/gpu/drm/savage/savage_bci.c b/drivers/gpu/drm/savage/savage_bci.c
 deleted file mode 100644
-index dde0501aea68..000000000000
---- a/drivers/gpu/drm/r128/ati_pcigart.c
+index e33385dfe3ed..000000000000
+--- a/drivers/gpu/drm/savage/savage_bci.c
 +++ /dev/null
-@@ -1,228 +0,0 @@
--/*
-- * \file ati_pcigart.c
-- * ATI PCI GART support
+@@ -1,1082 +0,0 @@
+-/* savage_bci.c -- BCI support for Savage
 - *
-- * \author Gareth Hughes <gareth@valinux.com>
-- */
--
--/*
-- * Created: Wed Dec 13 21:52:19 2000 by gareth@valinux.com
-- *
-- * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
+- * Copyright 2004  Felix Kuehling
 - * All Rights Reserved.
 - *
 - * Permission is hereby granted, free of charge, to any person obtaining a
 - * copy of this software and associated documentation files (the "Software"),
 - * to deal in the Software without restriction, including without limitation
-- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * the rights to use, copy, modify, merge, publish, distribute, sub license,
 - * and/or sell copies of the Software, and to permit persons to whom the
 - * Software is furnished to do so, subject to the following conditions:
 - *
-- * The above copyright notice and this permission notice (including the next
-- * paragraph) shall be included in all copies or substantial portions of the
-- * Software.
+- * The above copyright notice and this permission notice (including the
+- * next paragraph) shall be included in all copies or substantial portions
+- * of the Software.
 - *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-- * PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-- * DEALINGS IN THE SOFTWARE.
-- */
--
--#include <linux/export.h>
--#include <linux/pci.h>
--
--#include <drm/drm_device.h>
--#include <drm/drm_legacy.h>
--#include <drm/drm_print.h>
--
--#include "ati_pcigart.h"
--
--# define ATI_PCIGART_PAGE_SIZE		4096	/**< PCI GART page size */
--
--static int drm_ati_alloc_pcigart_table(struct drm_device *dev,
--				       struct drm_ati_pcigart_info *gart_info)
--{
--	drm_dma_handle_t *dmah = kmalloc(sizeof(drm_dma_handle_t), GFP_KERNEL);
--
--	if (!dmah)
--		return -ENOMEM;
--
--	dmah->size = gart_info->table_size;
--	dmah->vaddr = dma_alloc_coherent(dev->dev,
--					 dmah->size,
--					 &dmah->busaddr,
--					 GFP_KERNEL);
--
--	if (!dmah->vaddr) {
--		kfree(dmah);
--		return -ENOMEM;
--	}
--
--	gart_info->table_handle = dmah;
--	return 0;
--}
--
--static void drm_ati_free_pcigart_table(struct drm_device *dev,
--				       struct drm_ati_pcigart_info *gart_info)
--{
--	drm_dma_handle_t *dmah = gart_info->table_handle;
--
--	dma_free_coherent(dev->dev, dmah->size, dmah->vaddr, dmah->busaddr);
--	kfree(dmah);
--
--	gart_info->table_handle = NULL;
--}
--
--int drm_ati_pcigart_cleanup(struct drm_device *dev, struct drm_ati_pcigart_info *gart_info)
--{
--	struct drm_sg_mem *entry = dev->sg;
--	struct pci_dev *pdev = to_pci_dev(dev->dev);
--	unsigned long pages;
--	int i;
--	int max_pages;
--
--	/* we need to support large memory configurations */
--	if (!entry) {
--		DRM_ERROR("no scatter/gather memory!\n");
--		return 0;
--	}
--
--	if (gart_info->bus_addr) {
--
--		max_pages = (gart_info->table_size / sizeof(u32));
--		pages = (entry->pages <= max_pages)
--		  ? entry->pages : max_pages;
--
--		for (i = 0; i < pages; i++) {
--			if (!entry->busaddr[i])
--				break;
--			dma_unmap_page(&pdev->dev, entry->busaddr[i],
--				       PAGE_SIZE, DMA_BIDIRECTIONAL);
--		}
--
--		if (gart_info->gart_table_location == DRM_ATI_GART_MAIN)
--			gart_info->bus_addr = 0;
--	}
--
--	if (gart_info->gart_table_location == DRM_ATI_GART_MAIN &&
--	    gart_info->table_handle) {
--		drm_ati_free_pcigart_table(dev, gart_info);
--	}
--
--	return 1;
--}
--
--int drm_ati_pcigart_init(struct drm_device *dev, struct drm_ati_pcigart_info *gart_info)
--{
--	struct drm_local_map *map = &gart_info->mapping;
--	struct drm_sg_mem *entry = dev->sg;
--	struct pci_dev *pdev = to_pci_dev(dev->dev);
--	void *address = NULL;
--	unsigned long pages;
--	u32 *pci_gart = NULL, page_base, gart_idx;
--	dma_addr_t bus_address = 0;
--	int i, j, ret = -ENOMEM;
--	int max_ati_pages, max_real_pages;
--
--	if (!entry) {
--		DRM_ERROR("no scatter/gather memory!\n");
--		goto done;
--	}
--
--	if (gart_info->gart_table_location == DRM_ATI_GART_MAIN) {
--		DRM_DEBUG("PCI: no table in VRAM: using normal RAM\n");
--
--		if (dma_set_mask(&pdev->dev, gart_info->table_mask)) {
--			DRM_ERROR("fail to set dma mask to 0x%Lx\n",
--				  (unsigned long long)gart_info->table_mask);
--			ret = -EFAULT;
--			goto done;
--		}
--
--		ret = drm_ati_alloc_pcigart_table(dev, gart_info);
--		if (ret) {
--			DRM_ERROR("cannot allocate PCI GART page!\n");
--			goto done;
--		}
--
--		pci_gart = gart_info->table_handle->vaddr;
--		address = gart_info->table_handle->vaddr;
--		bus_address = gart_info->table_handle->busaddr;
--	} else {
--		address = gart_info->addr;
--		bus_address = gart_info->bus_addr;
--		DRM_DEBUG("PCI: Gart Table: VRAM %08LX mapped at %08lX\n",
--			  (unsigned long long)bus_address,
--			  (unsigned long)address);
--	}
--
--
--	max_ati_pages = (gart_info->table_size / sizeof(u32));
--	max_real_pages = max_ati_pages / (PAGE_SIZE / ATI_PCIGART_PAGE_SIZE);
--	pages = (entry->pages <= max_real_pages)
--	    ? entry->pages : max_real_pages;
--
--	if (gart_info->gart_table_location == DRM_ATI_GART_MAIN) {
--		memset(pci_gart, 0, max_ati_pages * sizeof(u32));
--	} else {
--		memset_io((void __iomem *)map->handle, 0, max_ati_pages * sizeof(u32));
--	}
--
--	gart_idx = 0;
--	for (i = 0; i < pages; i++) {
--		/* we need to support large memory configurations */
--		entry->busaddr[i] = dma_map_page(&pdev->dev, entry->pagelist[i],
--						 0, PAGE_SIZE, DMA_BIDIRECTIONAL);
--		if (dma_mapping_error(&pdev->dev, entry->busaddr[i])) {
--			DRM_ERROR("unable to map PCIGART pages!\n");
--			drm_ati_pcigart_cleanup(dev, gart_info);
--			address = NULL;
--			bus_address = 0;
--			ret = -ENOMEM;
--			goto done;
--		}
--		page_base = (u32) entry->busaddr[i];
--
--		for (j = 0; j < (PAGE_SIZE / ATI_PCIGART_PAGE_SIZE); j++) {
--			u32 offset;
--			u32 val;
--
--			switch(gart_info->gart_reg_if) {
--			case DRM_ATI_GART_IGP:
--				val = page_base | 0xc;
--				break;
--			case DRM_ATI_GART_PCIE:
--				val = (page_base >> 8) | 0xc;
--				break;
--			default:
--			case DRM_ATI_GART_PCI:
--				val = page_base;
--				break;
--			}
--			if (gart_info->gart_table_location ==
--			    DRM_ATI_GART_MAIN) {
--				pci_gart[gart_idx] = cpu_to_le32(val);
--			} else {
--				offset = gart_idx * sizeof(u32);
--				writel(val, (void __iomem *)map->handle + offset);
--			}
--			gart_idx++;
--			page_base += ATI_PCIGART_PAGE_SIZE;
--		}
--	}
--	ret = 0;
--
--#ifdef CONFIG_X86
--	wbinvd();
--#else
--	mb();
--#endif
--
--      done:
--	gart_info->addr = address;
--	gart_info->bus_addr = bus_address;
--	return ret;
--}
-diff --git a/drivers/gpu/drm/r128/ati_pcigart.h b/drivers/gpu/drm/r128/ati_pcigart.h
-deleted file mode 100644
-index a728a1364e66..000000000000
---- a/drivers/gpu/drm/r128/ati_pcigart.h
-+++ /dev/null
-@@ -1,31 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--#ifndef DRM_ATI_PCIGART_H
--#define DRM_ATI_PCIGART_H
--
--#include <drm/drm_legacy.h>
--
--/* location of GART table */
--#define DRM_ATI_GART_MAIN 1
--#define DRM_ATI_GART_FB   2
--
--#define DRM_ATI_GART_PCI 1
--#define DRM_ATI_GART_PCIE 2
--#define DRM_ATI_GART_IGP 3
--
--struct drm_ati_pcigart_info {
--	int gart_table_location;
--	int gart_reg_if;
--	void *addr;
--	dma_addr_t bus_addr;
--	dma_addr_t table_mask;
--	struct drm_dma_handle *table_handle;
--	struct drm_local_map mapping;
--	int table_size;
--};
--
--extern int drm_ati_pcigart_init(struct drm_device *dev,
--				struct drm_ati_pcigart_info * gart_info);
--extern int drm_ati_pcigart_cleanup(struct drm_device *dev,
--				   struct drm_ati_pcigart_info * gart_info);
--
--#endif
-diff --git a/drivers/gpu/drm/r128/r128_cce.c b/drivers/gpu/drm/r128/r128_cce.c
-deleted file mode 100644
-index c04d84a69dd2..000000000000
---- a/drivers/gpu/drm/r128/r128_cce.c
-+++ /dev/null
-@@ -1,944 +0,0 @@
--/* r128_cce.c -- ATI Rage 128 driver -*- linux-c -*-
-- * Created: Wed Apr  5 19:24:19 2000 by kevin@precisioninsight.com
-- */
--/*
-- * Copyright 2000 Precision Insight, Inc., Cedar Park, Texas.
-- * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
-- * All Rights Reserved.
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a
-- * copy of this software and associated documentation files (the "Software"),
-- * to deal in the Software without restriction, including without limitation
-- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-- * and/or sell copies of the Software, and to permit persons to whom the
-- * Software is furnished to do so, subject to the following conditions:
-- *
-- * The above copyright notice and this permission notice (including the next
-- * paragraph) shall be included in all copies or substantial portions of the
-- * Software.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-- * PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-- * DEALINGS IN THE SOFTWARE.
-- *
-- * Authors:
-- *    Gareth Hughes <gareth@valinux.com>
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+- * NON-INFRINGEMENT. IN NO EVENT SHALL FELIX KUEHLING BE LIABLE FOR
+- * ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+- * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 - */
 -
 -#include <linux/delay.h>
--#include <linux/dma-mapping.h>
--#include <linux/firmware.h>
--#include <linux/module.h>
--#include <linux/platform_device.h>
+-#include <linux/pci.h>
 -#include <linux/slab.h>
 -#include <linux/uaccess.h>
 -
 -#include <drm/drm_device.h>
 -#include <drm/drm_file.h>
--#include <drm/drm_legacy.h>
 -#include <drm/drm_print.h>
--#include <drm/r128_drm.h>
+-#include <drm/savage_drm.h>
 -
--#include "r128_drv.h"
+-#include "savage_drv.h"
 -
--#define R128_FIFO_DEBUG		0
+-/* Need a long timeout for shadow status updates can take a while
+- * and so can waiting for events when the queue is full. */
+-#define SAVAGE_DEFAULT_USEC_TIMEOUT	1000000	/* 1s */
+-#define SAVAGE_EVENT_USEC_TIMEOUT	5000000	/* 5s */
+-#define SAVAGE_FREELIST_DEBUG		0
 -
--#define FIRMWARE_NAME		"r128/r128_cce.bin"
+-static int savage_do_cleanup_bci(struct drm_device *dev);
 -
--MODULE_FIRMWARE(FIRMWARE_NAME);
--
--static int R128_READ_PLL(struct drm_device *dev, int addr)
+-static int
+-savage_bci_wait_fifo_shadow(drm_savage_private_t * dev_priv, unsigned int n)
 -{
--	drm_r128_private_t *dev_priv = dev->dev_private;
--
--	R128_WRITE8(R128_CLOCK_CNTL_INDEX, addr & 0x1f);
--	return R128_READ(R128_CLOCK_CNTL_DATA);
--}
--
--#if R128_FIFO_DEBUG
--static void r128_status(drm_r128_private_t *dev_priv)
--{
--	printk("GUI_STAT           = 0x%08x\n",
--	       (unsigned int)R128_READ(R128_GUI_STAT));
--	printk("PM4_STAT           = 0x%08x\n",
--	       (unsigned int)R128_READ(R128_PM4_STAT));
--	printk("PM4_BUFFER_DL_WPTR = 0x%08x\n",
--	       (unsigned int)R128_READ(R128_PM4_BUFFER_DL_WPTR));
--	printk("PM4_BUFFER_DL_RPTR = 0x%08x\n",
--	       (unsigned int)R128_READ(R128_PM4_BUFFER_DL_RPTR));
--	printk("PM4_MICRO_CNTL     = 0x%08x\n",
--	       (unsigned int)R128_READ(R128_PM4_MICRO_CNTL));
--	printk("PM4_BUFFER_CNTL    = 0x%08x\n",
--	       (unsigned int)R128_READ(R128_PM4_BUFFER_CNTL));
--}
--#endif
--
--/* ================================================================
-- * Engine, FIFO control
-- */
--
--static int r128_do_pixcache_flush(drm_r128_private_t *dev_priv)
--{
--	u32 tmp;
+-	uint32_t mask = dev_priv->status_used_mask;
+-	uint32_t threshold = dev_priv->bci_threshold_hi;
+-	uint32_t status;
 -	int i;
 -
--	tmp = R128_READ(R128_PC_NGUI_CTLSTAT) | R128_PC_FLUSH_ALL;
--	R128_WRITE(R128_PC_NGUI_CTLSTAT, tmp);
+-#if SAVAGE_BCI_DEBUG
+-	if (n > dev_priv->cob_size + SAVAGE_BCI_FIFO_SIZE - threshold)
+-		DRM_ERROR("Trying to emit %d words "
+-			  "(more than guaranteed space in COB)\n", n);
+-#endif
 -
--	for (i = 0; i < dev_priv->usec_timeout; i++) {
--		if (!(R128_READ(R128_PC_NGUI_CTLSTAT) & R128_PC_BUSY))
+-	for (i = 0; i < SAVAGE_DEFAULT_USEC_TIMEOUT; i++) {
+-		mb();
+-		status = dev_priv->status_ptr[0];
+-		if ((status & mask) < threshold)
 -			return 0;
 -		udelay(1);
 -	}
 -
--#if R128_FIFO_DEBUG
+-#if SAVAGE_BCI_DEBUG
 -	DRM_ERROR("failed!\n");
+-	DRM_INFO("   status=0x%08x, threshold=0x%08x\n", status, threshold);
 -#endif
 -	return -EBUSY;
 -}
 -
--static int r128_do_wait_for_fifo(drm_r128_private_t *dev_priv, int entries)
+-static int
+-savage_bci_wait_fifo_s3d(drm_savage_private_t * dev_priv, unsigned int n)
 -{
+-	uint32_t maxUsed = dev_priv->cob_size + SAVAGE_BCI_FIFO_SIZE - n;
+-	uint32_t status;
 -	int i;
 -
--	for (i = 0; i < dev_priv->usec_timeout; i++) {
--		int slots = R128_READ(R128_GUI_STAT) & R128_GUI_FIFOCNT_MASK;
--		if (slots >= entries)
+-	for (i = 0; i < SAVAGE_DEFAULT_USEC_TIMEOUT; i++) {
+-		status = SAVAGE_READ(SAVAGE_STATUS_WORD0);
+-		if ((status & SAVAGE_FIFO_USED_MASK_S3D) <= maxUsed)
 -			return 0;
 -		udelay(1);
 -	}
 -
--#if R128_FIFO_DEBUG
+-#if SAVAGE_BCI_DEBUG
 -	DRM_ERROR("failed!\n");
+-	DRM_INFO("   status=0x%08x\n", status);
 -#endif
 -	return -EBUSY;
 -}
 -
--static int r128_do_wait_for_idle(drm_r128_private_t *dev_priv)
+-static int
+-savage_bci_wait_fifo_s4(drm_savage_private_t * dev_priv, unsigned int n)
 -{
--	int i, ret;
--
--	ret = r128_do_wait_for_fifo(dev_priv, 64);
--	if (ret)
--		return ret;
--
--	for (i = 0; i < dev_priv->usec_timeout; i++) {
--		if (!(R128_READ(R128_GUI_STAT) & R128_GUI_ACTIVE)) {
--			r128_do_pixcache_flush(dev_priv);
--			return 0;
--		}
--		udelay(1);
--	}
--
--#if R128_FIFO_DEBUG
--	DRM_ERROR("failed!\n");
--#endif
--	return -EBUSY;
--}
--
--/* ================================================================
-- * CCE control, initialization
-- */
--
--/* Load the microcode for the CCE */
--static int r128_cce_load_microcode(drm_r128_private_t *dev_priv)
--{
--	struct platform_device *pdev;
--	const struct firmware *fw;
--	const __be32 *fw_data;
--	int rc, i;
--
--	DRM_DEBUG("\n");
--
--	pdev = platform_device_register_simple("r128_cce", 0, NULL, 0);
--	if (IS_ERR(pdev)) {
--		pr_err("r128_cce: Failed to register firmware\n");
--		return PTR_ERR(pdev);
--	}
--	rc = request_firmware(&fw, FIRMWARE_NAME, &pdev->dev);
--	platform_device_unregister(pdev);
--	if (rc) {
--		pr_err("r128_cce: Failed to load firmware \"%s\"\n",
--		       FIRMWARE_NAME);
--		return rc;
--	}
--
--	if (fw->size != 256 * 8) {
--		pr_err("r128_cce: Bogus length %zu in firmware \"%s\"\n",
--		       fw->size, FIRMWARE_NAME);
--		rc = -EINVAL;
--		goto out_release;
--	}
--
--	r128_do_wait_for_idle(dev_priv);
--
--	fw_data = (const __be32 *)fw->data;
--	R128_WRITE(R128_PM4_MICROCODE_ADDR, 0);
--	for (i = 0; i < 256; i++) {
--		R128_WRITE(R128_PM4_MICROCODE_DATAH,
--			   be32_to_cpup(&fw_data[i * 2]));
--		R128_WRITE(R128_PM4_MICROCODE_DATAL,
--			   be32_to_cpup(&fw_data[i * 2 + 1]));
--	}
--
--out_release:
--	release_firmware(fw);
--	return rc;
--}
--
--/* Flush any pending commands to the CCE.  This should only be used just
-- * prior to a wait for idle, as it informs the engine that the command
-- * stream is ending.
-- */
--static void r128_do_cce_flush(drm_r128_private_t *dev_priv)
--{
--	u32 tmp;
--
--	tmp = R128_READ(R128_PM4_BUFFER_DL_WPTR) | R128_PM4_BUFFER_DL_DONE;
--	R128_WRITE(R128_PM4_BUFFER_DL_WPTR, tmp);
--}
--
--/* Wait for the CCE to go idle.
-- */
--int r128_do_cce_idle(drm_r128_private_t *dev_priv)
--{
+-	uint32_t maxUsed = dev_priv->cob_size + SAVAGE_BCI_FIFO_SIZE - n;
+-	uint32_t status;
 -	int i;
 -
--	for (i = 0; i < dev_priv->usec_timeout; i++) {
--		if (GET_RING_HEAD(dev_priv) == dev_priv->ring.tail) {
--			int pm4stat = R128_READ(R128_PM4_STAT);
--			if (((pm4stat & R128_PM4_FIFOCNT_MASK) >=
--			     dev_priv->cce_fifo_size) &&
--			    !(pm4stat & (R128_PM4_BUSY |
--					 R128_PM4_GUI_ACTIVE))) {
--				return r128_do_pixcache_flush(dev_priv);
--			}
--		}
+-	for (i = 0; i < SAVAGE_DEFAULT_USEC_TIMEOUT; i++) {
+-		status = SAVAGE_READ(SAVAGE_ALT_STATUS_WORD0);
+-		if ((status & SAVAGE_FIFO_USED_MASK_S4) <= maxUsed)
+-			return 0;
 -		udelay(1);
 -	}
 -
--#if R128_FIFO_DEBUG
+-#if SAVAGE_BCI_DEBUG
 -	DRM_ERROR("failed!\n");
--	r128_status(dev_priv);
+-	DRM_INFO("   status=0x%08x\n", status);
 -#endif
 -	return -EBUSY;
 -}
 -
--/* Start the Concurrent Command Engine.
+-/*
+- * Waiting for events.
+- *
+- * The BIOSresets the event tag to 0 on mode changes. Therefore we
+- * never emit 0 to the event tag. If we find a 0 event tag we know the
+- * BIOS stomped on it and return success assuming that the BIOS waited
+- * for engine idle.
+- *
+- * Note: if the Xserver uses the event tag it has to follow the same
+- * rule. Otherwise there may be glitches every 2^16 events.
 - */
--static void r128_do_cce_start(drm_r128_private_t *dev_priv)
+-static int
+-savage_bci_wait_event_shadow(drm_savage_private_t * dev_priv, uint16_t e)
 -{
--	r128_do_wait_for_idle(dev_priv);
+-	uint32_t status;
+-	int i;
 -
--	R128_WRITE(R128_PM4_BUFFER_CNTL,
--		   dev_priv->cce_mode | dev_priv->ring.size_l2qw
--		   | R128_PM4_BUFFER_CNTL_NOUPDATE);
--	R128_READ(R128_PM4_BUFFER_ADDR);	/* as per the sample code */
--	R128_WRITE(R128_PM4_MICRO_CNTL, R128_PM4_MICRO_FREERUN);
+-	for (i = 0; i < SAVAGE_EVENT_USEC_TIMEOUT; i++) {
+-		mb();
+-		status = dev_priv->status_ptr[1];
+-		if ((((status & 0xffff) - e) & 0xffff) <= 0x7fff ||
+-		    (status & 0xffff) == 0)
+-			return 0;
+-		udelay(1);
+-	}
 -
--	dev_priv->cce_running = 1;
+-#if SAVAGE_BCI_DEBUG
+-	DRM_ERROR("failed!\n");
+-	DRM_INFO("   status=0x%08x, e=0x%04x\n", status, e);
+-#endif
+-
+-	return -EBUSY;
 -}
 -
--/* Reset the Concurrent Command Engine.  This will not flush any pending
-- * commands, so you must wait for the CCE command stream to complete
-- * before calling this routine.
-- */
--static void r128_do_cce_reset(drm_r128_private_t *dev_priv)
+-static int
+-savage_bci_wait_event_reg(drm_savage_private_t * dev_priv, uint16_t e)
 -{
--	R128_WRITE(R128_PM4_BUFFER_DL_WPTR, 0);
--	R128_WRITE(R128_PM4_BUFFER_DL_RPTR, 0);
--	dev_priv->ring.tail = 0;
+-	uint32_t status;
+-	int i;
+-
+-	for (i = 0; i < SAVAGE_EVENT_USEC_TIMEOUT; i++) {
+-		status = SAVAGE_READ(SAVAGE_STATUS_WORD1);
+-		if ((((status & 0xffff) - e) & 0xffff) <= 0x7fff ||
+-		    (status & 0xffff) == 0)
+-			return 0;
+-		udelay(1);
+-	}
+-
+-#if SAVAGE_BCI_DEBUG
+-	DRM_ERROR("failed!\n");
+-	DRM_INFO("   status=0x%08x, e=0x%04x\n", status, e);
+-#endif
+-
+-	return -EBUSY;
 -}
 -
--/* Stop the Concurrent Command Engine.  This will not flush any pending
-- * commands, so you must flush the command stream and wait for the CCE
-- * to go idle before calling this routine.
-- */
--static void r128_do_cce_stop(drm_r128_private_t *dev_priv)
+-uint16_t savage_bci_emit_event(drm_savage_private_t * dev_priv,
+-			       unsigned int flags)
 -{
--	R128_WRITE(R128_PM4_MICRO_CNTL, 0);
--	R128_WRITE(R128_PM4_BUFFER_CNTL,
--		   R128_PM4_NONPM4 | R128_PM4_BUFFER_CNTL_NOUPDATE);
+-	uint16_t count;
+-	BCI_LOCALS;
 -
--	dev_priv->cce_running = 0;
+-	if (dev_priv->status_ptr) {
+-		/* coordinate with Xserver */
+-		count = dev_priv->status_ptr[1023];
+-		if (count < dev_priv->event_counter)
+-			dev_priv->event_wrap++;
+-	} else {
+-		count = dev_priv->event_counter;
+-	}
+-	count = (count + 1) & 0xffff;
+-	if (count == 0) {
+-		count++;	/* See the comment above savage_wait_event_*. */
+-		dev_priv->event_wrap++;
+-	}
+-	dev_priv->event_counter = count;
+-	if (dev_priv->status_ptr)
+-		dev_priv->status_ptr[1023] = (uint32_t) count;
+-
+-	if ((flags & (SAVAGE_WAIT_2D | SAVAGE_WAIT_3D))) {
+-		unsigned int wait_cmd = BCI_CMD_WAIT;
+-		if ((flags & SAVAGE_WAIT_2D))
+-			wait_cmd |= BCI_CMD_WAIT_2D;
+-		if ((flags & SAVAGE_WAIT_3D))
+-			wait_cmd |= BCI_CMD_WAIT_3D;
+-		BEGIN_BCI(2);
+-		BCI_WRITE(wait_cmd);
+-	} else {
+-		BEGIN_BCI(1);
+-	}
+-	BCI_WRITE(BCI_CMD_UPDATE_EVENT_TAG | (uint32_t) count);
+-
+-	return count;
 -}
 -
--/* Reset the engine.  This will stop the CCE if it is running.
+-/*
+- * Freelist management
 - */
--static int r128_do_engine_reset(struct drm_device *dev)
+-static int savage_freelist_init(struct drm_device * dev)
 -{
--	drm_r128_private_t *dev_priv = dev->dev_private;
--	u32 clock_cntl_index, mclk_cntl, gen_reset_cntl;
+-	drm_savage_private_t *dev_priv = dev->dev_private;
+-	struct drm_device_dma *dma = dev->dma;
+-	struct drm_buf *buf;
+-	drm_savage_buf_priv_t *entry;
+-	int i;
+-	DRM_DEBUG("count=%d\n", dma->buf_count);
 -
--	r128_do_pixcache_flush(dev_priv);
+-	dev_priv->head.next = &dev_priv->tail;
+-	dev_priv->head.prev = NULL;
+-	dev_priv->head.buf = NULL;
 -
--	clock_cntl_index = R128_READ(R128_CLOCK_CNTL_INDEX);
--	mclk_cntl = R128_READ_PLL(dev, R128_MCLK_CNTL);
+-	dev_priv->tail.next = NULL;
+-	dev_priv->tail.prev = &dev_priv->head;
+-	dev_priv->tail.buf = NULL;
 -
--	R128_WRITE_PLL(R128_MCLK_CNTL,
--		       mclk_cntl | R128_FORCE_GCP | R128_FORCE_PIPE3D_CP);
+-	for (i = 0; i < dma->buf_count; i++) {
+-		buf = dma->buflist[i];
+-		entry = buf->dev_private;
 -
--	gen_reset_cntl = R128_READ(R128_GEN_RESET_CNTL);
+-		SET_AGE(&entry->age, 0, 0);
+-		entry->buf = buf;
 -
--	/* Taken from the sample code - do not change */
--	R128_WRITE(R128_GEN_RESET_CNTL, gen_reset_cntl | R128_SOFT_RESET_GUI);
--	R128_READ(R128_GEN_RESET_CNTL);
--	R128_WRITE(R128_GEN_RESET_CNTL, gen_reset_cntl & ~R128_SOFT_RESET_GUI);
--	R128_READ(R128_GEN_RESET_CNTL);
--
--	R128_WRITE_PLL(R128_MCLK_CNTL, mclk_cntl);
--	R128_WRITE(R128_CLOCK_CNTL_INDEX, clock_cntl_index);
--	R128_WRITE(R128_GEN_RESET_CNTL, gen_reset_cntl);
--
--	/* Reset the CCE ring */
--	r128_do_cce_reset(dev_priv);
--
--	/* The CCE is no longer running after an engine reset */
--	dev_priv->cce_running = 0;
--
--	/* Reset any pending vertex, indirect buffers */
--	r128_freelist_reset(dev);
+-		entry->next = dev_priv->head.next;
+-		entry->prev = &dev_priv->head;
+-		dev_priv->head.next->prev = entry;
+-		dev_priv->head.next = entry;
+-	}
 -
 -	return 0;
 -}
 -
--static void r128_cce_init_ring_buffer(struct drm_device *dev,
--				      drm_r128_private_t *dev_priv)
+-static struct drm_buf *savage_freelist_get(struct drm_device * dev)
 -{
--	u32 ring_start;
--	u32 tmp;
--
+-	drm_savage_private_t *dev_priv = dev->dev_private;
+-	drm_savage_buf_priv_t *tail = dev_priv->tail.prev;
+-	uint16_t event;
+-	unsigned int wrap;
 -	DRM_DEBUG("\n");
 -
--	/* The manual (p. 2) says this address is in "VM space".  This
--	 * means it's an offset from the start of AGP space.
--	 */
--#if IS_ENABLED(CONFIG_AGP)
--	if (!dev_priv->is_pci)
--		ring_start = dev_priv->cce_ring->offset - dev->agp->base;
+-	UPDATE_EVENT_COUNTER();
+-	if (dev_priv->status_ptr)
+-		event = dev_priv->status_ptr[1] & 0xffff;
 -	else
--#endif
--		ring_start = dev_priv->cce_ring->offset -
--		    (unsigned long)dev->sg->virtual;
+-		event = SAVAGE_READ(SAVAGE_STATUS_WORD1) & 0xffff;
+-	wrap = dev_priv->event_wrap;
+-	if (event > dev_priv->event_counter)
+-		wrap--;		/* hardware hasn't passed the last wrap yet */
 -
--	R128_WRITE(R128_PM4_BUFFER_OFFSET, ring_start | R128_AGP_OFFSET);
+-	DRM_DEBUG("   tail=0x%04x %d\n", tail->age.event, tail->age.wrap);
+-	DRM_DEBUG("   head=0x%04x %d\n", event, wrap);
 -
--	R128_WRITE(R128_PM4_BUFFER_DL_WPTR, 0);
--	R128_WRITE(R128_PM4_BUFFER_DL_RPTR, 0);
--
--	/* Set watermark control */
--	R128_WRITE(R128_PM4_BUFFER_WM_CNTL,
--		   ((R128_WATERMARK_L / 4) << R128_WMA_SHIFT)
--		   | ((R128_WATERMARK_M / 4) << R128_WMB_SHIFT)
--		   | ((R128_WATERMARK_N / 4) << R128_WMC_SHIFT)
--		   | ((R128_WATERMARK_K / 64) << R128_WB_WM_SHIFT));
--
--	/* Force read.  Why?  Because it's in the examples... */
--	R128_READ(R128_PM4_BUFFER_ADDR);
--
--	/* Turn on bus mastering */
--	tmp = R128_READ(R128_BUS_CNTL) & ~R128_BUS_MASTER_DIS;
--	R128_WRITE(R128_BUS_CNTL, tmp);
--}
--
--static int r128_do_init_cce(struct drm_device *dev, drm_r128_init_t *init)
--{
--	drm_r128_private_t *dev_priv;
--	int rc;
--
--	DRM_DEBUG("\n");
--
--	if (dev->dev_private) {
--		DRM_DEBUG("called when already initialized\n");
--		return -EINVAL;
+-	if (tail->buf && (TEST_AGE(&tail->age, event, wrap) || event == 0)) {
+-		drm_savage_buf_priv_t *next = tail->next;
+-		drm_savage_buf_priv_t *prev = tail->prev;
+-		prev->next = next;
+-		next->prev = prev;
+-		tail->next = tail->prev = NULL;
+-		return tail->buf;
 -	}
 -
--	dev_priv = kzalloc(sizeof(drm_r128_private_t), GFP_KERNEL);
+-	DRM_DEBUG("returning NULL, tail->buf=%p!\n", tail->buf);
+-	return NULL;
+-}
+-
+-void savage_freelist_put(struct drm_device * dev, struct drm_buf * buf)
+-{
+-	drm_savage_private_t *dev_priv = dev->dev_private;
+-	drm_savage_buf_priv_t *entry = buf->dev_private, *prev, *next;
+-
+-	DRM_DEBUG("age=0x%04x wrap=%d\n", entry->age.event, entry->age.wrap);
+-
+-	if (entry->next != NULL || entry->prev != NULL) {
+-		DRM_ERROR("entry already on freelist.\n");
+-		return;
+-	}
+-
+-	prev = &dev_priv->head;
+-	next = prev->next;
+-	prev->next = entry;
+-	next->prev = entry;
+-	entry->prev = prev;
+-	entry->next = next;
+-}
+-
+-/*
+- * Command DMA
+- */
+-static int savage_dma_init(drm_savage_private_t * dev_priv)
+-{
+-	unsigned int i;
+-
+-	dev_priv->nr_dma_pages = dev_priv->cmd_dma->size /
+-	    (SAVAGE_DMA_PAGE_SIZE * 4);
+-	dev_priv->dma_pages = kmalloc_array(dev_priv->nr_dma_pages,
+-					    sizeof(drm_savage_dma_page_t),
+-					    GFP_KERNEL);
+-	if (dev_priv->dma_pages == NULL)
+-		return -ENOMEM;
+-
+-	for (i = 0; i < dev_priv->nr_dma_pages; ++i) {
+-		SET_AGE(&dev_priv->dma_pages[i].age, 0, 0);
+-		dev_priv->dma_pages[i].used = 0;
+-		dev_priv->dma_pages[i].flushed = 0;
+-	}
+-	SET_AGE(&dev_priv->last_dma_age, 0, 0);
+-
+-	dev_priv->first_dma_page = 0;
+-	dev_priv->current_dma_page = 0;
+-
+-	return 0;
+-}
+-
+-void savage_dma_reset(drm_savage_private_t * dev_priv)
+-{
+-	uint16_t event;
+-	unsigned int wrap, i;
+-	event = savage_bci_emit_event(dev_priv, 0);
+-	wrap = dev_priv->event_wrap;
+-	for (i = 0; i < dev_priv->nr_dma_pages; ++i) {
+-		SET_AGE(&dev_priv->dma_pages[i].age, event, wrap);
+-		dev_priv->dma_pages[i].used = 0;
+-		dev_priv->dma_pages[i].flushed = 0;
+-	}
+-	SET_AGE(&dev_priv->last_dma_age, event, wrap);
+-	dev_priv->first_dma_page = dev_priv->current_dma_page = 0;
+-}
+-
+-void savage_dma_wait(drm_savage_private_t * dev_priv, unsigned int page)
+-{
+-	uint16_t event;
+-	unsigned int wrap;
+-
+-	/* Faked DMA buffer pages don't age. */
+-	if (dev_priv->cmd_dma == &dev_priv->fake_dma)
+-		return;
+-
+-	UPDATE_EVENT_COUNTER();
+-	if (dev_priv->status_ptr)
+-		event = dev_priv->status_ptr[1] & 0xffff;
+-	else
+-		event = SAVAGE_READ(SAVAGE_STATUS_WORD1) & 0xffff;
+-	wrap = dev_priv->event_wrap;
+-	if (event > dev_priv->event_counter)
+-		wrap--;		/* hardware hasn't passed the last wrap yet */
+-
+-	if (dev_priv->dma_pages[page].age.wrap > wrap ||
+-	    (dev_priv->dma_pages[page].age.wrap == wrap &&
+-	     dev_priv->dma_pages[page].age.event > event)) {
+-		if (dev_priv->wait_evnt(dev_priv,
+-					dev_priv->dma_pages[page].age.event)
+-		    < 0)
+-			DRM_ERROR("wait_evnt failed!\n");
+-	}
+-}
+-
+-uint32_t *savage_dma_alloc(drm_savage_private_t * dev_priv, unsigned int n)
+-{
+-	unsigned int cur = dev_priv->current_dma_page;
+-	unsigned int rest = SAVAGE_DMA_PAGE_SIZE -
+-	    dev_priv->dma_pages[cur].used;
+-	unsigned int nr_pages = (n - rest + SAVAGE_DMA_PAGE_SIZE - 1) /
+-	    SAVAGE_DMA_PAGE_SIZE;
+-	uint32_t *dma_ptr;
+-	unsigned int i;
+-
+-	DRM_DEBUG("cur=%u, cur->used=%u, n=%u, rest=%u, nr_pages=%u\n",
+-		  cur, dev_priv->dma_pages[cur].used, n, rest, nr_pages);
+-
+-	if (cur + nr_pages < dev_priv->nr_dma_pages) {
+-		dma_ptr = (uint32_t *) dev_priv->cmd_dma->handle +
+-		    cur * SAVAGE_DMA_PAGE_SIZE + dev_priv->dma_pages[cur].used;
+-		if (n < rest)
+-			rest = n;
+-		dev_priv->dma_pages[cur].used += rest;
+-		n -= rest;
+-		cur++;
+-	} else {
+-		dev_priv->dma_flush(dev_priv);
+-		nr_pages =
+-		    (n + SAVAGE_DMA_PAGE_SIZE - 1) / SAVAGE_DMA_PAGE_SIZE;
+-		for (i = cur; i < dev_priv->nr_dma_pages; ++i) {
+-			dev_priv->dma_pages[i].age = dev_priv->last_dma_age;
+-			dev_priv->dma_pages[i].used = 0;
+-			dev_priv->dma_pages[i].flushed = 0;
+-		}
+-		dma_ptr = (uint32_t *) dev_priv->cmd_dma->handle;
+-		dev_priv->first_dma_page = cur = 0;
+-	}
+-	for (i = cur; nr_pages > 0; ++i, --nr_pages) {
+-#if SAVAGE_DMA_DEBUG
+-		if (dev_priv->dma_pages[i].used) {
+-			DRM_ERROR("unflushed page %u: used=%u\n",
+-				  i, dev_priv->dma_pages[i].used);
+-		}
+-#endif
+-		if (n > SAVAGE_DMA_PAGE_SIZE)
+-			dev_priv->dma_pages[i].used = SAVAGE_DMA_PAGE_SIZE;
+-		else
+-			dev_priv->dma_pages[i].used = n;
+-		n -= SAVAGE_DMA_PAGE_SIZE;
+-	}
+-	dev_priv->current_dma_page = --i;
+-
+-	DRM_DEBUG("cur=%u, cur->used=%u, n=%u\n",
+-		  i, dev_priv->dma_pages[i].used, n);
+-
+-	savage_dma_wait(dev_priv, dev_priv->current_dma_page);
+-
+-	return dma_ptr;
+-}
+-
+-static void savage_dma_flush(drm_savage_private_t * dev_priv)
+-{
+-	unsigned int first = dev_priv->first_dma_page;
+-	unsigned int cur = dev_priv->current_dma_page;
+-	uint16_t event;
+-	unsigned int wrap, pad, align, len, i;
+-	unsigned long phys_addr;
+-	BCI_LOCALS;
+-
+-	if (first == cur &&
+-	    dev_priv->dma_pages[cur].used == dev_priv->dma_pages[cur].flushed)
+-		return;
+-
+-	/* pad length to multiples of 2 entries
+-	 * align start of next DMA block to multiles of 8 entries */
+-	pad = -dev_priv->dma_pages[cur].used & 1;
+-	align = -(dev_priv->dma_pages[cur].used + pad) & 7;
+-
+-	DRM_DEBUG("first=%u, cur=%u, first->flushed=%u, cur->used=%u, "
+-		  "pad=%u, align=%u\n",
+-		  first, cur, dev_priv->dma_pages[first].flushed,
+-		  dev_priv->dma_pages[cur].used, pad, align);
+-
+-	/* pad with noops */
+-	if (pad) {
+-		uint32_t *dma_ptr = (uint32_t *) dev_priv->cmd_dma->handle +
+-		    cur * SAVAGE_DMA_PAGE_SIZE + dev_priv->dma_pages[cur].used;
+-		dev_priv->dma_pages[cur].used += pad;
+-		while (pad != 0) {
+-			*dma_ptr++ = BCI_CMD_WAIT;
+-			pad--;
+-		}
+-	}
+-
+-	mb();
+-
+-	/* do flush ... */
+-	phys_addr = dev_priv->cmd_dma->offset +
+-	    (first * SAVAGE_DMA_PAGE_SIZE +
+-	     dev_priv->dma_pages[first].flushed) * 4;
+-	len = (cur - first) * SAVAGE_DMA_PAGE_SIZE +
+-	    dev_priv->dma_pages[cur].used - dev_priv->dma_pages[first].flushed;
+-
+-	DRM_DEBUG("phys_addr=%lx, len=%u\n",
+-		  phys_addr | dev_priv->dma_type, len);
+-
+-	BEGIN_BCI(3);
+-	BCI_SET_REGISTERS(SAVAGE_DMABUFADDR, 1);
+-	BCI_WRITE(phys_addr | dev_priv->dma_type);
+-	BCI_DMA(len);
+-
+-	/* fix alignment of the start of the next block */
+-	dev_priv->dma_pages[cur].used += align;
+-
+-	/* age DMA pages */
+-	event = savage_bci_emit_event(dev_priv, 0);
+-	wrap = dev_priv->event_wrap;
+-	for (i = first; i < cur; ++i) {
+-		SET_AGE(&dev_priv->dma_pages[i].age, event, wrap);
+-		dev_priv->dma_pages[i].used = 0;
+-		dev_priv->dma_pages[i].flushed = 0;
+-	}
+-	/* age the current page only when it's full */
+-	if (dev_priv->dma_pages[cur].used == SAVAGE_DMA_PAGE_SIZE) {
+-		SET_AGE(&dev_priv->dma_pages[cur].age, event, wrap);
+-		dev_priv->dma_pages[cur].used = 0;
+-		dev_priv->dma_pages[cur].flushed = 0;
+-		/* advance to next page */
+-		cur++;
+-		if (cur == dev_priv->nr_dma_pages)
+-			cur = 0;
+-		dev_priv->first_dma_page = dev_priv->current_dma_page = cur;
+-	} else {
+-		dev_priv->first_dma_page = cur;
+-		dev_priv->dma_pages[cur].flushed = dev_priv->dma_pages[i].used;
+-	}
+-	SET_AGE(&dev_priv->last_dma_age, event, wrap);
+-
+-	DRM_DEBUG("first=cur=%u, cur->used=%u, cur->flushed=%u\n", cur,
+-		  dev_priv->dma_pages[cur].used,
+-		  dev_priv->dma_pages[cur].flushed);
+-}
+-
+-static void savage_fake_dma_flush(drm_savage_private_t * dev_priv)
+-{
+-	unsigned int i, j;
+-	BCI_LOCALS;
+-
+-	if (dev_priv->first_dma_page == dev_priv->current_dma_page &&
+-	    dev_priv->dma_pages[dev_priv->current_dma_page].used == 0)
+-		return;
+-
+-	DRM_DEBUG("first=%u, cur=%u, cur->used=%u\n",
+-		  dev_priv->first_dma_page, dev_priv->current_dma_page,
+-		  dev_priv->dma_pages[dev_priv->current_dma_page].used);
+-
+-	for (i = dev_priv->first_dma_page;
+-	     i <= dev_priv->current_dma_page && dev_priv->dma_pages[i].used;
+-	     ++i) {
+-		uint32_t *dma_ptr = (uint32_t *) dev_priv->cmd_dma->handle +
+-		    i * SAVAGE_DMA_PAGE_SIZE;
+-#if SAVAGE_DMA_DEBUG
+-		/* Sanity check: all pages except the last one must be full. */
+-		if (i < dev_priv->current_dma_page &&
+-		    dev_priv->dma_pages[i].used != SAVAGE_DMA_PAGE_SIZE) {
+-			DRM_ERROR("partial DMA page %u: used=%u",
+-				  i, dev_priv->dma_pages[i].used);
+-		}
+-#endif
+-		BEGIN_BCI(dev_priv->dma_pages[i].used);
+-		for (j = 0; j < dev_priv->dma_pages[i].used; ++j) {
+-			BCI_WRITE(dma_ptr[j]);
+-		}
+-		dev_priv->dma_pages[i].used = 0;
+-	}
+-
+-	/* reset to first page */
+-	dev_priv->first_dma_page = dev_priv->current_dma_page = 0;
+-}
+-
+-int savage_driver_load(struct drm_device *dev, unsigned long chipset)
+-{
+-	struct pci_dev *pdev = to_pci_dev(dev->dev);
+-	drm_savage_private_t *dev_priv;
+-
+-	dev_priv = kzalloc(sizeof(drm_savage_private_t), GFP_KERNEL);
 -	if (dev_priv == NULL)
 -		return -ENOMEM;
 -
--	dev_priv->is_pci = init->is_pci;
+-	dev->dev_private = (void *)dev_priv;
 -
--	if (dev_priv->is_pci && !dev->sg) {
--		DRM_ERROR("PCI GART memory not allocated!\n");
--		dev->dev_private = (void *)dev_priv;
--		r128_do_cleanup_cce(dev);
+-	dev_priv->chipset = (enum savage_family)chipset;
+-
+-	pci_set_master(pdev);
+-
+-	return 0;
+-}
+-
+-
+-/*
+- * Initialize mappings. On Savage4 and SavageIX the alignment
+- * and size of the aperture is not suitable for automatic MTRR setup
+- * in drm_legacy_addmap. Therefore we add them manually before the maps are
+- * initialized, and tear them down on last close.
+- */
+-int savage_driver_firstopen(struct drm_device *dev)
+-{
+-	drm_savage_private_t *dev_priv = dev->dev_private;
+-	struct pci_dev *pdev = to_pci_dev(dev->dev);
+-	unsigned long mmio_base, fb_base, fb_size, aperture_base;
+-	int ret = 0;
+-
+-	if (S3_SAVAGE3D_SERIES(dev_priv->chipset)) {
+-		fb_base = pci_resource_start(pdev, 0);
+-		fb_size = SAVAGE_FB_SIZE_S3;
+-		mmio_base = fb_base + SAVAGE_FB_SIZE_S3;
+-		aperture_base = fb_base + SAVAGE_APERTURE_OFFSET;
+-		/* this should always be true */
+-		if (pci_resource_len(pdev, 0) == 0x08000000) {
+-			/* Don't make MMIO write-cobining! We need 3
+-			 * MTRRs. */
+-			dev_priv->mtrr_handles[0] =
+-				arch_phys_wc_add(fb_base, 0x01000000);
+-			dev_priv->mtrr_handles[1] =
+-				arch_phys_wc_add(fb_base + 0x02000000,
+-						 0x02000000);
+-			dev_priv->mtrr_handles[2] =
+-				arch_phys_wc_add(fb_base + 0x04000000,
+-						0x04000000);
+-		} else {
+-			DRM_ERROR("strange pci_resource_len %08llx\n",
+-				  (unsigned long long)
+-				  pci_resource_len(pdev, 0));
+-		}
+-	} else if (dev_priv->chipset != S3_SUPERSAVAGE &&
+-		   dev_priv->chipset != S3_SAVAGE2000) {
+-		mmio_base = pci_resource_start(pdev, 0);
+-		fb_base = pci_resource_start(pdev, 1);
+-		fb_size = SAVAGE_FB_SIZE_S4;
+-		aperture_base = fb_base + SAVAGE_APERTURE_OFFSET;
+-		/* this should always be true */
+-		if (pci_resource_len(pdev, 1) == 0x08000000) {
+-			/* Can use one MTRR to cover both fb and
+-			 * aperture. */
+-			dev_priv->mtrr_handles[0] =
+-				arch_phys_wc_add(fb_base,
+-						 0x08000000);
+-		} else {
+-			DRM_ERROR("strange pci_resource_len %08llx\n",
+-				  (unsigned long long)
+-				  pci_resource_len(pdev, 1));
+-		}
+-	} else {
+-		mmio_base = pci_resource_start(pdev, 0);
+-		fb_base = pci_resource_start(pdev, 1);
+-		fb_size = pci_resource_len(pdev, 1);
+-		aperture_base = pci_resource_start(pdev, 2);
+-		/* Automatic MTRR setup will do the right thing. */
+-	}
+-
+-	ret = drm_legacy_addmap(dev, mmio_base, SAVAGE_MMIO_SIZE,
+-				_DRM_REGISTERS, _DRM_READ_ONLY,
+-				&dev_priv->mmio);
+-	if (ret)
+-		return ret;
+-
+-	ret = drm_legacy_addmap(dev, fb_base, fb_size, _DRM_FRAME_BUFFER,
+-				_DRM_WRITE_COMBINING, &dev_priv->fb);
+-	if (ret)
+-		return ret;
+-
+-	ret = drm_legacy_addmap(dev, aperture_base, SAVAGE_APERTURE_SIZE,
+-				_DRM_FRAME_BUFFER, _DRM_WRITE_COMBINING,
+-				&dev_priv->aperture);
+-	return ret;
+-}
+-
+-/*
+- * Delete MTRRs and free device-private data.
+- */
+-void savage_driver_lastclose(struct drm_device *dev)
+-{
+-	drm_savage_private_t *dev_priv = dev->dev_private;
+-	int i;
+-
+-	for (i = 0; i < 3; ++i) {
+-		arch_phys_wc_del(dev_priv->mtrr_handles[i]);
+-		dev_priv->mtrr_handles[i] = 0;
+-	}
+-}
+-
+-void savage_driver_unload(struct drm_device *dev)
+-{
+-	drm_savage_private_t *dev_priv = dev->dev_private;
+-
+-	kfree(dev_priv);
+-}
+-
+-static int savage_do_init_bci(struct drm_device * dev, drm_savage_init_t * init)
+-{
+-	drm_savage_private_t *dev_priv = dev->dev_private;
+-
+-	if (init->fb_bpp != 16 && init->fb_bpp != 32) {
+-		DRM_ERROR("invalid frame buffer bpp %d!\n", init->fb_bpp);
+-		return -EINVAL;
+-	}
+-	if (init->depth_bpp != 16 && init->depth_bpp != 32) {
+-		DRM_ERROR("invalid depth buffer bpp %d!\n", init->fb_bpp);
+-		return -EINVAL;
+-	}
+-	if (init->dma_type != SAVAGE_DMA_AGP &&
+-	    init->dma_type != SAVAGE_DMA_PCI) {
+-		DRM_ERROR("invalid dma memory type %d!\n", init->dma_type);
 -		return -EINVAL;
 -	}
 -
--	dev_priv->usec_timeout = init->usec_timeout;
--	if (dev_priv->usec_timeout < 1 ||
--	    dev_priv->usec_timeout > R128_MAX_USEC_TIMEOUT) {
--		DRM_DEBUG("TIMEOUT problem!\n");
--		dev->dev_private = (void *)dev_priv;
--		r128_do_cleanup_cce(dev);
--		return -EINVAL;
--	}
+-	dev_priv->cob_size = init->cob_size;
+-	dev_priv->bci_threshold_lo = init->bci_threshold_lo;
+-	dev_priv->bci_threshold_hi = init->bci_threshold_hi;
+-	dev_priv->dma_type = init->dma_type;
 -
--	dev_priv->cce_mode = init->cce_mode;
--
--	/* GH: Simple idle check.
--	 */
--	atomic_set(&dev_priv->idle_count, 0);
--
--	/* We don't support anything other than bus-mastering ring mode,
--	 * but the ring can be in either AGP or PCI space for the ring
--	 * read pointer.
--	 */
--	if ((init->cce_mode != R128_PM4_192BM) &&
--	    (init->cce_mode != R128_PM4_128BM_64INDBM) &&
--	    (init->cce_mode != R128_PM4_64BM_128INDBM) &&
--	    (init->cce_mode != R128_PM4_64BM_64VCBM_64INDBM)) {
--		DRM_DEBUG("Bad cce_mode!\n");
--		dev->dev_private = (void *)dev_priv;
--		r128_do_cleanup_cce(dev);
--		return -EINVAL;
--	}
--
--	switch (init->cce_mode) {
--	case R128_PM4_NONPM4:
--		dev_priv->cce_fifo_size = 0;
--		break;
--	case R128_PM4_192PIO:
--	case R128_PM4_192BM:
--		dev_priv->cce_fifo_size = 192;
--		break;
--	case R128_PM4_128PIO_64INDBM:
--	case R128_PM4_128BM_64INDBM:
--		dev_priv->cce_fifo_size = 128;
--		break;
--	case R128_PM4_64PIO_128INDBM:
--	case R128_PM4_64BM_128INDBM:
--	case R128_PM4_64PIO_64VCBM_64INDBM:
--	case R128_PM4_64BM_64VCBM_64INDBM:
--	case R128_PM4_64PIO_64VCPIO_64INDPIO:
--		dev_priv->cce_fifo_size = 64;
--		break;
--	}
--
--	switch (init->fb_bpp) {
--	case 16:
--		dev_priv->color_fmt = R128_DATATYPE_RGB565;
--		break;
--	case 32:
--	default:
--		dev_priv->color_fmt = R128_DATATYPE_ARGB8888;
--		break;
--	}
+-	dev_priv->fb_bpp = init->fb_bpp;
 -	dev_priv->front_offset = init->front_offset;
 -	dev_priv->front_pitch = init->front_pitch;
 -	dev_priv->back_offset = init->back_offset;
 -	dev_priv->back_pitch = init->back_pitch;
--
--	switch (init->depth_bpp) {
--	case 16:
--		dev_priv->depth_fmt = R128_DATATYPE_RGB565;
--		break;
--	case 24:
--	case 32:
--	default:
--		dev_priv->depth_fmt = R128_DATATYPE_ARGB8888;
--		break;
--	}
+-	dev_priv->depth_bpp = init->depth_bpp;
 -	dev_priv->depth_offset = init->depth_offset;
 -	dev_priv->depth_pitch = init->depth_pitch;
--	dev_priv->span_offset = init->span_offset;
 -
--	dev_priv->front_pitch_offset_c = (((dev_priv->front_pitch / 8) << 21) |
--					  (dev_priv->front_offset >> 5));
--	dev_priv->back_pitch_offset_c = (((dev_priv->back_pitch / 8) << 21) |
--					 (dev_priv->back_offset >> 5));
--	dev_priv->depth_pitch_offset_c = (((dev_priv->depth_pitch / 8) << 21) |
--					  (dev_priv->depth_offset >> 5) |
--					  R128_DST_TILE);
--	dev_priv->span_pitch_offset_c = (((dev_priv->depth_pitch / 8) << 21) |
--					 (dev_priv->span_offset >> 5));
+-	dev_priv->texture_offset = init->texture_offset;
+-	dev_priv->texture_size = init->texture_size;
 -
 -	dev_priv->sarea = drm_legacy_getsarea(dev);
 -	if (!dev_priv->sarea) {
 -		DRM_ERROR("could not find sarea!\n");
--		dev->dev_private = (void *)dev_priv;
--		r128_do_cleanup_cce(dev);
+-		savage_do_cleanup_bci(dev);
 -		return -EINVAL;
 -	}
--
--	dev_priv->mmio = drm_legacy_findmap(dev, init->mmio_offset);
--	if (!dev_priv->mmio) {
--		DRM_ERROR("could not find mmio region!\n");
--		dev->dev_private = (void *)dev_priv;
--		r128_do_cleanup_cce(dev);
--		return -EINVAL;
+-	if (init->status_offset != 0) {
+-		dev_priv->status = drm_legacy_findmap(dev, init->status_offset);
+-		if (!dev_priv->status) {
+-			DRM_ERROR("could not find shadow status region!\n");
+-			savage_do_cleanup_bci(dev);
+-			return -EINVAL;
+-		}
+-	} else {
+-		dev_priv->status = NULL;
 -	}
--	dev_priv->cce_ring = drm_legacy_findmap(dev, init->ring_offset);
--	if (!dev_priv->cce_ring) {
--		DRM_ERROR("could not find cce ring region!\n");
--		dev->dev_private = (void *)dev_priv;
--		r128_do_cleanup_cce(dev);
--		return -EINVAL;
+-	if (dev_priv->dma_type == SAVAGE_DMA_AGP && init->buffers_offset) {
+-		dev->agp_buffer_token = init->buffers_offset;
+-		dev->agp_buffer_map = drm_legacy_findmap(dev,
+-						       init->buffers_offset);
+-		if (!dev->agp_buffer_map) {
+-			DRM_ERROR("could not find DMA buffer region!\n");
+-			savage_do_cleanup_bci(dev);
+-			return -EINVAL;
+-		}
+-		drm_legacy_ioremap(dev->agp_buffer_map, dev);
+-		if (!dev->agp_buffer_map->handle) {
+-			DRM_ERROR("failed to ioremap DMA buffer region!\n");
+-			savage_do_cleanup_bci(dev);
+-			return -ENOMEM;
+-		}
 -	}
--	dev_priv->ring_rptr = drm_legacy_findmap(dev, init->ring_rptr_offset);
--	if (!dev_priv->ring_rptr) {
--		DRM_ERROR("could not find ring read pointer!\n");
--		dev->dev_private = (void *)dev_priv;
--		r128_do_cleanup_cce(dev);
--		return -EINVAL;
--	}
--	dev->agp_buffer_token = init->buffers_offset;
--	dev->agp_buffer_map = drm_legacy_findmap(dev, init->buffers_offset);
--	if (!dev->agp_buffer_map) {
--		DRM_ERROR("could not find dma buffer region!\n");
--		dev->dev_private = (void *)dev_priv;
--		r128_do_cleanup_cce(dev);
--		return -EINVAL;
--	}
--
--	if (!dev_priv->is_pci) {
+-	if (init->agp_textures_offset) {
 -		dev_priv->agp_textures =
 -		    drm_legacy_findmap(dev, init->agp_textures_offset);
 -		if (!dev_priv->agp_textures) {
 -			DRM_ERROR("could not find agp texture region!\n");
--			dev->dev_private = (void *)dev_priv;
--			r128_do_cleanup_cce(dev);
+-			savage_do_cleanup_bci(dev);
 -			return -EINVAL;
 -		}
+-	} else {
+-		dev_priv->agp_textures = NULL;
+-	}
+-
+-	if (init->cmd_dma_offset) {
+-		if (S3_SAVAGE3D_SERIES(dev_priv->chipset)) {
+-			DRM_ERROR("command DMA not supported on "
+-				  "Savage3D/MX/IX.\n");
+-			savage_do_cleanup_bci(dev);
+-			return -EINVAL;
+-		}
+-		if (dev->dma && dev->dma->buflist) {
+-			DRM_ERROR("command and vertex DMA not supported "
+-				  "at the same time.\n");
+-			savage_do_cleanup_bci(dev);
+-			return -EINVAL;
+-		}
+-		dev_priv->cmd_dma = drm_legacy_findmap(dev, init->cmd_dma_offset);
+-		if (!dev_priv->cmd_dma) {
+-			DRM_ERROR("could not find command DMA region!\n");
+-			savage_do_cleanup_bci(dev);
+-			return -EINVAL;
+-		}
+-		if (dev_priv->dma_type == SAVAGE_DMA_AGP) {
+-			if (dev_priv->cmd_dma->type != _DRM_AGP) {
+-				DRM_ERROR("AGP command DMA region is not a "
+-					  "_DRM_AGP map!\n");
+-				savage_do_cleanup_bci(dev);
+-				return -EINVAL;
+-			}
+-			drm_legacy_ioremap(dev_priv->cmd_dma, dev);
+-			if (!dev_priv->cmd_dma->handle) {
+-				DRM_ERROR("failed to ioremap command "
+-					  "DMA region!\n");
+-				savage_do_cleanup_bci(dev);
+-				return -ENOMEM;
+-			}
+-		} else if (dev_priv->cmd_dma->type != _DRM_CONSISTENT) {
+-			DRM_ERROR("PCI command DMA region is not a "
+-				  "_DRM_CONSISTENT map!\n");
+-			savage_do_cleanup_bci(dev);
+-			return -EINVAL;
+-		}
+-	} else {
+-		dev_priv->cmd_dma = NULL;
+-	}
+-
+-	dev_priv->dma_flush = savage_dma_flush;
+-	if (!dev_priv->cmd_dma) {
+-		DRM_DEBUG("falling back to faked command DMA.\n");
+-		dev_priv->fake_dma.offset = 0;
+-		dev_priv->fake_dma.size = SAVAGE_FAKE_DMA_SIZE;
+-		dev_priv->fake_dma.type = _DRM_SHM;
+-		dev_priv->fake_dma.handle = kmalloc(SAVAGE_FAKE_DMA_SIZE,
+-						    GFP_KERNEL);
+-		if (!dev_priv->fake_dma.handle) {
+-			DRM_ERROR("could not allocate faked DMA buffer!\n");
+-			savage_do_cleanup_bci(dev);
+-			return -ENOMEM;
+-		}
+-		dev_priv->cmd_dma = &dev_priv->fake_dma;
+-		dev_priv->dma_flush = savage_fake_dma_flush;
 -	}
 -
 -	dev_priv->sarea_priv =
--	    (drm_r128_sarea_t *) ((u8 *) dev_priv->sarea->handle +
--				  init->sarea_priv_offset);
+-	    (drm_savage_sarea_t *) ((uint8_t *) dev_priv->sarea->handle +
+-				    init->sarea_priv_offset);
 -
--#if IS_ENABLED(CONFIG_AGP)
--	if (!dev_priv->is_pci) {
--		drm_legacy_ioremap_wc(dev_priv->cce_ring, dev);
--		drm_legacy_ioremap_wc(dev_priv->ring_rptr, dev);
--		drm_legacy_ioremap_wc(dev->agp_buffer_map, dev);
--		if (!dev_priv->cce_ring->handle ||
--		    !dev_priv->ring_rptr->handle ||
--		    !dev->agp_buffer_map->handle) {
--			DRM_ERROR("Could not ioremap agp regions!\n");
--			dev->dev_private = (void *)dev_priv;
--			r128_do_cleanup_cce(dev);
--			return -ENOMEM;
--		}
--	} else
--#endif
+-	/* setup bitmap descriptors */
 -	{
--		dev_priv->cce_ring->handle =
--			(void *)(unsigned long)dev_priv->cce_ring->offset;
--		dev_priv->ring_rptr->handle =
--			(void *)(unsigned long)dev_priv->ring_rptr->offset;
--		dev->agp_buffer_map->handle =
--			(void *)(unsigned long)dev->agp_buffer_map->offset;
+-		unsigned int color_tile_format;
+-		unsigned int depth_tile_format;
+-		unsigned int front_stride, back_stride, depth_stride;
+-		if (dev_priv->chipset <= S3_SAVAGE4) {
+-			color_tile_format = dev_priv->fb_bpp == 16 ?
+-			    SAVAGE_BD_TILE_16BPP : SAVAGE_BD_TILE_32BPP;
+-			depth_tile_format = dev_priv->depth_bpp == 16 ?
+-			    SAVAGE_BD_TILE_16BPP : SAVAGE_BD_TILE_32BPP;
+-		} else {
+-			color_tile_format = SAVAGE_BD_TILE_DEST;
+-			depth_tile_format = SAVAGE_BD_TILE_DEST;
+-		}
+-		front_stride = dev_priv->front_pitch / (dev_priv->fb_bpp / 8);
+-		back_stride = dev_priv->back_pitch / (dev_priv->fb_bpp / 8);
+-		depth_stride =
+-		    dev_priv->depth_pitch / (dev_priv->depth_bpp / 8);
+-
+-		dev_priv->front_bd = front_stride | SAVAGE_BD_BW_DISABLE |
+-		    (dev_priv->fb_bpp << SAVAGE_BD_BPP_SHIFT) |
+-		    (color_tile_format << SAVAGE_BD_TILE_SHIFT);
+-
+-		dev_priv->back_bd = back_stride | SAVAGE_BD_BW_DISABLE |
+-		    (dev_priv->fb_bpp << SAVAGE_BD_BPP_SHIFT) |
+-		    (color_tile_format << SAVAGE_BD_TILE_SHIFT);
+-
+-		dev_priv->depth_bd = depth_stride | SAVAGE_BD_BW_DISABLE |
+-		    (dev_priv->depth_bpp << SAVAGE_BD_BPP_SHIFT) |
+-		    (depth_tile_format << SAVAGE_BD_TILE_SHIFT);
 -	}
 -
--#if IS_ENABLED(CONFIG_AGP)
--	if (!dev_priv->is_pci)
--		dev_priv->cce_buffers_offset = dev->agp->base;
+-	/* setup status and bci ptr */
+-	dev_priv->event_counter = 0;
+-	dev_priv->event_wrap = 0;
+-	dev_priv->bci_ptr = (volatile uint32_t *)
+-	    ((uint8_t *) dev_priv->mmio->handle + SAVAGE_BCI_OFFSET);
+-	if (S3_SAVAGE3D_SERIES(dev_priv->chipset)) {
+-		dev_priv->status_used_mask = SAVAGE_FIFO_USED_MASK_S3D;
+-	} else {
+-		dev_priv->status_used_mask = SAVAGE_FIFO_USED_MASK_S4;
+-	}
+-	if (dev_priv->status != NULL) {
+-		dev_priv->status_ptr =
+-		    (volatile uint32_t *)dev_priv->status->handle;
+-		dev_priv->wait_fifo = savage_bci_wait_fifo_shadow;
+-		dev_priv->wait_evnt = savage_bci_wait_event_shadow;
+-		dev_priv->status_ptr[1023] = dev_priv->event_counter;
+-	} else {
+-		dev_priv->status_ptr = NULL;
+-		if (S3_SAVAGE3D_SERIES(dev_priv->chipset)) {
+-			dev_priv->wait_fifo = savage_bci_wait_fifo_s3d;
+-		} else {
+-			dev_priv->wait_fifo = savage_bci_wait_fifo_s4;
+-		}
+-		dev_priv->wait_evnt = savage_bci_wait_event_reg;
+-	}
+-
+-	/* cliprect functions */
+-	if (S3_SAVAGE3D_SERIES(dev_priv->chipset))
+-		dev_priv->emit_clip_rect = savage_emit_clip_rect_s3d;
 -	else
--#endif
--		dev_priv->cce_buffers_offset = (unsigned long)dev->sg->virtual;
+-		dev_priv->emit_clip_rect = savage_emit_clip_rect_s4;
 -
--	dev_priv->ring.start = (u32 *) dev_priv->cce_ring->handle;
--	dev_priv->ring.end = ((u32 *) dev_priv->cce_ring->handle
--			      + init->ring_size / sizeof(u32));
--	dev_priv->ring.size = init->ring_size;
--	dev_priv->ring.size_l2qw = order_base_2(init->ring_size / 8);
--
--	dev_priv->ring.tail_mask = (dev_priv->ring.size / sizeof(u32)) - 1;
--
--	dev_priv->ring.high_mark = 128;
--
--	dev_priv->sarea_priv->last_frame = 0;
--	R128_WRITE(R128_LAST_FRAME_REG, dev_priv->sarea_priv->last_frame);
--
--	dev_priv->sarea_priv->last_dispatch = 0;
--	R128_WRITE(R128_LAST_DISPATCH_REG, dev_priv->sarea_priv->last_dispatch);
--
--#if IS_ENABLED(CONFIG_AGP)
--	if (dev_priv->is_pci) {
--#endif
--		dev_priv->gart_info.table_mask = DMA_BIT_MASK(32);
--		dev_priv->gart_info.gart_table_location = DRM_ATI_GART_MAIN;
--		dev_priv->gart_info.table_size = R128_PCIGART_TABLE_SIZE;
--		dev_priv->gart_info.addr = NULL;
--		dev_priv->gart_info.bus_addr = 0;
--		dev_priv->gart_info.gart_reg_if = DRM_ATI_GART_PCI;
--		rc = drm_ati_pcigart_init(dev, &dev_priv->gart_info);
--		if (rc) {
--			DRM_ERROR("failed to init PCI GART!\n");
--			dev->dev_private = (void *)dev_priv;
--			r128_do_cleanup_cce(dev);
--			return rc;
--		}
--		R128_WRITE(R128_PCI_GART_PAGE, dev_priv->gart_info.bus_addr);
--#if IS_ENABLED(CONFIG_AGP)
--	}
--#endif
--
--	r128_cce_init_ring_buffer(dev, dev_priv);
--	rc = r128_cce_load_microcode(dev_priv);
--
--	dev->dev_private = (void *)dev_priv;
--
--	r128_do_engine_reset(dev);
--
--	if (rc) {
--		DRM_ERROR("Failed to load firmware!\n");
--		r128_do_cleanup_cce(dev);
+-	if (savage_freelist_init(dev) < 0) {
+-		DRM_ERROR("could not initialize freelist\n");
+-		savage_do_cleanup_bci(dev);
+-		return -ENOMEM;
 -	}
 -
--	return rc;
--}
--
--int r128_do_cleanup_cce(struct drm_device *dev)
--{
--
--	/* Make sure interrupts are disabled here because the uninstall ioctl
--	 * may not have been called from userspace and after dev_private
--	 * is freed, it's too late.
--	 */
--	if (dev->irq_enabled)
--		drm_legacy_irq_uninstall(dev);
--
--	if (dev->dev_private) {
--		drm_r128_private_t *dev_priv = dev->dev_private;
--
--#if IS_ENABLED(CONFIG_AGP)
--		if (!dev_priv->is_pci) {
--			if (dev_priv->cce_ring != NULL)
--				drm_legacy_ioremapfree(dev_priv->cce_ring, dev);
--			if (dev_priv->ring_rptr != NULL)
--				drm_legacy_ioremapfree(dev_priv->ring_rptr, dev);
--			if (dev->agp_buffer_map != NULL) {
--				drm_legacy_ioremapfree(dev->agp_buffer_map, dev);
--				dev->agp_buffer_map = NULL;
--			}
--		} else
--#endif
--		{
--			if (dev_priv->gart_info.bus_addr)
--				if (!drm_ati_pcigart_cleanup(dev,
--							&dev_priv->gart_info))
--					DRM_ERROR
--					    ("failed to cleanup PCI GART!\n");
--		}
--
--		kfree(dev->dev_private);
--		dev->dev_private = NULL;
+-	if (savage_dma_init(dev_priv) < 0) {
+-		DRM_ERROR("could not initialize command DMA\n");
+-		savage_do_cleanup_bci(dev);
+-		return -ENOMEM;
 -	}
 -
 -	return 0;
 -}
 -
--int r128_cce_init(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-static int savage_do_cleanup_bci(struct drm_device * dev)
 -{
--	drm_r128_init_t *init = data;
+-	drm_savage_private_t *dev_priv = dev->dev_private;
 -
--	DRM_DEBUG("\n");
+-	if (dev_priv->cmd_dma == &dev_priv->fake_dma) {
+-		kfree(dev_priv->fake_dma.handle);
+-	} else if (dev_priv->cmd_dma && dev_priv->cmd_dma->handle &&
+-		   dev_priv->cmd_dma->type == _DRM_AGP &&
+-		   dev_priv->dma_type == SAVAGE_DMA_AGP)
+-		drm_legacy_ioremapfree(dev_priv->cmd_dma, dev);
+-
+-	if (dev_priv->dma_type == SAVAGE_DMA_AGP &&
+-	    dev->agp_buffer_map && dev->agp_buffer_map->handle) {
+-		drm_legacy_ioremapfree(dev->agp_buffer_map, dev);
+-		/* make sure the next instance (which may be running
+-		 * in PCI mode) doesn't try to use an old
+-		 * agp_buffer_map. */
+-		dev->agp_buffer_map = NULL;
+-	}
+-
+-	kfree(dev_priv->dma_pages);
+-
+-	return 0;
+-}
+-
+-static int savage_bci_init(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	drm_savage_init_t *init = data;
 -
 -	LOCK_TEST_WITH_RETURN(dev, file_priv);
 -
 -	switch (init->func) {
--	case R128_INIT_CCE:
--		return r128_do_init_cce(dev, init);
--	case R128_CLEANUP_CCE:
--		return r128_do_cleanup_cce(dev);
+-	case SAVAGE_INIT_BCI:
+-		return savage_do_init_bci(dev, init);
+-	case SAVAGE_CLEANUP_BCI:
+-		return savage_do_cleanup_bci(dev);
 -	}
 -
 -	return -EINVAL;
 -}
 -
--int r128_cce_start(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-static int savage_bci_event_emit(struct drm_device *dev, void *data, struct drm_file *file_priv)
 -{
--	drm_r128_private_t *dev_priv = dev->dev_private;
+-	drm_savage_private_t *dev_priv = dev->dev_private;
+-	drm_savage_event_emit_t *event = data;
+-
 -	DRM_DEBUG("\n");
 -
 -	LOCK_TEST_WITH_RETURN(dev, file_priv);
 -
--	DEV_INIT_TEST_WITH_RETURN(dev_priv);
+-	event->count = savage_bci_emit_event(dev_priv, event->flags);
+-	event->count |= dev_priv->event_wrap << 16;
 -
--	if (dev_priv->cce_running || dev_priv->cce_mode == R128_PM4_NONPM4) {
--		DRM_DEBUG("while CCE running\n");
+-	return 0;
+-}
+-
+-static int savage_bci_event_wait(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	drm_savage_private_t *dev_priv = dev->dev_private;
+-	drm_savage_event_wait_t *event = data;
+-	unsigned int event_e, hw_e;
+-	unsigned int event_w, hw_w;
+-
+-	DRM_DEBUG("\n");
+-
+-	UPDATE_EVENT_COUNTER();
+-	if (dev_priv->status_ptr)
+-		hw_e = dev_priv->status_ptr[1] & 0xffff;
+-	else
+-		hw_e = SAVAGE_READ(SAVAGE_STATUS_WORD1) & 0xffff;
+-	hw_w = dev_priv->event_wrap;
+-	if (hw_e > dev_priv->event_counter)
+-		hw_w--;		/* hardware hasn't passed the last wrap yet */
+-
+-	event_e = event->count & 0xffff;
+-	event_w = event->count >> 16;
+-
+-	/* Don't need to wait if
+-	 * - event counter wrapped since the event was emitted or
+-	 * - the hardware has advanced up to or over the event to wait for.
+-	 */
+-	if (event_w < hw_w || (event_w == hw_w && event_e <= hw_e))
 -		return 0;
--	}
--
--	r128_do_cce_start(dev_priv);
--
--	return 0;
+-	else
+-		return dev_priv->wait_evnt(dev_priv, event_e);
 -}
 -
--/* Stop the CCE.  The engine must have been idled before calling this
-- * routine.
+-/*
+- * DMA buffer management
 - */
--int r128_cce_stop(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-
+-static int savage_bci_get_buffers(struct drm_device *dev,
+-				  struct drm_file *file_priv,
+-				  struct drm_dma *d)
 -{
--	drm_r128_private_t *dev_priv = dev->dev_private;
--	drm_r128_cce_stop_t *stop = data;
--	int ret;
--	DRM_DEBUG("\n");
--
--	LOCK_TEST_WITH_RETURN(dev, file_priv);
--
--	DEV_INIT_TEST_WITH_RETURN(dev_priv);
--
--	/* Flush any pending CCE commands.  This ensures any outstanding
--	 * commands are exectuted by the engine before we turn it off.
--	 */
--	if (stop->flush)
--		r128_do_cce_flush(dev_priv);
--
--	/* If we fail to make the engine go idle, we return an error
--	 * code so that the DRM ioctl wrapper can try again.
--	 */
--	if (stop->idle) {
--		ret = r128_do_cce_idle(dev_priv);
--		if (ret)
--			return ret;
--	}
--
--	/* Finally, we can turn off the CCE.  If the engine isn't idle,
--	 * we will get some dropped triangles as they won't be fully
--	 * rendered before the CCE is shut down.
--	 */
--	r128_do_cce_stop(dev_priv);
--
--	/* Reset the engine */
--	r128_do_engine_reset(dev);
--
--	return 0;
--}
--
--/* Just reset the CCE ring.  Called as part of an X Server engine reset.
-- */
--int r128_cce_reset(struct drm_device *dev, void *data, struct drm_file *file_priv)
--{
--	drm_r128_private_t *dev_priv = dev->dev_private;
--	DRM_DEBUG("\n");
--
--	LOCK_TEST_WITH_RETURN(dev, file_priv);
--
--	DEV_INIT_TEST_WITH_RETURN(dev_priv);
--
--	r128_do_cce_reset(dev_priv);
--
--	/* The CCE is no longer running after an engine reset */
--	dev_priv->cce_running = 0;
--
--	return 0;
--}
--
--int r128_cce_idle(struct drm_device *dev, void *data, struct drm_file *file_priv)
--{
--	drm_r128_private_t *dev_priv = dev->dev_private;
--	DRM_DEBUG("\n");
--
--	LOCK_TEST_WITH_RETURN(dev, file_priv);
--
--	DEV_INIT_TEST_WITH_RETURN(dev_priv);
--
--	if (dev_priv->cce_running)
--		r128_do_cce_flush(dev_priv);
--
--	return r128_do_cce_idle(dev_priv);
--}
--
--int r128_engine_reset(struct drm_device *dev, void *data, struct drm_file *file_priv)
--{
--	DRM_DEBUG("\n");
--
--	LOCK_TEST_WITH_RETURN(dev, file_priv);
--
--	DEV_INIT_TEST_WITH_RETURN(dev->dev_private);
--
--	return r128_do_engine_reset(dev);
--}
--
--int r128_fullscreen(struct drm_device *dev, void *data, struct drm_file *file_priv)
--{
--	return -EINVAL;
--}
--
--/* ================================================================
-- * Freelist management
-- */
--#define R128_BUFFER_USED	0xffffffff
--#define R128_BUFFER_FREE	0
--
--#if 0
--static int r128_freelist_init(struct drm_device *dev)
--{
--	struct drm_device_dma *dma = dev->dma;
--	drm_r128_private_t *dev_priv = dev->dev_private;
 -	struct drm_buf *buf;
--	drm_r128_buf_priv_t *buf_priv;
--	drm_r128_freelist_t *entry;
 -	int i;
--
--	dev_priv->head = kzalloc(sizeof(drm_r128_freelist_t), GFP_KERNEL);
--	if (dev_priv->head == NULL)
--		return -ENOMEM;
--
--	dev_priv->head->age = R128_BUFFER_USED;
--
--	for (i = 0; i < dma->buf_count; i++) {
--		buf = dma->buflist[i];
--		buf_priv = buf->dev_private;
--
--		entry = kmalloc(sizeof(drm_r128_freelist_t), GFP_KERNEL);
--		if (!entry)
--			return -ENOMEM;
--
--		entry->age = R128_BUFFER_FREE;
--		entry->buf = buf;
--		entry->prev = dev_priv->head;
--		entry->next = dev_priv->head->next;
--		if (!entry->next)
--			dev_priv->tail = entry;
--
--		buf_priv->discard = 0;
--		buf_priv->dispatched = 0;
--		buf_priv->list_entry = entry;
--
--		dev_priv->head->next = entry;
--
--		if (dev_priv->head->next)
--			dev_priv->head->next->prev = entry;
--	}
--
--	return 0;
--
--}
--#endif
--
--static struct drm_buf *r128_freelist_get(struct drm_device * dev)
--{
--	struct drm_device_dma *dma = dev->dma;
--	drm_r128_private_t *dev_priv = dev->dev_private;
--	drm_r128_buf_priv_t *buf_priv;
--	struct drm_buf *buf;
--	int i, t;
--
--	/* FIXME: Optimize -- use freelist code */
--
--	for (i = 0; i < dma->buf_count; i++) {
--		buf = dma->buflist[i];
--		buf_priv = buf->dev_private;
--		if (!buf->file_priv)
--			return buf;
--	}
--
--	for (t = 0; t < dev_priv->usec_timeout; t++) {
--		u32 done_age = R128_READ(R128_LAST_DISPATCH_REG);
--
--		for (i = 0; i < dma->buf_count; i++) {
--			buf = dma->buflist[i];
--			buf_priv = buf->dev_private;
--			if (buf->pending && buf_priv->age <= done_age) {
--				/* The buffer has been processed, so it
--				 * can now be used.
--				 */
--				buf->pending = 0;
--				return buf;
--			}
--		}
--		udelay(1);
--	}
--
--	DRM_DEBUG("returning NULL!\n");
--	return NULL;
--}
--
--void r128_freelist_reset(struct drm_device *dev)
--{
--	struct drm_device_dma *dma = dev->dma;
--	int i;
--
--	for (i = 0; i < dma->buf_count; i++) {
--		struct drm_buf *buf = dma->buflist[i];
--		drm_r128_buf_priv_t *buf_priv = buf->dev_private;
--		buf_priv->age = 0;
--	}
--}
--
--/* ================================================================
-- * CCE command submission
-- */
--
--int r128_wait_ring(drm_r128_private_t *dev_priv, int n)
--{
--	drm_r128_ring_buffer_t *ring = &dev_priv->ring;
--	int i;
--
--	for (i = 0; i < dev_priv->usec_timeout; i++) {
--		r128_update_ring_snapshot(dev_priv);
--		if (ring->space >= n)
--			return 0;
--		udelay(1);
--	}
--
--	/* FIXME: This is being ignored... */
--	DRM_ERROR("failed!\n");
--	return -EBUSY;
--}
--
--static int r128_cce_get_buffers(struct drm_device *dev,
--				struct drm_file *file_priv,
--				struct drm_dma *d)
--{
--	int i;
--	struct drm_buf *buf;
 -
 -	for (i = d->granted_count; i < d->request_count; i++) {
--		buf = r128_freelist_get(dev);
+-		buf = savage_freelist_get(dev);
 -		if (!buf)
 -			return -EAGAIN;
 -
 -		buf->file_priv = file_priv;
 -
--		if (copy_to_user(&d->request_indices[i], &buf->idx,
--				     sizeof(buf->idx)))
+-		if (copy_to_user(&d->request_indices[i],
+-				     &buf->idx, sizeof(buf->idx)))
 -			return -EFAULT;
--		if (copy_to_user(&d->request_sizes[i], &buf->total,
--				     sizeof(buf->total)))
+-		if (copy_to_user(&d->request_sizes[i],
+-				     &buf->total, sizeof(buf->total)))
 -			return -EFAULT;
 -
 -		d->granted_count++;
@@ -1327,11 +1135,11 @@ index c04d84a69dd2..000000000000
 -	return 0;
 -}
 -
--int r128_cce_buffers(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-int savage_bci_buffers(struct drm_device *dev, void *data, struct drm_file *file_priv)
 -{
 -	struct drm_device_dma *dma = dev->dma;
--	int ret = 0;
 -	struct drm_dma *d = data;
+-	int ret = 0;
 -
 -	LOCK_TEST_WITH_RETURN(dev, file_priv);
 -
@@ -1353,46 +1161,87 @@ index c04d84a69dd2..000000000000
 -
 -	d->granted_count = 0;
 -
--	if (d->request_count)
--		ret = r128_cce_get_buffers(dev, file_priv, d);
+-	if (d->request_count) {
+-		ret = savage_bci_get_buffers(dev, file_priv, d);
+-	}
 -
 -	return ret;
 -}
-diff --git a/drivers/gpu/drm/r128/r128_drv.c b/drivers/gpu/drm/r128/r128_drv.c
+-
+-void savage_reclaim_buffers(struct drm_device *dev, struct drm_file *file_priv)
+-{
+-	struct drm_device_dma *dma = dev->dma;
+-	drm_savage_private_t *dev_priv = dev->dev_private;
+-	int release_idlelock = 0;
+-	int i;
+-
+-	if (!dma)
+-		return;
+-	if (!dev_priv)
+-		return;
+-	if (!dma->buflist)
+-		return;
+-
+-	if (file_priv->master && file_priv->master->lock.hw_lock) {
+-		drm_legacy_idlelock_take(&file_priv->master->lock);
+-		release_idlelock = 1;
+-	}
+-
+-	for (i = 0; i < dma->buf_count; i++) {
+-		struct drm_buf *buf = dma->buflist[i];
+-		drm_savage_buf_priv_t *buf_priv = buf->dev_private;
+-
+-		if (buf->file_priv == file_priv && buf_priv &&
+-		    buf_priv->next == NULL && buf_priv->prev == NULL) {
+-			uint16_t event;
+-			DRM_DEBUG("reclaimed from client\n");
+-			event = savage_bci_emit_event(dev_priv, SAVAGE_WAIT_3D);
+-			SET_AGE(&buf_priv->age, event, dev_priv->event_wrap);
+-			savage_freelist_put(dev, buf);
+-		}
+-	}
+-
+-	if (release_idlelock)
+-		drm_legacy_idlelock_release(&file_priv->master->lock);
+-}
+-
+-const struct drm_ioctl_desc savage_ioctls[] = {
+-	DRM_IOCTL_DEF_DRV(SAVAGE_BCI_INIT, savage_bci_init, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
+-	DRM_IOCTL_DEF_DRV(SAVAGE_BCI_CMDBUF, savage_bci_cmdbuf, DRM_AUTH),
+-	DRM_IOCTL_DEF_DRV(SAVAGE_BCI_EVENT_EMIT, savage_bci_event_emit, DRM_AUTH),
+-	DRM_IOCTL_DEF_DRV(SAVAGE_BCI_EVENT_WAIT, savage_bci_event_wait, DRM_AUTH),
+-};
+-
+-int savage_max_ioctl = ARRAY_SIZE(savage_ioctls);
+diff --git a/drivers/gpu/drm/savage/savage_drv.c b/drivers/gpu/drm/savage/savage_drv.c
 deleted file mode 100644
-index e35a3a1449bd..000000000000
---- a/drivers/gpu/drm/r128/r128_drv.c
+index 799bd11adb9c..000000000000
+--- a/drivers/gpu/drm/savage/savage_drv.c
 +++ /dev/null
-@@ -1,116 +0,0 @@
--/* r128_drv.c -- ATI Rage 128 driver -*- linux-c -*-
-- * Created: Mon Dec 13 09:47:27 1999 by faith@precisioninsight.com
+@@ -1,91 +0,0 @@
+-/* savage_drv.c -- Savage driver for Linux
 - *
-- * Copyright 1999 Precision Insight, Inc., Cedar Park, Texas.
-- * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
+- * Copyright 2004  Felix Kuehling
 - * All Rights Reserved.
 - *
 - * Permission is hereby granted, free of charge, to any person obtaining a
 - * copy of this software and associated documentation files (the "Software"),
 - * to deal in the Software without restriction, including without limitation
-- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * the rights to use, copy, modify, merge, publish, distribute, sub license,
 - * and/or sell copies of the Software, and to permit persons to whom the
 - * Software is furnished to do so, subject to the following conditions:
 - *
-- * The above copyright notice and this permission notice (including the next
-- * paragraph) shall be included in all copies or substantial portions of the
-- * Software.
+- * The above copyright notice and this permission notice (including the
+- * next paragraph) shall be included in all copies or substantial portions
+- * of the Software.
 - *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-- * VA LINUX SYSTEMS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-- * OTHER DEALINGS IN THE SOFTWARE.
-- *
-- * Authors:
-- *    Rickard E. (Rik) Faith <faith@valinux.com>
-- *    Gareth Hughes <gareth@valinux.com>
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+- * NON-INFRINGEMENT. IN NO EVENT SHALL FELIX KUEHLING BE LIABLE FOR
+- * ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+- * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 - */
 -
 -#include <linux/module.h>
@@ -1401,46 +1250,36 @@ index e35a3a1449bd..000000000000
 -#include <drm/drm_drv.h>
 -#include <drm/drm_file.h>
 -#include <drm/drm_pciids.h>
--#include <drm/drm_vblank.h>
--#include <drm/r128_drm.h>
 -
--#include "r128_drv.h"
+-#include "savage_drv.h"
 -
 -static struct pci_device_id pciidlist[] = {
--	r128_PCI_IDS
+-	savage_PCI_IDS
 -};
 -
--static const struct file_operations r128_driver_fops = {
+-static const struct file_operations savage_driver_fops = {
 -	.owner = THIS_MODULE,
 -	.open = drm_open,
 -	.release = drm_release,
 -	.unlocked_ioctl = drm_ioctl,
 -	.mmap = drm_legacy_mmap,
 -	.poll = drm_poll,
--#ifdef CONFIG_COMPAT
--	.compat_ioctl = r128_compat_ioctl,
--#endif
+-	.compat_ioctl = drm_compat_ioctl,
 -	.llseek = noop_llseek,
 -};
 -
 -static struct drm_driver driver = {
 -	.driver_features =
--	    DRIVER_USE_AGP | DRIVER_PCI_DMA | DRIVER_SG | DRIVER_LEGACY |
--	    DRIVER_HAVE_DMA | DRIVER_HAVE_IRQ,
--	.dev_priv_size = sizeof(drm_r128_buf_priv_t),
--	.load = r128_driver_load,
--	.preclose = r128_driver_preclose,
--	.lastclose = r128_driver_lastclose,
--	.get_vblank_counter = r128_get_vblank_counter,
--	.enable_vblank = r128_enable_vblank,
--	.disable_vblank = r128_disable_vblank,
--	.irq_preinstall = r128_driver_irq_preinstall,
--	.irq_postinstall = r128_driver_irq_postinstall,
--	.irq_uninstall = r128_driver_irq_uninstall,
--	.irq_handler = r128_driver_irq_handler,
--	.ioctls = r128_ioctls,
--	.dma_ioctl = r128_cce_buffers,
--	.fops = &r128_driver_fops,
+-	    DRIVER_USE_AGP | DRIVER_HAVE_DMA | DRIVER_PCI_DMA | DRIVER_LEGACY,
+-	.dev_priv_size = sizeof(drm_savage_buf_priv_t),
+-	.load = savage_driver_load,
+-	.firstopen = savage_driver_firstopen,
+-	.preclose = savage_reclaim_buffers,
+-	.lastclose = savage_driver_lastclose,
+-	.unload = savage_driver_unload,
+-	.ioctls = savage_ioctls,
+-	.dma_ioctl = savage_bci_buffers,
+-	.fops = &savage_driver_fops,
 -	.name = DRIVER_NAME,
 -	.desc = DRIVER_DESC,
 -	.date = DRIVER_DATE,
@@ -1449,2603 +1288,1822 @@ index e35a3a1449bd..000000000000
 -	.patchlevel = DRIVER_PATCHLEVEL,
 -};
 -
--int r128_driver_load(struct drm_device *dev, unsigned long flags)
--{
--	struct pci_dev *pdev = to_pci_dev(dev->dev);
--
--	pci_set_master(pdev);
--	return drm_vblank_init(dev, 1);
--}
--
--static struct pci_driver r128_pci_driver = {
+-static struct pci_driver savage_pci_driver = {
 -	.name = DRIVER_NAME,
 -	.id_table = pciidlist,
 -};
 -
--static int __init r128_init(void)
+-static int __init savage_init(void)
 -{
--	driver.num_ioctls = r128_max_ioctl;
--
--	return drm_legacy_pci_init(&driver, &r128_pci_driver);
+-	driver.num_ioctls = savage_max_ioctl;
+-	return drm_legacy_pci_init(&driver, &savage_pci_driver);
 -}
 -
--static void __exit r128_exit(void)
+-static void __exit savage_exit(void)
 -{
--	drm_legacy_pci_exit(&driver, &r128_pci_driver);
+-	drm_legacy_pci_exit(&driver, &savage_pci_driver);
 -}
 -
--module_init(r128_init);
--module_exit(r128_exit);
+-module_init(savage_init);
+-module_exit(savage_exit);
 -
 -MODULE_AUTHOR(DRIVER_AUTHOR);
 -MODULE_DESCRIPTION(DRIVER_DESC);
 -MODULE_LICENSE("GPL and additional rights");
-diff --git a/drivers/gpu/drm/r128/r128_drv.h b/drivers/gpu/drm/r128/r128_drv.h
+diff --git a/drivers/gpu/drm/savage/savage_drv.h b/drivers/gpu/drm/savage/savage_drv.h
 deleted file mode 100644
-index 970e192b0d51..000000000000
---- a/drivers/gpu/drm/r128/r128_drv.h
+index b0081bb64776..000000000000
+--- a/drivers/gpu/drm/savage/savage_drv.h
 +++ /dev/null
-@@ -1,544 +0,0 @@
--/* r128_drv.h -- Private header for r128 driver -*- linux-c -*-
-- * Created: Mon Dec 13 09:51:11 1999 by faith@precisioninsight.com
-- */
+@@ -1,580 +0,0 @@
+-/* savage_drv.h -- Private header for the savage driver */
 -/*
-- * Copyright 1999 Precision Insight, Inc., Cedar Park, Texas.
-- * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
-- * All rights reserved.
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a
-- * copy of this software and associated documentation files (the "Software"),
-- * to deal in the Software without restriction, including without limitation
-- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-- * and/or sell copies of the Software, and to permit persons to whom the
-- * Software is furnished to do so, subject to the following conditions:
-- *
-- * The above copyright notice and this permission notice (including the next
-- * paragraph) shall be included in all copies or substantial portions of the
-- * Software.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-- * PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-- * DEALINGS IN THE SOFTWARE.
-- *
-- * Authors:
-- *    Rickard E. (Rik) Faith <faith@valinux.com>
-- *    Kevin E. Martin <martin@valinux.com>
-- *    Gareth Hughes <gareth@valinux.com>
-- *    Michel Dänzer <daenzerm@student.ethz.ch>
-- */
--
--#ifndef __R128_DRV_H__
--#define __R128_DRV_H__
--
--#include <linux/delay.h>
--#include <linux/io.h>
--#include <linux/irqreturn.h>
--
--#include <drm/drm_ioctl.h>
--#include <drm/drm_legacy.h>
--#include <drm/r128_drm.h>
--
--#include "ati_pcigart.h"
--
--/* General customization:
-- */
--#define DRIVER_AUTHOR		"Gareth Hughes, VA Linux Systems Inc."
--
--#define DRIVER_NAME		"r128"
--#define DRIVER_DESC		"ATI Rage 128"
--#define DRIVER_DATE		"20030725"
--
--/* Interface history:
-- *
-- * ??  - ??
-- * 2.4 - Add support for ycbcr textures (no new ioctls)
-- * 2.5 - Add FLIP ioctl, disable FULLSCREEN.
-- */
--#define DRIVER_MAJOR		2
--#define DRIVER_MINOR		5
--#define DRIVER_PATCHLEVEL	0
--
--#define GET_RING_HEAD(dev_priv)		R128_READ(R128_PM4_BUFFER_DL_RPTR)
--
--typedef struct drm_r128_freelist {
--	unsigned int age;
--	struct drm_buf *buf;
--	struct drm_r128_freelist *next;
--	struct drm_r128_freelist *prev;
--} drm_r128_freelist_t;
--
--typedef struct drm_r128_ring_buffer {
--	u32 *start;
--	u32 *end;
--	int size;
--	int size_l2qw;
--
--	u32 tail;
--	u32 tail_mask;
--	int space;
--
--	int high_mark;
--} drm_r128_ring_buffer_t;
--
--typedef struct drm_r128_private {
--	drm_r128_ring_buffer_t ring;
--	drm_r128_sarea_t *sarea_priv;
--
--	int cce_mode;
--	int cce_fifo_size;
--	int cce_running;
--
--	drm_r128_freelist_t *head;
--	drm_r128_freelist_t *tail;
--
--	int usec_timeout;
--	int is_pci;
--	unsigned long cce_buffers_offset;
--
--	atomic_t idle_count;
--
--	int page_flipping;
--	int current_page;
--	u32 crtc_offset;
--	u32 crtc_offset_cntl;
--
--	atomic_t vbl_received;
--
--	u32 color_fmt;
--	unsigned int front_offset;
--	unsigned int front_pitch;
--	unsigned int back_offset;
--	unsigned int back_pitch;
--
--	u32 depth_fmt;
--	unsigned int depth_offset;
--	unsigned int depth_pitch;
--	unsigned int span_offset;
--
--	u32 front_pitch_offset_c;
--	u32 back_pitch_offset_c;
--	u32 depth_pitch_offset_c;
--	u32 span_pitch_offset_c;
--
--	drm_local_map_t *sarea;
--	drm_local_map_t *mmio;
--	drm_local_map_t *cce_ring;
--	drm_local_map_t *ring_rptr;
--	drm_local_map_t *agp_textures;
--	struct drm_ati_pcigart_info gart_info;
--} drm_r128_private_t;
--
--typedef struct drm_r128_buf_priv {
--	u32 age;
--	int prim;
--	int discard;
--	int dispatched;
--	drm_r128_freelist_t *list_entry;
--} drm_r128_buf_priv_t;
--
--extern const struct drm_ioctl_desc r128_ioctls[];
--extern int r128_max_ioctl;
--
--				/* r128_cce.c */
--extern int r128_cce_init(struct drm_device *dev, void *data, struct drm_file *file_priv);
--extern int r128_cce_start(struct drm_device *dev, void *data, struct drm_file *file_priv);
--extern int r128_cce_stop(struct drm_device *dev, void *data, struct drm_file *file_priv);
--extern int r128_cce_reset(struct drm_device *dev, void *data, struct drm_file *file_priv);
--extern int r128_cce_idle(struct drm_device *dev, void *data, struct drm_file *file_priv);
--extern int r128_engine_reset(struct drm_device *dev, void *data, struct drm_file *file_priv);
--extern int r128_fullscreen(struct drm_device *dev, void *data, struct drm_file *file_priv);
--extern int r128_cce_buffers(struct drm_device *dev, void *data, struct drm_file *file_priv);
--
--extern int r128_cce_stipple(struct drm_device *dev, void *data, struct drm_file *file_priv);
--extern int r128_cce_depth(struct drm_device *dev, void *data, struct drm_file *file_priv);
--extern int r128_getparam(struct drm_device *dev, void *data, struct drm_file *file_priv);
--
--extern void r128_freelist_reset(struct drm_device *dev);
--
--extern int r128_wait_ring(drm_r128_private_t *dev_priv, int n);
--
--extern int r128_do_cce_idle(drm_r128_private_t *dev_priv);
--extern int r128_do_cleanup_cce(struct drm_device *dev);
--
--extern int r128_enable_vblank(struct drm_device *dev, unsigned int pipe);
--extern void r128_disable_vblank(struct drm_device *dev, unsigned int pipe);
--extern u32 r128_get_vblank_counter(struct drm_device *dev, unsigned int pipe);
--extern irqreturn_t r128_driver_irq_handler(int irq, void *arg);
--extern void r128_driver_irq_preinstall(struct drm_device *dev);
--extern int r128_driver_irq_postinstall(struct drm_device *dev);
--extern void r128_driver_irq_uninstall(struct drm_device *dev);
--extern void r128_driver_lastclose(struct drm_device *dev);
--extern int r128_driver_load(struct drm_device *dev, unsigned long flags);
--extern void r128_driver_preclose(struct drm_device *dev,
--				 struct drm_file *file_priv);
--
--extern long r128_compat_ioctl(struct file *filp, unsigned int cmd,
--			      unsigned long arg);
--
--/* Register definitions, register access macros and drmAddMap constants
-- * for Rage 128 kernel driver.
-- */
--
--#define R128_AUX_SC_CNTL		0x1660
--#	define R128_AUX1_SC_EN			(1 << 0)
--#	define R128_AUX1_SC_MODE_OR		(0 << 1)
--#	define R128_AUX1_SC_MODE_NAND		(1 << 1)
--#	define R128_AUX2_SC_EN			(1 << 2)
--#	define R128_AUX2_SC_MODE_OR		(0 << 3)
--#	define R128_AUX2_SC_MODE_NAND		(1 << 3)
--#	define R128_AUX3_SC_EN			(1 << 4)
--#	define R128_AUX3_SC_MODE_OR		(0 << 5)
--#	define R128_AUX3_SC_MODE_NAND		(1 << 5)
--#define R128_AUX1_SC_LEFT		0x1664
--#define R128_AUX1_SC_RIGHT		0x1668
--#define R128_AUX1_SC_TOP		0x166c
--#define R128_AUX1_SC_BOTTOM		0x1670
--#define R128_AUX2_SC_LEFT		0x1674
--#define R128_AUX2_SC_RIGHT		0x1678
--#define R128_AUX2_SC_TOP		0x167c
--#define R128_AUX2_SC_BOTTOM		0x1680
--#define R128_AUX3_SC_LEFT		0x1684
--#define R128_AUX3_SC_RIGHT		0x1688
--#define R128_AUX3_SC_TOP		0x168c
--#define R128_AUX3_SC_BOTTOM		0x1690
--
--#define R128_BRUSH_DATA0		0x1480
--#define R128_BUS_CNTL			0x0030
--#	define R128_BUS_MASTER_DIS		(1 << 6)
--
--#define R128_CLOCK_CNTL_INDEX		0x0008
--#define R128_CLOCK_CNTL_DATA		0x000c
--#	define R128_PLL_WR_EN			(1 << 7)
--#define R128_CONSTANT_COLOR_C		0x1d34
--#define R128_CRTC_OFFSET		0x0224
--#define R128_CRTC_OFFSET_CNTL		0x0228
--#	define R128_CRTC_OFFSET_FLIP_CNTL	(1 << 16)
--
--#define R128_DP_GUI_MASTER_CNTL		0x146c
--#       define R128_GMC_SRC_PITCH_OFFSET_CNTL	(1    <<  0)
--#       define R128_GMC_DST_PITCH_OFFSET_CNTL	(1    <<  1)
--#	define R128_GMC_BRUSH_SOLID_COLOR	(13   <<  4)
--#	define R128_GMC_BRUSH_NONE		(15   <<  4)
--#	define R128_GMC_DST_16BPP		(4    <<  8)
--#	define R128_GMC_DST_24BPP		(5    <<  8)
--#	define R128_GMC_DST_32BPP		(6    <<  8)
--#       define R128_GMC_DST_DATATYPE_SHIFT	8
--#	define R128_GMC_SRC_DATATYPE_COLOR	(3    << 12)
--#	define R128_DP_SRC_SOURCE_MEMORY	(2    << 24)
--#	define R128_DP_SRC_SOURCE_HOST_DATA	(3    << 24)
--#	define R128_GMC_CLR_CMP_CNTL_DIS	(1    << 28)
--#	define R128_GMC_AUX_CLIP_DIS		(1    << 29)
--#	define R128_GMC_WR_MSK_DIS		(1    << 30)
--#	define R128_ROP3_S			0x00cc0000
--#	define R128_ROP3_P			0x00f00000
--#define R128_DP_WRITE_MASK		0x16cc
--#define R128_DST_PITCH_OFFSET_C		0x1c80
--#	define R128_DST_TILE			(1 << 31)
--
--#define R128_GEN_INT_CNTL		0x0040
--#	define R128_CRTC_VBLANK_INT_EN		(1 <<  0)
--#define R128_GEN_INT_STATUS		0x0044
--#	define R128_CRTC_VBLANK_INT		(1 <<  0)
--#	define R128_CRTC_VBLANK_INT_AK		(1 <<  0)
--#define R128_GEN_RESET_CNTL		0x00f0
--#	define R128_SOFT_RESET_GUI		(1 <<  0)
--
--#define R128_GUI_SCRATCH_REG0		0x15e0
--#define R128_GUI_SCRATCH_REG1		0x15e4
--#define R128_GUI_SCRATCH_REG2		0x15e8
--#define R128_GUI_SCRATCH_REG3		0x15ec
--#define R128_GUI_SCRATCH_REG4		0x15f0
--#define R128_GUI_SCRATCH_REG5		0x15f4
--
--#define R128_GUI_STAT			0x1740
--#	define R128_GUI_FIFOCNT_MASK		0x0fff
--#	define R128_GUI_ACTIVE			(1 << 31)
--
--#define R128_MCLK_CNTL			0x000f
--#	define R128_FORCE_GCP			(1 << 16)
--#	define R128_FORCE_PIPE3D_CP		(1 << 17)
--#	define R128_FORCE_RCP			(1 << 18)
--
--#define R128_PC_GUI_CTLSTAT		0x1748
--#define R128_PC_NGUI_CTLSTAT		0x0184
--#	define R128_PC_FLUSH_GUI		(3 << 0)
--#	define R128_PC_RI_GUI			(1 << 2)
--#	define R128_PC_FLUSH_ALL		0x00ff
--#	define R128_PC_BUSY			(1 << 31)
--
--#define R128_PCI_GART_PAGE		0x017c
--#define R128_PRIM_TEX_CNTL_C		0x1cb0
--
--#define R128_SCALE_3D_CNTL		0x1a00
--#define R128_SEC_TEX_CNTL_C		0x1d00
--#define R128_SEC_TEXTURE_BORDER_COLOR_C	0x1d3c
--#define R128_SETUP_CNTL			0x1bc4
--#define R128_STEN_REF_MASK_C		0x1d40
--
--#define R128_TEX_CNTL_C			0x1c9c
--#	define R128_TEX_CACHE_FLUSH		(1 << 23)
--
--#define R128_WAIT_UNTIL			0x1720
--#	define R128_EVENT_CRTC_OFFSET		(1 << 0)
--#define R128_WINDOW_XY_OFFSET		0x1bcc
--
--/* CCE registers
-- */
--#define R128_PM4_BUFFER_OFFSET		0x0700
--#define R128_PM4_BUFFER_CNTL		0x0704
--#	define R128_PM4_MASK			(15 << 28)
--#	define R128_PM4_NONPM4			(0  << 28)
--#	define R128_PM4_192PIO			(1  << 28)
--#	define R128_PM4_192BM			(2  << 28)
--#	define R128_PM4_128PIO_64INDBM		(3  << 28)
--#	define R128_PM4_128BM_64INDBM		(4  << 28)
--#	define R128_PM4_64PIO_128INDBM		(5  << 28)
--#	define R128_PM4_64BM_128INDBM		(6  << 28)
--#	define R128_PM4_64PIO_64VCBM_64INDBM	(7  << 28)
--#	define R128_PM4_64BM_64VCBM_64INDBM	(8U  << 28)
--#	define R128_PM4_64PIO_64VCPIO_64INDPIO	(15U << 28)
--#	define R128_PM4_BUFFER_CNTL_NOUPDATE	(1  << 27)
--
--#define R128_PM4_BUFFER_WM_CNTL		0x0708
--#	define R128_WMA_SHIFT			0
--#	define R128_WMB_SHIFT			8
--#	define R128_WMC_SHIFT			16
--#	define R128_WB_WM_SHIFT			24
--
--#define R128_PM4_BUFFER_DL_RPTR_ADDR	0x070c
--#define R128_PM4_BUFFER_DL_RPTR		0x0710
--#define R128_PM4_BUFFER_DL_WPTR		0x0714
--#	define R128_PM4_BUFFER_DL_DONE		(1 << 31)
--
--#define R128_PM4_VC_FPU_SETUP		0x071c
--
--#define R128_PM4_IW_INDOFF		0x0738
--#define R128_PM4_IW_INDSIZE		0x073c
--
--#define R128_PM4_STAT			0x07b8
--#	define R128_PM4_FIFOCNT_MASK		0x0fff
--#	define R128_PM4_BUSY			(1 << 16)
--#	define R128_PM4_GUI_ACTIVE		(1 << 31)
--
--#define R128_PM4_MICROCODE_ADDR		0x07d4
--#define R128_PM4_MICROCODE_RADDR	0x07d8
--#define R128_PM4_MICROCODE_DATAH	0x07dc
--#define R128_PM4_MICROCODE_DATAL	0x07e0
--
--#define R128_PM4_BUFFER_ADDR		0x07f0
--#define R128_PM4_MICRO_CNTL		0x07fc
--#	define R128_PM4_MICRO_FREERUN		(1 << 30)
--
--#define R128_PM4_FIFO_DATA_EVEN		0x1000
--#define R128_PM4_FIFO_DATA_ODD		0x1004
--
--/* CCE command packets
-- */
--#define R128_CCE_PACKET0		0x00000000
--#define R128_CCE_PACKET1		0x40000000
--#define R128_CCE_PACKET2		0x80000000
--#define R128_CCE_PACKET3		0xC0000000
--#	define R128_CNTL_HOSTDATA_BLT		0x00009400
--#	define R128_CNTL_PAINT_MULTI		0x00009A00
--#	define R128_CNTL_BITBLT_MULTI		0x00009B00
--#	define R128_3D_RNDR_GEN_INDX_PRIM	0x00002300
--
--#define R128_CCE_PACKET_MASK		0xC0000000
--#define R128_CCE_PACKET_COUNT_MASK	0x3fff0000
--#define R128_CCE_PACKET0_REG_MASK	0x000007ff
--#define R128_CCE_PACKET1_REG0_MASK	0x000007ff
--#define R128_CCE_PACKET1_REG1_MASK	0x003ff800
--
--#define R128_CCE_VC_CNTL_PRIM_TYPE_NONE		0x00000000
--#define R128_CCE_VC_CNTL_PRIM_TYPE_POINT	0x00000001
--#define R128_CCE_VC_CNTL_PRIM_TYPE_LINE		0x00000002
--#define R128_CCE_VC_CNTL_PRIM_TYPE_POLY_LINE	0x00000003
--#define R128_CCE_VC_CNTL_PRIM_TYPE_TRI_LIST	0x00000004
--#define R128_CCE_VC_CNTL_PRIM_TYPE_TRI_FAN	0x00000005
--#define R128_CCE_VC_CNTL_PRIM_TYPE_TRI_STRIP	0x00000006
--#define R128_CCE_VC_CNTL_PRIM_TYPE_TRI_TYPE2	0x00000007
--#define R128_CCE_VC_CNTL_PRIM_WALK_IND		0x00000010
--#define R128_CCE_VC_CNTL_PRIM_WALK_LIST		0x00000020
--#define R128_CCE_VC_CNTL_PRIM_WALK_RING		0x00000030
--#define R128_CCE_VC_CNTL_NUM_SHIFT		16
--
--#define R128_DATATYPE_VQ		0
--#define R128_DATATYPE_CI4		1
--#define R128_DATATYPE_CI8		2
--#define R128_DATATYPE_ARGB1555		3
--#define R128_DATATYPE_RGB565		4
--#define R128_DATATYPE_RGB888		5
--#define R128_DATATYPE_ARGB8888		6
--#define R128_DATATYPE_RGB332		7
--#define R128_DATATYPE_Y8		8
--#define R128_DATATYPE_RGB8		9
--#define R128_DATATYPE_CI16		10
--#define R128_DATATYPE_YVYU422		11
--#define R128_DATATYPE_VYUY422		12
--#define R128_DATATYPE_AYUV444		14
--#define R128_DATATYPE_ARGB4444		15
--
--/* Constants */
--#define R128_AGP_OFFSET			0x02000000
--
--#define R128_WATERMARK_L		16
--#define R128_WATERMARK_M		8
--#define R128_WATERMARK_N		8
--#define R128_WATERMARK_K		128
--
--#define R128_MAX_USEC_TIMEOUT		100000	/* 100 ms */
--
--#define R128_LAST_FRAME_REG		R128_GUI_SCRATCH_REG0
--#define R128_LAST_DISPATCH_REG		R128_GUI_SCRATCH_REG1
--#define R128_MAX_VB_AGE			0x7fffffff
--#define R128_MAX_VB_VERTS		(0xffff)
--
--#define R128_RING_HIGH_MARK		128
--
--#define R128_PERFORMANCE_BOXES		0
--
--#define R128_PCIGART_TABLE_SIZE         32768
--
--#define R128_READ(reg)		readl(((void __iomem *)dev_priv->mmio->handle) + (reg))
--#define R128_WRITE(reg, val)	writel(val, ((void __iomem *)dev_priv->mmio->handle) + (reg))
--#define R128_READ8(reg)		readb(((void __iomem *)dev_priv->mmio->handle) + (reg))
--#define R128_WRITE8(reg, val)	writeb(val, ((void __iomem *)dev_priv->mmio->handle) + (reg))
--
--#define R128_WRITE_PLL(addr, val)					\
--do {									\
--	R128_WRITE8(R128_CLOCK_CNTL_INDEX,				\
--		    ((addr) & 0x1f) | R128_PLL_WR_EN);			\
--	R128_WRITE(R128_CLOCK_CNTL_DATA, (val));			\
--} while (0)
--
--#define CCE_PACKET0(reg, n)		(R128_CCE_PACKET0 |		\
--					 ((n) << 16) | ((reg) >> 2))
--#define CCE_PACKET1(reg0, reg1)		(R128_CCE_PACKET1 |		\
--					 (((reg1) >> 2) << 11) | ((reg0) >> 2))
--#define CCE_PACKET2()			(R128_CCE_PACKET2)
--#define CCE_PACKET3(pkt, n)		(R128_CCE_PACKET3 |		\
--					 (pkt) | ((n) << 16))
--
--static __inline__ void r128_update_ring_snapshot(drm_r128_private_t *dev_priv)
--{
--	drm_r128_ring_buffer_t *ring = &dev_priv->ring;
--	ring->space = (GET_RING_HEAD(dev_priv) - ring->tail) * sizeof(u32);
--	if (ring->space <= 0)
--		ring->space += ring->size;
--}
--
--/* ================================================================
-- * Misc helper macros
-- */
--
--#define DEV_INIT_TEST_WITH_RETURN(_dev_priv)				\
--do {									\
--	if (!_dev_priv) {						\
--		DRM_ERROR("called with no initialization\n");		\
--		return -EINVAL;						\
--	}								\
--} while (0)
--
--#define RING_SPACE_TEST_WITH_RETURN(dev_priv)				\
--do {									\
--	drm_r128_ring_buffer_t *ring = &dev_priv->ring; int i;		\
--	if (ring->space < ring->high_mark) {				\
--		for (i = 0 ; i < dev_priv->usec_timeout ; i++) {	\
--			r128_update_ring_snapshot(dev_priv);		\
--			if (ring->space >= ring->high_mark)		\
--				goto __ring_space_done;			\
--			udelay(1);					\
--		}							\
--		DRM_ERROR("ring space check failed!\n");		\
--		return -EBUSY;						\
--	}								\
-- __ring_space_done:							\
--	;								\
--} while (0)
--
--#define VB_AGE_TEST_WITH_RETURN(dev_priv)				\
--do {									\
--	drm_r128_sarea_t *sarea_priv = dev_priv->sarea_priv;		\
--	if (sarea_priv->last_dispatch >= R128_MAX_VB_AGE) {		\
--		int __ret = r128_do_cce_idle(dev_priv);			\
--		if (__ret)						\
--			return __ret;					\
--		sarea_priv->last_dispatch = 0;				\
--		r128_freelist_reset(dev);				\
--	}								\
--} while (0)
--
--#define R128_WAIT_UNTIL_PAGE_FLIPPED() do {				\
--	OUT_RING(CCE_PACKET0(R128_WAIT_UNTIL, 0));			\
--	OUT_RING(R128_EVENT_CRTC_OFFSET);				\
--} while (0)
--
--/* ================================================================
-- * Ring control
-- */
--
--#define R128_VERBOSE	0
--
--#define RING_LOCALS							\
--	int write, _nr; unsigned int tail_mask; volatile u32 *ring;
--
--#define BEGIN_RING(n) do {						\
--	if (R128_VERBOSE)						\
--		DRM_INFO("BEGIN_RING(%d)\n", (n));			\
--	if (dev_priv->ring.space <= (n) * sizeof(u32)) {		\
--		COMMIT_RING();						\
--		r128_wait_ring(dev_priv, (n) * sizeof(u32));		\
--	}								\
--	_nr = n; dev_priv->ring.space -= (n) * sizeof(u32);		\
--	ring = dev_priv->ring.start;					\
--	write = dev_priv->ring.tail;					\
--	tail_mask = dev_priv->ring.tail_mask;				\
--} while (0)
--
--/* You can set this to zero if you want.  If the card locks up, you'll
-- * need to keep this set.  It works around a bug in early revs of the
-- * Rage 128 chipset, where the CCE would read 32 dwords past the end of
-- * the ring buffer before wrapping around.
-- */
--#define R128_BROKEN_CCE	1
--
--#define ADVANCE_RING() do {						\
--	if (R128_VERBOSE)						\
--		DRM_INFO("ADVANCE_RING() wr=0x%06x tail=0x%06x\n",	\
--			 write, dev_priv->ring.tail);			\
--	if (R128_BROKEN_CCE && write < 32)				\
--		memcpy(dev_priv->ring.end,				\
--		       dev_priv->ring.start,				\
--		       write * sizeof(u32));				\
--	if (((dev_priv->ring.tail + _nr) & tail_mask) != write)		\
--		DRM_ERROR(						\
--			"ADVANCE_RING(): mismatch: nr: %x write: %x line: %d\n",	\
--			((dev_priv->ring.tail + _nr) & tail_mask),	\
--			write, __LINE__);				\
--	else								\
--		dev_priv->ring.tail = write;				\
--} while (0)
--
--#define COMMIT_RING() do {						\
--	if (R128_VERBOSE)						\
--		DRM_INFO("COMMIT_RING() tail=0x%06x\n",			\
--			 dev_priv->ring.tail);				\
--	mb();						\
--	R128_WRITE(R128_PM4_BUFFER_DL_WPTR, dev_priv->ring.tail);	\
--	R128_READ(R128_PM4_BUFFER_DL_WPTR);				\
--} while (0)
--
--#define OUT_RING(x) do {						\
--	if (R128_VERBOSE)						\
--		DRM_INFO("   OUT_RING( 0x%08x ) at 0x%x\n",		\
--			 (unsigned int)(x), write);			\
--	ring[write++] = cpu_to_le32(x);					\
--	write &= tail_mask;						\
--} while (0)
--
--#endif				/* __R128_DRV_H__ */
-diff --git a/drivers/gpu/drm/r128/r128_ioc32.c b/drivers/gpu/drm/r128/r128_ioc32.c
-deleted file mode 100644
-index cdeb1db87222..000000000000
---- a/drivers/gpu/drm/r128/r128_ioc32.c
-+++ /dev/null
-@@ -1,199 +0,0 @@
--/*
-- * \file r128_ioc32.c
-- *
-- * 32-bit ioctl compatibility routines for the R128 DRM.
-- *
-- * \author Dave Airlie <airlied@linux.ie> with code from patches by Egbert Eich
-- *
-- * Copyright (C) Paul Mackerras 2005
-- * Copyright (C) Egbert Eich 2003,2004
-- * Copyright (C) Dave Airlie 2005
+- * Copyright 2004  Felix Kuehling
 - * All Rights Reserved.
 - *
 - * Permission is hereby granted, free of charge, to any person obtaining a
 - * copy of this software and associated documentation files (the "Software"),
 - * to deal in the Software without restriction, including without limitation
-- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * the rights to use, copy, modify, merge, publish, distribute, sub license,
 - * and/or sell copies of the Software, and to permit persons to whom the
 - * Software is furnished to do so, subject to the following conditions:
 - *
-- * The above copyright notice and this permission notice (including the next
-- * paragraph) shall be included in all copies or substantial portions of the
-- * Software.
+- * The above copyright notice and this permission notice (including the
+- * next paragraph) shall be included in all copies or substantial portions
+- * of the Software.
 - *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-- * THE AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-- * IN THE SOFTWARE.
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+- * NON-INFRINGEMENT. IN NO EVENT SHALL FELIX KUEHLING BE LIABLE FOR
+- * ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+- * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 - */
 -
--#include <linux/compat.h>
+-#ifndef __SAVAGE_DRV_H__
+-#define __SAVAGE_DRV_H__
 -
--#include <drm/r128_drm.h>
+-#include <linux/io.h>
 -
--#include "r128_drv.h"
+-#include <drm/drm_ioctl.h>
+-#include <drm/drm_legacy.h>
+-#include <drm/savage_drm.h>
 -
--typedef struct drm_r128_init32 {
--	int func;
--	unsigned int sarea_priv_offset;
--	int is_pci;
--	int cce_mode;
--	int cce_secure;
--	int ring_size;
--	int usec_timeout;
+-#define DRIVER_AUTHOR	"Felix Kuehling"
 -
+-#define DRIVER_NAME	"savage"
+-#define DRIVER_DESC	"Savage3D/MX/IX, Savage4, SuperSavage, Twister, ProSavage[DDR]"
+-#define DRIVER_DATE	"20050313"
+-
+-#define DRIVER_MAJOR		2
+-#define DRIVER_MINOR		4
+-#define DRIVER_PATCHLEVEL	1
+-/* Interface history:
+- *
+- * 1.x   The DRM driver from the VIA/S3 code drop, basically a dummy
+- * 2.0   The first real DRM
+- * 2.1   Scissors registers managed by the DRM, 3D operations clipped by
+- *       cliprects of the cmdbuf ioctl
+- * 2.2   Implemented SAVAGE_CMD_DMA_IDX and SAVAGE_CMD_VB_IDX
+- * 2.3   Event counters used by BCI_EVENT_EMIT/WAIT ioctls are now 32 bits
+- *       wide and thus very long lived (unlikely to ever wrap). The size
+- *       in the struct was 32 bits before, but only 16 bits were used
+- * 2.4   Implemented command DMA. Now drm_savage_init_t.cmd_dma_offset is
+- *       actually used
+- */
+-
+-typedef struct drm_savage_age {
+-	uint16_t event;
+-	unsigned int wrap;
+-} drm_savage_age_t;
+-
+-typedef struct drm_savage_buf_priv {
+-	struct drm_savage_buf_priv *next;
+-	struct drm_savage_buf_priv *prev;
+-	drm_savage_age_t age;
+-	struct drm_buf *buf;
+-} drm_savage_buf_priv_t;
+-
+-typedef struct drm_savage_dma_page {
+-	drm_savage_age_t age;
+-	unsigned int used, flushed;
+-} drm_savage_dma_page_t;
+-#define SAVAGE_DMA_PAGE_SIZE 1024	/* in dwords */
+-/* Fake DMA buffer size in bytes. 4 pages. Allows a maximum command
+- * size of 16kbytes or 4k entries. Minimum requirement would be
+- * 10kbytes for 255 40-byte vertices in one drawing command. */
+-#define SAVAGE_FAKE_DMA_SIZE (SAVAGE_DMA_PAGE_SIZE*4*4)
+-
+-/* interesting bits of hardware state that are saved in dev_priv */
+-typedef union {
+-	struct drm_savage_common_state {
+-		uint32_t vbaddr;
+-	} common;
+-	struct {
+-		unsigned char pad[sizeof(struct drm_savage_common_state)];
+-		uint32_t texctrl, texaddr;
+-		uint32_t scstart, new_scstart;
+-		uint32_t scend, new_scend;
+-	} s3d;
+-	struct {
+-		unsigned char pad[sizeof(struct drm_savage_common_state)];
+-		uint32_t texdescr, texaddr0, texaddr1;
+-		uint32_t drawctrl0, new_drawctrl0;
+-		uint32_t drawctrl1, new_drawctrl1;
+-	} s4;
+-} drm_savage_state_t;
+-
+-/* these chip tags should match the ones in the 2D driver in savage_regs.h. */
+-enum savage_family {
+-	S3_UNKNOWN = 0,
+-	S3_SAVAGE3D,
+-	S3_SAVAGE_MX,
+-	S3_SAVAGE4,
+-	S3_PROSAVAGE,
+-	S3_TWISTER,
+-	S3_PROSAVAGEDDR,
+-	S3_SUPERSAVAGE,
+-	S3_SAVAGE2000,
+-	S3_LAST
+-};
+-
+-extern const struct drm_ioctl_desc savage_ioctls[];
+-extern int savage_max_ioctl;
+-
+-#define S3_SAVAGE3D_SERIES(chip)  ((chip>=S3_SAVAGE3D) && (chip<=S3_SAVAGE_MX))
+-
+-#define S3_SAVAGE4_SERIES(chip)  ((chip==S3_SAVAGE4)            \
+-                                  || (chip==S3_PROSAVAGE)       \
+-                                  || (chip==S3_TWISTER)         \
+-                                  || (chip==S3_PROSAVAGEDDR))
+-
+-#define	S3_SAVAGE_MOBILE_SERIES(chip)	((chip==S3_SAVAGE_MX) || (chip==S3_SUPERSAVAGE))
+-
+-#define S3_SAVAGE_SERIES(chip)    ((chip>=S3_SAVAGE3D) && (chip<=S3_SAVAGE2000))
+-
+-#define S3_MOBILE_TWISTER_SERIES(chip)   ((chip==S3_TWISTER)    \
+-                                          ||(chip==S3_PROSAVAGEDDR))
+-
+-/* flags */
+-#define SAVAGE_IS_AGP 1
+-
+-typedef struct drm_savage_private {
+-	drm_savage_sarea_t *sarea_priv;
+-
+-	drm_savage_buf_priv_t head, tail;
+-
+-	/* who am I? */
+-	enum savage_family chipset;
+-
+-	unsigned int cob_size;
+-	unsigned int bci_threshold_lo, bci_threshold_hi;
+-	unsigned int dma_type;
+-
+-	/* frame buffer layout */
 -	unsigned int fb_bpp;
 -	unsigned int front_offset, front_pitch;
 -	unsigned int back_offset, back_pitch;
 -	unsigned int depth_bpp;
 -	unsigned int depth_offset, depth_pitch;
--	unsigned int span_offset;
 -
--	unsigned int fb_offset;
--	unsigned int mmio_offset;
--	unsigned int ring_offset;
--	unsigned int ring_rptr_offset;
--	unsigned int buffers_offset;
--	unsigned int agp_textures_offset;
--} drm_r128_init32_t;
+-	/* bitmap descriptors for swap and clear */
+-	unsigned int front_bd, back_bd, depth_bd;
 -
--static int compat_r128_init(struct file *file, unsigned int cmd,
--			    unsigned long arg)
--{
--	drm_r128_init32_t init32;
--	drm_r128_init_t init;
+-	/* local textures */
+-	unsigned int texture_offset;
+-	unsigned int texture_size;
 -
--	if (copy_from_user(&init32, (void __user *)arg, sizeof(init32)))
--		return -EFAULT;
+-	/* memory regions in physical memory */
+-	drm_local_map_t *sarea;
+-	drm_local_map_t *mmio;
+-	drm_local_map_t *fb;
+-	drm_local_map_t *aperture;
+-	drm_local_map_t *status;
+-	drm_local_map_t *agp_textures;
+-	drm_local_map_t *cmd_dma;
+-	drm_local_map_t fake_dma;
 -
--	init.func = init32.func;
--	init.sarea_priv_offset = init32.sarea_priv_offset;
--	init.is_pci = init32.is_pci;
--	init.cce_mode = init32.cce_mode;
--	init.cce_secure = init32.cce_secure;
--	init.ring_size = init32.ring_size;
--	init.usec_timeout = init32.usec_timeout;
--	init.fb_bpp = init32.fb_bpp;
--	init.front_offset = init32.front_offset;
--	init.front_pitch = init32.front_pitch;
--	init.back_offset = init32.back_offset;
--	init.back_pitch = init32.back_pitch;
--	init.depth_bpp = init32.depth_bpp;
--	init.depth_offset = init32.depth_offset;
--	init.depth_pitch = init32.depth_pitch;
--	init.span_offset = init32.span_offset;
--	init.fb_offset = init32.fb_offset;
--	init.mmio_offset = init32.mmio_offset;
--	init.ring_offset = init32.ring_offset;
--	init.ring_rptr_offset = init32.ring_rptr_offset;
--	init.buffers_offset = init32.buffers_offset;
--	init.agp_textures_offset = init32.agp_textures_offset;
+-	int mtrr_handles[3];
 -
--	return drm_ioctl_kernel(file, r128_cce_init, &init,
--			DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY);
--}
+-	/* BCI and status-related stuff */
+-	volatile uint32_t *status_ptr, *bci_ptr;
+-	uint32_t status_used_mask;
+-	uint16_t event_counter;
+-	unsigned int event_wrap;
 -
--typedef struct drm_r128_depth32 {
--	int func;
--	int n;
--	u32 x;
--	u32 y;
--	u32 buffer;
--	u32 mask;
--} drm_r128_depth32_t;
+-	/* Savage4 command DMA */
+-	drm_savage_dma_page_t *dma_pages;
+-	unsigned int nr_dma_pages, first_dma_page, current_dma_page;
+-	drm_savage_age_t last_dma_age;
 -
--static int compat_r128_depth(struct file *file, unsigned int cmd,
--			     unsigned long arg)
--{
--	drm_r128_depth32_t depth32;
--	drm_r128_depth_t depth;
+-	/* saved hw state for global/local check on S3D */
+-	uint32_t hw_draw_ctrl, hw_zbuf_ctrl;
+-	/* and for scissors (global, so don't emit if not changed) */
+-	uint32_t hw_scissors_start, hw_scissors_end;
 -
--	if (copy_from_user(&depth32, (void __user *)arg, sizeof(depth32)))
--		return -EFAULT;
+-	drm_savage_state_t state;
 -
--	depth.func = depth32.func;
--	depth.n = depth32.n;
--	depth.x = compat_ptr(depth32.x);
--	depth.y = compat_ptr(depth32.y);
--	depth.buffer = compat_ptr(depth32.buffer);
--	depth.mask = compat_ptr(depth32.mask);
+-	/* after emitting a wait cmd Savage3D needs 63 nops before next DMA */
+-	unsigned int waiting;
 -
--	return drm_ioctl_kernel(file, r128_cce_depth, &depth, DRM_AUTH);
--}
+-	/* config/hardware-dependent function pointers */
+-	int (*wait_fifo) (struct drm_savage_private * dev_priv, unsigned int n);
+-	int (*wait_evnt) (struct drm_savage_private * dev_priv, uint16_t e);
+-	/* Err, there is a macro wait_event in include/linux/wait.h.
+-	 * Avoid unwanted macro expansion. */
+-	void (*emit_clip_rect) (struct drm_savage_private * dev_priv,
+-				const struct drm_clip_rect * pbox);
+-	void (*dma_flush) (struct drm_savage_private * dev_priv);
+-} drm_savage_private_t;
 -
--typedef struct drm_r128_stipple32 {
--	u32 mask;
--} drm_r128_stipple32_t;
+-/* ioctls */
+-extern int savage_bci_cmdbuf(struct drm_device *dev, void *data, struct drm_file *file_priv);
+-extern int savage_bci_buffers(struct drm_device *dev, void *data, struct drm_file *file_priv);
 -
--static int compat_r128_stipple(struct file *file, unsigned int cmd,
--			       unsigned long arg)
--{
--	drm_r128_stipple32_t stipple32;
--	drm_r128_stipple_t stipple;
+-/* BCI functions */
+-extern uint16_t savage_bci_emit_event(drm_savage_private_t * dev_priv,
+-				      unsigned int flags);
+-extern void savage_freelist_put(struct drm_device * dev, struct drm_buf * buf);
+-extern void savage_dma_reset(drm_savage_private_t * dev_priv);
+-extern void savage_dma_wait(drm_savage_private_t * dev_priv, unsigned int page);
+-extern uint32_t *savage_dma_alloc(drm_savage_private_t * dev_priv,
+-				  unsigned int n);
+-extern int savage_driver_load(struct drm_device *dev, unsigned long chipset);
+-extern int savage_driver_firstopen(struct drm_device *dev);
+-extern void savage_driver_lastclose(struct drm_device *dev);
+-extern void savage_driver_unload(struct drm_device *dev);
+-extern void savage_reclaim_buffers(struct drm_device *dev,
+-				   struct drm_file *file_priv);
 -
--	if (copy_from_user(&stipple32, (void __user *)arg, sizeof(stipple32)))
--		return -EFAULT;
+-/* state functions */
+-extern void savage_emit_clip_rect_s3d(drm_savage_private_t * dev_priv,
+-				      const struct drm_clip_rect * pbox);
+-extern void savage_emit_clip_rect_s4(drm_savage_private_t * dev_priv,
+-				     const struct drm_clip_rect * pbox);
 -
--	stipple.mask = compat_ptr(stipple32.mask);
+-#define SAVAGE_FB_SIZE_S3	0x01000000	/*  16MB */
+-#define SAVAGE_FB_SIZE_S4	0x02000000	/*  32MB */
+-#define SAVAGE_MMIO_SIZE        0x00080000	/* 512kB */
+-#define SAVAGE_APERTURE_OFFSET  0x02000000	/*  32MB */
+-#define SAVAGE_APERTURE_SIZE    0x05000000	/* 5 tiled surfaces, 16MB each */
 -
--	return drm_ioctl_kernel(file, r128_cce_stipple, &stipple, DRM_AUTH);
--}
+-#define SAVAGE_BCI_OFFSET       0x00010000	/* offset of the BCI region
+-						 * inside the MMIO region */
+-#define SAVAGE_BCI_FIFO_SIZE	32	/* number of entries in on-chip
+-					 * BCI FIFO */
 -
--typedef struct drm_r128_getparam32 {
--	int param;
--	u32 value;
--} drm_r128_getparam32_t;
--
--static int compat_r128_getparam(struct file *file, unsigned int cmd,
--				unsigned long arg)
--{
--	drm_r128_getparam32_t getparam32;
--	drm_r128_getparam_t getparam;
--
--	if (copy_from_user(&getparam32, (void __user *)arg, sizeof(getparam32)))
--		return -EFAULT;
--
--	getparam.param = getparam32.param;
--	getparam.value = compat_ptr(getparam32.value);
--
--	return drm_ioctl_kernel(file, r128_getparam, &getparam, DRM_AUTH);
--}
--
--drm_ioctl_compat_t *r128_compat_ioctls[] = {
--	[DRM_R128_INIT] = compat_r128_init,
--	[DRM_R128_DEPTH] = compat_r128_depth,
--	[DRM_R128_STIPPLE] = compat_r128_stipple,
--	[DRM_R128_GETPARAM] = compat_r128_getparam,
--};
--
--/**
-- * r128_compat_ioctl - Called whenever a 32-bit process running under
-- *                     a 64-bit kernel performs an ioctl on /dev/dri/card<n>.
-- *
-- * @filp: file pointer.
-- * @cmd: command.
-- * @arg: user argument.
-- * return: zero on success or negative number on failure.
-- */
--long r128_compat_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
--{
--	unsigned int nr = DRM_IOCTL_NR(cmd);
--	drm_ioctl_compat_t *fn = NULL;
--	int ret;
--
--	if (nr < DRM_COMMAND_BASE)
--		return drm_compat_ioctl(filp, cmd, arg);
--
--	if (nr < DRM_COMMAND_BASE + ARRAY_SIZE(r128_compat_ioctls))
--		fn = r128_compat_ioctls[nr - DRM_COMMAND_BASE];
--
--	if (fn != NULL)
--		ret = (*fn) (filp, cmd, arg);
--	else
--		ret = drm_ioctl(filp, cmd, arg);
--
--	return ret;
--}
-diff --git a/drivers/gpu/drm/r128/r128_irq.c b/drivers/gpu/drm/r128/r128_irq.c
-deleted file mode 100644
-index d84e9c96e20a..000000000000
---- a/drivers/gpu/drm/r128/r128_irq.c
-+++ /dev/null
-@@ -1,118 +0,0 @@
--/* r128_irq.c -- IRQ handling for radeon -*- linux-c -*- */
 -/*
-- * Copyright (C) The Weather Channel, Inc.  2002.  All Rights Reserved.
-- *
-- * The Weather Channel (TM) funded Tungsten Graphics to develop the
-- * initial release of the Radeon 8500 driver under the XFree86 license.
-- * This notice must be preserved.
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a
-- * copy of this software and associated documentation files (the "Software"),
-- * to deal in the Software without restriction, including without limitation
-- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-- * and/or sell copies of the Software, and to permit persons to whom the
-- * Software is furnished to do so, subject to the following conditions:
-- *
-- * The above copyright notice and this permission notice (including the next
-- * paragraph) shall be included in all copies or substantial portions of the
-- * Software.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-- * PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-- * DEALINGS IN THE SOFTWARE.
-- *
-- * Authors:
-- *    Keith Whitwell <keith@tungstengraphics.com>
-- *    Eric Anholt <anholt@FreeBSD.org>
+- * MMIO registers
 - */
+-#define SAVAGE_STATUS_WORD0		0x48C00
+-#define SAVAGE_STATUS_WORD1		0x48C04
+-#define SAVAGE_ALT_STATUS_WORD0 	0x48C60
 -
--#include <drm/drm_device.h>
--#include <drm/drm_print.h>
--#include <drm/drm_vblank.h>
--#include <drm/r128_drm.h>
+-#define SAVAGE_FIFO_USED_MASK_S3D	0x0001ffff
+-#define SAVAGE_FIFO_USED_MASK_S4	0x001fffff
 -
--#include "r128_drv.h"
+-/* Copied from savage_bci.h in the 2D driver with some renaming. */
 -
--u32 r128_get_vblank_counter(struct drm_device *dev, unsigned int pipe)
--{
--	const drm_r128_private_t *dev_priv = dev->dev_private;
+-/* Bitmap descriptors */
+-#define SAVAGE_BD_STRIDE_SHIFT 0
+-#define SAVAGE_BD_BPP_SHIFT   16
+-#define SAVAGE_BD_TILE_SHIFT  24
+-#define SAVAGE_BD_BW_DISABLE  (1<<28)
+-/* common: */
+-#define	SAVAGE_BD_TILE_LINEAR		0
+-/* savage4, MX, IX, 3D */
+-#define	SAVAGE_BD_TILE_16BPP		2
+-#define	SAVAGE_BD_TILE_32BPP		3
+-/* twister, prosavage, DDR, supersavage, 2000 */
+-#define	SAVAGE_BD_TILE_DEST		1
+-#define	SAVAGE_BD_TILE_TEXTURE		2
+-/* GBD - BCI enable */
+-/* savage4, MX, IX, 3D */
+-#define SAVAGE_GBD_BCI_ENABLE                    8
+-/* twister, prosavage, DDR, supersavage, 2000 */
+-#define SAVAGE_GBD_BCI_ENABLE_TWISTER            0
 -
--	if (pipe != 0)
--		return 0;
+-#define SAVAGE_GBD_BIG_ENDIAN                    4
+-#define SAVAGE_GBD_LITTLE_ENDIAN                 0
+-#define SAVAGE_GBD_64                            1
 -
--	return atomic_read(&dev_priv->vbl_received);
--}
+-/*  Global Bitmap Descriptor */
+-#define SAVAGE_BCI_GLB_BD_LOW             0x8168
+-#define SAVAGE_BCI_GLB_BD_HIGH            0x816C
 -
--irqreturn_t r128_driver_irq_handler(int irq, void *arg)
--{
--	struct drm_device *dev = (struct drm_device *) arg;
--	drm_r128_private_t *dev_priv = (drm_r128_private_t *) dev->dev_private;
--	int status;
--
--	status = R128_READ(R128_GEN_INT_STATUS);
--
--	/* VBLANK interrupt */
--	if (status & R128_CRTC_VBLANK_INT) {
--		R128_WRITE(R128_GEN_INT_STATUS, R128_CRTC_VBLANK_INT_AK);
--		atomic_inc(&dev_priv->vbl_received);
--		drm_handle_vblank(dev, 0);
--		return IRQ_HANDLED;
--	}
--	return IRQ_NONE;
--}
--
--int r128_enable_vblank(struct drm_device *dev, unsigned int pipe)
--{
--	drm_r128_private_t *dev_priv = dev->dev_private;
--
--	if (pipe != 0) {
--		DRM_ERROR("%s:  bad crtc %u\n", __func__, pipe);
--		return -EINVAL;
--	}
--
--	R128_WRITE(R128_GEN_INT_CNTL, R128_CRTC_VBLANK_INT_EN);
--	return 0;
--}
--
--void r128_disable_vblank(struct drm_device *dev, unsigned int pipe)
--{
--	if (pipe != 0)
--		DRM_ERROR("%s:  bad crtc %u\n", __func__, pipe);
--
--	/*
--	 * FIXME: implement proper interrupt disable by using the vblank
--	 * counter register (if available)
--	 *
--	 * R128_WRITE(R128_GEN_INT_CNTL,
--	 *            R128_READ(R128_GEN_INT_CNTL) & ~R128_CRTC_VBLANK_INT_EN);
--	 */
--}
--
--void r128_driver_irq_preinstall(struct drm_device *dev)
--{
--	drm_r128_private_t *dev_priv = (drm_r128_private_t *) dev->dev_private;
--
--	/* Disable *all* interrupts */
--	R128_WRITE(R128_GEN_INT_CNTL, 0);
--	/* Clear vblank bit if it's already high */
--	R128_WRITE(R128_GEN_INT_STATUS, R128_CRTC_VBLANK_INT_AK);
--}
--
--int r128_driver_irq_postinstall(struct drm_device *dev)
--{
--	return 0;
--}
--
--void r128_driver_irq_uninstall(struct drm_device *dev)
--{
--	drm_r128_private_t *dev_priv = (drm_r128_private_t *) dev->dev_private;
--	if (!dev_priv)
--		return;
--
--	/* Disable *all* interrupts */
--	R128_WRITE(R128_GEN_INT_CNTL, 0);
--}
-diff --git a/drivers/gpu/drm/r128/r128_state.c b/drivers/gpu/drm/r128/r128_state.c
-deleted file mode 100644
-index ac13fc2a0214..000000000000
---- a/drivers/gpu/drm/r128/r128_state.c
-+++ /dev/null
-@@ -1,1641 +0,0 @@
--/* r128_state.c -- State support for r128 -*- linux-c -*-
-- * Created: Thu Jan 27 02:53:43 2000 by gareth@valinux.com
-- */
 -/*
-- * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
+- * BCI registers
+- */
+-/* Savage4/Twister/ProSavage 3D registers */
+-#define SAVAGE_DRAWLOCALCTRL_S4		0x1e
+-#define SAVAGE_TEXPALADDR_S4		0x1f
+-#define SAVAGE_TEXCTRL0_S4		0x20
+-#define SAVAGE_TEXCTRL1_S4		0x21
+-#define SAVAGE_TEXADDR0_S4		0x22
+-#define SAVAGE_TEXADDR1_S4		0x23
+-#define SAVAGE_TEXBLEND0_S4		0x24
+-#define SAVAGE_TEXBLEND1_S4		0x25
+-#define SAVAGE_TEXXPRCLR_S4		0x26	/* never used */
+-#define SAVAGE_TEXDESCR_S4		0x27
+-#define SAVAGE_FOGTABLE_S4		0x28
+-#define SAVAGE_FOGCTRL_S4		0x30
+-#define SAVAGE_STENCILCTRL_S4		0x31
+-#define SAVAGE_ZBUFCTRL_S4		0x32
+-#define SAVAGE_ZBUFOFF_S4		0x33
+-#define SAVAGE_DESTCTRL_S4		0x34
+-#define SAVAGE_DRAWCTRL0_S4		0x35
+-#define SAVAGE_DRAWCTRL1_S4		0x36
+-#define SAVAGE_ZWATERMARK_S4		0x37
+-#define SAVAGE_DESTTEXRWWATERMARK_S4	0x38
+-#define SAVAGE_TEXBLENDCOLOR_S4		0x39
+-/* Savage3D/MX/IX 3D registers */
+-#define SAVAGE_TEXPALADDR_S3D		0x18
+-#define SAVAGE_TEXXPRCLR_S3D		0x19	/* never used */
+-#define SAVAGE_TEXADDR_S3D		0x1A
+-#define SAVAGE_TEXDESCR_S3D		0x1B
+-#define SAVAGE_TEXCTRL_S3D		0x1C
+-#define SAVAGE_FOGTABLE_S3D		0x20
+-#define SAVAGE_FOGCTRL_S3D		0x30
+-#define SAVAGE_DRAWCTRL_S3D		0x31
+-#define SAVAGE_ZBUFCTRL_S3D		0x32
+-#define SAVAGE_ZBUFOFF_S3D		0x33
+-#define SAVAGE_DESTCTRL_S3D		0x34
+-#define SAVAGE_SCSTART_S3D		0x35
+-#define SAVAGE_SCEND_S3D		0x36
+-#define SAVAGE_ZWATERMARK_S3D		0x37
+-#define SAVAGE_DESTTEXRWWATERMARK_S3D	0x38
+-/* common stuff */
+-#define SAVAGE_VERTBUFADDR		0x3e
+-#define SAVAGE_BITPLANEWTMASK		0xd7
+-#define SAVAGE_DMABUFADDR		0x51
+-
+-/* texture enable bits (needed for tex addr checking) */
+-#define SAVAGE_TEXCTRL_TEXEN_MASK	0x00010000	/* S3D */
+-#define SAVAGE_TEXDESCR_TEX0EN_MASK	0x02000000	/* S4 */
+-#define SAVAGE_TEXDESCR_TEX1EN_MASK	0x04000000	/* S4 */
+-
+-/* Global fields in Savage4/Twister/ProSavage 3D registers:
+- *
+- * All texture registers and DrawLocalCtrl are local. All other
+- * registers are global. */
+-
+-/* Global fields in Savage3D/MX/IX 3D registers:
+- *
+- * All texture registers are local. DrawCtrl and ZBufCtrl are
+- * partially local. All other registers are global.
+- *
+- * DrawCtrl global fields: cullMode, alphaTestCmpFunc, alphaTestEn, alphaRefVal
+- * ZBufCtrl global fields: zCmpFunc, zBufEn
+- */
+-#define SAVAGE_DRAWCTRL_S3D_GLOBAL	0x03f3c00c
+-#define SAVAGE_ZBUFCTRL_S3D_GLOBAL	0x00000027
+-
+-/* Masks for scissor bits (drawCtrl[01] on s4, scissorStart/End on s3d)
+- */
+-#define SAVAGE_SCISSOR_MASK_S4		0x00fff7ff
+-#define SAVAGE_SCISSOR_MASK_S3D		0x07ff07ff
+-
+-/*
+- * BCI commands
+- */
+-#define BCI_CMD_NOP                  0x40000000
+-#define BCI_CMD_RECT                 0x48000000
+-#define BCI_CMD_RECT_XP              0x01000000
+-#define BCI_CMD_RECT_YP              0x02000000
+-#define BCI_CMD_SCANLINE             0x50000000
+-#define BCI_CMD_LINE                 0x5C000000
+-#define BCI_CMD_LINE_LAST_PIXEL      0x58000000
+-#define BCI_CMD_BYTE_TEXT            0x63000000
+-#define BCI_CMD_NT_BYTE_TEXT         0x67000000
+-#define BCI_CMD_BIT_TEXT             0x6C000000
+-#define BCI_CMD_GET_ROP(cmd)         (((cmd) >> 16) & 0xFF)
+-#define BCI_CMD_SET_ROP(cmd, rop)    ((cmd) |= ((rop & 0xFF) << 16))
+-#define BCI_CMD_SEND_COLOR           0x00008000
+-
+-#define BCI_CMD_CLIP_NONE            0x00000000
+-#define BCI_CMD_CLIP_CURRENT         0x00002000
+-#define BCI_CMD_CLIP_LR              0x00004000
+-#define BCI_CMD_CLIP_NEW             0x00006000
+-
+-#define BCI_CMD_DEST_GBD             0x00000000
+-#define BCI_CMD_DEST_PBD             0x00000800
+-#define BCI_CMD_DEST_PBD_NEW         0x00000C00
+-#define BCI_CMD_DEST_SBD             0x00001000
+-#define BCI_CMD_DEST_SBD_NEW         0x00001400
+-
+-#define BCI_CMD_SRC_TRANSPARENT      0x00000200
+-#define BCI_CMD_SRC_SOLID            0x00000000
+-#define BCI_CMD_SRC_GBD              0x00000020
+-#define BCI_CMD_SRC_COLOR            0x00000040
+-#define BCI_CMD_SRC_MONO             0x00000060
+-#define BCI_CMD_SRC_PBD_COLOR        0x00000080
+-#define BCI_CMD_SRC_PBD_MONO         0x000000A0
+-#define BCI_CMD_SRC_PBD_COLOR_NEW    0x000000C0
+-#define BCI_CMD_SRC_PBD_MONO_NEW     0x000000E0
+-#define BCI_CMD_SRC_SBD_COLOR        0x00000100
+-#define BCI_CMD_SRC_SBD_MONO         0x00000120
+-#define BCI_CMD_SRC_SBD_COLOR_NEW    0x00000140
+-#define BCI_CMD_SRC_SBD_MONO_NEW     0x00000160
+-
+-#define BCI_CMD_PAT_TRANSPARENT      0x00000010
+-#define BCI_CMD_PAT_NONE             0x00000000
+-#define BCI_CMD_PAT_COLOR            0x00000002
+-#define BCI_CMD_PAT_MONO             0x00000003
+-#define BCI_CMD_PAT_PBD_COLOR        0x00000004
+-#define BCI_CMD_PAT_PBD_MONO         0x00000005
+-#define BCI_CMD_PAT_PBD_COLOR_NEW    0x00000006
+-#define BCI_CMD_PAT_PBD_MONO_NEW     0x00000007
+-#define BCI_CMD_PAT_SBD_COLOR        0x00000008
+-#define BCI_CMD_PAT_SBD_MONO         0x00000009
+-#define BCI_CMD_PAT_SBD_COLOR_NEW    0x0000000A
+-#define BCI_CMD_PAT_SBD_MONO_NEW     0x0000000B
+-
+-#define BCI_BD_BW_DISABLE            0x10000000
+-#define BCI_BD_TILE_MASK             0x03000000
+-#define BCI_BD_TILE_NONE             0x00000000
+-#define BCI_BD_TILE_16               0x02000000
+-#define BCI_BD_TILE_32               0x03000000
+-#define BCI_BD_GET_BPP(bd)           (((bd) >> 16) & 0xFF)
+-#define BCI_BD_SET_BPP(bd, bpp)      ((bd) |= (((bpp) & 0xFF) << 16))
+-#define BCI_BD_GET_STRIDE(bd)        ((bd) & 0xFFFF)
+-#define BCI_BD_SET_STRIDE(bd, st)    ((bd) |= ((st) & 0xFFFF))
+-
+-#define BCI_CMD_SET_REGISTER            0x96000000
+-
+-#define BCI_CMD_WAIT                    0xC0000000
+-#define BCI_CMD_WAIT_3D                 0x00010000
+-#define BCI_CMD_WAIT_2D                 0x00020000
+-
+-#define BCI_CMD_UPDATE_EVENT_TAG        0x98000000
+-
+-#define BCI_CMD_DRAW_PRIM               0x80000000
+-#define BCI_CMD_DRAW_INDEXED_PRIM       0x88000000
+-#define BCI_CMD_DRAW_CONT               0x01000000
+-#define BCI_CMD_DRAW_TRILIST            0x00000000
+-#define BCI_CMD_DRAW_TRISTRIP           0x02000000
+-#define BCI_CMD_DRAW_TRIFAN             0x04000000
+-#define BCI_CMD_DRAW_SKIPFLAGS          0x000000ff
+-#define BCI_CMD_DRAW_NO_Z		0x00000001
+-#define BCI_CMD_DRAW_NO_W		0x00000002
+-#define BCI_CMD_DRAW_NO_CD		0x00000004
+-#define BCI_CMD_DRAW_NO_CS		0x00000008
+-#define BCI_CMD_DRAW_NO_U0		0x00000010
+-#define BCI_CMD_DRAW_NO_V0		0x00000020
+-#define BCI_CMD_DRAW_NO_UV0		0x00000030
+-#define BCI_CMD_DRAW_NO_U1		0x00000040
+-#define BCI_CMD_DRAW_NO_V1		0x00000080
+-#define BCI_CMD_DRAW_NO_UV1		0x000000c0
+-
+-#define BCI_CMD_DMA			0xa8000000
+-
+-#define BCI_W_H(w, h)                ((((h) << 16) | (w)) & 0x0FFF0FFF)
+-#define BCI_X_Y(x, y)                ((((y) << 16) | (x)) & 0x0FFF0FFF)
+-#define BCI_X_W(x, y)                ((((w) << 16) | (x)) & 0x0FFF0FFF)
+-#define BCI_CLIP_LR(l, r)            ((((r) << 16) | (l)) & 0x0FFF0FFF)
+-#define BCI_CLIP_TL(t, l)            ((((t) << 16) | (l)) & 0x0FFF0FFF)
+-#define BCI_CLIP_BR(b, r)            ((((b) << 16) | (r)) & 0x0FFF0FFF)
+-
+-#define BCI_LINE_X_Y(x, y)           (((y) << 16) | ((x) & 0xFFFF))
+-#define BCI_LINE_STEPS(diag, axi)    (((axi) << 16) | ((diag) & 0xFFFF))
+-#define BCI_LINE_MISC(maj, ym, xp, yp, err) \
+-	(((maj) & 0x1FFF) | \
+-	((ym) ? 1<<13 : 0) | \
+-	((xp) ? 1<<14 : 0) | \
+-	((yp) ? 1<<15 : 0) | \
+-	((err) << 16))
+-
+-/*
+- * common commands
+- */
+-#define BCI_SET_REGISTERS( first, n )			\
+-	BCI_WRITE(BCI_CMD_SET_REGISTER |		\
+-		  ((uint32_t)(n) & 0xff) << 16 |	\
+-		  ((uint32_t)(first) & 0xffff))
+-#define DMA_SET_REGISTERS( first, n )			\
+-	DMA_WRITE(BCI_CMD_SET_REGISTER |		\
+-		  ((uint32_t)(n) & 0xff) << 16 |	\
+-		  ((uint32_t)(first) & 0xffff))
+-
+-#define BCI_DRAW_PRIMITIVE(n, type, skip)         \
+-        BCI_WRITE(BCI_CMD_DRAW_PRIM | (type) | (skip) | \
+-		  ((n) << 16))
+-#define DMA_DRAW_PRIMITIVE(n, type, skip)         \
+-        DMA_WRITE(BCI_CMD_DRAW_PRIM | (type) | (skip) | \
+-		  ((n) << 16))
+-
+-#define BCI_DRAW_INDICES_S3D(n, type, i0)         \
+-        BCI_WRITE(BCI_CMD_DRAW_INDEXED_PRIM | (type) |  \
+-		  ((n) << 16) | (i0))
+-
+-#define BCI_DRAW_INDICES_S4(n, type, skip)        \
+-        BCI_WRITE(BCI_CMD_DRAW_INDEXED_PRIM | (type) |  \
+-                  (skip) | ((n) << 16))
+-
+-#define BCI_DMA(n)	\
+-	BCI_WRITE(BCI_CMD_DMA | (((n) >> 1) - 1))
+-
+-/*
+- * access to MMIO
+- */
+-#define SAVAGE_READ(reg) \
+-       readl(((void __iomem *)dev_priv->mmio->handle) + (reg))
+-#define SAVAGE_WRITE(reg) \
+-	writel(val, ((void __iomem *)dev_priv->mmio->handle) + (reg))
+-
+-/*
+- * access to the burst command interface (BCI)
+- */
+-#define SAVAGE_BCI_DEBUG 1
+-
+-#define BCI_LOCALS    volatile uint32_t *bci_ptr;
+-
+-#define BEGIN_BCI( n ) do {			\
+-	dev_priv->wait_fifo(dev_priv, (n));	\
+-	bci_ptr = dev_priv->bci_ptr;		\
+-} while(0)
+-
+-#define BCI_WRITE( val ) *bci_ptr++ = (uint32_t)(val)
+-
+-/*
+- * command DMA support
+- */
+-#define SAVAGE_DMA_DEBUG 1
+-
+-#define DMA_LOCALS   uint32_t *dma_ptr;
+-
+-#define BEGIN_DMA( n ) do {						\
+-	unsigned int cur = dev_priv->current_dma_page;			\
+-	unsigned int rest = SAVAGE_DMA_PAGE_SIZE -			\
+-		dev_priv->dma_pages[cur].used;				\
+-	if ((n) > rest) {						\
+-		dma_ptr = savage_dma_alloc(dev_priv, (n));		\
+-	} else { /* fast path for small allocations */			\
+-		dma_ptr = (uint32_t *)dev_priv->cmd_dma->handle +	\
+-			cur * SAVAGE_DMA_PAGE_SIZE +			\
+-			dev_priv->dma_pages[cur].used;			\
+-		if (dev_priv->dma_pages[cur].used == 0)			\
+-			savage_dma_wait(dev_priv, cur);			\
+-		dev_priv->dma_pages[cur].used += (n);			\
+-	}								\
+-} while(0)
+-
+-#define DMA_WRITE( val ) *dma_ptr++ = (uint32_t)(val)
+-
+-#define DMA_COPY(src, n) do {					\
+-	memcpy(dma_ptr, (src), (n)*4);				\
+-	dma_ptr += n;						\
+-} while(0)
+-
+-#if SAVAGE_DMA_DEBUG
+-#define DMA_COMMIT() do {						\
+-	unsigned int cur = dev_priv->current_dma_page;			\
+-	uint32_t *expected = (uint32_t *)dev_priv->cmd_dma->handle +	\
+-			cur * SAVAGE_DMA_PAGE_SIZE +			\
+-			dev_priv->dma_pages[cur].used;			\
+-	if (dma_ptr != expected) {					\
+-		DRM_ERROR("DMA allocation and use don't match: "	\
+-			  "%p != %p\n", expected, dma_ptr);		\
+-		savage_dma_reset(dev_priv);				\
+-	}								\
+-} while(0)
+-#else
+-#define DMA_COMMIT() do {/* nothing */} while(0)
+-#endif
+-
+-#define DMA_FLUSH() dev_priv->dma_flush(dev_priv)
+-
+-/* Buffer aging via event tag
+- */
+-
+-#define UPDATE_EVENT_COUNTER( ) do {			\
+-	if (dev_priv->status_ptr) {			\
+-		uint16_t count;				\
+-		/* coordinate with Xserver */		\
+-		count = dev_priv->status_ptr[1023];	\
+-		if (count < dev_priv->event_counter)	\
+-			dev_priv->event_wrap++;		\
+-		dev_priv->event_counter = count;	\
+-	}						\
+-} while(0)
+-
+-#define SET_AGE( age, e, w ) do {	\
+-	(age)->event = e;		\
+-	(age)->wrap = w;		\
+-} while(0)
+-
+-#define TEST_AGE( age, e, w )				\
+-	( (age)->wrap < (w) || ( (age)->wrap == (w) && (age)->event <= (e) ) )
+-
+-#endif				/* __SAVAGE_DRV_H__ */
+diff --git a/drivers/gpu/drm/savage/savage_state.c b/drivers/gpu/drm/savage/savage_state.c
+deleted file mode 100644
+index e0d40ae67d54..000000000000
+--- a/drivers/gpu/drm/savage/savage_state.c
++++ /dev/null
+@@ -1,1169 +0,0 @@
+-/* savage_state.c -- State and drawing support for Savage
+- *
+- * Copyright 2004  Felix Kuehling
 - * All Rights Reserved.
 - *
 - * Permission is hereby granted, free of charge, to any person obtaining a
 - * copy of this software and associated documentation files (the "Software"),
 - * to deal in the Software without restriction, including without limitation
-- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * the rights to use, copy, modify, merge, publish, distribute, sub license,
 - * and/or sell copies of the Software, and to permit persons to whom the
 - * Software is furnished to do so, subject to the following conditions:
 - *
-- * The above copyright notice and this permission notice (including the next
-- * paragraph) shall be included in all copies or substantial portions of the
-- * Software.
+- * The above copyright notice and this permission notice (including the
+- * next paragraph) shall be included in all copies or substantial portions
+- * of the Software.
 - *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-- * PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-- * DEALINGS IN THE SOFTWARE.
-- *
-- * Authors:
-- *    Gareth Hughes <gareth@valinux.com>
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+- * NON-INFRINGEMENT. IN NO EVENT SHALL FELIX KUEHLING BE LIABLE FOR
+- * ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+- * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 - */
 -
--#include <linux/pci.h>
 -#include <linux/slab.h>
 -#include <linux/uaccess.h>
 -
 -#include <drm/drm_device.h>
 -#include <drm/drm_file.h>
 -#include <drm/drm_print.h>
--#include <drm/r128_drm.h>
+-#include <drm/savage_drm.h>
 -
--#include "r128_drv.h"
+-#include "savage_drv.h"
 -
--/* ================================================================
-- * CCE hardware state programming functions
-- */
--
--static void r128_emit_clip_rects(drm_r128_private_t *dev_priv,
--				 struct drm_clip_rect *boxes, int count)
+-void savage_emit_clip_rect_s3d(drm_savage_private_t * dev_priv,
+-			       const struct drm_clip_rect * pbox)
 -{
--	u32 aux_sc_cntl = 0x00000000;
--	RING_LOCALS;
--	DRM_DEBUG("\n");
--
--	BEGIN_RING((count < 3 ? count : 3) * 5 + 2);
--
--	if (count >= 1) {
--		OUT_RING(CCE_PACKET0(R128_AUX1_SC_LEFT, 3));
--		OUT_RING(boxes[0].x1);
--		OUT_RING(boxes[0].x2 - 1);
--		OUT_RING(boxes[0].y1);
--		OUT_RING(boxes[0].y2 - 1);
--
--		aux_sc_cntl |= (R128_AUX1_SC_EN | R128_AUX1_SC_MODE_OR);
+-	uint32_t scstart = dev_priv->state.s3d.new_scstart;
+-	uint32_t scend = dev_priv->state.s3d.new_scend;
+-	scstart = (scstart & ~SAVAGE_SCISSOR_MASK_S3D) |
+-	    ((uint32_t) pbox->x1 & 0x000007ff) |
+-	    (((uint32_t) pbox->y1 << 16) & 0x07ff0000);
+-	scend = (scend & ~SAVAGE_SCISSOR_MASK_S3D) |
+-	    (((uint32_t) pbox->x2 - 1) & 0x000007ff) |
+-	    ((((uint32_t) pbox->y2 - 1) << 16) & 0x07ff0000);
+-	if (scstart != dev_priv->state.s3d.scstart ||
+-	    scend != dev_priv->state.s3d.scend) {
+-		DMA_LOCALS;
+-		BEGIN_DMA(4);
+-		DMA_WRITE(BCI_CMD_WAIT | BCI_CMD_WAIT_3D);
+-		DMA_SET_REGISTERS(SAVAGE_SCSTART_S3D, 2);
+-		DMA_WRITE(scstart);
+-		DMA_WRITE(scend);
+-		dev_priv->state.s3d.scstart = scstart;
+-		dev_priv->state.s3d.scend = scend;
+-		dev_priv->waiting = 1;
+-		DMA_COMMIT();
 -	}
--	if (count >= 2) {
--		OUT_RING(CCE_PACKET0(R128_AUX2_SC_LEFT, 3));
--		OUT_RING(boxes[1].x1);
--		OUT_RING(boxes[1].x2 - 1);
--		OUT_RING(boxes[1].y1);
--		OUT_RING(boxes[1].y2 - 1);
--
--		aux_sc_cntl |= (R128_AUX2_SC_EN | R128_AUX2_SC_MODE_OR);
--	}
--	if (count >= 3) {
--		OUT_RING(CCE_PACKET0(R128_AUX3_SC_LEFT, 3));
--		OUT_RING(boxes[2].x1);
--		OUT_RING(boxes[2].x2 - 1);
--		OUT_RING(boxes[2].y1);
--		OUT_RING(boxes[2].y2 - 1);
--
--		aux_sc_cntl |= (R128_AUX3_SC_EN | R128_AUX3_SC_MODE_OR);
--	}
--
--	OUT_RING(CCE_PACKET0(R128_AUX_SC_CNTL, 0));
--	OUT_RING(aux_sc_cntl);
--
--	ADVANCE_RING();
 -}
 -
--static __inline__ void r128_emit_core(drm_r128_private_t *dev_priv)
+-void savage_emit_clip_rect_s4(drm_savage_private_t * dev_priv,
+-			      const struct drm_clip_rect * pbox)
 -{
--	drm_r128_sarea_t *sarea_priv = dev_priv->sarea_priv;
--	drm_r128_context_regs_t *ctx = &sarea_priv->context_state;
--	RING_LOCALS;
--	DRM_DEBUG("\n");
--
--	BEGIN_RING(2);
--
--	OUT_RING(CCE_PACKET0(R128_SCALE_3D_CNTL, 0));
--	OUT_RING(ctx->scale_3d_cntl);
--
--	ADVANCE_RING();
+-	uint32_t drawctrl0 = dev_priv->state.s4.new_drawctrl0;
+-	uint32_t drawctrl1 = dev_priv->state.s4.new_drawctrl1;
+-	drawctrl0 = (drawctrl0 & ~SAVAGE_SCISSOR_MASK_S4) |
+-	    ((uint32_t) pbox->x1 & 0x000007ff) |
+-	    (((uint32_t) pbox->y1 << 12) & 0x00fff000);
+-	drawctrl1 = (drawctrl1 & ~SAVAGE_SCISSOR_MASK_S4) |
+-	    (((uint32_t) pbox->x2 - 1) & 0x000007ff) |
+-	    ((((uint32_t) pbox->y2 - 1) << 12) & 0x00fff000);
+-	if (drawctrl0 != dev_priv->state.s4.drawctrl0 ||
+-	    drawctrl1 != dev_priv->state.s4.drawctrl1) {
+-		DMA_LOCALS;
+-		BEGIN_DMA(4);
+-		DMA_WRITE(BCI_CMD_WAIT | BCI_CMD_WAIT_3D);
+-		DMA_SET_REGISTERS(SAVAGE_DRAWCTRL0_S4, 2);
+-		DMA_WRITE(drawctrl0);
+-		DMA_WRITE(drawctrl1);
+-		dev_priv->state.s4.drawctrl0 = drawctrl0;
+-		dev_priv->state.s4.drawctrl1 = drawctrl1;
+-		dev_priv->waiting = 1;
+-		DMA_COMMIT();
+-	}
 -}
 -
--static __inline__ void r128_emit_context(drm_r128_private_t *dev_priv)
+-static int savage_verify_texaddr(drm_savage_private_t * dev_priv, int unit,
+-				 uint32_t addr)
 -{
--	drm_r128_sarea_t *sarea_priv = dev_priv->sarea_priv;
--	drm_r128_context_regs_t *ctx = &sarea_priv->context_state;
--	RING_LOCALS;
--	DRM_DEBUG("\n");
--
--	BEGIN_RING(13);
--
--	OUT_RING(CCE_PACKET0(R128_DST_PITCH_OFFSET_C, 11));
--	OUT_RING(ctx->dst_pitch_offset_c);
--	OUT_RING(ctx->dp_gui_master_cntl_c);
--	OUT_RING(ctx->sc_top_left_c);
--	OUT_RING(ctx->sc_bottom_right_c);
--	OUT_RING(ctx->z_offset_c);
--	OUT_RING(ctx->z_pitch_c);
--	OUT_RING(ctx->z_sten_cntl_c);
--	OUT_RING(ctx->tex_cntl_c);
--	OUT_RING(ctx->misc_3d_state_cntl_reg);
--	OUT_RING(ctx->texture_clr_cmp_clr_c);
--	OUT_RING(ctx->texture_clr_cmp_msk_c);
--	OUT_RING(ctx->fog_color_c);
--
--	ADVANCE_RING();
+-	if ((addr & 6) != 2) {	/* reserved bits */
+-		DRM_ERROR("bad texAddr%d %08x (reserved bits)\n", unit, addr);
+-		return -EINVAL;
+-	}
+-	if (!(addr & 1)) {	/* local */
+-		addr &= ~7;
+-		if (addr < dev_priv->texture_offset ||
+-		    addr >= dev_priv->texture_offset + dev_priv->texture_size) {
+-			DRM_ERROR
+-			    ("bad texAddr%d %08x (local addr out of range)\n",
+-			     unit, addr);
+-			return -EINVAL;
+-		}
+-	} else {		/* AGP */
+-		if (!dev_priv->agp_textures) {
+-			DRM_ERROR("bad texAddr%d %08x (AGP not available)\n",
+-				  unit, addr);
+-			return -EINVAL;
+-		}
+-		addr &= ~7;
+-		if (addr < dev_priv->agp_textures->offset ||
+-		    addr >= (dev_priv->agp_textures->offset +
+-			     dev_priv->agp_textures->size)) {
+-			DRM_ERROR
+-			    ("bad texAddr%d %08x (AGP addr out of range)\n",
+-			     unit, addr);
+-			return -EINVAL;
+-		}
+-	}
+-	return 0;
 -}
 -
--static __inline__ void r128_emit_setup(drm_r128_private_t *dev_priv)
+-#define SAVE_STATE(reg,where)			\
+-	if(start <= reg && start+count > reg)	\
+-		dev_priv->state.where = regs[reg - start]
+-#define SAVE_STATE_MASK(reg,where,mask) do {			\
+-	if(start <= reg && start+count > reg) {			\
+-		uint32_t tmp;					\
+-		tmp = regs[reg - start];			\
+-		dev_priv->state.where = (tmp & (mask)) |	\
+-			(dev_priv->state.where & ~(mask));	\
+-	}							\
+-} while (0)
+-
+-static int savage_verify_state_s3d(drm_savage_private_t * dev_priv,
+-				   unsigned int start, unsigned int count,
+-				   const uint32_t *regs)
 -{
--	drm_r128_sarea_t *sarea_priv = dev_priv->sarea_priv;
--	drm_r128_context_regs_t *ctx = &sarea_priv->context_state;
--	RING_LOCALS;
--	DRM_DEBUG("\n");
--
--	BEGIN_RING(3);
--
--	OUT_RING(CCE_PACKET1(R128_SETUP_CNTL, R128_PM4_VC_FPU_SETUP));
--	OUT_RING(ctx->setup_cntl);
--	OUT_RING(ctx->pm4_vc_fpu_setup);
--
--	ADVANCE_RING();
--}
--
--static __inline__ void r128_emit_masks(drm_r128_private_t *dev_priv)
--{
--	drm_r128_sarea_t *sarea_priv = dev_priv->sarea_priv;
--	drm_r128_context_regs_t *ctx = &sarea_priv->context_state;
--	RING_LOCALS;
--	DRM_DEBUG("\n");
--
--	BEGIN_RING(5);
--
--	OUT_RING(CCE_PACKET0(R128_DP_WRITE_MASK, 0));
--	OUT_RING(ctx->dp_write_mask);
--
--	OUT_RING(CCE_PACKET0(R128_STEN_REF_MASK_C, 1));
--	OUT_RING(ctx->sten_ref_mask_c);
--	OUT_RING(ctx->plane_3d_mask_c);
--
--	ADVANCE_RING();
--}
--
--static __inline__ void r128_emit_window(drm_r128_private_t *dev_priv)
--{
--	drm_r128_sarea_t *sarea_priv = dev_priv->sarea_priv;
--	drm_r128_context_regs_t *ctx = &sarea_priv->context_state;
--	RING_LOCALS;
--	DRM_DEBUG("\n");
--
--	BEGIN_RING(2);
--
--	OUT_RING(CCE_PACKET0(R128_WINDOW_XY_OFFSET, 0));
--	OUT_RING(ctx->window_xy_offset);
--
--	ADVANCE_RING();
--}
--
--static __inline__ void r128_emit_tex0(drm_r128_private_t *dev_priv)
--{
--	drm_r128_sarea_t *sarea_priv = dev_priv->sarea_priv;
--	drm_r128_context_regs_t *ctx = &sarea_priv->context_state;
--	drm_r128_texture_regs_t *tex = &sarea_priv->tex_state[0];
--	int i;
--	RING_LOCALS;
--	DRM_DEBUG("\n");
--
--	BEGIN_RING(7 + R128_MAX_TEXTURE_LEVELS);
--
--	OUT_RING(CCE_PACKET0(R128_PRIM_TEX_CNTL_C,
--			     2 + R128_MAX_TEXTURE_LEVELS));
--	OUT_RING(tex->tex_cntl);
--	OUT_RING(tex->tex_combine_cntl);
--	OUT_RING(ctx->tex_size_pitch_c);
--	for (i = 0; i < R128_MAX_TEXTURE_LEVELS; i++)
--		OUT_RING(tex->tex_offset[i]);
--
--	OUT_RING(CCE_PACKET0(R128_CONSTANT_COLOR_C, 1));
--	OUT_RING(ctx->constant_color_c);
--	OUT_RING(tex->tex_border_color);
--
--	ADVANCE_RING();
--}
--
--static __inline__ void r128_emit_tex1(drm_r128_private_t *dev_priv)
--{
--	drm_r128_sarea_t *sarea_priv = dev_priv->sarea_priv;
--	drm_r128_texture_regs_t *tex = &sarea_priv->tex_state[1];
--	int i;
--	RING_LOCALS;
--	DRM_DEBUG("\n");
--
--	BEGIN_RING(5 + R128_MAX_TEXTURE_LEVELS);
--
--	OUT_RING(CCE_PACKET0(R128_SEC_TEX_CNTL_C, 1 + R128_MAX_TEXTURE_LEVELS));
--	OUT_RING(tex->tex_cntl);
--	OUT_RING(tex->tex_combine_cntl);
--	for (i = 0; i < R128_MAX_TEXTURE_LEVELS; i++)
--		OUT_RING(tex->tex_offset[i]);
--
--	OUT_RING(CCE_PACKET0(R128_SEC_TEXTURE_BORDER_COLOR_C, 0));
--	OUT_RING(tex->tex_border_color);
--
--	ADVANCE_RING();
--}
--
--static void r128_emit_state(drm_r128_private_t *dev_priv)
--{
--	drm_r128_sarea_t *sarea_priv = dev_priv->sarea_priv;
--	unsigned int dirty = sarea_priv->dirty;
--
--	DRM_DEBUG("dirty=0x%08x\n", dirty);
--
--	if (dirty & R128_UPLOAD_CORE) {
--		r128_emit_core(dev_priv);
--		sarea_priv->dirty &= ~R128_UPLOAD_CORE;
+-	if (start < SAVAGE_TEXPALADDR_S3D ||
+-	    start + count - 1 > SAVAGE_DESTTEXRWWATERMARK_S3D) {
+-		DRM_ERROR("invalid register range (0x%04x-0x%04x)\n",
+-			  start, start + count - 1);
+-		return -EINVAL;
 -	}
 -
--	if (dirty & R128_UPLOAD_CONTEXT) {
--		r128_emit_context(dev_priv);
--		sarea_priv->dirty &= ~R128_UPLOAD_CONTEXT;
+-	SAVE_STATE_MASK(SAVAGE_SCSTART_S3D, s3d.new_scstart,
+-			~SAVAGE_SCISSOR_MASK_S3D);
+-	SAVE_STATE_MASK(SAVAGE_SCEND_S3D, s3d.new_scend,
+-			~SAVAGE_SCISSOR_MASK_S3D);
+-
+-	/* if any texture regs were changed ... */
+-	if (start <= SAVAGE_TEXCTRL_S3D &&
+-	    start + count > SAVAGE_TEXPALADDR_S3D) {
+-		/* ... check texture state */
+-		SAVE_STATE(SAVAGE_TEXCTRL_S3D, s3d.texctrl);
+-		SAVE_STATE(SAVAGE_TEXADDR_S3D, s3d.texaddr);
+-		if (dev_priv->state.s3d.texctrl & SAVAGE_TEXCTRL_TEXEN_MASK)
+-			return savage_verify_texaddr(dev_priv, 0,
+-						dev_priv->state.s3d.texaddr);
 -	}
 -
--	if (dirty & R128_UPLOAD_SETUP) {
--		r128_emit_setup(dev_priv);
--		sarea_priv->dirty &= ~R128_UPLOAD_SETUP;
--	}
--
--	if (dirty & R128_UPLOAD_MASKS) {
--		r128_emit_masks(dev_priv);
--		sarea_priv->dirty &= ~R128_UPLOAD_MASKS;
--	}
--
--	if (dirty & R128_UPLOAD_WINDOW) {
--		r128_emit_window(dev_priv);
--		sarea_priv->dirty &= ~R128_UPLOAD_WINDOW;
--	}
--
--	if (dirty & R128_UPLOAD_TEX0) {
--		r128_emit_tex0(dev_priv);
--		sarea_priv->dirty &= ~R128_UPLOAD_TEX0;
--	}
--
--	if (dirty & R128_UPLOAD_TEX1) {
--		r128_emit_tex1(dev_priv);
--		sarea_priv->dirty &= ~R128_UPLOAD_TEX1;
--	}
--
--	/* Turn off the texture cache flushing */
--	sarea_priv->context_state.tex_cntl_c &= ~R128_TEX_CACHE_FLUSH;
--
--	sarea_priv->dirty &= ~R128_REQUIRE_QUIESCENCE;
+-	return 0;
 -}
 -
--#if R128_PERFORMANCE_BOXES
--/* ================================================================
-- * Performance monitoring functions
-- */
--
--static void r128_clear_box(drm_r128_private_t *dev_priv,
--			   int x, int y, int w, int h, int r, int g, int b)
+-static int savage_verify_state_s4(drm_savage_private_t * dev_priv,
+-				  unsigned int start, unsigned int count,
+-				  const uint32_t *regs)
 -{
--	u32 pitch, offset;
--	u32 fb_bpp, color;
--	RING_LOCALS;
+-	int ret = 0;
 -
--	switch (dev_priv->fb_bpp) {
--	case 16:
--		fb_bpp = R128_GMC_DST_16BPP;
--		color = (((r & 0xf8) << 8) |
--			 ((g & 0xfc) << 3) | ((b & 0xf8) >> 3));
+-	if (start < SAVAGE_DRAWLOCALCTRL_S4 ||
+-	    start + count - 1 > SAVAGE_TEXBLENDCOLOR_S4) {
+-		DRM_ERROR("invalid register range (0x%04x-0x%04x)\n",
+-			  start, start + count - 1);
+-		return -EINVAL;
+-	}
+-
+-	SAVE_STATE_MASK(SAVAGE_DRAWCTRL0_S4, s4.new_drawctrl0,
+-			~SAVAGE_SCISSOR_MASK_S4);
+-	SAVE_STATE_MASK(SAVAGE_DRAWCTRL1_S4, s4.new_drawctrl1,
+-			~SAVAGE_SCISSOR_MASK_S4);
+-
+-	/* if any texture regs were changed ... */
+-	if (start <= SAVAGE_TEXDESCR_S4 &&
+-	    start + count > SAVAGE_TEXPALADDR_S4) {
+-		/* ... check texture state */
+-		SAVE_STATE(SAVAGE_TEXDESCR_S4, s4.texdescr);
+-		SAVE_STATE(SAVAGE_TEXADDR0_S4, s4.texaddr0);
+-		SAVE_STATE(SAVAGE_TEXADDR1_S4, s4.texaddr1);
+-		if (dev_priv->state.s4.texdescr & SAVAGE_TEXDESCR_TEX0EN_MASK)
+-			ret |= savage_verify_texaddr(dev_priv, 0,
+-						dev_priv->state.s4.texaddr0);
+-		if (dev_priv->state.s4.texdescr & SAVAGE_TEXDESCR_TEX1EN_MASK)
+-			ret |= savage_verify_texaddr(dev_priv, 1,
+-						dev_priv->state.s4.texaddr1);
+-	}
+-
+-	return ret;
+-}
+-
+-#undef SAVE_STATE
+-#undef SAVE_STATE_MASK
+-
+-static int savage_dispatch_state(drm_savage_private_t * dev_priv,
+-				 const drm_savage_cmd_header_t * cmd_header,
+-				 const uint32_t *regs)
+-{
+-	unsigned int count = cmd_header->state.count;
+-	unsigned int start = cmd_header->state.start;
+-	unsigned int count2 = 0;
+-	unsigned int bci_size;
+-	int ret;
+-	DMA_LOCALS;
+-
+-	if (!count)
+-		return 0;
+-
+-	if (S3_SAVAGE3D_SERIES(dev_priv->chipset)) {
+-		ret = savage_verify_state_s3d(dev_priv, start, count, regs);
+-		if (ret != 0)
+-			return ret;
+-		/* scissor regs are emitted in savage_dispatch_draw */
+-		if (start < SAVAGE_SCSTART_S3D) {
+-			if (start + count > SAVAGE_SCEND_S3D + 1)
+-				count2 = count - (SAVAGE_SCEND_S3D + 1 - start);
+-			if (start + count > SAVAGE_SCSTART_S3D)
+-				count = SAVAGE_SCSTART_S3D - start;
+-		} else if (start <= SAVAGE_SCEND_S3D) {
+-			if (start + count > SAVAGE_SCEND_S3D + 1) {
+-				count -= SAVAGE_SCEND_S3D + 1 - start;
+-				start = SAVAGE_SCEND_S3D + 1;
+-			} else
+-				return 0;
+-		}
+-	} else {
+-		ret = savage_verify_state_s4(dev_priv, start, count, regs);
+-		if (ret != 0)
+-			return ret;
+-		/* scissor regs are emitted in savage_dispatch_draw */
+-		if (start < SAVAGE_DRAWCTRL0_S4) {
+-			if (start + count > SAVAGE_DRAWCTRL1_S4 + 1)
+-				count2 = count -
+-					 (SAVAGE_DRAWCTRL1_S4 + 1 - start);
+-			if (start + count > SAVAGE_DRAWCTRL0_S4)
+-				count = SAVAGE_DRAWCTRL0_S4 - start;
+-		} else if (start <= SAVAGE_DRAWCTRL1_S4) {
+-			if (start + count > SAVAGE_DRAWCTRL1_S4 + 1) {
+-				count -= SAVAGE_DRAWCTRL1_S4 + 1 - start;
+-				start = SAVAGE_DRAWCTRL1_S4 + 1;
+-			} else
+-				return 0;
+-		}
+-	}
+-
+-	bci_size = count + (count + 254) / 255 + count2 + (count2 + 254) / 255;
+-
+-	if (cmd_header->state.global) {
+-		BEGIN_DMA(bci_size + 1);
+-		DMA_WRITE(BCI_CMD_WAIT | BCI_CMD_WAIT_3D);
+-		dev_priv->waiting = 1;
+-	} else {
+-		BEGIN_DMA(bci_size);
+-	}
+-
+-	do {
+-		while (count > 0) {
+-			unsigned int n = count < 255 ? count : 255;
+-			DMA_SET_REGISTERS(start, n);
+-			DMA_COPY(regs, n);
+-			count -= n;
+-			start += n;
+-			regs += n;
+-		}
+-		start += 2;
+-		regs += 2;
+-		count = count2;
+-		count2 = 0;
+-	} while (count);
+-
+-	DMA_COMMIT();
+-
+-	return 0;
+-}
+-
+-static int savage_dispatch_dma_prim(drm_savage_private_t * dev_priv,
+-				    const drm_savage_cmd_header_t * cmd_header,
+-				    const struct drm_buf * dmabuf)
+-{
+-	unsigned char reorder = 0;
+-	unsigned int prim = cmd_header->prim.prim;
+-	unsigned int skip = cmd_header->prim.skip;
+-	unsigned int n = cmd_header->prim.count;
+-	unsigned int start = cmd_header->prim.start;
+-	unsigned int i;
+-	BCI_LOCALS;
+-
+-	if (!dmabuf) {
+-		DRM_ERROR("called without dma buffers!\n");
+-		return -EINVAL;
+-	}
+-
+-	if (!n)
+-		return 0;
+-
+-	switch (prim) {
+-	case SAVAGE_PRIM_TRILIST_201:
+-		reorder = 1;
+-		prim = SAVAGE_PRIM_TRILIST;
+-		fallthrough;
+-	case SAVAGE_PRIM_TRILIST:
+-		if (n % 3 != 0) {
+-			DRM_ERROR("wrong number of vertices %u in TRILIST\n",
+-				  n);
+-			return -EINVAL;
+-		}
 -		break;
--	case 24:
--		fb_bpp = R128_GMC_DST_24BPP;
--		color = ((r << 16) | (g << 8) | b);
--		break;
--	case 32:
--		fb_bpp = R128_GMC_DST_32BPP;
--		color = (((0xff) << 24) | (r << 16) | (g << 8) | b);
+-	case SAVAGE_PRIM_TRISTRIP:
+-	case SAVAGE_PRIM_TRIFAN:
+-		if (n < 3) {
+-			DRM_ERROR
+-			    ("wrong number of vertices %u in TRIFAN/STRIP\n",
+-			     n);
+-			return -EINVAL;
+-		}
 -		break;
 -	default:
--		return;
+-		DRM_ERROR("invalid primitive type %u\n", prim);
+-		return -EINVAL;
 -	}
 -
--	offset = dev_priv->back_offset;
--	pitch = dev_priv->back_pitch >> 3;
--
--	BEGIN_RING(6);
--
--	OUT_RING(CCE_PACKET3(R128_CNTL_PAINT_MULTI, 4));
--	OUT_RING(R128_GMC_DST_PITCH_OFFSET_CNTL |
--		 R128_GMC_BRUSH_SOLID_COLOR |
--		 fb_bpp |
--		 R128_GMC_SRC_DATATYPE_COLOR |
--		 R128_ROP3_P |
--		 R128_GMC_CLR_CMP_CNTL_DIS | R128_GMC_AUX_CLIP_DIS);
--
--	OUT_RING((pitch << 21) | (offset >> 5));
--	OUT_RING(color);
--
--	OUT_RING((x << 16) | y);
--	OUT_RING((w << 16) | h);
--
--	ADVANCE_RING();
--}
--
--static void r128_cce_performance_boxes(drm_r128_private_t *dev_priv)
--{
--	if (atomic_read(&dev_priv->idle_count) == 0)
--		r128_clear_box(dev_priv, 64, 4, 8, 8, 0, 255, 0);
--	else
--		atomic_set(&dev_priv->idle_count, 0);
--}
--
--#endif
--
--/* ================================================================
-- * CCE command dispatch functions
-- */
--
--static void r128_print_dirty(const char *msg, unsigned int flags)
--{
--	DRM_INFO("%s: (0x%x) %s%s%s%s%s%s%s%s%s\n",
--		 msg,
--		 flags,
--		 (flags & R128_UPLOAD_CORE) ? "core, " : "",
--		 (flags & R128_UPLOAD_CONTEXT) ? "context, " : "",
--		 (flags & R128_UPLOAD_SETUP) ? "setup, " : "",
--		 (flags & R128_UPLOAD_TEX0) ? "tex0, " : "",
--		 (flags & R128_UPLOAD_TEX1) ? "tex1, " : "",
--		 (flags & R128_UPLOAD_MASKS) ? "masks, " : "",
--		 (flags & R128_UPLOAD_WINDOW) ? "window, " : "",
--		 (flags & R128_UPLOAD_CLIPRECTS) ? "cliprects, " : "",
--		 (flags & R128_REQUIRE_QUIESCENCE) ? "quiescence, " : "");
--}
--
--static void r128_cce_dispatch_clear(struct drm_device *dev,
--				    drm_r128_clear_t *clear)
--{
--	drm_r128_private_t *dev_priv = dev->dev_private;
--	drm_r128_sarea_t *sarea_priv = dev_priv->sarea_priv;
--	int nbox = sarea_priv->nbox;
--	struct drm_clip_rect *pbox = sarea_priv->boxes;
--	unsigned int flags = clear->flags;
--	int i;
--	RING_LOCALS;
--	DRM_DEBUG("\n");
--
--	if (dev_priv->page_flipping && dev_priv->current_page == 1) {
--		unsigned int tmp = flags;
--
--		flags &= ~(R128_FRONT | R128_BACK);
--		if (tmp & R128_FRONT)
--			flags |= R128_BACK;
--		if (tmp & R128_BACK)
--			flags |= R128_FRONT;
--	}
--
--	for (i = 0; i < nbox; i++) {
--		int x = pbox[i].x1;
--		int y = pbox[i].y1;
--		int w = pbox[i].x2 - x;
--		int h = pbox[i].y2 - y;
--
--		DRM_DEBUG("dispatch clear %d,%d-%d,%d flags 0x%x\n",
--			  pbox[i].x1, pbox[i].y1, pbox[i].x2,
--			  pbox[i].y2, flags);
--
--		if (flags & (R128_FRONT | R128_BACK)) {
--			BEGIN_RING(2);
--
--			OUT_RING(CCE_PACKET0(R128_DP_WRITE_MASK, 0));
--			OUT_RING(clear->color_mask);
--
--			ADVANCE_RING();
+-	if (S3_SAVAGE3D_SERIES(dev_priv->chipset)) {
+-		if (skip != 0) {
+-			DRM_ERROR("invalid skip flags 0x%04x for DMA\n", skip);
+-			return -EINVAL;
 -		}
--
--		if (flags & R128_FRONT) {
--			BEGIN_RING(6);
--
--			OUT_RING(CCE_PACKET3(R128_CNTL_PAINT_MULTI, 4));
--			OUT_RING(R128_GMC_DST_PITCH_OFFSET_CNTL |
--				 R128_GMC_BRUSH_SOLID_COLOR |
--				 (dev_priv->color_fmt << 8) |
--				 R128_GMC_SRC_DATATYPE_COLOR |
--				 R128_ROP3_P |
--				 R128_GMC_CLR_CMP_CNTL_DIS |
--				 R128_GMC_AUX_CLIP_DIS);
--
--			OUT_RING(dev_priv->front_pitch_offset_c);
--			OUT_RING(clear->clear_color);
--
--			OUT_RING((x << 16) | y);
--			OUT_RING((w << 16) | h);
--
--			ADVANCE_RING();
+-	} else {
+-		unsigned int size = 10 - (skip & 1) - (skip >> 1 & 1) -
+-		    (skip >> 2 & 1) - (skip >> 3 & 1) - (skip >> 4 & 1) -
+-		    (skip >> 5 & 1) - (skip >> 6 & 1) - (skip >> 7 & 1);
+-		if (skip > SAVAGE_SKIP_ALL_S4 || size != 8) {
+-			DRM_ERROR("invalid skip flags 0x%04x for DMA\n", skip);
+-			return -EINVAL;
 -		}
--
--		if (flags & R128_BACK) {
--			BEGIN_RING(6);
--
--			OUT_RING(CCE_PACKET3(R128_CNTL_PAINT_MULTI, 4));
--			OUT_RING(R128_GMC_DST_PITCH_OFFSET_CNTL |
--				 R128_GMC_BRUSH_SOLID_COLOR |
--				 (dev_priv->color_fmt << 8) |
--				 R128_GMC_SRC_DATATYPE_COLOR |
--				 R128_ROP3_P |
--				 R128_GMC_CLR_CMP_CNTL_DIS |
--				 R128_GMC_AUX_CLIP_DIS);
--
--			OUT_RING(dev_priv->back_pitch_offset_c);
--			OUT_RING(clear->clear_color);
--
--			OUT_RING((x << 16) | y);
--			OUT_RING((w << 16) | h);
--
--			ADVANCE_RING();
--		}
--
--		if (flags & R128_DEPTH) {
--			BEGIN_RING(6);
--
--			OUT_RING(CCE_PACKET3(R128_CNTL_PAINT_MULTI, 4));
--			OUT_RING(R128_GMC_DST_PITCH_OFFSET_CNTL |
--				 R128_GMC_BRUSH_SOLID_COLOR |
--				 (dev_priv->depth_fmt << 8) |
--				 R128_GMC_SRC_DATATYPE_COLOR |
--				 R128_ROP3_P |
--				 R128_GMC_CLR_CMP_CNTL_DIS |
--				 R128_GMC_AUX_CLIP_DIS | R128_GMC_WR_MSK_DIS);
--
--			OUT_RING(dev_priv->depth_pitch_offset_c);
--			OUT_RING(clear->clear_depth);
--
--			OUT_RING((x << 16) | y);
--			OUT_RING((w << 16) | h);
--
--			ADVANCE_RING();
+-		if (reorder) {
+-			DRM_ERROR("TRILIST_201 used on Savage4 hardware\n");
+-			return -EINVAL;
 -		}
 -	}
--}
 -
--static void r128_cce_dispatch_swap(struct drm_device *dev)
--{
--	drm_r128_private_t *dev_priv = dev->dev_private;
--	drm_r128_sarea_t *sarea_priv = dev_priv->sarea_priv;
--	int nbox = sarea_priv->nbox;
--	struct drm_clip_rect *pbox = sarea_priv->boxes;
--	int i;
--	RING_LOCALS;
--	DRM_DEBUG("\n");
+-	if (start + n > dmabuf->total / 32) {
+-		DRM_ERROR("vertex indices (%u-%u) out of range (0-%u)\n",
+-			  start, start + n - 1, dmabuf->total / 32);
+-		return -EINVAL;
+-	}
 -
--#if R128_PERFORMANCE_BOXES
--	/* Do some trivial performance monitoring...
--	 */
--	r128_cce_performance_boxes(dev_priv);
--#endif
+-	/* Vertex DMA doesn't work with command DMA at the same time,
+-	 * so we use BCI_... to submit commands here. Flush buffered
+-	 * faked DMA first. */
+-	DMA_FLUSH();
 -
--	for (i = 0; i < nbox; i++) {
--		int x = pbox[i].x1;
--		int y = pbox[i].y1;
--		int w = pbox[i].x2 - x;
--		int h = pbox[i].y2 - y;
+-	if (dmabuf->bus_address != dev_priv->state.common.vbaddr) {
+-		BEGIN_BCI(2);
+-		BCI_SET_REGISTERS(SAVAGE_VERTBUFADDR, 1);
+-		BCI_WRITE(dmabuf->bus_address | dev_priv->dma_type);
+-		dev_priv->state.common.vbaddr = dmabuf->bus_address;
+-	}
+-	if (S3_SAVAGE3D_SERIES(dev_priv->chipset) && dev_priv->waiting) {
+-		/* Workaround for what looks like a hardware bug. If a
+-		 * WAIT_3D_IDLE was emitted some time before the
+-		 * indexed drawing command then the engine will lock
+-		 * up. There are two known workarounds:
+-		 * WAIT_IDLE_EMPTY or emit at least 63 NOPs. */
+-		BEGIN_BCI(63);
+-		for (i = 0; i < 63; ++i)
+-			BCI_WRITE(BCI_CMD_WAIT);
+-		dev_priv->waiting = 0;
+-	}
 -
--		BEGIN_RING(7);
+-	prim <<= 25;
+-	while (n != 0) {
+-		/* Can emit up to 255 indices (85 triangles) at once. */
+-		unsigned int count = n > 255 ? 255 : n;
+-		if (reorder) {
+-			/* Need to reorder indices for correct flat
+-			 * shading while preserving the clock sense
+-			 * for correct culling. Only on Savage3D. */
+-			int reorder[3] = { -1, -1, -1 };
+-			reorder[start % 3] = 2;
 -
--		OUT_RING(CCE_PACKET3(R128_CNTL_BITBLT_MULTI, 5));
--		OUT_RING(R128_GMC_SRC_PITCH_OFFSET_CNTL |
--			 R128_GMC_DST_PITCH_OFFSET_CNTL |
--			 R128_GMC_BRUSH_NONE |
--			 (dev_priv->color_fmt << 8) |
--			 R128_GMC_SRC_DATATYPE_COLOR |
--			 R128_ROP3_S |
--			 R128_DP_SRC_SOURCE_MEMORY |
--			 R128_GMC_CLR_CMP_CNTL_DIS |
--			 R128_GMC_AUX_CLIP_DIS | R128_GMC_WR_MSK_DIS);
+-			BEGIN_BCI((count + 1 + 1) / 2);
+-			BCI_DRAW_INDICES_S3D(count, prim, start + 2);
 -
--		/* Make this work even if front & back are flipped:
--		 */
--		if (dev_priv->current_page == 0) {
--			OUT_RING(dev_priv->back_pitch_offset_c);
--			OUT_RING(dev_priv->front_pitch_offset_c);
+-			for (i = start + 1; i + 1 < start + count; i += 2)
+-				BCI_WRITE((i + reorder[i % 3]) |
+-					  ((i + 1 +
+-					    reorder[(i + 1) % 3]) << 16));
+-			if (i < start + count)
+-				BCI_WRITE(i + reorder[i % 3]);
+-		} else if (S3_SAVAGE3D_SERIES(dev_priv->chipset)) {
+-			BEGIN_BCI((count + 1 + 1) / 2);
+-			BCI_DRAW_INDICES_S3D(count, prim, start);
+-
+-			for (i = start + 1; i + 1 < start + count; i += 2)
+-				BCI_WRITE(i | ((i + 1) << 16));
+-			if (i < start + count)
+-				BCI_WRITE(i);
 -		} else {
--			OUT_RING(dev_priv->front_pitch_offset_c);
--			OUT_RING(dev_priv->back_pitch_offset_c);
+-			BEGIN_BCI((count + 2 + 1) / 2);
+-			BCI_DRAW_INDICES_S4(count, prim, skip);
+-
+-			for (i = start; i + 1 < start + count; i += 2)
+-				BCI_WRITE(i | ((i + 1) << 16));
+-			if (i < start + count)
+-				BCI_WRITE(i);
 -		}
 -
--		OUT_RING((x << 16) | y);
--		OUT_RING((x << 16) | y);
--		OUT_RING((w << 16) | h);
+-		start += count;
+-		n -= count;
 -
--		ADVANCE_RING();
+-		prim |= BCI_CMD_DRAW_CONT;
 -	}
 -
--	/* Increment the frame counter.  The client-side 3D driver must
--	 * throttle the framerate by waiting for this value before
--	 * performing the swapbuffer ioctl.
--	 */
--	dev_priv->sarea_priv->last_frame++;
--
--	BEGIN_RING(2);
--
--	OUT_RING(CCE_PACKET0(R128_LAST_FRAME_REG, 0));
--	OUT_RING(dev_priv->sarea_priv->last_frame);
--
--	ADVANCE_RING();
+-	return 0;
 -}
 -
--static void r128_cce_dispatch_flip(struct drm_device *dev)
+-static int savage_dispatch_vb_prim(drm_savage_private_t * dev_priv,
+-				   const drm_savage_cmd_header_t * cmd_header,
+-				   const uint32_t *vtxbuf, unsigned int vb_size,
+-				   unsigned int vb_stride)
 -{
--	drm_r128_private_t *dev_priv = dev->dev_private;
--	RING_LOCALS;
--	DRM_DEBUG("page=%d pfCurrentPage=%d\n",
--		  dev_priv->current_page, dev_priv->sarea_priv->pfCurrentPage);
+-	unsigned char reorder = 0;
+-	unsigned int prim = cmd_header->prim.prim;
+-	unsigned int skip = cmd_header->prim.skip;
+-	unsigned int n = cmd_header->prim.count;
+-	unsigned int start = cmd_header->prim.start;
+-	unsigned int vtx_size;
+-	unsigned int i;
+-	DMA_LOCALS;
 -
--#if R128_PERFORMANCE_BOXES
--	/* Do some trivial performance monitoring...
--	 */
--	r128_cce_performance_boxes(dev_priv);
--#endif
+-	if (!n)
+-		return 0;
 -
--	BEGIN_RING(4);
--
--	R128_WAIT_UNTIL_PAGE_FLIPPED();
--	OUT_RING(CCE_PACKET0(R128_CRTC_OFFSET, 0));
--
--	if (dev_priv->current_page == 0)
--		OUT_RING(dev_priv->back_offset);
--	else
--		OUT_RING(dev_priv->front_offset);
--
--	ADVANCE_RING();
--
--	/* Increment the frame counter.  The client-side 3D driver must
--	 * throttle the framerate by waiting for this value before
--	 * performing the swapbuffer ioctl.
--	 */
--	dev_priv->sarea_priv->last_frame++;
--	dev_priv->sarea_priv->pfCurrentPage = dev_priv->current_page =
--	    1 - dev_priv->current_page;
--
--	BEGIN_RING(2);
--
--	OUT_RING(CCE_PACKET0(R128_LAST_FRAME_REG, 0));
--	OUT_RING(dev_priv->sarea_priv->last_frame);
--
--	ADVANCE_RING();
--}
--
--static void r128_cce_dispatch_vertex(struct drm_device *dev, struct drm_buf *buf)
--{
--	drm_r128_private_t *dev_priv = dev->dev_private;
--	drm_r128_buf_priv_t *buf_priv = buf->dev_private;
--	drm_r128_sarea_t *sarea_priv = dev_priv->sarea_priv;
--	int format = sarea_priv->vc_format;
--	int offset = buf->bus_address;
--	int size = buf->used;
--	int prim = buf_priv->prim;
--	int i = 0;
--	RING_LOCALS;
--	DRM_DEBUG("buf=%d nbox=%d\n", buf->idx, sarea_priv->nbox);
--
--	if (0)
--		r128_print_dirty("dispatch_vertex", sarea_priv->dirty);
--
--	if (buf->used) {
--		buf_priv->dispatched = 1;
--
--		if (sarea_priv->dirty & ~R128_UPLOAD_CLIPRECTS)
--			r128_emit_state(dev_priv);
--
--		do {
--			/* Emit the next set of up to three cliprects */
--			if (i < sarea_priv->nbox) {
--				r128_emit_clip_rects(dev_priv,
--						     &sarea_priv->boxes[i],
--						     sarea_priv->nbox - i);
--			}
--
--			/* Emit the vertex buffer rendering commands */
--			BEGIN_RING(5);
--
--			OUT_RING(CCE_PACKET3(R128_3D_RNDR_GEN_INDX_PRIM, 3));
--			OUT_RING(offset);
--			OUT_RING(size);
--			OUT_RING(format);
--			OUT_RING(prim | R128_CCE_VC_CNTL_PRIM_WALK_LIST |
--				 (size << R128_CCE_VC_CNTL_NUM_SHIFT));
--
--			ADVANCE_RING();
--
--			i += 3;
--		} while (i < sarea_priv->nbox);
--	}
--
--	if (buf_priv->discard) {
--		buf_priv->age = dev_priv->sarea_priv->last_dispatch;
--
--		/* Emit the vertex buffer age */
--		BEGIN_RING(2);
--
--		OUT_RING(CCE_PACKET0(R128_LAST_DISPATCH_REG, 0));
--		OUT_RING(buf_priv->age);
--
--		ADVANCE_RING();
--
--		buf->pending = 1;
--		buf->used = 0;
--		/* FIXME: Check dispatched field */
--		buf_priv->dispatched = 0;
--	}
--
--	dev_priv->sarea_priv->last_dispatch++;
--
--	sarea_priv->dirty &= ~R128_UPLOAD_CLIPRECTS;
--	sarea_priv->nbox = 0;
--}
--
--static void r128_cce_dispatch_indirect(struct drm_device *dev,
--				       struct drm_buf *buf, int start, int end)
--{
--	drm_r128_private_t *dev_priv = dev->dev_private;
--	drm_r128_buf_priv_t *buf_priv = buf->dev_private;
--	RING_LOCALS;
--	DRM_DEBUG("indirect: buf=%d s=0x%x e=0x%x\n", buf->idx, start, end);
--
--	if (start != end) {
--		int offset = buf->bus_address + start;
--		int dwords = (end - start + 3) / sizeof(u32);
--
--		/* Indirect buffer data must be an even number of
--		 * dwords, so if we've been given an odd number we must
--		 * pad the data with a Type-2 CCE packet.
--		 */
--		if (dwords & 1) {
--			u32 *data = (u32 *)
--			    ((char *)dev->agp_buffer_map->handle
--			     + buf->offset + start);
--			data[dwords++] = cpu_to_le32(R128_CCE_PACKET2);
+-	switch (prim) {
+-	case SAVAGE_PRIM_TRILIST_201:
+-		reorder = 1;
+-		prim = SAVAGE_PRIM_TRILIST;
+-		fallthrough;
+-	case SAVAGE_PRIM_TRILIST:
+-		if (n % 3 != 0) {
+-			DRM_ERROR("wrong number of vertices %u in TRILIST\n",
+-				  n);
+-			return -EINVAL;
 -		}
--
--		buf_priv->dispatched = 1;
--
--		/* Fire off the indirect buffer */
--		BEGIN_RING(3);
--
--		OUT_RING(CCE_PACKET0(R128_PM4_IW_INDOFF, 1));
--		OUT_RING(offset);
--		OUT_RING(dwords);
--
--		ADVANCE_RING();
--	}
--
--	if (buf_priv->discard) {
--		buf_priv->age = dev_priv->sarea_priv->last_dispatch;
--
--		/* Emit the indirect buffer age */
--		BEGIN_RING(2);
--
--		OUT_RING(CCE_PACKET0(R128_LAST_DISPATCH_REG, 0));
--		OUT_RING(buf_priv->age);
--
--		ADVANCE_RING();
--
--		buf->pending = 1;
--		buf->used = 0;
--		/* FIXME: Check dispatched field */
--		buf_priv->dispatched = 0;
--	}
--
--	dev_priv->sarea_priv->last_dispatch++;
--}
--
--static void r128_cce_dispatch_indices(struct drm_device *dev,
--				      struct drm_buf *buf,
--				      int start, int end, int count)
--{
--	drm_r128_private_t *dev_priv = dev->dev_private;
--	drm_r128_buf_priv_t *buf_priv = buf->dev_private;
--	drm_r128_sarea_t *sarea_priv = dev_priv->sarea_priv;
--	int format = sarea_priv->vc_format;
--	int offset = dev->agp_buffer_map->offset - dev_priv->cce_buffers_offset;
--	int prim = buf_priv->prim;
--	u32 *data;
--	int dwords;
--	int i = 0;
--	RING_LOCALS;
--	DRM_DEBUG("indices: s=%d e=%d c=%d\n", start, end, count);
--
--	if (0)
--		r128_print_dirty("dispatch_indices", sarea_priv->dirty);
--
--	if (start != end) {
--		buf_priv->dispatched = 1;
--
--		if (sarea_priv->dirty & ~R128_UPLOAD_CLIPRECTS)
--			r128_emit_state(dev_priv);
--
--		dwords = (end - start + 3) / sizeof(u32);
--
--		data = (u32 *) ((char *)dev->agp_buffer_map->handle
--				+ buf->offset + start);
--
--		data[0] = cpu_to_le32(CCE_PACKET3(R128_3D_RNDR_GEN_INDX_PRIM,
--						  dwords - 2));
--
--		data[1] = cpu_to_le32(offset);
--		data[2] = cpu_to_le32(R128_MAX_VB_VERTS);
--		data[3] = cpu_to_le32(format);
--		data[4] = cpu_to_le32((prim | R128_CCE_VC_CNTL_PRIM_WALK_IND |
--				       (count << 16)));
--
--		if (count & 0x1) {
--#ifdef __LITTLE_ENDIAN
--			data[dwords - 1] &= 0x0000ffff;
--#else
--			data[dwords - 1] &= 0xffff0000;
--#endif
--		}
--
--		do {
--			/* Emit the next set of up to three cliprects */
--			if (i < sarea_priv->nbox) {
--				r128_emit_clip_rects(dev_priv,
--						     &sarea_priv->boxes[i],
--						     sarea_priv->nbox - i);
--			}
--
--			r128_cce_dispatch_indirect(dev, buf, start, end);
--
--			i += 3;
--		} while (i < sarea_priv->nbox);
--	}
--
--	if (buf_priv->discard) {
--		buf_priv->age = dev_priv->sarea_priv->last_dispatch;
--
--		/* Emit the vertex buffer age */
--		BEGIN_RING(2);
--
--		OUT_RING(CCE_PACKET0(R128_LAST_DISPATCH_REG, 0));
--		OUT_RING(buf_priv->age);
--
--		ADVANCE_RING();
--
--		buf->pending = 1;
--		/* FIXME: Check dispatched field */
--		buf_priv->dispatched = 0;
--	}
--
--	dev_priv->sarea_priv->last_dispatch++;
--
--	sarea_priv->dirty &= ~R128_UPLOAD_CLIPRECTS;
--	sarea_priv->nbox = 0;
--}
--
--static int r128_cce_dispatch_blit(struct drm_device *dev,
--				  struct drm_file *file_priv,
--				  drm_r128_blit_t *blit)
--{
--	drm_r128_private_t *dev_priv = dev->dev_private;
--	struct drm_device_dma *dma = dev->dma;
--	struct drm_buf *buf;
--	drm_r128_buf_priv_t *buf_priv;
--	u32 *data;
--	int dword_shift, dwords;
--	RING_LOCALS;
--	DRM_DEBUG("\n");
--
--	/* The compiler won't optimize away a division by a variable,
--	 * even if the only legal values are powers of two.  Thus, we'll
--	 * use a shift instead.
--	 */
--	switch (blit->format) {
--	case R128_DATATYPE_ARGB8888:
--		dword_shift = 0;
 -		break;
--	case R128_DATATYPE_ARGB1555:
--	case R128_DATATYPE_RGB565:
--	case R128_DATATYPE_ARGB4444:
--	case R128_DATATYPE_YVYU422:
--	case R128_DATATYPE_VYUY422:
--		dword_shift = 1;
--		break;
--	case R128_DATATYPE_CI8:
--	case R128_DATATYPE_RGB8:
--		dword_shift = 2;
+-	case SAVAGE_PRIM_TRISTRIP:
+-	case SAVAGE_PRIM_TRIFAN:
+-		if (n < 3) {
+-			DRM_ERROR
+-			    ("wrong number of vertices %u in TRIFAN/STRIP\n",
+-			     n);
+-			return -EINVAL;
+-		}
 -		break;
 -	default:
--		DRM_ERROR("invalid blit format %d\n", blit->format);
+-		DRM_ERROR("invalid primitive type %u\n", prim);
 -		return -EINVAL;
 -	}
 -
--	/* Flush the pixel cache, and mark the contents as Read Invalid.
--	 * This ensures no pixel data gets mixed up with the texture
--	 * data from the host data blit, otherwise part of the texture
--	 * image may be corrupted.
--	 */
--	BEGIN_RING(2);
--
--	OUT_RING(CCE_PACKET0(R128_PC_GUI_CTLSTAT, 0));
--	OUT_RING(R128_PC_RI_GUI | R128_PC_FLUSH_GUI);
--
--	ADVANCE_RING();
--
--	/* Dispatch the indirect buffer.
--	 */
--	buf = dma->buflist[blit->idx];
--	buf_priv = buf->dev_private;
--
--	if (buf->file_priv != file_priv) {
--		DRM_ERROR("process %d using buffer owned by %p\n",
--			  task_pid_nr(current), buf->file_priv);
--		return -EINVAL;
--	}
--	if (buf->pending) {
--		DRM_ERROR("sending pending buffer %d\n", blit->idx);
--		return -EINVAL;
--	}
--
--	buf_priv->discard = 1;
--
--	dwords = (blit->width * blit->height) >> dword_shift;
--
--	data = (u32 *) ((char *)dev->agp_buffer_map->handle + buf->offset);
--
--	data[0] = cpu_to_le32(CCE_PACKET3(R128_CNTL_HOSTDATA_BLT, dwords + 6));
--	data[1] = cpu_to_le32((R128_GMC_DST_PITCH_OFFSET_CNTL |
--			       R128_GMC_BRUSH_NONE |
--			       (blit->format << 8) |
--			       R128_GMC_SRC_DATATYPE_COLOR |
--			       R128_ROP3_S |
--			       R128_DP_SRC_SOURCE_HOST_DATA |
--			       R128_GMC_CLR_CMP_CNTL_DIS |
--			       R128_GMC_AUX_CLIP_DIS | R128_GMC_WR_MSK_DIS));
--
--	data[2] = cpu_to_le32((blit->pitch << 21) | (blit->offset >> 5));
--	data[3] = cpu_to_le32(0xffffffff);
--	data[4] = cpu_to_le32(0xffffffff);
--	data[5] = cpu_to_le32((blit->y << 16) | blit->x);
--	data[6] = cpu_to_le32((blit->height << 16) | blit->width);
--	data[7] = cpu_to_le32(dwords);
--
--	buf->used = (dwords + 8) * sizeof(u32);
--
--	r128_cce_dispatch_indirect(dev, buf, 0, buf->used);
--
--	/* Flush the pixel cache after the blit completes.  This ensures
--	 * the texture data is written out to memory before rendering
--	 * continues.
--	 */
--	BEGIN_RING(2);
--
--	OUT_RING(CCE_PACKET0(R128_PC_GUI_CTLSTAT, 0));
--	OUT_RING(R128_PC_FLUSH_GUI);
--
--	ADVANCE_RING();
--
--	return 0;
--}
--
--/* ================================================================
-- * Tiled depth buffer management
-- *
-- * FIXME: These should all set the destination write mask for when we
-- * have hardware stencil support.
-- */
--
--static int r128_cce_dispatch_write_span(struct drm_device *dev,
--					drm_r128_depth_t *depth)
--{
--	drm_r128_private_t *dev_priv = dev->dev_private;
--	int count, x, y;
--	u32 *buffer;
--	u8 *mask;
--	int i, buffer_size, mask_size;
--	RING_LOCALS;
--	DRM_DEBUG("\n");
--
--	count = depth->n;
--	if (count > 4096 || count <= 0)
--		return -EMSGSIZE;
--
--	if (copy_from_user(&x, depth->x, sizeof(x)))
--		return -EFAULT;
--	if (copy_from_user(&y, depth->y, sizeof(y)))
--		return -EFAULT;
--
--	buffer_size = depth->n * sizeof(u32);
--	buffer = memdup_user(depth->buffer, buffer_size);
--	if (IS_ERR(buffer))
--		return PTR_ERR(buffer);
--
--	mask_size = depth->n;
--	if (depth->mask) {
--		mask = memdup_user(depth->mask, mask_size);
--		if (IS_ERR(mask)) {
--			kfree(buffer);
--			return PTR_ERR(mask);
+-	if (S3_SAVAGE3D_SERIES(dev_priv->chipset)) {
+-		if (skip > SAVAGE_SKIP_ALL_S3D) {
+-			DRM_ERROR("invalid skip flags 0x%04x\n", skip);
+-			return -EINVAL;
 -		}
--
--		for (i = 0; i < count; i++, x++) {
--			if (mask[i]) {
--				BEGIN_RING(6);
--
--				OUT_RING(CCE_PACKET3(R128_CNTL_PAINT_MULTI, 4));
--				OUT_RING(R128_GMC_DST_PITCH_OFFSET_CNTL |
--					 R128_GMC_BRUSH_SOLID_COLOR |
--					 (dev_priv->depth_fmt << 8) |
--					 R128_GMC_SRC_DATATYPE_COLOR |
--					 R128_ROP3_P |
--					 R128_GMC_CLR_CMP_CNTL_DIS |
--					 R128_GMC_WR_MSK_DIS);
--
--				OUT_RING(dev_priv->depth_pitch_offset_c);
--				OUT_RING(buffer[i]);
--
--				OUT_RING((x << 16) | y);
--				OUT_RING((1 << 16) | 1);
--
--				ADVANCE_RING();
--			}
--		}
--
--		kfree(mask);
+-		vtx_size = 8;	/* full vertex */
 -	} else {
--		for (i = 0; i < count; i++, x++) {
--			BEGIN_RING(6);
--
--			OUT_RING(CCE_PACKET3(R128_CNTL_PAINT_MULTI, 4));
--			OUT_RING(R128_GMC_DST_PITCH_OFFSET_CNTL |
--				 R128_GMC_BRUSH_SOLID_COLOR |
--				 (dev_priv->depth_fmt << 8) |
--				 R128_GMC_SRC_DATATYPE_COLOR |
--				 R128_ROP3_P |
--				 R128_GMC_CLR_CMP_CNTL_DIS |
--				 R128_GMC_WR_MSK_DIS);
--
--			OUT_RING(dev_priv->depth_pitch_offset_c);
--			OUT_RING(buffer[i]);
--
--			OUT_RING((x << 16) | y);
--			OUT_RING((1 << 16) | 1);
--
--			ADVANCE_RING();
+-		if (skip > SAVAGE_SKIP_ALL_S4) {
+-			DRM_ERROR("invalid skip flags 0x%04x\n", skip);
+-			return -EINVAL;
 -		}
+-		vtx_size = 10;	/* full vertex */
 -	}
 -
--	kfree(buffer);
+-	vtx_size -= (skip & 1) + (skip >> 1 & 1) +
+-	    (skip >> 2 & 1) + (skip >> 3 & 1) + (skip >> 4 & 1) +
+-	    (skip >> 5 & 1) + (skip >> 6 & 1) + (skip >> 7 & 1);
 -
--	return 0;
--}
--
--static int r128_cce_dispatch_write_pixels(struct drm_device *dev,
--					  drm_r128_depth_t *depth)
--{
--	drm_r128_private_t *dev_priv = dev->dev_private;
--	int count, *x, *y;
--	u32 *buffer;
--	u8 *mask;
--	int i, xbuf_size, ybuf_size, buffer_size, mask_size;
--	RING_LOCALS;
--	DRM_DEBUG("\n");
--
--	count = depth->n;
--	if (count > 4096 || count <= 0)
--		return -EMSGSIZE;
--
--	xbuf_size = count * sizeof(*x);
--	ybuf_size = count * sizeof(*y);
--	x = memdup_user(depth->x, xbuf_size);
--	if (IS_ERR(x))
--		return PTR_ERR(x);
--	y = memdup_user(depth->y, ybuf_size);
--	if (IS_ERR(y)) {
--		kfree(x);
--		return PTR_ERR(y);
--	}
--	buffer_size = depth->n * sizeof(u32);
--	buffer = memdup_user(depth->buffer, buffer_size);
--	if (IS_ERR(buffer)) {
--		kfree(x);
--		kfree(y);
--		return PTR_ERR(buffer);
+-	if (vtx_size > vb_stride) {
+-		DRM_ERROR("vertex size greater than vb stride (%u > %u)\n",
+-			  vtx_size, vb_stride);
+-		return -EINVAL;
 -	}
 -
--	if (depth->mask) {
--		mask_size = depth->n;
--		mask = memdup_user(depth->mask, mask_size);
--		if (IS_ERR(mask)) {
--			kfree(x);
--			kfree(y);
--			kfree(buffer);
--			return PTR_ERR(mask);
--		}
+-	if (start + n > vb_size / (vb_stride * 4)) {
+-		DRM_ERROR("vertex indices (%u-%u) out of range (0-%u)\n",
+-			  start, start + n - 1, vb_size / (vb_stride * 4));
+-		return -EINVAL;
+-	}
 -
--		for (i = 0; i < count; i++) {
--			if (mask[i]) {
--				BEGIN_RING(6);
+-	prim <<= 25;
+-	while (n != 0) {
+-		/* Can emit up to 255 vertices (85 triangles) at once. */
+-		unsigned int count = n > 255 ? 255 : n;
+-		if (reorder) {
+-			/* Need to reorder vertices for correct flat
+-			 * shading while preserving the clock sense
+-			 * for correct culling. Only on Savage3D. */
+-			int reorder[3] = { -1, -1, -1 };
+-			reorder[start % 3] = 2;
 -
--				OUT_RING(CCE_PACKET3(R128_CNTL_PAINT_MULTI, 4));
--				OUT_RING(R128_GMC_DST_PITCH_OFFSET_CNTL |
--					 R128_GMC_BRUSH_SOLID_COLOR |
--					 (dev_priv->depth_fmt << 8) |
--					 R128_GMC_SRC_DATATYPE_COLOR |
--					 R128_ROP3_P |
--					 R128_GMC_CLR_CMP_CNTL_DIS |
--					 R128_GMC_WR_MSK_DIS);
+-			BEGIN_DMA(count * vtx_size + 1);
+-			DMA_DRAW_PRIMITIVE(count, prim, skip);
 -
--				OUT_RING(dev_priv->depth_pitch_offset_c);
--				OUT_RING(buffer[i]);
--
--				OUT_RING((x[i] << 16) | y[i]);
--				OUT_RING((1 << 16) | 1);
--
--				ADVANCE_RING();
+-			for (i = start; i < start + count; ++i) {
+-				unsigned int j = i + reorder[i % 3];
+-				DMA_COPY(&vtxbuf[vb_stride * j], vtx_size);
 -			}
+-
+-			DMA_COMMIT();
+-		} else {
+-			BEGIN_DMA(count * vtx_size + 1);
+-			DMA_DRAW_PRIMITIVE(count, prim, skip);
+-
+-			if (vb_stride == vtx_size) {
+-				DMA_COPY(&vtxbuf[vb_stride * start],
+-					 vtx_size * count);
+-			} else {
+-				for (i = start; i < start + count; ++i) {
+-					DMA_COPY(&vtxbuf [vb_stride * i],
+-						 vtx_size);
+-				}
+-			}
+-
+-			DMA_COMMIT();
 -		}
 -
--		kfree(mask);
--	} else {
--		for (i = 0; i < count; i++) {
--			BEGIN_RING(6);
+-		start += count;
+-		n -= count;
 -
--			OUT_RING(CCE_PACKET3(R128_CNTL_PAINT_MULTI, 4));
--			OUT_RING(R128_GMC_DST_PITCH_OFFSET_CNTL |
--				 R128_GMC_BRUSH_SOLID_COLOR |
--				 (dev_priv->depth_fmt << 8) |
--				 R128_GMC_SRC_DATATYPE_COLOR |
--				 R128_ROP3_P |
--				 R128_GMC_CLR_CMP_CNTL_DIS |
--				 R128_GMC_WR_MSK_DIS);
+-		prim |= BCI_CMD_DRAW_CONT;
+-	}
 -
--			OUT_RING(dev_priv->depth_pitch_offset_c);
--			OUT_RING(buffer[i]);
+-	return 0;
+-}
 -
--			OUT_RING((x[i] << 16) | y[i]);
--			OUT_RING((1 << 16) | 1);
+-static int savage_dispatch_dma_idx(drm_savage_private_t * dev_priv,
+-				   const drm_savage_cmd_header_t * cmd_header,
+-				   const uint16_t *idx,
+-				   const struct drm_buf * dmabuf)
+-{
+-	unsigned char reorder = 0;
+-	unsigned int prim = cmd_header->idx.prim;
+-	unsigned int skip = cmd_header->idx.skip;
+-	unsigned int n = cmd_header->idx.count;
+-	unsigned int i;
+-	BCI_LOCALS;
 -
--			ADVANCE_RING();
+-	if (!dmabuf) {
+-		DRM_ERROR("called without dma buffers!\n");
+-		return -EINVAL;
+-	}
+-
+-	if (!n)
+-		return 0;
+-
+-	switch (prim) {
+-	case SAVAGE_PRIM_TRILIST_201:
+-		reorder = 1;
+-		prim = SAVAGE_PRIM_TRILIST;
+-		fallthrough;
+-	case SAVAGE_PRIM_TRILIST:
+-		if (n % 3 != 0) {
+-			DRM_ERROR("wrong number of indices %u in TRILIST\n", n);
+-			return -EINVAL;
 -		}
--	}
--
--	kfree(x);
--	kfree(y);
--	kfree(buffer);
--
--	return 0;
--}
--
--static int r128_cce_dispatch_read_span(struct drm_device *dev,
--				       drm_r128_depth_t *depth)
--{
--	drm_r128_private_t *dev_priv = dev->dev_private;
--	int count, x, y;
--	RING_LOCALS;
--	DRM_DEBUG("\n");
--
--	count = depth->n;
--	if (count > 4096 || count <= 0)
--		return -EMSGSIZE;
--
--	if (copy_from_user(&x, depth->x, sizeof(x)))
--		return -EFAULT;
--	if (copy_from_user(&y, depth->y, sizeof(y)))
--		return -EFAULT;
--
--	BEGIN_RING(7);
--
--	OUT_RING(CCE_PACKET3(R128_CNTL_BITBLT_MULTI, 5));
--	OUT_RING(R128_GMC_SRC_PITCH_OFFSET_CNTL |
--		 R128_GMC_DST_PITCH_OFFSET_CNTL |
--		 R128_GMC_BRUSH_NONE |
--		 (dev_priv->depth_fmt << 8) |
--		 R128_GMC_SRC_DATATYPE_COLOR |
--		 R128_ROP3_S |
--		 R128_DP_SRC_SOURCE_MEMORY |
--		 R128_GMC_CLR_CMP_CNTL_DIS | R128_GMC_WR_MSK_DIS);
--
--	OUT_RING(dev_priv->depth_pitch_offset_c);
--	OUT_RING(dev_priv->span_pitch_offset_c);
--
--	OUT_RING((x << 16) | y);
--	OUT_RING((0 << 16) | 0);
--	OUT_RING((count << 16) | 1);
--
--	ADVANCE_RING();
--
--	return 0;
--}
--
--static int r128_cce_dispatch_read_pixels(struct drm_device *dev,
--					 drm_r128_depth_t *depth)
--{
--	drm_r128_private_t *dev_priv = dev->dev_private;
--	int count, *x, *y;
--	int i, xbuf_size, ybuf_size;
--	RING_LOCALS;
--	DRM_DEBUG("\n");
--
--	count = depth->n;
--	if (count > 4096 || count <= 0)
--		return -EMSGSIZE;
--
--	if (count > dev_priv->depth_pitch)
--		count = dev_priv->depth_pitch;
--
--	xbuf_size = count * sizeof(*x);
--	ybuf_size = count * sizeof(*y);
--	x = kmalloc(xbuf_size, GFP_KERNEL);
--	if (x == NULL)
--		return -ENOMEM;
--	y = kmalloc(ybuf_size, GFP_KERNEL);
--	if (y == NULL) {
--		kfree(x);
--		return -ENOMEM;
--	}
--	if (copy_from_user(x, depth->x, xbuf_size)) {
--		kfree(x);
--		kfree(y);
--		return -EFAULT;
--	}
--	if (copy_from_user(y, depth->y, ybuf_size)) {
--		kfree(x);
--		kfree(y);
--		return -EFAULT;
--	}
--
--	for (i = 0; i < count; i++) {
--		BEGIN_RING(7);
--
--		OUT_RING(CCE_PACKET3(R128_CNTL_BITBLT_MULTI, 5));
--		OUT_RING(R128_GMC_SRC_PITCH_OFFSET_CNTL |
--			 R128_GMC_DST_PITCH_OFFSET_CNTL |
--			 R128_GMC_BRUSH_NONE |
--			 (dev_priv->depth_fmt << 8) |
--			 R128_GMC_SRC_DATATYPE_COLOR |
--			 R128_ROP3_S |
--			 R128_DP_SRC_SOURCE_MEMORY |
--			 R128_GMC_CLR_CMP_CNTL_DIS | R128_GMC_WR_MSK_DIS);
--
--		OUT_RING(dev_priv->depth_pitch_offset_c);
--		OUT_RING(dev_priv->span_pitch_offset_c);
--
--		OUT_RING((x[i] << 16) | y[i]);
--		OUT_RING((i << 16) | 0);
--		OUT_RING((1 << 16) | 1);
--
--		ADVANCE_RING();
--	}
--
--	kfree(x);
--	kfree(y);
--
--	return 0;
--}
--
--/* ================================================================
-- * Polygon stipple
-- */
--
--static void r128_cce_dispatch_stipple(struct drm_device *dev, u32 *stipple)
--{
--	drm_r128_private_t *dev_priv = dev->dev_private;
--	int i;
--	RING_LOCALS;
--	DRM_DEBUG("\n");
--
--	BEGIN_RING(33);
--
--	OUT_RING(CCE_PACKET0(R128_BRUSH_DATA0, 31));
--	for (i = 0; i < 32; i++)
--		OUT_RING(stipple[i]);
--
--	ADVANCE_RING();
--}
--
--/* ================================================================
-- * IOCTL functions
-- */
--
--static int r128_cce_clear(struct drm_device *dev, void *data, struct drm_file *file_priv)
--{
--	drm_r128_private_t *dev_priv = dev->dev_private;
--	drm_r128_sarea_t *sarea_priv;
--	drm_r128_clear_t *clear = data;
--	DRM_DEBUG("\n");
--
--	LOCK_TEST_WITH_RETURN(dev, file_priv);
--
--	DEV_INIT_TEST_WITH_RETURN(dev_priv);
--
--	RING_SPACE_TEST_WITH_RETURN(dev_priv);
--
--	sarea_priv = dev_priv->sarea_priv;
--
--	if (sarea_priv->nbox > R128_NR_SAREA_CLIPRECTS)
--		sarea_priv->nbox = R128_NR_SAREA_CLIPRECTS;
--
--	r128_cce_dispatch_clear(dev, clear);
--	COMMIT_RING();
--
--	/* Make sure we restore the 3D state next time.
--	 */
--	dev_priv->sarea_priv->dirty |= R128_UPLOAD_CONTEXT | R128_UPLOAD_MASKS;
--
--	return 0;
--}
--
--static int r128_do_init_pageflip(struct drm_device *dev)
--{
--	drm_r128_private_t *dev_priv = dev->dev_private;
--	DRM_DEBUG("\n");
--
--	dev_priv->crtc_offset = R128_READ(R128_CRTC_OFFSET);
--	dev_priv->crtc_offset_cntl = R128_READ(R128_CRTC_OFFSET_CNTL);
--
--	R128_WRITE(R128_CRTC_OFFSET, dev_priv->front_offset);
--	R128_WRITE(R128_CRTC_OFFSET_CNTL,
--		   dev_priv->crtc_offset_cntl | R128_CRTC_OFFSET_FLIP_CNTL);
--
--	dev_priv->page_flipping = 1;
--	dev_priv->current_page = 0;
--	dev_priv->sarea_priv->pfCurrentPage = dev_priv->current_page;
--
--	return 0;
--}
--
--static int r128_do_cleanup_pageflip(struct drm_device *dev)
--{
--	drm_r128_private_t *dev_priv = dev->dev_private;
--	DRM_DEBUG("\n");
--
--	R128_WRITE(R128_CRTC_OFFSET, dev_priv->crtc_offset);
--	R128_WRITE(R128_CRTC_OFFSET_CNTL, dev_priv->crtc_offset_cntl);
--
--	if (dev_priv->current_page != 0) {
--		r128_cce_dispatch_flip(dev);
--		COMMIT_RING();
--	}
--
--	dev_priv->page_flipping = 0;
--	return 0;
--}
--
--/* Swapping and flipping are different operations, need different ioctls.
-- * They can & should be intermixed to support multiple 3d windows.
-- */
--
--static int r128_cce_flip(struct drm_device *dev, void *data, struct drm_file *file_priv)
--{
--	drm_r128_private_t *dev_priv = dev->dev_private;
--	DRM_DEBUG("\n");
--
--	LOCK_TEST_WITH_RETURN(dev, file_priv);
--
--	DEV_INIT_TEST_WITH_RETURN(dev_priv);
--
--	RING_SPACE_TEST_WITH_RETURN(dev_priv);
--
--	if (!dev_priv->page_flipping)
--		r128_do_init_pageflip(dev);
--
--	r128_cce_dispatch_flip(dev);
--
--	COMMIT_RING();
--	return 0;
--}
--
--static int r128_cce_swap(struct drm_device *dev, void *data, struct drm_file *file_priv)
--{
--	drm_r128_private_t *dev_priv = dev->dev_private;
--	drm_r128_sarea_t *sarea_priv = dev_priv->sarea_priv;
--	DRM_DEBUG("\n");
--
--	LOCK_TEST_WITH_RETURN(dev, file_priv);
--
--	DEV_INIT_TEST_WITH_RETURN(dev_priv);
--
--	RING_SPACE_TEST_WITH_RETURN(dev_priv);
--
--	if (sarea_priv->nbox > R128_NR_SAREA_CLIPRECTS)
--		sarea_priv->nbox = R128_NR_SAREA_CLIPRECTS;
--
--	r128_cce_dispatch_swap(dev);
--	dev_priv->sarea_priv->dirty |= (R128_UPLOAD_CONTEXT |
--					R128_UPLOAD_MASKS);
--
--	COMMIT_RING();
--	return 0;
--}
--
--static int r128_cce_vertex(struct drm_device *dev, void *data, struct drm_file *file_priv)
--{
--	drm_r128_private_t *dev_priv = dev->dev_private;
--	struct drm_device_dma *dma = dev->dma;
--	struct drm_buf *buf;
--	drm_r128_buf_priv_t *buf_priv;
--	drm_r128_vertex_t *vertex = data;
--
--	LOCK_TEST_WITH_RETURN(dev, file_priv);
--
--	DEV_INIT_TEST_WITH_RETURN(dev_priv);
--
--	DRM_DEBUG("pid=%d index=%d count=%d discard=%d\n",
--		  task_pid_nr(current), vertex->idx, vertex->count, vertex->discard);
--
--	if (vertex->idx < 0 || vertex->idx >= dma->buf_count) {
--		DRM_ERROR("buffer index %d (of %d max)\n",
--			  vertex->idx, dma->buf_count - 1);
--		return -EINVAL;
--	}
--	if (vertex->prim < 0 ||
--	    vertex->prim > R128_CCE_VC_CNTL_PRIM_TYPE_TRI_TYPE2) {
--		DRM_ERROR("buffer prim %d\n", vertex->prim);
--		return -EINVAL;
--	}
--
--	RING_SPACE_TEST_WITH_RETURN(dev_priv);
--	VB_AGE_TEST_WITH_RETURN(dev_priv);
--
--	buf = dma->buflist[vertex->idx];
--	buf_priv = buf->dev_private;
--
--	if (buf->file_priv != file_priv) {
--		DRM_ERROR("process %d using buffer owned by %p\n",
--			  task_pid_nr(current), buf->file_priv);
--		return -EINVAL;
--	}
--	if (buf->pending) {
--		DRM_ERROR("sending pending buffer %d\n", vertex->idx);
--		return -EINVAL;
--	}
--
--	buf->used = vertex->count;
--	buf_priv->prim = vertex->prim;
--	buf_priv->discard = vertex->discard;
--
--	r128_cce_dispatch_vertex(dev, buf);
--
--	COMMIT_RING();
--	return 0;
--}
--
--static int r128_cce_indices(struct drm_device *dev, void *data, struct drm_file *file_priv)
--{
--	drm_r128_private_t *dev_priv = dev->dev_private;
--	struct drm_device_dma *dma = dev->dma;
--	struct drm_buf *buf;
--	drm_r128_buf_priv_t *buf_priv;
--	drm_r128_indices_t *elts = data;
--	int count;
--
--	LOCK_TEST_WITH_RETURN(dev, file_priv);
--
--	DEV_INIT_TEST_WITH_RETURN(dev_priv);
--
--	DRM_DEBUG("pid=%d buf=%d s=%d e=%d d=%d\n", task_pid_nr(current),
--		  elts->idx, elts->start, elts->end, elts->discard);
--
--	if (elts->idx < 0 || elts->idx >= dma->buf_count) {
--		DRM_ERROR("buffer index %d (of %d max)\n",
--			  elts->idx, dma->buf_count - 1);
--		return -EINVAL;
--	}
--	if (elts->prim < 0 ||
--	    elts->prim > R128_CCE_VC_CNTL_PRIM_TYPE_TRI_TYPE2) {
--		DRM_ERROR("buffer prim %d\n", elts->prim);
--		return -EINVAL;
--	}
--
--	RING_SPACE_TEST_WITH_RETURN(dev_priv);
--	VB_AGE_TEST_WITH_RETURN(dev_priv);
--
--	buf = dma->buflist[elts->idx];
--	buf_priv = buf->dev_private;
--
--	if (buf->file_priv != file_priv) {
--		DRM_ERROR("process %d using buffer owned by %p\n",
--			  task_pid_nr(current), buf->file_priv);
--		return -EINVAL;
--	}
--	if (buf->pending) {
--		DRM_ERROR("sending pending buffer %d\n", elts->idx);
--		return -EINVAL;
--	}
--
--	count = (elts->end - elts->start) / sizeof(u16);
--	elts->start -= R128_INDEX_PRIM_OFFSET;
--
--	if (elts->start & 0x7) {
--		DRM_ERROR("misaligned buffer 0x%x\n", elts->start);
--		return -EINVAL;
--	}
--	if (elts->start < buf->used) {
--		DRM_ERROR("no header 0x%x - 0x%x\n", elts->start, buf->used);
--		return -EINVAL;
--	}
--
--	buf->used = elts->end;
--	buf_priv->prim = elts->prim;
--	buf_priv->discard = elts->discard;
--
--	r128_cce_dispatch_indices(dev, buf, elts->start, elts->end, count);
--
--	COMMIT_RING();
--	return 0;
--}
--
--static int r128_cce_blit(struct drm_device *dev, void *data, struct drm_file *file_priv)
--{
--	struct drm_device_dma *dma = dev->dma;
--	drm_r128_private_t *dev_priv = dev->dev_private;
--	drm_r128_blit_t *blit = data;
--	int ret;
--
--	LOCK_TEST_WITH_RETURN(dev, file_priv);
--
--	DEV_INIT_TEST_WITH_RETURN(dev_priv);
--
--	DRM_DEBUG("pid=%d index=%d\n", task_pid_nr(current), blit->idx);
--
--	if (blit->idx < 0 || blit->idx >= dma->buf_count) {
--		DRM_ERROR("buffer index %d (of %d max)\n",
--			  blit->idx, dma->buf_count - 1);
--		return -EINVAL;
--	}
--
--	RING_SPACE_TEST_WITH_RETURN(dev_priv);
--	VB_AGE_TEST_WITH_RETURN(dev_priv);
--
--	ret = r128_cce_dispatch_blit(dev, file_priv, blit);
--
--	COMMIT_RING();
--	return ret;
--}
--
--int r128_cce_depth(struct drm_device *dev, void *data, struct drm_file *file_priv)
--{
--	drm_r128_private_t *dev_priv = dev->dev_private;
--	drm_r128_depth_t *depth = data;
--	int ret;
--
--	LOCK_TEST_WITH_RETURN(dev, file_priv);
--
--	DEV_INIT_TEST_WITH_RETURN(dev_priv);
--
--	RING_SPACE_TEST_WITH_RETURN(dev_priv);
--
--	ret = -EINVAL;
--	switch (depth->func) {
--	case R128_WRITE_SPAN:
--		ret = r128_cce_dispatch_write_span(dev, depth);
 -		break;
--	case R128_WRITE_PIXELS:
--		ret = r128_cce_dispatch_write_pixels(dev, depth);
--		break;
--	case R128_READ_SPAN:
--		ret = r128_cce_dispatch_read_span(dev, depth);
--		break;
--	case R128_READ_PIXELS:
--		ret = r128_cce_dispatch_read_pixels(dev, depth);
--		break;
--	}
--
--	COMMIT_RING();
--	return ret;
--}
--
--int r128_cce_stipple(struct drm_device *dev, void *data, struct drm_file *file_priv)
--{
--	drm_r128_private_t *dev_priv = dev->dev_private;
--	drm_r128_stipple_t *stipple = data;
--	u32 mask[32];
--
--	LOCK_TEST_WITH_RETURN(dev, file_priv);
--
--	DEV_INIT_TEST_WITH_RETURN(dev_priv);
--
--	if (copy_from_user(&mask, stipple->mask, 32 * sizeof(u32)))
--		return -EFAULT;
--
--	RING_SPACE_TEST_WITH_RETURN(dev_priv);
--
--	r128_cce_dispatch_stipple(dev, mask);
--
--	COMMIT_RING();
--	return 0;
--}
--
--static int r128_cce_indirect(struct drm_device *dev, void *data, struct drm_file *file_priv)
--{
--	drm_r128_private_t *dev_priv = dev->dev_private;
--	struct drm_device_dma *dma = dev->dma;
--	struct drm_buf *buf;
--	drm_r128_buf_priv_t *buf_priv;
--	drm_r128_indirect_t *indirect = data;
--#if 0
--	RING_LOCALS;
--#endif
--
--	LOCK_TEST_WITH_RETURN(dev, file_priv);
--
--	DEV_INIT_TEST_WITH_RETURN(dev_priv);
--
--	DRM_DEBUG("idx=%d s=%d e=%d d=%d\n",
--		  indirect->idx, indirect->start, indirect->end,
--		  indirect->discard);
--
--	if (indirect->idx < 0 || indirect->idx >= dma->buf_count) {
--		DRM_ERROR("buffer index %d (of %d max)\n",
--			  indirect->idx, dma->buf_count - 1);
--		return -EINVAL;
--	}
--
--	buf = dma->buflist[indirect->idx];
--	buf_priv = buf->dev_private;
--
--	if (buf->file_priv != file_priv) {
--		DRM_ERROR("process %d using buffer owned by %p\n",
--			  task_pid_nr(current), buf->file_priv);
--		return -EINVAL;
--	}
--	if (buf->pending) {
--		DRM_ERROR("sending pending buffer %d\n", indirect->idx);
--		return -EINVAL;
--	}
--
--	if (indirect->start < buf->used) {
--		DRM_ERROR("reusing indirect: start=0x%x actual=0x%x\n",
--			  indirect->start, buf->used);
--		return -EINVAL;
--	}
--
--	RING_SPACE_TEST_WITH_RETURN(dev_priv);
--	VB_AGE_TEST_WITH_RETURN(dev_priv);
--
--	buf->used = indirect->end;
--	buf_priv->discard = indirect->discard;
--
--#if 0
--	/* Wait for the 3D stream to idle before the indirect buffer
--	 * containing 2D acceleration commands is processed.
--	 */
--	BEGIN_RING(2);
--	RADEON_WAIT_UNTIL_3D_IDLE();
--	ADVANCE_RING();
--#endif
--
--	/* Dispatch the indirect buffer full of commands from the
--	 * X server.  This is insecure and is thus only available to
--	 * privileged clients.
--	 */
--	r128_cce_dispatch_indirect(dev, buf, indirect->start, indirect->end);
--
--	COMMIT_RING();
--	return 0;
--}
--
--int r128_getparam(struct drm_device *dev, void *data, struct drm_file *file_priv)
--{
--	drm_r128_private_t *dev_priv = dev->dev_private;
--	drm_r128_getparam_t *param = data;
--	struct pci_dev *pdev = to_pci_dev(dev->dev);
--	int value;
--
--	DEV_INIT_TEST_WITH_RETURN(dev_priv);
--
--	DRM_DEBUG("pid=%d\n", task_pid_nr(current));
--
--	switch (param->param) {
--	case R128_PARAM_IRQ_NR:
--		value = pdev->irq;
+-	case SAVAGE_PRIM_TRISTRIP:
+-	case SAVAGE_PRIM_TRIFAN:
+-		if (n < 3) {
+-			DRM_ERROR
+-			    ("wrong number of indices %u in TRIFAN/STRIP\n", n);
+-			return -EINVAL;
+-		}
 -		break;
 -	default:
+-		DRM_ERROR("invalid primitive type %u\n", prim);
 -		return -EINVAL;
 -	}
 -
--	if (copy_to_user(param->value, &value, sizeof(int))) {
--		DRM_ERROR("copy_to_user\n");
--		return -EFAULT;
+-	if (S3_SAVAGE3D_SERIES(dev_priv->chipset)) {
+-		if (skip != 0) {
+-			DRM_ERROR("invalid skip flags 0x%04x for DMA\n", skip);
+-			return -EINVAL;
+-		}
+-	} else {
+-		unsigned int size = 10 - (skip & 1) - (skip >> 1 & 1) -
+-		    (skip >> 2 & 1) - (skip >> 3 & 1) - (skip >> 4 & 1) -
+-		    (skip >> 5 & 1) - (skip >> 6 & 1) - (skip >> 7 & 1);
+-		if (skip > SAVAGE_SKIP_ALL_S4 || size != 8) {
+-			DRM_ERROR("invalid skip flags 0x%04x for DMA\n", skip);
+-			return -EINVAL;
+-		}
+-		if (reorder) {
+-			DRM_ERROR("TRILIST_201 used on Savage4 hardware\n");
+-			return -EINVAL;
+-		}
+-	}
+-
+-	/* Vertex DMA doesn't work with command DMA at the same time,
+-	 * so we use BCI_... to submit commands here. Flush buffered
+-	 * faked DMA first. */
+-	DMA_FLUSH();
+-
+-	if (dmabuf->bus_address != dev_priv->state.common.vbaddr) {
+-		BEGIN_BCI(2);
+-		BCI_SET_REGISTERS(SAVAGE_VERTBUFADDR, 1);
+-		BCI_WRITE(dmabuf->bus_address | dev_priv->dma_type);
+-		dev_priv->state.common.vbaddr = dmabuf->bus_address;
+-	}
+-	if (S3_SAVAGE3D_SERIES(dev_priv->chipset) && dev_priv->waiting) {
+-		/* Workaround for what looks like a hardware bug. If a
+-		 * WAIT_3D_IDLE was emitted some time before the
+-		 * indexed drawing command then the engine will lock
+-		 * up. There are two known workarounds:
+-		 * WAIT_IDLE_EMPTY or emit at least 63 NOPs. */
+-		BEGIN_BCI(63);
+-		for (i = 0; i < 63; ++i)
+-			BCI_WRITE(BCI_CMD_WAIT);
+-		dev_priv->waiting = 0;
+-	}
+-
+-	prim <<= 25;
+-	while (n != 0) {
+-		/* Can emit up to 255 indices (85 triangles) at once. */
+-		unsigned int count = n > 255 ? 255 : n;
+-
+-		/* check indices */
+-		for (i = 0; i < count; ++i) {
+-			if (idx[i] > dmabuf->total / 32) {
+-				DRM_ERROR("idx[%u]=%u out of range (0-%u)\n",
+-					  i, idx[i], dmabuf->total / 32);
+-				return -EINVAL;
+-			}
+-		}
+-
+-		if (reorder) {
+-			/* Need to reorder indices for correct flat
+-			 * shading while preserving the clock sense
+-			 * for correct culling. Only on Savage3D. */
+-			int reorder[3] = { 2, -1, -1 };
+-
+-			BEGIN_BCI((count + 1 + 1) / 2);
+-			BCI_DRAW_INDICES_S3D(count, prim, idx[2]);
+-
+-			for (i = 1; i + 1 < count; i += 2)
+-				BCI_WRITE(idx[i + reorder[i % 3]] |
+-					  (idx[i + 1 +
+-					   reorder[(i + 1) % 3]] << 16));
+-			if (i < count)
+-				BCI_WRITE(idx[i + reorder[i % 3]]);
+-		} else if (S3_SAVAGE3D_SERIES(dev_priv->chipset)) {
+-			BEGIN_BCI((count + 1 + 1) / 2);
+-			BCI_DRAW_INDICES_S3D(count, prim, idx[0]);
+-
+-			for (i = 1; i + 1 < count; i += 2)
+-				BCI_WRITE(idx[i] | (idx[i + 1] << 16));
+-			if (i < count)
+-				BCI_WRITE(idx[i]);
+-		} else {
+-			BEGIN_BCI((count + 2 + 1) / 2);
+-			BCI_DRAW_INDICES_S4(count, prim, skip);
+-
+-			for (i = 0; i + 1 < count; i += 2)
+-				BCI_WRITE(idx[i] | (idx[i + 1] << 16));
+-			if (i < count)
+-				BCI_WRITE(idx[i]);
+-		}
+-
+-		idx += count;
+-		n -= count;
+-
+-		prim |= BCI_CMD_DRAW_CONT;
 -	}
 -
 -	return 0;
 -}
 -
--void r128_driver_preclose(struct drm_device *dev, struct drm_file *file_priv)
+-static int savage_dispatch_vb_idx(drm_savage_private_t * dev_priv,
+-				  const drm_savage_cmd_header_t * cmd_header,
+-				  const uint16_t *idx,
+-				  const uint32_t *vtxbuf,
+-				  unsigned int vb_size, unsigned int vb_stride)
 -{
--	if (dev->dev_private) {
--		drm_r128_private_t *dev_priv = dev->dev_private;
--		if (dev_priv->page_flipping)
--			r128_do_cleanup_pageflip(dev);
+-	unsigned char reorder = 0;
+-	unsigned int prim = cmd_header->idx.prim;
+-	unsigned int skip = cmd_header->idx.skip;
+-	unsigned int n = cmd_header->idx.count;
+-	unsigned int vtx_size;
+-	unsigned int i;
+-	DMA_LOCALS;
+-
+-	if (!n)
+-		return 0;
+-
+-	switch (prim) {
+-	case SAVAGE_PRIM_TRILIST_201:
+-		reorder = 1;
+-		prim = SAVAGE_PRIM_TRILIST;
+-		fallthrough;
+-	case SAVAGE_PRIM_TRILIST:
+-		if (n % 3 != 0) {
+-			DRM_ERROR("wrong number of indices %u in TRILIST\n", n);
+-			return -EINVAL;
+-		}
+-		break;
+-	case SAVAGE_PRIM_TRISTRIP:
+-	case SAVAGE_PRIM_TRIFAN:
+-		if (n < 3) {
+-			DRM_ERROR
+-			    ("wrong number of indices %u in TRIFAN/STRIP\n", n);
+-			return -EINVAL;
+-		}
+-		break;
+-	default:
+-		DRM_ERROR("invalid primitive type %u\n", prim);
+-		return -EINVAL;
 -	}
+-
+-	if (S3_SAVAGE3D_SERIES(dev_priv->chipset)) {
+-		if (skip > SAVAGE_SKIP_ALL_S3D) {
+-			DRM_ERROR("invalid skip flags 0x%04x\n", skip);
+-			return -EINVAL;
+-		}
+-		vtx_size = 8;	/* full vertex */
+-	} else {
+-		if (skip > SAVAGE_SKIP_ALL_S4) {
+-			DRM_ERROR("invalid skip flags 0x%04x\n", skip);
+-			return -EINVAL;
+-		}
+-		vtx_size = 10;	/* full vertex */
+-	}
+-
+-	vtx_size -= (skip & 1) + (skip >> 1 & 1) +
+-	    (skip >> 2 & 1) + (skip >> 3 & 1) + (skip >> 4 & 1) +
+-	    (skip >> 5 & 1) + (skip >> 6 & 1) + (skip >> 7 & 1);
+-
+-	if (vtx_size > vb_stride) {
+-		DRM_ERROR("vertex size greater than vb stride (%u > %u)\n",
+-			  vtx_size, vb_stride);
+-		return -EINVAL;
+-	}
+-
+-	prim <<= 25;
+-	while (n != 0) {
+-		/* Can emit up to 255 vertices (85 triangles) at once. */
+-		unsigned int count = n > 255 ? 255 : n;
+-
+-		/* Check indices */
+-		for (i = 0; i < count; ++i) {
+-			if (idx[i] > vb_size / (vb_stride * 4)) {
+-				DRM_ERROR("idx[%u]=%u out of range (0-%u)\n",
+-					  i, idx[i], vb_size / (vb_stride * 4));
+-				return -EINVAL;
+-			}
+-		}
+-
+-		if (reorder) {
+-			/* Need to reorder vertices for correct flat
+-			 * shading while preserving the clock sense
+-			 * for correct culling. Only on Savage3D. */
+-			int reorder[3] = { 2, -1, -1 };
+-
+-			BEGIN_DMA(count * vtx_size + 1);
+-			DMA_DRAW_PRIMITIVE(count, prim, skip);
+-
+-			for (i = 0; i < count; ++i) {
+-				unsigned int j = idx[i + reorder[i % 3]];
+-				DMA_COPY(&vtxbuf[vb_stride * j], vtx_size);
+-			}
+-
+-			DMA_COMMIT();
+-		} else {
+-			BEGIN_DMA(count * vtx_size + 1);
+-			DMA_DRAW_PRIMITIVE(count, prim, skip);
+-
+-			for (i = 0; i < count; ++i) {
+-				unsigned int j = idx[i];
+-				DMA_COPY(&vtxbuf[vb_stride * j], vtx_size);
+-			}
+-
+-			DMA_COMMIT();
+-		}
+-
+-		idx += count;
+-		n -= count;
+-
+-		prim |= BCI_CMD_DRAW_CONT;
+-	}
+-
+-	return 0;
 -}
--void r128_driver_lastclose(struct drm_device *dev)
+-
+-static int savage_dispatch_clear(drm_savage_private_t * dev_priv,
+-				 const drm_savage_cmd_header_t * cmd_header,
+-				 const drm_savage_cmd_header_t *data,
+-				 unsigned int nbox,
+-				 const struct drm_clip_rect *boxes)
 -{
--	r128_do_cleanup_cce(dev);
+-	unsigned int flags = cmd_header->clear0.flags;
+-	unsigned int clear_cmd;
+-	unsigned int i, nbufs;
+-	DMA_LOCALS;
+-
+-	if (nbox == 0)
+-		return 0;
+-
+-	clear_cmd = BCI_CMD_RECT | BCI_CMD_RECT_XP | BCI_CMD_RECT_YP |
+-	    BCI_CMD_SEND_COLOR | BCI_CMD_DEST_PBD_NEW;
+-	BCI_CMD_SET_ROP(clear_cmd, 0xCC);
+-
+-	nbufs = ((flags & SAVAGE_FRONT) ? 1 : 0) +
+-	    ((flags & SAVAGE_BACK) ? 1 : 0) + ((flags & SAVAGE_DEPTH) ? 1 : 0);
+-	if (nbufs == 0)
+-		return 0;
+-
+-	if (data->clear1.mask != 0xffffffff) {
+-		/* set mask */
+-		BEGIN_DMA(2);
+-		DMA_SET_REGISTERS(SAVAGE_BITPLANEWTMASK, 1);
+-		DMA_WRITE(data->clear1.mask);
+-		DMA_COMMIT();
+-	}
+-	for (i = 0; i < nbox; ++i) {
+-		unsigned int x, y, w, h;
+-		unsigned int buf;
+-		x = boxes[i].x1, y = boxes[i].y1;
+-		w = boxes[i].x2 - boxes[i].x1;
+-		h = boxes[i].y2 - boxes[i].y1;
+-		BEGIN_DMA(nbufs * 6);
+-		for (buf = SAVAGE_FRONT; buf <= SAVAGE_DEPTH; buf <<= 1) {
+-			if (!(flags & buf))
+-				continue;
+-			DMA_WRITE(clear_cmd);
+-			switch (buf) {
+-			case SAVAGE_FRONT:
+-				DMA_WRITE(dev_priv->front_offset);
+-				DMA_WRITE(dev_priv->front_bd);
+-				break;
+-			case SAVAGE_BACK:
+-				DMA_WRITE(dev_priv->back_offset);
+-				DMA_WRITE(dev_priv->back_bd);
+-				break;
+-			case SAVAGE_DEPTH:
+-				DMA_WRITE(dev_priv->depth_offset);
+-				DMA_WRITE(dev_priv->depth_bd);
+-				break;
+-			}
+-			DMA_WRITE(data->clear1.value);
+-			DMA_WRITE(BCI_X_Y(x, y));
+-			DMA_WRITE(BCI_W_H(w, h));
+-		}
+-		DMA_COMMIT();
+-	}
+-	if (data->clear1.mask != 0xffffffff) {
+-		/* reset mask */
+-		BEGIN_DMA(2);
+-		DMA_SET_REGISTERS(SAVAGE_BITPLANEWTMASK, 1);
+-		DMA_WRITE(0xffffffff);
+-		DMA_COMMIT();
+-	}
+-
+-	return 0;
 -}
 -
--const struct drm_ioctl_desc r128_ioctls[] = {
--	DRM_IOCTL_DEF_DRV(R128_INIT, r128_cce_init, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
--	DRM_IOCTL_DEF_DRV(R128_CCE_START, r128_cce_start, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
--	DRM_IOCTL_DEF_DRV(R128_CCE_STOP, r128_cce_stop, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
--	DRM_IOCTL_DEF_DRV(R128_CCE_RESET, r128_cce_reset, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
--	DRM_IOCTL_DEF_DRV(R128_CCE_IDLE, r128_cce_idle, DRM_AUTH),
--	DRM_IOCTL_DEF_DRV(R128_RESET, r128_engine_reset, DRM_AUTH),
--	DRM_IOCTL_DEF_DRV(R128_FULLSCREEN, r128_fullscreen, DRM_AUTH),
--	DRM_IOCTL_DEF_DRV(R128_SWAP, r128_cce_swap, DRM_AUTH),
--	DRM_IOCTL_DEF_DRV(R128_FLIP, r128_cce_flip, DRM_AUTH),
--	DRM_IOCTL_DEF_DRV(R128_CLEAR, r128_cce_clear, DRM_AUTH),
--	DRM_IOCTL_DEF_DRV(R128_VERTEX, r128_cce_vertex, DRM_AUTH),
--	DRM_IOCTL_DEF_DRV(R128_INDICES, r128_cce_indices, DRM_AUTH),
--	DRM_IOCTL_DEF_DRV(R128_BLIT, r128_cce_blit, DRM_AUTH),
--	DRM_IOCTL_DEF_DRV(R128_DEPTH, r128_cce_depth, DRM_AUTH),
--	DRM_IOCTL_DEF_DRV(R128_STIPPLE, r128_cce_stipple, DRM_AUTH),
--	DRM_IOCTL_DEF_DRV(R128_INDIRECT, r128_cce_indirect, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
--	DRM_IOCTL_DEF_DRV(R128_GETPARAM, r128_getparam, DRM_AUTH),
--};
+-static int savage_dispatch_swap(drm_savage_private_t * dev_priv,
+-				unsigned int nbox, const struct drm_clip_rect *boxes)
+-{
+-	unsigned int swap_cmd;
+-	unsigned int i;
+-	DMA_LOCALS;
 -
--int r128_max_ioctl = ARRAY_SIZE(r128_ioctls);
-diff --git a/include/uapi/drm/r128_drm.h b/include/uapi/drm/r128_drm.h
+-	if (nbox == 0)
+-		return 0;
+-
+-	swap_cmd = BCI_CMD_RECT | BCI_CMD_RECT_XP | BCI_CMD_RECT_YP |
+-	    BCI_CMD_SRC_PBD_COLOR_NEW | BCI_CMD_DEST_GBD;
+-	BCI_CMD_SET_ROP(swap_cmd, 0xCC);
+-
+-	for (i = 0; i < nbox; ++i) {
+-		BEGIN_DMA(6);
+-		DMA_WRITE(swap_cmd);
+-		DMA_WRITE(dev_priv->back_offset);
+-		DMA_WRITE(dev_priv->back_bd);
+-		DMA_WRITE(BCI_X_Y(boxes[i].x1, boxes[i].y1));
+-		DMA_WRITE(BCI_X_Y(boxes[i].x1, boxes[i].y1));
+-		DMA_WRITE(BCI_W_H(boxes[i].x2 - boxes[i].x1,
+-				  boxes[i].y2 - boxes[i].y1));
+-		DMA_COMMIT();
+-	}
+-
+-	return 0;
+-}
+-
+-static int savage_dispatch_draw(drm_savage_private_t * dev_priv,
+-				const drm_savage_cmd_header_t *start,
+-				const drm_savage_cmd_header_t *end,
+-				const struct drm_buf * dmabuf,
+-				const unsigned int *vtxbuf,
+-				unsigned int vb_size, unsigned int vb_stride,
+-				unsigned int nbox,
+-				const struct drm_clip_rect *boxes)
+-{
+-	unsigned int i, j;
+-	int ret;
+-
+-	for (i = 0; i < nbox; ++i) {
+-		const drm_savage_cmd_header_t *cmdbuf;
+-		dev_priv->emit_clip_rect(dev_priv, &boxes[i]);
+-
+-		cmdbuf = start;
+-		while (cmdbuf < end) {
+-			drm_savage_cmd_header_t cmd_header;
+-			cmd_header = *cmdbuf;
+-			cmdbuf++;
+-			switch (cmd_header.cmd.cmd) {
+-			case SAVAGE_CMD_DMA_PRIM:
+-				ret = savage_dispatch_dma_prim(
+-					dev_priv, &cmd_header, dmabuf);
+-				break;
+-			case SAVAGE_CMD_VB_PRIM:
+-				ret = savage_dispatch_vb_prim(
+-					dev_priv, &cmd_header,
+-					vtxbuf, vb_size, vb_stride);
+-				break;
+-			case SAVAGE_CMD_DMA_IDX:
+-				j = (cmd_header.idx.count + 3) / 4;
+-				/* j was check in savage_bci_cmdbuf */
+-				ret = savage_dispatch_dma_idx(dev_priv,
+-					&cmd_header, (const uint16_t *)cmdbuf,
+-					dmabuf);
+-				cmdbuf += j;
+-				break;
+-			case SAVAGE_CMD_VB_IDX:
+-				j = (cmd_header.idx.count + 3) / 4;
+-				/* j was check in savage_bci_cmdbuf */
+-				ret = savage_dispatch_vb_idx(dev_priv,
+-					&cmd_header, (const uint16_t *)cmdbuf,
+-					(const uint32_t *)vtxbuf, vb_size,
+-					vb_stride);
+-				cmdbuf += j;
+-				break;
+-			default:
+-				/* What's the best return code? EFAULT? */
+-				DRM_ERROR("IMPLEMENTATION ERROR: "
+-					  "non-drawing-command %d\n",
+-					  cmd_header.cmd.cmd);
+-				return -EINVAL;
+-			}
+-
+-			if (ret != 0)
+-				return ret;
+-		}
+-	}
+-
+-	return 0;
+-}
+-
+-int savage_bci_cmdbuf(struct drm_device *dev, void *data, struct drm_file *file_priv)
+-{
+-	drm_savage_private_t *dev_priv = dev->dev_private;
+-	struct drm_device_dma *dma = dev->dma;
+-	struct drm_buf *dmabuf;
+-	drm_savage_cmdbuf_t *cmdbuf = data;
+-	drm_savage_cmd_header_t *kcmd_addr = NULL;
+-	drm_savage_cmd_header_t *first_draw_cmd;
+-	unsigned int *kvb_addr = NULL;
+-	struct drm_clip_rect *kbox_addr = NULL;
+-	unsigned int i, j;
+-	int ret = 0;
+-
+-	DRM_DEBUG("\n");
+-
+-	LOCK_TEST_WITH_RETURN(dev, file_priv);
+-
+-	if (dma && dma->buflist) {
+-		if (cmdbuf->dma_idx >= dma->buf_count) {
+-			DRM_ERROR
+-			    ("vertex buffer index %u out of range (0-%u)\n",
+-			     cmdbuf->dma_idx, dma->buf_count - 1);
+-			return -EINVAL;
+-		}
+-		dmabuf = dma->buflist[cmdbuf->dma_idx];
+-	} else {
+-		dmabuf = NULL;
+-	}
+-
+-	/* Copy the user buffers into kernel temporary areas.  This hasn't been
+-	 * a performance loss compared to VERIFYAREA_READ/
+-	 * COPY_FROM_USER_UNCHECKED when done in other drivers, and is correct
+-	 * for locking on FreeBSD.
+-	 */
+-	if (cmdbuf->size) {
+-		kcmd_addr = kmalloc_array(cmdbuf->size, 8, GFP_KERNEL);
+-		if (kcmd_addr == NULL)
+-			return -ENOMEM;
+-
+-		if (copy_from_user(kcmd_addr, cmdbuf->cmd_addr,
+-				       cmdbuf->size * 8))
+-		{
+-			kfree(kcmd_addr);
+-			return -EFAULT;
+-		}
+-		cmdbuf->cmd_addr = kcmd_addr;
+-	}
+-	if (cmdbuf->vb_size) {
+-		kvb_addr = memdup_user(cmdbuf->vb_addr, cmdbuf->vb_size);
+-		if (IS_ERR(kvb_addr)) {
+-			ret = PTR_ERR(kvb_addr);
+-			kvb_addr = NULL;
+-			goto done;
+-		}
+-		cmdbuf->vb_addr = kvb_addr;
+-	}
+-	if (cmdbuf->nbox) {
+-		kbox_addr = kmalloc_array(cmdbuf->nbox, sizeof(struct drm_clip_rect),
+-					  GFP_KERNEL);
+-		if (kbox_addr == NULL) {
+-			ret = -ENOMEM;
+-			goto done;
+-		}
+-
+-		if (copy_from_user(kbox_addr, cmdbuf->box_addr,
+-				       cmdbuf->nbox * sizeof(struct drm_clip_rect))) {
+-			ret = -EFAULT;
+-			goto done;
+-		}
+-	cmdbuf->box_addr = kbox_addr;
+-	}
+-
+-	/* Make sure writes to DMA buffers are finished before sending
+-	 * DMA commands to the graphics hardware. */
+-	mb();
+-
+-	/* Coming from user space. Don't know if the Xserver has
+-	 * emitted wait commands. Assuming the worst. */
+-	dev_priv->waiting = 1;
+-
+-	i = 0;
+-	first_draw_cmd = NULL;
+-	while (i < cmdbuf->size) {
+-		drm_savage_cmd_header_t cmd_header;
+-		cmd_header = *(drm_savage_cmd_header_t *)cmdbuf->cmd_addr;
+-		cmdbuf->cmd_addr++;
+-		i++;
+-
+-		/* Group drawing commands with same state to minimize
+-		 * iterations over clip rects. */
+-		j = 0;
+-		switch (cmd_header.cmd.cmd) {
+-		case SAVAGE_CMD_DMA_IDX:
+-		case SAVAGE_CMD_VB_IDX:
+-			j = (cmd_header.idx.count + 3) / 4;
+-			if (i + j > cmdbuf->size) {
+-				DRM_ERROR("indexed drawing command extends "
+-					  "beyond end of command buffer\n");
+-				DMA_FLUSH();
+-				ret = -EINVAL;
+-				goto done;
+-			}
+-			fallthrough;
+-		case SAVAGE_CMD_DMA_PRIM:
+-		case SAVAGE_CMD_VB_PRIM:
+-			if (!first_draw_cmd)
+-				first_draw_cmd = cmdbuf->cmd_addr - 1;
+-			cmdbuf->cmd_addr += j;
+-			i += j;
+-			break;
+-		default:
+-			if (first_draw_cmd) {
+-				ret = savage_dispatch_draw(
+-				      dev_priv, first_draw_cmd,
+-				      cmdbuf->cmd_addr - 1,
+-				      dmabuf, cmdbuf->vb_addr, cmdbuf->vb_size,
+-				      cmdbuf->vb_stride,
+-				      cmdbuf->nbox, cmdbuf->box_addr);
+-				if (ret != 0)
+-					goto done;
+-				first_draw_cmd = NULL;
+-			}
+-		}
+-		if (first_draw_cmd)
+-			continue;
+-
+-		switch (cmd_header.cmd.cmd) {
+-		case SAVAGE_CMD_STATE:
+-			j = (cmd_header.state.count + 1) / 2;
+-			if (i + j > cmdbuf->size) {
+-				DRM_ERROR("command SAVAGE_CMD_STATE extends "
+-					  "beyond end of command buffer\n");
+-				DMA_FLUSH();
+-				ret = -EINVAL;
+-				goto done;
+-			}
+-			ret = savage_dispatch_state(dev_priv, &cmd_header,
+-				(const uint32_t *)cmdbuf->cmd_addr);
+-			cmdbuf->cmd_addr += j;
+-			i += j;
+-			break;
+-		case SAVAGE_CMD_CLEAR:
+-			if (i + 1 > cmdbuf->size) {
+-				DRM_ERROR("command SAVAGE_CMD_CLEAR extends "
+-					  "beyond end of command buffer\n");
+-				DMA_FLUSH();
+-				ret = -EINVAL;
+-				goto done;
+-			}
+-			ret = savage_dispatch_clear(dev_priv, &cmd_header,
+-						    cmdbuf->cmd_addr,
+-						    cmdbuf->nbox,
+-						    cmdbuf->box_addr);
+-			cmdbuf->cmd_addr++;
+-			i++;
+-			break;
+-		case SAVAGE_CMD_SWAP:
+-			ret = savage_dispatch_swap(dev_priv, cmdbuf->nbox,
+-						   cmdbuf->box_addr);
+-			break;
+-		default:
+-			DRM_ERROR("invalid command 0x%x\n",
+-				  cmd_header.cmd.cmd);
+-			DMA_FLUSH();
+-			ret = -EINVAL;
+-			goto done;
+-		}
+-
+-		if (ret != 0) {
+-			DMA_FLUSH();
+-			goto done;
+-		}
+-	}
+-
+-	if (first_draw_cmd) {
+-		ret = savage_dispatch_draw (
+-			dev_priv, first_draw_cmd, cmdbuf->cmd_addr, dmabuf,
+-			cmdbuf->vb_addr, cmdbuf->vb_size, cmdbuf->vb_stride,
+-			cmdbuf->nbox, cmdbuf->box_addr);
+-		if (ret != 0) {
+-			DMA_FLUSH();
+-			goto done;
+-		}
+-	}
+-
+-	DMA_FLUSH();
+-
+-	if (dmabuf && cmdbuf->discard) {
+-		drm_savage_buf_priv_t *buf_priv = dmabuf->dev_private;
+-		uint16_t event;
+-		event = savage_bci_emit_event(dev_priv, SAVAGE_WAIT_3D);
+-		SET_AGE(&buf_priv->age, event, dev_priv->event_wrap);
+-		savage_freelist_put(dev, dmabuf);
+-	}
+-
+-done:
+-	/* If we didn't need to allocate them, these'll be NULL */
+-	kfree(kcmd_addr);
+-	kfree(kvb_addr);
+-	kfree(kbox_addr);
+-
+-	return ret;
+-}
+diff --git a/include/uapi/drm/savage_drm.h b/include/uapi/drm/savage_drm.h
 deleted file mode 100644
-index 690e9c62f510..000000000000
---- a/include/uapi/drm/r128_drm.h
+index 0f6eddef74aa..000000000000
+--- a/include/uapi/drm/savage_drm.h
 +++ /dev/null
-@@ -1,336 +0,0 @@
--/* r128_drm.h -- Public header for the r128 driver -*- linux-c -*-
-- * Created: Wed Apr  5 19:24:19 2000 by kevin@precisioninsight.com
-- */
--/*
-- * Copyright 2000 Precision Insight, Inc., Cedar Park, Texas.
-- * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
-- * All rights reserved.
+@@ -1,220 +0,0 @@
+-/* savage_drm.h -- Public header for the savage driver
+- *
+- * Copyright 2004  Felix Kuehling
+- * All Rights Reserved.
 - *
 - * Permission is hereby granted, free of charge, to any person obtaining a
 - * copy of this software and associated documentation files (the "Software"),
 - * to deal in the Software without restriction, including without limitation
-- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * the rights to use, copy, modify, merge, publish, distribute, sub license,
 - * and/or sell copies of the Software, and to permit persons to whom the
 - * Software is furnished to do so, subject to the following conditions:
 - *
-- * The above copyright notice and this permission notice (including the next
-- * paragraph) shall be included in all copies or substantial portions of the
-- * Software.
+- * The above copyright notice and this permission notice (including the
+- * next paragraph) shall be included in all copies or substantial portions
+- * of the Software.
 - *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-- * PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-- * DEALINGS IN THE SOFTWARE.
-- *
-- * Authors:
-- *    Gareth Hughes <gareth@valinux.com>
-- *    Kevin E. Martin <martin@valinux.com>
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+- * NON-INFRINGEMENT. IN NO EVENT SHALL FELIX KUEHLING BE LIABLE FOR
+- * ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+- * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 - */
 -
--#ifndef __R128_DRM_H__
--#define __R128_DRM_H__
+-#ifndef __SAVAGE_DRM_H__
+-#define __SAVAGE_DRM_H__
 -
 -#include "drm.h"
 -
@@ -4053,295 +3111,186 @@ index 690e9c62f510..000000000000
 -extern "C" {
 -#endif
 -
--/* WARNING: If you change any of these defines, make sure to change the
-- * defines in the X server file (r128_sarea.h)
+-#ifndef __SAVAGE_SAREA_DEFINES__
+-#define __SAVAGE_SAREA_DEFINES__
+-
+-/* 2 heaps (1 for card, 1 for agp), each divided into up to 128
+- * regions, subject to a minimum region size of (1<<16) == 64k.
+- *
+- * Clients may subdivide regions internally, but when sharing between
+- * clients, the region size is the minimum granularity.
 - */
--#ifndef __R128_SAREA_DEFINES__
--#define __R128_SAREA_DEFINES__
 -
--/* What needs to be changed for the current vertex buffer?
-- */
--#define R128_UPLOAD_CONTEXT		0x001
--#define R128_UPLOAD_SETUP		0x002
--#define R128_UPLOAD_TEX0		0x004
--#define R128_UPLOAD_TEX1		0x008
--#define R128_UPLOAD_TEX0IMAGES		0x010
--#define R128_UPLOAD_TEX1IMAGES		0x020
--#define R128_UPLOAD_CORE		0x040
--#define R128_UPLOAD_MASKS		0x080
--#define R128_UPLOAD_WINDOW		0x100
--#define R128_UPLOAD_CLIPRECTS		0x200	/* handled client-side */
--#define R128_REQUIRE_QUIESCENCE		0x400
--#define R128_UPLOAD_ALL			0x7ff
+-#define SAVAGE_CARD_HEAP		0
+-#define SAVAGE_AGP_HEAP			1
+-#define SAVAGE_NR_TEX_HEAPS		2
+-#define SAVAGE_NR_TEX_REGIONS		16
+-#define SAVAGE_LOG_MIN_TEX_REGION_SIZE	16
 -
--#define R128_FRONT			0x1
--#define R128_BACK			0x2
--#define R128_DEPTH			0x4
+-#endif				/* __SAVAGE_SAREA_DEFINES__ */
 -
--/* Primitive types
-- */
--#define R128_POINTS			0x1
--#define R128_LINES			0x2
--#define R128_LINE_STRIP			0x3
--#define R128_TRIANGLES			0x4
--#define R128_TRIANGLE_FAN		0x5
--#define R128_TRIANGLE_STRIP		0x6
--
--/* Vertex/indirect buffer size
-- */
--#define R128_BUFFER_SIZE		16384
--
--/* Byte offsets for indirect buffer data
-- */
--#define R128_INDEX_PRIM_OFFSET		20
--#define R128_HOSTDATA_BLIT_OFFSET	32
--
--/* Keep these small for testing.
-- */
--#define R128_NR_SAREA_CLIPRECTS		12
--
--/* There are 2 heaps (local/AGP).  Each region within a heap is a
-- *  minimum of 64k, and there are at most 64 of them per heap.
-- */
--#define R128_LOCAL_TEX_HEAP		0
--#define R128_AGP_TEX_HEAP		1
--#define R128_NR_TEX_HEAPS		2
--#define R128_NR_TEX_REGIONS		64
--#define R128_LOG_TEX_GRANULARITY	16
--
--#define R128_NR_CONTEXT_REGS		12
--
--#define R128_MAX_TEXTURE_LEVELS		11
--#define R128_MAX_TEXTURE_UNITS		2
--
--#endif				/* __R128_SAREA_DEFINES__ */
--
--typedef struct {
--	/* Context state - can be written in one large chunk */
--	unsigned int dst_pitch_offset_c;
--	unsigned int dp_gui_master_cntl_c;
--	unsigned int sc_top_left_c;
--	unsigned int sc_bottom_right_c;
--	unsigned int z_offset_c;
--	unsigned int z_pitch_c;
--	unsigned int z_sten_cntl_c;
--	unsigned int tex_cntl_c;
--	unsigned int misc_3d_state_cntl_reg;
--	unsigned int texture_clr_cmp_clr_c;
--	unsigned int texture_clr_cmp_msk_c;
--	unsigned int fog_color_c;
--
--	/* Texture state */
--	unsigned int tex_size_pitch_c;
--	unsigned int constant_color_c;
--
--	/* Setup state */
--	unsigned int pm4_vc_fpu_setup;
--	unsigned int setup_cntl;
--
--	/* Mask state */
--	unsigned int dp_write_mask;
--	unsigned int sten_ref_mask_c;
--	unsigned int plane_3d_mask_c;
--
--	/* Window state */
--	unsigned int window_xy_offset;
--
--	/* Core state */
--	unsigned int scale_3d_cntl;
--} drm_r128_context_regs_t;
--
--/* Setup registers for each texture unit
-- */
--typedef struct {
--	unsigned int tex_cntl;
--	unsigned int tex_combine_cntl;
--	unsigned int tex_size_pitch;
--	unsigned int tex_offset[R128_MAX_TEXTURE_LEVELS];
--	unsigned int tex_border_color;
--} drm_r128_texture_regs_t;
--
--typedef struct drm_r128_sarea {
--	/* The channel for communication of state information to the kernel
--	 * on firing a vertex buffer.
+-typedef struct _drm_savage_sarea {
+-	/* LRU lists for texture memory in agp space and on the card.
 -	 */
--	drm_r128_context_regs_t context_state;
--	drm_r128_texture_regs_t tex_state[R128_MAX_TEXTURE_UNITS];
--	unsigned int dirty;
--	unsigned int vertsize;
--	unsigned int vc_format;
+-	struct drm_tex_region texList[SAVAGE_NR_TEX_HEAPS][SAVAGE_NR_TEX_REGIONS +
+-						      1];
+-	unsigned int texAge[SAVAGE_NR_TEX_HEAPS];
 -
--	/* The current cliprects, or a subset thereof.
+-	/* Mechanism to validate card state.
 -	 */
--	struct drm_clip_rect boxes[R128_NR_SAREA_CLIPRECTS];
--	unsigned int nbox;
+-	int ctxOwner;
+-} drm_savage_sarea_t, *drm_savage_sarea_ptr;
 -
--	/* Counters for client-side throttling of rendering clients.
--	 */
--	unsigned int last_frame;
--	unsigned int last_dispatch;
--
--	struct drm_tex_region tex_list[R128_NR_TEX_HEAPS][R128_NR_TEX_REGIONS + 1];
--	unsigned int tex_age[R128_NR_TEX_HEAPS];
--	int ctx_owner;
--	int pfAllowPageFlip;	/* number of 3d windows (0,1,2 or more) */
--	int pfCurrentPage;	/* which buffer is being displayed? */
--} drm_r128_sarea_t;
--
--/* WARNING: If you change any of these defines, make sure to change the
-- * defines in the Xserver file (xf86drmR128.h)
+-/* Savage-specific ioctls
 - */
+-#define DRM_SAVAGE_BCI_INIT		0x00
+-#define DRM_SAVAGE_BCI_CMDBUF           0x01
+-#define DRM_SAVAGE_BCI_EVENT_EMIT	0x02
+-#define DRM_SAVAGE_BCI_EVENT_WAIT	0x03
 -
--/* Rage 128 specific ioctls
-- * The device specific ioctl range is 0x40 to 0x79.
-- */
--#define DRM_R128_INIT       0x00
--#define DRM_R128_CCE_START  0x01
--#define DRM_R128_CCE_STOP   0x02
--#define DRM_R128_CCE_RESET  0x03
--#define DRM_R128_CCE_IDLE   0x04
--/* 0x05 not used */
--#define DRM_R128_RESET      0x06
--#define DRM_R128_SWAP       0x07
--#define DRM_R128_CLEAR      0x08
--#define DRM_R128_VERTEX     0x09
--#define DRM_R128_INDICES    0x0a
--#define DRM_R128_BLIT       0x0b
--#define DRM_R128_DEPTH      0x0c
--#define DRM_R128_STIPPLE    0x0d
--/* 0x0e not used */
--#define DRM_R128_INDIRECT   0x0f
--#define DRM_R128_FULLSCREEN 0x10
--#define DRM_R128_CLEAR2     0x11
--#define DRM_R128_GETPARAM   0x12
--#define DRM_R128_FLIP       0x13
+-#define DRM_IOCTL_SAVAGE_BCI_INIT		DRM_IOW( DRM_COMMAND_BASE + DRM_SAVAGE_BCI_INIT, drm_savage_init_t)
+-#define DRM_IOCTL_SAVAGE_BCI_CMDBUF		DRM_IOW( DRM_COMMAND_BASE + DRM_SAVAGE_BCI_CMDBUF, drm_savage_cmdbuf_t)
+-#define DRM_IOCTL_SAVAGE_BCI_EVENT_EMIT	DRM_IOWR(DRM_COMMAND_BASE + DRM_SAVAGE_BCI_EVENT_EMIT, drm_savage_event_emit_t)
+-#define DRM_IOCTL_SAVAGE_BCI_EVENT_WAIT	DRM_IOW( DRM_COMMAND_BASE + DRM_SAVAGE_BCI_EVENT_WAIT, drm_savage_event_wait_t)
 -
--#define DRM_IOCTL_R128_INIT       DRM_IOW( DRM_COMMAND_BASE + DRM_R128_INIT, drm_r128_init_t)
--#define DRM_IOCTL_R128_CCE_START  DRM_IO(  DRM_COMMAND_BASE + DRM_R128_CCE_START)
--#define DRM_IOCTL_R128_CCE_STOP   DRM_IOW( DRM_COMMAND_BASE + DRM_R128_CCE_STOP, drm_r128_cce_stop_t)
--#define DRM_IOCTL_R128_CCE_RESET  DRM_IO(  DRM_COMMAND_BASE + DRM_R128_CCE_RESET)
--#define DRM_IOCTL_R128_CCE_IDLE   DRM_IO(  DRM_COMMAND_BASE + DRM_R128_CCE_IDLE)
--/* 0x05 not used */
--#define DRM_IOCTL_R128_RESET      DRM_IO(  DRM_COMMAND_BASE + DRM_R128_RESET)
--#define DRM_IOCTL_R128_SWAP       DRM_IO(  DRM_COMMAND_BASE + DRM_R128_SWAP)
--#define DRM_IOCTL_R128_CLEAR      DRM_IOW( DRM_COMMAND_BASE + DRM_R128_CLEAR, drm_r128_clear_t)
--#define DRM_IOCTL_R128_VERTEX     DRM_IOW( DRM_COMMAND_BASE + DRM_R128_VERTEX, drm_r128_vertex_t)
--#define DRM_IOCTL_R128_INDICES    DRM_IOW( DRM_COMMAND_BASE + DRM_R128_INDICES, drm_r128_indices_t)
--#define DRM_IOCTL_R128_BLIT       DRM_IOW( DRM_COMMAND_BASE + DRM_R128_BLIT, drm_r128_blit_t)
--#define DRM_IOCTL_R128_DEPTH      DRM_IOW( DRM_COMMAND_BASE + DRM_R128_DEPTH, drm_r128_depth_t)
--#define DRM_IOCTL_R128_STIPPLE    DRM_IOW( DRM_COMMAND_BASE + DRM_R128_STIPPLE, drm_r128_stipple_t)
--/* 0x0e not used */
--#define DRM_IOCTL_R128_INDIRECT   DRM_IOWR(DRM_COMMAND_BASE + DRM_R128_INDIRECT, drm_r128_indirect_t)
--#define DRM_IOCTL_R128_FULLSCREEN DRM_IOW( DRM_COMMAND_BASE + DRM_R128_FULLSCREEN, drm_r128_fullscreen_t)
--#define DRM_IOCTL_R128_CLEAR2     DRM_IOW( DRM_COMMAND_BASE + DRM_R128_CLEAR2, drm_r128_clear2_t)
--#define DRM_IOCTL_R128_GETPARAM   DRM_IOWR( DRM_COMMAND_BASE + DRM_R128_GETPARAM, drm_r128_getparam_t)
--#define DRM_IOCTL_R128_FLIP       DRM_IO(  DRM_COMMAND_BASE + DRM_R128_FLIP)
--
--typedef struct drm_r128_init {
+-#define SAVAGE_DMA_PCI	1
+-#define SAVAGE_DMA_AGP	3
+-typedef struct drm_savage_init {
 -	enum {
--		R128_INIT_CCE = 0x01,
--		R128_CLEANUP_CCE = 0x02
+-		SAVAGE_INIT_BCI = 1,
+-		SAVAGE_CLEANUP_BCI = 2
 -	} func;
--	unsigned long sarea_priv_offset;
--	int is_pci;
--	int cce_mode;
--	int cce_secure;
--	int ring_size;
--	int usec_timeout;
+-	unsigned int sarea_priv_offset;
 -
+-	/* some parameters */
+-	unsigned int cob_size;
+-	unsigned int bci_threshold_lo, bci_threshold_hi;
+-	unsigned int dma_type;
+-
+-	/* frame buffer layout */
 -	unsigned int fb_bpp;
 -	unsigned int front_offset, front_pitch;
 -	unsigned int back_offset, back_pitch;
 -	unsigned int depth_bpp;
 -	unsigned int depth_offset, depth_pitch;
--	unsigned int span_offset;
 -
--	unsigned long fb_offset;
--	unsigned long mmio_offset;
--	unsigned long ring_offset;
--	unsigned long ring_rptr_offset;
+-	/* local textures */
+-	unsigned int texture_offset;
+-	unsigned int texture_size;
+-
+-	/* physical locations of non-permanent maps */
+-	unsigned long status_offset;
 -	unsigned long buffers_offset;
 -	unsigned long agp_textures_offset;
--} drm_r128_init_t;
+-	unsigned long cmd_dma_offset;
+-} drm_savage_init_t;
 -
--typedef struct drm_r128_cce_stop {
--	int flush;
--	int idle;
--} drm_r128_cce_stop_t;
+-typedef union drm_savage_cmd_header drm_savage_cmd_header_t;
+-typedef struct drm_savage_cmdbuf {
+-	/* command buffer in client's address space */
+-	drm_savage_cmd_header_t __user *cmd_addr;
+-	unsigned int size;	/* size of the command buffer in 64bit units */
 -
--typedef struct drm_r128_clear {
+-	unsigned int dma_idx;	/* DMA buffer index to use */
+-	int discard;		/* discard DMA buffer when done */
+-	/* vertex buffer in client's address space */
+-	unsigned int __user *vb_addr;
+-	unsigned int vb_size;	/* size of client vertex buffer in bytes */
+-	unsigned int vb_stride;	/* stride of vertices in 32bit words */
+-	/* boxes in client's address space */
+-	struct drm_clip_rect __user *box_addr;
+-	unsigned int nbox;	/* number of clipping boxes */
+-} drm_savage_cmdbuf_t;
+-
+-#define SAVAGE_WAIT_2D  0x1	/* wait for 2D idle before updating event tag */
+-#define SAVAGE_WAIT_3D  0x2	/* wait for 3D idle before updating event tag */
+-#define SAVAGE_WAIT_IRQ 0x4	/* emit or wait for IRQ, not implemented yet */
+-typedef struct drm_savage_event {
+-	unsigned int count;
 -	unsigned int flags;
--	unsigned int clear_color;
--	unsigned int clear_depth;
--	unsigned int color_mask;
--	unsigned int depth_mask;
--} drm_r128_clear_t;
+-} drm_savage_event_emit_t, drm_savage_event_wait_t;
 -
--typedef struct drm_r128_vertex {
--	int prim;
--	int idx;		/* Index of vertex buffer */
--	int count;		/* Number of vertices in buffer */
--	int discard;		/* Client finished with buffer? */
--} drm_r128_vertex_t;
--
--typedef struct drm_r128_indices {
--	int prim;
--	int idx;
--	int start;
--	int end;
--	int discard;		/* Client finished with buffer? */
--} drm_r128_indices_t;
--
--typedef struct drm_r128_blit {
--	int idx;
--	int pitch;
--	int offset;
--	int format;
--	unsigned short x, y;
--	unsigned short width, height;
--} drm_r128_blit_t;
--
--typedef struct drm_r128_depth {
--	enum {
--		R128_WRITE_SPAN = 0x01,
--		R128_WRITE_PIXELS = 0x02,
--		R128_READ_SPAN = 0x03,
--		R128_READ_PIXELS = 0x04
--	} func;
--	int n;
--	int __user *x;
--	int __user *y;
--	unsigned int __user *buffer;
--	unsigned char __user *mask;
--} drm_r128_depth_t;
--
--typedef struct drm_r128_stipple {
--	unsigned int __user *mask;
--} drm_r128_stipple_t;
--
--typedef struct drm_r128_indirect {
--	int idx;
--	int start;
--	int end;
--	int discard;
--} drm_r128_indirect_t;
--
--typedef struct drm_r128_fullscreen {
--	enum {
--		R128_INIT_FULLSCREEN = 0x01,
--		R128_CLEANUP_FULLSCREEN = 0x02
--	} func;
--} drm_r128_fullscreen_t;
--
--/* 2.3: An ioctl to get parameters that aren't available to the 3d
-- * client any other way.
+-/* Commands for the cmdbuf ioctl
 - */
--#define R128_PARAM_IRQ_NR            1
+-#define SAVAGE_CMD_STATE	0	/* a range of state registers */
+-#define SAVAGE_CMD_DMA_PRIM	1	/* vertices from DMA buffer */
+-#define SAVAGE_CMD_VB_PRIM	2	/* vertices from client vertex buffer */
+-#define SAVAGE_CMD_DMA_IDX	3	/* indexed vertices from DMA buffer */
+-#define SAVAGE_CMD_VB_IDX	4	/* indexed vertices client vertex buffer */
+-#define SAVAGE_CMD_CLEAR	5	/* clear buffers */
+-#define SAVAGE_CMD_SWAP		6	/* swap buffers */
 -
--typedef struct drm_r128_getparam {
--	int param;
--	void __user *value;
--} drm_r128_getparam_t;
+-/* Primitive types
+-*/
+-#define SAVAGE_PRIM_TRILIST	0	/* triangle list */
+-#define SAVAGE_PRIM_TRISTRIP	1	/* triangle strip */
+-#define SAVAGE_PRIM_TRIFAN	2	/* triangle fan */
+-#define SAVAGE_PRIM_TRILIST_201	3	/* reorder verts for correct flat
+-					 * shading on s3d */
+-
+-/* Skip flags (vertex format)
+- */
+-#define SAVAGE_SKIP_Z		0x01
+-#define SAVAGE_SKIP_W		0x02
+-#define SAVAGE_SKIP_C0		0x04
+-#define SAVAGE_SKIP_C1		0x08
+-#define SAVAGE_SKIP_S0		0x10
+-#define SAVAGE_SKIP_T0		0x20
+-#define SAVAGE_SKIP_ST0		0x30
+-#define SAVAGE_SKIP_S1		0x40
+-#define SAVAGE_SKIP_T1		0x80
+-#define SAVAGE_SKIP_ST1		0xc0
+-#define SAVAGE_SKIP_ALL_S3D	0x3f
+-#define SAVAGE_SKIP_ALL_S4	0xff
+-
+-/* Buffer names for clear command
+- */
+-#define SAVAGE_FRONT		0x1
+-#define SAVAGE_BACK		0x2
+-#define SAVAGE_DEPTH		0x4
+-
+-/* 64-bit command header
+- */
+-union drm_savage_cmd_header {
+-	struct {
+-		unsigned char cmd;	/* command */
+-		unsigned char pad0;
+-		unsigned short pad1;
+-		unsigned short pad2;
+-		unsigned short pad3;
+-	} cmd;			/* generic */
+-	struct {
+-		unsigned char cmd;
+-		unsigned char global;	/* need idle engine? */
+-		unsigned short count;	/* number of consecutive registers */
+-		unsigned short start;	/* first register */
+-		unsigned short pad3;
+-	} state;		/* SAVAGE_CMD_STATE */
+-	struct {
+-		unsigned char cmd;
+-		unsigned char prim;	/* primitive type */
+-		unsigned short skip;	/* vertex format (skip flags) */
+-		unsigned short count;	/* number of vertices */
+-		unsigned short start;	/* first vertex in DMA/vertex buffer */
+-	} prim;			/* SAVAGE_CMD_DMA_PRIM, SAVAGE_CMD_VB_PRIM */
+-	struct {
+-		unsigned char cmd;
+-		unsigned char prim;
+-		unsigned short skip;
+-		unsigned short count;	/* number of indices that follow */
+-		unsigned short pad3;
+-	} idx;			/* SAVAGE_CMD_DMA_IDX, SAVAGE_CMD_VB_IDX */
+-	struct {
+-		unsigned char cmd;
+-		unsigned char pad0;
+-		unsigned short pad1;
+-		unsigned int flags;
+-	} clear0;		/* SAVAGE_CMD_CLEAR */
+-	struct {
+-		unsigned int mask;
+-		unsigned int value;
+-	} clear1;		/* SAVAGE_CMD_CLEAR data */
+-};
 -
 -#if defined(__cplusplus)
 -}
