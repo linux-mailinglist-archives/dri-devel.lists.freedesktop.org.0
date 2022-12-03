@@ -2,66 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 903E5641796
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Dec 2022 17:02:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEB6664179C
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Dec 2022 17:05:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B49B10E1B7;
-	Sat,  3 Dec 2022 16:02:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F189A10E1C6;
+	Sat,  3 Dec 2022 16:05:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F77310E12C
- for <dri-devel@lists.freedesktop.org>; Sat,  3 Dec 2022 16:02:03 +0000 (UTC)
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 8227221CF0;
- Sat,  3 Dec 2022 16:02:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1670083321; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wKnl7xl3FHagXCxXJHg5U8rzOM5wOqSc5yHWsEaN1YU=;
- b=VLvE/AEtsJHTv0f8v7UGCQe59Qss5GNik3GhVRf+pA6BG3AwX8nS9uWd6he1HnLsgZX7rz
- B4yqhNumgmZgelkoeb0akMewQhUDtB5AyQA3qJxrPWdeuHYbfqYTtneAOZj76e3KXEYOq9
- zYNv0SYDmv7x3ZBUNA0i5ToIA+8inBk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1670083321;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wKnl7xl3FHagXCxXJHg5U8rzOM5wOqSc5yHWsEaN1YU=;
- b=BZxlqIk2nxzwhtJ1QMszYCoVvxHddGYA5GGTDeSGcmmpuFFDWyTs9c5G/NmU3YBOxyAJcl
- S6YVoAmTTjyC6gAQ==
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 26E3713411;
- Sat,  3 Dec 2022 16:02:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap1.suse-dmz.suse.de with ESMTPSA id 6n5CB/lyi2NqSwAAGKfGzw
- (envelope-from <tzimmermann@suse.de>); Sat, 03 Dec 2022 16:02:01 +0000
-Message-ID: <5b9ecdcd-aa31-1bbe-5007-e80ebf955c30@suse.de>
-Date: Sat, 3 Dec 2022 17:01:59 +0100
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
+ [IPv6:2a00:1450:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80AE110E1C6
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Dec 2022 16:04:58 +0000 (UTC)
+Received: by mail-lj1-x22b.google.com with SMTP id q7so8646054ljp.9
+ for <dri-devel@lists.freedesktop.org>; Sat, 03 Dec 2022 08:04:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=p8s/BzOwhxQIlxHUBYJ4oHPfR09CSoSGvGG+JpoNTu0=;
+ b=eYIi4hgooxDpD1NV+FF5vfQnUmip7fWcTWuPt0CGhwIp8KwLS7xeamBNDwWwgN03vr
+ 5wgdGYEHoboyRIn6Q/MD4DWaFkqNdjiGEXIxe8QWen38kp/9aWEOXf7ntp+ccDma818H
+ Y8JBT5raTEYbfbY8M8973YIvB+7cnSk/+zVt+x5KrZuOrOXlWxF0FlAxB/Wj23NJnVx4
+ OMRCV5AZ5jvZhNwxl9fCpj87LlJnHV6+YkjA2BbZIG1fPfypXiHIaUCDed1LCpA4+IwU
+ ejnTcI9E/mMSDFmRH5fCGyvt21ERzet1j4+J5VW9NOajXMmv7hvv/eOz1tOR+cgE+sbm
+ WYgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=p8s/BzOwhxQIlxHUBYJ4oHPfR09CSoSGvGG+JpoNTu0=;
+ b=DyhNc6SvXF3qxkp8tbBWnK5aVTBVvb2ij6/SIvLgdrm1c1UdW1/Cdisz2KNzaFz/p8
+ ODDA1GYhurvtQkwFarDQFf8iZWz+bvjtIv2Y+kKTVBTtvz4XB4I+3jxzFYyZZLxfle2l
+ pklK6luW4EYCYsIRgCGZHHo5Y5iwAL8bm7/R3ZDnciahwk1ZL/dLdN1Bo8BR3Rd2dBhm
+ l/tsXB6a32id9LnMznJQsXTLk2rFCEGsCNx1d0Wljb2UEVARLA6GiXpE7E++O547Ld0M
+ HMf/yOg3WS2QvFTEaauMo5ERCMPWWscenfDQBgE574ghXWVGFp8vUz0RESUfD0CbFI5R
+ JsvQ==
+X-Gm-Message-State: ANoB5pl+wPDkefe/5QADb4gl6vo8ec/q1f0KhNkeOEvBrctL3k5vJEVi
+ yqFL6TVtm6cqyS6YchoQo7GZ2w==
+X-Google-Smtp-Source: AA0mqf58/79Rqg4yRCVG1xawZLwuCnaSB+HmPh+D7DumMA2xgZArvwb0/P7UWd6mDLsK8wlUOJjcvw==
+X-Received: by 2002:a05:651c:1788:b0:277:4e4:d21a with SMTP id
+ bn8-20020a05651c178800b0027704e4d21amr17825924ljb.196.1670083496599; 
+ Sat, 03 Dec 2022 08:04:56 -0800 (PST)
+Received: from krzk-bin.NAT.warszawa.vectranet.pl
+ (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+ by smtp.gmail.com with ESMTPSA id
+ d11-20020ac2544b000000b004946bb30469sm1441320lfn.82.2022.12.03.08.04.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 03 Dec 2022 08:04:51 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Ban Tao <fengzheng923@gmail.com>,
+ =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
+ James Schulman <james.schulman@cirrus.com>,
+ David Rhodes <david.rhodes@cirrus.com>,
+ Lucas Tanure <tanureal@opensource.cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+ Cheng-Yi Chiang <cychiang@chromium.org>,
+ Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>,
+ Benson Leung <bleung@chromium.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Stephan Gerhold <stephan@gerhold.net>, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Banajit Goswami <bgoswami@quicinc.com>,
+ Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+ Heiko Stuebner <heiko@sntech.de>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ Fabio Estevam <festevam@gmail.com>,
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Olivier Moysan <olivier.moysan@foss.st.com>,
+ Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.om>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Bogdan Togorean <bogdan.togorean@analog.com>,
+ =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+ Vincent Knecht <vincent.knecht@mailoo.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>,
+ - <patches@opensource.cirrus.com>, Jayesh Choudhary <j-choudhary@ti.com>,
+ Daniel Drake <drake@endlessm.com>,
+ Katsuhiro Suzuki <katsuhiro@katsuster.net>,
+ Shengjiu Wang <shengjiu.wang@nxp.com>,
+ Paul Cercueil <paul@crapouillou.net>, Jee Heng <jee.heng.sia@intel.com>,
+ Lubomir Rintel <lkundrak@v3.sk>,
+ Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
+ Mohan Kumar <mkumard@nvidia.com>, Sameer Pujar <spujar@nvidia.com>,
+ Rohit kumar <rohitkr@codeaurora.org>, Derek Fang <derek.fang@realtek.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>,
+ ChiYuan Huang <cy_huang@richtek.com>, Jose Abreu <joabreu@synopsys.com>,
+ Andrew Davis <afd@ti.com>, Shi Fu <shifu0704@thundersoft.com>,
+ Shenghao Ding <shenghao-ding@ti.com>, Matt Flax <flatmax@flatmax.com>,
+ Ricard Wanderlof <ricardw@axis.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, dri-devel@lists.freedesktop.org,
+ linux-amlogic@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ alsa-devel@alsa-project.org, linux-sunxi@lists.linux.dev,
+ asahi@lists.linux.dev, chrome-platform@lists.linux.dev,
+ linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com
+Subject: [PATCH 1/3] ASoC: dt-bindings: Extend name-prefix.yaml into common
+ DAI properties
+Date: Sat,  3 Dec 2022 17:04:40 +0100
+Message-Id: <20221203160442.69594-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v2 6/8] drm/mipi-dbi: Support shadow-plane state
-To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>, daniel@ffwll.ch,
- airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- thierry.reding@gmail.com, sam@ravnborg.org, emma@anholt.net,
- david@lechnology.com, kamlesh.gurudasani@gmail.com, javierm@redhat.com
-References: <20221202125644.7917-1-tzimmermann@suse.de>
- <20221202125644.7917-7-tzimmermann@suse.de>
- <6ebeabc4-1b3b-bc1e-6f7c-f4a5c1bb6b14@tronnes.org>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <6ebeabc4-1b3b-bc1e-6f7c-f4a5c1bb6b14@tronnes.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------JSbjTmBzbKJMCG9AhyxH2icz"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,217 +135,361 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------JSbjTmBzbKJMCG9AhyxH2icz
-Content-Type: multipart/mixed; boundary="------------Bt6iQxHEuaVGZ8UHHfmL06oa";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>, daniel@ffwll.ch,
- airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- thierry.reding@gmail.com, sam@ravnborg.org, emma@anholt.net,
- david@lechnology.com, kamlesh.gurudasani@gmail.com, javierm@redhat.com
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <5b9ecdcd-aa31-1bbe-5007-e80ebf955c30@suse.de>
-Subject: Re: [PATCH v2 6/8] drm/mipi-dbi: Support shadow-plane state
-References: <20221202125644.7917-1-tzimmermann@suse.de>
- <20221202125644.7917-7-tzimmermann@suse.de>
- <6ebeabc4-1b3b-bc1e-6f7c-f4a5c1bb6b14@tronnes.org>
-In-Reply-To: <6ebeabc4-1b3b-bc1e-6f7c-f4a5c1bb6b14@tronnes.org>
+Rename name-prefix.yaml into common DAI schema and document
+'#sound-dai-cells' for completeness.  The '#sound-dai-cells' cannot be
+really constrained, as there are users with value of 0, 1 and 2, but at
+least it brings definition to one common place.
 
---------------Bt6iQxHEuaVGZ8UHHfmL06oa
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-SGkNCg0KQW0gMDMuMTIuMjIgdW0gMTU6MjMgc2NocmllYiBOb3JhbGYgVHLDuG5uZXM6DQo+
-IA0KPiANCj4gRGVuIDAyLjEyLjIwMjIgMTMuNTYsIHNrcmV2IFRob21hcyBaaW1tZXJtYW5u
-Og0KPj4gSW1wbGVtZW50IE1JUEkgREJJIHBsYW5lcyB3aXRoIHN0cnVjdCBkcm1fc2hhZG93
-X3BsYW5lX3N0YXRlLCBzbyB0aGF0IHRoZQ0KPj4gcmVzcGVjdGl2ZSBkcml2ZXJzIGNhbiB1
-c2UgdGhlIHZtYXAnZWQgR0VNLWJ1ZmZlciBtZW1vcnkuIEltcGxlbWVudCBzdGF0ZQ0KPj4g
-aGVscGVycywgdGhlIHtiZWdpbixlbmR9X2ZiX2FjY2VzcyBoZWxwZXJzIGFuZCB3aXJlIHVw
-IGV2ZXJ5dGhpbmcuDQo+Pg0KPj4gV2l0aCB0aGlzIGNvbW1pdCwgTUlQSSBEQkkgZHJpdmVy
-cyBjYW4gYWNjZXNzIHRoZSBHRU0gb2JqZWN0J3MgbWVtb3J5DQo+PiB0aGF0IGlzIHByb3Zp
-ZGVkIGJ5IHNoYWRvdy1wbGFuZSBzdGF0ZS4gVGhlIGFjdHVhbCBjaGFuZ2VzIHRvIGRyaXZl
-cnMNCj4+IGFyZSBpbXBsZW1lbnRlZCBzZXBhcmF0ZWx5Lg0KPj4NCj4+IHYyOg0KPj4gCSog
-dXNlIHNoYWRvdy1wbGFuZSBzdGF0ZSBkaXJlY3RseSAoTm9yYWxmKQ0KPj4NCj4+IFNpZ25l
-ZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPj4g
-VGVzdGVkLWJ5OiBKYXZpZXIgTWFydGluZXogQ2FuaWxsYXMgPGphdmllcm1AcmVkaGF0LmNv
-bT4NCj4+IFRlc3RlZC1ieTogTm9yYWxmIFRyw7hubmVzIDxub3JhbGZAdHJvbm5lcy5vcmc+
-ICMgZHJtL3RpbnkvbWkwMjgzcXQNCj4+IC0tLQ0KPj4gICBkcml2ZXJzL2dwdS9kcm0vZHJt
-X21pcGlfZGJpLmMgfCA4NSArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrDQo+
-PiAgIGRyaXZlcnMvZ3B1L2RybS90aW55L2lsaTkyMjUuYyB8ICA1ICsrDQo+PiAgIGRyaXZl
-cnMvZ3B1L2RybS90aW55L3N0NzU4Ni5jICB8ICA1ICsrDQo+PiAgIGluY2x1ZGUvZHJtL2Ry
-bV9taXBpX2RiaS5oICAgICB8IDE2ICsrKysrKy0NCj4+ICAgNCBmaWxlcyBjaGFuZ2VkLCAx
-MTAgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9k
-cml2ZXJzL2dwdS9kcm0vZHJtX21pcGlfZGJpLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX21p
-cGlfZGJpLmMNCj4+IGluZGV4IGY1ODEyMzMyN2VkNi4uYjgwOGRlNjFjNWJjIDEwMDY0NA0K
-Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9taXBpX2RiaS5jDQo+PiArKysgYi9kcml2
-ZXJzL2dwdS9kcm0vZHJtX21pcGlfZGJpLmMNCj4+IEBAIC0yMSw2ICsyMSw3IEBADQo+PiAg
-ICNpbmNsdWRlIDxkcm0vZHJtX2ZvdXJjYy5oPg0KPj4gICAjaW5jbHVkZSA8ZHJtL2RybV9m
-cmFtZWJ1ZmZlci5oPg0KPj4gICAjaW5jbHVkZSA8ZHJtL2RybV9nZW0uaD4NCj4+ICsjaW5j
-bHVkZSA8ZHJtL2RybV9nZW1fYXRvbWljX2hlbHBlci5oPg0KPj4gICAjaW5jbHVkZSA8ZHJt
-L2RybV9nZW1fZnJhbWVidWZmZXJfaGVscGVyLmg+DQo+PiAgICNpbmNsdWRlIDxkcm0vZHJt
-X21pcGlfZGJpLmg+DQo+PiAgICNpbmNsdWRlIDxkcm0vZHJtX21vZGVzLmg+DQo+PiBAQCAt
-NDMzLDYgKzQzNCw5MCBAQCB2b2lkIG1pcGlfZGJpX3BpcGVfZGlzYWJsZShzdHJ1Y3QgZHJt
-X3NpbXBsZV9kaXNwbGF5X3BpcGUgKnBpcGUpDQo+PiAgIH0NCj4+ICAgRVhQT1JUX1NZTUJP
-TChtaXBpX2RiaV9waXBlX2Rpc2FibGUpOw0KPj4gICANCj4+ICsvKioNCj4+ICsgKiBtaXBp
-X2RiaV9waXBlX2JlZ2luX2ZiX2FjY2VzcyAtIE1JUEkgREJJIHBpcGUgYmVnaW4tYWNjZXNz
-IGhlbHBlcg0KPj4gKyAqIEBwaXBlOiBEaXNwbGF5IHBpcGUNCj4+ICsgKiBAcGxhbmVfc3Rh
-dGU6IFBsYW5lIHN0YXRlDQo+PiArICoNCj4+ICsgKiBUaGlzIGZ1bmN0aW9uIGltcGxlbWVu
-dHMgc3RydWN0ICZkcm1fc2ltcGxlX2Rpc3BsYXlfZnVuY3MuYmVnaW5fZmJfYWNjZXNzLg0K
-Pj4gKyAqDQo+PiArICogU2VlIGRybV9nZW1fYmVnaW5fc2hhZG93X2ZiX2FjY2VzcygpIGZv
-ciBkZXRhaWxzIGFuZCBtaXBpX2RiaV9waXBlX2NsZWFudXBfZmIoKQ0KPj4gKyAqIGZvciBj
-bGVhbnVwLg0KPj4gKyAqDQo+PiArICogUmV0dXJuczoNCj4+ICsgKiAwIG9uIHN1Y2Nlc3Ms
-IG9yIGEgbmVnYXRpdmUgZXJybm8gY29kZSBvdGhlcndpc2UuDQo+PiArICovDQo+PiAraW50
-IG1pcGlfZGJpX3BpcGVfYmVnaW5fZmJfYWNjZXNzKHN0cnVjdCBkcm1fc2ltcGxlX2Rpc3Bs
-YXlfcGlwZSAqcGlwZSwNCj4+ICsJCQkJICBzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpwbGFu
-ZV9zdGF0ZSkNCj4+ICt7DQo+PiArCXJldHVybiBkcm1fZ2VtX2JlZ2luX3NoYWRvd19mYl9h
-Y2Nlc3MoJnBpcGUtPnBsYW5lLCBwbGFuZV9zdGF0ZSk7DQo+PiArfQ0KPj4gK0VYUE9SVF9T
-WU1CT0wobWlwaV9kYmlfcGlwZV9iZWdpbl9mYl9hY2Nlc3MpOw0KPj4gKw0KPj4gKy8qKg0K
-Pj4gKyAqIG1pcGlfZGJpX3BpcGVfZW5kX2ZiX2FjY2VzcyAtIE1JUEkgREJJIHBpcGUgZW5k
-LWFjY2VzcyBoZWxwZXINCj4+ICsgKiBAcGlwZTogRGlzcGxheSBwaXBlDQo+PiArICogQHBs
-YW5lX3N0YXRlOiBQbGFuZSBzdGF0ZQ0KPj4gKyAqDQo+PiArICogVGhpcyBmdW5jdGlvbiBp
-bXBsZW1lbnRzIHN0cnVjdCAmZHJtX3NpbXBsZV9kaXNwbGF5X2Z1bmNzLmVuZF9mYl9hY2Nl
-c3MuDQo+PiArICoNCj4+ICsgKiBTZWUgbWlwaV9kYmlfcGlwZV9iZWdpbl9mYl9hY2Nlc3Mo
-KS4NCj4+ICsgKi8NCj4+ICt2b2lkIG1pcGlfZGJpX3BpcGVfZW5kX2ZiX2FjY2VzcyhzdHJ1
-Y3QgZHJtX3NpbXBsZV9kaXNwbGF5X3BpcGUgKnBpcGUsDQo+PiArCQkJCSBzdHJ1Y3QgZHJt
-X3BsYW5lX3N0YXRlICpwbGFuZV9zdGF0ZSkNCj4+ICt7DQo+PiArCWRybV9nZW1fZW5kX3No
-YWRvd19mYl9hY2Nlc3MoJnBpcGUtPnBsYW5lLCBwbGFuZV9zdGF0ZSk7DQo+PiArfQ0KPj4g
-K0VYUE9SVF9TWU1CT0wobWlwaV9kYmlfcGlwZV9lbmRfZmJfYWNjZXNzKTsNCj4+ICsNCj4+
-ICsvKioNCj4+ICsgKiBtaXBpX2RiaV9waXBlX3Jlc2V0X3BsYW5lIC0gTUlQSSBEQkkgcGxh
-bmUtcmVzZXQgaGVscGVyDQo+PiArICogQHBpcGU6IERpc3BsYXkgcGlwZQ0KPj4gKyAqDQo+
-PiArICogVGhpcyBmdW5jdGlvbiBpbXBsZW1lbnRzIHN0cnVjdCAmZHJtX3NpbXBsZV9kaXNw
-bGF5X2Z1bmNzLnJlc2V0X3BsYW5lDQo+PiArICogZm9yIE1JUEkgREJJIHBsYW5lcy4NCj4+
-ICsgKi8NCj4+ICt2b2lkIG1pcGlfZGJpX3BpcGVfcmVzZXRfcGxhbmUoc3RydWN0IGRybV9z
-aW1wbGVfZGlzcGxheV9waXBlICpwaXBlKQ0KPj4gK3sNCj4+ICsJZHJtX2dlbV9yZXNldF9z
-aGFkb3dfcGxhbmUoJnBpcGUtPnBsYW5lKTsNCj4+ICt9DQo+PiArRVhQT1JUX1NZTUJPTCht
-aXBpX2RiaV9waXBlX3Jlc2V0X3BsYW5lKTsNCj4+ICsNCj4+ICsvKioNCj4+ICsgKiBtaXBp
-X2RiaV9waXBlX2R1cGxpY2F0ZV9wbGFuZV9zdGF0ZSAtIGR1cGxpY2F0ZXMgTUlQSSBEQkkg
-cGxhbmUgc3RhdGUNCj4+ICsgKiBAcGlwZTogRGlzcGxheSBwaXBlDQo+PiArICoNCj4+ICsg
-KiBUaGlzIGZ1bmN0aW9uIGltcGxlbWVudHMgc3RydWN0ICZkcm1fc2ltcGxlX2Rpc3BsYXlf
-ZnVuY3MuZHVwbGljYXRlX3BsYW5lX3N0YXRlDQo+PiArICogZm9yIE1JUEkgREJJIHBsYW5l
-cy4NCj4+ICsgKg0KPj4gKyAqIFNlZSBkcm1fZ2VtX2R1cGxpY2F0ZV9zaGFkb3dfcGxhbmVf
-c3RhdGUoKSBmb3IgYWRkaXRpb25hbCBkZXRhaWxzLg0KPj4gKyAqDQo+PiArICogUmV0dXJu
-czoNCj4+ICsgKiBBIHBvaW50ZXIgdG8gYSBuZXcgcGxhbmUgc3RhdGUgb24gc3VjY2Vzcywg
-b3IgTlVMTCBvdGhlcndpc2UuDQo+PiArICovDQo+PiArc3RydWN0IGRybV9wbGFuZV9zdGF0
-ZSAqbWlwaV9kYmlfcGlwZV9kdXBsaWNhdGVfcGxhbmVfc3RhdGUoc3RydWN0IGRybV9zaW1w
-bGVfZGlzcGxheV9waXBlICpwaXBlKQ0KPj4gK3sNCj4+ICsJcmV0dXJuIGRybV9nZW1fZHVw
-bGljYXRlX3NoYWRvd19wbGFuZV9zdGF0ZSgmcGlwZS0+cGxhbmUpOw0KPj4gK30NCj4+ICtF
-WFBPUlRfU1lNQk9MKG1pcGlfZGJpX3BpcGVfZHVwbGljYXRlX3BsYW5lX3N0YXRlKTsNCj4+
-ICsNCj4+ICsvKioNCj4+ICsgKiBtaXBpX2RiaV9waXBlX2Rlc3Ryb3lfcGxhbmVfc3RhdGUg
-LSBjbGVhbnMgdXAgTUlQSSBEQkkgcGxhbmUgc3RhdGUNCj4+ICsgKiBAcGlwZTogRGlzcGxh
-eSBwaXBlDQo+PiArICogQHBsYW5lX3N0YXRlOiBQbGFuZSBzdGF0ZQ0KPj4gKyAqDQo+PiAr
-ICogVGhpcyBmdW5jdGlvbiBpbXBsZW1lbnRzIHN0cnVjdCBkcm1fc2ltcGxlX2Rpc3BsYXlf
-ZnVuY3MuZGVzdHJveV9wbGFuZV9zdGF0ZQ0KPj4gKyAqIGZvciBNSVBJIERCSSBwbGFuZXMu
-DQo+PiArICoNCj4+ICsgKiBTZWUgZHJtX2dlbV9kZXN0cm95X3NoYWRvd19wbGFuZV9zdGF0
-ZSgpIGZvciBhZGRpdGlvbmFsIGRldGFpbHMuDQo+PiArICovDQo+PiArdm9pZCBtaXBpX2Ri
-aV9waXBlX2Rlc3Ryb3lfcGxhbmVfc3RhdGUoc3RydWN0IGRybV9zaW1wbGVfZGlzcGxheV9w
-aXBlICpwaXBlLA0KPj4gKwkJCQkgICAgICAgc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqcGxh
-bmVfc3RhdGUpDQo+PiArew0KPj4gKwlkcm1fZ2VtX2Rlc3Ryb3lfc2hhZG93X3BsYW5lX3N0
-YXRlKCZwaXBlLT5wbGFuZSwgcGxhbmVfc3RhdGUpOw0KPj4gK30NCj4+ICtFWFBPUlRfU1lN
-Qk9MKG1pcGlfZGJpX3BpcGVfZGVzdHJveV9wbGFuZV9zdGF0ZSk7DQo+PiArDQo+PiAgIHN0
-YXRpYyBpbnQgbWlwaV9kYmlfY29ubmVjdG9yX2dldF9tb2RlcyhzdHJ1Y3QgZHJtX2Nvbm5l
-Y3RvciAqY29ubmVjdG9yKQ0KPj4gICB7DQo+PiAgIAlzdHJ1Y3QgbWlwaV9kYmlfZGV2ICpk
-YmlkZXYgPSBkcm1fdG9fbWlwaV9kYmlfZGV2KGNvbm5lY3Rvci0+ZGV2KTsNCj4+IGRpZmYg
-LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdGlueS9pbGk5MjI1LmMgYi9kcml2ZXJzL2dwdS9k
-cm0vdGlueS9pbGk5MjI1LmMNCj4+IGluZGV4IGFlOTRjNzRkMDE2My4uYTY5YWVjODQwMmJj
-IDEwMDY0NA0KPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3RpbnkvaWxpOTIyNS5jDQo+PiAr
-KysgYi9kcml2ZXJzL2dwdS9kcm0vdGlueS9pbGk5MjI1LmMNCj4+IEBAIC0zNDMsNiArMzQz
-LDExIEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX3NpbXBsZV9kaXNwbGF5X3BpcGVfZnVu
-Y3MgaWxpOTIyNV9waXBlX2Z1bmNzID0gew0KPj4gICAJLmVuYWJsZQkJPSBpbGk5MjI1X3Bp
-cGVfZW5hYmxlLA0KPj4gICAJLmRpc2FibGUJPSBpbGk5MjI1X3BpcGVfZGlzYWJsZSwNCj4+
-ICAgCS51cGRhdGUJCT0gaWxpOTIyNV9waXBlX3VwZGF0ZSwNCj4+ICsJLmJlZ2luX2ZiX2Fj
-Y2VzcyA9IG1pcGlfZGJpX3BpcGVfYmVnaW5fZmJfYWNjZXNzLA0KPj4gKwkuZW5kX2ZiX2Fj
-Y2Vzcwk9IG1pcGlfZGJpX3BpcGVfZW5kX2ZiX2FjY2VzcywNCj4+ICsJLnJlc2V0X3BsYW5l
-CT0gbWlwaV9kYmlfcGlwZV9yZXNldF9wbGFuZSwNCj4+ICsJLmR1cGxpY2F0ZV9wbGFuZV9z
-dGF0ZSA9IG1pcGlfZGJpX3BpcGVfZHVwbGljYXRlX3BsYW5lX3N0YXRlLA0KPj4gKwkuZGVz
-dHJveV9wbGFuZV9zdGF0ZSA9IG1pcGlfZGJpX3BpcGVfZGVzdHJveV9wbGFuZV9zdGF0ZSwN
-Cj4+ICAgfTsNCj4gDQo+IFdoeSBub3QganVzdCB1c2UgRFJNX0dFTV9TSU1QTEVfRElTUExB
-WV9QSVBFX1NIQURPV19QTEFORV9GVU5DUz8NCg0KVGhlIHNpbXBsZS1rbXMgbWlkLWxheWVy
-IGlzIG1vcmUgb2YgYSBsaWFiaWxpdHkgdGhhbiBhIGZlYXR1cmUuIEl0IA0KcmVxdWlyZXMg
-dXMgdG8gaGF2ZSBhZGRpdGlvbmFsIHdyYXBwZXJzIGFyb3VuZCBjb21tb24gaGVscGVycywg
-c3VjaCB0aGUgDQpzaGFkb3ctcGxhbmUgY29kZS4gSSdkIGxpa2UgdG8gZ2V0IHJpZCBvZiB0
-aG9zZSB3cmFwcGVycyBhcyBtdWNoIGFzIA0KcG9zc2libGUuIE5vdCB1c2luZyB0aGVtIGhl
-cmUgaXMgYSBmaXJzdCBzdGVwLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiBO
-b3JhbGYuDQo+IA0KPj4gICANCj4+ICAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZGlzcGxh
-eV9tb2RlIGlsaTkyMjVfbW9kZSA9IHsNCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vdGlueS9zdDc1ODYuYyBiL2RyaXZlcnMvZ3B1L2RybS90aW55L3N0NzU4Ni5jDQo+PiBp
-bmRleCBlNzczYjFmMmZkNWYuLjc2YjEzY2VmYzkwNCAxMDA2NDQNCj4+IC0tLSBhL2RyaXZl
-cnMvZ3B1L2RybS90aW55L3N0NzU4Ni5jDQo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdGlu
-eS9zdDc1ODYuYw0KPj4gQEAgLTI3Nyw2ICsyNzcsMTEgQEAgc3RhdGljIGNvbnN0IHN0cnVj
-dCBkcm1fc2ltcGxlX2Rpc3BsYXlfcGlwZV9mdW5jcyBzdDc1ODZfcGlwZV9mdW5jcyA9IHsN
-Cj4+ICAgCS5lbmFibGUJCT0gc3Q3NTg2X3BpcGVfZW5hYmxlLA0KPj4gICAJLmRpc2FibGUJ
-PSBzdDc1ODZfcGlwZV9kaXNhYmxlLA0KPj4gICAJLnVwZGF0ZQkJPSBzdDc1ODZfcGlwZV91
-cGRhdGUsDQo+PiArCS5iZWdpbl9mYl9hY2Nlc3MgPSBtaXBpX2RiaV9waXBlX2JlZ2luX2Zi
-X2FjY2VzcywNCj4+ICsJLmVuZF9mYl9hY2Nlc3MJPSBtaXBpX2RiaV9waXBlX2VuZF9mYl9h
-Y2Nlc3MsDQo+PiArCS5yZXNldF9wbGFuZQk9IG1pcGlfZGJpX3BpcGVfcmVzZXRfcGxhbmUs
-DQo+PiArCS5kdXBsaWNhdGVfcGxhbmVfc3RhdGUgPSBtaXBpX2RiaV9waXBlX2R1cGxpY2F0
-ZV9wbGFuZV9zdGF0ZSwNCj4+ICsJLmRlc3Ryb3lfcGxhbmVfc3RhdGUgPSBtaXBpX2RiaV9w
-aXBlX2Rlc3Ryb3lfcGxhbmVfc3RhdGUsDQo+PiAgIH07DQo+PiAgIA0KPj4gICBzdGF0aWMg
-Y29uc3Qgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgc3Q3NTg2X21vZGUgPSB7DQo+PiBkaWZm
-IC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX21pcGlfZGJpLmggYi9pbmNsdWRlL2RybS9kcm1f
-bWlwaV9kYmkuaA0KPj4gaW5kZXggMzZhYzg0OTU1NjZiLi4zMDRmYmVjZGM2NmEgMTAwNjQ0
-DQo+PiAtLS0gYS9pbmNsdWRlL2RybS9kcm1fbWlwaV9kYmkuaA0KPj4gKysrIGIvaW5jbHVk
-ZS9kcm0vZHJtX21pcGlfZGJpLmgNCj4+IEBAIC0xNjQsNiArMTY0LDE1IEBAIHZvaWQgbWlw
-aV9kYmlfZW5hYmxlX2ZsdXNoKHN0cnVjdCBtaXBpX2RiaV9kZXYgKmRiaWRldiwNCj4+ICAg
-CQkJICAgc3RydWN0IGRybV9jcnRjX3N0YXRlICpjcnRjX3N0YXRlLA0KPj4gICAJCQkgICBz
-dHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpwbGFuX3N0YXRlKTsNCj4+ICAgdm9pZCBtaXBpX2Ri
-aV9waXBlX2Rpc2FibGUoc3RydWN0IGRybV9zaW1wbGVfZGlzcGxheV9waXBlICpwaXBlKTsN
-Cj4+ICtpbnQgbWlwaV9kYmlfcGlwZV9iZWdpbl9mYl9hY2Nlc3Moc3RydWN0IGRybV9zaW1w
-bGVfZGlzcGxheV9waXBlICpwaXBlLA0KPj4gKwkJCQkgIHN0cnVjdCBkcm1fcGxhbmVfc3Rh
-dGUgKnBsYW5lX3N0YXRlKTsNCj4+ICt2b2lkIG1pcGlfZGJpX3BpcGVfZW5kX2ZiX2FjY2Vz
-cyhzdHJ1Y3QgZHJtX3NpbXBsZV9kaXNwbGF5X3BpcGUgKnBpcGUsDQo+PiArCQkJCSBzdHJ1
-Y3QgZHJtX3BsYW5lX3N0YXRlICpwbGFuZV9zdGF0ZSk7DQo+PiArdm9pZCBtaXBpX2RiaV9w
-aXBlX3Jlc2V0X3BsYW5lKHN0cnVjdCBkcm1fc2ltcGxlX2Rpc3BsYXlfcGlwZSAqcGlwZSk7
-DQo+PiArc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbWlwaV9kYmlfcGlwZV9kdXBsaWNhdGVf
-cGxhbmVfc3RhdGUoc3RydWN0IGRybV9zaW1wbGVfZGlzcGxheV9waXBlICpwaXBlKTsNCj4+
-ICt2b2lkIG1pcGlfZGJpX3BpcGVfZGVzdHJveV9wbGFuZV9zdGF0ZShzdHJ1Y3QgZHJtX3Np
-bXBsZV9kaXNwbGF5X3BpcGUgKnBpcGUsDQo+PiArCQkJCSAgICAgICBzdHJ1Y3QgZHJtX3Bs
-YW5lX3N0YXRlICpwbGFuZV9zdGF0ZSk7DQo+PiArDQo+PiAgIHZvaWQgbWlwaV9kYmlfaHdf
-cmVzZXQoc3RydWN0IG1pcGlfZGJpICpkYmkpOw0KPj4gICBib29sIG1pcGlfZGJpX2Rpc3Bs
-YXlfaXNfb24oc3RydWN0IG1pcGlfZGJpICpkYmkpOw0KPj4gICBpbnQgbWlwaV9kYmlfcG93
-ZXJvbl9yZXNldChzdHJ1Y3QgbWlwaV9kYmlfZGV2ICpkYmlkZXYpOw0KPj4gQEAgLTIyMyw2
-ICsyMzIsMTEgQEAgc3RhdGljIGlubGluZSB2b2lkIG1pcGlfZGJpX2RlYnVnZnNfaW5pdChz
-dHJ1Y3QgZHJtX21pbm9yICptaW5vcikge30NCj4+ICAgCS5tb2RlX3ZhbGlkID0gbWlwaV9k
-YmlfcGlwZV9tb2RlX3ZhbGlkLCBcDQo+PiAgIAkuZW5hYmxlID0gKGVuYWJsZV8pLCBcDQo+
-PiAgIAkuZGlzYWJsZSA9IG1pcGlfZGJpX3BpcGVfZGlzYWJsZSwgXA0KPj4gLQkudXBkYXRl
-ID0gbWlwaV9kYmlfcGlwZV91cGRhdGUNCj4+ICsJLnVwZGF0ZSA9IG1pcGlfZGJpX3BpcGVf
-dXBkYXRlLCBcDQo+PiArCS5iZWdpbl9mYl9hY2Nlc3MgPSBtaXBpX2RiaV9waXBlX2JlZ2lu
-X2ZiX2FjY2VzcywgXA0KPj4gKwkuZW5kX2ZiX2FjY2VzcyA9IG1pcGlfZGJpX3BpcGVfZW5k
-X2ZiX2FjY2VzcywgXA0KPj4gKwkucmVzZXRfcGxhbmUgPSBtaXBpX2RiaV9waXBlX3Jlc2V0
-X3BsYW5lLCBcDQo+PiArCS5kdXBsaWNhdGVfcGxhbmVfc3RhdGUgPSBtaXBpX2RiaV9waXBl
-X2R1cGxpY2F0ZV9wbGFuZV9zdGF0ZSwgXA0KPj4gKwkuZGVzdHJveV9wbGFuZV9zdGF0ZSA9
-IG1pcGlfZGJpX3BpcGVfZGVzdHJveV9wbGFuZV9zdGF0ZQ0KPj4gICANCj4+ICAgI2VuZGlm
-IC8qIF9fTElOVVhfTUlQSV9EQklfSCAqLw0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpH
-cmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJt
-YW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhS
-QiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+---
 
+This is an output of discussion here:
+https://lore.kernel.org/all/Y255C+TGNVJ9fs8A@sirena.org.uk/
+---
+ .../devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml  | 2 +-
+ Documentation/devicetree/bindings/sound/amlogic,aiu.yaml    | 2 +-
+ .../devicetree/bindings/sound/amlogic,g12a-toacodec.yaml    | 2 +-
+ Documentation/devicetree/bindings/sound/amlogic,t9015.yaml  | 2 +-
+ Documentation/devicetree/bindings/sound/awinic,aw8738.yaml  | 2 +-
+ .../bindings/sound/{name-prefix.yaml => dai-common.yaml}    | 6 ++++--
+ Documentation/devicetree/bindings/sound/dmic-codec.yaml     | 2 +-
+ .../devicetree/bindings/sound/linux,spdif-dit.yaml          | 2 +-
+ .../devicetree/bindings/sound/nvidia,tegra186-asrc.yaml     | 2 +-
+ .../devicetree/bindings/sound/nvidia,tegra186-dspk.yaml     | 2 +-
+ .../devicetree/bindings/sound/nvidia,tegra210-adx.yaml      | 2 +-
+ .../devicetree/bindings/sound/nvidia,tegra210-amx.yaml      | 2 +-
+ .../devicetree/bindings/sound/nvidia,tegra210-dmic.yaml     | 2 +-
+ .../devicetree/bindings/sound/nvidia,tegra210-i2s.yaml      | 2 +-
+ .../devicetree/bindings/sound/nvidia,tegra210-mixer.yaml    | 2 +-
+ .../devicetree/bindings/sound/nvidia,tegra210-mvc.yaml      | 2 +-
+ .../devicetree/bindings/sound/nvidia,tegra210-ope.yaml      | 2 +-
+ .../devicetree/bindings/sound/nvidia,tegra210-sfc.yaml      | 2 +-
+ Documentation/devicetree/bindings/sound/nxp,tfa989x.yaml    | 2 +-
+ Documentation/devicetree/bindings/sound/rt5659.txt          | 2 +-
+ .../devicetree/bindings/sound/simple-audio-amplifier.yaml   | 2 +-
+ .../devicetree/bindings/sound/simple-audio-mux.yaml         | 2 +-
+ Documentation/devicetree/bindings/sound/ti,src4xxx.yaml     | 2 +-
+ 23 files changed, 26 insertions(+), 24 deletions(-)
+ rename Documentation/devicetree/bindings/sound/{name-prefix.yaml => dai-common.yaml} (81%)
 
---------------Bt6iQxHEuaVGZ8UHHfmL06oa--
+diff --git a/Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml b/Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml
+index 7cdffdb131ac..74cefdf1b843 100644
+--- a/Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml
++++ b/Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml
+@@ -11,7 +11,7 @@ maintainers:
+   - Neil Armstrong <neil.armstrong@linaro.org>
+ 
+ allOf:
+-  - $ref: /schemas/sound/name-prefix.yaml#
++  - $ref: /schemas/sound/dai-common.yaml#
+ 
+ description: |
+   The Amlogic Meson Synopsys Designware Integration is composed of
+diff --git a/Documentation/devicetree/bindings/sound/amlogic,aiu.yaml b/Documentation/devicetree/bindings/sound/amlogic,aiu.yaml
+index 0705f91199a0..6350dfc0a926 100644
+--- a/Documentation/devicetree/bindings/sound/amlogic,aiu.yaml
++++ b/Documentation/devicetree/bindings/sound/amlogic,aiu.yaml
+@@ -10,7 +10,7 @@ maintainers:
+   - Jerome Brunet <jbrunet@baylibre.com>
+ 
+ allOf:
+-  - $ref: name-prefix.yaml#
++  - $ref: dai-common.yaml#
+ 
+ properties:
+   $nodename:
+diff --git a/Documentation/devicetree/bindings/sound/amlogic,g12a-toacodec.yaml b/Documentation/devicetree/bindings/sound/amlogic,g12a-toacodec.yaml
+index 77469a45bb7a..23f82bb89750 100644
+--- a/Documentation/devicetree/bindings/sound/amlogic,g12a-toacodec.yaml
++++ b/Documentation/devicetree/bindings/sound/amlogic,g12a-toacodec.yaml
+@@ -10,7 +10,7 @@ maintainers:
+   - Jerome Brunet <jbrunet@baylibre.com>
+ 
+ allOf:
+-  - $ref: name-prefix.yaml#
++  - $ref: dai-common.yaml#
+ 
+ properties:
+   $nodename:
+diff --git a/Documentation/devicetree/bindings/sound/amlogic,t9015.yaml b/Documentation/devicetree/bindings/sound/amlogic,t9015.yaml
+index 580a3d040abc..5f5cccdbeb34 100644
+--- a/Documentation/devicetree/bindings/sound/amlogic,t9015.yaml
++++ b/Documentation/devicetree/bindings/sound/amlogic,t9015.yaml
+@@ -10,7 +10,7 @@ maintainers:
+   - Jerome Brunet <jbrunet@baylibre.com>
+ 
+ allOf:
+-  - $ref: name-prefix.yaml#
++  - $ref: dai-common.yaml#
+ 
+ properties:
+   $nodename:
+diff --git a/Documentation/devicetree/bindings/sound/awinic,aw8738.yaml b/Documentation/devicetree/bindings/sound/awinic,aw8738.yaml
+index dce86dafe382..bc6c6b172238 100644
+--- a/Documentation/devicetree/bindings/sound/awinic,aw8738.yaml
++++ b/Documentation/devicetree/bindings/sound/awinic,aw8738.yaml
+@@ -15,7 +15,7 @@ description:
+   function (primarily the power limit for the amplifier).
+ 
+ allOf:
+-  - $ref: name-prefix.yaml#
++  - $ref: dai-common.yaml#
+ 
+ properties:
+   compatible:
+diff --git a/Documentation/devicetree/bindings/sound/name-prefix.yaml b/Documentation/devicetree/bindings/sound/dai-common.yaml
+similarity index 81%
+rename from Documentation/devicetree/bindings/sound/name-prefix.yaml
+rename to Documentation/devicetree/bindings/sound/dai-common.yaml
+index 2fe57f87ac52..d858eea73ed7 100644
+--- a/Documentation/devicetree/bindings/sound/name-prefix.yaml
++++ b/Documentation/devicetree/bindings/sound/dai-common.yaml
+@@ -1,10 +1,10 @@
+ # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+ %YAML 1.2
+ ---
+-$id: http://devicetree.org/schemas/sound/name-prefix.yaml#
++$id: http://devicetree.org/schemas/sound/dai-common.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+-title: Component sound name prefix
++title: Digital Audio Interface Common Properties
+ 
+ maintainers:
+   - Jerome Brunet <jbrunet@baylibre.com>
+@@ -18,4 +18,6 @@ properties:
+       sink/source names may use this property to prepend the name of their
+       sinks/sources with the provided string.
+ 
++  '#sound-dai-cells': true
++
+ additionalProperties: true
+diff --git a/Documentation/devicetree/bindings/sound/dmic-codec.yaml b/Documentation/devicetree/bindings/sound/dmic-codec.yaml
+index bba27c985996..59ef0cf6b6e5 100644
+--- a/Documentation/devicetree/bindings/sound/dmic-codec.yaml
++++ b/Documentation/devicetree/bindings/sound/dmic-codec.yaml
+@@ -10,7 +10,7 @@ maintainers:
+   - Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
+ 
+ allOf:
+-  - $ref: name-prefix.yaml#
++  - $ref: dai-common.yaml#
+ 
+ properties:
+   compatible:
+diff --git a/Documentation/devicetree/bindings/sound/linux,spdif-dit.yaml b/Documentation/devicetree/bindings/sound/linux,spdif-dit.yaml
+index 808f6d2736c7..fe5f0756af2f 100644
+--- a/Documentation/devicetree/bindings/sound/linux,spdif-dit.yaml
++++ b/Documentation/devicetree/bindings/sound/linux,spdif-dit.yaml
+@@ -10,7 +10,7 @@ maintainers:
+   - Mark Brown <broonie@kernel.org>
+ 
+ allOf:
+-  - $ref: name-prefix.yaml#
++  - $ref: dai-common.yaml#
+ 
+ properties:
+   compatible:
+diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra186-asrc.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra186-asrc.yaml
+index d82415c21271..e15f387c4c29 100644
+--- a/Documentation/devicetree/bindings/sound/nvidia,tegra186-asrc.yaml
++++ b/Documentation/devicetree/bindings/sound/nvidia,tegra186-asrc.yaml
+@@ -23,7 +23,7 @@ maintainers:
+   - Sameer Pujar <spujar@nvidia.com>
+ 
+ allOf:
+-  - $ref: name-prefix.yaml#
++  - $ref: dai-common.yaml#
+ 
+ properties:
+   $nodename:
+diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra186-dspk.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra186-dspk.yaml
+index 3d538df878ea..e1362c77472b 100644
+--- a/Documentation/devicetree/bindings/sound/nvidia,tegra186-dspk.yaml
++++ b/Documentation/devicetree/bindings/sound/nvidia,tegra186-dspk.yaml
+@@ -18,7 +18,7 @@ maintainers:
+   - Sameer Pujar <spujar@nvidia.com>
+ 
+ allOf:
+-  - $ref: name-prefix.yaml#
++  - $ref: dai-common.yaml#
+ 
+ properties:
+   $nodename:
+diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra210-adx.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra210-adx.yaml
+index ea0dc0ece1bc..e4c871797fa6 100644
+--- a/Documentation/devicetree/bindings/sound/nvidia,tegra210-adx.yaml
++++ b/Documentation/devicetree/bindings/sound/nvidia,tegra210-adx.yaml
+@@ -19,7 +19,7 @@ maintainers:
+   - Sameer Pujar <spujar@nvidia.com>
+ 
+ allOf:
+-  - $ref: name-prefix.yaml#
++  - $ref: dai-common.yaml#
+ 
+ properties:
+   $nodename:
+diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra210-amx.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra210-amx.yaml
+index 1aff61f072bb..021b72546ba4 100644
+--- a/Documentation/devicetree/bindings/sound/nvidia,tegra210-amx.yaml
++++ b/Documentation/devicetree/bindings/sound/nvidia,tegra210-amx.yaml
+@@ -18,7 +18,7 @@ maintainers:
+   - Sameer Pujar <spujar@nvidia.com>
+ 
+ allOf:
+-  - $ref: name-prefix.yaml#
++  - $ref: dai-common.yaml#
+ 
+ properties:
+   $nodename:
+diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra210-dmic.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra210-dmic.yaml
+index 0f9d2b461e02..bff551c35da7 100644
+--- a/Documentation/devicetree/bindings/sound/nvidia,tegra210-dmic.yaml
++++ b/Documentation/devicetree/bindings/sound/nvidia,tegra210-dmic.yaml
+@@ -17,7 +17,7 @@ maintainers:
+   - Sameer Pujar <spujar@nvidia.com>
+ 
+ allOf:
+-  - $ref: name-prefix.yaml#
++  - $ref: dai-common.yaml#
+ 
+ properties:
+   $nodename:
+diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra210-i2s.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra210-i2s.yaml
+index 12cd17eede99..a82f11fb6c9a 100644
+--- a/Documentation/devicetree/bindings/sound/nvidia,tegra210-i2s.yaml
++++ b/Documentation/devicetree/bindings/sound/nvidia,tegra210-i2s.yaml
+@@ -17,7 +17,7 @@ maintainers:
+   - Sameer Pujar <spujar@nvidia.com>
+ 
+ allOf:
+-  - $ref: name-prefix.yaml#
++  - $ref: dai-common.yaml#
+ 
+ properties:
+   $nodename:
+diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra210-mixer.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra210-mixer.yaml
+index 570b03282aeb..049898f02e85 100644
+--- a/Documentation/devicetree/bindings/sound/nvidia,tegra210-mixer.yaml
++++ b/Documentation/devicetree/bindings/sound/nvidia,tegra210-mixer.yaml
+@@ -17,7 +17,7 @@ maintainers:
+   - Sameer Pujar <spujar@nvidia.com>
+ 
+ allOf:
+-  - $ref: name-prefix.yaml#
++  - $ref: dai-common.yaml#
+ 
+ properties:
+   $nodename:
+diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra210-mvc.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra210-mvc.yaml
+index 4aecbc847b98..d0280d8aa3af 100644
+--- a/Documentation/devicetree/bindings/sound/nvidia,tegra210-mvc.yaml
++++ b/Documentation/devicetree/bindings/sound/nvidia,tegra210-mvc.yaml
+@@ -20,7 +20,7 @@ maintainers:
+   - Sameer Pujar <spujar@nvidia.com>
+ 
+ allOf:
+-  - $ref: name-prefix.yaml#
++  - $ref: dai-common.yaml#
+ 
+ properties:
+   $nodename:
+diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra210-ope.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra210-ope.yaml
+index 9dc9ba590fa3..5fc03b8771b1 100644
+--- a/Documentation/devicetree/bindings/sound/nvidia,tegra210-ope.yaml
++++ b/Documentation/devicetree/bindings/sound/nvidia,tegra210-ope.yaml
+@@ -17,7 +17,7 @@ maintainers:
+   - Sameer Pujar <spujar@nvidia.com>
+ 
+ allOf:
+-  - $ref: name-prefix.yaml#
++  - $ref: dai-common.yaml#
+ 
+ properties:
+   compatible:
+diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra210-sfc.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra210-sfc.yaml
+index 694f890d6305..185ca0be4f02 100644
+--- a/Documentation/devicetree/bindings/sound/nvidia,tegra210-sfc.yaml
++++ b/Documentation/devicetree/bindings/sound/nvidia,tegra210-sfc.yaml
+@@ -17,7 +17,7 @@ maintainers:
+   - Sameer Pujar <spujar@nvidia.com>
+ 
+ allOf:
+-  - $ref: name-prefix.yaml#
++  - $ref: dai-common.yaml#
+ 
+ properties:
+   $nodename:
+diff --git a/Documentation/devicetree/bindings/sound/nxp,tfa989x.yaml b/Documentation/devicetree/bindings/sound/nxp,tfa989x.yaml
+index 7f2e68ff6d34..fd2415e231eb 100644
+--- a/Documentation/devicetree/bindings/sound/nxp,tfa989x.yaml
++++ b/Documentation/devicetree/bindings/sound/nxp,tfa989x.yaml
+@@ -10,7 +10,7 @@ maintainers:
+   - Stephan Gerhold <stephan@gerhold.net>
+ 
+ allOf:
+-  - $ref: name-prefix.yaml#
++  - $ref: dai-common.yaml#
+ 
+ properties:
+   compatible:
+diff --git a/Documentation/devicetree/bindings/sound/rt5659.txt b/Documentation/devicetree/bindings/sound/rt5659.txt
+index 013f534fa059..8f3f62c0226a 100644
+--- a/Documentation/devicetree/bindings/sound/rt5659.txt
++++ b/Documentation/devicetree/bindings/sound/rt5659.txt
+@@ -42,7 +42,7 @@ Optional properties:
+ - realtek,ldo1-en-gpios : The GPIO that controls the CODEC's LDO1_EN pin.
+ - realtek,reset-gpios : The GPIO that controls the CODEC's RESET pin.
+ 
+-- sound-name-prefix: Please refer to name-prefix.yaml
++- sound-name-prefix: Please refer to dai-common.yaml
+ 
+ - ports: A Codec may have a single or multiple I2S interfaces. These
+   interfaces on Codec side can be described under 'ports' or 'port'.
+diff --git a/Documentation/devicetree/bindings/sound/simple-audio-amplifier.yaml b/Documentation/devicetree/bindings/sound/simple-audio-amplifier.yaml
+index 5428ba9e23a6..5db1f989d050 100644
+--- a/Documentation/devicetree/bindings/sound/simple-audio-amplifier.yaml
++++ b/Documentation/devicetree/bindings/sound/simple-audio-amplifier.yaml
+@@ -10,7 +10,7 @@ maintainers:
+   - Jerome Brunet <jbrunet@baylibre.com>
+ 
+ allOf:
+-  - $ref: name-prefix.yaml#
++  - $ref: dai-common.yaml#
+ 
+ properties:
+   compatible:
+diff --git a/Documentation/devicetree/bindings/sound/simple-audio-mux.yaml b/Documentation/devicetree/bindings/sound/simple-audio-mux.yaml
+index b5fc35ee9b65..9f319caf3db7 100644
+--- a/Documentation/devicetree/bindings/sound/simple-audio-mux.yaml
++++ b/Documentation/devicetree/bindings/sound/simple-audio-mux.yaml
+@@ -14,7 +14,7 @@ description: |
+   their input line is connected to the output line.
+ 
+ allOf:
+-  - $ref: name-prefix.yaml#
++  - $ref: dai-common.yaml#
+ 
+ properties:
+   compatible:
+diff --git a/Documentation/devicetree/bindings/sound/ti,src4xxx.yaml b/Documentation/devicetree/bindings/sound/ti,src4xxx.yaml
+index 9681b72b4918..988ce8d8028f 100644
+--- a/Documentation/devicetree/bindings/sound/ti,src4xxx.yaml
++++ b/Documentation/devicetree/bindings/sound/ti,src4xxx.yaml
+@@ -14,7 +14,7 @@ maintainers:
+   - Matt Flax <flatmax@flatmax.com>
+ 
+ allOf:
+-  - $ref: name-prefix.yaml#
++  - $ref: dai-common.yaml#
+ 
+ properties:
+   compatible:
+-- 
+2.34.1
 
---------------JSbjTmBzbKJMCG9AhyxH2icz
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmOLcvcFAwAAAAAACgkQlh/E3EQov+C2
-WxAAm733sYth4B6A5YkHS1Q0Whj+9s8gbiZEmDqqJRzWGy8db3WtOLYqqu1D2p+V8lh3u6gKIcCm
-MuHO+KssFgti3rNjO635DzeNPot+EFHaS3MUJFV8lhKkgyt/MEMhFFtLFpzCLxVVBUNrjFvdcBp2
-9F1rZCl8FjCxuFvxnc/0yw6IuA8aT2fC5eewLnHG9b4hQjKJXd+zc5KhFe1BE+TsvXtbJ6HT0jR7
-LhIGsrrM1Lt1n+orPUCnKxd5dPMU/lCu77Adw/EJXJPcu0kdHDPq1rzeNX2WoA62HAZAPs7adYR7
-l9rG4kq8VZf0H25vRrYuCwDmIJLbNgqoVOp1l/EENSM0zhcjjWinUwdyNE6UWjtL461H7FRtOtGx
-am0aCV92YhOjuLxvIrvmMBPmwjCzvpVML55gPUbHnLjSptNiJSyyt+/OKOapWXLK72waqZd2Krgx
-1mWdrcRXFie0HUJkQnfdRR3aeuZXReEhFBy2kQlik6XElWb4XQ0P38ExuyQiX7LfEgtBlkTLRPHm
-S+uDLKjFp3VZ5vHVTCLlDCm3f9gWkvRWcqfxJNZH8hobDxZWNzU6QkXoIbV5H7mKqARiiJlwfhGg
-lB+6t/rKHT9ieDlV+gkgp6zcnKOjWwJ8xi1nyCeO0xlRTQ0gLBGSxtjsi0WwAl/8MaqOt7TAqhUV
-JLk=
-=CJrT
------END PGP SIGNATURE-----
-
---------------JSbjTmBzbKJMCG9AhyxH2icz--
