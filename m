@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1030E6415DC
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Dec 2022 11:32:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5167F6415E3
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Dec 2022 11:33:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D626F10E1DE;
-	Sat,  3 Dec 2022 10:32:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8050E10E1DF;
+	Sat,  3 Dec 2022 10:33:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com
- [IPv6:2001:41d0:1004:224b::ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8B3710E1DE
- for <dri-devel@lists.freedesktop.org>; Sat,  3 Dec 2022 10:32:03 +0000 (UTC)
+Received: from out-219.mta0.migadu.com (out-219.mta0.migadu.com
+ [IPv6:2001:41d0:1004:224b::db])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 838A310E1DF
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Dec 2022 10:33:24 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1670063522;
+ t=1670063602;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pHS8+o2SGLC0kDcCEeUKrw0J82bXIyZVRXMKozaQsRk=;
- b=Q3NhRNVSQsddCqqwpkw4+kkvH40j7X7SRAknJZDJUElr5ETGum63Nnxi1hN6jnlQw5/XiH
- PRFOt1/1OjxvAf3VQ0vAuW2bNVyMljRgDdrOYjjoJDu2nvv/mCYP7Ip5NjZYtRXsDreOPI
- JUt195r9RfSFjDQrDgfMNFRvgv+zYVo=
+ bh=/JPYiBbSVMnruEeNKBfFmoLr+cv12l5P6JDa/2Es+dY=;
+ b=RrfUvF8zipRwCeZncWfqkdw37dekkA4OMqhAZn3IAu6K/JDm3xvlXD6wMGA25R5DEdVazV
+ mBVfYPjFaReojA1KcXlT9323Zwvjc/QEBTMLMjXgpDHDQNJtdCUmrs4WXUvGpYCKW2xPtR
+ qKdQdwYwg0tXILhWzrReuVb+mjdf2e8=
 From: Cai Huoqing <cai.huoqing@linux.dev>
 To: tzimmermann@suse.de
-Subject: [RESEND PATCH linux-next v2 05/10] drm: Remove the obsolete driver-sis
-Date: Sat,  3 Dec 2022 18:22:56 +0800
-Message-Id: <20221203102502.3185-6-cai.huoqing@linux.dev>
+Subject: [RESEND PATCH linux-next v2 06/10] drm: Remove the obsolete
+ driver-tdfx
+Date: Sat,  3 Dec 2022 18:22:57 +0800
+Message-Id: <20221203102502.3185-7-cai.huoqing@linux.dev>
 In-Reply-To: <20221203102502.3185-1-cai.huoqing@linux.dev>
 References: <20221203102502.3185-1-cai.huoqing@linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -56,84 +56,77 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Commit 399516ab0fee ("MAINTAINERS: Add a bunch of legacy (UMS) DRM drivers")
-marked sis driver obsolete 7 years ago.
+marked tdfx driver obsolete 7 years ago.
 And the mesa UMD of this drm driver already in deprecated list
 in the link: https://docs.mesa3d.org/systems.html
-Silicon Integrated Systems->drivers/gpu/drm/sis
+3dfx Glide-->driver/gpu/drm/tdfx
 
 It's time to remove this driver.
 
 Signed-off-by: Cai Huoqing <cai.huoqing@linux.dev>
 ---
- drivers/gpu/drm/Kconfig       |   9 -
- drivers/gpu/drm/Makefile      |   1 -
- drivers/gpu/drm/sis/Makefile  |  10 -
- drivers/gpu/drm/sis/sis_drv.c | 143 --------------
- drivers/gpu/drm/sis/sis_drv.h |  80 --------
- drivers/gpu/drm/sis/sis_mm.c  | 363 ----------------------------------
- include/uapi/drm/sis_drm.h    |  77 --------
- 7 files changed, 683 deletions(-)
- delete mode 100644 drivers/gpu/drm/sis/Makefile
- delete mode 100644 drivers/gpu/drm/sis/sis_drv.c
- delete mode 100644 drivers/gpu/drm/sis/sis_drv.h
- delete mode 100644 drivers/gpu/drm/sis/sis_mm.c
- delete mode 100644 include/uapi/drm/sis_drm.h
+ drivers/gpu/drm/Kconfig         |  7 ---
+ drivers/gpu/drm/Makefile        |  1 -
+ drivers/gpu/drm/tdfx/Makefile   |  8 ---
+ drivers/gpu/drm/tdfx/tdfx_drv.c | 90 ---------------------------------
+ drivers/gpu/drm/tdfx/tdfx_drv.h | 47 -----------------
+ 5 files changed, 153 deletions(-)
+ delete mode 100644 drivers/gpu/drm/tdfx/Makefile
+ delete mode 100644 drivers/gpu/drm/tdfx/tdfx_drv.c
+ delete mode 100644 drivers/gpu/drm/tdfx/tdfx_drv.h
 
 diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 57328ed79558..dbe51b65e481 100644
+index dbe51b65e481..a70a87798894 100644
 --- a/drivers/gpu/drm/Kconfig
 +++ b/drivers/gpu/drm/Kconfig
-@@ -399,15 +399,6 @@ config DRM_TDFX
- 	  Choose this option if you have a 3dfx Banshee or Voodoo3 (or later),
- 	  graphics card.  If M is selected, the module will be called tdfx.
+@@ -392,13 +392,6 @@ menuconfig DRM_LEGACY
  
--config DRM_SIS
--	tristate "SiS video cards"
--	depends on DRM && AGP
--	depends on FB_SIS || FB_SIS=n
+ if DRM_LEGACY
+ 
+-config DRM_TDFX
+-	tristate "3dfx Banshee/Voodoo3+"
+-	depends on DRM && PCI
 -	help
--	  Choose this option if you have a SiS 630 or compatible video
--	  chipset. If M is selected the module will be called sis. AGP
--	  support is required for this driver to work.
+-	  Choose this option if you have a 3dfx Banshee or Voodoo3 (or later),
+-	  graphics card.  If M is selected, the module will be called tdfx.
 -
  config DRM_VIA
  	tristate "Via unichrome video cards"
  	depends on DRM && PCI
 diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 9df22bed5633..c4e3cdf814ce 100644
+index c4e3cdf814ce..489fadf19507 100644
 --- a/drivers/gpu/drm/Makefile
 +++ b/drivers/gpu/drm/Makefile
-@@ -142,7 +142,6 @@ obj-$(CONFIG_DRM_KMB_DISPLAY)  += kmb/
- obj-$(CONFIG_DRM_MGAG200) += mgag200/
- obj-$(CONFIG_DRM_V3D)  += v3d/
- obj-$(CONFIG_DRM_VC4)  += vc4/
--obj-$(CONFIG_DRM_SIS)   += sis/
- obj-$(CONFIG_DRM_VMWGFX)+= vmwgfx/
- obj-$(CONFIG_DRM_VIA)	+=via/
- obj-$(CONFIG_DRM_VGEM)	+= vgem/
-diff --git a/drivers/gpu/drm/sis/Makefile b/drivers/gpu/drm/sis/Makefile
+@@ -134,7 +134,6 @@ obj-y			+= arm/
+ obj-y			+= display/
+ obj-$(CONFIG_DRM_TTM)	+= ttm/
+ obj-$(CONFIG_DRM_SCHED)	+= scheduler/
+-obj-$(CONFIG_DRM_TDFX)	+= tdfx/
+ obj-$(CONFIG_DRM_RADEON)+= radeon/
+ obj-$(CONFIG_DRM_AMDGPU)+= amd/amdgpu/
+ obj-$(CONFIG_DRM_I915)	+= i915/
+diff --git a/drivers/gpu/drm/tdfx/Makefile b/drivers/gpu/drm/tdfx/Makefile
 deleted file mode 100644
-index 02b0253fda93..000000000000
---- a/drivers/gpu/drm/sis/Makefile
+index 03b7d0f087b0..000000000000
+--- a/drivers/gpu/drm/tdfx/Makefile
 +++ /dev/null
-@@ -1,10 +0,0 @@
+@@ -1,8 +0,0 @@
 -# SPDX-License-Identifier: GPL-2.0-only
 -#
 -# Makefile for the drm device driver.  This driver provides support for the
 -# Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
 -
--sis-y := sis_drv.o sis_mm.o
+-tdfx-y := tdfx_drv.o
 -
--obj-$(CONFIG_DRM_SIS)   += sis.o
--
--
-diff --git a/drivers/gpu/drm/sis/sis_drv.c b/drivers/gpu/drm/sis/sis_drv.c
+-obj-$(CONFIG_DRM_TDFX)	+= tdfx.o
+diff --git a/drivers/gpu/drm/tdfx/tdfx_drv.c b/drivers/gpu/drm/tdfx/tdfx_drv.c
 deleted file mode 100644
-index 6173020a9bf5..000000000000
---- a/drivers/gpu/drm/sis/sis_drv.c
+index 58c185c299f4..000000000000
+--- a/drivers/gpu/drm/tdfx/tdfx_drv.c
 +++ /dev/null
-@@ -1,143 +0,0 @@
--/* sis.c -- sis driver -*- linux-c -*-
+@@ -1,90 +0,0 @@
+-/* tdfx_drv.c -- tdfx driver -*- linux-c -*-
+- * Created: Thu Oct  7 10:38:32 1999 by faith@precisioninsight.com
 - *
 - * Copyright 1999 Precision Insight, Inc., Cedar Park, Texas.
 - * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
@@ -158,6 +151,10 @@ index 6173020a9bf5..000000000000
 - * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 - * DEALINGS IN THE SOFTWARE.
 - *
+- * Authors:
+- *    Rickard E. (Rik) Faith <faith@valinux.com>
+- *    Daryll Strauss <daryll@valinux.com>
+- *    Gareth Hughes <gareth@valinux.com>
 - */
 -
 -#include <linux/module.h>
@@ -165,43 +162,17 @@ index 6173020a9bf5..000000000000
 -
 -#include <drm/drm_drv.h>
 -#include <drm/drm_file.h>
+-#include <drm/drm_ioctl.h>
+-#include <drm/drm_legacy.h>
 -#include <drm/drm_pciids.h>
--#include <drm/sis_drm.h>
 -
--#include "sis_drv.h"
+-#include "tdfx_drv.h"
 -
 -static struct pci_device_id pciidlist[] = {
--	sisdrv_PCI_IDS
+-	tdfx_PCI_IDS
 -};
 -
--static int sis_driver_load(struct drm_device *dev, unsigned long chipset)
--{
--	struct pci_dev *pdev = to_pci_dev(dev->dev);
--	drm_sis_private_t *dev_priv;
--
--	pci_set_master(pdev);
--
--	dev_priv = kzalloc(sizeof(drm_sis_private_t), GFP_KERNEL);
--	if (dev_priv == NULL)
--		return -ENOMEM;
--
--	idr_init_base(&dev_priv->object_idr, 1);
--	dev->dev_private = (void *)dev_priv;
--	dev_priv->chipset = chipset;
--
--	return 0;
--}
--
--static void sis_driver_unload(struct drm_device *dev)
--{
--	drm_sis_private_t *dev_priv = dev->dev_private;
--
--	idr_destroy(&dev_priv->object_idr);
--
--	kfree(dev_priv);
--}
--
--static const struct file_operations sis_driver_fops = {
+-static const struct file_operations tdfx_driver_fops = {
 -	.owner = THIS_MODULE,
 -	.open = drm_open,
 -	.release = drm_release,
@@ -212,40 +183,9 @@ index 6173020a9bf5..000000000000
 -	.llseek = noop_llseek,
 -};
 -
--static int sis_driver_open(struct drm_device *dev, struct drm_file *file)
--{
--	struct sis_file_private *file_priv;
--
--	DRM_DEBUG_DRIVER("\n");
--	file_priv = kmalloc(sizeof(*file_priv), GFP_KERNEL);
--	if (!file_priv)
--		return -ENOMEM;
--
--	file->driver_priv = file_priv;
--
--	INIT_LIST_HEAD(&file_priv->obj_list);
--
--	return 0;
--}
--
--static void sis_driver_postclose(struct drm_device *dev, struct drm_file *file)
--{
--	struct sis_file_private *file_priv = file->driver_priv;
--
--	kfree(file_priv);
--}
--
--static struct drm_driver driver = {
--	.driver_features = DRIVER_USE_AGP | DRIVER_LEGACY,
--	.load = sis_driver_load,
--	.unload = sis_driver_unload,
--	.open = sis_driver_open,
--	.preclose = sis_reclaim_buffers_locked,
--	.postclose = sis_driver_postclose,
--	.dma_quiescent = sis_idle,
--	.lastclose = sis_lastclose,
--	.ioctls = sis_ioctls,
--	.fops = &sis_driver_fops,
+-static const struct drm_driver driver = {
+-	.driver_features = DRIVER_LEGACY,
+-	.fops = &tdfx_driver_fops,
 -	.name = DRIVER_NAME,
 -	.desc = DRIVER_DESC,
 -	.date = DRIVER_DATE,
@@ -254,39 +194,39 @@ index 6173020a9bf5..000000000000
 -	.patchlevel = DRIVER_PATCHLEVEL,
 -};
 -
--static struct pci_driver sis_pci_driver = {
+-static struct pci_driver tdfx_pci_driver = {
 -	.name = DRIVER_NAME,
 -	.id_table = pciidlist,
 -};
 -
--static int __init sis_init(void)
+-static int __init tdfx_init(void)
 -{
--	driver.num_ioctls = sis_max_ioctl;
--	return drm_legacy_pci_init(&driver, &sis_pci_driver);
+-	return drm_legacy_pci_init(&driver, &tdfx_pci_driver);
 -}
 -
--static void __exit sis_exit(void)
+-static void __exit tdfx_exit(void)
 -{
--	drm_legacy_pci_exit(&driver, &sis_pci_driver);
+-	drm_legacy_pci_exit(&driver, &tdfx_pci_driver);
 -}
 -
--module_init(sis_init);
--module_exit(sis_exit);
+-module_init(tdfx_init);
+-module_exit(tdfx_exit);
 -
 -MODULE_AUTHOR(DRIVER_AUTHOR);
 -MODULE_DESCRIPTION(DRIVER_DESC);
 -MODULE_LICENSE("GPL and additional rights");
-diff --git a/drivers/gpu/drm/sis/sis_drv.h b/drivers/gpu/drm/sis/sis_drv.h
+diff --git a/drivers/gpu/drm/tdfx/tdfx_drv.h b/drivers/gpu/drm/tdfx/tdfx_drv.h
 deleted file mode 100644
-index 81339443b3b1..000000000000
---- a/drivers/gpu/drm/sis/sis_drv.h
+index 84204ec1b046..000000000000
+--- a/drivers/gpu/drm/tdfx/tdfx_drv.h
 +++ /dev/null
-@@ -1,80 +0,0 @@
--/* sis_drv.h -- Private header for sis driver -*- linux-c -*- */
+@@ -1,47 +0,0 @@
+-/* tdfx.h -- 3dfx DRM template customization -*- linux-c -*-
+- * Created: Wed Feb 14 12:32:32 2001 by gareth@valinux.com
+- */
 -/*
-- * Copyright 1999 Precision Insight, Inc., Cedar Park, Texas.
 - * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
-- * All rights reserved.
+- * All Rights Reserved.
 - *
 - * Permission is hereby granted, free of charge, to any person obtaining a
 - * copy of this software and associated documentation files (the "Software"),
@@ -302,518 +242,32 @@ index 81339443b3b1..000000000000
 - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-- * PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+- * VA LINUX SYSTEMS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
 - * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-- * DEALINGS IN THE SOFTWARE.
+- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+- * OTHER DEALINGS IN THE SOFTWARE.
 - *
+- * Authors:
+- *    Gareth Hughes <gareth@valinux.com>
 - */
 -
--#ifndef _SIS_DRV_H_
--#define _SIS_DRV_H_
--
--#include <drm/drm_ioctl.h>
--#include <drm/drm_legacy.h>
--#include <drm/drm_mm.h>
+-#ifndef __TDFX_H__
+-#define __TDFX_H__
 -
 -/* General customization:
 - */
 -
--#define DRIVER_AUTHOR		"SIS, Tungsten Graphics"
--#define DRIVER_NAME		"sis"
--#define DRIVER_DESC		"SIS 300/630/540 and XGI V3XE/V5/V8"
--#define DRIVER_DATE		"20070626"
+-#define DRIVER_AUTHOR		"VA Linux Systems Inc."
+-
+-#define DRIVER_NAME		"tdfx"
+-#define DRIVER_DESC		"3dfx Banshee/Voodoo3+"
+-#define DRIVER_DATE		"20010216"
+-
 -#define DRIVER_MAJOR		1
--#define DRIVER_MINOR		3
+-#define DRIVER_MINOR		0
 -#define DRIVER_PATCHLEVEL	0
 -
--enum sis_family {
--	SIS_OTHER = 0,
--	SIS_CHIP_315 = 1,
--};
--
--#define SIS_READ(reg)         readl(((void __iomem *)dev_priv->mmio->handle) + (reg))
--#define SIS_WRITE(reg, val)   writel(val, ((void __iomem *)dev_priv->mmio->handle) + (reg))
--
--typedef struct drm_sis_private {
--	drm_local_map_t *mmio;
--	unsigned int idle_fault;
--	unsigned int chipset;
--	int vram_initialized;
--	int agp_initialized;
--	unsigned long vram_offset;
--	unsigned long agp_offset;
--	struct drm_mm vram_mm;
--	struct drm_mm agp_mm;
--	/** Mapping of userspace keys to mm objects */
--	struct idr object_idr;
--} drm_sis_private_t;
--
--struct sis_file_private {
--	struct list_head obj_list;
--};
--
--extern int sis_idle(struct drm_device *dev);
--extern void sis_reclaim_buffers_locked(struct drm_device *dev,
--				       struct drm_file *file_priv);
--extern void sis_lastclose(struct drm_device *dev);
--
--extern const struct drm_ioctl_desc sis_ioctls[];
--extern int sis_max_ioctl;
--
 -#endif
-diff --git a/drivers/gpu/drm/sis/sis_mm.c b/drivers/gpu/drm/sis/sis_mm.c
-deleted file mode 100644
-index e51d4289a3d0..000000000000
---- a/drivers/gpu/drm/sis/sis_mm.c
-+++ /dev/null
-@@ -1,363 +0,0 @@
--/**************************************************************************
-- *
-- * Copyright 2006 Tungsten Graphics, Inc., Bismarck, ND., USA.
-- * All Rights Reserved.
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a
-- * copy of this software and associated documentation files (the
-- * "Software"), to deal in the Software without restriction, including
-- * without limitation the rights to use, copy, modify, merge, publish,
-- * distribute, sub license, and/or sell copies of the Software, and to
-- * permit persons to whom the Software is furnished to do so, subject to
-- * the following conditions:
-- *
-- * The above copyright notice and this permission notice (including the
-- * next paragraph) shall be included in all copies or substantial portions
-- * of the Software.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
-- * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
-- * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-- * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-- * USE OR OTHER DEALINGS IN THE SOFTWARE.
-- *
-- *
-- **************************************************************************/
--
--/*
-- * Authors:
-- *    Thomas Hellström <thomas-at-tungstengraphics-dot-com>
-- */
--
--#include <video/sisfb.h>
--
--#include <drm/drm_device.h>
--#include <drm/drm_file.h>
--#include <drm/sis_drm.h>
--
--#include "sis_drv.h"
--
--
--#define VIDEO_TYPE 0
--#define AGP_TYPE 1
--
--
--struct sis_memblock {
--	struct drm_mm_node mm_node;
--	struct sis_memreq req;
--	struct list_head owner_list;
--};
--
--#if defined(CONFIG_FB_SIS) || defined(CONFIG_FB_SIS_MODULE)
--/* fb management via fb device */
--
--#define SIS_MM_ALIGN_SHIFT 0
--#define SIS_MM_ALIGN_MASK 0
--
--#else /* CONFIG_FB_SIS[_MODULE] */
--
--#define SIS_MM_ALIGN_SHIFT 4
--#define SIS_MM_ALIGN_MASK ((1 << SIS_MM_ALIGN_SHIFT) - 1)
--
--#endif /* CONFIG_FB_SIS[_MODULE] */
--
--static int sis_fb_init(struct drm_device *dev, void *data, struct drm_file *file_priv)
--{
--	drm_sis_private_t *dev_priv = dev->dev_private;
--	drm_sis_fb_t *fb = data;
--
--	mutex_lock(&dev->struct_mutex);
--	/* Unconditionally init the drm_mm, even though we don't use it when the
--	 * fb sis driver is available - make cleanup easier. */
--	drm_mm_init(&dev_priv->vram_mm, 0, fb->size >> SIS_MM_ALIGN_SHIFT);
--
--	dev_priv->vram_initialized = 1;
--	dev_priv->vram_offset = fb->offset;
--
--	mutex_unlock(&dev->struct_mutex);
--	DRM_DEBUG("offset = %lu, size = %lu\n", fb->offset, fb->size);
--
--	return 0;
--}
--
--static int sis_drm_alloc(struct drm_device *dev, struct drm_file *file,
--			 void *data, int pool)
--{
--	drm_sis_private_t *dev_priv = dev->dev_private;
--	drm_sis_mem_t *mem = data;
--	int retval = 0, user_key;
--	struct sis_memblock *item;
--	struct sis_file_private *file_priv = file->driver_priv;
--	unsigned long offset;
--
--	mutex_lock(&dev->struct_mutex);
--
--	if (0 == ((pool == 0) ? dev_priv->vram_initialized :
--		      dev_priv->agp_initialized)) {
--		DRM_ERROR
--		    ("Attempt to allocate from uninitialized memory manager.\n");
--		mutex_unlock(&dev->struct_mutex);
--		return -EINVAL;
--	}
--
--	item = kzalloc(sizeof(*item), GFP_KERNEL);
--	if (!item) {
--		retval = -ENOMEM;
--		goto fail_alloc;
--	}
--
--	mem->size = (mem->size + SIS_MM_ALIGN_MASK) >> SIS_MM_ALIGN_SHIFT;
--	if (pool == AGP_TYPE) {
--		retval = drm_mm_insert_node(&dev_priv->agp_mm,
--					    &item->mm_node,
--					    mem->size);
--		offset = item->mm_node.start;
--	} else {
--#if defined(CONFIG_FB_SIS) || defined(CONFIG_FB_SIS_MODULE)
--		item->req.size = mem->size;
--		sis_malloc(&item->req);
--		if (item->req.size == 0)
--			retval = -ENOMEM;
--		offset = item->req.offset;
--#else
--		retval = drm_mm_insert_node(&dev_priv->vram_mm,
--					    &item->mm_node,
--					    mem->size);
--		offset = item->mm_node.start;
--#endif
--	}
--	if (retval)
--		goto fail_alloc;
--
--	retval = idr_alloc(&dev_priv->object_idr, item, 1, 0, GFP_KERNEL);
--	if (retval < 0)
--		goto fail_idr;
--	user_key = retval;
--
--	list_add(&item->owner_list, &file_priv->obj_list);
--	mutex_unlock(&dev->struct_mutex);
--
--	mem->offset = ((pool == 0) ?
--		      dev_priv->vram_offset : dev_priv->agp_offset) +
--	    (offset << SIS_MM_ALIGN_SHIFT);
--	mem->free = user_key;
--	mem->size = mem->size << SIS_MM_ALIGN_SHIFT;
--
--	return 0;
--
--fail_idr:
--	drm_mm_remove_node(&item->mm_node);
--fail_alloc:
--	kfree(item);
--	mutex_unlock(&dev->struct_mutex);
--
--	mem->offset = 0;
--	mem->size = 0;
--	mem->free = 0;
--
--	DRM_DEBUG("alloc %d, size = %ld, offset = %ld\n", pool, mem->size,
--		  mem->offset);
--
--	return retval;
--}
--
--static int sis_drm_free(struct drm_device *dev, void *data, struct drm_file *file_priv)
--{
--	drm_sis_private_t *dev_priv = dev->dev_private;
--	drm_sis_mem_t *mem = data;
--	struct sis_memblock *obj;
--
--	mutex_lock(&dev->struct_mutex);
--	obj = idr_find(&dev_priv->object_idr, mem->free);
--	if (obj == NULL) {
--		mutex_unlock(&dev->struct_mutex);
--		return -EINVAL;
--	}
--
--	idr_remove(&dev_priv->object_idr, mem->free);
--	list_del(&obj->owner_list);
--	if (drm_mm_node_allocated(&obj->mm_node))
--		drm_mm_remove_node(&obj->mm_node);
--#if defined(CONFIG_FB_SIS) || defined(CONFIG_FB_SIS_MODULE)
--	else
--		sis_free(obj->req.offset);
--#endif
--	kfree(obj);
--	mutex_unlock(&dev->struct_mutex);
--	DRM_DEBUG("free = 0x%lx\n", mem->free);
--
--	return 0;
--}
--
--static int sis_fb_alloc(struct drm_device *dev, void *data,
--			struct drm_file *file_priv)
--{
--	return sis_drm_alloc(dev, file_priv, data, VIDEO_TYPE);
--}
--
--static int sis_ioctl_agp_init(struct drm_device *dev, void *data,
--			      struct drm_file *file_priv)
--{
--	drm_sis_private_t *dev_priv = dev->dev_private;
--	drm_sis_agp_t *agp = data;
--	dev_priv = dev->dev_private;
--
--	mutex_lock(&dev->struct_mutex);
--	drm_mm_init(&dev_priv->agp_mm, 0, agp->size >> SIS_MM_ALIGN_SHIFT);
--
--	dev_priv->agp_initialized = 1;
--	dev_priv->agp_offset = agp->offset;
--	mutex_unlock(&dev->struct_mutex);
--
--	DRM_DEBUG("offset = %lu, size = %lu\n", agp->offset, agp->size);
--	return 0;
--}
--
--static int sis_ioctl_agp_alloc(struct drm_device *dev, void *data,
--			       struct drm_file *file_priv)
--{
--
--	return sis_drm_alloc(dev, file_priv, data, AGP_TYPE);
--}
--
--static drm_local_map_t *sis_reg_init(struct drm_device *dev)
--{
--	struct drm_map_list *entry;
--	drm_local_map_t *map;
--
--	list_for_each_entry(entry, &dev->maplist, head) {
--		map = entry->map;
--		if (!map)
--			continue;
--		if (map->type == _DRM_REGISTERS)
--			return map;
--	}
--	return NULL;
--}
--
--int sis_idle(struct drm_device *dev)
--{
--	drm_sis_private_t *dev_priv = dev->dev_private;
--	uint32_t idle_reg;
--	unsigned long end;
--	int i;
--
--	if (dev_priv->idle_fault)
--		return 0;
--
--	if (dev_priv->mmio == NULL) {
--		dev_priv->mmio = sis_reg_init(dev);
--		if (dev_priv->mmio == NULL) {
--			DRM_ERROR("Could not find register map.\n");
--			return 0;
--		}
--	}
--
--	/*
--	 * Implement a device switch here if needed
--	 */
--
--	if (dev_priv->chipset != SIS_CHIP_315)
--		return 0;
--
--	/*
--	 * Timeout after 3 seconds. We cannot use DRM_WAIT_ON here
--	 * because its polling frequency is too low.
--	 */
--
--	end = jiffies + (HZ * 3);
--
--	for (i = 0; i < 4; ++i) {
--		do {
--			idle_reg = SIS_READ(0x85cc);
--		} while (!time_after_eq(jiffies, end) &&
--			  ((idle_reg & 0x80000000) != 0x80000000));
--	}
--
--	if (time_after_eq(jiffies, end)) {
--		DRM_ERROR("Graphics engine idle timeout. "
--			  "Disabling idle check\n");
--		dev_priv->idle_fault = 1;
--	}
--
--	/*
--	 * The caller never sees an error code. It gets trapped
--	 * in libdrm.
--	 */
--
--	return 0;
--}
--
--
--void sis_lastclose(struct drm_device *dev)
--{
--	drm_sis_private_t *dev_priv = dev->dev_private;
--
--	if (!dev_priv)
--		return;
--
--	mutex_lock(&dev->struct_mutex);
--	if (dev_priv->vram_initialized) {
--		drm_mm_takedown(&dev_priv->vram_mm);
--		dev_priv->vram_initialized = 0;
--	}
--	if (dev_priv->agp_initialized) {
--		drm_mm_takedown(&dev_priv->agp_mm);
--		dev_priv->agp_initialized = 0;
--	}
--	dev_priv->mmio = NULL;
--	mutex_unlock(&dev->struct_mutex);
--}
--
--void sis_reclaim_buffers_locked(struct drm_device *dev,
--				struct drm_file *file)
--{
--	struct sis_file_private *file_priv = file->driver_priv;
--	struct sis_memblock *entry, *next;
--
--	if (!(dev->master && file->master->lock.hw_lock))
--		return;
--
--	drm_legacy_idlelock_take(&file->master->lock);
--
--	mutex_lock(&dev->struct_mutex);
--	if (list_empty(&file_priv->obj_list)) {
--		mutex_unlock(&dev->struct_mutex);
--		drm_legacy_idlelock_release(&file->master->lock);
--
--		return;
--	}
--
--	sis_idle(dev);
--
--
--	list_for_each_entry_safe(entry, next, &file_priv->obj_list,
--				 owner_list) {
--		list_del(&entry->owner_list);
--		if (drm_mm_node_allocated(&entry->mm_node))
--			drm_mm_remove_node(&entry->mm_node);
--#if defined(CONFIG_FB_SIS) || defined(CONFIG_FB_SIS_MODULE)
--		else
--			sis_free(entry->req.offset);
--#endif
--		kfree(entry);
--	}
--	mutex_unlock(&dev->struct_mutex);
--
--	drm_legacy_idlelock_release(&file->master->lock);
--
--	return;
--}
--
--const struct drm_ioctl_desc sis_ioctls[] = {
--	DRM_IOCTL_DEF_DRV(SIS_FB_ALLOC, sis_fb_alloc, DRM_AUTH),
--	DRM_IOCTL_DEF_DRV(SIS_FB_FREE, sis_drm_free, DRM_AUTH),
--	DRM_IOCTL_DEF_DRV(SIS_AGP_INIT, sis_ioctl_agp_init, DRM_AUTH | DRM_MASTER | DRM_ROOT_ONLY),
--	DRM_IOCTL_DEF_DRV(SIS_AGP_ALLOC, sis_ioctl_agp_alloc, DRM_AUTH),
--	DRM_IOCTL_DEF_DRV(SIS_AGP_FREE, sis_drm_free, DRM_AUTH),
--	DRM_IOCTL_DEF_DRV(SIS_FB_INIT, sis_fb_init, DRM_AUTH | DRM_MASTER | DRM_ROOT_ONLY),
--};
--
--int sis_max_ioctl = ARRAY_SIZE(sis_ioctls);
-diff --git a/include/uapi/drm/sis_drm.h b/include/uapi/drm/sis_drm.h
-deleted file mode 100644
-index 3e3f7e989e0b..000000000000
---- a/include/uapi/drm/sis_drm.h
-+++ /dev/null
-@@ -1,77 +0,0 @@
--/* sis_drv.h -- Private header for sis driver -*- linux-c -*- */
--/*
-- * Copyright 2005 Eric Anholt
-- * All Rights Reserved.
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a
-- * copy of this software and associated documentation files (the "Software"),
-- * to deal in the Software without restriction, including without limitation
-- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-- * and/or sell copies of the Software, and to permit persons to whom the
-- * Software is furnished to do so, subject to the following conditions:
-- *
-- * The above copyright notice and this permission notice (including the next
-- * paragraph) shall be included in all copies or substantial portions of the
-- * Software.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-- * SOFTWARE.
-- *
-- */
--
--#ifndef __SIS_DRM_H__
--#define __SIS_DRM_H__
--
--#include "drm.h"
--
--#if defined(__cplusplus)
--extern "C" {
--#endif
--
--/* SiS specific ioctls */
--#define NOT_USED_0_3
--#define DRM_SIS_FB_ALLOC	0x04
--#define DRM_SIS_FB_FREE	        0x05
--#define NOT_USED_6_12
--#define DRM_SIS_AGP_INIT	0x13
--#define DRM_SIS_AGP_ALLOC	0x14
--#define DRM_SIS_AGP_FREE	0x15
--#define DRM_SIS_FB_INIT	        0x16
--
--#define DRM_IOCTL_SIS_FB_ALLOC		DRM_IOWR(DRM_COMMAND_BASE + DRM_SIS_FB_ALLOC, drm_sis_mem_t)
--#define DRM_IOCTL_SIS_FB_FREE		DRM_IOW( DRM_COMMAND_BASE + DRM_SIS_FB_FREE, drm_sis_mem_t)
--#define DRM_IOCTL_SIS_AGP_INIT		DRM_IOWR(DRM_COMMAND_BASE + DRM_SIS_AGP_INIT, drm_sis_agp_t)
--#define DRM_IOCTL_SIS_AGP_ALLOC		DRM_IOWR(DRM_COMMAND_BASE + DRM_SIS_AGP_ALLOC, drm_sis_mem_t)
--#define DRM_IOCTL_SIS_AGP_FREE		DRM_IOW( DRM_COMMAND_BASE + DRM_SIS_AGP_FREE, drm_sis_mem_t)
--#define DRM_IOCTL_SIS_FB_INIT		DRM_IOW( DRM_COMMAND_BASE + DRM_SIS_FB_INIT, drm_sis_fb_t)
--/*
--#define DRM_IOCTL_SIS_FLIP		DRM_IOW( 0x48, drm_sis_flip_t)
--#define DRM_IOCTL_SIS_FLIP_INIT		DRM_IO(  0x49)
--#define DRM_IOCTL_SIS_FLIP_FINAL	DRM_IO(  0x50)
--*/
--
--typedef struct {
--	int context;
--	unsigned long offset;
--	unsigned long size;
--	unsigned long free;
--} drm_sis_mem_t;
--
--typedef struct {
--	unsigned long offset, size;
--} drm_sis_agp_t;
--
--typedef struct {
--	unsigned long offset, size;
--} drm_sis_fb_t;
--
--#if defined(__cplusplus)
--}
--#endif
--
--#endif				/* __SIS_DRM_H__ */
 -- 
 2.25.1
 
