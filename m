@@ -2,72 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5665B641994
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Dec 2022 23:42:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD552641DCD
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Dec 2022 17:09:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDB1D10E204;
-	Sat,  3 Dec 2022 22:42:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E50310E048;
+	Sun,  4 Dec 2022 16:09:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59AE310E201;
- Sat,  3 Dec 2022 22:42:17 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2B3MgEfL015253; Sat, 3 Dec 2022 22:42:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=CRiOFceBSHcccdzlP0WNsBunBsJJJm6wdP4oqKzJiyI=;
- b=eJb8tQsebkwxN3R4fD2f58vsZ193cP+n1Q3XhVCX4Fk1VsDYZr/vGD8cz3GIS2Umnj/4
- qz7JhFi0ozX9hlAp5coi7GVCFaK6b56DBnzC56SV1W8q3Bhq95aM90jFV2PdNrIEBmpe
- mYtLmu0Am4s4Mbo3G/HfahT73JcAp56W6SUZrCPCTVEu7sB0rmOfKqgBrrHOsZXTUfSP
- 0ykjAinK7asVaQo8oqrSjP80yko2JX0zvrF4OAFAb3SGjvutMA1vjeDRbmAyHV5tY9q7
- JS+DCcE+nXAs1gjHiWMBL81nfObCS7oVDTA7xoqgZ7ywExA3APqXWLhrKIF/9cvJdK3s FA== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3m7xp8h819-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 03 Dec 2022 22:42:14 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2B3MgDVh014607
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 3 Dec 2022 22:42:13 GMT
-Received: from hyd-lnxbld559.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Sat, 3 Dec 2022 14:42:10 -0800
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-To: freedreno <freedreno@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>
-Subject: [PATCH 4/4] drm/msm/a6xx: Update ROQ size in coredump
-Date: Sun, 4 Dec 2022 04:11:44 +0530
-Message-ID: <20221204040946.4.I07f22966395eb045f6b312710f53890d5d7e69d4@changeid>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <20221204040946.1.Ib978de92c4bd000b515486aad72e96c2481f84d0@changeid>
-References: <20221204040946.1.Ib978de92c4bd000b515486aad72e96c2481f84d0@changeid>
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 818F910E048
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Dec 2022 16:09:46 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id w15so15242440wrl.9
+ for <dri-devel@lists.freedesktop.org>; Sun, 04 Dec 2022 08:09:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mSY/soRdbw3l7VfX1MPIQXbuFJkETcDbjbzdvzg9U1E=;
+ b=nmnnLHjQQPJyJNBEfVfdOPXpOYw99+Ew34YDKQSA7EUqQ1wRE7HB99k+5HnDEsFXs6
+ s/Wti8lfe/gDF0GC8HfFWK6SarmOEHUEk9+mOcTopjhIelQOQdkwrwTaJ2Nuha5VsgW2
+ 2H6F26qSiuyp8Kq/ZSHMfpgdbHvQFcFP1JzgfnxoezYYiNxdqBEBTLKe4Lp5bAtojZvR
+ 8CRQD22BJyoRVHfXHYamci85e1A3cN4zPEaRD05DJf6yKSFDZhxfON8l9cCNMXaL7xNB
+ p3PM7GEe2pPEVM3wrIgGfBatgwqg3XW8DZRAw5uxGi7GSWYN8djxxtisjrQ0JrQ2Emxp
+ xjmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=mSY/soRdbw3l7VfX1MPIQXbuFJkETcDbjbzdvzg9U1E=;
+ b=HV08EkA9sEQJU1VqEMNGKy0NhhI4GEhSJJKKAZE1P28Hze3WsZ2bOk6qO9iLM5jIut
+ 5o0uL32PX1Vmjp1TCrFLwtMJiJbLr1iSpVz5cGaqSiTkJC4yklsVjdybb9/ywQ8eiNZM
+ 6k5L8zvLaLyKeWtqd1T71ijGbzPoOr1CAyd6qq/XyElT2ehPS1zCESRVa4R+TkTMUgyB
+ y250VIj82mGkVGnIsk9tLzRdJqBElKTCGsp/0mSZgGi49yJjj1Ylkk2W+c+YkvI+eQoM
+ YRTgKEse72tBqCF9QgBlWRDNuanqTx2SXDu5Gf83c74ObLfyUUWfQL9MZJ0/c1vbNGYX
+ 3i6A==
+X-Gm-Message-State: ANoB5pme1y1A8YqxD/qFRWmp/Jq/cOdGYmnZpp3kJhq0d+O40zmZYItS
+ yBBTJxvREXTKEUgeUadfJxc=
+X-Google-Smtp-Source: AA0mqf5OXVS1lM5QoKtCTGOYBnrpmscrGHlaSSO7Jq8/Dc8cy0PB5VfXUZBhR9OrsdWfWopJ4DW8pw==
+X-Received: by 2002:a5d:6dd1:0:b0:236:75a8:58d with SMTP id
+ d17-20020a5d6dd1000000b0023675a8058dmr49641323wrz.295.1670170184810; 
+ Sun, 04 Dec 2022 08:09:44 -0800 (PST)
+Received: from archbook.localnet (84-72-105-84.dclient.hispeed.ch.
+ [84.72.105.84]) by smtp.gmail.com with ESMTPSA id
+ j13-20020a056000124d00b002421db5f279sm11847154wrx.78.2022.12.04.08.09.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 04 Dec 2022 08:09:44 -0800 (PST)
+From: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, 
+ Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ Ban Tao <fengzheng923@gmail.com>,
+ =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ James Schulman <james.schulman@cirrus.com>,
+ David Rhodes <david.rhodes@cirrus.com>, 
+ Lucas Tanure <tanureal@opensource.cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+ Cheng-Yi Chiang <cychiang@chromium.org>, 
+ Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, 
+ Benson Leung <bleung@chromium.org>, Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Stephan Gerhold <stephan@gerhold.net>, 
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Banajit Goswami <bgoswami@quicinc.com>, 
+ Heiko Stuebner <heiko@sntech.de>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+ Fabio Estevam <festevam@gmail.com>,
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Olivier Moysan <olivier.moysan@foss.st.com>, 
+ Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.om>,
+ Lars-Peter Clausen <lars@metafoo.de>, 
+ Bogdan Togorean <bogdan.togorean@analog.com>,
+ =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+ Vincent Knecht <vincent.knecht@mailoo.org>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>,
+ - <patches@opensource.cirrus.com>, 
+ Jayesh Choudhary <j-choudhary@ti.com>, Daniel Drake <drake@endlessm.com>, 
+ Katsuhiro Suzuki <katsuhiro@katsuster.net>,
+ Shengjiu Wang <shengjiu.wang@nxp.com>, 
+ Paul Cercueil <paul@crapouillou.net>, Jee Heng <jee.heng.sia@intel.com>, 
+ Lubomir Rintel <lkundrak@v3.sk>,
+ Codrin Ciubotariu <codrin.ciubotariu@microchip.com>, 
+ Mohan Kumar <mkumard@nvidia.com>, Sameer Pujar <spujar@nvidia.com>, 
+ Rohit kumar <rohitkr@codeaurora.org>, Derek Fang <derek.fang@realtek.com>, 
+ Biju Das <biju.das.jz@bp.renesas.com>, ChiYuan Huang <cy_huang@richtek.com>, 
+ Jose Abreu <joabreu@synopsys.com>, Andrew Davis <afd@ti.com>,
+ Shi Fu <shifu0704@thundersoft.com>, 
+ Shenghao Ding <shenghao-ding@ti.com>, Matt Flax <flatmax@flatmax.com>, 
+ Ricard Wanderlof <ricardw@axis.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, 
+ dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, 
+ linux-sunxi@lists.linux.dev, asahi@lists.linux.dev, 
+ chrome-platform@lists.linux.dev, linux-tegra@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ linux-stm32@st-md-mailman.stormreply.com, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH 2/3] ASoC: dt-bindings: Reference common DAI properties
+Date: Sun, 04 Dec 2022 17:09:41 +0100
+Message-ID: <2251607.XGVbBG2WQu@archbook>
+In-Reply-To: <20221203160442.69594-2-krzysztof.kozlowski@linaro.org>
+References: <20221203160442.69594-1-krzysztof.kozlowski@linaro.org>
+ <20221203160442.69594-2-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: a-cVsWgVR8zG49UQN33PCsqFr5u87vQp
-X-Proofpoint-GUID: a-cVsWgVR8zG49UQN33PCsqFr5u87vQp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-03_12,2022-12-01_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 clxscore=1015
- phishscore=0 lowpriorityscore=0 suspectscore=0 spamscore=0
- priorityscore=1501 mlxlogscore=846 malwarescore=0 bulkscore=0
- impostorscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2210170000 definitions=main-2212030202
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,92 +136,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Akhil P Oommen <quic_akhilpo@quicinc.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, linux-kernel@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since RoQ size differs between generations, calculate dynamically the
-RoQ size while capturing coredump.
+On Samstag, 3. Dezember 2022 17:04:41 CET Krzysztof Kozlowski wrote:
+> Reference in all sound components which have '#sound-dai-cells' the
+> dai-common.yaml schema, which allows to use 'sound-name-prefix'
+> property.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> ---
+> 
+> This is an output of discussion here:
+> https://lore.kernel.org/all/Y255C+TGNVJ9fs8A@sirena.org.uk/
+> 
+> This patch supersedes previous WSA883x one.
+> ---
 
-Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
----
+Hello,
 
- drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 11 ++++++++++-
- drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h | 17 ++++++++++-------
- 2 files changed, 20 insertions(+), 8 deletions(-)
+for rockchip,i2s-tdm, we get some (new?) warnings with W=1:
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-index da190b6ddba0..80e60e34ce7d 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-@@ -939,15 +939,24 @@ static void a6xx_get_registers(struct msm_gpu *gpu,
- 			dumper);
- }
- 
-+static u32 a6xx_get_cp_roq_size(struct msm_gpu *gpu)
-+{
-+	/* The value at [16:31] is in 4dword units. Convert it to dwords */
-+	return gpu_read(gpu, REG_A6XX_CP_ROQ_THRESHOLDS_2) >> 14;
-+}
-+
- /* Read a block of data from an indexed register pair */
- static void a6xx_get_indexed_regs(struct msm_gpu *gpu,
- 		struct a6xx_gpu_state *a6xx_state,
--		const struct a6xx_indexed_registers *indexed,
-+		struct a6xx_indexed_registers *indexed,
- 		struct a6xx_gpu_state_obj *obj)
- {
- 	int i;
- 
- 	obj->handle = (const void *) indexed;
-+	if (indexed->count_fn)
-+		indexed->count = indexed->count_fn(gpu);
-+
- 	obj->data = state_kcalloc(a6xx_state, indexed->count, sizeof(u32));
- 	if (!obj->data)
- 		return;
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
-index 808121c88662..790f55e24533 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
-@@ -383,25 +383,28 @@ static const struct a6xx_registers a6xx_gmu_reglist[] = {
- 	REGS(a6xx_gmu_gx_registers, 0, 0),
- };
- 
--static const struct a6xx_indexed_registers {
-+static u32 a6xx_get_cp_roq_size(struct msm_gpu *gpu);
-+
-+static struct a6xx_indexed_registers {
- 	const char *name;
- 	u32 addr;
- 	u32 data;
- 	u32 count;
-+	u32 (*count_fn)(struct msm_gpu *gpu);
- } a6xx_indexed_reglist[] = {
- 	{ "CP_SQE_STAT", REG_A6XX_CP_SQE_STAT_ADDR,
--		REG_A6XX_CP_SQE_STAT_DATA, 0x33 },
-+		REG_A6XX_CP_SQE_STAT_DATA, 0x33, NULL },
- 	{ "CP_DRAW_STATE", REG_A6XX_CP_DRAW_STATE_ADDR,
--		REG_A6XX_CP_DRAW_STATE_DATA, 0x100 },
-+		REG_A6XX_CP_DRAW_STATE_DATA, 0x100, NULL },
- 	{ "CP_UCODE_DBG_DATA", REG_A6XX_CP_SQE_UCODE_DBG_ADDR,
--		REG_A6XX_CP_SQE_UCODE_DBG_DATA, 0x6000 },
-+		REG_A6XX_CP_SQE_UCODE_DBG_DATA, 0x8000, NULL },
- 	{ "CP_ROQ", REG_A6XX_CP_ROQ_DBG_ADDR,
--		REG_A6XX_CP_ROQ_DBG_DATA, 0x400 },
-+		REG_A6XX_CP_ROQ_DBG_DATA, 0, a6xx_get_cp_roq_size},
- };
- 
--static const struct a6xx_indexed_registers a6xx_cp_mempool_indexed = {
-+static struct a6xx_indexed_registers a6xx_cp_mempool_indexed = {
- 	"CP_MEMPOOL", REG_A6XX_CP_MEM_POOL_DBG_ADDR,
--		REG_A6XX_CP_MEM_POOL_DBG_DATA, 0x2060,
-+		REG_A6XX_CP_MEM_POOL_DBG_DATA, 0x2060, NULL,
- };
- 
- #define DEBUGBUS(_id, _count) { .id = _id, .name = #_id, .count = _count }
--- 
-2.7.4
+    /home/fratti/Projekte/linux/arch/arm64/boot/dts/rockchip/rk3566-pinenote-v1.1.dtb: i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
+            From schema: /home/fratti/Projekte/linux/Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.yaml
+    DTC_CHK arch/arm64/boot/dts/rockchip/rk3566-soquartz-cm4.dtb
+    /home/fratti/Projekte/linux/arch/arm64/boot/dts/rockchip/rk3566-pinenote-v1.2.dtb: i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
+            From schema: /home/fratti/Projekte/linux/Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.yaml
+    DTC_CHK arch/arm64/boot/dts/rockchip/rk3566-soquartz-model-a.dtb
+    /home/fratti/Projekte/linux/arch/arm64/boot/dts/rockchip/rk3566-quartz64-a.dtb: i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
+            From schema: /home/fratti/Projekte/linux/Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.yaml
+    /home/fratti/Projekte/linux/arch/arm64/boot/dts/rockchip/rk3566-quartz64-b.dtb: i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
+            From schema: /home/fratti/Projekte/linux/Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.yaml
+    /home/fratti/Projekte/linux/arch/arm64/boot/dts/rockchip/rk3566-roc-pc.dtb: i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
+            From schema: /home/fratti/Projekte/linux/Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.yaml
+    DTC_CHK arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro.dtb
+    /home/fratti/Projekte/linux/arch/arm64/boot/dts/rockchip/rk3566-soquartz-blade.dtb: i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
+            From schema: /home/fratti/Projekte/linux/Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.yaml
+    DTC_CHK arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dtb
+    /home/fratti/Projekte/linux/arch/arm64/boot/dts/rockchip/rk3566-soquartz-cm4.dtb: i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
+            From schema: /home/fratti/Projekte/linux/Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.yaml
+    /home/fratti/Projekte/linux/arch/arm64/boot/dts/rockchip/rk3566-soquartz-model-a.dtb: i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
+            From schema: /home/fratti/Projekte/linux/Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.yaml
+
+Apparently we don't have separate resets for tx/rx on i2s2 on this
+hardware. Should we add 'm' to the allowed reset-names for this
+case?
+
+Cheers,
+Nicolas Frattaroli
+
+
 
