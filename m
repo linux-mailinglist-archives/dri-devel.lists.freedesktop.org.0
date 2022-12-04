@@ -2,47 +2,129 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BBDB641E1D
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Dec 2022 18:04:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41A86641EDD
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Dec 2022 19:32:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76BE010E023;
-	Sun,  4 Dec 2022 17:04:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BA8810E03F;
+	Sun,  4 Dec 2022 18:32:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00D2B10E023
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Dec 2022 17:04:37 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 4F8FD60EB7;
- Sun,  4 Dec 2022 17:04:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B176C433D6;
- Sun,  4 Dec 2022 17:04:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1670173476;
- bh=ck5rflBx3FfQDLoWYGE2aQMg+fZAGDUHXRcq7ClZGHI=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=Cn4omvvkrWxICxl0+z2L/dVSGXUfY71c0BG8YrnvnFdncD6ePkVzznLW9HGElBiGA
- zgmlyxltfOe5IMJiyRl0ZNdzyhAzw2xehYr1o73j3lqs8yEPFugHn4M3unv/XmZqVP
- 1rcvMBj7D5nttNQWaX2akZ0sYgS58Y8ILl1OVXCxUHs+o67akmFA1NW6Mp73MTZIdm
- K59hjyp1i0b3jekOKkRSwnFedwV49Lu6GJmdOMqLYvtb19bs8ZfayctcNkOHO7zxDI
- VKqE1rkDgIPKu7zw6FvAMtelpXnxuIiNbGXtDdgo1xHDFPWRzT3STJPO3Y/VDVIrgD
- 7A6Bfd/1tJ7fg==
-From: Mark Brown <broonie@kernel.org>
-To: Russell King <linux@armlinux.org.uk>, Jaroslav Kysela <perex@perex.cz>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>
-In-Reply-To: <20221130184644.464820-1-broonie@kernel.org>
-References: <20221130184644.464820-1-broonie@kernel.org>
-Subject: Re: [PATCH v1 0/2] ASoC/tda998x: Fix reporting of nonexistent capture
- streams
-Message-Id: <167017347802.1275554.11223295205961784080.b4-ty@kernel.org>
-Date: Sun, 04 Dec 2022 17:04:38 +0000
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60C2E10E03F
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Dec 2022 18:32:31 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id
+ v124-20020a1cac82000000b003cf7a4ea2caso10250675wme.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 04 Dec 2022 10:32:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=cT6XsFeikKqtH1/hCcOrW6pF6YKm2yjZrCCnG8JeZLE=;
+ b=YY31dTp15ts/Sd2mG4d4Znp5cd0G0qqvDj3IRWl0XuNT9Yto3NXrjJS5gszXn7RWHn
+ RpjCotoEVSlLlonPHNwJP1TCiJRRkkKAcGEZ8EfBRcsG6yvbfZB1inHPervKq6osS7xm
+ NJIx2owTgSqNCsFpFYl9tQejPnYMEDG2FBAY3KJnV+ZLsPiVQ4zahlOuWLRbRj4EcxRl
+ 6U9NUiY070rRU3dQeHmHym3VcILeTFk1q21u8fCl630Atust2KqldbbvqZwRlvHqft27
+ J5n1jMlZ2Cmg94qlkwYAUJ5lo/Thj627DGaQuxdxtNNouDyvDo4QcPZbYLhaGDYxMLAh
+ btNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=cT6XsFeikKqtH1/hCcOrW6pF6YKm2yjZrCCnG8JeZLE=;
+ b=78KEZBkvcij/mlPuVyh/r//ys8SH7Ei8Ts++mQbi2KljJUNzcKeM1PovlieVFqs3Om
+ iTFWpOSVwRwcvAAht8VHmdi33IynWXnlywZVw/5Td7i3mbQ+r4l/zsGGjKCXv/7/zP8g
+ lediM0lbVWiRQrXiIbSXGG2k256XadRJW+l3JsG3uaNb/cpjHGyhStb4LhpNd33WXCwU
+ ZGYcb325V8Myjpii1JlOaI6+wWx6UkGgasQQn4jzca6PKckwItePcXZaGmODtbAc2Vjd
+ mItJ5csMaG4SaNQYmXRBETSjTXJzKthb9cF8qoFV9baczj6CJzkgBiSFKgdcVKk132ih
+ hP1w==
+X-Gm-Message-State: ANoB5pkcwj4EPI1ywR5ZMOp8u3f5t0noy97S4L4CZqQMnMloAz3PsofD
+ +hMnj8BvArLo1lQo3WztbY4=
+X-Google-Smtp-Source: AA0mqf5w9S5gt2nyROsIJ/KepCdghxD2S5KWJ22n53ipvP7a98YVBzA2u2fA7xIwo0AsFvdt9OTByA==
+X-Received: by 2002:a05:600c:3590:b0:3d0:1489:78c4 with SMTP id
+ p16-20020a05600c359000b003d0148978c4mr47437513wmq.167.1670178749708; 
+ Sun, 04 Dec 2022 10:32:29 -0800 (PST)
+Received: from archbook.localnet (84-72-105-84.dclient.hispeed.ch.
+ [84.72.105.84]) by smtp.gmail.com with ESMTPSA id
+ i2-20020adff302000000b002421a8f4fa6sm12120806wro.92.2022.12.04.10.32.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 04 Dec 2022 10:32:29 -0800 (PST)
+From: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, 
+ Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ Ban Tao <fengzheng923@gmail.com>,
+ =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ James Schulman <james.schulman@cirrus.com>,
+ David Rhodes <david.rhodes@cirrus.com>, 
+ Lucas Tanure <tanureal@opensource.cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+ Cheng-Yi Chiang <cychiang@chromium.org>, 
+ Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, 
+ Benson Leung <bleung@chromium.org>, Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Stephan Gerhold <stephan@gerhold.net>, 
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Banajit Goswami <bgoswami@quicinc.com>, 
+ Heiko Stuebner <heiko@sntech.de>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+ Fabio Estevam <festevam@gmail.com>,
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Olivier Moysan <olivier.moysan@foss.st.com>, 
+ Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.om>,
+ Lars-Peter Clausen <lars@metafoo.de>, 
+ Bogdan Togorean <bogdan.togorean@analog.com>,
+ =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+ Vincent Knecht <vincent.knecht@mailoo.org>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>,
+ - <patches@opensource.cirrus.com>, 
+ Jayesh Choudhary <j-choudhary@ti.com>, Daniel Drake <drake@endlessm.com>, 
+ Katsuhiro Suzuki <katsuhiro@katsuster.net>,
+ Shengjiu Wang <shengjiu.wang@nxp.com>, 
+ Paul Cercueil <paul@crapouillou.net>, Jee Heng <jee.heng.sia@intel.com>, 
+ Lubomir Rintel <lkundrak@v3.sk>,
+ Codrin Ciubotariu <codrin.ciubotariu@microchip.com>, 
+ Mohan Kumar <mkumard@nvidia.com>, Sameer Pujar <spujar@nvidia.com>, 
+ Rohit kumar <rohitkr@codeaurora.org>, Derek Fang <derek.fang@realtek.com>, 
+ Biju Das <biju.das.jz@bp.renesas.com>, ChiYuan Huang <cy_huang@richtek.com>, 
+ Jose Abreu <joabreu@synopsys.com>, Andrew Davis <afd@ti.com>,
+ Shi Fu <shifu0704@thundersoft.com>, 
+ Shenghao Ding <shenghao-ding@ti.com>, Matt Flax <flatmax@flatmax.com>, 
+ Ricard Wanderlof <ricardw@axis.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, 
+ dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, 
+ linux-sunxi@lists.linux.dev, asahi@lists.linux.dev, 
+ chrome-platform@lists.linux.dev, linux-tegra@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ linux-stm32@st-md-mailman.stormreply.com, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH 2/3] ASoC: dt-bindings: Reference common DAI properties
+Date: Sun, 04 Dec 2022 19:32:26 +0100
+Message-ID: <13951589.OODuZ4BQiV@archbook>
+In-Reply-To: <7c258f71-23d0-36bd-8abf-b227d2522267@linaro.org>
+References: <20221203160442.69594-1-krzysztof.kozlowski@linaro.org>
+ <2251607.XGVbBG2WQu@archbook>
+ <7c258f71-23d0-36bd-8abf-b227d2522267@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.11.0-dev-8af31
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,49 +137,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 30 Nov 2022 18:46:42 +0000, Mark Brown wrote:
-> The recently added pcm-test selftest has pointed out that systems with
-> the tda998x driver end up advertising that they support capture when in
-> reality as far as I can see the tda998x devices are transmit only.  The
-> DAIs registered through hdmi-codec are bidirectional, meaning that for
-> I2S systems when combined with a typical bidrectional CPU DAI the
-> overall capability of the PCM is bidirectional.  In most cases the I2S
-> links will clock OK but no useful audio will be returned which isn't so
-> bad but we should still not advertise the useless capability, and some
-> systems may notice problems for example due to pinmux management.
+On Sonntag, 4. Dezember 2022 17:47:05 CET Krzysztof Kozlowski wrote:
+> On 04/12/2022 17:09, Nicolas Frattaroli wrote:
+> > On Samstag, 3. Dezember 2022 17:04:41 CET Krzysztof Kozlowski wrote:
+> >> Reference in all sound components which have '#sound-dai-cells' the
+> >> dai-common.yaml schema, which allows to use 'sound-name-prefix'
+> >> property.
+> >>
+> >> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> >>
+> >> ---
+> >>
+> >> This is an output of discussion here:
+> >> https://lore.kernel.org/all/Y255C+TGNVJ9fs8A@sirena.org.uk/
+> >>
+> >> This patch supersedes previous WSA883x one.
+> >> ---
+> > 
+> > Hello,
+> > 
+> > for rockchip,i2s-tdm, we get some (new?) warnings with W=1:
+> > 
+> >     /home/fratti/Projekte/linux/arch/arm64/boot/dts/rockchip/rk3566-pinenote-v1.1.dtb: i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
+> >             From schema: /home/fratti/Projekte/linux/Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.yaml
 > 
-> [...]
+> I did not touch reset names, so are you sure these are not old warnings?
+> 
+> 
+> Best regards,
+> Krzysztof
+> 
+> 
 
-Applied to
+You are correct, these aren't new, I thought they were due to it now
+actually checking reset-names or something. However, checking with
+linux-next/master shows that these were already there. Apologies for
+the noise.
 
-   broonie/sound.git for-next
+For rockchip,i2s-tdm:
 
-Thanks!
+Tested-by: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+Acked-by: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
 
-[1/2] ASoC: hdmi-codec: Allow playback and capture to be disabled
-      commit: f77a066f4ed307db93aafee621e2683c3bda98ce
-[2/2] drm: tda99x: Don't advertise non-existent capture support
-      commit: a04f1c81316d27e140c3df5561e5ef87794cd4bc
+Kind regards,
+Nicolas Frattaroli
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
