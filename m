@@ -1,56 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01FD4641EEB
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Dec 2022 19:35:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 529DB641EE7
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Dec 2022 19:35:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3402410E061;
-	Sun,  4 Dec 2022 18:34:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3768E10E058;
+	Sun,  4 Dec 2022 18:34:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com
- [209.85.217.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C666D10E209
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Dec 2022 00:12:51 +0000 (UTC)
-Received: by mail-vs1-f52.google.com with SMTP id 128so7942053vsz.12
- for <dri-devel@lists.freedesktop.org>; Sat, 03 Dec 2022 16:12:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=jqWnxoQvZbiditV/1/nr8cwEgzJwVCMstnT64OiZh8U=;
- b=8JjgmlPXKjLOMkHTmSeYayuxhkDx7ZmaPuAe31SBD/2C9P5CSjk/5EynO8+r40+QGc
- URP6oZ6O9fHCyhxRtS4d9WhqtVz4NhC2xw4JIkaDx1S1SCjH0Vc0F5VUjyKIwAgmIAC5
- JxLTtAAdncxOOHo5GAZ7PivX1gFofiuG2SExAzSYGQ5fQ07kvAUi7QAVDSTtMxrAgp5q
- 9/fPJ5n6PZwofQyxyPIeHMwc9s70PWbJOEiR/P6HhaIfiyU3YncRW+uzDVhjOBvOq1YN
- bD3HhssZm6kiU/VLv4+9SVio28HmmCgR9CwaUs+03Z/4Fggf/U0tyyPh2x8pF9NVAwQu
- WyxQ==
-X-Gm-Message-State: ANoB5plWblqd+TCc3R8zpoeN1BlRplX0ISJzdVS1Jsr9GOgcmpJhd6jS
- 3NVHjJyEoQ+pES635WJsYd5/7mmF1hVLCZ49
-X-Google-Smtp-Source: AA0mqf5TKe9bLnMiLu4H0jLDpuvJ3/i9spkYdYz+i1KjrM+vjuG+9LcJMbmZElQcvpcSz0gXZ8kNew==
-X-Received: by 2002:a05:6102:5588:b0:3b0:51ad:7c7a with SMTP id
- dc8-20020a056102558800b003b051ad7c7amr32516666vsb.52.1670112769937; 
- Sat, 03 Dec 2022 16:12:49 -0800 (PST)
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com.
- [209.85.217.42]) by smtp.gmail.com with ESMTPSA id
- v74-20020a1fac4d000000b003bc4937c38esm1586847vke.41.2022.12.03.16.12.49
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 03 Dec 2022 16:12:49 -0800 (PST)
-Received: by mail-vs1-f42.google.com with SMTP id t5so7967494vsh.8
- for <dri-devel@lists.freedesktop.org>; Sat, 03 Dec 2022 16:12:49 -0800 (PST)
-X-Received: by 2002:a05:6102:3c82:b0:3aa:17f4:d63d with SMTP id
- c2-20020a0561023c8200b003aa17f4d63dmr35558496vsv.22.1670112769083; Sat, 03
- Dec 2022 16:12:49 -0800 (PST)
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A970710E029
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Dec 2022 14:01:14 +0000 (UTC)
+Received: from canpemm500010.china.huawei.com (unknown [172.30.72.57])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NQ7XG58DxzqSrc
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Dec 2022 21:57:02 +0800 (CST)
+Received: from localhost.localdomain (10.175.112.70) by
+ canpemm500010.china.huawei.com (7.192.105.118) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Sun, 4 Dec 2022 22:01:09 +0800
+From: Wang Yufen <wangyufen@huawei.com>
+To: <p.zabel@pengutronix.de>, <airlied@gmail.com>, <daniel@ffwll.ch>
+Subject: [PATCH] gpu: ipu-v3: fix refcount leak in ipu_add_client_devices()
+Date: Sun, 4 Dec 2022 22:01:01 +0800
+Message-ID: <1670162461-29521-1-git-send-email-wangyufen@huawei.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-From: "mb@lab.how" <mb@lab.how>
-Date: Sat, 3 Dec 2022 17:12:38 -0700
-X-Gmail-Original-Message-ID: <CAEdEoBYXHq9cCzsbMYTpG1B41Yz=-QAjFx7bJDOnPanN5Tmo7A@mail.gmail.com>
-Message-ID: <CAEdEoBYXHq9cCzsbMYTpG1B41Yz=-QAjFx7bJDOnPanN5Tmo7A@mail.gmail.com>
-Subject: Re: [PATCH 2/2] vfio/pci: Remove console drivers
-To: alex.williamson@redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Originating-IP: [10.175.112.70]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ canpemm500010.china.huawei.com (7.192.105.118)
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Sun, 04 Dec 2022 18:34:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,39 +44,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, kraxel@redhat.com, tzimmermann@suse.de,
- lersek@redhat.com
+Cc: Wang Yufen <wangyufen@huawei.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+The node returned by of_graph_get_port_by_id() with refcount incremented,
+of_node_put() needs be called when finish using it. So add it in the
+error path in ipu_add_client_devices().
 
-I hope it is ok to reply to this old thread. Unfortunately, I found a
-problem only now after upgrading to 6.0.
+Fixes: 17e052175039 ("gpu: ipu-v3: Do not bail out on missing optional port nodes")
+Signed-off-by: Wang Yufen <wangyufen@huawei.com>
+---
+ drivers/gpu/ipu-v3/ipu-common.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-My setup has multiple GPUs (2), and I depend on EFIFB to have a working console.
-pre-patch behavior, when I bind the vfio-pci to my secondary GPU both
-the passthrough and the EFIFB keep working fine.
-post-patch behavior, when I bind the vfio-pci to the secondary GPU,
-the EFIFB disappears from the system, binding the console to the
-"dummy console".
-Whenever you try to access the terminal, you have the screen stuck in
-whatever was the last buffer content, which gives the impression of
-"freezing," but I can still type.
-Everything else works, including the passthrough.
+diff --git a/drivers/gpu/ipu-v3/ipu-common.c b/drivers/gpu/ipu-v3/ipu-common.c
+index 1183185..80587f5 100644
+--- a/drivers/gpu/ipu-v3/ipu-common.c
++++ b/drivers/gpu/ipu-v3/ipu-common.c
+@@ -1164,6 +1164,7 @@ static int ipu_add_client_devices(struct ipu_soc *ipu, unsigned long ipu_base)
+ 
+ 		pdev = platform_device_alloc(reg->name, id++);
+ 		if (!pdev) {
++			of_node_put(of_node);
+ 			ret = -ENOMEM;
+ 			goto err_register;
+ 		}
+-- 
+1.8.3.1
 
-I can only think about a few options:
-
-- Is there a way to have EFIFB show up again? After all it looks like
-the kernel has just abandoned it, but the buffer is still there. I
-can't find a single message about the secondary card and EFIFB in
-dmesg, but there's a message for the primary card and EFIFB.
-- Can we have a boolean controlling the behavior of vfio-pci
-altogether or at least controlling the behavior of vfio-pci for that
-specific ID? I know there's already some option for vfio-pci and VGA
-cards, would it be appropriate to attach this behavior to that option?
-
-Thanks,
-
-Carlos Augusto
