@@ -2,129 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41A86641EDD
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Dec 2022 19:32:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BBD9641F9B
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Dec 2022 21:45:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BA8810E03F;
-	Sun,  4 Dec 2022 18:32:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CD4A10E057;
+	Sun,  4 Dec 2022 20:45:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60C2E10E03F
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Dec 2022 18:32:31 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id
- v124-20020a1cac82000000b003cf7a4ea2caso10250675wme.5
- for <dri-devel@lists.freedesktop.org>; Sun, 04 Dec 2022 10:32:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=cT6XsFeikKqtH1/hCcOrW6pF6YKm2yjZrCCnG8JeZLE=;
- b=YY31dTp15ts/Sd2mG4d4Znp5cd0G0qqvDj3IRWl0XuNT9Yto3NXrjJS5gszXn7RWHn
- RpjCotoEVSlLlonPHNwJP1TCiJRRkkKAcGEZ8EfBRcsG6yvbfZB1inHPervKq6osS7xm
- NJIx2owTgSqNCsFpFYl9tQejPnYMEDG2FBAY3KJnV+ZLsPiVQ4zahlOuWLRbRj4EcxRl
- 6U9NUiY070rRU3dQeHmHym3VcILeTFk1q21u8fCl630Atust2KqldbbvqZwRlvHqft27
- J5n1jMlZ2Cmg94qlkwYAUJ5lo/Thj627DGaQuxdxtNNouDyvDo4QcPZbYLhaGDYxMLAh
- btNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=cT6XsFeikKqtH1/hCcOrW6pF6YKm2yjZrCCnG8JeZLE=;
- b=78KEZBkvcij/mlPuVyh/r//ys8SH7Ei8Ts++mQbi2KljJUNzcKeM1PovlieVFqs3Om
- iTFWpOSVwRwcvAAht8VHmdi33IynWXnlywZVw/5Td7i3mbQ+r4l/zsGGjKCXv/7/zP8g
- lediM0lbVWiRQrXiIbSXGG2k256XadRJW+l3JsG3uaNb/cpjHGyhStb4LhpNd33WXCwU
- ZGYcb325V8Myjpii1JlOaI6+wWx6UkGgasQQn4jzca6PKckwItePcXZaGmODtbAc2Vjd
- mItJ5csMaG4SaNQYmXRBETSjTXJzKthb9cF8qoFV9baczj6CJzkgBiSFKgdcVKk132ih
- hP1w==
-X-Gm-Message-State: ANoB5pkcwj4EPI1ywR5ZMOp8u3f5t0noy97S4L4CZqQMnMloAz3PsofD
- +hMnj8BvArLo1lQo3WztbY4=
-X-Google-Smtp-Source: AA0mqf5w9S5gt2nyROsIJ/KepCdghxD2S5KWJ22n53ipvP7a98YVBzA2u2fA7xIwo0AsFvdt9OTByA==
-X-Received: by 2002:a05:600c:3590:b0:3d0:1489:78c4 with SMTP id
- p16-20020a05600c359000b003d0148978c4mr47437513wmq.167.1670178749708; 
- Sun, 04 Dec 2022 10:32:29 -0800 (PST)
-Received: from archbook.localnet (84-72-105-84.dclient.hispeed.ch.
- [84.72.105.84]) by smtp.gmail.com with ESMTPSA id
- i2-20020adff302000000b002421a8f4fa6sm12120806wro.92.2022.12.04.10.32.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Dec 2022 10:32:29 -0800 (PST)
-From: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, 
- Jerome Brunet <jbrunet@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Ban Tao <fengzheng923@gmail.com>,
- =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
- James Schulman <james.schulman@cirrus.com>,
- David Rhodes <david.rhodes@cirrus.com>, 
- Lucas Tanure <tanureal@opensource.cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Peter Ujfalusi <peter.ujfalusi@gmail.com>,
- Cheng-Yi Chiang <cychiang@chromium.org>, 
- Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, 
- Benson Leung <bleung@chromium.org>, Thierry Reding <thierry.reding@gmail.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, Stephan Gerhold <stephan@gerhold.net>, 
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Banajit Goswami <bgoswami@quicinc.com>, 
- Heiko Stuebner <heiko@sntech.de>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
- Fabio Estevam <festevam@gmail.com>,
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
- Masami Hiramatsu <mhiramat@kernel.org>,
- Olivier Moysan <olivier.moysan@foss.st.com>, 
- Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Alexandre Belloni <alexandre.belloni@bootlin.om>,
- Lars-Peter Clausen <lars@metafoo.de>, 
- Bogdan Togorean <bogdan.togorean@analog.com>,
- =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
- Vincent Knecht <vincent.knecht@mailoo.org>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>,
- - <patches@opensource.cirrus.com>, 
- Jayesh Choudhary <j-choudhary@ti.com>, Daniel Drake <drake@endlessm.com>, 
- Katsuhiro Suzuki <katsuhiro@katsuster.net>,
- Shengjiu Wang <shengjiu.wang@nxp.com>, 
- Paul Cercueil <paul@crapouillou.net>, Jee Heng <jee.heng.sia@intel.com>, 
- Lubomir Rintel <lkundrak@v3.sk>,
- Codrin Ciubotariu <codrin.ciubotariu@microchip.com>, 
- Mohan Kumar <mkumard@nvidia.com>, Sameer Pujar <spujar@nvidia.com>, 
- Rohit kumar <rohitkr@codeaurora.org>, Derek Fang <derek.fang@realtek.com>, 
- Biju Das <biju.das.jz@bp.renesas.com>, ChiYuan Huang <cy_huang@richtek.com>, 
- Jose Abreu <joabreu@synopsys.com>, Andrew Davis <afd@ti.com>,
- Shi Fu <shifu0704@thundersoft.com>, 
- Shenghao Ding <shenghao-ding@ti.com>, Matt Flax <flatmax@flatmax.com>, 
- Ricard Wanderlof <ricardw@axis.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, 
- dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, 
- linux-sunxi@lists.linux.dev, asahi@lists.linux.dev, 
- chrome-platform@lists.linux.dev, linux-tegra@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-stm32@st-md-mailman.stormreply.com, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 2/3] ASoC: dt-bindings: Reference common DAI properties
-Date: Sun, 04 Dec 2022 19:32:26 +0100
-Message-ID: <13951589.OODuZ4BQiV@archbook>
-In-Reply-To: <7c258f71-23d0-36bd-8abf-b227d2522267@linaro.org>
-References: <20221203160442.69594-1-krzysztof.kozlowski@linaro.org>
- <2251607.XGVbBG2WQu@archbook>
- <7c258f71-23d0-36bd-8abf-b227d2522267@linaro.org>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73E4510E057
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Dec 2022 20:45:35 +0000 (UTC)
+Received: from [192.168.2.103] (109-252-124-61.nat.spd-mgts.ru
+ [109.252.124.61])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 5C5D6660035C;
+ Sun,  4 Dec 2022 20:45:32 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1670186733;
+ bh=UMQoP9W0p04vTQUQWO237zkx10mRI/dKkIw7Lig3+Kc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=P78D5QejvBCnU95dIIBU2WXl6Y/iMoyzuJoF+NatKvsMyvwrDBD5o/N4WFQifIVaB
+ Jxb5iwKC7SUiUyWiaFzTbw04in4CDe/uC8+3un87bqKREnzMMsfm4Vgfp811B9Qr7s
+ EL/5hBesdvE0ONOBqssdnuJUc+U1fzPUjQ2NJBA43X5vD5zpqp6MTNq5qXTzuqefBH
+ lYBp9BZ5qUZhgaEb9K+TeRK8i8Ooano/6isOBSuC8dVv9VJQbfouTUIJ3Yiq3ZgYYE
+ NLuTSbzWwZIHU2mTJPcFMEsMG2t3vBXrK1KVkfeJPhqGyjC79HlE4qkLuPM94ZDicR
+ tDR7M5h7cTk+A==
+Message-ID: <3e9e157d-e740-ee5b-b8d3-07822b2c9a9b@collabora.com>
+Date: Sun, 4 Dec 2022 23:45:26 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH v2 1/2] drm/shmem-helper: Remove errant put in error path
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20221130185748.357410-1-robdclark@gmail.com>
+ <20221130185748.357410-2-robdclark@gmail.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20221130185748.357410-2-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,52 +57,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Rob Clark <robdclark@chromium.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ open list <linux-kernel@vger.kernel.org>, stable@vger.kernel.org,
+ Eric Anholt <eric@anholt.net>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ syzbot+c8ae65286134dd1b800d@syzkaller.appspotmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sonntag, 4. Dezember 2022 17:47:05 CET Krzysztof Kozlowski wrote:
-> On 04/12/2022 17:09, Nicolas Frattaroli wrote:
-> > On Samstag, 3. Dezember 2022 17:04:41 CET Krzysztof Kozlowski wrote:
-> >> Reference in all sound components which have '#sound-dai-cells' the
-> >> dai-common.yaml schema, which allows to use 'sound-name-prefix'
-> >> property.
-> >>
-> >> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> >>
-> >> ---
-> >>
-> >> This is an output of discussion here:
-> >> https://lore.kernel.org/all/Y255C+TGNVJ9fs8A@sirena.org.uk/
-> >>
-> >> This patch supersedes previous WSA883x one.
-> >> ---
-> > 
-> > Hello,
-> > 
-> > for rockchip,i2s-tdm, we get some (new?) warnings with W=1:
-> > 
-> >     /home/fratti/Projekte/linux/arch/arm64/boot/dts/rockchip/rk3566-pinenote-v1.1.dtb: i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
-> >             From schema: /home/fratti/Projekte/linux/Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.yaml
+On 11/30/22 21:57, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
 > 
-> I did not touch reset names, so are you sure these are not old warnings?
+> drm_gem_shmem_mmap() doesn't own this reference, resulting in the GEM
+> object getting prematurely freed leading to a later use-after-free.
 > 
+> Link: https://syzkaller.appspot.com/bug?extid=c8ae65286134dd1b800d
+> Reported-by: syzbot+c8ae65286134dd1b800d@syzkaller.appspotmail.com
+> Fixes: 2194a63a818d ("drm: Add library for shmem backed GEM objects")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> ---
+>  drivers/gpu/drm/drm_gem_shmem_helper.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 > 
-> Best regards,
-> Krzysztof
-> 
-> 
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> index 35138f8a375c..3b7b71391a4c 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -622,10 +622,8 @@ int drm_gem_shmem_mmap(struct drm_gem_shmem_object *shmem, struct vm_area_struct
+>  	}
+>  
+>  	ret = drm_gem_shmem_get_pages(shmem);
+> -	if (ret) {
+> -		drm_gem_vm_close(vma);
+> +	if (ret)
+>  		return ret;
+> -	}
+>  
+>  	vma->vm_flags |= VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP;
+>  	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
 
-You are correct, these aren't new, I thought they were due to it now
-actually checking reset-names or something. However, checking with
-linux-next/master shows that these were already there. Apologies for
-the noise.
+AFAICS, the dmabuf mmaping code path needs a similar fix, isn't it?
 
-For rockchip,i2s-tdm:
+-		/* Drop the reference drm_gem_mmap_obj() acquired.*/
+-		drm_gem_object_put(obj);
+		vma->vm_private_data = NULL;
 
-Tested-by: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
-Acked-by: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+-		return dma_buf_mmap(obj->dma_buf, vma, 0);
++		ret = dma_buf_mmap(obj->dma_buf, vma, 0);
++
++		/* Drop the reference drm_gem_mmap_obj() acquired.*/
++		if (!ret)
++			drm_gem_object_put(obj);
++
++		return ret;
 
-Kind regards,
-Nicolas Frattaroli
 
+-- 
+Best regards,
+Dmitry
 
