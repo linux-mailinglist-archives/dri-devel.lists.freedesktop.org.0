@@ -1,43 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F13A641FE0
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Dec 2022 22:31:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8B97642081
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Dec 2022 00:17:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5764810E037;
-	Sun,  4 Dec 2022 21:31:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E982710E02E;
+	Sun,  4 Dec 2022 23:16:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5733610E037
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Dec 2022 21:31:46 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0BFC92D8;
- Sun,  4 Dec 2022 22:31:43 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1670189504;
- bh=ZiU22BSfaBf2V1IOu/eKj4zw3NqHJMR9VyBBSYl+1Ic=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ldTI9peQD33DfV0DUvPhXdJ5gTCbmm5NGmDoSA082azM8dhTFFtbjHWz9P80J8duS
- IzUs9ruF05OCEwTVeqHu+UbSpAgcMEwT/R3OqVoOU3QgTqEAEdgBrdORRd/8NPksme
- bTMyPSI3RTylqWUFz9oBmBWE1G8O1chH2T4HOQlo=
-Date: Sun, 4 Dec 2022 23:31:42 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH v2 03/11] drm/bridge: ti-sn65dsi86: Propagate errors in
- .get_state() to the caller
-Message-ID: <Y40Rvi0tyRnfbHp2@pendragon.ideasonboard.com>
-References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
- <20221130152148.2769768-4-u.kleine-koenig@pengutronix.de>
- <20221204210940.qygblu244zvlenxz@pengutronix.de>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F355C10E02E
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Dec 2022 23:16:48 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 5C93660F0D
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Dec 2022 23:16:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C0EEDC433D7
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Dec 2022 23:16:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1670195807;
+ bh=8kP21hsGNBZwhNfuHi81RB/sKvpfEMtAe0BPIO2euJA=;
+ h=From:To:Subject:Date:From;
+ b=SdJUoU/ePT5PS8rxt93ipygPwquQQ9o2EUWD9x7xYFPCGa+Ax2ArkunVDuB8rTdIo
+ QTQA4+hFfQQ5YJR8uNmsNrCxZteDEG40lNM3QTNxqQowu/z6nR9Y3ltE7TuAwhDxxD
+ Y0y0DpCGEgEfuOEaWot2CXKpFskAZWob7ko1HF0GlgyGlYsxdGzTNWivtrBXU0D2rf
+ saa3liYMOE+iIdsx1/2rHbw7xzBCBPnb+4CDMky0vHv6aIfbXRRovydmwt5haCYmbZ
+ be7DqFsFnva6FOEjWD0g3tJWk7dIBEq8luhAD7y9KVm8SLBkoR9vCFX9TJTOYpA+SJ
+ VFbuv4HIxWJ1g==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id AAAC9C433E7; Sun,  4 Dec 2022 23:16:47 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 216774] New: On amdgpu the drm subsystem lists additional modes
+ beyond what EDID has available
+Date: Sun, 04 Dec 2022 23:16:47 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: low
+X-Bugzilla-Who: wolfwings@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-216774-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221204210940.qygblu244zvlenxz@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,67 +72,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-pwm@vger.kernel.org,
- Jonas Karlman <jonas@kwiboo.se>, Douglas Anderson <dianders@chromium.org>,
- Robert Foss <robert.foss@linaro.org>,
- Conor Dooley <conor.dooley@microchip.com>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Dec 04, 2022 at 10:09:40PM +0100, Uwe Kleine-König wrote:
-> Hello,
-> 
-> my initial Cc-list wasn't optimal. So I added a few people here.
-> 
-> On Wed, Nov 30, 2022 at 04:21:40PM +0100, Uwe Kleine-König wrote:
-> > .get_state() can return an error indication. Make use of it to propagate
-> > failing hardware accesses.
-> > 
-> > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216774
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+            Bug ID: 216774
+           Summary: On amdgpu the drm subsystem lists additional modes
+                    beyond what EDID has available
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.15.81
+          Hardware: All
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: low
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: wolfwings@gmail.com
+        Regression: No
 
-> > ---
-> >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > index 6826d2423ae9..9671071490d8 100644
-> > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > @@ -1512,19 +1512,19 @@ static int ti_sn_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
-> >  
-> >  	ret = regmap_read(pdata->regmap, SN_PWM_EN_INV_REG, &pwm_en_inv);
-> >  	if (ret)
-> > -		return 0;
-> > +		return ret;
-> >  
-> >  	ret = ti_sn65dsi86_read_u16(pdata, SN_BACKLIGHT_SCALE_REG, &scale);
-> >  	if (ret)
-> > -		return 0;
-> > +		return ret;
-> >  
-> >  	ret = ti_sn65dsi86_read_u16(pdata, SN_BACKLIGHT_REG, &backlight);
-> >  	if (ret)
-> > -		return 0;
-> > +		return ret;
-> >  
-> >  	ret = regmap_read(pdata->regmap, SN_PWM_PRE_DIV_REG, &pre_div);
-> >  	if (ret)
-> > -		return 0;
-> > +		return ret;
-> >  
-> >  	state->enabled = FIELD_GET(SN_PWM_EN_MASK, pwm_en_inv);
-> >  	if (FIELD_GET(SN_PWM_INV_MASK, pwm_en_inv))
-> 
-> It would be great to get an Ack to take this patch and patch #1 via the
-> PWM tree. (Both got an Ack by Douglas Anderson, I'm unsure if that is
-> already enough.)
+Created attachment 303357
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D303357&action=3Dedit
+Single-resolution EDID (1080p120) that demonstrates the problem
 
--- 
-Regards,
+The attached EDID is one I've used across multiple operating systems, howev=
+er
+on Linux it creates the following additional modes at the DRM level visible
+with drm_info outside of X/Wayland from the CLI:
 
-Laurent Pinchart
+1680x1050@120.00
+1280x1024@120.00
+1440x900@120.00
+1280x800@120.00
+1280x720@120.00
+1024x768@120.00
+800x600@120.00
+640x480@120.00
+
+This EDID is being loaded via "drm.edid_firmware=3DeDP:edid.bin" and is pre=
+sent
+in the initramfs, and this happens both with the stock Ubuntu kernel and wh=
+en I
+compiled the latest 5.15.81 kernel from source, so I'm reporting it here.
+
+This might be a misconfiguration or some additional option I need to pass to
+the drm subsystem to disable some built-in mode-list it's adding by default=
+, or
+even fixed in later kernel versions and I was simply unaware, if so I apolo=
+gize
+for taking up your time!
+
+This EDID is meant to only have a single mode available, 1080p120. Changing=
+ the
+EDID to use 1080p60 (only involves changing the pixel clock value for the
+single mode and EDID checksum) still has the same problem, and looking at t=
+he
+modes it appears it's just replacing the visible-pixel values with the smal=
+ler
+values and retaining all the other timing details so these seem to be
+auto-generated somewhere I can't find.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
