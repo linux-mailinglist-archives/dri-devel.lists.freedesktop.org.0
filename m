@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56841643638
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Dec 2022 21:59:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA4BF64364B
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Dec 2022 22:02:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AF4310E2A2;
-	Mon,  5 Dec 2022 20:59:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E68C710E299;
+	Mon,  5 Dec 2022 21:02:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49BB910E2A0
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Dec 2022 20:59:42 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id f21so19645008lfm.9
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Dec 2022 12:59:42 -0800 (PST)
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
+ [IPv6:2a00:1450:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 095C210E299
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Dec 2022 21:02:07 +0000 (UTC)
+Received: by mail-lj1-x234.google.com with SMTP id a7so14944140ljq.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Dec 2022 13:02:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:references
  :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
  :date:message-id:reply-to;
- bh=Bgy+f2L2rbGOuAQ7U6WSb8YGwu0T4H70GoPKtOQnTKw=;
- b=CFlqt7da3YJEIvnrTwB241/AGjRWUuGLzB5DGhs7yvvo1pGgYEQSybv2RkJO4fIUBS
- 30MMfLZiIqc5laEZZf5HbB0bZQLl+RU8HRYivJe2uqPNUd7MoR8Z+MS8aLd8UlIxK4JN
- b5fhEi+vqzJRA9iVRkXh+jxWYeK3D4Bo38GKGy5OfSV7WYhJFvl7EN+MX36abDSqdlY3
- E0u6Dwl8brybOa4Qiw29S/PMYZBX+vuNvxm01AeBF0ehFWpUl/f1gaFmMh+gHAJDjFtG
- SIMo+rfuK/eJ0Y62NqGMF0TnKd/RCwtGRgNP/8OOw80iZlsP8za7r3G9/EYc6ZaV8RbS
- jV9Q==
+ bh=oHs+FqdUXZ8dY/1UdxeesnQgdtIGHLBMYAul3CErIMw=;
+ b=oo/3QD3RnOsB//i0LeWi6f6xfNMxY4CIVu6ymNCgcGX2szuQj5mK3IKlg43DG4CGAG
+ +m1cE1p1YACPkg553lAIpp2JKY6g0ovpeGNg2jVVWd8/48ab1FbctWf2ZfjxtJgLgP2r
+ ebGYj1hy/Uz12mNeHAUnwPzyctKuwkFFobCvL6mW3oMDzf/DUW9Vptlm8f0CTsguxFlT
+ 9S0b0tieMW04bK25zhYN5vj6k5eeWvb/pWD+BhakFa5w887cHFOL+/8qh46VneOG3sU0
+ 0KrETIj/yJ+fVav/i5C43uaP8sM8sHhfiSNwNydhpHdwM1O3Nh/8nv+lDsxHhiVHZW2z
+ PNjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:references
  :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Bgy+f2L2rbGOuAQ7U6WSb8YGwu0T4H70GoPKtOQnTKw=;
- b=xHaH6LWi8aBpfksTFXMAlxe81vvur5U5oqn9Fz09nCxq1Zt3hhO0qahxtAlFmbxoje
- mis6yf4XNlaEKx0Z4SvVEM51h4SURgeKVq2K8mM6t0lfG0lUMsLis4va/i9CpSzm+Ofy
- 9imQyY96I+PyWTisdOSOWsicHfDmXYNrmpsBcKQtBZwgMyZkCICtLvF6zp0lzfs4JAVn
- H/zGtYf42b2/IA86sqIScMecsafZxg+vYFk78xaIjuYcxoklGwgLjlFQVDs/mVaEDSbf
- yNueKFk+BUqofBSfPyv01zFlyIBXfNmGfVJk/Uw3FAhPArxBpFG8FXU+AOfzp6xbAMVy
- 7z+Q==
-X-Gm-Message-State: ANoB5pmwlhpYA6xSqN4G/A0Y0Jt8EFOkYAK6YzIkFZmneqUfVAoN6SP1
- ItPSOGghKtKS2dJOHmMsDbtZdg==
-X-Google-Smtp-Source: AA0mqf68QUVq95pZFc5bKU3wSaoKsO3Awljf51PvcoFMkTesiOnzMn7rQACunOavaTjQqgAEnhQ31A==
-X-Received: by 2002:ac2:4bd2:0:b0:4a2:61b0:8d28 with SMTP id
- o18-20020ac24bd2000000b004a261b08d28mr21493095lfq.600.1670273980652; 
- Mon, 05 Dec 2022 12:59:40 -0800 (PST)
+ bh=oHs+FqdUXZ8dY/1UdxeesnQgdtIGHLBMYAul3CErIMw=;
+ b=kFvNgjP6qzG3Mu5jSLMKOz8Bd7D1qMHukSImfZdGAuK2zcEbrG8pZQJCR7nDgkBQp3
+ StVHQx0lE/5ZJ3jA2cR6caR2GBEvxjeRznP2riqMH1UXye10jE0jKiHEIcmTK63mYUr9
+ 3dV2ACFt/yIEfgABcs2Dloba3KRx2HtVFu8oSMJYe7MAvceGh5XG6jBbzLM/rxtKSqdG
+ MnvxDLcV9zgKBSKp0lTgACLrDoE9oB/FvI6HokMbpjsgcrsZYuc00IE3e86LvXRhvQwM
+ +T0b/n+3YwFO4gtHu3MKk1yiPQZIlEaN2JrdAg1azF8ZowdAaesP+VyPrDIH0KNq24vL
+ rucQ==
+X-Gm-Message-State: ANoB5pnq6T/ao/0FplRh/jN0IF1IEVVwbag2eawbfzRazd2atrAMVJBI
+ K4OGcQG/S6wmMCwwxedR7ow58A==
+X-Google-Smtp-Source: AA0mqf7b8AihvPHnHW9Fpk0XOGRCY4PnhRVvSAU8ZHOm+17Io0XAUyzYe1yURuzbjdyF40G3jN+d1w==
+X-Received: by 2002:a2e:2d01:0:b0:278:ebb5:ddd2 with SMTP id
+ t1-20020a2e2d01000000b00278ebb5ddd2mr25350274ljt.494.1670274125389; 
+ Mon, 05 Dec 2022 13:02:05 -0800 (PST)
 Received: from [127.0.0.1] ([94.25.229.129]) by smtp.gmail.com with ESMTPSA id
- k20-20020ac24574000000b004b55da14ba8sm1128333lfm.291.2022.12.05.12.59.39
+ z15-20020a0565120c0f00b004b56de48f05sm733929lfu.27.2022.12.05.13.02.04
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 05 Dec 2022 12:59:40 -0800 (PST)
-Date: Mon, 05 Dec 2022 23:59:36 +0300
+ Mon, 05 Dec 2022 13:02:04 -0800 (PST)
+Date: Tue, 06 Dec 2022 00:02:00 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Bjorn Andersson <quic_bjorande@quicinc.com>
-Subject: Re: [PATCH v4 03/13] drm/msm: Introduce SC8280XP MDSS
+Subject: Re: [PATCH v4 08/13] drm/msm/dp: Implement hpd_notify()
 User-Agent: K-9 Mail for Android
-In-Reply-To: <20221205174433.16847-4-quic_bjorande@quicinc.com>
+In-Reply-To: <20221205174433.16847-9-quic_bjorande@quicinc.com>
 References: <20221205174433.16847-1-quic_bjorande@quicinc.com>
- <20221205174433.16847-4-quic_bjorande@quicinc.com>
-Message-ID: <A185142D-8021-4879-B75E-2C255A7A5A21@linaro.org>
+ <20221205174433.16847-9-quic_bjorande@quicinc.com>
+Message-ID: <0C21338C-EC82-4A57-949F-6EE8044BBFFD@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain;
  charset=utf-8
@@ -88,20 +88,108 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 5 December 2022 20:44:23 GMT+03:00, Bjorn Andersson <quic_bjorande@quic=
+On 5 December 2022 20:44:28 GMT+03:00, Bjorn Andersson <quic_bjorande@quic=
 inc=2Ecom> wrote:
 >From: Bjorn Andersson <bjorn=2Eandersson@linaro=2Eorg>
 >
->Add compatible for the SC8280XP Mobile Display Subsystem and
->initialization for version 8=2E0=2E0=2E
+>The DisplayPort controller's hot-plug mechanism is based on pinmuxing a
+>physical signal on a GPIO pin into the controller=2E This is not always
+>possible, either because there aren't dedicated GPIOs available or
+>because the hot-plug signal is a virtual notification, in cases such as
+>USB Type-C=2E
+>
+>For these cases, by implementing the hpd_notify() callback for the
+>DisplayPort controller's drm_bridge, a downstream drm_bridge
+>(next_bridge) can be used to track and signal the connection status
+>changes=2E
+>
+>This makes it possible to use downstream drm_bridges such as
+>display-connector or any virtual mechanism, as long as they are
+>implemented as a drm_bridge=2E
 >
 >Signed-off-by: Bjorn Andersson <bjorn=2Eandersson@linaro=2Eorg>
+>[bjorn: Drop connector->fwnode assignment and dev from struct msm_dp]
 >Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc=2Ecom>
-
-
-Reviewed-by: Dmitry Baryshkov <dmitry=2Ebaryshkov@linaro=2Eorg>
-
 >---
+>
+>Changes since v3:
+>- None
+>
+> drivers/gpu/drm/msm/dp/dp_display=2Ec | 22 ++++++++++++++++++++++
+> drivers/gpu/drm/msm/dp/dp_drm=2Ec     |  1 +
+> drivers/gpu/drm/msm/dp/dp_drm=2Eh     |  2 ++
+> 3 files changed, 25 insertions(+)
+>
+>diff --git a/drivers/gpu/drm/msm/dp/dp_display=2Ec b/drivers/gpu/drm/msm/=
+dp/dp_display=2Ec
+>index 666b45c8ab80=2E=2E17fcf8cd84cd 100644
+>--- a/drivers/gpu/drm/msm/dp/dp_display=2Ec
+>+++ b/drivers/gpu/drm/msm/dp/dp_display=2Ec
+>@@ -1772,3 +1772,25 @@ void dp_bridge_mode_set(struct drm_bridge *drm_bri=
+dge,
+> 	dp_display->dp_mode=2Eh_active_low =3D
+> 		!!(dp_display->dp_mode=2Edrm_mode=2Eflags & DRM_MODE_FLAG_NHSYNC);
+> }
+>+
+>+void dp_bridge_hpd_notify(struct drm_bridge *bridge,
+>+			  enum drm_connector_status status)
+>+{
+>+	struct msm_dp_bridge *dp_bridge =3D to_dp_bridge(bridge);
+>+	struct msm_dp *dp_display =3D dp_bridge->dp_display;
+>+	struct dp_display_private *dp =3D container_of(dp_display, struct dp_di=
+splay_private, dp_display);
+>+
+>+	/* Without next_bridge interrupts are handled by the DP core directly *=
+/
+>+	if (!dp_display->next_bridge)
+>+		return;
+
+Can we use hpd_notify in all the cases by dropping the corresponding piece=
+ of code from the core driver?=20
+
+
+>+
+>+	if (!dp->core_initialized) {
+>+		drm_dbg_dp(dp->drm_dev, "not initialized\n");
+>+		return;
+>+	}
+>+
+>+	if (!dp_display->is_connected && status =3D=3D connector_status_connect=
+ed)
+>+		dp_add_event(dp, EV_HPD_PLUG_INT, 0, 0);
+>+	else if (dp_display->is_connected && status =3D=3D connector_status_dis=
+connected)
+>+		dp_add_event(dp, EV_HPD_UNPLUG_INT, 0, 0);
+>+}
+>diff --git a/drivers/gpu/drm/msm/dp/dp_drm=2Ec b/drivers/gpu/drm/msm/dp/d=
+p_drm=2Ec
+>index 6db82f9b03af=2E=2E3898366ebd5e 100644
+>--- a/drivers/gpu/drm/msm/dp/dp_drm=2Ec
+>+++ b/drivers/gpu/drm/msm/dp/dp_drm=2Ec
+>@@ -102,6 +102,7 @@ static const struct drm_bridge_funcs dp_bridge_ops =
+=3D {
+> 	=2Eget_modes    =3D dp_bridge_get_modes,
+> 	=2Edetect       =3D dp_bridge_detect,
+> 	=2Eatomic_check =3D dp_bridge_atomic_check,
+>+	=2Ehpd_notify   =3D dp_bridge_hpd_notify,
+> };
+>=20
+> struct drm_bridge *dp_bridge_init(struct msm_dp *dp_display, struct drm_=
+device *dev,
+>diff --git a/drivers/gpu/drm/msm/dp/dp_drm=2Eh b/drivers/gpu/drm/msm/dp/d=
+p_drm=2Eh
+>index 82035dbb0578=2E=2E79e6b2cf2d25 100644
+>--- a/drivers/gpu/drm/msm/dp/dp_drm=2Eh
+>+++ b/drivers/gpu/drm/msm/dp/dp_drm=2Eh
+>@@ -32,5 +32,7 @@ enum drm_mode_status dp_bridge_mode_valid(struct drm_br=
+idge *bridge,
+> void dp_bridge_mode_set(struct drm_bridge *drm_bridge,
+> 			const struct drm_display_mode *mode,
+> 			const struct drm_display_mode *adjusted_mode);
+>+void dp_bridge_hpd_notify(struct drm_bridge *bridge,
+>+			  enum drm_connector_status status);
+>=20
+> #endif /* _DP_DRM_H_ */
 
 --=20
 With best wishes
