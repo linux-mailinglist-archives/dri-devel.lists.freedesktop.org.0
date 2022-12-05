@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C802642EE4
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Dec 2022 18:34:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 803D3642F19
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Dec 2022 18:45:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F39B410E26D;
-	Mon,  5 Dec 2022 17:34:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C082510E277;
+	Mon,  5 Dec 2022 17:44:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1A8510E26C
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Dec 2022 17:33:52 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id o5so19764356wrm.1
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Dec 2022 09:33:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=tJEwg+HGFHgbbDHyNHMMw1IwQlAdl2r5yFKGdkId1Z4=;
- b=MehxKT5Obo3Sk65ES/RTmIkfnCHQKynRfkAi8eNxE5+WES/+jnmVf0TMgzM2vtkmas
- 4NeBnU83Z/rksywEQFPnhz3ox5NL+NTGJv+SyhvYl1vTRID0R896XjJ3AdWjFuRf2GWk
- JPNIMRHU3iF46hY9jBoncfOkzAIQgqYO5AvAgLYaya14iUObKGvni6H+tCT5ihvZCleo
- x62qTrHH24BT/TBf2CqQwylX00y91OSo+3N+Xmq9QvslUVYimBCwwEa8tl8O2w3x6BmU
- jCXkBhuVwNJEzXKUUYVqoFwr2XpWa0DtWQxg0LznVebxSao2DKoMAvFJAAClkgdFUxvv
- HuAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=tJEwg+HGFHgbbDHyNHMMw1IwQlAdl2r5yFKGdkId1Z4=;
- b=z9fy/R91Ynmncn4C686qRbLluEArqJSxJyiHRyJbkFHVhXVlHemOPzKSYTzRc+Zi3F
- xUvDqIRmkRabMYNTN3O3dFu41L20Aku1eeSiEgyI7x/uEBCuEa/Sh2mNU3md7q6AAyFS
- MI0cHIc0hwcv2OfxqypJ3BjilYufqo28Tzmu3nkKKRlFxIJBBx3R4qa+d+oiCqvi6rwg
- d4I1gW353VUvnT1oO7KTG2g1HWG90WQaAy899+uhl1vjAt+Ou5bCrL7ZTrSmiNw338ZL
- U4PT61gnGRnnvTrHB0x7gnGaZylDKcIFoNgyaDyH5WGmJ+zZHdZtXPhKplGc/gOPzPoD
- t8qw==
-X-Gm-Message-State: ANoB5pmR7WDGMcrxlq3aJWzAuCGtZmijrjVPPEiqkQ9MgKfG8/sz8KPr
- LlU37zy6OF9JNH0fUL8YSs344A==
-X-Google-Smtp-Source: AA0mqf454IqzP6YvX8azvCLrb2AIq2nBAGFDooTsedq6mSUI36F3tXYI5JmthByRmmKulby4tIP1Aw==
-X-Received: by 2002:adf:e2cd:0:b0:236:68aa:8da9 with SMTP id
- d13-20020adfe2cd000000b0023668aa8da9mr48450836wrj.442.1670261631413; 
- Mon, 05 Dec 2022 09:33:51 -0800 (PST)
-Received: from dave-Ubuntu2204.pitowers.org ([93.93.133.154])
- by smtp.googlemail.com with ESMTPSA id
- v15-20020a5d6b0f000000b002421ed1d8c8sm14524245wrw.103.2022.12.05.09.33.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Dec 2022 09:33:51 -0800 (PST)
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 6/6] drm/bridge: Document the expected behaviour of DSI
- host controllers
-Date: Mon,  5 Dec 2022 17:33:28 +0000
-Message-Id: <20221205173328.1395350-7-dave.stevenson@raspberrypi.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221205173328.1395350-1-dave.stevenson@raspberrypi.com>
-References: <20221205173328.1395350-1-dave.stevenson@raspberrypi.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91CAB10E0C4;
+ Mon,  5 Dec 2022 17:44:45 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2B5GX1dv008535; Mon, 5 Dec 2022 17:44:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=n71Q8U1lxaO4T7pMOJN2dnk3bwSwPz23bo7YNGLuTZU=;
+ b=cWTTpNA4MPr2QZ9xYuYu4WZuHh2akoP77O3q3wThM1hGFGE78jHMtkfKjMlsxqVO63fk
+ KU0egHHHd3f0mBuRmKVJjrU/2KUE9uMnmTkylQyCcljOqio+OONFjHOF+wmAUXlpgbFF
+ s0AaXStjSp/hst89Za0mOPumQK9RhnT8F+UYeigmJqA5uNqj0/Jr/RH9y7uh36u6bgIq
+ JKDy6XyAesnOF6SKf7WNK+LClpcK0l1fuAOTcPGsZi6iYuN99pg8+bKh7EivgUaRipfl
+ p47BQOhyQ9Zn83u/8nVWB9wTw2952W9CY+YywmcOLsZ9TwLmKFwQTc9ErK75TC+uonTC uQ== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3m7wdxvv8g-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 05 Dec 2022 17:44:40 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
+ [10.47.97.35])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2B5Hid9e006219
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 5 Dec 2022 17:44:39 GMT
+Received: from th-lint-050.qualcomm.com (10.80.80.8) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.36; Mon, 5 Dec 2022 09:44:39 -0800
+From: Bjorn Andersson <quic_bjorande@quicinc.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH v4 00/13] drm/msm: Add SC8280XP support
+Date: Mon, 5 Dec 2022 09:44:20 -0800
+Message-ID: <20221205174433.16847-1-quic_bjorande@quicinc.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: udJ2iLcOG7coSnHp6qB7GtdrraaRRo8D
+X-Proofpoint-ORIG-GUID: udJ2iLcOG7coSnHp6qB7GtdrraaRRo8D
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-05_01,2022-12-05_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 impostorscore=0
+ clxscore=1011 adultscore=0 mlxscore=0 phishscore=0 spamscore=0
+ priorityscore=1501 malwarescore=0 suspectscore=0 lowpriorityscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212050146
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,98 +76,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Robert Foss <robert.foss@linaro.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Douglas Anderson <dianders@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>, andrzej.hajda@gmail.com,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: Kalyan Thota <quic_kalyant@quicinc.com>, freedreno@lists.freedesktop.org,
+ Sankeerth Billakanti <quic_sbillaka@quicinc.com>, linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Johan Hovold <johan+linaro@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The exact behaviour of DSI host controllers is not specified,
-therefore define it.
+This introduces support for the SC8280XP platform in the MDSS, DPU and
+DP driver. It reworks the HDP handling in the DP driver to support
+external HPD sources - such as the dp-connector, or USB Type-C altmode.
 
-Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- Documentation/gpu/drm-kms-helpers.rst |  7 +++++
- drivers/gpu/drm/drm_bridge.c          | 39 +++++++++++++++++++++++++++
- 2 files changed, 46 insertions(+)
+It then introduces the display clock controllers, mdss, dpu and
+displayport controllers and link everything together, for both the MDSS
+instances on the platform, and lastly enables EDP on the compute
+reference device and 6 of the MiniDP outputs on the automotive
+development platform.
 
-diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
-index a4860ffd6e86..b8ab05e42dbb 100644
---- a/Documentation/gpu/drm-kms-helpers.rst
-+++ b/Documentation/gpu/drm-kms-helpers.rst
-@@ -188,6 +188,13 @@ Bridge Helper Reference
- .. kernel-doc:: drivers/gpu/drm/drm_bridge.c
-    :export:
- 
-+MIPI-DSI bridge operation
-+-------------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/drm_bridge.c
-+   :doc: dsi bridge operations
-+
-+
- Bridge Connector Helper Reference
- ---------------------------------
- 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 5f40c83b1b42..c3d69af02e79 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -153,6 +153,45 @@
-  * situation when probing.
-  */
- 
-+/**
-+ * DOC: dsi bridge operations
-+ *
-+ * DSI host interfaces are expected to be implemented as bridges rather than
-+ * encoders, however there are a few aspects of their operation that need to
-+ * be defined in order to provide a consistent interface.
-+ *
-+ * A DSI host should keep the PHY powered down until the pre_enable operation is
-+ * called. All lanes are in an undefined idle state up to this point, and it
-+ * must not be assumed that it is LP-11.
-+ * pre_enable should initialise the PHY, set the data lanes to LP-11, and the
-+ * clock lane to either LP-11 or HS depending on the mode_flag
-+ * %MIPI_DSI_CLOCK_NON_CONTINUOUS.
-+ *
-+ * Ordinarily the downstream bridge DSI peripheral pre_enable will have been
-+ * called before the DSI host. If the DSI peripheral requires LP-11 and/or
-+ * the clock lane to be in HS mode prior to pre_enable, then it can set the
-+ * &pre_enable_prev_first flag to request the pre_enable (and
-+ * post_disable) order to be altered to enable the DSI host first.
-+ *
-+ * Either the CRTC being enabled, or the DSI host enable operation should switch
-+ * the host to actively transmitting video on the data lanes.
-+ *
-+ * The reverse also applies. The DSI host disable operation or stopping the CRTC
-+ * should stop transmitting video, and the data lanes should return to the LP-11
-+ * state. The DSI host &post_disable operation should disable the PHY.
-+ * If the &pre_enable_prev_first flag is set, then the DSI peripheral's
-+ * bridge &post_disable will be called before the DSI host's post_disable.
-+ *
-+ * Whilst it is valid to call &host_transfer prior to pre_enable or after
-+ * post_disable, the exact state of the lanes is undefined at this point. The
-+ * DSI host should initialise the interface, transmit the data, and then disable
-+ * the interface again.
-+ *
-+ * Ultra Low Power State (ULPS) is not explicitly supported by DRM. If
-+ * implemented, it therefore needs to be handled entirely within the DSI Host
-+ * driver.
-+ */
-+
- static DEFINE_MUTEX(bridge_lock);
- static LIST_HEAD(bridge_list);
- 
+
+The patches was previously sent separately, but submitting them together
+here as they (except dts addition) goes in the same tree.
+
+Bjorn Andersson (13):
+  dt-bindings: display/msm: Add binding for SC8280XP MDSS
+  drm/msm/dpu: Introduce SC8280XP
+  drm/msm: Introduce SC8280XP MDSS
+  dt-bindings: msm/dp: Add SDM845 and SC8280XP compatibles
+  drm/msm/dp: Stop using DP id as index in desc
+  drm/msm/dp: Add DP and EDP compatibles for SC8280XP
+  drm/msm/dp: Add SDM845 DisplayPort instance
+  drm/msm/dp: Implement hpd_notify()
+  drm/msm/dp: Don't enable HPD interrupts for edp
+  drm/msm/dp: Rely on hpd_enable/disable callbacks
+  arm64: dts: qcom: sc8280xp: Define some of the display blocks
+  arm64: dts: qcom: sc8280xp-crd: Enable EDP
+  arm64: dts: qcom: sa8295-adp: Enable DP instances
+
+ .../bindings/display/msm/dp-controller.yaml   |   3 +
+ .../display/msm/qcom,sc8280xp-dpu.yaml        | 122 +++
+ .../display/msm/qcom,sc8280xp-mdss.yaml       | 143 +++
+ arch/arm64/boot/dts/qcom/sa8295p-adp.dts      | 243 ++++-
+ arch/arm64/boot/dts/qcom/sc8280xp-crd.dts     |  72 +-
+ arch/arm64/boot/dts/qcom/sc8280xp.dtsi        | 838 ++++++++++++++++++
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 216 +++++
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   1 +
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c |  18 +
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h |   3 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h   |   2 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   1 +
+ drivers/gpu/drm/msm/dp/dp_display.c           | 151 ++--
+ drivers/gpu/drm/msm/dp/dp_display.h           |   1 +
+ drivers/gpu/drm/msm/dp/dp_drm.c               |   3 +
+ drivers/gpu/drm/msm/dp/dp_drm.h               |   4 +
+ drivers/gpu/drm/msm/msm_drv.h                 |   1 +
+ drivers/gpu/drm/msm/msm_mdss.c                |   4 +
+ 18 files changed, 1769 insertions(+), 57 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sc8280xp-dpu.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sc8280xp-mdss.yaml
+
 -- 
-2.34.1
+2.37.3
 
