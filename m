@@ -1,113 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 207E3642A1C
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Dec 2022 15:10:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69A21642B87
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Dec 2022 16:21:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E936D10E072;
-	Mon,  5 Dec 2022 14:10:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A02B10E23A;
+	Mon,  5 Dec 2022 15:21:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B82E010E072
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Dec 2022 14:10:45 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20221205141044euoutp01c4e094c26daf66d8eba1fa22ab03a297~t6wUeCNtG2730527305euoutp01T
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Dec 2022 14:10:44 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20221205141044euoutp01c4e094c26daf66d8eba1fa22ab03a297~t6wUeCNtG2730527305euoutp01T
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1670249444;
- bh=1FnWs5NlhK/IcYzuuu1bSm04a7tkIdV5CeIDyp4i0Pk=;
- h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
- b=XF4Ye/nl1Fu1JkBLzfNnCyBdryD4ShLUgmp1Fvdus/0+WYGyO6267jgPlKr73joIm
- iCtIuzrrMXMi/sN1mjHa7N5yLzt+3pg7uFHb3yOuYRfgcS8wrgsZ1tlRXkjUVG0q72
- ciMNQTZlfxYLgoEyoWd8YDSfkLf1Xx8E5S1pR+zc=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20221205141043eucas1p23b100143b3189778ddde93f5e5b1e2a3~t6wULfbIe2222322223eucas1p2w;
- Mon,  5 Dec 2022 14:10:43 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id 00.5B.09549.3EBFD836; Mon,  5
- Dec 2022 14:10:43 +0000 (GMT)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20221205141043eucas1p104a1e77304da5b5b8b287c10d9d00daa~t6wTsLVsw1614716147eucas1p1G;
- Mon,  5 Dec 2022 14:10:43 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20221205141043eusmtrp23d9766abbaddc434e21ea033505174c4~t6wTnbJro3234132341eusmtrp2L;
- Mon,  5 Dec 2022 14:10:43 +0000 (GMT)
-X-AuditID: cbfec7f5-f5dff7000000254d-d4-638dfbe322f1
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id A6.E5.09026.2EBFD836; Mon,  5
- Dec 2022 14:10:43 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20221205141042eusmtip2a56af7237c75db6751c32fdb5c37033d~t6wTEEwSq2339423394eusmtip2N;
- Mon,  5 Dec 2022 14:10:42 +0000 (GMT)
-Message-ID: <edbee2a1-abef-e74c-1651-3401fe234b41@samsung.com>
-Date: Mon, 5 Dec 2022 15:10:42 +0100
+Received: from mail-vs1-xe36.google.com (mail-vs1-xe36.google.com
+ [IPv6:2607:f8b0:4864:20::e36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 902C210E210
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Dec 2022 15:21:03 +0000 (UTC)
+Received: by mail-vs1-xe36.google.com with SMTP id i2so11388864vsc.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Dec 2022 07:21:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vtfRXAVDyVrApIXu7REA+f3BkvSYeVsxgHe9hwa3jgU=;
+ b=KoYardbg2T8WxytUOPLzBsy8QCDmpUo6HjY3E8sW7cY3j003A4qQuVTDNNLNbidnCN
+ BSySIhJQ0RmCw1ElM6spJLjjVpUezCp+CZWNxRuE1I5uTNV8KFS8mfWb8lqdesRPliMp
+ dqXcIQgWcPnbPU0waN1NXx3NqBABIejDurEmkdHqVbrblIOYw2/AWMezgV8HqPoksnJI
+ 1V+HtNL7ww42p91BE5I/jsmVG6y34Uko0FNL7TSmhuRT4r7iNnEeOntJ2Gn7cw2ycU2O
+ pG0ZGOHXBO3eoNENR0cOpNHqWjC+IHMOaBv62JCEu61nSaaADhnKM/zEQT6sLf8VhZFr
+ CQPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=vtfRXAVDyVrApIXu7REA+f3BkvSYeVsxgHe9hwa3jgU=;
+ b=ACr4HFgIr+M7tSOrww8BKn7iuK+lPQ3H9aCc1kyIKPk37nuP9n9dM+s43ta/61+v/e
+ UNcWneKqJzEqCkApZ8PTkkr5JIBb7Vy9nvjWebqLP2C/TYdQOT+P0hS9pbvGP/iG1eNx
+ bx9JWRYOC+c9lzTIdZhPqVNA9C8LgOowYu6INbCfWqsH3EiM6sfkTRMnV68Vk4C5lZcW
+ 3PDXr5EcSCljwo0/5nHReNSJ656lJRfItBxdpIrg6tXhzoA4O294FO0dh9Qj6/nU+4VY
+ Dlh1Us8Z4Nl4Yf1MVQFX+JD22SFm+7QUsmOYlqIlbLb2fNh83Oyaw+A3qmjGYTuPBev1
+ 2DfA==
+X-Gm-Message-State: ANoB5pnvH6Dpp9k52MuaLXtPgkBAl1bBri095s7/TzQTMtddBRIDkKVa
+ P2bG7bdp79NTNGiYjlja9T9+DSbmdaxzLjFD/Ocs2Q==
+X-Google-Smtp-Source: AA0mqf4E58NaogSXtl0ngRb9RXwXk3GAQqpGjhLQHv3E8Ej9Pzvc0yKOw48xyHDg74ltlpHReAMR9peTLdzVeyE099c=
+X-Received: by 2002:a67:ec03:0:b0:3b1:1abd:2cc0 with SMTP id
+ d3-20020a67ec03000000b003b11abd2cc0mr6631511vso.32.1670253662512; Mon, 05 Dec
+ 2022 07:21:02 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [v2,5/6] drm/fb-helper: Schedule deferred-I/O worker after
- writing to framebuffer
-Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@gmail.com, javierm@redhat.com, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com
-In-Reply-To: <81399603-6253-b671-85c7-373f196b73ed@samsung.com>
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrFKsWRmVeSWpSXmKPExsWy7djP87qPf/cmG6x8r2px4voiJouFD+8y
- W/zfNpHZ4srX92wWC6ctZ7RYMJvbYuLtDewWCz9uZbFo61zGarHlzURWBy6Pvd8WsHjsnHWX
- 3WPTqk42j3knAz3udx9n8ti8pN7j/b6rbB6bT1cHcERx2aSk5mSWpRbp2yVwZezoXMBUcE+w
- Yv71BuYGxgt8XYycHBICJhJzFyxi72Lk4hASWMEosWP1LiYI5wujROuZTawQzmdGiYOdm5hg
- Wmbf2ABVtZxR4viPfVBVHxklZmzbzQZSxStgJ7H6QxsLiM0ioCLRfH8PVFxQ4uTMJ2BxUYEU
- iQM7z4JNFRZIkPg28RMjiM0sIC5x68l8sDibgKFE19susF4RgXmMEot/JIAsYxZYzSixcsM7
- oAQHB6eAvcSPh/YQvfISzVtnM4PUSAi0c0pc7O6EOttF4k1HHzuELSzx6vgWKFtG4v/O+UxQ
- DYwSC37fh3ImMEo0PL/FCFFlLXHn3C+wbcwCmhLrd+lDhB0lFuzqZgcJSwjwSdx4KwhxBJ/E
- pG3TmSHCvBIdbUIQ1WoSs46vg1t78MIl5gmMSrOQgmUWkvdnIXlnFsLeBYwsqxjFU0uLc9NT
- i43zUsv1ihNzi0vz0vWS83M3MQKT1+l/x7/uYFzx6qPeIUYmDsZDjBIczEoivC829iYL8aYk
- VlalFuXHF5XmpBYfYpTmYFES510xpSNZSCA9sSQ1OzW1ILUIJsvEwSnVwNQ5e1vM+sulGuee
- XO2dpbpNX3v7OaUC/XexJ7akbZ53dd9L7YsKjiYzzqa/nPVb6Mmi6i16+Q72rc7y/TNbGqpL
- 35dkcRT2+P65M/HMYyvuE677WVPW6/qeiVeabfpt6of5XdGftadNclbeZMEx50bh/cwsxZ82
- PqLTpm6ODVKRdst7ttjyvt/TMtU0ric6i9/75bUqbeK7J2IZ5Znrf3p9mJdz1R335oNfExZ8
- bJ94ytmoRa7MtLyPJdjxzVVt/wOfTM+UJl2zXSo8q+YUo7ucjyy/sNy9iUsy5IRe2nPteXx5
- 43tZ5g2XNfp9pI+W9uZusbv36HVQ1yf70uhnhsHRjvNuq0xdFFzjn/48TomlOCPRUIu5qDgR
- AC9wjSPNAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrLIsWRmVeSWpSXmKPExsVy+t/xe7qPf/cmGzSvZLY4cX0Rk8XCh3eZ
- Lf5vm8hsceXrezaLhdOWM1osmM1tMfH2BnaLhR+3sli0dS5jtdjyZiKrA5fH3m8LWDx2zrrL
- 7rFpVSebx7yTgR73u48zeWxeUu/xft9VNo/Np6sDOKL0bIryS0tSFTLyi0tslaINLYz0DC0t
- 9IxMLPUMjc1jrYxMlfTtbFJSczLLUov07RL0MnZ0LmAquCdYMf96A3MD4wW+LkZODgkBE4nZ
- NzYwdTFycQgJLGWU+Px0FytEQkbi5LQGKFtY4s+1LjaIoveMEs8ntzGCJHgF7CRWf2hjAbFZ
- BFQkmu/vYYOIC0qcnPkELC4qkCLR3vOPCcQWFkiQ+DbxE1gvs4C4xK0n88HibAKGEl1vIRaI
- CMxjlLhy/AIjiMMssJpR4s//XkaI1cuZJGYfOQLUwsHBKWAv8eOhPcQkM4murV1QU+UlmrfO
- Zp7AKDQLySGzkCychaRlFpKWBYwsqxhFUkuLc9Nzi430ihNzi0vz0vWS83M3MQLjdduxn1t2
- MK589VHvECMTB+MhRgkOZiUR3hcbe5OFeFMSK6tSi/Lji0pzUosPMZoCQ2Mis5Rocj4wYeSV
- xBuaGZgamphZGphamhkrifN6FnQkCgmkJ5akZqemFqQWwfQxcXBKNTB1tBsVvHY8tOcSj9Wv
- I7mKjNlGU+Rs5lybZ3zGtOPOW78vj20qcooVl3SLtr2+fsm+xOXIhlQB/+3KylnGX3d/zv1s
- XdAgKHQ0sJS/PPxPe1+nXebf5y5LLVjEGBQK/s3cvuyuQPwRmalPdl4wqbc6zWlsErRf8kvC
- myubOP9EOAvs/ZhV1M+4eofHIvG6dfKZnn/fWc64mxlbfvZw9a85l85c2HJ58wS+4OC1mi9u
- VV3lfaX4SI7rYrK9T42k8xHtdwzHPtrJbpiuV9ek/NydNzTdpqug8ufD9QwvK6cKK1/tPzmp
- o//Zr5fWmlt31afKhqn0Om/3Mvb4r358SUHFzrflm7cvaD2nslzHwlyJpTgj0VCLuag4EQDV
- iL3lYAMAAA==
-X-CMS-MailID: 20221205141043eucas1p104a1e77304da5b5b8b287c10d9d00daa
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20221117125800eucas1p29bc0adbe623ca0c42e903e771bf68b33
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20221117125800eucas1p29bc0adbe623ca0c42e903e771bf68b33
-References: <20221115115819.23088-6-tzimmermann@suse.de>
- <CGME20221117125800eucas1p29bc0adbe623ca0c42e903e771bf68b33@eucas1p2.samsung.com>
- <ee076724-cee3-cd6a-de44-191e058fddbb@samsung.com>
- <1424be58-3f19-7ed4-e3c9-5517c05032f2@suse.de>
- <81399603-6253-b671-85c7-373f196b73ed@samsung.com>
+References: <20221110183853.3678209-1-jagan@amarulasolutions.com>
+ <20221110183853.3678209-7-jagan@amarulasolutions.com>
+ <CGME20221117045817eucas1p1778503aa62ef18ef5ee0502d2189cd15@eucas1p1.samsung.com>
+ <04fb17e2-1b55-fbd9-d846-da3e3da4edb8@denx.de>
+ <f33142de-862e-9775-b1c9-b871bb9a243c@samsung.com>
+ <b66b44fc-5d4c-d3a8-8538-79003b14691e@denx.de>
+ <CAMty3ZBfAY86fp7XxS9frrBiT9FRkJaNSRY-4CVpqGOvdpn1fw@mail.gmail.com>
+ <58671662-9242-c7ef-53ef-60f9cdc3399a@denx.de>
+ <CAMty3ZDVZJ6TjKjtq9wSHudmeD+7O1vB_j0V1xKjYGWnwMKa6Q@mail.gmail.com>
+ <9f08a902-049c-1c00-7fed-3d7ee18b3d2c@samsung.com>
+ <2ef1aae1-8ff9-22bc-9817-69d1eae8b485@denx.de>
+ <CAPY8ntDH7QgLfg_MsXSeyD4uwiG7EHMd75qQA6SbDbO1P6ftow@mail.gmail.com>
+ <cc3814d2-a300-be10-168c-7313a7cd9006@kontron.de>
+In-Reply-To: <cc3814d2-a300-be10-168c-7313a7cd9006@kontron.de>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Mon, 5 Dec 2022 15:20:46 +0000
+Message-ID: <CAPY8ntCpOitHktqd4W=teYQJ+UDimCZ2czcaxgG5rA6A4XB11Q@mail.gmail.com>
+Subject: Re: [PATCH v8 06/14] drm: bridge: samsung-dsim: Handle proper DSI
+ host initialization
+To: Frieder Schrempf <frieder.schrempf@kontron.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,64 +80,268 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- linux-rpi-kernel <linux-rpi-kernel@lists.infradead.org>,
- dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Fancy Fang <chen.fang@nxp.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Marek Vasut <marex@denx.de>,
+ linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
+ Neil Armstrong <narmstrong@linaro.org>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Matteo Lisi <matteo.lisi@engicam.com>,
+ Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Robert Foss <robert.foss@linaro.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17.11.2022 18:21, Marek Szyprowski wrote:
-> On 17.11.2022 17:07, Thomas Zimmermann wrote:
->> Am 17.11.22 um 13:57 schrieb Marek Szyprowski:
->>> On 15.11.2022 12:58, Thomas Zimmermann wrote:
->>>> Schedule the deferred-I/O worker instead of the damage worker after
->>>> writing to the fbdev framebuffer. The deferred-I/O worker then 
->>>> performs
->>>> the dirty-fb update. The fbdev emulation will initialize deferred I/O
->>>> for all drivers that require damage updates. It is therefore a valid
->>>> assumption that the deferred-I/O worker is present.
->>>>
->>>> It would be possible to perform the damage handling directly from 
->>>> within
->>>> the write operation. But doing this could increase the overhead of the
->>>> write or interfere with a concurrently scheduled deferred-I/O worker.
->>>> Instead, scheduling the deferred-I/O worker with its regular delay of
->>>> 50 ms removes load off the write operation and allows the deferred-I/O
->>>> worker to handle multiple write operations that arrived during the 
->>>> delay
->>>> time window.
->>>>
->>>> v2:
->>>>     * keep drm_fb_helper_damage() (Daniel)
->>>>     * use fb_deferred_io_schedule_flush() (Daniel)
->>>>     * clarify comments (Daniel)
->>>>
->>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->>>
->>> This patch, merged into today's linux-next as commit 7f5cc4a3e5e4
->>> ("drm/fb-helper: Schedule deferred-I/O worker after writing to
->>> framebuffer"), triggers a following warning on Raspberry Pi 3 & 4 as
->>> well as all Amlogic Meson G12A/B based boards:
->>>
->>> ------------[ cut here ]------------
->>> WARNING: CPU: 0 PID: 220 at drivers/video/fbdev/core/fb_defio.c:340
->>
->> Thank you so much for reporting. That line should never be executed 
->> with vc4 et al.
->>
->> If you have the time, could you please try the attached patch and 
->> report the results. Thanks a lot.
+Hi Frieder
+
+On Mon, 5 Dec 2022 at 07:30, Frieder Schrempf
+<frieder.schrempf@kontron.de> wrote:
 >
-> This fixes the issue observed on my Raspberry Pi 3/4 and Amlogic Meson 
-> based boards. Feel free to add:
+> On 02.12.22 15:55, Dave Stevenson wrote:
+> > Hi Marek
+> >
+> > On Fri, 2 Dec 2022 at 12:21, Marek Vasut <marex@denx.de> wrote:
+> >>
+> >> On 12/2/22 11:52, Marek Szyprowski wrote:
+> >>> Hi,
+> >>>
+> >>> Sorry for delay, I was on a sick leave last 2 weeks.
+> >>>
+> >>> On 28.11.2022 15:43, Jagan Teki wrote:
+> >>>> ,On Sat, Nov 26, 2022 at 3:44 AM Marek Vasut <marex@denx.de> wrote:
+> >>>>> On 11/23/22 21:09, Jagan Teki wrote:
+> >>>>>> On Sat, Nov 19, 2022 at 7:45 PM Marek Vasut <marex@denx.de> wrote:
+> >>>>>>> On 11/17/22 14:04, Marek Szyprowski wrote:
+> >>>>>>>> On 17.11.2022 05:58, Marek Vasut wrote:
+> >>>>>>>>> On 11/10/22 19:38, Jagan Teki wrote:
+> >>>>>>>>>> DSI host initialization handling in previous exynos dsi driver=
+ has
+> >>>>>>>>>> some pitfalls. It initializes the host during host transfer() =
+hook
+> >>>>>>>>>> that is indeed not the desired call flow for I2C and any other=
+ DSI
+> >>>>>>>>>> configured downstream bridges.
+> >>>>>>>>>>
+> >>>>>>>>>> Host transfer() is usually triggered for downstream DSI panels=
+ or
+> >>>>>>>>>> bridges and I2C-configured-DSI bridges miss these host initial=
+ization
+> >>>>>>>>>> as these downstream bridges use bridge operations hooks like p=
+re_enable,
+> >>>>>>>>>> and enable in order to initialize or set up the host.
+> >>>>>>>>>>
+> >>>>>>>>>> This patch is trying to handle the host init handler to satisf=
+y all
+> >>>>>>>>>> downstream panels and bridges. Added the DSIM_STATE_REINITIALI=
+ZED state
+> >>>>>>>>>> flag to ensure that host init is also done on first cmd transf=
+er, this
+> >>>>>>>>>> helps existing DSI panels work on exynos platform (form Marek
+> >>>>>>>>>> Szyprowski).
+> >>>>>>>>>>
+> >>>>>>>>>> v8, v7, v6, v5:
+> >>>>>>>>>> * none
+> >>>>>>>>>>
+> >>>>>>>>>> v4:
+> >>>>>>>>>> * update init handling to ensure host init done on first cmd t=
+ransfer
+> >>>>>>>>>>
+> >>>>>>>>>> v3:
+> >>>>>>>>>> * none
+> >>>>>>>>>>
+> >>>>>>>>>> v2:
+> >>>>>>>>>> * check initialized state in samsung_dsim_init
+> >>>>>>>>>>
+> >>>>>>>>>> v1:
+> >>>>>>>>>> * keep DSI init in host transfer
+> >>>>>>>>>>
+> >>>>>>>>>> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> >>>>>>>>>> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> >>>>>>>>>> ---
+> >>>>>>>>>>       drivers/gpu/drm/bridge/samsung-dsim.c | 25 +++++++++++++=
+++++--------
+> >>>>>>>>>>       include/drm/bridge/samsung-dsim.h     |  5 +++--
+> >>>>>>>>>>       2 files changed, 20 insertions(+), 10 deletions(-)
+> >>>>>>>>>>
+> >>>>>>>>>> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c
+> >>>>>>>>>> b/drivers/gpu/drm/bridge/samsung-dsim.c
+> >>>>>>>>>> index bb1f45fd5a88..ec7e01ae02ea 100644
+> >>>>>>>>>> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> >>>>>>>>>> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> >>>>>>>>>> @@ -1234,12 +1234,17 @@ static void samsung_dsim_disable_irq(s=
+truct
+> >>>>>>>>>> samsung_dsim *dsi)
+> >>>>>>>>>>           disable_irq(dsi->irq);
+> >>>>>>>>>>       }
+> >>>>>>>>>>       -static int samsung_dsim_init(struct samsung_dsim *dsi)
+> >>>>>>>>>> +static int samsung_dsim_init(struct samsung_dsim *dsi, unsign=
+ed int
+> >>>>>>>>>> flag)
+> >>>>>>>>>>       {
+> >>>>>>>>>>           const struct samsung_dsim_driver_data *driver_data =
+=3D
+> >>>>>>>>>> dsi->driver_data;
+> >>>>>>>>>>       +    if (dsi->state & flag)
+> >>>>>>>>>> +        return 0;
+> >>>>>>>>>> +
+> >>>>>>>>>>           samsung_dsim_reset(dsi);
+> >>>>>>>>>> -    samsung_dsim_enable_irq(dsi);
+> >>>>>>>>>> +
+> >>>>>>>>>> +    if (!(dsi->state & DSIM_STATE_INITIALIZED))
+> >>>>>>>>>> +        samsung_dsim_enable_irq(dsi);
+> >>>>>>>>>>             if (driver_data->reg_values[RESET_TYPE] =3D=3D DSI=
+M_FUNCRST)
+> >>>>>>>>>>               samsung_dsim_enable_lane(dsi, BIT(dsi->lanes) - =
+1);
+> >>>>>>>>>> @@ -1250,6 +1255,8 @@ static int samsung_dsim_init(struct
+> >>>>>>>>>> samsung_dsim *dsi)
+> >>>>>>>>>>           samsung_dsim_set_phy_ctrl(dsi);
+> >>>>>>>>>>           samsung_dsim_init_link(dsi);
+> >>>>>>>>>>       +    dsi->state |=3D flag;
+> >>>>>>>>>> +
+> >>>>>>>>>>           return 0;
+> >>>>>>>>>>       }
+> >>>>>>>>>>       @@ -1269,6 +1276,10 @@ static void
+> >>>>>>>>>> samsung_dsim_atomic_pre_enable(struct drm_bridge *bridge,
+> >>>>>>>>>>           }
+> >>>>>>>>>>             dsi->state |=3D DSIM_STATE_ENABLED;
+> >>>>>>>>>> +
+> >>>>>>>>>> +    ret =3D samsung_dsim_init(dsi, DSIM_STATE_INITIALIZED);
+> >>>>>>>>>> +    if (ret)
+> >>>>>>>>>> +        return;
+> >>>>>>>>>>       }
+> >>>>>>>>>>         static void samsung_dsim_atomic_enable(struct drm_brid=
+ge *bridge,
+> >>>>>>>>>> @@ -1458,12 +1469,9 @@ static ssize_t
+> >>>>>>>>>> samsung_dsim_host_transfer(struct mipi_dsi_host *host,
+> >>>>>>>>>>           if (!(dsi->state & DSIM_STATE_ENABLED))
+> >>>>>>>>>>               return -EINVAL;
+> >>>>>>>>>>       -    if (!(dsi->state & DSIM_STATE_INITIALIZED)) {
+> >>>>>>>>>> -        ret =3D samsung_dsim_init(dsi);
+> >>>>>>>>>> -        if (ret)
+> >>>>>>>>>> -            return ret;
+> >>>>>>>>>> -        dsi->state |=3D DSIM_STATE_INITIALIZED;
+> >>>>>>>>>> -    }
+> >>>>>>>>>> +    ret =3D samsung_dsim_init(dsi, DSIM_STATE_REINITIALIZED);
+> >>>>>>>>> This triggers full controller reset and reprogramming upon firs=
+t
+> >>>>>>>>> command transfer, is such heavy handed reload really necessary =
+?
+> >>>>>>>> Yes it is, otherwise the proper DSI panels doesn't work with Exy=
+nos DRM
+> >>>>>>>> DSI. If this is a real issue for you, then maybe the driver coul=
+d do the
+> >>>>>>>> initialization conditionally, in prepare() callback in case of I=
+MX and
+> >>>>>>>> on the first transfer in case of Exynos?
+> >>>>>>> That's odd , it does actually break panel support for me, without=
+ this
+> >>>>>>> double reset the panel works again. But I have to wonder, why wou=
+ld such
+> >>>>>>> a full reset be necessary at all , even on the exynos ?
+> >>>>>> Is it breaking samsung_dsim_reset from host_transfer? maybe checki=
+ng
+> >>>>>> whether a reset is required before calling it might fix the issue.=
+  I
+> >>>>>> agree with double initialization is odd but it seems it is require=
+d on
+> >>>>>> some panels in Exynos, I think tweaking them and adjusting the pan=
+el
+> >>>>>> code might resolve this discrepancy.
+> >>>>> Can someone provide further details on the exynos problem ?
+> >>>> If I'm correct this sequence is required in order to work the existi=
+ng
+> >>>> panel/bridges on exynos. Adjusting these panel/bridge codes can
+> >>>> possibly fix the sequence further.
+> >>>>
+> >>>> Marek Szyprowski, please add if you have anything.
+> >>>
+> >>>
+> >>> Well, frankly speaking the double initialization is not a correct
+> >>> sequence, but this is the only one that actually works on Exynos base=
+d
+> >>> boards with DSI panels after moving the initialization to bridge's
+> >>> .prepare() callback.
+> >>
+> >> Somehow, I suspect this is related to the LP11 mode handling, which
+> >> differs for different panels, right ? I think the RPi people worked on
+> >> fixing that.
+> >>
+> >> +CC Dave
+> >
+> > Yes. I've just sent out a v3 of that patch set.
+> >
+> > Hopefully setting the pre_enable_prev_first flag on your peripheral's
+> > drm_bridge, or prepare_prev_first if a drm_panel, will result in a
+> > more sensible initialisation order for your panel.
+> >
+> > Note that host_transfer should ensure that the host is initialised, as
+> > it is valid to call it with the host in any state. If it has to
+> > initialise, then it should deinitialise once the transfer has
+> > completed.
+> >
+> > Dave
+> >
+> >>> I've already explained this and shared the results
+> >>> of my investigation in my replies to the previous versions of this
+> >>> patchset. The original Exynos DSI driver does the initialization on t=
+he
+> >>> first DSI command. This however doesn't work for Jagan with I2C
+> >>> controlled panels/bridges, so he moved the initialization to the
+> >>> .prepare() callback, what broke the Exynos case (in-short - all teste=
+d
+> >>> panels works fine only if the DSI host initialization is done AFTER
+> >>> turning the panel's power on). For more information, see this thread:
+> >>> https://eur04.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fl=
+ore.kernel.org%2Fall%2Fe96197f9-948a-997e-5453-9f9d179b5f5a%40samsung.com%2=
+F&amp;data=3D05%7C01%7Cfrieder.schrempf%40kontron.de%7Cc770caab3f274d9b50d1=
+08dad4753e1f%7C8c9d3c973fd941c8a2b1646f3942daf1%7C0%7C0%7C63805589726305668=
+0%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1ha=
+WwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=3D1YV551YUhXQAjE4Cg0nAtMdMksWzM=
+tscH49O83iKHRo%3D&amp;reserved=3D0
+> >>>
+> >>> Now, the more I think of it, the more I'm convinced that we simply
+> >>> should add a hack based on the HW type: do the initialization in
+> >>> .prepare() for non-Exynos case and before the first transfer for the
+> >>> Exynos case, as there is no way to detect the panel/next bridge type
+> >>> (I2C or DSI controlled).
+> >>
+> >> Let's see what Dave has to say about this, maybe there is some further=
+ help.
 >
-> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> Could we agree on adding the HW type based hack Marek S. proposed as a
+> quick fix?
+>
+> This patchset was tested on Exynos so it's likely to not break any
+> existing setups. And for i.MX8, this is a new driver so there's not
+> really a requirement to have all setups working/supported from the
+> beginning.
+>
+> Also having one or two hacks (marked with FIXME) in the code doesn't
+> hurt. As we can see there are drafts to fix them in conjunction with
+> changes in the DRM framework.
+>
+> This has been pending for months and in my opinion if there's a chance
+> to get this into v6.2-rc1 we should take it.
 
-Gentle ping. This issue is not fixed in linux-next.
+My patchset was sent in March with no one seeming to care enough to review =
+it.
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+If the situation is that your devices fall into the same camp as those
+for vc4 (the host needs to be initialised before the peripheral), at
+least verifying that would be useful before rushing into a hack.
 
+Your other comment references using a TI SN65DSI84. I know for certain
+that falls into the category of needing the DSI bus initialised before
+it is brought out of reset.
+
+  Dave
+
+> If everyone agrees, Jagan, can you post a v9 which does the host
+> initialization in .prepare() for i.MX and on first transfer for Exynos?
+>
