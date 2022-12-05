@@ -1,57 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73B4D643655
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Dec 2022 22:05:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98EB764366F
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Dec 2022 22:07:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3643110E2A0;
-	Mon,  5 Dec 2022 21:05:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 807F510E2A7;
+	Mon,  5 Dec 2022 21:07:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com
- [209.85.167.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E1AF10E29C;
- Mon,  5 Dec 2022 21:04:56 +0000 (UTC)
-Received: by mail-oi1-f170.google.com with SMTP id s187so8317638oie.10;
- Mon, 05 Dec 2022 13:04:56 -0800 (PST)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AEFA10E2A7
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Dec 2022 21:07:20 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id p8so20524407lfu.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Dec 2022 13:07:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=nEcGbFYaYRq0pR1tWc2XnqrDYCVIJgjwtYCoVp42TNk=;
+ b=jjcnbT5RW+Jg3fKg5EXzRhjtcYoduMPGSVCGNsD0Npm/3UICGWW531+ekuoTbmyBbD
+ HdfDMcXJBnaDDuczwEKLqKcMzBpPfO1sXzHCyPv9L361Y+IpUX2Ip1DJijpomiF/s0Zv
+ 6rg2NF4Aj0EijsK1Z0Rz3kU539KiMSaPJ1Y+ev6TiaFO2l7RMruIkz/Cjpnows6tGfdM
+ KCCN2380XaEitxlH+8Ave1Wx4AINdfYCihKjp/1lRXkMhUmNo1dXAMyxC6YkuHB4n7KW
+ ovSxd9RBBMDdhqEOMEIi5uWcTpZjMXCMCf2UfLdrvn7sauI0DH8fGn4lVCZtsyqWKSgJ
+ VBew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=date:subject:message-id:references:in-reply-to:cc:to:from
- :mime-version:content-transfer-encoding:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=9CwjQnBpZhR3hfYFhEevn5e7QNaIh1B5bLQAi43lcrk=;
- b=7PfqCE5JZZP/5LVRNW4fvd0+XyucOHgtXcei5RNDMBWT/gmEhR+9q/JJfOYikDs8SS
- 74SkPmi7LztSns3qYBkyt0SZXxnGyT4ACTyyalxUF+MzfGMUXo0f8guvE4+2EMbUD3/x
- GMfZwjPMjfopCDKGtjcdmQvOPZ1zn0J2e8mVoMff0Fmh8GnyEXDkBZ8AESGf6iuFaoFl
- 0K5ZEnei4RkEqmM1ARMR6KZc5BRUA1SAG2t0JUWXKsUUbZTBmlD/4Hc6VxvTlkah2mF8
- 4pK6PG+HpsEn+D18HrdC48gxVWe0xTmyUaJ5XmkvHXhhrjoASb+Gu5C2k73onjRZPZcu
- lc/Q==
-X-Gm-Message-State: ANoB5pnuTw7fC5u2rmXcu/TcPU4btgcbBNfZNrNm0nLdJMP0V0N9TmOm
- uR+oHGEkvdCIViA6Y+nU8w==
-X-Google-Smtp-Source: AA0mqf6PNt36qq3YHqydspUbJJ2YLYagwBsN9fSedf6ZJgKdnwon8TbkB7Y9jzHiw1tuBJG4lDUmwA==
-X-Received: by 2002:a54:478d:0:b0:35a:582b:e0f5 with SMTP id
- o13-20020a54478d000000b0035a582be0f5mr30964775oic.164.1670274295497; 
- Mon, 05 Dec 2022 13:04:55 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- z10-20020a056870c20a00b0013b911d5960sm9684219oae.49.2022.12.05.13.04.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Dec 2022 13:04:55 -0800 (PST)
-Received: (nullmailer pid 2619485 invoked by uid 1000);
- Mon, 05 Dec 2022 21:04:51 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=nEcGbFYaYRq0pR1tWc2XnqrDYCVIJgjwtYCoVp42TNk=;
+ b=niCrP62VJZfKKBEMohveazCpzCLdLGORPZ+k17W5po8e6OYp+14TAIcM+FJgTPjkik
+ 7TXMejHa/UsTXR8xQIuKvRmAB9/UFm6bvMQxgfNLJ8LKxPRrKJbcOnyfiq4mVZj5CAFV
+ yIGuXCDhDixcsl4Z2vx+QCDPDd6kyHWxl4ik4mBpqmDnoED45sXdWECA8Ne+1Z12tH7L
+ 6m5IFAv+aSRsHl+SzyRarys6EItlRbOd5RYAHNYjnjm1L5NXtvCgLzjMh82+R86lfs0h
+ mqnkuzRn60SR2h2ur0q3+79MZs8kdkuHhxAvIyss2rIkD959J3J+LsYCRrcL9Kr/hyJD
+ McNQ==
+X-Gm-Message-State: ANoB5pn/Zg3YV2t3Ulbz79GizSu5MdI5VH1eeABTHivh0ZF7Jkzldho7
+ BJwaNZiBcA1S3wLGDO8zd7TvWg==
+X-Google-Smtp-Source: AA0mqf4mFk64/EPNgptSRfBt9JSDGtHkFbbcllBU2v8HjWoBGLcLmGR4VHuZIT1dMzCprrNqwdsdsA==
+X-Received: by 2002:a05:6512:baa:b0:4b5:6417:644e with SMTP id
+ b42-20020a0565120baa00b004b56417644emr3342100lfv.495.1670274438364; 
+ Mon, 05 Dec 2022 13:07:18 -0800 (PST)
+Received: from [127.0.0.1] ([94.25.229.129]) by smtp.gmail.com with ESMTPSA id
+ u5-20020a05651c130500b0027740a1b854sm1509451lja.52.2022.12.05.13.07.17
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 05 Dec 2022 13:07:17 -0800 (PST)
+Date: Tue, 06 Dec 2022 00:07:12 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Bjorn Andersson <quic_bjorande@quicinc.com>
+Subject: Re: [PATCH v4 09/13] drm/msm/dp: Don't enable HPD interrupts for edp
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20221205174433.16847-10-quic_bjorande@quicinc.com>
+References: <20221205174433.16847-1-quic_bjorande@quicinc.com>
+ <20221205174433.16847-10-quic_bjorande@quicinc.com>
+Message-ID: <62FFEABE-0074-4836-84BE-2C88C83F8674@linaro.org>
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <1670267670-15832-3-git-send-email-quic_khsieh@quicinc.com>
-References: <1670267670-15832-1-git-send-email-quic_khsieh@quicinc.com>
- <1670267670-15832-3-git-send-email-quic_khsieh@quicinc.com>
-Message-Id: <167027422734.2617917.15803998013731491196.robh@kernel.org>
-Subject: Re: [PATCH v8 2/5] dt-bindings: msm/dp: add data-lanes and
- link-frequencies property
-Date: Mon, 05 Dec 2022 15:04:51 -0600
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,71 +73,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sean@poorly.run, devicetree@vger.kernel.org, quic_sbillaka@quicinc.com,
- krzysztof.kozlowski+dt@linaro.org, quic_abhinavk@quicinc.com, vkoul@kernel.org,
- airlied@linux.ie, freedreno@lists.freedesktop.org, andersson@kernel.org,
- konrad.dybcio@somainline.org, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- robh+dt@kernel.org, agross@kernel.org, linux-arm-msm@vger.kernel.org,
- dmitry.baryshkov@linaro.org, swboyd@chromium.org
+Cc: Kalyan Thota <quic_kalyant@quicinc.com>, freedreno@lists.freedesktop.org,
+ Sankeerth Billakanti <quic_sbillaka@quicinc.com>, linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Johan Hovold <johan+linaro@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Mon, 05 Dec 2022 11:14:27 -0800, Kuogee Hsieh wrote:
-> Add both data-lanes and link-frequencies property into endpoint
-> 
-> Changes in v7:
-> -- split yaml out of dtsi patch
-> -- link-frequencies from link rate to symbol rate
-> -- deprecation of old data-lanes property
-> 
-> Changes in v8:
-> -- correct Bjorn mail address to kernel.org
-> 
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> ---
->  .../bindings/display/msm/dp-controller.yaml        | 22 ++++++++++++++++------
->  1 file changed, 16 insertions(+), 6 deletions(-)
-> 
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+On 5 December 2022 20:44:29 GMT+03:00, Bjorn Andersson <quic_bjorande@quic=
+inc=2Ecom> wrote:
+>From: Bjorn Andersson <bjorn=2Eandersson@linaro=2Eorg>
+>
+>Most instances where HPD interrupts are masked and unmasked are guareded
+>by the presence of an EDP panel being connected, but not all=2E Extend
+>this to cover the last few places, as HPD interrupt handling is not used
+>for the EDP case=2E
 
-yamllint warnings/errors:
+I don't remember whether I asked that or not=2E Would it be possible to mo=
+ve hpd irq enablement to bridge's hpd_enable() / hpd_disable() callbacks ? =
+I think this would allow us to drop the is_edp checks=2E
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/dp-controller.yaml: properties:ports:properties:port@1:properties: 'properties' should not be valid under {'$ref': '#/definitions/json-schema-prop-names'}
-	hint: A json-schema keyword was found instead of a DT property name.
-	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/dp-controller.yaml: properties:ports:properties:port@1:properties: 'additionalProperties' should not be valid under {'$ref': '#/definitions/json-schema-prop-names'}
-	hint: A json-schema keyword was found instead of a DT property name.
-	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/dp-controller.yaml: properties:ports:properties:port@1:properties:properties: 'anyOf' conditional failed, one must be fixed:
-	'data-lanes' is not one of ['$ref', 'additionalItems', 'additionalProperties', 'allOf', 'anyOf', 'const', 'contains', 'default', 'dependencies', 'dependentRequired', 'dependentSchemas', 'deprecated', 'description', 'else', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'items', 'if', 'minItems', 'minimum', 'maxItems', 'maximum', 'multipleOf', 'not', 'oneOf', 'pattern', 'patternProperties', 'properties', 'required', 'then', 'typeSize', 'unevaluatedProperties', 'uniqueItems']
-	'type' was expected
-	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/dp-controller.yaml: properties:ports:properties:port@1:properties:properties: 'anyOf' conditional failed, one must be fixed:
-	'link-frequencies' is not one of ['$ref', 'additionalItems', 'additionalProperties', 'allOf', 'anyOf', 'const', 'contains', 'default', 'dependencies', 'dependentRequired', 'dependentSchemas', 'deprecated', 'description', 'else', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'items', 'if', 'minItems', 'minimum', 'maxItems', 'maximum', 'multipleOf', 'not', 'oneOf', 'pattern', 'patternProperties', 'properties', 'required', 'then', 'typeSize', 'unevaluatedProperties', 'uniqueItems']
-	'type' was expected
-	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/dp-controller.example.dtb: displayport-controller@ae90000: ports:port@1:endpoint: Unevaluated properties are not allowed ('data-lanes', 'link-frequencies' were unexpected)
-	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+>
+>Signed-off-by: Bjorn Andersson <bjorn=2Eandersson@linaro=2Eorg>
+>Reviewed-by: Dmitry Baryshkov <dmitry=2Ebaryshkov@linaro=2Eorg>
+>Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc=2Ecom>
+>---
+>
+>Changes since v3:
+>- None
+>
+> drivers/gpu/drm/msm/dp/dp_display=2Ec | 15 ++++++++++-----
+> 1 file changed, 10 insertions(+), 5 deletions(-)
+>
+>diff --git a/drivers/gpu/drm/msm/dp/dp_display=2Ec b/drivers/gpu/drm/msm/=
+dp/dp_display=2Ec
+>index 17fcf8cd84cd=2E=2Ebb92c33beff8 100644
+>--- a/drivers/gpu/drm/msm/dp/dp_display=2Ec
+>+++ b/drivers/gpu/drm/msm/dp/dp_display=2Ec
+>@@ -610,8 +610,10 @@ static int dp_hpd_plug_handle(struct dp_display_priv=
+ate *dp, u32 data)
+> 	}
+>=20
+> 	/* enable HDP irq_hpd/replug interrupt */
+>-	dp_catalog_hpd_config_intr(dp->catalog,
+>-		DP_DP_IRQ_HPD_INT_MASK | DP_DP_HPD_REPLUG_INT_MASK, true);
+>+	if (!dp->dp_display=2Eis_edp)
+>+		dp_catalog_hpd_config_intr(dp->catalog,
+>+					   DP_DP_IRQ_HPD_INT_MASK | DP_DP_HPD_REPLUG_INT_MASK,
+>+					   true);
+>=20
+> 	drm_dbg_dp(dp->drm_dev, "After, type=3D%d hpd_state=3D%d\n",
+> 			dp->dp_display=2Econnector_type, state);
+>@@ -651,8 +653,10 @@ static int dp_hpd_unplug_handle(struct dp_display_pr=
+ivate *dp, u32 data)
+> 			dp->dp_display=2Econnector_type, state);
+>=20
+> 	/* disable irq_hpd/replug interrupts */
+>-	dp_catalog_hpd_config_intr(dp->catalog,
+>-		DP_DP_IRQ_HPD_INT_MASK | DP_DP_HPD_REPLUG_INT_MASK, false);
+>+	if (!dp->dp_display=2Eis_edp)
+>+		dp_catalog_hpd_config_intr(dp->catalog,
+>+					   DP_DP_IRQ_HPD_INT_MASK | DP_DP_HPD_REPLUG_INT_MASK,
+>+					   false);
+>=20
+> 	/* unplugged, no more irq_hpd handle */
+> 	dp_del_event(dp, EV_IRQ_HPD_INT);
+>@@ -678,7 +682,8 @@ static int dp_hpd_unplug_handle(struct dp_display_pri=
+vate *dp, u32 data)
+> 	}
+>=20
+> 	/* disable HPD plug interrupts */
+>-	dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_PLUG_INT_MASK, false)=
+;
+>+	if (!dp->dp_display=2Eis_edp)
+>+		dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_PLUG_INT_MASK, false=
+);
+>=20
+> 	/*
+> 	 * We don't need separate work for disconnect as
 
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/1670267670-15832-3-git-send-email-quic_khsieh@quicinc.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+--=20
+With best wishes
+Dmitry
