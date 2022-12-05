@@ -1,59 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37FEA642802
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Dec 2022 13:06:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D915964280E
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Dec 2022 13:07:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2BB610E1B3;
-	Mon,  5 Dec 2022 12:06:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D22C410E1E6;
+	Mon,  5 Dec 2022 12:07:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com
- [IPv6:2607:f8b0:4864:20::1134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FE1010E1CB
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Dec 2022 12:06:16 +0000 (UTC)
-Received: by mail-yw1-x1134.google.com with SMTP id
- 00721157ae682-3b10392c064so115752927b3.0
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Dec 2022 04:06:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=OrDSz1v9qyNjHSfcaUzl0KseW+BdUND2SR3NKy5ohvo=;
- b=JVI6tC0j8MUWq8058NICxilbSJ0mIl1vJnSCq38O1iQw78yaTNZKoY8s9DFI4b15Zy
- gF3c2tBYI31QQjjLQCNk8Su8s0rr41C1Rn3HfkDCXB3jc5fcTo/em9nsygWNgFOvBQgM
- fVa2i98NImyIlY5JqOC255M9/Ug18pSmGLSHk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=OrDSz1v9qyNjHSfcaUzl0KseW+BdUND2SR3NKy5ohvo=;
- b=kENcJQrDUfvf9TvD6YE9l7McP+JKaijjpAMZNKWMF09b8TaO3cOKSLilSV6sb3Mfya
- 0WIBNZFDReJjk7fTYOMtKwbIkBCT9S2aUF4w0CM+4MJkHaKPD0vPW42RfjYdtubLYUk2
- gUayHH0VzlgNULbD7YmHjjGW0V69FRgWnDeuVd2VpvU6BgiZZI8GL0em5IXa4M0kdQO2
- DkBLMjAAfWC6PtgLeVD+B+Dut8vcK0QaCwuQskLAeY/597sSmWZdROxfr7ZB84hdSG9l
- Tuq9ZChzhcb1dHwU0HHSbB+P85cddg2QiMunxKSukHSJJjDzx2ipF3DlOSu0e1Sw533l
- d4Ng==
-X-Gm-Message-State: ANoB5pkpOKqtTsvQW8MDKgDnRPDvuZoDB8iVCBBCUCMkD3tJw3bC7oGr
- sZ2Vj0qPl83gqFhPNg7iy8AF0CkeCVYS1s2N+elulw==
-X-Google-Smtp-Source: AA0mqf4JPC8fLduP2jgV//4lunhlPYXqSvawe4GsRfezQ/THGEDzEtOZpD33TCjgo6axNknJUNVnt/GTnkwKtAbd3OQ=
-X-Received: by 2002:a05:690c:91:b0:392:1434:c329 with SMTP id
- be17-20020a05690c009100b003921434c329mr61359779ywb.72.1670241975488; Mon, 05
- Dec 2022 04:06:15 -0800 (PST)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE0DF10E1CB
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Dec 2022 12:07:32 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 95371B80F91;
+ Mon,  5 Dec 2022 12:07:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E08C2C433C1;
+ Mon,  5 Dec 2022 12:07:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1670242050;
+ bh=K+Dd7xGXTDkGOUmFSn+Tmrppo1MrzYY2Lk+azYRrNIg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=m1gkj5247+U4OLnyaCx2lbX33R9pdpFcyuxaNcBbQzKrA1hlMuZw7xpg76kPEO27x
+ kUm7v+2SXEaVcuxFuOz86wLmKDzu8jfpk5jdqtYWWkq/1y7iJm+ITBsy+uOXINE5gg
+ D/IlOVOJUaYUQqS9NqMbjywD7kVo4V0mpp0VNEChvkZSJhIffAXsFnv/ZjJ1haKzM9
+ xB9L/3UcEy78yD/SaFiHTyYNCWOhT+r1FIFXZsC54p7ttrL5HoYvAjVP1FUBxLIid3
+ K9TQjW0zvBmMidab5XPUhSr1LVM/uw0Gh5Vounv45TXpabRWy0RSWfyiqpbjOyX1cI
+ LMBCv/rdqg6ww==
+Date: Mon, 5 Dec 2022 12:07:20 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Jiaxin Yu =?utf-8?B?KOS/nuWutumRqyk=?= <Jiaxin.Yu@mediatek.com>
+Subject: Re: [PATCH v2 1/3] ASoC: hdmi-codec: Add event handler for hdmi TX
+Message-ID: <Y43e+EsNCrCpZSIH@sirena.org.uk>
+References: <20221125094413.4940-1-jiaxin.yu@mediatek.com>
+ <20221125094413.4940-2-jiaxin.yu@mediatek.com>
+ <Y4Cysgk5Gic5ae9B@sirena.org.uk>
+ <18c82f6f723cd97a9d6b9a7ff16c6ed62fd005d6.camel@mediatek.com>
+ <Y4Y/vEWe3dw0FPQH@sirena.org.uk>
+ <cf9ea98a3263ffb8fc8b542888ad0ad680facfc7.camel@mediatek.com>
+ <Y4jHAJgmz/P58Q/C@sirena.org.uk>
+ <7023a2c7b471d6888d9079563a6c01f22599201f.camel@mediatek.com>
 MIME-Version: 1.0
-References: <20221110183853.3678209-1-jagan@amarulasolutions.com>
- <20221110183853.3678209-3-jagan@amarulasolutions.com>
- <8dea3d9c-61b6-c576-ff97-89e4ad55a5d2@kontron.de>
-In-Reply-To: <8dea3d9c-61b6-c576-ff97-89e4ad55a5d2@kontron.de>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Mon, 5 Dec 2022 17:36:03 +0530
-Message-ID: <CAMty3ZCM-R2aWj5pTVX9vSRw4VFWgayrZs+1hJ50HOmPZtNPxw@mail.gmail.com>
-Subject: Re: [PATCH v8 02/14] drm: exynos: dsi: Properly name HSA/HBP/HFP/HSE
- bits
-To: Frieder Schrempf <frieder.schrempf@kontron.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="2Zxw/Hvoq9IhDAxu"
+Content-Disposition: inline
+In-Reply-To: <7023a2c7b471d6888d9079563a6c01f22599201f.camel@mediatek.com>
+X-Cookie: If it ain't broke, don't fix it.
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,68 +60,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
- Joonyoung Shim <jy0922.shim@samsung.com>, dri-devel@lists.freedesktop.org,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, Neil Armstrong <narmstrong@linaro.org>,
- Robert Foss <robert.foss@linaro.org>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Matteo Lisi <matteo.lisi@engicam.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, NXP Linux Team <linux-imx@nxp.com>,
- Fancy Fang <chen.fang@nxp.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+ "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
+ "nfraprado@collabora.com" <nfraprado@collabora.com>,
+ Chunxu Li =?utf-8?B?KOadjuaYpeaXrSk=?= <Chunxu.Li@mediatek.com>,
+ Allen-KH Cheng =?utf-8?B?KOeoi+WGoOWLsyk=?= <Allen-KH.Cheng@mediatek.com>,
+ "kuninori.morimoto.gx@renesas.com" <kuninori.morimoto.gx@renesas.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "robert.foss@linaro.org" <robert.foss@linaro.org>,
+ "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>,
+ "ajye_huang@compal.corp-partner.google.com"
+ <ajye_huang@compal.corp-partner.google.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 5, 2022 at 5:29 PM Frieder Schrempf
-<frieder.schrempf@kontron.de> wrote:
->
-> On 10.11.22 19:38, Jagan Teki wrote:
-> > HSA/HBP/HFP/HSE mode bits in Exynos DSI host specify a naming
-> > conversion as 'disable mode bit' due to its bit definition,
-> > 0 = Enable and 1 = Disable.
-> >
-> > Fix the naming convention of the mode bits.
-> >
-> > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> > ---
-> >  drivers/gpu/drm/exynos/exynos_drm_dsi.c | 16 ++++++++--------
-> >  1 file changed, 8 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-> > index b5305b145ddb..fce7f0a7e4ee 100644
-> > --- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-> > +++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-> > @@ -75,10 +75,10 @@
-> >  #define DSIM_MAIN_PIX_FORMAT_RGB565  (0x4 << 12)
-> >  #define DSIM_SUB_VC                  (((x) & 0x3) << 16)
-> >  #define DSIM_MAIN_VC                 (((x) & 0x3) << 18)
-> > -#define DSIM_HSA_MODE                        (1 << 20)
-> > -#define DSIM_HBP_MODE                        (1 << 21)
-> > -#define DSIM_HFP_MODE                        (1 << 22)
-> > -#define DSIM_HSE_MODE                        (1 << 23)
-> > +#define DSIM_HSA_DISABLE             (1 << 20)
-> > +#define DSIM_HBP_DISABLE             (1 << 21)
-> > +#define DSIM_HFP_DISABLE             (1 << 22)
-> > +#define DSIM_HSE_DISABLE             (1 << 23)
-> >  #define DSIM_AUTO_MODE                       (1 << 24)
-> >  #define DSIM_VIDEO_MODE                      (1 << 25)
-> >  #define DSIM_BURST_MODE                      (1 << 26)
-> > @@ -804,13 +804,13 @@ static int exynos_dsi_init_link(struct exynos_dsi *dsi)
-> >               if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_AUTO_VERT)
-> >                       reg |= DSIM_AUTO_MODE;
-> >               if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_HSE)
-> > -                     reg |= DSIM_HSE_MODE;
-> > +                     reg |= DSIM_HSE_DISABLE;
->
-> Please add a comment to explain that the DSIM_HSE_DISABLE bit as named
-> in the datasheet actually has inverted logic (set = HSE enabled).
 
-Yes, I have the V9 series with all relevant fixes and updates -
-waiting for the responses on the host init patch 06/14
+--2Zxw/Hvoq9IhDAxu
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Jagan.
+On Mon, Dec 05, 2022 at 09:34:17AM +0000, Jiaxin Yu (=E4=BF=9E=E5=AE=B6=E9=
+=91=AB) wrote:
+
+> 1. I have added a DAPM widget that is "SDB", when we open or close HDMI
+> PIN_SWITCH, the callback 'hdmi_tx_event' registered in the widget will
+> be triggered. Maybe you mean I shouldn't use SNDRV_PCM_TRIGGER_START
+> and SNDRV_PCM_TRIGGER_STOP?
+
+No, I mean that if you want to control the enable and disable of the
+output path you should implement a DAPM widget.
+
+> 2. If I don't use hcd.ops->trigger notifies the bridge ic driver to
+> switch the audio, which ops should I use?
+> I actually want to know hdmi-codec.c and it6505.c except
+> hdmi_codec_ops, is there any other way to communicate?
+
+Like I said you should use the event on the DAPM widget.  This will
+require providing operations for the events to the drivers.
+
+--2Zxw/Hvoq9IhDAxu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmON3vcACgkQJNaLcl1U
+h9Cbhgf+LMvcJgTpZwsDot1swl9dxC4R5KoASnnVtW3qUnTy6RJishGkt+FKlLX8
+aw/XM5uZSMX1WA040KY4LRSrz/jSPdW2esD5PxtNo7+z87LmRi/AL9539cd8zu89
+jNhbtBAQDyiNp1Y5mNKjEoL6wCbFS7Zt8XMnXHxddRKZClHNgn1q5/ZbfkbNP++Y
+zsXuNSRUT4lzbBlfe2tRMJ1mPdz2R1Is+7sbNZIPIU4t741icrKukcCYPOuYfQeb
+38OZ3gVyERI/AIfp7P0X5SLklXuTFFxAhbg617Bp254suyarICucIyvSvp7iTNxq
+hg3akba+kzI36lZ6YuhE4NvJC589kQ==
+=lrjL
+-----END PGP SIGNATURE-----
+
+--2Zxw/Hvoq9IhDAxu--
