@@ -1,50 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1B3E64241D
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Dec 2022 09:08:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D32764244E
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Dec 2022 09:17:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEFA689FEA;
-	Mon,  5 Dec 2022 08:08:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F33B810E100;
+	Mon,  5 Dec 2022 08:16:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A71389FEA
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Dec 2022 08:08:20 +0000 (UTC)
-Received: from mxct.zte.com.cn (unknown [192.168.251.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mxhk.zte.com.cn (FangMail) with ESMTPS id 4NQblQ6GHkz8RV7X
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Dec 2022 16:08:18 +0800 (CST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B07EE10E100
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Dec 2022 08:16:56 +0000 (UTC)
 Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mxct.zte.com.cn (FangMail) with ESMTPS id 4NQblM2R66z4y0vF;
- Mon,  5 Dec 2022 16:08:15 +0800 (CST)
+ by mxhk.zte.com.cn (FangMail) with ESMTPS id 4NQbxM1jhJz8RV7G;
+ Mon,  5 Dec 2022 16:16:55 +0800 (CST)
 Received: from xaxapp01.zte.com.cn ([10.88.40.50])
- by mse-fl2.zte.com.cn with SMTP id 2B58825v016075;
- Mon, 5 Dec 2022 16:08:02 +0800 (+08)
+ by mse-fl2.zte.com.cn with SMTP id 2B58Gf6p028925;
+ Mon, 5 Dec 2022 16:16:41 +0800 (+08)
  (envelope-from ye.xingchen@zte.com.cn)
 Received: from mapi (xaxapp01[null]) by mapi (Zmail) with MAPI id mid31;
- Mon, 5 Dec 2022 16:08:04 +0800 (CST)
-Date: Mon, 5 Dec 2022 16:08:04 +0800 (CST)
-X-Zmail-TransId: 2af9638da6e4fffffffffc58ba99
+ Mon, 5 Dec 2022 16:16:43 +0800 (CST)
+Date: Mon, 5 Dec 2022 16:16:43 +0800 (CST)
+X-Zmail-TransId: 2af9638da8eb41c9fedb
 X-Mailer: Zmail v1.0
-Message-ID: <202212051608044377107@zte.com.cn>
+Message-ID: <202212051616434207425@zte.com.cn>
 Mime-Version: 1.0
 From: <ye.xingchen@zte.com.cn>
 To: <deller@gmx.de>
-Subject: =?UTF-8?B?W1BBVENIIGxpbnV4LW5leHRdIGZiZGV2OiB1c2Ugc3lzZnNfZW1pdCgpIHRvIGluc3RlYWQgb2Ygc2NucHJpbnRmKCk=?=
+Subject: =?UTF-8?B?W1BBVENIIGxpbnV4LW5leHQgdjJdIGZiZGV2OiB1c2Ugc3lzZnNfZW1pdCgpIHRvIGluc3RlYWQgb2Ygc2NucHJpbnRmKCk=?=
 Content-Type: text/plain;
 	charset="UTF-8"
-X-MAIL: mse-fl2.zte.com.cn 2B58825v016075
+X-MAIL: mse-fl2.zte.com.cn 2B58Gf6p028925
 X-Fangmail-Gw-Spam-Type: 0
 X-FangMail-Miltered: at cgslv5.04-192.168.250.137.novalocal with ID
- 638DA6F2.001 by FangMail milter!
-X-FangMail-Envelope: 1670227698/4NQblQ6GHkz8RV7X/638DA6F2.001/192.168.251.13/[192.168.251.13]/mxct.zte.com.cn/<ye.xingchen@zte.com.cn>
+ 638DA8F7.000 by FangMail milter!
+X-FangMail-Envelope: 1670228215/4NQbxM1jhJz8RV7G/638DA8F7.000/10.5.228.133/[10.5.228.133]/mse-fl2.zte.com.cn/<ye.xingchen@zte.com.cn>
 X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 638DA6F2.001/4NQblQ6GHkz8RV7X
+X-Fangmail-MID-QID: 638DA8F7.000/4NQbxM1jhJz8RV7G
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,8 +66,11 @@ value to be returned to user space.
 
 Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
 ---
- drivers/video/fbdev/sh_mobile_lcdcfb.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+v1 -> v2
+Add another patch about this in ./video/fbdev/
+ drivers/video/fbdev/sh_mobile_lcdcfb.c |  8 ++++----
+ drivers/video/fbdev/uvesafb.c          | 10 +++++-----
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/video/fbdev/sh_mobile_lcdcfb.c b/drivers/video/fbdev/sh_mobile_lcdcfb.c
 index 6d00893d41f4..ad9323ed8e2e 100644
@@ -114,5 +112,54 @@ index 6d00893d41f4..ad9323ed8e2e 100644
  }
 
  static ssize_t
+diff --git a/drivers/video/fbdev/uvesafb.c b/drivers/video/fbdev/uvesafb.c
+index 00d789b6c0fa..ba8028a0cc7a 100644
+--- a/drivers/video/fbdev/uvesafb.c
++++ b/drivers/video/fbdev/uvesafb.c
+@@ -1580,7 +1580,7 @@ static ssize_t uvesafb_show_vendor(struct device *dev,
+ 	struct uvesafb_par *par = info->par;
+
+ 	if (par->vbe_ib.oem_vendor_name_ptr)
+-		return scnprintf(buf, PAGE_SIZE, "%s\n", (char *)
++		return sysfs_emit(buf, "%s\n", (char *)
+ 			(&par->vbe_ib) + par->vbe_ib.oem_vendor_name_ptr);
+ 	else
+ 		return 0;
+@@ -1595,7 +1595,7 @@ static ssize_t uvesafb_show_product_name(struct device *dev,
+ 	struct uvesafb_par *par = info->par;
+
+ 	if (par->vbe_ib.oem_product_name_ptr)
+-		return scnprintf(buf, PAGE_SIZE, "%s\n", (char *)
++		return sysfs_emit(buf, "%s\n", (char *)
+ 			(&par->vbe_ib) + par->vbe_ib.oem_product_name_ptr);
+ 	else
+ 		return 0;
+@@ -1610,7 +1610,7 @@ static ssize_t uvesafb_show_product_rev(struct device *dev,
+ 	struct uvesafb_par *par = info->par;
+
+ 	if (par->vbe_ib.oem_product_rev_ptr)
+-		return scnprintf(buf, PAGE_SIZE, "%s\n", (char *)
++		return sysfs_emit(buf, "%s\n", (char *)
+ 			(&par->vbe_ib) + par->vbe_ib.oem_product_rev_ptr);
+ 	else
+ 		return 0;
+@@ -1625,7 +1625,7 @@ static ssize_t uvesafb_show_oem_string(struct device *dev,
+ 	struct uvesafb_par *par = info->par;
+
+ 	if (par->vbe_ib.oem_string_ptr)
+-		return scnprintf(buf, PAGE_SIZE, "%s\n",
++		return sysfs_emit(buf, "%s\n",
+ 			(char *)(&par->vbe_ib) + par->vbe_ib.oem_string_ptr);
+ 	else
+ 		return 0;
+@@ -1639,7 +1639,7 @@ static ssize_t uvesafb_show_nocrtc(struct device *dev,
+ 	struct fb_info *info = dev_get_drvdata(dev);
+ 	struct uvesafb_par *par = info->par;
+
+-	return scnprintf(buf, PAGE_SIZE, "%d\n", par->nocrtc);
++	return sysfs_emit(buf, "%d\n", par->nocrtc);
+ }
+
+ static ssize_t uvesafb_store_nocrtc(struct device *dev,
 -- 
 2.25.1
