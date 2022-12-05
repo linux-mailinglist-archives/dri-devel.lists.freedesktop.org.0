@@ -2,65 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 440F3642F9B
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Dec 2022 19:09:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8E71642FB3
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Dec 2022 19:16:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29D6A10E107;
-	Mon,  5 Dec 2022 18:09:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A537410E0DF;
+	Mon,  5 Dec 2022 18:16:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0D4B10E106
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Dec 2022 18:09:49 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id p36so15511442lfa.12
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Dec 2022 10:09:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1ygEPlHYIIbXAkVkRyyQhAxFfq5zBnEqOicPGwf/WsU=;
- b=Vw/JTpQ1krpQXq0KPjaPn1fOgZbVwgTiAQdsY1mYISovHNk+XYvP7hgdmJ/pWU0Hqf
- OiRGQfNlL9qzbpfQHbKwGuFE0VWht5/D5tRhz8v7r7wlQFADcOjqbkaREyEw97ey1izT
- qFFOQ766ada8SHct1HuqMXC/nQA3FtsDuU3wnV1XCBnKQ8d95C9Um7tAYFYwXJI/+iSp
- 4/lrsIvuKwfNsGffK9dldjEa1/gqb53EhAjajlW5Rr1AxVVqGCvYvzuhS++GZt0Vue86
- uKBVavXbAm+FUQuhJXBsMjNIYfOEVmTC9vDH7ybCvpXh6e6BwBIGB3SFCJHXs0Jj9e79
- d3JA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=1ygEPlHYIIbXAkVkRyyQhAxFfq5zBnEqOicPGwf/WsU=;
- b=ZS9P+oe5e/FMFycTsIdAOtBsFUEPKo4bgDu63oUy6/pFAQKhPggJnlwqUG3d0IOcJj
- rKgnI81dT0XRl9MOqaSn8L3n2yw6Eu4IxB2Bih1jZ09Lk/LiIABHYakyGrr7H+c8rAvt
- DbOGHR06OeNr04GvtqwIndybVGQuD/0dxvWZp7vUNz9omDSOZaKi1eAIFX4XEknzVFnB
- cbNLGQauCuiBS2Dzx/T15qSrNzuxwbWQeJf0mrwu/zKzQxjofLLFdUZUZuXqnlj3OV78
- /itRwLiTIGusIrWYBvVHuTFfe6pCyxNTvtdYxfbBZSms1jjqfuI9zlrF4RaV5AA78AAW
- sPLA==
-X-Gm-Message-State: ANoB5pnga4ckc1Tq6CLFTnfZrpLwkiIWg7TWq8vq4UWGxO2I7622vdXq
- Or05x+ey8NPQbHmBKRllIxaUXw==
-X-Google-Smtp-Source: AA0mqf5z7wLp2Dz1hSeqBNT+xZUYZDY1Sc5BuFV3VZ6xSH3BN6dWJXybUuNwSewVfTY3XHvEJRNJlg==
-X-Received: by 2002:a05:6512:2215:b0:4b5:5efb:7d29 with SMTP id
- h21-20020a056512221500b004b55efb7d29mr4113966lfu.477.1670263787929; 
- Mon, 05 Dec 2022 10:09:47 -0800 (PST)
-Received: from [192.168.31.208] ([194.29.137.22])
- by smtp.gmail.com with ESMTPSA id
- a2-20020a19ca02000000b004946a1e045fsm2175600lfg.197.2022.12.05.10.09.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Dec 2022 10:09:47 -0800 (PST)
-Message-ID: <b58f6935-b6ac-128b-2fec-a06dccc3210f@linaro.org>
-Date: Mon, 5 Dec 2022 19:09:45 +0100
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA99F10E0DF;
+ Mon,  5 Dec 2022 18:16:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1670264180; x=1701800180;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=b/5GSsD688WMPq/qTxsVJ9CNpyrQNrY3rkQQGQrEBVY=;
+ b=S9DodEhJQECgBXc+jOR2hNDpypGb0pIdwZyojGORM3mWnecmKX2YqEG8
+ iNen6KUzhmnwcT70N2T+kq7bQggLrAjkz63OdrhqarxqeqGF1zwoQR7oG
+ m0fXzpxm+swJz+NXo7bOMaoS8luNlCMb+23rwZnrhCy9LSasgWJeXUsti
+ hAY8pQKDsAsIXv2a8QACc3NAkNeABM5i6ZBAeaVBpfbD2FMq6JXsQoJRg
+ TvwyzR39fuyjfyBoScgAulb1JEcZJgtCpe3mtTuzKNKvzGNW528oUuy3D
+ miCzTs04OopLiYALtVFuq8sbmANezzPh4d9gP0e7PUIUzV4JMHdzSEZrh w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10552"; a="380719263"
+X-IronPort-AV: E=Sophos;i="5.96,220,1665471600"; d="scan'208";a="380719263"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Dec 2022 10:16:16 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10552"; a="714495746"
+X-IronPort-AV: E=Sophos;i="5.96,220,1665471600"; d="scan'208";a="714495746"
+Received: from naumanha-mobl.ger.corp.intel.com (HELO [10.213.231.131])
+ ([10.213.231.131])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Dec 2022 10:16:15 -0800
+Message-ID: <5343ba86-1945-6e7c-29b2-74fce52401f7@linux.intel.com>
+Date: Mon, 5 Dec 2022 18:16:13 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.0
-Subject: Re: [PATCH v4 13/13] arm64: dts: qcom: sa8295-adp: Enable DP instances
-To: Bjorn Andersson <quic_bjorande@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20221205174433.16847-1-quic_bjorande@quicinc.com>
- <20221205174433.16847-14-quic_bjorande@quicinc.com>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20221205174433.16847-14-quic_bjorande@quicinc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [Intel-gfx] [PATCH v2 4/5] drm/i915/mtl: Add hardware-level lock
+ for steering
+Content-Language: en-US
+To: Matt Roper <matthew.d.roper@intel.com>
+References: <20221128233014.4000136-1-matthew.d.roper@intel.com>
+ <20221128233014.4000136-5-matthew.d.roper@intel.com>
+ <c5eca2f1-0ac6-fd0b-a9ef-d590ccf5d1e0@linux.intel.com>
+ <Y44TqD6GXLe3XIKp@mdroper-desk1.amr.corp.intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <Y44TqD6GXLe3XIKp@mdroper-desk1.amr.corp.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,308 +65,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kalyan Thota <quic_kalyant@quicinc.com>, freedreno@lists.freedesktop.org,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>, linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- linux-arm-msm@vger.kernel.org, Jessica Zhang <quic_jesszhan@quicinc.com>,
- Johan Hovold <johan+linaro@kernel.org>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+On 05/12/2022 15:52, Matt Roper wrote:
+> On Mon, Dec 05, 2022 at 08:58:16AM +0000, Tvrtko Ursulin wrote:
+>>
+>> On 28/11/2022 23:30, Matt Roper wrote:
+>>> Starting with MTL, the driver needs to not only protect the steering
+>>> control register from simultaneous software accesses, but also protect
+>>> against races with hardware/firmware agents.  The hardware provides a
+>>> dedicated locking mechanism to support this via the MTL_STEER_SEMAPHORE
+>>> register.  Reading the register acts as a 'trylock' operation; the read
+>>> will return 0x1 if the lock is acquired or 0x0 if something else is
+>>> already holding the lock; once acquired, writing 0x1 to the register
+>>> will release the lock.
+>>>
+>>> We'll continue to grab the software lock as well, just so lockdep can
+>>> track our locking; assuming the hardware lock is behaving properly,
+>>> there should never be any contention on the software lock in this case.
+>>>
+>>> v2:
+>>>    - Extend hardware semaphore timeout and add a taint for CI if it ever
+>>>      happens (this would imply misbehaving hardware/firmware).  (Mika)
+>>>    - Add "MTL_" prefix to new steering semaphore register.  (Mika)
+>>>
+>>> Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
+>>> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+>>> ---
+>>>    drivers/gpu/drm/i915/gt/intel_gt_mcr.c  | 38 ++++++++++++++++++++++---
+>>>    drivers/gpu/drm/i915/gt/intel_gt_regs.h |  1 +
+>>>    2 files changed, 35 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+>>> index aa070ae57f11..087e4ac5b68d 100644
+>>> --- a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+>>> @@ -347,10 +347,9 @@ static u32 rw_with_mcr_steering(struct intel_gt *gt,
+>>>     * @flags: storage to save IRQ flags to
+>>>     *
+>>>     * Performs locking to protect the steering for the duration of an MCR
+>>> - * operation.  Depending on the platform, this may be a software lock
+>>> - * (gt->mcr_lock) or a hardware lock (i.e., a register that synchronizes
+>>> - * access not only for the driver, but also for external hardware and
+>>> - * firmware agents).
+>>> + * operation.  On MTL and beyond, a hardware lock will also be taken to
+>>> + * serialize access not only for the driver, but also for external hardware and
+>>> + * firmware agents.
+>>>     *
+>>>     * Context: Takes gt->mcr_lock.  uncore->lock should *not* be held when this
+>>>     *          function is called, although it may be acquired after this
+>>> @@ -359,12 +358,40 @@ static u32 rw_with_mcr_steering(struct intel_gt *gt,
+>>>    void intel_gt_mcr_lock(struct intel_gt *gt, unsigned long *flags)
+>>>    {
+>>>    	unsigned long __flags;
+>>> +	int err = 0;
+>>>    	lockdep_assert_not_held(&gt->uncore->lock);
+>>> +	/*
+>>> +	 * Starting with MTL, we need to coordinate not only with other
+>>> +	 * driver threads, but also with hardware/firmware agents.  A dedicated
+>>> +	 * locking register is used.
+>>> +	 */
+>>> +	if (GRAPHICS_VER(gt->i915) >= IP_VER(12, 70))
+>>> +		err = wait_for(intel_uncore_read_fw(gt->uncore,
+>>> +						    MTL_STEER_SEMAPHORE) == 0x1, 100);
+>>> +
+>>
+>> If two i915 threads enter here what happens? (Given hw locking is done
+>> before the spinlock.)
+> 
+> The second thread will see a '0' when it reads the register, indicating
+> that something else (sw, fw, or hw) already has it locked.  As soon as
+> the first thread drops the lock, the next read will return '1' and allow
+> the second thread to proceed.
 
-On 05/12/2022 18:44, Bjorn Andersson wrote:
-> From: Bjorn Andersson <bjorn.andersson@linaro.org>
-> 
-> The SA8295P ADP has, among other interfaces, six MiniDP connectors which
-> are connected to MDSS0 DP2 and DP3, and MDSS1 DP0 through DP3.
-> 
-> Enable Display Clock controllers, MDSS instanced, MDPs, DP controllers,
-> DP PHYs and link them all together.
-> 
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
-> ---
-> 
-> Changes since v3:
-> - None
-> 
->   arch/arm64/boot/dts/qcom/sa8295p-adp.dts | 243 ++++++++++++++++++++++-
->   1 file changed, 241 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/sa8295p-adp.dts b/arch/arm64/boot/dts/qcom/sa8295p-adp.dts
-> index 6c29d7d757e0..d55c8c5304cc 100644
-> --- a/arch/arm64/boot/dts/qcom/sa8295p-adp.dts
-> +++ b/arch/arm64/boot/dts/qcom/sa8295p-adp.dts
-> @@ -23,6 +23,90 @@ aliases {
->   	chosen {
->   		stdout-path = "serial0:115200n8";
->   	};
-> +
-> +	dp2-connector {
-> +		compatible = "dp-connector";
-> +		label = "DP2";
-> +		type = "mini";
-> +
-> +		hpd-gpios = <&tlmm 20 GPIO_ACTIVE_HIGH>;
-> +
-> +		port {
-> +			dp2_connector_in: endpoint {
-> +				remote-endpoint = <&mdss1_dp0_phy_out>;
-> +			};
-> +		};
-> +	};
-> +
-> +	dp3-connector {
-> +		compatible = "dp-connector";
-> +		label = "DP3";
-> +		type = "mini";
-> +
-> +		hpd-gpios = <&tlmm 45 GPIO_ACTIVE_HIGH>;
-> +
-> +		port {
-> +			dp3_connector_in: endpoint {
-> +				remote-endpoint = <&mdss1_dp1_phy_out>;
-> +			};
-> +		};
-> +	};
-> +
-> +	edp0-connector {
-> +		compatible = "dp-connector";
-> +		label = "EDP0";
-> +		type = "mini";
-> +
-> +		hpd-gpios = <&tlmm 2 GPIO_ACTIVE_HIGH>;
-> +
-> +		port {
-> +			edp0_connector_in: endpoint {
-> +				remote-endpoint = <&mdss0_dp2_phy_out>;
-> +			};
-> +		};
-> +	};
-> +
-> +	edp1-connector {
-> +		compatible = "dp-connector";
-> +		label = "EDP1";
-> +		type = "mini";
-> +
-> +		hpd-gpios = <&tlmm 3 GPIO_ACTIVE_HIGH>;
-> +
-> +		port {
-> +			edp1_connector_in: endpoint {
-> +				remote-endpoint = <&mdss0_dp3_phy_out>;
-> +			};
-> +		};
-> +	};
-> +
-> +	edp2-connector {
-> +		compatible = "dp-connector";
-> +		label = "EDP2";
-> +		type = "mini";
-> +
-> +		hpd-gpios = <&tlmm 7 GPIO_ACTIVE_HIGH>;
-> +
-> +		port {
-> +			edp2_connector_in: endpoint {
-> +				remote-endpoint = <&mdss1_dp2_phy_out>;
-> +			};
-> +		};
-> +	};
-> +
-> +	edp3-connector {
-> +		compatible = "dp-connector";
-> +		label = "EDP3";
-> +		type = "mini";
-> +
-> +		hpd-gpios = <&tlmm 6 GPIO_ACTIVE_HIGH>;
-> +
-> +		port {
-> +			edp3_connector_in: endpoint {
-> +				remote-endpoint = <&mdss1_dp3_phy_out>;
-> +			};
-> +		};
-> +	};
->   };
->   
->   &apps_rsc {
-> @@ -163,13 +247,168 @@ vreg_l7g: ldo7 {
->   
->   		vreg_l8g: ldo8 {
->   			regulator-name = "vreg_l8g";
-> -			regulator-min-microvolt = <880000>;
-> -			regulator-max-microvolt = <880000>;
-> +			regulator-min-microvolt = <912000>;
-> +			regulator-max-microvolt = <912000>;
-> +			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
-> +		};
-> +
-> +		vreg_l11g: ldo11 {
-> +			regulator-name = "vreg_l11g";
-> +			regulator-min-microvolt = <912000>;
-> +			regulator-max-microvolt = <912000>;
->   			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
->   		};
->   	};
->   };
->   
-> +&dispcc0 {
-> +	status = "okay";
-> +};
-> +
-> +&dispcc1 {
-> +	status = "okay";
-> +};
-> +
-> +&mdss0 {
-> +	status = "okay";
-> +};
-> +
-> +&mdss0_dp2 {
-> +	status = "okay";
-status should go last.
+I was worried if there was a concept of request originator, but this 
+then sounds good.
 
-> +
-> +	data-lanes = <0 1 2 3>;
-> +
-> +	ports {
-> +		port@1 {
-> +			reg = <1>;
-> +			mdss0_dp2_phy_out: endpoint {
-That's quite a lot of indentation.. couldn't these endpoints be defined 
-in the SoC DT?
+Regards,
 
-Konrad
-> +				remote-endpoint = <&edp0_connector_in>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&mdss0_dp2_phy {
-> +	status = "okay";
-> +
-> +	vdda-phy-supply = <&vreg_l8g>;
-> +	vdda-pll-supply = <&vreg_l3g>;
-> +};
-> +
-> +&mdss0_dp3 {
-> +	status = "okay";
-> +
-> +	data-lanes = <0 1 2 3>;
-> +
-> +	ports {
-> +		port@1 {
-> +			reg = <1>;
-> +			mdss0_dp3_phy_out: endpoint {
-> +				remote-endpoint = <&edp1_connector_in>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&mdss0_dp3_phy {
-> +	status = "okay";
-> +
-> +	vdda-phy-supply = <&vreg_l8g>;
-> +	vdda-pll-supply = <&vreg_l3g>;
-> +};
-> +
-> +&mdss1 {
-> +	status = "okay";
-> +};
-> +
-> +&mdss1_dp0 {
-> +	status = "okay";
-> +
-> +	data-lanes = <0 1 2 3>;
-> +
-> +	ports {
-> +		port@1 {
-> +			reg = <1>;
-> +			mdss1_dp0_phy_out: endpoint {
-> +				remote-endpoint = <&dp2_connector_in>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&mdss1_dp0_phy {
-> +	status = "okay";
-> +
-> +	vdda-phy-supply = <&vreg_l11g>;
-> +	vdda-pll-supply = <&vreg_l3g>;
-> +};
-> +
-> +&mdss1_dp1 {
-> +	status = "okay";
-> +
-> +	data-lanes = <0 1 2 3>;
-> +
-> +	ports {
-> +		port@1 {
-> +			reg = <1>;
-> +			mdss1_dp1_phy_out: endpoint {
-> +				remote-endpoint = <&dp3_connector_in>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&mdss1_dp1_phy {
-> +	status = "okay";
-> +
-> +	vdda-phy-supply = <&vreg_l11g>;
-> +	vdda-pll-supply = <&vreg_l3g>;
-> +};
-> +
-> +&mdss1_dp2 {
-> +	status = "okay";
-> +
-> +	data-lanes = <0 1 2 3>;
-> +
-> +	ports {
-> +		port@1 {
-> +			reg = <1>;
-> +			mdss1_dp2_phy_out: endpoint {
-> +				remote-endpoint = <&edp2_connector_in>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&mdss1_dp2_phy {
-> +	status = "okay";
-> +
-> +	vdda-phy-supply = <&vreg_l11g>;
-> +	vdda-pll-supply = <&vreg_l3g>;
-> +};
-> +
-> +&mdss1_dp3 {
-> +	status = "okay";
-> +
-> +	data-lanes = <0 1 2 3>;
-> +
-> +	ports {
-> +		port@1 {
-> +			reg = <1>;
-> +			mdss1_dp3_phy_out: endpoint {
-> +				remote-endpoint = <&edp3_connector_in>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&mdss1_dp3_phy {
-> +	status = "okay";
-> +
-> +	vdda-phy-supply = <&vreg_l11g>;
-> +	vdda-pll-supply = <&vreg_l3g>;
-> +};
-> +
->   &pcie2a {
->   	perst-gpios = <&tlmm 143 GPIO_ACTIVE_LOW>;
->   	wake-gpios = <&tlmm 145 GPIO_ACTIVE_LOW>;
+Tvrtko
+
+>>> +	/*
+>>> +	 * Even on platforms with a hardware lock, we'll continue to grab
+>>> +	 * a software spinlock too for lockdep purposes.  If the hardware lock
+>>> +	 * was already acquired, there should never be contention on the
+>>> +	 * software lock.
+>>> +	 */
+>>>    	spin_lock_irqsave(&gt->mcr_lock, __flags);
+>>>    	*flags = __flags;
+>>> +
+>>> +	/*
+>>> +	 * In theory we should never fail to acquire the HW semaphore; this
+>>> +	 * would indicate some hardware/firmware is misbehaving and not
+>>> +	 * releasing it properly.
+>>> +	 */
+>>> +	if (err == -ETIMEDOUT) {
+>>> +		drm_err_ratelimited(&gt->i915->drm,
+>>> +				    "GT%u hardware MCR steering semaphore timed out",
+>>> +				    gt->info.id);
+>>> +		add_taint_for_CI(gt->i915, TAINT_WARN);  /* CI is now unreliable */
+>>> +	}
+>>>    }
+>>>    /**
+>>> @@ -379,6 +406,9 @@ void intel_gt_mcr_lock(struct intel_gt *gt, unsigned long *flags)
+>>>    void intel_gt_mcr_unlock(struct intel_gt *gt, unsigned long flags)
+>>>    {
+>>>    	spin_unlock_irqrestore(&gt->mcr_lock, flags);
+>>> +
+>>> +	if (GRAPHICS_VER(gt->i915) >= IP_VER(12, 70))
+>>> +		intel_uncore_write_fw(gt->uncore, MTL_STEER_SEMAPHORE, 0x1);
+>>>    }
+>>>    /**
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+>>> index 784152548472..1618d46cb8c7 100644
+>>> --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+>>> @@ -67,6 +67,7 @@
+>>>    #define GMD_ID_MEDIA				_MMIO(MTL_MEDIA_GSI_BASE + 0xd8c)
+>>>    #define MCFG_MCR_SELECTOR			_MMIO(0xfd0)
+>>> +#define MTL_STEER_SEMAPHORE			_MMIO(0xfd0)
+>>>    #define MTL_MCR_SELECTOR			_MMIO(0xfd4)
+>>>    #define SF_MCR_SELECTOR				_MMIO(0xfd8)
+>>>    #define GEN8_MCR_SELECTOR			_MMIO(0xfdc)
+> 
