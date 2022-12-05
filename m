@@ -1,75 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4004C6420D6
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Dec 2022 01:51:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D8A764224E
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Dec 2022 05:34:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47C8410E0B1;
-	Mon,  5 Dec 2022 00:51:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8AFD10E0D6;
+	Mon,  5 Dec 2022 04:34:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2696410E0B1
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Dec 2022 00:51:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670201508;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jyOn0zCqUHzr00gkE+WrihCChip5DaN83C5WKz94T9o=;
- b=ZGfeHdpOHPKjJPAfo8szy/nlbyg+2gP++WhfwHuzoYqkxfPOPxX/p6L12d3RgIbffFU7Mk
- gGZxN1xwWOFvVROzdhzODyfDaPi+Vf2Xko/X4CfO3mFYoYDxnjoBggpHQ9MXGlS41NCd7K
- vJzy50xE5MWj0Q5rhf0VMrHlXAAhICw=
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-196--w7BwqOpMRmZh3F4SBT1CQ-1; Sun, 04 Dec 2022 19:51:47 -0500
-X-MC-Unique: -w7BwqOpMRmZh3F4SBT1CQ-1
-Received: by mail-il1-f198.google.com with SMTP id
- s1-20020a056e021a0100b003026adad6a9so11095287ild.18
- for <dri-devel@lists.freedesktop.org>; Sun, 04 Dec 2022 16:51:47 -0800 (PST)
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EDB810E0C1
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Dec 2022 04:34:45 +0000 (UTC)
+Received: by mail-il1-f197.google.com with SMTP id
+ h20-20020a056e021d9400b00300581edaa5so11213695ila.12
+ for <dri-devel@lists.freedesktop.org>; Sun, 04 Dec 2022 20:34:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:organization:references
- :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
+ h=to:from:subject:message-id:date:mime-version:x-gm-message-state
  :from:to:cc:subject:date:message-id:reply-to;
- bh=jyOn0zCqUHzr00gkE+WrihCChip5DaN83C5WKz94T9o=;
- b=vpje/314GrUknMTkTd0sN0aIYQBspmMTIv4CMWofuKTJKCQ9fs7Gxyr0wU3P93maLT
- /NQhp2LL7f8AEAqW4yZNweWK0vAQQ/eJtF/RpRezhTWRAo0JuBMlrf/bXcH2IK/Mf1yX
- +TLYu48v/tpAX681JMAAi/A8mcu+mDKqAo65wULN1l7dHILDqnd1IEu1PDLsKNIXH4bt
- 95t7S0gg4hAxwe6BKdhM5RSR4cUT17HSuFxX6rKT86EujmS7HgJUd3FFZxzZc+4gZhPq
- if0btmGR+3KD0vMFFqdRmA074KEOcWTELtJ8McSkvx2fdK6tMAtJEi7W90y+iiDAyePX
- Ahiw==
-X-Gm-Message-State: ANoB5pk2p9umndunIKszZ/7kJi72ZwUkiz5h74J1VWOPTY1Q/mOWZW3c
- Uf7oAvHuNVswin5JcYigHVjFpXYw4Yq4OWMRl1pT97BZuzVruNICnQVo7/4Kn9U7bSpD+jQPzF0
- H4Spizr6AP3ZDtmtk0S5oxxgFAxwi
-X-Received: by 2002:a05:6602:2143:b0:6bc:6352:9853 with SMTP id
- y3-20020a056602214300b006bc63529853mr35427220ioy.65.1670201505084; 
- Sun, 04 Dec 2022 16:51:45 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6qBOm8mQO/x/Lw1rl0Iy6Xk4eFLp0sKfVqFatl9b10bhQP9TrpcKRN/3msQCFGy6Z8h84OCA==
-X-Received: by 2002:a05:6602:2143:b0:6bc:6352:9853 with SMTP id
- y3-20020a056602214300b006bc63529853mr35427215ioy.65.1670201504802; 
- Sun, 04 Dec 2022 16:51:44 -0800 (PST)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- h20-20020a056e020d5400b0030287ff00fesm4715510ilj.60.2022.12.04.16.51.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Dec 2022 16:51:44 -0800 (PST)
-Date: Sun, 4 Dec 2022 17:51:42 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: "mb@lab.how" <mb@lab.how>
-Subject: Re: [PATCH 2/2] vfio/pci: Remove console drivers
-Message-ID: <20221204175142.658d5c37.alex.williamson@redhat.com>
-In-Reply-To: <CAEdEoBYXHq9cCzsbMYTpG1B41Yz=-QAjFx7bJDOnPanN5Tmo7A@mail.gmail.com>
-References: <CAEdEoBYXHq9cCzsbMYTpG1B41Yz=-QAjFx7bJDOnPanN5Tmo7A@mail.gmail.com>
-Organization: Red Hat
+ bh=vcFrvjYpY9w3oBH5VMBrbCN5cG4DGtca+C+V9MNGNBY=;
+ b=nrXctPKllePCuKmsDMNIGzAOi9KCVTevtxqVAdfLZi7oIxq1/pw2LVSAaFr4CdkLNp
+ W8jDEzD/o5eJ1+c/CeuLpw+LpEicIfXvhTDtF/S79jMVXgfQmevSonsL2bQLNSLK8dhX
+ zuqcT1NFGgd230pIKTmGUWbhNGnuwTKGvWgiORk2+Noob29XEwt81EAKCQVuU6ZTTDYJ
+ MoF2iyVyAZuw1WdG2nMTNFe8Zfd1rahAt8edllxQChZ9JnL9c3ysNlo81+GoHEnyYNwt
+ FRISc8S5m4CMkHIQecmE6ef2b4cZjutyYXu2706++PVC9Oojn40JusaIPYrkodNjT1Ra
+ 5SFQ==
+X-Gm-Message-State: ANoB5pk89psqhPtFF38ewqmqCYAA+FCzezXzG5DfTqz9DVjuocmrimtd
+ nL/C3tKnF5/5uyPD8w/ZhU3/q7gnI7u57hhGaPQFu9+KPee3
+X-Google-Smtp-Source: AA0mqf7iyVepFf9uvSqFu+Czqel85Bx9rIZHqrT9xKNbJkXJrxGVTRza++ig5vx166ELXQ5StTz/hrZ9soFSQWNPcWfAbfhn3byU
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a5d:804e:0:b0:6dc:30bd:ed8f with SMTP id
+ b14-20020a5d804e000000b006dc30bded8fmr30399822ior.130.1670214884451; Sun, 04
+ Dec 2022 20:34:44 -0800 (PST)
+Date: Sun, 04 Dec 2022 20:34:44 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000e2efc305ef0d341f@google.com>
+Subject: [syzbot] memory leak in fbcon_set_font (2)
+From: syzbot <syzbot+25bdb7b1703639abd498@syzkaller.appspotmail.com>
+To: daniel@ffwll.ch, deller@gmx.de, dri-devel@lists.freedesktop.org, 
+ geert+renesas@glider.be, linux-fbdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, sam@ravnborg.org, 
+ syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,66 +57,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, kraxel@redhat.com, tzimmermann@suse.de,
- lersek@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 3 Dec 2022 17:12:38 -0700
-"mb@lab.how" <mb@lab.how> wrote:
+Hello,
 
-> Hi,
-> 
-> I hope it is ok to reply to this old thread.
+syzbot found the following issue on:
 
-It is, but the only relic of the thread is the subject.  For reference,
-the latest version of this posted is here:
+HEAD commit:    c2bf05db6c78 Merge tag 'i2c-for-6.1-rc8' of git://git.kern..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=171883d5880000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=979161df0e247659
+dashboard link: https://syzkaller.appspot.com/bug?extid=25bdb7b1703639abd498
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14fff84d880000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=135806a7880000
 
-https://lore.kernel.org/all/20220622140134.12763-4-tzimmermann@suse.de/
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/63cd45bf1d68/disk-c2bf05db.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/bafbfb42c660/vmlinux-c2bf05db.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/9f803a721cfc/bzImage-c2bf05db.xz
 
-Which is committed as:
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+25bdb7b1703639abd498@syzkaller.appspotmail.com
 
-d17378062079 ("vfio/pci: Remove console drivers")
+BUG: memory leak
+unreferenced object 0xffff888111648000 (size 18448):
+  comm "syz-executor148", pid 3653, jiffies 4294970435 (age 13.520s)
+  hex dump (first 32 bytes):
+    85 44 7e c7 00 00 00 00 00 48 00 00 00 00 00 00  .D~......H......
+    92 30 86 d2 8c 38 30 9e e7 a3 05 00 9f 09 33 bb  .0...80.......3.
+  backtrace:
+    [<ffffffff814ee6d3>] __do_kmalloc_node mm/slab_common.c:943 [inline]
+    [<ffffffff814ee6d3>] __kmalloc+0xb3/0x120 mm/slab_common.c:968
+    [<ffffffff8250c359>] kmalloc include/linux/slab.h:558 [inline]
+    [<ffffffff8250c359>] fbcon_set_font+0x1a9/0x470 drivers/video/fbdev/core/fbcon.c:2508
+    [<ffffffff8262cd59>] con_font_set drivers/tty/vt/vt.c:4667 [inline]
+    [<ffffffff8262cd59>] con_font_op+0x3a9/0x600 drivers/tty/vt/vt.c:4713
+    [<ffffffff82618e3d>] vt_k_ioctl drivers/tty/vt/vt_ioctl.c:474 [inline]
+    [<ffffffff82618e3d>] vt_ioctl+0x14fd/0x1a80 drivers/tty/vt/vt_ioctl.c:752
+    [<ffffffff825fdaf5>] tty_ioctl+0x6d5/0xbe0 drivers/tty/tty_io.c:2771
+    [<ffffffff816200bc>] vfs_ioctl fs/ioctl.c:51 [inline]
+    [<ffffffff816200bc>] __do_sys_ioctl fs/ioctl.c:870 [inline]
+    [<ffffffff816200bc>] __se_sys_ioctl fs/ioctl.c:856 [inline]
+    [<ffffffff816200bc>] __x64_sys_ioctl+0xfc/0x140 fs/ioctl.c:856
+    [<ffffffff8485c5e5>] do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+    [<ffffffff8485c5e5>] do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+    [<ffffffff84a00087>] entry_SYSCALL_64_after_hwframe+0x63/0xcd
 
-> Unfortunately, I found a
-> problem only now after upgrading to 6.0.
-> 
-> My setup has multiple GPUs (2), and I depend on EFIFB to have a working console.
-> pre-patch behavior, when I bind the vfio-pci to my secondary GPU both
-> the passthrough and the EFIFB keep working fine.
-> post-patch behavior, when I bind the vfio-pci to the secondary GPU,
-> the EFIFB disappears from the system, binding the console to the
-> "dummy console".
-> Whenever you try to access the terminal, you have the screen stuck in
-> whatever was the last buffer content, which gives the impression of
-> "freezing," but I can still type.
-> Everything else works, including the passthrough.
+BUG: memory leak
+unreferenced object 0xffff888110b18000 (size 18448):
+  comm "syz-executor148", pid 3655, jiffies 4294971001 (age 7.860s)
+  hex dump (first 32 bytes):
+    85 44 7e c7 00 00 00 00 00 48 00 00 00 00 00 00  .D~......H......
+    92 30 86 d2 8c 38 30 9e e7 a3 05 00 9f 09 33 bb  .0...80.......3.
+  backtrace:
+    [<ffffffff814ee6d3>] __do_kmalloc_node mm/slab_common.c:943 [inline]
+    [<ffffffff814ee6d3>] __kmalloc+0xb3/0x120 mm/slab_common.c:968
+    [<ffffffff8250c359>] kmalloc include/linux/slab.h:558 [inline]
+    [<ffffffff8250c359>] fbcon_set_font+0x1a9/0x470 drivers/video/fbdev/core/fbcon.c:2508
+    [<ffffffff8262cd59>] con_font_set drivers/tty/vt/vt.c:4667 [inline]
+    [<ffffffff8262cd59>] con_font_op+0x3a9/0x600 drivers/tty/vt/vt.c:4713
+    [<ffffffff82618e3d>] vt_k_ioctl drivers/tty/vt/vt_ioctl.c:474 [inline]
+    [<ffffffff82618e3d>] vt_ioctl+0x14fd/0x1a80 drivers/tty/vt/vt_ioctl.c:752
+    [<ffffffff825fdaf5>] tty_ioctl+0x6d5/0xbe0 drivers/tty/tty_io.c:2771
+    [<ffffffff816200bc>] vfs_ioctl fs/ioctl.c:51 [inline]
+    [<ffffffff816200bc>] __do_sys_ioctl fs/ioctl.c:870 [inline]
+    [<ffffffff816200bc>] __se_sys_ioctl fs/ioctl.c:856 [inline]
+    [<ffffffff816200bc>] __x64_sys_ioctl+0xfc/0x140 fs/ioctl.c:856
+    [<ffffffff8485c5e5>] do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+    [<ffffffff8485c5e5>] do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+    [<ffffffff84a00087>] entry_SYSCALL_64_after_hwframe+0x63/0xcd
 
-This sounds like the call to aperture_remove_conflicting_pci_devices()
-is removing the conflicting driver itself rather than removing the
-device from the driver.  Is it not possible to unbind the GPU from
-efifb before binding the GPU to vfio-pci to effectively nullify the
-added call?
- 
-> I can only think about a few options:
-> 
-> - Is there a way to have EFIFB show up again? After all it looks like
-> the kernel has just abandoned it, but the buffer is still there. I
-> can't find a single message about the secondary card and EFIFB in
-> dmesg, but there's a message for the primary card and EFIFB.
-> - Can we have a boolean controlling the behavior of vfio-pci
-> altogether or at least controlling the behavior of vfio-pci for that
-> specific ID? I know there's already some option for vfio-pci and VGA
-> cards, would it be appropriate to attach this behavior to that option?
+write to /proc/sys/kernel/hung_task_check_interval_secs failed: No such file or directory
+write to /proc/sys/kernel/softlockup_all_cpu_backtrace failed: No such file or directory
+write to /proc/sys/kernel/hung_task_check_interval_secs failed: No such file or directory
+write to /proc/sys/kernel/softlockup_all_cpu_backtrace failed: No such file or directory
 
-I suppose we could have an opt-out module option on vfio-pci to skip
-the above call, but clearly it would be better if things worked by
-default.  We cannot make full use of GPUs with vfio-pci if they're
-still in use by host console drivers.  The intention was certainly to
-unbind the device from any low level drivers rather than disable use of
-a console driver entirely.  DRM/GPU folks, is that possibly an
-interface we could implement?  Thanks,
 
-Alex
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
