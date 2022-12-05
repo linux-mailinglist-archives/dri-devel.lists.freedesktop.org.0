@@ -1,47 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 689B16437FC
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Dec 2022 23:23:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8A09643823
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Dec 2022 23:30:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D450C10E11C;
-	Mon,  5 Dec 2022 22:23:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6E4E10E042;
+	Mon,  5 Dec 2022 22:30:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA51710E08C;
- Mon,  5 Dec 2022 22:23:16 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 0E1136148E;
- Mon,  5 Dec 2022 22:23:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A8C2C433C1;
- Mon,  5 Dec 2022 22:23:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1670278995;
- bh=r7Zbs6ql/zVmwGxY0A2vvhLYDbx61rLzdNI7bJloNmM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=N25sRvjt9ynOVmKtUWr0551Jy3GiEGY9HV0ZbMTMbrQhtsBGGuL+iODpFpZh9eC57
- 1VK5Lk6yv6A0eaec8NaewtUYlPqqQuIg87EkXNMhgKHy9I9fwBdoEx51CSZGGJbIpk
- geaYrLTRQTPmafEXuW4dElMoWSHXSqulhMgtI+5ACu5dXmSQqlY3K3DjOnmGSVci0J
- HI+cIbhqJw+7EqnCAcjjw/HOopBqtWv2ixtqM2TRhzdtOZTrJKQtmPcR0SgFreDZDk
- Lrhn6rLJqLZSqTA7XxIepXKyRODqo9QYmRUtONBdWqPG9HGX6/YWug4tB6VObC/Qx0
- kb5rT6Xk3Sm9g==
-Date: Mon, 5 Dec 2022 16:23:12 -0600
-From: Bjorn Andersson <andersson@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v4 08/13] drm/msm/dp: Implement hpd_notify()
-Message-ID: <20221205222312.gmg65h35d44zigg4@builder.lan>
-References: <20221205174433.16847-1-quic_bjorande@quicinc.com>
- <20221205174433.16847-9-quic_bjorande@quicinc.com>
- <4E586110-168A-4D47-966F-357DF042AFC7@linaro.org>
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F384010E042
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Dec 2022 22:30:39 +0000 (UTC)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+ id 73F5F1C09F4; Mon,  5 Dec 2022 23:30:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+ t=1670279436;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0beeeN3x4oja6CoA48n0dgddbavIjL+s5ouQp7TTWtU=;
+ b=Glfr3eDW908ut8l8ZtyxnivFsAwFhKrd91OZ8Hn4B5DsYqkFacSwVHpMdO+0ZJbEke3io+
+ rZJ6H6RfHZXL+x1iQ654lTF809RKZz+X/69jMIvQbgjOVGWGx/4uVo747OBUmRhyZzWmxv
+ I6Gh8EjJUSygmU/FfosMXAkJOwmFGvg=
+Date: Mon, 5 Dec 2022 23:30:35 +0100
+From: Pavel Machek <pavel@ucw.cz>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH v2 01/11] pwm: Make .get_state() callback return an error
+ code
+Message-ID: <Y45xC/Gwhrr+fctN@duo.ucw.cz>
+References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
+ <20221130152148.2769768-2-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature"; boundary="ZBm0pYJnT4srarSL"
 Content-Disposition: inline
-In-Reply-To: <4E586110-168A-4D47-966F-357DF042AFC7@linaro.org>
+In-Reply-To: <20221130152148.2769768-2-u.kleine-koenig@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,121 +48,174 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kalyan Thota <quic_kalyant@quicinc.com>, freedreno@lists.freedesktop.org,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- Bjorn Andersson <quic_bjorande@quicinc.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>,
- linux-arm-msm@vger.kernel.org, Jessica Zhang <quic_jesszhan@quicinc.com>,
- Sean Paul <sean@poorly.run>, Johan Hovold <johan+linaro@kernel.org>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Conor Dooley <conor.dooley@microchip.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Satya Priya <quic_c_skakit@quicinc.com>, Guenter Roeck <groeck@chromium.org>,
+ Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+ linux-riscv@lists.infradead.org, linux-leds@vger.kernel.org,
+ Jerome Brunet <jbrunet@baylibre.com>, chrome-platform@lists.linux.dev,
+ Florian Fainelli <f.fainelli@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ Sean Anderson <sean.anderson@seco.com>, Kevin Hilman <khilman@baylibre.com>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Michal Simek <michal.simek@xilinx.com>,
+ linux-stm32@st-md-mailman.stormreply.com, Hammer Hsieh <hammerh0314@gmail.com>,
+ linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
+ Matthias Kaehlcke <mka@chromium.org>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
+ linux-sunxi@lists.linux.dev, linux-pwm@vger.kernel.org,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Ray Jui <rjui@broadcom.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Stephen Boyd <swboyd@chromium.org>, linux-gpio@vger.kernel.org,
+ Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+ linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, Scott Branden <sbranden@broadcom.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Douglas Anderson <dianders@chromium.org>, Michael Walle <michael@walle.cc>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 06, 2022 at 12:29:13AM +0300, Dmitry Baryshkov wrote:
-> 
-> 
-> On 5 December 2022 20:44:28 GMT+03:00, Bjorn Andersson <quic_bjorande@quicinc.com> wrote:
-> >From: Bjorn Andersson <bjorn.andersson@linaro.org>
-> >
-> >The DisplayPort controller's hot-plug mechanism is based on pinmuxing a
-> >physical signal on a GPIO pin into the controller. This is not always
-> >possible, either because there aren't dedicated GPIOs available or
-> >because the hot-plug signal is a virtual notification, in cases such as
-> >USB Type-C.
-> >
-> >For these cases, by implementing the hpd_notify() callback for the
-> >DisplayPort controller's drm_bridge, a downstream drm_bridge
-> >(next_bridge) can be used to track and signal the connection status
-> >changes.
-> >
-> >This makes it possible to use downstream drm_bridges such as
-> >display-connector or any virtual mechanism, as long as they are
-> >implemented as a drm_bridge.
-> >
-> >Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> >[bjorn: Drop connector->fwnode assignment and dev from struct msm_dp]
-> >Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
-> 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> 
-> Minor nit: if for the next revision you reorder the patches to have
-> hpd_enable first, then missing conditions, then this patch, it will
-> look more logical.
 
-You're right, that will look better. I'll do so.
+--ZBm0pYJnT4srarSL
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
-Bjorn
+Hi!
 
-> 
-> >---
-> >
-> >Changes since v3:
-> >- None
-> >
-> > drivers/gpu/drm/msm/dp/dp_display.c | 22 ++++++++++++++++++++++
-> > drivers/gpu/drm/msm/dp/dp_drm.c     |  1 +
-> > drivers/gpu/drm/msm/dp/dp_drm.h     |  2 ++
-> > 3 files changed, 25 insertions(+)
-> >
-> >diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> >index 666b45c8ab80..17fcf8cd84cd 100644
-> >--- a/drivers/gpu/drm/msm/dp/dp_display.c
-> >+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> >@@ -1772,3 +1772,25 @@ void dp_bridge_mode_set(struct drm_bridge *drm_bridge,
-> > 	dp_display->dp_mode.h_active_low =
-> > 		!!(dp_display->dp_mode.drm_mode.flags & DRM_MODE_FLAG_NHSYNC);
-> > }
-> >+
-> >+void dp_bridge_hpd_notify(struct drm_bridge *bridge,
-> >+			  enum drm_connector_status status)
-> >+{
-> >+	struct msm_dp_bridge *dp_bridge = to_dp_bridge(bridge);
-> >+	struct msm_dp *dp_display = dp_bridge->dp_display;
-> >+	struct dp_display_private *dp = container_of(dp_display, struct dp_display_private, dp_display);
-> >+
-> >+	/* Without next_bridge interrupts are handled by the DP core directly */
-> >+	if (!dp_display->next_bridge)
-> >+		return;
-> >+
-> >+	if (!dp->core_initialized) {
-> >+		drm_dbg_dp(dp->drm_dev, "not initialized\n");
-> >+		return;
-> >+	}
-> >+
-> >+	if (!dp_display->is_connected && status == connector_status_connected)
-> >+		dp_add_event(dp, EV_HPD_PLUG_INT, 0, 0);
-> >+	else if (dp_display->is_connected && status == connector_status_disconnected)
-> >+		dp_add_event(dp, EV_HPD_UNPLUG_INT, 0, 0);
-> >+}
-> >diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-> >index 6db82f9b03af..3898366ebd5e 100644
-> >--- a/drivers/gpu/drm/msm/dp/dp_drm.c
-> >+++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-> >@@ -102,6 +102,7 @@ static const struct drm_bridge_funcs dp_bridge_ops = {
-> > 	.get_modes    = dp_bridge_get_modes,
-> > 	.detect       = dp_bridge_detect,
-> > 	.atomic_check = dp_bridge_atomic_check,
-> >+	.hpd_notify   = dp_bridge_hpd_notify,
-> > };
-> > 
-> > struct drm_bridge *dp_bridge_init(struct msm_dp *dp_display, struct drm_device *dev,
-> >diff --git a/drivers/gpu/drm/msm/dp/dp_drm.h b/drivers/gpu/drm/msm/dp/dp_drm.h
-> >index 82035dbb0578..79e6b2cf2d25 100644
-> >--- a/drivers/gpu/drm/msm/dp/dp_drm.h
-> >+++ b/drivers/gpu/drm/msm/dp/dp_drm.h
-> >@@ -32,5 +32,7 @@ enum drm_mode_status dp_bridge_mode_valid(struct drm_bridge *bridge,
-> > void dp_bridge_mode_set(struct drm_bridge *drm_bridge,
-> > 			const struct drm_display_mode *mode,
-> > 			const struct drm_display_mode *adjusted_mode);
-> >+void dp_bridge_hpd_notify(struct drm_bridge *bridge,
-> >+			  enum drm_connector_status status);
-> > 
-> > #endif /* _DP_DRM_H_ */
-> 
-> -- 
-> With best wishes
-> Dmitry
+> .get_state() might fail in some cases. To make it possible that a driver
+> signals such a failure change the prototype of .get_state() to return an
+> error code.
+>=20
+> This patch was created using coccinelle and the following semantic patch:
+>=20
+> @p1@
+> identifier getstatefunc;
+> identifier driver;
+> @@
+>  struct pwm_ops driver =3D {
+>         ...,
+>         .get_state =3D getstatefunc
+>         ,...
+>  };
+>=20
+> @p2@
+> identifier p1.getstatefunc;
+> identifier chip, pwm, state;
+> @@
+> -void
+> +int
+>  getstatefunc(struct pwm_chip *chip, struct pwm_device *pwm, struct pwm_s=
+tate *state)
+>  {
+>    ...
+> -  return;
+> +  return 0;
+>    ...
+>  }
+>=20
+> plus the actual change of the prototype in include/linux/pwm.h (plus some
+> manual fixing of indentions and empty lines).
+>=20
+> So for now all drivers return success unconditionally. They are adapted
+> in the following patches to make the changes easier reviewable.
+>=20
+> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+
+LED part:
+
+Acked-by: Pavel Machek <pavel@ucw.cz>
+
+Best regards,
+							Pavel
+
+>  static const struct pwm_ops ti_sn_pwm_ops =3D {
+> diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qco=
+m-lpg.c
+> index 02f51cc61837..741cc2fd817d 100644
+> --- a/drivers/leds/rgb/leds-qcom-lpg.c
+> +++ b/drivers/leds/rgb/leds-qcom-lpg.c
+> @@ -968,8 +968,8 @@ static int lpg_pwm_apply(struct pwm_chip *chip, struc=
+t pwm_device *pwm,
+>  	return ret;
+>  }
+> =20
+> -static void lpg_pwm_get_state(struct pwm_chip *chip, struct pwm_device *=
+pwm,
+> -			      struct pwm_state *state)
+> +static int lpg_pwm_get_state(struct pwm_chip *chip, struct pwm_device *p=
+wm,
+> +			     struct pwm_state *state)
+>  {
+>  	struct lpg *lpg =3D container_of(chip, struct lpg, pwm);
+>  	struct lpg_channel *chan =3D &lpg->channels[pwm->hwpwm];
+> @@ -982,20 +982,20 @@ static void lpg_pwm_get_state(struct pwm_chip *chip=
+, struct pwm_device *pwm,
+> =20
+>  	ret =3D regmap_read(lpg->map, chan->base + LPG_SIZE_CLK_REG, &val);
+>  	if (ret)
+> -		return;
+> +		return 0;
+> =20
+>  	refclk =3D lpg_clk_rates[val & PWM_CLK_SELECT_MASK];
+>  	if (refclk) {
+>  		ret =3D regmap_read(lpg->map, chan->base + LPG_PREDIV_CLK_REG, &val);
+>  		if (ret)
+> -			return;
+> +			return 0;
+> =20
+>  		pre_div =3D lpg_pre_divs[FIELD_GET(PWM_FREQ_PRE_DIV_MASK, val)];
+>  		m =3D FIELD_GET(PWM_FREQ_EXP_MASK, val);
+> =20
+>  		ret =3D regmap_bulk_read(lpg->map, chan->base + PWM_VALUE_REG, &pwm_va=
+lue, sizeof(pwm_value));
+>  		if (ret)
+> -			return;
+> +			return 0;
+> =20
+>  		state->period =3D DIV_ROUND_UP_ULL((u64)NSEC_PER_SEC * LPG_RESOLUTION =
+* pre_div * (1 << m), refclk);
+>  		state->duty_cycle =3D DIV_ROUND_UP_ULL((u64)NSEC_PER_SEC * pwm_value *=
+ pre_div * (1 << m), refclk);
+> @@ -1006,13 +1006,15 @@ static void lpg_pwm_get_state(struct pwm_chip *ch=
+ip, struct pwm_device *pwm,
+> =20
+>  	ret =3D regmap_read(lpg->map, chan->base + PWM_ENABLE_CONTROL_REG, &val=
+);
+>  	if (ret)
+> -		return;
+> +		return 0;
+> =20
+>  	state->enabled =3D FIELD_GET(LPG_ENABLE_CONTROL_OUTPUT, val);
+>  	state->polarity =3D PWM_POLARITY_NORMAL;
+> =20
+>  	if (state->duty_cycle > state->period)
+>  		state->duty_cycle =3D state->period;
+> +
+> +	return 0;
+>  }
+
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--ZBm0pYJnT4srarSL
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY45xCwAKCRAw5/Bqldv6
+8qEdAKCcIFDwtp8cJpPtW1EpTb0IJOYYKwCdGtyKdQYCFKVLwV+BGw7lryK0MC8=
+=gb+Q
+-----END PGP SIGNATURE-----
+
+--ZBm0pYJnT4srarSL--
