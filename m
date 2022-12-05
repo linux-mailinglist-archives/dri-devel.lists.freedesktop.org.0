@@ -2,64 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1D7D642EE1
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Dec 2022 18:33:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CEAE642EE8
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Dec 2022 18:34:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CE1310E26C;
-	Mon,  5 Dec 2022 17:33:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8E8210E271;
+	Mon,  5 Dec 2022 17:34:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6576410E268
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Dec 2022 17:33:48 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id
- p13-20020a05600c468d00b003cf8859ed1bso10665214wmo.1
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Dec 2022 09:33:48 -0800 (PST)
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DF0910E268
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Dec 2022 17:33:49 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id u12so18774394wrr.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Dec 2022 09:33:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=raspberrypi.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=DbOHaQWKqvBS1JahcuSixvUAmOZjyYpYLqTykMsal3g=;
- b=OJDc2nXt4r56jdPyin7fZ9LKcGXuy8iONnQUru8POHQw3B1nqBgPYER5dqW9NAFeTG
- OIC6dObP+kJjCtLK1m/l+ixOOcbwvlu1us5OM4ndSRZAaRGUfX3bfEpPTThfoJd3grcE
- 8AVj7uu8tP0pnu18VkwtAYrcdPOtP71dgNmgYuEkKOcV2AbrjT8M5yHMD26DE2okFewh
- sC8Ft92x75Vq21FJADDv4Cg3DZTVDmkLDsg4Mmx4ssP9XpZvKyhBX74DI/7zf8xazHJT
- lva4UtBPGCuF9vT+UALqSK8gwVS66nQgSq97vJVE/RaBTSoSVukKTPrn4EIsCvznxDfW
- quZg==
+ bh=brT86hOry6dm+KHG3KdMkX+2L0L5VyauXhJ+PwKI4nU=;
+ b=aXwLbJf6jZaYJXQ3T0Xa8HTHVhWePB55ab4352bibY9MEKOiYUCC7uc7zoSoK01O63
+ MyaMFdeeabzeyU8/Z17PhYjUoAh3FQ+NrkQfpe8zdLWqkxfmIA1PTC7mJssfN6gumF2i
+ kP67EQxU9q15LkandCtf+tUVe6SRywoV/77ORKhVFhubEuqE9uUy8+Fz/JJrh35xp0vp
+ 4rOIX83NJME48JgLR2I0a85cEyrewkwuYlSMEovRDL6HtZY9mF1p8E7rSDxwC0CM4gIH
+ 5B3bQdRHV5xnb9vtC1hgIIrI7p46+hFo4/oosIRrsm7NjOHb11g7xB8OzdYPMn5tsevp
+ uNgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=DbOHaQWKqvBS1JahcuSixvUAmOZjyYpYLqTykMsal3g=;
- b=cx/7epRla2TvQMNwP8XZrkXQKZkL5Z7plwilW8cYlwZHBoI+cdIlt+KuE+X3xWMgMS
- k4elo5GZAm4X2dyWoleAcQDXTV06eFiw4gWFFAj76IEvfiL4uz03VrjRQ4aiCW4hkrhB
- pAeTm7aq/d+SDMtO1Ta8bV5xpxLjLGZS2lxZP3VtDXRMRKwEuTFz35Kwx+9MYWY6mUUI
- KHz9ny4vNoQHGf/kuZfhB7iw7+XnpP1G6eJwb6zWnuyvlhEzcE297d9R9Fwp/+3Db7tb
- yFjyb0OVsdmGhritJw7J92qwMCWevA/7fko1cxOgcGpMXIaQ4TuzDcMZOuthdsWVTKSK
- dMOw==
-X-Gm-Message-State: ANoB5plKlE3t0agTcls8C018Y4A5LEOeHXiO/YtGtjnj+2S1uafWP2Fa
- um1ws7Pi19iELvZoUFj11ltODQ==
-X-Google-Smtp-Source: AA0mqf4Sa/hXz+HQIjJMqWM+fo+koF1c3/WyuqO+yYE1Dp9Dr6xlmZQHPpo78Fk4qykgrfaMyQztIw==
-X-Received: by 2002:a05:600c:46c8:b0:3cf:8896:e1de with SMTP id
- q8-20020a05600c46c800b003cf8896e1demr54854609wmo.4.1670261626921; 
- Mon, 05 Dec 2022 09:33:46 -0800 (PST)
+ bh=brT86hOry6dm+KHG3KdMkX+2L0L5VyauXhJ+PwKI4nU=;
+ b=iaf98yHJYMS0U9kHIfPgUElOgS2VGi5QE0hFCH0rg6VjT45qXl3sBY4kIgstYnNamW
+ ZaT+9UcdbrfZneikBL+iXFbOYz3E2FMx59RHzFsQpJpEiJCjIisPT47J0P/kl48t25fT
+ 1nJoLRVmp4gszgVO3KG37D9EoUoRe5C89HuqhwFOD77vpG8hpNbo0IiL+b7AFR6mzEmi
+ LCPOgWjubq9MY2C8fZ+oI3j6q89Q8ZcCXAyYt45lyVri0qdzQmzFYcZ+cWIPhgaVI5Yb
+ rqCoyezJCpZaf062C/nuRz0AtFktIx1pHsftiwHUNtHJWtOlKin2Po6B3xnwX50+1jPR
+ 5uYQ==
+X-Gm-Message-State: ANoB5pm6AyEHXJLrsGfpqfDcRNlw5+QfB9z8/vkxr9PqsU2ht661AaJI
+ 4vV6tGtXKQl3c8GNidTJ6L2+6w==
+X-Google-Smtp-Source: AA0mqf5BsL4qsd3QBPn5wqGw570m5F/bUgIOkqGf2ET6Bli2bEUuk+xV3DIMKnpp5LB2NXv9d1lzpQ==
+X-Received: by 2002:adf:fa12:0:b0:242:1c:7507 with SMTP id
+ m18-20020adffa12000000b00242001c7507mr31994871wrr.42.1670261627916; 
+ Mon, 05 Dec 2022 09:33:47 -0800 (PST)
 Received: from dave-Ubuntu2204.pitowers.org ([93.93.133.154])
  by smtp.googlemail.com with ESMTPSA id
- v15-20020a5d6b0f000000b002421ed1d8c8sm14524245wrw.103.2022.12.05.09.33.46
+ v15-20020a5d6b0f000000b002421ed1d8c8sm14524245wrw.103.2022.12.05.09.33.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Dec 2022 09:33:46 -0800 (PST)
+ Mon, 05 Dec 2022 09:33:47 -0800 (PST)
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 1/6] drm/bridge: ps8640: Use atomic variants of
- drm_bridge_funcs
-Date: Mon,  5 Dec 2022 17:33:23 +0000
-Message-Id: <20221205173328.1395350-2-dave.stevenson@raspberrypi.com>
+Subject: [PATCH v4 2/6] drm/mediatek: dp: Replace usage of drm_bridge_chain_
+ functions
+Date: Mon,  5 Dec 2022 17:33:24 +0000
+Message-Id: <20221205173328.1395350-3-dave.stevenson@raspberrypi.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221205173328.1395350-1-dave.stevenson@raspberrypi.com>
 References: <20221205173328.1395350-1-dave.stevenson@raspberrypi.com>
@@ -78,110 +77,53 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Marek Vasut <marex@denx.de>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philip Chen <philipchen@chromium.org>, Jitao Shi <jitao.shi@mediatek.com>,
  Jonas Karlman <jonas@kwiboo.se>, Robert Foss <robert.foss@linaro.org>,
  Neil Armstrong <narmstrong@baylibre.com>,
  Douglas Anderson <dianders@chromium.org>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
  Frieder Schrempf <frieder.schrempf@kontron.de>, andrzej.hajda@gmail.com,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Sam Ravnborg <sam@ravnborg.org>, Jagan Teki <jagan@amarulasolutions.com>
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sam Ravnborg <sam@ravnborg.org>
+Commit f70ac097a2cf ("drm/mediatek: Add MT8195 Embedded DisplayPort
+driver") added usage of the drm_bridge_chain_ functions which are
+to be deprecated.
 
-The atomic variants of enable/disable in drm_bridge_funcs are the
-preferred operations - introduce these.
+Replace with the drm_atomic_bridge_chain_ variants using the
+current state.
 
-The ps8640 driver used the non-atomic variants of the drm_bridge_chain_pre_enable/
-drm_bridge_chain_post_disable - convert these to the atomic variants.
-
-v2:
-  - Init state operations in drm_bridge_funcs (Laurent)
-
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
-Cc: Jitao Shi <jitao.shi@mediatek.com>
-Cc: Philip Chen <philipchen@chromium.org>
-Cc: Neil Armstrong <narmstrong@baylibre.com>
-Cc: Robert Foss <robert.foss@linaro.org>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Jonas Karlman <jonas@kwiboo.se>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- drivers/gpu/drm/bridge/parade-ps8640.c | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_dp.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-index f74090a9cc9e..4b361d7d5e44 100644
---- a/drivers/gpu/drm/bridge/parade-ps8640.c
-+++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-@@ -15,6 +15,7 @@
+diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
+index 9d085c05c49c..b4feaabdb6a7 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dp.c
++++ b/drivers/gpu/drm/mediatek/mtk_dp.c
+@@ -1981,7 +1981,7 @@ static struct edid *mtk_dp_get_edid(struct drm_bridge *bridge,
+ 	struct cea_sad *sads;
  
- #include <drm/display/drm_dp_aux_bus.h>
- #include <drm/display/drm_dp_helper.h>
-+#include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_mipi_dsi.h>
-@@ -442,7 +443,8 @@ static const struct dev_pm_ops ps8640_pm_ops = {
- 				pm_runtime_force_resume)
- };
+ 	if (!enabled) {
+-		drm_bridge_chain_pre_enable(bridge);
++		drm_atomic_bridge_chain_pre_enable(bridge, connector->state->state);
  
--static void ps8640_pre_enable(struct drm_bridge *bridge)
-+static void ps8640_atomic_pre_enable(struct drm_bridge *bridge,
-+				     struct drm_bridge_state *old_bridge_state)
- {
- 	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
- 	struct regmap *map = ps_bridge->regmap[PAGE2_TOP_CNTL];
-@@ -476,7 +478,8 @@ static void ps8640_pre_enable(struct drm_bridge *bridge)
- 	ps_bridge->pre_enabled = true;
- }
+ 		/* power on aux */
+ 		mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
+@@ -2019,7 +2019,7 @@ static struct edid *mtk_dp_get_edid(struct drm_bridge *bridge,
+ 				   DP_PWR_STATE_BANDGAP_TPLL,
+ 				   DP_PWR_STATE_MASK);
  
--static void ps8640_post_disable(struct drm_bridge *bridge)
-+static void ps8640_atomic_post_disable(struct drm_bridge *bridge,
-+				       struct drm_bridge_state *old_bridge_state)
- {
- 	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
- 
-@@ -554,7 +557,7 @@ static struct edid *ps8640_bridge_get_edid(struct drm_bridge *bridge,
- 	 * EDID, for this chip, we need to do a full poweron, otherwise it will
- 	 * fail.
- 	 */
--	drm_bridge_chain_pre_enable(bridge);
-+	drm_atomic_bridge_chain_pre_enable(bridge, connector->state->state);
- 
- 	edid = drm_get_edid(connector,
- 			    ps_bridge->page[PAGE0_DP_CNTL]->adapter);
-@@ -564,7 +567,7 @@ static struct edid *ps8640_bridge_get_edid(struct drm_bridge *bridge,
- 	 * before, return the chip to its original power state.
- 	 */
- 	if (poweroff)
 -		drm_bridge_chain_post_disable(bridge);
 +		drm_atomic_bridge_chain_post_disable(bridge, connector->state->state);
+ 	}
  
- 	return edid;
- }
-@@ -579,8 +582,11 @@ static const struct drm_bridge_funcs ps8640_bridge_funcs = {
- 	.attach = ps8640_bridge_attach,
- 	.detach = ps8640_bridge_detach,
- 	.get_edid = ps8640_bridge_get_edid,
--	.post_disable = ps8640_post_disable,
--	.pre_enable = ps8640_pre_enable,
-+	.atomic_post_disable = ps8640_atomic_post_disable,
-+	.atomic_pre_enable = ps8640_atomic_pre_enable,
-+	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-+	.atomic_reset = drm_atomic_helper_bridge_reset,
- };
- 
- static int ps8640_bridge_get_dsi_resources(struct device *dev, struct ps8640 *ps_bridge)
+ 	return new_edid;
 -- 
 2.34.1
 
