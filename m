@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBB0F645526
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 09:09:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4816A645533
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 09:09:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D862710E360;
-	Wed,  7 Dec 2022 08:08:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EC9B10E374;
+	Wed,  7 Dec 2022 08:09:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D184010E302
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Dec 2022 08:34:10 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id vv4so4444131ejc.2
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Dec 2022 00:34:10 -0800 (PST)
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFB3810E302
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Dec 2022 08:34:11 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id e13so19215057edj.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Dec 2022 00:34:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20210112.gappssmtp.com; s=20210112;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=3BPaUYtbAIV1BLKNgYdAozqHw0R4+q9lV2NZg2CpgKo=;
- b=H2H7JKYXXvAfClM3nA4go1vg+3MHl1e/2zDDCysrg3tEabCsIvKnRzv0Wvtb2s10VN
- 304O8iUaaCjy+dnUF4jp5tvxQ7MKMC2YGkV23TPpDOStSB2Upw0HDsdfWJMs2ioAEOrO
- fhKRJupDAIl1fLdC4rmrOPBhagh95bOmoINpnJ0Zam1PJQYxiVWiFMx4uAO8/VhJige/
- q5RIt7kTTdZLXfDSogK4wYnAWCRuJIegjkPjFnq6DxnHXIQKAcCVC2EWQgKtVEUTgRU7
- MuUyGBNerPFdl7BnbM83N10a7qTIxPVwG7X9BJpk4AcHrfhY18IPOxuXDtofPfhLSKvV
- XlpQ==
+ :reply-to; bh=6+091FGCQ4rhzDvkB3AYfkA+OM7BJLCJxULLW5x6V0Y=;
+ b=CMulTRGHBt8iZM34cI32BL92j4m/IGpI6bWJ+J8LmB3Bk9XlO8T2iVFu0JkuBVf5zj
+ 8Wr0rXr9XVkORpLTFHEUXRXlrgQds3a+N8OJcv8pyp5UWyhX043kgJV1IYaeEM1if5ls
+ fcn1Xmbm29SFIoT4NocFl/j01Dm8x/9dT3pH/70rdtr7Eiq5IyhhHdZgMX3hHJEvfaOw
+ uXWTFUo5QnhQaRm3Q8kBsLYm1Rz7Cg/AknnwM7TowRNpVAl9Bh3+7ivfKDgQHnnwTSgu
+ 669PfAVJ5wR334uRsypLCsWVOL5aYLZS1wPHtmj3LtsaCbwak5Q8yk1GI3C4z0kIfkyk
+ FLgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3BPaUYtbAIV1BLKNgYdAozqHw0R4+q9lV2NZg2CpgKo=;
- b=6yUfWmmzQ22HTO/1HW40gFy3kMygSA5SAdeP1a2gO0YoLt54tY89iwo/2xL6zeX3x0
- UC+0omh7RDyCiOJN48P94mEV5+0oByn4T8HgG6vX91EyRCbp1zhVjITIe6lp2jqtlA0x
- IN6sGW0nd3tx4qfJswZQVJWYO13L1X0m7G0b6jMP309yvp+NmilWv95mtyUjY+7m8zcb
- 425pLEk+WXiykD+bONUxs1sPvxqHWlL5eynRfA3JvJxfieHDLuXbThfGF1WoGt9bxYK0
- zOE09oL7g9Ozy5WN0mpYX0Yc1lj5T6DaV6gWnj3snKv5VlA3iZOX/J7YxBUjUPyWhrqW
- SJCg==
-X-Gm-Message-State: ANoB5pnnhMOlT1uZPUTvH7fhKJBy8bTKohVilUaQq/3NVKc3EVwMx9d7
- ryx7hQOj7QO6GQ/xYlmupMrkMQ==
-X-Google-Smtp-Source: AA0mqf5Pz039HsSECacZv7n6SegwyteVoV+SG8Cjh+HO/AU52+pi8GERHDDdw5tp9McDI8DIbvAY2w==
-X-Received: by 2002:a17:907:2c75:b0:7c0:bbab:a550 with SMTP id
- ib21-20020a1709072c7500b007c0bbaba550mr14397235ejc.168.1670315649259; 
- Tue, 06 Dec 2022 00:34:09 -0800 (PST)
+ bh=6+091FGCQ4rhzDvkB3AYfkA+OM7BJLCJxULLW5x6V0Y=;
+ b=4QqSIYgks8WNSlvWgjXcY8n+zPEQR84fDbQuYKietmzx7KaODl1cyEl0VVdksnyKJV
+ 3EP0+4nQ+5ptaEmkXTrO40V2BYyR08ql4MYQ/niX2/u6FWK3JZ9pqH9BzQsbOt+O4xxM
+ GMoDmvSXpshs/eGE0BvQCyGAxuFf8ABE/lqMrD8va+tZTWH4bV2vVPrJilVoTEJyxUjx
+ u7mWnjYRY03F7zCSYgKnW8dYPdZihHJfyCBlOr95S2BE5oWjUZmMZpZ3mrJzOfSWn8vC
+ JHmBVDYo2IEvGa/RmwC6dHnjdNwBprqrzQ4uVeu2gYKZ2Pm5iIQjrSlr/Qr94UFSOrlq
+ E9Vg==
+X-Gm-Message-State: ANoB5pn5Fk60OOhV7JmOVJvdecQie0KJzzCwqhO75BKcgcOuvzkZR40R
+ QNW/EadD3b18RVyeKRUCSL5y2w==
+X-Google-Smtp-Source: AA0mqf7xShBddJAwFF9w5fCy8BkqKLZeSqJlo3zmXsOR6j9nvha3NC93Pz85cGp3Hed4/H9Fmoo1IQ==
+X-Received: by 2002:a05:6402:4516:b0:467:b88c:f3af with SMTP id
+ ez22-20020a056402451600b00467b88cf3afmr1991786edb.24.1670315650207; 
+ Tue, 06 Dec 2022 00:34:10 -0800 (PST)
 Received: from [127.0.1.1] ([2a0e:41a:894f:0:2017:359e:18ef:1c49])
  by smtp.gmail.com with ESMTPSA id
- g18-20020a17090604d200b0078d9b967962sm7019390eja.65.2022.12.06.00.34.08
+ g18-20020a17090604d200b0078d9b967962sm7019390eja.65.2022.12.06.00.34.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Dec 2022 00:34:08 -0800 (PST)
+ Tue, 06 Dec 2022 00:34:09 -0800 (PST)
 From: Carlo Caione <ccaione@baylibre.com>
-Date: Tue, 06 Dec 2022 09:34:01 +0100
-Subject: [PATCH v3 1/3] drm/tiny: ili9486: Enable driver module autoloading
+Date: Tue, 06 Dec 2022 09:34:02 +0100
+Subject: [PATCH v3 2/3] drm/tiny: ili9486: Do not assume 8-bit only SPI
+ controllers
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20221116-s905x_spi_ili9486-v3-1-59c6b58cbfe3@baylibre.com>
+Message-Id: <20221116-s905x_spi_ili9486-v3-2-59c6b58cbfe3@baylibre.com>
 References: <20221116-s905x_spi_ili9486-v3-0-59c6b58cbfe3@baylibre.com>
 In-Reply-To: <20221116-s905x_spi_ili9486-v3-0-59c6b58cbfe3@baylibre.com>
 To: Daniel Vetter <daniel@ffwll.ch>, Jerome Brunet <jbrunet@baylibre.com>,
@@ -85,31 +86,75 @@ Cc: linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SPI devices use the spi_device_id for module autoloading even on
-systems using device tree.
+The pixel data for the ILI9486 is always 16-bits wide and it must be
+sent over the SPI bus. When the controller is only able to deal with
+8-bit transfers, this 16-bits data needs to be swapped before the
+sending to account for the big endian bus, this is on the contrary not
+needed when the SPI controller already supports 16-bits transfers.
 
-Add the spi_device_id entry to enable autoloading for the 3.5inch RPi
-Display (rpi-lcd-35 and piscreen).
+The decision about swapping the pixel data or not is taken in the MIPI
+DBI code by probing the controller capabilities: if the controller only
+suppors 8-bit transfers the data is swapped, otherwise it is not.
+
+This swapping/non-swapping is relying on the assumption that when the
+controller does support 16-bit transactions then the data is sent
+unswapped in 16-bits-per-word over SPI.
+
+The problem with the ILI9486 driver is that it is forcing 8-bit
+transactions also for controllers supporting 16-bits, violating the
+assumption and corrupting the pixel data.
+
+Align the driver to what is done in the MIPI DBI code by adjusting the
+transfer size to the maximum allowed by the SPI controller.
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 Signed-off-by: Carlo Caione <ccaione@baylibre.com>
 ---
- drivers/gpu/drm/tiny/ili9486.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/tiny/ili9486.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/tiny/ili9486.c b/drivers/gpu/drm/tiny/ili9486.c
-index c80028bb1d11..2ca7c59771f3 100644
+index 2ca7c59771f3..14a9e6ad2d15 100644
 --- a/drivers/gpu/drm/tiny/ili9486.c
 +++ b/drivers/gpu/drm/tiny/ili9486.c
-@@ -183,6 +183,8 @@ MODULE_DEVICE_TABLE(of, ili9486_of_match);
+@@ -43,6 +43,7 @@ static int waveshare_command(struct mipi_dbi *mipi, u8 *cmd, u8 *par,
+ 			     size_t num)
+ {
+ 	struct spi_device *spi = mipi->spi;
++	unsigned int bpw = 8;
+ 	void *data = par;
+ 	u32 speed_hz;
+ 	int i, ret;
+@@ -56,8 +57,6 @@ static int waveshare_command(struct mipi_dbi *mipi, u8 *cmd, u8 *par,
+ 	 * The displays are Raspberry Pi HATs and connected to the 8-bit only
+ 	 * SPI controller, so 16-bit command and parameters need byte swapping
+ 	 * before being transferred as 8-bit on the big endian SPI bus.
+-	 * Pixel data bytes have already been swapped before this function is
+-	 * called.
+ 	 */
+ 	buf[0] = cpu_to_be16(*cmd);
+ 	gpiod_set_value_cansleep(mipi->dc, 0);
+@@ -71,12 +70,18 @@ static int waveshare_command(struct mipi_dbi *mipi, u8 *cmd, u8 *par,
+ 		for (i = 0; i < num; i++)
+ 			buf[i] = cpu_to_be16(par[i]);
+ 		num *= 2;
+-		speed_hz = mipi_dbi_spi_cmd_max_speed(spi, num);
+ 		data = buf;
+ 	}
  
- static const struct spi_device_id ili9486_id[] = {
- 	{ "ili9486", 0 },
-+	{ "rpi-lcd-35", 0 },
-+	{ "piscreen", 0 },
- 	{ }
- };
- MODULE_DEVICE_TABLE(spi, ili9486_id);
++	/*
++	 * Check whether pixel data bytes needs to be swapped or not
++	 */
++	if (*cmd == MIPI_DCS_WRITE_MEMORY_START && !mipi->swap_bytes)
++		bpw = 16;
++
+ 	gpiod_set_value_cansleep(mipi->dc, 1);
+-	ret = mipi_dbi_spi_transfer(spi, speed_hz, 8, data, num);
++	speed_hz = mipi_dbi_spi_cmd_max_speed(spi, num);
++	ret = mipi_dbi_spi_transfer(spi, speed_hz, bpw, data, num);
+  free:
+ 	kfree(buf);
+ 
 
 -- 
 b4 0.10.1
