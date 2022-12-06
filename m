@@ -1,65 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 036BA643B19
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 03:01:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14CFB643BFB
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 04:52:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 508D510E033;
-	Tue,  6 Dec 2022 02:01:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 709FD10E075;
+	Tue,  6 Dec 2022 03:52:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE91410E0E1
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Dec 2022 02:01:06 +0000 (UTC)
-X-UUID: 170d970cd1db4a618a9a3125f2a538e6-20221206
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=ch2m5CTu0n+VviM/txPR66Umn6Fc9h+zExBrOs8wxbI=; 
- b=hADMq1ZCL2AXshnmJ/ucxYZhiJClEdgDfGn0w5GTbQej/uGqV57F3EkIy5iLgz+ydSZzlEQQ2/CF6FY+8bvO8DjDTz8g4rO4Mb3/P72d+w2g0AcuHIbFuTxMUUj7hv3yjonakRtDmznQnpo8NEpfyyGK9bQIK1p632ZhkXWk5+U=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.14, REQID:ae966a4a-f074-41a7-a400-1f27020f86c6, IP:0,
- U
- RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
- N:release,TS:90
-X-CID-INFO: VERSION:1.1.14, REQID:ae966a4a-f074-41a7-a400-1f27020f86c6, IP:0,
- URL
- :0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTIO
- N:quarantine,TS:90
-X-CID-META: VersionHash:dcaaed0, CLOUDID:814bbbd1-652d-43fd-a13a-a5dd3c69a43d,
- B
- ulkID:221206100105HV1PI0IE,BulkQuantity:0,Recheck:0,SF:38|28|17|19|48,TC:n
- il,Content:0,EDM:-3,IP:nil,URL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 170d970cd1db4a618a9a3125f2a538e6-20221206
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
- (envelope-from <nathan.lu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1546187563; Tue, 06 Dec 2022 10:01:04 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Tue, 6 Dec 2022 10:01:03 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.15 via Frontend Transport; Tue, 6 Dec 2022 10:01:02 +0800
-From: nathan.lu <nathan.lu@mediatek.com>
-To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Matthias Brugger
- <matthias.bgg@gmail.com>
-Subject: [PATCH v4 6/6] drm/mediatek: add mediatek-drm of vdosys0 support for
- mt8188
-Date: Tue, 6 Dec 2022 10:00:46 +0800
-Message-ID: <20221206020046.11333-7-nathan.lu@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20221206020046.11333-1-nathan.lu@mediatek.com>
-References: <20221206020046.11333-1-nathan.lu@mediatek.com>
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D5E0510E075
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Dec 2022 03:51:56 +0000 (UTC)
+Received: from localhost.localdomain (unknown [124.16.138.125])
+ by APP-05 (Coremail) with SMTP id zQCowAAXHfFLvI5jxv8tBQ--.48475S2;
+ Tue, 06 Dec 2022 11:51:40 +0800 (CST)
+From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+To: robdclark@gmail.com, quic_abhinavk@quicinc.com,
+ dmitry.baryshkov@linaro.org, sean@poorly.run, airlied@gmail.com,
+ daniel@ffwll.ch, sam@ravnborg.org, jani.nikula@intel.com, hbh25y@gmail.com,
+ quic_jesszhan@quicinc.com, ville.syrjala@linux.intel.com
+Subject: [PATCH] drm/msm/mdp5: Add check for kzalloc
+Date: Tue,  6 Dec 2022 11:51:38 +0800
+Message-Id: <20221206035138.41418-1-jiasheng@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowAAXHfFLvI5jxv8tBQ--.48475S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Jw4kZrWkXryfCr1rGFWrGrg_yoWkWrX_G3
+ WxZr9rKry7CryDK3WjyrnakFyF9a95uF4Fqw48tFyfArWkXr13A39Fvr4rGr15ZF10qFyD
+ JF1qvry3AFsrAjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUb4kFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+ Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s
+ 1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0
+ cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8Jw
+ ACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
+ 0xkIwI1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
+ AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIY
+ rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14
+ v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8
+ JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UU
+ UUU
+X-Originating-IP: [124.16.138.125]
+X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,82 +57,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nathan Lu <nathan.lu@mediatek.com>, devicetree@vger.kernel.org,
- "jason-jh . lin" <jason-jh.lin@mediatek.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com, Rex-BC
- Chen <rex-bc.chen@mediatek.com>, Moudy Ho <moudy.ho@mediatek.com>,
- linux-mediatek@lists.infradead.org, lancelot.wu@mediatek.com,
- amy zhang <Amy.Zhang@mediatek.com>, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-arm-msm@vger.kernel.org, Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nathan Lu <nathan.lu@mediatek.com>
+As kzalloc may fail and return NULL pointer,
+it should be better to check the return value
+in order to avoid the NULL pointer dereference.
 
-add driver data of mt8188 vdosys0 to mediatek-drm and the sub driver.
-
-Signed-off-by: amy zhang <Amy.Zhang@mediatek.com>
-Signed-off-by: Nathan Lu <nathan.lu@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Fixes: 1cff7440a86e ("drm/msm: Convert to using __drm_atomic_helper_crtc_reset() for reset.")
+Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index b12e5b977c50..8058a5ec2f1d 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -176,6 +176,18 @@ static const enum mtk_ddp_comp_id mt8186_mtk_ddp_ext[] = {
- 	DDP_COMPONENT_DPI0,
- };
+diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+index e86421c69bd1..86036dd4e1e8 100644
+--- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
++++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+@@ -1139,7 +1139,10 @@ static void mdp5_crtc_reset(struct drm_crtc *crtc)
+ 	if (crtc->state)
+ 		mdp5_crtc_destroy_state(crtc, crtc->state);
  
-+static const enum mtk_ddp_comp_id mt8188_mtk_ddp_main[] = {
-+	DDP_COMPONENT_OVL0,
-+	DDP_COMPONENT_RDMA0,
-+	DDP_COMPONENT_COLOR0,
-+	DDP_COMPONENT_CCORR,
-+	DDP_COMPONENT_AAL0,
-+	DDP_COMPONENT_GAMMA,
-+	DDP_COMPONENT_POSTMASK0,
-+	DDP_COMPONENT_DITHER0,
-+	DDP_COMPONENT_DP_INTF0,
-+};
-+
- static const enum mtk_ddp_comp_id mt8192_mtk_ddp_main[] = {
- 	DDP_COMPONENT_OVL0,
- 	DDP_COMPONENT_OVL_2L0,
-@@ -259,6 +271,11 @@ static const struct mtk_mmsys_driver_data mt8186_mmsys_driver_data = {
- 	.ext_len = ARRAY_SIZE(mt8186_mtk_ddp_ext),
- };
+-	__drm_atomic_helper_crtc_reset(crtc, &mdp5_cstate->base);
++	if (mdp5_cstate)
++		__drm_atomic_helper_crtc_reset(crtc, &mdp5_cstate->base);
++	else
++		__drm_atomic_helper_crtc_reset(crtc, NULL);
+ }
  
-+static const struct mtk_mmsys_driver_data mt8188_vdosys0_driver_data = {
-+	.main_path = mt8188_mtk_ddp_main,
-+	.main_len = ARRAY_SIZE(mt8188_mtk_ddp_main),
-+};
-+
- static const struct mtk_mmsys_driver_data mt8192_mmsys_driver_data = {
- 	.main_path = mt8192_mtk_ddp_main,
- 	.main_len = ARRAY_SIZE(mt8192_mtk_ddp_main),
-@@ -516,6 +533,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
- 	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt8186-disp-mutex",
- 	  .data = (void *)MTK_DISP_MUTEX },
-+	{ .compatible = "mediatek,mt8188-disp-mutex",
-+	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt8192-disp-mutex",
- 	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt8195-disp-mutex",
-@@ -600,6 +619,8 @@ static const struct of_device_id mtk_drm_of_ids[] = {
- 	  .data = &mt8183_mmsys_driver_data},
- 	{ .compatible = "mediatek,mt8186-mmsys",
- 	  .data = &mt8186_mmsys_driver_data},
-+	{ .compatible = "mediatek,mt8188-vdosys0",
-+	  .data = &mt8188_vdosys0_driver_data},
- 	{ .compatible = "mediatek,mt8192-mmsys",
- 	  .data = &mt8192_mmsys_driver_data},
- 	{ .compatible = "mediatek,mt8195-mmsys",
+ static const struct drm_crtc_funcs mdp5_crtc_no_lm_cursor_funcs = {
 -- 
-2.18.0
+2.25.1
 
