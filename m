@@ -1,42 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D339645536
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 09:09:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF8C064553C
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 09:10:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D55610E377;
-	Wed,  7 Dec 2022 08:09:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E49210E37D;
+	Wed,  7 Dec 2022 08:10:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1B7410E065
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Dec 2022 13:40:18 +0000 (UTC)
-Received: from desky.lan (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1175F558;
- Tue,  6 Dec 2022 14:40:17 +0100 (CET)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F54610E036
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Dec 2022 13:44:57 +0000 (UTC)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi
+ [91.154.32.225])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2A7C5480;
+ Tue,  6 Dec 2022 14:44:55 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1670334017;
- bh=tPwYiDh/6WY9ouRwCbzRrdEso7JqxttJ5+Wwe+65iKg=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FX0sx7wrMK+zsn5pekovTL5G9oA0aaKDfzj3LH1/ukGano1YPX0FOaEu4dwaZBVnY
- WGjplzPjiNBDhO3vJG1owxeLtVlIGBGxuR+FrGHEqLZVRvqyH8JY/ysfZ3a+2jOhwO
- YsiVQtDBCMEYpj1OjTDRVWADW/xvz3wYi0BScya8=
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-To: linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [PATCH 7/7] drm: rcar-du: Add new formats (2-10-10-10 ARGB, Y210)
-Date: Tue,  6 Dec 2022 15:39:54 +0200
-Message-Id: <20221206133954.397098-8-tomi.valkeinen+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221206133954.397098-1-tomi.valkeinen+renesas@ideasonboard.com>
-References: <20221206133954.397098-1-tomi.valkeinen+renesas@ideasonboard.com>
+ s=mail; t=1670334296;
+ bh=IgFcqzfLNWLI38+FwMXHy3E7Ta2WF4GM2D9w3SZl+g0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Rmx/AwY0HLpEMAlnzUGfV8+QIeyAtD5VZcBT9HPrSQHFYXZ6XnIrplTHyBJLhCdsD
+ bHjbASatb2+BBxsf4TPhDt5T3TVQsBJsGYFGSXkJlBZD/Vj8Ng/kDhhWMgdyfozDB1
+ qdGEnZhAPBVhN6FZET2j1B5qzfPHuuwiL2Qjs/Eg=
+Message-ID: <b35d7cf0-99ef-86b7-41b3-0751abd4642a@ideasonboard.com>
+Date: Tue, 6 Dec 2022 15:44:52 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 07 Dec 2022 08:08:46 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v5 5/7] arm64: dts: renesas: white-hawk-cpu: Add DP output
+ support
+Content-Language: en-US
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20221201095631.89448-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20221201095631.89448-6-tomi.valkeinen+renesas@ideasonboard.com>
+ <CAMuHMdXXoNq0CxSqPLzZUPdVTNa+6u+DNhbm_pCSQOvTHf3EjQ@mail.gmail.com>
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+In-Reply-To: <CAMuHMdXXoNq0CxSqPLzZUPdVTNa+6u+DNhbm_pCSQOvTHf3EjQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Wed, 07 Dec 2022 08:08:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,133 +53,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add new pixel formats: RGBX1010102, RGBA1010102, ARGB2101010 and Y210.
+On 05/12/2022 12:10, Geert Uytterhoeven wrote:
+> On Thu, Dec 1, 2022 at 10:56 AM Tomi Valkeinen
+> <tomi.valkeinen+renesas@ideasonboard.com> wrote:
+>>
+>> Add DT nodes needed for the mini DP connector. The DP is driven by
+>> sn65dsi86, which in turn gets the pixel data from the SoC via DSI.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> (same comments as v2)
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> i.e. will queue in renesas-devel for v6.3, with the mini-dp-con node
+> moved up.
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
----
- drivers/gpu/drm/rcar-du/rcar_du_kms.c | 24 +++++++++++++
- drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 49 +++++++++++++++++++++++++--
- 2 files changed, 71 insertions(+), 2 deletions(-)
+Ah, sorry, I had missed this change. I'll update my branch too.
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-index 8c2719efda2a..8ccabf5a30c4 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-@@ -259,6 +259,24 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
- 		.bpp = 32,
- 		.planes = 1,
- 		.hsub = 1,
-+	}, {
-+		.fourcc = DRM_FORMAT_RGBX1010102,
-+		.v4l2 = V4L2_PIX_FMT_XBGR2101010,
-+		.bpp = 32,
-+		.planes = 1,
-+		.hsub = 1,
-+	}, {
-+		.fourcc = DRM_FORMAT_RGBA1010102,
-+		.v4l2 = V4L2_PIX_FMT_ABGR2101010,
-+		.bpp = 32,
-+		.planes = 1,
-+		.hsub = 1,
-+	}, {
-+		.fourcc = DRM_FORMAT_ARGB2101010,
-+		.v4l2 = V4L2_PIX_FMT_BGRA1010102,
-+		.bpp = 32,
-+		.planes = 1,
-+		.hsub = 1,
- 	}, {
- 		.fourcc = DRM_FORMAT_YVYU,
- 		.v4l2 = V4L2_PIX_FMT_YVYU,
-@@ -307,6 +325,12 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
- 		.bpp = 24,
- 		.planes = 3,
- 		.hsub = 1,
-+	}, {
-+		.fourcc = DRM_FORMAT_Y210,
-+		.v4l2 = V4L2_PIX_FMT_Y210,
-+		.bpp = 32,
-+		.planes = 1,
-+		.hsub = 2,
- 	},
- };
- 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-index e465aef41585..6f3e109a4f80 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-@@ -139,6 +139,42 @@ static const u32 rcar_du_vsp_formats[] = {
- 	DRM_FORMAT_YVU444,
- };
- 
-+/*
-+ * Gen4 supports the same formats as above, and additionally 2-10-10-10 RGB
-+ * formats and Y210 format.
-+ */
-+static const u32 rcar_du_vsp_formats_gen4[] = {
-+	DRM_FORMAT_RGB332,
-+	DRM_FORMAT_ARGB4444,
-+	DRM_FORMAT_XRGB4444,
-+	DRM_FORMAT_ARGB1555,
-+	DRM_FORMAT_XRGB1555,
-+	DRM_FORMAT_RGB565,
-+	DRM_FORMAT_BGR888,
-+	DRM_FORMAT_RGB888,
-+	DRM_FORMAT_BGRA8888,
-+	DRM_FORMAT_BGRX8888,
-+	DRM_FORMAT_ARGB8888,
-+	DRM_FORMAT_XRGB8888,
-+	DRM_FORMAT_RGBX1010102,
-+	DRM_FORMAT_RGBA1010102,
-+	DRM_FORMAT_ARGB2101010,
-+	DRM_FORMAT_UYVY,
-+	DRM_FORMAT_YUYV,
-+	DRM_FORMAT_YVYU,
-+	DRM_FORMAT_NV12,
-+	DRM_FORMAT_NV21,
-+	DRM_FORMAT_NV16,
-+	DRM_FORMAT_NV61,
-+	DRM_FORMAT_YUV420,
-+	DRM_FORMAT_YVU420,
-+	DRM_FORMAT_YUV422,
-+	DRM_FORMAT_YVU422,
-+	DRM_FORMAT_YUV444,
-+	DRM_FORMAT_YVU444,
-+	DRM_FORMAT_Y210,
-+};
-+
- static void rcar_du_vsp_plane_setup(struct rcar_du_vsp_plane *plane)
- {
- 	struct rcar_du_vsp_plane_state *state =
-@@ -436,14 +472,23 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
- 					 ? DRM_PLANE_TYPE_PRIMARY
- 					 : DRM_PLANE_TYPE_OVERLAY;
- 		struct rcar_du_vsp_plane *plane = &vsp->planes[i];
-+		unsigned int num_formats;
-+		const u32 *formats;
-+
-+		if (rcdu->info->gen < 4) {
-+			num_formats = ARRAY_SIZE(rcar_du_vsp_formats);
-+			formats = rcar_du_vsp_formats;
-+		} else {
-+			num_formats = ARRAY_SIZE(rcar_du_vsp_formats_gen4);
-+			formats = rcar_du_vsp_formats_gen4;
-+		}
- 
- 		plane->vsp = vsp;
- 		plane->index = i;
- 
- 		ret = drm_universal_plane_init(&rcdu->ddev, &plane->plane,
- 					       crtcs, &rcar_du_vsp_plane_funcs,
--					       rcar_du_vsp_formats,
--					       ARRAY_SIZE(rcar_du_vsp_formats),
-+					       formats, num_formats,
- 					       NULL, type, NULL);
- 		if (ret < 0)
- 			return ret;
--- 
-2.34.1
+  Tomi
 
