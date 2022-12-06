@@ -1,61 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40B76643A00
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 01:35:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E838A643A0D
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 01:35:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EEA110E2D0;
-	Tue,  6 Dec 2022 00:35:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D53410E2D6;
+	Tue,  6 Dec 2022 00:35:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com
- [IPv6:2607:f8b0:4864:20::d35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19FC610E2CD;
- Tue,  6 Dec 2022 00:34:57 +0000 (UTC)
-Received: by mail-io1-xd35.google.com with SMTP id r72so3705858iod.5;
- Mon, 05 Dec 2022 16:34:57 -0800 (PST)
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com
+ [IPv6:2607:f8b0:4864:20::d2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D10810E2CD;
+ Tue,  6 Dec 2022 00:34:58 +0000 (UTC)
+Received: by mail-io1-xd2c.google.com with SMTP id i83so2365642ioa.11;
+ Mon, 05 Dec 2022 16:34:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=oll6l9lDa1YzuMAbRwQ0w/RLOsi7h8EqrYGzxo3MxIc=;
- b=UD9DWHz/UiGFDtsU3HDSrNzMZNDuCpetOaCUNlHtv0S6U0MQYLIfcmL3jLYBuz0Q5h
- eRd7MHClCouL9L03xTA089WBIsiCEySm2/x5gzjAtQS43+ojIgeKbrYxMsN0Clz3bkV6
- yAnID7BIdH493G2rS4XD+Zk6RXZPjx6NrWwPiUpJ4acsMtlhyvGIunczW4FgCYDMpSDl
- C0NT6MJ9m1EZ/RnxPEr+OKNFglmYnIurtVrPiQo7TkLtectGVdrqj6AofOOzo8UvBEEk
- 76Rxq1dUlmjcVHhag7ETkTymPiSovZYHAyIFRrc2u11HUvGMpUYAecdIuS3bvhPCFRUh
- tGuQ==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=YnDAYVoy4dFPmqfPd9DbquIT23rvABloUcd8Ca4aFl8=;
+ b=TQk6CUnqoOsZ+GSXEMerTI/bMoADInIl0tC3BAqQv0v8cpiAMfn/KneFyYmJQJsomd
+ FEJh13WFitq7Atd2g8EmkI0kwyuN0UL4EsuQUa5JjLrVvNtjx8fvQTWlpNhATsFBIKtq
+ O6VQ67aFSyRqwaqUorQwnRA9ZjVZpPOHPVbQsgmevwuOB+ROIbP0Cv1OuekMddawZwxh
+ RtMkMdg9NaezYUJ7l+sya5VwonL1BV/ExijyXbgMmtofqFfSFb0oa3mUDXJ2wurZQVkM
+ 3doYLrTxOeFhiPLNiwcLy8kHHSV7Qfkwje6MEa58whtCJIA0lko2OauHuFFZfxRnwZp0
+ tDQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=oll6l9lDa1YzuMAbRwQ0w/RLOsi7h8EqrYGzxo3MxIc=;
- b=mVe096CUMYrr4lK+WfhwMEoqsj9BatFBjUv+Tro2p6joHvoDAeQkfC07GjK/87rnWm
- Gff9Lewn0oU5N2JRpQFrZiXiktdUtt0FqT7WCwToB7BMsFQPRWKo8H03MY5fhj47c83H
- 8oSRFWK7Rkb2r8BC4r9tjmRcg8Poj2si7tOxusE1VS6AzNINiBpapJib50G8iHuHBNE5
- 62kUHw4hsIkvfSJcnta1QZm5YbALoq8cOLTxbNOGOYqmH+0tCMRrNzLio/WuxyNmCIGA
- lDN0IugRhiuIDuNS/xStEX+6nPJjjt1RXoxfHJnpG4VHM1GPPkIDEuNfNpH8nxgocmqd
- R1DA==
-X-Gm-Message-State: ANoB5pliwpe7WXZFde6QpvE00EN/Maf3VuVgNDVzKlN7gYytqXszGaII
- XLWwg8u8LwCoj3f7YG4PLNY=
-X-Google-Smtp-Source: AA0mqf5PWVymzCnbWJXpMIHyTjb22OYxykYQ86bDxVxB4HjTi4ucYqEGKfdpkztJZ/eaV/plIOquCQ==
-X-Received: by 2002:a05:6638:3720:b0:38a:3771:cbff with SMTP id
- k32-20020a056638372000b0038a3771cbffmr4702557jav.223.1670286896073; 
- Mon, 05 Dec 2022 16:34:56 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=YnDAYVoy4dFPmqfPd9DbquIT23rvABloUcd8Ca4aFl8=;
+ b=RycOvZcl9Tnmr0p75qmWSuTCTL5xdgs2NrCtWNIrU0+ekwwcDAhqCRDnI/ZSisfnny
+ 4I72ETt2i4+64VDgkVdb6aKQpR3rzo0OZ7+nLmR6Id9VDrmR8FpiNOq4cq22AJMGOSZy
+ CWCoDDaLGir+d4K47i60UNGGL6nSM1zhr0RB3PiBI5A2l5MBXgV+VIsy/nDh7Fba9/wW
+ ZNpRu/8eXCFMQv3aimnxChksJPkVdmly0G2NXAmbJkkJNsC9sSQyB4I2dS0gieZGKSgs
+ FmCDj4O3tn2Yaa5Sksjipm1kBL5EpZFx37cNp8TwH4lOEL1hgN8DD/SUaF0WT05Bf0lj
+ /Q3Q==
+X-Gm-Message-State: ANoB5pn7rx4BDvgKLFq+Wp4piooWFcy4UmTF85UNJuW0yohgW3h2xZHB
+ 488DCkV7u3aR9Yi1i6IdwYI=
+X-Google-Smtp-Source: AA0mqf6Bm0S1ExgIZipFgzEZdlH4q3+aKyRo+Nm8PQcm/Cg2Eo2308mplHUGsDA9FiD4SWuE07cGRg==
+X-Received: by 2002:a05:6638:36e5:b0:38a:53d5:1488 with SMTP id
+ t37-20020a05663836e500b0038a53d51488mr1859208jau.146.1670286897295; 
+ Mon, 05 Dec 2022 16:34:57 -0800 (PST)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- x3-20020a056602160300b006bba42f7822sm6408213iow.52.2022.12.05.16.34.55
+ x3-20020a056602160300b006bba42f7822sm6408213iow.52.2022.12.05.16.34.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Dec 2022 16:34:55 -0800 (PST)
+ Mon, 05 Dec 2022 16:34:56 -0800 (PST)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org
-Subject: [RFC PATCH 00/17] DRM_USE_DYNAMIC_DEBUG regression
-Date: Mon,  5 Dec 2022 17:34:07 -0700
-Message-Id: <20221206003424.592078-1-jim.cromie@gmail.com>
+Subject: [RFC PATCH 01/17] test-dyndbg: fixup CLASSMAP usage error
+Date: Mon,  5 Dec 2022 17:34:08 -0700
+Message-Id: <20221206003424.592078-2-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221206003424.592078-1-jim.cromie@gmail.com>
+References: <20221206003424.592078-1-jim.cromie@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,100 +78,57 @@ Cc: jani.nikula@intel.com, daniel.vetter@ffwll.ch, jbaron@akamai.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi everyone,
+more careful reading of test output reveals:
 
-DRM_USE_DYNAMIC_DEBUG=y has a regression on rc-*
+lib/test_dynamic_debug.c:103 [test_dynamic_debug]do_cats =pmf "doing categories\n"
+lib/test_dynamic_debug.c:105 [test_dynamic_debug]do_cats =p "LOW msg\n" class:MID
+lib/test_dynamic_debug.c:106 [test_dynamic_debug]do_cats =p "MID msg\n" class:HI
+lib/test_dynamic_debug.c:107 [test_dynamic_debug]do_cats =_ "HI msg\n" class unknown, _id:13
 
-Regression is due to a chicken-egg problem loading modules; on
-`modprobe i915`, drm is loaded 1st, and drm.debug is set.  When
-drm_debug_enabled() tested __drm_debug at runtime, that just worked.
+That last line is wrong, the HI class is declared.
 
-But with DRM_USE_DYNAMIC_DEBUG=y, the runtime test is replaced with a
-post-load enablement of drm_dbg/dyndbg callsites (static-keys), via
-dyndbg's callback on __drm_debug.  Since all drm-drivers need drm.ko,
-it is loaded 1st, then drm.debug=X is applied, then drivers load, but
-too late for drm_dbgs to be enabled.
+But the enum's 1st val (explicitly initialized) was wrong; it must be
+_base, not _base+1 (a DECLARE_DYNDBG_CLASSMAP param).  So the last
+enumeration exceeded the range of mapped class-id's, which triggered
+the "class unknown" report.  Basically, I coded in an error, and
+forgot to verify it and remove it.
 
-STATUS
+RFC:
 
-For all-loadable drm,i915,amdgpu configs, it almost works, but
-propagating drm.debug to dependent modules doesnt actually apply,
-though the motions are there.  This is not the problem I want to chase
-here.
+This patch fixes a bad usage of DEFINE_DYNDBG_CLASSMAP(), showing that
+it is too error-prone.  As noted in test-dynamic-debug.c comments:
 
-The more basic trouble is:
+ * Using the CLASSMAP api:
+ * - classmaps must have corresponding enum
+ * - enum symbols must match/correlate with class-name strings in the map.
+ * - base must equal enum's 1st value
+ * - multiple maps must set their base to share the 0-62 class_id space !!
+ *   (build-bug-on tips welcome)
 
-For builtin drm + helpers, things are broken pretty early; at the
-beginning of dynamic_debug_init().  As the ddebug_sanity() commit-msg
-describes in some detail, the records added by _USE fail to reference
-the struct ddebug_class_map created and exported by _DEFINE, but get
-separate addresses to "other" data that segv's when used as the
-expected pointer. FWIW, the pointer val starts with "revi".
+Those shortcomings could largely be fixed with a __stringify_list
+(which doesn't exist) used in DEFINE_DYNAMIC_DEBUG_CLASSMAP(), on
+__VA_ARGS__ a 2nd time.  Then, DRM would pass DRM_UT_* ; all the
+categories, in order, and not their stringifications, which created
+all the usage complications above.
 
-OVERVIEW
+Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+---
+ lib/test_dynamic_debug.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-DECLARE_DYNDBG_CLASSMAP is broken: it is one-size-fits-all-poorly.
-It muddles the distinction between a (single) definition, and multiple
-references.  Something exported should suffice.
-
-The core of this patchset splits it into:
-
-DYNDBG_CLASSMAP_DEFINE	used once per subsystem to define each classmap
-DYNDBG_CLASSMAP_USE	declare dependence on a DEFINEd classmap
-
-This makes the weird coordinated-changes-by-identical-classmaps
-"feature" unnecessary; the DEFINE can export the var, and USE refers
-to the exported var.
-
-So this patchset adds another section: __dyndbg_class_refs.
-
-It is like __dyndbg_classes; it is scanned under ddebug_add_module(),
-and attached to each module's ddebug_table.  Once attached, it can be
-used like classes to validate and apply class FOO >control queries.
-
-It also maps the class user -> definer explicitly, so that when the
-module is loaded, the section scan can find the kernel-param that is
-wired to dyndbg's kparam-callback, and apply its state-var, forex:
-__drm_debug to the just loaded helper/driver module.
-
-Theres plenty to address Im sure.
-
-Jim Cromie (17):
-  test-dyndbg: fixup CLASSMAP usage error
-  test-dyndbg: show that DEBUG enables prdbgs at compiletime
-  dyndbg: fix readback value on LEVEL_NAMES interfaces
-  dyndbg: replace classmap list with a vector
-  dyndbg: make ddebug_apply_class_bitmap more selective
-  dyndbg: dynamic_debug_init - use pointer inequality, not strcmp
-  dyndbg: drop NUM_TYPE_ARRAY
-  dyndbg: reduce verbose/debug clutter
-  dyndbg-API: replace DECLARE_DYNDBG_CLASSMAP with
-    DYNDBG_CLASSMAP(_DEFINE|_USE)
-  dyndbg-API: specialize DYNDBG_CLASSMAP_(DEFINE|USE)
-  dyndbg-API: DYNDBG_CLASSMAP_USE drop extra args
-  dyndbg-API: DYNDBG_CLASSMAP_DEFINE() improvements
-  drm_print: fix stale macro-name in comment
-  dyndbg: unwrap __ddebug_add_module inner function NOTYET
-  dyndbg: ddebug_sanity()
-  dyndbg: mess-w-dep-class
-  dyndbg: miss-on HACK
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c |  14 +-
- drivers/gpu/drm/display/drm_dp_helper.c |  14 +-
- drivers/gpu/drm/drm_crtc_helper.c       |  14 +-
- drivers/gpu/drm/drm_print.c             |  22 +--
- drivers/gpu/drm/i915/i915_params.c      |  14 +-
- drivers/gpu/drm/nouveau/nouveau_drm.c   |  14 +-
- include/asm-generic/vmlinux.lds.h       |   3 +
- include/drm/drm_print.h                 |   6 +-
- include/linux/dynamic_debug.h           |  57 ++++--
- include/linux/map.h                     |  54 ++++++
- kernel/module/main.c                    |   2 +
- lib/dynamic_debug.c                     | 240 +++++++++++++++++++-----
- lib/test_dynamic_debug.c                |  47 ++---
- 13 files changed, 344 insertions(+), 157 deletions(-)
- create mode 100644 include/linux/map.h
-
+diff --git a/lib/test_dynamic_debug.c b/lib/test_dynamic_debug.c
+index 8dd250ad022b..a01f0193a419 100644
+--- a/lib/test_dynamic_debug.c
++++ b/lib/test_dynamic_debug.c
+@@ -75,7 +75,7 @@ DD_SYS_WRAP(disjoint_bits, p);
+ DD_SYS_WRAP(disjoint_bits, T);
+ 
+ /* symbolic input, independent bits */
+-enum cat_disjoint_names { LOW = 11, MID, HI };
++enum cat_disjoint_names { LOW = 10, MID, HI };
+ DECLARE_DYNDBG_CLASSMAP(map_disjoint_names, DD_CLASS_TYPE_DISJOINT_NAMES, 10,
+ 			"LOW", "MID", "HI");
+ DD_SYS_WRAP(disjoint_names, p);
 -- 
 2.38.1
 
