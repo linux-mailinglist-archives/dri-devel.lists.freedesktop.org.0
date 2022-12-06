@@ -2,135 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C438B643F14
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 09:52:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F1EF643F3D
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 10:02:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A35B10E309;
-	Tue,  6 Dec 2022 08:52:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2FE410E303;
+	Tue,  6 Dec 2022 09:02:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 975D810E302;
- Tue,  6 Dec 2022 08:52:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1670316758; x=1701852758;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=+LjC5a1R1CggzJQqtvcgjsZoNj1N838+yLbakdksMo8=;
- b=L/nhuJoNE9udT+8FC1yu+C6EQnyuO0r5p/PD90U175QY4Uf/ypKQOBqU
- stC8pGtC3gDQ9+6MRI+PYUCu46rA5W3b0xZ4c97tXkHBpTR+JSRbGdX1H
- KjwbZmDrMpmTx9yWj5cRAZQIwZc2nkxpEe5mirOd4zrsY9Zyvk3N26Zdm
- 5gEw03JNtEzh6rtq8l7tW6K9XGYZWuZyXd8L/Xfk9+dns3XlM0Os17ZCS
- clKrMWm8qeopFcho4pCDpMbIQVYE/Dv2fhNiJg1AHwzIRk8MItRisTr9f
- TCGaFOpiYpEXDvDu3XIUVVVuKSt989vhaUQaqg+uqX++fXIeWUR0legYR w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10552"; a="378735188"
-X-IronPort-AV: E=Sophos;i="5.96,220,1665471600"; d="scan'208";a="378735188"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Dec 2022 00:52:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10552"; a="734917228"
-X-IronPort-AV: E=Sophos;i="5.96,220,1665471600"; d="scan'208";a="734917228"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by FMSMGA003.fm.intel.com with ESMTP; 06 Dec 2022 00:52:20 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Tue, 6 Dec 2022 00:52:20 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Tue, 6 Dec 2022 00:52:20 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.103)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Tue, 6 Dec 2022 00:52:19 -0800
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ (mail-db8eur05on2111.outbound.protection.outlook.com [40.107.20.111])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DA5010E302
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Dec 2022 09:02:09 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Qa6CinlLwkCcKBG3ihD0CcYviNNv2xSh5tESI9+5q83txsgwtZXkw9t13h+l3Dcsf/kR7w4Q8x80TCuAQCZkg1I3QeJv29lz8RS8JgLf1s+28e+mhma7cYtGqh/PUSW+FbxhlMKiw3LZq4F3r/Emn0NBN1QYCifyNgCxf+yVY2HbO6MMe3y+60zynzrHM+ZGmuHWlbjtLwCNPX8M6t/vHassiG92G/kAcecFpe5SCb+EBVH3gVk7X79vYS7Blhz8Y5rSdMH4KuzEv3fNW3eiZ+fLYaO5/b8PBJFxbDHbEQCXM2ywjqIRhAqtoRG3YyCl5PyW8yOKT6uY6ANHsQMf+g==
+ b=X0Eg7dw63JkT34StXAkLSrxmcbb56jYYtP7svnLxPHDCnK39KX0TOBq95m0w/juC9ev43BDitfsBG1S4vXciUGwhY1s6/3fKueyYVVfDDmnF0KhRlx75jwPwTNOoxO1HAEzdlup5RwViTArEtgmNfBvBgPMHtHSovK061KvIxChqL/Q+M2aA6zlwCDtTc8Vml0NMNEziLFE28gO3KcTb5My2O6mw5ab0Umr2XXwNGQ4dke9QPuhQpyx3oTQG6fukiRXTxmcISmXdeFN66grelk4WjDw/83SlRLYrgD+rH+DHnMLbP2lidqrirY/b3Vz1Br/1xFxi7ZfkOnpa08J5Sg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=maIV9Jvf7yM7nttoqjssb9+vw31p6sRGblYIExRKF4o=;
- b=TfJi+npwBw7ub5818Khd+DZ/E8Uw71Vv61TFhDFFaS13fm+QWnFbtnUb2ip1U48t5ScDbjZtuGZH/7+itHkMkvetj44eMq5jVNtDq/eSKH22lcxbGH0GEvvOPdLy626x8RbljiyzIFfpiSqjmBF7hpAnZCwM/4cqhf6J+JaI61316Cmt9vQwUBZTwBlJu/FySDhnCu+CwlKH1J9eIFydpyebZUVSK8A0uR3NDxAcPF9NwqxL4wZqrXmjr/zuuBmbcjiZ3RKnQjrMKAxEqKpAkCVfyUtIV0Imaeg1KXdzAvSSFLysN+6yWM1pd6XDIRMXTsdtFPRhfUMReJHXsH7G8w==
+ bh=VfPXk19Bs+xLLX7caiizIDlSkr10I2bR8FHCttCehS8=;
+ b=WW6NZnXWTXJ6JmCsZ7Q2ilQO5VnMqF4QfPMd03eOZ+OONVomF288R7r3dnhDkSYtNoaWohVwPRUIlRfqNzOA4z+Y3loycgvh0/iB2JW7sbaxf8qBzI5Qs0l0mKRAsBL0ITs0OLl/u7RNbsYWH6XkEYahe4SZvwnMjcrpy44M12P74lAw1jTqGCxgJKmybx3p01x0YXCg/G5rOMahV62ZlUGHdvbMH6yNJw66btB7FrCkFPZd7AwECfbp9eab7SbghniUu9NMEiCPP/TK6UeGIC8Sd0Xn8AyilzE+oyDMmtz888MLC4iatU/Rqd9/scIoi5P8CViGGESHD8Ft8SBgbA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
+ dkim=pass header.d=kontron.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mysnt.onmicrosoft.com; 
+ s=selector2-mysnt-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VfPXk19Bs+xLLX7caiizIDlSkr10I2bR8FHCttCehS8=;
+ b=dJ4BtFuFAT5xPQSBO810zuJRraFKdJOnxQEm7Rc1IvilUo8VyiLZ8hnYXDyuE+bYmthN2vJDvlImErsRumU5EQB/+osBZG3gHwKU8kKQe7vBwa0LB5zVv5+EQzBfkBmxfqNC5Lbp1qjNrdkYwRvFLPMURWrQw738rnNiFxEGzl0=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by SJ0PR11MB4959.namprd11.prod.outlook.com (2603:10b6:a03:2de::9)
+ header.d=none;dmarc=none action=none header.from=kontron.de;
+Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:263::10)
+ by AS8PR10MB6820.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:5b6::12)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.14; Tue, 6 Dec
- 2022 08:52:13 +0000
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::499c:efe3:4397:808]) by MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::499c:efe3:4397:808%9]) with mapi id 15.20.5880.014; Tue, 6 Dec 2022
- 08:52:12 +0000
-Date: Tue, 6 Dec 2022 03:52:08 -0500
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v2 4/6] drm/i915/gsc: Do a driver-FLR on
- unload if GSC was loaded
-Message-ID: <Y48CuM1ZEPljZx4j@intel.com>
-References: <20221206011908.2745508-1-daniele.ceraolospurio@intel.com>
- <20221206011908.2745508-5-daniele.ceraolospurio@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20221206011908.2745508-5-daniele.ceraolospurio@intel.com>
-X-ClientProxiedBy: BY5PR17CA0052.namprd17.prod.outlook.com
- (2603:10b6:a03:167::29) To MN0PR11MB6059.namprd11.prod.outlook.com
- (2603:10b6:208:377::9)
+ 2022 09:02:06 +0000
+Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::f209:bc86:3574:2ae6]) by PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::f209:bc86:3574:2ae6%6]) with mapi id 15.20.5880.013; Tue, 6 Dec 2022
+ 09:02:05 +0000
+Message-ID: <fcef073d-3046-2714-d87c-4c42d6a4bce0@kontron.de>
+Date: Tue, 6 Dec 2022 10:02:04 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH v8 06/14] drm: bridge: samsung-dsim: Handle proper DSI
+ host initialization
+From: Frieder Schrempf <frieder.schrempf@kontron.de>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+References: <20221110183853.3678209-1-jagan@amarulasolutions.com>
+ <20221110183853.3678209-7-jagan@amarulasolutions.com>
+ <CGME20221117045817eucas1p1778503aa62ef18ef5ee0502d2189cd15@eucas1p1.samsung.com>
+ <04fb17e2-1b55-fbd9-d846-da3e3da4edb8@denx.de>
+ <f33142de-862e-9775-b1c9-b871bb9a243c@samsung.com>
+ <b66b44fc-5d4c-d3a8-8538-79003b14691e@denx.de>
+ <CAMty3ZBfAY86fp7XxS9frrBiT9FRkJaNSRY-4CVpqGOvdpn1fw@mail.gmail.com>
+ <58671662-9242-c7ef-53ef-60f9cdc3399a@denx.de>
+ <CAMty3ZDVZJ6TjKjtq9wSHudmeD+7O1vB_j0V1xKjYGWnwMKa6Q@mail.gmail.com>
+ <9f08a902-049c-1c00-7fed-3d7ee18b3d2c@samsung.com>
+ <2ef1aae1-8ff9-22bc-9817-69d1eae8b485@denx.de>
+ <CAPY8ntDH7QgLfg_MsXSeyD4uwiG7EHMd75qQA6SbDbO1P6ftow@mail.gmail.com>
+ <cc3814d2-a300-be10-168c-7313a7cd9006@kontron.de>
+ <CAPY8ntCpOitHktqd4W=teYQJ+UDimCZ2czcaxgG5rA6A4XB11Q@mail.gmail.com>
+ <e32280e4-0c8e-f823-051b-8d0802d6fdb5@kontron.de>
+Content-Language: en-US
+In-Reply-To: <e32280e4-0c8e-f823-051b-8d0802d6fdb5@kontron.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR3P281CA0162.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a2::14) To PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:102:263::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|SJ0PR11MB4959:EE_
-X-MS-Office365-Filtering-Correlation-Id: fe83eb00-9260-4f22-685a-08dad7672ab1
+X-MS-TrafficTypeDiagnostic: PA4PR10MB5681:EE_|AS8PR10MB6820:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0362281f-45cf-48f4-b9eb-08dad7688c53
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MKTasP5pgF0JVHdlKi0PbZWzduI1OFlmxY7DSjDiHJDQ1ccdnF7EN2MR1oRBYJ6R/uik+dBYwVvassYuKYK23qeNAZ5m/EHA+L9sUL7lxN10/6YqexQ7CBMUL0gg/Zz5CeYDAIVsXRH/to8Uc3KhYJoW3QiHevB08d+azb5XkkGO2X8qVX3szgzPHpK+O31EbYxUV7ZlJWY3KdncxvfKnKoQMd152uScraCYSvJGHjHZQYas1dui7WxhEV4TCN6NADQIqIuuiIFufAZdP4nDAhcyDKwaWEEHXwKZH0YwgrDX73jkgszFSB/6ycthpJfDuJJEGEijlcH/UU2NV0ka2tM6WbbkA5nXfh2JCasLOorPokaNI4QA8Qamg+u1ng53RAxBznpXvZ8/M91E8LshU43Sggd95a3MQ1s1q3AbDCrhP6063Dhq0NmSTcOz0IcEUO+qhqqL5M9TYJSMdWnS4Q3BXGoYn+9BOo3GpyDtnzaLPsN+bXVdsuk8gcUFl5Dqk7xNEHQpxa2tTS9hOaZza4nHtU4u4PMzUyiT/+6gc93+eOin6FakNufl8cKmmyKiYGfS1VnnZU3SNDVIJZjx8wN9uJKor+puWz1mdgs1L5F0uGYnaPIKikwoohkJRHET2v8Qrpn69pMNSrzvhNb9sw==
+X-Microsoft-Antispam-Message-Info: OBIHkjemMrOj8Z0ALQSB47wsDaRcuVRO23EZOA4iwCRO0KUMcyPajl2v0P27iQX3p7lm1O2s0EMIuyMcMQhGo9RRllv05DyYFdco7gbKYc+go8yp8Sy39C8exBExTb4j/NeYsOyT+tfboHSRuMXZxApMCPERingxPivzJNJtH9xsK9D8vEBaW7jnSWFxuH+Q1DO7KiU31RKszpAttL8DL6SM6lLdWdZ8UeuhHr04r+72o1XwwMFX6rtKUGnzViBpomlBzoLoBcsNc5zfACM2taA9EjWZCPZGXSA7IntWQSRW0ZkpOpAwFG56C5+D4oabry+YQHC87ACjjrrOsj77fklbTG/ynj4MfjJRwjL3C+gRK0JTk7xNyorkLtBEDSmuzk3jYA1KCTTW19ZLECrcOlgFnOOdMXloyA7cBlSTnoIck7S7uVUD5v5PTKYNA/afTl214bFSpKD2fDeo+HakjXm3Z9yD/FaPh0x7SWC4nfXZv3G21l8RaorZ+h+Qsu5G/DsEI1tkcGkE3+Noz2vR+KbY00At116PdQ6hYoTu9BV7yfxeZKcf0CN7ALDf8OEcfHZSLsCKPTSo2VLA6BcjfokZ7vNUpU7qsDLA/CsZyBYtHQphQGmMjuHzlKByAuAGWxti9qj3MJ2k15Y9ht+Fjp25L3Ht+6gXyzQ9z+HoDu6Z9h2ODdNE5AjDB+TZ8+dKv08m4pDJScJ+4gRI/MJpwrXFycj8lcHKFDbYsdUXHqY9+HdBQg9RIztrrirZ+c0c
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(136003)(376002)(346002)(396003)(39860400002)(366004)(451199015)(37006003)(2616005)(6636002)(186003)(26005)(6506007)(38100700002)(316002)(83380400001)(6666004)(4326008)(8676002)(41300700001)(6486002)(44832011)(2906002)(478600001)(82960400001)(66476007)(450100002)(36756003)(66946007)(6512007)(66556008)(5660300002)(8936002)(6862004)(86362001);
+ IPV:NLI; SFV:NSPM; H:PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(346002)(136003)(39860400002)(376002)(366004)(396003)(451199015)(478600001)(31686004)(6506007)(53546011)(45080400002)(54906003)(4326008)(6916009)(6512007)(26005)(966005)(6486002)(66946007)(66556008)(66476007)(316002)(8676002)(2616005)(41300700001)(186003)(8936002)(86362001)(5660300002)(30864003)(2906002)(38100700002)(31696002)(7416002)(36756003)(44832011)(83380400001)(43740500002)(45980500001);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+7u7rIE+iPlbhSA9R58znp2fdR+y/Acnf8cEhEh6ZA5L4OmotFXPqUS/X3JH?=
- =?us-ascii?Q?mROnpiJZ4TbDWtnvCAhcXlw38+0mtg4urg+I2yZdguPQTdbsNiFmFbp62fRS?=
- =?us-ascii?Q?s2gLRCm+NsDPANwbfTElQk4mMrlJYWeH0eiL9LL9d3xPePCAVUXSvj6vSD6Y?=
- =?us-ascii?Q?2S1NWUb47oPSLHiF3roChv94P7ietszdvAHwHAohys0LU5MAGFM5L92JcSXI?=
- =?us-ascii?Q?mqqN/qMo/knK6bYp96Jq7GA9mpgNqTm2A7wkUD+DizI9/H3CAIPxqM5u2TUG?=
- =?us-ascii?Q?5SdEqzop7Bos5rr84T3w/mHS2HIQwiKt2rtGrGDySef8FLRBemezRdD2LuPa?=
- =?us-ascii?Q?MAojKF/+zRCylerqq+Vs5lavFHvuBpQ8Ooszb7fULmHpSK73yiaEP7C4vBE8?=
- =?us-ascii?Q?PzRyUx+e4v5Ko/GWLHF6bTfbVGCAnAJ5fcWkNOdjros0QlNwUnQjYhwFkqot?=
- =?us-ascii?Q?7xAvBItXmbSIbAN+ib79S/RwylAHdw88RpPtasZ9tfGIqH1zLK/BEpL7IGtO?=
- =?us-ascii?Q?f2OA7MeVPhZNLfWmNOrDhjz3Udw5uwZzALhy6IPP1S1n7K2c/8/OLFPWoOF+?=
- =?us-ascii?Q?7u2NytyHxKWjWfEUHacbdac0YFKyjySvqqIiLSCXsvCiW0nRdT/KKiFPyRHN?=
- =?us-ascii?Q?Xu2aJY1NSNnQYY2tdcuY3UIO9KDyYXf85Er8ZWKw4BVhkguPVDkH4/8wVJdf?=
- =?us-ascii?Q?uS4MvpKv91PdKm1NWh7gnMQd92Kd/a60rFPmsPHQBpr2OoGJtQozVt+mvday?=
- =?us-ascii?Q?JvyEvOQxpjxqGaDx6NaRp7X3p+Elvsn0F8ife7xTl3f5wsZ0m7DurKIDF3R3?=
- =?us-ascii?Q?m/RVfFwYwDy0qZB3JIPv3X2sbrKH18H/kw5kAuLZ9ivIJoiQB0vBF/Grm9X/?=
- =?us-ascii?Q?1ptvutskjfcsIK1EeMeLUTT085WcWKOoEd633mbhWqf7Mye0h+lo5kAeTN+7?=
- =?us-ascii?Q?aXrBz4Yck+HDTSgn8rAHGdrQ9xILZr++fnagBqto5Pw1NuTl8DK30I//Y+Rr?=
- =?us-ascii?Q?3pl1XAdyt3wHBWx1ySCthC9d0rfZVISpY7sVnqq/k2TUj/FeqsY/v3cK1W9b?=
- =?us-ascii?Q?2zIjRJt3uwnfQaWAp8Myl39rTnJD6w4bq5klSvpMiyvTV2rqubiMCFGIwxN5?=
- =?us-ascii?Q?24A/OP9Q+wzQFPnxukLwfN+1PtU/GkYXg18IMcW/rnbtpog+3IZEVb2nbEeV?=
- =?us-ascii?Q?3bA7fNAOqXFyvR9b8vUeEB1BTRt/sfTO1rLEPt9uZw5eaEpB7GowyzLVHVPu?=
- =?us-ascii?Q?E4sn/76C+NkU+G9XZ+fzuNYIiMOaHFrIWEn5sove86q4A964rxdmhZcG4F0z?=
- =?us-ascii?Q?Vu4I9pMWQpAAxAK0v2RBAcnSGHzVqB18uLpvqnRHB1gFpRACQeAoTUPyak7w?=
- =?us-ascii?Q?kIIztTVZ/CAyb0wLodmZPvLAVI9uzwkT0h5Rpcz4daVmLyObWkZXVmhKsJbu?=
- =?us-ascii?Q?UqxCD4BCJDBLIN2DKNpoM9zRf9rFjJ83ZlBr3JOkWnO110zEUJS5rPHkfGz+?=
- =?us-ascii?Q?3eHZDP0so0d2jfSTJgnTfSoqJuc2T9PR3yam+nsGjnrXTvQa8qGCwUXf34tm?=
- =?us-ascii?Q?mjTZYYv3yUnBgUOE3VqeyCgaUp8ghmmTusYBHsF3?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: fe83eb00-9260-4f22-685a-08dad7672ab1
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VGlhSVhOcXVjOVJMeXQ0Q05xZzhnS3FpQXVveUhzTmdHV1hFSFluUldnYXh6?=
+ =?utf-8?B?RktwMzFWVnBzY2UxY0MyamMwcGpmT3VOTzgxNmx1ZzFUaWE5Z1g3ajVYaWlh?=
+ =?utf-8?B?eU1TeUV4ZVd0OFNwYTd3ZWFNUUVIU1U0RzRsVDg4MVYwM2dlU0NYcWg4czFN?=
+ =?utf-8?B?WXpnQk9NVW1NcStJSi9KT1EwV0RiTlRZVWJXQ2VvTGx2MWtoL1R5RnRZT0ZK?=
+ =?utf-8?B?MERVdmdzZXVsS1ovdmord1NCbG81ZjdNUlgwUHBvdlNNR3BwMTFtVUdrSzJU?=
+ =?utf-8?B?NXdhS0pjaWNyR09hNHE2TlczdHo0QzJ2UzEreGpIQXNRalBxZHZ6QmdwUC92?=
+ =?utf-8?B?bXBjZCs5TDJ3T0lwL1BvYzVNUmdIUEhlL29tUm5aREVac2RaYjBBZ3d6ZjUr?=
+ =?utf-8?B?SlMwdjNxUUcwdmpEa0ttUDg2cjRxWUI2THZIajhzaTZVdWE3cjg4ZTQyVC9m?=
+ =?utf-8?B?Y0tvOE9TMDVhMDNxYzU0U003K3VqR1gweElwOVBxSXFyUW1iUHBjSXhPRzBK?=
+ =?utf-8?B?ZFAxU3QwWUVqUUd1eFJsTGl3eFR0ZlUxUjdrdjBYU1lZQmlyZ2paMlk2RGU1?=
+ =?utf-8?B?RTF3anB5cHZZdTRvWlRGMVl2NENWNG9vOGh0bk82WTYvN3hJTzhzb3A3L0di?=
+ =?utf-8?B?d2htZWVJYm5GWlhPUkJoaXU4cEx3SFFMUXluaWtjT1ZpeGJXTTVXUWxsOWx4?=
+ =?utf-8?B?S0xNNTBnWGdES0VBQTcxMlFGZGJsd1lCYlBtK3ZCNzA3ek4yUTU1NjZyczEy?=
+ =?utf-8?B?SnJINlViZENQWlJWUk81SEZqOG5pWTl5M1NUWmhLWFRtTVNjVCtFNGZrL2R4?=
+ =?utf-8?B?cXhsRU9VeTRiUzBweEhENWpXQkozekRiM055OWwyV2E2V2djR0JyWEY1ejdu?=
+ =?utf-8?B?OU1hNUttQk5yK0xYYlFvNVJLMmlrZTQ2ZmdveHNhRGlSOUtuYjQyd1BFTXNB?=
+ =?utf-8?B?NUhSVFVQR3l1U1drL3pGY3lIeEh6MVZDaVRuZUhXYzZsd01VRGdYclduWVRq?=
+ =?utf-8?B?ZGs0cHFkTkxBZDQxQ2t6NlpCTzV0T2dRS0hXWUhTZHFOb2lJNkxGbm0zdjlq?=
+ =?utf-8?B?eUtKQkNCVkxBQ09YcTh6WlFrbEprM2NaRGF6VjFwYi93WVowQ2RFd3R1VHdK?=
+ =?utf-8?B?REN6dzlWTXNSSGtSNVFtTWFta1p6a2RQdnVoQWo5MEpZMTBINlRBTGpRSnB2?=
+ =?utf-8?B?dlVBcXpFMER3WnN4Q0dGN1BkZTZYS0JsemtSOGlvVmRGZGxyRUNjbTRnZG9P?=
+ =?utf-8?B?eXJ2aWVQZEFTN2piSXlOU1NoT1FxOUpwL1JQK3M3TUZsaFlWUmQ2ZFFoTnY0?=
+ =?utf-8?B?RFV5dkJoeVVVbFQvRWEwcERsaHJBaHhvb2dlMXZjek5Fak1kZjNDNkxkS1ZG?=
+ =?utf-8?B?MlBqMFMxOG1aS3pqTUtMMjIydWtZdDhZZlA5ZEJHY3VGTnR0K29DSXFxMUo4?=
+ =?utf-8?B?cFFrajJQR2k5Wi9TVHVnelFUTVl2ZGVBMmtOb1pOY3NMZ0lNcmJ6K0J6TjFJ?=
+ =?utf-8?B?dVBzcFpFQ21HMFdrTHR4MGVJQjBpS3NWYWN0bUJuYlR2TFk0ZUJWYW40SzFr?=
+ =?utf-8?B?UGh4WG5pZUs5SWRVRmVYL0FOZEdGaTMwclJGVDJ5V3hQSkhWRElvZXJyK1ZS?=
+ =?utf-8?B?K0hROW1GdS8xUHJFdFhTVDczbFN0REhtV3FwRFpyRytzU2pMYTlYSkl3NThF?=
+ =?utf-8?B?VWdPVDJaN2VRV1VhVDFZK1kzb3d5UmtwbWx1NUU5TTRCSWlWMXRSMXhlS2p6?=
+ =?utf-8?B?UWZ0TGtjSGo4bXh1a1BlRldoT3JjL2l3dld3VVVBNlVqdW5oYUN3Nk56MzZj?=
+ =?utf-8?B?UXU0RjJnRmxra0FFcmI0Y3pBQmxsdlJMQnRySnZBUGswbTVJRTJQZ3NoZjcx?=
+ =?utf-8?B?d3FQVXM0OXFRSUVteTIybCtIL1UzUjZkZFZMcXphWkNjbmFBMGFNRm9pQytY?=
+ =?utf-8?B?dnZKY2VWUzlpRjJHZUlqZjFyUVZtcXZ0bkFTL0JiaElPcy9sazFYcjV5QVlZ?=
+ =?utf-8?B?R05aSjVEM05weUJ4QlhINU5QRDBlQ01SamNDSk56UmxtYWVjZDExV0d0RHVm?=
+ =?utf-8?B?bE1sdGhEUjdORXVBbmFTMSttaGRIZmhhdmZMN3pyQWJSZHFkN2k1YUJrMTNs?=
+ =?utf-8?B?RFd2d2dSUG1CZnprVzVMdTVzZGtvSkxWTDhZZStKYjJhS3l6cDNRak54QVdm?=
+ =?utf-8?B?TlE9PQ==?=
+X-OriginatorOrg: kontron.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0362281f-45cf-48f4-b9eb-08dad7688c53
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2022 08:52:12.7813 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2022 09:02:05.8633 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Yh+9dRkgAu8RnS66lIzfii+OAgcwcP2RDNp+hZDGWpa+Pz91MWsBJWsDDWKbz5LYqs/Pnp3TCFt3i0oZ2LhGxA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4959
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: WUBCwUIjbUdMCh8rciTSa9xlXYqjP1SkIkZThS4kcDQ50PUNSVp/ixisVn4OfVjvZ1nwsJ6O/1QiVmFC5++rjjw1hxjSeQwAwbkW9597iVw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR10MB6820
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,195 +141,292 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alan Previn <alan.previn.teres.alexis@intel.com>
+Cc: dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Fancy Fang <chen.fang@nxp.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Marek Vasut <marex@denx.de>,
+ linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
+ Neil Armstrong <narmstrong@linaro.org>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Matteo Lisi <matteo.lisi@engicam.com>,
+ Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Robert Foss <robert.foss@linaro.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 05, 2022 at 05:19:06PM -0800, Daniele Ceraolo Spurio wrote:
-> If the GSC was loaded, the only way to stop it during the driver unload
-> flow is to do a driver-FLR.
-> The driver-initiated FLR is not the same as PCI config space FLR in
-> that it doesn't reset the SGUnit and doesn't modify the PCI config
-> space. Thus, it doesn't require a re-enumeration of the PCI BARs.
-> However, the driver-FLR does cause a memory wipe of graphics memory
-> on all discrete GPU platforms or a wipe limited to stolen memory
-> on the integrated GPU platforms.
+On 05.12.22 16:37, Frieder Schrempf wrote:
+> Hi Dave,
 > 
-> We perform the FLR as the last action before releasing the MMIO bar, so
-> that we don't have to care about the consequences of the reset on the
-> unload flow.
+> On 05.12.22 16:20, Dave Stevenson wrote:
+>> Hi Frieder
+>>
+>> On Mon, 5 Dec 2022 at 07:30, Frieder Schrempf
+>> <frieder.schrempf@kontron.de> wrote:
+>>>
+>>> On 02.12.22 15:55, Dave Stevenson wrote:
+>>>> Hi Marek
+>>>>
+>>>> On Fri, 2 Dec 2022 at 12:21, Marek Vasut <marex@denx.de> wrote:
+>>>>>
+>>>>> On 12/2/22 11:52, Marek Szyprowski wrote:
+>>>>>> Hi,
+>>>>>>
+>>>>>> Sorry for delay, I was on a sick leave last 2 weeks.
+>>>>>>
+>>>>>> On 28.11.2022 15:43, Jagan Teki wrote:
+>>>>>>> ,On Sat, Nov 26, 2022 at 3:44 AM Marek Vasut <marex@denx.de> wrote:
+>>>>>>>> On 11/23/22 21:09, Jagan Teki wrote:
+>>>>>>>>> On Sat, Nov 19, 2022 at 7:45 PM Marek Vasut <marex@denx.de> wrote:
+>>>>>>>>>> On 11/17/22 14:04, Marek Szyprowski wrote:
+>>>>>>>>>>> On 17.11.2022 05:58, Marek Vasut wrote:
+>>>>>>>>>>>> On 11/10/22 19:38, Jagan Teki wrote:
+>>>>>>>>>>>>> DSI host initialization handling in previous exynos dsi driver has
+>>>>>>>>>>>>> some pitfalls. It initializes the host during host transfer() hook
+>>>>>>>>>>>>> that is indeed not the desired call flow for I2C and any other DSI
+>>>>>>>>>>>>> configured downstream bridges.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> Host transfer() is usually triggered for downstream DSI panels or
+>>>>>>>>>>>>> bridges and I2C-configured-DSI bridges miss these host initialization
+>>>>>>>>>>>>> as these downstream bridges use bridge operations hooks like pre_enable,
+>>>>>>>>>>>>> and enable in order to initialize or set up the host.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> This patch is trying to handle the host init handler to satisfy all
+>>>>>>>>>>>>> downstream panels and bridges. Added the DSIM_STATE_REINITIALIZED state
+>>>>>>>>>>>>> flag to ensure that host init is also done on first cmd transfer, this
+>>>>>>>>>>>>> helps existing DSI panels work on exynos platform (form Marek
+>>>>>>>>>>>>> Szyprowski).
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> v8, v7, v6, v5:
+>>>>>>>>>>>>> * none
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> v4:
+>>>>>>>>>>>>> * update init handling to ensure host init done on first cmd transfer
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> v3:
+>>>>>>>>>>>>> * none
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> v2:
+>>>>>>>>>>>>> * check initialized state in samsung_dsim_init
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> v1:
+>>>>>>>>>>>>> * keep DSI init in host transfer
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+>>>>>>>>>>>>> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+>>>>>>>>>>>>> ---
+>>>>>>>>>>>>>       drivers/gpu/drm/bridge/samsung-dsim.c | 25 +++++++++++++++++--------
+>>>>>>>>>>>>>       include/drm/bridge/samsung-dsim.h     |  5 +++--
+>>>>>>>>>>>>>       2 files changed, 20 insertions(+), 10 deletions(-)
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c
+>>>>>>>>>>>>> b/drivers/gpu/drm/bridge/samsung-dsim.c
+>>>>>>>>>>>>> index bb1f45fd5a88..ec7e01ae02ea 100644
+>>>>>>>>>>>>> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+>>>>>>>>>>>>> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+>>>>>>>>>>>>> @@ -1234,12 +1234,17 @@ static void samsung_dsim_disable_irq(struct
+>>>>>>>>>>>>> samsung_dsim *dsi)
+>>>>>>>>>>>>>           disable_irq(dsi->irq);
+>>>>>>>>>>>>>       }
+>>>>>>>>>>>>>       -static int samsung_dsim_init(struct samsung_dsim *dsi)
+>>>>>>>>>>>>> +static int samsung_dsim_init(struct samsung_dsim *dsi, unsigned int
+>>>>>>>>>>>>> flag)
+>>>>>>>>>>>>>       {
+>>>>>>>>>>>>>           const struct samsung_dsim_driver_data *driver_data =
+>>>>>>>>>>>>> dsi->driver_data;
+>>>>>>>>>>>>>       +    if (dsi->state & flag)
+>>>>>>>>>>>>> +        return 0;
+>>>>>>>>>>>>> +
+>>>>>>>>>>>>>           samsung_dsim_reset(dsi);
+>>>>>>>>>>>>> -    samsung_dsim_enable_irq(dsi);
+>>>>>>>>>>>>> +
+>>>>>>>>>>>>> +    if (!(dsi->state & DSIM_STATE_INITIALIZED))
+>>>>>>>>>>>>> +        samsung_dsim_enable_irq(dsi);
+>>>>>>>>>>>>>             if (driver_data->reg_values[RESET_TYPE] == DSIM_FUNCRST)
+>>>>>>>>>>>>>               samsung_dsim_enable_lane(dsi, BIT(dsi->lanes) - 1);
+>>>>>>>>>>>>> @@ -1250,6 +1255,8 @@ static int samsung_dsim_init(struct
+>>>>>>>>>>>>> samsung_dsim *dsi)
+>>>>>>>>>>>>>           samsung_dsim_set_phy_ctrl(dsi);
+>>>>>>>>>>>>>           samsung_dsim_init_link(dsi);
+>>>>>>>>>>>>>       +    dsi->state |= flag;
+>>>>>>>>>>>>> +
+>>>>>>>>>>>>>           return 0;
+>>>>>>>>>>>>>       }
+>>>>>>>>>>>>>       @@ -1269,6 +1276,10 @@ static void
+>>>>>>>>>>>>> samsung_dsim_atomic_pre_enable(struct drm_bridge *bridge,
+>>>>>>>>>>>>>           }
+>>>>>>>>>>>>>             dsi->state |= DSIM_STATE_ENABLED;
+>>>>>>>>>>>>> +
+>>>>>>>>>>>>> +    ret = samsung_dsim_init(dsi, DSIM_STATE_INITIALIZED);
+>>>>>>>>>>>>> +    if (ret)
+>>>>>>>>>>>>> +        return;
+>>>>>>>>>>>>>       }
+>>>>>>>>>>>>>         static void samsung_dsim_atomic_enable(struct drm_bridge *bridge,
+>>>>>>>>>>>>> @@ -1458,12 +1469,9 @@ static ssize_t
+>>>>>>>>>>>>> samsung_dsim_host_transfer(struct mipi_dsi_host *host,
+>>>>>>>>>>>>>           if (!(dsi->state & DSIM_STATE_ENABLED))
+>>>>>>>>>>>>>               return -EINVAL;
+>>>>>>>>>>>>>       -    if (!(dsi->state & DSIM_STATE_INITIALIZED)) {
+>>>>>>>>>>>>> -        ret = samsung_dsim_init(dsi);
+>>>>>>>>>>>>> -        if (ret)
+>>>>>>>>>>>>> -            return ret;
+>>>>>>>>>>>>> -        dsi->state |= DSIM_STATE_INITIALIZED;
+>>>>>>>>>>>>> -    }
+>>>>>>>>>>>>> +    ret = samsung_dsim_init(dsi, DSIM_STATE_REINITIALIZED);
+>>>>>>>>>>>> This triggers full controller reset and reprogramming upon first
+>>>>>>>>>>>> command transfer, is such heavy handed reload really necessary ?
+>>>>>>>>>>> Yes it is, otherwise the proper DSI panels doesn't work with Exynos DRM
+>>>>>>>>>>> DSI. If this is a real issue for you, then maybe the driver could do the
+>>>>>>>>>>> initialization conditionally, in prepare() callback in case of IMX and
+>>>>>>>>>>> on the first transfer in case of Exynos?
+>>>>>>>>>> That's odd , it does actually break panel support for me, without this
+>>>>>>>>>> double reset the panel works again. But I have to wonder, why would such
+>>>>>>>>>> a full reset be necessary at all , even on the exynos ?
+>>>>>>>>> Is it breaking samsung_dsim_reset from host_transfer? maybe checking
+>>>>>>>>> whether a reset is required before calling it might fix the issue.  I
+>>>>>>>>> agree with double initialization is odd but it seems it is required on
+>>>>>>>>> some panels in Exynos, I think tweaking them and adjusting the panel
+>>>>>>>>> code might resolve this discrepancy.
+>>>>>>>> Can someone provide further details on the exynos problem ?
+>>>>>>> If I'm correct this sequence is required in order to work the existing
+>>>>>>> panel/bridges on exynos. Adjusting these panel/bridge codes can
+>>>>>>> possibly fix the sequence further.
+>>>>>>>
+>>>>>>> Marek Szyprowski, please add if you have anything.
+>>>>>>
+>>>>>>
+>>>>>> Well, frankly speaking the double initialization is not a correct
+>>>>>> sequence, but this is the only one that actually works on Exynos based
+>>>>>> boards with DSI panels after moving the initialization to bridge's
+>>>>>> .prepare() callback.
+>>>>>
+>>>>> Somehow, I suspect this is related to the LP11 mode handling, which
+>>>>> differs for different panels, right ? I think the RPi people worked on
+>>>>> fixing that.
+>>>>>
+>>>>> +CC Dave
+>>>>
+>>>> Yes. I've just sent out a v3 of that patch set.
+>>>>
+>>>> Hopefully setting the pre_enable_prev_first flag on your peripheral's
+>>>> drm_bridge, or prepare_prev_first if a drm_panel, will result in a
+>>>> more sensible initialisation order for your panel.
+>>>>
+>>>> Note that host_transfer should ensure that the host is initialised, as
+>>>> it is valid to call it with the host in any state. If it has to
+>>>> initialise, then it should deinitialise once the transfer has
+>>>> completed.
+>>>>
+>>>> Dave
+>>>>
+>>>>>> I've already explained this and shared the results
+>>>>>> of my investigation in my replies to the previous versions of this
+>>>>>> patchset. The original Exynos DSI driver does the initialization on the
+>>>>>> first DSI command. This however doesn't work for Jagan with I2C
+>>>>>> controlled panels/bridges, so he moved the initialization to the
+>>>>>> .prepare() callback, what broke the Exynos case (in-short - all tested
+>>>>>> panels works fine only if the DSI host initialization is done AFTER
+>>>>>> turning the panel's power on). For more information, see this thread:
+>>>>>> https://eur04.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fall%2Fe96197f9-948a-997e-5453-9f9d179b5f5a%40samsung.com%2F&amp;data=05%7C01%7Cfrieder.schrempf%40kontron.de%7Cee7b57ee420e45a73b1d08dad6d45306%7C8c9d3c973fd941c8a2b1646f3942daf1%7C0%7C0%7C638058504671330145%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=TQIIKNa4OVGP1dZo3tM%2FOMO3dlXrjLr04U%2FJFhd2rAs%3D&amp;reserved=0
+>>>>>>
+>>>>>> Now, the more I think of it, the more I'm convinced that we simply
+>>>>>> should add a hack based on the HW type: do the initialization in
+>>>>>> .prepare() for non-Exynos case and before the first transfer for the
+>>>>>> Exynos case, as there is no way to detect the panel/next bridge type
+>>>>>> (I2C or DSI controlled).
+>>>>>
+>>>>> Let's see what Dave has to say about this, maybe there is some further help.
+>>>
+>>> Could we agree on adding the HW type based hack Marek S. proposed as a
+>>> quick fix?
+>>>
+>>> This patchset was tested on Exynos so it's likely to not break any
+>>> existing setups. And for i.MX8, this is a new driver so there's not
+>>> really a requirement to have all setups working/supported from the
+>>> beginning.
+>>>
+>>> Also having one or two hacks (marked with FIXME) in the code doesn't
+>>> hurt. As we can see there are drafts to fix them in conjunction with
+>>> changes in the DRM framework.
+>>>
+>>> This has been pending for months and in my opinion if there's a chance
+>>> to get this into v6.2-rc1 we should take it.
+>>
+>> My patchset was sent in March with no one seeming to care enough to review it.
 > 
-> v2: rename FLR function, add comment to explain FLR impact (Rodrigo),
->     better explain why GSC needs FLR (Alan)
+> I wasn't referring to your patchset but rather to the Samsung DSIM
+> bridge transformation patchset.
 > 
-> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> My point was simply to not try getting everything done in one big step
+> because this will fail. The patchset this refers to needs testing on two
+> separate platforms which is painful enough (thanks to Marek for covering
+> the Exynos side!). I think we should focus on getting the DSIM bridge
+> transformation merged and accept a few small hacks that will be taken
+> care of in the next step.
+> 
+>>
+>> If the situation is that your devices fall into the same camp as those
+>> for vc4 (the host needs to be initialised before the peripheral), at
+>> least verifying that would be useful before rushing into a hack.
+>>
+>> Your other comment references using a TI SN65DSI84. I know for certain
+>> that falls into the category of needing the DSI bus initialised before
+>> it is brought out of reset.
+> 
+> I'm actually working on this right now and when I received your message
+> I was about to start typing a reply to your patchset.
+> 
+> The SN65DSI84 works with the i.MX8MM DSIM even using the default order
+> of host init after peripheral init in our setup, but this configuration
+> doesn't seem to be stable and occasionally the bridge doesn't come up
+> properly.
+> 
+> We are still in the process of verifying if the reversed order fixes
+> this reliably. But regardless of the results, without the reversal the
+> initialization sequence is way out of spec and we need to fix this in
+> any case.
+> 
+> See here for my testing branch including some follow-up patches that
+> improve the initialization flow for my setup:
+> https://git.kontron-electronics.de/sw/misc/linux/-/commits/v6.1-dsim-mx8mm.
 
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c | 23 +++++++++
->  drivers/gpu/drm/i915/i915_reg.h           |  3 ++
->  drivers/gpu/drm/i915/intel_uncore.c       | 58 +++++++++++++++++++++++
->  drivers/gpu/drm/i915/intel_uncore.h       | 13 +++++
->  4 files changed, 97 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
-> index f88069ab71ab..e73d4440c5e8 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
-> @@ -166,6 +166,29 @@ int intel_gsc_uc_fw_upload(struct intel_gsc_uc *gsc)
->  	if (err)
->  		goto fail;
->  
-> +	/*
-> +	 * GSC is only killed by an FLR, so we need to trigger one on unload to
-> +	 * make sure we stop it. This is because we assign a chunk of memory to
-> +	 * the GSC as part of the FW load , so we need to make sure it stops
-> +	 * using it when we release it to the system on driver unload. Note that
-> +	 * this is not a problem of the unload per-se, because the GSC will not
-> +	 * touch that memory unless there are requests for it coming from the
-> +	 * driver; therefore, no accesses will happen while i915 is not loaded,
-> +	 * but if we re-load the driver then the GSC might wake up and try to
-> +	 * access that old memory location again.
-> +	 * Given that an FLR is a very disruptive action (see the FLR function
-> +	 * for details), we want to do it as the last action before releasing
-> +	 * the access to the MMIO bar, which means we need to do it as part of
-> +	 * the primary uncore cleanup.
-> +	 * An alternative approach to the FLR would be to use a memory location
-> +	 * that survives driver unload, like e.g. stolen memory, and keep the
-> +	 * GSC loaded across reloads. However, this requires us to make sure we
-> +	 * preserve that memory location on unload and then determine and
-> +	 * reserve its offset on each subsequent load, which is not trivial, so
-> +	 * it is easier to just kill everything and start fresh.
-> +	 */
-> +	intel_uncore_set_flr_on_fini(&gt->i915->uncore);
-> +
->  	err = gsc_fw_load(gsc);
->  	if (err)
->  		goto fail;
-> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-> index 0b90fe6a28f7..b95d533652a4 100644
-> --- a/drivers/gpu/drm/i915/i915_reg.h
-> +++ b/drivers/gpu/drm/i915/i915_reg.h
-> @@ -118,6 +118,9 @@
->  
->  #define GU_CNTL				_MMIO(0x101010)
->  #define   LMEM_INIT			REG_BIT(7)
-> +#define   DRIVERFLR			REG_BIT(31)
-> +#define GU_DEBUG			_MMIO(0x101018)
-> +#define   DRIVERFLR_STATUS		REG_BIT(31)
->  
->  #define GEN6_STOLEN_RESERVED		_MMIO(0x1082C0)
->  #define GEN6_STOLEN_RESERVED_ADDR_MASK	(0xFFF << 20)
-> diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
-> index 8006a6c61466..3bfb4af0df78 100644
-> --- a/drivers/gpu/drm/i915/intel_uncore.c
-> +++ b/drivers/gpu/drm/i915/intel_uncore.c
-> @@ -2703,6 +2703,61 @@ void intel_uncore_prune_engine_fw_domains(struct intel_uncore *uncore,
->  	}
->  }
->  
-> +/*
-> + * The driver-initiated FLR is the highest level of reset that we can trigger
-> + * from within the driver. It is different from the PCI FLR in that it doesn't
-> + * fully reset the SGUnit and doesn't modify the PCI config space and therefore
-> + * it doesn't require a re-enumeration of the PCI BARs. However, the
-> + * driver-initiated FLR does still cause a reset of both GT and display and a
-> + * memory wipe of local and stolen memory, so recovery would require a full HW
-> + * re-init and saving/restoring (or re-populating) the wiped memory. Since we
-> + * perform the FLR as the very last action before releasing access to the HW
-> + * during the driver release flow, we don't attempt recovery at all, because
-> + * if/when a new instance of i915 is bound to the device it will do a full
-> + * re-init anyway.
-> + */
-> +static void driver_initiated_flr(struct intel_uncore *uncore)
-> +{
-> +	struct drm_i915_private *i915 = uncore->i915;
-> +	const unsigned int flr_timeout_ms = 3000; /* specs recommend a 3s wait */
-> +	int ret;
-> +
-> +	drm_dbg(&i915->drm, "Triggering Driver-FLR\n");
-> +
-> +	/*
-> +	 * Make sure any pending FLR requests have cleared by waiting for the
-> +	 * FLR trigger bit to go to zero. Also clear GU_DEBUG's DRIVERFLR_STATUS
-> +	 * to make sure it's not still set from a prior attempt (it's a write to
-> +	 * clear bit).
-> +	 * Note that we should never be in a situation where a previous attempt
-> +	 * is still pending (unless the HW is totally dead), but better to be
-> +	 * safe in case something unexpected happens
-> +	 */
-> +	ret = intel_wait_for_register_fw(uncore, GU_CNTL, DRIVERFLR, 0, flr_timeout_ms);
-> +	if (ret) {
-> +		drm_err(&i915->drm,
-> +			"Failed to wait for Driver-FLR bit to clear! %d\n",
-> +			ret);
-> +		return;
-> +	}
-> +	intel_uncore_write_fw(uncore, GU_DEBUG, DRIVERFLR_STATUS);
-> +
-> +	/* Trigger the actual Driver-FLR */
-> +	intel_uncore_rmw_fw(uncore, GU_CNTL, 0, DRIVERFLR);
-> +
-> +	ret = intel_wait_for_register_fw(uncore, GU_DEBUG,
-> +					 DRIVERFLR_STATUS, DRIVERFLR_STATUS,
-> +					 flr_timeout_ms);
-> +	if (ret) {
-> +		drm_err(&i915->drm, "wait for Driver-FLR completion failed! %d\n", ret);
-> +		return;
-> +	}
-> +
-> +	intel_uncore_write_fw(uncore, GU_DEBUG, DRIVERFLR_STATUS);
-> +
-> +	return;
-> +}
-> +
->  /* Called via drm-managed action */
->  void intel_uncore_fini_mmio(struct drm_device *dev, void *data)
->  {
-> @@ -2716,6 +2771,9 @@ void intel_uncore_fini_mmio(struct drm_device *dev, void *data)
->  		intel_uncore_fw_domains_fini(uncore);
->  		iosf_mbi_punit_release();
->  	}
-> +
-> +	if (intel_uncore_needs_flr_on_fini(uncore))
-> +		driver_initiated_flr(uncore);
->  }
->  
->  /**
-> diff --git a/drivers/gpu/drm/i915/intel_uncore.h b/drivers/gpu/drm/i915/intel_uncore.h
-> index e9e38490815d..9ea1f4864a3a 100644
-> --- a/drivers/gpu/drm/i915/intel_uncore.h
-> +++ b/drivers/gpu/drm/i915/intel_uncore.h
-> @@ -153,6 +153,7 @@ struct intel_uncore {
->  #define UNCORE_HAS_FPGA_DBG_UNCLAIMED	BIT(1)
->  #define UNCORE_HAS_DBG_UNCLAIMED	BIT(2)
->  #define UNCORE_HAS_FIFO			BIT(3)
-> +#define UNCORE_NEEDS_FLR_ON_FINI	BIT(4)
->  
->  	const struct intel_forcewake_range *fw_domains_table;
->  	unsigned int fw_domains_table_entries;
-> @@ -223,6 +224,18 @@ intel_uncore_has_fifo(const struct intel_uncore *uncore)
->  	return uncore->flags & UNCORE_HAS_FIFO;
->  }
->  
-> +static inline bool
-> +intel_uncore_needs_flr_on_fini(const struct intel_uncore *uncore)
-> +{
-> +	return uncore->flags & UNCORE_NEEDS_FLR_ON_FINI;
-> +}
-> +
-> +static inline bool
-> +intel_uncore_set_flr_on_fini(struct intel_uncore *uncore)
-> +{
-> +	return uncore->flags |= UNCORE_NEEDS_FLR_ON_FINI;
-> +}
-> +
->  void intel_uncore_mmio_debug_init_early(struct drm_i915_private *i915);
->  void intel_uncore_init_early(struct intel_uncore *uncore,
->  			     struct intel_gt *gt);
-> -- 
-> 2.37.3
-> 
+To recap my thoughts on the two hacks for the DSIM bridge driver
+discussed before:
+
+(1) Passing null to previous bridge in samsung_dsim_attach()
+(2) Always initialize host on first transfer (see this patch, 06/14)
+
+My wild guess would be that both could be fixed up properly in the long
+run by the following changes:
+
+* Apply Dave's patchset [1]
+* Set pre_enable_prev_first flag in the downstream bridge drivers and
+  fix init flow if required ([2] for ti-sn65dsi83)
+* Fix DSIM init to keep data lanes in LP11 until enable() is called [3]
+* Only call init on transfer when not already initialized and deinit
+  after transfer (tbd)
+
+As that route needs proper testing on the affected hardware setups and
+includes changes to other drivers and the framework, I would suggest the
+following for the v9 of this patchset:
+
+* Keep hack (1)
+* Make hack (2) dependent on the platform (Exynos)
+
+As this is what Marek S. already suggested above, Jagan, can you send
+the v9 with this change included?
+Then Marek V. can test on his setup and if everything looks good we can
+move on.
+
+[1]
+https://patchwork.kernel.org/project/dri-devel/cover/20221205173328.1395350-1-dave.stevenson@raspberrypi.com/
+[2]
+https://git.kontron-electronics.de/sw/misc/linux/-/commit/7769180e6bbdcb2e42c2b39cda5127efc21d3653
+[3]
+https://git.kontron-electronics.de/sw/misc/linux/-/commit/e6aba93de1189432dcaac17d969546a92541dc87
+
+
+
