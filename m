@@ -1,45 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF8C064553C
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 09:10:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8092D64552D
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 09:09:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E49210E37D;
-	Wed,  7 Dec 2022 08:10:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0572110E36A;
+	Wed,  7 Dec 2022 08:08:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F54610E036
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Dec 2022 13:44:57 +0000 (UTC)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi
- [91.154.32.225])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2A7C5480;
- Tue,  6 Dec 2022 14:44:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1670334296;
- bh=IgFcqzfLNWLI38+FwMXHy3E7Ta2WF4GM2D9w3SZl+g0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Rmx/AwY0HLpEMAlnzUGfV8+QIeyAtD5VZcBT9HPrSQHFYXZ6XnIrplTHyBJLhCdsD
- bHjbASatb2+BBxsf4TPhDt5T3TVQsBJsGYFGSXkJlBZD/Vj8Ng/kDhhWMgdyfozDB1
- qdGEnZhAPBVhN6FZET2j1B5qzfPHuuwiL2Qjs/Eg=
-Message-ID: <b35d7cf0-99ef-86b7-41b3-0751abd4642a@ideasonboard.com>
-Date: Tue, 6 Dec 2022 15:44:52 +0200
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com
+ [IPv6:2607:f8b0:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F44210E036
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Dec 2022 13:47:05 +0000 (UTC)
+Received: by mail-pf1-x42f.google.com with SMTP id 130so14549310pfu.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Dec 2022 05:47:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=wzxFZCBzoraY2V2aJ5vahYyGC4X6ZBn5ejuIITSUeJQ=;
+ b=BNHuC87nbQ5EmXArJvGmFwGd4+Cg4bKZlsEw8UWkXY6ms8WjfyeIues/6IWds42cY5
+ SXkJ2gBqyMjVgmhy32o6rRxc8v+xpXzy1KiZMtsnVgjSztLfH2JOcFZABEKNemvRI79T
+ qaEYMwhvQg1GP5L1w05Z/PXSyrajE+q3e4Sp5AARsnlkRcd6Dm8QtwQ6PqDZWALk4mw0
+ lBcHT//3A27gCP5TRI4hue84INxEy94YuzQFk/c+VVQ6rsQaoT/EdGu8T9nO2pDWVGWz
+ ajMsSYp0xDtrHINM9TRWxN5jgWHA+IrbZz4gKONqwAwWHRXAoG3oTYhAEfhklJhb3f4k
+ NpVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=wzxFZCBzoraY2V2aJ5vahYyGC4X6ZBn5ejuIITSUeJQ=;
+ b=ZUYj+PdBuXs7Tp0bMmcfprHaDr2G1vtRP+KYRzammsoNhN9HrJYbHDF2FVhYr5QCxV
+ pzlQnxbNAnxP3oUh/ASA5AGEmlSZTs4M604OP+cTXjrd+f6Xy1397PfeXiYNK0/Os0AD
+ M9UXbCmuehPW6vKkdRaluGkWczedYElaeDMOBKYtGBS3v3Zbls+kbfUmqtdf2I+hxGks
+ iXc2feYx+P1UttZyvVpAc3TSPiVFqoJ+EYexsvCGMkM/y5EiLxelVtkGPD+tbene34tv
+ fmFppmr19l/rZEzgTMAtwt1U2kpTKBKmFdcGLchZCoclvPLQt5vJriNYZMRRLBivXJks
+ u0Sg==
+X-Gm-Message-State: ANoB5pmwP6E0HPILbQLlxvucE8ZgLkwbz0HurK3RuGBRTPx2Nsg6drSg
+ Mum6xAWMvkAj8bZb2ccWACyqGuifpqIMaHpU7Yw=
+X-Google-Smtp-Source: AA0mqf5CUy25bRhQ4mWWdYmk+FWbfgwGj0JEH91GCe8jevIUfHmf17gq44pE/0RsXvl8m/xd9GO0kG2TIz2J59oVbSw=
+X-Received: by 2002:a63:4b24:0:b0:476:e640:d016 with SMTP id
+ y36-20020a634b24000000b00476e640d016mr77759265pga.205.1670334425012; Tue, 06
+ Dec 2022 05:47:05 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v5 5/7] arm64: dts: renesas: white-hawk-cpu: Add DP output
- support
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20221201095631.89448-1-tomi.valkeinen+renesas@ideasonboard.com>
- <20221201095631.89448-6-tomi.valkeinen+renesas@ideasonboard.com>
- <CAMuHMdXXoNq0CxSqPLzZUPdVTNa+6u+DNhbm_pCSQOvTHf3EjQ@mail.gmail.com>
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-In-Reply-To: <CAMuHMdXXoNq0CxSqPLzZUPdVTNa+6u+DNhbm_pCSQOvTHf3EjQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Genea Maines <realdeal7173@gmail.com>
+Date: Tue, 6 Dec 2022 07:46:53 -0600
+Message-ID: <CADOB8iy9s4sWuKspNMm8EqehL4_s8Y1aAHWiNpDHezNjqCPXjg@mail.gmail.com>
+Subject: Re: [PATCH v2] dma-buf: Move sysfs work out of DMA-BUF export path
+To: daniel@ffwll.ch
+Content-Type: multipart/alternative; boundary="0000000000000f21e605ef290aed"
 X-Mailman-Approved-At: Wed, 07 Dec 2022 08:08:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,36 +62,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
- Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: minchan@google.com, daniel.vetter@ffwll.ch, kaleshsingh@google.com,
+ surenb@google.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, sumit.semwal@linaro.org,
+ linaro-mm-sig@lists.linaro.org, jstultz@google.com, gregkh@linuxfoundation.org,
+ hridya@google.com, gregkh@google.com, kernel-team@android.com,
+ christian.koenig@amd.com, tjmercier@google.com, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/12/2022 12:10, Geert Uytterhoeven wrote:
-> On Thu, Dec 1, 2022 at 10:56 AM Tomi Valkeinen
-> <tomi.valkeinen+renesas@ideasonboard.com> wrote:
->>
->> Add DT nodes needed for the mini DP connector. The DP is driven by
->> sn65dsi86, which in turn gets the pixel data from the SoC via DSI.
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
->> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
->> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> (same comments as v2)
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> i.e. will queue in renesas-devel for v6.3, with the mini-dp-con node
-> moved up.
+--0000000000000f21e605ef290aed
+Content-Type: text/plain; charset="UTF-8"
 
-Ah, sorry, I had missed this change. I'll update my branch too.
+Wtf yo?
 
-  Tomi
+--0000000000000f21e605ef290aed
+Content-Type: text/html; charset="UTF-8"
 
+<div dir="auto">Wtf yo?</div>
+
+--0000000000000f21e605ef290aed--
