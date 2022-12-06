@@ -1,125 +1,89 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFDA9644388
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 13:55:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3411764438F
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 13:56:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC9B410E31E;
-	Tue,  6 Dec 2022 12:55:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3AF610E328;
+	Tue,  6 Dec 2022 12:56:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2067.outbound.protection.outlook.com [40.107.237.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FA8510E321
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Dec 2022 12:54:57 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MPZ2m42TmN9j6ZKTK6idzWQd96eRZckNeOZd6yrF8m/PCTSeABwKQqUg9V2+4jDYIYQgG/qE+vC0bQaLF0xwdhH/YusIzKq3+gy9LWbHi+tvys9I9L3mPMV5PGAuc0hOuLBMqYWBKPYb/Xg/9HN9Utfugf7DC4ydbj6LE7HHAO3ZDAtNPeprin7SRpGfsk21R0D3k9NYTegXV1GSqyl1/iF7EuUDtZT5rmbzM4CkDYyb3ir4t+8O91zC9sRoUm33ADK/gcPDinhkwkNxt0OzeTqjy/jIn1wr/Xpil9sg0F9sZAAHzgslX4H8JGjcwr1p8iws9HlhX7+S9RrG8XUpeg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hZuPr2gPGNGv6YrTG/LAh956YDILnHMyFZGj+SBlLyc=;
- b=lFRjtIhw5q9+6MvcLx7fGjev/p+bcly7aIYa5FZVt5TMhd+DNhq3RgEcBLGp+h/6ADPYLtI8rvcbKsSG4XKRsTQDQOni/56teAMQdG4x4iolD+bObkmlNigSKrnq1fnh3YylIiRVK5B2koPiAEvPJp2FDxMk2V3MBYBM3x7F8jLjNma7K9a7Ju53m8c6WO12LJpsaXJorrZr6uJAdlvzSbUdK6+qTfeQVWilDCCWkO92KI8i/zPMEVrgADdAKB3lKO/TJmpzx1Z2HF5qmOG6KfievK49fUD/L1B3qkUDG8q5JE0XdwmG1joL3ZpHenQ3mcJinQhx67V8ifskpb54og==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hZuPr2gPGNGv6YrTG/LAh956YDILnHMyFZGj+SBlLyc=;
- b=tgQDXgwBWE6hxywCfhloxF2jRLpajll7JZmlFLvQzhuyPx8GxoiqIa5Hf5BOcFtsmBoDIYCKTVlrVhEq33NX7iJcjhJgdnQpXCILRHY6Aw1KQo9Ikoy9SFygO/N5sig/BKe7SoepBbOjb1cl0tUNEuQ/Xbz1Qrx7ANgHoQS4BxM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CH0PR12MB5346.namprd12.prod.outlook.com (2603:10b6:610:d5::24)
- by MW3PR12MB4348.namprd12.prod.outlook.com (2603:10b6:303:5f::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.14; Tue, 6 Dec
- 2022 12:54:55 +0000
-Received: from CH0PR12MB5346.namprd12.prod.outlook.com
- ([fe80::64c4:4997:5e9d:2cd4]) by CH0PR12MB5346.namprd12.prod.outlook.com
- ([fe80::64c4:4997:5e9d:2cd4%6]) with mapi id 15.20.5880.014; Tue, 6 Dec 2022
- 12:54:55 +0000
-Message-ID: <f551325a-2033-bd9c-e863-a7e57993349a@amd.com>
-Date: Tue, 6 Dec 2022 18:24:41 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH 1/1] crypto: ccp - Allocate TEE ring and cmd buffer using
- DMA APIs
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Tom Lendacky <thomas.lendacky@amd.com>, John Allen <john.allen@amd.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- "David S . Miller" <davem@davemloft.net>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-kernel@vger.kernel.org,
- linux-crypto@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <43568d5e6395fcab48262fa5b3d1a5112918fbe8.1669372199.git.Rijo-john.Thomas@amd.com>
- <78b23ccf-f50f-a793-ae6a-0a70faa2fb06@amd.com>
-From: Rijo Thomas <Rijo-john.Thomas@amd.com>
-In-Reply-To: <78b23ccf-f50f-a793-ae6a-0a70faa2fb06@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN2PR01CA0127.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:6::12) To CH0PR12MB5346.namprd12.prod.outlook.com
- (2603:10b6:610:d5::24)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12A7D10E31D
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Dec 2022 12:56:09 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2B6C21If028261; Tue, 6 Dec 2022 12:55:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=tH9ebQTUTGg5MhqISV0alVchqVg/SsibRHJIe86lDPI=;
+ b=PjiIWcH5s8GcZNHOvZuo2sel6OmAXplsv6O8xSJWup5CPWYXDe0OPgWrRHIIFJSMfxYd
+ Bht2QdhFNUitPIDm0HMwdOdkKlwhgpXRMgvhimYp3PVEP/s4YGI4p7pbTvhImPQZ00WV
+ uY33WXmAFrK4RUjDtywSHRxdmQoF9uYMuVsuckJfemozo3WMRqjnva2ALAYoUAX0J+jD
+ K8L93budHn3RLuxNdTskZa58YoTVs5TlYKP2iHmoTalEuXl/HoR5TwHJVs4FcPE/5n1Y
+ RytQnae1/F502cZLw5Af1GnL2BzzQjEwNPXWjLH1EMrJsRhJogway4lbWnEUZrhRkRdy RQ== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3m9e61kdan-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 06 Dec 2022 12:55:57 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2B6CtuAN016224
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 6 Dec 2022 12:55:56 GMT
+Received: from [10.216.21.230] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Tue, 6 Dec 2022
+ 04:55:52 -0800
+Message-ID: <866708a4-9f31-b5e5-fbda-10b2a6c948bf@quicinc.com>
+Date: Tue, 6 Dec 2022 18:25:08 +0530
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH0PR12MB5346:EE_|MW3PR12MB4348:EE_
-X-MS-Office365-Filtering-Correlation-Id: c0c63c35-0d0d-47c0-bae4-08dad78911c5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZE55tCbbK1fFazUYa0YARKl/y1mp8umn4ItYUvSQIe4u9Fsb9YujDkg/+yZIFXOFVzgRmLHbnrwxa58z2QT1DW39g4qv7765WB8rCP2F/ViskMNXYNm86B2vWuTD+dH62n4/P/Fn6yxJa8Htny5/8uitElw5o8dsM2hXDwUPwvP+P21/j7xH+yYY5R3e1M85WvLGHESmy2//dQrntGjdtGNrmyL1o5Oga2o5gpb2wXgwClaXz5gGSUHedLoeD2rWo0Mg6Y6H4n4+Lb/r5QCb6sfIvl3r+iqvCU3SQt7K8kkC2vY4VDAViiH8fAqcSsOGnSur7XXtVqsQFxPrM+imOPD6YjWh8gBmRsHtyjczcjOSlAj8c4CZmQYFcOOdtkzZlzPTke9j1RUo3sJbfAJ3dNX64zrx8RXRLS21R47tmRUgrvJaVDD4WJOm+ixnS366SZK4QZsYPNWCAcLytIwuj/j4cvoAY8oFTWQeO1u4u7g2KTkeeWDRBpDN9jr6M9jm5hL2BsIqItmnQRA/tPUTTDihd8+wBisAJkyw5ONQlGf9pufECWF+/gyyN6aj0mjlzsgvEZEfy7Z3dfwzAix4E3UsHIWUiV0mvgIiixqnx+Eha+QfHDM3wxJEXvY2ICaWZnN1Mq+Nn6P530878qP4oqg2yCiodmrv52eaERbmAohBtWr/DKUjwesEEbTTlbruPQskmNxqOCqlEGMWtFUlgan+FUkHXE23xCTlWJYwjnbUGfUROfrQdBqYgcSYicWe
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH0PR12MB5346.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(366004)(396003)(136003)(376002)(39860400002)(346002)(451199015)(66574015)(66899015)(31686004)(6506007)(31696002)(86362001)(478600001)(6486002)(53546011)(921005)(36756003)(26005)(38100700002)(83380400001)(2616005)(186003)(8676002)(30864003)(5660300002)(41300700001)(6512007)(8936002)(7416002)(4326008)(6666004)(66946007)(66476007)(66556008)(2906002)(316002)(110136005)(54906003)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TGVOZnhxSUI0VlNiSEJjaVkrZE5BMmtuVklZUjFiby9EemUwd281RVh6ODlH?=
- =?utf-8?B?ZmZwWFBwNENYT3RhbThVOGFZbk5BRGw1Um9tUm10VnBvS3FIdFRKZktSMnZr?=
- =?utf-8?B?N3pnWDJ0ZWhnZmhGZkFMa0gzMnVaSHNkUkkxeXlxVk9PdzFzV1p0dW1iRkRT?=
- =?utf-8?B?SE04VXdZYUhod3NOdUQyblFXbzZCcm5qNWQvNG1VbE9RaDVOU2xsSFhVUlNC?=
- =?utf-8?B?c2RwQWNKZEE5b1Uyd2lDZkpWNEs0U1pIdmdGRWhxY1gzUjJHTUQ1UHloeHQ2?=
- =?utf-8?B?cklja3d2UVhkTzI0MGNQK3o5VVBLSm9PNXMwME9zM3d6cGs2Yys0UFF1YW9I?=
- =?utf-8?B?S2h0R1hFSzhDNm5UeEk1c3ZBMXBVeE03dEpmRTMvdlh3c3Z3Z290SmlOOFRx?=
- =?utf-8?B?MnlRL0F5aWRpd1diNGVMYURqNTJvdEJzTjVZUnpVSlVWTG51WnJGKzdvbjlY?=
- =?utf-8?B?UmN6bmw4Q3JITDB4T21xaW4rdUptNHhia2xrSG50eW50YzJ2VnlkbHhZc0VG?=
- =?utf-8?B?aUMzcVp2MXVoajNpYXNNTUJ3RlB6aHRRb0ZBMHNoZ0tmWDc5ZTJxaHAzV2x6?=
- =?utf-8?B?T3B6TmdSRmYrcjltcnVod3NzU2FYTEFoNnRYVEpiME1sbDRhRnVhUGR6K0ww?=
- =?utf-8?B?YUNYZVNhZGQ4bmE4ZnI1M1o1K2l5T3RadmJ4U0FhQmtnK2Q0VGpDMzdaQTZ3?=
- =?utf-8?B?R3dWTGkvbDVXcTdUQnhFT3NQRUZnSlR4bXJ3TmZaWkNSZG9WSFdzYmwzMTc2?=
- =?utf-8?B?QkV0QXQ3Z3QxVGhoSWpiTHEySmNCV3ZVWFdkcGU2RFM2TDhRcHFqeHhBNFpl?=
- =?utf-8?B?OXcvdnJKYkFvY0c0TGpNQXR0SDJkcE9XZXA4aVFYVUNkeUUvSWNsbWFqNnp2?=
- =?utf-8?B?SWRTSWFtam9xMzJTWjdnSWY3YVVMdlgzZFA0SHhDR2owRkwyQ25CNDl0SWNt?=
- =?utf-8?B?Y0RZcVd2SE1sR2RsV2RyRmpyREE4RVp2OVF3cmdOaWRwZVowN1gwWEVvQmhO?=
- =?utf-8?B?SHlwMHFJM0lmVXJtTDBYTmdIV3p4amtDZE1UUFpRbGFHVk1YVGhrc2FFSXJC?=
- =?utf-8?B?NkhZYmVWQmtjZFpQUDZnekJzaTZKNy9TM0gySkhTYXJtTDJ2aFFTZlVjUG9D?=
- =?utf-8?B?WXoyQVRSbWpac2JPNkU1Nnh3c1JvNXJFQU5kdEdpa1BxYllSOExwb093NUNC?=
- =?utf-8?B?TVd4a1I3alo3T0s5ZlBySW44UGF3dUx4bjBlUmZwZFRBSVkyZXZ4TEhWblRO?=
- =?utf-8?B?N3VtSFMyK0pIN0xJRHZhN00rU0VaeWRlQjBJOFptTEErWEdFQVBQSFliV2Z5?=
- =?utf-8?B?Um5VaGVQTlg0OURmZkxDTWd6aWd3MEsrUDBHKzBhOFMrOWRzdDlWUG9OdGpT?=
- =?utf-8?B?ZkVQSEhRY0JHTmNMWnRybmM4YjR4ZGl6V1g5Sko2TUkzTDQ4NjE3MXRXTzQw?=
- =?utf-8?B?ZlZyWHIyZE5RcEdHSkFmVVo3VzhEVHlGZUtZMFJMYXY2U2JMS1FUYWxpNUtE?=
- =?utf-8?B?cjRtdVhlVW0rcEdtMVVkS0ViUzRUWWtULzNqcXVEM0h5bUNIZ1V6TG1ZamZY?=
- =?utf-8?B?RlZoSFM1aDl5NHpVT1Z1OXJoeUptRFZjbG93Uis4V1ZiZFB5WFRSQ2FoT3hG?=
- =?utf-8?B?bkNKMTFTK0EySFNCWVNUMWdJRzBoVnEvb21ncTJRL3pZRXBaY3FTWU9BT2pr?=
- =?utf-8?B?Z2Z2U3FGdCtzRkwvMk94ejhhbU15aVZnV2FQQStxTng2L1hWQzJuTXdLU0hz?=
- =?utf-8?B?QU5VVGM3QmQ1VFFVcWNEZ0lmck5QUjY3N3VTdlIvOW1QMk1oenpRc2FYakFZ?=
- =?utf-8?B?blRWeDd5UEV5VWJzUnhMQVZtaERKT0V3WXFseXVTRS9XVjhYTVJHeXJDQnpo?=
- =?utf-8?B?UU5NNmNVdnRCWDAxckFsN1RKRmFwUnBJakIrc29uTlNSWU5uUVZ3d3FpaHQv?=
- =?utf-8?B?UzZlelU4enBDcXU2bTF0NWVXM1VDUFp2MnA4dnhqdHhkR3k2anEvakRoZFhU?=
- =?utf-8?B?VUFOSG9GZC9Hd0FkczZsWEsxVlFLMjlkcmpEckpQTUdqT013eUhMNkR2Zklp?=
- =?utf-8?B?Sm9xSmRGZnNDT1hNRko0TytrTGFBZ1Evc1V0N0NSUDVQWlpqRWFpQXZIeWxF?=
- =?utf-8?Q?LiASBPJ2ITStaY7o8Fkku5dLX?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c0c63c35-0d0d-47c0-bae4-08dad78911c5
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR12MB5346.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2022 12:54:55.1581 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AurzElwom0ccfQtxU2KP+669NL14sQPtUoZkAx5QRH/OiRs61cLFR04kS/ndBYKezNzetQ9BMfmTvH+8FusyJA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4348
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [Linaro-mm-sig] Re: [PATCH] dma-buf: Fix possible UAF in
+ dma_buf_export
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ cuigaosheng <cuigaosheng1@huawei.com>, =?UTF-8?Q?Christian_K=c3=b6nig?=
+ <christian.koenig@amd.com>, "T.J. Mercier" <tjmercier@google.com>
+References: <20221117062152.3029018-1-cuigaosheng1@huawei.com>
+ <f12a5dbe-4626-f6c7-236b-30bb16be1dd6@quicinc.com>
+ <99d3aee6-ba3e-5333-6f79-ddbcfc0e8843@amd.com>
+ <CABdmKX1UMB0L0PmHB59nijReZef6LUQ3XKXitHZo2YnUrJTz9Q@mail.gmail.com>
+ <2c9fa595-e788-5474-4f2b-ffbd08a70d13@amd.com>
+ <CABdmKX0KJJV0iQwy0aUNXcLc1DGyLjmh6_Y53asHEoh-uyHzAA@mail.gmail.com>
+ <83944425-c177-7918-bcde-9cf7296a613f@amd.com>
+ <e12784da-b3e3-ddec-0e84-f968d60097c4@quicinc.com>
+ <b2d5d904-99f2-7974-a22d-63a6cf864973@huawei.com>
+ <689ad89b-0e34-3743-24c9-3f92856720f8@amd.com>
+ <a87e407c-f858-28f1-c5ea-ca69b39db53a@huawei.com>
+ <3de513b2-8ec3-2ff4-136d-0f56ac07c0ff@gmail.com>
+From: Charan Teja Kalla <quic_charante@quicinc.com>
+In-Reply-To: <3de513b2-8ec3-2ff4-136d-0f56ac07c0ff@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: GQnB74ySEOxHXNZTF5sxudZXdkSM6bdB
+X-Proofpoint-GUID: GQnB74ySEOxHXNZTF5sxudZXdkSM6bdB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-06_08,2022-12-06_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 suspectscore=0
+ mlxscore=0 priorityscore=1501 mlxlogscore=999 adultscore=0 spamscore=0
+ malwarescore=0 clxscore=1011 impostorscore=0 lowpriorityscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212060104
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,372 +96,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jeshwanth <JESHWANTHKUMAR.NK@amd.com>,
- Devaraj Rangasamy <Devaraj.Rangasamy@amd.com>,
- Jens Wiklander <jens.wiklander@linaro.org>, stable@vger.kernel.org,
- Mythri PK <Mythri.Pandeshwarakrishna@amd.com>
+Cc: Pavan Kondeti <quic_pkondeti@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
+ Dan Carpenter <dan.carpenter@oracle.com>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Thanks Christian/TJ for all your inputs!!
 
-
-On 12/6/2022 6:11 PM, Christian König wrote:
-> Am 06.12.22 um 13:30 schrieb Rijo Thomas:
->> For AMD Secure Processor (ASP) to map and access TEE ring buffer, the
->> ring buffer address sent by host to ASP must be a real physical
->> address and the pages must be physically contiguous.
+On 11/24/2022 6:25 PM, Christian König wrote:
+>>> I was already wondering why the order is this way.
+>>>
+>>> Why is dma_buf_stats_setup() needing the file in the first place? 
 >>
->> In a virtualized environment though, when the driver is running in a
->> guest VM, the pages allocated by __get_free_pages() may not be
->> contiguous in the host (or machine) physical address space. Guests
->> will see a guest (or pseudo) physical address and not the actual host
->> (or machine) physical address. The TEE running on ASP cannot decipher
->> pseudo physical addresses. It needs host or machine physical address.
+>> dmabuf->file will be used in dma_buf_stats_setup(), the
+>> dma_buf_stats_setup() as follows:
 >>
->> To resolve this problem, use DMA APIs for allocating buffers that must
->> be shared with TEE. This will ensure that the pages are contiguous in
->> host (or machine) address space. If the DMA handle is an IOVA,
->> translate it into a physical address before sending it to ASP.
->>
->> This patch also exports two APIs (one for buffer allocation and
->> another to free the buffer). This API can be used by AMD-TEE driver to
->> share buffers with TEE.
+>>> 171 int dma_buf_stats_setup(struct dma_buf *dmabuf)
+>>> 172 {
+>>> 173         struct dma_buf_sysfs_entry *sysfs_entry;
+>>> 174         int ret;
+>>> 175
+>>> 176         if (!dmabuf || !dmabuf->file)
+>>> 177                 return -EINVAL;
+>>> 178
+>>> 179         if (!dmabuf->exp_name) {
+>>> 180                 pr_err("exporter name must not be empty if stats
+>>> needed\n");
+>>> 181                 return -EINVAL;
+>>> 182         }
+>>> 183
+>>> 184         sysfs_entry = kzalloc(sizeof(struct dma_buf_sysfs_entry),
+>>> GFP_KERNEL);
+>>> 185         if (!sysfs_entry)
+>>> 186                 return -ENOMEM;
+>>> 187
+>>> 188         sysfs_entry->kobj.kset = dma_buf_per_buffer_stats_kset;
+>>> 189         sysfs_entry->dmabuf = dmabuf;
+>>> 190
+>>> 191         dmabuf->sysfs_entry = sysfs_entry;
+>>> 192
+>>> 193         /* create the directory for buffer stats */
+>>> 194         ret = kobject_init_and_add(&sysfs_entry->kobj,
+>>> &dma_buf_ktype, NULL,
+>>> 195                                    "%lu",
+>>> file_inode(dmabuf->file)->i_ino);
 > 
-> Maybe use some other name than dma_buffer for your structure, cause that is usually something completely different in the Linux kernel.
+> Ah, so it uses the i_ino of the file for the sysfs unique name.
+> 
+> I'm going to take another look how to properly clean this up.
 > 
 
-Sure Christian. I shall rename "struct dma_buffer" to "struct shm_buffer" (Shared Memory Buffer) in the file include/linux/psp-tee.h
-The functions psp_tee_alloc_dmabuf() and psp_tee_free_dmabuf() shall be renamed to psp_tee_alloc_shmbuf() and psp_tee_free_shmbuf(), respectively.
-I shall do correction in next patch revision. I will wait for others to review as well before I post update.
+How about deleting the dmabuf from the db_list directly in the error
+path (which is usually done by the fput()) and then continue with the
+normal fput() here.
 
-Thanks,
-Rijo
+Just compile tested the below code and If the logic make sense for you,
+will send the final tested patch.
+----------------------><---------------------------------------------
 
-> Regards,
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index e6f36c0..10a1727 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -87,19 +87,28 @@ static void dma_buf_release(struct dentry *dentry)
+        kfree(dmabuf);
+ }
+
+-static int dma_buf_file_release(struct inode *inode, struct file *file)
++static void dma_buf_db_list_remove(struct file *file)
+ {
+        struct dma_buf *dmabuf;
+
+-       if (!is_dma_buf_file(file))
+-               return -EINVAL;
+-
+        dmabuf = file->private_data;
++       if (!dmabuf)
++               return;
+
+        mutex_lock(&db_list.lock);
+        list_del(&dmabuf->list_node);
+        mutex_unlock(&db_list.lock);
+
++       file->private_data = NULL;
++}
++
++static int dma_buf_file_release(struct inode *inode, struct file *file)
++{
++       if (!is_dma_buf_file(file))
++               return -EINVAL;
++
++       dma_buf_db_list_remove(file);
++
+        return 0;
+ }
+
+@@ -688,6 +697,8 @@ struct dma_buf *dma_buf_export(const struct
+dma_buf_export_info *exp_info)
+         * early before calling the release() dma_buf op.
+         */
+        file->f_path.dentry->d_fsdata = NULL;
++
++       dma_buf_db_list_remove(file);
+        fput(file);
+ err_dmabuf:
+        kfree(dmabuf);
+
+--------------------><-----------------------------
+
+
+> Thanks for pointing this out,
 > Christian.
-> 
->>
->> Fixes: 33960acccfbd ("crypto: ccp - add TEE support for Raven Ridge")
->> Cc: Tom Lendacky <thomas.lendacky@amd.com>
->> Cc: stable@vger.kernel.org
->> Signed-off-by: Rijo Thomas <Rijo-john.Thomas@amd.com>
->> Co-developed-by: Jeshwanth <JESHWANTHKUMAR.NK@amd.com>
->> Signed-off-by: Jeshwanth <JESHWANTHKUMAR.NK@amd.com>
->> Reviewed-by: Devaraj Rangasamy <Devaraj.Rangasamy@amd.com>
->> ---
->>   drivers/crypto/ccp/psp-dev.c |   6 +-
->>   drivers/crypto/ccp/tee-dev.c | 116 ++++++++++++++++++++++-------------
->>   drivers/crypto/ccp/tee-dev.h |   9 +--
->>   include/linux/psp-tee.h      |  47 ++++++++++++++
->>   4 files changed, 127 insertions(+), 51 deletions(-)
->>
->> diff --git a/drivers/crypto/ccp/psp-dev.c b/drivers/crypto/ccp/psp-dev.c
->> index c9c741ac8442..2b86158d7435 100644
->> --- a/drivers/crypto/ccp/psp-dev.c
->> +++ b/drivers/crypto/ccp/psp-dev.c
->> @@ -161,13 +161,13 @@ int psp_dev_init(struct sp_device *sp)
->>           goto e_err;
->>       }
->>   +    if (sp->set_psp_master_device)
->> +        sp->set_psp_master_device(sp);
->> +
->>       ret = psp_init(psp);
->>       if (ret)
->>           goto e_irq;
->>   -    if (sp->set_psp_master_device)
->> -        sp->set_psp_master_device(sp);
->> -
->>       /* Enable interrupt */
->>       iowrite32(-1, psp->io_regs + psp->vdata->inten_reg);
->>   diff --git a/drivers/crypto/ccp/tee-dev.c b/drivers/crypto/ccp/tee-dev.c
->> index 5c9d47f3be37..1631d9851e54 100644
->> --- a/drivers/crypto/ccp/tee-dev.c
->> +++ b/drivers/crypto/ccp/tee-dev.c
->> @@ -12,8 +12,9 @@
->>   #include <linux/mutex.h>
->>   #include <linux/delay.h>
->>   #include <linux/slab.h>
->> +#include <linux/dma-direct.h>
->> +#include <linux/iommu.h>
->>   #include <linux/gfp.h>
->> -#include <linux/psp-sev.h>
->>   #include <linux/psp-tee.h>
->>     #include "psp-dev.h"
->> @@ -21,25 +22,64 @@
->>     static bool psp_dead;
->>   +struct dma_buffer *psp_tee_alloc_dmabuf(unsigned long size, gfp_t gfp)
->> +{
->> +    struct psp_device *psp = psp_get_master_device();
->> +    struct dma_buffer *dma_buf;
->> +    struct iommu_domain *dom;
->> +
->> +    if (!psp || !size)
->> +        return NULL;
->> +
->> +    dma_buf = kzalloc(sizeof(*dma_buf), GFP_KERNEL);
->> +    if (!dma_buf)
->> +        return NULL;
->> +
->> +    dma_buf->vaddr = dma_alloc_coherent(psp->dev, size, &dma_buf->dma, gfp);
->> +    if (!dma_buf->vaddr || !dma_buf->dma) {
->> +        kfree(dma_buf);
->> +        return NULL;
->> +    }
->> +
->> +    dma_buf->size = size;
->> +
->> +    dom = iommu_get_domain_for_dev(psp->dev);
->> +    if (dom)
->> +        dma_buf->paddr = iommu_iova_to_phys(dom, dma_buf->dma);
->> +    else
->> +        dma_buf->paddr = dma_buf->dma;
->> +
->> +    return dma_buf;
->> +}
->> +EXPORT_SYMBOL(psp_tee_alloc_dmabuf);
->> +
->> +void psp_tee_free_dmabuf(struct dma_buffer *dma_buf)
->> +{
->> +    struct psp_device *psp = psp_get_master_device();
->> +
->> +    if (!psp || !dma_buf)
->> +        return;
->> +
->> +    dma_free_coherent(psp->dev, dma_buf->size,
->> +              dma_buf->vaddr, dma_buf->dma);
->> +
->> +    kfree(dma_buf);
->> +}
->> +EXPORT_SYMBOL(psp_tee_free_dmabuf);
->> +
->>   static int tee_alloc_ring(struct psp_tee_device *tee, int ring_size)
->>   {
->>       struct ring_buf_manager *rb_mgr = &tee->rb_mgr;
->> -    void *start_addr;
->>         if (!ring_size)
->>           return -EINVAL;
->>   -    /* We need actual physical address instead of DMA address, since
->> -     * Trusted OS running on AMD Secure Processor will map this region
->> -     */
->> -    start_addr = (void *)__get_free_pages(GFP_KERNEL, get_order(ring_size));
->> -    if (!start_addr)
->> +    rb_mgr->ring_buf = psp_tee_alloc_dmabuf(ring_size,
->> +                        GFP_KERNEL | __GFP_ZERO);
->> +    if (!rb_mgr->ring_buf) {
->> +        dev_err(tee->dev, "ring allocation failed\n");
->>           return -ENOMEM;
->> -
->> -    memset(start_addr, 0x0, ring_size);
->> -    rb_mgr->ring_start = start_addr;
->> -    rb_mgr->ring_size = ring_size;
->> -    rb_mgr->ring_pa = __psp_pa(start_addr);
->> +    }
->>       mutex_init(&rb_mgr->mutex);
->>         return 0;
->> @@ -49,15 +89,8 @@ static void tee_free_ring(struct psp_tee_device *tee)
->>   {
->>       struct ring_buf_manager *rb_mgr = &tee->rb_mgr;
->>   -    if (!rb_mgr->ring_start)
->> -        return;
->> +    psp_tee_free_dmabuf(rb_mgr->ring_buf);
->>   -    free_pages((unsigned long)rb_mgr->ring_start,
->> -           get_order(rb_mgr->ring_size));
->> -
->> -    rb_mgr->ring_start = NULL;
->> -    rb_mgr->ring_size = 0;
->> -    rb_mgr->ring_pa = 0;
->>       mutex_destroy(&rb_mgr->mutex);
->>   }
->>   @@ -81,35 +114,36 @@ static int tee_wait_cmd_poll(struct psp_tee_device *tee, unsigned int timeout,
->>       return -ETIMEDOUT;
->>   }
->>   -static
->> -struct tee_init_ring_cmd *tee_alloc_cmd_buffer(struct psp_tee_device *tee)
->> +struct dma_buffer *tee_alloc_cmd_buffer(struct psp_tee_device *tee)
->>   {
->>       struct tee_init_ring_cmd *cmd;
->> +    struct dma_buffer *cmd_buffer;
->>   -    cmd = kzalloc(sizeof(*cmd), GFP_KERNEL);
->> -    if (!cmd)
->> +    cmd_buffer = psp_tee_alloc_dmabuf(sizeof(*cmd),
->> +                      GFP_KERNEL | __GFP_ZERO);
->> +    if (!cmd_buffer)
->>           return NULL;
->>   -    cmd->hi_addr = upper_32_bits(tee->rb_mgr.ring_pa);
->> -    cmd->low_addr = lower_32_bits(tee->rb_mgr.ring_pa);
->> -    cmd->size = tee->rb_mgr.ring_size;
->> +    cmd = (struct tee_init_ring_cmd *)cmd_buffer->vaddr;
->> +    cmd->hi_addr = upper_32_bits(tee->rb_mgr.ring_buf->paddr);
->> +    cmd->low_addr = lower_32_bits(tee->rb_mgr.ring_buf->paddr);
->> +    cmd->size = tee->rb_mgr.ring_buf->size;
->>         dev_dbg(tee->dev, "tee: ring address: high = 0x%x low = 0x%x size = %u\n",
->>           cmd->hi_addr, cmd->low_addr, cmd->size);
->>   -    return cmd;
->> +    return cmd_buffer;
->>   }
->>   -static inline void tee_free_cmd_buffer(struct tee_init_ring_cmd *cmd)
->> +static inline void tee_free_cmd_buffer(struct dma_buffer *cmd_buffer)
->>   {
->> -    kfree(cmd);
->> +    psp_tee_free_dmabuf(cmd_buffer);
->>   }
->>     static int tee_init_ring(struct psp_tee_device *tee)
->>   {
->>       int ring_size = MAX_RING_BUFFER_ENTRIES * sizeof(struct tee_ring_cmd);
->> -    struct tee_init_ring_cmd *cmd;
->> -    phys_addr_t cmd_buffer;
->> +    struct dma_buffer *cmd_buffer;
->>       unsigned int reg;
->>       int ret;
->>   @@ -123,21 +157,19 @@ static int tee_init_ring(struct psp_tee_device *tee)
->>         tee->rb_mgr.wptr = 0;
->>   -    cmd = tee_alloc_cmd_buffer(tee);
->> -    if (!cmd) {
->> +    cmd_buffer = tee_alloc_cmd_buffer(tee);
->> +    if (!cmd_buffer) {
->>           tee_free_ring(tee);
->>           return -ENOMEM;
->>       }
->>   -    cmd_buffer = __psp_pa((void *)cmd);
->> -
->>       /* Send command buffer details to Trusted OS by writing to
->>        * CPU-PSP message registers
->>        */
->>   -    iowrite32(lower_32_bits(cmd_buffer),
->> +    iowrite32(lower_32_bits(cmd_buffer->paddr),
->>             tee->io_regs + tee->vdata->cmdbuff_addr_lo_reg);
->> -    iowrite32(upper_32_bits(cmd_buffer),
->> +    iowrite32(upper_32_bits(cmd_buffer->paddr),
->>             tee->io_regs + tee->vdata->cmdbuff_addr_hi_reg);
->>       iowrite32(TEE_RING_INIT_CMD,
->>             tee->io_regs + tee->vdata->cmdresp_reg);
->> @@ -157,7 +189,7 @@ static int tee_init_ring(struct psp_tee_device *tee)
->>       }
->>     free_buf:
->> -    tee_free_cmd_buffer(cmd);
->> +    tee_free_cmd_buffer(cmd_buffer);
->>         return ret;
->>   }
->> @@ -167,7 +199,7 @@ static void tee_destroy_ring(struct psp_tee_device *tee)
->>       unsigned int reg;
->>       int ret;
->>   -    if (!tee->rb_mgr.ring_start)
->> +    if (!tee->rb_mgr.ring_buf->vaddr)
->>           return;
->>         if (psp_dead)
->> @@ -256,7 +288,7 @@ static int tee_submit_cmd(struct psp_tee_device *tee, enum tee_cmd_id cmd_id,
->>       do {
->>           /* Get pointer to ring buffer command entry */
->>           cmd = (struct tee_ring_cmd *)
->> -            (tee->rb_mgr.ring_start + tee->rb_mgr.wptr);
->> +            (tee->rb_mgr.ring_buf->vaddr + tee->rb_mgr.wptr);
->>             rptr = ioread32(tee->io_regs + tee->vdata->ring_rptr_reg);
->>   @@ -305,7 +337,7 @@ static int tee_submit_cmd(struct psp_tee_device *tee, enum tee_cmd_id cmd_id,
->>         /* Update local copy of write pointer */
->>       tee->rb_mgr.wptr += sizeof(struct tee_ring_cmd);
->> -    if (tee->rb_mgr.wptr >= tee->rb_mgr.ring_size)
->> +    if (tee->rb_mgr.wptr >= tee->rb_mgr.ring_buf->size)
->>           tee->rb_mgr.wptr = 0;
->>         /* Trigger interrupt to Trusted OS */
->> diff --git a/drivers/crypto/ccp/tee-dev.h b/drivers/crypto/ccp/tee-dev.h
->> index 49d26158b71e..9238487ee8bf 100644
->> --- a/drivers/crypto/ccp/tee-dev.h
->> +++ b/drivers/crypto/ccp/tee-dev.h
->> @@ -16,6 +16,7 @@
->>     #include <linux/device.h>
->>   #include <linux/mutex.h>
->> +#include <linux/psp-tee.h>
->>     #define TEE_DEFAULT_TIMEOUT        10
->>   #define MAX_BUFFER_SIZE            988
->> @@ -48,17 +49,13 @@ struct tee_init_ring_cmd {
->>     /**
->>    * struct ring_buf_manager - Helper structure to manage ring buffer.
->> - * @ring_start:  starting address of ring buffer
->> - * @ring_size:   size of ring buffer in bytes
->> - * @ring_pa:     physical address of ring buffer
->>    * @wptr:        index to the last written entry in ring buffer
->> + * @ring_buf:    ring buffer allocated using DMA api
->>    */
->>   struct ring_buf_manager {
->>       struct mutex mutex;    /* synchronizes access to ring buffer */
->> -    void *ring_start;
->> -    u32 ring_size;
->> -    phys_addr_t ring_pa;
->>       u32 wptr;
->> +    struct dma_buffer *ring_buf;
->>   };
->>     struct psp_tee_device {
->> diff --git a/include/linux/psp-tee.h b/include/linux/psp-tee.h
->> index cb0c95d6d76b..c0fa922f24d4 100644
->> --- a/include/linux/psp-tee.h
->> +++ b/include/linux/psp-tee.h
->> @@ -13,6 +13,7 @@
->>     #include <linux/types.h>
->>   #include <linux/errno.h>
->> +#include <linux/dma-mapping.h>
->>     /* This file defines the Trusted Execution Environment (TEE) interface commands
->>    * and the API exported by AMD Secure Processor driver to communicate with
->> @@ -40,6 +41,20 @@ enum tee_cmd_id {
->>       TEE_CMD_ID_UNMAP_SHARED_MEM,
->>   };
->>   +/**
->> + * struct dma_buffer - Structure for a DMA buffer.
->> + * @dma:    DMA buffer address
->> + * @paddr:  Physical address of DMA buffer
->> + * @vaddr:  CPU virtual address of DMA buffer
->> + * @size:   Size of DMA buffer in bytes
->> + */
->> +struct dma_buffer {
->> +    dma_addr_t dma;
->> +    phys_addr_t paddr;
->> +    void *vaddr;
->> +    unsigned long size;
->> +};
->> +
->>   #ifdef CONFIG_CRYPTO_DEV_SP_PSP
->>   /**
->>    * psp_tee_process_cmd() - Process command in Trusted Execution Environment
->> @@ -75,6 +90,28 @@ int psp_tee_process_cmd(enum tee_cmd_id cmd_id, void *buf, size_t len,
->>    */
->>   int psp_check_tee_status(void);
->>   +/**
->> + * psp_tee_alloc_dmabuf() - Allocates memory of requested size and flags using
->> + * dma_alloc_coherent() API.
->> + *
->> + * This function can be used to allocate a shared memory region between the
->> + * host and PSP TEE.
->> + *
->> + * Returns:
->> + * non-NULL   a valid pointer to struct dma_buffer
->> + * NULL       on failure
->> + */
->> +struct dma_buffer *psp_tee_alloc_dmabuf(unsigned long size, gfp_t gfp);
->> +
->> +/**
->> + * psp_tee_free_dmabuf() - Deallocates memory using dma_free_coherent() API.
->> + *
->> + * This function can be used to release shared memory region between host
->> + * and PSP TEE.
->> + *
->> + */
->> +void psp_tee_free_dmabuf(struct dma_buffer *dma_buffer);
->> +
->>   #else /* !CONFIG_CRYPTO_DEV_SP_PSP */
->>     static inline int psp_tee_process_cmd(enum tee_cmd_id cmd_id, void *buf,
->> @@ -87,5 +124,15 @@ static inline int psp_check_tee_status(void)
->>   {
->>       return -ENODEV;
->>   }
->> +
->> +static inline
->> +struct dma_buffer *psp_tee_alloc_dmabuf(unsigned long size, gfp_t gfp)
->> +{
->> +    return NULL;
->> +}
->> +
->> +static inline void psp_tee_free_dmabuf(struct dma_buffer *dma_buffer)
->> +{
->> +}
->>   #endif /* CONFIG_CRYPTO_DEV_SP_PSP */
->>   #endif /* __PSP_TEE_H_ */
-> 
