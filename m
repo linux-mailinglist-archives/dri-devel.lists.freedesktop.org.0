@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AC6864499F
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 17:47:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2708F6449AE
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 17:48:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 585FF10E32E;
-	Tue,  6 Dec 2022 16:47:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8450310E334;
+	Tue,  6 Dec 2022 16:48:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 244B410E32E
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Dec 2022 16:46:59 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7958310E334
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Dec 2022 16:48:09 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 0E31BB81ABD
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Dec 2022 16:46:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A4531C433C1
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Dec 2022 16:46:55 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 01B2DB81ABD
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Dec 2022 16:48:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 98D43C433C1
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Dec 2022 16:48:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1670345215;
- bh=6QzK8/lAItNB0bs7k5yhN/yFkejhQGqOce+myVo6NgA=;
+ s=k20201202; t=1670345286;
+ bh=qhXoDN0SNFzoWswUbNbnya/SW/E/CKt3vG86o9m2vMw=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=Ld6OEdlNXxQMYCIdoI/INuWTCHDjv15yoMv2oUnc8osCsot8hdy8s9+nGGPi/oGy5
- FW1EzQ+cX0HH1Rc6QNY+j4I5N2LIepjlkPs+ErYUg37PQYdHAenopKVwbmPMvAPUAI
- Ivheq9bpM1BSCoZkcV9AAq8D34iijWKaD9ZoU6mj1waT+XB1TWithfVDveshRmXqPh
- FMuOkxclqY+9wl7iIN/D0FV7Al16OR10x7DiSRBB1MAZUFk/s6/97F/DQKMigpEzhl
- vpMtu1erqF9zZ2Ow6iMtCPQv9gMMQ+5G95Y0o9E5pOq87969zG/GA+O70HHhL0WEUW
- vnfC940kKkqgg==
+ b=skAxAGGAJ5L3MRRZo8Bk9g4k9CJFLLGi1XSlMb9xD+YCW40VC37UZIX6B3eLEdiOU
+ FmSTG+yF638vsst77gnYXiTKpGuEnoCLyf8a2BHKLZeilwui389PWDqB8aBIoRUmK9
+ ABMs0undJFOa85NM93b8irG6e7VDGd2XtkgXGjSQNy6X+9k4CtshlKr1RuaZ8qWam2
+ KzCinxkLopA0Izw4mtJ0Y+Q4nPVe9nvdAu2VUy4h0LHOT08t1ZAk8wnsZawJG0jPk8
+ B4k0rf5GP+ckCgLLDIWccwo23O2OOUffP5uUfbKB8U9Z9Gxsx1N/CtiYUTDIDleyiv
+ UggyU4qol2kVg==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 8E752C433E7; Tue,  6 Dec 2022 16:46:55 +0000 (UTC)
+ from userid 48) id 8B019C433E7; Tue,  6 Dec 2022 16:48:06 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 216780] problem of Mesa drawing boxes after resume from suspend
  with Geforce4 420 Go
-Date: Tue, 06 Dec 2022 16:46:55 +0000
+Date: Tue, 06 Dec 2022 16:48:06 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -52,7 +51,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-216780-2300-BVUmvm3jfC@https.bugzilla.kernel.org/>
+Message-ID: <bug-216780-2300-b3MRKLebgC@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-216780-2300@https.bugzilla.kernel.org/>
 References: <bug-216780-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -77,10 +76,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D216780
 
---- Comment #2 from Elmar Stellnberger (estellnb@elstel.org) ---
-Created attachment 303370
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D303370&action=3Dedit
-after resume from s2ram: the background box of the login screen is not drawn
+--- Comment #3 from Elmar Stellnberger (estellnb@elstel.org) ---
+Created attachment 303371
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D303371&action=3Dedit
+before resume from s2ram: background box of login screen is drawn correctly
+
+just tested:: same issue with suspend to disk
 
 --=20
 You may reply to this email to add a comment.
