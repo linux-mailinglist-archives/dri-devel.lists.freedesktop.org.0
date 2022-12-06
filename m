@@ -2,117 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2CA06441B0
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 11:59:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 562D66441D4
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 12:07:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90A8310E004;
-	Tue,  6 Dec 2022 10:59:13 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam04on2062.outbound.protection.outlook.com [40.107.102.62])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 243F910E004;
- Tue,  6 Dec 2022 10:59:10 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ePmQdIdHM1UrRAVYvq9NX+9WAxVca+T0jI4NCXOTmCiocuI6rvxd558YU/2R6X0x9aGeOY/V4kWZ0LSZn9XSAEdcW6B6UZH3DQfIhPKYkMlih4VhndHi9B/NRnrmAyhLrPzVsiHeshn0IBOpOzdBhvOHM+KeF45FFNcbA2VVrtL6MBCgSHOOYK/V7JXHA3+hqBgGmXDpe9qcLJd0WovgteoYxguxzAG0IObVmjeoedjKsFfRQkN1EEIdLYi/RxOHR4RbD09LCdZKlLukwMjIBTYXXD/j9oeFVkf6DkUiLU9V+N/a4gqYd10xJyOm4HyfacEkHLyf1+8qbWWfmrUXBw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mgNAFKmgmDM5b9LAjs8uNQ2RpEN9cGhNP9I/Q3jRY7E=;
- b=axwLPT8bSaj7SEaTR+ecGtrYHn0aY7Rx7NRTtEnUM8BNTVzTgf+SKSbk1HjqbFPRuM1foqY83IrPOycXFYek13oiHmsC8i2jAGk/d54N6M+EaiRYYKsMbXhZI1ZQ545mW30ykhCsUSCQwVBOb9QqGPf6kTx5KZqkhDDSunZgSWqHIW5xw65OulAdSSgbwXBB6B7yl98x0DeCECLnL/3IO8b+lbTkrf0GSWpqzUQVP2nPRKm4sihywKgDFQPHToYejrUKJuoe3mtok1+ujPHU2bR5vd2IhdvgA67MbUBT5Y54iz7rj9y22XElhVY+qMGj9UOrsjvPG2ksdorEOLQ3GA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mgNAFKmgmDM5b9LAjs8uNQ2RpEN9cGhNP9I/Q3jRY7E=;
- b=eF3S5LGBOs9UN/9F+34+cErJOm73F4M0JJaWuBKAOJ9HVox1YYEyI7a2UkqzPyVFdexioUmlCOgfNh8uiwfrXhyfpK0VrB6X8LpVHeLoxyJzlkAjBzAenbYEuoBR66zGatK2S0v0JKGOM2h06ylquXmI40p34GYMjcjt4nnHZMc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by DM6PR12MB4284.namprd12.prod.outlook.com (2603:10b6:5:21a::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.13; Tue, 6 Dec
- 2022 10:59:08 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::7d43:3f30:4caf:7421]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::7d43:3f30:4caf:7421%7]) with mapi id 15.20.5880.014; Tue, 6 Dec 2022
- 10:59:07 +0000
-Message-ID: <53da1f40-c305-b70d-aaf9-8d2e23c64349@amd.com>
-Date: Tue, 6 Dec 2022 11:59:02 +0100
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9436310E02D;
+	Tue,  6 Dec 2022 11:06:51 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D20F10E02D;
+ Tue,  6 Dec 2022 11:06:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1670324807; x=1701860807;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=j/s4k56FcWW7rGTDDJr6WBmvVF+OANMnkay5be1k41M=;
+ b=e9RYlKvTV4+WNWlN73ewjh7wE+JiNwB4dDDEIqABDz+nB145Xz88GYFi
+ OZSuLa18AIA+mOcQ1G0Qkipn97aqjCvTA11Tboo41Dg1ojmY4HfmnePcy
+ hmPM/PV6GO/qdql/947bGp8qKzrjy2O8DCaADXAufBf9mNlJUBHF0rhHH
+ MIu15o6JNLqLx6cMo5wwTp3ACSZ6FSVwl3HYKuyz48khsqtUm+OhnOKa0
+ FfqIoetWsqIM6V1nxMGUxCJ2Yjuf1Y8STxb1OhTCloPasr/xGxWif+urz
+ CwFGcVp+IsHvPyU91yRTqpcTLwhB0JZ3kYEYQ65JOGInQzyy+jFz6/hjh A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10552"; a="317739137"
+X-IronPort-AV: E=Sophos;i="5.96,222,1665471600"; d="scan'208";a="317739137"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Dec 2022 03:06:46 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10552"; a="714763101"
+X-IronPort-AV: E=Sophos;i="5.96,222,1665471600"; d="scan'208";a="714763101"
+Received: from kflahert-mobl.ger.corp.intel.com (HELO [10.213.212.142])
+ ([10.213.212.142])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Dec 2022 03:06:45 -0800
+Message-ID: <f0ebffa1-45b7-d6f9-4341-3fa8aabae3f5@linux.intel.com>
+Date: Tue, 6 Dec 2022 11:06:43 +0000
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH] drm/amd/display: Added pointer check
+Subject: Re: [Intel-gfx] [PATCH v2 4/5] drm/i915/guc: Add GuC CT specific
+ debug print wrappers
 Content-Language: en-US
-To: Denis Arefev <arefev@swemel.ru>, Harry Wentland <harry.wentland@amd.com>
-References: <20221206104757.31512-1-arefev@swemel.ru>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20221206104757.31512-1-arefev@swemel.ru>
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ John Harrison <john.c.harrison@intel.com>, Intel-GFX@Lists.FreeDesktop.Org
+References: <20221118015858.2548106-1-John.C.Harrison@Intel.com>
+ <20221118015858.2548106-5-John.C.Harrison@Intel.com>
+ <48f594de-9682-4b60-f934-9420d02b405e@intel.com>
+ <dd9559e8-7d65-d7bb-ea1a-d169a1c7eec3@intel.com>
+ <4579b7e8-eae7-b760-66aa-b01273d18aab@intel.com>
+ <d658f8fa-a063-aa0c-48ff-14f32cb6b339@intel.com>
+ <9a5a84be-a5ae-7be2-f522-5e976511e4e1@intel.com>
+ <143a660d-de2d-a77a-b490-8ad2add80420@linux.intel.com>
+ <dd787d9d-8559-1da4-7e99-2635ef1341a8@intel.com>
+ <c5622088-e381-1df4-417d-9b033b0a6afe@linux.intel.com>
+ <467f47f4-c30f-16ba-3330-a3d4752366a8@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <467f47f4-c30f-16ba-3330-a3d4752366a8@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0184.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9f::16) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DM6PR12MB4284:EE_
-X-MS-Office365-Filtering-Correlation-Id: fa5ad54b-8431-42b4-dd00-08dad778e5a9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: uqH+WXMRF+kr2A+v9Z3eHydzpxEtsZDZDK7s/pU5OQCGlNyZoma9x3GLbMc46C80qbU3wT7newDbXyEjdEoZoiBPrMuHkNfNEYTfO0dltGFy0nG+MhwDsxRAumWhXMAnQfcWsInD0zXs3HkChEahmdCyGkMTIJ4ECN7GsSwn6r09cpbDs+4Ic0/uCaq88zZUIRLLkCw4bg/Cx16SqQnpjgJ5rrinXKVoRX2HyGvif0ZiyByXshvs8WDrmEcRIcUhT6+YrBvDHPGQH59b+0hJBrltg6ucQFhuKYg/cDqEI0Ira/8cOsfV9ShydF537PCksjVkeHsuFblSwEk2z+xbBNw+plo+ou51sGxL0gIOPLYQoc8Q0JYUToZF97cC74pC2zChX8QDPtqhQ3Rb4ZNHvZvEWRELmUVdLk0bIfwL8TTmloEJn+V00i7IuS++GZzmahxkEj1tRb2xEaaF3H/q74pR86QjALMcmoH3akTq1xAyxkTqUFmpQRS6swEDFuV67XkTmA3gtoZxAQ74iEEdXY3OhoinoHm3Hc6wVhxG3e05igCIBZ9K7v905oSOm4SLmoAIF0pCBykPs7RCzH3ehTe3OsAXocewiAZHkxtlo24tm0PpIXizFsH+A0Q8wstjmNupf60ZiWSiaoyNeNdvEgXoYCrjcVbuy04aLNYauObSqzN56r8/aOi1E1OYnYPyeUxj8EpXVuWzBrgH4nH2hYxWBnGi1o0iQTtEJNQ0O1s=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(366004)(136003)(39860400002)(396003)(376002)(346002)(451199015)(5660300002)(6636002)(110136005)(36756003)(316002)(7416002)(54906003)(83380400001)(38100700002)(2616005)(41300700001)(6506007)(31696002)(86362001)(6666004)(478600001)(6486002)(186003)(6512007)(8936002)(4326008)(2906002)(31686004)(8676002)(66476007)(66556008)(66946007)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?N3JzWkVLNmg3MDZqNVI5b0NmYk0xQ0ticU1oR1MybGpWUDY1UEN2OTI4K3RT?=
- =?utf-8?B?c1cyQlUvVVd6RWl1QjNHWkp3VE1BbkhaM3ZwdVN4ME95dHRNSlpEWVN2M0Iv?=
- =?utf-8?B?TllpUFo0VXlWbWl2L0xHejVtSUZ1eGV1Ny9lR3dIeG5XREx5TEkwVzljT0VN?=
- =?utf-8?B?bVB1MGw4Skl3NmNrcktXeVhoT3phVytwWGJkeVhlV3NaTFh3WUVXY29rSkN3?=
- =?utf-8?B?eFU5RUFXZytZZlBZKzZOaFNnL3ErcHZtMTBnWHhtT015UHlQSytoYkNQRzNi?=
- =?utf-8?B?Z2k5N0t0QUdOQXM4bUlJb21ZVlk5UWhKSGoxaFFZUVpSMjhHdDQrVjhoNlNy?=
- =?utf-8?B?YkpqYnBZc1BGSGpGRVFoT1ZtZDhhWWQ0c1QvWnkxM0htemRTcFJpb3hEd0s4?=
- =?utf-8?B?MVEyQ01iNjlmVzVRenFwcnVXVTVGelhaMTgrUzhrVVdWV0JFRXdPaFVYZk5D?=
- =?utf-8?B?RDdMUHFVUG5iclN1NTBTUDJhL3IzOEtZRkE1QUdzYSt6TnpBNThiU2x6Y1J0?=
- =?utf-8?B?a05YVlVZWUJtdHRMZExQa21URGlLWG5IYlEwMmd2ZlJwN2R2Qm5GQ3hrM29t?=
- =?utf-8?B?NmtuUW9wMHBKbWI2SHJiZitISlRBRHE3cTNiWmtKQ0g5QU1zNEl5UVBtTHJ6?=
- =?utf-8?B?Uyt0UUJGK0c5WjVndmxvd0ZpKzQ5OVRSTitBeGdlWWdtRkRRR0xlaDRxOWp0?=
- =?utf-8?B?U0o4RmFWUUg0b2tlRndwY2VvdVhkWXUydWVWN2xUM3JyZVJ5Ti9yZzRKM0JH?=
- =?utf-8?B?R1p4d015Wk9DZ3Z2SzltZ0FwaGN2SGVncXlUZXNCQUtEZXRTTTc5eEd6bzdN?=
- =?utf-8?B?ZFYvbHV4b1VrZm1GQWFiZGRXUWFsR0VlWmRtOTVFbG1KNXRnZjdIeEJmT0tr?=
- =?utf-8?B?UkxSYlMwcFh2akFLSW1KZmFiRlVMT3dqajMyUzh0ZzBoS2RYSU5OSDg0T2Y5?=
- =?utf-8?B?Vm0yZ0R4cnUvV1JrZFQvQTRNQ2hlWVZxSXBWM3h4cnlaNlEzMXpqNTFuZzNP?=
- =?utf-8?B?eXliVTZxcm5UeEwrOUM4RjloZk0zQ211NFY2TVkvZkRpc3UvVXlJaGhxdnB3?=
- =?utf-8?B?YVlVNU1XS0pnNjVsZGpTUWxudlVTZi9sZ0E2dGFOSnFERDJHcUNKampVa1ZT?=
- =?utf-8?B?MkhQNkpkNjRXRENSbEVhN0s0a3Y3czg3OGFPN0VHTm1QdGdMWFpwWXRENlFh?=
- =?utf-8?B?R1NNYkt4YnFkUGVTNlphNDVlcGdLTXkyTTZwN0VPRVMxdE4zbmxLMGhBeVNy?=
- =?utf-8?B?dEZ2bnlBMmtEV29waW5iUVlJb1ptd1ZSUUF1MWJxTXp6WmtmT2RhcEdGdmtM?=
- =?utf-8?B?MFpZeTVFOVlkWnE1aklBazRNNURXWHY1NEZHejlHQzRTZVQ5S2tybWRiTXFQ?=
- =?utf-8?B?Nkk5REdSNlFqYTdjUHFXMVVJVjdpV09oMEg3OUtSMy90MnZCeVRLQlNUQStt?=
- =?utf-8?B?d1N4NlZ5dGtHd2NJc2czalNHQjFjNXBTU0d2SDFkSk1SaFlHTHArWFViY3U5?=
- =?utf-8?B?U0g1eFErSGtoSndzR2xJd1UvN2l5YXJzbzFqTjkvRGZIbFpyN2VpVkU2eDl4?=
- =?utf-8?B?QUI2UVNFcXJIZW9CV3dHb1grZC96QkxTazE2Y013V2o2ZU8vTEdyREV1bHZo?=
- =?utf-8?B?ZlNJaEF6WEJ0R0lwYmtoUXp4NjIxT09lWHhxSnhZVlNYL081R0ZwTVA0TGpk?=
- =?utf-8?B?YzlIcDU1eGZjK21oem5NTklGZDhTd2Z0bTg2bktzR25lT0FBMThtb25hclBZ?=
- =?utf-8?B?RkJDZlNHOHVob0s0ZFBPQzY3bGNWZy9rWURITlpuWGdjdnZSQnhMOVAralYv?=
- =?utf-8?B?eFY3YnZ2QjU4Ni9ZcWxCM0xvZlVxMnZlZ1dza1IxR3NFRUJxaE5TNXBxRkNR?=
- =?utf-8?B?MEdJRW80MlF5cFgyRkdvaVNWTUVwMytZZXFPODdPejBEMmJ4dmYrSVVGdFBZ?=
- =?utf-8?B?cjdGdlhRczlIK2dCL096NmxaRVVHMU1yL2xERTlUZGxIb3piOE4wbWJESFNJ?=
- =?utf-8?B?OUp2dFlwcmE1ZXE4NytBRWlZaDIxMkZXbm1ISDBLdTU0eHJ5UGgzclVLOEhM?=
- =?utf-8?B?WGQxcndDbFhUa0pRTC9SZEErZTlMejM2VEc1cERhbnVWY1FCRjU5YnUzOXVs?=
- =?utf-8?B?WkZtRFlDZW1PcHVjOFNxbkpiR09DT0pUZWhpNzNxSHZEeFI3ZVUzbUZoa2Zt?=
- =?utf-8?Q?hVE6QofllHCkWCtWM0AvPwtzu+a2H9ethrxzKoZjojsl?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa5ad54b-8431-42b4-dd00-08dad778e5a9
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2022 10:59:07.8008 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Q4Y+WrFjV4ek43yQtzaOLNOVvppRntC4QNq5ttG7OdtE0fzR62nBmUIDMYRVIjHG
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4284
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,50 +73,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: trufanov@swemel.ru, lvc-project@linuxtesting.org,
- Leo Li <sunpeng.li@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Roman Li <roman.li@amd.com>,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org, vfh@swemel.ru,
- =?UTF-8?Q?Michel_D=c3=a4nzer?= <mdaenzer@redhat.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, dri-devel@lists.freedesktop.org,
- Fangzhi Zuo <Jerry.Zuo@amd.com>, Alex Deucher <alexander.deucher@amd.com>
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 06.12.22 um 11:47 schrieb Denis Arefev:
-> Return value of a function 'dc_create_state' is
-> dereferenced at amdgpu_dm.c:2027 without checking for null
->
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
->
-> Signed-off-by: Denis Arefev <arefev@swemel.ru>
-> ---
->   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 0f7749e9424d..529483997154 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -1960,7 +1960,9 @@ static int dm_resume(void *handle)
->   	dc_release_state(dm_state->context);
->   	dm_state->context = dc_create_state(dm->dc);
->   	/* TODO: Remove dc_state->dccg, use dc->dccg directly. */
-> -	dc_resource_state_construct(dm->dc, dm_state->context);
-> +	if (dm_state->context) {
-> +		dc_resource_state_construct(dm->dc, dm_state->context);
-> +	}
 
-Single line statements shouldn't have an {} around them.
+On 05/12/2022 18:44, Michal Wajdeczko wrote:
+> On 05.12.2022 14:16, Tvrtko Ursulin wrote:
+>>
+>> On 02/12/2022 20:14, John Harrison wrote:
+>>
+>>>>> and while for dbg level messages it doesn't matter, I assume we should
+>>>>> be consistent for err/warn/info messages (as those will eventually show
+>>>>> up to the end user) so let maintainers decide here what is
+>>>>> expectation here
+>>>>
+>>>> Could we have some examples pasted here, of the end result of this
+>>>> series, for all message "categories" (origins, macros, whatever)?
+>>>
+>>> GT initialisation:
+>>> gt_err(gt, "Failed to allocate scratch page\n");
+>>> i915 0000:00:02.0: [drm] GT0: Failed to allocate scratch page
+>>>
+>>> G2H notification handler:
+>>> guc_err(guc, "notification: Invalid length %u for deregister done\n",
+>>> len);
+>>> i915 0000:00:02.0: [drm] GT0: GuC notification: Invalid length 0 for
+>>> deregister done
+> 
+> please note that today this message is coded as:
+> 
+> drm_err(&guc_to_gt(guc)->i915->drm, "Invalid length %u\n", len);
+> -> i915 0000:00:02.0: [drm] Invalid length %u
+> 
+> which makes this rather an example of meaningless log
 
-Apart from that I think error handling when dm_state->context can't be 
-created would be more appropriate, but that's something our display team 
-needs to look at.
+Okay, so log text needs improving anyway which is orthogonal.
+
+>> I'm not liking the inconsistency between gt_err and guc_err where with
+>> latter callers either need to start the message with lower case because
+>> of the unstructured "GuC " prefix added. Which then reads bad if callers
+>> do guc_err(guc, "Error X happend").
+>>
+>> Looks like Michal was pointing out the same thing, AFAIU at least when
+>> re-reading the thread now.
+>>
+>> Why wouldn't this work:
+>>
+>> guc_err(guc, "Invalid length %u for deregister done notification\n", len);
+>> i915 0000:00:02.0: [drm] GT0: GuC: Invalid length 0 for deregister done
+>> notification
+> 
+> +1
+> 
+>>
+>> Or if the use case for adding custom prefixes is strong then maybe
+>> consider:
+>>
+>> guc_err(guc, "notification", "Invalid length 0 for deregister done");
+>> i915 0000:00:02.0: [drm] GT0: GuC notification: Invalid length 0 for
+>> deregister done
+>>
+>> guc_err(guc, "", "Error X");
+>> i915 0000:00:02.0: [drm] GT0: GuC: Error X
+> 
+> -1
+> 
+> this will make logging macros too different from others (unless we
+> hide/use prefixes inside macros only, but I'm not sure there is any ROI)
+
+Yeah I said if the use case is strong, no strong opinion either way.
+
+>>> CTB initialisation:
+>>> ct_probe_error(ct, "Failed to control/%s CTB (%pe)\n",
+>>> str_enable_disable(enable), ERR_PTR(err));
+>>> i915 0000:00:02.0: [drm] GT0: GuC CT Failed to control/enable CTB
+>>> (EINVAL)
+>>
+>> Okay same as above.
+>>
+>>> Random meaningless (to me) message that is apparently a display thing:
+>>> drm_dbg_kms(&dev_priv->drm, "disabling %s\n", pll->info->name);
+>>> i915 0000:00:02.0: [drm:intel_disable_shared_dpll [i915]] disabling
+>>> PORT PLL B
+>>
+>> Plan is to not touch outside gt/.
+>>
+>>> I'm sure you can extrapolate to all other forms of dbg, notice, info,
+>>> etc. without me having to manually type each one out, given that they
+>>> are all identical.
+>>>
+>>> Personally, I think the above should be just:
+>>> gt_err(gt, "Failed to allocate scratch page\n");
+>>> i915 0000:00:02.0: [drm] GT0: Failed to allocate scratch page
+>>>
+>>> gt_err(guc_to_gt(guc), "G2H: Invalid length for deregister done:
+>>> %u\n", len);
+>>> i915 0000:00:02.0: [drm] GT0: G2H: Invalid length for deregister done: 0
+> 
+> that's probably should be:
+> 
+> 	"Invalid length for G2H deregister done: %u\n
+> 
+> and it will still just look fine if we auto append the 'GuC' prefix:
+> 
+> i915 0000:00:02.0: [drm] GT0: GuC: Invalid length for G2H deregister
+> 
+>>>
+>>> gt_probe_error(ct_to_gt(ct), "Failed to %s CT %d buffer (%pe)\n",
+>>> str_enable_disable(enable), send ? "SEND" : "RECV", ERR_PTR(err));
+>>> i915 0000:00:02.0: [drm] GT0: Failed to enable CT SEND buffer (EINVAL)
+> 
+> having "GuC/CT" prefix here will also look fine:
+> 
+> i915 0000:00:02.0: [drm] GT0: GuC: Failed to enable CT SEND buffer
+> i915 0000:00:02.0: [drm] GT0: GuC: CT: Failed to enable SEND buffer
+> i915 0000:00:02.0: [drm] GT0: CT: Failed to enable SEND buffer
+
+Works for me.
+
+>> We could but it seems we agreed some weeks ago to consolidate the
+>> existing CT_ERROR macros and such in this exercise. At least no
+>> objections were raised to that plan.
+>>
+>> If now we want to go back on that, and if you want to have
+>> guc_to_gt(guc) in all gt/uc/ call sites that's fine by me, but please
+>> get some acks and consensus from people who work in that area. And under
+>> that option someone would also need to convert the CT code to new macros.
+> 
+> while the main goal of this series was to have GT# appended to the log
+> messages but we also wanted to simplify the use of the logging macros by
+> passing the component pointer directly (with extra *bonus* that allows
+> to auto append component specific prefix, if any, like CT macros do)
+> 
+> IMHO adding guc_xxx() macros with "GuC:" prefix will do the trick and
+> since many of the existing GuC related logs are already broken or
+> incomplete, we might fix them accordingly.
+> 
+> In other words in addition to gt_xxx() I still want additional guc_xxx()
+> macros (as it will allow us to fix related messages) and ct_xxx() macros
+> (as we already have CT_xxx so no need to change anything)
+
+Both approaches are fine by me as long as it's logical and consistent 
+and we manage not to leave the conversion half-done for too long.
+
+Maybe as a way forward work could be split? If John wants to deal with 
+gt_xxx macros, avoid touching GuC (putting his original motivation 
+aside) and you want to convert the gt/uc folder? Assuming John you are 
+okay with "GuC:" and "CT:" prefixes.
 
 Regards,
-Christian.
 
->   
->   	/* Before powering on DC we need to re-initialize DMUB. */
->   	r = dm_dmub_hw_init(adev);
-
+Tvrtko
