@@ -2,60 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E838A643A0D
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 01:35:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51DEB643A17
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 01:36:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D53410E2D6;
-	Tue,  6 Dec 2022 00:35:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD91A10E2DE;
+	Tue,  6 Dec 2022 00:35:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com
- [IPv6:2607:f8b0:4864:20::d2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D10810E2CD;
- Tue,  6 Dec 2022 00:34:58 +0000 (UTC)
-Received: by mail-io1-xd2c.google.com with SMTP id i83so2365642ioa.11;
- Mon, 05 Dec 2022 16:34:58 -0800 (PST)
+Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com
+ [IPv6:2607:f8b0:4864:20::d2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 969BD10E2CD;
+ Tue,  6 Dec 2022 00:34:59 +0000 (UTC)
+Received: by mail-io1-xd2d.google.com with SMTP id o189so3099666iof.0;
+ Mon, 05 Dec 2022 16:34:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=YnDAYVoy4dFPmqfPd9DbquIT23rvABloUcd8Ca4aFl8=;
- b=TQk6CUnqoOsZ+GSXEMerTI/bMoADInIl0tC3BAqQv0v8cpiAMfn/KneFyYmJQJsomd
- FEJh13WFitq7Atd2g8EmkI0kwyuN0UL4EsuQUa5JjLrVvNtjx8fvQTWlpNhATsFBIKtq
- O6VQ67aFSyRqwaqUorQwnRA9ZjVZpPOHPVbQsgmevwuOB+ROIbP0Cv1OuekMddawZwxh
- RtMkMdg9NaezYUJ7l+sya5VwonL1BV/ExijyXbgMmtofqFfSFb0oa3mUDXJ2wurZQVkM
- 3doYLrTxOeFhiPLNiwcLy8kHHSV7Qfkwje6MEa58whtCJIA0lko2OauHuFFZfxRnwZp0
- tDQw==
+ bh=fUjShxaIiHk85i1hB/Op8E8p5ddWSfs+Wma1PGPikFA=;
+ b=UDeZIHBGQBsCU0w4VXJG37tmrasGx1Dh9Qwq+O4uCjtxK+MPvhZuQyVCKPv4D9akJp
+ /5O66uycj+Lyqo01MDBZiQ806EVORd1nWremz8Kwz5nj/nZcdoACkWLP0idrRrOU3aUX
+ T8jl/q5h9yafdeD4F+eTZTBDPmnyNkLBmuqetZfYGvI7PHAF9Yqn6T+GoP+myimtxtct
+ A6aWll/7A1f+D1gs54dd3ueUWWFHw9Mwok7gxTxXRWVtlogL1CA7UCyFil/fcP9DZhzI
+ ZEPtC0AI9fytZMtU1IaV2yQN4W3Hzmd23R4MLnnosQN9J4gHdpMkwtwNrEsRmbaP0ENZ
+ RPqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YnDAYVoy4dFPmqfPd9DbquIT23rvABloUcd8Ca4aFl8=;
- b=RycOvZcl9Tnmr0p75qmWSuTCTL5xdgs2NrCtWNIrU0+ekwwcDAhqCRDnI/ZSisfnny
- 4I72ETt2i4+64VDgkVdb6aKQpR3rzo0OZ7+nLmR6Id9VDrmR8FpiNOq4cq22AJMGOSZy
- CWCoDDaLGir+d4K47i60UNGGL6nSM1zhr0RB3PiBI5A2l5MBXgV+VIsy/nDh7Fba9/wW
- ZNpRu/8eXCFMQv3aimnxChksJPkVdmly0G2NXAmbJkkJNsC9sSQyB4I2dS0gieZGKSgs
- FmCDj4O3tn2Yaa5Sksjipm1kBL5EpZFx37cNp8TwH4lOEL1hgN8DD/SUaF0WT05Bf0lj
- /Q3Q==
-X-Gm-Message-State: ANoB5pn7rx4BDvgKLFq+Wp4piooWFcy4UmTF85UNJuW0yohgW3h2xZHB
- 488DCkV7u3aR9Yi1i6IdwYI=
-X-Google-Smtp-Source: AA0mqf6Bm0S1ExgIZipFgzEZdlH4q3+aKyRo+Nm8PQcm/Cg2Eo2308mplHUGsDA9FiD4SWuE07cGRg==
-X-Received: by 2002:a05:6638:36e5:b0:38a:53d5:1488 with SMTP id
- t37-20020a05663836e500b0038a53d51488mr1859208jau.146.1670286897295; 
- Mon, 05 Dec 2022 16:34:57 -0800 (PST)
+ bh=fUjShxaIiHk85i1hB/Op8E8p5ddWSfs+Wma1PGPikFA=;
+ b=5ieopgGmj80n/SQBKBgSjQenf8dfOXMil/bGnqRK8koxb0Cy+StU9T/5VPBWtkPrbJ
+ 0EwyGmsUJK6nZBrs9k8e/E5fN+kumnV5s1xgtxggWMX5qRWp81s8XAAQiOuk5R08F4Vn
+ i4ablt8tAZ4haX/amAfghJSQ159N2LnkRwKLRl8w2D+hJK63XyUY9qSJuP8GI2QsTzoM
+ Eq9Asle+EMtFGMChBYT/TeCJ5qH0iBi2ppEvgfLBfSpP6e1xkwazHZL9PKTfYApHwBui
+ IHLWfju9jT2d8JhcYp10KApmvvv1gYyw9MReKBhb0jmfakjM6OYO5BhkR4Pc/gvUaDZZ
+ BE8w==
+X-Gm-Message-State: ANoB5pnYOnbqKcypnQaklXtHXiqv1vHcDMlwK6p5ZuboMCqs4zSJ2gSF
+ YCu/EoCSTNDEl0V4eOBu3+U=
+X-Google-Smtp-Source: AA0mqf7swNN+G21iFyCypndlcCL4yUgCNnd+ZZlZ5MAssEa9Q0G/HyRDRQIEt4sj9LPee3m7RoWhwQ==
+X-Received: by 2002:a5d:8452:0:b0:6bc:ebd:4df9 with SMTP id
+ w18-20020a5d8452000000b006bc0ebd4df9mr28045510ior.84.1670286898535; 
+ Mon, 05 Dec 2022 16:34:58 -0800 (PST)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- x3-20020a056602160300b006bba42f7822sm6408213iow.52.2022.12.05.16.34.56
+ x3-20020a056602160300b006bba42f7822sm6408213iow.52.2022.12.05.16.34.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Dec 2022 16:34:56 -0800 (PST)
+ Mon, 05 Dec 2022 16:34:57 -0800 (PST)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org
-Subject: [RFC PATCH 01/17] test-dyndbg: fixup CLASSMAP usage error
-Date: Mon,  5 Dec 2022 17:34:08 -0700
-Message-Id: <20221206003424.592078-2-jim.cromie@gmail.com>
+Subject: [RFC PATCH 02/17] test-dyndbg: show that DEBUG enables prdbgs at
+ compiletime
+Date: Mon,  5 Dec 2022 17:34:09 -0700
+Message-Id: <20221206003424.592078-3-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221206003424.592078-1-jim.cromie@gmail.com>
 References: <20221206003424.592078-1-jim.cromie@gmail.com>
@@ -78,57 +79,54 @@ Cc: jani.nikula@intel.com, daniel.vetter@ffwll.ch, jbaron@akamai.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-more careful reading of test output reveals:
+Dyndbg is required to enable prdbgs at compile-time if DEBUG is
+defined.  Show this works; add the defn to test_dynamic_debug.c,
+and manually inspect/verify its effect at module load:
 
-lib/test_dynamic_debug.c:103 [test_dynamic_debug]do_cats =pmf "doing categories\n"
-lib/test_dynamic_debug.c:105 [test_dynamic_debug]do_cats =p "LOW msg\n" class:MID
-lib/test_dynamic_debug.c:106 [test_dynamic_debug]do_cats =p "MID msg\n" class:HI
-lib/test_dynamic_debug.c:107 [test_dynamic_debug]do_cats =_ "HI msg\n" class unknown, _id:13
+[   15.292810] dyndbg: module:test_dynamic_debug attached 4 classes
+[   15.293189] dyndbg:  32 debug prints in module test_dynamic_debug
+[   15.293715] test_dd: init start
+[   15.293716] test_dd: doing categories
+[   15.293716] test_dd: LOW msg
+...
+[   15.293733] test_dd: L6 msg
+[   15.293733] test_dd: L7 msg
+[   15.293733] test_dd: init done
 
-That last line is wrong, the HI class is declared.
+NOTES:
 
-But the enum's 1st val (explicitly initialized) was wrong; it must be
-_base, not _base+1 (a DECLARE_DYNDBG_CLASSMAP param).  So the last
-enumeration exceeded the range of mapped class-id's, which triggered
-the "class unknown" report.  Basically, I coded in an error, and
-forgot to verify it and remove it.
+As is observable above, define DEBUG enables all prdbgs, including
+those in mod_init-fn, and more notably, the "class"d ones (callsites
+with non-default class_ids).
 
-RFC:
+This differs from the >control interface, which in order to properly
+protect a client's class'd prdbgs, requires a "class FOO" in queries
+to change them.  Note that the DEBUG is in the module source file.
 
-This patch fixes a bad usage of DEFINE_DYNDBG_CLASSMAP(), showing that
-it is too error-prone.  As noted in test-dynamic-debug.c comments:
+This yields an occaisional surprise; the following disables all the
+compile-time enabled plain prdbgs, but leaves the class'd ones
+enabled.
 
- * Using the CLASSMAP api:
- * - classmaps must have corresponding enum
- * - enum symbols must match/correlate with class-name strings in the map.
- * - base must equal enum's 1st value
- * - multiple maps must set their base to share the 0-62 class_id space !!
- *   (build-bug-on tips welcome)
-
-Those shortcomings could largely be fixed with a __stringify_list
-(which doesn't exist) used in DEFINE_DYNAMIC_DEBUG_CLASSMAP(), on
-__VA_ARGS__ a 2nd time.  Then, DRM would pass DRM_UT_* ; all the
-categories, in order, and not their stringifications, which created
-all the usage complications above.
+ :#> modprobe test_dynamic_debug dyndbg==_
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- lib/test_dynamic_debug.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ lib/test_dynamic_debug.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/lib/test_dynamic_debug.c b/lib/test_dynamic_debug.c
-index 8dd250ad022b..a01f0193a419 100644
+index a01f0193a419..9d48689dc0ab 100644
 --- a/lib/test_dynamic_debug.c
 +++ b/lib/test_dynamic_debug.c
-@@ -75,7 +75,7 @@ DD_SYS_WRAP(disjoint_bits, p);
- DD_SYS_WRAP(disjoint_bits, T);
+@@ -8,6 +8,8 @@
  
- /* symbolic input, independent bits */
--enum cat_disjoint_names { LOW = 11, MID, HI };
-+enum cat_disjoint_names { LOW = 10, MID, HI };
- DECLARE_DYNDBG_CLASSMAP(map_disjoint_names, DD_CLASS_TYPE_DISJOINT_NAMES, 10,
- 			"LOW", "MID", "HI");
- DD_SYS_WRAP(disjoint_names, p);
+ #define pr_fmt(fmt) "test_dd: " fmt
+ 
++#define DEBUG
++
+ #include <linux/module.h>
+ 
+ /* run tests by reading or writing sysfs node: do_prints */
 -- 
 2.38.1
 
