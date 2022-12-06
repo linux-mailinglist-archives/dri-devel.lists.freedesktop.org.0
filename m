@@ -1,68 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B47A643DDB
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 08:55:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 525A7643DFC
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 09:02:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21CC310E105;
-	Tue,  6 Dec 2022 07:55:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D363A10E2FF;
+	Tue,  6 Dec 2022 08:02:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
- [IPv6:2607:f8b0:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A08410E105;
- Tue,  6 Dec 2022 07:55:25 +0000 (UTC)
-Received: by mail-pf1-x433.google.com with SMTP id k79so13811761pfd.7;
- Mon, 05 Dec 2022 23:55:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=+m1uoCSNZiNORNnWeYA/gOGOdLV8fKAWwqiFnQ4JGO4=;
- b=FLYjs2BsV+r65aZM3AJb2KO8o01qTTcxiXypSxBwse82Ge2U8dGdI5gwwrNj8KB6zO
- Vg3bwEuvpm2rok9Zr22M5HWzhrr//eVcFAt6p7YGtICttZPnajxCmYf/Ui63XHiiaS75
- vqseQZ/25z4WZlVG4yEYuAgmpOabbz6ZizTTBaA3AByXlp/YxcXF2IRa5pg24/shxCYD
- ZbY5gosvJBuIlzlsU9I0xKFzQfAF9Q0K/l+PdtPFNCHxXmyY4uudoiszGeRfhQsca0tW
- vXHomb3+0Un+BkjnH9GQjqxW9i5Wdcq9bTwyS0QT8EseISs88Dy+273WAs1hePzG72rH
- zjxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=+m1uoCSNZiNORNnWeYA/gOGOdLV8fKAWwqiFnQ4JGO4=;
- b=RJSikha8WMYOzcpxKY5tdx+VRcMav8E5z+czVItHr8bXog91dxMsW6EU0Yjh4wXG2/
- 9JFSwZklSLDy1Zqlgx7GI6HPetSKjfPoHtRfqN5Y3VFNLyWerBNfpGTMxBgw8MIF9Yup
- IIGwmL6hHDpOcfPTTy4x6FjYyrUSiGfIykjhF0MlTrwg70uOK2tQWRbQ+dtqpSjvxU2R
- vBqtW5nss4Fqy2mK0gxjgO5OYEl21JCBGUT4BiMkc1fL6HsFI0DcA9BkJkC4/uheXSYd
- Y+J+YM5hCpCLuUaYuRFRqbxQtptLEZBOYixPnhIxx15A2gXfEYFp9Xeq5Fit+fOnsEV3
- w+sA==
-X-Gm-Message-State: ANoB5pn/ON3Lw8wUlZgBLTSM9GlrOFJc7iDQFmRljuazMvD+Wr1SJi9d
- MaVdn48LYSWFMEe4rujrTds=
-X-Google-Smtp-Source: AA0mqf5dzvkZeVIdPTS9qvKDt87TQ2d5a756QKQdk8c0187z5gzzHU9yhowfHZF4VanVQG1f9UxM2w==
-X-Received: by 2002:a05:6a00:27ab:b0:56c:71a4:efe with SMTP id
- bd43-20020a056a0027ab00b0056c71a40efemr72801167pfb.84.1670313324560; 
- Mon, 05 Dec 2022 23:55:24 -0800 (PST)
-Received: from localhost.localdomain ([202.120.234.246])
- by smtp.googlemail.com with ESMTPSA id
- i14-20020a17090332ce00b00189422a6b8bsm11951284plr.91.2022.12.05.23.55.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Dec 2022 23:55:23 -0800 (PST)
-From: Miaoqian Lin <linmq006@gmail.com>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Stephen Boyd <swboyd@chromium.org>,
- Douglas Anderson <dianders@chromium.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/msm/dpu: Fix memory leak in
- msm_mdss_parse_data_bus_icc_path
-Date: Tue,  6 Dec 2022 11:55:12 +0400
-Message-Id: <20221206075512.812389-1-linmq006@gmail.com>
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CC7D610E0F7;
+ Tue,  6 Dec 2022 08:02:24 +0000 (UTC)
+Received: from localhost.localdomain (unknown [124.16.138.125])
+ by APP-05 (Coremail) with SMTP id zQCowABXXfEL945jZ605BQ--.54722S2;
+ Tue, 06 Dec 2022 16:02:19 +0800 (CST)
+From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+To: robdclark@gmail.com, quic_abhinavk@quicinc.com,
+ dmitry.baryshkov@linaro.org, sean@poorly.run, airlied@gmail.com,
+ daniel@ffwll.ch, quic_jesszhan@quicinc.com, ville.syrjala@linux.intel.com,
+ yang.lee@linux.alibaba.com
+Subject: [PATCH] drm/msm/dpu: Add check for cstate
+Date: Tue,  6 Dec 2022 16:02:18 +0800
+Message-Id: <20221206080218.43635-1-jiasheng@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowABXXfEL945jZ605BQ--.54722S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Jw4ktw45GF1rZF48JF1rtFb_yoWDWrg_G3
+ W5Arn8Xr47CrWqg3W8Aw1fury0y3s09F1kXas3ta4avFZFvr9rZ3y2v3yrJr1fuFWUtFnr
+ Aa1xta4rArsxGjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbsAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+ Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s
+ 1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0
+ cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8Jw
+ ACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
+ 0xkIwI1lc2xSY4AK67AK6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r
+ 4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF
+ 67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2I
+ x0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2
+ z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnU
+ UI43ZEXa7VUbqQ6JUUUUU==
+X-Originating-IP: [124.16.138.125]
+X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,36 +57,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linmq006@gmail.com
+Cc: linux-arm-msm@vger.kernel.org, Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-of_icc_get() alloc resources for path1, we should release it when not
-need anymore. Early return when IS_ERR_OR_NULL(path0) may leak path1.
-Add icc_put(path1) in the error path to fix this.
+As kzalloc may fail and return NULL pointer,
+it should be better to check pstates
+in order to avoid the NULL pointer dereference
+later.
 
-Fixes: b9364eed9232 ("drm/msm/dpu: Move min BW request and full BW disable back to mdss")
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
+Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
 ---
- drivers/gpu/drm/msm/msm_mdss.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-index e13c5c12b775..a38fa9a9a3d6 100644
---- a/drivers/gpu/drm/msm/msm_mdss.c
-+++ b/drivers/gpu/drm/msm/msm_mdss.c
-@@ -49,8 +49,10 @@ static int msm_mdss_parse_data_bus_icc_path(struct device *dev,
- 	struct icc_path *path0 = of_icc_get(dev, "mdp0-mem");
- 	struct icc_path *path1 = of_icc_get(dev, "mdp1-mem");
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+index 13ce321283ff..f51cb46ecfd6 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+@@ -1150,6 +1150,8 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+ 	bool needs_dirtyfb = dpu_crtc_needs_dirtyfb(crtc_state);
  
--	if (IS_ERR_OR_NULL(path0))
-+	if (IS_ERR_OR_NULL(path0)) {
-+		icc_put(path1);
- 		return PTR_ERR_OR_ZERO(path0);
-+	}
+ 	pstates = kzalloc(sizeof(*pstates) * DPU_STAGE_MAX * 4, GFP_KERNEL);
++	if (!pstates)
++		return -ENOMEM;
  
- 	msm_mdss->path[0] = path0;
- 	msm_mdss->num_paths = 1;
+ 	if (!crtc_state->enable || !crtc_state->active) {
+ 		DRM_DEBUG_ATOMIC("crtc%d -> enable %d, active %d, skip atomic_check\n",
 -- 
 2.25.1
 
