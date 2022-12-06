@@ -1,76 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70DCA644845
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 16:45:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D29AB644874
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 16:57:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14C0B10E087;
-	Tue,  6 Dec 2022 15:45:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB89110E0F1;
+	Tue,  6 Dec 2022 15:57:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B586410E087
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Dec 2022 15:45:09 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id g7so24338515lfv.5
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Dec 2022 07:45:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=lNf0oPz1+3JYITF+uARI5oqprCns7og7GMeWkwgQOfc=;
- b=Kx8saFYoHs97DPlt7rrWo2mlAeMwmhdrZXHcU6ApGZvCEcPzi+fsL29ZykBAdUog/p
- 4RhjCcy+vvcGMq5PQyQA7TSNYry9E+K3FGHTw8SpdUT4WGFAOtEqVhtysayPFRJlxqOs
- dPbdVzjGH4w7YTBIKP69tRClDuUpWxwP60LHj5r3/rtPtf31XDHArnKPYS4DhO00wKRn
- +7e5S05nSpyz6sFoVtz9C7uRJj0P8kFprLbiwFBfFO/INtdatDSMEBGkPsmco4XMgMtN
- x+QVEirO8ZUBFE4h1OAclT2O5ukRBq1bzdNO5EQ3j1uDU63bACCnKe6NYtqG9+khx8Ld
- xIcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lNf0oPz1+3JYITF+uARI5oqprCns7og7GMeWkwgQOfc=;
- b=jh+20AV8IXcfo3OJkarlcsfurPgBp6iVKtIK0xSIoo0+kjzh+eUcYSITpHo0GG9okK
- lSQ52EgCDImR7dk2DraFNR+keD174LeLayjUwmRqyBQbzz+FJVwBU2HqGTdpZPLsq6hZ
- jVDbKTBB19IdCgazVQYSbkvOSg+/XH52gOw6JZ/d8gn6SPnhFGoRQ1zt5DeC9CufLElx
- QXwnMPRZiezxRfdJctBeQ7qiW7JdFLLprYXP5y6MUw8XUBAmdk9527rpPMKk8sujBwO7
- vLUoPZDJAGf/KqtYcd0nsmZS7HAV/IaNqAwxTP9kBtv1vUL4Arwp9Og7Vz4f+gJLYLca
- 7M7g==
-X-Gm-Message-State: ANoB5pm0xeX2NrrsD/MudlDq90Pyi8iySe3kq/w8u5rwY2bPrS3vxNrQ
- doJ3AocXtTxzabse5Idl1HFyVg==
-X-Google-Smtp-Source: AA0mqf5Jh+Dt9wCImCiy9pkyTRtPnrr1eJHFTxSsl5fLdur/tl5B+TujlU7R0CiZRMeh4aFTfnhVGA==
-X-Received: by 2002:ac2:4e0a:0:b0:4a2:2aab:5460 with SMTP id
- e10-20020ac24e0a000000b004a22aab5460mr22854399lfr.62.1670341507919; 
- Tue, 06 Dec 2022 07:45:07 -0800 (PST)
-Received: from [192.168.0.20]
- (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
- by smtp.gmail.com with ESMTPSA id
- v5-20020ac258e5000000b00492ea54beeasm2518454lfo.306.2022.12.06.07.45.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Dec 2022 07:45:07 -0800 (PST)
-Message-ID: <d17bef48-0804-3ccc-a14e-9043ae615573@linaro.org>
-Date: Tue, 6 Dec 2022 16:45:06 +0100
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E00B710E0F1
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Dec 2022 15:57:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:Cc:
+ References:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID
+ :Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
+ Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe
+ :List-Post:List-Owner:List-Archive;
+ bh=9g/vMicaWjtp7Gg/l1CD9g7BZ2YX3Dt2YkIwYev2GiU=; b=QxwMO9v89QMsBJ6oEXYsvGKDsE
+ KCbr2HPb0TQ6bSJBTdLEwRgNr/iPkxMGZ/6VWVky9+mlbQfR7at+Vd5IAHTlS9ME2xu36X4Rlo/dC
+ gMTZS6MNRjQRmMCFglGexfNQjfJQsH7PbpdMpls2t5cArWBMTuQhFpzoczLWmj4olYlpMdHke3e3x
+ zR1y0809pJ1Y1IfKuDW46HTyVSzm7Y2ry46IV2ca8SUUn7MwmqAZ+q4UB2HNmxFf1b0ghB4wWDsUt
+ mA/IhbPn+PHb85vxejUxETj18eV/OvsK1YWmRlC9xYKqA4aEy47LpiZXObbAM2izwlvCXokgpWp5v
+ VTrKV+nw==;
+Received: from [2a01:799:95e:1700:6395:ccbd:d000:d42b] (port=58854)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1p2aK6-0000wB-2p; Tue, 06 Dec 2022 16:57:34 +0100
+Message-ID: <92cce695-13bb-5ddc-dc85-3e3c86bb4278@tronnes.org>
+Date: Tue, 6 Dec 2022 16:57:31 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.1
-Subject: Re: [PATCH v4 2/6] dt-bindings: mediatek: modify VDOSYS0 mmsys device
- tree Documentations for MT8188
-Content-Language: en-US
-To: "nathan.lu" <nathan.lu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Matthias Brugger <matthias.bgg@gmail.com>
-References: <20221206020046.11333-1-nathan.lu@mediatek.com>
- <20221206020046.11333-3-nathan.lu@mediatek.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221206020046.11333-3-nathan.lu@mediatek.com>
+Subject: Re: [PATCH v2 0/6] drm/gud: Use the shadow plane helper
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>
+References: <20221122-gud-shadow-plane-v2-0-435037990a83@tronnes.org>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20221122-gud-shadow-plane-v2-0-435037990a83@tronnes.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,26 +56,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Rex-BC Chen <rex-bc.chen@mediatek.com>, Moudy Ho <moudy.ho@mediatek.com>,
- linux-mediatek@lists.infradead.org, lancelot.wu@mediatek.com,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/12/2022 03:00, nathan.lu wrote:
-> From: Nathan Lu <nathan.lu@mediatek.com>
+
+
+Den 30.11.2022 20.26, skrev Noralf Trønnes via B4 Submission Endpoint:
+> Hi,
 > 
-> modify VDOSYS0 mmsys device tree Documentations for MT8188.
+> I have started to look at igt for testing and want to use CRC tests. To
+> implement support for this I need to move away from the simple kms
+> helper.
 > 
-> Signed-off-by: Nathan Lu <nathan.lu@mediatek.com>
+> When looking around for examples I came across Thomas' nice shadow
+> helper and thought, yes this is perfect for drm/gud. So I'll switch to
+> that before I move away from the simple kms helper.
+> 
+> The async framebuffer flushing code path now uses a shadow buffer and
+> doesn't touch the framebuffer when it shouldn't. I have also taken the
+> opportunity to inline the synchronous flush code path and make this the
+> default flushing stategy.
+> 
+> Noralf.
+> 
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
+> 
+> ---
+> Changes in v2:
+> - Drop patch (Thomas):
+>   drm/gem: shadow_fb_access: Prepare imported buffers for CPU access
+> - Use src as variable name for iosys_map (Thomas)
+> - Prepare imported buffer for CPU access in the driver (Thomas)
+> - New patch: make sync flushing the default (Thomas)
+> - Link to v1: https://lore.kernel.org/r/20221122-gud-shadow-plane-v1-0-9de3afa3383e@tronnes.org
+> 
+> ---
+> Noralf Trønnes (6):
+>       drm/gud: Fix UBSAN warning
+>       drm/gud: Don't retry a failed framebuffer flush
+>       drm/gud: Split up gud_flush_work()
+>       drm/gud: Prepare buffer for CPU access in gud_flush_work()
+>       drm/gud: Use the shadow plane helper
+>       drm/gud: Enable synchronous flushing by default
+> 
 
+Applied to drm-misc-next, thanks for reviewing!
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
-
+Noralf.
