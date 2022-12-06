@@ -1,17 +1,17 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85571643A58
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 01:37:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9C3A643A60
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 01:41:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2963D10E2CD;
-	Tue,  6 Dec 2022 00:37:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E9CB10E2D2;
+	Tue,  6 Dec 2022 00:41:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5345910E2D2
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Dec 2022 00:37:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8667910E2D2
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Dec 2022 00:41:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -19,29 +19,30 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=vrd7FfueKholXe98mvN6q0jU34zWpJgC+kcpoxaw4+4=; b=rH59W3VEdRciD0aYsAMpA9ER86
- H3a2VLMFj6PeVvB9+jdkN6XxQDH10pGzSLhtVRnAmPlnA0aPTGyVpJXHrsFEoo6PpcDOU3BaCOlmS
- edQoUSbLXCGnFc3reFsmm0KyfDJpp6kIzd/Gs+Tg38U+dtgpF6ODApfCRauDJSSRqM+8vsMDcMlRd
- bGZhLoXLk3/87zPwf1ACoURW8V+3K+Dwj4jlIP/0pWsaddwPdR1W5X0r6D/ehvmldAM5IzZ+uxI+t
- 78maBxch5FCmBD+5hEhNmkLhFErUb3FY9w4gCUxG7ytigtQ2w2j8U39lXMRqBqnVks+MKwm1MIHLT
- zP/N23iA==;
+ bh=ATfntEczgiDIz1NDR8g2Hsjkm0/EyiJMOTZLTQtWJWg=; b=snYz7qIe6fDQfVdAt/V32OhLKp
+ 9iYax2sUhBchWYv8rmbPO/zIM+fKSCYkut7xVShWYvuG4x1+yMJm9jkngjm1V/E+GLs3U0lvHkDCQ
+ NxA4tN07eCTd0QCdZNtljFyurPfL+FndvCAufaYgbyUqldYilV+e15bVIdLijamOPQor/CIegVyEG
+ z4bdTFO13L2ZLGtpsEV3LHKhnLp0ZH91XI6XJqMYThPg+esxm285GNaJR/si96r9ACHzDd0n6AMJn
+ wa4HjYe+QL2M5/fChv+bRGCDO0kx6YVHldWHfy+mnuD/mJFdzax3nas8lKng12k01W7ALYS9eLuqA
+ UcnTNMAg==;
 Received: from [177.34.169.227] (helo=[192.168.0.8])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1p2Lxl-00FpTH-Bm; Tue, 06 Dec 2022 01:37:33 +0100
-Message-ID: <44140361-33c3-ff97-b28f-64c26bf87d5c@igalia.com>
-Date: Mon, 5 Dec 2022 21:37:26 -0300
+ id 1p2M1W-00FpWu-3X; Tue, 06 Dec 2022 01:41:26 +0100
+Message-ID: <66a7178e-5af2-2aab-dc3f-3c1a4ef991dd@igalia.com>
+Date: Mon, 5 Dec 2022 21:41:21 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
-Subject: Re: [PATCH v2 1/2] drm/v3d: cleanup BOs properly when lookup_bos fails
+Subject: Re: [PATCH v2 2/2] drm/v3d: replace obj lookup steps with
+ drm_gem_objects_lookup
+Content-Language: en-US
 To: Melissa Wen <mwen@igalia.com>, emma@anholt.net, airlied@gmail.com,
  daniel@ffwll.ch
 References: <20221205135538.3545051-1-mwen@igalia.com>
- <20221205135538.3545051-2-mwen@igalia.com>
-Content-Language: en-US
+ <20221205135538.3545051-3-mwen@igalia.com>
 From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20221205135538.3545051-2-mwen@igalia.com>
+In-Reply-To: <20221205135538.3545051-3-mwen@igalia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,12 +63,8 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 12/5/22 10:55, Melissa Wen wrote:
-> When v3d_lookup_bos fails to `allocate validated BO pointers`,
-> job->bo_count was already set to args->bo_count, but job->bo points to
-> NULL. In this scenario, we must verify that job->bo is not NULL before
-> iterating on it to proper clean up a job. Also, drm_gem_object_put
-> already checks that the object passed is not NULL, doing the job->bo[i]
-> checker redundant.
+> As v3d_lookup_bos() performs the same steps as drm_gem_objects_lookup(),
+> replace the explicit code in v3d to simply use the DRM function.
 > 
 > Signed-off-by: Melissa Wen <mwen@igalia.com>
 
@@ -77,25 +74,73 @@ Best Regards,
 - Maíra Canal
 
 > ---
->  drivers/gpu/drm/v3d/v3d_gem.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/v3d/v3d_gem.c | 49 +++--------------------------------
+>  1 file changed, 3 insertions(+), 46 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-> index 96af1cb5202a..31a37572c11d 100644
+> index 31a37572c11d..6e152ef26358 100644
 > --- a/drivers/gpu/drm/v3d/v3d_gem.c
 > +++ b/drivers/gpu/drm/v3d/v3d_gem.c
-> @@ -363,11 +363,11 @@ v3d_job_free(struct kref *ref)
->  	struct v3d_job *job = container_of(ref, struct v3d_job, refcount);
->  	int i;
+> @@ -299,10 +299,6 @@ v3d_lookup_bos(struct drm_device *dev,
+>  	       u64 bo_handles,
+>  	       u32 bo_count)
+>  {
+> -	u32 *handles;
+> -	int ret = 0;
+> -	int i;
+> -
+>  	job->bo_count = bo_count;
 >  
-> -	for (i = 0; i < job->bo_count; i++) {
-> -		if (job->bo[i])
-> +	if (job->bo) {
-> +		for (i = 0; i < job->bo_count; i++)
->  			drm_gem_object_put(job->bo[i]);
-> +		kvfree(job->bo);
+>  	if (!job->bo_count) {
+> @@ -313,48 +309,9 @@ v3d_lookup_bos(struct drm_device *dev,
+>  		return -EINVAL;
 >  	}
-> -	kvfree(job->bo);
 >  
->  	dma_fence_put(job->irq_fence);
->  	dma_fence_put(job->done_fence);
+> -	job->bo = kvmalloc_array(job->bo_count,
+> -				 sizeof(struct drm_gem_dma_object *),
+> -				 GFP_KERNEL | __GFP_ZERO);
+> -	if (!job->bo) {
+> -		DRM_DEBUG("Failed to allocate validated BO pointers\n");
+> -		return -ENOMEM;
+> -	}
+> -
+> -	handles = kvmalloc_array(job->bo_count, sizeof(u32), GFP_KERNEL);
+> -	if (!handles) {
+> -		ret = -ENOMEM;
+> -		DRM_DEBUG("Failed to allocate incoming GEM handles\n");
+> -		goto fail;
+> -	}
+> -
+> -	if (copy_from_user(handles,
+> -			   (void __user *)(uintptr_t)bo_handles,
+> -			   job->bo_count * sizeof(u32))) {
+> -		ret = -EFAULT;
+> -		DRM_DEBUG("Failed to copy in GEM handles\n");
+> -		goto fail;
+> -	}
+> -
+> -	spin_lock(&file_priv->table_lock);
+> -	for (i = 0; i < job->bo_count; i++) {
+> -		struct drm_gem_object *bo = idr_find(&file_priv->object_idr,
+> -						     handles[i]);
+> -		if (!bo) {
+> -			DRM_DEBUG("Failed to look up GEM BO %d: %d\n",
+> -				  i, handles[i]);
+> -			ret = -ENOENT;
+> -			spin_unlock(&file_priv->table_lock);
+> -			goto fail;
+> -		}
+> -		drm_gem_object_get(bo);
+> -		job->bo[i] = bo;
+> -	}
+> -	spin_unlock(&file_priv->table_lock);
+> -
+> -fail:
+> -	kvfree(handles);
+> -	return ret;
+> +	return drm_gem_objects_lookup(file_priv,
+> +				      (void __user *)(uintptr_t)bo_handles,
+> +				      job->bo_count, &job->bo);
+>  }
+>  
+>  static void
