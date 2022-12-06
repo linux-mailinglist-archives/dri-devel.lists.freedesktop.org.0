@@ -2,77 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7B5E644953
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 17:34:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1C9064499B
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 17:45:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDF5310E150;
-	Tue,  6 Dec 2022 16:34:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A362210E14E;
+	Tue,  6 Dec 2022 16:45:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59E5010E150;
- Tue,  6 Dec 2022 16:34:52 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2B6CocaG002924; Tue, 6 Dec 2022 16:34:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=LW1f2IGMYZaNZzh1IJS2Bnc7VQ7uiD6eYe+j3zm60ns=;
- b=CJbxX3s+Ay54pAxxfKwTvFQdncVC6EBS1Cu5SkAjoMUfd92FQryHILIGGTG73p1n+iJM
- dhm22ErIksRopV9xXIMxaJ/+8ktG6TxyC6t/JrWYFuJEI/OvGAysSRAQy9sc8npV0AUB
- nFbMiXN1M2FNZjTSS6lJ4mN7144TeLEvRwZZbA5I15nvvSVIuzuL0yi5OfVqdYLN1+gL
- Ro2UV6F5aYgHpkDpoWB9H4KrzRKrsie+1GD75YD/orSmHBR2Qd5kCAzi6Yh29jveCI5q
- aNvBRbW8mvzSSp/QAQgu6Cvbele1SV2neL0lbD5w6gVmsgl86t1O/DB5rvzY+oQAe1V5 Kw== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ma21us03v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 06 Dec 2022 16:34:21 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2B6GYKev032197
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 6 Dec 2022 16:34:20 GMT
-Received: from [10.38.242.71] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Tue, 6 Dec 2022
- 08:34:16 -0800
-Message-ID: <339d9ec4-a554-d468-51f4-498d785685b6@quicinc.com>
-Date: Tue, 6 Dec 2022 08:32:14 -0800
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27F3310E14E
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Dec 2022 16:45:28 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 54DD0617E3
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Dec 2022 16:45:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B8D02C433C1
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Dec 2022 16:45:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1670345126;
+ bh=5r0+lZrCxisNuxYcflHFOE3LWs6seC5uF+buB74klxM=;
+ h=From:To:Subject:Date:From;
+ b=UAJBVf6xHBEMW0mAYw6Fr0TP0IGoBe+L4mzZa1M3jqYG1O1GYfr6IvBzegfii/sAq
+ jlObhwkjPYsmPAoDITGNAHgH2m9KE+2A4BeDb2PAEWefvfH+nU5o2pi3AnpDKqs3Vo
+ Hrr5wN7s1889EcqdsuJ1pVlANRctVLjOIsaGg5rm0Bi/cKL4ZCLw3wK7A27MbB22ND
+ q+GJo3dSpSJ9oiztPYFx9U/tEmmZ6KWNAmfNOhxg6zihyCMkzrtW6xsvfK1f/fTVe1
+ GRJcAa59km4cddBnlWAG5AjpS0cbNj7lTh2CAdL9at1MyD47yOQD4FuqVimSmNFGah
+ 7sLulA2pocZYw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 9DDA1C433E4; Tue,  6 Dec 2022 16:45:26 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 216780] New: problem of Mesa drawing boxes after resume from
+ suspend with Geforce4 420 Go
+Date: Tue, 06 Dec 2022 16:45:26 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: estellnb@elstel.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-216780-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH] drm/msm/dpu: Add check for cstate
-Content-Language: en-US
-To: Jiasheng Jiang <jiasheng@iscas.ac.cn>, <robdclark@gmail.com>,
- <dmitry.baryshkov@linaro.org>, <sean@poorly.run>, <airlied@gmail.com>,
- <daniel@ffwll.ch>, <quic_jesszhan@quicinc.com>,
- <ville.syrjala@linux.intel.com>, <yang.lee@linux.alibaba.com>
-References: <20221206080517.43786-1-jiasheng@iscas.ac.cn>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20221206080517.43786-1-jiasheng@iscas.ac.cn>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: W-0oiKh5bFbTd5KjY0sWwCZq1_tqM6nB
-X-Proofpoint-GUID: W-0oiKh5bFbTd5KjY0sWwCZq1_tqM6nB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-06_10,2022-12-06_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011
- lowpriorityscore=0 mlxscore=0 mlxlogscore=999 malwarescore=0 bulkscore=0
- phishscore=0 spamscore=0 impostorscore=0 priorityscore=1501 adultscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2212060137
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,46 +71,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216780
 
+            Bug ID: 216780
+           Summary: problem of Mesa drawing boxes after resume from
+                    suspend with Geforce4 420 Go
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.15.79-desktop586
+          Hardware: All
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: estellnb@elstel.org
+        Regression: No
 
-On 12/6/2022 12:05 AM, Jiasheng Jiang wrote:
-> As kzalloc may fail and return NULL pointer,
-> it should be better to check cstate
-> in order to avoid the NULL pointer dereference
-> in __drm_atomic_helper_crtc_reset.
+When it has finished to boot everything works correctly: I can move the Pid=
+gin
+window or I can lock the screen: boxes are drawn correctly. Yet after resume
+from s2ram/suspend you can see a black box as the background of the status =
+bar
+tray instead of a filled one, moving pidgin leads to box-shaped screen
+distortions and the background box of the login dialogue is not drawn any m=
+ore.
+Using Mesa patches from Karol Herbst for gtk3 apps
+(https://gitlab.freedesktop.org/drm/nouveau/-/issues/174); xscreensaver as =
+well
+as the drawing of the lxde status tray bar shall be independent from this
+however (non-gtk).
 
-You have wrapped around your lines too short. Please try to utilize the 
-full word limit for each line.
+kernel modules used for dri (as returned by lspci): rivafb, nvidiafb, nouve=
+au
+kernel: 5.15.79-desktop586 SMP i686 i386 GNU/Linux
+graphics card: NVIDIA Corporation NV17M [GeForce4 420 Go] (rev a3)
 
-With that fixed,
+--=20
+You may reply to this email to add a comment.
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-
-> 
-> Fixes: 1cff7440a86e ("drm/msm: Convert to using __drm_atomic_helper_crtc_reset() for reset.")
-> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> index 13ce321283ff..22c2787b7b38 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> @@ -968,7 +968,10 @@ static void dpu_crtc_reset(struct drm_crtc *crtc)
->   	if (crtc->state)
->   		dpu_crtc_destroy_state(crtc, crtc->state);
->   
-> -	__drm_atomic_helper_crtc_reset(crtc, &cstate->base);
-> +	if (cstate)
-> +		__drm_atomic_helper_crtc_reset(crtc, &cstate->base);
-> +	else
-> +		__drm_atomic_helper_crtc_reset(crtc, NULL);
->   }
->   
->   /**
+You are receiving this mail because:
+You are watching the assignee of the bug.=
