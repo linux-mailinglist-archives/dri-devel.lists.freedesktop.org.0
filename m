@@ -1,49 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9C3A643A60
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 01:41:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16CE2643A90
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 02:15:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E9CB10E2D2;
-	Tue,  6 Dec 2022 00:41:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5835110E13C;
+	Tue,  6 Dec 2022 01:15:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8667910E2D2
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Dec 2022 00:41:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ATfntEczgiDIz1NDR8g2Hsjkm0/EyiJMOTZLTQtWJWg=; b=snYz7qIe6fDQfVdAt/V32OhLKp
- 9iYax2sUhBchWYv8rmbPO/zIM+fKSCYkut7xVShWYvuG4x1+yMJm9jkngjm1V/E+GLs3U0lvHkDCQ
- NxA4tN07eCTd0QCdZNtljFyurPfL+FndvCAufaYgbyUqldYilV+e15bVIdLijamOPQor/CIegVyEG
- z4bdTFO13L2ZLGtpsEV3LHKhnLp0ZH91XI6XJqMYThPg+esxm285GNaJR/si96r9ACHzDd0n6AMJn
- wa4HjYe+QL2M5/fChv+bRGCDO0kx6YVHldWHfy+mnuD/mJFdzax3nas8lKng12k01W7ALYS9eLuqA
- UcnTNMAg==;
-Received: from [177.34.169.227] (helo=[192.168.0.8])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1p2M1W-00FpWu-3X; Tue, 06 Dec 2022 01:41:26 +0100
-Message-ID: <66a7178e-5af2-2aab-dc3f-3c1a4ef991dd@igalia.com>
-Date: Mon, 5 Dec 2022 21:41:21 -0300
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B45710E0E1;
+ Tue,  6 Dec 2022 01:15:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1670289319; x=1701825319;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=hbQShNZX/rk3VUPVGk4QNY5SHehQVeHOKYMcpafhxA0=;
+ b=b5siLjzFZGc6fUgvQOnXrGDmzs1mFEcPzwVmZl44KUDhX3asXeWU2mgG
+ 1huOs11ITPv7ter2odj/GFxQWZ2sg2MHxVlxJEIdneMzgzJIUSG/mlIM7
+ f7rO2t6lu3B6ysBPbi/LXIYtHUJjZXOkhgowe61d5bPJ4Uiatb8ik0Dbc
+ 090YUJgkODT/fSrzWaBjWxN4WTMAuZEA3RyPtldKoy5SIUi45GkWs/bNN
+ DVWSB40Lgs7sV8s52c1bZX4gGe4a3tFws8wydaiwhvBnTnb82eJt6w0Q0
+ kXQF5OIEukCsfsFu5dEs6TuUs4oU/HTIkkShi0Y2te9uofIK5TDAtn9dQ w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10552"; a="317650456"
+X-IronPort-AV: E=Sophos;i="5.96,220,1665471600"; d="scan'208";a="317650456"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Dec 2022 17:15:18 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10552"; a="974890685"
+X-IronPort-AV: E=Sophos;i="5.96,220,1665471600"; d="scan'208";a="974890685"
+Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Dec 2022 17:15:18 -0800
+From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2 0/6] drm/i915: Add support for GSC FW loading
+Date: Mon,  5 Dec 2022 17:19:02 -0800
+Message-Id: <20221206011908.2745508-1-daniele.ceraolospurio@intel.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v2 2/2] drm/v3d: replace obj lookup steps with
- drm_gem_objects_lookup
-Content-Language: en-US
-To: Melissa Wen <mwen@igalia.com>, emma@anholt.net, airlied@gmail.com,
- daniel@ffwll.ch
-References: <20221205135538.3545051-1-mwen@igalia.com>
- <20221205135538.3545051-3-mwen@igalia.com>
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20221205135538.3545051-3-mwen@igalia.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,90 +54,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: John Harrison <John.C.Harrison@Intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Alan Previn <alan.previn.teres.alexis@intel.com>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/5/22 10:55, Melissa Wen wrote:
-> As v3d_lookup_bos() performs the same steps as drm_gem_objects_lookup(),
-> replace the explicit code in v3d to simply use the DRM function.
-> 
-> Signed-off-by: Melissa Wen <mwen@igalia.com>
+Starting from MTL, the GSC FW is runtime loaded by the driver, instead
+of being stored in flash memory. Loading the GSC FW is required to allow
+the media GT to go into its C6 state and for content protection features
+(PXP, HDCP).
 
-Reviewed-by: Maíra Canal <mcanal@igalia.com>
+The loading happens via a submission to the GSC engine. All subsequent
+communication with the FW will also happen via the engine, although no
+further messages are implemented as part of this series.
 
-Best Regards,
-- Maíra Canal
+This series also adds the GSC engine flag to the MTL platform, with the
+engine being runtime disabled if the FW is not selected, which makes the
+FW definition (not included in the series) the ultimate enabler for the
+whole GSC block.
 
-> ---
->  drivers/gpu/drm/v3d/v3d_gem.c | 49 +++--------------------------------
->  1 file changed, 3 insertions(+), 46 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-> index 31a37572c11d..6e152ef26358 100644
-> --- a/drivers/gpu/drm/v3d/v3d_gem.c
-> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
-> @@ -299,10 +299,6 @@ v3d_lookup_bos(struct drm_device *dev,
->  	       u64 bo_handles,
->  	       u32 bo_count)
->  {
-> -	u32 *handles;
-> -	int ret = 0;
-> -	int i;
-> -
->  	job->bo_count = bo_count;
->  
->  	if (!job->bo_count) {
-> @@ -313,48 +309,9 @@ v3d_lookup_bos(struct drm_device *dev,
->  		return -EINVAL;
->  	}
->  
-> -	job->bo = kvmalloc_array(job->bo_count,
-> -				 sizeof(struct drm_gem_dma_object *),
-> -				 GFP_KERNEL | __GFP_ZERO);
-> -	if (!job->bo) {
-> -		DRM_DEBUG("Failed to allocate validated BO pointers\n");
-> -		return -ENOMEM;
-> -	}
-> -
-> -	handles = kvmalloc_array(job->bo_count, sizeof(u32), GFP_KERNEL);
-> -	if (!handles) {
-> -		ret = -ENOMEM;
-> -		DRM_DEBUG("Failed to allocate incoming GEM handles\n");
-> -		goto fail;
-> -	}
-> -
-> -	if (copy_from_user(handles,
-> -			   (void __user *)(uintptr_t)bo_handles,
-> -			   job->bo_count * sizeof(u32))) {
-> -		ret = -EFAULT;
-> -		DRM_DEBUG("Failed to copy in GEM handles\n");
-> -		goto fail;
-> -	}
-> -
-> -	spin_lock(&file_priv->table_lock);
-> -	for (i = 0; i < job->bo_count; i++) {
-> -		struct drm_gem_object *bo = idr_find(&file_priv->object_idr,
-> -						     handles[i]);
-> -		if (!bo) {
-> -			DRM_DEBUG("Failed to look up GEM BO %d: %d\n",
-> -				  i, handles[i]);
-> -			ret = -ENOENT;
-> -			spin_unlock(&file_priv->table_lock);
-> -			goto fail;
-> -		}
-> -		drm_gem_object_get(bo);
-> -		job->bo[i] = bo;
-> -	}
-> -	spin_unlock(&file_priv->table_lock);
-> -
-> -fail:
-> -	kvfree(handles);
-> -	return ret;
-> +	return drm_gem_objects_lookup(file_priv,
-> +				      (void __user *)(uintptr_t)bo_handles,
-> +				      job->bo_count, &job->bo);
->  }
->  
->  static void
+Note that just loading the FW is not enough for it to be fully
+functional. We'll also need to establish and handle a communication
+channel between GSC and CSME (a.k.a. SW proxy). This will require a new
+mei component to handle the CSME side of things, so it will be pushed as
+a separate series.
+
+v2: Use wq to load the GSC, address minor review comments.
+
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
+Cc: John Harrison <John.C.Harrison@Intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+
+Daniele Ceraolo Spurio (5):
+  drm/i915/uc: Introduce GSC FW
+  drm/i915/gsc: Skip the version check when fetching the GSC FW
+  drm/i915/gsc: GSC firmware loading
+  drm/i915/gsc: Do a driver-FLR on unload if GSC was loaded
+  drm/i915/mtl: MTL has one GSC CS on the media GT
+
+Jonathan Cavitt (1):
+  drm/i915/gsc: Disable GSC engine and power well if FW is not selected
+
+ drivers/gpu/drm/i915/Makefile                |  11 +-
+ drivers/gpu/drm/i915/gt/intel_engine.h       |   2 +
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c    |  18 ++
+ drivers/gpu/drm/i915/gt/intel_gpu_commands.h |   7 +
+ drivers/gpu/drm/i915/gt/intel_gt.h           |   5 +
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c    | 210 +++++++++++++++++++
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.h    |  15 ++
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c    | 137 ++++++++++++
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.h    |  47 +++++
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c        |  23 ++
+ drivers/gpu/drm/i915/gt/uc/intel_uc.h        |   3 +
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c     |  78 +++++--
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h     |   8 +-
+ drivers/gpu/drm/i915/i915_params.c           |   3 +
+ drivers/gpu/drm/i915/i915_params.h           |   1 +
+ drivers/gpu/drm/i915/i915_pci.c              |   2 +-
+ drivers/gpu/drm/i915/i915_reg.h              |   3 +
+ drivers/gpu/drm/i915/intel_uncore.c          |  61 ++++++
+ drivers/gpu/drm/i915/intel_uncore.h          |  13 ++
+ 19 files changed, 626 insertions(+), 21 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.h
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.h
+
+-- 
+2.37.3
+
