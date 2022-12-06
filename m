@@ -2,71 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D17F644AFD
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 19:17:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B010644B08
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 19:19:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A65AC10E33B;
-	Tue,  6 Dec 2022 18:17:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4460289BEC;
+	Tue,  6 Dec 2022 18:19:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 097B710E33B
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Dec 2022 18:17:22 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id d20so21538161edn.0
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Dec 2022 10:17:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=7vtB1k1E12/Qe5MgbChmK5o0Viuvz+G0q4nlKw8ldAc=;
- b=JOt5sl3NlVw3zEko+QR9FYDFsdGhhR1+AZLE+M13jISuMq9oNkTnkFgXbzOhovPuJK
- JB2JL0L4OMhuLiEgHNnBHjBzy7vQO3Ba4/P7VqZAH1fD5srTl0ou+CbeAr8atTfEC9+Q
- h/Lv//kEh3iC7qmqQ3sEVqDApiBCh/pwWW3MsYeXMbnVYtz4qeXJR5mO+3znLhN7OWqN
- BJd3Al3jRq9kgvoFSZU0gDMZBvqAWOn8+ZeUx1xL4CJC4muM/yBjruLF5t7If7d4VraT
- hpeJtdxkdjdJLxvLaHPWTSoCRYbI5J0KIWW6AS8iRtTa0tMB3CmsqFmT+XKCWR02kTtd
- 7UXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7vtB1k1E12/Qe5MgbChmK5o0Viuvz+G0q4nlKw8ldAc=;
- b=zECfIQ5jhznXHNFFXnjMfPBijqTXCSSNCjC+2VjwdDYjI/8vWMljfLotKsguEmt4Wn
- Xs6zZINLJZb8XhmhyYk2pKcDXjbZWDz4J3V95B8ZBnroCegySBgAnUovjyqk+x1PbRbm
- U+/drrhpS1DqxcJI9yTTGxszgET/6Vg/dczRbMfJsZbX2BwNEQjAXR9olcYm8DqQqQKU
- SumfD+qfsZiBQkK8KHwFEJx7VLyQ7syTYL5tack7vlxAh0Wx9Xto3XG6FCOQXNrYPq+d
- 3p0DeZNEZEZQtZcUrTx+IRudE5jvW32roX7s2HgAvAAR5JXw/JF3KVyDl8qVvY+1FHeo
- x/WA==
-X-Gm-Message-State: ANoB5pkH7S5sXf+NAHeldk5D5RG7SEe9GH/ftgx22nAy8VT+4o1H3wnf
- dAgpjDPBs62tuvWgeDHxW5o=
-X-Google-Smtp-Source: AA0mqf6RdIuR2ZSd6whmHf4DjhAn+d+r9tStiV/oTM2gTheg5zX+OFsnkNnLTSKy3DC6aQW+P01BuQ==
-X-Received: by 2002:a05:6402:5299:b0:461:7291:79c1 with SMTP id
- en25-20020a056402529900b00461729179c1mr70361891edb.68.1670350640573; 
- Tue, 06 Dec 2022 10:17:20 -0800 (PST)
-Received: from ?IPV6:2a02:908:1256:79a0:f31f:ea10:880e:c031?
- ([2a02:908:1256:79a0:f31f:ea10:880e:c031])
- by smtp.gmail.com with ESMTPSA id
- cn14-20020a0564020cae00b00458b41d9460sm1238631edb.92.2022.12.06.10.17.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Dec 2022 10:17:20 -0800 (PST)
-Message-ID: <8c3960e5-ef35-1029-1b37-1029d2b71cc3@gmail.com>
-Date: Tue, 6 Dec 2022 19:17:19 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC00689BEC;
+ Tue,  6 Dec 2022 18:19:34 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 408CC6181B;
+ Tue,  6 Dec 2022 18:19:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E73F2C433C1;
+ Tue,  6 Dec 2022 18:19:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1670350773;
+ bh=xE1VX+sqMz9bHvicspUk6EkE1y74gTVG4LROkg8zm9w=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=ng6OSi5zCpPqkWqfmNA13O+qXH5Rz+qxuydYj/ZlQTa4q6iVMc28bY/RMFHg4rLx/
+ c6Fqb4QRovPld4s+48dJ3jZ7JNbza/9WE5WG8n9PNmZB8pvpQeLu1kyKDxYz3gPrpk
+ dFUxpSjwM81TgYkwrfOdwvtHLw2bVif2hV+MRnNIlr0wn2HLFJKOCnYH/pL4B3ITnw
+ RLc4DQPlVfdSD9YJTXXrnxmAc/3bJ24/mDvbmVbfjE+foZBRKeecjTQVrmlheEWA+k
+ rFXRAjhB+/SRj8tg9/eDUfGVy7+bLdVzxVBAdS7kYAXDP46G1iaWuw/xiuK5GeJEea
+ SDble89faMZZw==
+From: Bjorn Andersson <andersson@kernel.org>
+To: Adam Skladowski <a39.skl@gmail.com>
+Subject: Re: (subset) [PATCH v2 00/12] SM6115 DTS changes
+Date: Tue,  6 Dec 2022 12:18:39 -0600
+Message-Id: <167035076353.3155086.13233208234326908710.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20221130200950.144618-1-a39.skl@gmail.com>
+References: <20221130200950.144618-1-a39.skl@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] dma-buf: fix dma_buf_export init order
-Content-Language: en-US
-To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
- "quic_charante@quicinc.com" <quic_charante@quicinc.com>,
- "cuigaosheng1@huawei.com" <cuigaosheng1@huawei.com>,
- "tjmercier@google.com" <tjmercier@google.com>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>
-References: <20221206151207.8801-1-christian.koenig@amd.com>
- <DM5PR11MB1324F5F49A28EFDA67B1C258C11B9@DM5PR11MB1324.namprd11.prod.outlook.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <DM5PR11MB1324F5F49A28EFDA67B1C258C11B9@DM5PR11MB1324.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,239 +53,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, thara.gopinath@gmail.com,
+ dri-devel@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org,
+ phone-devel@vger.kernel.org, daniel.lezcano@linaro.org,
+ Andy Gross <agross@kernel.org>, rui.zhang@intel.com,
+ devicetree@vger.kernel.org, amitk@kernel.org, linux-pm@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com, robh+dt@kernel.org,
+ ~postmarketos/upstreaming@lists.sr.ht, sean@poorly.run,
+ loic.poulain@linaro.org, linux-kernel@vger.kernel.org,
+ konrad.dybcio@linaro.org, dmitry.baryshkov@linaro.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 06.12.22 um 17:20 schrieb Ruhl, Michael J:
->> -----Original Message-----
->> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
->> Christian König
->> Sent: Tuesday, December 6, 2022 10:12 AM
->> To: quic_charante@quicinc.com; cuigaosheng1@huawei.com;
->> tjmercier@google.com; sumit.semwal@linaro.org
->> Cc: linaro-mm-sig@lists.linaro.org; dri-devel@lists.freedesktop.org; linux-
->> media@vger.kernel.org
->> Subject: [PATCH] dma-buf: fix dma_buf_export init order
->>
->> The init order and resulting error handling in dma_buf_export
->> was pretty messy.
->>
->> Subordinate objects like the file and the sysfs kernel objects
->> were initializing and wiring itself up with the object in the
->> wrong order resulting not only in complicating and partially
->> incorrect error handling, but also in publishing only halve
->> initialized DMA-buf objects.
->>
->> Clean this up thoughtfully by allocating the file independent
->> of the DMA-buf object. Then allocate and initialize the DMA-buf
->> object itself, before publishing it through sysfs. If everything
->> works as expected the file is then connected with the DMA-buf
->> object and publish it through debugfs.
->>
->> Also adds the missing dma_resv_fini() into the error handling.
->>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
->> ---
->> drivers/dma-buf/dma-buf-sysfs-stats.c |  7 +--
->> drivers/dma-buf/dma-buf-sysfs-stats.h |  4 +-
->> drivers/dma-buf/dma-buf.c             | 65 +++++++++++++--------------
->> 3 files changed, 34 insertions(+), 42 deletions(-)
->>
->> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-
->> buf-sysfs-stats.c
->> index 2bba0babcb62..4b680e10c15a 100644
->> --- a/drivers/dma-buf/dma-buf-sysfs-stats.c
->> +++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
->> @@ -168,14 +168,11 @@ void dma_buf_uninit_sysfs_statistics(void)
->> 	kset_unregister(dma_buf_stats_kset);
->> }
->>
->> -int dma_buf_stats_setup(struct dma_buf *dmabuf)
->> +int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file *file)
->> {
->> 	struct dma_buf_sysfs_entry *sysfs_entry;
->> 	int ret;
->>
->> -	if (!dmabuf || !dmabuf->file)
->> -		return -EINVAL;
->> -
->> 	if (!dmabuf->exp_name) {
->> 		pr_err("exporter name must not be empty if stats
->> needed\n");
->> 		return -EINVAL;
->> @@ -192,7 +189,7 @@ int dma_buf_stats_setup(struct dma_buf *dmabuf)
->>
->> 	/* create the directory for buffer stats */
->> 	ret = kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_ktype,
->> NULL,
->> -				   "%lu", file_inode(dmabuf->file)->i_ino);
->> +				   "%lu", file_inode(file)->i_ino);
->> 	if (ret)
->> 		goto err_sysfs_dmabuf;
->>
->> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.h b/drivers/dma-buf/dma-
->> buf-sysfs-stats.h
->> index a49c6e2650cc..7a8a995b75ba 100644
->> --- a/drivers/dma-buf/dma-buf-sysfs-stats.h
->> +++ b/drivers/dma-buf/dma-buf-sysfs-stats.h
->> @@ -13,7 +13,7 @@
->> int dma_buf_init_sysfs_statistics(void);
->> void dma_buf_uninit_sysfs_statistics(void);
->>
->> -int dma_buf_stats_setup(struct dma_buf *dmabuf);
->> +int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file *file);
->>
->> void dma_buf_stats_teardown(struct dma_buf *dmabuf);
->> #else
->> @@ -25,7 +25,7 @@ static inline int dma_buf_init_sysfs_statistics(void)
->>
->> static inline void dma_buf_uninit_sysfs_statistics(void) {}
->>
->> -static inline int dma_buf_stats_setup(struct dma_buf *dmabuf)
->> +static inline int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file
->> *file)
->> {
->> 	return 0;
->> }
->> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
->> index e6f36c014c4c..ea08049b70ae 100644
->> --- a/drivers/dma-buf/dma-buf.c
->> +++ b/drivers/dma-buf/dma-buf.c
->> @@ -614,19 +614,11 @@ struct dma_buf *dma_buf_export(const struct
->> dma_buf_export_info *exp_info)
->> 	size_t alloc_size = sizeof(struct dma_buf);
->> 	int ret;
->>
->> -	if (!exp_info->resv)
->> -		alloc_size += sizeof(struct dma_resv);
->> -	else
->> -		/* prevent &dma_buf[1] == dma_buf->resv */
->> -		alloc_size += 1;
->> -
->> -	if (WARN_ON(!exp_info->priv
->> -			  || !exp_info->ops
->> -			  || !exp_info->ops->map_dma_buf
->> -			  || !exp_info->ops->unmap_dma_buf
->> -			  || !exp_info->ops->release)) {
->> +	if (WARN_ON(!exp_info->priv || !exp_info->ops
->> +		    || !exp_info->ops->map_dma_buf
->> +		    || !exp_info->ops->unmap_dma_buf
->> +		    || !exp_info->ops->release))
->> 		return ERR_PTR(-EINVAL);
->> -	}
->>
->> 	if (WARN_ON(exp_info->ops->cache_sgt_mapping &&
->> 		    (exp_info->ops->pin || exp_info->ops->unpin)))
->> @@ -638,10 +630,21 @@ struct dma_buf *dma_buf_export(const struct
->> dma_buf_export_info *exp_info)
->> 	if (!try_module_get(exp_info->owner))
->> 		return ERR_PTR(-ENOENT);
->>
->> +	file = dma_buf_getfile(exp_info->size, exp_info->flags);
-> Hi Christian,
->
-> dma_buf_getfile takes a dmabuf, here you have a size?
->
-> Did you change this function somewhere?
+On Wed, 30 Nov 2022 21:09:38 +0100, Adam Skladowski wrote:
+> This patch series adds bunch of new nodes
+> also it fixes some small nitpicks in yamls and adds compatible.
+> 
+> Changes since v1
+> ================
+> 1. Changed title for mdss yaml patch
+> 2. Added missing dmas to spi0
+> 3. Wired freq domains to CPUs
+> 4. Added R-b/Ack tags
+> 5. Reworded smmu dts patch
+> 
+> [...]
 
-Ups forgot to add that change to the patch. I shouldn't code when I'm in 
-a hurry.
+Applied, thanks!
 
-Addressed this and Charans comment in v2.
+[03/12] arm64: dts: qcom: sm6115: Add cpufreq-hw support
+        commit: aff96846c63ed3e3ed7d5212ea636a422d9694a3
+[04/12] arm64: dts: qcom: sm6115: Add TSENS node
+        commit: 7b74cba6b13f4bbe1f15e3417f386ed1907ab0ef
+[05/12] arm64: dts: qcom: sm6115: Add PRNG node
+        commit: fc676b15c065b8d4c750bbaab9914f24829a7a13
+[06/12] arm64: dts: qcom: sm6115: Add rpm-stats node
+        commit: d18c0077963ae2b6d232f6f3f25fb1ceb875ce7f
+[07/12] arm64: dts: qcom: sm6115: Add dispcc node
+        commit: 884f95411ba4030ca44436217c6d8df4a960c555
+[08/12] arm64: dts: qcom: sm6115: Add mdss/dpu node
+        commit: 705e50427d8148211ffd05922bfa6a2520781338
+[09/12] arm64: dts: qcom: sm6115: Add GPI DMA
+        commit: 1586c5793511d7fb389139ab7aa5dae9118666ad
+[10/12] arm64: dts: qcom: sm6115: Add i2c/spi nodes
+        commit: 323647d32e83fae7f1a81b40e12ca6b0b63e880c
+[11/12] arm64: dts: qcom: sm6115: Add WCN node.
+        commit: 245bb9a37c16dc324be60764aa2597aa4704a8e3
+[12/12] arm64: dts: qcom: sm6115: Add smmu fallback to qcom generic compatible
+        commit: 58a9e83605478e931139b574e43d453851de3a26
 
-Thanks,
-Christian.
-
->
-> with that addressed....
->
-> This cleanup makes sense to me.
->
-> Reviewed-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
->
-> M
->
->> +	if (IS_ERR(file)) {
->> +		ret = PTR_ERR(file);
->> +		goto err_module;
->> +	}
->> +
->> +	if (!exp_info->resv)
->> +		alloc_size += sizeof(struct dma_resv);
->> +	else
->> +		/* prevent &dma_buf[1] == dma_buf->resv */
->> +		alloc_size += 1;
->> 	dmabuf = kzalloc(alloc_size, GFP_KERNEL);
->> 	if (!dmabuf) {
->> 		ret = -ENOMEM;
->> -		goto err_module;
->> +		goto err_file;
->> 	}
->>
->> 	dmabuf->priv = exp_info->priv;
->> @@ -653,44 +656,36 @@ struct dma_buf *dma_buf_export(const struct
->> dma_buf_export_info *exp_info)
->> 	init_waitqueue_head(&dmabuf->poll);
->> 	dmabuf->cb_in.poll = dmabuf->cb_out.poll = &dmabuf->poll;
->> 	dmabuf->cb_in.active = dmabuf->cb_out.active = 0;
->> +	mutex_init(&dmabuf->lock);
->> +	INIT_LIST_HEAD(&dmabuf->attachments);
->>
->> 	if (!resv) {
->> -		resv = (struct dma_resv *)&dmabuf[1];
->> -		dma_resv_init(resv);
->> +		dmabuf->resv = (struct dma_resv *)&dmabuf[1];
->> +		dma_resv_init(dmabuf->resv);
->> +	} else {
->> +		dmabuf->resv = resv;
->> 	}
->> -	dmabuf->resv = resv;
->>
->> -	file = dma_buf_getfile(dmabuf, exp_info->flags);
->> -	if (IS_ERR(file)) {
->> -		ret = PTR_ERR(file);
->> +	ret = dma_buf_stats_setup(dmabuf, file);
->> +	if (ret)
->> 		goto err_dmabuf;
->> -	}
->>
->> +	file->private_data = dmabuf;
->> +	file->f_path.dentry->d_fsdata = dmabuf;
->> 	dmabuf->file = file;
->>
->> -	mutex_init(&dmabuf->lock);
->> -	INIT_LIST_HEAD(&dmabuf->attachments);
->> -
->> 	mutex_lock(&db_list.lock);
->> 	list_add(&dmabuf->list_node, &db_list.head);
->> 	mutex_unlock(&db_list.lock);
->>
->> -	ret = dma_buf_stats_setup(dmabuf);
->> -	if (ret)
->> -		goto err_sysfs;
->> -
->> 	return dmabuf;
->>
->> -err_sysfs:
->> -	/*
->> -	 * Set file->f_path.dentry->d_fsdata to NULL so that when
->> -	 * dma_buf_release() gets invoked by dentry_ops, it exits
->> -	 * early before calling the release() dma_buf op.
->> -	 */
->> -	file->f_path.dentry->d_fsdata = NULL;
->> -	fput(file);
->> err_dmabuf:
->> +	if (!resv)
->> +		dma_resv_fini(dmabuf->resv);
->> 	kfree(dmabuf);
->> +err_file:
->> +	fput(file);
->> err_module:
->> 	module_put(exp_info->owner);
->> 	return ERR_PTR(ret);
->> --
->> 2.34.1
-
+Best regards,
+-- 
+Bjorn Andersson <andersson@kernel.org>
