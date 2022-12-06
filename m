@@ -1,60 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C802644C40
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 20:10:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15E69644C6A
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 20:21:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B0EB10E06A;
-	Tue,  6 Dec 2022 19:10:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E79F10E349;
+	Tue,  6 Dec 2022 19:21:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com
- [IPv6:2607:f8b0:4864:20::112b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D79BE10E06A
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Dec 2022 19:10:35 +0000 (UTC)
-Received: by mail-yw1-x112b.google.com with SMTP id
- 00721157ae682-3b48b139b46so162291967b3.12
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Dec 2022 11:10:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6+J0ZUqO7Jp7SLFVHzut3hUjsAKyxp0egVuJAPmiYXM=;
- b=aCyVNzpuclA+yxyZz4GApZ0oApVjSus5g6JqkbMUL+aAlcm9HeqjlxgK46/pAYvPxR
- gZQZE3Cxq/jZ5w117MFdbGuziblQlUiJM24VGq7W9iAQ6HvxSYy2L3EaYJJ4uXp6h+30
- gyVajUDilJql/oXWb48fwFREXAJdDZupF5z38kgLM3rWubfhwg+WhNQb0dl040XnSvsT
- NIArDIMBOytMdYs/ZAwcJOjW0ITixBpA2hM4cat03RbZSmeyTEvBzRBMeNeA1oNXrNps
- dYbqq6AmPolarnAQGJNFOq8wViwE9zbhaLliqir3yt3mnO2+a8JOsYEtfmjKdli/HFaP
- SaZg==
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
+ [IPv6:2607:f8b0:4864:20::102d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AEA110E345;
+ Tue,  6 Dec 2022 19:21:23 +0000 (UTC)
+Received: by mail-pj1-x102d.google.com with SMTP id
+ u15-20020a17090a3fcf00b002191825cf02so15758453pjm.2; 
+ Tue, 06 Dec 2022 11:21:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=kCOE6UB3AU4sZjM0eLrxIRHE8DSLTlCxmBapLp+bPNQ=;
+ b=oxisaQx/rtHyRTCMpb85wCfSx3JaiXt6gpFSAXSp4FBtH8KRxOuGMFodPB4T4nmghi
+ LcuqFFHpATlLWmrV7wfOj+JZrOaYqN7hKH40bPzvwfkj09li3lm2tueUfFt/orlTAFyT
+ tvxrbkSNTTXmQ/0GakqDsx0uzmMHOh07GiNu540gt6qTrdXvItuM50ztfPXxxZBhCkMQ
+ phB/7HgkIHCFtm2GWm9HjrDIrNaywELLXZVvacLeV4cp2oAz4NCBlxWaPI4ynblR3n2q
+ GsIfFyt8NS6Q7XBycZrQLky8jXgBpCr0adp6/sflDfVKMoDMgF30XtMMM6BRZIWBfDLA
+ hbmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6+J0ZUqO7Jp7SLFVHzut3hUjsAKyxp0egVuJAPmiYXM=;
- b=EMN0lNYOQMeFrxnEdRlN14PRNGN+2cf/sFYAQn7i7RVvIuKxeGtyz3gaKtIOk0YI10
- RTs81qeI/fa7GnpVvrYYPxv+IOXU/BOOJT0/Uos7o2pfXznsfZ4Ig5VstbDsXxcKSS/O
- HrgMuSZK0OCnLUsmlw0JgzO3qtqpKhnhdeyxVjHpfKYnXh+KQF2zzMw19uJHjHd2suQj
- Avco53ZJLEYCZdCQitH7BSlSDmn+8IaCzZVbSm5pupgoFDNa3cF8OW0P2lHAK9s/pRZO
- CJOuhZ70DQ+FiunUYHID0789FbbttHiu9wLJ72IOwBdM33g6HsWy1xhHZd4LYGLN3FtD
- U4iw==
-X-Gm-Message-State: ANoB5pkRad8qEq9RlEfIp62l2oUc0s+Y5GDbv30YgvM+Wd7J8rg/Eusz
- dvU+BPy89BYP+X4q5XKgtd+wAnWoRVWNJnk3oXUYKw==
-X-Google-Smtp-Source: AA0mqf4IPS2ZJCd63/o1JQRXY89D3quN1KGwiHru6rsIekyV38fiRMKrQ7ThDWila5z+S6ttTwXgROIttoEk7G0/IHA=
-X-Received: by 2002:a81:1793:0:b0:3c4:1f67:a2a2 with SMTP id
- 141-20020a811793000000b003c41f67a2a2mr42320324ywx.234.1670353834651; Tue, 06
- Dec 2022 11:10:34 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=kCOE6UB3AU4sZjM0eLrxIRHE8DSLTlCxmBapLp+bPNQ=;
+ b=hiz41uoLycL03dU9bkcriNm3FAPvVbP8p+dR1J27DepwLNzlr0xix+hdCDjNNRlUq8
+ Z6GoolE9Uwlqcvr9m1lLFD391FZeaxfx7bOOnvYvCe96O0vq88uW4kuDfac76M7jZ4cD
+ 8yJyJOqSDkj1nTJNHNL3/Yz0NJVVF9f/iAPTWw+giRHeV/7R3pvedIoRaGzGzdo/MZ7N
+ UYVVMD6RFzesR3lznlS0Tmq+k9xnMKwnxxDVXyNW4npcjdd4hPdG3Cb3Qxl3VDpokkEO
+ 9qCgHAZ0wSkJuj3x+Z7UskpSMF6+o499oSPnMRduCQoHEqhTYReAocv0VnwW+tFwXUI/
+ LEzw==
+X-Gm-Message-State: ANoB5plOOqLuGCFeLUercs62G6qZ07otL1wTYzqMJK9TI5zLv8YlCTOl
+ ASCXbRu6VtGr+xYgPHvlJsariKfYH1Q=
+X-Google-Smtp-Source: AA0mqf6exKLZJ3n5EhVh3nDm8ZR2z+CSHRWSi0xA8aPelGwpxWfZfGSsbERAoO8DlqExqBSnR0M+ig==
+X-Received: by 2002:a17:902:f7ca:b0:189:b203:9e2f with SMTP id
+ h10-20020a170902f7ca00b00189b2039e2fmr382970plw.56.1670354482458; 
+ Tue, 06 Dec 2022 11:21:22 -0800 (PST)
+Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
+ by smtp.gmail.com with ESMTPSA id
+ v25-20020a634659000000b00473c36ea150sm5434632pgk.92.2022.12.06.11.21.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Dec 2022 11:21:21 -0800 (PST)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/msm: Add MSM_SUBMIT_BO_NO_IMPLICIT
+Date: Tue,  6 Dec 2022 11:21:23 -0800
+Message-Id: <20221206192123.661448-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-References: <20221206151207.8801-1-christian.koenig@amd.com>
-In-Reply-To: <20221206151207.8801-1-christian.koenig@amd.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Tue, 6 Dec 2022 11:10:23 -0800
-Message-ID: <CABdmKX2DFsOOzrpriN7+KK1tw7tbvJctj-qhOM4hyvx0xB6W_w@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: fix dma_buf_export init order
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,222 +69,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, sumit.semwal@linaro.org,
- linaro-mm-sig@lists.linaro.org, quic_charante@quicinc.com,
- cuigaosheng1@huawei.com, linux-media@vger.kernel.org
+Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 6, 2022 at 7:12 AM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> The init order and resulting error handling in dma_buf_export
-> was pretty messy.
->
-> Subordinate objects like the file and the sysfs kernel objects
-> were initializing and wiring itself up with the object in the
-> wrong order resulting not only in complicating and partially
-> incorrect error handling, but also in publishing only halve
-> initialized DMA-buf objects.
->
-> Clean this up thoughtfully by allocating the file independent
-> of the DMA-buf object. Then allocate and initialize the DMA-buf
-> object itself, before publishing it through sysfs. If everything
-> works as expected the file is then connected with the DMA-buf
-> object and publish it through debugfs.
->
-> Also adds the missing dma_resv_fini() into the error handling.
->
-> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> ---
->  drivers/dma-buf/dma-buf-sysfs-stats.c |  7 +--
->  drivers/dma-buf/dma-buf-sysfs-stats.h |  4 +-
->  drivers/dma-buf/dma-buf.c             | 65 +++++++++++++--------------
->  3 files changed, 34 insertions(+), 42 deletions(-)
->
-> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-=
-buf-sysfs-stats.c
-> index 2bba0babcb62..4b680e10c15a 100644
-> --- a/drivers/dma-buf/dma-buf-sysfs-stats.c
-> +++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
-> @@ -168,14 +168,11 @@ void dma_buf_uninit_sysfs_statistics(void)
->         kset_unregister(dma_buf_stats_kset);
->  }
->
-> -int dma_buf_stats_setup(struct dma_buf *dmabuf)
-> +int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file *file)
->  {
->         struct dma_buf_sysfs_entry *sysfs_entry;
->         int ret;
->
-> -       if (!dmabuf || !dmabuf->file)
-> -               return -EINVAL;
-> -
->         if (!dmabuf->exp_name) {
->                 pr_err("exporter name must not be empty if stats needed\n=
-");
->                 return -EINVAL;
-> @@ -192,7 +189,7 @@ int dma_buf_stats_setup(struct dma_buf *dmabuf)
->
->         /* create the directory for buffer stats */
->         ret =3D kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_ktype, =
-NULL,
-> -                                  "%lu", file_inode(dmabuf->file)->i_ino=
-);
-> +                                  "%lu", file_inode(file)->i_ino);
->         if (ret)
->                 goto err_sysfs_dmabuf;
->
-> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.h b/drivers/dma-buf/dma-=
-buf-sysfs-stats.h
-> index a49c6e2650cc..7a8a995b75ba 100644
-> --- a/drivers/dma-buf/dma-buf-sysfs-stats.h
-> +++ b/drivers/dma-buf/dma-buf-sysfs-stats.h
-> @@ -13,7 +13,7 @@
->  int dma_buf_init_sysfs_statistics(void);
->  void dma_buf_uninit_sysfs_statistics(void);
->
-> -int dma_buf_stats_setup(struct dma_buf *dmabuf);
-> +int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file *file);
->
->  void dma_buf_stats_teardown(struct dma_buf *dmabuf);
->  #else
-> @@ -25,7 +25,7 @@ static inline int dma_buf_init_sysfs_statistics(void)
->
->  static inline void dma_buf_uninit_sysfs_statistics(void) {}
->
-> -static inline int dma_buf_stats_setup(struct dma_buf *dmabuf)
-> +static inline int dma_buf_stats_setup(struct dma_buf *dmabuf, struct fil=
-e *file)
->  {
->         return 0;
->  }
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index e6f36c014c4c..ea08049b70ae 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -614,19 +614,11 @@ struct dma_buf *dma_buf_export(const struct dma_buf=
-_export_info *exp_info)
->         size_t alloc_size =3D sizeof(struct dma_buf);
->         int ret;
->
-> -       if (!exp_info->resv)
-> -               alloc_size +=3D sizeof(struct dma_resv);
-> -       else
-> -               /* prevent &dma_buf[1] =3D=3D dma_buf->resv */
-> -               alloc_size +=3D 1;
-> -
-> -       if (WARN_ON(!exp_info->priv
-> -                         || !exp_info->ops
-> -                         || !exp_info->ops->map_dma_buf
-> -                         || !exp_info->ops->unmap_dma_buf
-> -                         || !exp_info->ops->release)) {
-> +       if (WARN_ON(!exp_info->priv || !exp_info->ops
-> +                   || !exp_info->ops->map_dma_buf
-> +                   || !exp_info->ops->unmap_dma_buf
-> +                   || !exp_info->ops->release))
->                 return ERR_PTR(-EINVAL);
-> -       }
->
->         if (WARN_ON(exp_info->ops->cache_sgt_mapping &&
->                     (exp_info->ops->pin || exp_info->ops->unpin)))
-> @@ -638,10 +630,21 @@ struct dma_buf *dma_buf_export(const struct dma_buf=
-_export_info *exp_info)
->         if (!try_module_get(exp_info->owner))
->                 return ERR_PTR(-ENOENT);
->
-> +       file =3D dma_buf_getfile(exp_info->size, exp_info->flags);
-> +       if (IS_ERR(file)) {
-> +               ret =3D PTR_ERR(file);
-> +               goto err_module;
-> +       }
-> +
-> +       if (!exp_info->resv)
-> +               alloc_size +=3D sizeof(struct dma_resv);
-> +       else
-> +               /* prevent &dma_buf[1] =3D=3D dma_buf->resv */
-> +               alloc_size +=3D 1;
->         dmabuf =3D kzalloc(alloc_size, GFP_KERNEL);
->         if (!dmabuf) {
->                 ret =3D -ENOMEM;
-> -               goto err_module;
-> +               goto err_file;
->         }
->
->         dmabuf->priv =3D exp_info->priv;
-> @@ -653,44 +656,36 @@ struct dma_buf *dma_buf_export(const struct dma_buf=
-_export_info *exp_info)
->         init_waitqueue_head(&dmabuf->poll);
->         dmabuf->cb_in.poll =3D dmabuf->cb_out.poll =3D &dmabuf->poll;
->         dmabuf->cb_in.active =3D dmabuf->cb_out.active =3D 0;
-> +       mutex_init(&dmabuf->lock);
-> +       INIT_LIST_HEAD(&dmabuf->attachments);
->
->         if (!resv) {
-> -               resv =3D (struct dma_resv *)&dmabuf[1];
-> -               dma_resv_init(resv);
-> +               dmabuf->resv =3D (struct dma_resv *)&dmabuf[1];
-> +               dma_resv_init(dmabuf->resv);
-> +       } else {
-> +               dmabuf->resv =3D resv;
->         }
+From: Rob Clark <robdclark@chromium.org>
 
-I like this, but I think it'd be even better to remove the local
-struct dma_resv *resv variable since it's just a copy of
-exp_info->resv and doesn't get modified any longer. More typing but
-less to keep track of.
+In cases where implicit sync is used, it is still useful (for things
+like sub-allocation, etc) to allow userspace to opt-out of implicit
+sync on per-BO basis.
 
-> -       dmabuf->resv =3D resv;
->
-> -       file =3D dma_buf_getfile(dmabuf, exp_info->flags);
-> -       if (IS_ERR(file)) {
-> -               ret =3D PTR_ERR(file);
-> +       ret =3D dma_buf_stats_setup(dmabuf, file);
-> +       if (ret)
->                 goto err_dmabuf;
-> -       }
->
-> +       file->private_data =3D dmabuf;
-> +       file->f_path.dentry->d_fsdata =3D dmabuf;
->         dmabuf->file =3D file;
->
-> -       mutex_init(&dmabuf->lock);
-> -       INIT_LIST_HEAD(&dmabuf->attachments);
-> -
->         mutex_lock(&db_list.lock);
->         list_add(&dmabuf->list_node, &db_list.head);
->         mutex_unlock(&db_list.lock);
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/msm_drv.c        |  3 ++-
+ drivers/gpu/drm/msm/msm_gem_submit.c | 11 +++++++++++
+ include/uapi/drm/msm_drm.h           |  4 +++-
+ 3 files changed, 16 insertions(+), 2 deletions(-)
 
-Unrelated: I'm kind of surprised we bother with this db_list when
-CONFIG_DEBUG_FS isn't defined.
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 017a512982a2..e0e1199a822f 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -45,9 +45,10 @@
+  * - 1.7.0 - Add MSM_PARAM_SUSPENDS to access suspend count
+  * - 1.8.0 - Add MSM_BO_CACHED_COHERENT for supported GPUs (a6xx)
+  * - 1.9.0 - Add MSM_SUBMIT_FENCE_SN_IN
++ * - 1.10.0 - Add MSM_SUBMIT_BO_NO_IMPLICIT
+  */
+ #define MSM_VERSION_MAJOR	1
+-#define MSM_VERSION_MINOR	9
++#define MSM_VERSION_MINOR	10
+ #define MSM_VERSION_PATCHLEVEL	0
+ 
+ static const struct drm_mode_config_funcs mode_config_funcs = {
+diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+index eb3536e3d66a..8bad07a04f85 100644
+--- a/drivers/gpu/drm/msm/msm_gem_submit.c
++++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+@@ -334,9 +334,20 @@ static int submit_fence_sync(struct msm_gem_submit *submit, bool no_implicit)
+ 		if (ret)
+ 			return ret;
+ 
++		/* If userspace has determined that explicit fencing is
++		 * used, it can disable implicit sync on the entire
++		 * submit:
++		 */
+ 		if (no_implicit)
+ 			continue;
+ 
++		/* Otherwise userspace can ask for implicit sync to be
++		 * disabled on specific buffers.  This is useful for internal
++		 * usermode driver managed buffers, suballocation, etc.
++		 */
++		if (submit->bos[i].flags & MSM_SUBMIT_BO_NO_IMPLICIT)
++			continue;
++
+ 		ret = drm_sched_job_add_implicit_dependencies(&submit->base,
+ 							      obj,
+ 							      write);
+diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
+index f54b48ef6a2d..329100016e7c 100644
+--- a/include/uapi/drm/msm_drm.h
++++ b/include/uapi/drm/msm_drm.h
+@@ -222,10 +222,12 @@ struct drm_msm_gem_submit_cmd {
+ #define MSM_SUBMIT_BO_READ             0x0001
+ #define MSM_SUBMIT_BO_WRITE            0x0002
+ #define MSM_SUBMIT_BO_DUMP             0x0004
++#define MSM_SUBMIT_BO_NO_IMPLICIT      0x0008
+ 
+ #define MSM_SUBMIT_BO_FLAGS            (MSM_SUBMIT_BO_READ | \
+ 					MSM_SUBMIT_BO_WRITE | \
+-					MSM_SUBMIT_BO_DUMP)
++					MSM_SUBMIT_BO_DUMP | \
++					MSM_SUBMIT_BO_NO_IMPLICIT)
+ 
+ struct drm_msm_gem_submit_bo {
+ 	__u32 flags;          /* in, mask of MSM_SUBMIT_BO_x */
+-- 
+2.38.1
 
-
-
-
->
-> -       ret =3D dma_buf_stats_setup(dmabuf);
-> -       if (ret)
-> -               goto err_sysfs;
-> -
->         return dmabuf;
->
-> -err_sysfs:
-> -       /*
-> -        * Set file->f_path.dentry->d_fsdata to NULL so that when
-> -        * dma_buf_release() gets invoked by dentry_ops, it exits
-> -        * early before calling the release() dma_buf op.
-> -        */
-> -       file->f_path.dentry->d_fsdata =3D NULL;
-> -       fput(file);
->  err_dmabuf:
-> +       if (!resv)
-> +               dma_resv_fini(dmabuf->resv);
->         kfree(dmabuf);
-> +err_file:
-> +       fput(file);
->  err_module:
->         module_put(exp_info->owner);
->         return ERR_PTR(ret);
-> --
-> 2.34.1
->
