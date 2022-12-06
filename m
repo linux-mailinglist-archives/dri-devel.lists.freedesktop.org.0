@@ -2,64 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A60C5643A4C
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 01:37:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85571643A58
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 01:37:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2205D10E30D;
-	Tue,  6 Dec 2022 00:35:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2963D10E2CD;
+	Tue,  6 Dec 2022 00:37:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com
- [IPv6:2607:f8b0:4864:20::d35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28A4710E2EA;
- Tue,  6 Dec 2022 00:35:18 +0000 (UTC)
-Received: by mail-io1-xd35.google.com with SMTP id e189so8776167iof.1;
- Mon, 05 Dec 2022 16:35:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6+UDrWNXMMGhk9HzOMZBwbh5zjmulDfm2DaVnY/OUhI=;
- b=eLeE2dj14exQeQIr1ko9hCDJKvzZBxL31dknUIIIFaYlxA20UJuCHiOsbgVMQoo33m
- 2qhDf9Fm5NpvMorwLHW2iBCbaXEhs0Ck79a3jMQjJmVaDNi4k9/rhuIC3/1Gyvv0GbR+
- yKtYcRWC+dnl+PUbTvH1i7/GSpRDrUAGqM4zlpfzTJeAvZ4iqQmZ+sVffIQCD0emjCs5
- 5jm7Evqqm3oba1alb0augbhYBWWBxnrTQhdwTAknsh9m5ifR2ccK3kKdNe2ZYDfzsEMf
- OIoI0aUK+FFtI09eRSWSEtHRzDt3Cgyic2eQc+OWFGf93/+6XibjSm98FxmBkViMUuO4
- H9AQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6+UDrWNXMMGhk9HzOMZBwbh5zjmulDfm2DaVnY/OUhI=;
- b=aPS0vWDH/JxY97kEFmbOayI/qjkUPpq/1CN6abz07vLLczC5A9e9hpFLRn7X3KW7K+
- M+Bhshu+nCKUXNDnkfAEK1XSVFWpkHbR8PSR+ZZu+MzoEjurSEvO4lkWiDZGyns/+t2y
- nQ69uwC08Zh9EIFz0pzIcXLPqmJ5Pb7p31SBZzk9i8tKu0MdZQfOvWKKTk94htRn0smt
- jF3gzOA+mpZYweWDUpxzMIvram0ZkYuKxk+6Z9tBv0maFBsHUvXxZlfECHWMf6hS8CX/
- kVwpAKJplyCo0NVhMi3kuBcqF5ZgllnY2NaL1tGGj9rNDLmIVgX3e8ttonnfEHALMgWl
- nOTA==
-X-Gm-Message-State: ANoB5pkR/kBbhNRNu9MN7/hZKfmmb7oab7f/9zSKQP/sOIzZ8P3QL7H+
- cVsV0H/lqKKZuPNeMEejnbo=
-X-Google-Smtp-Source: AA0mqf7S5bHLlbhVAzPpHg9sCL9n3qLeloz+E671RFH4nKtb1ybTIO5QlE+Jm2CCx5RS1oF/exUDcw==
-X-Received: by 2002:a02:23ca:0:b0:372:59cb:f242 with SMTP id
- u193-20020a0223ca000000b0037259cbf242mr39977560jau.135.1670286917295; 
- Mon, 05 Dec 2022 16:35:17 -0800 (PST)
-Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
- by smtp.googlemail.com with ESMTPSA id
- x3-20020a056602160300b006bba42f7822sm6408213iow.52.2022.12.05.16.35.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Dec 2022 16:35:16 -0800 (PST)
-From: Jim Cromie <jim.cromie@gmail.com>
-To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-Subject: [RFC PATCH 17/17] dyndbg: miss-on HACK
-Date: Mon,  5 Dec 2022 17:34:24 -0700
-Message-Id: <20221206003424.592078-18-jim.cromie@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221206003424.592078-1-jim.cromie@gmail.com>
-References: <20221206003424.592078-1-jim.cromie@gmail.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5345910E2D2
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Dec 2022 00:37:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=vrd7FfueKholXe98mvN6q0jU34zWpJgC+kcpoxaw4+4=; b=rH59W3VEdRciD0aYsAMpA9ER86
+ H3a2VLMFj6PeVvB9+jdkN6XxQDH10pGzSLhtVRnAmPlnA0aPTGyVpJXHrsFEoo6PpcDOU3BaCOlmS
+ edQoUSbLXCGnFc3reFsmm0KyfDJpp6kIzd/Gs+Tg38U+dtgpF6ODApfCRauDJSSRqM+8vsMDcMlRd
+ bGZhLoXLk3/87zPwf1ACoURW8V+3K+Dwj4jlIP/0pWsaddwPdR1W5X0r6D/ehvmldAM5IzZ+uxI+t
+ 78maBxch5FCmBD+5hEhNmkLhFErUb3FY9w4gCUxG7ytigtQ2w2j8U39lXMRqBqnVks+MKwm1MIHLT
+ zP/N23iA==;
+Received: from [177.34.169.227] (helo=[192.168.0.8])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1p2Lxl-00FpTH-Bm; Tue, 06 Dec 2022 01:37:33 +0100
+Message-ID: <44140361-33c3-ff97-b28f-64c26bf87d5c@igalia.com>
+Date: Mon, 5 Dec 2022 21:37:26 -0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v2 1/2] drm/v3d: cleanup BOs properly when lookup_bos fails
+To: Melissa Wen <mwen@igalia.com>, emma@anholt.net, airlied@gmail.com,
+ daniel@ffwll.ch
+References: <20221205135538.3545051-1-mwen@igalia.com>
+ <20221205135538.3545051-2-mwen@igalia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20221205135538.3545051-2-mwen@igalia.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,40 +56,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, daniel.vetter@ffwll.ch, jbaron@akamai.com,
- seanpaul@chromium.org, gregkh@linuxfoundation.org
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-dont break the loop, to see multiple clients.  the 3 client records
-are differently wrong.
----
- lib/dynamic_debug.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+On 12/5/22 10:55, Melissa Wen wrote:
+> When v3d_lookup_bos fails to `allocate validated BO pointers`,
+> job->bo_count was already set to args->bo_count, but job->bo points to
+> NULL. In this scenario, we must verify that job->bo is not NULL before
+> iterating on it to proper clean up a job. Also, drm_gem_object_put
+> already checks that the object passed is not NULL, doing the job->bo[i]
+> checker redundant.
+> 
+> Signed-off-by: Melissa Wen <mwen@igalia.com>
 
-diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index 3ef1c0a1f0cd..a26eaa348731 100644
---- a/lib/dynamic_debug.c
-+++ b/lib/dynamic_debug.c
-@@ -629,6 +629,7 @@ static int ddebug_apply_class_bitmap(const struct ddebug_class_param *dcp,
- 		v2pr_info("bit_%d: %d matches on class: %s -> 0x%lx\n", bi,
- 			  ct, map->class_names[bi], *new_bits);
- 	}
-+	v2pr_info("applied bitmap: 0x%lx to: 0x%lx\n", *new_bits, *old_bits);
- 	return matches;
- }
- 
-@@ -1321,8 +1322,8 @@ static void ddebug_attach_client_module_classes(struct ddebug_table *dt, struct
- 			 */
- 			v2pr_info("break on %d/%d\n", i, di->num_class_refs);
- 			dt->num_class_refs = 1;
--			break;
--		}
-+		} else
-+			v2pr_info("miss on %d/%d\n", i, di->num_class_refs);
- 	}
- }
- 
--- 
-2.38.1
+Reviewed-by: Maíra Canal <mcanal@igalia.com>
 
+Best Regards,
+- Maíra Canal
+
+> ---
+>  drivers/gpu/drm/v3d/v3d_gem.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
+> index 96af1cb5202a..31a37572c11d 100644
+> --- a/drivers/gpu/drm/v3d/v3d_gem.c
+> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
+> @@ -363,11 +363,11 @@ v3d_job_free(struct kref *ref)
+>  	struct v3d_job *job = container_of(ref, struct v3d_job, refcount);
+>  	int i;
+>  
+> -	for (i = 0; i < job->bo_count; i++) {
+> -		if (job->bo[i])
+> +	if (job->bo) {
+> +		for (i = 0; i < job->bo_count; i++)
+>  			drm_gem_object_put(job->bo[i]);
+> +		kvfree(job->bo);
+>  	}
+> -	kvfree(job->bo);
+>  
+>  	dma_fence_put(job->irq_fence);
+>  	dma_fence_put(job->done_fence);
