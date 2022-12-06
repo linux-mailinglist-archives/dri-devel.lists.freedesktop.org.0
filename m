@@ -2,60 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F5976445DA
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 15:38:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 562876447B5
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Dec 2022 16:12:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C801B89F08;
-	Tue,  6 Dec 2022 14:38:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A15510E32B;
+	Tue,  6 Dec 2022 15:12:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com
- [209.85.219.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F3E489F08
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Dec 2022 14:38:16 +0000 (UTC)
-Received: by mail-qv1-f51.google.com with SMTP id h10so10506468qvq.7
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Dec 2022 06:38:16 -0800 (PST)
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B71210E32B
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Dec 2022 15:12:12 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id gh17so6938909ejb.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Dec 2022 07:12:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=DAwwuZGcB6zPCMej99H4ZxGfukIlcThhrdeWSERYxiU=;
+ b=nbt1uvHTXIFHa7SZJIzUQqcm7GgHqGmS80M0TidVWzt162So6KKDGy6gM8fGhAx80E
+ MRjsekWXmOw/ZO7ck+3ZUAdsDY9riYk5Lq8ysmttr3Mge1eIZPbsFwsI/Nm3B3lTjK66
+ xyw4COH8c1Nkwz1+DSKwU2hx+o/rRiUuaglMl6dxI9bdKs9d6GzrbA+c+CQQgOHQpYV4
+ 4hnHGe9q5uETO0ydd4AVM7CT8jeO0eemcqb/dmCIZZGo60O8rQ1Cz/RBKG3W8NPpBlzl
+ o23fm04xFwOWI1IpWqV34oinZ3JXYKjp4Z0LJjqpq1F4oyQYw/9CkmGEDYlUSJAqdtng
+ 3ybw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=MoCQfxJ5i6j85vIMn+stwCyxBvgczcZworKXH87DwQw=;
- b=cmaZ4klYj7bl74U1dTtK5IKqVg188NcaNYB5V1kc4LilIbFOtY48bG9GY/I21qPU7L
- dC9xFYn3AELZbpRW4XjgRJaYlTSRCPMNqAPpqXWuNHUInx8fXX8fnpu+n4BASMDLoMwo
- g0oR+ZGvEyVe7ubhqXkF0r5ww3RZ5kG+7ziIkzMeUGPJaXEv5BImFYOqp+k/1MqrBEz3
- H4fxUp/J5GtLXPUKVT8Ytz+JQXdXwaINSoTtzq9oHSelNnYpgv0RuM1zmZWiEMBtUupo
- Q0GlS880Tm+ysdwXLdaTT9FEdHlZtO3e+RsEoxgvNcCJWtGc2DSyIuTKgqqICdcS+eXO
- hp1g==
-X-Gm-Message-State: ANoB5plBT+W/siaaaWadkRcTuZhjAkQSh3TfEt0OMjdr7DOkCeWeF7qX
- ZxgBpQ4iFp6TP3L5ycX8I4NiMpsO7n7k0g==
-X-Google-Smtp-Source: AA0mqf44/fS0DTmJ90CSUkFSBrakoMVPYqKlStCxns004F0OqA+zJCyJXiSm0kszDnUhnRN6X+4Fvw==
-X-Received: by 2002:a05:6214:330d:b0:4c7:b9b:eaa7 with SMTP id
- mo13-20020a056214330d00b004c70b9beaa7mr29847574qvb.127.1670337495141; 
- Tue, 06 Dec 2022 06:38:15 -0800 (PST)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com.
- [209.85.219.177]) by smtp.gmail.com with ESMTPSA id
- l11-20020a05620a28cb00b006f9e103260dsm15721103qkp.91.2022.12.06.06.38.14
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Dec 2022 06:38:15 -0800 (PST)
-Received: by mail-yb1-f177.google.com with SMTP id o127so18806866yba.5
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Dec 2022 06:38:14 -0800 (PST)
-X-Received: by 2002:a25:9:0:b0:6f9:29ef:a5ee with SMTP id
- 9-20020a250009000000b006f929efa5eemr29679939yba.380.1670337494447; 
- Tue, 06 Dec 2022 06:38:14 -0800 (PST)
+ bh=DAwwuZGcB6zPCMej99H4ZxGfukIlcThhrdeWSERYxiU=;
+ b=v53dITynJMYIDHw9gRYCSBQEnHh2u04W7MbT/jzuGRDrbmZ/xX9SDg+KdpCDxgFDpg
+ JHkwMVpGN60IEfB/u92JVhYANaPKQIZH1hNrcboiyxaFS+fxlaC3z6hK3XJBnnoxvejU
+ Kv0ynh4ZStU9KTy9oto743Kni4C3h3oa+bS0zoPL+n0AbgN0pwEZN1/1TynISehgl20d
+ tKMljeVqiJPD5dWFKM6phCzdzotmLg3R0C0LoEVtXOCXerNjz5mXlmqadGw59KBYyM3D
+ lpqPhI5QEo43ccynz7ujTKltttzM9INtl2j6+M2xa+gTPKjcr3TBldKb8LSaPH4jIedj
+ RQiA==
+X-Gm-Message-State: ANoB5ploQ3qL5nuwt+pfJiUu19guZtm3pVhgm/WhiMRMlkYncTry0/6I
+ ffykJ2FOaPOrAP+f2enf6xU=
+X-Google-Smtp-Source: AA0mqf7auaCY/9FYt7tioLSNUV49Je74hCB77cWcy1VArJ0c6nMh54u0yP1lGJoaL7fdF4h+tIhmFQ==
+X-Received: by 2002:a17:906:ee1:b0:78a:efde:b84a with SMTP id
+ x1-20020a1709060ee100b0078aefdeb84amr73368452eji.744.1670339530694; 
+ Tue, 06 Dec 2022 07:12:10 -0800 (PST)
+Received: from able.fritz.box (p5b0ea229.dip0.t-ipconnect.de. [91.14.162.41])
+ by smtp.gmail.com with ESMTPSA id
+ j9-20020aa7c409000000b0046c53c3b2dfsm1096655edq.38.2022.12.06.07.12.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Dec 2022 07:12:09 -0800 (PST)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: quic_charante@quicinc.com, cuigaosheng1@huawei.com, tjmercier@google.com,
+ sumit.semwal@linaro.org
+Subject: [PATCH] dma-buf: fix dma_buf_export init order
+Date: Tue,  6 Dec 2022 16:12:07 +0100
+Message-Id: <20221206151207.8801-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20221206133954.397098-1-tomi.valkeinen+renesas@ideasonboard.com>
- <20221206133954.397098-6-tomi.valkeinen+renesas@ideasonboard.com>
-In-Reply-To: <20221206133954.397098-6-tomi.valkeinen+renesas@ideasonboard.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 6 Dec 2022 15:38:02 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWVXCy_CEjv2c_ke6x+HNfndNci1c3m1Tn5ROy_mvNhmw@mail.gmail.com>
-Message-ID: <CAMuHMdWVXCy_CEjv2c_ke6x+HNfndNci1c3m1Tn5ROy_mvNhmw@mail.gmail.com>
-Subject: Re: [PATCH 5/7] media: renesas: vsp1: Add new formats (2-10-10-10
- ARGB, Y210)
-To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,94 +72,196 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
+The init order and resulting error handling in dma_buf_export
+was pretty messy.
 
-On Tue, Dec 6, 2022 at 2:44 PM Tomi Valkeinen
-<tomi.valkeinen+renesas@ideasonboard.com> wrote:
-> Add new pixel formats: XBGR2101010, ABGR2101010, BGRA1010102 and Y210.
->
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Subordinate objects like the file and the sysfs kernel objects
+were initializing and wiring itself up with the object in the
+wrong order resulting not only in complicating and partially
+incorrect error handling, but also in publishing only halve
+initialized DMA-buf objects.
 
-Thanks for your patch!
+Clean this up thoughtfully by allocating the file independent
+of the DMA-buf object. Then allocate and initialize the DMA-buf
+object itself, before publishing it through sysfs. If everything
+works as expected the file is then connected with the DMA-buf
+object and publish it through debugfs.
 
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-> @@ -109,6 +109,56 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
->         vsp1_rpf_write(rpf, dlb, VI6_RPF_INFMT, infmt);
->         vsp1_rpf_write(rpf, dlb, VI6_RPF_DSWAP, fmtinfo->swap);
->
-> +       if ((entity->vsp1->version & VI6_IP_VERSION_MODEL_MASK) == VI6_IP_VERSION_MODEL_VSPD_GEN4) {
-> +               u32 ext_infmt0;
-> +               u32 ext_infmt1;
-> +               u32 ext_infmt2;
-> +
-> +               switch (fmtinfo->fourcc) {
-> +               case V4L2_PIX_FMT_XBGR2101010:
-> +                       ext_infmt0 = VI6_RPF_EXT_INFMT0_BYPP_M1_RGB10;
-> +                       ext_infmt1 = (0 << 24)  | (10 << 16) |
-> +                                    (20 << 8)  | (30 << 0);
+Also adds the missing dma_resv_fini() into the error handling.
 
-Introducing PACK_CPOS(a, b, c, d)...
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/dma-buf/dma-buf-sysfs-stats.c |  7 +--
+ drivers/dma-buf/dma-buf-sysfs-stats.h |  4 +-
+ drivers/dma-buf/dma-buf.c             | 65 +++++++++++++--------------
+ 3 files changed, 34 insertions(+), 42 deletions(-)
 
-> +                       ext_infmt2 = (10 << 24) | (10 << 16) |
-> +                                    (10 << 8)  | (0 << 0);
+diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-buf-sysfs-stats.c
+index 2bba0babcb62..4b680e10c15a 100644
+--- a/drivers/dma-buf/dma-buf-sysfs-stats.c
++++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
+@@ -168,14 +168,11 @@ void dma_buf_uninit_sysfs_statistics(void)
+ 	kset_unregister(dma_buf_stats_kset);
+ }
+ 
+-int dma_buf_stats_setup(struct dma_buf *dmabuf)
++int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file *file)
+ {
+ 	struct dma_buf_sysfs_entry *sysfs_entry;
+ 	int ret;
+ 
+-	if (!dmabuf || !dmabuf->file)
+-		return -EINVAL;
+-
+ 	if (!dmabuf->exp_name) {
+ 		pr_err("exporter name must not be empty if stats needed\n");
+ 		return -EINVAL;
+@@ -192,7 +189,7 @@ int dma_buf_stats_setup(struct dma_buf *dmabuf)
+ 
+ 	/* create the directory for buffer stats */
+ 	ret = kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_ktype, NULL,
+-				   "%lu", file_inode(dmabuf->file)->i_ino);
++				   "%lu", file_inode(file)->i_ino);
+ 	if (ret)
+ 		goto err_sysfs_dmabuf;
+ 
+diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.h b/drivers/dma-buf/dma-buf-sysfs-stats.h
+index a49c6e2650cc..7a8a995b75ba 100644
+--- a/drivers/dma-buf/dma-buf-sysfs-stats.h
++++ b/drivers/dma-buf/dma-buf-sysfs-stats.h
+@@ -13,7 +13,7 @@
+ int dma_buf_init_sysfs_statistics(void);
+ void dma_buf_uninit_sysfs_statistics(void);
+ 
+-int dma_buf_stats_setup(struct dma_buf *dmabuf);
++int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file *file);
+ 
+ void dma_buf_stats_teardown(struct dma_buf *dmabuf);
+ #else
+@@ -25,7 +25,7 @@ static inline int dma_buf_init_sysfs_statistics(void)
+ 
+ static inline void dma_buf_uninit_sysfs_statistics(void) {}
+ 
+-static inline int dma_buf_stats_setup(struct dma_buf *dmabuf)
++static inline int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file *file)
+ {
+ 	return 0;
+ }
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index e6f36c014c4c..ea08049b70ae 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -614,19 +614,11 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+ 	size_t alloc_size = sizeof(struct dma_buf);
+ 	int ret;
+ 
+-	if (!exp_info->resv)
+-		alloc_size += sizeof(struct dma_resv);
+-	else
+-		/* prevent &dma_buf[1] == dma_buf->resv */
+-		alloc_size += 1;
+-
+-	if (WARN_ON(!exp_info->priv
+-			  || !exp_info->ops
+-			  || !exp_info->ops->map_dma_buf
+-			  || !exp_info->ops->unmap_dma_buf
+-			  || !exp_info->ops->release)) {
++	if (WARN_ON(!exp_info->priv || !exp_info->ops
++		    || !exp_info->ops->map_dma_buf
++		    || !exp_info->ops->unmap_dma_buf
++		    || !exp_info->ops->release))
+ 		return ERR_PTR(-EINVAL);
+-	}
+ 
+ 	if (WARN_ON(exp_info->ops->cache_sgt_mapping &&
+ 		    (exp_info->ops->pin || exp_info->ops->unpin)))
+@@ -638,10 +630,21 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+ 	if (!try_module_get(exp_info->owner))
+ 		return ERR_PTR(-ENOENT);
+ 
++	file = dma_buf_getfile(exp_info->size, exp_info->flags);
++	if (IS_ERR(file)) {
++		ret = PTR_ERR(file);
++		goto err_module;
++	}
++
++	if (!exp_info->resv)
++		alloc_size += sizeof(struct dma_resv);
++	else
++		/* prevent &dma_buf[1] == dma_buf->resv */
++		alloc_size += 1;
+ 	dmabuf = kzalloc(alloc_size, GFP_KERNEL);
+ 	if (!dmabuf) {
+ 		ret = -ENOMEM;
+-		goto err_module;
++		goto err_file;
+ 	}
+ 
+ 	dmabuf->priv = exp_info->priv;
+@@ -653,44 +656,36 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+ 	init_waitqueue_head(&dmabuf->poll);
+ 	dmabuf->cb_in.poll = dmabuf->cb_out.poll = &dmabuf->poll;
+ 	dmabuf->cb_in.active = dmabuf->cb_out.active = 0;
++	mutex_init(&dmabuf->lock);
++	INIT_LIST_HEAD(&dmabuf->attachments);
+ 
+ 	if (!resv) {
+-		resv = (struct dma_resv *)&dmabuf[1];
+-		dma_resv_init(resv);
++		dmabuf->resv = (struct dma_resv *)&dmabuf[1];
++		dma_resv_init(dmabuf->resv);
++	} else {
++		dmabuf->resv = resv;
+ 	}
+-	dmabuf->resv = resv;
+ 
+-	file = dma_buf_getfile(dmabuf, exp_info->flags);
+-	if (IS_ERR(file)) {
+-		ret = PTR_ERR(file);
++	ret = dma_buf_stats_setup(dmabuf, file);
++	if (ret)
+ 		goto err_dmabuf;
+-	}
+ 
++	file->private_data = dmabuf;
++	file->f_path.dentry->d_fsdata = dmabuf;
+ 	dmabuf->file = file;
+ 
+-	mutex_init(&dmabuf->lock);
+-	INIT_LIST_HEAD(&dmabuf->attachments);
+-
+ 	mutex_lock(&db_list.lock);
+ 	list_add(&dmabuf->list_node, &db_list.head);
+ 	mutex_unlock(&db_list.lock);
+ 
+-	ret = dma_buf_stats_setup(dmabuf);
+-	if (ret)
+-		goto err_sysfs;
+-
+ 	return dmabuf;
+ 
+-err_sysfs:
+-	/*
+-	 * Set file->f_path.dentry->d_fsdata to NULL so that when
+-	 * dma_buf_release() gets invoked by dentry_ops, it exits
+-	 * early before calling the release() dma_buf op.
+-	 */
+-	file->f_path.dentry->d_fsdata = NULL;
+-	fput(file);
+ err_dmabuf:
++	if (!resv)
++		dma_resv_fini(dmabuf->resv);
+ 	kfree(dmabuf);
++err_file:
++	fput(file);
+ err_module:
+ 	module_put(exp_info->owner);
+ 	return ERR_PTR(ret);
+-- 
+2.34.1
 
-... and PACK_CLEN(a, b, c, d) macros (or a single PACK4() macro)
-can make this less error-prone.
-
-> +                       break;
-> +
-> +               case V4L2_PIX_FMT_ABGR2101010:
-> +                       ext_infmt0 = VI6_RPF_EXT_INFMT0_BYPP_M1_RGB10;
-> +                       ext_infmt1 = (0 << 24)  | (10 << 16) |
-> +                                    (20 << 8)  | (30 << 0);
-> +                       ext_infmt2 = (10 << 24) | (10 << 16) |
-> +                                    (10 << 8)  | (2 << 0);
-> +                       break;
-> +
-> +               case V4L2_PIX_FMT_BGRA1010102:
-> +                       ext_infmt0 = VI6_RPF_EXT_INFMT0_BYPP_M1_RGB10;
-> +                       ext_infmt1 = (2 << 24)  | (12 << 16) |
-> +                                    (22 << 8)  | (22 << 0);
-> +                       ext_infmt2 = (10 << 24) | (10 << 16) |
-> +                                    (10 << 8)  | (2 << 0);
-> +                       break;
-> +
-> +               case V4L2_PIX_FMT_Y210:
-> +                       ext_infmt0 = VI6_RPF_EXT_INFMT0_F2B_MSB |
-> +                                    VI6_RPF_EXT_INFMT0_IPBD_Y_10 |
-> +                                    VI6_RPF_EXT_INFMT0_IPBD_C_10;
-> +                       ext_infmt1 = 0x0;
-> +                       ext_infmt2 = 0x0;
-> +                       break;
-> +
-> +               default:
-> +                       ext_infmt0 = 0;
-> +                       ext_infmt1 = 0;
-> +                       ext_infmt2 = 0;
-> +                       break;
-> +               }
-> +
-> +               vsp1_rpf_write(rpf, dlb, VI6_RPF_EXT_INFMT0, ext_infmt0);
-> +               vsp1_rpf_write(rpf, dlb, VI6_RPF_EXT_INFMT1, ext_infmt1);
-> +               vsp1_rpf_write(rpf, dlb, VI6_RPF_EXT_INFMT2, ext_infmt2);
-> +       }
-> +
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
