@@ -1,73 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BBBF646231
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 21:13:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DAA264634E
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 22:33:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0052C10E41C;
-	Wed,  7 Dec 2022 20:13:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 040A810E183;
+	Wed,  7 Dec 2022 21:33:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B750310E41A
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 20:13:25 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id b3so30415810lfv.2
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Dec 2022 12:13:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=wVVhjsKNZ110uihq4o15WbXBuFAJxL7HSRoRDMGRsAY=;
- b=D+O6QwDXnzj3Qj99Yu3Iwzt/hjB6AUqp0FkJde2gGViZZGJ+64qxPZsFpe/v/EqHuk
- CFY+5zz1axumiZuHQYIsPVo6Hx9qzvewkgoBSZljEUzdgiLgZg5DvzYcsziTszD/eYrm
- IfhEYjOHK7NoR0yvmyOhjHvtfQlaRoPbqlxbPrVQPZVjJEiok2m/0xZOGTjEOXCZn5K2
- vacTsOd4dI1JQ9XX+N38CXMqhNNycNLFQ7sE8cPsXS58PSZzrM2EXRvNkimexnz8GCOl
- KZu/IoGqobMloRxJCQYYlh/KaQYDV6OOaxaDOfzt9EuDeLsZpmXiKPjfSdFWIyozoKJE
- yNAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wVVhjsKNZ110uihq4o15WbXBuFAJxL7HSRoRDMGRsAY=;
- b=FNZNArL2tebincy7Q8997Ki7Ygjs47KRCECMePc8eK0QgsxXwb0fGCN/zqhfSW5d38
- rUZxClXD3tskOab3E0AfOz4HEPVa3kO2dTnaRxtA9h38lh/luIUA9z6xvwQ91rk3BmAF
- 97crkAV7aQjFnNNMu456m4GYJ5SEbToZhxnzbsGMFNiRk3hgJakCkxTM6BaSaUQyQRAy
- NtFDkySErwWvu08Pj0hPKCR5yEgpbkOeKJFvq0EjH4tP37mxUGFJwkAP/RLXZ7s1kjgG
- b3raHMlV9XFCGmEgp9WqHXtEj2NHkGcLlDKjjNMMG6uJkDavagqYVOWbAA5UgECx9X/Y
- t3gQ==
-X-Gm-Message-State: ANoB5pmr+xqMXC719L7XS9oeBk/+zndyh95WlENXErPAXLsGTpoJwCeH
- UBgNDT0/xg6bWYzuM5GXkzyM1Q==
-X-Google-Smtp-Source: AA0mqf7JoScIJJQdmqKUzoSq0YX20EvSrl9WjrveHwsafWCUiTZfwCKztEInSYOc8oM3yv8kYBk3yg==
-X-Received: by 2002:a05:6512:3e23:b0:4b5:8f93:c129 with SMTP id
- i35-20020a0565123e2300b004b58f93c129mr1854617lfv.188.1670444004117; 
- Wed, 07 Dec 2022 12:13:24 -0800 (PST)
-Received: from [10.10.15.130] ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- o17-20020ac24e91000000b004a2550db9ddsm2993654lfr.245.2022.12.07.12.13.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Dec 2022 12:13:23 -0800 (PST)
-Message-ID: <d17a595c-9561-1efa-b72e-15c535ef31eb@linaro.org>
-Date: Wed, 7 Dec 2022 22:13:23 +0200
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9272F10E141
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 21:33:31 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailout.west.internal (Postfix) with ESMTP id EE80932008FA;
+ Wed,  7 Dec 2022 16:33:26 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Wed, 07 Dec 2022 16:33:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
+ cc:cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1670448806; x=
+ 1670535206; bh=pVkeRxzHJDLyGdZ4XOxi7hgpQRaCLKvBaLw9uukM6dc=; b=R
+ ZgCc0FjKKoS3nxAtC4afK7r8gorzztzrKbzWJyrX1rHxtLTEhjC4FeiyoplB064r
+ wErXp4gZinO84uPonW59eiM/P1hAMvtxsi4hU552/sq0apZn0taw2aTXTl3DXJ9c
+ vNvPzyzW/yOuVJviYMoSDzD6/gbcD2DVYazwYDZ9HrNMIPAf5swumFDZxAVgadhu
+ ViDZX5z32ijVA9Bj0ZGxMxrG44lt6iwi9KiwyYmEOoriW1nyv3OnTu8/uAmyzLn1
+ VkkOutbuE/2HxKfWOPcOkH+NcNBfvD7WuqbGdR8sPhC/4dH7Ib4BabFrtxQYCCGj
+ /3knSdGSpHqLQXvTbuuuw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1670448806; x=
+ 1670535206; bh=pVkeRxzHJDLyGdZ4XOxi7hgpQRaCLKvBaLw9uukM6dc=; b=b
+ zC+0GNPPn1cpzaYisl9mny1jC9FpdMZ+kE83A1DszjdGHDsyYzC7BUCrEyB3KpR2
+ bsBvZdjTvwrx/vWDXRV7ud6z7kZBnYUUCBjZbdIRjR0oMNGn8ogKmrmNRj3Tl4zV
+ MJki/OMpV+HidA+lLsyRz6HJmE22ZwfPw4DINK9ByynCr+BfWoBIiizgNtMb7ER1
+ Hd3YO2hfYoFkUMbgC1PzRa0xzGmpU6gM6PaAv9LzqCbgf3HpnII/eR15OaQ/jwL1
+ vU/4G3oApN1L+lSLRuqVBuezDz5QxYF6CXgZboyASR9DQtv20U3zVb5mCBqxeSqg
+ Yw0KlTvVGg0bcB+FLRXGw==
+X-ME-Sender: <xms:pgaRY8L4H_QrWyI6Cue0ILd8xqbaiE9E4jW_QmxS75ZvTO51YKd2yA>
+ <xme:pgaRY8JS6YG_Rrofy_94b82YfjCr3la2vWJjN_lZlUYwfbPZ8zbkZiZ_zTy9pPio0
+ ZXEJF709FyOChWqc88>
+X-ME-Received: <xmr:pgaRY8vg6m7mb3yLgLxPRQdvcPh70LW7rJ9IYRyh3eMsc-PJqt90KLogMQQcVg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudekgdduhedtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtfeejnecuhfhrohhmpedfmgdf
+ ofgrrgiiucfoohhmsggrshgrfigrlhgrucdlggfofigrrhgvmddfuceomhgrrgiimhesfh
+ grshhtmhgrihhlrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhgedvvdfguedtteeh
+ ffejlefhgfdufeduueejvdevheevuefhtefhtdejffenucevlhhushhtvghrufhiiigvpe
+ dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrggriihmsehfrghsthhmrghilhdrtgho
+ mh
+X-ME-Proxy: <xmx:pgaRY5aE_8npM-REoHyhSuHJbF0XFgCjaCkdDuR17AHWnd_6T5eRdA>
+ <xmx:pgaRYzb8dR03TYwOxnpLXAzIhptk8tsu5oyDGSUalsct-g8cD-kclA>
+ <xmx:pgaRY1CDg2L-isqp3OalfA853D24GxpyqEPz-oBaOMOLrYLxNI01DA>
+ <xmx:pgaRY_ECu_Faz9nvfzIk6NfUnbG7JVQF1vuWpSLDE7OlQqliYz8FGQ>
+Feedback-ID: i1b1946fb:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 7 Dec 2022 16:33:25 -0500 (EST)
+Message-ID: <f1603e0e-975d-fae7-91ca-ea605ed2ad24@fastmail.com>
+Date: Wed, 7 Dec 2022 13:33:19 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v10 4/5] drm/msm/dp: parser link-frequencies as property
- of dp_out endpoint
-Content-Language: en-GB
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
- robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
- dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@linux.ie,
- agross@kernel.org, andersson@kernel.org, konrad.dybcio@somainline.org,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- devicetree@vger.kernel.org, airlied@gmail.com
-References: <1670432278-30643-1-git-send-email-quic_khsieh@quicinc.com>
- <1670432278-30643-5-git-send-email-quic_khsieh@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1670432278-30643-5-git-send-email-quic_khsieh@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ Thunderbird/102.3.0
+Subject: Re: [PATCH] drm/vmwgfx: Remove rcu locks from user resources
+Content-Language: en-US
+To: Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org
+References: <20221207172907.959037-1-zack@kde.org>
+From: "\"Maaz Mombasawala (VMware)" <maazm@fastmail.com>
+In-Reply-To: <20221207172907.959037-1-zack@kde.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,128 +87,594 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, quic_sbillaka@quicinc.com,
- freedreno@lists.freedesktop.org, quic_abhinavk@quicinc.com,
- linux-kernel@vger.kernel.org
+Cc: krastevm@vmware.com, mombasawalam@vmware.com, banackm@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/12/2022 18:57, Kuogee Hsieh wrote:
-> Add capability to parser and retrieve max DP link supported rate from
-> link-frequencies property of dp_out endpoint.
+LGTM.
+
+Reviewed-by: Maaz Mombasawala <mombasawalam@vmware.com>
+
+On 12/7/22 09:29, Zack Rusin wrote:
+> From: Zack Rusin <zackr@vmware.com>
 > 
-> Changes in v6:
-> -- second patch after split parser patch into two patches
+> User resource lookups used rcu to avoid two extra atomics. Unfortunately
+> the rcu paths were buggy and it was easy to make the driver crash by
+> submitting command buffers from two different threads. Because the
+> lookups never show up in performance profiles replace them with a
+> regular spin lock which fixes the races in accesses to those shared
+> resources.
 > 
-> Changes in v7:
-> -- without checking cnt against DP_MAX_NUM_DP_LANES to retrieve link rate
+> Fixes kernel oops'es in IGT's vmwgfx execution_buffer stress test and
+> seen crashes with apps using shared resources.
 > 
-> Changes in v9:
-> -- separate parser link-frequencies out of data-lanes
-> 
-> Changes in v10:
-> -- add dp_parser_link_frequencies()
-> 
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> Fixes: e14c02e6b699 ("drm/vmwgfx: Look up objects without taking a reference")
+> Signed-off-by: Zack Rusin <zackr@vmware.com>
 > ---
->   drivers/gpu/drm/msm/dp/dp_parser.c | 27 +++++++++++++++++++++++++++
->   drivers/gpu/drm/msm/dp/dp_parser.h |  2 ++
->   2 files changed, 29 insertions(+)
+>  drivers/gpu/drm/vmwgfx/ttm_object.c      |  41 +-----
+>  drivers/gpu/drm/vmwgfx/ttm_object.h      |  14 --
+>  drivers/gpu/drm/vmwgfx/vmwgfx_bo.c       |  38 -----
+>  drivers/gpu/drm/vmwgfx/vmwgfx_drv.h      |  18 +--
+>  drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c  | 176 +++++++++++------------
+>  drivers/gpu/drm/vmwgfx/vmwgfx_resource.c |  33 -----
+>  6 files changed, 87 insertions(+), 233 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c b/drivers/gpu/drm/msm/dp/dp_parser.c
-> index b5f7e70..9398abe 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_parser.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_parser.c
-> @@ -91,6 +91,28 @@ static int dp_parser_ctrl_res(struct dp_parser *parser)
->   	return 0;
->   }
->   
-> +static u32 dp_parser_link_frequencies(struct device_node *of_node)
-> +{
-> +	struct device_node *endpoint;
-> +	u64 frequency = 0;
-> +	int cnt = 0;
+> diff --git a/drivers/gpu/drm/vmwgfx/ttm_object.c b/drivers/gpu/drm/vmwgfx/ttm_object.c
+> index 932b125ebf3d..ddf8373c1d77 100644
+> --- a/drivers/gpu/drm/vmwgfx/ttm_object.c
+> +++ b/drivers/gpu/drm/vmwgfx/ttm_object.c
+> @@ -254,40 +254,6 @@ void ttm_base_object_unref(struct ttm_base_object **p_base)
+>  	kref_put(&base->refcount, ttm_release_base);
+>  }
+>  
+> -/**
+> - * ttm_base_object_noref_lookup - look up a base object without reference
+> - * @tfile: The struct ttm_object_file the object is registered with.
+> - * @key: The object handle.
+> - *
+> - * This function looks up a ttm base object and returns a pointer to it
+> - * without refcounting the pointer. The returned pointer is only valid
+> - * until ttm_base_object_noref_release() is called, and the object
+> - * pointed to by the returned pointer may be doomed. Any persistent usage
+> - * of the object requires a refcount to be taken using kref_get_unless_zero().
+> - * Iff this function returns successfully it needs to be paired with
+> - * ttm_base_object_noref_release() and no sleeping- or scheduling functions
+> - * may be called inbetween these function callse.
+> - *
+> - * Return: A pointer to the object if successful or NULL otherwise.
+> - */
+> -struct ttm_base_object *
+> -ttm_base_object_noref_lookup(struct ttm_object_file *tfile, uint64_t key)
+> -{
+> -	struct vmwgfx_hash_item *hash;
+> -	int ret;
+> -
+> -	rcu_read_lock();
+> -	ret = ttm_tfile_find_ref_rcu(tfile, key, &hash);
+> -	if (ret) {
+> -		rcu_read_unlock();
+> -		return NULL;
+> -	}
+> -
+> -	__release(RCU);
+> -	return hlist_entry(hash, struct ttm_ref_object, hash)->obj;
+> -}
+> -EXPORT_SYMBOL(ttm_base_object_noref_lookup);
+> -
+>  struct ttm_base_object *ttm_base_object_lookup(struct ttm_object_file *tfile,
+>  					       uint64_t key)
+>  {
+> @@ -295,15 +261,16 @@ struct ttm_base_object *ttm_base_object_lookup(struct ttm_object_file *tfile,
+>  	struct vmwgfx_hash_item *hash;
+>  	int ret;
+>  
+> -	rcu_read_lock();
+> -	ret = ttm_tfile_find_ref_rcu(tfile, key, &hash);
+> +	spin_lock(&tfile->lock);
+> +	ret = ttm_tfile_find_ref(tfile, key, &hash);
+>  
+>  	if (likely(ret == 0)) {
+>  		base = hlist_entry(hash, struct ttm_ref_object, hash)->obj;
+>  		if (!kref_get_unless_zero(&base->refcount))
+>  			base = NULL;
+>  	}
+> -	rcu_read_unlock();
+> +	spin_unlock(&tfile->lock);
 > +
-> +	endpoint = of_graph_get_endpoint_by_regs(of_node, 1, 0); /* port@1 */
-
-if (!endpoint)
-   return -ENODEV; (or 0, as you have u32)
-
-It's much easier IMO.
-
-> +	if (endpoint)
-> +		cnt = of_property_count_u64_elems(endpoint, "link-frequencies");
+>  
+>  	return base;
+>  }
+> diff --git a/drivers/gpu/drm/vmwgfx/ttm_object.h b/drivers/gpu/drm/vmwgfx/ttm_object.h
+> index f0ebbe340ad6..8098a3846bae 100644
+> --- a/drivers/gpu/drm/vmwgfx/ttm_object.h
+> +++ b/drivers/gpu/drm/vmwgfx/ttm_object.h
+> @@ -307,18 +307,4 @@ extern int ttm_prime_handle_to_fd(struct ttm_object_file *tfile,
+>  #define ttm_prime_object_kfree(__obj, __prime)		\
+>  	kfree_rcu(__obj, __prime.base.rhead)
+>  
+> -struct ttm_base_object *
+> -ttm_base_object_noref_lookup(struct ttm_object_file *tfile, uint64_t key);
+> -
+> -/**
+> - * ttm_base_object_noref_release - release a base object pointer looked up
+> - * without reference
+> - *
+> - * Releases a base object pointer looked up with ttm_base_object_noref_lookup().
+> - */
+> -static inline void ttm_base_object_noref_release(void)
+> -{
+> -	__acquire(RCU);
+> -	rcu_read_unlock();
+> -}
+>  #endif
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+> index d218b15953e0..d579f3eee9af 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+> @@ -715,44 +715,6 @@ int vmw_user_bo_lookup(struct drm_file *filp,
+>  	return 0;
+>  }
+>  
+> -/**
+> - * vmw_user_bo_noref_lookup - Look up a vmw user buffer object without reference
+> - * @filp: The TTM object file the handle is registered with.
+> - * @handle: The user buffer object handle.
+> - *
+> - * This function looks up a struct vmw_bo and returns a pointer to the
+> - * struct vmw_buffer_object it derives from without refcounting the pointer.
+> - * The returned pointer is only valid until vmw_user_bo_noref_release() is
+> - * called, and the object pointed to by the returned pointer may be doomed.
+> - * Any persistent usage of the object requires a refcount to be taken using
+> - * ttm_bo_reference_unless_doomed(). Iff this function returns successfully it
+> - * needs to be paired with vmw_user_bo_noref_release() and no sleeping-
+> - * or scheduling functions may be called in between these function calls.
+> - *
+> - * Return: A struct vmw_buffer_object pointer if successful or negative
+> - * error pointer on failure.
+> - */
+> -struct vmw_buffer_object *
+> -vmw_user_bo_noref_lookup(struct drm_file *filp, u32 handle)
+> -{
+> -	struct vmw_buffer_object *vmw_bo;
+> -	struct ttm_buffer_object *bo;
+> -	struct drm_gem_object *gobj = drm_gem_object_lookup(filp, handle);
+> -
+> -	if (!gobj) {
+> -		DRM_ERROR("Invalid buffer object handle 0x%08lx.\n",
+> -			  (unsigned long)handle);
+> -		return ERR_PTR(-ESRCH);
+> -	}
+> -	vmw_bo = gem_to_vmw_bo(gobj);
+> -	bo = ttm_bo_get_unless_zero(&vmw_bo->base);
+> -	vmw_bo = vmw_buffer_object(bo);
+> -	drm_gem_object_put(gobj);
+> -
+> -	return vmw_bo;
+> -}
+> -
+> -
+>  /**
+>   * vmw_bo_fence_single - Utility function to fence a single TTM buffer
+>   *                       object without unreserving it.
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+> index b062b020b378..5acbf5849b27 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+> @@ -830,12 +830,7 @@ extern int vmw_user_resource_lookup_handle(
+>  	uint32_t handle,
+>  	const struct vmw_user_resource_conv *converter,
+>  	struct vmw_resource **p_res);
+> -extern struct vmw_resource *
+> -vmw_user_resource_noref_lookup_handle(struct vmw_private *dev_priv,
+> -				      struct ttm_object_file *tfile,
+> -				      uint32_t handle,
+> -				      const struct vmw_user_resource_conv *
+> -				      converter);
 > +
-> +	if (cnt > 0) {
-> +		of_property_read_u64_index(endpoint, "link-frequencies",
-> +						cnt - 1, &frequency);
-> +		frequency /= 10;	/* from symbol rate to link rate */
-> +		frequency /= 1000;	/* kbits */
-
-kbytes?
-
+>  extern int vmw_stream_claim_ioctl(struct drm_device *dev, void *data,
+>  				  struct drm_file *file_priv);
+>  extern int vmw_stream_unref_ioctl(struct drm_device *dev, void *data,
+> @@ -874,15 +869,6 @@ static inline bool vmw_resource_mob_attached(const struct vmw_resource *res)
+>  	return !RB_EMPTY_NODE(&res->mob_node);
+>  }
+>  
+> -/**
+> - * vmw_user_resource_noref_release - release a user resource pointer looked up
+> - * without reference
+> - */
+> -static inline void vmw_user_resource_noref_release(void)
+> -{
+> -	ttm_base_object_noref_release();
+> -}
+> -
+>  /**
+>   * Buffer object helper functions - vmwgfx_bo.c
+>   */
+> @@ -934,8 +920,6 @@ extern void vmw_bo_unmap(struct vmw_buffer_object *vbo);
+>  extern void vmw_bo_move_notify(struct ttm_buffer_object *bo,
+>  			       struct ttm_resource *mem);
+>  extern void vmw_bo_swap_notify(struct ttm_buffer_object *bo);
+> -extern struct vmw_buffer_object *
+> -vmw_user_bo_noref_lookup(struct drm_file *filp, u32 handle);
+>  
+>  /**
+>   * vmw_bo_adjust_prio - Adjust the buffer object eviction priority
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+> index f16fc489d725..dc4a38f9e419 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+> @@ -290,20 +290,26 @@ static void vmw_execbuf_rcache_update(struct vmw_res_cache_entry *rcache,
+>  	rcache->valid_handle = 0;
+>  }
+>  
+> +enum vmw_val_add_flags {
+> +	vmw_val_add_flag_none  =      0,
+> +	vmw_val_add_flag_noctx = 1 << 0,
+> +};
+> +
+>  /**
+> - * vmw_execbuf_res_noref_val_add - Add a resource described by an unreferenced
+> - * rcu-protected pointer to the validation list.
+> + * vmw_execbuf_res_val_add - Add a resource to the validation list.
+>   *
+>   * @sw_context: Pointer to the software context.
+>   * @res: Unreferenced rcu-protected pointer to the resource.
+>   * @dirty: Whether to change dirty status.
+> + * @flags: specifies whether to use the context or not
+>   *
+>   * Returns: 0 on success. Negative error code on failure. Typical error codes
+>   * are %-EINVAL on inconsistency and %-ESRCH if the resource was doomed.
+>   */
+> -static int vmw_execbuf_res_noref_val_add(struct vmw_sw_context *sw_context,
+> -					 struct vmw_resource *res,
+> -					 u32 dirty)
+> +static int vmw_execbuf_res_val_add(struct vmw_sw_context *sw_context,
+> +				   struct vmw_resource *res,
+> +				   u32 dirty,
+> +				   u32 flags)
+>  {
+>  	struct vmw_private *dev_priv = res->dev_priv;
+>  	int ret;
+> @@ -318,24 +324,30 @@ static int vmw_execbuf_res_noref_val_add(struct vmw_sw_context *sw_context,
+>  		if (dirty)
+>  			vmw_validation_res_set_dirty(sw_context->ctx,
+>  						     rcache->private, dirty);
+> -		vmw_user_resource_noref_release();
+>  		return 0;
+>  	}
+>  
+> -	priv_size = vmw_execbuf_res_size(dev_priv, res_type);
+> -	ret = vmw_validation_add_resource(sw_context->ctx, res, priv_size,
+> -					  dirty, (void **)&ctx_info,
+> -					  &first_usage);
+> -	vmw_user_resource_noref_release();
+> -	if (ret)
+> -		return ret;
+> +	if ((flags & vmw_val_add_flag_noctx) != 0) {
+> +		ret = vmw_validation_add_resource(sw_context->ctx, res, 0, dirty,
+> +						  (void **)&ctx_info, NULL);
+> +		if (ret)
+> +			return ret;
+>  
+> -	if (priv_size && first_usage) {
+> -		ret = vmw_cmd_ctx_first_setup(dev_priv, sw_context, res,
+> -					      ctx_info);
+> -		if (ret) {
+> -			VMW_DEBUG_USER("Failed first usage context setup.\n");
+> +	} else {
+> +		priv_size = vmw_execbuf_res_size(dev_priv, res_type);
+> +		ret = vmw_validation_add_resource(sw_context->ctx, res, priv_size,
+> +						  dirty, (void **)&ctx_info,
+> +						  &first_usage);
+> +		if (ret)
+>  			return ret;
+> +
+> +		if (priv_size && first_usage) {
+> +			ret = vmw_cmd_ctx_first_setup(dev_priv, sw_context, res,
+> +						      ctx_info);
+> +			if (ret) {
+> +				VMW_DEBUG_USER("Failed first usage context setup.\n");
+> +				return ret;
+> +			}
+>  		}
+>  	}
+>  
+> @@ -343,43 +355,6 @@ static int vmw_execbuf_res_noref_val_add(struct vmw_sw_context *sw_context,
+>  	return 0;
+>  }
+>  
+> -/**
+> - * vmw_execbuf_res_noctx_val_add - Add a non-context resource to the resource
+> - * validation list if it's not already on it
+> - *
+> - * @sw_context: Pointer to the software context.
+> - * @res: Pointer to the resource.
+> - * @dirty: Whether to change dirty status.
+> - *
+> - * Returns: Zero on success. Negative error code on failure.
+> - */
+> -static int vmw_execbuf_res_noctx_val_add(struct vmw_sw_context *sw_context,
+> -					 struct vmw_resource *res,
+> -					 u32 dirty)
+> -{
+> -	struct vmw_res_cache_entry *rcache;
+> -	enum vmw_res_type res_type = vmw_res_type(res);
+> -	void *ptr;
+> -	int ret;
+> -
+> -	rcache = &sw_context->res_cache[res_type];
+> -	if (likely(rcache->valid && rcache->res == res)) {
+> -		if (dirty)
+> -			vmw_validation_res_set_dirty(sw_context->ctx,
+> -						     rcache->private, dirty);
+> -		return 0;
+> -	}
+> -
+> -	ret = vmw_validation_add_resource(sw_context->ctx, res, 0, dirty,
+> -					  &ptr, NULL);
+> -	if (ret)
+> -		return ret;
+> -
+> -	vmw_execbuf_rcache_update(rcache, res, ptr);
+> -
+> -	return 0;
+> -}
+> -
+>  /**
+>   * vmw_view_res_val_add - Add a view and the surface it's pointing to to the
+>   * validation list
+> @@ -398,13 +373,13 @@ static int vmw_view_res_val_add(struct vmw_sw_context *sw_context,
+>  	 * First add the resource the view is pointing to, otherwise it may be
+>  	 * swapped out when the view is validated.
+>  	 */
+> -	ret = vmw_execbuf_res_noctx_val_add(sw_context, vmw_view_srf(view),
+> -					    vmw_view_dirtying(view));
+> +	ret = vmw_execbuf_res_val_add(sw_context, vmw_view_srf(view),
+> +				      vmw_view_dirtying(view), vmw_val_add_flag_noctx);
+>  	if (ret)
+>  		return ret;
+>  
+> -	return vmw_execbuf_res_noctx_val_add(sw_context, view,
+> -					     VMW_RES_DIRTY_NONE);
+> +	return vmw_execbuf_res_val_add(sw_context, view, VMW_RES_DIRTY_NONE,
+> +				       vmw_val_add_flag_noctx);
+>  }
+>  
+>  /**
+> @@ -475,8 +450,9 @@ static int vmw_resource_context_res_add(struct vmw_private *dev_priv,
+>  			if (IS_ERR(res))
+>  				continue;
+>  
+> -			ret = vmw_execbuf_res_noctx_val_add(sw_context, res,
+> -							    VMW_RES_DIRTY_SET);
+> +			ret = vmw_execbuf_res_val_add(sw_context, res,
+> +						      VMW_RES_DIRTY_SET,
+> +						      vmw_val_add_flag_noctx);
+>  			if (unlikely(ret != 0))
+>  				return ret;
+>  		}
+> @@ -490,9 +466,9 @@ static int vmw_resource_context_res_add(struct vmw_private *dev_priv,
+>  		if (vmw_res_type(entry->res) == vmw_res_view)
+>  			ret = vmw_view_res_val_add(sw_context, entry->res);
+>  		else
+> -			ret = vmw_execbuf_res_noctx_val_add
+> -				(sw_context, entry->res,
+> -				 vmw_binding_dirtying(entry->bt));
+> +			ret = vmw_execbuf_res_val_add(sw_context, entry->res,
+> +						      vmw_binding_dirtying(entry->bt),
+> +						      vmw_val_add_flag_noctx);
+>  		if (unlikely(ret != 0))
+>  			break;
+>  	}
+> @@ -658,7 +634,8 @@ vmw_cmd_res_check(struct vmw_private *dev_priv,
+>  {
+>  	struct vmw_res_cache_entry *rcache = &sw_context->res_cache[res_type];
+>  	struct vmw_resource *res;
+> -	int ret;
+> +	int ret = 0;
+> +	bool needs_unref = false;
+>  
+>  	if (p_res)
+>  		*p_res = NULL;
+> @@ -683,17 +660,18 @@ vmw_cmd_res_check(struct vmw_private *dev_priv,
+>  		if (ret)
+>  			return ret;
+>  
+> -		res = vmw_user_resource_noref_lookup_handle
+> -			(dev_priv, sw_context->fp->tfile, *id_loc, converter);
+> -		if (IS_ERR(res)) {
+> +		ret = vmw_user_resource_lookup_handle
+> +			(dev_priv, sw_context->fp->tfile, *id_loc, converter, &res);
+> +		if (ret != 0) {
+>  			VMW_DEBUG_USER("Could not find/use resource 0x%08x.\n",
+>  				       (unsigned int) *id_loc);
+> -			return PTR_ERR(res);
+> +			return ret;
+>  		}
+> +		needs_unref = true;
+>  
+> -		ret = vmw_execbuf_res_noref_val_add(sw_context, res, dirty);
+> +		ret = vmw_execbuf_res_val_add(sw_context, res, dirty, vmw_val_add_flag_none);
+>  		if (unlikely(ret != 0))
+> -			return ret;
+> +			goto res_check_done;
+>  
+>  		if (rcache->valid && rcache->res == res) {
+>  			rcache->valid_handle = true;
+> @@ -708,7 +686,11 @@ vmw_cmd_res_check(struct vmw_private *dev_priv,
+>  	if (p_res)
+>  		*p_res = res;
+>  
+> -	return 0;
+> +res_check_done:
+> +	if (needs_unref)
+> +		vmw_resource_unreference(&res);
+> +
+> +	return ret;
+>  }
+>  
+>  /**
+> @@ -1171,9 +1153,9 @@ static int vmw_translate_mob_ptr(struct vmw_private *dev_priv,
+>  	int ret;
+>  
+>  	vmw_validation_preload_bo(sw_context->ctx);
+> -	vmw_bo = vmw_user_bo_noref_lookup(sw_context->filp, handle);
+> -	if (IS_ERR(vmw_bo)) {
+> -		VMW_DEBUG_USER("Could not find or use MOB buffer.\n");
+> +	ret = vmw_user_bo_lookup(sw_context->filp, handle, &vmw_bo);
+> +	if (ret != 0) {
+> +		drm_dbg(&dev_priv->drm, "Could not find or use MOB buffer.\n");
+>  		return PTR_ERR(vmw_bo);
+>  	}
+>  	ret = vmw_validation_add_bo(sw_context->ctx, vmw_bo, true, false);
+> @@ -1225,9 +1207,9 @@ static int vmw_translate_guest_ptr(struct vmw_private *dev_priv,
+>  	int ret;
+>  
+>  	vmw_validation_preload_bo(sw_context->ctx);
+> -	vmw_bo = vmw_user_bo_noref_lookup(sw_context->filp, handle);
+> -	if (IS_ERR(vmw_bo)) {
+> -		VMW_DEBUG_USER("Could not find or use GMR region.\n");
+> +	ret = vmw_user_bo_lookup(sw_context->filp, handle, &vmw_bo);
+> +	if (ret != 0) {
+> +		drm_dbg(&dev_priv->drm, "Could not find or use GMR region.\n");
+>  		return PTR_ERR(vmw_bo);
+>  	}
+>  	ret = vmw_validation_add_bo(sw_context->ctx, vmw_bo, false, false);
+> @@ -2025,8 +2007,9 @@ static int vmw_cmd_set_shader(struct vmw_private *dev_priv,
+>  		res = vmw_shader_lookup(vmw_context_res_man(ctx),
+>  					cmd->body.shid, cmd->body.type);
+>  		if (!IS_ERR(res)) {
+> -			ret = vmw_execbuf_res_noctx_val_add(sw_context, res,
+> -							    VMW_RES_DIRTY_NONE);
+> +			ret = vmw_execbuf_res_val_add(sw_context, res,
+> +						      VMW_RES_DIRTY_NONE,
+> +						      vmw_val_add_flag_noctx);
+>  			if (unlikely(ret != 0))
+>  				return ret;
+>  
+> @@ -2273,8 +2256,9 @@ static int vmw_cmd_dx_set_shader(struct vmw_private *dev_priv,
+>  			return PTR_ERR(res);
+>  		}
+>  
+> -		ret = vmw_execbuf_res_noctx_val_add(sw_context, res,
+> -						    VMW_RES_DIRTY_NONE);
+> +		ret = vmw_execbuf_res_val_add(sw_context, res,
+> +					      VMW_RES_DIRTY_NONE,
+> +					      vmw_val_add_flag_noctx);
+>  		if (ret)
+>  			return ret;
+>  	}
+> @@ -2777,8 +2761,8 @@ static int vmw_cmd_dx_bind_shader(struct vmw_private *dev_priv,
+>  		return PTR_ERR(res);
+>  	}
+>  
+> -	ret = vmw_execbuf_res_noctx_val_add(sw_context, res,
+> -					    VMW_RES_DIRTY_NONE);
+> +	ret = vmw_execbuf_res_val_add(sw_context, res, VMW_RES_DIRTY_NONE,
+> +				      vmw_val_add_flag_noctx);
+>  	if (ret) {
+>  		VMW_DEBUG_USER("Error creating resource validation node.\n");
+>  		return ret;
+> @@ -3098,8 +3082,8 @@ static int vmw_cmd_dx_bind_streamoutput(struct vmw_private *dev_priv,
+>  
+>  	vmw_dx_streamoutput_set_size(res, cmd->body.sizeInBytes);
+>  
+> -	ret = vmw_execbuf_res_noctx_val_add(sw_context, res,
+> -					    VMW_RES_DIRTY_NONE);
+> +	ret = vmw_execbuf_res_val_add(sw_context, res, VMW_RES_DIRTY_NONE,
+> +				      vmw_val_add_flag_noctx);
+>  	if (ret) {
+>  		DRM_ERROR("Error creating resource validation node.\n");
+>  		return ret;
+> @@ -3148,8 +3132,8 @@ static int vmw_cmd_dx_set_streamoutput(struct vmw_private *dev_priv,
+>  		return 0;
+>  	}
+>  
+> -	ret = vmw_execbuf_res_noctx_val_add(sw_context, res,
+> -					    VMW_RES_DIRTY_NONE);
+> +	ret = vmw_execbuf_res_val_add(sw_context, res, VMW_RES_DIRTY_NONE,
+> +				      vmw_val_add_flag_noctx);
+>  	if (ret) {
+>  		DRM_ERROR("Error creating resource validation node.\n");
+>  		return ret;
+> @@ -4066,22 +4050,26 @@ static int vmw_execbuf_tie_context(struct vmw_private *dev_priv,
+>  	if (ret)
+>  		return ret;
+>  
+> -	res = vmw_user_resource_noref_lookup_handle
+> +	ret = vmw_user_resource_lookup_handle
+>  		(dev_priv, sw_context->fp->tfile, handle,
+> -		 user_context_converter);
+> -	if (IS_ERR(res)) {
+> +		 user_context_converter, &res);
+> +	if (ret != 0) {
+>  		VMW_DEBUG_USER("Could not find or user DX context 0x%08x.\n",
+>  			       (unsigned int) handle);
+> -		return PTR_ERR(res);
+> +		return ret;
+>  	}
+>  
+> -	ret = vmw_execbuf_res_noref_val_add(sw_context, res, VMW_RES_DIRTY_SET);
+> -	if (unlikely(ret != 0))
+> +	ret = vmw_execbuf_res_val_add(sw_context, res, VMW_RES_DIRTY_SET,
+> +				      vmw_val_add_flag_none);
+> +	if (unlikely(ret != 0)){
+> +		vmw_resource_unreference(&res);
+>  		return ret;
 > +	}
-> +
-> +	of_node_put(endpoint);
-
-Even easier:
-
-cnt = of_property_count(...);
-if (cnt > 0)
-     of_property_read_u64_index(...);
-of_node_put(endpoint);
-
-frequency /= 10;
-frequency /= 1000;
-
-return frequency;
-
-> +
-> +	return (u32)frequency;
-> +}
-> +
->   static int dp_parser_misc(struct dp_parser *parser)
->   {
->   	struct device_node *of_node = parser->pdev->dev.of_node;
-> @@ -113,6 +135,11 @@ static int dp_parser_misc(struct dp_parser *parser)
->   			parser->max_dp_lanes = DP_MAX_NUM_DP_LANES; /* 4 lanes */
->   	}
->   
-> +	parser->max_dp_link_rate = dp_parser_link_frequencies(of_node);
-> +
-
-Drop the empty line please. The if checks the result of the previous 
-assignment. It's easier to comprehend if they visually belong to the 
-same code block.
-
-> +	if (!parser->max_dp_link_rate)
-> +                parser->max_dp_link_rate = DP_LINK_RATE_HBR2; /* 540000 khz */
-> +
->   	return 0;
->   }
->   
-> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h b/drivers/gpu/drm/msm/dp/dp_parser.h
-> index 866c1a8..6b10c3e 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_parser.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_parser.h
-> @@ -15,6 +15,7 @@
->   #define DP_LABEL "MDSS DP DISPLAY"
->   #define DP_MAX_PIXEL_CLK_KHZ	675000
->   #define DP_MAX_NUM_DP_LANES	4
-> +#define DP_LINK_RATE_HBR2	540000 /* khz */
->   
->   enum dp_pm_type {
->   	DP_CORE_PM,
-> @@ -119,6 +120,7 @@ struct dp_parser {
->   	struct dp_io io;
->   	struct dp_display_data disp_data;
->   	u32 max_dp_lanes;
-> +	u32 max_dp_link_rate;
->   	struct drm_bridge *next_bridge;
->   
->   	int (*parse)(struct dp_parser *parser);
+>  
+>  	sw_context->dx_ctx_node = vmw_execbuf_info_from_res(sw_context, res);
+>  	sw_context->man = vmw_context_res_man(res);
+>  
+> +	vmw_resource_unreference(&res);
+>  	return 0;
+>  }
+>  
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
+> index f66caa540e14..c7d645e5ec7b 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
+> @@ -281,39 +281,6 @@ int vmw_user_resource_lookup_handle(struct vmw_private *dev_priv,
+>  	return ret;
+>  }
+>  
+> -/**
+> - * vmw_user_resource_noref_lookup_handle - lookup a struct resource from a
+> - * TTM user-space handle and perform basic type checks
+> - *
+> - * @dev_priv:     Pointer to a device private struct
+> - * @tfile:        Pointer to a struct ttm_object_file identifying the caller
+> - * @handle:       The TTM user-space handle
+> - * @converter:    Pointer to an object describing the resource type
+> - *
+> - * If the handle can't be found or is associated with an incorrect resource
+> - * type, -EINVAL will be returned.
+> - */
+> -struct vmw_resource *
+> -vmw_user_resource_noref_lookup_handle(struct vmw_private *dev_priv,
+> -				      struct ttm_object_file *tfile,
+> -				      uint32_t handle,
+> -				      const struct vmw_user_resource_conv
+> -				      *converter)
+> -{
+> -	struct ttm_base_object *base;
+> -
+> -	base = ttm_base_object_noref_lookup(tfile, handle);
+> -	if (!base)
+> -		return ERR_PTR(-ESRCH);
+> -
+> -	if (unlikely(ttm_base_object_type(base) != converter->object_type)) {
+> -		ttm_base_object_noref_release();
+> -		return ERR_PTR(-EINVAL);
+> -	}
+> -
+> -	return converter->base_obj_to_res(base);
+> -}
+> -
+>  /*
+>   * Helper function that looks either a surface or bo.
+>   *
 
 -- 
-With best wishes
-Dmitry
+Maaz Mombasawala (VMware) <maazm@fastmail.com>
 
