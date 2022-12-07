@@ -1,72 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 277316463CC
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 23:01:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F91064641B
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 23:28:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7FCE10E42C;
-	Wed,  7 Dec 2022 22:00:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 515DA10E425;
+	Wed,  7 Dec 2022 22:28:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E4AF10E422;
- Wed,  7 Dec 2022 22:00:31 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2B7LsCtt003017; Wed, 7 Dec 2022 22:00:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=TMdu94/5OkuXtF4rkDkFZzzrpnVZt7h12PRb1jo2jCg=;
- b=hCkHOHoLfzcozih7juJBKg6+4c6VjyekdSOWefwX6mXKkBSMBK6Ytxt3Ym1Diye6jqXJ
- Uyju0FrHcz/UfzdKWfS88ZO1KTKLtDHoEDSJCFrOxCAgxvCsRkUnjrx5rQSaI+F3K7cu
- JvSFvLNbhZJ2L0WCedSYaqElJkgrSz0meYHao0AuTFAj43jF7i3R6Djrx9gTGaS+OeMu
- rxVepW9XjTSzesnU85MkgryGhGqq28wMLOIuiQwytsPJp/X1QLvTttm9KRlrrcdqR4fm
- FQt1NUSBZyLNfxOvKXHjh1+OAeaB1p6lYlS+DNK+AAvgsJlaLdKYK7ImduIcqeQ4rlPT fg== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3maywmrew3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Dec 2022 22:00:27 +0000
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
- [10.47.97.35])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2B7M0QM8006536
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 7 Dec 2022 22:00:27 GMT
-Received: from th-lint-050.qualcomm.com (10.80.80.8) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Wed, 7 Dec 2022 14:00:25 -0800
-From: Bjorn Andersson <quic_bjorande@quicinc.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH v5 12/12] arm64: dts: qcom: sa8295-adp: Enable DP instances
-Date: Wed, 7 Dec 2022 14:00:12 -0800
-Message-ID: <20221207220012.16529-13-quic_bjorande@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20221207220012.16529-1-quic_bjorande@quicinc.com>
-References: <20221207220012.16529-1-quic_bjorande@quicinc.com>
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam04on2068.outbound.protection.outlook.com [40.107.100.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 961A810E0D1;
+ Wed,  7 Dec 2022 22:28:33 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=U/u+RB/3pN+02NxQQVTpbA4M+jcXr/MA/WlVSuggIAb8exSIGGAm9r/9bUiK6GyoSkTYNafU++R3iEzy4LaVI0gv424z3T5nNbQeRaVfMLk9XpTx12jwRkbOvbR78vWtaEuJ7U17/yLurMYu9QeGGlLpvnDfBXZCYtvy9NbI7dAkmbh73quzP0/UJuAV+Z5Y73hS/OwXnHIMb+cYPLhNmikjkDFc4Y6Ca6Z0vmtkolenBEdkwuAMovDBgm9T0/BCGamr65tXRk2URpjJA3A/Lqw1iXwIUzJZhJHMfTvRV0+yo+WLoeFV8FzsEzjAt10FlQenyN+41oSQfFymalwGxw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ab/NVOBqrVlAJe9XnsEYOsBMWXV2EUmWQ7uausceIPo=;
+ b=WU50l44OGfsDpsy0LbaPet6T2TG6TbiSCS2y9gozYkTPvks9WWIL0Jf6/5nvgD6QYOBI0afSzHujYBy5qP3rNhseStwbfU022PL6b+JyPxil01J7Bqu3NBWBZkjNHQTlbZytm2AmxEk5qAcCb1ZKFf9lN9NLC9D11Wsu+EtY+6uOr3ebg6XIGKmDnpek2uwPcr5jLZOpa3GdF/87wCydzXDZdSO1h4k/zk+mYxxtiLO41kIvanIghQ0VJTzBas4jShvI4Rhw1309BvWjGA1fjfGsB69cmuEA7n1tMqGeqqVBpu5YDsPgtRz9OUVb6WmBOkyFDJqek6UkgHwL+Dk/kQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ab/NVOBqrVlAJe9XnsEYOsBMWXV2EUmWQ7uausceIPo=;
+ b=NaddtFfOJye3EK5A/yODe0Jua+xRf0D7wk6FtrvbYxEl9DuEr8aLbJ6H7dERynGGCrlVWAELNDRLK9LoYulLelKL1v61aDvihy/twsEN7cZpK6BBP7vr/LSnwQFtzY+WCpjpqA3LSjseaJswWs70Im5GLfJaL31oq6NEUfFo1R4=
+Received: from BN7PR02CA0010.namprd02.prod.outlook.com (2603:10b6:408:20::23)
+ by PH7PR12MB6665.namprd12.prod.outlook.com (2603:10b6:510:1a7::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.14; Wed, 7 Dec
+ 2022 22:28:28 +0000
+Received: from BN8NAM11FT032.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:20:cafe::29) by BN7PR02CA0010.outlook.office365.com
+ (2603:10b6:408:20::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.14 via Frontend
+ Transport; Wed, 7 Dec 2022 22:28:27 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT032.mail.protection.outlook.com (10.13.177.88) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5901.15 via Frontend Transport; Wed, 7 Dec 2022 22:28:27 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 7 Dec
+ 2022 16:28:25 -0600
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
+Subject: [pull] amdgpu drm-fixes-6.1
+Date: Wed, 7 Dec 2022 17:27:51 -0500
+Message-ID: <20221207222751.9558-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: bVrDuQrrrDY9cZdnNUry0sYOSnj4iJCF
-X-Proofpoint-GUID: bVrDuQrrrDY9cZdnNUry0sYOSnj4iJCF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-07_11,2022-12-07_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 spamscore=0
- clxscore=1015 suspectscore=0 priorityscore=1501 impostorscore=0
- adultscore=0 malwarescore=0 bulkscore=0 mlxlogscore=945 lowpriorityscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2212070186
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT032:EE_|PH7PR12MB6665:EE_
+X-MS-Office365-Filtering-Correlation-Id: ec679e19-a600-4fce-515c-08dad8a25c55
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: DS252q7IZ6Mq/WI+r+T7L/HceAj65XmHpANpJb7iVqwb+wSDiOMsy4UIHthYAoj+h4V4JdM/3Pyrj2+WvmEkmDm4zOPoyMt61/tv2zfFndiLrm95p1LE2+9HjI8JFjwk8mQtgSvfksUILRHvps1LiL07kUOBCr2gUc03Mbstr1KmT7XzeRpxblIKIl6q6E1TSnC4J8p4l+nuTa8L8gV0B1gilL7z2jfNw3O3amwRyzI2s1vZPEdw/sGBMIOYpYvN4FqXMevzYTtovxAn3IJnDy5I/9BnOk4imjoTFFsUjw9lVtsUAFlBkJekKniU9OknsHoo9VUBSZ83E9VNkcHmZqjKoaxRdI4wZhA0gMNvvib8UlTOwzKcTkv5IC6LanCxtlncg+89oxpRP1jK1MnygGiBUBGfljDlDtkgMoKozloAzrN8COoraMR9CKMjWMM6aBwYfjhorsaQv0/fb60mrZT9AbmTbnjRxXgXRkXKV4Qt7Wcz0e5vZXHw156A3sQBfgBVE+U2KWbThL4kp0O5zGTlEySKHePSa0PNZf1tfwOxgZI1obnCFdAUEV3h7a0PATsZ0VTGpID8l6Qs6yFLeZnSP6rleCiMXgMqP8mO4vMjHqXKVzDPh5flQzc0pspHoZ/rXmFdBdF1O1rkIDjbHG/I9sPTajnZW0npY4khuisNAYzTWHyhUYevvHkAeapl
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230022)(4636009)(136003)(376002)(346002)(39860400002)(396003)(451199015)(40470700004)(36840700001)(46966006)(36756003)(2906002)(81166007)(86362001)(70586007)(8936002)(356005)(40460700003)(5660300002)(4326008)(36860700001)(83380400001)(478600001)(316002)(2616005)(110136005)(82740400003)(82310400005)(1076003)(47076005)(8676002)(40480700001)(966005)(41300700001)(70206006)(336012)(16526019)(426003)(6666004)(186003)(7696005)(26005)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Dec 2022 22:28:27.0493 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec679e19-a600-4fce-515c-08dad8a25c55
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT032.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6665
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,303 +99,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kalyan Thota <quic_kalyant@quicinc.com>, freedreno@lists.freedesktop.org,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>, linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>,
- linux-arm-msm@vger.kernel.org, Jessica Zhang <quic_jesszhan@quicinc.com>,
- Johan Hovold <johan+linaro@kernel.org>
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
+Hi Dave, Daniel,
 
-The SA8295P ADP has, among other interfaces, six MiniDP connectors which
-are connected to MDSS0 DP2 and DP3, and MDSS1 DP0 through DP3.
+A couple of small fixes for 6.1.
 
-Enable Display Clock controllers, MDSS instanced, MDPs, DP controllers,
-DP PHYs and link them all together.
+The following changes since commit 76dcd734eca23168cb008912c0f69ff408905235:
 
-Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
----
+  Linux 6.1-rc8 (2022-12-04 14:48:12 -0800)
 
-Changes since v4:
-- None
+are available in the Git repository at:
 
- arch/arm64/boot/dts/qcom/sa8295p-adp.dts | 243 ++++++++++++++++++++++-
- 1 file changed, 241 insertions(+), 2 deletions(-)
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.1-2022-12-07
 
-diff --git a/arch/arm64/boot/dts/qcom/sa8295p-adp.dts b/arch/arm64/boot/dts/qcom/sa8295p-adp.dts
-index 6c29d7d757e0..d55c8c5304cc 100644
---- a/arch/arm64/boot/dts/qcom/sa8295p-adp.dts
-+++ b/arch/arm64/boot/dts/qcom/sa8295p-adp.dts
-@@ -23,6 +23,90 @@ aliases {
- 	chosen {
- 		stdout-path = "serial0:115200n8";
- 	};
-+
-+	dp2-connector {
-+		compatible = "dp-connector";
-+		label = "DP2";
-+		type = "mini";
-+
-+		hpd-gpios = <&tlmm 20 GPIO_ACTIVE_HIGH>;
-+
-+		port {
-+			dp2_connector_in: endpoint {
-+				remote-endpoint = <&mdss1_dp0_phy_out>;
-+			};
-+		};
-+	};
-+
-+	dp3-connector {
-+		compatible = "dp-connector";
-+		label = "DP3";
-+		type = "mini";
-+
-+		hpd-gpios = <&tlmm 45 GPIO_ACTIVE_HIGH>;
-+
-+		port {
-+			dp3_connector_in: endpoint {
-+				remote-endpoint = <&mdss1_dp1_phy_out>;
-+			};
-+		};
-+	};
-+
-+	edp0-connector {
-+		compatible = "dp-connector";
-+		label = "EDP0";
-+		type = "mini";
-+
-+		hpd-gpios = <&tlmm 2 GPIO_ACTIVE_HIGH>;
-+
-+		port {
-+			edp0_connector_in: endpoint {
-+				remote-endpoint = <&mdss0_dp2_phy_out>;
-+			};
-+		};
-+	};
-+
-+	edp1-connector {
-+		compatible = "dp-connector";
-+		label = "EDP1";
-+		type = "mini";
-+
-+		hpd-gpios = <&tlmm 3 GPIO_ACTIVE_HIGH>;
-+
-+		port {
-+			edp1_connector_in: endpoint {
-+				remote-endpoint = <&mdss0_dp3_phy_out>;
-+			};
-+		};
-+	};
-+
-+	edp2-connector {
-+		compatible = "dp-connector";
-+		label = "EDP2";
-+		type = "mini";
-+
-+		hpd-gpios = <&tlmm 7 GPIO_ACTIVE_HIGH>;
-+
-+		port {
-+			edp2_connector_in: endpoint {
-+				remote-endpoint = <&mdss1_dp2_phy_out>;
-+			};
-+		};
-+	};
-+
-+	edp3-connector {
-+		compatible = "dp-connector";
-+		label = "EDP3";
-+		type = "mini";
-+
-+		hpd-gpios = <&tlmm 6 GPIO_ACTIVE_HIGH>;
-+
-+		port {
-+			edp3_connector_in: endpoint {
-+				remote-endpoint = <&mdss1_dp3_phy_out>;
-+			};
-+		};
-+	};
- };
- 
- &apps_rsc {
-@@ -163,13 +247,168 @@ vreg_l7g: ldo7 {
- 
- 		vreg_l8g: ldo8 {
- 			regulator-name = "vreg_l8g";
--			regulator-min-microvolt = <880000>;
--			regulator-max-microvolt = <880000>;
-+			regulator-min-microvolt = <912000>;
-+			regulator-max-microvolt = <912000>;
-+			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
-+		};
-+
-+		vreg_l11g: ldo11 {
-+			regulator-name = "vreg_l11g";
-+			regulator-min-microvolt = <912000>;
-+			regulator-max-microvolt = <912000>;
- 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
- 		};
- 	};
- };
- 
-+&dispcc0 {
-+	status = "okay";
-+};
-+
-+&dispcc1 {
-+	status = "okay";
-+};
-+
-+&mdss0 {
-+	status = "okay";
-+};
-+
-+&mdss0_dp2 {
-+	status = "okay";
-+
-+	data-lanes = <0 1 2 3>;
-+
-+	ports {
-+		port@1 {
-+			reg = <1>;
-+			mdss0_dp2_phy_out: endpoint {
-+				remote-endpoint = <&edp0_connector_in>;
-+			};
-+		};
-+	};
-+};
-+
-+&mdss0_dp2_phy {
-+	status = "okay";
-+
-+	vdda-phy-supply = <&vreg_l8g>;
-+	vdda-pll-supply = <&vreg_l3g>;
-+};
-+
-+&mdss0_dp3 {
-+	status = "okay";
-+
-+	data-lanes = <0 1 2 3>;
-+
-+	ports {
-+		port@1 {
-+			reg = <1>;
-+			mdss0_dp3_phy_out: endpoint {
-+				remote-endpoint = <&edp1_connector_in>;
-+			};
-+		};
-+	};
-+};
-+
-+&mdss0_dp3_phy {
-+	status = "okay";
-+
-+	vdda-phy-supply = <&vreg_l8g>;
-+	vdda-pll-supply = <&vreg_l3g>;
-+};
-+
-+&mdss1 {
-+	status = "okay";
-+};
-+
-+&mdss1_dp0 {
-+	status = "okay";
-+
-+	data-lanes = <0 1 2 3>;
-+
-+	ports {
-+		port@1 {
-+			reg = <1>;
-+			mdss1_dp0_phy_out: endpoint {
-+				remote-endpoint = <&dp2_connector_in>;
-+			};
-+		};
-+	};
-+};
-+
-+&mdss1_dp0_phy {
-+	status = "okay";
-+
-+	vdda-phy-supply = <&vreg_l11g>;
-+	vdda-pll-supply = <&vreg_l3g>;
-+};
-+
-+&mdss1_dp1 {
-+	status = "okay";
-+
-+	data-lanes = <0 1 2 3>;
-+
-+	ports {
-+		port@1 {
-+			reg = <1>;
-+			mdss1_dp1_phy_out: endpoint {
-+				remote-endpoint = <&dp3_connector_in>;
-+			};
-+		};
-+	};
-+};
-+
-+&mdss1_dp1_phy {
-+	status = "okay";
-+
-+	vdda-phy-supply = <&vreg_l11g>;
-+	vdda-pll-supply = <&vreg_l3g>;
-+};
-+
-+&mdss1_dp2 {
-+	status = "okay";
-+
-+	data-lanes = <0 1 2 3>;
-+
-+	ports {
-+		port@1 {
-+			reg = <1>;
-+			mdss1_dp2_phy_out: endpoint {
-+				remote-endpoint = <&edp2_connector_in>;
-+			};
-+		};
-+	};
-+};
-+
-+&mdss1_dp2_phy {
-+	status = "okay";
-+
-+	vdda-phy-supply = <&vreg_l11g>;
-+	vdda-pll-supply = <&vreg_l3g>;
-+};
-+
-+&mdss1_dp3 {
-+	status = "okay";
-+
-+	data-lanes = <0 1 2 3>;
-+
-+	ports {
-+		port@1 {
-+			reg = <1>;
-+			mdss1_dp3_phy_out: endpoint {
-+				remote-endpoint = <&edp3_connector_in>;
-+			};
-+		};
-+	};
-+};
-+
-+&mdss1_dp3_phy {
-+	status = "okay";
-+
-+	vdda-phy-supply = <&vreg_l11g>;
-+	vdda-pll-supply = <&vreg_l3g>;
-+};
-+
- &pcie2a {
- 	perst-gpios = <&tlmm 143 GPIO_ACTIVE_LOW>;
- 	wake-gpios = <&tlmm 145 GPIO_ACTIVE_LOW>;
--- 
-2.37.3
+for you to fetch changes up to aeffc8fb2174f017a10df114bc312f899904dc68:
 
+  drm/amd/display: fix array index out of bound error in DCN32 DML (2022-12-07 12:21:53 -0500)
+
+----------------------------------------------------------------
+amd-drm-fixes-6.1-2022-12-07:
+
+amdgpu:
+- S0ix fix
+- DCN 3.2 array out of bounds fix
+
+----------------------------------------------------------------
+Aurabindo Pillai (1):
+      drm/amd/display: fix array index out of bound error in DCN32 DML
+
+Prike Liang (1):
+      drm/amdgpu/sdma_v4_0: turn off SDMA ring buffer in the s2idle suspend
+
+ drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c             | 24 ++++++++++++++--------
+ .../gpu/drm/amd/display/dc/dml/display_mode_vba.h  |  2 +-
+ 2 files changed, 16 insertions(+), 10 deletions(-)
