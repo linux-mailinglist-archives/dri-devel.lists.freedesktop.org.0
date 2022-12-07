@@ -1,48 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4A03645AD2
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 14:24:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28A07645B8C
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 14:56:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13C8810E3AE;
-	Wed,  7 Dec 2022 13:24:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BF6410E3B0;
+	Wed,  7 Dec 2022 13:56:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FDEF10E3AB
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 13:24:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F85610E3B0
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 13:56:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=YOKduRxqOQ+ggRn/s0wpQfzORzZWr0CzU1FGkX5EVD0=; b=DPxXbUbrYZV8/6yujrWCdEem8+
- /eFYPbecOcm3T5FzjKxYsA3M6J/6KNF7h2pqzC4+Gq/xOT28YXb+UCledR5MWWeMBfg5EqrZvqkZ6
- k8JLwbPn7ctypP0xVJfvyp6vyKbxPEe1XLyRZac4Ueqf4iEc4Re35pFPjI1F0j8Ilz6S/NlpEeEr4
- 2t7oBJyXuZFJ4WKukPxsbsWELaIFHAh8fDFwmJcK+t6etuz8ITvKl6cu056oZwFXXVI7H+zbkIo4q
- q6VGIwdmqT7yVxf/xQuoFXLr/SpyddbxVxPPl4hdyXIkr+7gh0P2GwvhoOxeb/XTRr+cItlDCDFT3
- X6929ZAw==;
-Received: from [177.34.169.227] (helo=bowie..)
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=fyA1KqlBkiD4PRKJwfoxMJSb8dR56u0Byrgz69IGCDM=; b=Ah2r+Q8uT2cKvHeYBiKlpjgsLs
+ 0B/7BzJgCtAnx/1S/Bl3NjOgzMvCF4pB7RnsaHHNMTaFAKobs19+W3xdVtIK+4KJGQlQJp+9p5+CV
+ ZJt6wuL4V7D/H/Q9oEw0nq8JV9uxe6OtR981NZ2hiTetd1Dk1Ga1rVecQ/gbphFWbOvm6iggz+EKE
+ 2AZGszBmFHBzdsK3vh2pl32DMcZlvM2oHb+m8pON91EXhJvicePApSSMDbLEFITWrNZ7er6CrYpv8
+ /4Q2li7STgNWKK2VAAq4Q8OM6XMiy3i0CJjveKUpQAu1MomMzSxV7hsDi8OdCbKUR0NYBBDARwap5
+ eEOjAjLg==;
+Received: from [143.107.182.242] (helo=[10.41.75.14])
  by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1p2uPO-00Gaon-Md; Wed, 07 Dec 2022 14:24:23 +0100
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Oded Gabbay <ogabbay@kernel.org>,
- Jani Nikula <jani.nikula@linux.intel.com>
-Subject: [PATCH v3 6/6] drm/todo: update the debugfs clean up task
-Date: Wed,  7 Dec 2022 10:23:25 -0300
-Message-Id: <20221207132325.140393-7-mcanal@igalia.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221207132325.140393-1-mcanal@igalia.com>
-References: <20221207132325.140393-1-mcanal@igalia.com>
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1p2uu1-00GbW6-UQ; Wed, 07 Dec 2022 14:56:02 +0100
+Message-ID: <57f2302f-0e36-7665-37b0-a81a4be8cb7b@igalia.com>
+Date: Wed, 7 Dec 2022 10:55:30 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v3 20/20] Documentation: gpu: vc4: Add KUnit Tests Section
+To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>
+References: <20221123-rpi-kunit-tests-v3-0-4615a663a84a@cerno.tech>
+ <20221123-rpi-kunit-tests-v3-20-4615a663a84a@cerno.tech>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20221123-rpi-kunit-tests-v3-20-4615a663a84a@cerno.tech>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,60 +58,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
- Emma Anholt <emma@anholt.net>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Wambui Karuga <wambui@karuga.org>, Melissa Wen <mwen@igalia.com>
+Cc: linux-kselftest@vger.kernel.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>,
+ linux-media@vger.kernel.org, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The structs drm_debugfs_info and drm_debugfs_entry introduced a new
-debugfs structure to DRM, centered on drm_device instead of drm_minor.
-Therefore, remove the tasks related to create a new device-centered
-debugfs structure and add a new task to replace the use of
-drm_debugfs_create_files() for the use of drm_debugfs_add_file() and
-drm_debugfs_add_files().
+On 12/1/22 12:11, Maxime Ripard wrote:
+> Now that we have VC4-specific tests in place, let's document them
+> properly.
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
----
- Documentation/gpu/todo.rst | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+Reviewed-by: Maíra Canal <mcanal@igalia.com>
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index b2c6aaf1edf2..f64abf69f341 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -508,17 +508,14 @@ Clean up the debugfs support
- 
- There's a bunch of issues with it:
- 
--- The drm_info_list ->show() function doesn't even bother to cast to the drm
--  structure for you. This is lazy.
-+- Convert drivers to support the drm_debugfs_add_files() function instead of
-+  the drm_debugfs_create_files() function.
- 
- - We probably want to have some support for debugfs files on crtc/connectors and
-   maybe other kms objects directly in core. There's even drm_print support in
-   the funcs for these objects to dump kms state, so it's all there. And then the
-   ->show() functions should obviously give you a pointer to the right object.
- 
--- The drm_info_list stuff is centered on drm_minor instead of drm_device. For
--  anything we want to print drm_device (or maybe drm_file) is the right thing.
--
- - The drm_driver->debugfs_init hooks we have is just an artifact of the old
-   midlayered load sequence. DRM debugfs should work more like sysfs, where you
-   can create properties/files for an object anytime you want, and the core
-@@ -527,8 +524,6 @@ There's a bunch of issues with it:
-   this (together with the drm_minor->drm_device move) would allow us to remove
-   debugfs_init.
- 
--Previous RFC that hasn't landed yet: https://lore.kernel.org/dri-devel/20200513114130.28641-2-wambui.karugax@gmail.com/
--
- Contact: Daniel Vetter
- 
- Level: Intermediate
--- 
-2.38.1
+Just a small nit below.
 
+> ---
+>   Documentation/gpu/vc4.rst | 16 ++++++++++++++++
+>   1 file changed, 16 insertions(+)
+> 
+> diff --git a/Documentation/gpu/vc4.rst b/Documentation/gpu/vc4.rst
+> index 5df1d98b9544..a2375f1584e6 100644
+> --- a/Documentation/gpu/vc4.rst
+> +++ b/Documentation/gpu/vc4.rst
+> @@ -54,6 +54,22 @@ VEC (Composite TV out) encoder
+>   .. kernel-doc:: drivers/gpu/drm/vc4/vc4_vec.c
+>      :doc: VC4 SDTV module
+>   
+> +KUnit Tests
+> +===========
+> +
+> +The VC4 Driver uses KUnit to perform driver-specific unit and
+> +integration tests.
+> +
+> +These tests are using a mock driver and can be ran using the
+> +command::
+> +	./tools/testing/kunit/kunit.py run \
+> +		--kunitconfig=drivers/gpu/drm/vc4/tests/.kunitconfig \
+> +		--cross_compile aarch64-linux-gnu- --arch arm64
+
+I believe you could use a code block here, like:
+
+.. code-block:: bash
+	
+	$ ./tools/testing/kunit/kunit.py run \
+		--kunitconfig=drivers/gpu/drm/vc4/tests/.kunitconfig \
+		--cross_compile aarch64-linux-gnu- --arch arm64
+
+You could also mention that you can run the tests with --arch arm.
+
+Best Regards,
+- Maíra Canal
+
+> +
+> +Parts of the driver that are currently covered by tests are:
+> + * The HVS to PixelValve dynamic FIFO assignment, for the BCM2835-7
+> +   and BCM2711.
+> +
+>   Memory Management and 3D Command Submission
+>   ===========================================
+>   
+> 
