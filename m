@@ -2,65 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70962645114
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 02:23:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 238EC645130
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 02:28:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8183D10E171;
-	Wed,  7 Dec 2022 01:23:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B04B310E199;
+	Wed,  7 Dec 2022 01:28:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32A3D10E16A
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 01:22:42 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id b13so15480133lfo.3
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Dec 2022 17:22:42 -0800 (PST)
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DB1310E168
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 01:28:06 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id s8so26423790lfc.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Dec 2022 17:28:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=65TLYKE4m/VwNED2qssio3XMhUo6hg23hdeNmUUoCLg=;
- b=NwVJ4h8TpvPPYtlIK885VXwf6jYnfU/gxVGjtpPpd2SoJcAlvYljS4hKi0e9k4uLZo
- gPx0phjlX/WHPOra4Mq9dpB75BA0J9x1BZQIG4niiIssztuWdZO5hYPhUJseZfwkJVvn
- EyrO9hJI+pQ/xxHvkAIVs7FKlLe2G0apg/Wm/ovKb7C8Y6C8vKreFuOiPvIXKxieC9uX
- Zm/BjqnVSYw5pLQQHkkmue0xPorIx4gt1IGQ3MrFgalezMYa3g+CX0o1uvSlvfiT40rH
- aihm3nkcRKR3s4uPxSZ5zpjci3aKq42TWulWXCd3l0CFi6NlFXl2ycrjyX2q55Ju7ywY
- CJVQ==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=bfrgb8LmygfZn98WhFUeywPOLMjR7f+hzTMKV7Woi74=;
+ b=mdd8dfqV16Bi1k3ovMs3c2p2XNU0oKk3XwBCg7DQfxE3iHVPJBGVx73xkZPw+/F1qj
+ vlIjnCbRLHq8wy8yeldNalMGRS5VkJD9TuEgnPCrz1CvUau+pwoGDK3ZYQB4Uq2QSGi0
+ 6Yef2o0wwf8wMDZwAiFx1JlBNNYClSB3NdV0yIIz0/DPH/13nTP0qhB6LbhZh2pwMGSZ
+ DRTHUSWzVdoMUdlfD2upZlxtJCEif+EzGOG/YcOyA2YFmm7LcYlFNVeXqV1BOjK8eJLf
+ D0G97OgPyp8FAueY7rNw92IdrLRW3qRk/tnbZISITRyKm/K3aHqif68ivdJfCRYxXbdi
+ p8+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=65TLYKE4m/VwNED2qssio3XMhUo6hg23hdeNmUUoCLg=;
- b=BUTrC2M5/G2axmQWop2Qxoi0M8GKB7mTn/YW6KEAE2T5x0t0p9GA3aVtW434o0wA3t
- sjpMOzrpO8Ib1XY9yAbr3x17ANfvDwajl7yixUAFyqaNU5mkewu9SPzmqUByo1T2oQLR
- FMFyW+42th26U4c0R1kfzde/hwZiUd/ZVblKdtprE3mk4yitful0+7kpbXYkQPDiUpNQ
- TlNrHAFYGhJ/er2aXFIFkGTn1I4z1BYSraizxqRiFZQ4m5AfUOmzfncNTn8FPCj+y5en
- MDl9Z5HLLfpQLHVz1aUGxxQirGrR1rId+hDxinQsS52NVSp/TmUeVpSABQ/wqa4JoxSF
- UcBQ==
-X-Gm-Message-State: ANoB5pnXwJNpRe/C1S5x8zYLIeo2wBgHflN3ygszkJZ+G8W/jzpIMee0
- RKr3yq1NdNsp2tAWFTWKupL7AQ==
-X-Google-Smtp-Source: AA0mqf4qS5I9697gg4dibpPGYdVbNtJ7Fx0zbTIumwATeqkKlD8w1bc2gjXymlR2CN8qYD4u8aLPuA==
-X-Received: by 2002:ac2:4f0c:0:b0:4ac:2f5f:5c9b with SMTP id
- k12-20020ac24f0c000000b004ac2f5f5c9bmr22924848lfr.206.1670376161763; 
- Tue, 06 Dec 2022 17:22:41 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=bfrgb8LmygfZn98WhFUeywPOLMjR7f+hzTMKV7Woi74=;
+ b=whep7eBjXaof7AXPc5TDZQK00IseRBtgqSw3Jkr/7oo1naFgY0x1LWRBbJVBaDTKzj
+ rZbNW0bM/bCBfi9o4cmBI6l1UQnZcdtYHQAtoZZLfy4YX+6zl5v7pM1Rl6dho5+cyfi2
+ 5OFzE5GyXMWkh5LSNUbkUQgf51/O8xU/diXgN5W3ULK4nTPbwTRM1ucrY8utVYZuXOY8
+ krWbNm0hKwr8UahQXPNKUDNQg/uwZcRqBmdtwveQdlMD3cUMlTusaGq3JUSVI0bPVNch
+ KUIlEPBi+paguEnr9PbFWh+wPphFedkAyVOO5mi13ExkFnI/eDiwcHw0CnJefiUj6z1E
+ ETkQ==
+X-Gm-Message-State: ANoB5pneB56BFBZlQLCZwbSbHlm0j9zw2mnwNVxsGeiGvKgqa/hdR8qE
+ /Lxn1AGDzevrsWHvuD9Rh8Kthg==
+X-Google-Smtp-Source: AA0mqf4RwQzhEUSeU7ewYGfbNrc0S+6QgfPge42Yi9h+mSEhUzs8nFr/i4pnZuGpqSazHuu+/x1ykA==
+X-Received: by 2002:a05:6512:340d:b0:497:456d:890 with SMTP id
+ i13-20020a056512340d00b00497456d0890mr22844683lfr.687.1670376484641; 
+ Tue, 06 Dec 2022 17:28:04 -0800 (PST)
 Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
  [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- a11-20020ac25e6b000000b0048a9e899693sm2678916lfr.16.2022.12.06.17.22.40
+ n26-20020a05651203fa00b004b5626ef9f4sm1461157lfq.262.2022.12.06.17.28.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Dec 2022 17:22:41 -0800 (PST)
+ Tue, 06 Dec 2022 17:28:04 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark <robdclark@gmail.com>,
  Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH v6 11/11] drm/msm: mdss add support for SM8450
-Date: Wed,  7 Dec 2022 03:22:31 +0200
-Message-Id: <20221207012231.112059-12-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v4 0/5] arm64: dts: qcom: sm8450-hdk: enable HDMI output
+Date: Wed,  7 Dec 2022 03:27:58 +0200
+Message-Id: <20221207012803.114959-1-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221207012231.112059-1-dmitry.baryshkov@linaro.org>
-References: <20221207012231.112059-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,46 +73,46 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@somainline.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Vinod Koul <vkoul@kernel.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
  freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the MDSS block on SM8450 platform.
+Add device tree nodes for MDSS, DPU and DSI devices on Qualcomm SM8450
+platform. Enable these devices and add the HDMI bridge configuration on
+SM8450 HDK.
 
-Tested-by: Vinod Koul <vkoul@kernel.org>
-Reviewed-by: Vinod Koul <vkoul@kernel.org>
-Reviewed-by: Konrad Dybcio <konrad.dybcio@somainline.org>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/msm_mdss.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Changes since v3:
+- Renamed mdss node to display-subsystem@ (Krzysztof)
+- Dropped empty line from the patch4 (Krzysztof)
+- Renamed HDMI connector endpoint to hdmi_connector_out
 
-diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-index 86b28add1fff..144c8dd82be1 100644
---- a/drivers/gpu/drm/msm/msm_mdss.c
-+++ b/drivers/gpu/drm/msm/msm_mdss.c
-@@ -287,6 +287,10 @@ static int msm_mdss_enable(struct msm_mdss *msm_mdss)
- 	case DPU_HW_VER_720:
- 		msm_mdss_setup_ubwc_dec_40(msm_mdss, UBWC_3_0, 6, 1, 1, 1);
- 		break;
-+	case DPU_HW_VER_810:
-+		/* TODO: highest_bank_bit = 2 for LP_DDR4 */
-+		msm_mdss_setup_ubwc_dec_40(msm_mdss, UBWC_4_0, 6, 1, 3, 1);
-+		break;
- 	}
- 
- 	return ret;
-@@ -516,6 +520,7 @@ static const struct of_device_id mdss_dt_match[] = {
- 	{ .compatible = "qcom,sm6115-mdss" },
- 	{ .compatible = "qcom,sm8150-mdss" },
- 	{ .compatible = "qcom,sm8250-mdss" },
-+	{ .compatible = "qcom,sm8450-mdss" },
- 	{}
- };
- MODULE_DEVICE_TABLE(of, mdss_dt_match);
+Changes since v2:
+- Dropped clock-names from mdss device node
+- Fixed pinctrl configuration used by lt9611uxc (Krzysztof)
+
+Changes since v1:
+- Reorder properties, making status the last one
+- Rename opp nodes to follow the schema
+- Renamed display-controller and phy device nodes
+- Dropped phy-names for DSI PHYs
+- Renamed DSI and DSI PHY labels to include mdss_ prefix
+- Renamed 3v3 regulator device node to add -regulator suffix
+
+Dmitry Baryshkov (3):
+  arm64: dts: qcom: sm8450: add RPMH_REGULATOR_LEVEL_LOW_SVS_D1
+  arm64: dts: qcom: sm8450: add display hardware devices
+  arm64: dts: qcom: sm8450-hdk: enable display hardware
+
+Vinod Koul (2):
+  arm64: dts: qcom: sm8450-hdk: Add LT9611uxc HDMI bridge
+  arm64: dts: qcom: sm8450-hdk: Enable HDMI Display
+
+ arch/arm64/boot/dts/qcom/sm8450-hdk.dts | 117 +++++++++
+ arch/arm64/boot/dts/qcom/sm8450.dtsi    | 303 +++++++++++++++++++++++-
+ include/dt-bindings/power/qcom-rpmpd.h  |   1 +
+ 3 files changed, 409 insertions(+), 12 deletions(-)
+
 -- 
 2.35.1
 
