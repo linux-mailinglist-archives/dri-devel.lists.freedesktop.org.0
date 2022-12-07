@@ -1,17 +1,17 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82FD8645AD3
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 14:24:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4A03645AD2
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 14:24:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A847510E3AB;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13C8810E3AE;
 	Wed,  7 Dec 2022 13:24:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E80ED10E3A2
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 13:24:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FDEF10E3AB
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 13:24:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -19,25 +19,25 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=XLI4Q5BF1S4Y7/1I9tMeZIh/hDmMgqL/1tXLD7cwxp4=; b=HL5rU1ujcKBXXIKgIT6ku8a4Hk
- z2vvj1xVtZtXdi4IjiPgqAUY5d9IcXKh6OmyK+ZgbfQv6JNvevnnLfwVWQx8grR9QE38zNU8OTlWw
- nDGTYQk+1/YHJZopjZcpiw83XcMSWjXJm17c4NeJxfFJ49nz3kh8Lubg49Nz3LIVK0PF+4B5RHWSf
- SJ7OgRndrOxQzqkI4BMzOtITtgny6ddaXLff4ySKisRsKh9wKVa9dwn48NCcyIvSwAZlk/jAURAXJ
- yGqUvVS5cjABZ30JxR5V4rmSVYYK7dkTyVzAD58kcnjGy59pTj5EFNxycahrLerWj0rPMIZzTHdIv
- 3GDdWCDg==;
+ bh=YOKduRxqOQ+ggRn/s0wpQfzORzZWr0CzU1FGkX5EVD0=; b=DPxXbUbrYZV8/6yujrWCdEem8+
+ /eFYPbecOcm3T5FzjKxYsA3M6J/6KNF7h2pqzC4+Gq/xOT28YXb+UCledR5MWWeMBfg5EqrZvqkZ6
+ k8JLwbPn7ctypP0xVJfvyp6vyKbxPEe1XLyRZac4Ueqf4iEc4Re35pFPjI1F0j8Ilz6S/NlpEeEr4
+ 2t7oBJyXuZFJ4WKukPxsbsWELaIFHAh8fDFwmJcK+t6etuz8ITvKl6cu056oZwFXXVI7H+zbkIo4q
+ q6VGIwdmqT7yVxf/xQuoFXLr/SpyddbxVxPPl4hdyXIkr+7gh0P2GwvhoOxeb/XTRr+cItlDCDFT3
+ X6929ZAw==;
 Received: from [177.34.169.227] (helo=bowie..)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1p2uPI-00Gaon-GH; Wed, 07 Dec 2022 14:24:17 +0100
+ id 1p2uPO-00Gaon-Md; Wed, 07 Dec 2022 14:24:23 +0100
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, Oded Gabbay <ogabbay@kernel.org>,
  Jani Nikula <jani.nikula@linux.intel.com>
-Subject: [PATCH v3 5/6] drm/vkms: use new debugfs device-centered functions
-Date: Wed,  7 Dec 2022 10:23:24 -0300
-Message-Id: <20221207132325.140393-6-mcanal@igalia.com>
+Subject: [PATCH v3 6/6] drm/todo: update the debugfs clean up task
+Date: Wed,  7 Dec 2022 10:23:25 -0300
+Message-Id: <20221207132325.140393-7-mcanal@igalia.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221207132325.140393-1-mcanal@igalia.com>
 References: <20221207132325.140393-1-mcanal@igalia.com>
@@ -65,68 +65,51 @@ Cc: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace the use of drm_debugfs_create_files() with the new
-drm_debugfs_add_files() function, which centers the debugfs files
-management on the drm_device instead of drm_minor. Moreover, remove the
-debugfs_init hook and add the debugfs files directly on vkms_create(),
-before drm_dev_register().
+The structs drm_debugfs_info and drm_debugfs_entry introduced a new
+debugfs structure to DRM, centered on drm_device instead of drm_minor.
+Therefore, remove the tasks related to create a new device-centered
+debugfs structure and add a new task to replace the use of
+drm_debugfs_create_files() for the use of drm_debugfs_add_file() and
+drm_debugfs_add_files().
 
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/gpu/drm/vkms/vkms_drv.c | 17 ++++++-----------
- 1 file changed, 6 insertions(+), 11 deletions(-)
+ Documentation/gpu/todo.rst | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index 69346906ec81..6d3a2d57d992 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -92,8 +92,8 @@ static void vkms_atomic_commit_tail(struct drm_atomic_state *old_state)
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index b2c6aaf1edf2..f64abf69f341 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -508,17 +508,14 @@ Clean up the debugfs support
  
- static int vkms_config_show(struct seq_file *m, void *data)
- {
--	struct drm_info_node *node = (struct drm_info_node *)m->private;
--	struct drm_device *dev = node->minor->dev;
-+	struct drm_debugfs_entry *entry = m->private;
-+	struct drm_device *dev = entry->dev;
- 	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
+ There's a bunch of issues with it:
  
- 	seq_printf(m, "writeback=%d\n", vkmsdev->config->writeback);
-@@ -103,24 +103,16 @@ static int vkms_config_show(struct seq_file *m, void *data)
- 	return 0;
- }
+-- The drm_info_list ->show() function doesn't even bother to cast to the drm
+-  structure for you. This is lazy.
++- Convert drivers to support the drm_debugfs_add_files() function instead of
++  the drm_debugfs_create_files() function.
  
--static const struct drm_info_list vkms_config_debugfs_list[] = {
-+static const struct drm_debugfs_info vkms_config_debugfs_list[] = {
- 	{ "vkms_config", vkms_config_show, 0 },
- };
+ - We probably want to have some support for debugfs files on crtc/connectors and
+   maybe other kms objects directly in core. There's even drm_print support in
+   the funcs for these objects to dump kms state, so it's all there. And then the
+   ->show() functions should obviously give you a pointer to the right object.
  
--static void vkms_config_debugfs_init(struct drm_minor *minor)
--{
--	drm_debugfs_create_files(vkms_config_debugfs_list, ARRAY_SIZE(vkms_config_debugfs_list),
--				 minor->debugfs_root, minor);
--}
+-- The drm_info_list stuff is centered on drm_minor instead of drm_device. For
+-  anything we want to print drm_device (or maybe drm_file) is the right thing.
 -
- static const struct drm_driver vkms_driver = {
- 	.driver_features	= DRIVER_MODESET | DRIVER_ATOMIC | DRIVER_GEM,
- 	.release		= vkms_release,
- 	.fops			= &vkms_driver_fops,
- 	DRM_GEM_SHMEM_DRIVER_OPS,
+ - The drm_driver->debugfs_init hooks we have is just an artifact of the old
+   midlayered load sequence. DRM debugfs should work more like sysfs, where you
+   can create properties/files for an object anytime you want, and the core
+@@ -527,8 +524,6 @@ There's a bunch of issues with it:
+   this (together with the drm_minor->drm_device move) would allow us to remove
+   debugfs_init.
  
--	.debugfs_init           = vkms_config_debugfs_init,
+-Previous RFC that hasn't landed yet: https://lore.kernel.org/dri-devel/20200513114130.28641-2-wambui.karugax@gmail.com/
 -
- 	.name			= DRIVER_NAME,
- 	.desc			= DRIVER_DESC,
- 	.date			= DRIVER_DATE,
-@@ -202,6 +194,9 @@ static int vkms_create(struct vkms_config *config)
- 	if (ret)
- 		goto out_devres;
+ Contact: Daniel Vetter
  
-+	drm_debugfs_add_files(&vkms_device->drm, vkms_config_debugfs_list,
-+			      ARRAY_SIZE(vkms_config_debugfs_list));
-+
- 	ret = drm_dev_register(&vkms_device->drm, 0);
- 	if (ret)
- 		goto out_devres;
+ Level: Intermediate
 -- 
 2.38.1
 
