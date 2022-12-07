@@ -1,84 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D00CF645972
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 12:55:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE6A964596F
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 12:55:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47B6610E39D;
-	Wed,  7 Dec 2022 11:55:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED95410E040;
+	Wed,  7 Dec 2022 11:55:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
  [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CC9410E399
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 11:55:29 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailout.nyi.internal (Postfix) with ESMTP id D64665C01EE;
- Wed,  7 Dec 2022 06:55:28 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B56610E39A
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 11:55:31 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id A52C95C01E9;
+ Wed,  7 Dec 2022 06:55:30 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Wed, 07 Dec 2022 06:55:28 -0500
+ by compute1.internal (MEProxy); Wed, 07 Dec 2022 06:55:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1670414128; x=
- 1670500528; bh=8JXNhnLEO28YrVpxQj1wOWrxTedcnvz7vhR6KkgQoco=; b=R
- LmKnjjXZBm6rBghyUwCjAT9o/I/63f95yIyiAFZzYdCE9yrjv7mUtlipTewOb9eN
- wwafVTRbR4v/cMIdILFVBh4tTioq22RL4UoQMMG9Z9sEEoCO816NyJ/Qu5ab5LbW
- OxjdrT7QBHpuB1DHcfGbvF08MhJoq4n+hJB+CkLJRRw0Ks+HiWhIZ95n4oXSt3Be
- k5qCr4OTpDiq1Wr8xaaKNoUZF0Gfz2uJri5U80QcHlqv2xsFrpxPnAJpebP9b2Cj
- uNkfGN0V3VjtzWgpRemDiwN1+BkF9WAOh4PontCJBYGEIUZrIbfqm27M02r+Nvkv
- 5RZsuleR4K22SW0Y/rxqg==
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1670414130; x=
+ 1670500530; bh=chybC9bA4z237Otv3XNN+1hhSvj8Cx+nBnOPtGmUHew=; b=e
+ xYWL9oDgcShiObJtAACa651WpMg6F3QytTFX5IYy+D/xSC4kJgQuLqL1V4pPbD+Z
+ 1hJZTsOn7f2KOKSHSqEggJhigmUyeKYqF2Ka5cRavSkeBVAwhCr1XlgpuKHkFXBf
+ EqpBAXTWRRiIUdfKfDKKmTYcRZjoKVZFHlqAbDyIQVMl3aeEaoMzmxFUtWTTabE6
+ VsvexcpQJcnVfkI87wmMBVX7KzH3Iu/8l4c9jQo0e69BjrUeKYZKAKU3ISquHuh0
+ cA4KwWyUSSm+1h3IZVBN6Wuk3qedrOfCe1uzWUW6W+kAUWL1TnV3eK8HBGzglS8C
+ YNxfo3Tl7Um/gUCqa9KgA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1670414128; x=
- 1670500528; bh=8JXNhnLEO28YrVpxQj1wOWrxTedcnvz7vhR6KkgQoco=; b=p
- Ft34ah9Fu13Yv7AllVsSCvN7m6JJvCKcAEa1SZoUh9WYB3PoqnvmJMAWNRxVCSiz
- hzHdS8iTSLCOxxeXL1OkLu+lFfwFX7puwMsSe2Ts1meus9Xpda+Fpg9P0AKRZ2ep
- t6ymLvKYz54w3ViQ8qYJEeINM5rFRdaHjvHEfE5yFTxb53dNqCvluTz/eOyGIFID
- Q/54PsDKnrvFr1etXD8b4qbWOv6XzpGCDvMooazvEL8f4wG7jEOLVIIDhsvweoRD
- zuIzGdt4/J+1ih+eI4VAuNghWEWv29H/Z0LrTnDqC+HJxAqQWn8sRXiU+zQr+DNp
- caIeYf25VY49y3q02IQBg==
-X-ME-Sender: <xms:MH-QY7iUtB36Mx6S3PvqkQflLGUAe-ps5Jagiaq4g2spx4VAMN2X6w>
- <xme:MH-QY4C-FtWUceCdBzt7Cmc5Rq2ZDqcW0kpzLAYioZKFUXSJ1Mys4534vWutETdb7
- c35b28axoQfGH7SOfI>
-X-ME-Received: <xmr:MH-QY7F0Nr_WQjCTbLOO6Hny1qFCf7aT9L6z9pv3UswKQZ0kq9UCXe0VIsNL1cr0RxSGAotWaS-f4a-aTH3j_9nJ74-od1zsrGF0R--4IvVSaA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudekgdefgecutefuodetggdotefrodftvf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1670414130; x=
+ 1670500530; bh=chybC9bA4z237Otv3XNN+1hhSvj8Cx+nBnOPtGmUHew=; b=t
+ BPaV7KpvDzJNwekv8pTr10ms92PFWu2pKDHq4DKYgXjsACVcRMbEgpKJhshPUSTh
+ fuGgR2Y9ZXqz6cNFdiTsotStFC3rf2mm180DQi48hYTzg3UcTIO3ouzssEpwfXXO
+ bJGliH9xJy/yJ9fNgO/lbAdCMxjYcJDv3KTsSLYdEqWv7zqTbzbr0f0WmqdCfMvN
+ qFp1Fkij3aCM0vTaG7A+mj6aD2+9hWwxOK3le50Haffn4qXWEpjVo0OWFX6sEpbc
+ q6lWFJNjfoJY+8qyXU/hhOAdTQIUysr3WZdcS/NfgtFaWz7bEaH7/E9nu1EQ9+ZD
+ NZSQFHZMwM/lFD7qDRw9A==
+X-ME-Sender: <xms:Mn-QY1zH7kxnwXP30kVmyeYgWxFCMO177QQdk-inyhbt7nfJ4LPtCA>
+ <xme:Mn-QY1SmjSH5J7lCh-mXhrN_1r6g7qlr1kGzlrVG5nqIeMJlOz2ET40D9T-yfAkO5
+ 8aRejvqmxfXeEtc4CU>
+X-ME-Received: <xmr:Mn-QY_Whj7GMjVy4Y5dNDLDyp7b6U538EX0EKwSl4qMZz12tYHcJSQ7WOOVcOnRFUg-7VyS8_9BDUysN9FXTyJl6PIWg6muQ8YCHAAzDZ_r9YA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudekgdeffecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeevvdelieejgedvkeffheekheeilefhgefgffehteekueelvddtueffheet
- ledtffenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ ledtffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:MH-QY4QhFq2ypmMkLHzgrdbgj_CKWdQi3rvxC2gf19T0weSCJFUWng>
- <xmx:MH-QY4yhfC50z522s0pLDPvJU0EKbtEQTVdW1SUV0PZKa6B3SdV00Q>
- <xmx:MH-QY-4sK5rG0qXsXdoZ7g-elQtri6o0DsGIDw-Kd1RGNN0UVIY9sA>
- <xmx:MH-QY5rhdN09WAag6wFeRv-mT1bnm2JJXPpika02dIaR36-y6FDgjA>
+X-ME-Proxy: <xmx:Mn-QY3h_aa7AVVwzSr3BYEZudc6YwrMVyYua6RT2hxqMdqTxrFsagw>
+ <xmx:Mn-QY3DaVNoFRr314atgnZJ8V_WkB-ScUlGIXM432AEKNm5EHwLMqg>
+ <xmx:Mn-QYwI-iDL7YVoEhwTD0oCUJEfxS_lRKLCX9C0sOeqsiMDQ9ckEKg>
+ <xmx:Mn-QY_7zDCKkatjj3VB3EwoePDdbOqY69LfIzzYLYX7P-w7-yCFDdQ>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 Dec 2022 06:55:28 -0500 (EST)
+ 7 Dec 2022 06:55:29 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Wed, 07 Dec 2022 12:53:20 +0100
-Subject: [PATCH 09/15] drm/vc4: plane: Allow using 0 as a pixel order value
+Date: Wed, 07 Dec 2022 12:53:21 +0100
+Subject: [PATCH 10/15] drm/vc4: plane: Omit pixel_order from the hvs_format
+ for hvs5 only formats
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20221207-rpi-hvs-crtc-misc-v1-9-1f8e0770798b@cerno.tech>
+Message-Id: <20221207-rpi-hvs-crtc-misc-v1-10-1f8e0770798b@cerno.tech>
 References: <20221207-rpi-hvs-crtc-misc-v1-0-1f8e0770798b@cerno.tech>
 In-Reply-To: <20221207-rpi-hvs-crtc-misc-v1-0-1f8e0770798b@cerno.tech>
 To: Emma Anholt <emma@anholt.net>, Maxime Ripard <mripard@kernel.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Eric Anholt <eric@anholt.net>
 X-Mailer: b4 0.11.0-dev-8c583
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3691; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=D88ulcoenFvBXOL7I0IQHsqV5VXn1HkB+dnvXbQe7Wg=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMkT6lZ+5nstOE3Avry7+Leqn7ulwv2rVWoH/igtP9EcmTVL
- 50NJRykLgxgXg6yYIkuMsPmSuFOzXney8c2DmcPKBDKEgYtTACayTpyR4UdEs8CS2R6suke1ntu4P/
- vFMWPWxdhTC6dtT2mwbU/0L2P4n6acL/dvQr5lS7GhQN9KqfCCfkmROO0bh59FBnb0SlWxAQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1659; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=TjzYPZb0GiveIAkQNU4LbeqUUAovVrht0vdSF4aq2qQ=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMkT6laaR36MquNQc/dmnOhx6bxYgEFIkWVOeJCjZUbKyaN3
+ Ioo6SlkYxLgYZMUUWWKEzZfEnZr1upONbx7MHFYmkCEMXJwCMJEtPxgZJje3WhXqqc2x/XUuuTX07a
+ Ggq4p3vs08OJn/nvuqK/kR+xj+aTC2HFpTYBDzu1F1oar7eYt7N5g2Xuo6YP9+T+4G4XWd3AA=
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -102,120 +103,57 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-vc4_plane_mode_set for HVS5 was using pixel_order unless pixel_order_hvs5
-was non-zero, except 0 is a valid value for the pixel_order.
-
-Specify pixel_order_hvs5 for all formats and remove the conditional.
+pixel_order is used for the earlier versions of the HVS, so is
+redundant on the 10:10:10:2 and 10bit YUV formats that are only
+supported on HVS5.
+Remove the assignment from the table to avoid confusion.
 
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_plane.c | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/vc4/vc4_plane.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
-index eb0ac2167937..8b4805c937f0 100644
+index 8b4805c937f0..7b7bbe94d47a 100644
 --- a/drivers/gpu/drm/vc4/vc4_plane.c
 +++ b/drivers/gpu/drm/vc4/vc4_plane.c
-@@ -65,11 +65,13 @@ static const struct hvs_format {
- 		.drm = DRM_FORMAT_RGB565,
- 		.hvs = HVS_PIXEL_FORMAT_RGB565,
- 		.pixel_order = HVS_PIXEL_ORDER_XRGB,
-+		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XRGB,
- 	},
- 	{
- 		.drm = DRM_FORMAT_BGR565,
- 		.hvs = HVS_PIXEL_FORMAT_RGB565,
- 		.pixel_order = HVS_PIXEL_ORDER_XBGR,
-+		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XBGR,
- 	},
- 	{
- 		.drm = DRM_FORMAT_ARGB1555,
-@@ -87,56 +89,67 @@ static const struct hvs_format {
- 		.drm = DRM_FORMAT_RGB888,
- 		.hvs = HVS_PIXEL_FORMAT_RGB888,
- 		.pixel_order = HVS_PIXEL_ORDER_XRGB,
-+		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XRGB,
- 	},
- 	{
- 		.drm = DRM_FORMAT_BGR888,
- 		.hvs = HVS_PIXEL_FORMAT_RGB888,
- 		.pixel_order = HVS_PIXEL_ORDER_XBGR,
-+		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XBGR,
- 	},
- 	{
- 		.drm = DRM_FORMAT_YUV422,
- 		.hvs = HVS_PIXEL_FORMAT_YCBCR_YUV422_3PLANE,
- 		.pixel_order = HVS_PIXEL_ORDER_XYCBCR,
-+		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCBCR,
- 	},
- 	{
- 		.drm = DRM_FORMAT_YVU422,
- 		.hvs = HVS_PIXEL_FORMAT_YCBCR_YUV422_3PLANE,
- 		.pixel_order = HVS_PIXEL_ORDER_XYCRCB,
-+		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCRCB,
- 	},
- 	{
- 		.drm = DRM_FORMAT_YUV420,
- 		.hvs = HVS_PIXEL_FORMAT_YCBCR_YUV420_3PLANE,
- 		.pixel_order = HVS_PIXEL_ORDER_XYCBCR,
-+		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCBCR,
- 	},
- 	{
- 		.drm = DRM_FORMAT_YVU420,
- 		.hvs = HVS_PIXEL_FORMAT_YCBCR_YUV420_3PLANE,
- 		.pixel_order = HVS_PIXEL_ORDER_XYCRCB,
-+		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCRCB,
- 	},
- 	{
- 		.drm = DRM_FORMAT_NV12,
- 		.hvs = HVS_PIXEL_FORMAT_YCBCR_YUV420_2PLANE,
- 		.pixel_order = HVS_PIXEL_ORDER_XYCBCR,
-+		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCBCR,
- 	},
- 	{
- 		.drm = DRM_FORMAT_NV21,
- 		.hvs = HVS_PIXEL_FORMAT_YCBCR_YUV420_2PLANE,
- 		.pixel_order = HVS_PIXEL_ORDER_XYCRCB,
-+		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCRCB,
- 	},
- 	{
- 		.drm = DRM_FORMAT_NV16,
- 		.hvs = HVS_PIXEL_FORMAT_YCBCR_YUV422_2PLANE,
- 		.pixel_order = HVS_PIXEL_ORDER_XYCBCR,
-+		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCBCR,
- 	},
- 	{
- 		.drm = DRM_FORMAT_NV61,
- 		.hvs = HVS_PIXEL_FORMAT_YCBCR_YUV422_2PLANE,
- 		.pixel_order = HVS_PIXEL_ORDER_XYCRCB,
-+		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCRCB,
- 	},
+@@ -148,35 +148,30 @@ static const struct hvs_format {
  	{
  		.drm = DRM_FORMAT_P030,
  		.hvs = HVS_PIXEL_FORMAT_YCBCR_10BIT,
- 		.pixel_order = HVS_PIXEL_ORDER_XYCBCR,
-+		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCBCR,
+-		.pixel_order = HVS_PIXEL_ORDER_XYCBCR,
+ 		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCBCR,
  		.hvs5_only = true,
  	},
  	{
-@@ -1031,15 +1044,10 @@ static int vc4_plane_mode_set(struct drm_plane *plane,
- 		vc4_dlist_write(vc4_state, 0xc0c0c0c0);
- 
- 	} else {
--		u32 hvs_pixel_order = format->pixel_order;
--
--		if (format->pixel_order_hvs5)
--			hvs_pixel_order = format->pixel_order_hvs5;
--
- 		/* Control word */
- 		vc4_dlist_write(vc4_state,
- 				SCALER_CTL0_VALID |
--				(hvs_pixel_order << SCALER_CTL0_ORDER_SHIFT) |
-+				(format->pixel_order_hvs5 << SCALER_CTL0_ORDER_SHIFT) |
- 				(hvs_format << SCALER_CTL0_PIXEL_FORMAT_SHIFT) |
- 				VC4_SET_FIELD(tiling, SCALER_CTL0_TILING) |
- 				(vc4_state->is_unity ?
+ 		.drm = DRM_FORMAT_XRGB2101010,
+ 		.hvs = HVS_PIXEL_FORMAT_RGBA1010102,
+-		.pixel_order = HVS_PIXEL_ORDER_ABGR,
+ 		.pixel_order_hvs5 = HVS_PIXEL_ORDER_ARGB,
+ 		.hvs5_only = true,
+ 	},
+ 	{
+ 		.drm = DRM_FORMAT_ARGB2101010,
+ 		.hvs = HVS_PIXEL_FORMAT_RGBA1010102,
+-		.pixel_order = HVS_PIXEL_ORDER_ABGR,
+ 		.pixel_order_hvs5 = HVS_PIXEL_ORDER_ARGB,
+ 		.hvs5_only = true,
+ 	},
+ 	{
+ 		.drm = DRM_FORMAT_ABGR2101010,
+ 		.hvs = HVS_PIXEL_FORMAT_RGBA1010102,
+-		.pixel_order = HVS_PIXEL_ORDER_ARGB,
+ 		.pixel_order_hvs5 = HVS_PIXEL_ORDER_ABGR,
+ 		.hvs5_only = true,
+ 	},
+ 	{
+ 		.drm = DRM_FORMAT_XBGR2101010,
+ 		.hvs = HVS_PIXEL_FORMAT_RGBA1010102,
+-		.pixel_order = HVS_PIXEL_ORDER_ARGB,
+ 		.pixel_order_hvs5 = HVS_PIXEL_ORDER_ABGR,
+ 		.hvs5_only = true,
+ 	},
 
 -- 
 2.38.1
