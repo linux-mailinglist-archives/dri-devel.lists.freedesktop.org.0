@@ -2,57 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8010B6456D7
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 10:50:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 863A16456EC
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 10:56:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 370D910E1A1;
-	Wed,  7 Dec 2022 09:50:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D39C610E18E;
+	Wed,  7 Dec 2022 09:56:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE10210E1AC
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 09:50:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D82C610E18E;
+ Wed,  7 Dec 2022 09:56:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1670406645; x=1701942645;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=3Wu4vLcIbS+5iBdEV0xARzWRaNAmNA0obMDVqIp1fpU=;
- b=MB5QsSOFEHc+pNhfw2AksIpW8wiax3zEw5X8kCWvMxdNjo8aYlNCQMbn
- 4s60aGaEW42lPV7N2Et8uCroIADov3gs2anW4r73/EDt0Yya2kDGUexVt
- H9Zh7jNf3ae0Twyp8GrETLmxgbF+S/82yi80EESkPbMrccDlm9NPhKeTH
- OeUzcA8Vq8UubpcxvERGP7gI9fCiUWbRmO636Guzy+MYbF5xkErPn80r/
- IqUGZzkHquuDDx6By0jUlhmhyb2nIGe886G+aNucfSrnD3d5RgFt+rH1K
- 5RdrjyRTCqYqni+CW5ZLF5wgPpT2Wlyp/faG858PhBYp1JxNmxaUuh6bI g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10553"; a="314498210"
-X-IronPort-AV: E=Sophos;i="5.96,225,1665471600"; d="scan'208";a="314498210"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ t=1670406975; x=1701942975;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=z5SGokubgwB2mdYrqeTzZ3szWxPB6JgiSkXPMOelJd0=;
+ b=JULKsB7p1fQdOxtvI6hIaaDkNlaQ8VWDYEUWuQ4agdbvOlBA5dJXEmfN
+ W9ssf5GkCAnVhF/6uTRYJBjW9qVqeJg2ZfQ0u1qHF631+I/RolVDdH21m
+ Z4/pFiX/THV/MhTAH8NcsgAIFhWV6juoYnDcuzlf9mQnO6RCA4AIEh3gr
+ CjQd0Uq7luENbtG+qveB96d4LtqKPeXtVFQt+W0/MOIfHJAoFB1OWpIfv
+ G6Q0Saw4U5/gP0WRHqFYDo2MeFFh61ANr0dObI2q24ZOEOt0BttxKrA1K
+ vEchCSICQCDX3fx2QhATK4EwxrgC8znaIGP3OXfNaGejOQuUciuds44xh A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10553"; a="314499090"
+X-IronPort-AV: E=Sophos;i="5.96,225,1665471600"; d="scan'208";a="314499090"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Dec 2022 01:50:42 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10553"; a="715129175"
-X-IronPort-AV: E=Sophos;i="5.96,225,1665471600"; d="scan'208";a="715129175"
-Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.249.150.189])
- ([10.249.150.189])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Dec 2022 01:50:40 -0800
-Message-ID: <03151389-ecc2-cb07-9c2d-14dd3d679f5d@linux.intel.com>
-Date: Wed, 7 Dec 2022 10:50:38 +0100
+ 07 Dec 2022 01:55:54 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10553"; a="624242836"
+X-IronPort-AV: E=Sophos;i="5.96,225,1665471600"; d="scan'208";a="624242836"
+Received: from fbackhou-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.36.192])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Dec 2022 01:55:45 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [RFC 0/2] drm/connector: connector iterator with filtering
+In-Reply-To: <Y4Xd85DUzrijeyXW@pendragon.ideasonboard.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1664966047.git.jani.nikula@intel.com>
+ <7af346ec-8473-2a37-0fb4-220a42529a1e@amd.com> <87iliy3y7q.fsf@intel.com>
+ <Y4Xd85DUzrijeyXW@pendragon.ideasonboard.com>
+Date: Wed, 07 Dec 2022 11:55:42 +0200
+Message-ID: <87o7sf1qsh.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH v3 RESEND 0/7] New DRM driver for Intel VPU
-Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
- airlied@gmail.com, daniel@ffwll.ch
-References: <20220924151149.323622-1-jacek.lawrynowicz@linux.intel.com>
- <49050012-a53b-98bb-16ec-bc84000cf969@suse.de>
- <138350d9-5d17-ed95-e169-a5f36d5a400e@suse.de>
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <138350d9-5d17-ed95-e169-a5f36d5a400e@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,106 +60,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrzej.kacprowski@linux.intel.com, stanislaw.gruszka@linux.intel.com
+Cc: Suraj Kandpal <suraj.kandpal@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, "Mahfooz, Hamza" <Hamza.Mahfooz@amd.com>,
+ Arun R Murthy <arun.r.murthy@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Tue, 29 Nov 2022, Laurent Pinchart <laurent.pinchart@ideasonboard.com> w=
+rote:
+> Hi Jani,
+>
+> On Tue, Nov 29, 2022 at 11:29:45AM +0200, Jani Nikula wrote:
+>> On Fri, 25 Nov 2022, Harry Wentland <harry.wentland@amd.com> wrote:
+>> > On 10/5/22 06:51, Jani Nikula wrote:
+>> >> Currently i915 assumes all drm_connectors it encounters are embedded =
+in
+>> >> intel_connectors that i915 allocated. The drm_writeback_connector for=
+ces
+>> >> a design where this is not the case; we can't provide our own connect=
+or,
+>> >> and writeback embeds the drm_connector it initializes itself.
+>> >>=20
+>> >> To use drm writeback, none of the i915 connector iteration could assu=
+me
+>> >> the drm connector is embedded in intel_connector. Checking this is
+>> >> tedious, and would require an intermediate step with
+>> >> drm_connector. Here's an idea I came up with; filtering at the drm
+>> >> connector iterator level with a caller supplied function. Not too much
+>> >> code, and could be used for other things as well.
+>> >>=20
+>> >
+>> > We've been trying to hook up drm_writeback_connector in amdgpu and
+>> > this would be really helpful. I've had to do liberal sprinkling
+>> > of "!=3D DRM_MODE_CONNECTOR_WRITEBACK" all over the place.
+>> >
+>> >> Mind you, we'd still much rather modify drm writeback to allow passing
+>> >> the connector i915 allocated, instead of the current midlayer design
+>> >> that forces drivers to a certain model. Working around this is a bunch
+>> >> of error prone and tedious code that we really could do without.
+>> >
+>> > I think this would be even better but also be much more work and impact
+>> > every driver that implements writeback. FWIW, there was no way for me
+>> > to add writeback connector handling without KASAN. Interpreting the
+>> > connector wrong in one place leads to memory corruption and
+>> > undefined behavior and is almost impossible to spot without KASAN.
+>>=20
+>> Laurent, I once again plead - could we please reconsider this and give
+>> drivers the option to allocate and provide the drm_connector to
+>> writeback themselves?
+>>=20
+>> All things considered I think that would be the safer option.
+>
+> I do think all this stems from the decision of using connectors for
+> writeback, and we're paying the price for it now. It's painful in
+> drivers, and that's why I would prefer hiding it from drivers and
+> handling it completely in the DRM core.
 
-On 11/1/2022 11:17 AM, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 01.11.22 um 09:58 schrieb Thomas Zimmermann:
->> Hi
->>
->> Am 24.09.22 um 17:11 schrieb Jacek Lawrynowicz:
->>> Hi,
->>>
->>> This patchset contains a new Linux* Kernel Driver for Intel® VPUs.
->>>
->>> VPU stands for Versatile Processing Unit and it is an AI inference accelerator
->>> integrated with Intel non-server CPUs starting from 14th generation.
->>> VPU enables efficient execution of Deep Learning applications
->>> like object detection, classification etc.
->>>
->>> Driver is part of gpu/drm subsystem because VPU is similar in operation to
->>> an integrated GPU. Reusing drm driver init, ioctl handling, gem and prime
->>> helpers and drm_mm allows to minimize code duplication in the kernel.
->>>
->>> The whole driver is licensed under GPL-2.0-only except for two headers imported
->>> from the firmware that are MIT licensed.
->>>
->>> User mode driver stack consists of Level Zero API driver and OpenVINO plugin.
->>> Both should be open-sourced by the end of Q4.
->>> The firmware for the VPU will be distributed as a closed source binary.
->>>
->>> I'm resending v3 patchset with correct Dave's email.
->>>
->>> Regards,
->>> Jacek
->>>
->>> v3:
->>> - Fixed alignment warning in ivpu_ipc.c when building with W=1
->>>
->>> v2: https://lore.kernel.org/all/20220913121017.993825-1-jacek.lawrynowicz@linux.intel.com/
->>> - Rename the driver from "drm/vpu" to "drm/ivpu"
->>> - Add a TODO file
->>> - Add support for WC buffers
->>>
->>> v1: https://lore.kernel.org/all/20220728131709.1087188-1-jacek.lawrynowicz@linux.intel.com/
->>>
->>> Jacek Lawrynowicz (7):
->>>    drm/ivpu: Introduce a new DRM driver for Intel VPU
->>>    drm/ivpu: Add Intel VPU MMU support
->>>    drm/ivpu: Add GEM buffer object management
->>>    drm/ivpu: Add IPC driver and JSM messages
->>>    drm/ivpu: Implement firmware parsing and booting
->>>    drm/ivpu: Add command buffer submission logic
->>>    drm/ivpu: Add PM support
->>>
->>>   MAINTAINERS                             |    8 +
->>>   drivers/gpu/drm/Kconfig                 |    2 +
->>>   drivers/gpu/drm/Makefile                |    1 +
->>>   drivers/gpu/drm/ivpu/Kconfig            |   12 +
->>>   drivers/gpu/drm/ivpu/Makefile           |   16 +
->>>   drivers/gpu/drm/ivpu/TODO               |    7 +
->>>   drivers/gpu/drm/ivpu/ivpu_drv.c         |  643 ++++++++++++++
->>>   drivers/gpu/drm/ivpu/ivpu_drv.h         |  178 ++++
->>>   drivers/gpu/drm/ivpu/ivpu_fw.c          |  426 +++++++++
->>>   drivers/gpu/drm/ivpu/ivpu_fw.h          |   38 +
->>>   drivers/gpu/drm/ivpu/ivpu_gem.c         |  836 ++++++++++++++++++
->>>   drivers/gpu/drm/ivpu/ivpu_gem.h         |  128 +++
->>>   drivers/gpu/drm/ivpu/ivpu_hw.h          |  169 ++++
->>>   drivers/gpu/drm/ivpu/ivpu_hw_mtl.c      | 1060 +++++++++++++++++++++++
->>>   drivers/gpu/drm/ivpu/ivpu_hw_mtl_reg.h  |  468 ++++++++++
->>>   drivers/gpu/drm/ivpu/ivpu_hw_reg_io.h   |  115 +++
->>>   drivers/gpu/drm/ivpu/ivpu_ipc.c         |  508 +++++++++++
->>>   drivers/gpu/drm/ivpu/ivpu_ipc.h         |   90 ++
->>>   drivers/gpu/drm/ivpu/ivpu_job.c         |  629 ++++++++++++++
->>>   drivers/gpu/drm/ivpu/ivpu_job.h         |   73 ++
->>>   drivers/gpu/drm/ivpu/ivpu_jsm_msg.c     |  220 +++++
->>>   drivers/gpu/drm/ivpu/ivpu_jsm_msg.h     |   25 +
->>>   drivers/gpu/drm/ivpu/ivpu_mmu.c         |  888 +++++++++++++++++++
->>>   drivers/gpu/drm/ivpu/ivpu_mmu.h         |   53 ++
->>>   drivers/gpu/drm/ivpu/ivpu_mmu_context.c |  419 +++++++++
->>>   drivers/gpu/drm/ivpu/ivpu_mmu_context.h |   49 ++
->>>   drivers/gpu/drm/ivpu/ivpu_pm.c          |  352 ++++++++
->>>   drivers/gpu/drm/ivpu/ivpu_pm.h          |   38 +
->>>   drivers/gpu/drm/ivpu/vpu_boot_api.h     |  241 ++++++
->>>   drivers/gpu/drm/ivpu/vpu_jsm_api.h      |  616 +++++++++++++
->>>   include/uapi/drm/ivpu_drm.h             |  343 ++++++++
->>
->> You have to add yourself to MAINTAINERS.
->>
->> I assume that there's a FOSS userspace available?
-> 
-> Rereading the cover letter, it will be opensourced. I think DRM policy is that we first need an OSS userspace befor the kernel driver get's merged. Nevertheless it's now a good time to get the driver in shape.
-> 
-> I've finished looking trough the patchset and left comments on some of them.
+Unfortunately, the current abstraction leaks to drivers in a way that's
+worse than just openly embracing the connector usage. :(
 
-Thanks for the in-depth review and sorry for late response but it took us some time to implement all review changes.
-The user space should be opensourced in coming weeks.
+And we still have to provide the struct drm_connector_funcs pointer to
+writeback just as well.
 
-Regards,
-Jacek
- 
+> Ideally the connector enumeration API exposed to drivers should not
+> even enumerate the writeback connectors by default.
+>
+> I'm just a contributor to the subsystem, so I don't make the call. If
+> there's a general consensus it's better to require all drivers to handle
+> writeback connectors explicitly everywhere (Daniel and Dave may want to
+> chime in here), I can be overruled, like anybody else.
+
+Well, outside of i915 I'm just a contributor too, and I prefer trying to
+find consensus between us rather than seeking maintainers to overrule
+other contributors!
+
+Frankly, we pretty much already agreed to do what you originally
+suggested, even if we thought it was going to be a bunch of work, but
+we, and seems like AMD too, are finding it to also be quite error
+prone. It's just inherently clumsy to check the "sub class" type in C in
+runtime, or to even be sure when such checks aren't required.
+
+
+BR,
+Jani.
+
+
+
+
+
+
+
+>
+>> > This series is
+>> > Acked-by: Harry Wentland <harry.wentland@amd.com>
+>> >
+>> >> Cc: Arun R Murthy <arun.r.murthy@intel.com>
+>> >> Cc: Dave Airlie <airlied@gmail.com>
+>> >> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> >> Cc: Suraj Kandpal <suraj.kandpal@intel.com>
+>> >> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+>> >>=20
+>> >> Jani Nikula (2):
+>> >>   drm/connector: add connector list iteration with filtering
+>> >>   drm/i915: iterate intel_connectors only
+>> >>=20
+>> >>  drivers/gpu/drm/drm_connector.c               | 57 +++++++++++++++--=
+--
+>> >>  drivers/gpu/drm/i915/display/intel_display.c  |  3 +-
+>> >>  .../drm/i915/display/intel_display_types.h    |  7 +++
+>> >>  drivers/gpu/drm/i915/display/intel_dp.c       |  6 +-
+>> >>  drivers/gpu/drm/i915/display/intel_dp_mst.c   |  3 +-
+>> >>  drivers/gpu/drm/i915/display/intel_hdcp.c     |  3 +-
+>> >>  drivers/gpu/drm/i915/display/intel_hotplug.c  | 12 ++--
+>> >>  .../drm/i915/display/intel_modeset_setup.c    |  6 +-
+>> >>  drivers/gpu/drm/i915/display/intel_opregion.c |  9 ++-
+>> >>  include/drm/drm_connector.h                   |  9 +++
+>> >>  10 files changed, 89 insertions(+), 26 deletions(-)
+
+--=20
+Jani Nikula, Intel Open Source Graphics Center
