@@ -2,46 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C475645F56
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 17:55:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ECC8645F73
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 17:58:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9224810E3FA;
-	Wed,  7 Dec 2022 16:55:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0C2F10E3FC;
+	Wed,  7 Dec 2022 16:58:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E59510E3FC;
- Wed,  7 Dec 2022 16:55:04 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id BCF08B81F84;
- Wed,  7 Dec 2022 16:55:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDC00C433D6;
- Wed,  7 Dec 2022 16:54:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1670432101;
- bh=g2V0Wwn6EW5nnAQJVxm3ydv5yxtTxZ3faTwyKAV+Vng=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qeakXi+qjXqru5YplfgJgzLRGD1+Kp+o1u0MtV7noIDhWiTg7e3xbj8jVEsQ96Fmv
- LlXtOYrRtAoKkmkW9F9lPuMN0YF8HUFGmbuu/XmUnh6ppKiyi82Q8cp8/iIKMNRzWM
- IMLQMMXKxv2yI0KcyYTf7j0fU1iWLIJyNJObT39c5/QSnhwnumB3UmD997BkKwb+4i
- 91DwB8cxBiyad80jtnVTax/B81fD88ThFL6Ib+gQCxGQrez8M6+CZoApcaNceeVPB8
- j0prjEvp4t/dfe4FPo6dF4K9r9LaNvhtY1L9p1W/VaPEn/zZw16Csx6NCRIYYE4hfs
- pyjh1A6JwOZ0w==
-Date: Wed, 7 Dec 2022 10:54:57 -0600
-From: Bjorn Andersson <andersson@kernel.org>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Subject: Re: [PATCH v7 0/6] clk/qcom: Support gdsc collapse polling using
- 'reset' interface
-Message-ID: <20221207165457.kwdwwiycbwjpogxl@builder.lan>
-References: <1664960824-20951-1-git-send-email-quic_akhilpo@quicinc.com>
- <20221201225705.46r2m35ketvzipox@builder.lan>
- <CAPDyKFofsqcoFbYt-9BcisbPdreLGqAAMWorqHi0_D1kwCdYhg@mail.gmail.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8D1A10E3FC;
+ Wed,  7 Dec 2022 16:58:28 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2B7CEt6x015572; Wed, 7 Dec 2022 16:58:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=2CkhUiDLm8wVX2E0KqCm7+V9IW3xKtZ2XXcdy1mx8I0=;
+ b=lA9cxczhd+PVjBhk8ZD0R1kZJwTXb+ynyCOJLMLOjG+j2NkEN65Qt2mQow8RTNVjOwid
+ rji4xeRnkJuHZTxVQPcCbmZdY68CbBtZUjITE0L2AfmMOLXNcKtcx+FLXQYG8DtkHJYY
+ bnw2I0ReGlQankUiC9IWZeoUobZGj5zAUj2U8g+yR4SHdkweG5vmHfyFmdeAwF9U9+0h
+ pqzg+2CvNF7p2/rv3Q8q53HpFnUwtDs4dbvwipCHWB0ukyBFkS8mILYoH+WYdRbQ8tkB
+ ORvMzEx/rUx+JehoydehGXWWudbzq+TNiXbOl2F60f4j8uSssE+a37BQ1j4tiCENuGcT 8A== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ma1664mys-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 07 Dec 2022 16:58:15 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2B7GwEtF003837
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 7 Dec 2022 16:58:14 GMT
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.36; Wed, 7 Dec 2022 08:58:13 -0800
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
+ <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
+ <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@linux.ie>,
+ <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
+ <andersson@kernel.org>, <konrad.dybcio@somainline.org>,
+ <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+ <devicetree@vger.kernel.org>, <airlied@gmail.com>
+Subject: [PATCH v10 0/5] Add data-lanes and link-frequencies to dp_out endpoint
+Date: Wed, 7 Dec 2022 08:57:53 -0800
+Message-ID: <1670432278-30643-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPDyKFofsqcoFbYt-9BcisbPdreLGqAAMWorqHi0_D1kwCdYhg@mail.gmail.com>
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: HgcZF3A3vWeQ7DdsGrKrX4wkK4mleeEv
+X-Proofpoint-GUID: HgcZF3A3vWeQ7DdsGrKrX4wkK4mleeEv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-07_08,2022-12-07_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ impostorscore=0 bulkscore=0 phishscore=0 clxscore=1015 mlxscore=0
+ suspectscore=0 priorityscore=1501 adultscore=0 spamscore=0 mlxlogscore=861
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212070147
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,91 +82,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Konrad Dybcio <konrad.dybcio@somainline.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-clk@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Andy Gross <agross@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Sean Paul <sean@poorly.run>, Stephen Boyd <sboyd@kernel.org>,
- Douglas Anderson <dianders@chromium.org>, krzysztof.kozlowski@linaro.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 07, 2022 at 05:00:51PM +0100, Ulf Hansson wrote:
-> On Thu, 1 Dec 2022 at 23:57, Bjorn Andersson <andersson@kernel.org> wrote:
-> >
-> > On Wed, Oct 05, 2022 at 02:36:58PM +0530, Akhil P Oommen wrote:
-> > >
-> >
-> > @Ulf, Akhil has a power-domain for a piece of hardware which may be
-> > voted active by multiple different subsystems (co-processors/execution
-> > contexts) in the system.
-> >
-> > As such, during the powering down sequence we don't wait for the
-> > power-domain to turn off. But in the event of an error, the recovery
-> > mechanism relies on waiting for the hardware to settle in a powered off
-> > state.
-> >
-> > The proposal here is to use the reset framework to wait for this state
-> > to be reached, before continuing with the recovery mechanism in the
-> > client driver.
-> 
-> I tried to review the series (see my other replies), but I am not sure
-> I fully understand the consumer part.
-> 
-> More exactly, when and who is going to pull the reset and at what point?
-> 
-> >
-> > Given our other discussions on quirky behavior, do you have any
-> > input/suggestions on this?
-> >
-> > > Some clients like adreno gpu driver would like to ensure that its gdsc
-> > > is collapsed at hardware during a gpu reset sequence. This is because it
-> > > has a votable gdsc which could be ON due to a vote from another subsystem
-> > > like tz, hyp etc or due to an internal hardware signal. To allow
-> > > this, gpucc driver can expose an interface to the client driver using
-> > > reset framework. Using this the client driver can trigger a polling within
-> > > the gdsc driver.
-> >
-> > @Akhil, this description is fairly generic. As we've reached the state
-> > where the hardware has settled and we return to the client, what
-> > prevents it from being powered up again?
-> >
-> > Or is it simply a question of it hitting the powered-off state, not
-> > necessarily staying there?
-> 
-> Okay, so it's indeed the GPU driver that is going to assert/de-assert
-> the reset at some point. Right?
-> 
-> That seems like a reasonable approach to me, even if it's a bit
-> unclear under what conditions that could happen.
-> 
+Add DP both data-lanes and link-frequencies property to dp_out endpoint and support
+functions to DP driver.
 
-Generally the disable-path of the power-domain does not check that the
-power-domain is actually turned off, because the status might indicate
-that the hardware is voting for the power-domain to be on.
+Kuogee Hsieh (5):
+  arm64: dts: qcom: add data-lanes and link-freuencies into dp_out
+    endpoint
+  dt-bindings: msm/dp: add data-lanes and link-frequencies property
+  drm/msm/dp: parser data-lanes as property of dp_out endpoint
+  drm/msm/dp: parser link-frequencies as property of dp_out endpoint
+  drm/msm/dp: add support of max dp link rate
 
-As part of the recovery of the GPU after some fatal fault, the GPU
-driver does something which will cause the hardware votes for the
-power-domain to be let go, and then the driver does pm_runtime_put().
+ .../bindings/display/msm/dp-controller.yaml        | 13 ++++++
+ arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi       |  6 ++-
+ arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi     |  6 ++-
+ drivers/gpu/drm/msm/dp/dp_display.c                |  4 ++
+ drivers/gpu/drm/msm/dp/dp_panel.c                  |  7 +--
+ drivers/gpu/drm/msm/dp/dp_panel.h                  |  1 +
+ drivers/gpu/drm/msm/dp/dp_parser.c                 | 52 ++++++++++++++++++----
+ drivers/gpu/drm/msm/dp/dp_parser.h                 |  2 +
+ 8 files changed, 78 insertions(+), 13 deletions(-)
 
-But in this case the GPU driver wants to ensure that the power-domain is
-actually powered down, before it does pm_runtime_get() again. To ensure
-that the hardware lost its state...
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
-The proposal here is to use a reset to reach into the power-domain
-provider and wait for the hardware to be turned off, before the GPU
-driver attempts turning the power-domain on again.
-
-
-In other words, there is no reset. This is a hack to make a normally
-asynchronous pd.power_off() to be synchronous in this particular case.
-
-Regards,
-Bjorn
