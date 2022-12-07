@@ -2,49 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 361D36463CB
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 23:01:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 022926463AD
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 23:00:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F77010E424;
-	Wed,  7 Dec 2022 22:00:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 383B110E427;
+	Wed,  7 Dec 2022 22:00:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D79810E422;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C158A10E424;
  Wed,  7 Dec 2022 22:00:30 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2B7LTALC017780; Wed, 7 Dec 2022 22:00:25 GMT
+ 2B7KuBmN023822; Wed, 7 Dec 2022 22:00:26 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=qcppdkim1;
- bh=VQC4nPKO9pFOGSOkNuHOYewDGLmoGdtZo5RvIdCc7uY=;
- b=NHlvoWuYqk0bk4YRbOJErjLRnz/IsbeDjdSSxi0C067QAbWyWxEUC1j5ZTMcQyUGmDCY
- 8ekf5tadABb2hA6dGENPWHm0a+oSlgxtLSY5rIDFAVILUd+FVrhPIMy05GUgCzQOA23b
- o/1B93kzinPfPmJUJcYXqYaSUBKzDAmeEPJ8iAgBEn+4XaXGJyNkghXeHXuGiTHivboV
- CFSEGFOQRGYkBTZEawIWtU/AKxv9a2NwDhyra4PX/BDUNEXulzK33LgFSTdk3K74OhNF
- 4t2xL567Hnfxs6mbFc+9En35nIB9/X8NaE8fvbgGeEq5Lx4H2CBA4GQGCnWEgB/WpYgt gQ== 
+ bh=FmY8q8UskN9JRab7ZzE2q1a77qvHqdtlrFTAVUbeLw8=;
+ b=mINAhX+tw8hEE7pDm0y+sp8P3dVbzVtk29mVK7Bf3eALxFo8JXxAgetxYhCibJsnYGAi
+ ZSXCeRQdR3pXQAhj4AkzcVIJ0uq4b/vdhjPK292Y2tjqIVGdL4va6JMM3pvXFiUNcV/p
+ t3oZF7fu8mphFRlU5JtbZi2O9yU7+7EukKOBSPWUEq0VdoDXzOfJT4SBXxdMB+z67AFA
+ gVUGxOBkmn2kV9u2vNGckAC5CVb3Vd/dYKASG19ng0A9bo5g9oShxMVTwwJHXF++exLs
+ t0gPX/LMfzJtr68fAGLvaIhgxVI92Wyh83z1gXfd12jKjUyJ3yioVKOg4nNBNAJivApx VQ== 
 Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mavtf12x2-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3majt4a5qq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Dec 2022 22:00:25 +0000
+ Wed, 07 Dec 2022 22:00:26 +0000
 Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
  [10.47.97.35])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2B7M0OYR009343
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2B7M0PX9009371
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 7 Dec 2022 22:00:24 GMT
+ Wed, 7 Dec 2022 22:00:25 GMT
 Received: from th-lint-050.qualcomm.com (10.80.80.8) by
  nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Wed, 7 Dec 2022 14:00:23 -0800
+ 15.2.986.36; Wed, 7 Dec 2022 14:00:24 -0800
 From: Bjorn Andersson <quic_bjorande@quicinc.com>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH v5 09/12] drm/msm/dp: Implement hpd_notify()
-Date: Wed, 7 Dec 2022 14:00:09 -0800
-Message-ID: <20221207220012.16529-10-quic_bjorande@quicinc.com>
+Subject: [PATCH v5 10/12] arm64: dts: qcom: sc8280xp: Define some of the
+ display blocks
+Date: Wed, 7 Dec 2022 14:00:10 -0800
+Message-ID: <20221207220012.16529-11-quic_bjorande@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20221207220012.16529-1-quic_bjorande@quicinc.com>
 References: <20221207220012.16529-1-quic_bjorande@quicinc.com>
@@ -56,17 +57,17 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: -8AgH90roarJkqD18ztlyUH_PNdFJ_ab
-X-Proofpoint-ORIG-GUID: -8AgH90roarJkqD18ztlyUH_PNdFJ_ab
+X-Proofpoint-GUID: lNZfzj0fZWJJor8qYVwjxm76C6MQJs_-
+X-Proofpoint-ORIG-GUID: lNZfzj0fZWJJor8qYVwjxm76C6MQJs_-
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-12-07_11,2022-12-07_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- lowpriorityscore=0 suspectscore=0 mlxscore=0 mlxlogscore=999
- malwarescore=0 clxscore=1015 adultscore=0 spamscore=0 phishscore=0
- bulkscore=0 priorityscore=1501 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2210170000 definitions=main-2212070186
+ suspectscore=0
+ mlxlogscore=999 bulkscore=0 clxscore=1015 adultscore=0 mlxscore=0
+ priorityscore=1501 impostorscore=0 phishscore=0 spamscore=0 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212070186
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,89 +95,889 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Bjorn Andersson <bjorn.andersson@linaro.org>
 
-The DisplayPort controller's hot-plug mechanism is based on pinmuxing a
-physical signal on a GPIO pin into the controller. This is not always
-possible, either because there aren't dedicated GPIOs available or
-because the hot-plug signal is a virtual notification, in cases such as
-USB Type-C.
-
-For these cases, by implementing the hpd_notify() callback for the
-DisplayPort controller's drm_bridge, a downstream drm_bridge
-(next_bridge) can be used to track and signal the connection status
-changes.
-
-This makes it possible to use downstream drm_bridges such as
-display-connector or any virtual mechanism, as long as they are
-implemented as a drm_bridge.
+Define the display clock controllers, the MDSS instances, the DP phys
+and connect these together.
 
 Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-[bjorn: Drop connector->fwnode assignment and dev from struct msm_dp]
 Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
 
 Changes since v4:
-- Look at internal_hpd now that it's introduced before this patch.
+- None
 
- drivers/gpu/drm/msm/dp/dp_display.c | 22 ++++++++++++++++++++++
- drivers/gpu/drm/msm/dp/dp_drm.c     |  1 +
- drivers/gpu/drm/msm/dp/dp_drm.h     |  2 ++
- 3 files changed, 25 insertions(+)
+ arch/arm64/boot/dts/qcom/sc8280xp.dtsi | 838 +++++++++++++++++++++++++
+ 1 file changed, 838 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 095adf528e43..0bee412603fe 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -1792,3 +1792,25 @@ void dp_bridge_hpd_disable(struct drm_bridge *bridge)
+diff --git a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
+index 9f3132ac2857..c2f186495506 100644
+--- a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
+@@ -4,6 +4,7 @@
+  * Copyright (c) 2022, Linaro Limited
+  */
  
- 	dp_display->internal_hpd = false;
- }
-+
-+void dp_bridge_hpd_notify(struct drm_bridge *bridge,
-+			  enum drm_connector_status status)
-+{
-+	struct msm_dp_bridge *dp_bridge = to_dp_bridge(bridge);
-+	struct msm_dp *dp_display = dp_bridge->dp_display;
-+	struct dp_display_private *dp = container_of(dp_display, struct dp_display_private, dp_display);
-+
-+	/* Without next_bridge interrupts are handled by the DP core directly */
-+	if (dp_display->internal_hpd)
-+		return;
-+
-+	if (!dp->core_initialized) {
-+		drm_dbg_dp(dp->drm_dev, "not initialized\n");
-+		return;
-+	}
-+
-+	if (!dp_display->is_connected && status == connector_status_connected)
-+		dp_add_event(dp, EV_HPD_PLUG_INT, 0, 0);
-+	else if (dp_display->is_connected && status == connector_status_disconnected)
-+		dp_add_event(dp, EV_HPD_UNPLUG_INT, 0, 0);
-+}
-diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-index 9d03b6ee3c41..275370f21115 100644
---- a/drivers/gpu/drm/msm/dp/dp_drm.c
-+++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-@@ -104,6 +104,7 @@ static const struct drm_bridge_funcs dp_bridge_ops = {
- 	.atomic_check = dp_bridge_atomic_check,
- 	.hpd_enable   = dp_bridge_hpd_enable,
- 	.hpd_disable  = dp_bridge_hpd_disable,
-+	.hpd_notify   = dp_bridge_hpd_notify,
- };
++#include <dt-bindings/clock/qcom,dispcc-sc8280xp.h>
+ #include <dt-bindings/clock/qcom,gcc-sc8280xp.h>
+ #include <dt-bindings/clock/qcom,rpmh.h>
+ #include <dt-bindings/interconnect/qcom,sc8280xp.h>
+@@ -1698,6 +1699,44 @@ usb_1_qmpphy: phy@8903000 {
+ 			status = "disabled";
+ 		};
  
- struct drm_bridge *dp_bridge_init(struct msm_dp *dp_display, struct drm_device *dev,
-diff --git a/drivers/gpu/drm/msm/dp/dp_drm.h b/drivers/gpu/drm/msm/dp/dp_drm.h
-index 1f871b555006..250f7c66201f 100644
---- a/drivers/gpu/drm/msm/dp/dp_drm.h
-+++ b/drivers/gpu/drm/msm/dp/dp_drm.h
-@@ -34,5 +34,7 @@ void dp_bridge_mode_set(struct drm_bridge *drm_bridge,
- 			const struct drm_display_mode *adjusted_mode);
- void dp_bridge_hpd_enable(struct drm_bridge *bridge);
- void dp_bridge_hpd_disable(struct drm_bridge *bridge);
-+void dp_bridge_hpd_notify(struct drm_bridge *bridge,
-+			  enum drm_connector_status status);
++		mdss1_dp0_phy: phy@8909a00 {
++			compatible = "qcom,sc8280xp-dp-phy";
++			reg = <0 0x08909a00 0 0x19c>,
++			      <0 0x08909200 0 0xec>,
++			      <0 0x08909600 0 0xec>,
++			      <0 0x08909000 0 0x1c8>;
++
++			clocks = <&dispcc1 DISP_CC_MDSS_DPTX0_AUX_CLK>,
++				 <&dispcc1 DISP_CC_MDSS_AHB_CLK>;
++			clock-names = "aux", "cfg_ahb";
++
++			power-domains = <&rpmhpd SC8280XP_MX>;
++
++			#clock-cells = <1>;
++			#phy-cells = <0>;
++
++			status = "disabled";
++		};
++
++		mdss1_dp1_phy: phy@890ca00 {
++			compatible = "qcom,sc8280xp-dp-phy";
++			reg = <0 0x0890ca00 0 0x19c>,
++			      <0 0x0890c200 0 0xec>,
++			      <0 0x0890c600 0 0xec>,
++			      <0 0x0890c000 0 0x1c8>;
++
++			clocks = <&dispcc1 DISP_CC_MDSS_DPTX1_AUX_CLK>,
++				 <&dispcc1 DISP_CC_MDSS_AHB_CLK>;
++			clock-names = "aux", "cfg_ahb";
++
++			power-domains = <&rpmhpd SC8280XP_MX>;
++
++			#clock-cells = <1>;
++			#phy-cells = <0>;
++
++			status = "disabled";
++		};
++
+ 		system-cache-controller@9200000 {
+ 			compatible = "qcom,sc8280xp-llcc";
+ 			reg = <0 0x09200000 0 0x58000>, <0 0x09600000 0 0x58000>;
+@@ -1813,6 +1852,326 @@ usb_1_dwc3: usb@a800000 {
+ 			};
+ 		};
  
- #endif /* _DP_DRM_H_ */
++		mdss0: display-subsystem@ae00000 {
++			compatible = "qcom,sc8280xp-mdss";
++			reg = <0 0x0ae00000 0 0x1000>;
++			reg-names = "mdss";
++
++			power-domains = <&dispcc0 MDSS_GDSC>;
++
++			clocks = <&gcc GCC_DISP_AHB_CLK>,
++				 <&dispcc0 DISP_CC_MDSS_AHB_CLK>,
++				 <&dispcc0 DISP_CC_MDSS_MDP_CLK>;
++			clock-names = "iface",
++				      "ahb",
++				      "core";
++
++			resets = <&dispcc0 DISP_CC_MDSS_CORE_BCR>;
++
++			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-controller;
++			#interrupt-cells = <1>;
++
++			interconnects = <&mmss_noc MASTER_MDP0 0 &mc_virt SLAVE_EBI1 0>,
++					<&mmss_noc MASTER_MDP1 0 &mc_virt SLAVE_EBI1 0>;
++			interconnect-names = "mdp0-mem", "mdp1-mem";
++
++			iommus = <&apps_smmu 0x1000 0x402>;
++
++			status = "disabled";
++
++			#address-cells = <2>;
++			#size-cells = <2>;
++			ranges;
++
++			mdss0_mdp: display-controller@ae01000 {
++				compatible = "qcom,sc8280xp-dpu";
++				reg = <0 0x0ae01000 0 0x8f000>,
++				      <0 0x0aeb0000 0 0x2008>;
++				reg-names = "mdp", "vbif";
++
++				clocks = <&gcc GCC_DISP_HF_AXI_CLK>,
++					 <&gcc GCC_DISP_SF_AXI_CLK>,
++					 <&dispcc0 DISP_CC_MDSS_AHB_CLK>,
++					 <&dispcc0 DISP_CC_MDSS_MDP_LUT_CLK>,
++					 <&dispcc0 DISP_CC_MDSS_MDP_CLK>,
++					 <&dispcc0 DISP_CC_MDSS_VSYNC_CLK>;
++				clock-names = "bus",
++					      "nrt_bus",
++					      "iface",
++					      "lut",
++					      "core",
++					      "vsync";
++
++				assigned-clocks = <&dispcc0 DISP_CC_MDSS_MDP_CLK>,
++						  <&dispcc0 DISP_CC_MDSS_VSYNC_CLK>;
++				assigned-clock-rates = <460000000>,
++						       <19200000>;
++
++				operating-points-v2 = <&mdss0_mdp_opp_table>;
++				power-domains = <&rpmhpd SC8280XP_MMCX>;
++
++				interrupt-parent = <&mdss0>;
++				interrupts = <0>;
++
++				ports {
++					#address-cells = <1>;
++					#size-cells = <0>;
++
++					port@5 {
++						reg = <5>;
++						mdss0_intf5_out: endpoint {
++							remote-endpoint = <&mdss0_dp3_in>;
++						};
++					};
++
++					port@6 {
++						reg = <6>;
++						mdss0_intf6_out: endpoint {
++							remote-endpoint = <&mdss0_dp2_in>;
++						};
++					};
++				};
++
++				mdss0_mdp_opp_table: opp-table {
++					compatible = "operating-points-v2";
++
++					opp-200000000 {
++						opp-hz = /bits/ 64 <200000000>;
++						required-opps = <&rpmhpd_opp_low_svs>;
++					};
++
++					opp-300000000 {
++						opp-hz = /bits/ 64 <300000000>;
++						required-opps = <&rpmhpd_opp_svs>;
++					};
++
++					opp-375000000 {
++						opp-hz = /bits/ 64 <375000000>;
++						required-opps = <&rpmhpd_opp_svs_l1>;
++					};
++
++					opp-500000000 {
++						opp-hz = /bits/ 64 <500000000>;
++						required-opps = <&rpmhpd_opp_nom>;
++					};
++					opp-600000000 {
++						opp-hz = /bits/ 64 <600000000>;
++						required-opps = <&rpmhpd_opp_turbo_l1>;
++					};
++				};
++			};
++
++			mdss0_dp2: displayport-controller@ae9a000 {
++				compatible = "qcom,sc8280xp-dp";
++				reg = <0 0xae9a000 0 0x200>,
++				      <0 0xae9a200 0 0x200>,
++				      <0 0xae9a400 0 0x600>,
++				      <0 0xae9b000 0 0x400>;
++				interrupt-parent = <&mdss0>;
++				interrupts = <14>;
++				clocks = <&dispcc0 DISP_CC_MDSS_AHB_CLK>,
++					 <&dispcc0 DISP_CC_MDSS_DPTX2_AUX_CLK>,
++					 <&dispcc0 DISP_CC_MDSS_DPTX2_LINK_CLK>,
++					 <&dispcc0 DISP_CC_MDSS_DPTX2_LINK_INTF_CLK>,
++					 <&dispcc0 DISP_CC_MDSS_DPTX2_PIXEL0_CLK>;
++				clock-names = "core_iface", "core_aux",
++					      "ctrl_link",
++					      "ctrl_link_iface", "stream_pixel";
++
++				assigned-clocks = <&dispcc0 DISP_CC_MDSS_DPTX2_LINK_CLK_SRC>,
++						  <&dispcc0 DISP_CC_MDSS_DPTX2_PIXEL0_CLK_SRC>;
++				assigned-clock-parents = <&mdss0_dp2_phy 0>, <&mdss0_dp2_phy 1>;
++
++				phys = <&mdss0_dp2_phy>;
++				phy-names = "dp";
++
++				#sound-dai-cells = <0>;
++
++				operating-points-v2 = <&mdss0_dp2_opp_table>;
++				power-domains = <&rpmhpd SC8280XP_CX>;
++
++				status = "disabled";
++
++				ports {
++					#address-cells = <1>;
++					#size-cells = <0>;
++
++					port@0 {
++						reg = <0>;
++						mdss0_dp2_in: endpoint {
++							remote-endpoint = <&mdss0_intf6_out>;
++						};
++					};
++
++					port@1 {
++						reg = <1>;
++					};
++				};
++
++				mdss0_dp2_opp_table: opp-table {
++					compatible = "operating-points-v2";
++
++					opp-160000000 {
++						opp-hz = /bits/ 64 <160000000>;
++						required-opps = <&rpmhpd_opp_low_svs>;
++					};
++
++					opp-270000000 {
++						opp-hz = /bits/ 64 <270000000>;
++						required-opps = <&rpmhpd_opp_svs>;
++					};
++
++					opp-540000000 {
++						opp-hz = /bits/ 64 <540000000>;
++						required-opps = <&rpmhpd_opp_svs_l1>;
++					};
++
++					opp-810000000 {
++						opp-hz = /bits/ 64 <810000000>;
++						required-opps = <&rpmhpd_opp_nom>;
++					};
++				};
++			};
++
++			mdss0_dp3: displayport-controller@aea0000 {
++				compatible = "qcom,sc8280xp-dp";
++				reg = <0 0xaea0000 0 0x200>,
++				      <0 0xaea0200 0 0x200>,
++				      <0 0xaea0400 0 0x600>,
++				      <0 0xaea1000 0 0x400>;
++				interrupt-parent = <&mdss0>;
++				interrupts = <15>;
++				clocks = <&dispcc0 DISP_CC_MDSS_AHB_CLK>,
++					 <&dispcc0 DISP_CC_MDSS_DPTX3_AUX_CLK>,
++					 <&dispcc0 DISP_CC_MDSS_DPTX3_LINK_CLK>,
++					 <&dispcc0 DISP_CC_MDSS_DPTX3_LINK_INTF_CLK>,
++					 <&dispcc0 DISP_CC_MDSS_DPTX3_PIXEL0_CLK>;
++				clock-names = "core_iface", "core_aux",
++					      "ctrl_link",
++					      "ctrl_link_iface", "stream_pixel";
++
++				assigned-clocks = <&dispcc0 DISP_CC_MDSS_DPTX3_LINK_CLK_SRC>,
++						  <&dispcc0 DISP_CC_MDSS_DPTX3_PIXEL0_CLK_SRC>;
++				assigned-clock-parents = <&mdss0_dp3_phy 0>, <&mdss0_dp3_phy 1>;
++
++				phys = <&mdss0_dp3_phy>;
++				phy-names = "dp";
++
++				#sound-dai-cells = <0>;
++
++				operating-points-v2 = <&mdss0_dp3_opp_table>;
++				power-domains = <&dispcc0 MDSS_GDSC>;
++
++				status = "disabled";
++
++				ports {
++					#address-cells = <1>;
++					#size-cells = <0>;
++
++					port@0 {
++						reg = <0>;
++						mdss0_dp3_in: endpoint {
++							remote-endpoint = <&mdss0_intf5_out>;
++						};
++					};
++
++					port@1 {
++						reg = <1>;
++					};
++				};
++
++				mdss0_dp3_opp_table: opp-table {
++					compatible = "operating-points-v2";
++
++					opp-160000000 {
++						opp-hz = /bits/ 64 <160000000>;
++						required-opps = <&rpmhpd_opp_low_svs>;
++					};
++
++					opp-270000000 {
++						opp-hz = /bits/ 64 <270000000>;
++						required-opps = <&rpmhpd_opp_svs>;
++					};
++
++					opp-540000000 {
++						opp-hz = /bits/ 64 <540000000>;
++						required-opps = <&rpmhpd_opp_svs_l1>;
++					};
++
++					opp-810000000 {
++						opp-hz = /bits/ 64 <810000000>;
++						required-opps = <&rpmhpd_opp_nom>;
++					};
++				};
++			};
++		};
++
++		mdss0_dp2_phy: phy@aec2a00 {
++			compatible = "qcom,sc8280xp-dp-phy";
++			reg = <0 0x0aec2a00 0 0x19c>,
++			      <0 0x0aec2200 0 0xec>,
++			      <0 0x0aec2600 0 0xec>,
++			      <0 0x0aec2000 0 0x1c8>;
++
++			clocks = <&dispcc0 DISP_CC_MDSS_DPTX2_AUX_CLK>,
++				 <&dispcc0 DISP_CC_MDSS_AHB_CLK>;
++			clock-names = "aux", "cfg_ahb";
++
++			power-domains = <&rpmhpd SC8280XP_MX>;
++
++			#clock-cells = <1>;
++			#phy-cells = <0>;
++
++			status = "disabled";
++		};
++
++		mdss0_dp3_phy: phy@aec5a00 {
++			compatible = "qcom,sc8280xp-dp-phy";
++			reg = <0 0x0aec5a00 0 0x19c>,
++			      <0 0x0aec5200 0 0xec>,
++			      <0 0x0aec5600 0 0xec>,
++			      <0 0x0aec5000 0 0x1c8>;
++
++			clocks = <&dispcc0 DISP_CC_MDSS_DPTX3_AUX_CLK>,
++				 <&dispcc0 DISP_CC_MDSS_AHB_CLK>;
++			clock-names = "aux", "cfg_ahb";
++
++			power-domains = <&rpmhpd SC8280XP_MX>;
++
++			#clock-cells = <1>;
++			#phy-cells = <0>;
++
++			status = "disabled";
++		};
++
++		dispcc0: clock-controller@af00000 {
++			compatible = "qcom,sc8280xp-dispcc0";
++			reg = <0 0x0af00000 0 0x20000>;
++			clocks = <&gcc GCC_DISP_AHB_CLK>,
++				 <&rpmhcc RPMH_CXO_CLK>,
++				 <&sleep_clk>,
++				 <0>,
++				 <0>,
++				 <0>,
++				 <0>,
++				 <&mdss0_dp2_phy 0>,
++				 <&mdss0_dp2_phy 1>,
++				 <&mdss0_dp3_phy 0>,
++				 <&mdss0_dp3_phy 1>,
++				 <0>,
++				 <0>,
++				 <0>,
++				 <0>;
++			power-domains = <&rpmhpd SC8280XP_MMCX>;
++			required-opps = <&rpmhpd_opp_nom>;
++			#clock-cells = <1>;
++			#reset-cells = <1>;
++			#power-domain-cells = <1>;
++
++			status = "disabled";
++		};
++
+ 		pdc: interrupt-controller@b220000 {
+ 			compatible = "qcom,sc8280xp-pdc", "qcom,pdc";
+ 			reg = <0 0x0b220000 0 0x30000>, <0 0x17c000f0 0 0x60>;
+@@ -2425,6 +2784,485 @@ IPCC_MPROC_SIGNAL_GLINK_QMP
+ 				qcom,remote-pid = <12>;
+ 			};
+ 		};
++
++		mdss1: display-subsystem@22000000 {
++			compatible = "qcom,sc8280xp-mdss";
++			reg = <0 0x22000000 0 0x1000>;
++			reg-names = "mdss";
++
++			power-domains = <&dispcc1 MDSS_GDSC>;
++
++			clocks = <&gcc GCC_DISP_AHB_CLK>,
++				 <&dispcc1 DISP_CC_MDSS_AHB_CLK>,
++				 <&dispcc1 DISP_CC_MDSS_MDP_CLK>;
++			clock-names = "iface",
++				      "ahb",
++				      "core";
++
++			resets = <&dispcc1 DISP_CC_MDSS_CORE_BCR>;
++
++			interrupts = <GIC_SPI 865 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-controller;
++			#interrupt-cells = <1>;
++
++			interconnects = <&mmss_noc MASTER_MDP_CORE1_0 0 &mc_virt SLAVE_EBI1 0>,
++					<&mmss_noc MASTER_MDP_CORE1_1 0 &mc_virt SLAVE_EBI1 0>;
++			interconnect-names = "mdp0-mem", "mdp1-mem";
++
++			iommus = <&apps_smmu 0x1800 0x402>;
++
++			status = "disabled";
++
++			#address-cells = <2>;
++			#size-cells = <2>;
++			ranges;
++
++			mdss1_mdp: display-controller@22001000 {
++				compatible = "qcom,sc8280xp-dpu";
++				reg = <0 0x22001000 0 0x8f000>,
++				      <0 0x220b0000 0 0x2008>;
++				reg-names = "mdp", "vbif";
++
++				clocks = <&gcc GCC_DISP_HF_AXI_CLK>,
++					 <&gcc GCC_DISP_SF_AXI_CLK>,
++					 <&dispcc1 DISP_CC_MDSS_AHB_CLK>,
++					 <&dispcc1 DISP_CC_MDSS_MDP_LUT_CLK>,
++					 <&dispcc1 DISP_CC_MDSS_MDP_CLK>,
++					 <&dispcc1 DISP_CC_MDSS_VSYNC_CLK>;
++				clock-names = "bus",
++					      "nrt_bus",
++					      "iface",
++					      "lut",
++					      "core",
++					      "vsync";
++
++				assigned-clocks = <&dispcc1 DISP_CC_MDSS_MDP_CLK>,
++						  <&dispcc1 DISP_CC_MDSS_VSYNC_CLK>;
++				assigned-clock-rates = <460000000>,
++						       <19200000>;
++
++				operating-points-v2 = <&mdss1_mdp_opp_table>;
++				power-domains = <&rpmhpd SC8280XP_MMCX>;
++
++				interrupt-parent = <&mdss1>;
++				interrupts = <0>;
++
++				ports {
++					#address-cells = <1>;
++					#size-cells = <0>;
++
++					port@0 {
++						reg = <0>;
++						mdss1_intf0_out: endpoint {
++							remote-endpoint = <&mdss1_dp0_in>;
++						};
++					};
++
++					port@4 {
++						reg = <4>;
++						mdss1_intf4_out: endpoint {
++							remote-endpoint = <&mdss1_dp1_in>;
++						};
++					};
++
++					port@5 {
++						reg = <5>;
++						mdss1_intf5_out: endpoint {
++							remote-endpoint = <&mdss1_dp3_in>;
++						};
++					};
++
++					port@6 {
++						reg = <6>;
++						mdss1_intf6_out: endpoint {
++							remote-endpoint = <&mdss1_dp2_in>;
++						};
++					};
++				};
++
++				mdss1_mdp_opp_table: opp-table {
++					compatible = "operating-points-v2";
++
++					opp-200000000 {
++						opp-hz = /bits/ 64 <200000000>;
++						required-opps = <&rpmhpd_opp_low_svs>;
++					};
++
++					opp-300000000 {
++						opp-hz = /bits/ 64 <300000000>;
++						required-opps = <&rpmhpd_opp_svs>;
++					};
++
++					opp-375000000 {
++						opp-hz = /bits/ 64 <375000000>;
++						required-opps = <&rpmhpd_opp_svs_l1>;
++					};
++
++					opp-500000000 {
++						opp-hz = /bits/ 64 <500000000>;
++						required-opps = <&rpmhpd_opp_nom>;
++					};
++					opp-600000000 {
++						opp-hz = /bits/ 64 <600000000>;
++						required-opps = <&rpmhpd_opp_turbo_l1>;
++					};
++				};
++			};
++
++			mdss1_dp0: displayport-controller@22090000 {
++				compatible = "qcom,sc8280xp-dp";
++				reg = <0 0x22090000 0 0x200>,
++				      <0 0x22090200 0 0x200>,
++				      <0 0x22090400 0 0x600>,
++				      <0 0x22091000 0 0x400>;
++				interrupt-parent = <&mdss1>;
++				interrupts = <12>;
++				clocks = <&dispcc1 DISP_CC_MDSS_AHB_CLK>,
++					 <&dispcc1 DISP_CC_MDSS_DPTX0_AUX_CLK>,
++					 <&dispcc1 DISP_CC_MDSS_DPTX0_LINK_CLK>,
++					 <&dispcc1 DISP_CC_MDSS_DPTX0_LINK_INTF_CLK>,
++					 <&dispcc1 DISP_CC_MDSS_DPTX0_PIXEL0_CLK>;
++				clock-names = "core_iface", "core_aux",
++					      "ctrl_link",
++					      "ctrl_link_iface", "stream_pixel";
++
++				assigned-clocks = <&dispcc1 DISP_CC_MDSS_DPTX0_LINK_CLK_SRC>,
++						  <&dispcc1 DISP_CC_MDSS_DPTX0_PIXEL0_CLK_SRC>;
++				assigned-clock-parents = <&mdss1_dp0_phy 0>, <&mdss1_dp0_phy 1>;
++
++				phys = <&mdss1_dp0_phy>;
++				phy-names = "dp";
++
++				#sound-dai-cells = <0>;
++
++				operating-points-v2 = <&mdss1_dp0_opp_table>;
++				power-domains = <&rpmhpd SC8280XP_CX>;
++
++				status = "disabled";
++
++				ports {
++					#address-cells = <1>;
++					#size-cells = <0>;
++
++					port@0 {
++						reg = <0>;
++						mdss1_dp0_in: endpoint {
++							remote-endpoint = <&mdss1_intf0_out>;
++						};
++					};
++
++					port@1 {
++						reg = <1>;
++					};
++				};
++
++				mdss1_dp0_opp_table: opp-table {
++					compatible = "operating-points-v2";
++
++					opp-160000000 {
++						opp-hz = /bits/ 64 <160000000>;
++						required-opps = <&rpmhpd_opp_low_svs>;
++					};
++
++					opp-270000000 {
++						opp-hz = /bits/ 64 <270000000>;
++						required-opps = <&rpmhpd_opp_svs>;
++					};
++
++					opp-540000000 {
++						opp-hz = /bits/ 64 <540000000>;
++						required-opps = <&rpmhpd_opp_svs_l1>;
++					};
++
++					opp-810000000 {
++						opp-hz = /bits/ 64 <810000000>;
++						required-opps = <&rpmhpd_opp_nom>;
++					};
++				};
++
++			};
++
++			mdss1_dp1: displayport-controller@22098000 {
++				compatible = "qcom,sc8280xp-dp";
++				reg = <0 0x22098000 0 0x200>,
++				      <0 0x22098200 0 0x200>,
++				      <0 0x22098400 0 0x600>,
++				      <0 0x22099000 0 0x400>;
++				interrupt-parent = <&mdss1>;
++				interrupts = <13>;
++				clocks = <&dispcc1 DISP_CC_MDSS_AHB_CLK>,
++					 <&dispcc1 DISP_CC_MDSS_DPTX1_AUX_CLK>,
++					 <&dispcc1 DISP_CC_MDSS_DPTX1_LINK_CLK>,
++					 <&dispcc1 DISP_CC_MDSS_DPTX1_LINK_INTF_CLK>,
++					 <&dispcc1 DISP_CC_MDSS_DPTX1_PIXEL0_CLK>;
++				clock-names = "core_iface", "core_aux",
++					      "ctrl_link",
++					      "ctrl_link_iface", "stream_pixel";
++
++				assigned-clocks = <&dispcc1 DISP_CC_MDSS_DPTX1_LINK_CLK_SRC>,
++						  <&dispcc1 DISP_CC_MDSS_DPTX1_PIXEL0_CLK_SRC>;
++				assigned-clock-parents = <&mdss1_dp1_phy 0>, <&mdss1_dp1_phy 1>;
++
++				phys = <&mdss1_dp1_phy>;
++				phy-names = "dp";
++
++				#sound-dai-cells = <0>;
++
++				operating-points-v2 = <&mdss1_dp1_opp_table>;
++				power-domains = <&rpmhpd SC8280XP_CX>;
++
++				status = "disabled";
++
++				ports {
++					#address-cells = <1>;
++					#size-cells = <0>;
++
++					port@0 {
++						reg = <0>;
++						mdss1_dp1_in: endpoint {
++							remote-endpoint = <&mdss1_intf4_out>;
++						};
++					};
++
++					port@1 {
++						reg = <1>;
++					};
++				};
++
++				mdss1_dp1_opp_table: opp-table {
++					compatible = "operating-points-v2";
++
++					opp-160000000 {
++						opp-hz = /bits/ 64 <160000000>;
++						required-opps = <&rpmhpd_opp_low_svs>;
++					};
++
++					opp-270000000 {
++						opp-hz = /bits/ 64 <270000000>;
++						required-opps = <&rpmhpd_opp_svs>;
++					};
++
++					opp-540000000 {
++						opp-hz = /bits/ 64 <540000000>;
++						required-opps = <&rpmhpd_opp_svs_l1>;
++					};
++
++					opp-810000000 {
++						opp-hz = /bits/ 64 <810000000>;
++						required-opps = <&rpmhpd_opp_nom>;
++					};
++				};
++			};
++
++			mdss1_dp2: displayport-controller@2209a000 {
++				compatible = "qcom,sc8280xp-dp";
++				reg = <0 0x2209a000 0 0x200>,
++				      <0 0x2209a200 0 0x200>,
++				      <0 0x2209a400 0 0x600>,
++				      <0 0x2209b000 0 0x400>;
++				interrupt-parent = <&mdss1>;
++				interrupts = <14>;
++				clocks = <&dispcc1 DISP_CC_MDSS_AHB_CLK>,
++					 <&dispcc1 DISP_CC_MDSS_DPTX2_AUX_CLK>,
++					 <&dispcc1 DISP_CC_MDSS_DPTX2_LINK_CLK>,
++					 <&dispcc1 DISP_CC_MDSS_DPTX2_LINK_INTF_CLK>,
++					 <&dispcc1 DISP_CC_MDSS_DPTX2_PIXEL0_CLK>;
++				clock-names = "core_iface", "core_aux",
++					      "ctrl_link",
++					      "ctrl_link_iface", "stream_pixel";
++
++				assigned-clocks = <&dispcc1 DISP_CC_MDSS_DPTX2_LINK_CLK_SRC>,
++						  <&dispcc1 DISP_CC_MDSS_DPTX2_PIXEL0_CLK_SRC>;
++				assigned-clock-parents = <&mdss1_dp2_phy 0>, <&mdss1_dp2_phy 1>;
++
++				phys = <&mdss1_dp2_phy>;
++				phy-names = "dp";
++
++				#sound-dai-cells = <0>;
++
++				operating-points-v2 = <&mdss1_dp2_opp_table>;
++				power-domains = <&rpmhpd SC8280XP_CX>;
++
++				status = "disabled";
++
++				ports {
++					#address-cells = <1>;
++					#size-cells = <0>;
++
++					port@0 {
++						reg = <0>;
++						mdss1_dp2_in: endpoint {
++							remote-endpoint = <&mdss1_intf6_out>;
++						};
++					};
++
++					port@1 {
++						reg = <1>;
++					};
++				};
++
++				mdss1_dp2_opp_table: opp-table {
++					compatible = "operating-points-v2";
++
++					opp-160000000 {
++						opp-hz = /bits/ 64 <160000000>;
++						required-opps = <&rpmhpd_opp_low_svs>;
++					};
++
++					opp-270000000 {
++						opp-hz = /bits/ 64 <270000000>;
++						required-opps = <&rpmhpd_opp_svs>;
++					};
++
++					opp-540000000 {
++						opp-hz = /bits/ 64 <540000000>;
++						required-opps = <&rpmhpd_opp_svs_l1>;
++					};
++
++					opp-810000000 {
++						opp-hz = /bits/ 64 <810000000>;
++						required-opps = <&rpmhpd_opp_nom>;
++					};
++				};
++			};
++
++			mdss1_dp3: displayport-controller@220a0000 {
++				compatible = "qcom,sc8280xp-dp";
++				reg = <0 0x220a0000 0 0x200>,
++				      <0 0x220a0200 0 0x200>,
++				      <0 0x220a0400 0 0x600>,
++				      <0 0x220a1000 0 0x400>;
++				interrupt-parent = <&mdss1>;
++				interrupts = <15>;
++				clocks = <&dispcc1 DISP_CC_MDSS_AHB_CLK>,
++					 <&dispcc1 DISP_CC_MDSS_DPTX3_AUX_CLK>,
++					 <&dispcc1 DISP_CC_MDSS_DPTX3_LINK_CLK>,
++					 <&dispcc1 DISP_CC_MDSS_DPTX3_LINK_INTF_CLK>,
++					 <&dispcc1 DISP_CC_MDSS_DPTX3_PIXEL0_CLK>;
++				clock-names = "core_iface", "core_aux",
++					      "ctrl_link",
++					      "ctrl_link_iface", "stream_pixel";
++
++				assigned-clocks = <&dispcc1 DISP_CC_MDSS_DPTX3_LINK_CLK_SRC>,
++						  <&dispcc1 DISP_CC_MDSS_DPTX3_PIXEL0_CLK_SRC>;
++				assigned-clock-parents = <&mdss1_dp3_phy 0>, <&mdss1_dp3_phy 1>;
++
++				phys = <&mdss1_dp3_phy>;
++				phy-names = "dp";
++
++				#sound-dai-cells = <0>;
++
++				operating-points-v2 = <&mdss1_dp3_opp_table>;
++				power-domains = <&rpmhpd SC8280XP_CX>;
++
++				status = "disabled";
++
++				ports {
++					#address-cells = <1>;
++					#size-cells = <0>;
++
++					port@0 {
++						reg = <0>;
++						mdss1_dp3_in: endpoint {
++							remote-endpoint = <&mdss1_intf5_out>;
++						};
++					};
++
++					port@1 {
++						reg = <1>;
++					};
++				};
++
++				mdss1_dp3_opp_table: opp-table {
++					compatible = "operating-points-v2";
++
++					opp-160000000 {
++						opp-hz = /bits/ 64 <160000000>;
++						required-opps = <&rpmhpd_opp_low_svs>;
++					};
++
++					opp-270000000 {
++						opp-hz = /bits/ 64 <270000000>;
++						required-opps = <&rpmhpd_opp_svs>;
++					};
++
++					opp-540000000 {
++						opp-hz = /bits/ 64 <540000000>;
++						required-opps = <&rpmhpd_opp_svs_l1>;
++					};
++
++					opp-810000000 {
++						opp-hz = /bits/ 64 <810000000>;
++						required-opps = <&rpmhpd_opp_nom>;
++					};
++				};
++			};
++		};
++
++		mdss1_dp2_phy: phy@220c2a00 {
++			compatible = "qcom,sc8280xp-dp-phy";
++			reg = <0 0x220c2a00 0 0x19c>,
++			      <0 0x220c2200 0 0xec>,
++			      <0 0x220c2600 0 0xec>,
++			      <0 0x220c2000 0 0x1c8>;
++
++			clocks = <&dispcc1 DISP_CC_MDSS_DPTX2_AUX_CLK>,
++				 <&dispcc1 DISP_CC_MDSS_AHB_CLK>;
++			clock-names = "aux", "cfg_ahb";
++
++			power-domains = <&rpmhpd SC8280XP_MX>;
++
++			#clock-cells = <1>;
++			#phy-cells = <0>;
++
++			status = "disabled";
++		};
++
++		mdss1_dp3_phy: phy@220c5a00 {
++			compatible = "qcom,sc8280xp-dp-phy";
++			reg = <0 0x220c5a00 0 0x19c>,
++			      <0 0x220c5200 0 0xec>,
++			      <0 0x220c5600 0 0xec>,
++			      <0 0x220c5000 0 0x1c8>;
++
++			clocks = <&dispcc1 DISP_CC_MDSS_DPTX3_AUX_CLK>,
++				 <&dispcc1 DISP_CC_MDSS_AHB_CLK>;
++			clock-names = "aux", "cfg_ahb";
++
++			power-domains = <&rpmhpd SC8280XP_MX>;
++
++			#clock-cells = <1>;
++			#phy-cells = <0>;
++
++			status = "disabled";
++		};
++
++		dispcc1: clock-controller@22100000 {
++			compatible = "qcom,sc8280xp-dispcc1";
++			reg = <0 0x22100000 0 0x20000>;
++			clocks = <&gcc GCC_DISP_AHB_CLK>,
++				 <&rpmhcc RPMH_CXO_CLK>,
++				 <0>,
++				 <&mdss1_dp0_phy 0>,
++				 <&mdss1_dp0_phy 1>,
++				 <&mdss1_dp1_phy 0>,
++				 <&mdss1_dp1_phy 1>,
++				 <&mdss1_dp2_phy 0>,
++				 <&mdss1_dp2_phy 1>,
++				 <&mdss1_dp3_phy 0>,
++				 <&mdss1_dp3_phy 1>,
++				 <0>,
++				 <0>,
++				 <0>,
++				 <0>;
++			power-domains = <&rpmhpd SC8280XP_MMCX>;
++			required-opps = <&rpmhpd_opp_nom>;
++			#clock-cells = <1>;
++			#reset-cells = <1>;
++			#power-domain-cells = <1>;
++
++			status = "disabled";
++		};
+ 	};
+ 
+ 	thermal-zones {
 -- 
 2.37.3
 
