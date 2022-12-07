@@ -1,85 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE6A964596F
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 12:55:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DD9A645978
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 12:56:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED95410E040;
-	Wed,  7 Dec 2022 11:55:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8045110E3A1;
+	Wed,  7 Dec 2022 11:56:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
  [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B56610E39A
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 11:55:31 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id A52C95C01E9;
- Wed,  7 Dec 2022 06:55:30 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E535010E39B
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 11:55:32 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 4FD375C01BF;
+ Wed,  7 Dec 2022 06:55:32 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Wed, 07 Dec 2022 06:55:30 -0500
+ by compute2.internal (MEProxy); Wed, 07 Dec 2022 06:55:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1670414130; x=
- 1670500530; bh=chybC9bA4z237Otv3XNN+1hhSvj8Cx+nBnOPtGmUHew=; b=e
- xYWL9oDgcShiObJtAACa651WpMg6F3QytTFX5IYy+D/xSC4kJgQuLqL1V4pPbD+Z
- 1hJZTsOn7f2KOKSHSqEggJhigmUyeKYqF2Ka5cRavSkeBVAwhCr1XlgpuKHkFXBf
- EqpBAXTWRRiIUdfKfDKKmTYcRZjoKVZFHlqAbDyIQVMl3aeEaoMzmxFUtWTTabE6
- VsvexcpQJcnVfkI87wmMBVX7KzH3Iu/8l4c9jQo0e69BjrUeKYZKAKU3ISquHuh0
- cA4KwWyUSSm+1h3IZVBN6Wuk3qedrOfCe1uzWUW6W+kAUWL1TnV3eK8HBGzglS8C
- YNxfo3Tl7Um/gUCqa9KgA==
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1670414132; x=
+ 1670500532; bh=uijn7bhnwg8D9DX/rVAehHdMMtRMxAq4fSqT3VnEss8=; b=W
+ +PwpIJ7O/VNKJohWz6I2y+l6qbeOC3Wvhz7GWaVpkeuX4qFWXO2U2P5WVfOTZx+Y
+ SMg3C9ob1dUWfESoeEaEqYFoXza+pbpJ8+FHKw9FZgg2lAxNd95fHGC6hyx5z9Ob
+ u6QdNP/1Mbh0AY/wvM4C44jwiDi9a7kjUmdZFtnEervOh03ny87UOOuROKO3Wj9/
+ x8Zn/jYfGrR0cbFic7UgQfMqSmWubtaEvTgZw/jGOAf/uNLjz+i9ZkIFZUz2tLQi
+ koDzsw6qyFJKWHMChO/9EnBYWUNcwnEuwdPeyStoumXogLHkVx1d0a1U3gluYRhS
+ xJSkidM0s2U3St0I6d+fQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1670414130; x=
- 1670500530; bh=chybC9bA4z237Otv3XNN+1hhSvj8Cx+nBnOPtGmUHew=; b=t
- BPaV7KpvDzJNwekv8pTr10ms92PFWu2pKDHq4DKYgXjsACVcRMbEgpKJhshPUSTh
- fuGgR2Y9ZXqz6cNFdiTsotStFC3rf2mm180DQi48hYTzg3UcTIO3ouzssEpwfXXO
- bJGliH9xJy/yJ9fNgO/lbAdCMxjYcJDv3KTsSLYdEqWv7zqTbzbr0f0WmqdCfMvN
- qFp1Fkij3aCM0vTaG7A+mj6aD2+9hWwxOK3le50Haffn4qXWEpjVo0OWFX6sEpbc
- q6lWFJNjfoJY+8qyXU/hhOAdTQIUysr3WZdcS/NfgtFaWz7bEaH7/E9nu1EQ9+ZD
- NZSQFHZMwM/lFD7qDRw9A==
-X-ME-Sender: <xms:Mn-QY1zH7kxnwXP30kVmyeYgWxFCMO177QQdk-inyhbt7nfJ4LPtCA>
- <xme:Mn-QY1SmjSH5J7lCh-mXhrN_1r6g7qlr1kGzlrVG5nqIeMJlOz2ET40D9T-yfAkO5
- 8aRejvqmxfXeEtc4CU>
-X-ME-Received: <xmr:Mn-QY_Whj7GMjVy4Y5dNDLDyp7b6U538EX0EKwSl4qMZz12tYHcJSQ7WOOVcOnRFUg-7VyS8_9BDUysN9FXTyJl6PIWg6muQ8YCHAAzDZ_r9YA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudekgdeffecutefuodetggdotefrodftvf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1670414132; x=
+ 1670500532; bh=uijn7bhnwg8D9DX/rVAehHdMMtRMxAq4fSqT3VnEss8=; b=D
+ dhtPaWj0dm88RJ6whCOBMtU60KAKvg06nup/P8g8HAKtN0Ne9sWoO7RNJfa5QCdl
+ 3II+HAGKsVwpcBkVJJs58ag46oQ4AWxqMA3FxQxFr1lYNSIcPB7TP7vOqkG+rj1I
+ mWSbvDQMsKoCchZlKCY2gTc3WZ3juJa1ihMZB1b7a/k2WKXMDyJ3Ly70wbpHBE9d
+ AEqToHSH7WRpSls6oMPS1HwU2uG0KHWJJHUZL/3l1i4AVDY8EDwlFrq1EaKYArHw
+ aVGntXmMjQDVk7+AzgqLyS5KYr2bSUfhfja1J3Vna2WVe8U/j02O5N7dQZvreKCM
+ 6ShOHRol7bBiq+UhN3rJw==
+X-ME-Sender: <xms:NH-QYzDxC-VQ_OfC6GHTV0WR2r667pCmZ-eV84DZdG9zZp3HKWcnxA>
+ <xme:NH-QY5jt_ICx73fyxP7yTCF6n4LqnbpfcL8GItPSj_1Bh4fYpexbyNdLY-apr_y7y
+ VDaQE6lExbh8RYBMRE>
+X-ME-Received: <xmr:NH-QY-kRqPg6QfRYS9F1h4CSUXrw7kUVs8nuFhWNSdqUlxZtXscZoEcuY9aQD0qy6EOVUpkcb2R2ASNO4y5eDG6HpdgQNIGL38OUoCkQ3iGRlg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudekgdefgecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeevvdelieejgedvkeffheekheeilefhgefgffehteekueelvddtueffheet
- ledtffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ ledtffenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:Mn-QY3h_aa7AVVwzSr3BYEZudc6YwrMVyYua6RT2hxqMdqTxrFsagw>
- <xmx:Mn-QY3DaVNoFRr314atgnZJ8V_WkB-ScUlGIXM432AEKNm5EHwLMqg>
- <xmx:Mn-QYwI-iDL7YVoEhwTD0oCUJEfxS_lRKLCX9C0sOeqsiMDQ9ckEKg>
- <xmx:Mn-QY_7zDCKkatjj3VB3EwoePDdbOqY69LfIzzYLYX7P-w7-yCFDdQ>
+X-ME-Proxy: <xmx:NH-QY1xiVrXTyPQWjCH8noC7_y2E8WNbnN0bMKq9aD-nJtphrLiNew>
+ <xmx:NH-QY4RNOoOJjiWnwHkefnx_8FTCJV1gJelHWB_PaQmEaUnEBa-JdA>
+ <xmx:NH-QY4Y1DrCA5KQIP1pfY7ineFqDxpzlMtWMCnpmkr5lKlN7-mngpw>
+ <xmx:NH-QY5LC4Q2gArZXglMH38j2wm2VFjceYYUp-oxRv8a3aKiYu8MckQ>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 Dec 2022 06:55:29 -0500 (EST)
+ 7 Dec 2022 06:55:31 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Wed, 07 Dec 2022 12:53:21 +0100
-Subject: [PATCH 10/15] drm/vc4: plane: Omit pixel_order from the hvs_format
- for hvs5 only formats
+Date: Wed, 07 Dec 2022 12:53:22 +0100
+Subject: [PATCH 11/15] drm/vc4: plane: Add 3:3:2 and 4:4:4:4 RGB/RGBX/RGBA
+ formats
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20221207-rpi-hvs-crtc-misc-v1-10-1f8e0770798b@cerno.tech>
+Message-Id: <20221207-rpi-hvs-crtc-misc-v1-11-1f8e0770798b@cerno.tech>
 References: <20221207-rpi-hvs-crtc-misc-v1-0-1f8e0770798b@cerno.tech>
 In-Reply-To: <20221207-rpi-hvs-crtc-misc-v1-0-1f8e0770798b@cerno.tech>
 To: Emma Anholt <emma@anholt.net>, Maxime Ripard <mripard@kernel.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Eric Anholt <eric@anholt.net>
 X-Mailer: b4 0.11.0-dev-8c583
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1659; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=TjzYPZb0GiveIAkQNU4LbeqUUAovVrht0vdSF4aq2qQ=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMkT6laaR36MquNQc/dmnOhx6bxYgEFIkWVOeJCjZUbKyaN3
- Ioo6SlkYxLgYZMUUWWKEzZfEnZr1upONbx7MHFYmkCEMXJwCMJEtPxgZJje3WhXqqc2x/XUuuTX07a
- Ggq4p3vs08OJn/nvuqK/kR+xj+aTC2HFpTYBDzu1F1oar7eYt7N5g2Xuo6YP9+T+4G4XWd3AA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3144; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=DvjBy0zh4zjirjYFb5EqVavFERIHbMTKbPtmYKYxPik=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMkT6lbeMmX59k8pK0F3d9l7qbYAxmuMeyLeCYskXQv/efxz
+ 7Du3jlIWBjEuBlkxRZYYYfMlcadmve5k45sHM4eVCWQIAxenAEykZTojw9LTG8MmzX3K0LVV6Zp15+
+ qZc3enL/0fkL9b6W9tYGp6Di/DP8UpByxL2q4GlRXc9N/dvrbnXXrAocMth1fsM90r9mC9GRMA
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -103,57 +103,107 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-pixel_order is used for the earlier versions of the HVS, so is
-redundant on the 10:10:10:2 and 10bit YUV formats that are only
-supported on HVS5.
-Remove the assignment from the table to avoid confusion.
+The hardware supports the 332 8bpp and 4:4:4:4 16bpp formats,
+but the table of supported formats didn't include them.
+Add them in.
+
+In theory they are supported for T-format as well as linear,
+but without a way to test them just add them as linear for now.
 
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_plane.c | 5 -----
- 1 file changed, 5 deletions(-)
+ drivers/gpu/drm/vc4/vc4_plane.c | 70 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 70 insertions(+)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
-index 8b4805c937f0..7b7bbe94d47a 100644
+index 7b7bbe94d47a..dee525bacd4b 100644
 --- a/drivers/gpu/drm/vc4/vc4_plane.c
 +++ b/drivers/gpu/drm/vc4/vc4_plane.c
-@@ -148,35 +148,30 @@ static const struct hvs_format {
- 	{
- 		.drm = DRM_FORMAT_P030,
- 		.hvs = HVS_PIXEL_FORMAT_YCBCR_10BIT,
--		.pixel_order = HVS_PIXEL_ORDER_XYCBCR,
- 		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCBCR,
- 		.hvs5_only = true,
- 	},
- 	{
- 		.drm = DRM_FORMAT_XRGB2101010,
- 		.hvs = HVS_PIXEL_FORMAT_RGBA1010102,
--		.pixel_order = HVS_PIXEL_ORDER_ABGR,
- 		.pixel_order_hvs5 = HVS_PIXEL_ORDER_ARGB,
- 		.hvs5_only = true,
- 	},
- 	{
- 		.drm = DRM_FORMAT_ARGB2101010,
- 		.hvs = HVS_PIXEL_FORMAT_RGBA1010102,
--		.pixel_order = HVS_PIXEL_ORDER_ABGR,
- 		.pixel_order_hvs5 = HVS_PIXEL_ORDER_ARGB,
- 		.hvs5_only = true,
- 	},
- 	{
- 		.drm = DRM_FORMAT_ABGR2101010,
- 		.hvs = HVS_PIXEL_FORMAT_RGBA1010102,
--		.pixel_order = HVS_PIXEL_ORDER_ARGB,
+@@ -175,6 +175,66 @@ static const struct hvs_format {
  		.pixel_order_hvs5 = HVS_PIXEL_ORDER_ABGR,
  		.hvs5_only = true,
  	},
- 	{
- 		.drm = DRM_FORMAT_XBGR2101010,
- 		.hvs = HVS_PIXEL_FORMAT_RGBA1010102,
--		.pixel_order = HVS_PIXEL_ORDER_ARGB,
- 		.pixel_order_hvs5 = HVS_PIXEL_ORDER_ABGR,
- 		.hvs5_only = true,
- 	},
++	{
++		.drm = DRM_FORMAT_RGB332,
++		.hvs = HVS_PIXEL_FORMAT_RGB332,
++		.pixel_order = HVS_PIXEL_ORDER_ARGB,
++		.pixel_order_hvs5 = HVS_PIXEL_ORDER_ARGB,
++	},
++	{
++		.drm = DRM_FORMAT_BGR233,
++		.hvs = HVS_PIXEL_FORMAT_RGB332,
++		.pixel_order = HVS_PIXEL_ORDER_ABGR,
++		.pixel_order_hvs5 = HVS_PIXEL_ORDER_ABGR,
++	},
++	{
++		.drm = DRM_FORMAT_XRGB4444,
++		.hvs = HVS_PIXEL_FORMAT_RGBA4444,
++		.pixel_order = HVS_PIXEL_ORDER_ABGR,
++		.pixel_order_hvs5 = HVS_PIXEL_ORDER_ARGB,
++	},
++	{
++		.drm = DRM_FORMAT_ARGB4444,
++		.hvs = HVS_PIXEL_FORMAT_RGBA4444,
++		.pixel_order = HVS_PIXEL_ORDER_ABGR,
++		.pixel_order_hvs5 = HVS_PIXEL_ORDER_ARGB,
++	},
++	{
++		.drm = DRM_FORMAT_XBGR4444,
++		.hvs = HVS_PIXEL_FORMAT_RGBA4444,
++		.pixel_order = HVS_PIXEL_ORDER_ARGB,
++		.pixel_order_hvs5 = HVS_PIXEL_ORDER_ABGR,
++	},
++	{
++		.drm = DRM_FORMAT_ABGR4444,
++		.hvs = HVS_PIXEL_FORMAT_RGBA4444,
++		.pixel_order = HVS_PIXEL_ORDER_ARGB,
++		.pixel_order_hvs5 = HVS_PIXEL_ORDER_ABGR,
++	},
++	{
++		.drm = DRM_FORMAT_BGRX4444,
++		.hvs = HVS_PIXEL_FORMAT_RGBA4444,
++		.pixel_order = HVS_PIXEL_ORDER_RGBA,
++		.pixel_order_hvs5 = HVS_PIXEL_ORDER_BGRA,
++	},
++	{
++		.drm = DRM_FORMAT_BGRA4444,
++		.hvs = HVS_PIXEL_FORMAT_RGBA4444,
++		.pixel_order = HVS_PIXEL_ORDER_RGBA,
++		.pixel_order_hvs5 = HVS_PIXEL_ORDER_BGRA,
++	},
++	{
++		.drm = DRM_FORMAT_RGBX4444,
++		.hvs = HVS_PIXEL_FORMAT_RGBA4444,
++		.pixel_order = HVS_PIXEL_ORDER_BGRA,
++		.pixel_order_hvs5 = HVS_PIXEL_ORDER_RGBA,
++	},
++	{
++		.drm = DRM_FORMAT_RGBA4444,
++		.hvs = HVS_PIXEL_FORMAT_RGBA4444,
++		.pixel_order = HVS_PIXEL_ORDER_BGRA,
++		.pixel_order_hvs5 = HVS_PIXEL_ORDER_RGBA,
++	},
+ };
+ 
+ static const struct hvs_format *vc4_get_hvs_format(u32 drm_format)
+@@ -1521,6 +1581,16 @@ static bool vc4_format_mod_supported(struct drm_plane *plane,
+ 	case DRM_FORMAT_BGRX1010102:
+ 	case DRM_FORMAT_RGBA1010102:
+ 	case DRM_FORMAT_BGRA1010102:
++	case DRM_FORMAT_XRGB4444:
++	case DRM_FORMAT_ARGB4444:
++	case DRM_FORMAT_XBGR4444:
++	case DRM_FORMAT_ABGR4444:
++	case DRM_FORMAT_RGBX4444:
++	case DRM_FORMAT_RGBA4444:
++	case DRM_FORMAT_BGRX4444:
++	case DRM_FORMAT_BGRA4444:
++	case DRM_FORMAT_RGB332:
++	case DRM_FORMAT_BGR233:
+ 	case DRM_FORMAT_YUV422:
+ 	case DRM_FORMAT_YVU422:
+ 	case DRM_FORMAT_YUV420:
 
 -- 
 2.38.1
