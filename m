@@ -2,59 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0CA9645E4B
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 17:01:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03707645E63
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 17:09:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B251210E3E0;
-	Wed,  7 Dec 2022 16:01:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C4CF10E3E2;
+	Wed,  7 Dec 2022 16:09:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
- [IPv6:2607:f8b0:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12AEB10E3DB
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 16:01:28 +0000 (UTC)
-Received: by mail-pf1-x435.google.com with SMTP id 140so17828788pfz.6
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Dec 2022 08:01:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=d1kIptz7lKS34gKJ86GNyP5WqgoufGO1GV/3C71h5+Y=;
- b=Zv+M3sdOTc2OaYw1U1lD9VTedffjOCXGlzUX5YnRjqpDj/9mhaAVkhtuzC+ogifVNu
- p1S/8EKd2QORb28ZpoA3LQnVibjwCkCNAAb9dr9XCl2C4l+Lt3Z6K4ir7sm+3mW4x/85
- 6pBJiFAc5UE0fruWDoMsAuJxxN5FRe4wKarL0lpXgBiZNMb0+WQ3q6mYx9fH+BVE9sXN
- gbcBsoVcq0qongaEmXQHvGOHZ7fI+IIGnay3mc2RIntIRbvuzxhNHt+9sR/XJZeaoNbC
- fkZqCAqy2kkWqJJLUpz0hIpe2AeBemrvPLy50G6cklmneX0nbRZt8TDVpi+8T7V/GUDd
- oNxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=d1kIptz7lKS34gKJ86GNyP5WqgoufGO1GV/3C71h5+Y=;
- b=cwpjN4UaKfQ42GT24X6dK+qmbE2IZBFI/FhUFeS9eEcWe3L6lxDO288FcfqYJ6YcC8
- POvTtzmbBQg1lTJ1Gd8rnkQ40PBFLiCmJVj7JWFf+d3jY12j/+pyIc27ZsIDQcdtJjvR
- APijH0oaxJOHfLPUz9KLOxuCQzbu+UVnYghOhU2bnFhPsypDzaHcl0jiSg/Yvn751MoE
- oIbUCLvZvfRparSzMzPKDUXw/zh5intXy+ypB73uLOh9rBPn0yFejm+MUsoxpe37Kn8X
- oeMtPEeBdQRcjrLfMmRw2NQlfcNnrXqBQh9Tbj27/0QKqYbNrqsnuS6J7afAONLrE5Si
- O7kg==
-X-Gm-Message-State: ANoB5pnLIc6h+KYUbYkjlfWQPYIap8eMelzS84adl7+vM4q17Fyo6IAk
- EJzrE58iv5ZtpAhawCGdOhbHKPzEHB3hVPz7MlXr+Q==
-X-Google-Smtp-Source: AA0mqf6sjup+AAww0D1CxABtpTEw5G9veD+P+n64BdJc1XGnX7DToNoJVds9RCkhIAyxzhqjXASkgW/44ET/nN1v+Fo=
-X-Received: by 2002:aa7:951d:0:b0:577:3e5e:7a4 with SMTP id
- b29-20020aa7951d000000b005773e5e07a4mr8456102pfp.57.1670428887514; Wed, 07
- Dec 2022 08:01:27 -0800 (PST)
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 035CE10E3D9
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 16:09:09 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 9EBF05C00C5;
+ Wed,  7 Dec 2022 11:09:06 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Wed, 07 Dec 2022 11:09:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to; s=fm2; t=1670429346; x=1670515746; bh=ePiFaAZEFR
+ enyhut87vXtT1VURQsa6DlTygm+3oJ7/M=; b=e1HMIc87pD384xZByeYqNg/ZAh
+ gr65INu4vf4oJrWOZrhFY2Vl0gF80tCztW3+Ffnn8dFwxlBD95gDl1tRs2pKKp1a
+ DnGIJd1tZ8e1W1/eA7dzoalAhL8xqhcjy1vi5ejNlbRX5BGnXllSPecU6y1/aZhm
+ I1XRh6aAMhYoWIm1vOWrOcNnDuymhJ1Ph2B5G99N0hR4iY3tIBkUQ/5lTVZ+YrQQ
+ YE0wwYl5o2tn/IFf91ko0UrxT3TE4ZPk3WIl6TqO/rd19Kliw9IwW0FrjV+cRWwa
+ Ujo9EHw70Y1/52SfU2cr1SRtmBRmVrsnO3ehUw5VkhZ6zSfsUfIcW/6doEdg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; t=1670429346; x=1670515746; bh=ePiFaAZEFReny
+ hut87vXtT1VURQsa6DlTygm+3oJ7/M=; b=LdzTw4aZ/kt4X6IImJlP3ksCwOVdl
+ Ys3MIN8KhN6o2Gk6ojUqb6b/x10F6lrS/UzGlmJtAwza1pjrbOJJZYNClEEljvxO
+ 5hYhyDtYQNG4FUZytVgXuGL/TFd7wzfbjy/vogUMx4zOoAchxfTEkCkaYyKX3kTa
+ +aV4Y9SRgYpgfRCpqwbIzlCadnPQOl/C5ZV8FFadfqxzGwW4hb/2hfgYjJPH0jAE
+ Nh+8RkHqg6ldqvbf5k3fDBVUue42DkOxwsPhdnhBHJNOOk/3kduVvXi8YOTRhINg
+ ow2eZXqc3prYrxoxVvnOdleKJAH1cW7ajw9xJx/1T65eKroDR52cNOlbA==
+X-ME-Sender: <xms:obqQYwiJG-K2QtpKS1RcF7ZUuZLzl4KKVqvuhnp2ZH6kPyyNvTeP-Q>
+ <xme:obqQY5CkLI7K-rJxmZXbH2iG-kIJL6HqIScKVSkQf8pAdoVbAFfgPikAZNfVW4hwX
+ otMobTSp000sNIAKKc>
+X-ME-Received: <xmr:obqQY4HJ-zCrF_BCqFSBdtz0nbP--pHIIOwlm8Eb4vDCa5UkeKLN9RA1YLXGDFlOuW_UbqnS0YUodH6OnmWLI16ARvUMw2nF-exNnfkA0BmYPw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudekgdekgecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefugggtgffhfffkvfevofesthejredtredtjeenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeevgfeiffffhfeugedvvdffgfevhfelgfehueeujeeiffejfffgleelvdffgeek
+ keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:obqQYxQeDvhNyt79wzVERZEmyuwqlSwYGpzpnLoB6oMVaO0l-cu0ag>
+ <xmx:obqQY9yKvJscHN4ipwBw-VpdSlGPb-gd-bDte33gycSEy7NJM-Ln5w>
+ <xmx:obqQY_5jv_-XBv9yIFM4TZBwgS2IFrXDvRp8frmRZiPv4QvoG8w8vA>
+ <xmx:orqQYyKIMsHDYpbxxPBlp_2tCyErVI0k3FUI8tGqqGlCT1FvFptsxQ>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 7 Dec 2022 11:09:05 -0500 (EST)
+Subject: [PATCH 0/9] drm/vc4: hdmi: Broadcast RGB, BT601, BT2020
 MIME-Version: 1.0
-References: <1664960824-20951-1-git-send-email-quic_akhilpo@quicinc.com>
- <20221201225705.46r2m35ketvzipox@builder.lan>
-In-Reply-To: <20221201225705.46r2m35ketvzipox@builder.lan>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 7 Dec 2022 17:00:51 +0100
-Message-ID: <CAPDyKFofsqcoFbYt-9BcisbPdreLGqAAMWorqHi0_D1kwCdYhg@mail.gmail.com>
-Subject: Re: [PATCH v7 0/6] clk/qcom: Support gdsc collapse polling using
- 'reset' interface
-To: Bjorn Andersson <andersson@kernel.org>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFC6kGMC/w3LMQrDMAwAwK8EzRXY6lDob2xL1IJYCVKSJeTv9X
+ jD3RDiKgHf5QaXS0M3m8ivBVov9hNUngZKRJnSB31X7DwUdey+XTLEjsA3S26JayFuMG8tIVi9WO
+ tz27muz/MH/1M6O2wAAAA=
+From: Maxime Ripard <maxime@cerno.tech>
+Date: Wed, 07 Dec 2022 17:07:44 +0100
+Message-Id: <20221207-rpi-hdmi-improvements-v1-0-6b15f774c13a@cerno.tech>
+To: Emma Anholt <emma@anholt.net>, Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+X-Mailer: b4 0.11.0-dev-8c583
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1431; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=+UYnhY/6PaZFnwphH8Un4Aub16IYYcWepXdKpJUFoY4=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMkTdgXV/nv/82DLqX1nl7WzSRt/8Fi9yu2Aou2JF3OaW5ew
+ lh3w7ChlYRDjYpAVU2SJETZfEndq1utONr55MHNYmUCGMHBxCsBEVjkz/BW+0BgtmPzB6rkra4DF7X
+ SD48Y/TvyR+7tet5ptTuIHpyeMDEuyeHMcUmK2fPv83WOTbsxt25lGrqsmPzpgeG2K8Ez5s7wA
+X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,70 +91,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Michael Turquette <mturquette@baylibre.com>,
- Konrad Dybcio <konrad.dybcio@somainline.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-clk@vger.kernel.org, Andy Gross <agross@kernel.org>,
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Stephen Boyd <swboyd@chromium.org>,
- Rob Herring <robh+dt@kernel.org>, Sean Paul <sean@poorly.run>,
- Stephen Boyd <sboyd@kernel.org>, Douglas Anderson <dianders@chromium.org>,
- krzysztof.kozlowski@linaro.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: Maxime Ripard <maxime@cerno.tech>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 1 Dec 2022 at 23:57, Bjorn Andersson <andersson@kernel.org> wrote:
->
-> On Wed, Oct 05, 2022 at 02:36:58PM +0530, Akhil P Oommen wrote:
-> >
->
-> @Ulf, Akhil has a power-domain for a piece of hardware which may be
-> voted active by multiple different subsystems (co-processors/execution
-> contexts) in the system.
->
-> As such, during the powering down sequence we don't wait for the
-> power-domain to turn off. But in the event of an error, the recovery
-> mechanism relies on waiting for the hardware to settle in a powered off
-> state.
->
-> The proposal here is to use the reset framework to wait for this state
-> to be reached, before continuing with the recovery mechanism in the
-> client driver.
+Hi,
 
-I tried to review the series (see my other replies), but I am not sure
-I fully understand the consumer part.
+Here's a collection of patches that have been in the downstream tree for a
+while to add a bunch of new features to the HDMI controller.
 
-More exactly, when and who is going to pull the reset and at what point?
+Let me know what you think,
+Maxime
 
->
-> Given our other discussions on quirky behavior, do you have any
-> input/suggestions on this?
->
-> > Some clients like adreno gpu driver would like to ensure that its gdsc
-> > is collapsed at hardware during a gpu reset sequence. This is because it
-> > has a votable gdsc which could be ON due to a vote from another subsystem
-> > like tz, hyp etc or due to an internal hardware signal. To allow
-> > this, gpucc driver can expose an interface to the client driver using
-> > reset framework. Using this the client driver can trigger a polling within
-> > the gdsc driver.
->
-> @Akhil, this description is fairly generic. As we've reached the state
-> where the hardware has settled and we return to the client, what
-> prevents it from being powered up again?
->
-> Or is it simply a question of it hitting the powered-off state, not
-> necessarily staying there?
+To: Emma Anholt <emma@anholt.net>
+To: Maxime Ripard <mripard@kernel.org>
+To: David Airlie <airlied@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-Okay, so it's indeed the GPU driver that is going to assert/de-assert
-the reset at some point. Right?
+---
+Dave Stevenson (7):
+      drm/vc4: hdmi: Add Broadcast RGB property to allow override of RGB range
+      drm/vc4: hdmi: Rename full range helper
+      drm/vc4: hdmi: Rework the CSC matrices organization
+      drm/vc4: hdmi: Swap CSC matrix channels for YUV444
+      drm/vc4: hdmi: Add a function to retrieve the CSC matrix
+      drm/vc4: hdmi: Add BT.601 Support
+      drm/vc4: hdmi: Add BT.2020 Support
 
-That seems like a reasonable approach to me, even if it's a bit
-unclear under what conditions that could happen.
+Maxime Ripard (2):
+      drm/vc4: hdmi: Update all the planes if the TV margins are changed
+      drm/vc4: hdmi: Constify container_of wrappers
 
-[...]
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 326 ++++++++++++++++++++++++++++++++++-------
+ drivers/gpu/drm/vc4/vc4_hdmi.h |  21 ++-
+ 2 files changed, 289 insertions(+), 58 deletions(-)
+---
+base-commit: 99e2d98adc738597abcc5d38b03d0e9858db5c00
+change-id: 20221207-rpi-hdmi-improvements-3de1c0dba2dc
 
-Kind regards
-Uffe
+Best regards,
+-- 
+Maxime Ripard <maxime@cerno.tech>
