@@ -2,63 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA45D645113
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 02:23:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88E26645115
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 02:23:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDBC610E17E;
-	Wed,  7 Dec 2022 01:22:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FF0310E166;
+	Wed,  7 Dec 2022 01:23:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B6E210E167
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 01:22:41 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id b13so15480031lfo.3
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Dec 2022 17:22:41 -0800 (PST)
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 228F210E168
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 01:22:42 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id x28so9073191lfn.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Dec 2022 17:22:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xDsYBVCwBeS0Phubq4Y5R1Q3bo1kNIeEHtnGSCsuvdc=;
- b=WIeRLvryx3Aig7sR+0eNRODQewWhB11fKBZEyycLmhb2SPYjCKnIKl02tC8ABUfos1
- qjk7fmZldSf8gmuwaLzRmyYivjrfXEvylLhukbhF9dUrorJBj9PiInkmFBwaizq0W3bq
- C+3LYqTpyii6bEI8z9wBwPrdT2nzLbP9vKTomKHqwIgQ2eGGGrjZVkIlZPL4Ydjk7WWa
- 0AA4T1BMjwMaSKOsPhD0Xv2G61t94X2qZHnIfi5nKWxLyb4pEDIoyExTqRCPcJMR1YS0
- xs7eKGrNezMjBo8cTg2BM9EcZ0fBVYjwDL0P0uc+H5/7dz9JyMw0eGjHHO6yYJhSBlyg
- fMmg==
+ bh=ugUF9l2t8z9Udj87v9jUtc+vYXU/V4qZ3hVoTb3vXFk=;
+ b=qa9/s3fRjTHjDxd8xY2qp66mq6K6M9lu4rUCkt/WSGAPO3+wJvZzX1TGDvKAt6Sh/B
+ DC+0Szao2GPYqHqKuCEmHo28Pwy+7DBDI4tyk58A0o8criMcJ0FVw87hY4ko/muyW1E+
+ nI4DS7+VcfxjyKKwRR/Pl6bml3q7/MfreOcy4bb+q7eMsmJyYEwAZtqp0hzPM45wDj45
+ sl+HNEOHKhXn0M09ybZigF+xEpAyzxU9hWsR/imtud8Na+3yMTK1XDspKw0GLWTq2i1v
+ IaYu3cqvTpsUfFraD2KodJf/Aqjfe1NIgphRYGn3v5tNkMdF29SIcVebNsOrykZ6XMY7
+ bmNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=xDsYBVCwBeS0Phubq4Y5R1Q3bo1kNIeEHtnGSCsuvdc=;
- b=SGjDMlhG0j+SvIT0EqpVqgC/eQikRZ6ObdbErXHq7YqJQnHJVorRltKQQzonWU/OFZ
- v2IYwzPCpX//0k0w07euAdQ0ajZoMYnlFa+dYojFdikNsKELY2JysNYNCN5F5ANnFvZ8
- ehiV/aUJWgsuHP6GjbjT1LpEKtLYPgfYjPRhc5kRexZ1a/FBqA1lUViyNGCTf7isQp2k
- mPG1pz7tIbb39+WNxHW73rtZZIVNUgeFK3lX8QaziQs7wDkhHHdRS59WiEoI/ZYFPfQ4
- PBd5JgtUNm7I9mLWgxerfn74EzETmJQ0BPAH5u4TdcrxxtOQifUrzCDXtB7z2Fb/UCwl
- JnTg==
-X-Gm-Message-State: ANoB5pnBTmF4kx4A/noenIpKgYoAuggo3SzVtu4FkdnyOvsd2CGIYoIz
- sfnNNpM+VZu+TI5SnkTmG21ViA==
-X-Google-Smtp-Source: AA0mqf72ZeS3Bvn49p/dDmTgu2JYJRpMCCYkvQjZJPMT+0IsM2oqrwbbL2aUpYZPBAHHEOp7Ow9aPA==
-X-Received: by 2002:a19:2d52:0:b0:4b1:dc42:6f85 with SMTP id
- t18-20020a192d52000000b004b1dc426f85mr28435282lft.568.1670376159274; 
- Tue, 06 Dec 2022 17:22:39 -0800 (PST)
+ bh=ugUF9l2t8z9Udj87v9jUtc+vYXU/V4qZ3hVoTb3vXFk=;
+ b=Yu0HrJPcOdEhPpBiDdW9r2wDXoCjt1A3Wl8SSK2RJiXE8delsoi/azfdOkCbULFJkA
+ yvwaxV/k5p80agi2u03sZdGYOXvnWWL6j/jxYo0TXgyIPLKIuEraQGq4xNLt2RsgPV9P
+ BmJZyqFAAuSMj4eskvpq9RU3YWBTSO/8lhnljgeG1PMj1wmEfnxNR4z0tadQeupYdxkW
+ bkS38Gqk1Ds4Iwbn7+ja014s4yUf/Un4PoCFligfGf9up7cB5/jxNPAA4SqtqjPS2gbR
+ I3v7OrVXQ7bw4LQ2U8Zp+VmtxYODlGu+OQUEkJfxoRnIblklsI1eO7cig1niYhJqLlaz
+ g7sg==
+X-Gm-Message-State: ANoB5pkrbi5CfnWDUN9iMuI3cZXadwUgVZ8wGNevMHESSZpjVCGXCZvu
+ AIJ+Ucelp9WliAmfPgaIgcyvJIFQY1Lacaq8F4rfLA==
+X-Google-Smtp-Source: AA0mqf7rVeppYVMDlGKK8EChbY6AMVk9HbvF3GpbeD7jnwQvfT8bQ3IqzcAUuOaSC3Pt848pDtWWKA==
+X-Received: by 2002:a05:6512:340d:b0:497:456d:890 with SMTP id
+ i13-20020a056512340d00b00497456d0890mr22839006lfr.687.1670376160058; 
+ Tue, 06 Dec 2022 17:22:40 -0800 (PST)
 Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
  [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- a11-20020ac25e6b000000b0048a9e899693sm2678916lfr.16.2022.12.06.17.22.38
+ a11-20020ac25e6b000000b0048a9e899693sm2678916lfr.16.2022.12.06.17.22.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Dec 2022 17:22:38 -0800 (PST)
+ Tue, 06 Dec 2022 17:22:39 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark <robdclark@gmail.com>,
  Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH v6 08/11] drm/msm/dpu: merge all MDP TOP registers to
- dpu_hwio.h
-Date: Wed,  7 Dec 2022 03:22:28 +0200
-Message-Id: <20221207012231.112059-9-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v6 09/11] drm/msm/dpu: add support for MDP_TOP blackhole
+Date: Wed,  7 Dec 2022 03:22:29 +0200
+Message-Id: <20221207012231.112059-10-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221207012231.112059-1-dmitry.baryshkov@linaro.org>
 References: <20221207012231.112059-1-dmitry.baryshkov@linaro.org>
@@ -78,118 +77,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+ Vinod Koul <vkoul@kernel.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is a separate header containing some of MDP TOP register
-definitions, dpu_hwio.h. Move missing register definitions from
-dpu_hw_top.c to the mentioned header.
+On sm8450 a register block was removed from MDP TOP. Accessing it during
+snapshotting results in NoC errors / immediate reboot. Skip accessing
+these registers during snapshot.
 
+Tested-by: Vinod Koul <vkoul@kernel.org>
+Reviewed-by: Vinod Koul <vkoul@kernel.org>
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c | 25 ----------------------
- drivers/gpu/drm/msm/disp/dpu1/dpu_hwio.h   | 18 ++++++++++++++++
- 2 files changed, 18 insertions(+), 25 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  3 +++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hwio.h       |  3 +++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c        | 11 +++++++++--
+ 3 files changed, 15 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
-index c3110a25a30d..2bb02e17ee52 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
-@@ -7,40 +7,17 @@
- #include "dpu_hw_top.h"
- #include "dpu_kms.h"
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+index 3b645d5aa9aa..a9d161daf786 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+@@ -83,6 +83,8 @@ enum {
+  * @DPU_MDP_UBWC_1_0,      This chipsets supports Universal Bandwidth
+  *                         compression initial revision
+  * @DPU_MDP_UBWC_1_5,      Universal Bandwidth compression version 1.5
++ * @DPU_MDP_PERIPH_0_REMOVED Indicates that access to periph top0 block results
++ *			   in a failure
+  * @DPU_MDP_MAX            Maximum value
  
--#define SSPP_SPARE                        0x28
--
- #define FLD_SPLIT_DISPLAY_CMD             BIT(1)
- #define FLD_SMART_PANEL_FREE_RUN          BIT(2)
- #define FLD_INTF_1_SW_TRG_MUX             BIT(4)
- #define FLD_INTF_2_SW_TRG_MUX             BIT(8)
- #define FLD_TE_LINE_INTER_WATERLEVEL_MASK 0xFFFF
+  */
+@@ -93,6 +95,7 @@ enum {
+ 	DPU_MDP_UBWC_1_0,
+ 	DPU_MDP_UBWC_1_5,
+ 	DPU_MDP_AUDIO_SELECT,
++	DPU_MDP_PERIPH_0_REMOVED,
+ 	DPU_MDP_MAX
+ };
  
--#define DANGER_STATUS                     0x360
--#define SAFE_STATUS                       0x364
--
--#define TE_LINE_INTERVAL                  0x3F4
--
- #define TRAFFIC_SHAPER_EN                 BIT(31)
- #define TRAFFIC_SHAPER_RD_CLIENT(num)     (0x030 + (num * 4))
- #define TRAFFIC_SHAPER_WR_CLIENT(num)     (0x060 + (num * 4))
- #define TRAFFIC_SHAPER_FIXPOINT_FACTOR    4
- 
--#define MDP_WD_TIMER_0_CTL                0x380
--#define MDP_WD_TIMER_0_CTL2               0x384
--#define MDP_WD_TIMER_0_LOAD_VALUE         0x388
--#define MDP_WD_TIMER_1_CTL                0x390
--#define MDP_WD_TIMER_1_CTL2               0x394
--#define MDP_WD_TIMER_1_LOAD_VALUE         0x398
--#define MDP_WD_TIMER_2_CTL                0x420
--#define MDP_WD_TIMER_2_CTL2               0x424
--#define MDP_WD_TIMER_2_LOAD_VALUE         0x428
--#define MDP_WD_TIMER_3_CTL                0x430
--#define MDP_WD_TIMER_3_CTL2               0x434
--#define MDP_WD_TIMER_3_LOAD_VALUE         0x438
--#define MDP_WD_TIMER_4_CTL                0x440
--#define MDP_WD_TIMER_4_CTL2               0x444
--#define MDP_WD_TIMER_4_LOAD_VALUE         0x448
--
- #define MDP_TICK_COUNT                    16
- #define XO_CLK_RATE                       19200
- #define MS_TICKS_IN_SEC                   1000
-@@ -48,8 +25,6 @@
- #define CALCULATE_WD_LOAD_VALUE(fps) \
- 	((uint32_t)((MS_TICKS_IN_SEC * XO_CLK_RATE)/(MDP_TICK_COUNT * fps)))
- 
--#define DCE_SEL                           0x450
--
- static void dpu_hw_setup_split_pipe(struct dpu_hw_mdp *mdp,
- 		struct split_pipe_cfg *cfg)
- {
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hwio.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hwio.h
-index c8156ed4b7fb..86c423e63b61 100644
+index 86c423e63b61..feb9a729844a 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hwio.h
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hwio.h
-@@ -16,6 +16,7 @@
- #define INTR_CLEAR                      0x018
- #define INTR2_EN                        0x008
- #define INTR2_STATUS                    0x00c
-+#define SSPP_SPARE                      0x028
- #define INTR2_CLEAR                     0x02c
- #define HIST_INTR_EN                    0x01c
- #define HIST_INTR_STATUS                0x020
-@@ -28,7 +29,15 @@
- #define DSPP_IGC_COLOR0_RAM_LUTN        0x300
- #define DSPP_IGC_COLOR1_RAM_LUTN        0x304
- #define DSPP_IGC_COLOR2_RAM_LUTN        0x308
-+#define DANGER_STATUS                   0x360
-+#define SAFE_STATUS                     0x364
- #define HW_EVENTS_CTL                   0x37C
-+#define MDP_WD_TIMER_0_CTL              0x380
-+#define MDP_WD_TIMER_0_CTL2             0x384
-+#define MDP_WD_TIMER_0_LOAD_VALUE       0x388
-+#define MDP_WD_TIMER_1_CTL              0x390
-+#define MDP_WD_TIMER_1_CTL2             0x394
-+#define MDP_WD_TIMER_1_LOAD_VALUE       0x398
- #define CLK_CTRL3                       0x3A8
- #define CLK_STATUS3                     0x3AC
- #define CLK_CTRL4                       0x3B0
-@@ -43,6 +52,15 @@
- #define HDMI_DP_CORE_SELECT             0x408
- #define MDP_OUT_CTL_0                   0x410
- #define MDP_VSYNC_SEL                   0x414
-+#define MDP_WD_TIMER_2_CTL              0x420
-+#define MDP_WD_TIMER_2_CTL2             0x424
-+#define MDP_WD_TIMER_2_LOAD_VALUE       0x428
-+#define MDP_WD_TIMER_3_CTL              0x430
-+#define MDP_WD_TIMER_3_CTL2             0x434
-+#define MDP_WD_TIMER_3_LOAD_VALUE       0x438
-+#define MDP_WD_TIMER_4_CTL              0x440
-+#define MDP_WD_TIMER_4_CTL2             0x444
-+#define MDP_WD_TIMER_4_LOAD_VALUE       0x448
+@@ -63,4 +63,7 @@
+ #define MDP_WD_TIMER_4_LOAD_VALUE       0x448
  #define DCE_SEL                         0x450
  
++#define MDP_PERIPH_TOP0			MDP_WD_TIMER_0_CTL
++#define MDP_PERIPH_TOP0_END		CLK_CTRL3
++
  #endif /*_DPU_HWIO_H */
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index b71199511a52..987a74fb7fad 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -927,8 +927,15 @@ static void dpu_kms_mdp_snapshot(struct msm_disp_state *disp_state, struct msm_k
+ 		msm_disp_snapshot_add_block(disp_state, cat->wb[i].len,
+ 				dpu_kms->mmio + cat->wb[i].base, "wb_%d", i);
+ 
+-	msm_disp_snapshot_add_block(disp_state, cat->mdp[0].len,
+-			dpu_kms->mmio + cat->mdp[0].base, "top");
++	if (cat->mdp[0].features & BIT(DPU_MDP_PERIPH_0_REMOVED)) {
++		msm_disp_snapshot_add_block(disp_state, MDP_PERIPH_TOP0,
++				dpu_kms->mmio + cat->mdp[0].base, "top");
++		msm_disp_snapshot_add_block(disp_state, cat->mdp[0].len - MDP_PERIPH_TOP0_END,
++				dpu_kms->mmio + cat->mdp[0].base + MDP_PERIPH_TOP0_END, "top_2");
++	} else {
++		msm_disp_snapshot_add_block(disp_state, cat->mdp[0].len,
++				dpu_kms->mmio + cat->mdp[0].base, "top");
++	}
+ 
+ 	pm_runtime_put_sync(&dpu_kms->pdev->dev);
+ }
 -- 
 2.35.1
 
