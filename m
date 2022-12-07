@@ -1,76 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45DE2645A44
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 13:59:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96A8F645AC9
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 14:24:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EE5F10E18B;
-	Wed,  7 Dec 2022 12:59:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC74A10E175;
+	Wed,  7 Dec 2022 13:24:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DA3110E0E3;
- Wed,  7 Dec 2022 12:59:36 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2B7CqAfj004587; Wed, 7 Dec 2022 12:59:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc : subject : date : message-id; s=qcppdkim1;
- bh=Cc7g7s2iNpEHy8u12EjaJrLK9CBrS8kYOXtmk7yC+m8=;
- b=ZEBb4+nP6GkjG4krB1h6zygbNaSO/4iFwUrT+qEZGI3WEgjxQam/iRR5caeHoz8mpFoV
- Q7aDCeDJBeF5959jBpTVVHAI/GikKB0lKguLkclk1JlgvkB4thB477dPmSBn28yOTTSD
- IeSOTFlYlVEGmMhyR3BjmTPp014NT1X8lCElkDIFLUW1gS2Avv/Ae894SOdWBs4aiCT2
- B/VbZvaZYJ21dJwTrEwDH0bcqwK/jzfoM0lB22KQJ0cRulK/pMeQJ6q7hrethA8+Lgqn
- BinBLxNw7eexlpiG00xQQqucAG2GykgdR63tsLzc2XdA/L9xdEmVeIDgUFi9XXuTSo+A bQ== 
-Received: from apblrppmta02.qualcomm.com
- (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mahgp1h8y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Dec 2022 12:59:33 +0000
-Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
- by APBLRPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 2B7CvrnN020318; 
- Wed, 7 Dec 2022 12:59:29 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 3m8g0b95xu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Wed, 07 Dec 2022 12:59:29 +0000
-Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com
- [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2B7CvrFu020310;
- Wed, 7 Dec 2022 12:59:28 GMT
-Received: from kalyant-linux.qualcomm.com (kalyant-linux.qualcomm.com
- [10.204.66.210])
- by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 2B7CxSXA021246;
- Wed, 07 Dec 2022 12:59:28 +0000
-Received: by kalyant-linux.qualcomm.com (Postfix, from userid 94428)
- id 6E88837BD; Wed,  7 Dec 2022 04:59:27 -0800 (PST)
-From: Kalyan Thota <quic_kalyant@quicinc.com>
-To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [v10] drm/msm/disp/dpu1: add support for dspp sub block flush in
- sc7280
-Date: Wed,  7 Dec 2022 04:59:23 -0800
-Message-Id: <1670417963-19426-1-git-send-email-quic_kalyant@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: hYOHHxzfKs2wWPBYDJryYQ2vgKpy4Ck1
-X-Proofpoint-ORIG-GUID: hYOHHxzfKs2wWPBYDJryYQ2vgKpy4Ck1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-07_05,2022-12-07_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 phishscore=0
- malwarescore=0 mlxlogscore=999 adultscore=0 suspectscore=0 spamscore=0
- lowpriorityscore=0 mlxscore=0 bulkscore=0 impostorscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2212070111
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A899E10E0CA
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 13:24:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=svTf0BzRu73494imieY9kbrOVApVbOBehzGM3QYZS2Q=; b=j1J2WyUEaktyqGuNnpRLps13bH
+ ExVS61HMmR0Vgwnm/61RFEKAScN/atVQkrdwyCrSP41sep5/bUgYsw4KzmfBDq3KQRewy7dQAkDjG
+ 9kjMKWnKNzT4DPlCv0HsxXIb1KRJzeXhn1qrLYdFqhmR1jYu8I58mAsUAvG99QfZsDd8+uYLRCDNA
+ 7w3NquiXaIgebmICwMwtvqTqvG0ZP4+cyGQyvV5xJaQ7+YXZmc446t3/hAW1VUZPG51v0FmGqlaQT
+ CLSoP16siBj5msqRBA1jSQyD10uCs8T4whkmYamwjujeMkJvNaPuM/cefd9+16yhkK9DKpJtMcPnm
+ CgaHwzRA==;
+Received: from [177.34.169.227] (helo=bowie..)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1p2uOp-00Gaon-SO; Wed, 07 Dec 2022 14:23:48 +0100
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Oded Gabbay <ogabbay@kernel.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>
+Subject: [PATCH v3 0/6] Introduce debugfs device-centered functions
+Date: Wed,  7 Dec 2022 10:23:19 -0300
+Message-Id: <20221207132325.140393-1-mcanal@igalia.com>
+X-Mailer: git-send-email 2.38.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,248 +54,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kalyan Thota <quic_kalyant@quicinc.com>, robdclark@chromium.org,
- dianders@chromium.org, quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
- swboyd@chromium.org, dmitry.baryshkov@linaro.org, quic_vpolimer@quicinc.com
+Cc: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+ Emma Anholt <emma@anholt.net>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Wambui Karuga <wambui@karuga.org>, Melissa Wen <mwen@igalia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Flush mechanism for DSPP blocks has changed in sc7280 family, it
-allows individual sub blocks to be flushed in coordination with
-master flush control.
+This series introduces the initial structure to make DRM debugfs more
+device-centered and it is the first step to drop the
+drm_driver->debugfs_init hooks in the future [1].
 
-Representation: master_flush && (PCC_flush | IGC_flush .. etc )
+Currently, DRM debugfs files are created using drm_debugfs_create_files()
+on request. The first patch of this series makes it possible for DRM devices
+for creating debugfs files during drm_dev_register(). For it, it introduces
+two new functions that can be used by the drivers: drm_debugfs_add_files()
+and drm_debugfs_add_file(). The requests are added to a list and are created
+all at once during drm_dev_register(). Moreover, the first patch was based on
+this RFC series [2].
 
-This change adds necessary support for the above design.
+The main difference between the RFC series and the current series is the
+creation of a new fops structure to accommodate the new structs and, also,
+the creation of a new drm_debugfs_open. Moreover, the new series uses
+device-managed allocation, returns memory allocation errors, and converts
+more drivers to the new structure.
 
-Changes in v1:
-- Few nits (Doug, Dmitry)
-- Restrict sub-block flush programming to dpu_hw_ctl file (Dmitry)
+Apart from the first patch, the following patches are converting some drivers
+to the new DRM debugfs structure and the last patch update the TODO task
+related to it.
 
-Changes in v2:
-- Move the address offset to flush macro (Dmitry)
-- Seperate ops for the sub block flush (Dmitry)
+[1] https://cgit.freedesktop.org/drm/drm/tree/Documentation/gpu/todo.rst#n506
+[2] https://lore.kernel.org/dri-devel/20200513114130.28641-2-wambui.karugax@gmail.com/
 
-Changes in v3:
-- Reuse the DPU_DSPP_xx enum instead of a new one (Dmitry)
+Best Regards,
+- Maíra Canal
 
-Changes in v4:
-- Use shorter version for unsigned int (Stephen)
-
-Changes in v5:
-- Spurious patch please ignore.
-
-Changes in v6:
-- Add SOB tag (Doug, Dmitry)
-
-Changes in v7:
-- Cache flush mask per dspp (Dmitry)
-- Few nits (Marijn)
-
-Changes in v8:
-- Few nits (Marijn)
-
-Changes in v9:
-- use DSPP enum while accessing flush mask to make it readable (Dmitry)
-- Few nits (Dmitry)
-
-Changes in v10:
-- fix white spaces in a seperate patch (Dmitry)
-
-Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c       |  2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  5 ++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  4 +++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c     | 44 ++++++++++++++++++++++++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h     |  5 ++-
- 5 files changed, 55 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index 601d687..4170fbe 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -766,7 +766,7 @@ static void _dpu_crtc_setup_cp_blocks(struct drm_crtc *crtc)
- 
- 		/* stage config flush mask */
- 		ctl->ops.update_pending_flush_dspp(ctl,
--			mixer[i].hw_dspp->idx);
-+			mixer[i].hw_dspp->idx, DPU_DSPP_PCC);
- 	}
- }
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index 27f029f..0eecb2f 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -65,7 +65,10 @@
- 	(PINGPONG_SDM845_MASK | BIT(DPU_PINGPONG_TE2))
- 
- #define CTL_SC7280_MASK \
--	(BIT(DPU_CTL_ACTIVE_CFG) | BIT(DPU_CTL_FETCH_ACTIVE) | BIT(DPU_CTL_VM_CFG))
-+	(BIT(DPU_CTL_ACTIVE_CFG) | \
-+	 BIT(DPU_CTL_FETCH_ACTIVE) | \
-+	 BIT(DPU_CTL_VM_CFG) | \
-+	 BIT(DPU_CTL_DSPP_SUB_BLOCK_FLUSH))
- 
- #define MERGE_3D_SM8150_MASK (0)
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index 38aa38a..126ee37 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -161,10 +161,12 @@ enum {
-  * DSPP sub-blocks
-  * @DPU_DSPP_PCC             Panel color correction block
-  * @DPU_DSPP_GC              Gamma correction block
-+ * @DPU_DSPP_IGC             Inverse gamma correction block
-  */
- enum {
- 	DPU_DSPP_PCC = 0x1,
- 	DPU_DSPP_GC,
-+	DPU_DSPP_IGC,
- 	DPU_DSPP_MAX
- };
- 
-@@ -191,6 +193,7 @@ enum {
-  * @DPU_CTL_SPLIT_DISPLAY:	CTL supports video mode split display
-  * @DPU_CTL_FETCH_ACTIVE:	Active CTL for fetch HW (SSPPs)
-  * @DPU_CTL_VM_CFG:		CTL config to support multiple VMs
-+ * @DPU_CTL_DSPP_BLOCK_FLUSH  CTL config to support dspp sub-block flush
-  * @DPU_CTL_MAX
-  */
- enum {
-@@ -198,6 +201,7 @@ enum {
- 	DPU_CTL_ACTIVE_CFG,
- 	DPU_CTL_FETCH_ACTIVE,
- 	DPU_CTL_VM_CFG,
-+	DPU_CTL_DSPP_SUB_BLOCK_FLUSH,
- 	DPU_CTL_MAX
- };
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-index a35ecb6..e801be1 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-@@ -33,6 +33,7 @@
- #define   CTL_INTF_FLUSH                0x110
- #define   CTL_INTF_MASTER               0x134
- #define   CTL_FETCH_PIPE_ACTIVE         0x0FC
-+#define   CTL_DSPP_n_FLUSH(n)           ((0x13C) + ((n) * 4))
- 
- #define CTL_MIXER_BORDER_OUT            BIT(24)
- #define CTL_FLUSH_MASK_CTL              BIT(17)
-@@ -113,6 +114,9 @@ static inline void dpu_hw_ctl_clear_pending_flush(struct dpu_hw_ctl *ctx)
- 	trace_dpu_hw_ctl_clear_pending_flush(ctx->pending_flush_mask,
- 				     dpu_hw_ctl_get_flush_register(ctx));
- 	ctx->pending_flush_mask = 0x0;
-+
-+	memset(ctx->pending_dspp_flush_mask, 0,
-+		sizeof(ctx->pending_dspp_flush_mask));
- }
- 
- static inline void dpu_hw_ctl_update_pending_flush(struct dpu_hw_ctl *ctx,
-@@ -130,6 +134,8 @@ static u32 dpu_hw_ctl_get_pending_flush(struct dpu_hw_ctl *ctx)
- 
- static inline void dpu_hw_ctl_trigger_flush_v1(struct dpu_hw_ctl *ctx)
- {
-+	int dspp;
-+
- 	if (ctx->pending_flush_mask & BIT(MERGE_3D_IDX))
- 		DPU_REG_WRITE(&ctx->hw, CTL_MERGE_3D_FLUSH,
- 				ctx->pending_merge_3d_flush_mask);
-@@ -140,6 +146,11 @@ static inline void dpu_hw_ctl_trigger_flush_v1(struct dpu_hw_ctl *ctx)
- 		DPU_REG_WRITE(&ctx->hw, CTL_WB_FLUSH,
- 				ctx->pending_wb_flush_mask);
- 
-+	for(dspp = DSPP_0; dspp < DSPP_MAX; dspp++)
-+		if (ctx->pending_dspp_flush_mask[dspp - DSPP_0])
-+			DPU_REG_WRITE(&ctx->hw, CTL_DSPP_n_FLUSH(dspp - DSPP_0),
-+				ctx->pending_dspp_flush_mask[dspp - DSPP_0]);
-+
- 	DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, ctx->pending_flush_mask);
- }
- 
-@@ -287,8 +298,9 @@ static void dpu_hw_ctl_update_pending_flush_merge_3d_v1(struct dpu_hw_ctl *ctx,
- }
- 
- static void dpu_hw_ctl_update_pending_flush_dspp(struct dpu_hw_ctl *ctx,
--	enum dpu_dspp dspp)
-+	enum dpu_dspp dspp, u32 dspp_sub_blk)
- {
-+
- 	switch (dspp) {
- 	case DSPP_0:
- 		ctx->pending_flush_mask |= BIT(13);
-@@ -307,6 +319,30 @@ static void dpu_hw_ctl_update_pending_flush_dspp(struct dpu_hw_ctl *ctx,
- 	}
- }
- 
-+static void dpu_hw_ctl_update_pending_flush_dspp_subblocks(
-+	struct dpu_hw_ctl *ctx,	enum dpu_dspp dspp, u32 dspp_sub_blk)
-+{
-+
-+	if (dspp >= DSPP_MAX)
-+		return;
-+
-+	switch (dspp_sub_blk) {
-+	case DPU_DSPP_IGC:
-+		ctx->pending_dspp_flush_mask[dspp - DSPP_0] |= BIT(2);
-+		break;
-+	case DPU_DSPP_PCC:
-+		ctx->pending_dspp_flush_mask[dspp - DSPP_0] |= BIT(4);
-+		break;
-+	case DPU_DSPP_GC:
-+		ctx->pending_dspp_flush_mask[dspp - DSPP_0] |= BIT(5);
-+		break;
-+	default:
-+		return;
-+	}
-+
-+	ctx->pending_flush_mask |= BIT(29);
-+}
-+
- static u32 dpu_hw_ctl_poll_reset_status(struct dpu_hw_ctl *ctx, u32 timeout_us)
- {
- 	struct dpu_hw_blk_reg_map *c = &ctx->hw;
-@@ -675,7 +711,11 @@ static void _setup_ctl_ops(struct dpu_hw_ctl_ops *ops,
- 	ops->setup_blendstage = dpu_hw_ctl_setup_blendstage;
- 	ops->update_pending_flush_sspp = dpu_hw_ctl_update_pending_flush_sspp;
- 	ops->update_pending_flush_mixer = dpu_hw_ctl_update_pending_flush_mixer;
--	ops->update_pending_flush_dspp = dpu_hw_ctl_update_pending_flush_dspp;
-+	if (cap & BIT(DPU_CTL_DSPP_SUB_BLOCK_FLUSH))
-+		ops->update_pending_flush_dspp = dpu_hw_ctl_update_pending_flush_dspp_subblocks;
-+	else
-+		ops->update_pending_flush_dspp = dpu_hw_ctl_update_pending_flush_dspp;
-+
- 	if (cap & BIT(DPU_CTL_FETCH_ACTIVE))
- 		ops->set_active_pipes = dpu_hw_ctl_set_fetch_pipe_active;
- };
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-index 96c012e..78611a8 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-@@ -152,9 +152,11 @@ struct dpu_hw_ctl_ops {
- 	 * No effect on hardware
- 	 * @ctx       : ctl path ctx pointer
- 	 * @blk       : DSPP block index
-+	 * @dspp_sub_blk : DSPP sub-block index
- 	 */
- 	void (*update_pending_flush_dspp)(struct dpu_hw_ctl *ctx,
--		enum dpu_dspp blk);
-+		enum dpu_dspp blk, u32 dspp_sub_blk);
-+
- 	/**
- 	 * Write the value of the pending_flush_mask to hardware
- 	 * @ctx       : ctl path ctx pointer
-@@ -242,6 +244,7 @@ struct dpu_hw_ctl {
- 	u32 pending_intf_flush_mask;
- 	u32 pending_wb_flush_mask;
- 	u32 pending_merge_3d_flush_mask;
-+	u32 pending_dspp_flush_mask[DSPP_MAX - DSPP_0];
- 
- 	/* ops */
- 	struct dpu_hw_ctl_ops ops;
+v1 -> v2: https://lore.kernel.org/dri-devel/20221122190314.185015-1-mcanal@igalia.com/T/#t
+
+- Fix compilation errors in the second patch (kernel test robot).
+- Drop debugfs_init hook from vkms (Maíra Canal).
+- Remove return values and error handling to debugfs related
+functions (Jani Nikula).
+- Remove entry from list after the file is created, so that drm_debugfs_init
+can be called more than once (Maíra Canal).
+
+v2 -> v3: https://lore.kernel.org/dri-devel/20221123220725.1272155-1-mcanal@igalia.com/
+
+- Rebase on top of drm-misc-next
+
+---
+
+Maíra Canal (6):
+  drm/debugfs: create device-centered debugfs functions
+  drm: use new debugfs device-centered functions on DRM core files
+  drm/vc4: use new debugfs device-centered functions
+  drm/v3d: use new debugfs device-centered functions
+  drm/vkms: use new debugfs device-centered functions
+  drm/todo: update the debugfs clean up task
+
+ Documentation/gpu/todo.rst            |  9 +--
+ drivers/gpu/drm/drm_atomic.c          | 11 ++--
+ drivers/gpu/drm/drm_client.c          | 11 ++--
+ drivers/gpu/drm/drm_debugfs.c         | 88 ++++++++++++++++++++++++---
+ drivers/gpu/drm/drm_drv.c             |  3 +
+ drivers/gpu/drm/drm_framebuffer.c     | 11 ++--
+ drivers/gpu/drm/drm_gem_vram_helper.c | 11 ++--
+ drivers/gpu/drm/v3d/v3d_debugfs.c     | 22 +++----
+ drivers/gpu/drm/vc4/vc4_bo.c          | 10 +--
+ drivers/gpu/drm/vc4/vc4_crtc.c        |  7 +--
+ drivers/gpu/drm/vc4/vc4_debugfs.c     | 36 +++--------
+ drivers/gpu/drm/vc4/vc4_dpi.c         |  5 +-
+ drivers/gpu/drm/vc4/vc4_drv.c         |  1 -
+ drivers/gpu/drm/vc4/vc4_drv.h         | 32 +++-------
+ drivers/gpu/drm/vc4/vc4_dsi.c         |  6 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c        | 12 ++--
+ drivers/gpu/drm/vc4/vc4_hvs.c         | 24 +++-----
+ drivers/gpu/drm/vc4/vc4_v3d.c         | 14 ++---
+ drivers/gpu/drm/vc4/vc4_vec.c         |  6 +-
+ drivers/gpu/drm/vkms/vkms_drv.c       | 17 ++----
+ include/drm/drm_debugfs.h             | 41 +++++++++++++
+ include/drm/drm_device.h              | 15 +++++
+ 22 files changed, 212 insertions(+), 180 deletions(-)
+
 -- 
-2.7.4
+2.38.1
 
