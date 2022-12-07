@@ -2,47 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A581645443
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 07:51:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E56064544E
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 07:59:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E926F10E35D;
-	Wed,  7 Dec 2022 06:51:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA0D410E0C2;
+	Wed,  7 Dec 2022 06:59:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDEA910E35C
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 06:51:39 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1p2oHE-0006zz-L7; Wed, 07 Dec 2022 07:51:32 +0100
-Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1p2oHD-0000Bu-FU; Wed, 07 Dec 2022 07:51:31 +0100
-Date: Wed, 7 Dec 2022 07:51:31 +0100
-From: Sascha Hauer <sha@pengutronix.de>
-To: Michael Riesch <michael.riesch@wolfvision.net>
-Subject: Re: [PATCH 4/5] drm/rockchip: vop2: add support for the rgb output
- block
-Message-ID: <20221207065131.GW29728@pengutronix.de>
-References: <20221130140217.3196414-1-michael.riesch@wolfvision.net>
- <20221130140217.3196414-5-michael.riesch@wolfvision.net>
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
+ [IPv6:2607:f8b0:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3867A10E0C2;
+ Wed,  7 Dec 2022 06:59:34 +0000 (UTC)
+Received: by mail-pl1-x62e.google.com with SMTP id p24so16221234plw.1;
+ Tue, 06 Dec 2022 22:59:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=URJLtETWn+YZV56sYZN2y9Ammv06Km5wjcz9Xfa36wA=;
+ b=lBKqGEScVr/kOYKmMuclGkO9cibboL2kFQ5OW7GPQGtifD5zo2uyHZcJ6yi5AJ4YAD
+ NooMxx80w9ItHZM2XHVzTUxK3+UGh+Vl+Y4H8VZYum6RJuL5jTWIQVRZ5axYjsXnrkO0
+ QO0EgX2CXhC0MOZvtHfobb/n4Bg+Gu/pQ7E619gb7VORVJnKjTdeLd+i67FMj1hour71
+ L7dOkmXXWUsc1YGY7Pz8hFqPGZEtn8PMoDr2VCiq6Mtwy/LUAL5tuFez/d20X06qURi2
+ bGBt4UMmlvBQrUHE0RSeqwbpHOjH+Gw6HAQEc0vsN1Mbfgqdzp3bgFE3BGmo9n7b7Js9
+ dJvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=URJLtETWn+YZV56sYZN2y9Ammv06Km5wjcz9Xfa36wA=;
+ b=vtVHElfqBuKK+AdXdot7zPpUHQ/kKIP8OABxSbHqyDmhHQQzX6k77Ss2+g9zd3BjPS
+ ErWhza4iOSHgWOzEyqbOG2POW/4OCrW5Rbvp2GTMnehtnCQtFF9P5bCrQ08rULU856qf
+ ix0z0SgfnOKqcX238+pw/1WXGw6GKu4SjhFL9L1MZ7ytfTkHYVavM/FbJcy0UVIZt5FZ
+ O5oKotETgO0JcfEYoeQ0F1mtNHj3SDrY+s/IHhY3BakI1uqIb7E4sgYKq338W2U5g7k6
+ myPRVZoLSCFrZKBddk96LJOnmNfjywfeujsfXtwRaFKFFfC4VUtnRWGeAcQFZsDOHmcQ
+ +3jA==
+X-Gm-Message-State: ANoB5plRXXFHcQQd07CtZLHnkXej4yDRpkNZl2CW4fo+vDvIDclgtmZV
+ AJ9IfUprXhNLmluJJp2FhraDwHvbl5DWF0Nh
+X-Google-Smtp-Source: AA0mqf6beKWDf3dqOMpuuZAuHED3fpDTatCs+YeGixJMzVPTqS2PO3y/S6m/UXrq7oz9e89qo+0Vxg==
+X-Received: by 2002:a17:902:e8c3:b0:186:5de2:e17e with SMTP id
+ v3-20020a170902e8c300b001865de2e17emr76737175plg.35.1670396373706; 
+ Tue, 06 Dec 2022 22:59:33 -0800 (PST)
+Received: from localhost.localdomain ([202.120.234.246])
+ by smtp.googlemail.com with ESMTPSA id
+ 18-20020a17090a001200b002086ac07041sm472055pja.44.2022.12.06.22.59.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Dec 2022 22:59:32 -0800 (PST)
+From: Miaoqian Lin <linmq006@gmail.com>
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Douglas Anderson <dianders@chromium.org>,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm/msm/dpu: Fix memory leak in
+ msm_mdss_parse_data_bus_icc_path
+Date: Wed,  7 Dec 2022 10:59:22 +0400
+Message-Id: <20221207065922.2086368-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221130140217.3196414-5-michael.riesch@wolfvision.net>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,63 +75,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sandy Huang <hjc@rock-chips.com>,
- linux-rockchip@lists.infradead.org, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: linmq006@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 30, 2022 at 03:02:16PM +0100, Michael Riesch wrote:
-> The Rockchip VOP2 features an internal RGB output block, which can be
-> attached to the video port 2 of the VOP2. Add support for this output
-> block.
-> 
-> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
-> ---
->  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 21 ++++++++++++++++++++
->  1 file changed, 21 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> index 94fddbf70ff6..16041c79d228 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> @@ -39,6 +39,7 @@
->  #include "rockchip_drm_gem.h"
->  #include "rockchip_drm_fb.h"
->  #include "rockchip_drm_vop2.h"
-> +#include "rockchip_rgb.h"
->  
->  /*
->   * VOP2 architecture
-> @@ -212,6 +213,9 @@ struct vop2 {
->  	struct clk *hclk;
->  	struct clk *aclk;
->  
-> +	/* optional internal rgb encoder */
-> +	struct rockchip_rgb *rgb;
-> +
->  	/* must be put at the end of the struct */
->  	struct vop2_win win[];
->  };
-> @@ -2697,11 +2701,25 @@ static int vop2_bind(struct device *dev, struct device *master, void *data)
->  	if (ret)
->  		return ret;
->  
-> +	vop2->rgb = rockchip_rgb_init(dev, &vop2->vps[2].crtc, vop2->drm, 2);
+of_icc_get() alloc resources for path1, we should release it when not
+need anymore. Early return when IS_ERR_OR_NULL(path0) may leak path1.
+Defer getting path1 to fix this.
 
-Here you assume that the RGB output can only be connected to VP2, but it
-could be connected to any other VP as well, and we can find the
-description where it actually shall be connected in the device tree.
+Fixes: b9364eed9232 ("drm/msm/dpu: Move min BW request and full BW disable back to mdss")
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+---
+changes in v2:
+- move getting path1 after error check for path0.
+---
+ drivers/gpu/drm/msm/msm_mdss.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-As mentioned in my comment to patch 1, the question is "Is there
-something connected to VPx at endpoint ROCKCHIP_VOP2_EP_RGB0?"
-
-Sascha
-
+diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
+index e13c5c12b775..3b8d6991b04e 100644
+--- a/drivers/gpu/drm/msm/msm_mdss.c
++++ b/drivers/gpu/drm/msm/msm_mdss.c
+@@ -46,15 +46,17 @@ struct msm_mdss {
+ static int msm_mdss_parse_data_bus_icc_path(struct device *dev,
+ 					    struct msm_mdss *msm_mdss)
+ {
+-	struct icc_path *path0 = of_icc_get(dev, "mdp0-mem");
+-	struct icc_path *path1 = of_icc_get(dev, "mdp1-mem");
++	struct icc_path *path0;
++	struct icc_path *path1;
+ 
++	path0 = of_icc_get(dev, "mdp0-mem");
+ 	if (IS_ERR_OR_NULL(path0))
+ 		return PTR_ERR_OR_ZERO(path0);
+ 
+ 	msm_mdss->path[0] = path0;
+ 	msm_mdss->num_paths = 1;
+ 
++	path1 = of_icc_get(dev, "mdp1-mem");
+ 	if (!IS_ERR_OR_NULL(path1)) {
+ 		msm_mdss->path[1] = path1;
+ 		msm_mdss->num_paths++;
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+2.25.1
+
