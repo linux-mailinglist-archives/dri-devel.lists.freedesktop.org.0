@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C315645963
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 12:55:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51CDC645964
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 12:55:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 818CE10E195;
-	Wed,  7 Dec 2022 11:55:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DF7210E1A4;
+	Wed,  7 Dec 2022 11:55:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
  [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBD3E10E040
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 11:55:16 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailout.nyi.internal (Postfix) with ESMTP id 314C95C01D2;
- Wed,  7 Dec 2022 06:55:16 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B296A10E195
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 11:55:18 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 193EB5C01C2;
+ Wed,  7 Dec 2022 06:55:18 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Wed, 07 Dec 2022 06:55:16 -0500
+ by compute2.internal (MEProxy); Wed, 07 Dec 2022 06:55:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1670414116; x=
- 1670500516; bh=cgA6d+4dUlDzfnltPNtWykCIIcDwat2TyYFhVCQ2H5Q=; b=Q
- vpz7jsaL5e4J6kpa/2OjsJlH31gDrakx98rbMQWLedhLlOfuEcb8Vy9DvmHaxnFE
- CCUq6g6LsVJWoMEy9uyBv5KXQiw508OM+aVYf6c969HZcktR0nXZy2TeqoKoz4U1
- VnO72AY1SzzWBLzFophr9DodLQp5RvCTDncWbhyRwCiSw1Z5bNEqAqyitzpMWgvV
- 9G8cZb+larnbo9GEE+zlDX5VkzOIgjYZ9k1BtGRJOS6vTzvEQdE5vSO/xhAEITcM
- TY5Q9W4ITiNYQdEYEyVJkdOpLZpqPmJ8wgnwa833CxS2FF0wL21IbfZpnakbrpGM
- yv/oGJvkDS9dcd17L0WDw==
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1670414118; x=
+ 1670500518; bh=zfh+DFvtRGGbEZ4zGoqcZy3My+UVQYZ3yqCxeBPCRGE=; b=W
+ spIhQoCXldF6DL59sNy/YlIi/DVbARJyzQOhwpz0KQMgPTUsNpAQ68PI+UeVwC2J
+ EIHDaZu3bLtsDsSnPKIGMO33wQ6lGNhwx6ecdaZPADReEftkCNXuxmtQ04OWQ4MP
+ lKLn0gouAvRkg4+QgO0CulMb7yNJH3rjqxvAZ4VLVD7WDiuOLwkAqhG70Px/MVb4
+ khHgdurWhYenuWZLJdL7hcRO85KuRH2xL8AMebqGLhJGagOC8WNMO1Iq/g2TWm3b
+ FlblRxTQdjzVbdRyp+ipbJFsd+993ilGGNdnevr1CfFIx9sW1aYhXKLGIdO88L8D
+ 0+MEZ8R9xFL+rCGpWNJig==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1670414116; x=
- 1670500516; bh=cgA6d+4dUlDzfnltPNtWykCIIcDwat2TyYFhVCQ2H5Q=; b=r
- HR3WmrYKbHJ2nTOIh71F7giWk5ThI2DIC0wv4zW24fqiIOrOPpLymnJ4okQW5lch
- uoB22gj9ZUM2o8oo72QMdYrCmbAlHE7HOFabJiE6CTTt9ZYNVx4do5xgiz6QDKu2
- UYf42vrZ1OB97+V27Za8uEXsxZY0MZo769PzyMv6a/K5grcz/i+eHf9DJW0Yxnbo
- J7V8vh6njULQ/0KFulKllKiSqgbvoZ1tIVt/3vcTklV+nJCp3PgdPcNMlZ7ozHT3
- WWStQXhQJ47Tj6DGHw2xt6VZB8iffy1rvVAh6pH93EAfmxxZsKL0zWDFZl9TthdR
- 26HZC7SL7CQ1dMqpdVojA==
-X-ME-Sender: <xms:JH-QY6rBxKyrjJbMkuFIbLD9qeP5yk8cX71lWO7Sibl-zyrZnO_dgg>
- <xme:JH-QY4pNc5KNqlYrMm1pl-cpBHYLTmg-yjGhOXxfiZlhvMQN0nGW3DxxwWNXMWVa2
- TnPDncaDdb1La4UwHg>
-X-ME-Received: <xmr:JH-QY_NXWhFfU04b2Ubx-dl59iKb886QqP1kg8c28hLWyHYu66_Y9oVUyut4FtxItJ6knAyA-kSY9QPfFFep9zIJzAS3vZ7ubZd-DaZ1JKKpkQ>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1670414118; x=
+ 1670500518; bh=zfh+DFvtRGGbEZ4zGoqcZy3My+UVQYZ3yqCxeBPCRGE=; b=E
+ pK/+OeXOL6dzZZd3fbOD/mXFISQhadUAjiGKytOpKj7DP7AIdITFlovgwWL8OTsa
+ dTjjdj1+EJJwf1oFpj7MSWjYMZjBwNyYnXL9XtFqaRa5m3UTfG/PQz0e2/h+vW7t
+ QNHnxZGkOLUXo4O8GjL+tGqUuT4Sb2x3GJmxsvStIX2tOZRmN3lzMRJGBxUGgDDM
+ 7cEpyl4xePUvTnmTYAazzMFi36JHzkE1n5weLlle6zcUF9Rzho5JkGwqyISkAcuU
+ yAo5DmeV8p7L6B8EaflSVLEMKic/2mXPqwI4rLZHXIFJcgGM5FrRGc3OTuJ5XyQu
+ S97PqC7v6K6T7bq+2tcfw==
+X-ME-Sender: <xms:JX-QYzhmki8rnKCmbSHOgIPJhx25b5bFbQaN8Z0_sd7D46eYKQsdGA>
+ <xme:JX-QYwDywdxU_573t0xybiL6d7WvTaWwGz8VXbSFAcdSkaDptQpLHPivCKYgJZ75R
+ CAtp5ign6VQFalofqo>
+X-ME-Received: <xmr:JX-QYzFiYE0HpmlA97Fg-Ibi5-78QddEf62AFOF53Nw-aXPvgyaJjngfjTxoWi8gcEYucYkACnra8pEReRoW7LH8rPp6sj130r9t0wrYywLjEw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudekgdefgecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -54,31 +54,32 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudekgdefgecutefuodetggdote
  htthgvrhhnpeevvdelieejgedvkeffheekheeilefhgefgffehteekueelvddtueffheet
  ledtffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:JH-QY54wY6HHoGNDPHegLo0ifIbO4GgoOvay5OhzoP8pOTFf8nyQGQ>
- <xmx:JH-QY55r1eZ56gozeVhg7S03hp4shyuxKFJ8Pnx6JCK_U2o2f-7tDg>
- <xmx:JH-QY5hiHcIzLUaF3ilNTuD918VTCDG7XC4B6onMLRpdY7Omz-jWBw>
- <xmx:JH-QY2xU7VMOipV9Tj_cm-uHCXEYbMMjp6UKMHB0q1HadSS0FnY3zw>
+X-ME-Proxy: <xmx:JX-QYwRBUdIpI6RDrdp3w5wQkRPVYgXiefIm8uJ5KNSegdPQOkZyDw>
+ <xmx:JX-QYwwL9jCxPVxif0n92fGTGQdzeU0lA0Hi1F-IQ0M2ChDZohvNdQ>
+ <xmx:JX-QY24Ypv4ul4E3GU-mDZfOV2A-TcAlLuO83c0PMD5dUUpV_rXLhw>
+ <xmx:Jn-QYxpbm6oEbocZx57e-7vWOiw1VVnGMh_Ww2WNSXhDc3tL-aYyJA>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 Dec 2022 06:55:15 -0500 (EST)
+ 7 Dec 2022 06:55:17 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Wed, 07 Dec 2022 12:53:13 +0100
-Subject: [PATCH 02/15] drm/vc4: hvs: Set AXI panic modes
+Date: Wed, 07 Dec 2022 12:53:14 +0100
+Subject: [PATCH 03/15] drm/vc4: hvs: SCALER_DISPBKGND_AUTOHS is only valid on
+ HVS4
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20221207-rpi-hvs-crtc-misc-v1-2-1f8e0770798b@cerno.tech>
+Message-Id: <20221207-rpi-hvs-crtc-misc-v1-3-1f8e0770798b@cerno.tech>
 References: <20221207-rpi-hvs-crtc-misc-v1-0-1f8e0770798b@cerno.tech>
 In-Reply-To: <20221207-rpi-hvs-crtc-misc-v1-0-1f8e0770798b@cerno.tech>
 To: Emma Anholt <emma@anholt.net>, Maxime Ripard <mripard@kernel.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Eric Anholt <eric@anholt.net>
 X-Mailer: b4 0.11.0-dev-8c583
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2370; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=0biGh0FnANUUjG50YK2xmZS4z/LRgsYNW9+V7Hu3tWI=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMkT6lasOPM64Kbt526bDab1iyb6Pj3tMmvpI8tJNwx3pRzb
- Fsj9qaOUhUGMi0FWTJElRth8SdypWa872fjmwcxhZQIZwsDFKQATSV7G8M98EoukBIfO2tKePZquPz
- jcfklamkd/Trxxt8VBpOaWdREjw2muHM3+4MSaV6f3VZbcW93Gsqpse3DAL5cO4WaFnwpXWQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2507; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=bHSsWi5ORj0LfVSQpBfXbWIYaEJTcfVkf2cBdvnCRG0=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMkT6lZYV/x+brOo2cVpbzfrY1W7C4tlZFeLBFT9+7E1Jvdt
+ 6ZJVHaUsDGJcDLJiiiwxwuZL4k7Net3JxjcPZg4rE8gQBi5OAZiI/idGhhMvcr1599uIeQvve+sTc9
+ bLXeRD3KXjbrdN783/sPGSmhnDH55JKyYlvGbW2Rx6Ja3H6f00FZ03nzZwHu97m13i9dFuBT8A
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -102,62 +103,72 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-The HVS can change AXI request mode based on how full the COB
-FIFOs are.
-Until now the vc4 driver has been relying on the firmware to
-have set these to sensible values.
+The bit used for SCALER_DISPBKGND_AUTOHS in SCALER_DISPBKGNDX
+has been repurposed on HVS5 to configure whether a display can
+win back-to-back arbitration wins for the COB.
 
-With HVS channel 2 now being used for live video, change the
-panic mode for all channels to be explicitly set by the driver,
-and the same for all channels.
+This is not desirable, therefore only select this bit on HVS4,
+and explicitly clear it on HVS5.
 
 Fixes: c54619b0bfb3 ("drm/vc4: Add support for the BCM2711 HVS5")
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hvs.c  | 11 +++++++++++
- drivers/gpu/drm/vc4/vc4_regs.h |  6 ++++++
- 2 files changed, 17 insertions(+)
+ drivers/gpu/drm/vc4/vc4_hvs.c  | 10 ++++++----
+ drivers/gpu/drm/vc4/vc4_regs.h |  1 +
+ 2 files changed, 7 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-index d615ba7db920..b335815eac6a 100644
+index b335815eac6a..57d99e7199ee 100644
 --- a/drivers/gpu/drm/vc4/vc4_hvs.c
 +++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-@@ -910,6 +910,17 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
- 		      SCALER_DISPCTRL_DSPEISLUR(2) |
- 		      SCALER_DISPCTRL_SCLEIRQ);
+@@ -370,28 +370,30 @@ static int vc4_hvs_init_channel(struct vc4_hvs *hvs, struct drm_crtc *crtc,
+ 	 * mode.
+ 	 */
+ 	dispctrl = SCALER_DISPCTRLX_ENABLE;
++	dispbkgndx = HVS_READ(SCALER_DISPBKGNDX(chan));
  
-+	/* Set AXI panic mode.
-+	 * VC4 panics when < 2 lines in FIFO.
-+	 * VC5 panics when less than 1 line in the FIFO.
-+	 */
-+	dispctrl &= ~(SCALER_DISPCTRL_PANIC0_MASK |
-+		      SCALER_DISPCTRL_PANIC1_MASK |
-+		      SCALER_DISPCTRL_PANIC2_MASK);
-+	dispctrl |= VC4_SET_FIELD(2, SCALER_DISPCTRL_PANIC0);
-+	dispctrl |= VC4_SET_FIELD(2, SCALER_DISPCTRL_PANIC1);
-+	dispctrl |= VC4_SET_FIELD(2, SCALER_DISPCTRL_PANIC2);
-+
- 	HVS_WRITE(SCALER_DISPCTRL, dispctrl);
+-	if (!vc4->is_vc5)
++	if (!vc4->is_vc5) {
+ 		dispctrl |= VC4_SET_FIELD(mode->hdisplay,
+ 					  SCALER_DISPCTRLX_WIDTH) |
+ 			    VC4_SET_FIELD(mode->vdisplay,
+ 					  SCALER_DISPCTRLX_HEIGHT) |
+ 			    (oneshot ? SCALER_DISPCTRLX_ONESHOT : 0);
+-	else
++		dispbkgndx |= SCALER_DISPBKGND_AUTOHS;
++	} else {
+ 		dispctrl |= VC4_SET_FIELD(mode->hdisplay,
+ 					  SCALER5_DISPCTRLX_WIDTH) |
+ 			    VC4_SET_FIELD(mode->vdisplay,
+ 					  SCALER5_DISPCTRLX_HEIGHT) |
+ 			    (oneshot ? SCALER5_DISPCTRLX_ONESHOT : 0);
++		dispbkgndx &= ~SCALER5_DISPBKGND_BCK2BCK;
++	}
  
- 	/* Recompute Composite Output Buffer (COB) allocations for the displays
+ 	HVS_WRITE(SCALER_DISPCTRLX(chan), dispctrl);
+ 
+-	dispbkgndx = HVS_READ(SCALER_DISPBKGNDX(chan));
+ 	dispbkgndx &= ~SCALER_DISPBKGND_GAMMA;
+ 	dispbkgndx &= ~SCALER_DISPBKGND_INTERLACE;
+ 
+ 	HVS_WRITE(SCALER_DISPBKGNDX(chan), dispbkgndx |
+-		  SCALER_DISPBKGND_AUTOHS |
+ 		  ((!vc4->is_vc5) ? SCALER_DISPBKGND_GAMMA : 0) |
+ 		  (interlace ? SCALER_DISPBKGND_INTERLACE : 0));
+ 
 diff --git a/drivers/gpu/drm/vc4/vc4_regs.h b/drivers/gpu/drm/vc4/vc4_regs.h
-index f0290fad991d..f121905c404d 100644
+index f121905c404d..95deacdc31e7 100644
 --- a/drivers/gpu/drm/vc4/vc4_regs.h
 +++ b/drivers/gpu/drm/vc4/vc4_regs.h
-@@ -220,6 +220,12 @@
- #define SCALER_DISPCTRL                         0x00000000
- /* Global register for clock gating the HVS */
- # define SCALER_DISPCTRL_ENABLE			BIT(31)
-+# define SCALER_DISPCTRL_PANIC0_MASK		VC4_MASK(25, 24)
-+# define SCALER_DISPCTRL_PANIC0_SHIFT		24
-+# define SCALER_DISPCTRL_PANIC1_MASK		VC4_MASK(27, 26)
-+# define SCALER_DISPCTRL_PANIC1_SHIFT		26
-+# define SCALER_DISPCTRL_PANIC2_MASK		VC4_MASK(29, 28)
-+# define SCALER_DISPCTRL_PANIC2_SHIFT		28
- # define SCALER_DISPCTRL_DSP3_MUX_MASK		VC4_MASK(19, 18)
- # define SCALER_DISPCTRL_DSP3_MUX_SHIFT		18
+@@ -366,6 +366,7 @@
  
+ #define SCALER_DISPBKGND0                       0x00000044
+ # define SCALER_DISPBKGND_AUTOHS		BIT(31)
++# define SCALER5_DISPBKGND_BCK2BCK		BIT(31)
+ # define SCALER_DISPBKGND_INTERLACE		BIT(30)
+ # define SCALER_DISPBKGND_GAMMA			BIT(29)
+ # define SCALER_DISPBKGND_TESTMODE_MASK		VC4_MASK(28, 25)
 
 -- 
 2.38.1
