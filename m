@@ -2,77 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27CF9645E78
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 17:12:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF96A645EE7
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 17:28:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F23810E3EF;
-	Wed,  7 Dec 2022 16:12:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1238610E3F3;
+	Wed,  7 Dec 2022 16:28:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
- [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2320A10E3EF
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 16:11:58 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id 5120D5803C1;
- Wed,  7 Dec 2022 11:11:57 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Wed, 07 Dec 2022 11:11:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1670429517; x=1670436717; bh=TEYFS/6gZa
- DWc2dblU5iUytEgOwH+PjKNL3XF1HvRjU=; b=cs53TPq2aKVUc/54sdr6wrQJ6/
- sTylapB4ECbP99K5rPXD/P+HwtDQTRwedGcP4op1DnSC6/EXWA5w7/AaERO0CqOP
- bVmzP/ZS6ToEMJ/anbsvNy/WDndoQsVLaZ12ed5n3bY+Vp1GKGiQY4Mp8fxrRw0U
- 8PiGUU1u2kRyPk5zUZNpf4kwK+X9/zDe1bbCDaD/FvtSrsyg6DydyseOLSkFiOzk
- HWL4TBkjzM9+MA6fN00FAJOLjesJLM9ik2WIu7ogM0vyV0hZEL68A+tyn/O0PUb9
- W9eUFeqZs6vA0d2RP37Rj/Rxe0R3Q9lGPFmpvl+u3sBA7cy+jaP70pnuhPxg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1670429517; x=1670436717; bh=TEYFS/6gZaDWc2dblU5iUytEgOwH
- +PjKNL3XF1HvRjU=; b=OZ6xj64jvFJ+ccr2+ELVBBlpfPAaPAY3DphauI71FgMd
- KxqgrbQurGdB7DNhZx06gw9PKOURZyKFMSMF9ihBZF1QETX4EHhSN+o2hgPRYGq0
- +3nSyBTQjfkcjWalROC19CHF6Ve8HFI5bRhqI8ITk9OJBDsKvxNycfdvcZyqoeAM
- wGsTRkSf2oKGsivCa6zJT1DxOqqKXouYztfjWRfkBbVTgyZNSNx5J6DOZtwNfKyv
- /bvxTElb9cXqilFKgK0+FkadRAog1Wd7HxzWJkg2+SuDV90E1E4w14WksdhLEll/
- 7ZVxokjTOocI9bOk+F3imkbU7O5+lOtlQBd39yewDw==
-X-ME-Sender: <xms:TLuQY6jxrRX76Sfo6zcqdzhjgOx-u-DVuvGRmUvkMcrZ_llLqifB-w>
- <xme:TLuQY7DwAkHw6ATcYa-tEGkEh6sp9FdZOR1D-UPG3yUq68hi_EfCk9LW7kI_8bvfn
- fWqwwfPolMLvvS_1ys>
-X-ME-Received: <xmr:TLuQYyHzHsye05U_uFppho6SxxQewvcycEAYbqmhC_QxAryaTAmCAU2GfLsRzNov2wNzR6tXFWa9_WWVEMx8mT5wUQW2sO7AyhXZi_KsTGHMqg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudekgdekgecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepjeevfeehfeekieffgeevleevtefgffefkedtfeeuhfettdegjeehgfegudff
- ffdunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:TLuQYzSX7LwGPf3qOKl-_mgQdgT8SFnrpSs5UtcJQcIRigDD8S1DvQ>
- <xmx:TLuQY3zdyLjU321g6mIVtkQEEXOcwGQAMumek5T1lBckGt_GwOVdgQ>
- <xmx:TLuQYx5SultAK7aZz5U1dKZoDPqCkZPOHvFgZkuFMzsq8-OyplLhLg>
- <xmx:TbuQYyI8abNlVCW1NSf6kZ8Ur3xaFFtlgmhIKhDvgL78eRjIure5IA>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 Dec 2022 11:11:55 -0500 (EST)
-Date: Wed, 7 Dec 2022 17:11:54 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>
-Subject: Re: [PATCH v3 18/20] drm/vc4: tests: Fail the current test if we
- access a register
-Message-ID: <20221207161154.clgmuweddljvco5n@houat>
-References: <20221123-rpi-kunit-tests-v3-0-4615a663a84a@cerno.tech>
- <20221123-rpi-kunit-tests-v3-18-4615a663a84a@cerno.tech>
- <51fb1fdd-edf0-b2a3-0573-76a9101adfb3@igalia.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4D7710E3F2;
+ Wed,  7 Dec 2022 16:28:29 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E0D4F61ADD;
+ Wed,  7 Dec 2022 16:28:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD250C433D6;
+ Wed,  7 Dec 2022 16:28:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1670430508;
+ bh=ipjSmsI9QqNeS01tUG949g1IQiVfVqA0GymYF8fe8BM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=EuKEN5V/QlL3cMGwV8JMrjwhdvYF8TUIs9wJMUWSNhXTkFqLcVHB1x31XJtVIwYor
+ f6U1oRnyT5X0+cYOxIIavjnCOyrQTxfl/f8IJpsOXRV8MyP8u5QtUeEo8Wc16yKPQZ
+ 81S1s0mrJBfv6P202Gz8IaMRHt+VdqUdpNkAVCkidecBvefyHzJjq2XPUon4a5lxYl
+ Pb7HW4LxZIdSrb5hXKjiij7OgHfFl0FaWQS2mtD9718OyIPt3cu2Ilt4FYYqHsi5eN
+ KukKvie9m67IJIqMK0DWUPQsaNqQolLBPLTnD73KAZSAlMEgS73T4r8iJnb/0nmyj0
+ FL4jW1jGjwxhQ==
+Date: Wed, 7 Dec 2022 10:28:24 -0600
+From: Bjorn Andersson <andersson@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v4 02/13] drm/msm/dpu: Introduce SC8280XP
+Message-ID: <20221207162824.kyxecdz43v5ojatx@builder.lan>
+References: <20221205174433.16847-1-quic_bjorande@quicinc.com>
+ <20221205174433.16847-3-quic_bjorande@quicinc.com>
+ <0430d878-e0cd-3708-91a3-2eca66418386@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="zqyddbg4vv7dqu6f"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <51fb1fdd-edf0-b2a3-0573-76a9101adfb3@igalia.com>
+In-Reply-To: <0430d878-e0cd-3708-91a3-2eca66418386@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,59 +53,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kselftest@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>,
- linux-media@vger.kernel.org,
- =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>, kunit-dev@googlegroups.com
+Cc: Kalyan Thota <quic_kalyant@quicinc.com>, freedreno@lists.freedesktop.org,
+ Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ Bjorn Andersson <quic_bjorande@quicinc.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Johan Hovold <johan+linaro@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Dec 07, 2022 at 04:49:07PM +0200, Dmitry Baryshkov wrote:
+> On 05/12/2022 19:44, Bjorn Andersson wrote:
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+[..]
+> > +static const struct dpu_mdp_cfg sc8280xp_mdp[] = {
+> > +	{
+> > +	.name = "top_0", .id = MDP_TOP,
+> > +	.base = 0x0, .len = 0x494,
+> > +	.features = 0,
+> > +	.highest_bank_bit = 0x3, /* TODO: 2 for LP_DDR4 */
+> 
+> ubwc_swizzle ? I'd suppose it's 6, but I'd bet on it.
+> 
 
---zqyddbg4vv7dqu6f
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I don't see ubwc_swizzle defined for any other platform, and it seems to
+be unused for DPU_HW_UBWC_VER_40. Am I perhaps missing something?
 
-Hi Ma=EDra,
+> > +	.clk_ctrls[DPU_CLK_CTRL_VIG0] = { .reg_off = 0x2ac, .bit_off = 0},
+> > +	.clk_ctrls[DPU_CLK_CTRL_VIG1] = { .reg_off = 0x2b4, .bit_off = 0},
+> > +	.clk_ctrls[DPU_CLK_CTRL_VIG2] = { .reg_off = 0x2bc, .bit_off = 0},
+> > +	.clk_ctrls[DPU_CLK_CTRL_VIG3] = { .reg_off = 0x2c4, .bit_off = 0},
+> > +	.clk_ctrls[DPU_CLK_CTRL_DMA0] = { .reg_off = 0x2ac, .bit_off = 8},
+> > +	.clk_ctrls[DPU_CLK_CTRL_DMA1] = { .reg_off = 0x2b4, .bit_off = 8},
+> > +	.clk_ctrls[DPU_CLK_CTRL_CURSOR0] = { .reg_off = 0x2bc, .bit_off = 8},
+> > +	.clk_ctrls[DPU_CLK_CTRL_CURSOR1] = { .reg_off = 0x2c4, .bit_off = 8},
+> > +	.clk_ctrls[DPU_CLK_CTRL_REG_DMA] = { .reg_off = 0x2bc, .bit_off = 20},
+> > +	},
+> > +};
+> > +
+> >   static const struct dpu_mdp_cfg qcm2290_mdp[] = {
+> >   	{
+> >   	.name = "top_0", .id = MDP_TOP,
+> > @@ -648,6 +693,45 @@ static const struct dpu_ctl_cfg sc7180_ctl[] = {
+> >   	},
+> >   };
+> > +static const struct dpu_ctl_cfg sc8280xp_ctl[] = {
+> > +	{
+> > +	.name = "ctl_0", .id = CTL_0,
+> > +	.base = 0x15000, .len = 0x204,
+> > +	.features = BIT(DPU_CTL_ACTIVE_CFG) | BIT(DPU_CTL_FETCH_ACTIVE) | BIT(DPU_CTL_VM_CFG),
+> 
+> Please use CTL_SC7270_MASK instead, unless you have a strong reasong not to
+> do it.
+> 
 
-Thanks for your review!
+No strong reason, will update.
 
-On Wed, Dec 07, 2022 at 11:26:13AM -0300, Ma=EDra Canal wrote:
-> On 12/1/22 12:11, Maxime Ripard wrote:
-> > Accessing a register when running under kunit is a bad idea since our
-> > device is completely mocked.
-> >=20
-> > Fail the current test if we ever access any of our hardware registers.
-> >=20
-> > Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->=20
-> Reviewed-by: Ma=EDra Canal <mcanal@igalia.com>
->=20
-> Just a small nit: I believe that macros with multiple statements should be
-> enclosed in a do-while block [1], even READ macros. I saw that you enclos=
-ed
-> the WRITE macros on a do-while block, but not the READ macros.
-
-This is on purpose: do-while blocks don't return a value, but ({ ... })
-blocks do. So we can do a write macros with a do-while, but can't for
-read since we expect to get a value back.
-
-Maxime
-
---zqyddbg4vv7dqu6f
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY5C7SgAKCRDj7w1vZxhR
-xS7mAP9bKwgLyqEhbFvH4crEyk/rKt4WWQzQ53q0+mdYj8Ke2wEAna4d7Vv87Jfa
-nISBFEINS8khtUTgsX0GgF+ipLJnGQ0=
-=6CdP
------END PGP SIGNATURE-----
-
---zqyddbg4vv7dqu6f--
+Thanks,
+Bjorn
