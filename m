@@ -1,37 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CF16645BA8
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 14:59:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF29C645BAC
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 14:59:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2D4910E3B2;
-	Wed,  7 Dec 2022 13:59:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D73610E3B3;
+	Wed,  7 Dec 2022 13:59:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id B638E10E3B2
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 13:59:10 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9C86523A;
- Wed,  7 Dec 2022 05:59:16 -0800 (PST)
-Received: from [10.57.74.110] (unknown [10.57.74.110])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BFB793F73D;
- Wed,  7 Dec 2022 05:59:08 -0800 (PST)
-Message-ID: <17efaae0-9b6c-86ea-5fec-568d024d229f@arm.com>
-Date: Wed, 7 Dec 2022 13:59:04 +0000
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7AC210E3B3
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 13:59:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=LMJS/qAka/Cvh0b97juo1H1YIqM1nYXExoWNXinOmoo=; b=nxwN0zHBe/XLlLov/zn/k1DN4R
+ qq+vI7iNhllUUMjpsmMzLpViVP+ReDZ2hMHA2e2Ua9kUShAmBjuHOmvCUJbH/1HX7m4nzgy1Fj/Bj
+ MerCjl49iPlF+l5piqGBOZ4wAGJj7pczwZ872zxD0b76SMAlCffjuEipUEIInXywJxeHRByBcVMiO
+ GeyMc4JIJrEcSCsS10t/iwdzSzJjxmQGJvUhXC0tAyEoM2vQzksjSz77fHiK9Kk0JG0zbdv3om+Az
+ lvKwLKVIWiQrey1fewqPfXe/XYdOoi3WbcTcrQGCtdbOm2eNbTeEsNRmtXTm7ile2IFjsx/OcLQAJ
+ POJalxCQ==;
+Received: from [143.107.182.242] (helo=[10.41.75.14])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1p2ux9-00GbZp-Mg; Wed, 07 Dec 2022 14:59:16 +0100
+Message-ID: <04478451-4237-1aec-7edd-85049c96d7d5@igalia.com>
+Date: Wed, 7 Dec 2022 10:59:08 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
-Subject: Re: [PATCH] drm: mali-dp: Add check for kzalloc
-Content-Language: en-GB
-To: Jiasheng Jiang <jiasheng@iscas.ac.cn>, liviu.dudau@arm.com,
- brian.starkey@arm.com, airlied@gmail.com, daniel@ffwll.ch
-References: <20221207092118.20603-1-jiasheng@iscas.ac.cn>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <20221207092118.20603-1-jiasheng@iscas.ac.cn>
+Subject: Re: [PATCH v3 04/20] drm/tests: helpers: Switch to EXPORT_SYMBOL_GPL
+Content-Language: en-US
+To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>
+References: <20221123-rpi-kunit-tests-v3-0-4615a663a84a@cerno.tech>
+ <20221123-rpi-kunit-tests-v3-4-4615a663a84a@cerno.tech>
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20221123-rpi-kunit-tests-v3-4-4615a663a84a@cerno.tech>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,56 +58,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-kselftest@vger.kernel.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>,
+ linux-media@vger.kernel.org, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-12-07 09:21, Jiasheng Jiang wrote:
-> As kzalloc may fail and return NULL pointer, it should be better to check
-> the return value in order to avoid the NULL pointer dereference in
-> __drm_atomic_helper_connector_reset.
-
-This commit message is nonsense; if 
-__drm_atomic_helper_connector_reset() would dereference the NULL implied 
-by &mw_state->base, it would equally still dereference the explicit NULL 
-pointer passed after this patch.
-
-The current code works out OK because "base" is the first member of 
-struct malidp_mw_connector_state, thus if mw_state is NULL then 
-&mw_state->base == NULL + 0 == NULL. Now you *could* argue that this 
-isn't robust if the layout of struct malidp_mw_connector_state ever 
-changes, and that could be a valid justification for making this change, 
-but the reason given certainly isn't.
-
-Arithmetic on a (potentially) NULL pointer may well be a sign that it's 
-worth a closer look to check whether it really is what the code intended 
-to do, but don't automatically assume it has to be a bug. Otherwise, 
-good luck with "fixing" every user of container_of() throughout the 
-entire kernel.
-
-Thanks,
-Robin.
-
-> Fixes: 8cbc5caf36ef ("drm: mali-dp: Add writeback connector")
-> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-> ---
->   drivers/gpu/drm/arm/malidp_mw.c | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
+On 12/1/22 12:11, Maxime Ripard wrote:
+> drm_kunit_device_init() among other things will allocate a device and
+> wrap around root_device_register. This function is exported with
+> EXPORT_SYMBOL_GPL, so we can't really change the license.
 > 
-> diff --git a/drivers/gpu/drm/arm/malidp_mw.c b/drivers/gpu/drm/arm/malidp_mw.c
-> index ef76d0e6ee2f..fe4474c2ddcf 100644
-> --- a/drivers/gpu/drm/arm/malidp_mw.c
-> +++ b/drivers/gpu/drm/arm/malidp_mw.c
-> @@ -72,7 +72,11 @@ static void malidp_mw_connector_reset(struct drm_connector *connector)
->   		__drm_atomic_helper_connector_destroy_state(connector->state);
+> Fixes: 199557fab925 ("drm/tests: helpers: Add missing export")
+> Suggested-by: Javier Martinez Canillas <javierm@redhat.com>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+
+Reviewed-by: Maíra Canal <mcanal@igalia.com>
+
+Best Regards,
+- Maíra Canal
+
+> ---
+>   drivers/gpu/drm/tests/drm_kunit_helpers.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/tests/drm_kunit_helpers.c b/drivers/gpu/drm/tests/drm_kunit_helpers.c
+> index 9ed3cfc2ac03..4fe131141718 100644
+> --- a/drivers/gpu/drm/tests/drm_kunit_helpers.c
+> +++ b/drivers/gpu/drm/tests/drm_kunit_helpers.c
+> @@ -82,7 +82,7 @@ struct drm_device *drm_kunit_device_init(struct kunit *test, u32 features, char
 >   
->   	kfree(connector->state);
-> -	__drm_atomic_helper_connector_reset(connector, &mw_state->base);
-> +
-> +	if (mw_state)
-> +		__drm_atomic_helper_connector_reset(connector, &mw_state->base);
-> +	else
-> +		__drm_atomic_helper_connector_reset(connector, NULL);
+>   	return drm;
 >   }
+> -EXPORT_SYMBOL(drm_kunit_device_init);
+> +EXPORT_SYMBOL_GPL(drm_kunit_device_init);
 >   
->   static enum drm_connector_status
+>   MODULE_AUTHOR("Maxime Ripard <maxime@cerno.tech>");
+>   MODULE_LICENSE("GPL");
+> 
