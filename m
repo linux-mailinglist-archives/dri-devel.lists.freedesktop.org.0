@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F9E2645961
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 12:55:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C315645963
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 12:55:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CCAC10E04D;
-	Wed,  7 Dec 2022 11:55:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 818CE10E195;
+	Wed,  7 Dec 2022 11:55:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
  [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36B2710E04D
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 11:55:15 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 6B68A5C01F4;
- Wed,  7 Dec 2022 06:55:14 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Wed, 07 Dec 2022 06:55:14 -0500
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBD3E10E040
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 11:55:16 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailout.nyi.internal (Postfix) with ESMTP id 314C95C01D2;
+ Wed,  7 Dec 2022 06:55:16 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Wed, 07 Dec 2022 06:55:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1670414114; x=
- 1670500514; bh=cgmG7mw8sSm/aU9WnG7N6p0KXB0hCVQObDUWl5bXwfQ=; b=U
- sYQjaukD978c2Dp2FfHcV4YUFy3SYgRZRgAfSkRXUkp6XciXN8XIHt/x95DRDkvX
- D1Vtg5n74uIHxgaBS0lRmQsiYxQWPh5YThbbpHkaPqkY7J5fFCS7DreYH+mYp5+P
- lxBhTwe/VfEa/Sde5FSM5mTosb7u2613zM0s0Ux2O8ucWU1NzJC4BqnWT3csRNOt
- S8pEu1xs0F+JAgvguxGLb688E6oSfwvZk6EoRD0sqVCuO40ZSnQ+6Pyom6uvldNY
- KdfP3MbdE/Yj2KmQNbhCbDxFQlUniso3Ut75RQS3dXeWvzcBPR6CHpZIY9V46OYT
- WgMijRfF6Nip71YZ7aEnw==
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1670414116; x=
+ 1670500516; bh=cgA6d+4dUlDzfnltPNtWykCIIcDwat2TyYFhVCQ2H5Q=; b=Q
+ vpz7jsaL5e4J6kpa/2OjsJlH31gDrakx98rbMQWLedhLlOfuEcb8Vy9DvmHaxnFE
+ CCUq6g6LsVJWoMEy9uyBv5KXQiw508OM+aVYf6c969HZcktR0nXZy2TeqoKoz4U1
+ VnO72AY1SzzWBLzFophr9DodLQp5RvCTDncWbhyRwCiSw1Z5bNEqAqyitzpMWgvV
+ 9G8cZb+larnbo9GEE+zlDX5VkzOIgjYZ9k1BtGRJOS6vTzvEQdE5vSO/xhAEITcM
+ TY5Q9W4ITiNYQdEYEyVJkdOpLZpqPmJ8wgnwa833CxS2FF0wL21IbfZpnakbrpGM
+ yv/oGJvkDS9dcd17L0WDw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1670414114; x=
- 1670500514; bh=cgmG7mw8sSm/aU9WnG7N6p0KXB0hCVQObDUWl5bXwfQ=; b=F
- 5ccBQjw88qzkIN/dGuW04BiP/m5KplyeKHkPE4IT2TsTDH8LQBz6AKswQ89y3hhC
- raRJqOoIToJp81XcqdWw27nwS7q7K4KIsYJokT4hujzgzlq+2GO0kWwzs2+0g/ei
- bGljPyhpG97qaO8l29OjNjnM8Q3hQ5CApxxwb6UceuSkUYX8x1qt31L59toXJTwQ
- UbCCdJTewE2ihdHXaGsKwFU0Zv1MnpVqX281cGAOw6aiBug7Q+yIQcApMjs8jG0E
- o1lHggIrRZNAnTn6vImq1qfSFAMaq30Fgd1BNqxOKu4eavAq/Zv9KxmYcvp3vDiT
- mo4ziyTItBhHqZXg4DsSQ==
-X-ME-Sender: <xms:In-QYwELGf-L7oItZQ_ArLtYIOjMoF6SCmIZdwd545NxxCOxn_Zakg>
- <xme:In-QY5Wxbmhr56R8bOZG5QhPsJqDJ4SAD5WN8rj7bF4im6teh3af428IWUgWthFpb
- svXRypEHTQulyUNp9E>
-X-ME-Received: <xmr:In-QY6LSac2YEveDcvD9ligwQUt1RyHQvc98xZHQp3-ul0uDgCP43NWoazqUmMha9mhCSb5YyniowZnqNW9dLaUAthcZCnZDvfzaYAMOImCe2w>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1670414116; x=
+ 1670500516; bh=cgA6d+4dUlDzfnltPNtWykCIIcDwat2TyYFhVCQ2H5Q=; b=r
+ HR3WmrYKbHJ2nTOIh71F7giWk5ThI2DIC0wv4zW24fqiIOrOPpLymnJ4okQW5lch
+ uoB22gj9ZUM2o8oo72QMdYrCmbAlHE7HOFabJiE6CTTt9ZYNVx4do5xgiz6QDKu2
+ UYf42vrZ1OB97+V27Za8uEXsxZY0MZo769PzyMv6a/K5grcz/i+eHf9DJW0Yxnbo
+ J7V8vh6njULQ/0KFulKllKiSqgbvoZ1tIVt/3vcTklV+nJCp3PgdPcNMlZ7ozHT3
+ WWStQXhQJ47Tj6DGHw2xt6VZB8iffy1rvVAh6pH93EAfmxxZsKL0zWDFZl9TthdR
+ 26HZC7SL7CQ1dMqpdVojA==
+X-ME-Sender: <xms:JH-QY6rBxKyrjJbMkuFIbLD9qeP5yk8cX71lWO7Sibl-zyrZnO_dgg>
+ <xme:JH-QY4pNc5KNqlYrMm1pl-cpBHYLTmg-yjGhOXxfiZlhvMQN0nGW3DxxwWNXMWVa2
+ TnPDncaDdb1La4UwHg>
+X-ME-Received: <xmr:JH-QY_NXWhFfU04b2Ubx-dl59iKb886QqP1kg8c28hLWyHYu66_Y9oVUyut4FtxItJ6knAyA-kSY9QPfFFep9zIJzAS3vZ7ubZd-DaZ1JKKpkQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudekgdefgecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -54,31 +54,31 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudekgdefgecutefuodetggdote
  htthgvrhhnpeevvdelieejgedvkeffheekheeilefhgefgffehteekueelvddtueffheet
  ledtffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:In-QYyGnh3dpTmAfzIXzAgu_ocJYGxhQModvdySt8kphfYvWJNPWWg>
- <xmx:In-QY2WTmbHRlKDrPaZFh8gXdMJuWkySupCgAj5OtpgazHS6x-kv0g>
- <xmx:In-QY1Mc05B-fHI2sz8gMvonXj89Nsvlbwoniir30wZoZZW1XGqV-Q>
- <xmx:In-QY9PF-xVNIyPfFfCpBK5mkEwRX9uD9vRckeqPFLdUAW7vVVwdPw>
+X-ME-Proxy: <xmx:JH-QY54wY6HHoGNDPHegLo0ifIbO4GgoOvay5OhzoP8pOTFf8nyQGQ>
+ <xmx:JH-QY55r1eZ56gozeVhg7S03hp4shyuxKFJ8Pnx6JCK_U2o2f-7tDg>
+ <xmx:JH-QY5hiHcIzLUaF3ilNTuD918VTCDG7XC4B6onMLRpdY7Omz-jWBw>
+ <xmx:JH-QY2xU7VMOipV9Tj_cm-uHCXEYbMMjp6UKMHB0q1HadSS0FnY3zw>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 Dec 2022 06:55:13 -0500 (EST)
+ 7 Dec 2022 06:55:15 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Wed, 07 Dec 2022 12:53:12 +0100
-Subject: [PATCH 01/15] drm/vc4: hvs: Configure the HVS COB allocations
+Date: Wed, 07 Dec 2022 12:53:13 +0100
+Subject: [PATCH 02/15] drm/vc4: hvs: Set AXI panic modes
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20221207-rpi-hvs-crtc-misc-v1-1-1f8e0770798b@cerno.tech>
+Message-Id: <20221207-rpi-hvs-crtc-misc-v1-2-1f8e0770798b@cerno.tech>
 References: <20221207-rpi-hvs-crtc-misc-v1-0-1f8e0770798b@cerno.tech>
 In-Reply-To: <20221207-rpi-hvs-crtc-misc-v1-0-1f8e0770798b@cerno.tech>
 To: Emma Anholt <emma@anholt.net>, Maxime Ripard <mripard@kernel.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Eric Anholt <eric@anholt.net>
 X-Mailer: b4 0.11.0-dev-8c583
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3299; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=gS9nk+DcYW7vrzV9Rm2F4RRdq3qs8C/lQLAO10ZViPE=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMkT6lbcuzy1jv2N9IRF2dutcq8aFy6dorzKRyRc4Vz1q8oO
- h+aCjlIWBjEuBlkxRZYYYfMlcadmve5k45sHM4eVCWQIAxenAEzEM42RYVO6if0/toPvkmTXW3qfVZ
- HjrNLQ4Lx8Q6KVZVvBuS/JLxkZ3jtxn348J0RkxtNn5555P+UzOxtqV+6p0WKz+XrvUQMZZgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2370; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=0biGh0FnANUUjG50YK2xmZS4z/LRgsYNW9+V7Hu3tWI=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMkT6lasOPM64Kbt526bDab1iyb6Pj3tMmvpI8tJNwx3pRzb
+ Fsj9qaOUhUGMi0FWTJElRth8SdypWa872fjmwcxhZQIZwsDFKQATSV7G8M98EoukBIfO2tKePZquPz
+ jcfklamkd/Trxxt8VBpOaWdREjw2muHM3+4MSaV6f3VZbcW93Gsqpse3DAL5cO4WaFnwpXWQA=
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -102,99 +102,62 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-The HVS Composite Output Buffer (COB) is the memory used to
-generate the output pixel data.
+The HVS can change AXI request mode based on how full the COB
+FIFOs are.
 Until now the vc4 driver has been relying on the firmware to
 have set these to sensible values.
 
-In testing triple screen support it has been noted that only
-1 line was being assigned to HVS channel 2. Whilst that is fine
-for the transposer (TXP), and indeed needed as only some pixels
-have an alpha channel, it is insufficient to run a live display.
-
-Split the COB more evenly between the 3 HVS channels.
+With HVS channel 2 now being used for live video, change the
+panic mode for all channels to be explicitly set by the driver,
+and the same for all channels.
 
 Fixes: c54619b0bfb3 ("drm/vc4: Add support for the BCM2711 HVS5")
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hvs.c | 56 ++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 55 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/vc4/vc4_hvs.c  | 11 +++++++++++
+ drivers/gpu/drm/vc4/vc4_regs.h |  6 ++++++
+ 2 files changed, 17 insertions(+)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-index c4453a5ae163..d615ba7db920 100644
+index d615ba7db920..b335815eac6a 100644
 --- a/drivers/gpu/drm/vc4/vc4_hvs.c
 +++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-@@ -776,7 +776,7 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
- 	struct vc4_hvs *hvs = NULL;
- 	int ret;
- 	u32 dispctrl;
--	u32 reg;
-+	u32 reg, top;
+@@ -910,6 +910,17 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
+ 		      SCALER_DISPCTRL_DSPEISLUR(2) |
+ 		      SCALER_DISPCTRL_SCLEIRQ);
  
- 	hvs = drmm_kzalloc(drm, sizeof(*hvs), GFP_KERNEL);
- 	if (!hvs)
-@@ -912,6 +912,60 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
- 
++	/* Set AXI panic mode.
++	 * VC4 panics when < 2 lines in FIFO.
++	 * VC5 panics when less than 1 line in the FIFO.
++	 */
++	dispctrl &= ~(SCALER_DISPCTRL_PANIC0_MASK |
++		      SCALER_DISPCTRL_PANIC1_MASK |
++		      SCALER_DISPCTRL_PANIC2_MASK);
++	dispctrl |= VC4_SET_FIELD(2, SCALER_DISPCTRL_PANIC0);
++	dispctrl |= VC4_SET_FIELD(2, SCALER_DISPCTRL_PANIC1);
++	dispctrl |= VC4_SET_FIELD(2, SCALER_DISPCTRL_PANIC2);
++
  	HVS_WRITE(SCALER_DISPCTRL, dispctrl);
  
-+	/* Recompute Composite Output Buffer (COB) allocations for the displays
-+	 */
-+	if (!vc4->is_vc5) {
-+		/* The COB is 20736 pixels, or just over 10 lines at 2048 wide.
-+		 * The bottom 2048 pixels are full 32bpp RGBA (intended for the
-+		 * TXP composing RGBA to memory), whilst the remainder are only
-+		 * 24bpp RGB.
-+		 *
-+		 * Assign 3 lines to channels 1 & 2, and just over 4 lines to
-+		 * channel 0.
-+		 */
-+		#define VC4_COB_SIZE		20736
-+		#define VC4_COB_LINE_WIDTH	2048
-+		#define VC4_COB_NUM_LINES	3
-+		reg = 0;
-+		top = VC4_COB_LINE_WIDTH * VC4_COB_NUM_LINES;
-+		reg |= (top - 1) << 16;
-+		HVS_WRITE(SCALER_DISPBASE2, reg);
-+		reg = top;
-+		top += VC4_COB_LINE_WIDTH * VC4_COB_NUM_LINES;
-+		reg |= (top - 1) << 16;
-+		HVS_WRITE(SCALER_DISPBASE1, reg);
-+		reg = top;
-+		top = VC4_COB_SIZE;
-+		reg |= (top - 1) << 16;
-+		HVS_WRITE(SCALER_DISPBASE0, reg);
-+	} else {
-+		/* The COB is 44416 pixels, or 10.8 lines at 4096 wide.
-+		 * The bottom 4096 pixels are full RGBA (intended for the TXP
-+		 * composing RGBA to memory), whilst the remainder are only
-+		 * RGB. Addressing is always pixel wide.
-+		 *
-+		 * Assign 3 lines of 4096 to channels 1 & 2, and just over 4
-+		 * lines. to channel 0.
-+		 */
-+		#define VC5_COB_SIZE		44416
-+		#define VC5_COB_LINE_WIDTH	4096
-+		#define VC5_COB_NUM_LINES	3
-+		reg = 0;
-+		top = VC5_COB_LINE_WIDTH * VC5_COB_NUM_LINES;
-+		reg |= top << 16;
-+		HVS_WRITE(SCALER_DISPBASE2, reg);
-+		top += 16;
-+		reg = top;
-+		top += VC5_COB_LINE_WIDTH * VC5_COB_NUM_LINES;
-+		reg |= top << 16;
-+		HVS_WRITE(SCALER_DISPBASE1, reg);
-+		top += 16;
-+		reg = top;
-+		top = VC5_COB_SIZE;
-+		reg |= top << 16;
-+		HVS_WRITE(SCALER_DISPBASE0, reg);
-+	}
-+
- 	ret = devm_request_irq(dev, platform_get_irq(pdev, 0),
- 			       vc4_hvs_irq_handler, 0, "vc4 hvs", drm);
- 	if (ret)
+ 	/* Recompute Composite Output Buffer (COB) allocations for the displays
+diff --git a/drivers/gpu/drm/vc4/vc4_regs.h b/drivers/gpu/drm/vc4/vc4_regs.h
+index f0290fad991d..f121905c404d 100644
+--- a/drivers/gpu/drm/vc4/vc4_regs.h
++++ b/drivers/gpu/drm/vc4/vc4_regs.h
+@@ -220,6 +220,12 @@
+ #define SCALER_DISPCTRL                         0x00000000
+ /* Global register for clock gating the HVS */
+ # define SCALER_DISPCTRL_ENABLE			BIT(31)
++# define SCALER_DISPCTRL_PANIC0_MASK		VC4_MASK(25, 24)
++# define SCALER_DISPCTRL_PANIC0_SHIFT		24
++# define SCALER_DISPCTRL_PANIC1_MASK		VC4_MASK(27, 26)
++# define SCALER_DISPCTRL_PANIC1_SHIFT		26
++# define SCALER_DISPCTRL_PANIC2_MASK		VC4_MASK(29, 28)
++# define SCALER_DISPCTRL_PANIC2_SHIFT		28
+ # define SCALER_DISPCTRL_DSP3_MUX_MASK		VC4_MASK(19, 18)
+ # define SCALER_DISPCTRL_DSP3_MUX_SHIFT		18
+ 
 
 -- 
 2.38.1
