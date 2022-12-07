@@ -1,85 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79983645973
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 12:56:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CD9664597B
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 12:56:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C35E10E39F;
-	Wed,  7 Dec 2022 11:55:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E642610E3A0;
+	Wed,  7 Dec 2022 11:56:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
  [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4DB710E39B
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 11:55:34 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 0AD5D5C01D9;
- Wed,  7 Dec 2022 06:55:34 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Wed, 07 Dec 2022 06:55:34 -0500
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96B4310E39B
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 11:55:36 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id EF51B5C01BF;
+ Wed,  7 Dec 2022 06:55:35 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Wed, 07 Dec 2022 06:55:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1670414134; x=
- 1670500534; bh=kzn7DswEsZBG72MZ502pUhHCXI7AVBomop8HSk+V4rI=; b=H
- MfiUAMN/8GxI9f8LdvSwzysAOhTR1839hey0OE6HW1fUbyoPfHX7LfWdxlZivYV2
- kIuJh08ybyqq8Y8jy5M/eVWS1S3GDNBnK8d6n96Jdwp5LN5o9wEO19h4b+uXTgLD
- ydSYgGQj5kopcnYErAazClOb9xiNtg/FJoKs2cpsFXX4tDWc7EcA4mvzG42k3n5+
- NcjccztZqeabEVhd8E/5pDeoUlI4LSXFQLfxZqdo359DOm6v+owOyL6hmi++2FFS
- RkLYK3ET7DSgDkAxDyqWJ5mSlnGe8XQJfYXnhpLguGOAVjMwQ/yI/D8pbZWbdOsF
- m8pQJTHRNAY72RytnldCA==
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1670414135; x=
+ 1670500535; bh=Wm2sdSf8u2q2uQlXhqnmSxLJ4nHWBcCS1Wr6SNkE9cg=; b=D
+ s5+LsKeA/mXx7512s56pQK5x4ldUNcS5XPL6+zCoUZGm0fEkUV+LIX3nqm3tlk6O
+ Y/vZiT3A525yht4LOkwDbKo104g6sesecN1VgYRJ9t+7r2FMrQ5JfbTCw9OLHqgn
+ 1XZi+bvu3sLhmPPN81nEkrsS8o8385ngQAHxQ233rMNmDLGaIWQZw5SrbPxusN+A
+ ZhDLB1L4tvP4pyujNgW3FHZizTQFDemNnf0UTlySVk70sKjXm1BoigMxRbbhtXVl
+ va0DOgfpvGOXA+I18hgJLC2TDSwQRj0BpWbauKriEzbNz+6TLqc30Vl2PKu6F7lM
+ aO2tLBbglCqYkKYEQMa/g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1670414134; x=
- 1670500534; bh=kzn7DswEsZBG72MZ502pUhHCXI7AVBomop8HSk+V4rI=; b=e
- qjCLt0UR207Eyy5f3uSTQEcpye1laZFwzP6fM4tOs9/W2AbyUXmyoZxUXpxojkqG
- eM6SnZ1oElKcXYv30sdugvLcPOmcaCwTru6/x5FqQ/M6cQhvyKYmPrSXbaY2hfth
- aNeEia46bVQOFBgrzZOqbH2XQaMYMdOwwQmOGkoITLXd9cIbNFX3jZswLJr8RGI9
- vSG0BhdJUtg+iZvEzkhQnOJfc5RV9PQN8ejO5uiO/wgvJoomCNCaEUdM9V103ojg
- xkjgnohUr4nKuJiqMaH29+wsayOjIoIz7dlLkQWFCcA73Ncrib6yFOsGU0jsEqel
- WfRLx72LzzoET1Ww9VbYw==
-X-ME-Sender: <xms:NX-QY9vSdYkDIpb5bS_GHZmM3NAuRAH5G08yjudaHuQeKKbjhBl_dA>
- <xme:NX-QY2eldfYodp8ot9IrZEEwzEgH_42p24l7kOMwj11smJCU4RezGmxDN9zWNPiHg
- rDPh89IUEYanc1PUAQ>
-X-ME-Received: <xmr:NX-QYwxPBmczpKnlZLdxOdCVda298S8W7Jx3b2OG6lOIcmPZCzNm4lbiHLP1MnDqoMuILgyi5aSmfBZA8h2K9__6N3QuOymTszcPVPLUGBuk3w>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1670414135; x=
+ 1670500535; bh=Wm2sdSf8u2q2uQlXhqnmSxLJ4nHWBcCS1Wr6SNkE9cg=; b=a
+ tdm9i4e4UcLJpm0mUNzKi1LE4eTMPQLEkzQpJg1UK30xVf1xmUz1hb7qtLMy7U5O
+ wX3QyATDTpOK8CJEEih0oNjt91dBXP4T/iBcXjY6zBoGaQ9NaRQDZdgWWzcvPW7I
+ 90+wOU2nXAQ7JYrXCqgrmsLg7DlYL5vaWeiMsCj8KTy1bpD0ZQayB4bVZhPjrF+p
+ Qc8phaEda0jixrbxu47mg0AW6CtoDPAES+lshtciAFV2C2QKHvYYov1sATPcIPT/
+ u3FDI5B501wjPdhEla5T2DLGzrMjVdYgJUAlF2sFPLvZqpKWUyTOA1Hv2x/rZdc1
+ ZZnBoHk37zD3n9O76Z0Lw==
+X-ME-Sender: <xms:N3-QY5eR8xo6ivSfFoGl3Byy_EhXc-OWvPVUUeL4WsJmK7CNoyfoEQ>
+ <xme:N3-QY3PDrL9v656TvrJltwnvyhoAA2AKKVZdstFiQ4DLESK8BHkA9RPKw71WMdBfd
+ A_1C8Sf6Ub9yX1SGtA>
+X-ME-Received: <xmr:N3-QYyjijLNouGdIAVy4AUPW4eYAxqEnSt7d6W82CAC4IL0azCJveZ8FmKHKk_1xG92PWg4U1mDWUOPejfSrDMw1PdMyqQmxHYbK5mDQR0D-pQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudekgdefgecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeevvdelieejgedvkeffheekheeilefhgefgffehteekueelvddtueffheet
- ledtffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ ledtffenucevlhhushhtvghrufhiiigvpeegnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:NX-QY0PcpxSVLhaORPxy3KNGYYtx1-2pRjA4BQF2X8xhV5PYxLoKWg>
- <xmx:NX-QY9--ZP8GUCkAPh1ZtWVEm336B-AAmVu7Eooi1Vbbjw7YQ6bCaA>
- <xmx:NX-QY0U73BkkYPTqgfi4cTCJ5Op6Qg-203SDj3scqbgKmbIVep8RQg>
- <xmx:Nn-QYw3JsAsr_Y1qqUM31K1MNGL3zppa43-mHikHVHDqcKEkTBh-xg>
+X-ME-Proxy: <xmx:N3-QYy-n73fpoG1gIx8LgWnxKT2VUqila7b9Y2p6osJ4x4GBvDgFVQ>
+ <xmx:N3-QY1st1n7AN0M2ABZNIADk3Q3aJwdTpzNXQsMS3Rn2oEEV_9eDaQ>
+ <xmx:N3-QYxGuu6g_wFYfASlUQV3dxDC32R6xme8zR88WQRGJdjbH7wo5vQ>
+ <xmx:N3-QYwmCH-6KiCIsS5qtPMkaOZ399pg2r0v63RG7xNCpAe1YLcKvOw>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 Dec 2022 06:55:33 -0500 (EST)
+ 7 Dec 2022 06:55:35 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Wed, 07 Dec 2022 12:53:23 +0100
-Subject: [PATCH 12/15] drm/vc4: Add comments for which HVS_PIXEL_ORDER_xxx
- defines apply
+Date: Wed, 07 Dec 2022 12:53:24 +0100
+Subject: [PATCH 13/15] drm/vc4: crtc: Fix timings for VEC modes
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20221207-rpi-hvs-crtc-misc-v1-12-1f8e0770798b@cerno.tech>
+Message-Id: <20221207-rpi-hvs-crtc-misc-v1-13-1f8e0770798b@cerno.tech>
 References: <20221207-rpi-hvs-crtc-misc-v1-0-1f8e0770798b@cerno.tech>
 In-Reply-To: <20221207-rpi-hvs-crtc-misc-v1-0-1f8e0770798b@cerno.tech>
 To: Emma Anholt <emma@anholt.net>, Maxime Ripard <mripard@kernel.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Eric Anholt <eric@anholt.net>
 X-Mailer: b4 0.11.0-dev-8c583
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1228; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=1LzaaBh0lTOudTNhILem3dXqKIZSSxQD4rTtQVTyIi0=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMkT6la+6AyRO7UzzEuatSXFvm5Joo/K7/eS0kzP1LsF/4ht
- Ys3tKGVhEONikBVTZIkRNl8Sd2rW6042vnkwc1iZQIYwcHEKwEQm1DH8L5GKnPyGY517XN98blMpl+
- DVHf6mB9rCeHb4LZ7i6eTYwvBXRHzOF4V/S68nXik4cne6tV9vKtPCqfNmxc2aNlWq2/4zIwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4655; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=8MEVk2yY+UhcSNlj2wPChZWHKoYLQ+Me0jsSJnr2jVI=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMkT6lYuCKsze6d1LOCZqXF9zfxDfxLnCF74IHFhQVJvfubc
+ P45OHaUsDGJcDLJiiiwxwuZL4k7Net3JxjcPZg4rE8gQBi5OAZjIy+sM/4sORgsw396aeXB50vGamx
+ yHioN5KldJ32fz235/c/IKT0+G/xVmt1+43F11OOqO3endHT8nKVZ/Zf0SunDH/QfCsjsY1BgB
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -101,41 +100,134 @@ Cc: Maxime Ripard <maxime@cerno.tech>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
 
-The HVS_PIXEL_ORDER_xxx defines apply to specific HVS_PIXEL_FORMAT_xxx
-modes, so add comments to make this obvious.
+This commit fixes vertical timings of the VEC (composite output) modes
+to accurately represent the 525-line ("NTSC") and 625-line ("PAL") ITU-R
+standards.
 
-Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Previous timings were actually defined as 502 and 601 lines, resulting
+in non-standard 62.69 Hz and 52 Hz signals being generated,
+respectively.
+
+Changes to vc4_crtc.c have also been made, to make the PixelValve
+vertical timings accurately correspond to the DRM modeline in interlaced
+modes. The resulting VERTA/VERTB register values have been verified
+against the reference values set by the Raspberry Pi firmware.
+
+Signed-off-by: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_regs.h | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/vc4/vc4_crtc.c | 71 ++++++++++++++++++++++++++----------------
+ 1 file changed, 44 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_regs.h b/drivers/gpu/drm/vc4/vc4_regs.h
-index 1256f0877ff6..f3763bd600f6 100644
---- a/drivers/gpu/drm/vc4/vc4_regs.h
-+++ b/drivers/gpu/drm/vc4/vc4_regs.h
-@@ -848,16 +848,19 @@ enum hvs_pixel_format {
- /* Note: the LSB is the rightmost character shown.  Only valid for
-  * HVS_PIXEL_FORMAT_RGB8888, not RGB888.
-  */
-+/* For modes 332, 4444, 555, 5551, 6666, 8888, 10:10:10:2 */
- #define HVS_PIXEL_ORDER_RGBA			0
- #define HVS_PIXEL_ORDER_BGRA			1
- #define HVS_PIXEL_ORDER_ARGB			2
- #define HVS_PIXEL_ORDER_ABGR			3
+diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
+index 333529ed3a0d..91181cac01e4 100644
+--- a/drivers/gpu/drm/vc4/vc4_crtc.c
++++ b/drivers/gpu/drm/vc4/vc4_crtc.c
+@@ -326,8 +326,14 @@ static void vc4_crtc_config_pv(struct drm_crtc *crtc, struct drm_encoder *encode
+ 	bool is_dsi = (vc4_encoder->type == VC4_ENCODER_TYPE_DSI0 ||
+ 		       vc4_encoder->type == VC4_ENCODER_TYPE_DSI1);
+ 	bool is_dsi1 = vc4_encoder->type == VC4_ENCODER_TYPE_DSI1;
++	bool is_vec = vc4_encoder->type == VC4_ENCODER_TYPE_VEC;
+ 	u32 format = is_dsi1 ? PV_CONTROL_FORMAT_DSIV_24 : PV_CONTROL_FORMAT_24;
+ 	u8 ppc = pv_data->pixels_per_clock;
++
++	u16 vert_bp = mode->crtc_vtotal - mode->crtc_vsync_end;
++	u16 vert_sync = mode->crtc_vsync_end - mode->crtc_vsync_start;
++	u16 vert_fp = mode->crtc_vsync_start - mode->crtc_vdisplay;
++
+ 	bool debug_dump_regs = false;
+ 	int idx;
  
-+/* For modes 666 and 888 (4 & 5) */
- #define HVS_PIXEL_ORDER_XBRG			0
- #define HVS_PIXEL_ORDER_XRBG			1
- #define HVS_PIXEL_ORDER_XRGB			2
- #define HVS_PIXEL_ORDER_XBGR			3
+@@ -355,49 +361,60 @@ static void vc4_crtc_config_pv(struct drm_crtc *crtc, struct drm_encoder *encode
+ 		   VC4_SET_FIELD(mode->hdisplay * pixel_rep / ppc,
+ 				 PV_HORZB_HACTIVE));
  
-+/* For YCbCr modes (8-12, and 17) */
- #define HVS_PIXEL_ORDER_XYCBCR			0
- #define HVS_PIXEL_ORDER_XYCRCB			1
- #define HVS_PIXEL_ORDER_YXCBCR			2
+-	CRTC_WRITE(PV_VERTA,
+-		   VC4_SET_FIELD(mode->crtc_vtotal - mode->crtc_vsync_end +
+-				 interlace,
+-				 PV_VERTA_VBP) |
+-		   VC4_SET_FIELD(mode->crtc_vsync_end - mode->crtc_vsync_start,
+-				 PV_VERTA_VSYNC));
+-	CRTC_WRITE(PV_VERTB,
+-		   VC4_SET_FIELD(mode->crtc_vsync_start - mode->crtc_vdisplay,
+-				 PV_VERTB_VFP) |
+-		   VC4_SET_FIELD(mode->crtc_vdisplay, PV_VERTB_VACTIVE));
+-
+ 	if (interlace) {
++		bool odd_field_first = false;
++		u32 field_delay = mode->htotal * pixel_rep / (2 * ppc);
++		u16 vert_bp_even = vert_bp;
++		u16 vert_fp_even = vert_fp;
++
++		if (is_vec) {
++			/* VEC (composite output) */
++			++field_delay;
++			if (mode->htotal == 858) {
++				/* 525-line mode (NTSC or PAL-M) */
++				odd_field_first = true;
++			}
++		}
++
++		if (odd_field_first)
++			++vert_fp_even;
++		else
++			++vert_bp;
++
+ 		CRTC_WRITE(PV_VERTA_EVEN,
+-			   VC4_SET_FIELD(mode->crtc_vtotal -
+-					 mode->crtc_vsync_end,
+-					 PV_VERTA_VBP) |
+-			   VC4_SET_FIELD(mode->crtc_vsync_end -
+-					 mode->crtc_vsync_start,
+-					 PV_VERTA_VSYNC));
++			   VC4_SET_FIELD(vert_bp_even, PV_VERTA_VBP) |
++			   VC4_SET_FIELD(vert_sync, PV_VERTA_VSYNC));
+ 		CRTC_WRITE(PV_VERTB_EVEN,
+-			   VC4_SET_FIELD(mode->crtc_vsync_start -
+-					 mode->crtc_vdisplay,
+-					 PV_VERTB_VFP) |
++			   VC4_SET_FIELD(vert_fp_even, PV_VERTB_VFP) |
+ 			   VC4_SET_FIELD(mode->crtc_vdisplay, PV_VERTB_VACTIVE));
+ 
+-		/* We set up first field even mode for HDMI.  VEC's
+-		 * NTSC mode would want first field odd instead, once
+-		 * we support it (to do so, set ODD_FIRST and put the
+-		 * delay in VSYNCD_EVEN instead).
++		/* We set up first field even mode for HDMI and VEC's PAL.
++		 * For NTSC, we need first field odd.
+ 		 */
+ 		CRTC_WRITE(PV_V_CONTROL,
+ 			   PV_VCONTROL_CONTINUOUS |
+ 			   (is_dsi ? PV_VCONTROL_DSI : 0) |
+ 			   PV_VCONTROL_INTERLACE |
+-			   VC4_SET_FIELD(mode->htotal * pixel_rep / (2 * ppc),
+-					 PV_VCONTROL_ODD_DELAY));
+-		CRTC_WRITE(PV_VSYNCD_EVEN, 0);
++			   (odd_field_first
++				   ? PV_VCONTROL_ODD_FIRST
++				   : VC4_SET_FIELD(field_delay,
++						   PV_VCONTROL_ODD_DELAY)));
++		CRTC_WRITE(PV_VSYNCD_EVEN,
++			   (odd_field_first ? field_delay : 0));
+ 	} else {
+ 		CRTC_WRITE(PV_V_CONTROL,
+ 			   PV_VCONTROL_CONTINUOUS |
+ 			   (is_dsi ? PV_VCONTROL_DSI : 0));
++		CRTC_WRITE(PV_VSYNCD_EVEN, 0);
+ 	}
+ 
++	CRTC_WRITE(PV_VERTA,
++		   VC4_SET_FIELD(vert_bp, PV_VERTA_VBP) |
++		   VC4_SET_FIELD(vert_sync, PV_VERTA_VSYNC));
++	CRTC_WRITE(PV_VERTB,
++		   VC4_SET_FIELD(vert_fp, PV_VERTB_VFP) |
++		   VC4_SET_FIELD(mode->crtc_vdisplay, PV_VERTB_VACTIVE));
++
+ 	if (is_dsi)
+ 		CRTC_WRITE(PV_HACT_ACT, mode->hdisplay * pixel_rep);
+ 
 
 -- 
 2.38.1
