@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A05C86457C5
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 11:27:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FC066457C8
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 11:27:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DF1910E391;
-	Wed,  7 Dec 2022 10:27:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64CCD10E392;
+	Wed,  7 Dec 2022 10:27:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
  [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2547010E391
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 10:27:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B500910E38F
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 10:27:19 +0000 (UTC)
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 54F395C00FB;
- Wed,  7 Dec 2022 05:27:17 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Wed, 07 Dec 2022 05:27:17 -0500
+ by mailout.nyi.internal (Postfix) with ESMTP id 1B31D5C01C6;
+ Wed,  7 Dec 2022 05:27:19 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Wed, 07 Dec 2022 05:27:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1670408837; x=
- 1670495237; bh=w+Gci/EdEyZNlgJIQDZMLgz1QP+F+UJkjKPeee30W70=; b=U
- AYeWgpcWyxgCAxvZ1hru12ZbMWrdG9xQohWAecVtnS+nx9IBPRrAeO4sicwqKzIJ
- +aSVdO+KS+KvI3USr+E2Duon9qjMM3IvPsaFm2LNFVwU73SfXqEcFgsz10FgUnaP
- XpppQWggX1ldVmBrD19otOF66G4yhWXLMWmAm+F/zXUKPRVVgUNg92kbmttAodTR
- U25vmaHselY4wJHJmOdOCpEu0cXlDVtr+NLKRZSb4JvyTH43pOlV55d4I8RdN2Q4
- CAec3afr2lgfJv9mcI4wwr4fbV5e4He/oCuXXDOUUeC9jPoL+g3PgXQuWt8JkAuP
- z5o0DJyfzKDwzsqp8B5zQ==
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1670408839; x=
+ 1670495239; bh=Zn5jcj0nU0NQg/fB7GJUuCXybzPA29EmtUUxU6l8Xro=; b=E
+ wuHCkoD5BEswQC9qUuPfaaqVKsMliy8vHaeLW61fXj/q8yKZCL5IvVJpI4alxzdV
+ 3gvWCzgR59199Zb9qSHkvTWzEYsinVkjSGrrpK3B66WKkgFDYGPJYehdcoU0HoVt
+ uQZIb/1hdRf7wMSQnKEHzI6kYh+8lumue2V36gAP6DLZoEhWBMLlXeV/Tx1O3JOo
+ G3+FeGOXbvJHIrmGU1KK8tsMenMODr9mCuZxviw9L1tE/+wTeRkl74XCJtXAMHvw
+ nyznme2vhKyAc4J2RrUdFMDouDfffxusMkU4iG3UYCjrsUiNSOf8+zF+gZ2SOJ+Q
+ IAT6ANuaUvC/P2gNZ+SOg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1670408837; x=
- 1670495237; bh=w+Gci/EdEyZNlgJIQDZMLgz1QP+F+UJkjKPeee30W70=; b=P
- mkYLiEHUCM0QSX+4fjK7X0bBS/tkXzNPFqBkmy/Ij8JXmECOtUderHWxq4LIGo8h
- 13phtE2wX4y6CSATS9u+shqja0KOk879oe5h4g7iv6/HDekhd/+bC1vW96fCZqHe
- vkjFQ8EXPB9ra4Hky026tHHHmgEW4lbk+QZ41JikhrOm3z/nhEme6bZWPxR+Z4UZ
- 5FBtJLo+LWoY1wQ/TxpQjKg5CcQEm0DrGHiIpY1NnQYUi7DDuwZQEV/f87tmWel4
- yuI0F1wqW0NwOJDFv7DIvrfBk+9tW6oET4+bwaCYxA34Hs1vEm5JChV58zslu13E
- 9H9V6vWjCJ1TBUJDvVPcQ==
-X-ME-Sender: <xms:hWqQY_i59E5zaDFmDk9kPKtkZt_-Q5V8LGvFzptA-ynOeD_diUrKqw>
- <xme:hWqQY8Aa3kU5Y9mDrSFpWntRwsyobq6cLFQpyoLX2DVNtVMn0rWuXD9cw-FG652c-
- i-cZUlJU6-iu_VaVWI>
-X-ME-Received: <xmr:hWqQY_E7-mtZzCRjW72lJNNNzboxmdtOlGq65R5agiWab61IKZ4I4gGaUHfFJ3_bXZgD4TeO7Q4Xz2bBkEb6oRQYEf5Ek1wBrW1KsUhan2akFQ>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1670408839; x=
+ 1670495239; bh=Zn5jcj0nU0NQg/fB7GJUuCXybzPA29EmtUUxU6l8Xro=; b=O
+ Em7LebaaCIxXob7HuXAjoWNVUY9POi5Tpz7ddMXAxbL2X9EXwy56scD6DRJgeK/1
+ ktJrzah4EKNRzd15gaCm6EtLAAKcK29psDPEXACESTZqRDAa66fmLmzsiE0Mew5w
+ nWbRnECnSov4WgHpZ6r5xG934CNfFsMLwF6CDV+oNfBlHG7SgWH0nmrjvIU61l3O
+ ZDIUhJmKFenPO9vhcz78QFu99FWe2XDf0f1bSivJwHOpr7fzaotHXSKOybLoZQ3u
+ eI5Pt/bXDoNKWvhc4V8RX6fRHVlSR3LKLtCEPS22UFvvXBhfyKkQq2wXIVeqpgu5
+ Up6ikjU3AFwbj1cLzKssg==
+X-ME-Sender: <xms:hmqQY_nWgLKjeGi8t1b1ovx4PtIKpXQ4wnVg6uI2uZEjHkVBgjy-Ow>
+ <xme:hmqQYy1agSVrWhhkKFU0g44QFr26R2fbz77DFafQ3qIMVsAdE8_spTEdqwxIz9siV
+ 8-uIfp6zwZAbO-lLnU>
+X-ME-Received: <xmr:hmqQY1or9E1G1hBiqxV8YqQia-dCgohoDqyCEXK09D3uHLhPRcMnOmgEn8ZhiTlJwbHHIZZpO28E3bJDjsUvjct62mcXMJRgU8tIfuekNOC6Uw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudekgddugecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -54,30 +54,30 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudekgddugecutefuodetggdote
  htthgvrhhnpeevvdelieejgedvkeffheekheeilefhgefgffehteekueelvddtueffheet
  ledtffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:hWqQY8R3dVA3DdH83rleJ7Aqhp8WfgkuMD92-xL_FKqyGYJgKT8aOg>
- <xmx:hWqQY8zakWjzyO102DsPvtzIe1Q_KyvGwtm9WrGhYTZFOU24IfkxKQ>
- <xmx:hWqQYy4NpK2IgsA45BIBx8XKEClaMUsqMzOm5mFqK_3GZ6FikwmOtg>
- <xmx:hWqQYxKD3ANCH-oMVywSH5OUdBBUzzNlkSYY85u8JgGkwOejuyjRfg>
+X-ME-Proxy: <xmx:hmqQY3m9xNetr0JhaD4XnblOqrpUAX8BDHL8_cZMLn2M8foyVan5ew>
+ <xmx:hmqQY90mz3YiOcEsEx_-Z_WFJWdYuDlUr2FfjwJEyV7O06n-APDZLA>
+ <xmx:hmqQY2u2wK2BJALPeqYq0PIy5fS_ous5mgwuBvMiei5q_ZrWgPVG7w>
+ <xmx:h2qQY3Mp2AwbpxThg4M4scdRoeF4EL0z_Rzp5QfvdxptTfnrEO-mCA>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 Dec 2022 05:27:16 -0500 (EST)
+ 7 Dec 2022 05:27:18 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Wed, 07 Dec 2022 11:22:44 +0100
-Subject: [PATCH 1/6] drm/vc4: dsi: Rename bridge to out_bridge
+Date: Wed, 07 Dec 2022 11:22:45 +0100
+Subject: [PATCH 2/6] drm/vc4: dsi: Move initialisation to encoder_mode_set
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20221207-rpi-dsi-bridge-v1-1-8f68ee0b0adb@cerno.tech>
+Message-Id: <20221207-rpi-dsi-bridge-v1-2-8f68ee0b0adb@cerno.tech>
 References: <20221207-rpi-dsi-bridge-v1-0-8f68ee0b0adb@cerno.tech>
 In-Reply-To: <20221207-rpi-dsi-bridge-v1-0-8f68ee0b0adb@cerno.tech>
 To: Emma Anholt <emma@anholt.net>, Maxime Ripard <mripard@kernel.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 X-Mailer: b4 0.11.0-dev-8c583
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1888; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=tWzFKQ0hN8LGVeDx6bqlvMlhZjCI3ajfljD5sQbs6zo=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMkTMkuSLHUVNkTy8qzJ6/ZtfDL/bI3wgSxm5d07I48t8Qrd
- OjG2o5SFQYyLQVZMkSVG2HxJ3KlZrzvZ+ObBzGFlAhnCwMUpABNZOouR4anCW8PTFstMbwZNUr4j0m
- nX27/tUdofr4cSPJ+qD+9ZdIXhr8jf8zO+yKj8FJ4xNz9VWNjvhLSp4v2NP2VfrTx77NNfFUYA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2358; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=3tiWtws48aAKGnXcNHWpHDYHrtyX9rE7+J92kYYHF9A=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMkTMkslXzLeKGBUO2H0unniv7QQ8z7lXy/O3b53qfvphBWp
+ r8/xdZSyMIhxMciKKbLECJsviTs163UnG988mDmsTCBDGLg4BWAieiWMDN8+yBe1KEZtrjT42aOgsv
+ fWNJs1WapSE1mNlALXfuQ+Is/IsOGY+TXVhZbcwVp3zpck1erx8t+JLt+6hS3kyIRDyz+8YwEA
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -100,60 +100,67 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-In preparation for converting the encoder to being a bridge,
-rename the variable holding the next bridge in the chain to
-out_bridge, so that our bridge can be called bridge.
+Breaking the bridge chain does not work for atomic bridges/panels
+and generally causes issues.
+We need to initialise the DSI host before the bridge pre_enables
+are called, so move that to encoder_mode_set in the same way that
+dw-mipi-dsi does.
 
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_dsi.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/vc4/vc4_dsi.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_dsi.c b/drivers/gpu/drm/vc4/vc4_dsi.c
-index 878e05d79e81..d9d951e9ab7c 100644
+index d9d951e9ab7c..607ebe368409 100644
 --- a/drivers/gpu/drm/vc4/vc4_dsi.c
 +++ b/drivers/gpu/drm/vc4/vc4_dsi.c
-@@ -556,7 +556,7 @@ struct vc4_dsi {
+@@ -867,18 +867,18 @@ static bool vc4_dsi_encoder_mode_fixup(struct drm_encoder *encoder,
+ 	return true;
+ }
  
- 	struct platform_device *pdev;
+-static void vc4_dsi_encoder_enable(struct drm_encoder *encoder)
++static void vc4_dsi_encoder_mode_set(struct drm_encoder *encoder,
++				     struct drm_display_mode *mode,
++				     struct drm_display_mode *adjusted_mode)
+ {
+-	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
+ 	struct vc4_dsi *dsi = to_vc4_dsi(encoder);
+ 	struct device *dev = &dsi->pdev->dev;
+ 	bool debug_dump_regs = false;
+-	struct drm_bridge *iter;
+ 	unsigned long hs_clock;
+ 	u32 ui_ns;
+ 	/* Minimum LP state duration in escape clock cycles. */
+ 	u32 lpx = dsi_esc_timing(60);
+-	unsigned long pixel_clock_hz = mode->clock * 1000;
++	unsigned long pixel_clock_hz = adjusted_mode->clock * 1000;
+ 	unsigned long dsip_clock;
+ 	unsigned long phy_clock;
+ 	int ret;
+@@ -1105,6 +1105,13 @@ static void vc4_dsi_encoder_enable(struct drm_encoder *encoder)
+ 		       ~DSI_PORT_BIT(PHY_AFEC0_RESET));
  
--	struct drm_bridge *bridge;
-+	struct drm_bridge *out_bridge;
- 	struct list_head bridge_chain;
+ 	vc4_dsi_ulps(dsi, false);
++}
++
++static void vc4_dsi_encoder_enable(struct drm_encoder *encoder)
++{
++	struct vc4_dsi *dsi = to_vc4_dsi(encoder);
++	bool debug_dump_regs = false;
++	struct drm_bridge *iter;
  
- 	void __iomem *regs;
-@@ -800,7 +800,7 @@ static void vc4_dsi_encoder_disable(struct drm_encoder *encoder)
- 		if (iter->funcs->disable)
- 			iter->funcs->disable(iter);
+ 	list_for_each_entry_reverse(iter, &dsi->bridge_chain, chain_node) {
+ 		if (iter->funcs->pre_enable)
+@@ -1370,6 +1377,7 @@ static const struct drm_encoder_helper_funcs vc4_dsi_encoder_helper_funcs = {
+ 	.disable = vc4_dsi_encoder_disable,
+ 	.enable = vc4_dsi_encoder_enable,
+ 	.mode_fixup = vc4_dsi_encoder_mode_fixup,
++	.mode_set = vc4_dsi_encoder_mode_set,
+ };
  
--		if (iter == dsi->bridge)
-+		if (iter == dsi->out_bridge)
- 			break;
- 	}
- 
-@@ -1723,9 +1723,9 @@ static int vc4_dsi_bind(struct device *dev, struct device *master, void *data)
- 		return ret;
- 	}
- 
--	dsi->bridge = drmm_of_get_bridge(drm, dev->of_node, 0, 0);
--	if (IS_ERR(dsi->bridge))
--		return PTR_ERR(dsi->bridge);
-+	dsi->out_bridge = drmm_of_get_bridge(drm, dev->of_node, 0, 0);
-+	if (IS_ERR(dsi->out_bridge))
-+		return PTR_ERR(dsi->out_bridge);
- 
- 	/* The esc clock rate is supposed to always be 100Mhz. */
- 	ret = clk_set_rate(dsi->escape_clock, 100 * 1000000);
-@@ -1751,7 +1751,7 @@ static int vc4_dsi_bind(struct device *dev, struct device *master, void *data)
- 	if (ret)
- 		return ret;
- 
--	ret = drm_bridge_attach(encoder, dsi->bridge, NULL, 0);
-+	ret = drm_bridge_attach(encoder, dsi->out_bridge, NULL, 0);
- 	if (ret)
- 		return ret;
- 	/* Disable the atomic helper calls into the bridge.  We
+ static int vc4_dsi_late_register(struct drm_encoder *encoder)
 
 -- 
 2.38.1
