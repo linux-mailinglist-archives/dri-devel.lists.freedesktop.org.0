@@ -1,63 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A1966450FD
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 02:22:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7FCE64510D
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Dec 2022 02:23:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72A0710E161;
-	Wed,  7 Dec 2022 01:22:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1167F10E170;
+	Wed,  7 Dec 2022 01:22:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
- [IPv6:2a00:1450:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0092910E160
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 01:22:33 +0000 (UTC)
-Received: by mail-lj1-x22a.google.com with SMTP id x11so19229053ljh.7
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Dec 2022 17:22:33 -0800 (PST)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1953610E161
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 01:22:35 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id j4so26450287lfk.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Dec 2022 17:22:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=6JsCAvyAfveyw9UPyr+8LrwAhQksbXtuQSIuymG2nWo=;
- b=wdZfS3zirQtcwcjkMhQLrCB409axGi3IAV1QN7xtUK30znHu4gQywV6Y7KJtk73G37
- Mr/cRO0PmtiMGWgfhxqs+GMgW4JnM37nfwqNFK66VCnjsUFXmbe6jnOWl8ogkkYLVjCo
- YV57vZozd0/qEurAsrRz1dya1H4L8/7CETTr0x/rq6+DQLbUdXFNVk6y2Cot3qYJp/aC
- 6131QOfIXDRdONVfHWn0UyeftYuDpIhfTzUBZi8hOs2o/MWkyybyOhmFDFgqQ/GGHDia
- 38FL16TuBMR81YXcCd/PsGCDYPCtLyW9NMgXGVIYolhP+mQGq/Uh4Ge4uQ6XprntMoQg
- MG2Q==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lCL3T9bEBAWFKFNPkwgPngR7HtM0awS/KY1SN8cp/IM=;
+ b=kLNApF10W4T1ZkkfMKkV3H9ll1opOSR8vclgred6Qvbx2Mzq34Fqn7PdH7XEPHKfte
+ TUYzjVGeNaEPhAgDeU/e95AYvvYiCgDPauQqHiWMAuiaAVlKON7wj1fmmuSzy7UqAzO5
+ 9JOnVY2p3a9WLqZLcIsGUnioonmPC6xUzsgxZXsCELKlqnLV7VWd+Qj58eeWjkORxfgr
+ dZbb4t3sFT9KqSeQdFszCviLoKPijIjF3SyrBUzdjJTgB9Q+q0lKJkvE8uf1M7iJKPoG
+ CRR9MX6C68Q1QQZ1c3T+W2beKBO7nxg+GiLKtDmTe+4u1/n4rXhU1i/1GeOLwRWw2lEo
+ mlkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=6JsCAvyAfveyw9UPyr+8LrwAhQksbXtuQSIuymG2nWo=;
- b=U8KJymSKrTjkO+pcESaxrRMjMeYBFvo3CYq7JRDCLB/gp9/KdnC9ZrqYWOtXt97iQX
- PDVwABQFpZQlTfkWyfbHkKuREoE+3L5L3vzzO7O8L+zX6dTcbtmPU1MFr2Zr7IHf0YGL
- pkGs4kLou+EQb79nGkcZcu7wmwNZNjP3EaOAq+oW9v9vpUOi/YPf/dI4OJ7AhoOlLu4x
- Afq/dt7tr6TKnh09VEneS3CSpgjqmPkW0y7SqFptrZQG/zhjAhGd4y7K0S9ccscZvh3S
- 5q7lBPk2xPU7P5ulxu4Hu/W/SlVvTDfLbfv7Wqxq6HWEgTR8IybuyqzDpavAHtcfvi74
- fVQA==
-X-Gm-Message-State: ANoB5pmuP+PXJYJ2HmCAzmCCMqrd/dwnwszV6ZPksznWSkUHylyOaotf
- aNBIpNBzxRJukZeDNZV21477hw==
-X-Google-Smtp-Source: AA0mqf7Q1LVRcqmmGODJnmkV7bqLX7h1PHzArjhMzVYApUWOp6+LZHzL/f7Lc32T52VdCwrGhcY+4A==
-X-Received: by 2002:a2e:a90b:0:b0:277:794:ae09 with SMTP id
- j11-20020a2ea90b000000b002770794ae09mr27417891ljq.286.1670376152271; 
- Tue, 06 Dec 2022 17:22:32 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=lCL3T9bEBAWFKFNPkwgPngR7HtM0awS/KY1SN8cp/IM=;
+ b=oLVtMraq3paTqfqq4nggQmHLdZCDrHl7cPsr5FzclrRJetlYA5SUaeBGCiW4FlTsHz
+ SlcwVy7xfvHqp/r43WH6ToXY1JCD//WUr3U1w6WpMydxhMSYqcXYSRhiYjW8jm4pvsRx
+ pGfBKZnBGTyE6c8vRLA3a01B2I5EFgYbDLTReW7GrEt8+bfBIAdcNykiPuLAXW806ho7
+ tCD6b28tVVD3r3uoOj4gLMCDw0xqirLWnmi29iPZABeNnrBVoThUhkzauQq+P+bg4OKW
+ 6nu1XVFs/p6o/WYdj8tMXRascXoiv30g4onV94y/5p/7rOSnlHAzLY1dpfwEFNnowivB
+ DLgw==
+X-Gm-Message-State: ANoB5pn5VdTmZau+vFwEVr8mOmNLpQyfkv4Qo6Hem8S5xolNTEV6tJUU
+ I3U0ejWU3C+y8IhjBdhdVpOLLg==
+X-Google-Smtp-Source: AA0mqf7Nv6TBP7cqiq1SVk8fBI/MF5e5ko2zUI3pT0C9q59uDDilYIjLhrU6B6zpXHWPaowfoP6bJw==
+X-Received: by 2002:a05:6512:b24:b0:4b5:5402:a300 with SMTP id
+ w36-20020a0565120b2400b004b55402a300mr7520342lfu.167.1670376153074; 
+ Tue, 06 Dec 2022 17:22:33 -0800 (PST)
 Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
  [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- a11-20020ac25e6b000000b0048a9e899693sm2678916lfr.16.2022.12.06.17.22.31
+ a11-20020ac25e6b000000b0048a9e899693sm2678916lfr.16.2022.12.06.17.22.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Dec 2022 17:22:31 -0800 (PST)
+ Tue, 06 Dec 2022 17:22:32 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark <robdclark@gmail.com>,
  Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH v6 00/11] drm/msm: add support for SM8450
-Date: Wed,  7 Dec 2022 03:22:20 +0200
-Message-Id: <20221207012231.112059-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v6 01/11] dt-bindings: display/msm: *dpu.yaml: split required
+ properties clauses
+Date: Wed,  7 Dec 2022 03:22:21 +0200
+Message-Id: <20221207012231.112059-2-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20221207012231.112059-1-dmitry.baryshkov@linaro.org>
+References: <20221207012231.112059-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,86 +78,150 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds support for the MDSS/DPU/DSI on the Qualcomm SM8450 platform.
+Require only properties declared in given schema, which makes the code a
+bit more readable and easy to follow.
 
-Change since v5:
-- Added defines to be used for the MDP_PERIPH_TOP0 blackhole
+Suggested-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ .../devicetree/bindings/display/msm/dpu-common.yaml        | 4 ----
+ .../devicetree/bindings/display/msm/qcom,msm8998-dpu.yaml  | 7 +++++++
+ .../devicetree/bindings/display/msm/qcom,qcm2290-dpu.yaml  | 7 +++++++
+ .../devicetree/bindings/display/msm/qcom,sc7180-dpu.yaml   | 7 +++++++
+ .../devicetree/bindings/display/msm/qcom,sc7280-dpu.yaml   | 7 +++++++
+ .../devicetree/bindings/display/msm/qcom,sdm845-dpu.yaml   | 7 +++++++
+ .../devicetree/bindings/display/msm/qcom,sm8250-dpu.yaml   | 7 +++++++
+ 7 files changed, 42 insertions(+), 4 deletions(-)
 
-Change since v4:
-- Fixed commit messages for the first two patches (Krzysztof)
-- Dropped clock-names requirement patch
-- Removed clock-names from qcom,sm8450-mdss.yaml schema
-- Fixed the schema changes lost between v3 and v4 (thanks Krzysztof)
-- Added kernel doc for DPU_MDP_PERIPH_0_REMOVED (Abhinav)
-- Fixed build issue in dpu_kms_mdp_snapshot() (Niel)
-
-Change since v3:
-- Reworked the dpu-common.yaml / mdss-common.yaml to require properties
-  from the same schema where they are defined (Krzysztof)
-- Reworked PHY register settings to make it easier to understand
-  (Konrad)
-
-Change since v2:
-- Rebased onto msm-next-lumag
-- Cleaned up bindings according to Krzysztof's suggestions
-
-Change since v1:
-- Fixed the regdma pointer in sm8450_dpu_cfg
-- Rebased onto pending msm-next-lumag
-- Added DT bindings for corresponding devices
-
-Dmitry Baryshkov (11):
-  dt-bindings: display/msm: *dpu.yaml: split required properties clauses
-  dt-bindings: display/msm: *mdss.yaml: split required properties
-    clauses
-  dt-bindings: display/msm: add sm8350 and sm8450 DSI PHYs
-  dt-bindings: display/msm: add support for the display on SM8450
-  drm/msm/dsi/phy: rework register setting for 7nm PHY
-  drm/msm/dsi: add support for DSI-PHY on SM8350 and SM8450
-  drm/msm/dsi: add support for DSI 2.6.0
-  drm/msm/dpu: merge all MDP TOP registers to dpu_hwio.h
-  drm/msm/dpu: add support for MDP_TOP blackhole
-  drm/msm/dpu: add support for SM8450
-  drm/msm: mdss add support for SM8450
-
- .../bindings/display/msm/dpu-common.yaml      |   4 -
- .../bindings/display/msm/dsi-phy-7nm.yaml     |   2 +
- .../bindings/display/msm/mdss-common.yaml     |   1 -
- .../display/msm/qcom,msm8998-dpu.yaml         |   7 +
- .../display/msm/qcom,msm8998-mdss.yaml        |   3 +
- .../display/msm/qcom,qcm2290-dpu.yaml         |   7 +
- .../display/msm/qcom,qcm2290-mdss.yaml        |   3 +
- .../bindings/display/msm/qcom,sc7180-dpu.yaml |   7 +
- .../display/msm/qcom,sc7180-mdss.yaml         |   3 +
- .../bindings/display/msm/qcom,sc7280-dpu.yaml |   7 +
- .../display/msm/qcom,sc7280-mdss.yaml         |   3 +
- .../bindings/display/msm/qcom,sdm845-dpu.yaml |   7 +
- .../display/msm/qcom,sdm845-mdss.yaml         |   3 +
- .../bindings/display/msm/qcom,sm8250-dpu.yaml |   7 +
- .../display/msm/qcom,sm8250-mdss.yaml         |   3 +
- .../bindings/display/msm/qcom,sm8450-dpu.yaml | 139 +++++++
- .../display/msm/qcom,sm8450-mdss.yaml         | 343 ++++++++++++++++++
- drivers/gpu/drm/msm/Kconfig                   |   6 +-
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 224 ++++++++++++
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   4 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h   |   3 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c    |  25 --
- drivers/gpu/drm/msm/disp/dpu1/dpu_hwio.h      |  21 ++
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  12 +-
- drivers/gpu/drm/msm/dsi/dsi_cfg.c             |   2 +
- drivers/gpu/drm/msm/dsi/dsi_cfg.h             |   1 +
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.c         |   4 +
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.h         |   2 +
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c     | 141 +++++--
- drivers/gpu/drm/msm/msm_mdss.c                |   5 +
- 30 files changed, 943 insertions(+), 56 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sm8450-dpu.yaml
- create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml
-
+diff --git a/Documentation/devicetree/bindings/display/msm/dpu-common.yaml b/Documentation/devicetree/bindings/display/msm/dpu-common.yaml
+index 8ffbc30c6b7f..870158bb2aa0 100644
+--- a/Documentation/devicetree/bindings/display/msm/dpu-common.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dpu-common.yaml
+@@ -40,10 +40,6 @@ properties:
+       - port@0
+ 
+ required:
+-  - compatible
+-  - reg
+-  - reg-names
+-  - clocks
+   - interrupts
+   - power-domains
+   - operating-points-v2
+diff --git a/Documentation/devicetree/bindings/display/msm/qcom,msm8998-dpu.yaml b/Documentation/devicetree/bindings/display/msm/qcom,msm8998-dpu.yaml
+index b02adba36e9e..479ce75bd451 100644
+--- a/Documentation/devicetree/bindings/display/msm/qcom,msm8998-dpu.yaml
++++ b/Documentation/devicetree/bindings/display/msm/qcom,msm8998-dpu.yaml
+@@ -46,6 +46,13 @@ properties:
+       - const: core
+       - const: vsync
+ 
++required:
++  - compatible
++  - reg
++  - reg-names
++  - clocks
++  - clock-names
++
+ unevaluatedProperties: false
+ 
+ examples:
+diff --git a/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-dpu.yaml b/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-dpu.yaml
+index a7b382f01b56..e794f0dd8ef4 100644
+--- a/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-dpu.yaml
++++ b/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-dpu.yaml
+@@ -42,6 +42,13 @@ properties:
+       - const: lut
+       - const: vsync
+ 
++required:
++  - compatible
++  - reg
++  - reg-names
++  - clocks
++  - clock-names
++
+ unevaluatedProperties: false
+ 
+ examples:
+diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sc7180-dpu.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sc7180-dpu.yaml
+index bd590a6b5b96..0dfdf8f3c5b4 100644
+--- a/Documentation/devicetree/bindings/display/msm/qcom,sc7180-dpu.yaml
++++ b/Documentation/devicetree/bindings/display/msm/qcom,sc7180-dpu.yaml
+@@ -44,6 +44,13 @@ properties:
+       - const: core
+       - const: vsync
+ 
++required:
++  - compatible
++  - reg
++  - reg-names
++  - clocks
++  - clock-names
++
+ unevaluatedProperties: false
+ 
+ examples:
+diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sc7280-dpu.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sc7280-dpu.yaml
+index 924059b387b6..512d23f8d629 100644
+--- a/Documentation/devicetree/bindings/display/msm/qcom,sc7280-dpu.yaml
++++ b/Documentation/devicetree/bindings/display/msm/qcom,sc7280-dpu.yaml
+@@ -43,6 +43,13 @@ properties:
+       - const: core
+       - const: vsync
+ 
++required:
++  - compatible
++  - reg
++  - reg-names
++  - clocks
++  - clock-names
++
+ unevaluatedProperties: false
+ 
+ examples:
+diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sdm845-dpu.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sdm845-dpu.yaml
+index 5719b45f2860..d5a55e898b11 100644
+--- a/Documentation/devicetree/bindings/display/msm/qcom,sdm845-dpu.yaml
++++ b/Documentation/devicetree/bindings/display/msm/qcom,sdm845-dpu.yaml
+@@ -42,6 +42,13 @@ properties:
+       - const: core
+       - const: vsync
+ 
++required:
++  - compatible
++  - reg
++  - reg-names
++  - clocks
++  - clock-names
++
+ unevaluatedProperties: false
+ 
+ examples:
+diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8250-dpu.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8250-dpu.yaml
+index 9ff8a265c85f..687c8c170cd4 100644
+--- a/Documentation/devicetree/bindings/display/msm/qcom,sm8250-dpu.yaml
++++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8250-dpu.yaml
+@@ -39,6 +39,13 @@ properties:
+       - const: core
+       - const: vsync
+ 
++required:
++  - compatible
++  - reg
++  - reg-names
++  - clocks
++  - clock-names
++
+ unevaluatedProperties: false
+ 
+ examples:
 -- 
 2.35.1
 
