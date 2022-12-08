@@ -2,80 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BE3E64721F
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Dec 2022 15:46:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDBEE647266
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Dec 2022 16:03:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5927B10E4B0;
-	Thu,  8 Dec 2022 14:46:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72C8110E4AF;
+	Thu,  8 Dec 2022 15:03:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7815610E4AD;
- Thu,  8 Dec 2022 14:46:03 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC66B10E4AE;
+ Thu,  8 Dec 2022 15:03:17 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2B8ETERh027895; Thu, 8 Dec 2022 14:45:55 GMT
+ 2B86KHk2008719; Thu, 8 Dec 2022 15:03:08 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=Xr4xHq0gKkujS+pQ9/6dlXQZ2AbT3C9rsoW5f5OpxpA=;
- b=UvtBvCW7ivoyMrWzMb57H+4Xa/QglbdaMWC7C9VUpxO/UourEjPV5L5e9/Z4fyw+Y7+h
- xwyAdo0b4Por0oRK9/oOFBUNYjWDW3mJZ4oRLh2mXUnzfKMBlDYDlJsnGHdb+uJZspHm
- 4BxAwqjoIN7jerf0jc1neCTkElJRHUfc8sh6Wvs69bMztBCdD84RmFE7uAgQ4U75TsBP
- Nc0Vu2O/POHeYlpveR5Oum8i22gDY7ko9sJiVGHA3CcJ1A8DvDSHjznkCf9Cc5LCoQOB
- u94zwi4TcHL2Kqdik3p/t9RFyLCfMZCBtBU2WvdxI5UOi5hi+WH2GL57XjFmEhFUrkv0 aw== 
+ bh=1ZutQiq09d9f+9p1SPqnaMr6I0W7Z5/+WNBzbiAIRpk=;
+ b=JLvRNPY2FhDk5Rho+LAHbSkn3sGDxbPOon30zT8Sk54NIdnt70eqYyc2g9lSvbOipJ1i
+ bMMnIQTROtEuPrlH78PowygLWaG1MTy33aDPAqKZq+OMrCJlm53P1k07Yqj3w9/3/5ts
+ 2NKDltHu7PJzuZrX5mKucIJZ1yXqDKxW8JL2lvkgqmNh3pHroRwlsmjZLRqyFs14Byik
+ PnWas1MwRNJS6JWDWzKu8tVaRikfJ0LWK+Eq4OJtkBPhMZJxn/r7ZwJqwphYhKSfC8Ue
+ WaTuuHpo0iec0ZvGbQ7ysbnxmUjqY3zASt8FvtuszD/6R3FSTqfUMpOP0TeCHhbs5PXw jg== 
 Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mb7bc9kyk-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3majt4ctjj-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 08 Dec 2022 14:45:55 +0000
+ Thu, 08 Dec 2022 15:03:07 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2B8Ejsx7021215
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2B8F36qf007742
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 8 Dec 2022 14:45:54 GMT
+ Thu, 8 Dec 2022 15:03:06 GMT
 Received: from [10.216.54.36] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Thu, 8 Dec 2022
- 06:45:46 -0800
-Message-ID: <3cd97020-d55a-7808-49f5-5fe3af84dc58@quicinc.com>
-Date: Thu, 8 Dec 2022 20:15:43 +0530
+ 07:03:00 -0800
+Message-ID: <9726a08f-266e-2949-8141-3a726ffd2795@quicinc.com>
+Date: Thu, 8 Dec 2022 20:32:57 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.2
-Subject: Re: [PATCH v7 0/6] clk/qcom: Support gdsc collapse polling using
- 'reset' interface
+Subject: Re: [PATCH v7 3/6] clk: qcom: gdsc: Add a reset op to poll gdsc
+ collapse
 Content-Language: en-US
-To: Ulf Hansson <ulf.hansson@linaro.org>, Bjorn Andersson
- <andersson@kernel.org>
+To: Ulf Hansson <ulf.hansson@linaro.org>
 References: <1664960824-20951-1-git-send-email-quic_akhilpo@quicinc.com>
- <20221201225705.46r2m35ketvzipox@builder.lan>
- <CAPDyKFofsqcoFbYt-9BcisbPdreLGqAAMWorqHi0_D1kwCdYhg@mail.gmail.com>
- <20221207165457.kwdwwiycbwjpogxl@builder.lan>
- <CAPDyKFpYgYkDdJ79xxkwr-Mqnj5CoBrV+ZZe6Xz4hGLNR4zUVw@mail.gmail.com>
+ <20221005143618.v7.3.I162c4be55f230cd439f0643f1624527bdc8a9831@changeid>
+ <CAPDyKFpMUQo-Q2sbm3YXPeagt88zsRFWgc06GmNm0TVUPmPY_g@mail.gmail.com>
 From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-In-Reply-To: <CAPDyKFpYgYkDdJ79xxkwr-Mqnj5CoBrV+ZZe6Xz4hGLNR4zUVw@mail.gmail.com>
+In-Reply-To: <CAPDyKFpMUQo-Q2sbm3YXPeagt88zsRFWgc06GmNm0TVUPmPY_g@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: oSW0SBdBxL6fUr4qAcmvSHnY4Tqwmf6y
-X-Proofpoint-ORIG-GUID: oSW0SBdBxL6fUr4qAcmvSHnY4Tqwmf6y
+X-Proofpoint-GUID: ytwsmVnTBekg-BcnS9tXUJe47KKT6SaZ
+X-Proofpoint-ORIG-GUID: ytwsmVnTBekg-BcnS9tXUJe47KKT6SaZ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-12-08_08,2022-12-08_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 mlxscore=0
- spamscore=0 suspectscore=0 priorityscore=1501 impostorscore=0 bulkscore=0
- adultscore=0 clxscore=1015 phishscore=0 malwarescore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
- definitions=main-2212080121
+ suspectscore=0
+ mlxlogscore=999 bulkscore=0 clxscore=1015 adultscore=0 mlxscore=0
+ priorityscore=1501 impostorscore=0 phishscore=0 spamscore=0 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212080124
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,115 +85,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Michael Turquette <mturquette@baylibre.com>, Konrad
- Dybcio <konrad.dybcio@somainline.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-clk@vger.kernel.org, Andy Gross <agross@kernel.org>,
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Stephen Boyd <swboyd@chromium.org>,
- Rob Herring <robh+dt@kernel.org>, Sean Paul <sean@poorly.run>,
- Stephen Boyd <sboyd@kernel.org>, Douglas Anderson <dianders@chromium.org>,
- krzysztof.kozlowski@linaro.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: linux-clk@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, krzysztof.kozlowski@linaro.org,
+ Andy Gross <agross@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/8/2022 7:10 PM, Ulf Hansson wrote:
-> On Wed, 7 Dec 2022 at 17:55, Bjorn Andersson <andersson@kernel.org> wrote:
->> On Wed, Dec 07, 2022 at 05:00:51PM +0100, Ulf Hansson wrote:
->>> On Thu, 1 Dec 2022 at 23:57, Bjorn Andersson <andersson@kernel.org> wrote:
->>>> On Wed, Oct 05, 2022 at 02:36:58PM +0530, Akhil P Oommen wrote:
->>>> @Ulf, Akhil has a power-domain for a piece of hardware which may be
->>>> voted active by multiple different subsystems (co-processors/execution
->>>> contexts) in the system.
->>>>
->>>> As such, during the powering down sequence we don't wait for the
->>>> power-domain to turn off. But in the event of an error, the recovery
->>>> mechanism relies on waiting for the hardware to settle in a powered off
->>>> state.
->>>>
->>>> The proposal here is to use the reset framework to wait for this state
->>>> to be reached, before continuing with the recovery mechanism in the
->>>> client driver.
->>> I tried to review the series (see my other replies), but I am not sure
->>> I fully understand the consumer part.
->>>
->>> More exactly, when and who is going to pull the reset and at what point?
->>>
->>>> Given our other discussions on quirky behavior, do you have any
->>>> input/suggestions on this?
->>>>
->>>>> Some clients like adreno gpu driver would like to ensure that its gdsc
->>>>> is collapsed at hardware during a gpu reset sequence. This is because it
->>>>> has a votable gdsc which could be ON due to a vote from another subsystem
->>>>> like tz, hyp etc or due to an internal hardware signal. To allow
->>>>> this, gpucc driver can expose an interface to the client driver using
->>>>> reset framework. Using this the client driver can trigger a polling within
->>>>> the gdsc driver.
->>>> @Akhil, this description is fairly generic. As we've reached the state
->>>> where the hardware has settled and we return to the client, what
->>>> prevents it from being powered up again?
->>>>
->>>> Or is it simply a question of it hitting the powered-off state, not
->>>> necessarily staying there?
->>> Okay, so it's indeed the GPU driver that is going to assert/de-assert
->>> the reset at some point. Right?
->>>
->>> That seems like a reasonable approach to me, even if it's a bit
->>> unclear under what conditions that could happen.
->>>
->> Generally the disable-path of the power-domain does not check that the
->> power-domain is actually turned off, because the status might indicate
->> that the hardware is voting for the power-domain to be on.
-> Is there a good reason why the HW needs to vote too, when the GPU
-> driver is already in control?
+On 12/7/2022 9:15 PM, Ulf Hansson wrote:
+> On Wed, 5 Oct 2022 at 11:08, Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+>> Add a reset op compatible function to poll for gdsc collapse. This is
+>> required because:
+>>   1. We don't wait for it to turn OFF at hardware for VOTABLE GDSCs.
+>>   2. There is no way for client drivers (eg. gpu driver) to do
+>>   put-with-wait for these gdscs which is required in some scenarios
+>>   (eg. GPU recovery).
+> What puzzles me a bit, who is the typical consumer of the reset.
 >
-> Or perhaps that depends on the running use case?
-This power domain can be voted to be ON from other subsystems outside of linux kernel like secure os, hypervisor etc through separate vote registers. So it is not completely under the control of linux clk driver. Linux clk driver can only vote it to be kept ON, check current status etc, but cannot force it to be OFF. I believe this is why it is a votable gdsc in linux-clk driver.
+> I looked at patch4 and tried to figure it out, but let's discuss that
+> in that thread instead. Some more comments, see below.
 
-Just a general clarification. GPU has mainly 2 power domains: (1) CX which is shared by GPU and its SMMU, (2) GX which is GPU specific and managed mostly by a power management core within GPU. This patch series is to allow gpu driver to ensure that CX gdsc has collapsed which in turn will reset GPU's internal state.
+https://patchwork.freedesktop.org/patch/498397/
+gpu driver side changes are already merged in upstream. We call this interface during a GPU recovery which is supposed to be a rare event.
 >
->> As part of the recovery of the GPU after some fatal fault, the GPU
->> driver does something which will cause the hardware votes for the
->> power-domain to be let go, and then the driver does pm_runtime_put().
-> Okay. That "something", sounds like a device specific setting for the
-> corresponding gdsc, right?
->
-> So somehow the GPU driver needs to manage that setting, right?
-Clarified about this above.
->
->> But in this case the GPU driver wants to ensure that the power-domain is
->> actually powered down, before it does pm_runtime_get() again. To ensure
->> that the hardware lost its state...
-> I see.
->
->> The proposal here is to use a reset to reach into the power-domain
->> provider and wait for the hardware to be turned off, before the GPU
->> driver attempts turning the power-domain on again.
+>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> ---
 >>
+>> Changes in v7:
+>> - Update commit message (Bjorn)
 >>
->> In other words, there is no reset. This is a hack to make a normally
->> asynchronous pd.power_off() to be synchronous in this particular case.
-Not really. Because other non-linux subsystems are involved here for CX gdsc, we need a way to poll the gdsc register to ensure that it has indeed collapsed before gpu driver continue with re-initialization of gpu. It is either this approach using 'reset' framework or plumbing a new path from gpu driver to gpucc-gdsc driver to poll the collapse status. I went with the 'reset' approach as per the consensus here: https://patchwork.freedesktop.org/patch/493143/
+>> Changes in v2:
+>> - Minor update to function prototype
+>>
+>>  drivers/clk/qcom/gdsc.c | 23 +++++++++++++++++++----
+>>  drivers/clk/qcom/gdsc.h |  7 +++++++
+>>  2 files changed, 26 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/clk/qcom/gdsc.c b/drivers/clk/qcom/gdsc.c
+>> index 7cf5e13..ccef742 100644
+>> --- a/drivers/clk/qcom/gdsc.c
+>> +++ b/drivers/clk/qcom/gdsc.c
+>> @@ -17,6 +17,7 @@
+>>  #include <linux/reset-controller.h>
+>>  #include <linux/slab.h>
+>>  #include "gdsc.h"
+>> +#include "reset.h"
+>>
+>>  #define PWR_ON_MASK            BIT(31)
+>>  #define EN_REST_WAIT_MASK      GENMASK_ULL(23, 20)
+>> @@ -116,7 +117,8 @@ static int gdsc_hwctrl(struct gdsc *sc, bool en)
+>>         return regmap_update_bits(sc->regmap, sc->gdscr, HW_CONTROL_MASK, val);
+>>  }
+>>
+>> -static int gdsc_poll_status(struct gdsc *sc, enum gdsc_status status)
+>> +static int gdsc_poll_status(struct gdsc *sc, enum gdsc_status status,
+>> +               s64 timeout_us, unsigned int interval_ms)
+>>  {
+>>         ktime_t start;
+>>
+>> @@ -124,7 +126,9 @@ static int gdsc_poll_status(struct gdsc *sc, enum gdsc_status status)
+>>         do {
+>>                 if (gdsc_check_status(sc, status))
+>>                         return 0;
+>> -       } while (ktime_us_delta(ktime_get(), start) < TIMEOUT_US);
+>> +               if (interval_ms)
+>> +                       msleep(interval_ms);
+>> +       } while (ktime_us_delta(ktime_get(), start) < timeout_us);
+> Rather than continue to open code this polling loop, would it not make
+> sense to convert the code into using readx_poll_timeout() (or some of
+> its friends).
+I was going for a minimal code churn to get this mainlined easily. I like the idea, perhaps we can have a refactor patch if there is consensus.
 
 -Akhil.
-> Alright, assuming I understood your clarifications above correctly
-> (thanks!), I think I have got a much better picture now.
 >
-> Rather than abusing the reset interface, I think we should manage this
-> through the genpd's power on/off notifiers (GENPD_NOTIFY_OFF). The GPU
-> driver should register its corresponding device for them
-> (dev_pm_genpd_add_notifier()).
+> Down the road, this leads to that the msleep() above should become
+> usleep_range() instead, which seems more correct to me.
 >
-> The trick however, is to make the behaviour of the power-domain for
-> the gdsc (the genpd->power_off() callback) conditional on whether the
-> HW is configured to vote or not. If the HW can vote, it should not
-> poll for the state - and vice versa when the HW can't vote.
->
-> Would this work?
->
+>>         if (gdsc_check_status(sc, status))
+>>                 return 0;
+>> @@ -189,7 +193,7 @@ static int gdsc_toggle_logic(struct gdsc *sc, enum gdsc_status status)
+>>                 udelay(1);
+>>         }
+>>
+>> -       ret = gdsc_poll_status(sc, status);
+>> +       ret = gdsc_poll_status(sc, status, TIMEOUT_US, 0);
+>>         WARN(ret, "%s status stuck at 'o%s'", sc->pd.name, status ? "ff" : "n");
+>>
+>>         if (!ret && status == GDSC_OFF && sc->rsupply) {
+>> @@ -360,7 +364,7 @@ static int _gdsc_disable(struct gdsc *sc)
+>>                  */
+>>                 udelay(1);
+>>
+>> -               ret = gdsc_poll_status(sc, GDSC_ON);
+>> +               ret = gdsc_poll_status(sc, GDSC_ON, TIMEOUT_US, 0);
+>>                 if (ret)
+>>                         return ret;
+>>         }
+>> @@ -608,3 +612,14 @@ int gdsc_gx_do_nothing_enable(struct generic_pm_domain *domain)
+>>         return 0;
+>>  }
+>>  EXPORT_SYMBOL_GPL(gdsc_gx_do_nothing_enable);
+>> +
+>> +int gdsc_wait_for_collapse(void *priv)
+>> +{
+>> +       struct gdsc *sc = priv;
+>> +       int ret;
+>> +
+>> +       ret = gdsc_poll_status(sc, GDSC_OFF, 500000, 5);
+>> +       WARN(ret, "%s status stuck at 'on'", sc->pd.name);
+>> +       return ret;
+>> +}
+>> +EXPORT_SYMBOL_GPL(gdsc_wait_for_collapse);
+>> diff --git a/drivers/clk/qcom/gdsc.h b/drivers/clk/qcom/gdsc.h
+>> index 981a12c..5395f69 100644
+>> --- a/drivers/clk/qcom/gdsc.h
+>> +++ b/drivers/clk/qcom/gdsc.h
+>> @@ -12,6 +12,7 @@
+>>  struct regmap;
+>>  struct regulator;
+>>  struct reset_controller_dev;
+>> +struct qcom_reset_map;
+>>
+>>  /**
+>>   * struct gdsc - Globally Distributed Switch Controller
+>> @@ -88,6 +89,7 @@ int gdsc_register(struct gdsc_desc *desc, struct reset_controller_dev *,
+>>                   struct regmap *);
+>>  void gdsc_unregister(struct gdsc_desc *desc);
+>>  int gdsc_gx_do_nothing_enable(struct generic_pm_domain *domain);
+>> +int gdsc_wait_for_collapse(void *priv);
+>>  #else
+>>  static inline int gdsc_register(struct gdsc_desc *desc,
+>>                                 struct reset_controller_dev *rcdev,
+>> @@ -97,5 +99,10 @@ static inline int gdsc_register(struct gdsc_desc *desc,
+>>  }
+>>
+>>  static inline void gdsc_unregister(struct gdsc_desc *desc) {};
+>> +
+>> +static int gdsc_wait_for_collapse(void *priv)
+>> +{
+>> +       return  -ENOSYS;
+>> +}
+>>  #endif /* CONFIG_QCOM_GDSC */
+>>  #endif /* __QCOM_GDSC_H__ */
 > Kind regards
 > Uffe
 
