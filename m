@@ -1,77 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71D50646F53
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Dec 2022 13:12:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E74F9646F55
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Dec 2022 13:12:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4ADA10E498;
-	Thu,  8 Dec 2022 12:12:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E9CC10E469;
+	Thu,  8 Dec 2022 12:12:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com
  [64.147.123.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 483C710E495
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Dec 2022 12:12:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3E8A10E469
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Dec 2022 12:12:18 +0000 (UTC)
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id 268B42B059E0;
- Thu,  8 Dec 2022 07:12:05 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Thu, 08 Dec 2022 07:12:07 -0500
+ by mailnew.west.internal (Postfix) with ESMTP id B94622B05BCC;
+ Thu,  8 Dec 2022 07:12:15 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Thu, 08 Dec 2022 07:12:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1670501524; x=1670508724; bh=PCPZ2sCbVm
- PKZmwwzBAyDxUGgQ8T8EgQ1fPLSzt4qfM=; b=b9B38pzwEQ6SeLpwI3DH3lg2Qg
- 8U1wQcg+Vd3PZ3eUwnerYEYg+H+q3BOnwWWmjnmnI0Nfgu1q0NiWnvpXW87PXFnc
- /qzreEld6IlKFHfOcRASYQQM6kBfbzoFq8f5kis4HY2AdP2AiiPLyLRzT5Vmymop
- XUJGIQtbciiDP2+U1yq4uXjta76/s5zqcfYUmnmIOEsaeSBH9VW5LRz6NhWjAYKd
- 4Ht5At+P0+sJShGVIXzYZtRzcLX0UUuNY8UsJ4R0hmVPHLsGRhnt7yzAelPAcpYw
- 6i6Ap2MnjKGzQlNiLZS6iiwpkGuIaNUxBxi+mqSDwYw3HoIwCkATAAW6fvmg==
+ :subject:to:to; s=fm3; t=1670501535; x=1670508735; bh=LObGFes3Ps
+ C1c06fe7UuvWKQtYq/k+HdnZLZPo9kY8o=; b=uJjG96+ko2ZE0swgXh5lszYa+C
+ 3lBnxkUapfyTSrkbwtgP6H58Mo6BpVvQzKGJssD/tAglU+OlQU28UfPsMKXjTzxO
+ ZkScUzbGSa07Z/TNbKHC0+OtrLQK6bBr3NlVGOFJn/aq/KWr+BqRhTawd6jhqKxB
+ DASyty6TzILd3jEFqMmSs+ubF3ahusndjgRYpfwdo7SkeqIt4Wh1c4D4xNExc86a
+ MvN+p3oetblZOG80fdFcyRkoUC2Ge0t1kIy60jh9FLQ7B3Z5gvCuGkqHh64OKQ8Y
+ fPTmzYCOsjnTeWE8JVBX4HU3cbisN/+iLitDivgBIV4DsCufi7UZtik+cx0w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
  :feedback-id:from:from:in-reply-to:in-reply-to:message-id
  :mime-version:references:reply-to:sender:subject:subject:to:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1670501524; x=1670508724; bh=PCPZ2sCbVmPKZmwwzBAyDxUGgQ8T
- 8EgQ1fPLSzt4qfM=; b=TnoIOg5Z9LUywgqUOm6kSjpnAOiUkJo7xy18iMWXXscy
- VPuDbvbUNoti4hbtzwrFXy/Ba/z5hvMS7PwC7jTL9jnPSFo/TfCHP1HBb+ui9mC1
- lORjAqArjjRVRIq0XBRwo/vpRNxrToAHPLfihrf2vrKOxQkLxPGshRJ8jtDsQ353
- cPpcd5iENHKDsu6YXLIz9ZzfFBNScayCsaET4k213afqG9RoZhsoorK+tFmXry1z
- +j5A1W0M8BtwOH/wYrX6cpwDU1ZdgIPhxdLEXmOdL+gcmeY/fyQoXVYME0FSRMeM
- 6HsOZaJ8O6ly7+A90wIKtzc1aRufH5R2NZyNNnZlLQ==
-X-ME-Sender: <xms:lNSRY-RLBbZXiHj6cwR2ywe6xgM5ouv0aiA8pNHxhUeFnWelTCVp_Q>
- <xme:lNSRYzxEljjStSdUfbgv8BxKDLCsHaSF8dHWEsaPaJMijAOsyJrG1IjSJr_4chUos
- S09zozjZXPDhPzPj_I>
-X-ME-Received: <xmr:lNSRY71N-f_YSGa0vQGSHbFwhHQCJaXb3xvZCF1K2py7ScVqYcN-xiSWt60HiAq-ppdCQQ>
+ fm2; t=1670501535; x=1670508735; bh=LObGFes3PsC1c06fe7UuvWKQtYq/
+ k+HdnZLZPo9kY8o=; b=jOKB0EzPsfxYb8A//0/cM6hGvUT11Pmy/BB5PpQSrSha
+ OUc9JaFgvF4uoijcyqExhhRXDDEzS4WwSwMQq+fTTzSHvnX4FCsYOnHTkxZTN1Dn
+ npGcpUnaRNYcEEq1tUNrpDB4xbw1NNTOwlJuyLlQYlDzCneKn9s1LYzqiEAJQZhA
+ sn8m4FtTSdFMn0J2eJS+0Naf+w9JYKCviYi3BrTa4ILmlAbBmdnSKSqs5SvQB3Pl
+ 5vy8+LaHf2eKTRrIb+ah6QYLVASgatuej8KmWmebhpkrfxGbbCQaG2RUDJmHWTWy
+ fi/Vd47V2Wask16D2iM+DD1OykfSAZXz5CHNCOfhJQ==
+X-ME-Sender: <xms:n9SRY4n2Nj2X4h7d4t2ai1AMDgPt_eDrr-Er0TFi0caScJNC_xDCew>
+ <xme:n9SRY30qKM4P7hEeqmh5DXeVGqVHGtnoK3HojDWknv6aFQROpOkbyt8qR6uwvE-1F
+ WGjssEhoo9ctQ5aBP8>
+X-ME-Received: <xmr:n9SRY2q94mWAPVVHQsLTKx4saGzE1forDoUAwy8JFFDXhoIr6ryGvzCRpvKqndMM0k37DQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddtgdefjecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
  htvghrnhepjeevfeehfeekieffgeevleevtefgffefkedtfeeuhfettdegjeehgfegudff
- ffdunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ ffdunecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:lNSRY6BTHc7uZP5ujn6ClgkfB8sRLrHLJkBQB6NozKJ343jcN0H0zg>
- <xmx:lNSRY3gfYi-Xzv_n_IhJecKs2pIBApT5229b_M37QkSXFQjjivsikQ>
- <xmx:lNSRY2rSk-hVAFsEpsOpNOuopE7BUnEs-6qwo5mweG2m-Dr44Dya9Q>
- <xmx:lNSRY9NBdg-0xlE1JTgtU_xVEdrYo8t0lDltRIjXClhFvyBg2lRhChna54o>
+X-ME-Proxy: <xmx:n9SRY0lOU-ZeTwRdDoaXBTKpQTBBPLQLOJ15wXNHMS2Px4WbvVMI0w>
+ <xmx:n9SRY22vXZ9ckGa2UeGxD4QDJQRFfhUCs77k8nmNDRRqjZoBsGCUow>
+ <xmx:n9SRY7s74sXcfwQXm5NI4wX6JAdyDQy4jVm64r7CuOTlXhU4weHeuw>
+ <xmx:n9SRY6JNQpvtmSk5egA5szrKluljofO--7IV4TXdB-BeiBhLuXO8vNNJHAY>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 8 Dec 2022 07:12:03 -0500 (EST)
-Date: Thu, 8 Dec 2022 13:12:02 +0100
+ 8 Dec 2022 07:12:14 -0500 (EST)
+Date: Thu, 8 Dec 2022 13:12:13 +0100
 From: Maxime Ripard <maxime@cerno.tech>
 To: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>
-Subject: Re: [PATCH v3 1/6] drm/debugfs: create device-centered debugfs
- functions
-Message-ID: <20221208121202.2zeh7yxvjins5wxk@houat>
+Subject: Re: [PATCH v3 2/6] drm: use new debugfs device-centered functions on
+ DRM core files
+Message-ID: <20221208121213.yly52bcqhawbjil5@houat>
 References: <20221207132325.140393-1-mcanal@igalia.com>
- <20221207132325.140393-2-mcanal@igalia.com>
+ <20221207132325.140393-3-mcanal@igalia.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="lqane2ilmqf6olgm"
+ protocol="application/pgp-signature"; boundary="oeqdxey7zrnjctcz"
 Content-Disposition: inline
-In-Reply-To: <20221207132325.140393-2-mcanal@igalia.com>
+In-Reply-To: <20221207132325.140393-3-mcanal@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,45 +89,33 @@ Cc: =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>,
  Oded Gabbay <ogabbay@kernel.org>, linux-kernel@vger.kernel.org,
  Wambui Karuga <wambui@karuga.org>, Melissa Wen <mwen@igalia.com>,
  Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- dri-devel@lists.freedesktop.org, Wambui Karuga <wambui.karugax@gmail.com>
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---lqane2ilmqf6olgm
+--oeqdxey7zrnjctcz
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 07, 2022 at 10:23:20AM -0300, Ma=EDra Canal wrote:
-> Introduce the ability to track requests for the addition of DRM debugfs
-> files at any time and have them added all at once during
-> drm_dev_register().
+On Wed, Dec 07, 2022 at 10:23:21AM -0300, Ma=EDra Canal wrote:
+> Replace the use of drm_debugfs_create_files() with the new
+> drm_debugfs_add_files() function in all DRM core files, centering the
+> debugfs files management on the drm_device instead of drm_minor.
 >=20
-> Drivers can add DRM debugfs files to a device-managed list and, during
-> drm_dev_register(), all added files will be created at once.
->=20
-> Now, the drivers can use the functions drm_debugfs_add_file() and
-> drm_debugfs_add_files() to create DRM debugfs files instead of using the
-> drm_debugfs_create_files() function.
->=20
-> Co-developed-by: Wambui Karuga <wambui.karugax@gmail.com>
-> Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
 > Signed-off-by: Ma=EDra Canal <mcanal@igalia.com>
-
 Reviewed-by: Maxime Ripard <maxime@cerno.tech>
 
-Maxime
-
---lqane2ilmqf6olgm
+--oeqdxey7zrnjctcz
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY5HUkgAKCRDj7w1vZxhR
-xQ0vAP0XRN6HyMEBaYjEZL6zrB3JIsD2G6W0qkCmtkPaWQASZwEAwVwKC17E8WOz
-CLh+/BpwGz1n0HBo0O83gimrlxqzwQU=
-=nJlm
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY5HUnQAKCRDj7w1vZxhR
+xSWaAQC48Qdot0J965ijrVZmLJ7zfzdJGdFJYpmjtN0Tk0Xt6gD/Q05JQ9vF5DPn
+wPZcGUu9k52mt4bDsrAwR9Wrd5eAFAQ=
+=Jiv0
 -----END PGP SIGNATURE-----
 
---lqane2ilmqf6olgm--
+--oeqdxey7zrnjctcz--
