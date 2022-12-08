@@ -2,76 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4671664799F
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Dec 2022 00:15:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFEEC6479A8
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Dec 2022 00:17:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5196D10E1FA;
-	Thu,  8 Dec 2022 23:15:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 477AB10E4E2;
+	Thu,  8 Dec 2022 23:17:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F7F510E1FA;
- Thu,  8 Dec 2022 23:15:25 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2B8LnO8C026294; Thu, 8 Dec 2022 23:15:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=0juxWpALFHMEgxwolf2/TDnlT83IXNhChx4eHjstmeI=;
- b=YbJznNFdQebvyhfh7Fpvk9YzAOBX0rAw7vSwJm/O6yFB1Rv7yt2PRG3iYMjT6nOPDNMN
- TEyXbhhdatpQKBF4KWeb7tM+0C5tSyaqWv0ZLFNZ6r2zAsLWK9QuJBJD/7205ZqBpMH2
- sYnotXQZpo+WGxYMamD230/Oh76EBhmiN3iarKPAO1YosccE44X+hVC3K5TT+GjSGaYJ
- OwrAYUbsZMgr4z0eSTJYZEpUq1CM2NBx6r6kmDMad12GJvXWIKaMsmG+WUaLE5gbOQE1
- Y+tbQp63PcTvpRktJWNIHtbozcAtABaGbTKyTKV0XFjfLDVHeLTY4rshSFfO0VwAuZtG +A== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mbr0sr506-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 08 Dec 2022 23:15:20 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2B8NFKql012019
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 8 Dec 2022 23:15:20 GMT
-Received: from [10.110.56.119] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Thu, 8 Dec 2022
- 15:15:18 -0800
-Message-ID: <c9401f15-f813-c6f8-f6e1-ac3be4a55404@quicinc.com>
-Date: Thu, 8 Dec 2022 15:15:18 -0800
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0ED1910E205
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Dec 2022 23:17:16 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id d6so4363063lfs.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Dec 2022 15:17:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=oCsKRmRYTaUN175iSQ+8CzQ2o2D9diPnWoiAzSTDmos=;
+ b=BYb25JT1/vslYb1DVLQqLM2ML3g0LWdH5/ndWyCIwBRipkTd9axxTKxTKlNbz2vQMy
+ DrqG+oxmI+U6ZL6iDFVGaNypyQ4WimpRF9/nGRaIM85Iaezq9GLkBZqmVrGhXGvxQOm8
+ xAcDOs9HLWTaIS5TLAj0oIYXKmP/pY+Bn5mQ87Embw9cX0dHZF6XkN6eZ4fgdJfIy17+
+ 2IJhGmjRLLg1JijE1FBp7PenToFQMj/cI42N2sUl2N+fKF+CStWxgUflSYe5qyUYnZ9H
+ 01AplyEft30KlGoXeuIldop66n0dfONjmGWX0uc8N8EpvE+8MkNbJ8dqrcAK6o2ph2Cl
+ Bxig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=oCsKRmRYTaUN175iSQ+8CzQ2o2D9diPnWoiAzSTDmos=;
+ b=CvfGlCL6alxM5aHhlx52G3x8sDRqsQNmALnsycGZMxY3HlY5rYDZ+achB3fweJtRxW
+ PzxusCbxb+TI0CSZriu9XTJPvZuWfcCS8M4Xn8OphbfFhxQ91HwwKph18Rh9cXmFdKg7
+ t96zsL895BKQOjiybnecQQrMjGq/W2RfiY3Cqt28mqdG+MGsWgI5o6vooJOKekBYk+41
+ AZrdjjf8ZEgXh33Op+zHicPv168IXj0nYAHkoGA1zS5AD5xa2PeD6JPQE1eZRcUc6/C9
+ BIbkzXTfHvPafhTwLSXJ2IPIQWQbfUVT2FScwTZzPNqzfRxpOrKz/BzVp+Re3urmBaGL
+ s7lA==
+X-Gm-Message-State: ANoB5pnN+g1KxgZ9bd4AjLLj7CSGgK5gIXgy6aGfUwPGr9nKztwvtT/f
+ wG6yOzzSC49rskDrPjndgOI3Mg==
+X-Google-Smtp-Source: AA0mqf64HHvBQnvh8Ga6+ZAmOSUnUf2eZ3LsaDK2t12dZu2v75LfbBkHvla/5YT+ih76Hp88Yyg7aA==
+X-Received: by 2002:a05:6512:2a9a:b0:4a4:68b9:6091 with SMTP id
+ dt26-20020a0565122a9a00b004a468b96091mr883514lfb.28.1670541434323; 
+ Thu, 08 Dec 2022 15:17:14 -0800 (PST)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ v4-20020a056512348400b004b097f2c73dsm3521105lfr.253.2022.12.08.15.17.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Dec 2022 15:17:13 -0800 (PST)
+Message-ID: <e12f53ca-6934-fc9d-c99c-6859628238a1@linaro.org>
+Date: Fri, 9 Dec 2022 01:17:13 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.1
-Subject: Re: [PATCH v5 09/12] drm/msm/dp: Implement hpd_notify()
-Content-Language: en-US
-To: Bjorn Andersson <quic_bjorande@quicinc.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>
-References: <20221207220012.16529-1-quic_bjorande@quicinc.com>
- <20221207220012.16529-10-quic_bjorande@quicinc.com>
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <20221207220012.16529-10-quic_bjorande@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Subject: Re: [PATCH v11 4/5] drm/msm/dp: parser link-frequencies as property
+ of dp_out endpoint
+Content-Language: en-GB
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
+ robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
+ dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@linux.ie,
+ agross@kernel.org, andersson@kernel.org, konrad.dybcio@somainline.org,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ devicetree@vger.kernel.org, airlied@gmail.com
+References: <1670539015-11808-1-git-send-email-quic_khsieh@quicinc.com>
+ <1670539015-11808-5-git-send-email-quic_khsieh@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <1670539015-11808-5-git-send-email-quic_khsieh@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 8ymV8mv1rL2WepVHqoHKfZ95Ojuqp-rK
-X-Proofpoint-ORIG-GUID: 8ymV8mv1rL2WepVHqoHKfZ95Ojuqp-rK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-08_12,2022-12-08_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0
- bulkscore=0 adultscore=0 suspectscore=0 impostorscore=0 mlxscore=0
- priorityscore=1501 phishscore=0 mlxlogscore=999 lowpriorityscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2212080192
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,104 +82,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kalyan Thota <quic_kalyant@quicinc.com>, freedreno@lists.freedesktop.org,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Johan
- Hovold <johan+linaro@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, quic_sbillaka@quicinc.com,
+ freedreno@lists.freedesktop.org, quic_abhinavk@quicinc.com,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 12/7/2022 2:00 PM, Bjorn Andersson wrote:
-> From: Bjorn Andersson <bjorn.andersson@linaro.org>
->
-> The DisplayPort controller's hot-plug mechanism is based on pinmuxing a
-> physical signal on a GPIO pin into the controller. This is not always
-> possible, either because there aren't dedicated GPIOs available or
-> because the hot-plug signal is a virtual notification, in cases such as
-> USB Type-C.
->
-> For these cases, by implementing the hpd_notify() callback for the
-> DisplayPort controller's drm_bridge, a downstream drm_bridge
-> (next_bridge) can be used to track and signal the connection status
-> changes.
->
-> This makes it possible to use downstream drm_bridges such as
-> display-connector or any virtual mechanism, as long as they are
-> implemented as a drm_bridge.
->
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> [bjorn: Drop connector->fwnode assignment and dev from struct msm_dp]
-> Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Reviewed-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+On 09/12/2022 00:36, Kuogee Hsieh wrote:
+> Add capability to parser and retrieve max DP link supported rate from
+> link-frequencies property of dp_out endpoint.
+> 
+> Changes in v6:
+> -- second patch after split parser patch into two patches
+> 
+> Changes in v7:
+> -- without checking cnt against DP_MAX_NUM_DP_LANES to retrieve link rate
+> 
+> Changes in v9:
+> -- separate parser link-frequencies out of data-lanes
+> 
+> Changes in v10:
+> -- add dp_parser_link_frequencies()
+> 
+> Changes in v11:
+> -- return 0 if(!endpoint)
+> 
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 > ---
->
-> Changes since v4:
-> - Look at internal_hpd now that it's introduced before this patch.
->
->   drivers/gpu/drm/msm/dp/dp_display.c | 22 ++++++++++++++++++++++
->   drivers/gpu/drm/msm/dp/dp_drm.c     |  1 +
->   drivers/gpu/drm/msm/dp/dp_drm.h     |  2 ++
->   3 files changed, 25 insertions(+)
->
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 095adf528e43..0bee412603fe 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -1792,3 +1792,25 @@ void dp_bridge_hpd_disable(struct drm_bridge *bridge)
->   
->   	dp_display->internal_hpd = false;
+>   drivers/gpu/drm/msm/dp/dp_parser.c | 27 +++++++++++++++++++++++++++
+>   drivers/gpu/drm/msm/dp/dp_parser.h |  2 ++
+>   2 files changed, 29 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c b/drivers/gpu/drm/msm/dp/dp_parser.c
+> index b5f7e70..9a7dcd4 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_parser.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_parser.c
+> @@ -91,6 +91,29 @@ static int dp_parser_ctrl_res(struct dp_parser *parser)
+>   	return 0;
 >   }
-> +
-> +void dp_bridge_hpd_notify(struct drm_bridge *bridge,
-> +			  enum drm_connector_status status)
+>   
+> +static u32 dp_parser_link_frequencies(struct device_node *of_node)
 > +{
-> +	struct msm_dp_bridge *dp_bridge = to_dp_bridge(bridge);
-> +	struct msm_dp *dp_display = dp_bridge->dp_display;
-> +	struct dp_display_private *dp = container_of(dp_display, struct dp_display_private, dp_display);
+> +	struct device_node *endpoint;
+> +	u64 frequency = 0;
+> +	int cnt = 0;
 > +
-> +	/* Without next_bridge interrupts are handled by the DP core directly */
-> +	if (dp_display->internal_hpd)
-> +		return;
+> +	endpoint = of_graph_get_endpoint_by_regs(of_node, 1, 0); /* port@1 */
+> +	if (!endpoint)
+> +		return 0;
 > +
-> +	if (!dp->core_initialized) {
-> +		drm_dbg_dp(dp->drm_dev, "not initialized\n");
-> +		return;
-> +	}
+> +	cnt = of_property_count_u64_elems(endpoint, "link-frequencies");
 > +
-> +	if (!dp_display->is_connected && status == connector_status_connected)
-> +		dp_add_event(dp, EV_HPD_PLUG_INT, 0, 0);
-> +	else if (dp_display->is_connected && status == connector_status_disconnected)
-> +		dp_add_event(dp, EV_HPD_UNPLUG_INT, 0, 0);
+> +	if (cnt > 0)
+> +		of_property_read_u64_index(endpoint, "link-frequencies",
+> +						cnt - 1, &frequency);
+> +	of_node_put(endpoint);
+> +
+> +	frequency /= 10;	/* from symbol rate to link rate */
+> +	frequency /= 1000;	/* kbytes */
+> +
+> +	return frequency;
 > +}
-> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-> index 9d03b6ee3c41..275370f21115 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_drm.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-> @@ -104,6 +104,7 @@ static const struct drm_bridge_funcs dp_bridge_ops = {
->   	.atomic_check = dp_bridge_atomic_check,
->   	.hpd_enable   = dp_bridge_hpd_enable,
->   	.hpd_disable  = dp_bridge_hpd_disable,
-> +	.hpd_notify   = dp_bridge_hpd_notify,
->   };
+> +
+>   static int dp_parser_misc(struct dp_parser *parser)
+>   {
+>   	struct device_node *of_node = parser->pdev->dev.of_node;
+> @@ -113,6 +136,10 @@ static int dp_parser_misc(struct dp_parser *parser)
+>   			parser->max_dp_lanes = DP_MAX_NUM_DP_LANES; /* 4 lanes */
+>   	}
 >   
->   struct drm_bridge *dp_bridge_init(struct msm_dp *dp_display, struct drm_device *dev,
-> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.h b/drivers/gpu/drm/msm/dp/dp_drm.h
-> index 1f871b555006..250f7c66201f 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_drm.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_drm.h
-> @@ -34,5 +34,7 @@ void dp_bridge_mode_set(struct drm_bridge *drm_bridge,
->   			const struct drm_display_mode *adjusted_mode);
->   void dp_bridge_hpd_enable(struct drm_bridge *bridge);
->   void dp_bridge_hpd_disable(struct drm_bridge *bridge);
-> +void dp_bridge_hpd_notify(struct drm_bridge *bridge,
-> +			  enum drm_connector_status status);
+> +	parser->max_dp_link_rate = dp_parser_link_frequencies(of_node);
+> +	if (!parser->max_dp_link_rate)
+> +                parser->max_dp_link_rate = DP_LINK_RATE_HBR2; /* 540000 khz */
+
+Drop the comment please. One can jump to the defined value to see what 
+is it equal to. So it adds no information.
+
+> +
+>   	return 0;
+>   }
 >   
->   #endif /* _DP_DRM_H_ */
+> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h b/drivers/gpu/drm/msm/dp/dp_parser.h
+> index 866c1a8..6b10c3e 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_parser.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_parser.h
+> @@ -15,6 +15,7 @@
+>   #define DP_LABEL "MDSS DP DISPLAY"
+>   #define DP_MAX_PIXEL_CLK_KHZ	675000
+>   #define DP_MAX_NUM_DP_LANES	4
+> +#define DP_LINK_RATE_HBR2	540000 /* khz */
+
+kbytes, not kHz. Otherwise it would have been 5400000.
+
+>   
+>   enum dp_pm_type {
+>   	DP_CORE_PM,
+> @@ -119,6 +120,7 @@ struct dp_parser {
+>   	struct dp_io io;
+>   	struct dp_display_data disp_data;
+>   	u32 max_dp_lanes;
+> +	u32 max_dp_link_rate;
+>   	struct drm_bridge *next_bridge;
+>   
+>   	int (*parse)(struct dp_parser *parser);
+
+-- 
+With best wishes
+Dmitry
+
