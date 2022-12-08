@@ -2,70 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C78CC646C45
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Dec 2022 10:53:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2474646DE9
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Dec 2022 12:04:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F5E510E485;
-	Thu,  8 Dec 2022 09:53:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A3E610E1BE;
+	Thu,  8 Dec 2022 11:04:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A33610E485
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Dec 2022 09:53:07 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id a7so969710ljq.12
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Dec 2022 01:53:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=7u4aL/xpIdblYmbF/S8Sj8AuIu5jDM1rBtZZo4FjHsA=;
- b=oOYdGFZqrtgKOqOZAsi9qW9yDTBmTRR8FTdkdx8S0yyEY/xi/3ynl4iRHy+QBuLypz
- 80SQgj6/Nmk0H5MzyD4B+RTrNPGbqnRGh+cLAV4xkFoSDEBT+62w1tWdtAe4nT5FZ3Wi
- 6aVzbYOJuKeZ0PnGNCGfhdcx+TG05kc65H+8TykLS0fgQYpX3zb2kfKcWnrX75qVMaFV
- LemVmqHgOhi98IJxp9y54IvFICyyuXKCZuxcBsx2H6gX6OgXDy8QFgJKPD1RTHXN/xDc
- QW3uOaheniZ+GkhDsN2/gvy3mR3WdMvKL5bZ7yxWnLr4NxWusMhpbhG4jeEzPG4MKXfT
- TQcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7u4aL/xpIdblYmbF/S8Sj8AuIu5jDM1rBtZZo4FjHsA=;
- b=ALIgKMZy2OCoM8prmi2mzH/Al5ePo1MPRYaRMUajz6BXVC3iW1UJXCJ8o5LPZmyAGF
- xKEhWHav1mqtc/PRxoC6GzdENJxKNaKz5RCz8JK3MO5WkfKcUCAXc5pKxZtGVk8HUSUB
- /tJEOt0cPSoD46XSH3UHm2KtPkVB+8TCbeB7hpLgDVfki/hLzIfa/or2vuLDC6c/Z1DJ
- XxGfbYomI7Zbe/nuDp4l/+bWh/Tn2kda2ntNWhaMxf23/kM5CpZ0YXaV/cUiGXvmO/xz
- Jg7kYMkH+G1LU+327JEWvPUUbbdG7CJEX6AFJmGPDBzZjg+qJKEouTdHypa7lCehD+mV
- 8UPw==
-X-Gm-Message-State: ANoB5pkrjFuzP7fq0WF6p7WXhk0iAriSFpDolrCWwzvYbLM7a9My4tjX
- dbK67cwQy0QaKiy/LBHFHLUBeg==
-X-Google-Smtp-Source: AA0mqf6NoOewg6gCSiROs5fwIGVTz6CRoTlYFRVgOMC46zrTxDXYoqYzYZzDfPqQUAYnVQjBKiajIg==
-X-Received: by 2002:a2e:a54d:0:b0:278:f31b:2770 with SMTP id
- e13-20020a2ea54d000000b00278f31b2770mr25305817ljn.310.1670493185690; 
- Thu, 08 Dec 2022 01:53:05 -0800 (PST)
-Received: from [192.168.0.20]
- (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
- by smtp.gmail.com with ESMTPSA id
- u13-20020a05651220cd00b004b58500383bsm1078232lfr.272.2022.12.08.01.53.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Dec 2022 01:53:05 -0800 (PST)
-Message-ID: <81b3ee7d-826c-b270-99d4-292e51e3cfdc@linaro.org>
-Date: Thu, 8 Dec 2022 10:53:04 +0100
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD6A910E1BE
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Dec 2022 11:03:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=81pH2U2ws5Ebem6IaIN5fhhXFNR7A9R0q9kS0iMMNos=; b=j6j8Mq0Civ4c18rLUmadWpXN/B
+ 0HVHCO469BOgUNjwR4iAPWJOwTULOO9cId6QI8dro1r5hMcPfXX0MU9e6AQuzTGiIsho1LqpYDglE
+ EvjP8F9lrGj6M5MqO0a1tWPCX8++sGWGOUooETZ31Adow8fqqZ6X+OXlCTM0Q/m/GgdeKhylGsrBs
+ xcsS7tczDK0SuJfpbkkY9/6ipsSqePT+Rmeax0WynhlsiiadoUheKzOTeUWU4KFAXMVCLT0dHYZOB
+ 1Jq2SdHhGcmuJw31WoP4rc2qCQJY+EpCL6s9hAkVyR5vxQL9pf6gZ6uWpBetSza2INYo+N6cxMWQq
+ /iW1CyNg==;
+Received: from [177.34.169.227] (helo=[192.168.0.8])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1p3Egg-00H9hu-PV; Thu, 08 Dec 2022 12:03:35 +0100
+Message-ID: <fcb94856-b455-24ce-92f2-d7d71862f02f@igalia.com>
+Date: Thu, 8 Dec 2022 08:03:26 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.1
-Subject: Re: [PATCH v2 1/1] dt-bindings: lcdif: Fix constraints for imx8mp
+Subject: Re: [PATCH] drm/vc4: Improve the KUnit documentation
+To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter
+ <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+References: <20221208094727.2848310-1-maxime@cerno.tech>
 Content-Language: en-US
-To: Alexander Stein <alexander.stein@ew.tq-group.com>,
- Marek Vasut <marex@denx.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20221208094519.3561610-1-alexander.stein@ew.tq-group.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221208094519.3561610-1-alexander.stein@ew.tq-group.com>
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20221208094727.2848310-1-maxime@cerno.tech>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,87 +57,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/12/2022 10:45, Alexander Stein wrote:
-> i.MX8MP uses 3 clocks, so soften the restrictions for clocks & clock-names.
-> This SoC requires a power-domain for this peripheral to use. Add it as
-> a required property.
+On 12/8/22 06:47, Maxime Ripard wrote:
+> The command-line can be expressed using a code-block, and we were
+> missing which architectures were available.
 > 
-> Fixes: f5419cb0743f ("dt-bindings: lcdif: Add compatible for i.MX8MP")
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> Suggested-by: Maíra Canal <mcanal@igalia.com>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > ---
-> Changes in v2:
-> * Squash both patches into one
-> * Split the conditionals from fsl,imx6sx-lcdif
-> * Mark power-domains as required for fsl,imx8mp-lcdif
-> * Ignored the A-b & R-b due to reorganization
+
+Reviewed-by: Maíra Canal <mcanal@igalia.com>
+
+Best Regards,
+- Maíra Canal
+
+>  Documentation/gpu/vc4.rst | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 > 
-> I'm not sure if this is the best way to add the constraints. I noticed that
-> imx6sx also uses a power-domain, but imx6ul which is compatible to imx6sx does
-> not, so they can't be merged.
-> 
-> I also have noticed that dtbs_check doesn't raise a warning when
-> power-domains is actually missing.
-> 
->  .../bindings/display/fsl,lcdif.yaml           | 31 ++++++++++++++++++-
->  1 file changed, 30 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
-> index 876015a44a1e6..24014651f7dc8 100644
-> --- a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
-> +++ b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
-> @@ -52,6 +52,9 @@ properties:
->    interrupts:
->      maxItems: 1
+> diff --git a/Documentation/gpu/vc4.rst b/Documentation/gpu/vc4.rst
+> index a2375f1584e6..5e5e92e40919 100644
+> --- a/Documentation/gpu/vc4.rst
+> +++ b/Documentation/gpu/vc4.rst
+> @@ -61,8 +61,11 @@ The VC4 Driver uses KUnit to perform driver-specific unit and
+>  integration tests.
 >  
-> +  power-domains:
-> +    maxItems: 1
+>  These tests are using a mock driver and can be ran using the
+> -command::
+> -	./tools/testing/kunit/kunit.py run \
+> +command below, on either arm or arm64 architectures,
 > +
->    port:
->      $ref: /schemas/graph.yaml#/properties/port
->      description: The LCDIF output port
-> @@ -81,7 +84,33 @@ allOf:
->            maxItems: 3
->        required:
->          - clock-names
-> -    else:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: fsl,imx8mp-lcdif
-> +    then:
-> +      properties:
-> +        clocks:
-> +          minItems: 3
-> +          maxItems: 3
-> +        clock-names:
-> +          minItems: 3
-> +          maxItems: 3
-> +        power-domains:
-> +          minItems: 1
-
-Drop power domains here.
-
-> +      required:
-> +        - clock-names
-> +        - power-domains
-> +  - if:
-> +      not:
-> +        properties:
-> +          compatible:
-> +            contains:
-> +              enum:
-> +                - fsl,imx6sx-lcdif
-> +                - fsl,imx8mp-lcdif
-> +    then:
->        properties:
->          clocks:
->            maxItems: 1
-
-Best regards,
-Krzysztof
-
+> +.. code-block:: bash
+> +
+> +	$ ./tools/testing/kunit/kunit.py run \
+>  		--kunitconfig=drivers/gpu/drm/vc4/tests/.kunitconfig \
+>  		--cross_compile aarch64-linux-gnu- --arch arm64
+>  
