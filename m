@@ -1,75 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87442646B35
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Dec 2022 09:57:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE8D9646B36
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Dec 2022 09:58:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BACCA10E47D;
-	Thu,  8 Dec 2022 08:57:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E85A110E47E;
+	Thu,  8 Dec 2022 08:58:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C80510E47D
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Dec 2022 08:57:29 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id b13so1043786lfo.3
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Dec 2022 00:57:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=t+Wh+O8PRwTrRbk5kFdr3a/rSo7u8vOA5d9odhfiR14=;
- b=v1BSzoivO0PDOUQT0ugfbeIyn3ltnACrXweWeUA+dRemAuYcVd53KUcoqoV2McEcub
- IfYVTtelayxQaadlY3/x1LZHiBSoTV0lsY1GUYkDIFVB1DCuw+RNbFEZ+yTaUe/ENSdc
- fxSaDVJ5zzuJwqfP1qXHAzPOBOHk7qTaKzr7fZwzYAS128kkeJXBDj5prB4lhNzxgtL5
- IdvWodkx3BjVp1VZk8YC/0BvmoFHi25ioRN2If5ARSnBGks1Vfhjjl+BxWxUMSfoiG26
- HtI7KpSkvckM10TE74NfLcKzhACjrJxrL6azX6OEzG4BLfbvizZ+F2XOFFDqQu7U3Ct/
- mOYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=t+Wh+O8PRwTrRbk5kFdr3a/rSo7u8vOA5d9odhfiR14=;
- b=prONmxPC7p6dCTt0AEnmdJuyX3w2YsaJN8eSNPE2TiJLzALxbby0otriXN3n4lG4TP
- xUivWl13jdRo9oxr46o+ey5Qlwxv1790o5MLhf1ZEq+P/t4HM6OxlKsiSMcZ8s9kT8+0
- GIi1Fy8DOaPccp6ohhAIwi0R/Anh16Yoj9QBWTUlsTu/yrW4LXTnOqZgchA0yEJj1XOr
- a9pAS4p9qzSCDPH8TCazwA5GZGhIcaJoPEycdENUiJhUzh5hhah3ghf2sogvBvS41HC+
- qFWQRIfBW5xrWtlDlWj8Ny8KYMe2kq2ffnmd4ocar0s4BMqrOztUb0tOU74mJpgXfYlR
- KJWw==
-X-Gm-Message-State: ANoB5pleQHyNjOO23cabgqH55Vq+IjU2Df7pSe8nI7Zp8po8odwt9lhN
- mguGv6Ztjvj9lcKeOuzb+QaKcA==
-X-Google-Smtp-Source: AA0mqf5FwywbJZstRFly5MgLTHQOmnrNxgG1bb0++yQ1DsDDnUV6kjVmQp+5cJWWCy8cOwCS3g1TAw==
-X-Received: by 2002:a05:6512:2005:b0:4b5:9043:2537 with SMTP id
- a5-20020a056512200500b004b590432537mr2133373lfb.48.1670489847665; 
- Thu, 08 Dec 2022 00:57:27 -0800 (PST)
-Received: from [192.168.0.20]
- (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
- by smtp.gmail.com with ESMTPSA id
- i6-20020a2ea226000000b0026dee5476d5sm2230773ljm.113.2022.12.08.00.57.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Dec 2022 00:57:27 -0800 (PST)
-Message-ID: <d5e9f614-496c-b111-c9af-f180e16c40b5@linaro.org>
-Date: Thu, 8 Dec 2022 09:57:26 +0100
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
+ [66.111.4.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE76310E47E
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Dec 2022 08:58:31 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailnew.nyi.internal (Postfix) with ESMTP id C9280580400;
+ Thu,  8 Dec 2022 03:58:30 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Thu, 08 Dec 2022 03:58:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1670489910; x=
+ 1670497110; bh=tooDwlIC7AZxevGK2gsaN582jvPWJq/aK8UKAGTQaI0=; b=u
+ g6R88x4QZk3vqHrpUoXGXedl8X7JuAmNReet3tdhc3FFeJZw1cQ6E646JhIrgNt+
+ i4hKeQbUB/bn9+IXYsxKvCytJDIHs0nq8UmjjDwI3NPPgLqT03jrixVWuEu0zDhU
+ HZ8XS9mwXwmTVnFAY4mK6WGRIQoPcOB6LPzo6uqnkUnC6+xHF9DsKmt5trstb3pU
+ GpTkUGtbVf/bkWCpk1fSEExjbQ7z4HqGmr2JwA+mLoR0jN7AMdwPFstAKmeNebjo
+ Bl5C3k+1ync5c+fDdEro1y0fRbxnGjDhcTi2eyb3GSQ3gbAGutd4BMXBxi9jTPu6
+ u0q/NSb2XYXRv+mXASCoQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1670489910; x=
+ 1670497110; bh=tooDwlIC7AZxevGK2gsaN582jvPWJq/aK8UKAGTQaI0=; b=Z
+ DPRAE5xrL2xPGwvJMx8NCyQuX0ELUDFSfV8N9CXWVrH5pNmAS5k2QuckZfuLack3
+ OzAxEdzlc5HE3vaxr9Enef8P+xNgrPCy2MOqtfrbnAWGLPj/+ExDf6CeH9uXHIe0
+ v/WXYqVMu3PogTKM+6UkyUAUhkg1lw8aDYPdHQQp65TQ0pvjTwTBmvyX5Tt55qWp
+ ztkcRN4+HTcp3dHzaLod6OgacNS9M8JiqNyHX9zYCxHzsl3CBEBPxvUMjWCShe78
+ yK1uhjrMop/c3XoaIUPBtx7GglM+hkYqjvHjnwI0YKEqkjinI3H6SwQM0q4kRB6S
+ lnRjZIWD/R2iwFI55UR8g==
+X-ME-Sender: <xms:NqeRYwnU-9XkJjEkgKK508K0hMs6wojm9cMw-4MYyPnU7VJzEj1YPQ>
+ <xme:NqeRY_15--qZGc_GV9W9ww_7f2U7VNDM0v28xF5loCuV4aFeLPSRn-qgZMLFZ-vAl
+ sUcLKyCmeCREOU1V5M>
+X-ME-Received: <xmr:NqeRY-qWSM8gWsSNB56-FPskdt_SJbePxpflvIsg9UvnkGxQj0veZOFykVdS26u-xFYaHr9cBlGg0kDzJON4k80IKFbY49ycywsLa3YDxwdK5g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudelgdduvdekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvvegjfhfukfffgggtgffosehtkeertdertdejnecuhfhrohhmpeforgig
+ ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+ grthhtvghrnhepieefieeglefhheekledtteejteeuleetueevkeeuveffudehffefhffh
+ hefgheeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:NqeRY8npGcqOKarzHYTUKfm9Zg9AqJ4UhSXD7x0LZXk8_CY9r1CBXQ>
+ <xmx:NqeRY-3komStJyir3q-tDoywZsAm2I-Kvzm9fj1YbHJfxFqhHJIkJg>
+ <xmx:NqeRYzsDa0QIaUiChF3izjSKefejmpklrWduWXG821saM2PATj-PBQ>
+ <xmx:NqeRY70Hjayo4kyZ4PCAHMCSW_Lkj7sWP6IIYf8bDgaD0pGrFYd65w>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 8 Dec 2022 03:58:29 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Maxime Ripard <maxime@cerno.tech>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20221123-rpi-kunit-tests-v3-0-4615a663a84a@cerno.tech>
+References: <20221123-rpi-kunit-tests-v3-0-4615a663a84a@cerno.tech>
+Subject: Re: [PATCH v3 00/20] drm: Introduce Kunit Tests to VC4
+Message-Id: <167048988433.2773435.3606690338900284199.b4-ty@cerno.tech>
+Date: Thu, 08 Dec 2022 09:58:04 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH 2/2] dt-bindings: lcdif: Add optional power-domain
-Content-Language: en-US
-To: Alexander Stein <alexander.stein@ew.tq-group.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Marek Vasut <marex@denx.de>
-References: <20221207151400.1572582-1-alexander.stein@ew.tq-group.com>
- <1839665.tdWV9SEqCh@steina-w>
- <a033d9a3-4bee-d749-9bd9-24a419398d0b@linaro.org>
- <3212302.44csPzL39Z@steina-w>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <3212302.44csPzL39Z@steina-w>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.10.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,65 +88,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-kselftest@vger.kernel.org, Dave Stevenson <dave.stevenson@raspberrypi.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Ma��ra Canal <mcanal@igalia.com>, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>, linaro-mm-sig@lists.linaro.org, Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, linux-media@vger.kernel.org, Ma��ra Canal <mairacanal@riseup.net>, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/12/2022 09:50, Alexander Stein wrote:
-> Hello Krzysztof,
+On Thu, 01 Dec 2022 16:11:31 +0100, Maxime Ripard wrote:
+> This series introduce Kunit tests to the vc4 KMS driver, but unlike what we
+> have been doing so far in KMS, it actually tests the atomic modesetting code.
 > 
-> Am Donnerstag, 8. Dezember 2022, 09:25:31 CET schrieb Krzysztof Kozlowski:
->> On 08/12/2022 06:59, Alexander Stein wrote:
->>> Am Mittwoch, 7. Dezember 2022, 17:00:22 CET schrieb Marek Vasut:
->>>> On 12/7/22 16:14, Alexander Stein wrote:
->>>>> i.MX8MP requires a power-domain for this peripheral to use. Add it as
->>>>> an optional property.
->>>>>
->>>>> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
->>>>> ---
->>>>>
->>>>>   Documentation/devicetree/bindings/display/fsl,lcdif.yaml | 3 +++
->>>>>   1 file changed, 3 insertions(+)
->>>>>
->>>>> diff --git a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
->>>>> b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml index
->>>>> 793e8eccf8b8b..9d9fb5ad587c2 100644
->>>>> --- a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
->>>>> +++ b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
->>>>>
->>>>> @@ -52,6 +52,9 @@ properties:
->>>>>     interrupts:
->>>>>       maxItems: 1
->>>>>
->>>>> +  power-domains:
->>>>> +    maxItems: 1
->>>>> +
->>>>>
->>>>>     port:
->>>>>       $ref: /schemas/graph.yaml#/properties/port
->>>>>       description: The LCDIF output port
->>>>
->>>> Should this be required on mx8mp then ?
->>>
->>> I'm hesitating to add a required property later on. But I'm okay with
->>> both.
->>> Rob, Krzysztof: Any preference here? Shall power-domains be made required
->>> for fsl,imx8mp-lcdif only?
->>
->> I don't know. That's not the question to us, but to someone who knows
->> the hardware/datasheet.
+> In order to do so, I've had to improve a fair bit on the Kunit helpers already
+> found in the tree in order to register a full blown and somewhat functional KMS
+> driver.
 > 
-> I was not talking about the hardware, which needs the power-domain, but the DT 
-> schema. Sorry to be not specific about this.
-> Is it okay to add a required property for a compatible later on?
+> [...]
 
-Yes, it is okay, assuming:
-1. Linux implementation still works without it thus preserving ABI.
-2. It is really required, e.g. device cannot operate without it (your
-commit msg suggests that).
-3. The property should be required since beginning, but we did not add
-it due to mistake/forgot/lack of docs etc.
+Applied to drm/drm-misc (drm-misc-next).
 
-Best regards,
-Krzysztof
-
+Thanks!
+Maxime
