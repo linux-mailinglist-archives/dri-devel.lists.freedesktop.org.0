@@ -2,43 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D422647095
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Dec 2022 14:15:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C8436470CA
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Dec 2022 14:30:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2453010E49D;
-	Thu,  8 Dec 2022 13:15:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5444210E20F;
+	Thu,  8 Dec 2022 13:29:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3640310E49E;
- Thu,  8 Dec 2022 13:15:01 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 997FD10E20F
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Dec 2022 13:29:50 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 02A09B823CA;
- Thu,  8 Dec 2022 13:14:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26C58C433C1;
- Thu,  8 Dec 2022 13:14:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1670505297;
- bh=glSCtV+QzoCCztEb8hKzqZvn/Kmi//N93WanQimJ3rk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EAwqHfgMtkZyHyvjY/V2PP92GiVHFAxUQ7AfeBuSj2egHNczQ63uPStxjudUu/19G
- iUO41j6S9tvKd6wB2+l2kEQOY1mH8qlOHgmC+MPr8+X0+cdrOKq94DDdWV4lGraL3p
- LX4/TT3k/jY5ZPbxpqpUXk0oy6EdKm9cVysL2+dM=
-Date: Thu, 8 Dec 2022 14:14:54 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v5 1/4] i915: Move list_count() to list.h as
- list_count_nodes() for broader use
-Message-ID: <Y5HjTpzmgZWft+nF@kroah.com>
-References: <20221130134838.23805-1-andriy.shevchenko@linux.intel.com>
- <Y5HelZhkxnPf6hIs@smile.fi.intel.com>
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id E5CB984225;
+ Thu,  8 Dec 2022 14:29:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1670506188;
+ bh=QrRDcmJYHfZ/8CRLaxVVa3DyWhoJmGkp8JDv+shpaK4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=bumXoatBWUMh3cNIdcgkI6BJDXxm+Q4tXe3DQNljcb5J6K+U+/McPIXX7fshT3L4M
+ VP5VKocvJvHEUzKzlvTACAJ3/UqFxpCbXgc7deWuxfhdYwGduB3Sv6PWxar6wErjqh
+ GlCh1nc905nt7s4Vwfh0D8dc6R4VGLxXOqg8mSz4tCLIa4coLtacLV/BzxtAFfSYdz
+ vzD/HzDbddnfZudFCFLlbLnPjm/dsLUnzkYRtyHPi5m58BxqQXTSoKLDf0H7u3KLBQ
+ oE2t5KC6FKn8YcBR+6yXwUQXZqx2szVQrYTis7Wr30W/QIYqFLxqFhDPeBmssmRqBe
+ KljkhQawGTFpg==
+Message-ID: <44f24d39-d593-0da4-d9d3-2e0cf283b6ca@denx.de>
+Date: Thu, 8 Dec 2022 14:25:42 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y5HelZhkxnPf6hIs@smile.fi.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH 1/2] dt-bindings: lcdif: Fix clock constraints for imx8mp
+Content-Language: en-US
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+References: <20221207151400.1572582-1-alexander.stein@ew.tq-group.com>
+ <e5d8f530-9814-48eb-76b3-e4712300466d@denx.de> <2861512.e9J7NaK4W3@steina-w>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <2861512.e9J7NaK4W3@steina-w>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,31 +57,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Mathias Nyman <mathias.nyman@linux.intel.com>,
- Mathias Nyman <mathias.nyman@intel.com>, Jani Nikula <jani.nikula@intel.com>,
- Kevin Cernekee <cernekee@gmail.com>, intel-gfx@lists.freedesktop.org,
- linux-usb@vger.kernel.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 08, 2022 at 02:54:45PM +0200, Andy Shevchenko wrote:
-> On Wed, Nov 30, 2022 at 03:48:35PM +0200, Andy Shevchenko wrote:
-> > Some of the existing users, and definitely will be new ones, want to
-> > count existing nodes in the list. Provide a generic API for that by
-> > moving code from i915 to list.h.
+On 12/8/22 07:31, Alexander Stein wrote:
+> Hello Marek,
 > 
-> Greg, I believe this one is ready to be taken. Or please tell me what I need
-> to do.
+> Am Mittwoch, 7. Dezember 2022, 16:59:50 CET schrieb Marek Vasut:
+>> On 12/7/22 16:13, Alexander Stein wrote:
+>>> i.MX8MP uses 3 clocks, so soften the restrictions for clocks &
+>>> clock-names.
+>>>
+>>> Fixes: f5419cb0743f ("dt-bindings: lcdif: Add compatible for i.MX8MP")
+>>> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+>>> ---
+>>>
+>>>    Documentation/devicetree/bindings/display/fsl,lcdif.yaml | 4 +++-
+>>>    1 file changed, 3 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+>>> b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml index
+>>> 876015a44a1e6..793e8eccf8b8b 100644
+>>> --- a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+>>> +++ b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+>>>
+>>> @@ -70,7 +70,9 @@ allOf:
+>>>          properties:
+>>>            compatible:
+>>>              contains:
+>>> -            const: fsl,imx6sx-lcdif
+>>> +            enum:
+>>> +              - fsl,imx6sx-lcdif
+>>> +              - fsl,imx8mp-lcdif
+>>>
+>>>        then:
+>>>          properties:
+>>>            clocks:
+>> Reviewed-by: Marek Vasut <marex@denx.de>
+> 
+> Thanks!
+> 
+>> btw you might want to update the clock-names and clock proerty order in
+>> imx8mp.dtsi to match the clock-names order in these bindings.
+> 
+> The lcdif nodes are not yet in linux-next ;-) So its probably a local commit
+> on your side. But yes, the upcoming patches will address this.
 
-Wait for me to get through the current backlog of patches that I have in
-my review queue.  Odds are, it will have to wait until after 6.2-rc1 is
-out based on when 6.1 is going to be released.
-
-Don't worry, it's not lost.
-
-thanks,
-
-greg k-h
+Ah, right, seems they are still pending HDMI and DSIM addition. Sorry 
+for the noise.
