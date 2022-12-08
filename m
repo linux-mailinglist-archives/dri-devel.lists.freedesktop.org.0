@@ -1,74 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D394D646ABD
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Dec 2022 09:41:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19102646B04
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Dec 2022 09:50:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F182510E474;
-	Thu,  8 Dec 2022 08:40:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30A4610E47C;
+	Thu,  8 Dec 2022 08:50:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DA2B10E480;
- Thu,  8 Dec 2022 08:40:47 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailnew.nyi.internal (Postfix) with ESMTP id 05AE358034C;
- Thu,  8 Dec 2022 03:40:45 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Thu, 08 Dec 2022 03:40:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to; s=fm3; t=
- 1670488845; x=1670496045; bh=bxFDNCpEngZHFDwZMuAFYGZfgDIx948azuj
- u7JpMwUQ=; b=Fqc7I7SL3zaTMnfQHU27ECUfiALmaX6HQqnxLwLkO0tF4oo0YD8
- yiVqJk7YlR1m8nMu6MQ780LeC99wGlC+jkgSR51NooTnCA97jzCOKNI/GkHVAL7S
- grBx8PK82Rqq8gOKf6OlPn0TSj5SVIV5OGfyYlXn9BGdQ0YQ255qQvWBmVQfaaDF
- HcLGVb9nbLEg5m+1veCpeJkzcRMYt5SH6ywLFbcBTwKXGtbotYszON8UIfpX2na2
- hO+esf7JiAhb27sqLvdsGoyDyuxlWAGJ76q/XqUnI38XOjfnz+4X5yTRmpwj1Lu8
- PwgSmemlOuyNCAKILOa5WYeH20WDJS0bDuA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:message-id:mime-version
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1670488845; x=
- 1670496045; bh=bxFDNCpEngZHFDwZMuAFYGZfgDIx948azuju7JpMwUQ=; b=V
- ChWM3+B6CLL6PN95BSve6zqvFP9d5vtRO6e75fkI/8ZOfJ+WtTmspp6PqrmsBEcQ
- uMFKaslREJw1niTeYs1sFcL91X9NpXYt3j72CL4onUMSydNkaQGHA0dJom+RTBnI
- HZ+M2sWXyWq/RKUw7WT8KmJHmcu2uUIujA/1BqDW4Z/iGDk0v63ADqHqUShexJtg
- RBPOx4Emi+THiiAHKJ+5vxtmnEEeQ8TrrAuQ2BOWU4ysI3qI9xNu1Nd1WOZ5kBQD
- gIfC8ZDBPqxFxjA9mt+ULE239gaiW8hsNJkn5ikMuHaDpvZen8BphsVRVE0C1xtA
- NF6ceihS0XLVqBNvYKAmw==
-X-ME-Sender: <xms:DKORY__XYe2ouF-WRxp-jHurAomV70CasNAlviP4Zsncc3IO8Xplvw>
- <xme:DKORY7stwoOyvRuMef5-gU0krfAdCoelm3WJvdDU6e_KQ9NDGzkrrzR8-kXg0hA9p
- xzbWR0nMJeCX7bH2dY>
-X-ME-Received: <xmr:DKORY9DSh9gmP-dFP1qyfXwylFE0hL1kJDW4IrunVHwW6TRUT5ys_5K4V8bEI0MCRpxAci_PCotHYzdUHuTR1zVQx6cG5Fy725ugFMidNDI99w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudelgdduvdehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkgggtugesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeeuieehjefhieevtdehudfftdetgfdtuedvvdeugeetgfevgeevudegffduveej
- ieenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvghruf
- hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdr
- thgvtghh
-X-ME-Proxy: <xmx:DKORY7cO3zUmaw5zOPbUkayfN4XqewKUZQrVX6gOIOY_Gz4GFTE-Zw>
- <xmx:DKORY0NyKdYVzgT49iydWQ3SCG5T7oAD8oSCnOGYkQ2KRHTBEiePGQ>
- <xmx:DKORY9l0-Fy_KZunEE0xJHlbvhXC6Lg9OiBnMBR98hVsGThMRyxKNQ>
- <xmx:DaORY7_dNfxfaLdrynPw4CSVChXUin5W0Q0cNiHCBHd1yZUS9RpUoQ>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 8 Dec 2022 03:40:43 -0500 (EST)
-Date: Thu, 8 Dec 2022 09:40:40 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-next-fixes
-Message-ID: <20221208084040.yw4zavsjd25qsltf@houat>
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E54010E47C
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Dec 2022 08:50:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1670489433; x=1702025433;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=HS1LXFNFWH8asbrv1/rNtKvQd0Vnd4v/MZSu33SbCIk=;
+ b=Dxflhaak844iuXAoW5gQDn5JOqTMYDwT+wHI67OkX27UU63oH1mpQ0Jf
+ o8TXsYeb6/ViaPfU3nYRVL5akT0Lm9olFcwHK3pf4p2aS19+tlQF7nugf
+ vZFupgNMHxYVaADoanRZBXXKVyunQUwEIADNkkNduwR+v/Ji3jJkNhBmp
+ ybhHDPtdOz4remjX69ybwm8hJMBYf+a7POeowdiIYx5sotRcyhjlkfage
+ XH+PI/igRQ+ncWmDro1/u9GB1h+qTrYOUIYnbWKAXp4pOu3gQC0enjEfZ
+ oBUT1bSTkOkdvYx29cfZE8mgtSMGN3EOcVTBhZNzfIVfKWMRlLU+2hMGZ g==;
+X-IronPort-AV: E=Sophos;i="5.96,227,1665439200"; d="scan'208";a="27830345"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+ by mx1-pgp.tq-group.com with ESMTP; 08 Dec 2022 09:50:31 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+ by tq-pgp-pr1.tq-net.de (PGP Universal service);
+ Thu, 08 Dec 2022 09:50:31 +0100
+X-PGP-Universal: processed;
+ by tq-pgp-pr1.tq-net.de on Thu, 08 Dec 2022 09:50:31 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1670489431; x=1702025431;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=HS1LXFNFWH8asbrv1/rNtKvQd0Vnd4v/MZSu33SbCIk=;
+ b=NxfOcP81VJMhdR3oELxJL8QcPDM5ziReZWTq8ttR/kM1wF6wZr2RdVZE
+ bqD1GdPdptGixpHsrRbxrCD1YuFDxot4fBR4y9Bx8DNCeRrEBPy3FxgYz
+ 5Yye6OERbE60loDKHSu6ka4+hroL/n+1smlUZ2IhDWWijbDC304ZHUygr
+ l8TuvErtTF53TsRuDSWugJYUXzAqy6gjtMD/joKMQrnbGja05/ZxYicM/
+ PIqDEp0aNq3SncukAi64aeDtz6qW16HLyG+urlFq1vU782Zj9Kv3G91Td
+ wFXzlQgiEtqUWj0acxTvmrRo0j5d/BnaZxlwNDH0DVLcwxZ+g76GM9TXT A==;
+X-IronPort-AV: E=Sophos;i="5.96,227,1665439200"; d="scan'208";a="27830344"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 08 Dec 2022 09:50:31 +0100
+Received: from steina-w.localnet (unknown [10.123.53.21])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 08D74280071;
+ Thu,  8 Dec 2022 09:50:31 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Marek Vasut <marex@denx.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH 2/2] dt-bindings: lcdif: Add optional power-domain
+Date: Thu, 08 Dec 2022 09:50:26 +0100
+Message-ID: <3212302.44csPzL39Z@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <a033d9a3-4bee-d749-9bd9-24a419398d0b@linaro.org>
+References: <20221207151400.1572582-1-alexander.stein@ew.tq-group.com>
+ <1839665.tdWV9SEqCh@steina-w>
+ <a033d9a3-4bee-d749-9bd9-24a419398d0b@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ksafdulhcxpv4tpm"
-Content-Disposition: inline
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,74 +81,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello Krzysztof,
 
---ksafdulhcxpv4tpm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Am Donnerstag, 8. Dezember 2022, 09:25:31 CET schrieb Krzysztof Kozlowski:
+> On 08/12/2022 06:59, Alexander Stein wrote:
+> > Am Mittwoch, 7. Dezember 2022, 17:00:22 CET schrieb Marek Vasut:
+> >> On 12/7/22 16:14, Alexander Stein wrote:
+> >>> i.MX8MP requires a power-domain for this peripheral to use. Add it as
+> >>> an optional property.
+> >>> 
+> >>> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> >>> ---
+> >>> 
+> >>>   Documentation/devicetree/bindings/display/fsl,lcdif.yaml | 3 +++
+> >>>   1 file changed, 3 insertions(+)
+> >>> 
+> >>> diff --git a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+> >>> b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml index
+> >>> 793e8eccf8b8b..9d9fb5ad587c2 100644
+> >>> --- a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+> >>> +++ b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+> >>> 
+> >>> @@ -52,6 +52,9 @@ properties:
+> >>>     interrupts:
+> >>>       maxItems: 1
+> >>> 
+> >>> +  power-domains:
+> >>> +    maxItems: 1
+> >>> +
+> >>> 
+> >>>     port:
+> >>>       $ref: /schemas/graph.yaml#/properties/port
+> >>>       description: The LCDIF output port
+> >> 
+> >> Should this be required on mx8mp then ?
+> > 
+> > I'm hesitating to add a required property later on. But I'm okay with
+> > both.
+> > Rob, Krzysztof: Any preference here? Shall power-domains be made required
+> > for fsl,imx8mp-lcdif only?
+> 
+> I don't know. That's not the question to us, but to someone who knows
+> the hardware/datasheet.
 
-Hi,
+I was not talking about the hardware, which needs the power-domain, but the DT 
+schema. Sorry to be not specific about this.
+Is it okay to add a required property for a compatible later on?
 
-Here's this week drm-misc-next-fixes PR
+Best regards,
+Alexander
 
-All of those patches seems to have been applied to both drm-misc-next
-and drm-misc-next-fixes and were part of the final drm-misc-next PR for
-6.2.
 
-So we shouldn't have any new patch per se, but it aligns all our
-branches and fixes this odd situation.
 
-Maxime
-
-drm-misc-next-fixes-2022-12-08:
-Some deferred-io and damage worker reworks revert and make a fb function
-static
-The following changes since commit 3d335a523b938a445a674be24d1dd5c7a4c86fb6:
-
-  Merge tag 'drm-intel-next-2022-11-18' of git://anongit.freedesktop.org/drm/drm-intel into drm-next (2022-11-23 09:15:44 +1000)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-2022-12-08
-
-for you to fetch changes up to b02897e56b4e1fa6445be695ce5d605bb098435c:
-
-  Revert "drm/fb-helper: Perform damage handling in deferred-I/O helper" (2022-11-23 09:11:32 +0100)
-
-----------------------------------------------------------------
-Some deferred-io and damage worker reworks revert and make a fb function
-static
-
-----------------------------------------------------------------
-Thomas Zimmermann (6):
-      Merge drm/drm-next into drm-misc-next-fixes
-      Merge drm/drm-next into drm-misc-next-fixes
-      fbdev: Make fb_modesetting_disabled() static inline
-      Revert "drm/fb-helper: Remove damage worker"
-      Revert "drm/fb-helper: Schedule deferred-I/O worker after writing to framebuffer"
-      Revert "drm/fb-helper: Perform damage handling in deferred-I/O helper"
-
- drivers/gpu/drm/drm_fb_helper.c     | 30 +++++++++++++-----------------
- drivers/video/fbdev/core/fb_defio.c | 16 ----------------
- include/drm/drm_fb_helper.h         |  2 ++
- include/linux/fb.h                  |  3 +--
- 4 files changed, 16 insertions(+), 35 deletions(-)
-
---ksafdulhcxpv4tpm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY5GjCAAKCRDj7w1vZxhR
-xX5kAQCy0oEFupsANm7sTZNvZQRG2fcjhpWKbXzL5m3RVC9KbQEA6mIXTeiXTGvl
-NjJW8o+JHKirkyn/W+XLSNLr9yYCCA0=
-=5GW/
------END PGP SIGNATURE-----
-
---ksafdulhcxpv4tpm--
