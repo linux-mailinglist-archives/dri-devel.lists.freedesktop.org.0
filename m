@@ -2,62 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA66C646A40
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Dec 2022 09:15:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13BF9646A71
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Dec 2022 09:25:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FDBF10E46E;
-	Thu,  8 Dec 2022 08:15:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 416FC10E470;
+	Thu,  8 Dec 2022 08:25:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8CFE10E1B0
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Dec 2022 08:15:20 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 039882076A;
- Thu,  8 Dec 2022 08:15:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1670487319; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=6gekPT27rlfRj+Y5dIlmyOGBIt/bS6JGzZSYpWxyIck=;
- b=mepqkz5W9D5ai2n/86YUgmVLe+70Be66AYNTzcjVJJYdmmupjlWd1eASbFzQMDfU8CRnPZ
- 2YE0hqceDzuH6VaUYeIdKpMTS2M2aFEcNfnph1GtmP35oG0j9aCqGLssqhIwb6V+LuQExR
- mC++E8+d8xOwRwbFv1qAqQQaG1xZFU8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1670487319;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=6gekPT27rlfRj+Y5dIlmyOGBIt/bS6JGzZSYpWxyIck=;
- b=OxocUXawdAaMuoHdpCuE1ItKfT39kWLzxWHvtZPehJZ+oYfUWay7n022WJes4M/oXrAREo
- aBRSrdqy7UpYvMDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DF323138E0;
- Thu,  8 Dec 2022 08:15:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id G0p9NRadkWPSHgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 08 Dec 2022 08:15:18 +0000
-Message-ID: <fcb98c52-a8d4-2cca-da68-f3f714cde3bc@suse.de>
-Date: Thu, 8 Dec 2022 09:15:18 +0100
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F195C10E470
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Dec 2022 08:25:34 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id l8so745215ljh.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Dec 2022 00:25:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=xE8jv3PkuMLfTb6vfE6WECcl1fHHkR+JJYoxxEnxTzI=;
+ b=foAOdHOyJB5et6qqqHy/AtQNtZkvyrfaUB+dd5lD3qGnhyuZqNG93a1MdOHXY6MeXn
+ BjQjFc4iQ8CFUP8n72odAFiCZJ+rDkzZfDvQ8CYxzuAj64g1YjavbIsMc48V89aHwgs6
+ 6Ei6e9Ft56HsGD5bc3Mdh0EZRzDHyH3RszhUt19ZdPhF0w0Sl7xnefd4jyKVijUlmdW5
+ emGC0NqKWSfPuC2d1V8MFfDLuPF8cZilf4egSnq68olLbZYjwa7NK5mYfQ9xfCaUc4Il
+ MqCkgnhTpkQVZbIemGoSTVThWGsrhcKzzK/3cu/ADvvlcghMky1RrYsesJkJHIeyGC4D
+ GyBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=xE8jv3PkuMLfTb6vfE6WECcl1fHHkR+JJYoxxEnxTzI=;
+ b=XPRg1IOisNODWrph3jOnwcqhAPwi9yK0b2gef0QPE1qTJ3DUDuSDmBO3xtIbXMNxv9
+ YzUPQQxO1NBWOkhMVyIHxsJGrmH7DrUM5yu6hqvtWGxoXgwC7MJoaOTxDnbg4HVZ4L+4
+ ZXiFJob8tDOMglCZTJsbOrH9fsCiPBdT6YroJIPEOE35XUMbLG3hIG4Kz/xKu65gIVmz
+ MGDlY7e7JTLjhe9LhsldZx8v6La8mAA0IwXxcaQfu5KThJ760pQZTHPzm1EVDBhJRsTV
+ UbDvCOZMX+V0kajAn7s/SREJle80ZtzLcPlANM/chMZmSolFRp0wFKsqg9Ih0t089HvA
+ GLZw==
+X-Gm-Message-State: ANoB5pktqL4nU8Fl7xSmo+orGahBL0CnNUCM1fvq8tANKtGGoTrcyDjz
+ c5euZtWV5VkmFadQhzQYq85l5A==
+X-Google-Smtp-Source: AA0mqf4/MQ847e6F5ifIS/SX54WEmvMn0heImNI0WYKc/4M90aEB/+yIg6YSjxOM1SOpgt0dmSBmQw==
+X-Received: by 2002:a05:651c:c89:b0:26f:bd61:ac4f with SMTP id
+ bz9-20020a05651c0c8900b0026fbd61ac4fmr25339083ljb.396.1670487933258; 
+ Thu, 08 Dec 2022 00:25:33 -0800 (PST)
+Received: from [192.168.0.20]
+ (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+ by smtp.gmail.com with ESMTPSA id
+ m8-20020a2e9108000000b0026dffa29989sm1901074ljg.23.2022.12.08.00.25.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Dec 2022 00:25:32 -0800 (PST)
+Message-ID: <a033d9a3-4bee-d749-9bd9-24a419398d0b@linaro.org>
+Date: Thu, 8 Dec 2022 09:25:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.1
-Subject: Re: [PATCH] drm/gud: Fix missing include
-To: noralf@tronnes.org, dri-devel@lists.freedesktop.org,
- kernel test robot <lkp@intel.com>
-References: <20221207-gud-missing-include-v1-0-c5b32c9c59da@tronnes.org>
+Subject: Re: [PATCH 2/2] dt-bindings: lcdif: Add optional power-domain
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20221207-gud-missing-include-v1-0-c5b32c9c59da@tronnes.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------CI7sMeuzYG60OJF31ff64rtk"
+To: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Marek Vasut <marex@denx.de>
+References: <20221207151400.1572582-1-alexander.stein@ew.tq-group.com>
+ <20221207151400.1572582-2-alexander.stein@ew.tq-group.com>
+ <00789ae3-7fd7-e662-6348-8a31a72ee589@denx.de> <1839665.tdWV9SEqCh@steina-w>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <1839665.tdWV9SEqCh@steina-w>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,72 +81,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------CI7sMeuzYG60OJF31ff64rtk
-Content-Type: multipart/mixed; boundary="------------0tpjneRz1EIFqap9TPeJSUnj";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: noralf@tronnes.org, dri-devel@lists.freedesktop.org,
- kernel test robot <lkp@intel.com>
-Message-ID: <fcb98c52-a8d4-2cca-da68-f3f714cde3bc@suse.de>
-Subject: Re: [PATCH] drm/gud: Fix missing include
-References: <20221207-gud-missing-include-v1-0-c5b32c9c59da@tronnes.org>
-In-Reply-To: <20221207-gud-missing-include-v1-0-c5b32c9c59da@tronnes.org>
+On 08/12/2022 06:59, Alexander Stein wrote:
+> Am Mittwoch, 7. Dezember 2022, 17:00:22 CET schrieb Marek Vasut:
+>> On 12/7/22 16:14, Alexander Stein wrote:
+>>> i.MX8MP requires a power-domain for this peripheral to use. Add it as
+>>> an optional property.
+>>>
+>>> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+>>> ---
+>>>
+>>>   Documentation/devicetree/bindings/display/fsl,lcdif.yaml | 3 +++
+>>>   1 file changed, 3 insertions(+)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+>>> b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml index
+>>> 793e8eccf8b8b..9d9fb5ad587c2 100644
+>>> --- a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+>>> +++ b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+>>>
+>>> @@ -52,6 +52,9 @@ properties:
+>>>     interrupts:
+>>>       maxItems: 1
+>>>
+>>> +  power-domains:
+>>> +    maxItems: 1
+>>> +
+>>>
+>>>     port:
+>>>       $ref: /schemas/graph.yaml#/properties/port
+>>>       description: The LCDIF output port
+>>
+>> Should this be required on mx8mp then ?
+> 
+> I'm hesitating to add a required property later on. But I'm okay with both.
+> Rob, Krzysztof: Any preference here? Shall power-domains be made required for 
+> fsl,imx8mp-lcdif only?
 
---------------0tpjneRz1EIFqap9TPeJSUnj
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+I don't know. That's not the question to us, but to someone who knows
+the hardware/datasheet.
 
-SGkNCg0KQW0gMDcuMTIuMjIgdW0gMjA6NTEgc2NocmllYiBOb3JhbGYgVHLDuG5uZXMgdmlh
-IEI0IFN1Ym1pc3Npb24gRW5kcG9pbnQ6DQo+IEZyb206IE5vcmFsZiBUcsO4bm5lcyA8bm9y
-YWxmQHRyb25uZXMub3JnPg0KPiANCj4gQWRkIG1pc3Npbmcgdm1hbGxvYy5oIGluY2x1ZGUu
-DQo+IA0KPiBGaXhlczogYzE3ZDA0ODYwOWJmICgiZHJtL2d1ZDogVXNlIHRoZSBzaGFkb3cg
-cGxhbmUgaGVscGVyIikNCj4gUmVwb3J0ZWQtYnk6IGtlcm5lbCB0ZXN0IHJvYm90IDxsa3BA
-aW50ZWwuY29tPg0KPiBTaWduZWQtb2ZmLWJ5OiBOb3JhbGYgVHLDuG5uZXMgPG5vcmFsZkB0
-cm9ubmVzLm9yZz4NCg0KUmV2aWV3ZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVy
-bWFubkBzdXNlLmRlPg0KDQpUaGUgbWlzc2luZy12bWFsbG9jKCkgZXJyb3IgaXMgYSByZWFs
-IGNsYXNzaWMuIDooIFNvbWUgYXJjaGl0ZWN0dXJlcyANCmRlY2xhcmUgdGhlIGZ1bmN0aW9u
-IGFuZCBzb21lIGRvbid0Lg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IC0tLQ0KPiAg
-IGRyaXZlcnMvZ3B1L2RybS9ndWQvZ3VkX3BpcGUuYyB8IDEgKw0KPiAgIDEgZmlsZSBjaGFu
-Z2VkLCAxIGluc2VydGlvbigrKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
-bS9ndWQvZ3VkX3BpcGUuYyBiL2RyaXZlcnMvZ3B1L2RybS9ndWQvZ3VkX3BpcGUuYw0KPiBp
-bmRleCA2MmM0M2QzNjMyZDQuLmRjMTZhOTI2MjVkNCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL2d1ZC9ndWRfcGlwZS5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9ndWQv
-Z3VkX3BpcGUuYw0KPiBAQCAtNSw2ICs1LDcgQEANCj4gICANCj4gICAjaW5jbHVkZSA8bGlu
-dXgvbHo0Lmg+DQo+ICAgI2luY2x1ZGUgPGxpbnV4L3VzYi5oPg0KPiArI2luY2x1ZGUgPGxp
-bnV4L3ZtYWxsb2MuaD4NCj4gICAjaW5jbHVkZSA8bGludXgvd29ya3F1ZXVlLmg+DQo+ICAg
-DQo+ICAgI2luY2x1ZGUgPGRybS9kcm1fYXRvbWljLmg+DQo+IA0KPiAtLS0NCj4gYmFzZS1j
-b21taXQ6IDVhZDhlNjNlYmJhM2Q1YTA3MzBiNDMxODBiMjAwZTQxZWViOTQwOWMNCj4gY2hh
-bmdlLWlkOiAyMDIyMTIwNy1ndWQtbWlzc2luZy1pbmNsdWRlLTljY2Y1NjM4MmY4YQ0KPiAN
-Cj4gQmVzdCByZWdhcmRzLA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBE
-cml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgN
-Ck1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwg
-QUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+Best regards,
+Krzysztof
 
---------------0tpjneRz1EIFqap9TPeJSUnj--
-
---------------CI7sMeuzYG60OJF31ff64rtk
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmORnRYFAwAAAAAACgkQlh/E3EQov+Cs
-nQ/+JPTb7qe3htG2EALj21X8xIQZRof9xYuH4O70jABL9O/Eu1rLK2N6uv/zEI/6dTHNUHhB3BRD
-6zjMgT820VLgZJpmZohI/SpgZYoWAeU1Okk+hZ6esnOXAlZUVZ3SCJKYxGdLx3S3eRgfkzcXRFb4
-vUKU9aG7rk8lJGDGXEk9MRNk9l98lzl4s+tQ01wBebXJn4/EfzQGZjT5KIuWeSgMPCrqLSbYujO8
-bh3VU++Dk9WzcvoxM59sk9SgXtiaVUSTFWH8SmNJ3s3HXZ6kEZzA/eL6Pks4n3RlgUr3j8krjnJ5
-hNTBbNod6Pw5iqJ+px+oe0rvuzyS7D1Ad2Lgrjc6jpmTNYGx0eB4q18gvkdpVO9ccfVzARxU0LEE
-oYqd5dBWtB6TDKTDcaunm4l+dBoHehpO3xCuNHHI5XKIwGM/6wN5bdnvG++g+qo0U1uumKtk0du9
-voZZAAdAx/s1Pvjrl1m+4T+hC8IGzT9wlLp3+926D9cKOSDiM/H++7TOnnfZl1JW6bMb/fnw8Xms
-8kKrAgI9fQx4YFKntLqlXZ5BOasHHXg7s6cPee8nwbCUqkU4DzqTKIUx2Nn8tITmVfuV5kOqf2Pe
-U0YqQ89XoOzc6e4hwoDl9qZM5XPNdFBygn14qNK84khSQVYjUynzHUkWmu/aLsGcwmFf2Slmb61f
-MEc=
-=ZETV
------END PGP SIGNATURE-----
-
---------------CI7sMeuzYG60OJF31ff64rtk--
