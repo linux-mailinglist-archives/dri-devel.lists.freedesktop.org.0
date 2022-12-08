@@ -1,79 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 019C564656F
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Dec 2022 00:51:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46FF46465AB
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Dec 2022 01:09:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F0C010E426;
-	Wed,  7 Dec 2022 23:51:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45F8F10E43D;
+	Thu,  8 Dec 2022 00:08:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D908010E43D
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Dec 2022 23:50:54 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id s8so31188283lfc.8
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Dec 2022 15:50:54 -0800 (PST)
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
+ [IPv6:2a00:1450:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90D9510E43D
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Dec 2022 00:08:53 +0000 (UTC)
+Received: by mail-lj1-x236.google.com with SMTP id h10so22687356ljk.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Dec 2022 16:08:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Pq17unfSto09mroIVDYeSKKbTNZYwLPO1fJ1295vloI=;
- b=eYb5vcySkHkPVwZt6SBLHmnTWkrCb3H/dugfnLcE1CIivRcZ60CXDA6a67yai9s0tY
- eEncVrzjhKuXjLgTpMS5Fc9ECD2nJEk8rqzKivT/iJSl5SCONdv46ID8WHJlEXc/kM15
- uTeuA+q7zsQJ1jrGPLf25h0ZM++E7r0zLxfWHOfHKHKDQDXykUAV32872BrhNUqdYc+U
- kZ/1Fpo42UJjJd0/NWjzGSQKdYUVoaDhE+AH6Sb3ZnlTU0WG95MYitVbcjVdOPg2k0R6
- u5i0Vu5v0AX7ZgHscxrXMigmJRlX2ZjHp7aKAozZiUURa8dsA4HRBtawozB8KefVAshJ
- UPvw==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=M9RR/O4yQfGfzl6TlQ9lRZSB0qlvvscxICLTLIsSg48=;
+ b=PBVhQNapqr4cmLJCdR8D5Sdl5P4/8tpAEwjNuEE2wGLMJ5peKvdtsnI2ivJpl+jHzN
+ uAoxNVeQhgeQQTBA/aBhz9f4QhlfikT6pl4uSV3hAGzGhExCpvUGtL6u5REV8z3Lb2uq
+ tI1KWLFLs3D+DU6rxTZ4OzZmhMYdcY4PP/lP8wu4LWRECsrgeWDpibMAqu6jyzCGXxhg
+ LwhVM7kdLxQvfwv3hVhjqWFyLUO5NwEHexMlipGeU3HwEKQqys+1gd3iqrWz4sdE52lY
+ gI0Bxmp/Oo0y+A0qGPanxfFyxueP2buHqVWX7eHOfmCmgMvmX6VaxTrZ2XBrl/dxnTc6
+ aG+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Pq17unfSto09mroIVDYeSKKbTNZYwLPO1fJ1295vloI=;
- b=clbI/nt//SPcirYYm/yo0Lc7iDPtdrtdeH+kqPIGkrHExY3ukihJjRI7nk7x1nOzu8
- MtI89VHKIfWvNCiMDJSJ+1nllW878ljaaoTlvcu6wWnld2rkKT5aTb36jPv9kvDJLdtu
- n4vHy+AO94KiMZ9NRRxcw8DMVTwwH7J5nXfdrCvAO5G7KcIOiCEQDWAZhrbWyyF3reOs
- pDVk4Jas3pX+r3yWYzZIWQx089ECQV+bgWL4igw2zff6iUAHEpvgVfmx4U++YGL0NTkl
- NGXVDFOYodJwn3uX/mAXee8uj/SyU9Z5bLBvTB6GJXIl+PkgC33+NO92pCU/0QaimoZW
- u9GA==
-X-Gm-Message-State: ANoB5pnSkmLZG32x9Tuf96pT+vwUkBkPEOPFa1fpnXpo4YmpGvyw1r9p
- OV48aPkViVN5Lzv8k+Nb4z98oA==
-X-Google-Smtp-Source: AA0mqf4IX6sJj2egyuPhOCNjryyQqIJH/9UIiMi7b8QIo2VyPbST/fg5I5gtP9WXpE8XjARg//rlRA==
-X-Received: by 2002:ac2:5e6b:0:b0:4a2:7c20:15a5 with SMTP id
- a11-20020ac25e6b000000b004a27c2015a5mr26894754lfr.587.1670457053135; 
- Wed, 07 Dec 2022 15:50:53 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- u16-20020a056512095000b004994117b0fdsm3038581lft.281.2022.12.07.15.50.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Dec 2022 15:50:52 -0800 (PST)
-Message-ID: <feda0561-1291-daa7-ea01-db5729a1a415@linaro.org>
-Date: Thu, 8 Dec 2022 01:50:51 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v3 05/11] drm/msm: Add support for SM8350
-Content-Language: en-GB
-To: Robert Foss <robert.foss@linaro.org>, robdclark@gmail.com,
- quic_abhinavk@quicinc.com, sean@poorly.run, airlied@linux.ie,
- daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- agross@kernel.org, bjorn.andersson@linaro.org, konrad.dybcio@somainline.org,
- quic_kalyant@quicinc.com, angelogioacchino.delregno@somainline.org,
- loic.poulain@linaro.org, swboyd@chromium.org, quic_vpolimer@quicinc.com,
- vkoul@kernel.org, dianders@chromium.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Jonathan Marek <jonathan@marek.ca>, vinod.koul@linaro.org,
- quic_jesszhan@quicinc.com, andersson@kernel.org
-References: <20221205163754.221139-1-robert.foss@linaro.org>
- <20221205163754.221139-6-robert.foss@linaro.org>
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=M9RR/O4yQfGfzl6TlQ9lRZSB0qlvvscxICLTLIsSg48=;
+ b=TUSiDmL1C/1Z4NPkIed3+vHU7XDBao9ecG1RY/PNex1GsrYTqa2EgOsfPEAB/rLG5v
+ 44Ao2+wcypNwOJpTgL7zlzqJSQH/kIhYGGFKXwXwiVjRnvP//M37M6icH7RAcFSRJHpj
+ wJW4IO3W4zpZ2wf/3YJiwVKiB00KAqB9qJYJ3z652aJiCvyDDTorxqEh3OpaOoLHmFYA
+ H9+KUUfikkk6S8eHn9hVMYjx9/0IjWVTcTWjsqwQpem4G1UbHo+0Vb+1YligoO3gBXZ9
+ cz3ABXWS549VQ6ne7tafgNdPTMcxGQy5kcreuNePIYx1D1dOJeE+3qqqL6zDt92a9z9x
+ e6xw==
+X-Gm-Message-State: ANoB5pmL+9AIUyPWSIPdXm5LRcoBFwWaIKNqp/9TqU/k6k67FqeUVH21
+ Fw+D7AyjlCg2rjtcPFn6hoKg7w==
+X-Google-Smtp-Source: AA0mqf5f4MwUymkUiV5aW2405ea51sxV7NAFzW4fUh0BO0lImetVwSWSzxgMRYBuksvOy7RXokUYWw==
+X-Received: by 2002:a05:651c:50e:b0:277:1c8d:27b9 with SMTP id
+ o14-20020a05651c050e00b002771c8d27b9mr25091000ljp.210.1670458131740; 
+ Wed, 07 Dec 2022 16:08:51 -0800 (PST)
+Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
+ [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
+ z6-20020ac25de6000000b004a2c447598fsm2062992lfq.159.2022.12.07.16.08.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Dec 2022 16:08:51 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20221205163754.221139-6-robert.foss@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [RFC PATCH 0/4] drm/msm/mdss: rework UBWC setup
+Date: Thu,  8 Dec 2022 02:08:46 +0200
+Message-Id: <20221208000850.312548-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,46 +69,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/12/2022 18:37, Robert Foss wrote:
-> Add compatibles string, "qcom,sm8350-mdss", for the multimedia display
-> subsystem unit used on Qualcomm SM8350 platform.
-> 
-> Signed-off-by: Robert Foss <robert.foss@linaro.org>
-> ---
->   drivers/gpu/drm/msm/msm_mdss.c | 4 ++++
->   1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-> index a2264fb517a1..39746b972cdd 100644
-> --- a/drivers/gpu/drm/msm/msm_mdss.c
-> +++ b/drivers/gpu/drm/msm/msm_mdss.c
-> @@ -293,6 +293,9 @@ static int msm_mdss_enable(struct msm_mdss *msm_mdss)
->   		/* UBWC_2_0 */
->   		msm_mdss_setup_ubwc_dec_20(msm_mdss, 0x1e);
->   		break;
-> +	case DPU_HW_VER_700:
-> +		msm_mdss_setup_ubwc_dec_40(msm_mdss, UBWC_4_0, 6, 1, 1, 1);
-> +		break;
+The commit 92bab9142456 ("drm/msm: less magic numbers in
+msm_mdss_enable") reworked the static UBWC setup to replace magic
+numbers with calulating written values from the SoC/device parameters.
+This simplified adding new platforms.
+However I did not estimate that the values would still be cryptic and
+would be C&P-sted instead of being determined from the vendor DT. Some
+of the platform (sc8180x) completely missed this setup step.
 
-Judging from the vendor kernel, the highest_rank_bit is 3, with usual 
-todo for 2 for LP_DDR4.
+This series attempts to rework the static UBWC setup to be both
+manageable and hopefully easier to write.
 
->   	case DPU_HW_VER_720:
->   		msm_mdss_setup_ubwc_dec_40(msm_mdss, UBWC_3_0, 6, 1, 1, 1);
->   		break;
-> @@ -530,6 +533,7 @@ static const struct of_device_id mdss_dt_match[] = {
->   	{ .compatible = "qcom,sc8180x-mdss" },
->   	{ .compatible = "qcom,sm8150-mdss" },
->   	{ .compatible = "qcom,sm8250-mdss" },
-> +	{ .compatible = "qcom,sm8350-mdss" },
->   	{ .compatible = "qcom,sm8450-mdss" },
->   	{}
->   };
+The series (being an RFC) depends on three pending platforms series
+(sc8280xp, sm8350 and sm8450) with minor fixes applied on top of them
+(e.g. to fix the hbb on sm8350).
+
+Dmitry Baryshkov (4):
+  drm/msm/mdss: convert UBWC setup to use match data
+  drm/msm/mdss: correct the ubwc version for sm6115 platform
+  drm/msm/mdss: add data for sc8180xp
+  drm/msm/mdss: add the sdm845 data for completeness
+
+ drivers/gpu/drm/msm/msm_mdss.c | 173 ++++++++++++++++++++-------------
+ 1 file changed, 107 insertions(+), 66 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.35.1
 
