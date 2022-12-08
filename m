@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1395A646E0F
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Dec 2022 12:08:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A5F9646E0C
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Dec 2022 12:08:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90CFF10E1D8;
-	Thu,  8 Dec 2022 11:08:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCBB210E1C3;
+	Thu,  8 Dec 2022 11:08:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1000A10E1C3
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1F9410E1BA
  for <dri-devel@lists.freedesktop.org>; Thu,  8 Dec 2022 11:08:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1670497684; x=1702033684;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=5w//VWHyUorygtv00uGUGM7hd2RvU3c3QNZ/9vf8OxA=;
- b=JTwwsJHRemNFaZIPAf8gJuvoVVnBohQ8INLT2HTparjp2KN/XGMhojs6
- ptBaHT2R0R8DfuyppxahPOQs6wLiEzcIjx/lbg4+dygp4qbss53X95vHd
- OKj8l/nUC6vHCa9ShNEaSoYAaHhMBZPwX4lsulKYp+sn4A2018CIqPb0z
- RjyGsrBC01xeQXmhAfqLNSCBz5z+nNaYjsYAYFX7aOZVS5t3DC+hmWNzc
- 7XwNTTKNoGnlI4n+xSbK/XjyMTEC9V9759DcplitZ3VK+h3Hz7X09GGDk
- xtX2JJJk2U7Ohdtf+2Oo9pRBsfn01GiRAjAwjY40KMOT1oGd5kn3O3xsA Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="296835780"
-X-IronPort-AV: E=Sophos;i="5.96,227,1665471600"; d="scan'208";a="296835780"
+ bh=q3gn18DEwXQOObeZhCIuZ9WK8F2jk5yt84SFhOkBEH8=;
+ b=GZj2GjalhBB/2yPZzH8Jq5CCxC0zfdD9NY78+oFtIxm4uhZiW1sAls55
+ imaAjY9M7GL0MUoSM0T4gWkYswjqLinC3JL8mU6ysGRiEGfyLsRUQqplq
+ QmzTZjU2M3pgq+GSZlqLZ5lVg209mD/D2U7UwFy6ujAgFAyqa3S5t5Hrk
+ 8vsAYV05Z81aroB0BW3IKnervDWEq0pJTppZH9PUs12JTeYcMyJH2F8To
+ v2DuyNEp73SZMqF4Afflk2lFvrBeRUeE2RQNtmi/Df886ca0wtIPnjvis
+ 7hggio3fRWuU83A8R0aINkmX69NYCFET0q4srg8pU9IZ6TzuHcX841ZwH g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="296835789"
+X-IronPort-AV: E=Sophos;i="5.96,227,1665471600"; d="scan'208";a="296835789"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Dec 2022 03:07:45 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="789258909"
-X-IronPort-AV: E=Sophos;i="5.96,227,1665471600"; d="scan'208";a="789258909"
+ 08 Dec 2022 03:07:48 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="789258932"
+X-IronPort-AV: E=Sophos;i="5.96,227,1665471600"; d="scan'208";a="789258932"
 Received: from jlawryno.igk.intel.com ([172.22.229.13])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Dec 2022 03:07:42 -0800
+ 08 Dec 2022 03:07:45 -0800
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org, oded.gabbay@gmail.com, airlied@gmail.com,
  daniel@ffwll.ch, tzimmermann@suse.de, quic_jhugo@quicinc.com
-Subject: [PATCH v4 1/7] accel/ivpu: Introduce a new DRM driver for Intel VPU
-Date: Thu,  8 Dec 2022 12:07:27 +0100
-Message-Id: <20221208110733.5498-2-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH v4 2/7] accel/ivpu: Add Intel VPU MMU support
+Date: Thu,  8 Dec 2022 12:07:28 +0100
+Message-Id: <20221208110733.5498-3-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221208110733.5498-1-jacek.lawrynowicz@linux.intel.com>
 References: <20221208110733.5498-1-jacek.lawrynowicz@linux.intel.com>
@@ -60,2438 +60,1716 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: andrzej.kacprowski@linux.intel.com,
  Krystian Pradzynski <krystian.pradzynski@linux.intel.com>,
  Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Karol Wachowski <karol.wachowski@linux.intel.com>,
  stanislaw.gruszka@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VPU stands for Versatile Processing Unit and it's a CPU-integrated
-inference accelerator for Computer Vision and Deep Learning
-applications.
+VPU Memory Management Unit is based on ARM MMU-600.
+It allows the creation of multiple virtual address spaces for
+the device and map noncontinuous host memory (there is no dedicated
+memory on the VPU).
 
-The VPU device consist of following components:
-  - Buttress - provides CPU to VPU integration, interrupt, frequency and
-    power management.
-  - Memory Management Unit (based on ARM MMU-600) - translates VPU to
-    host DMA addresses, isolates user workloads.
-  - RISC based microcontroller - executes firmware that provides job
-    execution API for the kernel-mode driver
-  - Neural Compute Subsystem (NCS) - does the actual work, provides
-    Compute and Copy engines.
-  - Network on Chip (NoC) - network fabric connecting all the components
+Address space is implemented as a struct ivpu_mmu_context, it has an ID,
+drm_mm allocator for VPU addresses and struct ivpu_mmu_pgtable that
+holds actual 3-level, 4KB page table.
+Context with ID 0 (global context) is created upon driver initialization
+and it's mainly used for mapping memory required to execute
+the firmware.
+Contexts with non-zero IDs are user contexts allocated each time
+the devices is open()-ed and they map command buffers and other
+workload-related memory.
+Workloads executing in a given contexts have access only
+to the memory mapped in this context.
 
-This driver supports VPU IP v2.7 integrated into Intel Meteor Lake
-client CPUs (14th generation).
+This patch is has to main files:
+  - ivpu_mmu_context.c handles MMU page tables and memory mapping
+  - ivpu_mmu.c implements a driver that programs the MMU device
 
-Module sources are at drivers/accel/ivpu and module name is
-"intel_vpu.ko".
-
-This patch includes only very besic functionality:
-  - module, PCI device and IRQ initialization
-  - register definitions and low level register manipulation functions
-  - SET/GET_PARAM ioctls
-  - power up without firmware
-
+Co-developed-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
 Co-developed-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
 Signed-off-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 ---
- MAINTAINERS                          |    9 +
- drivers/Makefile                     |    1 +
- drivers/accel/Kconfig                |    2 +
- drivers/accel/Makefile               |    3 +
- drivers/accel/ivpu/Kconfig           |   15 +
- drivers/accel/ivpu/Makefile          |    8 +
- drivers/accel/ivpu/TODO              |    7 +
- drivers/accel/ivpu/ivpu_drv.c        |  359 +++++++++
- drivers/accel/ivpu/ivpu_drv.h        |  162 ++++
- drivers/accel/ivpu/ivpu_hw.h         |  170 +++++
- drivers/accel/ivpu/ivpu_hw_mtl.c     | 1048 ++++++++++++++++++++++++++
- drivers/accel/ivpu/ivpu_hw_mtl_reg.h |  280 +++++++
- drivers/accel/ivpu/ivpu_hw_reg_io.h  |  115 +++
- include/uapi/drm/ivpu_drm.h          |   95 +++
- 14 files changed, 2274 insertions(+)
- create mode 100644 drivers/accel/Makefile
- create mode 100644 drivers/accel/ivpu/Kconfig
- create mode 100644 drivers/accel/ivpu/Makefile
- create mode 100644 drivers/accel/ivpu/TODO
- create mode 100644 drivers/accel/ivpu/ivpu_drv.c
- create mode 100644 drivers/accel/ivpu/ivpu_drv.h
- create mode 100644 drivers/accel/ivpu/ivpu_hw.h
- create mode 100644 drivers/accel/ivpu/ivpu_hw_mtl.c
- create mode 100644 drivers/accel/ivpu/ivpu_hw_mtl_reg.h
- create mode 100644 drivers/accel/ivpu/ivpu_hw_reg_io.h
- create mode 100644 include/uapi/drm/ivpu_drm.h
+ drivers/accel/ivpu/Makefile           |   4 +-
+ drivers/accel/ivpu/ivpu_drv.c         |  83 ++-
+ drivers/accel/ivpu/ivpu_drv.h         |   6 +
+ drivers/accel/ivpu/ivpu_hw_mtl.c      |  10 +
+ drivers/accel/ivpu/ivpu_mmu.c         | 875 ++++++++++++++++++++++++++
+ drivers/accel/ivpu/ivpu_mmu.h         |  50 ++
+ drivers/accel/ivpu/ivpu_mmu_context.c | 385 ++++++++++++
+ drivers/accel/ivpu/ivpu_mmu_context.h |  49 ++
+ include/uapi/drm/ivpu_drm.h           |   4 +
+ 9 files changed, 1463 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/accel/ivpu/ivpu_mmu.c
+ create mode 100644 drivers/accel/ivpu/ivpu_mmu.h
+ create mode 100644 drivers/accel/ivpu/ivpu_mmu_context.c
+ create mode 100644 drivers/accel/ivpu/ivpu_mmu_context.h
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1ee75a47af91..0836786b1c79 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6845,6 +6845,15 @@ T:	git https://git.kernel.org/pub/scm/linux/kernel/git/ogabbay/accel.git
- F:	Documentation/accel/
- F:	drivers/accel/
- 
-+DRM ACCEL DRIVERS FOR INTEL VPU
-+M:	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-+M:	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-+L:	dri-devel@lists.freedesktop.org
-+S:	Supported
-+T:	git git://anongit.freedesktop.org/drm/drm-misc
-+F:	drivers/accel/ivpu/
-+F:	include/uapi/drm/ivpu_drm.h
-+
- DRM DRIVERS FOR ALLWINNER A10
- M:	Maxime Ripard <mripard@kernel.org>
- M:	Chen-Yu Tsai <wens@csie.org>
-diff --git a/drivers/Makefile b/drivers/Makefile
-index bdf1c66141c9..f0972e2226c9 100644
---- a/drivers/Makefile
-+++ b/drivers/Makefile
-@@ -189,3 +189,4 @@ obj-$(CONFIG_COUNTER)		+= counter/
- obj-$(CONFIG_MOST)		+= most/
- obj-$(CONFIG_PECI)		+= peci/
- obj-$(CONFIG_HTE)		+= hte/
-+obj-$(CONFIG_DRM_ACCEL)	+= accel/
-\ No newline at end of file
-diff --git a/drivers/accel/Kconfig b/drivers/accel/Kconfig
-index c9ce849b2984..4989376e5938 100644
---- a/drivers/accel/Kconfig
-+++ b/drivers/accel/Kconfig
-@@ -22,3 +22,5 @@ menuconfig DRM_ACCEL
- 	  major number than GPUs, and will be exposed to user-space using
- 	  different device files, called accel/accel* (in /dev, sysfs
- 	  and debugfs).
-+
-+source "drivers/accel/ivpu/Kconfig"
-diff --git a/drivers/accel/Makefile b/drivers/accel/Makefile
-new file mode 100644
-index 000000000000..b1036dbc0ba4
---- /dev/null
-+++ b/drivers/accel/Makefile
-@@ -0,0 +1,3 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+obj-y	+= ivpu/
-diff --git a/drivers/accel/ivpu/Kconfig b/drivers/accel/ivpu/Kconfig
-new file mode 100644
-index 000000000000..110a6b921135
---- /dev/null
-+++ b/drivers/accel/ivpu/Kconfig
-@@ -0,0 +1,15 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+config DRM_ACCEL_IVPU
-+	tristate "Intel VPU for Meteor Lake and newer"
-+	depends on DRM_ACCEL
-+	depends on X86_64
-+	depends on PCI && PCI_MSI
-+	select FW_LOADER
-+	select SHMEM
-+	help
-+	  Choose this option if you have a system that has an 14th generation Intel CPU
-+	  or newer. VPU stands for Versatile Processing Unit and it's a CPU-integrated
-+	  inference accelerator for Computer Vision and Deep Learning applications.
-+
-+	  If "M" is selected, the module will be called intel_vpu.
 diff --git a/drivers/accel/ivpu/Makefile b/drivers/accel/ivpu/Makefile
-new file mode 100644
-index 000000000000..28330c04e52f
---- /dev/null
+index 28330c04e52f..37b8bf1d3247 100644
+--- a/drivers/accel/ivpu/Makefile
 +++ b/drivers/accel/ivpu/Makefile
-@@ -0,0 +1,8 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+# Copyright (C) 2022 Intel Corporation
-+
-+intel_vpu-y := \
-+	ivpu_drv.o \
-+	ivpu_hw_mtl.o
-+
-+obj-$(CONFIG_DRM_ACCEL_IVPU) += intel_vpu.o
-\ No newline at end of file
-diff --git a/drivers/accel/ivpu/TODO b/drivers/accel/ivpu/TODO
-new file mode 100644
-index 000000000000..4c8aa7b96024
---- /dev/null
-+++ b/drivers/accel/ivpu/TODO
-@@ -0,0 +1,7 @@
-+- Implement support for BLOB IDs
-+- Add debugfs support to improve debugging and testing
-+- Add tracing events for performance debugging
-+- Implement HW based scheduling support
-+- Use syncobjs for submit/sync
-+- Refactor IPC protocol to improve message latency
-+- Implement BO cache and MADVISE IOCTL
+@@ -3,6 +3,8 @@
+ 
+ intel_vpu-y := \
+ 	ivpu_drv.o \
+-	ivpu_hw_mtl.o
++	ivpu_hw_mtl.o \
++	ivpu_mmu.o \
++	ivpu_mmu_context.o
+ 
+ obj-$(CONFIG_DRM_ACCEL_IVPU) += intel_vpu.o
 \ No newline at end of file
 diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-new file mode 100644
-index 000000000000..8fbccb8d888b
---- /dev/null
+index 8fbccb8d888b..a22d41ca5a4b 100644
+--- a/drivers/accel/ivpu/ivpu_drv.c
 +++ b/drivers/accel/ivpu/ivpu_drv.c
-@@ -0,0 +1,359 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2020-2022 Intel Corporation
-+ */
-+
-+#include <linux/firmware.h>
-+#include <linux/module.h>
-+#include <linux/pci.h>
-+
-+#include <drm/drm_accel.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_file.h>
-+#include <drm/drm_gem.h>
-+#include <drm/drm_ioctl.h>
-+
-+#include "ivpu_drv.h"
-+#include "ivpu_hw.h"
-+
-+#ifndef DRIVER_VERSION_STR
-+#define DRIVER_VERSION_STR __stringify(DRM_IVPU_DRIVER_MAJOR) "." \
-+			   __stringify(DRM_IVPU_DRIVER_MINOR) "."
-+#endif
-+
-+static const struct drm_driver driver;
-+
-+int ivpu_dbg_mask;
-+module_param_named(dbg_mask, ivpu_dbg_mask, int, 0644);
-+MODULE_PARM_DESC(dbg_mask, "Driver debug mask. See IVPU_DBG_* macros.");
-+
-+u8 ivpu_pll_min_ratio;
-+module_param_named(pll_min_ratio, ivpu_pll_min_ratio, byte, 0644);
-+MODULE_PARM_DESC(pll_min_ratio, "Minimum PLL ratio used to set VPU frequency");
-+
-+u8 ivpu_pll_max_ratio = U8_MAX;
-+module_param_named(pll_max_ratio, ivpu_pll_max_ratio, byte, 0644);
-+MODULE_PARM_DESC(pll_max_ratio, "Maximum PLL ratio used to set VPU frequency");
-+
-+struct ivpu_file_priv *ivpu_file_priv_get(struct ivpu_file_priv *file_priv)
-+{
-+	kref_get(&file_priv->ref);
-+	return file_priv;
-+}
-+
-+static void file_priv_release(struct kref *ref)
-+{
-+	struct ivpu_file_priv *file_priv = container_of(ref, struct ivpu_file_priv, ref);
-+
-+	kfree(file_priv);
-+}
-+
-+void ivpu_file_priv_put(struct ivpu_file_priv **link)
-+{
-+	struct ivpu_file_priv *file_priv = *link;
-+
-+	WARN_ON(!file_priv);
-+
-+	*link = NULL;
-+	kref_put(&file_priv->ref, file_priv_release);
-+}
-+
-+static int ivpu_get_param_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
-+{
-+	struct ivpu_file_priv *file_priv = file->driver_priv;
+@@ -15,6 +15,8 @@
+ 
+ #include "ivpu_drv.h"
+ #include "ivpu_hw.h"
++#include "ivpu_mmu.h"
++#include "ivpu_mmu_context.h"
+ 
+ #ifndef DRIVER_VERSION_STR
+ #define DRIVER_VERSION_STR __stringify(DRM_IVPU_DRIVER_MAJOR) "." \
+@@ -37,23 +39,38 @@ MODULE_PARM_DESC(pll_max_ratio, "Maximum PLL ratio used to set VPU frequency");
+ 
+ struct ivpu_file_priv *ivpu_file_priv_get(struct ivpu_file_priv *file_priv)
+ {
 +	struct ivpu_device *vdev = file_priv->vdev;
-+	struct pci_dev *pdev = to_pci_dev(vdev->drm.dev);
-+	struct drm_ivpu_param *args = data;
-+	int ret = 0;
 +
-+	switch (args->param) {
-+	case DRM_IVPU_PARAM_DEVICE_ID:
-+		args->value = pdev->device;
+ 	kref_get(&file_priv->ref);
++
++	ivpu_dbg(vdev, KREF, "file_priv get: ctx %u refcount %u\n",
++		 file_priv->ctx.id, kref_read(&file_priv->ref));
++
+ 	return file_priv;
+ }
+ 
+ static void file_priv_release(struct kref *ref)
+ {
+ 	struct ivpu_file_priv *file_priv = container_of(ref, struct ivpu_file_priv, ref);
++	struct ivpu_device *vdev = file_priv->vdev;
+ 
++	ivpu_dbg(vdev, FILE, "file_priv release: ctx %u\n", file_priv->ctx.id);
++
++	ivpu_mmu_user_context_fini(vdev, &file_priv->ctx);
++	WARN_ON(xa_erase_irq(&vdev->context_xa, file_priv->ctx.id) != file_priv);
+ 	kfree(file_priv);
+ }
+ 
+ void ivpu_file_priv_put(struct ivpu_file_priv **link)
+ {
+ 	struct ivpu_file_priv *file_priv = *link;
++	struct ivpu_device *vdev = file_priv->vdev;
+ 
+ 	WARN_ON(!file_priv);
+ 
++	ivpu_dbg(vdev, KREF, "file_priv put: ctx %u refcount %u\n",
++		 file_priv->ctx.id, kref_read(&file_priv->ref));
++
+ 	*link = NULL;
+ 	kref_put(&file_priv->ref, file_priv_release);
+ }
+@@ -88,6 +105,9 @@ static int ivpu_get_param_ioctl(struct drm_device *dev, void *data, struct drm_f
+ 	case DRM_IVPU_PARAM_CONTEXT_PRIORITY:
+ 		args->value = file_priv->priority;
+ 		break;
++	case DRM_IVPU_PARAM_CONTEXT_ID:
++		args->value = file_priv->ctx.id;
 +		break;
-+	case DRM_IVPU_PARAM_DEVICE_REVISION:
-+		args->value = pdev->revision;
-+		break;
-+	case DRM_IVPU_PARAM_PLATFORM_TYPE:
-+		args->value = vdev->platform;
-+		break;
-+	case DRM_IVPU_PARAM_CORE_CLOCK_RATE:
-+		args->value = ivpu_hw_reg_pll_freq_get(vdev);
-+		break;
-+	case DRM_IVPU_PARAM_NUM_CONTEXTS:
-+		args->value = ivpu_get_context_count(vdev);
-+		break;
-+	case DRM_IVPU_PARAM_CONTEXT_BASE_ADDRESS:
-+		args->value = vdev->hw->ranges.user_low.start;
-+		break;
-+	case DRM_IVPU_PARAM_CONTEXT_PRIORITY:
-+		args->value = file_priv->priority;
-+		break;
-+	default:
-+		ret = -EINVAL;
-+		break;
+ 	default:
+ 		ret = -EINVAL;
+ 		break;
+@@ -120,22 +140,59 @@ static int ivpu_open(struct drm_device *dev, struct drm_file *file)
+ {
+ 	struct ivpu_device *vdev = to_ivpu_device(dev);
+ 	struct ivpu_file_priv *file_priv;
++	u32 ctx_id;
++	void *old;
++	int ret;
++
++	ret = xa_alloc_irq(&vdev->context_xa, &ctx_id, NULL, vdev->context_xa_limit, GFP_KERNEL);
++	if (ret) {
++		ivpu_err(vdev, "Failed to allocate context id: %d\n", ret);
++		return ret;
++	}
+ 
+ 	file_priv = kzalloc(sizeof(*file_priv), GFP_KERNEL);
+-	if (!file_priv)
+-		return -ENOMEM;
++	if (!file_priv) {
++		ret = -ENOMEM;
++		goto err_xa_erase;
++	}
+ 
+ 	file_priv->vdev = vdev;
+ 	file_priv->priority = DRM_IVPU_CONTEXT_PRIORITY_NORMAL;
+ 	kref_init(&file_priv->ref);
+ 
++	ret = ivpu_mmu_user_context_init(vdev, &file_priv->ctx, ctx_id);
++	if (ret)
++		goto err_free_file_priv;
++
++	old = xa_store_irq(&vdev->context_xa, ctx_id, file_priv, GFP_KERNEL);
++	if (xa_is_err(old)) {
++		ret = xa_err(old);
++		ivpu_err(vdev, "Failed to store context %u: %d\n", ctx_id, ret);
++		goto err_ctx_fini;
 +	}
 +
++	ivpu_dbg(vdev, FILE, "file_priv create: ctx %u process %s pid %d\n",
++		 ctx_id, current->comm, task_pid_nr(current));
++
+ 	file->driver_priv = file_priv;
+ 	return 0;
++
++err_ctx_fini:
++	ivpu_mmu_user_context_fini(vdev, &file_priv->ctx);
++err_free_file_priv:
++	kfree(file_priv);
++err_xa_erase:
++	xa_erase_irq(&vdev->context_xa, ctx_id);
 +	return ret;
-+}
-+
-+static int ivpu_set_param_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
-+{
-+	struct ivpu_file_priv *file_priv = file->driver_priv;
-+	struct drm_ivpu_param *args = data;
-+	int ret = 0;
-+
-+	switch (args->param) {
-+	case DRM_IVPU_PARAM_CONTEXT_PRIORITY:
-+		if (args->value <= DRM_IVPU_CONTEXT_PRIORITY_REALTIME)
-+			file_priv->priority = args->value;
-+		else
-+			ret = -EINVAL;
-+		break;
-+	default:
-+		ret = -EINVAL;
-+	}
-+
-+	return ret;
-+}
-+
-+static int ivpu_open(struct drm_device *dev, struct drm_file *file)
-+{
+ }
+ 
+ static void ivpu_postclose(struct drm_device *dev, struct drm_file *file)
+ {
+ 	struct ivpu_file_priv *file_priv = file->driver_priv;
 +	struct ivpu_device *vdev = to_ivpu_device(dev);
-+	struct ivpu_file_priv *file_priv;
 +
-+	file_priv = kzalloc(sizeof(*file_priv), GFP_KERNEL);
-+	if (!file_priv)
++	ivpu_dbg(vdev, FILE, "file_priv close: ctx %u process %s pid %d\n",
++		 file_priv->ctx.id, current->comm, task_pid_nr(current));
+ 
+ 	ivpu_file_priv_put(&file_priv);
+ }
+@@ -150,6 +207,7 @@ int ivpu_shutdown(struct ivpu_device *vdev)
+ 	int ret;
+ 
+ 	ivpu_hw_irq_disable(vdev);
++	ivpu_mmu_disable(vdev);
+ 
+ 	ret = ivpu_hw_power_down(vdev);
+ 	if (ret)
+@@ -257,6 +315,10 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
+ 	if (!vdev->hw)
+ 		return -ENOMEM;
+ 
++	vdev->mmu = drmm_kzalloc(&vdev->drm, sizeof(*vdev->mmu), GFP_KERNEL);
++	if (!vdev->mmu)
 +		return -ENOMEM;
 +
-+	file_priv->vdev = vdev;
-+	file_priv->priority = DRM_IVPU_CONTEXT_PRIORITY_NORMAL;
-+	kref_init(&file_priv->ref);
-+
-+	file->driver_priv = file_priv;
-+	return 0;
-+}
-+
-+static void ivpu_postclose(struct drm_device *dev, struct drm_file *file)
-+{
-+	struct ivpu_file_priv *file_priv = file->driver_priv;
-+
-+	ivpu_file_priv_put(&file_priv);
-+}
-+
-+static const struct drm_ioctl_desc ivpu_drm_ioctls[] = {
-+	DRM_IOCTL_DEF_DRV(IVPU_GET_PARAM, ivpu_get_param_ioctl, 0),
-+	DRM_IOCTL_DEF_DRV(IVPU_SET_PARAM, ivpu_set_param_ioctl, 0),
-+};
-+
-+int ivpu_shutdown(struct ivpu_device *vdev)
-+{
-+	int ret;
-+
-+	ivpu_hw_irq_disable(vdev);
-+
-+	ret = ivpu_hw_power_down(vdev);
-+	if (ret)
-+		ivpu_warn(vdev, "Failed to power down HW: %d\n", ret);
-+
-+	return ret;
-+}
-+
-+static const struct file_operations ivpu_fops = {
-+	.owner		= THIS_MODULE,
-+	.open		= accel_open,
-+	.release	= drm_release,
-+	.unlocked_ioctl	= drm_ioctl,
-+	.compat_ioctl	= drm_compat_ioctl,
-+	.poll		= drm_poll,
-+	.read		= drm_read,
-+	.llseek		= noop_llseek,
-+	.mmap           = drm_gem_mmap
-+};
-+
-+static const struct drm_driver driver = {
-+	.driver_features = DRIVER_GEM | DRIVER_COMPUTE_ACCEL,
-+
-+	.open = ivpu_open,
-+	.postclose = ivpu_postclose,
-+
-+	.ioctls = ivpu_drm_ioctls,
-+	.num_ioctls = ARRAY_SIZE(ivpu_drm_ioctls),
-+	.fops = &ivpu_fops,
-+
-+	.name = DRIVER_NAME,
-+	.desc = DRIVER_DESC,
-+	.date = DRIVER_DATE,
-+	.major = DRM_IVPU_DRIVER_MAJOR,
-+	.minor = DRM_IVPU_DRIVER_MINOR,
-+};
-+
-+static int ivpu_irq_init(struct ivpu_device *vdev)
-+{
-+	struct pci_dev *pdev = to_pci_dev(vdev->drm.dev);
-+	int ret;
-+
-+	ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_MSI | PCI_IRQ_MSIX);
-+	if (ret < 0) {
-+		ivpu_err(vdev, "Failed to allocate a MSI IRQ: %d\n", ret);
-+		return ret;
-+	}
-+
-+	vdev->irq = pci_irq_vector(pdev, 0);
-+
-+	ret = devm_request_irq(vdev->drm.dev, vdev->irq, vdev->hw->ops->irq_handler,
-+			       IRQF_NO_AUTOEN, DRIVER_NAME, vdev);
-+	if (ret)
-+		ivpu_err(vdev, "Failed to request an IRQ %d\n", ret);
-+
-+	return ret;
-+}
-+
-+static int ivpu_pci_init(struct ivpu_device *vdev)
-+{
-+	struct pci_dev *pdev = to_pci_dev(vdev->drm.dev);
-+	struct resource *bar0 = &pdev->resource[0];
-+	struct resource *bar4 = &pdev->resource[4];
-+	int ret;
-+
-+	ivpu_dbg(vdev, MISC, "Mapping BAR0 (RegV) %pR\n", bar0);
-+	vdev->regv = devm_ioremap_resource(vdev->drm.dev, bar0);
-+	if (IS_ERR(vdev->regv)) {
-+		ivpu_err(vdev, "Failed to map bar 0: %pe\n", vdev->regv);
-+		return PTR_ERR(vdev->regv);
-+	}
-+
-+	ivpu_dbg(vdev, MISC, "Mapping BAR4 (RegB) %pR\n", bar4);
-+	vdev->regb = devm_ioremap_resource(vdev->drm.dev, bar4);
-+	if (IS_ERR(vdev->regb)) {
-+		ivpu_err(vdev, "Failed to map bar 4: %pe\n", vdev->regb);
-+		return PTR_ERR(vdev->regb);
-+	}
-+
-+	ret = dma_set_mask_and_coherent(vdev->drm.dev, DMA_BIT_MASK(38));
+ 	vdev->hw->ops = &ivpu_hw_mtl_ops;
+ 	vdev->platform = IVPU_PLATFORM_INVALID;
+ 	vdev->context_xa_limit.min = IVPU_GLOBAL_CONTEXT_MMU_SSID + 1;
+@@ -289,8 +351,24 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
+ 		goto err_xa_destroy;
+ 	}
+ 
++	ret = ivpu_mmu_global_context_init(vdev);
 +	if (ret) {
-+		ivpu_err(vdev, "Failed to set DMA mask: %d\n", ret);
-+		return ret;
++		ivpu_err(vdev, "Failed to initialize global MMU context: %d\n", ret);
++		goto err_power_down;
 +	}
 +
-+	/* Clear any pending errors */
-+	pcie_capability_clear_word(pdev, PCI_EXP_DEVSTA, 0x3f);
-+
-+	ret = pcim_enable_device(pdev);
++	ret = ivpu_mmu_init(vdev);
 +	if (ret) {
-+		ivpu_err(vdev, "Failed to enable PCI device: %d\n", ret);
-+		return ret;
++		ivpu_err(vdev, "Failed to initialize MMU device: %d\n", ret);
++		goto err_mmu_gctx_fini;
 +	}
 +
-+	pci_set_master(pdev);
-+
-+	return 0;
-+}
-+
-+static int ivpu_dev_init(struct ivpu_device *vdev)
-+{
-+	int ret;
-+
-+	vdev->hw = drmm_kzalloc(&vdev->drm, sizeof(*vdev->hw), GFP_KERNEL);
-+	if (!vdev->hw)
-+		return -ENOMEM;
-+
-+	vdev->hw->ops = &ivpu_hw_mtl_ops;
-+	vdev->platform = IVPU_PLATFORM_INVALID;
-+	vdev->context_xa_limit.min = IVPU_GLOBAL_CONTEXT_MMU_SSID + 1;
-+	vdev->context_xa_limit.max = IVPU_CONTEXT_LIMIT;
-+	xa_init_flags(&vdev->context_xa, XA_FLAGS_ALLOC);
-+
-+	ret = ivpu_pci_init(vdev);
-+	if (ret) {
-+		ivpu_err(vdev, "Failed to initialize PCI device: %d\n", ret);
-+		goto err_xa_destroy;
-+	}
-+
-+	ret = ivpu_irq_init(vdev);
-+	if (ret) {
-+		ivpu_err(vdev, "Failed to initialize IRQs: %d\n", ret);
-+		goto err_xa_destroy;
-+	}
-+
-+	/* Init basic HW info based on buttress registers which are accessible before power up */
-+	ret = ivpu_hw_info_init(vdev);
-+	if (ret) {
-+		ivpu_err(vdev, "Failed to initialize HW info: %d\n", ret);
-+		goto err_xa_destroy;
-+	}
-+
-+	/* Power up early so the rest of init code can access VPU registers */
-+	ret = ivpu_hw_power_up(vdev);
-+	if (ret) {
-+		ivpu_err(vdev, "Failed to power up HW: %d\n", ret);
-+		goto err_xa_destroy;
-+	}
-+
-+	return 0;
-+
-+err_xa_destroy:
-+	xa_destroy(&vdev->context_xa);
-+	return ret;
-+}
-+
-+static void ivpu_dev_fini(struct ivpu_device *vdev)
-+{
-+	ivpu_shutdown(vdev);
-+
-+	drm_WARN_ON(&vdev->drm, !xa_empty(&vdev->context_xa));
-+	xa_destroy(&vdev->context_xa);
-+}
-+
-+static struct pci_device_id ivpu_pci_ids[] = {
-+	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_MTL) },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(pci, ivpu_pci_ids);
-+
-+static int ivpu_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-+{
-+	struct ivpu_device *vdev;
-+	int ret;
-+
-+	vdev = devm_drm_dev_alloc(&pdev->dev, &driver, struct ivpu_device, drm);
-+	if (IS_ERR(vdev))
-+		return PTR_ERR(vdev);
-+
-+	pci_set_drvdata(pdev, vdev);
-+
-+	ret = ivpu_dev_init(vdev);
-+	if (ret) {
-+		dev_err(&pdev->dev, "Failed to initialize VPU device: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = drm_dev_register(&vdev->drm, 0);
-+	if (ret) {
-+		dev_err(&pdev->dev, "Failed to register DRM device: %d\n", ret);
-+		ivpu_dev_fini(vdev);
-+	}
-+
-+	return ret;
-+}
-+
-+static void ivpu_remove(struct pci_dev *pdev)
-+{
-+	struct ivpu_device *vdev = pci_get_drvdata(pdev);
-+
-+	drm_dev_unregister(&vdev->drm);
-+	ivpu_dev_fini(vdev);
-+}
-+
-+static struct pci_driver ivpu_pci_driver = {
-+	.name = KBUILD_MODNAME,
-+	.id_table = ivpu_pci_ids,
-+	.probe = ivpu_probe,
-+	.remove = ivpu_remove,
-+};
-+
-+module_pci_driver(ivpu_pci_driver);
-+
-+MODULE_AUTHOR("Intel Corporation");
-+MODULE_DESCRIPTION(DRIVER_DESC);
-+MODULE_LICENSE("GPL and additional rights");
-+MODULE_VERSION(DRIVER_VERSION_STR);
+ 	return 0;
+ 
++err_mmu_gctx_fini:
++	ivpu_mmu_global_context_fini(vdev);
++err_power_down:
++	ivpu_hw_power_down(vdev);
+ err_xa_destroy:
+ 	xa_destroy(&vdev->context_xa);
+ 	return ret;
+@@ -299,6 +377,7 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
+ static void ivpu_dev_fini(struct ivpu_device *vdev)
+ {
+ 	ivpu_shutdown(vdev);
++	ivpu_mmu_global_context_fini(vdev);
+ 
+ 	drm_WARN_ON(&vdev->drm, !xa_empty(&vdev->context_xa));
+ 	xa_destroy(&vdev->context_xa);
 diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
-new file mode 100644
-index 000000000000..4f859e7ac09e
---- /dev/null
+index 4f859e7ac09e..6e8b88068fc9 100644
+--- a/drivers/accel/ivpu/ivpu_drv.h
 +++ b/drivers/accel/ivpu/ivpu_drv.h
-@@ -0,0 +1,162 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (C) 2020-2022 Intel Corporation
-+ */
-+
-+#ifndef __IVPU_DRV_H__
-+#define __IVPU_DRV_H__
-+
-+#include <drm/drm_device.h>
-+#include <drm/drm_managed.h>
-+#include <drm/drm_mm.h>
-+#include <drm/drm_print.h>
-+
-+#include <linux/pci.h>
-+#include <linux/xarray.h>
-+#include <uapi/drm/ivpu_drm.h>
-+
-+#define DRIVER_NAME "intel_vpu"
-+#define DRIVER_DESC "Driver for Intel Versatile Processing Unit (VPU)"
-+#define DRIVER_DATE "20221208"
-+
-+#define PCI_DEVICE_ID_MTL   0x7d1d
-+
-+#define IVPU_GLOBAL_CONTEXT_MMU_SSID 0
-+#define IVPU_CONTEXT_LIMIT	     64
-+#define IVPU_NUM_ENGINES	     2
-+
-+#define IVPU_PLATFORM_SILICON 0
-+#define IVPU_PLATFORM_SIMICS  2
-+#define IVPU_PLATFORM_FPGA    3
-+#define IVPU_PLATFORM_INVALID 8
-+
-+#define IVPU_DBG_REG	 BIT(0)
-+#define IVPU_DBG_IRQ	 BIT(1)
-+#define IVPU_DBG_MMU	 BIT(2)
-+#define IVPU_DBG_FILE	 BIT(3)
-+#define IVPU_DBG_MISC	 BIT(4)
-+#define IVPU_DBG_FW_BOOT BIT(5)
-+#define IVPU_DBG_PM	 BIT(6)
-+#define IVPU_DBG_IPC	 BIT(7)
-+#define IVPU_DBG_BO	 BIT(8)
-+#define IVPU_DBG_JOB	 BIT(9)
-+#define IVPU_DBG_JSM	 BIT(10)
-+#define IVPU_DBG_KREF	 BIT(11)
-+#define IVPU_DBG_RPM	 BIT(12)
-+
-+#define ivpu_err(vdev, fmt, ...) \
-+	drm_err(&(vdev)->drm, "%s(): " fmt, __func__, ##__VA_ARGS__)
-+
-+#define ivpu_err_ratelimited(vdev, fmt, ...) \
-+	drm_err_ratelimited(&(vdev)->drm, "%s(): " fmt, __func__, ##__VA_ARGS__)
-+
-+#define ivpu_warn(vdev, fmt, ...) \
-+	drm_warn(&(vdev)->drm, "%s(): " fmt, __func__, ##__VA_ARGS__)
-+
-+#define ivpu_warn_ratelimited(vdev, fmt, ...) \
-+	drm_err_ratelimited(&(vdev)->drm, "%s(): " fmt, __func__, ##__VA_ARGS__)
-+
-+#define ivpu_info(vdev, fmt, ...) drm_info(&(vdev)->drm, fmt, ##__VA_ARGS__)
-+
-+#define ivpu_dbg(vdev, type, fmt, args...) do {                                \
-+	if (unlikely(IVPU_DBG_##type & ivpu_dbg_mask))                         \
-+		dev_dbg((vdev)->drm.dev, "[%s] " fmt, #type, ##args);          \
-+} while (0)
-+
-+#define IVPU_WA(wa_name) (vdev->wa.wa_name)
-+
-+struct ivpu_wa_table {
-+	bool punit_disabled;
-+	bool clear_runtime_mem;
-+};
-+
-+struct ivpu_hw_info;
-+
-+struct ivpu_device {
-+	struct drm_device drm;
-+	void __iomem *regb;
-+	void __iomem *regv;
-+	u32 platform;
-+	u32 irq;
-+
-+	struct ivpu_wa_table wa;
-+	struct ivpu_hw_info *hw;
-+
-+	struct xarray context_xa;
-+	struct xa_limit context_xa_limit;
-+
-+	struct {
-+		int boot;
-+		int jsm;
-+		int tdr;
-+		int reschedule_suspend;
-+	} timeout;
-+};
-+
-+/*
-+ * file_priv has its own refcount (ref) that allows user space to close the fd
-+ * without blocking even if VPU is still processing some jobs.
-+ */
-+struct ivpu_file_priv {
-+	struct kref ref;
-+	struct ivpu_device *vdev;
-+	u32 priority;
-+};
-+
-+extern int ivpu_dbg_mask;
-+extern u8 ivpu_pll_min_ratio;
-+extern u8 ivpu_pll_max_ratio;
-+
-+struct ivpu_file_priv *ivpu_file_priv_get(struct ivpu_file_priv *file_priv);
-+void ivpu_file_priv_put(struct ivpu_file_priv **link);
-+int ivpu_shutdown(struct ivpu_device *vdev);
-+
-+static inline bool ivpu_is_mtl(struct ivpu_device *vdev)
-+{
-+	return to_pci_dev(vdev->drm.dev)->device == PCI_DEVICE_ID_MTL;
-+}
-+
-+static inline u8 ivpu_revision(struct ivpu_device *vdev)
-+{
-+	return to_pci_dev(vdev->drm.dev)->revision;
-+}
-+
-+static inline u16 ivpu_device_id(struct ivpu_device *vdev)
-+{
-+	return to_pci_dev(vdev->drm.dev)->device;
-+}
-+
-+static inline struct ivpu_device *to_ivpu_device(struct drm_device *dev)
-+{
-+	return container_of(dev, struct ivpu_device, drm);
-+}
-+
-+static inline u32 ivpu_get_context_count(struct ivpu_device *vdev)
-+{
-+	struct xa_limit ctx_limit = vdev->context_xa_limit;
-+
-+	return (ctx_limit.max - ctx_limit.min + 1);
-+}
-+
-+static inline u32 ivpu_get_platform(struct ivpu_device *vdev)
-+{
-+	WARN_ON_ONCE(vdev->platform == IVPU_PLATFORM_INVALID);
-+	return vdev->platform;
-+}
-+
-+static inline bool ivpu_is_silicon(struct ivpu_device *vdev)
-+{
-+	return ivpu_get_platform(vdev) == IVPU_PLATFORM_SILICON;
-+}
-+
-+static inline bool ivpu_is_simics(struct ivpu_device *vdev)
-+{
-+	return ivpu_get_platform(vdev) == IVPU_PLATFORM_SIMICS;
-+}
-+
-+static inline bool ivpu_is_fpga(struct ivpu_device *vdev)
-+{
-+	return ivpu_get_platform(vdev) == IVPU_PLATFORM_FPGA;
-+}
-+
-+#endif /* __IVPU_DRV_H__ */
-diff --git a/drivers/accel/ivpu/ivpu_hw.h b/drivers/accel/ivpu/ivpu_hw.h
-new file mode 100644
-index 000000000000..26a75f6ecd55
---- /dev/null
-+++ b/drivers/accel/ivpu/ivpu_hw.h
-@@ -0,0 +1,170 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (C) 2020-2022 Intel Corporation
-+ */
-+
-+#ifndef __IVPU_HW_H__
-+#define __IVPU_HW_H__
-+
-+#include "ivpu_drv.h"
-+
-+struct ivpu_hw_ops {
-+	int (*info_init)(struct ivpu_device *vdev);
-+	int (*power_up)(struct ivpu_device *vdev);
-+	int (*boot_fw)(struct ivpu_device *vdev);
-+	int (*power_down)(struct ivpu_device *vdev);
-+	bool (*is_idle)(struct ivpu_device *vdev);
-+	void (*wdt_disable)(struct ivpu_device *vdev);
-+	void (*diagnose_failure)(struct ivpu_device *vdev);
-+	u32 (*reg_pll_freq_get)(struct ivpu_device *vdev);
-+	u32 (*reg_telemetry_offset_get)(struct ivpu_device *vdev);
-+	u32 (*reg_telemetry_size_get)(struct ivpu_device *vdev);
-+	u32 (*reg_telemetry_enable_get)(struct ivpu_device *vdev);
-+	void (*reg_db_set)(struct ivpu_device *vdev, u32 db_id);
-+	u32 (*reg_ipc_rx_addr_get)(struct ivpu_device *vdev);
-+	u32 (*reg_ipc_rx_count_get)(struct ivpu_device *vdev);
-+	void (*reg_ipc_tx_set)(struct ivpu_device *vdev, u32 vpu_addr);
-+	void (*irq_clear)(struct ivpu_device *vdev);
-+	void (*irq_enable)(struct ivpu_device *vdev);
-+	void (*irq_disable)(struct ivpu_device *vdev);
-+	irqreturn_t (*irq_handler)(int irq, void *ptr);
-+};
-+
-+struct ivpu_addr_range {
-+	resource_size_t start;
-+	resource_size_t end;
-+};
-+
-+struct ivpu_hw_info {
-+	const struct ivpu_hw_ops *ops;
-+	struct {
-+		struct ivpu_addr_range global_low;
-+		struct ivpu_addr_range global_high;
-+		struct ivpu_addr_range user_low;
-+		struct ivpu_addr_range user_high;
-+		struct ivpu_addr_range global_aliased_pio;
-+	} ranges;
-+	struct {
-+		u8 min_ratio;
-+		u8 max_ratio;
-+		/*
-+		 * Pll ratio for the efficiency frequency. The VPU has optimum
-+		 * performance to power ratio at this frequency.
-+		 */
-+		u8 pn_ratio;
-+		u32 profiling_freq;
-+	} pll;
-+	u32 tile_fuse;
-+	u32 sku;
-+	u16 config;
-+};
-+
-+extern const struct ivpu_hw_ops ivpu_hw_mtl_ops;
-+
-+static inline int ivpu_hw_info_init(struct ivpu_device *vdev)
-+{
-+	return vdev->hw->ops->info_init(vdev);
-+};
-+
-+static inline int ivpu_hw_power_up(struct ivpu_device *vdev)
-+{
-+	ivpu_dbg(vdev, PM, "HW power up\n");
-+
-+	return vdev->hw->ops->power_up(vdev);
-+};
-+
-+static inline int ivpu_hw_boot_fw(struct ivpu_device *vdev)
-+{
-+	return vdev->hw->ops->boot_fw(vdev);
-+};
-+
-+static inline bool ivpu_hw_is_idle(struct ivpu_device *vdev)
-+{
-+	return vdev->hw->ops->is_idle(vdev);
-+};
-+
-+static inline int ivpu_hw_power_down(struct ivpu_device *vdev)
-+{
-+	ivpu_dbg(vdev, PM, "HW power down\n");
-+
-+	return vdev->hw->ops->power_down(vdev);
-+};
-+
-+static inline void ivpu_hw_wdt_disable(struct ivpu_device *vdev)
-+{
-+	vdev->hw->ops->wdt_disable(vdev);
-+};
-+
-+/* Register indirect accesses */
-+static inline u32 ivpu_hw_reg_pll_freq_get(struct ivpu_device *vdev)
-+{
-+	return vdev->hw->ops->reg_pll_freq_get(vdev);
-+};
-+
-+static inline u32 ivpu_hw_reg_telemetry_offset_get(struct ivpu_device *vdev)
-+{
-+	return vdev->hw->ops->reg_telemetry_offset_get(vdev);
-+};
-+
-+static inline u32 ivpu_hw_reg_telemetry_size_get(struct ivpu_device *vdev)
-+{
-+	return vdev->hw->ops->reg_telemetry_size_get(vdev);
-+};
-+
-+static inline u32 ivpu_hw_reg_telemetry_enable_get(struct ivpu_device *vdev)
-+{
-+	return vdev->hw->ops->reg_telemetry_enable_get(vdev);
-+};
-+
-+static inline void ivpu_hw_reg_db_set(struct ivpu_device *vdev, u32 db_id)
-+{
-+	vdev->hw->ops->reg_db_set(vdev, db_id);
-+};
-+
-+static inline u32 ivpu_hw_reg_ipc_rx_addr_get(struct ivpu_device *vdev)
-+{
-+	return vdev->hw->ops->reg_ipc_rx_addr_get(vdev);
-+};
-+
-+static inline u32 ivpu_hw_reg_ipc_rx_count_get(struct ivpu_device *vdev)
-+{
-+	return vdev->hw->ops->reg_ipc_rx_count_get(vdev);
-+};
-+
-+static inline void ivpu_hw_reg_ipc_tx_set(struct ivpu_device *vdev, u32 vpu_addr)
-+{
-+	vdev->hw->ops->reg_ipc_tx_set(vdev, vpu_addr);
-+};
-+
-+static inline void ivpu_hw_irq_clear(struct ivpu_device *vdev)
-+{
-+	vdev->hw->ops->irq_clear(vdev);
-+};
-+
-+static inline void ivpu_hw_irq_enable(struct ivpu_device *vdev)
-+{
-+	vdev->hw->ops->irq_enable(vdev);
-+};
-+
-+static inline void ivpu_hw_irq_disable(struct ivpu_device *vdev)
-+{
-+	vdev->hw->ops->irq_disable(vdev);
-+};
-+
-+static inline void ivpu_hw_init_range(struct ivpu_addr_range *range, u64 start, u64 size)
-+{
-+	range->start = start;
-+	range->end = start + size;
-+}
-+
-+static inline u64 ivpu_hw_range_size(const struct ivpu_addr_range *range)
-+{
-+	return range->end - range->start;
-+}
-+
-+static inline void ivpu_hw_diagnose_failure(struct ivpu_device *vdev)
-+{
-+	vdev->hw->ops->diagnose_failure(vdev);
-+}
-+
-+#endif /* __IVPU_HW_H__ */
+@@ -15,6 +15,8 @@
+ #include <linux/xarray.h>
+ #include <uapi/drm/ivpu_drm.h>
+ 
++#include "ivpu_mmu_context.h"
++
+ #define DRIVER_NAME "intel_vpu"
+ #define DRIVER_DESC "Driver for Intel Versatile Processing Unit (VPU)"
+ #define DRIVER_DATE "20221208"
+@@ -71,6 +73,7 @@ struct ivpu_wa_table {
+ };
+ 
+ struct ivpu_hw_info;
++struct ivpu_mmu_info;
+ 
+ struct ivpu_device {
+ 	struct drm_device drm;
+@@ -81,7 +84,9 @@ struct ivpu_device {
+ 
+ 	struct ivpu_wa_table wa;
+ 	struct ivpu_hw_info *hw;
++	struct ivpu_mmu_info *mmu;
+ 
++	struct ivpu_mmu_context gctx;
+ 	struct xarray context_xa;
+ 	struct xa_limit context_xa_limit;
+ 
+@@ -100,6 +105,7 @@ struct ivpu_device {
+ struct ivpu_file_priv {
+ 	struct kref ref;
+ 	struct ivpu_device *vdev;
++	struct ivpu_mmu_context ctx;
+ 	u32 priority;
+ };
+ 
 diff --git a/drivers/accel/ivpu/ivpu_hw_mtl.c b/drivers/accel/ivpu/ivpu_hw_mtl.c
-new file mode 100644
-index 000000000000..c84bacd4d0f5
---- /dev/null
+index c84bacd4d0f5..39350203452d 100644
+--- a/drivers/accel/ivpu/ivpu_hw_mtl.c
 +++ b/drivers/accel/ivpu/ivpu_hw_mtl.c
-@@ -0,0 +1,1048 @@
+@@ -7,6 +7,7 @@
+ #include "ivpu_hw_mtl_reg.h"
+ #include "ivpu_hw_reg_io.h"
+ #include "ivpu_hw.h"
++#include "ivpu_mmu.h"
+ 
+ #define TILE_FUSE_ENABLE_BOTH	     0x0
+ #define TILE_FUSE_ENABLE_UPPER	     0x1
+@@ -930,6 +931,15 @@ static u32 ivpu_hw_mtl_irqv_handler(struct ivpu_device *vdev, int irq)
+ 
+ 	REGV_WR32(MTL_VPU_HOST_SS_ICB_CLEAR_0, status);
+ 
++	if (REG_TEST_FLD(MTL_VPU_HOST_SS_ICB_STATUS_0, MMU_IRQ_0_INT, status))
++		ivpu_mmu_irq_evtq_handler(vdev);
++
++	if (REG_TEST_FLD(MTL_VPU_HOST_SS_ICB_STATUS_0, MMU_IRQ_1_INT, status))
++		ivpu_dbg(vdev, IRQ, "MMU sync complete\n");
++
++	if (REG_TEST_FLD(MTL_VPU_HOST_SS_ICB_STATUS_0, MMU_IRQ_2_INT, status))
++		ivpu_mmu_irq_gerr_handler(vdev);
++
+ 	if (REG_TEST_FLD(MTL_VPU_HOST_SS_ICB_STATUS_0, CPU_INT_REDIRECT_0_INT, status))
+ 		ivpu_hw_mtl_irq_wdt_mss_handler(vdev);
+ 
+diff --git a/drivers/accel/ivpu/ivpu_mmu.c b/drivers/accel/ivpu/ivpu_mmu.c
+new file mode 100644
+index 000000000000..2dd9d2287055
+--- /dev/null
++++ b/drivers/accel/ivpu/ivpu_mmu.c
+@@ -0,0 +1,875 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (C) 2020-2022 Intel Corporation
 + */
++
++#include <linux/circ_buf.h>
++#include <linux/highmem.h>
 +
 +#include "ivpu_drv.h"
 +#include "ivpu_hw_mtl_reg.h"
 +#include "ivpu_hw_reg_io.h"
-+#include "ivpu_hw.h"
++#include "ivpu_mmu.h"
++#include "ivpu_mmu_context.h"
 +
-+#define TILE_FUSE_ENABLE_BOTH	     0x0
-+#define TILE_FUSE_ENABLE_UPPER	     0x1
-+#define TILE_FUSE_ENABLE_LOWER	     0x2
++#define IVPU_MMU_IDR0_REF		0x080f3e0f
++#define IVPU_MMU_IDR0_REF_SIMICS	0x080f3e1f
++#define IVPU_MMU_IDR1_REF		0x0e739d18
++#define IVPU_MMU_IDR3_REF		0x0000003c
++#define IVPU_MMU_IDR5_REF		0x00040070
++#define IVPU_MMU_IDR5_REF_SIMICS	0x00000075
++#define IVPU_MMU_IDR5_REF_FPGA		0x00800075
 +
-+#define TILE_SKU_BOTH_MTL	     0x3630
-+#define TILE_SKU_LOWER_MTL	     0x3631
-+#define TILE_SKU_UPPER_MTL	     0x3632
++#define IVPU_MMU_CDTAB_ENT_SIZE		64
++#define IVPU_MMU_CDTAB_ENT_COUNT_LOG2	8 /* 256 entries */
++#define IVPU_MMU_CDTAB_ENT_COUNT	((u32)1 << IVPU_MMU_CDTAB_ENT_COUNT_LOG2)
 +
-+/* Work point configuration values */
-+#define WP_CONFIG_1_TILE_5_3_RATIO   0x0101
-+#define WP_CONFIG_1_TILE_4_3_RATIO   0x0102
-+#define WP_CONFIG_2_TILE_5_3_RATIO   0x0201
-+#define WP_CONFIG_2_TILE_4_3_RATIO   0x0202
-+#define WP_CONFIG_0_TILE_PLL_OFF     0x0000
++#define IVPU_MMU_STREAM_ID0		0
++#define IVPU_MMU_STREAM_ID3		3
 +
-+#define PLL_REF_CLK_FREQ	     (50 * 1000000)
-+#define PLL_SIMULATION_FREQ	     (10 * 1000000)
-+#define PLL_RATIO_TO_FREQ(x)	     ((x) * PLL_REF_CLK_FREQ)
-+#define PLL_DEFAULT_EPP_VALUE	     0x80
++#define IVPU_MMU_STRTAB_ENT_SIZE	64
++#define IVPU_MMU_STRTAB_ENT_COUNT	4
++#define IVPU_MMU_STRTAB_CFG_LOG2SIZE	2
++#define IVPU_MMU_STRTAB_CFG		IVPU_MMU_STRTAB_CFG_LOG2SIZE
 +
-+#define TIM_SAFE_ENABLE		     0xf1d0dead
-+#define TIM_WATCHDOG_RESET_VALUE     0xffffffff
++#define IVPU_MMU_Q_COUNT_LOG2		4 /* 16 entries */
++#define IVPU_MMU_Q_COUNT		((u32)1 << IVPU_MMU_Q_COUNT_LOG2)
++#define IVPU_MMU_Q_WRAP_BIT		(IVPU_MMU_Q_COUNT << 1)
++#define IVPU_MMU_Q_WRAP_MASK		(IVPU_MMU_Q_WRAP_BIT - 1)
++#define IVPU_MMU_Q_IDX_MASK		(IVPU_MMU_Q_COUNT - 1)
++#define IVPU_MMU_Q_IDX(val)		((val) & IVPU_MMU_Q_IDX_MASK)
 +
-+#define TIMEOUT_US		     (150 * USEC_PER_MSEC)
-+#define PWR_ISLAND_STATUS_TIMEOUT_US (5 * USEC_PER_MSEC)
-+#define PLL_TIMEOUT_US		     (1500 * USEC_PER_MSEC)
-+#define IDLE_TIMEOUT_US		     (500 * USEC_PER_MSEC)
++#define IVPU_MMU_CMDQ_CMD_SIZE		16
++#define IVPU_MMU_CMDQ_SIZE		(IVPU_MMU_Q_COUNT * IVPU_MMU_CMDQ_CMD_SIZE)
 +
-+#define ICB_0_IRQ_MASK ((REG_FLD(MTL_VPU_HOST_SS_ICB_STATUS_0, HOST_IPC_FIFO_INT)) | \
-+			(REG_FLD(MTL_VPU_HOST_SS_ICB_STATUS_0, MMU_IRQ_0_INT)) | \
-+			(REG_FLD(MTL_VPU_HOST_SS_ICB_STATUS_0, MMU_IRQ_1_INT)) | \
-+			(REG_FLD(MTL_VPU_HOST_SS_ICB_STATUS_0, MMU_IRQ_2_INT)) | \
-+			(REG_FLD(MTL_VPU_HOST_SS_ICB_STATUS_0, NOC_FIREWALL_INT)) | \
-+			(REG_FLD(MTL_VPU_HOST_SS_ICB_STATUS_0, CPU_INT_REDIRECT_0_INT)) | \
-+			(REG_FLD(MTL_VPU_HOST_SS_ICB_STATUS_0, CPU_INT_REDIRECT_1_INT)))
++#define IVPU_MMU_EVTQ_CMD_SIZE		32
++#define IVPU_MMU_EVTQ_SIZE		(IVPU_MMU_Q_COUNT * IVPU_MMU_EVTQ_CMD_SIZE)
 +
-+#define ICB_1_IRQ_MASK ((REG_FLD(MTL_VPU_HOST_SS_ICB_STATUS_1, CPU_INT_REDIRECT_2_INT)) | \
-+			(REG_FLD(MTL_VPU_HOST_SS_ICB_STATUS_1, CPU_INT_REDIRECT_3_INT)) | \
-+			(REG_FLD(MTL_VPU_HOST_SS_ICB_STATUS_1, CPU_INT_REDIRECT_4_INT)))
++#define IVPU_MMU_CMD_OPCODE		GENMASK(7, 0)
 +
-+#define ICB_0_1_IRQ_MASK ((((u64)ICB_1_IRQ_MASK) << 32) | ICB_0_IRQ_MASK)
++#define IVPU_MMU_CMD_SYNC_0_CS		GENMASK(13, 12)
++#define IVPU_MMU_CMD_SYNC_0_MSH		GENMASK(23, 22)
++#define IVPU_MMU_CMD_SYNC_0_MSI_ATTR	GENMASK(27, 24)
++#define IVPU_MMU_CMD_SYNC_0_MSI_ATTR	GENMASK(27, 24)
++#define IVPU_MMU_CMD_SYNC_0_MSI_DATA	GENMASK(63, 32)
 +
-+#define BUTTRESS_IRQ_MASK ((REG_FLD(MTL_BUTTRESS_INTERRUPT_STAT, FREQ_CHANGE)) | \
-+			   (REG_FLD(MTL_BUTTRESS_INTERRUPT_STAT, ATS_ERR)) | \
-+			   (REG_FLD(MTL_BUTTRESS_INTERRUPT_STAT, UFI_ERR)))
++#define IVPU_MMU_CMD_CFGI_0_SSEC	BIT(10)
++#define IVPU_MMU_CMD_CFGI_0_SSV		BIT(11)
++#define IVPU_MMU_CMD_CFGI_0_SSID	GENMASK(31, 12)
++#define IVPU_MMU_CMD_CFGI_0_SID		GENMASK(63, 32)
++#define IVPU_MMU_CMD_CFGI_1_RANGE	GENMASK(4, 0)
 +
-+#define BUTTRESS_IRQ_ENABLE_MASK ((u32)~BUTTRESS_IRQ_MASK)
-+#define BUTTRESS_IRQ_DISABLE_MASK ((u32)-1)
++#define IVPU_MMU_CMD_TLBI_0_ASID	GENMASK(63, 48)
++#define IVPU_MMU_CMD_TLBI_0_VMID	GENMASK(47, 32)
 +
-+#define ITF_FIREWALL_VIOLATION_MASK ((REG_FLD(MTL_VPU_HOST_SS_FW_SOC_IRQ_EN, CSS_ROM_CMX)) | \
-+				     (REG_FLD(MTL_VPU_HOST_SS_FW_SOC_IRQ_EN, CSS_DBG)) | \
-+				     (REG_FLD(MTL_VPU_HOST_SS_FW_SOC_IRQ_EN, CSS_CTRL)) | \
-+				     (REG_FLD(MTL_VPU_HOST_SS_FW_SOC_IRQ_EN, DEC400)) | \
-+				     (REG_FLD(MTL_VPU_HOST_SS_FW_SOC_IRQ_EN, MSS_NCE)) | \
-+				     (REG_FLD(MTL_VPU_HOST_SS_FW_SOC_IRQ_EN, MSS_MBI)) | \
-+				     (REG_FLD(MTL_VPU_HOST_SS_FW_SOC_IRQ_EN, MSS_MBI_CMX)))
++#define CMD_PREFETCH_CFG		0x1
++#define CMD_CFGI_STE			0x3
++#define CMD_CFGI_ALL			0x4
++#define CMD_CFGI_CD			0x5
++#define CMD_CFGI_CD_ALL			0x6
++#define CMD_TLBI_NH_ASID		0x11
++#define CMD_TLBI_EL2_ALL		0x20
++#define CMD_TLBI_NSNH_ALL		0x30
++#define CMD_SYNC			0x46
 +
-+static char *ivpu_platform_to_str(u32 platform)
++#define IVPU_MMU_EVT_F_UUT		0x01
++#define IVPU_MMU_EVT_C_BAD_STREAMID	0x02
++#define IVPU_MMU_EVT_F_STE_FETCH	0x03
++#define IVPU_MMU_EVT_C_BAD_STE		0x04
++#define IVPU_MMU_EVT_F_BAD_ATS_TREQ	0x05
++#define IVPU_MMU_EVT_F_STREAM_DISABLED	0x06
++#define IVPU_MMU_EVT_F_TRANSL_FORBIDDEN	0x07
++#define IVPU_MMU_EVT_C_BAD_SUBSTREAMID	0x08
++#define IVPU_MMU_EVT_F_CD_FETCH		0x09
++#define IVPU_MMU_EVT_C_BAD_CD		0x0a
++#define IVPU_MMU_EVT_F_WALK_EABT	0x0b
++#define IVPU_MMU_EVT_F_TRANSLATION	0x10
++#define IVPU_MMU_EVT_F_ADDR_SIZE	0x11
++#define IVPU_MMU_EVT_F_ACCESS		0x12
++#define IVPU_MMU_EVT_F_PERMISSION	0x13
++#define IVPU_MMU_EVT_F_TLB_CONFLICT	0x20
++#define IVPU_MMU_EVT_F_CFG_CONFLICT	0x21
++#define IVPU_MMU_EVT_E_PAGE_REQUEST	0x24
++#define IVPU_MMU_EVT_F_VMS_FETCH	0x25
++
++#define IVPU_MMU_EVTS_MAX		8
++
++#define IVPU_MMU_EVT_OP_MASK		GENMASK_ULL(7, 0)
++#define IVPU_MMU_EVT_SSID_MASK		GENMASK_ULL(31, 12)
++
++#define IVPU_MMU_Q_BASE_RWA		BIT(62)
++#define IVPU_MMU_Q_BASE_ADDR_MASK	GENMASK_ULL(51, 5)
++#define IVPU_MMU_STRTAB_BASE_RA		BIT(62)
++#define IVPU_MMU_STRTAB_BASE_ADDR_MASK	GENMASK_ULL(51, 6)
++
++#define IVPU_MMU_IRQ_EVTQ_EN		BIT(2)
++#define IVPU_MMU_IRQ_GERROR_EN		BIT(0)
++
++#define IVPU_MMU_CR0_ATSCHK		BIT(4)
++#define IVPU_MMU_CR0_CMDQEN		BIT(3)
++#define IVPU_MMU_CR0_EVTQEN		BIT(2)
++#define IVPU_MMU_CR0_PRIQEN		BIT(1)
++#define IVPU_MMU_CR0_SMMUEN		BIT(0)
++
++#define IVPU_MMU_CR1_TABLE_SH		GENMASK(11, 10)
++#define IVPU_MMU_CR1_TABLE_OC		GENMASK(9, 8)
++#define IVPU_MMU_CR1_TABLE_IC		GENMASK(7, 6)
++#define IVPU_MMU_CR1_QUEUE_SH		GENMASK(5, 4)
++#define IVPU_MMU_CR1_QUEUE_OC		GENMASK(3, 2)
++#define IVPU_MMU_CR1_QUEUE_IC		GENMASK(1, 0)
++#define IVPU_MMU_CACHE_NC		0
++#define IVPU_MMU_CACHE_WB		1
++#define IVPU_MMU_CACHE_WT		2
++#define IVPU_MMU_SH_NSH			0
++#define IVPU_MMU_SH_OSH			2
++#define IVPU_MMU_SH_ISH			3
++
++#define IVPU_MMU_CMDQ_OP		GENMASK_ULL(7, 0)
++
++#define IVPU_MMU_CD_0_TCR_T0SZ		GENMASK_ULL(5, 0)
++#define IVPU_MMU_CD_0_TCR_TG0		GENMASK_ULL(7, 6)
++#define IVPU_MMU_CD_0_TCR_IRGN0		GENMASK_ULL(9, 8)
++#define IVPU_MMU_CD_0_TCR_ORGN0		GENMASK_ULL(11, 10)
++#define IVPU_MMU_CD_0_TCR_SH0		GENMASK_ULL(13, 12)
++#define IVPU_MMU_CD_0_TCR_EPD0		BIT_ULL(14)
++#define IVPU_MMU_CD_0_TCR_EPD1		BIT_ULL(30)
++#define IVPU_MMU_CD_0_ENDI		BIT(15)
++#define IVPU_MMU_CD_0_V			BIT(31)
++#define IVPU_MMU_CD_0_TCR_IPS		GENMASK_ULL(34, 32)
++#define IVPU_MMU_CD_0_TCR_TBI0		BIT_ULL(38)
++#define IVPU_MMU_CD_0_AA64		BIT(41)
++#define IVPU_MMU_CD_0_S			BIT(44)
++#define IVPU_MMU_CD_0_R			BIT(45)
++#define IVPU_MMU_CD_0_A			BIT(46)
++#define IVPU_MMU_CD_0_ASET		BIT(47)
++#define IVPU_MMU_CD_0_ASID		GENMASK_ULL(63, 48)
++
++#define IVPU_MMU_CD_1_TTB0_MASK		GENMASK_ULL(51, 4)
++
++#define IVPU_MMU_STE_0_S1CDMAX		GENMASK_ULL(63, 59)
++#define IVPU_MMU_STE_0_S1FMT		GENMASK_ULL(5, 4)
++#define IVPU_MMU_STE_0_S1FMT_LINEAR	0
++#define IVPU_MMU_STE_DWORDS		8
++#define IVPU_MMU_STE_0_CFG_S1_TRANS	5
++#define IVPU_MMU_STE_0_CFG		GENMASK_ULL(3, 1)
++#define IVPU_MMU_STE_0_S1CTXPTR_MASK	GENMASK_ULL(51, 6)
++#define IVPU_MMU_STE_0_V			BIT(0)
++
++#define IVPU_MMU_STE_1_STRW_NSEL1	0ul
++#define IVPU_MMU_STE_1_CONT		GENMASK_ULL(16, 13)
++#define IVPU_MMU_STE_1_STRW		GENMASK_ULL(31, 30)
++#define IVPU_MMU_STE_1_PRIVCFG		GENMASK_ULL(49, 48)
++#define IVPU_MMU_STE_1_PRIVCFG_UNPRIV	2ul
++#define IVPU_MMU_STE_1_INSTCFG		GENMASK_ULL(51, 50)
++#define IVPU_MMU_STE_1_INSTCFG_DATA	2ul
++#define IVPU_MMU_STE_1_MEV		BIT(19)
++#define IVPU_MMU_STE_1_S1STALLD		BIT(27)
++#define IVPU_MMU_STE_1_S1C_CACHE_NC	0ul
++#define IVPU_MMU_STE_1_S1C_CACHE_WBRA	1ul
++#define IVPU_MMU_STE_1_S1C_CACHE_WT	2ul
++#define IVPU_MMU_STE_1_S1C_CACHE_WB	3ul
++#define IVPU_MMU_STE_1_S1CIR		GENMASK_ULL(3, 2)
++#define IVPU_MMU_STE_1_S1COR		GENMASK_ULL(5, 4)
++#define IVPU_MMU_STE_1_S1CSH		GENMASK_ULL(7, 6)
++#define IVPU_MMU_STE_1_S1DSS		GENMASK_ULL(1, 0)
++#define IVPU_MMU_STE_1_S1DSS_TERMINATE	0x0
++
++#define IVPU_MMU_REG_TIMEOUT_US		(10 * USEC_PER_MSEC)
++#define IVPU_MMU_QUEUE_TIMEOUT_US	(100 * USEC_PER_MSEC)
++
++#define IVPU_MMU_GERROR_ERR_MASK ((REG_FLD(MTL_VPU_HOST_MMU_GERROR, CMDQ)) | \
++				  (REG_FLD(MTL_VPU_HOST_MMU_GERROR, EVTQ_ABT)) | \
++				  (REG_FLD(MTL_VPU_HOST_MMU_GERROR, PRIQ_ABT)) | \
++				  (REG_FLD(MTL_VPU_HOST_MMU_GERROR, MSI_CMDQ_ABT)) | \
++				  (REG_FLD(MTL_VPU_HOST_MMU_GERROR, MSI_EVTQ_ABT)) | \
++				  (REG_FLD(MTL_VPU_HOST_MMU_GERROR, MSI_PRIQ_ABT)) | \
++				  (REG_FLD(MTL_VPU_HOST_MMU_GERROR, MSI_ABT)))
++
++static char *ivpu_mmu_event_to_str(u32 cmd)
 +{
-+	switch (platform) {
-+	case IVPU_PLATFORM_SILICON:
-+		return "IVPU_PLATFORM_SILICON";
-+	case IVPU_PLATFORM_SIMICS:
-+		return "IVPU_PLATFORM_SIMICS";
-+	case IVPU_PLATFORM_FPGA:
-+		return "IVPU_PLATFORM_FPGA";
++	switch (cmd) {
++	case IVPU_MMU_EVT_F_UUT:
++		return "Unsupported Upstream Transaction";
++	case IVPU_MMU_EVT_C_BAD_STREAMID:
++		return "Transaction StreamID out of range";
++	case IVPU_MMU_EVT_F_STE_FETCH:
++		return "Fetch of STE caused external abort";
++	case IVPU_MMU_EVT_C_BAD_STE:
++		return "Used STE invalid";
++	case IVPU_MMU_EVT_F_BAD_ATS_TREQ:
++		return "Address Request disallowed for a StreamID";
++	case IVPU_MMU_EVT_F_STREAM_DISABLED:
++		return "Transaction marks non-substream disabled";
++	case IVPU_MMU_EVT_F_TRANSL_FORBIDDEN:
++		return "MMU bypass is disallowed for this StreamID";
++	case IVPU_MMU_EVT_C_BAD_SUBSTREAMID:
++		return "Invalid StreamID";
++	case IVPU_MMU_EVT_F_CD_FETCH:
++		return "Fetch of CD caused external abort";
++	case IVPU_MMU_EVT_C_BAD_CD:
++		return "Fetched CD invalid";
++	case IVPU_MMU_EVT_F_WALK_EABT:
++		return " An external abort occurred fetching a TLB";
++	case IVPU_MMU_EVT_F_TRANSLATION:
++		return "Translation fault";
++	case IVPU_MMU_EVT_F_ADDR_SIZE:
++		return " Output address caused address size fault";
++	case IVPU_MMU_EVT_F_ACCESS:
++		return "Access flag fault";
++	case IVPU_MMU_EVT_F_PERMISSION:
++		return "Permission fault occurred on page access";
++	case IVPU_MMU_EVT_F_TLB_CONFLICT:
++		return "A TLB conflict";
++	case IVPU_MMU_EVT_F_CFG_CONFLICT:
++		return "A configuration cache conflict";
++	case IVPU_MMU_EVT_E_PAGE_REQUEST:
++		return "Page request hint from a client device";
++	case IVPU_MMU_EVT_F_VMS_FETCH:
++		return "Fetch of VMS caused external abort";
 +	default:
-+		return "Invalid platform";
++		return "Unknown CMDQ command";
 +	}
 +}
 +
-+static void ivpu_hw_read_platform(struct ivpu_device *vdev)
++static int ivpu_mmu_config_check(struct ivpu_device *vdev)
 +{
-+	u32 gen_ctrl = REGV_RD32(MTL_VPU_HOST_SS_GEN_CTRL);
-+	u32 platform = REG_GET_FLD(MTL_VPU_HOST_SS_GEN_CTRL, PS, gen_ctrl);
++	u32 val_ref;
++	u32 val;
 +
-+	if  (platform == IVPU_PLATFORM_SIMICS || platform == IVPU_PLATFORM_FPGA)
-+		vdev->platform = platform;
++	if (ivpu_is_simics(vdev))
++		val_ref = IVPU_MMU_IDR0_REF_SIMICS;
 +	else
-+		vdev->platform = IVPU_PLATFORM_SILICON;
++		val_ref = IVPU_MMU_IDR0_REF;
 +
-+	ivpu_dbg(vdev, MISC, "Platform type: %s (%d)\n",
-+		 ivpu_platform_to_str(vdev->platform), vdev->platform);
++	val = REGV_RD32(MTL_VPU_HOST_MMU_IDR0);
++	if (val != val_ref)
++		ivpu_err(vdev, "IDR0 0x%x != IDR0_REF 0x%x\n", val, val_ref);
++
++	val = REGV_RD32(MTL_VPU_HOST_MMU_IDR1);
++	if (val != IVPU_MMU_IDR1_REF)
++		ivpu_warn(vdev, "IDR1 0x%x != IDR1_REF 0x%x\n", val, IVPU_MMU_IDR1_REF);
++
++	val = REGV_RD32(MTL_VPU_HOST_MMU_IDR3);
++	if (val != IVPU_MMU_IDR3_REF)
++		ivpu_warn(vdev, "IDR3 0x%x != IDR3_REF 0x%x\n", val, IVPU_MMU_IDR3_REF);
++
++	if (ivpu_is_simics(vdev))
++		val_ref = IVPU_MMU_IDR5_REF_SIMICS;
++	else if (ivpu_is_fpga(vdev))
++		val_ref = IVPU_MMU_IDR5_REF_FPGA;
++	else
++		val_ref = IVPU_MMU_IDR5_REF;
++
++	val = REGV_RD32(MTL_VPU_HOST_MMU_IDR5);
++	if (val != val_ref)
++		ivpu_dbg(vdev, MMU, "IDR5 0x%x != IDR5_REF 0x%x\n", val, val_ref);
++
++	return 0;
 +}
 +
-+static void ivpu_hw_wa_init(struct ivpu_device *vdev)
++static int ivpu_mmu_cdtab_alloc(struct ivpu_device *vdev)
 +{
-+	vdev->wa.punit_disabled = ivpu_is_fpga(vdev);
-+	vdev->wa.clear_runtime_mem = false;
++	struct ivpu_mmu_info *mmu = vdev->mmu;
++	struct ivpu_mmu_cdtab *cdtab = &mmu->cdtab;
++	size_t size = IVPU_MMU_CDTAB_ENT_COUNT * IVPU_MMU_CDTAB_ENT_SIZE;
++
++	cdtab->base = dmam_alloc_coherent(vdev->drm.dev, size, &cdtab->dma, GFP_KERNEL);
++	if (!cdtab->base)
++		return -ENOMEM;
++
++	ivpu_dbg(vdev, MMU, "CDTAB alloc: dma=%pad size=%zu\n", &cdtab->dma, size);
++
++	return 0;
 +}
 +
-+static void ivpu_hw_timeouts_init(struct ivpu_device *vdev)
++static int ivpu_mmu_strtab_alloc(struct ivpu_device *vdev)
 +{
-+	if (ivpu_is_simics(vdev) || ivpu_is_fpga(vdev)) {
-+		vdev->timeout.boot = 100000;
-+		vdev->timeout.jsm = 50000;
-+		vdev->timeout.tdr = 2000000;
-+		vdev->timeout.reschedule_suspend = 1000;
++	struct ivpu_mmu_info *mmu = vdev->mmu;
++	struct ivpu_mmu_strtab *strtab = &mmu->strtab;
++	size_t size = IVPU_MMU_STRTAB_ENT_COUNT * IVPU_MMU_STRTAB_ENT_SIZE;
++
++	strtab->base = dmam_alloc_coherent(vdev->drm.dev, size, &strtab->dma, GFP_KERNEL);
++	if (!strtab->base)
++		return -ENOMEM;
++
++	strtab->base_cfg = IVPU_MMU_STRTAB_CFG;
++	strtab->dma_q = IVPU_MMU_STRTAB_BASE_RA;
++	strtab->dma_q |= strtab->dma & IVPU_MMU_STRTAB_BASE_ADDR_MASK;
++
++	ivpu_dbg(vdev, MMU, "STRTAB alloc: dma=%pad dma_q=%pad size=%zu\n",
++		 &strtab->dma, &strtab->dma_q, size);
++
++	return 0;
++}
++
++static int ivpu_mmu_cmdq_alloc(struct ivpu_device *vdev)
++{
++	struct ivpu_mmu_info *mmu = vdev->mmu;
++	struct ivpu_mmu_queue *q = &mmu->cmdq;
++
++	q->base = dmam_alloc_coherent(vdev->drm.dev, IVPU_MMU_CMDQ_SIZE, &q->dma, GFP_KERNEL);
++	if (!q->base)
++		return -ENOMEM;
++
++	q->dma_q = IVPU_MMU_Q_BASE_RWA;
++	q->dma_q |= q->dma & IVPU_MMU_Q_BASE_ADDR_MASK;
++	q->dma_q |= IVPU_MMU_Q_COUNT_LOG2;
++
++	ivpu_dbg(vdev, MMU, "CMDQ alloc: dma=%pad dma_q=%pad size=%u\n",
++		 &q->dma, &q->dma_q, IVPU_MMU_CMDQ_SIZE);
++
++	return 0;
++}
++
++static int ivpu_mmu_evtq_alloc(struct ivpu_device *vdev)
++{
++	struct ivpu_mmu_info *mmu = vdev->mmu;
++	struct ivpu_mmu_queue *q = &mmu->evtq;
++
++	q->base = dmam_alloc_coherent(vdev->drm.dev, IVPU_MMU_EVTQ_SIZE, &q->dma, GFP_KERNEL);
++	if (!q->base)
++		return -ENOMEM;
++
++	q->dma_q = IVPU_MMU_Q_BASE_RWA;
++	q->dma_q |= q->dma & IVPU_MMU_Q_BASE_ADDR_MASK;
++	q->dma_q |= IVPU_MMU_Q_COUNT_LOG2;
++
++	ivpu_dbg(vdev, MMU, "EVTQ alloc: dma=%pad dma_q=%pad size=%u\n",
++		 &q->dma, &q->dma_q, IVPU_MMU_EVTQ_SIZE);
++
++	return 0;
++}
++
++static int ivpu_mmu_structs_alloc(struct ivpu_device *vdev)
++{
++	int ret;
++
++	ret = ivpu_mmu_cdtab_alloc(vdev);
++	if (ret) {
++		ivpu_err(vdev, "Failed to allocate cdtab: %d\n", ret);
++		return ret;
++	}
++
++	ret = ivpu_mmu_strtab_alloc(vdev);
++	if (ret) {
++		ivpu_err(vdev, "Failed to allocate strtab: %d\n", ret);
++		return ret;
++	}
++
++	ret = ivpu_mmu_cmdq_alloc(vdev);
++	if (ret) {
++		ivpu_err(vdev, "Failed to allocate cmdq: %d\n", ret);
++		return ret;
++	}
++
++	ret = ivpu_mmu_evtq_alloc(vdev);
++	if (ret)
++		ivpu_err(vdev, "Failed to allocate evtq: %d\n", ret);
++
++	return ret;
++}
++
++static int ivpu_mmu_reg_write(struct ivpu_device *vdev, u32 reg, u32 val)
++{
++	u32 reg_ack = reg + 4; /* ACK register is 4B after base register */
++	u32 val_ack;
++	int ret;
++
++	REGV_WR32(reg, val);
++
++	ret = REGV_POLL(reg_ack, val_ack, (val == val_ack), IVPU_MMU_REG_TIMEOUT_US);
++	if (ret)
++		ivpu_err(vdev, "Failed to write register 0x%x\n", reg);
++
++	return ret;
++}
++
++static int ivpu_mmu_irqs_setup(struct ivpu_device *vdev)
++{
++	u32 irq_ctrl = IVPU_MMU_IRQ_EVTQ_EN | IVPU_MMU_IRQ_GERROR_EN;
++	int ret;
++
++	ret = ivpu_mmu_reg_write(vdev, MTL_VPU_HOST_MMU_IRQ_CTRL, 0);
++	if (ret)
++		return ret;
++
++	return ivpu_mmu_reg_write(vdev, MTL_VPU_HOST_MMU_IRQ_CTRL, irq_ctrl);
++}
++
++static int ivpu_mmu_cmdq_wait_for_cons(struct ivpu_device *vdev)
++{
++	struct ivpu_mmu_queue *cmdq = &vdev->mmu->cmdq;
++
++	return REGV_POLL(MTL_VPU_HOST_MMU_CMDQ_CONS, cmdq->cons, (cmdq->prod == cmdq->cons),
++			 IVPU_MMU_QUEUE_TIMEOUT_US);
++}
++
++static int ivpu_mmu_cmdq_cmd_write(struct ivpu_device *vdev, const char *name, u64 data0, u64 data1)
++{
++	struct ivpu_mmu_queue *q = &vdev->mmu->cmdq;
++	u64 *queue_buffer = q->base;
++	int idx = IVPU_MMU_Q_IDX(q->prod) * (IVPU_MMU_CMDQ_CMD_SIZE / sizeof(*queue_buffer));
++
++	if (!CIRC_SPACE(IVPU_MMU_Q_IDX(q->prod), IVPU_MMU_Q_IDX(q->cons), IVPU_MMU_Q_COUNT)) {
++		ivpu_err(vdev, "Failed to write MMU CMD %s\n", name);
++		return -EBUSY;
++	}
++
++	queue_buffer[idx] = data0;
++	queue_buffer[idx + 1] = data1;
++	q->prod = (q->prod + 1) & IVPU_MMU_Q_WRAP_MASK;
++
++	ivpu_dbg(vdev, MMU, "CMD write: %s data: 0x%llx 0x%llx\n", name, data0, data1);
++
++	return 0;
++}
++
++static int ivpu_mmu_cmdq_sync(struct ivpu_device *vdev)
++{
++	struct ivpu_mmu_queue *q = &vdev->mmu->cmdq;
++	u64 val;
++	int ret;
++
++	val = FIELD_PREP(IVPU_MMU_CMD_OPCODE, CMD_SYNC) |
++	      FIELD_PREP(IVPU_MMU_CMD_SYNC_0_CS, 0x2) |
++	      FIELD_PREP(IVPU_MMU_CMD_SYNC_0_MSH, 0x3) |
++	      FIELD_PREP(IVPU_MMU_CMD_SYNC_0_MSI_ATTR, 0xf);
++
++	ret = ivpu_mmu_cmdq_cmd_write(vdev, "SYNC", val, 0);
++	if (ret)
++		return ret;
++
++	clflush_cache_range(q->base, IVPU_MMU_CMDQ_SIZE);
++	REGV_WR32(MTL_VPU_HOST_MMU_CMDQ_PROD, q->prod);
++
++	ret = ivpu_mmu_cmdq_wait_for_cons(vdev);
++	if (ret)
++		ivpu_err(vdev, "Timed out waiting for consumer: %d\n", ret);
++
++	return ret;
++}
++
++static int ivpu_mmu_cmdq_write_cfgi_all(struct ivpu_device *vdev)
++{
++	u64 data0 = FIELD_PREP(IVPU_MMU_CMD_OPCODE, CMD_CFGI_ALL);
++	u64 data1 = FIELD_PREP(IVPU_MMU_CMD_CFGI_1_RANGE, 0x1f);
++
++	return ivpu_mmu_cmdq_cmd_write(vdev, "CFGI_ALL", data0, data1);
++}
++
++static int ivpu_mmu_cmdq_write_tlbi_nh_asid(struct ivpu_device *vdev, u16 ssid)
++{
++	u64 val = FIELD_PREP(IVPU_MMU_CMD_OPCODE, CMD_TLBI_NH_ASID) |
++		  FIELD_PREP(IVPU_MMU_CMD_TLBI_0_ASID, ssid);
++
++	return ivpu_mmu_cmdq_cmd_write(vdev, "TLBI_NH_ASID", val, 0);
++}
++
++static int ivpu_mmu_cmdq_write_tlbi_nsnh_all(struct ivpu_device *vdev)
++{
++	u64 val = FIELD_PREP(IVPU_MMU_CMD_OPCODE, CMD_TLBI_NSNH_ALL);
++
++	return ivpu_mmu_cmdq_cmd_write(vdev, "TLBI_NSNH_ALL", val, 0);
++}
++
++static int ivpu_mmu_reset(struct ivpu_device *vdev)
++{
++	struct ivpu_mmu_info *mmu = vdev->mmu;
++	u32 val;
++	int ret;
++
++	memset(mmu->cmdq.base, 0, IVPU_MMU_CMDQ_SIZE);
++	clflush_cache_range(mmu->cmdq.base, IVPU_MMU_CMDQ_SIZE);
++	mmu->cmdq.prod = 0;
++	mmu->cmdq.cons = 0;
++
++	memset(mmu->evtq.base, 0, IVPU_MMU_EVTQ_SIZE);
++	clflush_cache_range(mmu->evtq.base, IVPU_MMU_EVTQ_SIZE);
++	mmu->evtq.prod = 0;
++	mmu->evtq.cons = 0;
++
++	ret = ivpu_mmu_reg_write(vdev, MTL_VPU_HOST_MMU_CR0, 0);
++	if (ret)
++		return ret;
++
++	val = FIELD_PREP(IVPU_MMU_CR1_TABLE_SH, IVPU_MMU_SH_ISH) |
++	      FIELD_PREP(IVPU_MMU_CR1_TABLE_OC, IVPU_MMU_CACHE_WB) |
++	      FIELD_PREP(IVPU_MMU_CR1_TABLE_IC, IVPU_MMU_CACHE_WB) |
++	      FIELD_PREP(IVPU_MMU_CR1_QUEUE_SH, IVPU_MMU_SH_ISH) |
++	      FIELD_PREP(IVPU_MMU_CR1_QUEUE_OC, IVPU_MMU_CACHE_WB) |
++	      FIELD_PREP(IVPU_MMU_CR1_QUEUE_IC, IVPU_MMU_CACHE_WB);
++	REGV_WR32(MTL_VPU_HOST_MMU_CR1, val);
++
++	REGV_WR64(MTL_VPU_HOST_MMU_STRTAB_BASE, mmu->strtab.dma_q);
++	REGV_WR32(MTL_VPU_HOST_MMU_STRTAB_BASE_CFG, mmu->strtab.base_cfg);
++
++	REGV_WR64(MTL_VPU_HOST_MMU_CMDQ_BASE, mmu->cmdq.dma_q);
++	REGV_WR32(MTL_VPU_HOST_MMU_CMDQ_PROD, 0);
++	REGV_WR32(MTL_VPU_HOST_MMU_CMDQ_CONS, 0);
++
++	val = IVPU_MMU_CR0_CMDQEN;
++	ret = ivpu_mmu_reg_write(vdev, MTL_VPU_HOST_MMU_CR0, val);
++	if (ret)
++		return ret;
++
++	ret = ivpu_mmu_cmdq_write_cfgi_all(vdev);
++	if (ret)
++		return ret;
++
++	ret = ivpu_mmu_cmdq_write_tlbi_nsnh_all(vdev);
++	if (ret)
++		return ret;
++
++	ret = ivpu_mmu_cmdq_sync(vdev);
++	if (ret)
++		return ret;
++
++	REGV_WR64(MTL_VPU_HOST_MMU_EVTQ_BASE, mmu->evtq.dma_q);
++	REGV_WR32(MTL_VPU_HOST_MMU_EVTQ_PROD_SEC, 0);
++	REGV_WR32(MTL_VPU_HOST_MMU_EVTQ_CONS_SEC, 0);
++
++	val |= IVPU_MMU_CR0_EVTQEN;
++	ret = ivpu_mmu_reg_write(vdev, MTL_VPU_HOST_MMU_CR0, val);
++	if (ret)
++		return ret;
++
++	val |= IVPU_MMU_CR0_ATSCHK;
++	ret = ivpu_mmu_reg_write(vdev, MTL_VPU_HOST_MMU_CR0, val);
++	if (ret)
++		return ret;
++
++	ret = ivpu_mmu_irqs_setup(vdev);
++	if (ret)
++		return ret;
++
++	val |= IVPU_MMU_CR0_SMMUEN;
++	return ivpu_mmu_reg_write(vdev, MTL_VPU_HOST_MMU_CR0, val);
++}
++
++static void ivpu_mmu_strtab_link_cd(struct ivpu_device *vdev, u32 sid)
++{
++	struct ivpu_mmu_info *mmu = vdev->mmu;
++	struct ivpu_mmu_strtab *strtab = &mmu->strtab;
++	struct ivpu_mmu_cdtab *cdtab = &mmu->cdtab;
++	u64 *entry = strtab->base + (sid * IVPU_MMU_STRTAB_ENT_SIZE);
++	u64 str[2];
++
++	str[0] = FIELD_PREP(IVPU_MMU_STE_0_CFG, IVPU_MMU_STE_0_CFG_S1_TRANS) |
++		 FIELD_PREP(IVPU_MMU_STE_0_S1CDMAX, IVPU_MMU_CDTAB_ENT_COUNT_LOG2) |
++		 FIELD_PREP(IVPU_MMU_STE_0_S1FMT, IVPU_MMU_STE_0_S1FMT_LINEAR) |
++		 IVPU_MMU_STE_0_V |
++		 (cdtab->dma & IVPU_MMU_STE_0_S1CTXPTR_MASK);
++
++	str[1] = FIELD_PREP(IVPU_MMU_STE_1_S1DSS, IVPU_MMU_STE_1_S1DSS_TERMINATE) |
++		 FIELD_PREP(IVPU_MMU_STE_1_S1CIR, IVPU_MMU_STE_1_S1C_CACHE_NC) |
++		 FIELD_PREP(IVPU_MMU_STE_1_S1COR, IVPU_MMU_STE_1_S1C_CACHE_NC) |
++		 FIELD_PREP(IVPU_MMU_STE_1_S1CSH, IVPU_MMU_SH_NSH) |
++		 FIELD_PREP(IVPU_MMU_STE_1_PRIVCFG, IVPU_MMU_STE_1_PRIVCFG_UNPRIV) |
++		 FIELD_PREP(IVPU_MMU_STE_1_INSTCFG, IVPU_MMU_STE_1_INSTCFG_DATA) |
++		 FIELD_PREP(IVPU_MMU_STE_1_STRW, IVPU_MMU_STE_1_STRW_NSEL1) |
++		 FIELD_PREP(IVPU_MMU_STE_1_CONT, IVPU_MMU_STRTAB_CFG_LOG2SIZE) |
++		 IVPU_MMU_STE_1_MEV |
++		 IVPU_MMU_STE_1_S1STALLD;
++
++	WRITE_ONCE(entry[1], str[1]);
++	WRITE_ONCE(entry[0], str[0]);
++
++	clflush_cache_range(entry, IVPU_MMU_STRTAB_ENT_SIZE);
++
++	ivpu_dbg(vdev, MMU, "STRTAB write entry (SSID=%u): 0x%llx, 0x%llx\n", sid, str[0], str[1]);
++}
++
++static int ivpu_mmu_strtab_init(struct ivpu_device *vdev)
++{
++	ivpu_mmu_strtab_link_cd(vdev, IVPU_MMU_STREAM_ID0);
++	ivpu_mmu_strtab_link_cd(vdev, IVPU_MMU_STREAM_ID3);
++
++	return 0;
++}
++
++int ivpu_mmu_invalidate_tlb(struct ivpu_device *vdev, u16 ssid)
++{
++	struct ivpu_mmu_info *mmu = vdev->mmu;
++	int ret;
++
++	ret = mutex_lock_interruptible(&mmu->lock);
++	if (ret)
++		return ret;
++
++	if (!mmu->on) {
++		ret = 0;
++		goto unlock;
++	}
++
++	ret = ivpu_mmu_cmdq_write_tlbi_nh_asid(vdev, ssid);
++	if (ret)
++		goto unlock;
++
++	ret = ivpu_mmu_cmdq_sync(vdev);
++unlock:
++	mutex_unlock(&mmu->lock);
++	return ret;
++}
++
++static int ivpu_mmu_cd_add(struct ivpu_device *vdev, u32 ssid, u64 cd_dma)
++{
++	struct ivpu_mmu_info *mmu = vdev->mmu;
++	struct ivpu_mmu_cdtab *cdtab = &mmu->cdtab;
++	u64 *entry;
++	u64 cd[4];
++	int ret;
++
++	if (ssid > IVPU_MMU_CDTAB_ENT_COUNT)
++		return -EINVAL;
++
++	ret = mutex_lock_interruptible(&mmu->lock);
++	if (ret)
++		return ret;
++
++	entry = cdtab->base + (ssid * IVPU_MMU_CDTAB_ENT_SIZE);
++
++	if (cd_dma != 0) {
++		cd[0] = FIELD_PREP(IVPU_MMU_CD_0_TCR_T0SZ, 26) |
++			FIELD_PREP(IVPU_MMU_CD_0_TCR_TG0, 0) |
++			FIELD_PREP(IVPU_MMU_CD_0_TCR_IRGN0, 0) |
++			FIELD_PREP(IVPU_MMU_CD_0_TCR_ORGN0, 0) |
++			FIELD_PREP(IVPU_MMU_CD_0_TCR_SH0, 0) |
++			FIELD_PREP(IVPU_MMU_CD_0_TCR_IPS, 3) |
++			FIELD_PREP(IVPU_MMU_CD_0_ASID, ssid) |
++			IVPU_MMU_CD_0_TCR_EPD1 |
++			IVPU_MMU_CD_0_AA64 |
++			IVPU_MMU_CD_0_R |
++			IVPU_MMU_CD_0_A |
++			IVPU_MMU_CD_0_ASET |
++			IVPU_MMU_CD_0_V;
++		cd[1] = cd_dma & IVPU_MMU_CD_1_TTB0_MASK;
++		cd[2] = 0;
++		cd[3] = 0x0000000000007444;
 +	} else {
-+		vdev->timeout.boot = 1000;
-+		vdev->timeout.jsm = 500;
-+		vdev->timeout.tdr = 2000;
-+		vdev->timeout.reschedule_suspend = 10;
++		memset(cd, 0, sizeof(cd));
 +	}
++
++	WRITE_ONCE(entry[1], cd[1]);
++	WRITE_ONCE(entry[2], cd[2]);
++	WRITE_ONCE(entry[3], cd[3]);
++	WRITE_ONCE(entry[0], cd[0]);
++
++	clflush_cache_range(entry, IVPU_MMU_CDTAB_ENT_SIZE);
++
++	ivpu_dbg(vdev, MMU, "CDTAB %s entry (SSID=%u, dma=%pad): 0x%llx, 0x%llx, 0x%llx, 0x%llx\n",
++		 cd_dma ? "write" : "clear", ssid, &cd_dma, cd[0], cd[1], cd[2], cd[3]);
++
++	if (!mmu->on) {
++		ret = 0;
++		goto unlock;
++	}
++
++	ret = ivpu_mmu_cmdq_write_cfgi_all(vdev);
++	if (ret)
++		goto unlock;
++
++	ret = ivpu_mmu_cmdq_sync(vdev);
++unlock:
++	mutex_unlock(&mmu->lock);
++	return ret;
 +}
 +
-+static int ivpu_pll_wait_for_cmd_send(struct ivpu_device *vdev)
-+{
-+	return REGB_POLL_FLD(MTL_BUTTRESS_WP_REQ_CMD, SEND, 0, PLL_TIMEOUT_US);
-+}
-+
-+/* Send KMD initiated workpoint change */
-+static int ivpu_pll_cmd_send(struct ivpu_device *vdev, u16 min_ratio, u16 max_ratio,
-+			     u16 target_ratio, u16 config)
++static int ivpu_mmu_cd_add_gbl(struct ivpu_device *vdev)
 +{
 +	int ret;
-+	u32 val;
 +
-+	ret = ivpu_pll_wait_for_cmd_send(vdev);
-+	if (ret) {
-+		ivpu_err(vdev, "Failed to sync before WP request: %d\n", ret);
-+		return ret;
-+	}
-+
-+	val = REGB_RD32(MTL_BUTTRESS_WP_REQ_PAYLOAD0);
-+	val = REG_SET_FLD_NUM(MTL_BUTTRESS_WP_REQ_PAYLOAD0, MIN_RATIO, min_ratio, val);
-+	val = REG_SET_FLD_NUM(MTL_BUTTRESS_WP_REQ_PAYLOAD0, MAX_RATIO, max_ratio, val);
-+	REGB_WR32(MTL_BUTTRESS_WP_REQ_PAYLOAD0, val);
-+
-+	val = REGB_RD32(MTL_BUTTRESS_WP_REQ_PAYLOAD1);
-+	val = REG_SET_FLD_NUM(MTL_BUTTRESS_WP_REQ_PAYLOAD1, TARGET_RATIO, target_ratio, val);
-+	val = REG_SET_FLD_NUM(MTL_BUTTRESS_WP_REQ_PAYLOAD1, EPP, PLL_DEFAULT_EPP_VALUE, val);
-+	REGB_WR32(MTL_BUTTRESS_WP_REQ_PAYLOAD1, val);
-+
-+	val = REGB_RD32(MTL_BUTTRESS_WP_REQ_PAYLOAD2);
-+	val = REG_SET_FLD_NUM(MTL_BUTTRESS_WP_REQ_PAYLOAD2, CONFIG, config, val);
-+	REGB_WR32(MTL_BUTTRESS_WP_REQ_PAYLOAD2, val);
-+
-+	val = REGB_RD32(MTL_BUTTRESS_WP_REQ_CMD);
-+	val = REG_SET_FLD(MTL_BUTTRESS_WP_REQ_CMD, SEND, val);
-+	REGB_WR32(MTL_BUTTRESS_WP_REQ_CMD, val);
-+
-+	ret = ivpu_pll_wait_for_cmd_send(vdev);
++	ret = ivpu_mmu_cd_add(vdev, 0, vdev->gctx.pgtable.pgd_dma);
 +	if (ret)
-+		ivpu_err(vdev, "Failed to sync after WP request: %d\n", ret);
++		ivpu_err(vdev, "Failed to add global CD entry: %d\n", ret);
 +
 +	return ret;
 +}
 +
-+static int ivpu_pll_wait_for_lock(struct ivpu_device *vdev, bool enable)
++static int ivpu_mmu_cd_add_user(struct ivpu_device *vdev, u32 ssid, dma_addr_t cd_dma)
 +{
-+	u32 exp_val = enable ? 0x1 : 0x0;
-+
-+	if (IVPU_WA(punit_disabled))
-+		return 0;
-+
-+	return REGB_POLL_FLD(MTL_BUTTRESS_PLL_STATUS, LOCK, exp_val, PLL_TIMEOUT_US);
-+}
-+
-+static int ivpu_pll_wait_for_status_ready(struct ivpu_device *vdev)
-+{
-+	if (IVPU_WA(punit_disabled))
-+		return 0;
-+
-+	return REGB_POLL_FLD(MTL_BUTTRESS_VPU_STATUS, READY, 1, PLL_TIMEOUT_US);
-+}
-+
-+static void ivpu_pll_init_frequency_ratios(struct ivpu_device *vdev)
-+{
-+	struct ivpu_hw_info *hw = vdev->hw;
-+	u8 fuse_min_ratio, fuse_max_ratio, fuse_pn_ratio;
-+	u32 fmin_fuse, fmax_fuse;
-+
-+	fmin_fuse = REGB_RD32(MTL_BUTTRESS_FMIN_FUSE);
-+	fuse_min_ratio = REG_GET_FLD(MTL_BUTTRESS_FMIN_FUSE, MIN_RATIO, fmin_fuse);
-+	fuse_pn_ratio = REG_GET_FLD(MTL_BUTTRESS_FMIN_FUSE, PN_RATIO, fmin_fuse);
-+
-+	fmax_fuse = REGB_RD32(MTL_BUTTRESS_FMAX_FUSE);
-+	fuse_max_ratio = REG_GET_FLD(MTL_BUTTRESS_FMAX_FUSE, MAX_RATIO, fmax_fuse);
-+
-+	hw->pll.min_ratio = clamp_t(u8, ivpu_pll_min_ratio, fuse_min_ratio, fuse_max_ratio);
-+	hw->pll.max_ratio = clamp_t(u8, ivpu_pll_max_ratio, hw->pll.min_ratio, fuse_max_ratio);
-+	hw->pll.pn_ratio = clamp_t(u8, fuse_pn_ratio, hw->pll.min_ratio, hw->pll.max_ratio);
-+}
-+
-+static int ivpu_pll_drive(struct ivpu_device *vdev, bool enable)
-+{
-+	struct ivpu_hw_info *hw = vdev->hw;
-+	u16 target_ratio;
-+	u16 config;
 +	int ret;
 +
-+	if (IVPU_WA(punit_disabled)) {
-+		ivpu_dbg(vdev, PM, "Skipping PLL request on %s\n",
-+			 ivpu_platform_to_str(vdev->platform));
-+		return 0;
++	if (ssid == 0) {
++		ivpu_err(vdev, "Invalid SSID: %u\n", ssid);
++		return -EINVAL;
 +	}
 +
-+	if (enable) {
-+		target_ratio = hw->pll.pn_ratio;
-+		config = hw->config;
-+	} else {
-+		target_ratio = 0;
-+		config = 0;
-+	}
++	ret = ivpu_mmu_cd_add(vdev, ssid, cd_dma);
++	if (ret)
++		ivpu_err(vdev, "Failed to add CD entry SSID=%u: %d\n", ssid, ret);
 +
-+	ivpu_dbg(vdev, PM, "PLL workpoint request: %d Hz\n", PLL_RATIO_TO_FREQ(target_ratio));
++	return ret;
++}
 +
-+	ret = ivpu_pll_cmd_send(vdev, hw->pll.min_ratio, hw->pll.max_ratio, target_ratio, config);
++int ivpu_mmu_init(struct ivpu_device *vdev)
++{
++	struct ivpu_mmu_info *mmu = vdev->mmu;
++	int ret;
++
++	ivpu_dbg(vdev, MMU, "Init..\n");
++
++	drmm_mutex_init(&vdev->drm, &mmu->lock);
++
++	ret = ivpu_mmu_config_check(vdev);
++	if (ret)
++		return ret;
++
++	ret = ivpu_mmu_structs_alloc(vdev);
++	if (ret)
++		return ret;
++
++	ret = ivpu_mmu_strtab_init(vdev);
 +	if (ret) {
-+		ivpu_err(vdev, "Failed to send PLL workpoint request: %d\n", ret);
++		ivpu_err(vdev, "Failed to initialize strtab: %d\n", ret);
 +		return ret;
 +	}
 +
-+	ret = ivpu_pll_wait_for_lock(vdev, enable);
++	ret = ivpu_mmu_cd_add_gbl(vdev);
 +	if (ret) {
-+		ivpu_err(vdev, "Timed out waiting for PLL lock\n");
++		ivpu_err(vdev, "Failed to initialize strtab: %d\n", ret);
 +		return ret;
 +	}
 +
-+	if (enable) {
-+		ret = ivpu_pll_wait_for_status_ready(vdev);
-+		if (ret) {
-+			ivpu_err(vdev, "Timed out waiting for PLL ready status\n");
-+			return ret;
-+		}
++	ret = ivpu_mmu_enable(vdev);
++	if (ret) {
++		ivpu_err(vdev, "Failed to resume MMU: %d\n", ret);
++		return ret;
 +	}
++
++	ivpu_dbg(vdev, MMU, "Init done\n");
 +
 +	return 0;
 +}
 +
-+static int ivpu_pll_enable(struct ivpu_device *vdev)
++int ivpu_mmu_enable(struct ivpu_device *vdev)
 +{
-+	return ivpu_pll_drive(vdev, true);
-+}
-+
-+static int ivpu_pll_disable(struct ivpu_device *vdev)
-+{
-+	return ivpu_pll_drive(vdev, false);
-+}
-+
-+static void ivpu_boot_host_ss_rst_clr_assert(struct ivpu_device *vdev)
-+{
-+	u32 val = REGV_RD32(MTL_VPU_HOST_SS_CPR_RST_CLR);
-+
-+	val = REG_SET_FLD(MTL_VPU_HOST_SS_CPR_RST_CLR, TOP_NOC, val);
-+	val = REG_SET_FLD(MTL_VPU_HOST_SS_CPR_RST_CLR, DSS_MAS, val);
-+	val = REG_SET_FLD(MTL_VPU_HOST_SS_CPR_RST_CLR, MSS_MAS, val);
-+
-+	REGV_WR32(MTL_VPU_HOST_SS_CPR_RST_CLR, val);
-+}
-+
-+static void ivpu_boot_host_ss_rst_drive(struct ivpu_device *vdev, bool enable)
-+{
-+	u32 val = REGV_RD32(MTL_VPU_HOST_SS_CPR_RST_SET);
-+
-+	if (enable) {
-+		val = REG_SET_FLD(MTL_VPU_HOST_SS_CPR_RST_SET, TOP_NOC, val);
-+		val = REG_SET_FLD(MTL_VPU_HOST_SS_CPR_RST_SET, DSS_MAS, val);
-+		val = REG_SET_FLD(MTL_VPU_HOST_SS_CPR_RST_SET, MSS_MAS, val);
-+	} else {
-+		val = REG_CLR_FLD(MTL_VPU_HOST_SS_CPR_RST_SET, TOP_NOC, val);
-+		val = REG_CLR_FLD(MTL_VPU_HOST_SS_CPR_RST_SET, DSS_MAS, val);
-+		val = REG_CLR_FLD(MTL_VPU_HOST_SS_CPR_RST_SET, MSS_MAS, val);
-+	}
-+
-+	REGV_WR32(MTL_VPU_HOST_SS_CPR_RST_SET, val);
-+}
-+
-+static void ivpu_boot_host_ss_clk_drive(struct ivpu_device *vdev, bool enable)
-+{
-+	u32 val = REGV_RD32(MTL_VPU_HOST_SS_CPR_CLK_SET);
-+
-+	if (enable) {
-+		val = REG_SET_FLD(MTL_VPU_HOST_SS_CPR_CLK_SET, TOP_NOC, val);
-+		val = REG_SET_FLD(MTL_VPU_HOST_SS_CPR_CLK_SET, DSS_MAS, val);
-+		val = REG_SET_FLD(MTL_VPU_HOST_SS_CPR_CLK_SET, MSS_MAS, val);
-+	} else {
-+		val = REG_CLR_FLD(MTL_VPU_HOST_SS_CPR_CLK_SET, TOP_NOC, val);
-+		val = REG_CLR_FLD(MTL_VPU_HOST_SS_CPR_CLK_SET, DSS_MAS, val);
-+		val = REG_CLR_FLD(MTL_VPU_HOST_SS_CPR_CLK_SET, MSS_MAS, val);
-+	}
-+
-+	REGV_WR32(MTL_VPU_HOST_SS_CPR_CLK_SET, val);
-+}
-+
-+static int ivpu_boot_noc_qreqn_check(struct ivpu_device *vdev, u32 exp_val)
-+{
-+	u32 val = REGV_RD32(MTL_VPU_HOST_SS_NOC_QREQN);
-+
-+	if (!REG_TEST_FLD_NUM(MTL_VPU_HOST_SS_NOC_QREQN, TOP_SOCMMIO, exp_val, val))
-+		return -EIO;
-+
-+	return 0;
-+}
-+
-+static int ivpu_boot_noc_qacceptn_check(struct ivpu_device *vdev, u32 exp_val)
-+{
-+	u32 val = REGV_RD32(MTL_VPU_HOST_SS_NOC_QACCEPTN);
-+
-+	if (!REG_TEST_FLD_NUM(MTL_VPU_HOST_SS_NOC_QACCEPTN, TOP_SOCMMIO, exp_val, val))
-+		return -EIO;
-+
-+	return 0;
-+}
-+
-+static int ivpu_boot_noc_qdeny_check(struct ivpu_device *vdev, u32 exp_val)
-+{
-+	u32 val = REGV_RD32(MTL_VPU_HOST_SS_NOC_QDENY);
-+
-+	if (!REG_TEST_FLD_NUM(MTL_VPU_HOST_SS_NOC_QDENY, TOP_SOCMMIO, exp_val, val))
-+		return -EIO;
-+
-+	return 0;
-+}
-+
-+static int ivpu_boot_top_noc_qrenqn_check(struct ivpu_device *vdev, u32 exp_val)
-+{
-+	u32 val = REGV_RD32(MTL_VPU_TOP_NOC_QREQN);
-+
-+	if (!REG_TEST_FLD_NUM(MTL_VPU_TOP_NOC_QREQN, CPU_CTRL, exp_val, val) ||
-+	    !REG_TEST_FLD_NUM(MTL_VPU_TOP_NOC_QREQN, HOSTIF_L2CACHE, exp_val, val))
-+		return -EIO;
-+
-+	return 0;
-+}
-+
-+static int ivpu_boot_top_noc_qacceptn_check(struct ivpu_device *vdev, u32 exp_val)
-+{
-+	u32 val = REGV_RD32(MTL_VPU_TOP_NOC_QACCEPTN);
-+
-+	if (!REG_TEST_FLD_NUM(MTL_VPU_TOP_NOC_QACCEPTN, CPU_CTRL, exp_val, val) ||
-+	    !REG_TEST_FLD_NUM(MTL_VPU_TOP_NOC_QACCEPTN, HOSTIF_L2CACHE, exp_val, val))
-+		return -EIO;
-+
-+	return 0;
-+}
-+
-+static int ivpu_boot_top_noc_qdeny_check(struct ivpu_device *vdev, u32 exp_val)
-+{
-+	u32 val = REGV_RD32(MTL_VPU_TOP_NOC_QDENY);
-+
-+	if (!REG_TEST_FLD_NUM(MTL_VPU_TOP_NOC_QDENY, CPU_CTRL, exp_val, val) ||
-+	    !REG_TEST_FLD_NUM(MTL_VPU_TOP_NOC_QDENY, HOSTIF_L2CACHE, exp_val, val))
-+		return -EIO;
-+
-+	return 0;
-+}
-+
-+static int ivpu_boot_host_ss_configure(struct ivpu_device *vdev)
-+{
-+	ivpu_boot_host_ss_rst_clr_assert(vdev);
-+
-+	return ivpu_boot_noc_qreqn_check(vdev, 0x0);
-+}
-+
-+static void ivpu_boot_vpu_idle_gen_disable(struct ivpu_device *vdev)
-+{
-+	REGV_WR32(MTL_VPU_HOST_SS_AON_VPU_IDLE_GEN, 0x0);
-+}
-+
-+static int ivpu_boot_host_ss_axi_drive(struct ivpu_device *vdev, bool enable)
-+{
-+	int ret;
-+	u32 val;
-+
-+	val = REGV_RD32(MTL_VPU_HOST_SS_NOC_QREQN);
-+	if (enable)
-+		val = REG_SET_FLD(MTL_VPU_HOST_SS_NOC_QREQN, TOP_SOCMMIO, val);
-+	else
-+		val = REG_CLR_FLD(MTL_VPU_HOST_SS_NOC_QREQN, TOP_SOCMMIO, val);
-+	REGV_WR32(MTL_VPU_HOST_SS_NOC_QREQN, val);
-+
-+	ret = ivpu_boot_noc_qacceptn_check(vdev, enable ? 0x1 : 0x0);
-+	if (ret) {
-+		ivpu_err(vdev, "Failed qacceptn check: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = ivpu_boot_noc_qdeny_check(vdev, 0x0);
-+	if (ret)
-+		ivpu_err(vdev, "Failed qdeny check: %d\n", ret);
-+
-+	return ret;
-+}
-+
-+static int ivpu_boot_host_ss_axi_enable(struct ivpu_device *vdev)
-+{
-+	return ivpu_boot_host_ss_axi_drive(vdev, true);
-+}
-+
-+static int ivpu_boot_host_ss_axi_disable(struct ivpu_device *vdev)
-+{
-+	return ivpu_boot_host_ss_axi_drive(vdev, false);
-+}
-+
-+static int ivpu_boot_host_ss_top_noc_drive(struct ivpu_device *vdev, bool enable)
-+{
-+	int ret;
-+	u32 val;
-+
-+	val = REGV_RD32(MTL_VPU_TOP_NOC_QREQN);
-+	if (enable) {
-+		val = REG_SET_FLD(MTL_VPU_TOP_NOC_QREQN, CPU_CTRL, val);
-+		val = REG_SET_FLD(MTL_VPU_TOP_NOC_QREQN, HOSTIF_L2CACHE, val);
-+	} else {
-+		val = REG_CLR_FLD(MTL_VPU_TOP_NOC_QREQN, CPU_CTRL, val);
-+		val = REG_CLR_FLD(MTL_VPU_TOP_NOC_QREQN, HOSTIF_L2CACHE, val);
-+	}
-+	REGV_WR32(MTL_VPU_TOP_NOC_QREQN, val);
-+
-+	ret = ivpu_boot_top_noc_qacceptn_check(vdev, enable ? 0x1 : 0x0);
-+	if (ret) {
-+		ivpu_err(vdev, "Failed qacceptn check: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = ivpu_boot_top_noc_qdeny_check(vdev, 0x0);
-+	if (ret)
-+		ivpu_err(vdev, "Failed qdeny check: %d\n", ret);
-+
-+	return ret;
-+}
-+
-+static int ivpu_boot_host_ss_top_noc_enable(struct ivpu_device *vdev)
-+{
-+	return ivpu_boot_host_ss_top_noc_drive(vdev, true);
-+}
-+
-+static int ivpu_boot_host_ss_top_noc_disable(struct ivpu_device *vdev)
-+{
-+	return ivpu_boot_host_ss_top_noc_drive(vdev, false);
-+}
-+
-+static void ivpu_boot_pwr_island_trickle_drive(struct ivpu_device *vdev, bool enable)
-+{
-+	u32 val = REGV_RD32(MTL_VPU_HOST_SS_AON_PWR_ISLAND_TRICKLE_EN0);
-+
-+	if (enable)
-+		val = REG_SET_FLD(MTL_VPU_HOST_SS_AON_PWR_ISLAND_TRICKLE_EN0, MSS_CPU, val);
-+	else
-+		val = REG_CLR_FLD(MTL_VPU_HOST_SS_AON_PWR_ISLAND_TRICKLE_EN0, MSS_CPU, val);
-+
-+	REGV_WR32(MTL_VPU_HOST_SS_AON_PWR_ISLAND_TRICKLE_EN0, val);
-+}
-+
-+static void ivpu_boot_pwr_island_drive(struct ivpu_device *vdev, bool enable)
-+{
-+	u32 val = REGV_RD32(MTL_VPU_HOST_SS_AON_PWR_ISLAND_EN0);
-+
-+	if (enable)
-+		val = REG_SET_FLD(MTL_VPU_HOST_SS_AON_PWR_ISLAND_EN0, MSS_CPU, val);
-+	else
-+		val = REG_CLR_FLD(MTL_VPU_HOST_SS_AON_PWR_ISLAND_EN0, MSS_CPU, val);
-+
-+	REGV_WR32(MTL_VPU_HOST_SS_AON_PWR_ISLAND_EN0, val);
-+}
-+
-+static int ivpu_boot_wait_for_pwr_island_status(struct ivpu_device *vdev, u32 exp_val)
-+{
-+	/* FPGA model (UPF) is not power aware, skipped Power Island polling */
-+	if (ivpu_is_fpga(vdev))
-+		return 0;
-+
-+	return REGV_POLL_FLD(MTL_VPU_HOST_SS_AON_PWR_ISLAND_STATUS0, MSS_CPU,
-+			     exp_val, PWR_ISLAND_STATUS_TIMEOUT_US);
-+}
-+
-+static void ivpu_boot_pwr_island_isolation_drive(struct ivpu_device *vdev, bool enable)
-+{
-+	u32 val = REGV_RD32(MTL_VPU_HOST_SS_AON_PWR_ISO_EN0);
-+
-+	if (enable)
-+		val = REG_SET_FLD(MTL_VPU_HOST_SS_AON_PWR_ISO_EN0, MSS_CPU, val);
-+	else
-+		val = REG_CLR_FLD(MTL_VPU_HOST_SS_AON_PWR_ISO_EN0, MSS_CPU, val);
-+
-+	REGV_WR32(MTL_VPU_HOST_SS_AON_PWR_ISO_EN0, val);
-+}
-+
-+static void ivpu_boot_dpu_active_drive(struct ivpu_device *vdev, bool enable)
-+{
-+	u32 val = REGV_RD32(MTL_VPU_HOST_SS_AON_DPU_ACTIVE);
-+
-+	if (enable)
-+		val = REG_SET_FLD(MTL_VPU_HOST_SS_AON_DPU_ACTIVE, DPU_ACTIVE, val);
-+	else
-+		val = REG_CLR_FLD(MTL_VPU_HOST_SS_AON_DPU_ACTIVE, DPU_ACTIVE, val);
-+
-+	REGV_WR32(MTL_VPU_HOST_SS_AON_DPU_ACTIVE, val);
-+}
-+
-+static int ivpu_boot_pwr_domain_disable(struct ivpu_device *vdev)
-+{
-+	ivpu_boot_dpu_active_drive(vdev, false);
-+	ivpu_boot_pwr_island_isolation_drive(vdev, true);
-+	ivpu_boot_pwr_island_trickle_drive(vdev, false);
-+	ivpu_boot_pwr_island_drive(vdev, false);
-+
-+	return ivpu_boot_wait_for_pwr_island_status(vdev, 0x0);
-+}
-+
-+static int ivpu_boot_pwr_domain_enable(struct ivpu_device *vdev)
-+{
++	struct ivpu_mmu_info *mmu = vdev->mmu;
 +	int ret;
 +
-+	ivpu_boot_pwr_island_trickle_drive(vdev, true);
-+	ivpu_boot_pwr_island_drive(vdev, true);
++	mutex_lock(&mmu->lock);
 +
-+	ret = ivpu_boot_wait_for_pwr_island_status(vdev, 0x1);
++	mmu->on = true;
++
++	ret = ivpu_mmu_reset(vdev);
 +	if (ret) {
-+		ivpu_err(vdev, "Timed out waiting for power island status\n");
-+		return ret;
++		ivpu_err(vdev, "Failed to reset MMU: %d\n", ret);
++		goto err;
 +	}
 +
-+	ret = ivpu_boot_top_noc_qrenqn_check(vdev, 0x0);
-+	if (ret) {
-+		ivpu_err(vdev, "Failed qrenqn check %d\n", ret);
-+		return ret;
-+	}
-+
-+	ivpu_boot_host_ss_clk_drive(vdev, true);
-+	ivpu_boot_pwr_island_isolation_drive(vdev, false);
-+	ivpu_boot_host_ss_rst_drive(vdev, true);
-+	ivpu_boot_dpu_active_drive(vdev, true);
-+
-+	return ret;
-+}
-+
-+static void ivpu_boot_no_snoop_enable(struct ivpu_device *vdev)
-+{
-+	u32 val = REGV_RD32(MTL_VPU_HOST_IF_TCU_PTW_OVERRIDES);
-+
-+	val = REG_SET_FLD(MTL_VPU_HOST_IF_TCU_PTW_OVERRIDES, NOSNOOP_OVERRIDE_EN, val);
-+	val = REG_SET_FLD(MTL_VPU_HOST_IF_TCU_PTW_OVERRIDES, AW_NOSNOOP_OVERRIDE, val);
-+	val = REG_SET_FLD(MTL_VPU_HOST_IF_TCU_PTW_OVERRIDES, AR_NOSNOOP_OVERRIDE, val);
-+
-+	REGV_WR32(MTL_VPU_HOST_IF_TCU_PTW_OVERRIDES, val);
-+}
-+
-+static void ivpu_boot_tbu_mmu_enable(struct ivpu_device *vdev)
-+{
-+	u32 val = REGV_RD32(MTL_VPU_HOST_IF_TBU_MMUSSIDV);
-+
-+	if (ivpu_is_fpga(vdev)) {
-+		val = REG_SET_FLD(MTL_VPU_HOST_IF_TBU_MMUSSIDV, TBU0_AWMMUSSIDV, val);
-+		val = REG_SET_FLD(MTL_VPU_HOST_IF_TBU_MMUSSIDV, TBU0_ARMMUSSIDV, val);
-+		val = REG_SET_FLD(MTL_VPU_HOST_IF_TBU_MMUSSIDV, TBU2_AWMMUSSIDV, val);
-+		val = REG_SET_FLD(MTL_VPU_HOST_IF_TBU_MMUSSIDV, TBU2_ARMMUSSIDV, val);
-+	} else {
-+		val = REG_SET_FLD(MTL_VPU_HOST_IF_TBU_MMUSSIDV, TBU0_AWMMUSSIDV, val);
-+		val = REG_SET_FLD(MTL_VPU_HOST_IF_TBU_MMUSSIDV, TBU0_ARMMUSSIDV, val);
-+		val = REG_SET_FLD(MTL_VPU_HOST_IF_TBU_MMUSSIDV, TBU1_AWMMUSSIDV, val);
-+		val = REG_SET_FLD(MTL_VPU_HOST_IF_TBU_MMUSSIDV, TBU1_ARMMUSSIDV, val);
-+		val = REG_SET_FLD(MTL_VPU_HOST_IF_TBU_MMUSSIDV, TBU2_AWMMUSSIDV, val);
-+		val = REG_SET_FLD(MTL_VPU_HOST_IF_TBU_MMUSSIDV, TBU2_ARMMUSSIDV, val);
-+		val = REG_SET_FLD(MTL_VPU_HOST_IF_TBU_MMUSSIDV, TBU3_AWMMUSSIDV, val);
-+		val = REG_SET_FLD(MTL_VPU_HOST_IF_TBU_MMUSSIDV, TBU3_ARMMUSSIDV, val);
-+	}
-+
-+	REGV_WR32(MTL_VPU_HOST_IF_TBU_MMUSSIDV, val);
-+}
-+
-+static void ivpu_boot_soc_cpu_boot(struct ivpu_device *vdev)
-+{
-+	u32 val;
-+
-+	val = REGV_RD32(MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC);
-+	val = REG_SET_FLD(MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC, IRQI_RSTRUN0, val);
-+
-+	val = REG_CLR_FLD(MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC, IRQI_RSTVEC, val);
-+	REGV_WR32(MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC, val);
-+
-+	val = REG_SET_FLD(MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC, IRQI_RESUME0, val);
-+	REGV_WR32(MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC, val);
-+
-+	val = REG_CLR_FLD(MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC, IRQI_RESUME0, val);
-+	REGV_WR32(MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC, val);
-+}
-+
-+static int ivpu_boot_d0i3_drive(struct ivpu_device *vdev, bool enable)
-+{
-+	int ret;
-+	u32 val;
-+
-+	ret = REGB_POLL_FLD(MTL_BUTTRESS_VPU_D0I3_CONTROL, INPROGRESS, 0, TIMEOUT_US);
-+	if (ret) {
-+		ivpu_err(vdev, "Failed to sync before D0i3 tansition: %d\n", ret);
-+		return ret;
-+	}
-+
-+	val = REGB_RD32(MTL_BUTTRESS_VPU_D0I3_CONTROL);
-+	if (enable)
-+		val = REG_SET_FLD(MTL_BUTTRESS_VPU_D0I3_CONTROL, I3, val);
-+	else
-+		val = REG_CLR_FLD(MTL_BUTTRESS_VPU_D0I3_CONTROL, I3, val);
-+	REGB_WR32(MTL_BUTTRESS_VPU_D0I3_CONTROL, val);
-+
-+	ret = REGB_POLL_FLD(MTL_BUTTRESS_VPU_D0I3_CONTROL, INPROGRESS, 0, TIMEOUT_US);
++	ret = ivpu_mmu_cmdq_write_cfgi_all(vdev);
 +	if (ret)
-+		ivpu_err(vdev, "Failed to sync after D0i3 tansition: %d\n", ret);
++		goto err;
 +
-+	return ret;
-+}
++	ret = ivpu_mmu_cmdq_write_tlbi_nsnh_all(vdev);
++	if (ret)
++		goto err;
 +
-+static int ivpu_hw_mtl_info_init(struct ivpu_device *vdev)
-+{
-+	struct ivpu_hw_info *hw = vdev->hw;
-+	u32 tile_fuse;
++	ret = ivpu_mmu_cmdq_sync(vdev);
++	if (ret)
++		goto err;
 +
-+	tile_fuse = REGB_RD32(MTL_BUTTRESS_TILE_FUSE);
-+	if (!REG_TEST_FLD(MTL_BUTTRESS_TILE_FUSE, VALID, tile_fuse))
-+		ivpu_warn(vdev, "Tile Fuse: Invalid (0x%x)\n", tile_fuse);
-+
-+	hw->tile_fuse = REG_GET_FLD(MTL_BUTTRESS_TILE_FUSE, SKU, tile_fuse);
-+	switch (hw->tile_fuse) {
-+	case TILE_FUSE_ENABLE_LOWER:
-+		hw->sku = TILE_SKU_LOWER_MTL;
-+		hw->config = WP_CONFIG_1_TILE_5_3_RATIO;
-+		ivpu_dbg(vdev, MISC, "Tile Fuse: Enable Lower\n");
-+		break;
-+	case TILE_FUSE_ENABLE_UPPER:
-+		hw->sku = TILE_SKU_UPPER_MTL;
-+		hw->config = WP_CONFIG_1_TILE_4_3_RATIO;
-+		ivpu_dbg(vdev, MISC, "Tile Fuse: Enable Upper\n");
-+		break;
-+	case TILE_FUSE_ENABLE_BOTH:
-+		hw->sku = TILE_SKU_BOTH_MTL;
-+		hw->config = WP_CONFIG_2_TILE_5_3_RATIO;
-+		ivpu_dbg(vdev, MISC, "Tile Fuse: Enable Both\n");
-+		break;
-+	default:
-+		hw->config = WP_CONFIG_0_TILE_PLL_OFF;
-+		ivpu_dbg(vdev, MISC, "Tile Fuse: Disable\n");
-+		break;
-+	}
-+
-+	ivpu_pll_init_frequency_ratios(vdev);
-+
-+	ivpu_hw_init_range(&hw->ranges.global_low, 0x80000000, SZ_512M);
-+	ivpu_hw_init_range(&hw->ranges.global_high, 0x180000000, SZ_2M);
-+	ivpu_hw_init_range(&hw->ranges.user_low, 0xc0000000, 255 * SZ_1M);
-+	ivpu_hw_init_range(&hw->ranges.user_high, 0x180000000, SZ_2G);
-+	hw->ranges.global_aliased_pio = hw->ranges.user_low;
++	mutex_unlock(&mmu->lock);
 +
 +	return 0;
-+}
-+
-+static int ivpu_hw_mtl_reset(struct ivpu_device *vdev)
-+{
-+	int ret;
-+	u32 val;
-+
-+	if (IVPU_WA(punit_disabled))
-+		return 0;
-+
-+	ret = REGB_POLL_FLD(MTL_BUTTRESS_VPU_IP_RESET, TRIGGER, 0, TIMEOUT_US);
-+	if (ret) {
-+		ivpu_err(vdev, "Timed out waiting for TRIGGER bit\n");
-+		return ret;
-+	}
-+
-+	val = REGB_RD32(MTL_BUTTRESS_VPU_IP_RESET);
-+	val = REG_SET_FLD(MTL_BUTTRESS_VPU_IP_RESET, TRIGGER, val);
-+	REGB_WR32(MTL_BUTTRESS_VPU_IP_RESET, val);
-+
-+	ret = REGB_POLL_FLD(MTL_BUTTRESS_VPU_IP_RESET, TRIGGER, 0, TIMEOUT_US);
-+	if (ret)
-+		ivpu_err(vdev, "Timed out waiting for RESET completion\n");
-+
++err:
++	mmu->on = false;
++	mutex_unlock(&mmu->lock);
 +	return ret;
 +}
 +
-+static int ivpu_hw_mtl_d0i3_enable(struct ivpu_device *vdev)
++void ivpu_mmu_disable(struct ivpu_device *vdev)
 +{
-+	int ret;
++	struct ivpu_mmu_info *mmu = vdev->mmu;
 +
-+	ret = ivpu_boot_d0i3_drive(vdev, true);
-+	if (ret)
-+		ivpu_err(vdev, "Failed to enable D0i3: %d\n", ret);
-+
-+	udelay(5); /* VPU requires 5 us to complete the transition */
-+
-+	return ret;
++	mutex_lock(&mmu->lock);
++	mmu->on = false;
++	mutex_unlock(&mmu->lock);
 +}
 +
-+static int ivpu_hw_mtl_d0i3_disable(struct ivpu_device *vdev)
++static void ivpu_mmu_dump_event(struct ivpu_device *vdev, u32 *event)
 +{
-+	int ret;
++	u32 ssid = FIELD_GET(IVPU_MMU_EVT_SSID_MASK, event[0]);
++	u32 op = FIELD_GET(IVPU_MMU_EVT_OP_MASK, event[0]);
++	u64 fetch_addr = ((u64)event[7]) << 32 | event[6];
++	u64 in_addr = ((u64)event[5]) << 32 | event[4];
++	u32 sid = event[1];
 +
-+	ret = ivpu_boot_d0i3_drive(vdev, false);
-+	if (ret)
-+		ivpu_err(vdev, "Failed to disable D0i3: %d\n", ret);
-+
-+	return ret;
++	ivpu_err(vdev, "MMU EVTQ: 0x%x (%s) SSID: %d SID: %d, e[2] %08x, e[3] %08x, in addr: 0x%llx, fetch addr: 0x%llx\n",
++		 op, ivpu_mmu_event_to_str(op), ssid, sid, event[2], event[3], in_addr, fetch_addr);
 +}
 +
-+static int ivpu_hw_mtl_power_up(struct ivpu_device *vdev)
++static u32 *ivpu_mmu_get_event(struct ivpu_device *vdev)
 +{
-+	int ret;
++	struct ivpu_mmu_queue *evtq = &vdev->mmu->evtq;
++	u32 idx = IVPU_MMU_Q_IDX(evtq->cons);
++	u32 *evt = evtq->base + (idx * IVPU_MMU_EVTQ_CMD_SIZE);
 +
-+	ivpu_hw_read_platform(vdev);
-+	ivpu_hw_wa_init(vdev);
-+	ivpu_hw_timeouts_init(vdev);
++	evtq->prod = REGV_RD32(MTL_VPU_HOST_MMU_EVTQ_PROD_SEC);
++	if (!CIRC_CNT(IVPU_MMU_Q_IDX(evtq->prod), IVPU_MMU_Q_IDX(evtq->cons), IVPU_MMU_Q_COUNT))
++		return NULL;
 +
-+	ret = ivpu_hw_mtl_reset(vdev);
-+	if (ret)
-+		ivpu_warn(vdev, "Failed to reset HW: %d\n", ret);
++	clflush_cache_range(evt, IVPU_MMU_EVTQ_CMD_SIZE);
 +
-+	ret = ivpu_hw_mtl_d0i3_disable(vdev);
-+	if (ret)
-+		ivpu_warn(vdev, "Failed to disable D0I3: %d\n", ret);
++	evtq->cons = (evtq->cons + 1) & IVPU_MMU_Q_WRAP_MASK;
++	REGV_WR32(MTL_VPU_HOST_MMU_EVTQ_CONS_SEC, evtq->cons);
 +
-+	ret = ivpu_pll_enable(vdev);
-+	if (ret) {
-+		ivpu_err(vdev, "Failed to enable PLL: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = ivpu_boot_host_ss_configure(vdev);
-+	if (ret) {
-+		ivpu_err(vdev, "Failed to configure host SS: %d\n", ret);
-+		return ret;
-+	}
-+
-+	/*
-+	 * The control circuitry for vpu_idle indication logic powers up active.
-+	 * To ensure unnecessary low power mode signal from LRT during bring up,
-+	 * KMD disables the circuitry prior to bringing up the Main Power island.
-+	 */
-+	ivpu_boot_vpu_idle_gen_disable(vdev);
-+
-+	ret = ivpu_boot_pwr_domain_enable(vdev);
-+	if (ret) {
-+		ivpu_err(vdev, "Failed to enable power domain: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = ivpu_boot_host_ss_axi_enable(vdev);
-+	if (ret) {
-+		ivpu_err(vdev, "Failed to enable AXI: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = ivpu_boot_host_ss_top_noc_enable(vdev);
-+	if (ret)
-+		ivpu_err(vdev, "Failed to enable TOP NOC: %d\n", ret);
-+
-+	return ret;
++	return evt;
 +}
 +
-+static int ivpu_hw_mtl_boot_fw(struct ivpu_device *vdev)
++void ivpu_mmu_irq_evtq_handler(struct ivpu_device *vdev)
 +{
-+	ivpu_boot_no_snoop_enable(vdev);
-+	ivpu_boot_tbu_mmu_enable(vdev);
-+	ivpu_boot_soc_cpu_boot(vdev);
++	u32 *event;
++	u32 ssid;
 +
-+	return 0;
++	ivpu_dbg(vdev, IRQ, "MMU event queue\n");
++
++	while ((event = ivpu_mmu_get_event(vdev)) != NULL)
++		ivpu_mmu_dump_event(vdev, event);
 +}
 +
-+static bool ivpu_hw_mtl_is_idle(struct ivpu_device *vdev)
++void ivpu_mmu_irq_gerr_handler(struct ivpu_device *vdev)
 +{
-+	u32 val;
++	u32 gerror_val, gerrorn_val, active;
 +
-+	if (IVPU_WA(punit_disabled))
-+		return true;
++	ivpu_dbg(vdev, IRQ, "MMU error\n");
 +
-+	val = REGB_RD32(MTL_BUTTRESS_VPU_STATUS);
-+	return REG_TEST_FLD(MTL_BUTTRESS_VPU_STATUS, READY, val) &&
-+	       REG_TEST_FLD(MTL_BUTTRESS_VPU_STATUS, IDLE, val);
++	gerror_val = REGV_RD32(MTL_VPU_HOST_MMU_GERROR);
++	gerrorn_val = REGV_RD32(MTL_VPU_HOST_MMU_GERRORN);
++
++	active = gerror_val ^ gerrorn_val;
++	if (!(active & IVPU_MMU_GERROR_ERR_MASK))
++		return;
++
++	if (REG_TEST_FLD(MTL_VPU_HOST_MMU_GERROR, MSI_ABT, active))
++		ivpu_warn_ratelimited(vdev, "MMU MSI ABT write aborted\n");
++
++	if (REG_TEST_FLD(MTL_VPU_HOST_MMU_GERROR, MSI_PRIQ_ABT, active))
++		ivpu_warn_ratelimited(vdev, "MMU PRIQ MSI ABT write aborted\n");
++
++	if (REG_TEST_FLD(MTL_VPU_HOST_MMU_GERROR, MSI_EVTQ_ABT, active))
++		ivpu_warn_ratelimited(vdev, "MMU EVTQ MSI ABT write aborted\n");
++
++	if (REG_TEST_FLD(MTL_VPU_HOST_MMU_GERROR, MSI_CMDQ_ABT, active))
++		ivpu_warn_ratelimited(vdev, "MMU CMDQ MSI ABT write aborted\n");
++
++	if (REG_TEST_FLD(MTL_VPU_HOST_MMU_GERROR, PRIQ_ABT, active))
++		ivpu_err_ratelimited(vdev, "MMU PRIQ write aborted\n");
++
++	if (REG_TEST_FLD(MTL_VPU_HOST_MMU_GERROR, EVTQ_ABT, active))
++		ivpu_err_ratelimited(vdev, "MMU EVTQ write aborted\n");
++
++	if (REG_TEST_FLD(MTL_VPU_HOST_MMU_GERROR, CMDQ, active))
++		ivpu_err_ratelimited(vdev, "MMU CMDQ write aborted\n");
++
++	REGV_WR32(MTL_VPU_HOST_MMU_GERRORN, gerror_val);
 +}
 +
-+static int ivpu_hw_mtl_power_down(struct ivpu_device *vdev)
++int ivpu_mmu_set_pgtable(struct ivpu_device *vdev, int ssid, struct ivpu_mmu_pgtable *pgtable)
 +{
-+	int ret = 0;
-+
-+	/* FPGA requires manual clearing of IP_Reset bit by enabling quiescent state */
-+	if (ivpu_is_fpga(vdev)) {
-+		if (ivpu_boot_host_ss_top_noc_disable(vdev)) {
-+			ivpu_err(vdev, "Failed to disable TOP NOC\n");
-+			ret = -EIO;
-+		}
-+
-+		if (ivpu_boot_host_ss_axi_disable(vdev)) {
-+			ivpu_err(vdev, "Failed to disable AXI\n");
-+			ret = -EIO;
-+		}
-+	}
-+
-+	if (ivpu_boot_pwr_domain_disable(vdev)) {
-+		ivpu_err(vdev, "Failed to disable power domain\n");
-+		ret = -EIO;
-+	}
-+
-+	if (ivpu_pll_disable(vdev)) {
-+		ivpu_err(vdev, "Failed to disable PLL\n");
-+		ret = -EIO;
-+	}
-+
-+	if (ivpu_hw_mtl_d0i3_enable(vdev))
-+		ivpu_warn(vdev, "Failed to enable D0I3\n");
-+
-+	return ret;
++	return ivpu_mmu_cd_add_user(vdev, ssid, pgtable->pgd_dma);
 +}
 +
-+static void ivpu_hw_mtl_wdt_disable(struct ivpu_device *vdev)
++void ivpu_mmu_clear_pgtable(struct ivpu_device *vdev, int ssid)
 +{
-+	u32 val;
-+
-+	/* Enable writing and set non-zero WDT value */
-+	REGV_WR32(MTL_VPU_CPU_SS_TIM_SAFE, TIM_SAFE_ENABLE);
-+	REGV_WR32(MTL_VPU_CPU_SS_TIM_WATCHDOG, TIM_WATCHDOG_RESET_VALUE);
-+
-+	/* Enable writing and disable watchdog timer */
-+	REGV_WR32(MTL_VPU_CPU_SS_TIM_SAFE, TIM_SAFE_ENABLE);
-+	REGV_WR32(MTL_VPU_CPU_SS_TIM_WDOG_EN, 0);
-+
-+	/* Now clear the timeout interrupt */
-+	val = REGV_RD32(MTL_VPU_CPU_SS_TIM_GEN_CONFIG);
-+	val = REG_CLR_FLD(MTL_VPU_CPU_SS_TIM_GEN_CONFIG, WDOG_TO_INT_CLR, val);
-+	REGV_WR32(MTL_VPU_CPU_SS_TIM_GEN_CONFIG, val);
++	ivpu_mmu_cd_add_user(vdev, ssid, 0); /* 0 will clear CD entry */
 +}
+diff --git a/drivers/accel/ivpu/ivpu_mmu.h b/drivers/accel/ivpu/ivpu_mmu.h
+new file mode 100644
+index 000000000000..466d698c7142
+--- /dev/null
++++ b/drivers/accel/ivpu/ivpu_mmu.h
+@@ -0,0 +1,50 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2020-2022 Intel Corporation
++ */
 +
-+/* Register indirect accesses */
-+static u32 ivpu_hw_mtl_reg_pll_freq_get(struct ivpu_device *vdev)
-+{
-+	u32 pll_curr_ratio;
++#ifndef __IVPU_MMU_H__
++#define __IVPU_MMU_H__
 +
-+	pll_curr_ratio = REGB_RD32(MTL_BUTTRESS_CURRENT_PLL);
-+	pll_curr_ratio &= MTL_BUTTRESS_CURRENT_PLL_RATIO_MASK;
++struct ivpu_device;
 +
-+	if (!ivpu_is_silicon(vdev))
-+		return PLL_SIMULATION_FREQ;
-+
-+	return PLL_RATIO_TO_FREQ(pll_curr_ratio);
-+}
-+
-+static u32 ivpu_hw_mtl_reg_telemetry_offset_get(struct ivpu_device *vdev)
-+{
-+	return REGB_RD32(MTL_BUTTRESS_VPU_TELEMETRY_OFFSET);
-+}
-+
-+static u32 ivpu_hw_mtl_reg_telemetry_size_get(struct ivpu_device *vdev)
-+{
-+	return REGB_RD32(MTL_BUTTRESS_VPU_TELEMETRY_SIZE);
-+}
-+
-+static u32 ivpu_hw_mtl_reg_telemetry_enable_get(struct ivpu_device *vdev)
-+{
-+	return REGB_RD32(MTL_BUTTRESS_VPU_TELEMETRY_ENABLE);
-+}
-+
-+static void ivpu_hw_mtl_reg_db_set(struct ivpu_device *vdev, u32 db_id)
-+{
-+	u32 reg_stride = MTL_VPU_CPU_SS_DOORBELL_1 - MTL_VPU_CPU_SS_DOORBELL_0;
-+	u32 val = REG_FLD(MTL_VPU_CPU_SS_DOORBELL_0, SET);
-+
-+	REGV_WR32I(MTL_VPU_CPU_SS_DOORBELL_0, reg_stride, db_id, val);
-+}
-+
-+static u32 ivpu_hw_mtl_reg_ipc_rx_addr_get(struct ivpu_device *vdev)
-+{
-+	return REGV_RD32(MTL_VPU_HOST_SS_TIM_IPC_FIFO_ATM);
-+}
-+
-+static u32 ivpu_hw_mtl_reg_ipc_rx_count_get(struct ivpu_device *vdev)
-+{
-+	u32 count = REGV_RD32_SILENT(MTL_VPU_HOST_SS_TIM_IPC_FIFO_STAT);
-+
-+	return REG_GET_FLD(MTL_VPU_HOST_SS_TIM_IPC_FIFO_STAT, FILL_LEVEL, count);
-+}
-+
-+static void ivpu_hw_mtl_reg_ipc_tx_set(struct ivpu_device *vdev, u32 vpu_addr)
-+{
-+	REGV_WR32(MTL_VPU_CPU_SS_TIM_IPC_FIFO, vpu_addr);
-+}
-+
-+static void ivpu_hw_mtl_irq_clear(struct ivpu_device *vdev)
-+{
-+	REGV_WR64(MTL_VPU_HOST_SS_ICB_CLEAR_0, ICB_0_1_IRQ_MASK);
-+}
-+
-+static void ivpu_hw_mtl_irq_enable(struct ivpu_device *vdev)
-+{
-+	REGV_WR32(MTL_VPU_HOST_SS_FW_SOC_IRQ_EN, ITF_FIREWALL_VIOLATION_MASK);
-+	REGV_WR64(MTL_VPU_HOST_SS_ICB_ENABLE_0, ICB_0_1_IRQ_MASK);
-+	REGB_WR32(MTL_BUTTRESS_LOCAL_INT_MASK, BUTTRESS_IRQ_ENABLE_MASK);
-+	REGB_WR32(MTL_BUTTRESS_GLOBAL_INT_MASK, 0x0);
-+}
-+
-+static void ivpu_hw_mtl_irq_disable(struct ivpu_device *vdev)
-+{
-+	REGB_WR32(MTL_BUTTRESS_GLOBAL_INT_MASK, 0x1);
-+	REGB_WR32(MTL_BUTTRESS_LOCAL_INT_MASK, BUTTRESS_IRQ_DISABLE_MASK);
-+	REGV_WR64(MTL_VPU_HOST_SS_ICB_ENABLE_0, 0x0ull);
-+	REGB_WR32(MTL_VPU_HOST_SS_FW_SOC_IRQ_EN, 0x0);
-+}
-+
-+static void ivpu_hw_mtl_irq_wdt_nce_handler(struct ivpu_device *vdev)
-+{
-+	ivpu_err_ratelimited(vdev, "WDT NCE irq\n");
-+}
-+
-+static void ivpu_hw_mtl_irq_wdt_mss_handler(struct ivpu_device *vdev)
-+{
-+	ivpu_err_ratelimited(vdev, "WDT MSS irq\n");
-+
-+	ivpu_hw_wdt_disable(vdev);
-+}
-+
-+static void ivpu_hw_mtl_irq_noc_firewall_handler(struct ivpu_device *vdev)
-+{
-+	ivpu_err_ratelimited(vdev, "NOC Firewall irq\n");
-+}
-+
-+/* Handler for IRQs from VPU core (irqV) */
-+static u32 ivpu_hw_mtl_irqv_handler(struct ivpu_device *vdev, int irq)
-+{
-+	u32 status = REGV_RD32(MTL_VPU_HOST_SS_ICB_STATUS_0) & ICB_0_IRQ_MASK;
-+
-+	REGV_WR32(MTL_VPU_HOST_SS_ICB_CLEAR_0, status);
-+
-+	if (REG_TEST_FLD(MTL_VPU_HOST_SS_ICB_STATUS_0, CPU_INT_REDIRECT_0_INT, status))
-+		ivpu_hw_mtl_irq_wdt_mss_handler(vdev);
-+
-+	if (REG_TEST_FLD(MTL_VPU_HOST_SS_ICB_STATUS_0, CPU_INT_REDIRECT_1_INT, status))
-+		ivpu_hw_mtl_irq_wdt_nce_handler(vdev);
-+
-+	if (REG_TEST_FLD(MTL_VPU_HOST_SS_ICB_STATUS_0, NOC_FIREWALL_INT, status))
-+		ivpu_hw_mtl_irq_noc_firewall_handler(vdev);
-+
-+	return status;
-+}
-+
-+/* Handler for IRQs from Buttress core (irqB) */
-+static u32 ivpu_hw_mtl_irqb_handler(struct ivpu_device *vdev, int irq)
-+{
-+	u32 status = REGB_RD32(MTL_BUTTRESS_INTERRUPT_STAT) & BUTTRESS_IRQ_MASK;
-+
-+	if (status == 0)
-+		return 0;
-+
-+	/* Disable global interrupt before handling local buttress interrupts */
-+	REGB_WR32(MTL_BUTTRESS_GLOBAL_INT_MASK, 0x1);
-+
-+	if (REG_TEST_FLD(MTL_BUTTRESS_INTERRUPT_STAT, FREQ_CHANGE, status))
-+		ivpu_dbg(vdev, IRQ, "FREQ_CHANGE irq: %08x", REGB_RD32(MTL_BUTTRESS_CURRENT_PLL));
-+
-+	if (REG_TEST_FLD(MTL_BUTTRESS_INTERRUPT_STAT, ATS_ERR, status)) {
-+		ivpu_err(vdev, "ATS_ERR irq 0x%016llx", REGB_RD64(MTL_BUTTRESS_ATS_ERR_LOG_0));
-+		REGB_WR32(MTL_BUTTRESS_ATS_ERR_CLEAR, 0x1);
-+	}
-+
-+	if (REG_TEST_FLD(MTL_BUTTRESS_INTERRUPT_STAT, UFI_ERR, status)) {
-+		u32 ufi_log = REGB_RD32(MTL_BUTTRESS_UFI_ERR_LOG);
-+
-+		ivpu_err(vdev, "UFI_ERR irq (0x%08x) opcode: 0x%02lx axi_id: 0x%02lx cq_id: 0x%03lx",
-+			 ufi_log, REG_GET_FLD(MTL_BUTTRESS_UFI_ERR_LOG, OPCODE, ufi_log),
-+			 REG_GET_FLD(MTL_BUTTRESS_UFI_ERR_LOG, AXI_ID, ufi_log),
-+			 REG_GET_FLD(MTL_BUTTRESS_UFI_ERR_LOG, CQ_ID, ufi_log));
-+		REGB_WR32(MTL_BUTTRESS_UFI_ERR_CLEAR, 0x1);
-+	}
-+
-+	/*
-+	 * Clear local interrupt status by writing 0 to all bits.
-+	 * This must be done after interrupts are cleared at the source.
-+	 * Writing 1 triggers an interrupt, so we can't perform read update write.
-+	 */
-+	REGB_WR32(MTL_BUTTRESS_INTERRUPT_STAT, 0x0);
-+
-+	/* Re-enable global interrupt */
-+	REGB_WR32(MTL_BUTTRESS_GLOBAL_INT_MASK, 0x0);
-+
-+	return status;
-+}
-+
-+static irqreturn_t ivpu_hw_mtl_irq_handler(int irq, void *ptr)
-+{
-+	struct ivpu_device *vdev = ptr;
-+	u32 ret_irqv, ret_irqb;
-+
-+	ret_irqv = ivpu_hw_mtl_irqv_handler(vdev, irq);
-+	ret_irqb = ivpu_hw_mtl_irqb_handler(vdev, irq);
-+
-+	return IRQ_RETVAL(ret_irqb | ret_irqv);
-+}
-+
-+static void ivpu_hw_mtl_diagnose_failure(struct ivpu_device *vdev)
-+{
-+	u32 irqv = REGV_RD32(MTL_VPU_HOST_SS_ICB_STATUS_0) & ICB_0_IRQ_MASK;
-+	u32 irqb = REGB_RD32(MTL_BUTTRESS_INTERRUPT_STAT) & BUTTRESS_IRQ_MASK;
-+
-+	if (ivpu_hw_mtl_reg_ipc_rx_count_get(vdev))
-+		ivpu_err(vdev, "IPC FIFO queue not empty, missed IPC IRQ");
-+
-+	if (REG_TEST_FLD(MTL_VPU_HOST_SS_ICB_STATUS_0, CPU_INT_REDIRECT_0_INT, irqv))
-+		ivpu_err(vdev, "WDT MSS timeout detected\n");
-+
-+	if (REG_TEST_FLD(MTL_VPU_HOST_SS_ICB_STATUS_0, CPU_INT_REDIRECT_1_INT, irqv))
-+		ivpu_err(vdev, "WDT NCE timeout detected\n");
-+
-+	if (REG_TEST_FLD(MTL_VPU_HOST_SS_ICB_STATUS_0, NOC_FIREWALL_INT, irqv))
-+		ivpu_err(vdev, "NOC Firewall irq detected\n");
-+
-+	if (REG_TEST_FLD(MTL_BUTTRESS_INTERRUPT_STAT, ATS_ERR, irqb))
-+		ivpu_err(vdev, "ATS_ERR irq 0x%016llx", REGB_RD64(MTL_BUTTRESS_ATS_ERR_LOG_0));
-+
-+	if (REG_TEST_FLD(MTL_BUTTRESS_INTERRUPT_STAT, UFI_ERR, irqb)) {
-+		u32 ufi_log = REGB_RD32(MTL_BUTTRESS_UFI_ERR_LOG);
-+
-+		ivpu_err(vdev, "UFI_ERR irq (0x%08x) opcode: 0x%02lx axi_id: 0x%02lx cq_id: 0x%03lx",
-+			 ufi_log, REG_GET_FLD(MTL_BUTTRESS_UFI_ERR_LOG, OPCODE, ufi_log),
-+			 REG_GET_FLD(MTL_BUTTRESS_UFI_ERR_LOG, AXI_ID, ufi_log),
-+			 REG_GET_FLD(MTL_BUTTRESS_UFI_ERR_LOG, CQ_ID, ufi_log));
-+	}
-+}
-+
-+const struct ivpu_hw_ops ivpu_hw_mtl_ops = {
-+	.info_init = ivpu_hw_mtl_info_init,
-+	.power_up = ivpu_hw_mtl_power_up,
-+	.is_idle = ivpu_hw_mtl_is_idle,
-+	.power_down = ivpu_hw_mtl_power_down,
-+	.boot_fw = ivpu_hw_mtl_boot_fw,
-+	.wdt_disable = ivpu_hw_mtl_wdt_disable,
-+	.diagnose_failure = ivpu_hw_mtl_diagnose_failure,
-+	.reg_pll_freq_get = ivpu_hw_mtl_reg_pll_freq_get,
-+	.reg_telemetry_offset_get = ivpu_hw_mtl_reg_telemetry_offset_get,
-+	.reg_telemetry_size_get = ivpu_hw_mtl_reg_telemetry_size_get,
-+	.reg_telemetry_enable_get = ivpu_hw_mtl_reg_telemetry_enable_get,
-+	.reg_db_set = ivpu_hw_mtl_reg_db_set,
-+	.reg_ipc_rx_addr_get = ivpu_hw_mtl_reg_ipc_rx_addr_get,
-+	.reg_ipc_rx_count_get = ivpu_hw_mtl_reg_ipc_rx_count_get,
-+	.reg_ipc_tx_set = ivpu_hw_mtl_reg_ipc_tx_set,
-+	.irq_clear = ivpu_hw_mtl_irq_clear,
-+	.irq_enable = ivpu_hw_mtl_irq_enable,
-+	.irq_disable = ivpu_hw_mtl_irq_disable,
-+	.irq_handler = ivpu_hw_mtl_irq_handler,
++struct ivpu_mmu_cdtab {
++	void *base;
++	dma_addr_t dma;
 +};
-diff --git a/drivers/accel/ivpu/ivpu_hw_mtl_reg.h b/drivers/accel/ivpu/ivpu_hw_mtl_reg.h
++
++struct ivpu_mmu_strtab {
++	void *base;
++	dma_addr_t dma;
++	u64 dma_q;
++	u32 base_cfg;
++};
++
++struct ivpu_mmu_queue {
++	void *base;
++	dma_addr_t dma;
++	u64 dma_q;
++	u32 prod;
++	u32 cons;
++};
++
++struct ivpu_mmu_info {
++	struct mutex lock; /* Protects cdtab, strtab, cmdq, on */
++	struct ivpu_mmu_cdtab cdtab;
++	struct ivpu_mmu_strtab strtab;
++	struct ivpu_mmu_queue cmdq;
++	struct ivpu_mmu_queue evtq;
++	bool on;
++};
++
++int ivpu_mmu_init(struct ivpu_device *vdev);
++void ivpu_mmu_disable(struct ivpu_device *vdev);
++int ivpu_mmu_enable(struct ivpu_device *vdev);
++int ivpu_mmu_set_pgtable(struct ivpu_device *vdev, int ssid, struct ivpu_mmu_pgtable *pgtable);
++void ivpu_mmu_clear_pgtable(struct ivpu_device *vdev, int ssid);
++int ivpu_mmu_invalidate_tlb(struct ivpu_device *vdev, u16 ssid);
++
++void ivpu_mmu_irq_evtq_handler(struct ivpu_device *vdev);
++void ivpu_mmu_irq_gerr_handler(struct ivpu_device *vdev);
++
++#endif /* __IVPU_MMU_H__ */
+diff --git a/drivers/accel/ivpu/ivpu_mmu_context.c b/drivers/accel/ivpu/ivpu_mmu_context.c
 new file mode 100644
-index 000000000000..4e6b464ac53f
+index 000000000000..eb25e613bb90
 --- /dev/null
-+++ b/drivers/accel/ivpu/ivpu_hw_mtl_reg.h
-@@ -0,0 +1,280 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
++++ b/drivers/accel/ivpu/ivpu_mmu_context.c
+@@ -0,0 +1,385 @@
++// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (C) 2020-2022 Intel Corporation
 + */
-+
-+#ifndef __IVPU_HW_MTL_REG_H__
-+#define __IVPU_HW_MTL_REG_H__
-+
-+#include <linux/bits.h>
-+
-+#define MTL_BUTTRESS_INTERRUPT_TYPE					0x00000000u
-+
-+#define MTL_BUTTRESS_INTERRUPT_STAT					0x00000004u
-+#define MTL_BUTTRESS_INTERRUPT_STAT_FREQ_CHANGE_MASK			BIT_MASK(0)
-+#define MTL_BUTTRESS_INTERRUPT_STAT_ATS_ERR_MASK			BIT_MASK(1)
-+#define MTL_BUTTRESS_INTERRUPT_STAT_UFI_ERR_MASK			BIT_MASK(2)
-+
-+#define MTL_BUTTRESS_WP_REQ_PAYLOAD0					0x00000008u
-+#define MTL_BUTTRESS_WP_REQ_PAYLOAD0_MIN_RATIO_MASK			GENMASK(15, 0)
-+#define MTL_BUTTRESS_WP_REQ_PAYLOAD0_MAX_RATIO_MASK			GENMASK(31, 16)
-+
-+#define MTL_BUTTRESS_WP_REQ_PAYLOAD1					0x0000000cu
-+#define MTL_BUTTRESS_WP_REQ_PAYLOAD1_TARGET_RATIO_MASK			GENMASK(15, 0)
-+#define MTL_BUTTRESS_WP_REQ_PAYLOAD1_EPP_MASK				GENMASK(31, 16)
-+
-+#define MTL_BUTTRESS_WP_REQ_PAYLOAD2					0x00000010u
-+#define MTL_BUTTRESS_WP_REQ_PAYLOAD2_CONFIG_MASK			GENMASK(15, 0)
-+
-+#define MTL_BUTTRESS_WP_REQ_CMD						0x00000014u
-+#define MTL_BUTTRESS_WP_REQ_CMD_SEND_MASK				BIT_MASK(0)
-+
-+#define MTL_BUTTRESS_WP_DOWNLOAD					0x00000018u
-+#define MTL_BUTTRESS_WP_DOWNLOAD_TARGET_RATIO_MASK			GENMASK(15, 0)
-+
-+#define MTL_BUTTRESS_CURRENT_PLL					0x0000001cu
-+#define MTL_BUTTRESS_CURRENT_PLL_RATIO_MASK				GENMASK(15, 0)
-+
-+#define MTL_BUTTRESS_PLL_ENABLE						0x00000020u
-+
-+#define MTL_BUTTRESS_FMIN_FUSE						0x00000024u
-+#define MTL_BUTTRESS_FMIN_FUSE_MIN_RATIO_MASK				GENMASK(7, 0)
-+#define MTL_BUTTRESS_FMIN_FUSE_PN_RATIO_MASK				GENMASK(15, 8)
-+
-+#define MTL_BUTTRESS_FMAX_FUSE						0x00000028u
-+#define MTL_BUTTRESS_FMAX_FUSE_MAX_RATIO_MASK				GENMASK(7, 0)
-+
-+#define MTL_BUTTRESS_TILE_FUSE						0x0000002cu
-+#define MTL_BUTTRESS_TILE_FUSE_VALID_MASK				BIT_MASK(0)
-+#define MTL_BUTTRESS_TILE_FUSE_SKU_MASK					GENMASK(3, 2)
-+
-+#define MTL_BUTTRESS_LOCAL_INT_MASK					0x00000030u
-+#define MTL_BUTTRESS_GLOBAL_INT_MASK					0x00000034u
-+
-+#define MTL_BUTTRESS_PLL_STATUS						0x00000040u
-+#define MTL_BUTTRESS_PLL_STATUS_LOCK_MASK				BIT_MASK(1)
-+
-+#define MTL_BUTTRESS_VPU_STATUS						0x00000044u
-+#define MTL_BUTTRESS_VPU_STATUS_READY_MASK				BIT_MASK(0)
-+#define MTL_BUTTRESS_VPU_STATUS_IDLE_MASK				BIT_MASK(1)
-+
-+#define MTL_BUTTRESS_VPU_D0I3_CONTROL					0x00000060u
-+#define MTL_BUTTRESS_VPU_D0I3_CONTROL_INPROGRESS_MASK			BIT_MASK(0)
-+#define MTL_BUTTRESS_VPU_D0I3_CONTROL_I3_MASK				BIT_MASK(2)
-+
-+#define MTL_BUTTRESS_VPU_IP_RESET					0x00000050u
-+#define MTL_BUTTRESS_VPU_IP_RESET_TRIGGER_MASK				BIT_MASK(0)
-+
-+#define MTL_BUTTRESS_VPU_TELEMETRY_OFFSET				0x00000080u
-+#define MTL_BUTTRESS_VPU_TELEMETRY_SIZE					0x00000084u
-+#define MTL_BUTTRESS_VPU_TELEMETRY_ENABLE				0x00000088u
-+
-+#define MTL_BUTTRESS_ATS_ERR_LOG_0					0x000000a0u
-+#define MTL_BUTTRESS_ATS_ERR_LOG_1					0x000000a4u
-+#define MTL_BUTTRESS_ATS_ERR_CLEAR					0x000000a8u
-+
-+#define MTL_BUTTRESS_UFI_ERR_LOG					0x000000b0u
-+#define MTL_BUTTRESS_UFI_ERR_LOG_CQ_ID_MASK				GENMASK(11, 0)
-+#define MTL_BUTTRESS_UFI_ERR_LOG_AXI_ID_MASK				GENMASK(19, 12)
-+#define MTL_BUTTRESS_UFI_ERR_LOG_OPCODE_MASK				GENMASK(24, 20)
-+
-+#define MTL_BUTTRESS_UFI_ERR_CLEAR					0x000000b4u
-+
-+#define MTL_VPU_HOST_SS_CPR_CLK_SET					0x00000084u
-+#define MTL_VPU_HOST_SS_CPR_CLK_SET_TOP_NOC_MASK			BIT_MASK(1)
-+#define MTL_VPU_HOST_SS_CPR_CLK_SET_DSS_MAS_MASK			BIT_MASK(10)
-+#define MTL_VPU_HOST_SS_CPR_CLK_SET_MSS_MAS_MASK			BIT_MASK(11)
-+
-+#define MTL_VPU_HOST_SS_CPR_RST_SET					0x00000094u
-+#define MTL_VPU_HOST_SS_CPR_RST_SET_TOP_NOC_MASK			BIT_MASK(1)
-+#define MTL_VPU_HOST_SS_CPR_RST_SET_DSS_MAS_MASK			BIT_MASK(10)
-+#define MTL_VPU_HOST_SS_CPR_RST_SET_MSS_MAS_MASK			BIT_MASK(11)
-+
-+#define MTL_VPU_HOST_SS_CPR_RST_CLR					0x00000098u
-+#define MTL_VPU_HOST_SS_CPR_RST_CLR_TOP_NOC_MASK			BIT_MASK(1)
-+#define MTL_VPU_HOST_SS_CPR_RST_CLR_DSS_MAS_MASK			BIT_MASK(10)
-+#define MTL_VPU_HOST_SS_CPR_RST_CLR_MSS_MAS_MASK			BIT_MASK(11)
-+
-+#define MTL_VPU_HOST_SS_HW_VERSION					0x00000108u
-+#define MTL_VPU_HOST_SS_HW_VERSION_SOC_REVISION_MASK			GENMASK(7, 0)
-+#define MTL_VPU_HOST_SS_HW_VERSION_SOC_NUMBER_MASK			GENMASK(15, 8)
-+#define MTL_VPU_HOST_SS_HW_VERSION_VPU_GENERATION_MASK			GENMASK(23, 16)
-+
-+#define MTL_VPU_HOST_SS_GEN_CTRL					0x00000118u
-+#define MTL_VPU_HOST_SS_GEN_CTRL_PS_MASK				GENMASK(31, 29)
-+
-+#define MTL_VPU_HOST_SS_NOC_QREQN					0x00000154u
-+#define MTL_VPU_HOST_SS_NOC_QREQN_TOP_SOCMMIO_MASK			BIT_MASK(0)
-+
-+#define MTL_VPU_HOST_SS_NOC_QACCEPTN					0x00000158u
-+#define MTL_VPU_HOST_SS_NOC_QACCEPTN_TOP_SOCMMIO_MASK			BIT_MASK(0)
-+
-+#define MTL_VPU_HOST_SS_NOC_QDENY					0x0000015cu
-+#define MTL_VPU_HOST_SS_NOC_QDENY_TOP_SOCMMIO_MASK			BIT_MASK(0)
-+
-+#define MTL_VPU_TOP_NOC_QREQN						0x00000160u
-+#define MTL_VPU_TOP_NOC_QREQN_CPU_CTRL_MASK				BIT_MASK(0)
-+#define MTL_VPU_TOP_NOC_QREQN_HOSTIF_L2CACHE_MASK			BIT_MASK(1)
-+
-+#define MTL_VPU_TOP_NOC_QACCEPTN					0x00000164u
-+#define MTL_VPU_TOP_NOC_QACCEPTN_CPU_CTRL_MASK				BIT_MASK(0)
-+#define MTL_VPU_TOP_NOC_QACCEPTN_HOSTIF_L2CACHE_MASK			BIT_MASK(1)
-+
-+#define MTL_VPU_TOP_NOC_QDENY						0x00000168u
-+#define MTL_VPU_TOP_NOC_QDENY_CPU_CTRL_MASK				BIT_MASK(0)
-+#define MTL_VPU_TOP_NOC_QDENY_HOSTIF_L2CACHE_MASK			BIT_MASK(1)
-+
-+#define MTL_VPU_HOST_SS_FW_SOC_IRQ_EN					0x00000170u
-+#define MTL_VPU_HOST_SS_FW_SOC_IRQ_EN_CSS_ROM_CMX_MASK			BIT_MASK(0)
-+#define MTL_VPU_HOST_SS_FW_SOC_IRQ_EN_CSS_DBG_MASK			BIT_MASK(1)
-+#define MTL_VPU_HOST_SS_FW_SOC_IRQ_EN_CSS_CTRL_MASK			BIT_MASK(2)
-+#define MTL_VPU_HOST_SS_FW_SOC_IRQ_EN_DEC400_MASK			BIT_MASK(3)
-+#define MTL_VPU_HOST_SS_FW_SOC_IRQ_EN_MSS_NCE_MASK			BIT_MASK(4)
-+#define MTL_VPU_HOST_SS_FW_SOC_IRQ_EN_MSS_MBI_MASK			BIT_MASK(5)
-+#define MTL_VPU_HOST_SS_FW_SOC_IRQ_EN_MSS_MBI_CMX_MASK			BIT_MASK(6)
-+
-+#define MTL_VPU_HOST_SS_ICB_STATUS_0					0x00010210u
-+#define MTL_VPU_HOST_SS_ICB_STATUS_0_TIMER_0_INT_MASK			BIT_MASK(0)
-+#define MTL_VPU_HOST_SS_ICB_STATUS_0_TIMER_1_INT_MASK			BIT_MASK(1)
-+#define MTL_VPU_HOST_SS_ICB_STATUS_0_TIMER_2_INT_MASK			BIT_MASK(2)
-+#define MTL_VPU_HOST_SS_ICB_STATUS_0_TIMER_3_INT_MASK			BIT_MASK(3)
-+#define MTL_VPU_HOST_SS_ICB_STATUS_0_HOST_IPC_FIFO_INT_MASK		BIT_MASK(4)
-+#define MTL_VPU_HOST_SS_ICB_STATUS_0_MMU_IRQ_0_INT_MASK			BIT_MASK(5)
-+#define MTL_VPU_HOST_SS_ICB_STATUS_0_MMU_IRQ_1_INT_MASK			BIT_MASK(6)
-+#define MTL_VPU_HOST_SS_ICB_STATUS_0_MMU_IRQ_2_INT_MASK			BIT_MASK(7)
-+#define MTL_VPU_HOST_SS_ICB_STATUS_0_NOC_FIREWALL_INT_MASK		BIT_MASK(8)
-+#define MTL_VPU_HOST_SS_ICB_STATUS_0_CPU_INT_REDIRECT_0_INT_MASK	BIT_MASK(30)
-+#define MTL_VPU_HOST_SS_ICB_STATUS_0_CPU_INT_REDIRECT_1_INT_MASK	BIT_MASK(31)
-+
-+#define MTL_VPU_HOST_SS_ICB_STATUS_1					0x00010214u
-+#define MTL_VPU_HOST_SS_ICB_STATUS_1_CPU_INT_REDIRECT_2_INT_MASK	BIT_MASK(0)
-+#define MTL_VPU_HOST_SS_ICB_STATUS_1_CPU_INT_REDIRECT_3_INT_MASK	BIT_MASK(1)
-+#define MTL_VPU_HOST_SS_ICB_STATUS_1_CPU_INT_REDIRECT_4_INT_MASK	BIT_MASK(2)
-+
-+#define MTL_VPU_HOST_SS_ICB_CLEAR_0					0x00010220u
-+#define MTL_VPU_HOST_SS_ICB_CLEAR_1					0x00010224u
-+#define MTL_VPU_HOST_SS_ICB_ENABLE_0					0x00010240u
-+
-+#define MTL_VPU_HOST_SS_TIM_IPC_FIFO_ATM				0x000200f4u
-+
-+#define MTL_VPU_HOST_SS_TIM_IPC_FIFO_STAT				0x000200fcu
-+#define MTL_VPU_HOST_SS_TIM_IPC_FIFO_STAT_READ_POINTER_MASK		GENMASK(7, 0)
-+#define MTL_VPU_HOST_SS_TIM_IPC_FIFO_STAT_WRITE_POINTER_MASK		GENMASK(15, 8)
-+#define MTL_VPU_HOST_SS_TIM_IPC_FIFO_STAT_FILL_LEVEL_MASK		GENMASK(23, 16)
-+#define MTL_VPU_HOST_SS_TIM_IPC_FIFO_STAT_RSVD0_MASK			GENMASK(31, 24)
-+
-+#define MTL_VPU_HOST_SS_AON_PWR_ISO_EN0					0x00030020u
-+#define MTL_VPU_HOST_SS_AON_PWR_ISO_EN0_MSS_CPU_MASK			BIT_MASK(3)
-+
-+#define MTL_VPU_HOST_SS_AON_PWR_ISLAND_EN0				0x00030024u
-+#define MTL_VPU_HOST_SS_AON_PWR_ISLAND_EN0_MSS_CPU_MASK			BIT_MASK(3)
-+
-+#define MTL_VPU_HOST_SS_AON_PWR_ISLAND_TRICKLE_EN0			0x00030028u
-+#define MTL_VPU_HOST_SS_AON_PWR_ISLAND_TRICKLE_EN0_MSS_CPU_MASK		BIT_MASK(3)
-+
-+#define MTL_VPU_HOST_SS_AON_PWR_ISLAND_STATUS0				0x0003002cu
-+#define MTL_VPU_HOST_SS_AON_PWR_ISLAND_STATUS0_MSS_CPU_MASK		BIT_MASK(3)
-+
-+#define MTL_VPU_HOST_SS_AON_VPU_IDLE_GEN				0x00030200u
-+#define MTL_VPU_HOST_SS_AON_VPU_IDLE_GEN_EN_MASK			BIT_MASK(0)
-+
-+#define MTL_VPU_HOST_SS_AON_DPU_ACTIVE					0x00030204u
-+#define MTL_VPU_HOST_SS_AON_DPU_ACTIVE_DPU_ACTIVE_MASK			BIT_MASK(0)
-+
-+#define MTL_VPU_HOST_SS_LOADING_ADDRESS_LO				0x00041040u
-+#define MTL_VPU_HOST_SS_LOADING_ADDRESS_LO_DONE_MASK			BIT_MASK(0)
-+#define MTL_VPU_HOST_SS_LOADING_ADDRESS_LO_IOSF_RS_ID_MASK		GENMASK(2, 1)
-+#define MTL_VPU_HOST_SS_LOADING_ADDRESS_LO_IMAGE_LOCATION_MASK		GENMASK(31, 3)
-+
-+#define MTL_VPU_HOST_SS_WORKPOINT_CONFIG_MIRROR				0x00082020u
-+#define MTL_VPU_HOST_SS_WORKPOINT_CONFIG_MIRROR_FINAL_PLL_FREQ_MASK	GENMASK(15, 0)
-+#define MTL_VPU_HOST_SS_WORKPOINT_CONFIG_MIRROR_CONFIG_ID_MASK		GENMASK(31, 16)
-+
-+#define MTL_VPU_HOST_MMU_IDR0						0x00200000u
-+#define MTL_VPU_HOST_MMU_IDR1						0x00200004u
-+#define MTL_VPU_HOST_MMU_IDR3						0x0020000cu
-+#define MTL_VPU_HOST_MMU_IDR5						0x00200014u
-+#define MTL_VPU_HOST_MMU_CR0						0x00200020u
-+#define MTL_VPU_HOST_MMU_CR0ACK						0x00200024u
-+#define MTL_VPU_HOST_MMU_CR1						0x00200028u
-+#define MTL_VPU_HOST_MMU_CR2						0x0020002cu
-+#define MTL_VPU_HOST_MMU_IRQ_CTRL					0x00200050u
-+#define MTL_VPU_HOST_MMU_IRQ_CTRLACK					0x00200054u
-+
-+#define MTL_VPU_HOST_MMU_GERROR						0x00200060u
-+#define MTL_VPU_HOST_MMU_GERROR_CMDQ_MASK				BIT_MASK(0)
-+#define MTL_VPU_HOST_MMU_GERROR_EVTQ_ABT_MASK				BIT_MASK(2)
-+#define MTL_VPU_HOST_MMU_GERROR_PRIQ_ABT_MASK				BIT_MASK(3)
-+#define MTL_VPU_HOST_MMU_GERROR_MSI_CMDQ_ABT_MASK			BIT_MASK(4)
-+#define MTL_VPU_HOST_MMU_GERROR_MSI_EVTQ_ABT_MASK			BIT_MASK(5)
-+#define MTL_VPU_HOST_MMU_GERROR_MSI_PRIQ_ABT_MASK			BIT_MASK(6)
-+#define MTL_VPU_HOST_MMU_GERROR_MSI_ABT_MASK				BIT_MASK(7)
-+
-+#define MTL_VPU_HOST_MMU_GERRORN					0x00200064u
-+
-+#define MTL_VPU_HOST_MMU_STRTAB_BASE					0x00200080u
-+#define MTL_VPU_HOST_MMU_STRTAB_BASE_CFG				0x00200088u
-+#define MTL_VPU_HOST_MMU_CMDQ_BASE					0x00200090u
-+#define MTL_VPU_HOST_MMU_CMDQ_PROD					0x00200098u
-+#define MTL_VPU_HOST_MMU_CMDQ_CONS					0x0020009cu
-+#define MTL_VPU_HOST_MMU_EVTQ_BASE					0x002000a0u
-+#define MTL_VPU_HOST_MMU_EVTQ_PROD					0x002000a8u
-+#define MTL_VPU_HOST_MMU_EVTQ_CONS					0x002000acu
-+#define MTL_VPU_HOST_MMU_EVTQ_PROD_SEC					(0x002000a8u + SZ_64K)
-+#define MTL_VPU_HOST_MMU_EVTQ_CONS_SEC					(0x002000acu + SZ_64K)
-+
-+#define MTL_VPU_HOST_IF_TCU_PTW_OVERRIDES				0x00360000u
-+#define MTL_VPU_HOST_IF_TCU_PTW_OVERRIDES_CACHE_OVERRIDE_EN_MASK	BIT_MASK(0)
-+#define MTL_VPU_HOST_IF_TCU_PTW_OVERRIDES_AWCACHE_OVERRIDE_MASK		BIT_MASK(1)
-+#define MTL_VPU_HOST_IF_TCU_PTW_OVERRIDES_ARCACHE_OVERRIDE_MASK		BIT_MASK(2)
-+#define MTL_VPU_HOST_IF_TCU_PTW_OVERRIDES_NOSNOOP_OVERRIDE_EN_MASK	BIT_MASK(3)
-+#define MTL_VPU_HOST_IF_TCU_PTW_OVERRIDES_AW_NOSNOOP_OVERRIDE_MASK	BIT_MASK(4)
-+#define MTL_VPU_HOST_IF_TCU_PTW_OVERRIDES_AR_NOSNOOP_OVERRIDE_MASK	BIT_MASK(5)
-+#define MTL_VPU_HOST_IF_TCU_PTW_OVERRIDES_PTW_AW_CONTEXT_FLAG_MASK	GENMASK(10, 6)
-+#define MTL_VPU_HOST_IF_TCU_PTW_OVERRIDES_PTW_AR_CONTEXT_FLAG_MASK	GENMASK(15, 11)
-+
-+#define MTL_VPU_HOST_IF_TBU_MMUSSIDV					0x00360004u
-+#define MTL_VPU_HOST_IF_TBU_MMUSSIDV_TBU0_AWMMUSSIDV_MASK		BIT_MASK(0)
-+#define MTL_VPU_HOST_IF_TBU_MMUSSIDV_TBU0_ARMMUSSIDV_MASK		BIT_MASK(1)
-+#define MTL_VPU_HOST_IF_TBU_MMUSSIDV_TBU1_AWMMUSSIDV_MASK		BIT_MASK(2)
-+#define MTL_VPU_HOST_IF_TBU_MMUSSIDV_TBU1_ARMMUSSIDV_MASK		BIT_MASK(3)
-+#define MTL_VPU_HOST_IF_TBU_MMUSSIDV_TBU2_AWMMUSSIDV_MASK		BIT_MASK(4)
-+#define MTL_VPU_HOST_IF_TBU_MMUSSIDV_TBU2_ARMMUSSIDV_MASK		BIT_MASK(5)
-+#define MTL_VPU_HOST_IF_TBU_MMUSSIDV_TBU3_AWMMUSSIDV_MASK		BIT_MASK(6)
-+#define MTL_VPU_HOST_IF_TBU_MMUSSIDV_TBU3_ARMMUSSIDV_MASK		BIT_MASK(7)
-+#define MTL_VPU_HOST_IF_TBU_MMUSSIDV_TBU4_AWMMUSSIDV_MASK		BIT_MASK(8)
-+#define MTL_VPU_HOST_IF_TBU_MMUSSIDV_TBU4_ARMMUSSIDV_MASK		BIT_MASK(9)
-+
-+#define MTL_VPU_CPU_SS_DSU_LEON_RT_BASE					0x04000000u
-+#define MTL_VPU_CPU_SS_DSU_LEON_RT_DSU_CTRL				0x04000000u
-+#define MTL_VPU_CPU_SS_DSU_LEON_RT_PC_REG				0x04400010u
-+#define MTL_VPU_CPU_SS_DSU_LEON_RT_NPC_REG				0x04400014u
-+#define MTL_VPU_CPU_SS_DSU_LEON_RT_DSU_TRAP_REG				0x04400020u
-+
-+#define MTL_VPU_CPU_SS_MSSCPU_CPR_CLK_SET				0x06010004u
-+#define MTL_VPU_CPU_SS_MSSCPU_CPR_CLK_SET_CPU_DSU_MASK			BIT_MASK(1)
-+
-+#define MTL_VPU_CPU_SS_MSSCPU_CPR_RST_CLR				0x06010018u
-+#define MTL_VPU_CPU_SS_MSSCPU_CPR_RST_CLR_CPU_DSU_MASK			BIT_MASK(1)
-+
-+#define MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC				0x06010040u
-+#define MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC_IRQI_RSTRUN0_MASK		BIT_MASK(0)
-+#define MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC_IRQI_RESUME0_MASK		BIT_MASK(1)
-+#define MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC_IRQI_RSTRUN1_MASK		BIT_MASK(2)
-+#define MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC_IRQI_RESUME1_MASK		BIT_MASK(3)
-+#define MTL_VPU_CPU_SS_MSSCPU_CPR_LEON_RT_VEC_IRQI_RSTVEC_MASK		GENMASK(31, 4)
-+
-+#define MTL_VPU_CPU_SS_TIM_WATCHDOG					0x0602009cu
-+#define MTL_VPU_CPU_SS_TIM_WDOG_EN					0x060200a4u
-+#define MTL_VPU_CPU_SS_TIM_SAFE						0x060200a8u
-+#define MTL_VPU_CPU_SS_TIM_IPC_FIFO					0x060200f0u
-+
-+#define MTL_VPU_CPU_SS_TIM_GEN_CONFIG					0x06021008u
-+#define MTL_VPU_CPU_SS_TIM_GEN_CONFIG_WDOG_TO_INT_CLR_MASK		BIT_MASK(9)
-+
-+#define MTL_VPU_CPU_SS_DOORBELL_0					0x06300000u
-+#define MTL_VPU_CPU_SS_DOORBELL_0_SET_MASK				BIT_MASK(0)
-+
-+#define MTL_VPU_CPU_SS_DOORBELL_1					0x06301000u
-+
-+#endif /* __IVPU_HW_MTL_REG_H__ */
-diff --git a/drivers/accel/ivpu/ivpu_hw_reg_io.h b/drivers/accel/ivpu/ivpu_hw_reg_io.h
-new file mode 100644
-index 000000000000..52e512351902
---- /dev/null
-+++ b/drivers/accel/ivpu/ivpu_hw_reg_io.h
-@@ -0,0 +1,115 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (C) 2020-2022 Intel Corporation
-+ */
-+
-+#ifndef __IVPU_HW_REG_IO_H__
-+#define __IVPU_HW_REG_IO_H__
 +
 +#include <linux/bitfield.h>
-+#include <linux/io.h>
-+#include <linux/iopoll.h>
++#include <linux/highmem.h>
 +
 +#include "ivpu_drv.h"
++#include "ivpu_hw.h"
++#include "ivpu_mmu.h"
++#include "ivpu_mmu_context.h"
 +
-+#define REG_POLL_SLEEP_US 50
-+#define REG_IO_ERROR      0xffffffff
++#define IVPU_MMU_PGD_INDEX_MASK          GENMASK(38, 30)
++#define IVPU_MMU_PMD_INDEX_MASK          GENMASK(29, 21)
++#define IVPU_MMU_PTE_INDEX_MASK          GENMASK(20, 12)
++#define IVPU_MMU_ENTRY_FLAGS_MASK        GENMASK(11, 0)
++#define IVPU_MMU_ENTRY_FLAG_NG           BIT(11)
++#define IVPU_MMU_ENTRY_FLAG_AF           BIT(10)
++#define IVPU_MMU_ENTRY_FLAG_USER         BIT(6)
++#define IVPU_MMU_ENTRY_FLAG_LLC_COHERENT BIT(2)
++#define IVPU_MMU_ENTRY_FLAG_TYPE_PAGE    BIT(1)
++#define IVPU_MMU_ENTRY_FLAG_VALID        BIT(0)
 +
-+#define REGB_RD32(reg)          ivpu_hw_reg_rd32(vdev, vdev->regb, (reg), #reg, __func__)
-+#define REGB_RD32_SILENT(reg)   readl(vdev->regb + (reg))
-+#define REGB_RD64(reg)          ivpu_hw_reg_rd64(vdev, vdev->regb, (reg), #reg, __func__)
-+#define REGB_WR32(reg, val)     ivpu_hw_reg_wr32(vdev, vdev->regb, (reg), (val), #reg, __func__)
-+#define REGB_WR64(reg, val)     ivpu_hw_reg_wr64(vdev, vdev->regb, (reg), (val), #reg, __func__)
++#define IVPU_MMU_PAGE_SIZE    SZ_4K
++#define IVPU_MMU_PTE_MAP_SIZE (IVPU_MMU_PGTABLE_ENTRIES * IVPU_MMU_PAGE_SIZE)
++#define IVPU_MMU_PMD_MAP_SIZE (IVPU_MMU_PGTABLE_ENTRIES * IVPU_MMU_PTE_MAP_SIZE)
++#define IVPU_MMU_PGTABLE_SIZE (IVPU_MMU_PGTABLE_ENTRIES * sizeof(u64))
 +
-+#define REGV_RD32(reg)          ivpu_hw_reg_rd32(vdev, vdev->regv, (reg), #reg, __func__)
-+#define REGV_RD32_SILENT(reg)   readl(vdev->regv + (reg))
-+#define REGV_RD64(reg)          ivpu_hw_reg_rd64(vdev, vdev->regv, (reg), #reg, __func__)
-+#define REGV_WR32(reg, val)     ivpu_hw_reg_wr32(vdev, vdev->regv, (reg), (val), #reg, __func__)
-+#define REGV_WR64(reg, val)     ivpu_hw_reg_wr64(vdev, vdev->regv, (reg), (val), #reg, __func__)
++#define IVPU_MMU_DUMMY_ADDRESS 0xdeadb000
++#define IVPU_MMU_ENTRY_VALID   (IVPU_MMU_ENTRY_FLAG_TYPE_PAGE | IVPU_MMU_ENTRY_FLAG_VALID)
++#define IVPU_MMU_ENTRY_INVALID (IVPU_MMU_DUMMY_ADDRESS & ~IVPU_MMU_ENTRY_FLAGS_MASK)
++#define IVPU_MMU_ENTRY_MAPPED  (IVPU_MMU_ENTRY_FLAG_AF | IVPU_MMU_ENTRY_FLAG_USER | \
++				IVPU_MMU_ENTRY_FLAG_NG | IVPU_MMU_ENTRY_VALID)
 +
-+#define REGV_WR32I(reg, stride, index, val) \
-+	ivpu_hw_reg_wr32_index(vdev, vdev->regv, (reg), (stride), (index), (val), #reg, __func__)
-+
-+#define REG_FLD(REG, FLD) \
-+	(REG##_##FLD##_MASK)
-+#define REG_FLD_NUM(REG, FLD, num) \
-+	FIELD_PREP(REG##_##FLD##_MASK, num)
-+#define REG_GET_FLD(REG, FLD, val) \
-+	FIELD_GET(REG##_##FLD##_MASK, val)
-+#define REG_CLR_FLD(REG, FLD, val) \
-+	((val) & ~(REG##_##FLD##_MASK))
-+#define REG_SET_FLD(REG, FLD, val) \
-+	((val) | (REG##_##FLD##_MASK))
-+#define REG_SET_FLD_NUM(REG, FLD, num, val) \
-+	(((val) & ~(REG##_##FLD##_MASK)) | FIELD_PREP(REG##_##FLD##_MASK, num))
-+#define REG_TEST_FLD(REG, FLD, val) \
-+	((REG##_##FLD##_MASK) == ((val) & (REG##_##FLD##_MASK)))
-+#define REG_TEST_FLD_NUM(REG, FLD, num, val) \
-+	((num) == FIELD_GET(REG##_##FLD##_MASK, val))
-+
-+#define REGB_POLL(reg, var, cond, timeout_us) \
-+	read_poll_timeout(REGB_RD32_SILENT, var, cond, REG_POLL_SLEEP_US, timeout_us, false, reg)
-+
-+#define REGV_POLL(reg, var, cond, timeout_us) \
-+	read_poll_timeout(REGV_RD32_SILENT, var, cond, REG_POLL_SLEEP_US, timeout_us, false, reg)
-+
-+#define REGB_POLL_FLD(reg, fld, val, timeout_us) \
-+({ \
-+	u32 var; \
-+	REGB_POLL(reg, var, (FIELD_GET(reg##_##fld##_MASK, var) == (val)), timeout_us); \
-+})
-+
-+#define REGV_POLL_FLD(reg, fld, val, timeout_us) \
-+({ \
-+	u32 var; \
-+	REGV_POLL(reg, var, (FIELD_GET(reg##_##fld##_MASK, var) == (val)), timeout_us); \
-+})
-+
-+static inline u32
-+ivpu_hw_reg_rd32(struct ivpu_device *vdev, void __iomem *base, u32 reg,
-+		 const char *name, const char *func)
++static int ivpu_mmu_pgtable_init(struct ivpu_device *vdev, struct ivpu_mmu_pgtable *pgtable)
 +{
-+	u32 val = readl(base + reg);
++	dma_addr_t pgd_dma;
++	u64 *pgd;
 +
-+	ivpu_dbg(vdev, REG, "%s RD: %s (0x%08x) => 0x%08x\n", func, name, reg, val);
-+	return val;
++	pgd = dma_alloc_wc(vdev->drm.dev, IVPU_MMU_PGTABLE_SIZE, &pgd_dma, GFP_KERNEL);
++	if (!pgd)
++		return -ENOMEM;
++
++	pgtable->pgd = pgd;
++	pgtable->pgd_dma = pgd_dma;
++
++	return 0;
 +}
 +
-+static inline u64
-+ivpu_hw_reg_rd64(struct ivpu_device *vdev, void __iomem *base, u32 reg,
-+		 const char *name, const char *func)
++static void ivpu_mmu_pgtable_free(struct ivpu_device *vdev, struct ivpu_mmu_pgtable *pgtable)
 +{
-+	u64 val = readq(base + reg);
++	int pgd_index, pmd_index;
 +
-+	ivpu_dbg(vdev, REG, "%s RD: %s (0x%08x) => 0x%016llx\n", func, name, reg, val);
-+	return val;
++	for (pgd_index = 0; pgd_index < IVPU_MMU_PGTABLE_ENTRIES; ++pgd_index) {
++		u64 **pmd_entries = pgtable->pgd_cpu_entries[pgd_index];
++		u64 *pmd = pgtable->pgd_entries[pgd_index];
++
++		if (!pmd_entries)
++			continue;
++
++		for (pmd_index = 0; pmd_index < IVPU_MMU_PGTABLE_ENTRIES; ++pmd_index) {
++			if (pmd_entries[pmd_index])
++				dma_free_wc(vdev->drm.dev, IVPU_MMU_PGTABLE_SIZE,
++					    pmd_entries[pmd_index],
++					    pmd[pmd_index] & ~IVPU_MMU_ENTRY_FLAGS_MASK);
++		}
++
++		kfree(pmd_entries);
++		dma_free_wc(vdev->drm.dev, IVPU_MMU_PGTABLE_SIZE, pgtable->pgd_entries[pgd_index],
++			    pgtable->pgd[pgd_index] & ~IVPU_MMU_ENTRY_FLAGS_MASK);
++	}
++
++	dma_free_wc(vdev->drm.dev, IVPU_MMU_PGTABLE_SIZE, pgtable->pgd,
++		    pgtable->pgd_dma & ~IVPU_MMU_ENTRY_FLAGS_MASK);
 +}
 +
-+static inline void
-+ivpu_hw_reg_wr32(struct ivpu_device *vdev, void __iomem *base, u32 reg, u32 val,
-+		 const char *name, const char *func)
++static u64*
++ivpu_mmu_ensure_pmd(struct ivpu_device *vdev, struct ivpu_mmu_pgtable *pgtable, u64 pgd_index)
 +{
-+	ivpu_dbg(vdev, REG, "%s WR: %s (0x%08x) <= 0x%08x\n", func, name, reg, val);
-+	writel(val, base + reg);
++	u64 **pmd_entries;
++	dma_addr_t pmd_dma;
++	u64 *pmd;
++
++	if (pgtable->pgd_entries[pgd_index])
++		return pgtable->pgd_entries[pgd_index];
++
++	pmd = dma_alloc_wc(vdev->drm.dev, IVPU_MMU_PGTABLE_SIZE, &pmd_dma, GFP_KERNEL);
++	if (!pmd)
++		return NULL;
++
++	pmd_entries = kzalloc(IVPU_MMU_PGTABLE_SIZE, GFP_KERNEL);
++	if (!pmd_entries)
++		goto err_free_pgd;
++
++	pgtable->pgd_entries[pgd_index] = pmd;
++	pgtable->pgd_cpu_entries[pgd_index] = pmd_entries;
++	pgtable->pgd[pgd_index] = pmd_dma | IVPU_MMU_ENTRY_VALID;
++
++	return pmd;
++
++err_free_pgd:
++	dma_free_wc(vdev->drm.dev, IVPU_MMU_PGTABLE_SIZE, pmd, pmd_dma);
++	return NULL;
 +}
 +
-+static inline void
-+ivpu_hw_reg_wr64(struct ivpu_device *vdev, void __iomem *base, u32 reg, u64 val,
-+		 const char *name, const char *func)
++static u64*
++ivpu_mmu_ensure_pte(struct ivpu_device *vdev, struct ivpu_mmu_pgtable *pgtable,
++		    int pgd_index, int pmd_index)
 +{
-+	ivpu_dbg(vdev, REG, "%s WR: %s (0x%08x) <= 0x%016llx\n", func, name, reg, val);
-+	writeq(val, base + reg);
++	dma_addr_t pte_dma;
++	u64 *pte;
++
++	if (pgtable->pgd_cpu_entries[pgd_index][pmd_index])
++		return pgtable->pgd_cpu_entries[pgd_index][pmd_index];
++
++	pte = dma_alloc_wc(vdev->drm.dev, IVPU_MMU_PGTABLE_SIZE, &pte_dma, GFP_KERNEL);
++	if (!pte)
++		return NULL;
++
++	pgtable->pgd_cpu_entries[pgd_index][pmd_index] = pte;
++	pgtable->pgd_entries[pgd_index][pmd_index] = pte_dma | IVPU_MMU_ENTRY_VALID;
++
++	return pte;
 +}
 +
-+static inline void
-+ivpu_hw_reg_wr32_index(struct ivpu_device *vdev, void __iomem *base, u32 reg,
-+		       u32 stride, u32 index, u32 val, const char *name,
-+		       const char *func)
++static int
++ivpu_mmu_context_map_page(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx,
++			  u64 vpu_addr, dma_addr_t dma_addr, int prot)
 +{
-+	reg += index * stride;
++	u64 *pte;
++	int pgd_index = FIELD_GET(IVPU_MMU_PGD_INDEX_MASK, vpu_addr);
++	int pmd_index = FIELD_GET(IVPU_MMU_PMD_INDEX_MASK, vpu_addr);
++	int pte_index = FIELD_GET(IVPU_MMU_PTE_INDEX_MASK, vpu_addr);
 +
-+	ivpu_dbg(vdev, REG, "%s WR: %s_%d (0x%08x) <= 0x%08x\n", func, name, index, reg, val);
-+	writel(val, base + reg);
++	/* Allocate PMD - second level page table if needed */
++	if (!ivpu_mmu_ensure_pmd(vdev, &ctx->pgtable, pgd_index))
++		return -ENOMEM;
++
++	/* Allocate PTE - third level page table if needed */
++	pte = ivpu_mmu_ensure_pte(vdev, &ctx->pgtable, pgd_index, pmd_index);
++	if (!pte)
++		return -ENOMEM;
++
++	/* Update PTE - third level page table with DMA address */
++	pte[pte_index] = dma_addr | prot;
++
++	return 0;
 +}
 +
-+#endif /* __IVPU_HW_REG_IO_H__ */
-diff --git a/include/uapi/drm/ivpu_drm.h b/include/uapi/drm/ivpu_drm.h
++static void ivpu_mmu_context_unmap_page(struct ivpu_mmu_context *ctx, u64 vpu_addr)
++{
++	int pgd_index = FIELD_GET(IVPU_MMU_PGD_INDEX_MASK, vpu_addr);
++	int pmd_index = FIELD_GET(IVPU_MMU_PMD_INDEX_MASK, vpu_addr);
++	int pte_index = FIELD_GET(IVPU_MMU_PTE_INDEX_MASK, vpu_addr);
++
++	/* Update PTE with dummy physical address and clear flags */
++	ctx->pgtable.pgd_cpu_entries[pgd_index][pmd_index][pte_index] = IVPU_MMU_ENTRY_INVALID;
++}
++
++static void
++ivpu_mmu_context_flush_page_tables(struct ivpu_mmu_context *ctx, u64 vpu_addr, size_t size)
++{
++	u64 end_addr = vpu_addr + size;
++	u64 *pgd = ctx->pgtable.pgd;
++
++	/* Align to PMD entry (2 MB) */
++	vpu_addr &= ~(IVPU_MMU_PTE_MAP_SIZE - 1);
++
++	while (vpu_addr < end_addr) {
++		int pgd_index = FIELD_GET(IVPU_MMU_PGD_INDEX_MASK, vpu_addr);
++		u64 pmd_end = (pgd_index + 1) * (u64)IVPU_MMU_PMD_MAP_SIZE;
++		u64 *pmd = ctx->pgtable.pgd_entries[pgd_index];
++
++		while (vpu_addr < end_addr && vpu_addr < pmd_end) {
++			int pmd_index = FIELD_GET(IVPU_MMU_PMD_INDEX_MASK, vpu_addr);
++			u64 *pte = ctx->pgtable.pgd_cpu_entries[pgd_index][pmd_index];
++
++			clflush_cache_range(pte, IVPU_MMU_PGTABLE_SIZE);
++			vpu_addr += IVPU_MMU_PTE_MAP_SIZE;
++		}
++		clflush_cache_range(pmd, IVPU_MMU_PGTABLE_SIZE);
++	}
++	clflush_cache_range(pgd, IVPU_MMU_PGTABLE_SIZE);
++}
++
++static int
++ivpu_mmu_context_map_pages(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx,
++			   u64 vpu_addr, dma_addr_t dma_addr, size_t size, int prot)
++{
++	while (size) {
++		int ret = ivpu_mmu_context_map_page(vdev, ctx, vpu_addr, dma_addr, prot);
++
++		if (ret)
++			return ret;
++
++		vpu_addr += IVPU_MMU_PAGE_SIZE;
++		dma_addr += IVPU_MMU_PAGE_SIZE;
++		size -= IVPU_MMU_PAGE_SIZE;
++	}
++
++	return 0;
++}
++
++static void ivpu_mmu_context_unmap_pages(struct ivpu_mmu_context *ctx, u64 vpu_addr, size_t size)
++{
++	while (size) {
++		ivpu_mmu_context_unmap_page(ctx, vpu_addr);
++		vpu_addr += IVPU_MMU_PAGE_SIZE;
++		size -= IVPU_MMU_PAGE_SIZE;
++	}
++}
++
++int
++ivpu_mmu_context_map_sgt(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx,
++			 u64 vpu_addr, struct sg_table *sgt,  bool llc_coherent)
++{
++	struct scatterlist *sg;
++	int prot;
++	int ret;
++	u64 i;
++
++	if (!IS_ALIGNED(vpu_addr, IVPU_MMU_PAGE_SIZE))
++		return -EINVAL;
++	/*
++	 * VPU is only 32 bit, but DMA engine is 38 bit
++	 * Ranges < 2 GB are reserved for VPU internal registers
++	 * Limit range to 8 GB
++	 */
++	if (vpu_addr < SZ_2G || vpu_addr > SZ_8G)
++		return -EINVAL;
++
++	prot = IVPU_MMU_ENTRY_MAPPED;
++	if (llc_coherent)
++		prot |= IVPU_MMU_ENTRY_FLAG_LLC_COHERENT;
++
++	mutex_lock(&ctx->lock);
++
++	for_each_sgtable_dma_sg(sgt, sg, i) {
++		u64 dma_addr = sg_dma_address(sg) - sg->offset;
++		size_t size = sg_dma_len(sg) + sg->offset;
++
++		ret = ivpu_mmu_context_map_pages(vdev, ctx, vpu_addr, dma_addr, size, prot);
++		if (ret) {
++			ivpu_err(vdev, "Failed to map context pages\n");
++			mutex_unlock(&ctx->lock);
++			return ret;
++		}
++		ivpu_mmu_context_flush_page_tables(ctx, vpu_addr, size);
++		vpu_addr += size;
++	}
++
++	mutex_unlock(&ctx->lock);
++
++	ret = ivpu_mmu_invalidate_tlb(vdev, ctx->id);
++	if (ret)
++		ivpu_err(vdev, "Failed to invalidate TLB for ctx %u: %d\n", ctx->id, ret);
++	return ret;
++}
++
++void
++ivpu_mmu_context_unmap_sgt(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx,
++			   u64 vpu_addr, struct sg_table *sgt)
++{
++	struct scatterlist *sg;
++	int ret;
++	u64 i;
++
++	if (!IS_ALIGNED(vpu_addr, IVPU_MMU_PAGE_SIZE))
++		ivpu_warn(vdev, "Unaligned vpu_addr: 0x%llx\n", vpu_addr);
++
++	mutex_lock(&ctx->lock);
++
++	for_each_sgtable_dma_sg(sgt, sg, i) {
++		size_t size = sg_dma_len(sg) + sg->offset;
++
++		ivpu_mmu_context_unmap_pages(ctx, vpu_addr, size);
++		ivpu_mmu_context_flush_page_tables(ctx, vpu_addr, size);
++		vpu_addr += size;
++	}
++
++	mutex_unlock(&ctx->lock);
++
++	ret = ivpu_mmu_invalidate_tlb(vdev, ctx->id);
++	if (ret)
++		ivpu_warn(vdev, "Failed to invalidate TLB for ctx %u: %d\n", ctx->id, ret);
++}
++
++int
++ivpu_mmu_context_insert_node_locked(struct ivpu_mmu_context *ctx,
++				    const struct ivpu_addr_range *range,
++				    u64 size, struct drm_mm_node *node)
++{
++	lockdep_assert_held(&ctx->lock);
++
++	return drm_mm_insert_node_in_range(&ctx->mm, node, size, IVPU_MMU_PAGE_SIZE,
++					  0, range->start, range->end, DRM_MM_INSERT_BEST);
++}
++
++void
++ivpu_mmu_context_remove_node_locked(struct ivpu_mmu_context *ctx, struct drm_mm_node *node)
++{
++	lockdep_assert_held(&ctx->lock);
++
++	drm_mm_remove_node(node);
++}
++
++static int
++ivpu_mmu_context_init(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx, u32 context_id)
++{
++	u64 start, end;
++	int ret;
++
++	mutex_init(&ctx->lock);
++	INIT_LIST_HEAD(&ctx->bo_list);
++
++	ret = ivpu_mmu_pgtable_init(vdev, &ctx->pgtable);
++	if (ret)
++		return ret;
++
++	if (!context_id) {
++		start = vdev->hw->ranges.global_low.start;
++		end = vdev->hw->ranges.global_high.end;
++	} else {
++		start = vdev->hw->ranges.user_low.start;
++		end = vdev->hw->ranges.user_high.end;
++	}
++
++	drm_mm_init(&ctx->mm, start, end - start);
++	ctx->id = context_id;
++
++	return 0;
++}
++
++static void ivpu_mmu_context_fini(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx)
++{
++	drm_WARN_ON(&vdev->drm, !ctx->pgtable.pgd);
++
++	mutex_destroy(&ctx->lock);
++	ivpu_mmu_pgtable_free(vdev, &ctx->pgtable);
++	drm_mm_takedown(&ctx->mm);
++}
++
++int ivpu_mmu_global_context_init(struct ivpu_device *vdev)
++{
++	return ivpu_mmu_context_init(vdev, &vdev->gctx, IVPU_GLOBAL_CONTEXT_MMU_SSID);
++}
++
++void ivpu_mmu_global_context_fini(struct ivpu_device *vdev)
++{
++	return ivpu_mmu_context_fini(vdev, &vdev->gctx);
++}
++
++int ivpu_mmu_user_context_init(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx, u32 ctx_id)
++{
++	int ret;
++
++	drm_WARN_ON(&vdev->drm, !ctx_id);
++
++	ret = ivpu_mmu_context_init(vdev, ctx, ctx_id);
++	if (ret) {
++		ivpu_err(vdev, "Failed to initialize context: %d\n", ret);
++		return ret;
++	}
++
++	ret = ivpu_mmu_set_pgtable(vdev, ctx_id, &ctx->pgtable);
++	if (ret) {
++		ivpu_err(vdev, "Failed to set page table: %d\n", ret);
++		goto err_context_fini;
++	}
++
++	return 0;
++
++err_context_fini:
++	ivpu_mmu_context_fini(vdev, ctx);
++	return ret;
++}
++
++void ivpu_mmu_user_context_fini(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx)
++{
++	drm_WARN_ON(&vdev->drm, !ctx->id);
++
++	ivpu_mmu_clear_pgtable(vdev, ctx->id);
++	ivpu_mmu_context_fini(vdev, ctx);
++}
+diff --git a/drivers/accel/ivpu/ivpu_mmu_context.h b/drivers/accel/ivpu/ivpu_mmu_context.h
 new file mode 100644
-index 000000000000..922cbf30ce34
+index 000000000000..a358de65a30d
 --- /dev/null
-+++ b/include/uapi/drm/ivpu_drm.h
-@@ -0,0 +1,95 @@
-+/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
++++ b/drivers/accel/ivpu/ivpu_mmu_context.h
+@@ -0,0 +1,49 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
 +/*
 + * Copyright (C) 2020-2022 Intel Corporation
 + */
 +
-+#ifndef __UAPI_IVPU_DRM_H__
-+#define __UAPI_IVPU_DRM_H__
++#ifndef __IVPU_MMU_CONTEXT_H__
++#define __IVPU_MMU_CONTEXT_H__
 +
-+#include "drm.h"
++#include <drm/drm_mm.h>
 +
-+#if defined(__cplusplus)
-+extern "C" {
-+#endif
++struct ivpu_device;
++struct ivpu_file_priv;
++struct ivpu_addr_range;
 +
-+#define DRM_IVPU_DRIVER_MAJOR 1
-+#define DRM_IVPU_DRIVER_MINOR 0
++#define IVPU_MMU_PGTABLE_ENTRIES	512
 +
-+#define DRM_IVPU_GET_PARAM		  0x00
-+#define DRM_IVPU_SET_PARAM		  0x01
-+
-+#define DRM_IOCTL_IVPU_GET_PARAM                                               \
-+	DRM_IOWR(DRM_COMMAND_BASE + DRM_IVPU_GET_PARAM, struct drm_ivpu_param)
-+
-+#define DRM_IOCTL_IVPU_SET_PARAM                                               \
-+	DRM_IOW(DRM_COMMAND_BASE + DRM_IVPU_SET_PARAM, struct drm_ivpu_param)
-+
-+/**
-+ * DOC: contexts
-+ *
-+ * VPU contexts have private virtual address space, job queues and priority.
-+ * Each context is identified by an unique ID. Context is created on open().
-+ */
-+
-+#define DRM_IVPU_PARAM_DEVICE_ID	    0
-+#define DRM_IVPU_PARAM_DEVICE_REVISION	    1
-+#define DRM_IVPU_PARAM_PLATFORM_TYPE	    2
-+#define DRM_IVPU_PARAM_CORE_CLOCK_RATE	    3
-+#define DRM_IVPU_PARAM_NUM_CONTEXTS	    4
-+#define DRM_IVPU_PARAM_CONTEXT_BASE_ADDRESS 5
-+#define DRM_IVPU_PARAM_CONTEXT_PRIORITY	    6
-+
-+#define DRM_IVPU_PLATFORM_TYPE_SILICON	    0
-+
-+#define DRM_IVPU_CONTEXT_PRIORITY_IDLE	    0
-+#define DRM_IVPU_CONTEXT_PRIORITY_NORMAL    1
-+#define DRM_IVPU_CONTEXT_PRIORITY_FOCUS	    2
-+#define DRM_IVPU_CONTEXT_PRIORITY_REALTIME  3
-+
-+/**
-+ * struct drm_ivpu_param - Get/Set VPU parameters
-+ */
-+struct drm_ivpu_param {
-+	/**
-+	 * @param:
-+	 *
-+	 * Supported params:
-+	 *
-+	 * %DRM_IVPU_PARAM_DEVICE_ID:
-+	 * PCI Device ID of the VPU device (read-only)
-+	 *
-+	 * %DRM_IVPU_PARAM_DEVICE_REVISION:
-+	 * VPU device revision (read-only)
-+	 *
-+	 * %DRM_IVPU_PARAM_PLATFORM_TYPE:
-+	 * Returns %DRM_IVPU_PLATFORM_TYPE_SILICON on real hardware or device specific
-+	 * platform type when executing on a simulator or emulator (read-only)
-+	 *
-+	 * %DRM_IVPU_PARAM_CORE_CLOCK_RATE:
-+	 * Current PLL frequency (read-only)
-+	 *
-+	 * %DRM_IVPU_PARAM_NUM_CONTEXTS:
-+	 * Maximum number of simultaneously existing contexts (read-only)
-+	 *
-+	 * %DRM_IVPU_PARAM_CONTEXT_BASE_ADDRESS:
-+	 * Lowest VPU virtual address available in the current context (read-only)
-+	 *
-+	 * %DRM_IVPU_PARAM_CONTEXT_PRIORITY:
-+	 * Value of current context scheduling priority (read-write).
-+	 * See DRM_IVPU_CONTEXT_PRIORITY_* for possible values.
-+	 *
-+	 */
-+	__u32 param;
-+
-+	/** @index: Index for params that have multiple instances */
-+	__u32 index;
-+
-+	/** @value: Param value */
-+	__u64 value;
++struct ivpu_mmu_pgtable {
++	u64             **pgd_cpu_entries[IVPU_MMU_PGTABLE_ENTRIES];
++	u64		*pgd_entries[IVPU_MMU_PGTABLE_ENTRIES];
++	u64		*pgd;
++	dma_addr_t	pgd_dma;
 +};
 +
-+#if defined(__cplusplus)
-+}
-+#endif
++struct ivpu_mmu_context {
++	struct mutex lock; /* protects: mm, pgtable, bo_list */
++	struct drm_mm mm;
++	struct ivpu_mmu_pgtable pgtable;
++	struct list_head bo_list;
++	u32 id;
++};
 +
-+#endif /* __UAPI_IVPU_DRM_H__ */
++int ivpu_mmu_global_context_init(struct ivpu_device *vdev);
++void ivpu_mmu_global_context_fini(struct ivpu_device *vdev);
++
++int ivpu_mmu_user_context_init(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx, u32 ctx_id);
++void ivpu_mmu_user_context_fini(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx);
++
++int ivpu_mmu_context_insert_node_locked(struct ivpu_mmu_context *ctx,
++					const struct ivpu_addr_range *range,
++					u64 size, struct drm_mm_node *node);
++void ivpu_mmu_context_remove_node_locked(struct ivpu_mmu_context *ctx,
++					 struct drm_mm_node *node);
++
++int ivpu_mmu_context_map_sgt(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx,
++			     u64 vpu_addr, struct sg_table *sgt, bool llc_coherent);
++void ivpu_mmu_context_unmap_sgt(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx,
++				u64 vpu_addr, struct sg_table *sgt);
++
++#endif /* __IVPU_MMU_CONTEXT_H__ */
+diff --git a/include/uapi/drm/ivpu_drm.h b/include/uapi/drm/ivpu_drm.h
+index 922cbf30ce34..fc97ce215e79 100644
+--- a/include/uapi/drm/ivpu_drm.h
++++ b/include/uapi/drm/ivpu_drm.h
+@@ -38,6 +38,7 @@ extern "C" {
+ #define DRM_IVPU_PARAM_NUM_CONTEXTS	    4
+ #define DRM_IVPU_PARAM_CONTEXT_BASE_ADDRESS 5
+ #define DRM_IVPU_PARAM_CONTEXT_PRIORITY	    6
++#define DRM_IVPU_PARAM_CONTEXT_ID	    7
+ 
+ #define DRM_IVPU_PLATFORM_TYPE_SILICON	    0
+ 
+@@ -78,6 +79,9 @@ struct drm_ivpu_param {
+ 	 * Value of current context scheduling priority (read-write).
+ 	 * See DRM_IVPU_CONTEXT_PRIORITY_* for possible values.
+ 	 *
++	 * %DRM_IVPU_PARAM_CONTEXT_ID:
++	 * Current context ID, always greater than 0 (read-only)
++	 *
+ 	 */
+ 	__u32 param;
+ 
 -- 
 2.34.1
 
