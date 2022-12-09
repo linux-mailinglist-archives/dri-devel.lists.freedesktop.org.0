@@ -1,53 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB44C648DE4
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Dec 2022 10:21:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BCFE648DE5
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Dec 2022 10:21:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 504AA10E0A8;
-	Sat, 10 Dec 2022 09:20:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0A7610E0A9;
+	Sat, 10 Dec 2022 09:21:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 908 seconds by postgrey-1.36 at gabe;
- Fri, 09 Dec 2022 11:06:36 UTC
 Received: from sender-of-o50.zoho.in (sender-of-o50.zoho.in [103.117.158.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 598FC10E51C
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Dec 2022 11:06:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1670583082; cv=none; d=zohomail.in; s=zohoarc; 
- b=U5CMJ7vXtiHxe8gnQAdT3haARLAMYfnF3zixV7ddlXZnbZ/VEQz/PcwsPWGZA/0WvdhrkmhSmHgSD9M1Kdk82T/R7r2PUEO+UKCUXgwutX7OtlvIySqB5Ysdx6jGY36RGXYNbA1sjYck99OMQVt7rd3VbQQRz67Si+hnXT5HUTs=
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4D6610E53B
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Dec 2022 15:22:26 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1670599341; cv=none; d=zohomail.in; s=zohoarc; 
+ b=cxmKipMp6SYO/LcHtw1yx8o9hDdhtm94Ju1EQ6Ss/yZywEWpZduCBV9dfx8UzUy2wgQFRaRtnD9CCV+K80AOnLJamGQ2vzPzk1GbPtBaEv0EeOPNxProTCXQLim0koxDmLxX90DhDo8nGX1WAazkCncOajlEC3IWxGp02ngaqB0=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
- s=zohoarc; t=1670583082;
+ s=zohoarc; t=1670599341;
  h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=n2OIW6Zki7hh9PQlGDE45HtL8GBarX6yLnXDU1h5u3g=; 
- b=YB7jcr/i+pxfCyYsD8io2t1p86RbwrjguY9BTtCTZmB3nPD4Oj/dWOFGQD8t6qdWaROfAVisq35cOzLuvO0UQjmqr1JBfIEEPxR8y6yzxLZQ/d5YVFhkA0N0R3K6aCPB26B63GAAC5xK7nX0hRdxTEr2xokXvWMnxOHp63TVSss=
+ bh=6JPEYvBFFf3frgLUC1Ir8L8ve0YtqwwoZbm6TNaJ1fI=; 
+ b=dMqA55gQ9O/7w/4TlhmIZqMI3Ci5TlNtthgPBxJnk9QiZWStc8wwB9y0/m8ql6+U3gbgB0KenQjxkKQxbKVEzn4AYAmREQX5vBxMi8iup/7EdST3MX+eJMsM5+nQY/DKGiEpM8jljNvWPBbY2HeQB6y5+sT3EgCv7PA//AnUPHs=
 ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
  spf=pass  smtp.mailfrom=code@siddh.me;
  dmarc=pass header.from=<code@siddh.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1670583082; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1670599341; 
  s=zmail; d=siddh.me; i=code@siddh.me;
- h=Message-ID:Date:Date:MIME-Version:To:To:Cc:Cc:References:Subject:Subject:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=n2OIW6Zki7hh9PQlGDE45HtL8GBarX6yLnXDU1h5u3g=;
- b=TpsbXgPHROlcGN79JcKP8KAYVhOgMipzrZmb1RJUmrxQ7T2hCh+f5pRLXn/7PFQv
- IIYMHT1CYAjUs57ZQbnfTXp3a8YVDeVbkDF450R4j979Om80/gbdpdWuLaw9uXgDRyP
- fQpV9tojrTpi+b1x3sf7ipjlvqNVQOyMIcs240to=
-Received: from [192.168.1.9] (110.226.31.37 [110.226.31.37]) by mx.zoho.in
- with SMTPS id 1670583081876813.6343775119691;
- Fri, 9 Dec 2022 16:21:21 +0530 (IST)
-Message-ID: <524d919d-0197-2a81-9165-d0d6feb607fe@siddh.me>
-Date: Fri, 9 Dec 2022 16:21:20 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-To: syzbot+6f7fe2dbc479dca0ed17@syzkaller.appspotmail.com
-References: <000000000000cad06305d2ea0750@google.com>
-Subject: Re: [syzbot] WARNING in drm_wait_one_vblank
-Content-Language: en-US, en-GB, hi-IN
+ h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=6JPEYvBFFf3frgLUC1Ir8L8ve0YtqwwoZbm6TNaJ1fI=;
+ b=FaLFXGicv7TwQVH+oouXgYrIkpnBsOJEcZjE3nof1/IvXehEnxxILiA1AnoxpyV4
+ hctCv30YzcsT3mj2zJcc/UOkdv1/FphH3MFkDBOU7Gf4D6fA90gi4F68OwJvSRkk4ue
+ QdQCJpRTbOcgZzJR9nDy+REjln8TmonL9SEPIIK0=
+Received: from mail.zoho.in by mx.zoho.in
+ with SMTP id 1670599330020835.4880674962899;
+ Fri, 9 Dec 2022 20:52:10 +0530 (IST)
+Date: Fri, 09 Dec 2022 20:52:10 +0530
 From: Siddh Raman Pant <code@siddh.me>
-In-Reply-To: <000000000000cad06305d2ea0750@google.com>
-Content-Type: text/plain; charset=UTF-8
+To: "syzbot" <syzbot+6f7fe2dbc479dca0ed17@syzkaller.appspotmail.com>
+Message-ID: <184f77ac8d0.791edf3b143932.142182656112496550@siddh.me>
+In-Reply-To: <0000000000005752c105ef640d84@google.com>
+References: <0000000000005752c105ef640d84@google.com>
+Subject: Re: [syzbot] WARNING in drm_wait_one_vblank
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
 X-Mailman-Approved-At: Sat, 10 Dec 2022 09:20:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,11 +58,13 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Test the reproducer on latest.
-
-#syz test https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+On Fri, 09 Dec 2022 17:41:23 +0530, syzbot wrote
+> syzbot has tested the proposed patch but the reproducer is still triggering an issue:
+I keep getting "ERROR: Out of memory at tomoyo_realpath_from_path." and
+cannot reproduce the crash...
