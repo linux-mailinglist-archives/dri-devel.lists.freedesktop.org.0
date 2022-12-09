@@ -1,73 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89BA764858D
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Dec 2022 16:29:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 439C46485E3
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Dec 2022 16:49:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B904910E553;
-	Fri,  9 Dec 2022 15:29:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 265C910E556;
+	Fri,  9 Dec 2022 15:49:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
- [IPv6:2607:f8b0:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 573DA10E553
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Dec 2022 15:29:45 +0000 (UTC)
-Received: by mail-pl1-x62e.google.com with SMTP id t2so2234641ply.2
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Dec 2022 07:29:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xNNQvL6gmHJgo6OwoezUZSB4ceELF3kYUZfEbLlRThk=;
- b=UMsZ3eNi6sRQPXBTi2kiU/rR25gBozLv89OKl8jLxQ7mPZiMhiLehdkjROAqNMPYFK
- 2SGAbFjUmvkHClPfJOp7pbc4UBx0m3HDotebjKF4f4V8IRPqLCoqBJu1bch9iitAw/4U
- Pp1ivi3v2b83VeO747qREcLi6vCZYDPIfOvLE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=xNNQvL6gmHJgo6OwoezUZSB4ceELF3kYUZfEbLlRThk=;
- b=CwDs64qLwLBQ9Wcn5Yz0zRHws236+y8k05Uq+zYNWKXVBQ+Jc9X+xdO8KEXojRTzZ3
- /ZyGYdZT1Qbh0qE83sOD/QojSh54Y9DG71H28q/oSNlq2EVQRJA31uByy7uDd+SdA6Gv
- 3N6KjJuc00MWZQe2B7H5zZEWJrVHlpXVMPUj9MEVQ3ixXwLOfywu9OCjsXVnNf2fHjhJ
- Kmpkwi1/i/gqagytqvn2ISQ3t7mvGzQiRgIRAyV0zNdfyLvyDPaloT+aWExBwgMjWEhO
- nPGqZmlarVIIYhlZVGVo+N7AxkPQWnUT/8k/ypvS+WP/Ux0p6moV5Kz49m5zyqpFDlX3
- VAEg==
-X-Gm-Message-State: ANoB5pk6ISDVJnhJgtRB9ltpGn4p9JQktbjMXWM97mkQTk8wvRujj5dG
- fNRYiPXNVDEIAB/UiaG8s4j52w==
-X-Google-Smtp-Source: AA0mqf51MIJwtIR7uEW8WMm8FAaHgBA1nquudNxkRWq2jrYhralxkuwSBPCCGGTIDNPiZWq5m6nTXg==
-X-Received: by 2002:a17:902:a60c:b0:189:f990:24af with SMTP id
- u12-20020a170902a60c00b00189f99024afmr5692194plq.20.1670599784952; 
- Fri, 09 Dec 2022 07:29:44 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:c00a:a809:6ba1:bbda:c542:ba0b])
- by smtp.gmail.com with ESMTPSA id
- x14-20020a170902ec8e00b00188c5f0f9e9sm1477587plg.199.2022.12.09.07.29.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Dec 2022 07:29:44 -0800 (PST)
-From: Jagan Teki <jagan@amarulasolutions.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Fancy Fang <chen.fang@nxp.com>, Tim Harvey <tharvey@gateworks.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Adam Ford <aford173@gmail.com>, Neil Armstrong <narmstrong@linaro.org>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- Marek Vasut <marex@denx.de>
-Subject: [PATCH v9 18/18] drm: bridge: samsung-dsim: Add i.MX8M Plus support
-Date: Fri,  9 Dec 2022 20:53:43 +0530
-Message-Id: <20221209152343.180139-19-jagan@amarulasolutions.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221209152343.180139-1-jagan@amarulasolutions.com>
-References: <20221209152343.180139-1-jagan@amarulasolutions.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABCE110E556;
+ Fri,  9 Dec 2022 15:49:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1670600957; x=1702136957;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=P6mxkpgd/Y8Bq72Ach78IUjaBu+/BBrZjDnHgxQR2ks=;
+ b=EKd59fFs+WhI+Zt7IcOQEX81cwzhu+8EPAV5X8BRKyMOhlpUUIHW+tMH
+ q6wORFIo/+5JTsLcGLdTXDDSgyl4GvFsBdw9LvczGBw0OtDXlF75crvBD
+ f6cRq0Si/afMybQssVvuoS0GsBEq8Hx4gt34VsAv5rz9BS0Po9xZbooQT
+ FrTq/Tfh58jhLkzymBKZkPyPvPbEYVQLgjj3tnVbhVPYu8nWpGGEeAvVe
+ cN+fD7BBMfFBfsOukC38PkCkDFPEMUJEMycoA78mjD+GJ+DJD7jtD2r+n
+ guDf6ri8ufEI/iRZCcw6v1VOUncDkB8K6bjPVIftk9loFh31uuhP3vGKs Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10556"; a="315119782"
+X-IronPort-AV: E=Sophos;i="5.96,230,1665471600"; d="scan'208";a="315119782"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Dec 2022 07:49:17 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10556"; a="647433321"
+X-IronPort-AV: E=Sophos;i="5.96,230,1665471600"; d="scan'208";a="647433321"
+Received: from lab-ah.igk.intel.com ([10.91.215.196])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Dec 2022 07:49:13 -0800
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+To: linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/5] linux/minmax.h: add non-atomic version of xchg
+Date: Fri,  9 Dec 2022 16:48:39 +0100
+Message-Id: <20221209154843.4162814-1-andrzej.hajda@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
+ 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,121 +57,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
- dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- linux-arm-kernel@lists.infradead.org, Jagan Teki <jagan@amarulasolutions.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Arnd Bergmann <arnd@arndb.de>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add extras to support i.MX8M Plus. The main change is the removal of
-HS/VS/DE signal inversion in the LCDIFv3-DSIM glue logic, otherwise
-the implementation of this IP in i.MX8M Plus is very much compatible
-with the i.MX8M Mini/Nano one.
+The pattern of setting variable with new value and returning old
+one is very common in kernel. Usually atomicity of the operation
+is not required, so xchg seems to be suboptimal and confusing in
+such cases. Since name xchg is already in use and __xchg is used
+in architecture code, proposition is to name the macro exchange.
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
 ---
-Changes for v9:
-- added im8mp in DSIM_STATE_REINITIALIZED check
+Hi,
 
- drivers/gpu/drm/bridge/samsung-dsim.c | 26 +++++++++++++++++++++++++-
- include/drm/bridge/samsung-dsim.h     |  1 +
- 2 files changed, 26 insertions(+), 1 deletion(-)
+I hope there will be place for such tiny helper in kernel.
+Quick cocci analyze shows there is probably few thousands places
+where it could be used, of course I do not intend to do it :).
 
-diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index 7ff10308a7ad..6e9ad955ebd3 100644
---- a/drivers/gpu/drm/bridge/samsung-dsim.c
-+++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -479,6 +479,7 @@ samsung_dsim_types[SAMSUNG_DSIM_TYPE_COUNT] = {
- 	[SAMSUNG_DSIM_TYPE_EXYNOS5422] = &exynos5422_dsi_driver_data,
- 	[SAMSUNG_DSIM_TYPE_EXYNOS5433] = &exynos5433_dsi_driver_data,
- 	[SAMSUNG_DSIM_TYPE_IMX8MM] = &imx8mm_dsi_driver_data,
-+	[SAMSUNG_DSIM_TYPE_IMX8MP] = &imx8mm_dsi_driver_data,
- };
+I was not sure where to put this macro, I hope near swap definition
+is the most suitable place.
+
+Moreover sorry if to/cc is not correct - get_maintainers.pl was
+more confused than me, to who address this patch.
+
+Regards
+Andrzej
+---
+ include/linux/minmax.h | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/include/linux/minmax.h b/include/linux/minmax.h
+index 5433c08fcc6858..17d48769203bd5 100644
+--- a/include/linux/minmax.h
++++ b/include/linux/minmax.h
+@@ -144,4 +144,18 @@
+ #define swap(a, b) \
+ 	do { typeof(a) __tmp = (a); (a) = (b); (b) = __tmp; } while (0)
  
- static inline struct samsung_dsim *host_to_dsi(struct mipi_dsi_host *h)
-@@ -1305,7 +1306,8 @@ static int samsung_dsim_init(struct samsung_dsim *dsi, unsigned int flag)
- 	 * This host reinitialization is handled via DSIM_STATE_REINITIALIZED
- 	 * flag and triggers from host transfer. Do this exclusively for Exynos.
- 	 */
--	if ((dsi->plat_data->hw_type == SAMSUNG_DSIM_TYPE_IMX8MM) &&
-+	if ((dsi->plat_data->hw_type == SAMSUNG_DSIM_TYPE_IMX8MM ||
-+	    dsi->plat_data->hw_type == SAMSUNG_DSIM_TYPE_IMX8MP) &&
- 	    dsi->state & DSIM_STATE_REINITIALIZED)
- 		return 0;
- 
-@@ -1468,10 +1470,17 @@ static int samsung_dsim_atomic_check(struct drm_bridge *bridge,
- 	 * 13.6.2.7.2 RGB interface
- 	 * both claim "Vsync, Hsync, and VDEN are active high signals.", the
- 	 * LCDIF must generate inverted HS/VS/DE signals, i.e. active LOW.
-+	 *
-+	 * The i.MX8M Plus glue logic between LCDIFv3 and DSIM does not
-+	 * implement the same behavior, therefore LCDIFv3 must generate
-+	 * HS/VS/DE signals active HIGH.
- 	 */
- 	if (dsi->plat_data->hw_type == SAMSUNG_DSIM_TYPE_IMX8MM) {
- 		adjusted_mode->flags |= (DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC);
- 		adjusted_mode->flags &= ~(DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
-+	} else if (dsi->plat_data->hw_type == SAMSUNG_DSIM_TYPE_IMX8MP) {
-+		adjusted_mode->flags &= ~(DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC);
-+		adjusted_mode->flags |= (DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
- 	}
- 
- 	return 0;
-@@ -1689,6 +1698,10 @@ static const struct samsung_dsim_host_ops samsung_dsim_generic_host_ops = {
- 	.unregister_host = samsung_dsim_unregister_host,
- };
- 
-+static const struct drm_bridge_timings samsung_dsim_bridge_timings_de_high = {
-+	.input_bus_flags = DRM_BUS_FLAG_DE_HIGH,
-+};
++/**
++ * exchange - set variable pointed by @ptr to @val, return old value
++ * @ptr: pointer to affected variable
++ * @val: value to be written
++ *
++ * This is non-atomic variant of xchg.
++ */
++#define exchange(ptr, val) ({		\
++	typeof(ptr) __ptr = ptr;	\
++	typeof(*__ptr) __t = *__ptr;	\
++	*(__ptr) = (val);		\
++	__t;				\
++})
 +
- static const struct drm_bridge_timings samsung_dsim_bridge_timings_de_low = {
- 	.input_bus_flags = DRM_BUS_FLAG_DE_LOW,
- };
-@@ -1778,6 +1791,8 @@ int samsung_dsim_probe(struct platform_device *pdev)
- 	/* DE_LOW: i.MX8M Mini/Nano LCDIF-DSIM glue logic inverts HS/VS/DE */
- 	if (dsi->plat_data->hw_type == SAMSUNG_DSIM_TYPE_IMX8MM)
- 		dsi->bridge.timings = &samsung_dsim_bridge_timings_de_low;
-+	else
-+		dsi->bridge.timings = &samsung_dsim_bridge_timings_de_high;
- 
- 	if (dsi->plat_data->host_ops && dsi->plat_data->host_ops->register_host)
- 		ret = dsi->plat_data->host_ops->register_host(dsi);
-@@ -1883,11 +1898,20 @@ static const struct samsung_dsim_plat_data samsung_dsim_imx8mm_pdata = {
- 	.host_ops = &samsung_dsim_generic_host_ops,
- };
- 
-+static const struct samsung_dsim_plat_data samsung_dsim_imx8mp_pdata = {
-+	.hw_type = SAMSUNG_DSIM_TYPE_IMX8MP,
-+	.host_ops = &samsung_dsim_generic_host_ops,
-+};
-+
- static const struct of_device_id samsung_dsim_of_match[] = {
- 	{
- 		.compatible = "fsl,imx8mm-mipi-dsim",
- 		.data = &samsung_dsim_imx8mm_pdata,
- 	},
-+	{
-+		.compatible = "fsl,imx8mp-mipi-dsim",
-+		.data = &samsung_dsim_imx8mp_pdata,
-+	},
- 	{ /* sentinel. */ }
- };
- MODULE_DEVICE_TABLE(of, samsung_dsim_of_match);
-diff --git a/include/drm/bridge/samsung-dsim.h b/include/drm/bridge/samsung-dsim.h
-index df3d030daec6..3789f9dbb238 100644
---- a/include/drm/bridge/samsung-dsim.h
-+++ b/include/drm/bridge/samsung-dsim.h
-@@ -28,6 +28,7 @@ enum samsung_dsim_type {
- 	SAMSUNG_DSIM_TYPE_EXYNOS5422,
- 	SAMSUNG_DSIM_TYPE_EXYNOS5433,
- 	SAMSUNG_DSIM_TYPE_IMX8MM,
-+	SAMSUNG_DSIM_TYPE_IMX8MP,
- 	SAMSUNG_DSIM_TYPE_COUNT,
- };
- 
+ #endif	/* _LINUX_MINMAX_H */
 -- 
-2.25.1
+2.34.1
 
