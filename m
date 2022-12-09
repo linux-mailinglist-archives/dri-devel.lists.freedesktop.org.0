@@ -2,71 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBFDC648031
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Dec 2022 10:36:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CFE1648056
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Dec 2022 10:45:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6BD210E50A;
-	Fri,  9 Dec 2022 09:36:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F04E810E50C;
+	Fri,  9 Dec 2022 09:45:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5F4010E50A
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Dec 2022 09:36:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1670578583; x=1702114583;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=H4oNmNKbd0KtTR7A0x/ozm1FrpgdZJCRB1IuoQDPWys=;
- b=kDC3oVy/PtqEsIp8voV7xStPUvhRohQxV2khjMr2Kn+Hzf3I7qrHPXmN
- eZr4UO6xX9o+jH+y4Z6F3oCvhlW6kl08XmqOfd6IdXIzSuuYjqtBR15jH
- Ug3yAFVEQFKez6UKHukRRHjhyu0BHOQm5jJs+7WXnCbTbsx6VHr6qechL
- 9zhs/lB0wlJYNrd0lK9VEj/VnSanm27KxSJ7holHedcgiJXAadAYgBISB
- +wYKFHUuf1AjH+id+jhqvTV4Lvi7+RRHhTpaBvzSH6ARGLoZ1/mCfQh9/
- epwSTUCAznc07KtCfKZ9LbEK+wnrmXGQDeeggYoIWcnRxSw9jHwWCt/wK Q==;
-X-IronPort-AV: E=Sophos;i="5.96,230,1665439200"; d="scan'208";a="27860072"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
- by mx1-pgp.tq-group.com with ESMTP; 09 Dec 2022 10:36:20 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
- by tq-pgp-pr1.tq-net.de (PGP Universal service);
- Fri, 09 Dec 2022 10:36:21 +0100
-X-PGP-Universal: processed;
- by tq-pgp-pr1.tq-net.de on Fri, 09 Dec 2022 10:36:21 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1670578580; x=1702114580;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=H4oNmNKbd0KtTR7A0x/ozm1FrpgdZJCRB1IuoQDPWys=;
- b=RUyrvxTDjAcZzZBRJXE495sf7UqgYpt+oPBD+Z6fBBjzbnKJBonio42P
- n65aJUPpDTi3Bq57AsPcOwLvZDKv6y6hvwcAFmXV/J5QZlVzfysiFiW7G
- WoF32JldgIKstvvV6RKNMc9hjpV0QdKjTqGdK/WGU1nfzezOnTLh5+Lhb
- T7LlMSpk6AwCQxXeECN/UPLNr/NYoWWk2BlmeiI/SussluLvWcMqXkHwe
- wyD8k1orGLEpAl9PD7SssBoiEsNeY3ccTfUHl6fhh7l6jVPyW7Cx/NVxR
- +2EiQ9jdVje2QcMJyk/qfgTmpXN0k+bhRSDC+YEtrNpJ+YdkcP48Fn9Zf g==;
-X-IronPort-AV: E=Sophos;i="5.96,230,1665439200"; d="scan'208";a="27860071"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 09 Dec 2022 10:36:20 +0100
-Received: from steina-w.localnet (unknown [10.123.53.21])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1D6410E50C
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Dec 2022 09:45:06 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 6ABB7280071;
- Fri,  9 Dec 2022 10:36:20 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 1/2] dt-bindings: drm/bridge: ti-sn65dsi83: Add enable
- delay property
-Date: Fri, 09 Dec 2022 10:36:16 +0100
-Message-ID: <3394586.QJadu78ljV@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <e1844fdc-c640-747d-e38f-400669f2a1a8@linaro.org>
-References: <20221209083339.3780776-1-alexander.stein@ew.tq-group.com>
- <7463917.EvYhyI6sBW@steina-w>
- <e1844fdc-c640-747d-e38f-400669f2a1a8@linaro.org>
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 0A1A4337BA;
+ Fri,  9 Dec 2022 09:45:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1670579105; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=6ywFrAR8XWLIwqbGvV0ueQZv5HYQt0w0GhLJeU8/s50=;
+ b=iLmkw0qdA3ip3T4UzxPXg/v0Elm9XcTCi5Zv8X5CjAZPFLcjL/tFPklLhTpKWyvGW3jco6
+ jMV+mX6mOYntaXsbWgYl/zRk2yt25DEQPHwO8l+RZz6mLtJH9GXN3C7CZG1xoZsOKq1cyd
+ APL7HrHr8u+LcdJUosIZ09I4H0sCBWU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1670579105;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=6ywFrAR8XWLIwqbGvV0ueQZv5HYQt0w0GhLJeU8/s50=;
+ b=cnD4I8s7t8yXa05VeKo1w93p7fhlN5rPLmZCL+zaoxLBMqvzLqp3DEDNVv7xRKvXWVg12n
+ H3+QRPRzk9266lCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D42C113597;
+ Fri,  9 Dec 2022 09:45:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id HhOiMqADk2N7bgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 09 Dec 2022 09:45:04 +0000
+Message-ID: <180babce-37e3-01b4-8f1a-03a82771bc8c@suse.de>
+Date: Fri, 9 Dec 2022 10:45:04 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH] drm/ast: Fix no display at WayLand after power-off
+Content-Language: en-US
+To: Jammy Huang <jammy_huang@aspeedtech.com>, airlied@redhat.com,
+ airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20221209091143.6290-1-jammy_huang@aspeedtech.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20221209091143.6290-1-jammy_huang@aspeedtech.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------0r0wzgwT8iqHMLqqaZPd2usX"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,102 +71,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>, devicetree@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Robert Foss <robert.foss@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Krzysztof,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------0r0wzgwT8iqHMLqqaZPd2usX
+Content-Type: multipart/mixed; boundary="------------DwlMbhWzGwCg1r0pCG4T4009";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jammy Huang <jammy_huang@aspeedtech.com>, airlied@redhat.com,
+ airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Message-ID: <180babce-37e3-01b4-8f1a-03a82771bc8c@suse.de>
+Subject: Re: [PATCH] drm/ast: Fix no display at WayLand after power-off
+References: <20221209091143.6290-1-jammy_huang@aspeedtech.com>
+In-Reply-To: <20221209091143.6290-1-jammy_huang@aspeedtech.com>
 
-Am Freitag, 9. Dezember 2022, 10:07:45 CET schrieb Krzysztof Kozlowski:
-> On 09/12/2022 09:54, Alexander Stein wrote:
-> > Hello Krzysztof,
-> > 
-> > thanks for the fast feedback.
-> > 
-> > Am Freitag, 9. Dezember 2022, 09:39:49 CET schrieb Krzysztof Kozlowski:
-> >> On 09/12/2022 09:33, Alexander Stein wrote:
-> >>> It takes some time until the enable GPIO has settled when turning on.
-> >>> This delay is platform specific and may be caused by e.g. voltage
-> >>> shifts, capacitors etc.
-> >>> 
-> >>> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> >>> ---
-> >>> 
-> >>>  .../devicetree/bindings/display/bridge/ti,sn65dsi83.yaml      | 4 ++++
-> >>>  1 file changed, 4 insertions(+)
-> >>> 
-> >>> diff --git
-> >>> a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
-> >>> b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
-> >>> index 48a97bb3e2e0d..3f50d497cf8ac 100644
-> >>> --- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
-> >>> +++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
-> >>> 
-> >>> @@ -32,6 +32,10 @@ properties:
-> >>>      maxItems: 1
-> >>>      description: GPIO specifier for bridge_en pin (active high).
-> >>> 
-> >>> +  ti,enable-delay-us:
-> >>> +    default: 10000
-> >>> +    description: Enable time delay for enable-gpios
-> >> 
-> >> Aren't you now mixing two separate delays? One for entire block on (I
-> >> would assume mostly fixed delay) and one depending on regulators
-> >> (regulator-ramp-delay, regulator-enable-ramp-delay). Maybe you miss the
-> >> second delays in your power supply? If so, the first one might be fixed
-> >> and hard-coded in the driver?
-> > 
-> > Apparently there are two different delays: reset time (t_reset) of 10ms as
-> > specified by datasheet. This is already ensured by a following delay after
-> > requesting enable_gpio as low and switching the GPIO to low in disable
-> > path.
-> > 
-> > When enabling this GPIO it takes some time until it is valid on the chip,
-> > this is what this series is about. It's highly platform specific.
-> > 
-> > Unfortunately this is completely unrelated to the vcc-supply regulator.
-> > This one has to be enabled before the enable GPIO can be enabled. So
-> > there is no regulator-ramp-delay.
-> 
-> Your driver does one after another - regulator followed immediately by
-> gpio - so this as well can be a delay from regulator (maybe not ramp but
-> enable delay).
+--------------DwlMbhWzGwCg1r0pCG4T4009
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-But this will introduce a section which must not be interrupted or delayed. 
-This is impossible as the enable gpio is attached to an i2c expander in my 
-case.
+SGkNCg0KQW0gMDkuMTIuMjIgdW0gMTA6MTEgc2NocmllYiBKYW1teSBIdWFuZzoNCj4gV2l0
+aCBXYXlMYW5kLCB0aGVyZSBpcyBlcnJvciBsb2cgd2hlbiBkaXNwbGF5IHdha2VuIHVwIGZy
+b20gcG93ZXItb2ZmOg0KPiBnbm9tZS1zaGVsbDogRmFpbGVkIHRvIHBvc3QgS01TIHVwZGF0
+ZTogQ1JUQyBwcm9wZXJ0eSAoR0FNTUFfTFVUKSBub3QgZm91bmQNCj4gZ25vbWUtc2hlbGw6
+IFBhZ2UgZmxpcCBkaXNjYXJkZWQ6IENSVEMgcHJvcGVydHkgKEdBTU1BX0xVVCkgbm90IGZv
+dW5kDQo+IA0KPiBUbyBmaXggdGhlIGlzc3VlLCBlbmFibGUgR0FNTUFfTFVUIHByb3BlcnR5
+IG9uIENSVEMuDQoNClRoaXMgY29kZSBoYXMgbG9uZyBiZWVuIHJlcGxhY2VkIGJ5IGNvbW1p
+dCBjZTdmY2Y3MDAzODYgKCJkcm0vYXN0OiBBZGQgDQpBdG9taWMgZ2FtbWEgbHV0IHN1cHBv
+cnQgZm9yIGFzcGVlZCIpLCB3aGljaCBhZGRzIHByb3BlciBjb2xvciANCm1hbmFnZW1lbnQg
+dG8gYXN0Lg0KDQpQbGVhc2Ugb25seSBzdWJtaXQgcGF0Y2hlcyBmb3IgdGhlIGxhdGVzdCBk
+cml2ZXIgaW4gZHJtLW1pc2MtbmV4dC4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiAN
+Cj4gU2lnbmVkLW9mZi1ieTogSmFtbXkgSHVhbmcgPGphbW15X2h1YW5nQGFzcGVlZHRlY2gu
+Y29tPg0KPiAtLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcnYuaCAgfCAyICsr
+DQo+ICAgZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jIHwgNSArKystLQ0KPiAgIDIg
+ZmlsZXMgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPiANCj4g
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X2Rydi5oIGIvZHJpdmVycy9n
+cHUvZHJtL2FzdC9hc3RfZHJ2LmgNCj4gaW5kZXggMmU0NGI5NzFjM2E2Li5mZDlhZjFjZjA1
+NjMgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X2Rydi5oDQo+ICsr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X2Rydi5oDQo+IEBAIC04Niw2ICs4Niw4IEBA
+IGVudW0gYXN0X3R4X2NoaXAgew0KPiAgICNkZWZpbmUgQVNUX0RSQU1fNEd4MTYgICA3DQo+
+ICAgI2RlZmluZSBBU1RfRFJBTV84R3gxNiAgIDgNCj4gICANCj4gKyNkZWZpbmUgTUFYX0NP
+TE9SX0xVVF9FTlRSSUVTIDI1Ng0KPiArDQo+ICAgLyoNCj4gICAgKiBDdXJzb3IgcGxhbmUN
+Cj4gICAgKi8NCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21vZGUu
+YyBiL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21vZGUuYw0KPiBpbmRleCAxYmMwMjIwZTY3
+ODMuLjg3YmQ5Njk3YmI0NCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FzdC9h
+c3RfbW9kZS5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21vZGUuYw0KPiBA
+QCAtNzQsNyArNzQsNyBAQCBzdGF0aWMgdm9pZCBhc3RfY3J0Y19sb2FkX2x1dChzdHJ1Y3Qg
+YXN0X3ByaXZhdGUgKmFzdCwgc3RydWN0IGRybV9jcnRjICpjcnRjKQ0KPiAgIAlnID0gciAr
+IGNydGMtPmdhbW1hX3NpemU7DQo+ICAgCWIgPSBnICsgY3J0Yy0+Z2FtbWFfc2l6ZTsNCj4g
+ICANCj4gLQlmb3IgKGkgPSAwOyBpIDwgMjU2OyBpKyspDQo+ICsJZm9yIChpID0gMDsgaSA8
+IE1BWF9DT0xPUl9MVVRfRU5UUklFUzsgaSsrKQ0KPiAgIAkJYXN0X2xvYWRfcGFsZXR0ZV9p
+bmRleChhc3QsIGksICpyKysgPj4gOCwgKmcrKyA+PiA4LCAqYisrID4+IDgpOw0KPiAgIH0N
+Cj4gICANCj4gQEAgLTEzMjMsNyArMTMyMyw4IEBAIHN0YXRpYyBpbnQgYXN0X2NydGNfaW5p
+dChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2KQ0KPiAgIAlpZiAocmV0KQ0KPiAgIAkJcmV0dXJu
+IHJldDsNCj4gICANCj4gLQlkcm1fbW9kZV9jcnRjX3NldF9nYW1tYV9zaXplKGNydGMsIDI1
+Nik7DQo+ICsJZHJtX2NydGNfZW5hYmxlX2NvbG9yX21nbXQoY3J0YywgMCwgZmFsc2UsIE1B
+WF9DT0xPUl9MVVRfRU5UUklFUyk7DQo+ICsJZHJtX21vZGVfY3J0Y19zZXRfZ2FtbWFfc2l6
+ZShjcnRjLCBNQVhfQ09MT1JfTFVUX0VOVFJJRVMpOw0KPiAgIAlkcm1fY3J0Y19oZWxwZXJf
+YWRkKGNydGMsICZhc3RfY3J0Y19oZWxwZXJfZnVuY3MpOw0KPiAgIA0KPiAgIAlyZXR1cm4g
+MDsNCj4gDQo+IGJhc2UtY29tbWl0OiA4ZWQ3MTBkYTI4NzNjMmFlYjNiYjgwNTg2NGE2OTlh
+ZmZhZjFkMDNiDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBE
+ZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVs
+ZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xy
+bmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
-Given the following time chart:
+--------------DwlMbhWzGwCg1r0pCG4T4009--
 
- vcc                  set             EN
-enable               GPIO             PAD
-  |                    |               |
-  |                    |<-- t_raise -->|
-  | <-- t_vcc_gpio --> |               |
-  | <--        t_enable_delay      --> |
+--------------0r0wzgwT8iqHMLqqaZPd2usX
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-t_raise is the time from changing the GPIO output at the expander until 
-voltage on the EN (input) pad from the bridge has reached high voltage level.
-This is an electrical characteristic I can not change and have to take into 
-account.
-t_vcc_gpio is the time from enabling supply voltage to enabling the bridge 
-(removing from reset). Minimum t_vcc_gpio is something which can be addressed 
-by the regulator and is no problem so far. But there is no upper bound to it.
+-----BEGIN PGP SIGNATURE-----
 
-If I understand you correctly, you want to specify t_enable_delay in a 
-regulator property. This only works if you can upper bound t_vcc_gpio which is 
-not possible due to e.g. scheduling and i2c bus contention.
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmOTA6AFAwAAAAAACgkQlh/E3EQov+CN
+Ug/7BimLztuoqyL5p9QtcMfRIvNacUKjXNCm7cG5WG11jKnWatGmjc0Sk1n2kBpON3aJfhLNmMY/
+Besw07KpUdF4x2oKjSxzba+eNUGJYLVN1FNVMmyVKgaX0r+O23eRte/Ih5M5m9V0F9gS7vqCAYLv
+o7WQI0McRDltpi8JiOFrr4pSMV7ilobxgTUMmeFTYOcH0SkumcH11MneCQusbOmpDXgFa3J1RPjS
+adTMo6/f2jlbuNeJhL1lsKPVfkaR06W8xUHTq3hMlcx7OMqRBrlx6rIUlWh5epaVUAAeKMxxfQMU
+zU3DSVNMbxVyghSx18V0ROBcrgY94KOriYWBU2NON84xq2pYd8n91h68oMHMhStZ9ojXmcqIlijA
+bXsZ65H+cWR/WBM+I+FI/+ugVxGU4PB7D5wWdOnHxn0r1oy/T+m7B3dK2oFUAgCyqHOnsF+OjgKq
+YV57foiBUgxtCFg8yJugxRPIxFCD2X6NmlybD77UlWYI+BHDCCm+OlnoPLBz5eFM8ddes4GncFy1
+R5tbDyJ5g88hmnrK9NrUm8OYhqjJaJsZxCpfeelBZwcTU7jHK2xrkludpRbTtK+9F3CE1U+w/r3k
+0kjDF90FolZmjuguw9a3UJUk9kTZCxZule5k9KRxs6jtiIiPdS5IgmKGLh0CC3e3L+ubSsH9rPRC
+Ebk=
+=Tk6G
+-----END PGP SIGNATURE-----
 
-IMHO that's why there needs to be an configurable delay in the bridge driver.
-
-Best regards,
-Alexander
-
-
-
+--------------0r0wzgwT8iqHMLqqaZPd2usX--
