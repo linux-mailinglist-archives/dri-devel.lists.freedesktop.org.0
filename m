@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50E5764858C
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Dec 2022 16:29:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89BA764858D
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Dec 2022 16:29:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEE1310E552;
-	Fri,  9 Dec 2022 15:29:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B904910E553;
+	Fri,  9 Dec 2022 15:29:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
- [IPv6:2607:f8b0:4864:20::102b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A6A710E552
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Dec 2022 15:29:32 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id fy4so4868536pjb.0
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Dec 2022 07:29:32 -0800 (PST)
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
+ [IPv6:2607:f8b0:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 573DA10E553
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Dec 2022 15:29:45 +0000 (UTC)
+Received: by mail-pl1-x62e.google.com with SMTP id t2so2234641ply.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Dec 2022 07:29:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Vr1sFCYK6xOgp3HQgvixcoPvVesJ0tGc4yiJdF9vU7Q=;
- b=WJm32FtNO32Uq6dyQjp+U7K3bEFMiAf/BDAHSMli3f/GCcTuV2vrlFDTUTFLxJp4Hm
- X9pXpcqpCOhLclUpKSB1MK8xyDFh+JcbBPrYukM37whKWOOtOQKxw1NslI7FGueYRrxY
- Wc5vKftoUrY93bRfFcwW0MRXBYbsVy4qGhryQ=
+ bh=xNNQvL6gmHJgo6OwoezUZSB4ceELF3kYUZfEbLlRThk=;
+ b=UMsZ3eNi6sRQPXBTi2kiU/rR25gBozLv89OKl8jLxQ7mPZiMhiLehdkjROAqNMPYFK
+ 2SGAbFjUmvkHClPfJOp7pbc4UBx0m3HDotebjKF4f4V8IRPqLCoqBJu1bch9iitAw/4U
+ Pp1ivi3v2b83VeO747qREcLi6vCZYDPIfOvLE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Vr1sFCYK6xOgp3HQgvixcoPvVesJ0tGc4yiJdF9vU7Q=;
- b=ueXvB4iwnH0pRYIPZYsiPSQaAKivFaTc1PvVaRCWfT9ZXn2o5HNotmzQWsKiIG474s
- 5Iab+F63Z7ZA7dzUHImMINtC18kCswFscFZLZvcZWDUzaIAJCRD7tMQ+0le9erTCGGsM
- HCf5MOTJe7JVtTVGfU9AsL84TZqZbQCoDrelwg1arxwCtlTdJAMsiG0gezmuN0INuu/b
- rkJvZZ8pu4ZTLegsBlpFDXnNn7IBHlahoqQvSBWjuY21CPgtuFIRf7TSGSNO3U5jC+u/
- 2G0loVn29ZeXk3zQ84UERchN6wpmkPoLVZTHUWipqWK8zFj0Wts6P+Y0KzXsmYx0eicT
- I+Rw==
-X-Gm-Message-State: ANoB5pk2qOgW4z1/PNkxeKFji469aSfWjFSJ1QO8oJiXgxs3Cqf05ZuI
- f+sbEXANDineHj4iSz9vXLSiFQ==
-X-Google-Smtp-Source: AA0mqf4shV/8b45XYewsg+kisEutSfSMO8MruxZiTRFGYFHREZsuwHm/fHCbQf+yjOaxny7ov6nEKg==
-X-Received: by 2002:a17:903:328b:b0:189:f7c2:7245 with SMTP id
- jh11-20020a170903328b00b00189f7c27245mr6350308plb.45.1670599771703; 
- Fri, 09 Dec 2022 07:29:31 -0800 (PST)
+ bh=xNNQvL6gmHJgo6OwoezUZSB4ceELF3kYUZfEbLlRThk=;
+ b=CwDs64qLwLBQ9Wcn5Yz0zRHws236+y8k05Uq+zYNWKXVBQ+Jc9X+xdO8KEXojRTzZ3
+ /ZyGYdZT1Qbh0qE83sOD/QojSh54Y9DG71H28q/oSNlq2EVQRJA31uByy7uDd+SdA6Gv
+ 3N6KjJuc00MWZQe2B7H5zZEWJrVHlpXVMPUj9MEVQ3ixXwLOfywu9OCjsXVnNf2fHjhJ
+ Kmpkwi1/i/gqagytqvn2ISQ3t7mvGzQiRgIRAyV0zNdfyLvyDPaloT+aWExBwgMjWEhO
+ nPGqZmlarVIIYhlZVGVo+N7AxkPQWnUT/8k/ypvS+WP/Ux0p6moV5Kz49m5zyqpFDlX3
+ VAEg==
+X-Gm-Message-State: ANoB5pk6ISDVJnhJgtRB9ltpGn4p9JQktbjMXWM97mkQTk8wvRujj5dG
+ fNRYiPXNVDEIAB/UiaG8s4j52w==
+X-Google-Smtp-Source: AA0mqf51MIJwtIR7uEW8WMm8FAaHgBA1nquudNxkRWq2jrYhralxkuwSBPCCGGTIDNPiZWq5m6nTXg==
+X-Received: by 2002:a17:902:a60c:b0:189:f990:24af with SMTP id
+ u12-20020a170902a60c00b00189f99024afmr5692194plq.20.1670599784952; 
+ Fri, 09 Dec 2022 07:29:44 -0800 (PST)
 Received: from localhost.localdomain ([2405:201:c00a:a809:6ba1:bbda:c542:ba0b])
  by smtp.gmail.com with ESMTPSA id
- x14-20020a170902ec8e00b00188c5f0f9e9sm1477587plg.199.2022.12.09.07.29.13
+ x14-20020a170902ec8e00b00188c5f0f9e9sm1477587plg.199.2022.12.09.07.29.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Dec 2022 07:29:31 -0800 (PST)
+ Fri, 09 Dec 2022 07:29:44 -0800 (PST)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
@@ -61,10 +61,9 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
  Marek Vasut <marex@denx.de>
-Subject: [PATCH v9 17/18] dt-bindings: display: exynos: dsim: Add NXP i.MX8M
- Plus support
-Date: Fri,  9 Dec 2022 20:53:42 +0530
-Message-Id: <20221209152343.180139-18-jagan@amarulasolutions.com>
+Subject: [PATCH v9 18/18] drm: bridge: samsung-dsim: Add i.MX8M Plus support
+Date: Fri,  9 Dec 2022 20:53:43 +0530
+Message-Id: <20221209152343.180139-19-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221209152343.180139-1-jagan@amarulasolutions.com>
 References: <20221209152343.180139-1-jagan@amarulasolutions.com>
@@ -89,30 +88,114 @@ Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Samsung MIPI DSIM bridge can also be found in i.MX8M Plus SoC.
+Add extras to support i.MX8M Plus. The main change is the removal of
+HS/VS/DE signal inversion in the LCDIFv3-DSIM glue logic, otherwise
+the implementation of this IP in i.MX8M Plus is very much compatible
+with the i.MX8M Mini/Nano one.
 
-Add dt-bingings for it.
-
+Signed-off-by: Marek Vasut <marex@denx.de>
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
 Changes for v9:
-- none
+- added im8mp in DSIM_STATE_REINITIALIZED check
 
- Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/bridge/samsung-dsim.c | 26 +++++++++++++++++++++++++-
+ include/drm/bridge/samsung-dsim.h     |  1 +
+ 2 files changed, 26 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt b/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt
-index 5133d4d39190..2a5f0889ec32 100644
---- a/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt
-+++ b/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt
-@@ -8,6 +8,7 @@ Required properties:
- 		"samsung,exynos5422-mipi-dsi" /* for Exynos5422/5800 SoCs */
- 		"samsung,exynos5433-mipi-dsi" /* for Exynos5433 SoCs */
- 		"fsl,imx8mm-mipi-dsim" /* for i.MX8M Mini/Nano SoCs */
-+		"fsl,imx8mp-mipi-dsim" /* for i.MX8M Plus SoCs */
-   - reg: physical base address and length of the registers set for the device
-   - interrupts: should contain DSI interrupt
-   - clocks: list of clock specifiers, must contain an entry for each required
+diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
+index 7ff10308a7ad..6e9ad955ebd3 100644
+--- a/drivers/gpu/drm/bridge/samsung-dsim.c
++++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+@@ -479,6 +479,7 @@ samsung_dsim_types[SAMSUNG_DSIM_TYPE_COUNT] = {
+ 	[SAMSUNG_DSIM_TYPE_EXYNOS5422] = &exynos5422_dsi_driver_data,
+ 	[SAMSUNG_DSIM_TYPE_EXYNOS5433] = &exynos5433_dsi_driver_data,
+ 	[SAMSUNG_DSIM_TYPE_IMX8MM] = &imx8mm_dsi_driver_data,
++	[SAMSUNG_DSIM_TYPE_IMX8MP] = &imx8mm_dsi_driver_data,
+ };
+ 
+ static inline struct samsung_dsim *host_to_dsi(struct mipi_dsi_host *h)
+@@ -1305,7 +1306,8 @@ static int samsung_dsim_init(struct samsung_dsim *dsi, unsigned int flag)
+ 	 * This host reinitialization is handled via DSIM_STATE_REINITIALIZED
+ 	 * flag and triggers from host transfer. Do this exclusively for Exynos.
+ 	 */
+-	if ((dsi->plat_data->hw_type == SAMSUNG_DSIM_TYPE_IMX8MM) &&
++	if ((dsi->plat_data->hw_type == SAMSUNG_DSIM_TYPE_IMX8MM ||
++	    dsi->plat_data->hw_type == SAMSUNG_DSIM_TYPE_IMX8MP) &&
+ 	    dsi->state & DSIM_STATE_REINITIALIZED)
+ 		return 0;
+ 
+@@ -1468,10 +1470,17 @@ static int samsung_dsim_atomic_check(struct drm_bridge *bridge,
+ 	 * 13.6.2.7.2 RGB interface
+ 	 * both claim "Vsync, Hsync, and VDEN are active high signals.", the
+ 	 * LCDIF must generate inverted HS/VS/DE signals, i.e. active LOW.
++	 *
++	 * The i.MX8M Plus glue logic between LCDIFv3 and DSIM does not
++	 * implement the same behavior, therefore LCDIFv3 must generate
++	 * HS/VS/DE signals active HIGH.
+ 	 */
+ 	if (dsi->plat_data->hw_type == SAMSUNG_DSIM_TYPE_IMX8MM) {
+ 		adjusted_mode->flags |= (DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC);
+ 		adjusted_mode->flags &= ~(DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
++	} else if (dsi->plat_data->hw_type == SAMSUNG_DSIM_TYPE_IMX8MP) {
++		adjusted_mode->flags &= ~(DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC);
++		adjusted_mode->flags |= (DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
+ 	}
+ 
+ 	return 0;
+@@ -1689,6 +1698,10 @@ static const struct samsung_dsim_host_ops samsung_dsim_generic_host_ops = {
+ 	.unregister_host = samsung_dsim_unregister_host,
+ };
+ 
++static const struct drm_bridge_timings samsung_dsim_bridge_timings_de_high = {
++	.input_bus_flags = DRM_BUS_FLAG_DE_HIGH,
++};
++
+ static const struct drm_bridge_timings samsung_dsim_bridge_timings_de_low = {
+ 	.input_bus_flags = DRM_BUS_FLAG_DE_LOW,
+ };
+@@ -1778,6 +1791,8 @@ int samsung_dsim_probe(struct platform_device *pdev)
+ 	/* DE_LOW: i.MX8M Mini/Nano LCDIF-DSIM glue logic inverts HS/VS/DE */
+ 	if (dsi->plat_data->hw_type == SAMSUNG_DSIM_TYPE_IMX8MM)
+ 		dsi->bridge.timings = &samsung_dsim_bridge_timings_de_low;
++	else
++		dsi->bridge.timings = &samsung_dsim_bridge_timings_de_high;
+ 
+ 	if (dsi->plat_data->host_ops && dsi->plat_data->host_ops->register_host)
+ 		ret = dsi->plat_data->host_ops->register_host(dsi);
+@@ -1883,11 +1898,20 @@ static const struct samsung_dsim_plat_data samsung_dsim_imx8mm_pdata = {
+ 	.host_ops = &samsung_dsim_generic_host_ops,
+ };
+ 
++static const struct samsung_dsim_plat_data samsung_dsim_imx8mp_pdata = {
++	.hw_type = SAMSUNG_DSIM_TYPE_IMX8MP,
++	.host_ops = &samsung_dsim_generic_host_ops,
++};
++
+ static const struct of_device_id samsung_dsim_of_match[] = {
+ 	{
+ 		.compatible = "fsl,imx8mm-mipi-dsim",
+ 		.data = &samsung_dsim_imx8mm_pdata,
+ 	},
++	{
++		.compatible = "fsl,imx8mp-mipi-dsim",
++		.data = &samsung_dsim_imx8mp_pdata,
++	},
+ 	{ /* sentinel. */ }
+ };
+ MODULE_DEVICE_TABLE(of, samsung_dsim_of_match);
+diff --git a/include/drm/bridge/samsung-dsim.h b/include/drm/bridge/samsung-dsim.h
+index df3d030daec6..3789f9dbb238 100644
+--- a/include/drm/bridge/samsung-dsim.h
++++ b/include/drm/bridge/samsung-dsim.h
+@@ -28,6 +28,7 @@ enum samsung_dsim_type {
+ 	SAMSUNG_DSIM_TYPE_EXYNOS5422,
+ 	SAMSUNG_DSIM_TYPE_EXYNOS5433,
+ 	SAMSUNG_DSIM_TYPE_IMX8MM,
++	SAMSUNG_DSIM_TYPE_IMX8MP,
+ 	SAMSUNG_DSIM_TYPE_COUNT,
+ };
+ 
 -- 
 2.25.1
 
