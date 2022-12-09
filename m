@@ -1,52 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDD7C6488B0
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Dec 2022 19:56:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E62706488B5
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Dec 2022 19:58:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1B2810E582;
-	Fri,  9 Dec 2022 18:56:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BE0B10E584;
+	Fri,  9 Dec 2022 18:58:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFE1410E582;
- Fri,  9 Dec 2022 18:56:33 +0000 (UTC)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E55EF10E584;
+ Fri,  9 Dec 2022 18:58:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1670612193; x=1702148193;
+ t=1670612303; x=1702148303;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=7dZHF5ogQEuUsFgvNkNPmDXWvgVaqbn7sp5pbNxA1G0=;
- b=ILNQ/IY7S32a4YT3WM3/KEoXhq20TbaRjDat/J5wkjmKByea6v4lYP5S
- YSRagzKy+amaIKDZEyozISkzwy3ppR+wMdtOwteBLjm+WYigy91tCZsxz
- Qh13GScrJDGvBvexUtpHICPdOUsTJaazdsJoYE/2kCeGhVYr2eeyFQv/j
- 7q2qEwRqkpQSUR69gJm4bp05W4QrIUqjUgEA8fGOE/aHBy+ylD6MssJHu
- jNYGseQ6xIe3tO0711QBfyL52QlcunSum+AdPSS2qMSCXxypZVR7oeqq5
- ruI4VvEby6htaVRrO0qN8BiT7ya1K8BOs6m+0wZu0JI6GVMRiRVN3lVmR w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10556"; a="403783026"
-X-IronPort-AV: E=Sophos;i="5.96,232,1665471600"; d="scan'208";a="403783026"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2022 10:56:33 -0800
+ bh=GLZEjablCncQpXUOWVL33N7CySi7CSJ/kg3y/b9Oykg=;
+ b=joemDmTsWby9iK5YZZGZNNLm9J6/h1x2kREEEZbk78k9LRI9ZVnDU/mV
+ 2olD/g8Oj1AFyebcuMnOFkQA8KmVzB65bzM4vi7QbvxJxqe4OPVN30Xzm
+ FDFbslTrfNeQAIxyTNb0N3fJC6xp78P3kHPjMzqnpl4OGyUiut37oboB7
+ UP/LUXEDvjiZLd0zsVRfGuc13LK7ju3vmI3SQroTfbw3TesILcu6F0Rhp
+ QuYkKP5MTHrQ132OYqUmoXHek1E6GyUfBc5EWhgpo+xEQQ95c4AJJkIpu
+ RF+jvgybShIDLiX/hvw8E1GkWZydbHb+ZxszYgN29TBUMwVa1qBnkk4ZP Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10556"; a="379742697"
+X-IronPort-AV: E=Sophos;i="5.96,232,1665471600"; d="scan'208";a="379742697"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Dec 2022 10:58:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10556"; a="789806268"
-X-IronPort-AV: E=Sophos;i="5.96,232,1665471600"; d="scan'208";a="789806268"
+X-IronPort-AV: E=McAfee;i="6500,9779,10556"; a="736305871"
+X-IronPort-AV: E=Sophos;i="5.96,232,1665471600"; d="scan'208";a="736305871"
 Received: from smile.fi.intel.com ([10.237.72.54])
- by fmsmga001.fm.intel.com with ESMTP; 09 Dec 2022 10:56:30 -0800
+ by FMSMGA003.fm.intel.com with ESMTP; 09 Dec 2022 10:58:20 -0800
 Received: from andy by smile.fi.intel.com with local (Exim 4.96)
  (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1p3iXs-00785H-2t; Fri, 09 Dec 2022 20:56:28 +0200
-Date: Fri, 9 Dec 2022 20:56:28 +0200
+ id 1p3iZe-00788E-1g; Fri, 09 Dec 2022 20:58:18 +0200
+Date: Fri, 9 Dec 2022 20:58:18 +0200
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>
 Subject: Re: [PATCH 1/5] linux/minmax.h: add non-atomic version of xchg
-Message-ID: <Y5OE3AX7DS/DfClX@smile.fi.intel.com>
+Message-ID: <Y5OFSvaYbv4XCxhE@smile.fi.intel.com>
 References: <20221209154843.4162814-1-andrzej.hajda@intel.com>
+ <Y5OE3AX7DS/DfClX@smile.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221209154843.4162814-1-andrzej.hajda@intel.com>
+In-Reply-To: <Y5OE3AX7DS/DfClX@smile.fi.intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,39 +69,37 @@ Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 09, 2022 at 04:48:39PM +0100, Andrzej Hajda wrote:
-> The pattern of setting variable with new value and returning old
-> one is very common in kernel. Usually atomicity of the operation
-> is not required, so xchg seems to be suboptimal and confusing in
-> such cases. Since name xchg is already in use and __xchg is used
-> in architecture code, proposition is to name the macro exchange.
-> 
-> Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
-> ---
-> Hi,
-> 
-> I hope there will be place for such tiny helper in kernel.
-> Quick cocci analyze shows there is probably few thousands places
-> where it could be used, of course I do not intend to do it :).
-> 
-> I was not sure where to put this macro, I hope near swap definition
-> is the most suitable place.
-
-Ah, swap() in this context is not the same. minmax.h hosts it because
-it's often related to the swap function in the sort-type algorithms.
-
-> Moreover sorry if to/cc is not correct - get_maintainers.pl was
-> more confused than me, to who address this patch.
+On Fri, Dec 09, 2022 at 08:56:28PM +0200, Andy Shevchenko wrote:
+> On Fri, Dec 09, 2022 at 04:48:39PM +0100, Andrzej Hajda wrote:
 
 ...
 
->  include/linux/minmax.h | 14 ++++++++++++++
+> > I hope there will be place for such tiny helper in kernel.
+> > Quick cocci analyze shows there is probably few thousands places
+> > where it could be used, of course I do not intend to do it :).
+> > 
+> > I was not sure where to put this macro, I hope near swap definition
+> > is the most suitable place.
+> 
+> Ah, swap() in this context is not the same. minmax.h hosts it because
+> it's often related to the swap function in the sort-type algorithms.
+> 
+> > Moreover sorry if to/cc is not correct - get_maintainers.pl was
+> > more confused than me, to who address this patch.
+> 
+> ...
+> 
+> >  include/linux/minmax.h | 14 ++++++++++++++
+> 
+> Does it really suit this header? I would expect something else.
 
-Does it really suit this header? I would expect something else.
-Maybe include/linux/non-atomic/xchg.h, dunno.
+> Maybe include/linux/non-atomic/xchg.h, dunno.
 
-Btw, have you looked if Ingo's gigantic series have done anything to cmpxchg.h
-and related headers? Maybe some ideas can be taken from there?
+It may become a candidate to host io-64 non-atomic versions and other
+non-atomic generic headers...
+
+> Btw, have you looked if Ingo's gigantic series have done anything to cmpxchg.h
+> and related headers? Maybe some ideas can be taken from there?
 
 -- 
 With Best Regards,
