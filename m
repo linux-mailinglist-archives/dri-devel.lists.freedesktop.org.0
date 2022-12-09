@@ -2,78 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AA2E647F9B
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Dec 2022 09:54:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B5C7647FD6
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Dec 2022 10:07:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5630F10E4FB;
-	Fri,  9 Dec 2022 08:54:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6284A10E506;
+	Fri,  9 Dec 2022 09:07:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2096C10E4FB
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Dec 2022 08:54:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1670576082; x=1702112082;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=Kx9Teauir4KHO/Hg63QEhYfjjOL2ayLmdRWTNOSGJuY=;
- b=bhG9rFB8GIWL4Q9wxJ39+oKgJF+gTMysSoEvJjBL8Ar4jxq6CYEd9PwE
- /PsA0DgSVxwXds4g6mgTbAW2LX57PLBVYWlaa/ZggBJ7a28OWiEq/C9yx
- ujybPbYkmif6M7kKZ1J/nrFebMVofERVJrEFH4fRJP839enU+zFZDfSA0
- LPUiwZBOI6X47En5Qnc6JY7XHxR0Gv5t1K7CYn98qFWBUAwbtWQ497lNG
- 1bsyKEVimgp6dApPiap2Li0QYvF40XYOb9ve9NmTM77yFugkjYNkL/dgv
- QCXspfsOKLJRj3ZLz4X5i2jQBEDTwOlGlMHyHisGW3uTzwlJrSyHN203j w==;
-X-IronPort-AV: E=Sophos;i="5.96,230,1665439200"; d="scan'208";a="27857976"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
- by mx1-pgp.tq-group.com with ESMTP; 09 Dec 2022 09:54:40 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
- by tq-pgp-pr1.tq-net.de (PGP Universal service);
- Fri, 09 Dec 2022 09:54:40 +0100
-X-PGP-Universal: processed;
- by tq-pgp-pr1.tq-net.de on Fri, 09 Dec 2022 09:54:40 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1670576080; x=1702112080;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=Kx9Teauir4KHO/Hg63QEhYfjjOL2ayLmdRWTNOSGJuY=;
- b=DSDq/+c9ghgNA5+0wtZICTAjDZHx589Rtm99+Avg5w8oq9M/uLHhaUXz
- BNUVDO3dvd9FSqOiZ3n3FLPGRx7Zb2t3mlGNfjaTkXLNrkwWb3KzTkcm2
- x9cLUKO3/7EWu1Jdp+n3JZ5to8MpYF4QyC2+e2v3LCaw7RIqSMUYt5qY3
- n/csUq0kT254UPQml1e9thlI80dLSx8xtrt9R/L9ODjbWp4B4RUwl+oAz
- ykn5fUBxBCI1kMlueQhV94uPf4qU5NugSvXDbKJ3RyPwC+UNAhtRLFpVa
- hxAxXO2LiiSRQmCW3oJDjwTBfUjWljV3AGK4vufPquWkHFu0ha7wPP1md Q==;
-X-IronPort-AV: E=Sophos;i="5.96,230,1665439200"; d="scan'208";a="27857975"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 09 Dec 2022 09:54:40 +0100
-Received: from steina-w.localnet (unknown [10.123.53.21])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id DE511280071;
- Fri,  9 Dec 2022 09:54:39 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C674F10E506
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Dec 2022 09:07:48 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id b13so6064690lfo.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Dec 2022 01:07:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ybW+aCgYd8tZxSihqCA8moOMAzb18/wt69cgYIeTQLA=;
+ b=nBVQ+SkVhs3wwQPEnbXQvi8xQ3RpYbSkKWRIHcKT6pb0G4T4u5oKTdg5AIIzVp5QHa
+ wwp4Ki+AmN/jd394VY4agdyYhqjo5oTL47fyenY+zFI/0c1w1LSpMusItzVR690S9EPk
+ sRUS52upPS/qDLw9IYnKntnX2Agro2RQuJCwWxcp81edDraH3q6u4xiZsZtNNyhMkGcT
+ xhwMzuwEcw/j6Mi54GCXl4nISVjE0iRFG5jXmAnCqt5sQdk6F5Elj0AYdvs6O9XxTB4o
+ WrA9cpkMzg3+MnzbF+spFmYPO2kE7nXjyYdvwCD4EPx761r9LBHeUNeN9wtMF9pC02zd
+ Nu8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ybW+aCgYd8tZxSihqCA8moOMAzb18/wt69cgYIeTQLA=;
+ b=h9QM40aae9Lmeganu65Tp8J8jSP+gCxisf7V58GPf5iFUgU1VKkfi7x4UclwbL8PkP
+ mwHdAOTSVi/kxLjorCg/aUFWh1EA/vB6VRvoxq4tMCgreQ8+0163Kon6PLYJKb6BfahB
+ 0GZsMwsNxZ+pEMHuerc/XZObPPy4Xx5wwz48bGKuDF/Ig3ax5j9UTJdJKNxktrZ9x0RF
+ gIeyUoiqwjmSqiLwLB5t/RFGdCXgiHrNOn3dQEsx0S5gOcbaxozj43h8YB/yxpq909WH
+ fmCbV0Lr9PEeo5PkgBQY3+FN119me+6iQirZUatFA7AT2jfoguSTu47nPj+z1qUgL20M
+ wOTg==
+X-Gm-Message-State: ANoB5pmHWhM1Zu1e4sxTMis1KD8IPYm9pBTHv4oqlVhTu2yOWPhxkOoQ
+ N4uMcJLb+icifABasFGhZWV0zQ==
+X-Google-Smtp-Source: AA0mqf7xqh4G/QTp1tz9wqt0dVEe0iVKnhHfr9sUq5VI81q6jrWkJVeObQvPjWJn+GyWT4tZSNB7xA==
+X-Received: by 2002:a05:6512:2007:b0:4b5:650b:ba3f with SMTP id
+ a7-20020a056512200700b004b5650bba3fmr1340506lfb.12.1670576867136; 
+ Fri, 09 Dec 2022 01:07:47 -0800 (PST)
+Received: from [192.168.0.20]
+ (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+ by smtp.gmail.com with ESMTPSA id
+ cf27-20020a056512281b00b0049fff3f645esm175958lfb.70.2022.12.09.01.07.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Dec 2022 01:07:46 -0800 (PST)
+Message-ID: <e1844fdc-c640-747d-e38f-400669f2a1a8@linaro.org>
+Date: Fri, 9 Dec 2022 10:07:45 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH 1/2] dt-bindings: drm/bridge: ti-sn65dsi83: Add enable
+ delay property
+Content-Language: en-US
+To: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>,
  Robert Foss <robert.foss@linaro.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 1/2] dt-bindings: drm/bridge: ti-sn65dsi83: Add enable
- delay property
-Date: Fri, 09 Dec 2022 09:54:36 +0100
-Message-ID: <7463917.EvYhyI6sBW@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <07fbe219-9034-65f6-963a-037de9bb6d79@linaro.org>
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 References: <20221209083339.3780776-1-alexander.stein@ew.tq-group.com>
  <20221209083339.3780776-2-alexander.stein@ew.tq-group.com>
  <07fbe219-9034-65f6-963a-037de9bb6d79@linaro.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+ <7463917.EvYhyI6sBW@steina-w>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <7463917.EvYhyI6sBW@steina-w>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,56 +93,60 @@ Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Krzysztof,
-
-thanks for the fast feedback.
-
-Am Freitag, 9. Dezember 2022, 09:39:49 CET schrieb Krzysztof Kozlowski:
-> On 09/12/2022 09:33, Alexander Stein wrote:
-> > It takes some time until the enable GPIO has settled when turning on.
-> > This delay is platform specific and may be caused by e.g. voltage
-> > shifts, capacitors etc.
-> > 
-> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > ---
-> > 
-> >  .../devicetree/bindings/display/bridge/ti,sn65dsi83.yaml      | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> > 
-> > diff --git
-> > a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
-> > b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
-> > index 48a97bb3e2e0d..3f50d497cf8ac 100644
-> > --- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
-> > +++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
-> > 
-> > @@ -32,6 +32,10 @@ properties:
-> >      maxItems: 1
-> >      description: GPIO specifier for bridge_en pin (active high).
-> > 
-> > +  ti,enable-delay-us:
-> > +    default: 10000
-> > +    description: Enable time delay for enable-gpios
+On 09/12/2022 09:54, Alexander Stein wrote:
+> Hello Krzysztof,
 > 
-> Aren't you now mixing two separate delays? One for entire block on (I
-> would assume mostly fixed delay) and one depending on regulators
-> (regulator-ramp-delay, regulator-enable-ramp-delay). Maybe you miss the
-> second delays in your power supply? If so, the first one might be fixed
-> and hard-coded in the driver?
+> thanks for the fast feedback.
+> 
+> Am Freitag, 9. Dezember 2022, 09:39:49 CET schrieb Krzysztof Kozlowski:
+>> On 09/12/2022 09:33, Alexander Stein wrote:
+>>> It takes some time until the enable GPIO has settled when turning on.
+>>> This delay is platform specific and may be caused by e.g. voltage
+>>> shifts, capacitors etc.
+>>>
+>>> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+>>> ---
+>>>
+>>>  .../devicetree/bindings/display/bridge/ti,sn65dsi83.yaml      | 4 ++++
+>>>  1 file changed, 4 insertions(+)
+>>>
+>>> diff --git
+>>> a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+>>> b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+>>> index 48a97bb3e2e0d..3f50d497cf8ac 100644
+>>> --- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+>>> +++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+>>>
+>>> @@ -32,6 +32,10 @@ properties:
+>>>      maxItems: 1
+>>>      description: GPIO specifier for bridge_en pin (active high).
+>>>
+>>> +  ti,enable-delay-us:
+>>> +    default: 10000
+>>> +    description: Enable time delay for enable-gpios
+>>
+>> Aren't you now mixing two separate delays? One for entire block on (I
+>> would assume mostly fixed delay) and one depending on regulators
+>> (regulator-ramp-delay, regulator-enable-ramp-delay). Maybe you miss the
+>> second delays in your power supply? If so, the first one might be fixed
+>> and hard-coded in the driver?
+> 
+> Apparently there are two different delays: reset time (t_reset) of 10ms as 
+> specified by datasheet. This is already ensured by a following delay after 
+> requesting enable_gpio as low and switching the GPIO to low in disable path.
+> 
+> When enabling this GPIO it takes some time until it is valid on the chip, this 
+> is what this series is about. It's highly platform specific.
+> 
+> Unfortunately this is completely unrelated to the vcc-supply regulator. This 
+> one has to be enabled before the enable GPIO can be enabled. So there is no 
+> regulator-ramp-delay.
 
-Apparently there are two different delays: reset time (t_reset) of 10ms as 
-specified by datasheet. This is already ensured by a following delay after 
-requesting enable_gpio as low and switching the GPIO to low in disable path.
+Your driver does one after another - regulator followed immediately by
+gpio - so this as well can be a delay from regulator (maybe not ramp but
+enable delay).
 
-When enabling this GPIO it takes some time until it is valid on the chip, this 
-is what this series is about. It's highly platform specific.
-
-Unfortunately this is completely unrelated to the vcc-supply regulator. This 
-one has to be enabled before the enable GPIO can be enabled. So there is no 
-regulator-ramp-delay.
 
 Best regards,
-Alexander
-
-
+Krzysztof
 
