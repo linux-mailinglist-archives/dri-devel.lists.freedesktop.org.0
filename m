@@ -2,73 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 040FA648789
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Dec 2022 18:17:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34AD66487D6
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Dec 2022 18:37:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC78110E575;
-	Fri,  9 Dec 2022 17:16:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3064B10E023;
+	Fri,  9 Dec 2022 17:37:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout2-smtp.messagingengine.com (unknown [64.147.123.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6234910E56A;
- Fri,  9 Dec 2022 17:16:53 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailout.west.internal (Postfix) with ESMTP id 96BA232002E2;
- Fri,  9 Dec 2022 12:16:48 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
- by compute6.internal (MEProxy); Fri, 09 Dec 2022 12:16:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm1; t=1670606208; x=1670692608; bh=yn1ZIx4lgv
- SNSxmiMuQyPB+UaVdlOREBNJWA8RKV91E=; b=PhmZXUtBqChjqpZHQiVnMBo3WR
- CScBwG3IAVPZPBKyLX7CwZrZ+5Ynn3ezGwdVo/UXvlRZA5mg9+lOdo9bpxIy7Dk1
- A/coid9sP6cFADl+WGUIiIGmuGlFXRgnprqTrVph3/DSkTV0cIJXoDNgX5scZlUY
- f5cK7TVP9hf8Iv/VFxjOqRWJVxzZwzz3www2n12zlXiXgkn9uh5eGzulp0lwSOP7
- kIMaqdrHifQhrQArheel7oypQZN6kQM+JQWJl13dgYixT8kWj2AkXiD6KfxRYU/n
- mYkFR8mIvPpiaVSolv/ikl2pZIs0Vl+wke0beUiYz0UZpBq5yntp7T8uPiuA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1670606208; x=1670692608; bh=yn1ZIx4lgvSNSxmiMuQyPB+UaVdl
- OREBNJWA8RKV91E=; b=dz92Boo7CRhsgxRAnilT3D1Typh2ncSNJ+ciZnBjpd7V
- YR+F14MP1xxid85C/MZ5ehN3ocpkAr+Af8iqGWY3bhMFmPpN3z8A0dj+91jk3xCR
- UUz/4irItW1oVXh3grWgHIXjdBLbFQl0kdmz0ppqCfgfv3bgVXnZbx1nAVzio+S3
- FzwzRU6W4nu3J6mHXQqL+s+0nptGF3Djq2lFh0lmlLWlNbgAA0u2Aed08EcRAlpm
- Zxh6QlsZE30gg3STOCjv/DnfYlYrg4ERCyiDl9DFrzxfaE6xQKuKWfaBQ53OAjw/
- U03ROeYcCES2qBk3qzlhVNkfLZwhNSA9CLq1eYODBA==
-X-ME-Sender: <xms:f22TY_1f_Lsjf9v-HNEYBqsnoyQtUZCnigwo1yGBeFc33yGUipUI1w>
- <xme:f22TY-FI5POzw_CaNXIePSWIPhehhjas8SBTzNbLpauwy2LMwyZDrYXMxuAfezEOK
- NzEVVzcd7iDpzZPDcM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddvgdeliecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
- ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
- gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
- ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
- hnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:f22TY_6FeTZnYCgR-mj_LPlC4JFribOgyYkZi2Ka8nXMdYwXwWah0w>
- <xmx:f22TY02tK29x4B5BnS6Qfxy2SBynQ4LK0RtGsDzUk9UrJ6zqEyInXQ>
- <xmx:f22TYyG8i1jNWfw2KlEn4XVWcxe0cL3f4GOigETpHtmKmSDJ5cmjmg>
- <xmx:gG2TYwbqrfZ8hpiONrvI0XmM-KLuyzRWD6HG2SyiaArgVcrLTPdroQ>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id D58F6B60086; Fri,  9 Dec 2022 12:16:47 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1115-g8b801eadce-fm-20221102.001-g8b801ead
-Mime-Version: 1.0
-Message-Id: <b0c38501-440f-42a3-ae0f-dd95527b0e56@app.fastmail.com>
-In-Reply-To: <20221209154843.4162814-1-andrzej.hajda@intel.com>
-References: <20221209154843.4162814-1-andrzej.hajda@intel.com>
-Date: Fri, 09 Dec 2022 18:16:25 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Andrzej Hajda" <andrzej.hajda@intel.com>, linux-kernel@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/5] linux/minmax.h: add non-atomic version of xchg
-Content-Type: text/plain
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
+ [IPv6:2607:f8b0:4864:20::1035])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E86510E023
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Dec 2022 17:36:54 +0000 (UTC)
+Received: by mail-pj1-x1035.google.com with SMTP id
+ w4-20020a17090ac98400b002186f5d7a4cso8880297pjt.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Dec 2022 09:36:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=qXsbmkoodLU/AwJjQ4JXkNGpOiLYdE4+WQE1E7o+Bwo=;
+ b=t86EOBMhIP/ldR8nxcwebrMd9ocR8tExby0yg2pG8hDVAeplTlpkAB6UlHdjUGL2b5
+ OQ8Ls6Okk6+BnUPMmDzTmJqEM8BRuNIHYChWzI/RnpKmNMT3ipirfQ/ZKwIDn+n9H+Ac
+ dFa1a+3eO+2Sw6svqf5F6CPOssBlL7/HJcVRRKRV6zreayrpLDquE0Zg8Jcfyxo/Y4pg
+ CjscTZcU+4ZQQmGN89+YHXMn6iH0H9Ihsfug23tfhKLS0dOfdg/fgggBFiLKd7soUUc3
+ KivDhsoDilYjezLZhtQUMnYVSn2EnUpu+jrvaa46iK29QVFbKVNkTS58yaBOx42Nd/w5
+ oyHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qXsbmkoodLU/AwJjQ4JXkNGpOiLYdE4+WQE1E7o+Bwo=;
+ b=oIjtM/AVpt84BO3yGhskF3Y1/cnIQMMwXJf3PNXIPNPd5rCfWeCtxO8CnpQkG+1Kk8
+ 7a5C5HqsvNFTTwi5xkt+qe15FCFLtKFAUQr/iskuPbQe4w8I5v3hq32IoqAN+QZVhZYK
+ QlYuiDX+qMHpWLct1bptOVvMBY0XVbnbM+HIZBG3UgQiH5nXoUuXH9g7jZvJRDc6frOe
+ Yg/FgGU6kzuwHgeznCxFz9uQttGbbjjkDyHx8l72gfUeMXVR6in3HoPabciOZdJQC29q
+ 8XCYpUvOKnZoJucWFBBN9kfqH0I0sghvAvzAuqsqQf0hGU0vIGq7f2Be7/lkXApNAhwU
+ K5UA==
+X-Gm-Message-State: ANoB5pmunUjEXqL+x98rRxqvR1TUmc5exiN4I5SorMFvHxF4E5Srde/6
+ kA6aGfZ6MgU68BdWfd3p+Qe2hTjRw6jcEeACVdEn6g==
+X-Google-Smtp-Source: AA0mqf7ateMtxBRPd0IFutE2MIFyHz0rRGBmqts6dBrsLB2FgXxkLDLjQoTz8MBCRkUTjg8zk1rHSrEfMZ8gVlOEGUM=
+X-Received: by 2002:a17:90a:7485:b0:219:ef02:a5eb with SMTP id
+ p5-20020a17090a748500b00219ef02a5ebmr15259474pjk.84.1670607414431; Fri, 09
+ Dec 2022 09:36:54 -0800 (PST)
+MIME-Version: 1.0
+References: <1664960824-20951-1-git-send-email-quic_akhilpo@quicinc.com>
+ <20221201225705.46r2m35ketvzipox@builder.lan>
+ <CAPDyKFofsqcoFbYt-9BcisbPdreLGqAAMWorqHi0_D1kwCdYhg@mail.gmail.com>
+ <20221207165457.kwdwwiycbwjpogxl@builder.lan>
+ <CAPDyKFpYgYkDdJ79xxkwr-Mqnj5CoBrV+ZZe6Xz4hGLNR4zUVw@mail.gmail.com>
+ <20221208210622.x656vbf7rum5hrl7@builder.lan>
+In-Reply-To: <20221208210622.x656vbf7rum5hrl7@builder.lan>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Fri, 9 Dec 2022 18:36:18 +0100
+Message-ID: <CAPDyKFpSXjcJZ=H491s74BChAV89pQ1Wm8PSdU0nVRfroK1=4A@mail.gmail.com>
+Subject: Re: [PATCH v7 0/6] clk/qcom: Support gdsc collapse polling using
+ 'reset' interface
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,44 +72,170 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: David Airlie <airlied@linux.ie>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-clk@vger.kernel.org, Andy Gross <agross@kernel.org>,
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Stephen Boyd <swboyd@chromium.org>,
+ Rob Herring <robh+dt@kernel.org>, Sean Paul <sean@poorly.run>,
+ Stephen Boyd <sboyd@kernel.org>, Douglas Anderson <dianders@chromium.org>,
+ krzysztof.kozlowski@linaro.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 9, 2022, at 16:48, Andrzej Hajda wrote:
-> The pattern of setting variable with new value and returning old
-> one is very common in kernel. Usually atomicity of the operation
-> is not required, so xchg seems to be suboptimal and confusing in
-> such cases. Since name xchg is already in use and __xchg is used
-> in architecture code, proposition is to name the macro exchange.
+On Thu, 8 Dec 2022 at 22:06, Bjorn Andersson <andersson@kernel.org> wrote:
 >
-> Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> On Thu, Dec 08, 2022 at 02:40:55PM +0100, Ulf Hansson wrote:
+> > On Wed, 7 Dec 2022 at 17:55, Bjorn Andersson <andersson@kernel.org> wrote:
+> > >
+> > > On Wed, Dec 07, 2022 at 05:00:51PM +0100, Ulf Hansson wrote:
+> > > > On Thu, 1 Dec 2022 at 23:57, Bjorn Andersson <andersson@kernel.org> wrote:
+> > > > >
+> > > > > On Wed, Oct 05, 2022 at 02:36:58PM +0530, Akhil P Oommen wrote:
+> > > > > >
+> > > > >
+> > > > > @Ulf, Akhil has a power-domain for a piece of hardware which may be
+> > > > > voted active by multiple different subsystems (co-processors/execution
+> > > > > contexts) in the system.
+> > > > >
+> > > > > As such, during the powering down sequence we don't wait for the
+> > > > > power-domain to turn off. But in the event of an error, the recovery
+> > > > > mechanism relies on waiting for the hardware to settle in a powered off
+> > > > > state.
+> > > > >
+> > > > > The proposal here is to use the reset framework to wait for this state
+> > > > > to be reached, before continuing with the recovery mechanism in the
+> > > > > client driver.
+> > > >
+> > > > I tried to review the series (see my other replies), but I am not sure
+> > > > I fully understand the consumer part.
+> > > >
+> > > > More exactly, when and who is going to pull the reset and at what point?
+> > > >
+> > > > >
+> > > > > Given our other discussions on quirky behavior, do you have any
+> > > > > input/suggestions on this?
+> > > > >
+> > > > > > Some clients like adreno gpu driver would like to ensure that its gdsc
+> > > > > > is collapsed at hardware during a gpu reset sequence. This is because it
+> > > > > > has a votable gdsc which could be ON due to a vote from another subsystem
+> > > > > > like tz, hyp etc or due to an internal hardware signal. To allow
+> > > > > > this, gpucc driver can expose an interface to the client driver using
+> > > > > > reset framework. Using this the client driver can trigger a polling within
+> > > > > > the gdsc driver.
+> > > > >
+> > > > > @Akhil, this description is fairly generic. As we've reached the state
+> > > > > where the hardware has settled and we return to the client, what
+> > > > > prevents it from being powered up again?
+> > > > >
+> > > > > Or is it simply a question of it hitting the powered-off state, not
+> > > > > necessarily staying there?
+> > > >
+> > > > Okay, so it's indeed the GPU driver that is going to assert/de-assert
+> > > > the reset at some point. Right?
+> > > >
+> > > > That seems like a reasonable approach to me, even if it's a bit
+> > > > unclear under what conditions that could happen.
+> > > >
+> > >
+> > > Generally the disable-path of the power-domain does not check that the
+> > > power-domain is actually turned off, because the status might indicate
+> > > that the hardware is voting for the power-domain to be on.
+> >
+> > Is there a good reason why the HW needs to vote too, when the GPU
+> > driver is already in control?
+> >
+> > Or perhaps that depends on the running use case?
+> >
+> > >
+> > > As part of the recovery of the GPU after some fatal fault, the GPU
+> > > driver does something which will cause the hardware votes for the
+> > > power-domain to be let go, and then the driver does pm_runtime_put().
+> >
+> > Okay. That "something", sounds like a device specific setting for the
+> > corresponding gdsc, right?
+> >
+> > So somehow the GPU driver needs to manage that setting, right?
+> >
+> > >
+> > > But in this case the GPU driver wants to ensure that the power-domain is
+> > > actually powered down, before it does pm_runtime_get() again. To ensure
+> > > that the hardware lost its state...
+> >
+> > I see.
+> >
+> > >
+> > > The proposal here is to use a reset to reach into the power-domain
+> > > provider and wait for the hardware to be turned off, before the GPU
+> > > driver attempts turning the power-domain on again.
+> > >
+> > >
+> > > In other words, there is no reset. This is a hack to make a normally
+> > > asynchronous pd.power_off() to be synchronous in this particular case.
+> >
+> > Alright, assuming I understood your clarifications above correctly
+> > (thanks!), I think I have got a much better picture now.
+> >
+> > Rather than abusing the reset interface, I think we should manage this
+> > through the genpd's power on/off notifiers (GENPD_NOTIFY_OFF). The GPU
+> > driver should register its corresponding device for them
+> > (dev_pm_genpd_add_notifier()).
+> >
+> > The trick however, is to make the behaviour of the power-domain for
+> > the gdsc (the genpd->power_off() callback) conditional on whether the
+> > HW is configured to vote or not. If the HW can vote, it should not
+> > poll for the state - and vice versa when the HW can't vote.
+> >
+>
+> Per Akhil's description I misunderstood who the other voters are; but
+> either way it's not the same "HW configured" mechanism as the one we're
+> already discussing.
 
-While I generally don't like type invariant calling conventions
-of xchg() and cmpxchg(), having a new function that has a similar
-name without being able to tell which one is which from the
-name seems more confusing.
+Okay, so this is another thing then.
 
-Since __xchg() is only used on 11 architectures as an internal
-name for the backing of arch_xchg() or arch_xchg_relaxed(),
-maybe we can instead rename those to __arch_xchg() and use the
-__xchg() name for the new non-atomic version?
+>
+>
+> But if we based on similar means could control if the power_off() ops
+> should be blocking, waiting for the status indication to show that the
+> hardware is indeed powered down, I think this would meet the needs.
 
-> +/**
-> + * exchange - set variable pointed by @ptr to @val, return old value
-> + * @ptr: pointer to affected variable
-> + * @val: value to be written
-> + *
-> + * This is non-atomic variant of xchg.
-> + */
-> +#define exchange(ptr, val) ({		\
-> +	typeof(ptr) __ptr = ptr;	\
-> +	typeof(*__ptr) __t = *__ptr;	\
+Right.
 
-I think you can better express this using __auto_type than typeof(),
-it is now provided by all supported compilers now.
+>
+> And GENPD_NOTIFY_OFF seems to provide the notification that it was
+> successful (i.e. happened within the timeout etc).
+>
+> > Would this work?
+> >
+>
+> If we can control the behavior of the genpd, I think it would.
 
-     Arnd
+Okay, it seems like we need a new dev_pm_genpd_* interface that
+consumers can call to instruct the genpd provider, that its
+->power_off() callback needs to temporarily switch to become
+synchronous.
+
+I guess this could be useful for other similar cases too, where the
+corresponding PM domain isn't actually being powered off, but rather
+just voted for to become powered off, thus relying on the HW to do the
+aggregation.
+
+In any case, I am still a bit skeptical of the reset approach, as is
+being suggested in the $subject series. Even if it's rather nice and
+clean (but somewhat abusing the interface), it looks like there will
+be synchronization problems between the calls to the
+pm_runtime_put_sync() and reset_control_reset() in the GPU driver. The
+"reset" may actually already have happened when the call to
+reset_control_reset() is done, so we may fail to detect the power
+collapse, right!?
+
+Let me cook a patch for the new genpd interface that I have in mind,
+then we can see how that plays out together with the other parts. I
+will post it on Monday!
+
+Kind regards
+Uffe
