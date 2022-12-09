@@ -1,51 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03DD0648420
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Dec 2022 15:50:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 589C2648457
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Dec 2022 15:57:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FC5310E011;
-	Fri,  9 Dec 2022 14:49:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D915010E231;
+	Fri,  9 Dec 2022 14:57:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D49910E011
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Dec 2022 14:49:52 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id BF5668500F;
- Fri,  9 Dec 2022 15:49:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1670597390;
- bh=zniACeWZ8F9CjNbWs3xwSx3TBUgkwMOatyWqyknFitk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=p0nCsnji8eYWWvoG/jVA0aafn2tM6SEi3OaVBT0/flYAlR3Eoy2u0adLs6YtyJoiI
- IqRMJCIRh2YHm4hh7DHY6IteGGLyzxTZUQaKY7KKxhPv8UVYnedljebm7iGvCNz+dR
- Vsyt1AHhf7Bfc/FJ5v+MNmASwtWS2o3Dp+vMwVyEs3RFVvRCU7X5K29lTiIBY4UUM1
- B5MKw8XJYcw9ywVQwD9VH09oeiFsuOAF6/8+6MmT4hN9p766EFI0Yswbo+ZfEGfQs6
- x7yQOYy6wlKDU8s0it/hcRMq6R+RMo+zO3mzO1QsEl8a6D7yNWUGyyDx6777kDuIKl
- KoWJZOstXmDBg==
-Message-ID: <c6f2cc52-41c6-028f-4d3f-e8a4d5d73dcd@denx.de>
-Date: Fri, 9 Dec 2022 15:49:48 +0100
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9770E10E029
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Dec 2022 14:57:26 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id 1so7417586lfz.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Dec 2022 06:57:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=7J0TRFpxYFO8l+uYWyA/vikM8HYkKYJhsAgNGT3Tc5o=;
+ b=Lf/Djb40bLkM8VInQ1pLDSyt5NAycSK/65rpI+LWMpMAIF1aEXW9Wmq/6SSEl091gw
+ xl4ttFIwAAUipdbtRBONlQViNjc6wdJ4cO2r2tc2iYTi1BFprYtEBpA9PopRPACRW1PA
+ CsDAHzoNurr/hWSwJ4uaBufSG0XkJ4B2Dpv6SvDbJtK7/oEx59sRX3b+8gBsCxCELSdX
+ quWVLHeLTpOR9e4O5lPM3dL8hCifev31Ziw79FymRa08UHKNnFbuzBUOkGH7JvEQ8E1Q
+ nAxa/xMYgGW7VWsGmVF3mYqCmwp4eZKpiQkPw6wSTLb4mdcxwl5syRN2Gue1JOERMCo3
+ tjEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7J0TRFpxYFO8l+uYWyA/vikM8HYkKYJhsAgNGT3Tc5o=;
+ b=IuTb1J4DQ3ygi7EZEqiKjKIh+/gSsS5VYKKUh1L2plEBTwaLzV6OamS+hvgA/LgnYz
+ baRfyEU05a12ZQsCvPp8eyo6F15uWkMhqhc1tAxaW0RuSepOeaEqFnKNMt5AEwCAYzfM
+ CSaT9IwI8UeZ6G7GsWbSf5QFilIpWT8qbP1MQPSTNJhbk8fXp7WCWYMF7y3yaiWZiyE1
+ njXLdz6N3sh9YRdNSodwmVx8rFv94HAQCaS5hjUQypNAWAS6KgZIShzZbBZy4tz7lCBi
+ 02jH2nQ/OQwuEKkKEbvfWvNXg22MNGYGvpok/F+zg8ub+pdxPEjg+Je65gzGeAPo3ol3
+ vO9A==
+X-Gm-Message-State: ANoB5pnw85dkONrqHu7eXDGVp9huZ/sbpRJWhH58BNpDJ+RZaP5ChTRC
+ UkJMj83mifzGItPa6MwEAThqCw==
+X-Google-Smtp-Source: AA0mqf6390q1LWWYTitf3zCcoubMJ1stQadogWnI1EZsqeT7GcBNgsXO1PqxqlrjMSLCcqyCHFvwvA==
+X-Received: by 2002:a05:6512:224a:b0:4a4:68b9:19fc with SMTP id
+ i10-20020a056512224a00b004a468b919fcmr2563324lfu.36.1670597844896; 
+ Fri, 09 Dec 2022 06:57:24 -0800 (PST)
+Received: from [192.168.0.20]
+ (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+ by smtp.gmail.com with ESMTPSA id
+ w25-20020a05651204d900b004afac783b5esm286046lfq.238.2022.12.09.06.57.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Dec 2022 06:57:24 -0800 (PST)
+Message-ID: <97065624-2fcf-9b83-9129-27c88d49d946@linaro.org>
+Date: Fri, 9 Dec 2022 15:57:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.1
-Subject: Re: [PATCH 1/2] dt-bindings: drm/bridge: ti-sn65dsi83: Add enable
- delay property
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-References: <20221209083339.3780776-1-alexander.stein@ew.tq-group.com>
- <45157029.fMDQidcC6G@steina-w> <6da2330d-516e-7dc4-a000-1e68c7f7887e@denx.de>
- <2735716.BEx9A2HvPv@steina-w>
+Subject: Re: [PATCH v11 1/5] arm64: dts: qcom: add data-lanes and
+ link-freuencies into dp_out endpoint
 Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <2735716.BEx9A2HvPv@steina-w>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
+ robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
+ dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@linux.ie,
+ agross@kernel.org, dmitry.baryshkov@linaro.org, andersson@kernel.org,
+ konrad.dybcio@somainline.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org,
+ airlied@gmail.com
+References: <1670539015-11808-1-git-send-email-quic_khsieh@quicinc.com>
+ <1670539015-11808-2-git-send-email-quic_khsieh@quicinc.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <1670539015-11808-2-git-send-email-quic_khsieh@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,145 +83,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
- Robert Foss <robert.foss@linaro.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, devicetree@vger.kernel.org
+Cc: linux-arm-msm@vger.kernel.org, quic_sbillaka@quicinc.com,
+ freedreno@lists.freedesktop.org, quic_abhinavk@quicinc.com,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/9/22 14:38, Alexander Stein wrote:
-> Am Freitag, 9. Dezember 2022, 13:43:02 CET schrieb Marek Vasut:
->> On 12/9/22 13:21, Alexander Stein wrote:
->>> Hi Marek,
->>>
->>> Am Freitag, 9. Dezember 2022, 13:02:10 CET schrieb Marek Vasut:
->>>> On 12/9/22 10:36, Alexander Stein wrote:
->>>>> Hello Krzysztof,
->>>>
->>>> Hi,
->>>>
->>>>> Am Freitag, 9. Dezember 2022, 10:07:45 CET schrieb Krzysztof Kozlowski:
->>>>>> On 09/12/2022 09:54, Alexander Stein wrote:
->>>>>>> Hello Krzysztof,
->>>>>>>
->>>>>>> thanks for the fast feedback.
->>>>>>>
->>>>>>> Am Freitag, 9. Dezember 2022, 09:39:49 CET schrieb Krzysztof
-> Kozlowski:
->>>>>>>> On 09/12/2022 09:33, Alexander Stein wrote:
->>>>>>>>> It takes some time until the enable GPIO has settled when turning
->>>>>>>>> on.
->>>>>>>>> This delay is platform specific and may be caused by e.g. voltage
->>>>>>>>> shifts, capacitors etc.
->>>>>>>>>
->>>>>>>>> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
->>>>>>>>> ---
->>>>>>>>>
->>>>>>>>>     .../devicetree/bindings/display/bridge/ti,sn65dsi83.yaml      | 4
->>>>>>>>>     ++++
->>>>>>>>>     1 file changed, 4 insertions(+)
->>>>>>>>>
->>>>>>>>> diff --git
->>>>>>>>> a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
->>>>>>>>> b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
->>>>>>>>> index 48a97bb3e2e0d..3f50d497cf8ac 100644
->>>>>>>>> ---
->>>>>>>>> a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
->>>>>>>>> +++
->>>>>>>>> b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
->>>>>>>>>
->>>>>>>>> @@ -32,6 +32,10 @@ properties:
->>>>>>>>>         maxItems: 1
->>>>>>>>>         description: GPIO specifier for bridge_en pin (active high).
->>>>>>>>>
->>>>>>>>> +  ti,enable-delay-us:
->>>>>>>>> +    default: 10000
->>>>>>>>> +    description: Enable time delay for enable-gpios
->>>>>>>>
->>>>>>>> Aren't you now mixing two separate delays? One for entire block on (I
->>>>>>>> would assume mostly fixed delay) and one depending on regulators
->>>>>>>> (regulator-ramp-delay, regulator-enable-ramp-delay). Maybe you miss
->>>>>>>> the
->>>>>>>> second delays in your power supply? If so, the first one might be
->>>>>>>> fixed
->>>>>>>> and hard-coded in the driver?
->>>>>>>
->>>>>>> Apparently there are two different delays: reset time (t_reset) of
->>>>>>> 10ms
->>>>>>> as
->>>>>>> specified by datasheet. This is already ensured by a following delay
->>>>>>> after
->>>>>>> requesting enable_gpio as low and switching the GPIO to low in disable
->>>>>>> path.
->>>>>>>
->>>>>>> When enabling this GPIO it takes some time until it is valid on the
->>>>>>> chip,
->>>>>>> this is what this series is about. It's highly platform specific.
->>>>>>>
->>>>>>> Unfortunately this is completely unrelated to the vcc-supply
->>>>>>> regulator.
->>>>>>> This one has to be enabled before the enable GPIO can be enabled. So
->>>>>>> there is no regulator-ramp-delay.
->>>>>>
->>>>>> Your driver does one after another - regulator followed immediately by
->>>>>> gpio - so this as well can be a delay from regulator (maybe not ramp
->>>>>> but
->>>>>> enable delay).
->>>>
->>>> The chip has two separate input pins:
->>>>
->>>> VCC -- power supply that's regulator
->>>> EN -- reset line, that's GPIO
->>>>
->>>> Alexander is talking about EN line here.
->>>>
->>>>> But this will introduce a section which must not be interrupted or
->>>>> delayed.
->>>>> This is impossible as the enable gpio is attached to an i2c expander in
->>>>> my
->>>>> case.
->>>>>
->>>>> Given the following time chart:
->>>>>     vcc                  set             EN
->>>>>
->>>>> enable               GPIO             PAD
->>>>>
->>>>>      |                    |<-- t_raise -->|
->>>>>      |
->>>>>      | <-- t_vcc_gpio --> |               |
->>>>>      | <--        t_enable_delay      --> |
->>>>>
->>>>> t_raise is the time from changing the GPIO output at the expander until
->>>>> voltage on the EN (input) pad from the bridge has reached high voltage
->>>>> level. This is an electrical characteristic I can not change and have to
->>>>> take into account.
->>>>> t_vcc_gpio is the time from enabling supply voltage to enabling the
->>>>> bridge
->>>>> (removing from reset). Minimum t_vcc_gpio is something which can be
->>>>> addressed by the regulator and is no problem so far. But there is no
->>>>> upper bound to it.
->>>>
->>>> What exactly is your EN signal rise time (should be ns or so)? Can you
->>>> look at that with a scope , maybe even with relation to the VCC regulator
->>>> ?
->>>
->>> I checked EN rise time using a scope, it's ~110ms. I not an expert in
->>> hardware but on the mainboard there is some capacitor attached to this
->>> line, which increased the time, independent from the internal pull-up.
->>
->> This does seem like a hardware bug right there, can you double-check
->> this with the hardware engineer ?
+On 08/12/2022 23:36, Kuogee Hsieh wrote:
+> Move data-lanes property from mdss_dp node to dp_out endpoint. Also
+> add link-frequencies property into dp_out endpoint as well. The last
+> frequency specified at link-frequencies will be the max link rate
+> supported by DP.
 > 
-> Yep, checked with hardware engineer. An 470nF is attached, together with an
-> open drain output and only the internal pull-up. So yes ~113ms rising time
-> until 0.7 x VCC.
+> Changes in v5:
+> -- revert changes at sc7180.dtsi and sc7280.dtsi
+> -- add &dp_out to sc7180-trogdor.dtsi and sc7280-herobrine.dtsi
+> 
+> Changes in v6:
+> -- add data-lanes and link-frequencies to yaml
+> 
+> Changes in v7:
+> -- change 160000000 to 1620000000
+> -- separate yaml to different patch
+> 
+> Changes in v8:
+> -- correct Bjorn mail address to kernel.org
+> 
+> Changes in v9:
+> -- use symbol rate (hz) for link-frequencies at dp_out at sc7180_trogdor.dtsi
+> 
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> ---
+>  arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi   | 6 +++++-
+>  arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi | 6 +++++-
+>  2 files changed, 10 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
+> index eae22e6..93b0cde 100644
+> --- a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
+> @@ -814,7 +814,11 @@ hp_i2c: &i2c9 {
+>  	status = "okay";
+>  	pinctrl-names = "default";
+>  	pinctrl-0 = <&dp_hot_plug_det>;
+> -	data-lanes = <0 1>;
+> +};
+> +
+> +&dp_out {
+> +    data-lanes = <0  1>;
 
-I don't suppose you can have that capacitor reduced or better yet, some 
-external pull up added, can you ?
+Why adding two spaces? Just cut previous line and paste it, don't change it.
+
+> +    link-frequencies = /bits/ 64 <1620000000 2700000000 5400000000>;
+>  };
+>  
+>  &pm6150_adc {
+> diff --git a/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi b/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi
+> index c11e371..3c7a9d8 100644
+> --- a/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi
+> @@ -442,7 +442,11 @@ ap_i2c_tpm: &i2c14 {
+>  	status = "okay";
+>  	pinctrl-names = "default";
+>  	pinctrl-0 = <&dp_hot_plug_det>;
+> -	data-lanes = <0 1>;
+> +};
+> +
+> +&dp_out {
+> +	data-lanes = <0  1>;
+
+Ditto
+
+
+Best regards,
+Krzysztof
+
