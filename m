@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56F76648580
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Dec 2022 16:28:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC9AC648582
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Dec 2022 16:29:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E13E10E54F;
-	Fri,  9 Dec 2022 15:28:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4111C10E550;
+	Fri,  9 Dec 2022 15:29:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
- [IPv6:2607:f8b0:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 696A110E54F
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Dec 2022 15:28:29 +0000 (UTC)
-Received: by mail-pl1-x62c.google.com with SMTP id 4so5262071pli.0
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Dec 2022 07:28:29 -0800 (PST)
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
+ [IPv6:2607:f8b0:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E0FD10E550
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Dec 2022 15:28:54 +0000 (UTC)
+Received: by mail-pl1-x629.google.com with SMTP id m4so5230955pls.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Dec 2022 07:28:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=m44vPnqg/tFp5+4q15ZzrAAsZWANQlxSVTxmtXu3/9A=;
- b=EUVyUp9GaIYxpqTpKsJZA/dslfBr1LQitUAbqIQCAmaGpjJ+uCb3d+CQOig4xPRcPc
- aFC+TX0zNZGmuptvTlgK64AboxxKY5AGoJiETrXiBwSjqibNuz4epAy6S9ePy8OL6lS8
- Ojj5+y2GeN5ihsePK5GcNwaRNUE+BrBo9UPmA=
+ bh=8p9dxhpDEUaFEM6i9u4TLkBBVBUWb0qAkL73zpJR35M=;
+ b=WqAhRmTfaE1uP5V7v5oPhs2j9JbsB9dzNO8h4T/RMEk8iF/m2H8QUpZHH7rc1ZKWjo
+ SfV6DYb8cWbrApPZp6YnEkBtbtJehtmX5xaqT9JI/Y4+NDMBmmZ6yYh7xqiLn15XlVvY
+ i9V1dFR4zy7R4rVJqWVI2sxW+h6MsZhopwgag=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=m44vPnqg/tFp5+4q15ZzrAAsZWANQlxSVTxmtXu3/9A=;
- b=sjtP6t3Lh969/SiPaS7XiLLcyysN1UGdBIUmxNVRtHYs84SCnn1Z6Z74PskaeTapUG
- AZYIsRBTkeCdZqsc+UaV63VuBhkpZBi9d6fOLStji2kAijfDc+JqTjIkSU48Ws8RrDpH
- qG5jWUGr2AdPpQ7UJ3zIOYptzsTIJ/aYgH+8itxJg3ZNEUqSWRdWzxk5ieXoRJpWH6Y+
- zTno7l7+zHp5NOtlbBQ1lfCJ6Ymb5LO1a+4rNnwhVMUNOQVQl0ofBl41SNVId0hKAYYp
- AzbTj7NcZKfAzsSeLzW8sK4QSZ0D0eJ3HDOUR5JhuPV+Sen2AOkNBAYZf8BFFMPQSJzj
- LtWA==
-X-Gm-Message-State: ANoB5pmfj9w1RkFAbYbF/7pt+yNSHkLBvxYw7W/uSGwJpsMuX75hr6hG
- ipMJdPAugEsxWi291GfiZ4hhrw==
-X-Google-Smtp-Source: AA0mqf6dQt+VkYj1h/ciPSlfHKO+5DZj9mgOoawK+JvVkI95FUXfGcdlpDfODYugKo8sr8nE2IExCw==
-X-Received: by 2002:a17:902:e892:b0:188:f0da:c25c with SMTP id
- w18-20020a170902e89200b00188f0dac25cmr9238571plg.14.1670599708957; 
- Fri, 09 Dec 2022 07:28:28 -0800 (PST)
+ bh=8p9dxhpDEUaFEM6i9u4TLkBBVBUWb0qAkL73zpJR35M=;
+ b=09K27ASsOnCyag+7eR2VoAyLtN/ag22WTusA2RFNfvhF99SSI31Pyd69e0b8/XixIy
+ G0P8xCBl5HOVzYyWdji4ZCBKu5362VkL9E/qDw5Yz9XL1toJdna1XCu80eN416eYkRem
+ NJ2wV7feyn8ZpsKfeNsrRNqC+nZ2bxmtp09hWP3Gwcp+Ki9XYbwTtfCPgvwm73ky+Csx
+ MjaCz1EbIrgQlAGHUWqAAz/+j5GL4IE10wZrGkEQ+sw7EQJX2LbS7wSxjDbTyTND0DQj
+ T2YxIYZAdQj+VfeRnE3ej0/p1jE0tRegjoGc1uVyz4trfHZbZ4u6ucQC1ovv8z99bDuz
+ 9Neg==
+X-Gm-Message-State: ANoB5pnEfBwIgwTNaimnrWxz/TpmFIe/8ZmcvZn+i4nfSeerpsShL/vB
+ AZvZ1noECqT+2xMtNHG3QArB9w==
+X-Google-Smtp-Source: AA0mqf7/OotqOappfZc8v6yh5v3mGpz5PlKhFLaT389Uh2ISaD6ESdcdD7ej1WqilpE5rytaXYbZbw==
+X-Received: by 2002:a05:6a20:a599:b0:a4:3203:40c9 with SMTP id
+ bc25-20020a056a20a59900b000a4320340c9mr7741002pzb.59.1670599734187; 
+ Fri, 09 Dec 2022 07:28:54 -0800 (PST)
 Received: from localhost.localdomain ([2405:201:c00a:a809:6ba1:bbda:c542:ba0b])
  by smtp.gmail.com with ESMTPSA id
- x14-20020a170902ec8e00b00188c5f0f9e9sm1477587plg.199.2022.12.09.07.28.10
+ x14-20020a170902ec8e00b00188c5f0f9e9sm1477587plg.199.2022.12.09.07.28.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Dec 2022 07:28:28 -0800 (PST)
+ Fri, 09 Dec 2022 07:28:53 -0800 (PST)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
@@ -61,9 +61,10 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
  Marek Vasut <marex@denx.de>
-Subject: [PATCH v9 14/18] drm: bridge: samsung-dsim: Add input_bus_flags
-Date: Fri,  9 Dec 2022 20:53:39 +0530
-Message-Id: <20221209152343.180139-15-jagan@amarulasolutions.com>
+Subject: [PATCH v9 15/18] dt-bindings: display: exynos: dsim: Add NXP i.MX8M
+ Mini/Nano support
+Date: Fri,  9 Dec 2022 20:53:40 +0530
+Message-Id: <20221209152343.180139-16-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221209152343.180139-1-jagan@amarulasolutions.com>
 References: <20221209152343.180139-1-jagan@amarulasolutions.com>
@@ -88,60 +89,46 @@ Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-LCDIF-DSIM glue logic inverts the HS/VS/DE signals and expecting
-the i.MX8M Mini/Nano DSI host to add additional Data Enable signal
-active low (DE_LOW). This makes the valid data transfer on each
-horizontal line.
+Samsung MIPI DSIM bridge can also be found in i.MX8M Mini/Nano SoC.
 
-So, add additional bus flags DE_LOW setting via input_bus_flags for
-i.MX8M Mini/Nano platforms.
+Add dt-bingings for it.
 
 v9:
 * none
 
 v8:
-* add DE_LOW for i.MX8M Mini/Nano platforms.
+* add comment to include i.MX8M Nano.
 
-v7, v6:
+v7, v6, v5, v4:
 * none
 
-v5:
-* rebased based on updated bridge changes
+v3:
+* collect Rob Acked-by
 
-v4, v3, v2, v1:
-* none
+v2:
+* updated comments
 
+v1:
+* new patch
+
+Acked-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
- drivers/gpu/drm/bridge/samsung-dsim.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index ef0d802d25bf..4de1294f29b3 100644
---- a/drivers/gpu/drm/bridge/samsung-dsim.c
-+++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -1654,6 +1654,10 @@ static const struct samsung_dsim_host_ops samsung_dsim_generic_host_ops = {
- 	.unregister_host = samsung_dsim_unregister_host,
- };
- 
-+static const struct drm_bridge_timings samsung_dsim_bridge_timings_de_low = {
-+	.input_bus_flags = DRM_BUS_FLAG_DE_LOW,
-+};
-+
- int samsung_dsim_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-@@ -1736,6 +1740,10 @@ int samsung_dsim_probe(struct platform_device *pdev)
- 	dsi->bridge.of_node = dev->of_node;
- 	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
- 
-+	/* DE_LOW: i.MX8M Mini/Nano LCDIF-DSIM glue logic inverts HS/VS/DE */
-+	if (dsi->plat_data->hw_type == SAMSUNG_DSIM_TYPE_IMX8MM)
-+		dsi->bridge.timings = &samsung_dsim_bridge_timings_de_low;
-+
- 	if (dsi->plat_data->host_ops && dsi->plat_data->host_ops->register_host)
- 		ret = dsi->plat_data->host_ops->register_host(dsi);
- 
+diff --git a/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt b/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt
+index be377786e8cd..5133d4d39190 100644
+--- a/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt
++++ b/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt
+@@ -7,6 +7,7 @@ Required properties:
+ 		"samsung,exynos5410-mipi-dsi" /* for Exynos5410/5420/5440 SoCs */
+ 		"samsung,exynos5422-mipi-dsi" /* for Exynos5422/5800 SoCs */
+ 		"samsung,exynos5433-mipi-dsi" /* for Exynos5433 SoCs */
++		"fsl,imx8mm-mipi-dsim" /* for i.MX8M Mini/Nano SoCs */
+   - reg: physical base address and length of the registers set for the device
+   - interrupts: should contain DSI interrupt
+   - clocks: list of clock specifiers, must contain an entry for each required
 -- 
 2.25.1
 
