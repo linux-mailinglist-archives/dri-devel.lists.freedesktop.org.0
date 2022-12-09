@@ -2,91 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CE07648A74
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Dec 2022 23:01:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81F18648A8B
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Dec 2022 23:06:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89E3410E58E;
-	Fri,  9 Dec 2022 22:01:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6EB110E58B;
+	Fri,  9 Dec 2022 22:06:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5829010E1FF;
- Fri,  9 Dec 2022 22:01:13 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nTCzv/AzdcQwCtFsQ1eVcSkIUvweaQU0drU20qIj6OfIA4XI6hxiC0ylii3fh+qzzCFXxIIrw/f9HxDzZVLKtOKngvnlC86czkHjnYgcWwUji8wYbS2WfmitINpM0EQHXnGMofrBb68o/GplUuQexNqglUMdkwF0Fn+MlXyafh+t72nYiEhgwWcOEaX09/EGvqpa7Lbpjhz3BXyf2F9zgjAr7sJrdOiPpHNtIy9x1I2ln88MSn6a018ZukrOm83Fmb+b0q0hT+AVPgfhhVNa2mgU0cmG1GZ7Uv5oqu7LTX+YTRB9fAA2aiQg/qtw4YrRRCu6F8DPL4OIGu1PqAfyqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tIAGPF9i6eNfrLobLtUp3VG8Lo/zlgo31BBZ4Cam7CI=;
- b=Q3JlBFKxLiGG/qlZUNMtrEynuRiczvGHUVm9CK6+GIohNZzcQ+QUrM+P6SB0jZrRkmrodUgsroirPTxc/qIsySX3asCd20Y01l4VSysPLYNkapWcZgigGDFdex/4DXGXZ4jIVJNrcg40PibeVqyav8W2GPXuo+uMdzWua/Fxzy7YnQH1JxawygiCDpg8SxfjP9/xQZEUfjSjmBP17QKiJsZQTVJ/edZS6uuDfpdIULpccGTAUKcOQ4DDF1JnPMeB/t8xLLpbsgvYJY4ln5qmJGEtaonf+pbLY1BKLnxUSeTyFw2HlHFVkD2T3EsdU/zdC7h4YtV8Va31Ey5DNeanZg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tIAGPF9i6eNfrLobLtUp3VG8Lo/zlgo31BBZ4Cam7CI=;
- b=pJGmaX79vGu2mp6o7mUaMk5gDK+6KNEeQoA8+VDmPgU5L+HBT3PvnrTU1pwDy1rZLtR4P0Dsmt6D31uLqfHcJLrjXULdWN2z/ga0ZRF+QQVlPjGF/UYXxJjXxbVOuKtxx8aqGh0kactNoun3hXjHC81Ar0iU5cipOGCyuAAa5f0=
-Received: from DM6PR05CA0040.namprd05.prod.outlook.com (2603:10b6:5:335::9) by
- DM6PR12MB4356.namprd12.prod.outlook.com (2603:10b6:5:2aa::8) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5880.14; Fri, 9 Dec 2022 22:01:10 +0000
-Received: from DM6NAM11FT025.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:335:cafe::26) by DM6PR05CA0040.outlook.office365.com
- (2603:10b6:5:335::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.5 via Frontend
- Transport; Fri, 9 Dec 2022 22:01:10 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT025.mail.protection.outlook.com (10.13.172.197) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5901.17 via Frontend Transport; Fri, 9 Dec 2022 22:01:10 +0000
-Received: from smtp.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 9 Dec
- 2022 16:01:09 -0600
-From: Sung Joon Kim <Sungjoon.Kim@amd.com>
-To: <harry.wentland@amd.com>, <rodrigo.siqueira@amd.com>,
- <alexander.deucher@amd.com>
-Subject: [PATCH v2] drm/display: Add missing Adaptive Sync DPCD definitions
-Date: Fri, 9 Dec 2022 17:00:21 -0500
-Message-ID: <20221209220021.4413-1-Sungjoon.Kim@amd.com>
-X-Mailer: git-send-email 2.20.1
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E509E10E590
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Dec 2022 22:06:31 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1p3lVS-0004Cr-71; Fri, 09 Dec 2022 23:06:10 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1p3lVN-003Rl1-6k; Fri, 09 Dec 2022 23:06:05 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1p3lVN-003s4M-7n; Fri, 09 Dec 2022 23:06:05 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Arnd Bergmann <arnd@arndb.de>, Inki Dae <inki.dae@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Tomi Valkeinen <tomba@kernel.org>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Yannick Fertre <yannick.fertre@foss.st.com>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>
+Subject: [PATCH] drm: Drop ARCH_MULTIPLATFORM from dependencies
+Date: Fri,  9 Dec 2022 23:05:54 +0100
+Message-Id: <20221209220555.3631364-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3841;
+ i=u.kleine-koenig@pengutronix.de; h=from:subject;
+ bh=g7U++VBYjsw72zS1Mwx3VnFa6URcPWkN6VrvjEwwg+s=;
+ b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBjk7E/6dUH2l3E5Z1fbm4ZVcX+8Ul6vtdDy7DiDQTE
+ jebjo+eJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCY5OxPwAKCRDB/BR4rcrsCW5TB/
+ 4lA5OoB41UM9P/8u1JBYMhLilxGrFM1Y54iJlvJgc/oXkK1jJMZ5g4Z0wDyUJk+jaOjTZ+ucgbEcvZ
+ TbVwY98MfzHS/YBINUJgmf9I0iZW5TSZn1stSHaFUF1zPa0lChc2eEU2HvshYM9y98rdcRGjv03q8B
+ +OFu/jfxW55oiq0x5Vwh7XU2YiX5+sKJDYmG2t1+M4OzzM09d6G/MA2VHlE5q3WtuQbUDjo9vEJPXj
+ HuNDm6s+dzgZGQOSO6tzbv0/N6YOdsPnVDdCz3sSglOH8OQtFPkInp7Cf/ceRjnNANv442zRzK6Gmb
+ qIjlDkziphIEaaVCEa2nIGiqLEm0Bp
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
+ fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT025:EE_|DM6PR12MB4356:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5c1d7671-574d-4cd5-976c-08dada30e190
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GXz4vmcowVS2zYS00udNRRb+a136eWjLMZwS6bucH8l+H7VKaiPcXXfBBnwkjBdMKfdkSaBr4fVj6rkl0Bx0NDAgBSsYlweNwoAqO1GAPXYdQNJp0p/9TPH21MuUi7nbbUJFvpVwWOR2ANAAqwYu093PWZSYrYSxjl406kRRaLPQ/hd7Tz4O3qlEWxryqRmvQ9p4Wg5x5p7Mzk5YSF1IuIV8g0Z8tOFXHc2XnV3SRhIu7fljKd0lGV23vGuEnF1sQIDOx9FnoFG8SRBQ+HG9G98y4zYCQWSCoUrYQAM7tAB/SnbzvXVij1JNRKEdGi7IfPL5oQ4riNcgqf/oHteG/N7j7Pppu2M+/tF2j8YqOHZpB0BdyjZGvo3Y+Znh8k0yjSU/CmFGLTg5j4n1pRRpdHmyRufffHCHG/47RLIRftHvdg3ZrkRW7LNPKuX0HNNJdIayDO2B5bjpNUnX7HZ4k7xcUPujAkkk2uG13L3ykQWT/qb0BocriK6yGzzehDVrbd6aCZVSS80P/M8qD/yMEBhMRHbghXIsRRCo4yWW3dFyVC4NDSccgBD2Ebw4Ba5eVD1wzgzcr0ZvgiI09VPo3CvkJQsLWtTeV8Y8C+80mXJelty56Xm5PWMXQwJNIzJjpwTlVQspym/hAv/RtZ+K1HOHMcA2OYWpQG+4A2mfEBZu7E/5ag3AGkAF0g4reINDnnQKLv42Yq2ev8L72+e60PP4ZO3AczYyrb0SRtMJ3bI=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230022)(4636009)(136003)(396003)(376002)(39860400002)(346002)(451199015)(36840700001)(46966006)(40470700004)(81166007)(40480700001)(36756003)(41300700001)(86362001)(478600001)(26005)(70206006)(70586007)(5660300002)(316002)(4326008)(54906003)(6636002)(450100002)(8936002)(2906002)(6666004)(110136005)(8676002)(356005)(1076003)(2616005)(82310400005)(82740400003)(336012)(36860700001)(16526019)(426003)(186003)(40460700003)(47076005)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2022 22:01:10.3200 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5c1d7671-574d-4cd5-976c-08dada30e190
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT025.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4356
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,57 +75,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sung Joon Kim <Sungjoon.Kim@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, nikola.cornij@amd.com
+Cc: linux-samsung-soc@vger.kernel.org, Alim Akhtar <alim.akhtar@samsung.com>,
+ dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The missing DPCD defintions from DP2.0 spec is as follows:
+Some of these dependencies used to be sensible when only a small part of
+the platforms supported by ARCH=arm could be compiled together in a
+single kernel image. Nowadays ARCH_MULTIPLATFORM is only used as a guard
+for kernel options incompatible with a multiplatform image. See commit
+84fc86360623 ("ARM: make ARCH_MULTIPLATFORM user-visible") for some more
+details.
 
-DOWNSPREAD_CTRL (107h):
-	FIXED_VTOTAL_AS_SDP_EN_IN_PR_ACTIVE (bit 6)
-		For sink devices that support Adaptive-Sync operation
-		and Panel Replay
-
-DPRX_FEATURE_ENUMERATION_LIST_CONT_1 (2214h):
-	ADAPTIVE_SYNC_SDP_SUPPORTED (bit 0)
-		Bit to check sink device has Adaptive-Sync capability
-	AS_SDP_FIRST_HALF_LINE_OR_3840_PIXEL_CYCLE_WINDOW_NOT_SUPPORTED (bit 1)
-		A sink device that clears this bit will generate VSync pulse
-		leading edge of the HDMI output on the line count at which
-		Adaptive-Sync SDP is received as long as source device transmits
-		Adaptive-Sync SDP either in first line or first 3840 pixel cycles
-		of the line whichever occurs first.
-	VSC_EXT_SDP_FRAMEWORK_VERSION_1_SUPPORTED (bit 4)
-		Bit to check sink device has SDP framework version 1 capability
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- include/drm/display/drm_dp.h | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/exynos/Kconfig  | 2 +-
+ drivers/gpu/drm/imx/Kconfig     | 2 +-
+ drivers/gpu/drm/omapdrm/Kconfig | 2 +-
+ drivers/gpu/drm/sti/Kconfig     | 2 +-
+ drivers/gpu/drm/stm/Kconfig     | 2 +-
+ drivers/gpu/ipu-v3/Kconfig      | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
-index 4d0abe4c7ea9..1bd6f9af0b46 100644
---- a/include/drm/display/drm_dp.h
-+++ b/include/drm/display/drm_dp.h
-@@ -603,6 +603,7 @@
- 
- #define DP_DOWNSPREAD_CTRL		    0x107
- # define DP_SPREAD_AMP_0_5		    (1 << 4)
-+# define DP_FIXED_VTOTAL_AS_SDP_EN_IN_PR_ACTIVE  (1 << 6)
- # define DP_MSA_TIMING_PAR_IGNORE_EN	    (1 << 7) /* eDP */
- 
- #define DP_MAIN_LINK_CHANNEL_CODING_SET	    0x108
-@@ -1105,6 +1106,11 @@
- # define DP_VSC_EXT_CEA_SDP_SUPPORTED			(1 << 6)  /* DP 1.4 */
- # define DP_VSC_EXT_CEA_SDP_CHAINING_SUPPORTED		(1 << 7)  /* DP 1.4 */
- 
-+#define DP_DPRX_FEATURE_ENUMERATION_LIST_CONT_1         0x2214 /* 2.0 E11 */
-+# define DP_ADAPTIVE_SYNC_SDP_SUPPORTED    (1 << 0)
-+# define DP_AS_SDP_FIRST_HALF_LINE_OR_3840_PIXEL_CYCLE_WINDOW_NOT_SUPPORTED (1 << 1)
-+# define DP_VSC_EXT_SDP_FRAMEWORK_VERSION_1_SUPPORTED  (1 << 4)
-+
- #define DP_128B132B_SUPPORTED_LINK_RATES       0x2215 /* 2.0 */
- # define DP_UHBR10                             (1 << 0)
- # define DP_UHBR20                             (1 << 1)
+diff --git a/drivers/gpu/drm/exynos/Kconfig b/drivers/gpu/drm/exynos/Kconfig
+index 3d2f025d4fd4..4049fa4273ab 100644
+--- a/drivers/gpu/drm/exynos/Kconfig
++++ b/drivers/gpu/drm/exynos/Kconfig
+@@ -2,7 +2,7 @@
+ config DRM_EXYNOS
+ 	tristate "DRM Support for Samsung SoC Exynos Series"
+ 	depends on OF && DRM && COMMON_CLK
+-	depends on ARCH_S3C64XX || ARCH_S5PV210 || ARCH_EXYNOS || ARCH_MULTIPLATFORM || COMPILE_TEST
++	depends on ARCH_S3C64XX || ARCH_S5PV210 || ARCH_EXYNOS || COMPILE_TEST
+ 	depends on MMU
+ 	select DRM_DISPLAY_HELPER if DRM_EXYNOS_DP
+ 	select DRM_KMS_HELPER
+diff --git a/drivers/gpu/drm/imx/Kconfig b/drivers/gpu/drm/imx/Kconfig
+index fd5b2471fdf0..773888839497 100644
+--- a/drivers/gpu/drm/imx/Kconfig
++++ b/drivers/gpu/drm/imx/Kconfig
+@@ -4,7 +4,7 @@ config DRM_IMX
+ 	select DRM_KMS_HELPER
+ 	select VIDEOMODE_HELPERS
+ 	select DRM_GEM_DMA_HELPER
+-	depends on DRM && (ARCH_MXC || ARCH_MULTIPLATFORM || COMPILE_TEST)
++	depends on DRM && (ARCH_MXC || COMPILE_TEST)
+ 	depends on IMX_IPUV3_CORE
+ 	help
+ 	  enable i.MX graphics support
+diff --git a/drivers/gpu/drm/omapdrm/Kconfig b/drivers/gpu/drm/omapdrm/Kconfig
+index 455e1a91f0e5..76ded1568bd0 100644
+--- a/drivers/gpu/drm/omapdrm/Kconfig
++++ b/drivers/gpu/drm/omapdrm/Kconfig
+@@ -2,7 +2,7 @@
+ config DRM_OMAP
+ 	tristate "OMAP DRM"
+ 	depends on DRM && OF
+-	depends on ARCH_OMAP2PLUS || ARCH_MULTIPLATFORM
++	depends on ARCH_OMAP2PLUS
+ 	select DRM_KMS_HELPER
+ 	select VIDEOMODE_HELPERS
+ 	select HDMI
+diff --git a/drivers/gpu/drm/sti/Kconfig b/drivers/gpu/drm/sti/Kconfig
+index f2a880c48485..3c7a5feff8de 100644
+--- a/drivers/gpu/drm/sti/Kconfig
++++ b/drivers/gpu/drm/sti/Kconfig
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ config DRM_STI
+ 	tristate "DRM Support for STMicroelectronics SoC stiH4xx Series"
+-	depends on OF && DRM && (ARCH_STI || ARCH_MULTIPLATFORM)
++	depends on OF && DRM && ARCH_STI
+ 	select RESET_CONTROLLER
+ 	select DRM_KMS_HELPER
+ 	select DRM_GEM_DMA_HELPER
+diff --git a/drivers/gpu/drm/stm/Kconfig b/drivers/gpu/drm/stm/Kconfig
+index ded72f879482..fa49cde43bb2 100644
+--- a/drivers/gpu/drm/stm/Kconfig
++++ b/drivers/gpu/drm/stm/Kconfig
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ config DRM_STM
+ 	tristate "DRM Support for STMicroelectronics SoC Series"
+-	depends on DRM && (ARCH_STM32 || ARCH_MULTIPLATFORM)
++	depends on DRM && ARCH_STM32
+ 	select DRM_KMS_HELPER
+ 	select DRM_GEM_DMA_HELPER
+ 	select DRM_PANEL_BRIDGE
+diff --git a/drivers/gpu/ipu-v3/Kconfig b/drivers/gpu/ipu-v3/Kconfig
+index 061fb990c120..7dece2a53c5c 100644
+--- a/drivers/gpu/ipu-v3/Kconfig
++++ b/drivers/gpu/ipu-v3/Kconfig
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ config IMX_IPUV3_CORE
+ 	tristate "IPUv3 core support"
+-	depends on SOC_IMX5 || SOC_IMX6Q || ARCH_MULTIPLATFORM || COMPILE_TEST
++	depends on SOC_IMX5 || SOC_IMX6Q || COMPILE_TEST
+ 	depends on DRM || !DRM # if DRM=m, this can't be 'y'
+ 	select BITREVERSE
+ 	select GENERIC_ALLOCATOR if DRM
+
+base-commit: 0d1409e4ff08aa4a9a254d3f723410db32aa7552
 -- 
-2.20.1
+2.38.1
 
