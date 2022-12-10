@@ -2,46 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4E45648DEA
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Dec 2022 10:22:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54C2E648E7B
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Dec 2022 12:43:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A805A10E0B7;
-	Sat, 10 Dec 2022 09:22:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98E3D89F27;
+	Sat, 10 Dec 2022 11:43:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2061210E0B7
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Dec 2022 09:22:24 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1p3w3Y-0003nU-Gl; Sat, 10 Dec 2022 10:22:04 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1p3w3T-003YC4-IF; Sat, 10 Dec 2022 10:22:00 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1p3w3T-003yUw-Ba; Sat, 10 Dec 2022 10:21:59 +0100
-Date: Sat, 10 Dec 2022 10:21:55 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH] drm: Drop ARCH_MULTIPLATFORM from dependencies
-Message-ID: <20221210092155.elcuvcbb4ukktxjp@pengutronix.de>
-References: <20221209220555.3631364-1-u.kleine-koenig@pengutronix.de>
- <96e8a731-bf92-4cfd-b0be-dfbcb7a076c6@app.fastmail.com>
+X-Greylist: delayed 450 seconds by postgrey-1.36 at gabe;
+ Sat, 10 Dec 2022 11:43:05 UTC
+Received: from smtp.smtpout.orange.fr (smtp-14.smtpout.orange.fr
+ [80.12.242.14])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8D1E789F27
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Dec 2022 11:43:05 +0000 (UTC)
+Received: from pop-os.home ([86.243.100.34]) by smtp.orange.fr with ESMTPA
+ id 3y8gpaJiRNF1W3y8gp0xrM; Sat, 10 Dec 2022 12:35:32 +0100
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 10 Dec 2022 12:35:32 +0100
+X-ME-IP: 86.243.100.34
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Michal Januszewski <spock@gentoo.org>, Helge Deller <deller@gmx.de>,
+ Antonino Daplas <adaplas@gmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH v2 1/2] video: fbdev: uvesafb: Fixes an error handling path in
+ uvesafb_probe()
+Date: Sat, 10 Dec 2022 12:35:22 +0100
+Message-Id: <0eba6acb70fa1270d8cf798afd11ce342aa7e8e1.1670671944.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="lx3uyybbmyqkxs4g"
-Content-Disposition: inline
-In-Reply-To: <96e8a731-bf92-4cfd-b0be-dfbcb7a076c6@app.fastmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,91 +44,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, Alim Akhtar <alim.akhtar@samsung.com>,
- linux-stm32@st-md-mailman.stormreply.com, linux-samsung-soc@vger.kernel.org,
- Kyungmin Park <kyungmin.park@samsung.com>, NXP Linux Team <linux-imx@nxp.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Alain Volmat <alain.volmat@foss.st.com>,
- linux-arm-kernel@lists.infradead.org, Tomi Valkeinen <tomba@kernel.org>,
- Yannick Fertre <yannick.fertre@foss.st.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>
+Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ linux-fbdev@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+If an error occurs after a successful uvesafb_init_mtrr() call, it must be
+undone by a corresponding arch_phys_wc_del() call, as already done in the
+remove function.
 
---lx3uyybbmyqkxs4g
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This has been added in the remove function in commit 63e28a7a5ffc
+("uvesafb: Clean up MTRR code")
 
-Hello Arnd,
+Fixes: 8bdb3a2d7df4 ("uvesafb: the driver core")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+Unsure about the Fixes tag, maybe it is 63e28a7a5ffc
 
-On Fri, Dec 09, 2022 at 11:53:49PM +0100, Arnd Bergmann wrote:
-> On Fri, Dec 9, 2022, at 23:05, Uwe Kleine-K=F6nig wrote:
-> > Some of these dependencies used to be sensible when only a small part of
-> > the platforms supported by ARCH=3Darm could be compiled together in a
-> > single kernel image. Nowadays ARCH_MULTIPLATFORM is only used as a guard
-> > for kernel options incompatible with a multiplatform image. See commit
-> > 84fc86360623 ("ARM: make ARCH_MULTIPLATFORM user-visible") for some more
-> > details.
-> >
-> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
->=20
-> Makes sense,
->=20
-> Acked-by: Arnd Bergmann <arnd@arndb.de>
+Change in v2:
+  - add arch_phys_wc_del() at the right place in the error handling path
 
-Thanks. (But honestly I'm not surprised you agree to this patch after
-our conversation on irc :-)
-=20
-> > diff --git a/drivers/gpu/drm/omapdrm/Kconfig=20
-> > b/drivers/gpu/drm/omapdrm/Kconfig
-> > index 455e1a91f0e5..76ded1568bd0 100644
-> > --- a/drivers/gpu/drm/omapdrm/Kconfig
-> > +++ b/drivers/gpu/drm/omapdrm/Kconfig
-> > @@ -2,7 +2,7 @@
-> >  config DRM_OMAP
-> >  	tristate "OMAP DRM"
-> >  	depends on DRM && OF
-> > -	depends on ARCH_OMAP2PLUS || ARCH_MULTIPLATFORM
-> > +	depends on ARCH_OMAP2PLUS
-> >  	select DRM_KMS_HELPER
-> >  	select VIDEOMODE_HELPERS
-> >  	select HDMI
->=20
-> Since the original purpose of the ||ARCH_MULTIPLATFORM was to allow
-> building the driver on more targets, I wonder if we should instead
-> make that ||COMPILE_TEST, which would also allow building it on
-> x86 and others.
+v1 (a long time ago!):
+https://lore.kernel.org/all/dd2a4806d3a570ab84947806f38a494454fd0245.1622994310.git.christophe.jaillet@wanadoo.fr/
+---
+ drivers/video/fbdev/uvesafb.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-I wondered about that, too, but thought that would be a new patch.
+diff --git a/drivers/video/fbdev/uvesafb.c b/drivers/video/fbdev/uvesafb.c
+index 00d789b6c0fa..0e3cabbec4b4 100644
+--- a/drivers/video/fbdev/uvesafb.c
++++ b/drivers/video/fbdev/uvesafb.c
+@@ -1758,6 +1758,7 @@ static int uvesafb_probe(struct platform_device *dev)
+ out_unmap:
+ 	iounmap(info->screen_base);
+ out_mem:
++	arch_phys_wc_del(par->mtrr_handle);
+ 	release_mem_region(info->fix.smem_start, info->fix.smem_len);
+ out_reg:
+ 	release_region(0x3c0, 32);
+-- 
+2.34.1
 
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---lx3uyybbmyqkxs4g
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmOUT7AACgkQwfwUeK3K
-7Amcbgf9FjDJ3Y/G6MIauV6V2InYndp8uCxtZzkthWGB+KJwzC9s9h5qnAAmOmpE
-qN/t2/cHhGqjOrbdBWvHZbXZVRkp9b3O8YhTSXGaavSOPGo2hdRofAJ77nnwXbzn
-V56RWaNtHq115LwxdWUnj2Gj8J2vl69XCUCawcT8sjT7QA7fP9/WA/tyrFS+Qkiz
-kwxBgJsyNtpy9K/0bMdvOy/E5FI4CkRy2U6h7Lq0SxZIwM3hx22elrLbrjgdaiZC
-lKJSyfB2mELNGEYzmhyXXI49cbfcwjMw3i6z8+/jXTSFGHhta2ARzHlPGl945VFn
-Vtlv+RShs/Yf3gqhsSYCL6q8o0zehA==
-=ZXhE
------END PGP SIGNATURE-----
-
---lx3uyybbmyqkxs4g--
