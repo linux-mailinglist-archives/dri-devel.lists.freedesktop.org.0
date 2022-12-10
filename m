@@ -1,73 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C778D64957E
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Dec 2022 19:02:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4909264957F
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Dec 2022 19:02:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 079A710E124;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DA0110E147;
 	Sun, 11 Dec 2022 18:02:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0101910E0FA;
- Sat, 10 Dec 2022 15:32:25 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id g7so11580370lfv.5;
- Sat, 10 Dec 2022 07:32:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=oRHZR/X7WaqGo/ddCHzOT7n/qAXJIlyYM4HSSM5FYTI=;
- b=oWs97s9T9ZOV8JYqwjPC83XXYRQ+DQv6LGrumD66MR7dux1ml4pStevZJdOfxhZtqF
- W2Wet39svhu2GuEolvQqlnN1DlPiYFeSrbgLypBIhA/uluFpd9sBcMAXEdO6f3w4Gob/
- pVLFFRWPe5EPZWu7zGGxsbxaiNIyGnWvw53M0uHEM/CSovlLEBnjXeHS8biTfJRl7pSo
- Jw5qliJ655VlI1M9/zxQSKoMf35bNX7eJhEV/fqx7dWou9GWne/vdr24bZw1neDCj4pH
- 9LjO3md+UZDKttUvXY4T0GaOpdTrpa9BSrGDkTsBNgHPKubsmfI1WIR0q20wT9f5MAq4
- yYZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oRHZR/X7WaqGo/ddCHzOT7n/qAXJIlyYM4HSSM5FYTI=;
- b=m9/hAF4gCEBI2uCyF3ZgVG8AEiTpm6+tkU0Iyl5RXhrFGtjIyYhQxCIKqJeIW9sCIF
- Vb5tgWIDSotXBNc6VI+A8HtxyN2NvVqGbtddt7VoqWCJ2kSsBJUoTyapPSvtLoQSMpII
- 0tEPagTO56dP1tOwa+k7rJQeReDdqOHu4ACGySw3dAaiWECtslLIXethvDeJwzaWPJpD
- JLCZpnX9isQnXaRMLzAerCTiu9zsPiyKsoUU7y//J3B4A+TvGej7OSKELaGmNY9v4TIA
- m7rx4YgQCaL/hEL94rXAybNL3pXoM3dRzgiwdCLADCrBpo1GPb+VVh5onGAymlnSESfB
- AKGA==
-X-Gm-Message-State: ANoB5plRBUJCoRAZBaZgcEV5XyZRz+jBooK322KujrfdbLjHHxCj048D
- 0fWwtjj0jt94pLnC6k07e1o/E6NmLA==
-X-Google-Smtp-Source: AA0mqf4EnqYjdHi4JwYAqkn0XuWsk/1Xf0XuybAtZo8z2BUqeJFa4esXZY8uIEYC1xLugHQAHz8SZg==
-X-Received: by 2002:a05:6512:151a:b0:4b2:28c7:b2bb with SMTP id
- bq26-20020a056512151a00b004b228c7b2bbmr3638369lfb.1.1670686344041; 
- Sat, 10 Dec 2022 07:32:24 -0800 (PST)
-Received: from sqrt.uni.cx (0854358661.static.corbina.ru. [95.31.0.167])
- by smtp.gmail.com with ESMTPSA id
- a13-20020a19f80d000000b004a46f92a15bsm759806lff.41.2022.12.10.07.32.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 10 Dec 2022 07:32:23 -0800 (PST)
-Date: Sat, 10 Dec 2022 18:32:36 +0300
-From: Mikhail Krylov <sqarert@gmail.com>
-To: Alex Deucher <alexdeucher@gmail.com>
-Subject: Re: Screen corruption using radeon kernel driver
-Message-ID: <Y5SmlC/h3aT8VEx7@sqrt.uni.cx>
-References: <CADnq5_NTyvZR16_N0TzMo3f9Mg6EwOuwuBgYzDA=U7tur7Fmnw@mail.gmail.com>
- <Y4UelMnRkY7/0G6U@sqrt.uni.cx>
- <CADnq5_MactA_n4sTKZ_-TpYFZnOfEeygHF3r+zH94By2Dm86cA@mail.gmail.com>
- <Y4YsWo8MPAeg9DRQ@sqrt.uni.cx>
- <CADnq5_MNmOHVuszVfCZ8Ajm85Wb5roe4-20BEXXzsEVpAC_Rkg@mail.gmail.com>
- <Y4Y9SJC7gtUxP4+R@sqrt.uni.cx>
- <a5f73cfa-bd2a-3ab8-1e5c-253cfd832ea7@arm.com>
- <CADnq5_M5ScTd0AYddRBRiEupxRsV16eHFnLnZ3QYzE5gyMPqhw@mail.gmail.com>
- <adf4a9b2-c30d-1e74-9848-7a63b3e0c674@arm.com>
- <CADnq5_PCGVhpk0TpnJKBx7BODV8xWk4hAyXM27tCxBpyS2y9gw@mail.gmail.com>
+X-Greylist: delayed 315 seconds by postgrey-1.36 at gabe;
+ Sat, 10 Dec 2022 18:07:07 UTC
+Received: from forward103j.mail.yandex.net (forward103j.mail.yandex.net
+ [5.45.198.246])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 501B810E0DC;
+ Sat, 10 Dec 2022 18:07:07 +0000 (UTC)
+Received: from forward101q.mail.yandex.net (forward101q.mail.yandex.net
+ [IPv6:2a02:6b8:c0e:4b:0:640:4012:bb98])
+ by forward103j.mail.yandex.net (Yandex) with ESMTP id 798FF101AF4;
+ Sat, 10 Dec 2022 21:01:47 +0300 (MSK)
+Received: from vla5-1ef2161cc1d7.qloud-c.yandex.net
+ (vla5-1ef2161cc1d7.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c18:3607:0:640:1ef2:161c])
+ by forward101q.mail.yandex.net (Yandex) with ESMTP id 74E1F13E80002;
+ Sat, 10 Dec 2022 21:01:47 +0300 (MSK)
+Received: by vla5-1ef2161cc1d7.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
+ id j1gRoFCZEOs1-LYqGIaIh; Sat, 10 Dec 2022 21:01:46 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skif-web.ru; s=mail;
+ t=1670695306; bh=d4LSP210pPsizDp0BFbLhYh/xU1PF2q/gTxyraEFraM=;
+ h=Message-Id:Date:Cc:Subject:To:From;
+ b=ojObATcgxbhAkntM7e5z327TbthRoYz/QbiRZaEzjRc/gdDlqzt+2mMwf+bH6tCnQ
+ aiT/mHwkFWCPVDO9y0VNtBV1qdKqZmaz5qI1EgmFTP7ASBPo7fOZ5vjvzGMyri4vwk
+ cwWcU+jaVX5kLFh9NaPyO7arokanAosSrZLiHHHc=
+Authentication-Results: vla5-1ef2161cc1d7.qloud-c.yandex.net;
+ dkim=pass header.i=@skif-web.ru
+From: Alexey Lukyanchuk <skif@skif-web.ru>
+To: tvrtko.ursulin@linux.intel.com
+Subject: [PATCH RFC] fix dell wyse 3040 poweroff 
+Date: Sat, 10 Dec 2022 21:01:19 +0300
+Message-Id: <20221210180118.22087-1-skif@skif-web.ru>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="qHLOkjE0yNQwf+r7"
-Content-Disposition: inline
-In-Reply-To: <CADnq5_PCGVhpk0TpnJKBx7BODV8xWk4hAyXM27tCxBpyS2y9gw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Sun, 11 Dec 2022 18:02:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,145 +56,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Robin Murphy <robin.murphy@arm.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>
+Cc: Alexey Lukyanchuk <skif@skif-web.ru>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Dell wyse 3040 cat't poweroff aftet kernel 5.11.
+It happens  because i915_driver_shutdown function.
+Disabling of this function mitigate this problem.
 
---qHLOkjE0yNQwf+r7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fixes: 440b354f3 ("drivers/gpu/drm:power off troubles on dell wyse 3040") 
+Signed-off-by: Alexey Lukyanchuk <skif@skif-web.ru> 
+---
+There is trouble with i915_driver_shutdown function. After some diving I found that trouble looks like race condition in drm_atomic_get_connector_state function (drivers/gpu/drm/drm_atomic.c), maybe it linked to iterators. Now I fully exclude i915_driver_shutdown for wyse 3040 device.
 
-On Wed, Nov 30, 2022 at 11:07:32AM -0500, Alex Deucher wrote:
-> On Wed, Nov 30, 2022 at 10:42 AM Robin Murphy <robin.murphy@arm.com> wrot=
-e:
-> >
-> > On 2022-11-30 14:28, Alex Deucher wrote:
-> > > On Wed, Nov 30, 2022 at 7:54 AM Robin Murphy <robin.murphy@arm.com> w=
-rote:
-> > >>
-> > >> On 2022-11-29 17:11, Mikhail Krylov wrote:
-> > >>> On Tue, Nov 29, 2022 at 11:05:28AM -0500, Alex Deucher wrote:
-> > >>>> On Tue, Nov 29, 2022 at 10:59 AM Mikhail Krylov <sqarert@gmail.com=
-> wrote:
-> > >>>>>
-> > >>>>> On Tue, Nov 29, 2022 at 09:44:19AM -0500, Alex Deucher wrote:
-> > >>>>>> On Mon, Nov 28, 2022 at 3:48 PM Mikhail Krylov <sqarert@gmail.co=
-m> wrote:
-> > >>>>>>>
-> > >>>>>>> On Mon, Nov 28, 2022 at 09:50:50AM -0500, Alex Deucher wrote:
-> > >>>>>>>
-> > >>>>>>>>>> [excessive quoting removed]
-> > >>>>>>>
-> > >>>>>>>>> So, is there any progress on this issue? I do understand it's=
- not a high
-> > >>>>>>>>> priority one, and today I've checked it on 6.0 kernel, and
-> > >>>>>>>>> unfortunately, it still persists...
-> > >>>>>>>>>
-> > >>>>>>>>> I'm considering writing a patch that will allow user to overr=
-ide
-> > >>>>>>>>> need_dma32/dma_bits setting with a module parameter. I'll hav=
-e some time
-> > >>>>>>>>> after the New Year for that.
-> > >>>>>>>>>
-> > >>>>>>>>> Is it at all possible that such a patch will be merged into k=
-ernel?
-> > >>>>>>>>>
-> > >>>>>>>> On Mon, Nov 28, 2022 at 9:31 AM Mikhail Krylov <sqarert@gmail.=
-com> wrote:
-> > >>>>>>>> Unless someone familiar with HIMEM can figure out what is goin=
-g wrong
-> > >>>>>>>> we should just revert the patch.
-> > >>>>>>>>
-> > >>>>>>>> Alex
-> > >>>>>>>
-> > >>>>>>>
-> > >>>>>>> Okay, I was suggesting that mostly because
-> > >>>>>>>
-> > >>>>>>> a) it works for me with dma_bits =3D 40 (I understand that's wh=
-at it is
-> > >>>>>>> without the original patch applied);
-> > >>>>>>>
-> > >>>>>>> b) there's a hint of uncertainity on this line
-> > >>>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
-git/tree/drivers/gpu/drm/radeon/radeon_device.c#n1359
-> > >>>>>>> saying that for AGP dma_bits =3D 32 is the safest option, so ap=
-parently there are
-> > >>>>>>> setups, unlike mine, where dma_bits =3D 32 is better than 40.
-> > >>>>>>>
-> > >>>>>>> But I'm in no position to argue, just wanted to make myself cle=
-ar.
-> > >>>>>>> I'm okay with rebuilding the kernel for my machine until the or=
-iginal
-> > >>>>>>> patch is reverted or any other fix is applied.
-> > >>>>>>
-> > >>>>>> What GPU do you have and is it AGP?  If it is AGP, does setting
-> > >>>>>> radeon.agpmode=3D-1 also fix it?
-> > >>>>>>
-> > >>>>>> Alex
-> > >>>>>
-> > >>>>> That is ATI Radeon X1950, and, unfortunately, radeon.agpmode=3D-1=
- doesn't
-> > >>>>> help, it just makes 3D acceleration in games such as OpenArena st=
-op
-> > >>>>> working.
-> > >>>>
-> > >>>> Just to confirm, is the board AGP or PCIe?
-> > >>>>
-> > >>>> Alex
-> > >>>
-> > >>> It is AGP. That's an old machine.
-> > >>
-> > >> Can you check whether dma_addressing_limited() is actually returning=
- the
-> > >> expected result at the point of radeon_ttm_init()? Disabling highmem=
- is
-> > >> presumably just hiding whatever problem exists, by throwing away all
-> > >>   >32-bit RAM such that use_dma32 doesn't matter.
-> > >
-> > > The device in question only supports a 32 bit DMA mask so
-> > > dma_addressing_limited() should return true.  Bounce buffers are not
-> > > really usable on GPUs because they map so much memory.  If
-> > > dma_addressing_limited() returns false, that would explain it.
-> >
-> > Right, it appears to be the only part of the offending commit that
-> > *could* reasonably make any difference, so I'm primarily wondering if
-> > dma_get_required_mask() somehow gets confused.
->=20
-> Mikhail,
->=20
-> Can you see that dma_addressing_limited() and dma_get_required_mask()
-> return in this case?
->=20
-> Alex
->=20
->=20
-> >
-> > Thanks,
-> > Robin.
+Can any one comment on this one please ? 
+---
+ drivers/gpu/drm/i915/display/intel_quirks.c | 25 +++++++++++++++++++++
+ drivers/gpu/drm/i915/i915_driver.c          |  3 +++
+ drivers/gpu/drm/i915/i915_drv.h             |  1 +
+ 3 files changed, 29 insertions(+)
 
-Hello again, I was able to confirm by adding printk() to the functions
-and recompiling the kernel that dma_addressing_limited() returns
-*false* on the kernel with the bug.=20
+diff --git a/drivers/gpu/drm/i915/display/intel_quirks.c b/drivers/gpu/drm/i915/display/intel_quirks.c
+index e415cd7c0..a6a549d48 100644
+--- a/drivers/gpu/drm/i915/display/intel_quirks.c
++++ b/drivers/gpu/drm/i915/display/intel_quirks.c
+@@ -60,6 +60,12 @@ static void quirk_no_pps_backlight_power_hook(struct drm_i915_private *i915)
+ 	drm_info(&i915->drm, "Applying no pps backlight power quirk\n");
+ }
+ 
++static void quirk_wyse_3040_shutdown_fix(struct drm_i915_private *i915)
++{
++	i915->quirks |= QUIRK_WYSE_3040_SHUTDOWN_FIX;
++	drm_info(&i915->drm, "Applying wyse 3040 shutdown fix\n");
++}
++
+ struct intel_quirk {
+ 	int device;
+ 	int subsystem_vendor;
+@@ -85,6 +91,12 @@ static int intel_dmi_no_pps_backlight(const struct dmi_system_id *id)
+ 	return 1;
+ }
+ 
++static int wyse_3040_shutdown_fix(const struct dmi_system_id *id)
++{
++	DRM_INFO("This device need help with poweroff %s\n", id->ident);
++	return 1;
++}
++
+ static const struct intel_dmi_quirk intel_dmi_quirks[] = {
+ 	{
+ 		.dmi_id_list = &(const struct dmi_system_id[]) {
+@@ -131,6 +143,19 @@ static const struct intel_dmi_quirk intel_dmi_quirks[] = {
+ 		},
+ 		.hook = quirk_no_pps_backlight_power_hook,
+ 	},
++	{
++		.dmi_id_list = &(const struct dmi_system_id[]) {
++			{
++				.callback = wyse_3040_shutdown_fix,
++				.ident = "Dell Inc. 0G56C0",
++				.matches = {DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "Dell Inc."),
++					    DMI_EXACT_MATCH(DMI_BOARD_NAME, "0G56C0"),
++				},
++			},
++			{ }
++		},
++		.hook = quirk_wyse_3040_shutdown_fix,
++	},
+ };
+ 
+ static struct intel_quirk intel_quirks[] = {
+diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
+index deb8a8b76..af60fb79a 100644
+--- a/drivers/gpu/drm/i915/i915_driver.c
++++ b/drivers/gpu/drm/i915/i915_driver.c
+@@ -1079,6 +1079,9 @@ static void intel_shutdown_encoders(struct drm_i915_private *dev_priv)
+ 
+ void i915_driver_shutdown(struct drm_i915_private *i915)
+ {
++	if (!(i915->quirks & QUIRK_WYSE_3040_SHUTDOWN_FIX))
++		return;
++
+ 	disable_rpm_wakeref_asserts(&i915->runtime_pm);
+ 	intel_runtime_pm_disable(&i915->runtime_pm);
+ 	intel_power_domains_disable(i915);
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index 086bbe894..fdd6866e7 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -200,6 +200,7 @@ struct drm_i915_display_funcs {
+ #define QUIRK_INCREASE_T12_DELAY (1<<6)
+ #define QUIRK_INCREASE_DDI_DISABLED_TIME (1<<7)
+ #define QUIRK_NO_PPS_BACKLIGHT_POWER_HOOK (1<<8)
++#define QUIRK_WYSE_3040_SHUTDOWN_FIX (1<<9)
+ 
+ struct i915_suspend_saved_registers {
+ 	u32 saveDSPARB;
+-- 
+2.25.1
 
-And dma_get_required_mask() returns 0x7fffffff, as I said before.
-
---qHLOkjE0yNQwf+r7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEq9zNqT9shXHTn/gRzNfc0dbmrQAFAmOUppQACgkQzNfc0dbm
-rQBMsgf/bzRG5sxNt7IdPwZ6SLqNx2TjJgsM1brmVw+7uDUOEX4AU7IdFozicGeJ
-fDuW14yYf9jleJ5hn4rQBPKKdVAQ1B12kQHSHDVm9vBtW8VjLylc0V/2F66HF8W7
-mCJN7j6c0Z1o7AJ7mZju3fRPMoF/wW1Qivnw3ywR63LVowcyxKP4xCe99Zp9jIy0
-IQAdVc6Dw5fJ2s1Hbb9laEDYKNPH6EoUQJmRYmgVSjvW1aELziumjhnGu2h6TW45
-QNYHlpEX86Qgc8VCDQ5X7S3BBQDnh+tlwRtRt0xBtkTqbLjJ93imk1YBcHkIlcjy
-Yp1fiEHx4UUhqVrQnhf/JP/8AlikDA==
-=E5Zh
------END PGP SIGNATURE-----
-
---qHLOkjE0yNQwf+r7--
