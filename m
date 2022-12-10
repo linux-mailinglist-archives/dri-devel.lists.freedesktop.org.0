@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE0F5648B4D
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Dec 2022 00:17:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB084648CA9
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Dec 2022 04:14:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5772110E595;
-	Fri,  9 Dec 2022 23:16:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5597310E063;
+	Sat, 10 Dec 2022 03:14:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com
- [IPv6:2001:4860:4864:20::36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77A1110E08F;
- Fri,  9 Dec 2022 23:16:47 +0000 (UTC)
-Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-1447c7aa004so1525300fac.11; 
- Fri, 09 Dec 2022 15:16:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=PkLQpu5eL9OZHKRdAfTyoXfk6Fj63Rxr9laOGfg5xGc=;
- b=IRlMxe/QOBYNsZOuFX2veFnSjEcbVyUfnIFUjzu7cAUBoFvhBrAaqJDzWWdVJMjMTg
- lO7d4nhXBvVfUdinsnNcocldGhGe5YBDB4BzQy54ZcIzuUscMEXv0JNrVKpZi2ppZ9bC
- /9pp1sp7Q4FiNKbgnacrziuWpvY8GNsBoRRcHcB+2DIwO1mdrAR9ECLBPG8dUAv3ciXJ
- i2fBuNWyfruZxToVdAlV23G/60j4Bbl4D52ZBnVcMfSheftPK859x3Gd/kHNw+Pbkuyn
- Iv0Ejc29hRhdSTUbIq8qtlKxf4dumHmin/ghLjPGURAMBnceWh2GMwFHjsHgjolu6e0v
- nYTg==
+Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com
+ [IPv6:2607:f8b0:4864:20::b32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B35610E063
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Dec 2022 03:14:00 +0000 (UTC)
+Received: by mail-yb1-xb32.google.com with SMTP id i186so7682861ybc.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Dec 2022 19:14:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=puhhx/GU0T3NXLqqWXTCjhDEWYCFqFbhOu3JuJgDFA8=;
+ b=yfh1LyKtfhDu64mVcwcXgiIaQ5MbnEOQVGQ2P9Cj+UoKmDlPiL+U86cXvF+Kj+DERs
+ 52Nfb7zFjBJ8fGsZ5HjU/pTZrxcPkOEUj4KVTG7wXh7cvAHqvb/YTuSQNOsLnawQiq3R
+ Dq4nTskBAaD+NVI9aeMRpOBNKmO5bfztYo2CqeFEA9OgonaqZW14KZA7hZ08bLkA8ERs
+ 3YEVrmxIEX8D+6dyJhRY3GP83ZQYXUnNy6ULOrMtyozoi62kP6DeH2lDwyl89qdSo/Mm
+ ll2boaxXbqG2Pdi2RVYt3vz0CD1BIaxH0TJkRCTdBqKmSoh065AnmsQGtWiSq6gopVZw
+ XR4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=PkLQpu5eL9OZHKRdAfTyoXfk6Fj63Rxr9laOGfg5xGc=;
- b=hPKt1rTqbA+lDjfVJtsAbNo7w6KkwGv7wf8UrACA3vGCapD2JHJve0YWaBEnMdlZJw
- WAKpnnmdnoGgS4UykeorVyxAA1ey33V6q+tfAMSeAr0wmQgf4wvH3HlQEtwtB1BQHoJO
- yDccMybBVQrriFMnBVcedYOqPyll6URvcI2N54ykrWG/1TdT5eLJlPb8YlFem1ToFP72
- Rhl/MZcvbnHcXcZehsN4G/vqRih8AeVPct2yAP8DUQ7Xjpke77VFSDmPo7JJ8NE48de4
- HSAsayL9sBE8cTyLnB2NQSsKIZLYOnA9PSR/9b+K8LJaq7MLDavwAbBok8wrgBe68pQx
- zXkw==
-X-Gm-Message-State: ANoB5plYwWSgbzN5hEDe2jhUnCsSKBnatTCQ6tXT/toZhF7DeoS3fi2h
- QyS4lYyvaaS6wVCTdW+O2eL4jvFvf4eKdf8/8qU=
-X-Google-Smtp-Source: AA0mqf6MtRxq7OjbEiJtrmZnXTvTYRNWU2BbVAy8sQApGfyusInceJkgyzbXJEi2tUHTr2CeLSl9o+U+ljlumUDckC0=
-X-Received: by 2002:a05:6870:2b05:b0:12d:58c1:33f9 with SMTP id
- ld5-20020a0568702b0500b0012d58c133f9mr44331937oab.46.1670627806672; Fri, 09
- Dec 2022 15:16:46 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=puhhx/GU0T3NXLqqWXTCjhDEWYCFqFbhOu3JuJgDFA8=;
+ b=L1v+fMvvulhv5pILe7Nk4Jw+4yW8Ks9NwKmlibL4VkVji/78ZhnoMSkOKarpSD6omA
+ CMT/ooODg2KgdAAlQRPqvJL/FM09/af+/Gl64MbOZZOdbOFBw07IQNQe84M5gWBmseNo
+ g1NC6A6v0mmShUL6idxvC6HwWk/gpwlrcjbOrA9bS6L0XJU6OTBKqKKagcCKuVLAhips
+ uMy6NwAf5S1oGt9WJWvF3+yE9unwmUNXIXU0cbizEkmDoYwlLIYa55WveNL0pd+B6/PO
+ Xmnmqld9igV9isNx/YjyruNI62SAJpVETwwm187B+Bcfkv9bjx79j/sf48FuepVX9mVH
+ y6Uw==
+X-Gm-Message-State: ANoB5pmmRMZt8yN3amxoN7uxCeoe+mmBUiXTQR3c276QVuFYvkQlRZno
+ 1TI7NjC10qBa5xBiVeoFvl/raiYfY3GKZjoDjjlP9A==
+X-Google-Smtp-Source: AA0mqf5srgU9qKqc2DjPmJLutxXhtzqQBJLJ83A+5w7VvMQf5WZLojIw7E4CzRwyVZDbkaNev92+yPrLGU9eVzr2f+k=
+X-Received: by 2002:a25:7709:0:b0:6fb:13c5:d33f with SMTP id
+ s9-20020a257709000000b006fb13c5d33fmr34469086ybc.157.1670642039332; Fri, 09
+ Dec 2022 19:13:59 -0800 (PST)
 MIME-Version: 1.0
-References: <Y5LwqRCPcYLizJFt@mail.google.com>
-In-Reply-To: <Y5LwqRCPcYLizJFt@mail.google.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 9 Dec 2022 18:16:34 -0500
-Message-ID: <CADnq5_NOyyLetx+wUtYL4f7ETHzVFAw_JnbGXGh5G1KYbUH3Zg@mail.gmail.com>
-Subject: Re: [PATCH] [next] drm/radeon: Replace 1-element arrays with
- flexible-array members
-To: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+References: <20221209071535.933698-1-christian.koenig@amd.com>
+In-Reply-To: <20221209071535.933698-1-christian.koenig@amd.com>
+From: Sumit Semwal <sumit.semwal@linaro.org>
+Date: Sat, 10 Dec 2022 08:43:47 +0530
+Message-ID: <CAO_48GEQmsiJ96iu16UKg-QWJDNK=y-QTcDOKTMc3CMt+S993g@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: fix dma_buf_export init order v2
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,98 +66,278 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-hardening@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org, quic_charante@quicinc.com,
+ cuigaosheng1@huawei.com, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+Hi Christian,
 
-Alex
+On Fri, 9 Dec 2022 at 12:45, Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+> The init order and resulting error handling in dma_buf_export
+> was pretty messy.
+>
+> Subordinate objects like the file and the sysfs kernel objects
+> were initializing and wiring itself up with the object in the
+> wrong order resulting not only in complicating and partially
+> incorrect error handling, but also in publishing only halve
+> initialized DMA-buf objects.
+>
+> Clean this up thoughtfully by allocating the file independent
+> of the DMA-buf object. Then allocate and initialize the DMA-buf
+> object itself, before publishing it through sysfs. If everything
+> works as expected the file is then connected with the DMA-buf
+> object and publish it through debugfs.
+>
+> Also adds the missing dma_resv_fini() into the error handling.
+>
+> v2: add some missing changes to dma_bug_getfile() and a missing NULL
+>     check in dma_buf_file_release()
+>
+> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
 
-On Fri, Dec 9, 2022 at 3:24 AM Paulo Miguel Almeida
-<paulo.miguel.almeida.rodenas@gmail.com> wrote:
->
-> One-element arrays are deprecated, and we are replacing them with
-> flexible array members instead. So, replace one-element array with
-> flexible-array member in structs _ATOM_DISPLAY_OBJECT_PATH,
-> _ATOM_DISPLAY_OBJECT_PATH_TABLE, _ATOM_OBJECT_TABLE, GOP_VBIOS_CONTENT
-> _ATOM_GPIO_VOLTAGE_OBJECT_V3 and refactor the rest of the code accordingly.
->
-> It's worth mentioning that doing a build before/after this patch
-> results in no binary output differences.
->
-> This helps with the ongoing efforts to tighten the FORTIFY_SOURCE
-> routines on memcpy() and help us make progress towards globally
-> enabling -fstrict-flex-arrays=3 [1].
->
-> Link: https://github.com/KSPP/linux/issues/79
-> Link: https://github.com/KSPP/linux/issues/239
-> Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=101836 [1]
->
-> Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+Thank you for this nice cleanup.
+Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
+
+Best,
+Sumit.
 > ---
-> Notes for the maintainer:
+>  drivers/dma-buf/dma-buf-sysfs-stats.c |  7 +--
+>  drivers/dma-buf/dma-buf-sysfs-stats.h |  4 +-
+>  drivers/dma-buf/dma-buf.c             | 84 +++++++++++++--------------
+>  3 files changed, 43 insertions(+), 52 deletions(-)
 >
-> - These are all fake-flexible arrays with references in source code for
->   the radeon driver. Given the way they are used, no change to *.c files
->   were required.
-> ---
->  drivers/gpu/drm/radeon/atombios.h | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-=
+buf-sysfs-stats.c
+> index 2bba0babcb62..4b680e10c15a 100644
+> --- a/drivers/dma-buf/dma-buf-sysfs-stats.c
+> +++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
+> @@ -168,14 +168,11 @@ void dma_buf_uninit_sysfs_statistics(void)
+>         kset_unregister(dma_buf_stats_kset);
+>  }
 >
-> diff --git a/drivers/gpu/drm/radeon/atombios.h b/drivers/gpu/drm/radeon/atombios.h
-> index 235e59b547a1..8a6621f1e82c 100644
-> --- a/drivers/gpu/drm/radeon/atombios.h
-> +++ b/drivers/gpu/drm/radeon/atombios.h
-> @@ -4020,7 +4020,7 @@ typedef struct  _ATOM_DISPLAY_OBJECT_PATH
->    USHORT    usSize;                                        //the size of ATOM_DISPLAY_OBJECT_PATH
->    USHORT    usConnObjectId;                                //Connector Object ID
->    USHORT    usGPUObjectId;                                 //GPU ID
-> -  USHORT    usGraphicObjIds[1];                             //1st Encoder Obj source from GPU to last Graphic Obj destinate to connector.
-> +  USHORT    usGraphicObjIds[];                             //1st Encoder Obj source from GPU to last Graphic Obj destinate to connector.
->  }ATOM_DISPLAY_OBJECT_PATH;
->
->  typedef struct  _ATOM_DISPLAY_EXTERNAL_OBJECT_PATH
-> @@ -4037,7 +4037,7 @@ typedef struct _ATOM_DISPLAY_OBJECT_PATH_TABLE
->    UCHAR                           ucNumOfDispPath;
->    UCHAR                           ucVersion;
->    UCHAR                           ucPadding[2];
-> -  ATOM_DISPLAY_OBJECT_PATH        asDispPath[1];
-> +  ATOM_DISPLAY_OBJECT_PATH        asDispPath[];
->  }ATOM_DISPLAY_OBJECT_PATH_TABLE;
->
->
-> @@ -4053,7 +4053,7 @@ typedef struct _ATOM_OBJECT_TABLE                         //Above 4 object table
+> -int dma_buf_stats_setup(struct dma_buf *dmabuf)
+> +int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file *file)
 >  {
->    UCHAR               ucNumberOfObjects;
->    UCHAR               ucPadding[3];
-> -  ATOM_OBJECT         asObjects[1];
-> +  ATOM_OBJECT         asObjects[];
->  }ATOM_OBJECT_TABLE;
+>         struct dma_buf_sysfs_entry *sysfs_entry;
+>         int ret;
 >
->  typedef struct _ATOM_SRC_DST_TABLE_FOR_ONE_OBJECT         //usSrcDstTableOffset pointing to this structure
-> @@ -4615,7 +4615,7 @@ typedef struct  _ATOM_GPIO_VOLTAGE_OBJECT_V3
->     UCHAR    ucPhaseDelay;                // phase delay in unit of micro second
->     UCHAR    ucReserved;
->     ULONG    ulGpioMaskVal;               // GPIO Mask value
-> -   VOLTAGE_LUT_ENTRY_V2 asVolGpioLut[1];
-> +   VOLTAGE_LUT_ENTRY_V2 asVolGpioLut[];
->  }ATOM_GPIO_VOLTAGE_OBJECT_V3;
+> -       if (!dmabuf || !dmabuf->file)
+> -               return -EINVAL;
+> -
+>         if (!dmabuf->exp_name) {
+>                 pr_err("exporter name must not be empty if stats needed\n=
+");
+>                 return -EINVAL;
+> @@ -192,7 +189,7 @@ int dma_buf_stats_setup(struct dma_buf *dmabuf)
 >
->  typedef struct  _ATOM_LEAKAGE_VOLTAGE_OBJECT_V3
-> @@ -7964,7 +7964,7 @@ typedef struct {
+>         /* create the directory for buffer stats */
+>         ret =3D kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_ktype, =
+NULL,
+> -                                  "%lu", file_inode(dmabuf->file)->i_ino=
+);
+> +                                  "%lu", file_inode(file)->i_ino);
+>         if (ret)
+>                 goto err_sysfs_dmabuf;
 >
->  typedef struct {
->    VFCT_IMAGE_HEADER    VbiosHeader;
-> -  UCHAR        VbiosContent[1];
-> +  UCHAR        VbiosContent[];
->  }GOP_VBIOS_CONTENT;
+> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.h b/drivers/dma-buf/dma-=
+buf-sysfs-stats.h
+> index a49c6e2650cc..7a8a995b75ba 100644
+> --- a/drivers/dma-buf/dma-buf-sysfs-stats.h
+> +++ b/drivers/dma-buf/dma-buf-sysfs-stats.h
+> @@ -13,7 +13,7 @@
+>  int dma_buf_init_sysfs_statistics(void);
+>  void dma_buf_uninit_sysfs_statistics(void);
 >
->  typedef struct {
+> -int dma_buf_stats_setup(struct dma_buf *dmabuf);
+> +int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file *file);
+>
+>  void dma_buf_stats_teardown(struct dma_buf *dmabuf);
+>  #else
+> @@ -25,7 +25,7 @@ static inline int dma_buf_init_sysfs_statistics(void)
+>
+>  static inline void dma_buf_uninit_sysfs_statistics(void) {}
+>
+> -static inline int dma_buf_stats_setup(struct dma_buf *dmabuf)
+> +static inline int dma_buf_stats_setup(struct dma_buf *dmabuf, struct fil=
+e *file)
+>  {
+>         return 0;
+>  }
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index e6f36c014c4c..eb6b59363c4f 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -95,10 +95,11 @@ static int dma_buf_file_release(struct inode *inode, =
+struct file *file)
+>                 return -EINVAL;
+>
+>         dmabuf =3D file->private_data;
+> -
+> -       mutex_lock(&db_list.lock);
+> -       list_del(&dmabuf->list_node);
+> -       mutex_unlock(&db_list.lock);
+> +       if (dmabuf) {
+> +               mutex_lock(&db_list.lock);
+> +               list_del(&dmabuf->list_node);
+> +               mutex_unlock(&db_list.lock);
+> +       }
+>
+>         return 0;
+>  }
+> @@ -523,17 +524,17 @@ static inline int is_dma_buf_file(struct file *file=
+)
+>         return file->f_op =3D=3D &dma_buf_fops;
+>  }
+>
+> -static struct file *dma_buf_getfile(struct dma_buf *dmabuf, int flags)
+> +static struct file *dma_buf_getfile(size_t size, int flags)
+>  {
+>         static atomic64_t dmabuf_inode =3D ATOMIC64_INIT(0);
+> -       struct file *file;
+>         struct inode *inode =3D alloc_anon_inode(dma_buf_mnt->mnt_sb);
+> +       struct file *file;
+>
+>         if (IS_ERR(inode))
+>                 return ERR_CAST(inode);
+>
+> -       inode->i_size =3D dmabuf->size;
+> -       inode_set_bytes(inode, dmabuf->size);
+> +       inode->i_size =3D size;
+> +       inode_set_bytes(inode, size);
+>
+>         /*
+>          * The ->i_ino acquired from get_next_ino() is not unique thus
+> @@ -547,8 +548,6 @@ static struct file *dma_buf_getfile(struct dma_buf *d=
+mabuf, int flags)
+>                                  flags, &dma_buf_fops);
+>         if (IS_ERR(file))
+>                 goto err_alloc_file;
+> -       file->private_data =3D dmabuf;
+> -       file->f_path.dentry->d_fsdata =3D dmabuf;
+>
+>         return file;
+>
+> @@ -614,19 +613,11 @@ struct dma_buf *dma_buf_export(const struct dma_buf=
+_export_info *exp_info)
+>         size_t alloc_size =3D sizeof(struct dma_buf);
+>         int ret;
+>
+> -       if (!exp_info->resv)
+> -               alloc_size +=3D sizeof(struct dma_resv);
+> -       else
+> -               /* prevent &dma_buf[1] =3D=3D dma_buf->resv */
+> -               alloc_size +=3D 1;
+> -
+> -       if (WARN_ON(!exp_info->priv
+> -                         || !exp_info->ops
+> -                         || !exp_info->ops->map_dma_buf
+> -                         || !exp_info->ops->unmap_dma_buf
+> -                         || !exp_info->ops->release)) {
+> +       if (WARN_ON(!exp_info->priv || !exp_info->ops
+> +                   || !exp_info->ops->map_dma_buf
+> +                   || !exp_info->ops->unmap_dma_buf
+> +                   || !exp_info->ops->release))
+>                 return ERR_PTR(-EINVAL);
+> -       }
+>
+>         if (WARN_ON(exp_info->ops->cache_sgt_mapping &&
+>                     (exp_info->ops->pin || exp_info->ops->unpin)))
+> @@ -638,10 +629,21 @@ struct dma_buf *dma_buf_export(const struct dma_buf=
+_export_info *exp_info)
+>         if (!try_module_get(exp_info->owner))
+>                 return ERR_PTR(-ENOENT);
+>
+> +       file =3D dma_buf_getfile(exp_info->size, exp_info->flags);
+> +       if (IS_ERR(file)) {
+> +               ret =3D PTR_ERR(file);
+> +               goto err_module;
+> +       }
+> +
+> +       if (!exp_info->resv)
+> +               alloc_size +=3D sizeof(struct dma_resv);
+> +       else
+> +               /* prevent &dma_buf[1] =3D=3D dma_buf->resv */
+> +               alloc_size +=3D 1;
+>         dmabuf =3D kzalloc(alloc_size, GFP_KERNEL);
+>         if (!dmabuf) {
+>                 ret =3D -ENOMEM;
+> -               goto err_module;
+> +               goto err_file;
+>         }
+>
+>         dmabuf->priv =3D exp_info->priv;
+> @@ -653,44 +655,36 @@ struct dma_buf *dma_buf_export(const struct dma_buf=
+_export_info *exp_info)
+>         init_waitqueue_head(&dmabuf->poll);
+>         dmabuf->cb_in.poll =3D dmabuf->cb_out.poll =3D &dmabuf->poll;
+>         dmabuf->cb_in.active =3D dmabuf->cb_out.active =3D 0;
+> +       mutex_init(&dmabuf->lock);
+> +       INIT_LIST_HEAD(&dmabuf->attachments);
+>
+>         if (!resv) {
+> -               resv =3D (struct dma_resv *)&dmabuf[1];
+> -               dma_resv_init(resv);
+> +               dmabuf->resv =3D (struct dma_resv *)&dmabuf[1];
+> +               dma_resv_init(dmabuf->resv);
+> +       } else {
+> +               dmabuf->resv =3D resv;
+>         }
+> -       dmabuf->resv =3D resv;
+>
+> -       file =3D dma_buf_getfile(dmabuf, exp_info->flags);
+> -       if (IS_ERR(file)) {
+> -               ret =3D PTR_ERR(file);
+> +       ret =3D dma_buf_stats_setup(dmabuf, file);
+> +       if (ret)
+>                 goto err_dmabuf;
+> -       }
+>
+> +       file->private_data =3D dmabuf;
+> +       file->f_path.dentry->d_fsdata =3D dmabuf;
+>         dmabuf->file =3D file;
+>
+> -       mutex_init(&dmabuf->lock);
+> -       INIT_LIST_HEAD(&dmabuf->attachments);
+> -
+>         mutex_lock(&db_list.lock);
+>         list_add(&dmabuf->list_node, &db_list.head);
+>         mutex_unlock(&db_list.lock);
+>
+> -       ret =3D dma_buf_stats_setup(dmabuf);
+> -       if (ret)
+> -               goto err_sysfs;
+> -
+>         return dmabuf;
+>
+> -err_sysfs:
+> -       /*
+> -        * Set file->f_path.dentry->d_fsdata to NULL so that when
+> -        * dma_buf_release() gets invoked by dentry_ops, it exits
+> -        * early before calling the release() dma_buf op.
+> -        */
+> -       file->f_path.dentry->d_fsdata =3D NULL;
+> -       fput(file);
+>  err_dmabuf:
+> +       if (!resv)
+> +               dma_resv_fini(dmabuf->resv);
+>         kfree(dmabuf);
+> +err_file:
+> +       fput(file);
+>  err_module:
+>         module_put(exp_info->owner);
+>         return ERR_PTR(ret);
 > --
-> 2.38.1
+> 2.34.1
 >
+
+
+--=20
+Thanks and regards,
+
+Sumit Semwal (he / him)
+Tech Lead - LCG, Vertical Technologies
+Linaro.org =E2=94=82 Open source software for ARM SoCs
