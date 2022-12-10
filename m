@@ -2,58 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB084648CA9
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Dec 2022 04:14:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7EC4648D50
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Dec 2022 07:15:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5597310E063;
-	Sat, 10 Dec 2022 03:14:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D109C10E09C;
+	Sat, 10 Dec 2022 06:15:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com
- [IPv6:2607:f8b0:4864:20::b32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B35610E063
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Dec 2022 03:14:00 +0000 (UTC)
-Received: by mail-yb1-xb32.google.com with SMTP id i186so7682861ybc.9
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Dec 2022 19:14:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=puhhx/GU0T3NXLqqWXTCjhDEWYCFqFbhOu3JuJgDFA8=;
- b=yfh1LyKtfhDu64mVcwcXgiIaQ5MbnEOQVGQ2P9Cj+UoKmDlPiL+U86cXvF+Kj+DERs
- 52Nfb7zFjBJ8fGsZ5HjU/pTZrxcPkOEUj4KVTG7wXh7cvAHqvb/YTuSQNOsLnawQiq3R
- Dq4nTskBAaD+NVI9aeMRpOBNKmO5bfztYo2CqeFEA9OgonaqZW14KZA7hZ08bLkA8ERs
- 3YEVrmxIEX8D+6dyJhRY3GP83ZQYXUnNy6ULOrMtyozoi62kP6DeH2lDwyl89qdSo/Mm
- ll2boaxXbqG2Pdi2RVYt3vz0CD1BIaxH0TJkRCTdBqKmSoh065AnmsQGtWiSq6gopVZw
- XR4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=puhhx/GU0T3NXLqqWXTCjhDEWYCFqFbhOu3JuJgDFA8=;
- b=L1v+fMvvulhv5pILe7Nk4Jw+4yW8Ks9NwKmlibL4VkVji/78ZhnoMSkOKarpSD6omA
- CMT/ooODg2KgdAAlQRPqvJL/FM09/af+/Gl64MbOZZOdbOFBw07IQNQe84M5gWBmseNo
- g1NC6A6v0mmShUL6idxvC6HwWk/gpwlrcjbOrA9bS6L0XJU6OTBKqKKagcCKuVLAhips
- uMy6NwAf5S1oGt9WJWvF3+yE9unwmUNXIXU0cbizEkmDoYwlLIYa55WveNL0pd+B6/PO
- Xmnmqld9igV9isNx/YjyruNI62SAJpVETwwm187B+Bcfkv9bjx79j/sf48FuepVX9mVH
- y6Uw==
-X-Gm-Message-State: ANoB5pmmRMZt8yN3amxoN7uxCeoe+mmBUiXTQR3c276QVuFYvkQlRZno
- 1TI7NjC10qBa5xBiVeoFvl/raiYfY3GKZjoDjjlP9A==
-X-Google-Smtp-Source: AA0mqf5srgU9qKqc2DjPmJLutxXhtzqQBJLJ83A+5w7VvMQf5WZLojIw7E4CzRwyVZDbkaNev92+yPrLGU9eVzr2f+k=
-X-Received: by 2002:a25:7709:0:b0:6fb:13c5:d33f with SMTP id
- s9-20020a257709000000b006fb13c5d33fmr34469086ybc.157.1670642039332; Fri, 09
- Dec 2022 19:13:59 -0800 (PST)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2058.outbound.protection.outlook.com [40.107.223.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEB1510E09B;
+ Sat, 10 Dec 2022 06:15:35 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WtglVTHkX5arf1YTPtmLoiqX3HERCeBXwWjbYxur7Fmtm5bIBX93RlRnJpVmeYlay7BbV4cJR/I8wlq416G1XxeW3gn7xLm3z4aENe/uQdXtpijt2bW/VHY/YATI52JfBA7aA5f5GIkkYB5O4Hm68iZbiKtDyICuM+FYGHAcZuLnbGUWDj9T8Um78MzBLOzgxGAedKtxdVjaIEPsFOQS6M+K1Q8SEGgSw7cbdq0K3Emd6NxZTyK/idIQctIpLmbdbbelrsp+rMvbbt2xrENX4fxB2UmW0F93/yTSdqTvshjryirLN6hpFlnoDK//7e/OXFy7tNUQNgbhAryiHW5vEw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=h07vdaGr6Rds7U0Z4nUL2e0T6wTIrfse5dJY0sjJK4Q=;
+ b=KSCcJY1Eb/X5qeQDJZk/5PR2blpxL85nxAPPYyJQt5KwQOEcmfOUT4QJ7Gj3NTK0iOW3VvsaCB9GtHE4O9P7i/KmWvxJjzHlVIvVTavwZJTvTBk7nfNN9PAYIWxnFqFA+OEQV8Cqx0txWYXNChYWL8upzEnVstaPofnzFGszEutHCEalbeclUuGhojViAdTZAijy0r0mN5JAOTVjAoeGtqGX0iPKMdxUoDjG7mBlTy7wczxwj2lI/PioorIw68XJEBYrYSk4jlQlTj/aCoDBpLCIWIEmsE3kdH95HvDDSXPTUITJLprKxvG3ZTIynLGs2t8gFQyENcyDzYUHZD/gGQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=h07vdaGr6Rds7U0Z4nUL2e0T6wTIrfse5dJY0sjJK4Q=;
+ b=ztXndxusY7uYZs+I13CyuVWPgqzq36CkKv1EBqitc2Ke9czjcMMA/qS4eRfD4zDQd8WtQFbI4yWaHGYS5NJ/5y4XajVpRdDQ9lT0eqm0G9+WkGc/RXlv9+WfN7VdSLCudldNiD7tKDOEM9Mz1sNjCuEu/DkTVICF/tcHjTlsM5A=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
+ by CY8PR12MB7515.namprd12.prod.outlook.com (2603:10b6:930:93::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.14; Sat, 10 Dec
+ 2022 06:15:33 +0000
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::5d8:f3f2:d940:5350]) by BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::5d8:f3f2:d940:5350%3]) with mapi id 15.20.5880.019; Sat, 10 Dec 2022
+ 06:15:29 +0000
+Message-ID: <5ad09c47-1f50-07ce-7b8b-f8e4195f2256@amd.com>
+Date: Sat, 10 Dec 2022 01:15:26 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 1/9] drm/amdgpu: generally allow over-commit during BO
+ allocation
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20221125102137.1801-1-christian.koenig@amd.com>
+From: Felix Kuehling <felix.kuehling@amd.com>
+Organization: AMD Inc.
+In-Reply-To: <20221125102137.1801-1-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BL1PR13CA0148.namprd13.prod.outlook.com
+ (2603:10b6:208:2bb::33) To BN9PR12MB5115.namprd12.prod.outlook.com
+ (2603:10b6:408:118::14)
 MIME-Version: 1.0
-References: <20221209071535.933698-1-christian.koenig@amd.com>
-In-Reply-To: <20221209071535.933698-1-christian.koenig@amd.com>
-From: Sumit Semwal <sumit.semwal@linaro.org>
-Date: Sat, 10 Dec 2022 08:43:47 +0530
-Message-ID: <CAO_48GEQmsiJ96iu16UKg-QWJDNK=y-QTcDOKTMc3CMt+S993g@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: fix dma_buf_export init order v2
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|CY8PR12MB7515:EE_
+X-MS-Office365-Filtering-Correlation-Id: edde0b68-6e43-4050-de7f-08dada75eeed
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: wbzTXcTT5owMsaJtRJpNldivtZAQlYa1aNZWI1EZFezZYxefHNrHovgaw4GBLPa27rdZoXdfFqEMt9wcB0spko+8dL5bf/UHI0aijb/SC7Y5h5YUA0NXlervLzg7h2/GAC5aYPV4NdnOcM04VW2pR3eRVR7+0DbL6sv+xLmzHhS2aT/1TOqQL9PfYns+qHrHizbTSjmG1tLSE5y+bG3XjfxrYEvriP682TYOZbgqiIx+JE1DpDH2lVN4fvE978kH17vbvXcILqyRzhM/xIxoIeAOQaUH+27Zu4RlABGvIb2IPLrS+UBVt8rVp2RoLcF+Rj+BnANhCtm5D0dFttvP7rGF+vIAZMJ7i1qXxOHE3EKKom2DeYphxlZ0EWAX1bLuNZxSi68GecnJdlG/vkv3YCfmRoS6R4YN9Y9WWWTZFSNAMgignzB2fJIPZ+4WZ+9cXRNzQGzGcYTRoSMa/rRqZPNXAfDemBk7AT/+pnWIPvB4uWjvrBjyfdmLnHguO460QavtailZGRyeOKrvojHOoTAhgBZdrilu9oUwIcBa3p3LYrfGr+zbQbGrBnpHIuzopKPbYGPCwSI7i05JF44p7lkEg1kDiMdceDbW5Z19S8Y43tqLrmok6vAHnb1W554dEl+dqWm2tyI5iHe8zfjKNRXS4+h596xC8RzRjVt77FLiQVckk0RuQFmiCfdJ9+ZVi60HxHqW2akqnlA/PMO9bjoyFo8qcrFs1NvNADp0DcI=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(39860400002)(376002)(346002)(136003)(396003)(366004)(451199015)(36916002)(6486002)(478600001)(8936002)(41300700001)(5660300002)(44832011)(66946007)(8676002)(4001150100001)(66476007)(36756003)(66556008)(2906002)(31696002)(86362001)(316002)(110136005)(66574015)(2616005)(31686004)(186003)(83380400001)(6666004)(6506007)(6512007)(53546011)(38100700002)(26005)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MllFVGQyd1JKb0hBdE12RXc2TU1lc1UxckIwQ0hWbitmTDBxVW5zaGpFc2x5?=
+ =?utf-8?B?RlltWThpS1dlSW9KY2lnSWRvUmI3YXpFZ3N5OTBhRjU2eGJUcjdQQUthb2Np?=
+ =?utf-8?B?RDhCUzF0c0FXNWhNN3U5L0QyTkxLd1ZPbWpCQTg4VXgwT1NqVU1WandTYnZ2?=
+ =?utf-8?B?aFhpYUVIRUphTHUzOXVpWTVua1cvVEV2RkUyek8xWFE4SUlEeGliaS8zYllh?=
+ =?utf-8?B?dk5VbVh2OTRpTWJYNW9RS2RCRUNhQlZjWTRydWZtZm1yajQra1dYYjRhTEV0?=
+ =?utf-8?B?NjQzWnljSDJtVWx1OEFGT29tT09QU2IvaXB5ZVJvWDg5d0w3ZmpkNkRiaVF4?=
+ =?utf-8?B?eDNFWU9teDZackZZVjVVN1JFdmhwWGYzRWY4YllmN0JnWVpxbVNrQWxOMHZk?=
+ =?utf-8?B?WitER1dFeUdRdmhLUU9PRFc2SHJKeHV4TXNTZDBMNjNxTW82U3AxRjI3dzBq?=
+ =?utf-8?B?WG1ZMVhhWDFaUVA1WTRuQ1NUcDdmTGo0bytVMFlxVFE0SzZORFU3cG5oNjg3?=
+ =?utf-8?B?NXVjNXBqT1N3WnNjNHpwbGU2OWFMUFJxVlVXNlBrcVZZNWcrclV5MFNaYWln?=
+ =?utf-8?B?Q1BuNVVmRnV6RnRSY1RkU0VkNnlSejZpdU5adUxrTjUreTRyZVI5OVhPaXJ2?=
+ =?utf-8?B?OHRuWmJVV0hpL1lLR1NxRHo0bUZmUEJFc3FrWDN2WDlaVWtpVnZVRE5iYW9i?=
+ =?utf-8?B?aXlhVXpjcmNHL3Y0dUJkUXpxUFFud08wUkhWQitMZnhDN2xwamNsZitqNWNZ?=
+ =?utf-8?B?VndMNlhHWHlxeENtck01KzUySG9BREdSYXRXbDlEUnVuNHVrdDc1YXVrMDdr?=
+ =?utf-8?B?RSt2Z1Q2QitqUC9HS0JiN29VVnhKeXBWZE9rdzFFOGk1c0R1RThnWHNUV3ZC?=
+ =?utf-8?B?UDZpQ3EwUEs2cVZPY1N4bWp0US9iVE82TG15cXI1aHdjWE0zWFhQTy84K3NZ?=
+ =?utf-8?B?cm1vN0lacFRBWjhxcithQ3pyTkhORmgraG1jZm1MNnpFeEg1LzJxbXd1T3FK?=
+ =?utf-8?B?WllFcngya0N2V0tSM0JnS0N6VS82YzBTZk83M3prY3YwSCtPVWdBZUJGd2dm?=
+ =?utf-8?B?KytaanI0UTNKU1paUVNYMHBzdW8rSFI2cEVkelQ0M0hmdXpkb09Va1p6Ukhl?=
+ =?utf-8?B?YW9vVUZNM0lpcklLLzRSZTBlVmRNOE1TcXB0bk9QNDZZNVd4N0FXR2dCSDF5?=
+ =?utf-8?B?Y3dHdC9SaytORUdhODY3L016WjJhYjdWdW91K1hvT0hQNVRnanNaLzB1WFRB?=
+ =?utf-8?B?TThaTW03bVdyR0NjUUlFTHRuTm1MY0p0WnNkWDVZM0h2akV1TFJ4bFRxc3Z1?=
+ =?utf-8?B?b0lJM2UvNitHODY5M21VVXRYelhUVnlWREZTTEhYZCtqWGlIMTJXZXoySlg5?=
+ =?utf-8?B?ZDJPeTYyZ3BOWGkvRGJLbm1qcWFla2lORGxseWxReU10S1BvSVFYQVA4U2pM?=
+ =?utf-8?B?ajhjQUdURG93OVJwM29CWFNLSy9tdGhpMnBJQ3FibXMwZDJJelB5ZitGWVpO?=
+ =?utf-8?B?WDd1R2FVSXMvaHlyQ0RFakRoTGIrV2VLUzRTT2F0NFJRbXJzYUQ3bzVBUHdn?=
+ =?utf-8?B?ME9iVGlsYjFoc1hVR09lUmNjNXVIaC9hNFBzVVNpM1lGcnRqMnV6TWJtb2R5?=
+ =?utf-8?B?NFVSMGI3YWxTclpUczNiNnpRdEV5Mlc2RDNBelRhRFhuaDdGWGFxeTB2eTRB?=
+ =?utf-8?B?bkU1ampCSitDVGZOUjN0eHhkVkdyQ09LelZQcTVpdXNXcSszN2pHcjlCY0RP?=
+ =?utf-8?B?M2g4M0h3blB2WTVBSjVTS3BhTndKQkhBd1JKOWtuenRPUForUnpvNHdEQ2Z0?=
+ =?utf-8?B?V1FTeGRONU4vT2drWHNuZzNOdjh6L1g0cVNNYmVoaWdHbDQxUHNKUHFwcGpm?=
+ =?utf-8?B?UUZ0SHNFQXE3WGFpSmxTKzVkc2hyREkra1d3cGd5cXNKaTFQV3dtM1kyaHV4?=
+ =?utf-8?B?bjlxd0FCSkVreHF0MnRGQmVMYzNzZWdCc253MExYT2ZEam9pcHFCTHR6WENC?=
+ =?utf-8?B?YmkxcURuNm51ZmF5V3d6bko0NEJTK0pJNjJDS0FUd3ZpZWkzM2JYK0p0U2J5?=
+ =?utf-8?B?VUJ4RUdUT0s1YUdaYXl4NFJVS05mZ3hFMVB6WHk2UEdpWlVrd2R2QjlSalV5?=
+ =?utf-8?Q?TOOeGB7FSRmU7bMOLgM4gpxbe?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: edde0b68-6e43-4050-de7f-08dada75eeed
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2022 06:15:29.2358 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: H3Ty9NaUYRyKSbXp0bBcNfBpVot0/rY4dS+y9vhdvDmtSjX6tcoV3GdaXPmqGPv7fkMqy1Yr5PEmymY7DbKDkQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7515
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,278 +128,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, quic_charante@quicinc.com,
- cuigaosheng1@huawei.com, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
+On 2022-11-25 05:21, Christian König wrote:
+> We already fallback to a dummy BO with no backing store when we
+> allocate GDS,GWS and OA resources and to GTT when we allocate VRAM.
+>
+> Drop all those workarounds and generalize this for GTT as well. This
+> fixes ENOMEM issues with runaway applications which try to allocate/free
+> GTT in a loop and are otherwise only limited by the CPU speed.
+>
+> The CS will wait for the cleanup of freed up BOs to satisfy the
+> various domain specific limits and so effectively throttle those
+> buggy applications down to a sane allocation behavior again.
+>
+> Signed-off-by: Christian König <christian.koenig@amd.com>
 
-On Fri, 9 Dec 2022 at 12:45, Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> The init order and resulting error handling in dma_buf_export
-> was pretty messy.
->
-> Subordinate objects like the file and the sysfs kernel objects
-> were initializing and wiring itself up with the object in the
-> wrong order resulting not only in complicating and partially
-> incorrect error handling, but also in publishing only halve
-> initialized DMA-buf objects.
->
-> Clean this up thoughtfully by allocating the file independent
-> of the DMA-buf object. Then allocate and initialize the DMA-buf
-> object itself, before publishing it through sysfs. If everything
-> works as expected the file is then connected with the DMA-buf
-> object and publish it through debugfs.
->
-> Also adds the missing dma_resv_fini() into the error handling.
->
-> v2: add some missing changes to dma_bug_getfile() and a missing NULL
->     check in dma_buf_file_release()
->
-> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+This patch causes some regressions in KFDTest. KFDMemoryTest.MMBench 
+sees a huge VRAM allocation slow-down. And 
+KFDMemoryTest.LargestVramBufferTest can only allocate half the available 
+memory.
 
-Thank you for this nice cleanup.
-Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
+This seems to be caused by initially validating VRAM BOs in the CPU 
+domain, which allocates a ttm_tt. A subsequent validation in the VRAM 
+domain involves a copy from GTT to VRAM.
 
-Best,
-Sumit.
+After that, freeing of BOs can get delayed by the ghost object of a 
+previous migration, which delays calling release notifiers and causes 
+problems for KFDs available memory accounting.
+
+I experimented with a workaround that validates BOs immediately after 
+allocation, but that only moves around the delays and doesn't solve the 
+problem. During those experiments I may also have stumbled over a bug in 
+ttm_buffer_object_transfer: It calls ttm_bo_set_bulk_move before 
+initializing and locking fbo->base.base._resv. This results in a flood 
+of warnings because ttm_bo_set_bulk_move expects the reservation to be 
+locked.
+
+Right now I'd like to remove the bp.domain = initial_domain | 
+AMDGPU_GEM_DOMAIN_CPU change in amdgpu_gem_object_create to fix this.
+
+Regards,
+   Felix
+
+
 > ---
->  drivers/dma-buf/dma-buf-sysfs-stats.c |  7 +--
->  drivers/dma-buf/dma-buf-sysfs-stats.h |  4 +-
->  drivers/dma-buf/dma-buf.c             | 84 +++++++++++++--------------
->  3 files changed, 43 insertions(+), 52 deletions(-)
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c    | 16 +++-------------
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c |  6 +-----
+>   2 files changed, 4 insertions(+), 18 deletions(-)
 >
-> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-=
-buf-sysfs-stats.c
-> index 2bba0babcb62..4b680e10c15a 100644
-> --- a/drivers/dma-buf/dma-buf-sysfs-stats.c
-> +++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
-> @@ -168,14 +168,11 @@ void dma_buf_uninit_sysfs_statistics(void)
->         kset_unregister(dma_buf_stats_kset);
->  }
->
-> -int dma_buf_stats_setup(struct dma_buf *dmabuf)
-> +int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file *file)
->  {
->         struct dma_buf_sysfs_entry *sysfs_entry;
->         int ret;
->
-> -       if (!dmabuf || !dmabuf->file)
-> -               return -EINVAL;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> index a0780a4e3e61..62e98f1ad770 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> @@ -113,7 +113,7 @@ int amdgpu_gem_object_create(struct amdgpu_device *adev, unsigned long size,
+>   	bp.resv = resv;
+>   	bp.preferred_domain = initial_domain;
+>   	bp.flags = flags;
+> -	bp.domain = initial_domain;
+> +	bp.domain = initial_domain | AMDGPU_GEM_DOMAIN_CPU;
+>   	bp.bo_ptr_size = sizeof(struct amdgpu_bo);
+>   
+>   	r = amdgpu_bo_create_user(adev, &bp, &ubo);
+> @@ -332,20 +332,10 @@ int amdgpu_gem_create_ioctl(struct drm_device *dev, void *data,
+>   	}
+>   
+>   	initial_domain = (u32)(0xffffffff & args->in.domains);
+> -retry:
+>   	r = amdgpu_gem_object_create(adev, size, args->in.alignment,
+> -				     initial_domain,
+> -				     flags, ttm_bo_type_device, resv, &gobj);
+> +				     initial_domain, flags, ttm_bo_type_device,
+> +				     resv, &gobj);
+>   	if (r && r != -ERESTARTSYS) {
+> -		if (flags & AMDGPU_GEM_CREATE_CPU_ACCESS_REQUIRED) {
+> -			flags &= ~AMDGPU_GEM_CREATE_CPU_ACCESS_REQUIRED;
+> -			goto retry;
+> -		}
 > -
->         if (!dmabuf->exp_name) {
->                 pr_err("exporter name must not be empty if stats needed\n=
-");
->                 return -EINVAL;
-> @@ -192,7 +189,7 @@ int dma_buf_stats_setup(struct dma_buf *dmabuf)
->
->         /* create the directory for buffer stats */
->         ret =3D kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_ktype, =
-NULL,
-> -                                  "%lu", file_inode(dmabuf->file)->i_ino=
-);
-> +                                  "%lu", file_inode(file)->i_ino);
->         if (ret)
->                 goto err_sysfs_dmabuf;
->
-> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.h b/drivers/dma-buf/dma-=
-buf-sysfs-stats.h
-> index a49c6e2650cc..7a8a995b75ba 100644
-> --- a/drivers/dma-buf/dma-buf-sysfs-stats.h
-> +++ b/drivers/dma-buf/dma-buf-sysfs-stats.h
-> @@ -13,7 +13,7 @@
->  int dma_buf_init_sysfs_statistics(void);
->  void dma_buf_uninit_sysfs_statistics(void);
->
-> -int dma_buf_stats_setup(struct dma_buf *dmabuf);
-> +int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file *file);
->
->  void dma_buf_stats_teardown(struct dma_buf *dmabuf);
->  #else
-> @@ -25,7 +25,7 @@ static inline int dma_buf_init_sysfs_statistics(void)
->
->  static inline void dma_buf_uninit_sysfs_statistics(void) {}
->
-> -static inline int dma_buf_stats_setup(struct dma_buf *dmabuf)
-> +static inline int dma_buf_stats_setup(struct dma_buf *dmabuf, struct fil=
-e *file)
->  {
->         return 0;
->  }
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index e6f36c014c4c..eb6b59363c4f 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -95,10 +95,11 @@ static int dma_buf_file_release(struct inode *inode, =
-struct file *file)
->                 return -EINVAL;
->
->         dmabuf =3D file->private_data;
-> -
-> -       mutex_lock(&db_list.lock);
-> -       list_del(&dmabuf->list_node);
-> -       mutex_unlock(&db_list.lock);
-> +       if (dmabuf) {
-> +               mutex_lock(&db_list.lock);
-> +               list_del(&dmabuf->list_node);
-> +               mutex_unlock(&db_list.lock);
-> +       }
->
->         return 0;
->  }
-> @@ -523,17 +524,17 @@ static inline int is_dma_buf_file(struct file *file=
-)
->         return file->f_op =3D=3D &dma_buf_fops;
->  }
->
-> -static struct file *dma_buf_getfile(struct dma_buf *dmabuf, int flags)
-> +static struct file *dma_buf_getfile(size_t size, int flags)
->  {
->         static atomic64_t dmabuf_inode =3D ATOMIC64_INIT(0);
-> -       struct file *file;
->         struct inode *inode =3D alloc_anon_inode(dma_buf_mnt->mnt_sb);
-> +       struct file *file;
->
->         if (IS_ERR(inode))
->                 return ERR_CAST(inode);
->
-> -       inode->i_size =3D dmabuf->size;
-> -       inode_set_bytes(inode, dmabuf->size);
-> +       inode->i_size =3D size;
-> +       inode_set_bytes(inode, size);
->
->         /*
->          * The ->i_ino acquired from get_next_ino() is not unique thus
-> @@ -547,8 +548,6 @@ static struct file *dma_buf_getfile(struct dma_buf *d=
-mabuf, int flags)
->                                  flags, &dma_buf_fops);
->         if (IS_ERR(file))
->                 goto err_alloc_file;
-> -       file->private_data =3D dmabuf;
-> -       file->f_path.dentry->d_fsdata =3D dmabuf;
->
->         return file;
->
-> @@ -614,19 +613,11 @@ struct dma_buf *dma_buf_export(const struct dma_buf=
-_export_info *exp_info)
->         size_t alloc_size =3D sizeof(struct dma_buf);
->         int ret;
->
-> -       if (!exp_info->resv)
-> -               alloc_size +=3D sizeof(struct dma_resv);
-> -       else
-> -               /* prevent &dma_buf[1] =3D=3D dma_buf->resv */
-> -               alloc_size +=3D 1;
-> -
-> -       if (WARN_ON(!exp_info->priv
-> -                         || !exp_info->ops
-> -                         || !exp_info->ops->map_dma_buf
-> -                         || !exp_info->ops->unmap_dma_buf
-> -                         || !exp_info->ops->release)) {
-> +       if (WARN_ON(!exp_info->priv || !exp_info->ops
-> +                   || !exp_info->ops->map_dma_buf
-> +                   || !exp_info->ops->unmap_dma_buf
-> +                   || !exp_info->ops->release))
->                 return ERR_PTR(-EINVAL);
-> -       }
->
->         if (WARN_ON(exp_info->ops->cache_sgt_mapping &&
->                     (exp_info->ops->pin || exp_info->ops->unpin)))
-> @@ -638,10 +629,21 @@ struct dma_buf *dma_buf_export(const struct dma_buf=
-_export_info *exp_info)
->         if (!try_module_get(exp_info->owner))
->                 return ERR_PTR(-ENOENT);
->
-> +       file =3D dma_buf_getfile(exp_info->size, exp_info->flags);
-> +       if (IS_ERR(file)) {
-> +               ret =3D PTR_ERR(file);
-> +               goto err_module;
-> +       }
-> +
-> +       if (!exp_info->resv)
-> +               alloc_size +=3D sizeof(struct dma_resv);
-> +       else
-> +               /* prevent &dma_buf[1] =3D=3D dma_buf->resv */
-> +               alloc_size +=3D 1;
->         dmabuf =3D kzalloc(alloc_size, GFP_KERNEL);
->         if (!dmabuf) {
->                 ret =3D -ENOMEM;
-> -               goto err_module;
-> +               goto err_file;
->         }
->
->         dmabuf->priv =3D exp_info->priv;
-> @@ -653,44 +655,36 @@ struct dma_buf *dma_buf_export(const struct dma_buf=
-_export_info *exp_info)
->         init_waitqueue_head(&dmabuf->poll);
->         dmabuf->cb_in.poll =3D dmabuf->cb_out.poll =3D &dmabuf->poll;
->         dmabuf->cb_in.active =3D dmabuf->cb_out.active =3D 0;
-> +       mutex_init(&dmabuf->lock);
-> +       INIT_LIST_HEAD(&dmabuf->attachments);
->
->         if (!resv) {
-> -               resv =3D (struct dma_resv *)&dmabuf[1];
-> -               dma_resv_init(resv);
-> +               dmabuf->resv =3D (struct dma_resv *)&dmabuf[1];
-> +               dma_resv_init(dmabuf->resv);
-> +       } else {
-> +               dmabuf->resv =3D resv;
->         }
-> -       dmabuf->resv =3D resv;
->
-> -       file =3D dma_buf_getfile(dmabuf, exp_info->flags);
-> -       if (IS_ERR(file)) {
-> -               ret =3D PTR_ERR(file);
-> +       ret =3D dma_buf_stats_setup(dmabuf, file);
-> +       if (ret)
->                 goto err_dmabuf;
-> -       }
->
-> +       file->private_data =3D dmabuf;
-> +       file->f_path.dentry->d_fsdata =3D dmabuf;
->         dmabuf->file =3D file;
->
-> -       mutex_init(&dmabuf->lock);
-> -       INIT_LIST_HEAD(&dmabuf->attachments);
-> -
->         mutex_lock(&db_list.lock);
->         list_add(&dmabuf->list_node, &db_list.head);
->         mutex_unlock(&db_list.lock);
->
-> -       ret =3D dma_buf_stats_setup(dmabuf);
-> -       if (ret)
-> -               goto err_sysfs;
-> -
->         return dmabuf;
->
-> -err_sysfs:
-> -       /*
-> -        * Set file->f_path.dentry->d_fsdata to NULL so that when
-> -        * dma_buf_release() gets invoked by dentry_ops, it exits
-> -        * early before calling the release() dma_buf op.
-> -        */
-> -       file->f_path.dentry->d_fsdata =3D NULL;
-> -       fput(file);
->  err_dmabuf:
-> +       if (!resv)
-> +               dma_resv_fini(dmabuf->resv);
->         kfree(dmabuf);
-> +err_file:
-> +       fput(file);
->  err_module:
->         module_put(exp_info->owner);
->         return ERR_PTR(ret);
-> --
-> 2.34.1
->
-
-
---=20
-Thanks and regards,
-
-Sumit Semwal (he / him)
-Tech Lead - LCG, Vertical Technologies
-Linaro.org =E2=94=82 Open source software for ARM SoCs
+> -		if (initial_domain == AMDGPU_GEM_DOMAIN_VRAM) {
+> -			initial_domain |= AMDGPU_GEM_DOMAIN_GTT;
+> -			goto retry;
+> -		}
+>   		DRM_DEBUG("Failed to allocate GEM object (%llu, %d, %llu, %d)\n",
+>   				size, initial_domain, args->in.alignment, r);
+>   	}
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> index 974e85d8b6cc..919bbea2e3ac 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> @@ -581,11 +581,7 @@ int amdgpu_bo_create(struct amdgpu_device *adev,
+>   		bo->flags |= AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE;
+>   
+>   	bo->tbo.bdev = &adev->mman.bdev;
+> -	if (bp->domain & (AMDGPU_GEM_DOMAIN_GWS | AMDGPU_GEM_DOMAIN_OA |
+> -			  AMDGPU_GEM_DOMAIN_GDS))
+> -		amdgpu_bo_placement_from_domain(bo, AMDGPU_GEM_DOMAIN_CPU);
+> -	else
+> -		amdgpu_bo_placement_from_domain(bo, bp->domain);
+> +	amdgpu_bo_placement_from_domain(bo, bp->domain);
+>   	if (bp->type == ttm_bo_type_kernel)
+>   		bo->tbo.priority = 1;
+>   
